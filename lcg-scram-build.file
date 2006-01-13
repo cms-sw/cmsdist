@@ -1,0 +1,28 @@
+### FILE lcg-scram-build
+
+%define cvsproj		%(echo %n | tr '[A-Z]' '[a-z]')
+%define cvsrepo		cvs://:pserver:anonymous@%n.cvs.cern.ch:2401/cvs/%n?passwd=Ah<Z
+%define cvstag		%{v}
+%define cvsconfig	%cvsproj/config/scram
+%define cvssrc		%cvsproj
+%if "%{?srctree:set}" != "set"
+ %define srctree	src
+%endif
+
+%define tbxrepo		cvs://:pserver:anonymous@spitools.cvs.cern.ch:2401/cvs/SPITOOLS?passwd=Ah<Z
+%define conftag		LCG_23%conflevel
+%define confsite	LCGconfigs
+%define toolconf	$LCG_TOOL_CONF_ROOT/tool.conf
+
+%define buildarch	case $(uname) in Darwin ) export SCRAM_ARCH=%{cmsplatf} ;; * ) export SCRAM_ARCH=rh73_gcc32 ;; esac
+%if "%{?buildtarget:set}" != "set"
+ %define buildtarget	release
+%endif
+
+%ifos darwin
+ %define patchsrc	%patch0
+%endif
+
+Requires: lcg-tool-conf
+Patch0: lcg-osx-toolpatch
+

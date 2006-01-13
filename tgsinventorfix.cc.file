@@ -1,0 +1,37 @@
+/* ### FILE tgsinventorfix.cc */
+#include <stdlib.h>
+
+#if __GNUC__ < 3
+#ifdef __sun
+int
+#else
+bool
+#endif
+getOverlayPixelTGS (int) { return 0; }
+#endif
+
+#if defined __linux && defined __GNUC__
+extern "C" {
+# if __GNUC__ < 3
+  // Ugly hack to bypass mangling problem.  Must use weak functions so that
+  // we can still link this library in stand-alone without the real inventor
+  // libraries.
+  void getAntialiasing__C14SoSceneManagerRiRi(int &a,int &b) __attribute__ ((weak));
+  static void (*IgInventorGCCFix_getAntialiasing) (int &, int &)
+      = getAntialiasing__C14SoSceneManagerRiRi;
+  void getAntialiasing__C14SoSceneManagerRiT1(int &a,int &b) {
+    if (! IgInventorGCCFix_getAntialiasing) abort();
+    IgInventorGCCFix_getAntialiasing(a,b);
+  }
+# else
+  // Stuff to be dummied out in TGS 3.1.1
+  void XmCreateDialogShell (void) { abort (); }
+  void XmMessageBoxGetChild (void) { abort (); }
+  void XmStringCreateLtoR (void) { abort (); }
+  void XmStringFree (void) { abort (); }
+  int xmMessageBoxWidgetClass;
+  int _XmStrings;
+# endif
+}
+#endif
+

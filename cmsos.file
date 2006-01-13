@@ -1,0 +1,28 @@
+### FILE cmsos
+if [ `uname` = Linux ]; then
+  if [ -f /etc/SuSE-release ]; then
+    echo suse`grep -i '^version' < /etc/SuSE-release | tr -dc '[0-9]'`
+  else
+    archos= archosv=
+    for f in debian_version slackware-version fedora-release \
+	     redhat-release altlinux-release gentoo-release \
+	     cobalt-release mandrake-release conectiva-release; do
+      if [ -f /etc/$f ]; then
+	archos=`echo $f | sed 's/[-_].*//'`
+	archosv=`tr -dc '[0-9]' < /etc/$f`
+	break
+      fi
+    done
+    [ X$archos = Xredhat ] && archos=rh
+    if [ -z "$archos" -o -z "$archosv" ]; then
+      echo linux`uname -r | cut -d. -f1,2 | tr -d .`
+    else
+      echo $archos$archosv
+    fi
+  fi
+elif [ `uname` = Darwin ]; then
+  echo osx`sw_vers -productVersion | cut -d. -f1,2 | tr -dc [0-9]`
+else
+  echo unsupported
+fi
+
