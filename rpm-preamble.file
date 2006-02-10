@@ -27,6 +27,13 @@
 
 %define pkgdir		%{pkgcategory}/%{n}/%{v}
 
+# Architecture comes first by default.  Run with "--define 'archfirst no'"
+# to change this.
+%if "%{?archfirst:set}" != "set"
+%define archfirst	yes
+%endif
+
+
 %if "%archfirst" == "yes"
 %define pkgrel		%{cmsplatf}/%{pkgdir}
 %else
@@ -46,11 +53,7 @@
 
 %define _rpmfilename	%{cmsplatf}/%{pkgcategory}+%{n}+%{v}-%{version}-%{release}.%{cmsplatf}.rpm
 
-# Architecture comes first by default.  Run with "--define 'archfirst no'"
-# to change this.
-%if "%{?archfirst:set}" != "set"
-%define archfirst	yes
-%endif
+
 
 # Force use of system gcc on darwin.  Set/unset as necessary -- but
 # then make sure the right compiler gets picked up in the environment
