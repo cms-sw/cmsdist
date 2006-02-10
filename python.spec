@@ -5,7 +5,7 @@ Requires: zlib expat openssl
 # FIXME: gmp, panel, tk/tcl, x11
 
 Source0: http://www.python.org/ftp/%n/%v/Python-%v.tgz
-Patch0: python-osx
+#Patch0: python-osx
 
 %prep
 %setup -n Python-%v

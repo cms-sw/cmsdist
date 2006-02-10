@@ -1,14 +1,14 @@
-### RPM external boost 1.31.0
+### RPM external boost 1.32.0
 # Patches and build fudging by Lassi A. Tuura <lat@iki.fi> (FIXME: contribute to boost)
 # define boostver -%v <-- for 1.30.2
 %define boostver _%(echo %v | tr . _)
 Requires: boost-build python
-Source: ftp://dl.sourceforge.net/pub/sourceforge/b/bo/%n/%{n}%{boostver}.tar.bz2
-Patch: boost
+Source: http://dl.sourceforge.net/sourceforge/%n/%{n}%{boostver}.tar.gz
+#Patch: boost
 
 %prep
 %setup -n %{n}%{boostver}
-%patch
+#%patch
 
 %build
 # Note that some targets will fail to build (the test programs have
@@ -17,7 +17,6 @@ Patch: boost
 # RPM falsely detecting a problem.
 PR="PYTHON_ROOT=$PYTHON_ROOT"
 PV="PYTHON_VERSION=$(echo $PYTHON_VERSION | sed 's/\.[0-9]*$//')"
-
 case $(uname) in
   Darwin )  bjam -s$PR -s$PV -sTOOLS=darwin || true ;;
   * )       bjam -s$PR -s$PV -sTOOLS=gcc ;;
