@@ -1,8 +1,7 @@
-### RPM external frontier_client 2.1.3
-%define frontierv %(echo %v | tr . _)
-Source: http://edge.fnal.gov:8888/frontier/%{n}_%{frontierv}.tar.gz
+### RPM external frontier_client 2.4.2
+Source: http://edge.fnal.gov:8888/frontier/%{n}__%{v}_cms__src.tar.gz
 %prep
-%setup -n %{n}_%{frontierv}
+%setup -n %{n}__%{v}_cms__src
 %build
 make
 %install
