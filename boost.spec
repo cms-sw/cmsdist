@@ -43,4 +43,6 @@ find libs -name '*.py' -print |
     install_name_tool -id $f $f
   done
 (cd %i/lib; for f in lib*-$boost_abi.$so; do ln -s $f $(echo $f | sed "s/-$boost_abi//"); done)
+(cd %i/lib; for f in lib*-$boost_abi.$so; do ln -s $f $f.%v ; done)
 (cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $(echo $f | sed "s/-d-$boost_abi//"); done)
+(cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $f.%v; done)
