@@ -1,7 +1,7 @@
 ### FILE lcg-scram-build
 
 %define cvsproj		%(echo %n | tr '[A-Z]' '[a-z]')
-%define cvsrepo		cvs://:pserver:anonymous@%n.cvs.cern.ch:2401/cvs/%n?passwd=Ah<Z
+%define cvsrepo		cvs://:pserver:anonymous@%cvsserver.cvs.cern.ch:2401/cvs/%cvsdir?passwd=Ah<Z
 %define cvstag		%{v}
 %define cvsconfig	%cvsproj/config/scram
 %define cvssrc		%cvsproj
