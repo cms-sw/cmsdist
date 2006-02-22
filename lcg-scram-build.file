@@ -10,11 +10,10 @@
 %endif
 
 %define tbxrepo		cvs://:pserver:anonymous@spitools.cvs.cern.ch:2401/cvs/SPITOOLS?passwd=Ah<Z
-%define conftag		LCG_23%conflevel
+%define conftag		LCG_%confversion%conflevel
 %define confsite	LCGconfigs
-%define toolconf	$LCG_TOOL_CONF_ROOT/tool.conf
 
-%define buildarch	case $(uname) in Darwin ) export SCRAM_ARCH=%{cmsplatf} ;; * ) export SCRAM_ARCH=rh73_gcc32 ;; esac
+%define buildarch	case $(uname) in Darwin ) export SCRAM_ARCH=%{cmsplatf} ;; * ) export SCRAM_ARCH=%{cmsplatf} ;; esac
 %if "%{?buildtarget:set}" != "set"
  %define buildtarget	release
 %endif
@@ -22,7 +21,4 @@
 %ifos darwin
  %define patchsrc	%patch0
 %endif
-
-Requires: lcg-tool-conf
-Patch0: lcg-osx-toolpatch
 

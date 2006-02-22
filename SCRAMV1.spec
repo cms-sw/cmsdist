@@ -28,9 +28,9 @@
 # FIXME: should we have more than one project database and link them
 # together into one big one?
 
-%define cvsrepo  cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/SCRAM?passwd=AA_:yZZ3e 
+%define cvsrepo  cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/SCRAM?passwd=AA_:yZZ3e  
 
-Source0: %{cvsrepo}&tag=-r%{v}&module=%n&output=/source.tar.gz
+Source0: %{cvsrepo}&tag=-r%{v}&module=SCRAM&output=/source.tar.gz
 
 %prep
 %setup -n SCRAM
@@ -39,30 +39,34 @@ Source0: %{cvsrepo}&tag=-r%{v}&module=%n&output=/source.tar.gz
 %install
 tar -cf - . | tar -C %i -xvvf -
 
-mkdir -p %instroot/bin %instroot/share/scramdb
-cat > %instroot/bin/scram << \EOF
-#!/bin/sh
+mkdir -p %instroot/bin %instroot/share/scramdb %i/Installation
 
-# FIXME: Handle -re?
-# FIXME: Since we can install the same package on many platforms in
-# one tree, should the project lookup database be platform-specific?
+cat Installation/scram.pl.in | sed -e "s|@PERLEXE@|!/usr/bin/env perl|;s|@SCRAM_HOME@|%i|;s|@INSTALLDIR@|%i/src|" > %instroot/bin/scramv1
+cat Installation/SCRAM_SITE.pm.in | sed -e "s|@SCRAM_HOME@|%i|;s|@SCRAM_LOOKUPDB_DIR@|%instroot/share/scramdb/|;s|@PERLEXE@|/usr/bin/env perl|;s|@TT2INSTALLDIR@||;s|@SITETEMPLATEDIR@|%i/Templates|;s|@SCRAM_SITENAME@|STANDALONE|" > %i/src/SCRAM_SITE.pm
 
-SCRAM=$0
-: ${SCRAM_HOME=%i}
-: ${SCRAM_LOOKUPDB=%instroot/share/scramdb/project.lookup}
-: ${SCRAMPERL="/usr/bin/env perl"}
-PERL5LIB=$SCRAM_HOME/src${PERL5LIB+":$PERL5LIB"}
-: ${SITENAME=CERN}
-: ${SEARCHOVRD=true}
-: ${LOCTOOLS=NODEFAULT}
-export SCRAM SCRAM_HOME SCRAM_LOOKUPDB SCRAMPERL
-export PERL5LIB SITENAME SEARCHOVRD LOCTOOLS
-
-exec perl "$SCRAM_HOME/src/scramcli" ${1+"$@"}
-EOF
-chmod 755 %instroot/bin/scram
+# cat > %instroot/bin/scramv1 << \EOF
+# #!/bin/sh
+# 
+# # FIXME: Handle -re?
+# # FIXME: Since we can install the same package on many platforms in
+# # one tree, should the project lookup database be platform-specific?
+# 
+# SCRAM=$0
+# : ${SCRAM_HOME=%i}
+# : ${SCRAM_LOOKUPDB=%instroot/share/scramdb/project.lookup}
+# : ${SCRAMPERL="/usr/bin/env perl"}
+# PERL5LIB=$SCRAM_HOME/src${PERL5LIB+":$PERL5LIB"}
+# : ${SITENAME=CERN}
+# : ${SEARCHOVRD=true}
+# : ${LOCTOOLS=NODEFAULT}
+# export SCRAM SCRAM_HOME SCRAM_LOOKUPDB SCRAMPERL
+# export PERL5LIB SITENAME SEARCHOVRD LOCTOOLS
+# 
+# exec perl "$SCRAM_HOME/src/scramcli" ${1+"$@"}
+# EOF
+chmod 755 %instroot/bin/scramv1
 
 %files
 %i
-%instroot/bin/scram
+%instroot/bin/scramv1
 %instroot/share/scramdb
