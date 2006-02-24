@@ -23,6 +23,8 @@ Requires: pcre
 (echo "ARCHITECTURE:%{cmsplatf}"
  echo "SCRAM_BASEPATH:%{instroot}/external"
 
+%define is_arch_slc3_ia32_gcc3 %(if [ `echo "%{cmsplatf}" | sed -e 's/\(slc3_ia32_gcc3\)/\1/'` = "%{cmsplatf}"]; then echo true; else echo %%{nil}; fi)
+%if %is_arch_slc3_ia32_gcc3
 %if "%{?use_system_gcc:set}" == "set"
        echo "TOOL:gcc3:"
        echo "  +GCC_BASE:/none"
@@ -38,6 +40,39 @@ Requires: pcre
        echo "TOOL:g77gcc3:"
        echo "  +FC:$GCC_ROOT/bin/g77"
 %endif
+
+%endif 
+
+%define is_arch_slc3_amd64_gcc3 %(if [ `echo "%{cmsplatf}" | sed -e 's/\(slc3_amd64_gcc3\)/\1/'` = "%{cmsplatf}"]; then echo true; else echo %%{nil}; fi)
+%if %is_arch_slc3_amd64_gcc3
+%if "%{?use_system_gcc:set}" == "set"
+       echo "TOOL:gcc3:"
+       echo "  +GCC_BASE:/none"
+       echo "  +CC:$(which gcc)"
+       echo "  +CXX:$(which c++)"
+       echo "  +PATH:/none"  # useless, toolbox says value=""
+       echo "  +LD_LIBRARY_PATH:/none" # useless, toolbox says value=""
+       echo "TOOL:g77gcc3:"
+       echo "  +FC:$(which g77)"
+%else
+       echo "TOOL:gcc3:"
+       echo "  +GCC_BASE:$GCC_ROOT"
+       echo "TOOL:g77gcc3:"
+       echo "  +FC:$GCC_ROOT/bin/g77"
+%endif
+
+%endif 
+
+%define is_arch_win32_vc71 %(if [ `echo "%{cmsplatf}" | sed -e 's/\(win32_vc71\)/\1/'` = "%{cmsplatf}"]; then echo true; else echo %%{nil}; fi)
+%if %is_arch_win32_vc71
+
+echo "TOOL:rx:"
+eval "echo \"  +RX_BASE:\${RX_ROOT}\""
+eval "echo \"  +PATH:\${RX_ROOT}/bin\""
+eval "echo \"  +LIBDIR:\${RX_ROOT}/lib\""
+eval "echo \"  +INCLUDE:\${RX_ROOT}/include\""
+
+%endif 
 
 echo "TOOL:oracle:"
 echo "  +ORACLE_BASE:$ORACLE_ROOT"
