@@ -118,3 +118,8 @@
 %define initenv		for x in %{pkgreqs} .; do i=%{instroot}/$(echo $x | sed 's/\\([^+]*\\)+\\(.*\\)+\\([A-Z0-9].*\\)/\\1 \\2 \\3/' | tr ' ' '/')/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %endif
 
+%if "%{?compiling_processes:set}" == "set"
+%define makeprocesses -j %compiling_processes 
+%else
+%define makeprocesses %{nil}
+%endif
