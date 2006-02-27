@@ -1,6 +1,9 @@
-### RPM lcg SCRAM V1_0_2
+### RPM lcg SCRAMV1 V1_0_2
 ## INITENV +PATH PATH %instroot/bin
-
+## INITENV SET SCRAM_ARCH %{cmsplatf}
+%define perl5lib %(echo $P5_XML_PARSER_ROOT/lib):%(echo $P5_LIBWWW_PERL_ROOT/lib):%(echo $TEMPLATE_TOOLKIT_ROOT/lib)
+## INITENV +PATH PERL5LIB %perl5lib 
+Requires: template-toolkit perl p5-xml-parser p5-libwww-perl
 # This package is somewhat unusual compared to other packages we
 # build: we install the normally versioned product "SCRAM", but also
 # create the front-end "scram" wrapper and the package database.  The
@@ -41,8 +44,8 @@ tar -cf - . | tar -C %i -xvvf -
 
 mkdir -p %instroot/bin %instroot/share/scramdb %i/Installation
 
-cat Installation/scram.pl.in | sed -e "s|@PERLEXE@|!/usr/bin/env perl|;s|@SCRAM_HOME@|%i|;s|@INSTALLDIR@|%i/src|" > %instroot/bin/scramv1
-cat Installation/SCRAM_SITE.pm.in | sed -e "s|@SCRAM_HOME@|%i|;s|@SCRAM_LOOKUPDB_DIR@|%instroot/share/scramdb/|;s|@PERLEXE@|/usr/bin/env perl|;s|@TT2INSTALLDIR@||;s|@SITETEMPLATEDIR@|%i/Templates|;s|@SCRAM_SITENAME@|STANDALONE|" > %i/src/SCRAM_SITE.pm
+cat Installation/scram.pl.in | sed -e "s|@PERLEXE@|$PERL_ROOT/bin/perl|;s|@SCRAM_HOME@|%i|;s|@INSTALLDIR@|%i/src|" > %instroot/bin/scramv1
+cat Installation/SCRAM_SITE.pm.in | sed -e "s|@SCRAM_HOME@|%i|;s|@SCRAM_LOOKUPDB_DIR@|%instroot/share/scramdb/|;s|@PERLEXE@|$PERL_ROOT/bin/perl|;s|@TT2INSTALLDIR@|$TEMPLATE_TOOLKIT_ROOT/lib|;s|@SITETEMPLATEDIR@|%i/Templates|;s|@SCRAM_SITENAME@|STANDALONE|" > %i/Installation/SCRAM_SITE.pm
 
 # cat > %instroot/bin/scramv1 << \EOF
 # #!/bin/sh
@@ -65,7 +68,8 @@ cat Installation/SCRAM_SITE.pm.in | sed -e "s|@SCRAM_HOME@|%i|;s|@SCRAM_LOOKUPDB
 # exec perl "$SCRAM_HOME/src/scramcli" ${1+"$@"}
 # EOF
 chmod 755 %instroot/bin/scramv1
-
+mkdir %i/etc
+echo $PERL5LIB > %i/etc/perl5lib.env
 %files
 %i
 %instroot/bin/scramv1
