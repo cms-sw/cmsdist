@@ -13,7 +13,7 @@ mkdir -p obj
 cd obj
 ../configure --prefix=%i --enable-languages=c,c++,f77 \
     --enable-shared # --enable-__cxa_atexit
-make bootstrap
+make %makeprocesses bootstrap
 
 %install
 cd obj && make install
