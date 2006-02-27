@@ -1,0 +1,134 @@
+### FILE scramv1-build
+
+# This is a generic template to build a scram-based project.  Set the
+# following parameters and import this to the spec.
+#
+#  cvsrepo	main project repository
+#  cvstag	tag to check out the main project (normally: %{n}_%{v})
+#  cvsconfig	cvs module to check out as "config" (normally: config)
+#  cvssrc	cvs module to check out as project sources (normally: %n)
+#  srctree	name of the cvssrcin export tree (normally: src)
+#
+#  tbxrepo	scram tool box repository
+#  conftag	tag for SCRAMToolBox in the above
+#  confsite	name of the directory to link as "config/site" (under SCRAMToolBox)
+#  toolfile	tool configuration file (normally: $CMS_TOOL_CONF/tool.conf)
+#
+#  buildarch	optional command to override build architecture
+#  buildtarget  scram build target to generate the full release (normally: release)
+#
+#  patchsrc	patch to apply to the sources (optional)
+#
+# FIXME: support building all platforms together like scram does?
+# FIXME: produce requirements from "scram tool info"?
+# FIXME: automatic sub-packages for "doc" etc?
+# FIXME: post-install stuff for modules etc?
+
+Requires: SCRAMV1 perl template-toolkit p5-xml-parser p5-libwww-perl
+Source0: %{tbxrepo}&tag=-r%{conftag}&module=SCRAMToolBox&output=/toolbox.tar.gz
+Source1: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvsconfig}&export=config&output=/config.tar.gz
+Source2: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
+
+%prep
+# Create a SCRAM project area, but using the already extracted
+# sources.  In other words, pick up the files from the project config
+# area, but munge all instances of <base url="cvs:*"> into a local
+# reference so SCRAM won't try to download stuff from the network.
+
+%setup -T -b 0 -n SCRAMToolBox
+%setup -D -T -b 1 -n config
+%setup -D -T -b 2 -n %{srctree}
+
+cd ..
+%{?patchsrc:%patchsrc}
+%{?patchsrc2:%patchsrc2}
+
+perl -p -i -e '
+  # Keep track whether we are in a toolbox area or not
+  if ($. == 1) { $intbx = 1; }
+  if (/<base/) { $intbx = /SPITOOLS|SCRAMToolBox/; }
+
+  # Replace base locations
+  s!cvs://.*/(SPITOOLS|SCRAMToolBox)\?[^">]+!file:%_builddir/SCRAMToolBox/!;
+  s!cvs://.*/%n\?[^">]+!file:%_builddir/!;
+  
+
+  # Replace relative references depending on whether this is in
+  # toolbox, or for project itself; configuration is always in
+  # toolbox.  In toolbox keep cvs module name but drop the leading
+  # SCRAMToolBox if there is one.  In project always replace with
+  # rewritten paths.  (FIXME: produce source archive in cvs order?)
+  if ($intbx) {
+    s!url="cvs:\?module="?([^">]+)"?\s+name="?([^">]+)"?>!url="file:$1" name="$2">!;
+    s!url="(cvs:\?module=|file:)SCRAMToolBox/(.*)">!url="file:$2">!;
+  } else {
+    s!url="cvs:\?module="?([^">]+)"?\s+name="?([^">]+)"?>!url="file:$2" name="$2">!;
+  }
+ ' config/bootsrc \
+   config/requirements \
+   SCRAMToolBox/Configuration/Configuration \
+   SCRAMToolBox/CMS/Configuration/CMSconfiguration
+
+perl -p -i -e '
+  # FIXME: Replace slc3_ia32_gcc323 with rh306_gcc32. 
+  # It should actually be the other way around and slc3_ia32_gcc323 should
+  # be used everywhere
+  s!slc3_ia32_gcc323!rh306_gcc32!;
+  s!slc3_ia32_gcc32!rh306_gcc32!;
+  s!slc3_ia32_gcc3!rh306_gcc32!;
+' config/bootsrc \
+  config/BuildFile \
+  config/requirements \
+  SCRAMToolBox/Configuration/Configuration \
+  SCRAMToolBox/CMS/Configuration/CMSconfiguration
+
+# Let's consider slc3_ia32_gcc323 as a generic linux distribution..
+if [ "$(uname -s)" == "Linux" ]
+then
+    TOOLFILESTOPATCH=$(grep -e "<[aA]rchitecture.*name=\(slc3_ia32_gcc\|sl>\)" SCRAMToolBox/*/* SCRAMToolBox/*/*/* SCRAMToolBox/*/*/*/* | cut -d: -f1)
+    echo TOOLS TO PATCH $TOOLFILESTOPATCH
+
+    if [ "$TOOLFILESTOPATCH" != "" ]
+    then
+        perl -p -i -e '
+        s!<[aA]rchitecture name=sl>!<architecture name=rh>!;
+        s!<[aA]rchitecture name=slc3_ia32_.*>!<architecture name=%{cmsplatf}>!;
+        ' $TOOLFILESTOPATCH
+    fi
+fi
+
+echo $PERL5LIB
+mkdir -p $(dirname %i)
+%{?buildarch:%buildarch}
+scramv1 project -d $(dirname %i) \
+  -b config/bootsrc \
+  -f %toolconf </dev/null
+
+%build
+cd %i/%{srctree}
+%{?buildarch:%buildarch}
+if [ $(uname) = Darwin ]; then
+  # scramv1 doesn't know the rpath variable on darwin...
+  scramv1 b echo_null # ensure lib, bin exist
+  eval `scramv1 runtime -sh`
+  export DYLD_LIBRARY_PATH=$LD_LIBRARY_PATH
+fi
+scramv1 b %{buildtarget} </dev/null
+
+%install
+cd %i
+%{?buildarch:%buildarch}
+chmod u+w . .SCRAM
+# need writeable directory for profile stuff
+mkdir etc
+yes | scramv1 install # FIXME: do by hand?
+chmod u-w . .SCRAM
+
+%post
+%initenv
+cd %i
+%{?buildarch:%buildarch}
+chmod u+w .SCRAM
+yes | scramv1 install
+chmod u-w .SCRAM
+
