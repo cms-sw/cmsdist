@@ -46,3 +46,4 @@ find libs -name '*.py' -print |
 (cd %i/lib; for f in lib*-$boost_abi.$so; do ln -s $f $f.%v ; done)
 (cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $(echo $f | sed "s/-d-$boost_abi//"); done)
 (cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $f.%v; done)
+(cd %i/lib/libs/python/pyste/install; python setup.py install --prefix=%i)
