@@ -7,4 +7,4 @@ Requires: python
 
 %build
 %install
-python setup.py install --prefix=%i
+python setup.py install --prefix=%i/share
