@@ -1,5 +1,7 @@
 ### FILE cmsos
-if [ `uname` = Linux ]; then
+if [ "$BUILD_ARCH" != "" ]; then
+    echo "$BUILD_ARCH"
+elif [ `uname` = Linux ]; then
   if [ -f /etc/SuSE-release ]; then
     echo suse`grep -i '^version' < /etc/SuSE-release | tr -dc '[0-9]'`
   else
