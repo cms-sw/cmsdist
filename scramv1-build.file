@@ -29,6 +29,22 @@ Source0: %{tbxrepo}&tag=-r%{conftag}&module=SCRAMToolBox&output=/toolbox.tar.gz
 Source1: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvsconfig}&export=config&output=/config.tar.gz
 Source2: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 
+%if "%{?additionalSrc0:set}" == "set"
+%define source3 %{additionalSrc0}&output=/src1.tar.gz
+%else
+%define source3 none
+%endif 
+
+%if "%{?additionalSrc1:set}" == "set"
+%define source4 %{additionalSrc1}&output=/src2.tar.gz
+%else
+%define source4 none
+%endif
+
+Source3: %source3
+Source4: %source4
+
+
 %prep
 # Create a SCRAM project area, but using the already extracted
 # sources.  In other words, pick up the files from the project config
@@ -38,6 +54,14 @@ Source2: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/s
 %setup -T -b 0 -n SCRAMToolBox
 %setup -D -T -b 1 -n config
 %setup -D -T -b 2 -n %{srctree}
+
+%if "%{?additionalSrc0:set}" == "set"
+%setup -D -T -a 3 -n %{srctree}
+%endif
+
+%if "%{?additionalSrc1:set}" == "set"
+%setup -D -T -a 4 -n %{srctree}
+%endif
 
 cd ..
 %{?patchsrc:%patchsrc}
@@ -105,6 +129,7 @@ scramv1 project -d $(dirname %i) \
   -f %toolconf </dev/null
 
 %build
+echo `scramv1 arch`
 cd %i/%{srctree}
 %{?buildarch:%buildarch}
 if [ $(uname) = Darwin ]; then
@@ -113,7 +138,10 @@ if [ $(uname) = Darwin ]; then
   eval `scramv1 runtime -sh`
   export DYLD_LIBRARY_PATH=$LD_LIBRARY_PATH
 fi
-scramv1 b %{buildtarget} </dev/null
+scramv1 b -r %{buildtarget} </dev/null
+%if "%{?additionalBuildTarget0:set}" == "set"
+scramv1 b %{additionalBuildTarget0} < /dev/null
+%endif
 
 %install
 cd %i
