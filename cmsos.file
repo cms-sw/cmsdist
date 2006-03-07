@@ -4,6 +4,12 @@ if [ "$BUILD_ARCH" != "" ]; then
 elif [ `uname` = Linux ]; then
   if [ -f /etc/SuSE-release ]; then
     echo suse`grep -i '^version' < /etc/SuSE-release | tr -dc '[0-9]'`
+  elif grep -q Scientific /etc/redhat-release 2>/dev/null; then
+    if grep -q Intel /proc/cpuinfo 2>/dev/null; then
+      echo slc3_ia32
+    else
+      echo slc3_amd64
+    fi
   else
     archos= archosv=
     for f in debian_version slackware-version fedora-release \
