@@ -10,7 +10,7 @@ case $(uname) in
 
   * )
     ./configure --shared --prefix=%i
-    make
+    make %makeprocesses
     ;;
 esac
 
