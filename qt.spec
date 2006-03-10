@@ -35,4 +35,4 @@ export DYLD_LIBRARY_PATH=$QTDIR/lib:$DYLD_LIBRARY_PATH
 echo yes | ./configure -prefix %i -thread -stl
 # install_framework is hosed
 perl -p -i -e 's/^install_framework:/install_framework:\ninstall_framework_no:/' src/Makefile
-make
+make %makeprocesses
