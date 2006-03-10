@@ -2,4 +2,4 @@
 Source: http://www.sqlite.org/%{n}-%{v}.tar.gz
 %build
 ./configure --prefix=%i --disable-tcl
-make
+make %makeprocesses
