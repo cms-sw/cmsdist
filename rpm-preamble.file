@@ -69,7 +69,7 @@
 # producing the spec file from the version of the gcc spec.
 %if "%cmscompiler" == "gcc"
 %if "%use_system_gcc" == "yes"
-%{expand:%%define cmscompilerv	%(gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2 | tr -d .)}
+%{expand:%%define cmscompilerv	%(gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .)}
 %else
 %{expand:%%define cmscompilerv	%(echo %gccver | cut -d. -f1,2,3 | tr -d .)}
 %endif
