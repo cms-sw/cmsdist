@@ -1,9 +1,7 @@
 ### RPM lcg SCRAMV1 V1_0_2
 ## INITENV +PATH PATH %instroot/bin
 ## INITENV SET SCRAM_ARCH %{cmsplatf}
-%define perl5lib %(echo $P5_XML_PARSER_ROOT/lib):%(echo $P5_LIBWWW_PERL_ROOT/lib):%(echo $TEMPLATE_TOOLKIT_ROOT/lib)
-## INITENV +PATH PERL5LIB %perl5lib 
-Requires: template-toolkit perl p5-xml-parser p5-libwww-perl
+Requires: perl p5-template-toolkit p5-uri p5-xml-parser p5-libwww-perl
 # This package is somewhat unusual compared to other packages we
 # build: we install the normally versioned product "SCRAM", but also
 # create the front-end "scram" wrapper and the package database.  The
