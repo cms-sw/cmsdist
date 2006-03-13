@@ -23,7 +23,7 @@ Requires: pcre
 (echo "ARCHITECTURE:%{cmsplatf}"
  echo "SCRAM_BASEPATH:%{instroot}/external"
 
-%define is_arch_slc3_ia32_gcc3 %(if [ `echo "%{cmsplatf}" | sed -e 's/\(slc3_ia32_gcc3\)/\1/'` = "%{cmsplatf}"]; then echo true; else echo %%{nil}; fi)
+%define is_arch_slc3_ia32_gcc3 %(if [ `echo "%{cmsplatf}" | sed -e 's/\(slc3_ia32_gcc3\)/\1/'` = "%{cmsplatf}" ]; then echo true; else echo %%{nil}; fi)
 %if %is_arch_slc3_ia32_gcc3
 %if "%{?use_system_gcc:set}" == "set"
        echo "TOOL:gcc3:"
@@ -34,7 +34,16 @@ Requires: pcre
        echo "  +LD_LIBRARY_PATH:/none" # useless, toolbox says value=""
        echo "TOOL:g77gcc3:"
        echo "  +FC:$(which g77)"
-%else
+%endif
+%if "%{?use_system_gcc:set}-%{?use_ccache:set}" == "-set"
+       echo "TOOL:gcc3:"
+       echo "  +GCC_BASE:$GCC_ROOT"
+eval       "echo \"  +CC:$CCACHE_ROOT/bin/gcc\""
+eval       "echo \"  +CXX:$CCACHE_ROOT/bin/c++\""
+       echo "TOOL:g77gcc3:"
+       echo "  +FC:$GCC_ROOT/bin/g77"
+%endif
+%if "%{?use_system_gcc:set}-%{?use_ccache:set}" == "-" 
        echo "TOOL:gcc3:"
        echo "  +GCC_BASE:$GCC_ROOT"
        echo "TOOL:g77gcc3:"
@@ -43,7 +52,7 @@ Requires: pcre
 
 %endif 
 
-%define is_arch_slc3_amd64_gcc3 %(if [ `echo "%{cmsplatf}" | sed -e 's/\(slc3_amd64_gcc3\)/\1/'` = "%{cmsplatf}"]; then echo true; else echo %%{nil}; fi)
+%define is_arch_slc3_amd64_gcc3 %(if [ `echo "%{cmsplatf}" | sed -e 's/\(slc3_amd64_gcc3\)/\1/'` = "%{cmsplatf}" ]; then echo true; else echo %%{nil}; fi)
 %if %is_arch_slc3_amd64_gcc3
 %if "%{?use_system_gcc:set}" == "set"
        echo "TOOL:gcc3:"
@@ -54,7 +63,16 @@ Requires: pcre
        echo "  +LD_LIBRARY_PATH:/none" # useless, toolbox says value=""
        echo "TOOL:g77gcc3:"
        echo "  +FC:$(which g77)"
-%else
+%endif
+%if "%{?use_system_gcc:set}-%{?use_ccache:set}" == "-set"
+       echo "TOOL:gcc3:"
+       echo "  +GCC_BASE:$GCC_ROOT"
+eval       "echo \"  +CC:$CCACHE_ROOT/bin/gcc\""
+eval       "echo \"  +CXX:$CCACHE_ROOT/bin/c++\""
+       echo "TOOL:g77gcc3:"
+       echo "  +FC:$GCC_ROOT/bin/g77"
+%endif
+%if "%{?use_system_gcc:set}-%{?use_ccache:set}" == "-" 
        echo "TOOL:gcc3:"
        echo "  +GCC_BASE:$GCC_ROOT"
        echo "TOOL:g77gcc3:"
@@ -63,7 +81,7 @@ Requires: pcre
 
 %endif 
 
-%define is_arch_win32_vc71 %(if [ `echo "%{cmsplatf}" | sed -e 's/\(win32_vc71\)/\1/'` = "%{cmsplatf}"]; then echo true; else echo %%{nil}; fi)
+%define is_arch_win32_vc71 %(if [ `echo "%{cmsplatf}" | sed -e 's/\(win32_vc71\)/\1/'` = "%{cmsplatf}" ]; then echo true; else echo %%{nil}; fi)
 %if %is_arch_win32_vc71
 
 echo "TOOL:rx:"
@@ -110,6 +128,7 @@ eval "echo \"  +INCLUDE:\${EXPAT_ROOT}/include\""
 
 echo "TOOL:xerces-c:"
 eval "echo \"  +XERCESC_BASE:\${XERCES_C_ROOT}\""
+eval "echo \"  +XERCES_C_BASE:\${XERCES_C_ROOT}\""
 eval "echo \"  +PATH:\${XERCES_C_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${XERCES_C_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${XERCES_C_ROOT}/include\""
@@ -143,11 +162,7 @@ eval "echo \"  +LIBDIR:\${VALGRIND_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${VALGRIND_ROOT}/include\""
 
 echo "TOOL:seal:"
-eval "echo \"  +SEAL_BASE:\${SEAL_ROOT}\""
-eval "echo \"  +PATH:\${SEAL_ROOT}/bin\""
-eval "echo \"  +LIBDIR:\${SEAL_ROOT}/lib\""
-eval "echo \"  +INCLUDE:\${SEAL_ROOT}/include\""
-eval "echo \"  +PYTHONPATH:\${SEAL_ROOT}/python\""
+echo "  +SEAL_BASE:$SEAL_ROOT"
 
 
 echo "TOOL:uuid:"
