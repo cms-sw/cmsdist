@@ -1,4 +1,6 @@
 ### RPM external python 2.4.2
+## INITENV +PATH PATH %i/bin 
+## INITENV +PATH LD_LIBRARY_PATH %i/lib
 # OS X patches and build fudging stolen from fink
 Requires: zlib expat openssl
 # FIXME: readline, ncurses, crypt, various [ng]dbm, db-*, db[1-3],
@@ -41,7 +43,7 @@ for d in $dirs; do
 done
 
 ./configure --prefix=%i
-make
+make %makeprocesses
 
 %install
 make install
