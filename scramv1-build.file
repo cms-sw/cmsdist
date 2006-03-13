@@ -24,11 +24,14 @@
 # FIXME: automatic sub-packages for "doc" etc?
 # FIXME: post-install stuff for modules etc?
 
-Requires: SCRAMV1 perl template-toolkit p5-xml-parser p5-libwww-perl
+Requires: SCRAMV1 perl p5-template-toolkit p5-xml-parser p5-uri p5-libwww-perl
 Source0: %{tbxrepo}&tag=-r%{conftag}&module=SCRAMToolBox&output=/toolbox.tar.gz
 Source1: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvsconfig}&export=config&output=/config.tar.gz
 Source2: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 
+# Pick additional sources.  Since install.sh does a grep for "^Source",
+# we need to arrange an expansion that always works, regardless of whether
+# %additionalSrc* are defined.
 %if "%{?additionalSrc0:set}" == "set"
 %define source3 %{additionalSrc0}&output=/src1.tar.gz
 %else
@@ -66,7 +69,7 @@ Source4: %source4
 cd ..
 %{?patchsrc:%patchsrc}
 %{?patchsrc2:%patchsrc2}
-
+pwd
 perl -p -i -e '
   # Keep track whether we are in a toolbox area or not
   if ($. == 1) { $intbx = 1; }
@@ -74,7 +77,7 @@ perl -p -i -e '
 
   # Replace base locations
   s!cvs://.*/(SPITOOLS|SCRAMToolBox)\?[^">]+!file:%_builddir/SCRAMToolBox/!;
-  s!cvs://.*/%n\?[^">]+!file:%_builddir/!;
+  s!cvs://.*/%cvsdir\?[^">]+!file:%_builddir/!;
   
 
   # Replace relative references depending on whether this is in
@@ -90,32 +93,41 @@ perl -p -i -e '
   }
  ' config/bootsrc \
    config/requirements \
-   SCRAMToolBox/Configuration/Configuration \
    SCRAMToolBox/CMS/Configuration/CMSconfiguration
+#   SCRAMToolBox/Configuration/Configuration 
 
+# Handle toolbox
+pwd 
 perl -p -i -e '
-  # FIXME: Replace slc3_ia32_gcc323 with rh306_gcc32. 
-  # It should actually be the other way around and slc3_ia32_gcc323 should
-  # be used everywhere
-  s!slc3_ia32_gcc323!rh306_gcc32!;
-  s!slc3_ia32_gcc32!rh306_gcc32!;
-  s!slc3_ia32_gcc3!rh306_gcc32!;
-' config/bootsrc \
-  config/BuildFile \
-  config/requirements \
-  SCRAMToolBox/Configuration/Configuration \
-  SCRAMToolBox/CMS/Configuration/CMSconfiguration
+    # Replace base locations
+    s!cvs://.*/(SPITOOLS|SCRAMToolBox)\?[^">]+!file:%_builddir/SCRAMToolBox/!;
+    s!cvs://.*/%cvsdir\?[^">]+!file:%_builddir/!;
 
-# Let's consider slc3_ia32_gcc323 as a generic linux distribution..
-if [ "$(uname -s)" == "Linux" ]
+    s!url="cvs:\?module="?([^">]+)"?\s+name="?([^">]+)"?>!url="file:$1" name="$2">!;
+    s!url="(cvs:\?module=|file:)SCRAMToolBox/(.*)">!url="file:$2">!;
+' SCRAMToolBox/CMS/Configuration/CMSconfiguration
+
+# In case we are on some linux system which is not slc3, we substitute
+# all the slc3 references to be %%cmsplatf in an attempt to compile anyway.
+if [ "%cmsplatf" != "slc3_ia32_gcc323" && "$(uname)" == "Linux" ]
 then
+    perl -p -i -e '
+      s!slc3_ia32_gcc323!%cmsplatf!;
+      s!slc3_ia32_gcc32!%cmsplatf!;
+      s!slc3_ia32_gcc3!%cmsplatf!;
+      ' config/bootsrc \
+      config/BuildFile \
+      config/requirements \
+      SCRAMToolBox/Configuration/Configuration \
+      SCRAMToolBox/CMS/Configuration/CMSconfiguration
+
     TOOLFILESTOPATCH=$(grep -e "<[aA]rchitecture.*name=\(slc3_ia32_gcc\|sl>\)" SCRAMToolBox/*/* SCRAMToolBox/*/*/* SCRAMToolBox/*/*/*/* | cut -d: -f1)
-    echo TOOLS TO PATCH $TOOLFILESTOPATCH
+    echo TOOLS TO PATCH *$TOOLFILESTOPATCH*
 
     if [ "$TOOLFILESTOPATCH" != "" ]
     then
         perl -p -i -e '
-        s!<[aA]rchitecture name=sl>!<architecture name=rh>!;
+        s!<[aA]rchitecture name=sl>!<architecture name=%{cmsplatf}>!;
         s!<[aA]rchitecture name=slc3_ia32_.*>!<architecture name=%{cmsplatf}>!;
         ' $TOOLFILESTOPATCH
     fi
