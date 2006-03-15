@@ -11,7 +11,7 @@ sed -e 's/ -shared/ -dynamiclib/' \
 
 %build
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
-make -f Makefile-libbz2_$so
+make %makeprocesses -f Makefile-libbz2_$so
 
 %install
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
