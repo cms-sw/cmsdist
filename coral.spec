@@ -4,7 +4,8 @@ Requires: coral-tool-conf
 %define toolconf ${CORAL_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
 %define cvsdir %(echo %n | tr 'A-Z' 'a-z')
 %define cvsserver %(echo %n | tr 'A-Z' 'a-z')
-%define patchsrc cp config/slc3_ia32_gcc323.mk config/%{cmsplatf}.mk
+# This allows to compile CORAL on linux systems that are not recognized as slc3 but still linux based.
+%define patchsrc if [ "%cmsplatf" != "slc3_ia32_gcc323" && "$(uname)" == "Linux" ]; then cp config/slc3_ia32_gcc323.mk config/%{cmsplatf}.mk; fi 
 ## IMPORT lcg-scram-build
 ## IMPORT scram-build
 
