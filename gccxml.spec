@@ -14,7 +14,7 @@ Patch2: gccxml3
 mkdir gccxml-build
 cd gccxml-build
 cmake -DCMAKE_INSTALL_PREFIX:PATH=%i ..
-make
+make %makeprocesses
 
 %install
 cd gccxml-build
