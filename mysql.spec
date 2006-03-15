@@ -14,4 +14,4 @@ perl -p -i -e 's/-traditional-cpp/-no-cpp-precomp/g' configure.in configure
 CFLAGS=-O3 CXX=gcc CXXFLAGS="-O3 -felide-constructors -fno-exceptions -fno-rtti" \
    ./configure --prefix=%i --with-extra-charsets=complex \
       --enable-thread-safe-client --enable-local-infile
-make
+make %makeprocesses
