@@ -3,7 +3,9 @@
 %define cvsproj     %(echo %n | tr 'a-z' 'A-Z')
 %define cvsrepo		cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/%cvsdir?passwd=AA_:yZZ3e
 %define cvstag		%{v}
+%if "%{?cvsconfig:set}" != "set"
 %define cvsconfig	config
+%endif
 %define cvssrc		%cvsproj
 %define srctree		src
 
