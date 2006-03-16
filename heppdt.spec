@@ -1,13 +1,11 @@
 ### RPM external heppdt 2.02.02
-Source: http://lcgapp.cern.ch/project/simu/HepPDT/download/HepPDT-%v.tar.gz
-Requires: clhep
+Source: http://lcgapp.cern.ch/project/simu/HepPDT/download/HepPDT-%{v}.tar.gz
 %prep
-%setup -n HepPDT-%v
+%setup -q -n HepPDT-%{v}
+./configure  --prefix=%{i} 
+
 %build
-mkdir -p objs
-cd objs
-../configure --prefix=%{i}
-make -e CLHEP_DIR=$CLHEP_ROOT
+make 
+
 %install
-cd objs
 make install
