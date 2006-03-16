@@ -1,4 +1,4 @@
-### RPM external hepmc 1.26
+### RPM external hepmc 1.27.00
 Requires: clhep
 Source: http://lcgapp.cern.ch/project/simu/HepMC/download/HepMC-%v.tar.gz
 
