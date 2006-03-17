@@ -30,6 +30,8 @@ elif [ `uname` = Linux ]; then
   fi
 elif [ `uname` = Darwin ]; then
   echo osx`sw_vers -productVersion | cut -d. -f1,2 | tr -dc [0-9]`
+elif [ $(uname | cut -d_ -f1) = CYGWIN ]; then
+  echo win32_ia32
 else
   echo unsupported
 fi
