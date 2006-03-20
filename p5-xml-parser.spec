@@ -8,7 +8,9 @@ Source: http://mirror.switch.ch/ftp/mirror/CPAN/authors/id/M/MS/MSERGEANT/%{down
 %setup -n %downloadn-%v
 %build
 which perl
-perl Makefile.PL PREFIX=%{i}
+perl Makefile.PL PREFIX=%{i} \
+                 EXPATLIBPATH=$EXPAT_ROOT/lib \
+                 EXPATINCPATH=$EXPAT_ROOT/include
 make
 make test
 %install
