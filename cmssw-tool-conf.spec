@@ -4,13 +4,12 @@ Source0: none
 
 Requires: gcc
 
-Requires: f77compiler
-Requires: ccompiler
+Requires: gcc
+
 Requires: lcgaa
 Requires: coral
 Requires: pool
 Requires: seal
-Requires: relax
 Requires: ignominy
 Requires: xdaq
 Requires: geant4
@@ -67,7 +66,7 @@ Requires: iguana
  echo "SCRAM_BASEPATH:%{instroot}/external"
 
 %if "%{?use_system_gcc:set}" == "set"
-       echo "TOOL:cxxcompiler"
+  echo "TOOL:cxxcompiler:"
        echo "  +GCC_BASE:/none"
        echo "  +CC:$(which gcc)"
        echo "  +CXX:$(which c++)"
@@ -77,7 +76,7 @@ Requires: iguana
        echo "  +FC:$(which g77)"
 %endif
 %if "%{?use_system_gcc:set}-%{?use_ccache:set}" == "-set"
-       echo "TOOL:cxxcompiler:"
+echo "TOOL:cxxcompiler:"
        echo "  +GCC_BASE:$CCACHE_ROOT"
 eval        "echo \"  +CC:$CCACHE_ROOT/bin/gcc\""
 eval        "echo \"  +CXX:$CCACHE_ROOT/bin/c++\""
@@ -85,18 +84,11 @@ eval        "echo \"  +CXX:$CCACHE_ROOT/bin/c++\""
        echo "  +FC:$GCC_ROOT/bin/g77"
 %endif
 %if "%{?use_system_gcc:set}-%{?use_ccache:set}" == "-" 
-       echo "TOOL:cxxcompiler:"
+echo "TOOL:cxxcompiler:"
        echo "  +GCC_BASE:$GCC_ROOT"
        echo "TOOL:g77gcc3:"
        echo "  +FC:$GCC_ROOT/bin/g77"
 %endif
-
-
-echo "TOOL:f77compiler:"
-eval "echo \"  +F77COMPILER_BASE:\${F77COMPILER_ROOT}\""
-eval "echo \"  +PATH:\${F77COMPILER_ROOT}/bin\""
-eval "echo \"  +LIBDIR:\${F77COMPILER_ROOT}/lib\""
-eval "echo \"  +INCLUDE:\${F77COMPILER_ROOT}/include\""
 
 
 echo "TOOL:ccompiler:"
@@ -121,13 +113,6 @@ echo "  +POOL_BASE:$POOL_ROOT"
 
 echo "TOOL:seal:"
 echo "  +SEAL_BASE:$SEAL_ROOT"
-
-
-echo "TOOL:relax:"
-eval "echo \"  +RELAX_BASE:\${RELAX_ROOT}\""
-eval "echo \"  +PATH:\${RELAX_ROOT}/bin\""
-eval "echo \"  +LIBDIR:\${RELAX_ROOT}/lib\""
-eval "echo \"  +INCLUDE:\${RELAX_ROOT}/include\""
 
 
 echo "TOOL:ignominy:"
