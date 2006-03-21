@@ -71,7 +71,7 @@ perl -p -i -e '
 
 
 # patch configuration to compile on other linux distributions than the one recognized as slc3.
-if [ "$(uname)" == "Linux" && "%cmsplatf" != "slc3_ia32_gcc323" ]
+if [ "$(uname)" = "Linux" ] && [ "%{cmsplatf}" != "slc3_ia32_gcc323" ]
 then
     perl -p -i -e '
       # FIXME: Replace slc3_ia32_gcc323 with rh306_gcc32. 
