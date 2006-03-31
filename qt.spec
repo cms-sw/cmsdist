@@ -1,4 +1,4 @@
-### RPM external qt 3.3.4
+### RPM external qt 3.3.6
 ## INITENV UNSET QMAKESPEC
 ## INITENV SET QTDIR %i
 %define qttype %(echo %v | sed 's/[-0-9.]*//')
@@ -32,7 +32,13 @@ export QTDIR=$PWD
 export PATH=$QTDIR/bin:$PATH
 export LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
 export DYLD_LIBRARY_PATH=$QTDIR/lib:$DYLD_LIBRARY_PATH
-echo yes | ./configure -prefix %i -thread -stl
+
+case $(uname -m) in
+  x86_64)
+    export CONFIG_ARGS="-platform linux-g++-64"
+esac
+
+echo yes | ./configure -prefix %i -thread -stl $CONFIG_ARGS
 # install_framework is hosed
 perl -p -i -e 's/^install_framework:/install_framework:\ninstall_framework_no:/' src/Makefile
 make %makeprocesses
