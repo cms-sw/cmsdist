@@ -8,4 +8,4 @@ Patch: http://service-spi.web.cern.ch/service-spi/external/tarFiles/%n-%v.patch
 %build
 make BIN_PATH=%i %makeprocesses 
 %install
-make BIN_PATH=%i
+make BIN_PATH=%i install
