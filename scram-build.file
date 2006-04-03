@@ -150,12 +150,8 @@ scram b %{buildtarget} </dev/null
 
 %install
 cd %i
-%{?buildarch:%buildarch}
-chmod u+w . .SCRAM
 # need writeable directory for profile stuff
 mkdir etc
-yes | scram install # FIXME: do by hand?
-chmod u-w . .SCRAM
 
 %post
 %initenv
