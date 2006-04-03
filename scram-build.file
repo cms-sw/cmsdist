@@ -141,7 +141,7 @@ fi
 
 mkdir -p $(dirname %i)
 %{?buildarch:%buildarch}
-{ while true; do echo "."; done |
+{ while true; do sleep 0.5; echo "."; done |
 scram project -d $(dirname %i) \
   file:%{bootstrapfile} \
   -f %toolconf; } || true
