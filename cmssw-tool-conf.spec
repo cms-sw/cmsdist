@@ -56,10 +56,8 @@ Requires: hippodraw
 Requires: qutexmlrpc
 Requires: frontier_client
 Requires: genser
-Requires: pythia
-Requires: pythia6_227
-Requires: fed9uutils
-Requires: icutils
+Requires: genser
+
 Requires: doxygen
 Requires: meschach
 Requires: iguana
