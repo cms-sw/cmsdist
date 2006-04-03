@@ -1,14 +1,26 @@
 ### FILE lcg-scram-build
 
-%define cvsproj		%(echo %n | tr '[A-Z]' '[a-z]')
-%define cvsrepo		cvs://:pserver:anonymous@%cvsserver.cvs.cern.ch:2401/cvs/%cvsdir?passwd=Ah<Z
-%define cvstag		%{v}
-%define cvsconfig	%cvsproj/config/scram
-%define cvssrc		%cvsproj
-%if "%{?srctree:set}" != "set"
- %define srctree	src
+%if "%{?cvsproj:set}" != "set"
+    %define cvsproj		%(echo %n | tr '[A-Z]' '[a-z]')
 %endif
 
+%if "%{?cvstag:set}" != "set"
+    %define cvstag		%{v}
+%endif
+
+%if "%{?cvsconfig:set}" != "set"
+    %define cvsconfig	%cvsproj/config/scram
+%endif
+
+%if "%{?cvssrc:set}" != "set"
+    %define cvssrc		%cvsproj
+%endif
+
+%if "%{?srctree:set}" != "set"
+    %define srctree	src
+%endif
+
+%define cvsrepo		cvs://:pserver:anonymous@%cvsserver.cvs.cern.ch:2401/cvs/%cvsdir?passwd=Ah<Z
 %define tbxrepo		cvs://:pserver:anonymous@spitools.cvs.cern.ch:2401/cvs/SPITOOLS?passwd=Ah<Z
 %define conftag		LCG_%confversion%conflevel
 %define confsite	LCGconfigs
