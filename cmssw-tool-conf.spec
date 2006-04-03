@@ -22,9 +22,12 @@ Requires: python
 Requires: boost
 Requires: xerces-c
 Requires: root
-Requires: rootrflx
-Requires: rootcore
-Requires: rootinteractive
+Requires: root
+
+Requires: root
+
+Requires: root
+
 Requires: uuid
 Requires: gsl
 Requires: sqlite
