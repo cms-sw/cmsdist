@@ -135,10 +135,12 @@ fi
 
 echo $PERL5LIB
 mkdir -p $(dirname %i)
+
 %{?buildarch:%buildarch}
+{ while true; do sleep 0.5; echo "."; done |
 scramv1 project -d $(dirname %i) \
   -b config/bootsrc \
-  -f %toolconf </dev/null
+  -f %toolconf; } || true 
 
 %build
 echo `scramv1 arch`
