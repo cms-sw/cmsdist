@@ -24,10 +24,33 @@
 # FIXME: automatic sub-packages for "doc" etc?
 # FIXME: post-install stuff for modules etc?
 
+%if "%{?bootstrapfile:set}" != "set"
+    %define boostrapfile config/BootStrapFileSRC
+%endif
+
 Requires: SCRAM
 Source0: %{tbxrepo}&tag=-r%{conftag}&module=SCRAMToolBox&output=/toolbox.tar.gz
 Source1: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvsconfig}&export=config&output=/config.tar.gz
 Source2: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
+
+# Pick additional sources.  Since install.sh does a grep for "^Source",
+# we need to arrange an expansion that always works, regardless of whether
+# %additionalSrc* are defined.
+%if "%{?additionalSrc0:set}" == "set"
+%define source3 %{additionalSrc0}&output=/src1.tar.gz
+%else
+%define source3 none
+%endif 
+
+%if "%{?additionalSrc1:set}" == "set"
+%define source4 %{additionalSrc1}&output=/src2.tar.gz
+%else
+%define source4 none
+%endif
+
+Source3: %source3
+Source4: %source4
+
 
 %prep
 # Create a SCRAM project area, but using the already extracted
@@ -39,36 +62,48 @@ Source2: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/s
 %setup -D -T -b 1 -n config
 %setup -D -T -b 2 -n %{srctree}
 
+%if "%{?additionalSrc0:set}" == "set"
+%setup -D -T -a 3 -n %{srctree}
+%endif
+
+%if "%{?additionalSrc1:set}" == "set"
+%setup -D -T -a 4 -n %{srctree}
+%endif
+
 cd ..
 %{?patchsrc:%patchsrc}
 %{?patchsrc2:%patchsrc2}
 
 perl -p -i -e '
   # Keep track whether we are in a toolbox area or not
+  # If we are at the beginning of the file, then initialise $intbx
   if ($. == 1) { $intbx = 1; }
+  # If the line contains <base, than we are in a toolbox fragment 
+  # if the URL contains either SCRAMToolBox or SPITOOLS
   if (/<base/) { $intbx = /SPITOOLS|SCRAMToolBox/; }
 
   # Replace base locations
   s!cvs://.*/(SPITOOLS|SCRAMToolBox)\?[^">]+!file:%_builddir/SCRAMToolBox/!;
-  s!cvs://.*/%n\?[^">]+!file:%_builddir/!;
-  
-
+  s!cvs://.*/%cvsdir\?[^">]+!file:%_builddir/!;
+  %{?additionalSubst:%additionalSubst}
   # Replace relative references depending on whether this is in
   # toolbox, or for project itself; configuration is always in
   # toolbox.  In toolbox keep cvs module name but drop the leading
   # SCRAMToolBox if there is one.  In project always replace with
   # rewritten paths.  (FIXME: produce source archive in cvs order?)
+  s!url="cvs:\?module="?([^">]+)"?\s+name="?([^">]+)"?>!url="file:$1" name="$2">!;
   if ($intbx) {
-    s!url="cvs:\?module="?([^">]+)"?\s+name="?([^">]+)"?>!url="file:$1" name="$2">!;
     s!url="(cvs:\?module=|file:)SCRAMToolBox/(.*)">!url="file:$2">!;
-  } else {
-    s!url="cvs:\?module="?([^">]+)"?\s+name="?([^">]+)"?>!url="file:$2" name="$2">!;
-  }
- ' config/BootStrapFileSRC \
+  } 
+ ' %{bootstrapfile} \
    config/RequirementsDoc \
    SCRAMToolBox/Configuration/Configuration \
    SCRAMToolBox/CMS/Configuration/CMSconfiguration
 
+perl -p -i -e '
+    s!url="(cvs:\?module=|file:)SCRAMToolBox/(.*)">!url="file:$2">!;
+' SCRAMToolBox/Configuration/Configuration \
+  SCRAMToolBox/CMS/Configuration/CMSconfiguration
 
 # patch configuration to compile on other linux distributions than the one recognized as slc3.
 if [ "$(uname)" = "Linux" ] && [ "%{cmsplatf}" != "slc3_ia32_gcc323" ]
@@ -80,7 +115,7 @@ then
       s!slc3_ia32_gcc323!%cmsplatf!;
       s!slc3_ia32_gcc32!%cmsplatf!;
       s!slc3_ia32_gcc3!%cmsplatf!;
-    ' config/BootStrapFileSRC \
+    ' %{bootstrapfile} \
       config/BuildFile \
       config/RequirementsDoc \
       SCRAMToolBox/Configuration/Configuration \
@@ -97,9 +132,9 @@ fi
 
 mkdir -p $(dirname %i)
 %{?buildarch:%buildarch}
-{ while true; do echo "sorry_i_botched_this_configuration_look_in_%toolconf"; done |
+{ while true; do echo "."; done |
 scram project -d $(dirname %i) \
-  file:config/BootStrapFileSRC \
+  file:%{bootstrapfile} \
   -f %toolconf; } || true
 
 %build
