@@ -28,6 +28,15 @@
     %define boostrapfile config/BootStrapFileSRC
 %endif
 
+# FIXME: this allows customization of the scram build process. It is necessary in the case of
+# genser, since its building not a simple matter of doing "scram b something" in the 
+# main directory. I probably would be better to fix genser build process to work in a proper way,
+# but that is probably a desperate task.
+
+%if "%{?scrambuildcmd:set}" != "set"
+    %define scrambuildcmd scram b %{buildtarget} </dev/null
+%endif
+
 Requires: SCRAM
 Source0: %{tbxrepo}&tag=-r%{conftag}&module=SCRAMToolBox&output=/toolbox.tar.gz
 Source1: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvsconfig}&export=config&output=/config.tar.gz
@@ -146,7 +155,8 @@ if [ $(uname) = Darwin ]; then
   eval `scram runtime -sh`
   export DYLD_LIBRARY_PATH=$LD_LIBRARY_PATH
 fi
-scram b %{buildtarget} </dev/null
+
+%scrambuildcmd
 
 %install
 cd %i
