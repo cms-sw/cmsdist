@@ -1,7 +1,7 @@
 ### RPM external geant4 7.1
 ## INITENV SET G4NDL_PATH %i/data/G4NDL%{g4NDLVersion}
 ## INITENV SET G4EMLOW_PATH %i/data/G4EMLOW%{g4EMLOWVersion}
-## INITENV SET PHOTON_EVAPORATION_PATH %i/data/PhotonEvaportation/%{photonEvaporationVersion}
+## INITENV SET PHOTON_EVAPORATION_PATH %i/data/PhotonEvaportation%{photonEvaporationVersion}
 ## INITENV SET RADIATIVE_DECAY_PATH %i/data/RadiativeDecay%{radiativeDecayVersion}
 # Build system fudging and some patches by Lassi A. Tuura <lat@iki.fi>
 Requires: clhep
