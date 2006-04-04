@@ -75,6 +75,7 @@ make %makeprocesses -C $G4BASE all
 make %makeprocesses -C $G4BASE includes
 make %makeprocesses -C $G4BASE
 make %makeprocesses -C $G4BASE global
+make %makeprocesses -C $G4BASE
 
 %install
 mkdir -p %i/etc
