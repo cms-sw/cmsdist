@@ -25,7 +25,7 @@
 # FIXME: post-install stuff for modules etc?
 
 %if "%{?bootstrapfile:set}" != "set"
-    %define boostrapfile config/BootStrapFileSRC
+    %define bootstrapfile config/BootStrapFileSRC
 %endif
 
 # FIXME: this allows customization of the scram build process. It is necessary in the case of
