@@ -1,4 +1,4 @@
-### RPM external boost 1.32.0
+### RPM external boost 1.33.1
 # Patches and build fudging by Lassi A. Tuura <lat@iki.fi> (FIXME: contribute to boost)
 # define boostver -%v <-- for 1.30.2
 %define boostver _%(echo %v | tr . _)
