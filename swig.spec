@@ -1,6 +1,6 @@
-### RPM external swig 1.3.28
+### RPM external swig 1.3.29
 ## INITENV SET SWIG_HOME SWIG_ROOT
-Source: http://easynews.dl.sourceforge.net/sourceforge/%n/%n-%v.tar.gz
+Source: http://switch.dl.sourceforge.net/sourceforge/swig/%n-%v.tar.gz
 
 %build
 ./configure --prefix=%i
