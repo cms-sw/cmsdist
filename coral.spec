@@ -1,4 +1,4 @@
-### RPM lcg coral CORAL_1_2_0
+### RPM lcg coral CORAL_1_3_1
 Requires: coral-tool-conf
 %define confversion 40 
 %define toolconf ${CORAL_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
