@@ -8,7 +8,8 @@ Source: afs:///afs/cern.ch/sw/lcg/external/oracle/%{v}/%{cmsplatf}?export=/%{n}-
 %setup -n %{n}-%{v}-%{cmsplatf}
 %build
 %install
-ls
-cp -r bin %i
+mkdir -p %i/admin
+mkdir -p %i/bin
+cp bin/* %i/bin
 cp -r include %i
 cp -r lib %i
