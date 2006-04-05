@@ -1,4 +1,4 @@
-### RPM external openssl 0.9.7b
+### RPM external openssl 0.9.7d
 Source: http://www.openssl.org/source/%n-%v.tar.gz
 
 %build
