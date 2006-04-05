@@ -1,6 +1,13 @@
-### RPM external mysql 4.0.24
-# Source: ftp://mirror.mcs.anl.gov/pub/mysql/Downloads/MySQL-4.0/%n-%v.tar.gz
-Source: http://downloads.mysql.com/archives/mysql-4.0/%n-%v.tar.gz
+### RPM external mysql 5.0.18
+#Different download locations according to the version.
+
+%if "%(echo %v | cut -d. -f1)" == "4"
+%define source http://downloads.mysql.com/archives/mysql-4.0/%n-%v.tar.gz
+%else
+%define source http://mysql.belnet.be/Downloads/MySQL-5.0/mysql-%v.tar.gz
+%endif
+
+Source: %source
 
 %prep
 %setup -n %n-%v
