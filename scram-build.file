@@ -37,9 +37,13 @@
     %define scrambuildcmd scram b %{buildtarget} </dev/null
 %endif
 
+%if "%{?configtree:set}" != "set"
+    %define configtree config
+%endif
+
 Requires: SCRAM
 Source0: %{tbxrepo}&tag=-r%{conftag}&module=SCRAMToolBox&output=/toolbox.tar.gz
-Source1: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvsconfig}&export=config&output=/config.tar.gz
+Source1: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvsconfig}&export=%{configtree}&output=/config.tar.gz
 Source2: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 
 # Pick additional sources.  Since install.sh does a grep for "^Source",
@@ -147,7 +151,7 @@ scram project -d $(dirname %i) \
   -f %toolconf; } || true
 
 %build
-cd %i/%{srctree}
+cd %i/src
 %{?buildarch:%buildarch}
 if [ $(uname) = Darwin ]; then
   # scram doesn't know the rpath variable on darwin...
