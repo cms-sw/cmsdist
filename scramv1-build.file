@@ -69,6 +69,8 @@ Source4: %source4
 cd ..
 %{?patchsrc:%patchsrc}
 %{?patchsrc2:%patchsrc2}
+%{?patchsrc3:%patchsrc3}
+
 pwd
 perl -p -i -e '
   # Keep track whether we are in a toolbox area or not
