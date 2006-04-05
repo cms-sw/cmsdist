@@ -24,8 +24,12 @@
 # FIXME: automatic sub-packages for "doc" etc?
 # FIXME: post-install stuff for modules etc?
 
+%if "%{?configtree:set}" != "set"
+    %define configtree config
+%endif
+
 %if "%{?bootstrapfile:set}" != "set"
-    %define bootstrapfile config/BootStrapFileSRC
+    %define bootstrapfile %{configtree}/BootStrapFileSRC
 %endif
 
 # FIXME: this allows customization of the scram build process. It is necessary in the case of
@@ -35,10 +39,6 @@
 
 %if "%{?scrambuildcmd:set}" != "set"
     %define scrambuildcmd scram b %{buildtarget} </dev/null
-%endif
-
-%if "%{?configtree:set}" != "set"
-    %define configtree config
 %endif
 
 Requires: SCRAM
@@ -72,7 +72,7 @@ Source4: %source4
 # reference so SCRAM won't try to download stuff from the network.
 
 %setup -T -b 0 -n SCRAMToolBox
-%setup -D -T -b 1 -n config
+%setup -D -T -b 1 -n %{configtree}
 %setup -D -T -b 2 -n %{srctree}
 
 %if "%{?additionalSrc0:set}" == "set"
@@ -109,7 +109,7 @@ perl -p -i -e '
     s!url="(cvs:\?module=|file:)SCRAMToolBox/(.*)">!url="file:$2">!;
   } 
  ' %{bootstrapfile} \
-   config/RequirementsDoc \
+   %{configtree}/RequirementsDoc \
    SCRAMToolBox/Configuration/Configuration \
    SCRAMToolBox/CMS/Configuration/CMSconfiguration
 
@@ -129,8 +129,8 @@ then
       s!slc3_ia32_gcc32!%cmsplatf!;
       s!slc3_ia32_gcc3!%cmsplatf!;
     ' %{bootstrapfile} \
-      config/BuildFile \
-      config/RequirementsDoc \
+      %{configtree}/BuildFile \
+      %{configtree}/RequirementsDoc \
       SCRAMToolBox/Configuration/Configuration \
       SCRAMToolBox/CMS/Configuration/CMSconfiguration
 
