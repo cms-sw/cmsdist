@@ -111,12 +111,8 @@ eval "echo \"  +PATH:\${CCOMPILER_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${CCOMPILER_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${CCOMPILER_ROOT}/include\""
 
-
 echo "TOOL:lcgaa:"
-eval "echo \"  +LCGAA_BASE:\${LCGAA_ROOT}\""
-eval "echo \"  +PATH:\${LCGAA_ROOT}/bin\""
-eval "echo \"  +LIBDIR:\${LCGAA_ROOT}/lib\""
-eval "echo \"  +INCLUDE:\${LCGAA_ROOT}/include\""
+echo "  +LCGAA_BASE:$LCGAA_ROOT"
 
 echo "TOOL:coral:"
 echo "  +CORAL_BASE:$CORAL_ROOT"
@@ -209,19 +205,17 @@ eval "echo \"  +PATH:\${XERCES_C_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${XERCES_C_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${XERCES_C_ROOT}/include\""
 
-
 echo "TOOL:root:"
-eval "echo \"  +ROOT_BASE:\${ROOT_ROOT}\""
-eval "echo \"  +PATH:\${ROOT_ROOT}/bin\""
-eval "echo \"  +LIBDIR:\${ROOT_ROOT}/lib\""
-eval "echo \"  +INCLUDE:\${ROOT_ROOT}/include\""
-
+echo "  +ROOT_BASE:$ROOT_ROOT"
+echo "  +ROOTSYS:$ROOT_ROOT"
+echo "  +LIBDIR:$ROOT_ROOT/lib"
+echo "  +INCLUDE:$ROOT_ROOT/include"
+echo "  +PATH:$ROOT_ROOT/bin"
 
 echo "TOOL:rootrflx:"
-eval "echo \"  +ROOTRFLX_BASE:\${ROOTRFLX_ROOT}\""
-eval "echo \"  +PATH:\${ROOTRFLX_ROOT}/bin\""
-eval "echo \"  +LIBDIR:\${ROOTRFLX_ROOT}/lib\""
-eval "echo \"  +INCLUDE:\${ROOTRFLX_ROOT}/include\""
+echo "  +ROOTRFLX_BASE=$ROOT_ROOT"
+echo "  +ROOTSYS=$ROOT_ROOT/root"
+echo "  +GENREFLEX=$ROOT_ROOT/bin/genreflex"
 
 
 echo "TOOL:rootcore:"
