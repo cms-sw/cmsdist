@@ -23,7 +23,7 @@ case $(uname) in
 esac
 
 %install
-boost_abi=$(echo %boostver | sed 's/^_//; s/_[0-9]*$//')
+boost_abi=$(echo %boostver | sed 's/^_//; s/_0$//')
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
 mkdir -p %i/lib/debug
 (cd bin/boost; find libs -path "libs/*/debug/*.$so" -exec cp {} %i/lib/debug \;)
@@ -42,6 +42,7 @@ find libs -name '*.py' -print |
   for f in %i/lib/*.$so %i/lib/debug/*.$so; do
     install_name_tool -id $f $f
   done
+
 (cd %i/lib; for f in lib*-$boost_abi.$so; do ln -s $f $(echo $f | sed "s/-$boost_abi//"); done)
 (cd %i/lib; for f in lib*-$boost_abi.$so; do ln -s $f $f.%v ; done)
 (cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $(echo $f | sed "s/-d-$boost_abi//"); done)
