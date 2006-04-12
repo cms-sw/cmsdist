@@ -42,7 +42,7 @@ for d in $dirs; do
   done
 done
 
-./configure --prefix=%i
+./configure --prefix=%i --enable-shared
 make %makeprocesses
 
 %install
