@@ -227,13 +227,6 @@ eval "echo \"  +LIBDIR:\${ROOTCORE_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${ROOTCORE_ROOT}/include\""
 
 
-echo "TOOL:rootinteractive:"
-eval "echo \"  +ROOTINTERACTIVE_BASE:\${ROOTINTERACTIVE_ROOT}\""
-eval "echo \"  +PATH:\${ROOTINTERACTIVE_ROOT}/bin\""
-eval "echo \"  +LIBDIR:\${ROOTINTERACTIVE_ROOT}/lib\""
-eval "echo \"  +INCLUDE:\${ROOTINTERACTIVE_ROOT}/include\""
-
-
 echo "TOOL:uuid:"
 eval "echo \"  +UUID_BASE:\${UUID_ROOT}\""
 eval "echo \"  +PATH:\${UUID_ROOT}/bin\""
