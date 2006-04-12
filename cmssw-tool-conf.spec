@@ -215,8 +215,11 @@ echo "  +INCLUDE:$ROOT_ROOT/include"
 echo "  +PATH:$ROOT_ROOT/bin"
 
 echo "TOOL:rootrflx:"
-echo "  +ROOTRFLX_BASE=$ROOT_ROOT"
-echo "  +ROOTSYS=$ROOT_ROOT/root"
+echo "  +ROOTRFLX_BASE:$ROOT_ROOT"
+echo "  +ROOTSYS:$ROOT_ROOT"
+echo "  +INCLUDE:$ROOT_ROOT/include"
+echo "  +LIBDIR:$ROOT_ROOT/lib"
+echo "  +PATH:$ROOT_ROOT/bin"
 echo "  +GENREFLEX=$ROOT_ROOT/bin/genreflex"
 
 
