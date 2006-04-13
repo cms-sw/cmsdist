@@ -28,7 +28,7 @@ case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
 mkdir -p %i/lib/debug
 (cd bin/boost; find libs -path "libs/*/debug/*.$so" -exec cp {} %i/lib/debug \;)
 (cd bin/boost; find libs -path "libs/*/release/*.$so" -exec cp {} %i/lib \;)
-find boost -name '*.h' -o -name '*.hpp' -print |
+find boost -name '*.[hi]*' -print |
   while read f; do
     mkdir -p %i/include/$(dirname $f)
     install -c $f %i/include/$f
