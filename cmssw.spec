@@ -1,5 +1,5 @@
-### RPM cms cmssw CMSSW_0_6_0_pre1
-Requires: cmssw-tool-conf
+### RPM cms cmssw CMSSW_0_6_0_pre3
+Requires: cmssw-tool-conf python
 %define toolconf ${CMSSW_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
 %define cvsdir %(echo %n | tr 'a-z' 'A-Z')
 %define cvsserver %(echo %n | tr 'A-Z' 'a-z')
