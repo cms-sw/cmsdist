@@ -8,12 +8,7 @@ Requires: python mysql py2-mysqldb dbs dls boss
 %setup -n PRODAGENT
 %build
 make
-PYTHONPATH=%_builddir/PRODAGENT/src/python:$PYTHONPATH
-PRODAGENT_DIR=%i/lib/python ; export PRODAGENT_DIR
-DBS_CLIENT_DIR=$DBS_ROOT; export DBS_CLIENT_DIR
-DLS_CLIENT_DIR=$DLS_ROOT; export DLS_CLIENT_DIR
 
-python install/configure.py 
 %install
-> cp -r bin %{i}
-> cp -r lib %{i}
+cp -r bin %{i}
+cp -r lib %{i}
