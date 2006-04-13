@@ -222,7 +222,7 @@ echo "  +PATH:$ROOT_ROOT/bin"
 echo "  +GENREFLEX=$ROOT_ROOT/bin/genreflex"
 
 echo "TOOL:rootcore:"
-echo "  +ROOT_BASE:$ROOT_ROOT"
+echo "  +ROOTCORE_BASE:$ROOT_ROOT"
 echo "  +ROOTSYS:$ROOT_ROOT"
 echo "  +LIBDIR:$ROOT_ROOT/lib"
 echo "  +INCLUDE:$ROOT_ROOT/include"
