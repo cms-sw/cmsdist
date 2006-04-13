@@ -118,7 +118,6 @@ echo "  +LCGAA_BASE:$LCGAA_ROOT"
 
 echo "TOOL:coral:"
 echo "  +CORAL_BASE:$CORAL_ROOT"
-echo "  +INCLUDE:$CORAL_ROOT/src"
 
 echo "TOOL:pool:"
 echo "  +POOL_BASE:$POOL_ROOT"
@@ -222,12 +221,12 @@ echo "  +LIBDIR:$ROOT_ROOT/lib"
 echo "  +PATH:$ROOT_ROOT/bin"
 echo "  +GENREFLEX=$ROOT_ROOT/bin/genreflex"
 
-
 echo "TOOL:rootcore:"
-eval "echo \"  +ROOTCORE_BASE:\${ROOTCORE_ROOT}\""
-eval "echo \"  +PATH:\${ROOTCORE_ROOT}/bin\""
-eval "echo \"  +LIBDIR:\${ROOTCORE_ROOT}/lib\""
-eval "echo \"  +INCLUDE:\${ROOTCORE_ROOT}/include\""
+echo "  +ROOT_BASE:$ROOT_ROOT"
+echo "  +ROOTSYS:$ROOT_ROOT"
+echo "  +LIBDIR:$ROOT_ROOT/lib"
+echo "  +INCLUDE:$ROOT_ROOT/include"
+echo "  +PATH:$ROOT_ROOT/bin"
 
 
 echo "TOOL:uuid:"
