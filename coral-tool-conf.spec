@@ -177,7 +177,7 @@ eval "echo \"  +INCLUDE:\${XERCES_C_ROOT}/include\""
 PYTHON_MAJOR=$(echo $PYTHON_VERSION | sed 's/\.[0-9]*$//')
 echo "TOOL:python:"
 echo "  +PYTHON_BASE:$PYTHON_ROOT"
-echo "  +LIBDIR:$PYTHON_ROOT/lib/python$PYTHON_MAJOR/config"
+echo "  +LIBDIR:$PYTHON_ROOT/lib"
 echo "  +INCLUDE:$PYTHON_ROOT/include/python$PYTHON_MAJOR"
 echo "  +PATH:$PYTHON_ROOT/bin"
 
