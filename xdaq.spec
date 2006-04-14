@@ -1,10 +1,16 @@
 ### RPM external xdaq 3.4
 %define xdaqv %(echo %v |tr . _) 
+%define libext so
 # Download from cern afs area to speed up testing:
-Source: http://cmsdoc.cern.ch/Releases/XDAQ/XDAQ_%xdaqv/coretools_G_17559_V%xdaqv.tgz
+Source0: http://cmsdoc.cern.ch/Releases/XDAQ/XDAQ_%xdaqv/coretools_G_17559_V%xdaqv.tgz
+Source1: http://cmsdoc.cern.ch/Releases/XDAQ/XDAQ_%xdaqv/powerpack_G_28175_V1_3_1.tgz
+Source2: http://cmsdoc.cern.ch/Releases/XDAQ/XDAQ_%xdaqv/worksuite_G_28176_V1_4.tgz
 
 %prep
-%setup -n TriDAS
+%setup -T -b 0 -n TriDAS
+%setup -D -T -b 1 -n TriDAS
+%setup -D -T -b 2 -n TriDAS
+
 echo " Install root in prep:" %{i}    %{pkginstroot}
 
 %build
@@ -18,15 +24,17 @@ cp -rp *  %{i} # assuming there are no symlinks in the original source code
 cd %{i}
 export XDAQ_ROOT=$PWD
 cd %{i}/daq
-make Set=extern
+make Set=extern 
 make Set=coretools
+make Set=powerpack
+make Set=worksuite
 # The following structure used as defined in Xdaq "simplify" script:
 cd %{i}
-mkdir -p %{i}/lib/linux/x86
-mkdir -p %{i}/bin/linux/x86
+mkdir -p %{i}/lib
+mkdir -p %{i}/bin
 # Catch-all 
-find .  -type f ! -path "./lib/*.so" -name "*.so" -exec mv {}  lib/linux/x86 \;
-find .  -type f ! -path "./bin/*.exe" -name "*.exe" -exec mv {} bin/linux/x86 \;
+find .  -type f ! -path "./lib/*.%{libext}" -name "*.%{libext}" -exec mv {}  %{i}/lib \;
+find .  -type f ! -path "./bin/*.exe" -name "*.exe" -exec mv {} %{i}/bin \;
 
 # Libraries from extern (not found cause they are symlinks)
-cp -d daq/extern/*/linuxx86/lib/* lib/linux/x86
+cp -dL daq/extern/*/linuxx86/lib/* %{i}/lib
