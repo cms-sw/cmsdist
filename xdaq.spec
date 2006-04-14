@@ -37,4 +37,6 @@ find .  -type f ! -path "./lib/*.%{libext}" -name "*.%{libext}" -exec mv {}  %{i
 find .  -type f ! -path "./bin/*.exe" -name "*.exe" -exec mv {} %{i}/bin \;
 
 # Libraries from extern (not found cause they are symlinks)
-cp -dL daq/extern/*/linuxx86/lib/* %{i}/lib
+cp -rdL daq/extern/*/linuxx86/lib/* %{i}/lib
+
+find daq -type f ! -path "*/extern/*lib*" -name "*.a" -exec cp {} %{i}/lib \;
