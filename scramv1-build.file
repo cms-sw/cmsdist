@@ -162,17 +162,13 @@ scramv1 b %{additionalBuildTarget0} < /dev/null
 %install
 cd %i
 %{?buildarch:%buildarch}
-chmod u+w . .SCRAM
 # need writeable directory for profile stuff
 mkdir etc
 yes | scramv1 install # FIXME: do by hand?
-chmod u-w . .SCRAM
 
 %post
 %initenv
 cd %i
 %{?buildarch:%buildarch}
-chmod u+w .SCRAM
 yes | scramv1 install
-chmod u-w .SCRAM
 

@@ -174,7 +174,5 @@ mkdir etc
 %initenv
 cd %i
 %{?buildarch:%buildarch}
-chmod u+w .SCRAM
 yes | scram install
-chmod u-w .SCRAM
 
