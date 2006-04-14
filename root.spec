@@ -1,4 +1,4 @@
-### RPM lcg root 5.10.00b
+### RPM lcg root 5.10.00c
 # INITENV +PATH PYTHONPATH %i/lib/python
 # Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %v | tr . -)&module=root&output=/%{n}_v%{v}.source.tar.gz
 Source: ftp://root.cern.ch/%n/%{n}_v%{v}.source.tar.gz
@@ -45,7 +45,7 @@ else
   cp="cp -pPR"
 fi
 
-export ROOTSYS=%i
+export ROOTSYS=%i/root
 make INSTALL="$cp" INSTALLDATA="$cp" install
 mkdir -p %i/lib/python
-cp -r reflex/python/genreflex %i/lib/python
+cp -r reflex/python/genreflex %i/root/lib/python
