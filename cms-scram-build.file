@@ -14,4 +14,7 @@
 %define confsite	CMSconfigs
 
 %define buildarch	:
+%if "%{?buildtarget:set}" != "set"
 %define buildtarget %{nil}	
+%endif
+
