@@ -14,6 +14,7 @@ Source1: http://geant4.cern.ch/support/source/G4NDL.%{g4NDLVersion}.tar.gz
 Source2: http://geant4.cern.ch/support/source/G4EMLOW.%{g4EMLOWVersion}.tar.gz
 Source3: http://geant4.cern.ch/support/source/PhotonEvaporation.%{photonEvaporationVersion}.tar.gz
 Source4: http://geant4.cern.ch/support/source/RadiativeDecay.%{radiativeDecayVersion}.tar.gz
+Source5: http://geant4.web.cern.ch/geant4/physics_lists/geant4.6.1/lists/Packaging.tar
 
 %prep
 %setup -n %n.%v
