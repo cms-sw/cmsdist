@@ -25,4 +25,4 @@ cp etc/profile.d/dependencies-setup.sh %{i}/etc/profile.d
 cp -r bin %{i}
 cp -r lib %{i}
 %post
-%{relocateConfig}etc/profile.d/setup.sh
+%{relocateConfig}etc/profile.d/dependencies-setup.sh
