@@ -22,3 +22,14 @@ CFLAGS=-O3 CXX=gcc CXXFLAGS="-O3 -felide-constructors -fno-exceptions -fno-rtti"
    ./configure --prefix=%i --with-extra-charsets=complex \
       --enable-thread-safe-client --enable-local-infile
 make %makeprocesses
+%post
+%{relocateConfig}bin/msql2mysql
+%{relocateConfig}bin/mysqlaccess
+%{relocateConfig}bin/mysqlbug
+%{relocateConfig}bin/mysql_config
+%{relocateConfig}bin/mysqld_multi
+%{relocateConfig}bin/mysqld_safe
+%{relocateConfig}bin/mysql_fix_privilege_tables
+%{relocateConfig}bin/mysql_install_db
+
+
