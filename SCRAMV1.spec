@@ -68,6 +68,9 @@ cat Installation/SCRAM_SITE.pm.in | sed -e "s|@SCRAM_HOME@|%i|;s|@SCRAM_LOOKUPDB
 chmod 755 %instroot/bin/scramv1
 mkdir %i/etc
 echo $PERL5LIB > %i/etc/perl5lib.env
+%post
+%{relocateConfig}Installation/SCRAM_SITE.pm
+%{relocateConfig}etc/perl5lib.env
 %files
 %i
 %instroot/bin/scramv1
