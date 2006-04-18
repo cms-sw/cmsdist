@@ -1,7 +1,7 @@
 ### RPM lcg SCRAMV1 V1_0_2
 ## INITENV +PATH PATH %instroot/bin
 ## INITENV SET SCRAM_ARCH %{cmsplatf}
-Requires: perl p5-template-toolkit p5-uri p5-xml-parser p5-libwww-perl
+Requires: perl expat p5-template-toolkit p5-uri p5-xml-parser p5-libwww-perl
 # This package is somewhat unusual compared to other packages we
 # build: we install the normally versioned product "SCRAM", but also
 # create the front-end "scram" wrapper and the package database.  The
@@ -68,9 +68,21 @@ cat Installation/SCRAM_SITE.pm.in | sed -e "s|@SCRAM_HOME@|%i|;s|@SCRAM_LOOKUPDB
 chmod 755 %instroot/bin/scramv1
 mkdir %i/etc
 echo $PERL5LIB > %i/etc/perl5lib.env
+
+mkdir -p %{i}/etc/profile.d
+echo "#!/bin/sh" > %i/etc/profile.d/dependencies-setup.sh
+echo "source $PERL_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
+echo "source $EXPAT_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
+echo "source $P5_TEMPLATE_TOOLKIT_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
+echo "source $P5_URI_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
+echo "source $P5_XML_PARSER_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
+echo "source $P5_LIBWWW_PERL_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
+
 %post
-%{relocateConfig}Installation/SCRAM_SITE.pm
 %{relocateConfig}etc/perl5lib.env
+%{relocateConfig}Installation/SCRAM_SITE.pm
+%{relocateConfig}bin/scramv1
+%{relocateConfig}etc/profile.d/dependencies-setup.sh
 %files
 %i
 %instroot/bin/scramv1
