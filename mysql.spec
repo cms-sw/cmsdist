@@ -1,4 +1,6 @@
 ### RPM external mysql 5.0.18
+## INITENV +PATH LD_LIBRARY_PATH %i/lib/mysql
+
 #Different download locations according to the version.
 
 %if "%(echo %v | cut -d. -f1)" == "4"
