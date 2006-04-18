@@ -1,4 +1,4 @@
-### RPM cms prodagent PRODAGENT_0_0_1
+### RPM cms prodagent PRODAGENT_0_0_2
 ## INITENV +PATH PYTHONPATH %i/lib
 ## INITENV CMD source %i/etc/profile.d/dependencies-setup.sh
 %define cvstag %v
