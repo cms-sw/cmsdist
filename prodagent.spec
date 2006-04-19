@@ -1,5 +1,9 @@
 ### RPM cms prodagent PRODAGENT_0_0_4
 ## INITENV +PATH PYTHONPATH %i/lib
+## INITENV SET PRODAGENT_HOME %i
+## INITENV SET PRODAGENT_CONFIG %i/etc/ProdAgentConfig.xml
+## INITENV SET PRODAGENT_WORKDIR %i/workdir
+
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=PRODAGENT&export=PRODAGENT&&tag=-r%{cvstag}&output=/PRODAGENT.tar.gz
 Requires: python mysql py2-mysqldb dbs dls boss
@@ -10,6 +14,7 @@ Requires: python mysql py2-mysqldb dbs dls boss
 %install
 make PREFIX=%i install
 mkdir -p %{i}/etc/profile.d
+mkdir -p %i/workdir
 
 (echo "#!/bin/sh"; \
  echo "source $PYTHON_ROOT/etc/profile.d/init.sh"; \
