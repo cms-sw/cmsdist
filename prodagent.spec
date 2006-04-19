@@ -24,14 +24,15 @@ mkdir -p %i/workdir
  echo "source $DLS_ROOT/etc/profile.d/init.sh"; \
  echo "source $BOSS_ROOT/etc/profile.d/init.sh")  > %i/etc/profile.d/dependencies-setup.sh
 
-(echo "#!/bin/tcsh" > etc/profile.d/setup.csh"; \
- echo "source $PYTHON_ROOT/etc/profile.d/init.csh"; \
- echo "source $MYSQL_ROOT/etc/profile.d/init.csh"; \
- echo "source $PY2_MYSQLDB_ROOT/etc/profile.d/init.csh"; \
- echo "source $DBS_ROOT/etc/profile.d/init.csh"; \
- echo "source $DLS_ROOT/etc/profile.d/init.csh"; \
- echo "source $BOSS_ROOT/etc/profile.d/init.csh") > %{i}/etc/profile.d/dependencies-setup.csh
-
+cat << \EOF_DEPENDENCIES_SETUP_CSH > %{i}/etc/profile.d/dependencies-setup.csh
+#!/bin/tcsh
+source $PYTHON_ROOT/etc/profile.d/init.csh
+source $MYSQL_ROOT/etc/profile.d/init.csh
+source $PY2_MYSQLDB_ROOT/etc/profile.d/init.csh
+source $DBS_ROOT/etc/profile.d/init.csh
+source $DLS_ROOT/etc/profile.d/init.csh
+source $BOSS_ROOT/etc/profile.d/init.csh
+EOF_DEPENDENCIES_SETUP_CSH
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
