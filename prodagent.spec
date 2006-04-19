@@ -13,28 +13,26 @@ Requires: python mysql py2-mysqldb dbs dls boss
 %build
 %install
 make PREFIX=%i install
+mkdir -p %i/bin
+cp bin/* %{i}/bin
 mkdir -p %{i}/etc/profile.d
 mkdir -p %i/workdir
 
-cat << \EOF_DEPENDENCIES_SETUP_SH > %{i}/etc/profile.d/dependencies-setup.sh
-#!/bin/sh
-source $PYTHON_ROOT/etc/profile.d/init.sh
-source $MYSQL_ROOT/etc/profile.d/init.sh
-source $PY2_MYSQLDB_ROOT/etc/profile.d/init.sh
-source $DBS_ROOT/etc/profile.d/init.sh
-source $DLS_ROOT/etc/profile.d/init.sh
-source $BOSS_ROOT/etc/profile.d/init.sh
-EOF_DEPENDENCIES_SETUP_SH
+(echo "#!/bin/sh"; \
+ echo "source $PYTHON_ROOT/etc/profile.d/init.sh"; \
+ echo "source $MYSQL_ROOT/etc/profile.d/init.sh"; \
+ echo "source $PY2_MYSQLDB_ROOT/etc/profile.d/init.sh"; \
+ echo "source $DBS_ROOT/etc/profile.d/init.sh"; \
+ echo "source $DLS_ROOT/etc/profile.d/init.sh"; \
+ echo "source $BOSS_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
 
-cat << \EOF_DEPENDENCIES_SETUP_CSH > %{i}/etc/profile.d/dependencies-setup.csh
-#!/bin/tcsh
-source $PYTHON_ROOT/etc/profile.d/init.csh
-source $MYSQL_ROOT/etc/profile.d/init.csh
-source $PY2_MYSQLDB_ROOT/etc/profile.d/init.csh
-source $DBS_ROOT/etc/profile.d/init.csh
-source $DLS_ROOT/etc/profile.d/init.csh
-source $BOSS_ROOT/etc/profile.d/init.csh
-EOF_DEPENDENCIES_SETUP_CSH
+(echo "#!/bin/tcsh"; \
+ echo "source $PYTHON_ROOT/etc/profile.d/init.csh"; \
+ echo "source $MYSQL_ROOT/etc/profile.d/init.csh"; \
+ echo "source $PY2_MYSQLDB_ROOT/etc/profile.d/init.csh"; \
+ echo "source $DBS_ROOT/etc/profile.d/init.csh"; \
+ echo "source $DLS_ROOT/etc/profile.d/init.csh"; \
+ echo "source $BOSS_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
