@@ -1,4 +1,4 @@
-### RPM cms prodagent PRODAGENT_0_0_4
+### RPM cms prodagent PRODAGENT_0_0_6
 ## INITENV +PATH PYTHONPATH %i/lib
 ## INITENV SET PRODAGENT_HOME %i
 ## INITENV SET PRODAGENT_CONFIG %i/etc/ProdAgentConfig.xml
