@@ -2,7 +2,7 @@
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 # OS X patches and build fudging stolen from fink
-Requires: zlib expat openssl
+Requires: zlib expat openssl bz2lib
 # FIXME: readline, ncurses, crypt, various [ng]dbm, db-*, db[1-3],
 # FIXME: gmp, panel, tk/tcl, x11
 
@@ -11,6 +11,8 @@ Source0: http://www.python.org/ftp/%n/%v/Python-%v.tgz
 
 %prep
 %setup -n Python-%v
+perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" Lib/cgi.py
+
 %ifos darwin
  sed 's|@PREFIX@|%i|g' < %_sourcedir/python-osx | patch -p1
 %endif
@@ -28,7 +30,7 @@ Source0: http://www.python.org/ftp/%n/%v/Python-%v.tgz
 # linked specifically, or could be built by ourselves, depending on
 # whether we like to pick up system libraries or want total control.
 mkdir -p %i/include %i/lib
-dirs="$ZLIB_ROOT $EXPAT_ROOT $OPENSSL_ROOT"
+dirs="$ZLIB_ROOT $EXPAT_ROOT $OPENSSL_ROOT $BZ2LIB_ROOT"
 for d in $dirs; do
   for f in $d/include/*; do
     [ -f $f ] || continue
@@ -42,7 +44,7 @@ for d in $dirs; do
   done
 done
 
-./configure --prefix=%i --enable-shared
+./configure --prefix=%i --enable-shared --without-tk --disable-tk --without-readline
 make %makeprocesses
 
 %install
