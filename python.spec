@@ -30,7 +30,7 @@ perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" Lib/cgi.py
 # linked specifically, or could be built by ourselves, depending on
 # whether we like to pick up system libraries or want total control.
 mkdir -p %i/include %i/lib
-dirs="$ZLIB_ROOT $EXPAT_ROOT $OPENSSL_ROOT $BZ2LIB_ROOT"
+dirs="$ZLIB_ROOT $EXPAT_ROOT $OPENSSL_ROOT $BZ2LIB_ROOT $NCURSES_ROOT"
 for d in $dirs; do
   for f in $d/include/*; do
     [ -f $f ] || continue
@@ -44,7 +44,7 @@ for d in $dirs; do
   done
 done
 
-./configure --prefix=%i --enable-shared --without-tk --disable-tk --without-readline
+./configure --prefix=%i --enable-shared --without-tkinter --disable-tkinter --without-readline
 make %makeprocesses
 
 %install
