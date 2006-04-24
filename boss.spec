@@ -2,6 +2,7 @@
 ## INITENV +PATH PATH %i/bin
 %define downloadv %(echo v%v | tr '.' '_')
 Source: http://boss.bo.infn.it/%n-%downloadv.tar.gz
+Requires: uuid
 %prep
 %setup -n %n-%downloadv
 %build
