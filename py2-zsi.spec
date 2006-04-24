@@ -10,3 +10,4 @@ Requires: python
 setup.py build
 %install
 setup.py install --prefix=%{i}
+perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/wsdl2dispatch.py %{i}/bin/wsdl2py.py
