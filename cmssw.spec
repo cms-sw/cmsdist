@@ -7,8 +7,8 @@ Requires: cmssw-tool-conf python
 
 %define confversion 133
 %define conflevel   _2
-
-%define buildtarget release-build
+%define preBuildCommand (rm -rf SimMuon/DTDigitizer/test)
+%define buildtarget release-build 
 ## IMPORT cms-scram-build
 ## IMPORT scramv1-build
 
