@@ -1,7 +1,6 @@
 ### RPM cms prodagent PRODAGENT_0_0_7
 ## INITENV +PATH PYTHONPATH %i/lib
 ## INITENV SET PRODAGENT_HOME %i
-## INITENV SET PRODAGENT_CONFIG %i/etc/ProdAgentConfig.xml
 
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=PRODAGENT&export=PRODAGENT&&tag=-r%{cvstag}&output=/PRODAGENT.tar.gz
