@@ -141,7 +141,7 @@ eval "echo \"  +INCLUDE:\${XDAQ_ROOT}/include\""
 
 echo "TOOL:geant4:"
 echo "  +GEANT4_BASE:$GEANT4_ROOT"
-echo "  +GEANT4_SHARE_BASE:$GEANT4_ROOT"
+echo "  +GEANT4_SHARE_BASE:$GEANT4_ROOT/share"
 echo "  +LIBDIR:$GEANT4_ROOT/lib/$(uname)-g++"
 echo "  +INCLUDE:$GEANT4_ROOT/include"
 echo "  +G4SRC:$GEANT4_ROOT/source"
