@@ -10,6 +10,6 @@ Requires: zlib
             --with-zlib-lib-dir=$ZLIB_ROOT/lib \
             --with-zlib-include-dir=$ZLIB_ROOT/include \
             --with-jpeg-lib-dir=$ZLIB_ROOT/lib \
-            --with-jpeg-include-dir=$ZLIB_ROOT/include \
+            --with-jpeg-include-dir=$ZLIB_ROOT/include 
                           
 make %makeprocesses
