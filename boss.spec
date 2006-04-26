@@ -1,5 +1,6 @@
 ### RPM cms boss BOSS_4_0_1
 ## INITENV +PATH PATH %i/bin
+## INITENV SET BOSSDIR %i
 %define cvstag %v
 %define compProjectName BOSS
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%{compProjectName}&export=%{compProjectName}&&tag=-r%{cvstag}&output=/%{compProjectName}.tar.gz 
@@ -30,4 +31,6 @@ mkdir -p %{i}/etc/profile.d
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
-
+%{relocateConfig}fullenv.sh
+%{relocateConfig}bossenv.csh
+%{relocateConfig}bossenv.sh
