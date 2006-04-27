@@ -10,3 +10,4 @@ Requires: python expat
 ./setup.py build
 %install
 ./setup.py install --prefix=%{i}
+perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/xmlproc_parse %{i}/bin/xmlproc_val
