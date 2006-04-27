@@ -1,4 +1,4 @@
-### RPM cms boss BOSS_4_0_1
+### RPM cms boss BOSS_4_0_2
 ## INITENV +PATH PATH %i/bin
 ## INITENV SET BOSSDIR %i
 %define cvstag %v
@@ -32,6 +32,5 @@ mkdir -p %{i}/etc/profile.d
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
-%{relocateConfig}fullenv.sh
 %{relocateConfig}bossenv.csh
 %{relocateConfig}bossenv.sh
