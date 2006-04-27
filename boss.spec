@@ -10,6 +10,7 @@ Requires: mysql sqlite uuid monalisa-apmon
 %build
 export mysql_dir=$MYSQL_ROOT
 export sqlite_dir=$SQLITE_ROOT
+echo %{v} > ./VERSION
 ./configure --prefix=%{i} --with-monalisa-dir=$MONALISA_APMON_ROOT --with-uuid-lib=$UUID_ROOT/lib --with-uuid-include=$UUID_ROOT/include/uuid/
 make
 %install
