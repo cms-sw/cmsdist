@@ -13,9 +13,21 @@ Requires: python apache
             --with-python=$PYTHON_ROOT/bin/python \
             --with-apxs=$APACHE_ROOT/bin/apxs
 
+make
+
 cd dist
 python setup.py build
 
 %install
+
+mkdir -p %i/lib
+cp src/mod_python.so %i/lib
+
 cd dist
 python setup.py install --prefix=%i
+
+mv %{i}/lib/python%{pythonv}/site-packages/mod_python \
+  %{i}/lib/python%{pythonv}
+
+rm -rf %{i}/lib/python%{pythonv}/site-packages
+
