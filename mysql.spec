@@ -10,6 +10,9 @@
 %endif
 
 Source: %source
+Requires: perl-virtual
+# Let's fake the fact that we have perl (DBI) so that rpm does not complain.
+Provides: perl(DBI)
 
 %prep
 %setup -n %n-%v
