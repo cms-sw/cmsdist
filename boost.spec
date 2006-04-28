@@ -2,7 +2,7 @@
 # Patches and build fudging by Lassi A. Tuura <lat@iki.fi> (FIXME: contribute to boost)
 # define boostver -%v <-- for 1.30.2
 %define boostver _%(echo %v | tr . _)
-Requires: boost-build python
+Requires: boost-build python bz2lib zlib
 Source: http://dl.sourceforge.net/sourceforge/%n/%{n}%{boostver}.tar.gz
 #Patch: boost
 
@@ -17,9 +17,14 @@ Source: http://dl.sourceforge.net/sourceforge/%n/%{n}%{boostver}.tar.gz
 # RPM falsely detecting a problem.
 PR="PYTHON_ROOT=$PYTHON_ROOT"
 PV="PYTHON_VERSION=$(echo $PYTHON_VERSION | sed 's/\.[0-9]*$//')"
+BZ2LIBR="BZ2LIB_LIBPATH=$BZ2LIB_ROOT/lib"
+ZLIBR="ZLIB_LIBPATH=$ZLIB_ROOT/lib"
+BZ2LIBI="BZ2LIB_INCLUDE=$BZ2LIB_ROOT/include"
+ZLIBI="ZLIB_INCLUDE=$ZLIB_ROOT/include"
+
 case $(uname) in
-  Darwin )  bjam -s$PR -s$PV -sTOOLS=darwin || true ;;
-  * )       bjam -s$PR -s$PV -sTOOLS=gcc ;;
+  Darwin )  bjam -s$PR -s$PV -s$BZ2LIBR -s$ZLIBR -sTOOLS=darwin || true ;;
+  * )       bjam -s$PR -s$PV -s$BZ2LIBR -s$ZLIBR -sTOOLS=gcc ;;
 esac
 
 %install
@@ -48,3 +53,6 @@ find libs -name '*.py' -print |
 (cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $(echo $f | sed "s/-d-$boost_abi//"); done)
 (cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $f.%v; done)
 (cd %i/lib/libs/python/pyste/install; python setup.py install --prefix=%i)
+
+perl -p -i -e "s|^#!.*python|/usr/bin/env python|" $(find %{i}/lib %{i}/bin)
+
