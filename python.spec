@@ -3,7 +3,7 @@
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 # OS X patches and build fudging stolen from fink
 Requires: zlib expat openssl bz2lib ncurses gdbm db4
-# FIXME: readline, ncurses, crypt, various [ng]dbm, db-*, db[1-3],
+# FIXME: readline, crypt 
 # FIXME: gmp, panel, tk/tcl, x11
 
 Source0: http://www.python.org/ftp/%n/%v/Python-%v.tgz
@@ -49,19 +49,21 @@ make %makeprocesses
 
 %install
 make install
+%define pythonv %(echo %v | cut -d. -f 1,2)
+
 if [ $(uname) = Darwin ]; then
   # make install prefix=%i 
   # (cd Misc; /bin/rm -rf RPM)
   # mkdir -p %i/share/doc/%n
   # cp -R Demo Doc %i/share/doc/%n
-  # cp -R Misc Tools %i/lib/python2.3
+  # cp -R Misc Tools %i/lib/python%{pythonv}
   cc -dynamiclib -all_load -single_module \
     -framework System -framework CoreServices -framework Foundation \
-    %i/lib/python2.3/config/libpython2.3.a \
-    -o %i/lib/python2.3/config/libpython2.3.dylib \
-    -install_name %i/lib/python2.3/config/libpython2.3.dylib \
-    -current_version 2.3 -compatibility_version 2.3 -ldl
-  ln -s libpython2.3.dylib %i/lib/python2.3/config/libpython23.dylib # for boost
-  # (cd %i/lib/python2.3/config; mv Makefile Makefile.orig;
+    %i/lib/python%{pythonv}/config/libpython%{pythonv}.a \
+    -o %i/lib/python%{pythonv}/config/libpython%{pythonv}.dylib \
+    -install_name %i/lib/python%{pythonv}/config/libpython%{pythonv}.dylib \
+    -current_version %{pythonv} -compatibility_version %{pythonv} -ldl
+  ln -s libpython%{pythonv}.dylib %i/lib/python%{pythonv}/config/libpython%{pythonv}.dylib # for boost
+  # (cd %i/lib/python%{pythonv}/config; mv Makefile Makefile.orig;
   #  sed 's|-fno-common||g' < Makefile.orig > Makefile; /bin/rm -f Makefile.orig)
 fi
