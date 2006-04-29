@@ -4,7 +4,7 @@ Source: http://ftp.sunet.se/pub/gnu/gmp/%{n}-%{v}.tar.gz
 
 
 %build
-configure --prefix=%i
+./configure --prefix=%i
 make
 
 %install
