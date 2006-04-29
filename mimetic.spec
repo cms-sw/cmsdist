@@ -4,7 +4,7 @@ Source: http://codesink.org/download/%{n}-%{v}.tar.gz
 %description
 
 %build
-configure --prefix=%i
+./configure --prefix=%i
 make
 
 %install
