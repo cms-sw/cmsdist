@@ -2,7 +2,7 @@
 # INITENV +PATH PYTHONPATH %i/lib/python
 # Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %v | tr . -)&module=root&output=/%{n}_v%{v}.source.tar.gz
 Source: ftp://root.cern.ch/%n/%{n}_v%{v}.source.tar.gz
-Requires: gccxml python qt gsl
+Requires: gccxml python qt gsl rfio openssl openssl-virtual
 Patch0: root
 %prep
 %setup -n root
@@ -20,7 +20,15 @@ CONFIG_ARGS="--enable-table
              --enable-reflex  
              --enable-cintex 
              --enable-minuit2 
-             --enable-roofit"
+             --enable-roofit
+             --disable-ldap
+             --disable-krb5
+             --with-ssl-incdir=${OPENSSL_ROOT}/include
+             --with-ssl-libdir=${OPENSSL_ROOT}/lib
+             --with-shift-incdir=${RFIO_ROOT}/include
+             --with-shift-libdir=${RFIO_ROOT}/lib
+             --disable-pgsql
+             --disable-xml"
 
 case $(uname)-$(uname -m) in
   Linux-x86_64)
