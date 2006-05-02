@@ -87,3 +87,5 @@ tar -C %i/data -zxvf %_sourcedir/G4NDL*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/G4EMLOW*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/Photon*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/Rad*.tar.gz
+mkdir -p %i/share
+cp -r %_sourcedir/physics_lists  %i/share 
