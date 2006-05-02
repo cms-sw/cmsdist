@@ -1,7 +1,19 @@
 ### RPM lcg SCRAMV1 V1_0_2
 ## INITENV +PATH PATH %instroot/bin
 ## INITENV SET SCRAM_ARCH %{cmsplatf}
-Requires: perl expat p5-template-toolkit p5-uri p5-xml-parser p5-libwww-perl
+## INITENV +PATH PERL5LIB %{i}
+Requires: perl-virtual expat p5-template-toolkit p5-uri p5-xml-parser p5-libwww-perl
+Provides: perl(SCRAM::Helper)
+Provides: perl(Utilities::AddDir) 
+Provides: perl(Utilities::Architecture) 
+Provides: perl(Utilities::SCRAMUtils)
+Provides: perl(ActiveDoc::GroupChecker)
+Provides: perl(ActiveDoc::UserInterface_basic)
+Provides: perl(ActiveDoc::UserQuery)
+Provides: perl(Doxygen::Context)
+Provides: perl(Graph::Graph)
+Provides: perl(ObjectStore)
+
 # This package is somewhat unusual compared to other packages we
 # build: we install the normally versioned product "SCRAM", but also
 # create the front-end "scram" wrapper and the package database.  The
@@ -35,15 +47,14 @@ Source0: %{cvsrepo}&tag=-r%{v}&module=SCRAM&output=/source.tar.gz
 
 %prep
 %setup -n SCRAM
-
 %build
 %install
 tar -cf - . | tar -C %i -xvvf -
-
+rm -rf %i/cgi
 mkdir -p %instroot/bin %instroot/share/scramdb %i/Installation
 
-cat Installation/scram.pl.in | sed -e "s|@PERLEXE@|$PERL_ROOT/bin/perl|;s|@SCRAM_HOME@|%i|;s|@INSTALLDIR@|%i/src|" > %instroot/bin/scramv1
-cat Installation/SCRAM_SITE.pm.in | sed -e "s|@SCRAM_HOME@|%i|;s|@SCRAM_LOOKUPDB_DIR@|%instroot/share/scramdb/|;s|@PERLEXE@|$PERL_ROOT/bin/perl|;s|@TT2INSTALLDIR@|$TEMPLATE_TOOLKIT_ROOT/lib|;s|@SITETEMPLATEDIR@|%i/Templates|;s|@SCRAM_SITENAME@|STANDALONE|" > %i/Installation/SCRAM_SITE.pm
+cat Installation/scram.pl.in | sed -e "s|@PERLEXE@|/usr/bin/env perl|;s|@SCRAM_HOME@|%i|;s|@INSTALLDIR@|%i/src|" > %instroot/bin/scramv1
+cat Installation/SCRAM_SITE.pm.in | sed -e "s|@SCRAM_HOME@|%i|;s|@SCRAM_LOOKUPDB_DIR@|%instroot/share/scramdb/|;s|@PERLEXE@|/usr/bin/env perl|;s|@TT2INSTALLDIR@|$TEMPLATE_TOOLKIT_ROOT/lib|;s|@SITETEMPLATEDIR@|%i/Templates|;s|@SCRAM_SITENAME@|STANDALONE|" > %i/Installation/SCRAM_SITE.pm
 
 # cat > %instroot/bin/scramv1 << \EOF
 # #!/bin/sh
@@ -71,18 +82,25 @@ echo $PERL5LIB > %i/etc/perl5lib.env
 
 mkdir -p %{i}/etc/profile.d
 echo "#!/bin/sh" > %i/etc/profile.d/dependencies-setup.sh
-echo "source $PERL_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
 echo "source $EXPAT_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
 echo "source $P5_TEMPLATE_TOOLKIT_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
 echo "source $P5_URI_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
 echo "source $P5_XML_PARSER_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
 echo "source $P5_LIBWWW_PERL_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
 
+perl -p -i -e "s|#!.*perl|/usr/bin/env perl|" %{i}/doc/doxygen/DoxyFilt.pl
+
 %post
 %{relocateConfig}etc/perl5lib.env
 %{relocateConfig}Installation/SCRAM_SITE.pm
-%{relocateConfig}bin/scramv1
+
+if [ -f $RPM_INSTALL_PREFIX/%pkgrel/bin/scramv1 ]
+then
+%{relocateConfig}%{instroot}/bin/scramv1
+fi
+
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
+perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/bin/scramv1 
 %files
 %i
 %instroot/bin/scramv1
