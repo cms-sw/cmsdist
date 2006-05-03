@@ -55,5 +55,5 @@ fi
 
 export ROOTSYS=%i/root
 make INSTALL="$cp" INSTALLDATA="$cp" install
-mkdir -p %i/lib/python
+mkdir -p %i/root/lib/python
 cp -r reflex/python/genreflex %i/root/lib/python
