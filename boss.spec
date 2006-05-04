@@ -4,7 +4,7 @@
 %define cvstag %v
 %define compProjectName BOSS
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%{compProjectName}&export=%{compProjectName}&&tag=-r%{cvstag}&output=/%{compProjectName}.tar.gz 
-Requires: mysql sqlite uuid monalisa-apmon
+Requires: mysql sqlite uuid monalisa-apmon xml2-virtual xsl-virtual
 %prep
 %setup -n %{compProjectName}
 %build
