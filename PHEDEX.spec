@@ -5,6 +5,21 @@ Provides: perl(UtilsMisc) perl(fmonMRs)
 
 %prep
 %setup -n %n
+
 %build
+
 %install
+mkdir -p %i/etc
 tar -cf - * | (cd %i && tar -xf -)
+
+mkdir -p %i/etc/profile.d
+for x in %pkgreqs; do
+ p=%{instroot}/%{cmsplatf}/$(echo $x | sed 's/\([^+]*\)+\(.*\)+\([A-Z0-9].*\)/\1 \2 \3/' | tr ' ' '/')
+ [ -d $p ] || continue # filter out /bin/sh and other weird stuff...
+ echo ". $p/etc/profile.d/init.sh" >> %i/etc/profile.d/env.sh
+ echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/env.csh
+done
+
+%post
+%{relocateConfig}etc/profile.d/env.sh
+%{relocateConfig}etc/profile.d/env.csh
