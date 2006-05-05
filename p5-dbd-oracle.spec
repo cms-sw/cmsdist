@@ -3,9 +3,20 @@
 %define perlarch $(perl -e 'use Config; print $Config{archname}')
 %define downloadn DBD-Oracle
 Source: http://mirror.switch.ch/ftp/mirror/CPAN/authors/id/P/PY/PYTHIAN/%downloadn-%v.tar.gz
+
 Requires: perl-virtual p5-dbi oracle
 %prep
 %setup -n %{downloadn}-%{v}
+
 %build
-perl Makefile.PL LIB=%i/lib/site_perl/$PERL_VERSION/
+patch Makefile.PL << \EOF
+diff Makefile.PL.orig Makefile.PL
+1407a1408
+>        "$OH/include", # Tim Barrass, hacked for OIC install from zips
+EOF
+%ifos darwin
+[ $(uname) = Darwin ] perl -p -i -e 's/NMEDIT = nmedit/NMEDIT = true/' Makefile.PL
+%endif
+
+perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/$PERL_VERSION -l -m $ORACLE_HOME/demo/demo.mk
 make
