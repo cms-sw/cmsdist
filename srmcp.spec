@@ -25,4 +25,4 @@ cp -p $HOME/.srmconfig/config.xml %i/etc/config.xml
 perl -p -i -e "s|$HOME|%i|" %i/etc/config.xml
 
 %post
-%{relocateConfig}.srmconfig/config.xml
+%{relocateConfig}etc/config.xml
