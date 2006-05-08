@@ -3,6 +3,9 @@ Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMS
 Requires: oracle oracle-env p5-time-hires p5-text-glob p5-compress-zlib p5-dbi p5-dbd-oracle p5-xml-parser srmcp python
 Provides: perl(UtilsMisc) perl(fmonMRs)
 
+# Extra requires so we get everything necessary for env.{,c}sh.
+Requires: perl-virtual zlib expat openssl bz2lib ncurses gdbm db4
+
 %prep
 %setup -n %n
 
@@ -14,8 +17,8 @@ tar -cf - * | (cd %i && tar -xf -)
 
 mkdir -p %i/etc/profile.d
 for x in %pkgreqs; do
+ case $x in /* ) continue ;; esac
  p=%{instroot}/%{cmsplatf}/$(echo $x | sed 's/\([^+]*\)+\(.*\)+\([A-Z0-9].*\)/\1 \2 \3/' | tr ' ' '/')
- [ -d $p ] || continue # filter out /bin/sh and other weird stuff...
  echo ". $p/etc/profile.d/init.sh" >> %i/etc/profile.d/env.sh
  echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/env.csh
 done

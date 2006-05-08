@@ -1,6 +1,7 @@
 ### RPM external p5-dbd-oracle 1.17
-## INITENV +PATH PERL5LIB %i/lib/site_perl/$PERL_VERSION/%perlarch
-%define perlarch $(perl -e 'use Config; print $Config{archname}')
+## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion/%perlarch
+%define perlversion %(perl -e 'printf "%%vd", $^V')
+%define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn DBD-Oracle
 Source: http://mirror.switch.ch/ftp/mirror/CPAN/authors/id/P/PY/PYTHIAN/%downloadn-%v.tar.gz
 
@@ -20,5 +21,5 @@ EOF
 [ $(uname) = Darwin ] perl -p -i -e 's/NMEDIT = nmedit/NMEDIT = true/' Makefile.PL
 %endif
 
-perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/$PERL_VERSION -l -m $ORACLE_HOME/demo/demo.mk
+perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion -l -m $ORACLE_HOME/demo/demo.mk
 make

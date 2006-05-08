@@ -1,6 +1,7 @@
 ### RPM external p5-dbi 1.50
-## INITENV +PATH PERL5LIB %i/lib/site_perl/$PERL_VERSION/%perlarch
-%define perlarch $(perl -e 'use Config; print $Config{archname}')
+## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion/%perlarch
+%define perlversion %(perl -e 'printf "%%vd", $^V')
+%define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn DBI
 ## Let's fake the provides of windows stuff for the time being.
 Provides: perl(RPC::PlClient)
@@ -12,5 +13,5 @@ Source:  http://cpan.mirror.solnet.ch/authors/id/T/TI/TIMB/%{downloadn}-%{v}.tar
 %prep
 %setup -n %downloadn-%v
 %build
-perl Makefile.PL LIB=%i/lib/site_perl/$PERL_VERSION PREFIX=%i
+perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion
 make

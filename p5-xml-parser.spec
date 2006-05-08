@@ -1,14 +1,15 @@
 ### RPM external p5-xml-parser 2.34
-## INITENV +PATH PERL5LIB $P5_XML_PARSER_ROOT/lib/site_perl/$PERL_VERSION/%perlarch
+## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion/%perlarch
+%define perlversion %(perl -e 'printf "%%vd", $^V')
+%define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn XML-Parser
-%define perlarch $(perl -e 'use Config; print $Config{archname}')
 Requires: perl-virtual expat
 Source: http://mirror.switch.ch/ftp/mirror/CPAN/authors/id/M/MS/MSERGEANT/%{downloadn}-%{v}.tar.gz
 %prep 
 %setup -n %downloadn-%v
 %build
 which perl
-perl Makefile.PL PREFIX=%{i} \
+perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion \
                  EXPATLIBPATH=$EXPAT_ROOT/lib \
                  EXPATINCPATH=$EXPAT_ROOT/include
 make
