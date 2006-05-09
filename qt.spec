@@ -20,6 +20,7 @@
 %endif
 
 # Requires: zlib, ...
+Requires: x11
 Source0: ftp://ftp.trolltech.com/qt/source/%n-mac-free-%{qtversion}.tar.bz2
 Source1: ftp://ftp.trolltech.com/qt/source/%n-x11-free-%{qtversion}.tar.bz2
 
