@@ -6,9 +6,10 @@ Source1: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclien
 Source2: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-sqlplus-linux32-10.2.0.1-20050713.zip
 
 %prep
-unzip -f %_sourcedir/instantclient-basic*.zip
-unzip -f %_sourcedir/instantclient-sdk*.zip
-unzip -f %_sourcedir/instantclient-sqlplus*.zip
+rm -rf instantclient_$(echo %v | cut -f1,2 -d. | tr . _)
+yes | unzip %_sourcedir/instantclient-basic*.zip
+yes | unzip %_sourcedir/instantclient-sdk*.zip
+yes | unzip %_sourcedir/instantclient-sqlplus*.zip
 %build
 %install
 mkdir -p %i/bin %i/etc %i/lib %i/admin %i/java %i/demo %i/include
