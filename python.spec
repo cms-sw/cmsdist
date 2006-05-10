@@ -2,7 +2,7 @@
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 # OS X patches and build fudging stolen from fink
-Requires: zlib expat openssl bz2lib ncurses gdbm db4
+Requires: zlib expat openssl bz2lib ncurses gdbm db4 glibc
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, tk/tcl, x11
 
@@ -67,3 +67,11 @@ if [ $(uname) = Darwin ]; then
   # (cd %i/lib/python%{pythonv}/config; mv Makefile Makefile.orig;
   #  sed 's|-fno-common||g' < Makefile.orig > Makefile; /bin/rm -f Makefile.orig)
 fi
+
+perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
+                    %{i}/bin/pydoc \
+                    %{i}/bin/smtpd.py \
+                    %{i}/lib/python2.4/bsddb/dbshelve.py \
+                    %{i}/lib/python2.4/test/test_bz2.py \
+                    %{i}/lib/python2.4/test/test_largefile.py \
+                    %{i}/lib/python2.4/test/test_optparse.py
