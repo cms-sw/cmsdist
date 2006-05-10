@@ -1,5 +1,6 @@
 ### RPM external zlib 1.1.4
 Source: http://www.gzip.org/%n/%n-%v.tar.bz2
+Requires: glibc
 
 %build
 case $(uname) in
