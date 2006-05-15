@@ -1,6 +1,6 @@
 ### RPM lcg coral CORAL_1_3_1
 Requires: coral-tool-conf
-%define confversion 42a 
+%define confversion 43
 %define toolconf ${CORAL_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
 %define cvsdir coral
 %define cvsserver CORAL
