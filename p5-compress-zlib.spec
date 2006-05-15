@@ -4,7 +4,6 @@
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn Compress-Zlib
 
-Requires: perl-virtual
 Requires: zlib
 Source: http://search.cpan.org/CPAN/authors/id/P/PM/PMQS/%{downloadn}-%{v}.tar.gz
 %prep

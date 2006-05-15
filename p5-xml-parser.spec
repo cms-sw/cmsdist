@@ -3,7 +3,7 @@
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn XML-Parser
-Requires: perl-virtual expat
+Requires: expat
 Source: http://mirror.switch.ch/ftp/mirror/CPAN/authors/id/M/MS/MSERGEANT/%{downloadn}-%{v}.tar.gz
 %prep 
 %setup -n %downloadn-%v

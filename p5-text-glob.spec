@@ -4,7 +4,6 @@
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn Text-Glob
 
-Requires: perl-virtual
 Source: http://search.cpan.org/CPAN/authors/id/R/RC/RCLAMP/%{downloadn}-%{v}.tar.gz
 %prep
 %setup -n %downloadn-%v

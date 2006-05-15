@@ -4,7 +4,6 @@
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn Time-HiRes
 
-Requires: perl-virtual
 Source: http://search.cpan.org/CPAN/authors/id/J/JH/JHI/%{downloadn}-%{v}.tar.gz
 %prep
 %setup -n %downloadn-%v

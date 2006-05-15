@@ -8,7 +8,6 @@ Provides: perl(RPC::PlClient)
 Provides: perl(RPC::PlServer)
 Provides: perl(Win32::ODBC)
 
-Requires: perl-virtual
 Source:  http://cpan.mirror.solnet.ch/authors/id/T/TI/TIMB/%{downloadn}-%{v}.tar.gz
 %prep
 %setup -n %downloadn-%v
