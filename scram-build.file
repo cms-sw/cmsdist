@@ -84,6 +84,9 @@ Source4: %source4
 %endif
 
 cd ..
+# Makes sure that GCC_EXEC_PREFIX is not a Runtime_PATH
+perl -p -i -e 's!GCC_BASE/lib/gcc-lib/" type=Runtime_path!GCC_BASE/lib/gcc-lib/"!' SCRAMToolBox/Compilers/CXX/*
+
 %{?patchsrc:%patchsrc}
 %{?patchsrc2:%patchsrc2}
 %{?patchsrc3:%patchsrc3}
@@ -172,7 +175,8 @@ mkdir etc
 
 %post
 %initenv
-cd %i
+source $RPM_INSTALL_PREFIX/lcg/SCRAM/%(echo $SCRAM_VERSION)/etc/profile.d/init.sh
+cd $RPM_INSTALL_PREFIX/lcg/%n/%v
 %{?buildarch:%buildarch}
 yes | scram install
 
