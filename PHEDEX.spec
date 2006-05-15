@@ -1,10 +1,10 @@
 ### RPM cms PHEDEX PHEDEX_2_3_2
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%n&export=%n&&tag=-r%{v}&output=/%n.tar.gz
 Requires: oracle oracle-env p5-time-hires p5-text-glob p5-compress-zlib p5-dbi p5-dbd-oracle p5-xml-parser srmcp python
-Provides: perl(UtilsMisc) perl(fmonMRs)
+Provides: perl(UtilsMisc)
 
 # Extra requires so we get everything necessary for env.{,c}sh.
-Requires: perl-virtual zlib expat openssl bz2lib ncurses gdbm db4
+Requires: zlib expat openssl bz2lib
 
 %prep
 %setup -n %n
