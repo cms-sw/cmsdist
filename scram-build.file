@@ -85,7 +85,7 @@ Source4: %source4
 
 cd ..
 # Makes sure that GCC_EXEC_PREFIX is not a Runtime_PATH
-perl -p -i -e 's!GCC_BASE/lib/gcc-lib/" type=Runtime_path!GCC_BASE/lib/gcc-lib/"!' SCRAMToolBox/Compilers/CXX/*
+perl -p -i -e 's!(.*)GCC_EXEC_PREFIX(.*)Runtime_path(.*)!$1GCC_EXEC_PREFIX$2$3!' SCRAMToolBox/Compilers/CXX/*
 
 %{?patchsrc:%patchsrc}
 %{?patchsrc2:%patchsrc2}
