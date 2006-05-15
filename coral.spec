@@ -5,7 +5,7 @@ Requires: coral-tool-conf
 %define cvsdir coral
 %define cvsserver CORAL
 %define srctree coral
-%define configtree coral/config
+%define configtree coral/config/scram
 # This allows to compile CORAL on linux systems that are not recognized as slc3 but still linux based.
 %define patchsrc if [ "%cmsplatf" != "slc3_ia32_gcc323" ] && [ "$(uname)" = "Linux" ]; then cp config/slc3_ia32_gcc323.mk config/%{cmsplatf}.mk; fi 
 %define patchinstall mkdir -p %{i}/include; for x in `ls %{i}/src`; do if [ -d %{i}/src/$x/$x ]; then cp -r %{i}/src/$x/$x %{i}/include; fi ; done
@@ -18,3 +18,5 @@ Requires: coral-tool-conf
 ## IMPORT lcg-scram-build
 ## IMPORT scram-build
 
+#
+#
