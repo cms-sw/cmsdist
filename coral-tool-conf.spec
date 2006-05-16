@@ -297,5 +297,5 @@ eval "echo \"  +INCLUDE:\${PCRE_ROOT}/include\""
 %install
 mkdir %i/configurations/
 cp tools.conf %i/configurations/tools-STANDALONE.conf
-#
-#
+%post
+%{relocateConfig}configurations/tools-STANDALONE.conf
