@@ -2,7 +2,7 @@
 ## INITENV +PATH PATH %instroot/bin
 ## INITENV SET SCRAM_ARCH %{cmsplatf}
 ## INITENV +PATH PERL5LIB %{i}
-Requires: perl-virtual expat p5-template-toolkit p5-uri p5-xml-parser p5-libwww-perl
+Requires: expat p5-template-toolkit p5-uri p5-xml-parser p5-libwww-perl
 Provides: perl(SCRAM::Helper)
 Provides: perl(Utilities::AddDir) 
 Provides: perl(Utilities::Architecture) 
