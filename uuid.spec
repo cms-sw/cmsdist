@@ -23,3 +23,5 @@ mkdir -p %i/lib
 mkdir -p %i/include
 cd lib/uuid
 make install
+%post
+ln -sf $RPM_INSTALL_PREFIX/%cmsplatf/external/%n/%v/lib/libuuid.so.1.2 $RPM_INSTALL_PREFIX/%cmsplatf/external/%n/%v/lib/libuuid.so
