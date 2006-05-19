@@ -167,6 +167,8 @@ if [ $(uname) = Darwin ]; then
 fi
 
 %scrambuildcmd
+rm -rf %i/tmp
+
 %install
 cd %i
 # need writeable directory for profile stuff
