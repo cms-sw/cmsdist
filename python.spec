@@ -2,7 +2,7 @@
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 # OS X patches and build fudging stolen from fink
-Requires: zlib expat openssl bz2lib db4 gdbm
+Requires: zlib expat openssl bz2lib db4 gdbm openssl
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, tk/tcl, x11
 
