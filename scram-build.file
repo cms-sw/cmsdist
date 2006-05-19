@@ -180,8 +180,9 @@ mkdir etc
 #FIXME: hardcoded until we understand how to get it from SCRAM installation.
 echo %scramVersion
 source $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAM/V0_20_0/etc/profile.d/init.sh
-cd $RPM_INSTALL_PREFIX/%cmsplatf/lcg/%n/%v
-perl -p -i -e "s|%i|$RPM_INSTALL_PREFIX|" $(grep -r %i $RPM_INSTALL_PREFIX/%cmsplatf/lcg/%n/%v/{.SCRAM,config} | cut -d: -f1)
+cd $RPM_INSTALL_PREFIX/%{pkgrel}
+echo perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|" $(grep -r %{instroot} $RPM_INSTALL_PREFIX/%{pkgrel}/{.SCRAM,config} | cut -d: -f1)
+perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|" $(grep -r %{instroot} $RPM_INSTALL_PREFIX/%{pkgrel}/{.SCRAM,config} | cut -d: -f1)
 %{?buildarch:%buildarch}
 yes | scram install
 
