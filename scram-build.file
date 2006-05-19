@@ -64,6 +64,7 @@ Source2: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/s
 Source3: %source3
 Source4: %source4
 
+%define scramVersion %(scram version)
 
 %prep
 # Create a SCRAM project area, but using the already extracted
@@ -166,7 +167,6 @@ if [ $(uname) = Darwin ]; then
 fi
 
 %scrambuildcmd
-
 %install
 cd %i
 # need writeable directory for profile stuff
@@ -175,8 +175,10 @@ mkdir etc
 
 %post
 %initenv
-source $RPM_INSTALL_PREFIX/lcg/SCRAM/%(echo $SCRAM_VERSION)/etc/profile.d/init.sh
-cd $RPM_INSTALL_PREFIX/lcg/%n/%v
+#FIXME: hardcoded until we understand how to get it from SCRAM installation.
+echo %scramVersion
+source $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAM/V0_20_0/etc/profile.d/init.sh
+cd $RPM_INSTALL_PREFIX/%cmsplatf/lcg/%n/%v
 %{?buildarch:%buildarch}
 yes | scram install
 
