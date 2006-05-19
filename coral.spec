@@ -17,7 +17,3 @@ Requires: coral-tool-conf
 
 ## IMPORT lcg-scram-build
 ## IMPORT scram-build
-
-#
-#
-#
