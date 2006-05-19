@@ -28,7 +28,7 @@ CFLAGS=-O3 CXX=gcc CXXFLAGS="-O3 -felide-constructors -fno-exceptions -fno-rtti"
 make %makeprocesses
 %install
 make install
-perl -p -i -e "s|^#!.*perl|#!/usr/bin/env perl|" $(grep -r /usr/local/bin/perl . | cut -d: -f1)
+perl -p -i -e "s|^#!.*perl(.*)|#!/usr/bin/env perl$1|" $(grep -r /usr/local/bin/perl . | cut -d: -f1)
 %post
 %{relocateConfig}bin/msql2mysql
 %{relocateConfig}bin/mysqlaccess
