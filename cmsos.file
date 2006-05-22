@@ -6,7 +6,7 @@ elif [ `uname` = Linux ]; then
     echo suse`grep -i '^version' < /etc/SuSE-release | tr -dc '[0-9]'`
   elif grep -q Scientific /etc/redhat-release 2>/dev/null; then
     slc_version=$(grep Scientific /etc/redhat-release |
-		  sed 's/.*release \([0-9]*\)\..*/\1/')
+		  sed 's/.*[rR]elease \([0-9]*\)\..*/\1/')
     if grep -q Intel /proc/cpuinfo 2>/dev/null; then
       echo slc${slc_version}_ia32
     else
