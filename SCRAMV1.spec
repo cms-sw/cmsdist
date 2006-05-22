@@ -82,7 +82,6 @@ echo $PERL5LIB > %i/etc/perl5lib.env
 
 mkdir -p %{i}/etc/profile.d
 echo "#!/bin/sh" > %i/etc/profile.d/dependencies-setup.sh
-echo "source $PERL_VIRTUAL_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
 echo "source $EXPAT_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
 echo "source $P5_TEMPLATE_TOOLKIT_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
 echo "source $P5_URI_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
