@@ -168,6 +168,7 @@ scramv1 b -r %{buildtarget} </dev/null
 %if "%{?additionalBuildTarget0:set}" == "set"
 scramv1 b %{additionalBuildTarget0} < /dev/null
 %endif
+rm -rf %i/tmp
 
 %install
 cd %i
@@ -180,6 +181,7 @@ yes | scramv1 install # FIXME: do by hand?
 %initenv
 source $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/V1_0_2/etc/profile.d/init.sh
 cd $RPM_INSTALL_PREFIX/%cmsplatf/cms/%n/%v
+perl -p -i -e 's|%{instroot}|$RPM_INSTALL_PREFIX|g' $(find config) $(find .SCRAM)
 %{?buildarch:%buildarch}
 yes | scramv1 install
 
