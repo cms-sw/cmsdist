@@ -5,7 +5,7 @@ Source: http://webglimpse.net/trial/glimpse-%{v}.tar.gz
 %setup -n glimpse-%v
 %build
 ./configure --prefix=%{i} 
-make %makeprocesses
+make 
 
 %install
 make install
