@@ -19,7 +19,6 @@ Requires: lcgaa
 Requires: coral
 Requires: pool
 Requires: seal
-Requires: ignominy
 Requires: xdaq
 Requires: geant4
 Requires: hepmc
