@@ -50,7 +50,6 @@ Requires: elementtree
 Requires: bz2lib
 Requires: pcre
 Requires: dcap
-Requires: rulechecker
 Requires: cppunit
 Requires: qt
 Requires: soqt
@@ -66,7 +65,6 @@ Requires: genser
 Requires: genser
 
 Requires: tkonlinesw
-Requires: fed9uutils
 Requires: icutils
 Requires: doxygen
 Requires: meschach
