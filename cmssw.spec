@@ -3,7 +3,7 @@ Requires: cmssw-tool-conf python
 %define toolconf ${CMSSW_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
 %define cvsdir %(echo %n | tr 'a-z' 'A-Z')
 %define cvsserver %(echo %n | tr 'A-Z' 'a-z')
-%define patchsrc perl -p -i -e 's!<select name=(MyODBC|ignominy|rulechecker|fed9uutils)>!!' config/requirements ;
+%define patchsrc perl -p -i -e 's!<select name=(MyODBC|ignominy|rulechecker)>!!' config/requirements ;
 
 %define confversion 134a
 %define conflevel   _2

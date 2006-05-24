@@ -65,6 +65,7 @@ Requires: genser
 Requires: genser
 
 Requires: tkonlinesw
+Requires: fed9uutils
 Requires: icutils
 Requires: doxygen
 Requires: meschach
