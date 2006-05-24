@@ -20,6 +20,8 @@ Requires: coral
 Requires: pool
 Requires: seal
 Requires: xdaq
+Requires: curl
+
 Requires: geant4
 Requires: hepmc
 Requires: heppdt
