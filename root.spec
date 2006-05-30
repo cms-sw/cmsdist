@@ -35,7 +35,7 @@ case $(uname)-$(uname -m) in
     ./configure linuxx8664gcc $CONFIG_ARGS;; 
   Linux*)
     ./configure linux $CONFIG_ARGS;;
-  Darwin)
+  Darwin*)
     ./configure macosx $CONFIG_ARGS;;
 esac
 
