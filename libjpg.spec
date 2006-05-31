@@ -1,8 +1,19 @@
 ### RPM external libjpg 6b
 Source: ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v%{v}.tar.gz
 Source1: config.sub-amd64
+Patch0: libjpg-config.sub
+Patch1: libjpg-config.guess
+Patch2: libjpg-ltmain.sh
+Patch3: libjpg-ltconfig
+Patch4: libjpg-makefile.cfg
 %prep
 %setup -n jpeg-%v
+%patch0
+%patch1
+%patch2
+%patch3
+%patch4
+
 %build
 # libjpg ships with an old version of config.sub. 
 if [ "$(uname -m)" == "x86_64" ]
