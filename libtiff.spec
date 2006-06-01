@@ -9,7 +9,7 @@ Requires: zlib
 ./configure --prefix=%{i} \
             --with-zlib-lib-dir=$ZLIB_ROOT/lib \
             --with-zlib-include-dir=$ZLIB_ROOT/include \
-            --with-jpeg-lib-dir=$ZLIB_ROOT/lib \
-            --with-jpeg-include-dir=$ZLIB_ROOT/include 
+            --with-jpeg-lib-dir=$LIBJPG_ROOT/lib \
+            --with-jpeg-include-dir=$LIBJPG_ROOT/include 
                           
 make %makeprocesses
