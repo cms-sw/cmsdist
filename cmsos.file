@@ -31,7 +31,13 @@ elif [ `uname` = Linux ]; then
     fi
   fi
 elif [ `uname` = Darwin ]; then
-  echo osx`sw_vers -productVersion | cut -d. -f1,2 | tr -dc [0-9]`
+  if [ "$(uname -m)" == "i386" ]
+  then
+	cputype=ia32
+  else
+	cputype=ppc32
+  fi
+  echo osx`sw_vers -productVersion | cut -d. -f1,2 | tr -dc [0-9]`_$cputype
 elif [ $(uname | cut -d_ -f1) = CYGWIN ]; then
   echo win32_ia32
 else
