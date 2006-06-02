@@ -22,9 +22,19 @@
 # Requires: zlib, ...
 Source0: ftp://ftp.trolltech.com/qt/source/%n-mac-free-%{qtversion}.tar.bz2
 Source1: ftp://ftp.trolltech.com/qt/source/%n-x11-free-%{qtversion}.tar.bz2
+Patch0: qt-mkspecs-qmake.conf
+Patch1: qt-mkspecs-qplatformdefs.h
+Patch2: qt-src-kernel-qaccessible_mac.cpp
+Patch3: qt-src-qt_install.pri
 
 %prep
 %setup -T -b %sourcepkg -n %n-%type-free-%{qtversion}
+%ifos darwin
+%patch0 -p0
+%patch1 -p0
+%patch2 -p0
+%patch3 -p0
+%endif
 
 %build
 unset QMAKESPEC || true
