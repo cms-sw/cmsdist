@@ -30,7 +30,6 @@ Patch3: qt-src-qt_install.pri
 %prep
 %setup -T -b %sourcepkg -n %n-%type-free-%{qtversion}
 %ifos darwin
-%patch0 -p0
 %patch1 -p0
 %patch2 -p0
 %patch3 -p0
