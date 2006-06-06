@@ -14,3 +14,4 @@ Source:  http://cpan.mirror.solnet.ch/authors/id/T/TI/TIMB/%{downloadn}-%{v}.tar
 %build
 perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion
 make
+perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' $(grep -r -e "^#!.*perl.*" %{_builddir} | cut -d: -f 1)
