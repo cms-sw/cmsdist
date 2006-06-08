@@ -2,6 +2,7 @@
 %define download dir %(echo %v | cut -d. -f1,2)
 Source: http://www.cmake.org/files/v1.8/%n-%v.tar.gz
 Patch1: cmake
+Requires: zlib
 
 %prep
 
