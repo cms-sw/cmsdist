@@ -92,6 +92,7 @@ perl -p -i -e 's!(.*)GCC_EXEC_PREFIX(.*)Runtime_path(.*)!$1GCC_EXEC_PREFIX$2$3!'
 %{?patchsrc2:%patchsrc2}
 %{?patchsrc3:%patchsrc3}
 %{?patchsrc4:%patchsrc4}
+%{?patchsrc5:%patchsrc5}
 
 perl -p -i -e '
   # Keep track whether we are in a toolbox area or not
