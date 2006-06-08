@@ -1,17 +1,16 @@
 ### RPM external xdaq 3.4
 %define xdaqv %(echo %v |tr . _) 
 %define libext so
+%define to_be_removed_externals cppunit gmp mimetic xerces tinyproxy 
+
+Requires: xerces-c
+Requires: mimetic
+
 # Download from cern afs area to speed up testing:
-Source0: http://cmsdoc.cern.ch/Releases/XDAQ/XDAQ_%xdaqv/coretools_G_17559_V%xdaqv.tgz
-Source1: http://cmsdoc.cern.ch/Releases/XDAQ/XDAQ_%xdaqv/powerpack_G_28175_V1_3_1.tgz
-Source2: http://cmsdoc.cern.ch/Releases/XDAQ/XDAQ_%xdaqv/worksuite_G_28176_V1_4.tgz
+Source: http://cmsdoc.cern.ch/Releases/XDAQ/XDAQ_%xdaqv/coretools_G_17559_V%xdaqv.tgz
 
 %prep
-%setup -T -b 0 -n TriDAS
-%setup -D -T -b 1 -n TriDAS
-%setup -D -T -b 2 -n TriDAS
-
-echo " Install root in prep:" %{i}    %{pkginstroot}
+%setup -n TriDAS
 
 %build
 # Xdaq does not provide makeinstall,  it uses "simplify" script instead to 
@@ -26,12 +25,15 @@ export XDAQ_ROOT=$PWD
 cd %{i}/daq
 make Set=extern 
 make Set=coretools
-make Set=powerpack
-make Set=worksuite
 # The following structure used as defined in Xdaq "simplify" script:
 cd %{i}
 mkdir -p %{i}/lib
 mkdir -p %{i}/bin
+
+# Remove unneeded and standard externals that can be re-used from CMS distribution:
+
+for extern in %{to_be_removed_externals}; do echo removing external from daq: ${extern} ...;  rm -rf daq/extern/${extern}; done 
+
 # Catch-all 
 find .  -type f ! -path "./lib/*.%{libext}" -name "*.%{libext}" -exec mv {}  %{i}/lib \;
 find .  -type f ! -path "./bin/*.exe" -name "*.exe" -exec mv {} %{i}/bin \;
