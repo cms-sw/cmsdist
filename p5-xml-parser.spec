@@ -13,6 +13,9 @@ perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion \
                  EXPATLIBPATH=$EXPAT_ROOT/lib \
                  EXPATINCPATH=$EXPAT_ROOT/include
 make
-make test
+case $(uname)-$(uname -m) in
+  Linux*)
+    make test
+esac
 %install
 make install
