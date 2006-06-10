@@ -10,7 +10,7 @@ Patch0: root
 
 %build
 mkdir -p %i
-export ROOTSYS=%i
+export ROOTSYS=%_builddir/root
 CONFIG_ARGS="--enable-table 
              --with-gccxml=${GCCXML_ROOT} 
              --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include 
