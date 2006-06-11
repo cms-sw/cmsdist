@@ -11,7 +11,7 @@ Requires: python mysql py2-mysqldb dbs dls boss
 %install
 make PREFIX=%i install
 mkdir -p %i/bin
-cp bin/* %{i}/bin
+cp bin/prod* %{i}/bin
 mkdir -p %{i}/etc/profile.d
 mkdir -p %i/workdir
 
