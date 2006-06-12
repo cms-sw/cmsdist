@@ -21,12 +21,14 @@ mkdir -p %{i}/etc/profile.d
  echo "source $UUID_ROOT/etc/profile.d/init.sh"; \
  echo "source $MYSQL_ROOT/etc/profile.d/init.sh"; \
  echo "source $SQLITE_ROOT/etc/profile.d/init.sh"; \
+ echo "source $XERCES_C_ROOT/etc/profile.d/init.sh"; \
  echo "source $MONALISA_APMON_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
 
 (echo "#!/bin/tcsh"; \
  echo "source $UUID_ROOT/etc/profile.d/init.csh"; \
  echo "source $MYSQL_ROOT/etc/profile.d/init.csh"; \
  echo "source $SQLITE_ROOT/etc/profile.d/init.csh"; \
+ echo "source $XERCES_C_ROOT/etc/profile.d/init.csh"; \
  echo "source $MONALISA_APMON_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 %post
