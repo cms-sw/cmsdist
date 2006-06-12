@@ -64,7 +64,7 @@ Source2: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/s
 Source3: %source3
 Source4: %source4
 
-%define scramVersion %(scram version)
+####%define scramVersion %(scram version)
 
 %prep
 # Create a SCRAM project area, but using the already extracted
@@ -179,7 +179,6 @@ mkdir etc
 %post
 %initenv
 #FIXME: hardcoded until we understand how to get it from SCRAM installation.
-echo %scramVersion
 source $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAM/V0_20_0/etc/profile.d/init.sh
 cd $RPM_INSTALL_PREFIX/%{pkgrel}
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|" $(grep -r %{instroot} $RPM_INSTALL_PREFIX/%{pkgrel}/{.SCRAM,config} | cut -d: -f1)
