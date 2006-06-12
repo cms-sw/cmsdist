@@ -1,12 +1,12 @@
-### RPM lcg root 5.10.00c
+### RPM lcg root 5.11.02
 # INITENV +PATH PYTHONPATH %i/lib/python
 # Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %v | tr . -)&module=root&output=/%{n}_v%{v}.source.tar.gz
 Source: ftp://root.cern.ch/%n/%{n}_v%{v}.source.tar.gz
 Requires: gccxml python qt gsl rfio openssl mysql libpng libjpg libtiff
-Patch0: root
+#Patch0: root
 %prep
 %setup -n root
-%patch0
+#%patch0
 
 %build
 mkdir -p %i
