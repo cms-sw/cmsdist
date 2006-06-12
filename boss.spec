@@ -1,4 +1,4 @@
-### RPM cms boss BOSS_4_0_11
+### RPM cms boss BOSS_4_1_1
 ## INITENV +PATH PATH %i/bin
 ## INITENV SET BOSSDIR %i
 %define cvstag %v
