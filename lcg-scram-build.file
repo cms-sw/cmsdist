@@ -30,7 +30,3 @@
  %define buildtarget	release
 %endif
 
-%ifos darwin
- %define patchsrc	%patch0
-%endif
-
