@@ -4,14 +4,14 @@
 %define cvstag %v
 %define compProjectName BOSS
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%{compProjectName}&export=%{compProjectName}&&tag=-r%{cvstag}&output=/%{compProjectName}.tar.gz 
-Requires: mysql sqlite uuid monalisa-apmon libxml2 libxslt
+Requires: mysql sqlite uuid monalisa-apmon xerces-c
 %prep
 %setup -n %{compProjectName}
 %build
 export mysql_dir=$MYSQL_ROOT
 export sqlite_dir=$SQLITE_ROOT
 echo %{v} > ./VERSION
-./configure --prefix=%{i} --with-monalisa-dir=$MONALISA_APMON_ROOT --with-uuid-lib=$UUID_ROOT/lib --with-uuid-include=$UUID_ROOT/include/uuid/
+./configure --prefix=%{i} --with-monalisa-dir=$MONALISA_APMON_ROOT --with-uuid-lib=$UUID_ROOT/lib --with-uuid-include=$UUID_ROOT/include/uuid/ --with-xercesc-lib=$XERCES_C_ROOT/lib --with-xercesc-include=$XERCES_C_ROOT/include
 make
 %install
 make install
