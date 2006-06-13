@@ -1,4 +1,5 @@
 ### RPM external libtiff 3.8.2
+
 Source: http://dl.maptools.org/dl/libtiff/tiff-%{v}.zip
 Requires: libjpg
 Requires: zlib
