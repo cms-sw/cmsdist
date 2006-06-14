@@ -1,4 +1,4 @@
-### RPM external geant4 7.1
+### RPM external geant4 7.1p1cms
 ## INITENV SET G4NDL_PATH %i/data/G4NDL%{g4NDLVersion}
 ## INITENV SET G4EMLOW_PATH %i/data/G4EMLOW%{g4EMLOWVersion}
 ## INITENV SET PHOTON_EVAPORATION_PATH %i/data/PhotonEvaportation%{photonEvaporationVersion}
@@ -15,11 +15,12 @@ Source2: http://geant4.cern.ch/support/source/G4EMLOW.%{g4EMLOWVersion}.tar.gz
 Source3: http://geant4.cern.ch/support/source/PhotonEvaporation.%{photonEvaporationVersion}.tar.gz
 Source4: http://geant4.cern.ch/support/source/RadiativeDecay.%{radiativeDecayVersion}.tar.gz
 Source5: http://geant4.web.cern.ch/geant4/physics_lists/geant4.6.1/lists/Packaging.tar
+Patch: geant4-g4e-and-g4tubs
 
 %prep
 %setup -n %n.%v
 %ifos darwin
-#patch0 -p1
+patch0 -p7
 #%patch1
 %endif
 
