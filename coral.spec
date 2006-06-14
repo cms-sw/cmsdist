@@ -1,6 +1,7 @@
-### RPM lcg coral CORAL_1_4_2
+### RPM lcg coral CORAL_1_4_3
+## IMPORT configurations
 Requires: coral-tool-conf
-%define confversion 43
+%define confversion %lcgConfiguration 
 %define toolconf ${CORAL_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
 %define cvsdir coral
 %define cvsserver CORAL
