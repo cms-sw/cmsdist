@@ -1,5 +1,7 @@
-### RPM external xdaq 3.4
-%define xdaqv %(echo %v |tr . _) 
+### RPM external xdaq 3.5.2
+# Get xdaq 3.5.2 from DAQKit-03-09-01, according to version information at
+# http://cmsdoc.cern.ch/cms/TRIDAS/DAQKit/version-03-09/doc/html/componentList.html
+
 %define libext so
 %define to_be_removed_externals cppunit gmp mimetic xerces tinyproxy 
 
@@ -7,8 +9,7 @@ Requires: xerces-c
 Requires: mimetic
 
 # Download from cern afs area to speed up testing:
-Source: http://cmsdoc.cern.ch/Releases/XDAQ/XDAQ_%xdaqv/coretools_G_17559_V%xdaqv.tgz
-
+Source: http://cmsdoc.cern.ch/cms/TRIDAS/DAQKit/version-03-09/software/tars/DAQKit-03-09-01.tgz
 %prep
 %setup -n TriDAS
 
