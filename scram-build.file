@@ -125,31 +125,6 @@ perl -p -i -e '
 ' SCRAMToolBox/Configuration/Configuration \
   SCRAMToolBox/CMS/Configuration/CMSconfiguration
 
-# patch configuration to compile on other linux distributions than the one recognized as slc3.
-if [ "$(uname)" = "Linux" ] && [ "%{cmsplatf}" != "slc3_ia32_gcc323" ]
-then
-    perl -p -i -e '
-      # FIXME: Replace slc3_ia32_gcc323 with rh306_gcc32. 
-      # It should actually be the other way around and slc3_ia32_gcc323 should
-      # be used everywhere
-      s!slc3_ia32_gcc323!%cmsplatf!;
-      s!slc3_ia32_gcc32!%cmsplatf!;
-      s!slc3_ia32_gcc3!%cmsplatf!;
-    ' %{bootstrapfile} \
-      %{configtree}/BuildFile \
-      %{configtree}/RequirementsDoc \
-      SCRAMToolBox/Configuration/Configuration \
-      SCRAMToolBox/CMS/Configuration/CMSconfiguration
-
-    TOOLFILESTOPATCH=$(grep "<architecture name=sl>" SCRAMToolBox/*/* SCRAMToolBox/*/*/* | sed -e "s/\(.*\):.*/\1/")
-    if [ "$TOOLFILESTOPATCH" != "" ]
-    then
-        perl -p -i -e '
-            s!<architecture name=sl>!<architecture name=%cmsplatf>!;
-            ' $TOOLFILESTOPATCH
-    fi
-fi
-
 mkdir -p $(dirname %i)
 %{?buildarch:%buildarch}
 { while true; do sleep 0.5; echo "."; done |
