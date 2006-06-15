@@ -31,7 +31,8 @@ Requires: python
 Requires: boost
 Requires: xerces-c
 Requires: root
-Requires: rootcintex
+Requires: root
+
 Requires: root
 
 Requires: root
@@ -208,13 +209,6 @@ eval "echo \"  +INCLUDE:\${XERCES_C_ROOT}/include\""
 echo "TOOL:root:"
 echo "  +ROOT_BASE:$ROOT_ROOT"
 echo "  +ROOTSYS:$ROOT_ROOT/root"
-
-
-echo "TOOL:rootcintex:"
-eval "echo \"  +ROOTCINTEX_BASE:\${ROOTCINTEX_ROOT}\""
-eval "echo \"  +PATH:\${ROOTCINTEX_ROOT}/bin\""
-eval "echo \"  +LIBDIR:\${ROOTCINTEX_ROOT}/lib\""
-eval "echo \"  +INCLUDE:\${ROOTCINTEX_ROOT}/include\""
 
 echo "TOOL:rootrflx:"
 echo "  +ROOTRFLX_BASE:$ROOT_ROOT"
