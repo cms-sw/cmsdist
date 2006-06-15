@@ -1,4 +1,4 @@
-### RPM external xdaq 3.4
+### RPM external xdaq 3.5
 %define xdaqv %(echo %v |tr . _) 
 %define libext so
 # Download from cern afs area to speed up testing:
