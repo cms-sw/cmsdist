@@ -1,5 +1,5 @@
 ### RPM external p5-time-hires 1.66
-## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion/%perlarch
+## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn Time-HiRes
