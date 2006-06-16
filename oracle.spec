@@ -9,6 +9,11 @@ Source3: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclien
 Source4: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-sdk-linux-x86-64-10.2.0.2-20060228.zip
 Source5: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-sqlplus-linux-x86-64-10.2.0.2-20060228.zip
 
+Source6: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-basic-macosx-10.1.0.3.zip
+Source7: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-sdk-macosx-10.1.0.3.zip
+Source8: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-sqlplus-macosx-10.1.0.3.zip
+
+
 ## INITENV +PATH SQLPATH %i/bin
 %prep
 rm -rf instantclient_*
@@ -23,6 +28,11 @@ case %cmsos in
     yes | unzip %_sourcedir/*-sdk-*linux-x86-64*.zip
     yes | unzip %_sourcedir/*-sqlplus-*linux-x86-64*.zip
     ;;
+  osx* )
+    yes | unzip %_sourcedir/*-basic-*macosx*.zip
+    yes | unzip %_sourcedir/*-sdk-*macosx*.zip
+    yes | unzip %_sourcedir/*-sqlplus-*macosx*.zip
+    ;;  
 esac
 
 %build
