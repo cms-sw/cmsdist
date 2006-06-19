@@ -116,3 +116,4 @@ perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/bin/scra
 %instroot/bin/scramv1
 %instroot/share/scramdb
 %exclude %instroot/share/scramdb/project.lookup
+#
