@@ -18,3 +18,4 @@ perl -p -i -e 's|^#!.*perl|#!/usr/bin/env perl|' blib/script/dbiprof
 perl -p -i -e 's|^#!.*perl|#!/usr/bin/env perl|' blib/script/dbiproxy
 perl -p -i -e 's|^#!.*perl|#!/usr/bin/env perl|' dbiprof
 perl -p -i -e 's|^#!.*perl|#!/usr/bin/env perl|' dbiproxy
+#

@@ -19,3 +19,4 @@ case $(uname)-$(uname -m) in
 esac
 %install
 make install
+#

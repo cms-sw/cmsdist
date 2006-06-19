@@ -23,3 +23,4 @@ EOF
 
 perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion -l -m $ORACLE_HOME/demo/demo.mk
 make
+#
