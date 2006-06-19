@@ -52,6 +52,7 @@ Source0: %{cvsrepo}&tag=-r%{v}&module=SCRAM&output=/source.tar.gz
 tar -cf - . | tar -C %i -xvvf -
 rm -rf %i/cgi
 mkdir -p %instroot/bin %instroot/share/scramdb %i/Installation
+touch %instroot/share/scramdb/project.lookup
 
 cat Installation/scram.pl.in | sed -e "s|@PERLEXE@|/usr/bin/env perl|;s|@SCRAM_HOME@|%i|;s|@INSTALLDIR@|%i/src|" > %instroot/bin/scramv1
 cat Installation/SCRAM_SITE.pm.in | sed -e "s|@SCRAM_HOME@|%i|;s|@SCRAM_LOOKUPDB_DIR@|%instroot/share/scramdb/|;s|@PERLEXE@|/usr/bin/env perl|;s|@TT2INSTALLDIR@|$TEMPLATE_TOOLKIT_ROOT/lib|;s|@SITETEMPLATEDIR@|%i/Templates|;s|@SCRAM_SITENAME@|STANDALONE|" > %i/Installation/SCRAM_SITE.pm
@@ -114,3 +115,4 @@ perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/bin/scra
 %i
 %instroot/bin/scramv1
 %instroot/share/scramdb
+%exclude %instroot/share/scramdb/project.lookup
