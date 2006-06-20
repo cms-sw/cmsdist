@@ -20,8 +20,7 @@ Patch: geant4-g4e-and-g4tubs
 
 %prep
 %setup -n %n.%downloadv
-%patch0 -p7
-
+%patch -p0
 %build
 # Linux? -pthread?
 touch G4BuildConf.sh
