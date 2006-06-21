@@ -1,13 +1,9 @@
-### RPM external frontier_client 2.4.1
-#Source: http://edge.fnal.gov:8888/frontier/%{n}__%{v}_cms__src.tar.gz
-Source: http://cern.ch/service-spi/external/tarFiles/%{n}__%{v}_cms__src.tar.gz
-Patch0: frontier-x86-64
+### RPM external frontier_client 2.4.5
+Source: http://edge.fnal.gov:8888/frontier/%{n}__%{v}_cms__src.tar.gz
+#Source: http://cern.ch/service-spi/external/tarFiles/%{n}__%{v}_cms__src.tar.gz
 Requires: expat
 %prep
 %setup -n %{n}__%{v}_cms__src
-%if "%{cmsplatf}" == "slc3_amd64_gcc345"
-%patch0
-%endif
 
 %build 
 make EXPAT_DIR=$EXPAT_ROOT \
