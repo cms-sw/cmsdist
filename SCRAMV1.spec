@@ -81,6 +81,7 @@ chmod 755 %instroot/bin/scramv1
 mkdir %i/etc
 echo $PERL5LIB > %i/etc/perl5lib.env
 
+mkdir -p %{instroot}/%{cmsplatf}/etc/profile.d
 mkdir -p %{i}/etc/profile.d
 echo "#!/bin/sh" > %i/etc/profile.d/dependencies-setup.sh
 echo "source $EXPAT_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
@@ -98,6 +99,8 @@ echo "source $P5_LIBWWW_PERL_ROOT/etc/profile.d/init.csh" >> %i/etc/profile.d/de
 
 
 perl -p -i -e "s|#!.*perl|/usr/bin/env perl|" %{i}/doc/doxygen/DoxyFilt.pl
+ln -sf %{i}/etc/profile.d/init.sh  %{instroot}/%{cmsplatf}/etc/profile.d/S00SCRAMV1.sh
+ln -sf %{i}/etc/profile.d/init.csh %{instroot}/%{cmsplatf}/etc/profile.d/S00SCRAMV1.csh
 
 %post
 %{relocateConfig}etc/perl5lib.env
@@ -111,9 +114,15 @@ fi
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/bin/scramv1 
+ln -sf $RPM_INSTALL_PREFIX/%pkgrel/etc/profile.d/init.sh $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/profile.d/S00SCRAM.sh
+ln -sf $RPM_INSTALL_PREFIX/%pkgrel/etc/profile.d/init.csh $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/profile.d/S00SCRAM.csh
+
 %files
 %i
 %instroot/bin/scramv1
 %instroot/share/scramdb
+%{instroot}/%{cmsplatf}/etc/profile.d
+%{instroot}/%{cmsplatf}/etc/profile.d/S00SCRAM.sh
+%{instroot}/%{cmsplatf}/etc/profile.d/S00SCRAM.csh
 %exclude %instroot/share/scramdb/project.lookup
 #
