@@ -114,15 +114,13 @@ fi
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/bin/scramv1 
-ln -sf $RPM_INSTALL_PREFIX/%pkgrel/etc/profile.d/init.sh $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/profile.d/S00SCRAM.sh
-ln -sf $RPM_INSTALL_PREFIX/%pkgrel/etc/profile.d/init.csh $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/profile.d/S00SCRAM.csh
+ln -sf $RPM_INSTALL_PREFIX/%pkgrel/etc/profile.d/init.sh $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/profile.d/S00SCRAMV1.sh
+ln -sf $RPM_INSTALL_PREFIX/%pkgrel/etc/profile.d/init.csh $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/profile.d/S00SCRAMV1.csh
 
 %files
 %i
 %instroot/bin/scramv1
 %instroot/share/scramdb
-%{instroot}/%{cmsplatf}/etc/profile.d
-%{instroot}/%{cmsplatf}/etc/profile.d/S00SCRAM.sh
-%{instroot}/%{cmsplatf}/etc/profile.d/S00SCRAM.csh
+%{instroot}/%{cmsplatf}/etc/profile.d/S00SCRAMV1.sh
+%{instroot}/%{cmsplatf}/etc/profile.d/S00SCRAMV1.csh
 %exclude %instroot/share/scramdb/project.lookup
-#
