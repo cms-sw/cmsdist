@@ -1,5 +1,5 @@
 ### RPM external sigcpp 2.0.17
-%define majorv 2.0
+%define majorv %(echo %v | cut -d. -f1,2) 
 Source: http://ftp.gnome.org/pub/GNOME/sources/libsigc++/%{majorv}/libsigc++-%{v}.tar.gz
 
 %prep
@@ -7,8 +7,4 @@ Source: http://ftp.gnome.org/pub/GNOME/sources/libsigc++/%{majorv}/libsigc++-%{v
 ./configure  --prefix=%{i} 
 
 %build
-make 
-
-%install
-make install
-
+make %makeprocesses 
