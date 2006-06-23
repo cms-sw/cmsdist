@@ -5,3 +5,5 @@ Source: http://cern.ch/castor/DIST/CERN/savannah/CASTOR.pkg/%v/castor-%downloadv
 
 %prep
 %setup -n castor-%downloadv
+%build
+make
