@@ -1,8 +1,8 @@
-### RPM lcg root 5.11.02
+### RPM lcg root 5.11.06a
 # INITENV +PATH PYTHONPATH %i/lib/python
-# Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %v | tr . -)&module=root&output=/%{n}_v%{v}.source.tar.gz
-Source: ftp://root.cern.ch/%n/%{n}_v%{v}.source.tar.gz
-Requires: gccxml python qt gsl rfio openssl mysql libpng libjpg libtiff
+Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %v | tr . -)&module=root&output=/%{n}_v%{v}.source.tar.gz
+#Source: ftp://root.cern.ch/%n/%{n}_v%{v}.source.tar.gz
+Requires: gccxml python qt gsl castor openssl mysql libpng libjpg libtiff
 #Patch0: root
 %prep
 %setup -n root
@@ -26,8 +26,8 @@ CONFIG_ARGS="--enable-table
              --disable-krb5
              --with-ssl-incdir=${OPENSSL_ROOT}/include
              --with-ssl-libdir=${OPENSSL_ROOT}/lib
-             --with-shift-incdir=${RFIO_ROOT}/include
-             --with-shift-libdir=${RFIO_ROOT}/lib
+             --with-shift-incdir=${CASTOR_ROOT}/include
+             --with-shift-libdir=${CASTOR_ROOT}/lib
              --disable-pgsql
              --disable-xml"
 
