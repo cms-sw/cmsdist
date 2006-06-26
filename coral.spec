@@ -10,6 +10,7 @@ Requires: coral-tool-conf
 # This allows to compile CORAL on linux systems that are not recognized as slc3 but still linux based.
 %define patchsrc if [ "%cmsplatf" != "slc3_ia32_gcc323" ] && [ "$(uname)" = "Linux" ]; then cp %{configtree}/slc3_ia32_gcc323.mk %{configtree}/%{cmsplatf}.mk; fi 
 %define patchsrc2 perl -p -i -e "s|(project name=CORAL version=).*>|project name=CORAL version=%v>/BootStrapFileSRC|" %{configtree}/BootStrapFileSRC
+%define patchsrc3 rm -rf %{srctree}/SQLiteAccess/tests
 %define patchinstall mkdir -p %{i}/include; for x in `ls %{i}/src`; do if [ -d %{i}/src/$x/$x ]; then cp -r %{i}/src/$x/$x %{i}/include; fi ; done
 
 %define conflevel   _1
