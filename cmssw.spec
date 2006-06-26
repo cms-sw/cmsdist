@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_0_7_1
+### RPM cms cmssw CMSSW_0_8_0_pre2
 ## IMPORT configurations
 Requires: cmssw-tool-conf python
 %define toolconf ${CMSSW_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
