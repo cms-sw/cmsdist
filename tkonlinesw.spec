@@ -1,5 +1,5 @@
-### RPM external tkonlinesw 1.0
-Source: afs:///afs/cern.ch/cms/external/TkOnlineSw/1.0/slc3_ia32_gcc323?export=/%{n}-%{v}.tar.gz
+### RPM external tkonlinesw 1.1
+Source: afs:///afs/cern.ch/cms/external/TkOnlineSw/1.1/slc3_ia32_gcc323?export=/%{n}-%{v}.tar.gz
 %build
 %install
 mkdir -p %i/include

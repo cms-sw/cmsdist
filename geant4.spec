@@ -1,4 +1,4 @@
-### RPM external geant4 7.1-p1cms
+### RPM external geant4 7.1-p2cms
 %define downloadv %(echo %v | cut -d- -f1)
 ## INITENV SET G4NDL_PATH %i/data/G4NDL%{g4NDLVersion}
 ## INITENV SET G4EMLOW_PATH %i/data/G4EMLOW%{g4EMLOWVersion}
@@ -24,7 +24,7 @@ Patch: geant4-g4e-and-g4tubs
 %build
 # Linux? -pthread?
 touch G4BuildConf.sh
-echo "export OS_ARCH=%{cmspatf}" >> G4BuildConf.sh
+echo "export OS_ARCH=%{cmsplatf}" >> G4BuildConf.sh
 #FIXME: is this correct???
 echo "export G4SYSTEM=$(uname)-g++" >> G4BuildConf.sh
 echo "export G4INSTALL=%i" >> G4BuildConf.sh
@@ -79,6 +79,8 @@ make %makeprocesses -C $G4BASE
 %install
 mkdir -p %i/etc
 cp G4BuildConf.sh %i/etc
+cp %i/lib/$(uname)-g++/*.so %i/lib
+cp %i/lib/$(uname)-g++/libname.map %i/lib
 # Build already installed into prefix
 mkdir -p %i/data
 tar -C %i/data -zxvf %_sourcedir/G4NDL*.tar.gz
