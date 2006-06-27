@@ -1,9 +1,9 @@
-### RPM external frontier_client 2.4.5
-Source: http://edge.fnal.gov:8888/frontier/%{n}__%{v}_cms__src.tar.gz
-#Source: http://cern.ch/service-spi/external/tarFiles/%{n}__%{v}_cms__src.tar.gz
+### RPM external frontier_client 2.4.5_cms
+Source: http://edge.fnal.gov:8888/frontier/%{n}__%{v}__src.tar.gz
+#Source: http://cern.ch/service-spi/external/tarFiles/%{n}__%{v}__src.tar.gz
 Requires: expat
 %prep
-%setup -n %{n}__%{v}_cms__src
+%setup -n %{n}__%{v}__src
 
 %build 
 make EXPAT_DIR=$EXPAT_ROOT \
