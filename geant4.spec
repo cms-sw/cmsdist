@@ -16,7 +16,7 @@ Source2: http://geant4.cern.ch/support/source/G4EMLOW.%{g4EMLOWVersion}.tar.gz
 Source3: http://geant4.cern.ch/support/source/PhotonEvaporation.%{photonEvaporationVersion}.tar.gz
 Source4: http://geant4.cern.ch/support/source/RadiativeDecay.%{radiativeDecayVersion}.tar.gz
 Source5: http://geant4.web.cern.ch/geant4/physics_lists/geant4.6.1/lists/Packaging.tar
-Patch: geant4-g4e-and-g4tubs
+Patch: geant4-g4e-and-g4tubs-pCMS2
 
 %prep
 %setup -n %n.%downloadv
@@ -79,8 +79,9 @@ make %makeprocesses -C $G4BASE
 %install
 mkdir -p %i/etc
 cp G4BuildConf.sh %i/etc
-cp %i/lib/$(uname)-g++/*.so %i/lib
-cp %i/lib/$(uname)-g++/libname.map %i/lib
+mv %i/lib/$(uname)-g++/*.so %i/lib
+mv %i/lib/$(uname)-g++/libname.map %i/lib
+rm -rf %i/lib/$(uname)-g++
 # Build already installed into prefix
 mkdir -p %i/data
 tar -C %i/data -zxvf %_sourcedir/G4NDL*.tar.gz
