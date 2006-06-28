@@ -20,7 +20,7 @@ Patch: geant4-g4e-and-g4tubs-pCMS2
 
 %prep
 %setup -n %n.%downloadv
-%patch -p7
+%patch -p0
 %build
 # Linux? -pthread?
 touch G4BuildConf.sh
@@ -90,3 +90,4 @@ tar -C %i/data -zxvf %_sourcedir/Photon*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/Rad*.tar.gz
 mkdir -p %i/share
 cp -r physics_lists  %i/share 
+#
