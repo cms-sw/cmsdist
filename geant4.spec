@@ -90,4 +90,3 @@ tar -C %i/data -zxvf %_sourcedir/Photon*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/Rad*.tar.gz
 mkdir -p %i/share
 cp -r physics_lists  %i/share 
-#
