@@ -1,5 +1,5 @@
 ### RPM external java-jdk 1.5.0.p6
-## BUILDIF [ $(uname) != Darwin ]
+## BUILDIF [ "$(uname)" != "Darwin" ]
 
 Provides: libasound.so.2
 Provides: libasound.so.2(ALSA_0.9) 
@@ -19,18 +19,20 @@ Provides: libodbcinst.so
 %define downloadarch amd64
 %endif
 
-%if "%{?downloadarch:set}" != "set"
-%error Unsupported architecture.
-%endif
+Source0: http://eulisse.web.cern.ch/eulisse/jdk-%downloadv-linux-i586.bin
+Source1: http://eulisse.web.cern.ch/eulisse/jdk-%downloadv-linux-amd64.bin
 
-Source: http://eulisse.web.cern.ch/eulisse/jdk-%downloadv-linux-%downloadarch.bin
 %prep
+%if %(uname) != Darwin
 ls
 %define javadir jdk%(echo %v| sed -e "s/.p/_0/")
 rm -rf %javadir
 yes | sh %{_sourcedir}/jdk-%downloadv-linux-%downloadarch.bin
 cd %javadir
+%endif
 %build
 %install
+%if %(uname) != Darwin
 ls 
 cp -r %javadir/* %i
+%endif
