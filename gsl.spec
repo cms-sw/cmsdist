@@ -9,3 +9,4 @@ case $(uname)-$(uname -m) in
 esac
 
 make %makeprocesses
+# mysqlpp.spec

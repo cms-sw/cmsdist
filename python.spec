@@ -89,3 +89,4 @@ perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
                     %{i}/lib/python2.4/test/test_bz2.py \
                     %{i}/lib/python2.4/test/test_largefile.py \
                     %{i}/lib/python2.4/test/test_optparse.py
+# boost.spec rfio.spec
