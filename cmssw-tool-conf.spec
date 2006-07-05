@@ -25,12 +25,27 @@ Requires: geant4
 Requires: hepmc
 Requires: heppdt
 Requires: clhep
+Requires: castor
 Requires: rfio
 Requires: zlib
 Requires: python
 Requires: boost
+Requires: boost
+
+Requires: boost
+
+Requires: boost
+
 Requires: xerces-c
 Requires: root
+Requires: root
+
+Requires: root
+
+Requires: root
+
+Requires: root
+
 Requires: root
 
 Requires: root
@@ -50,6 +65,8 @@ Requires: python
 Requires: boost
 Requires: elementtree
 
+Requires: sigcpp
+Requires: mimetic
 Requires: bz2lib
 Requires: pcre
 Requires: dcap
@@ -59,6 +76,7 @@ Requires: qt
 Requires: soqt
 Requires: coin
 
+Requires: curl
 Requires: simage
 Requires: openssl
 Requires: hippodraw
@@ -190,6 +208,13 @@ eval "echo \"  +LIBDIR:\${CLHEP_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${CLHEP_ROOT}/include\""
 
 
+echo "TOOL:castor:"
+eval "echo \"  +CASTOR_BASE:\${CASTOR_ROOT}\""
+eval "echo \"  +PATH:\${CASTOR_ROOT}/bin\""
+eval "echo \"  +LIBDIR:\${CASTOR_ROOT}/lib\""
+eval "echo \"  +INCLUDE:\${CASTOR_ROOT}/include\""
+
+
 echo "TOOL:rfio:"
 eval "echo \"  +RFIO_BASE:\${RFIO_ROOT}\""
 eval "echo \"  +PATH:\${RFIO_ROOT}/bin\""
@@ -295,6 +320,20 @@ echo "  +PYTHONPATH=$ELEMENTTREE_ROOT/lib/python$(echo $PYTHON_VERSION | cut -d.
 echo "  +PYSTE_EXEC=$BOOST_ROOT/lib/python$(echo $PYTHON_VERSION | cut -d. -f1,2)/site-packages/Pyste/pyste.py"
 
 
+echo "TOOL:sigcpp:"
+eval "echo \"  +SIGCPP_BASE:\${SIGCPP_ROOT}\""
+eval "echo \"  +PATH:\${SIGCPP_ROOT}/bin\""
+eval "echo \"  +LIBDIR:\${SIGCPP_ROOT}/lib\""
+eval "echo \"  +INCLUDE:\${SIGCPP_ROOT}/include\""
+
+
+echo "TOOL:mimetic:"
+eval "echo \"  +MIMETIC_BASE:\${MIMETIC_ROOT}\""
+eval "echo \"  +PATH:\${MIMETIC_ROOT}/bin\""
+eval "echo \"  +LIBDIR:\${MIMETIC_ROOT}/lib\""
+eval "echo \"  +INCLUDE:\${MIMETIC_ROOT}/include\""
+
+
 echo "TOOL:bz2lib:"
 eval "echo \"  +BZ2LIB_BASE:\${BZ2LIB_ROOT}\""
 eval "echo \"  +PATH:\${BZ2LIB_ROOT}/bin\""
@@ -347,6 +386,13 @@ eval "echo \"  +COIN3D_BASE:\${COIN_ROOT}\""
 eval "echo \"  +PATH:\${COIN_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${COIN_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${COIN_ROOT}/include\""
+
+
+echo "TOOL:curl:"
+eval "echo \"  +CURL_BASE:\${CURL_ROOT}\""
+eval "echo \"  +PATH:\${CURL_ROOT}/bin\""
+eval "echo \"  +LIBDIR:\${CURL_ROOT}/lib\""
+eval "echo \"  +INCLUDE:\${CURL_ROOT}/include\""
 
 echo "TOOL:jpeg:"
 echo "  +JPEG_BASE:/usr"
