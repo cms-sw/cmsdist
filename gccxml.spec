@@ -25,3 +25,4 @@ patch -p1 <%{_sourcedir}/gccxml3
 
 #%patch0 -p1
 #%patch2 -p1
+#

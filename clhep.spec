@@ -41,3 +41,4 @@ make install
 #cp libCLHEP-g++.%v.$so %i/lib
 #ln -s libCLHEP-g++.%v.$so %i/lib/libCLHEP.$so
 #n -s libCLHEP-g++.%v.a %i/lib/libCLHEP.a
+#

@@ -22,3 +22,4 @@ ln -s libbz2.$so.%v %i/lib/libbz2.$so
 ln -s libbz2.$so.%v %i/lib/libbz2.$so.`echo %v | cut -d. -f 1,2`
 ln -s libbz2.$so.%v %i/lib/libbz2.$so.`echo %v | cut -d. -f 1`
 # mimetic.spec
+#

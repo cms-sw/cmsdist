@@ -28,3 +28,4 @@ make %makeprocesses bootstrap
 cd obj && make install
 ln -s gcc %i/bin/cc
 #
+#

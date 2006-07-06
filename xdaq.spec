@@ -45,3 +45,4 @@ cp -rdL daq/extern/*/linuxx86/lib/* %{i}/lib
 find daq -type f ! -path "*/extern/*lib*" -name "*.a" -exec cp {} %{i}/lib \;
 perl -p -i -e "s|^#!.*make|/usr/bin/env make|" %{i}/daq/extern/slp/openslp-1.2.0/debian/rules
 # clhep.spec
+#
