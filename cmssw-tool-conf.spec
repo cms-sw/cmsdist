@@ -319,12 +319,11 @@ echo "  +ELEMENTTREE_PYPATH=$ELEMENTTREE_ROOT/python$(echo $PYTHON_VERSION | cut
 echo "  +PYTHONPATH=$ELEMENTTREE_ROOT/lib/python$(echo $PYTHON_VERSION | cut -d. -f1,2)/site-packages"
 echo "  +PYSTE_EXEC=$BOOST_ROOT/lib/python$(echo $PYTHON_VERSION | cut -d. -f1,2)/site-packages/Pyste/pyste.py"
 
-
 echo "TOOL:sigcpp:"
-eval "echo \"  +SIGCPP_BASE:\${SIGCPP_ROOT}\""
-eval "echo \"  +PATH:\${SIGCPP_ROOT}/bin\""
-eval "echo \"  +LIBDIR:\${SIGCPP_ROOT}/lib\""
-eval "echo \"  +INCLUDE:\${SIGCPP_ROOT}/include\""
+echo "  +SIGCPP_BASE:$SIGCPP_ROOT"
+echo "  +PATH:$SIGCPP_ROOT/bin"
+echo "  +LIBDIR:$SIGCPP_ROOT/lib"
+echo "  +INCLUDE:$SIGCPP_ROOT/include/sigc++-2.0"
 
 
 echo "TOOL:mimetic:"
