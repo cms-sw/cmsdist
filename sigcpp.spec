@@ -8,3 +8,6 @@ Source: http://ftp.gnome.org/pub/GNOME/sources/libsigc++/%{majorv}/libsigc++-%{v
 
 %build
 make %makeprocesses 
+%install
+make install
+cp %i/lib/sigc++-%{majorv}/include/sigc++config.h %i/include/sigc++-%{majorv}/
