@@ -124,4 +124,5 @@ ln -sf $RPM_INSTALL_PREFIX/%pkgrel/etc/profile.d/init.csh $RPM_INSTALL_PREFIX/%{
 %{instroot}/%{cmsplatf}/etc/profile.d/S00SCRAMV1.sh
 %{instroot}/%{cmsplatf}/etc/profile.d/S00SCRAMV1.csh
 %exclude %instroot/share/scramdb/project.lookup
+%exclude %i/scripts/DrDOC.sh
 #
