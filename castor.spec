@@ -7,7 +7,7 @@ Source: none
 mkdir -p %i/lib %i/bin %i/man/man1 %i/include/shift
 cp /usr/include/shift.h %i/include/shift.h
 cp /usr/include/shift/* %i/include/shift/
-cp /usr/lib/libshift.* %i/lib
+cp -d /usr/lib/libshift.* %i/lib
 cp /usr/bin/rfcat %i/bin
 cp /usr/bin/rfchmod %i/bin
 cp /usr/bin/rfcp %i/bin
