@@ -1,24 +1,24 @@
 ### RPM external castor 2.1.0-0
-%define downloadv %(echo %v | cut -d- -f1)
-
-Source: http://cern.ch/castor/DIST/CERN/savannah/CASTOR.pkg/%v/castor-%downloadv.tar.gz
+Source: none 
 
 %prep
-%setup -n castor-%downloadv
 %build
-mkdir -p %i/bin %i/lib %i/man/man4 %i/man/man3 %i/man/man1 %i/etc/sysconfig
-make 
 %install
-make install EXPORTLIB=/ \
-                DESTDIR=%i/ \
-                PREFIX= \
-                CONFIGDIR=etc \
-                FILMANDIR=man/man4 \
-                LIBMANDIR=man/man3 \
-                MANDIR=man/man1 \
-                LIBDIR=lib \
-                BINDIR=bin \
-                LIB=lib \
-                BIN=bin \
-                DESTDIRCASTOR=include/shift \
-                TOPINCLUDE=include 
+mkdir -p %i/lib %i/bin %i/man/man1
+cp /usr/lib/libshift.so.2.1 %i/lib
+cp /usr/lib/libshift.so.2.1.0.3 %i/lib
+cp /usr/bin/rfcat %i/bin
+cp /usr/bin/rfchmod %i/bin
+cp /usr/bin/rfcp %i/bin
+cp /usr/bin/rfdir %i/bin
+cp /usr/bin/rfmkdir %i/bin
+cp /usr/bin/rfrename %i/bin
+cp /usr/bin/rfrm %i/bin
+cp /usr/bin/rfstat %i/bin
+cp /usr/share/man/man1/rfcat.1castor %i/man/man1
+cp /usr/share/man/man1/rfchmod.1castor %i/man/man1
+cp /usr/share/man/man1/rfcp.1castor %i/man/man1
+cp /usr/share/man/man1/rfdir.1castor %i/man/man1
+cp /usr/share/man/man1/rfmkdir.1castor %i/man/man1
+cp /usr/share/man/man1/rfrename.1castor %i/man/man1
+cp /usr/share/man/man1/rfrm.1castor %i/man/man1
