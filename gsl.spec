@@ -1,4 +1,4 @@
-### RPM external gsl 1.5
+### RPM external gsl 1.8
 Source: ftp://ftp.gnu.org/gnu/%n/%n-%v.tar.gz
 %build
 
