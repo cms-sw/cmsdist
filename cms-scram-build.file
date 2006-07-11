@@ -1,6 +1,6 @@
 ### FILE cms-scram-build
 
-%define cvsproj     %(echo %n | tr 'a-z' 'A-Z')
+%define cvsproj     %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
 %define cvsrepo		cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/%cvsdir?passwd=AA_:yZZ3e
 %define cvstag		%{v}
 %if "%{?cvsconfig:set}" != "set"
