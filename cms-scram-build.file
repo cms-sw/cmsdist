@@ -13,7 +13,10 @@
 %define conftag		CMS_%confversion%conflevel
 %define confsite	CMSconfigs
 
+%if "%{buildarch:set}" != "set"
 %define buildarch	:
+%endif
+
 %if "%{?buildtarget:set}" != "set"
 %define buildtarget %{nil}	
 %endif
