@@ -116,6 +116,8 @@ echo rm -rf %i
 mkdir -p $(dirname %i)
 
 %{?buildarch:%buildarch}
+%define realVersion %(echo %v | cut -f1 -d-)
+perl -p -i -e 's|%{realVersion}([^-])|%{v}$1|g' %{bootstrapfile}
 { while true; do sleep 0.5; echo "."; done |
 scramv1 project -d $(dirname %i) \
   -b config/bootsrc \
