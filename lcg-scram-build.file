@@ -5,7 +5,7 @@
 %endif
 
 %if "%{?cvstag:set}" != "set"
-    %define cvstag		%(echo %v | cut -d@ -f1)
+    %define cvstag		%(echo %v | cut -d- -f1)
 %endif
 
 %if "%{?cvsconfig:set}" != "set"
