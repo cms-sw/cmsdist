@@ -23,6 +23,5 @@ cd %i
 patch -p1 <%{_sourcedir}/gccxml1
 patch -p1 <%{_sourcedir}/gccxml3
 
-#%patch0 -p1
-#%patch2 -p1
-#
+%post
+%{relocateConfig}share/gccxml-0.6/gccxml_config
