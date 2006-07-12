@@ -78,9 +78,10 @@
 # Define compiler platform version strings.  We use an external
 # script to determine platform name as RPM doesn't support multi-
 # line macros in spec files, only in "rpmmacros" files.
+%define debugsuffix %{?debug_build:_dbg}
 %define cmscomp	    	%{cmscompiler}%{cmscompilerv}
 %{expand:%%define cmsos	%(sh %_specdir/cmsos)}
-%define cmsplatf    	%{cmsos}_%{cmscomp}
+%define cmsplatf    	%{cmsos}_%{cmscomp}%{debugsuffix}
 
 # We are now done with locations.  Move to other things.
 
