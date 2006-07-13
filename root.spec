@@ -1,12 +1,12 @@
-### RPM lcg root 5.12.00
+### RPM lcg root 5.11.06a
 # INITENV +PATH PYTHONPATH %i/lib/python
 Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %v | tr . -)&module=root&output=/%{n}_v%{v}.source.tar.gz
 #Source: ftp://root.cern.ch/%n/%{n}_v%{v}.source.tar.gz
-Requires: gccxml python qt gsl castor openssl mysql libpng libjpg libtiff
-#Patch0: root
+Requires: gccxml python qt gsl castor openssl mysql libpng libjpg libtiff dcap
+Patch0: root-dcapfix
 %prep
 %setup -n root
-#%patch0
+%patch0
 
 %build
 mkdir -p %i
@@ -24,6 +24,8 @@ CONFIG_ARGS="--enable-table
              --enable-roofit
              --disable-ldap
              --disable-krb5
+	     --with-dcap-libdir=${DCAP_ROOT}/lib 
+             --with-dcap-incdir=${DCAP_ROOT}/include
              --with-ssl-incdir=${OPENSSL_ROOT}/include
              --with-ssl-libdir=${OPENSSL_ROOT}/lib
              --with-shift-incdir=${CASTOR_ROOT}/include
