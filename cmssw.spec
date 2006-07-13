@@ -6,7 +6,7 @@ Requires: cmssw-tool-conf python
 %define cvsdir %(echo %n | tr 'a-z' 'A-Z')
 %define cvsserver %(echo %n | tr 'A-Z' 'a-z')
 %define patchsrc perl -p -i -e 's!<select name=(MyODBC|ignominy|rulechecker)>!!' config/requirements ;
-%define patchsrc2 perl -p -i -e 's!(.*)INCLUDE=(.*root/cint.*)!$1CINT_INCLUDE=$2!' SCRAMToolBox/General/ROOTCore 
+%define patchsrc2 perl -p -i -e 's|INCLUDE(.*root/cint">)$|CINT_INCLUDE$1|' SCRAMToolBox/General/ROOTCore 
 %define confversion %cmsConfiguration
 %define conflevel   _2
 %define preBuildCommand (rm -rf SimMuon/DTDigitizer/test)
