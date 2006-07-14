@@ -41,4 +41,19 @@ make install
 #cp libCLHEP-g++.%v.$so %i/lib
 #ln -s libCLHEP-g++.%v.$so %i/lib/libCLHEP.$so
 #n -s libCLHEP-g++.%v.a %i/lib/libCLHEP.a
-#
+%post
+%{relocateConfig}bin/Evaluator-config
+%{relocateConfig}bin/Cast-config
+%{relocateConfig}bin/GenericFunctions-config
+%{relocateConfig}bin/Exceptions-config
+%{relocateConfig}bin/RandomObjects-config
+%{relocateConfig}bin/Geometry-config
+%{relocateConfig}bin/HepMC-config
+%{relocateConfig}bin/HepPDT-config
+%{relocateConfig}bin/Matrix-config
+%{relocateConfig}bin/Random-config
+%{relocateConfig}bin/RefCount-config
+%{relocateConfig}bin/StdHep-config
+%{relocateConfig}bin/Units-config
+%{relocateConfig}bin/Vector-config
+%{relocateConfig}bin/clhep-config
