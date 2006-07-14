@@ -47,7 +47,7 @@ case $(uname)-$(uname -m) in
     ./configure macosx $CONFIG_ARGS;;
 esac
 
-make %makeprocesses
+make 
 make cintdlls
 %install
 # Override installers if we are using GNU fileutils cp.  On OS X
@@ -61,7 +61,7 @@ else
   cp="cp -pPR"
 fi
 
-#export ROOTSYS=%i/root
+export ROOTSYS=%i/root
 make INSTALL="$cp" INSTALLDATA="$cp" install
 mkdir -p %i/root/lib/python
 cp -r reflex/python/genreflex %i/root/lib/python
