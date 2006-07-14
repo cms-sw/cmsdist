@@ -3,9 +3,10 @@
 Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %v | tr . -)&module=root&output=/%{n}_v%{v}.source.tar.gz
 #Source: ftp://root.cern.ch/%n/%{n}_v%{v}.source.tar.gz
 Requires: gccxml python qt gsl castor openssl mysql libpng libjpg libtiff dcap pcre zlib
+Patch: root-cint-bug
 %prep
 %setup -n root
-
+%patch -p0
 %build
 mkdir -p %i
 export ROOTSYS=%_builddir/root
@@ -61,7 +62,7 @@ else
   cp="cp -pPR"
 fi
 
-export ROOTSYS=%i/root
+#export ROOTSYS=%i/root
 make INSTALL="$cp" INSTALLDATA="$cp" install
 mkdir -p %i/root/lib/python
 cp -r reflex/python/genreflex %i/root/lib/python
