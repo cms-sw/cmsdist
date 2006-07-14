@@ -2,29 +2,34 @@
 # INITENV +PATH PYTHONPATH %i/lib/python
 Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %v | tr . -)&module=root&output=/%{n}_v%{v}.source.tar.gz
 #Source: ftp://root.cern.ch/%n/%{n}_v%{v}.source.tar.gz
-Requires: gccxml python qt gsl castor openssl mysql libpng libjpg libtiff dcap
+Requires: gccxml python qt gsl castor openssl mysql libpng libjpg libtiff dcap pcre zlib
 %prep
 %setup -n root
 
 %build
 mkdir -p %i
 export ROOTSYS=%_builddir/root
-CONFIG_ARGS="--enable-table 
+CONFIG_ARGS="--enable-table
+             --disable-builtin-pcre
+             --disable-builtin-freetype
+             --disable-builtin-zlib
              --with-gccxml=${GCCXML_ROOT} 
              --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include 
              --enable-mysql --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
              --with-dcap-libdir=${DCAP_ROOT}/lib 
              --with-dcap-incdir=${DCAP_ROOT}/include
              --enable-explicitlink 
+             --enable-qtgsi
              --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
              --enable-mathcore 
+             --enable-mathmore
              --enable-reflex  
              --enable-cintex 
              --enable-minuit2 
              --enable-roofit
              --disable-ldap
              --disable-krb5
-	     --with-dcap-libdir=${DCAP_ROOT}/lib 
+	         --with-dcap-libdir=${DCAP_ROOT}/lib 
              --with-dcap-incdir=${DCAP_ROOT}/include
              --with-ssl-incdir=${OPENSSL_ROOT}/include
              --with-ssl-libdir=${OPENSSL_ROOT}/lib
@@ -43,7 +48,7 @@ case $(uname)-$(uname -m) in
 esac
 
 make %makeprocesses
-
+make cintdlls
 %install
 # Override installers if we are using GNU fileutils cp.  On OS X
 # ROOT's INSTALL is defined to "cp -pPR", which only works with
@@ -56,7 +61,7 @@ else
   cp="cp -pPR"
 fi
 
-export ROOTSYS=%i/root
+#export ROOTSYS=%i/root
 make INSTALL="$cp" INSTALLDATA="$cp" install
 mkdir -p %i/root/lib/python
 cp -r reflex/python/genreflex %i/root/lib/python
