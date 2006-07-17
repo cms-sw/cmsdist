@@ -13,7 +13,9 @@ Source2: http://switch.dl.sourceforge.net/sourceforge/xdaq/worksuite_G_28176_V1_
 %setup -T -b 0 -n TriDAS
 %setup -D -T -b 1 -n TriDAS
 %setup -D -T -b 2 -n TriDAS
-
+ls
+perl -p -i -e "s|^#.*ksh(.*)|#!/usr/bin/env ksh $1|" daq/extern/SBSVME/1003/v2p3p0/sys/makefile \
+                                                     daq/extern/SBSVME/1003/v2p3p0/sys/mkbtp
 echo " Install root in prep:" %{i}    %{pkginstroot}
 
 %build
@@ -43,6 +45,4 @@ find .  -type f ! -path "./bin/*.exe" -name "*.exe" -exec mv {} %{i}/bin \;
 cp -rdL daq/extern/*/linuxx86/lib/* %{i}/lib
 
 find daq -type f ! -path "*/extern/*lib*" -name "*.a" -exec cp {} %{i}/lib \;
-perl -p -i -e "s|^#!.*make|/usr/bin/env make|" %{i}/daq/extern/slp/openslp-1.2.0/debian/rules
-# clhep.spec
-#
+perl -p -i -e "s|^#!.*make|#!/usr/bin/env make|" %{i}/daq/extern/slp/openslp-1.2.0/debian/rules
