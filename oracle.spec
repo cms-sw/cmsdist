@@ -13,6 +13,7 @@ Source6: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclien
 Source7: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-sdk-macosx-10.1.0.3.zip
 Source8: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-sqlplus-macosx-10.1.0.3.zip
 
+Source9: oracle-license
 
 ## INITENV +PATH SQLPATH %i/bin
 %prep
@@ -38,6 +39,7 @@ esac
 %build
 %install
 mkdir -p %i/bin %i/etc %i/lib %i/admin %i/java %i/demo %i/include
+cp %_sourcedir/oracle-license %{i}/oracle-license
 cp -p instantclient*/lib* %i/lib
 cp -p instantclient*/sqlplus %i/bin
 cp -p instantclient*/glogin.sql %i/bin
