@@ -1,4 +1,4 @@
-### RPM external gcc 3.2.3
+### RPM external gcc 3.4.4
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## BUILDIF [ $(uname) != Darwin ]
