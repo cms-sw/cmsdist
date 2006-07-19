@@ -4,10 +4,18 @@ Source: none
 %prep
 %build
 %install
+%define cpu %(echo %cmsplatf | cut -d_ -f2 )
+
+%if "%cpu" == "amd64"
+%define libdir lib64
+%else
+%define libdir lib
+%endif
+
 mkdir -p %i/lib %i/bin %i/man/man1 %i/include/shift
 cp /usr/include/shift.h %i/include/shift.h
 cp /usr/include/shift/* %i/include/shift/
-cp -d /usr/lib/libshift.* %i/lib
+cp -d /usr/%{libdir}/libshift.* %i/lib
 cp /usr/bin/rfcat %i/bin
 cp /usr/bin/rfchmod %i/bin
 cp /usr/bin/rfcp %i/bin
