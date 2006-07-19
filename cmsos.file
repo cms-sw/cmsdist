@@ -12,6 +12,15 @@ elif [ `uname` = Linux ]; then
     else
       echo slc${slc_version}_amd64
     fi
+  elif grep -q Scientific /etc/rocks-release 2>/dev/null; then
+      slc_version=$(grep DISTRIB_RELEASE rocks-release |
+       sed 's/DISTRIB_RELEASE="\([0-9]*\)\..*/\1/')
+#   For the moment we assume that they are all ia32
+#      if grep -q Intel /proc/cpuinfo 2>/dev/null; then
+        echo slc${slc_version}_ia32
+#      else
+#       echo slc${slc_version}_amd64
+#      fi
   else
     archos= archosv=
     for f in debian_version slackware-version fedora-release \
