@@ -2,7 +2,13 @@
 # INITENV +PATH PYTHONPATH %i/lib/python
 Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %v | tr . -)&module=root&output=/%{n}_v%{v}.source.tar.gz
 #Source: ftp://root.cern.ch/%n/%{n}_v%{v}.source.tar.gz
-Requires: gccxml python qt gsl castor openssl mysql libpng libjpg libtiff dcap pcre zlib
+%define cpu %(echo %cmsplatf | cut -d_ -f2)
+Requires: gccxml python qt gsl castor openssl mysql libpng libjpg dcap pcre zlib oracle
+
+%if "%cpu" != "amd64"
+Requires: libtiff
+%endif
+
 Patch: root-cint-bug
 %prep
 %setup -n root
@@ -10,15 +16,15 @@ Patch: root-cint-bug
 %build
 mkdir -p %i
 export ROOTSYS=%_builddir/root
-CONFIG_ARGS="--enable-table
+CONFIG_ARGS="--enable-table 
              --disable-builtin-pcre
              --disable-builtin-freetype
              --disable-builtin-zlib
              --with-gccxml=${GCCXML_ROOT} 
              --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include 
              --enable-mysql --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
-             --with-dcap-libdir=${DCAP_ROOT}/lib 
-             --with-dcap-incdir=${DCAP_ROOT}/include
+             --with-dcap-libdir=${DCAP_ROOT}/lib --with-dcap-incdir=${DCAP_ROOT}/include
+             --enable-oracle --with-oracle-libdir=${ORACLE_ROOT}/lib --with-oracle-incdir=${ORACLE_ROOT}/include
              --enable-explicitlink 
              --enable-qtgsi
              --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
@@ -41,7 +47,7 @@ CONFIG_ARGS="--enable-table
 
 case $(uname)-$(uname -m) in
   Linux-x86_64)
-    ./configure linuxx8664gcc $CONFIG_ARGS;; 
+    ./configure linuxx8664gcc $CONFIG_ARGS --disable-astiff;; 
   Linux*)
     ./configure linux $CONFIG_ARGS;;
   Darwin*)
