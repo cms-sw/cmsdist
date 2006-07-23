@@ -33,7 +33,8 @@ echo "export G4WORKDIR=$PWD" >> G4BuildConf.sh
 echo "export G4TMP=$PWD/tmp" >> G4BuildConf.sh
 echo "export G4LIB=%i/lib" >> G4BuildConf.sh
 echo "export G4LIB_BUILD_SHARED=1" >> G4BuildConf.sh
-echo "export G4DEBUG=1" >> G4BuildConf.sh
+echo "export G4DEBUG=0" >> G4BuildConf.sh
+echo "export G4OPTIMIZE=1" >> G4BuildConf.sh
 
 echo "export G4LEVELGAMMADATA=%i/data/PhotonEvaporation/%{photonEvaporationVersion}" >> G4BuildConf.sh
 echo "export G4RADIOACTIVEDATA=%i/data/RadiativeDecay%{radiativeDecayVersion}" >> G4BuildConf.sh
@@ -55,6 +56,7 @@ echo "export G4UI_BUILD_TERMINAL_SESSION=1" >> G4BuildConf.sh
 # export G4UI_BUILD_XM_SESSION=1
 # export G4UI_BUILD_WO_SESSION=1
 
+# FIXME: this will not work on osx!
 echo "export OGLHOME=/usr/X11R6" >> G4BuildConf.sh
 # export OGLLIBS="-L$OGLHOME/lib -lGLU -lGL"
 # export OGLFLAGS="-I$OGLHOME/include"
