@@ -11,3 +11,4 @@ case $(uname) in
 esac  
 ./configure --prefix=%{i}
 make %makeprocesses
+#
