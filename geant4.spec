@@ -16,11 +16,14 @@ Source2: http://geant4.cern.ch/support/source/G4EMLOW.%{g4EMLOWVersion}.tar.gz
 Source3: http://geant4.cern.ch/support/source/PhotonEvaporation.%{photonEvaporationVersion}.tar.gz
 Source4: http://geant4.cern.ch/support/source/RadiativeDecay.%{radiativeDecayVersion}.tar.gz
 Source5: http://geant4.web.cern.ch/geant4/physics_lists/geant4.6.1/lists/Packaging.tar
-Patch: geant4-g4e-and-g4tubs-pCMS2
+Patch: geant4-g4e-pCMS2
+Patch2: geant4-g4tubs-lcapture-pCMS2
 
 %prep
 %setup -n %n.%downloadv
-%patch -p0
+pwd
+%patch0 -p0
+%patch2 -p0
 %build
 # Linux? -pthread?
 touch G4BuildConf.sh
@@ -33,7 +36,7 @@ echo "export G4WORKDIR=$PWD" >> G4BuildConf.sh
 echo "export G4TMP=$PWD/tmp" >> G4BuildConf.sh
 echo "export G4LIB=%i/lib" >> G4BuildConf.sh
 echo "export G4LIB_BUILD_SHARED=1" >> G4BuildConf.sh
-echo "export G4DEBUG=0" >> G4BuildConf.sh
+echo "unset G4DEBUG" >> G4BuildConf.sh
 echo "export G4OPTIMIZE=1" >> G4BuildConf.sh
 
 echo "export G4LEVELGAMMADATA=%i/data/PhotonEvaporation/%{photonEvaporationVersion}" >> G4BuildConf.sh
@@ -65,9 +68,9 @@ echo "export G4VIS_BUILD_DAWNFILE_DRIVER=1" >> G4BuildConf.sh
 # export G4VIS_BUILD_DAWN_DRIVER=1
 # export G4VIS_BUILD_OPENGLX_DRIVER=1
 # export G4VIS_BUILD_OPENGLXM_DRIVER=1
-echo "export G4VIS_BUILD_VRMLFILE_DRIVER=1" >> G4BuildConf.sh
-echo "export G4VIS_BUILD_VRML_DRIVER=1" >> G4BuildConf.sh
-echo "export G4VIS_BUILD_RAYTRACER_DRIVER=1" >> G4BuildConf.sh
+# echo "export G4VIS_BUILD_VRMLFILE_DRIVER=1" >> G4BuildConf.sh
+# echo "export G4VIS_BUILD_VRML_DRIVER=1" >> G4BuildConf.sh
+# echo "export G4VIS_BUILD_RAYTRACER_DRIVER=1" >> G4BuildConf.sh
 # export G4LIB_BUILD_G3TOG4=1
 source G4BuildConf.sh
 mkdir -p %i
