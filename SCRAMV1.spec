@@ -52,9 +52,16 @@ Source0: %{cvsrepo}&tag=-r%{v}&module=SCRAM&output=/source.tar.gz
 tar -cf - . | tar -C %i -xvvf -
 rm -rf %i/cgi
 mkdir -p %instroot/bin %instroot/share/scramdb %i/Installation
+mkdir -p %i/bin
 touch %instroot/share/scramdb/project.lookup
 
-cat Installation/scram.pl.in | sed -e "s|@PERLEXE@|/usr/bin/env perl|;s|@SCRAM_HOME@|%i|;s|@INSTALLDIR@|%i/src|" > %instroot/bin/scramv1
+cat Installation/scram.pl.in | sed -e "s|@PERLEXE@|/usr/bin/env perl|;s|@SCRAM_HOME@|%i|;s|@INSTALLDIR@|%i/src|" > %i/bin/scramv1
+cat << \EOF_BIN_SCRAMV1 > %instroot/bin/scramv1
+#!/bin/sh
+source %i/etc/profile.d/init.sh
+%i/bin/scramv1 $@
+EOF_BIN_SCRAMV1
+
 cat Installation/SCRAM_SITE.pm.in | sed -e "s|@SCRAM_HOME@|%i|;s|@SCRAM_LOOKUPDB_DIR@|%instroot/share/scramdb/|;s|@PERLEXE@|/usr/bin/env perl|;s|@TT2INSTALLDIR@|$TEMPLATE_TOOLKIT_ROOT/lib|;s|@SITETEMPLATEDIR@|%i/Templates|;s|@SCRAM_SITENAME@|STANDALONE|" > %i/Installation/SCRAM_SITE.pm
 
 # cat > %instroot/bin/scramv1 << \EOF
@@ -78,6 +85,8 @@ cat Installation/SCRAM_SITE.pm.in | sed -e "s|@SCRAM_HOME@|%i|;s|@SCRAM_LOOKUPDB
 # exec perl "$SCRAM_HOME/src/scramcli" ${1+"$@"}
 # EOF
 chmod 755 %instroot/bin/scramv1
+chmod 755 %i/bin/scramv1
+
 mkdir %i/etc
 echo $PERL5LIB > %i/etc/perl5lib.env
 
@@ -97,32 +106,19 @@ echo "source $P5_URI_ROOT/etc/profile.d/init.csh" >> %i/etc/profile.d/dependenci
 echo "source $P5_XML_PARSER_ROOT/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
 echo "source $P5_LIBWWW_PERL_ROOT/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
 
-
 perl -p -i -e "s|#!.*perl|/usr/bin/env perl|" %{i}/doc/doxygen/DoxyFilt.pl
-ln -sf %{i}/etc/profile.d/init.sh  %{instroot}/%{cmsplatf}/etc/profile.d/S00SCRAMV1.sh
-ln -sf %{i}/etc/profile.d/init.csh %{instroot}/%{cmsplatf}/etc/profile.d/S00SCRAMV1.csh
 
 %post
 %{relocateConfig}etc/perl5lib.env
 %{relocateConfig}Installation/SCRAM_SITE.pm
-
-if [ -f $RPM_INSTALL_PREFIX/%pkgrel/bin/scramv1 ]
-then
-%{relocateConfig}%{instroot}/bin/scramv1
-fi
-
+%{relocateConfig}bin/scramv1
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/bin/scramv1 
-ln -sf $RPM_INSTALL_PREFIX/%pkgrel/etc/profile.d/init.sh $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/profile.d/S00SCRAMV1.sh
-ln -sf $RPM_INSTALL_PREFIX/%pkgrel/etc/profile.d/init.csh $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/profile.d/S00SCRAMV1.csh
 
 %files
 %i
 %instroot/bin/scramv1
 %instroot/share/scramdb
-%{instroot}/%{cmsplatf}/etc/profile.d/S00SCRAMV1.sh
-%{instroot}/%{cmsplatf}/etc/profile.d/S00SCRAMV1.csh
 %exclude %instroot/share/scramdb/project.lookup
 %exclude %i/scripts/DrDOC.sh
-#
