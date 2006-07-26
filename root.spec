@@ -3,6 +3,7 @@
 Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %v | tr . -)&module=root&output=/%{n}_v%{v}.source.tar.gz
 #Source: ftp://root.cern.ch/%n/%{n}_v%{v}.source.tar.gz
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
+%define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
 Requires: gccxml python qt gsl castor openssl mysql libpng libjpg dcap pcre zlib oracle
 
 %if "%cpu" != "amd64"
@@ -20,7 +21,7 @@ CONFIG_ARGS="--enable-table
              --disable-builtin-freetype
              --disable-builtin-zlib
              --with-gccxml=${GCCXML_ROOT} 
-             --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include 
+             --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include/python%{pythonv} 
              --enable-mysql --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
              --enable-oracle --with-oracle-libdir=${ORACLE_ROOT}/lib --with-oracle-incdir=${ORACLE_ROOT}/include
              --enable-explicitlink 
@@ -34,7 +35,7 @@ CONFIG_ARGS="--enable-table
              --enable-roofit
              --disable-ldap
              --disable-krb5
-	     --with-dcap-libdir=${DCAP_ROOT}/lib 
+	         --with-dcap-libdir=${DCAP_ROOT}/lib 
              --with-dcap-incdir=${DCAP_ROOT}/include
              --with-ssl-incdir=${OPENSSL_ROOT}/include
              --with-ssl-libdir=${OPENSSL_ROOT}/lib
