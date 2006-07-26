@@ -12,7 +12,6 @@ Requires: libtiff
 Patch: root-cint-bug
 %prep
 %setup -n root
-%patch -p0
 %build
 mkdir -p %i
 export ROOTSYS=%_builddir/root
@@ -23,7 +22,6 @@ CONFIG_ARGS="--enable-table
              --with-gccxml=${GCCXML_ROOT} 
              --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include 
              --enable-mysql --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
-             --with-dcap-libdir=${DCAP_ROOT}/lib --with-dcap-incdir=${DCAP_ROOT}/include
              --enable-oracle --with-oracle-libdir=${ORACLE_ROOT}/lib --with-oracle-incdir=${ORACLE_ROOT}/include
              --enable-explicitlink 
              --enable-qtgsi
@@ -36,11 +34,11 @@ CONFIG_ARGS="--enable-table
              --enable-roofit
              --disable-ldap
              --disable-krb5
-	         --with-dcap-libdir=${DCAP_ROOT}/lib 
+	     --with-dcap-libdir=${DCAP_ROOT}/lib 
              --with-dcap-incdir=${DCAP_ROOT}/include
              --with-ssl-incdir=${OPENSSL_ROOT}/include
              --with-ssl-libdir=${OPENSSL_ROOT}/lib
-             --with-shift-incdir=${CASTOR_ROOT}/include
+             --with-shift-incdir=${CASTOR_ROOT}/include/shift
              --with-shift-libdir=${CASTOR_ROOT}/lib
              --disable-pgsql
              --disable-xml"
