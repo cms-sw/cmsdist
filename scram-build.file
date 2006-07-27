@@ -146,6 +146,7 @@ fi
 
 %scrambuildcmd
 rm -rf %i/tmp
+chmod -R 755 %i %i/.SCRAM
 
 %install
 cd %i
