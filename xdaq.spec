@@ -1,4 +1,6 @@
 ### RPM external xdaq 3.5
+Requires: zlib
+Requires: oracle
 %define xdaqv %(echo %v |tr . _) 
 %define libext so
 # Download from cern afs area to speed up testing:
@@ -33,6 +35,8 @@ make Set=extern
 make Set=coretools
 make Set=powerpack
 make Set=worksuite
+cd tstore
+make  ORACLE_INCLUDE=$ORACLE_ROOT/include  ORACLE_LIB=$ORACLE_ROOT/lib
 # The following structure used as defined in Xdaq "simplify" script:
 cd %{i}
 mkdir -p %{i}/lib
