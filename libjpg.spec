@@ -30,3 +30,4 @@ mkdir -p %{i}/include
 mkdir -p %{i}/man/man1
 make install
 
+#
