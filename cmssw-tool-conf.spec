@@ -83,6 +83,7 @@ Requires: expat
 Requires: frontier_client
 Requires: genser
 Requires: genser
+Requires: libjpg
 
 Requires: tkonlinesw
 Requires: doxygen
@@ -385,7 +386,7 @@ eval "echo \"  +LIBDIR:\${CURL_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${CURL_ROOT}/include\""
 
 echo "TOOL:jpeg:"
-echo "  +JPEG_BASE:/usr"
+echo "  +JPEG_BASE:$LIBJPG_ROOT"
 
 
 echo "TOOL:simage:"
