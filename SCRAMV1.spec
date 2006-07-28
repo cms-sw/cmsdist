@@ -1,6 +1,5 @@
 ### RPM lcg SCRAMV1 V1_0_2
 ## INITENV +PATH PATH %instroot/bin
-## INITENV SET SCRAM_ARCH %{cmsplatf}
 ## INITENV +PATH PERL5LIB %{i}
 Requires: expat p5-template-toolkit p5-uri p5-xml-parser p5-libwww-perl
 Provides: perl(SCRAM::Helper)
