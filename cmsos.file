@@ -11,8 +11,15 @@ elif [ `uname` = Linux ]; then
     else
       echo slc${slc_version}_amd64
     fi
+  elif grep -q "Red Hat Enterprise" /etc/redhat-release 2>/dev/null; then
+      slc_version=`grep Enterprise /etc/redhat-release | sed 's/.*[rR]elease \([0-9]*\).*/\1/'`
+      if [ `uname -i` == i386 ]; then
+        echo slc${slc_version}_ia32
+      else
+        echo slc${slc_version}_amd64
+      fi
   elif grep -q Scientific /etc/rocks-release 2>/dev/null; then
-      slc_version=`grep DISTRIB_RELEASE rocks-release | sed 's/DISTRIB_RELEASE="\([0-9]*\)\..*/\1/'`
+      slc_version=`grep DISTRIB_RELEASE rocks-release | sed 's/DISTRIB_RELEASE="\([0-9]*\).*/\1/'`
 #   For the moment we assume that they are all ia32
 #      if grep -q Intel /proc/cpuinfo 2>/dev/null; then
         echo slc${slc_version}_ia32
