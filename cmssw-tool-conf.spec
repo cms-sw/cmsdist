@@ -10,6 +10,9 @@
 Source0: none
 
 Provides: tmp/slc3_ia32_gcc323/src/FWCore/TFWLiteSelector/test/libFWCoreTFWLiteSelectorTest.so
+Provides: libboost_regex-gcc-mt.so 
+Provides: libboost_signals-gcc-mt.so 
+Provides: libboost_thread-gcc-mt.so
 
 Requires: gcc
 
