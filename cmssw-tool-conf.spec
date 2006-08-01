@@ -9,6 +9,8 @@
 ## INITENV SET TOOLCONF_VERSION %{v}
 Source0: none
 
+Provides: tmp/slc3_ia32_gcc323/src/FWCore/TFWLiteSelector/test/libFWCoreTFWLiteSelectorTest.so
+
 Requires: gcc
 
 Requires: gcc
