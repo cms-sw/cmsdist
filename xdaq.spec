@@ -43,7 +43,7 @@ mkdir -p %{i}/lib
 mkdir -p %{i}/bin
 # Catch-all 
 find .  -type f ! -path "./lib/*.%{libext}" -name "*.%{libext}" -exec ln -sf {}  %{i}/lib \;
-find .  -type f ! -path "./bin/*.exe" -name "*.exe" -exec ln -sf {} %{i}/bin; ln -sf \;
+find .  -type f ! -path "./bin/*.exe" -name "*.exe" -exec ln -sf {} %{i}/bin \;
 
 # Libraries from extern (not found cause they are symlinks)
 cp -rdL daq/extern/*/linuxx86/lib/* %{i}/lib
