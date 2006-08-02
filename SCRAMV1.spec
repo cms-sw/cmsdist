@@ -1,7 +1,7 @@
 ### RPM lcg SCRAMV1 V1_0_2
 ## INITENV +PATH PATH %instroot/bin
 ## INITENV +PATH PERL5LIB %{i}
-Requires: expat p5-template-toolkit p5-uri p5-xml-parser p5-libwww-perl
+Requires: expat p5-template-toolkit p5-uri p5-xml-parser p5-libwww-perl cms-env
 Provides: perl(SCRAM::Helper)
 Provides: perl(Utilities::AddDir) 
 Provides: perl(Utilities::Architecture) 
@@ -57,8 +57,8 @@ touch %instroot/share/scramdb/project.lookup
 cat Installation/scram.pl.in | sed -e "s|@PERLEXE@|/usr/bin/env perl|;s|@SCRAM_HOME@|%i|;s|@INSTALLDIR@|%i/src|" > %i/bin/scramv1
 cat << \EOF_BIN_SCRAMV1 > %instroot/bin/scramv1
 #!/bin/sh
-source %i/etc/profile.d/init.sh
-%i/bin/scramv1 $@
+source %instroot/`cmsarch`/lcg/%n/%v/etc/profile.d/init.sh
+%instroot/`cmsarch`/lcg/%n/%v/bin/scramv1 $@
 EOF_BIN_SCRAMV1
 
 cat Installation/SCRAM_SITE.pm.in | sed -e "s|@SCRAM_HOME@|%i|;s|@SCRAM_LOOKUPDB_DIR@|%instroot/share/scramdb/|;s|@PERLEXE@|/usr/bin/env perl|;s|@TT2INSTALLDIR@|$TEMPLATE_TOOLKIT_ROOT/lib|;s|@SITETEMPLATEDIR@|%i/Templates|;s|@SCRAM_SITENAME@|STANDALONE|" > %i/Installation/SCRAM_SITE.pm
