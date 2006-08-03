@@ -54,8 +54,10 @@ tar cpfv - `find . ! -path "%{i}/lib/*.%{libext}" -type f -name "*.%{libext}"` |
 tar cpfv - `find . ! -path "%{i}/bin/*.exe" -type f -name "*.exe"` | ( cd  %{i}/bin; tar xpfv -)
 
 #links them back to lib and bin
-find .  -type f ! -path "%{i}/lib/*.%{libext}" -name "*.%{libext}" -exec ln -sf {}  %{i}/lib; ln -sf {} %{i}/lib/%installDir \;
-find .  -type f ! -path "%{i}/bin/*.exe" -name "*.exe" -exec ln -sf {} %{i}/bin; ln -sf {} %{i}/bin/%installDir \;
+find .  -type f ! -path "%{i}/lib/*.%{libext}" -name "*.%{libext}" -exec ln -sf {}  %{i}/lib \;
+find daq  -type f ! -path "%{i}/lib/*.%{libext}" -name "*.%{libext}" -exec ln -sf {} %{i}/lib/%installDir \;
+find .  -type f ! -path "%{i}/bin/*.exe" -name "*.exe" -exec ln -sf {} %{i}/bin \; 
+find daq  -type f ! -path "%{i}/bin/*.exe" -name "*.exe" -exec ln -sf {} %{i}/bin/%installDir \;
 
 # Libraries from extern (not found cause they are symlinks)
 
