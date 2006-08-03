@@ -38,15 +38,22 @@ make Set=worksuite
 cd tstore
 make  ORACLE_INCLUDE=$ORACLE_ROOT/include  ORACLE_LIB=$ORACLE_ROOT/lib
 # The following structure used as defined in Xdaq "simplify" script:
+#cd %{i}
+# Catch-all
+# cp -r ./lib %{i}/lib
+# cp -r ./bin %{i}/bin
 cd %{i}
+# copies all the libraries in extern in %i/lib
 mkdir -p %{i}/lib
 mkdir -p %{i}/bin
-# Catch-all 
-find .  -type f ! -path "./lib/*.%{libext}" -name "*.%{libext}" -exec mv {}  %{i}/lib \;
-find .  -type f ! -path "./bin/*.exe" -name "*.exe" -exec mv {} %{i}/bin \;
+tar cpfv - `find daq -type f -name "*.%{libext}"` | ( cd  %{i}/lib; tar xpfv -)
+tar cpfv - `find daq -type f -name "*.exe"` | ( cd  %{i}/bin; tar xpfv -)
+
+#links them back to lib and bin
+find .  -type f ! -path "%{i}/lib/*.%{libext}" -name "*.%{libext}" -exec ln {}  %{i}/lib \;
+find .  -type f ! -path "%{i}/bin/*.exe" -name "*.exe" -exec ln {} %{i}/bin \;
 
 # Libraries from extern (not found cause they are symlinks)
-cp -rdL daq/extern/*/linuxx86/lib/* %{i}/lib
 
 find daq -type f ! -path "*/extern/*lib*" -name "*.a" -exec cp {} %{i}/lib \;
 perl -p -i -e "s|^#!.*make|#!/usr/bin/env make|" %{i}/daq/extern/slp/openslp-1.2.0/debian/rules
