@@ -48,16 +48,16 @@ make  ORACLE_INCLUDE=$ORACLE_ROOT/include  ORACLE_LIB=$ORACLE_ROOT/lib
 # cp -r ./bin %{i}/bin
 cd %{i}
 # copies all the libraries in extern in %i/lib
-mkdir -p %{i}/lib
-mkdir -p %{i}/bin
+mkdir -p %{i}/lib/linux/x86
+mkdir -p %{i}/bin/linux/x86
 tar cpfv - `find . ! -path "%{i}/lib/*.%{libext}" -type f -name "*.%{libext}"` | ( cd  %{i}/lib; tar xpfv -)
 tar cpfv - `find . ! -path "%{i}/bin/*.exe" -type f -name "*.exe"` | ( cd  %{i}/bin; tar xpfv -)
 
 #links them back to lib and bin
-find .  -type f ! -path "%{i}/lib/*.%{libext}" -name "*.%{libext}" -exec ln -sf {}  %{i}/lib \;
-find daq  -type f ! -path "%{i}/lib/*.%{libext}" -name "*.%{libext}" -exec ln -sf {} %{i}/lib/%installDir \;
-find .  -type f ! -path "%{i}/bin/*.exe" -name "*.exe" -exec ln -sf {} %{i}/bin \; 
-find daq  -type f ! -path "%{i}/bin/*.exe" -name "*.exe" -exec ln -sf {} %{i}/bin/%installDir \;
+find daq  -type f ! -path "%{i}/lib/*.%{libext}" -name "*.%{libext}" -exec ln -sf {}  %{i}/lib \;
+find daq  -type f ! -path "%{i}/lib/*.%{libext}" -name "*.%{libext}" -exec ln -sf {} ../../%{i}/lib/%installDir \;
+find daq  -type f ! -path "%{i}/bin/*.exe" -name "*.exe" -exec ln -sf {} %{i}/bin \; 
+find daq  -type f ! -path "%{i}/bin/*.exe" -name "*.exe" -exec ln -sf {} ../../%{i}/bin/%installDir \;
 
 # Libraries from extern (not found cause they are symlinks)
 
