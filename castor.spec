@@ -1,25 +1,54 @@
-### RPM external castor 2.1.0-0
-Source: none 
+### RPM external castor 2.1.0-5
+%define downloadv v%(echo %v | tr - _ | tr . _)
+
+#Source: http://cern.ch/castor/DIST/CERN/savannah/CASTOR.pkg/%v/castor-%downloadv.tar.gz
+#Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %v | tr . -)&module=root&output=/%{n}_v%{v}.source.tar.gz
+Source: cvs://:pserver:anonymous@isscvs.cern.ch:/local/reps/castor?passwd=Ah<Z&tag=-r%{downloadv}&module=CASTOR2&output=/%{n}-%{v}.source.tar.gz
 
 %prep
+%setup -n CASTOR2 
 %build
+
+for this in BuildCupvDaemon BuildDlfDaemon BuildNameServerDaemon BuildRHCpp \
+            BuildRtcpclientd BuildSchedPlugin BuildVolumeMgrDaemon UseOracle \
+            UseScheduler BuildOraCpp BuildStageDaemon; do
+    perl -pi -e "s/$this(?: |\t)+.*(YES|NO)/$this\tNO/g" config/site.def
+done
+
+for this in BuildSchedPlugin BuildJob BuildRmMaster; do
+    perl -pi -e "s/$this(?: |\t)+.*(YES|NO)/$this\tNO/g" config/site.def
+done
+
+for this in BuildTapeDaemon; do
+    perl -pi -e "s/$this(?: |\t)+.*(YES|NO)/$this\tNO/g" config/site.def
+done
+
+for this in BuildRfioClient BuildRfioLibrary; do
+    perl -pi -e "s/$this(?: |\t)+.*(YES|NO)/$this\tYES/g" config/site.def
+done
+
+mkdir -p %i/bin %i/lib %i/man/man4 %i/man/man3 %i/man/man1 %i/etc/sysconfig
+
+find . -type f -exec touch {} \;
+make -f Makefile.ini Makefiles
+which makedepend >& /dev/null
+[ $? -eq 0 ] && make depend
+
+make -j7 MAJOR_CASTOR_VERSION=%(echo %v | cut -d. -f1) \
+         MINOR_CASTOR_VERSION=%(echo %v | cut -d. -f2)
 %install
-mkdir -p %i/lib %i/bin %i/man/man1 %i/include/shift
-cp /usr/include/shift.h %i/include/shift.h
-cp /usr/include/shift/* %i/include/shift/
-cp -d /usr/lib/libshift.* %i/lib
-cp /usr/bin/rfcat %i/bin
-cp /usr/bin/rfchmod %i/bin
-cp /usr/bin/rfcp %i/bin
-cp /usr/bin/rfdir %i/bin
-cp /usr/bin/rfmkdir %i/bin
-cp /usr/bin/rfrename %i/bin
-cp /usr/bin/rfrm %i/bin
-cp /usr/bin/rfstat %i/bin
-cp /usr/share/man/man1/rfcat.1castor %i/man/man1
-cp /usr/share/man/man1/rfchmod.1castor %i/man/man1
-cp /usr/share/man/man1/rfcp.1castor %i/man/man1
-cp /usr/share/man/man1/rfdir.1castor %i/man/man1
-cp /usr/share/man/man1/rfmkdir.1castor %i/man/man1
-cp /usr/share/man/man1/rfrename.1castor %i/man/man1
-cp /usr/share/man/man1/rfrm.1castor %i/man/man1
+make install MAJOR_CASTOR_VERSION=%(echo %v | cut -d. -f1) \
+                MINOR_CASTOR_VERSION=%(echo %v | cut -d. -f2) \
+                EXPORTLIB=/ \
+                DESTDIR=%i/ \
+                PREFIX= \
+                CONFIGDIR=etc \
+                FILMANDIR=man/man4 \
+                LIBMANDIR=man/man3 \
+                MANDIR=man/man1 \
+                LIBDIR=lib \
+                BINDIR=bin \
+                LIB=lib \
+                BIN=bin \
+                DESTDIRCASTOR=include/shift \
+                TOPINCLUDE=include 

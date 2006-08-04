@@ -1,4 +1,4 @@
-### RPM external qt 3.3.4
+### RPM external qt 3.3.6
 ## INITENV UNSET QMAKESPEC
 ## INITENV SET QTDIR %i
 %define qttype %(echo %v | sed 's/[-0-9.]*//')
