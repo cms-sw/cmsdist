@@ -48,3 +48,4 @@ cp -p instantclient*/sdk/demo/* %i/demo
 cp -p instantclient*/sdk/include/* %i/include
 (cd %i/lib && ln -s libclntsh.* $(echo libclntsh.* | sed 's/[0-9.]*$//'))
 (cd %i/lib && ln -s libocci.* $(echo libocci.* | sed 's/[0-9.]*$//'))
+chmod -R g-w %i
