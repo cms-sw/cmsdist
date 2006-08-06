@@ -3,10 +3,6 @@ Requires: zlib
 Requires: oracle
 %define xdaqv %(echo %v |tr . _) 
 %define libext so
-%if "%cmsplatf" == "slc3_ia32_gcc323"
-%define installDir linux/x86
-%endif
-
 # Download from cern afs area to speed up testing:
 #Source0: http://cmsdoc.cern.ch/Releases/XDAQ/XDAQ_%xdaqv/coretools_G_17559_V%xdaqv.tgz
 #Source1: http://cmsdoc.cern.ch/Releases/XDAQ/XDAQ_%xdaqv/powerpack_G_28175_V1_3_1.tgz
@@ -42,24 +38,15 @@ make Set=worksuite
 cd tstore
 make  ORACLE_INCLUDE=$ORACLE_ROOT/include  ORACLE_LIB=$ORACLE_ROOT/lib
 # The following structure used as defined in Xdaq "simplify" script:
-#cd %{i}
-# Catch-all
-# cp -r ./lib %{i}/lib
-# cp -r ./bin %{i}/bin
 cd %{i}
-# copies all the libraries in extern in %i/lib
-mkdir -p %{i}/lib/linux/x86
-mkdir -p %{i}/bin/linux/x86
-tar cpfv - `find . ! -path "%{i}/lib/*.%{libext}" -type f -name "*.%{libext}"` | ( cd  %{i}/lib; tar xpfv -)
-tar cpfv - `find . ! -path "%{i}/bin/*.exe" -type f -name "*.exe"` | ( cd  %{i}/bin; tar xpfv -)
-
-#links them back to lib and bin
-find daq  -type f ! -path "%{i}/lib/*.%{libext}" -name "*.%{libext}" -exec ln -sf {}  %{i}/lib \;
-find daq  -type f ! -path "%{i}/lib/*.%{libext}" -name "*.%{libext}" -exec ln -sf {} ../../%{i}/lib/%installDir \;
-find daq  -type f ! -path "%{i}/bin/*.exe" -name "*.exe" -exec ln -sf {} %{i}/bin \; 
-find daq  -type f ! -path "%{i}/bin/*.exe" -name "*.exe" -exec ln -sf {} ../../%{i}/bin/%installDir \;
+mkdir -p %{i}/lib
+mkdir -p %{i}/bin
+# Catch-all 
+find .  -type f ! -path "./lib/*.%{libext}" -name "*.%{libext}" -exec mv {}  %{i}/lib \;
+find .  -type f ! -path "./bin/*.exe" -name "*.exe" -exec mv {} %{i}/bin \;
 
 # Libraries from extern (not found cause they are symlinks)
+cp -rdL daq/extern/*/linuxx86/lib/* %{i}/lib
 
 find daq -type f ! -path "*/extern/*lib*" -name "*.a" -exec cp {} %{i}/lib \;
 perl -p -i -e "s|^#!.*make|#!/usr/bin/env make|" %{i}/daq/extern/slp/openslp-1.2.0/debian/rules
