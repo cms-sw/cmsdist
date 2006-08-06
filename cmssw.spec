@@ -1,5 +1,6 @@
 ### RPM cms cmssw CMSSW_0_9_0_pre3
 ## IMPORT configurations
+
 Provides: /bin/zsh
 Requires: cmssw-tool-conf python
 %define toolconf ${CMSSW_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
