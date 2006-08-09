@@ -1,5 +1,7 @@
 ### RPM external castor 2.1.0-5
 %define downloadv v%(echo %v | tr - _ | tr . _)
+%define baseVersion %(echo %v | cut -d- -f1)
+%define patchLevel %(echo %v | cut -d- -f2)
 
 #Source: http://cern.ch/castor/DIST/CERN/savannah/CASTOR.pkg/%v/castor-%downloadv.tar.gz
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %v | tr . -)&module=root&output=/%{n}_v%{v}.source.tar.gz
@@ -8,6 +10,7 @@ Source: cvs://:pserver:anonymous@isscvs.cern.ch:/local/reps/castor?passwd=Ah<Z&t
 %prep
 %setup -n CASTOR2 
 %build
+perl -p -i -e "s!__PATCHLEVEL__!%patchLevel!;s!__BASEVERSION__!\"%baseVersion\"!;s!__TIMESTAMP__!%(date +%%s)!" h/patchlevel.h
 
 for this in BuildCupvDaemon BuildDlfDaemon BuildNameServerDaemon BuildRHCpp \
             BuildRtcpclientd BuildSchedPlugin BuildVolumeMgrDaemon UseOracle \
@@ -36,6 +39,7 @@ which makedepend >& /dev/null
 
 make -j7 MAJOR_CASTOR_VERSION=%(echo %v | cut -d. -f1) \
          MINOR_CASTOR_VERSION=%(echo %v | cut -d. -f2)
+
 %install
 make install MAJOR_CASTOR_VERSION=%(echo %v | cut -d. -f1) \
                 MINOR_CASTOR_VERSION=%(echo %v | cut -d. -f2) \
