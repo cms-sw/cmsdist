@@ -26,7 +26,7 @@ for this in BuildTapeDaemon; do
     perl -pi -e "s/$this(?: |\t)+.*(YES|NO)/$this\tNO/g" config/site.def
 done
 
-for this in BuildRfioClient BuildRfioLibrary; do
+for this in BuildRfioClient BuildRfioLibrary BuildStageClient BuildStageLibrary; do
     perl -pi -e "s/$this(?: |\t)+.*(YES|NO)/$this\tYES/g" config/site.def
 done
 
