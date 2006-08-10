@@ -1,4 +1,4 @@
-### RPM lcg root 5.12.00-forCMS139
+### RPM lcg root 5.12.00a
 # INITENV +PATH PYTHONPATH %i/lib/python
 %define realVersion %(echo %v | cut -d- -f1)
 Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realVersion | tr . -)&module=root&output=/%{n}_v%{realVersion}.source.tar.gz
@@ -72,4 +72,3 @@ export ROOTSYS=%i/root
 make INSTALL="$cp" INSTALLDATA="$cp" install
 mkdir -p %i/root/lib/python
 cp -r reflex/python/genreflex %i/root/lib/python
-#
