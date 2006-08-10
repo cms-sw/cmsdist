@@ -1,6 +1,5 @@
-### RPM cms cmssw CMSSW_0_9_0_pre3
+### RPM cms cmssw CMSSW_0_8_1
 ## IMPORT configurations
-
 Provides: /bin/zsh
 Requires: cmssw-tool-conf python
 %define toolconf ${CMSSW_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
@@ -10,8 +9,7 @@ Requires: cmssw-tool-conf python
 %define confversion %cmsConfiguration
 %define conflevel   _2
 %define preBuildCommand (rm -rf SimMuon/DTDigitizer/test)
-%define buildtarget release-build doc 
+%define buildtarget release-build 
 ## IMPORT cms-scram-build
 ## IMPORT scramv1-build
 
-#
