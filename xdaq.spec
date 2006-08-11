@@ -47,7 +47,7 @@ make  ORACLE_INCLUDE=$ORACLE_ROOT/include  ORACLE_LIB=$ORACLE_ROOT/lib
 # cp -r ./lib %{i}/lib
 # cp -r ./bin %{i}/bin
 cd %{i}
-find daq -path *src* -type d -exec rm -rf {} \;
+find daq -path *src* -type d -exec rm -rf daq/{} \;
 # copies all the libraries in extern in %i/lib
 mkdir -p %{i}/lib/linux/x86
 mkdir -p %{i}/bin/linux/x86
