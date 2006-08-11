@@ -51,8 +51,8 @@ find daq -path *src* -type d -exec rm -rf daq/{} \;
 # copies all the libraries in extern in %i/lib
 mkdir -p %{i}/lib/linux/x86
 mkdir -p %{i}/bin/linux/x86
-(cd %{i}/lib; find ../daq -path "*/lib/lib*" -exec ln -s {} . \;)
-(cd %{i}/lib/linux/x86; find ../../../daq -path "*/lib/lib*" -exec ln -s {} . \;)
+(cd %{i}/lib; find ../daq -path "*/lib/lib*" -o -name "*.%{libext}" -o -name "*.%{libext}.*"  -exec ln -s {} . \;)
+(cd %{i}/lib/linux/x86; find ../../../daq  -path "*/lib/lib*" -o -name "*.%{libext}" -o -path "*.%{libext}.*" -exec ln -s {} . \;)
 (cd %{i}/bin; find ../daq -path "*/bin/*.exe" -exec ln -s {} . \;)
 (cd %{i}/bin/linux/x86; find ../../../daq -path "*/bin/*.exe" -exec ln -s {} . \;)
 
