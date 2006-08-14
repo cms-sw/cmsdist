@@ -94,5 +94,6 @@ perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
 #
 #
 rm  `find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*'`
+rm  `find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*'`
 %post
 find $RPM_INSTALL_PREFIX/%pkgrel/lib -type l | xargs ls -la | sed -e "s|.*[ ]\(/.*\) -> \(.*\)| \2 \1|;s|[ ]/[^ ]*/external| $RPM_INSTALL_PREFIX/%cmsplatf/external|g" | xargs -n2 ln -sf
