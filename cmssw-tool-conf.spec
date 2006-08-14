@@ -486,3 +486,4 @@ cp tools.conf %i/configurations/tools-STANDALONE.conf
 %post
 %{relocateConfig}configurations/tools-STANDALONE.conf
 #
+#
