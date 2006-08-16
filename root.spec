@@ -1,8 +1,7 @@
-### RPM lcg root 5.12.00a
+### RPM lcg root 5.12.00
 # INITENV +PATH PYTHONPATH %i/lib/python
-%define realVersion %(echo %v | cut -d- -f1)
-Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realVersion | tr . -)&module=root&output=/%{n}_v%{realVersion}.source.tar.gz
-#Source: ftp://root.cern.ch/%n/%{n}_v%{realVersion}.source.tar.gz
+Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %v | tr . -)&module=root&output=/%{n}_v%{v}.source.tar.gz
+#Source: ftp://root.cern.ch/%n/%{n}_v%{v}.source.tar.gz
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
 Requires: gccxml python qt gsl castor openssl mysql libpng libjpg dcap pcre zlib oracle
