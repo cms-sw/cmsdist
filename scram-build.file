@@ -130,7 +130,7 @@ mkdir -p $(dirname %i)
 %define realVersion %(echo %v | cut -f1 -d-)
 perl -p -i -e 's|%{realVersion}([^-])|%{v}$1|g' %{bootstrapfile}
 { while true; do sleep 0.5; echo "."; done |
-scram project -d $(dirname %i) \
+scramv0 project -d $(dirname %i) \
   file:%{bootstrapfile} \
   -f %toolconf; } || true
 
