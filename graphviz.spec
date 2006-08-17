@@ -19,7 +19,7 @@ Patch0: graphviz
   --with-jpeglibdir=$LIBPNG_ROOT/lib \
   --without-x \
   --without-tcl \
-  --without-tk \	
+  --without-tk \
   --prefix=%{i}
 
 make
