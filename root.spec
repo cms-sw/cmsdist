@@ -42,6 +42,8 @@ CONFIG_ARGS="--enable-table
              --with-ssl-libdir=${OPENSSL_ROOT}/lib
              --with-shift-incdir=${CASTOR_ROOT}/include/shift
              --with-shift-libdir=${CASTOR_ROOT}/lib
+             --with-gsl-incdir=${GSL_ROOT}/include
+             --with-gsl-libdir=${GSL_ROOT}/lib
              --disable-pgsql
              --disable-xml"
 
