@@ -23,3 +23,5 @@ Patch0: graphviz
   --prefix=%{i}
 
 make
+%post
+perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|" $RPM_INSTALL_PREFIX/%pkgrel/bin/dotneato-config `find $RPM_INSTALL_PREFIX/%pkgrel/lib/graphviz -name *.la`
