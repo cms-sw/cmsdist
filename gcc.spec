@@ -27,5 +27,8 @@ make %makeprocesses bootstrap
 %install
 cd obj && make install
 ln -s gcc %i/bin/cc
-#
-#
+%post
+%{relocateConfig}lib/libg2c.la
+%{relocateConfig}lib/libstdc++.la
+%{relocateConfig}lib/libsupc++.la
+
