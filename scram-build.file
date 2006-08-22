@@ -61,8 +61,29 @@ Source2: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/s
 %define source4 none
 %endif
 
+%if "%{?additionalSrc2:set}" == "set"
+%define source5 %{additionalSrc2}&output=/src3.tar.gz
+%else
+%define source5 none
+%endif
+
+%if "%{?additionalSrc3:set}" == "set"
+%define source6 %{additionalSrc3}&output=/src4.tar.gz
+%else
+%define source6 none
+%endif
+
+%if "%{?additionalSrc4:set}" == "set"
+%define source7 %{additionalSrc4}&output=/src5.tar.gz
+%else
+%define source7 none
+%endif
+
 Source3: %source3
 Source4: %source4
+Source5: %source5
+Source6: %source6
+Source7: %source7
 
 ####%define scramVersion %(scram version)
 
