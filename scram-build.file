@@ -105,6 +105,22 @@ Source7: %source7
 %setup -D -T -a 4 -n %{srctree}
 %endif
 
+
+%if "%{?additionalSrc2:set}" == "set"
+%setup -D -T -a 5 -n %{srctree}
+%endif
+
+
+%if "%{?additionalSrc3:set}" == "set"
+%setup -D -T -a 6 -n %{srctree}
+%endif
+
+%if "%{?additionalSrc4:set}" == "set"
+%setup -D -T -a 7 -n %{srctree}
+%endif
+
+
+
 cd ..
 # Makes sure that GCC_EXEC_PREFIX is not a Runtime_PATH
 perl -p -i -e 's!(.*)GCC_EXEC_PREFIX(.*)Runtime_path(.*)!$1GCC_EXEC_PREFIX$2$3!' SCRAMToolBox/Compilers/CXX/*
