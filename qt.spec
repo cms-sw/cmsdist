@@ -51,4 +51,6 @@ echo yes | ./configure -prefix %i -thread -stl $CONFIG_ARGS
 # install_framework is hosed
 perl -p -i -e 's/^install_framework:/install_framework:\ninstall_framework_no:/' src/Makefile
 make %makeprocesses
-#
+%post
+%{relocateConfig}lib/libqt-mt.la
+
