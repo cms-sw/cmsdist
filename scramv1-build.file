@@ -149,8 +149,7 @@ scramv1 b %{additionalBuildTarget0} < /dev/null
 %endif
 rm -rf %i/tmp
 chmod -R 755 %i %i/.SCRAM
-eval `scramv1 run -sh`
-(SealPluginRefresh) || true
+(eval `scramv1 run -sh` ; SealPluginRefresh) || true
 
 %install
 cd %i
