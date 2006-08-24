@@ -8,5 +8,5 @@ Source1: http://cmsdoc.cern.ch/swdev/viewcvs/viewcvs.cgi/*checkout*/COMP/PHEDEX/
 %build
 %install
 mkdir -p %i/etc
-cp %_sourcedir/tnsnames.ora* %i/etc/tnsnames.ora
-cp %_sourcedir/login.sql* %i/etc/login.sql
+cp %_sourcedir/tnsnames.ora* %i/etc/
+cp %_sourcedir/login.sql* %i/etc/
