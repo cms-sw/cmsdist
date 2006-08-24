@@ -295,7 +295,7 @@ echo "  +ORACLE_BASE:$ORACLE_ROOT"
 echo "  +PATH:$ORACLE_ROOT/bin"
 echo "  +LIBDIR:$ORACLE_ROOT/lib"
 echo "  +INCLUDE:$ORACLE_ROOT/include"
-echo "  +TNS_ADMIN:$ORACLE_ENV_ROOT/etc"
+echo "  +ORACLE_ADMINDIR:$ORACLE_ENV_ROOT/etc"
 
 
 echo "TOOL:mysqlpp:"
