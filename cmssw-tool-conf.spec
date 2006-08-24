@@ -101,6 +101,9 @@ Requires: tkonlinesw
 Requires: doxygen
 Requires: meschach
 Requires: iguana
+Requires: oracle-env
+Requires: p5-dbd-oracle
+
 %prep
 %build
 (echo "ARCHITECTURE:%{cmsplatf}"
@@ -292,7 +295,7 @@ echo "  +ORACLE_BASE:$ORACLE_ROOT"
 echo "  +PATH:$ORACLE_ROOT/bin"
 echo "  +LIBDIR:$ORACLE_ROOT/lib"
 echo "  +INCLUDE:$ORACLE_ROOT/include"
-echo "  +TNS_ADMIN:$ORACLE_ROOT/admin"
+echo "  +TNS_ADMIN:$ORACLE_ENV_ROOT/etc"
 
 
 echo "TOOL:mysqlpp:"
