@@ -12,6 +12,3 @@ Requires: cmssw-tool-conf python
 %define buildtarget release-build doc 
 ## IMPORT cms-scram-build
 ## IMPORT scramv1-build
-
-#
-#
