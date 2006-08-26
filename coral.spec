@@ -1,4 +1,4 @@
-### RPM lcg coral CORAL_1_5_1-forCMS083
+### RPM lcg coral CORAL_1_5_1-for137a
 ## IMPORT configurations
 Requires: coral-tool-conf
 %define confversion %lcgConfiguration 
