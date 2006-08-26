@@ -1,5 +1,5 @@
 ### RPM external p5-dbd-oracle 1.17
-## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
+## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion/%perlarch
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn DBD-Oracle
@@ -23,4 +23,3 @@ EOF
 
 perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion -l -m $ORACLE_HOME/demo/demo.mk
 make
-#

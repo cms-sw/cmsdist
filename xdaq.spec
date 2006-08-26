@@ -47,28 +47,22 @@ make  ORACLE_INCLUDE=$ORACLE_ROOT/include  ORACLE_LIB=$ORACLE_ROOT/lib
 # cp -r ./lib %{i}/lib
 # cp -r ./bin %{i}/bin
 cd %{i}
-find daq -path *src* -type d -exec rm -rf daq/{} \;
 # copies all the libraries in extern in %i/lib
 mkdir -p %{i}/lib/linux/x86
 mkdir -p %{i}/bin/linux/x86
-(cd %{i}/lib; find ../daq \( -path "*/lib/lib*" -o -name "*.%{libext}" -o -name "*.%{libext}.*" -o -name "*.a" -o -name "*.la*" -o -name "*.lo*" \) -exec ln -s {} . \;)
-(cd %{i}/lib/linux/x86; find ../../../daq  \( -path "*/lib/lib*" -o -name "*.%{libext}" -o -name "*.%{libext}.*" -o -name "*.a" -o -name "*.la*" -o -name "*.lo*" \) -exec ln -s {} . \;)
-(cd %{i}/bin; find ../daq -path "*/bin/*.exe" -exec ln -s {} . \;)
-(cd %{i}/bin/linux/x86; find ../../../daq -path "*/bin/*.exe" -exec ln -s {} . \;)
-
-#tar cpfv - `find daq -path "*/lib/*.%{libext}"` | ( cd  %{i}/lib; tar xpfv -)
-#tar cpfv - `find daq -path "*/bin/*.exe" -type f` | ( cd  %{i}/bin; tar xpfv -)
+tar cpfv - `find . ! -path "%{i}/lib/*.%{libext}" -type f -name "*.%{libext}"` | ( cd  %{i}/lib; tar xpfv -)
+tar cpfv - `find . ! -path "%{i}/bin/*.exe" -type f -name "*.exe"` | ( cd  %{i}/bin; tar xpfv -)
 
 #links them back to lib and bin
-#find daq  -type f -name "*.%{libext}" -exec ln -sf {}  %{i}/lib \;
-#find daq  -type f -name "*.%{libext}" -exec ln -sf ../../{} %{i}/lib/%installDir \;
-#find daq  -type f -name "*.exe" -exec ln -sf {} %{i}/bin \; 
-#find daq  -type f -name "*.exe" -exec ln -sf ../../{} %{i}/bin/%installDir \;
+find daq  -type f ! -path "%{i}/lib/*.%{libext}" -name "*.%{libext}" -exec ln -sf {}  %{i}/lib \;
+find daq  -type f ! -path "%{i}/lib/*.%{libext}" -name "*.%{libext}" -exec ln -sf ../../{} %{i}/lib/%installDir \;
+find daq  -type f ! -path "%{i}/bin/*.exe" -name "*.exe" -exec ln -sf {} %{i}/bin \; 
+find daq  -type f ! -path "%{i}/bin/*.exe" -name "*.exe" -exec ln -sf ../../{} %{i}/bin/%installDir \;
 
 # Libraries from extern (not found cause they are symlinks)
 
-#find daq -type f ! -path "*/extern/*lib*" -name "*.a" -exec cp {} %{i}/lib \;
+find daq -type f ! -path "*/extern/*lib*" -name "*.a" -exec cp {} %{i}/lib \;
 perl -p -i -e "s|^#!.*make|#!/usr/bin/env make|" %{i}/daq/extern/slp/openslp-1.2.0/debian/rules
 %post
-#find $RPM_INSTALL_PREFIX/%pkgrel -type l | xargs ls -la | sed -e "s|.*[ ]\(/.*\) -> \(.*\)| \2 \1|;s|[ ]/[^ ]*/external| $RPM_INSTALL_PREFIX/%cmsplatf/external|g"
+find $RPM_INSTALL_PREFIX/%pkgrel -type l | xargs ls -la | sed -e "s|.*[ ]\(/.*\) -> \(.*\)| \2 \1|;s|[ ]/[^ ]*/external| $RPM_INSTALL_PREFIX/%cmsplatf/external|g"
 find $RPM_INSTALL_PREFIX/%pkgrel -type l | xargs ls -la | sed -e "s|.*[ ]\(/.*\) -> \(.*\)| \2 \1|;s|[ ]/[^ ]*/external| $RPM_INSTALL_PREFIX/%cmsplatf/external|g" | xargs -n2 ln -sf
