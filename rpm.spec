@@ -13,5 +13,6 @@ perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|" scripts/get_magic.pl \
                                                       db/dist/camelize.pl 
 %install
 make install
-cd %i
-tar czvhf %_sourcedir/rpm-bootstrap-%v.tar.gz `ldd %i/bin/rpm | grep %i | cut -f3 -d\  | sed -e 's|%i/||'` bin/rpm
+(cd %i; tar czvf %_sourcedir/rpm-bootstrap-%v.tar.gz .)
+%post
+perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|" `grep -r %instroot $RPM_INSTALL_PREFIX/%pkgrel | grep -v Binary | cut -d: -f1`
