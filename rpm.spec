@@ -11,3 +11,7 @@ perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|" scripts/get_magic.pl \
                                                       scripts/cpanflute2 \
                                                       scripts/perldeps.pl \
                                                       db/dist/camelize.pl 
+%install
+make install
+cd %i
+tar czvhf %_sourcedir/rpm-bootstrap-%v.tar.gz `ldd %i/bin/rpm | grep %i | cut -f3 -d\  | sed -e 's|%i/||'` bin/rpm
