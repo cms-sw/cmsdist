@@ -26,6 +26,12 @@ elif [ `uname` = Linux ]; then
 #      else
 #       echo slc${slc_version}_amd64
 #      fi
+  elif grep -q PU_IAS /etc/redhat-release 2>/dev/null; then
+       if [ `uname -i` == i386 ]; then
+           echo slc4_ia32
+       else
+           echo slc4_amd64
+       fi
   else
     archos= archosv=
     for f in debian_version slackware-version fedora-release \
