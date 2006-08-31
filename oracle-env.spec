@@ -3,7 +3,7 @@
 ## INITENV SET TNS_ADMIN %i/etc
 
 Source0: http://cmsdoc.cern.ch/swdev/viewcvs/viewcvs.cgi/*checkout*/COMP/PHEDEX/Schema/login.sql?rev=1.1&cvsroot=CMSSW
-Source1: http://cmsdoc.cern.ch/swdev/viewcvs/viewcvs.cgi/*checkout*/COMP/PHEDEX/Schema/tnsnames.ora?rev=1.19&cvsroot=CMSSW
+Source1: http://cmsdoc.cern.ch/swdev/viewcvs/viewcvs.cgi/*checkout*/COMP/PHEDEX/Schema/tnsnames.ora?rev=1.20&cvsroot=CMSSW
 %prep
 %build
 %install
