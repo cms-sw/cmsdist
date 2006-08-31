@@ -14,3 +14,6 @@ Requires: zlib
             --with-jpeg-include-dir=$LIBJPG_ROOT/include 
                           
 make %makeprocesses
+%post
+%{relocateConfig}lib/libtiff.la
+%{relocateConfig}lib/libtiffxx.la
