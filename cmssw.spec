@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_1_0_0_pre2-forCMS140
+### RPM cms cmssw CMSSW_1_0_0_pre3
 ## IMPORT configurations
 
 Provides: /bin/zsh
@@ -9,9 +9,7 @@ Requires: cmssw-tool-conf python
 %define patchsrc perl -p -i -e 's!<select name=(MyODBC|ignominy|rulechecker)>!!' config/requirements ;
 %define confversion %cmsConfiguration
 %define conflevel   _2
+%define preBuildCommand (rm -rf SimMuon/DTDigitizer/test)
 %define buildtarget release-build doc 
 ## IMPORT cms-scram-build
 ## IMPORT scramv1-build
-
-#
-#
