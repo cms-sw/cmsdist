@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_0_8_3
+### RPM cms cmssw CMSSW_0_8_4
 ## IMPORT configurations
 
 Provides: /bin/zsh
@@ -13,3 +13,4 @@ Requires: cmssw-tool-conf python
 %define buildtarget release-build doc 
 ## IMPORT cms-scram-build
 ## IMPORT scramv1-build
+
