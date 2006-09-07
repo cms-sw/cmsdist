@@ -5,6 +5,7 @@
 
 %define downloadv %(echo %v | tr . _)
 Source: https://srm.fnal.gov/twiki/pub/SrmProject/SrmcpClient/%{n}_v%{downloadv}_NULL.tar
+Requires: java-jdk
 
 %prep
 %setup -n srmclient
@@ -16,7 +17,7 @@ unset SRM_PATH SRM_CONFIG || true
 if [ ! -f $HOME/.srmconfig/config.xml ]; then
   mkdir -p %i/etc $HOME/.srmconfig
   SRM_PATH=%i/srmclient %i/srmclient/sbin/srm \
-    -copy file:///dev/null file:///dev/null > /dev/null 2>&1 || true
+    -copy file:////dev/null file:////dev/null > /dev/null 2>&1 || true
   [ -f $HOME/.srmconfig/config.xml ] 
 fi
 
