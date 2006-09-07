@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_1_0_0_pre2-forCMS140
+### RPM cms cmssw CMSSW_1_1_0_pre1
 ## IMPORT configurations
 
 Provides: /bin/zsh
@@ -13,5 +13,3 @@ Requires: cmssw-tool-conf python
 ## IMPORT cms-scram-build
 ## IMPORT scramv1-build
 
-#
-#
