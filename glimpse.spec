@@ -61,4 +61,4 @@ EOF_CMS_GLIMPSE
 perl -p -i -e "s|\@CMSPLATF\@|%cmsplatf|g" %{i}/bin/cmsglimpse
 chmod +x %{i}/bin/cmsglimpse
 %post
-perl -p -i -e "s|\@INSTROOT\@|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/bin/cmsglimpse 
+perl -p -i -e "s|\@INSTROOT\@|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/bin/cmsglimpse 
