@@ -9,7 +9,7 @@ make
 
 %install
 make install
-cat <<\EOF_CMS_GLIMPSE >%{instroot}/bin/cmsglimpse
+cat <<\EOF_CMS_GLIMPSE >%{i}/bin/cmsglimpse
 #!/bin/bash
 CURRENT_SCRAM_PROJECT=$(echo $SCRAMRT_SET | cut -d: -f2)
 args=
@@ -58,7 +58,7 @@ case $action in
 		;;
 esac
 EOF_CMS_GLIMPSE
-perl -p -i -e "s|\@CMSPLATF\@|%cmsplatf|g" %instroot/bin/cmsglimpse
-chmod +x %{instroot}/bin/cmsglimpse
+perl -p -i -e "s|\@CMSPLATF\@|%cmsplatf|g" %{i}/bin/cmsglimpse
+chmod +x %{i}/bin/cmsglimpse
 %post
 perl -p -i -e "s|\@INSTROOT\@|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/bin/cmsglimpse 
