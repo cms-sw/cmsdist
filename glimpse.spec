@@ -51,21 +51,24 @@ then
 	exit 1
 fi
 
-GLIMPSE_DIR=@INSTROOT@/share/glimpse/$CURRENT_SCRAM_PROJECT
-
-if [ -d $GLIMPSE_DIR ]
-then
-	echo "Glimpse index directory '$GLIMPSE_DIR' not found."
-	echo "Try running cmsglimpse -index"
-	exit 1
-fi
-
 case $action in
 	full )
-		glimpse -H @INSTROOT@/@CMSPLATF@/$CURRENT_SCRAM_PROJECT/src/.glimpse_full/ $args
+		if [ ! -e @INSTROOT@/@CMSPLATF@/cms/cmssw/$CURRENT_SCRAM_PROJECT/src/.glimpse_full/.glimpse_index ]
+		then 
+			echo "Glimpse index not found. Expected it in directory:"
+			echo "  @INSTROOT@/@CMSPLATF@/cms/cmssw/$CURRENT_SCRAM_PROJECT/src/.glimpse_full/"
+			exit 1
+                fi
+		glimpse -H @INSTROOT@/@CMSPLATF@/cms/cmssw/$CURRENT_SCRAM_PROJECT/src/.glimpse_full/ $args
 		;;
 	* )
-		glimpse -H @INSTROOT@/@CMSPLATF@/$CURRENT_SCRAM_PROJECT/src $args
+		if [ ! -e @INSTROOT@/@CMSPLATF@/cms/cmssw/$CURRENT_SCRAM_PROJECT/src/.glimpse_index ]
+		then 
+			echo "Glimpse index not found. Expected it in directory:"
+			echo "  @INSTROOT@/@CMSPLATF@/cms/cmssw/$CURRENT_SCRAM_PROJECT/src/"
+			exit 1
+                fi
+		glimpse -H @INSTROOT@/@CMSPLATF@/cms/cmssw/$CURRENT_SCRAM_PROJECT/src $args
 		;;
 esac
 EOF_CMS_GLIMPSE
