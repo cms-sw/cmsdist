@@ -18,11 +18,24 @@ action=
 while [ $# -gt 0 ]
 do
   case $1 in
-    -index ) [ $# -gt 1 ] || { echo "Option \`$1' requires an argument" 1>&2; exit 1;  } 
-	action=index; shift;;
-
+    -full ) 
+	action=full; shift;;
     -help )
-	echo "cmsglimpse [-H <CMSSW_TAG>] <search term>"
+	echo "cmsglimpse [-H <CMSSW_TAG>] [-full] [glimpse-options] <search term>"
+        echo ""
+        echo "  -H <CMSSW_TAG> - specify the CMSSW tag for the release you    "
+        echo "                   would like to search (e.g. 'CMSSW_1_0_0').   "
+        echo "                   If you do not specify the -H option it will  "
+        echo "                   default to the release corresponding to      "
+        echo "                   your current scram runtime environment.      "
+        echo ""
+        echo "  -full          - Print the full path to the source files. The "
+        echo "                   default is to print the relative path        "
+        echo "                   beginning with the CMSSW subsystem.          " 
+        echo ""
+        echo "  [glimpse-options] - any of the glimpse options can also be    "
+        echo "                      specified, except for -H, which is used   "
+        echo "                      as described above. See 'glimpse --help'. "
 	exit
 	;;
     -H )[ $# -gt 1 ] || { echo "Option \`$1' requires an argument" 1>&2; exit 1;  }
@@ -48,13 +61,11 @@ then
 fi
 
 case $action in
-	index )
-		(cd @INSTROOT@/@CMSPLATF@/cms/cmssw/$CURRENT_SCRAM_PROJECT; \
-		 eval `scramv1 run -sh`;		 
-		 glimpseindex $args -H $CURRENT_SCRAM_PROJECT @INSTROOT@/@CMSPLATF@/cms/cmssw/$CURRENT_SCRAM_PROJECT;)
+	full )
+		glimpse -H @INSTROOT@/@CMSPLATF@/$CURRENT_SCRAM_PROJECT/src/.glimpse_full/ $args
 		;;
 	* )
-		glimpse -H $CURRENT_SCRAM_PROJECT $args
+		glimpse -H @INSTROOT@/@CMSPLATF@/$CURRENT_SCRAM_PROJECT/src $args
 		;;
 esac
 EOF_CMS_GLIMPSE
