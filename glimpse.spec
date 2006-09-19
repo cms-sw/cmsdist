@@ -18,10 +18,10 @@ action=
 while [ $# -gt 0 ]
 do
   case $1 in
-    -full ) 
+    --full ) 
 	action=full; shift;;
-    -help )
-	echo "cmsglimpse [-H <CMSSW_TAG>] [-full] [glimpse-options] <search term>"
+    --help )
+	echo "cmsglimpse [-H <CMSSW_TAG>] [--full] [--help] [glimpse-options] <search term>" 
         echo ""
         echo "  -H <CMSSW_TAG> - specify the CMSSW tag for the release you    "
         echo "                   would like to search (e.g. 'CMSSW_1_0_0').   "
@@ -29,13 +29,16 @@ do
         echo "                   default to the release corresponding to      "
         echo "                   your current scram runtime environment.      "
         echo ""
-        echo "  -full          - Print the full path to the source files. The "
+        echo "  --full         - Print the full path to the source files. The "
         echo "                   default is to print the relative path        "
         echo "                   beginning with the CMSSW subsystem.          " 
         echo ""
+        echo "  --help         - This help information                        "
+        echo ""
         echo "  [glimpse-options] - any of the glimpse options can also be    "
-        echo "                      specified, except for -H, which is used   "
-        echo "                      as described above. See 'glimpse --help'. "
+        echo "                      specified, except for -H and --help, which"
+        echo "                      are used as described above.              "
+        echo "                      See 'glimpse --help' for the full list.   "
 	exit
 	;;
     -H )[ $# -gt 1 ] || { echo "Option \`$1' requires an argument" 1>&2; exit 1;  }
