@@ -1,4 +1,4 @@
-### RPM external geant4 7.1-p2cms
+### RPM external geant4 8.1-p2cms
 %define downloadv %(echo %v | cut -d- -f1)
 ## INITENV SET G4NDL_PATH %i/data/G4NDL%{g4NDLVersion}
 ## INITENV SET G4EMLOW_PATH %i/data/G4EMLOW%{g4EMLOWVersion}
@@ -7,23 +7,22 @@
 # Build system fudging and some patches by Lassi A. Tuura <lat@iki.fi>
 Requires: clhep
 %define photonEvaporationVersion 2.0
-%define g4NDLVersion 3.8
-%define g4EMLOWVersion 2.2
+%define g4NDLVersion 3.9
+%define g4ElasticScatteringVersion 1.1
+%define g4EMLOWVersion 4.0
 %define radiativeDecayVersion 3.0
 Source0: http://geant4.cern.ch/support/source/%n.%downloadv.tar.gz
 Source1: http://geant4.cern.ch/support/source/G4NDL.%{g4NDLVersion}.tar.gz
 Source2: http://geant4.cern.ch/support/source/G4EMLOW.%{g4EMLOWVersion}.tar.gz
 Source3: http://geant4.cern.ch/support/source/PhotonEvaporation.%{photonEvaporationVersion}.tar.gz
 Source4: http://geant4.cern.ch/support/source/RadiativeDecay.%{radiativeDecayVersion}.tar.gz
-Source5: http://geant4.web.cern.ch/geant4/physics_lists/geant4.6.1/lists/Packaging.tar
-Patch: geant4-g4e-pCMS2
-Patch2: geant4-g4tubs-lcapture-pCMS2
+Source5: http://geant4.cern.ch/support/source/G4ELASTIC.%{g4ElasticScatteringVersion}.tar.gz
+Patch: geant48-pCMS2
 
 %prep
 %setup -n %n.%downloadv
 pwd
-%patch0 -p0
-%patch2 -p0
+%patch0 -p0 
 %build
 # Linux? -pthread?
 touch G4BuildConf.sh
@@ -42,6 +41,7 @@ echo "export G4OPTIMIZE=1" >> G4BuildConf.sh
 echo "export G4LEVELGAMMADATA=%i/data/PhotonEvaporation/%{photonEvaporationVersion}" >> G4BuildConf.sh
 echo "export G4RADIOACTIVEDATA=%i/data/RadiativeDecay%{radiativeDecayVersion}" >> G4BuildConf.sh
 echo "export G4LEDATA=%i/data/G4EMLOW%{g4EMLOWVersion}" >> G4BuildConf.sh
+echo "export G4ELASTIC=%i/data/G4ELASTIC%{g4ElasticScatteringVersion}" >> G4BuildConf.sh
 echo "export NeutronHPCrossSections=%i/data/G4NDL%{g4NDLVersion}" >> G4BuildConf.sh
 
 # export G4LIB_BUILD_STATIC=1
