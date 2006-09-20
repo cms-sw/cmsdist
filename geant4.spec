@@ -8,7 +8,7 @@
 Requires: clhep
 %define photonEvaporationVersion 2.0
 %define g4NDLVersion 3.9
-%define g4ElasticScatteringiVersion 1.1
+%define g4ElasticScatteringVersion 1.1
 %define g4EMLOWVersion 4.0
 %define radiativeDecayVersion 3.0
 Source0: http://geant4.cern.ch/support/source/%n.%downloadv.tar.gz
