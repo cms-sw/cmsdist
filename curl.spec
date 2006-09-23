@@ -1,5 +1,5 @@
-### RPM external curl 7.10.8
-Source: http://curl.haxx.se/download/archeology/%n-%v.tar.gz
+### RPM external curl 7.15.3
+Source: http://curl.haxx.se/download/%n-%v.tar.gz
 
 %build
 ./configure --prefix=%i
