@@ -71,7 +71,7 @@ cd ..
 %{?patchsrc2:%patchsrc2}
 %{?patchsrc3:%patchsrc3}
 %{?patchsrc4:%patchsrc4}
-%{?patchsrc4:%patchsrc5}
+%{?patchsrc5:%patchsrc5}
 
 pwd
 perl -p -i -e '
