@@ -9,7 +9,6 @@ Requires: cmssw-tool-conf python glimpse
 %define patchsrc perl -p -i -e 's!<select name=(MyODBC|ignominy|rulechecker)>!!' config/requirements ;
 %define confversion %cmsConfiguration
 %define conflevel   _2
-%define preBuildCommand (rm -rf GeneratorInterface/CharybdisInterface)
 %define buildtarget gindices release-build doc 
 ## IMPORT cms-scram-build
 ## IMPORT scramv1-build
