@@ -75,12 +75,12 @@ echo "export G4VIS_BUILD_DAWNFILE_DRIVER=1" >> G4BuildConf.sh
 source G4BuildConf.sh
 mkdir -p %i
 tar -cf - config source | tar -C %i -xf -
+
 make %makeprocesses -C $G4BASE all
 make %makeprocesses -C $G4BASE includes
 make %makeprocesses -C $G4BASE
 make %makeprocesses -C $G4BASE global
 make %makeprocesses -C $G4BASE
-(cd source/geant4e ; make %makeprocesses -C $G4BASE)
 
 %install
 mkdir -p %i/etc
