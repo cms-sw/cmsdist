@@ -80,7 +80,7 @@ make %makeprocesses -C $G4BASE includes
 make %makeprocesses -C $G4BASE
 make %makeprocesses -C $G4BASE global
 make %makeprocesses -C $G4BASE
-(cd geant4e ; make %makeprocesses -C $G4BASE)
+(cd source/geant4e ; make %makeprocesses -C $G4BASE)
 
 %install
 mkdir -p %i/etc
