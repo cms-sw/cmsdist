@@ -5,7 +5,6 @@
 
 %define downloadv %(echo %v | tr . _)
 Source: https://srm.fnal.gov/twiki/pub/SrmProject/SrmcpClient/%{n}_v%{downloadv}_NULL.tar
-Requires: java-jdk
 
 %prep
 %setup -n srmclient
