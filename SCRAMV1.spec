@@ -82,7 +82,6 @@ cat Installation/SCRAM_SITE.pm.in | sed -e "s|@SCRAM_HOME@|%i|;s|@SCRAM_LOOKUPDB
 # 
 # exec perl "$SCRAM_HOME/src/scramcli" ${1+"$@"}
 # EOF
-chmod 755 %instroot/bin/scramv1
 chmod 755 %i/bin/scramv1
 
 mkdir %i/etc
