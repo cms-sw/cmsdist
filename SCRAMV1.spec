@@ -113,10 +113,10 @@ perl -p -i -e "s|#!.*perl|/usr/bin/env perl|" %{i}/doc/doxygen/DoxyFilt.pl
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 # If and only if there is no default-scramv1 set the default to be the version we package in this spec.
-mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc
 OLD_VERSION=""
-if [ ! -f $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/default-scramv1-version ]
+if [ -f $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/default-scramv1-version ]
 then
+    mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc
     OLD_VERSION=`cat $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/default-scramv1-version`
 fi
 NEW_VERSION=%v
