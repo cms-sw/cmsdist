@@ -1,8 +1,7 @@
-### RPM lcg SCRAMV1 V1_0_3
+### RPM lcg SCRAMV1 V1_0_1
 ## INITENV +PATH PATH %instroot/bin
 ## INITENV +PATH PERL5LIB %{i}
 Requires: expat p5-template-toolkit p5-uri p5-xml-parser p5-libwww-perl cms-env
-Requires: scramv1-wrapper
 Provides: perl(SCRAM::Helper)
 Provides: perl(Utilities::AddDir) 
 Provides: perl(Utilities::Architecture) 
@@ -130,6 +129,19 @@ then
 fi
 NEW_VERSION=%v
 (echo $OLD_VERSION;echo $NEW_VERSION) | sort | tail -1 > $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/default-scramv1-version
+
+# Create the wrapper script. 
+# This has to be done in the post installation script because otherwise it gets deleted when
+# uninstalling the old revision of scram.
+cat << \EOF_BIN_SCRAMV1 > $RPM_INSTALL_PREFIX/bin/scramv1
+#!/bin/sh
+CMSARCH=`cmsarch`
+SCRAM_VERSION=`cat %{instroot}/$CMSARCH/etc/default-scramv1-version`
+source %{instroot}/$CMSARCH/lcg/SCRAMV1/$SCRAM_VERSION/etc/profile.d/init.sh
+%{instroot}/$CMSARCH/lcg/SCRAMV1/$SCRAM_VERSION/bin/scramv1 $@
+EOF_BIN_SCRAMV1
+chmod +x $RPM_INSTALL_PREFIX/bin/scramv1
+perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/bin/scramv1
 
 %files
 %i
