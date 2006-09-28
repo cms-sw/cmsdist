@@ -81,7 +81,7 @@ make %makeprocesses -C $G4BASE includes
 make %makeprocesses -C $G4BASE
 make %makeprocesses -C $G4BASE global
 make %makeprocesses -C $G4BASE
-make %makeprocesses -C $G4BASE/source/share/particle_lists/hadronic/Packaging
+make %makeprocesses -C $G4BASE/particle_lists/hadronic/Packaging
 
 %install
 mkdir -p %i/etc
