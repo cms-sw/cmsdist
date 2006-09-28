@@ -15,6 +15,15 @@ Provides: perl(Graph::Graph)
 Provides: perl(ObjectStore)
 Provides: perl(Utilities::SVNmodule)
 Provides: perl(URL::URL_cvsfile)
+Provides: perl(BuildSystem::Block)
+Provides: perl(BuildSystem::Build)
+Provides: perl(BuildSystem::BuildClass)
+Provides: perl(BuildSystem::BuildSetup)
+Provides: perl(BuildSystem::DateStampRecord)
+Provides: perl(BuildSystem::Tool)
+Provides: perl(BuildSystem::ToolBox)
+Provides: perl(BuildSystem::ToolDoc)
+Provides: perl(Utilities::GroupChecker) 
 
 # This package is somewhat unusual compared to other packages we
 # build: we install the normally versioned product "SCRAM", but also
