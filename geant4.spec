@@ -96,4 +96,6 @@ tar -C %i/data -zxvf %_sourcedir/G4EMLOW*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/Photon*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/Rad*.tar.gz
 mkdir -p %i/share
-cp -r physics_lists  %i/share 
+cp -r physics_lists  %i/share
+ln -sf plists/$(uname)-g++/libPackaging.so %i/lib/libPackaging.so
+find %{i}/share/physics_lists/hadronic/Packaging/include/ -iname *.hh | sed -e "s|.*/||" | xargs -i ln -sf ../share/physics_lists/hadronic/Packaging/include/{} %{i}/include/{}
