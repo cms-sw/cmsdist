@@ -1,4 +1,4 @@
-### RPM external py2-numpy 1.0b5
+### RPM external py2-numpy 1.0rc2
 ## INITENV +PATH PYTHONPATH %i/lib/python$(echo $PYTHON_VERSION | cut -d. -f 1,2)/site-packages
 %define downloadn numpy
 Source: http://switch.dl.sourceforge.net/sourceforge/%downloadn/%downloadn-%v.tar.gz
