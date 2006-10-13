@@ -5,9 +5,10 @@
 %define downloadn Sort-Key
 
 Source: http://search.cpan.org/CPAN/authors/id/S/SA/SALVA/%{downloadn}-%{v}.tar.gz
+
 %prep
 %setup -n %downloadn-%v
+
 %build
-LC_ALL=C; export LC_ALL
 perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion
 make
