@@ -23,6 +23,7 @@ fi
 mkdir -p %i/etc
 cp -p $HOME/.srmconfig/config.xml %i/etc/config.xml
 perl -p -i -e "s|$HOME|%i|" %i/etc/config.xml
+perl -p -i -e "s|%i/.globus/certificates|/etc/grid-security/certificates|" %i/etc/config.xml
 
 %post
 %{relocateConfig}etc/config.xml
