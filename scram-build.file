@@ -51,6 +51,8 @@ Source1: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvsconfig}&export=%{configtree}&out
 %define src2 none
 %endif
 
+
+
 Source2: %{src2}
 
 # Pick additional sources.  Since install.sh does a grep for "^Source",
@@ -105,7 +107,10 @@ Source7: %source7
 
 %if "%{?isGenser:set}" != "set"
 %setup -D -T -b 2 -n %{srctree}
+%else
+mkdir -p %{_builddir}/%{srctree}
 %endif
+
 
 %if "%{?additionalSrc0:set}" == "set"
 %setup -D -T -a 3 -n %{srctree}
