@@ -1,4 +1,4 @@
-### RPM lcg root 5.12.00e
+### RPM lcg root 5.13.04a
 # INITENV +PATH PYTHONPATH %i/lib/python
 %define realVersion %(echo %v | cut -d- -f1)
 Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realVersion | tr . -)&module=root&output=/%{n}_v%{realVersion}.source.tar.gz
