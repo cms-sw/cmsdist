@@ -1,4 +1,4 @@
-### RPM external clhep 1.9.2.2
+### RPM external clhep 1.9.2.3-aa
 Source: http://proj-clhep.web.cern.ch/proj-clhep/%n-%v.tgz
 
 %prep
