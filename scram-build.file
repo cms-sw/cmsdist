@@ -44,7 +44,16 @@
 Requires: SCRAM
 Source0: %{tbxrepo}&tag=-r%{conftag}&module=SCRAMToolBox&output=/toolbox.tar.gz
 Source1: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvsconfig}&export=%{configtree}&output=/config.tar.gz
-Source2: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
+
+%if "%{?isGenser:set}" != "set"
+%define src2 %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
+%else
+%define src2 none
+%endif
+
+
+
+Source2: %{src2}
 
 # Pick additional sources.  Since install.sh does a grep for "^Source",
 # we need to arrange an expansion that always works, regardless of whether
@@ -95,7 +104,13 @@ Source7: %source7
 
 %setup -T -b 0 -n SCRAMToolBox
 %setup -D -T -b 1 -n %{configtree}
+
+%if "%{?isGenser:set}" != "set"
 %setup -D -T -b 2 -n %{srctree}
+%else
+mkdir -p %{_builddir}/%{srctree}
+%endif
+
 
 %if "%{?additionalSrc0:set}" == "set"
 %setup -D -T -a 3 -n %{srctree}
