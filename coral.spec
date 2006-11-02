@@ -13,6 +13,8 @@ Patch: CORAL_1_5_3-crashandperformance
 %define patchsrc2 perl -p -i -e "s|(project name=CORAL version=).*>|project name=CORAL version=%v>/BootStrapFileSRC|" %{configtree}/BootStrapFileSRC
 %define patchsrc3 rm -rf %{srctree}/SQLiteAccess/tests
 %define patchsrc4 %%patch0
+%define patchsrc5 perl -p -i -e 's!<select name=vdt>!!; s!<select name=lfc>!!' %{configtree}/RequirementsDoc ; 
+
 %define patchinstall mkdir -p %{i}/include; for x in `ls %{i}/src`; do if [ -d %{i}/src/$x/$x ]; then cp -r %{i}/src/$x/$x %{i}/include; fi ; done
 
 %define conflevel   _1
