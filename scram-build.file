@@ -88,7 +88,7 @@ Source2: %{src2}
 %define source7 none
 %endif
 
-%if "%{?additionalSrc4:set}" == "set"
+%if "%{?additionalSrc5:set}" == "set"
 %define source8 %{additionalSrc5}&output=/src6.tar.gz
 %else
 %define source8 none
@@ -139,6 +139,10 @@ mkdir -p %{_builddir}/%{srctree}
 
 %if "%{?additionalSrc4:set}" == "set"
 %setup -D -T -a 7 -n %{srctree}
+%endif
+
+%if "%{?additionalSrc5:set}" == "set"
+%setup -D -T -a 8 -n %{srctree}
 %endif
 
 
