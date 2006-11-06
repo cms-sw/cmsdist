@@ -88,11 +88,18 @@ Source2: %{src2}
 %define source7 none
 %endif
 
+%if "%{?additionalSrc4:set}" == "set"
+%define source8 %{additionalSrc5}&output=/src6.tar.gz
+%else
+%define source8 none
+%endif
+
 Source3: %source3
 Source4: %source4
 Source5: %source5
 Source6: %source6
 Source7: %source7
+Source8: %source8
 
 ####%define scramVersion %(scram version)
 
