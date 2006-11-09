@@ -1,11 +1,11 @@
-### RPM lcg root 5.12.00c
+### RPM lcg root 5.13.04c
 # INITENV +PATH PYTHONPATH %i/lib/python
 %define realVersion %(echo %v | cut -d- -f1)
 Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realVersion | tr . -)&module=root&output=/%{n}_v%{realVersion}.source.tar.gz
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realVersion}.source.tar.gz
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
-Requires: gccxml python qt gsl castor openssl mysql libpng libjpg dcap pcre zlib oracle
+Requires: gccxml python qt gsl castor openssl mysql libpng libjpg dcache-client pcre zlib oracle
 
 %if "%cpu" != "amd64"
 Requires: libtiff
@@ -36,8 +36,8 @@ CONFIG_ARGS="--enable-table
              --enable-roofit
              --disable-ldap
              --disable-krb5
-	         --with-dcap-libdir=${DCAP_ROOT}/lib 
-             --with-dcap-incdir=${DCAP_ROOT}/include
+	         --with-dcap-libdir=${DCACHE_CLIENT_ROOT}/lib 
+             --with-dcap-incdir=${DCACHE_CLIENT_ROOT}/include
              --with-ssl-incdir=${OPENSSL_ROOT}/include
              --with-ssl-libdir=${OPENSSL_ROOT}/lib
              --with-shift-incdir=${CASTOR_ROOT}/include/shift
