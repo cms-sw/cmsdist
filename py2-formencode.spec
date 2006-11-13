@@ -1,4 +1,4 @@
-### RPM external formencode 0.5.1
+### RPM external py2-formencode 0.5.1
 ## INITENV +PATH PYTHONPATH %i/lib/python$(echo $PYTHON_VERSION | cut -f1,2 -d.)/site-packages
 %define distname FormEncode-%v
 Source: http://cheeseshop.python.org/packages/source/F/FormEncode/%{distname}.tar.gz
