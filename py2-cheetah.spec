@@ -9,3 +9,5 @@ Source: http://switch.dl.sourceforge.net/sourceforge/cheetahtemplate/Cheetah-%v.
 %build
 %install
 python setup.py install --prefix=%i
+perl -p -i -e "s|#\!.*python|#!/usr/bin/env python|" %i/bin/cheetah
+perl -p -i -e "s|#\!.*python|#!/usr/bin/env python|" %i/bin/cheetah-compile
