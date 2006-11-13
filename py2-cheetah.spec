@@ -1,8 +1,8 @@
 ### RPM external py2-cheetah 2.0rc7
-%define pythonv %(echo $PYTHON_VERSION |cut -d. -f1,2)
-## INITENV +PATH PYTHONPATH %i/lib/python%{pythonv}/site-packages
-Source: http://switch.dl.sourceforge.net/sourceforge/cheetahtemplate/Cheetah-%v.tar.gz
 Requires: python
+## INITENV +PATH PYTHONPATH %i/lib/python%{pythonv}$(echo $PYTHON_VERSION | cut -d. -f 1,2)/site-packages
+%define pythonv %(echo $PYTHON_VERSION | cut -d. -f 1,2)
+Source: http://switch.dl.sourceforge.net/sourceforge/cheetahtemplate/Cheetah-%v.tar.gz
 
 %prep
 %setup -n Cheetah-%v
