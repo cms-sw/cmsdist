@@ -1,4 +1,4 @@
-### RPM external castor 2.1.1-1
+### RPM external castor 2.1.1-4
 %define downloadv v%(echo %v | tr - _ | tr . _)
 %define baseVersion %(echo %v | cut -d- -f1)
 %define patchLevel %(echo %v | cut -d- -f2)
