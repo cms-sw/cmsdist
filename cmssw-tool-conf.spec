@@ -15,11 +15,6 @@ Provides: libboost_signals-gcc-mt.so
 Provides: libboost_thread-gcc-mt.so
 
 Requires: gcc
-
-Requires: gcc
-
-Requires: gcc
-
 Requires: lcgaa
 Requires: coral
 Requires: pool
@@ -33,30 +28,8 @@ Requires: castor
 Requires: zlib
 Requires: python
 Requires: boost
-Requires: boost
-
-Requires: boost
-
-Requires: boost
-
 Requires: xerces-c
 Requires: root
-Requires: root
-
-Requires: root
-
-Requires: root
-
-Requires: root
-
-Requires: root
-
-Requires: root
-
-Requires: root
-
-Requires: root
-
 Requires: uuid
 Requires: gsl
 Requires: sqlite
@@ -67,7 +40,6 @@ Requires: gccxml
 Requires: python
 Requires: boost
 Requires: elementtree
-
 Requires: sigcpp
 Requires: mimetic
 Requires: bz2lib
@@ -78,10 +50,8 @@ Requires: cppunit
 Requires: qt
 Requires: soqt
 Requires: coin
-
 Requires: curl
 Requires: libjpg
-
 Requires: simage
 Requires: openssl
 Requires: hippodraw
@@ -89,14 +59,6 @@ Requires: qutexmlrpc
 Requires: expat
 Requires: frontier_client
 Requires: genser
-Requires: genser
-
-Requires: genser
-
-Requires: genser
-
-Requires: genser
-
 Requires: tkonlinesw
 Requires: doxygen
 Requires: meschach
