@@ -1,4 +1,4 @@
-### RPM external geant4 8.1-p2cms
+### RPM external geant4 8.1-p2.cms1
 %define downloadv %(echo %v | cut -d- -f1)
 ## INITENV SET G4NDL_PATH %i/data/G4NDL%{g4NDLVersion}
 ## INITENV SET G4EMLOW_PATH %i/data/G4EMLOW%{g4EMLOWVersion}
@@ -17,12 +17,13 @@ Source2: http://geant4.cern.ch/support/source/G4EMLOW.%{g4EMLOWVersion}.tar.gz
 Source3: http://geant4.cern.ch/support/source/PhotonEvaporation.%{photonEvaporationVersion}.tar.gz
 Source4: http://geant4.cern.ch/support/source/RadiativeDecay.%{radiativeDecayVersion}.tar.gz
 Source5: http://geant4.cern.ch/support/source/G4ELASTIC.%{g4ElasticScatteringVersion}.tar.gz
-Patch: geant48-pCMS2
-
+Patch: geant48-p2-cms1
+Patch1: geant4-geant4e-GNUmakefile
 %prep
 %setup -n %n.%downloadv
 pwd
 %patch0 -p0 
+%patch1 -p0
 %build
 # Linux? -pthread?
 touch G4BuildConf.sh
