@@ -12,6 +12,8 @@ Requires: libtiff
 %endif
 
 Patch: root-cint-bug
+Patch1: cintex_5.13.04e
+
 %prep
 %setup -n root
 %build
