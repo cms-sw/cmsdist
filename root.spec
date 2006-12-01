@@ -12,10 +12,11 @@ Requires: libtiff
 %endif
 
 Patch: cintex_5.13.04e
-
+Patch1: reflex
 %prep
 %setup -n root
 %patch0 -p0 
+%patch1 -p0
 %build
 mkdir -p %i
 export ROOTSYS=%_builddir/root
