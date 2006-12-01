@@ -1,4 +1,4 @@
-### RPM lcg root 5.12.00c
+### RPM lcg root 5.13.04c-for120p9
 # INITENV +PATH PYTHONPATH %i/lib/python
 %define realVersion %(echo %v | cut -d- -f1)
 Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realVersion | tr . -)&module=root&output=/%{n}_v%{realVersion}.source.tar.gz
@@ -11,9 +11,12 @@ Requires: gccxml python qt gsl castor openssl mysql libpng libjpg dcap pcre zlib
 Requires: libtiff
 %endif
 
-Patch: root-cint-bug
+Patch: cintex_5.13.04e
+Patch1: reflex
 %prep
 %setup -n root
+%patch0 -p0 
+%patch1 -p0
 %build
 mkdir -p %i
 export ROOTSYS=%_builddir/root
