@@ -11,11 +11,11 @@ Requires: gccxml python qt gsl castor openssl mysql libpng libjpg dcap pcre zlib
 Requires: libtiff
 %endif
 
-Patch: root-cint-bug
-Patch1: cintex_5.13.04e
+Patch: cintex_5.13.04e
 
 %prep
 %setup -n root
+%patch0 -p0 
 %build
 mkdir -p %i
 export ROOTSYS=%_builddir/root
