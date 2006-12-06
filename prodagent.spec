@@ -1,9 +1,9 @@
-### RPM cms prodagent PRODAGENT_0_0_50
+### RPM cms prodagent PRODAGENT_0_1_0
 ## INITENV +PATH PYTHONPATH %i/lib
 
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=PRODAGENT&export=PRODAGENT&&tag=-r%{cvstag}&output=/PRODAGENT.tar.gz
-Requires: python mysql py2-mysqldb dbs dls boss
+Requires: python mysql py2-mysqldb dbs dls boss prodcommon
 
 %prep
 %setup -n PRODAGENT
@@ -25,6 +25,7 @@ mkdir -p %i/workdir
  echo "source $PY2_MYSQLDB_ROOT/etc/profile.d/init.sh"; \
  echo "source $DBS_ROOT/etc/profile.d/init.sh"; \
  echo "source $DLS_ROOT/etc/profile.d/init.sh"; \
+ echo "source $PRODCOMMON_ROOT/etc/profile.d/init.sh"; \
  echo "source $BOSS_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
 
 (echo "#!/bin/tcsh"; \
@@ -33,6 +34,7 @@ mkdir -p %i/workdir
  echo "source $PY2_MYSQLDB_ROOT/etc/profile.d/init.csh"; \
  echo "source $DBS_ROOT/etc/profile.d/init.csh"; \
  echo "source $DLS_ROOT/etc/profile.d/init.csh"; \
+ echo "source $PRODCOMMON_ROOT/etc/profile.d/init.csh"; \
  echo "source $BOSS_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 %post
