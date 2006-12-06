@@ -9,7 +9,7 @@ Requires: python
 %setup -n SQLAlchemy-%v
 %build
 %install
-mkdir -p %i/lib/python%{pythonv}/site-packages
+mkdir -p %i/lib/python$(echo $PYTHON_VERSION | cut -f1,2 -d.)/site-packages
 python setup.py build
-mv build/lib/* %i/lib/python%{pythonv}/site-packages
+mv build/lib/* %i/lib/python$(echo $PYTHON_VERSION | cut -f1,2 -d.)/site-packages
 
