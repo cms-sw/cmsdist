@@ -8,6 +8,6 @@ Requires: python
 %setup -n PRODCOMMON
 %build
 %install
+make PREFIX=%i install
 mkdir -p %i
 cp -r * %i
-
