@@ -1,4 +1,4 @@
-### RPM lcg coral CORAL_1_6_2-for120p9
+### RPM lcg coral CORAL_1_6_2-cms143f
 ## IMPORT configurations
 Requires: coral-tool-conf
 Patch: CORAL_1_5_3-crashandperformance
