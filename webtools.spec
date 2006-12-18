@@ -21,5 +21,28 @@ static_filter.on = True
 static_filter.dir = "%i/Templates"
 EOF_CHERRYPY_CONF
 
+cat << \EOF_APACHE2_HEADER > %i/etc/apache2-header.conf
+RewriteEngine On
+RewriteBase /cms/services
+EOF_APACHE2_HEADER
+
+cat << \EOF_APACHE2_CONF > %i/etc/apache2.conf
+<Directory %i/Common>
+Allow from all
+</Directory>
+<Directory %i/Templates>
+Allow from all
+</Directory>
+EOF_APACHE2_CONF
+
+cat << \EOF_APACHE2_FOOTER > %i/etc/apache2-footer.conf
+RewriteRule ^/cms/services/webtools/Common(.*)$ %i/Common$1
+RewriteRule ^/cms/services/webtools/Templates(.*)$ %i/Templates$1
+EOF_APACHE2_FOOTER
+
 %post
 %{relocateConfig}etc/cherrypy.conf
+%{relocateConfig}etc/apache2.conf
+%{relocateConfig}etc/apache2-header.conf
+%{relocateConfig}etc/apache2-footer.conf
+
