@@ -3,7 +3,7 @@
 
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Web/DataDiscovery&export=DBS/Web/DataDiscovery&tag=-r%{cvstag}&output=/dbs-web.tar.gz
-Requires: python dbs-client py2-sqlalchemy cherrypy
+Requires: python dbs-client py2-sqlalchemy cherrypy mysql py2-mysqldb oracle py2-cx-oracle apache-tomcat
 
 %prep
 %setup -n DBS
