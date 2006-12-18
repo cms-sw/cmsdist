@@ -1,4 +1,4 @@
-### RPM virtual java-jdk 1.0
+### RPM external java-jdk 1.0
 ## INITENV SET JAVA_HOME @JAVA_HOME@
 ## INITENV +PATH PATH @JAVA_PATH@
 ## INITENV +PATH LD_LIBRARY_PATH @JAVA_LIB@
