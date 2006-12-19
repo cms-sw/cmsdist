@@ -13,3 +13,4 @@ perl -p -i -e "s!library_dirs=.*!library_dirs=$SQLITE_ROOT/lib!" setup.cfg
 python setup.py build
 %install
 python setup.py install --prefix=%i
+#
