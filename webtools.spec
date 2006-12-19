@@ -15,10 +15,10 @@ cat << \EOF_CHERRYPY_CONF > %i/etc/cherrypy.conf
 # Serve a complete directory 
 [/Common] 
 static_filter.on = True 
-static_filter.dir = "%i/Common"
+static_filter.dir = %i/Common
 [/Templates]
 static_filter.on = True
-static_filter.dir = "%i/Templates"
+static_filter.dir = %i/Templates
 EOF_CHERRYPY_CONF
 
 cat << \EOF_APACHE2_HEADER > %i/etc/apache2-header.conf
