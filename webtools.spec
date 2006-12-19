@@ -1,4 +1,4 @@
-### RPM cms webtools alpha
+### RPM cms webtools ALPHA 
 %define moduleName WEBTOOLS
 %define exportName WEBTOOLS
 %define cvstag HEAD
