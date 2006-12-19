@@ -14,4 +14,4 @@ static_filter.on = True
 static_filter.dir = %i/build
 EOF_CHERRYPY_CONF
 %post
-%{relocateConfigi}etc/cherrypy.conf
+%{relocateConfig}etc/cherrypy.conf
