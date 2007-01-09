@@ -79,6 +79,7 @@ Source5: %{cmsrepo}&tag=-r%{lcgaawrappertag}&module=LCGAAwrappers&output=/LCGAAw
 %endif
 
 %prep
+
 # Create a SCRAM project area, but using the already extracted
 # sources.  In other words, pick up the files from the project config
 # area, but munge all instances of <base url="cvs:*"> into a local
@@ -115,10 +116,10 @@ pwd
 perl -p -i -e '
   # Keep track whether we are in a toolbox area or not
   if ($. == 1) { $intbx = 1; }
-  if (/<base/) { $intbx = /SPITOOLS|SCRAMToolBox/; }
+  if (/<base/) { $intbx = /SPITOOLS|SCRAMToolBox|scramtoolbox/; }
 
   # Replace base locations
-  s!cvs://.*/(SPITOOLS|SCRAMToolBox)\?[^">]+!file:%_builddir/SCRAMToolBox/!;
+  s!cvs://.*/(SPITOOLS|SCRAMToolBox|scramtoolbox)\?[^">]+!file:%_builddir/SCRAMToolBox/!;
   s!cvs://.*/(CMSSW)\?[^">]+!file:%_builddir/!;
   s!cvs://.*/%cvsdir\?[^">]+!file:%_builddir/!;
   
@@ -130,6 +131,7 @@ perl -p -i -e '
   if ($intbx) {
     s!url="cvs:\?module="?([^">]+)"?\s+name="?([^">]+)"?>!url="file:$1" name="$2">!;
     s!url="(cvs:\?module=|file:)SCRAMToolBox/(.*)">!url="file:$2">!;
+    s!url="(cvs:\?module=|file:)scramtoolbox/(.*)">!url="file:$2">!;
   } else {
     #s!url="cvs:\?module="?([^">]+)"?\s+name="?([^">]+)"?>!url="file:$2" name="$2">!;
     s!url="cvs:\?module="?([^">]+)"?\s+name="?([^">]+)"?>!url="file:$1" name="$2">!;
@@ -137,7 +139,6 @@ perl -p -i -e '
  ' %{bootstrapfile} \
    %{reqfile} \
    SCRAMToolBox/CMS/Configuration/CMSconfiguration
-#   SCRAMToolBox/Configuration/Configuration 
 
 # Fix bootstrap file for projects that checkout to a different source tree:
 perl -p -i -e '
@@ -150,9 +151,11 @@ pwd
 perl -p -i -e '
     # Replace base locations
     s!cvs://.*/(SPITOOLS|SCRAMToolBox)\?[^">]+!file:%_builddir/SCRAMToolBox/!;
+    s!cvs://.*/(SPITOOLS|scramtoolbox)\?[^">]+!file:%_builddir/SCRAMToolBox/!;
     s!cvs://.*/%cvsdir\?[^">]+!file:%_builddir/!;
     s!url="cvs:\?module="?([^">]+)"?\s+name="?([^">]+)"?>!url="file:$1" name="$2">!;
     s!url="(cvs:\?module=|file:)SCRAMToolBox/(.*)">!url="file:$2">!;
+    s!url="(cvs:\?module=|file:)scramtoolbox/(.*)">!url="file:$2">!;
 ' SCRAMToolBox/CMS/Configuration/CMSconfiguration
 echo $PERL5LIB
 echo rm -rf %i
