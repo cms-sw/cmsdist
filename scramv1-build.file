@@ -171,6 +171,7 @@ scramv1 project -d $(dirname %i) -b %{bootstrapfile} -f %toolconf;
 echo `scramv1 arch`
 cd %i
 cp -f %toolconf config/site
+echo %toolconf | sed 's|.*tools-||;s|.conf||' > config/site/sitename
 cd src
 
 %{?buildarch:%buildarch}
