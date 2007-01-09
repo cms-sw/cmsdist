@@ -169,8 +169,9 @@ scramv1 project -d $(dirname %i) -b %{bootstrapfile} -f %toolconf;
 
 %build
 echo `scramv1 arch`
-
-cd %i/src
+cd %i
+cp -f %toolconf config/site
+cd src
 
 %{?buildarch:%buildarch}
 
