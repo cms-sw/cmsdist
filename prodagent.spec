@@ -21,6 +21,7 @@ mkdir -p %i/workdir
 
 (echo "#!/bin/sh"; \
  echo "source $PYTHON_ROOT/etc/profile.d/init.sh"; \
+ echo "source $OPENSSL_ROOT/etc/profile.d/init.sh"; \
  echo "source $MYSQL_ROOT/etc/profile.d/init.sh"; \
  echo "source $PY2_MYSQLDB_ROOT/etc/profile.d/init.sh"; \
  echo "source $DBS_ROOT/etc/profile.d/init.sh"; \
@@ -30,6 +31,7 @@ mkdir -p %i/workdir
 
 (echo "#!/bin/tcsh"; \
  echo "source $PYTHON_ROOT/etc/profile.d/init.csh"; \
+ echo "source $OPENSSL_ROOT/etc/profile.d/init.csh"; \
  echo "source $MYSQL_ROOT/etc/profile.d/init.csh"; \
  echo "source $PY2_MYSQLDB_ROOT/etc/profile.d/init.csh"; \
  echo "source $DBS_ROOT/etc/profile.d/init.csh"; \
