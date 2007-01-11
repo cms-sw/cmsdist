@@ -17,7 +17,7 @@ Requires: coral-tool-conf
 %define buildtarget release-build 
 
 # NR: define tag and repository for project's config:
-%define configtag V00-00-98
+%define configtag V00-01-01
 %define cvsconfig config
 
 
