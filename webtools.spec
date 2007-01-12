@@ -1,7 +1,7 @@
 ### RPM cms webtools ALPHA 
 %define moduleName WEBTOOLS
 %define exportName WEBTOOLS
-%define cvstag HEAD
+%define cvstag DMWT_0_0_1 
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
 
@@ -19,8 +19,14 @@ static_filter.dir = %i/Common
 [/Templates]
 static_filter.on = True
 static_filter.dir = %i/Templates
+# Serve a complete directory 
+[/WEBTOOLS/Common]
+static_filter.on = True
+static_filter.dir = %i/Common
+[/WEBTOOLS/Templates]
+static_filter.on = True
+static_filter.dir = %i/Templates
 EOF_CHERRYPY_CONF
-
 cat << \EOF_APACHE2_HEADER > %i/etc/apache2-header.conf
 RewriteEngine On
 RewriteBase /cms/services
