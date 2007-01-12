@@ -145,6 +145,16 @@ perl -p -i -e '
   s!url="file:(.*)" name="(%srctree.*)">!url="file:$2" name="$2">!;
 ' %{bootstrapfile}
 
+%if "%{?lcgaawrappers:set}" == "set"
+echo "Moving %{srctree}/%{lcgaawrappers} %{lcgaawrappers}"
+mv %{_builddir}/%{srctree}/%{lcgaawrappers} %{_builddir}/%{lcgaawrappers}
+%{_builddir}/%{cvsconfig}/obviate_buildfiles.pl -d %{_builddir}/src -v
+tar -c -C %{_builddir}/%{lcgaawrappers}/%{cvsproj} ./ --exclude CVS | gtar -x -C %{_builddir}
+rm -rf %{_builddir}/%{lcgaawrappers}
+touch %{_builddir}/%{srctree}/scramv1_buildfiles
+%else
+echo "NO LCGAA wrapper"
+%endif
 
 # Handle toolbox
 pwd 
@@ -176,7 +186,7 @@ cd src
 
 %{?buildarch:%buildarch}
 
-export SCRAM_NOSYMCHECK=true
+# export SCRAM_NOSYMCHECK=true
 
 if [ $(uname) = Darwin ]; then
   # scramv1 doesn't know the rpath variable on darwin...
@@ -190,10 +200,18 @@ echo "executing %preBuildCommand"
 %preBuildCommand
 %endif
 
-scramv1 b --verbose -r %{buildtarget} </dev/null
-%if "%{?additionalBuildTarget0:set}" == "set"
-scramv1 b --verbose %{additionalBuildTarget0} < /dev/null
+scramv1 b -r echo_CXX </dev/null
+%if "%{?prebuildtarget:set}" == "set"
+scramv1 b --verbose -f %{prebuildtarget} </dev/null
 %endif
+scramv1 b --verbose -f %{makeprocesses} %{buildtarget} </dev/null
+%if "%{?additionalBuildTarget0:set}" == "set"
+scramv1 b --verbose -f %{additionalBuildTarget0} < /dev/null
+%endif
+%if "%{?postbuildtarget:set}" == "set"
+scramv1 b --verbose -f %{postbuildtarget} </dev/null
+%endif
+
 rm -rf %i/tmp
 chmod -R 755 %i %i/.SCRAM
 (eval `scramv1 run -sh` ; SealPluginRefresh) || true
