@@ -1,46 +1,18 @@
 ### FILE lcg-scram-build
 
-%if "%{?cvsproj:set}" != "set"
-    %define cvsproj		%(echo %n | tr '[A-Z]' '[a-z]')
-%endif
-
-%if "%{?cvstag:set}" != "set"
-    %define cvstag		%(echo %v | cut -d- -f1)
-%endif
-
-%if "%{?cvsconfig:set}" != "set"
-    %define cvsconfig	%cvsproj/config/scram
-%endif
-
-%if "%{?cvssrc:set}" != "set"
-    %define cvssrc		%cvsproj
-%endif
-
-%if "%{?srctree:set}" != "set"
-    %define srctree	src
-%endif
-
-%define cvsrepo		cvs://:pserver:anonymous@%cvsserver.cvs.cern.ch:2401/cvs/%cvsdir?passwd=Ah<Z
+%define cvsproj         %cvsprojuc
+%define cvsrepo		cvs://:pserver:anonymous@%{cvsserver}.cvs.cern.ch/cvs/%{cvsdir}?passwd=Ah<Z
 %define cmsrepo		cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-
-%if "%{?lcgaawrappertag:set}" == "set"
-# Use CMS SCRAMToolBox and config:
-%define tbxrepo	  	cvs://:pserver:anonymous@isscvs.cern.ch:/local/reps/scramtoolbox?passwd=AA_:yZZ3e
-%define conftag	  	CMS_%confversion%conflevel
+%define cvstag		%(echo %v | cut -d- -f1)
+%define cvssrc		%cvsprojlc
+%define srctree		src
+%define tbxrepo		cvs://:pserver:anonymous@isscvs.cern.ch:/local/reps/scramtoolbox?passwd=AA_:yZZ3e
+%define conftag		CMS_%confversion%conflevel
 %define confsite	CMSconfigs
 %define configrepo	%cmsrepo
-%define tbxtar   	cmstoolbox.tar.gz
-%define configtar	cmsconfig.tar.gz
-%define lcgaawrapperdir scramv1
-%else
-# Use SPI toolbox:
-%define tbxrepo		cvs://:pserver:anonymous@spitools.cvs.cern.ch:2401/cvs/SPITOOLS?passwd=Ah<Z
-%define conftag		LCG_%confversion%conflevel
-%define confsite	LCGconfigs
-%endif
+%define lcgaawrappers   LCGAAwrappers
+%define additionalSrc0  %{cmsrepo}&tag=-r%{cvstag}&module=%{lcgaawrappers}/%{cvsproj}&export=%{lcgaawrappers}/%{cvsproj}
 
-%define buildarch	case $(uname) in Darwin ) export SCRAM_ARCH=%{cmsplatf} ;; * ) export SCRAM_ARCH=%{cmsplatf} ;; esac
-%if "%{?buildtarget:set}" != "set"
- %define buildtarget	release
+%if "%{buildarch:set}" != "set"
+%define buildarch	:
 %endif
-

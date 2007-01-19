@@ -73,11 +73,6 @@ Source2: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/s
 Source3: %source3
 Source4: %source4
 
-# Get scramv1-related changes for LCGAA projects:
-%if "%{?lcgaawrappertag:set}" == "set"
-Source5: %{cmsrepo}&tag=-r%{lcgaawrappertag}&module=LCGAAwrappers&output=/LCGAAwrappers.tar.gz
-%endif
-
 %prep
 
 # Create a SCRAM project area, but using the already extracted
@@ -97,12 +92,7 @@ Source5: %{cmsrepo}&tag=-r%{lcgaawrappertag}&module=LCGAAwrappers&output=/LCGAAw
 %setup -D -T -a 4 -n %{srctree}
 %endif
 
-%if "%{?lcgaawrappertag:set}" == "set"
 pwd
-%setup -D -T -a 5 -n %_builddir
-%endif
-pwd
-
 cd %_builddir
 
 %{?patchsrc:%patchsrc}
@@ -134,6 +124,8 @@ perl -p -i -e '
     s!url="(cvs:\?module=|file:)scramtoolbox/(.*)">!url="file:$2">!;
   } else {
     #s!url="cvs:\?module="?([^">]+)"?\s+name="?([^">]+)"?>!url="file:$2" name="$2">!;
+    s!<download\s+url="cvs:\?module=LCGAAwrappers/%cvsproj/[^"]+?"\s+name=.+>!!;
+    s!url="cvs:\?module="?%cvssrc/([^">]+)"?\s+name="?([^">]+)"?>!url="file:src/$1" name="$2">!;
     s!url="cvs:\?module="?([^">]+)"?\s+name="?([^">]+)"?>!url="file:$1" name="$2">!;
   }
  ' %{bootstrapfile} \
@@ -142,18 +134,19 @@ perl -p -i -e '
 
 # Fix bootstrap file for projects that checkout to a different source tree:
 perl -p -i -e '
-  s!url="file:(.*)" name="(%srctree.*)">!url="file:$2" name="$2">!;
+  s!url="file:([^"]+)" name="(%srctree(/[^"]+|))">!url="file:$2" name="$2">!;
 ' %{bootstrapfile}
 
 %if "%{?lcgaawrappers:set}" == "set"
 echo "Moving %{srctree}/%{lcgaawrappers} %{lcgaawrappers}"
 mv %{_builddir}/%{srctree}/%{lcgaawrappers} %{_builddir}/%{lcgaawrappers}
-%{_builddir}/%{cvsconfig}/obviate_buildfiles.pl -d %{_builddir}/src -v
+%if "%{cvsprojlc}" == "pool"
+ls %{_builddir}/%{srctree}/contrib | xargs -i mv "%{_builddir}/%{srctree}/contrib/{}" "%{_builddir}/%{srctree}/{}"
+%endif
+%{_builddir}/%{cvsconfig}/obviate_buildfiles.pl -d %{_builddir}/%{srctree} -v
 tar -c -C %{_builddir}/%{lcgaawrappers}/%{cvsproj} ./ --exclude CVS | gtar -x -C %{_builddir}
 rm -rf %{_builddir}/%{lcgaawrappers}
 touch %{_builddir}/%{srctree}/scramv1_buildfiles
-%else
-echo "NO LCGAA wrapper"
 %endif
 
 # Handle toolbox
@@ -170,7 +163,6 @@ perl -p -i -e '
 echo $PERL5LIB
 echo rm -rf %i
 mkdir -p $(dirname %i)
-
 
 %{?buildarch:%buildarch}
 %define realVersion %(echo %v | cut -f1 -d-)
