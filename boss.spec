@@ -1,4 +1,4 @@
-### RPM cms boss BOSS_4_3_1
+### RPM cms boss BOSS_4_3_1a
 ## INITENV +PATH PATH %i/bin
 ## INITENV SET BOSSDIR %i
 %define cvstag %v
@@ -23,7 +23,6 @@ mkdir -p %{i}/etc/profile.d
  echo "source $SQLITE_ROOT/etc/profile.d/init.sh"; \
  echo "source $XERCES_C_ROOT/etc/profile.d/init.sh"; \
  echo "source $MONALISA_APMON_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
-
 
 (echo "#!/bin/tcsh"; \
  echo "source $UUID_ROOT/etc/profile.d/init.csh"; \
