@@ -1,4 +1,4 @@
-### RPM external valgrind 3.2.1-cms1
+### RPM external valgrind 3.2.1-cms2
 ## BUILDIF case $(uname):$(uname -m) in Linux:i*86 ) true ;; * ) false ;; esac
 %define realversion %(echo %v | cut -d- -f1)
 Source: http://www.valgrind.org/downloads/%{n}-%{realversion}.tar.bz2
@@ -16,4 +16,7 @@ make %makeprocesses
 %install
 make install
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' $(grep -r -e "^#!.*perl.*" %i | cut -d: -f 1)
-#
+# I don't see how to make perl options work nicely with env, so drop the -w
+# in these two scripts
+perl -p -i -e 's|perl -w|perl|' %i/bin/callgrind_annotate
+perl -p -i -e 's|perl -w|perl|' %i/bin/callgrind_control
