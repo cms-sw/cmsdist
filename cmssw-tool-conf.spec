@@ -66,6 +66,7 @@ Requires: glimpse
 Requires: relax
 Requires: oracle-env
 Requires: p5-dbd-oracle
+Requires: valgrind
 
 %prep
 %build
@@ -487,6 +488,9 @@ echo "  +ELEMENTTREE_PYPATH:$ELEMENTTREE_ROOT/python$(echo $PYTHON_VERSION | cut
 
 echo "TOOL:iguana:"
 echo "  +IGUANA_BASE:$IGUANA_ROOT"
+
+echo "TOOL:valgrind:"
+echo "  +VALGRIND_BASE:$VALGRIND_ROOT"
 
 ) > tools.conf
 %install
