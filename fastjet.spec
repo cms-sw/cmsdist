@@ -1,4 +1,4 @@
-### RPM external fastjet 2.0.0
+### RPM external fastjet 2.1.0b1
 Source: http://www.lpthe.jussieu.fr/~salam/repository/software/fastjet/%n-%v.tgz
 
 %prep
