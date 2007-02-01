@@ -5,6 +5,7 @@
 # We set a special variable TOOLCONF_VERSION which is then used by scram-build.file and scramv1-build.file to
 # check out the correct toolbox. Notice that all the *-tool-conf.spec set the same variable so this is 
 # relevant only for build time and not for runtime.
+#
 ## INITENV SET TOOLCONF_VERSION %{v}
 Source0: none
 
