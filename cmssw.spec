@@ -14,7 +14,7 @@ Requires: cmssw-tool-conf python glimpse
 %define prebuildtarget  gindices
 %define buildtarget     release-build
 %define postbuildtarget doc
-%define patchsrc perl -p -i -e 's!<select name=(MyODBC|ignominy|rulechecker|fastjet)>!!' %{cvsconfig}/requirements ;
+%define patchsrc perl -p -i -e 's!<select name=(MyODBC|ignominy|rulechecker)>!!' %{cvsconfig}/requirements ;
 
 ## IMPORT cms-scram-build
 ## IMPORT scramv1-build
