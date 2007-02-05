@@ -80,7 +80,6 @@ make %makeprocesses -C $G4BASE includes
 make %makeprocesses -C $G4BASE
 make %makeprocesses -C $G4BASE global
 make %makeprocesses -C $G4BASE
-make %makeprocesses -C $G4BASE/../physics_lists/hadronic/Packaging
 
 %install
 mkdir -p %i/etc
