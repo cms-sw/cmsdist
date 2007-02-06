@@ -1,4 +1,4 @@
-### RPM external gcc 3.2.3
+### RPM external gcc 3.4.5
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## BUILDIF [ $(uname) != Darwin ]
@@ -27,3 +27,8 @@ make %makeprocesses bootstrap
 %install
 cd obj && make install
 ln -s gcc %i/bin/cc
+%post
+%{relocateConfig}lib/libg2c.la
+%{relocateConfig}lib/libstdc++.la
+%{relocateConfig}lib/libsupc++.la
+
