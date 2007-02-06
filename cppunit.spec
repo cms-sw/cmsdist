@@ -9,3 +9,4 @@ make install
 cp %_sourcedir/CppUnit_testdriver.cpp* %i/include/CppUnit_testdriver.cpp
 %post
 %{relocateConfig}/bin/cppunit-config
+%{relocateConfig}/lib/libcppunit.la
