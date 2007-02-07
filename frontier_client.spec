@@ -1,4 +1,4 @@
-### RPM external frontier_client 2.6.0_cms
+### RPM external frontier_client 2.7.0
 Source: http://edge.fnal.gov:8888/frontier/%{n}__%{v}__src.tar.gz
 #Source: http://cern.ch/service-spi/external/tarFiles/%{n}__%{v}__src.tar.gz
 Requires: expat zlib
