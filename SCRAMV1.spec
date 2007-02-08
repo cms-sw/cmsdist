@@ -51,7 +51,7 @@ Provides: perl(Utilities::GroupChecker)
 # FIXME: should we have more than one project database and link them
 # together into one big one?
 
-%define cvsrepo  cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/SCRAM?passwd=AA_:yZZ3e  
+%define cvsrepo  cvs://:pserver:anonymous@isscvs.cern.ch:/local/reps/scram?passwd=AA_:yZZ3e
 
 Source0: %{cvsrepo}&tag=-r%{v}&module=SCRAM&output=/source.tar.gz
 
@@ -61,14 +61,24 @@ Source0: %{cvsrepo}&tag=-r%{v}&module=SCRAM&output=/source.tar.gz
 %install
 tar -cf - . | tar -C %i -xvvf -
 rm -rf %i/cgi
-mkdir -p %instroot/bin %instroot/share/scramdb %i/Installation
+mkdir -p %instroot/bin %instroot/%cmsplatf/lcg/SCRAMV1/scramdb %i/Installation
 mkdir -p %i/bin
-touch %instroot/share/scramdb/project.lookup
+if [ ! -f %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup ] ; then
+  touch %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
+  if [ -f %instroot/share/scramdb/project.lookup ] ; then
+    for line in `cat %instroot/share/scramdb/project.lookup` ; do
+      base=`echo $line | sed 's|.*:||'`
+      if [ -f ${base}/.SCRAM/%{cmsplatf}/.installed ] ; then
+        echo $line >> %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
+      fi
+    done
+  fi
+fi
 
 cat Installation/scram.pl.in | sed -e "s|@PERLEXE@|/usr/bin/env perl|;s|@SCRAM_HOME@|%i|;s|@INSTALLDIR@|%i/src|" > %i/bin/scramv1
 cat Installation/scram.pl.in | sed -e "s|@PERLEXE@|/usr/bin/env perl|;s|@SCRAM_HOME@|%i|;s|@INSTALLDIR@|%i/src|" > %i/src/main/scram.pl
 chmod +x %i/src/main/scram.pl
-cat Installation/SCRAM_SITE.pm.in | sed -e "s|@SCRAM_HOME@|%i|;s|@SCRAM_LOOKUPDB_DIR@|%instroot/share/scramdb/|;s|@PERLEXE@|/usr/bin/env perl|;s|@TT2INSTALLDIR@|$TEMPLATE_TOOLKIT_ROOT/lib|;s|@SITETEMPLATEDIR@|%i/Templates|;s|@SCRAM_SITENAME@|STANDALONE|" > %i/Installation/SCRAM_SITE.pm
+cat Installation/SCRAM_SITE.pm.in | sed -e "s|@SCRAM_HOME@|%i|;s|@SCRAM_LOOKUPDB_DIR@|%instroot/%cmsplatf/lcg/SCRAMV1/scramdb/|;s|@PERLEXE@|/usr/bin/env perl|;s|@TT2INSTALLDIR@|$TEMPLATE_TOOLKIT_ROOT/lib|;s|@SITETEMPLATEDIR@|%i/Templates|;s|@SCRAM_SITENAME@|STANDALONE|" > %i/Installation/SCRAM_SITE.pm
 
 # cat > %instroot/bin/scramv1 << \EOF
 # #!/bin/sh
@@ -79,7 +89,7 @@ cat Installation/SCRAM_SITE.pm.in | sed -e "s|@SCRAM_HOME@|%i|;s|@SCRAM_LOOKUPDB
 # 
 # SCRAM=$0
 # : ${SCRAM_HOME=%i}
-# : ${SCRAM_LOOKUPDB=%instroot/share/scramdb/project.lookup}
+# : ${SCRAM_LOOKUPDB=%instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup}
 # : ${SCRAMPERL="/usr/bin/env perl"}
 # PERL5LIB=$SCRAM_HOME/src${PERL5LIB+":$PERL5LIB"}
 # : ${SITENAME=CERN}
@@ -137,6 +147,16 @@ cat << \EOF_BIN_SCRAMV1 > $RPM_INSTALL_PREFIX/bin/scramv1
 #!/bin/sh
 CMSARCH=`cmsarch`
 SCRAM_VERSION=`cat %{instroot}/$CMSARCH/etc/default-scramv1-version`
+dir=`/bin/pwd`
+while [ ! -d ${dir}/.SCRAM -a "$dir" != "/" ] ; do
+  dir=`dirname $dir`
+done
+if [ -f ${dir}/config/scram_version ] ; then
+  ver=`cat ${dir}/config/scram_version`
+  if [ -f %{instroot}/$CMSARCH/lcg/SCRAMV1/${ver}/etc/profile.d/init.sh ] ; then
+    SCRAM_VERSION=$ver
+  fi
+fi
 source %{instroot}/$CMSARCH/lcg/SCRAMV1/$SCRAM_VERSION/etc/profile.d/init.sh
 %{instroot}/$CMSARCH/lcg/SCRAMV1/$SCRAM_VERSION/bin/scramv1 $@
 EOF_BIN_SCRAMV1
@@ -145,6 +165,6 @@ perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/bin/scra
 
 %files
 %i
-%instroot/share/scramdb
-%exclude %instroot/share/scramdb/project.lookup
+%instroot/%cmsplatf/lcg/SCRAMV1/scramdb
+%exclude %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
 %exclude %i/scripts/DrDOC.sh
