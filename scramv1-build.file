@@ -170,6 +170,9 @@ perl -p -i -e 's|%{realVersion}([^-])|%{v}$1|g' %{bootstrapfile}
 scramv1 project -d $(dirname %i) -b %{bootstrapfile} -f %toolconf;
 
 %build
+# Remove cmt stuff that brings unwanted dependencies: 
+rm -rf `find %{i}/src -type d -name cmt`
+
 echo `scramv1 arch`
 cd %i
 cp -f %toolconf config/site
