@@ -225,7 +225,7 @@ yes | scramv1 install # FIXME: do by hand?
 
 %post
 %initenv
-source $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/V1_0_3/etc/profile.d/init.sh
+source $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$SCRAMV1_VERSION/etc/profile.d/init.sh
 cd $RPM_INSTALL_PREFIX/%cmsplatf/cms/%n/%v
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find config -type f) $(find .SCRAM -type f)
 %{?buildarch:%buildarch}

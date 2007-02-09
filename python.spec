@@ -1,4 +1,4 @@
-### RPM external python 2.4.3
+### RPM external python 2.4.2
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 # OS X patches and build fudging stolen from fink
@@ -14,7 +14,6 @@ Patch3: python-Mac-OSX-Makefile
 Patch4: python-Makefile.pre.in
 Patch5: python-configure
 Patch6: python-setup.py
-
 
 %prep
 %setup -n Python-%v
