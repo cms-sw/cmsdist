@@ -1,8 +1,11 @@
-### RPM lcg root 5.14.00b
+### RPM lcg root 5.14.00b-pCMS1
 # INITENV +PATH PYTHONPATH %i/lib/python
 %define realVersion %(echo %v | cut -d- -f1)
 Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realVersion | tr . -)&module=root&output=/%{n}_v%{realVersion}.source.tar.gz
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realVersion}.source.tar.gz
+
+Patch: root-CINT-maxtypedef
+
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
 Requires: gccxml python qt gsl castor openssl mysql libpng libjpg dcap pcre zlib oracle libungif
@@ -13,6 +16,8 @@ Requires: libtiff
 
 %prep
 %setup -n root
+%patch -p0
+
 %build
 mkdir -p %i
 export ROOTSYS=%_builddir/root
