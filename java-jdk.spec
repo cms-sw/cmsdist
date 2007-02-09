@@ -1,25 +1,43 @@
-### RPM external java-jdk 1.0
-## INITENV SET JAVA_HOME @JAVA_HOME@
-## INITENV +PATH PATH @JAVA_PATH@
-## INITENV +PATH LD_LIBRARY_PATH @JAVA_LIB@
-Source: none
+### RPM external java-jdk 1.5.0.p6
+## BUILDIF [ "$(uname)" != "Darwin" ]
+
+Provides: libasound.so.2
+Provides: libasound.so.2(ALSA_0.9) 
+Provides: libjava_crw_demo_g.so 
+Provides: libodbc.so 
+Provides: libodbcinst.so
+
+%define downloadv %(echo %v | tr '.p' '_0')
+
+%define tmpArch %(echo %cmsplatf | cut -d_ -f 1,2)
+
+%if "%{tmpArch}" == "slc3_ia32"
+%define downloadarch i586
+%endif
+
+# A hack? Probably won't work for slc4 but...
+%if "%{tmpArch}" == "slc4_ia32"
+%define downloadarch i586
+%endif
+
+%if "%{tmpArch}" == "slc3_amd64"
+%define downloadarch amd64
+%endif
+
+Source0: http://eulisse.web.cern.ch/eulisse/jdk-%downloadv-linux-i586.bin
+Source1: http://eulisse.web.cern.ch/eulisse/jdk-%downloadv-linux-amd64.bin
+
 %prep
+%if %(uname) != Darwin
+ls
+%define javadir jdk%(echo %v| sed -e "s/.p/_0/")
+rm -rf %javadir
+yes | sh %{_sourcedir}/jdk-%downloadv-linux-%downloadarch.bin
+cd %javadir
+%endif
 %build
 %install
-%post
-if [ -d /afs/cern.ch/sw/java/i386_redhat73/jdk/sun-1.4.2/ ]
-then
-    JAVA_HOME=/afs/cern.ch/sw/java/i386_redhat73/jdk/sun-1.4.2/
-    JAVA_PATH=$JAVA_HOME/bin
-    JAVE_LIB=$JAVA_HOME/lib
-else
-    JAVA_HOME=`echo $(which javac) | sed -e "s|/bin/.*||"`
-    JAVA_PATH=$JAVA_HOME/bin
-    JAVA_LIB=$JAVA_HOME/lib
-fi
-perl -p -i -e "s|\@JAVA_HOME\@|$JAVA_HOME|" $RPM_INSTALL_PREFIX/%pkgrel/etc/profile.d/init.sh
-perl -p -i -e "s|\@JAVA_PATH\@|$JAVA_PATH|" $RPM_INSTALL_PREFIX/%pkgrel/etc/profile.d/init.sh
-perl -p -i -e "s|\@JAVA_LIB\@|$JAVA_LIB|" $RPM_INSTALL_PREFIX/%pkgrel/etc/profile.d/init.sh
-perl -p -i -e "s|\@JAVA_HOME\@|$JAVA_HOME|" $RPM_INSTALL_PREFIX/%pkgrel/etc/profile.d/init.csh
-perl -p -i -e "s|\@JAVA_PATH\@|$JAVA_PATH|" $RPM_INSTALL_PREFIX/%pkgrel/etc/profile.d/init.csh
-perl -p -i -e "s|\@JAVA_LIB\@|$JAVA_LIB|" $RPM_INSTALL_PREFIX/%pkgrel/etc/profile.d/init.csh
+%if %(uname) != Darwin
+ls 
+cp -r %javadir/* %i
+%endif
