@@ -3,6 +3,12 @@
 Provides: /bin/zsh
 Requires: coral-tool-conf
 
+
+# ATTENTION: wrappertag is only needed when tag in LCGAAwrappers differs
+# from the release name. For normal releases it should be removed.
+%define wrapperstag    CORAL_1_6_3a_nldlp
+%define configtag nr070210_144a_noldlp
+
 %define toolconf       ${CORAL_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
 %define cvsprojuc      %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
 %define cvsprojlc      %(echo %cvsprojuc | tr 'A-Z' 'a-z')
