@@ -14,7 +14,7 @@
 
 # The wrappertag can be used if we need to rebuild the same version with 
 # modified wrappers, and therfore need a different tag: 
-%if "%{wrapperstag:set}" != "set"
+%if "%{?wrapperstag:set}" != "set"
 %define wrapperstag	%cvstag
 %endif
 
