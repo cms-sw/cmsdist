@@ -3,7 +3,6 @@
 Provides: /bin/zsh
 Requires: coral-tool-conf
 
-
 # ATTENTION: wrappertag is only needed when tag in LCGAAwrappers differs
 # from the release name. For normal releases it should be removed.
 %define wrapperstag    CORAL_1_6_3a_nldlp
