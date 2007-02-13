@@ -227,9 +227,17 @@ yes | scramv1 install # FIXME: do by hand?
 %initenv
 source $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/V1_0_3/etc/profile.d/init.sh
 cd $RPM_INSTALL_PREFIX/%cmsplatf/cms/%n/%v
-rm -rf external/%cmsplatf
-
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find config -type f) $(find .SCRAM -type f)
 %{?buildarch:%buildarch}
 yes | scramv1 install
-(cd $RPM_INSTALL_PREFIX/%pkgrel; eval `scramv1 run -sh`; rm -rf external/%cmsplatf; ./config/linkexternal.pl --arch %cmsplatf --nolink INCLUDE) || true
+(rm -rf external/%cmsplatf; ./config/linkexternal.pl --arch %cmsplatf --nolink INCLUDE) || true
+%if "%{cmsplatf}" == "slc3_ia32_gcc323"
+for tool in SEAL POOL CORAL IGUANA ; do
+  bpath=`grep "${tool}_BASE:" config/site/tools-STANDALONE.conf | sed 's|.*:||'`
+  if [ "X$bpath" != "X" ] ; then 
+    if [ -d ${bpath}/external/slc3_ia32_gcc323 ] ; then
+      (rm -rf ${bpath}/external/slc3_ia32_gcc323 ; cd ${bpath} ; ./config/linkexternal.pl --arch %cmsplatf --nolink INCLUDE) || true
+    fi
+  fi
+done
+%endif
