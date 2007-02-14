@@ -235,13 +235,3 @@ if [ "%n" == "cmssw" ] || [ "%n" == "iguana" ]
 then
     (cd $RPM_INSTALL_PREFIX/%pkgrel; eval `scramv1 run -sh`; SealPluginRefresh) || true
 fi
-%if "%{cmsplatf}" == "slc3_ia32_gcc323"
-for tool in SEAL POOL CORAL IGUANA ; do
-  bpath=`grep "${tool}_BASE:" config/site/tools-STANDALONE.conf | sed 's|.*:||'`
-  if [ "X$bpath" != "X" ] ; then 
-    if [ -d ${bpath}/external/slc3_ia32_gcc323 ] ; then
-      (rm -rf ${bpath}/external/slc3_ia32_gcc323 ; cd ${bpath} ; ./config/linkexternal.pl --arch %cmsplatf --nolink INCLUDE) || true
-    fi
-  fi
-done
-%endif
