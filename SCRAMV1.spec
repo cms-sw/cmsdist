@@ -63,17 +63,7 @@ tar -cf - . | tar -C %i -xvvf -
 rm -rf %i/cgi
 mkdir -p %instroot/bin %instroot/%cmsplatf/lcg/SCRAMV1/scramdb %i/Installation
 mkdir -p %i/bin
-if [ ! -f %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup ] ; then
-  touch %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
-  if [ -f %instroot/share/scramdb/project.lookup ] ; then
-    for line in `cat %instroot/share/scramdb/project.lookup` ; do
-      base=`echo $line | sed 's|.*:||'`
-      if [ -f ${base}/.SCRAM/%{cmsplatf}/.installed ] ; then
-        echo $line >> %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
-      fi
-    done
-  fi
-fi
+touch %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
 
 cat Installation/scram.pl.in | sed -e "s|@PERLEXE@|/usr/bin/env perl|;s|@SCRAM_HOME@|%i|;s|@INSTALLDIR@|%i/src|" > %i/bin/scramv1
 cat Installation/scram.pl.in | sed -e "s|@PERLEXE@|/usr/bin/env perl|;s|@SCRAM_HOME@|%i|;s|@INSTALLDIR@|%i/src|" > %i/src/main/scram.pl
@@ -162,6 +152,15 @@ source %{instroot}/$CMSARCH/lcg/SCRAMV1/$SCRAM_VERSION/etc/profile.d/init.sh
 EOF_BIN_SCRAMV1
 chmod +x $RPM_INSTALL_PREFIX/bin/scramv1
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/bin/scramv1
+
+touch %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
+dblinked=`grep "\!DB %instroot/share/scramdb/project.lookup" %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup`
+if [ "X$dblinked" == "X" ] ; then
+  echo "\!DB %instroot/share/scramdb/project.lookup" > %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link
+  cat %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup >> %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link
+  mv %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
+  echo "Linked %instroot/share/scramdb/project.lookup SCRAM DB into %cmsplatf specific SCRAM-DB."
+fi
 
 %files
 %i
