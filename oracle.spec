@@ -14,22 +14,15 @@ Source7: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclien
 Source8: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-sqlplus-macosx-10.1.0.3.zip
 
 Source9: oracle-license
-Source10: http://www.oracle.com/technology/tech/oci/occi/downloads/occi_gcc343_102020.tar.gz
 
 ## INITENV +PATH SQLPATH %i/bin
 %prep
 rm -rf instantclient_*
 case %cmsos in
-  slc3_ia32 )
+  slc*_ia32 )
     yes | unzip %_sourcedir/*-basic-*linux32*.zip
     yes | unzip %_sourcedir/*-sdk-*linux32*.zip
     yes | unzip %_sourcedir/*-sqlplus-*linux32*.zip
-    ;;
-  slc4_ia32 )
-    yes | unzip %_sourcedir/*-basic-*linux32*.zip
-    yes | unzip %_sourcedir/*-sdk-*linux32*.zip
-    yes | unzip %_sourcedir/*-sqlplus-*linux32*.zip
-    tar xzvf %_sourcedir/occi_gcc343_102020.tar.gz
     ;;
   slc*_amd64 )
     yes | unzip %_sourcedir/*-basic-*linux-x86-64*.zip
@@ -53,11 +46,6 @@ cp -p instantclient*/glogin.sql %i/bin
 cp -p instantclient*/*.jar %i/java
 cp -p instantclient*/sdk/demo/* %i/demo
 cp -p instantclient*/sdk/include/* %i/include
-%if "%cmsplatf" == "slc4_ia32_gcc345"
-echo Copying libocci libraries for slc4_ia32_gcc345
-mv libocci.so.10.1 %i/lib
-mv libocci10.a %i/lib
-%endif
 (cd %i/lib && ln -s libclntsh.* $(echo libclntsh.* | sed 's/[0-9.]*$//'))
 (cd %i/lib && ln -s libocci.* $(echo libocci.* | sed 's/[0-9.]*$//'))
 chmod -R g-w %i

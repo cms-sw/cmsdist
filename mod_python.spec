@@ -4,7 +4,7 @@
 ## INITENV +PATH PYTHONPATH %{i}/lib/python%{pythonv}
 ## INITENV CMD ln -sf $MOD_PYTHON_ROOT/lib/mod_python.so $APACHE_ROOT/modules
 
-Source: http://apache.osuosl.org/httpd/modpython/%{n}-%{v}.tgz
+Source: http://apache.mirror.testserver.li/httpd/modpython/%{n}-%{v}.tgz
 Requires: python apache
 
 
