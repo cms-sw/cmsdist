@@ -153,15 +153,15 @@ EOF_BIN_SCRAMV1
 chmod +x $RPM_INSTALL_PREFIX/bin/scramv1
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/bin/scramv1
 
-mkdir -p %instroot/%cmsplatf/lcg/SCRAMV1/scramdb
-touch %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
-if [ -f %instroot/share/scramdb/project.lookup ] ; then
-  dblinked=`grep "\!DB %instroot/share/scramdb/project.lookup" %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup`
+mkdir -p $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb
+touch $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
+if [ -f $RPM_INSTALL_PREFIX/share/scramdb/project.lookup ] ; then
+  dblinked=`grep "\!DB $RPM_INSTALL_PREFIX/share/scramdb/project.lookup" $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup`
   if [ "X$dblinked" == "X" ] ; then
-    echo "\!DB %instroot/share/scramdb/project.lookup" > %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link
-    cat %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup >> %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link
-    mv %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
-    echo "Linked %instroot/share/scramdb/project.lookup SCRAM DB into %cmsplatf specific SCRAM-DB."
+    echo "\!DB $RPM_INSTALL_PREFIX/share/scramdb/project.lookup" > $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link
+    cat $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup >> $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link
+    mv $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
+    echo "Linked $RPM_INSTALL_PREFIX/share/scramdb/project.lookup SCRAM DB into %cmsplatf specific SCRAM-DB."
   fi
 fi
 
