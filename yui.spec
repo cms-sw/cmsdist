@@ -1,10 +1,10 @@
-### RPM external yui 0.12.2
+### RPM external yui 2.2.0
 Source: http://switch.dl.sourceforge.net/sourceforge/yui/yui_%v.zip 
 
 %prep
 rm -rf %{_builddir}/yui
 mkdir -p %{_builddir}/yui
-cd %{_builddir}/yui
+cd %{_builddir}
 unzip %{_sourcedir}/yui_%v.zip 
 %build
 %install
