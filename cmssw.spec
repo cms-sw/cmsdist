@@ -1,8 +1,4 @@
-<<<<<<< cmssw.spec
 ### RPM cms cmssw CMSSW_1_3_0_pre4
-=======
-### RPM cms cmssw CMSSW_1_2_3
->>>>>>> 1.99
 ## IMPORT configurations
 
 Provides: /bin/zsh
