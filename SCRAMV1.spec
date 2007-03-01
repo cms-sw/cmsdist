@@ -135,7 +135,18 @@ NEW_VERSION=%v
 # uninstalling the old revision of scram.
 cat << \EOF_BIN_SCRAMV1 > $RPM_INSTALL_PREFIX/bin/scramv1
 #!/bin/sh
-CMSARCH=`cmsarch`
+if [ "`cmsos`" == "slc4_amd64" ]; then
+# Check that scramv1 for native platform is installed: 
+ [ -e $RPM_INSTALL_PREFIX/slc4_amd64_gcc345/lcg/%{n}/%{v}/bin ] || \
+echo -e "=====================================================================
+  WARNING: SCRAMV1 installation for slc4_amd64_gcc345 is missing!
+           To build CMSSW on `uname -m` you need GCC and SCRAMV1
+           installed for this platform.
+====================================================================="
+  CMSARCH=slc4_amd64_gcc345
+else
+  CMSARCH=`cmsarch`
+fi
 SCRAM_VERSION=`cat %{instroot}/$CMSARCH/etc/default-scramv1-version`
 dir=`/bin/pwd`
 while [ ! -d ${dir}/.SCRAM -a "$dir" != "/" ] ; do
