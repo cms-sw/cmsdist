@@ -15,6 +15,5 @@ ant --noconfig dist
 cd ../../
 
 %install
-mkdir -p %i/webapps
-cp -r Servers/JavaServer/* %i/webapps
+cp -r Servers/JavaServer/* %{i}/
 

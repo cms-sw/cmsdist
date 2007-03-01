@@ -11,8 +11,7 @@ Requires: python
 (make DBSHOME=%_builddir/DBS/Clients/Python )
 
 %install
-mkdir -p %i/bin
-mkdir -p %i/lib/python
-ls -l Clients/Python
-cp -r Clients/Python/* %i/lib/python
+mkdir -p %{i}/bin
+mkdir -p %{i}/lib
+cp -r Clients/Python/* %{i}/lib/
 
