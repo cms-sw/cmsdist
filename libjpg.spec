@@ -29,5 +29,5 @@ mkdir -p %{i}/bin
 mkdir -p %{i}/include
 mkdir -p %{i}/man/man1
 make install
-%post
-%{relocateConfig}lib/libjpeg.la
+
+#

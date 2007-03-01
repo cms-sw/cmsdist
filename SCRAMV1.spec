@@ -63,17 +63,7 @@ tar -cf - . | tar -C %i -xvvf -
 rm -rf %i/cgi
 mkdir -p %instroot/bin %instroot/%cmsplatf/lcg/SCRAMV1/scramdb %i/Installation
 mkdir -p %i/bin
-if [ ! -f %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup ] ; then
-  touch %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
-  if [ -f %instroot/share/scramdb/project.lookup ] ; then
-    for line in `cat %instroot/share/scramdb/project.lookup` ; do
-      base=`echo $line | sed 's|.*:||'`
-      if [ -f ${base}/.SCRAM/%{cmsplatf}/.installed ] ; then
-        echo $line >> %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
-      fi
-    done
-  fi
-fi
+touch %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
 
 cat Installation/scram.pl.in | sed -e "s|@PERLEXE@|/usr/bin/env perl|;s|@SCRAM_HOME@|%i|;s|@INSTALLDIR@|%i/src|" > %i/bin/scramv1
 cat Installation/scram.pl.in | sed -e "s|@PERLEXE@|/usr/bin/env perl|;s|@SCRAM_HOME@|%i|;s|@INSTALLDIR@|%i/src|" > %i/src/main/scram.pl
@@ -145,7 +135,18 @@ NEW_VERSION=%v
 # uninstalling the old revision of scram.
 cat << \EOF_BIN_SCRAMV1 > $RPM_INSTALL_PREFIX/bin/scramv1
 #!/bin/sh
-CMSARCH=`cmsarch`
+if [ "`cmsos`" == "slc4_amd64" ]; then
+# Check that scramv1 for native platform is installed: 
+ [ -e $RPM_INSTALL_PREFIX/slc4_amd64_gcc345/lcg/%{n}/%{v}/bin ] || \
+echo -e "=====================================================================
+  WARNING: SCRAMV1 installation for slc4_amd64_gcc345 is missing!
+           To build CMSSW on `uname -m` you need GCC and SCRAMV1
+           installed for this platform.
+====================================================================="
+  CMSARCH=slc4_amd64_gcc345
+else
+  CMSARCH=`cmsarch`
+fi
 SCRAM_VERSION=`cat %{instroot}/$CMSARCH/etc/default-scramv1-version`
 dir=`/bin/pwd`
 while [ ! -d ${dir}/.SCRAM -a "$dir" != "/" ] ; do
@@ -162,6 +163,17 @@ source %{instroot}/$CMSARCH/lcg/SCRAMV1/$SCRAM_VERSION/etc/profile.d/init.sh
 EOF_BIN_SCRAMV1
 chmod +x $RPM_INSTALL_PREFIX/bin/scramv1
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/bin/scramv1
+
+mkdir -p $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb
+touch $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
+if [ -f $RPM_INSTALL_PREFIX/share/scramdb/project.lookup ] ; then
+  dblinked=`grep "DB $RPM_INSTALL_PREFIX/share/scramdb/project.lookup" $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup`
+  if [ "X$dblinked" == "X" ] ; then
+    echo '!DB' $RPM_INSTALL_PREFIX/share/scramdb/project.lookup > $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link
+    cat $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup >> $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link
+    mv $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
+  fi
+fi
 
 %files
 %i
