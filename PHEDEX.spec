@@ -15,14 +15,14 @@ Requires: zlib expat openssl bz2lib py2-pyxml py2-zsi py2-mysqldb mysql
 
 %prep
 %setup -n %n
-rm     PHEDEX/Custom/Template/ConfigPart.CERN*
-rm     PHEDEX/Custom/Template/ConfigPart.Management
-rm -rf PHEDEX/Infrastructure
-rm -rf PHEDEX/Management
-rm -rf PHEDEX/Monitoring
-rm -rf PHEDEX/Peers
-rm -rf PHEDEX/Test
-rm -rf PHEDEX/Workflow
+rm     Custom/Template/ConfigPart.CERN*
+rm     Custom/Template/ConfigPart.Management
+rm -rf Toolkit/Infrastructure
+rm -rf Toolkit/Management
+rm -rf Toolkit/Monitoring
+rm -rf Toolkit/Peers
+rm -rf Toolkit/Test
+rm -rf Toolkit/Workflow
 
 
 %build
