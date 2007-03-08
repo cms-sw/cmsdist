@@ -1,5 +1,6 @@
 ### RPM cms PHEDEX-admin PHEDEX_2_5_1
-Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%n&export=%n&&tag=-r%{v}&output=/%n.tar.gz
+%define downloadn %(echo %n | cut -f1 -d-)
+Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%{downloadn}&export=%{downloadn}&&tag=-r%{v}&output=/%{downloadn}.tar.gz
 Requires: oracle oracle-env p5-time-hires p5-text-glob p5-compress-zlib p5-dbi p5-dbd-oracle p5-xml-parser srmcp python
 Requires: py2-cx-oracle
 Requires: dls dbs
@@ -15,7 +16,7 @@ Requires: zlib expat openssl bz2lib py2-pyxml py2-zsi py2-mysqldb mysql
 
 
 %prep
-%setup -n %n
+%setup -n %{downloadn}
 rm -rf Custom
 rm -rf Deployment
 rm -rf Documentation
