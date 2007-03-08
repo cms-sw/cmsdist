@@ -23,6 +23,24 @@ rm -rf Toolkit/Monitoring
 rm -rf Toolkit/Peers
 rm -rf Toolkit/Test
 rm -rf Toolkit/Workflow
+rm     Utilities/CMSSWMigrate
+rm     Utilities/DBDump
+rm     Utilities/DBLoad
+rm     Utilities/DBSCheck
+rm     Utilities/DSBFill
+rm     Utilities/GrepSites
+rm     Utilities/IdentityNew
+rm     Utilities/IdentityRemove
+rm     Utilities/ImportSites
+rm     Utilities/LinkNew
+rm     Utilities/LinkRemove
+rm     Utilities/MakeDailyReport
+rm     Utilities/MakeDailyStats
+rm     Utilities/netmon
+rm     Utilities/NodeNew
+rm     Utilities/NodeRemove
+rm     Utilities/RunTest
+rm     Utilities/WordMunger
 
 
 %build
