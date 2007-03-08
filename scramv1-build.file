@@ -167,20 +167,15 @@ mkdir -p $(dirname %i)
 %{?buildarch:%buildarch}
 %define realVersion %(echo %v | cut -f1 -d-)
 perl -p -i -e 's|%{realVersion}([^-])|%{v}$1|g' %{bootstrapfile} 
-cp -f %toolconf ./tmpconf
-%if "%{cmsplatf}" == "%{gccwrapperarch}"
-echo "Using gcc wrapper for %cmsplatf"
-perl -p -i -e '$gccpath=$ENV{GCC_ROOT};$wrapperpath=$ENV{GCC_WRAPPER_ROOT};s|$gccpath|$wrapperpath|' ./tmpconf
-%endif
-scramv1 project -d $(dirname %i) -b %{bootstrapfile} -f ./tmpconf;
-mv -f ./tmpconf %{i}/config/site
+scramv1 project -d $(dirname %i) -b %{bootstrapfile} -f %toolconf;
 
 %build
-pwd
 # Remove cmt stuff that brings unwanted dependencies: 
 rm -rf `find %{i}/src -type d -name cmt`
+
 echo `scramv1 arch`
 cd %i
+cp -f %toolconf config/site
 echo %toolconf | sed 's|.*tools-||;s|.conf||' > config/site/sitename
 cd src
 
