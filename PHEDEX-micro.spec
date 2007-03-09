@@ -13,7 +13,7 @@ Requires: zlib expat openssl bz2lib py2-pyxml py2-zsi py2-mysqldb mysql
 %setup -n %{downloadn}
 rm     Custom/Template/Config
 rm     Custom/Template/ConfigPart.CERN*
-rm     Custom/Template/ConfigPart.Exportr
+rm     Custom/Template/ConfigPart.Export
 rm     Custom/Template/ConfigPart.FTSDownload
 rm     Custom/Template/ConfigPart.Management
 rm     Custom/Template/ConfigPart.MSS
