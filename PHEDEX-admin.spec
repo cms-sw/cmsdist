@@ -5,11 +5,6 @@ Requires: oracle oracle-env p5-time-hires p5-text-glob p5-compress-zlib p5-dbi p
 Requires: py2-cx-oracle
 Requires: dls dbs
 Requires: PHEDEX
-Provides: perl(UtilsMisc)
-Provides: perl(ApMon) perl(Date::Manip)
-Provides: perl(POE) perl(POE::Component::Client::TCP) perl(POE::Component::Server::TCP)
-Provides: perl(POE::Filter::Reference) perl(POE::Queue::Array) perl(POE::Session)
-Provides: perl(POE::Wheel::Run)
 
 # Extra requires so we get everything necessary for env.{,c}sh.
 Requires: zlib expat openssl bz2lib py2-pyxml py2-zsi py2-mysqldb mysql
@@ -20,12 +15,15 @@ Requires: zlib expat openssl bz2lib py2-pyxml py2-zsi py2-mysqldb mysql
 rm -rf Custom
 rm -rf Deployment
 rm -rf Documentation
-rm -rf Toolkit/Common
-rm -rf Toolkit/DBS
 rm -rf Toolkit/DropBox
 rm -rf Toolkit/Infrastructure
 rm -rf Toolkit/Request
 rm -rf Toolkit/Transfer
+rm -rf Toolkit/Management
+rm -rf Toolkit/Monitoring
+rm -rf Toolkit/Peers
+rm -rf Toolkit/Test
+rm -rf Toolkit/Workflow
 
 
 %build
