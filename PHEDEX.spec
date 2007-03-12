@@ -9,32 +9,33 @@ Requires: zlib expat openssl bz2lib py2-pyxml py2-zsi py2-mysqldb mysql
 
 %prep
 %setup -n %n
-rm     Custom/Template/ConfigPart.CERN*
-rm     Custom/Template/ConfigPart.Management
+rm -f  Custom/Template/ConfigPart.CERN*
+rm -f  Custom/Template/ConfigPart.Management
 rm -rf Toolkit/Infrastructure
 rm -rf Toolkit/Management
 rm -rf Toolkit/Monitoring
 rm -rf Toolkit/Peers
 rm -rf Toolkit/Test
 rm -rf Toolkit/Workflow
-rm     Utilities/CMSSWMigrate
-rm     Utilities/DBDump
-rm     Utilities/DBLoad
-rm     Utilities/DBSCheck
-rm     Utilities/DSBFill
-rm     Utilities/GrepSites
-rm     Utilities/IdentityNew
-rm     Utilities/IdentityRemove
-rm     Utilities/ImportSites
-rm     Utilities/LinkNew
-rm     Utilities/LinkRemove
-rm     Utilities/MakeDailyReport
-rm     Utilities/MakeDailyStats
-rm     Utilities/netmon
-rm     Utilities/NodeNew
-rm     Utilities/NodeRemove
-rm     Utilities/RunTest
-rm     Utilities/WordMunger
+rm -f  Utilities/CMSSWMigrate
+rm -f  Utilities/DBDump
+rm -f  Utilities/DBLoad
+rm -f  Utilities/DBSCheck
+rm -f  Utilities/DSBFill
+rm -f  Utilities/GrepSites
+rm -f  Utilities/FileDeleteTMDB
+rm -f  Utilities/IdentityNew
+rm -f  Utilities/IdentityRemove
+rm -f  Utilities/ImportSites
+rm -f  Utilities/LinkNew
+rm -f  Utilities/LinkRemove
+rm -f  Utilities/MakeDailyReport
+rm -f  Utilities/MakeDailyStats
+rm -f  Utilities/netmon
+rm -f  Utilities/NodeNew
+rm -f  Utilities/NodeRemove
+rm -f  Utilities/RunTest
+rm -f  Utilities/WordMunger
 
 
 %build
