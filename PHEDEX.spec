@@ -9,6 +9,7 @@ Requires: zlib expat openssl bz2lib py2-pyxml py2-zsi py2-mysqldb mysql
 
 %prep
 %setup -n %n
+rm -f  Custom/Template/Config.Micro
 rm -f  Custom/Template/ConfigPart.CERN*
 rm -f  Custom/Template/ConfigPart.Management
 rm -rf Schema
