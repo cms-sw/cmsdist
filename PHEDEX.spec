@@ -11,6 +11,8 @@ Requires: zlib expat openssl bz2lib py2-pyxml py2-zsi py2-mysqldb mysql
 %setup -n %n
 rm -f  Custom/Template/ConfigPart.CERN*
 rm -f  Custom/Template/ConfigPart.Management
+rm -rf Schema
+rm -rf Testbed
 rm -rf Toolkit/Infrastructure
 rm -rf Toolkit/Management
 rm -rf Toolkit/Monitoring
