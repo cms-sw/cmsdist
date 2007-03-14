@@ -1,5 +1,5 @@
 ### RPM external cherrypy 3.0.1
-%define pythonv %(echo $PYTHON_VERSION |cut -d. -f1,2)
+%define pythonv `echo $PYTHON_VERSION |cut -d. -f1,2`
 ## INITENV +PATH PYTHONPATH %i/lib/python$(echo $PYTHON_VERSION |cut -d. -f 1,2)/site-packages
 
 # use line below for version 2.2.1
