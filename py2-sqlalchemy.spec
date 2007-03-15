@@ -3,7 +3,7 @@
 ## INITENV +PATH PYTHONPATH %i/lib/python$(echo $PYTHON_VERSION | cut -f1,2 -d.)/site-packages
 
 Source: http://superb-east.dl.sourceforge.net/sourceforge/sqlalchemy/SQLAlchemy-%v.tar.gz
-Requires: python
+Requires: python py2-pysqlite  py2-mysqldb py2-cx-oracle
 
 %prep
 %setup -n SQLAlchemy-%v
