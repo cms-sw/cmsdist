@@ -1,7 +1,7 @@
 ### RPM cms cmssw CMSSW_1_3_0_pre6
 ## IMPORT configurations
 Provides: /bin/zsh
-Requires: cmssw-tool-conf python glimpse
+Requires: cmssw-tool-conf  python glimpse
 Requires: gcc-wrapper
 %define gccwrapperarch  slc4_ia32_gcc345 
 %define toolconf        ${CMSSW_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
