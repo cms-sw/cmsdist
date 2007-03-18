@@ -11,8 +11,16 @@
 %define confsite	CMSconfigs
 %define configrepo	%cmsrepo
 %define lcgaawrappers   LCGAAwrappers
-%define additionalSrc0  %{cmsrepo}&tag=-r%{cvstag}&module=%{lcgaawrappers}/%{cvsproj}&export=%{lcgaawrappers}/%{cvsproj}
+
+# The wrappertag can be used if we need to rebuild the same version with 
+# modified wrappers, and therfore need a different tag: 
+%if "%{?wrapperstag:set}" != "set"
+%define wrapperstag	%cvstag
+%endif
+
+%define additionalSrc0  %{cmsrepo}&tag=-r%{wrapperstag}&module=%{lcgaawrappers}/%{cvsproj}&export=%{lcgaawrappers}/%{cvsproj}
 
 %if "%{buildarch:set}" != "set"
 %define buildarch	:
 %endif
+
