@@ -67,6 +67,8 @@ Requires: p5-dbd-oracle
 Requires: valgrind
 Requires: fastjet
 Requires: ktjet
+Requires: gmp
+Requires: glpk
 Requires: ignominy
 
 %prep
@@ -146,10 +148,6 @@ eval "echo \"  +LIBDIR:\${RELAX_ROOT}/lib\""
 
 echo "TOOL:ignominy:"
 eval "echo \"  +IGNOMINY_BASE:\${IGNOMINY_ROOT}\""
-eval "echo \"  +PATH:\${IGNOMINY_ROOT}/bin\""
-eval "echo \"  +LIBDIR:\${IGNOMINY_ROOT}/lib\""
-eval "echo \"  +INCLUDE:\${IGNOMINY_ROOT}/include\""
-
 
 echo "TOOL:xdaq:"
 eval "echo \"  +XDAQ_BASE:\${XDAQ_ROOT}\""
@@ -483,6 +481,16 @@ echo "TOOL:ktjet:"
 eval "echo \"  +KTJET_BASE:\${KTJET_ROOT}\""
 eval "echo \"  +LIBDIR:\${KTJET_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${KTJET_ROOT}/include\""
+
+echo "TOOL:gmp:"
+eval "echo \"  +GMP_BASE:\${GMP_ROOT}\""
+eval "echo \"  +LIBDIR:\${GMP_ROOT}/lib\""
+eval "echo \"  +INCLUDE:\${GMP_ROOT}/include\""
+
+echo "TOOL:glpk:"
+eval "echo \"  +GLPK_BASE:\${GLPK_ROOT}\""
+eval "echo \"  +LIBDIR:\${GLPK_ROOT}/lib\""
+eval "echo \"  +INCLUDE:\${GLPK_ROOT}/include\""
 
 echo "TOOL:glimpse:"
 eval "echo \"  +GLIMPSE_BASE:\${GLIMPSE_ROOT}\""
