@@ -1,9 +1,9 @@
-### RPM external gcc 3.4.5
+### RPM external gcc 3.2.3
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## BUILDIF [ $(uname) != Darwin ]
 Source: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%v/%n-%v.tar.bz2
-%define cpu %(echo %cmsplatf | cut -d_ -f2)
+
 %build
 # FIXME: --enable-__cxa_atexit can't be used with gcc 3.2.3 on RH 7.3,
 # enabling it causes qt's uic to die with segmentation violation half
@@ -31,11 +31,4 @@ ln -s gcc %i/bin/cc
 %{relocateConfig}lib/libg2c.la
 %{relocateConfig}lib/libstdc++.la
 %{relocateConfig}lib/libsupc++.la
-%if "%cpu" == "amd64"
-%{relocateConfig}lib64/libg2c.la
-%{relocateConfig}lib64/libstdc++.la
-%{relocateConfig}lib64/libsupc++.la
-%{relocateConfig}lib/32/libg2c.la
-%{relocateConfig}lib/32/libstdc++.la
-%{relocateConfig}lib/32/libsupc++.la
-%endif
+
