@@ -173,7 +173,7 @@ echo "Using gcc wrapper for %cmsplatf"
 perl -p -i -e '$gccpath=$ENV{GCC_ROOT};$wrapperpath=$ENV{GCC_WRAPPER_ROOT};s|$gccpath|$wrapperpath|' ./tmpconf
 %endif
 scramv1 project -d $(dirname %i) -b %{bootstrapfile} -f ./tmpconf;
-mv -f ./tmpconf %{i}/config/site
+mv -f ./tmpconf %{i}/config/site/`basename %toolconf`
 
 %build
 pwd
