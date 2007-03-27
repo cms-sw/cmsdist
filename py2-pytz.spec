@@ -6,8 +6,7 @@ Source: http://cheeseshop.python.org/packages/source/p/pytz/pytz-%{v}.tar.bz2
 Requires: python
 
 %prep
-%setup -n %{distname}
-%patch0
+%setup -n pytz-%{v}
 %build
 %install
 python setup.py install --prefix=%i
