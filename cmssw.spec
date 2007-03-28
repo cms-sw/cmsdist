@@ -1,5 +1,5 @@
-### RPM cms cmssw CMSSW_1_4_0_pre2
-## IMPORT configurations 
+### RPM cms cmssw CMSSW_1_3_0 
+## IMPORT configurations
 Provides: /bin/zsh
 Requires: cmssw-tool-conf  python glimpse
 Requires: gcc-wrapper
@@ -15,7 +15,11 @@ Requires: gcc-wrapper
 %define prebuildtarget  gindices
 %define buildtarget     release-build
 %define postbuildtarget doc
+
 %define patchsrc perl -p -i -e 's!<select name=(MyODBC)>!!' %{cvsconfig}/requirements ;
+%define useCmsTC        1
+
+
 
 ## IMPORT cms-scram-build
 ## IMPORT scramv1-build
