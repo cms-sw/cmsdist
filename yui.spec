@@ -14,8 +14,8 @@ mkdir %i/etc
 cat << \EOF_CHERRYPY_CONF > %i/etc/cherrypy.conf
 # Serve a complete directory 
 [/] 
-static_filter.on = True 
-static_filter.dir = %i/build
+tools.staticdir.on = True 
+tools.staticdir.dir = %i/build
 EOF_CHERRYPY_CONF
 %post
 %{relocateConfig}etc/cherrypy.conf
