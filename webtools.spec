@@ -1,4 +1,4 @@
-### RPM cms webtools ALPHA 
+### RPM cms webtools ALPHA-cp3 
 %define moduleName WEBTOOLS
 %define exportName WEBTOOLS
 %define cvstag DMWT_0_0_1 
@@ -14,18 +14,18 @@ cp -r * %i
 cat << \EOF_CHERRYPY_CONF > %i/etc/cherrypy.conf
 # Serve a complete directory 
 [/Common] 
-static_filter.on = True 
-static_filter.dir = %i/Common
+tools.staticdir.on = True 
+tools.staticdir.dir = %i/Common
 [/Templates]
-static_filter.on = True
-static_filter.dir = %i/Templates
+tools.staticdir.on = True
+tools.staticdir.dir = %i/Templates
 # Serve a complete directory 
 [/WEBTOOLS/Common]
-static_filter.on = True
-static_filter.dir = %i/Common
+tools.staticdir.on = True
+tools.staticdir.dir = %i/Common
 [/WEBTOOLS/Templates]
-static_filter.on = True
-static_filter.dir = %i/Templates
+tools.staticdir.on = True
+tools.staticdir.dir = %i/Templates
 EOF_CHERRYPY_CONF
 cat << \EOF_APACHE2_HEADER > %i/etc/apache2-header.conf
 RewriteEngine On
