@@ -4,6 +4,9 @@
 %define cvstag V00-09-00 
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
+Provides: perl(CGI) 
+Provides: perl(Crypt::CBC) 
+Provides: perl(SecurityModule) 
 
 %prep
 %setup -n %{moduleName}
