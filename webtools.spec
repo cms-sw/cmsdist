@@ -1,7 +1,7 @@
 ### RPM cms webtools ALPHA-cp3 
 %define moduleName WEBTOOLS
 %define exportName WEBTOOLS
-%define cvstag DMWT_0_0_1 
+%define cvstag V00-09-00 
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
 
@@ -51,4 +51,5 @@ EOF_APACHE2_FOOTER
 %{relocateConfig}etc/apache2.conf
 %{relocateConfig}etc/apache2-header.conf
 %{relocateConfig}etc/apache2-footer.conf
+
 
