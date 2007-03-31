@@ -21,7 +21,12 @@ Patch0: graphviz
   --without-tcl \
   --without-tk \
   --prefix=%{i}
-
+# This is a workaround for the fact that sort from coreutils 5.96 doesn't 
+# like "sort +0 -1", not really something specific to ppc64/ydl5.0
+if [ "$(uname -m)" == "ppc64" ]
+then
+perl -p -i -e "s|\+0 \-1|-k1,1|g" dotneato/common/Makefile
+fi
 make
 %post
 perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|" $RPM_INSTALL_PREFIX/%pkgrel/bin/dotneato-config `find $RPM_INSTALL_PREFIX/%pkgrel/lib/graphviz -name *.la`
