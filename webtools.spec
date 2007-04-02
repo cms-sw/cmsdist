@@ -1,7 +1,8 @@
 ### RPM cms webtools 0.9.0 
+## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 %define moduleName WEBTOOLS
 %define exportName WEBTOOLS
-%define cvstag V00-09-00 
+%define cvstag V00-09-05
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
 Requires: python cherrypy py2-cheetah yui sqlite zlib py2-pysqlite expat openssl bz2lib db4 gdbm py2-cx-oracle py2-formencode py2-pycrypto
@@ -26,9 +27,15 @@ do
     echo source $pkg/etc/profile.d/init.csh >> %i/etc/profile.d/dependencies-setup.csh
 done
 
+python Applications/SiteDB/Utilities/CreateSiteDB.py -p `pwd`/Applications/SiteDB/
+mv sitedb.ini Applications/SiteDB
+
 %install
 mkdir -p %i/etc
-cp -r * %i
+mkdir -p %i/bin
+mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
+cp -r * %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
+cp cmsWeb %i/bin
 cat << \EOF_CHERRYPY_CONF > %i/etc/cherrypy.conf
 # Serve a complete directory 
 [/Common] 
@@ -71,5 +78,6 @@ EOF_APACHE2_FOOTER
 %{relocateConfig}etc/apache2-footer.conf
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
+%{relocateConfig}etc/lib/python`echo $PYTHON_ROOT | cut -d. -f1,2`/site-packages/Applications/SiteDB/sitedb.ini
 perl -p -i -e "s!\@RPM_INSTALL_PREFIX\@!$RPM_INSTALL_PREFIX/%pkgrel!" $RPM_INSTALL_PREFIX/%pkgrel/cmsWeb
 
