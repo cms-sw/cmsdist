@@ -28,7 +28,6 @@ do
 done
 
 python Applications/SiteDB/Utilities/CreateSiteDB.py -p `pwd`/Applications/SiteDB/
-mv sitedb.ini Applications/SiteDB
 
 %install
 mkdir -p %i/etc
