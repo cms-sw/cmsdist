@@ -1,5 +1,6 @@
-### RPM external herwig 6.510
-Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{v}-src.tgz
+### RPM external herwig 6.510-cms
+%define realversion %(echo %v | cut -d- -f1)
+Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Requires: gcc-wrapper
 %define gccwrapperarch slc4_ia32_gcc345
 %prep
@@ -14,5 +15,5 @@ source $GCC_WRAPPER_ROOT/etc/profile.d/init.sh
 make 
 
 %install
-tar -c lib bin | tar -x -C %i
+tar -c lib include | tar -x -C %i
 
