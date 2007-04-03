@@ -69,7 +69,7 @@ cat << \EOF_APACHE2_FOOTER > %i/etc/apache2-footer.conf
 RewriteRule ^/cms/services/webtools/Common(.*)$ %i/Common$1
 RewriteRule ^/cms/services/webtools/Templates(.*)$ %i/Templates$1
 EOF_APACHE2_FOOTER
-
+%define pythonv %(echo $PYTHON_ROOT | cut -d. -f1,2)
 %post
 %{relocateConfig}etc/cherrypy.conf
 %{relocateConfig}etc/apache2.conf
@@ -77,5 +77,5 @@ EOF_APACHE2_FOOTER
 %{relocateConfig}etc/apache2-footer.conf
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
-%{relocateConfig}etc/lib/python`echo $PYTHON_ROOT | cut -d. -f1,2`/site-packages/Applications/SiteDB/sitedb.ini
-perl -p -i -e "s!\@RPM_INSTALL_PREFIX\@!$RPM_INSTALL_PREFIX/%pkgrel!" $RPM_INSTALL_PREFIX/%pkgrel/cmsWeb
+%{relocateConfig}etc/lib/python2.4/site-packages/Applications/SiteDB/sitedb.ini
+perl -p -i -e "s!\@RPM_INSTALL_PREFIX\@!$RPM_INSTALL_PREFIX/%pkgrel!" $RPM_INSTALL_PREFIX/%pkgrel/bin/cmsWeb
