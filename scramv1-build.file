@@ -25,6 +25,8 @@
 # FIXME: post-install stuff for modules etc?
 
 Requires: SCRAMV1
+Requires: gcc-wrapper
+%define gccwrapperarch  slc4_ia32_gcc345
 
 # NR: allow to specify repository and tag 
 # (default: cvsrepo and cvstag)
@@ -53,7 +55,11 @@ Requires: SCRAMV1
 
 Source0: %{tbxrepo}&tag=-r%{conftag}&module=SCRAMToolBox&output=/%tbxtar
 Source1: %{configrepo}&tag=-r%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
+%if  "%{cvsrepo}" != "cmstc"
 Source2: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
+%else
+Source2: %{cvsrepo}://?tag=%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
+%endif
 
 # Pick additional sources.  Since install.sh does a grep for "^Source",
 # we need to arrange an expansion that always works, regardless of whether
