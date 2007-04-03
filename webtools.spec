@@ -80,4 +80,3 @@ EOF_APACHE2_FOOTER
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 %{relocateConfig}etc/lib/python`echo $PYTHON_ROOT | cut -d. -f1,2`/site-packages/Applications/SiteDB/sitedb.ini
 perl -p -i -e "s!\@RPM_INSTALL_PREFIX\@!$RPM_INSTALL_PREFIX/%pkgrel!" $RPM_INSTALL_PREFIX/%pkgrel/cmsWeb
-
