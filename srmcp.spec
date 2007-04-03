@@ -1,4 +1,4 @@
-### RPM external srmcp 1.24
+### RPM external srmcp 1.25
 ## INITENV +PATH PATH %i/srmclient/bin
 ## INITENV SET SRM_PATH %i/srmclient
 ## INITENV SET SRM_CONFIG %i/etc/config.xml
