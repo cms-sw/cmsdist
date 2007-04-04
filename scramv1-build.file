@@ -25,8 +25,6 @@
 # FIXME: post-install stuff for modules etc?
 
 Requires: SCRAMV1
-Requires: gcc-wrapper
-%define gccwrapperarch  slc4_ia32_gcc345
 
 # NR: allow to specify repository and tag 
 # (default: cvsrepo and cvstag)
