@@ -16,11 +16,5 @@ Requires: coral-tool-conf
 %define bootstrapfile  %_builddir/%{cvsconfig}/%{cvsprojuc}_bootsrc
 %define reqfile        %_builddir/%{cvsconfig}/%{cvsprojuc}_requirements
 
-# ATTENTION: wrappertag is only needed when tag in LCGAAwrappers differs
-# from the release name. For normal releases it should be removed.
-%define realversion    %(echo %v | cut -d- -f1)
-%define wrapperstag    %realversion
-%define configtag      %realversion
-
 ## IMPORT lcg-scram-build
 ## IMPORT scramv1-build
