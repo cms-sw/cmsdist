@@ -1,4 +1,4 @@
-### RPM cms dbs-web v03_02_01
+### RPM cms dbs-web V03_03_00
 ## INITENV +PATH PYTHONPATH %i/lib
 
 %define cvstag %v
@@ -17,7 +17,7 @@ mkdir -p %{i}/lib/Web/DataDiscovery
 cp -r Web/DataDiscovery/* %{i}/lib/
 
 ln -s $WEBTOOLS_ROOT %{i}/lib/Web/DataDiscovery/WEBTOOLS
-ln -s $YUI_ROOT %{i}/lib/Web/DataDiscovery/yui
+ln -s $YUI_ROOT %{i}/lib/Web/DataDiscovery/YUI
 
 # here I use octal code \044 for $ sign since I want "$NAME" to be appear in 
 # init.sh file, instead of interpreting it here.
@@ -26,16 +26,20 @@ ln -s $YUI_ROOT %{i}/lib/Web/DataDiscovery/yui
  echo "source $CHERRYPY_ROOT/etc/profile.d/init.sh"; \
  echo "source $PY2_CHEETAH_ROOT/etc/profile.d/init.sh"; \
  echo "source $PY2_SQLALCHEMY_ROOT/etc/profile.d/init.sh"; \
+ echo "source $PY2_PYSQLITE_ROOT/etc/profile.d/init.sh"; \
  echo "source $WEBTOOLS_ROOT/etc/profile.d/init.sh"; \
  echo "source $YUI_ROOT/etc/profile.d/init.sh"; \
  echo "source $ORACLE_ROOT/etc/profile.d/init.sh"; \
  echo "source $PY2_CX_ORACLE_ROOT/etc/profile.d/init.sh"; \
  echo "source $MYSQL_ROOT/etc/profile.d/init.sh"; \
  echo "source $DLS_ROOT/etc/profile.d/init.sh"; \
+ echo -e "export DLSHOME=$DLS_ROOT/Client/lib"; \
  echo -e "export DDHOME=\044DBS_WEB_ROOT/lib/Web/DataDiscovery/"; \
- echo "export DLSHOME=$DLS_ROOT"; \
  echo -e "export TNS_ADMIN=\044DBS_WEB_ROOT/lib/Web/DataDiscovery/"; \
  echo -e "export DBS_DBPARAM=\044DBS_WEB_ROOT/lib/Web/DataDiscovery/DBParam"; \
+ echo -e "export PYTHONPATH=\044PYTHONPATH:\044DLSHOME"; \
+ echo -e "export PYTHONPATH=\044DDHOME:\044DDHOME/QueryBuilder:\044PYTHONPATH"; \
+
  ) > %{i}/etc/profile.d/dependencies-setup.sh
 
 (echo "#!/bin/tcsh"; \
@@ -43,16 +47,19 @@ ln -s $YUI_ROOT %{i}/lib/Web/DataDiscovery/yui
  echo "source $CHERRYPY_ROOT/etc/profile.d/init.csh"; \
  echo "source $PY2_CHEETAH_ROOT/etc/profile.d/init.csh"; \
  echo "source $PY2_SQLALCHEMY_ROOT/etc/profile.d/init.csh"; \
+ echo "source $PY2_PYSQLITE_ROOT/etc/profile.d/init.csh"; \
  echo "source $WEBTOOLS_ROOT/etc/profile.d/init.csh"; \
  echo "source $YUI_ROOT/etc/profile.d/init.csh"; \
  echo "source $ORACLE_ROOT/etc/profile.d/init.csh"; \
  echo "source $PY2_CX_ORACLE_ROOT/etc/profile.d/init.csh"; \
  echo "source $MYSQL_ROOT/etc/profile.d/init.csh"; \
  echo "source $DLS_ROOT/etc/profile.d/init.csh"; \
+ echo -e "setenv DLSHOME $DLS_ROOT/Client/lib"; \
  echo -e "setenv DDHOME \044DBS_WEB_ROOT/lib/Web/DataDiscovery/"; \
- echo "setenv DLSHOME $DLS_ROOT"; \
  echo -e "setenv TNS_ADMIN \044DBS_WEB_ROOT/lib/Web/DataDiscovery/"; \
  echo -e "setenv DBS_DBPARAM \044DBS_WEB_ROOT/lib/Web/DataDiscovery/DBParam"; \
+ echo -e "setenv PYTHONPATH \044PYTHONPATH:\044DLSHOME"; \
+ echo -e "setenv PYTHONPATH \044DDHOME:\044DDHOME/QueryBuilder:\044PYTHONPATH"; \
  ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 # Generate python code from templates 
