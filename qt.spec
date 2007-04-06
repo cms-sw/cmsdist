@@ -29,11 +29,11 @@ Patch3: qt-src-qt_install.pri
 
 %prep
 %setup -T -b %sourcepkg -n %n-%type-free-%{qtversion}
-%ifos darwin
-%patch1 -p0
-%patch2 -p0
-%patch3 -p0
-%endif
+#%ifos darwin
+#%patch1 -p0
+#%patch2 -p0
+#%patch3 -p0
+#%endif
 
 %build
 unset QMAKESPEC || true
