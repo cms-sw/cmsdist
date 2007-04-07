@@ -14,10 +14,9 @@ Patch4: libjpg-makefile.cfg
 %patch3
 %patch4
 
-
 %build
 # libjpg ships with an old version of config.sub. 
-if [ "$(uname -m)" == "x86_64" ] || [ "$(uname -m)" == "ppc64" ]
+if [ "$(uname -m)" == "x86_64" ]
 then
 cp %{_sourcedir}/config.sub-amd64 config.sub
 fi
@@ -30,5 +29,5 @@ mkdir -p %{i}/bin
 mkdir -p %{i}/include
 mkdir -p %{i}/man/man1
 make install
-%post
-%{relocateConfig}lib/libjpeg.la
+
+#

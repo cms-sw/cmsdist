@@ -1,5 +1,5 @@
 ### RPM external valgrind 3.2.3-cms1
-## BUILDIF case $(uname):$(uname -m) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) true ;; * ) false ;; esac
+## BUILDIF case $(uname):$(uname -m) in Linux:i*86 ) true ;; * ) false ;; esac
 %define realversion %(echo %v | cut -d- -f1)
 Source: http://www.valgrind.org/downloads/%{n}-%{realversion}.tar.bz2
 Patch1: valgrind-vg323-p2-global
