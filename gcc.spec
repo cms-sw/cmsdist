@@ -1,7 +1,7 @@
 ### RPM external gcc 3.4.5
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-## BUILDIF [ $(uname) != Darwin ]
+## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 Source: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%v/%n-%v.tar.bz2
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %build
