@@ -1,6 +1,9 @@
 ### FILE cmsos
 if [ "$BUILD_ARCH" != "" ]; then
     echo "$BUILD_ARCH"
+elif [ `uname -p` == ppc64 ]; then
+  # hard code this, should be done better
+    echo ydl5_ppc64
 elif [ `uname` = Linux ]; then
   if [ -f /etc/SuSE-release ]; then
     echo suse`grep -i '^version' < /etc/SuSE-release | tr -dc '[0-9]'`
