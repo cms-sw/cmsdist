@@ -5,6 +5,9 @@ Source: http://proj-clhep.web.cern.ch/proj-clhep/%n-%v.tgz
 %setup -n %v/CLHEP
 
 %build
+if [ $(uname) = Darwin ]; then
+  export MACOSX_DEPLOYMENT_TARGET="10.4"
+fi
 CXX=g++ ./configure --prefix=%i
 make
 
