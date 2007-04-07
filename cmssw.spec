@@ -16,6 +16,7 @@ Requires: gcc-wrapper
 %define buildtarget     release-build
 %define postbuildtarget doc
 %define patchsrc perl -p -i -e 's!<select name=(MyODBC|ignominy|rulechecker)>!!' %{cvsconfig}/requirements ;
+%define useCmsTC        1
 
 ## IMPORT cms-scram-build
 ## IMPORT scramv1-build
