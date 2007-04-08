@@ -220,7 +220,7 @@ scramv1 setup f77compiler
 scramv1 setup ccompiler
 scramv1 tool info cxxcompiler
 %endif
-scramv1 b --verbose -f %{makeprocesses} %{buildtarget} </dev/null
+scramv1 b --verbose -f %{compileOptions} %{makeprocesses}  %{buildtarget} </dev/null
 %if "%{?additionalBuildTarget0:set}" == "set"
 scramv1 b --verbose -f %{additionalBuildTarget0} < /dev/null
 %endif
