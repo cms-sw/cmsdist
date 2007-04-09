@@ -1,4 +1,5 @@
 ### RPM external castor 2.1.1-4
+## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 %define downloadv v%(echo %v | tr - _ | tr . _)
 %define baseVersion %(echo %v | cut -d- -f1)
 %define patchLevel %(echo %v | cut -d- -f2)

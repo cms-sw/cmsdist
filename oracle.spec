@@ -1,5 +1,6 @@
 ### RPM external oracle 10.2.0.2
 ## INITENV SET ORACLE_HOME %i
+## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) true ;; * ) false ;; esac
 
 Source0: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-basic-linux32-10.2.0.2-20060331.zip
 Source1: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-sdk-linux32-10.2.0.2-20060331.zip
