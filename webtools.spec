@@ -79,4 +79,5 @@ EOF_APACHE2_FOOTER
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 %{relocateConfig}lib/python2.4/site-packages/Applications/SiteDB/sitedb.ini
+perl -p -i -e "s|/BUILD/|/|;s|/WEBTOOLS/|/lib/python2.4/site-packages/|" $RPM_INSTALL_PREFIX/%pkgrel/lib/python2.4/site-packages/Applications/SiteDB/sitedb.ini
 perl -p -i -e "s!\@RPM_INSTALL_PREFIX\@!$RPM_INSTALL_PREFIX/%pkgrel!" $RPM_INSTALL_PREFIX/%pkgrel/bin/cmsWeb
