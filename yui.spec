@@ -1,5 +1,5 @@
-### RPM external yui 2.2.0a-cpy3
-%define realv 2.2.0a
+### RPM external yui 2.2.1
+%define realv %v
 Source: http://switch.dl.sourceforge.net/sourceforge/yui/yui_%realv.zip 
 
 %prep
