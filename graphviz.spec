@@ -18,6 +18,7 @@ Patch0: graphviz
   --with-jpegincludedir=$LIBPNG_ROOT/include \
   --with-jpeglibdir=$LIBPNG_ROOT/lib \
   --without-x \
+  --without-tclsh \
   --without-tcl \
   --without-tk \
   --prefix=%{i}
