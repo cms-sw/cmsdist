@@ -12,6 +12,11 @@ tar xzvf %_sourcedir/%{n}-%{v}.slc3_ia32_gcc323.tar.gz
 tar xzvf %_sourcedir/%{n}-%{v}.slc4_ia32_gcc345.tar.gz
 %endif
 
+# This is a kludge around a kludge...
+%if "%cmsplatf" == "slc4_amd64_gcc345"
+tar xzvf %_sourcedir/%{n}-%{v}.slc4_ia32_gcc345.tar.gz
+%endif
+
 %build
 %install
 mkdir -p %i/include
