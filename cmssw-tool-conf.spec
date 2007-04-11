@@ -51,8 +51,6 @@ Requires: curl
 Requires: libjpg
 Requires: simage
 Requires: openssl
-Requires: hippodraw
-Requires: qutexmlrpc
 Requires: expat
 Requires: frontier_client
 Requires: genser
@@ -384,20 +382,6 @@ eval "echo \"  +OPENSSL_BASE:\${OPENSSL_ROOT}\""
 eval "echo \"  +PATH:\${OPENSSL_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${OPENSSL_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${OPENSSL_ROOT}/include\""
-
-echo "TOOL:hippodraw:"
-echo "  +HIPPODRAW_BASE:$HIPPODRAW_ROOT"
-echo "  +LIBDIR:$HIPPODRAW_ROOT/lib"
-echo "  +INCLUDE:$HIPPODRAW_ROOT/include/HippoDraw-$HIPPODRAW_VERSION"
-echo "  +PATH:$PYTHON_ROOT/bin"
-
-
-echo "TOOL:qutexmlrpc:"
-eval "echo \"  +QUTEXMLRPC_BASE:\${QUTEXMLRPC_ROOT}\""
-eval "echo \"  +PATH:\${QUTEXMLRPC_ROOT}/bin\""
-eval "echo \"  +LIBDIR:\${QUTEXMLRPC_ROOT}/lib\""
-eval "echo \"  +INCLUDE:\${QUTEXMLRPC_ROOT}/include\""
-
 
 echo "TOOL:expat:"
 eval "echo \"  +EXPAT_BASE:\${EXPAT_ROOT}\""
