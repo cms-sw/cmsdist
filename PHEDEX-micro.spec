@@ -74,7 +74,10 @@ for x in %pkgreqs; do
  echo ". $p/etc/profile.d/init.sh" >> %i/etc/profile.d/env.sh
  echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/env.csh
 done
-
+cat %i/etc/profile.d/env.csh > %i/etc/profile.d/dependencies-setup.csh
+cat %i/etc/profile.d/env.sh > %i/etc/profile.d/dependencies-setup.sh
 %post
 %{relocateConfig}etc/profile.d/env.sh
 %{relocateConfig}etc/profile.d/env.csh
+%{relocateConfig}etc/profile.d/dependencies-setup.sh
+%{relocateConfig}etc/profile.d/dependencies-setup.csh
