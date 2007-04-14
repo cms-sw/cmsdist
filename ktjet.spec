@@ -4,7 +4,7 @@ Requires: clhep
 %prep
 %setup -n KtJet-%{v}
 %build
-CPPFLAGS=" -DKTDOUBLEPRECISION" ./configure --with-clhep=$CLHEP_ROOT --prefix=%{i}
+CPPFLAGS=" -DKTDOUBLEPRECISION -fPIC" ./configure --with-clhep=$CLHEP_ROOT --prefix=%{i}
 make
 %install
 make install
