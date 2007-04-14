@@ -6,6 +6,9 @@ Source: http://www.lpthe.jussieu.fr/~salam/repository/software/fastjet/%n-%v.tgz
 
 %build
 cd src
+# The following is a hack, whether it works should be checked whenever
+# the version is updated from 2.1.0b1
+perl -p -i -e "s|CXXFLAGS \+\=|CXXFLAGS += -fPIC|" Makefile
 make
 make install
 
