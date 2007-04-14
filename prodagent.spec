@@ -19,7 +19,6 @@ cp -R util/* %i/util/
 mkdir -p %{i}/etc/profile.d
 mkdir -p %i/workdir
 
-
 (echo "#!/bin/sh"; \
  echo "source $PYTHON_ROOT/etc/profile.d/init.sh"; \
  echo "source $OPENSSL_ROOT/etc/profile.d/init.sh"; \
