@@ -61,6 +61,13 @@ rm     Utilities/TestCatalogue
 rm     Utilities/UtilGraphTopology
 rm     Utilities/WordMunger
 
+mkdir -p bin
+cd bin
+ln -s ../Utilities/* .
+ln -s ../Toolkit/DBS/* .
+ln -s ../Toolkit/DropBox/* .
+ln -s ../Toolkit/Request/* .
+cd -
 
 %build
 
