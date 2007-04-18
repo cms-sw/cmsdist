@@ -1,4 +1,5 @@
 ### RPM lcg SCRAMV1 V1_0_3-p1
+Requires: gcc-wrapper
 ## INITENV +PATH PATH %instroot/bin
 ## INITENV +PATH PERL5LIB %{i}
 Requires: expat p5-template-toolkit p5-uri p5-xml-parser p5-libwww-perl cms-env
@@ -58,6 +59,7 @@ Source0: %{cvsrepo}&tag=-r%{v}&module=SCRAM&output=/source.tar.gz
 %prep
 %setup -n SCRAM
 %build
+## IMPORT gcc-wrapper
 %install
 tar -cf - . | tar -C %i -xvvf -
 rm -rf %i/cgi

@@ -1,4 +1,5 @@
 ### RPM cms dbs-server pre4_v01_00_00
+Requires: gcc-wrapper
 
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Servers/JavaServer&export=DBS&tag=-r%{cvstag}&output=/dbs-server.tar.gz
@@ -9,6 +10,7 @@ Requires: apache-ant mysql oracle apache-tomcat java-jdk
 %prep
 %setup -n DBS
 %build
+## IMPORT gcc-wrapper
 echo "PWD=$PWD"
 cd Servers/JavaServer
 echo "PWD=$PWD"

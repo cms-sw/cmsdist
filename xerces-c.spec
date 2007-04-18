@@ -1,4 +1,5 @@
 ### RPM external xerces-c 2.7.0
+Requires: gcc-wrapper
 %define xercesv %(echo %v | tr . _)
 Source: http://www.apache.org/dist/xml/xerces-c/source/xerces-c-src_%xercesv.tar.gz
 
@@ -6,6 +7,7 @@ Source: http://www.apache.org/dist/xml/xerces-c/source/xerces-c-src_%xercesv.tar
 %setup -n xerces-c-src_%xercesv
 
 %build
+## IMPORT gcc-wrapper
 export XERCESCROOT=$PWD
 cd $PWD/src/xercesc
 case $(uname) in

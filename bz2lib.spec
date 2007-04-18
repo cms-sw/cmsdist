@@ -1,4 +1,5 @@
 ### RPM external bz2lib 1.0.2
+Requires: gcc-wrapper
 # Build system patches by Lassi A. Tuura <lat@iki.fi>
 Source: ftp://sources.redhat.com/pub/bzip2/v%(echo %v | tr -d .)/bzip2-%v.tar.gz
 %define cpu %(echo %cmsplatf | cut -f2 -d_)
@@ -15,6 +16,7 @@ sed -e 's/ -shared/ -dynamiclib/' \
     < Makefile-libbz2_so > Makefile-libbz2_dylib
 
 %build
+## IMPORT gcc-wrapper
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
 make %makeprocesses -f Makefile-libbz2_$so
 

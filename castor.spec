@@ -1,4 +1,5 @@
 ### RPM external castor 2.1.1-4
+Requires: gcc-wrapper
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 %define downloadv v%(echo %v | tr - _ | tr . _)
 %define baseVersion %(echo %v | cut -d- -f1)
@@ -21,6 +22,7 @@ Provides: libshift.so.%(echo %v |cut -d. -f1,2)%{libsuffix}
 %prep
 %setup -n CASTOR2 
 %build
+## IMPORT gcc-wrapper
 perl -p -i -e "s!__PATCHLEVEL__!%patchLevel!;s!__BASEVERSION__!\"%baseVersion\"!;s!__TIMESTAMP__!%(date +%%s)!" h/patchlevel.h
 
 for this in BuildCupvDaemon BuildDlfDaemon BuildNameServerDaemon BuildRHCpp \

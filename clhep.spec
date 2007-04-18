@@ -1,10 +1,12 @@
 ### RPM external clhep 1.9.2.3
+Requires: gcc-wrapper
 Source: http://proj-clhep.web.cern.ch/proj-clhep/%n-%v.tgz
 
 %prep
 %setup -n %v/CLHEP
 
 %build
+## IMPORT gcc-wrapper
 if [ $(uname) = Darwin ]; then
   export MACOSX_DEPLOYMENT_TARGET="10.4"
 fi

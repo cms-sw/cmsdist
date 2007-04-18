@@ -1,4 +1,5 @@
 ### RPM cms dbs-client DBS_1_0_0
+Requires: gcc-wrapper
 ## INITENV +PATH PYTHONPATH %i/lib/Clients/Python
 #
 %define cvstag %v
@@ -8,6 +9,7 @@ Requires: python openssl
 %prep
 %setup -n DBS
 %build
+## IMPORT gcc-wrapper
 (make DBSHOME=%_builddir/DBS/Clients/Python )
 
 %install

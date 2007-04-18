@@ -1,4 +1,5 @@
 ### RPM external boost 1.33.1
+Requires: gcc-wrapper
 # Patches and build fudging by Lassi A. Tuura <lat@iki.fi> (FIXME: contribute to boost)
 # define boostver -%v <-- for 1.30.2
 %define boostver _%(echo %v | tr . _)
@@ -11,6 +12,7 @@ Source: http://dl.sourceforge.net/sourceforge/%n/%{n}%{boostver}.tar.gz
 #%patch
 
 %build
+## IMPORT gcc-wrapper
 # Note that some targets will fail to build (the test programs have
 # missing symbols), causing darwin to fail to link and bjam to return
 # an error.  So ignore the exit code from bjam on darwin to avoid

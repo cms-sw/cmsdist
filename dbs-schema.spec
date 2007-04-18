@@ -1,4 +1,5 @@
 ### RPM cms dbs-schema pre4_v01_00_00
+Requires: gcc-wrapper
 
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Schema/NeXtGen&export=DBS/Schema/NeXtGen&tag=-r%{cvstag}&output=/dbs-schema.tar.gz
@@ -7,6 +8,7 @@ Requires: mysql oracle
 %prep
 %setup -n DBS
 %build
+## IMPORT gcc-wrapper
 (make DBSHOME=%_builddir/DBS/Schema/NeXtGen )
 
 %install

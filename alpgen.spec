@@ -1,10 +1,12 @@
 ### RPM external alpgen 205
+Requires: gcc-wrapper
 Source: http://mlm.home.cern.ch/mlm/alpgen/V2.0/v%{v}.tgz
 Source1: config.sub-amd64
 %prep
 %setup -c -n alpgen-%v
 
 %build
+## IMPORT gcc-wrapper
 cd 2Qwork; make 2Qgen; cd ..
 cd 4Qwork; make 4Qgen; cd ..
 cd hjetwork; make hjetgen; cd ..

@@ -1,8 +1,10 @@
 ### RPM external libpng 1.2.10
+Requires: gcc-wrapper
  
 Source: ftp://ftp.simplesystems.org/pub/libpng/png/src/%{n}-%{v}.tar.bz2
 
 %build
+## IMPORT gcc-wrapper
 ./configure --prefix=%{i}
 make %makeprocesses
 %post

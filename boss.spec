@@ -1,4 +1,5 @@
 ### RPM cms boss BOSS_4_3_2
+Requires: gcc-wrapper
 ## INITENV +PATH PATH %i/bin
 ## INITENV SET BOSSDIR %i
 %define cvstag %v
@@ -8,6 +9,7 @@ Requires: mysql sqlite uuid monalisa-apmon xerces-c
 %prep
 %setup -n %{compProjectName}
 %build
+## IMPORT gcc-wrapper
 export mysql_dir=$MYSQL_ROOT
 export sqlite_dir=$SQLITE_ROOT
 echo %{v} > ./VERSION

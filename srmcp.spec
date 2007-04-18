@@ -1,4 +1,5 @@
 ### RPM external srmcp 1.25
+Requires: gcc-wrapper
 ## INITENV +PATH PATH %i/srmclient/bin
 ## INITENV SET SRM_PATH %i/srmclient
 ## INITENV SET SRM_CONFIG %i/etc/config.xml
@@ -9,6 +10,7 @@ Source: https://srm.fnal.gov/twiki/pub/SrmProject/SrmcpClient/%{n}_v%{downloadv}
 %prep
 %setup -n srmclient
 %build
+## IMPORT gcc-wrapper
 
 %install
 unset SRM_PATH SRM_CONFIG || true

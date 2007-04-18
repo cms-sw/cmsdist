@@ -1,4 +1,5 @@
 ### RPM cms dbs-web V03_03_02
+Requires: gcc-wrapper
 ## INITENV +PATH PYTHONPATH %i/lib
 
 %define cvstag %v
@@ -8,6 +9,7 @@ Requires: python dls py2-sqlalchemy cherrypy mysql py2-mysqldb oracle py2-cx-ora
 %prep
 %setup -n DBS
 %build
+## IMPORT gcc-wrapper
 (make DDHOME=%_builddir/DBS/Web/DataDiscovery )
 
 %install

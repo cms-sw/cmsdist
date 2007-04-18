@@ -1,9 +1,11 @@
 ### RPM external mimetic 0.8.9
+Requires: gcc-wrapper
 Source: http://codesink.org/download/%{n}-%{v}.tar.gz
 
 %description
 
 %build
+## IMPORT gcc-wrapper
 ./configure --prefix=%i
 make
 

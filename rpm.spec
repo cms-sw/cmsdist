@@ -1,7 +1,9 @@
 ### RPM external rpm 4.3.3-18_nonptl
+Requires: gcc-wrapper
 Source: http://elmer.web.cern.ch/elmer/rpm-4.3.3-18_nonptl.tar.gz
 Requires: zlib beecrypt bz2lib 
 %build
+## IMPORT gcc-wrapper
 export CFLAGS="-I$BEECRYPT_ROOT/include/beecrypt -I$BEECRYPT_ROOT/include -I$BZ2LIB_ROOT/include"
 export LDFLAGS="-L$BEECRYPT_ROOT/lib -L$BZ2LIB_ROOT/lib"
 ./configure --prefix=%i --with-zlib=$ZLIB_ROOT  --without-selinux --without-lua --without-python -without-libintl

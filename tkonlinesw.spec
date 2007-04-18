@@ -1,4 +1,5 @@
 ### RPM external tkonlinesw 1.2
+Requires: gcc-wrapper
 Source: afs:///afs/cern.ch/cms/external/TkOnlineSw/%{v}/slc3_ia32_gcc323?export=/%{n}-%{v}.slc3_ia32_gcc323.tar.gz
 Source1: afs:///afs/cern.ch/cms/external/TkOnlineSw/%{v}/slc4_ia32_gcc345?export=/%{n}-%{v}.slc4_ia32_gcc345.tar.gz
 Requires: xerces-c
@@ -18,6 +19,7 @@ tar xzvf %_sourcedir/%{n}-%{v}.slc4_ia32_gcc345.tar.gz
 %endif
 
 %build
+## IMPORT gcc-wrapper
 %install
 mkdir -p %i/include
 mkdir -p %i/lib

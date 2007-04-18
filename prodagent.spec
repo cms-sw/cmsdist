@@ -1,4 +1,5 @@
 ### RPM cms prodagent PRODAGENT_0_2_0_pre4
+Requires: gcc-wrapper
 ## INITENV +PATH PYTHONPATH %i/lib
 
 %define cvstag %v
@@ -8,6 +9,7 @@ Requires: python mysql py2-mysqldb dbs-client dls boss prodcommon openssl cherry
 %prep
 %setup -n PRODAGENT
 %build
+## IMPORT gcc-wrapper
 %install
 make PREFIX=%i install
 mkdir -p %i/bin

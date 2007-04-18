@@ -1,4 +1,5 @@
 ### RPM external py2-pil 1.1.6
+Requires: gcc-wrapper
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 %define downloadn Imaging
 Source: http://effbot.org/downloads/%downloadn-%v.tar.gz
@@ -18,6 +19,7 @@ perl -p -i -e "s!JPEG_ROOT = None!JPEG_ROOT =\"$LIBJPG_ROOT\" !" setup.py
 perl -p -i -e "s!TIFF_ROOT = None!TIFF_ROOT =\"$LIBTIFF_ROOT\" !" setup.py
 perl -p -i -e "s!ZLIB_ROOT = None!ZLIB_ROOT =\"$ZLIB_ROOT\" !" setup.py
 %build
+## IMPORT gcc-wrapper
 python setup.py build_ext -i
 python selftest.py
 %install

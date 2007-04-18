@@ -1,4 +1,5 @@
 ### RPM external uuid 1.38
+Requires: gcc-wrapper
 # Patches by Lassi A. Tuura <lat@iki.fi> (FIXME: contribute to e2fsprogs)
 Source: http://switch.dl.sourceforge.net/sourceforge/e2fsprogs/e2fsprogs-%v.tar.gz
 
@@ -13,6 +14,7 @@ Source: http://switch.dl.sourceforge.net/sourceforge/e2fsprogs/e2fsprogs-%v.tar.
 #endif
 
 %build
+## IMPORT gcc-wrapper
 ./configure $([ $(uname) != Darwin ] && echo --enable-elf-shlibs) --prefix=%i
 make lib/ext2fs/ext2_types.h
 cd lib/uuid

@@ -1,7 +1,9 @@
 ### RPM external openssl 0.9.7d
+Requires: gcc-wrapper
 Source: http://www.openssl.org/source/%n-%v.tar.gz
 
 %build
+## IMPORT gcc-wrapper
 ./config --prefix=%i shared
 case $(uname)-$(uname -m) in
   Darwin*)
