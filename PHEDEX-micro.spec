@@ -62,14 +62,6 @@ rm     Utilities/TestCatalogue
 rm     Utilities/UtilGraphTopology
 rm     Utilities/WordMunger
 
-mkdir -p bin
-cd bin
-ln -s ../Utilities/* .
-ln -s ../Toolkit/DBS/* .
-ln -s ../Toolkit/DropBox/* .
-ln -s ../Toolkit/Request/* .
-cd -
-
 %build
 ## IMPORT gcc-wrapper
 
@@ -86,6 +78,8 @@ for x in %pkgreqs; do
 done
 cat %i/etc/profile.d/env.csh > %i/etc/profile.d/dependencies-setup.csh
 cat %i/etc/profile.d/env.sh > %i/etc/profile.d/dependencies-setup.sh
+echo "export PATH=${PATH}:%i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request" >>%i/etc/profile.d/env.sh
+echo "setenv PATH ${PATH}:%i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request" >>%i/etc/profile.d/env.csh
 %post
 %{relocateConfig}etc/profile.d/env.sh
 %{relocateConfig}etc/profile.d/env.csh
