@@ -1,5 +1,5 @@
 ### RPM cms PHEDEX-micro PHEDEX_2_5_2
-Requires: gcc-wrapper
+##Requires: gcc-wrapper
 %define downloadn %(echo %n | cut -f1 -d-)
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%{downloadn}&export=%{downloadn}&&tag=-r%{v}&output=/%{downloadn}.tar.gz
 Requires: oracle oracle-env p5-time-hires p5-text-glob p5-compress-zlib p5-dbi p5-dbd-oracle p5-xml-parser srmcp python
@@ -76,10 +76,10 @@ for x in %pkgreqs; do
  echo ". $p/etc/profile.d/init.sh" >> %i/etc/profile.d/env.sh
  echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/env.csh
 done
-cat %i/etc/profile.d/env.csh > %i/etc/profile.d/dependencies-setup.csh
-cat %i/etc/profile.d/env.sh > %i/etc/profile.d/dependencies-setup.sh
 echo "export PATH=${PATH}:%i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request" >>%i/etc/profile.d/env.sh
 echo "setenv PATH ${PATH}:%i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request" >>%i/etc/profile.d/env.csh
+cat %i/etc/profile.d/env.csh > %i/etc/profile.d/dependencies-setup.csh
+cat %i/etc/profile.d/env.sh > %i/etc/profile.d/dependencies-setup.sh
 %post
 %{relocateConfig}etc/profile.d/env.sh
 %{relocateConfig}etc/profile.d/env.csh
