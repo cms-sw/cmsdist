@@ -1,4 +1,4 @@
-### RPM cms dbs-web V03_03_02
+### RPM cms dbs-web V03_03_03
 Requires: gcc-wrapper
 ## INITENV +PATH PYTHONPATH %i/lib
 
@@ -18,8 +18,9 @@ mkdir -p %{i}/etc/profile.d
 mkdir -p %{i}/lib/Web/DataDiscovery
 cp -r Web/DataDiscovery/* %{i}/lib/
 
-ln -s $WEBTOOLS_ROOT %{i}/lib/Web/DataDiscovery/WEBTOOLS
-ln -s $YUI_ROOT %{i}/lib/Web/DataDiscovery/YUI
+#ln -s $WEBTOOLS_ROOT %{i}/lib/Web/DataDiscovery/WEBTOOLS
+cd %{i}/lib/Web/DataDiscovery
+ln -s $YUI_ROOT/build YUI
 
 # here I use octal code \044 for $ sign since I want "$NAME" to be appear in 
 # init.sh file, instead of interpreting it here.
@@ -41,7 +42,8 @@ ln -s $YUI_ROOT %{i}/lib/Web/DataDiscovery/YUI
  echo -e "export DBS_DBPARAM=\044DBS_WEB_ROOT/lib/Web/DataDiscovery/DBParam"; \
  echo -e "export PYTHONPATH=\044PYTHONPATH:\044DLSHOME"; \
  echo -e "export PYTHONPATH=\044DDHOME:\044DDHOME/QueryBuilder:\044PYTHONPATH"; \
-
+ rm -f $DDHOME/YUI; \
+ ln -s $YUI_ROOT/build $DDHOME/YUI; \
  ) > %{i}/etc/profile.d/dependencies-setup.sh
 
 (echo "#!/bin/tcsh"; \
@@ -62,10 +64,11 @@ ln -s $YUI_ROOT %{i}/lib/Web/DataDiscovery/YUI
  echo -e "setenv DBS_DBPARAM \044DBS_WEB_ROOT/lib/Web/DataDiscovery/DBParam"; \
  echo -e "setenv PYTHONPATH \044PYTHONPATH:\044DLSHOME"; \
  echo -e "setenv PYTHONPATH \044DDHOME:\044DDHOME/QueryBuilder:\044PYTHONPATH"; \
+ rm -f $DDHOME/YUI; \
+ ln -s $YUI_ROOT/build $DDHOME/YUI; \
  ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 # Generate python code from templates 
-cd %{i}/lib/Web/DataDiscovery
 ./scripts/genTemplates.sh
 
 %post
