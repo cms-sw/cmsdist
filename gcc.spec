@@ -1,12 +1,10 @@
 ### RPM external gcc 3.4.5
-Requires: gcc-wrapper
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 Source: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%v/%n-%v.tar.bz2
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %build
-## IMPORT gcc-wrapper
 # FIXME: --enable-__cxa_atexit can't be used with gcc 3.2.3 on RH 7.3,
 # enabling it causes qt's uic to die with segmentation violation half
 # way down the build of qt (projecsettings.ui or something like that;
