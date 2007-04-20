@@ -1,4 +1,4 @@
-### RPM external py2-sqlalchemy 0.3.5
+### RPM external py2-sqlalchemy 0.3.6
 Requires: gcc-wrapper
 %define pythonv %(echo $PYTHON_VERSION | cut -f1,2 -d.)
 ## INITENV +PATH PYTHONPATH %i/lib/python$(echo $PYTHON_VERSION | cut -f1,2 -d.)/site-packages
