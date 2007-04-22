@@ -1,5 +1,4 @@
-### RPM cms prodagent PRODAGENT_0_2_0_pre4
-Requires: gcc-wrapper
+### RPM cms prodagent PRODAGENT_0_2_0_pre3
 ## INITENV +PATH PYTHONPATH %i/lib
 
 %define cvstag %v
@@ -9,7 +8,6 @@ Requires: python mysql py2-mysqldb dbs-client dls boss prodcommon openssl cherry
 %prep
 %setup -n PRODAGENT
 %build
-## IMPORT gcc-wrapper
 %install
 make PREFIX=%i install
 mkdir -p %i/bin
@@ -20,7 +18,6 @@ mkdir -p %i/util
 cp -R util/* %i/util/
 mkdir -p %{i}/etc/profile.d
 mkdir -p %i/workdir
-
 
 (echo "#!/bin/sh"; \
  echo "source $PYTHON_ROOT/etc/profile.d/init.sh"; \
