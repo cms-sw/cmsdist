@@ -1,4 +1,4 @@
-### RPM cms coral CORAL_1_7_2-cms147
+### RPM cms coral CORAL_1_7_2-cms147a
 ## IMPORT configurations
 Provides: /bin/zsh
 Requires: coral-tool-conf
