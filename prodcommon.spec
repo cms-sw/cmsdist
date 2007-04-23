@@ -1,5 +1,4 @@
 ### RPM cms prodcommon PRODCOMMON_0_2_0
-Requires: gcc-wrapper
 ## INITENV +PATH PYTHONPATH %i/lib
 
 %define cvstag %v
@@ -8,7 +7,6 @@ Requires: python
 %prep
 %setup -n PRODCOMMON
 %build
-## IMPORT gcc-wrapper
 %install
 make PREFIX=%i install
 mkdir -p %i
