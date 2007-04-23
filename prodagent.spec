@@ -1,4 +1,4 @@
-### RPM cms prodagent PRODAGENT_0_2_0_pre4
+### RPM cms prodagent PRODAGENT_0_2_0
 Requires: gcc-wrapper
 ## INITENV +PATH PYTHONPATH %i/lib
 
