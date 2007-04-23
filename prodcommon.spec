@@ -1,4 +1,4 @@
-### RPM cms prodcommon PRODCOMMON_0_2_0_pre6
+### RPM cms prodcommon PRODCOMMON_0_2_0
 Requires: gcc-wrapper
 ## INITENV +PATH PYTHONPATH %i/lib
 
