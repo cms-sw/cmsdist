@@ -138,6 +138,12 @@
 %define makeprocesses %{nil}
 %endif
 
+%if "%{?ignore_compile_errors:set}" == "set"
+%define compileOptions -k
+%else
+%define compileOptions %{nil}
+%endif
+
 # Define a macro for relocating configuration files in %%post section.
 %define relocateConfig perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
 
