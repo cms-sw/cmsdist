@@ -1,5 +1,7 @@
 ### RPM external pythia8 070
 Requires: gcc-wrapper
+Requires: hepmc
+Requires: clhep
 %define gccwrapperarch slc4_ia32_gcc345
 %define realversion %(echo %v | cut -d- -f1 )
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
