@@ -42,8 +42,8 @@ ln -s $YUI_ROOT/build YUI
  echo -e "export DBS_DBPARAM=\044DBS_WEB_ROOT/lib/Web/DataDiscovery/DBParam"; \
  echo -e "export PYTHONPATH=\044PYTHONPATH:\044DLSHOME"; \
  echo -e "export PYTHONPATH=\044DDHOME:\044DDHOME/QueryBuilder:\044PYTHONPATH"; \
- echo -e "rm -f $DDHOME/YUI"; \
- echo -e "ln -s $YUI_ROOT/build $DDHOME/YUI"; \
+ echo -e "rm -f \044DDHOME/YUI"; \
+ echo -e "ln -s $YUI_ROOT/build \044DDHOME/YUI"; \
  ) > %{i}/etc/profile.d/dependencies-setup.sh
 
 (echo "#!/bin/tcsh"; \
@@ -64,8 +64,8 @@ ln -s $YUI_ROOT/build YUI
  echo -e "setenv DBS_DBPARAM \044DBS_WEB_ROOT/lib/Web/DataDiscovery/DBParam"; \
  echo -e "setenv PYTHONPATH \044PYTHONPATH:\044DLSHOME"; \
  echo -e "setenv PYTHONPATH \044DDHOME:\044DDHOME/QueryBuilder:\044PYTHONPATH"; \
- echo -e "rm -f $DDHOME/YUI"; \
- echo -e "ln -s $YUI_ROOT/build $DDHOME/YUI"; \
+ echo -e "rm -f \044DDHOME/YUI"; \
+ echo -e "ln -s $YUI_ROOT/build \044DDHOME/YUI"; \
  ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 # Generate python code from templates 
