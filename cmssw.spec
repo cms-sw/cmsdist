@@ -12,7 +12,6 @@ Requires: cmssw-tool-conf  python glimpse
 %define conflevel       _2
 %define prebuildtarget  gindices
 %define buildtarget     release-build
-%define postbuildtarget doc
 %define patchsrc perl -p -i -e 's!<select name=(MyODBC)>!!' %{cvsconfig}/requirements ;
 %define useCmsTC        1
 
