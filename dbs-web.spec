@@ -1,4 +1,4 @@
-### RPM cms dbs-web V03_04_06
+### RPM cms dbs-web V03_04_07
 Requires: gcc-wrapper
 ## INITENV +PATH PYTHONPATH %i/lib
 
