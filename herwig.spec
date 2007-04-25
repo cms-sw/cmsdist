@@ -8,7 +8,10 @@ Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{rea
 ./configure 
 
 %build
-## IMPORT gcc-wrapper
+%if "%{cmsplatf}" == "%{gccwrapperarch}"
+echo "Using gcc wrapper for %cmsplatf"
+source $GCC_WRAPPER_ROOT/etc/profile.d/init.sh
+%endif
 make 
 
 %install

@@ -1,5 +1,4 @@
-### RPM external srmcp 1.25
-Requires: gcc-wrapper
+### RPM external srmcp 1.23
 ## INITENV +PATH PATH %i/srmclient/bin
 ## INITENV SET SRM_PATH %i/srmclient
 ## INITENV SET SRM_CONFIG %i/etc/config.xml
@@ -10,17 +9,19 @@ Source: https://srm.fnal.gov/twiki/pub/SrmProject/SrmcpClient/%{n}_v%{downloadv}
 %prep
 %setup -n srmclient
 %build
-## IMPORT gcc-wrapper
 
 %install
 unset SRM_PATH SRM_CONFIG || true
 (cd .. && tar -cf - srmclient) | (cd %i && tar -xf -)
-mkdir -p %i/etc
-SRM_PATH=%i/srmclient SRM_CONFIG=%i/etc/config.xml \
-  %i/srmclient/sbin/srm \
-    -x509_user_trusted_certificates /etc/grid-security/certificates \
-    -copy file:////dev/null file:////dev/null > /dev/null 2>&1 || true
+if [ ! -f $HOME/.srmconfig/config.xml ]; then
+  mkdir -p %i/etc $HOME/.srmconfig
+  SRM_PATH=%i/srmclient %i/srmclient/sbin/srm \
+    -copy file:///dev/null file:///dev/null > /dev/null 2>&1 || true
+  [ -f $HOME/.srmconfig/config.xml ] 
+fi
 
+mkdir -p %i/etc
+cp -p $HOME/.srmconfig/config.xml %i/etc/config.xml
 perl -p -i -e "s|$HOME|%i|" %i/etc/config.xml
 
 %post
