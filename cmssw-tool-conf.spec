@@ -57,16 +57,12 @@ Requires: genser
 Requires: tkonlinesw
 Requires: doxygen
 Requires: meschach
-Requires: iguana
 Requires: glimpse
-Requires: relax
 Requires: oracle-env
 Requires: p5-dbd-oracle
 Requires: valgrind
 Requires: fastjet
 Requires: ktjet
-Requires: gmp
-Requires: glpk
 Requires: ignominy
 Requires: herwig
 Requires: lhapdf
@@ -141,10 +137,6 @@ echo "  +POOL_BASE:$POOL_ROOT"
 
 echo "TOOL:seal:"
 echo "  +SEAL_BASE:$SEAL_ROOT"
-
-echo "TOOL:relax:"
-eval "echo \"  +RELAX_BASE:\${RELAX_ROOT}\""
-eval "echo \"  +LIBDIR:\${RELAX_ROOT}/lib\""
 
 echo "TOOL:ignominy:"
 eval "echo \"  +IGNOMINY_BASE:\${IGNOMINY_ROOT}\""
@@ -480,16 +472,6 @@ eval "echo \"  +KTJET_BASE:\${KTJET_ROOT}\""
 eval "echo \"  +LIBDIR:\${KTJET_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${KTJET_ROOT}/include\""
 
-echo "TOOL:gmp:"
-eval "echo \"  +GMP_BASE:\${GMP_ROOT}\""
-eval "echo \"  +LIBDIR:\${GMP_ROOT}/lib\""
-eval "echo \"  +INCLUDE:\${GMP_ROOT}/include\""
-
-echo "TOOL:glpk:"
-eval "echo \"  +GLPK_BASE:\${GLPK_ROOT}\""
-eval "echo \"  +LIBDIR:\${GLPK_ROOT}/lib\""
-eval "echo \"  +INCLUDE:\${GLPK_ROOT}/include\""
-
 echo "TOOL:glimpse:"
 eval "echo \"  +GLIMPSE_BASE:\${GLIMPSE_ROOT}\""
 eval "echo \"  +PATH:\${GLIMPSE_ROOT}/bin\""
@@ -497,9 +479,6 @@ eval "echo \"  +PATH:\${GLIMPSE_ROOT}/bin\""
 echo "TOOL:elementtree:"
 echo "  +ELEMENTTREE_BASE:$ELEMENTTREE_ROOT"
 echo "  +ELEMENTTREE_PYPATH:$ELEMENTTREE_ROOT/python$(echo $PYTHON_VERSION | cut -d. -f1,2)/site-packages"
-
-echo "TOOL:iguana:"
-echo "  +IGUANA_BASE:$IGUANA_ROOT"
 
 echo "TOOL:valgrind:"
 echo "  +VALGRIND_BASE:$VALGRIND_ROOT"
