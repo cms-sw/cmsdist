@@ -1,4 +1,4 @@
-### RPM cms dbs-client DBS_1_0_0
+### RPM cms dbs-client DBS_1_0_1
 Requires: gcc-wrapper
 ## INITENV +PATH PYTHONPATH %i/lib/Clients/Python
 #
