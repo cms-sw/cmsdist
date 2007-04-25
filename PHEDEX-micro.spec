@@ -64,7 +64,6 @@ rm     Utilities/UtilGraphTopology
 rm     Utilities/WordMunger
 
 %build
-## IMPORT gcc-wrapper
 
 %install
 mkdir -p %i/etc
