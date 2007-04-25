@@ -214,12 +214,15 @@ scramv1 b -r echo_CXX </dev/null
 %if "%{?prebuildtarget:set}" == "set"
 scramv1 b --verbose -f %{prebuildtarget} </dev/null
 %endif
-#%if "%{cmsplatf}" == "%{gccwrapperarch}"
-#scramv1 setup cxxcompiler
-#scramv1 setup f77compiler
-#scramv1 setup ccompiler
-#scramv1 tool info cxxcompiler
-#%endif
+%if "%{cmsplatf}" == "%{gccwrapperarch}"
+scramv1 tool list | grep cxxcompiler
+bash -c "if "$status" -eq "0" ] ; then scramv1 setup cxxcompiler; fi"
+scramv1 tool list | grep f77compiler
+bash -c "if "$status" -eq "0" ] ; then scramv1 setup f77compiler; fi"
+scramv1 tool list | grep ccompiler
+bash -c "if "$status" -eq "0" ] ; then scramv1 setup cccompiler; fi"
+%endif
+
 scramv1 b --verbose -f %{compileOptions} %{makeprocesses}  %{buildtarget} </dev/null
 %if "%{?additionalBuildTarget0:set}" == "set"
 scramv1 b --verbose -f %{additionalBuildTarget0} < /dev/null
