@@ -13,6 +13,10 @@ Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{rea
 ## IMPORT gcc-wrapper
 make 
 
+# then hack include area as jimmy depends on missing header file..
+cd include
+ln -sf HERWIG65.INC herwig65.inc
+
 %install
 tar -c lib include | tar -x -C %i
 

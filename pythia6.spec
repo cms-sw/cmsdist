@@ -15,5 +15,11 @@ source $GCC_WRAPPER_ROOT/etc/profile.d/init.sh
 make 
 
 %install
+%{relocateConfig}lib/libpythia6.a
+%{relocateConfig}lib/libpythia6_dummy.a
+%{relocateConfig}lib/libpythia6_pdfdummy.a
+%{relocateConfig}lib/librootinterface.a
+ 
+
 tar -c lib include | tar -x -C %i
 
