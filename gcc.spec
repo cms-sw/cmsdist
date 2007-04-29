@@ -1,9 +1,13 @@
-### RPM external gcc 3.4.5
+### RPM external gcc 3.4.5-CMS1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
-## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
-Source: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%v/%n-%v.tar.bz2
+%define realVersion %(echo %v | cut -d- -f1)
+Source: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realVersion/%n-%realVersion.tar.bz2
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
+
+%prep
+%setup -q -n %{n}-%{realVersion}
+
 %build
 # FIXME: --enable-__cxa_atexit can't be used with gcc 3.2.3 on RH 7.3,
 # enabling it causes qt's uic to die with segmentation violation half
@@ -26,8 +30,23 @@ make %makeprocesses bootstrap
 
 %install
 cd obj && make install
+
 ln -s gcc %i/bin/cc
+
 %post
+
+mkdir $RPM_INSTALL_PREFIX/%{pkgrel}/bin.orig
+
+for exe in `ls $RPM_INSTALL_PREFIX/%{pkgrel}/bin`; do
+mv $RPM_INSTALL_PREFIX/%{pkgrel}/bin/${exe} $RPM_INSTALL_PREFIX/%{pkgrel}/bin.orig/${exe}
+cat << \EOF  | sed -e "s|\@EXEC\@|$RPM_INSTALL_PREFIX/%{pkgrel}/bin.orig/${exe}|g" > $RPM_INSTALL_PREFIX/%{pkgrel}/bin/$exe
+#!/bin/sh
+@EXEC@ "$@" -m32 -Wa,--32
+EOF
+chmod +x $RPM_INSTALL_PREFIX/%{pkgrel}/bin/$exe
+done
+
+
 %{relocateConfig}lib/libg2c.la
 %{relocateConfig}lib/libstdc++.la
 %{relocateConfig}lib/libsupc++.la
