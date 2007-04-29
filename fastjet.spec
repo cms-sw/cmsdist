@@ -25,8 +25,6 @@ find ../plugins/SISCone -name "*.a" -exec mv {} .  \;
 
 
 %install
-%{relocateConfig}lib/libCDFConesPlugin.a
-%{relocateConfig}lib/libSISConePlugin.a
 
 # Take everything including sources, makefiles, documentation and examples (only 16MB).
 gtar -cv ./| gtar -x -C %i
