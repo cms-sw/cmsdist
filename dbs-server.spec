@@ -1,4 +1,4 @@
-### RPM cms dbs-server pre4_v01_00_00
+### RPM cms dbs-server DBS_1_0_1
 Requires: gcc-wrapper
 
 %define cvstag %v
