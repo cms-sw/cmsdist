@@ -1,5 +1,4 @@
 ### RPM external meschach 1.2.pCMS1
-Requires: gcc-wrapper
 Source: http://www.math.uiowa.edu/~dstewart/meschach/mesch12b.tar.gz
 Patch: meschach-1.2-slc4
 
@@ -8,7 +7,6 @@ Patch: meschach-1.2-slc4
 %patch -p0
 
 %build
-## IMPORT gcc-wrapper
 make
 %install
 mkdir -p %i/include

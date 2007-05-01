@@ -1,5 +1,4 @@
 ### RPM external gccxml 0.6.0
-Requires: gcc-wrapper
 
 Requires: cmake
 Source: http://www.gccxml.org/files/v0.6/%n-%v.tar.gz
@@ -12,7 +11,6 @@ Patch2: gccxml3
 %patch1 -p1 
 
 %build
-## IMPORT gcc-wrapper
 mkdir gccxml-build
 cd gccxml-build
 cmake -DCMAKE_INSTALL_PREFIX:PATH=%i ..

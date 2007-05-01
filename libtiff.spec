@@ -1,5 +1,4 @@
 ### RPM external libtiff 3.8.2
-Requires: gcc-wrapper
 
 Source: http://dl.maptools.org/dl/libtiff/tiff-%{v}.zip
 Requires: libjpg
@@ -8,7 +7,6 @@ Requires: zlib
 %prep
 %setup -n tiff-%{v}
 %build
-## IMPORT gcc-wrapper
 ./configure --prefix=%{i} \
             --with-zlib-lib-dir=$ZLIB_ROOT/lib \
             --with-zlib-include-dir=$ZLIB_ROOT/include \

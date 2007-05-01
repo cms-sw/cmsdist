@@ -1,9 +1,7 @@
 ### RPM external cppunit 1.10.2
-Requires: gcc-wrapper
 Source0: http://switch.dl.sourceforge.net/sourceforge/%n/%n-%v.tar.gz
 Source1: http://spi.cvs.cern.ch:8180/cgi-bin/spi.cgi/*checkout*/Components/UnitTesting/Tools/CppUnit/CppUnit_testdriver.cpp?rev=1.1
 %build
-## IMPORT gcc-wrapper
 ./configure --prefix=%i
 make %makeprocesses
 %install

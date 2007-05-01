@@ -1,5 +1,4 @@
 ### RPM external frontier_client 2.7.2
-Requires: gcc-wrapper
 Source: http://edge.fnal.gov:8888/frontier/%{n}__%{v}__src.tar.gz
 #Source: http://cern.ch/service-spi/external/tarFiles/%{n}__%{v}__src.tar.gz
 Requires: expat zlib openssl
@@ -8,7 +7,6 @@ Requires: expat zlib openssl
 %prep
 %setup -n %{n}__%{v}__src
 %build
-## IMPORT gcc-wrapper 
 make EXPAT_DIR=$EXPAT_ROOT \
      COMPILER_TAG=gcc_$GCC_VERSION \
      ZLIB_DIR=$ZLIB_ROOT \
