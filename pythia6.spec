@@ -3,12 +3,11 @@
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 %prep
 %setup -q -n %{n}/%{realversion}
-./configure 
+./configure --enable-shared
 
 %build
 make 
 
-find lib/archive -name "*.a" -exec mv {} lib/.  \;
 
 
 %install
