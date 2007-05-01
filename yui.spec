@@ -1,5 +1,4 @@
 ### RPM external yui 2.2.1
-Requires: gcc-wrapper
 %define realv %v
 Source: http://switch.dl.sourceforge.net/sourceforge/yui/yui_%realv.zip 
 
@@ -9,7 +8,6 @@ mkdir -p %{_builddir}/yui
 cd %{_builddir}
 unzip %{_sourcedir}/yui_%realv.zip 
 %build
-## IMPORT gcc-wrapper
 %install
 pwd
 cp -r yui/* %i

@@ -1,5 +1,4 @@
 ### RPM external python 2.4.3
-Requires: gcc-wrapper
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 # OS X patches and build fudging stolen from fink
@@ -33,7 +32,6 @@ perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" Lib/cgi.py
 %endif
 
 %build
-## IMPORT gcc-wrapper
 # Python is awkward about passing other include or library directories
 # to it.  Basically there is no way to pass anything from configure to
 # make, or down to python itself.  To get python detect the extensions

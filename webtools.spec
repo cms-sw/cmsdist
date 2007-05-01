@@ -1,5 +1,4 @@
 ### RPM cms webtools 0.9.0 
-Requires: gcc-wrapper
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 %define moduleName WEBTOOLS
 %define exportName WEBTOOLS
@@ -15,7 +14,6 @@ Provides: perl(SecurityModule)
 %prep
 %setup -n %{moduleName}
 %build
-## IMPORT gcc-wrapper
 
 rm -rf %i/etc/profile.d
 mkdir -p %i/etc/profile.d/
