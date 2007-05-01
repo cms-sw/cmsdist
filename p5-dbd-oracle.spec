@@ -1,5 +1,4 @@
 ### RPM external p5-dbd-oracle 1.17
-Requires: gcc-wrapper
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
@@ -13,7 +12,6 @@ Provides: perl(Tk) perl(Tk::Balloon) perl(Tk::ErrorDialog) perl(Tk::FileSelect) 
 %setup -n %{downloadn}-%{v}
 
 %build
-## IMPORT gcc-wrapper
 patch Makefile.PL << \EOF
 diff Makefile.PL.orig Makefile.PL
 1407a1408

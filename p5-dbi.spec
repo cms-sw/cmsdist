@@ -1,5 +1,4 @@
 ### RPM external p5-dbi 1.50
-Requires: gcc-wrapper
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
@@ -13,7 +12,6 @@ Source:  http://cpan.mirror.solnet.ch/authors/id/T/TI/TIMB/%{downloadn}-%{v}.tar
 %prep
 %setup -n %downloadn-%v
 %build
-## IMPORT gcc-wrapper
 perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion
 make
 perl -p -i -e 's|^#!.*perl|#!/usr/bin/env perl|' blib/script/dbiprof

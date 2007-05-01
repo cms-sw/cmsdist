@@ -1,5 +1,4 @@
 ### RPM external py2-mysqldb 1.2.0
-Requires: gcc-wrapper
 %define pythonv `echo $PYTHON_VERSION | cut -d. -f 1,2`
 ## INITENV +PATH PYTHONPATH %i/lib/python%{pythonv}/site-packages
 %define downloadn MySQL-python
@@ -8,7 +7,6 @@ Requires: python mysql
 %prep
 %setup -n %downloadn-%v
 %build
-## IMPORT gcc-wrapper
 python setup.py build
 %install
 python setup.py install --prefix=%{i}
