@@ -1,5 +1,4 @@
 ### RPM external xdaq 3.7.3
-Requires: gcc-wrapper
 Requires: zlib
 Requires: oracle
 %define xdaqv %(echo %v |tr . _) 
@@ -26,7 +25,6 @@ perl -p -i -e "s|^#.*ksh(.*)|#!/usr/bin/env ksh $1|" daq/extern/SBSVME/1003/v2p3
 echo " Install root in prep:" %{i}    %{pkginstroot}
 
 %build
-## IMPORT gcc-wrapper
 # Xdaq does not provide makeinstall,  it uses "simplify" script instead to 
 # reorganize the directory structure after the build is done.
 # Therefore build is done in the install area.
