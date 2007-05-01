@@ -1,5 +1,4 @@
 ### RPM external cherrypy 3.0.1
-Requires: gcc-wrapper
 %define pythonv `echo $PYTHON_VERSION |cut -d. -f1,2`
 ## INITENV +PATH PYTHONPATH %i/lib/python%{pythonv}/site-packages
 
@@ -13,6 +12,5 @@ Requires: python
 %prep
 %setup -n CherryPy-%v
 %build
-## IMPORT gcc-wrapper
 %install
 python setup.py install --prefix=%i

@@ -1,5 +1,4 @@
 ### RPM external py2-pycrypto 2.0.1 
-Requires: gcc-wrapper
 %define downloadn pycrypto
 Requires: python gmp
 ## INITENV +PATH PYTHONPATH %i/lib/python%{pythonv}$(echo $PYTHON_VERSION | cut -d. -f 1,2)/site-packages
@@ -11,7 +10,6 @@ Patch: py2-pycrypto-setup
 %setup -n %downloadn-%v
 %patch0 -p0
 %build
-## IMPORT gcc-wrapper
 %install
 python setup.py install --prefix=%i
 perl -p -i -e "s|^#!.*python(.*)|#!/usr/bin/env python$1|" `grep -r -e "^#\!.*python.*" %i | cut -d: -f1`

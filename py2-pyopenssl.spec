@@ -1,5 +1,4 @@
 ### RPM external py2-pyopenssl 0.6.900 
-Requires: gcc-wrapper
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f 1,2)
 ## INITENV +PATH PYTHONPATH %{i}/lib/python%{pythonv}/site-packages
 ## INITENV +PATH PATH %{i}/bin
@@ -13,7 +12,6 @@ Requires: python openssl
 %setup -n pyOpenSSL-%{v}
 
 %build
-## IMPORT gcc-wrapper
 CFLAGS="-I$OPENSSL_ROOT/include -I$OPENSSL_ROOT/include/openssl" LDFLAGS="-L$OPENSSL_ROOT/lib" \
 python setup.py build 
 
