@@ -1,9 +1,7 @@
 ### RPM external zlib 1.1.4
-Requires: gcc-wrapper
 Source: http://www.gzip.org/%n/%n-%v.tar.bz2
 
 %build
-## IMPORT gcc-wrapper
 case $(uname) in
   Darwin )
     LDSHARED="gcc -dynamiclib" ./configure --shared --prefix=%i

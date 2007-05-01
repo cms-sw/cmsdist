@@ -1,5 +1,4 @@
 ### RPM external valgrind 3.2.3-cms1
-Requires: gcc-wrapper
 ## BUILDIF case $(uname):$(uname -m) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) true ;; * ) false ;; esac
 %define realversion %(echo %v | cut -d- -f1)
 Source: http://www.valgrind.org/downloads/%{n}-%{realversion}.tar.bz2
@@ -16,7 +15,6 @@ perl -p -i -e 's!VG_N_SEGMENTS 5000!VG_N_SEGMENTS 20000!; s!VG_N_SEGNAMES 1000!V
 pwd
 
 %build
-## IMPORT gcc-wrapper
 ./configure --prefix=%i
 make %makeprocesses
 %install
