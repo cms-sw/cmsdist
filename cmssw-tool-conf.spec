@@ -57,7 +57,6 @@ Requires: genser
 Requires: tkonlinesw
 Requires: doxygen
 Requires: meschach
-Requires: iguana
 Requires: glimpse
 Requires: relax
 Requires: oracle-env
@@ -65,8 +64,6 @@ Requires: p5-dbd-oracle
 Requires: valgrind
 Requires: fastjet
 Requires: ktjet
-Requires: gmp
-Requires: glpk
 Requires: ignominy
 Requires: herwig
 Requires: lhapdf
