@@ -1,5 +1,4 @@
 ### RPM external qt 3.3.6
-Requires: gcc-wrapper
 ## INITENV UNSET QMAKESPEC
 ## INITENV SET QTDIR %i
 %define qttype %(echo %v | sed 's/[-0-9.]*//')
@@ -37,7 +36,6 @@ Patch3: qt-src-qt_install.pri
 #%endif
 
 %build
-## IMPORT gcc-wrapper
 unset QMAKESPEC || true
 export QTDIR=$PWD
 export PATH=$QTDIR/bin:$PATH
