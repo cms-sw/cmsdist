@@ -66,6 +66,9 @@ Requires: ktjet
 Requires: ignominy
 Requires: herwig
 Requires: lhapdf
+Requires: pythia6
+Requires: pythia8
+Requires: jimmy
 
 %prep
 %build
@@ -396,18 +399,20 @@ eval "echo \"  +LIBDIR:\${GENSER_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${GENSER_ROOT}/include\""
 
 
-echo "TOOL:pythia:"
-eval "echo \"  +PYTHIA_BASE:\${PYTHIA_ROOT}\""
-eval "echo \"  +PATH:\${PYTHIA_ROOT}/bin\""
-eval "echo \"  +LIBDIR:\${PYTHIA_ROOT}/lib\""
-eval "echo \"  +INCLUDE:\${PYTHIA_ROOT}/include\""
+echo "TOOL:pythia6:"
+eval "echo \"  +PYTHIA6_BASE:\${PYTHIA6_ROOT}\""
+eval "echo \"  +LIBDIR:\${PYTHIA6_ROOT}/lib\""
+eval "echo \"  +INCLUDE:\${PYTHIA6_ROOT}/include\""
 
+echo "TOOL:pythia8:"
+eval "echo \"  +PYTHIA8_BASE:\${PYTHIA8_ROOT}\""
+eval "echo \"  +LIBDIR:\${PYTHIA8_ROOT}/lib\""
+eval "echo \"  +INCLUDE:\${PYTHIA8_ROOT}/include\""
 
-echo "TOOL:pythia6_227:"
-eval "echo \"  +PYTHIA6_227_BASE:\${PYTHIA6_227_ROOT}\""
-eval "echo \"  +PATH:\${PYTHIA6_227_ROOT}/bin\""
-eval "echo \"  +LIBDIR:\${PYTHIA6_227_ROOT}/lib\""
-eval "echo \"  +INCLUDE:\${PYTHIA6_227_ROOT}/include\""
+echo "TOOL:jimmy8:"
+eval "echo \"  +JIMMY8_BASE:\${JIMMY8_ROOT}\""
+eval "echo \"  +LIBDIR:\${JIMMY8_ROOT}/lib\""
+eval "echo \"  +INCLUDE:\${JIMMY8_ROOT}/include\""
 
 
 echo "TOOL:toprex421:"
