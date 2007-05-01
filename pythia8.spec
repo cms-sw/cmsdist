@@ -1,5 +1,4 @@
 ### RPM external pythia8 070
-Requires: gcc-wrapper
 Requires: hepmc
 Requires: clhep
 Requires: pythia6
@@ -18,10 +17,6 @@ export CLHEPVERSION=${CLHEP_VERSION}
 ./configure
 
 %build
-%if "%{cmsplatf}" == "%{gccwrapperarch}"
-echo "Using gcc wrapper for %cmsplatf"
-source $GCC_WRAPPER_ROOT/etc/profile.d/init.sh
-%endif
 make 
 
 %install

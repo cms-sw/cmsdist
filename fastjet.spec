@@ -4,7 +4,6 @@ Source: http://www.lpthe.jussieu.fr/~salam/repository/software/fastjet/%n-%v.tgz
 %setup -n %n-%v
 
 %build
-## IMPORT gcc-wrapper
 cd src
 # The following is a hack, whether it works should be checked whenever
 # the version is updated from 2.1.0b1
