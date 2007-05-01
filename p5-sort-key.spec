@@ -1,5 +1,4 @@
 ### RPM external p5-sort-key 1.25
-Requires: gcc-wrapper
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
@@ -11,6 +10,5 @@ Source: http://search.cpan.org/CPAN/authors/id/S/SA/SALVA/%{downloadn}-%{v}.tar.
 %setup -n %downloadn-%v
 
 %build
-## IMPORT gcc-wrapper
 perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion
 make

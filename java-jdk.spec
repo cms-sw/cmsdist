@@ -1,12 +1,10 @@
 ### RPM external java-jdk 1.0
-Requires: gcc-wrapper
 ## INITENV SET JAVA_HOME @JAVA_HOME@
 ## INITENV +PATH PATH @JAVA_PATH@
 ## INITENV +PATH LD_LIBRARY_PATH @JAVA_LIB@
 Source: none
 %prep
 %build
-## IMPORT gcc-wrapper
 %install
 %post
 if [ -d /afs/cern.ch/sw/java/i386_redhat73/jdk/sun-1.4.2/ ]

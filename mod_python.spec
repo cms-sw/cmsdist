@@ -1,5 +1,4 @@
 ### RPM external mod_python 3.2.8
-Requires: gcc-wrapper
 
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f 1,2)
 ## INITENV +PATH PYTHONPATH %{i}/lib/python%{pythonv}
@@ -10,7 +9,6 @@ Requires: python apache
 
 
 %build
-## IMPORT gcc-wrapper
 ./configure --prefix=%{i} \
             --with-python=$PYTHON_ROOT/bin/python \
             --with-apxs=$APACHE_ROOT/bin/apxs
