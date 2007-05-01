@@ -1,9 +1,9 @@
-### RPM cms prodagent PRODAGENT_0_2_1
+### RPM cms prodagent PRODAGENT_0_2_0_pre3
 ## INITENV +PATH PYTHONPATH %i/lib
 
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=PRODAGENT&export=PRODAGENT&&tag=-r%{cvstag}&output=/PRODAGENT.tar.gz
-Requires: python mysql py2-mysqldb dbs-client dls boss prodcommon openssl cherrypy PHEDEX-micro 
+Requires: python mysql py2-mysqldb dbs-client dls boss prodcommon openssl cherrypy
 
 %prep
 %setup -n PRODAGENT
@@ -19,7 +19,6 @@ cp -R util/* %i/util/
 mkdir -p %{i}/etc/profile.d
 mkdir -p %i/workdir
 
-
 (echo "#!/bin/sh"; \
  echo "source $PYTHON_ROOT/etc/profile.d/init.sh"; \
  echo "source $OPENSSL_ROOT/etc/profile.d/init.sh"; \
@@ -29,7 +28,6 @@ mkdir -p %i/workdir
  echo "source $DLS_ROOT/etc/profile.d/init.sh"; \
  echo "source $PRODCOMMON_ROOT/etc/profile.d/init.sh"; \
  echo "source $CHERRYPY_ROOT/etc/profile.d/init.sh"; \
- echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.sh"; \
  echo "source $BOSS_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
 
 (echo "#!/bin/tcsh"; \
@@ -41,7 +39,6 @@ mkdir -p %i/workdir
  echo "source $DLS_ROOT/etc/profile.d/init.csh"; \
  echo "source $PRODCOMMON_ROOT/etc/profile.d/init.csh"; \
  echo "source $CHERRYPY_ROOT/etc/profile.d/init.csh"; \
- echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.csh"; \
  echo "source $BOSS_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 %post
