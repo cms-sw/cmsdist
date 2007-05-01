@@ -1,5 +1,4 @@
 ### RPM external libjpg 6b
-Requires: gcc-wrapper
 Source: ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v%{v}.tar.gz
 Source1: config.sub-amd64
 Patch0: libjpg-config.sub
@@ -17,7 +16,6 @@ Patch4: libjpg-makefile.cfg
 
 
 %build
-## IMPORT gcc-wrapper
 # libjpg ships with an old version of config.sub. 
 if [ "$(uname -m)" == "x86_64" ] || [ "$(uname -m)" == "ppc64" ]
 then

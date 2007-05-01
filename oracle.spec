@@ -1,5 +1,4 @@
 ### RPM external oracle 10.2.0.2
-Requires: gcc-wrapper
 ## INITENV SET ORACLE_HOME %i
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
 
@@ -47,7 +46,6 @@ case %cmsos in
 esac
 
 %build
-## IMPORT gcc-wrapper
 %install
 mkdir -p %i/bin %i/etc %i/lib %i/admin %i/java %i/demo %i/include
 cp %_sourcedir/oracle-license %{i}/oracle-license

@@ -1,5 +1,4 @@
 ### RPM external geant4 8.2.p01-cms1
-Requires: gcc-wrapper
 %define downloadv %(echo %v | cut -d- -f1)
 ## INITENV SET G4NDL_PATH %i/data/G4NDL%{g4NDLVersion}
 ## INITENV SET G4EMLOW_PATH %i/data/G4EMLOW%{g4EMLOWVersion}
@@ -24,7 +23,6 @@ Patch: geant482-cms1
 pwd
 %patch0 -p0 
 %build
-## IMPORT gcc-wrapper
 # Linux? -pthread?
 touch G4BuildConf.sh
 echo "export OS_ARCH=%{cmsplatf}" >> G4BuildConf.sh

@@ -1,11 +1,9 @@
 ### RPM external glimpse 4.18.5
-Requires: gcc-wrapper
 Source: http://webglimpse.net/trial/glimpse-%{v}.tar.gz
 
 %prep
 %setup -n glimpse-%v
 %build
-## IMPORT gcc-wrapper
 ./configure --prefix=%{i} 
 make 
 

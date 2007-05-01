@@ -1,5 +1,4 @@
 ### RPM external mysql 5.0.18
-Requires: gcc-wrapper
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/mysql
 
 #Different download locations according to the version.
@@ -23,7 +22,6 @@ perl -p -i -e 's/-traditional-cpp/-no-cpp-precomp/g' configure.in configure
 %endif
 
 %build
-## IMPORT gcc-wrapper
 CFLAGS=-O3 CXX=gcc CXXFLAGS="-O3 -felide-constructors -fno-exceptions -fno-rtti" \
    ./configure --prefix=%i --with-extra-charsets=complex \
       --enable-thread-safe-client --enable-local-infile

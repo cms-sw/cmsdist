@@ -1,5 +1,4 @@
 ### RPM external graphviz 1.9 
-Requires: gcc-wrapper
 Source: http://service-spi.web.cern.ch/service-spi/external/tarFiles/%{n}-%{v}.tar.gz  
 Requires: expat zlib libjpg libpng 
 Patch0: graphviz
@@ -9,7 +8,6 @@ Patch0: graphviz
 %patch0 -p1
 
 %build
-## IMPORT gcc-wrapper
 ./configure \
   --with-expatlibdir=$EXPAT_ROOT/lib \
   --with-expatincludedir=$EXPAT_ROOT/include \

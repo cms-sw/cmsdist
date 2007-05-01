@@ -1,8 +1,6 @@
 ### RPM external gsl 1.8
-Requires: gcc-wrapper
 Source: ftp://ftp.gnu.org/gnu/%n/%n-%v.tar.gz
 %build
-## IMPORT gcc-wrapper
 
 ./configure --prefix=%i
 case $(uname)-$(uname -m) in
