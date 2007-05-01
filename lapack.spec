@@ -1,5 +1,4 @@
 ### RPM external lapack 3.0.2
-Requires: gcc-wrapper
 # NB: based on http://www.netlib.org/lapack/rpms
 Source0: http://www.netlib.org/lapack/lapack.tgz
 Source1: http://www.netlib.org/lapack/manpages.tgz
@@ -13,7 +12,6 @@ cp %{_sourcedir}/lapack-makefile-blas BLAS/SRC/Makefile
 cp %{_sourcedir}/lapack-makefile-lapack SRC/Makefile
 
 %build
-## IMPORT gcc-wrapper
 cd BLAS/SRC
 FFLAGS="$RPM_OPT_FLAGS" make static
 cp libblas.a ../..
