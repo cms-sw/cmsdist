@@ -417,10 +417,10 @@ eval "echo \"  +PYTHIA8_BASE:\${PYTHIA8_ROOT}\""
 eval "echo \"  +LIBDIR:\${PYTHIA8_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${PYTHIA8_ROOT}/include\""
 
-echo "TOOL:jimmy8:"
-eval "echo \"  +JIMMY8_BASE:\${JIMMY8_ROOT}\""
-eval "echo \"  +LIBDIR:\${JIMMY8_ROOT}/lib\""
-eval "echo \"  +INCLUDE:\${JIMMY8_ROOT}/include\""
+echo "TOOL:jimmy:"
+eval "echo \"  +JIMMY_BASE:\${JIMMY_ROOT}\""
+eval "echo \"  +LIBDIR:\${JIMMY_ROOT}/lib\""
+eval "echo \"  +INCLUDE:\${JIMMY_ROOT}/include\""
 
 
 echo "TOOL:toprex421:"
