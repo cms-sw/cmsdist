@@ -1,13 +1,14 @@
-### RPM external gcc 3.4.5
+### RPM external gcc 3.4.5-CMS2
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
-Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%v/%n-%v.tar.bz2
+%define realversion %(echo %v | cut -d- -f1 )
+Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
 %define binutilsv 2.17
 Source1: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %prep
-%setup -T -b 0 -n gcc-%v 
+%setup -T -b 0 -n gcc-%realversion 
 
 %if "%cmsos" == "slc4_ia32"
 cat << \EOF_CONFIG_GCC >> gcc/config.gcc
@@ -56,7 +57,7 @@ buildGCC () {
     fi
 
     languages=c,c++
-    if [ "`echo %v | cut -d. -f 1`" == "3" ]
+    if [ "`echo %realversion | cut -d. -f 1`" == "3" ]
     then
         languages=c,c++,f77
     fi
@@ -89,7 +90,7 @@ make %makeprocesses
 make install
 
 # build the native platform compiler
-cd ../gcc-%v
+cd ../gcc-%realversion
 export PATH=%i/tmp/binutils/bin:$PATH
 export LD_LIBRARY_PATH=%i/tmp/binutils/lib:$PATH
 buildGCC
