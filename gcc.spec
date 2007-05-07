@@ -122,11 +122,26 @@ make install
 export PATH=%i/tmp/binutils/bin:$PATH
 export LD_LIBRARY_PATH=%i/tmp/binutils/lib:$PATH
 
+# Build gmp/mpfr
+%if "%{?gcc4:set}" == "set"
+cd ../gmp-%{gmpVersion}
+./configure --prefix=%i/tmp/gmp --disable-shared
+make %makeprocesses
+
+cd ../mpfr-%{mpfrVersion}
+./configure --prefix=%i/tmp/mpfr --with-gmp=%i/tmp/gmp --disable-shared
+make %makeprocesses
+%endif
+
 # build the native platform compiler
 cd ../gcc-%v
 mkdir -p obj
 cd obj
-../configure --prefix=%i --enable-languages=c,c++%{firstStepFortran} \
+../configure --prefix=%i --enable-languages=c,c++%{fortranCompiler} \
+%if "%{gcc4}" == "true"
+                         --with-gmp-dir=%_builddir/gmp-%{gmpVersion} \
+                         --with-mpfr-dir=%_builddir/mpfr-%{mpfrVersion} \
+%endif
                          --enable-shared 
 
 make %makeprocesses bootstrap
@@ -141,26 +156,6 @@ cd ../binutils-%binutilsv
 make %makeprocesses
 make install
 rm -fr %i/tmp
-
-# And if we are building gcc4, we build gmp and mpfr as well and then rebuild gcc4 with fortran support.
-%if "%{?gcc4:set}" == "set"
-cd ../gmp-%{gmpVersion}
-./configure --prefix=%i
-make %makeprocesses
-make install
-
-cd ../mpfr-%{mpfrVersion}
-./configure --prefix=%i --with-gmp=%i
-make %makeprocesses
-make install
-
-cd ../gcc-%{v}/obj
-make distclean
-cd ..
-
-buildGCC
-
-%endif
 
 %install
 #cd obj && make install
@@ -179,12 +174,7 @@ ln -s gcc %i/bin/cc
 %endif
 %if "%gcc4" == "true"
 %{relocateConfig}lib/libbfd.la
-%{relocateConfig}lib/libgmp.la
 %{relocateConfig}lib/libopcodes.la
-%{relocateConfig}lib/libmudflap.la
 %{relocateConfig}lib/libgfortran.la
-%{relocateConfig}lib/libmudflapth.la
-%{relocateConfig}lib/libmpfr.la
-%{relocateConfig}lib/libssp.la
 %{relocateConfig}lib/libgfortranbegin.la
 %endif
