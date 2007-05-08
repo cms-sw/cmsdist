@@ -6,7 +6,7 @@
 
 %if "%{?datadir:set}" != "set" 
 %define datadir data
-endif
+%endif
 
 Source: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%datadir/download.url&export=%realsub&output=/src.tar.gz
 
