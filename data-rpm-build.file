@@ -5,7 +5,7 @@
 %define cvsrepo         cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 
 %if "%{?datadir:set}" != "set" 
-%datadir=data
+%define datadir data
 endif
 
 Source: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%datadir/download.url&export=%realsub&output=/src.tar.gz
