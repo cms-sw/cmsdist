@@ -4,17 +4,17 @@
 %define realsub %(echo %n | cut -d- -f2) 
 %define cvsrepo         cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 
-%if "%{?datadir:set}" != "set" 
-%define datadir data
+%if "%{?dataDir:set}" != "set" 
+%define dataDir data
 %endif
 
-Source: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%datadir/download.url&export=%realsub&output=/src.tar.gz
+Source: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir/download.url&export=%realsub&output=/src.tar.gz
 
 %prep
 %setup -n %realsub
  
 %build
-cd ../%realname/%datadir
+cd ../%realname/%dataDir
 cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 
