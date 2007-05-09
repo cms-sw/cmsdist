@@ -8,7 +8,6 @@ Requires: py2-cx-oracle
 # Extra requires so we get everything necessary for env.{,c}sh.
 Requires: zlib expat openssl bz2lib py2-pyxml py2-zsi py2-mysqldb mysql
 
-
 %prep
 %setup -n %{downloadn}
 rm     Custom/Template/Config
