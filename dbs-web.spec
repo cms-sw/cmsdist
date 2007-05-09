@@ -1,4 +1,4 @@
-### RPM cms dbs-web V03_04_11
+### RPM cms dbs-web V03_04_13
 ## INITENV +PATH PYTHONPATH %i/lib
 
 %define cvstag %v
