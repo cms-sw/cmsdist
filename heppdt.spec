@@ -1,4 +1,4 @@
-### RPM external heppdt 2.02.02
+### RPM external heppdt 2.03.00
 Source: http://lcgapp.cern.ch/project/simu/HepPDT/download/HepPDT-%{v}.tar.gz
 %prep
 %setup -q -n HepPDT-%{v}
