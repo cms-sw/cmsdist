@@ -1,11 +1,11 @@
-### RPM cms webtools 0.9.0 
+### RPM cms webtools 1.0.0 
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 %define moduleName WEBTOOLS
 %define exportName WEBTOOLS
-%define cvstag V00-09-07
+%define cvstag V01-00-02
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
-Requires: python cherrypy py2-cheetah yui sqlite zlib py2-pysqlite expat openssl bz2lib db4 gdbm py2-cx-oracle py2-formencode py2-pycrypto
+Requires: python cherrypy py2-cheetah yui sqlite zlib py2-pysqlite expat openssl bz2lib db4 gdbm py2-cx-oracle py2-formencode py2-pycrypto oracle 
 Provides: perl(CGI) 
 Provides: perl(Crypt::CBC) 
 Provides: perl(SecurityModule) 
@@ -19,7 +19,7 @@ rm -rf %i/etc/profile.d
 mkdir -p %i/etc/profile.d/
 dependenciesRoots="$PYTHON_ROOT $SQLITE_ROOT $PY2_PYSQLITE_ROOT $CHERRYPY_ROOT $YUI_ROOT \
                    $ZLIB_ROOT $EXPAT_ROOT $OPENSSEL_ROOT $BZ2LIB_ROOT $DB4_ROOT $GDBM_ROOT $PY2_FORMENCODE_ROOT \
-                   $PY2_CHEETAH_ROOT $PY2_PYCRYPTO_ROOT $PY2_CX_ORACLE_ROOT"
+                   $PY2_CHEETAH_ROOT $PY2_PYCRYPTO_ROOT $PY2_CX_ORACLE_ROOT $ORACLE_ROOT"
 touch %i/etc/profile.d/dependencies-setup.csh
 for pkg in $dependenciesRoots
 do
