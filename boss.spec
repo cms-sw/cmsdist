@@ -1,5 +1,6 @@
 ### RPM cms boss BOSS_4_3_2
 ## INITENV +PATH PATH %i/bin
+## INITENV +PATH PYTHONPATH %i/BossPython
 ## INITENV SET BOSSDIR %i
 %define cvstag %v
 %define compProjectName BOSS
