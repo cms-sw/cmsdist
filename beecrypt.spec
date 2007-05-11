@@ -1,4 +1,4 @@
-### RPM external beecrypt 4.1.2
+### RPM external beecrypt 3.1.0
 Source: http://switch.dl.sourceforge.net/sourceforge/%n/%n-%v.tar.gz
 
 %build
