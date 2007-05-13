@@ -17,9 +17,9 @@ Source: http://dl.sourceforge.net/sourceforge/%n/%{n}%{boostver}.tar.gz
 # RPM falsely detecting a problem.
 PR="PYTHON_ROOT=$PYTHON_ROOT"
 PV="PYTHON_VERSION=$(echo $PYTHON_VERSION | sed 's/\.[0-9]*$//')"
-BZ2LIBR="BZ2LIB_LIBPATH=$BZ2LIB_ROOT/lib"
+BZ2LIBR="BZIP2_LIBPATH=$BZ2LIB_ROOT/lib"
 ZLIBR="ZLIB_LIBPATH=$ZLIB_ROOT/lib"
-BZ2LIBI="BZ2LIB_INCLUDE=$BZ2LIB_ROOT/include"
+BZ2LIBI="BZIP2_INCLUDE=$BZ2LIB_ROOT/include"
 ZLIBI="ZLIB_INCLUDE=$ZLIB_ROOT/include"
 
 case $(uname) in
