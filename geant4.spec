@@ -23,6 +23,9 @@ Patch: geant482-cms1
 pwd
 %patch0 -p0 
 %build
+if [ $(uname) = Darwin ]; then
+  export MACOSX_DEPLOYMENT_TARGET="10.4"
+fi
 # Linux? -pthread?
 touch G4BuildConf.sh
 echo "export OS_ARCH=%{cmsplatf}" >> G4BuildConf.sh
@@ -82,9 +85,10 @@ make %makeprocesses -C $G4BASE global
 make %makeprocesses -C $G4BASE
 
 %install
+case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
 mkdir -p %i/etc
 cp G4BuildConf.sh %i/etc
-mv %i/lib/$(uname)-g++/*.so %i/lib
+mv %i/lib/$(uname)-g++/*.$so %i/lib
 mv %i/lib/$(uname)-g++/libname.map %i/lib
 rm -rf %i/lib/$(uname)-g++
 # Build already installed into prefix
