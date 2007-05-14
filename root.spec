@@ -1,5 +1,6 @@
-### RPM lcg root 5.14.00e
-# INITENV +PATH PYTHONPATH %i/lib/python
+### RPM lcg root 5.14.00e-CMS1
+## INITENV +PATH PYTHONPATH %i/lib/python
+## INITENV SET ROOTSYS %i
 %define realVersion %(echo %v | cut -d- -f1)
 Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realVersion | tr . -)&module=root&output=/%{n}_v%{realVersion}.source.tar.gz
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realVersion}.source.tar.gz
@@ -56,7 +57,7 @@ case $(uname)-$(uname -p) in
     ./configure linux $CONFIG_ARGS --disable-rfio;;
 esac
 
-make 
+make  %makeprocesses
 make cintdlls
 %install
 # Override installers if we are using GNU fileutils cp.  On OS X
@@ -70,8 +71,8 @@ else
   cp="cp -pPR"
 fi
 
-export ROOTSYS=%i/root
+export ROOTSYS=%i
 make INSTALL="$cp" INSTALLDATA="$cp" install
-mkdir -p %i/root/lib/python
-cp -r reflex/python/genreflex %i/root/lib/python
+mkdir -p $ROOTSYS/lib/python
+cp -r reflex/python/genreflex $ROOTSYS/lib/python
 #
