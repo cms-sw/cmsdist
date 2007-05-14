@@ -9,8 +9,6 @@ Source: http://www.fynu.ucl.ac.be/themes/he/ggamma/hector/%{rname}_%{realversion
 %setup -q -n %{rname}
 
 %build
-export ROOTSYS=$ROOT_ROOT/root
-export PATH=$PATH:$ROOTSYS/bin 
 make 
 
 
