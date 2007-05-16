@@ -1,23 +1,22 @@
-### RPM lcg coral CORAL_1_5_1-forCMS140
+### RPM cms coral CORAL_1_7_2-cms147a
 ## IMPORT configurations
+Provides: /bin/zsh
 Requires: coral-tool-conf
-%define confversion %lcgConfiguration 
-%define toolconf ${CORAL_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
-%define cvsdir coral
-%define cvsserver CORAL
-%define srctree coral
-%define configtree coral/config/scram
-# This allows to compile CORAL on linux systems that are not recognized as slc3 but still linux based.
-%define patchsrc if [ "%cmsplatf" != "slc3_ia32_gcc323" ] && [ "$(uname)" = "Linux" ]; then cp %{configtree}/slc3_ia32_gcc323.mk %{configtree}/%{cmsplatf}.mk; fi 
-%define patchsrc2 perl -p -i -e "s|(project name=CORAL version=).*>|project name=CORAL version=%v>/BootStrapFileSRC|" %{configtree}/BootStrapFileSRC
-%define patchsrc3 rm -rf %{srctree}/SQLiteAccess/tests
-%define patchinstall mkdir -p %{i}/include; for x in `ls %{i}/src`; do if [ -d %{i}/src/$x/$x ]; then cp -r %{i}/src/$x/$x %{i}/include; fi ; done
 
-%define conflevel   _1
-# FIXME: Remove when it successfully builds... should just be release
-%define buildtarget release-build release-docs release-freeze
-#%define buildtarget %{nil}
+%define toolconf       ${CORAL_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
+%define cvsprojuc      %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
+%define cvsprojlc      %(echo %cvsprojuc | tr 'A-Z' 'a-z')
+%define cvsdir         %cvsprojlc
+%define cvsserver      %cvsprojlc
+%define cvsconfig      config
+%define confversion    %cmsConfiguration
+%define conflevel      %{nil}
+%define prebuildtarget prebuild
+%define buildtarget    release-build
+%define bootstrapfile  %_builddir/%{cvsconfig}/%{cvsprojuc}_bootsrc
+%define reqfile        %_builddir/%{cvsconfig}/%{cvsprojuc}_requirements
+%define configtag      %v
+%define wrapperstag    %v
 
 ## IMPORT lcg-scram-build
-## IMPORT scram-build
-#
+## IMPORT scramv1-build
