@@ -1,4 +1,4 @@
-### RPM external castor 2.1.0-7
+### RPM external castor 2.1.1-4
 %define downloadv v%(echo %v | tr - _ | tr . _)
 %define baseVersion %(echo %v | cut -d- -f1)
 %define patchLevel %(echo %v | cut -d- -f2)
@@ -6,6 +6,10 @@
 #Source: http://cern.ch/castor/DIST/CERN/savannah/CASTOR.pkg/%v/castor-%downloadv.tar.gz
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %v | tr . -)&module=root&output=/%{n}_v%{v}.source.tar.gz
 Source: cvs://:pserver:anonymous@isscvs.cern.ch:/local/reps/castor?passwd=Ah<Z&tag=-r%{downloadv}&module=CASTOR2&output=/%{n}-%{v}.source.tar.gz
+
+# Ugly kludge : forces libshift.x.y to be in the provides (rpm only puts libshift.so.x)
+# root rpm require .x.y
+Provides: libshift.so.%(echo %v |cut -d. -f1,2)
 
 %prep
 %setup -n CASTOR2 
