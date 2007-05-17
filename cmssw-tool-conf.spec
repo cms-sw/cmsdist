@@ -69,6 +69,7 @@ Requires: lhapdf
 Requires: pythia6
 Requires: pythia8
 Requires: jimmy
+Requires: hector
 
 %prep
 %build
@@ -129,9 +130,6 @@ echo "TOOL:ccompiler:"
        echo "  +FC:$GCC_ROOT/bin/g77"
 %endif
 
-echo "TOOL:lcgaa:"
-echo "  +LCGAA_BASE:$LCGAA_ROOT"
-
 echo "TOOL:coral:"
 echo "  +CORAL_BASE:$CORAL_ROOT"
 
@@ -161,13 +159,11 @@ echo "  +G4LEVELGAMMADATA:$PHOTON_EVAPORATION_PATH"
 echo "  +G4RADIOACTIVEDATA:$RADIATIVE_DECAY_PATH"
 echo "  +G4LEDATA:$G4EMLOW_PATH"
 
-
 echo "TOOL:hepmc:"
 eval "echo \"  +HEPMC_BASE:\${HEPMC_ROOT}\""
 eval "echo \"  +PATH:\${HEPMC_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${HEPMC_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${HEPMC_ROOT}/include\""
-
 
 echo "TOOL:heppdt:"
 eval "echo \"  +HEPPDT_BASE:\${HEPPDT_ROOT}\""
@@ -175,20 +171,17 @@ eval "echo \"  +PATH:\${HEPPDT_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${HEPPDT_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${HEPPDT_ROOT}/include\""
 
-
 echo "TOOL:clhep:"
 eval "echo \"  +CLHEP_BASE:\${CLHEP_ROOT}\""
 eval "echo \"  +PATH:\${CLHEP_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${CLHEP_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${CLHEP_ROOT}/include\""
 
-
 echo "TOOL:castor:"
 eval "echo \"  +CASTOR_BASE:\${CASTOR_ROOT}\""
 eval "echo \"  +PATH:\${CASTOR_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${CASTOR_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${CASTOR_ROOT}/include\""
-
 
 echo "TOOL:zlib:"
 eval "echo \"  +ZLIB_BASE:\${ZLIB_ROOT}\""
@@ -202,7 +195,6 @@ echo "  +PYTHON_BASE:$PYTHON_ROOT"
 echo "  +LIBDIR:$PYTHON_ROOT/lib"
 echo "  +INCLUDE:$PYTHON_ROOT/include/python$PYTHON_MAJOR"
 echo "  +PATH:$PYTHON_ROOT/bin"
-
 
 echo "TOOL:boost:"
 eval "echo \"  +BOOST_BASE:\${BOOST_ROOT}\""
@@ -230,20 +222,17 @@ echo "TOOL:rootcore:"
 echo "  +ROOTCORE_BASE:$ROOT_ROOT"
 echo "  +ROOTSYS:$ROOT_ROOT/root"
 
-
 echo "TOOL:uuid:"
 eval "echo \"  +UUID_BASE:\${UUID_ROOT}\""
 eval "echo \"  +PATH:\${UUID_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${UUID_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${UUID_ROOT}/include\""
 
-
 echo "TOOL:gsl:"
 eval "echo \"  +GSL_BASE:\${GSL_ROOT}\""
 eval "echo \"  +PATH:\${GSL_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${GSL_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${GSL_ROOT}/include\""
-
 
 echo "TOOL:sqlite:"
 eval "echo \"  +SQLITE_BASE:\${SQLITE_ROOT}\""
@@ -258,7 +247,6 @@ echo "  +LIBDIR:$ORACLE_ROOT/lib"
 echo "  +INCLUDE:$ORACLE_ROOT/include"
 echo "  +ORACLE_ADMINDIR:$ORACLE_ENV_ROOT/etc"
 
-
 echo "TOOL:mysqlpp:"
 eval "echo \"  +MYSQLPP_BASE:\${MYSQLPP_ROOT}\""
 eval "echo \"  +PATH:\${MYSQLPP_ROOT}/bin\""
@@ -270,7 +258,6 @@ eval "echo \"  +MYSQL_BASE:\${MYSQL_ROOT}\""
 eval "echo \"  +PATH:\${MYSQL_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${MYSQL_ROOT}/lib/mysql\""
 eval "echo \"  +INCLUDE:\${MYSQL_ROOT}/include/mysql\""
-
 
 echo "TOOL:gccxml:"
 eval "echo \"  +GCCXML_BASE:\${GCCXML_ROOT}\""
@@ -293,13 +280,11 @@ echo "  +PATH:$SIGCPP_ROOT/bin"
 echo "  +LIBDIR:$SIGCPP_ROOT/lib"
 echo "  +INCLUDE:$SIGCPP_ROOT/include/sigc++-2.0"
 
-
 echo "TOOL:mimetic:"
 eval "echo \"  +MIMETIC_BASE:\${MIMETIC_ROOT}\""
 eval "echo \"  +PATH:\${MIMETIC_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${MIMETIC_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${MIMETIC_ROOT}/include\""
-
 
 echo "TOOL:bz2lib:"
 eval "echo \"  +BZ2LIB_BASE:\${BZ2LIB_ROOT}\""
@@ -307,13 +292,11 @@ eval "echo \"  +PATH:\${BZ2LIB_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${BZ2LIB_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${BZ2LIB_ROOT}/include\""
 
-
 echo "TOOL:pcre:"
 eval "echo \"  +PCRE_BASE:\${PCRE_ROOT}\""
 eval "echo \"  +PATH:\${PCRE_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${PCRE_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${PCRE_ROOT}/include\""
-
 
 echo "TOOL:dcap:"
 eval "echo \"  +DCAP_BASE:\${DCAP_ROOT}\""
@@ -327,20 +310,17 @@ echo "  +CLASSPATH:$RULECHECKER_ROOT:$CLASSPATH"
 echo "  +RULECHECKER_PREPROCESS_EXT:i"
 echo "  +RULECHECKER_VIOLATION_EXT:viol"
 
-
 echo "TOOL:cppunit:"
 eval "echo \"  +CPPUNIT_BASE:\${CPPUNIT_ROOT}\""
 eval "echo \"  +PATH:\${CPPUNIT_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${CPPUNIT_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${CPPUNIT_ROOT}/include\""
 
-
 echo "TOOL:qt:"
 eval "echo \"  +QT_BASE:\${QT_ROOT}\""
 eval "echo \"  +PATH:\${QT_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${QT_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${QT_ROOT}/include\""
-
 
 echo "TOOL:soqt:"
 eval "echo \"  +SOQT_BASE:\${SOQT_ROOT}\""
@@ -354,7 +334,6 @@ eval "echo \"  +PATH:\${COIN_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${COIN_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${COIN_ROOT}/include\""
 
-
 echo "TOOL:curl:"
 eval "echo \"  +CURL_BASE:\${CURL_ROOT}\""
 eval "echo \"  +PATH:\${CURL_ROOT}/bin\""
@@ -364,13 +343,11 @@ eval "echo \"  +INCLUDE:\${CURL_ROOT}/include\""
 echo "TOOL:jpeg:"
 echo "  +JPEG_BASE:$LIBJPG_ROOT"
 
-
 echo "TOOL:simage:"
 eval "echo \"  +SIMAGE_BASE:\${SIMAGE_ROOT}\""
 eval "echo \"  +PATH:\${SIMAGE_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${SIMAGE_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${SIMAGE_ROOT}/include\""
-
 
 echo "TOOL:openssl:"
 eval "echo \"  +OPENSSL_BASE:\${OPENSSL_ROOT}\""
@@ -384,20 +361,17 @@ eval "echo \"  +PATH:\${EXPAT_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${EXPAT_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${EXPAT_ROOT}/include\""
 
-
 echo "TOOL:frontier_client:"
 eval "echo \"  +FRONTIER_CLIENT_BASE:\${FRONTIER_CLIENT_ROOT}\""
 eval "echo \"  +PATH:\${FRONTIER_CLIENT_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${FRONTIER_CLIENT_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${FRONTIER_CLIENT_ROOT}/include\""
 
-
 echo "TOOL:genser:"
 eval "echo \"  +GENSER_BASE:\${GENSER_ROOT}\""
 eval "echo \"  +PATH:\${GENSER_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${GENSER_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${GENSER_ROOT}/include\""
-
 
 echo "TOOL:pythia6:"
 eval "echo \"  +PYTHIA6_BASE:\${PYTHIA6_ROOT}\""
@@ -414,13 +388,11 @@ eval "echo \"  +JIMMY_BASE:\${JIMMY_ROOT}\""
 eval "echo \"  +LIBDIR:\${JIMMY_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${JIMMY_ROOT}/include\""
 
-
 echo "TOOL:toprex421:"
 eval "echo \"  +TOPREX421_BASE:\${TOPREX421_ROOT}\""
 eval "echo \"  +PATH:\${TOPREX421_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${TOPREX421_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${TOPREX421_ROOT}/include\""
-
 
 echo "TOOL:tauola27_121_1:"
 eval "echo \"  +TAUOLA27_121_1_BASE:\${TAUOLA27_121_1_ROOT}\""
@@ -428,19 +400,16 @@ eval "echo \"  +PATH:\${TAUOLA27_121_1_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${TAUOLA27_121_1_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${TAUOLA27_121_1_ROOT}/include\""
 
-
 echo "TOOL:charybdis1_002:"
 eval "echo \"  +CHARYBDIS1_002_BASE:\${CHARYBDIS1_002_ROOT}\""
 eval "echo \"  +PATH:\${CHARYBDIS1_002_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${CHARYBDIS1_002_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${CHARYBDIS1_002_ROOT}/include\""
 
-
 echo "TOOL:herwig:"
 eval "echo \"  +HERWIG_BASE:\${HERWIG_ROOT}\""
 eval "echo \"  +LIBDIR:\${HERWIG_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${HERWIG_ROOT}/include\""
-
 
 echo "TOOL:lhapdf:"
 eval "echo \"  +LHAPDF_BASE:\${LHAPDF_ROOT}\""
@@ -448,12 +417,16 @@ eval "echo \"  +LHAPATH:\${LHAPDF_ROOT}/PDFsets\""
 eval "echo \"  +LIBDIR:\${LHAPDF_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${LHAPDF_ROOT}/include\""
 
+echo "TOOL:hector:"
+eval "echo \"  +HECTOR_BASE:\${HECTOR_ROOT}\""
+eval "echo \"  +LIBDIR:\${HECTOR_ROOT}/lib\""
+eval "echo \"  +INCLUDE:\${HECTOR_ROOT}/include\""
+
 echo "TOOL:tkonlinesw:"
 eval "echo \"  +TKONLINESW_BASE:\${TKONLINESW_ROOT}\""
 eval "echo \"  +PATH:\${TKONLINESW_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${TKONLINESW_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${TKONLINESW_ROOT}/include\""
-
 
 echo "TOOL:doxygen:"
 eval "echo \"  +DOXYGEN_BASE:\${DOXYGEN_ROOT}\""
