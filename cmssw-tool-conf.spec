@@ -458,6 +458,9 @@ echo "TOOL:elementtree:"
 echo "  +ELEMENTTREE_BASE:$ELEMENTTREE_ROOT"
 echo "  +ELEMENTTREE_PYPATH:$ELEMENTTREE_ROOT/python$(echo $PYTHON_VERSION | cut -d. -f1,2)/site-packages"
 
+echo "TOOL:CMSSWData:"
+echo "  +CMSSWDATA_BASE:%{instroot}/%{cmsplatf}/cms"
+
 echo "TOOL:valgrind:"
 echo "  +VALGRIND_BASE:$VALGRIND_ROOT"
 
