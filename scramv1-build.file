@@ -219,8 +219,8 @@ scramv1 b --verbose -f %{postbuildtarget} </dev/null
 rm -rf %i/tmp
 chmod -R 755 %i %i/.SCRAM
 (eval `scramv1 run -sh` ; SealPluginRefresh) || true
-rm -fR %i/lib/%cmsplatf/.edmplugincache
-(eval `scramv1 run -sh` ; EdmPluginRefresh) || true
+#rm -fR %i/lib/%cmsplatf/.edmplugincache
+#(eval `scramv1 run -sh` ; EdmPluginRefresh) || true
 
 %install
 cd %i
