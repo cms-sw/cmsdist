@@ -211,16 +211,16 @@ eval "echo \"  +INCLUDE:\${XERCES_C_ROOT}/include\""
 
 echo "TOOL:root:"
 echo "  +ROOT_BASE:$ROOT_ROOT"
-echo "  +ROOTSYS:$ROOT_ROOT/root"
+echo "  +ROOTSYS:$ROOT_ROOT"
 
 echo "TOOL:rootrflx:"
 echo "  +ROOTRFLX_BASE:$ROOT_ROOT"
-echo "  +ROOTSYS:$ROOT_ROOT/root"
-echo "  +GENREFLEX=$ROOT_ROOT/root/bin/genreflex"
+echo "  +ROOTSYS:$ROOT_ROOT"
+echo "  +GENREFLEX=$ROOT_ROOT/bin/genreflex"
 
 echo "TOOL:rootcore:"
 echo "  +ROOTCORE_BASE:$ROOT_ROOT"
-echo "  +ROOTSYS:$ROOT_ROOT/root"
+echo "  +ROOTSYS:$ROOT_ROOT"
 
 echo "TOOL:uuid:"
 eval "echo \"  +UUID_BASE:\${UUID_ROOT}\""
