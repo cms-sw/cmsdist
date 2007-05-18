@@ -18,24 +18,4 @@ perl -p -i -e 's|^#!.*perl|#!/usr/bin/env perl|' blib/script/dbiprof
 perl -p -i -e 's|^#!.*perl|#!/usr/bin/env perl|' blib/script/dbiproxy
 perl -p -i -e 's|^#!.*perl|#!/usr/bin/env perl|' dbiprof
 perl -p -i -e 's|^#!.*perl|#!/usr/bin/env perl|' dbiproxy
-
-case %{cmsos} in
-    slc4_ia32)
-    if ldd /usr/bin/gcc | grep -q /lib64/
-    then
-        make install
-        mv %i/lib/site_perl/%perlversion/x86_64-linux-thread-multi  %i/lib/site_perl/%perlversion/i386-linux-thread-multi
-        make clean
-        export PATH=/usr/bin/:$PATH
-        export GCC_EXEC_PREFIX=/usr/lib/gcc/
-        perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion
-        make
-        perl -p -i -e 's|^#!.*perl|#!/usr/bin/env perl|' blib/script/dbiprof
-        perl -p -i -e 's|^#!.*perl|#!/usr/bin/env perl|' blib/script/dbiproxy
-        perl -p -i -e 's|^#!.*perl|#!/usr/bin/env perl|' dbiprof
-        perl -p -i -e 's|^#!.*perl|#!/usr/bin/env perl|' dbiproxy
-    fi;;
-    *)
-    ;;
-esac
 #
