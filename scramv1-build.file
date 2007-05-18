@@ -54,9 +54,9 @@ Requires: SCRAMV1
 Source0: %{tbxrepo}&tag=-r%{conftag}&module=SCRAMToolBox&output=/%tbxtar
 Source1: %{configrepo}&tag=-r%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
 %if  "%{cvsrepo}" != "cmstc"
-Source2: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
+%define source2 %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 %else
-Source2: %{cvsrepo}://?tag=%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
+%define source2 %{cvsrepo}://?tag=%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 %endif
 
 # Pick additional sources.  Since install.sh does a grep for "^Source",
@@ -74,6 +74,7 @@ Source2: %{cvsrepo}://?tag=%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/
 %define source4 none
 %endif
 
+Source2: %source2
 Source3: %source3
 Source4: %source4
 
