@@ -7,7 +7,7 @@ Summary: A Python wrapper for OpenSSL
 Group: Development/Libraries
 Packager: Conrad Steenberg <conrad@hep.caltech.edu>
 Source: http://julian.ultralight.org/clarens/devel/pyOpenSSL-%v.tar.gz
-Requires: python openssl
+Requires: python 
 %prep
 %setup -n pyOpenSSL-%{v}
 
