@@ -70,6 +70,19 @@ Requires: pythia6
 Requires: pythia8
 Requires: jimmy
 Requires: hector
+Requires: data-FastSimulation-MaterialEffects
+Requires: data-FastSimulation-PileUpProducer
+Requires: data-Geometry-CaloTopology
+Requires: data-MagneticField-Interpolation
+Requires: data-RecoParticleFlow-PFBlockProducer
+Requires: data-RecoTracker-RingESSource
+Requires: data-RecoTracker-RoadMapESSource
+Requires: data-SimG4CMS-Calo
+Requires: data-Validation-EcalDigis
+Requires: data-Validation-EcalHits
+Requires: data-Validation-EcalRecHits
+Requires: data-Validation-Geometry
+Requires: data-Validation-HcalHits
 
 %prep
 %build
