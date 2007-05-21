@@ -1,9 +1,7 @@
-### RPM cms cmssw CMSSW_1_4_0_pre2
+### RPM cms cmssw CMSSW_1_4_1
 ## IMPORT configurations 
 Provides: /bin/zsh
-Requires: cmssw-tool-conf  python glimpse
-Requires: gcc-wrapper
-%define gccwrapperarch  slc4_ia32_gcc345 
+Requires: cmssw-tool-conf python glimpse
 %define toolconf        ${CMSSW_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
 %define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
 %define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
@@ -14,8 +12,8 @@ Requires: gcc-wrapper
 %define conflevel       _2
 %define prebuildtarget  gindices
 %define buildtarget     release-build
-%define postbuildtarget doc
 %define patchsrc perl -p -i -e 's!<select name=(MyODBC)>!!' %{cvsconfig}/requirements ;
+%define useCmsTC        1
 
 ## IMPORT cms-scram-build
 ## IMPORT scramv1-build
