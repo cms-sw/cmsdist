@@ -1,9 +1,9 @@
-### RPM external zlib 1.1.4
-Source: http://www.gzip.org/%n/%n-%v.tar.bz2
+### RPM external zlib 1.1.4-XXXX
+Source: http://www.gzip.org/%n/%n-%realversion.tar.bz2
 Patch: zlib-1.1.4-shared-for-32-bit-on-x86_64
 
 %prep
-%setup -n %n-%v
+%setup -n %n-%realversion
 # Apply this patch to force shared libraries to be created. The problem
 # only appears when building 32-bit on 64-bit machines (./configure gets
 # confused by the 'skipping /usr/lib64' message), but applying it on all
