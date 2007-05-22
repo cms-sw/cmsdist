@@ -1,7 +1,7 @@
 ### RPM lcg SCRAMV1 V1_0_3-p1
 ## INITENV +PATH PATH %instroot/bin
 ## INITENV +PATH PERL5LIB %{i}
-Requires: expat p5-template-toolkit p5-uri p5-xml-parser p5-libwww-perl cms-env
+Requires: p5-template-toolkit p5-uri p5-xml-parser p5-libwww-perl cms-env
 Provides: perl(SCRAM::Helper)
 Provides: perl(Utilities::AddDir) 
 Provides: perl(Utilities::Architecture) 
@@ -98,14 +98,12 @@ echo $PERL5LIB > %i/etc/perl5lib.env
 mkdir -p %{instroot}/%{cmsplatf}/etc/profile.d
 mkdir -p %{i}/etc/profile.d
 echo "#!/bin/sh" > %i/etc/profile.d/dependencies-setup.sh
-echo "source $EXPAT_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
 echo "source $P5_TEMPLATE_TOOLKIT_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
 echo "source $P5_URI_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
 echo "source $P5_XML_PARSER_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
 echo "source $P5_LIBWWW_PERL_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
 
 echo "#!/bin/csh" > %i/etc/profile.d/dependencies-setup.csh
-echo "source $EXPAT_ROOT/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
 echo "source $P5_TEMPLATE_TOOLKIT_ROOT/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
 echo "source $P5_URI_ROOT/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
 echo "source $P5_XML_PARSER_ROOT/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
