@@ -1,17 +1,40 @@
 ### FILE cmsos
 if [ "$BUILD_ARCH" != "" ]; then
     echo "$BUILD_ARCH"
+elif [ `uname -p` == ppc64 ]; then
+  # hard code this, should be done better
+    echo ydl5_ppc64
 elif [ `uname` = Linux ]; then
   if [ -f /etc/SuSE-release ]; then
     echo suse`grep -i '^version' < /etc/SuSE-release | tr -dc '[0-9]'`
   elif grep -q Scientific /etc/redhat-release 2>/dev/null; then
-    slc_version=$(grep Scientific /etc/redhat-release |
-		  sed 's/.*[rR]elease \([0-9]*\)\..*/\1/')
-    if grep -q Intel /proc/cpuinfo 2>/dev/null; then
+    slc_version=`grep Scientific /etc/redhat-release | sed 's/.*[rR]elease \([0-9]*\)\..*/\1/'`
+    if [ `uname -i` == i386 ]; then
       echo slc${slc_version}_ia32
     else
       echo slc${slc_version}_amd64
     fi
+  elif grep -q "Red Hat Enterprise" /etc/redhat-release 2>/dev/null; then
+      slc_version=`grep Enterprise /etc/redhat-release | sed 's/.*[rR]elease \([0-9]*\).*/\1/'`
+      if [ `uname -i` == i386 ]; then
+        echo slc${slc_version}_ia32
+      else
+        echo slc${slc_version}_amd64
+      fi
+  elif grep -q Scientific /etc/rocks-release 2>/dev/null; then
+      slc_version=`grep DISTRIB_RELEASE rocks-release | sed 's/DISTRIB_RELEASE="\([0-9]*\).*/\1/'`
+#   For the moment we assume that they are all ia32
+#      if grep -q Intel /proc/cpuinfo 2>/dev/null; then
+        echo slc${slc_version}_ia32
+#      else
+#       echo slc${slc_version}_amd64
+#      fi
+  elif grep -q PU_IAS /etc/redhat-release 2>/dev/null; then
+       if [ `uname -i` == i386 ]; then
+           echo slc4_ia32
+       else
+           echo slc4_amd64
+       fi
   else
     archos= archosv=
     for f in debian_version slackware-version fedora-release \
@@ -31,8 +54,14 @@ elif [ `uname` = Linux ]; then
     fi
   fi
 elif [ `uname` = Darwin ]; then
-  echo osx`sw_vers -productVersion | cut -d. -f1,2 | tr -dc [0-9]`
-elif [ $(uname | cut -d_ -f1) = CYGWIN ]; then
+  if [ "`uname -m`" == "i386" ]
+  then
+	cputype=ia32
+  else
+	cputype=ppc32
+  fi
+  echo osx`sw_vers -productVersion | cut -d. -f1,2 | tr -dc [0-9]`_$cputype
+elif [ `uname | cut -d_ -f1` = CYGWIN ]; then
   echo win32_ia32
 else
   echo unsupported
