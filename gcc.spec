@@ -1,8 +1,7 @@
-### RPM external gcc 3.4.5 
+### RPM external gcc 3.4.5-XXXX
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
-%define realversion %(echo %v | cut -d- -f1 )
 Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
 %define binutilsv 2.17
 Source1: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
@@ -82,7 +81,7 @@ CC="gcc $CCOPTS" ./configure --prefix=%i/tmp/mpfr --with-gmp=%i/tmp/gmp --disabl
 make %makeprocesses
 
 # Build the compilers
-cd ../gcc-%v
+cd ../gcc-%realversion
 mkdir -p obj
 cd obj
 CC="gcc $CCOPTS" \
@@ -95,7 +94,7 @@ CC="gcc $CCOPTS" \
 make %makeprocesses bootstrap
 
 %install
-cd %_builddir/gcc-%{v}/obj && make install
+cd %_builddir/gcc-%{realversion}/obj && make install
 ln -s gcc %i/bin/cc
 find %i/lib %i/lib32 %i/lib64 -name '*.la' -exec rm -f {} \; || true
 
