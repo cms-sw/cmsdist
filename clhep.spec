@@ -1,8 +1,8 @@
-### RPM external clhep 1.9.2.3
-Source: http://proj-clhep.web.cern.ch/proj-clhep/%n-%v.tgz
+### RPM external clhep 1.9.2.3-XXXX
+Source: http://proj-clhep.web.cern.ch/proj-clhep/%n-%realversion.tgz
 
 %prep
-%setup -n %v/CLHEP
+%setup -n %realversion/CLHEP
 
 %build
 if [ $(uname) = Darwin ]; then
@@ -35,15 +35,15 @@ make
 #for f in *.cc; do
 #  g++ -c -O2 -ansi -Wall -fPIC -I../.. $flags $f
 #done
-#g++ $shared -o libCLHEP-g++.%v.$so *.o
+#g++ $shared -o libCLHEP-g++.%realversion.$so *.o
 
 %install
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
 make install
 #cd shared-tmp
-#cp libCLHEP-g++.%v.$so %i/lib
-#ln -s libCLHEP-g++.%v.$so %i/lib/libCLHEP.$so
-#n -s libCLHEP-g++.%v.a %i/lib/libCLHEP.a
+#cp libCLHEP-g++.%realversion.$so %i/lib
+#ln -s libCLHEP-g++.%realversion.$so %i/lib/libCLHEP.$so
+#n -s libCLHEP-g++.%realversion.a %i/lib/libCLHEP.a
 %post
 %{relocateConfig}bin/Evaluator-config
 %{relocateConfig}bin/Cast-config

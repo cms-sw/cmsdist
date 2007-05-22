@@ -1,5 +1,5 @@
-### RPM external libjpg 6b
-Source: ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v%{v}.tar.gz
+### RPM external libjpg 6b-XXXX
+Source: ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v%{realversion}.tar.gz
 Source1: config.sub-amd64
 Patch0: libjpg-config.sub
 Patch1: libjpg-config.guess
@@ -7,7 +7,7 @@ Patch2: libjpg-ltmain.sh
 Patch3: libjpg-ltconfig
 Patch4: libjpg-makefile.cfg
 %prep
-%setup -n jpeg-%v
+%setup -n jpeg-%realversion
 %patch0
 %patch1
 %patch2

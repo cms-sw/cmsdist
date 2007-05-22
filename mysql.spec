@@ -1,12 +1,12 @@
-### RPM external mysql 5.0.18
+### RPM external mysql 5.0.18-XXXX
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/mysql
 
 #Different download locations according to the version.
 
-%if "%(echo %v | cut -d. -f1)" == "4"
-%define source http://downloads.mysql.com/archives/mysql-4.0/%n-%v.tar.gz
+%if "%(echo %realversion | cut -d. -f1)" == "4"
+%define source http://downloads.mysql.com/archives/mysql-4.0/%n-%realversion.tar.gz
 %else
-%define source http://mysql.belnet.be/Downloads/MySQL-5.0/mysql-%v.tar.gz
+%define source http://mysql.belnet.be/Downloads/MySQL-5.0/mysql-%realversion.tar.gz
 %endif
 
 Source: %source
@@ -14,7 +14,7 @@ Source: %source
 Provides: perl(DBI)
 
 %prep
-%setup -n %n-%v
+%setup -n %n-%realversion
 %ifos darwin
 # There's for some reason a "-traditional-cpp", which breaks with GCC 3.3
 # so remove it.  (FIXME: check if this is solved in a newer version.)

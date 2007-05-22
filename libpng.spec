@@ -1,7 +1,9 @@
-### RPM external libpng 1.2.10
- 
-Source: ftp://ftp.simplesystems.org/pub/libpng/png/src/%{n}-%{v}.tar.bz2
+### RPM external libpng 1.2.10-XXXX
+Source: ftp://ftp.simplesystems.org/pub/libpng/png/src/%{n}-%{realversion}.tar.bz2
 
+%prep
+%setup -n %n-%{realversion}
+ 
 %build
 ./configure --prefix=%{i}
 make %makeprocesses

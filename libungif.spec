@@ -1,6 +1,9 @@
-### RPM external libungif 4.1.4
+### RPM external libungif 4.1.4-XXXX
 
-Source: http://switch.dl.sourceforge.net/sourceforge/%{n}/%{n}-%{v}.tar.gz
+Source: http://switch.dl.sourceforge.net/sourceforge/%{n}/%{n}-%{realversion}.tar.gz
+
+%prep
+%setup -n %n-%{realversion}
 
 %build
 ./configure --prefix=%{i}

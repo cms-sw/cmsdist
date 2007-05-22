@@ -1,10 +1,10 @@
-### RPM external graphviz 1.9 
-Source: http://service-spi.web.cern.ch/service-spi/external/tarFiles/%{n}-%{v}.tar.gz  
+### RPM external graphviz 1.9-XXXX
+Source: http://service-spi.web.cern.ch/service-spi/external/tarFiles/%{n}-%{realversion}.tar.gz  
 Requires: expat zlib libjpg libpng 
 Patch0: graphviz
 
 %prep
-%setup -n %{n}-%{v}
+%setup -n %{n}-%{realversion}
 %patch0 -p1
 
 %build
