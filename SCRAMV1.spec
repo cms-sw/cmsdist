@@ -135,11 +135,7 @@ NEW_VERSION=%v
 # uninstalling the old revision of scram.
 cat << \EOF_BIN_SCRAMV1 > $RPM_INSTALL_PREFIX/bin/scramv1
 #!/bin/sh
-if [ "`cmsos`" == "slc4_amd64" ]; then
-  CMSARCH=slc4_amd64_gcc345
-else
-  CMSARCH=`cmsarch`
-fi
+CMSARCH=`cmsarch`
 SCRAM_VERSION=`cat %{instroot}/$CMSARCH/etc/default-scramv1-version`
 dir=`/bin/pwd`
 while [ ! -d ${dir}/.SCRAM -a "$dir" != "/" ] ; do
@@ -152,8 +148,19 @@ if [ -f ${dir}/config/scram_version ] ; then
   fi
 fi
 source %{instroot}/$CMSARCH/lcg/SCRAMV1/$SCRAM_VERSION/etc/profile.d/init.sh
-%{instroot}/$CMSARCH/lcg/SCRAMV1/$SCRAM_VERSION/bin/scramv1 $@
+# In the case we are on ia32 we prepend the linux32 command to the actual scram command so that, 
+# no matter where the ia32 architecture is running (i686 or x84_64) scram detects it as
+# ia32.
+if "`echo $CMSARCH | cut -d_ -f 2`" == "ia32"
+then
+    USE_LINUX32=linux32
+else
+    USE_LINUX32=
+fi
+
+$USE_LINUX32 %{instroot}/$CMSARCH/lcg/SCRAMV1/$SCRAM_VERSION/bin/scramv1 $@
 EOF_BIN_SCRAMV1
+
 chmod +x $RPM_INSTALL_PREFIX/bin/scramv1
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/bin/scramv1
 
@@ -167,14 +174,7 @@ if [ -f $RPM_INSTALL_PREFIX/share/scramdb/project.lookup ] ; then
     mv $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
   fi
 fi
-# Use slc4_ia32_gcc345 scramdb for slc4_amd64_gcc345 until we support native builds:
-if [ "%{cmsplatf}" == "slc4_amd64_gcc345" ]; then 
-  ia32_db=$RPM_INSTALL_PREFIX/slc4_ia32_gcc345/lcg/SCRAMV1/scramdb/project.lookup
-  amd64_db=$RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
-  [ "`grep -c $ia32_db $amd64_db`" == "0" ] && \
-  (echo '!DB' $ia32_db >> $amd64_db )
-  unset ia32_db amd64_db
-fi
+
 %files
 %i
 %instroot/%cmsplatf/lcg/SCRAMV1/scramdb
