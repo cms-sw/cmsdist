@@ -1,5 +1,8 @@
-### RPM external boost-build 2.0-m10
-Source: http://dl.sourceforge.net/sourceforge/boost/boost-build-%v.tar.bz2 
+### RPM external boost-build 2.0-m10-XXXX
+# Override default realversion since they have a "-" in the realversion
+%define realversion 2.0-m10
+Source: http://dl.sourceforge.net/sourceforge/boost/boost-build-%realversion.tar.bz2 
+
 %prep
 %setup -n boost-build
 

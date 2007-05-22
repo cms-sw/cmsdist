@@ -1,6 +1,9 @@
-### RPM external expat 2.0.0
-Source: http://dl.sourceforge.net/sourceforge/%n/%n-%v.tar.gz
-#
+### RPM external expat 2.0.0-XXXX
+Source: http://dl.sourceforge.net/sourceforge/%n/%n-%realversion.tar.gz
+
+%prep
+%setup -n %n-%{realversion}
+
 %build
 ./configure --prefix=%{i} 
 make 

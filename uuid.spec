@@ -1,12 +1,12 @@
-### RPM external uuid 1.38
+### RPM external uuid 1.38-XXXX
 # Patches by Lassi A. Tuura <lat@iki.fi> (FIXME: contribute to e2fsprogs)
-Source: http://switch.dl.sourceforge.net/sourceforge/e2fsprogs/e2fsprogs-%v.tar.gz
+Source: http://switch.dl.sourceforge.net/sourceforge/e2fsprogs/e2fsprogs-%realversion.tar.gz
 
 #Patch0: uuid
 #Patch1: uuid-osx
 
 %prep
-%setup -n e2fsprogs-%v
+%setup -n e2fsprogs-%realversion
 #%patch0
 #%ifos darwin
 #%patch1

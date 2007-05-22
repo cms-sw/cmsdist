@@ -1,13 +1,13 @@
-### RPM external gccxml 0.6.0
+### RPM external gccxml 0.6.0-XXXX
 
 Requires: cmake
-Source: http://www.gccxml.org/files/v0.6/%n-%v.tar.gz
+Source: http://www.gccxml.org/files/v0.6/%n-%realversion.tar.gz
 Patch0: gccxml1
 Patch1: gccxml2
 Patch2: gccxml3
 
 %prep
-%setup -n %{n}-%{v}
+%setup -n %{n}-%{realversion}
 %patch1 -p1 
 
 %build

@@ -1,12 +1,12 @@
-### RPM external cmake 2.4.2
-%define downloaddir %(echo %v | cut -d. -f1,2)
-Source: http://www.cmake.org/files/v%{downloaddir}/%n-%v.tar.gz
+### RPM external cmake 2.4.2-XXXX
+%define downloaddir %(echo %version | cut -d. -f1,2)
+Source: http://www.cmake.org/files/v%{downloaddir}/%n-%realversion.tar.gz
 #Patch1: cmake
 Requires: zlib
 
 %prep
 
-%setup -n cmake-%v
+%setup -n cmake-%realversion
 #%patch1 -p1
 
 %build

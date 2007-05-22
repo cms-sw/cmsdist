@@ -1,8 +1,8 @@
-### RPM external db4 4.4.20
-Source: http://downloads.sleepycat.com/db-%{v}.tar.gz
+### RPM external db4 4.4.20-XXXX
+Source: http://downloads.sleepycat.com/db-%{realversion}.tar.gz
 
 %prep
-%setup -n db-%{v}
+%setup -n db-%{realversion}
 %build
 mkdir obj
 cd obj

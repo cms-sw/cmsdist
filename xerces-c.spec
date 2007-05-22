@@ -1,5 +1,5 @@
-### RPM external xerces-c 2.7.0
-%define xercesv %(echo %v | tr . _)
+### RPM external xerces-c 2.7.0-XXXX
+%define xercesv %(echo %realversion | tr . _)
 Source: http://www.apache.org/dist/xml/xerces-c/source/xerces-c-src_%xercesv.tar.gz
 
 %prep

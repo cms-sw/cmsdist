@@ -1,14 +1,11 @@
-### RPM external boost 1.33.1
+### RPM external boost 1.33.1-XXXX
 # Patches and build fudging by Lassi A. Tuura <lat@iki.fi> (FIXME: contribute to boost)
-# define boostver -%v <-- for 1.30.2
-%define boostver _%(echo %v | tr . _)
+%define boostver _%(echo %realversion | tr . _)
 Requires: boost-build python bz2lib zlib
 Source: http://dl.sourceforge.net/sourceforge/%n/%{n}%{boostver}.tar.gz
-#Patch: boost
 
 %prep
 %setup -n %{n}%{boostver}
-#%patch
 
 %build
 # Note that some targets will fail to build (the test programs have
@@ -49,12 +46,10 @@ find libs -name '*.py' -print |
   done
 
 (cd %i/lib; for f in lib*-$boost_abi.$so; do ln -s $f $(echo $f | sed "s/-$boost_abi//"); done)
-(cd %i/lib; for f in lib*-$boost_abi.$so; do ln -s $f $f.%v ; done)
+(cd %i/lib; for f in lib*-$boost_abi.$so; do ln -s $f $f.%realversion ; done)
 (cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $(echo $f | sed "s/-d-$boost_abi//"); done)
-(cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $f.%v; done)
+(cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $f.%realversion; done)
 (cd %i/lib/libs/python/pyste/install; python setup.py install --prefix=%i)
 
 perl -p -i -e "s|^#!.*python|/usr/bin/env python|" $(find %{i}/lib %{i}/bin)
 
-#
-#
