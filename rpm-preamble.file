@@ -27,12 +27,18 @@
 
 %define pkgdir		%{pkgcategory}/%{n}/%{v}
 
+# In the spec files we expect that a version will be specified such
+# that various rebuilds of a single real (source) version will be
+# indicated by appending a "-XXXX" where "XXXX" is some string 
+# indicating the rebuild. Here we extract the real version used
+# for obtaining sources, etc.
+%define realversion %(echo %v | cut -d- -f1)
+
 # Architecture comes first by default.  Run with "--define 'archfirst no'"
 # to change this.
 %if "%{?archfirst:set}" != "set"
 %define archfirst	yes
 %endif
-
 
 %if "%archfirst" == "yes"
 %define pkgrel		%{cmsplatf}/%{pkgdir}
