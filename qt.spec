@@ -1,8 +1,8 @@
-### RPM external qt 3.3.6
+### RPM external qt 3.3.6-XXXX
 ## INITENV UNSET QMAKESPEC
 ## INITENV SET QTDIR %i
-%define qttype %(echo %v | sed 's/[-0-9.]*//')
-%define qtversion %(echo %v | sed 's/-.*//')
+%define qttype %(echo %realversion | sed 's/[-0-9.]*//')
+%define qtversion %(echo %realversion | sed 's/-.*//')
 %if "%qttype" == ""
  %ifos darwin
   %define type	mac
@@ -26,6 +26,7 @@ Patch0: qt-mkspecs-qmake.conf
 Patch1: qt-mkspecs-qplatformdefs.h
 Patch2: qt-src-kernel-qaccessible_mac.cpp
 Patch3: qt-src-qt_install.pri
+Patch4: qt-mkspecs-qmake.conf_2
 
 %prep
 %setup -T -b %sourcepkg -n %n-%type-free-%{qtversion}
@@ -34,6 +35,10 @@ Patch3: qt-src-qt_install.pri
 #%patch2 -p0
 #%patch3 -p0
 #%endif
+# The kludge supports the libfontconfig kludge described below
+%if "%cmsplatf" == "slc4_ia32_gcc345"
+%patch4 -p1
+%endif
 
 %build
 unset QMAKESPEC || true
@@ -50,6 +55,14 @@ esac
 echo yes | ./configure -prefix %i -thread -stl $CONFIG_ARGS
 # install_framework is hosed
 perl -p -i -e 's/^install_framework:/install_framework:\ninstall_framework_no:/' src/Makefile
+# The following is a kludge around the fact that the fact that the 
+# /usr/lib/libfontconfig.so soft link (for 32-bit lib) is missing
+# on the 64-bit machines
+%if "%cmsplatf" == "slc4_ia32_gcc345"
+  mkdir -p %{_builddir}/lib
+  ln -s /usr/lib/libfontconfig.so.1 %{_builddir}/%n-%type-free-%{qtversion}/lib/libfontconfig.so
+%endif
+
 make %makeprocesses
 %post
 %{relocateConfig}lib/libqt-mt.la
