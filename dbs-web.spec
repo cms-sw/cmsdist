@@ -36,10 +36,11 @@ ln -s $YUI_ROOT/build YUI
  echo "source $PY2_CX_ORACLE_ROOT/etc/profile.d/init.sh"; \
  echo "source $MYSQL_ROOT/etc/profile.d/init.sh"; \
  echo "source $DLS_ROOT/etc/profile.d/init.sh"; \
+ echo "source $ELEMENTTREE_ROOT/etc/profile.d/init.sh"; \
  echo -e "export DLSHOME=$DLS_ROOT/Client/lib"; \
- echo -e "export DDHOME=\044DBS_WEB_ROOT/lib/Web/DataDiscovery/"; \
- echo -e "export TNS_ADMIN=\044DBS_WEB_ROOT/lib/Web/DataDiscovery/"; \
- echo -e "export DBS_DBPARAM=\044DBS_WEB_ROOT/lib/Web/DataDiscovery/DBParam"; \
+ echo -e "export DDHOME=\044DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages"; \
+ echo -e "export TNS_ADMIN=\044DDHOME"; \
+ echo -e "export DBS_DBPARAM=\044DDHOME/DBParam"; \
  echo -e "export PYTHONPATH=\044PYTHONPATH:\044DLSHOME"; \
  echo -e "export PYTHONPATH=\044DDHOME:\044DDHOME/QueryBuilder:\044PYTHONPATH"; \
  echo -e "rm -f \044DDHOME/YUI"; \
@@ -58,10 +59,11 @@ ln -s $YUI_ROOT/build YUI
  echo "source $PY2_CX_ORACLE_ROOT/etc/profile.d/init.csh"; \
  echo "source $MYSQL_ROOT/etc/profile.d/init.csh"; \
  echo "source $DLS_ROOT/etc/profile.d/init.csh"; \
+ echo "source $ELEMENTTREE_ROOT/etc/profile.d/init.csh"; \
  echo -e "setenv DLSHOME $DLS_ROOT/Client/lib"; \
- echo -e "setenv DDHOME \044DBS_WEB_ROOT/lib/Web/DataDiscovery/"; \
- echo -e "setenv TNS_ADMIN \044DBS_WEB_ROOT/lib/Web/DataDiscovery/"; \
- echo -e "setenv DBS_DBPARAM \044DBS_WEB_ROOT/lib/Web/DataDiscovery/DBParam"; \
+ echo -e "setenv DDHOME \044DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages"; \
+ echo -e "setenv TNS_ADMIN \044DDHOME"; \
+ echo -e "setenv DBS_DBPARAM \044DDHOME/DBParam"; \
  echo -e "setenv PYTHONPATH \044PYTHONPATH:\044DLSHOME"; \
  echo -e "setenv PYTHONPATH \044DDHOME:\044DDHOME/QueryBuilder:\044PYTHONPATH"; \
  echo -e "rm -f \044DDHOME/YUI"; \
