@@ -1,7 +1,8 @@
-### RPM external mimetic 0.8.9
-Source: http://codesink.org/download/%{n}-%{v}.tar.gz
+### RPM external mimetic 0.8.9-XXXX
+Source: http://codesink.org/download/%{n}-%{realversion}.tar.gz
 
-%description
+%prep
+%setup -n %n-%{realversion}
 
 %build
 ./configure --prefix=%i
@@ -10,11 +11,3 @@ make
 %install
 make install
 
-
-
-%changelog
-* Mon Feb 27 2006 Stefano Argiro <argiro@pccms211.cern.ch> 
-- Initial build.
-
-
-#

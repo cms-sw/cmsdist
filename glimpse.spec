@@ -1,8 +1,8 @@
-### RPM external glimpse 4.18.5
-Source: http://webglimpse.net/trial/glimpse-%{v}.tar.gz
+### RPM external glimpse 4.18.5-XXXX
+Source: http://webglimpse.net/trial/glimpse-%{realversion}.tar.gz
 
 %prep
-%setup -n glimpse-%v
+%setup -n glimpse-%realversion
 %build
 ./configure --prefix=%{i} 
 make 

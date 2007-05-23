@@ -1,7 +1,8 @@
-### RPM external heppdt 2.03.00
-Source: http://lcgapp.cern.ch/project/simu/HepPDT/download/HepPDT-%{v}.tar.gz
+### RPM external heppdt 2.03.00-XXXX
+Source: http://lcgapp.cern.ch/project/simu/HepPDT/download/HepPDT-%{realversion}.tar.gz
+
 %prep
-%setup -q -n HepPDT-%{v}
+%setup -q -n HepPDT-%{realversion}
 ./configure  --prefix=%{i} 
 
 %build

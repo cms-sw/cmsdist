@@ -1,5 +1,8 @@
-### RPM external openssl 0.9.7d
-Source: http://www.openssl.org/source/%n-%v.tar.gz
+### RPM external openssl 0.9.7d-XXXX
+Source: http://www.openssl.org/source/%n-%realversion.tar.gz
+
+%prep
+%setup -n %n-%{realversion}
 
 %build
 ./config --prefix=%i shared
