@@ -4,8 +4,10 @@
 Source: http://cmsdoc.cern.ch/cms/cmt/online/rpm/SOURCE/%{releasename}.tgz
 Patch: Fed9U-gcc3.4
 Requires: xerces-c
-Requires: xdaq
 Requires: oracle
+# Note from Kristian: 
+# xdaq dependency is here only to re-use its makefiles. 
+Requires: xdaq
 
 %prep
 %setup -q -n %releasename
