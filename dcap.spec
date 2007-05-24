@@ -12,10 +12,12 @@ Patch: http://service-spi.web.cern.ch/service-spi/external/tarFiles/%n-%realvers
 Provides: libdcap.so%{libsuffix}
 Provides: libpdcap.so%{libsuffix}
 %prep
+rm -rf %n-%realversion
 %setup -n %n-%realversion
 %patch0 -p1
 %build
+rm -rf %i
+mkdir -p %i
 LD=gcc make BIN_PATH=%i %makeprocesses 
 %install
 LD=gcc make BIN_PATH=%i install
-#
