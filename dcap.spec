@@ -15,7 +15,7 @@ Provides: libpdcap.so%{libsuffix}
 %setup -n %n-%realversion
 %patch0 -p1
 %build
-make BIN_PATH=%i %makeprocesses 
+LD=gcc make BIN_PATH=%i %makeprocesses 
 %install
-make BIN_PATH=%i install
+LD=gcc make BIN_PATH=%i install
 #
