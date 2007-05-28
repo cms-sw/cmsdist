@@ -187,6 +187,7 @@ cd src
 
 %{?buildarch:%buildarch}
 
+export BUILD_LOG=yes
 # export SCRAM_NOSYMCHECK=true
 
 if [ $(uname) = Darwin ]; then
