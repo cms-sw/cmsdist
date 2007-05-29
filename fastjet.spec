@@ -1,7 +1,10 @@
 ### RPM external fastjet 2.1.0-XXXX
 Source: http://www.lpthe.jussieu.fr/~salam/repository/software/fastjet/%n-%realversion.tgz
+Patch1: fastjet-2.1.0-nobanner
+
 %prep
 %setup -n %n-%realversion
+%patch1 -p1
 
 %build
 cd src
