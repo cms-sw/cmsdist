@@ -1,4 +1,4 @@
-### RPM cms fwlite FWLITE_1_3_0_pre5 
+### RPM cms fwlite CMSSW_1_5_0_pre4_FWLITE
 ## IMPORT configurations 
 Provides: /bin/zsh
 Requires: SCRAMV1
@@ -7,8 +7,9 @@ Requires: gcc-wrapper
 %define gccwrapperarch  slc4_ia32_gcc345 
 
 # Take source from CMSSW base release:
-%define projectname        %(perl -e 'print uc(%n)')
-%define cmssw_release %(perl -e '$_="%v"; s/%projectname/CMSSW/; print;')
+%define application  %n
+# Assuming release name convention for FWLite release based on CMSSW_X_Y_Z is CMSSW_X_Y_Z_FWLITE .
+%define cmssw_release %(perl -e '$_="%v"; s/_FWLITE//; print;')
 %define cmsswsrc           http://cmsdoc.cern.ch/cms/cpt/Software/download/cms/SOURCES/cms/cmssw/%{cmssw_release}
 Source0: %{cmsswsrc}/toolbox.tar.gz
 Source1: %{cmsswsrc}/config.tar.gz
@@ -19,9 +20,12 @@ Source2: %{cmsswsrc}/src.tar.gz
 %define buildtarget     release-build
 %define postbuildtarget doc
 
-%define externals "cxxcompiler f77compiler ccompiler seal xdaq geant4 clhep sockets python boost boost_filesystem xerces-c rootrflx rootcore rootmath gccxml boost_python elementtree sigcpp mimetic gsl"
+# Following dependencies were not detected by ignominy, but required in the BuildFiles:
+# boost_program_options boost_regex bz2lib pcre root rootcintex uuid zlib
 
-%define packages "DataFormats/CLHEP DataFormats/CaloRecHit DataFormats/CaloTowers DataFormats/Candidate DataFormats/Common DataFormats/DetId DataFormats/EcalDetId DataFormats/EcalRecHit DataFormats/EgammaReco DataFormats/FEDRawData DataFormats/GeometryCommonDetAlgo DataFormats/GeometrySurface DataFormats/GeometryVector DataFormats/GsfTrackReco DataFormats/HcalDetId DataFormats/HcalRecHit DataFormats/HepMCCandidate DataFormats/JetReco DataFormats/L1CaloTrigger DataFormats/L1GlobalCaloTrigger DataFormats/L1GlobalMuonTrigger DataFormats/Math DataFormats/MuonDetId DataFormats/RecoCandidate DataFormats/SiPixelCluster DataFormats/SiPixelDetId DataFormats/SiPixelDigi DataFormats/SiStripCluster DataFormats/SiStripCommon DataFormats/SiStripDetId DataFormats/SiStripDigi DataFormats/TrackCandidate DataFormats/TrackReco DataFormats/TrackerRecHit2D DataFormats/TrackingRecHit DataFormats/TrajectorySeed DataFormats/TrajectoryState DataFormats/VertexReco DetectorDescription/Base DetectorDescription/Core DetectorDescription/CoreImpl DetectorDescription/ExprAlgo FWCore/MessageLogger FWCore/PluginManager FWCore/Utilities SimDataFormats/HepMCProduct SimG4Core/Notification Geometry/Vector"
+%define externals "cxxcompiler f77compiler ccompiler seal clhep sockets python boost boost_filesystem xerces-c rootrflx rootcore rootmath gccxml boost_python elementtree sigcpp hepmc gsl boost_regex boost_program_options boost_program_options boost_regex bz2lib pcre root rootcintex zlib"
+
+%define packages "DataFormats/BTauReco DataFormats/CaloRecHit DataFormats/CaloTowers DataFormats/Candidate DataFormats/CLHEP DataFormats/Common DataFormats/DetId DataFormats/EcalDetId DataFormats/EcalRecHit DataFormats/EgammaCandidates DataFormats/EgammaReco DataFormats/EgammaTrackReco DataFormats/FEDRawData DataFormats/GeometryCommonDetAlgo DataFormats/GeometrySurface DataFormats/GeometryVector DataFormats/GsfTrackReco DataFormats/HcalDetId DataFormats/HcalRecHit DataFormats/HepMCCandidate DataFormats/JetReco DataFormats/Math DataFormats/METReco DataFormats/MuonDetId DataFormats/MuonReco DataFormats/ParticleFlowCandidate DataFormats/ParticleFlowReco DataFormats/Provenance DataFormats/RecoCandidate DataFormats/SiPixelCluster DataFormats/SiPixelDetId DataFormats/SiPixelDigi DataFormats/SiStripCluster DataFormats/SiStripCommon DataFormats/SiStripDetId DataFormats/SiStripDigi DataFormats/TrackCandidate DataFormats/TrackerRecHit2D DataFormats/TrackingRecHit DataFormats/TrackReco DataFormats/TrajectorySeed DataFormats/TrajectoryState DataFormats/VertexReco FWCore/FWLite FWCore/MessageLogger FWCore/PluginManager FWCore/RootAutoLibraryLoader FWCore/Utilities PhysicsTools/Utilities SimDataFormats/HepMCProduct"
 
 %prep
 
@@ -42,8 +46,8 @@ Source2: %{cmsswsrc}/src.tar.gz
 %endif
 
 # NR: Allow to define bootstrap and requirements file names
-%define bootstrapfile config/%{projectname}_bootsrc
-%define reqfile config/%{projectname}_requirements
+%define bootstrapfile config/%{application}_bootsrc
+%define reqfile config/%{application}_requirements
 
 
 cd %_builddir
@@ -51,7 +55,8 @@ cd %_builddir
 # Create bootstrap file for fwlite:
 cp config/bootsrc %bootstrapfile
 perl -p -i -e ' 
- s!(<project.*name=)CMSSW(.*version=)CMSSW(.*)!$1%projectname$2%projectname$3!;
+# s!(<project.*name=)CMSSW(.*version=)CMSSW(.*)!$1%projectname$2%projectname$3!;
+ s!(<project.*name=CMSSW.*version=)%cmssw_release(.*)!$1%v$2!;
  s!config/requirements!%{reqfile}!;
  if (s/(<download.*)(module=)CMSSW(.*)(name="src)(">)/#$1$2$3$4$5/) {
    foreach $p (split / /, %{packages}) {
@@ -73,7 +78,7 @@ perl -p -i -e '
 ' %reqfile
 
 # Create build templates: 
-for file in config/CMSSW_*.tmpl; do cat $file > `echo $file | sed s'/CMSSW/%{projectname}/'`; done
+# for file in config/CMSSW_*.tmpl; do cat $file > `echo $file | sed s'/CMSSW/%{projectname}/'`; done
 
 # Switch off building tests: 
 perl -p -i -e ' s!(<ClassPath.*test\+test>)!#$1!;' config/BuildFile
