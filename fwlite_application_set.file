@@ -1,0 +1,16 @@
+DataFormats/BTauReco
+DataFormats/CaloTowers
+DataFormats/Candidate
+DataFormats/Common
+DataFormats/EgammaCandidates
+DataFormats/EgammaReco
+DataFormats/EgammaTrackReco
+DataFormats/JetReco
+DataFormats/METReco
+DataFormats/MuonReco
+DataFormats/TrackCandidate
+DataFormats/TrackingRecHit
+DataFormats/TrackReco
+DataFormats/VertexReco
+FWCore/FWLite
+SimDataFormats/HepMCProduct
