@@ -6,6 +6,7 @@ DataFormats/EgammaCandidates
 DataFormats/EgammaReco
 DataFormats/EgammaTrackReco
 DataFormats/JetReco
+DataFormats/L1Trigger
 DataFormats/METReco
 DataFormats/MuonReco
 DataFormats/TrackCandidate
