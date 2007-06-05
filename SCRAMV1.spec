@@ -63,17 +63,7 @@ tar -cf - . | tar -C %i -xvvf -
 rm -rf %i/cgi
 mkdir -p %instroot/bin %instroot/%cmsplatf/lcg/SCRAMV1/scramdb %i/Installation
 mkdir -p %i/bin
-if [ ! -f %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup ] ; then
-  touch %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
-  if [ -f %instroot/share/scramdb/project.lookup ] ; then
-    for line in `cat %instroot/share/scramdb/project.lookup` ; do
-      base=`echo $line | sed 's|.*:||'`
-      if [ -f ${base}/.SCRAM/%{cmsplatf}/.installed ] ; then
-        echo $line >> %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
-      fi
-    done
-  fi
-fi
+touch %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
 
 cat Installation/scram.pl.in | sed -e "s|@PERLEXE@|/usr/bin/env perl|;s|@SCRAM_HOME@|%i|;s|@INSTALLDIR@|%i/src|" > %i/bin/scramv1
 cat Installation/scram.pl.in | sed -e "s|@PERLEXE@|/usr/bin/env perl|;s|@SCRAM_HOME@|%i|;s|@INSTALLDIR@|%i/src|" > %i/src/main/scram.pl
@@ -145,7 +135,11 @@ NEW_VERSION=%v
 # uninstalling the old revision of scram.
 cat << \EOF_BIN_SCRAMV1 > $RPM_INSTALL_PREFIX/bin/scramv1
 #!/bin/sh
-CMSARCH=`cmsarch`
+if [ "`cmsos`" == "slc4_amd64" ]; then
+  CMSARCH=slc4_amd64_gcc345
+else
+  CMSARCH=`cmsarch`
+fi
 SCRAM_VERSION=`cat %{instroot}/$CMSARCH/etc/default-scramv1-version`
 dir=`/bin/pwd`
 while [ ! -d ${dir}/.SCRAM -a "$dir" != "/" ] ; do
@@ -163,6 +157,24 @@ EOF_BIN_SCRAMV1
 chmod +x $RPM_INSTALL_PREFIX/bin/scramv1
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/bin/scramv1
 
+mkdir -p $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb
+touch $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
+if [ -f $RPM_INSTALL_PREFIX/share/scramdb/project.lookup ] ; then
+  dblinked=`grep "DB $RPM_INSTALL_PREFIX/share/scramdb/project.lookup" $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup`
+  if [ "X$dblinked" == "X" ] ; then
+    echo '!DB' $RPM_INSTALL_PREFIX/share/scramdb/project.lookup > $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link
+    cat $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup >> $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link
+    mv $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
+  fi
+fi
+# Use slc4_ia32_gcc345 scramdb for slc4_amd64_gcc345 until we support native builds:
+if [ "%{cmsplatf}" == "slc4_amd64_gcc345" ]; then 
+  ia32_db=$RPM_INSTALL_PREFIX/slc4_ia32_gcc345/lcg/SCRAMV1/scramdb/project.lookup
+  amd64_db=$RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
+  [ "`grep -c $ia32_db $amd64_db`" == "0" ] && \
+  (echo '!DB' $ia32_db >> $amd64_db )
+  unset ia32_db amd64_db
+fi
 %files
 %i
 %instroot/%cmsplatf/lcg/SCRAMV1/scramdb

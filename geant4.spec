@@ -1,10 +1,10 @@
-### RPM external geant4 8.2-cms1
+### RPM external geant4 8.1-p2.cms1
 %define downloadv %(echo %v | cut -d- -f1)
 ## INITENV SET G4NDL_PATH %i/data/G4NDL%{g4NDLVersion}
 ## INITENV SET G4EMLOW_PATH %i/data/G4EMLOW%{g4EMLOWVersion}
 ## INITENV SET PHOTON_EVAPORATION_PATH %i/data/PhotonEvaportation%{photonEvaporationVersion}
 ## INITENV SET RADIATIVE_DECAY_PATH %i/data/RadiativeDecay%{radiativeDecayVersion}
-# Build system fudging and some patches by Lassi A. Tuura <lat@iki.fi>  
+# Build system fudging and some patches by Lassi A. Tuura <lat@iki.fi>
 Requires: clhep
 %define photonEvaporationVersion 2.0
 %define g4NDLVersion 3.9
@@ -17,11 +17,13 @@ Source2: http://geant4.cern.ch/support/source/G4EMLOW.%{g4EMLOWVersion}.tar.gz
 Source3: http://geant4.cern.ch/support/source/PhotonEvaporation.%{photonEvaporationVersion}.tar.gz
 Source4: http://geant4.cern.ch/support/source/RadiativeDecay.%{radiativeDecayVersion}.tar.gz
 Source5: http://geant4.cern.ch/support/source/G4ELASTIC.%{g4ElasticScatteringVersion}.tar.gz
-Patch: geant482-cms1
+Patch: geant48-p2-cms1
+Patch1: geant4-geant4e-GNUmakefile
 %prep
 %setup -n %n.%downloadv
 pwd
 %patch0 -p0 
+%patch1 -p0
 %build
 # Linux? -pthread?
 touch G4BuildConf.sh
@@ -80,6 +82,7 @@ make %makeprocesses -C $G4BASE includes
 make %makeprocesses -C $G4BASE
 make %makeprocesses -C $G4BASE global
 make %makeprocesses -C $G4BASE
+make %makeprocesses -C $G4BASE/../physics_lists/hadronic/Packaging
 
 %install
 mkdir -p %i/etc
@@ -93,4 +96,8 @@ tar -C %i/data -zxvf %_sourcedir/G4NDL*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/G4EMLOW*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/Photon*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/Rad*.tar.gz
+mkdir -p %i/share
+cp -r physics_lists  %i/share
+ln -sf plists/$(uname)-g++/libPackaging.so %i/lib/libPackaging.so
+find %{i}/share/physics_lists/hadronic/Packaging/include/ -iname *.hh | sed -e "s|.*/||" | xargs -i ln -sf ../share/physics_lists/hadronic/Packaging/include/{} %{i}/include/{}
 #
