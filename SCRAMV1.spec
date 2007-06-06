@@ -146,10 +146,11 @@ if [ -f ${dir}/config/scram_version ] ; then
   fi
 fi
 source %{instroot}/$CMSARCH/lcg/SCRAMV1/$SCRAM_VERSION/etc/profile.d/init.sh
-# In the case we are on ia32 we prepend the linux32 command to the actual scram command so that, 
-# no matter where the ia32 architecture is running (i686 or x84_64) scram detects it as
-# ia32.
-if "`echo $CMSARCH | cut -d_ -f 2`" == "ia32"
+# In the case we are on ia32 we prepend the linux32 command to the actual 
+# scram command so that, no matter where the ia32 architecture is running 
+# (i686 or x84_64) scram detects it as ia32.
+CMSPLAT=`echo $CMSARCH | cut -d_ -f 2`
+if [ "$CMSPLAT" == "ia32" ]
 then
     USE_LINUX32=linux32
 else
