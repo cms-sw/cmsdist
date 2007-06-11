@@ -23,9 +23,9 @@ Requires: hepmc
 Requires: clhep
 #Requires: castor
 Requires: zlib
-Requires: python
+#Requires: python
 Requires: boost
-Requires: xerces-c
+#Requires: xerces-c
 Requires: root
 Requires: uuid
 Requires: gsl
