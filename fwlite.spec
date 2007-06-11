@@ -1,4 +1,4 @@
-### RPM cms fwlite CMSSW_1_5_0_pre4_FWLITE
+### RPM cms fwlite CMSSW_1_5_0_pre5_FWLITE
 ## IMPORT configurations 
 Provides: /bin/zsh
 Requires: SCRAMV1
@@ -23,9 +23,9 @@ Source2: %{cmsswsrc}/src.tar.gz
 # Following dependencies were not detected by ignominy, but required in the BuildFiles:
 # boost_program_options boost_regex bz2lib pcre root rootcintex uuid zlib
 
-%define externals "cxxcompiler f77compiler ccompiler seal clhep sockets python boost boost_filesystem xerces-c rootrflx rootcore rootmath gccxml boost_python elementtree sigcpp hepmc gsl boost_regex boost_program_options boost_program_options boost_regex bz2lib pcre root rootcintex zlib"
+%define externals "cxxcompiler ccompiler clhep sockets seal boost boost_filesystem rootrflx rootcore rootmath gccxml boost_python elementtree sigcpp hepmc gsl boost_regex boost_program_options boost_program_options boost_regex bz2lib pcre root rootcintex zlib"
 
-%define packages "DataFormats/BTauReco DataFormats/CaloRecHit DataFormats/CaloTowers DataFormats/Candidate DataFormats/CLHEP DataFormats/Common DataFormats/DetId DataFormats/EcalDetId DataFormats/EcalRecHit DataFormats/EgammaCandidates DataFormats/EgammaReco DataFormats/EgammaTrackReco DataFormats/FEDRawData DataFormats/GeometryCommonDetAlgo DataFormats/GeometrySurface DataFormats/GeometryVector DataFormats/GsfTrackReco DataFormats/HcalDetId DataFormats/HcalRecHit DataFormats/HepMCCandidate DataFormats/JetReco DataFormats/Math DataFormats/METReco DataFormats/MuonDetId DataFormats/MuonReco DataFormats/ParticleFlowCandidate DataFormats/ParticleFlowReco DataFormats/Provenance DataFormats/RecoCandidate DataFormats/SiPixelCluster DataFormats/SiPixelDetId DataFormats/SiPixelDigi DataFormats/SiStripCluster DataFormats/SiStripCommon DataFormats/SiStripDetId DataFormats/SiStripDigi DataFormats/TrackCandidate DataFormats/TrackerRecHit2D DataFormats/TrackingRecHit DataFormats/TrackReco DataFormats/TrajectorySeed DataFormats/TrajectoryState DataFormats/VertexReco FWCore/FWLite FWCore/MessageLogger FWCore/PluginManager FWCore/RootAutoLibraryLoader FWCore/Utilities PhysicsTools/Utilities SimDataFormats/HepMCProduct"
+%define packages "DataFormats/BTauReco DataFormats/CLHEP DataFormats/CaloRecHit DataFormats/CaloTowers DataFormats/Candidate DataFormats/Common DataFormats/DetId DataFormats/EcalDetId DataFormats/EcalRecHit DataFormats/EgammaCandidates DataFormats/EgammaReco DataFormats/EgammaTrackReco DataFormats/FEDRawData DataFormats/GeometryCommonDetAlgo DataFormats/GeometrySurface DataFormats/GeometryVector DataFormats/GsfTrackReco DataFormats/HcalDetId DataFormats/HcalRecHit DataFormats/HepMCCandidate DataFormats/JetReco DataFormats/L1CaloTrigger DataFormats/L1GlobalCaloTrigger DataFormats/L1GlobalMuonTrigger DataFormats/L1Trigger DataFormats/METReco DataFormats/Math DataFormats/MuonDetId DataFormats/MuonReco DataFormats/ParticleFlowCandidate DataFormats/ParticleFlowReco DataFormats/Provenance DataFormats/RecoCandidate DataFormats/SiPixelCluster DataFormats/SiPixelDetId DataFormats/SiPixelDigi DataFormats/SiStripCluster DataFormats/SiStripCommon DataFormats/SiStripDetId DataFormats/SiStripDigi DataFormats/TrackCandidate DataFormats/TrackReco DataFormats/TrackerRecHit2D DataFormats/TrackingRecHit DataFormats/TrajectorySeed DataFormats/TrajectoryState DataFormats/VertexReco FWCore/FWLite FWCore/MessageLogger FWCore/PluginManager FWCore/RootAutoLibraryLoader FWCore/Utilities SimDataFormats/HepMCProduct"
 
 %prep
 
@@ -171,7 +171,7 @@ scramv1 b -r echo_CXX </dev/null
 %if "%{?prebuildtarget:set}" == "set"
 scramv1 b --verbose -f %{prebuildtarget} </dev/null
 %endif
-scramv1 b --verbose -f %{makeprocesses} %{buildtarget} </dev/null
+scramv1 b --verbose -f  %{compileOptions} %{makeprocesses} %{buildtarget} </dev/null
 %if "%{?additionalBuildTarget0:set}" == "set"
 scramv1 b --verbose -f %{additionalBuildTarget0} < /dev/null
 %endif
@@ -182,6 +182,8 @@ scramv1 b --verbose -f %{postbuildtarget} </dev/null
 rm -rf %i/tmp
 chmod -R 755 %i %i/.SCRAM
 (eval `scramv1 run -sh` ; SealPluginRefresh) || true
+rm -fR %i/lib/%cmsplatf/.edmplugincache
+(eval `scramv1 run -sh` ; EdmPluginRefresh) || true
 
 %install
 cd %i
