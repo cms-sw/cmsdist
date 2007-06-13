@@ -1,14 +1,22 @@
 ### RPM external apt 0.5.15lorg3.2
 Source:  http://apt-rpm.org/releases/%n-%v.tar.bz2
+Patch0: apt-rpm449
 Requires: libxml2 beecrypt rpm zlib bz2lib
+%if "%(echo %{cmsos} | cut -d_ -f 2 | sed -e 's|.*64.*|64|')" == "64"
+%define libdir lib64
+%else
+%define libdir lib
+%endif
 
+%prep
+%setup -n %n-%{realversion}
+%patch0 -p0
 %build
-export CFLAGS="-I$BEECRYPT_ROOT/include -I$RPM_ROOT/include"
-export LDFLAGS="-L$BEECRYPT_ROOT/lib -L$RPM_ROOT/lib"
-export LIBS="$LDFLAGS"
+export CPPFLAGS="-I$BEECRYPT_ROOT/include -I$RPM_ROOT/include -I$RPM_ROOT/include/rpm"
+export LDFLAGS="-L$BEECRYPT_ROOT/%{libdir} -L$RPM_ROOT/%{libdir}"
 export LIBDIR="$LIBS"
 export LIBXML2_CFLAGS="-I$LIBXML2_ROOT/include/libxml2 -I$BEECRYPT_ROOT/include -I$RPM_ROOT/include"
-export LIBXML2_LIBS="-lxml2 -L$LIBXML2_ROOT/lib -L$BEECRYPT_ROOT/lib -L$RPM_ROOT/lib"
+export LIBXML2_LIBS="-lxml2 -L$LIBXML2_ROOT/lib -L$BEECRYPT_ROOT/%{libdir} -L$RPM_ROOT/%{libdir}"
 
 ./configure --prefix=%{i} --exec-prefix=%{i} \
                             --disable-nls \
