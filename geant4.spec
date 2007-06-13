@@ -1,30 +1,31 @@
-### RPM external geant4 7.1-p2cms
+### RPM external geant4 8.3
 %define downloadv %(echo %v | cut -d- -f1)
 ## INITENV SET G4NDL_PATH %i/data/G4NDL%{g4NDLVersion}
 ## INITENV SET G4EMLOW_PATH %i/data/G4EMLOW%{g4EMLOWVersion}
 ## INITENV SET PHOTON_EVAPORATION_PATH %i/data/PhotonEvaportation%{photonEvaporationVersion}
 ## INITENV SET RADIATIVE_DECAY_PATH %i/data/RadiativeDecay%{radiativeDecayVersion}
-# Build system fudging and some patches by Lassi A. Tuura <lat@iki.fi>
+# Build system fudging and some patches by Lassi A. Tuura <lat@iki.fi>  
 Requires: clhep
 %define photonEvaporationVersion 2.0
-%define g4NDLVersion 3.8
-%define g4EMLOWVersion 2.2
-%define radiativeDecayVersion 3.0
+%define g4NDLVersion 3.10
+%define g4EMLOWVersion 4.2
+%define radioactiveDecayVersion 3.1
 Source0: http://geant4.cern.ch/support/source/%n.%downloadv.tar.gz
 Source1: http://geant4.cern.ch/support/source/G4NDL.%{g4NDLVersion}.tar.gz
 Source2: http://geant4.cern.ch/support/source/G4EMLOW.%{g4EMLOWVersion}.tar.gz
 Source3: http://geant4.cern.ch/support/source/PhotonEvaporation.%{photonEvaporationVersion}.tar.gz
-Source4: http://geant4.cern.ch/support/source/RadiativeDecay.%{radiativeDecayVersion}.tar.gz
-Source5: http://geant4.web.cern.ch/geant4/physics_lists/geant4.6.1/lists/Packaging.tar
-Patch: geant4-g4e-pCMS2
-Patch2: geant4-g4tubs-lcapture-pCMS2
+Source4: http://geant4.cern.ch/support/source/G4RadioactiveDecay.%{radioactiveDecayVersion}.tar.gz
+Patch: geant-4.8.2.p01-nobanner
 
 %prep
 %setup -n %n.%downloadv
 pwd
-%patch0 -p0
-%patch2 -p0
+%patch0 -p1 
+
 %build
+if [ $(uname) = Darwin ]; then
+  export MACOSX_DEPLOYMENT_TARGET="10.4"
+fi
 # Linux? -pthread?
 touch G4BuildConf.sh
 echo "export OS_ARCH=%{cmsplatf}" >> G4BuildConf.sh
@@ -40,7 +41,7 @@ echo "unset G4DEBUG" >> G4BuildConf.sh
 echo "export G4OPTIMIZE=1" >> G4BuildConf.sh
 
 echo "export G4LEVELGAMMADATA=%i/data/PhotonEvaporation/%{photonEvaporationVersion}" >> G4BuildConf.sh
-echo "export G4RADIOACTIVEDATA=%i/data/RadiativeDecay%{radiativeDecayVersion}" >> G4BuildConf.sh
+echo "export G4RADIOACTIVEDATA=%i/data/RadioactiveDecay%{radioactiveDecayVersion}" >> G4BuildConf.sh
 echo "export G4LEDATA=%i/data/G4EMLOW%{g4EMLOWVersion}" >> G4BuildConf.sh
 echo "export NeutronHPCrossSections=%i/data/G4NDL%{g4NDLVersion}" >> G4BuildConf.sh
 
@@ -75,6 +76,7 @@ echo "export G4VIS_BUILD_DAWNFILE_DRIVER=1" >> G4BuildConf.sh
 source G4BuildConf.sh
 mkdir -p %i
 tar -cf - config source | tar -C %i -xf -
+
 make %makeprocesses -C $G4BASE all
 make %makeprocesses -C $G4BASE includes
 make %makeprocesses -C $G4BASE
@@ -82,9 +84,10 @@ make %makeprocesses -C $G4BASE global
 make %makeprocesses -C $G4BASE
 
 %install
+case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
 mkdir -p %i/etc
 cp G4BuildConf.sh %i/etc
-mv %i/lib/$(uname)-g++/*.so %i/lib
+mv %i/lib/$(uname)-g++/*.$so %i/lib
 mv %i/lib/$(uname)-g++/libname.map %i/lib
 rm -rf %i/lib/$(uname)-g++
 # Build already installed into prefix
@@ -92,6 +95,5 @@ mkdir -p %i/data
 tar -C %i/data -zxvf %_sourcedir/G4NDL*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/G4EMLOW*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/Photon*.tar.gz
-tar -C %i/data -zxvf %_sourcedir/Rad*.tar.gz
-mkdir -p %i/share
-cp -r physics_lists  %i/share 
+tar -C %i/data -zxvf %_sourcedir/G4Rad*.tar.gz
+#
