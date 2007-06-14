@@ -9,7 +9,7 @@ Requires: zlib
 # Download from cern afs area to speed up testing:
 Source0: http://switch.dl.sourceforge.net/sourceforge/xdaq/coretools_G_V%{xdaqv}.tgz
 Source1: http://switch.dl.sourceforge.net/sourceforge/xdaq/powerpack_G_V1_9_0.tgz
-#Source2: http://switch.dl.sourceforge.net/sourceforge/xdaq/worksuite_G_V1_8_0.tgz
+Source2: http://switch.dl.sourceforge.net/sourceforge/xdaq/worksuite_G_V1_8_0.tgz
 
 %prep
 %setup -T -b 0 -n TriDAS
