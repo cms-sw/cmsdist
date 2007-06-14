@@ -1,6 +1,5 @@
-### RPM external xdaq 3.7.3
+### RPM external xdaq 3.9.0
 Requires: zlib
-Requires: oracle
 %define xdaqv %(echo %v |tr . _) 
 %define libext so
 %if "%cmsplatf" == "slc3_ia32_gcc323"
@@ -8,12 +7,9 @@ Requires: oracle
 %endif
 
 # Download from cern afs area to speed up testing:
-#Source0: http://cmsdoc.cern.ch/Releases/XDAQ/XDAQ_%xdaqv/coretools_G_17559_V%xdaqv.tgz
-#Source1: http://cmsdoc.cern.ch/Releases/XDAQ/XDAQ_%xdaqv/powerpack_G_28175_V1_3_1.tgz
-#Source2: http://cmsdoc.cern.ch/Releases/XDAQ/XDAQ_%xdaqv/worksuite_G_28176_V1_4.tgz
-Source0: http://switch.dl.sourceforge.net/sourceforge/xdaq/coretools_G_17559_V%{xdaqv}.tgz
-Source1: http://switch.dl.sourceforge.net/sourceforge/xdaq/powerpack_G_28175_V1_7.tgz
-Source2: http://switch.dl.sourceforge.net/sourceforge/xdaq/worksuite_G_28176_V1_7.tgz
+Source0: http://switch.dl.sourceforge.net/sourceforge/xdaq/coretools_G_V%{xdaqv}.tgz
+Source1: http://switch.dl.sourceforge.net/sourceforge/xdaq/powerpack_G_V1_9_0.tgz
+#Source2: http://switch.dl.sourceforge.net/sourceforge/xdaq/worksuite_G_V1_8_0.tgz
 
 %prep
 %setup -T -b 0 -n TriDAS
@@ -35,12 +31,11 @@ cp -rp *  %{i} # assuming there are no symlinks in the original source code
 cd %{i}
 export XDAQ_ROOT=$PWD
 cd %{i}/daq
-make CPPDEFINES=linux Set=extern 
-make CPPDEFINES=linux Set=coretools
-make CPPDEFINES=linux Set=powerpack
-make CPPDEFINES=linux Set=worksuite 
-cd tstore
-make  CPPDEFINES=linux ORACLE_INCLUDE=$ORACLE_ROOT/include  ORACLE_LIB=$ORACLE_ROOT/lib
+make CPPDEFINES=linux Set=extern_coretools 
+make CPPDEFINES=linux Set=coretools install
+make CPPDEFINES=linux Set=extern_powerpack 
+make CPPDEFINES=linux Set=powerpack install
+
 # The following structure used as defined in Xdaq "simplify" script:
 #cd %{i}
 # Catch-all
