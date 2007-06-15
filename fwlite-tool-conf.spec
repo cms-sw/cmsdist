@@ -15,7 +15,7 @@ Provides: libboost_thread-gcc-mt.so
 Requires: gcc
 #Requires: coral
 #Requires: pool
-Requires: seal
+#Requires: seal
 #Requires: xdaq
 #Requires: geant4
 Requires: hepmc
