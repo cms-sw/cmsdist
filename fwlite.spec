@@ -1,83 +1,31 @@
-### FILE scramv1-build
-
-# This is a generic template to build a scram-based project.  Set the
-# following parameters and import this to the spec.
-#
-#  cvsrepo	main project repository
-#  cvstag	tag to check out the main project (normally: %{n}_%{v})
-#  cvsconfig	cvs module to check out as "config" (normally: config)
-#  cvssrc	cvs module to check out as project sources (normally: %n)
-#  srctree	name of the cvssrcin export tree (normally: src)
-#
-#  tbxrepo	scram tool box repository
-#  conftag	tag for SCRAMToolBox in the above
-#  confsite	name of the directory to link as "config/site" (under SCRAMToolBox)
-#  toolfile	tool configuration file (normally: $CMS_TOOL_CONF/tool.conf)
-#
-#  buildarch	optional command to override build architecture
-#  buildtarget  scram build target to generate the full release (normally: release)
-#
-#  patchsrc	patch to apply to the sources (optional)
-#
-# FIXME: support building all platforms together like scram does?
-# FIXME: produce requirements from "scram tool info"?
-# FIXME: automatic sub-packages for "doc" etc?
-# FIXME: post-install stuff for modules etc?
-
+### RPM cms fwlite CMSSW_1_5_0_pre5_FWLITE
+## IMPORT configurations 
+Provides: /bin/zsh
 Requires: SCRAMV1
+Requires: fwlite-tool-conf
 Requires: gcc-wrapper
-%define gccwrapperarch  slc4_ia32_gcc345
+%define gccwrapperarch  slc4_ia32_gcc345 
 
-# NR: allow to specify repository and tag 
-# (default: cvsrepo and cvstag)
-%if "%{?configtag:set}" != "set"
-%define configtag	%cvstag
-%endif
-%if "%{?configrepo:set}" != "set"
-%define configrepo	%cvsrepo
-%endif
+# Take source from CMSSW base release:
+%define application  %n
+# Assuming release name convention for FWLite release based on CMSSW_X_Y_Z is CMSSW_X_Y_Z_FWLITE .
+%define cmssw_release %(perl -e '$_="%v"; s/_FWLITE//; print;')
+%define cmsswsrc           http://cmsdoc.cern.ch/cms/cpt/Software/download/cms/SOURCES/cms/cmssw/%{cmssw_release}
+Source0: %{cmsswsrc}/toolbox.tar.gz
+Source1: %{cmsswsrc}/config.tar.gz
+Source2: %{cmsswsrc}/src.tar.gz
 
-# NR: allow to change tarball names, otherwise old distributions
-# are fetched from the apt SOURCE repository. 
+%define toolconf        ${FWLITE_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
+%define prebuildtarget  gindices
+%define buildtarget     release-build
+%define postbuildtarget doc
 
-%if "%{?configtar:set}" != "set"
-%define configtar	config.tar.gz
-%endif
-%if "%{?tbxtar:set}" != "set"
-%define tbxtar	toolbox.tar.gz
-%endif
+# Following dependencies were not detected by ignominy, but required in the BuildFiles:
+# boost_program_options boost_regex bz2lib pcre root rootcintex uuid zlib
 
-# NR: Allow to define bootstrap and requirements file names
-%if "%{?bootstrapfile:set}" != "set"
-%define bootstrapfile config/bootsrc
-%define reqfile config/requirements
-%endif
+%define externals "cxxcompiler ccompiler clhep sockets boost boost_filesystem rootrflx rootcore rootmath gccxml boost_python elementtree sigcpp hepmc gsl boost_regex boost_program_options boost_program_options boost_regex bz2lib pcre root rootcintex zlib"
 
-Source0: %{tbxrepo}&tag=-r%{conftag}&module=SCRAMToolBox&output=/%tbxtar
-Source1: %{configrepo}&tag=-r%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
-%if  "%{cvsrepo}" != "cmstc"
-Source2: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
-%else
-Source2: %{cvsrepo}://?tag=%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
-%endif
-
-# Pick additional sources.  Since install.sh does a grep for "^Source",
-# we need to arrange an expansion that always works, regardless of whether
-# %additionalSrc* are defined.
-%if "%{?additionalSrc0:set}" == "set"
-%define source3 %{additionalSrc0}&output=/src1.tar.gz
-%else
-%define source3 none
-%endif 
-
-%if "%{?additionalSrc1:set}" == "set"
-%define source4 %{additionalSrc1}&output=/src2.tar.gz
-%else
-%define source4 none
-%endif
-
-Source3: %source3
-Source4: %source4
+%define packages "CondFormats/JetMETObjects DataFormats/BTauReco DataFormats/CLHEP DataFormats/CaloRecHit DataFormats/CaloTowers DataFormats/Candidate DataFormats/Common DataFormats/DetId DataFormats/EcalDetId DataFormats/EcalRecHit DataFormats/EgammaCandidates DataFormats/EgammaReco DataFormats/EgammaTrackReco DataFormats/FEDRawData DataFormats/GeometryCommonDetAlgo DataFormats/GeometrySurface DataFormats/GeometryVector DataFormats/GsfTrackReco DataFormats/HcalDetId DataFormats/HcalRecHit DataFormats/HepMCCandidate DataFormats/JetReco DataFormats/L1CaloTrigger DataFormats/L1GlobalCaloTrigger DataFormats/L1GlobalMuonTrigger DataFormats/L1Trigger DataFormats/METReco DataFormats/Math DataFormats/MuonDetId DataFormats/MuonReco DataFormats/ParticleFlowCandidate DataFormats/ParticleFlowReco DataFormats/Provenance DataFormats/RecoCandidate DataFormats/SiPixelCluster DataFormats/SiPixelDetId DataFormats/SiPixelDigi DataFormats/SiStripCluster DataFormats/SiStripCommon DataFormats/SiStripDetId DataFormats/SiStripDigi DataFormats/TrackCandidate DataFormats/TrackReco DataFormats/TrackerRecHit2D DataFormats/TrackingRecHit DataFormats/TrajectorySeed DataFormats/TrajectoryState DataFormats/VertexReco FWCore/FWLite FWCore/MessageLogger FWCore/PluginManager FWCore/RootAutoLibraryLoader FWCore/Utilities SimDataFormats/HepMCProduct"
 
 %prep
 
@@ -88,27 +36,54 @@ Source4: %source4
 
 %setup -T -b 0 -n SCRAMToolBox
 %setup -D -T -b 1 -n config
-%setup -D -T -b 2 -n %{srctree}
+%setup -D -T -b 2 -n src
 
-%if "%{?additionalSrc0:set}" == "set"
-%setup -D -T -a 3 -n %{srctree}
+
+# Update requirements:
+
+%if "%{buildarch:set}" != "set"
+%define buildarch	:
 %endif
 
-%if "%{?additionalSrc1:set}" == "set"
-%setup -D -T -a 4 -n %{srctree}
-%endif
+# NR: Allow to define bootstrap and requirements file names
+%define bootstrapfile config/%{application}_bootsrc
+%define reqfile config/%{application}_requirements
 
-pwd
+
 cd %_builddir
 
-%{?patchsrc:%patchsrc}
-%{?patchsrc2:%patchsrc2}
-%{?patchsrc3:%patchsrc3}
-%{?patchsrc4:%patchsrc4}
-%{?patchsrc5:%patchsrc5}
+# Create bootstrap file for fwlite:
+cp config/bootsrc %bootstrapfile
+perl -p -i -e ' 
+# s!(<project.*name=)CMSSW(.*version=)CMSSW(.*)!$1%projectname$2%projectname$3!;
+ s!(<project.*name=CMSSW.*version=)%cmssw_release(.*)!$1%v$2!;
+ s!config/requirements!%{reqfile}!;
+ if (s/(<download.*)(module=)CMSSW(.*)(name="src)(">)/#$1$2$3$4$5/) {
+   foreach $p (split / /, %{packages}) {
+      print "$1$2src/$p$3$4/$p$5\n"
+   }
+  }
+' %bootstrapfile
 
-pwd
+# Create requirements file:
+cp config/requirements %reqfile
+perl -p -i -e '
+  if (m/(<select name=)(.*)(>)/) {
+    foreach $t (split / /, %externals) {
+      if ( $t eq lc($2) ) { $matches=1; last; }
+    }
+    if ( $matches != 1 ) { s/(.*)$/#$1/ }; 
+    $matches=0;
+  }
+' %reqfile
 
+# Create build templates: 
+# for file in config/CMSSW_*.tmpl; do cat $file > `echo $file | sed s'/CMSSW/%{projectname}/'`; done
+
+# Switch off building tests: 
+perl -p -i -e ' s!(<ClassPath.*test\+test>)!#$1!;' config/BuildFile
+
+# Munging algorithm from scramv1-build.file:
 perl -p -i -e '
   # Keep track whether we are in a toolbox area or not
   if ($. == 1) { $intbx = 1; }
@@ -117,7 +92,6 @@ perl -p -i -e '
   # Replace base locations
   s!cvs://.*/(SPITOOLS|SCRAMToolBox|scramtoolbox)\?[^">]+!file:%_builddir/SCRAMToolBox/!;
   s!cvs://.*/(CMSSW)\?[^">]+!file:%_builddir/!;
-  s!cvs://.*/%cvsdir\?[^">]+!file:%_builddir/!;
   
   # Replace relative references depending on whether this is in
   # toolbox, or for project itself; configuration is always in
@@ -137,23 +111,6 @@ perl -p -i -e '
  ' %{bootstrapfile} \
    %{reqfile} \
    SCRAMToolBox/CMS/Configuration/CMSconfiguration
-
-# Fix bootstrap file for projects that checkout to a different source tree:
-perl -p -i -e '
-  s!url="file:([^"]+)" name="(%srctree(/[^"]+|))">!url="file:$2" name="$2">!;
-' %{bootstrapfile}
-
-%if "%{?lcgaawrappers:set}" == "set"
-echo "Moving %{srctree}/%{lcgaawrappers} %{lcgaawrappers}"
-mv %{_builddir}/%{srctree}/%{lcgaawrappers} %{_builddir}/%{lcgaawrappers}
-%if "%{cvsprojlc}" == "pool"
-ls %{_builddir}/%{srctree}/contrib | xargs -i mv "%{_builddir}/%{srctree}/contrib/{}" "%{_builddir}/%{srctree}/{}"
-%endif
-%{_builddir}/%{cvsconfig}/obviate_buildfiles.pl -d %{_builddir}/%{srctree} -v
-tar -c -C %{_builddir}/%{lcgaawrappers}/%{cvsproj} ./ --exclude CVS | gtar -x -C %{_builddir}
-rm -rf %{_builddir}/%{lcgaawrappers}
-touch %{_builddir}/%{srctree}/scramv1_buildfiles
-%endif
 
 # Handle toolbox
 pwd 
@@ -179,7 +136,7 @@ echo "Using gcc wrapper for %cmsplatf"
 perl -p -i -e '$gccpath=$ENV{GCC_ROOT};$wrapperpath=$ENV{GCC_WRAPPER_ROOT};s|$gccpath|$wrapperpath|' ./tmpconf
 %endif
 scramv1 project -d $(dirname %i) -b %{bootstrapfile} -f ./tmpconf;
-mv -f ./tmpconf %{i}/config/site/`basename %toolconf`
+mv -f ./tmpconf %{i}/config/site
 
 %build
 pwd
@@ -192,7 +149,9 @@ cd src
 
 %{?buildarch:%buildarch}
 
-# export SCRAM_NOSYMCHECK=true
+# Skip library checks to avoid dependency on seal:
+export SCRAM_NOLOADCHECK=true
+export SCRAM_NOSYMCHECK=true
 
 if [ $(uname) = Darwin ]; then
   # scramv1 doesn't know the rpath variable on darwin...
@@ -210,17 +169,12 @@ echo "executing %preBuildCommand"
 %define buildtarget %{nil} 
 %endif
 
+
 scramv1 b -r echo_CXX </dev/null
 %if "%{?prebuildtarget:set}" == "set"
 scramv1 b --verbose -f %{prebuildtarget} </dev/null
 %endif
-%if "%{cmsplatf}" == "%{gccwrapperarch}"
-scramv1 setup cxxcompiler
-scramv1 setup f77compiler
-scramv1 setup ccompiler
-scramv1 tool info cxxcompiler
-%endif
-scramv1 b --verbose -f %{compileOptions} %{makeprocesses}  %{buildtarget} </dev/null
+scramv1 b --verbose -f  %{compileOptions} %{makeprocesses} %{buildtarget} </dev/null
 %if "%{?additionalBuildTarget0:set}" == "set"
 scramv1 b --verbose -f %{additionalBuildTarget0} < /dev/null
 %endif
@@ -250,7 +204,3 @@ perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find config -type f) $(fin
 %{?buildarch:%buildarch}
 yes | scramv1 install
 (rm -rf external/%cmsplatf; ./config/linkexternal.pl --arch %cmsplatf --nolink INCLUDE) || true
-if [ "%n" == "cmssw" ] || [ "%n" == "iguana" ]
-then
-    (cd $RPM_INSTALL_PREFIX/%pkgrel; eval `scramv1 run -sh`; SealPluginRefresh) || true
-fi
