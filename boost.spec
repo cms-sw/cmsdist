@@ -1,14 +1,11 @@
-### RPM external boost 1.33.1
+### RPM external boost 1.33.1-XXXX
 # Patches and build fudging by Lassi A. Tuura <lat@iki.fi> (FIXME: contribute to boost)
-# define boostver -%v <-- for 1.30.2
-%define boostver _%(echo %v | tr . _)
+%define boostver _%(echo %realversion | tr . _)
 Requires: boost-build python bz2lib zlib
 Source: http://dl.sourceforge.net/sourceforge/%n/%{n}%{boostver}.tar.gz
-#Patch: boost
 
 %prep
 %setup -n %{n}%{boostver}
-#%patch
 
 %build
 # Note that some targets will fail to build (the test programs have
@@ -17,9 +14,9 @@ Source: http://dl.sourceforge.net/sourceforge/%n/%{n}%{boostver}.tar.gz
 # RPM falsely detecting a problem.
 PR="PYTHON_ROOT=$PYTHON_ROOT"
 PV="PYTHON_VERSION=$(echo $PYTHON_VERSION | sed 's/\.[0-9]*$//')"
-BZ2LIBR="BZ2LIB_LIBPATH=$BZ2LIB_ROOT/lib"
+BZ2LIBR="BZIP2_LIBPATH=$BZ2LIB_ROOT/lib"
 ZLIBR="ZLIB_LIBPATH=$ZLIB_ROOT/lib"
-BZ2LIBI="BZ2LIB_INCLUDE=$BZ2LIB_ROOT/include"
+BZ2LIBI="BZIP2_INCLUDE=$BZ2LIB_ROOT/include"
 ZLIBI="ZLIB_INCLUDE=$ZLIB_ROOT/include"
 
 case $(uname) in
@@ -48,14 +45,12 @@ find libs -name '*.py' -print |
     install_name_tool -id $f $f
   done
 
-
 # Do all manipulation with files before creating symbolic links:
 perl -p -i -e "s|^#!.*python|/usr/bin/env python|" $(find %{i}/lib %{i}/bin)
 strip %i/lib/*.$so %i/lib/debug/*.$so
 
 (cd %i/lib; for f in lib*-$boost_abi.$so; do ln -s $f $(echo $f | sed "s/-$boost_abi//"); done)
-(cd %i/lib; for f in lib*-$boost_abi.$so; do ln -s $f $f.%v ; done)
+(cd %i/lib; for f in lib*-$boost_abi.$so; do ln -s $f $f.%realversion ; done)
 (cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $(echo $f | sed "s/-d-$boost_abi//"); done)
-(cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $f.%v; done)
+(cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $f.%realversion; done)
 (cd %i/lib/libs/python/pyste/install; python setup.py install --prefix=%i)
-
