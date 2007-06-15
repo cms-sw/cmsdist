@@ -23,9 +23,9 @@ Source2: %{cmsswsrc}/src.tar.gz
 # Following dependencies were not detected by ignominy, but required in the BuildFiles:
 # boost_program_options boost_regex bz2lib pcre root rootcintex uuid zlib
 
-%define externals "cxxcompiler ccompiler clhep sockets seal boost boost_filesystem rootrflx rootcore rootmath gccxml boost_python elementtree sigcpp hepmc gsl boost_regex boost_program_options boost_program_options boost_regex bz2lib pcre root rootcintex zlib"
+%define externals "cxxcompiler ccompiler clhep sockets boost boost_filesystem rootrflx rootcore rootmath gccxml boost_python elementtree sigcpp hepmc gsl boost_regex boost_program_options boost_program_options boost_regex bz2lib pcre root rootcintex zlib"
 
-%define packages "DataFormats/BTauReco DataFormats/CLHEP DataFormats/CaloRecHit DataFormats/CaloTowers DataFormats/Candidate DataFormats/Common DataFormats/DetId DataFormats/EcalDetId DataFormats/EcalRecHit DataFormats/EgammaCandidates DataFormats/EgammaReco DataFormats/EgammaTrackReco DataFormats/FEDRawData DataFormats/GeometryCommonDetAlgo DataFormats/GeometrySurface DataFormats/GeometryVector DataFormats/GsfTrackReco DataFormats/HcalDetId DataFormats/HcalRecHit DataFormats/HepMCCandidate DataFormats/JetReco DataFormats/L1CaloTrigger DataFormats/L1GlobalCaloTrigger DataFormats/L1GlobalMuonTrigger DataFormats/L1Trigger DataFormats/METReco DataFormats/Math DataFormats/MuonDetId DataFormats/MuonReco DataFormats/ParticleFlowCandidate DataFormats/ParticleFlowReco DataFormats/Provenance DataFormats/RecoCandidate DataFormats/SiPixelCluster DataFormats/SiPixelDetId DataFormats/SiPixelDigi DataFormats/SiStripCluster DataFormats/SiStripCommon DataFormats/SiStripDetId DataFormats/SiStripDigi DataFormats/TrackCandidate DataFormats/TrackReco DataFormats/TrackerRecHit2D DataFormats/TrackingRecHit DataFormats/TrajectorySeed DataFormats/TrajectoryState DataFormats/VertexReco FWCore/FWLite FWCore/MessageLogger FWCore/PluginManager FWCore/RootAutoLibraryLoader FWCore/Utilities SimDataFormats/HepMCProduct"
+%define packages "CondFormats/JetMETObjects DataFormats/BTauReco DataFormats/CLHEP DataFormats/CaloRecHit DataFormats/CaloTowers DataFormats/Candidate DataFormats/Common DataFormats/DetId DataFormats/EcalDetId DataFormats/EcalRecHit DataFormats/EgammaCandidates DataFormats/EgammaReco DataFormats/EgammaTrackReco DataFormats/FEDRawData DataFormats/GeometryCommonDetAlgo DataFormats/GeometrySurface DataFormats/GeometryVector DataFormats/GsfTrackReco DataFormats/HcalDetId DataFormats/HcalRecHit DataFormats/HepMCCandidate DataFormats/JetReco DataFormats/L1CaloTrigger DataFormats/L1GlobalCaloTrigger DataFormats/L1GlobalMuonTrigger DataFormats/L1Trigger DataFormats/METReco DataFormats/Math DataFormats/MuonDetId DataFormats/MuonReco DataFormats/ParticleFlowCandidate DataFormats/ParticleFlowReco DataFormats/Provenance DataFormats/RecoCandidate DataFormats/SiPixelCluster DataFormats/SiPixelDetId DataFormats/SiPixelDigi DataFormats/SiStripCluster DataFormats/SiStripCommon DataFormats/SiStripDetId DataFormats/SiStripDigi DataFormats/TrackCandidate DataFormats/TrackReco DataFormats/TrackerRecHit2D DataFormats/TrackingRecHit DataFormats/TrajectorySeed DataFormats/TrajectoryState DataFormats/VertexReco FWCore/FWLite FWCore/MessageLogger FWCore/PluginManager FWCore/RootAutoLibraryLoader FWCore/Utilities SimDataFormats/HepMCProduct"
 
 %prep
 
@@ -149,7 +149,9 @@ cd src
 
 %{?buildarch:%buildarch}
 
-# export SCRAM_NOSYMCHECK=true
+# Skip library checks to avoid dependency on seal:
+export SCRAM_NOLOADCHECK=true
+export SCRAM_NOSYMCHECK=true
 
 if [ $(uname) = Darwin ]; then
   # scramv1 doesn't know the rpath variable on darwin...
@@ -166,6 +168,7 @@ echo "executing %preBuildCommand"
 %if "%{?buildtarget:set}" != "set"
 %define buildtarget %{nil} 
 %endif
+
 
 scramv1 b -r echo_CXX </dev/null
 %if "%{?prebuildtarget:set}" == "set"
@@ -201,4 +204,3 @@ perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find config -type f) $(fin
 %{?buildarch:%buildarch}
 yes | scramv1 install
 (rm -rf external/%cmsplatf; ./config/linkexternal.pl --arch %cmsplatf --nolink INCLUDE) || true
-(cd $RPM_INSTALL_PREFIX/%pkgrel; eval `scramv1 run -sh`; SealPluginRefresh) || true
