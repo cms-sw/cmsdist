@@ -1,6 +1,6 @@
-### RPM external xdaq 3.9.0
+### RPM external xdaq 3.9.0-CMS1
 Requires: zlib
-%define xdaqv %(echo %v |tr . _) 
+%define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
 %if "%cmsplatf" == "slc3_ia32_gcc323"
 %define installDir linux/x86
