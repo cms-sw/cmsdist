@@ -37,33 +37,16 @@ make CPPDEFINES=linux Set=extern_powerpack
 make CPPDEFINES=linux Set=powerpack install
 
 # The following structure used as defined in Xdaq "simplify" script:
-#cd %{i}
-# Catch-all
-# cp -r ./lib %{i}/lib
-# cp -r ./bin %{i}/bin
 cd %{i}
-find daq -path *src* -type d -exec rm -rf daq/{} \;
-# copies all the libraries in extern in %i/lib
-mkdir -p %{i}/lib/linux/x86
-mkdir -p %{i}/bin/linux/x86
-(cd %{i}/lib; find ../daq \( -path "*/lib/lib*" -o -name "*.%{libext}" -o -name "*.%{libext}.*" -o -name "*.a" -o -name "*.la*" -o -name "*.lo*" \) -exec ln -s {} . \;)
-(cd %{i}/lib/linux/x86; find ../../../daq  \( -path "*/lib/lib*" -o -name "*.%{libext}" -o -name "*.%{libext}.*" -o -name "*.a" -o -name "*.la*" -o -name "*.lo*" \) -exec ln -s {} . \;)
-(cd %{i}/bin; find ../daq -path "*/bin/*.exe" -exec ln -s {} . \;)
-(cd %{i}/bin/linux/x86; find ../../../daq -path "*/bin/*.exe" -exec ln -s {} . \;)
-
-#tar cpfv - `find daq -path "*/lib/*.%{libext}"` | ( cd  %{i}/lib; tar xpfv -)
-#tar cpfv - `find daq -path "*/bin/*.exe" -type f` | ( cd  %{i}/bin; tar xpfv -)
-
-#links them back to lib and bin
-#find daq  -type f -name "*.%{libext}" -exec ln -sf {}  %{i}/lib \;
-#find daq  -type f -name "*.%{libext}" -exec ln -sf ../../{} %{i}/lib/%installDir \;
-#find daq  -type f -name "*.exe" -exec ln -sf {} %{i}/bin \; 
-#find daq  -type f -name "*.exe" -exec ln -sf ../../{} %{i}/bin/%installDir \;
+mv x86*/lib .
+mv x86*/bin .
+mv x86*/include .
+rm -fr daq 
+rm -fr CVS
 
 # Libraries from extern (not found cause they are symlinks)
 
 #find daq -type f ! -path "*/extern/*lib*" -name "*.a" -exec cp {} %{i}/lib \;
 perl -p -i -e "s|^#!.*make|#!/usr/bin/env make|" %{i}/daq/extern/slp/openslp-1.2.0/debian/rules
 %post
-#find $RPM_INSTALL_PREFIX/%pkgrel -type l | xargs ls -la | sed -e "s|.*[ ]\(/.*\) -> \(.*\)| \2 \1|;s|[ ]/[^ ]*/external| $RPM_INSTALL_PREFIX/%cmsplatf/external|g"
 find $RPM_INSTALL_PREFIX/%pkgrel -type l | xargs ls -la | sed -e "s|.*[ ]\(/.*\) -> \(.*\)| \2 \1|;s|[ ]/[^ ]*/external| $RPM_INSTALL_PREFIX/%cmsplatf/external|g" | xargs -n2 ln -sf
