@@ -35,7 +35,7 @@ cd %{i}
 export XDAQ_ROOT=$PWD
 cd %{i}/daq
 #fool xdaq for oracle and friends
-ln -s $ORACLE_ROOT extern/oracle/x86_slc4
+#ln -s $ORACLE_ROOT extern/oracle/x86_slc4
 make CPPDEFINES=linux Set=extern_coretools install
 make CPPDEFINES=linux Set=coretools install
 make CPPDEFINES=linux Set=extern_powerpack install
