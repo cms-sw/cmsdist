@@ -1,5 +1,5 @@
 ### RPM external xdaq 3.9.0-CMS1
-Requires: zlib
+Requires: zlib oracle
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
 %if "%cmsplatf" == "slc3_ia32_gcc323"
@@ -10,14 +10,17 @@ Requires: zlib
 Source0: http://switch.dl.sourceforge.net/sourceforge/xdaq/coretools_G_V%{xdaqv}.tgz
 Source1: http://switch.dl.sourceforge.net/sourceforge/xdaq/powerpack_G_V1_9_0.tgz
 Source2: http://switch.dl.sourceforge.net/sourceforge/xdaq/worksuite_G_V1_8_0.tgz
+Patch: xdaq_39_oracle
 
 %prep
 %setup -T -b 0 -n TriDAS
 %setup -D -T -b 1 -n TriDAS
 %setup -D -T -b 2 -n TriDAS
+
+%patch0 -p2
 ls
-perl -p -i -e "s|^#.*ksh(.*)|#!/usr/bin/env ksh $1|" daq/extern/SBSVME/1003/v2p3p0/sys/makefile \
-                                                     daq/extern/SBSVME/1003/v2p3p0/sys/mkbtp
+#perl -p -i -e "s|^#.*ksh(.*)|#!/usr/bin/env ksh $1|" daq/extern/SBSVME/1003/v2p3p0/sys/makefile \
+#                                                     daq/extern/SBSVME/1003/v2p3p0/sys/mkbtp
 echo " Install root in prep:" %{i}    %{pkginstroot}
 
 %build
@@ -31,10 +34,14 @@ cp -rp *  %{i} # assuming there are no symlinks in the original source code
 cd %{i}
 export XDAQ_ROOT=$PWD
 cd %{i}/daq
-make CPPDEFINES=linux Set=extern_coretools 
+#fool xdaq for oracle and friends
+ln -s $ORACLE_ROOT extern/oracle/x86_slc4
+make CPPDEFINES=linux Set=extern_coretools install
 make CPPDEFINES=linux Set=coretools install
-make CPPDEFINES=linux Set=extern_powerpack 
+make CPPDEFINES=linux Set=extern_powerpack install
 make CPPDEFINES=linux Set=powerpack install
+#make CPPDEFINES=linux Set=extern_worksuite install
+make CPPDEFINES=linux Set=worksuite install
 
 # The following structure used as defined in Xdaq "simplify" script:
 cd %{i}
