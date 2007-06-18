@@ -23,4 +23,16 @@ export LIBXML2_LIBS="-lxml2 -L$LIBXML2_ROOT/lib -L$BEECRYPT_ROOT/%{libdir} -L$RP
                             --disable-dependency-tracking \
                             --without-libintl-prefix \
                             --disable-rpath
-make %makeprocesses 
+make %makeprocesses
+%install
+make install
+mkdir -p %{i}/etc/profile.d
+(echo "#!/bin/sh"; \
+ echo "source $RPM_ROOT/etc/profile.d/init.sh"; \
+ echo "source $LIBXML2_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
+(echo "#!/bin/tcsh"; \
+ echo "source $RPM_ROOT/etc/profile.d/init.csh"; \
+ echo "source $LIBXML2_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
+%post
+%{relocateConfig}etc/profile.d/dependencies-setup.sh
+%{relocateConfig}etc/profile.d/dependencies-setup.csh
