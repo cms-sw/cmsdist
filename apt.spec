@@ -2,6 +2,7 @@
 ## INITENV SET APT_CONFIG %{i}/etc/apt/apt.conf
 
 Source:  http://apt-rpm.org/releases/%n-%v.tar.bz2
+Source1: bootstrap
 Patch0: apt-rpm449
 Requires: libxml2 beecrypt rpm zlib bz2lib
 %if "%(echo %{cmsos} | cut -d_ -f 2 | sed -e 's|.*64.*|64|')" == "64"
@@ -92,41 +93,91 @@ RPM
 };
 EOF_APT_CONF
 
-%post
-mkdir -p %{cmsplatf}/var/lib/apt/lists/partial
-mkdir -p %{cmsplatf}/var/lib/rpm 
-mkdir -p %{cmsplatf}/var/lib/cache/%{cmsplatf}/partial
-mkdir -p %{cmsplatf}/etc/apt
-mkdir -p %{cmsplatf}/etc/rpm
-mkdir -p %{cmsplatf}/lib/apt/methods
-mkdir -p %{cmsplatf}/var/lib/dpkg/status
-mkdir -p bin
-mkdir -p %{cmsplatf}/var/lib/cache/%{cmsplatf}
+cat %_sourcedir/bootstrap | perl -p -e "s/\@CMSPLATF\@/%{cmsplatf}/;
+                                        s/\@GCC_VERSION\@/$GCC_VERSION/;
+                                        s/\@RPM_VERSION\@/$RPM_VERSION/;
+                                        s/\@BEECRYPT_VERSION\@/$BEECRYPT_VERSION/;
+                                        s/\@BZ2LIB_VERSION\@/$BZ2LIB_VERSION/;
+                                        s/\@ZLIB_VERSION\@/$ZLIB_VERSION/;
+                                        s/\@EXPAT_VERSION\@/$EXPAT_VERSION/;
+                                        s/\@ELFUTILS_VERSION\@/$ELFUTILS_VERSION/;
+                                        s/\@NEON_VERSION\@/$NEON_VERSION/;
+                                        s/\@GCC_REVISION\@/$GCC_REVISION/;
+                                        s/\@BEECRYPT_REVISION\@/$BEECRYPT_REVISION/;
+                                        s/\@RPM_REVISION\@/$RPM_REVISION/;
+                                        s/\@BZ2LIB_REVISION\@/$BZ2LIB_REVISION/;
+                                        s/\@ZLIB_REVISION\@/$ZLIB_REVISION/;
+                                        s/\@EXPAT_REVISION\@/$EXPAT_REVISION/;
+                                        s/\@NEON_REVISION\@/$NEON_REVISION/;
+                                        s/\@ELFUTILS_REVISION\@/$ELFUTILS_REVISION/;
+                                        s/\@APT_VERSION\@/%{v}/;
+                                        s/\@APT_REVISION\@/%{pkgrevision}/;
+                                        " > %{instroot}/bootstrap-%{cmsplatf}.sh
 
-cat << \EOF_BIN_APT_CACHE_WRAPPER > bin/apt-cache-wrapper
+%post
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/apt/lists/partial
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/rpm 
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/cache/%{cmsplatf}/partial
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/apt
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/rpm
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/lib/apt/methods
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/dpkg/status
+mkdir -p $RPM_INSTALL_PREFIX/bin
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/cache/%{cmsplatf}
+
+cat << \EOF_BIN_APT_CACHE_WRAPPER > $RPM_INSTALL_PREFIX/bin/apt-cache-wrapper
 #!/bin/sh
 touch %{instroot}/log.txt
 echo $@ >> %{instroot}/log.txt
 apt-cache $@  
 EOF_BIN_APT_CACHE_WRAPPER
-chmod +x bin/apt-cache-wrapper
+chmod +x $RPM_INSTALL_PREFIX/bin/apt-cache-wrapper
 
-cat << \EOF_BIN_APT_GET_WRAPPER > bin/apt-get-wrapper
+cat << \EOF_BIN_APT_GET_WRAPPER > $RPM_INSTALL_PREFIX/bin/apt-get-wrapper
 #!/bin/sh
 touch %{instroot}/log.txt
 echo $@ >> %{instroot}/log.txt
 apt-get $@  
 EOF_BIN_APT_GET_WRAPPER
-chmod +x bin/apt-get-wrapper
+chmod +x $RPM_INSTALL_PREFIX/bin/apt-get-wrapper
 
-mkdir -p %{cmsplatf}/etc/apt
-cat << \EOF_RPMPRIORITIES > %{cmsplatf}/etc/apt/rpmpriorities
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/apt
+cat << \EOF_RPMPRIORITIES > $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/apt/rpmpriorities
 Essantial:
 
 EOF_RPMPRIORITIES
 
-mkdir -p %{cmsplatf}/var/lib/rpm
+cat << \EOF_SOURCES_LIST > $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/apt/sources.list
+rpm http://cmsrep.cern.ch cms/cpt/Software/download/cms/apt/%{cmsplatf} cms lcg external  
+rpm-src http://cmsrep.cern.ch cms/cpt/Software/download/cms/apt/%{cmsplatf} cms lcg external
+EOF_SOURCES_LIST
+
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/rpm
+
+# FIXME: this is the ugliest trick ever found in a shell script.
+# This is my understanding of the situation.
+# apt runs internally as if --root != / while uses rpm with 
+# --root $rootdir but --dbpath is always passed as $rootdir/$rpmdb.
+# This way the rpm db is sometimes in $rootdir/$rpmdb, sometimes in
+# $rootdir/$rootdir/$rpmdb and files are scattered around, causing
+# big confusion. The solution is.... to create a link so that $rootdir/$rootdir
+# is actually $rootdir. Clear, isn't it? If not, I don't blame you, but 
+# this is the only way I could make it working. I need to look at the apt code to
+# (and probably fix it) to understand it better. For the time being....
+# TODO: check if this still applies with this version of apt-get
+# TODO: check if we can fix the problem by patching apt sources.
+
+firstdir=$(echo $RPM_INSTALL_PREFIX | cut -d/ -f1,2)
+if [ -f $RPM_INSTALL_PREFIX$firstdir ] 
+then
+    echo "Hack to enable apt working as user"
+    ln -sf $firstdir $RPM_INSTALL_PREFIX$firstdir
+fi
 
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
-perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|" bin/apt-cache-wrapper bin/apt-get-wrapper 
+perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|" $RPM_INSTALL_PREFIX/bin/apt-cache-wrapper $RPM_INSTALL_PREFIX/bin/apt-get-wrapper 
+%files
+%{i}
+%{instroot}/bootstrap-%{cmsplatf}.sh
+%{instroot}/%{cmsplatf}/var/lib/rpm
