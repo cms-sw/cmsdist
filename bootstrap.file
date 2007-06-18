@@ -1,5 +1,5 @@
 #!/bin/sh
-# Revision: $Revision: 1.1 $
+# Revision: $Revision: 1.2 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -224,14 +224,14 @@ else
     mkdir -p $rootdir/$rpmdb
 fi
 # Extract the packages via rpm, source the init.sh
-rpmcpio external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm
-rpmcpio external+expat+@EXPAT_VERSION@-1-@EXPAT_REVISION@.@CMSPLATF@.rpm
-rpmcpio external+beecrypt+@BEECRYPT_VERSION@-1-@BEECRYPT_REVISION@.@CMSPLATF@.rpm
-rpmcpio external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm
-rpmcpio external+bz2lib+@BZ2LIB_VERSION@-1-@BZ2LIB_REVISION@.@CMSPLATF@.rpm
-rpmcpio external+elfutil+@ELFUTILS_VERSION@-1-@ELFUTILS_REVISION@.@CMSPLATF@.rpm
-rpmcpio external+neon+@NEON_VERSION@-1-@NEON_REVISION@.@CMSPLATF@.rpm
-rpmcpio external+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rpm
+rpm2cpio external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm | cpio -id  
+rpm2cpio external+expat+@EXPAT_VERSION@-1-@EXPAT_REVISION@.@CMSPLATF@.rpm | cpio -id
+rpm2cpio external+beecrypt+@BEECRYPT_VERSION@-1-@BEECRYPT_REVISION@.@CMSPLATF@.rpm | cpio -id
+rpm2cpio external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm | cpop -id
+rpm2cpio external+bz2lib+@BZ2LIB_VERSION@-1-@BZ2LIB_REVISION@.@CMSPLATF@.rpm | cpio -id
+rpm2cpio external+elfutil+@ELFUTILS_VERSION@-1-@ELFUTILS_REVISION@.@CMSPLATF@.rpm | cpio -id
+rpm2cpio external+neon+@NEON_VERSION@-1-@NEON_REVISION@.@CMSPLATF@.rpm | cpio -id
+rpm2cpio external+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rpm | cpio -id
 # Generate the seed spec using the old rpm:
 generateSeedSpec ()
 # Now move to use the new RPM by sourcing its init.sh
