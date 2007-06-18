@@ -48,7 +48,7 @@ rm     Utilities/GrepSites
 rm     Utilities/IdentityNew
 rm     Utilities/IdentityRemove
 rm     Utilities/ImportSites
-rm     Utilities/InspectPhedexLog.pl
+rm     Utilities/InspectPhedexLog
 rm     Utilities/LinkNew
 rm     Utilities/LinkRemove
 rm     Utilities/LoadTest07FileCreator
