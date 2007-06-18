@@ -4,7 +4,7 @@
 Source:  http://apt-rpm.org/releases/%n-%v.tar.bz2
 Source1: bootstrap
 Patch0: apt-rpm449
-Requires: libxml2 beecrypt rpm zlib bz2lib
+Requires: libxml2 beecrypt rpm zlib bz2lib openssl
 %if "%(echo %{cmsos} | cut -d_ -f 2 | sed -e 's|.*64.*|64|')" == "64"
 %define libdir lib64
 %else
@@ -96,6 +96,9 @@ EOF_APT_CONF
 cat %_sourcedir/bootstrap | perl -p -e "s/\@CMSPLATF\@/%{cmsplatf}/;
                                         s/\@GCC_VERSION\@/$GCC_VERSION/;
                                         s/\@RPM_VERSION\@/$RPM_VERSION/;
+                                        s/\@DB4_VERSION\@/$DB4_VERSION/;
+                                        s/\@LIBXML2_VERSION\@/$LIBXML2_VERSION/;
+                                        s/\@OPENSSL_VERSION\@/$OPENSSL_VERSION/;
                                         s/\@BEECRYPT_VERSION\@/$BEECRYPT_VERSION/;
                                         s/\@BZ2LIB_VERSION\@/$BZ2LIB_VERSION/;
                                         s/\@ZLIB_VERSION\@/$ZLIB_VERSION/;
@@ -105,6 +108,9 @@ cat %_sourcedir/bootstrap | perl -p -e "s/\@CMSPLATF\@/%{cmsplatf}/;
                                         s/\@GCC_REVISION\@/$GCC_REVISION/;
                                         s/\@BEECRYPT_REVISION\@/$BEECRYPT_REVISION/;
                                         s/\@RPM_REVISION\@/$RPM_REVISION/;
+                                        s/\@OPENSSL_REVISION\@/$OPENSSL_REVISION/;
+                                        s/\@DB4_REVISION\@/$DB4_REVISION/;
+                                        s/\@LIBXML2_REVISION\@/$LIBXML2_REVISION/;
                                         s/\@BZ2LIB_REVISION\@/$BZ2LIB_REVISION/;
                                         s/\@ZLIB_REVISION\@/$ZLIB_REVISION/;
                                         s/\@EXPAT_REVISION\@/$EXPAT_REVISION/;
