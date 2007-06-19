@@ -1,5 +1,5 @@
 #!/bin/sh
-# Revision: $Revision: 1.3 $
+# Revision: $Revision: 1.4 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -16,6 +16,7 @@ groups="lcg cms external"
 
 rootdir=$(pwd)
 unsupportedDistribution=false
+testInstance=false
 
 while [ $# -gt 0 ]; do
   case $1 in
@@ -35,7 +36,9 @@ while [ $# -gt 0 ]; do
           shift; shift ;;
         -server )
           [ $# -gt 1 ] || { echo "Option \`$1' requires an argument" 1>&2; exit 1;  }
-          server=$2; shift; shift ;;
+          server=$2
+          testInstance=true
+          shift; shift ;;
         -server-path )
           [ $# -gt 1 ] || { echo "Option \`$1' requires an argument" 1>&2; exit 1;  }
           server_main_dir=`echo $2 | sed -e "s|\(.*\)/.*/.*|\1|"`
@@ -44,7 +47,22 @@ while [ $# -gt 0 ]; do
           echo "server_main_dir $server_main_dir"
           echo "apt_dir $apt_dir"
           echo "repository $repository"
+          testInstance=true
           shift; shift ;;
+        -repository )
+          [ $# -gt 1 ] || { echo "Option \`$1' requires an argument" 1>&2; exit 1;  }
+          repository=/$2; shift; shift ;;
+        -groups )
+          [ $# -gt 1 ] || { echo "Option \`$1' requires at lease one argument" 1>&2; exit 1; }
+          shift
+          groups=""
+          while [ "$(echo $1 | cut -b1)" != "-" ] && [ $# -gt 0 ]
+          do
+            groups="$groups $1"
+            shift
+          done
+          testInstance=true
+          ;;
         -unsupported_distribution_hack )
           unsupportedDistribution=true; shift
           ;;
@@ -60,6 +78,8 @@ bootstrap.sh setup [-path <cms-path>] [-server <server>] [-server-path <download
 -path <cms-path> : location of where the installation must be done (default $PWD).
 -server <server>  : repositories are to be found on server <server> (default cmsrep.cern.ch).
 -server-path <download-path> : package structure is found on <download-path> on server (default cms/cpt/Software/download/apt).
+-repository <repository> : use private apt repository cms.<username> (default: public repository)
+-groups <groups-list> : list of the channels we want to subscribe to (default: "cms external lcg virtual").
 EOF_HELP
         exit 1
         ;;
@@ -269,6 +289,15 @@ cd $rootdir
 rm -rf $rootdir/$rpmdb
 mkdir -p $rootdir/$rpmdb
 rpm --define "_rpmlock_path $rpmlock" --dbpath $rootdir/$rpmdb --initdb 
+# If we want to use a test instance, we need to adjust the sources.list accordingly.
+if [ "$testInstance" == "true" ]
+then
+    perl -p -i -e "s/^/#/;s/###//;
+                   s/\@GROUPS\@/$groups/;
+                   s/\@SERVER\@/$server/;
+                   s/\@SERVER_PATH\@/$server_main_dir/;
+                   s/\@REPOSITORY\@/$repository/" $rootdir/@CMSPLATF@/etc/apt/sources.list
+fi
 
 cd $was
 }

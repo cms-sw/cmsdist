@@ -154,8 +154,12 @@ Essantial:
 EOF_RPMPRIORITIES
 
 cat << \EOF_SOURCES_LIST > $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/apt/sources.list
-rpm http://cmsrep.cern.ch cms/cpt/Software/download/cms/apt/%{cmsplatf} cms lcg external  
-rpm-src http://cmsrep.cern.ch cms/cpt/Software/download/cms/apt/%{cmsplatf} cms lcg external
+rpm http://cmsrep.cern.ch cms/cpt/Software/download/cms.eulisse/apt/%{cmsplatf} cms lcg external  
+rpm-src http://cmsrep.cern.ch cms/cpt/Software/download/cms.eulisse/apt/%{cmsplatf} cms lcg external
+# This are defined to support experimental repositories. The bootstrap file rewrites and uncomments
+# them when passed the appropriate commandline option. 
+## rpm @SERVER@ @SERVER_PATH@/@REPOSITORY@/apt/%{cmsplatf} @GROUPS@  
+## rpm-src @SERVER@ @SERVER_PATH@/@REPOSITORY@/apt/%{cmsplatf} @GROUPS@
 EOF_SOURCES_LIST
 
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/rpm
