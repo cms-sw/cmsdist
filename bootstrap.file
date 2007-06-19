@@ -1,5 +1,5 @@
 #!/bin/sh
-# Revision: $Revision: 1.5 $
+# Revision: $Revision: 1.6 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -220,19 +220,19 @@ setup() {
 export DOWNLOAD_DIR=$rootdir/tmp/BOOTSTRAP
 mkdir -p $DOWNLOAD_DIR
 cd $DOWNLOAD_DIR
-downloadPath=$server/$server_main_dir/RPMS/@CMSPLATF@
-wget $downloadPath/$repository/RPMS/@CMSPLATF@/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm
-wget $downloadPath/$repository/RPMS/@CMSPLATF@/external+expat+@EXPAT_VERSION@-1-@EXPAT_REVISION@.@CMSPLATF@.rpm
-wget $downloadPath/$repository/RPMS/@CMSPLATF@/external+openssl+@OPENSSL_VERSION@-1-@OPENSSL_REVISION@.@CMSPLATF@.rpm
-wget $downloadPath/$repository/RPMS/@CMSPLATF@/external+db4+@DB4_VERSION@-1-@DB4_REVISION@.@CMSPLATF@.rpm
-wget $downloadPath/$repository/RPMS/@CMSPLATF@/external+beecrypt+@BEECRYPT_VERSION@-1-@BEECRYPT_REVISION@.@CMSPLATF@.rpm
-wget $downloadPath/$repository/RPMS/@CMSPLATF@/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm
-wget $downloadPath/$repository/RPMS/@CMSPLATF@/external+bz2lib+@BZ2LIB_VERSION@-1-@BZ2LIB_REVISION@.@CMSPLATF@.rpm
-wget $downloadPath/$repository/RPMS/@CMSPLATF@/external+elfutils+@ELFUTILS_VERSION@-1-@ELFUTILS_REVISION@.@CMSPLATF@.rpm 
-wget $downloadPath/$repository/RPMS/@CMSPLATF@/external+neon+@NEON_VERSION@-1-@NEON_REVISION@.@CMSPLATF@.rpm
-wget $downloadPath/$repository/RPMS/@CMSPLATF@/external+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rpm
-wget $downloadPath/$repository/RPMS/@CMSPLATF@/external+libxml2+@LIBXML2_VERSION@-1-@LIBXML2_REVISION@.@CMSPLATF@.rpm
-wget $downloadPath/$repository/RPMS/@CMSPLATF@/external+apt+@APT_VERSION@-1-@APT_REVISION@.@CMSPLATF@.rpm 
+downloadPath=$server/$server_main_dir/$repository/RPMS/@CMSPLATF@
+wget $downloadPath/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm
+wget $downloadPath/external+expat+@EXPAT_VERSION@-1-@EXPAT_REVISION@.@CMSPLATF@.rpm
+wget $downloadPath/external+openssl+@OPENSSL_VERSION@-1-@OPENSSL_REVISION@.@CMSPLATF@.rpm
+wget $downloadPath/external+db4+@DB4_VERSION@-1-@DB4_REVISION@.@CMSPLATF@.rpm
+wget $downloadPath/external+beecrypt+@BEECRYPT_VERSION@-1-@BEECRYPT_REVISION@.@CMSPLATF@.rpm
+wget $downloadPath/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm
+wget $downloadPath/external+bz2lib+@BZ2LIB_VERSION@-1-@BZ2LIB_REVISION@.@CMSPLATF@.rpm
+wget $downloadPath/external+elfutils+@ELFUTILS_VERSION@-1-@ELFUTILS_REVISION@.@CMSPLATF@.rpm 
+wget $downloadPath/external+neon+@NEON_VERSION@-1-@NEON_REVISION@.@CMSPLATF@.rpm
+wget $downloadPath/external+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rpm
+wget $downloadPath/external+libxml2+@LIBXML2_VERSION@-1-@LIBXML2_REVISION@.@CMSPLATF@.rpm
+wget $downloadPath/external+apt+@APT_VERSION@-1-@APT_REVISION@.@CMSPLATF@.rpm 
 was=`pwd`
 cd $rootdir
 if [ -f $rootdir/$rpmdb ]
