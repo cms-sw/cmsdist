@@ -37,6 +37,7 @@ perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|" scripts/get_magic.pl \
 %install
 make install
 perl -p -i -e "s|#\!/usr/bin/python(.*)|#!/usr/bin/env python$1|" %i/lib/rpm/symclash.py
+perl -p -i -e "s!:/etc/[^:]*!!g;s!~/[^:]*!!g" %i/lib/rpm/rpmrc
 
 mkdir -p %{i}/etc/profile.d
 (echo "#!/bin/sh"; \
