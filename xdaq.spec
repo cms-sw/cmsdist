@@ -42,7 +42,7 @@ make CPPDEFINES=linux Set=coretools install
 make CPPDEFINES=linux Set=extern_powerpack install
 make CPPDEFINES=linux Set=powerpack install
 cd xdaq2rc
-make
+make CPPDEFINES=linux install
 cd ..
 
 
