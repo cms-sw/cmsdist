@@ -93,7 +93,7 @@ RPM
 };
 EOF_APT_CONF
 
-cat %_sourcedir/bootstrap | perl -p -e "s!\@CMSPLATF\@/%{cmsplatf}/g;
+cat %_sourcedir/bootstrap | perl -p -e "s!\@CMSPLATF\@!%{cmsplatf}!g;
                                         s!\@GCC_VERSION\@!$GCC_VERSION!g;
                                         s!\@RPM_VERSION\@!$RPM_VERSION!g;
                                         s!\@DB4_VERSION\@!$DB4_VERSION!g;
