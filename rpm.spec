@@ -1,4 +1,4 @@
-### RPM external rpm 4.4.9
+### RPM external rpm 4.4.9-wt1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
 Requires: beecrypt bz2lib neon expat db4 expat elfutils zlib

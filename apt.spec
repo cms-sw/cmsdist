@@ -1,7 +1,7 @@
-### RPM external apt 0.5.15lorg3.2
+### RPM external apt 0.5.15lorg3.2-wt1
 ## INITENV SET APT_CONFIG %{i}/etc/apt/apt.conf
 
-Source:  http://apt-rpm.org/releases/%n-%v.tar.bz2
+Source:  http://apt-rpm.org/releases/%n-%realversion.tar.bz2
 Source1: bootstrap
 Patch0: apt-rpm449
 Requires: libxml2 beecrypt rpm zlib bz2lib openssl
