@@ -1,5 +1,5 @@
 #!/bin/sh
-# Revision: $Revision: 1.7 $
+# Revision: $Revision: 1.8 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -255,11 +255,11 @@ rpm2cpio $DOWNLOAD_DIR/external+bz2lib+@BZ2LIB_VERSION@-1-@BZ2LIB_REVISION@.@CMS
 rpm2cpio $DOWNLOAD_DIR/external+elfutils+@ELFUTILS_VERSION@-1-@ELFUTILS_REVISION@.@CMSPLATF@.rpm | cpio -idu
 rpm2cpio $DOWNLOAD_DIR/external+neon+@NEON_VERSION@-1-@NEON_REVISION@.@CMSPLATF@.rpm | cpio -idu
 rpm2cpio $DOWNLOAD_DIR/external+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rpm | cpio -idu
-mv .@INSTROOT@/@CMSPLATF@ @CMSPLATF@
 # Generate the seed spec using the old rpm:
 generateSeedSpec
 # Now move to use the new RPM by sourcing its init.sh
-source @CMSPLATF@/external/rpm/@RPM_VERSION@/etc/profile.d/init.sh
+perl -p -i -e "s!@INSTROOT@!.@INSTROOT@!" `find .@INSTROOT@/@CMSPLATF@ -name init.sh`
+source .@INSTROOT@/@CMSPLATF@/external/rpm/@RPM_VERSION@/etc/profile.d/init.sh
 # Initialise the rpmdb using the new rpm.
 rpm --define "_rpmlock_path $rpmlock" --dbpath $rootdir/$rpmdb --initdb
 # Build the seed spec and install it, in order to seed the newly generated db.
@@ -274,6 +274,7 @@ rpm -ivh $DOWNLOAD_DIR/extarnal+bz2lib+@BZ2LIB_VERSION@-1-@BZ2LIB_REVISION@.@CMS
 rpm -ivh $DOWNLOAD_DIR/extarnal+elfutils+@ELFUTILS_VERSION@-1-@ELFUTILS_REVISION@.@CMSPLATF@.rpm
 rpm -ivh $DOWNLOAD_DIR/extarnal+neon+@NEON_VERSION@-1-@NEON_REVISION@.@CMSPLATF@.rpm
 rpm -ivh $DOWNLOAD_DIR/extarnal+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rpm
+source @CMSPLATF@/external/rpm/@RPM_VERSION@/etc/profile.d/init.sh
 # Install the packages required by apt
 rpm -ivh $DOWNLOAD_DIR/extarnal+openssl+@OPENSSL_VERSION@-1-@OPENSSL_REVISION@.@CMSPLATF@.rpm
 rpm -ivh $DOWNLOAD_DIR/external+libxml2+@LIBXML2_VERSION@-1-@LIBXML2_REVISION@.@CMSPLATF@.rpm

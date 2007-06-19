@@ -93,32 +93,32 @@ RPM
 };
 EOF_APT_CONF
 
-cat %_sourcedir/bootstrap | perl -p -e "s/\@CMSPLATF\@/%{cmsplatf}/g;
-                                        s/\@GCC_VERSION\@/$GCC_VERSION/g;
-                                        s/\@RPM_VERSION\@/$RPM_VERSION/g;
-                                        s/\@DB4_VERSION\@/$DB4_VERSION/g;
-                                        s/\@LIBXML2_VERSION\@/$LIBXML2_VERSION/g;
-                                        s/\@OPENSSL_VERSION\@/$OPENSSL_VERSION/g;
-                                        s/\@BEECRYPT_VERSION\@/$BEECRYPT_VERSION/g;
-                                        s/\@BZ2LIB_VERSION\@/$BZ2LIB_VERSION/g;
-                                        s/\@ZLIB_VERSION\@/$ZLIB_VERSION/g;
-                                        s/\@EXPAT_VERSION\@/$EXPAT_VERSION/g;
-                                        s/\@ELFUTILS_VERSION\@/$ELFUTILS_VERSION/g;
-                                        s/\@NEON_VERSION\@/$NEON_VERSION/g;
-                                        s/\@GCC_REVISION\@/$GCC_REVISION/g;
-                                        s/\@BEECRYPT_REVISION\@/$BEECRYPT_REVISION/g;
-                                        s/\@RPM_REVISION\@/$RPM_REVISION/g;
-                                        s/\@OPENSSL_REVISION\@/$OPENSSL_REVISION/g;
-                                        s/\@DB4_REVISION\@/$DB4_REVISION/g;
-                                        s/\@LIBXML2_REVISION\@/$LIBXML2_REVISION/g;
-                                        s/\@BZ2LIB_REVISION\@/$BZ2LIB_REVISION/g;
-                                        s/\@ZLIB_REVISION\@/$ZLIB_REVISION/g;
-                                        s/\@EXPAT_REVISION\@/$EXPAT_REVISION/g;
-                                        s/\@NEON_REVISION\@/$NEON_REVISION/g;
-                                        s/\@ELFUTILS_REVISION\@/$ELFUTILS_REVISION/g;
-                                        s/\@APT_VERSION\@/%{v}/g;
-                                        s/\@APT_REVISION\@/%{pkgrevision}/g;
-                                        s/\@INSTROOT\@/%{instroot}/g;
+cat %_sourcedir/bootstrap | perl -p -e "s!\@CMSPLATF\@/%{cmsplatf}/g;
+                                        s!\@GCC_VERSION\@!$GCC_VERSION!g;
+                                        s!\@RPM_VERSION\@!$RPM_VERSION!g;
+                                        s!\@DB4_VERSION\@!$DB4_VERSION!g;
+                                        s!\@LIBXML2_VERSION\@!$LIBXML2_VERSION!g;
+                                        s!\@OPENSSL_VERSION\@!$OPENSSL_VERSION!g;
+                                        s!\@BEECRYPT_VERSION\@!$BEECRYPT_VERSION!g;
+                                        s!\@BZ2LIB_VERSION\@!$BZ2LIB_VERSION!g;
+                                        s!\@ZLIB_VERSION\@!$ZLIB_VERSION!g;
+                                        s!\@EXPAT_VERSION\@!$EXPAT_VERSION!g;
+                                        s!\@ELFUTILS_VERSION\@!$ELFUTILS_VERSION!g;
+                                        s!\@NEON_VERSION\@!$NEON_VERSION!g;
+                                        s!\@GCC_REVISION\@!$GCC_REVISION!g;
+                                        s!\@BEECRYPT_REVISION\@!$BEECRYPT_REVISION!g;
+                                        s!\@RPM_REVISION\@!$RPM_REVISION!g;
+                                        s!\@OPENSSL_REVISION\@!$OPENSSL_REVISION!g;
+                                        s!\@DB4_REVISION\@!$DB4_REVISION!g;
+                                        s!\@LIBXML2_REVISION\@!$LIBXML2_REVISION!g;
+                                        s!\@BZ2LIB_REVISION\@!$BZ2LIB_REVISION!g;
+                                        s!\@ZLIB_REVISION\@!$ZLIB_REVISION!g;
+                                        s!\@EXPAT_REVISION\@!$EXPAT_REVISION!g;
+                                        s!\@NEON_REVISION\@!$NEON_REVISION!g;
+                                        s!\@ELFUTILS_REVISION\@!$ELFUTILS_REVISION!g;
+                                        s!\@APT_VERSION\@!%{v}!g;
+                                        s!\@APT_REVISION\@!%{pkgrevision}!g;
+                                        s!\@INSTROOT\@!%{instroot}!g;
                                         " > %{instroot}/bootstrap-%{cmsplatf}.sh
 
 %post
