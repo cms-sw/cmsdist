@@ -1,5 +1,5 @@
 #!/bin/sh
-# Revision: $Revision: 1.9 $
+# Revision: $Revision: 1.10 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -90,6 +90,7 @@ done
 
 rpmdb=@CMSPLATF@/var/lib/rpm
 rpmlock=$rootdir/@CMSPLATF@/var/lib/rpm/lock
+tmp=$rootdir/@CMSPLATF@/tmp/system-import
 
 perlHarvester () {
 	echo Harvesting for perl modules >&2
@@ -123,7 +124,6 @@ generateSeedSpec () {
         seed="$seed xorg-x11-Mesa compat-readline4 compat-curl2 freetype2 xorg-x11-libX11"
     fi
     
-     tmp=$rootdir/@CMSPLATF@/tmp/system-import
      rm -rf $tmp
      mkdir -p $tmp
      cd $tmp
@@ -207,7 +207,7 @@ generateSeedSpec () {
 
 seed ()
 {
-    cd tmp
+    cd $tmp
     (rpmbuild -ba system-base-import.spec
      echo Seeding database in in $rootdir/$rpmdb
      rpm --define "_rpmlock_path $rpmlock" --dbpath $rootdir/$rpmdb -Uvh RPMS/system-base-import.rpm
@@ -246,6 +246,7 @@ else
     mkdir -p $rootdir/$rpmdb
 fi
 # Extract the packages via rpm, source the init.sh
+cd $DOWNLOAD_DIR
 rpm2cpio $DOWNLOAD_DIR/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm | cpio -idu
 rpm2cpio $DOWNLOAD_DIR/external+expat+@EXPAT_VERSION@-1-@EXPAT_REVISION@.@CMSPLATF@.rpm | cpio -idu 
 rpm2cpio $DOWNLOAD_DIR/external+db4+@DB4_VERSION@-1-@DB4_REVISION@.@CMSPLATF@.rpm | cpio -idu
@@ -258,25 +259,27 @@ rpm2cpio $DOWNLOAD_DIR/external+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rp
 # Generate the seed spec using the old rpm:
 generateSeedSpec
 # Now move to use the new RPM by sourcing its init.sh
-perl -p -i -e "s!@INSTROOT@!$PWD/@INSTROOT@!" `find .@INSTROOT@/@CMSPLATF@ -name init.sh`
-source .@INSTROOT@/@CMSPLATF@/external/rpm/@RPM_VERSION@/etc/profile.d/init.sh
+# FIXME: This actually only works if the packages are all generated in the same directory.
+perl -p -i -e "s!@INSTROOT@!$DOWNLOAD_DIR@INSTROOT@!" `find $DOWNLOAD_DIR@INSTROOT@/@CMSPLATF@ -name init.sh`
+source $DOWNLOAD_DIR@INSTROOT@/@CMSPLATF@/external/rpm/@RPM_VERSION@/etc/profile.d/init.sh
+cd $rootdir
 # Initialise the rpmdb using the new rpm.
 rpm --define "_rpmlock_path $rpmlock" --dbpath $rootdir/$rpmdb --initdb
 # Build the seed spec and install it, in order to seed the newly generated db.
 seed
 # Install the packages, this time using rpm.
-rpm -ivh $DOWNLOAD_DIR/extarnal+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm
-rpm -ivh $DOWNLOAD_DIR/extarnal+expat+@EXPAT_VERSION@-1-@EXPAT_REVISION@.@CMSPLATF@.rpm
-rpm -ivh $DOWNLOAD_DIR/extarnal+db4+@DB4_VERSION@-1-@DB4_REVISION@.@CMSPLATF@.rpm
-rpm -ivh $DOWNLOAD_DIR/extarnal+beecrypt+@BEECRYPT_VERSION@-1-@BEECRYPT_REVISION@.@CMSPLATF@.rpm
-rpm -ivh $DOWNLOAD_DIR/extarnal+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm
-rpm -ivh $DOWNLOAD_DIR/extarnal+bz2lib+@BZ2LIB_VERSION@-1-@BZ2LIB_REVISION@.@CMSPLATF@.rpm
-rpm -ivh $DOWNLOAD_DIR/extarnal+elfutils+@ELFUTILS_VERSION@-1-@ELFUTILS_REVISION@.@CMSPLATF@.rpm
-rpm -ivh $DOWNLOAD_DIR/extarnal+neon+@NEON_VERSION@-1-@NEON_REVISION@.@CMSPLATF@.rpm
-rpm -ivh $DOWNLOAD_DIR/extarnal+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rpm
+rpm -ivh --define "_rpmlock_path $rpmlock" --dbpath $rootdir/$rpmdb $DOWNLOAD_DIR/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm
+rpm -ivh --define "_rpmlock_path $rpmlock" --dbpath $rootdir/$rpmdb $DOWNLOAD_DIR/external+expat+@EXPAT_VERSION@-1-@EXPAT_REVISION@.@CMSPLATF@.rpm
+rpm -ivh --define "_rpmlock_path $rpmlock" --dbpath $rootdir/$rpmdb $DOWNLOAD_DIR/external+db4+@DB4_VERSION@-1-@DB4_REVISION@.@CMSPLATF@.rpm
+rpm -ivh --define "_rpmlock_path $rpmlock" --dbpath $rootdir/$rpmdb $DOWNLOAD_DIR/external+beecrypt+@BEECRYPT_VERSION@-1-@BEECRYPT_REVISION@.@CMSPLATF@.rpm
+rpm -ivh --define "_rpmlock_path $rpmlock" --dbpath $rootdir/$rpmdb $DOWNLOAD_DIR/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm
+rpm -ivh --define "_rpmlock_path $rpmlock" --dbpath $rootdir/$rpmdb $DOWNLOAD_DIR/external+bz2lib+@BZ2LIB_VERSION@-1-@BZ2LIB_REVISION@.@CMSPLATF@.rpm
+rpm -ivh --define "_rpmlock_path $rpmlock" --dbpath $rootdir/$rpmdb $DOWNLOAD_DIR/external+elfutils+@ELFUTILS_VERSION@-1-@ELFUTILS_REVISION@.@CMSPLATF@.rpm
+rpm -ivh --define "_rpmlock_path $rpmlock" --dbpath $rootdir/$rpmdb $DOWNLOAD_DIR/external+neon+@NEON_VERSION@-1-@NEON_REVISION@.@CMSPLATF@.rpm
+rpm -ivh --define "_rpmlock_path $rpmlock" --dbpath $rootdir/$rpmdb $DOWNLOAD_DIR/external+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rpm
 source @CMSPLATF@/external/rpm/@RPM_VERSION@/etc/profile.d/init.sh
 # Install the packages required by apt
-rpm -ivh $DOWNLOAD_DIR/extarnal+openssl+@OPENSSL_VERSION@-1-@OPENSSL_REVISION@.@CMSPLATF@.rpm
+rpm -ivh $DOWNLOAD_DIR/external+openssl+@OPENSSL_VERSION@-1-@OPENSSL_REVISION@.@CMSPLATF@.rpm
 rpm -ivh $DOWNLOAD_DIR/external+libxml2+@LIBXML2_VERSION@-1-@LIBXML2_REVISION@.@CMSPLATF@.rpm
 rpm -ivh $DOWNLOAD_DIR/external+apt+@APT_VERSION@-1-@APT_REVISION@.@CMSPLATF@.rpm
 # Source the apt environment and upgrade what's already there.
