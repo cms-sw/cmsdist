@@ -1,5 +1,5 @@
 #!/bin/sh
-# Revision: $Revision: 1.8 $
+# Revision: $Revision: 1.9 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -221,18 +221,18 @@ export DOWNLOAD_DIR=$rootdir/tmp/BOOTSTRAP
 mkdir -p $DOWNLOAD_DIR
 cd $DOWNLOAD_DIR
 downloadPath=$server/$server_main_dir/$repository/RPMS/@CMSPLATF@
-wget $downloadPath/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm
-wget $downloadPath/external+expat+@EXPAT_VERSION@-1-@EXPAT_REVISION@.@CMSPLATF@.rpm
-wget $downloadPath/external+openssl+@OPENSSL_VERSION@-1-@OPENSSL_REVISION@.@CMSPLATF@.rpm
-wget $downloadPath/external+db4+@DB4_VERSION@-1-@DB4_REVISION@.@CMSPLATF@.rpm
-wget $downloadPath/external+beecrypt+@BEECRYPT_VERSION@-1-@BEECRYPT_REVISION@.@CMSPLATF@.rpm
-wget $downloadPath/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm
-wget $downloadPath/external+bz2lib+@BZ2LIB_VERSION@-1-@BZ2LIB_REVISION@.@CMSPLATF@.rpm
-wget $downloadPath/external+elfutils+@ELFUTILS_VERSION@-1-@ELFUTILS_REVISION@.@CMSPLATF@.rpm 
-wget $downloadPath/external+neon+@NEON_VERSION@-1-@NEON_REVISION@.@CMSPLATF@.rpm
-wget $downloadPath/external+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rpm
-wget $downloadPath/external+libxml2+@LIBXML2_VERSION@-1-@LIBXML2_REVISION@.@CMSPLATF@.rpm
-wget $downloadPath/external+apt+@APT_VERSION@-1-@APT_REVISION@.@CMSPLATF@.rpm 
+wget -N $downloadPath/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm
+wget -N $downloadPath/external+expat+@EXPAT_VERSION@-1-@EXPAT_REVISION@.@CMSPLATF@.rpm
+wget -N $downloadPath/external+openssl+@OPENSSL_VERSION@-1-@OPENSSL_REVISION@.@CMSPLATF@.rpm
+wget -N $downloadPath/external+db4+@DB4_VERSION@-1-@DB4_REVISION@.@CMSPLATF@.rpm
+wget -N $downloadPath/external+beecrypt+@BEECRYPT_VERSION@-1-@BEECRYPT_REVISION@.@CMSPLATF@.rpm
+wget -N $downloadPath/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm
+wget -N $downloadPath/external+bz2lib+@BZ2LIB_VERSION@-1-@BZ2LIB_REVISION@.@CMSPLATF@.rpm
+wget -N $downloadPath/external+elfutils+@ELFUTILS_VERSION@-1-@ELFUTILS_REVISION@.@CMSPLATF@.rpm 
+wget -N $downloadPath/external+neon+@NEON_VERSION@-1-@NEON_REVISION@.@CMSPLATF@.rpm
+wget -N $downloadPath/external+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rpm
+wget -N $downloadPath/external+libxml2+@LIBXML2_VERSION@-1-@LIBXML2_REVISION@.@CMSPLATF@.rpm
+wget -N $downloadPath/external+apt+@APT_VERSION@-1-@APT_REVISION@.@CMSPLATF@.rpm 
 was=`pwd`
 cd $rootdir
 if [ -f $rootdir/$rpmdb ]
@@ -258,7 +258,7 @@ rpm2cpio $DOWNLOAD_DIR/external+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rp
 # Generate the seed spec using the old rpm:
 generateSeedSpec
 # Now move to use the new RPM by sourcing its init.sh
-perl -p -i -e "s!@INSTROOT@!.@INSTROOT@!" `find .@INSTROOT@/@CMSPLATF@ -name init.sh`
+perl -p -i -e "s!@INSTROOT@!$PWD/@INSTROOT@!" `find .@INSTROOT@/@CMSPLATF@ -name init.sh`
 source .@INSTROOT@/@CMSPLATF@/external/rpm/@RPM_VERSION@/etc/profile.d/init.sh
 # Initialise the rpmdb using the new rpm.
 rpm --define "_rpmlock_path $rpmlock" --dbpath $rootdir/$rpmdb --initdb
