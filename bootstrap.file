@@ -1,5 +1,5 @@
 #!/bin/sh
-# Revision: $Revision: 1.6 $
+# Revision: $Revision: 1.7 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -246,19 +246,20 @@ else
     mkdir -p $rootdir/$rpmdb
 fi
 # Extract the packages via rpm, source the init.sh
-rpm2cpio $DOWNLOAD_DIR/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm | cpio -id  
-rpm2cpio $DOWNLOAD_DIR/external+expat+@EXPAT_VERSION@-1-@EXPAT_REVISION@.@CMSPLATF@.rpm | cpio -id
-rpm2cpio $DOWNLOAD_DIR/external+db4+@DB4_VERSION@-1-@DB4_REVISION@.@CMSPLATF@.rpm | cpio -id
-rpm2cpio $DOWNLOAD_DIR/external+beecrypt+@BEECRYPT_VERSION@-1-@BEECRYPT_REVISION@.@CMSPLATF@.rpm | cpio -id
-rpm2cpio $DOWNLOAD_DIR/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm | cpop -id
-rpm2cpio $DOWNLOAD_DIR/external+bz2lib+@BZ2LIB_VERSION@-1-@BZ2LIB_REVISION@.@CMSPLATF@.rpm | cpio -id
-rpm2cpio $DOWNLOAD_DIR/external+elfutil+@ELFUTILS_VERSION@-1-@ELFUTILS_REVISION@.@CMSPLATF@.rpm | cpio -id
-rpm2cpio $DOWNLOAD_DIR/external+neon+@NEON_VERSION@-1-@NEON_REVISION@.@CMSPLATF@.rpm | cpio -id
-rpm2cpio $DOWNLOAD_DIR/external+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rpm | cpio -id
+rpm2cpio $DOWNLOAD_DIR/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm | cpio -idu
+rpm2cpio $DOWNLOAD_DIR/external+expat+@EXPAT_VERSION@-1-@EXPAT_REVISION@.@CMSPLATF@.rpm | cpio -idu 
+rpm2cpio $DOWNLOAD_DIR/external+db4+@DB4_VERSION@-1-@DB4_REVISION@.@CMSPLATF@.rpm | cpio -idu
+rpm2cpio $DOWNLOAD_DIR/external+beecrypt+@BEECRYPT_VERSION@-1-@BEECRYPT_REVISION@.@CMSPLATF@.rpm | cpio -idu
+rpm2cpio $DOWNLOAD_DIR/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm | cpio -idu
+rpm2cpio $DOWNLOAD_DIR/external+bz2lib+@BZ2LIB_VERSION@-1-@BZ2LIB_REVISION@.@CMSPLATF@.rpm | cpio -idu
+rpm2cpio $DOWNLOAD_DIR/external+elfutils+@ELFUTILS_VERSION@-1-@ELFUTILS_REVISION@.@CMSPLATF@.rpm | cpio -idu
+rpm2cpio $DOWNLOAD_DIR/external+neon+@NEON_VERSION@-1-@NEON_REVISION@.@CMSPLATF@.rpm | cpio -idu
+rpm2cpio $DOWNLOAD_DIR/external+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rpm | cpio -idu
+mv .@INSTROOT@/@CMSPLATF@ @CMSPLATF@
 # Generate the seed spec using the old rpm:
 generateSeedSpec
 # Now move to use the new RPM by sourcing its init.sh
-source $arch/external/rpm/@RPM_VERSION@/etc/profile.d/init.sh
+source @CMSPLATF@/external/rpm/@RPM_VERSION@/etc/profile.d/init.sh
 # Initialise the rpmdb using the new rpm.
 rpm --define "_rpmlock_path $rpmlock" --dbpath $rootdir/$rpmdb --initdb
 # Build the seed spec and install it, in order to seed the newly generated db.
