@@ -1,5 +1,5 @@
 #!/bin/sh
-# Revision: $Revision: 1.10 $
+# Revision: $Revision: 1.11 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -260,7 +260,7 @@ rpm2cpio $DOWNLOAD_DIR/external+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rp
 generateSeedSpec
 # Now move to use the new RPM by sourcing its init.sh
 # FIXME: This actually only works if the packages are all generated in the same directory.
-perl -p -i -e "s!@INSTROOT@!$DOWNLOAD_DIR@INSTROOT@!" `find $DOWNLOAD_DIR@INSTROOT@/@CMSPLATF@ -name init.sh`
+perl -p -i -e "s!@INSTROOT@!$DOWNLOAD_DIR@INSTROOT@!g" `grep -R @INSTROOT@ $DOWNLOAD_DIR@INSTROOT@ | grep -v Binary | cut -d: -f1 | uniq`
 source $DOWNLOAD_DIR@INSTROOT@/@CMSPLATF@/external/rpm/@RPM_VERSION@/etc/profile.d/init.sh
 cd $rootdir
 # Initialise the rpmdb using the new rpm.
