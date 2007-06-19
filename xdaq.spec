@@ -51,12 +51,13 @@ cd %{i}
 mv x86*/lib .
 mv x86*/bin .
 mv x86*/include .
-mkdir include/inteface
+mkdir include/interface
 mv daq/interface/evb/include/interface/evb include/interface
 mv daq/interface/shared/include/interface/shared include/interface
 
 rm -fr daq 
 rm -fr CVS
+rm -fr x86*
 
 # Libraries from extern (not found cause they are symlinks)
 
