@@ -194,3 +194,4 @@ perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|" $RPM_INSTALL_PREFIX/bin/apt-c
 %{instroot}/%{cmsplatf}/var/lib/rpm
 #
 #
+#
