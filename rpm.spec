@@ -43,8 +43,9 @@ perl -p -i -e "s!:/etc/[^:]*!!g;
                s!~/[^:]*!!g" %i/lib/rpm/rpmrc
 
 # This is for compatibility with rpm 4.3.3
-perl -p -i -e "s!^.buildroot!#%%buildroot!" %i/lib/rpm/macros
-
+perl -p -i -e "s!^.buildroot!#%%buildroot!;
+               s!^%%_repackage_dir.*/var/spool/repackage!%%_repackage_dir     %{instroot}/%{cmsplatf}/var/spool/repackage!" %i/lib/rpm/macros
+mkdir -p %{instroot}/%{cmsplatf}/var/spool/repackage
 mkdir -p %{i}/etc/profile.d
 (echo "#!/bin/sh"; \
  echo "source $BEECRYPT_ROOT/etc/profile.d/init.sh"; \
@@ -68,3 +69,6 @@ mkdir -p %{i}/etc/profile.d
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|" `grep -r %instroot $RPM_INSTALL_PREFIX/%pkgrel | grep -v Binary | cut -d: -f1`
+%files
+%{i}
+%{instroot}/var/spool/repackage
