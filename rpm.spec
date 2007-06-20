@@ -71,4 +71,4 @@ mkdir -p %{i}/etc/profile.d
 perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|" `grep -r %instroot $RPM_INSTALL_PREFIX/%pkgrel | grep -v Binary | cut -d: -f1`
 %files
 %{i}
-%{instroot}/var/spool/repackage
+%{instroot}/%{cmsplatf}/var/spool/repackage
