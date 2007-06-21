@@ -113,7 +113,7 @@ touch %{instroot}/log.txt
 echo $@ >> %{instroot}/log.txt
 apt-cache $@
 EOF_BIN_APT_CACHE_WRAPPER
-chmod +x $RPM_INSTALL_PREFIX/bin/apt-cache-wrapper
+chmod +x %{i}/bin/apt-cache-wrapper
 
 cat << \EOF_BIN_APT_GET_WRAPPER > %{i}/bin/apt-get-wrapper
 #!/bin/sh
@@ -121,7 +121,7 @@ touch %{instroot}/log.txt
 echo $@ >> %{instroot}/log.txt
 apt-get $@
 EOF_BIN_APT_GET_WRAPPER
-chmod +x $RPM_INSTALL_PREFIX/bin/apt-get-wrapper
+chmod +x %{i}/bin/apt-get-wrapper
 
 cat << \EOF_BIN_RPM > %{i}/bin/rpm-wrapper
 #!/bin/sh
@@ -163,7 +163,7 @@ cat %_sourcedir/bootstrap | perl -p -e "s!\@CMSPLATF\@!%{cmsplatf}!g;
                                         s!\@APT_VERSION\@!%{v}!g;
                                         s!\@APT_REVISION\@!%{pkgrevision}!g;
                                         s!\@INSTROOT\@!%{instroot}!g;
-                                        " > %{instroot}/bootstrap-%{cmsplatf}.sh
+                                        " > %{i}/bin/bootstrap-%{cmsplatf}.sh
 
 %post
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/apt/lists/partial
@@ -184,4 +184,3 @@ mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/cache/%{cmsplatf}
 %{reloacteConfig}etc/apt/apt.conf 
 %files
 %{i}
-%{instroot}/bootstrap-%{cmsplatf}.sh
