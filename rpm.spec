@@ -1,6 +1,6 @@
 ### RPM external rpm 4.4.9-wt1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-## INITENV SET LIBRPMALIAS_FILENAME %{i}/lib/rpmpopt-%{realversion}
+## INITENV SET LIBRPMALIAS_FILENAME %{i}/lib/rpm/rpmpopt-%{realversion}
 Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
 Requires: beecrypt bz2lib neon expat db4 expat elfutils zlib
 Patch0: rpm-4.4.9-enum
