@@ -1,5 +1,5 @@
 #!/bin/sh
-# Revision: $Revision: 1.14 $
+# Revision: $Revision: 1.15 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -275,7 +275,7 @@ cd $rootdir
 # Initialise the rpmdb using the new rpm.
 rpm --define "_rpmlock_path $rpmlock" -r $rootdir --dbpath $rootdir/$rpmdb --initdb
 # Build the seed spec and install it, in order to seed the newly generated db.
-rpmOptions="-r $rootdir --dbpath $rootdir/$rpmdb --rcfile $DOWNLOAD_DIR@INSTROOT@/@CMSPLATF@/external/rpm/@RPM_VERSION@/lib/rpm/rpmrc --prefix $rootdir"
+rpmOptions="-r $rootdir --dbpath $rootdir/$rpmdb --rcfile $DOWNLOAD_DIR@INSTROOT@/@CMSPLATF@/external/rpm/@RPM_VERSION@/lib/rpm/rpmrc --nodeps --prefix $rootdir"
 seed $DOWNLOAD_DIR@INSTROOT@/@CMSPLATF@/external/rpm/@RPM_VERSION@/lib/rpm/rpmrc
 # Install the packages, this time using rpm.
 rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm
@@ -302,7 +302,7 @@ cd $rootdir
 
 rm -rf $rootdir/$rpmdb
 mkdir -p $rootdir/$rpmdb
-rpmdb --define "_rpmlock_path $rpmlock" --dbpath $rootdir/$rpmdb --initdb 
+rpmdb -r $rootdir --define "_rpmlock_path $rpmlock" --dbpath $rootdir/$rpmdb --initdb 
 # If we want to use a test instance, we need to adjust the sources.list accordingly.
 if [ "$testInstance" == "true" ]
 then

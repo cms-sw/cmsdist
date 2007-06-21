@@ -39,7 +39,7 @@ mkdir -p %{i}/etc/profile.d
  echo "source $RPM_ROOT/etc/profile.d/init.csh"; \
  echo "source $LIBXML2_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
 
-mkdir -p %{i}/etc
+mkdir -p %{i}/etc/apt
 cat << \EOF_APT_CONF > %{i}/etc/apt.conf
 Dir "%{instroot}"
 {
@@ -62,19 +62,19 @@ Dir "%{instroot}"
 
   // Locations of binaries
       Bin {
-             methods "%{i}%{libdir}/apt/methods/";
+             methods "%{i}/%{libdir}/apt/methods/";
              gzip "/bin/gzip";
              dpkg "/usr/bin/dpkg";
              dpkg-source "/usr/bin/dpkg-source";
              dpkg-buildpackage "/usr/bin/dpkg-buildpackage";
-             apt-get "%{instroot}/bin/apt-get-wrapper";
-             apt-cache "%{instroot}/bin/apt-cache-wrapper";
-             rpm "%{instroot}/bin/rpm-wrapper";
+             apt-get "%{i}/bin/apt-get-wrapper";
+             apt-cache "%{i}/bin/apt-cache-wrapper";
+             rpm "%{i}/bin/rpm-wrapper";
         };
                                                                                                           
 
   // Config files
-    Etc "%{cmsplatf}/etc/" {
+    Etc "%{cmsplatf}/external/apt/%{realversion}/etc/" {
                        sourcelist "sources.list";
                        main "apt.conf";
                        preferences "preferences";
@@ -92,6 +92,50 @@ RPM
     Architecture "%{cmsplatf}";
 };
 EOF_APT_CONF
+
+cat << \EOF_SOURCES_LIST > %{i}/etc/sources.list
+rpm http://cmsrep.cern.ch cms/cpt/Software/download/cms.eulisse/apt/%{cmsplatf} cms lcg external
+rpm-src http://cmsrep.cern.ch cms/cpt/Software/download/cms.eulisse/apt/%{cmsplatf} cms lcg external
+# This are defined to support experimental repositories. The bootstrap file rewrites and uncomments
+# them when passed the appropriate commandline option. 
+## rpm @SERVER@ @SERVER_PATH@/@REPOSITORY@/apt/%{cmsplatf} @GROUPS@  
+## rpm-src @SERVER@ @SERVER_PATH@/@REPOSITORY@/apt/%{cmsplatf} @GROUPS@
+EOF_SOURCES_LIST
+
+cat << \EOF_RPMPRIORITIES > %{i}/etc/rpmpriorities
+Essantial:
+
+EOF_RPMPRIORITIES
+
+cat << \EOF_BIN_APT_CACHE_WRAPPER > %{i}/bin/apt-cache-wrapper
+#!/bin/sh
+touch %{instroot}/log.txt
+echo $@ >> %{instroot}/log.txt
+apt-cache $@
+EOF_BIN_APT_CACHE_WRAPPER
+chmod +x $RPM_INSTALL_PREFIX/bin/apt-cache-wrapper
+
+cat << \EOF_BIN_APT_GET_WRAPPER > %{i}/bin/apt-get-wrapper
+#!/bin/sh
+touch %{instroot}/log.txt
+echo $@ >> %{instroot}/log.txt
+apt-get $@
+EOF_BIN_APT_GET_WRAPPER
+chmod +x $RPM_INSTALL_PREFIX/bin/apt-get-wrapper
+
+cat << \EOF_BIN_RPM > %{i}/bin/rpm-wrapper
+#!/bin/sh
+if [ X"$(id -u)" = X0 ]; then
+  echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
+  echo "CMS software cannot be installed as the super-user." 1>&2
+  echo "(We recommend reading any standard unix security guide.)" 1>&2
+  exit 1
+fi
+touch %{instroot}/log.txt
+echo rpm ${1+"$@"} >> %{instroot}/log.txt
+exec rpm ${1+"$@"}
+EOF_BIN_RPM
+chmod +x %{i}/bin/rpm-wrapper
 
 cat %_sourcedir/bootstrap | perl -p -e "s!\@CMSPLATF\@!%{cmsplatf}!g;
                                         s!\@GCC_VERSION\@!$GCC_VERSION!g;
@@ -132,66 +176,12 @@ mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/dpkg/status
 mkdir -p $RPM_INSTALL_PREFIX/bin
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/cache/%{cmsplatf}
 
-cat << \EOF_BIN_APT_CACHE_WRAPPER > $RPM_INSTALL_PREFIX/bin/apt-cache-wrapper
-#!/bin/sh
-touch %{instroot}/log.txt
-echo $@ >> %{instroot}/log.txt
-apt-cache $@  
-EOF_BIN_APT_CACHE_WRAPPER
-chmod +x $RPM_INSTALL_PREFIX/bin/apt-cache-wrapper
-
-cat << \EOF_BIN_APT_GET_WRAPPER > $RPM_INSTALL_PREFIX/bin/apt-get-wrapper
-#!/bin/sh
-touch %{instroot}/log.txt
-echo $@ >> %{instroot}/log.txt
-apt-get $@  
-EOF_BIN_APT_GET_WRAPPER
-chmod +x $RPM_INSTALL_PREFIX/bin/apt-get-wrapper
-
-mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc
-cat << \EOF_RPMPRIORITIES > $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/rpmpriorities
-Essantial:
-
-EOF_RPMPRIORITIES
-
-cat << \EOF_SOURCES_LIST > $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/sources.list
-rpm http://cmsrep.cern.ch cms/cpt/Software/download/cms.eulisse/apt/%{cmsplatf} cms lcg external  
-rpm-src http://cmsrep.cern.ch cms/cpt/Software/download/cms.eulisse/apt/%{cmsplatf} cms lcg external
-# This are defined to support experimental repositories. The bootstrap file rewrites and uncomments
-# them when passed the appropriate commandline option. 
-## rpm @SERVER@ @SERVER_PATH@/@REPOSITORY@/apt/%{cmsplatf} @GROUPS@  
-## rpm-src @SERVER@ @SERVER_PATH@/@REPOSITORY@/apt/%{cmsplatf} @GROUPS@
-EOF_SOURCES_LIST
-
-mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/rpm
-
-# FIXME: this is the ugliest trick ever found in a shell script.
-# This is my understanding of the situation.
-# apt runs internally as if --root != / while uses rpm with 
-# --root $rootdir but --dbpath is always passed as $rootdir/$rpmdb.
-# This way the rpm db is sometimes in $rootdir/$rpmdb, sometimes in
-# $rootdir/$rootdir/$rpmdb and files are scattered around, causing
-# big confusion. The solution is.... to create a link so that $rootdir/$rootdir
-# is actually $rootdir. Clear, isn't it? If not, I don't blame you, but 
-# this is the only way I could make it working. I need to look at the apt code to
-# (and probably fix it) to understand it better. For the time being....
-# TODO: check if this still applies with this version of apt-get
-# TODO: check if we can fix the problem by patching apt sources.
-
-firstdir=$(echo $RPM_INSTALL_PREFIX | cut -d/ -f1,2)
-if [ -f $RPM_INSTALL_PREFIX$firstdir ] 
-then
-    echo "Hack to enable apt working as user"
-    ln -sf $firstdir $RPM_INSTALL_PREFIX$firstdir
-fi
-
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
-%{relocateConfig}etc/apt.conf
-perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|" $RPM_INSTALL_PREFIX/bin/apt-cache-wrapper $RPM_INSTALL_PREFIX/bin/apt-get-wrapper 
+%{relocateConfig}bin/apt-cache-wrapper
+%{relocateConfig}bin/apt-get-wrapper
+%{relocateConfig}bin/rpm-wrapper
+%{reloacteConfig}etc/apt/apt.conf 
 %files
 %{i}
 %{instroot}/bootstrap-%{cmsplatf}.sh
-%{instroot}/%{cmsplatf}/var/lib/rpm
-
-
