@@ -25,6 +25,8 @@
 # FIXME: post-install stuff for modules etc?
 
 Requires: SCRAMV1
+Requires: gcc-wrapper
+%define gccwrapperarch  slc4_ia32_gcc345
 
 # NR: allow to specify repository and tag 
 # (default: cvsrepo and cvstag)
@@ -54,9 +56,9 @@ Requires: SCRAMV1
 Source0: %{tbxrepo}&tag=-r%{conftag}&module=SCRAMToolBox&output=/%tbxtar
 Source1: %{configrepo}&tag=-r%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
 %if  "%{cvsrepo}" != "cmstc"
-%define source2 %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
+Source2: %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 %else
-%define source2 %{cvsrepo}://?tag=%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
+Source2: %{cvsrepo}://?tag=%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 %endif
 
 # Pick additional sources.  Since install.sh does a grep for "^Source",
@@ -74,7 +76,6 @@ Source1: %{configrepo}&tag=-r%{configtag}&module=%{cvsconfig}&export=config&outp
 %define source4 none
 %endif
 
-Source2: %source2
 Source3: %source3
 Source4: %source4
 
@@ -173,6 +174,10 @@ mkdir -p $(dirname %i)
 %define realVersion %(echo %v | cut -f1 -d-)
 perl -p -i -e 's|%{realVersion}([^-])|%{v}$1|g' %{bootstrapfile} 
 cp -f %toolconf ./tmpconf
+%if "%{cmsplatf}" == "%{gccwrapperarch}"
+echo "Using gcc wrapper for %cmsplatf"
+perl -p -i -e '$gccpath=$ENV{GCC_ROOT};$wrapperpath=$ENV{GCC_WRAPPER_ROOT};s|$gccpath|$wrapperpath|' ./tmpconf
+%endif
 scramv1 project -d $(dirname %i) -b %{bootstrapfile} -f ./tmpconf;
 mv -f ./tmpconf %{i}/config/site/`basename %toolconf`
 
@@ -187,7 +192,6 @@ cd src
 
 %{?buildarch:%buildarch}
 
-export BUILD_LOG=yes
 # export SCRAM_NOSYMCHECK=true
 
 if [ $(uname) = Darwin ]; then
@@ -206,9 +210,19 @@ echo "executing %preBuildCommand"
 %define buildtarget %{nil} 
 %endif
 
+#organize log file, turn off plugin building..
+export BUILD_LOG yes
+export SCRAM_NOPLUGINREFRESH yes
+
 scramv1 b -r echo_CXX </dev/null
 %if "%{?prebuildtarget:set}" == "set"
 scramv1 b --verbose -f %{prebuildtarget} </dev/null
+%endif
+%if "%{cmsplatf}" == "%{gccwrapperarch}"
+scramv1 setup cxxcompiler
+scramv1 setup f77compiler
+scramv1 setup ccompiler
+scramv1 tool info cxxcompiler
 %endif
 scramv1 b --verbose -f %{compileOptions} %{makeprocesses}  %{buildtarget} </dev/null
 %if "%{?additionalBuildTarget0:set}" == "set"
