@@ -62,7 +62,7 @@ Dir "%{instroot}"
 
   // Locations of binaries
       Bin {
-             methods "%{i}/%{libdir}/apt/methods/";
+             methods "%{i}/lib/apt/methods/";
              gzip "/bin/gzip";
              dpkg "/usr/bin/dpkg";
              dpkg-source "/usr/bin/dpkg-source";
@@ -74,7 +74,7 @@ Dir "%{instroot}"
                                                                                                           
 
   // Config files
-    Etc "%{cmsplatf}/external/apt/%{realversion}/etc/" {
+    Etc "%{cmsplatf}/external/apt/%{v}/etc/" {
                        sourcelist "sources.list";
                        main "apt.conf";
                        preferences "preferences";
@@ -182,5 +182,3 @@ mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/cache/%{cmsplatf}
 %{relocateConfig}bin/apt-get-wrapper
 %{relocateConfig}bin/rpm-wrapper
 %{reloacteConfig}etc/apt.conf 
-%files
-%{i}
