@@ -1,4 +1,4 @@
-### RPM cms coral CORAL_1_7_2
+### RPM cms coral CORAL_1_7_2-cms147f
 ## IMPORT configurations
 Provides: /bin/zsh
 Requires: coral-tool-conf
@@ -15,6 +15,8 @@ Requires: coral-tool-conf
 %define buildtarget    release-build
 %define bootstrapfile  %_builddir/%{cvsconfig}/%{cvsprojuc}_bootsrc
 %define reqfile        %_builddir/%{cvsconfig}/%{cvsprojuc}_requirements
+%define configtag      %v
+%define wrapperstag    %v
 
 ## IMPORT lcg-scram-build
 ## IMPORT scramv1-build
