@@ -181,6 +181,6 @@ mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/cache/%{cmsplatf}
 %{relocateConfig}bin/apt-cache-wrapper
 %{relocateConfig}bin/apt-get-wrapper
 %{relocateConfig}bin/rpm-wrapper
-%{reloacteConfig}etc/apt/apt.conf 
+%{reloacteConfig}etc/apt.conf 
 %files
 %{i}
