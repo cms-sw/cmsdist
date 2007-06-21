@@ -1,5 +1,5 @@
 #!/bin/sh
-# Revision: $Revision: 1.12 $
+# Revision: $Revision: 1.13 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -211,12 +211,20 @@ seed ()
     cd $tmp
     (rpmbuild -ba --rcfile $rcfile system-base-import.spec
      echo Seeding database in in $rootdir/$rpmdb
-     rpm --define "_rpmlock_path $rpmlock" -Uvh -r $rootdir --rcfile $rcfile RPMS/system-base-import.rpm
+     rpm --define "_rpmlock_path $rpmlock" -Uvh -r $rootdir --rcfile $rcfile --dbpath $rootdir/$rpmdb RPMS/system-base-import.rpm
     ) || exit $?
     cd $was
 }
 
 setup() {
+# FIXME: this is the ugliest trick ever found in a shell script.
+# The problem is that rpm sometimes applies the value of --root
+# to dbpath, some other times it does not.
+# At some point this should be really fixed in the rpm sources,
+# but for the time being we keep it as it is.
+firstdir=$(echo $rootdir | cut -d/ -f1,2)
+ln -sf $firstdir .$firstdir
+
 # Fetch the required RPMS for RPM and APT from the server and install them using rpmcpio
 export DOWNLOAD_DIR=$rootdir/tmp/BOOTSTRAP
 mkdir -p $DOWNLOAD_DIR
@@ -294,7 +302,7 @@ cd $rootdir
 
 rm -rf $rootdir/$rpmdb
 mkdir -p $rootdir/$rpmdb
-rpm --define "_rpmlock_path $rpmlock" --dbpath $rootdir/$rpmdb --initdb 
+rpmdb --define "_rpmlock_path $rpmlock" --dbpath $rootdir/$rpmdb --initdb 
 # If we want to use a test instance, we need to adjust the sources.list accordingly.
 if [ "$testInstance" == "true" ]
 then
