@@ -1,5 +1,5 @@
 ### RPM external apt 0.5.15lorg3.2-wt1
-## INITENV SET APT_CONFIG %{i}/etc/apt/apt.conf
+## INITENV SET APT_CONFIG %{i}/etc/apt.conf
 
 Source:  http://apt-rpm.org/releases/%n-%realversion.tar.bz2
 Source1: bootstrap
@@ -39,8 +39,8 @@ mkdir -p %{i}/etc/profile.d
  echo "source $RPM_ROOT/etc/profile.d/init.csh"; \
  echo "source $LIBXML2_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
 
-mkdir -p %{i}/etc/apt
-cat << \EOF_APT_CONF > %{i}/etc/apt/apt.conf
+mkdir -p %{i}/etc
+cat << \EOF_APT_CONF > %{i}/etc/apt.conf
 Dir "%{instroot}"
 {
   // Location of the state dir
@@ -74,7 +74,7 @@ Dir "%{instroot}"
                                                                                                           
 
   // Config files
-    Etc "%{cmsplatf}/etc/apt/" {
+    Etc "%{cmsplatf}/etc/" {
                        sourcelist "sources.list";
                        main "apt.conf";
                        preferences "preferences";
@@ -125,7 +125,7 @@ cat %_sourcedir/bootstrap | perl -p -e "s!\@CMSPLATF\@!%{cmsplatf}!g;
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/apt/lists/partial
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/rpm 
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/cache/%{cmsplatf}/partial
-mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/apt
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/rpm
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/lib/apt/methods
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/dpkg/status
@@ -148,13 +148,13 @@ apt-get $@
 EOF_BIN_APT_GET_WRAPPER
 chmod +x $RPM_INSTALL_PREFIX/bin/apt-get-wrapper
 
-mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/apt
-cat << \EOF_RPMPRIORITIES > $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/apt/rpmpriorities
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc
+cat << \EOF_RPMPRIORITIES > $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/rpmpriorities
 Essantial:
 
 EOF_RPMPRIORITIES
 
-cat << \EOF_SOURCES_LIST > $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/apt/sources.list
+cat << \EOF_SOURCES_LIST > $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/sources.list
 rpm http://cmsrep.cern.ch cms/cpt/Software/download/cms.eulisse/apt/%{cmsplatf} cms lcg external  
 rpm-src http://cmsrep.cern.ch cms/cpt/Software/download/cms.eulisse/apt/%{cmsplatf} cms lcg external
 # This are defined to support experimental repositories. The bootstrap file rewrites and uncomments
@@ -187,6 +187,7 @@ fi
 
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
+%{relocateConfig}etc/apt.conf
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|" $RPM_INSTALL_PREFIX/bin/apt-cache-wrapper $RPM_INSTALL_PREFIX/bin/apt-get-wrapper 
 %files
 %{i}
