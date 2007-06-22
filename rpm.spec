@@ -31,7 +31,7 @@ perl -p -i -e "s|\@WITH_NEON_LIB\@|$NEON_ROOT/lib/libneon.a|;
 " `find . -name \*.in` 
 perl -p -i -e "s|#undef HAVE_NEON_NE_GET_RESPONSE_HEADER|#define HAVE_NEON_NE_GET_RESPONSE_HEADER 1|" config.h.in
 
-./configure --prefix=%i --disable-nls --without-selinux --with-lua=no --without-python --without-libintl --without-perl
+varprefix=%{instroot}/%{cmsplatf}/var ./configure --prefix=%i --disable-nls --without-selinux --with-lua=no --without-python --without-libintl --without-perl
 (cd zlib; make)
 make %makeprocesses
 perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|" scripts/get_magic.pl \
