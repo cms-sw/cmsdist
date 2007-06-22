@@ -169,6 +169,9 @@ echo "executing %preBuildCommand"
 %define buildtarget %{nil} 
 %endif
 
+#organize log file, turn off plugin building..
+export BUILD_LOG yes
+export SCRAM_NOPLUGINREFRESH yes
 
 scramv1 b -r echo_CXX </dev/null
 %if "%{?prebuildtarget:set}" == "set"
