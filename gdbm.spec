@@ -1,4 +1,4 @@
-### RPM external gdbm 1.8.3-XXXX
+### RPM external gdbm 1.8.3-wt1
 Source: http://rm.mirror.garr.it/mirrors/gnuftp/gnu/%{n}/%{n}-%{realversion}.tar.gz
 
 %define thisuser %(id -u)
