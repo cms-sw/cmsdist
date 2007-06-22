@@ -1,5 +1,5 @@
 #!/bin/sh
-# Revision: $Revision: 1.15 $
+# Revision: $Revision: 1.16 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -297,12 +297,6 @@ source $rootdir/@CMSPLATF@/external/apt/@APT_VERSION@/etc/profile.d/init.sh
 apt-get update
 apt-get dist-upgrade
 
-was=`pwd`
-cd $rootdir 
-
-rm -rf $rootdir/$rpmdb
-mkdir -p $rootdir/$rpmdb
-rpmdb -r $rootdir --define "_rpmlock_path $rpmlock" --dbpath $rootdir/$rpmdb --initdb 
 # If we want to use a test instance, we need to adjust the sources.list accordingly.
 if [ "$testInstance" == "true" ]
 then
