@@ -1,4 +1,4 @@
-### RPM cms fwlite CMSSW_1_5_0_pre5_FWLITE
+### RPM cms fwlite CMSSW_1_5_0_FWLITE
 ## IMPORT configurations 
 Provides: /bin/zsh
 Requires: SCRAMV1
