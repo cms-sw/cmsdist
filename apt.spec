@@ -27,6 +27,7 @@ export LIBXML2_LIBS="-lxml2 -L$LIBXML2_ROOT/lib -L$BEECRYPT_ROOT/%{libdir} -L$RP
                             --disable-nls \
                             --disable-dependency-tracking \
                             --without-libintl-prefix \
+                            --disable-docs \
                             --disable-rpath
 make %makeprocesses
 
