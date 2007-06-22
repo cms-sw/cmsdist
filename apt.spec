@@ -15,6 +15,8 @@ Requires: libxml2 beecrypt rpm zlib bz2lib openssl
 %setup -n %n-%{realversion}
 %patch0 -p0
 %build
+export CFLAGS="-O2 -g"
+export CXXFLAGS="-O2 -g"
 export CPPFLAGS="-I$BEECRYPT_ROOT/include -I$RPM_ROOT/include -I$RPM_ROOT/include/rpm"
 export LDFLAGS="-L$BEECRYPT_ROOT/%{libdir} -L$RPM_ROOT/%{libdir}"
 export LIBDIR="$LIBS"
@@ -181,3 +183,4 @@ mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/cache/%{cmsplatf}
 %{relocateConfig}bin/apt-get-wrapper
 %{relocateConfig}bin/rpm-wrapper
 %{relocateConfig}etc/apt.conf 
+
