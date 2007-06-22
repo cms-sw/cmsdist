@@ -175,10 +175,9 @@ mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/lib/apt/methods
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/dpkg/status
 mkdir -p $RPM_INSTALL_PREFIX/bin
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/cache/%{cmsplatf}
-
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 %{relocateConfig}bin/apt-cache-wrapper
 %{relocateConfig}bin/apt-get-wrapper
 %{relocateConfig}bin/rpm-wrapper
-%{reloacteConfig}etc/apt.conf 
+%{relocateConfig}etc/apt.conf 
