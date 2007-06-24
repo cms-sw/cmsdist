@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-micro PHEDEX_2_5_2
+### RPM cms PHEDEX-micro PHEDEX_2_5_3_1
 
 ## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -48,7 +48,7 @@ rm     Utilities/GrepSites
 rm     Utilities/IdentityNew
 rm     Utilities/IdentityRemove
 rm     Utilities/ImportSites
-rm     Utilities/InspectPhedexLog.pl
+rm     Utilities/InspectPhedexLog
 rm     Utilities/LinkNew
 rm     Utilities/LinkRemove
 rm     Utilities/LoadTest07FileCreator

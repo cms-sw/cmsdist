@@ -1,9 +1,8 @@
-### RPM lcg root 5.14.00e-CMS1
+### RPM lcg root 5.14.00e-CMS1XXXX
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
-%define realVersion %(echo %v | cut -d- -f1)
-Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realVersion | tr . -)&module=root&output=/%{n}_v%{realVersion}.source.tar.gz
-#Source: ftp://root.cern.ch/%n/%{n}_v%{realVersion}.source.tar.gz
+Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
+#Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 
 Patch: root-CINT-maxlongline
 
@@ -40,12 +39,12 @@ CONFIG_ARGS="--enable-table
              --enable-roofit
              --disable-ldap
              --disable-krb5
-	         --with-dcap-libdir=${DCAP_ROOT}/lib 
-             --with-dcap-incdir=${DCAP_ROOT}/include
              --with-ssl-incdir=${OPENSSL_ROOT}/include
              --with-ssl-libdir=${OPENSSL_ROOT}/lib
              --with-gsl-incdir=${GSL_ROOT}/include
              --with-gsl-libdir=${GSL_ROOT}/lib
+             --with-dcap-libdir=${DCAP_ROOT}/lib 
+             --with-dcap-incdir=${DCAP_ROOT}/include
              --disable-pgsql
              --disable-xml"
 
