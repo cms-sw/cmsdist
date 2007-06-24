@@ -1,5 +1,5 @@
 ### RPM external xdaq 3.9.0-CMS2
-Requires: zlib mimetic xerces-c
+Requires: zlib mimetic xerces-c uuid
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
 %if "%cmsplatf" == "slc3_ia32_gcc323"
@@ -11,6 +11,7 @@ Source0: http://switch.dl.sourceforge.net/sourceforge/xdaq/coretools_G_V%{xdaqv}
 Source1: http://switch.dl.sourceforge.net/sourceforge/xdaq/powerpack_G_V1_9_0.tgz
 Source2: http://switch.dl.sourceforge.net/sourceforge/xdaq/worksuite_G_V1_8_0.tgz
 Patch: xdaq_39_oracle
+Patch1: xdaq-3.9.0-uuid
 
 %prep
 %setup -T -b 0 -n TriDAS
@@ -18,6 +19,7 @@ Patch: xdaq_39_oracle
 %setup -D -T -b 2 -n TriDAS
 
 #%patch0 -p2
+%patch1 -p1
 ls
 #perl -p -i -e "s|^#.*ksh(.*)|#!/usr/bin/env ksh $1|" daq/extern/SBSVME/1003/v2p3p0/sys/makefile \
 #                                                     daq/extern/SBSVME/1003/v2p3p0/sys/mkbtp
@@ -36,6 +38,7 @@ export XDAQ_ROOT=$PWD
 cd %{i}/daq
 export MIMETIC_PREFIX=$MIMETIC_ROOT
 export XERCES_PREFIX=$XERCES_C_ROOT
+export UUID_LIB_PREFIX=$UUID_ROOT/lib
  
 make CPPDEFINES=linux Set=extern_coretools install
 make CPPDEFINES=linux Set=coretools install
