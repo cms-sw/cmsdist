@@ -12,6 +12,7 @@ Source1: http://switch.dl.sourceforge.net/sourceforge/xdaq/powerpack_G_V1_9_0.tg
 Source2: http://switch.dl.sourceforge.net/sourceforge/xdaq/worksuite_G_V1_8_0.tgz
 Patch: xdaq_39_oracle
 Patch1: xdaq-3.9.0-uuid
+Patch2: xdaq-3.9.0-nossh
 
 %prep
 %setup -T -b 0 -n TriDAS
@@ -20,6 +21,7 @@ Patch1: xdaq-3.9.0-uuid
 
 #%patch0 -p2
 %patch1 -p1
+%patch2 -p1
 ls
 #perl -p -i -e "s|^#.*ksh(.*)|#!/usr/bin/env ksh $1|" daq/extern/SBSVME/1003/v2p3p0/sys/makefile \
 #                                                     daq/extern/SBSVME/1003/v2p3p0/sys/mkbtp
