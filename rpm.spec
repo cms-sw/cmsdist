@@ -1,6 +1,7 @@
 ### RPM external rpm 4.4.2.1-wt1
+# FIXME: the version should really be 4.4.2.1-rc1 but I don't know if that causes problems to the "realversion" mechanism.
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-## INITENV SET LIBRPMALIAS_FILENAME %{i}/lib/rpm/rpmpopt-%{realversion}
+## INITENV SET LIBRPMALIAS_FILENAME %{i}/lib/rpm/rpmpopt-%{realversion}-rc1
 ## INITENV SET LIBRPMRC_FILENAME %{i}/lib/rpm/rpmrc
 ## INITENV SET RPM_MACROFILES %{i}/lib/rpm/macros
 ## INITENV SET USRLIBRPM %{i}/lib/rpm
