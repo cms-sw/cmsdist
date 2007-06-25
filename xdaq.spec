@@ -1,5 +1,5 @@
-### RPM external xdaq 3.9.0-CMS1
-Requires: zlib oracle
+### RPM external xdaq 3.9.0-CMS2
+Requires: zlib mimetic xerces-c uuid
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
 %if "%cmsplatf" == "slc3_ia32_gcc323"
@@ -11,13 +11,17 @@ Source0: http://switch.dl.sourceforge.net/sourceforge/xdaq/coretools_G_V%{xdaqv}
 Source1: http://switch.dl.sourceforge.net/sourceforge/xdaq/powerpack_G_V1_9_0.tgz
 Source2: http://switch.dl.sourceforge.net/sourceforge/xdaq/worksuite_G_V1_8_0.tgz
 Patch: xdaq_39_oracle
+Patch1: xdaq-3.9.0-uuid
+Patch2: xdaq-3.9.0-nossh
 
 %prep
 %setup -T -b 0 -n TriDAS
 %setup -D -T -b 1 -n TriDAS
 %setup -D -T -b 2 -n TriDAS
 
-%patch0 -p2
+#%patch0 -p2
+%patch1 -p1
+%patch2 -p1
 ls
 #perl -p -i -e "s|^#.*ksh(.*)|#!/usr/bin/env ksh $1|" daq/extern/SBSVME/1003/v2p3p0/sys/makefile \
 #                                                     daq/extern/SBSVME/1003/v2p3p0/sys/mkbtp
@@ -34,22 +38,31 @@ cp -rp *  %{i} # assuming there are no symlinks in the original source code
 cd %{i}
 export XDAQ_ROOT=$PWD
 cd %{i}/daq
-#fool xdaq for oracle and friends
-#ln -s $ORACLE_ROOT extern/oracle/x86_slc4
+export MIMETIC_PREFIX=$MIMETIC_ROOT
+export XERCES_PREFIX=$XERCES_C_ROOT
+export UUID_LIB_PREFIX=$UUID_ROOT/lib
+ 
 make CPPDEFINES=linux Set=extern_coretools install
 make CPPDEFINES=linux Set=coretools install
 make CPPDEFINES=linux Set=extern_powerpack install
 make CPPDEFINES=linux Set=powerpack install
-#make CPPDEFINES=linux Set=extern_worksuite install
-make CPPDEFINES=linux Set=worksuite install
+cd xdaq2rc
+make CPPDEFINES=linux install
+cd ..
+
 
 # The following structure used as defined in Xdaq "simplify" script:
 cd %{i}
 mv x86*/lib .
 mv x86*/bin .
 mv x86*/include .
+mkdir include/interface
+mv daq/interface/evb/include/interface/evb include/interface
+mv daq/interface/shared/include/interface/shared include/interface
+
 rm -fr daq 
 rm -fr CVS
+rm -fr x86*
 
 # Libraries from extern (not found cause they are symlinks)
 
