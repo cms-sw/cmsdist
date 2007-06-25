@@ -1,4 +1,4 @@
-### RPM external rpm 4.4.9-wt1
+### RPM external rpm 4.4.2.1-wt1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV SET LIBRPMALIAS_FILENAME %{i}/lib/rpm/rpmpopt-%{realversion}
 ## INITENV SET LIBRPMRC_FILENAME %{i}/lib/rpm/rpmrc
@@ -6,25 +6,27 @@
 ## INITENV SET USRLIBRPM %{i}/lib/rpm
 ## INITENV SET RPMCONFIGDIR %{i}/lib/rpm
 ## INITENV SET SYSCONFIGDIR %{i}/lib/rpm
-Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
+Source: http://rpm.org/releases/testing/rpm-%{realversion}-rc1.tar.gz
+#Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
 Requires: beecrypt bz2lib neon expat db4 expat elfutils zlib
 Patch0: rpm-4.4.9-enum
 Patch1: rpm-4.4.9-rpmps
 Patch2: rpm-4.4.9-popt
 Patch3: rpm-4.4.9-macrofiles
 Patch4: rpm-4.4.6
+Patch5: rpm-4.4.2.1
 %if "%(echo %{cmsos} | cut -d_ -f 2 | sed -e 's|.*64.*|64|')" == "64"
 %define libdir lib64 
 %else
 %define libdir lib
 %endif
 %prep 
-%setup -n %n-%{realversion}
+%setup -n %n-%{realversion}-rc1
 %if "%{realversion}" == "4.4.9"
 %patch0 -p0
 %endif
 
-%patch1 -p0
+#%patch1 -p0
 
 %if "%{realversion}" == "4.4.9"
 %patch2 -p0
@@ -34,7 +36,12 @@ Patch4: rpm-4.4.6
 %if "%{realversion}" == "4.4.6"
 %patch4 -p0
 %endif
-#rm -rf neon sqlite beecrypt elfutils zlib 
+
+%if "%{realversion}" == "4.4.2.1"
+%patch5 -p0
+%endif
+
+rm -rf neon sqlite beecrypt elfutils zlib 
 %build
 #export LIBS="-lexpat"
 export CFLAGS="-fPIC -g -O0"
@@ -47,9 +54,10 @@ perl -p -i -e "s|\@WITH_NEON_LIB\@|$NEON_ROOT/lib/libneon.a|;
 perl -p -i -e "s|#undef HAVE_NEON_NE_GET_RESPONSE_HEADER|#define HAVE_NEON_NE_GET_RESPONSE_HEADER 1|;
                s|#undef HAVE_BZ2_1_0|#define HAVE_BZ2_1_0|;
                s|#undef HAVE_GETPASSPHRASE||;
-               s|#undef HAVE_LUA||" config.h.in
+               s|#undef HAVE_LUA||;" config.h.in
+#perl -p -i -e 's%^(WITH_DB_SUBDIR|WITH_INTERNAL_DB|DBLIBSRCS)%#$1%' configure
 
-varprefix=%{instroot}/%{cmsplatf}/var ./configure --prefix=%i --disable-nls --without-selinux --without-python --without-libintl --without-perl  --enable-posixmutexes
+varprefix=%{instroot}/%{cmsplatf}/var ./configure --prefix=%i --disable-nls --without-selinux --without-python --without-libintl --without-perl --with-zlib-includes=$ZLIB_ROOT/include --with-zlib-lib=$ZLIB_ROOT/lib/zlib.so 
 (cd zlib; make)
 make %makeprocesses
 perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|" scripts/get_magic.pl \
