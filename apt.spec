@@ -23,8 +23,8 @@ case $RPM_VERSION in
         ;;
 esac
 %build
-export CFLAGS="-O2 -g"
-export CXXFLAGS="-O2 -g"
+export CFLAGS="-O0 -g"
+export CXXFLAGS="-O0 -g"
 export CPPFLAGS="-I$BEECRYPT_ROOT/include -I$RPM_ROOT/include -I$RPM_ROOT/include/rpm"
 export LDFLAGS="-L$BEECRYPT_ROOT/%{libdir} -L$RPM_ROOT/%{libdir}"
 export LIBDIR="$LIBS"
