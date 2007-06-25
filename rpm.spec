@@ -1,4 +1,4 @@
-### RPM external rpm 4.4.6-wt1
+### RPM external rpm 4.4.9-wt1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV SET LIBRPMALIAS_FILENAME %{i}/lib/rpm/rpmpopt-%{realversion}
 ## INITENV SET LIBRPMRC_FILENAME %{i}/lib/rpm/rpmrc
@@ -34,12 +34,12 @@ Patch4: rpm-4.4.6
 %if "%{realversion}" == "4.4.6"
 %patch4 -p0
 %endif
-rm -rf neon sqlite beecrypt elfutils zlib 
+#rm -rf neon sqlite beecrypt elfutils zlib 
 %build
 #export LIBS="-lexpat"
-export CFLAGS="-fPIC"
+export CFLAGS="-fPIC -g -O0"
 export CPPFLAGS="-I$BEECRYPT_ROOT/include -I$BEECRYPT_ROOT/include/beecrypt -I$BZ2LIB_ROOT/include -I$NEON_ROOT/include/neon -I$DB4_ROOT/include -I$EXPAT_ROOT/include/expat -I$ELFUTILS_ROOT/include -I$ZLIB_ROOT/include"
-export LDFLAGS="-L$BEECRYPT_ROOT/%libdir -L$BZ2LIB_ROOT/lib -L$NEON_ROOT/lib -L$DB4_ROOT/lib -L$EXPAT_ROOT/%libdir -L$ELFUTILS_ROOT/lib -L$ZLIB_ROOT/lib -lz -lexpat -lbeecrypt -lbz2 -lneon"
+export LDFLAGS="-L$BEECRYPT_ROOT/%libdir -L$BZ2LIB_ROOT/lib -L$NEON_ROOT/lib -L$DB4_ROOT/lib -L$EXPAT_ROOT/%libdir -L$ELFUTILS_ROOT/lib -L$ZLIB_ROOT/lib -lz -lexpat -lbeecrypt -lbz2 -lneon -lpthread"
 #FIXME: this does not seem to work and we still get /usr/bin/python in some of the files.
 export __PYTHON="/usr/bin/env python"
 perl -p -i -e "s|\@WITH_NEON_LIB\@|$NEON_ROOT/lib/libneon.a|;
@@ -49,7 +49,7 @@ perl -p -i -e "s|#undef HAVE_NEON_NE_GET_RESPONSE_HEADER|#define HAVE_NEON_NE_GE
                s|#undef HAVE_GETPASSPHRASE||;
                s|#undef HAVE_LUA||" config.h.in
 
-varprefix=%{instroot}/%{cmsplatf}/var ./configure --prefix=%i --disable-nls --without-selinux --without-python --without-libintl --without-perl 
+varprefix=%{instroot}/%{cmsplatf}/var ./configure --prefix=%i --disable-nls --without-selinux --without-python --without-libintl --without-perl  --enable-posixmutexes
 (cd zlib; make)
 make %makeprocesses
 perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|" scripts/get_magic.pl \
