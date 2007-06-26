@@ -1,5 +1,4 @@
-### RPM external expat 2.0.0-wt1
-## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
+### RPM external expat 2.0.0-XXXX
 Source: http://dl.sourceforge.net/sourceforge/%n/%n-%realversion.tar.gz
 
 %prep
