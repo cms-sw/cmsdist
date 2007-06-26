@@ -13,7 +13,10 @@ Source: http://dl.sourceforge.net/sourceforge/%n/%{n}%{boostver}.tar.gz
 # an error.  So ignore the exit code from bjam on darwin to avoid
 # RPM falsely detecting a problem.
 PR="PYTHON_ROOT=$PYTHON_ROOT"
-PV="PYTHON_VERSION=$(echo $PYTHON_VERSION | sed 's/\.[0-9]*$//')"
+#PV="PYTHON_VERSION=$(echo $PYTHON_VERSION | sed 's/\.[0-9]*$//')"
+# The following line assumes a version of the form x.y.z-XXXX, where the
+# "-XXXX" part represents some CMS rebuild of version x.y.z
+PV="PYTHON_VERSION=$(echo $PYTHON_VERSION | sed 's/\.[0-9]*-.*$//')"
 BZ2LIBR="BZIP2_LIBPATH=$BZ2LIB_ROOT/lib"
 ZLIBR="ZLIB_LIBPATH=$ZLIB_ROOT/lib"
 BZ2LIBI="BZIP2_INCLUDE=$BZ2LIB_ROOT/include"
@@ -45,12 +48,11 @@ find libs -name '*.py' -print |
     install_name_tool -id $f $f
   done
 
-# Do all manipulation with files before creating symbolic links:
-perl -p -i -e "s|^#!.*python|/usr/bin/env python|" $(find %{i}/lib %{i}/bin)
-strip %i/lib/*.$so %i/lib/debug/*.$so
-
 (cd %i/lib; for f in lib*-$boost_abi.$so; do ln -s $f $(echo $f | sed "s/-$boost_abi//"); done)
 (cd %i/lib; for f in lib*-$boost_abi.$so; do ln -s $f $f.%realversion ; done)
 (cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $(echo $f | sed "s/-d-$boost_abi//"); done)
 (cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $f.%realversion; done)
 (cd %i/lib/libs/python/pyste/install; python setup.py install --prefix=%i)
+
+perl -p -i -e "s|^#!.*python|/usr/bin/env python|" $(find %{i}/lib %{i}/bin)
+
