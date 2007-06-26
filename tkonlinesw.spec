@@ -12,6 +12,9 @@ Requires: xdaq
 %prep
 %setup -q -n %releasename
 %patch -p1
+# Clean up some mysterious old build within the sources that screws
+# up the install by copying in an old libFed9UUtils.so
+rm -fR TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/2.4/slc3_ia32_gcc323
 
 # This is a kludge around a kludge...
 %if "%cmsplatf" == "slc4_amd64_gcc345"
@@ -46,11 +49,22 @@ export ENV_CMS_TK_SBS_ROOT=blah
 cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure  && ./configure && cd -
 cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure  && ./configure && cd -
 
+# Simply hack the resulting makefile since I do not see how to properly
+# configure it to use our xerces instead of the xdaq one
+perl -p -i -e 's|export ENV_CMS_TK_FED9U_XERCES_ROOT =(.*)|export ENV_CMS_TK_FED9U_XERCES_ROOT = $ENV{'XERCESCROOT'}|' TrackerOnline/Fed9U/Fed9USoftware/Makefile.in
 # order matters ...
-cd ${ENV_CMS_TK_ICUTILS} && make && cd -
-cd ${ENV_CMS_TK_FED9U_ROOT} && make Fed9UUtils && cd -
-cd ${ENV_CMS_TK_FED9U_ROOT} && make Fed9UDeviceFactory && cd -
-cd ${ENV_CMS_TK_FEC_ROOT} && make DeviceFactory && cd -
+cd ${ENV_CMS_TK_ICUTILS} 
+make 
+cd ${ENV_CMS_TK_BASE}
+cd ${ENV_CMS_TK_FED9U_ROOT} 
+make Fed9UUtils 
+cd ${ENV_CMS_TK_BASE}
+cd ${ENV_CMS_TK_FED9U_ROOT} 
+make Fed9UDeviceFactory 
+cd ${ENV_CMS_TK_BASE}
+cd ${ENV_CMS_TK_FEC_ROOT} 
+make DeviceFactory 
+cd ${ENV_CMS_TK_BASE}
 make install
 
 %install
