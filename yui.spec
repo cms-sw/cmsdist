@@ -1,12 +1,11 @@
-### RPM external yui 2.2.1
-%define realv %v
-Source: http://switch.dl.sourceforge.net/sourceforge/yui/yui_%realv.zip 
+### RPM external yui 2.2.2
+Source: http://switch.dl.sourceforge.net/sourceforge/yui/yui_%realversion.zip 
 
 %prep
 rm -rf %{_builddir}/yui
 mkdir -p %{_builddir}/yui
 cd %{_builddir}
-unzip %{_sourcedir}/yui_%realv.zip 
+unzip %{_sourcedir}/yui_%realversion.zip 
 %build
 %install
 pwd
