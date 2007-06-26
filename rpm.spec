@@ -1,39 +1,64 @@
-### RPM external rpm 4.4.9-wt1
+### RPM external rpm 4.4.2.1-wt1
+# FIXME: the version should really be 4.4.2.1-rc1 but I don't know if that causes problems to the "realversion" mechanism.
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-## INITENV SET LIBRPMALIAS_FILENAME %{i}/lib/rpm/rpmpopt-%{realversion}
+## INITENV SET LIBRPMALIAS_FILENAME %{i}/lib/rpm/rpmpopt-%{realversion}-rc1
+## INITENV SET LIBRPMRC_FILENAME %{i}/lib/rpm/rpmrc
 ## INITENV SET RPM_MACROFILES %{i}/lib/rpm/macros
 ## INITENV SET USRLIBRPM %{i}/lib/rpm
-Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
+## INITENV SET RPMCONFIGDIR %{i}/lib/rpm
+## INITENV SET SYSCONFIGDIR %{i}/lib/rpm
+Source: http://rpm.org/releases/testing/rpm-%{realversion}-rc1.tar.gz
+#Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
 Requires: beecrypt bz2lib neon expat db4 expat elfutils zlib
 Patch0: rpm-4.4.9-enum
 Patch1: rpm-4.4.9-rpmps
-Patch2: rpm-popt
-Patch3: rpm-macrofiles
+Patch2: rpm-4.4.9-popt
+Patch3: rpm-4.4.9-macrofiles
+Patch4: rpm-4.4.6
+Patch5: rpm-4.4.2.1
 %if "%(echo %{cmsos} | cut -d_ -f 2 | sed -e 's|.*64.*|64|')" == "64"
 %define libdir lib64 
 %else
 %define libdir lib
 %endif
 %prep 
-%setup -n %n-%{realversion}
+%setup -n %n-%{realversion}-rc1
+%if "%{realversion}" == "4.4.9"
 %patch0 -p0
-%patch1 -p0
+%endif
+
+#%patch1 -p0
+
+%if "%{realversion}" == "4.4.9"
 %patch2 -p0
 %patch3 -p0
+%endif
+
+%if "%{realversion}" == "4.4.6"
+%patch4 -p0
+%endif
+
+%if "%{realversion}" == "4.4.2.1"
+%patch5 -p0
+%endif
+
+rm -rf neon sqlite beecrypt elfutils zlib 
 %build
 #export LIBS="-lexpat"
-export CFLAGS="-fPIC"
+export CFLAGS="-fPIC -g -O0"
 export CPPFLAGS="-I$BEECRYPT_ROOT/include -I$BEECRYPT_ROOT/include/beecrypt -I$BZ2LIB_ROOT/include -I$NEON_ROOT/include/neon -I$DB4_ROOT/include -I$EXPAT_ROOT/include/expat -I$ELFUTILS_ROOT/include -I$ZLIB_ROOT/include"
-export LDFLAGS="-L$BEECRYPT_ROOT/%libdir -L$BZ2LIB_ROOT/lib -L$NEON_ROOT/lib -L$DB4_ROOT/lib -L$EXPAT_ROOT/%libdir -L$ELFUTILS_ROOT/lib -L$ZLIB_ROOT/lib -lexpat -lbeecrypt -lbz2"
+export LDFLAGS="-L$BEECRYPT_ROOT/%libdir -L$BZ2LIB_ROOT/lib -L$NEON_ROOT/lib -L$DB4_ROOT/lib -L$EXPAT_ROOT/%libdir -L$ELFUTILS_ROOT/lib -L$ZLIB_ROOT/lib -lz -lexpat -lbeecrypt -lbz2 -lneon -lpthread"
 #FIXME: this does not seem to work and we still get /usr/bin/python in some of the files.
 export __PYTHON="/usr/bin/env python"
 perl -p -i -e "s|\@WITH_NEON_LIB\@|$NEON_ROOT/lib/libneon.a|;
 " `find . -name \*.in` 
 perl -p -i -e "s|#undef HAVE_NEON_NE_GET_RESPONSE_HEADER|#define HAVE_NEON_NE_GET_RESPONSE_HEADER 1|;
                s|#undef HAVE_BZ2_1_0|#define HAVE_BZ2_1_0|;
-               s|#undef HAVE_GETPASSPHRASE||" config.h.in
+               s|#undef HAVE_GETPASSPHRASE||;
+               s|#undef HAVE_LUA||;" config.h.in
+#perl -p -i -e 's%^(WITH_DB_SUBDIR|WITH_INTERNAL_DB|DBLIBSRCS)%#$1%' configure
 
-varprefix=%{instroot}/%{cmsplatf}/var ./configure --prefix=%i --disable-nls --without-selinux --with-lua=no --without-python --without-libintl --without-perl 
+varprefix=%{instroot}/%{cmsplatf}/var ./configure --prefix=%i --disable-nls --without-selinux --without-python --without-libintl --without-perl --with-zlib-includes=$ZLIB_ROOT/include --with-zlib-lib=$ZLIB_ROOT/lib/zlib.so 
 (cd zlib; make)
 make %makeprocesses
 perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|" scripts/get_magic.pl \
@@ -81,4 +106,5 @@ perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|" `grep -r %instroot $RPM_INSTALL
 %files
 %{i}
 %{instroot}/%{cmsplatf}/var/spool/repackage
+
 

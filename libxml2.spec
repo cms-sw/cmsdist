@@ -4,5 +4,5 @@ Requires: zlib
 %prep
 %setup -n %n-%realversion
 %build
-./configure --prefix=%i --with-zlib=$ZLIB_ROOT
+./configure --prefix=%i --with-zlib=$ZLIB_ROOT --without-python
 make %makeprocesses

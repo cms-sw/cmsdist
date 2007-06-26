@@ -3,8 +3,9 @@
 
 Source:  http://apt-rpm.org/releases/%n-%realversion.tar.bz2
 Source1: bootstrap
-Patch0: apt-rpm449
 Requires: libxml2 beecrypt rpm zlib bz2lib openssl
+Patch0: apt-rpm449
+Patch1: apt-rpm446
 %if "%(echo %{cmsos} | cut -d_ -f 2 | sed -e 's|.*64.*|64|')" == "64"
 %define libdir lib64
 %else
@@ -13,12 +14,19 @@ Requires: libxml2 beecrypt rpm zlib bz2lib openssl
 
 %prep
 %setup -n %n-%{realversion}
+case $RPM_VERSION in
+    4.4.9*)
 %patch0 -p0
+        ;;
+    4.4.6*)
+%patch1 -p0
+        ;;
+esac
 %build
-export CFLAGS="-O2 -g"
-export CXXFLAGS="-O2 -g"
-export CPPFLAGS="-I$BEECRYPT_ROOT/include -I$RPM_ROOT/include -I$RPM_ROOT/include/rpm"
-export LDFLAGS="-L$BEECRYPT_ROOT/%{libdir} -L$RPM_ROOT/%{libdir}"
+export CFLAGS="-O0 -g"
+export CXXFLAGS="-O0 -g"
+export CPPFLAGS="-I$BZ2LIB_ROOT/include -I$BEECRYPT_ROOT/include -I$RPM_ROOT/include -I$RPM_ROOT/include/rpm"
+export LDFLAGS="-L$BZ2LIB_ROOT/lib -L$BEECRYPT_ROOT/%{libdir} -L$RPM_ROOT/%{libdir}"
 export LIBDIR="$LIBS"
 export LIBXML2_CFLAGS="-I$LIBXML2_ROOT/include/libxml2 -I$BEECRYPT_ROOT/include -I$RPM_ROOT/include"
 export LIBXML2_LIBS="-lxml2 -L$LIBXML2_ROOT/lib -L$BEECRYPT_ROOT/%{libdir} -L$RPM_ROOT/%{libdir}"
@@ -184,4 +192,5 @@ mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/cache/%{cmsplatf}
 %{relocateConfig}bin/apt-get-wrapper
 %{relocateConfig}bin/rpm-wrapper
 %{relocateConfig}etc/apt.conf 
+
 
