@@ -1,4 +1,4 @@
-### RPM external sqlite 3.3.5-XXXX
+### RPM external sqlite 3.3.5-wt1
 Source: http://www.sqlite.org/%{n}-%{realversion}.tar.gz
 Patch1: sqlite_3.3.5_readline_for_32bit_on_64bit_build
 
