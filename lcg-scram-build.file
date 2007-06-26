@@ -1,26 +1,5 @@
 ### FILE lcg-scram-build
 
-%define cvsproj         %cvsprojuc
 %define cvsrepo		cvs://:pserver:anonymous@%{cvsserver}.cvs.cern.ch/cvs/%{cvsdir}?passwd=Ah<Z
-%define cmsrepo		cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-%define cvstag		%(echo %v | cut -d- -f1)
+%define cmsrepo         cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define cvssrc		%cvsprojlc
-%define srctree		src
-%define tbxrepo		cvs://:pserver:anonymous@isscvs.cern.ch:/local/reps/scramtoolbox?passwd=AA_:yZZ3e
-%define conftag		CMS_%confversion%conflevel
-%define confsite	CMSconfigs
-%define configrepo	%cmsrepo
-%define lcgaawrappers   LCGAAwrappers
-
-# The wrappertag can be used if we need to rebuild the same version with 
-# modified wrappers, and therfore need a different tag: 
-%if "%{?wrapperstag:set}" != "set"
-%define wrapperstag	%cvstag
-%endif
-
-%define additionalSrc0  %{cmsrepo}&tag=-r%{wrapperstag}&module=%{lcgaawrappers}/%{cvsproj}&export=%{lcgaawrappers}/%{cvsproj}
-
-%if "%{buildarch:set}" != "set"
-%define buildarch	:
-%endif
-
