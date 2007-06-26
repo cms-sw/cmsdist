@@ -2,7 +2,7 @@
 %define pythonv %(echo $PYTHON_VERSION | cut -f1,2 -d.)
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
-%define distname SQLObject-%v
+%define distname SQLObject-%realversion
 Source: http://cheeseshop.python.org/packages/source/S/SQLObject/%{distname}.tar.gz
 Patch0: patch-setup
 Requires: python
