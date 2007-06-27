@@ -10,6 +10,7 @@ Patch:    coral-SV1BuildFiles
 %define cvsdir          %cvsprojlc
 %define cvsserver       %cvsprojlc
 %define conflevel       %{nil}
+%define preBuildCommand (rm -rf LFCLookupService LFCReplicaService MySQLAccess)
 %define prebuildtarget  prebuild
 %define buildtarget     release-build
 %define patchsrc        %patch -p0
