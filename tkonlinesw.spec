@@ -1,6 +1,6 @@
-### RPM external tkonlinesw 0.3
+### RPM external tkonlinesw 0.3-CMS3
 %define projectname trackerDAQ
-%define releasename %{projectname}-%{v}
+%define releasename %{projectname}-%{realversion}
 Source: http://cmsdoc.cern.ch/cms/cmt/online/rpm/SOURCE/%{releasename}.tgz
 Patch: Fed9U-gcc3.4
 Requires: xerces-c
@@ -18,7 +18,7 @@ rm -fR TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/2.4/slc3_ia32_gcc323
 
 # This is a kludge around a kludge...
 %if "%cmsplatf" == "slc4_amd64_gcc345"
-tar xzvf %_sourcedir/%{n}-%{v}.slc4_ia32_gcc345.tar.gz
+tar xzvf %_sourcedir/%{n}-%{realversion}.slc4_ia32_gcc345.tar.gz
 %endif
 
 %build

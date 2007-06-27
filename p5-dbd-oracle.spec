@@ -1,15 +1,15 @@
-### RPM external p5-dbd-oracle 1.17
+### RPM external p5-dbd-oracle 1.17-CMS3
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn DBD-Oracle
-Source: http://mirror.switch.ch/ftp/mirror/CPAN/authors/id/P/PY/PYTHIAN/%downloadn-%v.tar.gz
+Source: http://mirror.switch.ch/ftp/mirror/CPAN/authors/id/P/PY/PYTHIAN/%downloadn-%{realversion}.tar.gz
 
 Requires: p5-dbi oracle
 Provides: perl(Tk) perl(Tk::Balloon) perl(Tk::ErrorDialog) perl(Tk::FileSelect) perl(Tk::Pod) perl(Tk::ROText)
 
 %prep
-%setup -n %{downloadn}-%{v}
+%setup -n %{downloadn}-%{realversion}
 
 %build
 patch Makefile.PL << \EOF

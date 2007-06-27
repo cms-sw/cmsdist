@@ -1,11 +1,10 @@
-### RPM external frontier_client 2.7.2
-Source: http://edge.fnal.gov:8888/frontier/%{n}__%{v}__src.tar.gz
-#Source: http://cern.ch/service-spi/external/tarFiles/%{n}__%{v}__src.tar.gz
+### RPM external frontier_client 2.7.2-CMS3
+Source: http://edge.fnal.gov:8888/frontier/%{n}__%{realversion}__src.tar.gz
+#Source: http://cern.ch/service-spi/external/tarFiles/%{n}__%{realversion}__src.tar.gz
 Requires: expat zlib openssl
-%define realversion %(echo %v | cut -d_ -f1)                                              
 
 %prep
-%setup -n %{n}__%{v}__src
+%setup -n %{n}__%{realversion}__src
 %build
 make EXPAT_DIR=$EXPAT_ROOT \
      COMPILER_TAG=gcc_$GCC_VERSION \

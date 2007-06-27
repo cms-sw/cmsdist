@@ -1,13 +1,13 @@
-### RPM external p5-xml-parser 2.34
+### RPM external p5-xml-parser 2.34-CMS3
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn XML-Parser
 %define expatversion 2.0.0
-Source0: http://mirror.switch.ch/ftp/mirror/CPAN/authors/id/M/MS/MSERGEANT/%{downloadn}-%{v}.tar.gz
+Source0: http://mirror.switch.ch/ftp/mirror/CPAN/authors/id/M/MS/MSERGEANT/%{downloadn}-%{realversion}.tar.gz
 Source1: http://dl.sourceforge.net/sourceforge/expat/expat-%expatversion.tar.gz
 %prep 
-%setup -T -b 0 -n %{downloadn}-%v
+%setup -T -b 0 -n %{downloadn}-%{realversion}
 %setup -D -T -b 1 -n expat-%expatversion
 %build
 # We statically compile expat so that the perl module itself,
@@ -22,7 +22,7 @@ mkdir -p %_builddir/tmp
 make clean
 make 
 make install
-cd ../%{downloadn}-%v
+cd ../%{downloadn}-%{realversion}
 
 perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion \
                  EXPATLIBPATH=%_builddir/tmp/lib \
@@ -49,7 +49,7 @@ case %{cmsos} in
             setarch x86_64 make clean
             setarch x86_64 make
             setarch x86_64 make install
-            cd ../%{downloadn}-%{v}
+            cd ../%{downloadn}-%{realversion}
             perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion \
                              EXPATLIBPATH=%_builddir/tmp/lib64 \
                              EXPATINCPATH=%_builddir/tmp/include
