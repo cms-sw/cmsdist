@@ -4,8 +4,10 @@
 %define downloadn MySQL-python
 Source: http://belnet.dl.sourceforge.net/sourceforge/mysql-python/%downloadn-%realversion.tar.gz
 Requires: python mysql 
+Patch0: py2-mysqldb-setup
 %prep
 %setup -n %downloadn-%realversion
+%patch0 -p0
 %build
 python setup.py build
 %install
