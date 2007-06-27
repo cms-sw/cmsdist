@@ -1,4 +1,4 @@
-### RPM external glimpse 4.18.5-XXXX
+### RPM external glimpse 4.18.5-CMS3
 Source: http://webglimpse.net/trial/glimpse-%{realversion}.tar.gz
 
 %prep

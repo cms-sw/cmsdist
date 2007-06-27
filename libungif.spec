@@ -1,4 +1,4 @@
-### RPM external libungif 4.1.4-XXXX
+### RPM external libungif 4.1.4-CMS3
 
 Source: http://switch.dl.sourceforge.net/sourceforge/%{n}/%{n}-%{realversion}.tar.gz
 

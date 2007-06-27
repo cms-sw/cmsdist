@@ -1,4 +1,4 @@
-### RPM external gsl 1.8-XXXX
+### RPM external gsl 1.8-CMS3
 Source: ftp://ftp.gnu.org/gnu/%n/%n-%realversion.tar.gz
 
 %prep

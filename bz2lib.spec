@@ -1,4 +1,4 @@
-### RPM external bz2lib 1.0.2-wt1
+### RPM external bz2lib 1.0.2-CMS3
 # Build system patches by Lassi A. Tuura <lat@iki.fi>
 Source: ftp://sources.redhat.com/pub/bzip2/v%(echo %realversion | tr -d .)/bzip2-%realversion.tar.gz
 %define cpu %(echo %cmsplatf | cut -f2 -d_)

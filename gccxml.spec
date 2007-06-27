@@ -1,4 +1,4 @@
-### RPM external gccxml 0.6.0-XXXX
+### RPM external gccxml 0.6.0-CMS3
 
 Requires: cmake
 Source: http://www.gccxml.org/files/v0.6/%n-%realversion.tar.gz

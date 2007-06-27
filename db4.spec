@@ -1,4 +1,4 @@
-### RPM external db4 4.4.20-wt1
+### RPM external db4 4.4.20-CMS3
 Source: http://downloads.sleepycat.com/db-%{realversion}.tar.gz
 
 %prep

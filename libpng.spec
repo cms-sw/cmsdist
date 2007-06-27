@@ -1,4 +1,4 @@
-### RPM external libpng 1.2.10-XXXX
+### RPM external libpng 1.2.10-CMS3
 Source: ftp://ftp.simplesystems.org/pub/libpng/png/src/%{n}-%{realversion}.tar.bz2
 
 %prep

@@ -1,4 +1,4 @@
-### RPM external mimetic 0.8.9-XXXX
+### RPM external mimetic 0.8.9-CMS3
 Source: http://codesink.org/download/%{n}-%{realversion}.tar.gz
 
 %prep

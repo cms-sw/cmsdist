@@ -1,4 +1,4 @@
-### RPM external clhep 1.9.2.3-XXXX
+### RPM external clhep 1.9.2.3-CMS3
 Source: http://proj-clhep.web.cern.ch/proj-clhep/%n-%realversion.tgz
 
 %prep

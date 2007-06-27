@@ -1,4 +1,4 @@
-### RPM external zlib 1.1.4-wt1
+### RPM external zlib 1.1.4-CMS3
 Source: http://www.gzip.org/%n/%n-%realversion.tar.bz2
 Patch: zlib-1.1.4-shared-for-32-bit-on-x86_64
 

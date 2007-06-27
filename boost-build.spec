@@ -1,4 +1,4 @@
-### RPM external boost-build 2.0-m10-XXXX
+### RPM external boost-build 2.0-m10-CMS3
 # Override default realversion since they have a "-" in the realversion
 %define realversion 2.0-m10
 Source: http://dl.sourceforge.net/sourceforge/boost/boost-build-%realversion.tar.bz2 

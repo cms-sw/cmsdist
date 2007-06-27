@@ -1,4 +1,4 @@
-### RPM external openssl 0.9.7d-wt1
+### RPM external openssl 0.9.7d-CMS3
 Source: http://www.openssl.org/source/%n-%realversion.tar.gz
 
 %prep

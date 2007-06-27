@@ -1,4 +1,4 @@
-### RPM external fastjet 2.1.0-XXXX
+### RPM external fastjet 2.1.0-CMS3
 Source: http://www.lpthe.jussieu.fr/~salam/repository/software/fastjet/%n-%realversion.tgz
 Patch1: fastjet-2.1.0-nobanner
 

@@ -1,4 +1,4 @@
-### RPM external dcap 1.2.35-XXXX
+### RPM external dcap 1.2.35-CMS3
 # Fakes the presence of dcap since we are not allowed to distribute it.
 Source: http://service-spi.web.cern.ch/service-spi/external/tarFiles/%n-%realversion.tar.gz
 Patch: http://service-spi.web.cern.ch/service-spi/external/tarFiles/%n-%realversion.patch

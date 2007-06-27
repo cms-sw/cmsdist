@@ -1,4 +1,4 @@
-### RPM external xdaq 3.9.0-CMS2
+### RPM external xdaq 3.9.0-CMS3
 Requires: zlib mimetic xerces-c uuid
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
