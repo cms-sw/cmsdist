@@ -1,4 +1,4 @@
-### RPM external mysql 5.0.18-XXXX
+### RPM external mysql 5.0.18
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/mysql
 
 #Different download locations according to the version.
@@ -6,7 +6,7 @@
 %if "%(echo %realversion | cut -d. -f1)" == "4"
 %define source http://downloads.mysql.com/archives/mysql-4.0/%n-%realversion.tar.gz
 %else
-%define source http://mysql.belnet.be/Downloads/MySQL-5.0/mysql-%realversion.tar.gz
+%define source http://mi.mirror.garr.it/mirrors/MySQL/Downloads/MySQL-5.0/%n-%realversion.tar.gz
 %endif
 
 Source: %source
@@ -38,5 +38,4 @@ perl -p -i -e "s|^#!.*perl(.*)|#!/usr/bin/env perl$1|" $(grep -r -e "^#!.*perl.*
 %{relocateConfig}bin/mysqld_safe
 %{relocateConfig}bin/mysql_fix_privilege_tables
 %{relocateConfig}bin/mysql_install_db
-
 

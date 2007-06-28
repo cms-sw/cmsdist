@@ -1,27 +1,20 @@
 ### FILE cms-scram-build
 
 %define cvsproj         %cvsprojuc
-%define configtag       V00-02-01
-%define tbxrepo		cvs://:pserver:anonymous@isscvs.cern.ch:/local/reps/scramtoolbox?passwd=AA_:yZZ3e
-%define configrepo	cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-
 %if "%{?useCmsTC:set}" != "set"
-%if "%{?cvsrepo:set}" != "set"
 %define cvsrepo		cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/%cvsdir?passwd=AA_:yZZ3e
-%endif
 %else
 %define cvsrepo cmstc
+%define configrepo		cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/%cvsdir?passwd=AA_:yZZ3e
 %endif
 
 %define cvstag		%(echo %v | cut -d- -f1)
 %if "%{?cvsconfig:set}" != "set"
 %define cvsconfig	config
 %endif
-%if "%{?cvssrc:set}" != "set"
 %define cvssrc		%cvsprojuc
-%endif
 %define srctree		src
-%define confversion     %cmsConfiguration
+%define tbxrepo		cvs://:pserver:anonymous@isscvs.cern.ch:/local/reps/scramtoolbox?passwd=AA_:yZZ3e
 %define conftag		CMS_%confversion%conflevel
 %define confsite	CMSconfigs
 
