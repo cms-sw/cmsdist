@@ -50,7 +50,7 @@ CONFIG_ARGS="--enable-table
 
 case $(uname)-$(uname -p) in
   Linux-x86_64)
-    ./configure linuxx8664gcc $CONFIG_ARGS --enable-oracle --with-oracle-libdir=${ORACLE_ROOT}/lib --with-oracle-incdir=${ORACLE_ROOT}/include --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift --disable-astiff;; 
+    ./configure linuxx8664gcc $CONFIG_ARGS --enable-oracle --with-oracle-libdir=${ORACLE_ROOT}/lib --with-oracle-incdir=${ORACLE_ROOT}/include --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift --disable-astiff --disable-cern;; 
   Linux-i*86)
     ./configure linux  $CONFIG_ARGS --enable-oracle --with-oracle-libdir=${ORACLE_ROOT}/lib --with-oracle-incdir=${ORACLE_ROOT}/include --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift;;
   Darwin*)
