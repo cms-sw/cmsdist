@@ -6,11 +6,11 @@
 #Source: http://switch.dl.sourceforge.net/sourceforge/%n/CherryPy-%v.tar.gz
 
 # this is where cherrypy version 3 is located
-Source: http://download.cherrypy.org/cherrypy/%v/CherryPy-%realversion.tar.gz
+Source: http://download.cherrypy.org/cherrypy/%v/CherryPy-%v.tar.gz
 Requires: python
 
 %prep
-%setup -n CherryPy-%realversion
+%setup -n CherryPy-%v
 %build
 %install
 python setup.py install --prefix=%i
