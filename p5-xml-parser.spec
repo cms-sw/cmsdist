@@ -18,7 +18,7 @@ which gcc
 rm -rf %_builddir/tmp
 cd ../expat-%expatversion
 mkdir -p %_builddir/tmp
-./configure --prefix=%_builddir/tmp --disable-shared --enable-static
+./configure --prefix=%_builddir/tmp --disable-shared --enable-static --with-pic
 make clean
 make 
 make install
