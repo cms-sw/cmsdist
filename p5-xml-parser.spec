@@ -55,8 +55,11 @@ case %{cmsos} in
                              EXPATINCPATH=%_builddir/tmp/include
             make
             make install
+        else
+            make install
         fi;;
     *)
+        make install
     ;;
 esac
 
