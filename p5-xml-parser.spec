@@ -18,7 +18,7 @@ which gcc
 rm -rf %_builddir/tmp
 cd ../expat-%expatversion
 mkdir -p %_builddir/tmp
-./configure --prefix=%_builddir/tmp --disable-shared --enable-static
+./configure --prefix=%_builddir/tmp --disable-shared --enable-static --with-pic
 make clean
 make 
 make install
@@ -55,8 +55,11 @@ case %{cmsos} in
                              EXPATINCPATH=%_builddir/tmp/include
             make
             make install
+        else
+            make install
         fi;;
     *)
+        make install
     ;;
 esac
 
