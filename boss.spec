@@ -1,4 +1,4 @@
-### RPM cms boss BOSS_4_3_4
+### RPM cms boss BOSS_4_3_5
 ## INITENV +PATH PATH %i/bin
 ## INITENV +PATH PYTHONPATH %i/BossPython
 ## INITENV SET BOSSDIR %i
