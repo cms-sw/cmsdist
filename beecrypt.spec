@@ -1,4 +1,4 @@
-### RPM external beecrypt 3.1.0-wt1
+### RPM external beecrypt 3.1.0-CMS3
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 Source: http://switch.dl.sourceforge.net/sourceforge/%n/%n-%realversion.tar.gz
 %prep

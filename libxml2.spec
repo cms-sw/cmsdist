@@ -1,4 +1,4 @@
-### RPM external libxml2 2.6.23-wt1
+### RPM external libxml2 2.6.23-CMS3
 Source: ftp://xmlsoft.org/%n/%n-%realversion.tar.gz
 Requires: zlib
 %prep

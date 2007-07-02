@@ -1,4 +1,4 @@
-### RPM external neon 0.26.3-wt1
+### RPM external neon 0.26.3-CMS3
 
 Source: http://www.webdav.org/%n/%n-%realversion.tar.gz
 Requires: openssl expat zlib
