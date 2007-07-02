@@ -1,6 +1,8 @@
 ### RPM external expat 2.0.0-CMS3
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 Source: http://dl.sourceforge.net/sourceforge/%n/%n-%realversion.tar.gz
+Provides: libc.so.6()(64bit)
+Provides: libc.so.6(GLIBC_2.2.5)(64bit)  
 
 %prep
 %setup -n %n-%{realversion}
