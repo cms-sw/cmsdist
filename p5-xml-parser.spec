@@ -6,6 +6,9 @@
 %define expatversion 2.0.0
 Source0: http://mirror.switch.ch/ftp/mirror/CPAN/authors/id/M/MS/MSERGEANT/%{downloadn}-%{realversion}.tar.gz
 Source1: http://dl.sourceforge.net/sourceforge/expat/expat-%expatversion.tar.gz
+Provides: libc.so.6()(64bit)
+Provides: libc.so.6(GLIBC_2.2.5)(64bit)  
+
 %prep 
 %setup -T -b 0 -n %{downloadn}-%{realversion}
 %setup -D -T -b 1 -n expat-%expatversion
