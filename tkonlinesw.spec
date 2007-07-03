@@ -16,11 +16,6 @@ Requires: xdaq
 # up the install by copying in an old libFed9UUtils.so
 rm -fR TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/2.4/slc3_ia32_gcc323
 
-# This is a kludge around a kludge...
-%if "%cmsplatf" == "slc4_amd64_gcc345"
-tar xzvf %_sourcedir/%{n}-%{realversion}.slc4_ia32_gcc345.tar.gz
-%endif
-
 %build
 echo "pwd: $PWD"
 # Set variables for requied externals to be picked up by configure:
