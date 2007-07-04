@@ -25,6 +25,8 @@
 # FIXME: post-install stuff for modules etc?
 
 Requires: SCRAMV1
+Requires: gcc-wrapper
+%define gccwrapperarch  slc4_ia32_gcc345
 
 # NR: allow to specify repository and tag 
 # (default: cvsrepo and cvstag)
@@ -208,11 +210,21 @@ echo "executing %preBuildCommand"
 %define buildtarget %{nil} 
 %endif
 
+#organize log file, turn off plugin building..
+export BUILD_LOG yes
+export SCRAM_NOPLUGINREFRESH yes
+
 scramv1 b -r echo_CXX </dev/null
 %if "%{?prebuildtarget:set}" == "set"
 scramv1 b --verbose -f %{prebuildtarget} </dev/null
 %endif
-scramv1 b --verbose -f %{makeprocesses} %{buildtarget} </dev/null
+%if "%{cmsplatf}" == "%{gccwrapperarch}"
+scramv1 setup cxxcompiler
+scramv1 setup f77compiler
+scramv1 setup ccompiler
+scramv1 tool info cxxcompiler
+%endif
+scramv1 b --verbose -f %{compileOptions} %{makeprocesses}  %{buildtarget} </dev/null
 %if "%{?additionalBuildTarget0:set}" == "set"
 scramv1 b --verbose -f %{additionalBuildTarget0} < /dev/null
 %endif
@@ -223,6 +235,8 @@ scramv1 b --verbose -f %{postbuildtarget} </dev/null
 rm -rf %i/tmp
 chmod -R 755 %i %i/.SCRAM
 (eval `scramv1 run -sh` ; SealPluginRefresh) || true
+rm -fR %i/lib/%cmsplatf/.edmplugincache
+(eval `scramv1 run -sh` ; EdmPluginRefresh) || true
 
 %install
 cd %i
