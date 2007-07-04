@@ -1,5 +1,5 @@
 #!/bin/sh
-# Revision: $Revision: 1.18 $
+# Revision: $Revision: 1.19 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -122,6 +122,11 @@ generateSeedSpec () {
     then
         echo "WARNING: you are running on an unsupported distribution. This might lead to unknown problems."
         seed="$seed xorg-x11-Mesa compat-readline4 compat-curl2 freetype2 xorg-x11-libX11"
+        # Ubuntu
+        seed="$seed libcomerr2 libidn11 libxi6 libxpm4 libxinerama1
+              libncurses5 libsm6 libice6 libc6 libxcursor1 libxmu6 libgl1-mesa-glx
+              libxft2 perl-base xserver-xorg xserver-xorg-core libfreetype6 libfontconfig1
+              libgl1-mesa libxrandr2 libglu1-mesa libxext6 libx11-6 libxrender1"
     fi
     
      rm -rf $tmp
@@ -161,6 +166,15 @@ generateSeedSpec () {
         echo "Provides: libk5crypto.so.3" 
         echo "Provides: libkrb5.so.3" 
         echo "Provides: libssl.so.4"
+        # Not everyone wants csh installed.
+        echo "Provides: /bin/csh"
+        echo "Provides: /bin/tcsh"
+        # Guess perl
+        echo "Provides: perl = `perl -MConfig -e 'print $Config{version}'`"
+        # Ubuntu specific
+        echo "Provides: libreadline.so.4"
+        echo "Provides: libtcl8.4.so"
+        echo "Provides: libtk8.4.so"
       fi
       
       if [ "$(uname -s)" = "Darwin" ]
@@ -186,6 +200,10 @@ generateSeedSpec () {
     	for p in $seed; do
     	  if [ "$(dpkg -L $p 2>&1 | grep 'is not installed')" = "" ]; then
           	  dpkg -L $p 2>/dev/null | sed -e "s|^|Provides:|"
+              # FIXME: this relies on rpm being installed. We should really have our
+              # own version of find-provides, but this will bring in more rpm helper 
+              # script, so we live with it for the moment.
+              dpkg -L $p 2>/dev/null | /usr/lib/rpm/find-provides | sed -e "s|^|Provides:|"
           fi
     	done
     	perlHarvester
