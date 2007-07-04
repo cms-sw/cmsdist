@@ -98,7 +98,7 @@ RPM
 {
     PM "external";
     Options { "--nodeps";};
-    Install-Options { "--nodeps";"--force";"--prefix";"%{instroot}";};
+    Install-Options { "--nodeps";"--force";"--prefix";"%{instroot}";"--ignoreos";"--ignorearch";};
     RootDir "%{instroot}";
     Architecture "%{cmsplatf}";
 };
