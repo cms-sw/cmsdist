@@ -1,5 +1,5 @@
 #!/bin/sh
-# Revision: $Revision: 1.17 $
+# Revision: $Revision: 1.18 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -113,7 +113,7 @@ generateSeedSpec () {
           xorg-x11-deprecated-libs xorg-x11-libs xorg-x11-Mesa-libGLU xorg-x11-Mesa-libGL compat-libstdc++-33 fglrx_6_8_0 libidn"
 
     # Seed the system compiler for ydl5_ppc64_gcc411
-    if [ "$(uname -p)" == "ppc64" ]
+    if [ "$(uname -p)" = "ppc64" ]
     then
        seed="$seed gcc libgcc libstdc++"
     fi
@@ -163,7 +163,7 @@ generateSeedSpec () {
         echo "Provides: libssl.so.4"
       fi
       
-      if [ "$(uname -s)" == "Darwin" ]
+      if [ "$(uname -s)" = "Darwin" ]
       then
     	find /bin | sed 's!^!Provides: !'
     	/bin/ls -1 /usr/lib/*.dylib | awk -F"/" '{print $4}' | sed 's!^!Provides: !'
@@ -180,17 +180,17 @@ generateSeedSpec () {
             echo "Provides: Tcl"
             echo "Provides: Tk"
       fi
-      if [ "$(which dpkg 2>&1 | grep 'no dpkg' )" == "" ]
+      if [ "$(which dpkg 2>&1 | grep 'no dpkg' )" = "" ]
       then
     	echo "dpkg found in $(which dpkg), using it to seed the database." >&2
     	for p in $seed; do
-    	  if [ "$(dpkg -L $p 2>&1 | grep 'is not installed')" == "" ]; then
+    	  if [ "$(dpkg -L $p 2>&1 | grep 'is not installed')" = "" ]; then
           	  dpkg -L $p 2>/dev/null | sed -e "s|^|Provides:|"
           fi
     	done
     	perlHarvester
       fi
-      if which rpm 2>&1 >/dev/null && [ "$(rpm -qa 2>&1 | grep 'use alien')" == "" ]
+      if which rpm 2>&1 >/dev/null && [ "$(rpm -qa 2>&1 | grep 'use alien')" = "" ]
       then
     	echo "rpm found in $(which rpm), using it to seed the database." >&2
     	  for p in $seed; do
@@ -298,7 +298,7 @@ apt-get update
 apt-get dist-upgrade
 
 # If we want to use a test instance, we need to adjust the sources.list accordingly.
-if [ "$testInstance" == "true" ]
+if [ "$testInstance" = "true" ]
 then
     perl -p -i -e "s/^/#/;s/###//;
                    s/\@GROUPS\@/$groups/;
