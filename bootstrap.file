@@ -1,5 +1,5 @@
 #!/bin/sh
-# Revision: $Revision: 1.19 $
+# Revision: $Revision: 1.20 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -121,12 +121,16 @@ generateSeedSpec () {
     if [ "$unsupportedDistribution" != "false" ]
     then
         echo "WARNING: you are running on an unsupported distribution. This might lead to unknown problems."
+        # OpenSuse
         seed="$seed xorg-x11-Mesa compat-readline4 compat-curl2 freetype2 xorg-x11-libX11"
         # Ubuntu
         seed="$seed libcomerr2 libidn11 libxi6 libxpm4 libxinerama1
               libncurses5 libsm6 libice6 libc6 libxcursor1 libxmu6 libgl1-mesa-glx
               libxft2 perl-base xserver-xorg xserver-xorg-core libfreetype6 libfontconfig1
               libgl1-mesa libxrandr2 libglu1-mesa libxext6 libx11-6 libxrender1"
+        # Fedora
+        # FIXME: complete with packages that need to be used for seeding.
+        seed="$seed"
     fi
     
      rm -rf $tmp
