@@ -1,5 +1,5 @@
 #!/bin/sh
-# Revision: $Revision: 1.16 $
+# Revision: $Revision: 1.17 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -89,7 +89,7 @@ EOF_HELP
 done
 
 rpmdb=@CMSPLATF@/var/lib/rpm
-rpmlock=$rootdir/@CMSPLATF@/var/lib/rpm/lock
+rpmlock=$rootdir/@CMSPLATF@/var/lib/rpm/__db.0
 tmp=$rootdir/@CMSPLATF@/tmp/system-import
 
 perlHarvester () {
@@ -275,7 +275,7 @@ cd $rootdir
 # Initialise the rpmdb using the new rpm.
 rpm --define "_rpmlock_path $rpmlock" -r $rootdir --dbpath $rootdir/$rpmdb --initdb
 # Build the seed spec and install it, in order to seed the newly generated db.
-rpmOptions="-r $rootdir --dbpath $rootdir/$rpmdb --rcfile $DOWNLOAD_DIR@INSTROOT@/@CMSPLATF@/external/rpm/@RPM_VERSION@/lib/rpm/rpmrc --nodeps --prefix $rootdir"
+rpmOptions="-r $rootdir --dbpath $rootdir/$rpmdb --rcfile $DOWNLOAD_DIR@INSTROOT@/@CMSPLATF@/external/rpm/@RPM_VERSION@/lib/rpm/rpmrc --nodeps --prefix $rootdir --ignoreos --ignorearch"
 seed $DOWNLOAD_DIR@INSTROOT@/@CMSPLATF@/external/rpm/@RPM_VERSION@/lib/rpm/rpmrc
 # Install the packages, this time using rpm.
 rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm
