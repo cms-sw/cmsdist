@@ -107,4 +107,3 @@ perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|" `grep -r %instroot $RPM_INSTALL
 %{i}
 %{instroot}/%{cmsplatf}/var/spool/repackage
 
-
