@@ -1,5 +1,5 @@
 #!/bin/sh
-# Revision: $Revision: 1.16 $
+# Revision: $Revision: 1.20 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -89,7 +89,7 @@ EOF_HELP
 done
 
 rpmdb=@CMSPLATF@/var/lib/rpm
-rpmlock=$rootdir/@CMSPLATF@/var/lib/rpm/lock
+rpmlock=$rootdir/@CMSPLATF@/var/lib/rpm/__db.0
 tmp=$rootdir/@CMSPLATF@/tmp/system-import
 
 perlHarvester () {
@@ -113,7 +113,7 @@ generateSeedSpec () {
           xorg-x11-deprecated-libs xorg-x11-libs xorg-x11-Mesa-libGLU xorg-x11-Mesa-libGL compat-libstdc++-33 fglrx_6_8_0 libidn"
 
     # Seed the system compiler for ydl5_ppc64_gcc411
-    if [ "$(uname -p)" == "ppc64" ]
+    if [ "$(uname -p)" = "ppc64" ]
     then
        seed="$seed gcc libgcc libstdc++"
     fi
@@ -121,7 +121,16 @@ generateSeedSpec () {
     if [ "$unsupportedDistribution" != "false" ]
     then
         echo "WARNING: you are running on an unsupported distribution. This might lead to unknown problems."
+        # OpenSuse
         seed="$seed xorg-x11-Mesa compat-readline4 compat-curl2 freetype2 xorg-x11-libX11"
+        # Ubuntu
+        seed="$seed libcomerr2 libidn11 libxi6 libxpm4 libxinerama1
+              libncurses5 libsm6 libice6 libc6 libxcursor1 libxmu6 libgl1-mesa-glx
+              libxft2 perl-base xserver-xorg xserver-xorg-core libfreetype6 libfontconfig1
+              libgl1-mesa libxrandr2 libglu1-mesa libxext6 libx11-6 libxrender1"
+        # Fedora
+        # FIXME: complete with packages that need to be used for seeding.
+        seed="$seed"
     fi
     
      rm -rf $tmp
@@ -161,9 +170,18 @@ generateSeedSpec () {
         echo "Provides: libk5crypto.so.3" 
         echo "Provides: libkrb5.so.3" 
         echo "Provides: libssl.so.4"
+        # Not everyone wants csh installed.
+        echo "Provides: /bin/csh"
+        echo "Provides: /bin/tcsh"
+        # Guess perl
+        echo "Provides: perl = `perl -MConfig -e 'print $Config{version}'`"
+        # Ubuntu specific
+        echo "Provides: libreadline.so.4"
+        echo "Provides: libtcl8.4.so"
+        echo "Provides: libtk8.4.so"
       fi
       
-      if [ "$(uname -s)" == "Darwin" ]
+      if [ "$(uname -s)" = "Darwin" ]
       then
     	find /bin | sed 's!^!Provides: !'
     	/bin/ls -1 /usr/lib/*.dylib | awk -F"/" '{print $4}' | sed 's!^!Provides: !'
@@ -180,17 +198,21 @@ generateSeedSpec () {
             echo "Provides: Tcl"
             echo "Provides: Tk"
       fi
-      if [ "$(which dpkg 2>&1 | grep 'no dpkg' )" == "" ]
+      if [ "$(which dpkg 2>&1 | grep 'no dpkg' )" = "" ]
       then
     	echo "dpkg found in $(which dpkg), using it to seed the database." >&2
     	for p in $seed; do
-    	  if [ "$(dpkg -L $p 2>&1 | grep 'is not installed')" == "" ]; then
+    	  if [ "$(dpkg -L $p 2>&1 | grep 'is not installed')" = "" ]; then
           	  dpkg -L $p 2>/dev/null | sed -e "s|^|Provides:|"
+              # FIXME: this relies on rpm being installed. We should really have our
+              # own version of find-provides, but this will bring in more rpm helper 
+              # script, so we live with it for the moment.
+              dpkg -L $p 2>/dev/null | /usr/lib/rpm/find-provides | sed -e "s|^|Provides:|"
           fi
     	done
     	perlHarvester
       fi
-      if which rpm 2>&1 >/dev/null && [ "$(rpm -qa 2>&1 | grep 'use alien')" == "" ]
+      if which rpm 2>&1 >/dev/null && [ "$(rpm -qa 2>&1 | grep 'use alien')" = "" ]
       then
     	echo "rpm found in $(which rpm), using it to seed the database." >&2
     	  for p in $seed; do
@@ -275,7 +297,7 @@ cd $rootdir
 # Initialise the rpmdb using the new rpm.
 rpm --define "_rpmlock_path $rpmlock" -r $rootdir --dbpath $rootdir/$rpmdb --initdb
 # Build the seed spec and install it, in order to seed the newly generated db.
-rpmOptions="-r $rootdir --dbpath $rootdir/$rpmdb --rcfile $DOWNLOAD_DIR@INSTROOT@/@CMSPLATF@/external/rpm/@RPM_VERSION@/lib/rpm/rpmrc --nodeps --prefix $rootdir"
+rpmOptions="-r $rootdir --dbpath $rootdir/$rpmdb --rcfile $DOWNLOAD_DIR@INSTROOT@/@CMSPLATF@/external/rpm/@RPM_VERSION@/lib/rpm/rpmrc --nodeps --prefix $rootdir --ignoreos --ignorearch"
 seed $DOWNLOAD_DIR@INSTROOT@/@CMSPLATF@/external/rpm/@RPM_VERSION@/lib/rpm/rpmrc
 # Install the packages, this time using rpm.
 rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm
@@ -298,7 +320,7 @@ apt-get update
 apt-get dist-upgrade
 
 # If we want to use a test instance, we need to adjust the sources.list accordingly.
-if [ "$testInstance" == "true" ]
+if [ "$testInstance" = "true" ]
 then
     perl -p -i -e "s/^/#/;s/###//;
                    s/\@GROUPS\@/$groups/;

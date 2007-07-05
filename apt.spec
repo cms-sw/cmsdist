@@ -97,16 +97,16 @@ Debug::pkgProblemResolver="1";
 RPM
 {
     PM "external";
-    Options { "--define";"_rpmlock_path %{instroot}/%{cmsplatf}/var/lib/rpm/lock";"--dbpath";"%{instroot}/var/lib/rpm";"--nodeps";};
-    Install-Options { "--define";"_rpmlock_path %{instroot}/%{cmsplatf}/var/lib/rpm/lock";"--nodeps";"--force";"--dbpath";"%{instroot}/%{cmsplatf}/var/lib/rpm";"--prefix";"%{instroot}";};
+    Options { };
+    Install-Options { "--force";"--prefix";"%{instroot}";"--ignoreos";"--ignorearch";};
     RootDir "%{instroot}";
     Architecture "%{cmsplatf}";
 };
 EOF_APT_CONF
 
 cat << \EOF_SOURCES_LIST > %{i}/etc/sources.list
-rpm http://cmsrep.cern.ch cms/cpt/Software/download/cms.eulisse/apt/%{cmsplatf} cms lcg external
-rpm-src http://cmsrep.cern.ch cms/cpt/Software/download/cms.eulisse/apt/%{cmsplatf} cms lcg external
+rpm http://cmsrep.cern.ch cms/cpt/Software/download/cms/apt/%{cmsplatf} cms lcg external
+rpm-src http://cmsrep.cern.ch cms/cpt/Software/download/cms/apt/%{cmsplatf} cms lcg external
 # This are defined to support experimental repositories. The bootstrap file rewrites and uncomments
 # them when passed the appropriate commandline option. 
 ## rpm @SERVER@ @SERVER_PATH@/@REPOSITORY@/apt/%{cmsplatf} @GROUPS@  
