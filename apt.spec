@@ -97,8 +97,8 @@ Debug::pkgProblemResolver="1";
 RPM
 {
     PM "external";
-    Options { "--nodeps";};
-    Install-Options { "--nodeps";"--force";"--prefix";"%{instroot}";"--ignoreos";"--ignorearch";};
+    Options { };
+    Install-Options { "--force";"--prefix";"%{instroot}";"--ignoreos";"--ignorearch";};
     RootDir "%{instroot}";
     Architecture "%{cmsplatf}";
 };
