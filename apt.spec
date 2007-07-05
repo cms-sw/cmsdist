@@ -104,6 +104,7 @@ RPM
 };
 EOF_APT_CONF
 
+
 cat << \EOF_SOURCES_LIST > %{i}/etc/sources.list
 rpm http://cmsrep.cern.ch cms/cpt/Software/download/cms/apt/%{cmsplatf} cms lcg external
 rpm-src http://cmsrep.cern.ch cms/cpt/Software/download/cms/apt/%{cmsplatf} cms lcg external
