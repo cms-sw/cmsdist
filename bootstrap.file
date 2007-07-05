@@ -1,5 +1,5 @@
 #!/bin/sh
-# Revision: $Revision: 1.20 $
+# Revision: $Revision: 1.21 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -129,8 +129,8 @@ generateSeedSpec () {
               libxft2 perl-base xserver-xorg xserver-xorg-core libfreetype6 libfontconfig1
               libgl1-mesa libxrandr2 libglu1-mesa libxext6 libx11-6 libxrender1"
         # Fedora
-        # FIXME: complete with packages that need to be used for seeding.
-        seed="$seed"
+        seed="$seed libX11 libXmu libSM libICE libXcursor libXext libXrandr libXft mesa-libGLU mesa-libGL
+                    e2fsprogs-libs libXi libXinerama libXft libXrender libXpm"
     fi
     
      rm -rf $tmp
