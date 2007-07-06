@@ -6,6 +6,8 @@ Source1: bootstrap
 Requires: libxml2 beecrypt rpm zlib bz2lib openssl
 Patch0: apt-rpm449
 Patch1: apt-rpm446
+Patch2: apt
+
 %if "%(echo %{cmsos} | cut -d_ -f 2 | sed -e 's|.*64.*|64|')" == "64"
 %define libdir lib64
 %else
@@ -22,6 +24,8 @@ case $RPM_VERSION in
 %patch1 -p0
         ;;
 esac
+%patch2 -p1
+
 %build
 export CFLAGS="-O0 -g"
 export CXXFLAGS="-O0 -g"
