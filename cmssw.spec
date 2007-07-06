@@ -1,4 +1,4 @@
-### RPM cms cmssw 2007-07-06
+### RPM cms cmssw nightly
 ## IMPORT configurations 
 Provides: /bin/zsh
 Requires: cmssw-tool-conf python glimpse
