@@ -1,5 +1,5 @@
-### RPM cms PHEDEX PHEDEX_2_5_3_2
-#
+### RPM cms PHEDEX PHEDEX_2_5_3_1
+
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%n&export=%n&&tag=-r%{v}&output=/%n.tar.gz
 Requires: oracle oracle-env p5-time-hires p5-text-glob p5-compress-zlib p5-dbi p5-dbd-oracle p5-xml-parser srmcp python
 Requires: py2-cx-oracle
@@ -29,6 +29,9 @@ rm -f  Utilities/DBSCheck
 rm -f  Utilities/DSBFill
 rm -f  Utilities/GrepSites
 rm -f  Utilities/FileDeleteTMDB
+rm -f  Utilities/IdentityNew
+rm -f  Utilities/IdentityRemove
+rm -f  Utilities/ImportSites
 rm -f  Utilities/LinkNew
 rm -f  Utilities/LinkRemove
 rm -f  Utilities/MakeDailyReport
