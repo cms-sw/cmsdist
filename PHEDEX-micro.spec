@@ -45,9 +45,6 @@ rm     Utilities/FileDeleteTMDB
 rm     Utilities/ftscp
 rm     Utilities/GetLocalPath
 rm     Utilities/GrepSites
-rm     Utilities/IdentityNew
-rm     Utilities/IdentityRemove
-rm     Utilities/ImportSites
 rm     Utilities/InspectPhedexLog
 rm     Utilities/LinkNew
 rm     Utilities/LinkRemove

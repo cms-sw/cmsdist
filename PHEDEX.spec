@@ -29,9 +29,6 @@ rm -f  Utilities/DBSCheck
 rm -f  Utilities/DSBFill
 rm -f  Utilities/GrepSites
 rm -f  Utilities/FileDeleteTMDB
-rm -f  Utilities/IdentityNew
-rm -f  Utilities/IdentityRemove
-rm -f  Utilities/ImportSites
 rm -f  Utilities/LinkNew
 rm -f  Utilities/LinkRemove
 rm -f  Utilities/MakeDailyReport
