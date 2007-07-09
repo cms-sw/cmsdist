@@ -1,5 +1,5 @@
 #!/bin/sh
-# Revision: $Revision: 1.22 $
+# Revision: $Revision: 1.23 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -197,6 +197,7 @@ generateSeedSpec () {
             echo "Provides: QuickTime"
             echo "Provides: Tcl"
             echo "Provides: Tk"
+            echo "Provides: libintl.3.dylib"
       fi
       if [ "$(which dpkg 2>&1 | grep 'no dpkg' )" = "" ]
       then
@@ -345,7 +346,9 @@ case $command in
     setup )
         setup ;;
     reseed )
-        seed ;;
+        generateSeedSpec
+        seed @CMSPLATF@/external/rpm/@RPM_VERSION@/lib/rpm/rpmrc 
+        ;;
 esac
 
 exit 0

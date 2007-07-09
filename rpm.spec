@@ -17,6 +17,7 @@ Patch2: rpm-4.4.9-popt
 Patch3: rpm-4.4.9-macrofiles
 Patch4: rpm-4.4.6
 Patch5: rpm-4.4.2.1
+Patch6: rpm-macosx
 
 # Defaults here
 %define libdir lib
@@ -53,6 +54,8 @@ Provides: Kerberos
 %if "%{realversion}" == "4.4.2.1"
 %patch5 -p0
 %endif
+
+%patch6 -p1
 
 rm -rf neon sqlite beecrypt elfutils zlib 
 %build

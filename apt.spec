@@ -54,6 +54,7 @@ mkdir -p %{i}/etc/profile.d
  echo "source $RPM_ROOT/etc/profile.d/init.csh"; \
  echo "source $LIBXML2_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
 
+
 mkdir -p %{i}/etc/apt
 cat << \EOF_APT_CONF > %{i}/etc/apt.conf
 Dir "%{instroot}"
