@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-admin PHEDEX_2_5_3_1
+### RPM cms PHEDEX-admin PHEDEX_2_5_3_2
 
 %define downloadn %(echo %n | cut -f1 -d-)
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%{downloadn}&export=%{downloadn}&&tag=-r%{v}&output=/%{downloadn}.tar.gz
