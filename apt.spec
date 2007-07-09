@@ -6,6 +6,8 @@ Source1: bootstrap
 Requires: libxml2 beecrypt rpm zlib bz2lib openssl
 Patch0: apt-rpm449
 Patch1: apt-rpm446
+Patch2: apt
+
 %if "%(echo %{cmsos} | cut -d_ -f 2 | sed -e 's|.*64.*|64|')" == "64"
 %define libdir lib64
 %else
@@ -22,6 +24,8 @@ case $RPM_VERSION in
 %patch1 -p0
         ;;
 esac
+%patch2 -p1
+
 %build
 export CFLAGS="-O0 -g"
 export CXXFLAGS="-O0 -g"
@@ -49,6 +53,7 @@ mkdir -p %{i}/etc/profile.d
 (echo "#!/bin/tcsh"; \
  echo "source $RPM_ROOT/etc/profile.d/init.csh"; \
  echo "source $LIBXML2_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
+
 
 mkdir -p %{i}/etc/apt
 cat << \EOF_APT_CONF > %{i}/etc/apt.conf
@@ -193,5 +198,3 @@ mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/cache/%{cmsplatf}
 %{relocateConfig}bin/apt-get-wrapper
 %{relocateConfig}bin/rpm-wrapper
 %{relocateConfig}etc/apt.conf 
-
-

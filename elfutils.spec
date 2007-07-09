@@ -4,10 +4,14 @@ Source: ftp://sources.redhat.com/pub/systemtap/%{n}/%{n}-%{realversion}.tar.gz
 %prep
 %setup -n %n-%realversion
 %build
+%if "%(echo %cmsos | sed -e 's/osx.*/osx/')" != "osx"
 ./configure --prefix=%i
 cd libelf
 make %makeprocesses
+%endif
 %install
+%if "%(echo %cmsos | sed -e 's/osx.*/osx/')" != "osx"
 cd libelf
 make install
 rm -rf %i/bin
+%endif
