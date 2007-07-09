@@ -1,4 +1,4 @@
-### RPM cms dbs-web V03_04_24
+### RPM cms dbs-web V03_04_25
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
 %define cvstag %v
@@ -37,6 +37,7 @@ ln -s $YUI_ROOT/build YUI
  echo "source $MYSQL_ROOT/etc/profile.d/init.sh"; \
  echo "source $DLS_ROOT/etc/profile.d/init.sh"; \
  echo "source $ELEMENTTREE_ROOT/etc/profile.d/init.sh"; \
+ echo -e "export PYTHONPATH=$PYTHONPATH:$ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/"; \
  echo -e "export DLSHOME=$DLS_ROOT/Client/lib"; \
  echo -e "export DDHOME=\044DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages"; \
  echo -e "export TNS_ADMIN=\044DDHOME"; \
@@ -60,6 +61,7 @@ ln -s $YUI_ROOT/build YUI
  echo "source $MYSQL_ROOT/etc/profile.d/init.csh"; \
  echo "source $DLS_ROOT/etc/profile.d/init.csh"; \
  echo "source $ELEMENTTREE_ROOT/etc/profile.d/init.csh"; \
+ echo -e "setup PYTHONPATH $PYTHONPATH:$ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/"; \
  echo -e "setenv DLSHOME $DLS_ROOT/Client/lib"; \
  echo -e "setenv DDHOME \044DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages"; \
  echo -e "setenv TNS_ADMIN \044DDHOME"; \
