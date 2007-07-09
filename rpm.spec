@@ -7,6 +7,7 @@
 ## INITENV SET USRLIBRPM %{i}/lib/rpm
 ## INITENV SET RPMCONFIGDIR %{i}/lib/rpm
 ## INITENV SET SYSCONFIGDIR %{i}/lib/rpm
+
 Source: http://rpm.org/releases/testing/rpm-%{realversion}-rc1.tar.gz
 #Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
 Requires: beecrypt bz2lib neon expat db4 expat elfutils zlib
@@ -97,24 +98,29 @@ perl -p -i -e "s!^.buildroot!#%%buildroot!;
                s!^%%_repackage_dir.*/var/spool/repackage!%%_repackage_dir     %{instroot}/%{cmsplatf}/var/spool/repackage!" %i/lib/rpm/macros
 mkdir -p %{instroot}/%{cmsplatf}/var/spool/repackage
 mkdir -p %{i}/etc/profile.d
+# FIXME: should really check the "use_system_gcc" variable
+#        rather than checking for osx as other platforms might
+#        require the usage of the system compiler. 
 (echo "#!/bin/sh"; \
+%if "%osx" != "set"
+ echo "source $GCC_ROOT/etc/profile.d/init.sh"; \
+%endif
  echo "source $BEECRYPT_ROOT/etc/profile.d/init.sh"; \
  echo "source $NEON_ROOT/etc/profile.d/init.sh"; \
  echo "source $EXPAT_ROOT/etc/profile.d/init.sh"; \
-%if "%osx" != "set"
  echo "source $ELFUTILS_ROOT/etc/profile.d/init.sh"; \
-%endif
  echo "source $BZ2LIB_ROOT/etc/profile.d/init.sh"; \
  echo "source $ZLIB_ROOT/etc/profile.d/init.sh"; \
  echo "source $DB4_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
 
 (echo "#!/bin/tcsh"; \
+%if "%osx" != "set"
+ echo "source $GCC_ROOT/etc/profile.d/init.csh"; \
+%endif
  echo "source $BEECRYPT_ROOT/etc/profile.d/init.csh"; \
  echo "source $NEON_ROOT/etc/profile.d/init.csh"; \
  echo "source $EXPAT_ROOT/etc/profile.d/init.csh"; \
-%if "%osx" != "set"
  echo "source $ELFUTILS_ROOT/etc/profile.d/init.csh"; \
-%endif
  echo "source $BZ2LIB_ROOT/etc/profile.d/init.csh"; \
  echo "source $ZLIB_ROOT/etc/profile.d/init.csh"; \
  echo "source $DB4_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
