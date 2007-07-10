@@ -128,6 +128,8 @@ mkdir -p %{i}/etc/profile.d
  echo "source $ZLIB_ROOT/etc/profile.d/init.csh"; \
  echo "source $DB4_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
 
+ln -sf rpm/rpmpopt-%{realversion}-rc1 %i/lib/rpmpopt
+
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
