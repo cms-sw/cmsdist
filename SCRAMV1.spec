@@ -150,7 +150,7 @@ source %{instroot}/$CMSARCH/lcg/SCRAMV1/$SCRAM_VERSION/etc/profile.d/init.sh
 # scram command so that, no matter where the ia32 architecture is running 
 # (i686 or x84_64) scram detects it as ia32.
 CMSPLAT=`echo $CMSARCH | cut -d_ -f 2`
-if [ "$CMSPLAT" = "ia32" ]
+if [ "$CMSPLAT" == "ia32" ]
 then
     USE_LINUX32=linux32
 else
@@ -167,7 +167,7 @@ mkdir -p $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb
 touch $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
 if [ -f $RPM_INSTALL_PREFIX/share/scramdb/project.lookup ] ; then
   dblinked=`grep "DB $RPM_INSTALL_PREFIX/share/scramdb/project.lookup" $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup`
-  if [ "X$dblinked" = "X" ] ; then
+  if [ "X$dblinked" == "X" ] ; then
     echo '!DB' $RPM_INSTALL_PREFIX/share/scramdb/project.lookup > $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link
     cat $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup >> $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link
     mv $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
