@@ -1,0 +1,59 @@
+#!/bin/sh
+if [ X"$(id -u)" = X0 ]; then
+  echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
+  echo "CMS software cannot be installed as the super-user." 1>&2
+  echo "(We recommend reading any standard unix security guide.)" 1>&2
+  exit 1
+fi
+
+while [ $# -gt 0 ]
+do
+    arg=$1
+    shift
+    case $arg in
+        -path)
+            [ $# -gt 0 ] || { echo "Option \`$arg' requires an argument" 1>&2; exit 1;  }
+            if [ "`echo $1 | cut -b 1`" != "/" ]; then
+              rootdir="$PWD/$1"
+            else
+              rootdir="$1"
+            fi
+        ;;
+        *)
+            echo "Unrecognized option: $1."
+            exit 1
+        ;;
+    esac
+    shift
+done
+
+cd $path
+
+# Install the new apt/rpm packages.
+rpmOptions="-r $path --prefix $path --dbpath $path/@CMSPLATF@/var/lib/rpm --ignoreos --ignorearch"
+rpmlock=$path/@CMSPLATF@/var/lib/rpm/__db.0
+url=http://cmsrep.cern.ch/cmssw/cms/RPMS/@CMSPLATF@
+rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $url/external+elfutils+@ELFUTILS_VERSION@-1-@ELFUTILS_REVISION@.@CMSPLATF@.rpm
+rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $url/external+expat+@EXPAT_VERSION@-1-@EXPAT_REVISION@.@CMSPLATF@.rpm
+rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $url/external+db4+@DB4_VERSION@-1-@DB4_REVISION@.@CMSPLATF@.rpm
+rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $url/external+beecrypt+@BEECRYPT_VERSION@-1-@BEECRYPT_REVISION@.@CMSPLATF@.rpm
+rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $url/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm
+rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $url/external+bz2lib+@BZ2LIB_VERSION@-1-@BZ2LIB_REVISION@.@CMSPLATF@.rpm
+rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $url/external+neon+@NEON_VERSION@-1-@NEON_REVISION@.@CMSPLATF@.rpm
+rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $url/external+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rpm
+rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $url/external+openssl+@OPENSSL_VERSION@-1-@OPENSSL_REVISION@.@CMSPLATF@.rpm
+rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $url/external+libxml2+@LIBXML2_VERSION@-1-@LIBXML2_REVISION@.@CMSPLATF@.rpm
+rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $url/external+apt+@APT_VERSION@-1-@APT_REVISION@.@CMSPLATF@.rpm
+
+# Remove the old indexes for the rpmdb.
+indexes="Basenames Dirnames Group Name Providename Pubkeys Requireversion Sigmd5 __db.001 __db.003 
+         Conflictname Filemd5s Installtid Provideversion Requirename Sha1header Triggername __db.002
+         lock"
+for olddbfile in $indexes
+do
+    rm @CMSPLATF@/var/lib/rpm/$olddbfile
+done
+
+# Rebuild the db using the new rpm.
+source $rootdir/@CMSPLATF@/external/rpm/@RPM_VERSION@/etc/profile.d/init.sh
+rpmdb -r $path --dbpath @CMSPLATF@/var/lib/rpm --rebuilddb 
