@@ -15,6 +15,7 @@ Patch2: apt
 %define libdir lib
 %endif
 
+
 %prep
 %setup -n %n-%{realversion}
 case $RPM_VERSION in
@@ -25,7 +26,11 @@ case $RPM_VERSION in
 %patch1 -p0
         ;;
 esac
+
+# scandir has a different prototype between macosx and linux.
+%if "%(uname)" == "Darwin"
 %patch2 -p1
+%endif
 
 %build
 export CFLAGS="-O0 -g"
