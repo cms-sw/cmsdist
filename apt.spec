@@ -188,7 +188,7 @@ cat %_sourcedir/bootstrap | perl -p -e "s!\@CMSPLATF\@!%{cmsplatf}!g;
                                         s!\@INSTROOT\@!%{instroot}!g;
                                         " > %{i}/bin/bootstrap-%{cmsplatf}.sh
 
-cat %_sourcedir/cms-apt-migration | perl -p -i -e "s!\@CMSPLATF\@!%{cmsplatf}!g;
+cat %_sourcedir/cms-apt-migration | perl -p -e "s!\@CMSPLATF\@!%{cmsplatf}!g;
                                         s!\@GCC_VERSION\@!$GCC_VERSION!g;
                                         s!\@RPM_VERSION\@!$RPM_VERSION!g;
                                         s!\@DB4_VERSION\@!$DB4_VERSION!g;
@@ -213,7 +213,7 @@ cat %_sourcedir/cms-apt-migration | perl -p -i -e "s!\@CMSPLATF\@!%{cmsplatf}!g;
                                         s!\@ELFUTILS_REVISION\@!$ELFUTILS_REVISION!g;
                                         s!\@APT_VERSION\@!%{v}!g;
                                         s!\@APT_REVISION\@!%{pkgrevision}!g;
-                                        s!\@INSTROOT\@!%{instroot}!g;" %{i}/bin/cms-apt-migration-%{cmsplatf}.sh
+                                        s!\@INSTROOT\@!%{instroot}!g;" > %{i}/bin/cms-apt-migration-%{cmsplatf}.sh
 
 %post
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/apt/lists/partial
