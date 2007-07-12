@@ -215,7 +215,6 @@ cat %_sourcedir/cms-apt-migration | perl -p -e "s!\@CMSPLATF\@!%{cmsplatf}!g;
                                         s!\@APT_REVISION\@!%{pkgrevision}!g;
                                         s!\@INSTROOT\@!%{instroot}!g;" > %{i}/bin/cms-apt-migration-%{cmsplatf}.sh
 
-
 %post
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/apt/lists/partial
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/rpm 
