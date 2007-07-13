@@ -1,4 +1,4 @@
-### RPM external geant4 8.2.p01-CMS3
+### RPM external geant4 8.3
 %define downloadv %(echo %v | cut -d- -f1)
 ## INITENV SET G4NDL_PATH %i/data/G4NDL%{g4NDLVersion}
 ## INITENV SET G4EMLOW_PATH %i/data/G4EMLOW%{g4EMLOWVersion}
@@ -7,24 +7,20 @@
 # Build system fudging and some patches by Lassi A. Tuura <lat@iki.fi>  
 Requires: clhep
 %define photonEvaporationVersion 2.0
-%define g4NDLVersion 3.9
-%define g4ElasticScatteringVersion 1.1
-%define g4EMLOWVersion 4.0
-%define radiativeDecayVersion 3.0
+%define g4NDLVersion 3.10
+%define g4EMLOWVersion 4.2
+%define radioactiveDecayVersion 3.1
 Source0: http://geant4.cern.ch/support/source/%n.%downloadv.tar.gz
 Source1: http://geant4.cern.ch/support/source/G4NDL.%{g4NDLVersion}.tar.gz
 Source2: http://geant4.cern.ch/support/source/G4EMLOW.%{g4EMLOWVersion}.tar.gz
 Source3: http://geant4.cern.ch/support/source/PhotonEvaporation.%{photonEvaporationVersion}.tar.gz
-Source4: http://geant4.cern.ch/support/source/RadiativeDecay.%{radiativeDecayVersion}.tar.gz
-Source5: http://geant4.cern.ch/support/source/G4ELASTIC.%{g4ElasticScatteringVersion}.tar.gz
-Patch: geant482-cms1
-Patch1: geant-4.8.2.p01-nobanner
+Source4: http://geant4.cern.ch/support/source/G4RadioactiveDecay.%{radioactiveDecayVersion}.tar.gz
+Patch: geant-4.8.2.p01-nobanner
 
 %prep
 %setup -n %n.%downloadv
 pwd
-%patch0 -p0 
-%patch1 -p1 
+%patch0 -p1 
 
 %build
 if [ $(uname) = Darwin ]; then
@@ -41,13 +37,10 @@ echo "export G4WORKDIR=$PWD" >> G4BuildConf.sh
 echo "export G4TMP=$PWD/tmp" >> G4BuildConf.sh
 echo "export G4LIB=%i/lib" >> G4BuildConf.sh
 echo "export G4LIB_BUILD_SHARED=1" >> G4BuildConf.sh
-echo "unset G4DEBUG" >> G4BuildConf.sh
-echo "export G4OPTIMIZE=1" >> G4BuildConf.sh
 
 echo "export G4LEVELGAMMADATA=%i/data/PhotonEvaporation/%{photonEvaporationVersion}" >> G4BuildConf.sh
-echo "export G4RADIOACTIVEDATA=%i/data/RadiativeDecay%{radiativeDecayVersion}" >> G4BuildConf.sh
+echo "export G4RADIOACTIVEDATA=%i/data/RadioactiveDecay%{radioactiveDecayVersion}" >> G4BuildConf.sh
 echo "export G4LEDATA=%i/data/G4EMLOW%{g4EMLOWVersion}" >> G4BuildConf.sh
-echo "export G4ELASTIC=%i/data/G4ELASTIC%{g4ElasticScatteringVersion}" >> G4BuildConf.sh
 echo "export NeutronHPCrossSections=%i/data/G4NDL%{g4NDLVersion}" >> G4BuildConf.sh
 
 # export G4LIB_BUILD_STATIC=1
@@ -100,5 +93,5 @@ mkdir -p %i/data
 tar -C %i/data -zxvf %_sourcedir/G4NDL*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/G4EMLOW*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/Photon*.tar.gz
-tar -C %i/data -zxvf %_sourcedir/Rad*.tar.gz
+tar -C %i/data -zxvf %_sourcedir/G4Rad*.tar.gz
 #
