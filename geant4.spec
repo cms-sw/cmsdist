@@ -37,6 +37,14 @@ echo "export G4WORKDIR=$PWD" >> G4BuildConf.sh
 echo "export G4TMP=$PWD/tmp" >> G4BuildConf.sh
 echo "export G4LIB=%i/lib" >> G4BuildConf.sh
 echo "export G4LIB_BUILD_SHARED=1" >> G4BuildConf.sh
+if [ !${BUILD_DEBUG} ]; then
+ echo "unset G4DEBUG" >> G4BuildConf.sh
+ echo "export G4OPTIMIZE=1" >> G4BuildConf.sh
+else
+ echo "export G4DEBUG=1" >> G4BuildConf.sh
+ echo "unset G4OPTIMIZE" >> G4BuildConf.sh
+ echo "export G4VERBOSE=1" >> G4BuildConf.sh
+fi
 
 echo "export G4LEVELGAMMADATA=%i/data/PhotonEvaporation/%{photonEvaporationVersion}" >> G4BuildConf.sh
 echo "export G4RADIOACTIVEDATA=%i/data/RadioactiveDecay%{radioactiveDecayVersion}" >> G4BuildConf.sh
