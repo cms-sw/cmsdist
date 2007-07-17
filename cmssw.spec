@@ -3,6 +3,17 @@
 Provides: /bin/zsh
 Requires: cmssw-tool-conf python glimpse
 
+#-ap start 2007-07-16
+# WARNING: the following statement is needed to build the nightlies
+# but will make "standard" builds of tags like CMSSW_X-Y-Z-g483 
+# impossible without creating a new queue in the TC. 
+# If you want to reuse an existing tag for this type of builds,
+# please comment out the following statement:
+
+%define cvstag		%v
+
+#-ap end 2007-07-16
+
 %define toolconf        ${CMSSW_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
 %define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
 %define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
