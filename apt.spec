@@ -125,7 +125,6 @@ rpm-src http://cmsrep.cern.ch cms/cpt/Software/download/cms/apt/%{cmsplatf} cms 
 ##rpm-src http://@SERVER@ @SERVER_PATH@@REPOSITORY@/apt/%{cmsplatf} @GROUPS@
 EOF_SOURCES_LIST
 
-
 cat << \EOF_RPMPRIORITIES > %{i}/etc/rpmpriorities
 Essantial:
 

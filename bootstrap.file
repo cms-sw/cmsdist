@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.29 $
+# Revision: $Revision: 1.30 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -15,8 +15,10 @@ if [ -f /usr/lib/rpm/find-provides ]
 then
     rpmFindProvides=/usr/lib/rpm/find-provides
 elif [ -f /opt/local/lib/rpm/find-provides ]
+then
     rpmFindProvides=/opt/local/lib/rpm/find-provides
 elif [ -f /sw/lib/rpm/find-provides ]
+then
     rpmFindProvides=/sw/lib/rpm/find-provides
 else
     echo "find-provides not found. Ubuntu/Debian/OSX installation might fail."
