@@ -1,10 +1,10 @@
-### RPM cms dbs-web V03_05_02
+### RPM cms dbs-web V03_04_24
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
 %define cvstag %v
 #Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Web/DataDiscovery&export=DBS/Web/DataDiscovery&tag=-r%{cvstag}&output=/dbs-web.tar.gz
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Web/DataDiscovery&tag=-r%{cvstag}&output=/dbs-web.tar.gz
-Requires: python py2-sqlalchemy cherrypy mysql py2-mysqldb oracle py2-cx-oracle sqlite py2-pysqlite py2-cheetah webtools yui elementtree
+Requires: python dls py2-sqlalchemy cherrypy mysql py2-mysqldb oracle py2-cx-oracle sqlite py2-pysqlite py2-cheetah webtools yui elementtree
 
 %prep
 %setup -n DBS/Web/DataDiscovery
@@ -35,8 +35,8 @@ ln -s $YUI_ROOT/build YUI
  echo "source $ORACLE_ROOT/etc/profile.d/init.sh"; \
  echo "source $PY2_CX_ORACLE_ROOT/etc/profile.d/init.sh"; \
  echo "source $MYSQL_ROOT/etc/profile.d/init.sh"; \
+ echo "source $DLS_ROOT/etc/profile.d/init.sh"; \
  echo "source $ELEMENTTREE_ROOT/etc/profile.d/init.sh"; \
- echo -e "export PYTHONPATH=\044PYTHONPATH:\044ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/"; \
  echo -e "export DLSHOME=$DLS_ROOT/Client/lib"; \
  echo -e "export DDHOME=\044DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages"; \
  echo -e "export TNS_ADMIN=\044DDHOME"; \
@@ -58,8 +58,8 @@ ln -s $YUI_ROOT/build YUI
  echo "source $ORACLE_ROOT/etc/profile.d/init.csh"; \
  echo "source $PY2_CX_ORACLE_ROOT/etc/profile.d/init.csh"; \
  echo "source $MYSQL_ROOT/etc/profile.d/init.csh"; \
+ echo "source $DLS_ROOT/etc/profile.d/init.csh"; \
  echo "source $ELEMENTTREE_ROOT/etc/profile.d/init.csh"; \
- echo -e "setup PYTHONPATH \044PYTHONPATH:\044ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/"; \
  echo -e "setenv DLSHOME $DLS_ROOT/Client/lib"; \
  echo -e "setenv DDHOME \044DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages"; \
  echo -e "setenv TNS_ADMIN \044DDHOME"; \
