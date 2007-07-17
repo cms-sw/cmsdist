@@ -1,5 +1,5 @@
 #!/bin/sh
-# Revision: $Revision: 1.26 $
+# Revision: $Revision: 1.27 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -332,11 +332,12 @@ apt-get dist-upgrade
 # If we want to use a test instance, we need to adjust the sources.list accordingly.
 if [ "$testInstance" = "true" ]
 then
-    perl -p -i -e "s/^/#/;s/###//;
-                   s/\@GROUPS\@/$groups/;
-                   s/\@SERVER\@/$server/;
-                   s/\@SERVER_PATH\@/$server_main_dir/;
-                   s/\@REPOSITORY\@/$repository/" $rootdir/@CMSPLATF@/etc/sources.list
+    perl -p -i -e "s|^|#|;
+                   s|###||;
+                   s|\@GROUPS\@|$groups|;
+                   s|\@SERVER\@|$server|;
+                   s|\@SERVER_PATH\@|$server_main_dir|;
+                   s|\@REPOSITORY\@|$repository|" $rootdir/@CMSPLATF@/etc/sources.list
 fi
 
 cd $was
