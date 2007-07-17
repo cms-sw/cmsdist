@@ -1,11 +1,25 @@
-#!/bin/sh
-# Revision: $Revision: 1.28 $
+#!/bin/bash
+# Revision: $Revision: 1.29 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
   echo "CMS software cannot be installed as the super-user." 1>&2
   echo "(We recommend reading any standard unix security guide.)" 1>&2
   exit 1
+fi
+
+# We still depend on find-provides script from the system installation
+# in order to be able to install on unsupported platforms like ubuntu and
+# osx (with fink). This
+if [ -f /usr/lib/rpm/find-provides ]
+then
+    rpmFindProvides=/usr/lib/rpm/find-provides
+elif [ -f /opt/local/lib/rpm/find-provides ]
+    rpmFindProvides=/opt/local/lib/rpm/find-provides
+elif [ -f /sw/lib/rpm/find-provides ]
+    rpmFindProvides=/sw/lib/rpm/find-provides
+else
+    echo "find-provides not found. Ubuntu/Debian/OSX installation might fail."
 fi
 
 server=cmsrep.cern.ch
@@ -210,7 +224,7 @@ generateSeedSpec () {
               # FIXME: this relies on rpm being installed. We should really have our
               # own version of find-provides, but this will bring in more rpm helper 
               # script, so we live with it for the moment.
-              dpkg -L $p 2>/dev/null | /usr/lib/rpm/find-provides | sed -e "s|^|Provides:|"
+              dpkg -L $p 2>/dev/null | $rpmFindProvides | sed -e "s|^|Provides:|"
           fi
     	done
     	perlHarvester
