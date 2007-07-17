@@ -1,5 +1,5 @@
 #!/bin/sh
-# Revision: $Revision: 1.25 $
+# Revision: $Revision: 1.26 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -51,7 +51,9 @@ while [ $# -gt 0 ]; do
           shift; shift ;;
         -repository )
           [ $# -gt 1 ] || { echo "Option \`$1' requires an argument" 1>&2; exit 1;  }
-          repository=/$2; shift; shift ;;
+          repository=/$2 
+          testInstance=true
+          shift; shift ;;
         -groups )
           [ $# -gt 1 ] || { echo "Option \`$1' requires at lease one argument" 1>&2; exit 1; }
           shift
@@ -334,7 +336,7 @@ then
                    s/\@GROUPS\@/$groups/;
                    s/\@SERVER\@/$server/;
                    s/\@SERVER_PATH\@/$server_main_dir/;
-                   s/\@REPOSITORY\@/$repository/" $rootdir/@CMSPLATF@/etc/apt/sources.list
+                   s/\@REPOSITORY\@/$repository/" $rootdir/@CMSPLATF@/etc/sources.list
 fi
 
 cd $was
