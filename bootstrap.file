@@ -1,5 +1,5 @@
 #!/bin/sh
-# Revision: $Revision: 1.27 $
+# Revision: $Revision: 1.28 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -337,7 +337,7 @@ then
                    s|\@GROUPS\@|$groups|;
                    s|\@SERVER\@|$server|;
                    s|\@SERVER_PATH\@|$server_main_dir|;
-                   s|\@REPOSITORY\@|$repository|" $rootdir/@CMSPLATF@/etc/sources.list
+                   s|\@REPOSITORY\@|$repository|" $rootdir/@CMSPLATF@/external/apt/@APT_VERSION@/etc/sources.list
 fi
 
 cd $was
