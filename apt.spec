@@ -8,6 +8,7 @@ Requires: libxml2 beecrypt rpm zlib bz2lib openssl
 Patch0: apt-rpm449
 Patch1: apt-rpm446
 Patch2: apt
+Patch3: apt-multiarch
 
 %if "%(echo %{cmsos} | cut -d_ -f 2 | sed -e 's|.*64.*|64|')" == "64"
 %define libdir lib64
@@ -31,6 +32,8 @@ esac
 %if "%(uname)" == "Darwin"
 %patch2 -p1
 %endif
+
+%patch3 -p1
 
 %build
 export CFLAGS="-O0 -g"
