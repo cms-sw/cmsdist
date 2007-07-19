@@ -1,23 +1,23 @@
-### RPM external alpgen 213
+p	### RPM external alpgen 213
 Source: http://mlm.home.cern.ch/mlm/alpgen/V2.1/v%{v}.tgz
 Source1: config.sub-amd64
 %prep
 %setup -c -n alpgen-%v
 
 %build
-cd 2Qwork; make 2Qgen; cd ..
-cd 4Qwork; make 4Qgen; cd ..
-cd hjetwork; make hjetgen; cd ..
-cd Njetwork; make Njetgen; cd ..
-cd phjetwork; make phjetgen; cd ..
-cd QQhwork; make QQhgen; cd ..
-cd topwork; make topgen; cd ..
-cd vbjetwork; make vbjetgen; cd ..
-cd wcjetwork; make wcjetgen; cd ..
-cd wjetwork; make wjetgen; cd ..
-cd wqqwork; make wqqgen; cd ..
-cd zjetwork; make zjetgen; cd ..
-cd zqqwork; make zqqgen; cd ..
+cd 2Qwork; make gen; cd ..
+cd 4Qwork; make gen; cd ..
+cd hjetwork; make gen; cd ..
+cd Njetwork; make gen; cd ..
+cd phjetwork; make gen; cd ..
+cd QQhwork; make gen; cd ..
+cd topwork; make gen; cd ..
+cd vbjetwork; make gen; cd ..
+cd wcjetwork; make gen; cd ..
+cd wjetwork; make gen; cd ..
+cd wqqwork; make gen; cd ..
+cd zjetwork; make gen; cd ..
+cd zqqwork; make gen; cd ..
 
 %install
 mkdir -p %{i}/bin
