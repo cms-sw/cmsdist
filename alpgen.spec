@@ -1,10 +1,11 @@
 ### RPM external alpgen 213
 Source: http://mlm.home.cern.ch/mlm/alpgen/V2.1/v%{v}.tgz
 Source1: config.sub-amd64
+Patch0: alpgen
 
-Patch: alpgen
 %prep
 %setup -c -n alpgen-%v
+patch0 -p1 
 
 %build
 cd 2Qphwork; make gen; cd ..
