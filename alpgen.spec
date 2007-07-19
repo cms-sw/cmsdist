@@ -20,7 +20,7 @@ cd wcjetwork; make gen; cd ..
 cd wphjetwork; make gen; cd ..
 cd wphqqwork; make gen; cd ..
 cd wqqwork; make gen; cd ..
-cd zjetwork; make gen; cd ..
+cd zqqwork; make gen; cd ..
 
 cd phjetwork; make gen; 
 export USRF=120_180bin
@@ -54,7 +54,7 @@ export USRF=VBFHiggsTo2Tau
 make gen -f cmsMakefile
 cd ..
 
-cd zqqwork; make gen; 
+cd zjetwork; make gen; 
 export USRF=0ptz100
 make gen -f cmsMakefile
 export USRF=100ptz300
