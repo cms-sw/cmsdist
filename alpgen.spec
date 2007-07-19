@@ -1,5 +1,5 @@
 ### RPM external alpgen 213
-Source: http://mlm.home.cern.ch/mlm/alpgen/V2.0/v%{v}.tgz
+Source: http://mlm.home.cern.ch/mlm/alpgen/V2.1/v%{v}.tgz
 Source1: config.sub-amd64
 %prep
 %setup -c -n alpgen-%v
