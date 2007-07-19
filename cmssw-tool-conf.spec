@@ -73,6 +73,7 @@ Requires: jimmy
 Requires: iguana
 Requires: gmp
 Requires: glpk
+Requires: alpgen
 
 %prep
 %build
@@ -505,6 +506,10 @@ echo "  +ELEMENTTREE_PYPATH:$ELEMENTTREE_ROOT/python$(echo $PYTHON_VERSION | cut
 
 echo "TOOL:iguana:"
 echo "  +IGUANA_BASE:$IGUANA_ROOT"
+
+echo "TOOL:alpgen:"
+echo "  +ALPGEN_BASE:$ALPGEN_ROOT"
+eval "echo \"  +PATH:\${ALPGEN_ROOT}/bin\""
 
 echo "TOOL:valgrind:"
 echo "  +VALGRIND_BASE:$VALGRIND_ROOT"
