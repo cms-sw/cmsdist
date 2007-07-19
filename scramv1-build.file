@@ -75,6 +75,14 @@ Source1: %{configrepo}&tag=-r%{configtag}&module=%{cvsconfig}&export=config&outp
 %endif
 
 Source2: %source2
+
+# For partial releases re-using CMSSW sources:
+%if "%{?cmsswsrc:set}" == "set"
+Source0: %{cmsswsrc}/toolbox.tar.gz
+Source1: %{cmsswsrc}/config.tar.gz
+Source2: %{cmsswsrc}/src.tar.gz
+%endif
+
 Source3: %source3
 Source4: %source4
 
@@ -97,7 +105,9 @@ Source4: %source4
 %setup -D -T -a 4 -n %{srctree}
 %endif
 
+%if "%{?ucprojname:set}" != "set"
 %define ucprojname  %(echo %n | tr 'a-z' 'A-Z')
+%endif
 %define toolconf_filename %(basename %toolconf)
 touch %_builddir/config/%{ucprojname}_ignore.file
 for file in `ls %_builddir/config/%{ucprojname}_*.file | grep -v  '/%{ucprojname}_ignore.file$' | sed 's|.*/%{ucprojname}_||;s|.file$||'`; do
@@ -147,6 +157,11 @@ if [ $(uname) = Darwin ]; then
   eval `scramv1 runtime -sh`
   export DYLD_LIBRARY_PATH=$LD_LIBRARY_PATH
 fi
+
+%if "%{?nolibchecks:set}" == "set"
+export SCRAM_NOLOADCHECK=true
+export SCRAM_NOSYMCHECK=true
+%endif
 
 %if "%{?preBuildCommand:set}" == "set"
 echo "executing %preBuildCommand"
