@@ -5,7 +5,7 @@ Patch0: alpgen
 
 %prep
 %setup -c -n alpgen-%v
-patch0 -p1 
+%patch0 -p1 
 
 %build
 cd 2Qphwork; make gen; cd ..
