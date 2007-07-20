@@ -93,7 +93,7 @@ cp vbjetwork/vbjetgen %{i}/bin/
 cp wcjetwork/wcjetgen %{i}/bin/
 cp wjetwork/wjetgen %{i}/bin/
 cp wphjetwork/wphjetgen %{i}/bin/
-cp wphqqwork/wphjetgen %{i}/bin/
+cp wphqqwork/wphqqgen %{i}/bin/
 cp wqqwork/wqqgen %{i}/bin/
 
 cp zjetwork/zjetgen %{i}/bin/
