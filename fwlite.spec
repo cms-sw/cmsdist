@@ -1,4 +1,4 @@
-### RPM cms fwlite CMSSW_1_6_0_pre4_FWLITE
+### RPM cms fwlite CMSSW_1_6_0_pre5_FWLITE
 ## IMPORT configurations 
 Provides: /bin/zsh
 Requires: fwlite-tool-conf 
@@ -8,7 +8,7 @@ Requires: fwlite-tool-conf
 #Defines for file containing list of packages for checkout and build:
 %define buildsetrepo 	CMSDIST
 %define buildsetfile 	fwlite_build_set.file
-%define buildsetvers	V3_0
+%define buildsetvers	buildset_V3_0
 
 # Define list of external tools to be selected in scram configuration.
 # Any changes must be propagated in fwlite-tool-conf.spec:
