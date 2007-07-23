@@ -7,7 +7,6 @@
 ## INITENV SET USRLIBRPM %{i}/lib/rpm
 ## INITENV SET RPMCONFIGDIR %{i}/lib/rpm
 ## INITENV SET SYSCONFIGDIR %{i}/lib/rpm
-
 Source: http://rpm.org/releases/testing/rpm-%{realversion}-rc1.tar.gz
 #Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
 Requires: beecrypt bz2lib neon expat db4 expat elfutils zlib
