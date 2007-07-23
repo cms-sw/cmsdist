@@ -3,6 +3,7 @@
 Source: ftp://sources.redhat.com/pub/systemtap/%{n}/%{n}-%{realversion}.tar.gz
 %prep
 %setup -n %n-%realversion
+perl -p -i -e "s/-Wextra//g;s/-Werror//" `find . -name \*.in`
 %build
 %if "%(echo %cmsos | sed -e 's/osx.*/osx/')" != "osx"
 ./configure --prefix=%i
