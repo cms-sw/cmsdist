@@ -9,7 +9,6 @@ Patch0: apt-rpm449
 Patch1: apt-rpm446
 Patch2: apt
 Patch3: apt-multiarch
-
 %if "%(echo %{cmsos} | cut -d_ -f 2 | sed -e 's|.*64.*|64|')" == "64"
 %define libdir lib64
 %else
