@@ -57,6 +57,7 @@ Provides: Kerberos
 %patch6 -p1
 
 rm -rf neon sqlite beecrypt elfutils zlib 
+
 %build
 #export LIBS="-lexpat"
 export CFLAGS="-fPIC -g -O0"
