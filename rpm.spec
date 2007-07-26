@@ -16,11 +16,23 @@ Patch2: rpm-4.4.9-popt
 Patch3: rpm-4.4.9-macrofiles
 Patch4: rpm-4.4.6
 Patch5: rpm-4.4.2.1
+Patch6: rpm-macosx
+
+# Defaults here
+%define libdir lib
+%define soname so
+
 %if "%(echo %{cmsos} | cut -d_ -f 2 | sed -e 's|.*64.*|64|')" == "64"
 %define libdir lib64 
-%else
-%define libdir lib
 %endif
+
+# On macosx SONAME is dylib
+%if "%(echo %{cmsos} | cut -d_ -f 1 | sed -e 's|osx.*|osx|')" == "osx"
+%define osx set 
+%define soname dylib
+Provides: Kerberos
+%endif
+
 %prep 
 %setup -n %n-%{realversion}-rc1
 %if "%{realversion}" == "4.4.9"
@@ -42,7 +54,10 @@ Patch5: rpm-4.4.2.1
 %patch5 -p0
 %endif
 
+%patch6 -p1
+
 rm -rf neon sqlite beecrypt elfutils zlib 
+
 %build
 #export LIBS="-lexpat"
 export CFLAGS="-fPIC -g -O0"
@@ -51,14 +66,21 @@ export LDFLAGS="-L$BEECRYPT_ROOT/%libdir -L$BZ2LIB_ROOT/lib -L$NEON_ROOT/lib -L$
 #FIXME: this does not seem to work and we still get /usr/bin/python in some of the files.
 export __PYTHON="/usr/bin/env python"
 perl -p -i -e "s|\@WITH_NEON_LIB\@|$NEON_ROOT/lib/libneon.a|;
+s|^.*WITH_SELINUX.*$||;
+s|-lselinux||;
 " `find . -name \*.in` 
 perl -p -i -e "s|#undef HAVE_NEON_NE_GET_RESPONSE_HEADER|#define HAVE_NEON_NE_GET_RESPONSE_HEADER 1|;
                s|#undef HAVE_BZ2_1_0|#define HAVE_BZ2_1_0|;
                s|#undef HAVE_GETPASSPHRASE||;
                s|#undef HAVE_LUA||;" config.h.in
 #perl -p -i -e 's%^(WITH_DB_SUBDIR|WITH_INTERNAL_DB|DBLIBSRCS)%#$1%' configure
+case `uname` in
+    Darwin*)
+        perl -p -i -e s'![\t]\@WITH_ZLIB_LIB\@!!' Makefile.in
+        ;;
+esac
 
-varprefix=%{instroot}/%{cmsplatf}/var ./configure --prefix=%i --disable-nls --without-selinux --without-python --without-libintl --without-perl --with-zlib-includes=$ZLIB_ROOT/include --with-zlib-lib=$ZLIB_ROOT/lib/zlib.so 
+varprefix=%{instroot}/%{cmsplatf}/var ./configure --prefix=%i --disable-nls --without-selinux --without-python --without-libintl --without-perl --with-zlib-includes=$ZLIB_ROOT/include --with-zlib-lib=$ZLIB_ROOT/lib/libz.%soname
 (cd zlib; make)
 make %makeprocesses
 perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|" scripts/get_magic.pl \
@@ -81,7 +103,13 @@ perl -p -i -e "s!^.buildroot!#%%buildroot!;
                s!^%%_repackage_dir.*/var/spool/repackage!%%_repackage_dir     %{instroot}/%{cmsplatf}/var/spool/repackage!" %i/lib/rpm/macros
 mkdir -p %{instroot}/%{cmsplatf}/var/spool/repackage
 mkdir -p %{i}/etc/profile.d
+# FIXME: should really check the "use_system_gcc" variable
+#        rather than checking for osx as other platforms might
+#        require the usage of the system compiler. 
 (echo "#!/bin/sh"; \
+%if "%osx" != "set"
+ echo "source $GCC_ROOT/etc/profile.d/init.sh"; \
+%endif
  echo "source $BEECRYPT_ROOT/etc/profile.d/init.sh"; \
  echo "source $NEON_ROOT/etc/profile.d/init.sh"; \
  echo "source $EXPAT_ROOT/etc/profile.d/init.sh"; \
@@ -91,6 +119,9 @@ mkdir -p %{i}/etc/profile.d
  echo "source $DB4_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
 
 (echo "#!/bin/tcsh"; \
+%if "%osx" != "set"
+ echo "source $GCC_ROOT/etc/profile.d/init.csh"; \
+%endif
  echo "source $BEECRYPT_ROOT/etc/profile.d/init.csh"; \
  echo "source $NEON_ROOT/etc/profile.d/init.csh"; \
  echo "source $EXPAT_ROOT/etc/profile.d/init.csh"; \
@@ -98,6 +129,8 @@ mkdir -p %{i}/etc/profile.d
  echo "source $BZ2LIB_ROOT/etc/profile.d/init.csh"; \
  echo "source $ZLIB_ROOT/etc/profile.d/init.csh"; \
  echo "source $DB4_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
+
+ln -sf rpm/rpmpopt-%{realversion}-rc1 %i/lib/rpmpopt
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
