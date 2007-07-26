@@ -25,17 +25,9 @@ cd ../%realname/%dataDir
 #cmsversion=`echo ${CMSSW_VERSION} | cut -d- -f1`
 /bin/cp -r %{_builddir}/%realname/%dataDir %i
 cd %i
-cmsversion=CMSSW_1_6_0_pre3
-poolversion=POOL_2_5_3
-#scramv1 p POOL ${POOL_VERSION}
-#cd ${POOL_VERSION}
-scramv1 p POOL ${poolversion}
-cd ${poolversion}
+old=`pwd`
+cd $POOL_ROOT
 eval `scramv1 runtime -sh`
-cd ..  
-/bin/rm -rf ${poolversion}
 cd %i/%dataDir
 /bin/chmod a+x ./cmscond_build_localcatalog
 ./cmscond_build_localcatalog 
-
-
