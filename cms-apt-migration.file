@@ -43,6 +43,7 @@ rpmlock=$rootdir/@CMSPLATF@/var/lib/rpm/__db.0
 url=http://cmsrep.cern.ch/cmssw/$repository/RPMS/@CMSPLATF@
 downloadDir=$VO_CMS_SW_DIR/tmp/apt-migration
 mkdir -p $downloadDir
+mkdir -p $rootdir/@CMSPLATF@/var/tmp
 old=$PWD
 cd $downloadDir
 wget -N $url/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm
@@ -78,7 +79,7 @@ indexes="Basenames Dirnames Group Name Providename Pubkeys Requireversion Sigmd5
          lock"
 for olddbfile in $indexes
 do
-    rm @CMSPLATF@/var/lib/rpm/$olddbfile
+    rm -f @CMSPLATF@/var/lib/rpm/$olddbfile
 done
 
 # Rebuild the db using the new rpm.

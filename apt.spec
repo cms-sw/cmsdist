@@ -15,7 +15,6 @@ Patch3: apt-multiarch
 %define libdir lib
 %endif
 
-
 %prep
 %setup -n %n-%{realversion}
 case $RPM_VERSION in
