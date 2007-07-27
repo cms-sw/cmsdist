@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.31 $
+# Revision: $Revision: 1.32 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -263,8 +263,9 @@ setup() {
 # to dbpath, some other times it does not.
 # At some point this should be really fixed in the rpm sources,
 # but for the time being we keep it as it is.
-if [ "$path" = "" ]
+if [ "$rootdir" = "" ]
 then
+    echo Installation path not specified.
     exit 1
 fi
 
