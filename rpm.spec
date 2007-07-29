@@ -59,7 +59,6 @@ Provides: Kerberos
 rm -rf neon sqlite beecrypt elfutils zlib 
 
 %build
-#export LIBS="-lexpat"
 export CFLAGS="-fPIC -g -O0"
 export CPPFLAGS="-I$BEECRYPT_ROOT/include -I$BEECRYPT_ROOT/include/beecrypt -I$BZ2LIB_ROOT/include -I$NEON_ROOT/include/neon -I$DB4_ROOT/include -I$EXPAT_ROOT/include/expat -I$ELFUTILS_ROOT/include -I$ZLIB_ROOT/include"
 export LDFLAGS="-L$BEECRYPT_ROOT/%libdir -L$BZ2LIB_ROOT/lib -L$NEON_ROOT/lib -L$DB4_ROOT/lib -L$EXPAT_ROOT/%libdir -L$ELFUTILS_ROOT/lib -L$ZLIB_ROOT/lib -lz -lexpat -lbeecrypt -lbz2 -lneon -lpthread"
@@ -82,7 +81,12 @@ esac
 
 varprefix=%{instroot}/%{cmsplatf}/var ./configure --prefix=%i --disable-nls --without-selinux --without-python --without-libintl --without-perl --with-zlib-includes=$ZLIB_ROOT/include --with-zlib-lib=$ZLIB_ROOT/lib/libz.%soname
 (cd zlib; make)
-make %makeprocesses
+if ! make %makeprocesses
+then
+    # Very ugly hack to get rid of any kind of automatically generated dependecy on /usr/lib/beecrypt.
+    perl -p -i -e 's|/usr/lib[6]*[4]*/[^ ]*.la||' `grep -R -e '/usr/lib[6]*[4]*/[^ ]*.la' . | cut -f1 -d:`
+    make %makeprocesses 
+fi
 perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|" scripts/get_magic.pl \
                                                       scripts/rpmdiff.cgi \
                                                       scripts/cpanflute2 \
