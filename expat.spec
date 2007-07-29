@@ -3,6 +3,10 @@
 Source: http://dl.sourceforge.net/sourceforge/%n/%n-%realversion.tar.gz
 Provides: libc.so.6()(64bit)
 Provides: libc.so.6(GLIBC_2.2.5)(64bit)  
+%define _ldd ldd
+%if "%(uname)" == "Darwin"
+%define _ldd otool -L
+%endif
 
 %prep
 %setup -n %n-%{realversion}
@@ -12,7 +16,7 @@ Provides: libc.so.6(GLIBC_2.2.5)(64bit)
 make 
 make install
 
-%if "%(ldd /usr/bin/gcc | xargs | grep lib64)" != ""
+%if "%(%_ldd /usr/bin/gcc | xargs | grep lib64)" != ""
 make clean
 echo "64 bit compiler found let's build expat in 64 bit to be used by scram perl modules." 
 export PATH=/usr/bin:/bin
@@ -22,5 +26,6 @@ CXX=/usr/bin/c++ CC=/usr/bin/gcc setarch x86_64 ./configure --prefix=%{i} --bind
 setarch x86_64 make
 setarch x86_64 make install
 %endif
+
 %install
 echo "Nothing to be done in install"
