@@ -26,4 +26,6 @@ cd $POOL_ROOT
 eval `scramv1 runtime -sh`
 cd %i/%dataDir
 /bin/chmod a+x ./cmscond_build_localcatalog
-./cmscond_build_localcatalog 
+./cmscond_build_localcatalog
+%post
+%{relocateConfig}data/localCondDBCatalog.xml 
