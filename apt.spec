@@ -1,11 +1,13 @@
 ### RPM external apt 0.5.15lorg3.2-CMS3
 ## INITENV SET APT_CONFIG %{i}/etc/apt.conf
-
 Source:  http://apt-rpm.org/releases/%n-%realversion.tar.bz2
 Source1: bootstrap
+Source2: cms-apt-migration
 Requires: libxml2 beecrypt rpm zlib bz2lib openssl
 Patch0: apt-rpm449
 Patch1: apt-rpm446
+Patch2: apt
+Patch3: apt-multiarch
 %if "%(echo %{cmsos} | cut -d_ -f 2 | sed -e 's|.*64.*|64|')" == "64"
 %define libdir lib64
 %else
@@ -22,6 +24,14 @@ case $RPM_VERSION in
 %patch1 -p0
         ;;
 esac
+
+# scandir has a different prototype between macosx and linux.
+%if "%(uname)" == "Darwin"
+%patch2 -p1
+%endif
+
+%patch3 -p1
+
 %build
 export CFLAGS="-O0 -g"
 export CXXFLAGS="-O0 -g"
@@ -49,6 +59,7 @@ mkdir -p %{i}/etc/profile.d
 (echo "#!/bin/tcsh"; \
  echo "source $RPM_ROOT/etc/profile.d/init.csh"; \
  echo "source $LIBXML2_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
+
 
 mkdir -p %{i}/etc/apt
 cat << \EOF_APT_CONF > %{i}/etc/apt.conf
@@ -110,8 +121,8 @@ rpm http://cmsrep.cern.ch cms/cpt/Software/download/cms/apt/%{cmsplatf} cms lcg 
 rpm-src http://cmsrep.cern.ch cms/cpt/Software/download/cms/apt/%{cmsplatf} cms lcg external
 # This are defined to support experimental repositories. The bootstrap file rewrites and uncomments
 # them when passed the appropriate commandline option. 
-## rpm @SERVER@ @SERVER_PATH@/@REPOSITORY@/apt/%{cmsplatf} @GROUPS@  
-## rpm-src @SERVER@ @SERVER_PATH@/@REPOSITORY@/apt/%{cmsplatf} @GROUPS@
+##rpm http://@SERVER@ @SERVER_PATH@@REPOSITORY@/apt/%{cmsplatf} @GROUPS@  
+##rpm-src http://@SERVER@ @SERVER_PATH@@REPOSITORY@/apt/%{cmsplatf} @GROUPS@
 EOF_SOURCES_LIST
 
 cat << \EOF_RPMPRIORITIES > %{i}/etc/rpmpriorities
@@ -177,6 +188,33 @@ cat %_sourcedir/bootstrap | perl -p -e "s!\@CMSPLATF\@!%{cmsplatf}!g;
                                         s!\@INSTROOT\@!%{instroot}!g;
                                         " > %{i}/bin/bootstrap-%{cmsplatf}.sh
 
+cat %_sourcedir/cms-apt-migration | perl -p -e "s!\@CMSPLATF\@!%{cmsplatf}!g;
+                                        s!\@GCC_VERSION\@!$GCC_VERSION!g;
+                                        s!\@RPM_VERSION\@!$RPM_VERSION!g;
+                                        s!\@DB4_VERSION\@!$DB4_VERSION!g;
+                                        s!\@LIBXML2_VERSION\@!$LIBXML2_VERSION!g;
+                                        s!\@OPENSSL_VERSION\@!$OPENSSL_VERSION!g;
+                                        s!\@BEECRYPT_VERSION\@!$BEECRYPT_VERSION!g;
+                                        s!\@BZ2LIB_VERSION\@!$BZ2LIB_VERSION!g;
+                                        s!\@ZLIB_VERSION\@!$ZLIB_VERSION!g;
+                                        s!\@EXPAT_VERSION\@!$EXPAT_VERSION!g;
+                                        s!\@ELFUTILS_VERSION\@!$ELFUTILS_VERSION!g;
+                                        s!\@NEON_VERSION\@!$NEON_VERSION!g;
+                                        s!\@GCC_REVISION\@!$GCC_REVISION!g;
+                                        s!\@BEECRYPT_REVISION\@!$BEECRYPT_REVISION!g;
+                                        s!\@RPM_REVISION\@!$RPM_REVISION!g;
+                                        s!\@OPENSSL_REVISION\@!$OPENSSL_REVISION!g;
+                                        s!\@DB4_REVISION\@!$DB4_REVISION!g;
+                                        s!\@LIBXML2_REVISION\@!$LIBXML2_REVISION!g;
+                                        s!\@BZ2LIB_REVISION\@!$BZ2LIB_REVISION!g;
+                                        s!\@ZLIB_REVISION\@!$ZLIB_REVISION!g;
+                                        s!\@EXPAT_REVISION\@!$EXPAT_REVISION!g;
+                                        s!\@NEON_REVISION\@!$NEON_REVISION!g;
+                                        s!\@ELFUTILS_REVISION\@!$ELFUTILS_REVISION!g;
+                                        s!\@APT_VERSION\@!%{v}!g;
+                                        s!\@APT_REVISION\@!%{pkgrevision}!g;
+                                        s!\@INSTROOT\@!%{instroot}!g;" > %{i}/bin/cms-apt-migration-%{cmsplatf}.sh
+
 %post
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/apt/lists/partial
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/rpm 
@@ -193,5 +231,3 @@ mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/cache/%{cmsplatf}
 %{relocateConfig}bin/apt-get-wrapper
 %{relocateConfig}bin/rpm-wrapper
 %{relocateConfig}etc/apt.conf 
-
-
