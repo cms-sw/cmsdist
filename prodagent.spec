@@ -1,4 +1,4 @@
-### RPM cms prodagent PRODAGENT_0_5_1
+### RPM cms prodagent PRODAGENT_0_5_2
 ## INITENV +PATH PYTHONPATH %i/lib
 
 %define cvstag %v
