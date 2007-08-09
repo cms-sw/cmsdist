@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_1_7_X_2007-08-05-1600
+### RPM cms cmssw CMSSW_1_6_0_pre9
 ## IMPORT configurations 
 Provides: /bin/zsh
 Requires: cmssw-tool-conf python glimpse
@@ -13,6 +13,6 @@ Requires: cmssw-tool-conf python glimpse
 %define buildtarget     release-build
 %define patchsrc perl -p -i -e 's!<select name=(MyODBC)>!!' config/requirements ;
 %define useCmsTC        1
-%define cvstag		%{v}
+
 ## IMPORT cms-scram-build
 ## IMPORT scramv1-build
