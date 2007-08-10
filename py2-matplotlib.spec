@@ -1,9 +1,9 @@
-### RPM external py2-matplotlib 0.87.7
+### RPM external py2-matplotlib 0.90.1
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 %define downloadn matplotlib
 Source: http://switch.dl.sourceforge.net/sourceforge/%downloadn/%downloadn-%v.tar.gz
 Requires: python
-# Requires: zlib
+Requires: zlib
 # Requires: agg
 # Requires: cairo
 Requires: py2-numpy 
@@ -12,9 +12,11 @@ Requires: py2-numpy
 # Requires: atlas lapack
 Requires: libpng
 # Requires: freetype
+Patch0: matplotlib-0.90.1
 %prep
 %setup -n %downloadn-%v
-
+%patch0 -p0
+perl -p -i -e "s|\@LIBPNG_ROOT\@|$LIBPNG_ROOT|;s|\@ZLIB_ROOT\@|$ZLIB_ROOT|" setupext.py
 %build
 %install
 python -c 'import numpy'
