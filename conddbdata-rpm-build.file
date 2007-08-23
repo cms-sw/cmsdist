@@ -1,0 +1,31 @@
+### FILE conddbdata-rpm-build.file
+%define realname %(echo %n | cut -d- -f2,3 --output-delimiter=/) 
+%define realsub %(echo %n | cut -d- -f2) 
+%define cvsrepo         cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
+
+%if "%{?dataDir:set}" != "set" 
+%define dataDir data
+%endif
+
+Source: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir&export=%realsub&output=/src.tar.gz
+
+#Source: download-url
+
+%prep
+%setup -n %realsub
+ 
+%build
+
+cd ../%realname/%dataDir
+/bin/cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
+/bin/rm download.url
+
+%install
+/bin/cp -r %{_builddir}/%realname/%dataDir %i
+cd $POOL_ROOT
+eval `scramv1 runtime -sh`
+cd %i/%dataDir
+/bin/chmod a+x ./cmscond_build_localcatalog
+./cmscond_build_localcatalog
+%post
+%{relocateConfig}data/localCondDBCatalog.xml 
