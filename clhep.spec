@@ -1,5 +1,5 @@
-### RPM external clhep 1.9.2.3-CMS3
-Source: http://proj-clhep.web.cern.ch/proj-clhep/%n-%realversion.tgz
+### RPM external clhep 1.9.3.1
+Source: http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/distributions/%n-%realversion.tgz
 
 %prep
 %setup -n %realversion/CLHEP
@@ -44,6 +44,9 @@ make install
 #cp libCLHEP-g++.%realversion.$so %i/lib
 #ln -s libCLHEP-g++.%realversion.$so %i/lib/libCLHEP.$so
 #n -s libCLHEP-g++.%realversion.a %i/lib/libCLHEP.a
+#remove the .a files
+rm %i/lib/*.a
+
 %post
 %{relocateConfig}bin/Evaluator-config
 %{relocateConfig}bin/Cast-config
@@ -51,12 +54,9 @@ make install
 %{relocateConfig}bin/Exceptions-config
 %{relocateConfig}bin/RandomObjects-config
 %{relocateConfig}bin/Geometry-config
-%{relocateConfig}bin/HepMC-config
-%{relocateConfig}bin/HepPDT-config
 %{relocateConfig}bin/Matrix-config
 %{relocateConfig}bin/Random-config
 %{relocateConfig}bin/RefCount-config
-%{relocateConfig}bin/StdHep-config
 %{relocateConfig}bin/Units-config
 %{relocateConfig}bin/Vector-config
 %{relocateConfig}bin/clhep-config
