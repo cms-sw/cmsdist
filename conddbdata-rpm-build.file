@@ -21,11 +21,11 @@ cd ../%realname/%dataDir
 /bin/rm download.url
 
 %install
-/bin/cp -r %{_builddir}/%realname/%dataDir %i
+/bin/cp -r %{_builddir}/%realsub %i
 cd $POOL_ROOT
 eval `scramv1 runtime -sh`
-cd %i/%dataDir
+cd %i/%realname/%dataDir
 /bin/chmod a+x ./cmscond_build_localcatalog
 ./cmscond_build_localcatalog
 %post
-%{relocateConfig}data/localCondDBCatalog.xml 
+%{relocateConfig}%realname/data/localCondDBCatalog.xml 
