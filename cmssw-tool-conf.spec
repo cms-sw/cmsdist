@@ -70,7 +70,6 @@ Requires: pythia6
 Requires: pythia8
 Requires: jimmy
 Requires: hector
-Requires: data-CondCore-SQLiteData
 Requires: data-FastSimulation-MaterialEffects
 Requires: data-FastSimulation-PileUpProducer
 Requires: data-Geometry-CaloTopology
