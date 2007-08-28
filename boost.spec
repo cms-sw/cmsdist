@@ -1,4 +1,4 @@
-### RPM external boost 1.33.1-CMS3
+### RPM external boost 1.33.1-CMS4
 # Patches and build fudging by Lassi A. Tuura <lat@iki.fi> (FIXME: contribute to boost)
 %define boostver _%(echo %realversion | tr . _)
 Requires: boost-build python bz2lib zlib
@@ -30,9 +30,11 @@ esac
 %install
 boost_abi=$(echo %boostver | sed 's/^_//; s/_0$//')
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
-mkdir -p %i/lib/debug
-(cd bin/boost; find libs -path "libs/*/debug/*.$so" -exec cp {} %i/lib/debug \;)
-(cd bin/boost; find libs -path "libs/*/release/*.$so" -exec cp {} %i/lib \;)
+#no debug libs...
+#mkdir -p %i/lib/debug
+mkdir %i/lib
+#(cd bin/boost; find libs -path "libs/*/debug/*.$so" -exec cp {} %i/lib/debug \;)
+(cd bin/boost; find libs -path "libs/*/release/*.$so" -exec cp  {} %i/lib/. \;)
 find boost -name '*.[hi]*' -print |
   while read f; do
     mkdir -p %i/include/$(dirname $f)
@@ -48,11 +50,13 @@ find libs -name '*.py' -print |
     install_name_tool -id $f $f
   done
 
+# Do all manipulation with files before creating symbolic links:
+perl -p -i -e "s|^#!.*python|/usr/bin/env python|" $(find %{i}/lib %{i}/bin)
+strip %i/lib/*.$so 
+
 (cd %i/lib; for f in lib*-$boost_abi.$so; do ln -s $f $(echo $f | sed "s/-$boost_abi//"); done)
 (cd %i/lib; for f in lib*-$boost_abi.$so; do ln -s $f $f.%realversion ; done)
-(cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $(echo $f | sed "s/-d-$boost_abi//"); done)
-(cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $f.%realversion; done)
+#(cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $(echo $f | sed "s/-d-$boost_abi//"); done)
+#(cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $f.%realversion; done)
 (cd %i/lib/libs/python/pyste/install; python setup.py install --prefix=%i)
-
-perl -p -i -e "s|^#!.*python|/usr/bin/env python|" $(find %{i}/lib %{i}/bin)
 
