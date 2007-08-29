@@ -70,6 +70,7 @@ Requires: pythia6
 Requires: pythia8
 Requires: jimmy
 Requires: hector
+Requires: alpgen
 Requires: data-FastSimulation-MaterialEffects
 Requires: data-FastSimulation-PileUpProducer
 Requires: data-Geometry-CaloTopology
@@ -435,6 +436,10 @@ echo "TOOL:hector:"
 eval "echo \"  +HECTOR_BASE:\${HECTOR_ROOT}\""
 eval "echo \"  +LIBDIR:\${HECTOR_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${HECTOR_ROOT}/include\""
+
+echo "TOOL:alpgen:"
+eval "echo \"  +ALPGEN_BASE:\${ALPEN_ROOT}\""
+eval "echo \"  +PATH:\${ALPGEN_ROOT}/bin\""
 
 echo "TOOL:tkonlinesw:"
 eval "echo \"  +TKONLINESW_BASE:\${TKONLINESW_ROOT}\""
