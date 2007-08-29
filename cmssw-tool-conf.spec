@@ -85,6 +85,8 @@ Requires: data-Validation-EcalRecHits
 Requires: data-Validation-Geometry
 Requires: data-Validation-HcalHits
 Requires: data-RecoMuon-MuonIdentification
+Requires: data-CondCore-SQLiteData
+
 
 %prep
 %build
