@@ -1,5 +1,6 @@
-### RPM external alpgen 212
-Source: http://mlm.home.cern.ch/mlm/alpgen/V2.1/v%{v}.tgz
+### RPM external alpgen 212-CMS1
+%define realversion %(echo %v | cut -d- -f1 )
+Source: http://mlm.home.cern.ch/mlm/alpgen/V2.1/v%{realversion}.tgz
 Source1: config.sub-amd64
 Patch0: alpgen
 
