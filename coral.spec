@@ -15,7 +15,7 @@ Patch1:   coral_1_8_1_uintfix
 %define prebuildtarget  prebuild
 %define buildtarget     release-build
 %define patchsrc        %patch -p0
-%define patchsrc2       %patch1 -p1
+%define patchsrc2       %patch1 -p0
 
 ## IMPORT lcg-scram-build
 ## IMPORT cms-scram-build
