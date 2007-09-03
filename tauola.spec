@@ -1,8 +1,9 @@
-### RPM external pythia6 409-CMS8
+### RPM external tauola 27.121-CMS8
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
+Requires: pythia6
 %prep
 %setup -q -n %{n}/%{realversion}
-./configure --enable-shared
+./configure --lcgplatform=%cmsplatf
 
 %build
 make 
@@ -13,16 +14,16 @@ tar -c lib include | tar -x -C %i
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=pythia6 version=%v>
+<Tool name=tauola version=%v>
 <Client>
- <Environment name=PYTHIA6_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$PYTHIA6_BASE/lib"></Environment>
- <Environment name=INCLUDE default="$PYTHIA6_BASE/include"></Environment>
+ <Environment name=TAUOLA_BASE default="%i"></Environment>
+ <Environment name=LIBDIR default="$TAUOLA_BASE/lib"></Environment>
+ <Environment name=INCLUDE default="$TAUOLA_BASE/include"></Environment>
 </Client>
-<lib name=pythia6>
-<lib name=pythia6_dummy>
-<lib name=pythia6_pdfdummy>
+<lib name=tauola>
+<lib name=pretauola>
 <use name=f77compiler>
+<use name=pythia6>
 </Tool>
 EOF_TOOLFILE
 

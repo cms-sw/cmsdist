@@ -2,7 +2,6 @@
 
 %define cvsproj         %cvsprojuc
 %define configtag       V00-02-05
-%define tbxrepo		cvs://:pserver:anonymous@isscvs.cern.ch:/local/reps/scramtoolbox?passwd=AA_:yZZ3e
 %define configrepo	cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 
 %if "%{?useCmsTC:set}" != "set"
@@ -30,14 +29,9 @@
 %endif
 
 %if "%{?UseSPI:set}" == "set"
-%define confversion     %lcgConfiguration
 %define tbxrepo		cvs://:pserver:anonymous@spitools.cvs.cern.ch:2401/cvs/SPITOOLS?passwd=Ah<Z
-%define conftag		LCG_%confversion%conflevel
+%define conftag		LCG_%lcgConfiguration%conflevel
 %define confsite	LCGconfigs
-%else
-%define confversion     %cmsConfiguration
-%define conftag		CMS_%confversion%conflevel
-%define confsite	CMSconfigs
 %endif
 
 %if "%{?buildtarget:set}" != "set"

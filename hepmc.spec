@@ -1,4 +1,4 @@
-### RPM external hepmc 2.01.06
+### RPM external hepmc 2.01.06-CMS1
 Requires: clhep
 Source: http://lcgapp.cern.ch/project/simu/HepMC/download/HepMC-%realversion.tar.gz
 
@@ -13,3 +13,22 @@ make
 
 %install
 make install
+
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=HepMC version=%v>
+<lib name=HepMCfio>
+<lib name=HepMC>
+<Client>
+ <Environment name=HEPMC_BASE default="%i"></Environment>
+ <Environment name=LIBDIR default="$HEPMC_BASE/lib"></Environment>
+ <Environment name=INCLUDE default="$HEPMC_BASE/include"></Environment>
+</Client>
+<use name=CLHEP>
+</Tool>
+EOF_TOOLFILE
+
+%post
+%{relocateConfig}etc/scram.d/%n

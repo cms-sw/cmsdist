@@ -9,11 +9,6 @@
 #  cvssrc	cvs module to check out as project sources (normally: %n)
 #  srctree	name of the cvssrcin export tree (normally: src)
 #
-#  tbxrepo	scram tool box repository
-#  conftag	tag for SCRAMToolBox in the above
-#  confsite	name of the directory to link as "config/site" (under SCRAMToolBox)
-#  toolfile	tool configuration file (normally: $CMS_TOOL_CONF/tool.conf)
-#
 #  buildarch	optional command to override build architecture
 #  buildtarget  scram build target to generate the full release (normally: release)
 #
@@ -25,6 +20,10 @@
 # FIXME: post-install stuff for modules etc?
 
 Requires: SCRAMV1
+
+#%define scram_xml   .xml
+%define scram_xml   %{nil}
+%define scramcmd    scramv1
 
 # NR: allow to specify repository and tag 
 # (default: cvsrepo and cvstag)
@@ -41,82 +40,82 @@ Requires: SCRAMV1
 %if "%{?configtar:set}" != "set"
 %define configtar	config.tar.gz
 %endif
-%if "%{?tbxtar:set}" != "set"
-%define tbxtar	toolbox.tar.gz
-%endif
 
 # NR: Allow to define bootstrap and requirements file names
 %if "%{?bootstrapfile:set}" != "set"
-%define bootstrapfile config/bootsrc
-%define reqfile config/requirements
+%define bootstrapfile config/bootsrc%scram_xml
+%define reqfile config/requirements%scram_xml
 %endif
 
-Source0: %{tbxrepo}&tag=-r%{conftag}&module=SCRAMToolBox&output=/%tbxtar
-Source1: %{configrepo}&tag=-r%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
+Source0: %{configrepo}&tag=-r%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
 %if  "%{cvsrepo}" != "cmstc"
-%define source2 %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
+%define source1 %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 %else
-%define source2 %{cvsrepo}://?tag=%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
+%define source1 %{cvsrepo}://?tag=%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 %endif
 
 # Pick additional sources.  Since install.sh does a grep for "^Source",
 # we need to arrange an expansion that always works, regardless of whether
 # %additionalSrc* are defined.
 %if "%{?additionalSrc0:set}" == "set"
-%define source3 %{additionalSrc0}&output=/src1.tar.gz
+%define source2 %{additionalSrc0}&output=/src1.tar.gz
 %else
-%define source3 none
+%define source2 none
 %endif 
 
 %if "%{?additionalSrc1:set}" == "set"
-%define source4 %{additionalSrc1}&output=/src2.tar.gz
+%define source3 %{additionalSrc1}&output=/src2.tar.gz
 %else
-%define source4 none
+%define source3 none
 %endif
 
+%if "%{?ucprojname:set}" != "set"
+%define ucprojname  %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
+%endif
+%define lcprojname  %(echo %ucprojname | tr 'A-Z' 'a-z')
+
+Source1: %source1
 Source2: %source2
 
 # For partial releases re-using CMSSW sources:
 %if "%{?cmsswsrc:set}" == "set"
-Source0: %{cmsswsrc}/toolbox.tar.gz
-Source1: %{cmsswsrc}/config.tar.gz
-Source2: %{cmsswsrc}/src.tar.gz
+Source0: %{cmsswsrc}/config.tar.gz
+Source1: %{cmsswsrc}/src.tar.gz
 %endif
 
 Source3: %source3
-Source4: %source4
+Source4: %lcprojname-tool
 
 %prep
-
+rm -rf config
+rm -rf %{srctree}
 # Create a SCRAM project area, but using the already extracted
 # sources.  In other words, pick up the files from the project config
 # area, but munge all instances of <base url="cvs:*"> into a local
 # reference so SCRAM won't try to download stuff from the network.
 
-%setup -T -b 0 -n SCRAMToolBox
-%setup -D -T -b 1 -n config
-%setup -D -T -b 2 -n %{srctree}
+%setup -T -b 0 -n config
+%setup -D -T -b 1 -n %{srctree}
 
 %if "%{?additionalSrc0:set}" == "set"
-%setup -D -T -a 3 -n %{srctree}
+%setup -D -T -a 2 -n %{srctree}
 %endif
 
 %if "%{?additionalSrc1:set}" == "set"
-%setup -D -T -a 4 -n %{srctree}
+%setup -D -T -a 3 -n %{srctree}
 %endif
 
-%if "%{?ucprojname:set}" != "set"
-%define ucprojname  %(echo %n | tr 'a-z' 'A-Z')
-%endif
-%define toolconf_filename %(basename %toolconf)
 touch %_builddir/config/%{ucprojname}_ignore.file
 for file in `ls %_builddir/config/%{ucprojname}_*.file | grep -v  '/%{ucprojname}_ignore.file$' | sed 's|.*/%{ucprojname}_||;s|.file$||'`; do
-  cat %_builddir/config/%{ucprojname}_${file}.file | sed 's|@PROJECT_NAME@|%ucprojname|g;s|@PROJECT_VERSION@|%v|g;s|@PROJECT_BUILD_PATH@|%_builddir|g'> %_builddir/config/$file
+  sed 's|@PROJECT_NAME@|%ucprojname|g;s|@PROJECT_VERSION@|%v|g;s|@PROJECT_BUILD_PATH@|%_builddir|g' %_builddir/config/%{ucprojname}_${file}.file > %_builddir/config/${file}
 done
+if [ ${%{ucprojname}_TOOL_CONF_ROOT}/configurations/requirements%scram_xml ] ; then 
+  cp ${%{ucprojname}_TOOL_CONF_ROOT}/configurations/requirements%scram_xml %_builddir/config/
+fi
 rm -f %_builddir/config/%{ucprojname}_ignore.file
-mkdir -p %_builddir/config/site
-cp -f %toolconf %_builddir/config/site
-echo %toolconf_filename | sed 's|^tools-||;s|.conf$||' > %_builddir/config/site/sitename
+rm -rf %_builddir/config/site
+cp -rf ${%{ucprojname}_TOOL_CONF_ROOT}/configurations/SCRAMToolBox/CMSconfigs %_builddir/config/site
+echo $SCRAMV1_VERSION > %_builddir/config/scram_version
 
 pwd
 cd %_builddir
@@ -127,21 +126,22 @@ cd %_builddir
 %{?patchsrc4:%patchsrc4}
 %{?patchsrc5:%patchsrc5}
 
-pwd
-perl -p -i -e 's!url="(cvs:\?module=|file:)SCRAMToolBox/(.*)">!url="file:$2">!;' SCRAMToolBox/CMS/Configuration/CMSconfiguration
-
 echo $PERL5LIB
 echo rm -rf %i
 mkdir -p $(dirname %i)
 
 %{?buildarch:%buildarch}
-scramv1 project -d $(dirname %i) -b %{bootstrapfile} -f %_builddir/config/site/%toolconf_filename
+export SCRAM_TOOLBOXVERSION=%v
+%scramcmd project -d $(dirname %i) -b %{bootstrapfile} -f %_builddir/config/site/tools-`cat %_builddir/config/site/sitename`.conf
+perl -p -i -e "s|STANDALONE|%v|" %i/.SCRAM/Environment* %i/.SCRAM/%cmsplatf/ToolCache.db
+cd %i
+%scramcmd setup
 
 %build
 pwd
 # Remove cmt stuff that brings unwanted dependencies: 
 rm -rf `find %{i}/src -type d -name cmt`
-echo `scramv1 arch`
+echo `%scramcmd arch`
 cd %i
 cd src
 
@@ -152,9 +152,9 @@ export SCRAM_NOPLUGINREFRESH=yes
 # export SCRAM_NOSYMCHECK=true
 
 if [ $(uname) = Darwin ]; then
-  # scramv1 doesn't know the rpath variable on darwin...
-  scramv1 b echo_null # ensure lib, bin exist
-  eval `scramv1 runtime -sh`
+  # %scramcmd doesn't know the rpath variable on darwin...
+  %scramcmd b echo_null # ensure lib, bin exist
+  eval `%scramcmd runtime -sh`
   export DYLD_LIBRARY_PATH=$LD_LIBRARY_PATH
 fi
 
@@ -172,45 +172,47 @@ echo "executing %preBuildCommand"
 %define buildtarget %{nil} 
 %endif
 
-scramv1 b -r echo_CXX </dev/null
+%scramcmd b -r echo_CXX </dev/null
 %if "%{?prebuildtarget:set}" == "set"
-scramv1 b --verbose -f %{prebuildtarget} </dev/null
+%scramcmd b --verbose -f %{prebuildtarget} </dev/null
 %endif
-scramv1 b --verbose -f %{compileOptions} %{makeprocesses}  %{buildtarget} </dev/null
+%scramcmd b --verbose -f %{compileOptions} %{makeprocesses}  %{buildtarget} </dev/null
 %if "%{?additionalBuildTarget0:set}" == "set"
-scramv1 b --verbose -f %{additionalBuildTarget0} < /dev/null
+%scramcmd b --verbose -f %{additionalBuildTarget0} < /dev/null
 %endif
 %if "%{?postbuildtarget:set}" == "set"
-scramv1 b --verbose -f %{postbuildtarget} </dev/null
+%scramcmd b --verbose -f %{postbuildtarget} </dev/null
 %endif
 
 rm -rf %i/tmp
 chmod -R 755 %i %i/.SCRAM
-(eval `scramv1 run -sh` ; SealPluginRefresh) || true
+(eval `%scramcmd run -sh` ; SealPluginRefresh) || true
 rm -fR %i/lib/%cmsplatf/.edmplugincache
-(eval `scramv1 run -sh` ; EdmPluginRefresh) || true
+(eval `%scramcmd run -sh` ; EdmPluginRefresh) || true
 
 %install
 cd %i
 %{?buildarch:%buildarch}
 perl -p -i -e "s|^#!.*perl(.*)|#!/usr/bin/env perl$1|" $(grep -r -e "^#!.*perl.*" . | cut -d: -f1)
 # need writeable directory for profile stuff
-mkdir etc
-yes | scramv1 install # FIXME: do by hand?
+mkdir -p etc/scram.d
+sed 's|@PROJECT_NAME@|%ucprojname|g;s|@PROJECT_VERSION@|%v|g;s|@PROJECT_BUILD_PATH@|%_builddir|g;s|@PROJECT_ROOT@|%i|g' %_sourcedir/%lcprojname-tool > etc/scram.d/%lcprojname
+yes | %scramcmd install # FIXME: do by hand?
 
 %post
 %initenv
-source $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/V1_0_3-p2/etc/profile.d/init.sh
+source $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$SCRAMV1_VERSION/etc/profile.d/init.sh
 cd $RPM_INSTALL_PREFIX/%cmsplatf/cms/%n/%v
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find config -type f) $(find .SCRAM -type f)
 %{?buildarch:%buildarch}
-yes | scramv1 install
+yes | %scramcmd install
 (rm -rf external/%cmsplatf; ./config/linkexternal.pl --arch %cmsplatf --nolink INCLUDE) || true
 cd $RPM_INSTALL_PREFIX/%pkgrel
-eval `scramv1 run -sh`
+eval `%scramcmd run -sh`
 for cmd in SealPluginRefresh EdmPluginRefresh IgPluginRefresh ; do
   cmdpath=`which $cmd 2> /dev/null`
   if [ "X$cmdpath" != X ] ; then
     $cmd || true
   fi
 done
+%{relocateConfig}etc/scram.d/%lcprojname

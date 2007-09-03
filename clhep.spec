@@ -1,4 +1,4 @@
-### RPM external clhep 1.9.3.1
+### RPM external clhep 1.9.3.1-CMS1
 Source: http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/distributions/%n-%realversion.tgz
 
 %prep
@@ -47,6 +47,31 @@ make install
 #remove the .a files
 rm %i/lib/*.a
 
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<info url="http://wwwinfo.cern.ch/asd/lhc++/clhep"></info>
+<lib name=CLHEP-Cast-%realversion>
+<lib name=CLHEP-Evaluator-%realversion>
+<lib name=CLHEP-Exceptions-%realversion>
+<lib name=CLHEP-GenericFunctions-%realversion>
+<lib name=CLHEP-Geometry-%realversion>
+<lib name=CLHEP-Matrix-%realversion>
+<lib name=CLHEP-Random-%realversion>
+<lib name=CLHEP-RandomObjects-%realversion>
+<lib name=CLHEP-RefCount-%realversion>
+<lib name=CLHEP-Vector-%realversion>
+<Client>
+ <Environment name=CLHEP_BASE default="%i"></Environment>
+ <Environment name=LIBDIR default="$CLHEP_BASE/lib"></Environment>
+ <Environment name=INCLUDE default="$CLHEP_BASE/include"></Environment>
+</Client>
+<Runtime name=CLHEP_PARAM_PATH value="$CLHEP_BASE">
+</Tool>
+EOF_TOOLFILE
+
 %post
 %{relocateConfig}bin/Evaluator-config
 %{relocateConfig}bin/Cast-config
@@ -60,3 +85,4 @@ rm %i/lib/*.a
 %{relocateConfig}bin/Units-config
 %{relocateConfig}bin/Vector-config
 %{relocateConfig}bin/clhep-config
+%{relocateConfig}etc/scram.d/%n

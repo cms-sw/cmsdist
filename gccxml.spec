@@ -1,4 +1,4 @@
-### RPM external gccxml 0.6.0-CMS3
+### RPM external gccxml 0.6.0-CMS8
 
 Requires: cmake
 Source: http://www.gccxml.org/files/v0.6/%n-%realversion.tar.gz
@@ -23,5 +23,18 @@ cd %i
 patch -p1 <%{_sourcedir}/gccxml1
 patch -p1 <%{_sourcedir}/gccxml3
 
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<Client>
+ <Environment name=GCCXML_BASE default="%i"></Environment>
+</Client>
+<Runtime name=PATH value="$GCCXML_BASE/bin" type=path>
+</Tool>
+EOF_TOOLFILE
+
 %post
 %{relocateConfig}share/gccxml-0.6/gccxml_config
+%{relocateConfig}etc/scram.d/%n

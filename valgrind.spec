@@ -1,4 +1,4 @@
-### RPM external valgrind 3.2.3-CMS3
+### RPM external valgrind 3.2.3-CMS8
 ## BUILDIF case $(uname):$(uname -m) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) true ;; * ) false ;; esac
 %define realversion %(echo %v | cut -d- -f1)
 Source: http://www.valgrind.org/downloads/%{n}-%{realversion}.tar.bz2
@@ -24,3 +24,19 @@ perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' $(grep -r -e "^#!.*perl.*
 # in these two scripts
 perl -p -i -e 's|perl -w|perl|' %i/bin/callgrind_annotate
 perl -p -i -e 's|perl -w|perl|' %i/bin/callgrind_control
+
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<Tool name=valgrind version=%v>
+<Client>
+ <Environment name=VALGRIND_BASE default="%i"></Environment>
+ <Environment name=INCLUDE default="$VALGRIND_BASE/include"></Environment>
+</Client>
+<Runtime name=PATH value="$VALGRIND_BASE/bin" type=path>
+<Runtime name=VALGRIND_LIB value="$VALGRIND_BASE/lib/valgrind">
+</Tool>
+EOF_TOOLFILE
+
+%post
+%{relocateConfig}etc/scram.d/%n

@@ -1,4 +1,4 @@
-### RPM external glimpse 4.18.5-CMS3
+### RPM external glimpse 4.18.5-CMS8
 Source: http://webglimpse.net/trial/glimpse-%{realversion}.tar.gz
 
 %prep
@@ -80,5 +80,18 @@ esac
 EOF_CMS_GLIMPSE
 perl -p -i -e "s|\@CMSPLATF\@|%cmsplatf|g" %{i}/bin/cmsglimpse
 chmod +x %{i}/bin/cmsglimpse
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=glimpse version=%v>
+<Client>
+ <Environment name=GLIMPSE_BASE default="%i"></Environment>
+</Client>
+<Runtime name=PATH value="$GLIMPSE_BASE/bin" type=path>
+</Tool>
+EOF_TOOLFILE
+
 %post
 perl -p -i -e "s|\@INSTROOT\@|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/bin/cmsglimpse 
+%{relocateConfig}etc/scram.d/%n

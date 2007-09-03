@@ -1,4 +1,4 @@
-### RPM external castor 2.1.1-4-CMS3
+### RPM external castor 2.1.1-4-CMS8
 # Override default realversion since they have a "-" in the realversion
 %define realversion 2.1.1-4
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
@@ -69,3 +69,20 @@ make install MAJOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f1) \
                 BIN=bin \
                 DESTDIRCASTOR=include/shift \
                 TOPINCLUDE=include 
+
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<lib name=shift>
+<Client>
+ <Environment name=CASTOR_BASE default="%i"></Environment>
+ <Environment name=INCLUDE default="$CASTOR_BASE/include"></Environment>
+ <Environment name=LIBDIR default="$CASTOR_BASE/lib"></Environment>
+</Client>
+</Tool>
+EOF_TOOLFILE
+
+%post
+%{relocateConfig}etc/scram.d/%n

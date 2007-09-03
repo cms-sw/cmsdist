@@ -63,3 +63,32 @@ mv libocci10.a %i/lib
 (cd %i/lib && ln -s libclntsh.* $(echo libclntsh.* | sed 's/[0-9.]*$//'))
 (cd %i/lib && ln -s libocci.* $(echo libocci.* | sed 's/[0-9.]*$//'))
 chmod -R g-w %i
+
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<lib name=clntsh>
+<lib name=occi>
+<lib name=nnz10>
+<Client>
+ <Environment name=ORACLE_BASE default="%i"></Environment>
+ <Environment name=ORACLE_ADMINDIR></Environment>
+ <Environment name=LIBDIR value="$ORACLE_BASE/lib"></Environment>
+ <Environment name=BINDIR value="$ORACLE_BASE/bin"></Environment>
+ <Environment name=INCLUDE value="$ORACLE_BASE/include"></Environment>
+</Client>
+<use name=sockets>
+<Runtime name=PATH value="$BINDIR" type=path>
+<Runtime name=NLS_LANG value="american_america.WE8ISO8859P9">
+<Runtime name=NLS_DATE_FORMAT value="DD-MON-FXYYYY">
+<Runtime name=ORA_NLS33 default="$ORACLE_BASE/ocommon/nls/admin/data">
+<Runtime name=ORACLE_HOME default="$ORACLE_BASE">
+<Runtime name=TNS_ADMIN default="$ORACLE_ADMINDIR">
+</Tool>
+EOF_TOOLFILE
+
+%post
+%{relocateConfig}etc/scram.d/%n
+

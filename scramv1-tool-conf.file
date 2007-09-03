@@ -1,0 +1,108 @@
+### FILE scramv1-tool-conf
+
+Source0: tool2xml.pl
+
+%prep
+%build
+
+# This is a generic template to collect SCRAMToolBox toolfiles of all the tools
+# and generate CMSconfiguration, tools-STANDALONE.conf and requirements file
+#
+#   requiredtools	Tools for which we need to collect the SCRAMToolBox toolfiles
+#                  	(This is automatically set by install.sh script)
+#   skipreqtools	Do not add these tools in requirements file
+
+%install
+%define scramsitename  STANDALONE
+rm -rf %i/configurations/SCRAMToolBox
+mkdir -p %i/configurations/SCRAMToolBox/tools
+mkdir -p %i/configurations/SCRAMToolBox/CMSconfigs
+
+%if "%{?skip_tools_conf_arch:set}" != "set"
+(echo "ARCHITECTURE:%{cmsplatf}"
+ echo "SCRAM_BASEPATH:%{instroot}" ) >> tools-%{scramsitename}.conf
+%endif
+
+( echo ""
+  %if "%{?use_system_gcc:set}" == "set"
+  echo "TOOL:cxxcompiler:"
+       echo "  +GCC_BASE:/none"
+       echo "  +CC:$(which gcc)"
+       echo "  +CXX:$(which c++)"
+       echo "  +PATH:/none"  # useless, toolbox says value=""
+       echo "  +LD_LIBRARY_PATH:/none" # useless, toolbox says value=""
+       echo "TOOL:g77gcc3:"
+       echo "  +FC:$(which g77 | grep -v 'no g77')"
+%endif
+%if "%{?use_system_gcc:set}-%{?use_ccache:set}" == "-set"
+echo "TOOL:cxxcompiler:"
+       echo "  +GCC_BASE:$CCACHE_ROOT"
+eval        "echo \"  +CC:$CCACHE_ROOT/bin/gcc\""
+eval        "echo \"  +CXX:$CCACHE_ROOT/bin/c++\""
+       echo "TOOL:g77gcc3:"
+       echo "  +FC:$GCC_ROOT/bin/g77"
+%endif
+
+%if "%{?use_system_java:set}" == "set"
+       echo "TOOL:jcompiler:"
+       echo "  +JAVA_BASE:/none"
+%else
+       echo "TOOL:jcompiler:"
+       echo "  +JAVA_BASE:%{instroot}/%cmsplatf/external/$JCOMPILER_TOOL/$JCOMPILER_VERSION"
+%endif
+
+if [ "X`echo %requiredtools | tr ' ' '\n' | grep '^oracle$'`" = "Xoracle" ] ; then
+       echo "TOOL:oracle:"
+       echo "  +ORACLE_ADMINDIR:$ORACLE_ENV_ROOT/etc"
+fi
+
+) >> tools-%{scramsitename}.conf
+
+mv tools-%{scramsitename}.conf %i/configurations/SCRAMToolBox/CMSconfigs/tools-%{scramsitename}.conf
+
+%if "%{?systemtools:set}" != "set"
+%define systemtools %{nil}
+%endif
+
+%if "%{?skipreqtools:set}" != "set"
+%define skipreqtools %{nil}
+%endif
+
+# Copy all tool files and generate SCRAMToolBox/CMSconfiguration and also Generate requirements file
+cat << \EOF_REQUIREMENTS > %i/configurations/requirements
+<doc type=BuildSystem::Requirements version=2.0>
+<base url="file:%i/configurations/SCRAMToolBox/">
+<include url="file:CMSconfiguration">
+EOF_REQUIREMENTS
+
+touch %i/configurations/SCRAMToolBox/CMSconfiguration
+for tool in %requiredtools %systemtools ${PKGTOOLS_SYSTEM_TOOLS} ; do
+  uctool=`echo $tool | tr '-' '_' | tr '[a-z]' '[A-Z]'`
+  toolbase=`perl -e 'print "$ENV{'$uctool'_ROOT}\n";'`
+  echo "$uctool = $toolbase"
+  if [ "X$toolbase" = X -o ! -d $toolbase/etc/scram.d ] ; then continue ; fi
+  for xtool in `ls $toolbase/etc/scram.d` ; do
+    if [ -f %i/configurations/SCRAMToolBox/tools/$xtool ] ; then continue ; fi
+    cp -rf $toolbase/etc/scram.d/$xtool %i/configurations/SCRAMToolBox/tools/$xtool
+    perl %_sourcedir/tool2xml.pl %i/configurations/SCRAMToolBox/tools/$xtool > %i/configurations/SCRAMToolBox/tools/$xtool.xml
+    ucxtool=`echo $xtool | tr '[a-z]' '[A-Z]'`
+    toolversion=`perl -e 'print "$ENV{'$ucxtool'_VERSION}\n";'`
+    if [ "X$toolversion" = "X" ] ; then toolversion=`perl -e 'print "$ENV{'$uctool'_VERSION}\n";'` ; fi
+    echo "<require name=$xtool  version=$toolversion  url=\"file:tools/$xtool\"></require>" >> %i/configurations/SCRAMToolBox/CMSconfiguration
+    if [ "X`echo %skipreqtools | tr ' ' '\n' | grep '^'$xtool'$'`" = X ] ; then
+      echo "<select name=$xtool>" >> %i/configurations/requirements
+    fi
+  done
+done
+echo "</base>" >> %i/configurations/requirements
+
+echo %scramsitename > %i/configurations/SCRAMToolBox/CMSconfigs/sitename
+sed -e 's|\(url="file:tools/.*\)"|\1.xml"|' %i/configurations/SCRAMToolBox/CMSconfiguration > CMSconfiguration.xml
+perl %_sourcedir/tool2xml.pl %i/configurations/requirements > %i/configurations/requirements.xml
+perl %_sourcedir/tool2xml.pl CMSconfiguration.xml > %i/configurations/SCRAMToolBox/CMSconfiguration.xml
+rm -f CMSconfiguration.xml
+
+%post
+%{relocateConfig}configurations/SCRAMToolBox/CMSconfigs/tools-%{scramsitename}.conf
+%{relocateConfig}configurations/requirements
+%{relocateConfig}configurations/requirements.xml

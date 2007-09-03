@@ -1,4 +1,4 @@
-### RPM external graphviz 1.9-CMS3
+### RPM external graphviz 1.9-CMS8
 Source: http://service-spi.web.cern.ch/service-spi/external/tarFiles/%{n}-%{realversion}.tar.gz  
 Requires: expat zlib libjpg libpng 
 Patch0: graphviz
@@ -29,5 +29,28 @@ then
 perl -p -i -e "s|\+0 \-1|-k1,1|g" dotneato/common/Makefile
 fi
 make
+
+%install
+make install
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<info url="http://www.research.att.com/sw/tools/graphviz/"></info>
+<Client>
+ <Environment name=GRAPHVIZ_BASE default="%i"></Environment>
+ <Environment name=GRAPHVIZ_BINDIR default="$GRAPHVIZ_BASE/bin"></Environment>
+ <Environment name=LIBDIR default="$GRAPHVIZ_BASE/lib/graphviz"></Environment>
+</Client>
+<Runtime name=PATH value="$GRAPHVIZ_BINDIR" type=path>
+<Use name=expat>
+<Use name=zlib>
+<Use name=libjpg>
+<use name=libpng>
+</Tool>
+EOF_TOOLFILE
+
 %post
-perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|" $RPM_INSTALL_PREFIX/%pkgrel/bin/dotneato-config `find $RPM_INSTALL_PREFIX/%pkgrel/lib/graphviz -name *.la`
+%{relocateConfig}bin/dotneato-config `find $RPM_INSTALL_PREFIX/%pkgrel/lib/graphviz -name *.la`
+%{relocateConfig}etc/scram.d/%n

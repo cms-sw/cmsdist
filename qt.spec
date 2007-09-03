@@ -1,4 +1,4 @@
-### RPM external qt 3.3.6-CMS3
+### RPM external qt 3.3.6-CMS8
 ## INITENV UNSET QMAKESPEC
 ## INITENV SET QTDIR %i
 %define qttype %(echo %realversion | sed 's/[-0-9.]*//')
@@ -64,6 +64,31 @@ perl -p -i -e 's/^install_framework:/install_framework:\ninstall_framework_no:/'
 %endif
 
 make %makeprocesses
+
+%install
+make install
+
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<info url="http://www.trolltech.com/products/qt.html"></info>
+<LIB name=qt-mt>
+<Client>
+ <Environment name=QT_BASE default="%i"></Environment>
+ <Environment name=LIBDIR default="$QT_BASE/lib"></Environment>
+ <Environment name=INCLUDE default="$QT_BASE/include"></Environment>
+</Client>
+<Flags CPPDEFINES="QT_ALTERNATE_QTSMANIP QT_CLEAN_NAMESPACE QT_THREAD_SUPPORT">
+<Runtime name=PATH value="$QT_BASE/bin" type=path>
+<use name=X11>
+<use name=opengl>
+<use name=zlib>
+</Tool>
+EOF_TOOLFILE
+
 %post
 %{relocateConfig}lib/libqt-mt.la
+%{relocateConfig}etc/scram.d/%n
 

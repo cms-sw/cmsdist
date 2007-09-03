@@ -1,4 +1,4 @@
-### RPM external tkonlinesw 0.3-CMS4
+### RPM external tkonlinesw 0.3-CMS8
 %define projectname trackerDAQ
 %define releasename %{projectname}-%{realversion}
 Source: http://cmsdoc.cern.ch/cms/cmt/online/rpm/SOURCE/%{releasename}.tgz
@@ -65,3 +65,25 @@ make install
 %install
 # Option --prefix in configure is not working yet, using tar:
 tar -c -C  %{_builddir}/%{releasename}/opt/%{projectname} --exclude "libcppunit.so" include lib | tar -x -C %{i}
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=TkOnlineSw version=%v>
+<info url="http://www.cern.ch/"></info>
+<lib name=ICUtils>
+<lib name=Fed9UUtils>
+<lib name=DeviceDescriptions>
+<lib name=Fed9UDeviceFactory>
+<Client>
+ <Environment name=TKONLINESW_BASE default="%i"></Environment>
+ <Environment name=LIBDIR value="$TKONLINESW_BASE/lib"></Environment>
+ <Environment name=INCLUDE value="$TKONLINESW_BASE/include"></Environment>
+</Client>
+<use name=xerces-c>
+<use name=oracle>
+</Tool>
+EOF_TOOLFILE
+
+%post
+%{relocateConfig}etc/scram.d/%n

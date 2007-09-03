@@ -1,4 +1,4 @@
-### RPM external geant4 8.2.p01-CMS4
+### RPM external geant4 8.2.p01-CMS8
 %define downloadv %(echo %v | cut -d- -f1)
 ## INITENV SET G4NDL_PATH %i/data/G4NDL%{g4NDLVersion}
 ## INITENV SET G4EMLOW_PATH %i/data/G4EMLOW%{g4EMLOWVersion}
@@ -102,3 +102,123 @@ tar -C %i/data -zxvf %_sourcedir/G4EMLOW*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/Photon*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/Rad*.tar.gz
 #
+
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.1>
+<Tool name=GEANT4 version=%v>
+<info url=http://wwwinfo.cern.ch/asd/geant4/geant4.html></info>
+<lib name=G4gflash>
+<lib name=G4FR>
+<lib name=G4RayTracer>
+<lib name=G4Tree>
+<lib name=G4UIGAG>
+<lib name=G4UIbasic>
+<lib name=G4UIcommon>
+<lib name=G4VRML>
+<lib name=G4baryons>
+<lib name=G4bosons>
+<lib name=G4brep>
+<lib name=G4csg>
+<lib name=G4cuts>
+<lib name=G4decay>
+<lib name=G4detector>
+<lib name=G4digits>
+<lib name=G4emlowenergy>
+<lib name=G4emstandard>
+<lib name=G4emutils>
+<lib name=G4event>
+<lib name=G4geomBoolean>
+<lib name=G4geombias>
+<lib name=G4geomdivision>
+<lib name=G4geometrymng>
+<lib name=G4globman>
+<lib name=G4graphics_reps>
+<lib name=G4had_im_r_matrix>
+<lib name=G4had_mod_man>
+<lib name=G4had_mod_util>
+<lib name=G4had_muon_nuclear>
+<lib name=G4had_neu_hp>
+<lib name=G4had_preequ_exciton>
+<lib name=G4had_string_diff>
+<lib name=G4had_string_frag>
+<lib name=G4had_string_man>
+<lib name=G4had_theo_max>
+<lib name=G4hadronic_HE>
+<lib name=G4hadronic_LE>
+<lib name=G4hadronic_bert_cascade>
+<lib name=G4hadronic_binary>
+<lib name=G4hadronic_body_ci>
+<lib name=G4hadronic_coherent_elastic>
+<lib name=G4hadronic_deex_evaporation>
+<lib name=G4hadronic_deex_fermi_breakup>
+<lib name=G4hadronic_deex_fission>
+<lib name=G4hadronic_deex_gem_evaporation>
+<lib name=G4hadronic_deex_handler>
+<lib name=G4hadronic_deex_management>
+<lib name=G4hadronic_deex_multifragmentation>
+<lib name=G4hadronic_deex_photon_evaporation>
+<lib name=G4hadronic_deex_util>
+<lib name=G4hadronic_hetcpp_evaporation>
+<lib name=G4hadronic_hetcpp_utils>
+<lib name=G4hadronic_interface_ci>
+<lib name=G4hadronic_iso>
+<lib name=G4hadronic_leading_particle>
+<lib name=G4hadronic_mgt>
+<lib name=G4hadronic_proc>
+<lib name=G4hadronic_qgstring>
+<lib name=G4hadronic_radioactivedecay>
+<lib name=G4hadronic_stop>
+<lib name=G4hadronic_util>
+<lib name=G4hadronic_xsect>
+<lib name=G4hepnumerics>
+<lib name=G4hits>
+<lib name=G4intercoms>
+<lib name=G4ions>
+<lib name=G4leptons>
+<lib name=G4magneticfield>
+<lib name=G4materials>
+<lib name=G4mesons>
+<lib name=G4modeling>
+<lib name=G4muons>
+<lib name=G4navigation>
+<lib name=G4optical>
+<lib name=G4parameterisation>
+<lib name=G4parmodels>
+<lib name=G4partman>
+<lib name=G4partutils>
+<lib name=G4persistency>
+<lib name=G4procman>
+<lib name=G4readout>
+<lib name=G4run>
+<lib name=G4shortlived>
+<lib name=G4specsolids>
+<lib name=G4track>
+<lib name=G4tracking>
+<lib name=G4transportation>
+<lib name=G4visHepRep>
+<lib name=G4visXXX>
+<lib name=G4vis_management>
+<lib name=G4volumes>
+<lib name=G4xrays>
+<lib name=G4error>
+<lib name=G4phys_builders>
+<Client>
+<Environment name=GEANT4_BASE default="%i"></Environment>
+<Environment name=G4SRC default="$GEANT4_BASE/source"></Environment>
+<Environment name=LIBDIR default="$GEANT4_BASE/lib"></Environment>
+<Environment name=G4LIB value="$LIBDIR"></Environment>
+<Environment name=INCLUDE default="$GEANT4_BASE/include"></Environment>
+</Client>
+<use name=clhep>
+<Flags CPPDEFINES="G4USE_STD_NAMESPACE GNU_GCC">
+<Runtime name=G4LEVELGAMMADATA value="$GEANT4_BASE/data/PhotonEvaporation2.0" type=path>
+<Runtime name=NeutronHPCrossSections value="$GEANT4_BASE/data/G4NDL3.9" type=path>
+<Runtime name=G4RADIOACTIVEDATA value="$GEANT4_BASE/data/RadiativeDecay3.0" type=path>
+<Runtime name=G4LEDATA value="$GEANT4_BASE/data/G4EMLOW4.0" type=path>
+</Tool>
+EOF_TOOLFILE
+
+%post
+%{relocateConfig}etc/scram.d/%n
