@@ -1,4 +1,4 @@
-### RPM external geant4 8.2.p01-CMS8
+### RPM external geant4 8.3.p01-CMS8
 %define downloadv %(echo %v | cut -d- -f1)
 ## INITENV SET G4NDL_PATH %i/data/G4NDL%{g4NDLVersion}
 ## INITENV SET G4EMLOW_PATH %i/data/G4EMLOW%{g4EMLOWVersion}
@@ -17,14 +17,13 @@ Source2: http://geant4.cern.ch/support/source/G4EMLOW.%{g4EMLOWVersion}.tar.gz
 Source3: http://geant4.cern.ch/support/source/PhotonEvaporation.%{photonEvaporationVersion}.tar.gz
 Source4: http://geant4.cern.ch/support/source/RadiativeDecay.%{radiativeDecayVersion}.tar.gz
 Source5: http://geant4.cern.ch/support/source/G4ELASTIC.%{g4ElasticScatteringVersion}.tar.gz
-Patch: geant482-cms1
-Patch1: geant-4.8.2.p01-nobanner
+
+Patch: geant-4.8.2.p01-nobanner
 
 %prep
 %setup -n %n.%downloadv
 pwd
-%patch0 -p0 
-%patch1 -p1 
+%patch0 -p1 
 
 %build
 if [ $(uname) = Darwin ]; then
