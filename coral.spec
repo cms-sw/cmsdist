@@ -3,7 +3,7 @@
 Provides: /bin/zsh
 Requires: coral-tool-conf
 Patch:    coral-SV1BuildFiles
-Patch1:   coral_1_8_1_uintfix
+Patch1:   coral_1_8_1_typefixes
 
 %define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
 %define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
