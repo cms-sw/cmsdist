@@ -34,5 +34,6 @@ Requires: systemtools
 Requires: seal
 
 %define skipreqtools %{nil}
+%define skipreqtools jcompiler
 
 ## IMPORT scramv1-tool-conf
