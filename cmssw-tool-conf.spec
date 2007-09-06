@@ -51,7 +51,7 @@ Requires: heppdt
 Requires: elementtree
 Requires: sigcpp
 Requires: mimetic
-Requires: rulechecker
+#Requires: rulechecker
 Requires: soqt
 Requires: coin
 Requires: curl
@@ -63,7 +63,7 @@ Requires: glimpse
 Requires: valgrind
 Requires: fastjet
 Requires: ktjet
-Requires: ignominy
+#Requires: ignominy
 Requires: herwig
 Requires: lhapdf
 Requires: pythia6
