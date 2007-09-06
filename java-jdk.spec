@@ -30,7 +30,7 @@ Source1: http://eulisse.web.cern.ch/eulisse/jdk-%downloadv-linux-amd64.bin
 %prep
 %if %(uname) != Darwin
 ls
-%define javadir jdk%(echo %v| sed -e "s/.p/_0/")
+%define javadir jdk%(echo %realversion| sed -e "s/.p/_0/")
 rm -rf %javadir
 yes | sh %{_sourcedir}/jdk-%downloadv-linux-%downloadarch.bin
 cd %javadir
