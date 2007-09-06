@@ -1,4 +1,4 @@
-### RPM external java-jdk 1.5.0.p6
+### RPM external java-jdk 1.5.0.p6-CMS8
 ## BUILDIF [ "$(uname)" != "Darwin" ]
 
 Provides: libasound.so.2
@@ -7,7 +7,7 @@ Provides: libjava_crw_demo_g.so
 Provides: libodbc.so 
 Provides: libodbcinst.so
 
-%define downloadv %(echo %v | tr '.p' '_0')
+%define downloadv %(echo %realversion | tr '.p' '_0')
 
 %define tmpArch %(echo %cmsplatf | cut -d_ -f 1,2)
 
