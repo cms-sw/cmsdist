@@ -129,6 +129,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
 <Flags SCRAM_LANGUAGE_TYPE="C++">
 <Runtime name=GCC_EXEC_PREFIX default="$GCC_BASE/lib/gcc-lib/">
 <Runtime name=LD_LIBRARY_PATH value="$GCC_BASE/lib" type=path>
+<Runtime name=PATH value="$GCC_BASE/bin" type=path>
 </tool>
 EOF_TOOLFILE
 cat << \EOF_TOOLFILE >%i/etc/scram.d/ccompiler
@@ -193,6 +194,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
 <Flags SHAREDSUFFIX="so">
 <Flags SCRAM_LANGUAGE_TYPE="C++">
 <Runtime name=LD_LIBRARY_PATH value="$GCC_BASE/lib" type=path>
+<Runtime name=PATH value="$GCC_BASE/bin" type=path>
 </tool>
 EOF_TOOLFILE
 cat << \EOF_TOOLFILE >%i/etc/scram.d/ccompiler
@@ -257,6 +259,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
 <Flags SHAREDSUFFIX="so">
 <Flags SCRAM_LANGUAGE_TYPE="C++">
 <Runtime name=LD_LIBRARY_PATH value="$GCC_BASE/lib64" type=path>
+<Runtime name=PATH value="$GCC_BASE/bin" type=path>
 </tool>
 EOF_TOOLFILE
 cat << \EOF_TOOLFILE >%i/etc/scram.d/ccompiler
@@ -321,6 +324,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
 <Flags SHAREDSUFFIX="dylib">
 <Flags SCRAM_LANGUAGE_TYPE="C++">
 <Runtime name=DYLD_LIBRARY_PATH value="$GCC_BASE/lib" type=path>
+<Runtime name=PATH value="$GCC_BASE/bin" type=path>
 </tool>
 EOF_TOOLFILE
 ;;

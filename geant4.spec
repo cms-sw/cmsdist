@@ -201,7 +201,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <lib name=G4vis_management>
 <lib name=G4volumes>
 <lib name=G4xrays>
-<lib name=G4error>
+<lib name=G4phys_lists>
 <lib name=G4phys_builders>
 <Client>
 <Environment name=GEANT4_BASE default="%i"></Environment>
