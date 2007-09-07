@@ -6,7 +6,7 @@ Source: none
 %define opengl_version			XFree4.2
 %define x11_version			R6
 ### why oh why is this hardwired?? 
-%ddefine jcompiler_version		1.5.0.p6-CMS8
+%define jcompiler_version		1.5.0.p6-CMS8
 
 ## INITENV SET SOCKETS_VERSION		%sockets_version
 ## INITENV SET OPENGL_VERSION		%opengl_version
