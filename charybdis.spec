@@ -2,7 +2,7 @@
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 %prep
 %setup -q -n %{n}/%{realversion}
-./configure --lcgplatform=%cmsplatf
+./configure --lcgplatform=%cmsplatf --pythia_fragmentation
 
 %build
 which g77
