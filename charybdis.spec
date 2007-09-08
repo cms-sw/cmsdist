@@ -23,6 +23,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <lib name=charybdis>
 <use name=f77compiler>
 <use name=herwig>
+<use name=pythia6>
 </Tool>
 EOF_TOOLFILE
 
