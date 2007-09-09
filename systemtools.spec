@@ -1,4 +1,4 @@
-### RPM virtual systemtools 1.0
+### RPM external systemtools 1.0
 Source: none
 
 %define systemtools			sockets opengl x11 jcompiler
