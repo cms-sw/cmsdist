@@ -15,6 +15,7 @@ Source0: tool2xml.pl
 %install
 %define scramsitename  STANDALONE
 rm -rf %i/configurations/SCRAMToolBox
+cp    -f %_sourcedir/tool2xml.pl %i/tool2xml.pl
 mkdir -p %i/configurations/SCRAMToolBox/tools
 mkdir -p %i/configurations/SCRAMToolBox/CMSconfigs
 
@@ -68,41 +69,37 @@ mv tools-%{scramsitename}.conf %i/configurations/SCRAMToolBox/CMSconfigs/tools-%
 %define skipreqtools %{nil}
 %endif
 
-# Copy all tool files and generate SCRAMToolBox/CMSconfiguration and also Generate requirements file
-cat << \EOF_REQUIREMENTS > %i/configurations/requirements
-<doc type=BuildSystem::Requirements version=2.0>
-<base url="file:%i/configurations/SCRAMToolBox/">
-<include url="file:CMSconfiguration">
-EOF_REQUIREMENTS
+echo %scramsitename > %i/configurations/SCRAMToolBox/CMSconfigs/sitename
 
-touch %i/configurations/SCRAMToolBox/CMSconfiguration
+%post
+%initenv
+%{relocateConfig}configurations/SCRAMToolBox/CMSconfigs/tools-%{scramsitename}.conf
+
+# Copy all tool files and generate SCRAMToolBox/CMSconfiguration and also Generate requirements file
+echo "<doc type=BuildSystem::Requirements version=2.0>" > $RPM_INSTALL_PREFIX/%pkgrel/configurations/requirements
+echo "<base url=\"file:$RPM_INSTALL_PREFIX/%pkgrel/configurations/SCRAMToolBox/\">" >> $RPM_INSTALL_PREFIX/%pkgrel/configurations/requirements
+echo "<include url=\"file:CMSconfiguration\">" >> $RPM_INSTALL_PREFIX/%pkgrel/configurations/requirements
+
+touch $RPM_INSTALL_PREFIX/%pkgrel/configurations/SCRAMToolBox/CMSconfiguration
 for tool in %requiredtools %systemtools ${PKGTOOLS_SYSTEM_TOOLS} ; do
   uctool=`echo $tool | tr '-' '_' | tr '[a-z]' '[A-Z]'`
   toolbase=`perl -e 'print "$ENV{'$uctool'_ROOT}\n";'`
-  echo "$uctool = $toolbase"
   if [ "X$toolbase" = X -o ! -d $toolbase/etc/scram.d ] ; then continue ; fi
   for xtool in `ls $toolbase/etc/scram.d` ; do
-    if [ -f %i/configurations/SCRAMToolBox/tools/$xtool ] ; then continue ; fi
-    cp -rf $toolbase/etc/scram.d/$xtool %i/configurations/SCRAMToolBox/tools/$xtool
-    perl %_sourcedir/tool2xml.pl %i/configurations/SCRAMToolBox/tools/$xtool > %i/configurations/SCRAMToolBox/tools/$xtool.xml
+    if [ -f $RPM_INSTALL_PREFIX/%pkgrel/configurations/SCRAMToolBox/tools/$xtool ] ; then continue ; fi
+    cp -rf $toolbase/etc/scram.d/$xtool $RPM_INSTALL_PREFIX/%pkgrel/configurations/SCRAMToolBox/tools/$xtool
+    perl $RPM_INSTALL_PREFIX/%pkgrel/tool2xml.pl $RPM_INSTALL_PREFIX/%pkgrel/configurations/SCRAMToolBox/tools/$xtool > $RPM_INSTALL_PREFIX/%pkgrel/configurations/SCRAMToolBox/tools/$xtool.xml
     ucxtool=`echo $xtool | tr '[a-z]' '[A-Z]'`
     toolversion=`perl -e 'print "$ENV{'$ucxtool'_VERSION}\n";'`
     if [ "X$toolversion" = "X" ] ; then toolversion=`perl -e 'print "$ENV{'$uctool'_VERSION}\n";'` ; fi
-    echo "<require name=$xtool  version=$toolversion  url=\"file:tools/$xtool\"></require>" >> %i/configurations/SCRAMToolBox/CMSconfiguration
+    echo "<require name=$xtool  version=$toolversion  url=\"file:tools/$xtool\"></require>" >> $RPM_INSTALL_PREFIX/%pkgrel/configurations/SCRAMToolBox/CMSconfiguration
     if [ "X`echo %skipreqtools | tr ' ' '\n' | grep '^'$xtool'$'`" = X ] ; then
-      echo "<select name=$xtool>" >> %i/configurations/requirements
+      echo "<select name=$xtool>" >> $RPM_INSTALL_PREFIX/%pkgrel/configurations/requirements
     fi
   done
 done
-echo "</base>" >> %i/configurations/requirements
-
-echo %scramsitename > %i/configurations/SCRAMToolBox/CMSconfigs/sitename
-sed -e 's|\(url="file:tools/.*\)"|\1.xml"|' %i/configurations/SCRAMToolBox/CMSconfiguration > CMSconfiguration.xml
-perl %_sourcedir/tool2xml.pl %i/configurations/requirements > %i/configurations/requirements.xml
-perl %_sourcedir/tool2xml.pl CMSconfiguration.xml > %i/configurations/SCRAMToolBox/CMSconfiguration.xml
-rm -f CMSconfiguration.xml
-
-%post
-%{relocateConfig}configurations/SCRAMToolBox/CMSconfigs/tools-%{scramsitename}.conf
-%{relocateConfig}configurations/requirements
-%{relocateConfig}configurations/requirements.xml
+echo "</base>" >> $RPM_INSTALL_PREFIX/%pkgrel/configurations/requirements
+sed -e 's|\(url="file:tools/.*\)"|\1.xml"|'   $RPM_INSTALL_PREFIX/%pkgrel/configurations/SCRAMToolBox/CMSconfiguration         > $RPM_INSTALL_PREFIX/%pkgrel/configurations/SCRAMToolBox/CMSconfiguration.xml.new
+perl  $RPM_INSTALL_PREFIX/%pkgrel/tool2xml.pl $RPM_INSTALL_PREFIX/%pkgrel/configurations/requirements                          > $RPM_INSTALL_PREFIX/%pkgrel/configurations/requirements.xml
+perl  $RPM_INSTALL_PREFIX/%pkgrel/tool2xml.pl $RPM_INSTALL_PREFIX/%pkgrel/configurations/SCRAMToolBox/CMSconfiguration.xml.new > $RPM_INSTALL_PREFIX/%pkgrel/configurations/SCRAMToolBox/CMSconfiguration.xml
+rm -f $RPM_INSTALL_PREFIX/%pkgrel/configurations/SCRAMToolBox/CMSconfiguration.xml.new
