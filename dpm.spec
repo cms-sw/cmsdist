@@ -1,16 +1,20 @@
-### RPM external dpm 1.6.5-5
-# DPM-%{realversion}.src.tar.gz file was actually extracted by hand using the 
-# http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/1.6.5/src/DPM-%{v}sec.slc4.src.rpm
+### RPM external dpm 1.6.5-5-CMS1
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 
 %define baseVersion %realversion
-%define patchLevel %(echo %v | cut -d- -f2)
+%define patchLevel  %(echo %v | cut -d- -f2)
+%define downloadv %{realversion}-%{patchLevel}
+%define dpmarch     %(echo %cmsplatf | cut -d_ -f1)
 
-Source: http://grid-deployment.web.cern.ch/grid-deployment/distribution/RpmBuild/i386-cel3/other/SOURCES/DPM-%{realversion}.src.tar.gz
+Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{realversion}/src/DPM-%{downloadv}sec.%{dpmarch}.src.rpm
 
 %prep
-%setup -n DPM-%{realversion}
+rm -f %_builddir/DPM-%{realversion}.src.tar.gz
+rpm2cpio %{_sourcedir}/DPM-%{downloadv}sec.%{dpmarch}.src.rpm | cpio -ivd DPM-%{realversion}.src.tar.gz
+cd %_builddir ; rm -rf DPM-%{realversion}; tar -xzvf DPM-%{realversion}.src.tar.gz
+
 %build
+cd DPM-%{realversion}
 cp h/patchlevel.in h/patchlevel.h
 perl -pi -e "s!__PATCHLEVEL__!%patchLevel!;s!__BASEVERSION__!\"%baseVersion\"!;s!__TIMESTAMP__!%(date +%%s)!" h/patchlevel.h
 perl -pi -e 's|ld\s+\$\(|ld -m elf_i386 \$\(|' shlib/Imakefile
@@ -36,6 +40,7 @@ mkdir -p %i/lib %i/include/dpm
 cd shlib; make
 
 %install
+cd DPM-%{realversion}
 cp ./shlib/lib%n.so %i/lib/lib%n.so.%realversion
 cp ./h/*.h          %i/include/dpm
 ln -s lib%n.so.%realversion %i/lib/lib%n.so
