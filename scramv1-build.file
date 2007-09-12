@@ -85,6 +85,7 @@ Source1: %{cmsswsrc}/src.tar.gz
 
 Source3: %source3
 Source4: %lcprojname-tool
+Source5: findDependencies.pl
 
 %prep
 rm -rf config
@@ -184,6 +185,16 @@ echo "executing %preBuildCommand"
 %scramcmd b --verbose -f %{postbuildtarget} </dev/null
 %endif
 
+# strip out dependencies first...
+%if "%{?saveDeps:set}" == "set" 
+mkdir -p %i/etc/dependencies
+chmod +x %{_sourcedir}/findDependencies.pl
+%{_sourcedir}/findDependencies.pl -rel %i
+gzip %i/etc/dependencies/uses.out
+gzip %i/etc/dependencies/usedby.out
+%endif
+
+
 rm -rf %i/tmp
 chmod -R 755 %i %i/.SCRAM
 (eval `%scramcmd run -sh` ; SealPluginRefresh) || true
@@ -200,14 +211,14 @@ sed 's|@PROJECT_NAME@|%ucprojname|g;s|@PROJECT_VERSION@|%v|g;s|@PROJECT_BUILD_PA
 yes | %scramcmd install # FIXME: do by hand?
 
 %post
-%initenv
-source $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$SCRAMV1_VERSION/etc/profile.d/init.sh
-cd $RPM_INSTALL_PREFIX/%cmsplatf/cms/%n/%v
+cd $RPM_INSTALL_PREFIX/%pkgrel
+%{relocateConfig}etc/scram.d/%lcprojname
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find config -type f) $(find .SCRAM -type f)
+scramver=`cat config/scram_version`
+source $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver/etc/profile.d/init.sh
 %{?buildarch:%buildarch}
 yes | %scramcmd install
 (rm -rf external/%cmsplatf; ./config/linkexternal.pl --arch %cmsplatf --nolink INCLUDE) || true
-cd $RPM_INSTALL_PREFIX/%pkgrel
 eval `%scramcmd run -sh`
 for cmd in SealPluginRefresh EdmPluginRefresh IgPluginRefresh ; do
   cmdpath=`which $cmd 2> /dev/null`
@@ -215,4 +226,3 @@ for cmd in SealPluginRefresh EdmPluginRefresh IgPluginRefresh ; do
     $cmd || true
   fi
 done
-%{relocateConfig}etc/scram.d/%lcprojname

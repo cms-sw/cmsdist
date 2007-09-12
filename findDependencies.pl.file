@@ -1,0 +1,111 @@
+#! /usr/bin/perl -w
+# findDependencies.pl
+#
+
+use strict;
+use File::Find ();
+use Getopt::Long;
+Getopt::Long::config('bundling_override');
+
+my %options;
+GetOptions(\%options,'rel=s');
+
+my $rel=$options{'rel'};
+
+# Set the variable $File::Find::dont_use_nlink if you're using AFS,
+# since AFS cheats.
+
+# for the convenience of &wanted calls, including -eval statements:
+use vars qw/*name *dir *prune/;
+*name   = *File::Find::name;
+*dir    = *File::Find::dir;
+*prune  = *File::Find::prune;
+
+sub wanted;
+sub doexec ($@);
+
+
+use Cwd ();
+my $cwd = Cwd::cwd();
+
+my %uses;
+my %usedby;
+my $beginning="";
+
+# Traverse desired filesystems
+my $directory="${rel}/tmp";
+File::Find::find({wanted => \&wanted}, $directory);
+
+open F1,">${rel}/etc/dependencies/uses.out";
+foreach my $key (keys %uses) {
+    print F1 "$key $uses{$key}\n";
+}
+close F1;
+
+open F1,">${rel}/etc/dependencies/usedby.out";
+foreach my $key (keys %usedby) {
+    print F1 "$key $usedby{$key}\n";
+}
+close F1;
+
+
+exit;
+
+
+sub wanted {
+    /^.*\.dep\z/s &&
+    doexec(0, 'cat','{}');
+}
+
+
+sub doexec ($@) {
+    my $ok = shift;
+    my @command = @_; # copy so we don't try to s/// aliases to constants
+
+    my $getnext=0;
+    my $depname;
+    open F1, $name;
+    while (<F1>) { 
+	my @sp1=split(' ',$_);
+	next if ( length($sp1[0]) < 4);
+	my @sp2=split('/',$sp1[0]);
+	my $lenarr=length(@sp2);
+# keep everything after src/
+	my $tsp1="";
+	my $foundsrc=0;
+	foreach my $t (@sp2) {
+	    $tsp1.="$t/" if ( $foundsrc==1);
+	    $foundsrc=1 if ( $t eq "src" ); 
+	}
+	chop($tsp1);
+	next if ( $tsp1 eq "");
+	if ( $getnext==1 ) {
+	    $depname=$tsp1;
+#	    print "filename $depname\n";
+	    $getnext=0;
+	}
+	else{
+	    $getnext=0;
+	    
+	    if ( $sp1[0] =~ /^tmp/ ) {
+		if ( $sp1[0] =~/o:$/) {
+		    $getnext=1;
+		}
+	    }
+	    else{
+		if ( $sp1[0] =~ /^src/ ) {
+#		    print "dep $tsp1\n";
+		    $uses{$depname}.="$tsp1 ";
+		    $usedby{$tsp1}.="$depname ";
+		}
+	    }
+	    
+	}
+    }
+    close F1;
+    chdir $cwd; #sigh
+#    system @command;
+    chdir $File::Find::dir;
+    return !$?;
+}
+
