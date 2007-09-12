@@ -85,6 +85,7 @@ Source1: %{cmsswsrc}/src.tar.gz
 
 Source3: %source3
 Source4: %lcprojname-tool
+Source5: findDependencies.pl
 
 %prep
 rm -rf config
@@ -183,6 +184,16 @@ echo "executing %preBuildCommand"
 %if "%{?postbuildtarget:set}" == "set"
 %scramcmd b --verbose -f %{postbuildtarget} </dev/null
 %endif
+
+# strip out dependencies first...
+%if "%{?saveDeps:set}" == "set" 
+mkdir -p %i/etc/dependencies
+chmod +x %{_sourcedir}/findDependencies.pl
+%{_sourcedir}/findDependencies.pl -rel %i
+gzip %i/etc/dependencies/uses.out
+gzip %i/etc/dependencies/usedby.out
+%endif
+
 
 rm -rf %i/tmp
 chmod -R 755 %i %i/.SCRAM
