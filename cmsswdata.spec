@@ -1,4 +1,4 @@
-### RPM cms cmsswdata 2.0
+### RPM cms cmsswdata 2.1
 Source: none
 
 Requires: data-FastSimulation-MaterialEffects
