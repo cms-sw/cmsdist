@@ -1,6 +1,6 @@
 ### RPM external py2-pysqlite 2.3.2
 %define pythonv %(echo $PYTHON_VERSION | cut -f1,2 -d.)
-%define distname pysqlite-%v
+%define distname pysqlite-%realversion
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 Source: http://initd.org/pub/software/pysqlite/releases/2.3/%v/%{distname}.tar.gz
 Requires: python sqlite
