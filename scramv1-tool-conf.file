@@ -45,7 +45,7 @@ eval        "echo \"  +CXX:$CCACHE_ROOT/bin/c++\""
 
 %if "%{?use_system_java:set}" == "set"
        echo "TOOL:jcompiler:"
-       echo "  +JAVA_BASE:/none"
+       echo "  +JAVA_BASE:/afs/cern.ch/cms/sw/%cmsplatf/external/java-jdk/1.5.0.p6-CMS8"
 %else
        echo "TOOL:jcompiler:"
        echo "  +JAVA_BASE:%{instroot}/%cmsplatf/external/$JCOMPILER_TOOL/$JCOMPILER_VERSION"
