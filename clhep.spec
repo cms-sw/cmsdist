@@ -1,4 +1,4 @@
-### RPM external clhep 1.9.3.1-CMS1
+### RPM external clhep 1.9.3.1-CMS2
 Source: http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/distributions/%n-%realversion.tgz
 
 %prep
@@ -69,6 +69,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
  <Environment name=INCLUDE default="$CLHEP_BASE/include"></Environment>
 </Client>
 <Runtime name=CLHEP_PARAM_PATH value="$CLHEP_BASE">
+<Runtime name=LD_LIBRARY_PATH value="$CLHEP_BASE/lib" type=path>
+<Runtime name=CMSSW_FWLITE_INCLUDE_PATH value="$CLHEP_BASE/include" type=path>
 </Tool>
 EOF_TOOLFILE
 

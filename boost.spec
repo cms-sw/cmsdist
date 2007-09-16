@@ -1,4 +1,4 @@
-### RPM external boost 1.33.1-CMS8
+### RPM external boost 1.33.1-CMS9
 # Patches and build fudging by Lassi A. Tuura <lat@iki.fi> (FIXME: contribute to boost)
 %define boostver _%(echo %realversion | tr . _)
 Requires: boost-build python bz2lib zlib
@@ -23,8 +23,8 @@ BZ2LIBI="BZIP2_INCLUDE=$BZ2LIB_ROOT/include"
 ZLIBI="ZLIB_INCLUDE=$ZLIB_ROOT/include"
 
 case $(uname) in
-  Darwin )  bjam -s$PR -s$PV -s$BZ2LIBR -s$ZLIBR -sTOOLS=darwin || true ;;
-  * )       bjam -s$PR -s$PV -s$BZ2LIBR -s$ZLIBR -sTOOLS=gcc ;;
+  Darwin )  bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$ZLIBR -sTOOLS=darwin || true ;;
+  * )       bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$ZLIBR -sTOOLS=gcc ;;
 esac
 
 %install
@@ -75,6 +75,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost
  <Environment name=INCLUDE default="$BOOST_BASE/include"></Environment>
 </Client>
 <use name=sockets>
+<Runtime name=LD_LIBRARY_PATH value="$BOOST_BASE/lib" type=path>
+<Runtime name=CMSSW_FWLITE_INCLUDE_PATH value="$BOOST_BASE/include" type=path>
 </Tool>
 EOF_TOOLFILE
 
