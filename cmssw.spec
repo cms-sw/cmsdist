@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_1_7_0_pre3   
+### RPM cms cmssw CMSSW_1_7_X
 ## IMPORT configurations 
 Provides: /bin/zsh
 Requires: cmssw-tool-conf python glimpse
@@ -10,6 +10,7 @@ Requires: cmssw-tool-conf python glimpse
 %define prebuildtarget  gindices
 %define buildtarget     release-build
 %define useCmsTC        1
+%define saveDeps        yes
 
 ## IMPORT cms-scram-build
 ## IMPORT scramv1-build
