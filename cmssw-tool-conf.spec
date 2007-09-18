@@ -77,6 +77,6 @@ Requires: charybdis
 Requires: photos
 Requires: cmsswdata
 
-%define skipreqtools %{nil}
+%define skipreqtools jcompiler
 
 ## IMPORT scramv1-tool-conf
