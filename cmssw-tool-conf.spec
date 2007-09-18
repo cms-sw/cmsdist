@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf CMS_149a7
+### RPM cms cmssw-tool-conf CMS_150  
 
 Provides: tmp/slc3_ia32_gcc323/src/FWCore/TFWLiteSelector/test/libFWCoreTFWLiteSelectorTest.so
 Provides: libboost_regex-gcc-mt.so 
