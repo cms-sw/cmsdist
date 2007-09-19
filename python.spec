@@ -48,12 +48,12 @@ dirs="$ZLIB_ROOT $EXPAT_ROOT $OPENSSL_ROOT $BZ2LIB_ROOT $NCURSES_ROOT $DB4_ROOT 
 echo $dirs
 for d in $dirs; do
   for f in $d/include/*; do
-    [ -f $f ] || continue
+    [ -e $f ] || continue
     rm -f %i/include/$(basename $f)
     ln -s $f %i/include
   done
   for f in $d/lib/*; do
-    [ -f $f ] || continue
+    [ -e $f ] || continue
     rm -f %i/lib/$(basename $f)
     ln -s $f %i/lib
   done
