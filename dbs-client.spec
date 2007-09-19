@@ -1,4 +1,4 @@
-### RPM cms dbs-client DBS_1_0_6
+### RPM cms dbs-client DBS_1_0_7
 ## INITENV +PATH PYTHONPATH %i/lib/Clients/Python
 #
 %define cvstag %v
