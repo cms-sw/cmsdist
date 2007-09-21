@@ -1,4 +1,4 @@
-### RPM external python 2.4.2-CMS8
+### RPM external python 2.4.2-CMS9
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 # OS X patches and build fudging stolen from fink
@@ -48,12 +48,12 @@ dirs="$ZLIB_ROOT $EXPAT_ROOT $OPENSSL_ROOT $BZ2LIB_ROOT $NCURSES_ROOT $DB4_ROOT 
 echo $dirs
 for d in $dirs; do
   for f in $d/include/*; do
-    [ -f $f ] || continue
+    [ -e $f ] || continue
     rm -f %i/include/$(basename $f)
     ln -s $f %i/include
   done
   for f in $d/lib/*; do
-    [ -f $f ] || continue
+    [ -e $f ] || continue
     rm -f %i/lib/$(basename $f)
     ln -s $f %i/lib
   done
