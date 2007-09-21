@@ -199,6 +199,11 @@ eval "echo \"  +PATH:\${CASTOR_ROOT}/bin\""
 eval "echo \"  +LIBDIR:\${CASTOR_ROOT}/lib\""
 eval "echo \"  +INCLUDE:\${CASTOR_ROOT}/include\""
 
+echo "TOOL:dpm:"
+eval "echo \"  +DPM_BASE:\${DPM_ROOT}\""
+eval "echo \"  +LIBDIR:\${DPM_ROOT}/lib\""
+eval "echo \"  +INCLUDE:\${DPM_ROOT}/include\""
+
 echo "TOOL:zlib:"
 eval "echo \"  +ZLIB_BASE:\${ZLIB_ROOT}\""
 eval "echo \"  +PATH:\${ZLIB_ROOT}/bin\""
@@ -358,6 +363,12 @@ eval "echo \"  +INCLUDE:\${CURL_ROOT}/include\""
 
 echo "TOOL:jpeg:"
 echo "  +JPEG_BASE:$LIBJPG_ROOT"
+
+echo "TOOL:png:"
+echo "  +PNG_BASE:$LIBPNG_ROOT"
+
+echo "TOOL:tiff:"
+echo "  +TIFF_BASE:$LIBTIFF_ROOT"
 
 echo "TOOL:simage:"
 eval "echo \"  +SIMAGE_BASE:\${SIMAGE_ROOT}\""
