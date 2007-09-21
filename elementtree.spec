@@ -1,4 +1,4 @@
-### RPM external elementtree 1.1-CMS8
+### RPM external elementtree 1.1-CMS3q
 Source: http://effbot.org/downloads/%n-%realversion-20030511.zip
 Requires: python
 
