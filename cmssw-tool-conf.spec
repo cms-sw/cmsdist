@@ -22,6 +22,7 @@ Requires: hepmc
 Requires: heppdt
 Requires: clhep
 Requires: castor
+Requires: dpm
 Requires: zlib
 Requires: python
 Requires: boost
@@ -49,6 +50,8 @@ Requires: soqt
 Requires: coin
 Requires: curl
 Requires: libjpg
+Requires: libpng
+Requires: libtiff
 Requires: simage
 Requires: openssl
 Requires: expat
