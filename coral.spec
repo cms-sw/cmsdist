@@ -1,5 +1,5 @@
 ### RPM cms coral CORAL_1_8_1-CMS4q
-## IMPORT configurations
+## IMPORT configurations 
 Provides: /bin/zsh
 Requires: coral-tool-conf
 Patch:    coral-SV1BuildFiles
