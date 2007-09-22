@@ -1,4 +1,4 @@
-### RPM external p5-dbi 1.50-CMS3
+### RPM external p5-dbi 1.50-CMS4
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
@@ -7,6 +7,7 @@
 Provides: perl(RPC::PlClient)
 Provides: perl(RPC::PlServer)
 Provides: perl(Win32::ODBC)
+Provides: libc.so.6(GLIBC_2.3)(64bit)
 
 Source:  http://cpan.mirror.solnet.ch/authors/id/T/TI/TIMB/%{downloadn}-%{realversion}.tar.gz
 %prep
