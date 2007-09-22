@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_1_6_1
+### RPM cms cmssw CMSSW_1_6_2_pre1
 ## IMPORT configurations 
 Provides: /bin/zsh
 Requires: cmssw-tool-conf python glimpse
