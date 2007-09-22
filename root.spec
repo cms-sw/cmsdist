@@ -6,6 +6,7 @@ Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo 
 
 Patch: root-CINT-maxlongline
 Patch1: root_libpng
+Patch2: root-Cintex
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -19,6 +20,7 @@ Requires: libtiff
 %setup -n root
 %patch -p0
 %patch1 -p2
+%patch2 -p1
 
 %build
 mkdir -p %i
