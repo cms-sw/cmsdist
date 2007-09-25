@@ -79,12 +79,14 @@ case `uname` in
         ;;
 esac
 
-varprefix=%{instroot}/%{cmsplatf}/var ./configure --prefix=%i --disable-nls --without-selinux --without-python --without-libintl --without-perl --with-zlib-includes=$ZLIB_ROOT/include --with-zlib-lib=$ZLIB_ROOT/lib/libz.%soname
-(cd zlib; make)
+varprefix=%{instroot}/%{cmsplatf}/var ./configure --prefix=%i --disable-nls --without-selinux --without-python --without-libintl  --without-perl --with-zlib-includes=$ZLIB_ROOT/include --with-zlib-lib=$ZLIB_ROOT/lib/libz.%soname --without-lua
+perl -p -i -e "s|lua||" Makefile
+
+#this does nothing...(cd zlib; make)
 if ! make %makeprocesses
 then
     # Very ugly hack to get rid of any kind of automatically generated dependecy on /usr/lib/beecrypt.
-    perl -p -i -e 's|/usr/lib[6]*[4]*/[^ ]*.la||' `grep -R -e '/usr/lib[6]*[4]*/[^ ]*.la' . | cut -f1 -d:`
+    perl -p -i -e 's|/usr/lib[6]*[4]*/[^ ]*.la||' `grep -R -e '/usr/lib[6]*[4]*/[^ ]*.la' . | grep  "\.la" | cut -f1 -d:`
     make %makeprocesses 
 fi
 perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|" scripts/get_magic.pl \
@@ -112,7 +114,9 @@ mkdir -p %{i}/etc/profile.d
 #        require the usage of the system compiler. 
 (echo "#!/bin/sh"; \
 %if "%osx" != "set"
- echo "source $GCC_ROOT/etc/profile.d/init.sh"; \
+%if "%{?use_system_gcc:set}" != "set"
+  echo "source $GCC_ROOT/etc/profile.d/init.sh"; \
+%endif
 %endif
  echo "source $BEECRYPT_ROOT/etc/profile.d/init.sh"; \
  echo "source $NEON_ROOT/etc/profile.d/init.sh"; \
@@ -124,7 +128,9 @@ mkdir -p %{i}/etc/profile.d
 
 (echo "#!/bin/tcsh"; \
 %if "%osx" != "set"
- echo "source $GCC_ROOT/etc/profile.d/init.csh"; \
+%if "%{?use_system_gcc:set}" != "set"
+   echo "source $GCC_ROOT/etc/profile.d/init.csh"; \
+%endif
 %endif
  echo "source $BEECRYPT_ROOT/etc/profile.d/init.csh"; \
  echo "source $NEON_ROOT/etc/profile.d/init.csh"; \
