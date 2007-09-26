@@ -19,7 +19,7 @@ cp h/patchlevel.in h/patchlevel.h
 perl -pi -e "s!__PATCHLEVEL__!%patchLevel!;s!__BASEVERSION__!\"%baseVersion\"!;s!__TIMESTAMP__!%(date +%%s)!" h/patchlevel.h
 perl -pi -e 's|ld\s+\$\(|ld -m elf_i386 \$\(|' shlib/Imakefile
 
-for this in BuildDLI BuildDPMServer BuildNameServerClient BuildNameServerDaemon BuildNameServerLibrary BuildRfioServer BuildSecurity \
+for this in BuildDLI BuildDPMServer BuildNameServerDaemon BuildNameServerLibrary BuildRfioServer \
             BuildSRMv1Server BuildSRMv2Server BuildSRMv2_2Server BuildTest ; do
     perl -pi -e "s/\s+$this\s+YES/ $this\tNO/g" config/site.def
 done
@@ -27,7 +27,7 @@ done
 for this in BuildDPMClient BuildInterfaces BuildRfioClient; do
     perl -pi -e "s/\s+$this\s+NO/ $this\tYES/g" config/site.def
 done
-for this in Accounting HasNroff UseCupv UseGSI UseKRB4 UseKRB5 UseMySQL UseOracle UseVirtualIds UseVOMS ; do
+for this in Accounting HasNroff UseCupv UseKRB4 UseKRB5 UseMySQL UseOracle UseVirtualIds UseVOMS ; do
     perl -pi -e "s/\s+$this\s+YES/ $this\tNO/g" config/site.def
 done
 for this in SecMakeStaticLibrary BuildSecureRfio BuildSecureCns BuildSecureDpm ; do
