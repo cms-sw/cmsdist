@@ -1,16 +1,14 @@
-### RPM cms coral CORAL_1_8_1-CMS4q
-## IMPORT configurations 
+### RPM cms coral CORAL_1_9_0-CMS1
+## IMPORT configurations
 Provides: /bin/zsh
 Requires: coral-tool-conf
 Patch:    coral-SV1BuildFiles
 Patch1:   coral_1_8_1_typefixes
 
-%define toolconf        ${CORAL_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
 %define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
 %define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
 %define cvsdir          %cvsprojlc
 %define cvsserver       %cvsprojlc
-%define conflevel       %{nil}
 %define preBuildCommand (rm -rf LFCLookupService LFCReplicaService MySQLAccess)
 %define prebuildtarget  prebuild
 %define buildtarget     release-build
