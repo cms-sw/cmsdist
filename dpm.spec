@@ -8,6 +8,14 @@
 
 Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{realversion}/src/DPM-%{downloadv}sec.%{dpmarch}.src.rpm
 
+%define cpu %(echo %cmsplatf | cut -d_ -f2)
+%if "%cpu" != "amd64"
+%define libsuffix %{nil}
+%else
+%define libsuffix ()(64bit)
+%endif
+Provides: libdpm.so%{libsuffix}
+
 %prep
 rm -f %_builddir/DPM-%{realversion}.src.tar.gz
 rpm2cpio %{_sourcedir}/DPM-%{downloadv}sec.%{dpmarch}.src.rpm | cpio -ivd DPM-%{realversion}.src.tar.gz
