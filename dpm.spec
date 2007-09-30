@@ -1,4 +1,4 @@
-### RPM external dpm 1.6.5-5-CMS3q
+### RPM external dpm 1.6.5-5-CMS3p
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 
 %define baseVersion %realversion
