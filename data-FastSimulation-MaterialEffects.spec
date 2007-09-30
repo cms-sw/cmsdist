@@ -1,5 +1,5 @@
-### RPM cms data-FastSimulation-MaterialEffects 3
-%define realversion V04-00-00
+### RPM cms data-FastSimulation-MaterialEffects 2a
+%define realversion V04-00-01
 
 
 ## IMPORT data-rpm-build
