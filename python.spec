@@ -59,7 +59,14 @@ for d in $dirs; do
   done
 done
 
-./configure --prefix=%i --enable-shared --without-tkinter --disable-tkinter --without-readline
+./configure --prefix=%i --enable-shared --without-tkinter --disable-tkinter
+
+# Link 32-bit readline library missing in the system area on 64-bit 
+# machines: 
+
+mkdir -p %{i}/lib
+ln -s /usr/lib/libreadline.so.4.3 %{i}/lib/libreadline.so
+
 make %makeprocesses
 
 %install
