@@ -1,4 +1,4 @@
-### RPM external hector 1_3_2-CMS10
+### RPM external hector 1_3_2-CMS11
 %define rname Hector
 %define realversion %(echo %v | cut -d- -f1 )
 Requires: root
