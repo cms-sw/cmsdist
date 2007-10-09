@@ -1,4 +1,4 @@
-### RPM external python 2.4.2-CMS3q
+### RPM external python 2.4.2-CMS10
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 # OS X patches and build fudging stolen from fink
