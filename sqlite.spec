@@ -1,4 +1,4 @@
-### RPM external sqlite 3.3.5-CMS8
+### RPM external sqlite 3.4.0
 Source: http://service-spi.web.cern.ch/service-spi/external/tarFiles/%{n}-%{realversion}.tar.gz
 Patch1: sqlite_%{realversion}_readline_for_32bit_on_64bit_build
 
