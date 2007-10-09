@@ -1,4 +1,4 @@
-### RPM external boost 1.33.1-CMS3q
+### RPM external boost 1.33.1-CMS10
 # Patches and build fudging by Lassi A. Tuura <lat@iki.fi> (FIXME: contribute to boost)
 %define boostver _%(echo %realversion | tr . _)
 Requires: boost-build python bz2lib zlib
