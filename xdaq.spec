@@ -52,7 +52,7 @@ mv x86*/bin .
 mv x86*/include .
 
 mkdir htdocs
-for subdir in ( `find java -name icons` )
+for subdir in `find java -name icons` 
 do
 	cp $subdir/* htdocs
 done
