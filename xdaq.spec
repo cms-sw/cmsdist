@@ -1,4 +1,4 @@
-### RPM external xdaq 3.9.0-CMS8
+### RPM external xdaq 03.11.00
 Requires: zlib mimetic xerces-c uuid
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
@@ -7,24 +7,18 @@ Requires: zlib mimetic xerces-c uuid
 %endif
 
 # Download from cern afs area to speed up testing:
-Source0: http://switch.dl.sourceforge.net/sourceforge/xdaq/coretools_G_V%{xdaqv}.tgz
-Source1: http://switch.dl.sourceforge.net/sourceforge/xdaq/powerpack_G_V1_9_0.tgz
-Source2: http://switch.dl.sourceforge.net/sourceforge/xdaq/worksuite_G_V1_8_0.tgz
-Patch: xdaq_39_oracle
-Patch1: xdaq-3.9.0-uuid
-Patch2: xdaq-3.9.0-nossh
+Source0: http://switch.dl.sourceforge.net/sourceforge/xdaq/coretools_G_V%xdaqv.tgz
+Source1: http://switch.dl.sourceforge.net/sourceforge/xdaq/powerpack_G_V01_11_00.tgz
+Source2: http://switch.dl.sourceforge.net/sourceforge/xdaq/worksuite_G_V01_11_00.tgz
+Patch: xdaq_3.11_p1
 
 %prep
 %setup -T -b 0 -n TriDAS
 %setup -D -T -b 1 -n TriDAS
 %setup -D -T -b 2 -n TriDAS
 
-#%patch0 -p2
 %patch1 -p1
-%patch2 -p1
 ls
-#perl -p -i -e "s|^#.*ksh(.*)|#!/usr/bin/env ksh $1|" daq/extern/SBSVME/1003/v2p3p0/sys/makefile \
-#                                                     daq/extern/SBSVME/1003/v2p3p0/sys/mkbtp
 echo " Install root in prep:" %{i}    %{pkginstroot}
 
 %build
@@ -56,6 +50,12 @@ cd %{i}
 mv x86*/lib .
 mv x86*/bin .
 mv x86*/include .
+
+mkdir htdocs
+foreach subdir ( `find java -name icons` )
+	cp $subdir/* htdocs
+end
+
 mkdir include/interface
 mv daq/interface/evb/include/interface/evb include/interface
 mv daq/interface/shared/include/interface/shared include/interface
@@ -109,7 +109,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <runtime name=XDAQ_PLATFORM value="x86">
 <runtime name=PATH value="$BINDIR" type=path>
 <runtime name=XDAQ_ROOT value="$XDAQ_BASE">
-<runtime name=XDAQ_DOCUMENT_ROOT value="$XDAQ_BASE/daq">
+<runtime name=XDAQ_DOCUMENT_ROOT value="$XDAQ_BASE/htdocs">
 <flags CPPDEFINES="SOAP__ LITTLE_ENDIAN__">
 <flags CPPDEFINES="linux">
 </Tool>
