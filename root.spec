@@ -10,6 +10,8 @@ Patch2: root_PositionVector
 Patch3: root-fastmerge-ttree
 Patch4: root_TXMLSetup
 Patch5: root-Cintex
+Patch6: root_CINTClassBuilder
+Patch7: root_CallFunc
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -27,6 +29,9 @@ Requires: libtiff
 %patch3 -p1
 %patch4 -p0
 %patch5 -p1
+%patch6 -p1
+%patch7 -p0
+
 %build
 mkdir -p %i
 export ROOTSYS=%_builddir/root
