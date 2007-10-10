@@ -17,7 +17,7 @@ Patch: xdaq_3.11_p1
 %setup -D -T -b 1 -n TriDAS
 %setup -D -T -b 2 -n TriDAS
 
-%patch1 -p1
+%patch -p1
 ls
 echo " Install root in prep:" %{i}    %{pkginstroot}
 
