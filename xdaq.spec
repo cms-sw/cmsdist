@@ -52,9 +52,10 @@ mv x86*/bin .
 mv x86*/include .
 
 mkdir htdocs
-foreach subdir ( `find java -name icons` )
+for subdir in ( `find java -name icons` )
+do
 	cp $subdir/* htdocs
-end
+done
 
 mkdir include/interface
 mv daq/interface/evb/include/interface/evb include/interface
