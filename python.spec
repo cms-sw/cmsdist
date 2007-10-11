@@ -1,8 +1,8 @@
-### RPM external python 2.4.2-CMS3
+### RPM external python 2.4.2-CMS3q
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 # OS X patches and build fudging stolen from fink
-Requires: zlib expat openssl bz2lib db4 gdbm openssl
+Requires: zlib expat openssl bz2lib db4 gdbm
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, tk/tcl, x11
 
@@ -48,12 +48,12 @@ dirs="$ZLIB_ROOT $EXPAT_ROOT $OPENSSL_ROOT $BZ2LIB_ROOT $NCURSES_ROOT $DB4_ROOT 
 echo $dirs
 for d in $dirs; do
   for f in $d/include/*; do
-    [ -f $f ] || continue
+    [ -e $f ] || continue
     rm -f %i/include/$(basename $f)
     ln -s $f %i/include
   done
   for f in $d/lib/*; do
-    [ -f $f ] || continue
+    [ -e $f ] || continue
     rm -f %i/lib/$(basename $f)
     ln -s $f %i/lib
   done
@@ -96,5 +96,24 @@ perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
 #
 rm  `find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*'`
 rm  `find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*'`
+
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<lib name=python2.4>
+<Client>
+ <Environment name=PYTHON_BASE default="%i"></Environment>
+ <Environment name=LIBDIR default="$PYTHON_BASE/lib"></Environment>
+ <Environment name=INCLUDE default="$PYTHON_BASE/include/python2.4"></Environment>
+ <Environment name=PYTHON_COMPILE default="$PYTHON_BASE/lib/python2.4/compileall.py"></Environment>
+</Client>
+<use name=sockets>
+<Runtime name=PATH value="$PYTHON_BASE/bin" type=path>
+</Tool>
+EOF_TOOLFILE
+
 %post
 find $RPM_INSTALL_PREFIX/%pkgrel/lib -type l | xargs ls -la | sed -e "s|.*[ ]\(/.*\) -> \(.*\)| \2 \1|;s|[ ]/[^ ]*/external| $RPM_INSTALL_PREFIX/%cmsplatf/external|g" | xargs -n2 ln -sf
+%{relocateConfig}etc/scram.d/%n
