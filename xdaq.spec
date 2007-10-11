@@ -52,9 +52,26 @@ mv x86*/bin .
 mv x86*/include .
 
 mkdir htdocs
-for subdir in `find java -name icons` 
+
+for subdir in `grep -h -v \# build/mfSet.coretools build/mfSet.extern_coretools build/mfSet.extern_powerpack build/mfSet.powerpack | grep -v Packages= | grep '[a-z]' | awk '{print $1}'`
 do
-	cp $subdir/* htdocs
+	mkdir -p %{i}/htdocs/$subdir/{images,xml,html}
+	echo $subdir
+	if [ -d daq/$subdir/xml ]; then
+	        cd daq/$subdir/xml
+                find . -name "*.*" -exec install -m 655 -D {} %{i}/htdocs/$subdir/xml/{} \;
+		cd %{i}
+        fi	
+	if [ -d daq/$subdir/images ]; then
+	        cd daq/$subdir/images
+                find . -name "*.*" -exec install -m 655 -D {} %{i}/htdocs/$subdir/images/{} \;
+		cd %{i}
+        fi	
+	if [ -d daq/$subdir/html ]; then
+	        cd daq/$subdir/html
+                find . -name "*.*" -exec install -m 655 -D {} %{i}/htdocs/$subdir/html/{} \;
+		cd %{i}
+        fi	
 done
 
 mkdir include/interface
