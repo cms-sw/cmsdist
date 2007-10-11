@@ -53,7 +53,7 @@ mv x86*/include .
 
 mkdir htdocs
 
-for subdir in `grep -h -v \# build/mfSet.coretools build/mfSet.extern_coretools build/mfSet.extern_powerpack build/mfSet.powerpack | grep -v Packages= | grep '[a-z]' | awk '{print $1}'`
+for subdir in `echo "xdaq2rc"; grep -h -v \# build/mfSet.coretools build/mfSet.extern_coretools build/mfSet.extern_powerpack build/mfSet.powerpack | grep -v Packages= | grep '[a-z]' | awk '{print $1}'`
 do
 	mkdir -p %{i}/htdocs/$subdir/{images,xml,html}
 	echo $subdir
