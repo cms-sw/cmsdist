@@ -1,19 +1,20 @@
-### RPM lcg root 5.12.00c
+### RPM lcg root 5.14.00e
 # INITENV +PATH PYTHONPATH %i/lib/python
 %define realVersion %(echo %v | cut -d- -f1)
 Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realVersion | tr . -)&module=root&output=/%{n}_v%{realVersion}.source.tar.gz
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realVersion}.source.tar.gz
+
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
-Requires: gccxml python qt gsl castor openssl mysql libpng libjpg dcap pcre zlib oracle
+Requires: gccxml python qt gsl castor openssl mysql libpng libjpg dcap pcre zlib oracle libungif
 
 %if "%cpu" != "amd64"
 Requires: libtiff
 %endif
 
-Patch: root-cint-bug
 %prep
 %setup -n root
+
 %build
 mkdir -p %i
 export ROOTSYS=%_builddir/root
@@ -24,7 +25,6 @@ CONFIG_ARGS="--enable-table
              --with-gccxml=${GCCXML_ROOT} 
              --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include/python2.4 
              --enable-mysql --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
-             --enable-oracle --with-oracle-libdir=${ORACLE_ROOT}/lib --with-oracle-incdir=${ORACLE_ROOT}/include
              --enable-explicitlink 
              --enable-qtgsi
              --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
@@ -40,20 +40,20 @@ CONFIG_ARGS="--enable-table
              --with-dcap-incdir=${DCAP_ROOT}/include
              --with-ssl-incdir=${OPENSSL_ROOT}/include
              --with-ssl-libdir=${OPENSSL_ROOT}/lib
-             --with-shift-incdir=${CASTOR_ROOT}/include/shift
-             --with-shift-libdir=${CASTOR_ROOT}/lib
              --with-gsl-incdir=${GSL_ROOT}/include
              --with-gsl-libdir=${GSL_ROOT}/lib
              --disable-pgsql
              --disable-xml"
 
-case $(uname)-$(uname -m) in
+case $(uname)-$(uname -p) in
   Linux-x86_64)
-    ./configure linuxx8664gcc $CONFIG_ARGS --disable-astiff;; 
-  Linux*)
-    ./configure linux $CONFIG_ARGS;;
+    ./configure linuxx8664gcc $CONFIG_ARGS --enable-oracle --with-oracle-libdir=${ORACLE_ROOT}/lib --with-oracle-incdir=${ORACLE_ROOT}/include --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift --disable-astiff;; 
+  Linux-i*86)
+    ./configure linux  $CONFIG_ARGS --enable-oracle --with-oracle-libdir=${ORACLE_ROOT}/lib --with-oracle-incdir=${ORACLE_ROOT}/include --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift;;
   Darwin*)
-    ./configure macosx $CONFIG_ARGS;;
+    ./configure macosx $CONFIG_ARGS --disable-rfio;;
+  Linux-ppc64*)
+    ./configure linux $CONFIG_ARGS --disable-rfio;;
 esac
 
 make 
