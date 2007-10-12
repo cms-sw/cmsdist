@@ -1,0 +1,27 @@
+diff --git a/formencode/api.py b/formencode/api.py
+index 423be87..19fb205 100644
+--- a/formencode/api.py
++++ b/formencode/api.py
+@@ -6,7 +6,10 @@ import declarative
+ import textwrap
+ import re
+ import os
+-from pkg_resources import resource_filename
++try:
++    from pkg_resources import resource_filename
++except ImportError:
++    pass
+ 
+ __all__ = ['NoDefault', 'Invalid', 'Validator', 'Identity',
+            'FancyValidator', 'is_validator']
+@@ -14,7 +17,9 @@ __all__ = ['NoDefault', 'Invalid', 'Validator', 'Identity',
+ import gettext
+ 
+ def get_localedir():
+-    return resource_filename(__name__, "/i18n")
++    # This is just an hack to get things working without having to provide resource_filename
++    # import.
++    return __name__ + "/i18n"
+ 
+ def set_stdtranslation(domain="FormEncode", languages=None, \
+                        localedir = get_localedir()):

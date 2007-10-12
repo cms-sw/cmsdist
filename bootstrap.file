@@ -1,11 +1,27 @@
-#!/bin/sh
-# Revision: $Revision: 1.21 $
+#!/bin/bash
+# Revision: $Revision: 1.33 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
   echo "CMS software cannot be installed as the super-user." 1>&2
   echo "(We recommend reading any standard unix security guide.)" 1>&2
   exit 1
+fi
+
+# We still depend on find-provides script from the system installation
+# in order to be able to install on unsupported platforms like ubuntu and
+# osx (with fink). This
+if [ -f /usr/lib/rpm/find-provides ]
+then
+    rpmFindProvides=/usr/lib/rpm/find-provides
+elif [ -f /opt/local/lib/rpm/find-provides ]
+then
+    rpmFindProvides=/opt/local/lib/rpm/find-provides
+elif [ -f /sw/lib/rpm/find-provides ]
+then
+    rpmFindProvides=/sw/lib/rpm/find-provides
+else
+    echo "find-provides not found. Ubuntu/Debian/OSX installation might fail."
 fi
 
 server=cmsrep.cern.ch
@@ -17,6 +33,12 @@ groups="lcg cms external"
 rootdir=$(pwd)
 unsupportedDistribution=false
 testInstance=false
+
+# Added support for online releases:
+onlineRelease=false   # default 
+onlineDir=/opt/xdaq   # here online software is preinstalled,
+                      # bootstrap.sh will exit if this directory 
+                      # is missing
 
 while [ $# -gt 0 ]; do
   case $1 in
@@ -51,7 +73,9 @@ while [ $# -gt 0 ]; do
           shift; shift ;;
         -repository )
           [ $# -gt 1 ] || { echo "Option \`$1' requires an argument" 1>&2; exit 1;  }
-          repository=/$2; shift; shift ;;
+          repository=/$2 
+          testInstance=true
+          shift; shift ;;
         -groups )
           [ $# -gt 1 ] || { echo "Option \`$1' requires at lease one argument" 1>&2; exit 1; }
           shift
@@ -62,6 +86,18 @@ while [ $# -gt 0 ]; do
             shift
           done
           testInstance=true
+          ;;
+
+        -online_release )
+          if [ -d $onlineDir ]
+          then
+            onlineRelease=true; shift
+          else
+            echo "Does not look like online machine:"
+            echo "directory $onlineDir doesn't exist."
+            echo "Sorry."
+            exit 1
+          fi
           ;;
         -unsupported_distribution_hack )
           unsupportedDistribution=true; shift
@@ -80,6 +116,7 @@ bootstrap.sh setup [-path <cms-path>] [-server <server>] [-server-path <download
 -server-path <download-path> : package structure is found on <download-path> on server (default cms/cpt/Software/download/apt).
 -repository <repository> : use private apt repository cms.<username> (default: public repository)
 -groups <groups-list> : list of the channels we want to subscribe to (default: "cms external lcg virtual").
+-online_release : special bootstrap for online systems only
 EOF_HELP
         exit 1
         ;;
@@ -133,6 +170,21 @@ generateSeedSpec () {
                     e2fsprogs-libs libXi libXinerama libXft libXrender libXpm"
     fi
     
+    if [ "$onlineRelease" != "false" ]
+    then
+        echo "SHALL SEED EXTRA SYSTEM PACKAGES FOR ONLINE SYSTEM"
+        echo "SHALL USE SYSTEM COMPILER"
+        # ONLINE: seed system compiler
+        seed="$seed gcc libgcc libstdc++"
+
+        # ONLINE: seed other available system tools:
+        seed="$seed curl curl-devel libpng libtiff libungif mysql openssl
+              qt zlib python python-elementtree"
+
+        # ONLINE: seed daq-built tools:
+        seed="$seed daq-cgicc daq-mimetic daq-oracle daq-tinyproxy 
+              daq-xerces daq-xdaq"
+    fi
      rm -rf $tmp
      mkdir -p $tmp
      cd $tmp
@@ -197,6 +249,7 @@ generateSeedSpec () {
             echo "Provides: QuickTime"
             echo "Provides: Tcl"
             echo "Provides: Tk"
+            echo "Provides: libintl.3.dylib"
       fi
       if [ "$(which dpkg 2>&1 | grep 'no dpkg' )" = "" ]
       then
@@ -207,7 +260,7 @@ generateSeedSpec () {
               # FIXME: this relies on rpm being installed. We should really have our
               # own version of find-provides, but this will bring in more rpm helper 
               # script, so we live with it for the moment.
-              dpkg -L $p 2>/dev/null | /usr/lib/rpm/find-provides | sed -e "s|^|Provides:|"
+              dpkg -L $p 2>/dev/null | $rpmFindProvides | sed -e "s|^|Provides:|"
           fi
     	done
     	perlHarvester
@@ -244,22 +297,39 @@ setup() {
 # to dbpath, some other times it does not.
 # At some point this should be really fixed in the rpm sources,
 # but for the time being we keep it as it is.
-firstdir=$(echo $rootdir | cut -d/ -f1,2)
-ln -sf $firstdir .$firstdir
+if [ "$rootdir" = "" ]
+then
+    echo Installation path not specified.
+    exit 1
+fi
+
+rootdir=`echo $rootdir | perl -p -e 's|/$||'`
+
+eval `echo $rootdir | awk -F \/ '{print "fakelink=$rootdir/"$2}'`
+if [ ! -e $fakelink ]
+then
+    echo $rootdir | awk -F \/ '{print "ln -s /"$2" $rootdir/"$2}'
+    command=`echo $rootdir | awk -F \/ '{print "ln -s /"$2" $rootdir/"$2}'`
+    eval $command
+fi
 
 # Fetch the required RPMS for RPM and APT from the server and install them using rpmcpio
 export DOWNLOAD_DIR=$rootdir/tmp/BOOTSTRAP
 mkdir -p $DOWNLOAD_DIR
 cd $DOWNLOAD_DIR
 downloadPath=$server/$server_main_dir/$repository/RPMS/@CMSPLATF@
-wget -N $downloadPath/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm
+
+if [ "$onlineRelease" == "false" ]
+then
+    wget -N $downloadPath/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm
+    wget -N $downloadPath/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm
+    wget -N $downloadPath/external+openssl+@OPENSSL_VERSION@-1-@OPENSSL_REVISION@.@CMSPLATF@.rpm
+fi
+wget -N $downloadPath/external+elfutils+@ELFUTILS_VERSION@-1-@ELFUTILS_REVISION@.@CMSPLATF@.rpm 
 wget -N $downloadPath/external+expat+@EXPAT_VERSION@-1-@EXPAT_REVISION@.@CMSPLATF@.rpm
-wget -N $downloadPath/external+openssl+@OPENSSL_VERSION@-1-@OPENSSL_REVISION@.@CMSPLATF@.rpm
 wget -N $downloadPath/external+db4+@DB4_VERSION@-1-@DB4_REVISION@.@CMSPLATF@.rpm
 wget -N $downloadPath/external+beecrypt+@BEECRYPT_VERSION@-1-@BEECRYPT_REVISION@.@CMSPLATF@.rpm
-wget -N $downloadPath/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm
 wget -N $downloadPath/external+bz2lib+@BZ2LIB_VERSION@-1-@BZ2LIB_REVISION@.@CMSPLATF@.rpm
-wget -N $downloadPath/external+elfutils+@ELFUTILS_VERSION@-1-@ELFUTILS_REVISION@.@CMSPLATF@.rpm 
 wget -N $downloadPath/external+neon+@NEON_VERSION@-1-@NEON_REVISION@.@CMSPLATF@.rpm
 wget -N $downloadPath/external+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rpm
 wget -N $downloadPath/external+libxml2+@LIBXML2_VERSION@-1-@LIBXML2_REVISION@.@CMSPLATF@.rpm
@@ -277,21 +347,28 @@ else
     mkdir -p $rootdir/$rpmdb
 fi
 # Extract the packages via rpm, source the init.sh
+# Some packages might actually not be there (gcc on darwin, for example, where we use the system one).
 cd $DOWNLOAD_DIR
-rpm2cpio $DOWNLOAD_DIR/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm | cpio -idu
+if [ -f $DOWNLOAD_DIR/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm ]
+then
+    rpm2cpio $DOWNLOAD_DIR/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm | cpio -idu
+fi
+rpm2cpio $DOWNLOAD_DIR/external+elfutils+@ELFUTILS_VERSION@-1-@ELFUTILS_REVISION@.@CMSPLATF@.rpm | cpio -idu
 rpm2cpio $DOWNLOAD_DIR/external+expat+@EXPAT_VERSION@-1-@EXPAT_REVISION@.@CMSPLATF@.rpm | cpio -idu 
 rpm2cpio $DOWNLOAD_DIR/external+db4+@DB4_VERSION@-1-@DB4_REVISION@.@CMSPLATF@.rpm | cpio -idu
 rpm2cpio $DOWNLOAD_DIR/external+beecrypt+@BEECRYPT_VERSION@-1-@BEECRYPT_REVISION@.@CMSPLATF@.rpm | cpio -idu
-rpm2cpio $DOWNLOAD_DIR/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm | cpio -idu
+
+if [ -f $DOWNLOAD_DIR/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm ]
+then
+    rpm2cpio $DOWNLOAD_DIR/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm | cpio -idu
+fi
 rpm2cpio $DOWNLOAD_DIR/external+bz2lib+@BZ2LIB_VERSION@-1-@BZ2LIB_REVISION@.@CMSPLATF@.rpm | cpio -idu
-rpm2cpio $DOWNLOAD_DIR/external+elfutils+@ELFUTILS_VERSION@-1-@ELFUTILS_REVISION@.@CMSPLATF@.rpm | cpio -idu
 rpm2cpio $DOWNLOAD_DIR/external+neon+@NEON_VERSION@-1-@NEON_REVISION@.@CMSPLATF@.rpm | cpio -idu
 rpm2cpio $DOWNLOAD_DIR/external+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rpm | cpio -idu
 # Generate the seed spec using the old rpm:
 generateSeedSpec
 # Now move to use the new RPM by sourcing its init.sh
-# FIXME: This actually only works if the packages are all generated in the same directory.
-perl -p -i -e "s!@INSTROOT@!$DOWNLOAD_DIR@INSTROOT@!g" `grep -R @INSTROOT@ $DOWNLOAD_DIR@INSTROOT@ | grep -v Binary | cut -d: -f1 | uniq`
+perl -p -i -e "s!(/[^ ]*@CMSPLATF@)!$DOWNLOAD_DIR\$1!g" `grep -R -e "/[^ ]*@CMSPLATF@" $DOWNLOAD_DIR@INSTROOT@ | grep -v Binary | cut -d: -f1 | uniq`
 source $DOWNLOAD_DIR@INSTROOT@/@CMSPLATF@/external/rpm/@RPM_VERSION@/etc/profile.d/init.sh
 cd $rootdir
 # Initialise the rpmdb using the new rpm.
@@ -299,19 +376,31 @@ rpm --define "_rpmlock_path $rpmlock" -r $rootdir --dbpath $rootdir/$rpmdb --ini
 # Build the seed spec and install it, in order to seed the newly generated db.
 rpmOptions="-r $rootdir --dbpath $rootdir/$rpmdb --rcfile $DOWNLOAD_DIR@INSTROOT@/@CMSPLATF@/external/rpm/@RPM_VERSION@/lib/rpm/rpmrc --nodeps --prefix $rootdir --ignoreos --ignorearch"
 seed $DOWNLOAD_DIR@INSTROOT@/@CMSPLATF@/external/rpm/@RPM_VERSION@/lib/rpm/rpmrc
+
 # Install the packages, this time using rpm.
-rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm
+if [ -f $DOWNLOAD_DIR/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm ]
+then
+    rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm
+fi
+rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+elfutils+@ELFUTILS_VERSION@-1-@ELFUTILS_REVISION@.@CMSPLATF@.rpm
 rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+expat+@EXPAT_VERSION@-1-@EXPAT_REVISION@.@CMSPLATF@.rpm
 rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+db4+@DB4_VERSION@-1-@DB4_REVISION@.@CMSPLATF@.rpm
 rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+beecrypt+@BEECRYPT_VERSION@-1-@BEECRYPT_REVISION@.@CMSPLATF@.rpm
-rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm
+
+if [ -f $DOWNLOAD_DIR/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm ]
+then
+    rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm
+fi
 rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+bz2lib+@BZ2LIB_VERSION@-1-@BZ2LIB_REVISION@.@CMSPLATF@.rpm
-rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+elfutils+@ELFUTILS_VERSION@-1-@ELFUTILS_REVISION@.@CMSPLATF@.rpm
 rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+neon+@NEON_VERSION@-1-@NEON_REVISION@.@CMSPLATF@.rpm
 rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rpm
 source $rootdir/@CMSPLATF@/external/rpm/@RPM_VERSION@/etc/profile.d/init.sh
 # Install the packages required by apt
-rpm -Uvh $rpmOptions $DOWNLOAD_DIR/external+openssl+@OPENSSL_VERSION@-1-@OPENSSL_REVISION@.@CMSPLATF@.rpm
+
+if [ -f $DOWNLOAD_DIR/external+openssl+@OPENSSL_VERSION@-1-@OPENSSL_REVISION@.@CMSPLATF@.rpm ]
+then
+    rpm -Uvh $rpmOptions $DOWNLOAD_DIR/external+openssl+@OPENSSL_VERSION@-1-@OPENSSL_REVISION@.@CMSPLATF@.rpm
+fi
 rpm -Uvh $rpmOptions $DOWNLOAD_DIR/external+libxml2+@LIBXML2_VERSION@-1-@LIBXML2_REVISION@.@CMSPLATF@.rpm
 rpm -Uvh $rpmOptions $DOWNLOAD_DIR/external+apt+@APT_VERSION@-1-@APT_REVISION@.@CMSPLATF@.rpm
 # Source the apt environment and upgrade what's already there.
@@ -322,11 +411,12 @@ apt-get dist-upgrade
 # If we want to use a test instance, we need to adjust the sources.list accordingly.
 if [ "$testInstance" = "true" ]
 then
-    perl -p -i -e "s/^/#/;s/###//;
-                   s/\@GROUPS\@/$groups/;
-                   s/\@SERVER\@/$server/;
-                   s/\@SERVER_PATH\@/$server_main_dir/;
-                   s/\@REPOSITORY\@/$repository/" $rootdir/@CMSPLATF@/etc/apt/sources.list
+    perl -p -i -e "s|^|#|;
+                   s|###||;
+                   s|\@GROUPS\@|$groups|;
+                   s|\@SERVER\@|$server|;
+                   s|\@SERVER_PATH\@|$server_main_dir|;
+                   s|\@REPOSITORY\@|$repository|" $rootdir/@CMSPLATF@/external/apt/@APT_VERSION@/etc/sources.list
 fi
 
 cd $was
@@ -337,7 +427,9 @@ case $command in
     setup )
         setup ;;
     reseed )
-        seed ;;
+        generateSeedSpec
+        seed @CMSPLATF@/external/rpm/@RPM_VERSION@/lib/rpm/rpmrc 
+        ;;
 esac
 
 exit 0
