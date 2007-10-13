@@ -15,6 +15,11 @@ Provides: libodbcinst.so
 %define downloadarch i586
 %endif
 
+# A hack? Probably won't work for slc4 but...
+%if "%{tmpArch}" == "slc4_ia32"
+%define downloadarch i586
+%endif
+
 %if "%{tmpArch}" == "slc3_amd64"
 %define downloadarch amd64
 %endif
