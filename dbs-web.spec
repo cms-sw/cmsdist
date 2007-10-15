@@ -56,7 +56,7 @@ cd %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
  echo "source $PY2_CX_ORACLE_ROOT/etc/profile.d/init.csh"; \
  echo "source $MYSQL_ROOT/etc/profile.d/init.csh"; \
  echo "source $ELEMENTTREE_ROOT/etc/profile.d/init.csh"; \
- echo -e "setup PYTHONPATH \044PYTHONPATH:\044ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/"; \
+ echo -e "set PYTHONPATH \044PYTHONPATH:\044ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/"; \
  echo -e "setenv DLSHOME $DLS_ROOT/Client/lib"; \
  echo -e "setenv DDHOME \044DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages"; \
  echo -e "setenv TNS_ADMIN \044DDHOME"; \
