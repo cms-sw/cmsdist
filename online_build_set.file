@@ -298,7 +298,6 @@ PhysicsTools/RecoSelectors
 PhysicsTools/UtilAlgos
 PhysicsTools/Utilities
 RecoBTau/JetCrystalsAssociator
-RecoBTau/JetTracksAssociator
 RecoCaloTools/MetaCollections
 RecoCaloTools/Navigation
 RecoCaloTools/Selectors
@@ -310,6 +309,8 @@ RecoEgamma/EgammaElectronProducers
 RecoEgamma/EgammaHLTAlgos
 RecoEgamma/EgammaHLTProducers
 RecoJets/JetAlgorithms
+RecoJets/JetAssociationAlgorithms
+RecoJets/JetAssociationProducers
 RecoJets/JetProducers
 RecoLocalCalo/CaloTowersCreator
 RecoLocalCalo/EcalRecAlgos
