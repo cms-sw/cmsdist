@@ -1,6 +1,8 @@
+WARNING: package unknown to CMSSW: RecoBTau/JetTracksAssociator
 AnalysisDataFormats/SiStripClusterInfo
 AnalysisDataFormats/TrackInfo
 CalibCalorimetry/CaloTPG
+CalibCalorimetry/EcalLaserCorrection
 CalibCalorimetry/EcalTrivialCondModules
 CalibCalorimetry/HcalAlgos
 CalibCalorimetry/HcalPlugins
@@ -13,7 +15,11 @@ CalibFormats/SiStripObjects
 CalibMuon/DTDigiSync
 CalibTracker/Records
 CalibTracker/SiStripAPVAnalysis
+CalibTracker/SiStripCommon
+CalibTracker/SiStripConnectivity
+CalibTracker/SiStripPedestals
 CommonTools/Clustering1D
+CommonTools/ConditionDBWriter
 CommonTools/SiStripClusterization
 CommonTools/SiStripZeroSuppression
 CommonTools/Statistics
@@ -24,13 +30,12 @@ CondCore/IOVService
 CondCore/MetaDataService
 CondCore/PluginSystem
 CondFormats/Alignment
-CondFormats/BeamSpotObjects
 CondFormats/CSCObjects
-CondFormats/Calibration
 CondFormats/DTObjects
 CondFormats/DataRecord
 CondFormats/EcalObjects
 CondFormats/HcalObjects
+CondFormats/IdealGeometryObjects
 CondFormats/JetMETObjects
 CondFormats/L1TObjects
 CondFormats/RPCObjects
@@ -141,9 +146,11 @@ DataFormats/RPCDigi
 DataFormats/RPCRecHit
 DataFormats/RecoCandidate
 DataFormats/RoadSearchCloud
+DataFormats/RoadSearchSeed
 DataFormats/SiPixelCluster
 DataFormats/SiPixelDetId
 DataFormats/SiPixelDigi
+DataFormats/SiPixelRawData
 DataFormats/SiStripCluster
 DataFormats/SiStripCommon
 DataFormats/SiStripDetId
@@ -217,6 +224,7 @@ Geometry/EcalBarrelAlgo
 Geometry/EcalCommonData
 Geometry/EcalMapping
 Geometry/EcalPreshowerAlgo
+Geometry/ForwardGeometry
 Geometry/HcalCommonData
 Geometry/HcalTowerAlgo
 Geometry/MuonNumbering
@@ -244,6 +252,7 @@ IORawData/DaqSource
 Iguana/Framework
 Iguana/Models
 Iguana/Studio
+Iguana/Utilities
 JetMETCorrections/GammaJet
 JetMETCorrections/JetParton
 JetMETCorrections/JetPlusTrack
@@ -266,8 +275,8 @@ L1Trigger/DTUtilities
 L1Trigger/GlobalCaloTrigger
 L1Trigger/GlobalMuonTrigger
 L1Trigger/L1ExtraFromDigis
-L1Trigger/L1ExtraFromMCTruthProd
 L1Trigger/RegionalCaloTrigger
+L1Trigger/TextToDigi
 L1TriggerConfig/L1Geometry
 MagneticField/Engine
 MagneticField/Interpolation
@@ -278,9 +287,11 @@ MagneticField/VolumeGeometry
 OnlineDB/EcalCondDB
 OnlineDB/Oracle
 OnlineDB/SiStripConfigDb
+OnlineDB/SiStripESSources
 PhysicsTools/CandAlgos
 PhysicsTools/CandUtils
 PhysicsTools/HepMCCandAlgos
+PhysicsTools/KinFitter
 PhysicsTools/Parser
 PhysicsTools/RecoCandAlgos
 PhysicsTools/RecoCandUtils
@@ -320,13 +331,13 @@ RecoLocalTracker/SiStripRecHitConverter
 RecoMET/METAlgorithms
 RecoMET/METProducers
 RecoMuon/DetLayers
-RecoMuon/GlobalMuonProducer
-RecoMuon/GlobalTrackFinder
+RecoMuon/GlobalTrackingTools
 RecoMuon/L2MuonIsolationProducer
 RecoMuon/L2MuonProducer
 RecoMuon/L2MuonSeedGenerator
 RecoMuon/L3MuonIsolationProducer
 RecoMuon/L3MuonProducer
+RecoMuon/L3TrackFinder
 RecoMuon/MeasurementDet
 RecoMuon/MuonIsolation
 RecoMuon/Navigation
@@ -385,6 +396,7 @@ SimTracker/TrackAssociation
 SimTracker/TrackerHitAssociation
 TBDataFormats/EcalTBObjects
 TBDataFormats/HcalTBObjects
+TrackPropagation/RungeKutta
 TrackPropagation/SteppingHelixPropagator
 TrackingTools/AnalyticalJacobians
 TrackingTools/DetLayers
