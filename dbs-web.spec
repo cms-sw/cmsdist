@@ -1,4 +1,4 @@
-### RPM cms dbs-web V03_06_02
+### RPM cms dbs-web V03_06_03
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
 %define cvstag %v
@@ -27,6 +27,7 @@ cd %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
  echo "source $PY2_CHEETAH_ROOT/etc/profile.d/init.sh"; \
  echo "source $PY2_SQLALCHEMY_ROOT/etc/profile.d/init.sh"; \
  echo "source $PY2_PYSQLITE_ROOT/etc/profile.d/init.sh"; \
+ echo "source $PY2_MYSQLDB_ROOT/etc/profile.d/init.sh"; \
  echo "source $WEBTOOLS_ROOT/etc/profile.d/init.sh"; \
  echo "source $YUI_ROOT/etc/profile.d/init.sh"; \
  echo "source $ORACLE_ROOT/etc/profile.d/init.sh"; \
@@ -48,6 +49,7 @@ cd %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
  echo "source $PY2_CHEETAH_ROOT/etc/profile.d/init.csh"; \
  echo "source $PY2_SQLALCHEMY_ROOT/etc/profile.d/init.csh"; \
  echo "source $PY2_PYSQLITE_ROOT/etc/profile.d/init.csh"; \
+ echo "source $PY2_MYSQLDB_ROOT/etc/profile.d/init.csh"; \
  echo "source $WEBTOOLS_ROOT/etc/profile.d/init.csh"; \
  echo "source $YUI_ROOT/etc/profile.d/init.csh"; \
  echo "source $ORACLE_ROOT/etc/profile.d/init.csh"; \
