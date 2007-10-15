@@ -12,10 +12,11 @@ Patch4: root_TXMLSetup
 Patch5: root-Cintex
 Patch6: root_Reflex_Cintex
 Patch7: root_CallFunc
+Patch8: root-proofd
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
-Requires: gccxml python qt gsl castor openssl mysql libpng libjpg dcap pcre zlib oracle libungif
+Requires: gccxml python qt gsl castor openssl mysql libpng libjpg dcap pcre zlib oracle libungif xrootd
 
 %if "%cpu" != "amd64"
 Requires: libtiff
@@ -31,6 +32,7 @@ Requires: libtiff
 %patch5 -p1
 %patch6 -p0
 %patch7 -p0
+%patch8 -p1
 
 %build
 mkdir -p %i
@@ -59,6 +61,7 @@ CONFIG_ARGS="--enable-table
              --with-gsl-libdir=${GSL_ROOT}/lib
              --with-dcap-libdir=${DCAP_ROOT}/lib 
              --with-dcap-incdir=${DCAP_ROOT}/include
+             --with-xrootd=$XROOTD_ROOT
              --disable-pgsql
              --disable-xml"
 
