@@ -3,7 +3,7 @@
 Source: http://mlm.home.cern.ch/mlm/alpgen/V2.1/v%{realversion}.tgz
 Source1: config.sub-amd64
 Patch0: alpgen-212
-
+ 
 %prep
 %setup -c -n alpgen-%v
 %patch0 -p1 
