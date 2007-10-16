@@ -54,12 +54,11 @@ cd %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
  echo "source $PY2_CX_ORACLE_ROOT/etc/profile.d/init.csh"; \
  echo "source $MYSQL_ROOT/etc/profile.d/init.csh"; \
  echo "source $ELEMENTTREE_ROOT/etc/profile.d/init.csh"; \
- echo -e "setenv PYTHONPATH \044{PYTHONPATH}:\044{ELEMENTTREE_ROOT}/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages)"; \
+ echo -e "setenv PYTHONPATH \044{PYTHONPATH}:\044{ELEMENTTREE_ROOT}/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages"; \
  echo -e "setenv DDHOME \044DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages"; \
  echo -e "setenv TNS_ADMIN \044DDHOME"; \
  echo -e "setenv DBS_DBPARAM \044DDHOME/DBParam"; \
  echo -e "setenv PYTHONPATH \044{DDHOME}:\044{DDHOME}/QueryBuilder:\044{PYTHONPATH}"; \
- echo -e "setenv DLSHOME $DLS_ROOT/Client/lib"; \
  ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 # echo -e "rm -f \044DDHOME/YUI"; \
