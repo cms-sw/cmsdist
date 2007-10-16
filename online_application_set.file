@@ -111,16 +111,15 @@ L1Trigger/DTTrigger
 L1Trigger/GlobalCaloTrigger
 L1Trigger/GlobalMuonTrigger
 L1Trigger/L1ExtraFromDigis
-L1Trigger/L1ExtraFromMCTruthProd
 L1Trigger/RegionalCaloTrigger
 PhysicsTools/CandAlgos
 PhysicsTools/RecoCandAlgos
 PhysicsTools/RecoSelectors
 RecoBTau/JetCrystalsAssociator
-RecoBTau/JetTracksAssociator
 RecoEcal/EgammaClusterProducers
 RecoEgamma/EgammaElectronProducers
 RecoEgamma/EgammaHLTProducers
+RecoJets/JetAssociationProducers
 RecoJets/JetProducers
 RecoLocalCalo/CaloTowersCreator
 RecoLocalCalo/EcalRecProducers
@@ -156,3 +155,4 @@ SimCalorimetry/HcalTrigPrimProducers
 SimCalorimetry/HcalZeroSuppressionProducers
 SimDataFormats/HepMCProduct
 SimGeneral/HepPDTESSource
+Utilities/Testing
