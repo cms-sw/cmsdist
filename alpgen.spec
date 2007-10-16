@@ -72,12 +72,42 @@ export USRF=VBFHiggsTo2Tau
 make gen -f cmsMakefile
 cd ..
 
+cd Njetwork; make gen; 
+export USRF=100_160
+make gen -f cmsMakefile
+export USRF=100_180
+make gen -f cmsMakefile
+export USRF=140_180
+make gen -f cmsMakefile
+export USRF=140_5600
+make gen -f cmsMakefile
+export USRF=160_200
+make gen -f cmsMakefile
+export USRF=180_250
+make gen -f cmsMakefile
+export USRF=180_5600
+make gen -f cmsMakefile
+export USRF=200_250
+make gen -f cmsMakefile
+export USRF=20_100
+make gen -f cmsMakefile
+export USRF=20_80
+make gen -f cmsMakefile
+export USRF=250_400
+make gen -f cmsMakefile
+export USRF=400_5600
+make gen -f cmsMakefile
+export USRF=80_140
+make gen -f cmsMakefile
+cd ..
+
 %install
 mkdir -p %{i}/bin
 mkdir -p %{i}/alplib
 cp zjetwork/zjet_*gen %{i}/bin/
 cp wjetwork/wjet_*gen %{i}/bin/
 cp phjetwork/phjet_*gen %{i}/bin/
+cp Njetwork/Njet_*gen %{i}/bin/
 
 cp 2Qphwork/2Qphgen %{i}/bin/
 cp 2Qwork/2Qgen %{i}/bin/
