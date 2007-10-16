@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.32 $
+# Revision: $Revision: 1.34 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -33,6 +33,12 @@ groups="lcg cms external"
 rootdir=$(pwd)
 unsupportedDistribution=false
 testInstance=false
+
+# Added support for online releases:
+onlineRelease=false   # default 
+onlineDir=/opt/xdaq   # here online software is preinstalled,
+                      # bootstrap.sh will exit if this directory 
+                      # is missing
 
 while [ $# -gt 0 ]; do
   case $1 in
@@ -81,6 +87,18 @@ while [ $# -gt 0 ]; do
           done
           testInstance=true
           ;;
+
+        -online_release )
+          if [ -d $onlineDir ]
+          then
+            onlineRelease=true; shift
+          else
+            echo "Does not look like online machine:"
+            echo "directory $onlineDir doesn't exist."
+            echo "Sorry."
+            exit 1
+          fi
+          ;;
         -unsupported_distribution_hack )
           unsupportedDistribution=true; shift
           ;;
@@ -98,6 +116,7 @@ bootstrap.sh setup [-path <cms-path>] [-server <server>] [-server-path <download
 -server-path <download-path> : package structure is found on <download-path> on server (default cms/cpt/Software/download/apt).
 -repository <repository> : use private apt repository cms.<username> (default: public repository)
 -groups <groups-list> : list of the channels we want to subscribe to (default: "cms external lcg virtual").
+-online_release : special bootstrap for online systems only
 EOF_HELP
         exit 1
         ;;
@@ -151,6 +170,27 @@ generateSeedSpec () {
                     e2fsprogs-libs libXi libXinerama libXft libXrender libXpm"
     fi
     
+    if [ "$onlineRelease" != "false" ]
+    then
+        echo "SHALL SEED EXTRA SYSTEM PACKAGES FOR ONLINE SYSTEM"
+        echo "SHALL USE SYSTEM COMPILER"
+        # ONLINE: seed system compiler
+        seed="$seed gcc libgcc libstdc++ libf2c"
+
+        # ONLINE: seed other available system tools:
+        seed="$seed curl curl-devel libpng libtiff libungif mysql openssl
+              qt zlib perl-DBI-1.40-8"
+	# Python tools are commented out due to compatibility problems.
+	#seed="$seed python python-elementtree"
+
+        # ONLINE: seed daq-built tools:
+        seed="$seed daq-cgicc daq-mimetic daq-oracle daq-tinyproxy 
+              daq-xerces daq-xdaq"
+	seed="$seed daq-config daq-log4cplus daq-logudpappender 
+		daq-logxmlappender daq-pt daq-ptfifo daq-pthttp 
+		daq-pttcp daq-toolbox daq-xcept daq-xdaq2rc daq-xdata
+		daq-xgi daq-xoap"
+    fi
      rm -rf $tmp
      mkdir -p $tmp
      cd $tmp
@@ -177,6 +217,16 @@ generateSeedSpec () {
       # echo "Provides: perl(+=)"
       # echo "Provides: perl(=)"
       
+      # Online distribution uses its own oracle, but 
+      # does not provide perl DBD::Oracle module or
+      # 'demo' code, that would allow to build
+      # it from source.
+      # So I fake it here as a temporary measure:
+      if [ "$onlineRelease" != "false" ]
+      then
+        echo "Provides: perl(DBD::Oracle)"
+      fi
+
       if [ "$unsupportDistribution" != "false" ]
       then
         echo "Provides: libtcl8.3.so"
@@ -284,13 +334,17 @@ export DOWNLOAD_DIR=$rootdir/tmp/BOOTSTRAP
 mkdir -p $DOWNLOAD_DIR
 cd $DOWNLOAD_DIR
 downloadPath=$server/$server_main_dir/$repository/RPMS/@CMSPLATF@
-wget -N $downloadPath/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm
+
+if [ "$onlineRelease" == "false" ]
+then
+    wget -N $downloadPath/external+gcc+@GCC_VERSION@-1-@GCC_REVISION@.@CMSPLATF@.rpm
+    wget -N $downloadPath/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm
+    wget -N $downloadPath/external+openssl+@OPENSSL_VERSION@-1-@OPENSSL_REVISION@.@CMSPLATF@.rpm
+fi
 wget -N $downloadPath/external+elfutils+@ELFUTILS_VERSION@-1-@ELFUTILS_REVISION@.@CMSPLATF@.rpm 
 wget -N $downloadPath/external+expat+@EXPAT_VERSION@-1-@EXPAT_REVISION@.@CMSPLATF@.rpm
-wget -N $downloadPath/external+openssl+@OPENSSL_VERSION@-1-@OPENSSL_REVISION@.@CMSPLATF@.rpm
 wget -N $downloadPath/external+db4+@DB4_VERSION@-1-@DB4_REVISION@.@CMSPLATF@.rpm
 wget -N $downloadPath/external+beecrypt+@BEECRYPT_VERSION@-1-@BEECRYPT_REVISION@.@CMSPLATF@.rpm
-wget -N $downloadPath/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm
 wget -N $downloadPath/external+bz2lib+@BZ2LIB_VERSION@-1-@BZ2LIB_REVISION@.@CMSPLATF@.rpm
 wget -N $downloadPath/external+neon+@NEON_VERSION@-1-@NEON_REVISION@.@CMSPLATF@.rpm
 wget -N $downloadPath/external+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rpm
@@ -319,7 +373,11 @@ rpm2cpio $DOWNLOAD_DIR/external+elfutils+@ELFUTILS_VERSION@-1-@ELFUTILS_REVISION
 rpm2cpio $DOWNLOAD_DIR/external+expat+@EXPAT_VERSION@-1-@EXPAT_REVISION@.@CMSPLATF@.rpm | cpio -idu 
 rpm2cpio $DOWNLOAD_DIR/external+db4+@DB4_VERSION@-1-@DB4_REVISION@.@CMSPLATF@.rpm | cpio -idu
 rpm2cpio $DOWNLOAD_DIR/external+beecrypt+@BEECRYPT_VERSION@-1-@BEECRYPT_REVISION@.@CMSPLATF@.rpm | cpio -idu
-rpm2cpio $DOWNLOAD_DIR/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm | cpio -idu
+
+if [ -f $DOWNLOAD_DIR/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm ]
+then
+    rpm2cpio $DOWNLOAD_DIR/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm | cpio -idu
+fi
 rpm2cpio $DOWNLOAD_DIR/external+bz2lib+@BZ2LIB_VERSION@-1-@BZ2LIB_REVISION@.@CMSPLATF@.rpm | cpio -idu
 rpm2cpio $DOWNLOAD_DIR/external+neon+@NEON_VERSION@-1-@NEON_REVISION@.@CMSPLATF@.rpm | cpio -idu
 rpm2cpio $DOWNLOAD_DIR/external+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rpm | cpio -idu
@@ -344,13 +402,21 @@ rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+el
 rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+expat+@EXPAT_VERSION@-1-@EXPAT_REVISION@.@CMSPLATF@.rpm
 rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+db4+@DB4_VERSION@-1-@DB4_REVISION@.@CMSPLATF@.rpm
 rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+beecrypt+@BEECRYPT_VERSION@-1-@BEECRYPT_REVISION@.@CMSPLATF@.rpm
-rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm
+
+if [ -f $DOWNLOAD_DIR/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm ]
+then
+    rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+zlib+@ZLIB_VERSION@-1-@ZLIB_REVISION@.@CMSPLATF@.rpm
+fi
 rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+bz2lib+@BZ2LIB_VERSION@-1-@BZ2LIB_REVISION@.@CMSPLATF@.rpm
 rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+neon+@NEON_VERSION@-1-@NEON_REVISION@.@CMSPLATF@.rpm
 rpm -Uvh --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/external+rpm+@RPM_VERSION@-1-@RPM_REVISION@.@CMSPLATF@.rpm
 source $rootdir/@CMSPLATF@/external/rpm/@RPM_VERSION@/etc/profile.d/init.sh
 # Install the packages required by apt
-rpm -Uvh $rpmOptions $DOWNLOAD_DIR/external+openssl+@OPENSSL_VERSION@-1-@OPENSSL_REVISION@.@CMSPLATF@.rpm
+
+if [ -f $DOWNLOAD_DIR/external+openssl+@OPENSSL_VERSION@-1-@OPENSSL_REVISION@.@CMSPLATF@.rpm ]
+then
+    rpm -Uvh $rpmOptions $DOWNLOAD_DIR/external+openssl+@OPENSSL_VERSION@-1-@OPENSSL_REVISION@.@CMSPLATF@.rpm
+fi
 rpm -Uvh $rpmOptions $DOWNLOAD_DIR/external+libxml2+@LIBXML2_VERSION@-1-@LIBXML2_REVISION@.@CMSPLATF@.rpm
 rpm -Uvh $rpmOptions $DOWNLOAD_DIR/external+apt+@APT_VERSION@-1-@APT_REVISION@.@CMSPLATF@.rpm
 # Source the apt environment and upgrade what's already there.
