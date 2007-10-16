@@ -155,3 +155,4 @@ SimCalorimetry/HcalTrigPrimProducers
 SimCalorimetry/HcalZeroSuppressionProducers
 SimDataFormats/HepMCProduct
 SimGeneral/HepPDTESSource
+Utilities/Testing
