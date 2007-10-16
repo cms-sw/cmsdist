@@ -1,20 +1,15 @@
-### RPM cms coral-tool-conf CMS_150a
-
+### RPM cms coral-tool-conf CMS_150onl
+#force rebuild
+%if "%{?use_system_gcc:set}" != "set"
 Requires: gcc
-Requires: pcre
+%endif
+
+%if "%{?online_release:set}" != "set"
 Requires: zlib
-Requires: bz2lib
-Requires: uuid
-Requires: python
 Requires: expat
 Requires: openssl
 Requires: db4
 Requires: gdbm
-Requires: gccxml
-Requires: boost
-Requires: gsl
-Requires: clhep
-Requires: root
 Requires: qt
 Requires: castor
 Requires: mysql
@@ -23,14 +18,25 @@ Requires: libjpg
 Requires: dcap
 Requires: oracle
 Requires: oracle-env
+Requires: p5-dbd-oracle
 Requires: libungif
 Requires: libtiff
+Requires: xerces-c
+%endif
+
+Requires: python
+Requires: pcre
+Requires: bz2lib
+Requires: uuid
+Requires: gccxml
+Requires: boost
+Requires: gsl
+Requires: clhep
+Requires: root
 Requires: cppunit
+Requires: systemtools
 Requires: frontier_client
 Requires: sqlite
-Requires: xerces-c
-Requires: p5-dbd-oracle
-Requires: systemtools
 Requires: seal
 
 %define skipreqtools %{nil}

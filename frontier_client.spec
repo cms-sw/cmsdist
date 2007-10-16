@@ -1,20 +1,33 @@
-### RPM external frontier_client 2.7.2-CMS8
+### RPM external frontier_client 2.7.2-CMS8onl
 Source: http://edge.fnal.gov:8888/frontier/%{n}__%{realversion}__src.tar.gz
 #Source: http://cern.ch/service-spi/external/tarFiles/%{n}__%{realversion}__src.tar.gz
-Requires: expat zlib openssl
+
+Requires: expat
+
+%if "%{?online_release:set}" != "set"
+Requires: zlib openssl
+%else
+Requires: systemtools
+%endif
 
 %prep
 %setup -n %{n}__%{realversion}__src
 %build
+
+%if "%{?online_release:set}" != "set"
 make EXPAT_DIR=$EXPAT_ROOT \
      COMPILER_TAG=gcc_$GCC_VERSION \
      ZLIB_DIR=$ZLIB_ROOT \
      OPENSSL_DIR=$OPENSSL_ROOT
+%else
+make EXPAT_DIR=$EXPAT_ROOT \
+     COMPILER_TAG=gcc_$CXXCOMPILER_VERSION
+%endif
 
 %install
 mkdir -p %i/lib
 mkdir -p %i/include
-cp libfrontier_client.so.%{realversion} %i/lib                                            
+cp libfrontier_client.so.%{realversion} %i/lib
 cp -r include %i
 ln -s %i/lib/libfrontier_client.so.%{realversion} %i/lib/libfrontier_client.so
 ln -s %i/lib/libfrontier_client.so.%{realversion} %i/lib/libfrontier_client.so.%(echo %v | sed -e "s/\([0-9]*\)\..*/\1/")
