@@ -9,7 +9,6 @@ Requires: SCRAMV1
 
 %define prebuildtarget  gindices
 %define buildtarget     release-build
-%define useCmsTC        1
 %define saveDeps        yes
 %define cvsproj         %cvsprojuc
 %define srctree		src
@@ -33,7 +32,6 @@ Source1: %{cmsswsrc}/src.tar.gz
 %endif
 
 # List of packages to bootstrap for partial builds:
-#Source2: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=CMSDIST/online_build_set.file&tag=-rbetatest&export=CMSDIST&&output=/src1.tar.gz
 Source2: online_build_set
 Source3: cmssw-tool
 Source4: findDependencies.pl
