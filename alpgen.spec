@@ -1,4 +1,4 @@
-### RPM external alpgen 212-CMS3
+### RPM external alpgen 212-CMS4
 %define realversion %(echo %v | cut -d- -f1 )
 Source: http://mlm.home.cern.ch/mlm/alpgen/V2.1/v%{realversion}.tgz
 Source1: config.sub-amd64
@@ -53,6 +53,10 @@ export USRF=3200ptw5000
 make gen -f cmsMakefile
 export USRF=VBFHiggsTo2Tau
 make gen -f cmsMakefile
+export USRF=3j_vbf_inf
+make gen -f cmsMakefile
+export USRF=3j_vbf_inf
+make gen -f cmsMakefile
 cd ..
 
 cd zjetwork; make gen; 
@@ -69,6 +73,10 @@ make gen -f cmsMakefile
 export USRF=3200ptz5000
 make gen -f cmsMakefile
 export USRF=VBFHiggsTo2Tau
+make gen -f cmsMakefile
+export USRF=3j_vbf_inf
+make gen -f cmsMakefile
+export USRF=3j_vbf_inf
 make gen -f cmsMakefile
 cd ..
 
