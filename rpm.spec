@@ -9,7 +9,12 @@
 ## INITENV SET SYSCONFIGDIR %{i}/lib/rpm
 Source: http://rpm.org/releases/testing/rpm-%{realversion}-rc1.tar.gz
 #Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
-Requires: beecrypt bz2lib neon expat db4 expat elfutils zlib
+
+Requires: beecrypt bz2lib neon expat db4 expat elfutils 
+%if "%{?online_release:set}" != "set"
+Requires: zlib
+%endif
+
 Patch0: rpm-4.4.9-enum
 Patch1: rpm-4.4.9-rpmps
 Patch2: rpm-4.4.9-popt
@@ -123,8 +128,13 @@ mkdir -p %{i}/etc/profile.d
  echo "source $EXPAT_ROOT/etc/profile.d/init.sh"; \
  echo "source $ELFUTILS_ROOT/etc/profile.d/init.sh"; \
  echo "source $BZ2LIB_ROOT/etc/profile.d/init.sh"; \
- echo "source $ZLIB_ROOT/etc/profile.d/init.sh"; \
  echo "source $DB4_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
+
+ # Escape zlib inclusion in online release:
+ if [ -f $ZLIB_ROOT/etc/profile.d/init.sh ]
+ then 
+     echo "source $ZLIB_ROOT/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.sh
+ fi
 
 (echo "#!/bin/tcsh"; \
 %if "%osx" != "set"
@@ -137,8 +147,13 @@ mkdir -p %{i}/etc/profile.d
  echo "source $EXPAT_ROOT/etc/profile.d/init.csh"; \
  echo "source $ELFUTILS_ROOT/etc/profile.d/init.csh"; \
  echo "source $BZ2LIB_ROOT/etc/profile.d/init.csh"; \
- echo "source $ZLIB_ROOT/etc/profile.d/init.csh"; \
  echo "source $DB4_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
+
+ # Escape zlib inclusion in online release:
+ if [ -f $ZLIB_ROOT/etc/profile.d/init.csh ]
+ then 
+     echo "source $ZLIB_ROOT/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
+ fi
 
 ln -sf rpm/rpmpopt-%{realversion}-rc1 %i/lib/rpmpopt
 
