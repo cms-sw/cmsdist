@@ -53,9 +53,9 @@ export USRF=3200ptw5000
 make gen -f cmsMakefile
 export USRF=VBFHiggsTo2Tau
 make gen -f cmsMakefile
-export USRF=3j_vbf_inf
+export USRF=3j_vbf_inv
 make gen -f cmsMakefile
-export USRF=3j_vbf_inf
+export USRF=3j_vbf_inv
 make gen -f cmsMakefile
 cd ..
 
@@ -74,9 +74,9 @@ export USRF=3200ptz5000
 make gen -f cmsMakefile
 export USRF=VBFHiggsTo2Tau
 make gen -f cmsMakefile
-export USRF=3j_vbf_inf
+export USRF=3j_vbf_inv
 make gen -f cmsMakefile
-export USRF=3j_vbf_inf
+export USRF=3j_vbf_inv
 make gen -f cmsMakefile
 cd ..
 
