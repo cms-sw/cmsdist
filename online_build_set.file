@@ -265,6 +265,7 @@ IOPool/Common
 IOPool/Input
 IOPool/Streamer
 IOPool/TFileAdaptor
+IORawData/CSCCommissioning
 IORawData/DaqSource
 JetMETCorrections/GammaJet
 JetMETCorrections/JetParton
@@ -292,6 +293,7 @@ L1Trigger/L1ExtraFromDigis
 L1Trigger/RegionalCaloTrigger
 L1Trigger/TextToDigi
 MagneticField/Engine
+MagneticField/GeomBuilder
 MagneticField/Interpolation
 MagneticField/Layers
 MagneticField/Records
