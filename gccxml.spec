@@ -5,10 +5,12 @@ Source: http://www.gccxml.org/files/v0.6/%n-%realversion.tar.gz
 Patch0: gccxml1
 Patch1: gccxml2
 Patch2: gccxml3
+Patch3: gccxml4
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch1 -p1 
+#%patch1 -p1 
+%patch4 -p1 
 
 %build
 mkdir gccxml-build
@@ -20,8 +22,8 @@ make %makeprocesses
 cd gccxml-build
 make install
 cd %i
-patch -p1 <%{_sourcedir}/gccxml1
-patch -p1 <%{_sourcedir}/gccxml3
+#patch -p1 <%{_sourcedir}/gccxml1
+#patch -p1 <%{_sourcedir}/gccxml3
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
