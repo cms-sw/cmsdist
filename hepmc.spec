@@ -1,4 +1,4 @@
-### RPM external hepmc 2.01.06-CMS2
+### RPM external hepmc 2.01.06-CMS3
 Requires: clhep
 Source: http://lcgapp.cern.ch/project/simu/HepMC/download/HepMC-%realversion.tar.gz
 
