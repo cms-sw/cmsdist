@@ -10,7 +10,7 @@ Patch3: gccxml4
 %prep
 %setup -n %{n}-%{realversion}
 #%patch1 -p1 
-%patch4 -p1 
+%patch3 -p1 
 
 %build
 mkdir gccxml-build
