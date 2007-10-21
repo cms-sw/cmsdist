@@ -1,4 +1,4 @@
-### RPM cms coral CORAL_1_9_0-CMS2
+### RPM cms coral CORAL_1_9_0-CMS3
 ## IMPORT configurations
 Provides: /bin/zsh
 Requires: coral-tool-conf
@@ -14,7 +14,7 @@ Patch1:   coral_1_8_1_typefixes
 %define buildtarget     release-build
 %define patchsrc        %patch -p0
 %define patchsrc2       %patch1 -p0
-%define patchsrc3       rm -rf %{srctree}/Tests
+%define patchsrc3       rm -rf %{srctree}/Tests/*
 
 ## IMPORT lcg-scram-build
 ## IMPORT cms-scram-build

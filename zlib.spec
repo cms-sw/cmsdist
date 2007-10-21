@@ -1,6 +1,6 @@
-### RPM external zlib 1.1.4-CMS8
+### RPM external zlib 1.2.3-CMS8
 Source: http://www.gzip.org/%n/%n-%realversion.tar.bz2
-Patch: zlib-1.1.4-shared-for-32-bit-on-x86_64
+Patch: zlib-1.2.3-shared-for-32-bit-on-x86_64
 
 %prep
 %setup -n %n-%realversion

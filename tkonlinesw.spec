@@ -1,4 +1,4 @@
-### RPM external tkonlinesw 0.3-CMS8
+### RPM external tkonlinesw 0.3-CMS9 
 %define projectname trackerDAQ
 %define releasename %{projectname}-%{realversion}
 Source: http://cmsdoc.cern.ch/cms/cmt/online/rpm/SOURCE/%{releasename}.tgz
