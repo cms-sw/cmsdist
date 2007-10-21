@@ -1,19 +1,13 @@
-### RPM external tkonlinesw 0.3-CMS8
+### RPM external tkonlinesw 0.3-CMS10 
 %define projectname trackerDAQ
 %define releasename %{projectname}-%{realversion}
 Source: http://cmsdoc.cern.ch/cms/cmt/online/rpm/SOURCE/%{releasename}.tgz
 Patch: Fed9U-gcc3.4
-
-# Note from Kristian: 
-# xdaq dependency is here only to re-use its makefiles. 
-
-Requires: systemtools
-
-%if "%{?online_release:set}" != "set"
 Requires: xerces-c
 Requires: oracle
+# Note from Kristian: 
+# xdaq dependency is here only to re-use its makefiles. 
 Requires: xdaq
-%endif
 
 %prep
 %setup -q -n %releasename
@@ -25,11 +19,9 @@ rm -fR TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/2.4/slc3_ia32_gcc323
 %build
 echo "pwd: $PWD"
 # Set variables for requied externals to be picked up by configure:
-
 export XERCESCROOT=${XERCES_C_ROOT}
 export XDAQ_ROOT=${XDAQ_ROOT}
 export ENV_ORACLE_HOME=${ORACLE_ROOT}
-
 
 export ENV_CMS_TK_BASE=%{_builddir}/%releasename
 export ENV_CMS_TK_DIAG_ROOT=${ENV_CMS_TK_BASE}/DiagSystem
