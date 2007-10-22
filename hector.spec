@@ -8,7 +8,7 @@ Source: http://www.fynu.ucl.ac.be/themes/he/ggamma/hector/%{rname}_%{realversion
 %setup -q -n %{rname}
 
 %build
-make 
+make CXXFLAGS=-fPIC
 
 %install
 tar -c . | tar -x -C %i
