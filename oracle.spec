@@ -6,9 +6,9 @@ Source0: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclien
 Source1: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-sdk-linux32-10.2.0.3-20061115.zip
 Source2: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-sqlplus-linux32-10.2.0.3-20061115.zip
 
-Source3: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-basic-linux-x86-64-10.2.0.3-20061115.zip
-Source4: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-sdk-linux-x86-64-10.2.0.3-2006115.zip
-Source5: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-sqlplus-linux-x86-64-10.2.0.3-2006115.zip
+Source3: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-basic-linux-x86-64-10.2.0.3-20070103.zip
+Source4: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-sdk-linux-x86-64-10.2.0.3-20070103.zip
+Source5: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-sqlplus-linux-x86-64-10.2.0.3-20070103.zip
 
 # Not accessible with a user/pass and not in suncms cache
 #Source6: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-basic-macosx-10.1.0.3.zip
