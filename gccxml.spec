@@ -9,10 +9,14 @@ Patch3: gccxml4
 
 %prep
 %setup -n %{n}-%{realversion}
-#%patch1 -p1 
-%patch3 -p1 
+%patch1 -p1 
 
 %build
+cd GCC_XML/Support
+patch -p3 <%{_sourcedir}/gccxml1
+patch -p3 <%{_sourcedir}/gccxml3
+patch -p3 <%{_sourcedir}/gccxml4
+cd ../../
 mkdir gccxml-build
 cd gccxml-build
 cmake -DCMAKE_INSTALL_PREFIX:PATH=%i ..
@@ -22,8 +26,6 @@ make %makeprocesses
 cd gccxml-build
 make install
 cd %i
-#patch -p1 <%{_sourcedir}/gccxml1
-#patch -p1 <%{_sourcedir}/gccxml3
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
