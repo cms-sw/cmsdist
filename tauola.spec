@@ -1,8 +1,13 @@
 ### RPM external tauola 27.121-CMS8
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
+Patch: tauola-27.121-gfortran
 Requires: pythia6
+
 %prep
 %setup -q -n %{n}/%{realversion}
+%if "%cmsplatf" == "slc4_ia32_gcc412"
+%patch -p0 
+%endif
 ./configure --lcgplatform=%cmsplatf
 
 %build

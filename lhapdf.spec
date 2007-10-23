@@ -3,6 +3,11 @@
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 %prep
 %setup -q -n %{n}/%{realversion}
+%if "%cmsplatf" == "slc4_ia32_gcc412"
+  # Switch to gfortran
+  perl -p -i -e 's|^export F77\=g77|export F77=gfortran|' .scripts/platform_functions
+  perl -p -i -e 's| -Wno-globals||' configure
+%endif
 ./configure 
 
 %build
