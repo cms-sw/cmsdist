@@ -7,13 +7,15 @@ Patch1: fastjet-2.1.0-nobanner
 %patch1 -p1
 
 %build
-cd src
 # The following is a hack, whether it works should be checked whenever
 # the version is updated from 2.1.0b1
-perl -p -i -e "s|CXXFLAGS \+\=|CXXFLAGS += -fPIC|" Makefile
+perl -p -i -e "s|CXXFLAGS \+\= \-O3|CXXFLAGS += -fPIC -O3|" Makefile
+cd src
 make
 make install
 cd ../plugins
+perl -p -i -e "s|CFLAGS  \=|CFLAGS  = -fPIC|" SISCone/siscone/src/Makefile
+perl -p -i -e "s|^CXXFLAGSmidpoint \=|CXXFLAGSmidpoint = -fPIC|" CDFCones/CDFcode/Makefile
 make
 make clean
 
