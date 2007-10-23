@@ -1,0 +1,12 @@
+--- orig.compile.mk	2007-10-23 19:51:35.000000000 +0200
++++ compile.mk	2007-10-23 19:52:02.000000000 +0200
+@@ -6,8 +6,7 @@
+ endif
+ 
+ ifeq ($(shell uname),Linux)
+-FFF = g77 -O1 -Wall -fno-automatic -Wno-globals -fno-backslash \
+-	 -ffast-math
++FFF = gfortran -O1 -Wall -fno-automatic -fno-backslash -ffast-math
+ endif
+ 
+ ifeq ($(shell uname),Darwin)
