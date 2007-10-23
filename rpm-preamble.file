@@ -86,7 +86,7 @@
 # line macros in spec files, only in "rpmmacros" files.
 %define debugsuffix %{?debug_build:_dbg}
 %define cmscomp	    	%{cmscompiler}%{cmscompilerv}
-%{expand:%%define cmsos	%(sh %_sourcedir/cmsos)}
+%{expand:%%define cmsos	%(sh %_specdir/cmsos)}
 %define cmsplatf    	%{cmsos}_%{cmscomp}%{debugsuffix}
 
 # We are now done with locations.  Move to other things.

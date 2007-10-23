@@ -1,14 +1,16 @@
-### RPM external hector 1_3_2-CMS11
+### RPM external hector 1_3_2-CMS12
 %define rname Hector
 %define realversion %(echo %v | cut -d- -f1 )
 Requires: root
 Source: http://www.fynu.ucl.ac.be/themes/he/ggamma/hector/%{rname}_%{realversion}.tbz
+Patch0: hector-1.3.2-fPIC
 
 %prep
 %setup -q -n %{rname}
+%patch0 -p1 
 
 %build
-make 
+make
 
 %install
 tar -c . | tar -x -C %i

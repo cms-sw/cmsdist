@@ -1,10 +1,12 @@
 ### RPM external meschach 1.2.pCMS1-CMS8
 Source: http://www.math.uiowa.edu/~dstewart/meschach/mesch12b.tar.gz
 Patch: meschach-1.2-slc4
+Patch1: meschach-1.2b-fPIC
 
 %prep
 %setup -c -n meschach-1.2 -a 0
 %patch -p0
+%patch1 -p0
 
 %build
 make
