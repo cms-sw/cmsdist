@@ -51,8 +51,9 @@ Requires: SCRAMV1
 %define reqfile config/requirements
 %endif
 
-Source0: %{tbxrepo}&tag=-r%{conftag}&module=SCRAMToolBox&output=/%tbxtar
-Source1: %{configrepo}&tag=-r%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
+%define source0 %{tbxrepo}&tag=-r%{conftag}&module=SCRAMToolBox&output=/%tbxtar
+%define source1 %{configrepo}&tag=-r%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
+
 %if  "%{cvsrepo}" != "cmstc"
 %define source2 %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 %else
@@ -74,6 +75,16 @@ Source1: %{configrepo}&tag=-r%{configtag}&module=%{cvsconfig}&export=config&outp
 %define source4 none
 %endif
 
+# For partial releases re-using CMSSW sources:
+%if "%{?cmsswsrc:set}" == "set"
+%define source0 %{cmsswsrc}/toolbox.tar.gz
+%define source1 %{cmsswsrc}/config.tar.gz
+%define source2 %{cmsswsrc}/src.tar.gz
+%endif
+
+
+Source0: %source0
+Source1: %source1
 Source2: %source2
 Source3: %source3
 Source4: %source4
@@ -97,7 +108,9 @@ Source4: %source4
 %setup -D -T -a 4 -n %{srctree}
 %endif
 
+%if "%{?ucprojname:set}" != "set"
 %define ucprojname  %(echo %n | tr 'a-z' 'A-Z')
+%endif
 %define toolconf_filename %(basename %toolconf)
 touch %_builddir/config/%{ucprojname}_ignore.file
 for file in `ls %_builddir/config/%{ucprojname}_*.file | grep -v  '/%{ucprojname}_ignore.file$' | sed 's|.*/%{ucprojname}_||;s|.file$||'`; do
@@ -147,6 +160,11 @@ if [ $(uname) = Darwin ]; then
   eval `scramv1 runtime -sh`
   export DYLD_LIBRARY_PATH=$LD_LIBRARY_PATH
 fi
+
+%if "%{?nolibchecks:set}" == "set"
+export SCRAM_NOLOADCHECK=true
+export SCRAM_NOSYMCHECK=true
+%endif
 
 %if "%{?preBuildCommand:set}" == "set"
 echo "executing %preBuildCommand"
