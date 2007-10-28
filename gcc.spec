@@ -169,7 +169,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/f77compiler
 </tool>
 EOF_TOOLFILE
 ;;
-slc4_ia32_* )
+slc4_ia32_gcc345 )
 cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
 <doc type=BuildSystem::ToolDoc version=1.1>
 <tool name=cxxcompiler version=%v type=compiler>
@@ -229,7 +229,72 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/f77compiler
 <Flags FCO2Flag="-O2">
 <Flags FCOPTIMISED="-O2">
 <Flags FCDEBUGFLAG="-g">
-<Flags FCSHAREDFCOBJECTFLAGS="-fPIC">
+<Flags FCSHAREDOBJECTFLAGS="-fPIC">
+<Flags SCRAM_LANGUAGE_TYPE="FORTRAN">
+</tool>
+EOF_TOOLFILE
+;;
+slc4_ia32_gcc412 )
+cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
+<doc type=BuildSystem::ToolDoc version=1.1>
+<tool name=cxxcompiler version=%v type=compiler>
+<client>
+ <Environment name=GCC_BASE default="%i"></Environment>
+ <Environment name=GCCBINDIR default="$GCC_BASE/bin"></Environment>
+ <Environment name=CXX value="$GCCBINDIR/c++"></Environment>
+</client>
+<Flags SCRAM_COMPILER_NAME="gcc%compiler_ver">
+<Flags CCcompiler="gcc%compiler_ver_major">
+<Flags MODULEFLAGS="-shared">
+<Flags CXXDEBUGFLAG="-g">
+<Flags CPPDEFINES="GNU_GCC">
+<Flags CPPDEFINES="_GNU_SOURCE">
+<Flags CXXSHAREDOBJECTFLAGS="-fPIC">
+<Flags CXXFLAGS="-pedantic -ansi -pthread -pipe">
+<Flags CXXFLAGS="-O2">
+<Flags CXXFLAGS="-felide-constructors -fmessage-length=0 -ftemplate-depth-300">
+<Flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses">
+<Flags LDFLAGS="-Wl,-E">
+<Flags CXXSHAREDFLAGS="-Wl,-E">
+<Flags SHAREDSUFFIX="so">
+<Flags SCRAM_LANGUAGE_TYPE="C++">
+<Runtime name=LD_LIBRARY_PATH value="$GCC_BASE/lib" type=path>
+<Runtime name=PATH value="$GCC_BASE/bin" type=path>
+</tool>
+EOF_TOOLFILE
+cat << \EOF_TOOLFILE >%i/etc/scram.d/ccompiler
+<doc type=BuildSystem::ToolDoc version=1.1>
+<tool name=ccompiler version=%v type=compiler>
+<client>
+ <Environment name=GCC_BASE default="%i"></Environment>
+ <Environment name=GCCBINDIR value="$GCC_BASE/bin"></Environment>
+ <Environment name=CC value="$GCCBINDIR/gcc"></Environment>
+</client>
+<Flags CDEBUGFLAG="-g">
+<Flags CSHAREDOBJECTFLAGS="-fPIC">
+<Flags CFLAGS="-pthread">
+<Flags CFLAGS="-O2">
+<Flags LDFLAGS="-Wl,-E">
+<Flags CSHAREDFLAGS="-Wl,-E">
+<Flags SCRAM_COMPILER_NAME="gcc%compiler_ver">
+<Flags SCRAM_LANGUAGE_TYPE="C">
+</tool>
+EOF_TOOLFILE
+cat << \EOF_TOOLFILE >%i/etc/scram.d/f77compiler
+<doc type=BuildSystem::ToolDoc version=1.1>
+<tool name=f77compiler version=%v type=compiler>
+<lib name=gfortran>
+<lib name=m>
+<client>
+ <Environment name=G77_BASE default="%i"></Environment>
+ <Environment name=FC default="$G77_BASE/bin/gfortran"></Environment>
+</client>
+<Flags SCRAM_COMPILER_NAME="gcc%compiler_ver">
+<Flags FFLAGS="-fno-second-underscore -Wunused -Wuninitialized">
+<Flags FCO2Flag="-O2">
+<Flags FCOPTIMISED="-O2">
+<Flags FCDEBUGFLAG="-g">
+<Flags FCSHAREDOBJECTFLAGS="-fPIC">
 <Flags SCRAM_LANGUAGE_TYPE="FORTRAN">
 </tool>
 EOF_TOOLFILE
