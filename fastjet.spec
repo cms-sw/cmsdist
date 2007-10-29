@@ -1,10 +1,12 @@
 ### RPM external fastjet 2.1.0-CMS8
 Source: http://www.lpthe.jussieu.fr/~salam/repository/software/fastjet/%n-%realversion.tgz
 Patch1: fastjet-2.1.0-nobanner
+Patch2: fastjet_sisconebanner
 
 %prep
 %setup -n %n-%realversion
 %patch1 -p1
+%patch2 -p1
 
 %build
 # The following is a hack, whether it works should be checked whenever
