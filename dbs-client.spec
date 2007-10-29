@@ -1,4 +1,4 @@
-### RPM cms dbs-client DBS_1_0_7
+### RPM cms dbs-client DBS_1_0_8_pre5
 ## INITENV +PATH PYTHONPATH %i/lib/Clients/Python
 #
 #
