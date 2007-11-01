@@ -1,4 +1,4 @@
-### RPM external gcc 4.1.2-CMS8 
+### RPM external gcc 4.2.2 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
@@ -17,6 +17,7 @@ Source2: ftp://ftp.gnu.org/gnu/gmp/gmp-%{gmpVersion}.tar.bz2
 Source3: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
+%define gcc_major %(echo %realversion | cut -f1 -d.)
 %prep
 %setup -T -b 0 -n gcc-%realversion 
 
@@ -71,6 +72,8 @@ esac
 %endif
 
 # Build GMP/MPFR for GCC 4.x
+%define gcc4opts %{nil}
+%if "%gcc_major" == "4"
 cd ../gmp-%{gmpVersion}
 CC="gcc $CCOPTS" ./configure --prefix=%i/tmp/gmp --disable-shared
 make %makeprocesses
@@ -79,6 +82,9 @@ make install
 cd ../mpfr-%{mpfrVersion}
 CC="gcc $CCOPTS" ./configure --prefix=%i/tmp/mpfr --with-gmp=%i/tmp/gmp --disable-shared
 make %makeprocesses
+make install
+%define gcc4opts --with-gmp=%i/tmp/gmp --with-mpfr=%i/tmp/mpfr
+%endif
 
 # Build the compilers
 cd ../gcc-%realversion
@@ -87,9 +93,7 @@ cd obj
 CC="gcc $CCOPTS" \
 ../configure --prefix=%i \
   --enable-languages=c,c++,`case %v in 3.*) echo f77;; *) echo fortran;; esac` \
-  --with-gmp-dir=%_builddir/gmp-%{gmpVersion} \
-  --with-mpfr-dir=%_builddir/mpfr-%{mpfrVersion} \
-  --enable-shared 
+  %gcc4opts --enable-shared 
 
 make %makeprocesses bootstrap
 
