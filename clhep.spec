@@ -46,6 +46,8 @@ make install
 #n -s libCLHEP-g++.%realversion.a %i/lib/libCLHEP.a
 #remove the .a files
 rm %i/lib/*.a
+# remove the separate libs:
+rm %i/lib/libCLHEP-[A-Z]*-%realversion.$so
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
