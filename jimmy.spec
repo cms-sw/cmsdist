@@ -1,4 +1,4 @@
-### RPM external jimmy 4.2-CMS8
+### RPM external jimmy 4.2-CMS18
 Requires: herwig
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Patch: jimmy-4.2-gfortran

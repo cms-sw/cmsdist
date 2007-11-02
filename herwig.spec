@@ -1,4 +1,4 @@
-### RPM external herwig 6.510-CMS8
+### RPM external herwig 6.510-CMS18
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 %prep
 %setup -q -n %n/%{realversion}
