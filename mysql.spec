@@ -1,4 +1,4 @@
-### RPM external mysql 5.0.18-CMS8
+### RPM external mysql 5.0.18-CMS18
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/mysql
 
 #Different download locations according to the version.
