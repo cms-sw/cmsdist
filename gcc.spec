@@ -238,7 +238,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/f77compiler
 </tool>
 EOF_TOOLFILE
 ;;
-slc4_ia32_gcc412 )
+slc4_ia32_gcc4* )
 cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
 <doc type=BuildSystem::ToolDoc version=1.1>
 <tool name=cxxcompiler version=%v type=compiler>
