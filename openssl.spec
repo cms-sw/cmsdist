@@ -1,4 +1,4 @@
-### RPM external openssl 0.9.7d-CMS8
+### RPM external openssl 0.9.7d-CMS18
 Source: http://www.openssl.org/source/%n-%realversion.tar.gz
 
 %prep

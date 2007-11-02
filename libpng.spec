@@ -1,4 +1,4 @@
-### RPM external libpng 1.2.10-CMS8
+### RPM external libpng 1.2.10-CMS18
 Source: http://riksun.riken.go.jp/pub/pub/Linux/slackware/slackware-current/source/l/libpng/%{n}-%{realversion}.tar.bz2
 Requires: zlib
 %prep

@@ -1,4 +1,4 @@
-### RPM external heppdt 2.03.00-CMS8
+### RPM external heppdt 2.03.00-CMS18
 Source: http://lcgapp.cern.ch/project/simu/HepPDT/download/HepPDT-%{realversion}.tar.gz
 Patch1: heppdt-2.03.00-nobanner
 

@@ -1,4 +1,4 @@
-### RPM external pcre 4.4-CMS8
+### RPM external pcre 4.4-CMS18
 Source: http://downloads.sourceforge.net/%n/%n-%{realversion}.tar.bz2
 
 %prep

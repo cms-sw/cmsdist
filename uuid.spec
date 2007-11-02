@@ -1,4 +1,4 @@
-### RPM external uuid 1.38-CMS8
+### RPM external uuid 1.38-CMS18
 # Patches by Lassi A. Tuura <lat@iki.fi> (FIXME: contribute to e2fsprogs)
 Source: http://switch.dl.sourceforge.net/sourceforge/e2fsprogs/e2fsprogs-%realversion.tar.gz
 

@@ -1,4 +1,4 @@
-### RPM external ktjet 1.06-CMS10
+### RPM external ktjet 1.06-CMS18
 Source: http://hepforge.cedar.ac.uk/hf/archive/ktjet/KtJet-%{realversion}.tar.gz
 Patch1: ktjet-1.0.6-nobanner
 Requires: clhep
