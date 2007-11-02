@@ -1,4 +1,4 @@
-### RPM external pythia8 070-CMS9
+### RPM external pythia8 070-CMS12
 Requires: hepmc
 Requires: clhep
 Requires: pythia6

@@ -1,4 +1,4 @@
-### RPM external geant4 8.3.p01-CMS9
+### RPM external geant4 8.3.p01-CMS18
 %define downloadv %(echo %v | cut -d- -f1)
 ## INITENV SET G4NDL_PATH %i/data/G4NDL%{g4NDLVersion}
 ## INITENV SET G4EMLOW_PATH %i/data/G4EMLOW%{g4EMLOWVersion}
@@ -41,12 +41,15 @@ echo "export G4TMP=$PWD/tmp" >> G4BuildConf.sh
 echo "export G4LIB=%i/lib" >> G4BuildConf.sh
 echo "export G4LIB_BUILD_SHARED=1" >> G4BuildConf.sh
 echo "unset G4DEBUG" >> G4BuildConf.sh
-echo "export G4OPTIMIZE=1" >> G4BuildConf.sh
 
 echo "export G4LEVELGAMMADATA=%i/data/PhotonEvaporation/%{photonEvaporationVersion}" >> G4BuildConf.sh
 echo "export G4RADIOACTIVEDATA=%i/data/RadiativeDecay%{radiativeDecayVersion}" >> G4BuildConf.sh
 echo "export G4LEDATA=%i/data/G4EMLOW%{g4EMLOWVersion}" >> G4BuildConf.sh
-echo "export G4ELASTIC=%i/data/G4ELASTIC%{g4ElasticScatteringVersion}" >> G4BuildConf.sh
+# G4ELASTIC is not needed from 8.2 onward
+#echo "export G4ELASTIC=%i/data/G4ELASTIC%{g4ElasticScatteringVersion}" >> G4BuildConf.sh
+
+# From Gabriele Cosmo: The variable name 'NeutronHPCrossSections' is replaced by
+# 'G4NEUTRONHPDATA' starting from version 9.0.
 echo "export NeutronHPCrossSections=%i/data/G4NDL%{g4NDLVersion}" >> G4BuildConf.sh
 
 # export G4LIB_BUILD_STATIC=1
@@ -58,6 +61,7 @@ echo "export CLHEP_BASE_DIR=$CLHEP_ROOT" >> G4BuildConf.sh
 echo "export G4USE_STL=1" >> G4BuildConf.sh
 # export G4USE_G3TOG4=1
 
+# G4UI_BUILD_TERMINAL_SESSION is the default:
 echo "export G4UI_BUILD_TERMINAL_SESSION=1" >> G4BuildConf.sh
 # export G4UI_BUILD_GAG_SESSION=1
 # export G4UI_BUILD_XAW_SESSION=1
@@ -69,6 +73,7 @@ echo "export OGLHOME=/usr/X11R6" >> G4BuildConf.sh
 # export OGLLIBS="-L$OGLHOME/lib -lGLU -lGL"
 # export OGLFLAGS="-I$OGLHOME/include"
 
+# G4VIS_BUILD_DAWNFILE_DRIVER is the default
 echo "export G4VIS_BUILD_DAWNFILE_DRIVER=1" >> G4BuildConf.sh
 # export G4VIS_BUILD_DAWN_DRIVER=1
 # export G4VIS_BUILD_OPENGLX_DRIVER=1
@@ -81,11 +86,8 @@ source G4BuildConf.sh
 mkdir -p %i
 tar -cf - config source | tar -C %i -xf -
 
-make %makeprocesses -C $G4BASE all
-make %makeprocesses -C $G4BASE includes
-make %makeprocesses -C $G4BASE
 make %makeprocesses -C $G4BASE global
-make %makeprocesses -C $G4BASE
+make %makeprocesses -C $G4BASE includes
 
 %install
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
@@ -108,101 +110,32 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.1>
 <Tool name=GEANT4 version=%v>
 <info url=http://wwwinfo.cern.ch/asd/geant4/geant4.html></info>
-<lib name=G4gflash>
-<lib name=G4FR>
-<lib name=G4RayTracer>
-<lib name=G4Tree>
-<lib name=G4UIGAG>
-<lib name=G4UIbasic>
-<lib name=G4UIcommon>
-<lib name=G4VRML>
-<lib name=G4baryons>
-<lib name=G4bosons>
-<lib name=G4brep>
-<lib name=G4csg>
-<lib name=G4cuts>
-<lib name=G4decay>
-<lib name=G4detector>
-<lib name=G4digits>
-<lib name=G4emlowenergy>
-<lib name=G4emstandard>
-<lib name=G4emutils>
-<lib name=G4event>
-<lib name=G4geomBoolean>
-<lib name=G4geombias>
-<lib name=G4geomdivision>
-<lib name=G4geometrymng>
-<lib name=G4globman>
-<lib name=G4graphics_reps>
-<lib name=G4had_im_r_matrix>
-<lib name=G4had_mod_man>
-<lib name=G4had_mod_util>
-<lib name=G4had_muon_nuclear>
-<lib name=G4had_neu_hp>
-<lib name=G4had_preequ_exciton>
-<lib name=G4had_string_diff>
-<lib name=G4had_string_frag>
-<lib name=G4had_string_man>
-<lib name=G4had_theo_max>
-<lib name=G4hadronic_HE>
-<lib name=G4hadronic_LE>
-<lib name=G4hadronic_bert_cascade>
-<lib name=G4hadronic_binary>
-<lib name=G4hadronic_body_ci>
-<lib name=G4hadronic_coherent_elastic>
-<lib name=G4hadronic_deex_evaporation>
-<lib name=G4hadronic_deex_fermi_breakup>
-<lib name=G4hadronic_deex_fission>
-<lib name=G4hadronic_deex_gem_evaporation>
-<lib name=G4hadronic_deex_handler>
-<lib name=G4hadronic_deex_management>
-<lib name=G4hadronic_deex_multifragmentation>
-<lib name=G4hadronic_deex_photon_evaporation>
-<lib name=G4hadronic_deex_util>
-<lib name=G4hadronic_hetcpp_evaporation>
-<lib name=G4hadronic_hetcpp_utils>
-<lib name=G4hadronic_interface_ci>
-<lib name=G4hadronic_iso>
-<lib name=G4hadronic_leading_particle>
-<lib name=G4hadronic_mgt>
-<lib name=G4hadronic_proc>
-<lib name=G4hadronic_qgstring>
-<lib name=G4hadronic_radioactivedecay>
-<lib name=G4hadronic_stop>
-<lib name=G4hadronic_util>
-<lib name=G4hadronic_xsect>
-<lib name=G4hepnumerics>
-<lib name=G4hits>
-<lib name=G4intercoms>
-<lib name=G4ions>
-<lib name=G4leptons>
-<lib name=G4magneticfield>
-<lib name=G4materials>
-<lib name=G4mesons>
-<lib name=G4modeling>
-<lib name=G4muons>
-<lib name=G4navigation>
-<lib name=G4optical>
-<lib name=G4parameterisation>
-<lib name=G4parmodels>
-<lib name=G4partman>
-<lib name=G4partutils>
-<lib name=G4persistency>
-<lib name=G4procman>
-<lib name=G4readout>
-<lib name=G4run>
-<lib name=G4shortlived>
-<lib name=G4specsolids>
-<lib name=G4track>
-<lib name=G4tracking>
-<lib name=G4transportation>
-<lib name=G4visHepRep>
-<lib name=G4visXXX>
-<lib name=G4vis_management>
-<lib name=G4volumes>
-<lib name=G4xrays>
-<lib name=G4phys_lists>
-<lib name=G4phys_builders>
+<lib name=libG4digits_hits>
+<lib name=libG4error>
+<lib name=libG4event>
+<lib name=libG4FR>
+<lib name=libG4geometry>
+<lib name=libG4global>
+<lib name=libG4graphics_reps>
+<lib name=libG4intercoms>
+<lib name=libG4interfaces>
+<lib name=libG4materials>
+<lib name=libG4modeling>
+<lib name=libG4parmodels>
+<lib name=libG4particles>
+<lib name=libG4persistency>
+<lib name=libG4physicslists>
+<lib name=libG4processes>
+<lib name=libG4RayTracer>
+<lib name=libG4readout>
+<lib name=libG4run>
+<lib name=libG4tracking>
+<lib name=libG4track>
+<lib name=libG4Tree>
+<lib name=libG4visHepRep>
+<lib name=libG4vis_management>
+<lib name=libG4visXXX>
+<lib name=libG4VRML>
 <Client>
 <Environment name=GEANT4_BASE default="%i"></Environment>
 <Environment name=G4SRC default="$GEANT4_BASE/source"></Environment>
