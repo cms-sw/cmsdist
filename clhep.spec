@@ -46,8 +46,6 @@ make install
 #n -s libCLHEP-g++.%realversion.a %i/lib/libCLHEP.a
 #remove the .a files
 rm %i/lib/*.a
-# remove the separate libs:
-rm %i/lib/libCLHEP-[A-Z]*-%realversion.$so
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
@@ -55,7 +53,16 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=%n version=%v>
 <info url="http://wwwinfo.cern.ch/asd/lhc++/clhep"></info>
-<lib name=CLHEP-%realversion>
+<lib name=CLHEP-Cast-%realversion>
+<lib name=CLHEP-Evaluator-%realversion>
+<lib name=CLHEP-Exceptions-%realversion>
+<lib name=CLHEP-GenericFunctions-%realversion>
+<lib name=CLHEP-Geometry-%realversion>
+<lib name=CLHEP-Matrix-%realversion>
+<lib name=CLHEP-Random-%realversion>
+<lib name=CLHEP-RandomObjects-%realversion>
+<lib name=CLHEP-RefCount-%realversion>
+<lib name=CLHEP-Vector-%realversion>
 <Client>
  <Environment name=CLHEP_BASE default="%i"></Environment>
  <Environment name=LIBDIR default="$CLHEP_BASE/lib"></Environment>

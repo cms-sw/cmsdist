@@ -3,13 +3,7 @@
 Source:  http://apt-rpm.org/releases/%n-%realversion.tar.bz2
 Source1: bootstrap
 Source2: cms-apt-migration
-
-%if "%{?online_release:set}" != "set"
 Requires: libxml2 beecrypt rpm zlib bz2lib openssl
-%else
-Requires: libxml2 beecrypt rpm bz2lib
-%endif
-
 Patch0: apt-rpm449
 Patch1: apt-rpm446
 Patch2: apt
