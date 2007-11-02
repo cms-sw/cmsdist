@@ -1,4 +1,4 @@
-### RPM external libxml2 2.6.23-CMS3
+### RPM external libxml2 2.6.23-CMS18
 Source: ftp://xmlsoft.org/%n/%n-%realversion.tar.gz
 
 %if "%{?online_release:set}" != "set"
