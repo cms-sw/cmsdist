@@ -1,4 +1,4 @@
-### RPM external geant4 8.3.p01-CMS10
+### RPM external geant4 8.3.p01-CMS18
 %define downloadv %(echo %v | cut -d- -f1)
 ## INITENV SET G4NDL_PATH %i/data/G4NDL%{g4NDLVersion}
 ## INITENV SET G4EMLOW_PATH %i/data/G4EMLOW%{g4EMLOWVersion}
