@@ -1,4 +1,4 @@
-### RPM external rpm 4.4.2.1-CMS3
+### RPM external rpm 4.4.2.1-CMS18
 # FIXME: the version should really be 4.4.2.1-rc1 but I don't know if that causes problems to the "realversion" mechanism.
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV SET LIBRPMALIAS_FILENAME %{i}/lib/rpm/rpmpopt-%{realversion}-rc1
