@@ -2,7 +2,7 @@
 ## IMPORT configurations
 Provides: /bin/zsh
 Requires: coral-tool-conf
-Patch:    coral-SV1BuildFiles
+Patch:    coral-1_9_1-SV1BuildFiles
 
 %define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
 %define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
