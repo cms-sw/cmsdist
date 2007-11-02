@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V1_0_3-p2
+### RPM lcg SCRAMV1 V1_0_3-p3
 ## INITENV +PATH PATH %instroot/bin
 ## INITENV +PATH PERL5LIB %{i}
 Requires: p5-template-toolkit p5-uri p5-xml-parser p5-libwww-perl cms-env
@@ -51,7 +51,7 @@ Provides: perl(Utilities::GroupChecker)
 # FIXME: should we have more than one project database and link them
 # together into one big one?
 
-%define cvsrepo  cvs://:pserver:anonymous@isscvs.cern.ch:/local/reps/scram?passwd=AA_:yZZ3e
+%define cvsrepo  cvs://:pserver:anonymous@cmscvs.cern.ch:/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 
 Source0: %{cvsrepo}&tag=-r%{v}&module=SCRAM&output=/source.tar.gz
 
