@@ -53,16 +53,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=%n version=%v>
 <info url="http://wwwinfo.cern.ch/asd/lhc++/clhep"></info>
-<lib name=CLHEP-Cast-%realversion>
-<lib name=CLHEP-Evaluator-%realversion>
-<lib name=CLHEP-Exceptions-%realversion>
-<lib name=CLHEP-GenericFunctions-%realversion>
-<lib name=CLHEP-Geometry-%realversion>
-<lib name=CLHEP-Matrix-%realversion>
-<lib name=CLHEP-Random-%realversion>
-<lib name=CLHEP-RandomObjects-%realversion>
-<lib name=CLHEP-RefCount-%realversion>
-<lib name=CLHEP-Vector-%realversion>
+<lib name=CLHEP-%realversion>
 <Client>
  <Environment name=CLHEP_BASE default="%i"></Environment>
  <Environment name=LIBDIR default="$CLHEP_BASE/lib"></Environment>
