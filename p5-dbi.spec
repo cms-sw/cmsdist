@@ -1,4 +1,4 @@
-### RPM external p5-dbi 1.50-CMS4
+### RPM external p5-dbi 1.50-CMS18
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
