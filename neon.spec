@@ -1,4 +1,4 @@
-### RPM external neon 0.26.3-CMS3
+### RPM external neon 0.26.3-CMS18
 
 Source: http://www.webdav.org/%n/%n-%realversion.tar.gz
 Requires: expat
@@ -14,7 +14,7 @@ Requires: openssl zlib
 export CFLAGS="-fPIC -g -O2" 
 
 %if "%{?online_release:set}" != "set"
-export CPPFLAGS="-I$EXPAT_ROOT/include -I$ZLIB_ROOT/include -I$OPESSL_ROOT/include -I$EXPAT_ROOT/include"
+export CPPFLAGS="-I$EXPAT_ROOT/include -I$ZLIB_ROOT/include -I$OPENSSL_ROOT/include"
 export LDFLAGS="-L$EXPAT_ROOT/lib -L$ZLIB_ROOT/lib -L$OPENSSL_ROOT/lib"
 %else
 export CPPFLAGS="-I$EXPAT_ROOT/include"
