@@ -1,7 +1,6 @@
-### RPM external boost 1.33.1-CMS18
-# Patches and build fudging by Lassi A. Tuura <lat@iki.fi> (FIXME: contribute to boost)
+### RPM external boost 1.34.1-CMS18
 %define boostver _%(echo %realversion | tr . _)
-Source: http://dl.sourceforge.net/sourceforge/%n/%{n}%{boostver}.tar.gz
+Source: http://internap.dl.sourceforge.net/sourceforge/%{n}/%{n}%{boostver}.tar.gz
 
 Requires: boost-build python bz2lib
 %if "%{?online_release:set}" != "set"
