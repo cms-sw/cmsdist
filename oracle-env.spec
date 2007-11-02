@@ -1,4 +1,4 @@
-### RPM cms oracle-env 1.7
+### RPM cms oracle-env 1.8
 ## INITENV +PATH SQLPATH %i/etc
 ## INITENV SET TNS_ADMIN %i/etc
 
