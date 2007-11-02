@@ -30,6 +30,7 @@ make %makeprocesses
 %install
 make install
 perl -p -i -e "s|^#!.*perl(.*)|#!/usr/bin/env perl$1|" $(grep -r -e "^#!.*perl.*" %i | cut -d: -f1)
+rm -fR %i/mysql-test
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
