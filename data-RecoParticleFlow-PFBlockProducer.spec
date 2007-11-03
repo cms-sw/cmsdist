@@ -1,4 +1,4 @@
-### RPM cms data-RecoParticleFlow-PFBlockProducer 3
+### RPM cms data-RecoParticleFlow-PFBlockProducer 18
 %define realversion V02-04-02
 
 
