@@ -16,6 +16,21 @@ make %makeprocesses
 make install
 # Put in the symlink
 cd %{i}/bin
-ln -s make gmake
+ln -sf make gmake
 
-# SCRAM ToolBox toolfile (still to add)
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<Client>
+ <Environment name=MAKE_BASE default="%i"></Environment>
+</Client>
+<Runtime name=PATH value="$MAKE_BASE/bin" type=path>
+</Tool>
+EOF_TOOLFILE
+
+%post
+cd $RPM_INSTALL_PREFIX/%cmsplatf/external/%n/%v/bin
+%{relocateConfig}etc/scram.d/%n
+
