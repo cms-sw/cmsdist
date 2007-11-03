@@ -1,5 +1,6 @@
 ### FILE scramv1-tool-conf
 
+Requires: gmake
 Source0: tool2xml.pl
 
 %prep
