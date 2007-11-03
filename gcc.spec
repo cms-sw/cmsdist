@@ -168,7 +168,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/f77compiler
 <Flags FCO2Flag="-O2">
 <Flags FCOPTIMISED="-O2">
 <Flags FCDEBUGFLAG="-g">
-<Flags FCSHAREDFCOBJECTFLAGS="-fPIC">
+<Flags FCSHAREDOBJECTFLAGS="-fPIC">
 <Flags SCRAM_LANGUAGE_TYPE="FORTRAN">
 </tool>
 EOF_TOOLFILE
@@ -363,7 +363,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/f77compiler
 <Flags FCO2Flag="-O2">
 <Flags FCOPTIMISED="-O2">
 <Flags FCDEBUGFLAG="-g">
-<Flags FCSHAREDFCOBJECTFLAGS="-fPIC">
+<Flags FCSHAREDOBJECTFLAGS="-fPIC">
 <Flags SCRAM_LANGUAGE_TYPE="FORTRAN">
 </tool>
 EOF_TOOLFILE
