@@ -1,5 +1,5 @@
 ### RPM external cmake 2.4.2-CMS18
-%define downloaddir %(echo %version | cut -d. -f1,2)
+%define downloaddir %(echo %realversion | cut -d. -f1,2)
 Source: http://www.cmake.org/files/v%{downloaddir}/%n-%realversion.tar.gz
 #Patch1: cmake
 
