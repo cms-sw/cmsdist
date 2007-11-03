@@ -1,4 +1,4 @@
-### RPM lcg root 5.14.00g-CMS9
+### RPM lcg root 5.14.00g-CMS18
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
 Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
@@ -10,23 +10,15 @@ Patch2: root_PositionVector
 Patch3: root-fastmerge-ttree
 Patch4: root_TXMLSetup
 Patch5: root-Cintex
+Patch6: root_Reflex_Cintex
+Patch7: root_CallFunc
+Patch8: root-proofd
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
+Requires: gccxml python qt gsl castor openssl mysql libpng libjpg dcap pcre zlib oracle libungif xrootd
 
-Requires: gccxml gsl castor libjpg dcap pcre python
-
-%if "%{?online_release:set}" != "set"
-Requires: qt openssl mysql libpng zlib oracle libungif
-%else
-%define skiplibtiff true
-%endif
-
-%if "%cpu" == "amd64"
-%define skiplibtiff true
-%endif
-
-%if "%skiplibtiff" != "true"
+%if "%cpu" != "amd64"
 Requires: libtiff
 %endif
 
@@ -38,32 +30,23 @@ Requires: libtiff
 %patch3 -p1
 %patch4 -p0
 %patch5 -p1
+%patch6 -p0
+%patch7 -p0
+%patch8 -p1
+
 %build
 mkdir -p %i
 export ROOTSYS=%_builddir/root
-
-%if "%{?online_release:set}" != "set"
-EXTRA_CONFIG_ARGS="
- --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
- --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include
- --with-ssl-incdir=${OPENSSL_ROOT}/include
- --with-ssl-libdir=${OPENSSL_ROOT}/lib"
-%else
-ORACLE_ROOT="/opt/xdaq"
-EXTRA_CONFIG_ARGS=" --enable-ssl"
-%endif
-
 CONFIG_ARGS="--enable-table 
              --disable-builtin-pcre
              --disable-builtin-freetype
              --disable-builtin-zlib
              --with-gccxml=${GCCXML_ROOT} 
-             --enable-python
-             --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include/python2.4 
-             --enable-mysql
+             --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include/python2.4 
+             --enable-mysql --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
              --enable-explicitlink 
              --enable-qtgsi
-             --enable-qt
+             --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
              --enable-mathcore 
              --enable-mathmore
              --enable-reflex  
@@ -72,12 +55,15 @@ CONFIG_ARGS="--enable-table
              --enable-roofit
              --disable-ldap
              --disable-krb5
+             --with-ssl-incdir=${OPENSSL_ROOT}/include
+             --with-ssl-libdir=${OPENSSL_ROOT}/lib
              --with-gsl-incdir=${GSL_ROOT}/include
              --with-gsl-libdir=${GSL_ROOT}/lib
              --with-dcap-libdir=${DCAP_ROOT}/lib 
              --with-dcap-incdir=${DCAP_ROOT}/include
+             --with-xrootd=$XROOTD_ROOT
              --disable-pgsql
-             --disable-xml ${EXTRA_CONFIG_ARGS}"
+             --disable-xml"
 
 case $(uname)-$(uname -p) in
   Linux-x86_64)
