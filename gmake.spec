@@ -1,5 +1,6 @@
 ### RPM external gmake 3.81-CMS18
-Source: ftp://ftp.gnu.org/gnu/%n/%n-%realversion.tar.gz
+# We will call it "gmake", but gnu calls it "make"
+Source: ftp://ftp.gnu.org/gnu/make/make-%realversion.tar.gz
 
 %prep
 %setup -n make-%{realversion}
@@ -12,6 +13,7 @@ make %makeprocesses
 %install
 make install
 # Put in the symlink
-ln -s %i/make %/gmake
+cd %{i}/bin
+ln -s make gmake
 
 # SCRAM ToolBox toolfile (still to add)
