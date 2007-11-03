@@ -1,20 +1,3 @@
-Index: ChangeLog
-===================================================================
-RCS file: /sources/make/make/ChangeLog,v
-retrieving revision 2.330
-diff -u -B -b -r2.330 ChangeLog
---- ChangeLog	11 May 2007 20:57:21 -0000	2.330
-+++ ChangeLog	14 Jun 2007 02:25:49 -0000
-@@ -1,3 +1,9 @@
-+2007-06-13  Paul Smith  <psmith@gnu.org>
-+
-+	* expand.c (variable_expand_for_file): Preserve the value of
-+	reading_file rather than setting it to 0 at the end.
-+	Fixes Savannah bug #20033.
-+
- 2007-05-11  Paul Smith  <psmith@gnu.org>
- 
- 	* job.c (new_job): Add debug info to specify where make found the
 Index: expand.c
 ===================================================================
 RCS file: /sources/make/make/expand.c,v
