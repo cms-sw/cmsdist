@@ -1,4 +1,4 @@
-### RPM external python 2.4.2-CMS9
+### RPM external python 2.4.2-CMS18
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 # OS X patches and build fudging stolen from fink
@@ -73,8 +73,19 @@ for d in $dirs; do
   done
 done
 
-./configure --prefix=%i --enable-shared --without-tkinter --disable-tkinter --without-readline
+./configure --prefix=%i --enable-shared --without-tkinter --disable-tkinter 
+# The following is a kludge around the fact that the /usr/lib/libreadline.so
+# symlink (for 32-bit lib) is missing on the 64bit machines
+%if "%cmsplatf" == "slc4_ia32_gcc345"
+  mkdir -p %{i}/lib
+  ln -s /usr/lib/libreadline.so.4.3 %{i}/lib/libreadline.so
+%endif
+%if "%cmsplatf" == "slc4_ia32_gcc412"
+  mkdir -p %{i}/lib
+  ln -s /usr/lib/libreadline.so.4.3 %{i}/lib/libreadline.so
+%endif
 make %makeprocesses
+
 
 %install
 make install
