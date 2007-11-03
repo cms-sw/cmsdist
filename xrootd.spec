@@ -1,5 +1,7 @@
-### RPM external xrootd 20070321-1251p1
-Source: http://xrootd.slac.stanford.edu/download/%v/%n-%v.src.tgz
+### RPM external xrootd 20070321-1251p1-CMS18
+# Override default realversion since there is a "-" in the realversion
+%define realversion 20070321-1251p1
+Source: http://xrootd.slac.stanford.edu/download/%{realversion}/%n-%{realversion}.src.tgz
 #
 
 %prep 
