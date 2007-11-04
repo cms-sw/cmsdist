@@ -13,6 +13,9 @@ Patch5: root-Cintex
 Patch6: root_Reflex_Cintex
 Patch7: root_CallFunc
 Patch8: root-proofd
+# The following patch should only be applied for gcc4.x (x>0) and when
+# using gccxml 0.7.0
+Patch9: root_5.14_reflex_gccxml070_update
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -33,6 +36,9 @@ Requires: libtiff
 %patch6 -p0
 %patch7 -p0
 %patch8 -p1
+%if "%cmsplatf" == "slc4_ia32_gcc412"
+%patch9 -p1
+%endif
 
 %build
 mkdir -p %i
@@ -64,6 +70,10 @@ CONFIG_ARGS="--enable-table
              --with-xrootd=$XROOTD_ROOT
              --disable-pgsql
              --disable-xml"
+
+%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_amd64_gcc345"))
+  CONFIG_ARGS="$CONFIG_ARGS --disable-cern"
+%endif
 
 case $(uname)-$(uname -p) in
   Linux-x86_64)
