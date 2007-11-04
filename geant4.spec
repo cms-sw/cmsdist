@@ -94,7 +94,10 @@ case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
 mkdir -p %i/etc
 cp G4BuildConf.sh %i/etc
 mv %i/lib/$(uname)-g++/*.$so %i/lib
-mv %i/lib/$(uname)-g++/libname.map %i/lib
+# The following file does not appear to exist after this spec file was 
+# switched # to use the subsystem libraries instead of the individual ones, 
+# so comment # it for now
+#mv %i/lib/$(uname)-g++/libname.map %i/lib
 rm -rf %i/lib/$(uname)-g++
 # Build already installed into prefix
 mkdir -p %i/data
