@@ -2,7 +2,13 @@
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 # OS X patches and build fudging stolen from fink
-Requires: zlib expat openssl bz2lib db4 gdbm
+
+Requires: expat bz2lib db4 gdbm
+
+%if "%{?online_release:set}" != "set"
+Requires: zlib openssl
+%endif
+
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, tk/tcl, x11
 
@@ -44,7 +50,15 @@ perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" Lib/cgi.py
 # linked specifically, or could be built by ourselves, depending on
 # whether we like to pick up system libraries or want total control.
 mkdir -p %i/include %i/lib
-dirs="$ZLIB_ROOT $EXPAT_ROOT $OPENSSL_ROOT $BZ2LIB_ROOT $NCURSES_ROOT $DB4_ROOT $GDBM_ROOT"
+
+%if "%{?online_release:set}" != "set"
+%define extradirs $ZLIB_ROOT $OPENSSL_ROOT 
+%else
+%define extradirs %{nil}
+%endif
+
+dirs="$EXPAT_ROOT $BZ2LIB_ROOT $NCURSES_ROOT $DB4_ROOT $GDBM_ROOT %{extradirs}" 
+
 echo $dirs
 for d in $dirs; do
   for f in $d/include/*; do

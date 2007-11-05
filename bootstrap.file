@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.33 $
+# Revision: $Revision: 1.35 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -88,17 +88,6 @@ while [ $# -gt 0 ]; do
           testInstance=true
           ;;
 
-        -online_release )
-          if [ -d $onlineDir ]
-          then
-            onlineRelease=true; shift
-          else
-            echo "Does not look like online machine:"
-            echo "directory $onlineDir doesn't exist."
-            echo "Sorry."
-            exit 1
-          fi
-          ;;
         -unsupported_distribution_hack )
           unsupportedDistribution=true; shift
           ;;
@@ -116,7 +105,6 @@ bootstrap.sh setup [-path <cms-path>] [-server <server>] [-server-path <download
 -server-path <download-path> : package structure is found on <download-path> on server (default cms/cpt/Software/download/apt).
 -repository <repository> : use private apt repository cms.<username> (default: public repository)
 -groups <groups-list> : list of the channels we want to subscribe to (default: "cms external lcg virtual").
--online_release : special bootstrap for online systems only
 EOF_HELP
         exit 1
         ;;
@@ -124,6 +112,18 @@ EOF_HELP
             echo "bootstrap.sh: argument $1 not supported"; exit 1;;
     esac
 done
+
+
+if [ "$onlineRelease" != "false" ]
+then
+[ -d $onlineDir ] || (
+  echo "Does not look like online machine:" 
+  echo "directory $onlineDir doesn't exist." 
+  echo "Sorry." 
+  exit 1
+  )
+fi
+
 
 rpmdb=@CMSPLATF@/var/lib/rpm
 rpmlock=$rootdir/@CMSPLATF@/var/lib/rpm/__db.0
@@ -175,15 +175,21 @@ generateSeedSpec () {
         echo "SHALL SEED EXTRA SYSTEM PACKAGES FOR ONLINE SYSTEM"
         echo "SHALL USE SYSTEM COMPILER"
         # ONLINE: seed system compiler
-        seed="$seed gcc libgcc libstdc++"
+        seed="$seed gcc libgcc libstdc++ libf2c"
 
         # ONLINE: seed other available system tools:
         seed="$seed curl curl-devel libpng libtiff libungif mysql openssl
-              qt zlib python python-elementtree"
+              qt zlib perl-DBI-1.40-8"
+	# Python tools are commented out due to compatibility problems.
+	#seed="$seed python python-elementtree"
 
         # ONLINE: seed daq-built tools:
         seed="$seed daq-cgicc daq-mimetic daq-oracle daq-tinyproxy 
               daq-xerces daq-xdaq"
+	seed="$seed daq-config daq-log4cplus daq-logudpappender 
+		daq-logxmlappender daq-pt daq-ptfifo daq-pthttp 
+		daq-pttcp daq-toolbox daq-xcept daq-xdaq2rc daq-xdata
+		daq-xgi daq-xoap"
     fi
      rm -rf $tmp
      mkdir -p $tmp
@@ -211,6 +217,16 @@ generateSeedSpec () {
       # echo "Provides: perl(+=)"
       # echo "Provides: perl(=)"
       
+      # Online distribution uses its own oracle, but 
+      # does not provide perl DBD::Oracle module or
+      # 'demo' code, that would allow to build
+      # it from source.
+      # So I fake it here as a temporary measure:
+      if [ "$onlineRelease" != "false" ]
+      then
+        echo "Provides: perl(DBD::Oracle)"
+      fi
+
       if [ "$unsupportDistribution" != "false" ]
       then
         echo "Provides: libtcl8.3.so"

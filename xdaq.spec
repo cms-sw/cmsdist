@@ -1,4 +1,4 @@
-### RPM external xdaq 03.11.00
+### RPM external xdaq 03.11.00-CMS1  
 Requires: zlib mimetic xerces-c uuid
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
@@ -11,6 +11,7 @@ Source0: http://switch.dl.sourceforge.net/sourceforge/xdaq/coretools_G_V%xdaqv.t
 Source1: http://switch.dl.sourceforge.net/sourceforge/xdaq/powerpack_G_V01_11_00.tgz
 Source2: http://switch.dl.sourceforge.net/sourceforge/xdaq/worksuite_G_V01_11_00.tgz
 Patch: xdaq_3.11_p1
+Patch1: xdaq_3.11_p2
 
 %prep
 %setup -T -b 0 -n TriDAS
@@ -18,6 +19,7 @@ Patch: xdaq_3.11_p1
 %setup -D -T -b 2 -n TriDAS
 
 %patch -p1
+%patch1 -p1
 ls
 echo " Install root in prep:" %{i}    %{pkginstroot}
 

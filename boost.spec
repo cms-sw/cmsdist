@@ -1,8 +1,12 @@
 ### RPM external boost 1.33.1-CMS10
 # Patches and build fudging by Lassi A. Tuura <lat@iki.fi> (FIXME: contribute to boost)
 %define boostver _%(echo %realversion | tr . _)
-Requires: boost-build python bz2lib zlib
 Source: http://dl.sourceforge.net/sourceforge/%n/%{n}%{boostver}.tar.gz
+
+Requires: boost-build python bz2lib
+%if "%{?online_release:set}" != "set"
+Requires: zlib
+%endif
 
 %prep
 %setup -n %{n}%{boostver}
@@ -12,20 +16,25 @@ Source: http://dl.sourceforge.net/sourceforge/%n/%{n}%{boostver}.tar.gz
 # missing symbols), causing darwin to fail to link and bjam to return
 # an error.  So ignore the exit code from bjam on darwin to avoid
 # RPM falsely detecting a problem.
+PV="PYTHON_VERSION=$(echo $PYTHON_VERSION | sed 's/\.[0-9]*-.*$//')"
 PR="PYTHON_ROOT=$PYTHON_ROOT"
-#PV="PYTHON_VERSION=$(echo $PYTHON_VERSION | sed 's/\.[0-9]*$//')"
+
 # The following line assumes a version of the form x.y.z-XXXX, where the
 # "-XXXX" part represents some CMS rebuild of version x.y.z
-PV="PYTHON_VERSION=$(echo $PYTHON_VERSION | sed 's/\.[0-9]*-.*$//')"
 BZ2LIBR="BZIP2_LIBPATH=$BZ2LIB_ROOT/lib"
-ZLIBR="ZLIB_LIBPATH=$ZLIB_ROOT/lib"
 BZ2LIBI="BZIP2_INCLUDE=$BZ2LIB_ROOT/include"
+
+%if "%{?online_release:set}" != "set"
+ZLIBR="ZLIB_LIBPATH=$ZLIB_ROOT/lib"
 ZLIBI="ZLIB_INCLUDE=$ZLIB_ROOT/include"
 
 case $(uname) in
   Darwin )  bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$ZLIBR -sTOOLS=darwin || true ;;
   * )       bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$ZLIBR -sTOOLS=gcc ;;
 esac
+%else
+bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$BZ2LIBI -sTOOLS=gcc
+%endif
 
 %install
 boost_abi=$(echo %boostver | sed 's/^_//; s/_0$//')
