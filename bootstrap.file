@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.34 $
+# Revision: $Revision: 1.35 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -88,17 +88,6 @@ while [ $# -gt 0 ]; do
           testInstance=true
           ;;
 
-        -online_release )
-          if [ -d $onlineDir ]
-          then
-            onlineRelease=true; shift
-          else
-            echo "Does not look like online machine:"
-            echo "directory $onlineDir doesn't exist."
-            echo "Sorry."
-            exit 1
-          fi
-          ;;
         -unsupported_distribution_hack )
           unsupportedDistribution=true; shift
           ;;
@@ -116,7 +105,6 @@ bootstrap.sh setup [-path <cms-path>] [-server <server>] [-server-path <download
 -server-path <download-path> : package structure is found on <download-path> on server (default cms/cpt/Software/download/apt).
 -repository <repository> : use private apt repository cms.<username> (default: public repository)
 -groups <groups-list> : list of the channels we want to subscribe to (default: "cms external lcg virtual").
--online_release : special bootstrap for online systems only
 EOF_HELP
         exit 1
         ;;
@@ -124,6 +112,18 @@ EOF_HELP
             echo "bootstrap.sh: argument $1 not supported"; exit 1;;
     esac
 done
+
+
+if [ "$onlineRelease" != "false" ]
+then
+[ -d $onlineDir ] || (
+  echo "Does not look like online machine:" 
+  echo "directory $onlineDir doesn't exist." 
+  echo "Sorry." 
+  exit 1
+  )
+fi
+
 
 rpmdb=@CMSPLATF@/var/lib/rpm
 rpmlock=$rootdir/@CMSPLATF@/var/lib/rpm/__db.0
