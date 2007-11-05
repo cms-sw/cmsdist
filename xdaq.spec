@@ -37,7 +37,18 @@ cd %{i}/daq
 export MIMETIC_PREFIX=$MIMETIC_ROOT
 export XERCES_PREFIX=$XERCES_C_ROOT
 export UUID_LIB_PREFIX=$UUID_ROOT/lib
- 
+
+case %cmsplatf in
+slc4_ia32_gcc412 | slc4_ia32_gcc422 )
+make CPPDEFINES=linux Set=extern_coretools install || true
+make CPPDEFINES=linux Set=coretools install || true
+make CPPDEFINES=linux Set=extern_powerpack install || true
+make CPPDEFINES=linux Set=powerpack install || true
+cd xdaq2rc
+make CPPDEFINES=linux install || true
+cd ..
+;;
+* )
 make CPPDEFINES=linux Set=extern_coretools install
 make CPPDEFINES=linux Set=coretools install
 make CPPDEFINES=linux Set=extern_powerpack install
@@ -45,7 +56,8 @@ make CPPDEFINES=linux Set=powerpack install
 cd xdaq2rc
 make CPPDEFINES=linux install
 cd ..
-
+;;
+esac
 
 # The following structure used as defined in Xdaq "simplify" script:
 cd %{i}
