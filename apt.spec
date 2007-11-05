@@ -1,13 +1,13 @@
-### RPM external apt 0.5.15lorg3.2-CMS18
+### RPM external apt 0.5.15lorg3.2-CMS3
 ## INITENV SET APT_CONFIG %{i}/etc/apt.conf
 Source:  http://apt-rpm.org/releases/%n-%realversion.tar.bz2
 Source1: bootstrap
 Source2: cms-apt-migration
 
-%if "%{?online_release:set}" != "set"
-Requires: libxml2 beecrypt rpm zlib bz2lib openssl
-%else
 Requires: libxml2 beecrypt rpm bz2lib
+
+%if "%{?online_release:set}" != "set"
+Requires: zlib openssl
 %endif
 
 Patch0: apt-rpm449
@@ -193,6 +193,10 @@ cat %_sourcedir/bootstrap | perl -p -e "s!\@CMSPLATF\@!%{cmsplatf}!g;
                                         s!\@APT_REVISION\@!%{pkgrevision}!g;
                                         s!\@INSTROOT\@!%{instroot}!g;
                                         " > %{i}/bin/bootstrap-%{cmsplatf}.sh
+
+%if "%{?online_release:set}" == "set"
+perl -p -i -e 's/onlineRelease=false/onlineRelease=true/' %{i}/bin/bootstrap-%{cmsplatf}.sh
+%endif
 
 cat %_sourcedir/cms-apt-migration | perl -p -e "s!\@CMSPLATF\@!%{cmsplatf}!g;
                                         s!\@GCC_VERSION\@!$GCC_VERSION!g;
