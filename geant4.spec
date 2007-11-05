@@ -113,32 +113,32 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.1>
 <Tool name=GEANT4 version=%v>
 <info url=http://wwwinfo.cern.ch/asd/geant4/geant4.html></info>
-<lib name=libG4digits_hits>
-<lib name=libG4error>
-<lib name=libG4event>
-<lib name=libG4FR>
-<lib name=libG4geometry>
-<lib name=libG4global>
-<lib name=libG4graphics_reps>
-<lib name=libG4intercoms>
-<lib name=libG4interfaces>
-<lib name=libG4materials>
-<lib name=libG4modeling>
-<lib name=libG4parmodels>
-<lib name=libG4particles>
-<lib name=libG4persistency>
-<lib name=libG4physicslists>
-<lib name=libG4processes>
-<lib name=libG4RayTracer>
-<lib name=libG4readout>
-<lib name=libG4run>
-<lib name=libG4tracking>
-<lib name=libG4track>
-<lib name=libG4Tree>
-<lib name=libG4visHepRep>
-<lib name=libG4vis_management>
-<lib name=libG4visXXX>
-<lib name=libG4VRML>
+<lib name=G4digits_hits>
+<lib name=G4error>
+<lib name=G4event>
+<lib name=G4FR>
+<lib name=G4geometry>
+<lib name=G4global>
+<lib name=G4graphics_reps>
+<lib name=G4intercoms>
+<lib name=G4interfaces>
+<lib name=G4materials>
+<lib name=G4modeling>
+<lib name=G4parmodels>
+<lib name=G4particles>
+<lib name=G4persistency>
+<lib name=G4physicslists>
+<lib name=G4processes>
+<lib name=G4RayTracer>
+<lib name=G4readout>
+<lib name=G4run>
+<lib name=G4tracking>
+<lib name=G4track>
+<lib name=G4Tree>
+<lib name=G4visHepRep>
+<lib name=G4vis_management>
+<lib name=G4visXXX>
+<lib name=G4VRML>
 <Client>
 <Environment name=GEANT4_BASE default="%i"></Environment>
 <Environment name=G4SRC default="$GEANT4_BASE/source"></Environment>
