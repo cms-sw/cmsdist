@@ -114,7 +114,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <Tool name=GEANT4 version=%v>
 <info url=http://wwwinfo.cern.ch/asd/geant4/geant4.html></info>
 <lib name=G4digits_hits>
-<lib name=G4error>
 <lib name=G4event>
 <lib name=G4FR>
 <lib name=G4geometry>
