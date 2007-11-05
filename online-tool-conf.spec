@@ -23,7 +23,6 @@ Requires: castor
 Requires: libjpg
 Requires: dcap
 Requires: oracle-env
-Requires: cppunit
 Requires: frontier_client
 Requires: sqlite
 Requires: mysqlpp
