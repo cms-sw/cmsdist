@@ -1,4 +1,4 @@
-### RPM cms online CMSSW_1_7_0_pre5_ONLINE
+### RPM cms online CMSSW_1_7_0_pre10_ONLINE
 ## IMPORT configurations 
 Provides: /bin/zsh
 Requires: online-tool-conf python glimpse
@@ -52,6 +52,10 @@ touch %_builddir/config/%{ucprojname}_ignore.file
 for file in `ls %_builddir/config/%{ucprojname}_*.file | grep -v  '/%{ucprojname}_ignore.file$' | sed 's|.*/%{ucprojname}_||;s|.file$||'`; do
   sed 's|@PROJECT_NAME@|%ucprojname|g;s|@PROJECT_VERSION@|%v|g;s|@PROJECT_BUILD_PATH@|%_builddir|g' %_builddir/config/%{ucprojname}_${file}.file > %_builddir/config/${file}
 done
+
+# Disable building tests, as they bring dependency on cppunit
+perl -p -i -e ' s!(<ClassPath.*test\\+test>)!#$1!;' config/BuildFile
+
 if [ ${ONLINE_TOOL_CONF_ROOT}/configurations/requirements%scram_xml ] ; then 
   cp ${ONLINE_TOOL_CONF_ROOT}/configurations/requirements%scram_xml %_builddir/config/
 fi
