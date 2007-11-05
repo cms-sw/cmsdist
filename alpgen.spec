@@ -3,10 +3,14 @@
 Source: http://mlm.home.cern.ch/mlm/alpgen/V2.1/v%{realversion}.tgz
 Source1: config.sub-amd64
 Patch0: alpgen-212
+Patch1: alpgen-212-gfortran
  
 %prep
 %setup -c -n alpgen-%v
 %patch0 -p1 
+%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422"))
+%patch1 -p0
+%endif
 
 %build
 cd 2Qphwork; make gen; cd ..
