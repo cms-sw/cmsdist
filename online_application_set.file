@@ -75,7 +75,6 @@ EventFilter/CSCTFRawToDigi
 EventFilter/DTRawToDigi
 EventFilter/DTTFRawToDigi
 EventFilter/EcalDigiToRaw
-EventFilter/EcalRawToDigi
 EventFilter/EcalRawToDigiDev
 EventFilter/EcalTBRawToDigi
 EventFilter/ESRawToDigi
@@ -118,7 +117,6 @@ GeometryReaders/XMLIdealGeometryESSource
 Geometry/RPCGeometryBuilder
 Geometry/TrackerGeometryBuilder
 Geometry/TrackerNumberingBuilder
-HLTrigger/
 HLTrigger/btau
 HLTrigger/Egamma
 HLTrigger/HLTanalyzers
@@ -133,8 +131,6 @@ IOPool/Input
 IOPool/Output
 JetMETCorrections/Modules
 JetMETCorrections/Type1MET
-L1Trigger/
-L1TriggerConfig/
 L1TriggerConfig/CSCTFConfigProducers
 L1TriggerConfig/DTTPGConfigProducers
 L1TriggerConfig/DTTrackFinder
@@ -157,7 +153,6 @@ L1Trigger/GlobalTriggerAnalyzer
 L1Trigger/L1ExtraFromDigis
 L1Trigger/RegionalCaloTrigger
 MagneticField/GeomBuilder
-PhysicsTools/
 PhysicsTools/CandAlgos
 PhysicsTools/RecoCandAlgos
 PhysicsTools/RecoSelectors
