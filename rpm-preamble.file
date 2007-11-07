@@ -68,8 +68,13 @@
 %define use_system_gcc	yes
 %endif
 
-# FIXME: Support other compilers
+# Old version of install.sh/cmsBuild.sh did not set the cmscompiler variable,
+# while cmsBuild does, in order to support compilers different other than
+# gcc. For this reason we add a check to avoid setting cmscompiler in 
+# the case we are using the new cmsBuild script. 
+%if "%{?cmscompiler:set}" != "set"
 %define cmscompiler	gcc
+%endif
 
 # Guess compiler version.  "gccver" is defined by install.sh when
 # producing the spec file from the version of the gcc spec.
@@ -81,12 +86,16 @@
 %endif
 %endif
 
+%if "%cmscompiler" != "gcc"
+%{expand:%%define cmscompilerv %(echo %compilerRealVersion | cut -d. -f1,2 | tr -d .)}
+%endif
+
 # Define compiler platform version strings.  We use an external
 # script to determine platform name as RPM doesn't support multi-
 # line macros in spec files, only in "rpmmacros" files.
 %define debugsuffix %{?debug_build:_dbg}
 %define cmscomp	    	%{cmscompiler}%{cmscompilerv}
-%{expand:%%define cmsos	%(sh %_specdir/cmsos)}
+%{expand:%%define cmsos	%(sh %_sourcedir/cmsos)}
 %define cmsplatf    	%{cmsos}_%{cmscomp}%{debugsuffix}
 
 # We are now done with locations.  Move to other things.
