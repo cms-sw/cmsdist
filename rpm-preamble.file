@@ -68,26 +68,17 @@
 %define use_system_gcc	yes
 %endif
 
-# Old version of install.sh/cmsBuild.sh did not set the cmscompiler variable,
-# while cmsBuild does, in order to support compilers different other than
-# gcc. For this reason we add a check to avoid setting cmscompiler in 
-# the case we are using the new cmsBuild script. 
-%if "%{?cmscompiler:set}" != "set"
+# FIXME: Support other compilers
 %define cmscompiler	gcc
-%endif
 
 # Guess compiler version.  "gccver" is defined by install.sh when
 # producing the spec file from the version of the gcc spec.
 %if "%cmscompiler" == "gcc"
-%if "%use_system_gcc" == "yes"
+%if "%{?use_system_gcc:set}" == "set"
 %{expand:%%define cmscompilerv	%(gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .)}
 %else
 %{expand:%%define cmscompilerv	%(echo %gccver | cut -d. -f1,2,3 | tr -d .)}
 %endif
-%endif
-
-%if "%cmscompiler" != "gcc"
-%{expand:%%define cmscompilerv %(echo %compilerRealVersion | cut -d. -f1,2 | tr -d .)}
 %endif
 
 # Define compiler platform version strings.  We use an external
@@ -95,7 +86,7 @@
 # line macros in spec files, only in "rpmmacros" files.
 %define debugsuffix %{?debug_build:_dbg}
 %define cmscomp	    	%{cmscompiler}%{cmscompilerv}
-%{expand:%%define cmsos	%(sh %_sourcedir/cmsos)}
+%{expand:%%define cmsos	%(sh %_specdir/cmsos)}
 %define cmsplatf    	%{cmsos}_%{cmscomp}%{debugsuffix}
 
 # We are now done with locations.  Move to other things.
