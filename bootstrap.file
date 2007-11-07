@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.36 $
+# Revision: $Revision: 1.37 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -285,7 +285,7 @@ generateSeedSpec () {
       then
     	echo "rpm found in $(which rpm), using it to seed the database." >&2
     	  for p in $seed; do
-            rpm -q $p
+            rpm -q $p  >&2
             if [ "$?" == "0" ]
             then
               rpm -q $p --provides | sed 's!<*=.*!!; s!^!Provides: !'
