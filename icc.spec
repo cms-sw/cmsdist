@@ -14,22 +14,23 @@ cd %i
 %define cpu %(echo %cmsplatf | cut -f2 -d_)
 
 %define arch_postfix %{nil}
+%define shortversion %(echo %{realversion} | sed -e "s/[.]//g")
 %if "%cpu" == "ia32"
-rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-icc100023-10.0.023-1.i386.rpm | cpio  -idu 
-rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-iidb100023-10.0.023-1.i386.rpm | cpio -idu
-rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-isubh100023-10.0.023-1.i386.rpm | cpio -idu
-rpm2cpio %_builddir/l_fc_p_10.0.023/data/intel-ifort100023-10.0.023-1.i386.rpm | cpio -idu
-rpm2cpio %_builddir/l_fc_p_10.0.023/data/intel-iidb100023-10.0.023-1.i386.rpm | cpio -idu
+rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-icc%shortversion-%realversion-1.i386.rpm | cpio  -idu 
+rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-iidb%shortversion-%realversion-1.i386.rpm | cpio -idu
+rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-isubh%shortversion-%realversion-1.i386.rpm | cpio -idu
+rpm2cpio %_builddir/l_fc_p_10.0.023/data/intel-ifort%shortversion-%realversion-1.i386.rpm | cpio -idu
+rpm2cpio %_builddir/l_fc_p_10.0.023/data/intel-iidb%shortversion-%realversion-1.i386.rpm | cpio -idu
 %endif
 
 %if "%cpu" == "amd64"
-rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-iidbe100023-10.0.023-1.em64t.rpm | cpio -idu
-rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-icc_ide100023-10.0.023-1.i386.rpm | cpio  -idu
-rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-icce100023-10.0.023-1.em64t.rpm | cpio  -idu
-rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-idb_ide100023-10.0.023-1.i386.rpm | cpio -idu
-rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-isubhe100023-10.0.023-1.em64t.rpm | cpio -idu
-rpm2cpio %_builddir/l_fc_p_10.0.023/data/intel-iforte100023-10.0.023-1.em64t.rpm | cpio -idu
-rpm2cpio %_builddir/l_fc_p_10.0.023/data/intel-iidbe100023-10.0.023-1.em64t.rpm | cpio -idu
+rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-iidbe%shortversion-%realversion-1.em64t.rpm | cpio -idu
+rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-icc_ide%shortversion-%realversion-1.i386.rpm | cpio  -idu
+rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-icce%shortversion-%realversion-1.em64t.rpm | cpio  -idu
+rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-idb_ide%shortversion-%realversion-1.i386.rpm | cpio -idu
+rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-isubhe%shortversion-%realversion-1.em64t.rpm | cpio -idu
+rpm2cpio %_builddir/l_fc_p_10.0.023/data/intel-iforte%shortversion-%realversion-1.em64t.rpm | cpio -idu
+rpm2cpio %_builddir/l_fc_p_10.0.023/data/intel-iidbe%shortversion-%realversion-1.em64t.rpm | cpio -idu
 %define arch_postfix e
 %endif
 
