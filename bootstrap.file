@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.35 $
+# Revision: $Revision: 1.36 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -285,9 +285,13 @@ generateSeedSpec () {
       then
     	echo "rpm found in $(which rpm), using it to seed the database." >&2
     	  for p in $seed; do
-    	    rpm -q $p --provides | grep -v "not installed" | sed 's!<*=.*!!; s!^!Provides: !'
-    	    rpm -q $p --list | grep '\.so' | sed 's!^.*/!Provides: !'
-    	    rpm -q $p --list | grep '/bin/' | sed 's!^!Provides: !'
+            rpm -q $p
+            if [ "$?" == "0" ]
+            then
+              rpm -q $p --provides | sed 's!<*=.*!!; s!^!Provides: !'
+              rpm -q $p --list | grep '\.so' | sed 's!^.*/!Provides: !'
+              rpm -q $p --list | grep '/bin/' | sed 's!^!Provides: !'
+            fi
     	  done
       fi
       echo; echo "%description"; echo "Seeds RPM repository from the base system."
