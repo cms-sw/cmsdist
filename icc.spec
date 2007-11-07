@@ -5,22 +5,37 @@ Source1: http://registrationcenter-download.intel.com/irc_nas/732/l_fc_p_%realve
 %define licenseF95 NDXX-5GNBFFJH
 
 %prep
-%setup -n l_cc_p_%realversion
+%setup -T -b 0 -n l_cc_p_%realversion 
+%setup -D -T -b 1 -n l_fc_p_%realversion
 %build
 # Actually a binary package. No building required.
 %install
 cd %i
+%define cpu %(echo %cmsplatf | cut -f2 -d_)
+
+%define arch_postfix %{nil}
+%if "%cpu" == "ia32"
 rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-icc100023-10.0.023-1.i386.rpm | cpio  -idu 
+rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-iidb100023-10.0.023-1.i386.rpm | cpio -idu
+rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-isubh100023-10.0.023-1.i386.rpm | cpio -idu
+rpm2cpio %_builddir/l_fc_p_10.0.023/data/intel-ifort100023-10.0.023-1.i386.rpm | cpio -idu
+rpm2cpio %_builddir/l_fc_p_10.0.023/data/intel-iidb100023-10.0.023-1.i386.rpm | cpio -idu
+%endif
+
+%if "%cpu" == "amd64"
+rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-iidbe100023-10.0.023-1.em64t.rpm | cpio -idu
 rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-icc_ide100023-10.0.023-1.i386.rpm | cpio  -idu
 rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-icce100023-10.0.023-1.em64t.rpm | cpio  -idu
 rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-idb_ide100023-10.0.023-1.i386.rpm | cpio -idu
-rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-iidb100023-10.0.023-1.i386.rpm | cpio -idu
-rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-iidbe100023-10.0.023-1.em64t.rpm | cpio -idu
-rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-isubh100023-10.0.023-1.i386.rpm | cpio -idu
 rpm2cpio %_builddir/l_cc_p_%realversion/data/intel-isubhe100023-10.0.023-1.em64t.rpm | cpio -idu
+rpm2cpio %_builddir/l_fc_p_10.0.023/data/intel-iforte100023-10.0.023-1.em64t.rpm | cpio -idu
+rpm2cpio %_builddir/l_fc_p_10.0.023/data/intel-iidbe100023-10.0.023-1.em64t.rpm | cpio -idu
+%define arch_postfix e
+%endif
 
-cp -r %i/opt/intel/cc/%realversion/* %i
-cp -r %i/opt/intel/idb/%realversion/* %i
+cp -r %i/opt/intel/cc%{arch_postfix}/%realversion/* %i
+cp -r %i/opt/intel/idb%{arch_postfix}/%realversion/* %i
+cp -r %i/opt/intel/fc%{arch_postfix}/%realversion/* %i 
 
 perl -p -i -e "s|<INSTALLDIR>|%i|g" %i/bin/icc \
                                     %i/bin/iccvars.csh \
