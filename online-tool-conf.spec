@@ -23,7 +23,6 @@ Requires: castor
 Requires: libjpg
 Requires: dcap
 Requires: oracle-env
-Requires: cppunit
 Requires: frontier_client
 Requires: sqlite
 Requires: mysqlpp
@@ -34,6 +33,7 @@ Requires: sigcpp
 Requires: tkonlinesw
 Requires: fastjet
 Requires: ktjet
+Requires: dpm
 Requires: systemtools
 
 
