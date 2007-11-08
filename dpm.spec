@@ -1,10 +1,10 @@
-### RPM external dpm 1.6.5-5-CMS18
-## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) false ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
+### RPM external dpm 1.6.5-5-CMS8
+## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 
 %define baseVersion %realversion
 %define patchLevel  %(echo %v | cut -d- -f2)
 %define downloadv %{realversion}-%{patchLevel}
-%define dpmarch     %(echo %cmsplatf | cut -d_ -f1)
+%define dpmarch     %(echo %cmsplatf | cut -d_ -f1 | sed 's/onl//')
 
 Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{realversion}/src/DPM-%{downloadv}sec.%{dpmarch}.src.rpm
 
