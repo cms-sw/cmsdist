@@ -33,6 +33,7 @@ Requires: sigcpp
 Requires: tkonlinesw
 Requires: fastjet
 Requires: ktjet
+Requires: dpm
 Requires: systemtools
 
 
