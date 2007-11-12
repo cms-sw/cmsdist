@@ -13,24 +13,12 @@ Patch: zlib-1.2.3-shared-for-32-bit-on-x86_64
 %endif
 
 %build
-case $(uname) in
-  Darwin )
-    LDSHARED="gcc -dynamiclib" ./configure --shared --prefix=%i
-    make LIBS='libz.dylib.$(VER)' SHAREDLIB=libz.dylib # FIXME: libz.$(VER).dylib
-    ;;
-
-  * )
-    ./configure --shared --prefix=%i
-    make %makeprocesses
-    ;;
-esac
+./configure --shared --prefix=%i
+make %makeprocesses
 
 %install
-case $(uname) in
-  Darwin ) make install LIBS='libz.dylib.$(VER)' SHAREDLIB=libz.dylib ;;
-  * ) make install ;;
-esac
-#
+make install
+
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
