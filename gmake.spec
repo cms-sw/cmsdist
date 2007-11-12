@@ -1,4 +1,4 @@
-### RPM external gmake 3.81-CMS18
+### RPM external gmake 3.81-CMS18a
 # We will call it "gmake", but gnu calls it "make"
 Source: ftp://ftp.gnu.org/gnu/make/make-%realversion.tar.gz
 Patch1: gmake-3.81-expand
