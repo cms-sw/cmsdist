@@ -11,7 +11,17 @@ Requires: pythia6
 ./configure --lcgplatform=%cmsplatf
 
 %build
-make 
+# Hack around the fact that this doesn't yet build for gcc4.x.y
+case %cmsplatf in
+slc4_ia32_gcc412 | slc4_ia32_gcc422 )
+make | true
+mkdir -p %{i}/lib
+;;
+* )
+make
+;;
+esac
+
 
 %install
 tar -c lib include | tar -x -C %i
