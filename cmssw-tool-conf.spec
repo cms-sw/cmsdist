@@ -63,8 +63,9 @@ Requires: glimpse
 Requires: valgrind
 Requires: fastjet
 Requires: ktjet
-# Remove this dependency (temporarily) for gcc4.x and 64bit builds
-%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422")||("%cmsplatf" == "slc4_amd64_gcc345"))
+# Remove this dependency (temporarily) for gcc4.x, 64bit and other builds,
+# i.e. keep it only for the standard slc4_ia32_gcc345 build
+%if ("%cmsplatf" == "slc4_ia32_gcc345")
 Requires: ignominy
 %endif
 Requires: herwig
