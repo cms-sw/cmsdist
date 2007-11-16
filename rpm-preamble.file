@@ -59,8 +59,16 @@
 %define _sourcedir	%{instroot}/SOURCES/%{pkgdir}
 %define _builddir	%{instroot}/BUILD/%{cmsplatf}/%{pkgdir}
 %define _specdir	%{instroot}/SPECS/%{pkgdir}
-%define _rpmdir		%{instroot}/RPMS
-%define _srcrpmdir	%{instroot}/SRPMS
+# The new cmsBuild script puts packages in a directory structure that
+# includes the package checksum. This way it is possible to decide
+# what spec was used to build a given package.
+%if "%cmsbuildApiVersion" == "0"
+%define _rpmdir     %{instroot}/RPMS
+%define _srcrpmdir  %{instroot}/SRPMS
+%else
+%define _rpmdir     %{instroot}/RPMS/cache/%{specchecksum}
+%define _srcrpmdir  %{instroot}/SRPMS/cache/%{specchecksum}
+%endif
 %define _tmppath	%{instroot}/tmp
 %define _topdir		%{instroot}
 
