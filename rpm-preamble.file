@@ -25,6 +25,13 @@
 %define instroot	/cms
 %endif
 
+# We define cmsbuildApiVersion to be 0 in the case we are not using 
+# a recent enough version of cmsBuild/install.sh, which does not
+# set cmsbuildApiVersion.
+%if "%{?cmsbuildApiVersion:set}" != "set"
+%define cmsbuildApiVersion 0
+%endif
+
 %define pkgdir		%{pkgcategory}/%{n}/%{v}
 
 # In the spec files we expect that a version will be specified such
