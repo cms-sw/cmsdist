@@ -102,7 +102,16 @@
 # line macros in spec files, only in "rpmmacros" files.
 %define debugsuffix %{?debug_build:_dbg}
 %define cmscomp	    	%{cmscompiler}%{cmscompilerv}
+
+# Old versions of cmsBuild/install.sh used to keep cmsos script in
+# _specdir rather than in _sourcedir. This makes sure that
+# rpm-preamble works for boths.
+%if "%{cmsbuildApiVersion}" == 0
+%{expand:%%define cmsos %(sh %_specdir/cmsos)}
+%else
 %{expand:%%define cmsos	%(sh %_sourcedir/cmsos)}
+%endif
+
 %define cmsplatf    	%{cmsos}_%{cmscomp}%{debugsuffix}
 
 # We are now done with locations.  Move to other things.
