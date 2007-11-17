@@ -25,7 +25,6 @@ Requires: dcap
 Requires: oracle-env
 Requires: frontier_client
 Requires: sqlite
-Requires: mysqlpp
 Requires: hepmc
 Requires: heppdt
 Requires: elementtree
