@@ -9,7 +9,7 @@ Source: none
 
 %if "%{?online_release:set}" == "set"
 #%define onlinetools curl libpng libtiff libungif mimetic mysql openssl oracle python elementtree qt xdaq xerces zlib
-%define onlinetools zlib curl oracle mysql openssl xerces-c xdaq mimetic
+%define onlinetools zlib curl oracle openssl xerces-c xdaq mimetic
 # Define variables used in non-scram-managed tools, that would be
 # normally defined in package's init.sh/csh scrips.
 # Set all versions as currently found on the system.
@@ -24,8 +24,6 @@ Source: none
 %define oracle_version			10.2.1
 ## INITENV SET ORACLE_VERSION           %oracle_version
 ## INITENV SET ORACLE_ROOT		/opt/xdaq
-%define mysql_version			4.1.20
-## INITENV SET MYSQL_VERSION            %mysql_version
 %define openssl_version			0.9.7a
 ## INITENV SET OPENSSL_VERSION          %openssl_version
 %define xerces_version			2.7.0
@@ -266,21 +264,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/oracle
 </Tool>
 EOF_TOOLFILE
 
-#mysql
-cat << \EOF_TOOLFILE >%i/etc/scram.d/mysql
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=mysql version=%mysql_version>
-<Lib name=mysqlclient>
-<Client>
- <Environment name=MYSQL_BASE default="/usr"></Environment>
- <Environment name=LIBDIR default="$MYSQL_BASE/lib/mysql"></Environment>
- <Environment name=MYSQL_BINDIR default="$MYSQL_BASE/bin"></Environment>
- <Environment name=INCLUDE default="$MYSQL_BASE/include/mysql"></Environment>
-</Client>
-<Runtime name=PATH value="$MYSQL_BINDIR" type=path>
-</Tool>
-EOF_TOOLFILE
-
 #openssl
 cat << \EOF_TOOLFILE >%i/etc/scram.d/openssl
 <doc type=BuildSystem::ToolDoc version=1.0>
@@ -381,7 +364,6 @@ EOF_TOOLFILE
 %{relocateConfig}etc/scram.d/curl
 %{relocateConfig}etc/scram.d/zlib
 %{relocateConfig}etc/scram.d/oracle
-%{relocateConfig}etc/scram.d/mysql
 %{relocateConfig}etc/scram.d/openssl
 %{relocateConfig}etc/scram.d/xerces-c
 %{relocateConfig}etc/scram.d/xdaq
