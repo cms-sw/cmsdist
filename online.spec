@@ -1,4 +1,4 @@
-### RPM cms online CMSSW_1_7_0_pre10_ONLINE
+### RPM cms online CMSSW_1_7_0_pre13_ONLINE
 ## IMPORT configurations 
 Provides: /bin/zsh
 Requires: online-tool-conf python
@@ -14,7 +14,7 @@ Requires: SCRAMV1
 
 #%define scram_xml   .xml
 %define scram_xml   %{nil}
-%define scramcmd    scramv1
+%define scramcmd    scramv1  -arch %{cmsplatf}
 
 # NR: allow to change tarball names, otherwise old distributions
 # are fetched from the apt SOURCE repository. 
