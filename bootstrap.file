@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.39 $
+# Revision: $Revision: 1.40 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -174,11 +174,18 @@ generateSeedSpec () {
     then
         echo "SHALL SEED EXTRA SYSTEM PACKAGES FOR ONLINE SYSTEM"
         echo "SHALL USE SYSTEM COMPILER"
-        # ONLINE: seed system compiler
-        seed="$seed gcc libgcc libstdc++ libf2c"
+        # ONLINE: use minimal required set for seeding:
+        seed="glibc coreutils bash tcsh zsh pdksh perl tcl
+              readline openssl ncurses
+              e2fsprogs krb5-libs freetype fontconfig
+              xorg-x11-deprecated-libs xorg-x11-libs xorg-x11-Mesa-libGLU
+              xorg-x11-Mesa-libGL compat-libstdc++-33 libidn"
+
+        # ONLINE: seed system compiler (only libraries for runtime)
+        seed="$seed libgcc libstdc++"
 
         # ONLINE: seed other available system tools:
-        seed="$seed curl curl-devel libpng libtiff libungif mysql openssl
+        seed="$seed curl libpng libtiff libungif openssl
               qt zlib perl-DBI-1.40-8"
 	# Python tools are commented out due to compatibility problems.
 	#seed="$seed python python-elementtree"
