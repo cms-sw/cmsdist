@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.37 $
+# Revision: $Revision: 1.38 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -217,16 +217,6 @@ generateSeedSpec () {
       # echo "Provides: perl(+=)"
       # echo "Provides: perl(=)"
       
-      # Online distribution uses its own oracle, but 
-      # does not provide perl DBD::Oracle module or
-      # 'demo' code, that would allow to build
-      # it from source.
-      # So I fake it here as a temporary measure:
-      if [ "$onlineRelease" != "false" ]
-      then
-        echo "Provides: perl(DBD::Oracle)"
-      fi
-
       if [ "$unsupportDistribution" != "false" ]
       then
         echo "Provides: libtcl8.3.so"
