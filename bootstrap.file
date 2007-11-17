@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.38 $
+# Revision: $Revision: 1.39 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -346,7 +346,7 @@ wget -N $downloadPath/external+libxml2+@LIBXML2_VERSION@-1-@LIBXML2_REVISION@.@C
 wget -N $downloadPath/external+apt+@APT_VERSION@-1-@APT_REVISION@.@CMSPLATF@.rpm 
 was=`pwd`
 cd $rootdir
-if [ -f $rootdir/$rpmdb ]
+if [ -d $rootdir/$rpmdb ]
 then
     read -e -p "Warning, $rootdir already set up. Do you want to reconfigure it? [ y / N ] " override
     case $(echo $override | tr [A-Z] [a-z]) in
