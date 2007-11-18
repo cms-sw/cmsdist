@@ -74,7 +74,7 @@
 # Guess compiler version.  "gccver" is defined by install.sh when
 # producing the spec file from the version of the gcc spec.
 %if "%cmscompiler" == "gcc"
-%if "%use_system_gcc" == "yes"
+%if "%{?use_system_gcc:set}" == "set"
 %{expand:%%define cmscompilerv	%(gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .)}
 %else
 %{expand:%%define cmscompilerv	%(echo %gccver | cut -d. -f1,2,3 | tr -d .)}
@@ -86,7 +86,7 @@
 # line macros in spec files, only in "rpmmacros" files.
 %define debugsuffix %{?debug_build:_dbg}
 %define cmscomp	    	%{cmscompiler}%{cmscompilerv}
-%{expand:%%define cmsos	%(sh %_sourcedir/cmsos)}
+%{expand:%%define cmsos	%(sh %_specdir/cmsos)}
 %define cmsplatf    	%{cmsos}_%{cmscomp}%{debugsuffix}
 
 # We are now done with locations.  Move to other things.

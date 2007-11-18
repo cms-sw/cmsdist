@@ -1,9 +1,8 @@
-### RPM external alpgen 212-CMS4
-%define realversion %(echo %v | cut -d- -f1 )
+### RPM external alpgen 212-CMS2
 Source: http://mlm.home.cern.ch/mlm/alpgen/V2.1/v%{realversion}.tgz
 Source1: config.sub-amd64
-Patch0: alpgen-212
- 
+Patch0: alpgen
+
 %prep
 %setup -c -n alpgen-%v
 %patch0 -p1 
@@ -53,10 +52,6 @@ export USRF=3200ptw5000
 make gen -f cmsMakefile
 export USRF=VBFHiggsTo2Tau
 make gen -f cmsMakefile
-export USRF=2j_vbf_inv
-make gen -f cmsMakefile
-export USRF=3j_vbf_inv
-make gen -f cmsMakefile
 cd ..
 
 cd zjetwork; make gen; 
@@ -74,39 +69,6 @@ export USRF=3200ptz5000
 make gen -f cmsMakefile
 export USRF=VBFHiggsTo2Tau
 make gen -f cmsMakefile
-export USRF=2j_vbf_inv
-make gen -f cmsMakefile
-export USRF=3j_vbf_inv
-make gen -f cmsMakefile
-cd ..
-
-cd Njetwork; make gen; 
-export USRF=100_160
-make gen -f cmsMakefile
-export USRF=100_180
-make gen -f cmsMakefile
-export USRF=140_180
-make gen -f cmsMakefile
-export USRF=140_5600
-make gen -f cmsMakefile
-export USRF=160_200
-make gen -f cmsMakefile
-export USRF=180_250
-make gen -f cmsMakefile
-export USRF=180_5600
-make gen -f cmsMakefile
-export USRF=200_250
-make gen -f cmsMakefile
-export USRF=20_100
-make gen -f cmsMakefile
-export USRF=20_80
-make gen -f cmsMakefile
-export USRF=250_400
-make gen -f cmsMakefile
-export USRF=400_5600
-make gen -f cmsMakefile
-export USRF=80_140
-make gen -f cmsMakefile
 cd ..
 
 %install
@@ -115,7 +77,6 @@ mkdir -p %{i}/alplib
 cp zjetwork/zjet_*gen %{i}/bin/
 cp wjetwork/wjet_*gen %{i}/bin/
 cp phjetwork/phjet_*gen %{i}/bin/
-cp Njetwork/Njet_*gen %{i}/bin/
 
 cp 2Qphwork/2Qphgen %{i}/bin/
 cp 2Qwork/2Qgen %{i}/bin/
@@ -140,3 +101,18 @@ cp zqqwork/zqqgen %{i}/bin/
 
 cp -R alplib/* %{i}/alplib/
 #
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<info url=http://mlm.home.cern.ch/mlm/alpgen/></info>
+<client>
+ <Environment name=ALPGEN_BASE default="%i"></Environment>
+</client>
+<Runtime name=PATH value="$ALPGEN_BASE/bin" type=path>
+</Tool>
+EOF_TOOLFILE
+
+%post
+%{relocateConfig}etc/scram.d/%n

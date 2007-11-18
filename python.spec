@@ -1,4 +1,4 @@
-### RPM external python 2.4.2-CMS9
+### RPM external python 2.4.2-CMS10
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 # OS X patches and build fudging stolen from fink
@@ -73,7 +73,14 @@ for d in $dirs; do
   done
 done
 
-./configure --prefix=%i --enable-shared --without-tkinter --disable-tkinter --without-readline
+./configure --prefix=%i --enable-shared --without-tkinter --disable-tkinter
+
+# Link 32-bit readline library missing in the system area on 64-bit 
+# machines: 
+
+mkdir -p %{i}/lib
+ln -s /usr/lib/libreadline.so.4.3 %{i}/lib/libreadline.so
+
 make %makeprocesses
 
 %install
