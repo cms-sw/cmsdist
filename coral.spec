@@ -1,9 +1,8 @@
-### RPM cms coral CORAL_1_9_0-CMS4
+### RPM cms coral CORAL_1_9_2-CMS18
 ## IMPORT configurations
 Provides: /bin/zsh
 Requires: coral-tool-conf
-Patch:    coral-SV1BuildFiles
-Patch1:   coral_1_8_1_typefixes
+Patch:    coral-1_9_1-SV1BuildFiles
 
 %define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
 %define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
@@ -13,14 +12,7 @@ Patch1:   coral_1_8_1_typefixes
 %define prebuildtarget  prebuild
 %define buildtarget     release-build
 %define patchsrc        %patch -p0
-%define patchsrc2       %patch1 -p0
-%define patchsrc3       rm -rf %{srctree}/Tests/*
-
-%if "%{?online_release:set}" == "set"
-# Disable building tests in online release,
-# since they bring dependency on cppunit:
-%define patchsrc4 	perl -p -i -e ' s!(<ClassPath.*/tests\\+.*>)!#$1!;' config/BuildFile
-%endif
+%define patchsrc2       rm -rf %{srctree}/Tests/*
 
 ## IMPORT lcg-scram-build
 ## IMPORT cms-scram-build
