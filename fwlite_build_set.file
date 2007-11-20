@@ -12,6 +12,7 @@ DataFormats/EgammaCandidates
 DataFormats/EgammaReco
 DataFormats/EgammaTrackReco
 DataFormats/FEDRawData
+DataFormats/FWLite
 DataFormats/GeometryCommonDetAlgo
 DataFormats/GeometrySurface
 DataFormats/GeometryVector
@@ -34,11 +35,11 @@ DataFormats/Provenance
 DataFormats/RecoCandidate
 DataFormats/SiPixelCluster
 DataFormats/SiPixelDetId
-DataFormats/SiPixelDigi
 DataFormats/SiStripCluster
 DataFormats/SiStripCommon
 DataFormats/SiStripDetId
 DataFormats/SiStripDigi
+DataFormats/TauReco
 DataFormats/TrackCandidate
 DataFormats/TrackReco
 DataFormats/TrackerRecHit2D
