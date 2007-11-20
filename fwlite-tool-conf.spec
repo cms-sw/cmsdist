@@ -1,4 +1,4 @@
-### RPM cms fwlite-tool-conf CMS_150a
+### RPM cms fwlite-tool-conf CMS_150g
 
 Provides: tmp/slc3_ia32_gcc323/src/FWCore/TFWLiteSelector/test/libFWCoreTFWLiteSelectorTest.so
 Provides: libboost_regex-gcc-mt.so 
