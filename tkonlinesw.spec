@@ -7,12 +7,13 @@ Patch: Fed9U-gcc3.4
 # Note from Kristian: 
 # xdaq dependency is here only to re-use its makefiles. 
 
-Requires: systemtools
-
 %if "%{?online_release:set}" != "set"
 Requires: xerces-c
 Requires: oracle
 Requires: xdaq
+Requires: systemtools
+%else
+Requires: onlinesystemtools
 %endif
 
 %prep

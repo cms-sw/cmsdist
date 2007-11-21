@@ -7,7 +7,7 @@ Requires: expat
 %if "%{?online_release:set}" != "set"
 Requires: zlib openssl
 %else
-Requires: systemtools
+Requires: onlinesystemtools
 %endif
 
 %prep
