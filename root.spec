@@ -12,10 +12,10 @@ Patch4: root_TXMLSetup
 Patch5: root-Cintex
 Patch6: root_Reflex_Cintex
 Patch7: root_CallFunc
-Patch8: root-proofd
 # The following patch should only be applied for gcc4.x (x>0) and when
 # using gccxml 0.7.0
 Patch9: root_5.14_reflex_gccxml070_update
+Patch10: root-5.14-xrootd-20071001-0000a
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -35,10 +35,10 @@ Requires: libtiff
 %patch5 -p1
 %patch6 -p0
 %patch7 -p0
-%patch8 -p1
 %if "%cmsplatf" == "slc4_ia32_gcc412"
 %patch9 -p1
 %endif
+%patch10 -p1
 
 %build
 mkdir -p %i
