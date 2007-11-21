@@ -1,6 +1,5 @@
 ### FILE scramv1-tool-conf
 
-Requires: gmake
 Source0: tool2xml.pl
 
 %prep
@@ -46,7 +45,7 @@ eval        "echo \"  +CXX:$CCACHE_ROOT/bin/c++\""
 
 %if "%{?use_system_java:set}" == "set"
        echo "TOOL:jcompiler:"
-       echo "  +JAVA_BASE:/afs/cern.ch/cms/sw/%cmsplatf/external/java-jdk/1.5.0.p6"
+       echo "  +JAVA_BASE:/afs/cern.ch/cms/sw/%cmsplatf/external/java-jdk/1.5.0.p6-CMS8"
 %else
        echo "TOOL:jcompiler:"
        echo "  +JAVA_BASE:%{instroot}/%cmsplatf/external/$JCOMPILER_TOOL/$JCOMPILER_VERSION"
@@ -103,10 +102,8 @@ echo "</base>" >> %i/configurations/requirements
 # take precedence over those from cms-rebuilt rpms
 
 %if "%{?online_release:set}" == "set"
-echo "NRDEBUG systemtools:"  %systemtools
-echo "NRDEBUG PKGTOOLS_SYSTEM_TOOLS:"  ${PKGTOOLS_SYSTEM_TOOLS}
 for tool in %systemtools ${PKGTOOLS_SYSTEM_TOOLS} ; do
-  cp -rf ${SYSTEMTOOLS_ROOT}/etc/scram.d/$tool %i/configurations/SCRAMToolBox/tools/$tool
+  cp -rf %{onlinesystemtoolsroot}/etc/scram.d/$tool %i/configurations/SCRAMToolBox/tools/$tool
 done
 # For now copy all systemtools files. If needed, this can be done more selectively.
 %endif
@@ -115,7 +112,6 @@ done
 echo %scramsitename > %i/configurations/SCRAMToolBox/CMSconfigs/sitename
 sed -e 's|\(url="file:tools/.*\)"|\1.xml"|' %i/configurations/SCRAMToolBox/CMSconfiguration > CMSconfiguration.xml
 perl %_sourcedir/tool2xml.pl %i/configurations/requirements > %i/configurations/requirements.xml
-sed -i -e 's|\(url="file:CMSconfiguration\)"|\1.xml"|' %i/configurations/requirements.xml
 perl %_sourcedir/tool2xml.pl CMSconfiguration.xml > %i/configurations/SCRAMToolBox/CMSconfiguration.xml
 rm -f CMSconfiguration.xml
 
