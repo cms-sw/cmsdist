@@ -64,11 +64,13 @@ Requires: glimpse
 Requires: valgrind
 Requires: fastjet
 Requires: ktjet
-# Remove this dependency (temporarily) for gcc4.x, 64bit and other builds,
-# i.e. keep it only for the standard slc4_ia32_gcc345 build
-%if ("%cmsplatf" == "slc4_ia32_gcc345")
-Requires: ignominy
-%endif
+# Remove this dependency altogether for the moment, until the java issues
+# are dealt with and igprof/ighook are migrated into CMSSW
+## Remove this dependency (temporarily) for gcc4.x, 64bit and other builds,
+## i.e. keep it only for the standard slc4_ia32_gcc345 build
+#%if ("%cmsplatf" == "slc4_ia32_gcc345")
+#Requires: ignominy
+#%endif
 Requires: herwig
 Requires: lhapdf
 Requires: pythia6
