@@ -7,36 +7,36 @@ Source: none
 %define compilertools %jcompiler
 %endif
 
-%if "%{?online_release:set}" != "set"
-#%define onlinetools curl libpng libtiff libungif mimetic mysql openssl oracle python elementtree qt xdaq xerces zlib
-%define onlinetools zlib curl oracle openssl xerces-c xdaq mimetic
-# Define variables used in non-scram-managed tools, that would be
-# normally defined in package's init.sh/csh scrips.
-# Set all versions as currently found on the system.
-%define compiler_version                3.4.6
-## INITENV SET CXXCOMPILER_VERSION      %compiler_version
-## INITENV SET CCOMPILER_VERSION        %compiler_version
-## INITENV SET F77COMPILER_VERSION      %compiler_version
-%define curl_version                    7.12.1
-## INITENV SET CURL_VERSION             %curl_version
-%define zlib_version                    1.2.1.2
-## INITENV SET ZLIB_VERSION             %zlib_version
-%define oracle_version			10.2.1
-## INITENV SET ORACLE_VERSION           %oracle_version
-## INITENV SET ORACLE_ROOT		/opt/xdaq
-%define openssl_version			0.9.7a
-## INITENV SET OPENSSL_VERSION          %openssl_version
-%define xerces_version			2.7.0
-## INITENV SET XERCES_C_VERSION         %xerces_version
-## INITENV SET XERCES_C_ROOT		/opt/xdaq
-%define xdaq_version			3.13.0
-## INITENV SET XDAQ_VERSION         	%xdaq_version
-## INITENV SET XDAQ_ROOT         	/opt/xdaq
-%define mimetic_version			0.9.1
-## INITENV SET MIMETIC_VERSION         	%mimetic_version
-%else
+#PE%if "%{?online_release:set}" == "set"
+#PE#%define onlinetools curl libpng libtiff libungif mimetic mysql openssl oracle python elementtree qt xdaq xerces zlib
+#PE%define onlinetools zlib curl oracle openssl xerces-c xdaq mimetic
+#PE# Define variables used in non-scram-managed tools, that would be
+#PE# normally defined in package's init.sh/csh scrips.
+#PE# Set all versions as currently found on the system.
+#PE%define compiler_version                3.4.6
+#PE## INITENV SET CXXCOMPILER_VERSION      %compiler_version
+#PE## INITENV SET CCOMPILER_VERSION        %compiler_version
+#PE## INITENV SET F77COMPILER_VERSION      %compiler_version
+#PE%define curl_version                    7.12.1
+#PE## INITENV SET CURL_VERSION             %curl_version
+#PE%define zlib_version                    1.2.1.2
+#PE## INITENV SET ZLIB_VERSION             %zlib_version
+#PE%define oracle_version			10.2.1
+#PE## INITENV SET ORACLE_VERSION           %oracle_version
+#PE## INITENV SET ORACLE_ROOT		/opt/xdaq
+#PE%define openssl_version			0.9.7a
+#PE## INITENV SET OPENSSL_VERSION          %openssl_version
+#PE%define xerces_version			2.7.0
+#PE## INITENV SET XERCES_C_VERSION         %xerces_version
+#PE## INITENV SET XERCES_C_ROOT		/opt/xdaq
+#PE%define xdaq_version			3.13.0
+#PE## INITENV SET XDAQ_VERSION         	%xdaq_version
+#PE## INITENV SET XDAQ_ROOT         	/opt/xdaq
+#PE%define mimetic_version			0.9.1
+#PE## INITENV SET MIMETIC_VERSION         	%mimetic_version
+#PE%else
 %define onlinetools %{nil}
-%endif
+#PE%endif
 
 %define systemtools			sockets opengl x11 %compilertools %onlinetools
 %define sockets_version			1.0
@@ -145,7 +145,7 @@ cat << \EOF_TOOLFILE >>%i/etc/scram.d/jcompiler
 </Tool>
 EOF_TOOLFILE
 
-%if "%{?online_release:set}" != "set"
+%if "%{?online_release:set}" == "set"
 #cxxcompiler
 cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
 <doc type=BuildSystem::ToolDoc version=1.1>
@@ -357,7 +357,7 @@ EOF_TOOLFILE
 %{relocateConfig}etc/scram.d/x11
 %{relocateConfig}etc/scram.d/jcompiler
 
-%if "%{?online_release:set}" != "set"
+%if "%{?online_release:set}" == "set"
 %{relocateConfig}etc/scram.d/cxxcompiler
 %{relocateConfig}etc/scram.d/ccompiler
 %{relocateConfig}etc/scram.d/f77compiler
