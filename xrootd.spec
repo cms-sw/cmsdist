@@ -1,6 +1,6 @@
-### RPM external xrootd 20070321-1251p1-CMS18
+### RPM external xrootd 20071001-0000a-CMS18
 # Override default realversion since there is a "-" in the realversion
-%define realversion 20070321-1251p1
+%define realversion 20071001-0000a
 Source: http://xrootd.slac.stanford.edu/download/%{realversion}/%n-%{realversion}.src.tgz
 #
 
@@ -44,6 +44,25 @@ perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/src/XrdMon/prepareMySQ
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/src/XrdMon/xrdmonCreateMySQL.pl
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/src/XrdMon/xrdmonLoadMySQL.pl
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/src/XrdMon/xrdmonPrepareStats.pl
+
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<lib name=XrdClient>
+<lib name=XrdOuc>
+<lib name=XrdNet>
+<lib name=XrdSys>
+<client>
+ <Environment name=XROOTD_BASE default="%i"></Environment>
+ <Environment name=INCLUDE default="$XROOTD_BASE/src"></Environment>
+ <Environment name=LIBDIR  default="$XROOTD_BASE/lib"></Environment>
+</client>
+<Runtime name=PATH value="$XROOTD_BASE/bin" type=path>
+<Runtime name=LD_LIBRARY_PATH value="$XROOTD_BASE/lib" type=path>
+</Tool>
+EOF_TOOLFILE
 
 %post
 
