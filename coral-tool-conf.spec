@@ -22,6 +22,10 @@ Requires: libungif
 Requires: libtiff
 Requires: xerces-c
 Requires: cppunit
+Requires: systemtools
+%else
+Requires: onlinesystemtools
+%define onlinesystemtoolsroot ${ONLINESYSTEMTOOLS_ROOT}
 %endif
 
 Requires: python
@@ -33,7 +37,6 @@ Requires: boost
 Requires: gsl
 Requires: clhep
 Requires: root
-Requires: systemtools
 Requires: frontier_client
 Requires: sqlite
 Requires: seal
