@@ -33,9 +33,9 @@ Requires: tkonlinesw
 Requires: fastjet
 Requires: ktjet
 Requires: dpm
-Requires: systemtools
+Requires: onlinesystemtools
 
 
 %define skipreqtools jcompiler
-
+%define onlinesystemtoolsroot ${ONLINESYSTEMTOOLS_ROOT}
 ## IMPORT scramv1-tool-conf
