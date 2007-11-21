@@ -1,13 +1,12 @@
-### RPM cms online CMSSW_1_7_0_pre5_ONLINE
+### RPM cms online CMSSW_1_7_0_ONLINExdaq5
 ## IMPORT configurations 
 Provides: /bin/zsh
-Requires: online-tool-conf python glimpse
+Requires: online-tool-conf python
 Requires: SCRAMV1
-%define cmssw_release   %(perl -e '$_="%v"; s/_ONLINE//; print;')
+%define cmssw_release   %(perl -e '$_="%v"; s/_ONLINExdaq5//; print;')
 %define ucprojname  CMSSW
 %define lcprojname  cmssw
 
-%define prebuildtarget  gindices
 %define buildtarget     release-build
 %define saveDeps        yes
 %define cvsproj         %cvsprojuc
@@ -15,7 +14,7 @@ Requires: SCRAMV1
 
 #%define scram_xml   .xml
 %define scram_xml   %{nil}
-%define scramcmd    scramv1
+%define scramcmd    scramv1  -arch %{cmsplatf}
 
 # NR: allow to change tarball names, otherwise old distributions
 # are fetched from the apt SOURCE repository. 
@@ -48,10 +47,16 @@ rm -rf %{srctree}
 %setup -D -T -b 1 -n %{srctree}
 #%setup -D -T -a 2 -n %{srctree}
 
+# Remove plugins that only include tests, which we do not build:
+rm -rf %_builddir/src/FWCore/Framework/plugins
+rm -rf %_builddir/src/RecoVertex/KalmanVertexFit/plugins
+rm -rf %_builddir/src/Alignment/CommonAlignmentMonitor/plugins
+
 touch %_builddir/config/%{ucprojname}_ignore.file
 for file in `ls %_builddir/config/%{ucprojname}_*.file | grep -v  '/%{ucprojname}_ignore.file$' | sed 's|.*/%{ucprojname}_||;s|.file$||'`; do
   sed 's|@PROJECT_NAME@|%ucprojname|g;s|@PROJECT_VERSION@|%v|g;s|@PROJECT_BUILD_PATH@|%_builddir|g' %_builddir/config/%{ucprojname}_${file}.file > %_builddir/config/${file}
 done
+
 if [ ${ONLINE_TOOL_CONF_ROOT}/configurations/requirements%scram_xml ] ; then 
   cp ${ONLINE_TOOL_CONF_ROOT}/configurations/requirements%scram_xml %_builddir/config/
 fi
@@ -72,6 +77,10 @@ export SCRAM_TOOLBOXVERSION=%cmssw_release
 
 mv config/bootsrc config/bootsrc_orig
 
+# Disable building tests, as they bring dependency on cppunit
+perl -p -i -e ' s!<ClassPath(.*)test(.*)!!;'  %_builddir/config/BuildFile
+
+# Specify package list for source bootstrap: 
 perl -p -e 'if (s/(<download.*)(file:src)(.*)(name="src)(">)/#$1$2$3$4$5/){open $fh, "%_sourcedir/online_build_set" or die; while(readline $fh){chomp;print "$1$2/$_$3$4/$_$5\n"}}' config/bootsrc_orig > config/bootsrc 
 
 %scramcmd project -d $(dirname %i) -b config/bootsrc -f %_builddir/config/site/tools-`cat %_builddir/config/site/sitename`.conf
