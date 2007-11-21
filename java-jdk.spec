@@ -1,4 +1,4 @@
-### RPM external java-jdk 1.5.0.p6-CMS8
+### RPM external java-jdk 1.5.0.p6-CMS18
 ## BUILDIF [ "$(uname)" != "Darwin" ]
 
 Provides: libasound.so.2
