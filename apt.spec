@@ -2,13 +2,14 @@
 ## INITENV SET APT_CONFIG %{i}/etc/apt.conf
 Source:  http://apt-rpm.org/releases/%n-%realversion.tar.bz2
 Source1: bootstrap
-Source2: cms-apt-migration
 
-Requires: libxml2 beecrypt rpm bz2lib
+%define requires libxml2 beecrypt rpm zlib bz2lib openssl
 
-%if "%{?online_release:set}" != "set"
-Requires: zlib openssl
+%if "%(echo %{cmsos} | sed -e 's|slc.online_.*|online|')" == "online"
+%define requires libxml2 beecrypt rpm bz2lib
 %endif
+
+Requires: %requires
 
 Patch0: apt-rpm449
 Patch1: apt-rpm446
@@ -32,9 +33,11 @@ case $RPM_VERSION in
 esac
 
 # scandir has a different prototype between macosx and linux.
-%if "%(uname)" == "Darwin"
+case %cmsplatf in
+    osx*)
 %patch2 -p1
-%endif
+    ;;
+esac
 
 %patch3 -p1
 
@@ -59,6 +62,7 @@ make %makeprocesses
 %install
 make install
 mkdir -p %{i}/etc/profile.d
+
 (echo "#!/bin/sh"; \
  echo "source $RPM_ROOT/etc/profile.d/init.sh"; \
  echo "source $LIBXML2_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
@@ -66,6 +70,7 @@ mkdir -p %{i}/etc/profile.d
  echo "source $RPM_ROOT/etc/profile.d/init.csh"; \
  echo "source $LIBXML2_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
 
+cp %_sourcedir/bootstrap %{i}/bin/bootstrap.sh
 
 mkdir -p %{i}/etc/apt
 cat << \EOF_APT_CONF > %{i}/etc/apt.conf
@@ -138,16 +143,18 @@ EOF_RPMPRIORITIES
 
 cat << \EOF_BIN_APT_CACHE_WRAPPER > %{i}/bin/apt-cache-wrapper
 #!/bin/sh
-touch %{instroot}/log.txt
-echo $@ >> %{instroot}/log.txt
+mkdir -p %{instroot}/var/log/rpm
+touch %{instroot}/var/log/rpm/log.txt
+echo $@ >> %{instroot}/var/log/rpm/log.txt
 apt-cache $@
 EOF_BIN_APT_CACHE_WRAPPER
 chmod +x %{i}/bin/apt-cache-wrapper
 
 cat << \EOF_BIN_APT_GET_WRAPPER > %{i}/bin/apt-get-wrapper
 #!/bin/sh
-touch %{instroot}/log.txt
-echo $@ >> %{instroot}/log.txt
+mkdir -p %{instroot}/var/log/rpm
+touch %{instroot}/var/log/rpm/log.txt
+echo $@ >> %{instroot}/var/log/rpm/log.txt
 apt-get $@
 EOF_BIN_APT_GET_WRAPPER
 chmod +x %{i}/bin/apt-get-wrapper
@@ -160,72 +167,15 @@ if [ X"$(id -u)" = X0 ]; then
   echo "(We recommend reading any standard unix security guide.)" 1>&2
   exit 1
 fi
-touch %{instroot}/log.txt
-echo rpm ${1+"$@"} >> %{instroot}/log.txt
+mkdir -p %{instroot}/var/log/rpm
+touch %{instroot}/var/log/rpm/log.txt
+echo rpm ${1+"$@"} >> %{instroot}/var/log/rpm/log.txt
 exec rpm ${1+"$@"}
 EOF_BIN_RPM
 chmod +x %{i}/bin/rpm-wrapper
 
-cat %_sourcedir/bootstrap | perl -p -e "s!\@CMSPLATF\@!%{cmsplatf}!g;
-                                        s!\@GCC_VERSION\@!$GCC_VERSION!g;
-                                        s!\@RPM_VERSION\@!$RPM_VERSION!g;
-                                        s!\@DB4_VERSION\@!$DB4_VERSION!g;
-                                        s!\@LIBXML2_VERSION\@!$LIBXML2_VERSION!g;
-                                        s!\@OPENSSL_VERSION\@!$OPENSSL_VERSION!g;
-                                        s!\@BEECRYPT_VERSION\@!$BEECRYPT_VERSION!g;
-                                        s!\@BZ2LIB_VERSION\@!$BZ2LIB_VERSION!g;
-                                        s!\@ZLIB_VERSION\@!$ZLIB_VERSION!g;
-                                        s!\@EXPAT_VERSION\@!$EXPAT_VERSION!g;
-                                        s!\@ELFUTILS_VERSION\@!$ELFUTILS_VERSION!g;
-                                        s!\@NEON_VERSION\@!$NEON_VERSION!g;
-                                        s!\@GCC_REVISION\@!$GCC_REVISION!g;
-                                        s!\@BEECRYPT_REVISION\@!$BEECRYPT_REVISION!g;
-                                        s!\@RPM_REVISION\@!$RPM_REVISION!g;
-                                        s!\@OPENSSL_REVISION\@!$OPENSSL_REVISION!g;
-                                        s!\@DB4_REVISION\@!$DB4_REVISION!g;
-                                        s!\@LIBXML2_REVISION\@!$LIBXML2_REVISION!g;
-                                        s!\@BZ2LIB_REVISION\@!$BZ2LIB_REVISION!g;
-                                        s!\@ZLIB_REVISION\@!$ZLIB_REVISION!g;
-                                        s!\@EXPAT_REVISION\@!$EXPAT_REVISION!g;
-                                        s!\@NEON_REVISION\@!$NEON_REVISION!g;
-                                        s!\@ELFUTILS_REVISION\@!$ELFUTILS_REVISION!g;
-                                        s!\@APT_VERSION\@!%{v}!g;
-                                        s!\@APT_REVISION\@!%{pkgrevision}!g;
-                                        s!\@INSTROOT\@!%{instroot}!g;
-                                        " > %{i}/bin/bootstrap-%{cmsplatf}.sh
-
-%if "%{?online_release:set}" == "set"
-perl -p -i -e 's/onlineRelease=false/onlineRelease=true/' %{i}/bin/bootstrap-%{cmsplatf}.sh
-%endif
-
-cat %_sourcedir/cms-apt-migration | perl -p -e "s!\@CMSPLATF\@!%{cmsplatf}!g;
-                                        s!\@GCC_VERSION\@!$GCC_VERSION!g;
-                                        s!\@RPM_VERSION\@!$RPM_VERSION!g;
-                                        s!\@DB4_VERSION\@!$DB4_VERSION!g;
-                                        s!\@LIBXML2_VERSION\@!$LIBXML2_VERSION!g;
-                                        s!\@OPENSSL_VERSION\@!$OPENSSL_VERSION!g;
-                                        s!\@BEECRYPT_VERSION\@!$BEECRYPT_VERSION!g;
-                                        s!\@BZ2LIB_VERSION\@!$BZ2LIB_VERSION!g;
-                                        s!\@ZLIB_VERSION\@!$ZLIB_VERSION!g;
-                                        s!\@EXPAT_VERSION\@!$EXPAT_VERSION!g;
-                                        s!\@ELFUTILS_VERSION\@!$ELFUTILS_VERSION!g;
-                                        s!\@NEON_VERSION\@!$NEON_VERSION!g;
-                                        s!\@GCC_REVISION\@!$GCC_REVISION!g;
-                                        s!\@BEECRYPT_REVISION\@!$BEECRYPT_REVISION!g;
-                                        s!\@RPM_REVISION\@!$RPM_REVISION!g;
-                                        s!\@OPENSSL_REVISION\@!$OPENSSL_REVISION!g;
-                                        s!\@DB4_REVISION\@!$DB4_REVISION!g;
-                                        s!\@LIBXML2_REVISION\@!$LIBXML2_REVISION!g;
-                                        s!\@BZ2LIB_REVISION\@!$BZ2LIB_REVISION!g;
-                                        s!\@ZLIB_REVISION\@!$ZLIB_REVISION!g;
-                                        s!\@EXPAT_REVISION\@!$EXPAT_REVISION!g;
-                                        s!\@NEON_REVISION\@!$NEON_REVISION!g;
-                                        s!\@ELFUTILS_REVISION\@!$ELFUTILS_REVISION!g;
-                                        s!\@APT_VERSION\@!%{v}!g;
-                                        s!\@APT_REVISION\@!%{pkgrevision}!g;
-                                        s!\@INSTROOT\@!%{instroot}!g;" > %{i}/bin/cms-apt-migration-%{cmsplatf}.sh
-
 %post
+ln -sf %{v} $RPM_INSTALL_PREFIX/%{cmsplatf}/external/apt/latest
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/apt/lists/partial
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/rpm 
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/cache/%{cmsplatf}/partial
