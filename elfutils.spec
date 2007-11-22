@@ -1,4 +1,4 @@
-### RPM external elfutils 0.128-CMS18
+### RPM external elfutils 0.131-CMS18
 #TODO: put everything in rpm.spec???
 Source: ftp://sources.redhat.com/pub/systemtap/%{n}/%{n}-%{realversion}.tar.gz
 %prep
