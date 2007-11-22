@@ -1,19 +1,33 @@
-### RPM external rpm 4.4.2.1-CMS18
-# FIXME: the version should really be 4.4.2.1-rc1 but I don't know if that causes problems to the "realversion" mechanism.
+### RPM external rpm 4.4.2.2
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-## INITENV SET LIBRPMALIAS_FILENAME %{i}/lib/rpm/rpmpopt-%{realversion}-rc1
+## INITENV SET LIBRPMALIAS_FILENAME %{i}/lib/rpm/rpmpopt-%{realversion}
 ## INITENV SET LIBRPMRC_FILENAME %{i}/lib/rpm/rpmrc
 ## INITENV SET RPM_MACROFILES %{i}/lib/rpm/macros
 ## INITENV SET USRLIBRPM %{i}/lib/rpm
+## INITENV SET RPMMAGIC %{i}/lib/rpm/magic
 ## INITENV SET RPMCONFIGDIR %{i}/lib/rpm
 ## INITENV SET SYSCONFIGDIR %{i}/lib/rpm
-Source: http://rpm.org/releases/testing/rpm-%{realversion}-rc1.tar.gz
+Source: http://rpm.org/releases/rpm-4.4.x/rpm-%{realversion}.tar.gz
 #Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
 
-Requires: beecrypt bz2lib neon expat db4 expat elfutils 
-%if "%{?online_release:set}" != "set"
-Requires: zlib
+%define additionalRequires zlib
+%define sourceInitCsh echo ". $ZLIB_ROOT/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.csh
+%define sourceInitSh echo ". $ZLIB_ROOT/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
+%define sourceGccCsh echo ". $GCC_ROOT/etc/profile.d/init.csh";
+%define sourceGccSh echo ". $GCC_ROOT/etc/profile.d/init.csh";
+
+%if "%(echo %{cmsos} | sed -e 's|slc.online_.*|online|')" == "online"
+%define sourceInitCsh %{nil} 
+%define sourceInitSh %{nil}
+%define additionalRequires %{nil}
 %endif
+
+%if "%{?use_system_gcc:set}" != "set"
+%define sourceGccCsh %{nil}
+%define sourceGccSh %{nil}
+%endif
+
+Requires: beecrypt bz2lib neon expat db4 expat elfutils %additionalRequires 
 
 Patch0: rpm-4.4.9-enum
 Patch1: rpm-4.4.9-rpmps
@@ -22,6 +36,8 @@ Patch3: rpm-4.4.9-macrofiles
 Patch4: rpm-4.4.6
 Patch5: rpm-4.4.2.1
 Patch6: rpm-macosx
+Patch7: rpm-4.4.2.2
+Patch8: rpm-4.4.2.2-leopard
 
 # Defaults here
 %define libdir lib
@@ -33,13 +49,12 @@ Patch6: rpm-macosx
 
 # On macosx SONAME is dylib
 %if "%(echo %{cmsos} | cut -d_ -f 1 | sed -e 's|osx.*|osx|')" == "osx"
-%define osx set 
 %define soname dylib
 Provides: Kerberos
 %endif
 
 %prep 
-%setup -n %n-%{realversion}-rc1
+%setup -n %n-%{realversion}
 %if "%{realversion}" == "4.4.9"
 %patch0 -p0
 %endif
@@ -60,6 +75,15 @@ Provides: Kerberos
 %endif
 
 %patch6 -p1
+
+%if "%{realversion}" == "4.4.2.2"
+%patch7 -p1
+%endif
+
+echo %(echo %{cmsos} | cut -f1 -d_)
+%if "%(echo %{cmsos} | cut -f1 -d_)" == "osx105"
+%patch8 -p1
+%endif
 
 rm -rf neon sqlite beecrypt elfutils zlib 
 
@@ -91,8 +115,12 @@ perl -p -i -e "s|lua||" Makefile
 if ! make %makeprocesses
 then
     # Very ugly hack to get rid of any kind of automatically generated dependecy on /usr/lib/beecrypt.
-    perl -p -i -e 's|/usr/lib[6]*[4]*/[^ ]*.la||' `grep -R -e '/usr/lib[6]*[4]*/[^ ]*.la' . | grep  "\.la" | cut -f1 -d:`
-    make %makeprocesses 
+    toBePatched=`grep -R -e '/usr/lib[6]*[4]*/[^ ]*.la' . | grep  "\.la" | cut -f1 -d:`
+    if "X$toBePatched" != "X"
+    then
+        perl -p -i -e 's|/usr/lib[6]*[4]*/[^ ]*.la||' `grep -R -e '/usr/lib[6]*[4]*/[^ ]*.la' . | grep  "\.la" | cut -f1 -d:`
+        make %makeprocesses 
+    fi
 fi
 perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|" scripts/get_magic.pl \
                                                       scripts/rpmdiff.cgi \
@@ -114,48 +142,31 @@ perl -p -i -e "s!^.buildroot!#%%buildroot!;
                s!^%%_repackage_dir.*/var/spool/repackage!%%_repackage_dir     %{instroot}/%{cmsplatf}/var/spool/repackage!" %i/lib/rpm/macros
 mkdir -p %{instroot}/%{cmsplatf}/var/spool/repackage
 mkdir -p %{i}/etc/profile.d
-# FIXME: should really check the "use_system_gcc" variable
-#        rather than checking for osx as other platforms might
-#        require the usage of the system compiler. 
 (echo "#!/bin/sh"; \
-%if "%osx" != "set"
-%if "%{?use_system_gcc:set}" != "set"
-  echo "source $GCC_ROOT/etc/profile.d/init.sh"; \
-%endif
-%endif
- echo "source $BEECRYPT_ROOT/etc/profile.d/init.sh"; \
- echo "source $NEON_ROOT/etc/profile.d/init.sh"; \
- echo "source $EXPAT_ROOT/etc/profile.d/init.sh"; \
- echo "source $ELFUTILS_ROOT/etc/profile.d/init.sh"; \
- echo "source $BZ2LIB_ROOT/etc/profile.d/init.sh"; \
- echo "source $DB4_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
+ %{sourceGccSh}
+ echo ". $BEECRYPT_ROOT/etc/profile.d/init.sh"; \
+ echo ". $NEON_ROOT/etc/profile.d/init.sh"; \
+ echo ". $EXPAT_ROOT/etc/profile.d/init.sh"; \
+ echo ". $ELFUTILS_ROOT/etc/profile.d/init.sh"; \
+ echo ". $BZ2LIB_ROOT/etc/profile.d/init.sh"; \
+ echo ". $DB4_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
 
- # Escape zlib inclusion in online release:
- if [ -f $ZLIB_ROOT/etc/profile.d/init.sh ]
- then 
-     echo "source $ZLIB_ROOT/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.sh
- fi
+ # In case of online releases this variable set to %nil.
+ %{sourceInitCsh}
 
 (echo "#!/bin/tcsh"; \
-%if "%osx" != "set"
-%if "%{?use_system_gcc:set}" != "set"
-   echo "source $GCC_ROOT/etc/profile.d/init.csh"; \
-%endif
-%endif
- echo "source $BEECRYPT_ROOT/etc/profile.d/init.csh"; \
- echo "source $NEON_ROOT/etc/profile.d/init.csh"; \
- echo "source $EXPAT_ROOT/etc/profile.d/init.csh"; \
- echo "source $ELFUTILS_ROOT/etc/profile.d/init.csh"; \
- echo "source $BZ2LIB_ROOT/etc/profile.d/init.csh"; \
- echo "source $DB4_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
+ %{sourceGccCsh} \
+ echo ". $BEECRYPT_ROOT/etc/profile.d/init.csh"; \
+ echo ". $NEON_ROOT/etc/profile.d/init.csh"; \
+ echo ". $EXPAT_ROOT/etc/profile.d/init.csh"; \
+ echo ". $ELFUTILS_ROOT/etc/profile.d/init.csh"; \
+ echo ". $BZ2LIB_ROOT/etc/profile.d/init.csh"; \
+ echo ". $DB4_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
 
- # Escape zlib inclusion in online release:
- if [ -f $ZLIB_ROOT/etc/profile.d/init.csh ]
- then 
-     echo "source $ZLIB_ROOT/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
- fi
-
-ln -sf rpm/rpmpopt-%{realversion}-rc1 %i/lib/rpmpopt
+ # In case of online releases this variable set to %nil.
+ %{sourceInitCsh}
+ 
+ln -sf rpm/rpmpopt-%{realversion} %i/lib/rpmpopt
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
