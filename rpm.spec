@@ -27,6 +27,12 @@ Source: http://rpm.org/releases/rpm-4.4.x/rpm-%{realversion}.tar.gz
 %define sourceGccSh %{nil}
 %endif
 
+%if "%{?use_system_compiler:set}" != "set"
+%define sourceGccCsh %{nil}
+%define sourceGccSh %{nil}
+%endif
+
+
 Requires: beecrypt bz2lib neon expat db4 expat elfutils %additionalRequires 
 
 Patch0: rpm-4.4.9-enum
