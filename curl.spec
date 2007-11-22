@@ -5,7 +5,7 @@ Source: http://curl.haxx.se/download/%n-%realversion.tar.gz
 %setup -n %n-%{realversion}
 
 %build
-./configure --prefix=%i --without-libidn --disable-crypto-auth --without-ssl
+./configure --prefix=%i --without-libidn
 make %makeprocesses
 
 %install
