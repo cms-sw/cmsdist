@@ -3,13 +3,11 @@
 Source:  http://apt-rpm.org/releases/%n-%realversion.tar.bz2
 Source1: bootstrap
 
-%define requires libxml2 beecrypt rpm zlib bz2lib openssl
-
-%if "%(echo %{cmsos} | sed -e 's|slc.online_.*|online|')" == "online"
-%define requires libxml2 beecrypt rpm bz2lib
+%if "%{?online_release:set}" != "set"
+Requires: libxml2 beecrypt rpm zlib bz2lib openssl
+%else
+Requires: libxml2 beecrypt rpm bz2lib
 %endif
-
-Requires: %requires
 
 Patch0: apt-rpm449
 Patch1: apt-rpm446
