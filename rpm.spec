@@ -10,7 +10,6 @@
 Source: http://rpm.org/releases/rpm-4.4.x/rpm-%{realversion}.tar.gz
 #Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
 
-%define additionalRequires zlib
 %define sourceInitCsh echo ". $ZLIB_ROOT/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.csh
 %define sourceInitSh echo ". $ZLIB_ROOT/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
 %define sourceGccCsh echo ". $GCC_ROOT/etc/profile.d/init.csh";
@@ -19,7 +18,6 @@ Source: http://rpm.org/releases/rpm-4.4.x/rpm-%{realversion}.tar.gz
 %if "%(echo %{cmsos} | sed -e 's|slc.online_.*|online|')" == "online"
 %define sourceInitCsh %{nil} 
 %define sourceInitSh %{nil}
-%define additionalRequires %{nil}
 %endif
 
 %if "%{?use_system_gcc:set}" != "set"
@@ -33,7 +31,10 @@ Source: http://rpm.org/releases/rpm-4.4.x/rpm-%{realversion}.tar.gz
 %endif
 
 
-Requires: beecrypt bz2lib neon expat db4 expat elfutils %additionalRequires 
+Requires: beecrypt bz2lib neon expat db4 expat elfutils
+%if "%{?online_release:set}" != "set"
+Requires: zlib
+%endif
 
 Patch0: rpm-4.4.9-enum
 Patch1: rpm-4.4.9-rpmps
