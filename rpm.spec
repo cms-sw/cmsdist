@@ -1,4 +1,4 @@
-### RPM external rpm 4.4.2.2-CMS18
+### RPM external rpm 4.4.2.2-CMS18a
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV SET LIBRPMALIAS_FILENAME %{i}/lib/rpm/rpmpopt-%{realversion}
 ## INITENV SET LIBRPMRC_FILENAME %{i}/lib/rpm/rpmrc
@@ -10,7 +10,7 @@
 Source: http://rpm.org/releases/rpm-4.4.x/rpm-%{realversion}.tar.gz
 #Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
 
-%define sourceInitCsh echo ". $ZLIB_ROOT/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.csh
+%define sourceInitCsh echo "source $ZLIB_ROOT/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.csh
 %define sourceInitSh echo ". $ZLIB_ROOT/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
 %define sourceGccCsh echo ". $GCC_ROOT/etc/profile.d/init.csh";
 %define sourceGccSh echo ". $GCC_ROOT/etc/profile.d/init.csh";
