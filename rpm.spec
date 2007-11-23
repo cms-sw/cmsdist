@@ -1,4 +1,4 @@
-### RPM external rpm 4.4.2.2-CMS18a
+### RPM external rpm 4.4.2.2-CMS18b
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV SET LIBRPMALIAS_FILENAME %{i}/lib/rpm/rpmpopt-%{realversion}
 ## INITENV SET LIBRPMRC_FILENAME %{i}/lib/rpm/rpmrc
@@ -10,10 +10,10 @@
 Source: http://rpm.org/releases/rpm-4.4.x/rpm-%{realversion}.tar.gz
 #Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
 
-%define sourceInitCsh echo "source $ZLIB_ROOT/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.csh
-%define sourceInitSh echo ". $ZLIB_ROOT/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
-%define sourceGccCsh echo ". $GCC_ROOT/etc/profile.d/init.csh";
-%define sourceGccSh echo ". $GCC_ROOT/etc/profile.d/init.csh";
+%define sourceInitCsh echo "source $ZLIB_ROOT/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
+%define sourceInitSh echo ". $ZLIB_ROOT/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.csh
+%define sourceGccCsh echo "source $GCC_ROOT/etc/profile.d/init.csh";
+%define sourceGccSh echo ". $GCC_ROOT/etc/profile.d/init.sh";
 
 %if "%(echo %{cmsos} | sed -e 's|slc.online_.*|online|')" == "online"
 %define sourceInitCsh %{nil} 
@@ -159,7 +159,7 @@ mkdir -p %{i}/etc/profile.d
  echo ". $DB4_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
 
  # In case of online releases this variable set to %nil.
- %{sourceInitCsh}
+ %{sourceInitSh}
 
 (echo "#!/bin/tcsh"; \
  %{sourceGccCsh} \
