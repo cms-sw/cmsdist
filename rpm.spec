@@ -11,9 +11,9 @@ Source: http://rpm.org/releases/rpm-4.4.x/rpm-%{realversion}.tar.gz
 #Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
 
 %define sourceInitCsh echo "source $ZLIB_ROOT/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
-%define sourceInitSh echo ". $ZLIB_ROOT/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.csh
-%define sourceGccCsh echo "source $GCC_ROOT/etc/profile.d/init.csh";
-%define sourceGccSh echo ". $GCC_ROOT/etc/profile.d/init.sh";
+%define sourceInitSh echo ". $ZLIB_ROOT/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.sh
+%define sourceGccCsh echo "source $GCC_ROOT/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
+%define sourceGccSh echo ". $GCC_ROOT/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.sh
 
 %if "%(echo %{cmsos} | sed -e 's|slc.online_.*|online|')" == "online"
 %define sourceInitCsh %{nil} 
