@@ -130,8 +130,8 @@ rpm http://cmsrep.cern.ch cms/cpt/Software/download/cms/apt/%{cmsplatf} cms lcg 
 rpm-src http://cmsrep.cern.ch cms/cpt/Software/download/cms/apt/%{cmsplatf} cms lcg external
 # This are defined to support experimental repositories. The bootstrap file rewrites and uncomments
 # them when passed the appropriate commandline option. 
-##rpm http://@SERVER@ @SERVER_PATH@@REPOSITORY@/apt/%{cmsplatf} @GROUPS@  
-##rpm-src http://@SERVER@ @SERVER_PATH@@REPOSITORY@/apt/%{cmsplatf} @GROUPS@
+#;rpm http://@SERVER@ @SERVER_PATH@@REPOSITORY@/apt/%{cmsplatf} @GROUPS@  
+#;rpm-src http://@SERVER@ @SERVER_PATH@@REPOSITORY@/apt/%{cmsplatf} @GROUPS@
 EOF_SOURCES_LIST
 
 cat << \EOF_RPMPRIORITIES > %{i}/etc/rpmpriorities
@@ -173,7 +173,6 @@ EOF_BIN_RPM
 chmod +x %{i}/bin/rpm-wrapper
 
 %post
-ln -sf %{v} $RPM_INSTALL_PREFIX/%{cmsplatf}/external/apt/latest
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/apt/lists/partial
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/rpm 
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/cache/%{cmsplatf}/partial
