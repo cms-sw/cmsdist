@@ -1,4 +1,4 @@
-### RPM external rpm 4.4.2.2-CMS18b
+### RPM external rpm 4.4.2.2-CMS18c
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV SET LIBRPMALIAS_FILENAME %{i}/lib/rpm/rpmpopt-%{realversion}
 ## INITENV SET LIBRPMRC_FILENAME %{i}/lib/rpm/rpmrc
