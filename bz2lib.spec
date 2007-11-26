@@ -1,7 +1,11 @@
 ### RPM external bz2lib 1.0.2
 # Build system patches by Lassi A. Tuura <lat@iki.fi>
 Source: ftp://sources.redhat.com/pub/bzip2/v%(echo %v | tr -d .)/bzip2-%v.tar.gz
+%define cpu %(echo %cmsplatf | cut -f2 -d_)
 Provides: libbz2.so.1
+%if "%cpu" == "amd64"
+Provides: libbz2.so.1()(64bit)
+%endif
 
 %prep
 %setup -n bzip2-%v
@@ -21,3 +25,5 @@ cp libbz2.$so.%v %i/lib
 ln -s libbz2.$so.%v %i/lib/libbz2.$so
 ln -s libbz2.$so.%v %i/lib/libbz2.$so.`echo %v | cut -d. -f 1,2`
 ln -s libbz2.$so.%v %i/lib/libbz2.$so.`echo %v | cut -d. -f 1`
+# mimetic.spec
+#
