@@ -135,8 +135,8 @@ echo "#!/bin/tcsh" > touch %{i}/etc/profile.d/dependencies-setup.csh
 for tool in %{requiredtools}
 do
     toolcap=`echo $tool | tr a-z- A-Z_`
-    echo ". ${toolcap}_ROOT/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.sh
-    echo "source ${toolcap}_ROOT/etc/profile.d/init.ch" >> %{i}/etc/profile.d/dependencies-setup.csh
+    echo ". \$${toolcap}_ROOT/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.sh
+    echo "source \$${toolcap}_ROOT/etc/profile.d/init.ch" >> %{i}/etc/profile.d/dependencies-setup.csh
 done
  
 ln -sf rpm/rpmpopt-%{realversion} %i/lib/rpmpopt
