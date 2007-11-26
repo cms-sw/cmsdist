@@ -10,11 +10,7 @@
 Source: http://rpm.org/releases/rpm-4.4.x/rpm-%{realversion}.tar.gz
 #Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
 
-%if "%{?online_release:set}" != "set"
-Requires: beecrypt bz2lib neon expat db4 expat elfutils
-%else
-Requires: zlib
-%endif
+Requires: beecrypt bz2lib neon db4 expat elfutils zlib
 
 Patch0: rpm-4.4.9-enum
 Patch1: rpm-4.4.9-rpmps
