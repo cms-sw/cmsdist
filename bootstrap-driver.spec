@@ -89,6 +89,7 @@ unsupportedProvides="libtcl8.3.so libtk8.3.so /bin/env libcom_err.so.3
 mkdir -p %{i}/etc/profile.d
 (echo "instroot=%{instroot}"; \
  echo "rpm_version=$RPM_VERSION"; \
+ echo "apt_version=$APT_VERSION"; \
  echo "platformSeeds=\"$platformSeeds\""; \
  echo "unsupportedSeeds=\"$unsupportedSeeds\""; \
  echo "packageList=\"$packageList\""; \
