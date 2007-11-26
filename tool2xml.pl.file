@@ -78,10 +78,19 @@ sub dumyXMLItem ()
 
 sub dumpXMLHead ()
 {
+  print '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>',"\n";
+  if($file=~/\/boot(src|)$/)
+  {print '<doc type="Configuration::BootStrapProject" version="1.0">',"\n";}
+  elsif($file=~/\/(requirements|CMSconfiguration)$/)
+  {print '<doc type="BuildSystem::Requirements" version="2.0">',"\n";}
+  elsif($file=~/\/BuildFile$/)
+  {print '<doc type="BuildSystem::BuildFile" version="1.0">',"\n";}
+  else{print '<doc type="BuildSystem::ToolDoc" version="1.0">',"\n";}
 }
 
 sub dumpXMLTail ()
 {
+  print '</doc>',"\n";
 }
 
 sub parseFile ()
