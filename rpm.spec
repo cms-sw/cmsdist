@@ -149,26 +149,26 @@ perl -p -i -e "s!^.buildroot!#%%buildroot!;
                s!^%%_repackage_dir.*/var/spool/repackage!%%_repackage_dir     %{instroot}/%{cmsplatf}/var/spool/repackage!" %i/lib/rpm/macros
 mkdir -p %{instroot}/%{cmsplatf}/var/spool/repackage
 mkdir -p %{i}/etc/profile.d
-(echo "#!/bin/sh"; \
- %{sourceGccSh}
- echo ". $BEECRYPT_ROOT/etc/profile.d/init.sh"; \
+echo "#!/bin/sh" > %{i}/etc/profile.d/dependencies-setup.sh
+%{sourceGccSh}
+(echo ". $BEECRYPT_ROOT/etc/profile.d/init.sh"; \
  echo ". $NEON_ROOT/etc/profile.d/init.sh"; \
  echo ". $EXPAT_ROOT/etc/profile.d/init.sh"; \
  echo ". $ELFUTILS_ROOT/etc/profile.d/init.sh"; \
  echo ". $BZ2LIB_ROOT/etc/profile.d/init.sh"; \
- echo ". $DB4_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
+ echo ". $DB4_ROOT/etc/profile.d/init.sh" ) >> %{i}/etc/profile.d/dependencies-setup.sh
 
  # In case of online releases this variable set to %nil.
  %{sourceInitSh}
 
-(echo "#!/bin/tcsh"; \
- %{sourceGccCsh} \
- echo "source $BEECRYPT_ROOT/etc/profile.d/init.csh"; \
+echo "#!/bin/tcsh" > %{i}/etc/profile.d/dependencies-setup.csh
+%{sourceGccCsh}
+(echo "source $BEECRYPT_ROOT/etc/profile.d/init.csh"; \
  echo "source $NEON_ROOT/etc/profile.d/init.csh"; \
  echo "source $EXPAT_ROOT/etc/profile.d/init.csh"; \
  echo "source $ELFUTILS_ROOT/etc/profile.d/init.csh"; \
  echo "source $BZ2LIB_ROOT/etc/profile.d/init.csh"; \
- echo "source $DB4_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
+ echo "source $DB4_ROOT/etc/profile.d/init.csh" ) >> %{i}/etc/profile.d/dependencies-setup.csh
 
  # In case of online releases this variable set to %nil.
  %{sourceInitCsh}
