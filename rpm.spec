@@ -10,30 +10,10 @@
 Source: http://rpm.org/releases/rpm-4.4.x/rpm-%{realversion}.tar.gz
 #Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
 
-%define sourceInitCsh echo "source $ZLIB_ROOT/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
-%define sourceInitSh echo ". $ZLIB_ROOT/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.sh
-%define sourceGccCsh echo "source $GCC_ROOT/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
-%define sourceGccSh echo ". $GCC_ROOT/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.sh
-
-%if "%(echo %{cmsos} | sed -e 's|slc.online_.*|online|')" == "online"
-%define sourceInitCsh %{nil} 
-%define sourceInitSh %{nil}
-%endif
-
-%if "%{?use_system_gcc:set}" != "set"
-%define sourceGccCsh %{nil}
-%define sourceGccSh %{nil}
-%endif
-
-%if "%{?use_system_compiler:set}" != "set"
-%define sourceGccCsh %{nil}
-%define sourceGccSh %{nil}
-%endif
-
-
-Requires: beecrypt bz2lib neon expat db4 expat elfutils
 %if "%{?online_release:set}" != "set"
 Requires: zlib
+%else
+Requires: beecrypt bz2lib neon expat db4 expat elfutils
 %endif
 
 Patch0: rpm-4.4.9-enum
@@ -149,29 +129,26 @@ perl -p -i -e "s!^.buildroot!#%%buildroot!;
                s!^%%_repackage_dir.*/var/spool/repackage!%%_repackage_dir     %{instroot}/%{cmsplatf}/var/spool/repackage!" %i/lib/rpm/macros
 mkdir -p %{instroot}/%{cmsplatf}/var/spool/repackage
 mkdir -p %{i}/etc/profile.d
-echo "#!/bin/sh" > %{i}/etc/profile.d/dependencies-setup.sh
-%{sourceGccSh}
-(echo ". $BEECRYPT_ROOT/etc/profile.d/init.sh"; \
+(echo "#!/bin/sh"; \
+ echo ". $GCC_ROOT/etc/profile.d/init.sh"; \
+ echo ". $ZLIB_ROOT/etc/profile.d/init.sh"; \
+ echo ". $BEECRYPT_ROOT/etc/profile.d/init.sh"; \
  echo ". $NEON_ROOT/etc/profile.d/init.sh"; \
  echo ". $EXPAT_ROOT/etc/profile.d/init.sh"; \
  echo ". $ELFUTILS_ROOT/etc/profile.d/init.sh"; \
  echo ". $BZ2LIB_ROOT/etc/profile.d/init.sh"; \
- echo ". $DB4_ROOT/etc/profile.d/init.sh" ) >> %{i}/etc/profile.d/dependencies-setup.sh
+ echo ". $DB4_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
 
- # In case of online releases this variable set to %nil.
- %{sourceInitSh}
-
-echo "#!/bin/tcsh" > %{i}/etc/profile.d/dependencies-setup.csh
-%{sourceGccCsh}
-(echo "source $BEECRYPT_ROOT/etc/profile.d/init.csh"; \
+(echo "#!/bin/tcsh"; \
+ echo "source $GCC_ROOT/etc/profile.d/init.sh"; \
+ echo "source $ZLIB_ROOT/etc/profile.d/init.sh"; \
+ echo "source $BEECRYPT_ROOT/etc/profile.d/init.csh"; \
  echo "source $NEON_ROOT/etc/profile.d/init.csh"; \
  echo "source $EXPAT_ROOT/etc/profile.d/init.csh"; \
  echo "source $ELFUTILS_ROOT/etc/profile.d/init.csh"; \
  echo "source $BZ2LIB_ROOT/etc/profile.d/init.csh"; \
- echo "source $DB4_ROOT/etc/profile.d/init.csh" ) >> %{i}/etc/profile.d/dependencies-setup.csh
+ echo "source $DB4_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
 
- # In case of online releases this variable set to %nil.
- %{sourceInitCsh}
  
 ln -sf rpm/rpmpopt-%{realversion} %i/lib/rpmpopt
 
@@ -182,4 +159,3 @@ perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|" `grep -r %instroot $RPM_INSTALL
 %files
 %{i}
 %{instroot}/%{cmsplatf}/var/spool/repackage
-
