@@ -73,6 +73,7 @@
 %define _topdir		%{instroot}
 
 %define _rpmfilename	%{cmsplatf}/%{pkgcategory}+%{n}+%{v}-%{version}-%{release}.%{cmsplatf}.rpm
+%define _srpmfilename	%{pkgcategory}+%{n}+%{v}-%{version}-%{release}.src.rpm
 
 
 
