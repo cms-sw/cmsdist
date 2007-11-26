@@ -130,13 +130,19 @@ perl -p -i -e "s!^.buildroot!#%%buildroot!;
 mkdir -p %{instroot}/%{cmsplatf}/var/spool/repackage
 mkdir -p %{i}/etc/profile.d
 
-echo "#!/bin/sh" > %{i}/etc/profile.d/dependencies-setup.sh
-echo "#!/bin/tcsh" > touch %{i}/etc/profile.d/dependencies-setup.csh
-for tool in %{requiredtools}
+echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
+echo '#!/bin/tcsh' > %{i}/etc/profile.d/dependencies-setup.csh
+for tool in echo %{requiredtools}
 do
-    toolcap=`echo $tool | tr a-z- A-Z_`
-    echo ". \$${toolcap}_ROOT/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.sh
-    echo "source \$${toolcap}_ROOT/etc/profile.d/init.ch" >> %{i}/etc/profile.d/dependencies-setup.csh
+    case X$tool in
+        Xdistcc|Xccache )
+        ;;
+        * )
+            toolcap=`echo $tool | tr a-z- A-Z_`
+            eval echo ". $`echo ${toolcap}_ROOT`/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.sh
+            eval echo "source $`echo ${toolcap}_ROOT`/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
+        ;;
+    esac
 done
  
 ln -sf rpm/rpmpopt-%{realversion} %i/lib/rpmpopt
