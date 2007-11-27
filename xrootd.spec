@@ -2,13 +2,13 @@
 # Override default realversion since there is a "-" in the realversion
 %define realversion 20071001-0000a
 Source: http://xrootd.slac.stanford.edu/download/%{realversion}/%n-%{realversion}.src.tgz
-Requires: openssl
+#
 
 %prep 
 %setup -n xrootd
 
 %build
-./configure.classic --disable-krb4 --disable-krb5 --with-ssl-incdir=$OPENSSL_ROOT/include --with-ssl-libdir=$OPENSSL_ROOT/lib
+./configure.classic
 gmake
 
 %install
