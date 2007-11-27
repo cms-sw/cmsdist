@@ -97,7 +97,7 @@ mkdir -p %{i}/etc/profile.d
  echo "apt_version=$APT_VERSION"; \
  echo "platformSeeds=\"$platformSeeds\""; \
  echo "unsupportedSeeds=\"$unsupportedSeeds\""; \
- echo "packageList=\"`echo $packageList | sed -e 's|\s+|\s|g'`\""; \
+ echo "packageList=\"`echo $packageList`\""; \
  echo "additionalProvides=\"$additionalProvides\""; \
  echo "unsupportedProvides=\"$unsupportedProvides\""; \
 ) > %{i}/%{cmsplatf}-driver.txt
