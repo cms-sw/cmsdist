@@ -1,4 +1,4 @@
-### RPM external rpm 4.4.2.2-CMS18b
+### RPM external rpm 4.4.2.2-CMS18c
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV SET LIBRPMALIAS_FILENAME %{i}/lib/rpm/rpmpopt-%{realversion}
 ## INITENV SET LIBRPMRC_FILENAME %{i}/lib/rpm/rpmrc
@@ -10,11 +10,7 @@
 Source: http://rpm.org/releases/rpm-4.4.x/rpm-%{realversion}.tar.gz
 #Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
 
-%if "%{?online_release:set}" != "set"
-Requires: zlib
-%else
-Requires: beecrypt bz2lib neon expat db4 expat elfutils
-%endif
+Requires: beecrypt bz2lib neon db4 expat elfutils zlib
 
 Patch0: rpm-4.4.9-enum
 Patch1: rpm-4.4.9-rpmps
@@ -129,29 +125,24 @@ perl -p -i -e "s!^.buildroot!#%%buildroot!;
                s!^%%_repackage_dir.*/var/spool/repackage!%%_repackage_dir     %{instroot}/%{cmsplatf}/var/spool/repackage!" %i/lib/rpm/macros
 mkdir -p %{instroot}/%{cmsplatf}/var/spool/repackage
 mkdir -p %{i}/etc/profile.d
-(echo "#!/bin/sh"; \
- echo ". $GCC_ROOT/etc/profile.d/init.sh"; \
- echo ". $ZLIB_ROOT/etc/profile.d/init.sh"; \
- echo ". $BEECRYPT_ROOT/etc/profile.d/init.sh"; \
- echo ". $NEON_ROOT/etc/profile.d/init.sh"; \
- echo ". $EXPAT_ROOT/etc/profile.d/init.sh"; \
- echo ". $ELFUTILS_ROOT/etc/profile.d/init.sh"; \
- echo ". $BZ2LIB_ROOT/etc/profile.d/init.sh"; \
- echo ". $DB4_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
 
-(echo "#!/bin/tcsh"; \
- echo "source $GCC_ROOT/etc/profile.d/init.sh"; \
- echo "source $ZLIB_ROOT/etc/profile.d/init.sh"; \
- echo "source $BEECRYPT_ROOT/etc/profile.d/init.csh"; \
- echo "source $NEON_ROOT/etc/profile.d/init.csh"; \
- echo "source $EXPAT_ROOT/etc/profile.d/init.csh"; \
- echo "source $ELFUTILS_ROOT/etc/profile.d/init.csh"; \
- echo "source $BZ2LIB_ROOT/etc/profile.d/init.csh"; \
- echo "source $DB4_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
-
+echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
+echo '#!/bin/tcsh' > %{i}/etc/profile.d/dependencies-setup.csh
+echo requiredtools `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
+for tool in `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
+do
+    case X$tool in
+        Xdistcc|Xccache )
+        ;;
+        * )
+            toolcap=`echo $tool | tr a-z- A-Z_`
+            eval echo ". $`echo ${toolcap}_ROOT`/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.sh
+            eval echo "source $`echo ${toolcap}_ROOT`/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
+        ;;
+    esac
+done
  
 ln -sf rpm/rpmpopt-%{realversion} %i/lib/rpmpopt
-
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
