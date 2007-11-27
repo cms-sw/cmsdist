@@ -128,7 +128,8 @@ mkdir -p %{i}/etc/profile.d
 
 echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
 echo '#!/bin/tcsh' > %{i}/etc/profile.d/dependencies-setup.csh
-for tool in echo %{requiredtools}
+echo requiredtools `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
+for tool in `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
 do
     case X$tool in
         Xdistcc|Xccache )
