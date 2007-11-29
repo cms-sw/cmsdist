@@ -123,7 +123,30 @@ perl -p -i -e "s!:/etc/[^:]*!!g;
 # This is for compatibility with rpm 4.3.3
 perl -p -i -e "s!^.buildroot!#%%buildroot!;
                s!^%%_repackage_dir.*/var/spool/repackage!%%_repackage_dir     %{instroot}/%{cmsplatf}/var/spool/repackage!" %i/lib/rpm/macros
+
+# Removes any reference to /usr/lib/rpm in lib/rpm
+perl -p -i -e 's|/usr/lib/rpm([^a-zA-Z])|%{i}/lib/rpm$1|g' \
+    %{i}/lib/rpm/check-rpaths \
+    %{i}/lib/rpm/check-rpaths-worker \
+    %{i}/lib/rpm/cpanflute \
+    %{i}/lib/rpm/cpanflute2 \
+    %{i}/lib/rpm/cross-build \
+    %{i}/lib/rpm/find-debuginfo.sh \
+    %{i}/lib/rpm/find-provides.perl \
+    %{i}/lib/rpm/find-requires.perl \
+    %{i}/lib/rpm/freshen.sh \
+    %{i}/lib/rpm/perldeps.pl \
+    %{i}/lib/rpm/rpmdb_loadcvt \
+    %{i}/lib/rpm/rpmrc \
+    %{i}/lib/rpm/trpm \
+    %{i}/lib/rpm/vpkg-provides.sh \
+    %{i}/lib/rpm/vpkg-provides2.sh
+
 mkdir -p %{instroot}/%{cmsplatf}/var/spool/repackage
+
+# Generates the dependencies-setup.sh/dependencies-setup.csh
+# which is automatically sourced by init.sh/init.csh, providing 
+# the environment for all the dependencies.
 mkdir -p %{i}/etc/profile.d
 
 echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
@@ -143,9 +166,25 @@ do
 done
  
 ln -sf rpm/rpmpopt-%{realversion} %i/lib/rpmpopt
+
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
+%{relocateConfig}lib/rpm/check-rpaths 
+%{relocateConfig}lib/rpm/check-rpaths-worker 
+%{relocateConfig}lib/rpm/cpanflute 
+%{relocateConfig}lib/rpm/cpanflute2 
+%{relocateConfig}lib/rpm/cross-build 
+%{relocateConfig}lib/rpm/find-debuginfo.sh 
+%{relocateConfig}lib/rpm/find-provides.perl 
+%{relocateConfig}lib/rpm/find-requires.perl 
+%{relocateConfig}lib/rpm/freshen.sh 
+%{relocateConfig}lib/rpm/perldeps.pl 
+%{relocateConfig}lib/rpm/rpmdb_loadcvt 
+%{relocateConfig}lib/rpm/rpmrc 
+%{relocateConfig}lib/rpm/trpm 
+%{relocateConfig}lib/rpm/vpkg-provides.sh 
+%{relocateConfig}lib/rpm/vpkg-provides2.sh
 perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|" `grep -r %instroot $RPM_INSTALL_PREFIX/%pkgrel | grep -v Binary | cut -d: -f1`
 %files
 %{i}
