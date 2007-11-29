@@ -16,6 +16,7 @@ Patch7: root_CallFunc
 # using gccxml 0.7.0
 Patch9: root_5.14_reflex_gccxml070_update
 Patch10: root-5.14-xrootd-20071001-0000a
+Patch11: root-5.14-silence-tmva
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -39,6 +40,7 @@ Requires: libtiff
 %patch9 -p1
 %endif
 %patch10 -p1
+%patch11 -p1
 
 %build
 mkdir -p %i
