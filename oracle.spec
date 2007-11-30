@@ -11,9 +11,9 @@ Source10: http://www.oracle.com/technology/tech/oci/occi/downloads/occi_gcc343_1
 ## INITENV +PATH SQLPATH %i/bin
 %prep
 rm -rf instantclient_*
-yes | unzip %_sourcedir/basic.zip
-yes | unzip %_sourcedir/sdk.zip
-yes | unzip %_sourcedir/sqlplus.zip
+unzip -o -f %_sourcedir/basic.zip
+unzip -o -f %_sourcedir/sdk.zip
+unzip -o -f %_sourcedir/sqlplus.zip
 
 %build
 %install
@@ -58,7 +58,5 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <Runtime name=TNS_ADMIN default="$ORACLE_ADMINDIR">
 </Tool>
 EOF_TOOLFILE
-
 %post
 %{relocateConfig}etc/scram.d/%n
-
