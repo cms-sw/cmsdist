@@ -142,6 +142,18 @@ perl -p -i -e 's|/usr/lib/rpm([^a-zA-Z])|%{i}/lib/rpm$1|g' \
     %{i}/lib/rpm/vpkg-provides.sh \
     %{i}/lib/rpm/vpkg-provides2.sh
 
+# Changes the shebang from /usr/bin/perl to /usr/bin/env perl
+perl -p -i -e 's|^#[!]/usr/bin/perl(.*)|#!/usr/bin/env perl$1|' \
+    %{i}/lib/rpm/perl.prov \
+    %{i}/lib/rpm/perl.req \
+    %{i}/lib/rpm/rpmdiff \
+    %{i}/lib/rpm/sql.prov \
+    %{i}/lib/rpm/sql.req \
+    %{i}/lib/rpm/tcl.req \
+    %{i}/lib/rpm/magic.prov \
+    %{i}/lib/rpm/magic.req \
+    %{i}/lib/rpm/cpanflute
+
 mkdir -p %{instroot}/%{cmsplatf}/var/spool/repackage
 
 # Generates the dependencies-setup.sh/dependencies-setup.csh
@@ -166,7 +178,6 @@ do
 done
  
 ln -sf rpm/rpmpopt-%{realversion} %i/lib/rpmpopt
-
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
