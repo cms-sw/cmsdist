@@ -1,4 +1,4 @@
-### RPM external yui 2.3.1
+### RPM external yui 2.2.2
 Source: http://switch.dl.sourceforge.net/sourceforge/yui/yui_%realversion.zip 
 
 %prep
