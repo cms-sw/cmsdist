@@ -73,16 +73,7 @@ for d in $dirs; do
   done
 done
 
-additionalConfigureOptions=""
-case %cmsplatf in
-    osx105* )
-    additionalConfigureOptions="--disable-readline"
-    ;;
-esac
-
-./configure --prefix=%i $additionalConfigureOptions --enable-shared \
-            --without-tkinter --disable-tkinter
-
+./configure --prefix=%i --enable-shared --without-tkinter --disable-tkinter 
 # The following is a kludge around the fact that the /usr/lib/libreadline.so
 # symlink (for 32-bit lib) is missing on the 64bit machines
 %if "%cmsplatf" == "slc4_ia32_gcc345"
@@ -94,6 +85,7 @@ esac
   ln -s /usr/lib/libreadline.so.4.3 %{i}/lib/libreadline.so
 %endif
 make %makeprocesses
+
 
 %install
 make install

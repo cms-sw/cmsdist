@@ -1,19 +1,49 @@
-### RPM external oracle 11.1.0.6.0
+### RPM external oracle 10.2.0.3-CMS18
 ## INITENV SET ORACLE_HOME %i
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
 
-Source0: http://cmsrep.cern.ch/cmssw/oracle-mirror/%cmsos/%realversion/basic.zip
-Source1: http://cmsrep.cern.ch/cmssw/oracle-mirror/%cmsos/%realversion/sdk.zip
-Source2: http://cmsrep.cern.ch/cmssw/oracle-mirror/%cmsos/%realversion/sqlplus.zip
+Source0: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-basic-linux32-10.2.0.3-20061115.zip
+Source1: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-sdk-linux32-10.2.0.3-20061115.zip
+Source2: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-sqlplus-linux32-10.2.0.3-20061115.zip
+
+Source3: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-basic-linux-x86-64-10.2.0.3-20070103.zip
+Source4: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-sdk-linux-x86-64-10.2.0.3-20070103.zip
+Source5: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-sqlplus-linux-x86-64-10.2.0.3-20070103.zip
+
+# Not accessible with a user/pass and not in suncms cache
+#Source6: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-basic-macosx-10.1.0.3.zip
+#Source7: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-sdk-macosx-10.1.0.3.zip
+#Source8: http://oraclelon1.oracle.com/otn/linux/instantclient/10201/instantclient-sqlplus-macosx-10.1.0.3.zip
+
 Source9: oracle-license
 Source10: http://www.oracle.com/technology/tech/oci/occi/downloads/occi_gcc343_102020.tar.gz
 
 ## INITENV +PATH SQLPATH %i/bin
 %prep
 rm -rf instantclient_*
-unzip -o -f %_sourcedir/basic.zip
-unzip -o -f %_sourcedir/sdk.zip
-unzip -o -f %_sourcedir/sqlplus.zip
+case %cmsos in
+  slc3_ia32 )
+    yes | unzip %_sourcedir/*-basic-*linux32*.zip
+    yes | unzip %_sourcedir/*-sdk-*linux32*.zip
+    yes | unzip %_sourcedir/*-sqlplus-*linux32*.zip
+    ;;
+  slc4_ia32 )
+    yes | unzip %_sourcedir/*-basic-*linux32*.zip
+    yes | unzip %_sourcedir/*-sdk-*linux32*.zip
+    yes | unzip %_sourcedir/*-sqlplus-*linux32*.zip
+    tar xzvf %_sourcedir/occi_gcc343_102020.tar.gz
+    ;;
+  slc*_amd64 )
+    yes | unzip %_sourcedir/*-basic-*linux-x86-64*.zip
+    yes | unzip %_sourcedir/*-sdk-*linux-x86-64*.zip
+    yes | unzip %_sourcedir/*-sqlplus-*linux-x86-64*.zip
+    ;;
+  osx* )
+    #yes | unzip %_sourcedir/*-basic-*macosx*.zip
+    #yes | unzip %_sourcedir/*-sdk-*macosx*.zip
+    #yes | unzip %_sourcedir/*-sqlplus-*macosx*.zip
+    ;;  
+esac
 
 %build
 %install
@@ -58,5 +88,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <Runtime name=TNS_ADMIN default="$ORACLE_ADMINDIR">
 </Tool>
 EOF_TOOLFILE
+
 %post
 %{relocateConfig}etc/scram.d/%n
+

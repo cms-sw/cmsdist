@@ -14,12 +14,6 @@ esac
 make
 %install
 make install
-# MacOSX is case insensitive and the man page structure has case sensitive logic
-case %cmsplatf in
-    osx* ) 
-        rm -rf %{i}/ssl/man
-    ;;
-esac
 perl -p -i -e "s|^#!.*perl|#!/usr/bin/env perl|" %{i}/ssl/misc/CA.pl %{i}/ssl/misc/der_chop %{i}/bin/c_rehash
 #
 # SCRAM ToolBox toolfile
