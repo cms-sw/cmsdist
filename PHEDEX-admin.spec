@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-admin PHEDEX_2_5_4_1
+### RPM cms PHEDEX-admin PHEDEX_2_5_4_2
 ##
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
