@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.42 $
+# Revision: $Revision: 1.43 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -268,7 +268,8 @@ generateSeedSpec () {
       
       case $cmsplatf in
         osx* )
-      	    find /bin | sed 's!^!Provides: !'
+  	        find /usr/bin | sed 's!^!Provides: !'
+  	        find /bin | sed 's!^!Provides: !'
     	    /bin/ls -1 /usr/lib/*.dylib | awk -F"/" '{print $4}' | sed 's!^!Provides: !'
     	    /bin/ls -1 /usr/lib/*/*.dylib | awk -F"/" '{print $5}' | sed 's!^!Provides: !'
             /bin/ls -1 /usr/X11R6/lib/*.dylib | awk -F"/" '{print $5}' | sed 's!^!Provides: !'
