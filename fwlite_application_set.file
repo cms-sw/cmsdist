@@ -6,6 +6,7 @@ DataFormats/Common
 DataFormats/EgammaCandidates
 DataFormats/EgammaReco
 DataFormats/EgammaTrackReco
+DataFormats/FWLite
 DataFormats/JetReco
 DataFormats/L1Trigger
 DataFormats/METReco
