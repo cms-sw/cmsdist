@@ -1,10 +1,12 @@
-### RPM lcg root 5.14.00f-CMS1
+### RPM lcg root 5.17.06-for168
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
-Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
-#Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
+#Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
+Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 
-Patch: root-CINT-maxlongline
+#Patch: root-CINT-maxlongline
+#Patch1: root_libpng
+#Patch2: root-Cintex
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -16,7 +18,9 @@ Requires: libtiff
 
 %prep
 %setup -n root
-%patch -p0
+#%patch -p0
+#%patch1 -p2
+#%patch2 -p1
 
 %build
 mkdir -p %i

@@ -1,0 +1,37 @@
+### FILE partial-build
+
+%define cmsswsrc	http://cmsdoc.cern.ch/cms/cpt/Software/download/cms/SOURCES/cms/cmssw/%{cmssw_release}
+%define application  	%n
+%define toolconf        ${FWLITE_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
+%define cvstag 		%cmssw_release
+
+%define cvsprojuc       CMSSW
+%define cvsprojlc       cmssw
+%define cvsdir          %cvsprojuc
+%define cvsserver       %cvsprojlc
+
+# for CMSSW/config manipulations in scramv1-build.file:
+%define ucprojname  	%cvsprojuc
+
+%define cvsconfig       config
+%define confversion     %cmsConfiguration
+%define conflevel       _2
+%define prebuildtarget  gindices
+%define buildtarget     release-build
+
+%define bootstrapfile config/%{application}_bootsrc
+%define reqfile config/%{application}_requirements
+
+# Provide list of packages for the partial release:
+%define additionalSrc0 cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%buildsetrepo/%buildsetfile&export=%buildsetrepo&tag=-r%{buildsetvers}
+
+# Creates bootstrap file for a partial release. 
+# List of packages is read from file which is unpacked from additionalSrc0.
+# Reading from file allows to supply a longer list of packages than 
+# rpm shell can handle:
+%define patchsrc perl -p -e 's!config/requirements!%{reqfile}!; if (s/(<download.*)(file:src)(.*)(name="src)(">)/#$1$2$3$4$5/){open $fh, "%srctree/%buildsetrepo/%buildsetfile" or die; while(readline $fh){chomp;print "$1$2/$_$3$4/$_$5\\n"}}' config/bootsrc > %bootstrapfile
+
+# Creates requirements file with a subset of tools.
+# List of required externals must be defined in the spec file for the partial release:
+%define patchsrc2 perl -p -e 'if (m/(<select name=)(.*)(>)/){foreach $t (split / /, %externals){if ($t eq lc($2)){$matches=1;last;}}; if ($matches != 1) {s/(.*)$/#$1/};$matches=0;}' config/requirements > %reqfile
+
