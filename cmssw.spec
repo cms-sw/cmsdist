@@ -1,19 +1,18 @@
-### RPM cms cmssw CMSSW_1_8_0_pre3a
+### RPM cms cmssw CMSSW_1_6_8
 ## IMPORT configurations 
 Provides: /bin/zsh
-Provides: perl(Date::Format)
-Provides: perl(Term::ReadKey)
-Provides: perl(full)
 Requires: cmssw-tool-conf python glimpse
 
+%define toolconf        ${CMSSW_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
 %define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
 %define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
 %define cvsdir          %cvsprojuc
 %define cvsserver       %cvsprojlc
+%define conflevel       _2
 %define prebuildtarget  gindices
 %define buildtarget     release-build
+%define patchsrc perl -p -i -e 's!<select name=(MyODBC)>!!' config/requirements ;
 %define useCmsTC        1
-%define saveDeps        yes
 
 ## IMPORT cms-scram-build
 ## IMPORT scramv1-build
