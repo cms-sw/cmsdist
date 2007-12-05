@@ -1,4 +1,4 @@
-### RPM external xrootd 20071001-0000a-CMS18
+### RPM external xrootd 20071001-0000a-CMS18b
 # Override default realversion since there is a "-" in the realversion
 %define realversion 20071001-0000a
 Source: http://xrootd.slac.stanford.edu/download/%{realversion}/%n-%{realversion}.src.tgz
@@ -65,4 +65,5 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 EOF_TOOLFILE
 
 %post
+%{relocateConfig}etc/scram.d/%n
 
