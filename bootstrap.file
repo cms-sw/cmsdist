@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.43 $
+# Revision: $Revision: 1.44 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -164,6 +164,9 @@ while [ $# -gt 0 ]; do
         -verbose|-v )
           verbose=true; shift
           doReturn="\n"
+          ;;
+        -assume-yes|-y )
+          assumeYes=true; shift
           ;;
         -help|-h )
           cat << \EOF_HELP 
@@ -368,13 +371,18 @@ cd $rootdir
 forceOption=""
 if [ -d $rootdir/$rpmdb ]
 then
-    read -e -p "Warning, $rootdir already set up. Do you want to reconfigure it? [ y / N ] " override
-    case $(echo $override | tr [A-Z] [a-z]) in
-        y|ye|yes) 
-            forceOption=--force
-            ;;
-        *) echo "No changes made. Exiting... " 1>&2; exit 1;;
-    esac
+    if [ "X$assumeYes" = Xtrue ]
+    then
+        forceOption=--force
+    else
+        read -e -p "Warning, $rootdir already set up. Do you want to reconfigure it? [ y / N ] " override
+        case $(echo $override | tr [A-Z] [a-z]) in
+            y|ye|yes) 
+                forceOption=--force
+                ;;
+            *) echo "No changes made. Exiting... " 1>&2; exit 1;;
+        esac
+    fi
 else
     mkdir -p $rootdir/$rpmdb
 fi
