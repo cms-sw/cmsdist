@@ -5,23 +5,15 @@ Requires: apt
 %prep
 %build
 %install
-packageList=""
-echo requiredtools `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
-for tool in `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
-do
-    case X$tool in
-        Xdistcc|Xccache )
-        ;;
-        * )
-            toolcap=`echo $tool | tr a-z- A-Z_`
-            toolversion=$(eval echo $`echo ${toolcap}_VERSION`)
-            toolrevision=$(eval echo $`echo ${toolcap}_REVISION`)
-            echo $toolversion $toolrevision
-            packageList="$packageList external+${tool}+${toolversion}-1-${toolrevision}.%cmsplatf.rpm"
-        ;;
-    esac
-done
-
+packageList="external+elfutils+$ELFUTILS_VERSION-1-$ELFUTILS_REVISION.%cmsplatf.rpm 
+    external+expat+$EXPAT_VERSION-1-$EXPAT_REVISION.%cmsplatf.rpm
+    external+db4+$DB4_VERSION-1-$DB4_REVISION.%cmsplatf.rpm
+    external+beecrypt+$BEECRYPT_VERSION-1-$BEECRYPT_REVISION.%cmsplatf.rpm
+    external+bz2lib+$BZ2LIB_VERSION-1-$BZ2LIB_REVISION.%cmsplatf.rpm
+    external+neon+$NEON_VERSION-1-$NEON_REVISION.%cmsplatf.rpm
+    external+rpm+$RPM_VERSION-1-$RPM_REVISION.%cmsplatf.rpm
+    external+libxml2+$LIBXML2_VERSION-1-$LIBXML2_REVISION.%cmsplatf.rpm
+    external+apt+$APT_VERSION-1-$APT_REVISION.%cmsplatf.rpm"
 
 case %cmsplatf in
 slc*online* )
@@ -48,6 +40,9 @@ slc*online* )
         daq-xgi daq-xoap"
     ;;
 *)
+   packageList="external+zlib+$ZLIB_VERSION-1-$ZLIB_REVISION.%cmsplatf.rpm
+       external+openssl+$OPENSSL_VERSION-1-$OPENSSL_REVISION.%cmsplatf.rpm
+       $packageList"
    platformSeeds="glibc glibc-32bit coreutils bash tcsh zsh pdksh perl
          tcl tk perl-Tk readline openssl ncurses XFree86-libs 
          e2fsprogs krb5-libs freetype fontconfig XFree86-Mesa-libGLU
@@ -97,7 +92,7 @@ mkdir -p %{i}/etc/profile.d
  echo "apt_version=$APT_VERSION"; \
  echo "platformSeeds=\"$platformSeeds\""; \
  echo "unsupportedSeeds=\"$unsupportedSeeds\""; \
- echo "packageList=\"`echo $packageList`\""; \
+ echo "packageList=\"$packageList\""; \
  echo "additionalProvides=\"$additionalProvides\""; \
  echo "unsupportedProvides=\"$unsupportedProvides\""; \
 ) > %{i}/%{cmsplatf}-driver.txt

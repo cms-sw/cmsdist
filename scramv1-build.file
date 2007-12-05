@@ -23,7 +23,7 @@ Requires: SCRAMV1
 
 #%define scram_xml   .xml
 %define scram_xml   %{nil}
-%define scramcmd    scramv1 -arch %{cmsplatf}
+%define scramcmd    scramv1
 
 # NR: allow to specify repository and tag 
 # (default: cvsrepo and cvstag)
