@@ -1,29 +1,37 @@
-### RPM external geant4 8.3.p01-CMS18
+### RPM external geant4 9.1.cand03-global
 %define downloadv %(echo %v | cut -d- -f1)
-## INITENV SET G4NDL_PATH %i/data/G4NDL%{g4NDLVersion}
-## INITENV SET G4EMLOW_PATH %i/data/G4EMLOW%{g4EMLOWVersion}
-## INITENV SET PHOTON_EVAPORATION_PATH %i/data/PhotonEvaportation%{photonEvaporationVersion}
-## INITENV SET RADIATIVE_DECAY_PATH %i/data/RadiativeDecay%{radiativeDecayVersion}
 # Build system fudging and some patches by Lassi A. Tuura <lat@iki.fi>  
+Provides: /bin/awk
 Requires: clhep
+
+# On Marc/Jim request run optimized build keeping debug symbols:
+%define makeflags CXXFLAGS="-O -g"
+
 %define photonEvaporationVersion 2.0
-%define g4NDLVersion 3.9
+
+# FIXME: g4NDLVersion 3.12 must be used, but tarball for it 
+#        is not available yet, so we take 3.11 . NR 2007/12/06
+
+%define g4NDLVersion 3.11
 %define g4ElasticScatteringVersion 1.1
-%define g4EMLOWVersion 4.0
-%define radiativeDecayVersion 3.0
-Source0: http://geant4.cern.ch/support/source/%n.%downloadv.tar.gz
+%define g4EMLOWVersion 5.1
+%define radioactiveDecayVersion 3.2
+
+#Source0: http://geant4.cern.ch/support/source/%n.%downloadv.tar.gz
+
+Source0: cvs://:kserver:ratnik@geant4.cvs.cern.ch:/cvs/Geant4?tag=-rgeant4-09-01-cand-02&module=geant4&output=/%n.%downloadv.tar.gz
 Source1: http://geant4.cern.ch/support/source/G4NDL.%{g4NDLVersion}.tar.gz
 Source2: http://geant4.cern.ch/support/source/G4EMLOW.%{g4EMLOWVersion}.tar.gz
 Source3: http://geant4.cern.ch/support/source/PhotonEvaporation.%{photonEvaporationVersion}.tar.gz
-Source4: http://geant4.cern.ch/support/source/RadiativeDecay.%{radiativeDecayVersion}.tar.gz
+Source4: http://geant4.cern.ch/support/source/G4RadioactiveDecay.%{radioactiveDecayVersion}.tar.gz
 Source5: http://geant4.cern.ch/support/source/G4ELASTIC.%{g4ElasticScatteringVersion}.tar.gz
 
-Patch: geant-4.8.2.p01-nobanner
+#Patch: geant-4.8.2.p01-nobanner
 
 %prep
-%setup -n %n.%downloadv
+%setup -n %n
 pwd
-%patch0 -p1 
+#%patch0 -p1 
 
 %build
 if [ $(uname) = Darwin ]; then
@@ -43,7 +51,7 @@ echo "export G4LIB_BUILD_SHARED=1" >> G4BuildConf.sh
 echo "unset G4DEBUG" >> G4BuildConf.sh
 
 echo "export G4LEVELGAMMADATA=%i/data/PhotonEvaporation/%{photonEvaporationVersion}" >> G4BuildConf.sh
-echo "export G4RADIOACTIVEDATA=%i/data/RadiativeDecay%{radiativeDecayVersion}" >> G4BuildConf.sh
+echo "export G4RADIOACTIVEDATA=%i/data/RadioactiveDecay%{radioactiveDecayVersion}" >> G4BuildConf.sh
 echo "export G4LEDATA=%i/data/G4EMLOW%{g4EMLOWVersion}" >> G4BuildConf.sh
 # G4ELASTIC is not needed from 8.2 onward
 #echo "export G4ELASTIC=%i/data/G4ELASTIC%{g4ElasticScatteringVersion}" >> G4BuildConf.sh
@@ -86,8 +94,8 @@ source G4BuildConf.sh
 mkdir -p %i
 tar -cf - config source | tar -C %i -xf -
 
-make %makeprocesses -C $G4BASE global
-make %makeprocesses -C $G4BASE includes
+make %makeflags %makeprocesses -C $G4BASE global
+make %makeflags %makeprocesses -C $G4BASE includes
 
 %install
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
@@ -104,7 +112,7 @@ mkdir -p %i/data
 tar -C %i/data -zxvf %_sourcedir/G4NDL*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/G4EMLOW*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/Photon*.tar.gz
-tar -C %i/data -zxvf %_sourcedir/Rad*.tar.gz
+tar -C %i/data -zxvf %_sourcedir/G4Rad*.tar.gz
 #
 
 # SCRAM ToolBox toolfile
@@ -113,21 +121,13 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.1>
 <Tool name=GEANT4 version=%v>
 <info url=http://wwwinfo.cern.ch/asd/geant4/geant4.html></info>
-<lib name=G4digits_hits>
+<lib name=G4error_propagation>
 <lib name=G4event>
 <lib name=G4FR>
-<lib name=G4geometry>
-<lib name=G4global>
 <lib name=G4graphics_reps>
 <lib name=G4intercoms>
-<lib name=G4interfaces>
 <lib name=G4materials>
 <lib name=G4modeling>
-<lib name=G4parmodels>
-<lib name=G4particles>
-<lib name=G4persistency>
-<lib name=G4physicslists>
-<lib name=G4processes>
 <lib name=G4RayTracer>
 <lib name=G4readout>
 <lib name=G4run>
@@ -146,11 +146,11 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <Environment name=INCLUDE default="$GEANT4_BASE/include"></Environment>
 </Client>
 <use name=clhep>
-<Flags CPPDEFINES="G4USE_STD_NAMESPACE GNU_GCC">
+<Flags CPPDEFINES="G4USE_STD_NAMESPACE GNU_GCC G4V9">
 <Runtime name=G4LEVELGAMMADATA value="$GEANT4_BASE/data/PhotonEvaporation2.0" type=path>
-<Runtime name=NeutronHPCrossSections value="$GEANT4_BASE/data/G4NDL3.9" type=path>
-<Runtime name=G4RADIOACTIVEDATA value="$GEANT4_BASE/data/RadiativeDecay3.0" type=path>
-<Runtime name=G4LEDATA value="$GEANT4_BASE/data/G4EMLOW4.0" type=path>
+<Runtime name=NeutronHPCrossSections value="$GEANT4_BASE/data/G4NDL3.11" type=path>
+<Runtime name=G4RADIOACTIVEDATA value="$GEANT4_BASE/data/RadioactiveDecay3.2" type=path>
+<Runtime name=G4LEDATA value="$GEANT4_BASE/data/G4EMLOW5.1" type=path>
 </Tool>
 EOF_TOOLFILE
 
