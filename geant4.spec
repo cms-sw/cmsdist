@@ -1,4 +1,4 @@
-### RPM external geant4 9.1.cand03-global
+### RPM external geant4 9.1.cand03-CMS18
 %define downloadv %(echo %v | cut -d- -f1)
 # Build system fudging and some patches by Lassi A. Tuura <lat@iki.fi>  
 Provides: /bin/awk
@@ -19,7 +19,7 @@ Requires: clhep
 
 #Source0: http://geant4.cern.ch/support/source/%n.%downloadv.tar.gz
 
-Source0: cvs://:kserver:ratnik@geant4.cvs.cern.ch:/cvs/Geant4?tag=-rgeant4-09-01-cand-02&module=geant4&output=/%n.%downloadv.tar.gz
+Source0: cvs://:kserver:ratnik@geant4.cvs.cern.ch:/cvs/Geant4?tag=-rgeant4-09-01-cand-03&module=geant4&output=/%n.%downloadv.tar.gz
 Source1: http://geant4.cern.ch/support/source/G4NDL.%{g4NDLVersion}.tar.gz
 Source2: http://geant4.cern.ch/support/source/G4EMLOW.%{g4EMLOWVersion}.tar.gz
 Source3: http://geant4.cern.ch/support/source/PhotonEvaporation.%{photonEvaporationVersion}.tar.gz
