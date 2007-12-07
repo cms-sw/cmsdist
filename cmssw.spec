@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_1_8_0_test1
+### RPM cms cmssw CMSSW_1_8_0_pre4_g491c3
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: perl(Date::Format)
