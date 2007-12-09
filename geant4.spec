@@ -121,13 +121,22 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.1>
 <Tool name=GEANT4 version=%v>
 <info url=http://wwwinfo.cern.ch/asd/geant4/geant4.html></info>
+<lib name=G4digits_hits>
 <lib name=G4error_propagation>
 <lib name=G4event>
 <lib name=G4FR>
+<lib name=G4geometry>
+<lib name=G4global>
 <lib name=G4graphics_reps>
 <lib name=G4intercoms>
+<lib name=G4interfaces>
 <lib name=G4materials>
 <lib name=G4modeling>
+<lib name=G4parmodels>
+<lib name=G4particles>     
+<lib name=G4persistency>
+<lib name=G4physicslists>
+<lib name=G4processes>
 <lib name=G4RayTracer>
 <lib name=G4readout>
 <lib name=G4run>
