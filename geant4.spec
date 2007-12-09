@@ -4,9 +4,6 @@
 Provides: /bin/awk
 Requires: clhep
 
-# On Marc/Jim request run optimized build keeping debug symbols:
-%define makeflags CXXFLAGS="-O -g"
-
 %define photonEvaporationVersion 2.0
 
 # FIXME: g4NDLVersion 3.12 must be used, but tarball for it 
@@ -27,11 +24,13 @@ Source4: http://geant4.cern.ch/support/source/G4RadioactiveDecay.%{radioactiveDe
 Source5: http://geant4.cern.ch/support/source/G4ELASTIC.%{g4ElasticScatteringVersion}.tar.gz
 
 #Patch: geant-4.8.2.p01-nobanner
+Patch1: geant4.9.1.cand03-debug-on
 
 %prep
 %setup -n %n
 pwd
 #%patch0 -p1 
+%patch1 -p1 
 
 %build
 if [ $(uname) = Darwin ]; then
@@ -49,6 +48,7 @@ echo "export G4TMP=$PWD/tmp" >> G4BuildConf.sh
 echo "export G4LIB=%i/lib" >> G4BuildConf.sh
 echo "export G4LIB_BUILD_SHARED=1" >> G4BuildConf.sh
 echo "unset G4DEBUG" >> G4BuildConf.sh
+echo "export CPPVERBOSE=yes" >> G4BuildConf.sh
 
 echo "export G4LEVELGAMMADATA=%i/data/PhotonEvaporation/%{photonEvaporationVersion}" >> G4BuildConf.sh
 echo "export G4RADIOACTIVEDATA=%i/data/RadioactiveDecay%{radioactiveDecayVersion}" >> G4BuildConf.sh
@@ -94,8 +94,8 @@ source G4BuildConf.sh
 mkdir -p %i
 tar -cf - config source | tar -C %i -xf -
 
-make %makeflags %makeprocesses -C $G4BASE global
-make %makeflags %makeprocesses -C $G4BASE includes
+make %makeprocesses -C $G4BASE global
+make %makeprocesses -C $G4BASE includes
 
 %install
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
