@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.45 $
+# Revision: $Revision: 1.46 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -8,10 +8,21 @@ if [ X"$(id -u)" = X0 ]; then
   exit 1
 fi
 
+cleanup_and_exit () {
+    exitcode=$1
+    exitmessage=${2+"$@"}
+    [ "X$exitmessage" = X ] || echo -e $exitmessage 1>$2
+    [ "X$debug" = Xtrue ] && exit $exitcode
+    [ "X$tempdir" = X ] || [ -d $tempdir ] && rm -rf $tempdir
+    [ "X$DOWNLOAD_DIR" = X ] || [ -d $DOWNLOAD_DIR ] && rm -rf $DOWNLOAD_DIR
+    [ "X$importTmp" = X ] || [ -d $importTmp ] && rm -rf $importTmp
+    exit $exitcode    
+}
+
 download_method=
 download_curl () { curl -f -q -s "$1" -o "$2.tmp" && mv "$2.tmp" "$2"; }
 download_wget () { wget --no-check-certificate -q -O "$2.tmp" "$1" && mv "$2.tmp" "$2"; }
-download_none () { echo "No curl or wget, cannot fetch $1" 1>&2; exit 1; }
+download_none () { cleanup_and_exit 1 "No curl or wget, cannot fetch $1" }
 
 # Figure out how to download stuff
 if [ -z "$download_method" ]; then
@@ -24,11 +35,16 @@ if [ -z "$download_method" ]; then
   fi
 fi
 
+# Safely create a user-specific temp directory.
+[ "X$TMPDIR" = X ] && TMPDIR=/tmp
+tempdir=$TMPDIR/`mktemp tmpXXXXX`
+mkdir -p $tempdir
+
 # We have our own version of find-provides for bootstrap, so that we don't
 # depend on a "system" rpm installation. This is particularly handy in the case 
 # of macosx and other unsupported distributions which don't use rpm as a 
 # package manager (e.g. ubuntu).
-rpmFindProvides=/tmp/my-find-provides
+rpmFindProvides=$tempdir/my-find-provides
 cat > $rpmFindProvides <<\EOF_FIND_PROVIDES
 #!/bin/bash
 
@@ -104,7 +120,6 @@ apt_dir=apt
 groups="lcg cms external"
 
 rootdir=$(pwd)
-unsupportedDistribution=false
 testInstance=false
 
 while [ $# -gt 0 ]; do
@@ -116,20 +131,20 @@ while [ $# -gt 0 ]; do
           command=reseed
           shift;;
         -path|-p )
-          [ $# -gt 0 ] || { echo "Option \`$1' requires an argument" 1>&2; exit 1;  }
-          if [ "$(echo $2 | cut -b 1)" != "/" ]; then
-            rootdir="$PWD/$2"
-          else
+          [ $# -gt 0 ] || cleanup_and_exit 1 "Option \`$1' requires an argument"
+          if [ "$(echo $2 | cut -b 1)" = "/" ]; then
             rootdir="$2"
+          else
+            rootdir="$PWD/$2"
           fi
           shift; shift ;;
         -server )
-          [ $# -gt 1 ] || { echo "Option \`$1' requires an argument" 1>&2; exit 1;  }
+          [ $# -gt 1 ] || cleanup_and_exit 1 "Option \`$1' requires an argument"
           server=$2
           testInstance=true
           shift; shift ;;
         -server-path )
-          [ $# -gt 1 ] || { echo "Option \`$1' requires an argument" 1>&2; exit 1;  }
+          [ $# -gt 1 ] || cleanup_and_exit 1 "Option \`$1' requires an argument"
           server_main_dir=`echo $2 | sed -e "s|\(.*\)/.*/.*|\1|"`
           apt_dir=`echo $2 | sed -e "s|.*/||"`
           repository=/`echo $2 | sed -e "s|.*/\(.*\)/.*|\1|"`
@@ -139,23 +154,26 @@ while [ $# -gt 0 ]; do
           testInstance=true
           shift; shift ;;
         -repository|-r )
-          [ $# -gt 1 ] || { echo "Option \`$1' requires an argument" 1>&2; exit 1;  }
+          [ $# -gt 1 ] || cleanup_and_exit 1 "Option \`$1' requires an argument"
           repository=/$2 
           testInstance=true
           shift; shift ;;
         -groups|-g )
-          [ $# -gt 1 ] || { echo "Option \`$1' requires at lease one argument" 1>&2; exit 1; }
+          [ $# -gt 1 ] || cleanup_and_exit 1 "Option \`$1' requires at lease one argument"
           shift
           groups=""
-          while [ "$(echo $1 | cut -b1)" != "-" ] && [ "X$1" != Xsetup ] && [ "X$1" != Xreseed ] && [ $# -gt 0 ]
+          while [ $# -gt 0 ]
           do
+            [ "X$(echo $1 | cut -b1)" = X- ] && break
+            [ "X$1" = Xsetup ] && break
+            [ "X$1" = Xreseed ] && break
             groups="$groups $1"
             shift
           done
           testInstance=true
           ;;
         -architecture|-arch|-a )
-            [ $# -gt 1 ] || { echo "Option \`$1' requires at lease one argument" 1>&2; exit 1; }
+            [ $# -gt 1 ] || cleanup_and_exit 1 "Option \`$1' requires at lease one argument"
             cmsplatf="$2"
             shift; shift ;;
         -unsupported_distribution_hack )
@@ -186,16 +204,17 @@ bootstrap.sh setup [-path <cms-path>] [-server <server>] [-server-path <download
 -repository <repository> : use private apt repository cms.<username> (default: public repository)
 -groups <groups-list> : list of the channels we want to subscribe to (default: "cms external lcg virtual").
 EOF_HELP
-        exit 1
+        cleanup_and_exit 1
         ;;
         * )
-            echo "bootstrap.sh: argument $1 not supported" 1>&2; exit 1;;
+            cleanup_and_exit 1 "bootstrap.sh: argument $1 not supported"
+        ;;
     esac
 done
 
 rpmdb=$cmsplatf/var/lib/rpm
 rpmlock=$rootdir/$cmsplatf/var/lib/rpm/__db.0
-tmp=$rootdir/$cmsplatf/tmp/system-import
+importTmp=$rootdir/$cmsplatf/tmp/system-import
 
 [ "X$verbose" = Xtrue ] && echo "Using $download_method to download files."
 [ "X$verbose" = Xtrue ] && echo "RPM db in $cmsplatf/var/lib/rpm."
@@ -203,9 +222,9 @@ tmp=$rootdir/$cmsplatf/tmp/system-import
 # Get the architecture driver from the web
 driver=$server/$server_main_dir/$repository/$cmsplatf-driver.txt
 [ "X$verbose" = Xtrue ] && echo -e "Downloading driver file...\c"
-download_${download_method} $driver $TMPDIR/$cmsplatf-driver.txt
-[ -f $TMPDIR$cmsplatf-driver.txt ] || { echo -e "${doReturn}FATAL: Unable to download platform driver: $driver" 1>&2; exit 1; }
-eval `cat $TMPDIR/$cmsplatf-driver.txt`
+download_${download_method} $driver $tempdir/$cmsplatf-driver.txt
+[ -f $tempdir/$cmsplatf-driver.txt ] || cleanup_and_exit 1 "${doReturn}FATAL: Unable to download platform driver: $driver"
+eval `cat $tempdir/$cmsplatf-driver.txt`
 [ "X$verbose" = Xtrue ] && echo "Done."
 
 
@@ -227,16 +246,16 @@ generateSeedSpec () {
     
     seed="$platformSeeds"
     
-    if [ "$unsupportedDistribution" != "false" ]
+    if [ "X$unsupportedDistribution" = X ]
     then
         echo "WARNING: you are running on an unsupported distribution."
         echo "This might lead to unknown problems."
         seed="$seed $unsupportedSeeds"
     fi
     
-     rm -rf $tmp
-     mkdir -p $tmp
-     cd $tmp
+     rm -rf $importTmp
+     mkdir -p $importTmp
+     cd $importTmp
      mkdir -p SOURCES BUILD SPEC RPMS SRPMS tmp
      : > SOURCES/none
      # FIXME: It might be better to use rootdir rather than PWD
@@ -262,7 +281,7 @@ generateSeedSpec () {
         echo "Provides: $provide"
       done
       
-      if [ "$unsupportDistribution" != "false" ]
+      if [ "X$unsupportDistribution" = X ]
       then
         # Guess perl
         echo "Provides: perl = `perl -MConfig -e 'print $Config{version}'`"
@@ -318,11 +337,11 @@ generateSeedSpec () {
 seed ()
 {
     rcfile=$1
-    cd $tmp
+    cd $importTmp
     (rpmbuild -ba --rcfile $rcfile system-base-import.spec >/dev/null 2>&1
      [ "X$verbose" = Xtrue ] && echo -e "\n...Seeding database in in $rootdir/$rpmdb"
      rpm --define "_rpmlock_path $rpmlock" -U -r $rootdir --rcfile $rcfile --dbpath $rootdir/$rpmdb RPMS/system-base-import.rpm
-    ) || { error=$?; echo -e "\nError while seeding rpm database with system packages."; exit $error; }
+    ) || cleanup_and_exit $? "\nError while seeding rpm database with system packages."
     cd $was
 }
 
@@ -332,11 +351,7 @@ setup() {
 # to dbpath, some other times it does not.
 # At some point this should be really fixed in the rpm sources,
 # but for the time being we keep it as it is.
-if [ "$rootdir" = "" ]
-then
-    echo "Installation path not specified." 1>&2
-    exit 1
-fi
+if [ "$rootdir" = "" ] && cleanup_and_exit 1 "Installation path not specified."
 
 rootdir=`echo $rootdir | perl -p -e 's|/$||'`
 
@@ -356,16 +371,16 @@ downloadPath=$server/$server_main_dir/$repository/RPMS/$cmsplatf
 # Get the architecture driver from the web
 driver=$server/$server_main_dir/$repository/$cmsplatf-driver.txt
 echo -e "Downloading driver file...\c"
-download_${download_method} $driver $TMPDIR/$cmsplatf-driver.txt
-[ -f $TMPDIR$cmsplatf-driver.txt ] || { echo -e "\nUnable to download platform driver: $driver" 1>&2; exit 1; }
-eval `cat $TMPDIR/$cmsplatf-driver.txt`
+download_${download_method} $driver $tempdir/$cmsplatf-driver.txt
+[ -f $tempdir/$cmsplatf-driver.txt ] || cleanup_and_exit 1 "\nUnable to download platform driver: $driver"
+eval `cat $tempdir/$cmsplatf-driver.txt`
 echo "Done."
 
 echo -e "Downloading bootstrap core packages...\c"
 for pkg in $packageList
 do
     download_${download_method} $downloadPath/$pkg $pkg
-    [ -f $pkg ] || { echo -e "\nError downloading $pkg. Exiting." 1>&2; exit 1; }
+    [ -f $pkg ] || cleanup_and_exit 1 "\nError downloading $pkg. Exiting."
 done
 echo "Done."
 
@@ -374,7 +389,7 @@ cd $rootdir
 forceOption=""
 if [ -d $rootdir/$rpmdb ]
 then
-    [ "X$onlyOnce" = Xtrue ] && { echo "Area already initialised. Skipping bootstrap and exiting."; exit 0; }
+    [ "X$onlyOnce" = Xtrue ] && cleanup_and_exit 0 "Area already initialised. Skipping bootstrap and exiting."
     if [ "X$assumeYes" = Xtrue ]
     then
         forceOption=--force
@@ -384,7 +399,9 @@ then
             y|ye|yes) 
                 forceOption=--force
                 ;;
-            *) echo "No changes made. Exiting... " 1>&2; exit 1;;
+            *) 
+                cleanup_and_exit 0 "No changes made. Exiting... " 
+            ;;
         esac
     fi
 else
@@ -488,7 +505,7 @@ EOF_RPM2CPIO
 echo -e "Unpacking core packages...\c"
 for pkg in $packageList
 do
-    perl ./myrpm2cpio $DOWNLOAD_DIR/$pkg | cpio -idu || { echo -e "\nUnable to unpack $DOWNLOAD_DIR/$pkg"; exit 1; }
+    perl ./myrpm2cpio $DOWNLOAD_DIR/$pkg | cpio -idu || cleanup_and_exit 1 "\nUnable to unpack $DOWNLOAD_DIR/$pkg"
 done
 echo "Done."
 
@@ -512,7 +529,7 @@ echo "Done."
 echo -e "Installing packages in the local rpm database...\c"
 for pkg in $packageList
 do
-    rpm -U $forceOption --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/$pkg || { echo -e "\nError while installing $pkg. Exiting." >&2 ; exit 1; }
+    rpm -U $forceOption --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/$pkg || cleanup_and_exit 1 "\nError while installing $pkg. Exiting."
 done
 echo "Done"
 
@@ -530,9 +547,9 @@ fi
 # Source the apt environment and upgrade what's already there.
 echo -e "Initializing apt-get environment.\c"
 source $rootdir/$cmsplatf/external/apt/$apt_version/etc/profile.d/init.sh
-apt-get update >/tmp/apt-get-update.log 2>&1 || { echo -e "\nWARNING: There was a problem while running apt-get update. \
+apt-get update >$tempdir/apt-get-update.log 2>&1 || { echo -e "\nWARNING: There was a problem while running apt-get update. \
 While this might not be a problem you might want to tweak your sources.list \
-to avoid warnings in future. "; cat /tmp/apt-get-update.log; }
+to avoid warnings in future. "; cat $tempdir/apt-get-update.log; }
 
 echo "Done"
 echo "Bootstrap procedure successfully terminated."
@@ -542,7 +559,8 @@ cd $was
 ##########################################################
 case $command in
     setup )
-        setup ;;
+        setup 
+        ;;
     reseed )
         generateSeedSpec
         seed $cmsplatf/external/rpm/$rpm_version/lib/rpm/rpmrc 
