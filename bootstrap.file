@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.42 $
+# Revision: $Revision: 1.45 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -165,6 +165,12 @@ while [ $# -gt 0 ]; do
           verbose=true; shift
           doReturn="\n"
           ;;
+        -assume-yes|-y )
+          assumeYes=true; shift
+          ;;
+        -only-once )
+          onlyOnce=true; shift
+          ;;
         -help|-h )
           cat << \EOF_HELP 
 bootstrap.sh 
@@ -268,7 +274,8 @@ generateSeedSpec () {
       
       case $cmsplatf in
         osx* )
-      	    find /bin | sed 's!^!Provides: !'
+  	        find /usr/bin | sed 's!^!Provides: !'
+  	        find /bin | sed 's!^!Provides: !'
     	    /bin/ls -1 /usr/lib/*.dylib | awk -F"/" '{print $4}' | sed 's!^!Provides: !'
     	    /bin/ls -1 /usr/lib/*/*.dylib | awk -F"/" '{print $5}' | sed 's!^!Provides: !'
             /bin/ls -1 /usr/X11R6/lib/*.dylib | awk -F"/" '{print $5}' | sed 's!^!Provides: !'
@@ -367,13 +374,19 @@ cd $rootdir
 forceOption=""
 if [ -d $rootdir/$rpmdb ]
 then
-    read -e -p "Warning, $rootdir already set up. Do you want to reconfigure it? [ y / N ] " override
-    case $(echo $override | tr [A-Z] [a-z]) in
-        y|ye|yes) 
-            forceOption=--force
-            ;;
-        *) echo "No changes made. Exiting... " 1>&2; exit 1;;
-    esac
+    [ "X$onlyOnce" = Xtrue ] && { echo "Area already initialised. Skipping bootstrap and exiting."; exit 0; }
+    if [ "X$assumeYes" = Xtrue ]
+    then
+        forceOption=--force
+    else
+        read -e -p "Warning, $rootdir already set up. Do you want to reconfigure it? [ y / N ] " override
+        case $(echo $override | tr [A-Z] [a-z]) in
+            y|ye|yes) 
+                forceOption=--force
+                ;;
+            *) echo "No changes made. Exiting... " 1>&2; exit 1;;
+        esac
+    fi
 else
     mkdir -p $rootdir/$rpmdb
 fi
