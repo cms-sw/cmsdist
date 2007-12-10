@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.46 $
+# Revision: $Revision: 1.47 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -567,4 +567,4 @@ case $command in
         ;;
 esac
 
-exit 0
+cleanup_and_exit 0
