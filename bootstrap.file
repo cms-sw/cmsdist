@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.47 $
+# Revision: $Revision: 1.48 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -22,7 +22,8 @@ cleanup_and_exit () {
 download_method=
 download_curl () { curl -f -q -s "$1" -o "$2.tmp" && mv "$2.tmp" "$2"; }
 download_wget () { wget --no-check-certificate -q -O "$2.tmp" "$1" && mv "$2.tmp" "$2"; }
-download_none () { cleanup_and_exit 1 "No curl or wget, cannot fetch $1" }
+download_none () { cleanup_and_exit 1 "No curl or wget, cannot fetch $1" 
+}
 
 # Figure out how to download stuff
 if [ -z "$download_method" ]; then
@@ -189,6 +190,15 @@ while [ $# -gt 0 ]; do
         -only-once )
           onlyOnce=true; shift
           ;;
+        -additional-pkgs )
+          while [ $# -gt 0 ]
+          do
+            [ "X$(echo $1 | cut -b1)" = X- ] && break
+            [ "X$1" = Xsetup ] && break
+            [ "X$1" = Xreseed ] && break
+            additionalPkgs="$additionalPkgs $1"
+            shift
+          done
         -help|-h )
           cat << \EOF_HELP 
 bootstrap.sh 
@@ -351,7 +361,7 @@ setup() {
 # to dbpath, some other times it does not.
 # At some point this should be really fixed in the rpm sources,
 # but for the time being we keep it as it is.
-if [ "$rootdir" = "" ] && cleanup_and_exit 1 "Installation path not specified."
+[ "$rootdir" = "" ] && cleanup_and_exit 1 "Installation path not specified."
 
 rootdir=`echo $rootdir | perl -p -e 's|/$||'`
 
@@ -519,7 +529,7 @@ cd $rootdir
 echo "Done."
 # Initialise the rpmdb using the new rpm.
 echo -e "Initializing local rpm database...\c"
-rpm --define "_rpmlock_path $rpmlock" -r $rootdir --dbpath $rootdir/$rpmdb --initdb || { echo -e "\nUnable to initialize $rootdir/$rpmdb. Exiting."; exit 1; }
+rpm --define "_rpmlock_path $rpmlock" -r $rootdir --dbpath $rootdir/$rpmdb --initdb || cleanup_and_exit 1 "\nUnable to initialize $rootdir/$rpmdb. Exiting."
 # Build the seed spec and install it, in order to seed the newly generated db.
 rpmOptions="-r $rootdir --dbpath $rootdir/$rpmdb --rcfile $DOWNLOAD_DIR$instroot/$cmsplatf/external/rpm/$rpm_version/lib/rpm/rpmrc --nodeps --prefix $rootdir --ignoreos --ignorearch"
 seed $DOWNLOAD_DIR$instroot/$cmsplatf/external/rpm/$rpm_version/lib/rpm/rpmrc
@@ -552,6 +562,10 @@ While this might not be a problem you might want to tweak your sources.list \
 to avoid warnings in future. "; cat $tempdir/apt-get-update.log; }
 
 echo "Done"
+[ "X$additionalPkgs" = X ] || apt-get install -y $additionalPkgs >$tempdir/apt-get-install.log 2>&1 || { echo -e "\nWARNING: a set of additional \
+packages where required by the bootstrap options/driver, but they are impossible to install. \
+Error message is:"; cat $tempdir/apt-get-install.log;  }
+
 echo "Bootstrap procedure successfully terminated."
 cd $was
 }
