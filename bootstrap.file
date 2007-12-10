@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.44 $
+# Revision: $Revision: 1.45 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -167,6 +167,9 @@ while [ $# -gt 0 ]; do
           ;;
         -assume-yes|-y )
           assumeYes=true; shift
+          ;;
+        -only-once )
+          onlyOnce=true; shift
           ;;
         -help|-h )
           cat << \EOF_HELP 
@@ -371,6 +374,7 @@ cd $rootdir
 forceOption=""
 if [ -d $rootdir/$rpmdb ]
 then
+    [ "X$onlyOnce" = Xtrue ] && { echo "Area already initialised. Skipping bootstrap and exiting."; exit 0; }
     if [ "X$assumeYes" = Xtrue ]
     then
         forceOption=--force
