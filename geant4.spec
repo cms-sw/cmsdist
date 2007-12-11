@@ -15,7 +15,7 @@ Source0: http://geant4.cern.ch/support/source/%n.%downloadv.tar.gz
 Source1: http://geant4.cern.ch/support/source/G4NDL.%{g4NDLVersion}.tar.gz
 Source2: http://geant4.cern.ch/support/source/G4EMLOW.%{g4EMLOWVersion}.tar.gz
 Source3: http://geant4.cern.ch/support/source/PhotonEvaporation.%{photonEvaporationVersion}.tar.gz
-Source4: http://geant4.cern.ch/support/source/RadiativeDecay.%{radiativeDecayVersion}.tar.gz
+Source4: http://geant4.cern.ch/support/source/G4RadiativeDecay.%{radiativeDecayVersion}.tar.gz
 Source5: http://geant4.cern.ch/support/source/G4ELASTIC.%{g4ElasticScatteringVersion}.tar.gz
 
 Patch: geant-4.8.2.p01-nobanner
@@ -99,7 +99,7 @@ mkdir -p %i/data
 tar -C %i/data -zxvf %_sourcedir/G4NDL*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/G4EMLOW*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/Photon*.tar.gz
-tar -C %i/data -zxvf %_sourcedir/Rad*.tar.gz
+tar -C %i/data -zxvf %_sourcedir/G4Rad*.tar.gz
 #
 
 # SCRAM ToolBox toolfile
