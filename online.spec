@@ -1,4 +1,4 @@
-### RPM cms online CMSSW_1_7_0_ONLINExdaq5
+### RPM cms online CMSSW_1_7_3_ONLINE
 ## IMPORT configurations 
 Provides: /bin/zsh
 Requires: online-tool-conf python
