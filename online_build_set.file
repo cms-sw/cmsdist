@@ -3,7 +3,7 @@ Alignment/CommonAlignmentProducer
 Alignment/TrackerAlignment
 AnalysisDataFormats/SiStripClusterInfo
 AnalysisDataFormats/TrackInfo
-AnalysisExamples/SiStripDetectorPerformance_AnalysisExamplesSiStripDetectorPerformancePlugins
+AnalysisExamples/SiStripDetectorPerformance
 CalibCalorimetry/CaloTPG
 CalibCalorimetry/EcalLaserCorrection
 CalibCalorimetry/EcalTPGTools
@@ -169,8 +169,11 @@ DQM/HcalMonitorClient
 DQM/HcalMonitorModule
 DQM/HcalMonitorTasks
 DQM/HLTEvF
+DQM/Integration
 DQM/L1TMonitor
 DQM/PhysicsObjectsMonitoring
+DQM/RCTMonitor
+DQM/RenderPlugins
 DQM/RPCMonitorClient
 DQM/RPCMonitorDigi
 DQM/RPCMonitorModule
@@ -201,6 +204,7 @@ DQM/SiStripMonitorDisplayPlugins
 DQM/SiStripMonitorPedestals
 DQM/SiStripMonitorTrack
 DQM/TrackerMonitorTrack
+DQM/TrigXMonitor
 EventFilter/AutoBU
 EventFilter/Cosmics
 EventFilter/CSCRawToDigi
@@ -525,5 +529,6 @@ Utilities/StorageTypes
 Utilities/Testing
 Utilities/Threads
 Utilities/Timing
+VisMonitoring/DQMServer
 VisMonitoring/VisDQMBase
 VisRoot/VisRootModel

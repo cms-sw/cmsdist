@@ -63,8 +63,11 @@ DQM/HcalMonitorClient
 DQM/HcalMonitorModule
 DQM/HcalMonitorTasks
 DQM/HLTEvF
+DQM/Integration
 DQM/L1TMonitor
 DQM/PhysicsObjectsMonitoring
+DQM/RCTMonitor
+DQM/RenderPlugins
 DQM/RPCMonitorClient
 DQM/RPCMonitorDigi
 DQM/RPCMonitorModule
@@ -84,6 +87,7 @@ DQM/SiStripMonitorDisplayPlugins
 DQM/SiStripMonitorPedestals
 DQM/SiStripMonitorTrack
 DQM/TrackerMonitorTrack
+DQM/TrigXMonitor
 EventFilter/AutoBU
 EventFilter/Cosmics
 EventFilter/CSCRawToDigi
