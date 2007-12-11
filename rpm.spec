@@ -69,7 +69,7 @@ echo %(echo %{cmsos} | cut -f1 -d_)
 %patch8 -p1
 %endif
 
-%patch9 -p0
+%patch9 -p1
 
 rm -rf neon sqlite beecrypt elfutils zlib 
 
