@@ -21,6 +21,7 @@ Patch5: rpm-4.4.2.1
 Patch6: rpm-macosx
 Patch7: rpm-4.4.2.2
 Patch8: rpm-4.4.2.2-leopard
+Patch9: rpm-4.4.x-flcompress
 
 # Defaults here
 %define libdir lib
@@ -67,6 +68,8 @@ echo %(echo %{cmsos} | cut -f1 -d_)
 %if "%(echo %{cmsos} | cut -f1 -d_)" == "osx105"
 %patch8 -p1
 %endif
+
+%patch9 -p1
 
 rm -rf neon sqlite beecrypt elfutils zlib 
 
@@ -142,6 +145,18 @@ perl -p -i -e 's|/usr/lib/rpm([^a-zA-Z])|%{i}/lib/rpm$1|g' \
     %{i}/lib/rpm/vpkg-provides.sh \
     %{i}/lib/rpm/vpkg-provides2.sh
 
+# Changes the shebang from /usr/bin/perl to /usr/bin/env perl
+perl -p -i -e 's|^#[!]/usr/bin/perl(.*)|#!/usr/bin/env perl$1|' \
+    %{i}/lib/rpm/perl.prov \
+    %{i}/lib/rpm/perl.req \
+    %{i}/lib/rpm/rpmdiff \
+    %{i}/lib/rpm/sql.prov \
+    %{i}/lib/rpm/sql.req \
+    %{i}/lib/rpm/tcl.req \
+    %{i}/lib/rpm/magic.prov \
+    %{i}/lib/rpm/magic.req \
+    %{i}/lib/rpm/cpanflute
+
 mkdir -p %{instroot}/%{cmsplatf}/var/spool/repackage
 
 # Generates the dependencies-setup.sh/dependencies-setup.csh
@@ -166,7 +181,6 @@ do
 done
  
 ln -sf rpm/rpmpopt-%{realversion} %i/lib/rpmpopt
-
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
