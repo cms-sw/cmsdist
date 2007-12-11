@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.49 $
+# Revision: $Revision: 1.50 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -365,11 +365,11 @@ setup() {
 [ "$rootdir" = "" ] && cleanup_and_exit 1 "Installation path not specified."
 
 rootdir=`echo $rootdir | perl -p -e 's|/$||'`
-
+mkdir -p $rootdir
 eval `echo $rootdir | awk -F \/ '{print "fakelink=$rootdir/"$2}'`
 if [ ! -e $fakelink ]
 then
-    echo $rootdir | awk -F \/ '{print "ln -s /"$2" $rootdir/"$2}'
+    #echo $rootdir | awk -F \/ '{print "ln -s /"$2" $rootdir/"$2}'
     command=`echo $rootdir | awk -F \/ '{print "ln -s /"$2" $rootdir/"$2}'`
     eval $command
 fi
@@ -516,7 +516,7 @@ EOF_RPM2CPIO
 echo -e "Unpacking core packages...\c"
 for pkg in $packageList
 do
-    perl ./myrpm2cpio $DOWNLOAD_DIR/$pkg | cpio -idu || cleanup_and_exit 1 "\nUnable to unpack $DOWNLOAD_DIR/$pkg"
+    perl ./myrpm2cpio $DOWNLOAD_DIR/$pkg | cpio -idu 2>/dev/null || cleanup_and_exit 1 "\nUnable to unpack $DOWNLOAD_DIR/$pkg"
 done
 echo "Done."
 
