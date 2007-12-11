@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.48 $
+# Revision: $Revision: 1.49 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -10,8 +10,8 @@ fi
 
 cleanup_and_exit () {
     exitcode=$1
-    exitmessage=${2+"$@"}
-    [ "X$exitmessage" = X ] || echo -e $exitmessage 1>$2
+    exitmessage=$2
+    [ "X$exitmessage" = X ] || echo -e $exitmessage 1>&2
     [ "X$debug" = Xtrue ] && exit $exitcode
     [ "X$tempdir" = X ] || [ -d $tempdir ] && rm -rf $tempdir
     [ "X$DOWNLOAD_DIR" = X ] || [ -d $DOWNLOAD_DIR ] && rm -rf $DOWNLOAD_DIR
@@ -199,6 +199,7 @@ while [ $# -gt 0 ]; do
             additionalPkgs="$additionalPkgs $1"
             shift
           done
+          ;;
         -help|-h )
           cat << \EOF_HELP 
 bootstrap.sh 
@@ -256,7 +257,7 @@ generateSeedSpec () {
     
     seed="$platformSeeds"
     
-    if [ "X$unsupportedDistribution" = X ]
+    if [ "X$unsupportedDistribution" = Xtrue ]
     then
         echo "WARNING: you are running on an unsupported distribution."
         echo "This might lead to unknown problems."
@@ -566,7 +567,6 @@ echo "Done"
 packages where required by the bootstrap options/driver, but they are impossible to install. \
 Error message is:"; cat $tempdir/apt-get-install.log;  }
 
-echo "Bootstrap procedure successfully terminated."
 cd $was
 }
 
@@ -581,4 +581,4 @@ case $command in
         ;;
 esac
 
-cleanup_and_exit 0
+cleanup_and_exit 0 "Everything completed correctly."
