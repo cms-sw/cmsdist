@@ -21,7 +21,7 @@ Patch5: rpm-4.4.2.1
 Patch6: rpm-macosx
 Patch7: rpm-4.4.2.2
 Patch8: rpm-4.4.2.2-leopard
-Patch9: rpm-4.4.x-flcompress.patch
+Patch9: rpm-4.4.x-flcompress
 
 # Defaults here
 %define libdir lib
