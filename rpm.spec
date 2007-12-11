@@ -21,6 +21,7 @@ Patch5: rpm-4.4.2.1
 Patch6: rpm-macosx
 Patch7: rpm-4.4.2.2
 Patch8: rpm-4.4.2.2-leopard
+Patch9: rpm-4.4.x-flcompress.patch
 
 # Defaults here
 %define libdir lib
@@ -67,6 +68,8 @@ echo %(echo %{cmsos} | cut -f1 -d_)
 %if "%(echo %{cmsos} | cut -f1 -d_)" == "osx105"
 %patch8 -p1
 %endif
+
+%patch9 -p0
 
 rm -rf neon sqlite beecrypt elfutils zlib 
 
