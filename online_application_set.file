@@ -85,6 +85,7 @@ DQM/SiStripMonitorPedestals
 DQM/SiStripMonitorTrack
 DQM/TrackerMonitorTrack
 EventFilter/AutoBU
+EventFilter/Cosmics
 EventFilter/CSCRawToDigi
 EventFilter/CSCTFRawToDigi
 EventFilter/DTRawToDigi
@@ -176,6 +177,8 @@ HLTrigger/Timer
 IOPool/AdaptorConfig
 IOPool/Input
 IOPool/Output
+IOPool/PFNCatalog
+IOPool/TrivialFileCatalog
 JetMETCorrections/Modules
 JetMETCorrections/Type1MET
 L1TriggerConfig/CSCTFConfigProducers
@@ -199,7 +202,14 @@ L1Trigger/GlobalTrigger
 L1Trigger/GlobalTriggerAnalyzer
 L1Trigger/L1ExtraFromDigis
 L1Trigger/RegionalCaloTrigger
+MagneticField/Engine
 MagneticField/GeomBuilder
+MagneticField/Interpolation
+MagneticField/Layers
+MagneticField/Records
+MagneticField/UniformEngine
+MagneticField/VolumeBasedEngine
+MagneticField/VolumeGeometry
 PhysicsTools/CandAlgos
 PhysicsTools/RecoCandAlgos
 PhysicsTools/RecoSelectors
@@ -213,6 +223,7 @@ RecoEgamma/EgammaHLTProducers
 RecoJets/JetAssociationProducers
 RecoJets/JetProducers
 RecoLocalCalo/CaloTowersCreator
+RecoLocalCalo/EcalRecAlgos
 RecoLocalCalo/EcalRecProducers
 RecoLocalCalo/HcalRecProducers
 RecoLocalMuon/CSCRecHit
@@ -225,7 +236,9 @@ RecoLocalTracker/SiPixelClusterizer
 RecoLocalTracker/SiPixelRecHits
 RecoLocalTracker/SiStripClusterizer
 RecoLocalTracker/SiStripRecHitConverter
+RecoLocalTracker/SiStripZeroSuppression
 RecoMET/METProducers
+RecoMuon/CosmicMuonProducer
 RecoMuon/DetLayers
 RecoMuon/L2MuonIsolationProducer
 RecoMuon/L2MuonProducer
@@ -233,6 +246,7 @@ RecoMuon/L2MuonSeedGenerator
 RecoMuon/L3MuonIsolationProducer
 RecoMuon/L3MuonProducer
 RecoMuon/L3TrackFinder
+RecoMuon/MuonSeedGenerator
 RecoMuon/TransientTrackingRecHit
 RecoPixelVertexing/PixelTrackFitting
 RecoPixelVertexing/PixelVertexFinding
