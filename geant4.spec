@@ -10,12 +10,12 @@ Requires: clhep
 %define g4NDLVersion 3.11
 %define g4ElasticScatteringVersion 1.1
 %define g4EMLOWVersion 4.3
-%define radiativeDecayVersion 3.2
+%define radiativeDecayVersion 3.0
 Source0: http://geant4.cern.ch/support/source/%n.%downloadv.tar.gz
 Source1: http://geant4.cern.ch/support/source/G4NDL.%{g4NDLVersion}.tar.gz
 Source2: http://geant4.cern.ch/support/source/G4EMLOW.%{g4EMLOWVersion}.tar.gz
 Source3: http://geant4.cern.ch/support/source/PhotonEvaporation.%{photonEvaporationVersion}.tar.gz
-Source4: http://geant4.cern.ch/support/source/G4RadiativeDecay.%{radiativeDecayVersion}.tar.gz
+Source4: http://geant4.cern.ch/support/source/RadiativeDecay.%{radiativeDecayVersion}.tar.gz
 Source5: http://geant4.cern.ch/support/source/G4ELASTIC.%{g4ElasticScatteringVersion}.tar.gz
 
 Patch: geant-4.8.2.p01-nobanner
@@ -99,7 +99,7 @@ mkdir -p %i/data
 tar -C %i/data -zxvf %_sourcedir/G4NDL*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/G4EMLOW*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/Photon*.tar.gz
-tar -C %i/data -zxvf %_sourcedir/G4Rad*.tar.gz
+tar -C %i/data -zxvf %_sourcedir/Rad*.tar.gz
 #
 
 # SCRAM ToolBox toolfile
@@ -213,9 +213,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <use name=clhep>
 <Flags CPPDEFINES="G4USE_STD_NAMESPACE GNU_GCC">
 <Runtime name=G4LEVELGAMMADATA value="$GEANT4_BASE/data/PhotonEvaporation2.0" type=path>
-<Runtime name=NeutronHPCrossSections value="$GEANT4_BASE/data/G4NDL3.9" type=path>
+<Runtime name=NeutronHPCrossSections value="$GEANT4_BASE/data/G4NDL3.11" type=path>
 <Runtime name=G4RADIOACTIVEDATA value="$GEANT4_BASE/data/RadiativeDecay3.0" type=path>
-<Runtime name=G4LEDATA value="$GEANT4_BASE/data/G4EMLOW4.0" type=path>
+<Runtime name=G4LEDATA value="$GEANT4_BASE/data/G4EMLOW4.3" type=path>
 </Tool>
 EOF_TOOLFILE
 
