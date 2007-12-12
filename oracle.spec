@@ -27,8 +27,8 @@ cp -p instantclient*/sdk/demo/* %i/demo
 cp -p instantclient*/sdk/include/* %i/include
 %if "%cmsplatf" == "slc4_ia32_gcc345"
 echo Copying libocci libraries for slc4_ia32_gcc345
-mv libocci.so.10.1 %i/lib
-mv libocci10.a %i/lib
+[ -f libocci.so.10.1 ] && mv libocci.so.10.1 %i/lib
+[ -f libocci10.a ] && mv libocci10.a %i/lib
 %endif
 (cd %i/lib && ln -s libclntsh.* $(echo libclntsh.* | sed 's/[0-9.]*$//'))
 (cd %i/lib && ln -s libocci.* $(echo libocci.* | sed 's/[0-9.]*$//'))
