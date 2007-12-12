@@ -1,4 +1,4 @@
-### RPM external geant4 8.3.p01-CMS9
+### RPM external geant4 9.0.p01
 %define downloadv %(echo %v | cut -d- -f1)
 ## INITENV SET G4NDL_PATH %i/data/G4NDL%{g4NDLVersion}
 ## INITENV SET G4EMLOW_PATH %i/data/G4EMLOW%{g4EMLOWVersion}
@@ -7,9 +7,9 @@
 # Build system fudging and some patches by Lassi A. Tuura <lat@iki.fi>  
 Requires: clhep
 %define photonEvaporationVersion 2.0
-%define g4NDLVersion 3.9
+%define g4NDLVersion 3.11
 %define g4ElasticScatteringVersion 1.1
-%define g4EMLOWVersion 4.0
+%define g4EMLOWVersion 4.3
 %define radiativeDecayVersion 3.0
 Source0: http://geant4.cern.ch/support/source/%n.%downloadv.tar.gz
 Source1: http://geant4.cern.ch/support/source/G4NDL.%{g4NDLVersion}.tar.gz
@@ -19,11 +19,13 @@ Source4: http://geant4.cern.ch/support/source/RadiativeDecay.%{radiativeDecayVer
 Source5: http://geant4.cern.ch/support/source/G4ELASTIC.%{g4ElasticScatteringVersion}.tar.gz
 
 Patch: geant-4.8.2.p01-nobanner
+Patch1: geant490p1
 
 %prep
 %setup -n %n.%downloadv
 pwd
 %patch0 -p1 
+%patch1 -p1
 
 %build
 if [ $(uname) = Darwin ]; then
@@ -203,6 +205,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <lib name=G4xrays>
 <lib name=G4phys_lists>
 <lib name=G4phys_builders>
+<lib name=G4error_propagation>
 <Client>
 <Environment name=GEANT4_BASE default="%i"></Environment>
 <Environment name=G4SRC default="$GEANT4_BASE/source"></Environment>
@@ -213,9 +216,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <use name=clhep>
 <Flags CPPDEFINES="G4USE_STD_NAMESPACE GNU_GCC">
 <Runtime name=G4LEVELGAMMADATA value="$GEANT4_BASE/data/PhotonEvaporation2.0" type=path>
-<Runtime name=NeutronHPCrossSections value="$GEANT4_BASE/data/G4NDL3.9" type=path>
+<Runtime name=NeutronHPCrossSections value="$GEANT4_BASE/data/G4NDL3.11" type=path>
 <Runtime name=G4RADIOACTIVEDATA value="$GEANT4_BASE/data/RadiativeDecay3.0" type=path>
-<Runtime name=G4LEDATA value="$GEANT4_BASE/data/G4EMLOW4.0" type=path>
+<Runtime name=G4LEDATA value="$GEANT4_BASE/data/G4EMLOW4.3" type=path>
 </Tool>
 EOF_TOOLFILE
 
