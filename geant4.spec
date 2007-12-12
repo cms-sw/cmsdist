@@ -19,11 +19,13 @@ Source4: http://geant4.cern.ch/support/source/RadiativeDecay.%{radiativeDecayVer
 Source5: http://geant4.cern.ch/support/source/G4ELASTIC.%{g4ElasticScatteringVersion}.tar.gz
 
 Patch: geant-4.8.2.p01-nobanner
+Patch1: geant490p1
 
 %prep
 %setup -n %n.%downloadv
 pwd
 %patch0 -p1 
+%patch1 -p1
 
 %build
 if [ $(uname) = Darwin ]; then
@@ -203,6 +205,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <lib name=G4xrays>
 <lib name=G4phys_lists>
 <lib name=G4phys_builders>
+<lib name=G4error_propagation>
 <Client>
 <Environment name=GEANT4_BASE default="%i"></Environment>
 <Environment name=G4SRC default="$GEANT4_BASE/source"></Environment>
