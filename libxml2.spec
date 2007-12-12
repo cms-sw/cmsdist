@@ -1,9 +1,7 @@
-### RPM external libxml2 2.6.23-CMS18
+### RPM external libxml2 2.6.23-perfreport
 Source: ftp://xmlsoft.org/%n/%n-%realversion.tar.gz
 
-%if "%{?online_release:set}" != "set"
 Requires: zlib
-%endif
 
 %prep
 %setup -n %n-%realversion
@@ -14,3 +12,8 @@ Requires: zlib
 ./configure --prefix=%i --with-zlib=/usr --without-python
 %endif
 make %makeprocesses
+%post
+%{relocateConfig}bin/xml2-config
+%{relocateConfig}lib/libxml2.la
+%{relocateConfig}lib/pkgconfig/libxml-2.0.pc
+%{relocateConfig}lib/xml2Conf.sh
