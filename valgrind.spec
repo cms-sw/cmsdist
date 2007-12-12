@@ -1,7 +1,8 @@
-### RPM external valgrind 3.2.3-CMS18
+### RPM external valgrind 3.3.0-CMS18
 ## BUILDIF case $(uname):$(uname -m) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) true ;; * ) false ;; esac
 %define realversion %(echo %v | cut -d- -f1)
 Source: http://www.valgrind.org/downloads/%{n}-%{realversion}.tar.bz2
+# These two patches (originally from version 3.2.3) should still work in 3.3.0
 Patch1: valgrind-vg323-p2-global
 Patch2: valgrind-vg323-p2-dump
 
