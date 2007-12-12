@@ -11,9 +11,9 @@ Source10: http://www.oracle.com/technology/tech/oci/occi/downloads/occi_gcc343_1
 ## INITENV +PATH SQLPATH %i/bin
 %prep
 rm -rf instantclient_*
-unzip -o -f %_sourcedir/basic.zip
-unzip -o -f %_sourcedir/sdk.zip
-unzip -o -f %_sourcedir/sqlplus.zip
+unzip -o -u %_sourcedir/basic.zip
+unzip -o -u %_sourcedir/sdk.zip
+unzip -o -u %_sourcedir/sqlplus.zip
 
 %build
 %install
