@@ -1,5 +1,6 @@
 ### FILE scramv1-tool-conf
 
+Requires: gmake
 Source0: tool2xml.pl
 
 %prep
@@ -76,6 +77,7 @@ cat << \EOF_REQUIREMENTS > %i/configurations/requirements
 EOF_REQUIREMENTS
 
 touch %i/configurations/SCRAMToolBox/CMSconfiguration
+
 for tool in %requiredtools %systemtools ${PKGTOOLS_SYSTEM_TOOLS} ; do
   uctool=`echo $tool | tr '-' '_' | tr '[a-z]' '[A-Z]'`
   toolbase=`perl -e 'print "$ENV{'$uctool'_ROOT}\n";'`
@@ -84,7 +86,7 @@ for tool in %requiredtools %systemtools ${PKGTOOLS_SYSTEM_TOOLS} ; do
     if [ -f %i/configurations/SCRAMToolBox/tools/$xtool ] ; then continue ; fi
     cp -rf $toolbase/etc/scram.d/$xtool %i/configurations/SCRAMToolBox/tools/$xtool
     perl %_sourcedir/tool2xml.pl %i/configurations/SCRAMToolBox/tools/$xtool > %i/configurations/SCRAMToolBox/tools/$xtool.xml
-    ucxtool=`echo $xtool | tr '[a-z]' '[A-Z]'`
+    ucxtool=`echo $xtool | tr '-' '_'  | tr '[a-z]' '[A-Z]'`
     toolversion=`perl -e 'print "$ENV{'$ucxtool'_VERSION}\n";'`
     if [ "X$toolversion" = "X" ] ; then toolversion=`perl -e 'print "$ENV{'$uctool'_VERSION}\n";'` ; fi
     echo "<require name=$xtool  version=$toolversion  url=\"file:tools/$xtool\"></require>" >> %i/configurations/SCRAMToolBox/CMSconfiguration
@@ -93,7 +95,22 @@ for tool in %requiredtools %systemtools ${PKGTOOLS_SYSTEM_TOOLS} ; do
     fi
   done
 done
+
 echo "</base>" >> %i/configurations/requirements
+
+# Fixes logic in above loop in case of online release:
+# the descriptions of explicitly defined systemtools should 
+# take precedence over those from cms-rebuilt rpms
+
+%if "%{?online_release:set}" == "set"
+echo "NRDEBUG systemtools:"  %systemtools
+echo "NRDEBUG PKGTOOLS_SYSTEM_TOOLS:"  ${PKGTOOLS_SYSTEM_TOOLS}
+for tool in %systemtools ${PKGTOOLS_SYSTEM_TOOLS} ; do
+  cp -rf ${SYSTEMTOOLS_ROOT}/etc/scram.d/$tool %i/configurations/SCRAMToolBox/tools/$tool
+done
+# For now copy all systemtools files. If needed, this can be done more selectively.
+%endif
+
 
 echo %scramsitename > %i/configurations/SCRAMToolBox/CMSconfigs/sitename
 sed -e 's|\(url="file:tools/.*\)"|\1.xml"|' %i/configurations/SCRAMToolBox/CMSconfiguration > CMSconfiguration.xml
