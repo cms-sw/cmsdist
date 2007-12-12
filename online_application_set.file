@@ -55,9 +55,7 @@ DataFormats/VertexReco
 DQM/CSCMonitorModule
 DQM/DTMonitorModule
 DQM/EcalBarrelMonitorDbModule
-DQM/EcalBarrelMonitorModule
 DQM/EcalEndcapMonitorDbModule
-DQM/EcalEndcapMonitorModule
 DQM/GCTMonitor
 DQM/HcalMonitorClient
 DQM/HcalMonitorModule
@@ -67,7 +65,6 @@ DQM/Integration
 DQM/L1TMonitor
 DQM/PhysicsObjectsMonitoring
 DQM/RCTMonitor
-DQM/RenderPlugins
 DQM/RPCMonitorClient
 DQM/RPCMonitorDigi
 DQM/RPCMonitorModule
