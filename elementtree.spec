@@ -3,7 +3,7 @@ Source: http://effbot.org/downloads/%n-%realversion-20050316.zip
 Requires: python
 
 %prep
-%setup -n %n-%realversion-20030511
+%setup -n %n-%realversion-20050316
 
 %build
 %install
