@@ -44,18 +44,18 @@ perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependen
 # here I use octal code \044 for $ sign since I want "$NAME" to be appear in 
 # init.sh file, instead of interpreting it here.
 # FIXME: why did Valentin not use INITENV metacommand? Shall we add INITENVE to CMSBUILD which does -e???
-(echo -e "export PYTHONPATH=\044PYTHONPATH:\044ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/"; \
- echo -e "export DDHOME=\044DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages"; \
- echo -e "export TNS_ADMIN=\044DDHOME"; \
- echo -e "export DBS_DBPARAM=\044DDHOME/DBParam"; \
- echo -e "export PYTHONPATH=\044DDHOME:\044DDHOME/QueryBuilder:\044PYTHONPATH"; \
+(echo -e "export PYTHONPATH=\044PYTHONPATH:\044ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/"
+ echo -e "export DDHOME=\044DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages"
+ echo -e "export TNS_ADMIN=\044DDHOME"
+ echo -e "export DBS_DBPARAM=\044DDHOME/DBParam"
+ echo -e "export PYTHONPATH=\044DDHOME:\044DDHOME/QueryBuilder:\044PYTHONPATH"
  ) >> %{i}/etc/profile.d/dependencies-setup.sh
 
-(echo -e "setenv PYTHONPATH \044{PYTHONPATH}:\044{ELEMENTTREE_ROOT}/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages"; \
- echo -e "setenv DDHOME \044DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages"; \
- echo -e "setenv TNS_ADMIN \044DDHOME"; \
- echo -e "setenv DBS_DBPARAM \044DDHOME/DBParam"; \
- echo -e "setenv PYTHONPATH \044{DDHOME}:\044{DDHOME}/QueryBuilder:\044{PYTHONPATH}"; \
+(echo -e "setenv PYTHONPATH \044{PYTHONPATH}:\044{ELEMENTTREE_ROOT}/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages";
+ echo -e "setenv DDHOME \044DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages"
+ echo -e "setenv TNS_ADMIN \044DDHOME"
+ echo -e "setenv DBS_DBPARAM \044DDHOME/DBParam" 
+ echo -e "setenv PYTHONPATH \044{DDHOME}:\044{DDHOME}/QueryBuilder:\044{PYTHONPATH}" 
  ) >> %{i}/etc/profile.d/dependencies-setup.csh
 
 # echo -e "rm -f \044DDHOME/YUI"; \
@@ -73,5 +73,3 @@ perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependen
 ln -s $YUI_ROOT/build $DDHOME/YUI
 ln -s $WEBTOOLS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Controllers $DDHOME/WEBTOOLS
 $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/scripts/post-install.sh `hostname` 8003
-
-
