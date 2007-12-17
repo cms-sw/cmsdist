@@ -1,4 +1,4 @@
-### RPM external rpm 4.4.2.2-CMS18b
+### RPM external rpm 4.4.2.2-CMS18c
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV SET LIBRPMALIAS_FILENAME %{i}/lib/rpm/rpmpopt-%{realversion}
 ## INITENV SET LIBRPMRC_FILENAME %{i}/lib/rpm/rpmrc
@@ -10,11 +10,7 @@
 Source: http://rpm.org/releases/rpm-4.4.x/rpm-%{realversion}.tar.gz
 #Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
 
-%if "%{?online_release:set}" != "set"
-Requires: zlib
-%else
-Requires: beecrypt bz2lib neon expat db4 expat elfutils
-%endif
+Requires: beecrypt bz2lib neon db4 expat elfutils zlib
 
 Patch0: rpm-4.4.9-enum
 Patch1: rpm-4.4.9-rpmps
@@ -25,6 +21,7 @@ Patch5: rpm-4.4.2.1
 Patch6: rpm-macosx
 Patch7: rpm-4.4.2.2
 Patch8: rpm-4.4.2.2-leopard
+Patch9: rpm-4.4.x-flcompress
 
 # Defaults here
 %define libdir lib
@@ -71,6 +68,8 @@ echo %(echo %{cmsos} | cut -f1 -d_)
 %if "%(echo %{cmsos} | cut -f1 -d_)" == "osx105"
 %patch8 -p1
 %endif
+
+%patch9 -p1
 
 rm -rf neon sqlite beecrypt elfutils zlib 
 
@@ -127,34 +126,79 @@ perl -p -i -e "s!:/etc/[^:]*!!g;
 # This is for compatibility with rpm 4.3.3
 perl -p -i -e "s!^.buildroot!#%%buildroot!;
                s!^%%_repackage_dir.*/var/spool/repackage!%%_repackage_dir     %{instroot}/%{cmsplatf}/var/spool/repackage!" %i/lib/rpm/macros
+
+# Removes any reference to /usr/lib/rpm in lib/rpm
+perl -p -i -e 's|/usr/lib/rpm([^a-zA-Z])|%{i}/lib/rpm$1|g' \
+    %{i}/lib/rpm/check-rpaths \
+    %{i}/lib/rpm/check-rpaths-worker \
+    %{i}/lib/rpm/cpanflute \
+    %{i}/lib/rpm/cpanflute2 \
+    %{i}/lib/rpm/cross-build \
+    %{i}/lib/rpm/find-debuginfo.sh \
+    %{i}/lib/rpm/find-provides.perl \
+    %{i}/lib/rpm/find-requires.perl \
+    %{i}/lib/rpm/freshen.sh \
+    %{i}/lib/rpm/perldeps.pl \
+    %{i}/lib/rpm/rpmdb_loadcvt \
+    %{i}/lib/rpm/rpmrc \
+    %{i}/lib/rpm/trpm \
+    %{i}/lib/rpm/vpkg-provides.sh \
+    %{i}/lib/rpm/vpkg-provides2.sh
+
+# Changes the shebang from /usr/bin/perl to /usr/bin/env perl
+perl -p -i -e 's|^#[!]/usr/bin/perl(.*)|#!/usr/bin/env perl$1|' \
+    %{i}/lib/rpm/perl.prov \
+    %{i}/lib/rpm/perl.req \
+    %{i}/lib/rpm/rpmdiff \
+    %{i}/lib/rpm/sql.prov \
+    %{i}/lib/rpm/sql.req \
+    %{i}/lib/rpm/tcl.req \
+    %{i}/lib/rpm/magic.prov \
+    %{i}/lib/rpm/magic.req \
+    %{i}/lib/rpm/cpanflute
+
 mkdir -p %{instroot}/%{cmsplatf}/var/spool/repackage
+
+# Generates the dependencies-setup.sh/dependencies-setup.csh
+# which is automatically sourced by init.sh/init.csh, providing 
+# the environment for all the dependencies.
 mkdir -p %{i}/etc/profile.d
-(echo "#!/bin/sh"; \
- echo ". $GCC_ROOT/etc/profile.d/init.sh"; \
- echo ". $ZLIB_ROOT/etc/profile.d/init.sh"; \
- echo ". $BEECRYPT_ROOT/etc/profile.d/init.sh"; \
- echo ". $NEON_ROOT/etc/profile.d/init.sh"; \
- echo ". $EXPAT_ROOT/etc/profile.d/init.sh"; \
- echo ". $ELFUTILS_ROOT/etc/profile.d/init.sh"; \
- echo ". $BZ2LIB_ROOT/etc/profile.d/init.sh"; \
- echo ". $DB4_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
 
-(echo "#!/bin/tcsh"; \
- echo "source $GCC_ROOT/etc/profile.d/init.sh"; \
- echo "source $ZLIB_ROOT/etc/profile.d/init.sh"; \
- echo "source $BEECRYPT_ROOT/etc/profile.d/init.csh"; \
- echo "source $NEON_ROOT/etc/profile.d/init.csh"; \
- echo "source $EXPAT_ROOT/etc/profile.d/init.csh"; \
- echo "source $ELFUTILS_ROOT/etc/profile.d/init.csh"; \
- echo "source $BZ2LIB_ROOT/etc/profile.d/init.csh"; \
- echo "source $DB4_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
-
+echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
+echo '#!/bin/tcsh' > %{i}/etc/profile.d/dependencies-setup.csh
+echo requiredtools `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
+for tool in `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
+do
+    case X$tool in
+        Xdistcc|Xccache )
+        ;;
+        * )
+            toolcap=`echo $tool | tr a-z- A-Z_`
+            eval echo ". $`echo ${toolcap}_ROOT`/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.sh
+            eval echo "source $`echo ${toolcap}_ROOT`/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
+        ;;
+    esac
+done
  
 ln -sf rpm/rpmpopt-%{realversion} %i/lib/rpmpopt
-
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
+%{relocateConfig}lib/rpm/check-rpaths 
+%{relocateConfig}lib/rpm/check-rpaths-worker 
+%{relocateConfig}lib/rpm/cpanflute 
+%{relocateConfig}lib/rpm/cpanflute2 
+%{relocateConfig}lib/rpm/cross-build 
+%{relocateConfig}lib/rpm/find-debuginfo.sh 
+%{relocateConfig}lib/rpm/find-provides.perl 
+%{relocateConfig}lib/rpm/find-requires.perl 
+%{relocateConfig}lib/rpm/freshen.sh 
+%{relocateConfig}lib/rpm/perldeps.pl 
+%{relocateConfig}lib/rpm/rpmdb_loadcvt 
+%{relocateConfig}lib/rpm/rpmrc 
+%{relocateConfig}lib/rpm/trpm 
+%{relocateConfig}lib/rpm/vpkg-provides.sh 
+%{relocateConfig}lib/rpm/vpkg-provides2.sh
 perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|" `grep -r %instroot $RPM_INSTALL_PREFIX/%pkgrel | grep -v Binary | cut -d: -f1`
 %files
 %{i}

@@ -1,9 +1,9 @@
-### RPM external elementtree 1.1-CMS18
-Source: http://effbot.org/downloads/%n-%realversion-20030511.zip
+### RPM external elementtree 1.2.6
+Source: http://effbot.org/downloads/%n-%realversion-20050316.zip
 Requires: python
 
 %prep
-%setup -n %n-%realversion-20030511
+%setup -n %n-%realversion-20050316
 
 %build
 %install
