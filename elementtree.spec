@@ -1,5 +1,5 @@
 ### RPM external elementtree 1.2.6
-Source: http://effbot.org/downloads/%n-%realversion-20030511.zip
+Source: http://effbot.org/downloads/%n-%realversion-20050316.zip
 Requires: python
 
 %prep
