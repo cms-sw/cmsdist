@@ -1,4 +1,4 @@
-### RPM external hepmc 2.01.06-CMS2
+### RPM external hepmc 2.01.08-CMS1
 Requires: clhep
 Source: http://lcgapp.cern.ch/project/simu/HepMC/download/HepMC-%realversion.tar.gz
 
@@ -27,6 +27,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
  <Environment name=INCLUDE default="$HEPMC_BASE/include"></Environment>
 </Client>
 <use name=CLHEP>
+<Runtime name=CMSSW_FWLITE_INCLUDE_PATH value="$HEPMC_BASE/include" type=path>
 </Tool>
 EOF_TOOLFILE
 
