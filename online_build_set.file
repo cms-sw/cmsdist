@@ -78,7 +78,6 @@ CondFormats/PhysicsToolsObjects
 CondFormats/RPCObjects
 CondFormats/SiPixelObjects
 CondFormats/SiStripObjects
-CondTools/Ecal
 CondTools/L1Trigger
 CondTools/SiPixel
 DataFormats/BeamSpot
@@ -160,10 +159,7 @@ DetectorDescription/PersistentDDDObjects
 DQM/CSCMonitorModule
 DQM/DTMonitorModule
 DQM/EcalBarrelMonitorDbModule
-DQM/EcalBarrelMonitorModule
-DQM/EcalCommon
 DQM/EcalEndcapMonitorDbModule
-DQM/EcalEndcapMonitorModule
 DQM/GCTMonitor
 DQM/HcalMonitorClient
 DQM/HcalMonitorModule
@@ -173,7 +169,6 @@ DQM/Integration
 DQM/L1TMonitor
 DQM/PhysicsObjectsMonitoring
 DQM/RCTMonitor
-DQM/RenderPlugins
 DQM/RPCMonitorClient
 DQM/RPCMonitorDigi
 DQM/RPCMonitorModule
@@ -365,8 +360,6 @@ MagneticField/Records
 MagneticField/UniformEngine
 MagneticField/VolumeBasedEngine
 MagneticField/VolumeGeometry
-OnlineDB/EcalCondDB
-OnlineDB/Oracle
 PhysicsTools/CandAlgos
 PhysicsTools/CandUtils
 PhysicsTools/HepMCCandAlgos
@@ -529,6 +522,5 @@ Utilities/StorageTypes
 Utilities/Testing
 Utilities/Threads
 Utilities/Timing
-VisMonitoring/DQMServer
 VisMonitoring/VisDQMBase
 VisRoot/VisRootModel
