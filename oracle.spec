@@ -1,4 +1,4 @@
-### RPM external oracle 11.1.0.6.0
+### RPM external oracle 10.2.0.3
 ## INITENV SET ORACLE_HOME %i
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
 
@@ -11,9 +11,17 @@ Source10: http://www.oracle.com/technology/tech/oci/occi/downloads/occi_gcc343_1
 ## INITENV +PATH SQLPATH %i/bin
 %prep
 rm -rf instantclient_*
-yes | unzip %_sourcedir/basic.zip
-yes | unzip %_sourcedir/sdk.zip
-yes | unzip %_sourcedir/sqlplus.zip
+rm -rf libocci.so.10.1 libocci10.a 
+unzip -o -u %_sourcedir/basic.zip
+unzip -o -u %_sourcedir/sdk.zip
+unzip -o -u %_sourcedir/sqlplus.zip
+%if "%{realversion}" == "10.2.0.3"
+case %cmsos in 
+    slc4_ia32 )
+        tar xzvf %_sourcedir/occi_gcc343_102020.tar.gz
+    ;;
+esac
+%endif
 
 %build
 %install
@@ -27,8 +35,8 @@ cp -p instantclient*/sdk/demo/* %i/demo
 cp -p instantclient*/sdk/include/* %i/include
 %if "%cmsplatf" == "slc4_ia32_gcc345"
 echo Copying libocci libraries for slc4_ia32_gcc345
-mv libocci.so.10.1 %i/lib
-mv libocci10.a %i/lib
+[ -f libocci.so.10.1 ] && mv libocci.so.10.1 %i/lib
+[ -f libocci10.a ] && mv libocci10.a %i/lib
 %endif
 (cd %i/lib && ln -s libclntsh.* $(echo libclntsh.* | sed 's/[0-9.]*$//'))
 (cd %i/lib && ln -s libocci.* $(echo libocci.* | sed 's/[0-9.]*$//'))
@@ -58,7 +66,5 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <Runtime name=TNS_ADMIN default="$ORACLE_ADMINDIR">
 </Tool>
 EOF_TOOLFILE
-
 %post
 %{relocateConfig}etc/scram.d/%n
-
