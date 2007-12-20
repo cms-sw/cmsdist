@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.51 $
+# Revision: $Revision: 1.52 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -8,20 +8,28 @@ if [ X"$(id -u)" = X0 ]; then
   exit 1
 fi
 
+if [ "X`printf hasprintf 2>/dev/null`" = Xhasprintf ]; then
+  echo_n() { printf "%s" ${1+"$@"}; }
+elif [ "X`echo -n`" = "X-n" ]; then
+  echo_n() { echo ${1+"$@"}"\c"; }
+else
+  echo_n() { echo -n ${1+"$@"}; }
+fi
+
 cleanup_and_exit () {
     exitcode=$1
     exitmessage=$2
-    [ "X$exitmessage" = X ] || echo -e $exitmessage 1>&2
+    [ "X$exitmessage" = X ] || { echo && echo $exitmessage 1>&2; }
     [ "X$debug" = Xtrue ] && exit $exitcode
     [ "X$tempdir" = X ] || [ -d $tempdir ] && rm -rf $tempdir
     [ "X$DOWNLOAD_DIR" = X ] || [ -d $DOWNLOAD_DIR ] && rm -rf $DOWNLOAD_DIR
     [ "X$importTmp" = X ] || [ -d $importTmp ] && rm -rf $importTmp
-    exit $exitcode    
+    exit $exitcode 
 }
 
 download_method=
 download_curl () { curl -f -q -s "$1" -o "$2.tmp" && mv "$2.tmp" "$2"; }
-download_wget () { wget --no-check-certificate -q -O "$2.tmp" "$1" && mv "$2.tmp" "$2"; }
+download_wget () { (wget --no-check-certificate -q -O "$2.tmp" "$1" 2>/dev/null || wget -q -O "$2.tmp" "$1") && mv "$2.tmp" "$2"; }
 download_none () { cleanup_and_exit 1 "No curl or wget, cannot fetch $1" 
 }
 
@@ -183,6 +191,10 @@ while [ $# -gt 0 ]; do
           verbose=true; shift
           doReturn="\n"
           ;;
+        -debug )
+          debug=true; shift
+          doReturn="\n"
+          ;;
         -assume-yes|-y )
           assumeYes=true; shift
           ;;
@@ -231,15 +243,15 @@ importTmp=$rootdir/$cmsplatf/tmp/system-import
 
 # Get the architecture driver from the web
 driver=$server/$server_main_dir/$repository/$cmsplatf-driver.txt
-[ "X$verbose" = Xtrue ] && echo -e "Downloading driver file...\c"
+[ "X$verbose" = Xtrue ] && echo_n "Downloading driver file..."
 download_${download_method} $driver $tempdir/$cmsplatf-driver.txt
-[ -f $tempdir/$cmsplatf-driver.txt ] || cleanup_and_exit 1 "${doReturn}FATAL: Unable to download platform driver: $driver"
+[ -f $tempdir/$cmsplatf-driver.txt ] || cleanup_and_exit 1 "FATAL: Unable to download platform driver: $driver"
 eval `cat $tempdir/$cmsplatf-driver.txt`
 [ "X$verbose" = Xtrue ] && echo "Done."
 
 
 perlHarvester () {
-	[ "X$verbose" = Xtrue ] && echo -e "\n...Harvesting for perl modules" 1>&2
+	[ "X$verbose" = Xtrue ] && echo && echo "...Harvesting for perl modules" 1>&2
     for x in `perl -e'print join "\n", @INC'`
     do
         find -L $x 2>/dev/null  \
@@ -252,7 +264,7 @@ perlHarvester () {
 generateSeedSpec () {
     # Seed system info
     # GL asound odbc java libtcl libtk
-    [ "X$verbose" = Xtrue ] && echo -e "\n...Seeding RPM database from selected system RPMs." 1>&2
+    [ "X$verbose" = Xtrue ] && echo && echo "...Seeding RPM database from selected system RPMs." 1>&2
     
     seed="$platformSeeds"
     
@@ -313,13 +325,10 @@ generateSeedSpec () {
 
       if [ "$(which dpkg 2>&1 | grep 'no dpkg' )" = "" ]
       then
-    	[ "X$verbose" = Xtrue ] && echo -e "\n...dpkg found in $(which dpkg), using it to seed the database." >&2
+    	[ "X$verbose" = Xtrue ] && echo && echo "...dpkg found in $(which dpkg), using it to seed the database." >&2
     	for p in $seed; do
     	  if [ "$(dpkg -L $p 2>&1 | grep 'is not installed')" = "" ]; then
           	  dpkg -L $p 2>/dev/null | sed -e "s|^|Provides:|"
-              # FIXME: this relies on rpm being installed. We should really have our
-              # own version of find-provides, but this will bring in more rpm helper 
-              # script, so we live with it for the moment.
               dpkg -L $p 2>/dev/null | $rpmFindProvides | sed -e "s|^|Provides:|"
           fi
     	done
@@ -327,7 +336,7 @@ generateSeedSpec () {
       fi
       if which rpm 2>&1 >/dev/null && [ "$(rpm -qa 2>&1 | grep 'use alien')" = "" ]
       then
-    	[ "X$verbose" = Xtrue ] && echo -e "\n...rpm found in $(which rpm), using it to seed the database." >&2
+    	[ "X$verbose" = Xtrue ] && echo && echo "...rpm found in $(which rpm), using it to seed the database." >&2
     	  for p in $seed; do
             rpm -q $p >/dev/null
             if [ "$?" == "0" ]
@@ -341,6 +350,7 @@ generateSeedSpec () {
       echo; echo "%description"; echo "Seeds RPM repository from the base system."
       echo; echo "%prep"; echo "%build"; echo "%install"; echo "%files";
      ) > system-base-import.spec
+    perl -p -i -e 's|^Provides:[\s]*$||' system-base-import.spec
     cd $was
 }
 
@@ -349,9 +359,9 @@ seed ()
     rcfile=$1
     cd $importTmp
     (rpmbuild -ba --rcfile $rcfile system-base-import.spec >/dev/null 2>&1
-     [ "X$verbose" = Xtrue ] && echo -e "\n...Seeding database in in $rootdir/$rpmdb"
+     [ "X$verbose" = Xtrue ] && echo && echo "...Seeding database in in $rootdir/$rpmdb"
      rpm --define "_rpmlock_path $rpmlock" -U -r $rootdir --rcfile $rcfile --dbpath $rootdir/$rpmdb RPMS/system-base-import.rpm
-    ) || cleanup_and_exit $? "\nError while seeding rpm database with system packages."
+    ) || cleanup_and_exit $? "Error while seeding rpm database with system packages."
     cd $was
 }
 
@@ -380,17 +390,17 @@ cd $DOWNLOAD_DIR
 downloadPath=$server/$server_main_dir/$repository/RPMS/$cmsplatf
 # Get the architecture driver from the web
 driver=$server/$server_main_dir/$repository/$cmsplatf-driver.txt
-echo -e "Downloading driver file...\c"
+echo_n "Downloading driver file..."
 download_${download_method} $driver $tempdir/$cmsplatf-driver.txt
-[ -f $tempdir/$cmsplatf-driver.txt ] || cleanup_and_exit 1 "\nUnable to download platform driver: $driver"
+[ -f $tempdir/$cmsplatf-driver.txt ] || cleanup_and_exit 1 "Unable to download platform driver: $driver"
 eval `cat $tempdir/$cmsplatf-driver.txt`
 echo "Done."
 
-echo -e "Downloading bootstrap core packages...\c"
+echo_n "Downloading bootstrap core packages..."
 for pkg in $packageList
 do
     download_${download_method} $downloadPath/$pkg $pkg
-    [ -f $pkg ] || cleanup_and_exit 1 "\nError downloading $pkg. Exiting."
+    [ -f $pkg ] || cleanup_and_exit 1 "Error downloading $pkg. Exiting."
 done
 echo "Done."
 
@@ -512,15 +522,15 @@ print ZCAT $rpm;
 close ZCAT;
 EOF_RPM2CPIO
 
-echo -e "Unpacking core packages...\c"
+echo_n "Unpacking core packages..."
 for pkg in $packageList
 do
-    perl ./myrpm2cpio $DOWNLOAD_DIR/$pkg | cpio -idu 2>/dev/null || cleanup_and_exit 1 "\nUnable to unpack $DOWNLOAD_DIR/$pkg"
+    perl ./myrpm2cpio $DOWNLOAD_DIR/$pkg | cpio -idu 2>/dev/null || cleanup_and_exit 1 "Unable to unpack $DOWNLOAD_DIR/$pkg"
 done
 echo "Done."
 
 # Generate the seed spec using the old rpm:
-echo -e "Harvesting system for locally available software...\c"
+echo_n "Harvesting system for locally available software..."
 generateSeedSpec
 # Now move to use the new RPM by sourcing its init.sh
 perl -p -i -e "s!(/[^ ]*$cmsplatf)!$DOWNLOAD_DIR\$1!g" `grep -R -e "/[^ ]*$cmsplatf" $DOWNLOAD_DIR$instroot | grep -v Binary | cut -d: -f1 | uniq`
@@ -528,18 +538,18 @@ source $DOWNLOAD_DIR$instroot/$cmsplatf/external/rpm/$rpm_version/etc/profile.d/
 cd $rootdir
 echo "Done."
 # Initialise the rpmdb using the new rpm.
-echo -e "Initializing local rpm database...\c"
-rpm --define "_rpmlock_path $rpmlock" -r $rootdir --dbpath $rootdir/$rpmdb --initdb || cleanup_and_exit 1 "\nUnable to initialize $rootdir/$rpmdb. Exiting."
+echo_n "Initializing local rpm database..."
+rpm --define "_rpmlock_path $rpmlock" -r $rootdir --dbpath $rootdir/$rpmdb --initdb || cleanup_and_exit 1 "Unable to initialize $rootdir/$rpmdb. Exiting."
 # Build the seed spec and install it, in order to seed the newly generated db.
 rpmOptions="-r $rootdir --dbpath $rootdir/$rpmdb --rcfile $DOWNLOAD_DIR$instroot/$cmsplatf/external/rpm/$rpm_version/lib/rpm/rpmrc --nodeps --prefix $rootdir --ignoreos --ignorearch"
 seed $DOWNLOAD_DIR$instroot/$cmsplatf/external/rpm/$rpm_version/lib/rpm/rpmrc
 echo "Done."
 
 # Install the packages, this time using rpm.
-echo -e "Installing packages in the local rpm database...\c"
+echo_n "Installing packages in the local rpm database..."
 for pkg in $packageList
 do
-    rpm -U $forceOption --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/$pkg || cleanup_and_exit 1 "\nError while installing $pkg. Exiting."
+    rpm -U $forceOption --define "_rpmlock_path $rpmlock" $rpmOptions $DOWNLOAD_DIR/$pkg || cleanup_and_exit 1 "Error while installing $pkg. Exiting."
 done
 echo "Done"
 
@@ -555,14 +565,14 @@ then
 fi
 
 # Source the apt environment and upgrade what's already there.
-echo -e "Initializing apt-get environment.\c"
+echo_n "Initializing apt-get environment."
 source $rootdir/$cmsplatf/external/apt/$apt_version/etc/profile.d/init.sh
-apt-get update >$tempdir/apt-get-update.log 2>&1 || { echo -e "\nWARNING: There was a problem while running apt-get update. \
+apt-get update >$tempdir/apt-get-update.log 2>&1 || { echo && echo "WARNING: There was a problem while running apt-get update. \
 While this might not be a problem you might want to tweak your sources.list \
 to avoid warnings in future. "; cat $tempdir/apt-get-update.log; }
 
 echo "Done"
-[ "X$additionalPkgs" = X ] || apt-get install -y $additionalPkgs >$tempdir/apt-get-install.log 2>&1 || { echo -e "\nWARNING: a set of additional \
+[ "X$additionalPkgs" = X ] || apt-get install -y $additionalPkgs >$tempdir/apt-get-install.log 2>&1 || { echo && echo "WARNING: a set of additional \
 packages where required by the bootstrap options/driver, but they are impossible to install. \
 Error message is:"; cat $tempdir/apt-get-install.log;  }
 
