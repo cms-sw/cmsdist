@@ -1,6 +1,11 @@
 ### RPM cms dbs-web V03_08_00
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
-#
+## INITENV +PATH PYTHONPATH $ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
+## INITENV SET DDHOME $DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
+## INITENV SET TNS_ADMIN $DDHOME
+## INITENV SET DBS_DBPARAM $DDHOME/DBParam
+## INITENV SET PYTHONPATH $DDHOME:$DDHOME/QueryBuilder:$PYTHONPATH
+
 %define cvstag %v
 #Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Web/DataDiscovery&export=DBS/Web/DataDiscovery&tag=-r%{cvstag}&output=/dbs-web.tar.gz
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Web/DataDiscovery&tag=-r%{cvstag}&output=/dbs-web.tar.gz
@@ -41,26 +46,6 @@ done
 perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-setup.sh
 perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
 
-# here I use octal code \044 for $ sign since I want "$NAME" to be appear in 
-# init.sh file, instead of interpreting it here.
-# FIXME: why did Valentin not use INITENV metacommand? Shall we add INITENVE to CMSBUILD which does -e???
-(echo -e "export PYTHONPATH=\044PYTHONPATH:\044ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/"
- echo -e "export DDHOME=\044DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages"
- echo -e "export TNS_ADMIN=\044DDHOME"
- echo -e "export DBS_DBPARAM=\044DDHOME/DBParam"
- echo -e "export PYTHONPATH=\044DDHOME:\044DDHOME/QueryBuilder:\044PYTHONPATH"
- ) >> %{i}/etc/profile.d/dependencies-setup.sh
-
-(echo -e "setenv PYTHONPATH \044{PYTHONPATH}:\044{ELEMENTTREE_ROOT}/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages";
- echo -e "setenv DDHOME \044DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages"
- echo -e "setenv TNS_ADMIN \044DDHOME"
- echo -e "setenv DBS_DBPARAM \044DDHOME/DBParam" 
- echo -e "setenv PYTHONPATH \044{DDHOME}:\044{DDHOME}/QueryBuilder:\044{PYTHONPATH}" 
- ) >> %{i}/etc/profile.d/dependencies-setup.csh
-
-# echo -e "rm -f \044DDHOME/YUI"; \
-# echo -e "ln -s $YUI_ROOT/build \044DDHOME/YUI"; \
-# echo -e "ln -s $WEBTOOLS_ROOT/Controllers \044DDHOME/WEBTOOLS"; \
 # Generate python code from templates 
 ./scripts/genTemplates.sh
 
