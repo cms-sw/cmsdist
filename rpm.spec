@@ -179,7 +179,10 @@ do
         ;;
     esac
 done
- 
+
+perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-setup.sh
+perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
+
 ln -sf rpm/rpmpopt-%{realversion} %i/lib/rpmpopt
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
