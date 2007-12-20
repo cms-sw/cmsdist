@@ -1,11 +1,11 @@
-### RPM cms webtools 1.2.0
+### RPM cms sitedb 1.2.0 
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 %define moduleName WEBTOOLS
 %define exportName WEBTOOLS
 %define cvstag V01-02-04
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
-Requires: python cherrypy py2-cheetah yui sqlite zlib py2-pysqlite expat openssl bz2lib db4 gdbm py2-cx-oracle py2-formencode py2-pycrypto oracle beautifulsoup py2-sqlalchemy 
+Requires: python cherrypy py2-cheetah yui sqlite zlib py2-pysqlite expat openssl bz2lib db4 gdbm py2-cx-oracle py2-formencode py2-pycrypto oracle webtools oracle-env 
 Provides: perl(CGI) 
 Provides: perl(Crypt::CBC) 
 Provides: perl(SecurityModule) 
@@ -13,6 +13,7 @@ Provides: perl(DBI)
 %prep
 %setup -n %{moduleName}
 %build
+
 rm -rf %i/etc/profile.d
 mkdir -p %i/etc/profile.d
 echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
@@ -33,12 +34,13 @@ done
 
 perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-setup.sh
 perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
+
 %install
 mkdir -p %i/etc
 mkdir -p %i/bin
-mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
-rm -rf Applications
-cp -r * %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
+mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
+rm Applications/SiteDB/Utilities/MigrateSites
+cp -r Applications/SiteDB %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
 cp cmsWeb %i/bin
 cat << \EOF_CHERRYPY_CONF > %i/etc/cherrypy.conf
 # Serve a complete directory 
@@ -76,6 +78,11 @@ RewriteRule ^/cms/services/webtools/Templates(.*)$ %i/Templates$1
 EOF_APACHE2_FOOTER
 %define pythonv %(echo $PYTHON_ROOT | cut -d. -f1,2)
 %post
+# FIXME: Hardcoded python version!!!
+echo "############################################################"
+echo "Please run the following command to create a demo sitedb"
+echo "python $RPM_INSTALL_PREFIX/%pkgrel/lib/python2.4/site-packages/Applications/SiteDB/Utilities/CreateSiteDB.py -p $RPM_INSTALL_PREFIX/%pkgrel/Applications/SiteDB/"
+echo "#############################################################"
 %{relocateConfig}etc/cherrypy.conf
 %{relocateConfig}etc/apache2.conf
 %{relocateConfig}etc/apache2-header.conf

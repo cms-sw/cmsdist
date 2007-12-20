@@ -127,11 +127,11 @@ EOF_APT_CONF
 
 cat << \EOF_SOURCES_LIST > %{i}/etc/sources.list
 rpm http://cmsrep.cern.ch cms/cpt/Software/download/cms/apt/%{cmsplatf} cms lcg external
-rpm-src http://cmsrep.cern.ch cms/cpt/Software/download/cms/apt/%{cmsplatf} cms lcg external
+# rpm-src http://cmsrep.cern.ch cms/cpt/Software/download/cms/apt/%{cmsplatf} cms lcg external
 # This are defined to support experimental repositories. The bootstrap file rewrites and uncomments
 # them when passed the appropriate commandline option. 
 #;rpm http://@SERVER@ @SERVER_PATH@@REPOSITORY@/apt/%{cmsplatf} @GROUPS@  
-#;rpm-src http://@SERVER@ @SERVER_PATH@@REPOSITORY@/apt/%{cmsplatf} @GROUPS@
+# rpm-src http://@SERVER@ @SERVER_PATH@@REPOSITORY@/apt/%{cmsplatf} @GROUPS@
 EOF_SOURCES_LIST
 
 cat << \EOF_RPMPRIORITIES > %{i}/etc/rpmpriorities

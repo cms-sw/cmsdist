@@ -1,6 +1,11 @@
-### RPM cms dbs-web V03_07_02
+### RPM cms dbs-web V03_08_00
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
-#
+## INITENV +PATH PYTHONPATH $ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
+## INITENV SET DDHOME $DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
+## INITENV SET TNS_ADMIN $DDHOME
+## INITENV SET DBS_DBPARAM $DDHOME/DBParam
+## INITENV SET PYTHONPATH $DDHOME:$DDHOME/QueryBuilder:$PYTHONPATH
+
 %define cvstag %v
 #Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Web/DataDiscovery&export=DBS/Web/DataDiscovery&tag=-r%{cvstag}&output=/dbs-web.tar.gz
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Web/DataDiscovery&tag=-r%{cvstag}&output=/dbs-web.tar.gz
@@ -19,51 +24,28 @@ cp -r Web/DataDiscovery/* %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/si
 cd %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 #ln -s $YUI_ROOT/build YUI
 
-# here I use octal code \044 for $ sign since I want "$NAME" to be appear in 
-# init.sh file, instead of interpreting it here.
-(echo "#!/bin/sh"; \
- echo "source $PYTHON_ROOT/etc/profile.d/init.sh"; \
- echo "source $CHERRYPY_ROOT/etc/profile.d/init.sh"; \
- echo "source $PY2_CHEETAH_ROOT/etc/profile.d/init.sh"; \
- echo "source $PY2_SQLALCHEMY_ROOT/etc/profile.d/init.sh"; \
- echo "source $PY2_PYSQLITE_ROOT/etc/profile.d/init.sh"; \
- echo "source $PY2_MYSQLDB_ROOT/etc/profile.d/init.sh"; \
- echo "source $WEBTOOLS_ROOT/etc/profile.d/init.sh"; \
- echo "source $YUI_ROOT/etc/profile.d/init.sh"; \
- echo "source $ORACLE_ROOT/etc/profile.d/init.sh"; \
- echo "source $PY2_CX_ORACLE_ROOT/etc/profile.d/init.sh"; \
- echo "source $MYSQL_ROOT/etc/profile.d/init.sh"; \
- echo "source $ELEMENTTREE_ROOT/etc/profile.d/init.sh"; \
- echo -e "export PYTHONPATH=\044PYTHONPATH:\044ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/"; \
- echo -e "export DDHOME=\044DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages"; \
- echo -e "export TNS_ADMIN=\044DDHOME"; \
- echo -e "export DBS_DBPARAM=\044DDHOME/DBParam"; \
- echo -e "export PYTHONPATH=\044DDHOME:\044DDHOME/QueryBuilder:\044PYTHONPATH"; \
- ) > %{i}/etc/profile.d/dependencies-setup.sh
 
-(echo "#!/bin/tcsh"; \
- echo "source $PYTHON_ROOT/etc/profile.d/init.csh"; \
- echo "source $CHERRYPY_ROOT/etc/profile.d/init.csh"; \
- echo "source $PY2_CHEETAH_ROOT/etc/profile.d/init.csh"; \
- echo "source $PY2_SQLALCHEMY_ROOT/etc/profile.d/init.csh"; \
- echo "source $PY2_PYSQLITE_ROOT/etc/profile.d/init.csh"; \
- echo "source $PY2_MYSQLDB_ROOT/etc/profile.d/init.csh"; \
- echo "source $WEBTOOLS_ROOT/etc/profile.d/init.csh"; \
- echo "source $YUI_ROOT/etc/profile.d/init.csh"; \
- echo "source $ORACLE_ROOT/etc/profile.d/init.csh"; \
- echo "source $PY2_CX_ORACLE_ROOT/etc/profile.d/init.csh"; \
- echo "source $MYSQL_ROOT/etc/profile.d/init.csh"; \
- echo "source $ELEMENTTREE_ROOT/etc/profile.d/init.csh"; \
- echo -e "setenv PYTHONPATH \044{PYTHONPATH}:\044{ELEMENTTREE_ROOT}/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages"; \
- echo -e "setenv DDHOME \044DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages"; \
- echo -e "setenv TNS_ADMIN \044DDHOME"; \
- echo -e "setenv DBS_DBPARAM \044DDHOME/DBParam"; \
- echo -e "setenv PYTHONPATH \044{DDHOME}:\044{DDHOME}/QueryBuilder:\044{PYTHONPATH}"; \
- ) > %{i}/etc/profile.d/dependencies-setup.csh
+# This will generate the correct dependencies-setup.sh/dependencies-setup.csh
+# using the information found in the Requires statements of the different
+# specs and their dependencies.
+echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
+echo '#!/bin/tcsh' > %{i}/etc/profile.d/dependencies-setup.csh
+echo requiredtools `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
+for tool in `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
+do
+    case X$tool in
+        Xdistcc|Xccache )
+        ;;
+        * )
+            toolcap=`echo $tool | tr a-z- A-Z_`
+            eval echo ". $`echo ${toolcap}_ROOT`/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.sh
+            eval echo "source $`echo ${toolcap}_ROOT`/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
+        ;;
+    esac
+done
+perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-setup.sh
+perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
 
-# echo -e "rm -f \044DDHOME/YUI"; \
-# echo -e "ln -s $YUI_ROOT/build \044DDHOME/YUI"; \
-# echo -e "ln -s $WEBTOOLS_ROOT/Controllers \044DDHOME/WEBTOOLS"; \
 # Generate python code from templates 
 ./scripts/genTemplates.sh
 
@@ -76,5 +58,3 @@ cd %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ln -s $YUI_ROOT/build $DDHOME/YUI
 ln -s $WEBTOOLS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Controllers $DDHOME/WEBTOOLS
 $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/scripts/post-install.sh `hostname` 8003
-
-
