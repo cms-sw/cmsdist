@@ -56,5 +56,7 @@ perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependen
 # setup approripate links and made post install procedure
 . $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 ln -s $YUI_ROOT/build $DDHOME/YUI
+ln -s $YUI_ROOT $DDHOME/yui
+mkdir -p $DDHOME/rss
 ln -s $WEBTOOLS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Controllers $DDHOME/WEBTOOLS
 $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/scripts/post-install.sh `hostname` 8003
