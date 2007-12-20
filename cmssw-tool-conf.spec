@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf CMS_150j
+### RPM cms cmssw-tool-conf CMS_151c
 
 Provides: tmp/slc3_ia32_gcc323/src/FWCore/TFWLiteSelector/test/libFWCoreTFWLiteSelectorTest.so
 Provides: libboost_regex-gcc-mt.so 
@@ -23,6 +23,7 @@ Requires: boost
 Requires: gsl
 Requires: clhep
 Requires: root
+Requires: xrootd
 Requires: qt
 Requires: castor
 Requires: mysql
@@ -63,11 +64,13 @@ Requires: glimpse
 Requires: valgrind
 Requires: fastjet
 Requires: ktjet
-# Remove this dependency (temporarily) for gcc4.x, 64bit and other builds,
-# i.e. keep it only for the standard slc4_ia32_gcc345 build
-%if ("%cmsplatf" == "slc4_ia32_gcc345")
-Requires: ignominy
-%endif
+# Remove this dependency altogether for the moment, until the java issues
+# are dealt with and igprof/ighook are migrated into CMSSW
+## Remove this dependency (temporarily) for gcc4.x, 64bit and other builds,
+## i.e. keep it only for the standard slc4_ia32_gcc345 build
+#%if ("%cmsplatf" == "slc4_ia32_gcc345")
+#Requires: ignominy
+#%endif
 Requires: herwig
 Requires: lhapdf
 Requires: pythia6
