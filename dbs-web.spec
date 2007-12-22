@@ -4,7 +4,7 @@
 ## INITENV SET DDHOME $DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV SET TNS_ADMIN $DDHOME
 ## INITENV SET DBS_DBPARAM $DDHOME/DBParam
-## INITENV SET PYTHONPATH $DDHOME:$DDHOME/QueryBuilder:$PYTHONPATH
+## INITENV SET PYTHONPATH ${DDHOME}:${DDHOME}/QueryBuilder:${PYTHONPATH}
 
 %define cvstag %v
 #Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Web/DataDiscovery&export=DBS/Web/DataDiscovery&tag=-r%{cvstag}&output=/dbs-web.tar.gz
