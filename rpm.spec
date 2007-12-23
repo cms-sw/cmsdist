@@ -184,6 +184,15 @@ perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-
 perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
 
 ln -sf rpm/rpmpopt-%{realversion} %i/lib/rpmpopt
+
+# Remove some of the path macros defined in macros since they could come
+# from different places (e.g. from system or from macports) and this would
+# lead to problems if a developer with macports builds a bootstrap package set.
+for shellUtil in tar cat chgrp chmod chown cp file gpg id make mkdir mv pgp rm rsh sed ssh gzip cpio perl unzip patch grep 
+do
+    perl -p -i -e "s|^%__$shellUtil\s(.*)|%__$shellUtil       $shellUtil|" %i/lib/rpm/macros
+done
+
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
