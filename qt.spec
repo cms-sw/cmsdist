@@ -1,4 +1,4 @@
-### RPM external qt 3.3.6-CMS18
+### RPM external qt 3.3.8-CMS18
 ## INITENV UNSET QMAKESPEC
 ## INITENV SET QTDIR %i
 %define qttype %(echo %realversion | sed 's/[-0-9.]*//')
@@ -27,6 +27,7 @@ Patch1: qt-mkspecs-qplatformdefs.h
 Patch2: qt-src-kernel-qaccessible_mac.cpp
 Patch3: qt-src-qt_install.pri
 Patch4: qt-mkspecs-qmake.conf_2
+Patch5: qt3-leopard
 
 %prep
 %setup -T -b %sourcepkg -n %n-%type-free-%{qtversion}
@@ -35,10 +36,16 @@ Patch4: qt-mkspecs-qmake.conf_2
 #%patch2 -p0
 #%patch3 -p0
 #%endif
-# The kludge supports the libfontconfig kludge described below
-%if (("%cmsplatf" == "slc4_ia32_gcc345")||("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422"))
+
+case %cmsplatf in
+    slc4_ia32* )
+        # The kludge supports the libfontconfig kludge described below
 %patch4 -p1
-%endif
+    ;;
+    osx105* )
+%patch5 -p1
+    ;;
+esac
 
 %build
 unset QMAKESPEC || true
