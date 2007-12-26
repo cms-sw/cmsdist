@@ -1,4 +1,4 @@
-### RPM external valgrind 3.3.0-CMS18
+### RPM external valgrind 3.3.0-CMS18a
 ## BUILDIF case $(uname):$(uname -m) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) true ;; * ) false ;; esac
 ## INITENV SET VALGRIND_LIB %{i}/lib/valgrind
 %define realversion %(echo %v | cut -d- -f1)
