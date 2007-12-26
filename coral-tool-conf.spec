@@ -1,4 +1,4 @@
-### RPM cms coral-tool-conf CMS_151c
+### RPM cms coral-tool-conf CMS_151e
 
 Requires: gcc
 Requires: pcre
