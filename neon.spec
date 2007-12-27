@@ -1,4 +1,4 @@
-### RPM external neon 0.26.3-CMS18
+### RPM external neon 0.26.3-CMS19
 Source: http://www.webdav.org/%n/%n-%realversion.tar.gz
 
 Requires: expat
