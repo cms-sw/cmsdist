@@ -1,4 +1,4 @@
-### RPM cms oracle-env 18.0
+### RPM cms oracle-env 19.0
 ## INITENV +PATH SQLPATH %i/etc
 ## INITENV SET TNS_ADMIN %i/etc
 

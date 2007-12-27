@@ -1,4 +1,4 @@
-### RPM external meschach 1.2.pCMS1-CMS18
+### RPM external meschach 1.2.pCMS1-CMS19
 Source: http://www.math.uiowa.edu/~dstewart/meschach/mesch12b.tar.gz
 Patch: meschach-1.2-slc4
 Patch1: meschach-1.2b-fPIC

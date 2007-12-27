@@ -1,4 +1,4 @@
-### RPM external boost 1.34.1-CMS18
+### RPM external boost 1.34.1-CMS19
 %define boostver _%(echo %realversion | tr . _)
 %define gccver %(echo $GCC_VERSION | cut -d. -f1,2 | sed -e 's/\.//')
 Source: http://internap.dl.sourceforge.net/sourceforge/%{n}/%{n}%{boostver}.tar.gz

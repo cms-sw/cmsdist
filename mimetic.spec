@@ -1,4 +1,4 @@
-### RPM external mimetic 0.8.9-CMS18
+### RPM external mimetic 0.8.9-CMS19
 Source: http://codesink.org/download/%{n}-%{realversion}.tar.gz
 Patch0: mimetic-0.8.9-gcc412
 

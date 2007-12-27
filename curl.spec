@@ -1,4 +1,4 @@
-### RPM external curl 7.15.3-CMS18
+### RPM external curl 7.15.3-CMS19
 Source: http://curl.haxx.se/download/%n-%realversion.tar.gz
 
 %prep

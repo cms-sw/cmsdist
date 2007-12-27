@@ -1,4 +1,4 @@
-### RPM external lhapdf 5.2.3-CMS18
+### RPM external lhapdf 5.2.3-CMS19
 %define realversion %(echo %v | cut -d- -f1)
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 %prep

@@ -1,4 +1,4 @@
-### RPM external systemtools 18
+### RPM external systemtools 19
 Source: none
 
 %if "%{?use_system_gcc:set}" == "set"

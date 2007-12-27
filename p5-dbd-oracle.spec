@@ -1,4 +1,4 @@
-### RPM external p5-dbd-oracle 1.17-CMS18
+### RPM external p5-dbd-oracle 1.17-CMS19
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')

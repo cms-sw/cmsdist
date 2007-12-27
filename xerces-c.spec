@@ -1,4 +1,4 @@
-### RPM external xerces-c 2.7.0-CMS18
+### RPM external xerces-c 2.7.0-CMS19
 %define xercesv %(echo %realversion | tr . _)
 Source: http://archive.apache.org/dist/xml/xerces-c/Xerces-C_%xercesv/source/xerces-c-src_%xercesv.tar.gz
 

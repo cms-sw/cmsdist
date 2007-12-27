@@ -1,4 +1,4 @@
-### RPM external toprex 4.23-CMS18
+### RPM external toprex 4.23-CMS19
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Patch: toprex-4.23-gfortran
 

@@ -1,4 +1,4 @@
-### RPM external gccxml 0.6.0-CMS18
+### RPM external gccxml 0.6.0-CMS19
 # or gccxml 0.7.0_20070615-CMS18
 %define gccxmlmajorver %(echo %realversion | cut -f1,2 -d.)
 Requires: cmake

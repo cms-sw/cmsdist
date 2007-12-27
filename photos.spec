@@ -1,4 +1,4 @@
-### RPM external photos 215-CMS18
+### RPM external photos 215-CMS19
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 %prep
 %setup -q -n %{n}/%{realversion}
