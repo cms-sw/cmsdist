@@ -1,4 +1,4 @@
-### RPM external libxml2 2.6.23-perfreport
+### RPM external libxml2 2.6.23-CMS19
 Source: ftp://xmlsoft.org/%n/%n-%realversion.tar.gz
 
 Requires: zlib
