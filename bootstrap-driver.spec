@@ -1,6 +1,6 @@
 ### RPM external bootstrap-driver 1.0
 Source: bootstrap
-Requires: apt
+Requires: apt zlib expat openssl beecrypt bz2lib db4 elfutils neon libxml2 rpm 
 
 %prep
 %build
