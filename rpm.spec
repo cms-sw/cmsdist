@@ -102,9 +102,9 @@ if ! make %makeprocesses
 then
     # Very ugly hack to get rid of any kind of automatically generated dependecy on /usr/lib/beecrypt.
     toBePatched=`grep -R -e '/usr/lib[6]*[4]*/[^ ]*.la' . | grep  "\.la" | cut -f1 -d:`
-    if "X$toBePatched" != "X"
+    if [ "X$toBePatched" != X ]
     then
-        perl -p -i -e 's|/usr/lib[6]*[4]*/[^ ]*.la||' `grep -R -e '/usr/lib[6]*[4]*/[^ ]*.la' . | grep  "\.la" | cut -f1 -d:`
+        perl -p -i -e 's|/usr/lib[6]*[4]*/[^ ]*.la||' $toBePatched 
         make %makeprocesses 
     fi
 fi
