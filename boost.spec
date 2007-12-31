@@ -29,7 +29,7 @@ ZLIBR="ZLIB_LIBPATH=$ZLIB_ROOT/lib"
 ZLIBI="ZLIB_INCLUDE=$ZLIB_ROOT/include"
 
 case $(uname) in
-  Darwin )  bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$ZLIBR -sTOOLS=darwin || true ;;
+  Darwin )  bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$ZLIBR -sTOOLS=darwin --toolset=darwin || true ;;
   * )       bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$ZLIBR -sTOOLS=gcc ;;
 esac
 %else
@@ -43,7 +43,15 @@ case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
 #mkdir -p %i/lib/debug
 mkdir %i/lib
 #(cd bin/boost; find libs -path "libs/*/debug/*.$so" -exec cp {} %i/lib/debug \;)
-(cd bin.v2; find libs -path "libs/*/build/gcc*/release/*.$so*" -exec cp  {} %i/lib/. \;)
+# Perhaps the following could be done with a wildcard for the darwin/gcc dir
+case $(uname) in 
+  Darwin ) 
+    (cd bin.v2; find libs -path "libs/*/build/darwin*/release/*.$so*" -exec cp  {} %i/lib/. \;)
+    ;;
+   * )
+    (cd bin.v2; find libs -path "libs/*/build/gcc*/release/*.$so*" -exec cp  {} %i/lib/. \;)
+    ;;
+esac
 find boost -name '*.[hi]*' -print |
   while read f; do
     mkdir -p %i/include/$(dirname $f)
@@ -55,13 +63,13 @@ find libs -name '*.py' -print |
     install -c $f %i/lib/$f
   done
 [ $(uname) = Darwin ] &&
-  for f in %i/lib/*.$so %i/lib/debug/*.$so; do
+  for f in %i/lib/*.$so %i/lib/*.$so; do
     install_name_tool -id $f $f
   done
 
 # Do all manipulation with files before creating symbolic links:
 perl -p -i -e "s|^#!.*python|/usr/bin/env python|" $(find %{i}/lib %{i}/bin)
-strip %i/lib/*.$so 
+#strip %i/lib/*.$so 
 
 
 #(cd %i/lib; for f in lib*-$boost_abi.$so; do ln -s $f $(echo $f | sed "s/-$boost_abi//"); done)
