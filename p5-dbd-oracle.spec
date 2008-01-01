@@ -18,7 +18,7 @@ diff Makefile.PL.orig Makefile.PL
 >        "$OH/include", # Tim Barrass, hacked for OIC install from zips
 EOF
 %ifos darwin
-[ $(uname) = Darwin ] perl -p -i -e 's/NMEDIT = nmedit/NMEDIT = true/' Makefile.PL
+perl -p -i -e 's/NMEDIT = nmedit/NMEDIT = true/' Makefile.PL
 %endif
 
 perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion -l -m $ORACLE_HOME/demo/demo.mk
