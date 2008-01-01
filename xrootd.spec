@@ -19,6 +19,10 @@ mkdir %i/utils
 mkdir %i/src
 cp -r bin/arch/* %i/bin
 cp -r lib/arch/* %i/lib
+[ $(uname) = Darwin ] &&
+  for f in %i/lib/*.a; do
+    ranlib $f 
+  done
 cp -r utils/* %i/utils
 cp -r etc/* %i/etc
 cp -r src/* %i/src
