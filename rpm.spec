@@ -211,7 +211,7 @@ done
 %{relocateConfig}lib/rpm/trpm 
 %{relocateConfig}lib/rpm/vpkg-provides.sh 
 %{relocateConfig}lib/rpm/vpkg-provides2.sh
-perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|" `grep -r %instroot $RPM_INSTALL_PREFIX/%pkgrel | grep -v Binary | cut -d: -f1`
+perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|g" `grep -r %instroot $RPM_INSTALL_PREFIX/%pkgrel | grep -v Binary | cut -d: -f1 | sort | uniq`
 %files
 %{i}
 %{instroot}/%{cmsplatf}/var/spool/repackage
