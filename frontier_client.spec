@@ -31,7 +31,7 @@ cp -r include %i
 case $(uname) in 
   Darwin ) 
     so=dylib 
-    cp libfrontier_client.$so.%{realversion} %i/lib
+    cp libfrontier_client.%{realversion}.$so %i/lib
     ln -s %i/lib/libfrontier_client.%{realversion}.$so %i/lib/libfrontier_client.$so
     ln -s %i/lib/libfrontier_client.%{realversion}.$so %i/lib/libfrontier_client.%(echo %v | sed -e "s/\([0-9]*\)\..*/\1/").$so
     ;; 
