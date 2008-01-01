@@ -35,7 +35,6 @@ case $(uname) in
     ln -s %i/lib/libfrontier_client.%{realversion}.$so %i/lib/libfrontier_client.$so
     ln -s %i/lib/libfrontier_client.%{realversion}.$so %i/lib/libfrontier_client.%(echo %v | sed -e "s/\([0-9]*\)\..*/\1/").$so
     ;; 
-    ;; 
   * ) 
     so=so 
     cp libfrontier_client.$so.%{realversion} %i/lib
