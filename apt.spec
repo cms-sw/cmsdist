@@ -40,8 +40,8 @@ esac
 %patch3 -p1
 
 %build
-export CFLAGS="-O0 -g"
-export CXXFLAGS="-O0 -g"
+#export CFLAGS="-O0 -g"
+#export CXXFLAGS="-O0 -g"
 export CPPFLAGS="-I$BZ2LIB_ROOT/include -I$BEECRYPT_ROOT/include -I$RPM_ROOT/include -I$RPM_ROOT/include/rpm"
 export LDFLAGS="-L$BZ2LIB_ROOT/lib -L$BEECRYPT_ROOT/%{libdir} -L$RPM_ROOT/%{libdir}"
 export LIBDIR="$LIBS"
