@@ -58,7 +58,10 @@ slc*online* )
 esac
 
 case $cmsplatf in
-    ydl*_ppc64* )
+    ydl*_ppc64_* )
+        platformSeeds="$platformSeeds gcc libgcc libstdc++"
+    ;;
+    ydl*_ppc_* )
         platformSeeds="$platformSeeds gcc libgcc libstdc++"
     ;;
 esac
