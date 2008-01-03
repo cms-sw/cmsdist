@@ -1,4 +1,4 @@
-### RPM cms coral CORAL_1_9_2-CMS19
+### RPM cms coral CORAL_LCG_54_pre2-CMS19
 ## IMPORT configurations
 Provides: /bin/zsh
 Requires: coral-tool-conf
@@ -9,6 +9,7 @@ Patch1:   coral-1_9_2-FrontierAccess
 %define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
 %define cvsdir          %cvsprojlc
 %define cvsserver       %cvsprojlc
+%define cvstag          LCG_54_pre2
 %define preBuildCommand (rm -rf LFCLookupService LFCReplicaService MySQLAccess)
 %define prebuildtarget  prebuild
 %define buildtarget     release-build
