@@ -73,7 +73,7 @@ CONFIG_ARGS="--enable-table
              --disable-pgsql
              --disable-xml"
 
-%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_amd64_gcc345"))
+%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422")||("%cmsplatf" == "slc4_amd64_gcc345"))
   CONFIG_ARGS="$CONFIG_ARGS --disable-cern"
 %endif
 
