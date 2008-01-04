@@ -4,10 +4,12 @@
 Requires: root
 Source: http://www.fynu.ucl.ac.be/themes/he/ggamma/hector/%{rname}_%{realversion}.tbz
 Patch0: hector-1.3.2-fPIC
+Patch1: hector-1.3.2-root-includes
 
 %prep
 %setup -q -n %{rname}
 %patch0 -p1 
+%patch1 -p1 
 
 %build
 make
