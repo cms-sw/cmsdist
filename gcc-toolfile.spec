@@ -311,6 +311,35 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
 </tool>
 EOF_TOOLFILE
 ;;
+osx104_ia32_gcc40* )
+cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
+<doc type=BuildSystem::ToolDoc version=1.1>
+<tool name=cxxcompiler version=@GCC_VERSION@ type=compiler>
+<client>
+ <Environment name=GCC_BASE default="@GCC_ROOT@"></Environment>
+ <Environment name=GCCBINDIR default="$GCC_BASE/bin"></Environment>
+ <Environment name=CXX value="$GCCBINDIR/c++"></Environment>
+</client>
+<Flags SCRAM_COMPILER_NAME="gcc40">
+<Flags CCcompiler="gcc40">
+<Flags MODULEFLAGS=" ">
+<Flags CXXDEBUGFLAG="-g">
+<Flags CPPDEFINES="GNU_GCC">
+<Flags CPPDEFINES="_GNU_SOURCE">
+<Flags CXXSHAREDOBJECTFLAGS="-fPIC">
+<Flags CXXFLAGS="-pedantic -ansi -pipe">
+<Flags CXXFLAGS="-O2">
+<Flags CXXFLAGS="-felide-constructors -fmessage-length=0 -ftemplate-depth-300">
+<Flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses">
+<Flags LDFLAGS=" ">
+<Flags CXXSHAREDFLAGS="-dynamiclib -single_module">
+<Flags SHAREDSUFFIX="dylib">
+<Flags SCRAM_LANGUAGE_TYPE="C++">
+<Runtime name=DYLD_LIBRARY_PATH value="$GCC_BASE/lib" type=path>
+<Runtime name=PATH value="$GCC_BASE/bin" type=path>
+</tool>
+EOF_TOOLFILE
+;;
 osx105* )
 cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
 <doc type=BuildSystem::ToolDoc version=1.1>
