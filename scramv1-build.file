@@ -21,7 +21,8 @@
 
 Requires: SCRAMV1
 
-%define scram_xml   .xml
+#%define scram_xml   .xml
+%define scram_xml   %{nil}
 %define scramcmd    scramv1
 
 # NR: allow to specify repository and tag 
@@ -105,14 +106,14 @@ rm -rf %{srctree}
 %setup -D -T -a 3 -n %{srctree}
 %endif
 
-touch %_builddir/config/%{ucprojname}_ignore%{scram_xml}.file
-for file in `ls %_builddir/config/%{ucprojname}_*%{scram_xml}.file | grep -v  '/%{ucprojname}_ignore%{scram_xml}.file$' | sed 's|.*/%{ucprojname}_||;s|.file$||'`; do
+touch %_builddir/config/%{ucprojname}_ignore.file
+for file in `ls %_builddir/config/%{ucprojname}_*.file | grep -v  '/%{ucprojname}_ignore.file$' | sed 's|.*/%{ucprojname}_||;s|.file$||'`; do
   sed 's|@PROJECT_NAME@|%ucprojname|g;s|@PROJECT_VERSION@|%v|g;s|@PROJECT_BUILD_PATH@|%_builddir|g' %_builddir/config/%{ucprojname}_${file}.file > %_builddir/config/${file}
 done
 if [ ${%{ucprojname}_TOOL_CONF_ROOT}/configurations/requirements%scram_xml ] ; then 
   cp ${%{ucprojname}_TOOL_CONF_ROOT}/configurations/requirements%scram_xml %_builddir/config/
 fi
-rm -f %_builddir/config/%{ucprojname}_ignore%{scram_xml}.file
+rm -f %_builddir/config/%{ucprojname}_ignore.file
 rm -rf %_builddir/config/site
 cp -rf ${%{ucprojname}_TOOL_CONF_ROOT}/configurations/SCRAMToolBox/CMSconfigs %_builddir/config/site
 echo $SCRAMV1_VERSION > %_builddir/config/scram_version
@@ -133,6 +134,7 @@ mkdir -p $(dirname %i)
 %{?buildarch:%buildarch}
 export SCRAM_TOOLBOXVERSION=%v
 %scramcmd project -d $(dirname %i) -b %{bootstrapfile} -f %_builddir/config/site/tools-`cat %_builddir/config/site/sitename`.conf
+perl -p -i -e "s|STANDALONE|%v|" %i/.SCRAM/Environment* %i/.SCRAM/%cmsplatf/ToolCache.db
 cd %i
 %scramcmd setup
 
@@ -216,7 +218,7 @@ scramver=`cat config/scram_version`
 source $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver/etc/profile.d/init.sh
 %{?buildarch:%buildarch}
 yes | %scramcmd install
-(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/linkexternal.pl --arch %cmsplatf --nolink INCLUDE) || true
+(rm -rf external/%cmsplatf; ./config/linkexternal.pl --arch %cmsplatf --nolink INCLUDE) || true
 eval `%scramcmd run -sh`
 for cmd in SealPluginRefresh EdmPluginRefresh IgPluginRefresh ; do
   cmdpath=`which $cmd 2> /dev/null`
