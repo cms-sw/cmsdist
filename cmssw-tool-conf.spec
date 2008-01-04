@@ -8,7 +8,7 @@ Provides: libboost_thread-gcc-mt.so
 Requires: pool
 Requires: coral
 Requires: seal
-Requires: gcc
+Requires: gcc-toolfile
 Requires: pcre
 Requires: zlib
 Requires: bz2lib
