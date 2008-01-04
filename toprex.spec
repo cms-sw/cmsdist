@@ -4,7 +4,7 @@ Patch: toprex-4.23-gfortran
 
 %prep
 %setup -q -n %{n}/%{realversion}
-%if "%cmsplatf" == "slc4_ia32_gcc412"
+%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422"))
 %patch -p0 
 %endif
 ./configure --lcgplatform=%cmsplatf
