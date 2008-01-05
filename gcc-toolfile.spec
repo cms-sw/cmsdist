@@ -14,7 +14,7 @@ if [ "X$GCC_ROOT" = X ]
 then
     GCC_PATH=`which gcc` || exit 1
     GCC_ROOT=`echo $GCC_PATH | sed -e 's|/bin/gcc||'`
-    GCC_VERSION=`gcc -v 2>&1 | grep "gcc version" | sed 's|.*\([0-9].[0-9].[0-9]\).*|\1|'` || exit 1
+    GCC_VERSION=`gcc -v 2>&1 | grep "gcc version" | sed 's|[^0-9]*\([0-9].[0-9].[0-9]\).*|\1|'` || exit 1
 fi
 
 COMPILER_VERSION=`echo %cmsplatf | sed -e 's|.*gcc\([0-9]*\).*|\1|'`
