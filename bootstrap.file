@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.52 $
+# Revision: $Revision: 1.53 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -590,4 +590,6 @@ case $command in
         ;;
 esac
 
+echo "Bootstrap environment to be found in: "
+echo "### $rootdir/$cmsplatf/external/apt/$apt_version/etc/profile.d/init.sh"
 cleanup_and_exit 0 "Everything completed correctly."
