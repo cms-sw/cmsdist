@@ -4,19 +4,9 @@
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
 Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 
-#Patch: root-CINT-maxlongline
-#Patch1: root_libpng
-#Patch2: root_PositionVector
-#Patch3: root-fastmerge-ttree
-#Patch4: root_TXMLSetup
-#Patch5: root-Cintex
-#Patch6: root_Reflex_Cintex
-#Patch7: root_CallFunc
-## The following patch should only be applied for gcc4.x (x>0) and when
-## using gccxml 0.7.0
-#Patch9: root_5.14_reflex_gccxml070_update
-#Patch10: root-5.14-xrootd-20071001-0000a
-#Patch11: root-5.14-silence-tmva
+Patch0: root-5.17-08-Cintex
+Patch1: root-5.17-08-libpng
+Patch2: root-5.17-08-CINT-maxlongline
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -28,19 +18,9 @@ Requires: libtiff
 
 %prep
 %setup -n root
-#%patch -p0
-#%patch1 -p2
-#%patch2 -p2
-#%patch3 -p1
-#%patch4 -p0
-#%patch5 -p1
-#%patch6 -p0
-#%patch7 -p0
-#%if "%cmsplatf" == "slc4_ia32_gcc412"
-#%patch9 -p1
-#%endif
-#%patch10 -p1
-#%patch11 -p1
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 mkdir -p %i
