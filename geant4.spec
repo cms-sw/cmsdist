@@ -155,7 +155,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <use name=clhep>
 <Flags CPPDEFINES="G4USE_STD_NAMESPACE GNU_GCC G4V9">
 <Runtime name=G4LEVELGAMMADATA value="$GEANT4_BASE/data/PhotonEvaporation2.0" type=path>
-<Runtime name=NeutronHPCrossSections value="$GEANT4_BASE/data/G4NDL3.11" type=path>
+<Runtime name=G4NEUTRONHPDATA value="$GEANT4_BASE/data/G4NDL3.12" type=path>
 <Runtime name=G4RADIOACTIVEDATA value="$GEANT4_BASE/data/RadioactiveDecay3.2" type=path>
 <Runtime name=G4LEDATA value="$GEANT4_BASE/data/G4EMLOW5.1" type=path>
 </Tool>
