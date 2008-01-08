@@ -9,7 +9,7 @@ Requires: openssl
 
 %build
 ./configure.classic --disable-krb4 --disable-krb5 --with-ssl-incdir=$OPENSSL_ROOT/include --with-ssl-libdir=$OPENSSL_ROOT/lib
-gmake
+make
 
 %install
 mkdir %i/bin
