@@ -7,6 +7,7 @@ Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 Patch0: root-5.17-08-Cintex
 Patch1: root-5.17-08-libpng
 Patch2: root-5.17-08-CINT-maxlongline
+Patch3: root-5.17-08-cint-loadfile
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -21,6 +22,7 @@ Requires: libtiff
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 mkdir -p %i
