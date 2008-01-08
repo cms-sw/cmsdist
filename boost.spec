@@ -1,6 +1,5 @@
 ### RPM external boost 1.34.1-CMS19
 %define boostver _%(echo %realversion | tr . _)
-%define gccver %(echo $GCC_VERSION | cut -d. -f1,2 | sed -e 's/\.//')
 Source: http://internap.dl.sourceforge.net/sourceforge/%{n}/%{n}%{boostver}.tar.gz
 
 Requires: boost-build python bz2lib
@@ -37,6 +36,7 @@ bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$BZ2LIBI -sTOOLS=gcc
 %endif
 
 %install
+linkgccver=%(echo %gccver | cut -d. -f1,2 | sed -e 's/\.//')
 boost_abi=$(echo %boostver | sed 's/^_//; s/_0$//')
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
 #no debug libs...
@@ -76,7 +76,7 @@ perl -p -i -e "s|^#!.*python|/usr/bin/env python|" $(find %{i}/lib %{i}/bin)
 #(cd %i/lib; for f in lib*-$boost_abi.$so; do ln -s $f $f.%realversion ; done)
 (cd %i/lib; for f in lib*-$boost_abi.$so.%{realversion}; do ln -s $f $(echo $f | sed "s/.%{realversion}$//"); done)
 (cd %i/lib; for f in lib*-$boost_abi.$so.%{realversion}; do ln -s $f $(echo $f | sed "s/-$boost_abi//" | sed "s/.%{realversion}$//"); done)
-(cd %i/lib; for f in lib*-$boost_abi.$so.%{realversion}; do ln -s $f $(echo $f | sed "s/-$boost_abi//" | sed "s/.%{realversion}$//" | sed "s/gcc%{gccver}/gcc/"); done)
+(cd %i/lib; for f in lib*-$boost_abi.$so.%{realversion}; do ln -s $f $(echo $f | sed "s/-$boost_abi//" | sed "s/.%{realversion}$//" | sed "s/gcc$linkgccver/gcc/"); done)
 #(cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $(echo $f | sed "s/-d-$boost_abi//"); done)
 #(cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $f.%realversion; done)
 (cd %i/lib/libs/python/pyste/install; python setup.py install --prefix=%i)
