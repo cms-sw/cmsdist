@@ -103,8 +103,10 @@ echo "</base>" >> %i/configurations/requirements
 # take precedence over those from cms-rebuilt rpms
 
 %if "%{?online_release:set}" == "set"
+echo "NRDEBUG systemtools:"  %systemtools
+echo "NRDEBUG PKGTOOLS_SYSTEM_TOOLS:"  ${PKGTOOLS_SYSTEM_TOOLS}
 for tool in %systemtools ${PKGTOOLS_SYSTEM_TOOLS} ; do
-  cp -rf %{onlinesystemtoolsroot}/etc/scram.d/$tool %i/configurations/SCRAMToolBox/tools/$tool
+  cp -rf ${SYSTEMTOOLS_ROOT}/etc/scram.d/$tool %i/configurations/SCRAMToolBox/tools/$tool
 done
 # For now copy all systemtools files. If needed, this can be done more selectively.
 %endif
@@ -113,7 +115,6 @@ done
 echo %scramsitename > %i/configurations/SCRAMToolBox/CMSconfigs/sitename
 sed -e 's|\(url="file:tools/.*\)"|\1.xml"|' %i/configurations/SCRAMToolBox/CMSconfiguration > CMSconfiguration.xml
 perl %_sourcedir/tool2xml.pl %i/configurations/requirements > %i/configurations/requirements.xml
-sed -i -e 's|\(url="file:CMSconfiguration\)"|\1.xml"|' %i/configurations/requirements.xml
 perl %_sourcedir/tool2xml.pl CMSconfiguration.xml > %i/configurations/SCRAMToolBox/CMSconfiguration.xml
 rm -f CMSconfiguration.xml
 
