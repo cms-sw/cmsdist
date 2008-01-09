@@ -25,6 +25,13 @@
 %define instroot	/cms
 %endif
 
+# We define cmsbuildApiVersion to be 0 in the case we are not using 
+# a recent enough version of cmsBuild/install.sh, which does not
+# set cmsbuildApiVersion.
+%if "%{?cmsbuildApiVersion:set}" != "set"
+%define cmsbuildApiVersion 0
+%endif
+
 %define pkgdir		%{pkgcategory}/%{n}/%{v}
 
 # In the spec files we expect that a version will be specified such
@@ -52,12 +59,21 @@
 %define _sourcedir	%{instroot}/SOURCES/%{pkgdir}
 %define _builddir	%{instroot}/BUILD/%{cmsplatf}/%{pkgdir}
 %define _specdir	%{instroot}/SPECS/%{pkgdir}
-%define _rpmdir		%{instroot}/RPMS
-%define _srcrpmdir	%{instroot}/SRPMS
+# The new cmsBuild script puts packages in a directory structure that
+# includes the package checksum. This way it is possible to decide
+# what spec was used to build a given package.
+%if "%cmsbuildApiVersion" == "0"
+%define _rpmdir     %{instroot}/RPMS
+%define _srcrpmdir  %{instroot}/SRPMS
+%else
+%define _rpmdir     %{instroot}/RPMS/cache/%{specchecksum}
+%define _srcrpmdir  %{instroot}/SRPMS/cache/%{specchecksum}
+%endif
 %define _tmppath	%{instroot}/tmp
 %define _topdir		%{instroot}
 
 %define _rpmfilename	%{cmsplatf}/%{pkgcategory}+%{n}+%{v}-%{version}-%{release}.%{cmsplatf}.rpm
+%define _srpmfilename	%{pkgcategory}+%{n}+%{v}-%{version}-%{release}.src.rpm
 
 
 
@@ -68,17 +84,26 @@
 %define use_system_gcc	yes
 %endif
 
-# FIXME: Support other compilers
+# Old version of install.sh/cmsBuild.sh did not set the cmscompiler variable,
+# while cmsBuild does, in order to support compilers different other than
+# gcc. For this reason we add a check to avoid setting cmscompiler in 
+# the case we are using the new cmsBuild script. 
+%if "%{?cmscompiler:set}" != "set"
 %define cmscompiler	gcc
+%endif
 
 # Guess compiler version.  "gccver" is defined by install.sh when
 # producing the spec file from the version of the gcc spec.
 %if "%cmscompiler" == "gcc"
-%if "%use_system_gcc" == "yes"
+%if "%{?use_system_gcc:set}" == "set"
 %{expand:%%define cmscompilerv	%(gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .)}
 %else
 %{expand:%%define cmscompilerv	%(echo %gccver | cut -d. -f1,2,3 | tr -d .)}
 %endif
+%endif
+
+%if "%cmscompiler" != "gcc"
+%{expand:%%define cmscompilerv %(echo %compilerRealVersion | cut -d. -f1,2 | tr -d .)}
 %endif
 
 # Define compiler platform version strings.  We use an external
@@ -86,7 +111,16 @@
 # line macros in spec files, only in "rpmmacros" files.
 %define debugsuffix %{?debug_build:_dbg}
 %define cmscomp	    	%{cmscompiler}%{cmscompilerv}
+
+# Old versions of cmsBuild/install.sh used to keep cmsos script in
+# _specdir rather than in _sourcedir. This makes sure that
+# rpm-preamble works for boths.
+%if "%{cmsbuildApiVersion}" == "0"
+%{expand:%%define cmsos %(sh %_specdir/cmsos)}
+%else
 %{expand:%%define cmsos	%(sh %_sourcedir/cmsos)}
+%endif
+
 %define cmsplatf    	%{cmsos}_%{cmscomp}%{debugsuffix}
 
 # We are now done with locations.  Move to other things.
