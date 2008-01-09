@@ -6,6 +6,10 @@ Source1: http://spi.cvs.cern.ch:8180/cgi-bin/spi.cgi/*checkout*/Components/UnitT
 %setup -n %n-%realversion
 
 %build
+perl -p -i -e 's|rm(.*)conftest|rm -fr $1 conftest|g' configure \
+											   	  aclocal.m4 \
+												  libtool \
+												  config/ltmain.sh
 ./configure --prefix=%i
 make %makeprocesses
 %install
