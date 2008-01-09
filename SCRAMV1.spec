@@ -1,6 +1,13 @@
 ### RPM lcg SCRAMV1 V1_1_0
 ## INITENV +PATH PATH %instroot/common
 ## INITENV +PATH PERL5LIB %{i}
+
+%define perl /usr/bin/env perl
+%if "%(echo %cmsplatf | cut -f1 -d_ | sed -e 's|\([A-Za-z]*\)[0-9]*|\1|')" == "osx"
+%define perl /usr/bin/perl
+%endif
+
+
 Requires: p5-template-toolkit p5-uri p5-xml-parser p5-libwww-perl
 Provides: perl(SCRAM::Helper)
 Provides: perl(Utilities::AddDir) 
@@ -56,10 +63,10 @@ tar -cf - . | tar -C %i -xvvf -
 mkdir -p %instroot/%cmsplatf/lcg/SCRAMV1/scramdb %i/bin %i/Installation
 touch %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
 
-cat Installation/scram.pl.in | sed -e "s|@PERLEXE@|/usr/bin/env perl|;s|@SCRAM_HOME@|%i|g;s|@INSTALLDIR@|%i/src|g" > %i/bin/scram
-cat Installation/scram.pl.in | sed -e "s|@PERLEXE@|/usr/bin/env perl|;s|@SCRAM_HOME@|%i|g;s|@INSTALLDIR@|%i/src|g" > %i/src/main/scram.pl
+cat Installation/scram.pl.in | sed -e "s|@PERLEXE@|%perl|;s|@SCRAM_HOME@|%i|g;s|@INSTALLDIR@|%i/src|g" > %i/bin/scram
+cat Installation/scram.pl.in | sed -e "s|@PERLEXE@|%perl|;s|@SCRAM_HOME@|%i|g;s|@INSTALLDIR@|%i/src|g" > %i/src/main/scram.pl
 chmod +x %i/src/main/scram.pl
-cat Installation/SCRAM_SITE.pm.in | sed -e "s|@SCRAM_HOME@|%i|g;s|@SCRAM_LOOKUPDB_DIR@|%instroot/%cmsplatf/lcg/SCRAMV1/scramdb/|g;s|@PERLEXE@|/usr/bin/env perl|;s|@TT2INSTALLDIR@|$TEMPLATE_TOOLKIT_ROOT/lib|g;s|@SITETEMPLATEDIR@|%i/Templates|g;s|@SCRAM_SITENAME@|STANDALONE|g" > %i/Installation/SCRAM_SITE.pm
+cat Installation/SCRAM_SITE.pm.in | sed -e "s|@SCRAM_HOME@|%i|g;s|@SCRAM_LOOKUPDB_DIR@|%instroot/%cmsplatf/lcg/SCRAMV1/scramdb/|g;s|@PERLEXE@|%perl|;s|@TT2INSTALLDIR@|$TEMPLATE_TOOLKIT_ROOT/lib|g;s|@SITETEMPLATEDIR@|%i/Templates|g;s|@SCRAM_SITENAME@|STANDALONE|g" > %i/Installation/SCRAM_SITE.pm
 sed -e "s|@SCRAM_VERSION@|%v|" src/SCRAM/SCRAM.pm > %i/src/SCRAM/SCRAM.pm
 chmod 755 %i/bin/scram
 
@@ -80,7 +87,7 @@ echo "source $P5_URI_ROOT/etc/profile.d/init.csh" >> %i/etc/profile.d/dependenci
 echo "source $P5_XML_PARSER_ROOT/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
 echo "source $P5_LIBWWW_PERL_ROOT/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
 
-perl -p -i -e "s|#!.*perl|#!/usr/bin/env perl|" %{i}/doc/doxygen/DoxyFilt.pl
+%perl -p -i -e "s|#!.*perl|#!%perl|" %{i}/doc/doxygen/DoxyFilt.pl
 
 %post
 %{relocateConfig}etc/perl5lib.env
