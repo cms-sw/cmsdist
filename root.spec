@@ -1,4 +1,4 @@
-### RPM lcg root 5.14.00g-CMS10
+### RPM lcg root 5.14.00g-CMS11
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
 Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
@@ -10,11 +10,13 @@ Patch2: root_PositionVector
 Patch3: root-fastmerge-ttree
 Patch4: root_TXMLSetup
 Patch5: root-Cintex
-Patch6: root_CINTClassBuilder
+Patch6: root_Reflex_Cintex
+Patch7: root_CallFunc
+Patch8: root-proofd
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
-Requires: gccxml python qt gsl castor openssl mysql libpng libjpg dcap pcre zlib oracle libungif
+Requires: gccxml python qt gsl castor openssl mysql libpng libjpg dcap pcre zlib oracle libungif xrootd
 
 %if "%cpu" != "amd64"
 Requires: libtiff
@@ -28,7 +30,9 @@ Requires: libtiff
 %patch3 -p1
 %patch4 -p0
 %patch5 -p1
-%patch6 -p1
+%patch6 -p0
+%patch7 -p0
+%patch8 -p1
 
 %build
 mkdir -p %i
@@ -57,6 +61,7 @@ CONFIG_ARGS="--enable-table
              --with-gsl-libdir=${GSL_ROOT}/lib
              --with-dcap-libdir=${DCAP_ROOT}/lib 
              --with-dcap-incdir=${DCAP_ROOT}/include
+             --with-xrootd=$XROOTD_ROOT
              --disable-pgsql
              --disable-xml"
 
