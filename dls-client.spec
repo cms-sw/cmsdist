@@ -1,4 +1,4 @@
-### RPM cms dls DLS_1_0_3_test
+### RPM cms dls DLS_1_0_3_test1
 ## INITENV +PATH PATH %{i}/Server/SimpleServer
 ## INITENV +PATH PATH %{i}/Client/bin
 ## INITENV +PATH PYTHONPATH %{i}/Client/lib
