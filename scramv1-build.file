@@ -180,7 +180,7 @@ cd %i
 %{?buildarch:%buildarch}
 perl -p -i -e "s|^#!.*perl(.*)|#!/usr/bin/env perl$1|" $(grep -r -e "^#!.*perl.*" . | cut -d: -f1)
 # need writeable directory for profile stuff
-mkdir etc
+mkdir -p etc
 yes | scramv1 install # FIXME: do by hand?
 
 %post
