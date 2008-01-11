@@ -133,6 +133,10 @@ pwd
 rm -rf `find %{i}/src -type d -name cmt`
 echo `scramv1 arch`
 cd %i
+#-ap: the following is needed to get the include paths for FWLITE set up properly
+# for clhep and boost:
+scramv1 setup
+#-ap end
 cd src
 
 %{?buildarch:%buildarch}
