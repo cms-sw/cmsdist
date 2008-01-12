@@ -135,7 +135,8 @@ echo `scramv1 arch`
 cd %i
 #-ap: the following is needed to get the include paths for FWLITE set up properly
 # for clhep and boost:
-scramv1 setup
+scramv1 setup clhep
+scramv1 setup boost
 #-ap end
 cd src
 
