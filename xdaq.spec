@@ -39,7 +39,7 @@ export XERCES_PREFIX=$XERCES_C_ROOT
 export UUID_LIB_PREFIX=$UUID_ROOT/lib
 
 case %cmsplatf in
-slc4_ia32_gcc412 | slc4_ia32_gcc422 )
+slc4_ia32_gcc412 | slc4_ia32_gcc422 | osx104_ppc32_gcc400 | osx104_ia32_gcc401)
 make CPPDEFINES=linux Set=extern_coretools install || true
 make CPPDEFINES=linux Set=coretools install || true
 make CPPDEFINES=linux Set=extern_powerpack install || true
