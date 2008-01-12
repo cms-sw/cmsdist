@@ -1,7 +1,6 @@
-### RPM external geant4 9.1-dbg-global
+### RPM external geant4 9.1
 %define downloadv %(echo %v | cut -d- -f1)
-# Special distribution for local validation at FNAL: see comments below.
-Provides: /bin/awk
+
 Requires: clhep
 
 %define photonEvaporationVersion 2.0
@@ -17,16 +16,12 @@ Source3: http://geant4.cern.ch/support/source/PhotonEvaporation.%{photonEvaporat
 Source4: http://geant4.cern.ch/support/source/G4RadioactiveDecay.%{radioactiveDecayVersion}.tar.gz
 Source5: http://geant4.cern.ch/support/source/G4ELASTIC.%{g4ElasticScatteringVersion}.tar.gz
 
-#Patch: geant-4.8.2.p01-nobanner
+Patch: geant-4.8.2.p01-nobanner
 
 %prep
 %setup -n %n.%downloadv
 pwd
-
-# ONLY for Fermilab tests ! 
-# Add -g option to keep debug symbols:
-cp -p config/sys/Linux-g++.gmk config/sys/Linux-g++.gmk.orig
-perl -i -p -e '{s| -O2| -O2 -g|}' config/sys/Linux-g++.gmk
+%patch0 -p1 
 
 %build
 if [ $(uname) = Darwin ]; then
