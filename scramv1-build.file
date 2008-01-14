@@ -135,7 +135,15 @@ echo `scramv1 arch`
 cd %i
 #-ap: the following is needed to get the include paths for FWLITE set up properly
 # for clhep and boost:
-scramv1 setup -f %_builddir/config/site/%toolconf_filename
+
+cp $(dirname %i)/%v/.SCRAM/InstalledTools/clhep ./clhep
+%define clhepvers %(grep 'Tool name=' clhep | cut -d= -f3 | tr '>' ' ')
+scramv1 setup clhep %clhepvers file:./clhep
+
+cp $(dirname %i)/%v/.SCRAM/InstalledTools/boost ./boost
+%define boostvers %(grep 'Tool name=' boost | cut -d= -f3 | tr '>' ' ')
+scramv1 setup boost %boostvers file:./boost
+
 #-ap end
 cd src
 
