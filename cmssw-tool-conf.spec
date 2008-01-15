@@ -88,6 +88,7 @@ Requires: data-Validation-Geometry
 Requires: data-Validation-HcalHits
 Requires: data-RecoMuon-MuonIdentification
 Requires: data-CondCore-SQLiteData
+Requires: graphviz
 
 
 %prep
