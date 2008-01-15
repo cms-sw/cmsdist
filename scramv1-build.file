@@ -133,6 +133,18 @@ pwd
 rm -rf `find %{i}/src -type d -name cmt`
 echo `scramv1 arch`
 cd %i
+#-ap: the following is needed to get the include paths for FWLITE set up properly
+# for clhep and boost:
+scramv1 setup -f  %_builddir/config/site/%toolconf_filename
+## cp $(dirname %i)/%v/.SCRAM/InstalledTools/clhep ./clhep
+## %define clhepvers %(grep 'Tool name=' clhep | cut -d= -f3 | tr '>' ' ')
+## scramv1 setup clhep %clhepvers file:./clhep
+## 
+## cp $(dirname %i)/%v/.SCRAM/InstalledTools/boost ./boost
+## %define boostvers %(grep 'Tool name=' boost | cut -d= -f3 | tr '>' ' ')
+## scramv1 setup boost %boostvers file:./boost
+
+#-ap end
 cd src
 
 %{?buildarch:%buildarch}
@@ -180,7 +192,7 @@ cd %i
 %{?buildarch:%buildarch}
 perl -p -i -e "s|^#!.*perl(.*)|#!/usr/bin/env perl$1|" $(grep -r -e "^#!.*perl.*" . | cut -d: -f1)
 # need writeable directory for profile stuff
-mkdir etc
+mkdir -p etc
 yes | scramv1 install # FIXME: do by hand?
 
 %post
