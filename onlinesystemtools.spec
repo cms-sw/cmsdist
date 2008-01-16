@@ -1,4 +1,4 @@
-### RPM external systemtools 1.0-onl
+### RPM external onlinesystemtools 2.0
 Source: none
 
 %if "%{?use_system_gcc:set}" == "set"
@@ -29,7 +29,7 @@ Source: none
 %define xerces_version			2.7.0
 ## INITENV SET XERCES_C_VERSION         %xerces_version
 ## INITENV SET XERCES_C_ROOT		/opt/xdaq
-%define xdaq_version			3.13.0
+%define xdaq_version			3.15.0
 ## INITENV SET XDAQ_VERSION         	%xdaq_version
 ## INITENV SET XDAQ_ROOT         	/opt/xdaq
 %define mimetic_version			0.9.1

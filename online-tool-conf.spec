@@ -23,10 +23,8 @@ Requires: castor
 Requires: libjpg
 Requires: dcap
 Requires: oracle-env
-Requires: cppunit
 Requires: frontier_client
 Requires: sqlite
-Requires: mysqlpp
 Requires: hepmc
 Requires: heppdt
 Requires: elementtree
@@ -34,9 +32,10 @@ Requires: sigcpp
 Requires: tkonlinesw
 Requires: fastjet
 Requires: ktjet
-Requires: systemtools
+Requires: dpm
+Requires: onlinesystemtools
 
 
 %define skipreqtools jcompiler
-
+%define onlinesystemtoolsroot ${ONLINESYSTEMTOOLS_ROOT}
 ## IMPORT scramv1-tool-conf

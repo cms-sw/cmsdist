@@ -1,4 +1,4 @@
-### RPM lcg root 5.14.00g-CMS9
+### RPM lcg root 5.14.00g-CMS11
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
 Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
@@ -10,6 +10,9 @@ Patch2: root_PositionVector
 Patch3: root-fastmerge-ttree
 Patch4: root_TXMLSetup
 Patch5: root-Cintex
+Patch6: root_Reflex_Cintex
+Patch7: root_CallFunc
+Patch8: root-proofd
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -17,7 +20,7 @@ Patch5: root-Cintex
 Requires: gccxml gsl castor libjpg dcap pcre python
 
 %if "%{?online_release:set}" != "set"
-Requires: qt openssl mysql libpng zlib oracle libungif
+Requires: qt openssl mysql libpng zlib oracle libungif xrootd
 %else
 %define skiplibtiff true
 %endif
@@ -38,19 +41,23 @@ Requires: libtiff
 %patch3 -p1
 %patch4 -p0
 %patch5 -p1
+%patch6 -p0
+%patch7 -p0
+%patch8 -p1
 %build
 mkdir -p %i
 export ROOTSYS=%_builddir/root
 
 %if "%{?online_release:set}" != "set"
 EXTRA_CONFIG_ARGS="
- --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
+ --with-xrootd=$XROOTD_ROOT
+ --enable-mysql --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
  --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include
  --with-ssl-incdir=${OPENSSL_ROOT}/include
  --with-ssl-libdir=${OPENSSL_ROOT}/lib"
 %else
 ORACLE_ROOT="/opt/xdaq"
-EXTRA_CONFIG_ARGS=" --enable-ssl"
+EXTRA_CONFIG_ARGS="--disable-mysql --enable-ssl"
 %endif
 
 CONFIG_ARGS="--enable-table 
@@ -60,7 +67,6 @@ CONFIG_ARGS="--enable-table
              --with-gccxml=${GCCXML_ROOT} 
              --enable-python
              --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include/python2.4 
-             --enable-mysql
              --enable-explicitlink 
              --enable-qtgsi
              --enable-qt
