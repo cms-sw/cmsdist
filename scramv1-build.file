@@ -175,12 +175,28 @@ chmod -R 755 %i %i/.SCRAM
 rm -fR %i/lib/%cmsplatf/.edmplugincache
 (eval `scramv1 run -sh` ; EdmPluginRefresh) || true
 
+#-ap: the following is needed to get the include paths for FWLITE set up properly for clhep and boost:
+%if "%ucprojname" == "CMSSW"
+echo "apspecial start"
+pwd
+cp $(dirname %i)/%v/.SCRAM/InstalledTools/clhep $(dirname %i)/%v/clhep
+%define clhepvers %(grep 'Tool name=' $(dirname %i)/%v/clhep | cut -d= -f3 | tr '>' ' ')
+(cd $(dirname %i)/%v ; scramv1 setup clhep %clhepvers file:./clhep )
+
+cp $(dirname %i)/%v/.SCRAM/InstalledTools/boost $(dirname %i)/%v/boost
+%define boostvers %(grep 'Tool name=' $(dirname %i)/%v/boost | cut -d= -f3 | tr '>' ' ')
+(cd $(dirname %i)/%v ; scramv1 setup boost %boostvers file:/boost )
+echo "apspecial end"
+%endif
+#-ap end
+
+
 %install
 cd %i
 %{?buildarch:%buildarch}
 perl -p -i -e "s|^#!.*perl(.*)|#!/usr/bin/env perl$1|" $(grep -r -e "^#!.*perl.*" . | cut -d: -f1)
 # need writeable directory for profile stuff
-mkdir etc
+mkdir -p etc
 yes | scramv1 install # FIXME: do by hand?
 
 %post
