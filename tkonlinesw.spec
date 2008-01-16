@@ -1,4 +1,4 @@
-### RPM external tkonlinesw 0.3-CMS8
+### RPM external tkonlinesw 0.3-CMS10
 %define projectname trackerDAQ
 %define releasename %{projectname}-%{realversion}
 Source: http://cmsdoc.cern.ch/cms/cmt/online/rpm/SOURCE/%{releasename}.tgz
@@ -7,12 +7,13 @@ Patch: Fed9U-gcc3.4
 # Note from Kristian: 
 # xdaq dependency is here only to re-use its makefiles. 
 
-Requires: systemtools
-
 %if "%{?online_release:set}" != "set"
 Requires: xerces-c
 Requires: oracle
 Requires: xdaq
+Requires: systemtools
+%else
+Requires: onlinesystemtools
 %endif
 
 %prep
