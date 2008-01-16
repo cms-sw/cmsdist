@@ -1,5 +1,10 @@
 Alignment/CommonAlignment
+Alignment/CommonAlignmentAlgorithm
+Alignment/CommonAlignmentMonitor
+Alignment/CommonAlignmentParametrization
 Alignment/CommonAlignmentProducer
+Alignment/HIPAlignmentAlgorithm
+Alignment/MuonAlignment
 Alignment/TrackerAlignment
 AnalysisDataFormats/SiStripClusterInfo
 AnalysisDataFormats/TrackInfo
@@ -432,6 +437,7 @@ RecoMuon/TrackerSeedGenerator
 RecoMuon/TrackingTools
 RecoMuon/TransientTrackingRecHit
 RecoPixelVertexing/PixelTrackFitting
+RecoPixelVertexing/PixelTriplets
 RecoPixelVertexing/PixelVertexFinding
 RecoTauTag/ConeIsolation
 RecoTauTag/EcalIsolation
@@ -450,6 +456,7 @@ RecoTracker/RoadSearchCloudMaker
 RecoTracker/RoadSearchSeedFinder
 RecoTracker/RoadSearchTrackCandidateMaker
 RecoTracker/TkDetLayers
+RecoTracker/TkHitPairs
 RecoTracker/TkMSParametrization
 RecoTracker/TkNavigation
 RecoTracker/TkSeedGenerator
@@ -516,7 +523,9 @@ TrackingTools/TransientTrackingRecHit
 TrackPropagation/RungeKutta
 TrackPropagation/SteppingHelixPropagator
 Utilities/BinningTools
+Utilities/DCacheAdaptor
 Utilities/General
+Utilities/RFIOAdaptor
 Utilities/StorageFactory
 Utilities/StorageTypes
 Utilities/Testing
