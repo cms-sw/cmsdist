@@ -500,7 +500,7 @@ echo "  +GRAPHVIZ_BASE:$GRAPHVIZ_ROOT"
 
 echo "TOOL:jcompiler:"
 echo "  +JAVA_BASE:/usr"
-echo "  +JAVAC_BASE:/usr/bin"
+echo "  +JAVAC:/usr/bin"
 
 
 ) > tools.conf
