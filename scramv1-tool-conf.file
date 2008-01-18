@@ -69,31 +69,28 @@ mv tools-%{scramsitename}.conf %i/configurations/SCRAMToolBox/CMSconfigs/tools-%
 %define skipreqtools %{nil}
 %endif
 
-# Copy all tool files and generate SCRAMToolBox/CMSconfiguration and also Generate requirements file
+# Copy all tool files and generate the `requirements` file.
 cat << \EOF_REQUIREMENTS > %i/configurations/requirements
 <doc type=BuildSystem::Requirements version=2.0>
 <base url="file:%i/configurations/SCRAMToolBox/">
-<include url="file:CMSconfiguration">
 EOF_REQUIREMENTS
 
-touch %i/configurations/SCRAMToolBox/CMSconfiguration
-
 for tool in %requiredtools %systemtools ${PKGTOOLS_SYSTEM_TOOLS} ; do
-  uctool=`echo $tool | tr '-' '_' | tr '[a-z]' '[A-Z]'`
+  uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`
   toolbase=`perl -e 'print "$ENV{'$uctool'_ROOT}\n";'`
-  if [ "X$toolbase" = X -o ! -d $toolbase/etc/scram.d ] ; then continue ; fi
-  for xtool in `ls $toolbase/etc/scram.d` ; do
-    if [ -f %i/configurations/SCRAMToolBox/tools/$xtool ] ; then continue ; fi
-    cp -rf $toolbase/etc/scram.d/$xtool %i/configurations/SCRAMToolBox/tools/$xtool
-    perl %_sourcedir/tool2xml.pl %i/configurations/SCRAMToolBox/tools/$xtool > %i/configurations/SCRAMToolBox/tools/$xtool.xml
-    ucxtool=`echo $xtool | tr '-' '_'  | tr '[a-z]' '[A-Z]'`
-    toolversion=`perl -e 'print "$ENV{'$ucxtool'_VERSION}\n";'`
-    if [ "X$toolversion" = "X" ] ; then toolversion=`perl -e 'print "$ENV{'$uctool'_VERSION}\n";'` ; fi
-    echo "<require name=$xtool  version=$toolversion  url=\"file:tools/$xtool\"></require>" >> %i/configurations/SCRAMToolBox/CMSconfiguration
-    if [ "X`echo %skipreqtools | tr ' ' '\n' | grep '^'$xtool'$'`" = X ] ; then
-      echo "<select name=$xtool>" >> %i/configurations/requirements
-    fi
-  done
+  [ -d $toolbase/etc/scram.d ] || continue
+  find $toolbase/etc/scram.d -type f -exec cp {} %i/configurations/SCRAMToolBox/tools \;
+done
+
+skiptools=`echo %skipreqtools | tr " " "\n"`
+for tool in `find %i/configurations/SCRAMToolBox/tools -type f`
+do
+    perl %_sourcedir/tool2xml.pl $tool > $tool.xml
+    cat $tool.xml | grep -e "<[Tt][Oo][Oo][Ll]" | \
+      perl -p -e 's|.*<[Tt][Oo][Oo][Ll].*name="([^"]*).*version="([^"]*).*>|<require name=$1 version=$2  url="file:tools/$1"></require>|' >> %i/configurations/requirements
+    toolname=`basename $tool`
+    echo $skiptools | grep $toolname 2>&1 >/dev/null && continue
+    echo "<select name=$toolname>" >> %i/configurations/requirements
 done
 
 echo "</base>" >> %i/configurations/requirements
@@ -111,11 +108,7 @@ done
 
 
 echo %scramsitename > %i/configurations/SCRAMToolBox/CMSconfigs/sitename
-sed -e 's|\(url="file:tools/.*\)"|\1.xml"|' %i/configurations/SCRAMToolBox/CMSconfiguration > CMSconfiguration.xml
 perl %_sourcedir/tool2xml.pl %i/configurations/requirements > %i/configurations/requirements.xml
-sed -i -e 's|\(url="file:CMSconfiguration\)"|\1.xml"|' %i/configurations/requirements.xml
-perl %_sourcedir/tool2xml.pl CMSconfiguration.xml > %i/configurations/SCRAMToolBox/CMSconfiguration.xml
-rm -f CMSconfiguration.xml
 
 %post
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find $RPM_INSTALL_PREFIX/%{pkgrel}/configurations -type f)
