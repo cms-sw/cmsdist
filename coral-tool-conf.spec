@@ -1,6 +1,7 @@
 ### RPM cms coral-tool-conf CMS_152
 
 Requires: gcc-toolfile
+Requires: gmake
 Requires: pcre
 Requires: zlib
 Requires: bz2lib
