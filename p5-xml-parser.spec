@@ -1,7 +1,12 @@
 ### RPM external p5-xml-parser 2.34-CMS19
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
-%define perlversion %(perl -e 'printf "%%vd", $^V')
-%define perlarch %(perl -MConfig -e 'print $Config{archname}')
+%define perl /usr/bin/env perl
+%if "%(echo %cmsplatf | cut -f1 -d_ | sed -e 's|\([A-Za-z]*\)[0-9]*|\1|')" == "osx" 
+%define perl /usr/bin/perl
+%endif
+
+%define perlversion %(%perl -e 'printf "%%vd", $^V')
+%define perlarch %(%perl -MConfig -e 'print $Config{archname}')
 %define downloadn XML-Parser
 %define expatversion 2.0.0
 Source0: http://mirror.switch.ch/ftp/mirror/CPAN/authors/id/M/MS/MSERGEANT/%{downloadn}-%{realversion}.tar.gz
@@ -27,7 +32,7 @@ make
 make install
 cd ../%{downloadn}-%{realversion}
 
-perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion \
+%perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion \
                  EXPATLIBPATH=%_builddir/tmp/lib \
                  EXPATINCPATH=%_builddir/tmp/include
 make
@@ -53,7 +58,7 @@ case %{cmsos} in
             setarch x86_64 make
             setarch x86_64 make install
             cd ../%{downloadn}-%{realversion}
-            perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion \
+            %perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion \
                              EXPATLIBPATH=%_builddir/tmp/lib64 \
                              EXPATINCPATH=%_builddir/tmp/include
             make
