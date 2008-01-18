@@ -16,6 +16,12 @@ Patch1:   coral-1_9_2-FrontierAccess
 %define patchsrc        %patch -p0
 %define patchsrc2       %patch1 -p0
 %define patchsrc3       rm -rf %{srctree}/Tests/*
+%if "%{?online_release:set}" == "set"
+# Disable building tests in online release,
+# since they bring dependency on cppunit:
+%define patchsrc4 	perl -p -i -e ' s!(<ClassPath.*/tests\\+.*>)!#$1!;' config/BuildFile
+%endif
+
 
 ## IMPORT lcg-scram-build
 ## IMPORT cms-scram-build
