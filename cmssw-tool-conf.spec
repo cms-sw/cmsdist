@@ -9,6 +9,7 @@ Requires: pool
 Requires: coral
 Requires: seal
 Requires: gcc-toolfile
+Requires: gmake
 Requires: pcre
 Requires: zlib
 Requires: bz2lib
