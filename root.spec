@@ -4,7 +4,7 @@
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
 Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 
-Patch0: root-5.17-08-libpng
+Patch0: root-5.18-00-libpng
 Patch1: root-5.17-08-CINT-maxlongline
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
