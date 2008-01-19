@@ -1,4 +1,4 @@
-### RPM cms gcc-toolfile 1.0
+### RPM cms gcc-toolfile 4.1.2-CMS19
 
 # gcc has a separate spec file for the generating a
 # toolfile because gcc.spec could be not build because of the 
