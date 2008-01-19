@@ -33,7 +33,7 @@ find ../plugins/SISCone -name "*.a" -exec mv {} .  \;
 %install
 
 # Take everything including sources, makefiles, documentation and examples (only 16MB).
-gtar -cv ./| gtar -x -C %i
+tar -cv ./| tar -x -C %i
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
