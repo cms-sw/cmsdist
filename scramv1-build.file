@@ -180,6 +180,7 @@ rm -fR %i/lib/%cmsplatf/.edmplugincache
 echo "apspecial start"
 pwd
 scramv1 setup -f  %_builddir/config/site/%toolconf_filename
+
 cp $(dirname %i)/%v/.SCRAM/InstalledTools/clhep $(dirname %i)/%v/clhep
 export CLHEPVERS=`grep 'Tool name=' $(dirname %i)/%v/clhep | cut -d= -f3 | tr '>' ' '`
 (cd $(dirname %i)/%v ; scramv1 setup clhep $CLHEPVERS file:./clhep )
@@ -187,7 +188,7 @@ unset CLHEPVERS
 
 cp $(dirname %i)/%v/.SCRAM/InstalledTools/boost $(dirname %i)/%v/boost
 export  BOOSTVERS=`grep 'Tool name=' $(dirname %i)/%v/boost | cut -d= -f3 | tr '>' ' '`
-(cd $(dirname %i)/%v ; scramv1 setup boost $BOOSTVERS file:/boost )
+(cd $(dirname %i)/%v ; scramv1 setup boost $BOOSTVERS file:./boost )
 unset BOOSTVERS
 
 echo "apspecial end"
