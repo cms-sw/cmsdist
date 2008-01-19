@@ -9,6 +9,10 @@ Patch1: meschach-1.2b-fPIC
 %patch1 -p0
 
 %build
+# Just fix this by hand for MacOSX (the configure probably needs to be updated)
+%ifos darwin
+perl -p -i -e "s|define HAVE_MALLOC_H 1|undef MALLOCDECL|g" machine.h
+%endif
 make
 %install
 mkdir -p %i/include
