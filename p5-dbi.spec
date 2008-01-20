@@ -1,5 +1,5 @@
 ### RPM external p5-dbi 1.50
-## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion/%perlarch
+## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn DBI
@@ -14,3 +14,8 @@ Source:  http://cpan.mirror.solnet.ch/authors/id/T/TI/TIMB/%{downloadn}-%{v}.tar
 %build
 perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion
 make
+perl -p -i -e 's|^#!.*perl|#!/usr/bin/env perl|' blib/script/dbiprof
+perl -p -i -e 's|^#!.*perl|#!/usr/bin/env perl|' blib/script/dbiproxy
+perl -p -i -e 's|^#!.*perl|#!/usr/bin/env perl|' dbiprof
+perl -p -i -e 's|^#!.*perl|#!/usr/bin/env perl|' dbiproxy
+#
