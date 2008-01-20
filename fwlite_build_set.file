@@ -12,7 +12,6 @@ DataFormats/EgammaCandidates
 DataFormats/EgammaReco
 DataFormats/EgammaTrackReco
 DataFormats/FEDRawData
-DataFormats/FWLite
 DataFormats/GeometryCommonDetAlgo
 DataFormats/GeometrySurface
 DataFormats/GeometryVector
@@ -40,7 +39,6 @@ DataFormats/SiStripCluster
 DataFormats/SiStripCommon
 DataFormats/SiStripDetId
 DataFormats/SiStripDigi
-DataFormats/TauReco
 DataFormats/TrackCandidate
 DataFormats/TrackReco
 DataFormats/TrackerRecHit2D
@@ -53,9 +51,4 @@ FWCore/MessageLogger
 FWCore/PluginManager
 FWCore/RootAutoLibraryLoader
 FWCore/Utilities
-SimDataFormats/EncodedEventId
 SimDataFormats/HepMCProduct
-SimDataFormats/Track
-SimDataFormats/TrackingAnalysis
-SimDataFormats/TrackingHit
-SimDataFormats/Vertex

@@ -1,11 +1,9 @@
-### RPM external graphviz 1.9-CMS19
-Source: http://service-spi.web.cern.ch/service-spi/external/tarFiles/%{n}-%{realversion}.tar.gz  
+### RPM external graphviz 2.16.1-CMS19
+Source: http://www.graphviz.org/pub/%{n}/ARCHIVE/%{n}-%{realversion}.tar.gz  
 Requires: expat zlib libjpg libpng 
-Patch0: graphviz
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
 
 %build
 ./configure \
@@ -28,6 +26,11 @@ if [ "$(uname -m)" == "ppc64" ]
 then
 perl -p -i -e "s|\+0 \-1|-k1,1|g" dotneato/common/Makefile
 fi
+# Probably the configure should just be remade on Darwin, but it builds
+# as-is with this small cleanup
+%ifos darwin
+perl -p -i -e "s|-lexpat||g" configure
+%endif
 make
 
 %install
@@ -52,5 +55,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 EOF_TOOLFILE
 
 %post
-%{relocateConfig}bin/dotneato-config `find $RPM_INSTALL_PREFIX/%pkgrel/lib/graphviz -name *.la`
+# It appears one needs to list at least one explicitly as the macro adds
+# the prefix, but then the find can add it and the others (also with the 
+# prefix)
+%{relocateConfig}/lib/libgraph.la `find $RPM_INSTALL_PREFIX/%pkgrel/lib -name *.la`
 %{relocateConfig}etc/scram.d/%n
