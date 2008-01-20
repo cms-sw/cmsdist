@@ -1,6 +1,6 @@
-### RPM cms prodagent PRODAGENT_0_7_0_pre3
+### RPM cms prodagent PRODAGENT_0_6_3
 ## INITENV +PATH PYTHONPATH %i/lib
-#
+
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=PRODAGENT&export=PRODAGENT&&tag=-r%{cvstag}&output=/PRODAGENT.tar.gz
 Requires: python mysql py2-mysqldb dbs-client dls boss prodcommon openssl cherrypy PHEDEX-micro 
