@@ -1,4 +1,4 @@
-### RPM external valgrind 3.3.0-CMS19
+### RPM external valgrind 3.3.0-CMS18b
 ## BUILDIF case $(uname):$(uname -m) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) true ;; * ) false ;; esac
 ## INITENV SET VALGRIND_LIB %{i}/lib/valgrind
 %define realversion %(echo %v | cut -d- -f1)
@@ -7,12 +7,14 @@ Source: http://www.valgrind.org/downloads/%{n}-%{realversion}.tar.bz2
 Patch1: valgrind-vg330-global
 Patch2: valgrind-vg330-dump
 Patch3: valgrind-vg330-coregrind_n_segments
+Patch4: valgrind-vg330-massif-eol
 
 %prep
 %setup -n %n-%realversion
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p0
 # CMS patch for segment sizes:
 perl -p -i -e 's!VG_N_SEGMENTS 5000!VG_N_SEGMENTS 20000!; s!VG_N_SEGNAMES 1000!VG_N_SEGNAMES 4000!; s!VG_MAX_SEGNAMELEN 1000!VG_MAX_SEGNAMELEN 4000!' coregrind/m_aspacemgr/aspacemgr.c;
 
