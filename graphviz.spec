@@ -6,6 +6,11 @@ Requires: expat zlib libjpg libpng
 %setup -n %{n}-%{realversion}
 
 %build
+case %cmsplatf in
+    *_ia32_*)
+        export LD_LIBRARY_PATH=`echo $LD_LIBRARY_PATH | sed -e 's|lib64|lib|g'`
+    ;;
+esac
 ./configure \
   --with-expatlibdir=$EXPAT_ROOT/lib \
   --with-expatincludedir=$EXPAT_ROOT/include \
@@ -18,7 +23,25 @@ Requires: expat zlib libjpg libpng
   --without-x \
   --without-tclsh \
   --without-tcl \
+  --without-fontconfig \
   --without-tk \
+  --without-perl \
+  --without-python \
+  --without-ruby \
+  --disable-ruby \
+  --disable-perl \
+  --without-pangocairo \
+  --without-freetype \
+  --without-fontconfig \
+  --without-gdk-pixbuf \
+  --disable-sharp \
+  --disable-guile \
+  --disable-java \
+  --disable-lua \
+  --disable-ocaml \
+  --disable-perl \
+  --disable-php \
+  --disable-python \
   --prefix=%{i}
 # This is a workaround for the fact that sort from coreutils 5.96 doesn't 
 # like "sort +0 -1", not really something specific to ppc64/ydl5.0
