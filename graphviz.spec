@@ -6,20 +6,30 @@ Requires: expat zlib libjpg libpng
 %setup -n %{n}-%{realversion}
 
 %build
+which gcc
+LIB64_SUFFIX=
 case %cmsplatf in
-    *_ia32_*)
+    *_ia32_* )
         export LD_LIBRARY_PATH=`echo $LD_LIBRARY_PATH | sed -e 's|lib64|lib|g'`
+        ADDITIONAL_OPTIONS=--without-freetype
+    ;;
+    *_amd64_* )
+        LIB64_SUFFIX=64
+        ADDITIONAL_OPTIONS=--without-freetype
+    ;;
+    osx* )
+        ADDITIONAL_OPTIONS=
     ;;
 esac
 ./configure \
-  --with-expatlibdir=$EXPAT_ROOT/lib \
+  --with-expatlibdir=$EXPAT_ROOT/lib$LIB64_SUFFIX \
   --with-expatincludedir=$EXPAT_ROOT/include \
   --with-zincludedir=$ZLIB_ROOT/include \
-  --with-zlibdir=$ZLIB_ROOT/lib \
+  --with-zlibdir=$ZLIB_ROOT/lib$LIB64_SUFFIX \
   --with-pngincludedir=$LIBJPG_ROOT/include \
-  --with-pnglibdir=$LIBJPG_ROOT/lib \
+  --with-pnglibdir=$LIBJPG_ROOT/lib$LIB64_SUFFIX \
   --with-jpegincludedir=$LIBPNG_ROOT/include \
-  --with-jpeglibdir=$LIBPNG_ROOT/lib \
+  --with-jpeglibdir=$LIBPNG_ROOT/lib$LIB64_SUFFIX \
   --without-x \
   --without-tclsh \
   --without-tcl \
@@ -42,7 +52,9 @@ esac
   --disable-perl \
   --disable-php \
   --disable-python \
-  --prefix=%{i}
+  --prefix=%{i} \
+  $ADDITIONAL_OPTIONS
+
 # This is a workaround for the fact that sort from coreutils 5.96 doesn't 
 # like "sort +0 -1", not really something specific to ppc64/ydl5.0
 if [ "$(uname -m)" == "ppc64" ]
