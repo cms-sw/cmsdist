@@ -11,11 +11,11 @@ LIB64_SUFFIX=
 case %cmsplatf in
     *_ia32_* )
         export LD_LIBRARY_PATH=`echo $LD_LIBRARY_PATH | sed -e 's|lib64|lib|g'`
-        ADDITIONAL_OPTIONS=--without-freetype
+        ADDITIONAL_OPTIONS="--without-freetype --disable-shared --enable-static --disable-libtdl"
     ;;
     *_amd64_* )
         LIB64_SUFFIX=64
-        ADDITIONAL_OPTIONS=--without-freetype
+        ADDITIONAL_OPTIONS="--without-freetype --disable-shared --enable-static --disable-libtdl"
     ;;
     osx* )
         ADDITIONAL_OPTIONS=
@@ -25,11 +25,11 @@ esac
   --with-expatlibdir=$EXPAT_ROOT/lib$LIB64_SUFFIX \
   --with-expatincludedir=$EXPAT_ROOT/include \
   --with-zincludedir=$ZLIB_ROOT/include \
-  --with-zlibdir=$ZLIB_ROOT/lib$LIB64_SUFFIX \
+  --with-zlibdir=$ZLIB_ROOT/lib \
   --with-pngincludedir=$LIBJPG_ROOT/include \
-  --with-pnglibdir=$LIBJPG_ROOT/lib$LIB64_SUFFIX \
+  --with-pnglibdir=$LIBJPG_ROOT/lib \
   --with-jpegincludedir=$LIBPNG_ROOT/include \
-  --with-jpeglibdir=$LIBPNG_ROOT/lib$LIB64_SUFFIX \
+  --with-jpeglibdir=$LIBPNG_ROOT/lib \
   --without-x \
   --without-tclsh \
   --without-tcl \
@@ -41,7 +41,6 @@ esac
   --disable-ruby \
   --disable-perl \
   --without-pangocairo \
-  --without-freetype \
   --without-fontconfig \
   --without-gdk-pixbuf \
   --disable-sharp \
@@ -66,10 +65,12 @@ fi
 %ifos darwin
 perl -p -i -e "s|-lexpat||g" configure
 %endif
-make
+make %makeprocesses
 
 %install
 make install
+ln -s dot_static %i/bin/dot
+
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
