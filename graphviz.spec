@@ -15,7 +15,7 @@ case %cmsplatf in
     ;;
     *_amd64_* )
         LIB64_SUFFIX=64
-        ADDITIONAL_OPTIONS="--without-freetype --disable-shared --enable-static --disable-libtdl"
+        ADDITIONAL_OPTIONS="--without-freetype --disable-shared --enable-static --disable-ltdl"
     ;;
     osx* )
         ADDITIONAL_OPTIONS=
@@ -62,9 +62,7 @@ perl -p -i -e "s|\+0 \-1|-k1,1|g" dotneato/common/Makefile
 fi
 # Probably the configure should just be remade on Darwin, but it builds
 # as-is with this small cleanup
-%ifos darwin
 perl -p -i -e "s|-lexpat||g" configure
-%endif
 make %makeprocesses
 
 %install
