@@ -180,7 +180,7 @@ source %{instroot}/$CMSARCH/${srbase}/etc/profile.d/init.sh
 # running (i686 or x84_64) scram detects it as ia32.
 CMSPLAT=`echo $CMSARCH | cut -d_ -f 2`
 USE_LINUX32=
-if [ `uname` = Linux]; then
+if [ `uname` == Linux ]; then
   if [ "$CMSPLAT" = "ia32" ]
   then
       USE_LINUX32=linux32
