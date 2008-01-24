@@ -1,22 +1,14 @@
-### RPM lcg root 5.14.00f-CMS1
+### RPM lcg root 5.18.00-lite
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
-Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
-#Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 
-Patch: root-CINT-maxlongline
+Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 
-%define cpu %(echo %cmsplatf | cut -d_ -f2)
-%define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
-Requires: gccxml python qt gsl castor openssl mysql libpng libjpg dcap pcre zlib oracle libungif
-
-%if "%cpu" != "amd64"
-Requires: libtiff
-%endif
+#Requires: gccxml python qt gsl castor openssl mysql libpng libjpg dcap pcre zlib oracle libungif
+Requires: gccxml python qt gsl libjpg libpng dcap pcre libtiff libungif zlib
 
 %prep
 %setup -n root
-%patch -p0
 
 %build
 mkdir -p %i
@@ -25,38 +17,41 @@ CONFIG_ARGS="--enable-table
              --disable-builtin-pcre
              --disable-builtin-freetype
              --disable-builtin-zlib
-             --with-gccxml=${GCCXML_ROOT} 
+             --disable-oracle
+             --disable-mysql
+             --disable-qtgsi
+             --disable-qt
+             --disable-rfio
+             --disable-castor
+             --disable-ldap
+             --disable-krb5
+             --disable-pgsql
+             --disable-xml
              --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include/python2.4 
-             --enable-mysql --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
              --enable-explicitlink 
-             --enable-qtgsi
-             --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
              --enable-mathcore 
              --enable-mathmore
              --enable-reflex  
              --enable-cintex 
              --enable-minuit2 
              --enable-roofit
-             --disable-ldap
-             --disable-krb5
+             --with-gccxml=${GCCXML_ROOT} 
              --with-ssl-incdir=${OPENSSL_ROOT}/include
              --with-ssl-libdir=${OPENSSL_ROOT}/lib
              --with-gsl-incdir=${GSL_ROOT}/include
              --with-gsl-libdir=${GSL_ROOT}/lib
              --with-dcap-libdir=${DCAP_ROOT}/lib 
-             --with-dcap-incdir=${DCAP_ROOT}/include
-             --disable-pgsql
-             --disable-xml"
+             --with-dcap-incdir=${DCAP_ROOT}/include"
 
 case $(uname)-$(uname -p) in
   Linux-x86_64)
-    ./configure linuxx8664gcc $CONFIG_ARGS --enable-oracle --with-oracle-libdir=${ORACLE_ROOT}/lib --with-oracle-incdir=${ORACLE_ROOT}/include --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift --disable-astiff --disable-cern;; 
+    ./configure linuxx8664gcc $CONFIG_ARGS --disable-astiff --disable-cern;; 
   Linux-i*86)
-    ./configure linux  $CONFIG_ARGS --enable-oracle --with-oracle-libdir=${ORACLE_ROOT}/lib --with-oracle-incdir=${ORACLE_ROOT}/include --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift;;
+    ./configure linux  $CONFIG_ARGS;;
   Darwin*)
-    ./configure macosx $CONFIG_ARGS --disable-rfio;;
+    ./configure macosx $CONFIG_ARGS;;
   Linux-ppc64*)
-    ./configure linux $CONFIG_ARGS --disable-rfio;;
+    ./configure linux $CONFIG_ARGS;;
 esac
 
 make  %makeprocesses
