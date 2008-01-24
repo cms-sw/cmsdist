@@ -1,21 +1,19 @@
-### RPM cms fwlite CMSSW_1_6_8_pre2_FWLITE-root51706
+### RPM cms fwlite CMSSW_1_6_8_FWLITE-root51800
 ## IMPORT configurations 
 Provides: /bin/zsh
 Requires: fwlite-tool-conf 
-%define cmssw_release 	%(perl -e '$_="%v"; s/_FWLITE-root51706//; print;')
+%define cmssw_release 	%(perl -e '$_="%v"; s/_FWLITE-root51800//; print;')
 %define toolconf        ${FWLITE_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
 
 #Defines for file containing list of packages for checkout and build:
 %define buildsetrepo 	CMSDIST
 %define buildsetfile 	fwlite_build_set.file
-%define buildsetvers	buildset_V3_2
+%define buildsetvers	buildset_V3_3
 
 # Define list of external tools to be selected in scram configuration.
 # Any changes must be propagated in fwlite-tool-conf.spec:
-%define externals "cxxcompiler ccompiler clhep sockets boost boost_filesystem rootrflx rootcore rootmath gccxml boost_python elementtree sigcpp hepmc gsl boost_regex boost_program_options boost_program_options boost_regex bz2lib pcre root rootcintex zlib glimpse castor python oracle mysql dcap qt libjpg openssl expat"
+%define externals "cxxcompiler ccompiler clhep sockets boost boost_filesystem boost_python boost_regex boost_program_options root rootcintex rootrflx rootcore rootmath gccxml python elementtree sigcpp hepmc gsl bz2lib pcre zlib dcap libjpg openssl expat"
 
-
-%define prebuildtarget  gindices
 %define buildtarget     release-build
 
 # Skip library load and symbol checks to avoid dependency on seal:
