@@ -175,15 +175,16 @@ case $sver in
   * ) srbase=lcg/SCRAMV1/${sver};;
 esac
 source %{instroot}/$CMSARCH/${srbase}/etc/profile.d/init.sh
-# In the case we are on ia32 we prepend the linux32 command to the actual 
-# scram command so that, no matter where the ia32 architecture is running 
-# (i686 or x84_64) scram detects it as ia32.
+# In the case we are on linux ia32 we prepend the linux32 command to the 
+# actual scram command so that, no matter where the ia32 architecture is 
+# running (i686 or x84_64) scram detects it as ia32.
 CMSPLAT=`echo $CMSARCH | cut -d_ -f 2`
-if [ "$CMSPLAT" = "ia32" ]
-then
-    USE_LINUX32=linux32
-else
-    USE_LINUX32=
+USE_LINUX32=
+if [ `uname` == Linux ]; then
+  if [ "$CMSPLAT" = "ia32" ]
+  then
+      USE_LINUX32=linux32
+  fi
 fi
 $USE_LINUX32 %{instroot}/$CMSARCH/${srbase}/bin/${scmd} $@
 EOF_COMMON_SCRAM

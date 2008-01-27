@@ -1,18 +1,28 @@
-### RPM lcg root 5.17.08-CMS19
+### RPM lcg root 5.18.00-CMS19
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
 Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 
-Patch0: root-5.17-08-Cintex
-Patch1: root-5.17-08-libpng
-Patch2: root-5.17-08-CINT-maxlongline
+Patch0: root-5.18-00-libpng
+Patch1: root-5.18-00-CINT-maxlongline-maxtypedef
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
-Requires: gccxml python qt gsl castor openssl mysql libpng libjpg dcap pcre zlib oracle libungif xrootd
 
-%if "%cpu" != "amd64"
+Requires: gccxml gsl castor libjpg dcap pcre python
+
+%if "%{?online_release:set}" != "set"
+Requires: qt openssl mysql libpng zlib oracle libungif xrootd
+%else
+%define skiplibtiff true
+%endif
+
+%if "%cpu" == "amd64"
+%define skiplibtiff true
+%endif
+
+%if "%skiplibtiff" != "true"
 Requires: libtiff
 %endif
 
@@ -20,21 +30,37 @@ Requires: libtiff
 %setup -n root
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 mkdir -p %i
 export ROOTSYS=%_builddir/root
+
+%if "%{?online_release:set}" == "set"
+# Use oracle from xdaq installation:
+ORACLE_ROOT="/opt/xdaq"
+# Build without mysql, and use system qt and openssl:
+EXTRA_CONFIG_ARGS="
+             --disable-mysql 
+             --enable-qt
+             --enable-ssl"
+# Also skip xrootd option for online case. 
+%else
+EXTRA_CONFIG_ARGS="
+             --with-xrootd=$XROOTD_ROOT
+             --enable-mysql --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
+             --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
+             --with-ssl-incdir=${OPENSSL_ROOT}/include
+             --with-ssl-libdir=${OPENSSL_ROOT}/lib"
+%endif
+
 CONFIG_ARGS="--enable-table 
              --disable-builtin-pcre
              --disable-builtin-freetype
              --disable-builtin-zlib
              --with-gccxml=${GCCXML_ROOT} 
              --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include/python2.4 
-             --enable-mysql --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
              --enable-explicitlink 
              --enable-qtgsi
-             --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
              --enable-mathcore 
              --enable-mathmore
              --enable-reflex  
@@ -43,15 +69,12 @@ CONFIG_ARGS="--enable-table
              --enable-roofit
              --disable-ldap
              --disable-krb5
-             --with-ssl-incdir=${OPENSSL_ROOT}/include
-             --with-ssl-libdir=${OPENSSL_ROOT}/lib
              --with-gsl-incdir=${GSL_ROOT}/include
              --with-gsl-libdir=${GSL_ROOT}/lib
              --with-dcap-libdir=${DCAP_ROOT}/lib 
              --with-dcap-incdir=${DCAP_ROOT}/include
-             --with-xrootd=$XROOTD_ROOT
              --disable-pgsql
-             --disable-xml"
+             --disable-xml ${EXTRA_CONFIG_ARGS}"
 
 %if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422")||("%cmsplatf" == "slc4_amd64_gcc345"))
   CONFIG_ARGS="$CONFIG_ARGS --disable-cern"
