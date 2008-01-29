@@ -12,6 +12,11 @@ echo "PWD=$PWD"
 cd Servers/JavaServer
 # fix context.xml file
 cat > etc/context.xml << EOF_CONTEXT
+<Context path="/servlet/DBSServlet" docBase="DBSServlet" debug="5" reloadable="true" crossContext="true">
+     <SupportedSchemaVersion schemaversion="DBS_1_0_8" />
+     <SupportedClientVersions clientversions="DBS_1_0_1, DBS_1_0_5, DBS_1_0_7, DBS_1_0_8, DBS_1_0_9"/>
+     <DBSBlockConfig maxBlockSize="2000000000000" maxBlockFiles="100" />
+                        
      <Resource name="jdbc/dbs"
               auth="Container"
               type="javax.sql.DataSource"
@@ -22,6 +27,7 @@ cat > etc/context.xml << EOF_CONTEXT
               password="cmsdbs"
               driverClassName="org.gjt.mm.mysql.Driver"
               url="jdbc:mysql://localhost:3316/%{cvstag}?autoReconnect=true"/>
+</Context>
 EOF_CONTEXT
 
 mkdir -p bin/WEB-INF/lib
@@ -84,3 +90,7 @@ echo "$DBS_SCHEMA_ROOT/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql"
 # and delegate this to dbs account.
 $MYSQL_ROOT/bin/mysql -uroot -pcms --socket=$MYSQL_SOCK < $DBS_SCHEMA_ROOT/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql
 $MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK -uroot -pcms mysql -e "GRANT ALL ON ${DBS_SCHEMA_VERSION}.* TO dbs@localhost;"
+
+# I need to copy/deploy DBS.war file into tomcat area
+cp $DBS_SERVER_ROOT/Servers/JavaServer/DBS.war $APACHE_TOMCAT_ROOT/webapps
+
