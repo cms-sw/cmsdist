@@ -37,13 +37,14 @@ else
 
     echo "+++ Start up CMS MySQL daemon on port ${MYSQL_PORT} ..."
     $MYSQL_ROOT/bin/mysqld_safe --datadir=$MYSQL_PATH --port=$MYSQL_PORT \
-    --socket=$MYSQL_SOCK --log-error=$MYSQL_ERR --skip-networking --pid-file=$MYSQL_PID &
+    --socket=$MYSQL_SOCK --log-error=$MYSQL_ERR --pid-file=$MYSQL_PID &
+    #--socket=$MYSQL_SOCK --log-error=$MYSQL_ERR --skip-networking --pid-file=$MYSQL_PID &
     sleep 10
     
     # create CMS MySQL root account
     echo "+++ Creating MySQL default root account ..."
     $MYSQL_ROOT/bin/mysqladmin --port=$MYSQL_PORT --socket=$MYSQL_SOCK -u root password "cms"
-#    $MYSQL_ROOT/bin/mysqladmin --port=$MYSQL_PORT --socket=$MYSQL_SOCK -u root -h `hostname` password "cms"
+    $MYSQL_ROOT/bin/mysqladmin --port=$MYSQL_PORT --socket=$MYSQL_SOCK -u root -h `hostname` password "cms"
 
     # create CMS MySQL DBS account
     echo "+++ Creating MySQL default dbs account ..."
