@@ -198,6 +198,9 @@ fi
 touch %instroot/%cmsplatf/etc/profile.d/dummy
 ln -s ../common/cmsarch %instroot/bin/cmsarch
 ln -s ../common/cmsarch %instroot/bin/cmsos
+ln -s ../common/scram %instroot/bin/scram
+ln -s ../common/scramv1 %instroot/bin/scramv1
+ln -s ../common/scramv0 %instroot/bin/scramv0
 
 %post
 echo $RPM_INSTALL_PREFIX
@@ -216,5 +219,11 @@ perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/common/s
 %instroot/common/scram
 %instroot/common/scramv1
 %instroot/common/scramv0
+%instroot/common/.cms-common
+%instroot/bin/cmsos
+%instroot/bin/cmsarch
+%instroot/bin/scram
+%instroot/bin/scramv1
+%instroot/bin/scramv0
 %instroot/%cmsplatf/etc/profile.d
 %exclude %instroot/%cmsplatf/etc/profile.d/*
