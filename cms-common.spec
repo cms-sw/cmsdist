@@ -7,7 +7,7 @@ echo $SCRAM_ROOT
 
 mkdir -p %instroot/common %instroot/bin %{instroot}/%{cmsplatf}/etc/profile.d
 
-# Do not create these common files if already exist
+# Do not create these common files if already exist 
 # This is to avoid different arch creating these files
 if [ ! -f %instroot/common/.cms-common ]; then
 install -m 755 %_sourcedir/cmsos %instroot/common/cmsos
