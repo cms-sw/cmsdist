@@ -11,6 +11,9 @@ Source: http://rpm.org/releases/rpm-4.4.x/rpm-%{realversion}.tar.gz
 #Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
 
 Requires: beecrypt bz2lib neon db4 expat elfutils zlib
+# The following two lines are a workaround for an issue seen with gcc4.1.2
+Provides: perl(Archive::Tar)
+Provides: perl(Specfile)
 
 Patch0: rpm-4.4.9-enum
 Patch1: rpm-4.4.9-rpmps
