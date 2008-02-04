@@ -1,6 +1,6 @@
 ### RPM external bootstrap-driver 1.0
-Source: bootstrap 
-Requires: apt zlib expat openssl beecrypt bz2lib db4 elfutils neon libxml2 rpm 
+Source: bootstrap
+Requires: apt zlib expat openssl beecrypt bz2lib db4 elfutils neon libxml2 rpm cms-common 
 
 %prep
 %build
@@ -94,6 +94,8 @@ unsupportedProvides="libtcl8.3.so libtk8.3.so /bin/env libcom_err.so.3
                      libkrb5.so.3 libssl.so.4 /bin/csh /bin/tcsh libreadline.so.4
                      libtcl8.4.so libtk8.4.so"
 
+defaultPkgs="cms+cms-common+$CMS_COMMON_VERSION"
+
 mkdir -p %{i}/etc/profile.d
 (echo "instroot=%{instroot}"; \
  echo "rpm_version=$RPM_VERSION"; \
@@ -103,4 +105,5 @@ mkdir -p %{i}/etc/profile.d
  echo "packageList=\"`echo $packageList`\""; \
  echo "additionalProvides=\"$additionalProvides\""; \
  echo "unsupportedProvides=\"$unsupportedProvides\""; \
+ echo "defaultPkgs=\"$defaultPkgs\""; \
 ) > %{i}/%{cmsplatf}-driver.txt

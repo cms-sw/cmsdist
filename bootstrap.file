@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.54 $
+# Revision: $Revision: 1.55 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -572,9 +572,12 @@ While this might not be a problem you might want to tweak your sources.list \
 to avoid warnings in future. "; cat $tempdir/apt-get-update.log; }
 
 echo "Done"
-[ "X$additionalPkgs" = X ] || apt-get install -y $additionalPkgs >$tempdir/apt-get-install.log 2>&1 || { echo && echo "WARNING: a set of additional \
-packages where required by the bootstrap options/driver, but they are impossible to install. \
-Error message is:"; cat $tempdir/apt-get-install.log;  }
+echo_n "Installing default packages."
+defaultPackages="$additionalPkgs $defaultPkgs"
+[ "X$defaultPackages" = X ] || apt-get install -y $defaultPackages >$tempdir/apt-get-install.log 2>&1 || { echo && echo "ERROR: \
+packages ($defaultPackages) were required by the bootstrap options/driver, but they are impossible to install. \
+Error message is:"; cat $tempdir/apt-get-install.log; cleanup_and_exit 1 "Unable to install packages." }
+echo "Done"
 
 echo "Bootstrap environment to be found in: "
 echo "### $rootdir/$cmsplatf/external/apt/$apt_version/etc/profile.d/init.sh"
