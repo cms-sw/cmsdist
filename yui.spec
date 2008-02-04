@@ -1,4 +1,4 @@
-### RPM external yui 2.4.1
+### RPM external yui 2.3.1
 Source: http://switch.dl.sourceforge.net/sourceforge/yui/yui_%realversion.zip 
 
 %prep
@@ -10,7 +10,7 @@ unzip %{_sourcedir}/yui_%realversion.zip
 %install
 pwd
 cp -r yui/* %i
-mkdir -p %i/etc
+mkdir %i/etc
 cat << \EOF_CHERRYPY_CONF > %i/etc/cherrypy.conf
 # Serve a complete directory 
 [/] 
