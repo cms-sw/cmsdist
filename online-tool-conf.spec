@@ -1,4 +1,4 @@
-### RPM cms online-tool-conf CMS_150onl
+### RPM cms online-tool-conf CMS_150_ONLINE1
 
 Provides: tmp/slc3_ia32_gcc323/src/FWCore/TFWLiteSelector/test/libFWCoreTFWLiteSelectorTest.so
 Provides: libboost_regex-gcc-mt.so 
@@ -23,10 +23,8 @@ Requires: castor
 Requires: libjpg
 Requires: dcap
 Requires: oracle-env
-Requires: cppunit
 Requires: frontier_client
 Requires: sqlite
-Requires: mysqlpp
 Requires: hepmc
 Requires: heppdt
 Requires: elementtree
@@ -34,9 +32,10 @@ Requires: sigcpp
 Requires: tkonlinesw
 Requires: fastjet
 Requires: ktjet
-Requires: systemtools
+Requires: dpm
+Requires: onlinesystemtools
 
 
 %define skipreqtools jcompiler
-
+%define onlinesystemtoolsroot ${ONLINESYSTEMTOOLS_ROOT}
 ## IMPORT scramv1-tool-conf
