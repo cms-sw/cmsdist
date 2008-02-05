@@ -7,8 +7,7 @@ Requires: apache-ant mysql mysql-deployment oracle apache-tomcat java-jdk dbs-sc
 %prep
 %setup -n DBS
 # kill running mysql|tomcat under my account since build is over
-ps -u`whoami` | grep mysqld | awk '{print "kill -9 "$1""}' |/bin/sh
-ps -u`whoami` | grep tomcat | awk '{print "kill -9 "$1""}' |/bin/sh
+ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "$2""}' |/bin/sh
 
 %build
 echo "PWD=$PWD"
@@ -46,6 +45,82 @@ cp -r Servers/JavaServer/* %{i}/Servers/JavaServer
 
 # copy war file
 cp %{i}/Servers/JavaServer/DBS.war $APACHE_TOMCAT_ROOT/webapps
+
+# create dbs init script
+mkdir -p %{i}/Servers/JavaServer/bin
+cat > %{i}/Servers/JavaServer/bin/dbs_init.sh << DBS_INIT_EOF
+#!/bin/sh
+export MYAREA=rpm_install_area
+export SCRAM_ARCH=slc4_ia32_gcc345
+source \$MYAREA/\$SCRAM_ARCH/external/apt/0.5.15lorg3.2-CMS3/etc/profile.d/init.sh 
+source \$DBS_SERVER_ROOT/etc/profile.d/init.sh
+# set DBS DBs
+MYSQL_PORT=3316
+MYSQL_PATH=\$MYSQL_ROOT/mysqldb
+MYSQL_SOCK=\$MYSQL_PATH/mysql.sock
+MYSQL_PID=\$MYSQL_PATH/mysqld.pid
+MYSQL_ERR=\$MYSQL_PATH/error.log
+
+function dbs_stop() 
+{
+    echo $"Stop mysqld|tomcat running under `whoami` account..."
+    ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "\$2""}'|/bin/sh
+}
+function dbs_start()
+{
+    echo "+++ Start up CMS MySQL daemon on port \${MYSQL_PORT} ..."
+    \$MYSQL_ROOT/bin/mysqld_safe --datadir=\$MYSQL_PATH --port=\$MYSQL_PORT \
+    --socket=\$MYSQL_SOCK --log-error=\$MYSQL_ERR --pid-file=\$MYSQL_PID &
+    echo "+++ Start tomcat server"
+    \$APACHE_TOMCAT_ROOT/bin/catalina.sh start
+    sleep 2
+    echo
+    echo "DBS service is ready ..."
+}
+function dbs_status() 
+{
+    me=\`whoami\`
+    dbs_mysqld=\`ps -w -w -f -u\$me | egrep "mysqld" | grep -v egrep | wc -l\`
+    dbs_tomcat=\`ps -w -w -f -u\$me | egrep "tomcat" | grep -v egrep | wc -l\`
+    if [ \${dbs_tomcat} -ne 1 ]; then
+       echo "Tomcat server is not running"
+       exit 1
+    fi
+    if [ \${dbs_mysqld} -ne 2 ]; then
+       echo "MySQL server is not running"
+       exit 1
+    fi
+    ps -w -w -f -u`whoami` | egrep "mysqld" | grep -v egrep | awk '{print "MySQLd server running, pid="\$2""}'
+    ps -w -w -f -u`whoami` | egrep "tomcat" | grep -v egrep | awk '{print "Tomcat server running, pid="\$2""}'
+    echo "For more information please have a look at tomcat log:"
+    echo "\$APACHE_TOMCAT_ROOT/logs/catalina.out"
+}
+
+RETVAL=\$?
+
+case "\$1" in
+ restart)
+        dbs_stop
+        dbs_start
+        ;;
+ start)
+        dbs_start
+        ;;
+ status)
+        dbs_status
+        ;;
+ stop)
+        dbs_stop
+        ;;
+ *)
+        echo \$"Usage: \$0 {start|stop|status|restart}"
+        exit 1
+        ;;
+esac
+
+exit \$RETVAL
+DBS_INIT_EOF
+chmod a+x %{i}/Servers/JavaServer/bin/dbs_init.sh
 
 mkdir -p %{i}/etc/profile.d
 (echo "#!/bin/sh"; \
@@ -103,41 +178,20 @@ cp $DBS_SERVER_ROOT/Servers/JavaServer/DBS.war $APACHE_TOMCAT_ROOT/webapps
 
 echo
 echo
-echo "In order to run DBS server you need to setup the following environment"
+echo "#####  IMPORTANT!!!  #####"
+echo "For your convinience we created"
+echo "$DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh"
+echo "init script file which can be placed into /etc/init.d/ to allow auto-startup of DBS service"
+echo "##### END OF README  #####"
 echo
-echo "#############################################################"
-echo "export MYAREA=$RPM_INSTALL_PREFIX"
-echo "export SCRAM_ARCH=slc4_ia32_gcc345"
-echo "source $MYAREA/slc4_ia32_gcc345/external/apt/0.5.15lorg3.2-CMS3/etc/profile.d/init.sh"
-echo "source $DBS_SERVER_ROOT/etc/profile.d/init.sh"
-echo "#############################################################"
-echo
-echo "For your convinience we created setup_dbs.sh file with this settings"
-echo "It should be executed each time when you need to start DBS"
-echo
-
-# create setup file for users convenience
-if [ -e $RPM_INSTALL_PREFIX/setup_dbs.sh ]; then
-    echo "+++ Found $RPM_INSTALL_PREFIX/setup_dbs.sh, will keep it as $RPM_INSTALL_PREFIX/setup_dbs.sh.bak"
-    /bin/mv -f $RPM_INSTALL_PREFIX/setup_dbs.sh $RPM_INSTALL_PREFIX/setup_dbs.sh.bak
-else
-    echo "+++ File $RPM_INSTALL_PREFIX/setup_dbs.sh not found, will create"
-cat > $RPM_INSTALL_PREFIX/setup_dbs.sh << EOF2
-#!/bin/sh
-export MYAREA=$RPM_INSTALL_PREFIX
-export SCRAM_ARCH=slc4_ia32_gcc345
-source $MYAREA/slc4_ia32_gcc345/external/apt/0.5.15lorg3.2-CMS3/etc/profile.d/init.sh 
-source $DBS_SERVER_ROOT/etc/profile.d/init.sh
-ps -u`whoami` | egrep "mysqld|tomcat" | awk '{print "kill -9 "$1""}' |/bin/sh
-echo "+++ Start up CMS MySQL daemon on port ${MYSQL_PORT} ..."
-$MYSQL_ROOT/bin/mysqld_safe --datadir=$MYSQL_PATH --port=$MYSQL_PORT \
---socket=$MYSQL_SOCK --log-error=$MYSQL_ERR --pid-file=$MYSQL_PID &
-echo "+++ Start tomcat server"
-$APACHE_TOMCAT_ROOT/bin/catalina.sh start
-EOF2
-    chmod a+x $RPM_INSTALL_PREFIX/setup_dbs.sh
-fi
+# Fix path in dbs_init.sh file since now we know install area
+cat $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh | sed "s,rpm_install_area,$RPM_INSTALL_PREFIX,g" > \
+    $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh.new
+mv  $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh.new $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh
+chmod a+x $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh
 
 # time to start up tomcat for user
-$APACHE_TOMCAT_ROOT/bin/catalina.sh start
+#$APACHE_TOMCAT_ROOT/bin/catalina.sh start
 
+# kill running mysql|tomcat under my account since build is over
+ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "$2""}' |/bin/sh
