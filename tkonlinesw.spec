@@ -1,9 +1,9 @@
-### RPM external tkonlinesw 0.3-CMS19
+### RPM external tkonlinesw 0.3-CMS10
+# Modified to force rebuild for CMSSW_1_7_5_ONLINE1. 
 %define projectname trackerDAQ
 %define releasename %{projectname}-%{realversion}
 Source: http://cmsdoc.cern.ch/cms/cmt/online/rpm/SOURCE/%{releasename}.tgz
 Patch: Fed9U-gcc3.4
-Patch1: tkonlinesw-fPIC
 
 # Note from Kristian: 
 # xdaq dependency is here only to re-use its makefiles. 
@@ -20,7 +20,6 @@ Requires: onlinesystemtools
 %prep
 %setup -q -n %releasename
 %patch -p1
-%patch1 -p2
 # Clean up some mysterious old build within the sources that screws
 # up the install by copying in an old libFed9UUtils.so
 rm -fR TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/2.4/slc3_ia32_gcc323
@@ -28,9 +27,11 @@ rm -fR TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/2.4/slc3_ia32_gcc323
 %build
 echo "pwd: $PWD"
 # Set variables for requied externals to be picked up by configure:
+
 export XERCESCROOT=${XERCES_C_ROOT}
 export XDAQ_ROOT=${XDAQ_ROOT}
 export ENV_ORACLE_HOME=${ORACLE_ROOT}
+
 
 export ENV_CMS_TK_BASE=%{_builddir}/%releasename
 export ENV_CMS_TK_DIAG_ROOT=${ENV_CMS_TK_BASE}/DiagSystem
@@ -50,8 +51,8 @@ export ROOTSYS=blah
 export ENV_CMS_TK_CAEN_ROOT=blah
 export ENV_CMS_TK_SBS_ROOT=blah
 
-cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure CXXFLAGS=-fPIC && cd -
-cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure CXXFLAGS=-fPIC && cd -
+cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure  && ./configure && cd -
+cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure  && ./configure && cd -
 
 # Simply hack the resulting makefile since I do not see how to properly
 # configure it to use our xerces instead of the xdaq one
