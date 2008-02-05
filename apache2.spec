@@ -3,13 +3,18 @@
 # http://httpd.apache.org/docs/2.2/install.html
 # for instruction on how to configure.
 
-# Required for https and compression support support
-Requires: openssl zlib
+# Required for https and compression support
+Requires: openssl zlib expat uuid
+
+# Can't figure out how to get rpm to stop complaining about this...
+# should be in e2fsprogs-libs-1.39-7.slc4 ...
+# but Requires uuid doesn't cover it
+Provides: libcom_err.so.2
+
 Source0: http://mirror.switch.ch/mirror/apache/dist/httpd/httpd-%realversion.tar.gz
 
 %prep
 %setup -n httpd-%realversion
-
 
 %build
 # See here:
@@ -32,7 +37,10 @@ Source0: http://mirror.switch.ch/mirror/apache/dist/httpd/httpd-%realversion.tar
                         --enable-rewrite \
                         --enable-ssl \
                         --with-openssl=$OPENSSL_ROOT \
-                        --with-z=$ZLIB_ROOT
+                        --with-z=$ZLIB_ROOT \
+			--with-expat=$EXPAT_ROOT \
+			--with-uuid=$UUID_ROOT
+
                         
 
 # %makeprocesses is for multiple compile processes -j X
@@ -63,6 +71,7 @@ done
 perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-setup.sh
 perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
 
+find -type f | xargs perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|" 
 
 %install
 make install
