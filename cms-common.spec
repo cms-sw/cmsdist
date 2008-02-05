@@ -157,6 +157,11 @@ if [ "X$SCRAM_VERSION" = "X" ] ; then
   done
   if [ -f ${dir}/config/scram_version ] ; then
     ver=`cat ${dir}/config/scram_version`
+    if [ "X$ver" = "XV1_0_3-p1" ] ; then
+      if [ "X$CMSARCH" = "Xslc4_ia32_gcc345" ] ; then
+        ver=V1_0_3-p2
+      fi
+    fi
     case $ver in
       V0_* ) srbase=lcg/SCRAM/${ver};;
       * ) srbase=lcg/SCRAMV1/${ver};;
