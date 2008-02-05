@@ -166,7 +166,7 @@ MYSQL_PID=$MYSQL_PATH/mysqld.pid
 MYSQL_ERR=$MYSQL_PATH/error.log
 # grant permissions to CMS MySQL DBS account
 echo "+++ Grand permission to dbs account, DBS DB ${DBS_SCHEMA_VERSION} ..."
-echo "$MYSQL_ROOT/bin/mysql -udbs -pcmsdbs --socket=$MYSQL_SOCK"
+#echo "$MYSQL_ROOT/bin/mysql -udbs -pcmsdbs --socket=$MYSQL_SOCK"
 echo "$DBS_SCHEMA_ROOT/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql"
 # DBS uses trigger which requires to have SUPER priveleges, so we'll create DB using root
 # and delegate this to dbs account.
