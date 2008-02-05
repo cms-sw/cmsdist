@@ -1,6 +1,7 @@
-### RPM external geant4 9.1-CMS19
+### RPM external geant4 9.1.p01-dbg-global
 %define downloadv %(echo %v | cut -d- -f1)
-
+# Special distribution for local validation at FNAL: see comments below.
+Provides: /bin/awk
 Requires: clhep
 
 %define photonEvaporationVersion 2.0
@@ -21,7 +22,13 @@ Patch: geant-4.8.2.p01-nobanner
 %prep
 %setup -n %n.%downloadv
 pwd
+
 %patch0 -p1 
+
+# ONLY for Fermilab tests ! 
+# Add -g option to keep debug symbols:
+cp -p config/sys/Linux-g++.gmk config/sys/Linux-g++.gmk.orig
+perl -i -p -e '{s| -O2| -O2 -g|}' config/sys/Linux-g++.gmk
 
 %build
 if [ $(uname) = Darwin ]; then
