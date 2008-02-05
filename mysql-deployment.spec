@@ -43,7 +43,9 @@ else
     
     # create CMS MySQL root account
     echo "+++ Creating MySQL default root account ..."
+    echo "+++ Account for localhost"
     $MYSQL_ROOT/bin/mysqladmin --port=$MYSQL_PORT --socket=$MYSQL_SOCK -u root password "cms"
+    echo "+++ Account for `hostname`"
     $MYSQL_ROOT/bin/mysqladmin --port=$MYSQL_PORT --socket=$MYSQL_SOCK -u root -h `hostname` password "cms"
 
     # create CMS MySQL DBS account
