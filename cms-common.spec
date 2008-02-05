@@ -171,6 +171,11 @@ if [ "X$SCRAM_VERSION" = "X" ] ; then
     fi
   fi
 else
+   if [ "X$SCRAM_VERSION" = "XV1_0_3-p1" ] ; then
+     if [ "X$CMSARCH" = "Xslc4_ia32_gcc345" ] ; then
+       SCRAM_VERSION=V1_0_3-p2
+     fi
+   fi
    sver=$SCRAM_VERSION
 fi
 scmd=scram
@@ -179,6 +184,10 @@ case $sver in
   V1_0* ) srbase=lcg/SCRAMV1/${sver}; scmd=scramv1;;
   * ) srbase=lcg/SCRAMV1/${sver};;
 esac
+if [ ! -f %{instroot}/$CMSARCH/${srbase}/etc/profile.d/init.sh ] ; then
+  echo "Unable to find SCRAM version $sver for $CMSARCH architecture."
+  exit 1
+fi
 source %{instroot}/$CMSARCH/${srbase}/etc/profile.d/init.sh
 # In the case we are on linux ia32 we prepend the linux32 command to the 
 # actual scram command so that, no matter where the ia32 architecture is 
