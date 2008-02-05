@@ -63,8 +63,9 @@ MYSQL_ERR=\$MYSQL_PATH/error.log
 
 function dbs_stop() 
 {
-    echo $"Stop mysqld|tomcat running under `whoami` account..."
-    ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "\$2""}'|/bin/sh
+    me=\`whoami\`
+    echo $"Stop mysqld|tomcat running under \$me account..."
+    ps -w -w -f -u\$me | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "\$2""}'|/bin/sh
 }
 function dbs_start()
 {
