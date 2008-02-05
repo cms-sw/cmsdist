@@ -53,7 +53,7 @@ cat > %{i}/Servers/JavaServer/bin/dbs_init.sh << DBS_INIT_EOF
 export MYAREA=rpm_install_area
 export SCRAM_ARCH=slc4_ia32_gcc345
 source \$MYAREA/\$SCRAM_ARCH/external/apt/0.5.15lorg3.2-CMS3/etc/profile.d/init.sh 
-source \$DBS_SERVER_ROOT/etc/profile.d/init.sh
+source \$MYAREA/%{pkgrel}/etc/profile.d/init.sh
 # set DBS DBs
 MYSQL_PORT=3316
 MYSQL_PATH=\$MYSQL_ROOT/mysqldb
