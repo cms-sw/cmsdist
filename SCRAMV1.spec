@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V1_1_0_reltag8
+### RPM lcg SCRAMV1 V1_1_2
 ## INITENV +PATH PATH %instroot/common
 ## INITENV +PATH PERL5LIB %{i}
 
@@ -52,7 +52,7 @@ Provides: perl(Utilities::GroupChecker)
 # together into one big one?
 
 %define cvsrepo  cvs://:pserver:anonymous@cmscvs.cern.ch:/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-%define cvstag %v
+%define cvstag %realversion
 Source0: %{cvsrepo}&tag=-r%{cvstag}&module=SCRAM&output=/source.tar.gz
 
 %prep
