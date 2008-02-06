@@ -91,8 +91,8 @@ function dbs_status()
        echo "MySQL server is not running"
        exit 1
     fi
-    ps -w -w -f -u`whoami` | egrep "mysqld" | grep -v egrep | awk '{print "MySQLd server running, pid="\$2""}'
-    ps -w -w -f -u`whoami` | egrep "tomcat" | grep -v egrep | awk '{print "Tomcat server running, pid="\$2""}'
+    ps -w -w -f -u\$me | egrep "mysqld" | grep -v egrep | awk '{print "MySQLd server running, pid="\$2""}'
+    ps -w -w -f -u\$me | egrep "tomcat" | grep -v egrep | awk '{print "Tomcat server running, pid="\$2""}'
     echo "For more information please have a look at tomcat log:"
     echo "\$APACHE_TOMCAT_ROOT/logs/catalina.out"
 }
