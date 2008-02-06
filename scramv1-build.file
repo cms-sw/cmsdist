@@ -132,6 +132,7 @@ mkdir -p $(dirname %i)
 
 %{?buildarch:%buildarch}
 export SCRAM_TOOLBOXVERSION=%v
+export SCRAM_VERSION=$SCRAMV1_VERSION
 %scramcmd project -d $(dirname %i) -b %{bootstrapfile} -f %_builddir/config/site/tools-`cat %_builddir/config/site/sitename`.conf
 cd %i
 %scramcmd setup
