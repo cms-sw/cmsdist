@@ -1,7 +1,6 @@
-### RPM cms cmssw CMSSW_2_0_0_pre1
+### RPM cms cmssw CMSSW_1_8_0_pre6
 ## IMPORT configurations 
 Provides: /bin/zsh
-Provides: /bin/sed
 Provides: perl(Date::Format)
 Provides: perl(Term::ReadKey)
 Provides: perl(full)
