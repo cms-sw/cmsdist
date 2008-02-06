@@ -1,4 +1,4 @@
-### RPM cms coral-tool-conf CMS_152a
+### RPM cms coral-tool-conf CMS_152b
 %if "%{?use_system_gcc:set}" != "set"
 Requires: gcc-toolfile
 Requires: gmake
