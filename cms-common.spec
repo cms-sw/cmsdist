@@ -77,8 +77,8 @@ then
 fi
 
 # aliases
-alias cmsenv='eval `scram runtime -sh`'
-alias cmsrel='scram project CMSSW'
+alias cmsenv='eval `scramv1 runtime -sh`'
+alias cmsrel='scramv1 project CMSSW'
 
 if [ -f $CMS_PATH/SITECONF/local/JobConfig/cmsset_local.sh ]; then
         . $CMS_PATH/SITECONF/local/JobConfig/cmsset_local.sh
@@ -131,8 +131,8 @@ if ( ! ${?CMS_PATH} ) then
 endif
 
 # aliases
-alias cmsenv 'eval `scram runtime -csh`'
-alias cmsrel 'scram project CMSSW'
+alias cmsenv 'eval `scramv1 runtime -csh`'
+alias cmsrel 'scramv1 project CMSSW'
 
 if( -e $CMS_PATH/SITECONF/local/JobConfig/cmsset_local.csh ) then 
         source $CMS_PATH/SITECONF/local/JobConfig/cmsset_local.csh
