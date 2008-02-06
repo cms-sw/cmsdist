@@ -1,6 +1,9 @@
 ### RPM external mod_perl2 2.0.3
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 
+%define perlversion %(perl -e 'printf "%%vd", $^V')
+%define perlarch %(perl -MConfig -e 'print $Config{archname}')
+
 # See http://perl.apache.org/docs/2.0/user/install/install.html
 
 Source0: http://perl.apache.org/dist/mod_perl-%realversion.tar.gz
