@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V1_1_2
+### RPM lcg SCRAMV1 V1_1_3
 ## INITENV +PATH PATH %instroot/common
 ## INITENV +PATH PERL5LIB %{i}
 
