@@ -10,6 +10,9 @@ Requires: dls dbs-client p5-monalisa-apmon
 # Extra requires so we get everything necessary for env.{,c}sh.
 Requires: zlib expat openssl bz2lib py2-pyxml py2-zsi py2-mysqldb mysql
 
+# Provided by system perl
+Provides: perl(HTML::Entities)
+
 %prep
 %setup -n %{downloadn}
 
