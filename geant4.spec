@@ -1,4 +1,4 @@
-### RPM external geant4 9.1.p01-CMS19
+### RPM external geant4 9.1.p01-CMS1
 %define downloadv %(echo %v | cut -d- -f1)
 
 Requires: clhep
