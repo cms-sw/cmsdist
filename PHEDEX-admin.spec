@@ -4,11 +4,7 @@
 %define downloadn %(echo %n | cut -f1 -d-)
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%{downloadn}&export=%{downloadn}&&tag=-r%{v}&output=/%{downloadn}.tar.gz
 Requires: oracle oracle-env p5-time-hires p5-text-glob p5-compress-zlib p5-dbi p5-dbd-oracle p5-xml-parser python
-Requires: py2-cx-oracle
-Requires: dls dbs-client p5-monalisa-apmon
-
-# Extra requires so we get everything necessary for env.{,c}sh.
-Requires: zlib expat openssl bz2lib py2-pyxml py2-zsi py2-mysqldb mysql
+Requires: dls-client dbs-client p5-monalisa-apmon
 
 # Provided by system perl
 Provides: perl(HTML::Entities)
