@@ -87,8 +87,8 @@ source G4BuildConf.sh
 mkdir -p %i
 tar -cf - config source | tar -C %i -xf -
 
-make %makeprocesses -C $G4BASE global
-make %makeprocesses -C $G4BASE includes
+make  -C $G4BASE global
+make  -C $G4BASE includes
 
 %install
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
