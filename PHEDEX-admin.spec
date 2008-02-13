@@ -12,6 +12,7 @@ Requires:  expat
 
 # Provided by system perl
 Provides: perl(HTML::Entities)
+Provides: perl(DB_File)
 
 %prep
 %setup -n %{downloadn}
