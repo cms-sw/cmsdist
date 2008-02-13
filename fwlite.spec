@@ -25,6 +25,8 @@ Requires: fwlite-tool-conf
 # Additional source patches named patchsrc4, patchsrc5 can be defined here.
 %define patchsrc4 perl -p -i -e '/<lib name=Tree>/ && print "<lib name=Net>\n<lib name=RIO>\n";' SCRAMToolBox/General/ROOTCore
 
+%define patchsrc5 perl -p -i -e 's/slc4_ia32_gcc345/%cmsplatf/' SCRAMToolBox/System/Sockets SCRAMToolBox/System/Sockets.xml 
+
 ## IMPORT cms-scram-build
 ## IMPORT partial-build
 ## IMPORT scramv1-build
