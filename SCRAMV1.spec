@@ -92,7 +92,7 @@ cat Installation/SCRAM_SITE.pm.in | sed -e "s|@SCRAM_HOME@|%i|;s|@SCRAM_LOOKUPDB
 # EOF
 chmod 755 %i/bin/scramv1
 
-mkdir %i/etc
+mkdir -p %i/etc
 echo $PERL5LIB > %i/etc/perl5lib.env
 
 mkdir -p %{instroot}/%{cmsplatf}/etc/profile.d
