@@ -1,4 +1,4 @@
-### RPM external tauola 27.121-CMS19
+### RPM external tauola 27.121-CMS19a
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Patch: tauola-27.121-gfortran
 Requires: pythia6
@@ -8,7 +8,7 @@ Requires: pythia6
 %if "%cmsplatf" == "slc4_ia32_gcc412"
 %patch -p0 
 %endif
-./configure --lcgplatform=%cmsplatf
+./configure --lcgplatform=%cmsplatf --with-pythia6libs=$PYTHIA6_ROOT/lib
 
 %build
 # Hack around the fact that this doesn't yet build for gcc4.x.y
