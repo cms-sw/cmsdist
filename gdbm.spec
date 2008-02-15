@@ -1,5 +1,5 @@
 ### RPM external gdbm 1.8.3-CMS19
-Source: http://rm.mirror.garr.it/mirrors/gnuftp/gnu/%{n}/%{n}-%{realversion}.tar.gz
+Source: http://ftp.download-by.net/gnu/gnu/%{n}/%{n}-%{realversion}.tar.gz
 
 %define thisuser %(id -u)
 %define thisgroup %(id -g)
