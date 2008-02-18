@@ -40,7 +40,7 @@ mkdir -p %i/workdir
  echo "source $DLS_CLIENT_ROOT/etc/profile.d/init.csh"; \
  echo "source $PRODCOMMON_ROOT/etc/profile.d/init.csh"; \
  echo "source $CHERRYPY_ROOT/etc/profile.d/init.csh"; \
- echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.csh" > %{i}/etc/profile.d/dependencies-setup.csh
+ echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
