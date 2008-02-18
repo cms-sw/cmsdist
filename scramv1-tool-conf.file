@@ -87,7 +87,7 @@ for tool in `find %i/configurations/SCRAMToolBox/tools -type f`
 do
     perl %_sourcedir/tool2xml.pl $tool > $tool.xml
     cat $tool.xml | grep -e "<[Tt][Oo][Oo][Ll]" | \
-      perl -p -e 's|.*<[Tt][Oo][Oo][Ll].*name="([^"]*).*version="([^"]*).*>|<require name=$1 version=$2  url="file:tools/$1"></require>|' >> %i/configurations/requirements
+      perl -p -e 's|.*<[Tt][Oo][Oo][Ll].*name="([^"]*).*version="([^"]*).*>|<require name=$1 version=$2  url="file:tools/${1}.xml"></require>|' >> %i/configurations/requirements
     toolname=`basename $tool`
     echo $skiptools | grep $toolname 2>&1 >/dev/null && continue
     echo "<select name=$toolname>" >> %i/configurations/requirements
