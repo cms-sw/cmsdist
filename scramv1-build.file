@@ -172,6 +172,10 @@ echo "executing %preBuildCommand"
 %define buildtarget %{nil} 
 %endif
 
+#this envar has a duplicate meaning in our build system
+#unset it to keep gccxml from being confused 
+unset GCCXML_BASE
+
 %scramcmd b -r echo_CXX </dev/null
 %if "%{?prebuildtarget:set}" == "set"
 %scramcmd b --verbose -f %{prebuildtarget} </dev/null
