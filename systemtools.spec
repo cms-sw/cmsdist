@@ -60,7 +60,7 @@ mkdir -p %i/etc/scram.d
 # Sockets
 cat << \EOF_TOOLFILE >%i/etc/scram.d/sockets
 <doc type=BuildSystem::ToolDoc version=1.1>
-<Tool name=Sockets version=%sockets_version>
+<Tool name=sockets version=%sockets_version>
 EOF_TOOLFILE
 case %cmsplatf in
 slc3_* | slc4_* | slc4onl_* )
