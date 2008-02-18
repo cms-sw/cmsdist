@@ -81,7 +81,7 @@ echo "</Tool>" >>%i/etc/scram.d/sockets
 # OpenGL
 cat << \EOF_TOOLFILE >%i/etc/scram.d/opengl
 <doc type=BuildSystem::ToolDoc version=1.1>
-<Tool name=OpenGL version=%opengl_version>
+<Tool name=opengl version=%opengl_version>
 <use name=X11>
 <lib name=GL>
 <lib name=GLU>
@@ -102,7 +102,7 @@ echo "</Tool>" >>%i/etc/scram.d/opengl
 # X11
 cat << \EOF_TOOLFILE >%i/etc/scram.d/x11
 <doc type=BuildSystem::ToolDoc version=1.1>
-<Tool name=X11 version=%x11_version>
+<Tool name=x11 version=%x11_version>
 EOF_TOOLFILE
 case %cmsplatf in
 slc3_* )
@@ -216,7 +216,7 @@ EOF_TOOLFILE
 # curl
 cat << \EOF_TOOLFILE >%i/etc/scram.d/curl
 <doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=Curl version=%curl_version>
+<Tool name=curl version=%curl_version>
 <lib name=curl>
 <client>
  <Environment name=CURL_BASE default="/usr/"></Environment>
@@ -295,7 +295,7 @@ EOF_TOOLFILE
 #xdaq
 cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaq
 <doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=XDAQ version=%xdaq_version>
+<Tool name=xdaq version=%xdaq_version>
 <info url=http://home.cern.ch/xdaq></info>
 <lib name=toolbox>
 <lib name=xdaq>
