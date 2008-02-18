@@ -26,11 +26,10 @@ mkdir -p %i/workdir
  echo "source $MYSQL_ROOT/etc/profile.d/init.sh"; \
  echo "source $PY2_MYSQLDB_ROOT/etc/profile.d/init.sh"; \
  echo "source $DBS_CLIENT_ROOT/etc/profile.d/init.sh"; \
- echo "source $DLS_ROOT/etc/profile.d/init.sh"; \
+ echo "source $DLS_CLIENT_ROOT/etc/profile.d/init.sh"; \
  echo "source $PRODCOMMON_ROOT/etc/profile.d/init.sh"; \
  echo "source $CHERRYPY_ROOT/etc/profile.d/init.sh"; \
- echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.sh"; \
- echo "source $BOSS_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
+ echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
 
 (echo "#!/bin/tcsh"; \
  echo "source $PYTHON_ROOT/etc/profile.d/init.csh"; \
@@ -38,11 +37,10 @@ mkdir -p %i/workdir
  echo "source $MYSQL_ROOT/etc/profile.d/init.csh"; \
  echo "source $PY2_MYSQLDB_ROOT/etc/profile.d/init.csh"; \
  echo "source $DBS_CLIENT_ROOT/etc/profile.d/init.csh"; \
- echo "source $DLS_ROOT/etc/profile.d/init.csh"; \
+ echo "source $DLS_CLIENT_ROOT/etc/profile.d/init.csh"; \
  echo "source $PRODCOMMON_ROOT/etc/profile.d/init.csh"; \
  echo "source $CHERRYPY_ROOT/etc/profile.d/init.csh"; \
- echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.csh"; \
- echo "source $BOSS_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
+ echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.csh" > %{i}/etc/profile.d/dependencies-setup.csh
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
