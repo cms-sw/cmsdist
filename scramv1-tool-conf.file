@@ -14,14 +14,13 @@ Source0: tool2xml.pl
 #   skipreqtools	Do not add these tools in requirements file
 
 %install
-%define scramsitename  STANDALONE
 rm -rf %i/configurations/SCRAMToolBox
 mkdir -p %i/configurations/SCRAMToolBox/tools
 mkdir -p %i/configurations/SCRAMToolBox/CMSconfigs
 
 %if "%{?skip_tools_conf_arch:set}" != "set"
 (echo "ARCHITECTURE:%{cmsplatf}"
- echo "SCRAM_BASEPATH:%{instroot}" ) >> tools-%{scramsitename}.conf
+ echo "SCRAM_BASEPATH:%{instroot}" ) >> tools.conf
 %endif
 
 ( echo ""
@@ -57,9 +56,9 @@ if [ "X`echo %requiredtools | tr ' ' '\n' | grep '^oracle$'`" = "Xoracle" ] ; th
        echo "  +ORACLE_ADMINDIR:$ORACLE_ENV_ROOT/etc"
 fi
 
-) >> tools-%{scramsitename}.conf
+) >> tools.conf
 
-mv tools-%{scramsitename}.conf %i/configurations/SCRAMToolBox/CMSconfigs/tools-%{scramsitename}.conf
+mv tools.conf %i/configurations/SCRAMToolBox/CMSconfigs/tools.conf
 
 %if "%{?systemtools:set}" != "set"
 %define systemtools %{nil}
@@ -86,14 +85,12 @@ skiptools=`echo %skipreqtools | tr " " "\n"`
 for tool in `find %i/configurations/SCRAMToolBox/tools -type f`
 do
     perl %_sourcedir/tool2xml.pl $tool > $tool.xml
-    toolbasename=`basename $tool`
-    cat $tool.xml | grep -e "<[Tt][Oo][Oo][Ll]" | \
-      perl -p -e 's|.*<[Tt][Oo][Oo][Ll].*name="([^"]*).*version="([^"]*).*>|<require name='${toolbasename}' version=$2  url="file:tools/'${toolbasename}'.xml"></require>|' >> %i/configurations/requirements
     toolname=`basename $tool`
+    cat $tool.xml | grep -e "^ *<tool *name=" | \
+      perl -p -e 's|^ *<tool *name="([^"]*)" *version="([^"]*).*>|<require name='${toolname}' version=$2  url="file:tools/'${toolname}'"></require>|' >> %i/configurations/requirements
     echo $skiptools | grep $toolname 2>&1 >/dev/null && continue
     echo "<select name=$toolname>" >> %i/configurations/requirements
 done
-
 echo "</base>" >> %i/configurations/requirements
 
 # Fixes logic in above loop in case of online release:
@@ -107,9 +104,14 @@ done
 # For now copy all systemtools files. If needed, this can be done more selectively.
 %endif
 
+sed -e 's|\(url="file:tools/.*\)"|\1.xml"|' %i/configurations/requirements > requirements.xml
+perl %_sourcedir/tool2xml.pl requirements.xml > %i/configurations/requirements.xml
+rm -f requirements.xml
 
-echo %scramsitename > %i/configurations/SCRAMToolBox/CMSconfigs/sitename
-perl %_sourcedir/tool2xml.pl %i/configurations/requirements > %i/configurations/requirements.xml
+#For old SCRAM release:
+%define scramsitename  STANDALONE
+ln -s tools.conf %i/configurations/SCRAMToolBox/CMSconfigs/tools-%{scramsitename}.conf
+echo  %scramsitename > %i/configurations/SCRAMToolBox/CMSconfigs/sitename
 
 %post
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find $RPM_INSTALL_PREFIX/%{pkgrel}/configurations -type f)
