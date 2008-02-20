@@ -1,4 +1,4 @@
-### RPM external bootstrap-driver 19.0
+### RPM external bootstrap-driver 19.0c
 Source: bootstrap
 Requires: apt zlib expat openssl beecrypt bz2lib db4 elfutils neon libxml2 rpm cms-common 
 

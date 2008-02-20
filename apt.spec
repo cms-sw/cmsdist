@@ -1,4 +1,4 @@
-### RPM external apt 0.5.15lorg3.2-CMS19b
+### RPM external apt 0.5.15lorg3.2-CMS19c
 ## INITENV SET APT_CONFIG %{i}/etc/apt.conf
 Source:  http://apt-rpm.org/releases/%n-%realversion.tar.bz2
 Source1: bootstrap
