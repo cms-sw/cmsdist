@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V1_2_0-cand6
+### RPM lcg SCRAMV1 V1_2_0-cand7
 ## INITENV +PATH PATH %instroot/common
 
 # This package is somewhat unusual compared to other packages we
