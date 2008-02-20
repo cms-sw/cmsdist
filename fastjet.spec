@@ -1,5 +1,5 @@
 ### RPM external fastjet 2.3.0
-Source: http://www.lpthe.jussieu.fr/~salam/repository/software/fastjettg/%n-%realversion.tar.gz
+Source: http://www.lpthe.jussieu.fr/~salam/repository/software/fastjet/%n-%realversion.tar.gz
 Patch1: fastjet-2.1.0-nobanner
 Patch2: fastjet_sisconebanner
 
