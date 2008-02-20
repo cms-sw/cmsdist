@@ -1,68 +1,62 @@
-### RPM lcg root 5.18.00-CMS19a
+### RPM lcg root 5.14.00g-CMS18c
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
-#Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
-Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
+Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
+#Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 
-Patch0: root-5.18-00-libpng
-Patch1: root-5.18-00-CINT-maxlongline-maxtypedef
-Patch2: root_5.18-00-CINTFunctional
+Patch: root-CINT-maxlongline
+Patch1: root_libpng
+Patch2: root_PositionVector
+Patch3: root-fastmerge-ttree
+Patch4: root_TXMLSetup
+Patch5: root-Cintex
+Patch6: root_Reflex_Cintex
+Patch7: root_CallFunc
+# The following patch should only be applied for gcc4.x (x>0) and when
+# using gccxml 0.7.0
+Patch9: root_5.14_reflex_gccxml070_update
+Patch10: root-5.14-xrootd-20071001-0000a
+Patch11: root-5.14-silence-tmva
+Patch12: root_5.14-CINTFunctional
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
+Requires: gccxml python qt gsl castor openssl mysql libpng libjpg dcap pcre zlib oracle libungif xrootd
 
-Requires: gccxml gsl castor libjpg dcap pcre python
-
-%if "%{?online_release:set}" != "set"
-Requires: qt openssl mysql libpng zlib oracle libungif xrootd
-%else
-%define skiplibtiff true
-%endif
-
-%if "%cpu" == "amd64"
-%define skiplibtiff true
-%endif
-
-%if "%skiplibtiff" != "true"
+%if "%cpu" != "amd64"
 Requires: libtiff
 %endif
 
 %prep
 %setup -n root
-%patch0 -p1
-%patch1 -p1
-%patch2 -p0
+%patch -p0
+%patch1 -p2
+%patch2 -p2
+%patch3 -p1
+%patch4 -p0
+%patch5 -p1
+%patch6 -p0
+%patch7 -p0
+%if "%cmsplatf" == "slc4_ia32_gcc412"
+%patch9 -p1
+%endif
+%patch10 -p1
+%patch11 -p1
+%patch12 -p0
 
 %build
 mkdir -p %i
 export ROOTSYS=%_builddir/root
-
-%if "%{?online_release:set}" == "set"
-# Use oracle from xdaq installation:
-ORACLE_ROOT="/opt/xdaq"
-# Build without mysql, and use system qt and openssl:
-EXTRA_CONFIG_ARGS="
-             --disable-mysql 
-             --enable-qt
-             --enable-ssl"
-# Also skip xrootd option for online case. 
-%else
-EXTRA_CONFIG_ARGS="
-             --with-xrootd=$XROOTD_ROOT
-             --enable-mysql --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
-             --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
-             --with-ssl-incdir=${OPENSSL_ROOT}/include
-             --with-ssl-libdir=${OPENSSL_ROOT}/lib"
-%endif
-
 CONFIG_ARGS="--enable-table 
              --disable-builtin-pcre
              --disable-builtin-freetype
              --disable-builtin-zlib
              --with-gccxml=${GCCXML_ROOT} 
              --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include/python2.4 
+             --enable-mysql --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
              --enable-explicitlink 
              --enable-qtgsi
+             --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
              --enable-mathcore 
              --enable-mathmore
              --enable-reflex  
@@ -71,14 +65,17 @@ CONFIG_ARGS="--enable-table
              --enable-roofit
              --disable-ldap
              --disable-krb5
+             --with-ssl-incdir=${OPENSSL_ROOT}/include
+             --with-ssl-libdir=${OPENSSL_ROOT}/lib
              --with-gsl-incdir=${GSL_ROOT}/include
              --with-gsl-libdir=${GSL_ROOT}/lib
              --with-dcap-libdir=${DCAP_ROOT}/lib 
              --with-dcap-incdir=${DCAP_ROOT}/include
+             --with-xrootd=$XROOTD_ROOT
              --disable-pgsql
-             --disable-xml ${EXTRA_CONFIG_ARGS}"
+             --disable-xml"
 
-%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422")||("%cmsplatf" == "slc4_amd64_gcc345"))
+%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_amd64_gcc345"))
   CONFIG_ARGS="$CONFIG_ARGS --disable-cern"
 %endif
 
@@ -122,8 +119,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcore
 <info url="http://root.cern.ch/root/"></info>
 <lib name=Cint>
 <lib name=Core>
-<lib name=RIO>
-<lib name=Net>
 <lib name=Tree>
 <Client>
  <Environment name=ROOTCORE_BASE default="%i"></Environment>
@@ -248,7 +243,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootroofit
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=rootroofit version=%v>
 <info url="http://root.cern.ch/root/"></info>
-<lib name=RooFitCore>
 <lib name=RooFit>
 <use name=ROOTMinuit>
 <use name=ROOTHtml>
