@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf CMS_152g
+### RPM cms cmssw-tool-conf CMS_151k
 
 Provides: tmp/slc3_ia32_gcc323/src/FWCore/TFWLiteSelector/test/libFWCoreTFWLiteSelectorTest.so
 Provides: libboost_regex-gcc-mt.so 
@@ -8,8 +8,7 @@ Provides: libboost_thread-gcc-mt.so
 Requires: pool
 Requires: coral
 Requires: seal
-Requires: gcc-toolfile
-Requires: gmake
+Requires: gcc
 Requires: pcre
 Requires: zlib
 Requires: bz2lib
