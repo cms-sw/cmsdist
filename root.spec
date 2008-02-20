@@ -1,4 +1,4 @@
-### RPM lcg root 5.14.00g-CMS18
+### RPM lcg root 5.14.00g-CMS18c
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
 Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
@@ -16,6 +16,8 @@ Patch7: root_CallFunc
 # using gccxml 0.7.0
 Patch9: root_5.14_reflex_gccxml070_update
 Patch10: root-5.14-xrootd-20071001-0000a
+Patch11: root-5.14-silence-tmva
+Patch12: root_5.14-CINTFunctional
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -39,6 +41,8 @@ Requires: libtiff
 %patch9 -p1
 %endif
 %patch10 -p1
+%patch11 -p1
+%patch12 -p0
 
 %build
 mkdir -p %i
