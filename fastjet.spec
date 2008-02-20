@@ -7,6 +7,7 @@ Patch2: fastjet_sisconebanner
 %setup -n %n-%realversion
 %patch1 -p1
 %patch2 -p1
+./configure --enable-shared --prefix=%i
 
 %build
 make
