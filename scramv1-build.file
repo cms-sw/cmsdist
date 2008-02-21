@@ -156,6 +156,7 @@ echo "executing %preBuildCommand"
 %define buildtarget %{nil} 
 %endif
 
+unset GCCXML_BASE
 %scramcmd b -r echo_CXX </dev/null
 %if "%{?prebuildtarget:set}" == "set"
 %scramcmd b --verbose -f %{prebuildtarget} </dev/null
