@@ -2,9 +2,9 @@
 ## INITENV SET ORACLE_HOME %i
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
 
-Source0: http://cmsrep.cern.ch/cmssw/oracle-mirror/%cmsos/%realversion/basic-%cmsos.zip
-Source1: http://cmsrep.cern.ch/cmssw/oracle-mirror/%cmsos/%realversion/sdk-%cmsos.zip
-Source2: http://cmsrep.cern.ch/cmssw/oracle-mirror/%cmsos/%realversion/sqlplus-%cmsos.zip
+Source0: http://cmsrep.cern.ch/cmssw/oracle-mirror/%cmsos/%realversion/basic.zip
+Source1: http://cmsrep.cern.ch/cmssw/oracle-mirror/%cmsos/%realversion/sdk.zip
+Source2: http://cmsrep.cern.ch/cmssw/oracle-mirror/%cmsos/%realversion/sqlplus.zip
 Source9: oracle-license
 Source10: http://www.oracle.com/technology/tech/oci/occi/downloads/occi_gcc343_102020.tar.gz
 
@@ -12,9 +12,9 @@ Source10: http://www.oracle.com/technology/tech/oci/occi/downloads/occi_gcc343_1
 %prep
 rm -rf instantclient_*
 rm -rf libocci.so.10.1 libocci10.a 
-unzip -o -u %_sourcedir/basic-%cmsos.zip
-unzip -o -u %_sourcedir/sdk-%cmsos.zip
-unzip -o -u %_sourcedir/sqlplus-%cmsos.zip
+unzip -o -u %_sourcedir/basic.zip
+unzip -o -u %_sourcedir/sdk.zip
+unzip -o -u %_sourcedir/sqlplus.zip
 %if "%{realversion}" == "10.2.0.3"
 case %cmsos in 
     slc4_ia32 )
