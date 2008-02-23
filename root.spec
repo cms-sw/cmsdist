@@ -5,7 +5,7 @@
 Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 
 Patch0: root-5.18-00-libpng
-Patch1: root-5.18-00-CINT-maxlongline-maxtypedef
+Patch1: root-5.18-00a-CINT-maxlongline
 Patch2: root_5.18-00-CINTFunctional
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
