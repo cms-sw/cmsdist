@@ -1,4 +1,4 @@
-### RPM external bootstrap-driver 19.0c
+### RPM external bootstrap-driver 19.0
 Source: bootstrap
 Requires: apt zlib expat openssl beecrypt bz2lib db4 elfutils neon libxml2 rpm cms-common 
 
@@ -107,7 +107,3 @@ mkdir -p %{i}/etc/profile.d
  echo "unsupportedProvides=\"$unsupportedProvides\""; \
  echo "defaultPkgs=\"$defaultPkgs\""; \
 ) > %{i}/%{cmsplatf}-driver.txt
-# FIXME: Hack to make sure that the cms-common package is named correctly in the driver file.
-# We should make sure that the $PACKAGE_CATEGORY variable is used (requires changes to cmsBuild.sh which
-# I don't want to do at this point.
-perl -p -i -e 's|external[+]cms-common|cms+cms-common|g' %{i}/%{cmsplatf}-driver.txt
