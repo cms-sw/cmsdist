@@ -24,6 +24,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <info url=http://www.lpthe.jussieu.fr/~salam/fastjet/></info>
 <lib name=SISConePlugin>
 <lib name=CDFConesPlugin>
+<lib name=siscone>
 <lib name=fastjet>
 <client>
  <Environment name=FASTJET_BASE default="%i"></Environment>
