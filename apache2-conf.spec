@@ -22,10 +22,11 @@ cat << \EOF > %i/bin/httpd
 @APACHE2_ROOT@/bin/httpd -f %i/conf/apache2.conf {1+"$@"}
 EOF
 
-
 perl -p -i -e "s|\@APACHE2_ROOT\@|$APACHE2_ROOT|g;
                s|\@MOD_PERL2_ROOT\@|$MOD_PERL2_ROOT|g;
                s|\@MOD_PYTHON_ROOT\@|$MOD_PYTHON_ROOT|g;" %i/conf/apache2.conf %i/bin/httpd
+
+chmod +x %i/bin/httpd
 
 %post
 %{relocateConfig}bin/httpd
