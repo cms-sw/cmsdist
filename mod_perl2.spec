@@ -32,6 +32,12 @@ make
 %install
 make install
 
+mkdir -p %i/conf
+cat << \EOF > %i/conf/mod_perl2.conf
+LoadModule perl_module %i/modules/mod_perl2.so
+# Additional configuration bits go here.
+EOF
+
 # By default mod_perl.so and include/ directory is moved to the
 # $APACHE2_ROOT/modules and $APACHE2_ROOT/include, respectively, which
 # is bad for us handling multiple versions in a rpm. With
@@ -40,3 +46,6 @@ make install
 # move these resources back to a sane location and clean up.
 mv %i/$APACHE2_ROOT/* %i
 rm -r %i/$(echo $APACHE2_ROOT | sed 's|^/||' | cut -d/ -f1)
+
+%post
+%{relocateConfig}conf/mod_perl2.conf
