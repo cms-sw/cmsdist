@@ -34,7 +34,7 @@ make install
 
 mkdir -p %i/conf
 cat << \EOF > %i/conf/mod_perl2.conf
-LoadModule perl_module %i/modules/mod_perl2.so
+LoadModule perl_module %i/modules/mod_perl.so
 # Additional configuration bits go here.
 EOF
 
