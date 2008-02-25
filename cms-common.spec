@@ -1,4 +1,4 @@
-### RPM cms cms-common 1.1
+### RPM cms cms-common 1.0
 Source: cmsos
 %prep
 %build
