@@ -1,4 +1,4 @@
-### RPM external geant4 9.1.p01-CMS1
+### RPM external geant4 9.1.p01-CMS19
 %define downloadv %(echo %v | cut -d- -f1)
 
 Requires: clhep
@@ -87,8 +87,8 @@ source G4BuildConf.sh
 mkdir -p %i
 tar -cf - config source | tar -C %i -xf -
 
-make  -C $G4BASE global
-make  -C $G4BASE includes
+make %makeprocesses -C $G4BASE global
+make %makeprocesses -C $G4BASE includes
 
 %install
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
