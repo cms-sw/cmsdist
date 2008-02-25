@@ -1,33 +1,14 @@
-### RPM external mod_python 3.2.8
+### RPM external mod_python 3.2.10
+# See http://www.modpython.org/live/current/doc-html/installation.html
 
-%define pythonv %(echo $PYTHON_VERSION | cut -d. -f 1,2)
-## INITENV +PATH PYTHONPATH %{i}/lib/python%{pythonv}
-## INITENV CMD ln -sf $MOD_PYTHON_ROOT/lib/mod_python.so $APACHE_ROOT/modules
+Requires:  apache2 python
 
-Source: http://apache.osuosl.org/httpd/modpython/%{n}-%{v}.tgz
-Requires: python apache
+Source0: http://apache.mirror.testserver.li/httpd/modpython/mod_python-%realversion.tgz
 
+%pre
+%setup -n mod_python-%realversion
+
+./configure --with-python=$PYTHON_ROOT/bin/python --with-apxs=$APACHE2_ROOT/bin/apxs --with-max-locks=32
 
 %build
-./configure --prefix=%{i} \
-            --with-python=$PYTHON_ROOT/bin/python \
-            --with-apxs=$APACHE_ROOT/bin/apxs
-
-make
-
-cd dist
-python setup.py build
-
 %install
-
-mkdir -p %i/lib
-cp src/mod_python.so %i/lib
-
-cd dist
-python setup.py install --prefix=%i
-
-mv %{i}/lib/python%{pythonv}/site-packages/mod_python \
-  %{i}/lib/python%{pythonv}
-
-rm -rf %{i}/lib/python%{pythonv}/site-packages
-
