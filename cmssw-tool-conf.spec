@@ -1,4 +1,6 @@
-### RPM cms cmssw-tool-conf CMS_152h
+### RPM cms cmssw-tool-conf 1.0
+# with cmsBuild, change the above version only when a new
+# tool is added
 
 Provides: tmp/slc3_ia32_gcc323/src/FWCore/TFWLiteSelector/test/libFWCoreTFWLiteSelectorTest.so
 Provides: libboost_regex-gcc-mt.so 

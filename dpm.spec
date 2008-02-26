@@ -1,8 +1,8 @@
-### RPM external dpm 1.6.5-5-CMS19
+### RPM external dpm 1.6.5.5-CMS19
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) false ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 
-%define baseVersion %realversion
-%define patchLevel  %(echo %v | cut -d- -f2)
+%define baseVersion %(echo %v | cut -d- -f1 | cut -d. -f1,2,3)
+%define patchLevel  %(echo %v | cut -d- -f1 | cut -d. -f4)
 %define downloadv %{realversion}-%{patchLevel}
 %define dpmarch     %(echo %cmsplatf | cut -d_ -f1 | sed 's/onl//')
 
