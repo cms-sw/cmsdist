@@ -6,7 +6,7 @@
 %define downloadv %{baseVersion}-%{patchLevel}
 %define dpmarch     %(echo %cmsplatf | cut -d_ -f1 | sed 's/onl//')
 
-Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{realversion}/src/DPM-%{downloadv}sec.%{dpmarch}.src.rpm
+Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{baseVersion}/src/DPM-%{downloadv}sec.%{dpmarch}.src.rpm
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %if "%cpu" != "amd64"
