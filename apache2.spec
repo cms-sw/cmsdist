@@ -10,6 +10,7 @@ Requires: openssl zlib expat uuid
 # should be in e2fsprogs-libs-1.39-7.slc4 ...
 # but Requires uuid doesn't cover it
 Provides: libcom_err.so.2
+Provides: libcom_err.so.2()(64bit)
 
 Source0: http://mirror.switch.ch/mirror/apache/dist/httpd/httpd-%realversion.tar.gz
 
