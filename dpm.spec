@@ -17,12 +17,12 @@ Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{bas
 Provides: libdpm.so%{libsuffix}
 
 %prep
-rm -f %_builddir/DPM-%{downloadv}.src.tar.gz
-rpm2cpio %{_sourcedir}/DPM-%{downloadv}sec.%{dpmarch}.src.rpm | cpio -ivd DPM-%{baseVersion}.src.tar.gz
-cd %_builddir ; rm -rf DPM-%{baseVersion}; tar -xzvf DPM-%{baseVersion}.src.tar.gz
+rm -f %_builddir/DPM-%{realversion}.src.tar.gz
+rpm2cpio %{_sourcedir}/DPM-%{downloadv}sec.%{dpmarch}.src.rpm | cpio -ivd DPM-%{realversion}.src.tar.gz
+cd %_builddir ; rm -rf DPM-%{realversion}; tar -xzvf DPM-%{realversion}.src.tar.gz
 
 %build
-cd DPM-%{baseVersion}
+cd DPM-%{realversion}
 cp h/patchlevel.in h/patchlevel.h
 perl -pi -e "s!__PATCHLEVEL__!%patchLevel!;s!__BASEVERSION__!\"%baseVersion\"!;s!__TIMESTAMP__!%(date +%%s)!" h/patchlevel.h
 perl -pi -e 's|ld\s+\$\(|ld -m elf_i386 \$\(|' shlib/Imakefile
@@ -48,7 +48,7 @@ mkdir -p %i/lib %i/include/dpm
 cd shlib; make
 
 %install
-cd DPM-%{baseVersion}
+cd DPM-%{realversion}
 cp ./shlib/lib%n.so %i/lib/lib%n.so.%realversion
 cp ./h/*.h          %i/include/dpm
 ln -s lib%n.so.%realversion %i/lib/lib%n.so
