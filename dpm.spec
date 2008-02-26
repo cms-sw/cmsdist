@@ -3,7 +3,7 @@
 
 %define baseVersion %(echo %v | cut -d- -f1 | cut -d. -f1,2,3)
 %define patchLevel  %(echo %v | cut -d- -f1 | cut -d. -f4)
-%define downloadv %{realversion}-%{patchLevel}
+%define downloadv %{baseVersion}-%{patchLevel}
 %define dpmarch     %(echo %cmsplatf | cut -d_ -f1 | sed 's/onl//')
 
 Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{realversion}/src/DPM-%{downloadv}sec.%{dpmarch}.src.rpm
