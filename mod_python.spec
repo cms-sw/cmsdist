@@ -18,7 +18,7 @@ make install
 
 mkdir -p %i/conf
 cat << \EOF > %i/conf/mod_python.conf
-LoadModule mod_python %i/modules/mod_python.so
+LoadModule python_module %i/modules/mod_python.so
 # Additional configuration bits go here.
 EOF
 
