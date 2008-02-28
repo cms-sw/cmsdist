@@ -56,3 +56,5 @@ perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependen
 %post
 %{relocateConfig}bin/httpd
 %{relocateConfig}conf/apache2.conf
+%{relocateConfig}etc/profile.d/dependencies-setup.sh
+%{relocateConfig}etc/profile.d/dependencies-setup.csh
