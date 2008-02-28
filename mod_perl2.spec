@@ -8,8 +8,9 @@
 
 Source0: http://perl.apache.org/dist/mod_perl-%realversion.tar.gz
 
-# Only require apache2 since perl is seeded from the system.
-Requires: apache2
+# Requires apache2
+# Requires p5-cgi -- system SLC4 system CGI.pm is broken for mod_perl2
+Requires: apache2 p5-cgi
 
 # Doesn't actually provide these, but supposedly not needed for
 # non-developers of mod_perl
