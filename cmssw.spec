@@ -1,10 +1,6 @@
-### RPM cms cmssw CMSSW_1_8_0_pre10
+### RPM cms cmssw CMSSW_1_7_6 
 ## IMPORT configurations 
 Provides: /bin/zsh
-Provides: /bin/sed
-Provides: perl(Date::Format)
-Provides: perl(Term::ReadKey)
-Provides: perl(full)
 Requires: cmssw-tool-conf python glimpse
 
 %define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
