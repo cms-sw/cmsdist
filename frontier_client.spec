@@ -1,4 +1,4 @@
-### RPM external frontier_client 2.7.7
+### RPM external frontier_client 2.7.7-CMS18l
 Source: http://edge.fnal.gov:8888/frontier/%{n}__%{realversion}__src.tar.gz
 #Source: http://cern.ch/service-spi/external/tarFiles/%{n}__%{realversion}__src.tar.gz
 
