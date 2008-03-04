@@ -1,4 +1,6 @@
-### RPM cms cmssw-tool-conf CMS_151l
+### RPM cms cmssw-tool-conf 2.0
+# with cmsBuild, change the above version only when a new
+# tool is added
 
 Provides: tmp/slc3_ia32_gcc323/src/FWCore/TFWLiteSelector/test/libFWCoreTFWLiteSelectorTest.so
 Provides: libboost_regex-gcc-mt.so 
@@ -8,7 +10,8 @@ Provides: libboost_thread-gcc-mt.so
 Requires: pool
 Requires: coral
 Requires: seal
-Requires: gcc
+Requires: gcc-toolfile
+Requires: gmake
 Requires: pcre
 Requires: zlib
 Requires: bz2lib
@@ -84,6 +87,7 @@ Requires: charybdis
 Requires: photos
 Requires: cmsswdata
 Requires: dpm
+Requires: evtgenlhc
 
 %define skipreqtools jcompiler
 
