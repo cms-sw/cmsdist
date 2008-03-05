@@ -7,7 +7,7 @@ Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 Patch0: root-5.18-00-libpng
 Patch1: root-5.18-00a-CINT-maxlongline
 Patch2: root_5.18-00-CINTFunctional
-Patch3: root_5.18-00a-TBufferXML
+Patch3: root-5.18-00a-TBufferXML
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
