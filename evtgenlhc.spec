@@ -33,7 +33,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <Client>
  <Environment name=EVTGENLHC_BASE default="%i"></Environment>
  <Environment name=LIBDIR default="$EVTGENLHC_BASE/lib"></Environment>
- <Environment name=INCLUDE default="$EVTGENLHC_BASE/include"></Environment>
+ <Environment name=INCLUDE default="$EVTGENLHC_BASE"></Environment>
 </Client>
 <lib name=evtgenlhc>
 <use name=clhep>
