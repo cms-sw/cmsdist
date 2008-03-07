@@ -1,37 +1,48 @@
 ### RPM cms coral-tool-conf CMS_151l
 
+%if "%{?use_system_gcc:set}" != "set"
 Requires: gcc
+%endif
+
 Requires: pcre
-Requires: zlib
 Requires: bz2lib
 Requires: uuid
 Requires: python
 Requires: expat
-Requires: openssl
-Requires: db4
-Requires: gdbm
 Requires: gccxml
 Requires: boost
 Requires: gsl
 Requires: clhep
 Requires: root
-Requires: qt
 Requires: castor
-Requires: mysql
-Requires: libpng
 Requires: libjpg
 Requires: dcap
-Requires: oracle
 Requires: oracle-env
+Requires: frontier_client
+Requires: sqlite
+Requires: p5-dbd-oracle
+Requires: seal
+
+%if "%{?online_release:set}" != "set"
+Requires: zlib
+Requires: openssl
+Requires: db4
+Requires: gdbm
+Requires: qt
+Requires: mysql
+Requires: libpng
+Requires: oracle
 Requires: libungif
 Requires: libtiff
 Requires: cppunit
-Requires: frontier_client
-Requires: sqlite
 Requires: xerces-c
-Requires: p5-dbd-oracle
 Requires: systemtools
-Requires: seal
+%endif
+
+%if "%{?online_release:set}" == "set"
+Requires: onlinesystemtools
+%define onlinesystemtoolsroot ${ONLINESYSTEMTOOLS_ROOT}
+%endif
 
 %define skipreqtools %{nil}
 %define skipreqtools jcompiler
