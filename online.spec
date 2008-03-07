@@ -1,9 +1,9 @@
-### RPM cms online CMSSW_1_7_0_ONLINExdaq5
+### RPM cms online CMSSW_1_8_0_ONLINE1
 ## IMPORT configurations 
 Provides: /bin/zsh
 Requires: online-tool-conf python
 Requires: SCRAMV1
-%define cmssw_release   %(perl -e '$_="%v"; s/_ONLINExdaq5//; print;')
+%define cmssw_release   %(perl -e '$_="%v"; s/_ONLINE1//; print;')
 %define ucprojname  CMSSW
 %define lcprojname  cmssw
 
@@ -30,10 +30,13 @@ Source0: %{cmsswsrc}/config.tar.gz
 Source1: %{cmsswsrc}/src.tar.gz
 %endif
 
+# Add source for package missing from the base release:
+Source2: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=EventFilter/Cosmics&export=src/EventFilter&&tag=-rV00-00-00&output=/extra.tar.gz
+
 # List of packages to bootstrap for partial builds:
-Source2: online_build_set
-Source3: cmssw-tool
-Source4: findDependencies.pl
+Source3: online_build_set
+Source4: cmssw-tool
+Source5: findDependencies.pl
 
 %prep
 rm -rf config
@@ -45,7 +48,7 @@ rm -rf %{srctree}
 
 %setup -T -b 0 -n config
 %setup -D -T -b 1 -n %{srctree}
-#%setup -D -T -a 2 -n %{srctree}
+%setup -D -T -b 2 -n %{srctree}
 
 # Remove plugins that only include tests, which we do not build:
 rm -rf %_builddir/src/FWCore/Framework/plugins
