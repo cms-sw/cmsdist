@@ -66,6 +66,7 @@ CondCore/SiPixelPlugins
 CondCore/SiStripPlugins
 CondCore/Utilities
 CondFormats/Alignment
+CondFormats/AlignmentRecord
 CondFormats/BeamSpotObjects
 CondFormats/BTauObjects
 CondFormats/Calibration
@@ -115,6 +116,7 @@ DataFormats/HcalDigi
 DataFormats/HcalIsolatedTrack
 DataFormats/HcalRecHit
 DataFormats/HepMCCandidate
+DataFormats/Histograms
 DataFormats/HLTReco
 DataFormats/JetReco
 DataFormats/L1CaloTrigger
@@ -130,6 +132,7 @@ DataFormats/METReco
 DataFormats/MuonData
 DataFormats/MuonDetId
 DataFormats/MuonReco
+DataFormats/MuonSeed
 DataFormats/ParticleFlowCandidate
 DataFormats/ParticleFlowReco
 DataFormats/PixelMatchTrackReco
@@ -139,6 +142,7 @@ DataFormats/RoadSearchCloud
 DataFormats/RoadSearchSeed
 DataFormats/RPCDigi
 DataFormats/RPCRecHit
+DataFormats/Scalers
 DataFormats/SiPixelCluster
 DataFormats/SiPixelDetId
 DataFormats/SiPixelDigi
@@ -149,6 +153,7 @@ DataFormats/SiStripDetId
 DataFormats/SiStripDigi
 DataFormats/StdDictionaries
 DataFormats/Streamer
+DataFormats/TauReco
 DataFormats/TrackCandidate
 DataFormats/TrackerRecHit2D
 DataFormats/TrackingRecHit
@@ -188,7 +193,6 @@ DQMServices/Components
 DQMServices/Core
 DQMServices/CoreROOT
 DQMServices/Daemon
-DQMServices/Diagnostic
 DQMServices/NodeROOT
 DQMServices/QualityTests
 DQMServices/UI
@@ -218,7 +222,6 @@ DQM/SiStripMonitorTrack
 DQM/TrackerMonitorTrack
 DQM/TrigXMonitor
 EventFilter/AutoBU
-EventFilter/Cosmics
 EventFilter/CSCRawToDigi
 EventFilter/CSCTFRawToDigi
 EventFilter/DTRawToDigi
@@ -227,15 +230,12 @@ EventFilter/EcalDigiToRaw
 EventFilter/EcalRawToDigiDev
 EventFilter/EcalTBRawToDigi
 EventFilter/ESRawToDigi
-EventFilter/FUReader
-EventFilter/FUSender
 EventFilter/GctRawToDigi
 EventFilter/HcalRawToDigi
 EventFilter/L1GlobalTriggerRawToDigi
 EventFilter/LTCRawToDigi
 EventFilter/Message2log4cplus
 EventFilter/Modules
-EventFilter/OutServ
 EventFilter/Playback
 EventFilter/Processor
 EventFilter/ResourceBroker
@@ -247,8 +247,8 @@ EventFilter/SiStripChannelChargeFilter
 EventFilter/SiStripRawToDigi
 EventFilter/SMProxyServer
 EventFilter/StorageManager
-EventFilter/Unit
 EventFilter/Utilities
+FastSimulation/Utilities
 FWCore/Catalog
 FWCore/Framework
 FWCore/FWLite
@@ -365,6 +365,7 @@ L1Trigger/GlobalCaloTrigger
 L1Trigger/GlobalMuonTrigger
 L1Trigger/GlobalTrigger
 L1Trigger/GlobalTriggerAnalyzer
+L1Trigger/HardwareValidation
 L1Trigger/L1ExtraFromDigis
 L1Trigger/RegionalCaloTrigger
 L1Trigger/RPCTrigger
@@ -384,11 +385,9 @@ PhysicsTools/CandUtils
 PhysicsTools/HepMCCandAlgos
 PhysicsTools/KinFitter
 PhysicsTools/MVAComputer
-PhysicsTools/Parser
 PhysicsTools/RecoAlgos
 PhysicsTools/RecoCandAlgos
 PhysicsTools/RecoCandUtils
-PhysicsTools/RecoSelectors
 PhysicsTools/UtilAlgos
 PhysicsTools/Utilities
 RecoBTag/BTagTools
@@ -530,6 +529,7 @@ TrackingTools/TrackAssociator
 TrackingTools/TrackFitters
 TrackingTools/TrackRefitter
 TrackingTools/TrajectoryCleaning
+TrackingTools/TrajectoryFiltering
 TrackingTools/TrajectoryParametrization
 TrackingTools/TrajectoryState
 TrackingTools/TransientTrack
