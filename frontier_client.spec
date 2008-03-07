@@ -6,8 +6,10 @@ Requires: expat
 
 %if "%{?online_release:set}" != "set"
 Requires: zlib openssl
-%else
-Requires: systemtools
+%endif
+
+%if "%{?online_release:set}" == "set"
+Requires: onlinesystemtools
 %endif
 
 %prep
