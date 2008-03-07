@@ -1,9 +1,9 @@
-### RPM cms online CMSSW_1_7_5_ONLINE2
+### RPM cms online CMSSW_1_8_0_ONLINE0
 ## IMPORT configurations 
 Provides: /bin/zsh
 Requires: online-tool-conf python
 Requires: SCRAMV1
-%define cmssw_release   %(perl -e '$_="%v"; s/_ONLINE2//; print;')
+%define cmssw_release   %(perl -e '$_="%v"; s/_ONLINE0//; print;')
 %define ucprojname  CMSSW
 %define lcprojname  cmssw
 
