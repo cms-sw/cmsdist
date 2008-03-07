@@ -222,6 +222,7 @@ DQM/SiStripMonitorTrack
 DQM/TrackerMonitorTrack
 DQM/TrigXMonitor
 EventFilter/AutoBU
+EventFilter/Cosmics
 EventFilter/CSCRawToDigi
 EventFilter/CSCTFRawToDigi
 EventFilter/DTRawToDigi
