@@ -1,6 +1,7 @@
 ### RPM cms coral CORAL_1_9_2-CMS18l
 ## IMPORT configurations
 Provides: /bin/zsh
+Provides: libexpat.so.0
 Requires: coral-tool-conf
 Patch:    coral-1_9_1-SV1BuildFiles
 Patch1:   coral-1_9_2-FrontierAccess
