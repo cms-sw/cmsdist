@@ -73,6 +73,7 @@
 %define _topdir		%{instroot}
 
 %define _rpmfilename	%{cmsplatf}/%{pkgcategory}+%{n}+%{v}-%{version}-%{release}.%{cmsplatf}.rpm
+%define _srpmfilename	%{pkgcategory}+%{n}+%{v}-%{version}-%{release}.src.rpm
 
 
 
@@ -157,8 +158,16 @@
 %define distcc_define %{nil}
 %endif
 
+
+%if "%{?online_release:set}" == "set"
+%define onlinereldef --define "online_release true"
+%else
+%define onlinereldef %{nil}
+%endif
+
+
 %if "%norecurse" != "yes"
-%{expand:%%define pkgreqs %%{nil}%(rpm --define "norecurse yes" %ccache_define %distcc_define -q -R --specfile %_specdir/spec | sed '/(none)/d' | perl -p -e 'chomp; print " "'; echo)}
+%{expand:%%define pkgreqs %%{nil}%(rpm --define "norecurse yes" %ccache_define %onlinereldef --define "cmsplatf %cmsplatf" %distcc_define -q -R --specfile %_specdir/spec | sed '/(none)/d' | perl  -p -e 'chomp; print " "'; echo)}
 %endif
 
 # Define a little helper scriptlet to source package inits from other
