@@ -1,9 +1,9 @@
-### RPM cms prodcommon PRODCOMMON_0_7_1
+### RPM cms prodcommon PRODCOMMON_0_8_0_pre1
 ## INITENV +PATH PYTHONPATH %i/lib
 
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=PRODCOMMON&export=PRODCOMMON&&tag=-r%{cvstag}&output=/PRODCOMMON.tar.gz
-Requires: python
+Requires: python mysql py2-mysqldb
 %prep
 %setup -n PRODCOMMON
 %build
