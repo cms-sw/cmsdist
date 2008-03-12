@@ -9,6 +9,7 @@ Patch1: root-5.18-00a-CINT-maxlongline
 Patch2: root_5.18-00-CINTFunctional
 Patch3: root-5.18-00a-TBufferXML
 Patch4: root-5.18-00a-Cintex
+Patch5: root-5.18-00a-Cintex2
 
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
@@ -37,6 +38,7 @@ Requires: libtiff
 %patch2 -p0
 %patch3 -p1
 %patch4 -p0
+%patch5 -p0
 
 %build
 mkdir -p %i

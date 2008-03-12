@@ -4,24 +4,10 @@ Requires: clhep
 
 %prep
 %setup -q -n %{n}/%{realversion}
-%if "%cmsplatf" == "slc4_ia32_gcc412"
-%patch -p0 
-%endif
-#clhepver=%(echo $CLHEP_VERSION | cut -d- -f1)
 ./configure --lcgplatform=%cmsplatf --with-clhep=$CLHEP_ROOT
 
 %build
-# Hack around the fact that this doesn't yet build for gcc4.x.y
-case %cmsplatf in
-slc4_ia32_gcc412 | slc4_ia32_gcc422 )
-make | true
-mkdir -p %{i}/lib
-;;
-* )
 make
-;;
-esac
-
 
 %install
 tar -c lib EvtGen EvtGenBase EvtGenModels DecFiles | tar -x -C %i
