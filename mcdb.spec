@@ -33,7 +33,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
  <Environment name=INCLUDE default="$MCDB_BASE/interface"></Environment>
 </Client>
 <lib name=mcdb>
-<use name=xerces>
+<use name=xerces-c>
 </Tool>
 EOF_TOOLFILE
 
