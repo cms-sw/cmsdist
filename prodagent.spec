@@ -19,24 +19,30 @@ cp -R util/* %i/util/
 mkdir -p %{i}/etc/profile.d
 mkdir -p %i/workdir
 
-echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
-echo '#!/bin/tcsh' > %{i}/etc/profile.d/dependencies-setup.csh
-echo requiredtools `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
-for tool in `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
-do
-    case X$tool in
-        Xdistcc|Xccache )
-        ;;
-        * )
-            toolcap=`echo $tool | tr a-z- A-Z_`
-            eval echo ". $`echo ${toolcap}_ROOT`/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.sh
-            eval echo "source $`echo ${toolcap}_ROOT`/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
-        ;;
-    esac
-done
+(echo "#!/bin/sh"; \
+ echo "source $PYTHON_ROOT/etc/profile.d/init.sh"; \
+ echo "source $OPENSSL_ROOT/etc/profile.d/init.sh"; \
+ echo "source $MYSQL_ROOT/etc/profile.d/init.sh"; \
+ echo "source $PY2_MYSQLDB_ROOT/etc/profile.d/init.sh"; \
+ echo "source $DBS_CLIENT_ROOT/etc/profile.d/init.sh"; \
+ echo "source $PRODCOMMON_ROOT/etc/profile.d/init.sh"; \
+ echo "source $CHERRYPY_ROOT/etc/profile.d/init.sh"; \
+ echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.sh"; \
+ echo "source $PY2_SQLALCHEMY_ROOT/etc/profile.d/init.sh"; \
+ echo "source $BOSS_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
 
-perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-setup.sh
-perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
+(echo "#!/bin/tcsh"; \
+ echo "source $PYTHON_ROOT/etc/profile.d/init.csh"; \
+ echo "source $OPENSSL_ROOT/etc/profile.d/init.csh"; \
+ echo "source $MYSQL_ROOT/etc/profile.d/init.csh"; \
+ echo "source $PY2_MYSQLDB_ROOT/etc/profile.d/init.csh"; \
+ echo "source $DBS_CLIENT_ROOT/etc/profile.d/init.csh"; \
+ echo "source $PRODCOMMON_ROOT/etc/profile.d/init.csh"; \
+ echo "source $CHERRYPY_ROOT/etc/profile.d/init.csh"; \
+ echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.csh"; \
+ echo "source $PY2_SQLALCHEMY_ROOT/etc/profile.d/init.csh"; \
+ echo "source $BOSS_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
+
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
