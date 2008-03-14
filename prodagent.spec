@@ -1,4 +1,4 @@
-### RPM cms prodagent PRODAGENT_0_8_2
+### RPM cms prodagent PRODAGENT_0_8_3_pre1
 ## INITENV +PATH PYTHONPATH %i/lib
 #
 %define cvstag %v
@@ -19,7 +19,7 @@ cp -R util/* %i/util/
 mkdir -p %{i}/etc/profile.d
 mkdir -p %i/workdir
 
-cho '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
+echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
 echo '#!/bin/tcsh' > %{i}/etc/profile.d/dependencies-setup.csh
 echo requiredtools `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
 for tool in `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
