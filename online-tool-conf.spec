@@ -1,4 +1,4 @@
-### RPM cms online-tool-conf CMS_150onl
+### RPM cms online-tool-conf CMS_151l_a
 
 Provides: tmp/slc3_ia32_gcc323/src/FWCore/TFWLiteSelector/test/libFWCoreTFWLiteSelectorTest.so
 Provides: libboost_regex-gcc-mt.so 
@@ -21,8 +21,10 @@ Requires: root
 Requires: qt
 Requires: castor
 Requires: libjpg
+Requires: libtiff
 Requires: dcap
 Requires: oracle-env
+Requires: p5-dbd-oracle
 Requires: frontier_client
 Requires: sqlite
 Requires: hepmc
