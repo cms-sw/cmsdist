@@ -1,4 +1,4 @@
-### RPM external py2-mysqldb 1.2.2
+### RPM external py2-mysqldb 1.2.2-CMS23
 %define pythonv `echo $PYTHON_VERSION | cut -d. -f 1,2`
 ## INITENV +PATH PYTHONPATH %i/lib/python%{pythonv}/site-packages
 %define downloadn MySQL-python
