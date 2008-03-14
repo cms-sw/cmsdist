@@ -1,8 +1,8 @@
-### RPM cms PHEDEX-micro PHEDEX_2_6_2-CMS30
+### RPM cms PHEDEX-micro PHEDEX_2_6_2
 #
 ## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request
 ## INITENV +PATH PERL5LIB %i/perl_lib
-%define downloadn %(echo %v | cut -f1 -d-)
+%define downloadn %(echo %n | cut -f1 -d-)
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%{downloadn}&export=%{downloadn}&&tag=-r%{v}&output=/%{downloadn}.tar.gz
 Requires: oracle oracle-env p5-time-hires p5-text-glob p5-compress-zlib p5-dbi p5-dbd-oracle p5-xml-parser python
 Requires: p5-monalisa-apmon
