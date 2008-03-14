@@ -84,6 +84,7 @@ CondFormats/PhysicsToolsObjects
 CondFormats/RPCObjects
 CondFormats/SiPixelObjects
 CondFormats/SiStripObjects
+CondTools/Ecal
 CondTools/L1Trigger
 CondTools/SiPixel
 DataFormats/BeamSpot
@@ -172,8 +173,15 @@ DQM/CSCMonitorClient
 DQM/CSCMonitorModule
 DQM/DTMonitorClient
 DQM/DTMonitorModule
+DQM/EcalBarrelMonitorClient
 DQM/EcalBarrelMonitorDbModule
+DQM/EcalBarrelMonitorModule
+DQM/EcalBarrelMonitorTasks
+DQM/EcalCommon
+DQM/EcalEndcapMonitorClient
 DQM/EcalEndcapMonitorDbModule
+DQM/EcalEndcapMonitorModule
+DQM/EcalEndcapMonitorTasks
 DQM/FEDMonitor
 DQM/GCTMonitor
 DQM/HcalMonitorClient
@@ -185,6 +193,7 @@ DQM/L1TMonitor
 DQM/L1TMonitorClient
 DQM/PhysicsObjectsMonitoring
 DQM/RCTMonitor
+DQM/RenderPlugins
 DQM/RPCMonitorClient
 DQM/RPCMonitorDigi
 DQM/RPCMonitorModule
@@ -217,8 +226,10 @@ DQM/SiStripMonitorClient
 DQM/SiStripMonitorCluster
 DQM/SiStripMonitorDigi
 DQM/SiStripMonitorDisplayPlugins
+DQM/SiStripMonitorHardware
 DQM/SiStripMonitorPedestals
 DQM/SiStripMonitorTrack
+DQM/TrackerCommon
 DQM/TrackerMonitorTrack
 DQM/TrigXMonitor
 EventFilter/AutoBU
@@ -379,6 +390,8 @@ MagneticField/Records
 MagneticField/UniformEngine
 MagneticField/VolumeBasedEngine
 MagneticField/VolumeGeometry
+OnlineDB/EcalCondDB
+OnlineDB/Oracle
 OnlineDB/SiStripConfigDb
 OnlineDB/SiStripESSources
 PhysicsTools/CandAlgos
@@ -546,5 +559,6 @@ Utilities/StorageTypes
 Utilities/Testing
 Utilities/Threads
 Utilities/Timing
+VisMonitoring/DQMServer
 VisMonitoring/VisDQMBase
 VisRoot/VisRootModel
