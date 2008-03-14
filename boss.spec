@@ -2,7 +2,7 @@
 ## INITENV +PATH PATH %i/bin
 ## INITENV +PATH PYTHONPATH %i/BossPython
 ## INITENV SET BOSSDIR %i
-%define cvstag %v
+%define cvstag %realversion
 %define compProjectName BOSS
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%{compProjectName}&export=%{compProjectName}&&tag=-r%{cvstag}&output=/%{compProjectName}.tar.gz 
 Requires: mysql sqlite uuid monalisa-apmon xerces-c
