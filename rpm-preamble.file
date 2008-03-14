@@ -27,12 +27,18 @@
 
 %define pkgdir		%{pkgcategory}/%{n}/%{v}
 
+# In the spec files we expect that a version will be specified such
+# that various rebuilds of a single real (source) version will be
+# indicated by appending a "-XXXX" where "XXXX" is some string 
+# indicating the rebuild. Here we extract the real version used
+# for obtaining sources, etc.
+%define realversion %(echo %v | cut -d- -f1)
+
 # Architecture comes first by default.  Run with "--define 'archfirst no'"
 # to change this.
 %if "%{?archfirst:set}" != "set"
 %define archfirst	yes
 %endif
-
 
 %if "%archfirst" == "yes"
 %define pkgrel		%{cmsplatf}/%{pkgdir}
@@ -78,9 +84,10 @@
 # Define compiler platform version strings.  We use an external
 # script to determine platform name as RPM doesn't support multi-
 # line macros in spec files, only in "rpmmacros" files.
+%define debugsuffix %{?debug_build:_dbg}
 %define cmscomp	    	%{cmscompiler}%{cmscompilerv}
 %{expand:%%define cmsos	%(sh %_specdir/cmsos)}
-%define cmsplatf    	%{cmsos}_%{cmscomp}
+%define cmsplatf    	%{cmsos}_%{cmscomp}%{debugsuffix}
 
 # We are now done with locations.  Move to other things.
 
@@ -135,6 +142,12 @@
 %define makeprocesses -j %compiling_processes 
 %else
 %define makeprocesses %{nil}
+%endif
+
+%if "%{?ignore_compile_errors:set}" == "set"
+%define compileOptions -k
+%else
+%define compileOptions %{nil}
 %endif
 
 # Define a macro for relocating configuration files in %%post section.
