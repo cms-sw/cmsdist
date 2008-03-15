@@ -8,7 +8,7 @@ Requires: python openssl py2-zsi
 
 
 %prep
-%setup -n DBS
+%setup -n %{moduleName}
 %build
 (make DBSHOME=%_builddir/DBS/Clients/Python )
 
