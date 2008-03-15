@@ -1,10 +1,10 @@
-### RPM cms dbs-client DBS_1_0_9_pre3
+### RPM cms dbs-client DBS_1_1_0
 ## INITENV +PATH PYTHONPATH %i/lib/Clients/Python
 #
 #
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Clients/Python&export=DBS/Clients/Python&tag=-r%{cvstag}&output=/dbs-client.tar.gz
-Requires: python openssl
+Requires: python openssl py2-zsi
 
 
 %prep
