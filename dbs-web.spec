@@ -21,7 +21,7 @@ mkdir -p %{i}/etc/profile.d
 mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 pwd
 ls
-cp -r DBS/Web/DataDiscovery/* %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
+cp -r * %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 
 cd %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 #ln -s $YUI_ROOT/build YUI
