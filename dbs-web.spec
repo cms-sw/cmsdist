@@ -19,7 +19,7 @@ Requires: python py2-sqlalchemy cherrypy py2-cheetah webtools yui elementtree db
 mkdir -p %{i}/bin
 mkdir -p %{i}/etc/profile.d
 mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
-cp -r Web/DataDiscovery/* %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
+cp -r DBS/Web/DataDiscovery/* %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 
 cd %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 #ln -s $YUI_ROOT/build YUI
