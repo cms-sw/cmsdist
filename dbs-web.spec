@@ -1,4 +1,4 @@
-### RPM cms dbs-web V04_00_01
+### RPM cms dbs-web V04_00_02
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PYTHONPATH $ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV SET DDHOME $DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
@@ -19,8 +19,6 @@ Requires: python py2-sqlalchemy cherrypy py2-cheetah webtools yui elementtree db
 mkdir -p %{i}/bin
 mkdir -p %{i}/etc/profile.d
 mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
-pwd
-ls
 cp -r * %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 
 cd %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
