@@ -59,4 +59,12 @@ ln -s $YUI_ROOT/build $DDHOME/YUI
 ln -s $YUI_ROOT $DDHOME/yui
 mkdir -p $DDHOME/rss
 ln -s $WEBTOOLS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Controllers $DDHOME/WEBTOOLS
-$RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/scripts/post-install.sh `hostname` 8003
+if [ `hostname`=="cmswttest.cern.ch" ]; then
+    $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/scripts/post-install.sh https://cmsweb.cern.ch/dbs_discovery_wttest 8008
+    cat $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/DBSDD.conf | sed "s/# URL=/URL=/g" | sed "s/# PORT=/PORT=/g" > $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/DBSDD.conf.tmp
+    mv $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/DBSDD.conf.tmp $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/DBSDD.conf
+    rm -f $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/DBParam
+    ln -s $WEBTOOLS_CONF/dbs/DBParam $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/DBParam
+else
+    $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/scripts/post-install.sh `hostname` 8003
+fi
