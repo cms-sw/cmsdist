@@ -6,14 +6,17 @@ DataFormats/Common
 DataFormats/EgammaCandidates
 DataFormats/EgammaReco
 DataFormats/EgammaTrackReco
+DataFormats/FWLite
 DataFormats/JetReco
 DataFormats/L1Trigger
 DataFormats/METReco
 DataFormats/MuonReco
+DataFormats/StdDictionaries
 DataFormats/TauReco
 DataFormats/TrackCandidate
 DataFormats/TrackingRecHit
 DataFormats/TrackReco
 DataFormats/VertexReco
+DataFormats/WrappedStdDictionaries
 FWCore/FWLite
 SimDataFormats/HepMCProduct
