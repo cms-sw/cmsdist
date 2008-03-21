@@ -83,3 +83,19 @@ EOF_APACHE2_FOOTER
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 perl -p -i -e "s!\@RPM_INSTALL_PREFIX\@!$RPM_INSTALL_PREFIX/%pkgrel!" $RPM_INSTALL_PREFIX/%pkgrel/bin/cmsWeb
+
+
+# setup approripate links and made post install procedure
+. $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+if [ `hostname`=="cmswttest.cern.ch" ]; then
+cat > $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Tools/SiteDBCore/security.ini << POST_EOF
+[database]
+dbtype = sqlite
+dbname = $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Tools/SiteDBCore/sitedb.db
+POST_EOF
+else
+if [ -n "${WEBTOOLS_CONF}" ] && [ -f ${WEBTOOLS_CONF}/sitedb/security.ini ]; then
+ln -s ${WEBTOOLS_CONF}/sitedb/security.ini $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Tools/SiteDBCore/security.ini
+fi
+fi
+
