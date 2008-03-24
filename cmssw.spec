@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_2_0_0_pre3
+### RPM cms cmssw CMSSW_2_0_0_pre6
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: /bin/sed
