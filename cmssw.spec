@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_1_8_2
+### RPM cms cmssw CMSSW_1_8_3
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: /bin/sed
