@@ -80,10 +80,10 @@ EOF_APACHE2_FOOTER
 %define pythonv %(echo $PYTHON_ROOT | cut -d. -f1,2)
 %post
 # FIXME: Hardcoded python version!!!
-echo "############################################################"
-echo "Please run the following command to create a demo sitedb"
+echo "#########################################################################"
+echo "Please run the following command ONLY if you need to create a demo sitedb"
 echo "python $RPM_INSTALL_PREFIX/%pkgrel/lib/python2.4/site-packages/Applications/SiteDB/Utilities/CreateSiteDB.py -p $RPM_INSTALL_PREFIX/%pkgrel/lib/python2.4/site-packages/Applications/SiteDB/"
-echo "#############################################################"
+echo "#########################################################################"
 %{relocateConfig}etc/cherrypy.conf
 %{relocateConfig}etc/apache2.conf
 %{relocateConfig}etc/apache2-header.conf
