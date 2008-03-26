@@ -82,7 +82,7 @@ EOF_APACHE2_FOOTER
 # FIXME: Hardcoded python version!!!
 echo "############################################################"
 echo "Please run the following command to create a demo sitedb"
-echo "python $RPM_INSTALL_PREFIX/%pkgrel/lib/python2.4/site-packages/Applications/SiteDB/Utilities/CreateSiteDB.py -p $RPM_INSTALL_PREFIX/%pkgrel/Applications/SiteDB/"
+echo "python $RPM_INSTALL_PREFIX/%pkgrel/lib/python2.4/site-packages/Applications/SiteDB/Utilities/CreateSiteDB.py -p $RPM_INSTALL_PREFIX/%pkgrel/lib/python2.4/site-packages/Applications/SiteDB/"
 echo "#############################################################"
 %{relocateConfig}etc/cherrypy.conf
 %{relocateConfig}etc/apache2.conf
