@@ -79,10 +79,10 @@ RewriteRule ^/cms/services/webtools/Templates(.*)$ %i/Templates$1
 EOF_APACHE2_FOOTER
 %define pythonv %(echo $PYTHON_ROOT | cut -d. -f1,2)
 %post
-# FIXME: Hardcoded python version!!!
+# FIXME: Hardcoded python version!!! FIXED by VK.
 echo "#########################################################################"
 echo "Please run the following command ONLY if you need to create a demo sitedb"
-echo "python $RPM_INSTALL_PREFIX/%pkgrel/lib/python2.4/site-packages/Applications/SiteDB/Utilities/CreateSiteDB.py -p $RPM_INSTALL_PREFIX/%pkgrel/lib/python2.4/site-packages/Applications/SiteDB/"
+echo "python $RPM_INSTALL_PREFIX/%pkgrel/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications/SiteDB/Utilities/CreateSiteDB.py -p $RPM_INSTALL_PREFIX/%pkgrel/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications/SiteDB/"
 echo "#########################################################################"
 %{relocateConfig}etc/cherrypy.conf
 %{relocateConfig}etc/apache2.conf
@@ -91,3 +91,14 @@ echo "#########################################################################"
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 perl -p -i -e "s!\@RPM_INSTALL_PREFIX\@!$RPM_INSTALL_PREFIX/%pkgrel!" $RPM_INSTALL_PREFIX/%pkgrel/bin/cmsWeb
+# ADDED by VK.
+# set-up sitedb.ini link if exists, if doesn't prompt users
+. $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+if [ -n "${WEBTOOLS_CONF}" ] && [ -f ${WEBTOOLS_CONF}/sitedb/sitedb.ini ]; then
+ln -s ${WEBTOOLS_CONF}/sitedb/sitedb.ini $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications/SiteDB/sitedb.ini
+else
+echo "#########################################################################"
+echo "Check $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications/SiteDB/"
+echo "No sitedb.ini file found, you need to create one or make appropriate link"
+echo "#########################################################################"
+fi
