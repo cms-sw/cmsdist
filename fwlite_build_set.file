@@ -58,6 +58,7 @@ FWCore/MessageLogger
 FWCore/PluginManager
 FWCore/RootAutoLibraryLoader
 FWCore/Utilities
+PhysicsTools/Utilities
 SimDataFormats/EncodedEventId
 SimDataFormats/HepMCProduct
 SimDataFormats/Track
