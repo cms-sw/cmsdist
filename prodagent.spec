@@ -1,9 +1,9 @@
-### RPM cms prodagent PRODAGENT_0_8_3
+### RPM cms prodagent PRODAGENT_0_6_0_pre3CRAB6
 ## INITENV +PATH PYTHONPATH %i/lib
 #
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=PRODAGENT&export=PRODAGENT&&tag=-r%{cvstag}&output=/PRODAGENT.tar.gz
-Requires: python mysql py2-mysqldb dbs-client boss prodcommon openssl cherrypy PHEDEX-micro py2-sqlalchemy
+Requires: python mysql py2-mysqldb dbs-client dls-client prodcommon openssl cherrypy PHEDEX-micro 
 
 %prep
 %setup -n PRODAGENT
@@ -19,17 +19,17 @@ cp -R util/* %i/util/
 mkdir -p %{i}/etc/profile.d
 mkdir -p %i/workdir
 
+
 (echo "#!/bin/sh"; \
  echo "source $PYTHON_ROOT/etc/profile.d/init.sh"; \
  echo "source $OPENSSL_ROOT/etc/profile.d/init.sh"; \
  echo "source $MYSQL_ROOT/etc/profile.d/init.sh"; \
  echo "source $PY2_MYSQLDB_ROOT/etc/profile.d/init.sh"; \
  echo "source $DBS_CLIENT_ROOT/etc/profile.d/init.sh"; \
+ echo "source $DLS_CLIENT_ROOT/etc/profile.d/init.sh"; \
  echo "source $PRODCOMMON_ROOT/etc/profile.d/init.sh"; \
  echo "source $CHERRYPY_ROOT/etc/profile.d/init.sh"; \
- echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.sh"; \
- echo "source $PY2_SQLALCHEMY_ROOT/etc/profile.d/init.sh"; \
- echo "source $BOSS_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
+ echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
 
 (echo "#!/bin/tcsh"; \
  echo "source $PYTHON_ROOT/etc/profile.d/init.csh"; \
@@ -37,12 +37,10 @@ mkdir -p %i/workdir
  echo "source $MYSQL_ROOT/etc/profile.d/init.csh"; \
  echo "source $PY2_MYSQLDB_ROOT/etc/profile.d/init.csh"; \
  echo "source $DBS_CLIENT_ROOT/etc/profile.d/init.csh"; \
+ echo "source $DLS_CLIENT_ROOT/etc/profile.d/init.csh"; \
  echo "source $PRODCOMMON_ROOT/etc/profile.d/init.csh"; \
  echo "source $CHERRYPY_ROOT/etc/profile.d/init.csh"; \
- echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.csh"; \
- echo "source $PY2_SQLALCHEMY_ROOT/etc/profile.d/init.csh"; \
- echo "source $BOSS_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
-
+ echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
