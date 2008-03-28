@@ -4,7 +4,7 @@
 # See http://www.modpython.org/live/current/doc-html/installation.html
 
 Requires:  apache2 python
-Source0: http://apache.mirror.testserver.li/httpd/modpython/mod_python-%realversion.tgz
+Source0: http://mirror.switch.ch/mirror/apache/dist/httpd/modpython/mod_python-%realversion.tgz
 
 %prep
 %setup -n mod_python-%realversion
