@@ -1,4 +1,4 @@
-### RPM cms apache2-conf 1.3
+### RPM cms apache2-conf 1.4
 # Configuration for additional apache2 modules
 
 # Version of this RPM is defined by CVS revision number of the configuration file
@@ -19,7 +19,10 @@ wget -O %i/conf/apache2.conf %confURL
 
 cat << \EOF > %i/bin/httpd
 #!/bin/sh
-find %i/startenv.d -type f | xargs source
+for file in `find %i/startenv.d -type f`; do
+  source $file
+done
+ 
 @APACHE2_ROOT@/bin/httpd -f %i/conf/apache2.conf ${1+"$@"}
 EOF
 
