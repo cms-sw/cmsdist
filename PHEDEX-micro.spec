@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-micro PHEDEX_3_0_0_pre7
+### RPM cms PHEDEX-micro PHEDEX_3_0_0_pre11
 #
 ## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request
 ## INITENV +PATH PERL5LIB %i/perl_lib
