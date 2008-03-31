@@ -1,4 +1,4 @@
-### RPM cms cms-common 1.0 
+### RPM cms cms-common 1.0
 Source: cmsos
 %prep
 %build
@@ -11,6 +11,14 @@ mkdir -p %instroot/common %instroot/bin %{instroot}/%{cmsplatf}/etc/profile.d
 # This is to avoid different arch creating these files
 if [ ! -f %instroot/common/.cms-common ]; then
 install -m 755 %_sourcedir/cmsos %instroot/common/cmsos
+
+%if "%{?online_release:set}" == "set"
+echo echo %{cmsos} >  %instroot/common/cmsos
+chmod 755 %instroot/common/cmsos
+%endif
+
+
+%if "%{?online_release:set}" != "set"
 ### Detects the SCRAM_ARCH to be used.
 cat << \EOF_CMSARCH_SH >%instroot/common/cmsarch
 #!/bin/sh
@@ -34,6 +42,13 @@ else
 fi
 
 EOF_CMSARCH_SH
+%else
+cat << \EOF_CMSARCH_ONL >%instroot/common/cmsarch
+#!/bin/sh
+echo %{cmsplatf}
+EOF_CMSARCH_ONL
+%endif
+
 chmod 755 %instroot/common/cmsarch
 
 ### BASH code
@@ -148,59 +163,45 @@ EOF_CMSSET_DEFAULT_CSH
 cat << \EOF_COMMON_SCRAM > %instroot/common/scram
 #!/bin/sh
 CMSARCH=`cmsarch`
-srbase=
-if [ "X$SCRAM_VERSION" = "X" ] ; then
-  sver=`cat  %{instroot}/$CMSARCH/etc/default-scramv1-version`
-  dir=`/bin/pwd`
-  while [ ! -d ${dir}/.SCRAM -a "$dir" != "/" ] ; do
-    dir=`dirname $dir`
-  done
-  if [ -f ${dir}/config/scram_version ] ; then
-    ver=`cat ${dir}/config/scram_version`
-    if [ "X$ver" = "XV1_0_3-p1" ] ; then
-      if [ "X$CMSARCH" = "Xslc4_ia32_gcc345" ] ; then
-        ver=V1_0_3-p2
-      fi
-    fi
-    case $ver in
-      V0_* ) srbase=lcg/SCRAM/${ver};;
-      * ) srbase=lcg/SCRAMV1/${ver};;
-    esac
-    if [ -f %{instroot}/$CMSARCH/${srbase}/etc/profile.d/init.sh ] ; then
-      sver=$ver
-    fi
-  fi
-else
-   if [ "X$SCRAM_VERSION" = "XV1_0_3-p1" ] ; then
-     if [ "X$CMSARCH" = "Xslc4_ia32_gcc345" ] ; then
-       SCRAM_VERSION=V1_0_3-p2
-     fi
-   fi
-   sver=$SCRAM_VERSION
+srbase=%{instroot}/$CMSARCH
+sver=$SCRAM_VERSION
+dir=`/bin/pwd`
+while [ ! -d ${dir}/.SCRAM -a "$dir" != "/" ] ; do
+  dir=`dirname $dir`
+done
+if [ -f ${dir}/config/scram_version ] ; then
+  sver=`cat ${dir}/config/scram_version`
+elif [ "X$sver" == "X" ] ; then
+  sver=`cat  ${srbase}/etc/default-scramv1-version`
+fi
+if [ "X$sver" = "XV1_0_3-p1" -a "X$CMSARCH" = "Xslc4_ia32_gcc345" ] ; then
+  sver=V1_0_3-p2
+fi
+scram_rel_series=`echo $sver | grep '^V[0-9]\+_[0-9]\+_[0-9]\+' | sed 's|^\(V[0-9]\+_[0-9]\+\)_.*|\1|'`
+if [ "X${scram_rel_series}" != "X" -a -f ${srbase}/etc/default-scram/${scram_rel_series} ] ; then
+  sver=`cat ${srbase}/etc/default-scram/${scram_rel_series}`
 fi
 scmd=scram
+srbase=%{instroot}/$CMSARCH/lcg/SCRAMV1
 case $sver in
-  V0_* ) srbase=lcg/SCRAM/${sver}; scmd=scramv0;;
-  V1_0* ) srbase=lcg/SCRAMV1/${sver}; scmd=scramv1;;
-  * ) srbase=lcg/SCRAMV1/${sver};;
+  V0_*  ) srbase=%{instroot}/$CMSARCH/lcg/SCRAM; scmd=scramv0;;
+  V1_0* ) scmd=scramv1;;
+  *     ) ;;
 esac
-if [ ! -f %{instroot}/$CMSARCH/${srbase}/etc/profile.d/init.sh ] ; then
+if [ ! -f ${srbase}/${sver}/etc/profile.d/init.sh ] ; then
   echo "Unable to find SCRAM version $sver for $CMSARCH architecture."
   exit 1
 fi
-source %{instroot}/$CMSARCH/${srbase}/etc/profile.d/init.sh
+source ${srbase}/${sver}/etc/profile.d/init.sh
 # In the case we are on linux ia32 we prepend the linux32 command to the 
 # actual scram command so that, no matter where the ia32 architecture is 
 # running (i686 or x84_64) scram detects it as ia32.
 CMSPLAT=`echo $CMSARCH | cut -d_ -f 2`
 USE_LINUX32=
-if [ `uname` == Linux ]; then
-  if [ "$CMSPLAT" = "ia32" ]
-  then
-      USE_LINUX32=linux32
-  fi
+if [ `uname` == Linux -a "$CMSPLAT" = "ia32" ] ; then
+  USE_LINUX32=linux32
 fi
-$USE_LINUX32 %{instroot}/$CMSARCH/${srbase}/bin/${scmd} $@
+$USE_LINUX32 ${srbase}/${sver}/bin/${scmd} $@
 EOF_COMMON_SCRAM
 
 chmod +x %{instroot}/common/scram
