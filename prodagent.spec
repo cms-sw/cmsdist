@@ -28,7 +28,7 @@ mkdir -p %i/workdir
  echo "source $PRODCOMMON_ROOT/etc/profile.d/init.sh"; \
  echo "source $CHERRYPY_ROOT/etc/profile.d/init.sh"; \
  echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.sh"; \
- echo "source $WEBTOOLS/etc/profile.d/init.sh"; \
+ echo "source $WEBTOOLS_ROOT/etc/profile.d/init.sh"; \
  echo "source $BOSS_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
 
 (echo "#!/bin/tcsh"; \
