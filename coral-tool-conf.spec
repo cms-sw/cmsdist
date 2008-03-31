@@ -1,9 +1,8 @@
-### RPM cms coral-tool-conf CMS_151l
-
-%if "%{?use_system_gcc:set}" != "set"
-Requires: gcc
-%endif
-
+### RPM cms coral-tool-conf 1.0
+# with cmsBuild, change the above version only when a new
+# tool is added
+Requires: gcc-toolfile
+Requires: gmake
 Requires: pcre
 Requires: bz2lib
 Requires: uuid
@@ -23,7 +22,10 @@ Requires: sqlite
 Requires: p5-dbd-oracle
 Requires: seal
 
+
 %if "%{?online_release:set}" != "set"
+
+Requires: gcc
 Requires: zlib
 Requires: openssl
 Requires: db4
