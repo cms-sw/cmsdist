@@ -1,4 +1,4 @@
-### RPM external p5-monalisa-apmon 2.2.17-CMS10
+### RPM external p5-monalisa-apmon 2.2.17
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 
 Summary: The MonaLisa ApMon client code
