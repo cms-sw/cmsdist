@@ -7,6 +7,10 @@ Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 Patch0: root-5.18-00-libpng
 Patch1: root-5.18-00a-CINT-maxlongline
 Patch2: root_5.18-00-CINTFunctional
+Patch3: root-5.18-00a-TBufferXML
+Patch4: root-5.18-00a-Cintex
+Patch5: root-5.18-00a-Cintex2
+
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -32,6 +36,9 @@ Requires: libtiff
 %patch0 -p1
 %patch1 -p1
 %patch2 -p0
+%patch3 -p1
+%patch4 -p0
+%patch5 -p0
 
 %build
 mkdir -p %i
@@ -40,12 +47,13 @@ export ROOTSYS=%_builddir/root
 %if "%{?online_release:set}" == "set"
 # Use oracle from xdaq installation:
 ORACLE_ROOT="/opt/xdaq"
-# Build without mysql, and use system qt and openssl:
+# Build without mysql, and use system qt.
+# Also skip xrootd and odbc for online case:
 EXTRA_CONFIG_ARGS="
-             --disable-mysql 
-             --enable-qt
-             --enable-ssl"
-# Also skip xrootd option for online case. 
+             --disable-mysql
+             --disable-xrootd
+             --disable-odbc
+             --enable-qt"
 %else
 EXTRA_CONFIG_ARGS="
              --with-xrootd=$XROOTD_ROOT
