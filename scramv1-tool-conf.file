@@ -44,9 +44,9 @@ eval        "echo \"  +CXX:$CCACHE_ROOT/bin/c++\""
 
 echo "TOOL:jcompiler:"
 %if "%{?use_system_java:set}" == "set"
-       echo '  +JAVA_BASE:$(SCRAM_BASEPATH)/%cmsplatf/external/java-jdk/1.5.0.p6-CMS8'
+       echo '  +JAVA_BASE:$SCRAM_BASEPATH/%cmsplatf/external/java-jdk/1.5.0.p6-CMS8'
 %else
-       echo '  +JAVA_BASE:$(SCRAM_BASEPATH)/%cmsplatf/external/$JCOMPILER_TOOL/$JCOMPILER_VERSION'
+       echo '  +JAVA_BASE:$SCRAM_BASEPATH/%cmsplatf/external/$JCOMPILER_TOOL/$JCOMPILER_VERSION'
 %endif
 
 if [ "X`echo %requiredtools | tr ' ' '\n' | grep '^oracle$'`" = "Xoracle" ] ; then
