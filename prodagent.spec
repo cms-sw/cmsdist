@@ -40,7 +40,7 @@ mkdir -p %i/workdir
  echo "source $PRODCOMMON_ROOT/etc/profile.d/init.csh"; \
  echo "source $CHERRYPY_ROOT/etc/profile.d/init.csh"; \
  echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.csh"; \
- echo "source $WEBTOOLS/etc/profile.d/init.csh"; \
+ echo "source $WEBTOOLS_ROOT/etc/profile.d/init.csh"; \
  echo "source $BOSS_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 
