@@ -4,7 +4,7 @@
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=PRODAGENT&export=PRODAGENT&&tag=-r%{cvstag}&output=/PRODAGENT.tar.gz
 #Requires: webtools python mysql py2-mysqldb dbs-client boss prodcommon openssl cherrypy PHEDEX-micro
-Requires: webtools dbs-client boss prodcommon PHEDEX-micro
+Requires: webtools dbs-client boss prodcommon
 
 %prep
 %setup -n PRODAGENT
@@ -28,7 +28,7 @@ mkdir -p %i/workdir
  echo "source $DBS_CLIENT_ROOT/etc/profile.d/init.sh"; \
  echo "source $PRODCOMMON_ROOT/etc/profile.d/init.sh"; \
 # echo "source $CHERRYPY_ROOT/etc/profile.d/init.sh"; \
- echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.sh"; \
+# echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.sh"; \
  echo "source $WEBTOOLS_ROOT/etc/profile.d/init.sh"; \
  echo "source $BOSS_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
 
@@ -40,7 +40,7 @@ mkdir -p %i/workdir
  echo "source $DBS_CLIENT_ROOT/etc/profile.d/init.csh"; \
  echo "source $PRODCOMMON_ROOT/etc/profile.d/init.csh"; \
 # echo "source $CHERRYPY_ROOT/etc/profile.d/init.csh"; \
- echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.csh"; \
+# echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.csh"; \
  echo "source $WEBTOOLS_ROOT/etc/profile.d/init.csh"; \
  echo "source $BOSS_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
 
