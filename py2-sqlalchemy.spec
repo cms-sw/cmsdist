@@ -4,7 +4,7 @@
 
 Source: http://superb-east.dl.sourceforge.net/sourceforge/sqlalchemy/SQLAlchemy-%realversion.tar.gz
 Requires: python py2-mysqldb py2-cx-oracle py2-pysqlite
-Patch: py2-sqlalchemy-setup
+#Patch: py2-sqlalchemy-setup
 %prep
 %setup -n SQLAlchemy-%realversion
 %patch0 -p1
