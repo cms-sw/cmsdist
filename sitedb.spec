@@ -1,8 +1,8 @@
-### RPM cms sitedb 1.2.0 
+### RPM cms sitedb 1.2.2
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 %define moduleName WEBTOOLS
 %define exportName WEBTOOLS
-%define cvstag SiteDB_SM_Nightly_070108 
+%define cvstag SiteDB_170308 
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
 Requires: python cherrypy py2-cheetah yui sqlite zlib py2-pysqlite expat openssl bz2lib db4 gdbm py2-cx-oracle py2-formencode py2-pycrypto oracle webtools oracle-env 
@@ -41,6 +41,7 @@ mkdir -p %i/bin
 mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
 rm -rf Applications/SiteDB/Utilities/MigrateSites
 cp -r Applications/SiteDB %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
+mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications/SiteDB/csv
 cp cmsWeb %i/bin
 cat << \EOF_CHERRYPY_CONF > %i/etc/cherrypy.conf
 # Serve a complete directory 
@@ -78,11 +79,11 @@ RewriteRule ^/cms/services/webtools/Templates(.*)$ %i/Templates$1
 EOF_APACHE2_FOOTER
 %define pythonv %(echo $PYTHON_ROOT | cut -d. -f1,2)
 %post
-# FIXME: Hardcoded python version!!!
-echo "############################################################"
-echo "Please run the following command to create a demo sitedb"
-echo "python $RPM_INSTALL_PREFIX/%pkgrel/lib/python2.4/site-packages/Applications/SiteDB/Utilities/CreateSiteDB.py -p $RPM_INSTALL_PREFIX/%pkgrel/Applications/SiteDB/"
-echo "#############################################################"
+# FIXME: Hardcoded python version!!! FIXED by VK.
+echo "#########################################################################"
+echo "Please run the following command ONLY if you need to create a demo sitedb"
+echo "python $RPM_INSTALL_PREFIX/%pkgrel/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications/SiteDB/Utilities/CreateSiteDB.py -p $RPM_INSTALL_PREFIX/%pkgrel/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications/SiteDB/"
+echo "#########################################################################"
 %{relocateConfig}etc/cherrypy.conf
 %{relocateConfig}etc/apache2.conf
 %{relocateConfig}etc/apache2-header.conf
@@ -90,3 +91,14 @@ echo "#############################################################"
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 perl -p -i -e "s!\@RPM_INSTALL_PREFIX\@!$RPM_INSTALL_PREFIX/%pkgrel!" $RPM_INSTALL_PREFIX/%pkgrel/bin/cmsWeb
+# ADDED by VK.
+# set-up sitedb.ini link if exists, if doesn't prompt users
+. $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+if [ -n "${WEBTOOLS_CONF}" ] && [ -f ${WEBTOOLS_CONF}/sitedb/sitedb.ini ]; then
+ln -s ${WEBTOOLS_CONF}/sitedb/sitedb.ini $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications/SiteDB/sitedb.ini
+else
+echo "#########################################################################"
+echo "Check $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications/SiteDB/"
+echo "No sitedb.ini file found, you need to create one or make appropriate link"
+echo "#########################################################################"
+fi
