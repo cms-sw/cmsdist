@@ -18,7 +18,7 @@ Patch5: root-5.18-00a-Cintex2
 Requires: gccxml gsl castor libjpg dcap pcre python
 
 %if "%{?online_release:set}" != "set"
-Requires: qt openssl mysql libpng zlib oracle libungif xrootd
+Requires: qt openssl mysql libpng zlib libungif xrootd
 %else
 %define skiplibtiff true
 %endif
@@ -45,15 +45,12 @@ mkdir -p %i
 export ROOTSYS=%_builddir/root
 
 %if "%{?online_release:set}" == "set"
-# Use oracle from xdaq installation:
-ORACLE_ROOT="/opt/xdaq"
-# Build without mysql, and use system qt.
-# Also skip xrootd and odbc for online case:
+# Build without mysql, and use system qt and openssl:
 EXTRA_CONFIG_ARGS="
-             --disable-mysql
-             --disable-xrootd
-             --disable-odbc
-             --enable-qt"
+             --disable-mysql 
+             --enable-qt
+             --enable-ssl"
+# Also skip xrootd option for online case. 
 %else
 EXTRA_CONFIG_ARGS="
              --with-xrootd=$XROOTD_ROOT
@@ -92,9 +89,9 @@ CONFIG_ARGS="--enable-table
 
 case $(uname)-$(uname -p) in
   Linux-x86_64)
-    ./configure linuxx8664gcc $CONFIG_ARGS --enable-oracle --with-oracle-libdir=${ORACLE_ROOT}/lib --with-oracle-incdir=${ORACLE_ROOT}/include --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift --disable-astiff --disable-cern;; 
+    ./configure linuxx8664gcc $CONFIG_ARGS --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift --disable-astiff --disable-cern;; 
   Linux-i*86)
-    ./configure linux  $CONFIG_ARGS --enable-oracle --with-oracle-libdir=${ORACLE_ROOT}/lib --with-oracle-incdir=${ORACLE_ROOT}/include --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift;;
+    ./configure linux  $CONFIG_ARGS --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift;;
   Darwin*)
     ./configure macosx $CONFIG_ARGS --disable-rfio;;
   Linux-ppc64*)
