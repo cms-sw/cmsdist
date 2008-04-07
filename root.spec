@@ -45,12 +45,14 @@ mkdir -p %i
 export ROOTSYS=%_builddir/root
 
 %if "%{?online_release:set}" == "set"
-# Build without mysql, and use system qt and openssl:
+# Build without mysql, and use system qt.
+# Also skip xrootd and odbc for online case:
+
 EXTRA_CONFIG_ARGS="
-             --disable-mysql 
-             --enable-qt
-             --enable-ssl"
-# Also skip xrootd option for online case. 
+             --disable-mysql
+             --disable-xrootd
+             --disable-odbc
+             --enable-qt"
 %else
 EXTRA_CONFIG_ARGS="
              --with-xrootd=$XROOTD_ROOT
