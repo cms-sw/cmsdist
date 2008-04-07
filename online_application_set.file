@@ -9,6 +9,9 @@ CalibMuon/CSCCalibration
 CalibMuon/DTCalibration
 Calibration/HcalIsolatedTrackReco
 CalibTracker/SiPixelESProducers
+CalibTracker/SiPixelGainCalibration
+CalibTracker/SiPixelIsAliveCalibration
+CalibTracker/SiPixelSCurveCalibration
 CalibTracker/SiStripConnectivity
 CalibTracker/SiStripESProducers
 CalibTracker/SiStripLorentzAngle
