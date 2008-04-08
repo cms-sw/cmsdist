@@ -5,6 +5,7 @@ Alignment/CommonAlignmentParametrization
 Alignment/CommonAlignmentProducer
 Alignment/HIPAlignmentAlgorithm
 Alignment/MuonAlignment
+Alignment/OfflineValidation
 Alignment/TrackerAlignment
 AnalysisDataFormats/SiStripClusterInfo
 AnalysisDataFormats/TrackInfo
@@ -28,6 +29,10 @@ CalibMuon/DTDigiSync
 Calibration/HcalIsolatedTrackReco
 CalibTracker/Records
 CalibTracker/SiPixelESProducers
+CalibTracker/SiPixelGainCalibration
+CalibTracker/SiPixelIsAliveCalibration
+CalibTracker/SiPixelSCurveCalibration
+CalibTracker/SiPixelTools
 CalibTracker/SiStripAPVAnalysis
 CalibTracker/SiStripCommon
 CalibTracker/SiStripConnectivity
@@ -155,6 +160,7 @@ DataFormats/SiStripDigi
 DataFormats/StdDictionaries
 DataFormats/Streamer
 DataFormats/TauReco
+DataFormats/TestObjects
 DataFormats/TrackCandidate
 DataFormats/TrackerRecHit2D
 DataFormats/TrackingRecHit
@@ -167,6 +173,7 @@ DetectorDescription/Algorithm
 DetectorDescription/Base
 DetectorDescription/Core
 DetectorDescription/ExprAlgo
+DetectorDescription/OfflineDBLoader
 DetectorDescription/Parser
 DetectorDescription/PersistentDDDObjects
 DQM/CSCMonitorClient
@@ -222,6 +229,7 @@ DQM/SiStripMonitorPedestals
 DQM/SiStripMonitorTrack
 DQM/TrackerCommon
 DQM/TrackerMonitorTrack
+DQM/TrackingMonitor
 DQM/TrigXMonitor
 EventFilter/AutoBU
 EventFilter/Cosmics
@@ -332,6 +340,7 @@ IOPool/PFNCatalog
 IOPool/Streamer
 IOPool/TFileAdaptor
 IOPool/TrivialFileCatalog
+IORawData/CSCCommissioning
 IORawData/DaqSource
 JetMETCorrections/Algorithms
 JetMETCorrections/JetParton
@@ -422,6 +431,7 @@ RecoLocalCalo/EcalRecAlgos
 RecoLocalCalo/EcalRecProducers
 RecoLocalCalo/HcalRecAlgos
 RecoLocalCalo/HcalRecProducers
+RecoLocalMuon/CSCRecHitD
 RecoLocalMuon/CSCSegment
 RecoLocalMuon/DTRecHit
 RecoLocalMuon/DTSegment
