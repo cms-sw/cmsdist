@@ -1,5 +1,7 @@
-### RPM cms online-tool-conf CMS_150_ONLINE1
-
+### RPM cms online-tool-conf 3.0a
+# with cmsBuild, change the above version only when a new
+# tool is added
+## INITENV SET CMSSW_TOOL_CONF_ROOT $ONLINE_TOOL_CONF_ROOT
 Provides: tmp/slc3_ia32_gcc323/src/FWCore/TFWLiteSelector/test/libFWCoreTFWLiteSelectorTest.so
 Provides: libboost_regex-gcc-mt.so 
 Provides: libboost_signals-gcc-mt.so 
@@ -8,6 +10,8 @@ Provides: libboost_thread-gcc-mt.so
 Requires: pool
 Requires: coral
 Requires: seal
+Requires: gcc-toolfile
+Requires: gmake
 Requires: pcre
 Requires: bz2lib
 Requires: uuid
@@ -21,8 +25,10 @@ Requires: root
 Requires: qt
 Requires: castor
 Requires: libjpg
+Requires: libtiff
 Requires: dcap
 Requires: oracle-env
+Requires: p5-dbd-oracle
 Requires: frontier_client
 Requires: sqlite
 Requires: hepmc

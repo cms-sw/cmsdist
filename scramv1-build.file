@@ -22,7 +22,9 @@
 Requires: SCRAMV1
 
 %define scram_xml   .xml
+%if "%{?scramcmd:set}" != "set"
 %define scramcmd    scramv1
+%endif
 
 # NR: allow to specify repository and tag 
 # (default: cvsrepo and cvstag)
@@ -107,6 +109,8 @@ rm -rf %{srctree}
 
 cd %_builddir
 
+%_builddir/config/updateConfig.pl -p %{ucprojname} -v %v -s $SCRAMV1_VERSION -t ${%{ucprojname}_TOOL_CONF_ROOT}
+
 %{?patchsrc:%patchsrc}
 %{?patchsrc2:%patchsrc2}
 %{?patchsrc3:%patchsrc3}
@@ -118,7 +122,6 @@ echo rm -rf %i
 mkdir -p $(dirname %i)
 
 %{?buildarch:%buildarch}
-%_builddir/config/updateConfig.pl -p %{ucprojname} -v %v -s $SCRAMV1_VERSION -t ${%{ucprojname}_TOOL_CONF_ROOT}
 %scramcmd project -d $(dirname %i) -b %{bootstrapfile}
 
 %build
@@ -202,6 +205,7 @@ scramver=`cat config/scram_version`
 source $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver/etc/profile.d/init.sh
 (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename.pl %{instroot} $RPM_INSTALL_PREFIX  %cmsplatf )
 %{?buildarch:%buildarch}
+echo scramcmd: `which %scramcmd`
 yes | %scramcmd install
 (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.pl --arch %cmsplatf --nolink INCLUDE) || true
 eval `%scramcmd run -sh`
