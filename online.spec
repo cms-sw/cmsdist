@@ -1,10 +1,15 @@
-### RPM cms online CMSSW_2_0_0_pre7_ONLINE1
+### RPM cms online CMSSW_2_0_0_pre9_ONLINE1
 ## IMPORT configurations 
 Provides: /bin/zsh
+Provides: /bin/ksh
 Provides: /bin/sed
+Provides: /usr/bin/awk
 Provides: perl(Date::Format)
 Provides: perl(Term::ReadKey)
 Provides: perl(full)
+Provides: perl(LWP::UserAgent)
+Provides: perl(Template)
+
 Requires: online-tool-conf python
 
 %define cmssw_release   %(perl -e '$_="%v"; s/_ONLINE1//; print;')
@@ -18,11 +23,13 @@ Requires: online-tool-conf python
 #Defines for file containing list of packages for checkout and build:
 %define buildsetrepo    CMSDIST
 %define buildsetfile    online_build_set.file
-%define buildsetvers    buildset_V1_0
+%define buildsetvers    buildset_V2_0
 
 
 %define patchsrc2     perl -p -i -e ' s!(<classpath.*/test\\+.*>)!!;' config/BuildFile.xml
 %define patchsrc3     perl -p -i -e ' s!int depth=1,!int depth,!;' src/DQM/HcalMonitorTasks/interface/HcalTrigPrimMonitor.h
+
+%define scramcmd $SCRAMV1_ROOT/bin/scram
 
 ## IMPORT cms-scram-build
 ## IMPORT partial-build
