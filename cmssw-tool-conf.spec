@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 3.0
+### RPM cms cmssw-tool-conf 4.0
 # with cmsBuild, change the above version only when a new
 # tool is added
 
@@ -89,6 +89,7 @@ Requires: cmsswdata
 Requires: dpm
 Requires: evtgenlhc
 Requires: mcdb
+Requires: dbs-client
 
 %define skipreqtools jcompiler
 
