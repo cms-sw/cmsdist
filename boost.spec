@@ -1,4 +1,4 @@
-### RPM external boost 1.34.1-CMS19
+### RPM external boost 1.34.1-CMS20
 %define boostver _%(echo %realversion | tr . _)
 Source: http://internap.dl.sourceforge.net/sourceforge/%{n}/%{n}%{boostver}.tar.gz
 
