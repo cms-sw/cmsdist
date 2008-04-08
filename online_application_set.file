@@ -100,6 +100,7 @@ DQM/SiStripMonitorDisplayPlugins
 DQM/SiStripMonitorPedestals
 DQM/SiStripMonitorTrack
 DQM/TrackerMonitorTrack
+DQM/TrackingMonitor
 DQM/TrigXMonitor
 EventFilter/AutoBU
 EventFilter/Cosmics
@@ -228,6 +229,7 @@ MagneticField/UniformEngine
 MagneticField/VolumeBasedEngine
 MagneticField/VolumeGeometry
 PhysicsTools/CandAlgos
+PhysicsTools/RecoAlgos
 PhysicsTools/RecoCandAlgos
 PhysicsTools/RecoSelectors
 RecoBTag/ImpactParameter
@@ -245,6 +247,7 @@ RecoLocalCalo/EcalRecProducers
 RecoLocalCalo/HcalRecProducers
 RecoLocalMuon/CSCRecHit
 RecoLocalMuon/CSCRecHitB
+RecoLocalMuon/CSCRecHitD
 RecoLocalMuon/CSCSegment
 RecoLocalMuon/DTRecHit
 RecoLocalMuon/DTSegment
@@ -264,6 +267,7 @@ RecoMuon/L3MuonIsolationProducer
 RecoMuon/L3MuonProducer
 RecoMuon/L3TrackFinder
 RecoMuon/MuonSeedGenerator
+RecoMuon/TrackerSeedGenerator
 RecoMuon/TransientTrackingRecHit
 RecoPixelVertexing/PixelTrackFitting
 RecoPixelVertexing/PixelVertexFinding
@@ -279,6 +283,7 @@ RecoTracker/RoadSearchCloudCleaner
 RecoTracker/RoadSearchCloudMaker
 RecoTracker/RoadSearchSeedFinder
 RecoTracker/RoadSearchTrackCandidateMaker
+RecoTracker/TkNavigation
 RecoTracker/TkSeedGenerator
 RecoTracker/TkSeedingLayers
 RecoTracker/TrackProducer
