@@ -1,4 +1,4 @@
-### RPM cms online-tool-conf 3.0
+### RPM cms online-tool-conf 3.0a
 # with cmsBuild, change the above version only when a new
 # tool is added
 ## INITENV SET CMSSW_TOOL_CONF_ROOT $ONLINE_TOOL_CONF_ROOT
