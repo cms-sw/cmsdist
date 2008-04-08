@@ -1,7 +1,8 @@
-### RPM external dcap 1.2.35-CMS19
-# Fakes the presence of dcap since we are not allowed to distribute it.
-Source: http://service-spi.web.cern.ch/service-spi/external/tarFiles/%n-%realversion.tar.gz
-Patch: http://service-spi.web.cern.ch/service-spi/external/tarFiles/%n-%realversion.patch
+### RPM external dcap 1.7.0.31
+#get dcap from dcache now...
+Source: http://www.dcache.org/downloads/1.7.0/dCache-production-1-7-0-31.tar.gz
+Patch: dcap-1.7.0.31
+
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %if "%cpu" != "amd64"
 %define libsuffix %{nil}
@@ -12,14 +13,17 @@ Patch: http://service-spi.web.cern.ch/service-spi/external/tarFiles/%n-%realvers
 Provides: libdcap.so%{libsuffix}
 Provides: libpdcap.so%{libsuffix}
 %prep
-rm -rf %n-%realversion
-%setup -n %n-%realversion
+#rm -rf %n-%realversion
+%setup -n dCacheBuild
 %patch0 -p1
+
 %build
-rm -rf %i
-mkdir -p %i
+cd modules/dcap
+chmod +x mkmapfile.sh
+chmod +x mkdirs.sh
 LD=gcc make BIN_PATH=%i %makeprocesses 
 %install
+cd modules/dcap
 LD=gcc make BIN_PATH=%i install
 
 # SCRAM ToolBox toolfile
