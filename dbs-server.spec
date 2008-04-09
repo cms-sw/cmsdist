@@ -189,7 +189,7 @@ chmod a+x $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh
 
 # kill running mysql|tomcat under my account since build is over
 echo "+++ Clean-up mysqld|tomcat processes"
-ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "$2""}'
+#ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "$2""}'
 #ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "$2""}' |/bin/sh
 killall -q mysqld
 killall -q tomcat
@@ -197,9 +197,12 @@ killall -q tomcat
 echo
 echo
 echo "#####  IMPORTANT!!!  #####"
-echo "For your convinience we created"
+echo "To work with DBS you need to source init.sh file located at"
+echo "$DBS_SERVER_ROOT/etc/profile.d/init.sh"
+echo
+echo "OR use init script to start|stop|status DBS services:"
 echo "$DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh"
-echo "init script file which can be placed into /etc/init.d/ to allow auto-startup of DBS service"
-echo "##### END OF README  #####"
+echo "init script file can be placed into /etc/init.d/ to allow auto-startup of DBS service"
+echo "##########################"
 echo
 
