@@ -189,7 +189,10 @@ chmod a+x $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh
 
 # kill running mysql|tomcat under my account since build is over
 echo "+++ Clean-up mysqld|tomcat processes"
-ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "$2""}' |/bin/sh
+ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "$2""}'
+#ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "$2""}' |/bin/sh
+killall -q mysqld
+killall -q tomcat
 
 echo
 echo
