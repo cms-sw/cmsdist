@@ -107,6 +107,8 @@ rm -rf %{srctree}
 
 cd %_builddir
 
+%_builddir/config/updateConfig.pl -p %{ucprojname} -v %v -s $SCRAMV1_VERSION -t ${%{ucprojname}_TOOL_CONF_ROOT}
+
 %{?patchsrc:%patchsrc}
 %{?patchsrc2:%patchsrc2}
 %{?patchsrc3:%patchsrc3}
@@ -118,7 +120,6 @@ echo rm -rf %i
 mkdir -p $(dirname %i)
 
 %{?buildarch:%buildarch}
-%_builddir/config/updateConfig.pl -p %{ucprojname} -v %v -s $SCRAMV1_VERSION -t ${%{ucprojname}_TOOL_CONF_ROOT}
 %scramcmd project -d $(dirname %i) -b %{bootstrapfile}
 
 %build
