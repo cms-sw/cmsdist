@@ -177,6 +177,20 @@ $MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK -uroot -pcms mysql -e "GRANT ALL ON $
 # I need to copy/deploy DBS.war file into tomcat area
 cp $DBS_SERVER_ROOT/Servers/JavaServer/DBS.war $APACHE_TOMCAT_ROOT/webapps
 
+# Fix path in dbs_init.sh file since now we know install area
+cat $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh | sed "s,rpm_install_area,$RPM_INSTALL_PREFIX,g" > \
+    $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh.new
+/bin/mv -f $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh.new $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh
+echo "+++ Fix path in dbs_init.sh"
+chmod a+x $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh
+
+# time to start up tomcat for user
+#$APACHE_TOMCAT_ROOT/bin/catalina.sh start
+
+# kill running mysql|tomcat under my account since build is over
+echo "+++ Clean-up mysqld|tomcat processes"
+ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "$2""}' |/bin/sh
+
 echo
 echo
 echo "#####  IMPORTANT!!!  #####"
@@ -185,14 +199,4 @@ echo "$DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh"
 echo "init script file which can be placed into /etc/init.d/ to allow auto-startup of DBS service"
 echo "##### END OF README  #####"
 echo
-# Fix path in dbs_init.sh file since now we know install area
-cat $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh | sed "s,rpm_install_area,$RPM_INSTALL_PREFIX,g" > \
-    $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh.new
-mv  $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh.new $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh
-chmod a+x $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh
 
-# time to start up tomcat for user
-#$APACHE_TOMCAT_ROOT/bin/catalina.sh start
-
-# kill running mysql|tomcat under my account since build is over
-ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "$2""}' |/bin/sh
