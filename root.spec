@@ -10,7 +10,7 @@ Patch2: root_5.18-00-CINTFunctional
 Patch3: root-5.18-00a-TBufferXML
 Patch4: root-5.18-00a-Cintex
 Patch5: root-5.18-00a-Cintex2
-
+Patch6: root-5.18-00a-TBufferFile
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -39,6 +39,7 @@ Requires: libtiff
 %patch3 -p1
 %patch4 -p0
 %patch5 -p0
+%patch6 -p0
 
 %build
 mkdir -p %i

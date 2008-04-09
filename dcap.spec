@@ -1,7 +1,6 @@
 ### RPM external dcap 1.7.0.31
 #get dcap from dcache now...
 Source: http://www.dcache.org/downloads/1.7.0/dCache-production-1-7-0-31.tar.gz
-Patch: dcap-1.7.0.31
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %if "%cpu" != "amd64"
@@ -15,12 +14,12 @@ Provides: libpdcap.so%{libsuffix}
 %prep
 #rm -rf %n-%realversion
 %setup -n dCacheBuild
-%patch0 -p1
 
 %build
 cd modules/dcap
 chmod +x mkmapfile.sh
 chmod +x mkdirs.sh
+chmod +x version.sh
 LD=gcc make BIN_PATH=%i %makeprocesses 
 %install
 cd modules/dcap
