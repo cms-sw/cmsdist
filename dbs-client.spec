@@ -31,6 +31,19 @@ cp -r Clients/Python/* %{i}/lib/
  echo "source $PY2_ZSI_ROOT/etc/profile.d/init.csh"; \
  ) > %{i}/etc/profile.d/dependencies-setup.csh
 
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=dbs-client version=%v>
+<client>
+ <Environment name=DBS_CLIENT_BASE default="%i"></Environment>
+</client>
+<Runtime name=PATH value="$DBS_CLIENT_BASE/bin" type=path>
+</Tool>
+EOF_TOOLFILE
+
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
+%{relocateConfig}etc/scram.d/%n
