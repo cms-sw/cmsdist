@@ -1,15 +1,14 @@
-### RPM cms dbs-web V04_00_00
+### RPM cms dbs-web V04_01_04
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PYTHONPATH $ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV SET DDHOME $DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
-## INITENV SET TNS_ADMIN $DDHOME
 ## INITENV SET DBS_DBPARAM $DDHOME/DBParam
 ## INITENV SET PYTHONPATH ${DDHOME}:${DDHOME}/QueryBuilder:${PYTHONPATH}
 
-%define cvstag %v
-#Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Web/DataDiscovery&export=DBS/Web/DataDiscovery&tag=-r%{cvstag}&output=/dbs-web.tar.gz
-Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Web/DataDiscovery&tag=-r%{cvstag}&output=/dbs-web.tar.gz
-Requires: python py2-sqlalchemy cherrypy py2-cheetah webtools yui elementtree
+%define cvstag %{realversion}
+%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
+Source: %cvsserver&strategy=checkout&module=DBS/Web/DataDiscovery&nocache=true&export=DBS&tag=-r%{cvstag}&output=/dbs-web.tar.gz
+Requires: python py2-sqlalchemy cherrypy py2-cheetah webtools yui elementtree dbs-client mysql py2-mysqldb sqlite py2-pysqlite py2-cx-oracle oracle-env
 
 %prep
 %setup -n DBS/Web/DataDiscovery
@@ -19,7 +18,7 @@ Requires: python py2-sqlalchemy cherrypy py2-cheetah webtools yui elementtree
 mkdir -p %{i}/bin
 mkdir -p %{i}/etc/profile.d
 mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
-cp -r Web/DataDiscovery/* %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
+cp -r * %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 
 cd %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 #ln -s $YUI_ROOT/build YUI
@@ -59,4 +58,18 @@ ln -s $YUI_ROOT/build $DDHOME/YUI
 ln -s $YUI_ROOT $DDHOME/yui
 mkdir -p $DDHOME/rss
 ln -s $WEBTOOLS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Controllers $DDHOME/WEBTOOLS
-$RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/scripts/post-install.sh `hostname` 8003
+if [ `hostname` == "cmswttest.cern.ch" ]; then
+    $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/scripts/post-install.sh https://cmsweb.cern.ch/dbs_discovery_wttest 8008
+    cat $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/DBSDD.conf | sed "s/# URL=/URL=/g" | sed "s/# PORT=/PORT=/g" > $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/DBSDD.conf.tmp
+    mv $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/DBSDD.conf.tmp $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/DBSDD.conf
+    rm -f $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/DBParam
+if [ -n "${WEBTOOLS_CONF}" ] && [ -f ${WEBTOOLS_CONF}/dbs/DBParam ]; then
+    ln -s ${WEBTOOLS_CONF}/dbs/DBParam $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/DBParam
+fi
+else
+    $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/scripts/post-install.sh `hostname` 8003
+if [ -n "${WEBTOOLS_CONF}" ] && [ -f ${WEBTOOLS_CONF}/dbs/DBParam ]; then
+    ln -s ${WEBTOOLS_CONF}/dbs/DBParam $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/DBParam
+fi
+fi
+###export TARGET_PROJECT=dbs-web
