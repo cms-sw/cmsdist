@@ -1,4 +1,4 @@
-### RPM cms dbs-server DBS_1_0_9
+### RPM cms dbs-server DBS_1_1_2e
 
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Servers/JavaServer&export=DBS&tag=-r%{cvstag}&output=/dbs-server.tar.gz
@@ -15,8 +15,8 @@ cd Servers/JavaServer
 # fix context.xml file
 cat > etc/context.xml << EOF_CONTEXT
 <Context path="/servlet/DBSServlet" docBase="DBSServlet" debug="5" reloadable="true" crossContext="true">
-     <SupportedSchemaVersion schemaversion="DBS_1_0_8" />
-     <SupportedClientVersions clientversions="DBS_1_0_1, DBS_1_0_5, DBS_1_0_7, DBS_1_0_8, DBS_1_0_9"/>
+     <SupportedSchemaVersion schemaversion="DBS_1_0_9" />
+     <SupportedClientVersions clientversions="DBS_1_0_1, DBS_1_0_5, DBS_1_0_7, DBS_1_0_8, DBS_1_0_9, DBS_1_1_2"/>
      <DBSBlockConfig maxBlockSize="2000000000000" maxBlockFiles="100" />
                         
      <Resource name="jdbc/dbs"
@@ -177,22 +177,32 @@ $MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK -uroot -pcms mysql -e "GRANT ALL ON $
 # I need to copy/deploy DBS.war file into tomcat area
 cp $DBS_SERVER_ROOT/Servers/JavaServer/DBS.war $APACHE_TOMCAT_ROOT/webapps
 
-echo
-echo
-echo "#####  IMPORTANT!!!  #####"
-echo "For your convinience we created"
-echo "$DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh"
-echo "init script file which can be placed into /etc/init.d/ to allow auto-startup of DBS service"
-echo "##### END OF README  #####"
-echo
 # Fix path in dbs_init.sh file since now we know install area
 cat $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh | sed "s,rpm_install_area,$RPM_INSTALL_PREFIX,g" > \
     $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh.new
-mv  $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh.new $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh
+/bin/mv -f $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh.new $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh
+echo "+++ Fix path in dbs_init.sh"
 chmod a+x $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh
 
 # time to start up tomcat for user
 #$APACHE_TOMCAT_ROOT/bin/catalina.sh start
 
 # kill running mysql|tomcat under my account since build is over
-ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "$2""}' |/bin/sh
+echo "+++ Clean-up mysqld|tomcat processes"
+#ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "$2""}'
+#ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "$2""}' |/bin/sh
+killall -q mysqld
+killall -q tomcat
+
+echo
+echo
+echo "#####  IMPORTANT!!!  #####"
+echo "To work with DBS you need to source init.sh file located at"
+echo "$DBS_SERVER_ROOT/etc/profile.d/init.sh"
+echo
+echo "OR use init script to start|stop|status DBS services:"
+echo "$DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh"
+echo "init script file can be placed into /etc/init.d/ to allow auto-startup of DBS service"
+echo "##########################"
+echo
+
