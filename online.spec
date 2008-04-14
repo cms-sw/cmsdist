@@ -1,4 +1,4 @@
-### RPM cms online CMSSW_2_0_0_pre9_ONLINE1
+### RPM cms online CMSSW_2_0_0_ONLINE1
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: /bin/ksh
@@ -28,7 +28,6 @@ Requires: online-tool-conf python
 
 %define patchsrc2     perl -p -i -e ' s!(<classpath.*/test\\+.*>)!!;' config/BuildFile.xml
 %define patchsrc3     perl -p -i -e ' s!int depth=1,!int depth,!;' src/DQM/HcalMonitorTasks/interface/HcalTrigPrimMonitor.h
-
 %define scramcmd $SCRAMV1_ROOT/bin/scram
 
 ## IMPORT cms-scram-build

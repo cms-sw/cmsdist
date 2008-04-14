@@ -483,6 +483,7 @@ RecoTracker/RoadSearchCloudMaker
 RecoTracker/RoadSearchSeedFinder
 RecoTracker/RoadSearchTrackCandidateMaker
 RecoTracker/SiTrackerMRHTools
+RecoTracker/SpecialSeedGenerators
 RecoTracker/TkDetLayers
 RecoTracker/TkHitPairs
 RecoTracker/TkMSParametrization
