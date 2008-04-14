@@ -23,7 +23,7 @@ Requires: online-tool-conf python
 #Defines for file containing list of packages for checkout and build:
 %define buildsetrepo    CMSDIST
 %define buildsetfile    online_build_set.file
-%define buildsetvers    buildset_V2_0
+%define buildsetvers    buildset_V2_1
 
 
 %define patchsrc2     perl -p -i -e ' s!(<classpath.*/test\\+.*>)!!;' config/BuildFile.xml
