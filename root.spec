@@ -1,4 +1,4 @@
-### RPM lcg root 5.18.00a-onl200
+### RPM lcg root 5.18.00a
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
@@ -11,6 +11,7 @@ Patch3: root-5.18-00a-TBufferXML
 Patch4: root-5.18-00a-Cintex
 Patch5: root-5.18-00a-Cintex2
 Patch6: root-5.18-00a-TBufferFile
+Patch7: root-5.18-00a-cintexquickfix2
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -40,6 +41,7 @@ Requires: libtiff
 %patch4 -p0
 %patch5 -p0
 %patch6 -p0
+%patch7 -p0
 
 %build
 mkdir -p %i
