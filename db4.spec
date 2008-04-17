@@ -2,7 +2,7 @@
 Source: http://download.oracle.com/berkeley-db/db-%{realversion}.NC.tar.gz
 
 %prep
-%setup -n db-%{realversion}
+%setup -n db-%{realversion}.NC
 %build
 mkdir obj
 cd obj
