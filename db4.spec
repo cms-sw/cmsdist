@@ -1,5 +1,5 @@
 ### RPM external db4 4.4.20-CMS19
-Source: http://downloads.sleepycat.com/db-%{realversion}.tar.gz
+Source: http://download.oracle.com/berkeley-db/db-%{realversion}.NC.tar.gz
 
 %prep
 %setup -n db-%{realversion}
