@@ -1,7 +1,7 @@
-### RPM lcg SCRAMV1 V1_0_3-p1
+### RPM lcg SCRAMV1 V1_0_3-p2
 ## INITENV +PATH PATH %instroot/common
 ## INITENV +PATH PERL5LIB %{i}
-Requires: expat p5-template-toolkit p5-uri p5-xml-parser p5-libwww-perl cms-env
+Requires: p5-template-toolkit p5-uri p5-xml-parser p5-libwww-perl cms-env
 Provides: perl(SCRAM::Helper)
 Provides: perl(Utilities::AddDir) 
 Provides: perl(Utilities::Architecture) 
@@ -73,14 +73,12 @@ cp %i/bin/scramv1 %i/src/main/scram.pl
 echo $PERL5LIB > %i/etc/perl5lib.env
 
 echo "#!/bin/sh" > %i/etc/profile.d/dependencies-setup.sh
-echo "source $EXPAT_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
 echo "source $P5_TEMPLATE_TOOLKIT_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
 echo "source $P5_URI_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
 echo "source $P5_XML_PARSER_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
 echo "source $P5_LIBWWW_PERL_ROOT/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
 
 echo "#!/bin/csh" > %i/etc/profile.d/dependencies-setup.csh
-echo "source $EXPAT_ROOT/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
 echo "source $P5_TEMPLATE_TOOLKIT_ROOT/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
 echo "source $P5_URI_ROOT/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
 echo "source $P5_XML_PARSER_ROOT/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
@@ -112,14 +110,6 @@ if [ "X$dblinked" == "X" ] ; then
   echo '!DB' $RPM_INSTALL_PREFIX/share/scramdb/project.lookup > $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link
   cat $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup >> $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link
   mv $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
-fi
-# Use slc4_ia32_gcc345 scramdb for slc4_amd64_gcc345 until we support native builds:
-if [ "%{cmsplatf}" == "slc4_amd64_gcc345" ]; then 
-  ia32_db=$RPM_INSTALL_PREFIX/slc4_ia32_gcc345/lcg/SCRAMV1/scramdb/project.lookup
-  amd64_db=$RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
-  [ "`grep -c $ia32_db $amd64_db`" == "0" ] && \
-  (echo '!DB' $ia32_db >> $amd64_db )
-  unset ia32_db amd64_db
 fi
 
 %files
