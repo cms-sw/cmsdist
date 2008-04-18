@@ -1,4 +1,4 @@
-### RPM cms dbs-server DBS_1_1_2e
+### RPM cms dbs-server DBS_1_1_4
 
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Servers/JavaServer&export=DBS&tag=-r%{cvstag}&output=/dbs-server.tar.gz
@@ -12,10 +12,12 @@ ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "ki
 %build
 echo "PWD=$PWD"
 cd Servers/JavaServer
+ver="DBS_1_0_9"
 # fix context.xml file
 cat > etc/context.xml << EOF_CONTEXT
 <Context path="/servlet/DBSServlet" docBase="DBSServlet" debug="5" reloadable="true" crossContext="true">
-     <SupportedSchemaVersion schemaversion="DBS_1_0_9" />
+     <SchemaOwner schemaowner="${ver}" />
+     <SupportedSchemaVersion schemaversion="${ver}" />
      <SupportedClientVersions clientversions="DBS_1_0_1, DBS_1_0_5, DBS_1_0_7, DBS_1_0_8, DBS_1_0_9, DBS_1_1_2"/>
      <DBSBlockConfig maxBlockSize="2000000000000" maxBlockFiles="100" />
                         

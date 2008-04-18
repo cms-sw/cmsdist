@@ -1,4 +1,4 @@
-### RPM cms dbs-schema DBS_1_0_8
+### RPM cms dbs-schema DBS_1_1_0
 
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Schema/NeXtGen&export=DBS/Schema/NeXtGen&tag=-r%{cvstag}&output=/dbs-schema.tar.gz
