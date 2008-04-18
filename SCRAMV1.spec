@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V1_0_3-p2
+### RPM lcg SCRAMV1 V1_0_3-p3
 ## INITENV +PATH PATH %instroot/common
 ## INITENV +PATH PERL5LIB %{i}
 Requires: p5-template-toolkit p5-uri p5-xml-parser p5-libwww-perl cms-env
