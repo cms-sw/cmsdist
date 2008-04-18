@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V1_0_3
+### RPM lcg SCRAMV1 V1_0_2
 ## INITENV +PATH PATH %instroot/common
 ## INITENV +PATH PERL5LIB %{i}
 Requires: expat p5-template-toolkit p5-uri p5-xml-parser p5-libwww-perl cms-env
@@ -12,17 +12,6 @@ Provides: perl(ActiveDoc::UserQuery)
 Provides: perl(Doxygen::Context)
 Provides: perl(Graph::Graph)
 Provides: perl(ObjectStore)
-Provides: perl(Utilities::SVNmodule)
-Provides: perl(URL::URL_cvsfile)
-Provides: perl(BuildSystem::Block)
-Provides: perl(BuildSystem::Build)
-Provides: perl(BuildSystem::BuildClass)
-Provides: perl(BuildSystem::BuildSetup)
-Provides: perl(BuildSystem::DateStampRecord)
-Provides: perl(BuildSystem::Tool)
-Provides: perl(BuildSystem::ToolBox)
-Provides: perl(BuildSystem::ToolDoc)
-Provides: perl(Utilities::GroupChecker) 
 
 # This package is somewhat unusual compared to other packages we
 # build: we install the normally versioned product "SCRAM", but also
@@ -54,9 +43,11 @@ Provides: perl(Utilities::GroupChecker)
 %define cvsrepo  cvs://:pserver:anonymous@cmscvs.cern.ch:/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 
 Source0: %{cvsrepo}&tag=-r%{v}&module=SCRAM&output=/source.tar.gz
+Patch: %n-%realversion
 
 %prep
 %setup -n SCRAM
+%patch -p1
 %build
 %install
 tar -cf - . | tar -C %i -xvvf -
