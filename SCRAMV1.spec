@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V1_2_0-cand10
+### RPM lcg SCRAMV1 V1_2_1
 ## INITENV +PATH PATH %instroot/common
 
 # This package is somewhat unusual compared to other packages we
@@ -20,6 +20,12 @@
 Source0: %{cvsrepo}&tag=-r%{cvstag}&module=SCRAM&output=/source.tar.gz
 
 %prep
+#SCRAM version policy check
+%define SCRAM_REL_SERIES %(echo %v | grep '^V[0-9]\\+_[0-9]\\+_[0-9]\\+' | sed 's|^\\(V[0-9]\\+_[0-9]\\+\\)_.*|\\1|')
+if [ "X%{SCRAM_REL_SERIES}" == "X" ] ; then 
+  echo "You are trying to build SCRAM version %v which does not follow the SCRAM version policy. Valid SCRAM versions should be of the form V[0-9]+_[0-9]+_[0-9].*"
+  exit 1
+fi
 %setup -n SCRAM
 %build
 %install
@@ -38,15 +44,20 @@ mkdir -p %{i}/etc/profile.d
 
 %post
 %{relocateConfig}bin/scram
-# If and only if there is no default-scramv1 set the default to be the version we package in this spec.
-OLD_VERSION=""
-if [ -f $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/default-scramv1-version ]
-then
-    mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc
-    OLD_VERSION=`cat $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/default-scramv1-version`
+
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/default-scram
+# default version for SCRAM release series Vx_y_
+VERSION_STR="%v"
+if [ -f $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/default-scram/%{SCRAM_REL_SERIES} ] ; then
+  VERSION_STR="$VERSION_STR `cat $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/default-scram/%{SCRAM_REL_SERIES}`"
 fi
-NEW_VERSION=%v
-(echo $OLD_VERSION;echo $NEW_VERSION) | sort | tail -1 > $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/default-scramv1-version
+echo $VERSION_STR | tr ' ' '\n' | sort | tail -1 > $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/default-scram/%{SCRAM_REL_SERIES}
+# default version in common
+VERSION_STR="%v"
+if [ -f $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/default-scramv1-version ] ; then
+  VERSION_STR="$VERSION_STR `cat $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/default-scramv1-version`"
+fi
+echo $VERSION_STR | tr ' ' '\n' | sort | tail -1 > $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/default-scramv1-version
 
 mkdir -p $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb
 touch $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup

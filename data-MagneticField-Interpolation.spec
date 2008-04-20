@@ -1,5 +1,5 @@
-### RPM cms data-MagneticField-Interpolation 19
-%define realversion V00-02-06
-%define dataDir data/grid_85l_030919
+### RPM cms data-MagneticField-Interpolation 21
+%define realversion V00-03-02
+# %define dataDir data/grid_85l_030919
 ## IMPORT data-rpm-build
 
