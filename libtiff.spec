@@ -1,4 +1,4 @@
-### RPM external libtiff 3.8.2-CMS19
+### RPM external libtiff 3.8.2-CMS18
 
 Source: http://dl.maptools.org/dl/libtiff/tiff-%{realversion}.zip
 
