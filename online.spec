@@ -1,4 +1,4 @@
-### RPM cms online CMSSW_2_0_0_ONLINE1
+### RPM cms online CMSSW_2_0_0_ONLINE2
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: /bin/ksh
@@ -12,7 +12,7 @@ Provides: perl(Template)
 
 Requires: online-tool-conf python
 
-%define cmssw_release   %(perl -e '$_="%v"; s/_ONLINE1//; print;')
+%define cmssw_release   %(perl -e '$_="%v"; s/_ONLINE2//; print;')
 %define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
 %define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
 %define cvsdir          %cvsprojuc
@@ -23,7 +23,7 @@ Requires: online-tool-conf python
 #Defines for file containing list of packages for checkout and build:
 %define buildsetrepo    CMSDIST
 %define buildsetfile    online_build_set.file
-%define buildsetvers    buildset_V2_0
+%define buildsetvers    buildset_V2_1
 
 
 %define patchsrc2     perl -p -i -e ' s!(<classpath.*/test\\+.*>)!!;' config/BuildFile.xml
