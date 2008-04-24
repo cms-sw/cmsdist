@@ -1,5 +1,4 @@
 CondFormats/JetMETObjects
-DataFormats/BeamSpot
 DataFormats/BTauReco
 DataFormats/CaloRecHit
 DataFormats/CaloTowers
@@ -19,15 +18,12 @@ DataFormats/GeometrySurface
 DataFormats/GeometryVector
 DataFormats/GsfTrackReco
 DataFormats/HcalDetId
-DataFormats/HcalIsolatedTrack
 DataFormats/HcalRecHit
 DataFormats/HepMCCandidate
-DataFormats/HLTReco
 DataFormats/JetReco
 DataFormats/L1CaloTrigger
 DataFormats/L1GlobalCaloTrigger
 DataFormats/L1GlobalMuonTrigger
-DataFormats/L1GlobalTrigger
 DataFormats/L1Trigger
 DataFormats/Math
 DataFormats/METReco
@@ -39,6 +35,7 @@ DataFormats/Provenance
 DataFormats/RecoCandidate
 DataFormats/SiPixelCluster
 DataFormats/SiPixelDetId
+DataFormats/SiPixelDigi
 DataFormats/SiStripCluster
 DataFormats/SiStripCommon
 DataFormats/SiStripDetId
@@ -58,7 +55,6 @@ FWCore/MessageLogger
 FWCore/PluginManager
 FWCore/RootAutoLibraryLoader
 FWCore/Utilities
-PhysicsTools/Utilities
 SimDataFormats/EncodedEventId
 SimDataFormats/HepMCProduct
 SimDataFormats/Track

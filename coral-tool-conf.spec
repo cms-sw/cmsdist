@@ -1,4 +1,4 @@
-### RPM cms coral-tool-conf 1.0-onl200
+### RPM cms coral-tool-conf 1.0-200onl2
 # with cmsBuild, change the above version only when a new
 # tool is added
 Requires: gmake
