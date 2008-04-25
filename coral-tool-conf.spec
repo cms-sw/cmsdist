@@ -1,4 +1,4 @@
-### RPM cms coral-tool-conf 1.0-onl200
+### RPM cms coral-tool-conf 1.0-204onl1
 # with cmsBuild, change the above version only when a new
 # tool is added
 Requires: gmake
@@ -19,6 +19,8 @@ Requires: frontier_client
 Requires: sqlite
 Requires: p5-dbd-oracle
 Requires: seal
+Requires: libtiff
+Requires: oracle-env
 
 
 %if "%{?online_release:set}" != "set"
@@ -33,9 +35,7 @@ Requires: qt
 Requires: mysql
 Requires: libpng
 Requires: oracle
-Requires: oracle-env
 Requires: libungif
-Requires: libtiff
 Requires: cppunit
 Requires: xerces-c
 Requires: systemtools
