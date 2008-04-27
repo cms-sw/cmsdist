@@ -12,13 +12,13 @@ ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "ki
 %build
 echo "PWD=$PWD"
 cd Servers/JavaServer
-ver="DBS_1_0_9"
+ver="DBS_1_0_8"
 # fix context.xml file
 cat > etc/context.xml << EOF_CONTEXT
 <Context path="/servlet/DBSServlet" docBase="DBSServlet" debug="5" reloadable="true" crossContext="true">
      <SchemaOwner schemaowner="${ver}" />
      <SupportedSchemaVersion schemaversion="${ver}" />
-     <SupportedClientVersions clientversions="DBS_1_0_1, DBS_1_0_5, DBS_1_0_7, DBS_1_0_8, DBS_1_0_9, DBS_1_1_2"/>
+     <SupportedClientVersions clientversions="DBS_1_0_1, DBS_1_0_5, DBS_1_0_7, DBS_1_0_8"/>
      <DBSBlockConfig maxBlockSize="2000000000000" maxBlockFiles="100" />
                         
      <Resource name="jdbc/dbs"
