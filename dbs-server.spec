@@ -73,7 +73,7 @@ function dbs_start()
 {
     echo "+++ Start up CMS MySQL daemon on port \${MYSQL_PORT} ..."
     \$MYSQL_ROOT/bin/mysqld_safe --datadir=\$MYSQL_PATH --port=\$MYSQL_PORT \
-    --socket=\$MYSQL_SOCK --log-error=\$MYSQL_ERR --pid-file=\$MYSQL_PID &
+    --socket=\$MYSQL_SOCK --log-error=\$MYSQL_ERR --pid-file=\$MYSQL_PID --max_allowed_packet=32M &
     echo "+++ Start tomcat server"
     \$APACHE_TOMCAT_ROOT/bin/catalina.sh start
     sleep 2
