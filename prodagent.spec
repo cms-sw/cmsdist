@@ -5,7 +5,7 @@
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=PRODAGENT&export=PRODAGENT&&tag=-r%{cvstag}&output=/PRODAGENT.tar.gz
 #Requires: webtools python mysql py2-mysqldb dbs-client boss prodcommon openssl cherrypy PHEDEX-micro
-Requires: webtools dbs-client boss prodcommon py2-pyxml
+Requires: webtools dbs-client boss prodcommon py2-pyxml PHEDEX-micro
 
 %prep
 %setup -n PRODAGENT
