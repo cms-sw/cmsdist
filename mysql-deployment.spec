@@ -6,7 +6,7 @@ Requires: mysql
 Provides: mysql-deployment.sh
 
 %prep
-cat << \EOF > ./mysql-deployment.sh
+cat << \EOF > $RPM_BUILD_ROOT/mysql-deployment.sh
 #!/bin/bash
 set -e
 
@@ -55,7 +55,7 @@ else
 fi
 
 EOF
-chmod a+x ./mysql-deployment.sh
+chmod a+x $RPM_BUILD_ROOT/mysql-deployment.sh
 mkdir -p %{i}/bin
 
 %build
