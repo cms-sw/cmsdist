@@ -1,6 +1,6 @@
-### RPM external mysql-deployment 0.0.2
+### RPM external mysql-deployment 0.0.3
 
-Source: ./mysql-deployment.sh
+Source: $RPM_BUILD_ROOT/mysql-deployment.sh
 Requires: mysql
 # Let's fake the fact that we have perl (DBI) so that rpm does not complain.
 Provides: mysql-deployment.sh
@@ -61,10 +61,10 @@ mkdir -p %{i}/bin
 %build
 
 %install
-cp ./mysql-deployment.sh %{i}/bin
-cp ./mysql-deployment.sh $RPM_SOURCE_DIR
+cp $RPM_BUILD_ROOT/mysql-deployment.sh %{i}/bin
+cp $RPM_BUILD_ROOT/mysql-deployment.sh $RPM_SOURCE_DIR
 
 %post
 %{relocateConfig}/bin/mysql-deployment.sh
-rm -f ./mysql-deployment.sh
+rm -f $RPM_BUILD_ROOT/mysql-deployment.sh
 
