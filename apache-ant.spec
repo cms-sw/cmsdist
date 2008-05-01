@@ -1,4 +1,4 @@
-### RPM external apache-ant 1.6.5
+### RPM external apache-ant 1.7.0
 ## INITENV SET ANT_HOME %{i}
 Requires: java-jdk python
 Source: http://apache.ziply.com/ant/binaries/%{n}-%{v}-bin.tar.gz
