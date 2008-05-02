@@ -1,6 +1,6 @@
 ### RPM cms dbs-server DBS_1_0_8
 
-%define cvstag %v
+%define cvstag %realversion
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Servers/JavaServer&export=DBS&tag=-r%{cvstag}&output=/dbs-server.tar.gz
 Requires: apache-ant mysql mysql-deployment oracle apache-tomcat java-jdk dbs-schema
 
@@ -54,7 +54,7 @@ cat > %{i}/Servers/JavaServer/bin/dbs_init.sh << DBS_INIT_EOF
 #!/bin/sh
 export MYAREA=rpm_install_area
 export SCRAM_ARCH=slc4_ia32_gcc345
-source \$MYAREA/\$SCRAM_ARCH/external/apt/0.5.15lorg3.2-CMS3/etc/profile.d/init.sh 
+source \$MYAREA/\$SCRAM_ARCH/external/apt/\$APT_VERSION/etc/profile.d/init.sh 
 source \$MYAREA/%{pkgrel}/etc/profile.d/init.sh
 # set DBS DBs
 MYSQL_PORT=3316
@@ -170,10 +170,10 @@ MYSQL_ERR=$MYSQL_PATH/error.log
 # grant permissions to CMS MySQL DBS account
 echo "+++ Grand permission to dbs account, DBS DB ${DBS_SCHEMA_VERSION} ..."
 #echo "$MYSQL_ROOT/bin/mysql -udbs -pcmsdbs --socket=$MYSQL_SOCK"
-echo "$DBS_SCHEMA_ROOT/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql"
+echo "$DBS_SCHEMA_ROOT/lib/DBS-NeXtGen-MySQL_DEPLOYABLE.sql"
 # DBS uses trigger which requires to have SUPER priveleges, so we'll create DB using root
 # and delegate this to dbs account.
-$MYSQL_ROOT/bin/mysql -uroot -pcms --socket=$MYSQL_SOCK < $DBS_SCHEMA_ROOT/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql
+$MYSQL_ROOT/bin/mysql -uroot -pcms --socket=$MYSQL_SOCK < $DBS_SCHEMA_ROOT/lib/DBS-NeXtGen-MySQL_DEPLOYABLE.sql
 $MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK -uroot -pcms mysql -e "GRANT ALL ON ${DBS_SCHEMA_VERSION}.* TO dbs@localhost;"
 
 # I need to copy/deploy DBS.war file into tomcat area
