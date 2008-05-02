@@ -14,7 +14,7 @@ Requires: mysql oracle
 %install
 mkdir -p %{i}/etc/profile.d
 mkdir -p %{i}/lib
-cp -r Schema/NeXtGen/* %{i}/Schema/
+cp -r Schema/NeXtGen/* %{i}/lib/
 
 (echo "#!/bin/sh"; \
  echo "source $ORACLE_ROOT/etc/profile.d/init.sh"; \
