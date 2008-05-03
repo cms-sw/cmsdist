@@ -1,6 +1,9 @@
 ### RPM cms dbs-server DBS_1_0_8
 
 %define cvstag %realversion
+# define version of DBS to use, it's schema version
+%define dbs_version DBS_1_0_8
+
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Servers/JavaServer&export=DBS&tag=-r%{cvstag}&output=/dbs-server.tar.gz
 Requires: apache-ant mysql mysql-deployment oracle apache-tomcat java-jdk dbs-schema
 
@@ -12,12 +15,11 @@ ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "ki
 %build
 echo "PWD=$PWD"
 cd Servers/JavaServer
-ver="DBS_1_0_8"
 # fix context.xml file
 cat > etc/context.xml << EOF_CONTEXT
 <Context path="/servlet/DBSServlet" docBase="DBSServlet" debug="5" reloadable="true" crossContext="true">
-     <SchemaOwner schemaowner="${ver}" />
-     <SupportedSchemaVersion schemaversion="${ver}" />
+     <SchemaOwner schemaowner="%{dbs_version}" />
+     <SupportedSchemaVersion schemaversion="%{dbs_version}" />
      <SupportedClientVersions clientversions="DBS_1_0_1, DBS_1_0_5, DBS_1_0_7, DBS_1_0_8"/>
      <DBSBlockConfig maxBlockSize="2000000000000" maxBlockFiles="100" />
                         
@@ -30,7 +32,7 @@ cat > etc/context.xml << EOF_CONTEXT
               username="dbs"
               password="cmsdbs"
               driverClassName="org.gjt.mm.mysql.Driver"
-              url="jdbc:mysql://localhost:3316/%{cvstag}?autoReconnect=true"/>
+              url="jdbc:mysql://localhost:3316/%{dbs_version}?autoReconnect=true"/>
 </Context>
 EOF_CONTEXT
 
@@ -168,13 +170,13 @@ MYSQL_SOCK=$MYSQL_PATH/mysql.sock
 MYSQL_PID=$MYSQL_PATH/mysqld.pid
 MYSQL_ERR=$MYSQL_PATH/error.log
 # grant permissions to CMS MySQL DBS account
-echo "+++ Grand permission to dbs account, DBS schema ${ver} ..."
+echo "+++ Grand permission to dbs account, DBS schema %{dbs_version} ..."
 #echo "$MYSQL_ROOT/bin/mysql -udbs -pcmsdbs --socket=$MYSQL_SOCK"
 echo "$DBS_SCHEMA_ROOT/lib/DBS-NeXtGen-MySQL_DEPLOYABLE.sql"
 # DBS uses trigger which requires to have SUPER priveleges, so we'll create DB using root
 # and delegate this to dbs account.
-$MYSQL_ROOT/bin/mysql -uroot -pcms --socket=$MYSQL_SOCK < $DBS_SCHEMA_ROOT/lib/DBS-NeXtGen-MySQL_DEPLOYABLE.sql
-$MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK -uroot -pcms mysql -e "GRANT ALL ON ${ver}.* TO dbs@localhost;"
+$MYSQL_ROOT/bin/mysql -uroot -pcms --socket=$MYSQL_SOCK < $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql
+$MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK -uroot -pcms mysql -e "GRANT ALL ON %{dbs_version}.* TO dbs@localhost;"
 
 # I need to copy/deploy DBS.war file into tomcat area
 cp $DBS_SERVER_ROOT/Servers/JavaServer/DBS.war $APACHE_TOMCAT_ROOT/webapps
