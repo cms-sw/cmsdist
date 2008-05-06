@@ -1,4 +1,4 @@
-### RPM external pythia8 105
+### RPM external pythia8 107
 Requires: hepmc
 Requires: clhep
 Requires: pythia6
@@ -12,13 +12,13 @@ export HEPMCLOCATION=${HEPMC_ROOT}
 export HEPMCVERSION=${HEPMC_VERSION} 
 export CLHEPLOCATION=${CLHEP_ROOT} 
 export CLHEPVERSION=${CLHEP_VERSION}
-./configure
+./configure --enable-shared --with-hepmc=$HEPMC_BASE
 
 %build
 make 
 
 %install
-tar -c lib include | tar -x -C %i
+tar -c lib include xmldoc | tar -x -C %i
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
@@ -30,6 +30,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
  <Environment name=LIBDIR default="$PYTHIA8_BASE/lib"></Environment>
  <Environment name=INCLUDE default="$PYTHIA8_BASE/include"></Environment>
 </Client>
+<runtime name=PYTHIA8DATA value="$PYTHIA8BASE/xmldoc">
 <lib name=pythia8>
 <use name=cxxcompiler>
 <use name=hepmc>
