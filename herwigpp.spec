@@ -1,4 +1,4 @@
-### RPM external herwigpp 2.1.2
+### RPM external herwigpp 2.2.0
 Source: http://projects.hepforge.org/herwig/files/Herwig++-%{realversion}.tar.gz
 Requires: thepeg
 Requires: gsl
@@ -10,7 +10,7 @@ Requires: hepmc
 ./configure --with-hepmc=$HEPMC_ROOT --with-gsl=$GSL_ROOT --with-thepeg=$THEPEG_ROOT --prefix=%i
 
 %build
-make
+make %makeprocesses
 
 %install
 #tar -c -h lib include | tar -x -C %i
