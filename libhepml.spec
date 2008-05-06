@@ -7,6 +7,7 @@ Source: http://mcdb.cern.ch/distribution/api/%{n}-%{realversion}.tar.gz
 %build
 cd src
 make
+mv *.so ../lib/.
 
 %install
 tar -c lib interface | tar -x -C %i
