@@ -12,7 +12,7 @@ export HEPMCLOCATION=${HEPMC_ROOT}
 export HEPMCVERSION=${HEPMC_VERSION} 
 export CLHEPLOCATION=${CLHEP_ROOT} 
 export CLHEPVERSION=${CLHEP_VERSION}
-./configure --enable_shared --with-hepmc=$HEPMC_BASE
+./configure --enable-shared --with-hepmc=$HEPMC_BASE
 
 %build
 make 

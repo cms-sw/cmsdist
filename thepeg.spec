@@ -27,10 +27,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
  <Environment name=LIBDIR default="$THEPEG_BASE/lib"></Environment>
  <Environment name=INCLUDE default="$THEPEG_BASE/include"></Environment>
 </Client>
-<lib name=tauola>
-<lib name=pretauola>
-<use name=f77compiler>
-<use name=pythia6>
+<lib name=thepeg>
+<use name=lhapdf>
+<use name=gsl>
 </Tool>
 EOF_TOOLFILE
 
