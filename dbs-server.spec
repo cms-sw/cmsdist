@@ -173,7 +173,7 @@ MYSQL_ERR=$MYSQL_PATH/error.log
 # grant permissions to CMS MySQL DBS account
 echo "+++ Grand permission to dbs account, DBS schema %{dbs_version} ..."
 #echo "$MYSQL_ROOT/bin/mysql -udbs -pcmsdbs --socket=$MYSQL_SOCK"
-echo "$DBS_SCHEMA_ROOT/lib/DBS-NeXtGen-MySQL_DEPLOYABLE.sql"
+echo "$DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql"
 # DBS uses trigger which requires to have SUPER priveleges, so we'll create DB using root
 # and delegate this to dbs account.
 $MYSQL_ROOT/bin/mysql -uroot -pcms --socket=$MYSQL_SOCK < $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql
