@@ -1,13 +1,13 @@
-### RPM external thepeg 1.1.1
-Source: http://www.thep.lu.se/ThePEG/ThePEG++-%{realversion}.tgz
+### RPM external thepeg 1.2.0
+Source: http://www.thep.lu.se/~leif/ThePEG/ThePEG-%{realversion}.tgz
 Requires: lhapdf
-
+Requires: gsl
 
 %prep
-%setup -q -n ThePEG++-%{realversion}/ThePEG
+%setup -q -n ThePEG-%{realversion}
 perl -p -i -e 's|-lLHAPDF|-llhapdf -llhapdf_dummy|' configure
 perl -p -i -e 's|libLHAPDF|liblhapdf|' configure
-./configure --with-LHAPDF=$LHAPDF_ROOT/lib --without-javagui --prefix=%i
+./configure --with-LHAPDF=$LHAPDF_ROOT/lib --without-javagui --prefix=%i --with-gsl=$GSL_ROOT
 
 %build
 make
@@ -21,16 +21,15 @@ rm %i/share/ThePEG/Doc/fixinterfaces.pl
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=tauola version=%v>
+<Tool name=thepeg version=%v>
 <Client>
  <Environment name=THEPEG_BASE default="%i"></Environment>
  <Environment name=LIBDIR default="$THEPEG_BASE/lib"></Environment>
  <Environment name=INCLUDE default="$THEPEG_BASE/include"></Environment>
 </Client>
-<lib name=tauola>
-<lib name=pretauola>
-<use name=f77compiler>
-<use name=pythia6>
+<lib name=thepeg>
+<use name=lhapdf>
+<use name=gsl>
 </Tool>
 EOF_TOOLFILE
 

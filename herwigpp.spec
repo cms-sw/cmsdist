@@ -1,4 +1,4 @@
-### RPM external herwigpp 2.1.2
+### RPM external herwigpp 2.2.0
 Source: http://projects.hepforge.org/herwig/files/Herwig++-%{realversion}.tar.gz
 Requires: thepeg
 Requires: gsl
@@ -7,14 +7,17 @@ Requires: hepmc
 
 %prep
 %setup -q -n Herwig++-%{realversion}
-./configure --with-hepmc=$HEPMC_ROOT --with-gsl=$GSL_ROOT --with-thepeg=$THEPEG_ROOT --prefix=%i
+./configure --with-hepmc=$HEPMC_ROOT --with-gsl=$GSL_ROOT --with-thepeg=$THEPEG_ROOT --prefix=%i CXXFLAGS="-O2 -fuse-cxa-atexit"
 
 %build
-make
+make %makeprocesses 
+
 
 %install
 #tar -c -h lib include | tar -x -C %i
 make install
+rm %i/share/Herwig++/Doc/fixinterfaces.pl
+
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
