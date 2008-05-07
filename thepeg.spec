@@ -21,7 +21,7 @@ rm %i/share/ThePEG/Doc/fixinterfaces.pl
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=tauola version=%v>
+<Tool name=thepeg version=%v>
 <Client>
  <Environment name=THEPEG_BASE default="%i"></Environment>
  <Environment name=LIBDIR default="$THEPEG_BASE/lib"></Environment>
