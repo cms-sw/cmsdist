@@ -332,6 +332,7 @@ Iguana/Framework
 Iguana/Models
 Iguana/Studio
 Iguana/Utilities
+IOMC/RandomEngine
 IOPool/AdaptorConfig
 IOPool/Common
 IOPool/Input
@@ -517,6 +518,7 @@ SimDataFormats/CrossingFrame
 SimDataFormats/EcalTestBeam
 SimDataFormats/EncodedEventId
 SimDataFormats/HepMCProduct
+SimDataFormats/RandomEngine
 SimDataFormats/Track
 SimDataFormats/TrackerDigiSimLink
 SimDataFormats/TrackingAnalysis
