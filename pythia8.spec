@@ -32,7 +32,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
  <Environment name=LIBDIR default="$PYTHIA8_BASE/lib"></Environment>
  <Environment name=INCLUDE default="$PYTHIA8_BASE/include"></Environment>
 </Client>
-<runtime name=PYTHIA8DATA value="$PYTHIA8BASE/xmldoc">
+<runtime name=PYTHIA8DATA value="$PYTHIA8_BASE/xmldoc">
 <lib name=pythia8>
 <lib name=hepmcinterface>
 <use name=cxxcompiler>
