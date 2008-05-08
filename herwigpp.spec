@@ -28,12 +28,10 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
  <Environment name=LIBDIR default="$HERWIGPP_BASE/lib"></Environment>
  <Environment name=INCLUDE default="$HERWIGPP_BASE/include"></Environment>
 </Client>
-<lib name=tauola>
-<lib name=pretauola>
-<use name=f77compiler>
-<use name=pythia6>
+<Runtime name=HERWIGPATH value="$HERWIGPP_BASE/share/Herwig++">
 </Tool>
 EOF_TOOLFILE
 
 %post
 %{relocateConfig}etc/scram.d/%n
+perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find $RPM_INSTALL_PREFIX/ -name HerwigDefaults.rpo -type f)

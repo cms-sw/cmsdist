@@ -21,7 +21,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
  <Environment name=LIBDIR default="$LIBHEPML_BASE/lib"></Environment>
  <Environment name=INCLUDE default="$LIBHEPML_BASE/interface"></Environment>
 </Client>
-<lib name=libhepml>
+<lib name=hepml>
 </Tool>
 EOF_TOOLFILE
 

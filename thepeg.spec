@@ -24,10 +24,10 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <Tool name=thepeg version=%v>
 <Client>
  <Environment name=THEPEG_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$THEPEG_BASE/lib"></Environment>
+ <Environment name=LIBDIR default="$THEPEG_BASE/lib/ThePEG"></Environment>
  <Environment name=INCLUDE default="$THEPEG_BASE/include"></Environment>
 </Client>
-<lib name=thepeg>
+<lib name=ThePEG>
 <use name=lhapdf>
 <use name=gsl>
 </Tool>

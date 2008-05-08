@@ -2,6 +2,8 @@
 Requires: hepmc
 Requires: clhep
 Requires: pythia6
+Requires: lhapdf
+
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 %prep
 %setup -q -n %{n}/%{realversion}
@@ -32,10 +34,12 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 </Client>
 <runtime name=PYTHIA8DATA value="$PYTHIA8BASE/xmldoc">
 <lib name=pythia8>
+<lib name=hepmcinterface>
 <use name=cxxcompiler>
 <use name=hepmc>
 <use name=pythia6>
 <use name=clhep>
+<use name=lhapdf>
 </Tool>
 EOF_TOOLFILE
 
