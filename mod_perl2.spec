@@ -1,40 +1,52 @@
-### RPM external mod_python 3.2.10
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
+### RPM external mod_perl2 2.0.3
+## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 
-# See http://www.modpython.org/live/current/doc-html/installation.html
+%define perlversion %(perl -e 'printf "%%vd", $^V')
+%define perlarch %(perl -MConfig -e 'print $Config{archname}')
 
-Requires:  apache2 python
-Source0: http://mirror.switch.ch/mirror/apache/dist/httpd/modpython/mod_python-%realversion.tgz
+# See http://perl.apache.org/docs/2.0/user/install/install.html
+
+Source0: http://perl.apache.org/dist/mod_perl-%realversion.tar.gz
+
+# Requires apache2
+# Requires p5-cgi -- system SLC4 system CGI.pm is broken for mod_perl2
+Requires: apache2 p5-cgi
+
+# Doesn't actually provide these, but supposedly not needed for
+# non-developers of mod_perl
+Provides: perl(Apache2::FunctionTable)
+Provides: perl(Apache2::StructureTable)
+Provides: perl(Apache::TestConfigParse)
+Provides: perl(Apache::TestConfigPerl)
+Provides: perl(BSD::Resource)
+Provides: perl(Data::Flow)
+Provides: perl(Module::Build)
+ 
 
 %prep
-%setup -n mod_python-%realversion
-
-# note: --prefix and --exec-prefix mean nothing to this package...
-./configure --with-python=$PYTHON_ROOT/bin/python --with-apxs=$APACHE2_ROOT/bin/apxs --with-max-locks=32
+%setup -n mod_perl-%realversion
 
 %build
+perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion MP_APXS=$APACHE2_ROOT/bin/apxs MP_AP_DESTDIR=%i
 make
 
 %install
-# note:  need undocumented DESTDIR to move the install area
-DESTDIR=%i make install
+make install
 
 mkdir -p %i/conf
-cat << \EOF > %i/conf/mod_python.conf
-LoadModule python_module %i/modules/mod_python.so
+cat << \EOF > %i/conf/mod_perl2.conf
+LoadModule perl_module %i/modules/mod_perl.so
 # Additional configuration bits go here.
 EOF
 
 # By default mod_perl.so and include/ directory is moved to the
 # $APACHE2_ROOT/modules and $APACHE2_ROOT/include, respectively, which
 # is bad for us handling multiple versions in a rpm. With
-# --with-apxs set this changes to %i/$APACHE2_ROOT, which will be a
+# MP_AP_DESTDIR=%i this changes to %i/$APACHE2_ROOT, which will be a
 # long directory path hardcoded at build time.  Therefore, we have to
-# move these resources back to a sane location and clean up.  The same
-# goes for the python libraries.
+# move these resources back to a sane location and clean up.
 mv %i/$APACHE2_ROOT/* %i
-mv %i/$PYTHON_ROOT/* %i
-rm -r %i/build
+rm -r %i/$(echo $APACHE2_ROOT | sed 's|^/||' | cut -d/ -f1)
 
 # Generates the dependencies-setup.{sh,csh} files so that
 # sourcing init.{sh,csh} picks up also the environment of 
@@ -63,6 +75,6 @@ perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependen
 
 
 %post
-%{relocateConfig}conf/mod_python.conf
+%{relocateConfig}conf/mod_perl2.conf
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
