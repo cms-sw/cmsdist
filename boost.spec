@@ -3,7 +3,7 @@
 Source: http://internap.dl.sourceforge.net/sourceforge/%{n}/%{n}%{boostver}.tar.gz
 
 Requires: boost-build python bz2lib
-%if "%{?online_release:set}" != "set"
+%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 Requires: zlib
 %endif
 
@@ -23,7 +23,7 @@ PR="PYTHON_ROOT=$PYTHON_ROOT"
 BZ2LIBR="BZIP2_LIBPATH=$BZ2LIB_ROOT/lib"
 BZ2LIBI="BZIP2_INCLUDE=$BZ2LIB_ROOT/include"
 
-%if "%{?online_release:set}" != "set"
+%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 ZLIBR="ZLIB_LIBPATH=$ZLIB_ROOT/lib"
 ZLIBI="ZLIB_INCLUDE=$ZLIB_ROOT/include"
 
@@ -36,7 +36,9 @@ bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$BZ2LIBI -sTOOLS=gcc
 %endif
 
 %install
-linkgccver=%(echo %gccver | cut -d. -f1,2 | sed -e 's/\.//')
+
+linkgccver=%(echo %gccver | tr -d . | perl -pe 's/^(\d\d).*/$1/')
+
 boost_abi=$(echo %boostver | sed 's/^_//; s/_0$//')
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
 #no debug libs...
