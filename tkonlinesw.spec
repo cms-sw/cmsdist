@@ -8,7 +8,7 @@ Patch1: tkonlinesw-fPIC
 # Note from Kristian: 
 # xdaq dependency is here only to re-use its makefiles. 
 
-%if "%{?online_release:set}" != "set"
+%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 Requires: xerces-c
 Requires: oracle
 Requires: xdaq

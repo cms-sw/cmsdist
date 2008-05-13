@@ -5,7 +5,7 @@
 
 Requires: expat bz2lib db4 gdbm
 
-%if "%{?online_release:set}" != "set"
+%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 Requires: zlib openssl
 %endif
 
@@ -51,7 +51,7 @@ perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" Lib/cgi.py
 # whether we like to pick up system libraries or want total control.
 mkdir -p %i/include %i/lib
 
-%if "%{?online_release:set}" != "set"
+%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 %define extradirs $ZLIB_ROOT $OPENSSL_ROOT 
 %else
 %define extradirs %{nil}

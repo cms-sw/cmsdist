@@ -5,7 +5,7 @@
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn DBD-Oracle
 
-%if "%{?online_release:set}" != "set"
+%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 Requires: p5-dbi oracle
 %define oraclesdksrc none
 %else
@@ -21,7 +21,7 @@ Provides: perl(Tk) perl(Tk::Balloon) perl(Tk::ErrorDialog) perl(Tk::FileSelect) 
 %prep
 %setup -T -b 0 -n %{downloadn}-%{realversion}
 
-%if "%{?online_release:set}" == "set"
+%if "%cmsplatf" == "slc4onl_ia32_gcc346"
 rm -rf instantclient_*
 yes | unzip %_sourcedir/*-sdk-*linux32*.zip
 %endif
@@ -36,7 +36,7 @@ EOF
 perl -p -i -e 's/NMEDIT = nmedit/NMEDIT = true/' Makefile.PL
 %endif
 
-%if "%{?online_release:set}" != "set"
+%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion -l -m $ORACLE_HOME/demo/demo.mk
 %else
 export ORACLE_HOME="/opt/xdaq"
