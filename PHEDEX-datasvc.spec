@@ -1,5 +1,5 @@
 ### RPM cms PHEDEX-datasvc DATASVC_1_0_0
-#
+##
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define nversion %(echo %v | sed 's|DATASVC_||' | sed 's|_|.|g')
