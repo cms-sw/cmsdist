@@ -2,7 +2,7 @@
 Source: http://www.webdav.org/%n/%n-%realversion.tar.gz
 
 Requires: expat
-%if "%{?online_release:set}" != "set"
+%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 Requires: openssl zlib
 %endif
 

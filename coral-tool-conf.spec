@@ -23,7 +23,7 @@ Requires: libtiff
 Requires: oracle-env
 
 
-%if "%{?online_release:set}" != "set"
+%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 
 Requires: gcc-toolfile
 Requires: gcc
@@ -41,7 +41,7 @@ Requires: xerces-c
 Requires: systemtools
 %endif
 
-%if "%{?online_release:set}" == "set"
+%if "%cmsplatf" == "slc4onl_ia32_gcc346"
 Requires: onlinesystemtools
 %define onlinesystemtoolsroot ${ONLINESYSTEMTOOLS_ROOT}
 %endif

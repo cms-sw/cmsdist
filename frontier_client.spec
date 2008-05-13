@@ -4,11 +4,11 @@ Source: http://edge.fnal.gov:8888/frontier/%{n}__%{realversion}__src.tar.gz
 
 Requires: expat
 
-%if "%{?online_release:set}" != "set"
+%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 Requires: zlib openssl
 %endif
 
-%if "%{?online_release:set}" == "set"
+%if "%cmsplatf" == "slc4onl_ia32_gcc346"
 Requires: onlinesystemtools
 %endif
 
@@ -16,7 +16,7 @@ Requires: onlinesystemtools
 %setup -n %{n}__%{realversion}__src
 %build
 
-%if "%{?online_release:set}" != "set"
+%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 make EXPAT_DIR=$EXPAT_ROOT \
      COMPILER_TAG=gcc_$GCC_VERSION \
      ZLIB_DIR=$ZLIB_ROOT \
