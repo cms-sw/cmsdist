@@ -1,4 +1,4 @@
-### RPM cms fwlite-tool-conf 3.0
+### RPM cms fwlite-tool-conf 3.1
 # with cmsBuild, change the above version only when a new
 # tool is added
 ## INITENV SET CMSSW_TOOL_CONF_ROOT $FWLITE_TOOL_CONF_ROOT
@@ -23,6 +23,7 @@ Requires: systemtools
 Requires: hepmc
 Requires: elementtree
 Requires: sigcpp
+Requires: seal
 
 %define skipreqtools jcompiler
 
