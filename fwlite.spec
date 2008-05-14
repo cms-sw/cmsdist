@@ -1,31 +1,32 @@
-### RPM cms fwlite CMSSW_1_6_8_FWLITE-root51800
+### RPM cms fwlite CMSSW_2_0_6_FWLITE
 ## IMPORT configurations 
 Provides: /bin/zsh
-Requires: fwlite-tool-conf 
-%define cmssw_release 	%(perl -e '$_="%v"; s/_FWLITE-root51800//; print;')
-%define toolconf        ${FWLITE_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
+Provides: /bin/sed
+Provides: perl(Date::Format)
+Provides: perl(Term::ReadKey)
+Provides: perl(full)
+Requires: fwlite-tool-conf python
+
+%define cmssw_release   %(perl -e '$_="%v"; s/_FWLITE//; print;')
+%define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
+%define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
+%define cvsdir          %cvsprojuc
+%define cvsserver       %cvsprojlc
+%define buildtarget     release-build
+%define useCmsTC        1
+%define saveDeps        yes
 
 #Defines for file containing list of packages for checkout and build:
-%define buildsetrepo 	CMSDIST
-%define buildsetfile 	fwlite_build_set.file
-%define buildsetvers	buildset_V3_3
-
-# Define list of external tools to be selected in scram configuration.
-# Any changes must be propagated in fwlite-tool-conf.spec:
-%define externals "cxxcompiler ccompiler clhep sockets boost boost_filesystem boost_python boost_regex boost_program_options root rootcintex rootrflx rootcore rootmath gccxml python elementtree sigcpp hepmc gsl bz2lib pcre zlib dcap libjpg openssl expat"
-
-%define buildtarget     release-build
+%define buildsetrepo    CMSDIST
+%define buildsetfile    fwlite_build_set.file
+%define buildsetvers    buildset_V3_7
 
 # Skip library load and symbol checks to avoid dependency on seal:
-%define nolibchecks	on
+%define nolibchecks     on
 
 # Switch off building tests:
-%define patchsrc3 perl -p -i -e ' s!(<ClassPath.*test\\+test>)!#$1!;' config/BuildFile
+%define patchsrc3 perl -p -i -e ' s|(<classpath.*test\\+test.*>)||;' config/BuildFile.xml*
 
-# Additional source patches named patchsrc4, patchsrc5 can be defined here.
-%define patchsrc4 perl -p -i -e '/<lib name=Tree>/ && print "<lib name=Net>\n<lib name=RIO>\n";' SCRAMToolBox/General/ROOTCore
-
-%define patchsrc5 perl -p -i -e 's/slc4_ia32_gcc345/%cmsplatf/' SCRAMToolBox/System/Sockets SCRAMToolBox/System/Sockets.xml 
 
 ## IMPORT cms-scram-build
 ## IMPORT partial-build
