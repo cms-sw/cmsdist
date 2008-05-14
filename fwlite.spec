@@ -19,7 +19,7 @@ Requires: fwlite-tool-conf python
 #Defines for file containing list of packages for checkout and build:
 %define buildsetrepo    CMSDIST
 %define buildsetfile    fwlite_build_set.file
-%define buildsetvers    buildset_V3_6
+%define buildsetvers    buildset_V3_7
 
 # Skip library load and symbol checks to avoid dependency on seal:
 %define nolibchecks     on
