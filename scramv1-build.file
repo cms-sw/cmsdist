@@ -20,7 +20,7 @@
 # FIXME: post-install stuff for modules etc?
 
 Requires: SCRAMV1
-
+%define initenv		%initenv_direct
 %define scram_xml   .xml
 %if "%{?scramcmd:set}" != "set"
 %define scramcmd    scramv1
@@ -126,6 +126,7 @@ mkdir -p $(dirname %i)
 
 %build
 pwd
+
 # Remove cmt stuff that brings unwanted dependencies: 
 rm -rf `find %{i}/src -type d -name cmt`
 echo `%scramcmd arch`
@@ -159,12 +160,11 @@ echo "executing %preBuildCommand"
 %define buildtarget %{nil} 
 %endif
 
-unset GCCXML_ROOT
 %scramcmd b -r echo_CXX </dev/null
 %if "%{?prebuildtarget:set}" == "set"
 %scramcmd b --verbose -f %{prebuildtarget} </dev/null
 %endif
-%scramcmd b --verbose -f %{compileOptions} %{makeprocesses}  %{buildtarget} </dev/null
+%scramcmd b --verbose -f %{compileOptions} %{makeprocesses}  %{buildtarget} </dev/null || { %scramcmd b outputlog && false; }
 %if "%{?additionalBuildTarget0:set}" == "set"
 %scramcmd b --verbose -f %{additionalBuildTarget0} < /dev/null
 %endif
