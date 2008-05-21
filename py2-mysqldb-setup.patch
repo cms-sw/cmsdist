@@ -1,0 +1,13 @@
+--- setup.py	2007-02-25 04:37:12.000000000 +0100
++++ setup.py.new	2007-06-27 17:51:35.000000000 +0200
+@@ -2,8 +2,8 @@
+ 
+ import os
+ import sys
+-import ez_setup; ez_setup.use_setuptools()
+-from setuptools import setup, Extension
++from distutils.core import setup, Extension
++is_setuptools = False
+ 
+ if sys.version_info < (2, 3):
+     raise Error, "Python-2.3 or newer is required"
