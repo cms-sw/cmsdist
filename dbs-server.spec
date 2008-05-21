@@ -1,4 +1,4 @@
-### RPM cms dbs-server DBS_1_5_1
+### RPM cms dbs-server DBS_1_1_5
 
 %define cvstag %realversion
 # define version of DBS to use, it's schema version
