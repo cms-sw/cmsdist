@@ -35,11 +35,11 @@ DataFormats/Provenance
 DataFormats/RecoCandidate
 DataFormats/SiPixelCluster
 DataFormats/SiPixelDetId
-DataFormats/SiPixelDigi
 DataFormats/SiStripCluster
 DataFormats/SiStripCommon
 DataFormats/SiStripDetId
 DataFormats/SiStripDigi
+DataFormats/StdDictionaries
 DataFormats/TauReco
 DataFormats/TrackCandidate
 DataFormats/TrackReco
@@ -48,11 +48,13 @@ DataFormats/TrackingRecHit
 DataFormats/TrajectorySeed
 DataFormats/TrajectoryState
 DataFormats/VertexReco
+DataFormats/WrappedStdDictionaries
 FWCore/FWLite
 FWCore/MessageLogger
 FWCore/PluginManager
 FWCore/RootAutoLibraryLoader
 FWCore/Utilities
+PhysicsTools/Utilities
 SimDataFormats/EncodedEventId
 SimDataFormats/HepMCProduct
 SimDataFormats/Track
