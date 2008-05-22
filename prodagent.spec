@@ -1,4 +1,4 @@
-### RPM cms prodagent PRODAGENT_0_10_4
+### RPM cms prodagent PRODAGENT_0_10_5
 ## INITENV +PATH PYTHONPATH %i/lib
 #
 #
