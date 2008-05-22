@@ -1,4 +1,6 @@
-### RPM cms cmssw-tool-conf CMS_150m
+### RPM cms cmssw-tool-conf 4.0
+# with cmsBuild, change the above version only when a new
+# tool is added
 
 Provides: tmp/slc3_ia32_gcc323/src/FWCore/TFWLiteSelector/test/libFWCoreTFWLiteSelectorTest.so
 Provides: libboost_regex-gcc-mt.so 
@@ -8,7 +10,8 @@ Provides: libboost_thread-gcc-mt.so
 Requires: pool
 Requires: coral
 Requires: seal
-Requires: gcc
+Requires: gcc-toolfile
+Requires: gmake
 Requires: pcre
 Requires: zlib
 Requires: bz2lib
@@ -23,6 +26,7 @@ Requires: boost
 Requires: gsl
 Requires: clhep
 Requires: root
+Requires: xrootd
 Requires: qt
 Requires: castor
 Requires: mysql
@@ -63,11 +67,13 @@ Requires: glimpse
 Requires: valgrind
 Requires: fastjet
 Requires: ktjet
-# Remove this dependency (temporarily) for gcc4.x, 64bit and other builds,
-# i.e. keep it only for the standard slc4_ia32_gcc345 build
-%if ("%cmsplatf" == "slc4_ia32_gcc345")
-Requires: ignominy
-%endif
+# Remove this dependency altogether for the moment, until the java issues
+# are dealt with and igprof/ighook are migrated into CMSSW
+## Remove this dependency (temporarily) for gcc4.x, 64bit and other builds,
+## i.e. keep it only for the standard slc4_ia32_gcc345 build
+#%if ("%cmsplatf" == "slc4_ia32_gcc345")
+#Requires: ignominy
+#%endif
 Requires: herwig
 Requires: lhapdf
 Requires: pythia6
@@ -81,6 +87,9 @@ Requires: charybdis
 Requires: photos
 Requires: cmsswdata
 Requires: dpm
+Requires: evtgenlhc
+Requires: mcdb
+Requires: dbs-client
 
 %define skipreqtools jcompiler
 
