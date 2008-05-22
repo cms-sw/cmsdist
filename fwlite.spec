@@ -1,4 +1,4 @@
-### RPM cms fwlite CMSSW_2_0_6_FWLITE
+### RPM cms fwlite CMSSW_2_0_7_FWLITE
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: /bin/sed
@@ -19,7 +19,7 @@ Requires: fwlite-tool-conf python
 #Defines for file containing list of packages for checkout and build:
 %define buildsetrepo    CMSDIST
 %define buildsetfile    fwlite_build_set.file
-%define buildsetvers    buildset_V3_7
+%define buildsetvers    buildset_V3_9
 
 # Skip library load and symbol checks to avoid dependency on seal:
 %define nolibchecks     on
