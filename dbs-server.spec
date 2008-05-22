@@ -1,8 +1,8 @@
 ### RPM cms dbs-server DBS_1_1_5
 
-%define cvstag %realversion
+%define cvstag %{realversion}
 # define version of DBS to use, it's schema version
-%define dbs_version DBS_1_0_8
+%define dbs_version %{realversion}
 
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Servers/JavaServer&export=DBS&tag=-r%{cvstag}&output=/dbs-server.tar.gz
 Requires: apache-ant mysql mysql-deployment oracle apache-tomcat java-jdk dbs-schema
@@ -20,9 +20,9 @@ cat > etc/context.xml << EOF_CONTEXT
 <Context path="/servlet/DBSServlet" docBase="DBSServlet" debug="5" reloadable="true" crossContext="true">
      <SchemaOwner schemaowner="%{dbs_version}" />
      <SupportedSchemaVersion schemaversion="%{dbs_version}" />
-     <SupportedClientVersions clientversions="DBS_1_0_1, DBS_1_0_5, DBS_1_0_7, DBS_1_0_8"/>
+     <SupportedClientVersions clientversions="DBS_1_0_1, DBS_1_0_5, DBS_1_0_7, DBS_1_0_8, DBS_1_0_9, DBS_1_1_2, DBS_1_1_3 "/>
      <DBSBlockConfig maxBlockSize="2000000000000" maxBlockFiles="100" />
-                        
+
      <Resource name="jdbc/dbs"
               auth="Container"
               type="javax.sql.DataSource"
