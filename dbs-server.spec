@@ -15,6 +15,10 @@ ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "ki
 %build
 echo "PWD=$PWD"
 cd Servers/JavaServer
+
+# retrive which DBS schema to use
+export DBS_SCHEMA=`grep "^use " $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql | awk '{print $2}' | sed "s/;//g"`
+
 # fix context.xml file
 cat > etc/context.xml << EOF_CONTEXT
 <Context path="/servlet/DBSServlet" docBase="DBSServlet" debug="5" reloadable="true" crossContext="true">
@@ -32,7 +36,7 @@ cat > etc/context.xml << EOF_CONTEXT
               username="dbs"
               password="cmsdbs"
               driverClassName="org.gjt.mm.mysql.Driver"
-              url="jdbc:mysql://localhost:3316/%{dbs_version}?autoReconnect=true"/>
+              url="jdbc:mysql://localhost:3316/${DBS_SCHEMA}?autoReconnect=true"/>
 </Context>
 EOF_CONTEXT
 
