@@ -187,10 +187,12 @@ $MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK -uroot -pcms mysql -e "GRANT ALL ON $
 cp $DBS_SERVER_ROOT/Servers/JavaServer/DBS.war $APACHE_TOMCAT_ROOT/webapps
 
 # Copy mysql jdbc driver to tomcat
-if [ ! -f $APACHE_TOMCAT_ROOT/common/lib/mysql-connector-java-5.0.5-bin.jar ]; then
-cp $DBS_SERVER_ROOT/Servers/JavaServer/lib/mysql-connector-java-5.0.5-bin.jar \
-   $APACHE_TOMCAT_ROOT/common/lib
-fi
+#if [ ! -f $APACHE_TOMCAT_ROOT/common/lib/mysql-connector-java-5.0.5-bin.jar ]; then
+#cp $DBS_SERVER_ROOT/Servers/JavaServer/lib/mysql-connector-java-5.0.5-bin.jar \
+#   $APACHE_TOMCAT_ROOT/common/lib
+#fi
+# Copy all jar files from DBS area to tomcat area.
+cp -f $DBS_SERVER_ROOT/Servers/JavaServer/lib/*.jar $APACHE_TOMCAT_ROOT/common/lib
 
 # Fix path in dbs_init.sh file since now we know install area
 cat $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh | sed "s,rpm_install_area,$RPM_INSTALL_PREFIX,g" > \
