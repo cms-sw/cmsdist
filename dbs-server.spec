@@ -16,14 +16,15 @@ ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "ki
 echo "PWD=$PWD"
 cd Servers/JavaServer
 
-# retrive which DBS schema to use
+# retrieve which DBS schema to use
 export DBS_SCHEMA=`grep "^use " $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql | awk '{print $2}' | sed "s/;//g"`
+export DBS_SCHEMA_VERSION=`cat  $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql | grep "INSERT INTO SchemaVersion" | awk '{split($0,a,"\x27"); print a[2]}'`
 
 # fix context.xml file
 cat > etc/context.xml << EOF_CONTEXT
 <Context path="/servlet/DBSServlet" docBase="DBSServlet" debug="5" reloadable="true" crossContext="true">
-     <SchemaOwner schemaowner="%{dbs_version}" />
-     <SupportedSchemaVersion schemaversion="%{dbs_version}" />
+     <SchemaOwner schemaowner="${DBS_SCHEMA}" />
+     <SupportedSchemaVersion schemaversion="${DBS_SCHEMA_VERSION}" />
      <SupportedClientVersions clientversions="DBS_1_0_1, DBS_1_0_5, DBS_1_0_7, DBS_1_0_8, DBS_1_0_9, DBS_1_1_2, DBS_1_1_3 "/>
      <DBSBlockConfig maxBlockSize="2000000000000" maxBlockFiles="100" />
 
@@ -180,7 +181,7 @@ echo "$DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql"
 # DBS uses trigger which requires to have SUPER priveleges, so we'll create DB using root
 # and delegate this to dbs account.
 $MYSQL_ROOT/bin/mysql -uroot -pcms --socket=$MYSQL_SOCK < $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql
-$MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK -uroot -pcms mysql -e "GRANT ALL ON %{dbs_version}.* TO dbs@localhost;"
+$MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK -uroot -pcms mysql -e "GRANT ALL ON ${DBS_SCHEMA}.* TO dbs@localhost;"
 
 # I need to copy/deploy DBS.war file into tomcat area
 cp $DBS_SERVER_ROOT/Servers/JavaServer/DBS.war $APACHE_TOMCAT_ROOT/webapps
