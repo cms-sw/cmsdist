@@ -10,7 +10,7 @@ Requires: p5-dbi oracle
 %define oraclesdksrc none
 %else
 # we still need oracle sdk makefiles:
-%define oraclesdksrc http://cmsrep.cern.ch/cms/cpt/Software/download/cms/SOURCES/external/oracle/10.2.0.3-CMS18/instantclient-sdk-linux32-10.2.0.3-20061115.zip
+%define oraclesdksrc http://cmsrep.cern.ch/cmssw/oracle-mirror/slc4_ia32/10.2.0.3/sdk.zip
 %endif
 
 Source0: http://mirror.switch.ch/ftp/mirror/CPAN/authors/id/P/PY/PYTHIAN/%downloadn-%{realversion}.tar.gz
@@ -23,7 +23,7 @@ Provides: perl(Tk) perl(Tk::Balloon) perl(Tk::ErrorDialog) perl(Tk::FileSelect) 
 
 %if "%cmsplatf" == "slc4onl_ia32_gcc346"
 rm -rf instantclient_*
-yes | unzip %_sourcedir/*-sdk-*linux32*.zip
+yes | unzip %_sourcedir/sdk.zip
 %endif
 
 %build
