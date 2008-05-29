@@ -1,13 +1,10 @@
 ### RPM external onlinesystemtools 2.0
 Source: none
 
-%if "%{?use_system_gcc:set}" == "set"
+# Here we are assuming that online release always uses system compiler:
 %define compilertools ccompiler cxxcompiler f77compiler jcompiler
-%else
-%define compilertools %jcompiler
-%endif
 
-%if "%{?online_release:set}" == "set"
+%if "%cmsplatf" == "slc4onl_ia32_gcc346"
 #%define onlinetools curl libpng libtiff libungif mimetic mysql openssl oracle python elementtree qt xdaq xerces zlib
 %define onlinetools zlib curl oracle openssl xerces-c xdaq mimetic
 # Define variables used in non-scram-managed tools, that would be
@@ -145,7 +142,7 @@ cat << \EOF_TOOLFILE >>%i/etc/scram.d/jcompiler
 </Tool>
 EOF_TOOLFILE
 
-%if "%{?online_release:set}" == "set"
+%if "%cmsplatf" == "slc4onl_ia32_gcc346"
 #cxxcompiler
 cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
 <doc type=BuildSystem::ToolDoc version=1.1>
@@ -357,7 +354,7 @@ EOF_TOOLFILE
 %{relocateConfig}etc/scram.d/x11
 %{relocateConfig}etc/scram.d/jcompiler
 
-%if "%{?online_release:set}" == "set"
+%if "%cmsplatf" == "slc4onl_ia32_gcc346"
 %{relocateConfig}etc/scram.d/cxxcompiler
 %{relocateConfig}etc/scram.d/ccompiler
 %{relocateConfig}etc/scram.d/f77compiler

@@ -1,4 +1,4 @@
-### RPM external dpm 1.6.7.4
+### RPM external dpm 1.6.5.5-CMS19
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 # for x86_64 this was false, but it causes problems on installation at least with cmsBuild
  
