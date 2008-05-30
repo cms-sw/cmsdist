@@ -1,11 +1,11 @@
-### RPM cms dbs-server DBS_1_1_5
+### RPM cms dbs-server DBS_1_1_6_pre2
 
 %define cvstag %{realversion}
 # define version of DBS to use, it's schema version
 %define dbs_version %{realversion}
 
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Servers/JavaServer&export=DBS&tag=-r%{cvstag}&output=/dbs-server.tar.gz
-Requires: apache-ant mysql mysql-deployment oracle apache-tomcat java-jdk dbs-schema
+Requires: apache-ant mysql mysql-deployment oracle apache-tomcat java-jdk dbs-schema dbs-libs
 
 %prep
 %setup -n DBS
@@ -13,33 +13,35 @@ Requires: apache-ant mysql mysql-deployment oracle apache-tomcat java-jdk dbs-sc
 ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "$2""}' |/bin/sh
 
 %build
+# DBS wants to have LibValut attached to DBS top-level dir, required by build.xml file
+ln -s $DBS_LIBS_ROOT/lib LibValut
 echo "PWD=$PWD"
 cd Servers/JavaServer
 
 # retrieve which DBS schema to use
-export DBS_SCHEMA=`grep "^use " $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql | awk '{print $2}' | sed "s/;//g"`
-export DBS_SCHEMA_VERSION=`cat  $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql | grep "INSERT INTO SchemaVersion" | awk '{split($0,a,"\x27"); print a[2]}'`
+#export DBS_SCHEMA=`grep "^use " $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql | awk '{print $2}' | sed "s/;//g"`
+#export DBS_SCHEMA_VERSION=`cat  $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql | grep "INSERT INTO SchemaVersion" | awk '{split($0,a,"\x27"); print a[2]}'`
 
 # fix context.xml file
-cat > etc/context.xml << EOF_CONTEXT
-<Context path="/servlet/DBSServlet" docBase="DBSServlet" debug="5" reloadable="true" crossContext="true">
-     <SchemaOwner schemaowner="${DBS_SCHEMA}" />
-     <SupportedSchemaVersion schemaversion="${DBS_SCHEMA_VERSION}" />
-     <SupportedClientVersions clientversions="DBS_1_0_1, DBS_1_0_5, DBS_1_0_7, DBS_1_0_8, DBS_1_0_9, DBS_1_1_2, DBS_1_1_3 "/>
-     <DBSBlockConfig maxBlockSize="2000000000000" maxBlockFiles="100" />
-
-     <Resource name="jdbc/dbs"
-              auth="Container"
-              type="javax.sql.DataSource"
-              maxActive="30"
-              maxIdle="10"
-              maxWait="10000"
-              username="dbs"
-              password="cmsdbs"
-              driverClassName="org.gjt.mm.mysql.Driver"
-              url="jdbc:mysql://localhost:3316/${DBS_SCHEMA}?autoReconnect=true"/>
-</Context>
-EOF_CONTEXT
+cat etc/context.xml.tobe  | sed "s/__insert_username__/dbs/g" | sed "s/__insert_password__/cmsdbs/g" | sed "s/3306/3316/g" > etc/context.xml
+#cat > etc/context.xml << EOF_CONTEXT
+#<Context path="/servlet/DBSServlet" docBase="DBSServlet" debug="5" reloadable="true" crossContext="true">
+#     <SchemaOwner schemaowner="${DBS_SCHEMA}" />
+#     <SupportedSchemaVersion schemaversion="${DBS_SCHEMA_VERSION}" />
+#     <SupportedClientVersions clientversions="DBS_1_0_1, DBS_1_0_5, DBS_1_0_7, DBS_1_0_8, DBS_1_0_9, DBS_1_1_2, DBS_1_1_3 "/>
+#     <DBSBlockConfig maxBlockSize="2000000000000" maxBlockFiles="100" />
+#     <Resource name="jdbc/dbs"
+#              auth="Container"
+#              type="javax.sql.DataSource"
+#              maxActive="30"
+#              maxIdle="10"
+#              maxWait="10000"
+#              username="dbs"
+#              password="cmsdbs"
+#              driverClassName="org.gjt.mm.mysql.Driver"
+#              url="jdbc:mysql://localhost:3316/${DBS_SCHEMA}?autoReconnect=true"/>
+#</Context>
+#EOF_CONTEXT
 
 mkdir -p bin/WEB-INF/lib
 echo "PWD=$PWD"
@@ -140,6 +142,7 @@ mkdir -p %{i}/etc/profile.d
  echo "source $APACHE_TOMCAT_ROOT/etc/profile.d/init.sh"; \
  echo "source $APACHE_ANT_ROOT/etc/profile.d/init.sh"; \
  echo "source $DBS_SCHEMA_ROOT/etc/profile.d/init.sh"; \
+ echo "source $DBS_LIBS_ROOT/etc/profile.d/init.sh"; \
  echo "source $JAVA_JDK_ROOT/etc/profile.d/init.sh"; \
  echo "export JAVA_HOME=$JAVA_JDK_ROOT"
  echo "export CATALINA_HOME=$APACHE_TOMCAT_ROOT"
@@ -152,6 +155,7 @@ mkdir -p %{i}/etc/profile.d
  echo "source $APACHE_TOMCAT_ROOT/etc/profile.d/init.csh"; \
  echo "source $APACHE_ANT_ROOT/etc/profile.d/init.csh"; \
  echo "source $DBS_SCHEMA_ROOT/etc/profile.d/init.csh"; \
+ echo "source $DBS_LIBS_ROOT/etc/profile.d/init.csh"; \
  echo "source $JAVA_JDK_ROOT/etc/profile.d/init.csh"; \
  echo "setenv JAVA_HOME $JAVA_JDK_ROOT"
  echo "setenv CATALINA_HOME $APACHE_TOMCAT_ROOT"
@@ -180,8 +184,9 @@ echo "+++ Grand permission to dbs account, DBS schema %{dbs_version} ..."
 echo "$DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql"
 # DBS uses trigger which requires to have SUPER priveleges, so we'll create DB using root
 # and delegate this to dbs account.
-$MYSQL_ROOT/bin/mysql -uroot -pcms --socket=$MYSQL_SOCK < $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql
-$MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK -uroot -pcms mysql -e "GRANT ALL ON ${DBS_SCHEMA}.* TO dbs@localhost;"
+export DBS_SCHEMA=`grep "^use " $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql | awk '{print $2}' | sed "s/;//g"`
+$MYSQL_ROOT/bin/mysql -uroot -pcms --port=$MYSQL_PORT --socket=$MYSQL_SOCK < $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql
+$MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK --port=$MYSQL_PORT -uroot -pcms mysql -e "GRANT ALL ON ${DBS_SCHEMA}.* TO dbs@localhost;"
 
 # I need to copy/deploy DBS.war file into tomcat area
 cp $DBS_SERVER_ROOT/Servers/JavaServer/DBS.war $APACHE_TOMCAT_ROOT/webapps
@@ -192,7 +197,8 @@ cp $DBS_SERVER_ROOT/Servers/JavaServer/DBS.war $APACHE_TOMCAT_ROOT/webapps
 #   $APACHE_TOMCAT_ROOT/common/lib
 #fi
 # Copy all jar files from DBS area to tomcat area.
-cp -f $DBS_SERVER_ROOT/Servers/JavaServer/lib/*.jar $APACHE_TOMCAT_ROOT/common/lib
+#cp -f $DBS_SERVER_ROOT/Servers/JavaServer/lib/*.jar $APACHE_TOMCAT_ROOT/common/lib
+cp -f $DBS_LIBS_ROOT/lib/*.jar $APACHE_TOMCAT_ROOT/common/lib
 
 # Fix path in dbs_init.sh file since now we know install area
 cat $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh | sed "s,rpm_install_area,$RPM_INSTALL_PREFIX,g" > \
@@ -208,7 +214,9 @@ chmod a+x $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh
 echo "+++ Clean-up mysqld|tomcat processes"
 #ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "$2""}'
 #ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "$2""}' |/bin/sh
-killall -q mysqld
+#killall -q mysqld
+#cat $MYSQL_ROOT/mysqldb/mysqld.pid
+$MYSQL_ROOT/bin/mysqladmin -uroot -pcms --socket=$MYSQL_SOCK --port=3316 shutdown
 killall -q tomcat
 
 echo

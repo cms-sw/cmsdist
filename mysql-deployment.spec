@@ -33,26 +33,34 @@ pid=`ps -u ${LOGNAME} | grep mysqld_safe | grep -v grep | tail -1 | awk '{print 
 if [ ! -z ${pid} ]; then
     echo "CMS MySQL server is already running ..."
 else
-    echo "+++ Installing CMS MySQL accounts and DBs ..."
-    $MYSQL_ROOT/bin/mysql_install_db --datadir=$MYSQL_PATH --port=$MYSQL_PORT --socket=$MYSQL_SOCK
+# may use --skip-networking for pure local MySQL
 
-    echo "+++ Start up CMS MySQL daemon on port ${MYSQL_PORT} ..."
-    $MYSQL_ROOT/bin/mysqld_safe --datadir=$MYSQL_PATH --port=$MYSQL_PORT \
-    --socket=$MYSQL_SOCK --log-error=$MYSQL_ERR --pid-file=$MYSQL_PID &
-    #--socket=$MYSQL_SOCK --log-error=$MYSQL_ERR --skip-networking --pid-file=$MYSQL_PID &
-    sleep 10
-    
-    # create CMS MySQL root account
-    echo "+++ Creating MySQL default root account ..."
-    echo "+++ Account for localhost"
-    $MYSQL_ROOT/bin/mysqladmin --port=$MYSQL_PORT --socket=$MYSQL_SOCK -u root password "cms"
-    echo "+++ Account for `hostname`"
-    $MYSQL_ROOT/bin/mysqladmin --port=$MYSQL_PORT --socket=$MYSQL_SOCK -u root -h `hostname` password "cms"
+    if [ ! -d $MYSQL_ROOT/mysqldb/mysql ]; then
+        echo "+++ Installing CMS MySQL accounts and DBs ..."
+        $MYSQL_ROOT/bin/mysql_install_db --datadir=$MYSQL_PATH --port=$MYSQL_PORT --socket=$MYSQL_SOCK
 
-    # create CMS MySQL DBS account
-    echo "+++ Creating MySQL default dbs account ..."
-    $MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK -uroot -pcms mysql -e "CREATE USER dbs@localhost IDENTIFIED BY 'cmsdbs'"
-    $MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK -uroot -pcms mysql -e "UPDATE user set Select_priv='Y',Insert_priv='Y',Update_priv='Y',Delete_priv='Y',Create_priv='Y',Drop_priv='Y',References_priv='Y',Index_priv='Y',Alter_priv='Y',Create_tmp_table_priv='Y',Lock_tables_priv='Y',Execute_priv='Y',Create_view_priv='Y',Show_view_priv='Y',Create_routine_priv='Y',Alter_routine_priv='Y' where User='dbs';"
+        echo "+++ Start up CMS MySQL daemon on port ${MYSQL_PORT} ..."
+        $MYSQL_ROOT/bin/mysqld_safe --datadir=$MYSQL_PATH --port=$MYSQL_PORT \
+        --socket=$MYSQL_SOCK --log-error=$MYSQL_ERR --pid-file=$MYSQL_PID &
+        
+        sleep 10
+        # create CMS MySQL root account
+        echo "+++ Creating MySQL default root account ..."
+        echo "+++ Account for localhost"
+        $MYSQL_ROOT/bin/mysqladmin --port=$MYSQL_PORT --socket=$MYSQL_SOCK -u root password "cms"
+        echo "+++ Account for `hostname`"
+        $MYSQL_ROOT/bin/mysqladmin --port=$MYSQL_PORT --socket=$MYSQL_SOCK -u root -h `hostname` password "cms"
+
+        # create CMS MySQL DBS account
+        echo "+++ Creating MySQL default dbs account ..."
+        $MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK -uroot -pcms mysql -e "CREATE USER dbs@localhost IDENTIFIED BY 'cmsdbs'"
+        $MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK -uroot -pcms mysql -e "UPDATE user set Select_priv='Y',Insert_priv='Y',Update_priv='Y',Delete_priv='Y',Create_priv='Y',Drop_priv='Y',References_priv='Y',Index_priv='Y',Alter_priv='Y',Create_tmp_table_priv='Y',Lock_tables_priv='Y',Execute_priv='Y',Create_view_priv='Y',Show_view_priv='Y',Create_routine_priv='Y',Alter_routine_priv='Y' where User='dbs';"
+    else
+        echo "+++ Start up CMS MySQL daemon on port ${MYSQL_PORT} ..."
+        $MYSQL_ROOT/bin/mysqld_safe --datadir=$MYSQL_PATH --port=$MYSQL_PORT \
+        --socket=$MYSQL_SOCK --log-error=$MYSQL_ERR --pid-file=$MYSQL_PID &
+        sleep 10
+    fi
 fi
 
 EOF
