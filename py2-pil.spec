@@ -1,7 +1,7 @@
 ### RPM external py2-pil 1.1.6
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 %define downloadn Imaging
-Source: http://effbot.org/downloads/%downloadn-%v.tar.gz
+Source: http://effbot.org/downloads/%downloadn-%realversion.tar.gz
 Requires: python
 # Requires: zlib
 # Requires: agg
@@ -12,7 +12,7 @@ Requires: python
 Requires: libpng libjpg zlib libtiff
 # Requires: freetype
 %prep
-%setup -n %downloadn-%v
+%setup -n %downloadn-%realversion
 perl -p -i -e "s!__PREFIX__!%i!" setup.py
 perl -p -i -e "s!JPEG_ROOT = None!JPEG_ROOT =\"$LIBJPG_ROOT\" !" setup.py
 perl -p -i -e "s!TIFF_ROOT = None!TIFF_ROOT =\"$LIBTIFF_ROOT\" !" setup.py
