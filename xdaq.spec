@@ -1,4 +1,4 @@
-### RPM external xdaq 3.9.0-CMS3
+### RPM external xdaq 3.9.0-CMS4
 Requires: zlib mimetic xerces-c uuid
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
@@ -59,7 +59,8 @@ mv x86*/include .
 mkdir include/interface
 mv daq/interface/evb/include/interface/evb include/interface
 mv daq/interface/shared/include/interface/shared include/interface
-
+mkdir etc
+mv daq/etc/default.profile etc/
 rm -fr daq 
 rm -fr CVS
 rm -fr x86*
