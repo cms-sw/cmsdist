@@ -24,25 +24,8 @@ cd Servers/JavaServer
 
 # fix context.xml file
 cat etc/context.xml.tobe  | sed "s/__insert_username__/dbs/g" | sed "s/__insert_password__/cmsdbs/g" | sed "s/3306/3316/g" > etc/context.xml
-#cat > etc/context.xml << EOF_CONTEXT
-#<Context path="/servlet/DBSServlet" docBase="DBSServlet" debug="5" reloadable="true" crossContext="true">
-#     <SchemaOwner schemaowner="${DBS_SCHEMA}" />
-#     <SupportedSchemaVersion schemaversion="${DBS_SCHEMA_VERSION}" />
-#     <SupportedClientVersions clientversions="DBS_1_0_1, DBS_1_0_5, DBS_1_0_7, DBS_1_0_8, DBS_1_0_9, DBS_1_1_2, DBS_1_1_3 "/>
-#     <DBSBlockConfig maxBlockSize="2000000000000" maxBlockFiles="100" />
-#     <Resource name="jdbc/dbs"
-#              auth="Container"
-#              type="javax.sql.DataSource"
-#              maxActive="30"
-#              maxIdle="10"
-#              maxWait="10000"
-#              username="dbs"
-#              password="cmsdbs"
-#              driverClassName="org.gjt.mm.mysql.Driver"
-#              url="jdbc:mysql://localhost:3316/${DBS_SCHEMA}?autoReconnect=true"/>
-#</Context>
-#EOF_CONTEXT
 
+# compile DBS server code
 mkdir -p bin/WEB-INF/lib
 echo "PWD=$PWD"
 source $JAVA_JDK_ROOT/etc/profile.d/init.sh
@@ -193,12 +176,6 @@ $MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK --port=$MYSQL_PORT -uroot -pcms mysql
 cp $DBS_SERVER_ROOT/Servers/JavaServer/DBS.war $APACHE_TOMCAT_ROOT/webapps
 
 # Copy mysql jdbc driver to tomcat
-#if [ ! -f $APACHE_TOMCAT_ROOT/common/lib/mysql-connector-java-5.0.5-bin.jar ]; then
-#cp $DBS_SERVER_ROOT/Servers/JavaServer/lib/mysql-connector-java-5.0.5-bin.jar \
-#   $APACHE_TOMCAT_ROOT/common/lib
-#fi
-# Copy all jar files from DBS area to tomcat area.
-#cp -f $DBS_SERVER_ROOT/Servers/JavaServer/lib/*.jar $APACHE_TOMCAT_ROOT/common/lib
 cp -f $DBS_LIBS_ROOT/lib/*.jar $APACHE_TOMCAT_ROOT/common/lib
 
 # Fix path in dbs_init.sh file since now we know install area
@@ -219,6 +196,10 @@ echo "+++ Clean-up mysqld|tomcat processes"
 #cat $MYSQL_ROOT/mysqldb/mysqld.pid
 $MYSQL_ROOT/bin/mysqladmin -uroot -pcms --socket=$MYSQL_SOCK --port=3316 shutdown
 killall -q tomcat
+
+# made correct link to LibValut
+rm -f $DBS_SERVER_ROOT/LibValut
+ln -s $DBS_LIBS_ROOT/lib $DBS_SERVER_ROOT/LibValut
 
 echo
 echo
