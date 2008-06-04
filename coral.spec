@@ -17,7 +17,7 @@ Patch2:    coral-ExpressionParser
 %define patchsrc2       %patch2 -p0
 %define patchsrc3       rm -rf %{srctree}/Tests/*
 
-%if "%{?online_release:set}" == "set"
+%if "%cmsplatf" == "slc4onl_ia32_gcc346"
 # Disable building tests in online release,
 # since they bring dependency on cppunit:
 %define patchsrc4       perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml

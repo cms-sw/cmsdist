@@ -190,23 +190,22 @@ rm -fR %i/lib/%cmsplatf/.edmplugincache
 %install
 cd %i
 %{?buildarch:%buildarch}
-perl -p -i -e "s|^#!.*perl(.*)|#!/usr/bin/env perl$1|" $(grep -r -e "^#!.*perl.*" . | cut -d: -f1)
+perl -p -i -e "s|^#!.*perl(.*)|#!/usr/bin/env perl$1|" $(grep -r -l -e "^#!.*perl.*" . | grep -v  ^./external/)
 # need writeable directory for profile stuff
 mkdir -p etc/scram.d
 sed 's|@PROJECT_NAME@|%ucprojname|g;s|@PROJECT_VERSION@|%v|g;s|@PROJECT_BUILD_PATH@|%_builddir|g;s|@PROJECT_ROOT@|%i|g' %_sourcedir/%lcprojname-tool > etc/scram.d/%lcprojname
 which %scramcmd
-yes | %scramcmd install # FIXME: do by hand?
+%scramcmd install -f 
 
 %post
 cd $RPM_INSTALL_PREFIX/%pkgrel
 %{relocateConfig}etc/scram.d/%lcprojname
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find config -type f)
 scramver=`cat config/scram_version`
-source $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver/etc/profile.d/init.sh
+. $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver/etc/profile.d/init.sh
 (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename.pl %{instroot} $RPM_INSTALL_PREFIX  %cmsplatf )
 %{?buildarch:%buildarch}
-echo scramcmd: `which %scramcmd`
-yes | %scramcmd install
+%scramcmd install -f
 (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.pl --arch %cmsplatf --nolink INCLUDE) || true
 eval `%scramcmd run -sh`
 for cmd in SealPluginRefresh EdmPluginRefresh IgPluginRefresh ; do
