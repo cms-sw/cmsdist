@@ -1,4 +1,4 @@
-### RPM cms dbs-server DBS_1_1_6_pre2
+### RPM cms dbs-server DBS_1_1_6
 
 %define cvstag %{realversion}
 # define version of DBS to use, it's schema version
@@ -53,6 +53,7 @@ cd ../../
 %install
 mkdir -p %{i}/Servers/JavaServer/bin/WEB-INF/lib
 cp -r Servers/JavaServer/* %{i}/Servers/JavaServer
+ln -s $DBS_LIBS_ROOT/lib %{i}/LibValut
 
 # copy war file
 cp %{i}/Servers/JavaServer/DBS.war $APACHE_TOMCAT_ROOT/webapps
