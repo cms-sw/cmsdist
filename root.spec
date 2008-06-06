@@ -11,13 +11,14 @@ Patch3: root-5.18-00a-TBufferXML
 Patch4: root-5.18-00a-Cintex
 Patch5: root-5.18-00a-Cintex2
 Patch6: root-5.18-00a-TBufferFile
+Patch7: root-5.18-00a-cintexquickfix2
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
 
 Requires: gccxml gsl castor libjpg dcap pcre python
 
-%if "%{?online_release:set}" != "set"
+%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 Requires: qt openssl mysql libpng zlib libungif xrootd
 %else
 %define skiplibtiff true
@@ -40,12 +41,13 @@ Requires: libtiff
 %patch4 -p0
 %patch5 -p0
 %patch6 -p0
+%patch7 -p0
 
 %build
 mkdir -p %i
 export ROOTSYS=%_builddir/root
 
-%if "%{?online_release:set}" == "set"
+%if "%cmsplatf" == "slc4onl_ia32_gcc346"
 # Build without mysql, and use system qt.
 # Also skip xrootd and odbc for online case:
 

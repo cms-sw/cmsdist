@@ -1,4 +1,4 @@
-### RPM cms online-tool-conf 3.0a
+### RPM cms online-tool-conf 4.0
 # with cmsBuild, change the above version only when a new
 # tool is added
 ## INITENV SET CMSSW_TOOL_CONF_ROOT $ONLINE_TOOL_CONF_ROOT
@@ -10,7 +10,6 @@ Provides: libboost_thread-gcc-mt.so
 Requires: pool
 Requires: coral
 Requires: seal
-Requires: gcc-toolfile
 Requires: gmake
 Requires: pcre
 Requires: bz2lib
@@ -27,7 +26,6 @@ Requires: castor
 Requires: libjpg
 Requires: libtiff
 Requires: dcap
-Requires: oracle-env
 Requires: p5-dbd-oracle
 Requires: frontier_client
 Requires: sqlite
@@ -39,6 +37,7 @@ Requires: tkonlinesw
 Requires: fastjet
 Requires: ktjet
 Requires: dpm
+Requires: oracle-env
 Requires: onlinesystemtools
 
 
