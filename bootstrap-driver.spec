@@ -24,7 +24,7 @@ done
 
 
 case %cmsplatf in
-slc*onl* )
+slc*online* )
     platformSeeds="glibc coreutils bash tcsh zsh pdksh perl tcl
           readline openssl ncurses
           e2fsprogs krb5-libs freetype fontconfig
