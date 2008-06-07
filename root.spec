@@ -12,6 +12,7 @@ Patch4: root-5.18-00a-Cintex
 Patch5: root-5.18-00a-Cintex2
 Patch6: root-5.18-00a-TBufferFile
 Patch7: root-5.18-00a-cintexquickfix2
+Patch8: root-5.18-00a-gendict-performance
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -42,6 +43,7 @@ Requires: libtiff
 %patch5 -p0
 %patch6 -p0
 %patch7 -p0
+%patch8 -p1
 
 %build
 mkdir -p %i
