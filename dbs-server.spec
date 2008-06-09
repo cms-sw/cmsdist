@@ -23,7 +23,7 @@ cd Servers/JavaServer
 #export DBS_SCHEMA_VERSION=`cat  $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql | grep "INSERT INTO SchemaVersion" | awk '{split($0,a,"\x27"); print a[2]}'`
 
 # fix context.xml file
-cat etc/context.xml.tobe  | sed "s/__insert_username__/dbs/g" | sed "s/__insert_password__/cmsdbs/g" | sed "s/3306/3316/g" > etc/context.xml
+cat etc/context.xml.tobe  | sed "s/__insert_username__/dbs/g" | sed "s/__insert_password__/cmsdbs/g" | sed "s/3306/3316/g" | sed "s/maxActive=\"0\"/maxActive=\"100\"/g" > etc/context.xml
 
 # compile DBS server code
 mkdir -p bin/WEB-INF/lib
