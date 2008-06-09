@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 6.0
+### RPM cms cmssw-tool-conf 6.1
 # with cmsBuild, change the above version only when a new
 # tool is added
 
