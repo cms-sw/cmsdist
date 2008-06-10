@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 %define moduleName WEBTOOLS
 %define exportName WEBTOOLS
-%define cvstag V01-03-08
+%define cvstag V01-03-09
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
 Requires: python cherrypy py2-cheetah yui sqlite zlib py2-pysqlite expat openssl bz2lib db4 gdbm py2-cx-oracle py2-formencode py2-pycrypto oracle beautifulsoup py2-sqlalchemy 
@@ -15,6 +15,7 @@ Provides: perl(DBI)
 %build
 rm -rf %i/etc/profile.d
 mkdir -p %i/etc/profile.d
+mkdir -p %i/etc/init.d
 echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
 echo '#!/bin/tcsh' > %{i}/etc/profile.d/dependencies-setup.csh
 echo requiredtools `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
@@ -37,9 +38,15 @@ perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependen
 mkdir -p %i/etc
 mkdir -p %i/bin
 mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
+
+# copy init script
+cp Applications/SiteDB/initscripts/start.sh %{i}/etc/init.d/
+chmod a+x %{i}/etc/init.d/*
+
 rm -rf Applications Configuration
 cp -r * %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 cp cmsWeb %i/bin
+
 cat << \EOF_CHERRYPY_CONF > %i/etc/cherrypy.conf
 # Serve a complete directory 
 [/Common] 
