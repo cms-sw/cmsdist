@@ -1,4 +1,4 @@
-### RPM external geant4 9.1.p01-CMS1
+### RPM external geant4 9.1.p02
 %define downloadv %(echo %v | cut -d- -f1)
 
 Requires: clhep
@@ -17,12 +17,14 @@ Source4: http://geant4.cern.ch/support/source/G4RadioactiveDecay.%{radioactiveDe
 Source5: http://geant4.cern.ch/support/source/G4ELASTIC.%{g4ElasticScatteringVersion}.tar.gz
 
 Patch: geant-4.8.2.p01-nobanner
+Patch1: geant-4.9.1.p02-G4HEInelastic
 
 %prep
 %setup -n %n.%downloadv
 pwd
 %patch0 -p1 
-
+%patch1 -p1
+ 
 %build
 if [ $(uname) = Darwin ]; then
   export MACOSX_DEPLOYMENT_TARGET="10.4"
