@@ -1,5 +1,5 @@
-### RPM cms data-RecoParticleFlow-PFTracking 18a
-%define realversion V03-09-17
+### RPM cms data-RecoParticleFlow-PFTracking 22
+%define realversion V02-06-02
 
 
 ## IMPORT data-rpm-build
