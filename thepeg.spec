@@ -1,10 +1,12 @@
 ### RPM external thepeg 1.2.0
 Source: http://www.thep.lu.se/~leif/ThePEG/ThePEG-%{realversion}.tgz
+Patch0: thepeg-1.2.0-LHAPDF
 Requires: lhapdf
 Requires: gsl
 
 %prep
 %setup -q -n ThePEG-%{realversion}
+%patch0 -p0
 perl -p -i -e 's|-lLHAPDF|-llhapdf -llhapdf_dummy|' configure
 perl -p -i -e 's|libLHAPDF|liblhapdf|' configure
 ./configure --with-LHAPDF=$LHAPDF_ROOT/lib --without-javagui --prefix=%i --with-gsl=$GSL_ROOT
