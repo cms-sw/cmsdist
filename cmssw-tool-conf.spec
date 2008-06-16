@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 1.0
+### RPM cms cmssw-tool-conf 6.1
 # with cmsBuild, change the above version only when a new
 # tool is added
 
@@ -87,6 +87,12 @@ Requires: charybdis
 Requires: photos
 Requires: cmsswdata
 Requires: dpm
+Requires: evtgenlhc
+Requires: mcdb
+Requires: dbs-client
+Requires: herwigpp
+Requires: thepeg
+Requires: libhepml
 
 %define skipreqtools jcompiler
 
