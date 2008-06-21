@@ -82,6 +82,21 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <info url="http://www.cern.ch/"></info>
 <lib name=ICUtils>
 <lib name=Fed9UUtils>
+<Client>
+ <Environment name=TKONLINESW_BASE default="%i"></Environment>
+ <Environment name=LIBDIR value="$TKONLINESW_BASE/lib"></Environment>
+ <Environment name=INCLUDE value="$TKONLINESW_BASE/include"></Environment>
+</Client>
+<use name=xerces-c>
+</Tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/tkonlineswdb
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=TkOnlineSwDB version=%v>
+<info url="http://www.cern.ch/"></info>
+<lib name=ICUtils>
+<lib name=Fed9UUtils>
 <lib name=DeviceDescriptions>
 <lib name=Fed9UDeviceFactory>
 <Client>
@@ -93,6 +108,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <use name=oracle>
 </Tool>
 EOF_TOOLFILE
+
 
 %post
 %{relocateConfig}etc/scram.d/%n
