@@ -1,7 +1,9 @@
-### RPM external pythia8 070-CMS19
+### RPM external pythia8 107
 Requires: hepmc
 Requires: clhep
 Requires: pythia6
+Requires: lhapdf
+
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 %prep
 %setup -q -n %{n}/%{realversion}
@@ -12,13 +14,13 @@ export HEPMCLOCATION=${HEPMC_ROOT}
 export HEPMCVERSION=${HEPMC_VERSION} 
 export CLHEPLOCATION=${CLHEP_ROOT} 
 export CLHEPVERSION=${CLHEP_VERSION}
-./configure
+./configure --enable-shared --with-hepmc=$HEPMC_BASE
 
 %build
 make 
 
 %install
-tar -c lib include | tar -x -C %i
+tar -c lib include xmldoc | tar -x -C %i
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
@@ -30,11 +32,14 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
  <Environment name=LIBDIR default="$PYTHIA8_BASE/lib"></Environment>
  <Environment name=INCLUDE default="$PYTHIA8_BASE/include"></Environment>
 </Client>
+<runtime name=PYTHIA8DATA value="$PYTHIA8_BASE/xmldoc">
 <lib name=pythia8>
+<lib name=hepmcinterface>
 <use name=cxxcompiler>
 <use name=hepmc>
 <use name=pythia6>
 <use name=clhep>
+<use name=lhapdf>
 </Tool>
 EOF_TOOLFILE
 
