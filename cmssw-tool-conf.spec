@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 6.1
+### RPM cms cmssw-tool-conf 7.0
 # with cmsBuild, change the above version only when a new
 # tool is added
 
@@ -47,7 +47,6 @@ Requires: systemtools
 Requires: seal
 Requires: coral
 Requires: pool
-
 Requires: xdaq
 Requires: geant4
 Requires: hepmc
@@ -65,6 +64,7 @@ Requires: doxygen
 Requires: meschach
 Requires: glimpse
 Requires: valgrind
+Requires: google-perftools
 Requires: fastjet
 Requires: ktjet
 # Remove this dependency altogether for the moment, until the java issues
