@@ -19,7 +19,7 @@ namespace gptmp {
   }
 }
 EOF_TMPFILE
-g++ -o tmp.o -fPIC tmpgp.cc
+g++ -c -o tmp.o -fPIC tmpgp.cc
 g++ -shared -o libgptmp.so tmp.o
 %endif
 
