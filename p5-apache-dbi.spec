@@ -1,10 +1,13 @@
-### RPM external p5-sort-key 1.28
+### RPM external p5-apache-dbi 1.06
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
-%define downloadn Sort-Key
+%define downloadn Apache-DBI
 
-Source: http://search.cpan.org/CPAN/authors/id/S/SA/SALVA/%{downloadn}-%{v}.tar.gz
+Source: http://search.cpan.org/CPAN/authors/id/P/PG/PGOLLUCCI/%{downloadn}-%{v}.tar.gz
+
+# Fake provides, should be on system.
+Provides:  perl(Digest::SHA1)
 
 %prep
 %setup -n %downloadn-%v
