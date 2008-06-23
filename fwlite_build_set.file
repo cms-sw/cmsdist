@@ -7,8 +7,6 @@ DataFormats/Candidate
 DataFormats/CLHEP
 DataFormats/Common
 DataFormats/DetId
-DataFormats/DTDigi
-DataFormats/DTRecHit
 DataFormats/EcalDetId
 DataFormats/EcalRecHit
 DataFormats/EgammaCandidates
@@ -24,7 +22,6 @@ DataFormats/HcalDetId
 DataFormats/HcalIsolatedTrack
 DataFormats/HcalRecHit
 DataFormats/HepMCCandidate
-DataFormats/Histograms
 DataFormats/HLTReco
 DataFormats/JetReco
 DataFormats/L1CaloTrigger
@@ -34,14 +31,12 @@ DataFormats/L1GlobalTrigger
 DataFormats/L1Trigger
 DataFormats/Math
 DataFormats/METReco
-DataFormats/MuonData
 DataFormats/MuonDetId
 DataFormats/MuonReco
 DataFormats/ParticleFlowCandidate
 DataFormats/ParticleFlowReco
 DataFormats/Provenance
 DataFormats/RecoCandidate
-DataFormats/RPCRecHit
 DataFormats/SiPixelCluster
 DataFormats/SiPixelDetId
 DataFormats/SiStripCluster

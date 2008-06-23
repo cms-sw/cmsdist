@@ -1,6 +1,7 @@
-### RPM cms dbs-client DBS_1_1_8
+### RPM cms dbs-client DBS_1_1_2_pre1
 ## INITENV +PATH PYTHONPATH %i/lib/
-
+#
+#
 %define cvstag %{realversion}
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=DBS/Clients/Python&nocache=true&export=DBS&tag=-r%{cvstag}&output=/dbs-client.tar.gz

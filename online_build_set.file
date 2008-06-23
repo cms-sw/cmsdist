@@ -403,7 +403,6 @@ PhysicsTools/KinFitter
 PhysicsTools/MVAComputer
 PhysicsTools/RecoAlgos
 PhysicsTools/RecoCandUtils
-PhysicsTools/RecoUtils
 PhysicsTools/UtilAlgos
 PhysicsTools/Utilities
 RecoBTag/BTagTools
