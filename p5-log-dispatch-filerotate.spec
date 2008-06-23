@@ -1,10 +1,13 @@
-### RPM external p5-sort-key 1.28
+### RPM external p5-log-dispatch-filerotate 1.16
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
-%define downloadn Sort-Key
+%define downloadn Log-Dispatch-FileRotate
 
-Source: http://search.cpan.org/CPAN/authors/id/S/SA/SALVA/%{downloadn}-%{v}.tar.gz
+Source: http://search.cpan.org/CPAN/authors/id/M/MA/MARKPF/%{downloadn}-%{v}.tar.gz
+
+# provided by system perl
+Provides:  perl(Date::Manip)
 
 %prep
 %setup -n %downloadn-%v
