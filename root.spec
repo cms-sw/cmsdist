@@ -19,7 +19,7 @@ Patch8: root-5.18-00a-gendict-performance
 
 Requires: gccxml gsl castor libjpg dcap pcre python
 
-%if "%{?online_release:set}" != "set"
+%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 Requires: qt openssl mysql libpng zlib libungif xrootd
 %else
 %define skiplibtiff true
@@ -49,7 +49,7 @@ Requires: libtiff
 mkdir -p %i
 export ROOTSYS=%_builddir/root
 
-%if "%{?online_release:set}" == "set"
+%if "%cmsplatf" == "slc4onl_ia32_gcc346"
 # Build without mysql, and use system qt.
 # Also skip xrootd and odbc for online case:
 
