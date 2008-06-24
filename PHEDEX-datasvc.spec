@@ -1,4 +1,3 @@
-<<<<<<< PHEDEX-datasvc.spec
 ### RPM cms PHEDEX-datasvc DATASVC_1_1_0
 #
 ## INITENV +PATH PERL5LIB %i/perl_lib
