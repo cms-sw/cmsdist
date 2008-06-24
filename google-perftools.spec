@@ -36,28 +36,29 @@ cp libgptmp.so %i/lib/libtcmalloc_minimal.so
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+cat << \EOF_TOOLFILE >%i/etc/scram.d/tcmalloc_minimal
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=tcmalloc_minimal version=%v>
 <lib name=tcmalloc_minimal>
 <client>
- <Environment name=GOOGLE-PERFTOOLS_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$GOOGLE-PERFTOOLS_BASE/lib"></Environment>
+ <Environment name=GOOGLE_PERFTOOLS_BASE default="%i"></Environment>
+ <Environment name=LIBDIR default="$GOOGLE_PERFTOOLS_BASE/lib"></Environment>
 </client>
 </Tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+cat << \EOF_TOOLFILE >%i/etc/scram.d/tcmalloc
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=tcmalloc version=%v>
 <lib name=tcmalloc>
 <client>
- <Environment name=GOOGLE-PERFTOOLS_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$GOOGLE-PERFTOOLS_BASE/lib"></Environment>
+ <Environment name=GOOGLE_PERFTOOLS_BASE default="%i"></Environment>
+ <Environment name=LIBDIR default="$GOOGLE_PERFTOOLS_BASE/lib"></Environment>
 </client>
 </Tool>
 EOF_TOOLFILE
 
 
 %post
-%{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/scram.d/tcmalloc_minimal
+%{relocateConfig}etc/scram.d/tcmalloc
