@@ -1,14 +1,14 @@
-### RPM external p5-monalisa-apmon 2.2.17
+### RPM external p5-monalisa-apmon 2.2.18
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
+%define perlversion %(perl -e 'printf "%%vd", $^V')
+%define perlarch %(perl -MConfig -e 'print $Config{archname}')
+%define downloadn ApMon_perl
 
 Summary: The MonaLisa ApMon client code
 
 Source: http://monalisa.cern.ch/download/apmon/%{downloadn}-%{realversion}.tar.gz
 Url: http://monalisa.cern.ch/
 
-%define perlversion %(perl -e 'printf "%%vd", $^V')
-%define perlarch %(perl -MConfig -e 'print $Config{archname}')
-%define downloadn ApMon_perl
 %description
 The Perl ApMon client for Monalisa.
 %prep
