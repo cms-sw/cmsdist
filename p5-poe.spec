@@ -3,8 +3,8 @@
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn POE
+
 Source: http://search.cpan.org/CPAN/authors/id/R/RC/RCAPUTO/%{downloadn}-%{realversion}.tar.gz
-Source: http://search.cpan.org/CPAN/authors/id/J/JH/JHI/%{downloadn}-%{realversion}.tar.gz
 
 # Fake provides - these are all availalbe on a standard system but unknown to build system
 Provides: perl(HTTP::Date)
