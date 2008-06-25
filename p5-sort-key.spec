@@ -4,10 +4,11 @@
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn Sort-Key
 
-Source: http://search.cpan.org/CPAN/authors/id/S/SA/SALVA/%{downloadn}-%{v}.tar.gz
+Source: http://search.cpan.org/CPAN/authors/id/S/SA/SALVA/%{downloadn}-%{realversion}.tar.gz
 
 %prep
-%setup -n %downloadn-%v
+%setup -n %downloadn-%realversion
+
 %build
 LC_ALL=C; export LC_ALL
 perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion
