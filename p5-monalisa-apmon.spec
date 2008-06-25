@@ -4,13 +4,8 @@
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn ApMon_perl
 
-Summary: The MonaLisa ApMon client code
-
 Source: http://monalisa.cern.ch/download/apmon/%{downloadn}-%{realversion}.tar.gz
-Url: http://monalisa.cern.ch/
 
-%description
-The Perl ApMon client for Monalisa.
 %prep
 %setup -n %downloadn-%realversion
 %build
