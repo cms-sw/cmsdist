@@ -3,7 +3,7 @@
 
 Summary: The MonaLisa ApMon client code
 
-Source: http://monalisa.cern.ch/download/apmon/%{downloadn}-%{v}.tar.gz
+Source: http://monalisa.cern.ch/download/apmon/%{downloadn}-%{realversion}.tar.gz
 Url: http://monalisa.cern.ch/
 
 %define perlversion %(perl -e 'printf "%%vd", $^V')
@@ -12,7 +12,7 @@ Url: http://monalisa.cern.ch/
 %description
 The Perl ApMon client for Monalisa.
 %prep
-%setup -n %downloadn-%v
+%setup -n %downloadn-%realversion
 %build
 LC_ALL=C; export LC_ALL
 perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion
