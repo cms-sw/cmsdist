@@ -169,6 +169,17 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/root
 </Tool>
 EOF_TOOLFILE
 
+# roothistmatrix toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/roothistmatrix
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=roothistmatrix version=%v> 
+<info url="http://root.cern.ch/root/"></info>
+<lib name=Hist>
+<lib name=Matrix>
+<use name=ROOTCore>
+</Tool>
+EOF_TOOLFILE
+
 # rootcintex toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcintex
 <doc type=BuildSystem::ToolDoc version=1.0>
@@ -300,6 +311,7 @@ EOF_TOOLFILE
 %post
 %{relocateConfig}etc/scram.d/root
 %{relocateConfig}etc/scram.d/rootcore
+%{relocateConfig}etc/scram.d/roothistmatrix
 %{relocateConfig}etc/scram.d/rootcintex
 %{relocateConfig}etc/scram.d/rootinteractive
 %{relocateConfig}etc/scram.d/rootmath
