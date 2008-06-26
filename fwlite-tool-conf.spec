@@ -57,7 +57,7 @@ Requires: expat
 #Requires: tkonlinesw
 #Requires: doxygen
 #Requires: meschach
-Requires: glimpse
+#Requires: glimpse
 #Requires: oracle-env
 #Requires: p5-dbd-oracle
 #Requires: valgrind
