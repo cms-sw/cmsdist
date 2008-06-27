@@ -1,5 +1,7 @@
-### RPM cms webtools 1.3.3
+### RPM cms webtools 1.3.4
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
+## INITENV +PATH PERL5LIB %i/lib/perl
+
 %define moduleName WEBTOOLS
 %define exportName WEBTOOLS
 %define cvstag V01-03-09
@@ -38,12 +40,14 @@ perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependen
 mkdir -p %i/etc
 mkdir -p %i/bin
 mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
+mkdir -p %i/lib/perl
 
 # copy init script
 cp Applications/SiteDB/initscripts/start.sh %{i}/etc/init.d/
 chmod a+x %{i}/etc/init.d/*
 
 rm -rf Applications Configuration
+cp -r SecurityModule/perl/lib/* %i/lib/perl
 cp -r * %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 cp cmsWeb %i/bin
 
