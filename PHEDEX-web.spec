@@ -1,10 +1,11 @@
-### RPM cms PHEDEX-web PHEDEXWEB_3_0_0
+### RPM cms PHEDEX-web WEB_3_0_0
 #
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
-%define nversion %(echo %v | sed 's|PHEDEXWEB_||' | sed 's|_|.|g')
+%define nversion %(echo %v | sed 's|WEB_||' | sed 's|_|.|g')
+%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 
-Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%{downloadn}&export=%{downloadn}&&tag=-r%{v}&output=/%{downloadn}.tar.gz
+Source: %cvsserver&strategy=checkout&module=%{downloadn}&export=%{downloadn}&&tag=-r%{v}&output=/%{downloadn}.tar.gz
 Requires: oracle oracle-env p5-time-hires p5-text-glob p5-compress-zlib p5-dbi p5-dbd-oracle p5-xml-parser
 Requires: p5-monalisa-apmon p5-poe p5-cgi p5-cgi-session p5-json-xs p5-apache-dbi p5-sort-key
 Requires: apache2-conf webtools dbs-client
@@ -12,6 +13,10 @@ Requires: apache2-conf webtools dbs-client
 # Actually, it is p5-xml-parser that requires this, but it doesn't configure itself correctly
 # This is so it gets into our dependencies-setup.sh
 Requires:  expat
+
+# Required to use SecurityModule (part of webtools.spec)
+Requires: p5-crypt-cbc
+
 
 # Provided by system perl
 Provides: perl(HTML::Entities)
