@@ -53,7 +53,7 @@ else
 
         # create CMS MySQL DBS account
         echo "+++ Creating MySQL default dbs account ..."
-        $MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK -uroot -pcms mysql -e "CREATE USER dbs@localhost IDENTIFIED BY 'cmsdbs'"
+        $MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK -uroot -pcms mysql -e "CREATE USER dbs@localhost IDENTIFIED BY 'cmsdbs';"
         $MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK -uroot -pcms mysql -e "UPDATE user set Select_priv='Y',Insert_priv='Y',Update_priv='Y',Delete_priv='Y',Create_priv='Y',Drop_priv='Y',References_priv='Y',Index_priv='Y',Alter_priv='Y',Create_tmp_table_priv='Y',Lock_tables_priv='Y',Execute_priv='Y',Create_view_priv='Y',Show_view_priv='Y',Create_routine_priv='Y',Alter_routine_priv='Y' where User='dbs';"
     else
         echo "+++ Start up CMS MySQL daemon on port ${MYSQL_PORT} ..."
