@@ -1,5 +1,7 @@
 ### RPM external herwig 6.510-CMS19
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
+Requires: lhapdf
+
 %prep
 %setup -q -n %n/%{realversion}
 # Danger - herwig doesn't actually need the hepmc, clhep,lhapdf 
@@ -22,13 +24,13 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <Tool name=herwig version=%v>
 <lib name=herwig>
 <lib name=herwig_dummy>
-<lib name=herwig_pdfdummy>
 <Client>
  <Environment name=HERWIG_BASE default="%i"></Environment>
  <Environment name=LIBDIR default="$HERWIG_BASE/lib"></Environment>
  <Environment name=INCLUDE default="$HERWIG_BASE/include"></Environment>
 </Client>
 <use name=f77compiler>
+<use name=lhapdf>
 </Tool>
 EOF_TOOLFILE
 
