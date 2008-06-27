@@ -159,6 +159,19 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 </Tool>
 EOF_TOOLFILE
 
+cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaqheader
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=XDAQHEADER version=%v>
+<info url=http://home.cern.ch/xdaq></info>
+<Client>
+<Environment name=XDAQHEADER_BASE  default="%i"></Environment>
+<Environment name=INCLUDE default="$XDAQHEADER_BASE/include"></Environment>
+</Client>
+</Tool>
+EOF_TOOLFILE
+
 %post
 find $RPM_INSTALL_PREFIX/%pkgrel -type l | xargs ls -la | sed -e "s|.*[ ]\(/.*\) -> \(.*\)| \2 \1|;s|[ ]/[^ ]*/external| $RPM_INSTALL_PREFIX/%cmsplatf/external|g" | xargs -n2 ln -sf
 %{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/scram.d/xdaqheader
+
