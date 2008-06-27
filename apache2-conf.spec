@@ -1,9 +1,13 @@
-### RPM cms apache2-conf 1.4
+### RPM cms apache2-conf 1.5
 # Configuration for additional apache2 modules
 
-# Version of this RPM is defined by CVS revision number of the configuration file
-%define confURL http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/COMP/WEBTOOLS/Configuration/apache2.conf?revision=%v
-Source: none
+%define confBase http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/*checkout*/COMP
+%define confPath WEBTOOLS/Configuration
+%define confVersion 1.4
+%define confFile apache2.conf?revision=%confVersion&cvsroot=CMSSW
+
+
+Source: %confBase/%confPath/%confFile
 Requires:  mod_perl2 mod_python apache2
 
 %prep
@@ -13,7 +17,7 @@ Requires:  mod_perl2 mod_python apache2
 # Make directory for various resources of this package
 mkdir -p %i/conf %i/bin %i/htdocs %i/logs %i/apps.d %i/var %i/startenv.d
 
-wget -O %i/conf/apache2.conf %confURL
+cp %_sourcedir/'%confFile' %i/conf/apache2.conf
 
 # Make a script to start apache with our environment and configuration file
 
