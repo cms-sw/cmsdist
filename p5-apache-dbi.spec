@@ -6,6 +6,8 @@
 
 Source: http://search.cpan.org/CPAN/authors/id/P/PG/PGOLLUCCI/%{downloadn}-%{realversion}.tar.gz
 
+Requires:  p5-dbi
+
 # Fake provides, should be on system.
 Provides:  perl(Digest::SHA1)
 
