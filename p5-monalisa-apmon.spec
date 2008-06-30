@@ -1,10 +1,16 @@
-### RPM external p5-time-hires 1.90
+### RPM external p5-monalisa-apmon 2.2.17
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
+
+Summary: The MonaLisa ApMon client code
+
+Source: http://monalisa.cern.ch/download/apmon/%{downloadn}-%{v}.tar.gz
+Url: http://monalisa.cern.ch/
+
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
-%define downloadn Time-HiRes
-
-Source: http://search.cpan.org/CPAN/authors/id/J/JH/JHI/%{downloadn}-%{v}.tar.gz
+%define downloadn ApMon_perl
+%description
+The Perl ApMon client for Monalisa.
 %prep
 %setup -n %downloadn-%v
 %build
