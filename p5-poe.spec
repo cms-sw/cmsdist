@@ -1,4 +1,4 @@
-### RPM external p5-poe 1.0002
+### RPM external p5-poe 1.0003
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
