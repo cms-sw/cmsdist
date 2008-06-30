@@ -1,0 +1,10 @@
+--- orig.configure	2007-10-23 19:25:58.000000000 +0200
++++ configure	2007-10-23 19:26:40.000000000 +0200
+@@ -163,7 +163,6 @@
+ 
+ #export FFLAGS="${FFLAGS} -fno-automatic  -Df2cFortran -fno-second-underscore"
+ export FFLAGS="${FFLAGS} -fno-automatic -fno-second-underscore"
+-export FFLAGS="${FFLAGS} -finit-local-zero -fugly-logint -fugly-complex -fno-globals"
+ 
+ #
+ # End of the user-changeable part ---------------------------
