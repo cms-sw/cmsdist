@@ -20,9 +20,11 @@
 # FIXME: post-install stuff for modules etc?
 
 Requires: SCRAMV1
-
+%define initenv		%initenv_direct
 %define scram_xml   .xml
+%if "%{?scramcmd:set}" != "set"
 %define scramcmd    scramv1
+%endif
 
 # NR: allow to specify repository and tag 
 # (default: cvsrepo and cvstag)
@@ -107,6 +109,8 @@ rm -rf %{srctree}
 
 cd %_builddir
 
+%_builddir/config/updateConfig.pl -p %{ucprojname} -v %v -s $SCRAMV1_VERSION -t ${%{ucprojname}_TOOL_CONF_ROOT}
+
 %{?patchsrc:%patchsrc}
 %{?patchsrc2:%patchsrc2}
 %{?patchsrc3:%patchsrc3}
@@ -118,11 +122,11 @@ echo rm -rf %i
 mkdir -p $(dirname %i)
 
 %{?buildarch:%buildarch}
-%_builddir/config/updateConfig.pl -p %{ucprojname} -v %v -s $SCRAMV1_VERSION -t ${%{ucprojname}_TOOL_CONF_ROOT}
 %scramcmd project -d $(dirname %i) -b %{bootstrapfile}
 
 %build
 pwd
+
 # Remove cmt stuff that brings unwanted dependencies: 
 rm -rf `find %{i}/src -type d -name cmt`
 echo `%scramcmd arch`
@@ -156,12 +160,11 @@ echo "executing %preBuildCommand"
 %define buildtarget %{nil} 
 %endif
 
-unset GCCXML_ROOT
 %scramcmd b -r echo_CXX </dev/null
 %if "%{?prebuildtarget:set}" == "set"
 %scramcmd b --verbose -f %{prebuildtarget} </dev/null
 %endif
-%scramcmd b --verbose -f %{compileOptions} %{makeprocesses}  %{buildtarget} </dev/null
+%scramcmd b --verbose -f %{compileOptions} %{makeprocesses}  %{buildtarget} </dev/null || { %scramcmd b outputlog && false; }
 %if "%{?additionalBuildTarget0:set}" == "set"
 %scramcmd b --verbose -f %{additionalBuildTarget0} < /dev/null
 %endif
@@ -187,22 +190,22 @@ rm -fR %i/lib/%cmsplatf/.edmplugincache
 %install
 cd %i
 %{?buildarch:%buildarch}
-perl -p -i -e "s|^#!.*perl(.*)|#!/usr/bin/env perl$1|" $(grep -r -e "^#!.*perl.*" . | cut -d: -f1)
+perl -p -i -e "s|^#!.*perl(.*)|#!/usr/bin/env perl$1|" $(grep -r -l -e "^#!.*perl.*" . | grep -v  ^./external/)
 # need writeable directory for profile stuff
 mkdir -p etc/scram.d
 sed 's|@PROJECT_NAME@|%ucprojname|g;s|@PROJECT_VERSION@|%v|g;s|@PROJECT_BUILD_PATH@|%_builddir|g;s|@PROJECT_ROOT@|%i|g' %_sourcedir/%lcprojname-tool > etc/scram.d/%lcprojname
 which %scramcmd
-yes | %scramcmd install # FIXME: do by hand?
+%scramcmd install -f 
 
 %post
 cd $RPM_INSTALL_PREFIX/%pkgrel
 %{relocateConfig}etc/scram.d/%lcprojname
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find config -type f)
 scramver=`cat config/scram_version`
-source $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver/etc/profile.d/init.sh
+. $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver/etc/profile.d/init.sh
 (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename.pl %{instroot} $RPM_INSTALL_PREFIX  %cmsplatf )
 %{?buildarch:%buildarch}
-yes | %scramcmd install
+%scramcmd install -f
 (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.pl --arch %cmsplatf --nolink INCLUDE) || true
 eval `%scramcmd run -sh`
 for cmd in SealPluginRefresh EdmPluginRefresh IgPluginRefresh ; do
