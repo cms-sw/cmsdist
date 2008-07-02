@@ -152,20 +152,12 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcore
 </Tool>
 EOF_TOOLFILE
 
-# root toolfile
+# root toolfile, alias for rootphysics. Using rootphysics is preferred.
 cat << \EOF_TOOLFILE >%i/etc/scram.d/root
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=root version=%v>
 <info url="http://root.cern.ch/root/"></info>
-<lib name=TreePlayer>
-<lib name=Gpad>
-<lib name=Graf3d>
-<lib name=Graf>
-<lib name=Hist>
-<lib name=Matrix>
-<lib name=Physics>
-<lib name=Postscript>
-<use name=ROOTCore>
+<use name=rootphysics>
 </Tool>
 EOF_TOOLFILE
 
@@ -176,6 +168,33 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roothistmatrix
 <info url="http://root.cern.ch/root/"></info>
 <lib name=Hist>
 <lib name=Matrix>
+<use name=ROOTCore>
+</Tool>
+EOF_TOOLFILE
+
+# rootphysics toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootphysics
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=rootphysics version=%v>
+<info url="http://root.cern.ch/root/"></info>
+<lib name=Physics>
+<use name=roothistmatrix>
+</Tool>
+EOF_TOOLFILE
+
+# rootgraphics toolfile, identical to old "root" toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootgraphics
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=rootgraphics version=%v>
+<info url="http://root.cern.ch/root/"></info>
+<lib name=TreePlayer>
+<lib name=Gpad>
+<lib name=Graf3d>
+<lib name=Graf>
+<lib name=Hist>
+<lib name=Matrix>
+<lib name=Physics>
+<lib name=Postscript>
 <use name=ROOTCore>
 </Tool>
 EOF_TOOLFILE
@@ -312,6 +331,8 @@ EOF_TOOLFILE
 %{relocateConfig}etc/scram.d/root
 %{relocateConfig}etc/scram.d/rootcore
 %{relocateConfig}etc/scram.d/roothistmatrix
+%{relocateConfig}etc/scram.d/rootphysics
+%{relocateConfig}etc/scram.d/rootgraphics
 %{relocateConfig}etc/scram.d/rootcintex
 %{relocateConfig}etc/scram.d/rootinteractive
 %{relocateConfig}etc/scram.d/rootmath
