@@ -1,3 +1,4 @@
+
 ### RPM external apache-ant 1.6.5
 ## INITENV SET ANT_HOME %{i}
 Requires: java-jdk python
