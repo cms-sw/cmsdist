@@ -1,4 +1,3 @@
-
 Alignment/CommonAlignmentProducer
 CalibCalorimetry/CaloTPG
 CalibCalorimetry/EcalLaserCorrection
@@ -58,6 +57,7 @@ DataFormats/TrackingRecHit
 DataFormats/TrackReco
 DataFormats/VertexReco
 DataFormats/WrappedStdDictionaries
+DQM/CSCMonitorClient
 DQM/CSCMonitorModule
 DQM/DTMonitorClient
 DQM/DTMonitorModule
@@ -75,7 +75,6 @@ DQM/HcalMonitorClient
 DQM/HcalMonitorModule
 DQM/HcalMonitorTasks
 DQM/HLTEvF
-DQM/HLXMonitor
 DQM/Integration
 DQM/L1TMonitor
 DQM/L1TMonitorClient
