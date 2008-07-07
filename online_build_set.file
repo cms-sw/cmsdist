@@ -392,8 +392,10 @@ PhysicsTools/CandAlgos
 PhysicsTools/CandUtils
 PhysicsTools/IsolationAlgos
 PhysicsTools/IsolationUtils
+PhysicsTools/KinFitter
 PhysicsTools/MVAComputer
 PhysicsTools/RecoAlgos
+PhysicsTools/RecoUtils
 PhysicsTools/UtilAlgos
 PhysicsTools/Utilities
 RecoBTag/ImpactParameter
@@ -487,6 +489,8 @@ RecoTracker/TransientTrackingRecHit
 RecoVertex/AdaptiveVertexFit
 RecoVertex/BeamSpotProducer
 RecoVertex/KalmanVertexFit
+RecoVertex/KinematicFit
+RecoVertex/KinematicFitPrimitives
 RecoVertex/LinearizationPointFinders
 RecoVertex/PrimaryVertexProducer
 RecoVertex/TrimmedKalmanVertexFinder
