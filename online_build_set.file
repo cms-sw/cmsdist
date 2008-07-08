@@ -488,6 +488,7 @@ RecoTracker/TrackProducer
 RecoTracker/TransientTrackingRecHit
 RecoVertex/AdaptiveVertexFit
 RecoVertex/BeamSpotProducer
+RecoVertex/GaussianSumVertexFit
 RecoVertex/KalmanVertexFit
 RecoVertex/KinematicFit
 RecoVertex/KinematicFitPrimitives
