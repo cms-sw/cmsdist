@@ -16,6 +16,8 @@ Requires:  expat
 # Provided by system perl
 Provides: perl(HTML::Entities)
 Provides: perl(DB_File)
+Provides: perl(Date::Manip)
+Provides: perl(XML::LibXML)
 
 %prep
 %setup -n %{downloadn}
