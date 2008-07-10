@@ -1,6 +1,7 @@
 ### RPM external bootstrap-driver 19.0c
 Source: bootstrap
-Requires: apt zlib expat openssl beecrypt bz2lib db4 elfutils neon libxml2 rpm cms-common 
+Requires: apt zlib expat openssl beecrypt bz2lib db4 elfutils neon libxml2 rpm
+#danger! cms-common version is now hardwired below (and in bootstrap.file)
 
 %prep
 %build
@@ -94,7 +95,7 @@ unsupportedProvides="libtcl8.3.so libtk8.3.so /bin/env libcom_err.so.3
                      libkrb5.so.3 libssl.so.4 /bin/csh /bin/tcsh libreadline.so.4
                      libtcl8.4.so libtk8.4.so"
 
-defaultPkgs="cms+cms-common+$CMS_COMMON_VERSION"
+defaultPkgs="cms+cms-common+1.0"
 
 mkdir -p %{i}/etc/profile.d
 (echo "instroot=%{instroot}"; \

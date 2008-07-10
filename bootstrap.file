@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.57 $
+# Revision: $Revision: 1.58 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -45,7 +45,7 @@ if [ -z "$download_method" ]; then
 fi
 
 # Safely create a user-specific temp directory.
-tempdir=`mktemp -d ${$TMPDIR:-/tmp}/tmpXXXXX`
+tempdir=`mktemp -d -p /tmp tmpXXXXX`
 
 # We have our own version of find-provides for bootstrap, so that we don't
 # depend on a "system" rpm installation. This is particularly handy in the case 
@@ -566,16 +566,15 @@ fi
 # Source the apt environment and upgrade what's already there.
 echo_n "Initializing apt-get environment."
 source $rootdir/$cmsplatf/external/apt/$apt_version/etc/profile.d/init.sh
-apt-get update >$tempdir/apt-get-update.log 2>&1 || { echo && echo "WARNING: There was a problem while running apt-get update. \
-While this might not be a problem you might want to tweak your sources.list \
-to avoid warnings in future. "; cat $tempdir/apt-get-update.log; }
+apt-get update >$tempdir/apt-get-update.log 2>&1 || cleanup_and_exit 1 "There was a problem while running apt-get update. "
 
 echo "Done"
 echo_n "Installing default packages."
 defaultPackages="$additionalPkgs $defaultPkgs"
-[ "X$defaultPackages" = X ] || apt-get install -y $defaultPackages >$tempdir/apt-get-install.log 2>&1 || { echo && echo "ERROR: \
-packages ($defaultPackages) were required by the bootstrap options/driver, but they are impossible to install. \
-Error message is:"; cat $tempdir/apt-get-install.log; cleanup_and_exit 1 "Unable to install packages." }
+[ "X$defaultPackages" = X ] || apt-get install -y $defaultPackages >$tempdir/apt-get-install.log 2>&1 ||  cleanup_and_exit 1 "There was \
+a problem while installing the default packages "
+
+
 echo "Done"
 
 echo "Bootstrap environment to be found in: "
