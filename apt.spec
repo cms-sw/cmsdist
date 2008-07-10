@@ -122,6 +122,9 @@ RPM
     RootDir "%{instroot}";
     Architecture "%{cmsplatf}";
 };
+
+APT::Cache-Limit 33554432;
+
 EOF_APT_CONF
 
 
