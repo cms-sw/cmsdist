@@ -1,9 +1,11 @@
-### RPM cms online CMSSW_2_0_8_ONLINE1
+### RPM cms online CMSSW_2_0_10_ONLINE1
 ## IMPORT configurations 
+
 Provides: /bin/zsh
 Provides: /bin/ksh
 Provides: /bin/sed
 Provides: /usr/bin/awk
+Provides: /usr/bin/python
 Provides: perl(Date::Format)
 Provides: perl(Term::ReadKey)
 Provides: perl(full)
@@ -24,10 +26,12 @@ Requires: online-tool-conf python
 #Defines for file containing list of packages for checkout and build:
 %define buildsetrepo    CMSDIST
 %define buildsetfile    online_build_set.file
-%define buildsetvers    buildset_V2_2
+%define buildsetvers    nr080707_bstest2
 
 %define patchsrc2	perl -p -i -e ' s!(<classpath.*/test\\+.*>)!!;' config/BuildFile.xml
-%define patchsrc3	perl -p -i -e ' s!int depth=1,!int depth,!;' src/DQM/HcalMonitorTasks/interface/HcalTrigPrimMonitor.h
+%define patchsrc3       perl -p -i -e ' s!(<use name=root>)!$1\\n<use name=Foundation/PluginManager>!;' src/DQM/L1TMonitorClient/BuildFile
+%define patchsrc4       perl -p -i -e ' s!(<use name=boost>)!$1\\n<use name=EventFilter/Utilities>!;' src/DQM/SiPixelMonitorClient/BuildFile
+
 %define scramcmd	$SCRAMV1_ROOT/bin/scram
 
 ## IMPORT cms-scram-build
