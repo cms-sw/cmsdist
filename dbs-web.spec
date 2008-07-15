@@ -28,7 +28,6 @@ chmod a+x %{i}/etc/init.d/*
 cd %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 #ln -s $YUI_ROOT/build YUI
 
-
 # This will generate the correct dependencies-setup.sh/dependencies-setup.csh
 # using the information found in the Requires statements of the different
 # specs and their dependencies.
