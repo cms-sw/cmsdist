@@ -5,6 +5,7 @@
 %define downloadn POE-Component-Child
 
 Source: http://search.cpan.org/CPAN/authors/id/E/EC/ECALDER/%{downloadn}-%{realversion}.tar.gz
+Requires:  p5-poe
 
 %prep
 %setup -n %downloadn-%realversion
