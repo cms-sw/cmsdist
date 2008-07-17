@@ -208,20 +208,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4vis
 <lib name=G4vis_management>
 <lib name=G4visXXX>
 <lib name=G4VRML>
-<use name=clhep>
 <use name=geant4core>
-<Client>
-<Environment name=GEANT4_BASE default="%i"></Environment>
-<Environment name=G4SRC default="$GEANT4_BASE/source"></Environment>
-<Environment name=LIBDIR default="$GEANT4_BASE/lib"></Environment>
-<Environment name=G4LIB value="$LIBDIR"></Environment>
-<Environment name=INCLUDE default="$GEANT4_BASE/include"></Environment>
-</Client>
-<Flags CPPDEFINES="G4USE_STD_NAMESPACE GNU_GCC G4V9">
-<Runtime name=G4LEVELGAMMADATA value="$GEANT4_BASE/data/PhotonEvaporation2.0" type=path>
-<Runtime name=G4NEUTRONHPDATA value="$GEANT4_BASE/data/G4NDL3.12" type=path>
-<Runtime name=G4RADIOACTIVEDATA value="$GEANT4_BASE/data/RadioactiveDecay3.2" type=path>
-<Runtime name=G4LEDATA value="$GEANT4_BASE/data/G4EMLOW5.1" type=path>
 </Tool>
 EOF_TOOLFILE
 
