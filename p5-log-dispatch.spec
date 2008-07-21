@@ -4,8 +4,8 @@
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn Log-Dispatch
 
-Source: http://search.cpan.org/CPAN/authors/id/D/DR/DROLSKY/%{downloadn}-%{v}.tar.gz
-Requires:  p5-params-validate
+Source: http://search.cpan.org/CPAN/authors/id/D/DR/DROLSKY/%{downloadn}-%{realversion}.tar.gz
+Requires: p5-params-validate
 
 # Provided by system perl
 Provides:  perl(MIME::Lite)
@@ -16,7 +16,7 @@ Provides:  perl(Mail::Sender)
 Provides:  perl(Mail::Sendmail)
 
 %prep
-%setup -n %downloadn-%v
+%setup -n %downloadn-%realversion
 %build
 LC_ALL=C; export LC_ALL
 perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion

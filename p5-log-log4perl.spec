@@ -4,18 +4,19 @@
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn Log-Log4perl
 
-Source:  http://search.cpan.org/CPAN/authors/id/M/MS/MSCHILLI/%{downloadn}-%{v}.tar.gz
-Requires:  p5-log-dispatch p5-log-dispatch-filerotate
+Source:  http://search.cpan.org/CPAN/authors/id/M/MS/MSCHILLI/%{downloadn}-%{realversion}.tar.gz
+Requires: p5-log-dispatch p5-log-dispatch-filerotate
 
 # Provided by system perl
 Provides:  perl(XML::DOM)
 
 # Fake provides for optional backends
 Provides:  perl(RRDs)
+Provides:  perl(DBI)
 
 
 %prep
-%setup -n %downloadn-%v
+%setup -n %downloadn-%realversion
 %build
 LC_ALL=C; export LC_ALL
 perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion
