@@ -1,14 +1,14 @@
-### RPM external herwigpp 2.2.0
+### RPM external herwigpp 2.2.1
 Source: http://projects.hepforge.org/herwig/files/Herwig++-%{realversion}.tar.gz
 Requires: thepeg
 Requires: gsl
 Requires: hepmc
 
-Patch0: herwigpp-2.2.0-gfortran
+Patch0: herwigpp-2.2.1-g77
 
 %prep
 %setup -q -n Herwig++-%{realversion}
-%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422"))
+%if (("%cmsplatf" == "slc4_ia32_gcc345")||("%cmsplatf" == "slc4_amd64_gcc345"))
 %patch0 -p1
 %endif
 ./configure --with-hepmc=$HEPMC_ROOT --with-gsl=$GSL_ROOT --with-thepeg=$THEPEG_ROOT --prefix=%i CXXFLAGS="-O2 -fuse-cxa-atexit"
