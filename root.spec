@@ -1,18 +1,11 @@
-### RPM lcg root 5.18.00a
+### RPM lcg root 5.20.00
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
 Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 
-Patch0: root-5.18-00-libpng
-Patch1: root-5.18-00a-CINT-maxlongline
-Patch2: root_5.18-00-CINTFunctional
-Patch3: root-5.18-00a-TBufferXML
-Patch4: root-5.18-00a-Cintex
-Patch5: root-5.18-00a-Cintex2
-Patch6: root-5.18-00a-TBufferFile
-Patch7: root-5.18-00a-cintexquickfix2
-Patch8: root-5.18-00a-gendict-performance
+Patch0: root-5.20-00-libpng
+Patch1: root-5.20-00-CINT-maxlongline
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -37,13 +30,6 @@ Requires: libtiff
 %setup -n root
 %patch0 -p1
 %patch1 -p1
-%patch2 -p0
-%patch3 -p1
-%patch4 -p0
-%patch5 -p0
-%patch6 -p0
-%patch7 -p0
-%patch8 -p1
 
 %build
 mkdir -p %i
@@ -122,7 +108,7 @@ fi
 export ROOTSYS=%i
 make INSTALL="$cp" INSTALLDATA="$cp" install
 mkdir -p $ROOTSYS/lib/python
-cp -r reflex/python/genreflex $ROOTSYS/lib/python
+cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
 #
 
 # SCRAM ToolBox toolfile
