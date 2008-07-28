@@ -1,4 +1,6 @@
 ### RPM cms cms-common 1.0
+## REVISION 1050
+## NOCOMPILER
 Source: cmsos
 %prep
 %build
