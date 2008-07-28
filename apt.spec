@@ -3,7 +3,7 @@
 Source:  http://apt-rpm.org/releases/%n-%realversion.tar.bz2
 Source1: bootstrap
 
-%if "%{?online_release:set}" != "set"
+%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 Requires: libxml2 beecrypt rpm zlib bz2lib openssl
 %else
 Requires: libxml2 beecrypt rpm bz2lib
@@ -122,6 +122,9 @@ RPM
     RootDir "%{instroot}";
     Architecture "%{cmsplatf}";
 };
+
+APT::Cache-Limit 33554432;
+
 EOF_APT_CONF
 
 
