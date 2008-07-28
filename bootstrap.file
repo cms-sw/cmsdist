@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.58 $
+# Revision: $Revision: 1.59 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -571,7 +571,7 @@ apt-get update >$tempdir/apt-get-update.log 2>&1 || cleanup_and_exit 1 "There wa
 echo "Done"
 echo_n "Installing default packages."
 defaultPackages="$additionalPkgs $defaultPkgs"
-[ "X$defaultPackages" = X ] || apt-get install -y $defaultPackages >$tempdir/apt-get-install.log 2>&1 ||  cleanup_and_exit 1 "There was \
+[ "X$defaultPackages" = X ] || apt-get -y install  $defaultPackages >$tempdir/apt-get-install.log 2>&1 ||  cleanup_and_exit 1 "There was \
 a problem while installing the default packages "
 
 
