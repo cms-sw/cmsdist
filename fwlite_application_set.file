@@ -1,4 +1,5 @@
 CondFormats/JetMETObjects
+DataFormats/BeamSpot
 DataFormats/BTauReco
 DataFormats/CaloTowers
 DataFormats/Candidate
@@ -7,7 +8,9 @@ DataFormats/EgammaCandidates
 DataFormats/EgammaReco
 DataFormats/EgammaTrackReco
 DataFormats/FWLite
+DataFormats/HLTReco
 DataFormats/JetReco
+DataFormats/L1GlobalTrigger
 DataFormats/L1Trigger
 DataFormats/METReco
 DataFormats/MuonReco
