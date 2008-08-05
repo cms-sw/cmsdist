@@ -8,6 +8,7 @@
 Source: %cvsserver&strategy=checkout&module=%{downloadn}&export=%{downloadn}&&tag=-r%{v}&output=/%{downloadn}.tar.gz
 Requires: oracle oracle-env p5-time-hires p5-text-glob p5-compress-zlib p5-dbi p5-dbd-oracle p5-xml-parser
 Requires: p5-monalisa-apmon p5-poe p5-cgi p5-cgi-session p5-json-xs p5-apache-dbi p5-sort-key
+Requires: py2-pil py2-matplotlib py2-numpy libjpg
 Requires: apache2-conf webtools dbs-client
 
 # Actually, it is p5-xml-parser that requires this, but it doesn't configure itself correctly
@@ -34,7 +35,9 @@ tar -cf - * | (cd %i && tar -xf -)
 
 # Switch template variables in the configuration files
 export PHEDEX_ROOT=%i
-perl -p -i -e "s|\@PHEDEX_ROOT\@|$PHEDEX_ROOT|g;" %i/Documentation/WebConfig/*.conf
+export APACHE2_CONFIG_ROOT=$APACHE2_CONFIG_ROOT
+perl -p -i -e "s|\@PHEDEX_ROOT\@|$PHEDEX_ROOT|g;
+	       s|\@APACHE2_CONF_ROOT\@|$APACHE2_CONF_ROOT|g" %i/Documentation/WebConfig/* %i/Documentation/WebSite/PlotConfig/config/*
 
 # Copy dependencies to dependencies-setup.sh
 mkdir -p %i/etc/profile.d
@@ -45,9 +48,16 @@ for x in %pkgreqs; do
  echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
 done
 
+# cp startup scripts to /bin
+mkdir -p %i/bin
+cp %i/Documentation/WebConfig/cmsweb_phedex* %i/bin
+
 %post
 %{relocateConfig}Documentation/WebConfig/phedexweb-httpd.conf
 %{relocateConfig}Documentation/WebConfig/phedexweb-app.conf
 %{relocateConfig}Documentation/WebConfig/phedexweb-secmod.conf
+%{relocateConfig}Documentation/WebSite/PlotConfig/config/cherrypy_prod.conf
+%{relocateConfig}bin/cmsweb_phedex
+%{relocateConfig}bin/cmsweb_phedex_graphs
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
