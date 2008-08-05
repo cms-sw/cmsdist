@@ -6,7 +6,7 @@
 #
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=PRODAGENT&export=PRODAGENT&&tag=-r%{cvstag}&output=/PRODAGENT.tar.gz
-Requires: webtools mysql py2-mysqldb dbs-client boss prodcommon py2-pyxml PHEDEX-micro py2-numpy py2-matplotlib py2-pil 
+Requires: webtools mysql py2-mysqldb dbs-client boss prodcommon py2-pyxml PHEDEX-micro py2-numpy py2-matplotlib py2-pil py2-pyopenssl
 
 %prep
 %setup -n PRODAGENT
@@ -32,7 +32,7 @@ mkdir -p %i/workdir
  echo "source $PY2_NUMPY_ROOT/etc/profile.d/init.sh"; \
  echo "source $PY2_MATPLOTLIB_ROOT/etc/profile.d/init.sh"; \
  echo "source $PY2_PIL_ROOT/etc/profile.d/init.sh"; \
-#echo "source $PY2_PYOPENSSL_ROOT/etc/profile.d/init.sh"; \
+ echo "source $PY2_PYOPENSSL_ROOT/etc/profile.d/init.sh"; \
  echo "source $WEBTOOLS_ROOT/etc/profile.d/init.sh"; \
  echo "source $BOSS_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
 
@@ -46,7 +46,7 @@ mkdir -p %i/workdir
  echo "source $PY2_NUMPY_ROOT/etc/profile.d/init.csh"; \
  echo "source $PY2_MATPLOTLIB_ROOT/etc/profile.d/init.csh"; \
  echo "source $PY2_PIL_ROOT/etc/profile.d/init.csh"; \
-# echo "source $PY2_PYOPENSSL_ROOT/etc/profile.d/init.csh"; \
+ echo "source $PY2_PYOPENSSL_ROOT/etc/profile.d/init.csh"; \
  echo "source $WEBTOOLS_ROOT/etc/profile.d/init.csh"; \
  echo "source $BOSS_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
 
