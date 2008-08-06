@@ -1,4 +1,4 @@
-### RPM external onlinesystemtools 2.0
+### RPM external onlinesystemtools 2.1
 Source: none
 
 # Here we are assuming that online release always uses system compiler:
@@ -26,7 +26,7 @@ Source: none
 %define xerces_version			2.7.0
 ## INITENV SET XERCES_C_VERSION         %xerces_version
 ## INITENV SET XERCES_C_ROOT		/opt/xdaq
-%define xdaq_version			3.15.0
+%define xdaq_version			3.16.1
 ## INITENV SET XDAQ_VERSION         	%xdaq_version
 ## INITENV SET XDAQ_ROOT         	/opt/xdaq
 %define mimetic_version			0.9.1
@@ -333,6 +333,18 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaq
 </Tool>
 EOF_TOOLFILE
 
+#xdaqheader
+cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaqheader
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=XDAQHEADER version=%xdaq_version>
+<info url=http://home.cern.ch/xdaq></info>
+<Client>
+<Environment name=XDAQHEADER_BASE  default="/opt/xdaq"></Environment>
+<Environment name=INCLUDE default="$XDAQHEADER_BASE/include"></Environment>
+</Client>
+</Tool>
+EOF_TOOLFILE
+
 #mimetic
 cat << \EOF_TOOLFILE >%i/etc/scram.d/mimetic
 <doc type=BuildSystem::ToolDoc version=1.0>
@@ -364,6 +376,7 @@ EOF_TOOLFILE
 %{relocateConfig}etc/scram.d/openssl
 %{relocateConfig}etc/scram.d/xerces-c
 %{relocateConfig}etc/scram.d/xdaq
+%{relocateConfig}etc/scram.d/xdaqheader
 %{relocateConfig}etc/scram.d/mimetic
 
 %endif
