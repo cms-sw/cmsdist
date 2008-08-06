@@ -1,4 +1,4 @@
-### RPM external dpm 1.6.7.4
+### RPM external dpm 1.6.5.5-CMS19
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 # for x86_64 this was false, but it causes problems on installation at least with cmsBuild
  
@@ -26,9 +26,7 @@ cd %_builddir ; rm -rf DPM-%{baseVersion}; tar -xzvf DPM-%{baseVersion}.src.tar.
 cd DPM-%{baseVersion}
 cp h/patchlevel.in h/patchlevel.h
 perl -pi -e "s!__PATCHLEVEL__!%patchLevel!;s!__BASEVERSION__!\"%baseVersion\"!;s!__TIMESTAMP__!%(date +%%s)!" h/patchlevel.h
-%if "%cpu" != "amd64"
 perl -pi -e 's|ld\s+\$\(|ld -m elf_i386 \$\(|' shlib/Imakefile
-%endif
 
 for this in BuildDLI BuildDPMServer BuildNameServerDaemon BuildNameServerLibrary BuildRfioServer \
             BuildSRMv1Server BuildSRMv2Server BuildSRMv2_2Server BuildTest ; do
