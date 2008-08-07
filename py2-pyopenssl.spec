@@ -4,7 +4,7 @@
 ## INITENV +PATH PATH %{i}/bin
 
 #Source: http://downloads.sourceforge.net/pyopenssl/pyOpenSSL-%v.tar.gz
-Source: http://downloads.sourceforge.net/pyopenssl/pyOpenSSL%n-%{realversion}.tar.gz
+Source: http://downloads.sourceforge.net/pyopenssl/pyOpenSSL-%{realversion}.tar.gz
 Requires: python openssl
 %prep
 #%setup -n pyOpenSSL-%{v}
