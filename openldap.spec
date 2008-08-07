@@ -1,4 +1,5 @@
 ### RPM external openldap 2.3.39
+## INITENV +PATH LD_LIBRARY_PATH %i/lib
 Source: ftp://ftp.openldap.org/pub/OpenLDAP/openldap-stable/openldap-stable-20071118.tgz
 Requires: openssl db4 
 #cyrus-sasl
@@ -37,3 +38,19 @@ make depend
 make
 %install
 make install
+
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<Client>
+ <Environment name=OPENLDAP_BASE default="%i"></Environment>
+ <Environment name=LIBDIR default="$OPENLDAP_BASE/lib"></Environment>
+</Client>
+</Tool>
+EOF_TOOLFILE
+
+%post
+%{relocateConfig}etc/scram.d/%n
+
