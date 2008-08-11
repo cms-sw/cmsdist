@@ -344,6 +344,7 @@ JetMETCorrections/Modules
 JetMETCorrections/Objects
 JetMETCorrections/Type1MET
 L1TriggerConfig/CSCTFConfigProducers
+L1TriggerConfig/DTTPGConfig
 L1TriggerConfig/DTTPGConfigProducers
 L1TriggerConfig/DTTrackFinder
 L1TriggerConfig/GctConfigProducers
