@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_2_1_1
+### RPM cms cmssw CMSSW_2_1_2
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: /bin/ksh
