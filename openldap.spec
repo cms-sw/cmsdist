@@ -48,6 +48,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
  <Environment name=OPENLDAP_BASE default="%i"></Environment>
  <Environment name=LIBDIR default="$OPENLDAP_BASE/lib"></Environment>
 </Client>
+<use name=openssl>
+<use name=db4>
 </Tool>
 EOF_TOOLFILE
 

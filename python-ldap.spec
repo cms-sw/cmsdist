@@ -28,6 +28,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
  <Environment name=PYTHON_LDAP_BASE default="%i"></Environment>
  <Environment name=PYTHON_LDAP_PYPATH default="$PYTHON_LDAP_BASE/lib/python2.4/site-packages"></Environment>
 </Client>
+<use name=openssl>
+<use name=openldap>
 <use name=python>
 <Runtime name=PYTHONPATH value="$PYTHON_LDAP_PYPATH" type=path>
 </Tool>
