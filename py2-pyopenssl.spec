@@ -7,8 +7,8 @@
 Source: http://downloads.sourceforge.net/pyopenssl/pyOpenSSL-%{realversion}.tar.gz
 Requires: python openssl
 %prep
-#%setup -n pyOpenSSL-%{v}
-%setup -n %n-%{realversion}
+%setup -n pyOpenSSL-%{realversion}
+#%setup -n %n-%{realversion}
 
 %build
 CFLAGS="-I$OPENSSL_ROOT/include -I$OPENSSL_ROOT/include/openssl" LDFLAGS="-L$OPENSSL_ROOT/lib" \
