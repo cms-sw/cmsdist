@@ -17,7 +17,6 @@ CalibTracker/SiStripLorentzAngle
 CalibTracker/SiStripPedestals
 CondCore/AlignmentPlugins
 CondCore/BeamSpotPlugins
-CondCore/BlobStreamingService
 CondCore/BTauPlugins
 CondCore/CalibPlugins
 CondCore/CSCPlugins
@@ -196,10 +195,9 @@ HLTrigger/Muon
 HLTrigger/special
 HLTrigger/Timer
 IOPool/AdaptorConfig
+IOPool/CMSSealPlugins
 IOPool/Input
 IOPool/Output
-IOPool/PFNCatalog
-IOPool/TrivialFileCatalog
 JetMETCorrections/Modules
 JetMETCorrections/Type1MET
 L1TriggerConfig/CSCTFConfigProducers
