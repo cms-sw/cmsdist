@@ -3,11 +3,15 @@ Source: http://www.hepforge.org/archive/sherpa/Sherpa-%realversion.tar.gz
 
 Requires: hepmc lhapdf
 
+Patch: sherpa-lhapdf
+
 %prep
 %setup -n SHERPA-MC-%realversion
+%patch -p1
 
 %build
-./TOOLS/makeinstall -t --copt --enable-hepmc2=$HEPMC_ROOT --copt --enable-lhapdf=$LHAPDF_ROOT --copt --prefix=%i
+# in case of errors the tool prompts ... and the build process hangs forever :(
+echo "a" | ./TOOLS/makeinstall -t --copt --enable-hepmc2=$HEPMC_ROOT --copt --enable-lhapdf=$LHAPDF_ROOT --copt --prefix=%i
 
 %install
 #make install

@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 7.0
+### RPM cms cmssw-tool-conf 7.1
 # with cmsBuild, change the above version only when a new
 # tool is added
 
@@ -93,6 +93,8 @@ Requires: dbs-client
 Requires: herwigpp
 Requires: thepeg
 Requires: libhepml
+Requires: sherpa
+Requires: python-ldap
 
 %define skipreqtools jcompiler
 
