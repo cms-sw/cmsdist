@@ -1,4 +1,4 @@
-### RPM external tauola 27.121-CMS19a
+### RPM external tauola 27.121.5
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Patch: tauola-27.121-gfortran
 Requires: pythia6
