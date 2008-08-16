@@ -331,6 +331,7 @@ HLTrigger/Timer
 Iguana/Framework
 Iguana/Utilities
 IOPool/AdaptorConfig
+IOPool/CMSSealPlugins
 IOPool/Common
 IOPool/Input
 IOPool/Output
@@ -464,7 +465,6 @@ RecoTauTag/ConeIsolation
 RecoTauTag/EcalIsolation
 RecoTauTag/HLTProducers
 RecoTracker/CkfPattern
-RecoTracker/DebugTools
 RecoTracker/GeometryESProducer
 RecoTracker/MeasurementDet
 RecoTracker/Record
