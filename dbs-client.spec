@@ -28,12 +28,14 @@ chmod a+x %{i}/bin/dbs
  echo "source $PYTHON_ROOT/etc/profile.d/init.sh"; \
  echo "source $OPENSSL_ROOT/etc/profile.d/init.sh"; \
  echo "source $PY2_ZSI_ROOT/etc/profile.d/init.sh"; \
+ echo "source $PY2_PYXML_ROOT/etc/profile.d/init.sh"; \
  ) > %{i}/etc/profile.d/dependencies-setup.sh
 
 (echo "#!/bin/tcsh"; \
  echo "source $PYTHON_ROOT/etc/profile.d/init.csh"; \
  echo "source $OPENSSL_ROOT/etc/profile.d/init.csh"; \
  echo "source $PY2_ZSI_ROOT/etc/profile.d/init.csh"; \
+ echo "source $PY2_PYXML_ROOT/etc/profile.d/init.csh"; \
  ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 # SCRAM ToolBox toolfile
