@@ -26,10 +26,10 @@ esac
   --with-expatincludedir=$EXPAT_ROOT/include \
   --with-zincludedir=$ZLIB_ROOT/include \
   --with-zlibdir=$ZLIB_ROOT/lib \
-  --with-pngincludedir=$LIBPNG_ROOT/include \
-  --with-pnglibdir=$LIBPNG_ROOT/lib \
-  --with-jpegincludedir=$LIBJPG_ROOT/include \
-  --with-jpeglibdir=$LIBJPG_ROOT/lib \
+  --with-pngincludedir=$LIBJPG_ROOT/include \
+  --with-pnglibdir=$LIBJPG_ROOT/lib \
+  --with-jpegincludedir=$LIBPNG_ROOT/include \
+  --with-jpeglibdir=$LIBPNG_ROOT/lib \
   --without-x \
   --without-tclsh \
   --without-tcl \

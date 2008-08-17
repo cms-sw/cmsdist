@@ -1,10 +1,12 @@
-### RPM cms dbs-client DBS_1_2_4
+### RPM cms dbs-client DBS_1_1_2_pre1
 ## INITENV +PATH PYTHONPATH %i/lib/
-
+#
+#
 %define cvstag %{realversion}
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=DBS/Clients/Python&nocache=true&export=DBS&tag=-r%{cvstag}&output=/dbs-client.tar.gz
 Requires: python openssl py2-zsi
+
 
 %prep
 %setup -n DBS
@@ -16,29 +18,17 @@ mkdir -p %{i}/bin
 mkdir -p %{i}/lib
 mkdir -p %{i}/etc/profile.d
 cp -r Clients/Python/* %{i}/lib/
-cp -r Clients/Python/DBSAPI/dbsCommandLine.py %{i}/bin/
-chmod a+x %{i}/bin/dbsCommandLine.py
 
 (echo "#!/bin/sh"; \
  echo "source $PYTHON_ROOT/etc/profile.d/init.sh"; \
  echo "source $OPENSSL_ROOT/etc/profile.d/init.sh"; \
  echo "source $PY2_ZSI_ROOT/etc/profile.d/init.sh"; \
- echo "export PYTHONPATH=\$DBS_CLIENT_ROOT/lib:\$PYTHONPATH"; \
- echo "export PYTHONPATH=\$DBS_CLIENT_ROOT/lib/DBSAPI:\$PYTHONPATH"; \
- echo "alias dbs='python \$DBS_CLIENT_ROOT/bin/dbsCommandLine.py'"; \
- echo "export DBS_CLIENT_CONFIG=\$DBS_CLIENT_ROOT/lib/DBSAPI/dbs.config"; \
- echo "export DBSCMD_HOME=\$DBS_CLIENT_ROOT/lib/DBSAPI";\
  ) > %{i}/etc/profile.d/dependencies-setup.sh
 
 (echo "#!/bin/tcsh"; \
  echo "source $PYTHON_ROOT/etc/profile.d/init.csh"; \
  echo "source $OPENSSL_ROOT/etc/profile.d/init.csh"; \
  echo "source $PY2_ZSI_ROOT/etc/profile.d/init.csh"; \
- echo "setenv PYTHONPATH \$DBS_CLIENT_ROOT/lib:\$PYTHONPATH"; \
- echo "setenv PYTHONPATH \$DBS_CLIENT_ROOT/lib/DBSAPI:\$PYTHONPATH"; \
- echo "alias dbs 'python \$DBS_CLIENT_ROOT/bin/dbsCommandLine.py'"; \
- echo "setenv DBS_CLIENT_CONFIG \$DBS_CLIENT_ROOT/lib/DBSAPI/dbs.config"; \
- echo "setenv DBSCMD_HOME \$DBS_CLIENT_ROOT/lib/DBSAPI";\
  ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 # SCRAM ToolBox toolfile
