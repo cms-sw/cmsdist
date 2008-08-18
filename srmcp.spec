@@ -1,4 +1,4 @@
-### RPM external srmcp 1.8.0-4
+### RPM external srmcp 1.8.0-15p8
 ## INITENV +PATH PATH %i/bin:%i/sbin
 ## INITENV SET SRM_PATH %i
 
