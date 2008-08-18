@@ -2,11 +2,11 @@
 ## INITENV +PATH PATH %i/bin:%i/sbin
 ## INITENV SET SRM_PATH %i
 
-Source: http://www.dcache.org/downloads/1.8.0/dcache-srmclient-%v.noarch.rpm
+Source: http://www.dcache.org/downloads/1.8.0/dcache-srmclient-%realversion.noarch.rpm
 Requires:  java-jdk
 
 %prep
-rpm2cpio %{_sourcedir}/dcache-srmclient-%v.noarch.rpm | cpio -ivd 
+rpm2cpio %{_sourcedir}/dcache-srmclient-%realversion.noarch.rpm | cpio -ivd 
 
 %build
 
