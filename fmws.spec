@@ -12,6 +12,7 @@ Source: http://t2.unl.edu/store/CmsFileServer-%{realversion}.tar.gz
 Requires: python openssl cherrypy py2-cheetah webtools yui java-jdk srmcp
 
 %prep
+%setup -n CmsFileServer
 %build
 
 %install
