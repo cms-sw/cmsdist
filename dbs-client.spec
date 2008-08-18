@@ -9,7 +9,7 @@
 %define cvstag %{realversion}
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=DBS/Clients/Python&nocache=true&export=DBS&tag=-r%{cvstag}&output=/dbs-client.tar.gz
-Requires: python openssl py2-zsi
+Requires: python openssl py2-zsi py2-pyxml
 
 %prep
 %setup -n DBS
