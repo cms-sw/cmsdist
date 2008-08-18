@@ -1,4 +1,4 @@
-### RPM cms fmws 0_1_1
+### RPM cms fmws 0.1.1
 ## INITENV +PATH PYTHONPATH %i/lib/
 ## INITENV +PATH PYTHONPATH %i/lib/src
 ## INITENV +PATH PYTHONPATH %i/lib/src/CmsFileServer
