@@ -8,7 +8,7 @@
 #Source: %cvsserver&strategy=checkout&module=DBS/Clients/Python&nocache=true&export=DBS&tag=-r%{cvstag}&output=/fmws.tar.gz
 #Source: svn://root.cern.ch/svn/root/trunk?scheme=https&module=root&output=/root.tgz
 #Source: svn://t2.unl.edu/brian?scheme=http&module=CmsFileServer&output=/fmws.tar.gz
-Source: http://t2.unl.edu/store/CmsFileServer-0.1.1.tar.gz
+Source: http://t2.unl.edu/store/CmsFileServer-%{realversion}.tar.gz
 Requires: python openssl cherrypy py2-cheetah webtools yui java-jdk srmcp
 
 %prep
@@ -19,6 +19,7 @@ mkdir -p %{i}/bin
 mkdir -p %{i}/lib
 mkdir -p %{i}/etc/profile.d
 mkdir -p %{i}/etc/init.d
+pwd
 cp -r src %{i}/lib/
 cp -r src/CmsFileServer/fmws_init %{i}/etc/init.d
 chmod a+x %{i}/etc/init.d/*
