@@ -1,13 +1,10 @@
 ### RPM cms fmws 0.1.2
 ## INITENV +PATH PYTHONPATH %i/lib/
-## INITENV +PATH PYTHONPATH %i/lib/src
-## INITENV +PATH PYTHONPATH %i/lib/src/CmsFileServer
+## INITENV SET FMWSHOME $FMWS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
+## INITENV SET PYTHONPATH ${FMWSHOME}:${PYTHONPATH}
 
 %define cvstag %{realversion}
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-#Source: %cvsserver&strategy=checkout&module=DBS/Clients/Python&nocache=true&export=DBS&tag=-r%{cvstag}&output=/fmws.tar.gz
-#Source: svn://root.cern.ch/svn/root/trunk?scheme=https&module=root&output=/root.tgz
-#Source: svn://t2.unl.edu/brian?scheme=http&module=CmsFileServer&output=/fmws.tar.gz
 Source: http://t2.unl.edu/store/CmsFileServer-%{realversion}.tar.gz
 Requires: python openssl cherrypy py2-cheetah webtools yui java-jdk srmcp
 
@@ -37,8 +34,6 @@ chmod a+x %{i}/etc/init.d/*
  echo "source $JAVA_JDK_ROOT/etc/profile.d/init.sh"; \
  echo "export JAVA_HOME=$JAVA_JDK_ROOT"
  echo "export LD_LIBRARY_PATH=\$SRMCP_ROOT/bin:\$LD_LIBRARY_PATH"; \
- echo "export FMWSHOME=\$FMWS_ROOT/lib/python$pyver/site-packages"; \
- echo "export PYTHONPATH=\$FMWSHOME:\$PYTHONPATH"; \
  echo "export FMWSTRANSFERDIR=/data/filemover/download"; \
  ) > %{i}/etc/profile.d/dependencies-setup.sh
 
@@ -53,8 +48,6 @@ chmod a+x %{i}/etc/init.d/*
  echo "source $JAVA_JDK_ROOT/etc/profile.d/init.csh"; \
  echo "setenv JAVA_HOME $JAVA_JDK_ROOT"
  echo "setenv LD_LIBRARY_PATH \$SRMCP_ROOT/bin:\$LD_LIBRARY_PATH"; \
- echo "setenv FMWSHOME \$FMWS_ROOT/lib/python$pyver/site-packages"; \
- echo "setenv PYTHONPATH \$FMWSHOME:\$PYTHONPATH"; \
  echo "setenv FMWSTRANSFERDIR /data/filemover/download"; \
  ) > %{i}/etc/profile.d/dependencies-setup.csh
 
