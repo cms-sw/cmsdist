@@ -1,4 +1,4 @@
-### RPM cms fmws 0.1.2
+### RPM cms fmws 0.1.3
 ## INITENV +PATH PYTHONPATH %i/lib/
 ## INITENV SET FMWSHOME $FMWS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV SET PYTHONPATH ${FMWSHOME}:${PYTHONPATH}
