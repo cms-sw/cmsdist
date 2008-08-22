@@ -1,7 +1,6 @@
-### RPM cms wmcore WMCORE_BUILD_TEST_0_0_1
+### RPM cms wmcore WMCORE_BUILD_TEST_0_0_2
 ## INITENV +PATH PYTHONPATH %i/lib
-#
-#
+
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=WMCORE&export=WMCORE&&tag=-r%{cvstag}&output=/WMCORE.tar.gz
 Requires: python py2-sqlalchemy
@@ -13,6 +12,7 @@ Requires: python py2-sqlalchemy
 make PREFIX=%i install
 mkdir -p %i
 cp -r * %i
+
 mkdir -p %{i}/etc/profile.d
 mkdir -p %i/workdir
 
@@ -26,3 +26,4 @@ mkdir -p %i/workdir
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
+
