@@ -11,12 +11,8 @@ Requires: python py2-sqlalchemy
 %build
 %install
 make PREFIX=%i install
-mkdir -p %i/bin
-cp bin/prod* %{i}/bin
-mkdir -p %i/test
-cp -R test/* %i/test/
-mkdir -p %i/util
-cp -R util/* %i/util/
+mkdir -p %i
+cp -r * %i
 mkdir -p %{i}/etc/profile.d
 mkdir -p %i/workdir
 
@@ -30,4 +26,3 @@ mkdir -p %i/workdir
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
-
