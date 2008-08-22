@@ -1,4 +1,4 @@
-### RPM cms prodagent PRODAGENT_0_11_7
+### RPM cms prodagent PRODAGENT_BUILD_TEST_0_0_1
 ## INITENV +PATH PYTHONPATH %i/lib
 ## INITENV +PATH PYTHONPATH $WEBTOOLS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Tools/GraphTool/src
 ## INITENV +PATH PYTHONPATH $PY2_PIL_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/PIL
@@ -6,7 +6,7 @@
 #
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=PRODAGENT&export=PRODAGENT&&tag=-r%{cvstag}&output=/PRODAGENT.tar.gz
-Requires: webtools mysql py2-mysqldb dbs-client boss prodcommon py2-pyxml PHEDEX-micro py2-numpy py2-matplotlib py2-pil py2-pyopenssl
+Requires: webtools mysql py2-mysqldb dbs-client boss prodcommon py2-pyxml PHEDEX-micro py2-numpy py2-matplotlib py2-pil py2-pyopenssl wmcore
 
 %prep
 %setup -n PRODAGENT
@@ -34,6 +34,7 @@ mkdir -p %i/workdir
  echo "source $PY2_PIL_ROOT/etc/profile.d/init.sh"; \
  echo "source $PY2_PYOPENSSL_ROOT/etc/profile.d/init.sh"; \
  echo "source $WEBTOOLS_ROOT/etc/profile.d/init.sh"; \
+ echo "source $WMCORE_ROOT/etc/profile.d/init.sh"; \
  echo "source $BOSS_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
 
 (echo "#!/bin/tcsh"; \
@@ -48,6 +49,7 @@ mkdir -p %i/workdir
  echo "source $PY2_PIL_ROOT/etc/profile.d/init.csh"; \
  echo "source $PY2_PYOPENSSL_ROOT/etc/profile.d/init.csh"; \
  echo "source $WEBTOOLS_ROOT/etc/profile.d/init.csh"; \
+ echo "source $WMCORE_ROOT/etc/profile.d/init.csh"; \
  echo "source $BOSS_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 
