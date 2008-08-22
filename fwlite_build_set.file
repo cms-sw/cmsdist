@@ -7,6 +7,7 @@ DataFormats/CaloTowers
 DataFormats/Candidate
 DataFormats/CLHEP
 DataFormats/Common
+DataFormats/CSCRecHit
 DataFormats/DetId
 DataFormats/DTDigi
 DataFormats/DTRecHit
@@ -15,6 +16,7 @@ DataFormats/EcalRecHit
 DataFormats/EgammaCandidates
 DataFormats/EgammaReco
 DataFormats/EgammaTrackReco
+DataFormats/FEDRawData
 DataFormats/FWLite
 DataFormats/GeometryCommonDetAlgo
 DataFormats/GeometrySurface
