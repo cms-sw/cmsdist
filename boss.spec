@@ -5,7 +5,7 @@
 %define cvstag %realversion
 %define compProjectName BOSS
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%{compProjectName}&export=%{compProjectName}&&tag=-r%{cvstag}&output=/%{compProjectName}.tar.gz 
-Requires: mysql sqlite uuid monalisa-apmon xerces-c
+Requires: mysql sqlite uuid monalisa-apmon xerces-c python
 %prep
 %setup -n %{compProjectName}
 %build
@@ -19,6 +19,7 @@ make install
 mkdir -p %{i}/etc/profile.d
 
 (echo "#!/bin/sh"; \
+ echo "source $PYTHON_ROOT/etc/profile.d/init.sh";
  echo "source $UUID_ROOT/etc/profile.d/init.sh"; \
  echo "source $MYSQL_ROOT/etc/profile.d/init.sh"; \
  echo "source $SQLITE_ROOT/etc/profile.d/init.sh"; \
@@ -26,6 +27,7 @@ mkdir -p %{i}/etc/profile.d
  echo "source $MONALISA_APMON_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
 
 (echo "#!/bin/tcsh"; \
+ echo "source $PYTHON_ROOT/etc/profile.d/init.csh";
  echo "source $UUID_ROOT/etc/profile.d/init.csh"; \
  echo "source $MYSQL_ROOT/etc/profile.d/init.csh"; \
  echo "source $SQLITE_ROOT/etc/profile.d/init.csh"; \
