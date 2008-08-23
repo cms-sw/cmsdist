@@ -5,7 +5,7 @@
 %define cvstag T0Mon_080822_1 
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
-Requires: python cherrypy sqlalchemy
+Requires: python cherrypy py2-sqlalchemy
 %prep
 %setup -n %{moduleName}
 %build
