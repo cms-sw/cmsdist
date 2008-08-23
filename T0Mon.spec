@@ -1,18 +1,15 @@
-### RPM cms webtools 1.3.1
+### RPM cms T0Mon 1.2.3
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 %define moduleName WEBTOOLS
 %define exportName WEBTOOLS
-%define cvstag V01-03-06
+%define cvstag T0Mon_080822_1 
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
-Requires: python cherrypy py2-cheetah yui sqlite zlib py2-pysqlite expat openssl bz2lib db4 gdbm py2-cx-oracle py2-formencode py2-pycrypto oracle beautifulsoup py2-sqlalchemy 
-Provides: perl(CGI) 
-Provides: perl(Crypt::CBC) 
-Provides: perl(SecurityModule) 
-Provides: perl(DBI)
+Requires: python cherrypy py2-sqlalchemy
 %prep
 %setup -n %{moduleName}
 %build
+
 rm -rf %i/etc/profile.d
 mkdir -p %i/etc/profile.d
 echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
@@ -33,12 +30,13 @@ done
 
 perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-setup.sh
 perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
+
 %install
 mkdir -p %i/etc
 mkdir -p %i/bin
-mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
-rm -rf Applications Configuration
-cp -r * %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
+mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
+cp -r Applications/T0Mon %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
+mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications/T0Mon/csv
 cp cmsWeb %i/bin
 cat << \EOF_CHERRYPY_CONF > %i/etc/cherrypy.conf
 # Serve a complete directory 
@@ -76,6 +74,7 @@ RewriteRule ^/cms/services/webtools/Templates(.*)$ %i/Templates$1
 EOF_APACHE2_FOOTER
 %define pythonv %(echo $PYTHON_ROOT | cut -d. -f1,2)
 %post
+
 %{relocateConfig}etc/cherrypy.conf
 %{relocateConfig}etc/apache2.conf
 %{relocateConfig}etc/apache2-header.conf
@@ -83,19 +82,3 @@ EOF_APACHE2_FOOTER
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 perl -p -i -e "s!\@RPM_INSTALL_PREFIX\@!$RPM_INSTALL_PREFIX/%pkgrel!" $RPM_INSTALL_PREFIX/%pkgrel/bin/cmsWeb
-
-
-# setup approripate links and made post install procedure
-. $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
-if [ `hostname`=="cmswttest.cern.ch" ]; then
-cat > $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Tools/SiteDBCore/security.ini << POST_EOF
-[database]
-dbtype = sqlite
-dbname = $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Tools/SiteDBCore/sitedb.db
-POST_EOF
-else
-if [ -n "${WEBTOOLS_CONF}" ] && [ -f ${WEBTOOLS_CONF}/sitedb/security.ini ]; then
-ln -s ${WEBTOOLS_CONF}/sitedb/security.ini $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Tools/SiteDBCore/security.ini
-fi
-fi
-
