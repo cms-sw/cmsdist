@@ -8,7 +8,7 @@
 %define cvstag %{realversion}
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=DBS/Web/DataDiscovery&nocache=true&export=DBS&tag=-r%{cvstag}&output=/dbs-web.tar.gz
-Requires: python py2-sqlalchemy cherrypy py2-cheetah webtools yui elementtree dbs-client mysql py2-mysqldb sqlite py2-pysqlite py2-cx-oracle oracle-env
+Requires: python py2-sqlalchemy cherrypy py2-cheetah webtools yui elementtree dbs-client mysql py2-mysqldb sqlite py2-pysqlite py2-cx-oracle oracle-env py2-simplejson
 
 %prep
 %setup -n DBS/Web/DataDiscovery
