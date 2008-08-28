@@ -1,4 +1,4 @@
-### RPM external gcc 4.1.2-CMS19
+### RPM external gcc 3.4.5-CMS19
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
@@ -21,8 +21,7 @@ Source3: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 %prep
 %setup -T -b 0 -n gcc-%realversion 
 
-case %cmsos in
-  "slc4_ia32" | "slc5_ia32" )
+%if "%cmsos" == "slc4_ia32"
 cat << \EOF_CONFIG_GCC >> gcc/config.gcc
 # CMS patch to include gcc/config/i386/t-cms when building gcc
 tm_file="$tm_file i386/cms.h"
@@ -45,8 +44,7 @@ MULTILIB_OPTIONS = m32
 MULTILIB_DIRNAMES = ../lib
 MULTILIB_MATCHES = m32=m32
 EOF_T_CMS
-  ;;
-esac
+%endif
 
 %setup -D -T -b 1 -n binutils-%binutilsv
 %setup -D -T -b 2 -n gmp-%{gmpVersion}
@@ -59,8 +57,6 @@ esac
 # _itself_ is a 32-bit executable.
 case $(uname -m):%{cmsos} in
   *:slc4_ia32 )
-    CCOPTS="-m32 -Wa,--32" ;;
-  *:slc5_ia32 )
     CCOPTS="-m32 -Wa,--32" ;;
   * )
     CCOPTS="" ;;
