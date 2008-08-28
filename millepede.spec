@@ -18,7 +18,9 @@ Patch1: millepede_64bit_2008_08_18
 make %makeprocesses
 
 %install
-# make install
+make install
+mkdir -p %i/bin
+cp bin/* %i/bin
 
 # Toolfile with only PATH
 # SCRAM ToolBox toolfile
