@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 %define moduleName WEBTOOLS
 %define exportName WEBTOOLS
-%define cvstag T0Mon_080902_1
+%define cvstag T0Mon_080902_2
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
 Requires: python cherrypy py2-sqlalchemy webtools
