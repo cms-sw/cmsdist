@@ -48,11 +48,19 @@ Requires: SCRAMV1
 %define reqfile config/requirements%scram_xml
 %endif
 
+%if "%{?isPatch}" == "yes"
+export PATCH_BASE_RELEASE=`echo %v |sed 's|_patch.+||'`
+%endif
+
 Source0: %{configrepo}&tag=-r%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
 %if  "%{cvsrepo}" != "cmstc"
 %define source1 %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 %else
+%if "%{?isPatch}" == "yes"
+%define source1 %{cvsrepo}://?tag=%{cvstag}&module=%{cvssrc}&export=%{srctree}&baserel=${PATCH_BASE_RELEASE}&output=/src.tar.gz
+%else
 %define source1 %{cvsrepo}://?tag=%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
+%endif
 %endif
 
 # Pick additional sources.  Since install.sh does a grep for "^Source",
@@ -109,7 +117,13 @@ rm -rf %{srctree}
 
 cd %_builddir
 
+%if "%{?isPatch}" == "yes"
+echo "Building patch release using toolbox from "${%{ucprojname}_PATCH_TOOL_CONF_ROOT}
+%_builddir/config/updateConfig.pl -p %{ucprojname} -v %v -s $SCRAMV1_VERSION -t ${%{ucprojname}_PATCH_TOOL_CONF_ROOT}
+%else
+echo "Building standard release using toolbox from "${%{ucprojname}_TOOL_CONF_ROOT}
 %_builddir/config/updateConfig.pl -p %{ucprojname} -v %v -s $SCRAMV1_VERSION -t ${%{ucprojname}_TOOL_CONF_ROOT}
+%endif
 
 %{?patchsrc:%patchsrc}
 %{?patchsrc2:%patchsrc2}
@@ -164,10 +178,13 @@ echo "executing %preBuildCommand"
 %if "%{?prebuildtarget:set}" == "set"
 %scramcmd b --verbose -f %{prebuildtarget} </dev/null
 %endif
+
 %scramcmd b --verbose -f %{compileOptions} %{makeprocesses}  %{buildtarget} </dev/null || { %scramcmd b outputlog && false; }
+
 %if "%{?additionalBuildTarget0:set}" == "set"
 %scramcmd b --verbose -f %{additionalBuildTarget0} < /dev/null
 %endif
+
 %if "%{?postbuildtarget:set}" == "set"
 %scramcmd b --verbose -f %{postbuildtarget} </dev/null
 %endif
@@ -178,7 +195,14 @@ mkdir -p %i/etc/dependencies
 chmod +x %{_sourcedir}/findDependencies.pl
 %{_sourcedir}/findDependencies.pl -rel %i
 gzip %i/etc/dependencies/uses.out
+%if "%{?isPatch}" == "yes"
+cp %i/../../cmssw/${PATCH_BASE_RELEASE}/etc/dependencies/usedby.out usedbyAll.out
+cat %i/etc/dependencies/usedby.out >>usedbyAll.out
+gzip usedbyAll.out
+mv usedbyAll.out %i/etc/dependencies/usedby.out
+%else
 gzip %i/etc/dependencies/usedby.out
+%endif
 %endif
 
 rm -rf %i/tmp
@@ -196,6 +220,49 @@ mkdir -p etc/scram.d
 sed 's|@PROJECT_NAME@|%ucprojname|g;s|@PROJECT_VERSION@|%v|g;s|@PROJECT_BUILD_PATH@|%_builddir|g;s|@PROJECT_ROOT@|%i|g' %_sourcedir/%lcprojname-tool > etc/scram.d/%lcprojname
 echo scramcmd: %scramcmd
 %scramcmd install -f 
+
+%if "%{?isPatch}" == "yes"
+cd src/
+PARENT_RELEASE_BASE=%i/../../cmssw/${PATCH_BASE_RELEASE}
+echo "preparing PackageList.cmssw from "$PARENT_RELEASE_BASE
+cp $PARENT_RELEASE_BASE/src/PackageList.cmssw .
+BASE=`pwd`
+echo "Base = "$BASE
+for PKG in `ls -d */*`; do
+   if [ -d $PKG ] ; then
+      if [ `basename $PKG` != 'CVS' ] ; then
+        P=`echo $PKG | sed 's|$BASE||'`
+        echo "Pkg/tag "$P" "%v
+        sed -i -e "s|$P.*$|$P\t\t%v|" PackageList.cmssw
+      fi
+   fi
+done
+
+echo "Setting up symlinks to parent src/ in patch release"
+for SUBSYS in `ls -d $PARENT_RELEASE_BASE/src/*`; do
+  if [ -d $SUBSYS ] ; then
+    S=`basename $SUBSYS`
+    # echo "checking subsystem "$S
+    if [ -d $S ] ; then
+      for PKG in `ls -d $PARENT_RELEASE_BASE/src/$S/*`; do
+        P=`basename $PKG`
+        # echo "checking package "$P
+        if [ -d $S/$P ] ; then # package is part of the patch-release, don't do anything
+	   echo "in patch" $S/$P
+        else
+	   ln -s $PKG $S/.
+        fi
+      done
+    else # subsys has no packages in patch-release, link it as a whole
+       ln -s $SUBSYS .
+    fi
+  fi
+done
+eval `%scramcmd run -sh`
+%scramcmd b --verbose -f gindices
+cd ..
+%endif
+
 
 %post
 export SCRAM_ARCH=%cmsplatf
@@ -215,3 +282,4 @@ for cmd in SealPluginRefresh EdmPluginRefresh IgPluginRefresh ; do
     $cmd || true
   fi
 done
+
