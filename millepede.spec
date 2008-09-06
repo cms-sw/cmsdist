@@ -41,5 +41,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/millepede
 EOF_TOOLFILE
 
 %post
+%{relocateConfig}etc/scram.d/%n
 
 
