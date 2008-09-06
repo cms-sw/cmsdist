@@ -1,9 +1,11 @@
 ### RPM external evtgenlhc 8.16
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
+Patch0: evtgenlhc-8.16-EvtPythia-iosfwd
 Requires: clhep
 
 %prep
 %setup -q -n %{n}/%{realversion}
+%patch0 -p2
 ./configure --lcgplatform=%cmsplatf --with-clhep=$CLHEP_ROOT
 
 %build
