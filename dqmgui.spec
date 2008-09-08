@@ -38,6 +38,8 @@ perl -p -i -e \
    s<%_builddir/$CMSSW_VERSION/python><%i/python>g;
    s<%_builddir/$CMSSW_VERSION><%i>g;" \
   %i/etc/profile.d/env.sh %i/etc/profile.d/env.csh
+echo "YUI_ROOT=$YUI_ROOT; export YUI_ROOT" >> %i/etc/profile.d/env.sh
+echo "setenv YUI_ROOT $YUI_ROOT" >> %i/etc/profile.d/env.csh
 
 %install
 mkdir -p %i/etc %i/bin %i/lib %i/python
