@@ -12,13 +12,15 @@ Patch4: root-5.18-00a-Cintex
 Patch5: root-5.18-00a-Cintex2
 Patch6: root-5.18-00a-TBufferFile
 Patch7: root-5.18-00a-cintexquickfix2
+Patch8: root-5.18-00a-gendict-performance
+Patch9: root-5.18-00a-TClass-classNameSize
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
 
 Requires: gccxml gsl castor libjpg dcap pcre python
 
-%if "%{?online_release:set}" != "set"
+%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 Requires: qt openssl mysql libpng zlib libungif xrootd
 %else
 %define skiplibtiff true
@@ -42,12 +44,14 @@ Requires: libtiff
 %patch5 -p0
 %patch6 -p0
 %patch7 -p0
+%patch8 -p1
+%patch9 -p0
 
 %build
 mkdir -p %i
 export ROOTSYS=%_builddir/root
 
-%if "%{?online_release:set}" == "set"
+%if "%cmsplatf" == "slc4onl_ia32_gcc346"
 # Build without mysql, and use system qt.
 # Also skip xrootd and odbc for online case:
 
@@ -150,10 +154,40 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcore
 </Tool>
 EOF_TOOLFILE
 
-# root toolfile
+# root toolfile, alias for rootphysics. Using rootphysics is preferred.
 cat << \EOF_TOOLFILE >%i/etc/scram.d/root
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=root version=%v>
+<info url="http://root.cern.ch/root/"></info>
+<use name=rootphysics>
+</Tool>
+EOF_TOOLFILE
+
+# roothistmatrix toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/roothistmatrix
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=roothistmatrix version=%v> 
+<info url="http://root.cern.ch/root/"></info>
+<lib name=Hist>
+<lib name=Matrix>
+<use name=ROOTCore>
+</Tool>
+EOF_TOOLFILE
+
+# rootphysics toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootphysics
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=rootphysics version=%v>
+<info url="http://root.cern.ch/root/"></info>
+<lib name=Physics>
+<use name=roothistmatrix>
+</Tool>
+EOF_TOOLFILE
+
+# rootgraphics toolfile, identical to old "root" toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootgraphics
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=rootgraphics version=%v>
 <info url="http://root.cern.ch/root/"></info>
 <lib name=TreePlayer>
 <lib name=Gpad>
@@ -298,6 +332,9 @@ EOF_TOOLFILE
 %post
 %{relocateConfig}etc/scram.d/root
 %{relocateConfig}etc/scram.d/rootcore
+%{relocateConfig}etc/scram.d/roothistmatrix
+%{relocateConfig}etc/scram.d/rootphysics
+%{relocateConfig}etc/scram.d/rootgraphics
 %{relocateConfig}etc/scram.d/rootcintex
 %{relocateConfig}etc/scram.d/rootinteractive
 %{relocateConfig}etc/scram.d/rootmath
