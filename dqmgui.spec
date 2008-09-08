@@ -1,10 +1,10 @@
-### RPM cms dqmgui 4.2.0
+### RPM cms dqmgui 4.2.1
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-Source0: %cvsserver&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&nocache=true&export=VisMonitoring/DQMServer&tag=-rV04-02-00&output=/VisMonitoring_DQMServer.tar.gz
-Source1: %cvsserver&strategy=checkout&module=CMSSW/DQMServices/Core&nocache=true&export=DQMServices/Core&tag=-rV03-03-04&output=/DQMServices_Core.tar.gz
+Source0: %cvsserver&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&nocache=true&export=VisMonitoring/DQMServer&tag=-rV04-02-01&output=/VisMonitoring_DQMServer.tar.gz
+Source1: %cvsserver&strategy=checkout&module=CMSSW/DQMServices/Core&nocache=true&export=DQMServices/Core&tag=-rV03-03-06&output=/DQMServices_Core.tar.gz
 Source2: %cvsserver&strategy=checkout&module=CMSSW/DQMServices/Components&nocache=true&export=DQMServices/Components&tag=-rV03-03-03&output=/DQMServices_Components.tar.gz
 Source3: %cvsserver&strategy=checkout&module=CMSSW/DQM/RenderPlugins&nocache=true&export=DQM/RenderPlugins&tag=-rV04-00-00&output=/DQM_RenderPlugins.tar.gz
-Requires: cmssw cms-common cherrypy py2-cheetah yui py2-pysqlite py2-cx-oracle py2-pil py2-matplotlib
+Requires: cmssw cherrypy py2-cheetah yui py2-pysqlite py2-cx-oracle py2-pil py2-matplotlib
 
 %prep
 # Note on requiring "xsrc": using $CMSSW_VERSION/src in the setup
@@ -54,6 +54,55 @@ mv %_builddir/$CMSSW_VERSION/lib/%cmsplatf/*.{so,edm,ig}* %i/lib
 mv %_builddir/$CMSSW_VERSION/bin/%cmsplatf/vis* %i/bin
 mv %_builddir/$CMSSW_VERSION/src/VisMonitoring/DQMServer/python/*.* %i/python
 
+sed 's/^  //' > %i/etc/restart-collector << \END_OF_SCRIPT
+  #!/bin/sh
+  . %instroot/cmsset_default.sh
+  . %i/etc/profile.d/env.sh
+  killall -9 DQMCollector
+  set -e
+  mkdir -p $(dirname %instroot)/collector
+  cd $(dirname %instroot)/collector
+  [ ! -f collector.out ] || mv -f collector.out collector.out.$(date +%Y%m%d%H%M%S)
+  DQMCollector > collector.out 2>&1 </dev/null &
+END_OF_SCRIPT
+
+sed 's/^  //' > %i/etc/archive-collector-logs << \END_OF_SCRIPT
+  #!/bin/sh
+  cd $(dirname %instroot)/collector
+  for month in $(ls | fgrep collector.out. | sed 's/.*out.\(......\).*/\1/' | sort | uniq); do
+    zip -rm collector-$month.zip collector.out.$month*
+  done
+END_OF_SCRIPT
+
+sed 's/^  //' > %i/etc/purge-old-sessions << \END_OF_SCRIPT
+  #!/bin/sh
+  . %instroot/cmsset_default.sh
+  . %i/etc/profile.d/env.sh
+  visDQMPurgeSessions $(dirname %instroot)/gui/www/sessions
+END_OF_SCRIPT
+
+sed 's/^  //' > %i/etc/update-crontab << \END_OF_SCRIPT
+  #!/bin/sh
+  set -x
+  (crontab -l | fgrep -v /dqmgui/; cat %i/etc/crontab) | crontab -
+END_OF_SCRIPT
+
+sed 's/^  //' > %i/etc/crontab << \END_OF_SCRIPT
+  10 * * * * %i/etc/purge-old-sessions
+  0 0 * * * %i/etc/restart-collector
+  20 0 1 * * %i/etc/archive-collector-logs
+END_OF_SCRIPT
+
+chmod a+x %i/etc/restart-collector
+chmod a+x %i/etc/archive-collector-logs
+chmod a+x %i/etc/purge-old-sessions
+chmod a+x %i/etc/update-crontab
+
 %post
+%{relocateConfig}etc/restart-collector
+%{relocateConfig}etc/archive-collector-logs
+%{relocateConfig}etc/purge-old-sessions
+%{relocateConfig}etc/update-crontab
+%{relocateConfig}etc/crontab
 %{relocateConfig}etc/profile.d/env.sh
 %{relocateConfig}etc/profile.d/env.csh
