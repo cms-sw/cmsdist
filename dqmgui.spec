@@ -1,4 +1,4 @@
-### RPM cms dqmgui 4.2.1
+### RPM cms dqmgui 4.2.1b
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source0: %cvsserver&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&nocache=true&export=VisMonitoring/DQMServer&tag=-rV04-02-01&output=/VisMonitoring_DQMServer.tar.gz
 Source1: %cvsserver&strategy=checkout&module=CMSSW/DQMServices/Core&nocache=true&export=DQMServices/Core&tag=-rV03-03-06&output=/DQMServices_Core.tar.gz
@@ -51,7 +51,7 @@ done
 %install
 mkdir -p %i/etc %i/bin %i/lib %i/python
 mv %_builddir/$CMSSW_VERSION/lib/%cmsplatf/*.{so,edm,ig}* %i/lib
-mv %_builddir/$CMSSW_VERSION/bin/%cmsplatf/vis* %i/bin
+mv %_builddir/$CMSSW_VERSION/bin/%cmsplatf/{vis*,DQMCollector} %i/bin
 mv %_builddir/$CMSSW_VERSION/src/VisMonitoring/DQMServer/python/*.* %i/python
 
 sed 's/^  //' > %i/etc/restart-collector << \END_OF_SCRIPT
