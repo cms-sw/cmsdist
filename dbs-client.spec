@@ -1,4 +1,4 @@
-### RPM cms dbs-client DBS_1_2_4
+### RPM cms dbs-client DBS_2_0_2
 ## INITENV +PATH PYTHONPATH %i/lib/
 ## INITENV +PATH PYTHONPATH %i/bin/
 ## INITENV +PATH PYTHONPATH %{i}/lib/
@@ -21,8 +21,9 @@ mkdir -p %{i}/bin
 mkdir -p %{i}/lib
 mkdir -p %{i}/etc/profile.d
 cp -r Clients/Python/* %{i}/lib/
-cp -r Clients/Python/DBSAPI/dbsCommandLine.py %{i}/bin/dbs
-chmod a+x %{i}/bin/dbs
+mv %{i}/lib/bin/* %{i}/bin/
+#cp -r Clients/Python/DBSAPI/dbsCommandLine.py %{i}/bin/dbs
+#chmod a+x %{i}/bin/dbs
 
 (echo "#!/bin/sh"; \
  echo "source $PYTHON_ROOT/etc/profile.d/init.sh"; \

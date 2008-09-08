@@ -1,6 +1,7 @@
-### RPM cms dbs-apps 1_2_3
+### RPM cms dbs-apps 2_0_2
 
-Requires: dbs-server dbs-client dbs-schema dbs-light dbs-web
+#Requires: dbs-server dbs-client dbs-schema dbs-light dbs-web
+Requires: dbs-server dbs-client dbs-schema dbs-web
 Source: none
 
 %prep
