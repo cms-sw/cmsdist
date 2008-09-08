@@ -1,4 +1,4 @@
-### RPM cms dqmgui 4.2.1c
+### RPM cms dqmgui 4.2.1d
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source0: %cvsserver&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&nocache=true&export=VisMonitoring/DQMServer&tag=-rV04-02-01&output=/VisMonitoring_DQMServer.tar.gz
 Source1: %cvsserver&strategy=checkout&module=CMSSW/DQMServices/Core&nocache=true&export=DQMServices/Core&tag=-rV03-03-06&output=/DQMServices_Core.tar.gz
@@ -60,17 +60,29 @@ sed 's/^  //' > %i/etc/restart-collector << \END_OF_SCRIPT
   . %i/etc/profile.d/env.sh
   killall -9 DQMCollector
   set -e
-  mkdir -p $(dirname %instroot)/collector
-  cd $(dirname %instroot)/collector
-  [ ! -f collector.out ] || mv -f collector.out collector.out.$(date +%Y%m%d%H%M%S)
-  DQMCollector > collector.out 2>&1 </dev/null &
+  for opt in ${1+"$@"}; do
+    case $opt in
+      :* )  port= dir=$(echo $opt | sed 's/.*://') ;;
+      *:* ) dir=$(echo $opt | sed 's/.*://')
+            port=$(echo $opt | sed 's/:.*//') ;;
+      * )  port= dir=$opt ;;
+    esac
+
+    mkdir -p $dir/collector
+    cd $dir/collector
+    [ ! -f collector.out ] || mv -f collector.out collector.out.$(date +%%Y%%m%%d%%H%%M%%S)
+    DQMCollector ${port:+ --listen $port} > collector.out 2>&1 </dev/null &
+  done
 END_OF_SCRIPT
 
 sed 's/^  //' > %i/etc/archive-collector-logs << \END_OF_SCRIPT
   #!/bin/sh
-  cd $(dirname %instroot)/collector
-  for month in $(ls | fgrep collector.out. | sed 's/.*out.\(......\).*/\1/' | sort | uniq); do
-    zip -rm collector-$month.zip collector.out.$month*
+  for opt in ${1+"$@"}; do
+    dir=$(echo $opt | sed 's/.*://')
+    cd $dir/collector
+    for month in $(ls | fgrep collector.out. | sed 's/.*out.\(......\).*/\1/' | sort | uniq); do
+      zip -rm collector-$month.zip collector.out.$month*
+    done
   done
 END_OF_SCRIPT
 
@@ -78,19 +90,41 @@ sed 's/^  //' > %i/etc/purge-old-sessions << \END_OF_SCRIPT
   #!/bin/sh
   . %instroot/cmsset_default.sh
   . %i/etc/profile.d/env.sh
-  visDQMPurgeSessions $(dirname %instroot)/gui/www/sessions
+  for opt in ${1+"$@"}; do
+    [ -d "$opt/gui/www/sessions" ] || continue
+    visDQMPurgeSessions $opt/gui/www/sessions
+  done
 END_OF_SCRIPT
 
 sed 's/^  //' > %i/etc/update-crontab << \END_OF_SCRIPT
   #!/bin/sh
+  collector= defcollector=9090:$(dirname %instroot)
+  purge= defpurge=$(dirname %instroot)
+  while [ $# -gt 0 ]; do
+    case $1 in
+      --collector )
+        collector="$collector $2"
+        shift; shift ;;
+      --purge )
+        purge="$purge $2"
+        shift; shift ;;
+      * )
+        echo "$(basename $0): unrecognised option $1" 1>&2
+        exit 1 ;;
+    esac
+  done
+
   set -x
-  (crontab -l | fgrep -v /dqmgui/; cat %i/etc/crontab) | crontab -
+  (crontab -l | fgrep -v /dqmgui/;
+   sed -e "s|#COLLECTOR|${collector:-$defcollector}|g" \
+       -e "s|#PURGE|${purge:-$defpurge}|g" <%i/etc/crontab) |
+  crontab -
 END_OF_SCRIPT
 
 sed 's/^  //' > %i/etc/crontab << \END_OF_SCRIPT
-  10 * * * * %i/etc/purge-old-sessions
-  0 0 * * * %i/etc/restart-collector
-  20 0 1 * * %i/etc/archive-collector-logs
+  5 */2 * * * %i/etc/purge-old-sessions #PURGE
+  0 0 * * * %i/etc/restart-collector #COLLECTOR
+  20 0 1 * * %i/etc/archive-collector-logs #COLLECTOR
 END_OF_SCRIPT
 
 chmod a+x %i/etc/restart-collector
