@@ -39,14 +39,17 @@ perl -p -i -e \
    s<%_builddir/$CMSSW_VERSION><%i>g;" \
   %i/etc/profile.d/env.sh %i/etc/profile.d/env.csh
 
-echo "export PATH=%i/xbin:\$PATH;" >> %i/etc/profile.d/env.sh
-echo "setenv PATH %i/xbin:\$PATH;" >> %i/etc/profile.d/env.csh
-echo "export PYTHONPATH=%i/xpython:\$PYTHONPATH;" >> %i/etc/profile.d/env.sh
-echo "setenv PYTHONPATH %i/xpython:\$PYTHONPATH;" >> %i/etc/profile.d/env.csh
-echo "export LD_LIBRARY_PATH=%i/xlib:\$LD_LIBRARY_PATH;" >> %i/etc/profile.d/env.sh
-echo "setenv LD_LIBRARY_PATH %i/xlib:\$LD_LIBRARY_PATH;" >> %i/etc/profile.d/env.csh
-echo "export YUI_ROOT='$YUI_ROOT';" >> %i/etc/profile.d/env.sh
-echo "setenv YUI_ROOT '$YUI_ROOT';" >> %i/etc/profile.d/env.csh
+(echo "export PATH=%i/xbin:\$PATH;"
+ echo "export PYTHONPATH=%i/xpython:\$PYTHONPATH;"
+ echo "export LD_LIBRARY_PATH=%i/xlib:\$LD_LIBRARY_PATH;"
+ echo "export YUI_ROOT='$YUI_ROOT';"
+ echo "export DQM_CMSSW_VERSION='$CMSSW_VERSION';") >> %i/etc/profile.d/env.sh
+
+(echo "setenv PATH %i/xbin:\$PATH;"
+ echo "setenv PYTHONPATH %i/xpython:\$PYTHONPATH;"
+ echo "setenv LD_LIBRARY_PATH %i/xlib:\$LD_LIBRARY_PATH;"
+ echo "setenv YUI_ROOT '$YUI_ROOT';"
+ echo "setenv DQM_CMSSW_VERSION '$CMSSW_VERSION';") >> %i/etc/profile.d/env.csh
 
 %install
 mkdir -p %i/etc %i/{,x}bin %i/{,x}lib %i/{,x}python
