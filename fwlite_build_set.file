@@ -41,6 +41,7 @@ DataFormats/MuonDetId
 DataFormats/MuonReco
 DataFormats/ParticleFlowCandidate
 DataFormats/ParticleFlowReco
+DataFormats/PatCandidates
 DataFormats/Provenance
 DataFormats/RecoCandidate
 DataFormats/RPCRecHit

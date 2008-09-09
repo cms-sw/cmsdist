@@ -16,6 +16,7 @@ DataFormats/L1GlobalTrigger
 DataFormats/L1Trigger
 DataFormats/METReco
 DataFormats/MuonReco
+DataFormats/PatCandidates
 DataFormats/RPCRecHit
 DataFormats/StdDictionaries
 DataFormats/TauReco
