@@ -1,4 +1,4 @@
-### RPM cms dqmgui 4.2.2c
+### RPM cms dqmgui 4.2.2d
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source0: %cvsserver&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&nocache=true&export=VisMonitoring/DQMServer&tag=-rV04-02-02&v=2&output=/VisMonitoring_DQMServer.tar.gz
 Source1: %cvsserver&strategy=checkout&module=CMSSW/DQMServices/Core&nocache=true&export=DQMServices/Core&tag=-rV03-03-06&output=/DQMServices_Core.tar.gz
@@ -40,13 +40,13 @@ perl -p -i -e \
   %i/etc/profile.d/env.sh %i/etc/profile.d/env.csh
 
 (echo "export PATH=%i/xbin:\$PATH;"
- echo "export PYTHONPATH=%i/xpython:\$PYTHONPATH;"
+ echo "export PYTHONPATH=%i/xlib:%i/xpython:\$PYTHONPATH;"
  echo "export LD_LIBRARY_PATH=%i/xlib:\$LD_LIBRARY_PATH;"
  echo "export YUI_ROOT='$YUI_ROOT';"
  echo "export DQM_CMSSW_VERSION='$CMSSW_VERSION';") >> %i/etc/profile.d/env.sh
 
 (echo "setenv PATH %i/xbin:\$PATH;"
- echo "setenv PYTHONPATH %i/xpython:\$PYTHONPATH;"
+ echo "setenv PYTHONPATH %i/xlib:%i/xpython:\$PYTHONPATH;"
  echo "setenv LD_LIBRARY_PATH %i/xlib:\$LD_LIBRARY_PATH;"
  echo "setenv YUI_ROOT '$YUI_ROOT';"
  echo "setenv DQM_CMSSW_VERSION '$CMSSW_VERSION';") >> %i/etc/profile.d/env.csh
