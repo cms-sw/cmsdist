@@ -64,14 +64,14 @@ cp -p %_builddir/$CMSSW_VERSION/src/VisMonitoring/DQMServer/python/*.* %i/python
  echo 'done'
  echo 'set $shopt'
  cd %_builddir/$CMSSW_VERSION/src
- for f in */*/.admin/CVS/Tag; do
+ for f in */*/CVS/Tag; do
    [ -f $f ] || continue
    tag=$(cat $f | sed 's/^N//')
-   pkg=$(echo $f | sed 's|/.admin/.*||')
+   pkg=$(echo $f | sed 's|/CVS/Tag||')
    echo "\$doit cvs -Q co -r $tag $pkg"
  done) > %i/bin/visDQMDistSource
 
-sed 's/^  //' > %i/bin/visDQMDistAddLocal << \END_OF_SCRIPT
+sed 's/^  //' > %i/bin/visDQMDistPatch << \END_OF_SCRIPT
   #!/bin/sh
 
   if [ X"$CMSSW_BASE" = X%i ]; then
@@ -90,38 +90,25 @@ sed 's/^  //' > %i/bin/visDQMDistAddLocal << \END_OF_SCRIPT
   fi
 
   set -e
-  echo "copying local code from $CMSSW_BASE into %i"
+  rm -fr %i/x{lib,bin,python}/{*,.??*}
+
+  echo "copying $CMSSW_BASE/lib/$SCRAM_ARCH into %i/xlib"
   (cd $CMSSW_BASE/lib/$SCRAM_ARCH && tar -cf - .) | (cd %i/xlib && tar -xvvf -)
+
+  echo "copying $CMSSW_BASE/bin/$SCRAM_ARCH into %i/xbin"
   (cd $CMSSW_BASE/bin/$SCRAM_ARCH && tar -cf - .) | (cd %i/xbin && tar -xvvf -)
+
+  echo "copying $CMSSW_BASE/src/VisMonitoring/DQMServer/python into %i/xpython"
   (cd $CMSSW_BASE/src/VisMonitoring/DQMServer/python && tar -cf - *.*) | (cd %i/xpython && tar -xvvf -)
   exit 0
 END_OF_SCRIPT
 
-sed 's/^  //' > %i/bin/visDQMDistRemoveLocal << \END_OF_SCRIPT
+sed 's/^  //' > %i/bin/visDQMDistUnpatch << \END_OF_SCRIPT
   #!/bin/sh
   echo "removing local overrides from %i"
-  rm -f %i/{xlib,xbin,xpython}/{*,.??*}
+  rm -fr %i/x{lib,bin,python}/{*,.??*}
   exit 0
 END_OF_SCRIPT
-
-(echo '#!/bin/sh';
- echo 'doit= shopt=-ex'
- echo 'while [ $# -gt 0 ]; do'
- echo ' case $1 in'
- echo '  -n ) doit=echo shopt=-e; shift ;;'
- echo '  * )  echo "$0: unrecognised parameter: $1" 1>&2; exit 1 ;;'
- echo ' esac'
- echo 'done'
-
- echo 'set $shopt'
- 
- cd %_builddir/$CMSSW_VERSION/src
- for f in */*/.admin/CVS/Tag; do
-   [ -f $f ] || continue
-   tag=$(cat $f | sed 's/^N//')
-   pkg=$(echo $f | sed 's|/.admin/.*||')
-   echo "\$doit cvs -Q co -r $tag $pkg"
- done) > %i/bin/visDQMPackageUpdate
 
 sed 's/^  //' > %i/etc/restart-collector << \END_OF_SCRIPT
   #!/bin/sh
