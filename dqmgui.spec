@@ -38,14 +38,90 @@ perl -p -i -e \
    s<%_builddir/$CMSSW_VERSION/python><%i/python>g;
    s<%_builddir/$CMSSW_VERSION><%i>g;" \
   %i/etc/profile.d/env.sh %i/etc/profile.d/env.csh
-echo "YUI_ROOT=$YUI_ROOT; export YUI_ROOT" >> %i/etc/profile.d/env.sh
-echo "setenv YUI_ROOT $YUI_ROOT" >> %i/etc/profile.d/env.csh
+
+echo "export PATH=%i/xbin:\$PATH;" >> %i/etc/profile.d/env.sh
+echo "setenv PATH %i/xbin:\$PATH;" >> %i/etc/profile.d/env.csh
+echo "export PYTHONPATH=%i/xpython:\$PYTHONPATH;" >> %i/etc/profile.d/env.sh
+echo "setenv PYTHONPATH %i/xpython:\$PYTHONPATH;" >> %i/etc/profile.d/env.csh
+echo "export LD_LIBRARY_PATH=%i/xlib:\$LD_LIBRARY_PATH;" >> %i/etc/profile.d/env.sh
+echo "setenv LD_LIBRARY_PATH %i/xlib:\$LD_LIBRARY_PATH;" >> %i/etc/profile.d/env.csh
+echo "export YUI_ROOT='$YUI_ROOT';" >> %i/etc/profile.d/env.sh
+echo "setenv YUI_ROOT '$YUI_ROOT';" >> %i/etc/profile.d/env.csh
 
 %install
-mkdir -p %i/etc %i/bin %i/lib %i/python
-mv %_builddir/$CMSSW_VERSION/lib/%cmsplatf/*.{so,edm,ig}* %i/lib
-mv %_builddir/$CMSSW_VERSION/bin/%cmsplatf/{vis*,DQMCollector} %i/bin
-mv %_builddir/$CMSSW_VERSION/src/VisMonitoring/DQMServer/python/*.* %i/python
+mkdir -p %i/etc %i/{,x}bin %i/{,x}lib %i/{,x}python
+cp -p %_builddir/$CMSSW_VERSION/lib/%cmsplatf/*.{so,edm,ig}* %i/lib
+cp -p %_builddir/$CMSSW_VERSION/bin/%cmsplatf/{vis*,DQMCollector} %i/bin
+cp -p %_builddir/$CMSSW_VERSION/src/VisMonitoring/DQMServer/python/*.* %i/python
+
+(echo '#!/bin/sh';
+ echo 'doit= shopt=-ex'
+ echo 'while [ $# -gt 0 ]; do'
+ echo ' case $1 in'
+ echo '  -n ) doit=echo shopt=-e; shift ;;'
+ echo '  * )  echo "$0: unrecognised parameter: $1" 1>&2; exit 1 ;;'
+ echo ' esac'
+ echo 'done'
+ echo 'set $shopt'
+ cd %_builddir/$CMSSW_VERSION/src
+ for f in */*/.admin/CVS/Tag; do
+   [ -f $f ] || continue
+   tag=$(cat $f | sed 's/^N//')
+   pkg=$(echo $f | sed 's|/.admin/.*||')
+   echo "\$doit cvs -Q co -r $tag $pkg"
+ done) > %i/bin/visDQMDistSource
+
+sed 's/^  //' > %i/bin/visDQMDistAddLocal << \END_OF_SCRIPT
+  #!/bin/sh
+
+  if [ X"$CMSSW_BASE" = X%i ]; then
+    unset CMSSW_BASE
+  fi
+
+  if [ X"$CMSSW_BASE" = X ]; then
+    echo "warning: local scram runtime environment not set, sourcing now" 1>&2
+    eval `scram runtime -sh`
+  fi
+
+  if [ X"$CMSSW_BASE" = X ] || [ X"$SCRAM_ARCH" = X ] || \
+     [ ! -f "$CMSSW_BASE/lib/$SCRAM_ARCH/.iglets" ]; then
+    echo "error: could not locate local scram developer area, exiting" 1>&2
+    exit 1;
+  fi
+
+  set -e
+  echo "copying local code from $CMSSW_BASE into %i"
+  (cd $CMSSW_BASE/lib/$SCRAM_ARCH && tar -cf - .) | (cd %i/xlib && tar -xvvf -)
+  (cd $CMSSW_BASE/bin/$SCRAM_ARCH && tar -cf - .) | (cd %i/xbin && tar -xvvf -)
+  (cd $CMSSW_BASE/src/VisMonitoring/DQMServer/python && tar -cf - *.*) | (cd %i/xpython && tar -xvvf -)
+  exit 0
+END_OF_SCRIPT
+
+sed 's/^  //' > %i/bin/visDQMDistRemoveLocal << \END_OF_SCRIPT
+  #!/bin/sh
+  echo "removing local overrides from %i"
+  rm -f %i/{xlib,xbin,xpython}/{*,.??*}
+  exit 0
+END_OF_SCRIPT
+
+(echo '#!/bin/sh';
+ echo 'doit= shopt=-ex'
+ echo 'while [ $# -gt 0 ]; do'
+ echo ' case $1 in'
+ echo '  -n ) doit=echo shopt=-e; shift ;;'
+ echo '  * )  echo "$0: unrecognised parameter: $1" 1>&2; exit 1 ;;'
+ echo ' esac'
+ echo 'done'
+
+ echo 'set $shopt'
+ 
+ cd %_builddir/$CMSSW_VERSION/src
+ for f in */*/.admin/CVS/Tag; do
+   [ -f $f ] || continue
+   tag=$(cat $f | sed 's/^N//')
+   pkg=$(echo $f | sed 's|/.admin/.*||')
+   echo "\$doit cvs -Q co -r $tag $pkg"
+ done) > %i/bin/visDQMPackageUpdate
 
 sed 's/^  //' > %i/etc/restart-collector << \END_OF_SCRIPT
   #!/bin/sh
@@ -53,7 +129,7 @@ sed 's/^  //' > %i/etc/restart-collector << \END_OF_SCRIPT
   . %i/etc/profile.d/env.sh
   killall -9 DQMCollector
   set -e
-  for opt in ${1+"$@"}; do
+  for opt; do
     case $opt in
       :* )  port= dir=$(echo $opt | sed 's/.*://') ;;
       *:* ) dir=$(echo $opt | sed 's/.*://')
@@ -70,7 +146,7 @@ END_OF_SCRIPT
 
 sed 's/^  //' > %i/etc/archive-collector-logs << \END_OF_SCRIPT
   #!/bin/sh
-  for opt in ${1+"$@"}; do
+  for opt; do
     dir=$(echo $opt | sed 's/.*://')
     cd $dir/collector
     for month in $(ls | fgrep collector.out. | sed 's/.*out.\(......\).*/\1/' | sort | uniq); do
@@ -83,7 +159,7 @@ sed 's/^  //' > %i/etc/purge-old-sessions << \END_OF_SCRIPT
   #!/bin/sh
   . %instroot/cmsset_default.sh
   . %i/etc/profile.d/env.sh
-  for opt in ${1+"$@"}; do
+  for opt; do
     [ -d "$opt/gui/www/sessions" ] || continue
     visDQMPurgeSessions $opt/gui/www/sessions
   done
@@ -120,16 +196,12 @@ sed 's/^  //' > %i/etc/crontab << \END_OF_SCRIPT
   20 0 1 * * %i/etc/archive-collector-logs #COLLECTOR
 END_OF_SCRIPT
 
-chmod a+x %i/etc/restart-collector
-chmod a+x %i/etc/archive-collector-logs
-chmod a+x %i/etc/purge-old-sessions
-chmod a+x %i/etc/update-crontab
+chmod a+x %i/bin/visDQMDist*
+chmod a+x %i/etc/*-*
 
 %post
-%{relocateConfig}etc/restart-collector
-%{relocateConfig}etc/archive-collector-logs
-%{relocateConfig}etc/purge-old-sessions
-%{relocateConfig}etc/update-crontab
+%{relocateConfig}bin/visDQMDist*
+%{relocateConfig}etc/*-*
 %{relocateConfig}etc/crontab
 %{relocateConfig}etc/profile.d/env.sh
 %{relocateConfig}etc/profile.d/env.csh
