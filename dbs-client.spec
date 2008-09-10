@@ -22,6 +22,7 @@ mkdir -p %{i}/lib
 mkdir -p %{i}/etc/profile.d
 cp -r Clients/Python/* %{i}/lib/
 mv %{i}/lib/bin/* %{i}/bin/
+
 #cp -r Clients/Python/DBSAPI/dbsCommandLine.py %{i}/bin/dbs
 #chmod a+x %{i}/bin/dbs
 
