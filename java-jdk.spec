@@ -24,6 +24,10 @@ Provides: libodbcinst.so
 %define downloadarch amd64
 %endif
 
+%if "%{tmpArch}" == "slc4_amd64"
+%define downloadarch amd64
+%endif
+
 Source0: http://cmsrep.cern.ch/cmssw/jdk-mirror/jdk-%downloadv-linux-i586.bin
 Source1: http://cmsrep.cern.ch/cmssw/jdk-mirror/jdk-%downloadv-linux-amd64.bin
 
