@@ -1,4 +1,4 @@
-### RPM cms prodcommon PRODCOMMON_0_12_0_testCS4
+### RPM cms prodcommon PRODCOMMON_0_12_0_testCS7
 ## INITENV +PATH PYTHONPATH %i/lib
 
 %define cvstag %v
