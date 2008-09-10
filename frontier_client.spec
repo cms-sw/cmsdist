@@ -1,20 +1,23 @@
-### RPM external frontier_client 2.7.7
-Source: http://edge.fnal.gov:8888/frontier/%{n}__%{realversion}__src.tar.gz
+### RPM external frontier_client 2.7.8
+Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
+#Source: http://edge.fnal.gov:8888/frontier/%{n}__%{realversion}__src.tar.gz
 #Source: http://cern.ch/service-spi/external/tarFiles/%{n}__%{realversion}__src.tar.gz
 
 Requires: expat
 
-%if "%{?online_release:set}" != "set"
+%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 Requires: zlib openssl
-%else
-Requires: systemtools
+%endif
+
+%if "%cmsplatf" == "slc4onl_ia32_gcc346"
+Requires: onlinesystemtools
 %endif
 
 %prep
 %setup -n %{n}__%{realversion}__src
 %build
 
-%if "%{?online_release:set}" != "set"
+%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 make EXPAT_DIR=$EXPAT_ROOT \
      COMPILER_TAG=gcc_$GCC_VERSION \
      ZLIB_DIR=$ZLIB_ROOT \
