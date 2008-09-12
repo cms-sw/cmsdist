@@ -1,13 +1,20 @@
-### RPM cms PHEDEX PHEDEX_3_0_4
-#
+### RPM cms PHEDEX PHEDEX_3_0_5
 ## INITENV +PATH PERL5LIB %i/perl_lib
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%n&export=%n&&tag=-r%{v}&output=/%n.tar.gz
-Requires: oracle oracle-env p5-time-hires p5-text-glob p5-compress-zlib p5-dbi p5-dbd-oracle p5-xml-parser python
-Requires: dbs-client p5-monalisa-apmon p5-poe p5-poe-component-child
-
+# Oracle libs
+Requires: oracle oracle-env
+# perl libs
+Requires: p5-time-hires p5-text-glob p5-compress-zlib p5-dbi
+Requires: p5-dbd-oracle p5-xml-parser p5-monalisa-apmon p5-poe
+Requires: p5-poe-component-child p5-log-log4perl p5-log-dispatch
+Requires: p5-log-dispatch-filerotate p5-params-validate
+# CMS libs
+Requires: dbs-client
+# Etc.
+Requires: python
 # Actually, it is p5-xml-parser that requires this, but it doesn't configure itself correctly
 # This is so it gets into our dependencies-setup.sh
-Requires:  expat
+Requires: expat
 
 # Provided by system perl
 Provides: perl(HTML::Entities)
