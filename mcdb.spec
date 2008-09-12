@@ -7,6 +7,8 @@ Requires: xerces-c
 
 rm config.mk
 touch config.mk
+case %cmsplatf in
+  *ia32*  ) 
 echo "PLATFORM = %cmsplatf" >> config.mk
 echo "CC       = gcc" >> config.mk
 echo "CXX      = g++" >> config.mk
@@ -15,6 +17,30 @@ echo "CXXFLAGS = -O2 -pipe -Wall -W -march=i386 -mtune=i686 -fPIC" >> config.mk
 echo "LINK     = g++" >> config.mk
 echo "LFLAGS   = -shared -Wl,-soname,libmcdb.so" >> config.mk
 echo "XERCESC  = $XERCES_C_ROOT" >> config.mk
+;;
+  *amd64* ) 
+echo "PLATFORM = %cmsplatf" >> config.mk
+echo "CC       = gcc" >> config.mk
+echo "CXX      = g++" >> config.mk
+echo "CFLAGS   = -O2 -pipe -Wall -W -fPIC" >> config.mk
+echo "CXXFLAGS = -O2 -pipe -Wall -W -fPIC" >> config.mk
+echo "LINK     = g++" >> config.mk
+echo "LFLAGS   = -shared -Wl,-soname,libmcdb.so" >> config.mk
+echo "XERCESC  = $XERCES_C_ROOT" >> config.mk
+;;
+  *       )    # This default is bogus, needs specification for each non-linux
+echo "PLATFORM = %cmsplatf" >> config.mk
+echo "CC       = gcc" >> config.mk
+echo "CXX      = g++" >> config.mk
+echo "CFLAGS   = -O2 -pipe -Wall -W -march=i386 -mtune=i686 -fPIC" >> config.mk
+echo "CXXFLAGS = -O2 -pipe -Wall -W -march=i386 -mtune=i686 -fPIC" >> config.mk
+echo "LINK     = g++" >> config.mk
+echo "LFLAGS   = -shared -Wl,-soname,libmcdb.so" >> config.mk
+echo "XERCESC  = $XERCES_C_ROOT" >> config.mk
+;;
+esac
+
+
 
 
 %build
