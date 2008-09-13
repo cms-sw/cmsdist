@@ -8,7 +8,7 @@ Patch1: tkonlinesw-fPIC
 # Note from Kristian: 
 # xdaq dependency is here only to re-use its makefiles. 
 
-%if "%{?online_release:set}" != "set"
+%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 Requires: xerces-c
 Requires: oracle
 Requires: xdaq
@@ -82,6 +82,21 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <info url="http://www.cern.ch/"></info>
 <lib name=ICUtils>
 <lib name=Fed9UUtils>
+<Client>
+ <Environment name=TKONLINESW_BASE default="%i"></Environment>
+ <Environment name=LIBDIR value="$TKONLINESW_BASE/lib"></Environment>
+ <Environment name=INCLUDE value="$TKONLINESW_BASE/include"></Environment>
+</Client>
+<use name=xerces-c>
+</Tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/tkonlineswdb
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=TkOnlineSwDB version=%v>
+<info url="http://www.cern.ch/"></info>
+<lib name=ICUtils>
+<lib name=Fed9UUtils>
 <lib name=DeviceDescriptions>
 <lib name=Fed9UDeviceFactory>
 <Client>
@@ -94,5 +109,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 </Tool>
 EOF_TOOLFILE
 
+
 %post
 %{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/scram.d/tkonlineswdb
