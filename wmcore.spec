@@ -1,4 +1,4 @@
-### RPM cms wmcore WMCORE_0_0_2
+### RPM cms wmcore WMCORE_0_0_4
 ## INITENV +PATH PYTHONPATH %i/lib
 
 %define cvstag %v
