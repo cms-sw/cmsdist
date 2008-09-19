@@ -1,4 +1,4 @@
-### cms frontend 1.0
+### RPM cms frontend 1.0
 
 # Dummy package to get apache-conf installed.
 Source: none
