@@ -2,6 +2,7 @@
 
 # Dummy package to get apache-conf installed.
 Source: none
+Requires: apache-conf
 
 %prep
 %build
