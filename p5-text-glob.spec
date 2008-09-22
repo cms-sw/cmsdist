@@ -4,9 +4,9 @@
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn Text-Glob
 
-Source: http://search.cpan.org/CPAN/authors/id/R/RC/RCLAMP/%{downloadn}-%{realversion}.tar.gz
+Source: http://search.cpan.org/CPAN/authors/id/R/RC/RCLAMP/%{downloadn}-%{v}.tar.gz
 %prep
-%setup -n %downloadn-%realversion
+%setup -n %downloadn-%v
 %build
 LC_ALL=C; export LC_ALL
 perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion
