@@ -225,18 +225,11 @@ echo scramcmd: %scramcmd
 %if "%{?isPatch}" == "yes"
 cd src/
 echo "preparing PackageList.cmssw from "%{parent_release_base}
-cp %{parent_release_base}/src/PackageList.cmssw .
-BASE=`pwd`
-echo "Base = "$BASE
-for PKG in `ls -d */*`; do
-   if [ -d $PKG ] ; then
-      if [ `basename $PKG` != 'CVS' ] ; then
-        P=`echo $PKG | sed 's|$BASE||'`
-        echo "Pkg/tag "$P" "%v
-        sed -i -e "s|$P.*$|$P\t\t%v|" PackageList.cmssw
-      fi
-   fi
-done
+cp %{parent_release_base}/src/PackageList.cmssw PackageList-base.cmssw
+cp PackageList.cmssw PackageList-patch.cmssw
+cp PackageList-base.cmssw pkgList.all
+cat PackageList.cmssw >>pkgList.all
+mv pkgList.all PackageList.cmssw
 
 echo "Setting up symlinks to parent src/ in patch release"
 for SUBSYS in `ls -d %{parent_release_base}/src/*`; do
