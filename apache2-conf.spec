@@ -1,8 +1,8 @@
-### RPM cms apache2-conf 1.8
+### RPM cms apache2-conf 1.9
 # Configuration for additional apache2 modules
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
-Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rSERVER_CONF_1_8&output=/config.tar.gz
-Source1: %cvsserver&module=COMP/WEBTOOLS/WelcomePages&export=htdocs&tag=-rSERVER_CONF_1_8&output=/htdocs.tar.gz
+Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rSERVER_CONF_1_9&output=/config.tar.gz
+Source1: %cvsserver&module=COMP/WEBTOOLS/WelcomePages&export=htdocs&tag=-rSERVER_CONF_1_9&output=/htdocs.tar.gz
 Requires:  mod_perl2 mod_python apache2
 
 %prep
