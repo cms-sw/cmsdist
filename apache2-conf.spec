@@ -1,8 +1,8 @@
-### RPM cms apache2-conf 1.6
+### RPM cms apache2-conf 1.8
 # Configuration for additional apache2 modules
-%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-Source0: %cvsserver&strategy=export&module=COMP/WEBTOOLS/Configuration&nocache=true&export=conf&tag=-rSERVER_CONF_1_6&output=/config.tar.gz
-Source1: %cvsserver&strategy=export&module=COMP/WEBTOOLS/WelcomePages&nocache=true&export=htdocs&tag=-rSERVER_CONF_1_6&output=/htdocs.tar.gz
+%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
+Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rSERVER_CONF_1_8&output=/config.tar.gz
+Source1: %cvsserver&module=COMP/WEBTOOLS/WelcomePages&export=htdocs&tag=-rSERVER_CONF_1_8&output=/htdocs.tar.gz
 Requires:  mod_perl2 mod_python apache2
 
 %prep
@@ -13,13 +13,14 @@ Requires:  mod_perl2 mod_python apache2
 %install
 
 # Make directory for various resources of this package
-mkdir -p %i/bin %i/logs %i/var %i/conf %i/startenv.d %i/htdocs
+mkdir -p %i/bin %i/logs %i/var %i/conf %i/startenv.d %i/htdocs %i/tools
 mkdir -p %i/apps.d %i/rewrites.d %i/ssl_rewrites.d
 
 cp -p %_builddir/conf/*.conf                 %i/conf
 cp -p %_builddir/conf/rewrites.d/*.conf      %i/rewrites.d
 cp -p %_builddir/conf/ssl_rewrites.d/*.conf  %i/ssl_rewrites.d
 cp -p %_builddir/conf/apps.d/*.conf          %i/apps.d
+cp -p %_builddir/conf/testme		     %i/tools
 cp -rp %_builddir/htdocs/*                   %i/htdocs
 
 # Make a server start script, with our environment.
@@ -39,7 +40,7 @@ perl -p -i -e "
   s|\@APACHE2_ROOT\@|$APACHE2_ROOT|g;
   s|\@MOD_PERL2_ROOT\@|$MOD_PERL2_ROOT|g;
   s|\@MOD_PYTHON_ROOT\@|$MOD_PYTHON_ROOT|g;" \
-  %i/conf/*.conf %i/conf/*.d/*.conf
+  %i/*/*.conf
 
 # Generate dependencies-setup.{sh,csh}.
 rm -rf %i/etc/profile.d
@@ -59,7 +60,6 @@ cp -p %i/etc/profile.d/dependencies-setup.sh %i/startenv.d/apache2.sh
 
 %post
 %{relocateConfig}bin/httpd
-%{relocateConfig}conf/*.conf
-%{relocateConfig}conf/*.d/*.conf
+%{relocateConfig}*/*.conf
 %{relocateConfig}startenv.d/*.sh
-%{relocateConfig}etc/profile.d/dependencies-setup.*sh
+%{relocateConfig}etc/profile.d/*-*.*sh
