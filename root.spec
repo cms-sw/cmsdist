@@ -4,16 +4,17 @@
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
 Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 
-Patch0: root-5.18-00-libpng
-Patch1: root-5.18-00a-CINT-maxlongline
-Patch2: root_5.18-00-CINTFunctional
-Patch3: root-5.18-00a-TBufferXML
-Patch4: root-5.18-00a-Cintex
-Patch5: root-5.18-00a-Cintex2
-Patch6: root-5.18-00a-TBufferFile
-Patch7: root-5.18-00a-cintexquickfix2
-Patch8: root-5.18-00a-gendict-performance
-Patch9: root-5.18-00a-TClass-classNameSize
+Patch0:  root-5.18-00-libpng
+Patch1:  root-5.18-00a-CINT-maxlongline
+Patch2:  root_5.18-00-CINTFunctional
+Patch3:  root-5.18-00a-TBufferXML
+Patch4:  root-5.18-00a-Cintex
+Patch5:  root-5.18-00a-Cintex2
+Patch6:  root-5.18-00a-TBufferFile
+Patch7:  root-5.18-00a-cintexquickfix2
+Patch8:  root-5.18-00a-gendict-performance
+Patch9:  root-5.18-00a-TClass-classNameSize
+Patch10: root-5.18-00a-TFile-stlStreamerInfo
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -46,6 +47,7 @@ Requires: libtiff
 %patch7 -p0
 %patch8 -p1
 %patch9 -p0
+%patch10 -p0
 
 %build
 mkdir -p %i
