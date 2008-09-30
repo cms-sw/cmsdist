@@ -1,60 +1,65 @@
-### RPM cms apache2-conf 1.0
+### RPM cms apache2-conf 1.9b
 # Configuration for additional apache2 modules
-Source: none
+%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
+Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rSERVER_CONF_1_9b&output=/config.tar.gz
+Source1: %cvsserver&module=COMP/WEBTOOLS/WelcomePages&export=htdocs&tag=-rSERVER_CONF_1_9b&output=/htdocs.tar.gz
 Requires:  mod_perl2 mod_python apache2
 
 %prep
+%setup -T -b 0 -n conf
+%setup -D -T -b 1 -n htdocs
+
 %build
 %install
-mkdir -p %i/conf %i/bin
 
-# FIXME: make sure that mod_perl2.conf/mod_python.conf are actually called that way. 
-# FIXME: autogenerate from Requires.
-cat << \EOF > %i/conf/apache2.conf
-Include @APACHE2_ROOT@/conf/httpd.conf
-Include @MOD_PERL2_ROOT@/conf/mod_perl2.conf
-Include @MOD_PYTHON_ROOT@/conf/mod_python.conf
-# Additional configuration bits go here.
+# Make directory for various resources of this package
+mkdir -p %i/bin %i/logs %i/var %i/conf %i/startenv.d %i/htdocs %i/tools
+mkdir -p %i/apps.d %i/rewrites.d %i/ssl_rewrites.d
+
+cp -p %_builddir/conf/*.conf                 %i/conf
+cp -p %_builddir/conf/rewrites.d/*.conf      %i/rewrites.d
+cp -p %_builddir/conf/ssl_rewrites.d/*.conf  %i/ssl_rewrites.d
+cp -p %_builddir/conf/apps.d/*.conf          %i/apps.d
+cp -p %_builddir/conf/testme		     %i/tools
+cp -rp %_builddir/htdocs/*                   %i/htdocs
+
+# Make a server start script, with our environment.
+sed 's/^  //' << EOF > %i/bin/httpd
+  #!/bin/sh
+  for file in %i/startenv.d/*.sh; do
+    [ -f \$file ] || continue
+    . \$file
+  done
+  exec $APACHE2_ROOT/bin/httpd -f %i/conf/apache2.conf \${1+"\$@"}
 EOF
-
-cat << \EOF > %i/bin/httpd
-#!/bin/sh
-@APACHE2_ROOT@/bin/httpd -f %i/conf/apache2.conf ${1+"$@"}
-EOF
-
-perl -p -i -e "s|\@APACHE2_ROOT\@|$APACHE2_ROOT|g;
-               s|\@MOD_PERL2_ROOT\@|$MOD_PERL2_ROOT|g;
-               s|\@MOD_PYTHON_ROOT\@|$MOD_PYTHON_ROOT|g;" %i/conf/apache2.conf %i/bin/httpd
-
 chmod +x %i/bin/httpd
 
-# Generates the dependencies-setup.{sh,csh} files so that
-# sourcing init.{sh,csh} picks up also the environment of 
-# dependencies.
+# Replace template variables in configuration files with actual paths.
+perl -p -i -e "
+  s|\@SERVER_ROOT\@|%i|g;
+  s|\@APACHE2_ROOT\@|$APACHE2_ROOT|g;
+  s|\@MOD_PERL2_ROOT\@|$MOD_PERL2_ROOT|g;
+  s|\@MOD_PYTHON_ROOT\@|$MOD_PYTHON_ROOT|g;" \
+  %i/*/*.conf
 
+# Generate dependencies-setup.{sh,csh}.
 rm -rf %i/etc/profile.d
 mkdir -p %i/etc/profile.d
-echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
-echo '#!/bin/tcsh' > %{i}/etc/profile.d/dependencies-setup.csh
-echo requiredtools `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
-for tool in `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
-do
-    case X$tool in
-        Xdistcc|Xccache )
-        ;;
-        * )
-            toolcap=`echo $tool | tr a-z- A-Z_`
-            eval echo ". $`echo ${toolcap}_ROOT`/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.sh
-            eval echo "source $`echo ${toolcap}_ROOT`/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
-        ;;
-    esac
+: > %{i}/etc/profile.d/dependencies-setup.sh
+: > %{i}/etc/profile.d/dependencies-setup.csh
+for tool in `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`; do
+  eval toolroot=\$$(echo $tool | tr a-z- A-Z_)_ROOT
+  if [ X"${toolroot:+set}" = Xset ] && [ -d "$toolroot" ]; then
+    echo ". $toolroot/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
+    echo "source $toolroot/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+  fi
 done
 
-perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-setup.sh
-perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
+# Copy dependencies to the environment setup directory.
+cp -p %i/etc/profile.d/dependencies-setup.sh %i/startenv.d/apache2.sh
 
 %post
 %{relocateConfig}bin/httpd
-%{relocateConfig}conf/apache2.conf
-%{relocateConfig}etc/profile.d/dependencies-setup.sh
-%{relocateConfig}etc/profile.d/dependencies-setup.csh
+%{relocateConfig}*/*.conf
+%{relocateConfig}startenv.d/*.sh
+%{relocateConfig}etc/profile.d/*-*.*sh
