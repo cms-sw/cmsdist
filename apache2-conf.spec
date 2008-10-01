@@ -1,8 +1,9 @@
-### RPM cms apache2-conf 1.14
+### RPM cms apache2-conf 1.14b
 # Configuration for additional apache2 modules
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
 Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rSERVER_CONF_1_14&output=/config.tar.gz
 Requires: apache2
+Obsoletes: cms+apache2-conf+1.14-cmp
 Obsoletes: cms+apache2-conf+1.13-cmp
 Obsoletes: cms+apache2-conf+1.12c-cmp
 Obsoletes: cms+apache2-conf+1.12b-cmp
@@ -53,7 +54,7 @@ EOF
 chmod +x %i/bin/httpd
 
 # Replace template variables in configuration files with actual paths.
-perl -p -i -e "s|\@SERVER_ROOT\@|%instroot|g;s|\@APACHE2_ROOT\@|$APACHE2_ROOT|g;" %_builddir/conf/apache2.conf
+perl -p -i -e "s|\@SERVER_ROOT\@|%instroot/apache2|g;s|\@APACHE2_ROOT\@|$APACHE2_ROOT|g;" %_builddir/conf/apache2.conf
 
 # Generate dependencies-setup.{sh,csh}.
 rm -fr %i/etc/profile.d
