@@ -1,10 +1,14 @@
-### RPM cms apache2-conf 1.12c
+### RPM cms apache2-conf 1.14
 # Configuration for additional apache2 modules
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
-Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rSERVER_CONF_1_12&output=/config.tar.gz
+Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rSERVER_CONF_1_14&output=/config.tar.gz
 Requires: apache2
-Obsoletes: cms+apache2-conf+1.10-cmp
+Obsoletes: cms+apache2-conf+1.13-cmp
+Obsoletes: cms+apache2-conf+1.12c-cmp
+Obsoletes: cms+apache2-conf+1.12b-cmp
+Obsoletes: cms+apache2-conf+1.12-cmp
 Obsoletes: cms+apache2-conf+1.11-cmp
+Obsoletes: cms+apache2-conf+1.10-cmp
 Obsoletes: cms+apache2-conf+1.9b-cmp
 Obsoletes: cms+apache2-conf+1.9-cmp
 Obsoletes: cms+apache2-conf+1.8-cmp
@@ -25,14 +29,15 @@ Obsoletes: cms+apache2-conf+1.0-cmp
 
 %install
 # Make directory for various resources of this package.
-rm -fr %instroot/apache2/*/*core-server*
-mkdir -p %i/bin %i/htdocs %i/tools
+rm -f %instroot/apache2/startenv.d/00-core-server.sh
+rm -f %instroot/apache2/conf/apache2.conf
+rm -f %instroot/apache2/conf/testme
+
+mkdir -p %i/bin %i/tools
 mkdir -p %instroot/apache2/apps.d
-mkdir -p %instroot/apache2/rewrites.d
-mkdir -p %instroot/apache2/ssl_rewrites.d
 mkdir -p %instroot/apache2/startenv.d
 mkdir -p %instroot/apache2/htdocs
-mkdir -p %instroot/apache2/conf/core-server
+mkdir -p %instroot/apache2/conf
 mkdir -p %instroot/apache2/logs
 mkdir -p %instroot/apache2/var
 
@@ -43,7 +48,7 @@ sed 's/^  //' << EOF > %i/bin/httpd
     [ -f \$file ] || continue
     . \$file
   done
-  exec $APACHE2_ROOT/bin/httpd -f %instroot/apache2/conf/core-server/apache2.conf \${1+"\$@"}
+  exec $APACHE2_ROOT/bin/httpd -f %instroot/apache2/conf/apache2.conf \${1+"\$@"}
 EOF
 chmod +x %i/bin/httpd
 
@@ -51,7 +56,7 @@ chmod +x %i/bin/httpd
 perl -p -i -e "s|\@SERVER_ROOT\@|%instroot|g;s|\@APACHE2_ROOT\@|$APACHE2_ROOT|g;" %_builddir/conf/apache2.conf
 
 # Generate dependencies-setup.{sh,csh}.
-rm -rf %i/etc/profile.d
+rm -fr %i/etc/profile.d
 mkdir -p %i/etc/profile.d
 : > %i/etc/profile.d/dependencies-setup.sh
 : > %i/etc/profile.d/dependencies-setup.csh
@@ -64,16 +69,16 @@ for tool in `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`; do
 done
 
 # Copy files to the server setup directory.
-cp -p %_builddir/conf/* %instroot/apache2/conf/core-server/
+cp -p %_builddir/conf/apache2.conf %_builddir/conf/testme %instroot/apache2/conf
 cp -p %i/etc/profile.d/dependencies-setup.sh %instroot/apache2/startenv.d/00-core-server.sh
 
 %post
 # Relocate files.
-CFG=$RPM_INSTALL_PREFIX/apache2/conf/core-server
+CFG=$RPM_INSTALL_PREFIX/apache2/conf
 perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|g"	\
   $RPM_INSTALL_PREFIX/%pkgrel/bin/httpd			\
   $RPM_INSTALL_PREFIX/%pkgrel/etc/profile.d/*-*.*sh	\
-  $RPM_INSTALL_PREFIX/apache2/conf/core-server/*.conf	\
+  $RPM_INSTALL_PREFIX/apache2/conf/apache2.conf		\
   $RPM_INSTALL_PREFIX/apache2/startenv.d/00-core-server.sh
 
 # Set ServerName.
@@ -106,8 +111,9 @@ else
 fi
 
 # Deter attempts to modify installed files locally.
-find $RPM_INSTALL_PREFIX/apache2/*/*core-server* -type f |
-  fgrep -v .pem | xargs chmod a-w
+chmod a-w $RPM_INSTALL_PREFIX/apache2/conf/apache2.conf
+chmod a-w $RPM_INSTALL_PREFIX/apache2/conf/testme
+chmod a-w $RPM_INSTALL_PREFIX/apache2/startenv.d/00-core-server.sh
 
 %files
 %i/
@@ -118,9 +124,9 @@ find $RPM_INSTALL_PREFIX/apache2/*/*core-server* -type f |
 %dir %instroot/apache2/htdocs
 %dir %instroot/apache2/apps.d
 %dir %instroot/apache2/startenv.d
-%attr(444,-,-) %config %instroot/apache2/conf/core-server/*.conf
-%attr(555,-,-) %config %instroot/apache2/conf/core-server/testme
-#%config(missingok) %instroot/apache2/conf/core-server/cern-ca.pem
-#%config(missingok) %instroot/apache2/conf/core-server/grid-ca.pem
-#%config(missingok) %instroot/apache2/conf/core-server/grid-crl.pem
+%attr(444,-,-) %config %instroot/apache2/conf/apache2.conf
+%attr(555,-,-) %config %instroot/apache2/conf/testme
+#%config(missingok) %instroot/apache2/conf/cern-ca.pem
+#%config(missingok) %instroot/apache2/conf/grid-ca.pem
+#%config(missingok) %instroot/apache2/conf/grid-crl.pem
 %attr(444,-,-) %config %instroot/apache2/startenv.d/00-core-server.sh
