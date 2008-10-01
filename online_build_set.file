@@ -49,7 +49,6 @@ CommonTools/Statistics
 CommonTools/TrackerMap
 CondCore/AlignmentPlugins
 CondCore/BeamSpotPlugins
-CondCore/BlobStreamingService
 CondCore/BTauPlugins
 CondCore/CalibPlugins
 CondCore/CSCPlugins
@@ -197,7 +196,6 @@ DQM/L1TMonitor
 DQM/L1TMonitorClient
 DQM/PhysicsObjectsMonitoring
 DQM/RCTMonitor
-DQM/RenderPlugins
 DQM/RPCMonitorClient
 DQM/RPCMonitorDigi
 DQMServices/ClientConfig
@@ -285,14 +283,10 @@ Geometry/CSCGeometryBuilder
 Geometry/DTGeometry
 Geometry/DTGeometryBuilder
 Geometry/EcalAlgo
-Geometry/EcalBarrelAlgo
 Geometry/EcalCommonData
-Geometry/EcalEndcapAlgo
 Geometry/EcalMapping
-Geometry/EcalPreshowerAlgo
 Geometry/EcalSimData
 Geometry/EcalTestBeam
-Geometry/EcalTowerAlgo
 Geometry/ForwardCommonData
 Geometry/ForwardGeometry
 Geometry/ForwardSimData
@@ -330,13 +324,11 @@ HLTrigger/special
 HLTrigger/Timer
 Iguana/Framework
 Iguana/Utilities
-IOPool/AdaptorConfig
+IOPool/CMSSealPlugins
 IOPool/Common
 IOPool/Input
 IOPool/Output
-IOPool/PFNCatalog
 IOPool/Streamer
-IOPool/TrivialFileCatalog
 IORawData/DaqSource
 IORawData/SiStripInputSources
 JetMETCorrections/Algorithms
@@ -464,7 +456,6 @@ RecoTauTag/ConeIsolation
 RecoTauTag/EcalIsolation
 RecoTauTag/HLTProducers
 RecoTracker/CkfPattern
-RecoTracker/DebugTools
 RecoTracker/GeometryESProducer
 RecoTracker/MeasurementDet
 RecoTracker/Record
@@ -553,4 +544,3 @@ Utilities/General
 Utilities/StorageFactory
 Utilities/Testing
 Utilities/Timing
-VisMonitoring/DQMServer

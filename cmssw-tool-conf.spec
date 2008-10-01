@@ -95,6 +95,7 @@ Requires: thepeg
 Requires: libhepml
 Requires: sherpa
 Requires: python-ldap
+Requires: millepede
 
 %define skipreqtools jcompiler
 

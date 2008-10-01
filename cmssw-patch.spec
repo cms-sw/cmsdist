@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_2_1_0
+### RPM cms cmssw-patch CMSSW_2_1_7_patch1
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: /bin/ksh
@@ -10,16 +10,24 @@ Provides: perl(Term::ReadKey)
 Provides: perl(full)
 Provides: perl(LWP::UserAgent)
 Provides: perl(Template)
-Requires: cmssw-tool-conf python glimpse
 
-%define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
+Requires: cmssw-patch-tool-conf 
+
+%define cvsprojuc       %(echo %n | sed -e "s|-patch.*||"| tr 'a-z' 'A-Z')
 %define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
 %define cvsdir          %cvsprojuc
-%define cvsserver       %cvsprojlc
+%define cvssrc          %cvsprojuc
+%define cvsserver       cmssw
+# %define cvsrepo		cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/%cvsdir?passwd=AA_:yZZ3e
+%define useCmsTC        1
+
+%define ucprojname      %cvsprojuc
+
 %define prebuildtarget  gindices
 %define buildtarget     release-build
-%define useCmsTC        1
 %define saveDeps        yes
+
+%define isPatch         yes
 
 ## IMPORT cms-scram-build
 ## IMPORT scramv1-build
