@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-micro PHEDEX_3_0_5
+### RPM cms PHEDEX-micro PHEDEX_3_0_6
 ## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -43,7 +43,7 @@ rm -rf Toolkit/Infrastructure
 rm -rf Toolkit/Monitoring
 rm -rf Toolkit/Transfer
 rm -rf Toolkit/Workflow
-find Utilities -type f | egrep -v "OracleConnectId|Master" | xargs rm
+find Utilities -type f | egrep -v "OracleConnectId|Master|phedex" | xargs rm
 
 %build
 
