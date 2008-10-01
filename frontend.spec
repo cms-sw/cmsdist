@@ -1,8 +1,9 @@
-### RPM cms frontend 1.1d
+### RPM cms frontend 1.1e
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
 Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rFRONTEND_CONF_1_1&output=/config.tar.gz
 Source1: %cvsserver&module=COMP/WEBTOOLS/WelcomePages&export=htdocs&tag=-rFRONTEND_HTDOCS_1_0&output=/htdocs.tar.gz
 Requires: apache2-conf
+Obsoletes: cms+frontend+1.1d-cmp
 Obsoletes: cms+frontend+1.1c-cmp
 Obsoletes: cms+frontend+1.1b-cmp
 Obsoletes: cms+frontend+1.1-cmp
@@ -35,7 +36,7 @@ mkdir -p %instroot/apache2/ssl_rewrites.d
 mkdir -p %instroot/apache2/htdocs
 
 # Replace template variables in configuration files with actual paths.
-perl -p -i -e "s|\@SERVER_ROOT\@|%instroot|g;s|\@APACHE2_ROOT\@|$APACHE2_ROOT|g;" %_builddir/conf/*/*.conf
+perl -p -i -e "s|\@SERVER_ROOT\@|%instroot/apache2|g;s|\@APACHE2_ROOT\@|$APACHE2_ROOT|g;" %_builddir/conf/*/*.conf
 
 # Copy files to the server setup directory.
 cp -p %_builddir/conf/apps.d/*frontend.conf %instroot/apache2/apps.d
