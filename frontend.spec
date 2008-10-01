@@ -1,8 +1,9 @@
-### RPM cms frontend 1.1
+### RPM cms frontend 1.1b
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
 Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rFRONTEND_CONF_1_1&output=/config.tar.gz
 Source1: %cvsserver&module=COMP/WEBTOOLS/WelcomePages&export=htdocs&tag=-rFRONTEND_HTDOCS_1_0&output=/htdocs.tar.gz
 Requires: apache2-conf
+Obsoletes: cms+frontend+1.1
 Obsoletes: cms+frontend+1.0-cmp11
 Obsoletes: cms+frontend+1.0-cmp10
 Obsoletes: cms+frontend+1.0-cmp9
@@ -38,7 +39,7 @@ perl -p -i -e "s|\@SERVER_ROOT\@|%instroot|g;s|\@APACHE2_ROOT\@|$APACHE2_ROOT|g;
 cp -p %_builddir/conf/apps.d/*frontend.conf %instroot/apache2/apps.d
 cp -p %_builddir/conf/rewrites.d/*.conf %instroot/apache2/rewrites.d
 cp -p %_builddir/conf/ssl_rewrites.d/*.conf %instroot/apache2/ssl_rewrites.d
-cp -rp %_builddir/htdocs/* %instroot/htdocs
+cp -rp %_builddir/htdocs/* %instroot/apache2/htdocs
 
 %post
 # Relocate files.
@@ -48,6 +49,7 @@ perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/apache2/*.
 chmod a-w $RPM_INSTALL_PREFIX/apache2/*.d/*.conf
 
 %files
+%i/
 %dir %instroot/apache2/rewrites.d
 %dir %instroot/apache2/ssl_rewrites.d
 %attr(444,-,-) %instroot/apache2/apps.d/*frontend.conf
