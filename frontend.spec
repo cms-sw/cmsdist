@@ -1,8 +1,9 @@
-### RPM cms frontend 1.1b
+### RPM cms frontend 1.1c
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
 Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rFRONTEND_CONF_1_1&output=/config.tar.gz
 Source1: %cvsserver&module=COMP/WEBTOOLS/WelcomePages&export=htdocs&tag=-rFRONTEND_HTDOCS_1_0&output=/htdocs.tar.gz
 Requires: apache2-conf
+Obsoletes: cms+frontend+1.1b
 Obsoletes: cms+frontend+1.1
 Obsoletes: cms+frontend+1.0-cmp11
 Obsoletes: cms+frontend+1.0-cmp10
@@ -55,3 +56,4 @@ chmod a-w $RPM_INSTALL_PREFIX/apache2/*.d/*.conf
 %attr(444,-,-) %instroot/apache2/apps.d/*frontend.conf
 %attr(444,-,-) %instroot/apache2/rewrites.d/*.conf
 %attr(444,-,-) %instroot/apache2/ssl_rewrites.d/*.conf
+%instroot/apache2/htdocs/*
