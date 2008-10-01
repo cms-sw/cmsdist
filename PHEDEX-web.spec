@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-web WEB_3_0_1
+### RPM cms PHEDEX-web WEB_3_0_2
 #
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -14,9 +14,6 @@ Requires: apache2-conf webtools dbs-client
 # Actually, it is p5-xml-parser that requires this, but it doesn't configure itself correctly
 # This is so it gets into our dependencies-setup.sh
 Requires:  expat
-
-# Required to use SecurityModule (part of webtools.spec)
-Requires: p5-crypt-cbc p5-crypt-blowfish
 
 # Provided by system perl
 Provides: perl(HTML::Entities)
