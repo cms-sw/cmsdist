@@ -5,7 +5,7 @@ Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.bz2
 %setup -n %n-%{realversion}
 
 %build
-./configure --prefix=%{i}
+./configure --prefix=%{i} --with-expat=no
 make %makeprocesses
 
 %install
