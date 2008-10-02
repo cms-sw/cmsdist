@@ -1,4 +1,4 @@
-### RPM external java-jdk 1.5.0_15
+### RPM external java-jdk 1.5.0.p6-CMS18
 ## BUILDIF [ "$(uname)" != "Darwin" ]
 
 Provides: libasound.so.2
@@ -24,12 +24,8 @@ Provides: libodbcinst.so
 %define downloadarch amd64
 %endif
 
-%if "%{tmpArch}" == "slc4_amd64"
-%define downloadarch amd64
-%endif
-
-Source0: http://cmsrep.cern.ch/cmssw/jdk-mirror/jdk-%downloadv-linux-i586.bin
-Source1: http://cmsrep.cern.ch/cmssw/jdk-mirror/jdk-%downloadv-linux-amd64.bin
+Source0: http://eulisse.web.cern.ch/eulisse/jdk-%downloadv-linux-i586.bin
+Source1: http://eulisse.web.cern.ch/eulisse/jdk-%downloadv-linux-amd64.bin
 
 %prep
 %if %(uname) != Darwin

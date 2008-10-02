@@ -65,11 +65,10 @@ perl -p -i -e 's/^install_framework:/install_framework:\ninstall_framework_no:/'
 # The following is a kludge around the fact that the fact that the 
 # /usr/lib/libfontconfig.so soft link (for 32-bit lib) is missing
 # on the 64-bit machines
-case %cmsplatf in
- slc4_ia32*)
+%if (("%cmsplatf" == "slc4_ia32_gcc345")||("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422"))
   mkdir -p %{_builddir}/lib
   ln -s /usr/lib/libfontconfig.so.1 %{_builddir}/%n-%type-free-%{qtversion}/lib/libfontconfig.so
-esac
+%endif
 
 make %makeprocesses
 
