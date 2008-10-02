@@ -3,7 +3,7 @@
 Source: ftp://ftp.openldap.org/pub/OpenLDAP/openldap-stable/openldap-stable-20071118.tgz
 Requires: openssl db4 
 #cyrus-sasl
-Provides: libsasl2.so.2
+Provides: libsasl2.so.2 libsasl2.so.2()(64bit)
 
 #http://www.openssl.org/source/%n-%realversion.tar.gz
 
