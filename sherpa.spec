@@ -1,25 +1,17 @@
-### RPM external sherpa 1.1.2
-## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac 
-
+### RPM external sherpa 1.1.1
 Source: http://www.hepforge.org/archive/sherpa/Sherpa-%realversion.tar.gz
 
 Requires: hepmc lhapdf
 
-Patch:  sherpa-lhapdf
-Patch1: sherpa-hepmc-pdfinfo.patch
-Patch2: sherpa-mixing.patch
+Patch: sherpa-lhapdf
 
 %prep
 %setup -n SHERPA-MC-%realversion
 %patch -p1
-%patch1 -p0 
-%patch2 -p0 
-
 
 %build
 # in case of errors the tool prompts ... and the build process hangs forever :(
 echo "a" | ./TOOLS/makeinstall -t --copt --enable-hepmc2=$HEPMC_ROOT --copt --enable-lhapdf=$LHAPDF_ROOT --copt --prefix=%i
-
 
 %install
 #make install

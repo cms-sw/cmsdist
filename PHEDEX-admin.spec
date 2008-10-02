@@ -1,27 +1,18 @@
-### RPM cms PHEDEX-admin PHEDEX_3_0_6
+### RPM cms PHEDEX-admin PHEDEX_3_0_0_pre14
+#
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%{downloadn}&export=%{downloadn}&&tag=-r%{v}&output=/%{downloadn}.tar.gz
-# Oracle libs
-Requires: oracle oracle-env 
-# perl libs
-Requires: p5-time-hires p5-text-glob p5-compress-zlib p5-dbi
-Requires: p5-dbd-oracle p5-xml-parser p5-poe p5-poe-component-child
-Requires: p5-log-log4perl p5-log-dispatch p5-log-dispatch-filerotate
-Requires: p5-params-validate p5-monalisa-apmon
-# CMS libs
-Requires: dls-client dbs-client
-# Etc.
-Requires: python
+Requires: oracle oracle-env p5-time-hires p5-text-glob p5-compress-zlib p5-dbi p5-dbd-oracle p5-xml-parser p5-poe python
+Requires: dls-client dbs-client p5-monalisa-apmon
+
 # Actually, it is p5-xml-parser that requires this, but it doesn't configure itself correctly
 # This is so it gets into our dependencies-setup.sh
-Requires: expat
+Requires:  expat
 
 # Provided by system perl
 Provides: perl(HTML::Entities)
 Provides: perl(DB_File)
-Provides: perl(Date::Manip)
-Provides: perl(XML::LibXML)
 
 %prep
 %setup -n %{downloadn}
