@@ -6,7 +6,7 @@
 #
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=PRODAGENT&export=PRODAGENT&&tag=-r%{cvstag}&output=/PRODAGENT.tar.gz
-Requires: webtools mysql py2-mysqldb dbs-client prodcommon py2-pyxml PHEDEX-micro py2-numpy py2-matplotlib py2-pil py2-pyopenssl wmcore dls
+Requires: webtools mysql py2-mysqldb dbs-client prodcommon py2-pyxml PHEDEX-micro py2-numpy py2-matplotlib py2-pil py2-pyopenssl wmcore dls-client boss
 
 %prep
 %setup -n PRODAGENT
@@ -27,7 +27,8 @@ mkdir -p %i/workdir
  echo "source $PY2_MYSQLDB_ROOT/etc/profile.d/init.sh"; \
  echo "source $PY2_PYXML_ROOT/etc/profile.d/init.sh"; \
  echo "source $DBS_CLIENT_ROOT/etc/profile.d/init.sh"; \
- echo "source $DLS_ROOT/etc/profile.d/init.sh"; \
+ echo "source $DLS_CLIENT_ROOT/etc/profile.d/init.sh"; \
+ echo "source $BOSS_ROOT/etc/profile.d/init.sh"; \
  echo "source $PRODCOMMON_ROOT/etc/profile.d/init.sh"; \
  echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.sh"; \
  echo "source $PY2_NUMPY_ROOT/etc/profile.d/init.sh"; \
@@ -42,7 +43,8 @@ mkdir -p %i/workdir
  echo "source $PY2_MYSQLDB_ROOT/etc/profile.d/init.csh"; \
  echo "source $PY2_PYXML_ROOT/etc/profile.d/init.csh"; \
  echo "source $DBS_CLIENT_ROOT/etc/profile.d/init.csh"; \
- echo "source $DLS_ROOT/etc/profile.d/init.csh"; \
+ echo "source $DLS_CLIENT_ROOT/etc/profile.d/init.csh"; \
+ echo "source $BOSS_ROOT/etc/profile.d/init.csh"; \
  echo "source $PRODCOMMON_ROOT/etc/profile.d/init.csh"; \
  echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.csh"; \
  echo "source $PY2_NUMPY_ROOT/etc/profile.d/init.csh"; \
