@@ -79,7 +79,7 @@ unsupportedSeeds="$unsupportedSeeds libcomerr2 libidn11 libxi6 libxpm4 libxinera
 # Fedora
 unsupportedSeeds="$unsupportedSeeds libX11 libXmu libSM libICE libXcursor 
     libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama 
-    libXft libXrender libXpm ncurses-libs"
+    libXft libXrender libXpm ncurses-libs libc6-i686"
 
 # Case statement for additional provides.
 case %cmsplatf in
