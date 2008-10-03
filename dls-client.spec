@@ -1,4 +1,4 @@
-### RPM cms dls-client DLS_1_1_0_pre5
+### RPM cms dls-client DLS_1_1_0_pre7
 ## INITENV +PATH PATH %{i}/Client/bin
 ## INITENV +PATH PYTHONPATH %{i}/Client/lib
 %define cvstag %realversion
