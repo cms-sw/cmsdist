@@ -1,8 +1,10 @@
-### RPM cms frontend 1.2
+### RPM cms frontend 2.0
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
-Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rFRONTEND_CONF_1_2&output=/config.tar.gz
+Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rFRONTEND_CONF_2_0&output=/config.tar.gz
 Source1: %cvsserver&module=COMP/WEBTOOLS/WelcomePages&export=htdocs&tag=-rFRONTEND_HTDOCS_1_0&output=/htdocs.tar.gz
-Requires: apache2-conf
+Requires: apache2-conf mod_perl2
+Obsoletes: cms+frontend+1.3-cmp
+Obsoletes: cms+frontend+1.2-cmp
 Obsoletes: cms+frontend+1.1e-cmp
 Obsoletes: cms+frontend+1.1d-cmp
 Obsoletes: cms+frontend+1.1c-cmp
@@ -30,16 +32,28 @@ Obsoletes: cms+frontend+1.0-cmp
 rm -fr %instroot/htdocs/*
 rm -fr %instroot/apache2/*rewrites.d
 rm -f %instroot/apache2/apps.d/*frontend.conf
+rm -f %instroot/apache2/*/CMSAuth.pm
+rm -f %instroot/apache2/*/update-cookie-keys
 
 mkdir -p %instroot/apache2/apps.d
 mkdir -p %instroot/apache2/rewrites.d
 mkdir -p %instroot/apache2/ssl_rewrites.d
+mkdir -p %instroot/apache2/var/cookie-keys
 mkdir -p %instroot/apache2/htdocs
+mkdir -p %instroot/apache2/auth
+mkdir -p %instroot/apache2/etc
 
 # Replace template variables in configuration files with actual paths.
-perl -p -i -e "s|\@SERVER_ROOT\@|%instroot/apache2|g;s|\@APACHE2_ROOT\@|$APACHE2_ROOT|g;" %_builddir/conf/*/*.conf
+perl -p -i -e "
+  s|\@SERVER_ROOT\@|%instroot/apache2|g;
+  s|\@APACHE2_ROOT\@|$APACHE2_ROOT|g;
+  s|\@MOD_PERL2_ROOT\@|$MOD_PERL2_ROOT|g" \
+  %_builddir/conf/*/*.conf
 
 # Copy files to the server setup directory.
+cp -p %_builddir/conf/CMSAuth.pm %instroot/apache2/conf/CMSAuth.pm
+cp -p %_builddir/conf/cms-centres.txt %instroot/apache2/etc/cms-centres.txt
+cp -p %_builddir/conf/update-cookie-keys %instroot/apache2/etc/update-cookie-keys
 cp -p %_builddir/conf/apps.d/*frontend.conf %instroot/apache2/apps.d
 cp -p %_builddir/conf/rewrites.d/*.conf %instroot/apache2/rewrites.d
 cp -p %_builddir/conf/ssl_rewrites.d/*.conf %instroot/apache2/ssl_rewrites.d
@@ -51,12 +65,20 @@ perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/apache2/*.
 
 # Deter attempts to modify installed files locally.
 chmod a-w $RPM_INSTALL_PREFIX/apache2/*.d/*.conf
+chmod a-w $RPM_INSTALL_PREFIX/apache2/conf/CMSAuth.pm
+chmod a-w $RPM_INSTALL_PREFIX/apache2/etc/update-cookie-keys
 
 %files
 %i/
+%dir %instroot/apache2/var/cookie-keys
 %dir %instroot/apache2/rewrites.d
 %dir %instroot/apache2/ssl_rewrites.d
-%attr(444,-,-) %instroot/apache2/apps.d/*frontend.conf
-%attr(444,-,-) %instroot/apache2/rewrites.d/*.conf
-%attr(444,-,-) %instroot/apache2/ssl_rewrites.d/*.conf
+%dir %instroot/apache2/auth
+%dir %instroot/apache2/etc
+%attr(555,-,-) %instroot/apache2/etc/update-cookie-keys
+%config %instroot/apache2/etc/cms-centres.txt
+%config %attr(444,-,-) %instroot/apache2/apps.d/*frontend.conf
+%config %attr(444,-,-) %instroot/apache2/rewrites.d/*.conf
+%config %attr(444,-,-) %instroot/apache2/ssl_rewrites.d/*.conf
+%attr(444,-,-) %instroot/apache2/conf/CMSAuth.pm
 %instroot/apache2/htdocs/*
