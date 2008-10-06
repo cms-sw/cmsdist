@@ -3,6 +3,7 @@
 Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rFRONTEND_CONF_2_0&output=/config.tar.gz
 Source1: %cvsserver&module=COMP/WEBTOOLS/WelcomePages&export=htdocs&tag=-rFRONTEND_HTDOCS_1_0&output=/htdocs.tar.gz
 Requires: apache2-conf mod_perl2
+Provides: perl(Compress::Zlib) perl(Digest::HMAC_SHA1)
 Obsoletes: cms+frontend+1.3-cmp
 Obsoletes: cms+frontend+1.2-cmp
 Obsoletes: cms+frontend+1.1e-cmp
