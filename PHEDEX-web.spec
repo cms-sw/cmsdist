@@ -36,7 +36,7 @@ rm -f %instroot/apache2/apps.d/phedexweb-httpd.conf
 
 # Switch template variables in the configuration files
 perl -p -i -e "s|\@PHEDEX_ROOT\@|%i|g;
-	       s|\@SERVER_ROOT\@|%instroot/apache2|g; \
+	       s|\@SERVER_ROOT\@|%instroot/apache2|g;
 	       s|\@MOD_PERL_LIB\@|$MOD_PERL2_ROOT/modules/mod_perl.so|g;" \
   %i/Documentation/WebConfig/* \
   %i/Documentation/WebSite/PlotConfig/config/*
