@@ -1,13 +1,15 @@
-### RPM cms frontend 2.2
+### RPM cms frontend 2.3
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
-Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rFRONTEND_CONF_2_2&output=/config.tar.gz
+Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rFRONTEND_CONF_2_3&output=/config.tar.gz
 Source1: %cvsserver&module=COMP/WEBTOOLS/WelcomePages&export=htdocs&tag=-rFRONTEND_HTDOCS_1_0&output=/htdocs.tar.gz
 Requires: apache2-conf mod_perl2
 Provides: perl(Compress::Zlib) perl(Digest::HMAC_SHA1)
+Obsoletes: cms+frontend+2.2-cmp
 Obsoletes: cms+frontend+2.1-cmp
 Obsoletes: cms+frontend+2.0c-cmp
 Obsoletes: cms+frontend+2.0b-cmp
 Obsoletes: cms+frontend+2.0-cmp
+Obsoletes: cms+frontend+1.4-cmp
 Obsoletes: cms+frontend+1.3-cmp
 Obsoletes: cms+frontend+1.2-cmp
 Obsoletes: cms+frontend+1.1e-cmp
