@@ -1,4 +1,4 @@
-### RPM external apache2 2.2.8
+### RPM external apache2 2.2.9
 # See:
 # http://httpd.apache.org/docs/2.2/install.html
 # for instruction on how to configure.
@@ -12,7 +12,10 @@ Requires: openssl zlib expat uuid
 Provides: libcom_err.so.2
 Provides: libcom_err.so.2()(64bit)
 
+# Note:  it appears that Apache doesn't keep old versions of httpd lying around
+# That's probably good for security.
 Source0: http://mirror.switch.ch/mirror/apache/dist/httpd/httpd-%realversion.tar.gz
+Source1: http://www.apache.org/dist/httpd/httpd-%realversion.tar.gz
 
 %prep
 %setup -n httpd-%realversion
