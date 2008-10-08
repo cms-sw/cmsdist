@@ -39,9 +39,67 @@ perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependen
 mkdir -p %i/etc
 mkdir -p %i/bin
 mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
-rm -rf Applications/base
 cp -r Applications/base %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
 cp cmsWeb %i/bin
+
+
+cat << \EOF > %i/etc/base_init
+#!/bin/bash
+#
+# dbs_discovery This script runs CMS DBS Data Discovery service
+#
+# chkconfig: 345 05 95
+
+if [ -z ${WEBTOOLS_BASE_ROOT} ]; then
+   echo $"The WEBTOOLS_BASE_ROOT environment is not set"
+   exit 1
+fi
+
+RETVAL=$?
+
+port=7999
+pid=`ps auxw | grep WSServer | grep -v grep | awk '{print $2}'`
+base=base
+cmd = "cmsWeb --base-url=https://cmsweb.cern.ch/base --port $port --default-page /WSServer"
+
+case "$1" in
+ restart)
+        echo $"Checking for existing WSServer..."
+        if [ ! -z ${pid} ]; then
+          kill -9 ${pid}
+        fi
+        echo $"Restart WSServer..."
+        nohup ${cmd} 2>&1 1>& /dev/null < /dev/null &
+        ;;
+ start)
+        if [ ! -z ${pid} ]; then
+          kill -9 ${pid}
+        fi
+        nohup ${cmd} 2>&1 1>& /dev/null < /dev/null &
+        ;;
+ status)
+        if [ ! -z ${pid} ]; then
+          echo $"${base} is running, pid=${pid}"
+          exit 0
+        fi
+        echo $"${base} is stopped"
+        exit 3
+        ;;
+ stop)
+        if [ ! -z ${pid} ]; then
+          kill -9 ${pid}
+        fi
+        ;;
+ *)
+        echo $"Usage: $0 {start|stop|status|restart}"
+        exit 1
+        ;;
+esac
+
+exit $RETVAL
+
+EOF
+
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
