@@ -43,7 +43,7 @@ cp -r Applications/base %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site
 cp cmsWeb %i/bin
 
 
-cat << \EOF > %i/etc/base_init
+cat << \EOF > %i/bin/base_init
 #!/bin/bash
 #
 # dbs_discovery This script runs CMS DBS Data Discovery service
