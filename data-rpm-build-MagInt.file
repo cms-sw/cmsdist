@@ -1,0 +1,148 @@
+### FILE data-rpm-build.file
+
+%define realname %(echo %n | cut -d- -f2,3 --output-delimiter=/) 
+%define realsub %(echo %n | cut -d- -f2) 
+%define cvsrepo         cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
+
+%if "%{?dataDir:set}" != "set" 
+%define dataDir data
+%endif
+
+Source0: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir/download.url&export=%realsub&output=/src0.tar.gz
+
+%if "%{?dataDir2:set}" == "set"
+%define source2 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir2/download.url&export=%{realsub}&output=/src2.tar.gz
+%else
+%define source2 none
+%endif
+
+%if "%{?dataDir3:set}" == "set"
+%define source3 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir3/download.url&export=%{realsub}&output=/src3.tar.gz
+%else
+%define source3 none
+%endif
+
+%if "%{?dataDir4:set}" == "set"
+%define source4 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir4/download.url&export=%{realsub}&output=/src4.tar.gz
+%else
+%define source4 none
+%endif
+
+%if "%{?dataDir5:set}" == "set"
+%define source5 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir5/download.url&export=%{realsub}&output=/src5.tar.gz
+%else
+%define source5 none
+%endif
+
+%if "%{?dataDir6:set}" == "set"
+%define source6 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir6/download.url&export=%{realsub}&output=/src6.tar.gz
+%else
+%define source6 none
+%endif
+
+%if "%{?dataDir7:set}" == "set"
+%define source7 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir7/download.url&export=%{realsub}&output=/src7.tar.gz
+%else
+%define source7 none
+%endif
+
+%if "%{?dataDir8:set}" == "set"
+%define source8 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir8/download.url&export=%{realsub}&output=/src8.tar.gz
+%else
+%define source8 none
+%endif
+
+%if "%{?dataDir9:set}" == "set"
+%define source9 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir9/download.url&export=%{realsub}&output=/src9.tar.gz
+%else
+%define source9 none
+%endif
+
+Source1: %source2
+Source2: %source3
+Source3: %source4
+Source4: %source5
+Source5: %source6
+Source6: %source7
+Source7: %source8
+Source8: %source9
+ 
+
+%prep
+%setup -b 0 -n %realsub
+%setup -b 1 -D -n %realsub
+%setup -b 2 -D -n %realsub
+%setup -b 3 -D -n %realsub
+%setup -b 4 -D -n %realsub
+%setup -b 5 -D -n %realsub
+%setup -b 6 -D -n %realsub
+%setup -b 7 -D -n %realsub
+%setup -b 8 -D -n %realsub
+ 
+%build
+currdir=`pwd`
+cd ../%realname/%dataDir
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
+rm download.url
+
+%if "%{?dataDir2:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir2
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
+rm download.url
+%endif
+
+%if "%{?dataDir3:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir3
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
+rm download.url
+%endif
+
+%if "%{?dataDir4:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir4
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
+rm download.url
+%endif
+
+%if "%{?dataDir5:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir5
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
+rm download.url
+%endif
+
+%if "%{?dataDir6:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir6
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
+rm download.url
+%endif
+
+%if "%{?dataDir7:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir7
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
+rm download.url
+%endif
+
+%if "%{?dataDir8:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir8
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
+rm download.url
+%endif
+
+%if "%{?dataDir9:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir9
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
+rm download.url
+%endif
+
+
+%install
+cd ..
+tar -cv %realname | tar -x -C %i
+
