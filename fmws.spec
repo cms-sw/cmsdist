@@ -6,7 +6,7 @@
 %define cvstag %{realversion}
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: http://t2.unl.edu/store/CmsFileServer-%{realversion}.tar.gz
-Requires: python openssl cherrypy py2-cheetah webtools yui java-jdk srmcp
+Requires: python openssl cherrypy py2-cheetah webtools yui java-jdk srmcp elementtree
 
 %prep
 %setup -n CmsFileServer
