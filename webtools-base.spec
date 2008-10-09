@@ -60,7 +60,12 @@ RETVAL=$?
 port=7999
 pid=`ps auxw | grep WSServer | grep -v grep | awk '{print $2}'`
 base=base
-cmd = "cmsWeb --base-url=https://cmsweb.cern.ch/base --port $port --default-page /WSServer"
+if [ -n "$WEBTOOLS_BASEURL" ]; then
+    url="$WEBTOOLS_BASEURL/$base"
+else
+    url="http://cmsweb.cern.ch/$base"
+fi
+cmd="cmsWeb --base-url=$url --port $port --default-page /WSServer"
 
 case "$1" in
  restart)
@@ -99,6 +104,7 @@ esac
 exit $RETVAL
 
 EOF
+chmod a+x %i/bin/base_init
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
