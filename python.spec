@@ -5,7 +5,7 @@
 
 Requires: expat bz2lib db4 gdbm
 
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
+%if "%{?online_release:set}" != "set"
 Requires: zlib openssl
 %endif
 
@@ -51,7 +51,7 @@ perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" Lib/cgi.py
 # whether we like to pick up system libraries or want total control.
 mkdir -p %i/include %i/lib
 
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
+%if "%{?online_release:set}" != "set"
 %define extradirs $ZLIB_ROOT $OPENSSL_ROOT 
 %else
 %define extradirs %{nil}
@@ -129,11 +129,6 @@ perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
 #
 rm  `find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*'`
 rm  `find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*'`
-
-# remove tkinter that brings dependency on libtk:
-#
-
-rm  `find %{i}/lib -type f -name "_tkinter.so"`
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
