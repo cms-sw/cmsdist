@@ -93,7 +93,7 @@ Requires: dbs-client
 Requires: herwigpp
 Requires: thepeg
 Requires: libhepml
-# Requires: sherpa
+Requires: sherpa
 Requires: python-ldap
 Requires: millepede
 Requires: gdb
