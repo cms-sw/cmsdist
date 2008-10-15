@@ -1,4 +1,4 @@
-### RPM cms fmws 0.1.3
+### RPM cms fmws 0.1.4
 ## INITENV +PATH PYTHONPATH %i/lib/
 ## INITENV SET FMWSHOME $FMWS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV SET PYTHONPATH ${FMWSHOME}:${PYTHONPATH}
@@ -34,7 +34,6 @@ chmod a+x %{i}/etc/init.d/*
  echo "source $JAVA_JDK_ROOT/etc/profile.d/init.sh"; \
  echo "export JAVA_HOME=$JAVA_JDK_ROOT"
  echo "export LD_LIBRARY_PATH=\$SRMCP_ROOT/bin:\$LD_LIBRARY_PATH"; \
- echo "export FMWSTRANSFERDIR=/data/filemover/download"; \
  ) > %{i}/etc/profile.d/dependencies-setup.sh
 
 (echo "#!/bin/tcsh"; \
@@ -48,7 +47,6 @@ chmod a+x %{i}/etc/init.d/*
  echo "source $JAVA_JDK_ROOT/etc/profile.d/init.csh"; \
  echo "setenv JAVA_HOME $JAVA_JDK_ROOT"
  echo "setenv LD_LIBRARY_PATH \$SRMCP_ROOT/bin:\$LD_LIBRARY_PATH"; \
- echo "setenv FMWSTRANSFERDIR /data/filemover/download"; \
  ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 # SCRAM ToolBox toolfile
@@ -78,7 +76,7 @@ LOGGERDIR=$FMWSHOME/logs
 #
 # Location of loca file storage
 #
-TRANSFERDIR=/data/filemover/download
+TRANSFERDIR=/data/pool
 #
 # Verbosity level for the FMWS server
 #
