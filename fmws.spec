@@ -1,4 +1,4 @@
-### RPM cms fmws 0.1.4
+### RPM cms fmws 0.1.5
 ## INITENV +PATH PYTHONPATH %i/lib/
 ## INITENV SET FMWSHOME $FMWS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV SET PYTHONPATH ${FMWSHOME}:${PYTHONPATH}
@@ -31,6 +31,7 @@ chmod a+x %{i}/etc/init.d/*
  echo "source $PY2_CHEETAH_ROOT/etc/profile.d/init.sh"; \
  echo "source $YUI_ROOT/etc/profile.d/init.sh"; \
  echo "source $SRMCP_ROOT/etc/profile.d/init.sh"; \
+ echo "source $ELEMENTTREE_ROOT/etc/profile.d/init.sh"; \
  echo "source $JAVA_JDK_ROOT/etc/profile.d/init.sh"; \
  echo "export JAVA_HOME=$JAVA_JDK_ROOT"
  echo "export LD_LIBRARY_PATH=\$SRMCP_ROOT/bin:\$LD_LIBRARY_PATH"; \
@@ -44,6 +45,7 @@ chmod a+x %{i}/etc/init.d/*
  echo "source $PY2_CHEETAH_ROOT/etc/profile.d/init.csh"; \
  echo "source $YUI_ROOT/etc/profile.d/init.csh"; \
  echo "source $SRMCP_ROOT/etc/profile.d/init.csh"; \
+ echo "source $ELEMENTTREE_ROOT/etc/profile.d/init.csh"; \
  echo "source $JAVA_JDK_ROOT/etc/profile.d/init.csh"; \
  echo "setenv JAVA_HOME $JAVA_JDK_ROOT"
  echo "setenv LD_LIBRARY_PATH \$SRMCP_ROOT/bin:\$LD_LIBRARY_PATH"; \
