@@ -69,7 +69,12 @@ EOF_TOOLFILE
 %{relocateConfig}etc/scram.d/%n
 
 . $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
-mkdir -p $FMWSHOME/{logs,download,css}
+mkdir -p $FMWSHOME/{logs,css}
+if [ -d /data/download ]; then
+   ln -s /data/download $FMWSHOME/download
+else
+   mkdir -p $FMWSHOME/download
+fi
 cat > $FMWSHOME/FMWS.conf << END
 #
 # Location for log files
