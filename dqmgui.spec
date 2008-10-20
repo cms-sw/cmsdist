@@ -1,10 +1,10 @@
-### RPM cms dqmgui 4.2.6b
+### RPM cms dqmgui 4.2.6c
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source0: %cvsserver&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&nocache=true&export=VisMonitoring/DQMServer&tag=-rV04-02-06&output=/VisMonitoring_DQMServer.tar.gz
 Source1: %cvsserver&strategy=checkout&module=CMSSW/DQMServices/Core&nocache=true&export=DQMServices/Core&tag=-rV03-03-06&output=/DQMServices_Core.tar.gz
 Source2: %cvsserver&strategy=checkout&module=CMSSW/DQMServices/Components&nocache=true&export=DQMServices/Components&tag=-rV03-03-03&output=/DQMServices_Components.tar.gz
-Source3: %cvsserver&strategy=checkout&module=CMSSW/DQM/RenderPlugins&nocache=true&export=DQM/RenderPlugins&tag=-rV04-00-02&output=/DQM_RenderPlugins.tar.gz
-Requires: cmssw cherrypy py2-cheetah yui py2-pysqlite py2-cx-oracle py2-pil py2-matplotlib py2-pyopenssl
+Source3: %cvsserver&strategy=checkout&module=CMSSW/DQM/RenderPlugins&nocache=true&export=DQM/RenderPlugins&tag=-rV04-00-03&output=/DQM_RenderPlugins.tar.gz
+Requires: cmssw cherrypy py2-cheetah yui py2-pysqlite py2-cx-oracle py2-pil py2-matplotlib
 
 %prep
 # Note on requiring "xsrc": using $CMSSW_VERSION/src in the setup
