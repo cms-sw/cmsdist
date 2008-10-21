@@ -1,16 +1,8 @@
-### RPM external libtiff 3.8.2
+### RPM external libtiff 3.8.2-CMS19
 
 Source: http://dl.maptools.org/dl/libtiff/tiff-%{realversion}.zip
-
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
-Requires: zlib
-%endif
-
-%if "%cmsplatf" == "slc4onl_ia32_gcc346"
-Requires: onlinesystemtools
-%endif
-
 Requires: libjpg
+Requires: zlib
 
 %prep
 %setup -n tiff-%{realversion}
