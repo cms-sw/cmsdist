@@ -2,14 +2,14 @@
 Source: http://www.webdav.org/%n/%n-%realversion.tar.gz
 
 Requires: expat
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
+%if "%{?online_release:set}" != "set"
 Requires: openssl zlib
 %endif
 
 %define cppflags "-I$EXPAT_ROOT/include -I$ZLIB_ROOT/include -I$OPENSSL_ROOT/include"
 %define ldflags "-L$EXPAT_ROOT/lib -L$ZLIB_ROOT/lib -L$OPENSSL_ROOT/lib"
 
-%if "%cmsplatf" == "slc4onl_ia32_gcc346"
+%if "%(echo %{cmsos} | sed -e 's|slc.online_.*|online|')" == "online"
 %define cppflags "-I$EXPAT_ROOT/include"
 %define ldflags "-L$EXPAT_ROOT/lib"
 %endif

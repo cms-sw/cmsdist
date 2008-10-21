@@ -1,11 +1,9 @@
-### RPM cms online CMSSW_2_1_9_ONLINE1
+### RPM cms online CMSSW_2_0_0_ONLINE1
 ## IMPORT configurations 
-
 Provides: /bin/zsh
 Provides: /bin/ksh
 Provides: /bin/sed
 Provides: /usr/bin/awk
-Provides: /usr/bin/python
 Provides: perl(Date::Format)
 Provides: perl(Term::ReadKey)
 Provides: perl(full)
@@ -19,18 +17,18 @@ Requires: online-tool-conf python
 %define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
 %define cvsdir          %cvsprojuc
 %define cvsserver       %cvsprojlc
-%define useCmsTC        1
 %define buildtarget     release-build
 %define saveDeps        yes
 
 #Defines for file containing list of packages for checkout and build:
 %define buildsetrepo    CMSDIST
 %define buildsetfile    online_build_set.file
-%define buildsetvers    buildset_V2_9
+%define buildsetvers    buildset_V2_1
 
-%define patchsrc2	perl -p -i -e ' s!(<classpath.*/test\\+.*>)!!;' config/BuildFile.xml
-%define patchsrc3       perl -p -i -e ' s!(<use name=root>)!$1\\n<use name=Foundation/PluginManager>!;' src/DQM/L1TMonitorClient/BuildFile
-%define patchsrc4       perl -p -i -e ' s!(<use name=boost>)!$1\\n<use name=EventFilter/Utilities>!;' src/DQM/SiPixelMonitorClient/BuildFile
+
+%define patchsrc2     perl -p -i -e ' s!(<classpath.*/test\\+.*>)!!;' config/BuildFile.xml
+%define patchsrc3     perl -p -i -e ' s!int depth=1,!int depth,!;' src/DQM/HcalMonitorTasks/interface/HcalTrigPrimMonitor.h
+%define scramcmd $SCRAMV1_ROOT/bin/scram
 
 ## IMPORT cms-scram-build
 ## IMPORT partial-build
