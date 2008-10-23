@@ -1,9 +1,7 @@
-### RPM external tkonlinesw 0.3-CMS19
+### RPM external tkonlinesw 2.5.1
 %define projectname trackerDAQ
 %define releasename %{projectname}-%{realversion}
-Source: http://cmsdoc.cern.ch/cms/cmt/online/rpm/SOURCE/%{releasename}.tgz
-Patch: Fed9U-gcc3.4
-Patch1: tkonlinesw-fPIC
+Source: http://cmstracker029.cern.ch/sources/trackerDAQ-2.5.1-2.tgz
 
 # Note from Kristian: 
 # xdaq dependency is here only to re-use its makefiles. 
@@ -19,57 +17,57 @@ Requires: onlinesystemtools
 
 %prep
 %setup -q -n %releasename
-%patch -p1
-%patch1 -p2
 # Clean up some mysterious old build within the sources that screws
 # up the install by copying in an old libFed9UUtils.so
+# (this is really needed)
 rm -fR TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/2.4/slc3_ia32_gcc323
 
 %build
 echo "pwd: $PWD"
 # Set variables for requied externals to be picked up by configure:
+################################################################################
+# External Dependencies
+################################################################################
+export XDAQ_OS=linux
+export XDAQ_PLATFORM=x86_slc4
 export XERCESCROOT=${XERCES_C_ROOT}
-export XDAQ_ROOT=${XDAQ_ROOT}
 export ENV_ORACLE_HOME=${ORACLE_ROOT}
+export ENV_CMS_TK_ORACLE_HOME=${ENV_ORACLE_HOME}
+# export TTCCIBUSADAPTER=CAENPCI # ?needed?
 
+################################################################################
+# Tracker Specific Definitions for compilation
+################################################################################
 export ENV_CMS_TK_BASE=%{_builddir}/%releasename
 export ENV_CMS_TK_DIAG_ROOT=${ENV_CMS_TK_BASE}/DiagSystem
 export ENV_CMS_TK_ONLINE_ROOT=${ENV_CMS_TK_BASE}/TrackerOnline/
 export ENV_CMS_TK_COMMON=${ENV_CMS_TK_BASE}/TrackerOnline/2005/TrackerCommon/
 export ENV_CMS_TK_XDAQ=${ENV_CMS_TK_BASE}/TrackerOnline/2005/TrackerXdaq/
 export ENV_CMS_TK_APVE_ROOT=${ENV_CMS_TK_BASE}/TrackerOnline/APVe
-export APVE_ROOT=${ENV_CMS_TK_APVE_ROOT}
 export ENV_CMS_TK_FEC_ROOT=${ENV_CMS_TK_BASE}/FecSoftwareV3_0
 export ENV_CMS_TK_FED9U_ROOT=${ENV_CMS_TK_BASE}/TrackerOnline/Fed9U/Fed9USoftware
-export ENV_CMS_TK_ICUTILS=${ENV_CMS_TK_COMMON}/ICUtils
+export ENV_CMS_TK_ICUTILS=${ENV_CMS_TK_BASE}/TrackerOnline/2005/TrackerCommon//ICUtils
 export ENV_CMS_TK_LASTGBOARD=${ENV_CMS_TK_BASE}/LAS
-export ENV_CMS_TK_TTC_ROOT=${ENV_CMS_TK_BASE}/TTCSoftware
+export ENV_CMS_TK_TTC_ROOT=${ENV_CMS_TK_BASE}/TTCSoftware # ?!?!
+export ENV_CMS_TK_HAL_ROOT=${XDAQ_ROOT}
 
-# set these to NULL
+################################################################################
+# Set these to NULL
+################################################################################
 export ROOTSYS=blah
 export ENV_CMS_TK_CAEN_ROOT=blah
 export ENV_CMS_TK_SBS_ROOT=blah
 
-cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure CXXFLAGS=-fPIC && cd -
-cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure CXXFLAGS=-fPIC && cd -
+################################################################################
+# Configure
+################################################################################
+chmod +x ./configure && ./configure
+cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure && cd -
+cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure && cd -
 
-# Simply hack the resulting makefile since I do not see how to properly
-# configure it to use our xerces instead of the xdaq one
-perl -p -i -e 's|export ENV_CMS_TK_FED9U_XERCES_ROOT =(.*)|export ENV_CMS_TK_FED9U_XERCES_ROOT = $ENV{'XERCESCROOT'}|' TrackerOnline/Fed9U/Fed9USoftware/Makefile.in
-# order matters ...
-cd ${ENV_CMS_TK_ICUTILS} 
-make 
-cd ${ENV_CMS_TK_BASE}
-cd ${ENV_CMS_TK_FED9U_ROOT} 
-make Fed9UUtils 
-cd ${ENV_CMS_TK_BASE}
-cd ${ENV_CMS_TK_FED9U_ROOT} 
-make Fed9UDeviceFactory 
-cd ${ENV_CMS_TK_BASE}
-cd ${ENV_CMS_TK_FEC_ROOT} 
-make DeviceFactory 
-cd ${ENV_CMS_TK_BASE}
-make install
+export CPPFLAGS=-fPIC
+make cmssw
+make cmsswinstall
 
 %install
 # Option --prefix in configure is not working yet, using tar:
@@ -108,7 +106,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/tkonlineswdb
 <use name=oracle>
 </Tool>
 EOF_TOOLFILE
-
 
 %post
 %{relocateConfig}etc/scram.d/%n
