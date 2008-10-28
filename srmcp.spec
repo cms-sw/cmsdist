@@ -1,13 +1,12 @@
-### RPM external srmcp 1.8.0-15p8
+### RPM external srmcp 1.8.0-4
 ## INITENV +PATH PATH %i/bin:%i/sbin
 ## INITENV SET SRM_PATH %i
 
-%define realversion %(echo %v | cut -d- -f1,2)
-Source: http://www.dcache.org/downloads/1.8.0/dcache-srmclient-%realversion.noarch.rpm
+Source: http://www.dcache.org/downloads/1.8.0/dcache-srmclient-%v.noarch.rpm
 Requires:  java-jdk
 
 %prep
-rpm2cpio %{_sourcedir}/dcache-srmclient-%realversion.noarch.rpm | cpio -ivd 
+rpm2cpio %{_sourcedir}/dcache-srmclient-%v.noarch.rpm | cpio -ivd 
 
 %build
 
