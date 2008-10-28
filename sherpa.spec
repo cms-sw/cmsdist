@@ -102,6 +102,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
   </client>
   <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$SHERPA_BASE/include" type="path"/>
   <runtime name="SHERPA_SHARE_PATH" valuse="$SHERPA_BASE/share/SHERPA-MC" type="path"/>
+  <runtime name="SHERPA_INCLUDE_PATH" valuse="$SHERPA_BASE/include/SHERPA-MC" type="path"/>
   <use name="HepMC"/>
   <use name="lhapdf"/>
  </Tool>
