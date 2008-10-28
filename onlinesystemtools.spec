@@ -1,10 +1,13 @@
-### RPM external onlinesystemtools 2.1
+### RPM external onlinesystemtools 2.0
 Source: none
 
-# Here we are assuming that online release always uses system compiler:
+%if "%{?use_system_gcc:set}" == "set"
 %define compilertools ccompiler cxxcompiler f77compiler jcompiler
+%else
+%define compilertools %jcompiler
+%endif
 
-%if "%cmsplatf" == "slc4onl_ia32_gcc346"
+%if "%{?online_release:set}" == "set"
 #%define onlinetools curl libpng libtiff libungif mimetic mysql openssl oracle python elementtree qt xdaq xerces zlib
 %define onlinetools zlib curl oracle openssl xerces-c xdaq mimetic
 # Define variables used in non-scram-managed tools, that would be
@@ -26,7 +29,7 @@ Source: none
 %define xerces_version			2.7.0
 ## INITENV SET XERCES_C_VERSION         %xerces_version
 ## INITENV SET XERCES_C_ROOT		/opt/xdaq
-%define xdaq_version			3.16.1
+%define xdaq_version			3.15.0
 ## INITENV SET XDAQ_VERSION         	%xdaq_version
 ## INITENV SET XDAQ_ROOT         	/opt/xdaq
 %define mimetic_version			0.9.1
@@ -142,7 +145,7 @@ cat << \EOF_TOOLFILE >>%i/etc/scram.d/jcompiler
 </Tool>
 EOF_TOOLFILE
 
-%if "%cmsplatf" == "slc4onl_ia32_gcc346"
+%if "%{?online_release:set}" == "set"
 #cxxcompiler
 cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
 <doc type=BuildSystem::ToolDoc version=1.1>
@@ -333,18 +336,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaq
 </Tool>
 EOF_TOOLFILE
 
-#xdaqheader
-cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaqheader
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=XDAQHEADER version=%xdaq_version>
-<info url=http://home.cern.ch/xdaq></info>
-<Client>
-<Environment name=XDAQHEADER_BASE  default="/opt/xdaq"></Environment>
-<Environment name=INCLUDE default="$XDAQHEADER_BASE/include"></Environment>
-</Client>
-</Tool>
-EOF_TOOLFILE
-
 #mimetic
 cat << \EOF_TOOLFILE >%i/etc/scram.d/mimetic
 <doc type=BuildSystem::ToolDoc version=1.0>
@@ -366,7 +357,7 @@ EOF_TOOLFILE
 %{relocateConfig}etc/scram.d/x11
 %{relocateConfig}etc/scram.d/jcompiler
 
-%if "%cmsplatf" == "slc4onl_ia32_gcc346"
+%if "%{?online_release:set}" == "set"
 %{relocateConfig}etc/scram.d/cxxcompiler
 %{relocateConfig}etc/scram.d/ccompiler
 %{relocateConfig}etc/scram.d/f77compiler
@@ -376,7 +367,6 @@ EOF_TOOLFILE
 %{relocateConfig}etc/scram.d/openssl
 %{relocateConfig}etc/scram.d/xerces-c
 %{relocateConfig}etc/scram.d/xdaq
-%{relocateConfig}etc/scram.d/xdaqheader
 %{relocateConfig}etc/scram.d/mimetic
 
 %endif
