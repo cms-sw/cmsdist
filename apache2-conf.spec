@@ -36,7 +36,7 @@ rm -f %instroot/apache2/etc/startenv.d/00-core-server.sh
 rm -f %instroot/apache2/conf/apache2.conf
 rm -f %instroot/apache2/conf/testme
 
-mkdir -p %i/bin %i/tools
+mkdir -p %i/bin
 mkdir -p %instroot/apache2/apps.d
 mkdir -p %instroot/apache2/htdocs
 mkdir -p %instroot/apache2/conf
@@ -175,7 +175,7 @@ EOF
   echo "-DPRODUCTION" > %instroot/apache2/etc/server-opts.txt
 
 # Copy files to the server setup directory.
-cp -p %_builddir/conf/apache2.conf %_builddir/conf/testme %instroot/apache2/conf
+cp -p %_builddir/conf/apache2.conf %_builddir/conf/testme %instroot/apache2/conf/
 cp -p %i/etc/profile.d/dependencies-setup.sh %instroot/apache2/etc/startenv.d/00-core-server.sh
 
 %post
@@ -197,25 +197,6 @@ rm -f $T $U
 echo "Adjusting ServerName to $H."
 perl -p -i -e 's/^ServerName (\S+)$/ServerName '$H'/g' $CFG/apache2.conf
 
-# Build certificate bundles.
-if [ -d /etc/grid-security/certificates ]; then
-  echo "Building certificate bundles."
-  for f in /etc/grid-security/certificates/*.info; do
-    if grep "# CA CERN-" < $f > /dev/null; then
-      cat $(dirname $f)/$(basename $f .info).0
-      openssl crl -in $(dirname $f)/$(basename $f .info).r0
-    fi
-  done > $CFG/cern-ca.pem
-
-  cat /etc/grid-security/certificates/*.0 > $CFG/grid-ca.pem
-  echo /etc/grid-security/certificates/*.r0 | xargs -n1 openssl crl -in > $CFG/grid-crl.pem
-else
-  echo "No /etc/grid-security/certificates, please build certificate bundles yourself:"
-  echo "   $CFG/cern-ca.pem"
-  echo "   $CFG/grid-ca.pem"
-  echo "   $CFG/grid-crl.pem"
-fi
-
 # Deter attempts to modify installed files locally.
 chmod a-w $RPM_INSTALL_PREFIX/apache2/conf/apache2.conf
 chmod a-w $RPM_INSTALL_PREFIX/apache2/conf/testme
@@ -235,9 +216,6 @@ chmod a-w $RPM_INSTALL_PREFIX/apache2/etc/startenv.d/00-core-server.sh
 %dir %instroot/apache2/apps.d
 %attr(444,-,-) %config %instroot/apache2/conf/apache2.conf
 %attr(555,-,-) %config %instroot/apache2/conf/testme
-#%config(missingok) %instroot/apache2/conf/cern-ca.pem
-#%config(missingok) %instroot/apache2/conf/grid-ca.pem
-#%config(missingok) %instroot/apache2/conf/grid-crl.pem
 %attr(444,-,-) %instroot/apache2/etc/startenv.d/00-core-server.sh
 %attr(555,-,-) %instroot/apache2/etc/init.d/httpd
 %config %instroot/apache2/conf/server-opts.txt
