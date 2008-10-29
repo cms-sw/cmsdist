@@ -1,8 +1,9 @@
-### RPM cms apache2-conf 2.0
+### RPM cms apache2-conf 2.0b
 # Configuration for additional apache2 modules
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
 Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rSERVER_CONF_2_0&output=/config.tar.gz
 Requires: apache2
+Obsoletes: cms+apache2-conf+2.0-cmp
 Obsoletes: cms+apache2-conf+1.15-cmp
 Obsoletes: cms+apache2-conf+1.14b-cmp
 Obsoletes: cms+apache2-conf+1.14-cmp
@@ -33,6 +34,7 @@ Obsoletes: cms+apache2-conf+1.0-cmp
 %install
 # Make directory for various resources of this package.
 rm -f %instroot/apache2/etc/startenv.d/00-core-server.sh
+rm -f %instroot/apache2/etc/initd.d/httpd
 rm -f %instroot/apache2/conf/apache2.conf
 rm -f %instroot/apache2/conf/testme
 
@@ -75,8 +77,8 @@ sed "s/^  //; s|@APACHE2_ROOT@|$APACHE2_ROOT|g" << \EOF > %instroot/apache2/etc/
 
   # Source run time environment.
   for file in %instroot/apache2/etc/startenv.d/*.sh; do
-    [ -f \$file ] || continue
-    . \$file
+    [ -f $file ] || continue
+    . $file
   done
 
   # Set server options.
