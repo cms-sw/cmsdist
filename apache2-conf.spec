@@ -1,8 +1,9 @@
-### RPM cms apache2-conf 2.0b
+### RPM cms apache2-conf 2.1
 # Configuration for additional apache2 modules
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
-Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rSERVER_CONF_2_0&output=/config.tar.gz
+Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rSERVER_CONF_2_1&output=/config.tar.gz
 Requires: apache2
+Obsoletes: cms+apache2-conf+2.0b-cmp
 Obsoletes: cms+apache2-conf+2.0-cmp
 Obsoletes: cms+apache2-conf+1.15-cmp
 Obsoletes: cms+apache2-conf+1.14b-cmp
@@ -35,6 +36,7 @@ Obsoletes: cms+apache2-conf+1.0-cmp
 # Make directory for various resources of this package.
 rm -f %instroot/apache2/etc/startenv.d/00-core-server.sh
 rm -f %instroot/apache2/etc/init.d/httpd
+rm -f %instroot/apache2/etc/archive-log-files
 rm -f %instroot/apache2/conf/apache2.conf
 rm -f %instroot/apache2/conf/testme
 
@@ -69,8 +71,8 @@ sed "s/^  //; s|@APACHE2_ROOT@|$APACHE2_ROOT|g" << \EOF > %instroot/apache2/etc/
   # chkconfig: - 85 15
   # description: CMS custom web server.
   # processname: httpd
-  # config: %instroot/conf/apache2.conf
-  # pidfile: %instroot/var/httpd.pid
+  # config: %instroot/apache2/conf/apache2.conf
+  # pidfile: %instroot/apache2/var/httpd.pid
 
   # Source function library.
   . /etc/rc.d/init.d/functions
@@ -123,6 +125,36 @@ sed "s/^  //; s|@APACHE2_ROOT@|$APACHE2_ROOT|g" << \EOF > %instroot/apache2/etc/
     fi
     echo
   }
+  status() {
+    local base=${1##*/}
+    local pid
+
+    # First try "pidof"
+    pid=`pidof -o $$ -o $PPID -o %PPID -x $1 || \
+         pidof -o $$ -o $PPID -o %PPID -x ${base}`
+    if [ -n "$pid" ]; then
+      echo $"${base} (pid $pid) is running..."
+      return 0
+    fi
+
+    # Next try "*.pid" files
+    if [ -f $pidfile ] ; then
+      read pid < $pidfile
+      if [ -n "$pid" ]; then
+        echo $"${base} dead but pid file exists"
+        return 1
+      fi
+    fi
+
+    # See if $lockfile exists
+    if [ -f $lockfile ]; then
+      echo $"${base} dead but subsys locked"
+      return 2
+    fi
+    echo $"${base} is stopped"
+    return 3
+  }
+
   
   # See how we were called.
   case "$1" in
@@ -176,6 +208,7 @@ EOF
 echo "-DPRODUCTION" > %instroot/apache2/conf/server-opts.txt
 
 # Copy files to the server setup directory.
+cp -p %_builddir/conf/archive-log-files %instroot/apache2/etc/
 cp -p %_builddir/conf/apache2.conf %_builddir/conf/testme %instroot/apache2/conf/
 cp -p %i/etc/profile.d/dependencies-setup.sh %instroot/apache2/etc/startenv.d/00-core-server.sh
 
@@ -201,6 +234,7 @@ perl -p -i -e 's/^ServerName (\S+)$/ServerName '$H'/g' $CFG/apache2.conf
 # Deter attempts to modify installed files locally.
 chmod a-w $RPM_INSTALL_PREFIX/apache2/conf/apache2.conf
 chmod a-w $RPM_INSTALL_PREFIX/apache2/conf/testme
+chmod a-w $RPM_INSTALL_PREFIX/apache2/etc/archive-log-files
 chmod a-w $RPM_INSTALL_PREFIX/apache2/etc/init.d/httpd
 chmod a-w $RPM_INSTALL_PREFIX/apache2/etc/startenv.d/00-core-server.sh
 
@@ -219,4 +253,5 @@ chmod a-w $RPM_INSTALL_PREFIX/apache2/etc/startenv.d/00-core-server.sh
 %attr(555,-,-) %config %instroot/apache2/conf/testme
 %attr(444,-,-) %instroot/apache2/etc/startenv.d/00-core-server.sh
 %attr(555,-,-) %instroot/apache2/etc/init.d/httpd
+%attr(555,-,-) %instroot/apache2/etc/archive-log-files
 %config %instroot/apache2/conf/server-opts.txt
