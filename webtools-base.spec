@@ -58,14 +58,14 @@ fi
 RETVAL=$?
 
 port=7999
-pid=`ps auxw | grep WSServer | grep -v grep | awk '{print $2}'`
+pid=`ps auxw | grep WSServer | grep $port | grep -v grep | awk '{print $2}'`
 base=base
 if [ -n "$WEBTOOLS_BASEURL" ]; then
     url="$WEBTOOLS_BASEURL/$base"
 else
     url="http://cmsweb.cern.ch/$base"
 fi
-cmd="cmsWeb --base-url=$url --port $port --default-page /WSServer"
+cmd="cmsWeb --base-url=$url --port $port --default-page /WSServer/"
 
 case "$1" in
  restart)
