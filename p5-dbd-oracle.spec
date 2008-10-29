@@ -1,6 +1,6 @@
-### RPM external p5-dbd-oracle 1.21
+### RPM external p5-dbd-oracle 1.17
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
-## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
+
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn DBD-Oracle
