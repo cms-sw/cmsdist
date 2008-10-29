@@ -1,9 +1,10 @@
-### RPM cms frontend 2.91
+### RPM cms frontend 2.91b
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
 Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rFRONTEND_CONF_2_90&output=/config.tar.gz
 Source1: %cvsserver&module=COMP/WEBTOOLS/WelcomePages&export=htdocs&tag=-rFRONTEND_HTDOCS_1_0&output=/htdocs.tar.gz
 Requires: apache2-conf mod_perl2
 Provides: perl(Compress::Zlib) perl(Digest::HMAC_SHA1)
+Obsoletes: cms+frontend+2.91-cmp
 Obsoletes: cms+frontend+2.90-cmp
 Obsoletes: cms+frontend+2.3-cmp
 Obsoletes: cms+frontend+2.2-cmp
@@ -76,10 +77,13 @@ cp -rp %_builddir/htdocs/* %instroot/apache2/htdocs/
 
 %post
 # Relocate files.
-perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/apache2/*.d/*.{conf,sh}
+perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|g" \
+  $RPM_INSTALL_PREFIX/apache2/*.d/*.conf \
+  $RPM_INSTALL_PREFIX/apache2/etc/*.d/*.sh
 
 # Deter attempts to modify installed files locally.
-chmod a-w $RPM_INSTALL_PREFIX/apache2/*.d/*.{conf,sh}
+chmod a-w $RPM_INSTALL_PREFIX/apache2/*.d/*.conf
+chmod a-w $RPM_INSTALL_PREFIX/apache2/etc/*.d/*.sh
 chmod a-w $RPM_INSTALL_PREFIX/apache2/conf/CMSAuth.pm
 chmod a-w $RPM_INSTALL_PREFIX/apache2/etc/update-ca-files
 chmod a-w $RPM_INSTALL_PREFIX/apache2/etc/update-cookie-key
