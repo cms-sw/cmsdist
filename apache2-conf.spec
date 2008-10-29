@@ -171,8 +171,7 @@ sed "s/^  //; s|@APACHE2_ROOT@|$APACHE2_ROOT|g" << \EOF > %instroot/apache2/etc/
 EOF
 
 # Create server options file.
-[ -f %instroot/apache2/etc/server-opts.txt ] ||
-  echo "-DPRODUCTION" > %instroot/apache2/etc/server-opts.txt
+echo "-DPRODUCTION" > %instroot/apache2/conf/server-opts.txt
 
 # Copy files to the server setup directory.
 cp -p %_builddir/conf/apache2.conf %_builddir/conf/testme %instroot/apache2/conf/
