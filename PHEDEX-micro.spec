@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-micro PHEDEX_3_0_6
+### RPM cms PHEDEX-micro PHEDEX_3_0_7
 ## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -50,6 +50,10 @@ find Utilities -type f | egrep -v "OracleConnectId|Master|phedex" | xargs rm
 %install
 mkdir -p %i/etc
 tar -cf - * | (cd %i && tar -xf -)
+
+# Set permissions
+chmod 755 %i/Toolkit/DBS/*
+chmod 755 %i/Utilities/*
 
 # Copy dependencies to dependencies-setup.sh
 mkdir -p %i/etc/profile.d

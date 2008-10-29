@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-admin PHEDEX_3_0_6
+### RPM cms PHEDEX-admin PHEDEX_3_0_7
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%{downloadn}&export=%{downloadn}&&tag=-r%{v}&output=/%{downloadn}.tar.gz
@@ -31,6 +31,10 @@ Provides: perl(XML::LibXML)
 %install
 mkdir -p %i/etc
 tar -cf - * | (cd %i && tar -xf -)
+
+# Set permissions
+chmod 755 %i/Toolkit/DBS/*
+chmod 755 %i/Utilities/*
 
 # Copy dependencies to dependencies-setup.sh
 mkdir -p %i/etc/profile.d
