@@ -1,7 +1,7 @@
-### RPM external oracle 10.2.0.3-CMS19
+### RPM external oracle 10.2.0.3
 ## INITENV SET ORACLE_HOME %i
-## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
 
+# TODO:  actually there is an instantclient for OSX now...  we could make it deployable
 %if "%(echo %cmsplatf | cut -b 1,2,3 )" == "osx"
 Source0: none
 %else
