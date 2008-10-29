@@ -34,7 +34,7 @@ Obsoletes: cms+apache2-conf+1.0-cmp
 %install
 # Make directory for various resources of this package.
 rm -f %instroot/apache2/etc/startenv.d/00-core-server.sh
-rm -f %instroot/apache2/etc/initd.d/httpd
+rm -f %instroot/apache2/etc/init.d/httpd
 rm -f %instroot/apache2/conf/apache2.conf
 rm -f %instroot/apache2/conf/testme
 
