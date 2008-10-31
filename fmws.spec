@@ -1,5 +1,6 @@
 ### RPM cms fmws 0.1.7_pre1
 ## INITENV +PATH PYTHONPATH %i/lib/
+## INITENV +PATH PYTHONPATH $ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV SET FMWSHOME $FMWS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV SET PYTHONPATH ${FMWSHOME}:${PYTHONPATH}
 
