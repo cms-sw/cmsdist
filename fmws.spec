@@ -1,15 +1,19 @@
-### RPM cms fmws 0.1.6
+### RPM cms fmws 0.1.7_pre1
 ## INITENV +PATH PYTHONPATH %i/lib/
 ## INITENV SET FMWSHOME $FMWS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV SET PYTHONPATH ${FMWSHOME}:${PYTHONPATH}
 
-%define cvstag %{realversion}
+####%define cvstag %{realversion}
+%define moduleName FILEMOVER
+%define exportName FILEMOVER
+%define cvstag V01_00_01
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-Source: http://t2.unl.edu/store/CmsFileServer-%{realversion}.tar.gz
+####Source: http://t2.unl.edu/store/CmsFileServer-%{realversion}.tar.gz
+Source: %cvsserver&strategy=checkout&module=COMP/%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
 Requires: python openssl cherrypy py2-cheetah webtools yui java-jdk srmcp elementtree
 
 %prep
-%setup -n CmsFileServer
+%setup -n %{moduleName}
 %build
 
 %install
@@ -20,7 +24,7 @@ mkdir -p %{i}/etc/init.d
 pyver=`echo $PYTHON_VERSION | cut -d. -f1,2`
 mkdir -p %i/lib/python$pyver/site-packages
 cp -r src/CmsFileServer/* %i/lib/python$pyver/site-packages
-cp    src/CmsFileServer/fmws_init %{i}/etc/init.d
+cp    etc/fmws_init %{i}/etc/init.d
 chmod a+x %{i}/etc/init.d/*
 
 (echo "#!/bin/sh"; \
