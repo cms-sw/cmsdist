@@ -1,4 +1,4 @@
-### RPM external pythia8 107
+### RPM external pythia8 108
 Requires: hepmc
 Requires: clhep
 Requires: pythia6
