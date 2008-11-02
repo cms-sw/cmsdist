@@ -1,4 +1,4 @@
-### RPM external pythia6 416
+### RPM external pythia6 419
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 %prep
 %setup -q -n %{n}/%{realversion}
