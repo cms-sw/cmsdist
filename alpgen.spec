@@ -1,4 +1,4 @@
-### RPM external alpgen 212-CMS19
+### RPM external alpgen 213
 %define realversion %(echo %v | cut -d- -f1 )
 Source: http://mlm.home.cern.ch/mlm/alpgen/V2.1/v%{realversion}.tgz
 Source1: config.sub-amd64
