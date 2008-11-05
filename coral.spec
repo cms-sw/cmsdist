@@ -1,9 +1,9 @@
-### RPM cms coral CORAL_1_9_7
-## IMPORT configurations
+### RPM cms coral CORAL_2_0_0
+## IMPORT configurations 
 Provides: /bin/zsh
 Provides: libexpat.so.0
 Requires: coral-tool-conf
-Patch:    coral-1_9_1-SV1BuildFiles
+Patch:    coral-2_0_0-SV1BuildFiles
 
 %define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
 %define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')

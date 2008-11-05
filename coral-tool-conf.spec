@@ -18,7 +18,6 @@ Requires: dcap
 Requires: frontier_client
 Requires: sqlite
 Requires: p5-dbd-oracle
-Requires: seal
 Requires: libtiff
 Requires: oracle-env
 

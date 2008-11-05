@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 7.2
+### RPM cms cmssw-tool-conf 7.3
 # with cmsBuild, change the above version only when a new
 # tool is added
 
@@ -9,7 +9,6 @@ Provides: libboost_thread-gcc-mt.so
 
 Requires: pool
 Requires: coral
-Requires: seal
 Requires: gcc-toolfile
 Requires: gmake
 Requires: pcre
@@ -44,7 +43,6 @@ Requires: xerces-c
 Requires: p5-dbd-oracle
 Requires: mysqlpp
 Requires: systemtools
-Requires: seal
 Requires: coral
 Requires: pool
 Requires: xdaq
