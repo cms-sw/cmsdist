@@ -1,4 +1,4 @@
-### RPM external gccxml 0.7.0_20070615-CMS20
+### RPM external gccxml 0.7.0_20070615-CMS19
 %define gccxmlmajorver %(echo %realversion | cut -f1,2 -d.)
 Requires: cmake
 # The following are needed for 0.6.0 
