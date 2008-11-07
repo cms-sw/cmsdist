@@ -5,9 +5,9 @@
 %define downloadn Compress-Zlib
 
 Requires: zlib
-Source: http://search.cpan.org/CPAN/authors/id/P/PM/PMQS/%{downloadn}-%{realversion}.tar.gz
+Source: http://search.cpan.org/CPAN/authors/id/P/PM/PMQS/%{downloadn}-%{v}.tar.gz
 %prep
-%setup -n %downloadn-%realversion
+%setup -n %downloadn-%v
 %build
 LC_ALL=C; export LC_ALL
 perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion INCLUDE=$ZLIB_ROOT/include
