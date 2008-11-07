@@ -1,4 +1,4 @@
-### RPM cms online-tool-conf 4.0
+### RPM cms online-tool-conf 4.0-onl200
 # with cmsBuild, change the above version only when a new
 # tool is added
 ## INITENV SET CMSSW_TOOL_CONF_ROOT $ONLINE_TOOL_CONF_ROOT
@@ -37,7 +37,6 @@ Requires: tkonlinesw
 Requires: fastjet
 Requires: ktjet
 Requires: dpm
-Requires: oracle-env
 Requires: onlinesystemtools
 
 
