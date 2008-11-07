@@ -1,4 +1,4 @@
-### RPM cms fmws 0.1.7_pre1
+### RPM cms fmws 0.1.7_pre2
 ## INITENV +PATH PYTHONPATH %i/lib/
 ## INITENV +PATH PYTHONPATH $ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV SET FMWSHOME $FMWS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
@@ -7,7 +7,7 @@
 ####%define cvstag %{realversion}
 %define moduleName FILEMOVER
 %define exportName FILEMOVER
-%define cvstag V01_00_01
+%define cvstag V01_00_02
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 ####Source: http://t2.unl.edu/store/CmsFileServer-%{realversion}.tar.gz
 Source: %cvsserver&strategy=checkout&module=COMP/%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
