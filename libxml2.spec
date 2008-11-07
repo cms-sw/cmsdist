@@ -1,14 +1,12 @@
 ### RPM external libxml2 2.6.23-CMS19
 Source: ftp://xmlsoft.org/%n/%n-%realversion.tar.gz
 
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 Requires: zlib
-%endif
 
 %prep
 %setup -n %n-%realversion
 %build
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
+%if "%{?online_release:set}" != "set"
 ./configure --prefix=%i --with-zlib=$ZLIB_ROOT --without-python
 %else
 ./configure --prefix=%i --with-zlib=/usr --without-python

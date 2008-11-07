@@ -1,4 +1,4 @@
-### RPM external rpm 4.4.2.2-CMS19c
+### RPM external rpm 4.4.2.2-CMS19a
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV SET LIBRPMALIAS_FILENAME %{i}/lib/rpm/rpmpopt-%{realversion}
 ## INITENV SET LIBRPMRC_FILENAME %{i}/lib/rpm/rpmrc
@@ -10,13 +10,7 @@
 Source: http://rpm.org/releases/rpm-4.4.x/rpm-%{realversion}.tar.gz
 #Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
 
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 Requires: beecrypt bz2lib neon db4 expat elfutils zlib
-%else
-Requires: beecrypt bz2lib neon db4 expat elfutils
-%endif
-
-
 # The following two lines are a workaround for an issue seen with gcc4.1.2
 Provides: perl(Archive::Tar)
 Provides: perl(Specfile)
