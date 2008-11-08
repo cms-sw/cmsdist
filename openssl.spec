@@ -1,8 +1,14 @@
-### RPM external openssl 0.9.7d-CMS19
+### RPM external openssl 0.9.7m
 Source: http://www.openssl.org/source/%n-%realversion.tar.gz
+Patch0: openssl-0.9.7m-gcc43-m486
 
 %prep
 %setup -n %n-%{realversion}
+case %gccver in
+  4.3.*)
+%patch0 -p1
+  ;;
+esac
 
 %build
 ./config --prefix=%i shared
