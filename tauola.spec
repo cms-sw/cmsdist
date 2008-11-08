@@ -1,27 +1,19 @@
 ### RPM external tauola 27.121.5
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Patch: tauola-27.121-gfortran
+Patch1: tauola-27.121.5-gfortran-taueta
 Requires: pythia6
 
 %prep
 %setup -q -n %{n}/%{realversion}
 %if "%cmsplatf" == "slc4_ia32_gcc412"
 %patch -p0 
+%patch1 -p2
 %endif
 ./configure --lcgplatform=%cmsplatf --with-pythia6libs=$PYTHIA6_ROOT/lib
 
 %build
-# Hack around the fact that this doesn't yet build for gcc4.x.y
-case %cmsplatf in
-slc4_ia32_gcc412 | slc4_ia32_gcc422 )
-make | true
-mkdir -p %{i}/lib
-;;
-* )
 make
-;;
-esac
-
 
 %install
 tar -c lib include | tar -x -C %i
