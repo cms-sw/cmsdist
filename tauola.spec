@@ -6,10 +6,12 @@ Requires: pythia6
 
 %prep
 %setup -q -n %{n}/%{realversion}
-%if "%cmsplatf" == "slc4_ia32_gcc412"
+case %gccver in
+  4.*)
 %patch -p0 
 %patch1 -p2
-%endif
+  ;;
+esac
 ./configure --lcgplatform=%cmsplatf --with-pythia6libs=$PYTHIA6_ROOT/lib
 
 %build
