@@ -15,9 +15,11 @@ Patch2: millepede-gcc412
 %patch1 -p1
 %endif
 
-%if "%cmsplatf" == "slc4_ia32_gcc412"
+case %gccver in
+  4.*)
 %patch2 -p0
-%endif
+  ;;
+esac
 
 %build
 make %makeprocesses

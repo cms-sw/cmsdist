@@ -8,9 +8,11 @@ Patch1: alpgen-212-gfortran
 %prep
 %setup -c -n alpgen-%v
 %patch0 -p1 
-%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422"))
+case %gccver in
+  4.*)
 %patch1 -p0
-%endif
+  ;;
+esac
 
 %build
 cd 2Qphwork; make gen; cd ..
