@@ -1,4 +1,4 @@
-### RPM external graphviz 2.16.1-CMS19
+### RPM external graphviz 2.16.1
 Source: http://www.graphviz.org/pub/%{n}/ARCHIVE/%{n}-%{realversion}.tar.gz  
 Requires: expat zlib libjpg libpng 
 
