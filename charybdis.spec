@@ -1,4 +1,4 @@
-### RPM external charybdis 1.003-CMS19
+### RPM external charybdis 1.003
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 %prep
 %setup -q -n %{n}/%{realversion}
