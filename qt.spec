@@ -1,4 +1,4 @@
-### RPM external qt 3.3.8-CMS19
+### RPM external qt 3.3.8
 ## INITENV UNSET QMAKESPEC
 ## INITENV SET QTDIR %i
 %define qttype %(echo %realversion | sed 's/[-0-9.]*//')
