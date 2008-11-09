@@ -1,9 +1,15 @@
-### RPM external sigcpp 2.0.17-CMS19
+### RPM external sigcpp 2.0.18
 %define majorv %(echo %realversion | cut -d. -f1,2) 
 Source: http://ftp.gnome.org/pub/GNOME/sources/libsigc++/%{majorv}/libsigc++-%{realversion}.tar.gz
+Patch0: sigcpp-2.0.18-gcc42
 
 %prep
 %setup -q -n libsigc++-%{realversion}
+case %gccver in
+  4.3.*)
+%patch0 -p2
+  ;;
+esac
 ./configure --prefix=%{i} 
 
 %build
