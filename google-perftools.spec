@@ -1,4 +1,4 @@
-### RPM external google-perftools 0.98
+### RPM external google-perftools 0.99.2
 Source: http://google-perftools.googlecode.com/files/%n-%{realversion}.tar.gz
 
 %prep
