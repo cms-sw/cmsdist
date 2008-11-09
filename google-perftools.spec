@@ -5,34 +5,38 @@ Source: http://google-perftools.googlecode.com/files/%n-%{realversion}.tar.gz
 %setup -n %n-%realversion
 
 %build
-%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422")||("%cmsplatf" == "slc4_ia32_gcc345"))
-./configure --prefix=%i
-make %makeprocesses
-%endif
-%if ("%cmsplatf" == "slc4_amd64_gcc345")
+case %cmsplatf in
+  slc4_ia32*)
+    ./configure --prefix=%i
+    make %makeprocesses
+  ;;
+  slc4_amd64*)
 # Make a fake library for now to keep everything happy. Actually building
 # for 64bit requires building libunwind, which we are not yet doing at
 # the moment.
-cat << \EOF_TMPFILE > tmpgp.cc
+    cat << \EOF_TMPFILE > tmpgp.cc
 namespace gptmp {
   void foo(void*) {
   }
 }
 EOF_TMPFILE
-g++ -c -o tmp.o -fPIC tmpgp.cc
-g++ -shared -o libgptmp.so tmp.o
-%endif
+    g++ -c -o tmp.o -fPIC tmpgp.cc
+    g++ -shared -o libgptmp.so tmp.o
+  ;;
+esac
 
 %install
-%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422")||("%cmsplatf" == "slc4_ia32_gcc345"))
-make install
-%endif
-%if ("%cmsplatf" == "slc4_amd64_gcc345")
-# Just copy over the dummy library
-mkdir -p %i/lib
-cp libgptmp.so %i/lib/libtcmalloc.so
-cp libgptmp.so %i/lib/libtcmalloc_minimal.so
-%endif
+case %cmsplatf in
+  slc4_ia32*)
+    make install
+  ;;
+  slc4_amd64*)
+    # Just copy over the dummy library
+    mkdir -p %i/lib
+    cp libgptmp.so %i/lib/libtcmalloc.so
+    cp libgptmp.so %i/lib/libtcmalloc_minimal.so
+  ;;
+esac
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
