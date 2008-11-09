@@ -1,12 +1,14 @@
-### RPM external toprex 4.23-CMS19
+### RPM external toprex 4.23
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Patch: toprex-4.23-gfortran
 
 %prep
 %setup -q -n %{n}/%{realversion}
-%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422"))
+case %gccver in
+  4.*)
 %patch -p0 
-%endif
+  ;; 
+esac
 ./configure --lcgplatform=%cmsplatf
 
 %build
