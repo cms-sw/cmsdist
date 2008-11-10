@@ -1,4 +1,4 @@
-### RPM cms prodagent PRODAGENT_0_12_7_CRAB_1
+### RPM cms prodagent PRODAGENT_0_12_7_pre2
 ## INITENV +PATH PYTHONPATH %i/lib
 ## INITENV +PATH PYTHONPATH $WEBTOOLS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Tools/GraphTool/src
 ## INITENV +PATH PYTHONPATH $PY2_PIL_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/PIL
