@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V1_2_0
+### RPM lcg SCRAMV1 V2_0_6
 ## INITENV +PATH PATH %instroot/common
 
 # This package is somewhat unusual compared to other packages we
@@ -30,17 +30,12 @@ fi
 %build
 %install
 tar -cf - . | tar -C %i -xvvf -
-
-mkdir -p %i/src/main %instroot/%cmsplatf/lcg/SCRAMV1/scramdb
-touch %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
+mkdir -p %i/src/main %{i}/etc/profile.d
 
 #SCRAM/INSTALL.txt recomendations
 sed -i -e "s|@SCRAM_LOOKUPDB_DIR@|%instroot/%cmsplatf/lcg/SCRAMV1/scramdb/|g;s|@SCRAM_VERSION@|%v|g" %i/bin/scram
 ln -s ../../bin/scram %i/src/main/scram.pl
 chmod 755 %i/bin/scram
-
-mkdir -p %{instroot}/%{cmsplatf}/etc/profile.d
-mkdir -p %{i}/etc/profile.d
 
 %post
 %{relocateConfig}bin/scram
@@ -72,5 +67,3 @@ fi
 
 %files
 %i
-%instroot/%cmsplatf/lcg/SCRAMV1/scramdb
-%exclude %instroot/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
