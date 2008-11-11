@@ -1,8 +1,9 @@
-### RPM cms apache2-conf 2.1
+### RPM cms apache2-conf 2.2
 # Configuration for additional apache2 modules
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
-Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rSERVER_CONF_2_1&output=/config.tar.gz
+Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rSERVER_CONF_2_2&output=/config.tar.gz
 Requires: apache2
+Obsoletes: cms+apache2-conf+2.1-cmp
 Obsoletes: cms+apache2-conf+2.0b-cmp
 Obsoletes: cms+apache2-conf+2.0-cmp
 Obsoletes: cms+apache2-conf+1.15-cmp
@@ -38,7 +39,6 @@ rm -f %instroot/apache2/etc/startenv.d/00-core-server.sh
 rm -f %instroot/apache2/etc/init.d/httpd
 rm -f %instroot/apache2/etc/archive-log-files
 rm -f %instroot/apache2/conf/apache2.conf
-rm -f %instroot/apache2/conf/testme
 
 mkdir -p %i/bin
 mkdir -p %instroot/apache2/apps.d
@@ -208,8 +208,8 @@ EOF
 echo "-DPRODUCTION" > %instroot/apache2/conf/server-opts.txt
 
 # Copy files to the server setup directory.
+cp -p %_builddir/conf/apache2.conf %instroot/apache2/conf/
 cp -p %_builddir/conf/archive-log-files %instroot/apache2/etc/
-cp -p %_builddir/conf/apache2.conf %_builddir/conf/testme %instroot/apache2/conf/
 cp -p %i/etc/profile.d/dependencies-setup.sh %instroot/apache2/etc/startenv.d/00-core-server.sh
 
 %post
@@ -233,7 +233,6 @@ perl -p -i -e 's/^ServerName (\S+)$/ServerName '$H'/g' $CFG/apache2.conf
 
 # Deter attempts to modify installed files locally.
 chmod a-w $RPM_INSTALL_PREFIX/apache2/conf/apache2.conf
-chmod a-w $RPM_INSTALL_PREFIX/apache2/conf/testme
 chmod a-w $RPM_INSTALL_PREFIX/apache2/etc/archive-log-files
 chmod a-w $RPM_INSTALL_PREFIX/apache2/etc/init.d/httpd
 chmod a-w $RPM_INSTALL_PREFIX/apache2/etc/startenv.d/00-core-server.sh
@@ -250,7 +249,6 @@ chmod a-w $RPM_INSTALL_PREFIX/apache2/etc/startenv.d/00-core-server.sh
 %dir %instroot/apache2/htdocs
 %dir %instroot/apache2/apps.d
 %attr(444,-,-) %config %instroot/apache2/conf/apache2.conf
-%attr(555,-,-) %config %instroot/apache2/conf/testme
 %attr(444,-,-) %instroot/apache2/etc/startenv.d/00-core-server.sh
 %attr(555,-,-) %instroot/apache2/etc/init.d/httpd
 %attr(555,-,-) %instroot/apache2/etc/archive-log-files
