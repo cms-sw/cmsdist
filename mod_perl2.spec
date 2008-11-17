@@ -76,5 +76,6 @@ perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependen
 
 %post
 %{relocateConfig}conf/mod_perl2.conf
+%{relocateConfig}lib/site_perl/%perlversion/%perlarch/Apache2/BuildConfig.pm
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
