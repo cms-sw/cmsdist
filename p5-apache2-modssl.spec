@@ -4,6 +4,7 @@
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn Apache2-ModSSL
 Source: http://search.cpan.org/CPAN/authors/id/O/OP/OPI/%downloadn-%realversion.tar.gz
+Requires: mod_perl2
 
 %prep
 %setup -n %downloadn-%realversion
@@ -11,4 +12,4 @@ Source: http://search.cpan.org/CPAN/authors/id/O/OP/OPI/%downloadn-%realversion.
 %build
 export LC_ALL=C
 perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion
-make
+make PASTHRU_INC=-I$MOD_PERL2_ROOT/include
