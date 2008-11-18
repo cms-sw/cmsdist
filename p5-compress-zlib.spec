@@ -1,4 +1,4 @@
-### RPM external p5-compress-zlib 1.34
+### RPM external p5-compress-zlib 1.34-CMS19
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
