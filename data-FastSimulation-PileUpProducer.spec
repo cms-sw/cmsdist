@@ -1,6 +1,5 @@
-### RPM cms data-FastSimulation-PileUpProducer 19
-%define realversion V03-01-01
-
+### RPM cms data-FastSimulation-PileUpProducer 22
+%define realversion V04-04-01
 
 ## IMPORT data-rpm-build
 
