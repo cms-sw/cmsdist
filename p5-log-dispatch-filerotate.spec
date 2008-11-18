@@ -1,4 +1,4 @@
-### RPM external p5-log-dispatch-filerotate 1.16
+### RPM external p5-log-dispatch-filerotate 1.17
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
