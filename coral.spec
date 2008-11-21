@@ -19,6 +19,7 @@ Patch:    coral-1_9_1-SV1BuildFiles
 # Disable building tests in online release,
 # since they bring dependency on cppunit:
 %define patchsrc4       perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
+%define scramcmd $SCRAMV1_ROOT/bin/scram
 %endif
 
 ## IMPORT lcg-scram-build

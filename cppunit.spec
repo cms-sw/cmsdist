@@ -1,4 +1,4 @@
-### RPM external cppunit 1.11.6
+### RPM external cppunit 1.10.2-CMS19
 Source0: http://switch.dl.sourceforge.net/sourceforge/%n/%n-%realversion.tar.gz
 Source1: http://spi.cvs.cern.ch:8180/cgi-bin/spi.cgi/*checkout*/Components/UnitTesting/Tools/CppUnit/CppUnit_testdriver.cpp?rev=1.1
 

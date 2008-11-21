@@ -11,7 +11,5 @@
 <Runtime name=PYTHONPATH value="$CMSSW_BASE/python" type=path>
 <Runtime name=PYTHONPATH value="$CMSSW_BINDIR" type=path>
 <Runtime name=PYTHONPATH value="$LIBDIR" type=path>
-<Runtime name="CMSSW_SEARCH_PATH" value="$CMSSW_BASE/src" type="path"/>
-<Runtime name="CMSSW_SEARCH_PATH" value="$CMSSW_BASE/share" type="path"/>
 <Runtime name=SEAL_PLUGINS default="$CMSSW_BASE/module/$SCRAM_ARCH" type=path>
 </Tool>
