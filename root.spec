@@ -23,7 +23,7 @@ Patch1:  root-5.21-04-CINT-maxlongline
 Requires: gccxml gsl castor libjpg dcap pcre python
 
 %if "%cmsplatf" != "slc4onl_ia32_gcc346"
-Requires: qt openssl mysql libpng zlib libungif xrootd
+Requires: qt openssl mysql libpng zlib libungif 
 %else
 %define skiplibtiff true
 %endif
@@ -81,7 +81,6 @@ CONFIG_ARGS="--with-f77=${GCC_ROOT}
              --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include/python2.4 
              --enable-explicitlink 
              --enable-qtgsi
-             --enable-mathcore 
              --enable-mathmore
              --enable-reflex  
              --enable-cintex 
@@ -96,9 +95,11 @@ CONFIG_ARGS="--with-f77=${GCC_ROOT}
              --disable-pgsql
              --disable-xml ${EXTRA_CONFIG_ARGS}"
 
-%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422")||("%cmsplatf" == "slc4_amd64_gcc345"))
-  CONFIG_ARGS="$CONFIG_ARGS --disable-cern"
-%endif
+#case %gccver in
+#  4.*)
+#  CONFIG_ARGS="$CONFIG_ARGS --disable-cern"
+#  ;;
+#esac
 
 case $(uname)-$(uname -p) in
   Linux-x86_64)
