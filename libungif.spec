@@ -1,4 +1,4 @@
-### RPM external libungif 4.1.4-CMS19
+### RPM external libungif 4.1.4
 
 Source: http://switch.dl.sourceforge.net/sourceforge/giflib/%{n}-%{realversion}.tar.gz
 

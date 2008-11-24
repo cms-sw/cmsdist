@@ -1,4 +1,4 @@
-### RPM external libjpg 6b-CMS19
+### RPM external libjpg 6b
 Source: ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v%{realversion}.tar.gz
 Source1: config.sub-amd64
 Patch0: libjpg-config.sub
