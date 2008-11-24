@@ -38,7 +38,7 @@ Patch5: qt3-leopard
 #%endif
 
 case %cmsplatf in
-    slc4_ia32* )
+    slc4_ia32* | slc5_ia32*)
         # The kludge supports the libfontconfig kludge described below
 %patch4 -p1
     ;;
@@ -66,7 +66,7 @@ perl -p -i -e 's/^install_framework:/install_framework:\ninstall_framework_no:/'
 # /usr/lib/libfontconfig.so soft link (for 32-bit lib) is missing
 # on the 64-bit machines
 case %cmsplatf in
- slc4_ia32*)
+ slc4_ia32* | slc5_ia32*)
   mkdir -p %{_builddir}/lib
   ln -s /usr/lib/libfontconfig.so.1 %{_builddir}/%n-%type-free-%{qtversion}/lib/libfontconfig.so
 esac
