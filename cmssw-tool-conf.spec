@@ -9,7 +9,6 @@ Provides: libboost_thread-gcc-mt.so
 
 Requires: pool
 Requires: coral
-Requires: seal
 Requires: gcc-toolfile
 Requires: gmake
 Requires: pcre
@@ -26,7 +25,7 @@ Requires: boost
 Requires: gsl
 Requires: clhep
 Requires: root
-Requires: xrootd
+#Requires: xrootd
 Requires: qt
 Requires: castor
 Requires: mysql
@@ -44,7 +43,6 @@ Requires: xerces-c
 Requires: p5-dbd-oracle
 Requires: mysqlpp
 Requires: systemtools
-Requires: seal
 Requires: coral
 Requires: pool
 Requires: xdaq
