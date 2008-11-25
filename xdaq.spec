@@ -2,9 +2,6 @@
 Requires: zlib mimetic xerces-c uuid
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
-%if "%cmsplatf" == "slc3_ia32_gcc323"
-%define installDir linux/x86
-%endif
 
 # Download from cern afs area to speed up testing:  
 Source0: http://switch.dl.sourceforge.net/sourceforge/xdaq/coretools_G_V%xdaqv.tgz
@@ -36,15 +33,17 @@ cd %{i}
 export XDAQ_ROOT=$PWD
 cd %{i}/daq
 # Fix up a problem for the 64bit build
-%if ("%cmsplatf" == "slc4_amd64_gcc345")
-perl -p -i -e "s!configure --prefix!configure --with-pic --prefix!" extern/asyncresolv/Makefile
-%endif
+case %cmsplatf in
+  *amd64* )
+    perl -p -i -e "s!configure --prefix!configure --with-pic --prefix!" extern/asyncresolv/Makefile
+    ;;
+esac
 export MIMETIC_PREFIX=$MIMETIC_ROOT
 export XERCES_PREFIX=$XERCES_C_ROOT
 export UUID_LIB_PREFIX=$UUID_ROOT/lib
 
 case %cmsplatf in
-slc4_ia32_gcc412 | slc4_ia32_gcc422 | osx104_ppc32_gcc400 | osx104_ia32_gcc401)
+*gcc4* | osx*)
 make CPPDEFINES=linux Set=extern_coretools install || true
 make CPPDEFINES=linux Set=coretools install || true
 make CPPDEFINES=linux Set=extern_powerpack install || true
