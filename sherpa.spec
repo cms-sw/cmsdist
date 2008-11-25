@@ -21,11 +21,14 @@ Patch4: sherpa-flibs
 
 %build
 
-%if "%cmsplatf" == "slc4_ia32_gcc412"
+case %gccver in
+  4.*)
 export FC=gfortran
-%else
+  ;;
+  3.*)
 export FC=g77
-%endif
+  ;;
+esac
 
 %if "%cmsplatf" == "slc4_ia32_gcc345"
 EXTRA_CFG_FLAGS="--copt LDFLAGS=-m32 --copt CFLAGS=-m32 --cxx -m32 --f -m32"
