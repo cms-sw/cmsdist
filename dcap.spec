@@ -1,7 +1,6 @@
-### RPM external dcap 1.7.0.48
-#get dcap from dcache svn repo now...
-%define svnTag %(echo %realversion | tr '.' '-')
-Source: svn://svn.dcache.org/dCache/tags/production-%svnTag/modules/dcap?scheme=http&module=dcap&output=/dcap.tgz
+### RPM external dcap 1.7.0.31
+#get dcap from dcache now...
+Source: http://www.dcache.org/downloads/1.7.0/dCache-production-1-7-0-31.tar.gz
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %if "%cpu" != "amd64"
@@ -13,14 +12,17 @@ Source: svn://svn.dcache.org/dCache/tags/production-%svnTag/modules/dcap?scheme=
 Provides: libdcap.so%{libsuffix}
 Provides: libpdcap.so%{libsuffix}
 %prep
-%setup -n dcap
+#rm -rf %n-%realversion
+%setup -n dCacheBuild
 
 %build
+cd modules/dcap
 chmod +x mkmapfile.sh
 chmod +x mkdirs.sh
 chmod +x version.sh
 LD=gcc make BIN_PATH=%i %makeprocesses 
 %install
+cd modules/dcap
 LD=gcc make BIN_PATH=%i install
 
 # SCRAM ToolBox toolfile
