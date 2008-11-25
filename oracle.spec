@@ -1,31 +1,20 @@
-### RPM external oracle 10.2.0.3
+### RPM external oracle 10.2.0.3-CMS19
 ## INITENV SET ORACLE_HOME %i
+## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
 
-# TODO:  actually there is an instantclient for OSX now...  we could make it deployable
-%if "%(echo %cmsplatf | cut -b 1,2,3 )" == "osx"
-Source0: none
-%else
-Source0: http://cmsrep.cern.ch/cmssw/oracle-mirror/%cmsos/%realversion/basic-%cmsos.zip
-Source1: http://cmsrep.cern.ch/cmssw/oracle-mirror/%cmsos/%realversion/sdk-%cmsos.zip
-Source2: http://cmsrep.cern.ch/cmssw/oracle-mirror/%cmsos/%realversion/sqlplus-%cmsos.zip
+Source0: http://cmsrep.cern.ch/cmssw/oracle-mirror/%cmsos/%realversion/basic.zip
+Source1: http://cmsrep.cern.ch/cmssw/oracle-mirror/%cmsos/%realversion/sdk.zip
+Source2: http://cmsrep.cern.ch/cmssw/oracle-mirror/%cmsos/%realversion/sqlplus.zip
 Source9: oracle-license
 Source10: http://www.oracle.com/technology/tech/oci/occi/downloads/occi_gcc343_102020.tar.gz
-%endif
 
 ## INITENV +PATH SQLPATH %i/bin
 %prep
-case %cmsos in
-    osx* )
-    ;;
-    * )
-        rm -rf instantclient_*
-        rm -rf libocci.so.10.1 libocci10.a 
-        unzip -o -u %_sourcedir/basic-%cmsos.zip
-        unzip -o -u %_sourcedir/sdk-%cmsos.zip
-        unzip -o -u %_sourcedir/sqlplus-%cmsos.zip
-    ;;
-esac
-
+rm -rf instantclient_*
+rm -rf libocci.so.10.1 libocci10.a 
+unzip -o -u %_sourcedir/basic.zip
+unzip -o -u %_sourcedir/sdk.zip
+unzip -o -u %_sourcedir/sqlplus.zip
 %if "%{realversion}" == "10.2.0.3"
 case %cmsos in 
     slc4_ia32 )
