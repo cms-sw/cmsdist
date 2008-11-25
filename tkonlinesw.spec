@@ -1,7 +1,7 @@
 ### RPM external tkonlinesw 2.5.1
 %define projectname trackerDAQ
 %define releasename %{projectname}-%{realversion}
-Source: http://cmstracker029.cern.ch/sources/trackerDAQ-2.5.1-2.tgz
+Source: http://cmstracker029.cern.ch/sources/trackerDAQ-2.5.1-3.tgz
 
 # Note from Kristian: 
 # xdaq dependency is here only to re-use its makefiles. 
