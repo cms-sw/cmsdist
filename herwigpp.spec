@@ -8,9 +8,12 @@ Patch0: herwigpp-2.2.1-g77
 
 %prep
 %setup -q -n Herwig++-%{realversion}
-%if (("%cmsplatf" == "slc4_ia32_gcc345")||("%cmsplatf" == "slc4_amd64_gcc345"))
+case %gccver in
+  3.*)
 %patch0 -p1
-%endif
+  ;;
+esac
+
 ./configure --with-hepmc=$HEPMC_ROOT --with-gsl=$GSL_ROOT --with-thepeg=$THEPEG_ROOT --prefix=%i CXXFLAGS="-O2 -fuse-cxa-atexit"
 
 %build
