@@ -1,4 +1,4 @@
-### RPM external frontier_client 2.7.7-CMS18l
+### RPM external frontier_client 2.7.7
 Source: http://edge.fnal.gov:8888/frontier/%{n}__%{realversion}__src.tar.gz
 #Source: http://cern.ch/service-spi/external/tarFiles/%{n}__%{realversion}__src.tar.gz
 
@@ -6,10 +6,8 @@ Requires: expat
 
 %if "%{?online_release:set}" != "set"
 Requires: zlib openssl
-%endif
-
-%if "%{?online_release:set}" == "set"
-Requires: onlinesystemtools
+%else
+Requires: systemtools
 %endif
 
 %prep
