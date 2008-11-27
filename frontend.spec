@@ -1,9 +1,10 @@
-### RPM cms frontend 3.2
+### RPM cms frontend 3.3
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
-Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rFRONTEND_CONF_3_2&output=/config.tar.gz
+Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rFRONTEND_CONF_3_3&output=/config.tar.gz
 Source1: %cvsserver&module=COMP/WEBTOOLS/WelcomePages&export=htdocs&tag=-rFRONTEND_HTDOCS_1_0&output=/htdocs.tar.gz
 Requires: apache2-conf mod_perl2 p5-apache2-modssl
 Provides: perl(Compress::Zlib) perl(Digest::HMAC_SHA1)
+Obsoletes: cms+frontend+3.2-cmp
 Obsoletes: cms+frontend+3.1-cmp
 Obsoletes: cms+frontend+3.0-cmp
 Obsoletes: cms+frontend+2.92-cmp
@@ -53,6 +54,8 @@ rm -f %instroot/apache2/*/CMSAuth.pm
 rm -f %instroot/apache2/*/update-cookie-key
 rm -f %instroot/apache2/*/update-and-sync-cookie-keys
 rm -f %instroot/apache2/*/update-ca-files
+rm -f %instroot/apache2/*/mkgridmap.conf
+rm -f %instroot/apache2/*/voms-gridmap.txt
 
 mkdir -p %instroot/apache2/apps.d
 mkdir -p %instroot/apache2/rewrites.d
@@ -75,6 +78,7 @@ cp -p %_builddir/conf/testme %instroot/apache2/conf/
 cp -p %_builddir/conf/CMSAuth.pm %instroot/apache2/conf/
 cp -p %_builddir/conf/cms-centres.txt %instroot/apache2/etc/
 cp -p %_builddir/conf/extra-certificates.txt %instroot/apache2/etc/
+cp -p %_builddir/conf/mkgridmap.conf %instroot/apache2/etc/
 cp -p %_builddir/conf/update-ca-files %instroot/apache2/etc/
 cp -p %_builddir/conf/update-cookie-key %instroot/apache2/etc/
 cp -p %_builddir/conf/update-and-sync-cookie-keys %instroot/apache2/etc/
@@ -82,6 +86,8 @@ cp -p %_builddir/conf/apps.d/*frontend.conf %instroot/apache2/apps.d/
 cp -p %_builddir/conf/rewrites.d/*.conf %instroot/apache2/rewrites.d/
 cp -p %_builddir/conf/ssl_rewrites.d/*.conf %instroot/apache2/ssl_rewrites.d/
 cp -rp %_builddir/htdocs/* %instroot/apache2/htdocs/
+
+touch %instroot/apache2/etc/voms-gridmap.txt
 
 %post
 # Relocate files.
@@ -111,6 +117,8 @@ chmod a-w $RPM_INSTALL_PREFIX/apache2/etc/update-and-sync-cookie-keys
 %attr(555,-,-) %instroot/apache2/etc/update-and-sync-cookie-keys
 %config %instroot/apache2/etc/cms-centres.txt
 %config %instroot/apache2/etc/extra-certificates.txt
+%config %instroot/apache2/etc/voms-gridmap.txt
+%config %attr(444,-,-) %instroot/apache2/etc/mkgridmap.conf
 %config %attr(444,-,-) %instroot/apache2/apps.d/*frontend.conf
 %config %attr(444,-,-) %instroot/apache2/rewrites.d/*.conf
 %config %attr(444,-,-) %instroot/apache2/ssl_rewrites.d/*.conf
