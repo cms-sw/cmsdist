@@ -24,9 +24,7 @@ Requires: online-tool-conf python
 %define saveDeps        yes
 
 #Defines for file containing list of packages for checkout and build:
-%define buildsetrepo    CMSDIST
-%define buildsetfile    online_build_set.file
-%define buildsetvers    buildset_V2_9
+%define buildsetfile    online_build_set
 
 %define patchsrc2	perl -p -i -e ' s!(<classpath.*/test\\+.*>)!!;' config/BuildFile.xml
 %define patchsrc3       perl -p -i -e ' s!(<use name=root>)!$1\\n<use name=Foundation/PluginManager>!;' src/DQM/L1TMonitorClient/BuildFile
