@@ -1,8 +1,9 @@
-### RPM cms apache2-conf 2.2
+### RPM cms apache2-conf 2.2b
 # Configuration for additional apache2 modules
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
 Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rSERVER_CONF_2_2&output=/config.tar.gz
 Requires: apache2
+Obsoletes: cms+apache2-conf+2.2-cmp
 Obsoletes: cms+apache2-conf+2.1-cmp
 Obsoletes: cms+apache2-conf+2.0b-cmp
 Obsoletes: cms+apache2-conf+2.0-cmp
@@ -222,11 +223,11 @@ perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|g"	\
   $RPM_INSTALL_PREFIX/apache2/etc/startenv.d/00-core-server.sh
 
 # Set ServerName.
-T=$(mktemp) U=$(mktemp) H=$(hostname -f)
-host cmsweb.cern.ch 2>/dev/null | grep 'has address' | awk '{print $NF}' > $T
-host $H 2>/dev/null | grep 'has address' | awk '{print $NF}' > $U
-[ $(fgrep -f $U < $T | wc -l) != 0 ] && H=cmsweb.cern.ch
-rm -f $T $U
+H=$(hostname -f)
+if [ -r /etc/grid-security/hostcert.pem ]; then
+  CN=$(openssl x509 -noout -subject -in /etc/grid-security/hostcert.pem 2>/dev/null | sed 's|.*/CN=||')
+  case $CN in *.*.* ) H=$CN ;; esac
+fi
 
 echo "Adjusting ServerName to $H."
 perl -p -i -e 's/^ServerName (\S+)$/ServerName '$H'/g' $CFG/apache2.conf
