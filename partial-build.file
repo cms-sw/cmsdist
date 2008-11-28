@@ -18,12 +18,9 @@
 
 %define bootstrapfile config/%{application}_bootsrc.xml
 
-# Provide list of packages for the partial release:
-%define additionalSrc0 cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%buildsetrepo/%buildsetfile&export=%buildsetrepo&tag=-r%{buildsetvers}
-
 # Creates bootstrap file for a partial release. 
-# List of packages is read from file which is unpacked from additionalSrc0.
+# List of packages is read from application specific buildsetfile
+# found in CMSDIST (name is defined in the application spec file).
 # Reading from file allows to supply a longer list of packages than 
 # rpm shell can handle:
-%define patchsrc perl -p -e 'if (s/(<download.*)(file:src)(.*)(name="src)("\\/>)/#$1$2$3$4$5/){open $fh, "%srctree/%buildsetrepo/%buildsetfile" or die; while(readline $fh){chomp;print "$1$2/$_$3$4/$_$5\\n"}}' config/bootsrc.xml > %bootstrapfile
-
+%define patchsrc perl -p -e 'if (s/(<download.*)(file:src)(.*)(name="src)("\\/>)/#$1$2$3$4$5/){open $fh, "%{_sourcedir}/%{buildsetfile}" or die; while(readline $fh){chomp;print "$1$2/$_$3$4/$_$5\\n"}}' config/bootsrc.xml > %bootstrapfile
