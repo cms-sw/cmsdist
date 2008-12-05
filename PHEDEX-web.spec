@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-web WEB_3_0_2
+### RPM cms PHEDEX-web WEB_3_1_0
 #
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -7,9 +7,9 @@
 
 Source: %cvsserver&strategy=checkout&module=%{downloadn}&export=%{downloadn}&&tag=-r%{v}&output=/%{n}.tar.gz
 Requires: oracle oracle-env p5-time-hires p5-text-glob p5-compress-zlib p5-dbi p5-dbd-oracle p5-xml-parser
-Requires: p5-monalisa-apmon p5-poe p5-cgi p5-cgi-session p5-json-xs p5-apache-dbi p5-sort-key
+Requires: p5-cgi p5-cgi-session p5-json-xs p5-apache-dbi p5-sort-key
 Requires: py2-pil py2-matplotlib py2-numpy libjpg
-Requires: apache2-conf mod_perl2 webtools dbs-client
+Requires: apache2-conf mod_perl2 webtools
 
 # Actually, it is p5-xml-parser that requires this, but it doesn't configure itself correctly
 # This is so it gets into our dependencies-setup.sh
@@ -21,6 +21,7 @@ Provides: perl(DB_File)
 Provides: perl(XML::LibXML)
 
 # We obsolete each previous release to force them to be removed
+Obsoletes: cms+PHEDEX-web+WEB_3_0_2
 Obsoletes: cms+PHEDEX-web+WEB_3_0_1
 Obsoletes: cms+PHEDEX-web+WEB_3_0_0
 
@@ -31,7 +32,7 @@ Obsoletes: cms+PHEDEX-web+WEB_3_0_0
 %install
 tar -cf - * | (cd %i && tar -xf -)
 
-rm -f %instroot/apache2/startenv.d/phedexweb-env.sh
+rm -f %instroot/apache2/etc/startenv.d/phedexweb-env.sh
 rm -f %instroot/apache2/apps.d/phedexweb-httpd.conf
 
 # Switch template variables in the configuration files
@@ -52,7 +53,7 @@ done
 
 # cp startup scripts to /bin
 mkdir -p %i/bin
-cp %i/Documentation/WebConfig/cmsweb_phedex* %i/bin
+cp %i/Documentation/WebConfig/cmsweb_phedex_graphs %i/bin
 
 %post
 # Relocate the package
@@ -60,14 +61,13 @@ cp %i/Documentation/WebConfig/cmsweb_phedex* %i/bin
 %{relocateConfig}Documentation/WebConfig/phedexweb-app.conf
 %{relocateConfig}Documentation/WebConfig/phedexweb-secmod.conf
 %{relocateConfig}Documentation/WebSite/PlotConfig/config/cherrypy_prod.conf
-%{relocateConfig}bin/cmsweb_phedex
 %{relocateConfig}bin/cmsweb_phedex_graphs
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 
 # Copy files to apache2 directory
 cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/Documentation/WebConfig/phedexweb-httpd.conf $RPM_INSTALL_PREFIX/apache2/apps.d
-cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh $RPM_INSTALL_PREFIX/apache2/startenv.d/phedexweb-env.sh
+cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh $RPM_INSTALL_PREFIX/apache2/etc/startenv.d/phedexweb-env.sh
 
 # Relocate those files
 #perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|g" \ 

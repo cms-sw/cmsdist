@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-datasvc DATASVC_1_2_1
+### RPM cms PHEDEX-datasvc DATASVC_1_3_0
 #
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -21,6 +21,7 @@ Provides: perl(Date::Manip)
 Provides: perl(XML::LibXML)
 
 # We obsolete each previous release to force them to be removed
+Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_2_1
 Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_2_0
 Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_1_0
 Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_0_0
@@ -34,7 +35,7 @@ Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_0_0
 mkdir -p %i/etc
 tar -cf - * | (cd %i && tar -xf -)
 
-rm -f %instroot/apache2/startenv.d/datasvc-env.sh
+rm -f %instroot/apache2/etc/startenv.d/datasvc-env.sh
 rm -f %instroot/apache2/apps.d/datasvc-httpd.conf
 
 # Switch template variables in the configuration files
@@ -67,10 +68,10 @@ mkdir -p /tmp/phedex-datasvc
 
 # Copy files to apache2 directory
 cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/PhEDExWeb/DataService/conf/datasvc-httpd.conf $RPM_INSTALL_PREFIX/apache2/apps.d
-cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh $RPM_INSTALL_PREFIX/apache2/startenv.d/datasvc-env.sh
+cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh $RPM_INSTALL_PREFIX/apache2/etc/startenv.d/datasvc-env.sh
 
 %files
 %i/
 # %files processed before %post? listing these files causes a build failure
 # %attr(444,-,-) %config %instroot/apache2/apps.d/datasvc-httpd.conf
-# %attr(444,-,-) %config %instroot/apache2/startenv.d/datasvc-env.sh
+# %attr(444,-,-) %config %instroot/apache2/etc/startenv.d/datasvc-env.sh
