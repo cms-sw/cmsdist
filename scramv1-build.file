@@ -84,13 +84,15 @@ Source0: %{configrepo}&tag=-r%{configtag}&module=%{cvsconfig}&export=config&outp
 %endif
 %define lcprojname  %(echo %ucprojname | tr 'A-Z' 'a-z')
 
-%if "%{?buildsetfile:set}" == "set"
-%define source2 %buildsetfile 
-%define source3 partial.py
-%endif
-
 Source1: %source1
 Source2: %source2
+
+# For partial releases re-using CMSSW sources:
+%if "%{?cmsswsrc:set}" == "set"
+Source0: %{cmsswsrc}/config.tar.gz
+Source1: %{cmsswsrc}/src.tar.gz
+%endif
+
 Source3: %source3
 Source4: %lcprojname-tool
 Source5: findDependencies.pl
@@ -219,12 +221,6 @@ mkdir -p etc/scram.d
 sed 's|@PROJECT_NAME@|%ucprojname|g;s|@PROJECT_VERSION@|%v|g;s|@PROJECT_BUILD_PATH@|%_builddir|g;s|@PROJECT_ROOT@|%i|g' %_sourcedir/%lcprojname-tool > etc/scram.d/%lcprojname
 echo scramcmd: %scramcmd
 %scramcmd install -f 
-
-%if "%{?buildsetfile:set}" == "set"
-echo "Preparing PackageList.cmssw for the partial build, using base release version info"
-chmod +x %{_sourcedir}/partial.py
-%{_sourcedir}/partial.py %{_sourcedir}/%buildsetfile %{_builddir}/src/PackageList.cmssw src/PackageList.cmssw
-%endif
 
 %if "%{?isPatch}" == "yes"
 cd src/
