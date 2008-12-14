@@ -25,7 +25,7 @@ Requires: boost
 Requires: gsl
 Requires: clhep
 Requires: root
-#Requires: xrootd
+Requires: xrootd
 Requires: qt
 Requires: castor
 Requires: mysql
