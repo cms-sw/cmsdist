@@ -1,21 +1,21 @@
-### RPM lcg root 5.18.00a
+### RPM lcg root 5.21.04
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
 Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 
 Patch0:  root-5.18-00-libpng
-Patch1:  root-5.18-00a-CINT-maxlongline
-Patch2:  root_5.18-00-CINTFunctional
-Patch3:  root-5.18-00a-TBufferXML
-Patch4:  root-5.18-00a-Cintex
-Patch5:  root-5.18-00a-Cintex2
-Patch6:  root-5.18-00a-TBufferFile
-Patch7:  root-5.18-00a-cintexquickfix2
-Patch8:  root-5.18-00a-gendict-performance
-Patch9:  root-5.18-00a-TClass-classNameSize
-Patch10: root-5.18-00a-TFile-stlStreamerInfo
-Patch11: root-5.18-00-cintex_functional_mmap
+Patch1:  root-5.21-04-CINT-maxlongline
+#Patch2:  root_5.18-00-CINTFunctional
+#Patch3:  root-5.18-00a-TBufferXML
+#Patch4:  root-5.18-00a-Cintex
+#Patch5:  root-5.18-00a-Cintex2
+#Patch6:  root-5.18-00a-TBufferFile
+#Patch7:  root-5.18-00a-cintexquickfix2
+#Patch8:  root-5.18-00a-gendict-performance
+#Patch9:  root-5.18-00a-TClass-classNameSize
+#Patch10: root-5.18-00a-TFile-stlStreamerInfo
+#Patch11: root-5.18-00-cintex_functional_mmap
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -23,7 +23,7 @@ Patch11: root-5.18-00-cintex_functional_mmap
 Requires: gccxml gsl castor libjpg dcap pcre python
 
 %if "%cmsplatf" != "slc4onl_ia32_gcc346"
-Requires: qt openssl mysql libpng zlib libungif xrootd
+Requires: qt openssl mysql libpng zlib libungif 
 %else
 %define skiplibtiff true
 %endif
@@ -40,16 +40,16 @@ Requires: libtiff
 %setup -n root
 %patch0 -p1
 %patch1 -p1
-%patch2 -p0
-%patch3 -p1
-%patch4 -p0
-%patch5 -p0
-%patch6 -p0
-%patch7 -p0
-%patch8 -p1
-%patch9 -p0
-%patch10 -p0
-%patch11 -p0
+#%patch2 -p0
+#%patch3 -p1
+#%patch4 -p0
+#%patch5 -p0
+#%patch6 -p0
+#%patch7 -p0
+#%patch8 -p1
+#%patch9 -p0
+#%patch10 -p0
+#%patch11 -p0
 
 %build
 mkdir -p %i
@@ -66,14 +66,14 @@ EXTRA_CONFIG_ARGS="
              --enable-qt"
 %else
 EXTRA_CONFIG_ARGS="
-             --with-xrootd=$XROOTD_ROOT
              --enable-mysql --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
              --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
              --with-ssl-incdir=${OPENSSL_ROOT}/include
              --with-ssl-libdir=${OPENSSL_ROOT}/lib"
 %endif
 
-CONFIG_ARGS="--enable-table 
+CONFIG_ARGS="--with-f77=${GCC_ROOT}
+             --enable-table 
              --disable-builtin-pcre
              --disable-builtin-freetype
              --disable-builtin-zlib
@@ -81,7 +81,6 @@ CONFIG_ARGS="--enable-table
              --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include/python2.4 
              --enable-explicitlink 
              --enable-qtgsi
-             --enable-mathcore 
              --enable-mathmore
              --enable-reflex  
              --enable-cintex 
@@ -96,9 +95,11 @@ CONFIG_ARGS="--enable-table
              --disable-pgsql
              --disable-xml ${EXTRA_CONFIG_ARGS}"
 
-%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422")||("%cmsplatf" == "slc4_amd64_gcc345"))
-  CONFIG_ARGS="$CONFIG_ARGS --disable-cern"
-%endif
+#case %gccver in
+#  4.*)
+#  CONFIG_ARGS="$CONFIG_ARGS --disable-cern"
+#  ;;
+#esac
 
 case $(uname)-$(uname -p) in
   Linux-x86_64)
@@ -128,7 +129,7 @@ fi
 export ROOTSYS=%i
 make INSTALL="$cp" INSTALLDATA="$cp" install
 mkdir -p $ROOTSYS/lib/python
-cp -r reflex/python/genreflex $ROOTSYS/lib/python
+cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
 #
 
 # SCRAM ToolBox toolfile
