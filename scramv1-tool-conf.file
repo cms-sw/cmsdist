@@ -11,16 +11,15 @@ Source0: tool2xml.pl
 #
 #   requiredtools	Tools for which we need to collect the SCRAMToolBox toolfiles
 #                  	(This is automatically set by install.sh script)
-#   skipreqtools	Do not add these tools in requirements file
+#   skipreqtools	Do not add these tools in selected directory
 
 %install
-rm -rf %i/configurations/SCRAMToolBox
-mkdir -p %i/configurations/SCRAMToolBox/tools
-mkdir -p %i/configurations/SCRAMToolBox/CMSconfigs
+rm -rf %i
+mkdir -p %i/tools/selected %i/tools/available %i/site
 
 %if "%{?skip_tools_conf_arch:set}" != "set"
 (echo "ARCHITECTURE:%{cmsplatf}"
- echo "SCRAM_BASEPATH:%{instroot}" ) >> tools.conf
+ echo "SCRAM_BASEPATH:%{instroot}" ) >> %i/site/tools.conf
 %endif
 
 ( echo ""
@@ -43,12 +42,11 @@ eval        "echo \"  +CXX:$CCACHE_ROOT/bin/c++\""
        echo "  +FC:$GCC_ROOT/bin/g77"
 %endif
 
+echo "TOOL:jcompiler:"
 %if "%{?use_system_java:set}" == "set"
-       echo "TOOL:jcompiler:"
-       echo "  +JAVA_BASE:/afs/cern.ch/cms/sw/%cmsplatf/external/java-jdk/1.5.0.p6-CMS8"
+       echo '  +JAVA_BASE:$SCRAM_BASEPATH/%cmsplatf/external/java-jdk/1.5.0.p6-CMS8'
 %else
-       echo "TOOL:jcompiler:"
-       echo "  +JAVA_BASE:%{instroot}/%cmsplatf/external/$JCOMPILER_TOOL/$JCOMPILER_VERSION"
+       echo '  +JAVA_BASE:$SCRAM_BASEPATH/%cmsplatf/external/$JCOMPILER_TOOL/$JCOMPILER_VERSION'
 %endif
 
 if [ "X`echo %requiredtools | tr ' ' '\n' | grep '^oracle$'`" = "Xoracle" ] ; then
@@ -56,9 +54,7 @@ if [ "X`echo %requiredtools | tr ' ' '\n' | grep '^oracle$'`" = "Xoracle" ] ; th
        echo "  +ORACLE_ADMINDIR:$ORACLE_ENV_ROOT/etc"
 fi
 
-) >> tools.conf
-
-mv tools.conf %i/configurations/SCRAMToolBox/CMSconfigs/tools.conf
+) >> %i/site/tools.conf
 
 %if "%{?systemtools:set}" != "set"
 %define systemtools %{nil}
@@ -68,50 +64,32 @@ mv tools.conf %i/configurations/SCRAMToolBox/CMSconfigs/tools.conf
 %define skipreqtools %{nil}
 %endif
 
-# Copy all tool files and generate the `requirements` file.
-cat << \EOF_REQUIREMENTS > %i/configurations/requirements
-<doc type=BuildSystem::Requirements version=2.0>
-<base url="file:%i/configurations/SCRAMToolBox/">
-EOF_REQUIREMENTS
-
 for tool in %requiredtools %systemtools ${PKGTOOLS_SYSTEM_TOOLS} ; do
   uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`
   toolbase=`perl -e 'print "$ENV{'$uctool'_ROOT}\n";'`
   [ -d $toolbase/etc/scram.d ] || continue
-  find $toolbase/etc/scram.d -type f -exec cp {} %i/configurations/SCRAMToolBox/tools \;
+  find $toolbase/etc/scram.d -type f -exec cp {} %i/tools/selected \;
 done
-
-skiptools=`echo %skipreqtools | tr " " "\n"`
-for tool in `find %i/configurations/SCRAMToolBox/tools -type f`
-do
-    perl %_sourcedir/tool2xml.pl $tool > $tool.xml
-    toolname=`basename $tool`
-    cat $tool.xml | grep -e "^ *<tool *name=" | \
-      perl -p -e 's|^ *<tool *name="([^"]*)" *version="([^"]*).*>|<require name='${toolname}' version=$2  url="file:tools/'${toolname}'"></require>|' >> %i/configurations/requirements
-    echo $skiptools | grep $toolname 2>&1 >/dev/null && continue
-    echo "<select name=$toolname>" >> %i/configurations/requirements
-done
-echo "</base>" >> %i/configurations/requirements
 
 # Fixes logic in above loop in case of online release:
 # the descriptions of explicitly defined systemtools should 
 # take precedence over those from cms-rebuilt rpms
-
-%if "%{?online_release:set}" == "set"
+%if "%cmsplatf" == "slc4onl_ia32_gcc346"
 for tool in %systemtools ${PKGTOOLS_SYSTEM_TOOLS} ; do
-  cp -rf %{onlinesystemtoolsroot}/etc/scram.d/$tool %i/configurations/SCRAMToolBox/tools/$tool
+  cp -rf %{onlinesystemtoolsroot}/etc/scram.d/$tool %i/tools/selected/$tool
 done
 # For now copy all systemtools files. If needed, this can be done more selectively.
 %endif
 
-sed -e 's|\(url="file:tools/.*\)"|\1.xml"|' %i/configurations/requirements > requirements.xml
-perl %_sourcedir/tool2xml.pl requirements.xml > %i/configurations/requirements.xml
-rm -f requirements.xml
-
-#For old SCRAM release:
-%define scramsitename  STANDALONE
-ln -s tools.conf %i/configurations/SCRAMToolBox/CMSconfigs/tools-%{scramsitename}.conf
-echo  %scramsitename > %i/configurations/SCRAMToolBox/CMSconfigs/sitename
+skiptools=`echo %skipreqtools | tr " " "\n"`
+for tool in `find %i/tools/selected -type f`
+do
+    perl %_sourcedir/tool2xml.pl $tool > $tool.xml
+    rm -f $tool
+    toolname=`basename $tool`
+    echo $skiptools | grep $toolname 2>&1 >/dev/null && mv $tool.xml %i/tools/available
+done
 
 %post
-perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find $RPM_INSTALL_PREFIX/%{pkgrel}/configurations -type f)
+perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find $RPM_INSTALL_PREFIX/%{pkgrel}/tools -type f)
+perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find $RPM_INSTALL_PREFIX/%{pkgrel}/site -type f)
