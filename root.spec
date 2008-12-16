@@ -16,6 +16,7 @@ Patch8:  root-5.18-00a-gendict-performance
 Patch9:  root-5.18-00a-TClass-classNameSize
 Patch10: root-5.18-00a-TFile-stlStreamerInfo
 Patch11: root-5.18-00-cintex_functional_mmap
+Patch12: root-5.18-00a-TMVA-fSilent
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -50,6 +51,7 @@ Requires: libtiff
 %patch9 -p0
 %patch10 -p0
 %patch11 -p0
+%patch12 -p1
 
 %build
 mkdir -p %i
