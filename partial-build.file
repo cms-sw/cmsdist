@@ -1,8 +1,6 @@
 ### FILE partial-build
 
-%define cmsswsrc	http://cmsrep.cern.ch/cms/cpt/Software/download/cms/SOURCES/slc4_ia32_gcc345/cms/cmssw/%{cmssw_release}
 %define application  	%n
-%define toolconf        ${FWLITE_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
 %define cvstag 		%cmssw_release
 
 %define cvsprojuc       CMSSW
