@@ -1,7 +1,7 @@
 ### RPM external tkonlinesw 2.5.1
 %define projectname trackerDAQ
 %define releasename %{projectname}-%{realversion}
-Source: http://cmstracker029.cern.ch/sources/trackerDAQ-2.5.1-3.tgz
+Source: http://cern.ch/cms-sdt/source-mirrors/tkonlinesw/trackerDAQ-2.5.1-3.tgz
 Patch0: tkonlinesw-2.5.1-gcc43
 
 # Note from Kristian: 
