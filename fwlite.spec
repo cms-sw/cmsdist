@@ -1,4 +1,4 @@
-### RPM cms fwlite CMSSW_2_2_0_FWLITE
+### RPM cms fwlite CMSSW_2_2_3_FWLITE
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: /bin/sed
