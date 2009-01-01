@@ -260,12 +260,10 @@ eval `%scramcmd run -sh`
 cd ..
 %endif
 
-# Make tarball of src area for CMSSW to keep the number files tracked
+# Make tarball of src area in order to keep the number files tracked
 # by rpm to a minimum and avoid seemingly related memory issues
-%if "%cvsprojlc" == "cmssw"
 tar cf src.tar src
 rm -fR src
-%endif
 
 
 %post
