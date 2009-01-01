@@ -260,10 +260,22 @@ eval `%scramcmd run -sh`
 cd ..
 %endif
 
+# Make tarball of src area for CMSSW to keep the number files tracked
+# by rpm to a minimum and avoid seemingly related memory issues
+%if "%cvsprojlc" == "cmssw"
+tar cf src.tar src
+rm -fR src
+%endif
+
 
 %post
 export SCRAM_ARCH=%cmsplatf
 cd $RPM_INSTALL_PREFIX/%pkgrel
+if [ -e src.tar ]
+then
+  tar xf src.tar
+  rm -fR src.tar
+fi
 %{relocateConfig}etc/scram.d/%lcprojname
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find config -type f)
 scramver=`cat config/scram_version`
