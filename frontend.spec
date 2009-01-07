@@ -1,42 +1,14 @@
-### RPM cms frontend 3.3b
+### RPM cms frontend 3.3c
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
 Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rFRONTEND_CONF_3_3&output=/config.tar.gz
-Source1: %cvsserver&module=COMP/WEBTOOLS/WelcomePages&export=htdocs&tag=-rFRONTEND_HTDOCS_1_0&output=/htdocs.tar.gz
+Source1: %cvsserver&module=COMP/WEBTOOLS/WelcomePages&export=htdocs&tag=-rFRONTEND_HTDOCS_1_1&output=/htdocs.tar.gz
 Requires: apache2-conf mod_perl2 p5-apache2-modssl
 Provides: perl(Compress::Zlib) perl(Digest::HMAC_SHA1)
+Obsoletes: cms+frontend+3.3b-cmp
 Obsoletes: cms+frontend+3.3-cmp
 Obsoletes: cms+frontend+3.2-cmp
 Obsoletes: cms+frontend+3.1-cmp
 Obsoletes: cms+frontend+3.0-cmp
-Obsoletes: cms+frontend+2.92-cmp
-Obsoletes: cms+frontend+2.91b-cmp
-Obsoletes: cms+frontend+2.91-cmp
-Obsoletes: cms+frontend+2.90-cmp
-Obsoletes: cms+frontend+2.3-cmp
-Obsoletes: cms+frontend+2.2-cmp
-Obsoletes: cms+frontend+2.1-cmp
-Obsoletes: cms+frontend+2.0c-cmp
-Obsoletes: cms+frontend+2.0b-cmp
-Obsoletes: cms+frontend+2.0-cmp
-Obsoletes: cms+frontend+1.4-cmp
-Obsoletes: cms+frontend+1.3-cmp
-Obsoletes: cms+frontend+1.2-cmp
-Obsoletes: cms+frontend+1.1e-cmp
-Obsoletes: cms+frontend+1.1d-cmp
-Obsoletes: cms+frontend+1.1c-cmp
-Obsoletes: cms+frontend+1.1b-cmp
-Obsoletes: cms+frontend+1.1-cmp
-Obsoletes: cms+frontend+1.0-cmp11
-Obsoletes: cms+frontend+1.0-cmp10
-Obsoletes: cms+frontend+1.0-cmp9
-Obsoletes: cms+frontend+1.0-cmp8
-Obsoletes: cms+frontend+1.0-cmp7
-Obsoletes: cms+frontend+1.0-cmp6
-Obsoletes: cms+frontend+1.0-cmp5
-Obsoletes: cms+frontend+1.0-cmp4
-Obsoletes: cms+frontend+1.0-cmp3
-Obsoletes: cms+frontend+1.0-cmp2
-Obsoletes: cms+frontend+1.0-cmp
 
 %prep
 %setup -T -b 0 -n conf
