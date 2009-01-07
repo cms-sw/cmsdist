@@ -262,17 +262,17 @@ cd ..
 
 # Make tarball of src area in order to keep the number files tracked
 # by rpm to a minimum and avoid seemingly related memory issues
-tar cf src.tar src
+tar czf src.tar.gz src
 rm -fR src
 
 
 %post
 export SCRAM_ARCH=%cmsplatf
 cd $RPM_INSTALL_PREFIX/%pkgrel
-if [ -e src.tar ]
+if [ -e src.tar.gz ]
 then
-  tar xf src.tar
-  rm -fR src.tar
+  tar xzf src.tar.gz
+  rm -fR src.tar.gz
 fi
 %{relocateConfig}etc/scram.d/%lcprojname
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find config -type f)
@@ -290,3 +290,15 @@ for cmd in SealPluginRefresh EdmPluginRefresh IgPluginRefresh ; do
   fi
 done
 
+%postun
+if [ -e $RPM_INSTALL_PREFIX/%pkgrel ] ; then
+  cd $RPM_INSTALL_PREFIX/%pkgrel
+  if [ -e src ]
+  then
+    rm -fR src
+  fi
+  if [ -e .SCRAM ]
+  then
+    rm -fR .SCRAM
+  fi
+fi
