@@ -1,12 +1,13 @@
-### RPM external dpm 1.6.5.5-CMS19
-## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) false ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
-
+### RPM external dpm 1.6.7.4
+## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
+# for x86_64 this was false, but it causes problems on installation at least with cmsBuild
+ 
 %define baseVersion %(echo %v | cut -d- -f1 | cut -d. -f1,2,3)
 %define patchLevel  %(echo %v | cut -d- -f1 | cut -d. -f4)
-%define downloadv %{realversion}-%{patchLevel}
+%define downloadv %{baseVersion}-%{patchLevel}
 %define dpmarch     %(echo %cmsplatf | cut -d_ -f1 | sed 's/onl//')
 
-Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{realversion}/src/DPM-%{downloadv}sec.%{dpmarch}.src.rpm
+Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{baseVersion}/src/DPM-%{downloadv}sec.%{dpmarch}.src.rpm
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %if "%cpu" != "amd64"
@@ -17,15 +18,17 @@ Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{rea
 Provides: libdpm.so%{libsuffix}
 
 %prep
-rm -f %_builddir/DPM-%{realversion}.src.tar.gz
-rpm2cpio %{_sourcedir}/DPM-%{downloadv}sec.%{dpmarch}.src.rpm | cpio -ivd DPM-%{realversion}.src.tar.gz
-cd %_builddir ; rm -rf DPM-%{realversion}; tar -xzvf DPM-%{realversion}.src.tar.gz
+rm -f %_builddir/DPM-%{downloadv}.src.tar.gz
+rpm2cpio %{_sourcedir}/DPM-%{downloadv}sec.%{dpmarch}.src.rpm | cpio -ivd DPM-%{baseVersion}.src.tar.gz
+cd %_builddir ; rm -rf DPM-%{baseVersion}; tar -xzvf DPM-%{baseVersion}.src.tar.gz
 
 %build
-cd DPM-%{realversion}
+cd DPM-%{baseVersion}
 cp h/patchlevel.in h/patchlevel.h
 perl -pi -e "s!__PATCHLEVEL__!%patchLevel!;s!__BASEVERSION__!\"%baseVersion\"!;s!__TIMESTAMP__!%(date +%%s)!" h/patchlevel.h
+%if "%cpu" != "amd64"
 perl -pi -e 's|ld\s+\$\(|ld -m elf_i386 \$\(|' shlib/Imakefile
+%endif
 
 for this in BuildDLI BuildDPMServer BuildNameServerDaemon BuildNameServerLibrary BuildRfioServer \
             BuildSRMv1Server BuildSRMv2Server BuildSRMv2_2Server BuildTest ; do
@@ -48,7 +51,7 @@ mkdir -p %i/lib %i/include/dpm
 cd shlib; make
 
 %install
-cd DPM-%{realversion}
+cd DPM-%{baseVersion}
 cp ./shlib/lib%n.so %i/lib/lib%n.so.%realversion
 cp ./h/*.h          %i/include/dpm
 ln -s lib%n.so.%realversion %i/lib/lib%n.so
