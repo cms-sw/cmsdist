@@ -3,8 +3,7 @@
 Provides: /bin/zsh
 Provides: libexpat.so.0
 Requires: coral-tool-conf
-Patch:    coral-2_1_0-SV1BuildFiles
-Patch2:   coral-2_1_0-cmslcg-251108-update
+Patch:    coral-2_1_0-20090107
 
 %define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
 %define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
@@ -14,7 +13,6 @@ Patch2:   coral-2_1_0-cmslcg-251108-update
 %define prebuildtarget  prebuild
 %define buildtarget     release-build
 %define patchsrc        %patch -p0
-%define patchsrc2       %patch2 -p0
 
 %if "%cmsplatf" == "slc4onl_ia32_gcc346"
 # Disable building tests in online release,
