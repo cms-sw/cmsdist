@@ -1,30 +1,13 @@
 ### RPM external gccxml 0.9.0_20081002
-#%define gccxmlmajorver %(echo %realversion | cut -f1,2 -d.)
 %define gccxmlmajorver %(echo %realversion | cut -f1 -d_)
 Requires: cmake
-# The following are needed for 0.6.0 
-#Source: http://www.gccxml.org/files/v0.6/%n-%realversion.tar.gz
-#Patch1: gccxml1
-#Patch2: gccxml2
-#Patch3: gccxml3
-#Patch4: gccxml4
-# The following are needed for 0.7.0_20070615
-#Source: http://www.gccxml.org/files/v0.6/%n-%realversion.tar.gz
 Source: http://cern.ch/service-spi/external/tarFiles/%n-%realversion.tar.gz
-#Patch5: gccxml-0.7.0-version
 
 %prep
-#%setup -n %{n}-%{realversion}   # for 0.6.0
 %setup -n %{n}
-#%patch2 -p1 
-#%patch5 -p1 
 
 %build
 cd GCC_XML/Support
-# The following are needed for 0.6.0
-#patch -p3 <%{_sourcedir}/gccxml1
-#patch -p3 <%{_sourcedir}/gccxml3
-#patch -p3 <%{_sourcedir}/gccxml4
 cd ../../
 mkdir gccxml-build
 cd gccxml-build
