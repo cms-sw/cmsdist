@@ -1,15 +1,13 @@
-### RPM external jimmy 4.2
+### RPM external jimmy 4.2-CMS19
 Requires: herwig
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Patch: jimmy-4.2-gfortran
 
 %prep
 %setup -q -n %{n}/%{realversion}
-case %gccver in
-  4.*)
+%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422"))
 %patch -p0
-  ;;
-esac
+%endif
 ./configure --with-herwig=$HERWIG_ROOT
 
 %build

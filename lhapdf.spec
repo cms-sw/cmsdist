@@ -1,34 +1,20 @@
-### RPM external lhapdf 5.6.0
+### RPM external lhapdf 5.2.3-CMS19
 %define realversion %(echo %v | cut -d- -f1)
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
-Patch0: lhapdf-5.6.0-g77
-Patch1: lhapdf-5.6.0-32bit-on-64bit-workaround
-
 %prep
 %setup -q -n %{n}/%{realversion}
-# This applies both old and new fixes, probably the gcc4 ones can go (to check) 
-case %gccver in
-  4.*)
-    # Switch to gfortran
-    perl -p -i -e 's|^export F77\=g77|export F77=gfortran|' .scripts/platform_functions
-    perl -p -i -e 's| -Wno-globals||' configure
-  ;;
-  3.*)
-%patch0 -p2
-  ;;
-esac
-%patch1 -p0
-./configure --disable-pyext --enable-low-memory --prefix=%i --with-max-num-pdfsets=1
+%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422"))
+  # Switch to gfortran
+  perl -p -i -e 's|^export F77\=g77|export F77=gfortran|' .scripts/platform_functions
+  perl -p -i -e 's| -Wno-globals||' configure
+%endif
+./configure 
 
 %build
-which perl
-cp Makefile Makefile.orig
-perl -p -i -e 's|/usr/lib64/libm.a||g' config.status
-perl -p -i -e 's|/usr/lib64/libc.a||g' config.status
 make 
 
 %install
-make install
+tar -c lib include PDFsets | tar -x -C %i
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
