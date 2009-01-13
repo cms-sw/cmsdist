@@ -6,6 +6,7 @@ Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 
 Patch0:  root-5.18-00-libpng
 Patch1:  root-5.21-04-CINT-maxlongline
+Patch2:  root-5.22-00-TClass-Clone
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -30,6 +31,7 @@ Requires: libtiff
 %setup -n root
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 mkdir -p %i
