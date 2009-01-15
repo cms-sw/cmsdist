@@ -1,4 +1,4 @@
-### RPM cms webtools 1.3.12
+### RPM cms webtools 1.3.25
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PERL5LIB %i/lib/perl
 
