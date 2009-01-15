@@ -9,6 +9,7 @@ Patch1:  root-5.21-04-CINT-maxlongline
 Patch2:  root-5.22-00-TClass-Clone
 Patch3:  root-5.22-00-gendict
 Patch4:  root-5.22-00-RootSys
+Patch5:  root-5.22-00-TMVA-shut-the-hell-up-for-once
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -36,6 +37,7 @@ Requires: libtiff
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 mkdir -p %i
