@@ -1,4 +1,4 @@
-### RPM external gccxml 0.9.0_20081002
+### RPM external gccxml 0.9.0_20081130
 %define gccxmlmajorver %(echo %realversion | cut -f1 -d_)
 Requires: cmake
 Source: http://cern.ch/service-spi/external/tarFiles/%n-%realversion.tar.gz
