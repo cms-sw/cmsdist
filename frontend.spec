@@ -1,9 +1,10 @@
-### RPM cms frontend 3.5
+### RPM cms frontend 3.6
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
-Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rFRONTEND_CONF_3_4&output=/config.tar.gz
+Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rFRONTEND_CONF_3_6&output=/config.tar.gz
 Source1: %cvsserver&module=COMP/WEBTOOLS/WelcomePages&export=htdocs&tag=-rFRONTEND_HTDOCS_1_2&output=/htdocs.tar.gz
 Requires: apache2-conf mod_perl2 p5-apache2-modssl
 Provides: perl(Compress::Zlib) perl(Digest::HMAC_SHA1)
+Obsoletes: cms+frontend+3.5-cmp
 Obsoletes: cms+frontend+3.4b-cmp
 Obsoletes: cms+frontend+3.4-cmp
 Obsoletes: cms+frontend+3.3c-cmp
