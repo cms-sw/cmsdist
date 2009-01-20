@@ -49,8 +49,12 @@ Requires: SCRAMV1
 %endif
 
 %if "%{?isPatch}" == "yes"
+%if "%{?patchbaserelease:set}" != "set"
 %define patchbaserelease %(echo %v | sed -e "s|_patch.||")
+%endif
+%if "%{?parent_release_base:set}" != "set"
 %define parent_release_base ../../cmssw/%{patchbaserelease}
+%endif
 %endif
 
 Source0: %{configrepo}&tag=-r%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
