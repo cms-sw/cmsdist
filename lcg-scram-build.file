@@ -1,5 +1,0 @@
-### FILE lcg-scram-build
-
-%define cvsrepo		cvs://:pserver:anonymous@%{cvsserver}.cvs.cern.ch/cvs/%{cvsdir}?passwd=Ah<Z
-%define cmsrepo         cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-%define cvssrc		%cvsprojlc
