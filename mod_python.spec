@@ -1,32 +1,33 @@
-### RPM external mod_python 3.2.10
-# See http://www.modpython.org/live/current/doc-html/installation.html
+### RPM external mod_python 3.2.8
 
-Requires:  apache2 python
+%define pythonv %(echo $PYTHON_VERSION | cut -d. -f 1,2)
+## INITENV +PATH PYTHONPATH %{i}/lib/python%{pythonv}
+## INITENV CMD ln -sf $MOD_PYTHON_ROOT/lib/mod_python.so $APACHE_ROOT/modules
 
-Source0: http://apache.mirror.testserver.li/httpd/modpython/mod_python-%realversion.tgz
+Source: http://apache.osuosl.org/httpd/modpython/%{n}-%{v}.tgz
+Requires: python apache
 
-%prep
-%setup -n mod_python-%realversion
-
-./configure --with-python=$PYTHON_ROOT/bin/python --with-apxs=$APACHE2_ROOT/bin/apxs --with-max-locks=32
 
 %build
+./configure --prefix=%{i} \
+            --with-python=$PYTHON_ROOT/bin/python \
+            --with-apxs=$APACHE_ROOT/bin/apxs
+
 make
 
+cd dist
+python setup.py build
+
 %install
-make install
 
-mkdir -p %i/conf
-cat << \EOF > %i/conf/mod_python.conf
-LoadModule mod_python %i/modules/mod_python.so
-# Additional configuration bits go here.
-EOF
+mkdir -p %i/lib
+cp src/mod_python.so %i/lib
 
-# By default mod_python.so and is moved to the
-# $APACHE2_ROOT/modules directory, which
-# is bad for us handling multiple versions in a rpm.
-mkdir -p %i/modules
-mv $APACHE2_ROOT/modules/mod_python.so %i/modules
+cd dist
+python setup.py install --prefix=%i
 
-%post
-%{relocateConfig}conf/mod_python.conf
+mv %{i}/lib/python%{pythonv}/site-packages/mod_python \
+  %{i}/lib/python%{pythonv}
+
+rm -rf %{i}/lib/python%{pythonv}/site-packages
+
