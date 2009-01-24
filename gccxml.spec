@@ -1,5 +1,6 @@
 ### RPM external gccxml 0.9.0_20081130
 %define gccxmlmajorver %(echo %realversion | cut -f1 -d_)
+%define gccxmlconfigver %(echo %realversion | cut -f1 -d_ | cut -f1,2 -d.)
 Requires: cmake
 Source: http://cern.ch/service-spi/external/tarFiles/%n-%realversion.tar.gz
 
@@ -32,5 +33,5 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 EOF_TOOLFILE
 
 %post
-%{relocateConfig}share/gccxml-%{gccxmlmajorver}/gccxml_config
+%{relocateConfig}share/gccxml-%{gccxmlconfigver}/gccxml_config
 %{relocateConfig}etc/scram.d/%n
