@@ -1,9 +1,8 @@
-### RPM cms coral CORAL_2_1_0
+### RPM cms coral CORAL_2_2_0_pre2
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: libexpat.so.0
 Requires: coral-tool-conf
-Patch:    coral-2_1_0-20090107
 
 %define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
 %define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
@@ -12,7 +11,6 @@ Patch:    coral-2_1_0-20090107
 %define preBuildCommand (rm -rf LFCLookupService LFCReplicaService MySQLAccess)
 %define prebuildtarget  prebuild
 %define buildtarget     release-build
-%define patchsrc        %patch -p0
 
 %if "%cmsplatf" == "slc4onl_ia32_gcc346"
 # Disable building tests in online release,
