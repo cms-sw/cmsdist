@@ -12,6 +12,7 @@ Patch4:  root-5.22-00-RootSys
 Patch5:  root-5.22-00-TMVA-shut-the-hell-up-for-once
 Patch6:  root-5.22-00-TBranchElement_initializeoffsets
 Patch7:  root-5.22-00-TBranchElement-pcanal
+Patch8:  root-5.22-00-TTreeCloner-CollectBranches-fix
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -42,6 +43,7 @@ Requires: libtiff
 %patch5 -p1
 %patch6 -p0
 %patch7 -p1
+%patch8 -p1
 
 %build
 mkdir -p %i
