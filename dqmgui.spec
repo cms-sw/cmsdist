@@ -33,6 +33,7 @@ rm -fr %_builddir/{config,src,THE_BUILD}
 cd %_builddir
 rm -fr src/{FWCore,DataFormats,DQM*}/*/test
 rm -fr src/DQM/RenderPlugins/src/E[BE]*.{h,cc}
+perl -n -i -e '/E[EB]RenderPlugin/ || print' src/DQM/RenderPlugins/src/iglet.cc
 for f in src/FWCore/* src/DataFormats/*; do
   case $f in
     */FWCore/Framework | \
@@ -71,6 +72,7 @@ export SCRAM_NOSYMCHECK=true
 rm -f ../lib/*/.*cache
 (eval `%scram run -sh` ; SealPluginRefresh) || true
 (eval `%scram run -sh` ; EdmPluginRefresh) || true
+(eval `%scram run -sh` ; IgPluginRefresh) || true
 
 mkdir -p %i/etc/profile.d
 scram runtime -sh | grep -v SCRAMRT > %i/etc/profile.d/env.sh
@@ -96,9 +98,8 @@ perl -p -i -e \
 
 %install
 mkdir -p %i/etc %i/{,x}bin %i/{,x}lib %i/{,x}python
-cp -p %_builddir/THE_BUILD/lib/%cmsplatf/.*cache* %i/lib
-cp -p %_builddir/THE_BUILD/lib/%cmsplatf/*.{so,edm,ig}* %i/lib
-cp -p %_builddir/THE_BUILD/bin/%cmsplatf/{vis*,DQMCollector} %i/bin
+cp -p %_builddir/THE_BUILD/lib/%cmsplatf/*.{so,edm,ig,*cache}* %i/lib
+cp -p %_builddir/THE_BUILD/bin/%cmsplatf/{vis*,Ig*,edm*,cms*,DQMCollector} %i/bin
 cp -p %_builddir/THE_BUILD/src/VisMonitoring/DQMServer/python/*.* %i/python
 
 (echo '#!/bin/sh';
