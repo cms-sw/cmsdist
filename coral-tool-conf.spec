@@ -8,6 +8,7 @@ Requires: expat
 Requires: boost
 Requires: frontier_client
 Requires: sqlite
+Requires: oracle
 Requires: oracle-env
 
 %if "%cmsplatf" != "slc4onl_ia32_gcc346"
