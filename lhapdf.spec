@@ -2,7 +2,7 @@
 %define realversion %(echo %v | cut -d- -f1)
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Patch0: lhapdf-5.6.0-g77
-Patch1: lhapdf-5.6.0-32bit-on-64bit-workaround
+Patch1: lhapdf-5.6.0-32bit-on-64bit-recheck-workaround
 
 %prep
 %setup -q -n %{n}/%{realversion}
@@ -17,7 +17,7 @@ case %gccver in
 %patch0 -p2
   ;;
 esac
-%patch1 -p0
+%patch1 -p2
 ./configure --disable-pyext --enable-low-memory --prefix=%i --with-max-num-pdfsets=1
 
 %build
