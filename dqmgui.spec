@@ -1,24 +1,60 @@
-### RPM cms dqmgui 4.2.6c
-%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-Source0: %cvsserver&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&nocache=true&export=VisMonitoring/DQMServer&tag=-rV04-02-06&output=/VisMonitoring_DQMServer.tar.gz
-Source1: %cvsserver&strategy=checkout&module=CMSSW/DQMServices/Core&nocache=true&export=DQMServices/Core&tag=-rV03-03-06&output=/DQMServices_Core.tar.gz
-Source2: %cvsserver&strategy=checkout&module=CMSSW/DQMServices/Components&nocache=true&export=DQMServices/Components&tag=-rV03-03-03&output=/DQMServices_Components.tar.gz
-Source3: %cvsserver&strategy=checkout&module=CMSSW/DQM/RenderPlugins&nocache=true&export=DQM/RenderPlugins&tag=-rV04-00-03&output=/DQM_RenderPlugins.tar.gz
-Requires: cmssw cherrypy py2-cheetah yui py2-pysqlite py2-cx-oracle py2-pil py2-matplotlib
+### RPM cms dqmgui 4.3.0
+
+%define cvsserver   cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
+%define scram       $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
+%define cmssw       CMSSW_2_2_3
+%define vcfg        V03-17-02
+
+# Override cmsbuild internals: avoid environment setup of indirect externals.
+# Note that this breaks indirect dependency processing for non-cmssw 'requires'.
+%define initenv     %initenv_direct
+
+Source0: %{cvsserver}&strategy=checkout&module=config&export=config&tag=-r%{vcfg}&output=/config.tar.gz
+Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rV04-03-00&output=/DQMServer.tar.gz
+Source2: %{cvsserver}&strategy=checkout&module=CMSSW/DQM/RenderPlugins&export=DQM/RenderPlugins&tag=-rV04-01-00&output=/DQMRenderPlugins.tar.gz
+Source3: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Utilities&export=Iguana/Utilities&tag=-r%{cmssw}&output=/IgUtils.tar.gz
+Source4: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Framework&export=Iguana/Framework&tag=-r%{cmssw}&output=/IgFramework.tar.gz
+Source5: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-r%{cmssw}&output=/DQMCore.tar.gz
+Source6: %{cvsserver}&strategy=checkout&module=CMSSW/FWCore&export=FWCore&tag=-r%{cmssw}&output=/FWCore.tar.gz
+Source7: %{cvsserver}&strategy=checkout&module=CMSSW/DataFormats&export=DataFormats&tag=-r%{cmssw}&output=/DataFormats.tar.gz
+Requires: dqmgui-conf cherrypy py2-cheetah yui py2-pysqlite py2-cx-oracle py2-pil py2-matplotlib SCRAMV1
 
 %prep
-# Note on requiring "xsrc": using $CMSSW_VERSION/src in the setup
-# stanzas with -n options won't work because then build rule will
-# try to do a "cd" into $CMSSW_VERSION/src before the preamble has
-# sourced the init scripts.  We use "xsrc" as a "constant-value"
-# hack so we don't need to hard-code CMSSW version in this RPM.
-rm -fr CMSSW_$VERSION xsrc
-scram p CMSSW $CMSSW_VERSION
-ln -s $CMSSW_VERSION/src xsrc
-%setup -D -T -a 0 -c -n xsrc
-%setup -D -T -a 1 -c -n xsrc
-%setup -D -T -a 2 -c -n xsrc
-%setup -D -T -a 3 -c -n xsrc
+rm -fr %_builddir/{config,src,THE_BUILD}
+%setup    -T -b 0 -n config
+%setup -c -T -a 1 -n src
+%setup -D -T -a 2 -n src
+%setup -D -T -a 3 -n src
+%setup -D -T -a 4 -n src
+%setup -D -T -a 5 -n src
+%setup -D -T -a 6 -n src
+%setup -D -T -a 7 -n src
+
+cd %_builddir
+rm -fr src/{FWCore,DataFormats,DQM*}/*/test
+rm -fr src/DQM/RenderPlugins/src/E[BE]*.{h,cc}
+for f in src/FWCore/* src/DataFormats/*; do
+  case $f in
+    */FWCore/Framework | \
+    */FWCore/MessageLogger | \
+    */FWCore/MessageService | \
+    */FWCore/ParameterSet | \
+    */FWCore/PluginManager | \
+    */FWCore/ServiceRegistry | \
+    */FWCore/Utilities | \
+    */FWCore/Version | \
+    */DataFormats/Common | \
+    */DataFormats/Provenance | \
+    */DataFormats/TestObjects | \
+    */DataFormats/*StdDictionaries )
+      ;;
+    * )
+      rm -fr $f ;;
+  esac
+done
+
+config/updateConfig.pl -p CMSSW -v THE_BUILD -s $SCRAMV1_VERSION -t ${DQMGUI_CONF_ROOT}
+%scram project -d $PWD -b config/bootsrc.xml
 
 %build
 # Build the code as a scram project area, then relocate it to more
@@ -26,36 +62,44 @@ ln -s $CMSSW_VERSION/src xsrc
 # environment plus extra externals for later use, but manipulate
 # the scram environment to point to the installation directories.
 # Avoid generating excess environment.
-cd %_builddir/$CMSSW_VERSION/src
-scram build %makeprocesses
+cd %_builddir/THE_BUILD/src
+export BUILD_LOG=yes
+export SCRAM_NOPLUGINREFRESH=yes
+export SCRAM_NOLOADCHECK=true
+export SCRAM_NOSYMCHECK=true
+%scram build -v -f %makeprocesses </dev/null || { %scram build outputlog && false; }
+rm -f ../lib/*/.*cache
+(eval `%scram run -sh` ; SealPluginRefresh) || true
+(eval `%scram run -sh` ; EdmPluginRefresh) || true
 
 mkdir -p %i/etc/profile.d
 scram runtime -sh | grep -v SCRAMRT > %i/etc/profile.d/env.sh
 scram runtime -csh | grep -v SCRAMRT > %i/etc/profile.d/env.csh
 perl -p -i -e \
-  "s<%_builddir/$CMSSW_VERSION/bin/%cmsplatf><%i/bin>g;
-   s<%_builddir/$CMSSW_VERSION/(lib|module)/%cmsplatf><%i/lib>g;
-   s<%_builddir/$CMSSW_VERSION/python><%i/python>g;
-   s<%_builddir/$CMSSW_VERSION><%i>g;" \
+  "s<%_builddir/THE_BUILD/bin/%cmsplatf><%i/bin>g;
+   s<%_builddir/THE_BUILD/(lib|module)/%cmsplatf><%i/lib>g;
+   s<%_builddir/THE_BUILD/python><%i/python>g;
+   s<%_builddir/THE_BUILD><%i>g;" \
   %i/etc/profile.d/env.sh %i/etc/profile.d/env.csh
 
 (echo "export PATH=%i/xbin:\$PATH;"
  echo "export PYTHONPATH=%i/xlib:%i/xpython:\$PYTHONPATH;"
  echo "export LD_LIBRARY_PATH=%i/xlib:\$LD_LIBRARY_PATH;"
  echo "export YUI_ROOT='$YUI_ROOT';"
- echo "export DQM_CMSSW_VERSION='$CMSSW_VERSION';") >> %i/etc/profile.d/env.sh
+ echo "export DQM_CMSSW_VERSION='%{cmssw}';") >> %i/etc/profile.d/env.sh
 
 (echo "setenv PATH %i/xbin:\$PATH;"
  echo "setenv PYTHONPATH %i/xlib:%i/xpython:\$PYTHONPATH;"
  echo "setenv LD_LIBRARY_PATH %i/xlib:\$LD_LIBRARY_PATH;"
  echo "setenv YUI_ROOT '$YUI_ROOT';"
- echo "setenv DQM_CMSSW_VERSION '$CMSSW_VERSION';") >> %i/etc/profile.d/env.csh
+ echo "setenv DQM_CMSSW_VERSION '%{cmssw}';") >> %i/etc/profile.d/env.csh
 
 %install
 mkdir -p %i/etc %i/{,x}bin %i/{,x}lib %i/{,x}python
-cp -p %_builddir/$CMSSW_VERSION/lib/%cmsplatf/*.{so,edm,ig}* %i/lib
-cp -p %_builddir/$CMSSW_VERSION/bin/%cmsplatf/{vis*,DQMCollector} %i/bin
-cp -p %_builddir/$CMSSW_VERSION/src/VisMonitoring/DQMServer/python/*.* %i/python
+cp -p %_builddir/THE_BUILD/lib/%cmsplatf/.*cache* %i/lib
+cp -p %_builddir/THE_BUILD/lib/%cmsplatf/*.{so,edm,ig}* %i/lib
+cp -p %_builddir/THE_BUILD/bin/%cmsplatf/{vis*,DQMCollector} %i/bin
+cp -p %_builddir/THE_BUILD/src/VisMonitoring/DQMServer/python/*.* %i/python
 
 (echo '#!/bin/sh';
  echo 'doit= shopt=-ex'
@@ -66,7 +110,7 @@ cp -p %_builddir/$CMSSW_VERSION/src/VisMonitoring/DQMServer/python/*.* %i/python
  echo ' esac'
  echo 'done'
  echo 'set $shopt'
- cd %_builddir/$CMSSW_VERSION/src
+ cd %_builddir/THE_BUILD/src
  for f in */*/CVS/Tag; do
    [ -f $f ] || continue
    tag=$(cat $f | sed 's/^N//')
