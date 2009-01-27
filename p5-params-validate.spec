@@ -1,4 +1,5 @@
-### RPM external p5-params-validate 0.91-CMS10
+### RPM external p5-params-validate 0.91
+# this is a comment to force it to build.
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
