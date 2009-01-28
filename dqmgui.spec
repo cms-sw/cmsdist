@@ -1,4 +1,4 @@
-### RPM cms dqmgui 4.3.0d
+### RPM cms dqmgui 4.3.0e
 
 %define cvsserver   cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define scram       $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
@@ -11,7 +11,7 @@
 
 Source0: %{cvsserver}&strategy=checkout&module=config&export=config&tag=-r%{vcfg}&output=/config.tar.gz
 Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rV04-03-00&output=/DQMServer.tar.gz
-Source2: %{cvsserver}&strategy=checkout&module=CMSSW/DQM/RenderPlugins&export=DQM/RenderPlugins&tag=-rV04-01-00&output=/DQMRenderPlugins.tar.gz
+Source2: %{cvsserver}&strategy=checkout&module=CMSSW/DQM/RenderPlugins&export=DQM/RenderPlugins&tag=-rV04-02-00&output=/DQMRenderPlugins.tar.gz
 Source3: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Utilities&export=Iguana/Utilities&tag=-r%{cmssw}&output=/IgUtils.tar.gz
 Source4: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Framework&export=Iguana/Framework&tag=-r%{cmssw}&output=/IgFramework.tar.gz
 Source5: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-r%{cmssw}&output=/DQMCore.tar.gz
@@ -32,8 +32,6 @@ rm -fr %_builddir/{config,src,THE_BUILD}
 
 cd %_builddir
 rm -fr src/{FWCore,DataFormats,DQM*}/*/test
-rm -fr src/DQM/RenderPlugins/src/E[BE]*.{h,cc}
-perl -n -i -e '/E[EB]RenderPlugin/ || print' src/DQM/RenderPlugins/src/iglet.cc
 for f in src/FWCore/* src/DataFormats/*; do
   case $f in
     */FWCore/Framework | \
@@ -43,10 +41,8 @@ for f in src/FWCore/* src/DataFormats/*; do
     */FWCore/PluginManager | \
     */FWCore/ServiceRegistry | \
     */FWCore/Utilities | \
-    */FWCore/Version | \
     */DataFormats/Common | \
     */DataFormats/Provenance | \
-    */DataFormats/TestObjects | \
     */DataFormats/*StdDictionaries )
       ;;
     * )
