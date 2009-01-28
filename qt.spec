@@ -48,11 +48,12 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/qtbase
 <Tool name=qtbase version=%v>
 <info url="http://www.trolltech.com/products/qt.html"></info>
 <LIB name=QtCore>
-<LIB name=QtXML>
+<LIB name=QtXml>
 <Client>
  <Environment name=QT_BASE default="%i"></Environment>
  <Environment name=LIBDIR default="$QT_BASE/lib"></Environment>
  <Environment name=INCLUDE default="$QT_BASE/include"></Environment>
+ <Environment name=INCLUDE default="$QT_BASE/include/Qt"></Environment>
 </Client>
 <Flags CPPDEFINES="QT_ALTERNATE_QTSMANIP QT_CLEAN_NAMESPACE QT_THREAD_SUPPORT">
 <Runtime name=PATH value="$QT_BASE/bin" type=path>
@@ -81,6 +82,44 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/qtdesigner
 </Tool>
 EOF_TOOLFILE
 
+cat << \EOF_TOOLFILE >%i/etc/scram.d/qtextra
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=qtextra version=%v>
+<info url="http://www.trolltech.com/products/qt.html"></info>
+<LIB name=QtScripts>
+<use name=qtbase>
+</Tool>
+EOF_TOOLFILE
+
 %post
-%{relocateConfig}lib/libqt-mt.la
+%{relocateConfig}lib/libQt3Support.la     
+%{relocateConfig}lib/libQtScript_debug.la
+%{relocateConfig}lib/libQt3Support_debug.la   
+%{relocateConfig}lib/libQtSql.la
+%{relocateConfig}lib/libQtCLucene.la      
+%{relocateConfig}lib/libQtSql_debug.la
+%{relocateConfig}lib/libQtCLucene_debug.la    
+%{relocateConfig}lib/libQtSvg.la
+%{relocateConfig}lib/libQtCore.la     
+%{relocateConfig}lib/libQtSvg_debug.la
+%{relocateConfig}lib/libQtCore_debug.la   
+%{relocateConfig}lib/libQtTest.la
+%{relocateConfig}lib/libQtGui.la      
+%{relocateConfig}lib/libQtTest_debug.la
+%{relocateConfig}lib/libQtGui_debug.la    
+%{relocateConfig}lib/libQtWebKit.la
+%{relocateConfig}lib/libQtHelp.la     
+%{relocateConfig}lib/libQtWebKit_debug.la
+%{relocateConfig}lib/libQtHelp_debug.la   
+%{relocateConfig}lib/libQtXml.la
+%{relocateConfig}lib/libQtNetwork.la      
+%{relocateConfig}lib/libQtXmlPatterns.la
+%{relocateConfig}lib/libQtNetwork_debug.la    
+%{relocateConfig}lib/libQtXmlPatterns_debug.la
+%{relocateConfig}lib/libQtOpenGL.la     
+%{relocateConfig}lib/libQtXml_debug.la
+%{relocateConfig}lib/libQtOpenGL_debug.la   
+%{relocateConfig}lib/libphonon.la
+%{relocateConfig}lib/libQtScript.la     
+%{relocateConfig}lib/libphonon_debug.la
 %{relocateConfig}etc/scram.d/%n
