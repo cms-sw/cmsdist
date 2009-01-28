@@ -1,4 +1,4 @@
-### RPM cms dqmgui 4.3.0b
+### RPM cms dqmgui 4.3.0c
 
 %define cvsserver   cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define scram       $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
@@ -103,7 +103,7 @@ cp -p %_builddir/THE_BUILD/lib/%cmsplatf/.{iglets,edmplugincache} %i/lib
 cp -p %_builddir/THE_BUILD/lib/%cmsplatf/*.{so,edm,ig}* %i/lib
 cp -p %_builddir/THE_BUILD/bin/%cmsplatf/{vis*,Ig*,edm*,cms*,DQMCollector} %i/bin
 cp -p %_builddir/THE_BUILD/src/VisMonitoring/DQMServer/python/*.* %i/python
-tar -C %_builddir/THE_BUILD/external/%cmsplatf/lib -cf - | tar -C %i/external -xvvf -
+tar -C %_builddir/THE_BUILD/external/%cmsplatf/lib -cf - . | tar -C %i/external -xvvf -
 
 (echo '#!/bin/sh';
  echo 'doit= shopt=-ex'
