@@ -1,4 +1,4 @@
-### RPM cms dqmgui 4.3.0c
+### RPM cms dqmgui 4.3.0d
 
 %define cvsserver   cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define scram       $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
@@ -17,7 +17,7 @@ Source4: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Framework&export=Igu
 Source5: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-r%{cmssw}&output=/DQMCore.tar.gz
 Source6: %{cvsserver}&strategy=checkout&module=CMSSW/FWCore&export=FWCore&tag=-r%{cmssw}&output=/FWCore.tar.gz
 Source7: %{cvsserver}&strategy=checkout&module=CMSSW/DataFormats&export=DataFormats&tag=-r%{cmssw}&output=/DataFormats.tar.gz
-Requires: dqmgui-conf cherrypy py2-cheetah yui py2-pysqlite py2-cx-oracle py2-pil py2-matplotlib SCRAMV1
+Requires: SCRAMV1 dqmgui-conf python cherrypy py2-cheetah yui py2-pysqlite py2-cx-oracle py2-pil py2-matplotlib
 
 %prep
 rm -fr %_builddir/{config,src,THE_BUILD}
