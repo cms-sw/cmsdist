@@ -1,4 +1,4 @@
-### RPM cms dqmgui 4.3.0
+### RPM cms dqmgui 4.3.0b
 
 %define cvsserver   cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define scram       $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
@@ -80,6 +80,7 @@ scram runtime -csh | grep -v SCRAMRT > %i/etc/profile.d/env.csh
 perl -p -i -e \
   "s<%_builddir/THE_BUILD/bin/%cmsplatf><%i/bin>g;
    s<%_builddir/THE_BUILD/(lib|module)/%cmsplatf><%i/lib>g;
+   s<%_builddir/THE_BUILD/external/%cmsplatf/lib><%i/external>g;
    s<%_builddir/THE_BUILD/python><%i/python>g;
    s<%_builddir/THE_BUILD><%i>g;" \
   %i/etc/profile.d/env.sh %i/etc/profile.d/env.csh
@@ -97,10 +98,12 @@ perl -p -i -e \
  echo "setenv DQM_CMSSW_VERSION '%{cmssw}';") >> %i/etc/profile.d/env.csh
 
 %install
-mkdir -p %i/etc %i/{,x}bin %i/{,x}lib %i/{,x}python
-cp -p %_builddir/THE_BUILD/lib/%cmsplatf/*.{so,edm,ig,*cache}* %i/lib
+mkdir -p %i/etc %i/external %i/{,x}bin %i/{,x}lib %i/{,x}python
+cp -p %_builddir/THE_BUILD/lib/%cmsplatf/.{iglets,edmplugincache} %i/lib
+cp -p %_builddir/THE_BUILD/lib/%cmsplatf/*.{so,edm,ig}* %i/lib
 cp -p %_builddir/THE_BUILD/bin/%cmsplatf/{vis*,Ig*,edm*,cms*,DQMCollector} %i/bin
 cp -p %_builddir/THE_BUILD/src/VisMonitoring/DQMServer/python/*.* %i/python
+tar -C %_builddir/THE_BUILD/external/%cmsplatf/lib -cf - | tar -C %i/external -xvvf -
 
 (echo '#!/bin/sh';
  echo 'doit= shopt=-ex'
@@ -240,3 +243,10 @@ chmod a+x %i/etc/*-*
 %{relocateConfig}etc/crontab
 %{relocateConfig}etc/profile.d/env.sh
 %{relocateConfig}etc/profile.d/env.csh
+perl -w -e '
+  ($oldroot, $newroot, @files) = @ARGV;
+  foreach $f (@files) {
+    next if !defined($old = readlink $f);
+    ($new = $old) =~ s|\Q$oldroot\E|$newroot|;
+    if ($new ne $old) { unlink($f); symlink($new, $f); }
+  }' %instroot $RPM_INSTALL_PREFIX $RPM_INSTALL_PREFIX/%pkgrel/external/*
