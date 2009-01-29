@@ -13,6 +13,9 @@ Patch0: apt-rpm449
 Patch1: apt-rpm446
 Patch2: apt
 Patch3: apt-multiarch
+Patch4: apt-ansi-headers
+Patch5: apt-fix-parameter-names
+
 %if "%(echo %{cmsos} | cut -d_ -f 2 | sed -e 's|.*64.*|64|')" == "64"
 %define libdir lib64
 %else
@@ -38,6 +41,8 @@ case %cmsplatf in
 esac
 
 %patch3 -p1
+%patch4 -p2
+%patch5 -p2
 
 %build
 #export CFLAGS="-O0 -g"
