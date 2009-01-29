@@ -1,13 +1,10 @@
-### RPM cms dqmgui 4.3.0e
+### RPM cms dqmgui 4.3.0j
 
 %define cvsserver   cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define scram       $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
 %define cmssw       CMSSW_2_2_3
 %define vcfg        V03-17-02
-
-# Override cmsbuild internals: avoid environment setup of indirect externals.
-# Note that this breaks indirect dependency processing for non-cmssw 'requires'.
-%define initenv     %initenv_direct
+%define initenv     export ZZPATH=$PATH ZZLD_LIBRARY_PATH=$LD_LIBRARY_PATH ZZPYTHONPATH=$PYTHONPATH; %initenv_all
 
 Source0: %{cvsserver}&strategy=checkout&module=config&export=config&tag=-r%{vcfg}&output=/config.tar.gz
 Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rV04-03-00&output=/DQMServer.tar.gz
@@ -17,7 +14,7 @@ Source4: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Framework&export=Igu
 Source5: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-r%{cmssw}&output=/DQMCore.tar.gz
 Source6: %{cvsserver}&strategy=checkout&module=CMSSW/FWCore&export=FWCore&tag=-r%{cmssw}&output=/FWCore.tar.gz
 Source7: %{cvsserver}&strategy=checkout&module=CMSSW/DataFormats&export=DataFormats&tag=-r%{cmssw}&output=/DataFormats.tar.gz
-Requires: SCRAMV1 dqmgui-conf python cherrypy py2-cheetah yui py2-pysqlite py2-cx-oracle py2-pil py2-matplotlib
+Requires: cherrypy py2-cheetah yui py2-pysqlite py2-cx-oracle py2-pil py2-matplotlib dqmgui-conf SCRAMV1
 
 %prep
 rm -fr %_builddir/{config,src,THE_BUILD}
@@ -31,6 +28,7 @@ rm -fr %_builddir/{config,src,THE_BUILD}
 %setup -D -T -a 7 -n src
 
 cd %_builddir
+rm -fr src/FWCore/Framework/bin
 rm -fr src/{FWCore,DataFormats,DQM*}/*/test
 for f in src/FWCore/* src/DataFormats/*; do
   case $f in
@@ -41,6 +39,7 @@ for f in src/FWCore/* src/DataFormats/*; do
     */FWCore/PluginManager | \
     */FWCore/ServiceRegistry | \
     */FWCore/Utilities | \
+    */FWCore/Version | \
     */DataFormats/Common | \
     */DataFormats/Provenance | \
     */DataFormats/*StdDictionaries )
@@ -64,21 +63,35 @@ export BUILD_LOG=yes
 export SCRAM_NOPLUGINREFRESH=yes
 export SCRAM_NOLOADCHECK=true
 export SCRAM_NOSYMCHECK=true
-%scram build -v -f %makeprocesses </dev/null || { %scram build outputlog && false; }
+(unset GCCXML_ROOT && %scram build -v -f %makeprocesses </dev/null) || { %scram build outputlog && false; }
 rm -f ../lib/*/.*cache
 (eval `%scram run -sh` ; SealPluginRefresh) || true
 (eval `%scram run -sh` ; EdmPluginRefresh) || true
 (eval `%scram run -sh` ; IgPluginRefresh) || true
 
 mkdir -p %i/etc/profile.d
+for p in PATH LD_LIBRARY_PATH PYTHONPATH; do
+  for z in "" ZZ; do
+    eval export $z$p=$(perl -e 'print join(":", grep($_ && -d $_ && scalar(@{[<$_/*>]}) > 0, split(/:/,$ENV{'$z$p'})))')
+  done
+done
 scram runtime -sh | grep -v SCRAMRT > %i/etc/profile.d/env.sh
 scram runtime -csh | grep -v SCRAMRT > %i/etc/profile.d/env.csh
-perl -p -i -e \
-  "s<%_builddir/THE_BUILD/bin/%cmsplatf><%i/bin>g;
+perl -w -i -p -e \
+  'BEGIN {
+     %%linked = map { s|/+[^/]+$||; ($_ => 1) }
+                grep(defined $_, map { readlink $_ }
+                     <%_builddir/THE_BUILD/external/%cmsplatf/lib/*>);
+   }
+   foreach $dir (keys %%linked) { s<:$dir([ :;"]|$)><$1>g; }
+   foreach $p ("PATH", "LD_LIBRARY_PATH", "PYTHONPATH") {
+     s<([ :=])$ENV{"ZZ$p"}([ :;"]|$)><$1\${$p}$2>g if $ENV{"ZZ$p"};
+   }
+   s<%_builddir/THE_BUILD/bin/%cmsplatf><%i/bin>g;
    s<%_builddir/THE_BUILD/(lib|module)/%cmsplatf><%i/lib>g;
    s<%_builddir/THE_BUILD/external/%cmsplatf/lib><%i/external>g;
    s<%_builddir/THE_BUILD/python><%i/python>g;
-   s<%_builddir/THE_BUILD><%i>g;" \
+   s<%_builddir/THE_BUILD><%i>g;' \
   %i/etc/profile.d/env.sh %i/etc/profile.d/env.csh
 
 (echo "export PATH=%i/xbin:\$PATH;"
@@ -97,7 +110,7 @@ perl -p -i -e \
 mkdir -p %i/etc %i/external %i/{,x}bin %i/{,x}lib %i/{,x}python
 cp -p %_builddir/THE_BUILD/lib/%cmsplatf/.{iglets,edmplugincache} %i/lib
 cp -p %_builddir/THE_BUILD/lib/%cmsplatf/*.{so,edm,ig}* %i/lib
-cp -p %_builddir/THE_BUILD/bin/%cmsplatf/{vis*,Ig*,edm*,cms*,DQMCollector} %i/bin
+cp -p %_builddir/THE_BUILD/bin/%cmsplatf/{vis*,Ig*,edm*,DQMCollector} %i/bin
 cp -p %_builddir/THE_BUILD/src/VisMonitoring/DQMServer/python/*.* %i/python
 tar -C %_builddir/THE_BUILD/external/%cmsplatf/lib -cf - . | tar -C %i/external -xvvf -
 
