@@ -1,5 +1,6 @@
 ### RPM external p5-monalisa-apmon 2.2.18
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
+# a comment to build from scratch increase this number 10
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn ApMon_perl

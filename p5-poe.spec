@@ -1,5 +1,6 @@
 ### RPM external p5-poe 1.003
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
+# a comment to build from scratch increase this number 10
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn POE
