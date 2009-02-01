@@ -1,20 +1,28 @@
-### RPM lcg root 5.18.00a
+### RPM lcg root 5.22.00
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
 Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 
-Patch0: root-5.18-00-libpng
-Patch1: root-5.18-00a-CINT-maxlongline
-Patch2: root_5.18-00-CINTFunctional
+Patch0:  root-5.18-00-libpng
+Patch1:  root-5.21-04-CINT-maxlongline
+Patch2:  root-5.22-00-TClass-Clone
+Patch3:  root-5.22-00-gendict
+Patch4:  root-5.22-00-RootSys
+Patch5:  root-5.22-00-TMVA-shut-the-hell-up-for-once
+Patch6:  root-5.22-00-TBranchElement_initializeoffsets
+Patch7:  root-5.22-00-TBranchElement-pcanal
+Patch8:  root-5.22-00-TTreeCloner-CollectBranches-fix
+Patch9:  root-5.22-00-path-length-fix1
+Patch10:  root-5.22-00-path-length-fix2
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
 
 Requires: gccxml gsl castor libjpg dcap pcre python
 
-%if "%{?online_release:set}" != "set"
-Requires: qt openssl mysql libpng zlib oracle libungif xrootd
+%if "%cmsplatf" != "slc4onl_ia32_gcc346"
+Requires: qt openssl mysql libpng zlib libungif 
 %else
 %define skiplibtiff true
 %endif
@@ -31,31 +39,39 @@ Requires: libtiff
 %setup -n root
 %patch0 -p1
 %patch1 -p1
-%patch2 -p0
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p0
+%patch7 -p1
+%patch8 -p1
+%patch9 -p1
+%patch10 -p1
 
 %build
 mkdir -p %i
 export ROOTSYS=%_builddir/root
 
-%if "%{?online_release:set}" == "set"
-# Use oracle from xdaq installation:
-ORACLE_ROOT="/opt/xdaq"
-# Build without mysql, and use system qt and openssl:
+%if "%cmsplatf" == "slc4onl_ia32_gcc346"
+# Build without mysql, and use system qt.
+# Also skip xrootd and odbc for online case:
+
 EXTRA_CONFIG_ARGS="
-             --disable-mysql 
-             --enable-qt
-             --enable-ssl"
-# Also skip xrootd option for online case. 
+             --disable-mysql
+             --disable-xrootd
+             --disable-odbc
+             --enable-qt"
 %else
 EXTRA_CONFIG_ARGS="
-             --with-xrootd=$XROOTD_ROOT
              --enable-mysql --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
              --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
              --with-ssl-incdir=${OPENSSL_ROOT}/include
              --with-ssl-libdir=${OPENSSL_ROOT}/lib"
 %endif
 
-CONFIG_ARGS="--enable-table 
+CONFIG_ARGS="--with-f77=${GCC_ROOT}
+             --enable-table 
              --disable-builtin-pcre
              --disable-builtin-freetype
              --disable-builtin-zlib
@@ -63,7 +79,6 @@ CONFIG_ARGS="--enable-table
              --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include/python2.4 
              --enable-explicitlink 
              --enable-qtgsi
-             --enable-mathcore 
              --enable-mathmore
              --enable-reflex  
              --enable-cintex 
@@ -78,15 +93,17 @@ CONFIG_ARGS="--enable-table
              --disable-pgsql
              --disable-xml ${EXTRA_CONFIG_ARGS}"
 
-%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422")||("%cmsplatf" == "slc4_amd64_gcc345"))
-  CONFIG_ARGS="$CONFIG_ARGS --disable-cern"
-%endif
+#case %gccver in
+#  4.*)
+#  CONFIG_ARGS="$CONFIG_ARGS --disable-cern"
+#  ;;
+#esac
 
 case $(uname)-$(uname -p) in
   Linux-x86_64)
-    ./configure linuxx8664gcc $CONFIG_ARGS --enable-oracle --with-oracle-libdir=${ORACLE_ROOT}/lib --with-oracle-incdir=${ORACLE_ROOT}/include --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift --disable-astiff --disable-cern;; 
+    ./configure linuxx8664gcc $CONFIG_ARGS --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift --disable-astiff;; 
   Linux-i*86)
-    ./configure linux  $CONFIG_ARGS --enable-oracle --with-oracle-libdir=${ORACLE_ROOT}/lib --with-oracle-incdir=${ORACLE_ROOT}/include --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift;;
+    ./configure linux  $CONFIG_ARGS --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift;;
   Darwin*)
     ./configure macosx $CONFIG_ARGS --disable-rfio;;
   Linux-ppc64*)
@@ -110,7 +127,7 @@ fi
 export ROOTSYS=%i
 make INSTALL="$cp" INSTALLDATA="$cp" install
 mkdir -p $ROOTSYS/lib/python
-cp -r reflex/python/genreflex $ROOTSYS/lib/python
+cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
 #
 
 # SCRAM ToolBox toolfile
@@ -140,10 +157,40 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcore
 </Tool>
 EOF_TOOLFILE
 
-# root toolfile
+# root toolfile, alias for rootphysics. Using rootphysics is preferred.
 cat << \EOF_TOOLFILE >%i/etc/scram.d/root
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=root version=%v>
+<info url="http://root.cern.ch/root/"></info>
+<use name=rootphysics>
+</Tool>
+EOF_TOOLFILE
+
+# roothistmatrix toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/roothistmatrix
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=roothistmatrix version=%v> 
+<info url="http://root.cern.ch/root/"></info>
+<lib name=Hist>
+<lib name=Matrix>
+<use name=ROOTCore>
+</Tool>
+EOF_TOOLFILE
+
+# rootphysics toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootphysics
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=rootphysics version=%v>
+<info url="http://root.cern.ch/root/"></info>
+<lib name=Physics>
+<use name=roothistmatrix>
+</Tool>
+EOF_TOOLFILE
+
+# rootgraphics toolfile, identical to old "root" toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootgraphics
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=rootgraphics version=%v>
 <info url="http://root.cern.ch/root/"></info>
 <lib name=TreePlayer>
 <lib name=Gpad>
@@ -189,6 +236,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootmath
 <info url="http://root.cern.ch/root/"></info>
 <lib name=MathCore>
 <lib name=MathMore>
+<lib name=GenVector>
 <use name=ROOTCore>
 <use name=gsl>
 </Tool>
@@ -288,6 +336,9 @@ EOF_TOOLFILE
 %post
 %{relocateConfig}etc/scram.d/root
 %{relocateConfig}etc/scram.d/rootcore
+%{relocateConfig}etc/scram.d/roothistmatrix
+%{relocateConfig}etc/scram.d/rootphysics
+%{relocateConfig}etc/scram.d/rootgraphics
 %{relocateConfig}etc/scram.d/rootcintex
 %{relocateConfig}etc/scram.d/rootinteractive
 %{relocateConfig}etc/scram.d/rootmath
