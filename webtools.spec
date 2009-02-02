@@ -1,14 +1,13 @@
-### RPM cms webtools 1.3.27
+### RPM cms webtools 1.3.4
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PERL5LIB %i/lib/perl
 
 %define moduleName WEBTOOLS
 %define exportName WEBTOOLS
-%define cvstag V01-03-27
+%define cvstag V01-03-09
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
 Requires: python cherrypy py2-cheetah yui sqlite zlib py2-pysqlite expat openssl bz2lib db4 gdbm py2-cx-oracle py2-formencode py2-pycrypto oracle beautifulsoup py2-sqlalchemy oracle-env
-Requires: p5-crypt-cbc p5-crypt-blowfish
 Provides: perl(CGI) 
 Provides: perl(Crypt::CBC) 
 Provides: perl(SecurityModule) 
@@ -99,7 +98,15 @@ perl -p -i -e "s!\@RPM_INSTALL_PREFIX\@!$RPM_INSTALL_PREFIX/%pkgrel!" $RPM_INSTA
 
 # setup approripate links and made post install procedure
 . $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+if [ `hostname`=="cmswttest.cern.ch" ]; then
+cat > $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Tools/SiteDBCore/security.ini << POST_EOF
+[database]
+dbtype = sqlite
+dbname = $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Tools/SiteDBCore/sitedb.db
+POST_EOF
+else
 if [ -n "${WEBTOOLS_CONF}" ] && [ -f ${WEBTOOLS_CONF}/sitedb/security.ini ]; then
 ln -s ${WEBTOOLS_CONF}/sitedb/security.ini $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Tools/SiteDBCore/security.ini
+fi
 fi
 
