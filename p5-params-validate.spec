@@ -1,5 +1,5 @@
 ### RPM external p5-params-validate 0.91
-# this is a comment to force it to build.
+# a comment to build from scratch increase this number 15
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
