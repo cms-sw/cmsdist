@@ -1,7 +1,7 @@
 ### RPM external py2-matplotlib 0.90.1
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 %define downloadn matplotlib
-Source: http://switch.dl.sourceforge.net/sourceforge/%downloadn/%downloadn-%v.tar.gz
+Source: http://switch.dl.sourceforge.net/sourceforge/%downloadn/%downloadn-%realversion.tar.gz
 Requires: python
 Requires: zlib
 # Requires: agg
@@ -14,7 +14,7 @@ Requires: libpng
 # Requires: freetype
 Patch0: matplotlib-0.90.1
 %prep
-%setup -n %downloadn-%v
+%setup -n %downloadn-%realversion
 %patch0 -p0
 perl -p -i -e "s|\@LIBPNG_ROOT\@|$LIBPNG_ROOT|;s|\@ZLIB_ROOT\@|$ZLIB_ROOT|" setupext.py
 %build
