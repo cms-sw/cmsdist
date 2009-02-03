@@ -1,20 +1,22 @@
-### RPM lcg root 5.22.00
+### RPM lcg root 5.18.00a
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
 Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 
 Patch0:  root-5.18-00-libpng
-Patch1:  root-5.21-04-CINT-maxlongline
-Patch2:  root-5.22-00-TClass-Clone
-Patch3:  root-5.22-00-gendict
-Patch4:  root-5.22-00-RootSys
-Patch5:  root-5.22-00-TMVA-shut-the-hell-up-for-once
-Patch6:  root-5.22-00-TBranchElement_initializeoffsets
-Patch7:  root-5.22-00-TBranchElement-pcanal
-Patch8:  root-5.22-00-TTreeCloner-CollectBranches-fix
-Patch9:  root-5.22-00-path-length-fix1
-Patch10:  root-5.22-00-path-length-fix2
+Patch1:  root-5.18-00a-CINT-maxlongline
+Patch2:  root_5.18-00-CINTFunctional
+Patch3:  root-5.18-00a-TBufferXML
+Patch4:  root-5.18-00a-Cintex
+Patch5:  root-5.18-00a-Cintex2
+Patch6:  root-5.18-00a-TBufferFile
+Patch7:  root-5.18-00a-cintexquickfix2
+Patch8:  root-5.18-00a-gendict-performance
+Patch9:  root-5.18-00a-TClass-classNameSize
+Patch10: root-5.18-00a-TFile-stlStreamerInfo
+Patch11: root-5.18-00-cintex_functional_mmap
+Patch12: root-5.18.00-TBranchElement-pcanal
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -22,7 +24,7 @@ Patch10:  root-5.22-00-path-length-fix2
 Requires: gccxml gsl castor libjpg dcap pcre python
 
 %if "%cmsplatf" != "slc4onl_ia32_gcc346"
-Requires: qt openssl mysql libpng zlib libungif 
+Requires: qt openssl mysql libpng zlib libungif xrootd
 %else
 %define skiplibtiff true
 %endif
@@ -39,15 +41,17 @@ Requires: libtiff
 %setup -n root
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
+%patch2 -p0
 %patch3 -p1
-%patch4 -p1
-%patch5 -p1
+%patch4 -p0
+%patch5 -p0
 %patch6 -p0
-%patch7 -p1
+%patch7 -p0
 %patch8 -p1
-%patch9 -p1
-%patch10 -p1
+%patch9 -p0
+%patch10 -p0
+%patch11 -p0
+%patch12 -p1
 
 %build
 mkdir -p %i
@@ -64,14 +68,14 @@ EXTRA_CONFIG_ARGS="
              --enable-qt"
 %else
 EXTRA_CONFIG_ARGS="
+             --with-xrootd=$XROOTD_ROOT
              --enable-mysql --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
              --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
              --with-ssl-incdir=${OPENSSL_ROOT}/include
              --with-ssl-libdir=${OPENSSL_ROOT}/lib"
 %endif
 
-CONFIG_ARGS="--with-f77=${GCC_ROOT}
-             --enable-table 
+CONFIG_ARGS="--enable-table 
              --disable-builtin-pcre
              --disable-builtin-freetype
              --disable-builtin-zlib
@@ -79,12 +83,14 @@ CONFIG_ARGS="--with-f77=${GCC_ROOT}
              --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include/python2.4 
              --enable-explicitlink 
              --enable-qtgsi
+             --enable-mathcore 
              --enable-mathmore
              --enable-reflex  
              --enable-cintex 
              --enable-minuit2 
              --enable-roofit
              --disable-ldap
+             --disable-krb5
              --with-gsl-incdir=${GSL_ROOT}/include
              --with-gsl-libdir=${GSL_ROOT}/lib
              --with-dcap-libdir=${DCAP_ROOT}/lib 
@@ -92,15 +98,13 @@ CONFIG_ARGS="--with-f77=${GCC_ROOT}
              --disable-pgsql
              --disable-xml ${EXTRA_CONFIG_ARGS}"
 
-#case %gccver in
-#  4.*)
-#  CONFIG_ARGS="$CONFIG_ARGS --disable-cern"
-#  ;;
-#esac
+%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422")||("%cmsplatf" == "slc4_amd64_gcc345"))
+  CONFIG_ARGS="$CONFIG_ARGS --disable-cern"
+%endif
 
 case $(uname)-$(uname -p) in
   Linux-x86_64)
-    ./configure linuxx8664gcc $CONFIG_ARGS --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift --disable-astiff;; 
+    ./configure linuxx8664gcc $CONFIG_ARGS --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift --disable-astiff --disable-cern;; 
   Linux-i*86)
     ./configure linux  $CONFIG_ARGS --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift;;
   Darwin*)
@@ -126,7 +130,7 @@ fi
 export ROOTSYS=%i
 make INSTALL="$cp" INSTALLDATA="$cp" install
 mkdir -p $ROOTSYS/lib/python
-cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
+cp -r reflex/python/genreflex $ROOTSYS/lib/python
 #
 
 # SCRAM ToolBox toolfile
@@ -235,7 +239,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootmath
 <info url="http://root.cern.ch/root/"></info>
 <lib name=MathCore>
 <lib name=MathMore>
-<lib name=GenVector>
 <use name=ROOTCore>
 <use name=gsl>
 </Tool>
