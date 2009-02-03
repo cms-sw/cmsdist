@@ -54,6 +54,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/qtbase
  <Environment name=LIBDIR default="$QT_BASE/lib"></Environment>
  <Environment name=INCLUDE default="$QT_BASE/include"></Environment>
  <Environment name=INCLUDE default="$QT_BASE/include/Qt"></Environment>
+ <Environment name=INCLUDE default="$QT_BASE/include/QtCore"></Environment>
+ <Environment name=INCLUDE default="$QT_BASE/include/QtXml"></Environment>
 </Client>
 <Flags CPPDEFINES="QT_ALTERNATE_QTSMANIP QT_CLEAN_NAMESPACE QT_THREAD_SUPPORT">
 <Runtime name=PATH value="$QT_BASE/bin" type=path>
@@ -67,6 +69,11 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/qt
 <info url="http://www.trolltech.com/products/qt.html"></info>
 <LIB name=QtOpenGL>
 <LIB name=QtGui>
+<Client>
+ <Environment name=QT_BASE default="%i"></Environment>
+ <Environment name=INCLUDE default="$QT_BASE/include/QtOpenGL"></Environment>
+ <Environment name=INCLUDE default="$QT_BASE/include/QtGui"></Environment>
+</Client>
 <use name=qtbase>
 <use name=X11>
 <use name=opengl>
@@ -78,7 +85,12 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/qtdesigner
 <Tool name=qtdesigner version=%v>
 <info url="http://www.trolltech.com/products/qt.html"></info>
 <LIB name=QtDesigner>
-<use name=qtinteractive>
+<Client>
+ <Environment name=QT_BASE default="%i"></Environment>
+ <Environment name=INCLUDE default="$QT_BASE/include/QtDesigner"></Environment>
+</Client>
+<use name=qtbase>
+<use name=qt>
 </Tool>
 EOF_TOOLFILE
 
@@ -86,7 +98,11 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/qtextra
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=qtextra version=%v>
 <info url="http://www.trolltech.com/products/qt.html"></info>
-<LIB name=QtScripts>
+<LIB name=QtScript>
+<Client>
+ <Environment name=QT_BASE default="%i"></Environment>
+ <Environment name=INCLUDE default="$QT_BASE/include/QtScript"></Environment>
+</Client>
 <use name=qtbase>
 </Tool>
 EOF_TOOLFILE
