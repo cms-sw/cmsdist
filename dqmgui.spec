@@ -1,4 +1,4 @@
-### RPM cms dqmgui 4.3.0l
+### RPM cms dqmgui 4.3.1
 
 # This is a RPM spec file for building the DQM GUI.  This effectively
 # builds a sliced version of CMSSW with some updated and added code,
@@ -21,8 +21,8 @@
 # Sources that go into this package.  To avoid listing every package
 # here we take entire subsystems then later select what we want.
 Source0: %{cvsserver}&strategy=checkout&module=config&export=config&tag=-r%{vcfg}&output=/config.tar.gz
-Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rV04-03-00&output=/DQMServer.tar.gz
-Source2: %{cvsserver}&strategy=checkout&module=CMSSW/DQM/RenderPlugins&export=DQM/RenderPlugins&tag=-rV04-02-00&output=/DQMRenderPlugins.tar.gz
+Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rV04-03-01&output=/DQMServer.tar.gz
+Source2: %{cvsserver}&strategy=checkout&module=CMSSW/DQM/RenderPlugins&export=DQM/RenderPlugins&tag=-rV04-02-01&output=/DQMRenderPlugins.tar.gz
 Source3: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Utilities&export=Iguana/Utilities&tag=-r%{cmssw}&output=/IgUtils.tar.gz
 Source4: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Framework&export=Iguana/Framework&tag=-r%{cmssw}&output=/IgFramework.tar.gz
 Source5: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-r%{cmssw}&output=/DQMCore.tar.gz
