@@ -1,4 +1,4 @@
-### RPM cms coral CORAL_2_2_0_pre2
+### RPM cms coral CORAL_2_2_0_pre4
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: libexpat.so.0
