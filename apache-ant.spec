@@ -7,7 +7,7 @@ Source: http://apache.ziply.com/ant/binaries/%{n}-%{realversion}-bin.tar.gz
 %setup -n %{n}-%{realversion}
 
 # replace python calls throuhout the sources
-perl -p -i -e "s|#!/usr/bin/python|#!/usr/bin/env python|" $(find .)
+perl -p -i -e "s|#!/usr/bin/python|#!/usr/bin/env python|" $(find . -name "*.py")
 %build
 %install
 tar -cf - . | tar -C %i -xvvf -
