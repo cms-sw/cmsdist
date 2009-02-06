@@ -42,7 +42,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
  <Environment name=INCLUDE default="$LHAPDF_BASE/include"></Environment>
  <Environment name=LHAPATH default="$LHAPDF_BASE/share/lhapdf/PDFsets"></Environment>
 </Client>
-<Runtime name=LHAPATH value="$LHAPDF_BASE/PDFsets" type=path>
+<Runtime name=LHAPATH value="$LHAPDF_BASE/share/lhapdf/PDFsets" type=path>
 <use name=f77compiler>
 </Tool>
 EOF_TOOLFILE
