@@ -25,6 +25,8 @@ which perl
 cp Makefile Makefile.orig
 perl -p -i -e 's|/usr/lib64/libm.a||g' config.status
 perl -p -i -e 's|/usr/lib64/libc.a||g' config.status
+perl -p -i -e 's|/usr/lib64/libm.a||g' Makefile */Makefile */*/Makefile */*/*/Makefile
+perl -p -i -e 's|/usr/lib64/libc.a||g' Makefile */Makefile */*/Makefile */*/*/Makefile
 make 
 
 %install
