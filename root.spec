@@ -86,6 +86,7 @@ CONFIG_ARGS="--with-f77=${GCC_ROOT}
              --enable-minuit2 
              --enable-roofit
              --disable-ldap
+             --disable-krb5
              --with-gsl-incdir=${GSL_ROOT}/include
              --with-gsl-libdir=${GSL_ROOT}/lib
              --with-dcap-libdir=${DCAP_ROOT}/lib 
