@@ -2,10 +2,16 @@
 ## BUILDIF [ "$(uname)" != "Darwin" ]
 
 Provides: libasound.so.2
-Provides: libasound.so.2(ALSA_0.9) 
-Provides: libjava_crw_demo_g.so 
-Provides: libodbc.so 
+Provides: libasound.so.2(ALSA_0.9)
+Provides: libjava_crw_demo_g.so()
+Provides: libodbc.so
 Provides: libodbcinst.so
+# 64 bit versions
+Provides: libasound.so.2()(64bit)
+Provides: libasound.so.2(ALSA_0.9)(64bit)
+Provides: libjava_crw_demo_g.so()(64bit)
+Provides: libodbc.so()(64bit)
+Provides: libodbcinst.so()(64bit)
 
 %define downloadv %(echo %realversion | tr '.p' '_0')
 
