@@ -83,6 +83,19 @@ perl -p -i -e "s|^#!.*python|/usr/bin/env python|" $(find %{i}/lib %{i}/bin)
 #(cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $f.%realversion; done)
 (cd %i/lib/libs/python/pyste/install; python setup.py install --prefix=%i)
 
+getLibName()
+{
+  libname=`find %i/lib -name "libboost_$1*mt*" -exec basename {} \;`
+  echo $libname | sed -e 's|[.][^-]*$||;s|^lib||'
+}
+
+export BOOST_THREAD_LIB=`getLibName thread`
+export BOOST_SIGNALS_LIB=`getLibName signals`
+export BOOST_FILESYSTEM_LIB=`getLibName filesystem`
+export BOOST_PROGRAM_OPTIONS_LIB=`getLibName program_options`
+export BOOST_PYTHON_LIB=`getLibName python`
+export BOOST_REGEX_LIB=`getLibName regex`
+
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 # boost toolfile
@@ -90,8 +103,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=boost version=%v>
 <info url="http://www.boost.org"></info>
-<lib name=boost_thread-gcc-mt>
-<lib name=boost_signals-gcc-mt>
+<lib name="@BOOST_THREAD_LIB@">
+<lib name="@BOOST_SIGNALS_LIB@">
 <Client>
  <Environment name=BOOST_BASE default="%i"></Environment>
  <Environment name=LIBDIR default="$BOOST_BASE/lib"></Environment>
@@ -108,7 +121,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_filesystem
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=boost_filesystem version=%v>
 <info url="http://www.boost.org"></info>
-<lib name=boost_filesystem-gcc-mt>
+<lib name="@BOOST_FILESYSTEM_LIB@">
 <use name=boost>
 </Tool>
 EOF_TOOLFILE
@@ -118,7 +131,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_program_options
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=boost_program_options version=%v>
 <info url="http://www.boost.org"></info>
-<lib name=boost_program_options-gcc-mt>
+<lib name="@BOOST_PROGRAM_OPTIONS_LIB@">
 <use name=boost>
 </Tool>
 EOF_TOOLFILE
@@ -128,7 +141,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_python
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=boost_python version=%v>
 <info url="http://www.boost.org"></info>
-<lib name=boost_python-gcc-mt>
+<lib name="@BOOST_PYTHON_LIB@">
 <Client>
  <Environment name=BOOST_PYTHON_BASE default="%i"></Environment>
  <Environment name=PYSTE_EXEC default="$BOOST_PYTHON_BASE/lib/python2.4/site-packages/Pyste/pyste.py"></Environment>
@@ -146,7 +159,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_regex
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=boost_regex version=%v>
 <info url="http://www.boost.org"></info>
-<lib name=boost_regex-gcc-mt>
+<lib name="@BOOST_REGEX_LIB@">
 <use name=boost>
 </Tool>
 EOF_TOOLFILE
@@ -156,10 +169,12 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_signals
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=boost_signals version=%v>
 <info url="http://www.boost.org"></info>
-<lib name=boost_signals-gcc-mt>
+<lib name="@BOOST_SIGNALS_LIB@">
 <use name=boost>
 </Tool>
 EOF_TOOLFILE
+
+perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*
 
 %post
 %{relocateConfig}etc/scram.d/boost
