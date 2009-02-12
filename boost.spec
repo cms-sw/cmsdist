@@ -1,7 +1,6 @@
-### RPM external boost 1.37.0
+### RPM external boost 1.38.0
 %define boostver _%(echo %realversion | tr . _)
 Source: http://internap.dl.sourceforge.net/sourceforge/%{n}/%{n}%{boostver}.tar.gz
-Patch0: boost-1.37.0-gccxml-intrinsics
 
 Requires: boost-build python bz2lib
 %if "%cmsplatf" != "slc4onl_ia32_gcc346"
@@ -10,7 +9,6 @@ Requires: zlib
 
 %prep
 %setup -n %{n}%{boostver}
-%patch0 -p1
 
 %build
 # Note that some targets will fail to build (the test programs have
