@@ -10,11 +10,6 @@ Patch1: sherpa-hepmc-pdfinfo
 Patch2: sherpa-mixing
 Patch3: sherpa-algebra
 Patch4: sherpa-flibs
-Patch5: sherpa-total_xs_getter
-Patch6: sherpa-susy_vertex
-Patch7: sherpa-lhapdf_ranges_1
-Patch8: sherpa-analysis_jetid_scan
-Patch9: sherpa-addfix
 
 %prep
 %setup -n SHERPA-MC-%realversion
@@ -23,11 +18,6 @@ Patch9: sherpa-addfix
 %patch2 -p0 
 %patch3 -p0 
 %patch4 -p0
-%patch5 -p0
-%patch6 -p0
-%patch7 -p0
-%patch8 -p0
-%patch9 -p0
 
 %build
 

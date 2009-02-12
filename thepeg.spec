@@ -8,6 +8,8 @@ Requires: gsl
 %prep
 %setup -q -n ThePEG-%{realversion}
 %patch0 -p1
+perl -p -i -e 's|-lLHAPDF|-llhapdf -llhapdf_dummy|' configure
+perl -p -i -e 's|libLHAPDF|liblhapdf|' configure
 ./configure --with-LHAPDF=$LHAPDF_ROOT/lib --without-javagui --prefix=%i --with-gsl=$GSL_ROOT
 
 %build

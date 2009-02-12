@@ -1,21 +1,12 @@
-### RPM lcg root 5.22.00
+### RPM lcg root 5.22.00a
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
-#Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
-Source: http://cern.ch/elmer/root_v5.22.00a.source.tar.gz
+Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 
 Patch0:  root-5.18-00-libpng
 Patch1:  root-5.21-04-CINT-maxlongline
 Patch2:  root-5.22-00-TMVA-shut-the-hell-up-for-once
-#Patch3:  root-5.22-00-gendict
-#Patch4:  root-5.22-00-RootSys
-#Patch5:  root-5.22-00-TClass-Clone
-#Patch6:  root-5.22-00-TBranchElement_initializeoffsets
-#Patch7:  root-5.22-00-TBranchElement-pcanal
-#Patch8:  root-5.22-00-TTreeCloner-CollectBranches-fix
-#Patch9:  root-5.22-00-path-length-fix1
-#Patch10:  root-5.22-00-path-length-fix2
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -23,7 +14,7 @@ Patch2:  root-5.22-00-TMVA-shut-the-hell-up-for-once
 Requires: gccxml gsl castor libjpg dcap pcre python
 
 %if "%cmsplatf" != "slc4onl_ia32_gcc346"
-Requires: qt openssl mysql libpng zlib libungif 
+Requires: qt openssl mysql libpng zlib libungif xrootd
 %else
 %define skiplibtiff true
 %endif
@@ -41,14 +32,6 @@ Requires: libtiff
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-#%patch3 -p1
-#%patch4 -p1
-#%patch5 -p1
-#%patch6 -p0
-#%patch7 -p1
-#%patch8 -p1
-#%patch9 -p1
-#%patch10 -p1
 
 %build
 mkdir -p %i
@@ -65,6 +48,7 @@ EXTRA_CONFIG_ARGS="
              --enable-qt"
 %else
 EXTRA_CONFIG_ARGS="
+             --with-xrootd=$XROOTD_ROOT
              --enable-mysql --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
              --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
              --with-ssl-incdir=${OPENSSL_ROOT}/include
