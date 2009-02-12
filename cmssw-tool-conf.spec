@@ -27,6 +27,7 @@ Requires: clhep
 Requires: root
 Requires: xrootd
 Requires: qt
+Requires: qt3
 Requires: castor
 Requires: mysql
 Requires: libpng
