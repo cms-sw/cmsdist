@@ -14,7 +14,7 @@ Patch2:  root-5.22-00-TMVA-shut-the-hell-up-for-once
 Requires: gccxml gsl castor libjpg dcap pcre python
 
 %if "%cmsplatf" != "slc4onl_ia32_gcc346"
-Requires: qt openssl mysql libpng zlib libungif 
+Requires: qt openssl mysql libpng zlib libungif xrootd
 %else
 %define skiplibtiff true
 %endif
@@ -48,6 +48,7 @@ EXTRA_CONFIG_ARGS="
              --enable-qt"
 %else
 EXTRA_CONFIG_ARGS="
+             --with-xrootd=$XROOTD_ROOT
              --enable-mysql --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
              --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
              --with-ssl-incdir=${OPENSSL_ROOT}/include
