@@ -200,10 +200,23 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcintex
 </Tool>
 EOF_TOOLFILE
 
-# rootinteractive toolfile
+# (temporarily eviscerated) rootinteractive toolfile (GQt/qt lib dependencies
+# have been removed for the moment)
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootinteractive
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=rootinteractive version=%v>
+<info url="http://root.cern.ch/root/"></info>
+<lib name=Rint>
+<use name=libjpg>
+<use name=libpng>
+<use name=ROOT>
+</Tool> 
+EOF_TOOLFILE
+
+# rootinteractive2 toolfile (temporary, to allow access to Qt4)
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootinteractive2
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=rootinteractive2 version=%v>
 <info url="http://root.cern.ch/root/"></info>
 <lib name=Rint>
 <lib name=GQt>
@@ -213,6 +226,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootinteractive
 <use name=ROOT>
 </Tool> 
 EOF_TOOLFILE
+
 
 # rootmath toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootmath
