@@ -3,7 +3,8 @@
 Source: http://internap.dl.sourceforge.net/sourceforge/%{n}/%{n}%{boostver}.tar.gz
 
 Requires: boost-build python bz2lib
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
+%if "%cmsplatf" == "slc4onl_ia32_gcc346"
+%else
 Requires: zlib
 %endif
 
@@ -36,24 +37,21 @@ bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$BZ2LIBI -sTOOLS=gcc
 %endif
 
 %install
-
-linkgccver=%(echo %gccver | tr -d . | perl -pe 's/^(\d\d).*/$1/')
-
-boost_abi=$(echo %boostver | sed 's/^_//; s/_0$//')
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
 #no debug libs...
 #mkdir -p %i/lib/debug
 mkdir %i/lib
 #(cd bin/boost; find libs -path "libs/*/debug/*.$so" -exec cp {} %i/lib/debug \;)
 # Perhaps the following could be done with a wildcard for the darwin/gcc dir
-case $(uname) in 
-  Darwin ) 
+case %cmsplatf in 
+  osx*) 
     (cd bin.v2; find libs -path "libs/*/build/darwin*/release/*.$so*" -exec cp  {} %i/lib/. \;)
     ;;
-   * )
+  * )
     (cd bin.v2; find libs -path "libs/*/build/gcc*/release/*.$so*" -exec cp  {} %i/lib/. \;)
     ;;
 esac
+
 find boost -name '*.[hi]*' -print |
   while read f; do
     mkdir -p %i/include/$(dirname $f)
@@ -64,23 +62,16 @@ find libs -name '*.py' -print |
     mkdir -p %i/lib/$(dirname $f)
     install -c $f %i/lib/$f
   done
-[ $(uname) = Darwin ] &&
-  for f in %i/lib/*.$so %i/lib/*.$so; do
-    install_name_tool -id $f $f
-  done
 
 # Do all manipulation with files before creating symbolic links:
 perl -p -i -e "s|^#!.*python|/usr/bin/env python|" $(find %{i}/lib %{i}/bin)
 #strip %i/lib/*.$so 
 
+for l in `find %i/lib -name "*.$so.*"`
+do
+  ln -s `basename $l` `echo $l | sed -e "s|[.]$so[.].*|.$so|"`
+done
 
-#(cd %i/lib; for f in lib*-$boost_abi.$so; do ln -s $f $(echo $f | sed "s/-$boost_abi//"); done)
-#(cd %i/lib; for f in lib*-$boost_abi.$so; do ln -s $f $f.%realversion ; done)
-(cd %i/lib; for f in lib*-$boost_abi.$so.%{realversion}; do ln -s $f $(echo $f | sed "s/.%{realversion}$//"); done)
-(cd %i/lib; for f in lib*-$boost_abi.$so.%{realversion}; do ln -s $f $(echo $f | sed "s/-$boost_abi//" | sed "s/.%{realversion}$//"); done)
-(cd %i/lib; for f in lib*-$boost_abi.$so.%{realversion}; do ln -s $f $(echo $f | sed "s/-$boost_abi//" | sed "s/.%{realversion}$//" | sed "s/gcc$linkgccver/gcc/"); done)
-#(cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $(echo $f | sed "s/-d-$boost_abi//"); done)
-#(cd %i/lib/debug; for f in lib*-d-$boost_abi.$so; do ln -s $f $f.%realversion; done)
 (cd %i/lib/libs/python/pyste/install; python setup.py install --prefix=%i)
 
 getLibName()
