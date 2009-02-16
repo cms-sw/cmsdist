@@ -1,8 +1,8 @@
-### RPM cms webtools-base 0.1.12
+### RPM cms webtools-base 0.1.13
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 %define moduleName WEBTOOLS
 %define exportName WEBTOOLS
-%define cvstag V01-03-28
+%define cvstag V01-03-29
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
 Requires: python cherrypy py2-cheetah yui webtools
@@ -104,7 +104,8 @@ esac
 exit $RETVAL
 
 EOF
-chmod a+x %i/bin/base_init
+cat %i/bin/base_init | sed "s/--port/--ssl --port/g" > %i/bin/ssl_base_init
+chmod a+x %i/bin/*base_init
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
