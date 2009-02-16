@@ -76,7 +76,7 @@ done
 
 getLibName()
 {
-  libname=`find %i/lib -name "libboost_$1*mt*" -exec basename {} \;`
+  libname=`find %i/lib -name "libboost_$1*mt*.$so" -exec basename {} \;`
   echo $libname | sed -e 's|[.][^-]*$||;s|^lib||'
 }
 
