@@ -1,9 +1,12 @@
-### RPM cms PHEDEX-datasvc DATASVC_1_3_0
+### RPM cms PHEDEX-datasvc DATASVC_1_3_1
 #
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define nversion %(echo %v | sed 's|DATASVC_||' | sed 's|_|.|g')
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
+%define deployutil WTDeployUtil.pm
+%define deployutilrev 1.4
+%define deployutilurl http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/COMP/WEBTOOLS/Configuration/%{deployutil}?revision=%{deployutilrev}
 
 Source: %cvsserver&strategy=checkout&module=%{downloadn}&export=%{downloadn}&&tag=-r%{v}&output=/%{n}.tar.gz
 Requires: oracle oracle-env p5-time-hires p5-text-glob p5-compress-zlib p5-dbi p5-dbd-oracle p5-xml-parser
@@ -21,6 +24,7 @@ Provides: perl(Date::Manip)
 Provides: perl(XML::LibXML)
 
 # We obsolete each previous release to force them to be removed
+Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_3_0
 Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_2_1
 Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_2_0
 Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_1_0
@@ -28,9 +32,9 @@ Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_0_0
 
 %prep
 %setup -n PHEDEX
+wget -O %{deployutil} '%{deployutilurl}'
 
 %build
-
 %install
 mkdir -p %i/etc
 tar -cf - * | (cd %i && tar -xf -)
@@ -38,7 +42,7 @@ tar -cf - * | (cd %i && tar -xf -)
 rm -f %instroot/apache2/etc/startenv.d/datasvc-env.sh
 rm -f %instroot/apache2/apps.d/datasvc-httpd.conf
 
-# Switch template variables in the configuration files
+# Switch path-linke template variables in the configuration files
 export DOCUMENT_ROOT=%i/PhEDExWeb/DataService
 export CACHE_DIRECTORY=/tmp/phedex-datasvc
 export VERSION=%nversion
@@ -65,6 +69,31 @@ mkdir -p /tmp/phedex-datasvc
 %{relocateConfig}PhEDExWeb/DataService/conf/datasvc-secmod.conf
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
+
+# Switch host-like template variables in the configuration files
+perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -e '
+  print "Configuring service for @{[&WTDeployUtil::deployment()]} on @{[&WTDeployUtil::my_host()]}\n";
+'
+
+perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
+  $hosts = join(" ", &WTDeployUtil::frontend_hosts());
+  s|\@FRONTEND_HOSTS\@|$hosts|g;
+'  $RPM_INSTALL_PREFIX/%{pkgrel}/PhEDExWeb/DataService/conf/datasvc-httpd.conf
+
+# password file default location
+export PHEDEX_DBPARAM=/data/projects/conf/phedex/DBParam
+if [ ! -f $PHEDEX_DBPARAM ]; then
+  export PHEDEX_DBPARAM=/where/i/put/my/DBParam
+fi
+
+perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
+  $hosts = join(",", &WTDeployUtil::frontend_ips());
+  $alias = &WTDeployUtil::frontend_alias();
+  s|\@FRONTEND_IPS\@|$hosts|g;
+  s|\@FRONTEND_ALIAS\@|$alias|g;
+  s|\@PHEDEX_DBPARAM\@|$ENV{PHEDEX_DBPARAM}|g;
+'  $RPM_INSTALL_PREFIX/%{pkgrel}/PhEDExWeb/DataService/conf/datasvc-app.conf
+
 
 # Copy files to apache2 directory
 cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/PhEDExWeb/DataService/conf/datasvc-httpd.conf $RPM_INSTALL_PREFIX/apache2/apps.d
