@@ -57,6 +57,9 @@ fi
 
 RETVAL=$?
 
+export BONSAI_KEY=/data/projects/conf/certs/hostkey.pem
+export BONSAI_CA=/data/projects/conf/certs/hostcert.pem
+
 port=7999
 pid=`ps auxw | grep WSServer | grep $port | grep -v grep | awk '{print $2}'`
 base=base
