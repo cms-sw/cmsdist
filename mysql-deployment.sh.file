@@ -1,0 +1,1 @@
+Empty file to make RPM build system happy, the actual file created inside the spec file.
