@@ -6,7 +6,8 @@ Requires: libevent
 %setup -n memcached-%realversion
 
 %build
-./configure --prefix=%i
+source $LIBEVENT_ROOT/etc/profile.d/init.sh
+./configure --with-libevent=$LIBEVENT_ROOT --prefix=%i
 make
 
 %install
