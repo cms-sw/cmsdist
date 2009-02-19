@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-web WEB_3_1_1
+### RPM cms PHEDEX-web WEB_3_1_1a
 #
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -62,6 +62,7 @@ cp %i/Documentation/WebConfig/cmsweb_phedex_graphs %i/bin
 
 %post
 # Relocate the package
+
 %{relocateConfig}Documentation/WebConfig/phedexweb-httpd.conf
 %{relocateConfig}Documentation/WebConfig/phedexweb-app.conf
 %{relocateConfig}Documentation/WebConfig/phedexweb-secmod.conf
@@ -86,6 +87,10 @@ if [ ! -f $PHEDEX_DBPARAM ]; then
   export PHEDEX_DBPARAM=/where/i/put/my/DBParam
 fi
 
+perl -p -i -e '
+  s|\@PHEDEX_DBPARAM\@|$ENV{PHEDEX_DBPARAM}|g;
+'  $RPM_INSTALL_PREFIX/%{pkgrel}/bin/cmsweb_phedex_graphs
+
 perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
   $hosts = join(",", &WTDeployUtil::frontend_ips());
   $alias = &WTDeployUtil::frontend_alias();
@@ -97,6 +102,9 @@ perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
 # Copy files to apache2 directory
 cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/Documentation/WebConfig/phedexweb-httpd.conf $RPM_INSTALL_PREFIX/apache2/apps.d
 cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh $RPM_INSTALL_PREFIX/apache2/etc/startenv.d/phedexweb-env.sh
+
+# soft link httpd startup script to our bin/
+ln -s $RPM_INSTALL_PREFIX/apache2/etc/init.d/httpd $RPM_INSTALL_PREFIX/%{pkgrel}/bin/httpd
 
 # Relocate those files
 #perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|g" \ 
