@@ -29,7 +29,7 @@ MYSQL_SOCK=$MYSQL_PATH/mysql.sock
 MYSQL_PID=$MYSQL_PATH/mysqld.pid
 MYSQL_ERR=$MYSQL_PATH/error.log
 
-pid=`ps -u ${LOGNAME} | grep mysqld_safe | grep -v grep | tail -1 | awk '{print $1}'`
+pid=`ps -w -w -f -u ${LOGNAME} | grep mysqld_safe | grep $MYSQL_PORT | grep -v grep | tail -1 | awk '{print $1}'`
 if [ ! -z ${pid} ]; then
     echo "CMS MySQL server is already running ..."
 else
