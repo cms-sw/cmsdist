@@ -1,4 +1,4 @@
-### RPM cms prodagent PRODAGENT_0_12_11_INT1_PRE1
+### RPM cms prodagent PRODAGENT_0_12_13_patch1
 ## INITENV +PATH PYTHONPATH %i/lib
 ## INITENV +PATH PYTHONPATH $WEBTOOLS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Tools/GraphTool/src
 ## INITENV +PATH PYTHONPATH $PY2_PIL_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/PIL
@@ -28,8 +28,8 @@ mkdir -p %i/workdir
  echo "source $PY2_PYXML_ROOT/etc/profile.d/init.sh"; \
  echo "source $DBS_CLIENT_ROOT/etc/profile.d/init.sh"; \
  echo "source $DLS_CLIENT_ROOT/etc/profile.d/init.sh"; \
- echo "source $BOSS_ROOT/etc/profile.d/init.sh"; \
  echo "source $PRODCOMMON_ROOT/etc/profile.d/init.sh"; \
+ echo "source $BOSS_ROOT/etc/profile.d/init.sh"; \
  echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.sh"; \
  echo "source $PY2_NUMPY_ROOT/etc/profile.d/init.sh"; \
  echo "source $PY2_MATPLOTLIB_ROOT/etc/profile.d/init.sh"; \
@@ -44,8 +44,8 @@ mkdir -p %i/workdir
  echo "source $PY2_PYXML_ROOT/etc/profile.d/init.csh"; \
  echo "source $DBS_CLIENT_ROOT/etc/profile.d/init.csh"; \
  echo "source $DLS_CLIENT_ROOT/etc/profile.d/init.csh"; \
- echo "source $BOSS_ROOT/etc/profile.d/init.csh"; \
  echo "source $PRODCOMMON_ROOT/etc/profile.d/init.csh"; \
+ echo "source $BOSS_ROOT/etc/profile.d/init.csh"; \
  echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.csh"; \
  echo "source $PY2_NUMPY_ROOT/etc/profile.d/init.csh"; \
  echo "source $PY2_MATPLOTLIB_ROOT/etc/profile.d/init.csh"; \
