@@ -3,7 +3,7 @@
 
 Provides: libasound.so.2
 Provides: libasound.so.2(ALSA_0.9)
-Provides: libjava_crw_demo_g.so()
+Provides: libjava_crw_demo_g.so
 Provides: libodbc.so
 Provides: libodbcinst.so
 # 64 bit versions
