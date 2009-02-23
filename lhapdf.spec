@@ -1,20 +1,36 @@
-### RPM external lhapdf 5.2.3-CMS19
+### RPM external lhapdf 5.6.0
 %define realversion %(echo %v | cut -d- -f1)
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
+Patch0: lhapdf-5.6.0-g77
+Patch1: lhapdf-5.6.0-32bit-on-64bit-recheck-workaround
+
 %prep
 %setup -q -n %{n}/%{realversion}
-%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422"))
-  # Switch to gfortran
-  perl -p -i -e 's|^export F77\=g77|export F77=gfortran|' .scripts/platform_functions
-  perl -p -i -e 's| -Wno-globals||' configure
-%endif
-./configure 
+# This applies both old and new fixes, probably the gcc4 ones can go (to check) 
+case %gccver in
+  4.*)
+    # Switch to gfortran
+    perl -p -i -e 's|^export F77\=g77|export F77=gfortran|' .scripts/platform_functions
+    perl -p -i -e 's| -Wno-globals||' configure
+  ;;
+  3.*)
+%patch0 -p2
+  ;;
+esac
+%patch1 -p2
+./configure --disable-pyext --enable-low-memory --prefix=%i --with-max-num-pdfsets=1
 
 %build
+which perl
+cp Makefile Makefile.orig
+perl -p -i -e 's|/usr/lib64/libm.a||g' config.status
+perl -p -i -e 's|/usr/lib64/libc.a||g' config.status
+perl -p -i -e 's|/usr/lib64/libm.a||g' Makefile */Makefile */*/Makefile */*/*/Makefile
+perl -p -i -e 's|/usr/lib64/libc.a||g' Makefile */Makefile */*/Makefile */*/*/Makefile
 make 
 
 %install
-tar -c lib include PDFsets | tar -x -C %i
+make install
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
@@ -26,9 +42,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
  <Environment name=LHAPDF_BASE default="%i"></Environment>
  <Environment name=LIBDIR default="$LHAPDF_BASE/lib"></Environment>
  <Environment name=INCLUDE default="$LHAPDF_BASE/include"></Environment>
- <Environment name=LHAPATH default="$LHAPDF_BASE/PDFsets"></Environment>
+ <Environment name=LHAPATH default="$LHAPDF_BASE/share/lhapdf/PDFsets"></Environment>
 </Client>
-<Runtime name=LHAPATH value="$LHAPDF_BASE/PDFsets" type=path>
+<Runtime name=LHAPATH value="$LHAPDF_BASE/share/lhapdf/PDFsets" type=path>
 <use name=f77compiler>
 </Tool>
 EOF_TOOLFILE
