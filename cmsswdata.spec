@@ -7,7 +7,6 @@ Requires: data-Geometry-CaloTopology
 Requires: data-MagneticField-Interpolation
 Requires: data-RecoParticleFlow-PFBlockProducer
 Requires: data-RecoParticleFlow-PFTracking
-Requires: data-RecoParticleFlow-PFProducer
 Requires: data-RecoTracker-RingESSource
 Requires: data-RecoTracker-RoadMapESSource
 Requires: data-SimG4CMS-Calo
