@@ -85,38 +85,37 @@ esac
 
 # The following is a kludge around the fact that the /usr/lib/libreadline.so
 # symlink (for 32-bit lib) is missing on the 64bit machines
-case %cmsplatf in
-  slc4_ia32* )
-    mkdir -p %{i}/lib
-    ln -s /usr/lib/libreadline.so.4.3 %{i}/lib/libreadline.so
-  ;;
-esac
+%if "%cmsplatf" == "slc4_ia32_gcc345"
+  mkdir -p %{i}/lib
+  ln -s /usr/lib/libreadline.so.4.3 %{i}/lib/libreadline.so
+%endif
+%if "%cmsplatf" == "slc4_ia32_gcc412"
+  mkdir -p %{i}/lib
+  ln -s /usr/lib/libreadline.so.4.3 %{i}/lib/libreadline.so
+%endif
 make %makeprocesses
 
 %install
 make install
 %define pythonv %(echo %realversion | cut -d. -f 1,2)
 
-case %cmsplatf in
-  osx*)
-   make install prefix=%i 
-   (cd Misc; /bin/rm -rf RPM)
-   mkdir -p %i/share/doc/%n
-   cp -R Demo Doc %i/share/doc/%n
-   cp -R Misc Tools %i/lib/python%{pythonv}
-   gcc -dynamiclib -all_load -single_module \
-    -framework System -framework CoreServices -framework Foundation \
-    %i/lib/python%{pythonv}/config/libpython%{pythonv}.a \
-    -undefined dynamic_lookup \
-    -o %i/lib/python%{pythonv}/config/libpython%{pythonv}.dylib \
-    -install_name %i/lib/python%{pythonv}/config/libpython%{pythonv}.dylib \
-    -current_version %{pythonv} -compatibility_version %{pythonv} -ldl
-   (cd %i/lib/python%{pythonv}/config
-    perl -p -i -e 's|-fno-common||g' Makefile)
-
-   find %i/lib/python%{pythonv}/config -name 'libpython*' -exec mv {} %i/lib \;
-  ;;
-esac
+#if [ $(uname) = Darwin ]; then
+  # make install prefix=%i 
+  # (cd Misc; /bin/rm -rf RPM)
+  # mkdir -p %i/share/doc/%n
+  # cp -R Demo Doc %i/share/doc/%n
+  # cp -R Misc Tools %i/lib/python%{pythonv}
+#  gcc -dynamiclib -all_load -single_module \
+#    -framework System -framework CoreServices -framework Foundation \
+#    %i/lib/python%{pythonv}/config/libpython%{pythonv}.a \
+#    -undefined dynamic_lookup \
+#    -o %i/lib/python%{pythonv}/config/libpython%{pythonv}.dylib \
+#    -install_name %i/lib/python%{pythonv}/config/libpython%{pythonv}.dylib \
+#    -current_version %{pythonv} -compatibility_version %{pythonv} -ldl
+#  ln -s libpython%{pythonv}.dylib %i/lib/python%{pythonv}/config/libpython%{pythonv}.dylib # for boost
+  # (cd %i/lib/python%{pythonv}/config; mv Makefile Makefile.orig;
+  #  sed 's|-fno-common||g' < Makefile.orig > Makefile; /bin/rm -f Makefile.orig)
+#fi
 
 perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
                     %{i}/bin/pydoc \
@@ -125,6 +124,9 @@ perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
                     %{i}/lib/python2.4/test/test_bz2.py \
                     %{i}/lib/python2.4/test/test_largefile.py \
                     %{i}/lib/python2.4/test/test_optparse.py
+# boost.spec rfio.spec
+#
+#
 rm  `find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*'`
 rm  `find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*'`
 
