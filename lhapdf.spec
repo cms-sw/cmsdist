@@ -36,8 +36,7 @@ mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=lhapdf version=%v>
-<lib name=lhapdf>
-<lib name=lhapdf_dummy>
+<lib name=LHAPDF>
 <Client>
  <Environment name=LHAPDF_BASE default="%i"></Environment>
  <Environment name=LIBDIR default="$LHAPDF_BASE/lib"></Environment>
@@ -46,6 +45,14 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 </Client>
 <Runtime name=LHAPATH value="$LHAPDF_BASE/share/lhapdf/PDFsets" type=path>
 <use name=f77compiler>
+</Tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdfwrap
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=lhapdfwrap version=%v>
+<lib name=LHAPDFWrap>
+<use name=lhapdf>
 </Tool>
 EOF_TOOLFILE
 
