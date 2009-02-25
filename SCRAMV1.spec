@@ -1,5 +1,6 @@
-### RPM lcg SCRAMV1 V2_1_0
+### RPM lcg SCRAMV1 V2_1_1
 ## INITENV +PATH PATH %instroot/common
+## NOCOMPILER
 
 # This package is somewhat unusual compared to other packages we
 # build: we install the normally versioned product "SCRAM", but also
