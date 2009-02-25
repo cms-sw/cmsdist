@@ -95,18 +95,8 @@ case $(uname)-$(uname -p) in
     ./configure linux $CONFIG_ARGS --disable-rfio;;
 esac
 
-case %cmsplatf in
-  osx*)
-   makeopts=
-  ;;
-  *)
-   makeopts="%makeprocesses"
-  ;;
-esac
- 
-make $makeopts 
+make  %makeprocesses
 make cintdlls
-
 %install
 # Override installers if we are using GNU fileutils cp.  On OS X
 # ROOT's INSTALL is defined to "cp -pPR", which only works with
