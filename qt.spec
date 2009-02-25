@@ -122,4 +122,7 @@ EOF_TOOLFILE
 %{relocateConfig}lib/libQtXmlPatterns.la
 %{relocateConfig}lib/libQtOpenGL.la     
 %{relocateConfig}lib/libQtScript.la     
-%{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/scram.d/qtbase
+%{relocateConfig}etc/scram.d/qt
+%{relocateConfig}etc/scram.d/qtdesigner
+%{relocateConfig}etc/scram.d/qtextra
