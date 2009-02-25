@@ -47,4 +47,4 @@ EOF_TOOLFILE
 
 %post
 %{relocateConfig}etc/scram.d/%n
-perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find $RPM_INSTALL_PREFIX/ -name HerwigDefaults.rpo -type f)
+%{relocateConfig}share/Herwig++/HerwigDefaults.rpo
