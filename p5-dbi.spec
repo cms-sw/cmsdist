@@ -1,6 +1,5 @@
-### RPM external p5-dbi 1.605
+### RPM external p5-dbi 1.50-CMS19
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
-# a comment to build from scratch increase this number 15
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn DBI
