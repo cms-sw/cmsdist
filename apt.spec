@@ -1,9 +1,9 @@
-### RPM external apt 0.5.15lorg3.2-CMS19c
+### RPM external apt 0.5.15lorg3.2-CMS19b
 ## INITENV SET APT_CONFIG %{i}/etc/apt.conf
 Source:  http://apt-rpm.org/releases/%n-%realversion.tar.bz2
 Source1: bootstrap
 
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
+%if "%{?online_release:set}" != "set"
 Requires: libxml2 beecrypt rpm zlib bz2lib openssl
 %else
 Requires: libxml2 beecrypt rpm bz2lib
@@ -13,9 +13,6 @@ Patch0: apt-rpm449
 Patch1: apt-rpm446
 Patch2: apt
 Patch3: apt-multiarch
-Patch4: apt-ansi-headers
-Patch5: apt-fix-parameter-names
-
 %if "%(echo %{cmsos} | cut -d_ -f 2 | sed -e 's|.*64.*|64|')" == "64"
 %define libdir lib64
 %else
@@ -41,8 +38,6 @@ case %cmsplatf in
 esac
 
 %patch3 -p1
-%patch4 -p2
-%patch5 -p2
 
 %build
 #export CFLAGS="-O0 -g"
@@ -127,9 +122,6 @@ RPM
     RootDir "%{instroot}";
     Architecture "%{cmsplatf}";
 };
-
-APT::Cache-Limit 33554432;
-
 EOF_APT_CONF
 
 
