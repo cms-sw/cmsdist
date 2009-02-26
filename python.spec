@@ -1,4 +1,4 @@
-### RPM external python 2.4.2-CMS19
+### RPM external python 2.5.4
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 # OS X patches and build fudging stolen from fink
@@ -149,6 +149,12 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <Runtime name=PATH value="$PYTHON_BASE/bin" type=path>
 </Tool>
 EOF_TOOLFILE
+
+# Makes sure that executables start with /usr/bin/env perl and not with comments. 
+find %i -type f -perm -555 -name '*.py' -exec perl -p -i -e 'if ($. == 1) {s|^"""|#/usr/bin/env python\n"""|}' {} \;
+find %i -type f -perm -555 -name '*.py' -exec perl -p -i -e 'if ($. == 1) {s|^\'\'\'|#/usr/bin/env python\n\'\'\'|}' {} \;
+find %i -type f -perm -555 -name '*.py' -exec perl -p -i -e 'if ($. == 1) {s|/usr/local/bin/python|/usr/bin/env python|}' {} \;
+rm -f %i/share/doc/python/Demo/rpc/test
 
 %post
 find $RPM_INSTALL_PREFIX/%pkgrel/lib -type l | xargs ls -la | sed -e "s|.*[ ]\(/.*\) -> \(.*\)| \2 \1|;s|[ ]/[^ ]*/external| $RPM_INSTALL_PREFIX/%cmsplatf/external|g" | xargs -n2 ln -sf
