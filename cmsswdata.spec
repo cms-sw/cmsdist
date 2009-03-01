@@ -1,4 +1,4 @@
-### RPM cms cmsswdata 20
+### RPM cms cmsswdata 21
 Source: none
 
 Requires: data-FastSimulation-MaterialEffects
@@ -18,6 +18,7 @@ Requires: data-Validation-Geometry
 Requires: data-Validation-HcalHits
 Requires: data-RecoMuon-MuonIdentification
 Requires: data-CondCore-SQLiteData
+Requires: data-L1Trigger-RPCTrigger
 
 %prep
 %build
