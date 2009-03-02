@@ -1,4 +1,4 @@
-### RPM cms dqmgui 4.3.2
+### RPM cms dqmgui 4.3.2b
 
 # This is a RPM spec file for building the DQM GUI.  This effectively
 # builds a sliced version of CMSSW with some updated and added code,
