@@ -1,13 +1,12 @@
-### RPM external fastjet 2.3.4
+### RPM external fastjet 2.3.0
 Source: http://www.lpthe.jussieu.fr/~salam/repository/software/fastjet/%n-%realversion.tar.gz
 Patch1: fastjet-2.1.0-nobanner
-Patch2: fastjet-2.3.4-siscone-banner
+Patch2: fastjet_sisconebanner
 
 %prep
 %setup -n %n-%realversion
 %patch1 -p1
 %patch2 -p1
-
 ./configure --enable-shared --prefix=%i
 
 %build
