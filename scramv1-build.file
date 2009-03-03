@@ -67,7 +67,10 @@ Source0: %{configrepo}&tag=-r%{configtag}&module=%{cvsconfig}&export=config&outp
 %if "%{?isPatch}" == "yes"
 %define source1 %{cvsrepo}://?tag=%{cvstag}&module=%{cvssrc}&export=%{srctree}&baserel=%{patchbaserelease}&output=/src.tar.gz
 # make sure we have FWCore/Version in the sources to be built
-%define additionalSrc0 %{cvsrepo}&tag=-r%{patchbaserelease}&module=FWCore/Version&export=%{srctree}
+%define basereldir %(echo `echo %i | sed -e's|-patch||' -e's|_...patch.||'`)
+%define fwcverstag %(echo `grep FWCore/Version %{basereldir}/src/PackageList.cmssw | awk '{print $2}'`)
+# echo "tag is "%{fwcverstag}" from "%{basereldir} 
+%define additionalSrc0 %{cvsrep}&tag=-r%{fwcverstag}&module=FWCore/Version&export=%{srctree}
 %endif
 
 # Pick additional sources.  Since install.sh does a grep for "^Source",
@@ -116,6 +119,8 @@ rm -rf %{srctree}
 # make sure we don't overwrite FWCore/Version if it's already in from the queue
 if [ ! -e %{srctree}/FWCore/Version ]; then
 %setup -D -T -a 2 -n %{srctree}
+# bad hack: the cvs co removes the subsystem name, so we'll have to rename it.
+mv src FWCore
 fi
 %endif
 

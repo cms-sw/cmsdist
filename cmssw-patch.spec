@@ -18,6 +18,7 @@ Requires: cmssw-patch-tool-conf
 %define cvsdir          %cvsprojuc
 %define cvssrc          %cvsprojuc
 %define cvsserver       cmssw
+%define cvsrep		cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/%cvsdir?passwd=AA_:yZZ3e
 # %define cvsrepo		cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/%cvsdir?passwd=AA_:yZZ3e
 %define useCmsTC        1
 
