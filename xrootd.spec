@@ -6,8 +6,8 @@ Requires: openssl
 %setup -n xrootd
 
 %build
-./configure.classic --disable-krb4 --disable-krb5 --with-ssl-incdir=$OPENSSL_ROOT/include --with-ssl-libdir=$OPENSSL_ROOT/lib
-make
+./configure.classic --disable-krb4 --with-ssl-incdir=$OPENSSL_ROOT/include --with-ssl-libdir=$OPENSSL_ROOT/lib
+make INCKRB5=-I/usr/include/et LIBKRB5=-lkrb5
 
 %install
 mkdir %i/bin
