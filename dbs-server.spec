@@ -61,8 +61,8 @@ function dbs_stop()
 {
     me=\`whoami\`
     echo $"Stop mysqld|tomcat running under \$me account..."
-    $MYSQL_ROOT/bin/mysqladmin -uroot -pcms --socket=$MYSQL_SOCK --port=$MYSQL_PORT shutdown
-    ps -w -w -f -u\$me | grep mysqld | grep $MYSQL_PORT | grep -v grep | awk '{print "kill -9 "\$2""}'|/bin/sh
+    \$MYSQL_ROOT/bin/mysqladmin -uroot -pcms --socket=\$MYSQL_SOCK --port=\$MYSQL_PORT shutdown
+    ps -w -w -f -u\$me | grep mysqld | grep \$MYSQL_PORT | grep -v grep | awk '{print "kill -9 "\$2""}'|/bin/sh
     killall -q tomcat
 }
 function dbs_start()
@@ -79,7 +79,7 @@ function dbs_start()
 function dbs_status() 
 {
     me=\`whoami\`
-    dbs_mysqld=\`ps -w -w -f -u\$me | egrep "mysqld" | grep $MYSQL_PORT| grep -v egrep | wc -l\`
+    dbs_mysqld=\`ps -w -w -f -u\$me | egrep "mysqld" | grep \$MYSQL_PORT| grep -v egrep | wc -l\`
     dbs_tomcat=\`ps -w -w -f -u\$me | egrep "tomcat" | grep -v egrep | wc -l\`
     if [ \${dbs_tomcat} -ne 1 ]; then
        echo "Tomcat server is not running"
