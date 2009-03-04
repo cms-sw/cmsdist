@@ -61,9 +61,8 @@ function dbs_stop()
 {
     me=\`whoami\`
     echo $"Stop mysqld|tomcat running under \$me account..."
-    \$MYSQL_ROOT/bin/mysqladmin -uroot -pcms --socket=\$MYSQL_SOCK --port=\$MYSQL_PORT shutdown
     ps -w -w -f -u\$me | grep mysqld | grep \$MYSQL_PORT | grep -v grep | awk '{print "kill -9 "\$2""}'|/bin/sh
-    killall -q tomcat
+    ps -w -w -f -u\$me | grep tomcat | grep -v grep | awk '{print "kill -9 "\$2""}'|/bin/sh
 }
 function dbs_start()
 {
