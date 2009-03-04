@@ -1,4 +1,4 @@
-### RPM cms dbs-server DBS_2_0_6_pre1
+### RPM cms dbs-server DBS_2_0_6_pre3
 
 %define cvstag %{realversion}
 # define version of DBS to use, it's schema version
@@ -47,6 +47,7 @@ cat > %{i}/Servers/JavaServer/bin/dbs_init.sh << DBS_INIT_EOF
 #!/bin/sh
 export MYAREA=rpm_install_area
 export SCRAM_ARCH=slc4_ia32_gcc345
+export APT_VERSION=0.5.15lorg3.2-cmp
 source \$MYAREA/\$SCRAM_ARCH/external/apt/\$APT_VERSION/etc/profile.d/init.sh 
 source \$MYAREA/%{pkgrel}/etc/profile.d/init.sh
 # set DBS DBs
@@ -60,7 +61,9 @@ function dbs_stop()
 {
     me=\`whoami\`
     echo $"Stop mysqld|tomcat running under \$me account..."
-    ps -w -w -f -u\$me | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "\$2""}'|/bin/sh
+    $MYSQL_ROOT/bin/mysqladmin -uroot -pcms --socket=$MYSQL_SOCK --port=$MYSQL_PORT shutdown
+    ps -w -w -f -u\$me | grep mysqld | grep $MYSQL_PORT | grep -v grep | awk '{print "kill -9 "\$2""}'|/bin/sh
+    killall -q tomcat
 }
 function dbs_start()
 {
@@ -76,7 +79,7 @@ function dbs_start()
 function dbs_status() 
 {
     me=\`whoami\`
-    dbs_mysqld=\`ps -w -w -f -u\$me | egrep "mysqld" | grep -v egrep | wc -l\`
+    dbs_mysqld=\`ps -w -w -f -u\$me | egrep "mysqld" | grep $MYSQL_PORT| grep -v egrep | wc -l\`
     dbs_tomcat=\`ps -w -w -f -u\$me | egrep "tomcat" | grep -v egrep | wc -l\`
     if [ \${dbs_tomcat} -ne 1 ]; then
        echo "Tomcat server is not running"
@@ -194,7 +197,7 @@ echo "+++ Clean-up mysqld|tomcat processes"
 #ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "$2""}' |/bin/sh
 #killall -q mysqld
 #cat $MYSQL_ROOT/mysqldb/mysqld.pid
-$MYSQL_ROOT/bin/mysqladmin -uroot -pcms --socket=$MYSQL_SOCK --port=3316 shutdown
+$MYSQL_ROOT/bin/mysqladmin -uroot -pcms --socket=$MYSQL_SOCK --port=$MYSQL_PORT shutdown
 killall -q tomcat
 
 # made correct link to LibValut
