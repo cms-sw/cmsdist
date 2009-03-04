@@ -140,6 +140,7 @@ FWCore/FWLite
 FWCore/MessageService
 FWCore/Modules
 FWCore/PrescaleService
+FWCore/Version
 Geometry/CaloEventSetup
 Geometry/CaloGeometry
 Geometry/CaloTopology
