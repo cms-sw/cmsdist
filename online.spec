@@ -1,4 +1,4 @@
-### RPM cms online CMSSW_2_1_9_ONLINE1
+### RPM cms online CMSSW_2_2_6_ONLINE
 ## IMPORT configurations 
 
 Provides: /bin/zsh
@@ -14,7 +14,7 @@ Provides: perl(Template)
 
 Requires: online-tool-conf python
 
-%define cmssw_release   %(perl -e '$_="%v"; s/_ONLINE1//; print;')
+%define cmssw_release   %(perl -e '$_="%v"; s/_ONLINE//; print;')
 %define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
 %define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
 %define cvsdir          %cvsprojuc
