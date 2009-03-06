@@ -3,12 +3,14 @@ Alignment/CommonAlignmentAlgorithm
 Alignment/CommonAlignmentMonitor
 Alignment/CommonAlignmentParametrization
 Alignment/CommonAlignmentProducer
+Alignment/HIPAlignmentAlgorithm
 Alignment/MuonAlignment
 Alignment/OfflineValidation
 Alignment/TrackerAlignment
 AnalysisDataFormats/SiStripClusterInfo
 AnalysisDataFormats/TrackInfo
 CalibCalorimetry/CaloTPG
+CalibCalorimetry/CastorCalib
 CalibCalorimetry/EcalLaserCorrection
 CalibCalorimetry/EcalTPGTools
 CalibCalorimetry/EcalTrivialCondModules
@@ -19,6 +21,7 @@ CalibCalorimetry/HcalTPGAlgos
 CalibCalorimetry/HcalTPGEventSetup
 CalibFormats/CaloObjects
 CalibFormats/CaloTPG
+CalibFormats/CastorObjects
 CalibFormats/HcalObjects
 CalibFormats/SiPixelObjects
 CalibFormats/SiStripObjects
@@ -74,6 +77,7 @@ CondFormats/AlignmentRecord
 CondFormats/BeamSpotObjects
 CondFormats/BTauObjects
 CondFormats/Calibration
+CondFormats/CastorObjects
 CondFormats/CSCObjects
 CondFormats/DataRecord
 CondFormats/DTObjects
@@ -123,6 +127,7 @@ DataFormats/HcalDigi
 DataFormats/HcalIsolatedTrack
 DataFormats/HcalRecHit
 DataFormats/HepMCCandidate
+DataFormats/Histograms
 DataFormats/HLTReco
 DataFormats/JetReco
 DataFormats/L1CaloTrigger
@@ -198,9 +203,13 @@ DQM/PhysicsObjectsMonitoring
 DQM/RCTMonitor
 DQM/RPCMonitorClient
 DQM/RPCMonitorDigi
+DQM/RPCMonitorModule
 DQMServices/ClientConfig
+DQMServices/Components
 DQMServices/Core
+DQMServices/Examples
 DQMServices/WebComponents
+DQMServices/XdaqCollector
 DQM/SiPixelCommon
 DQM/SiPixelHistoricInfoClient
 DQM/SiPixelMonitorClient
@@ -227,6 +236,7 @@ DQM/TrackerCommon
 DQM/TrackerMonitorTrack
 DQM/TrackingMonitor
 DQM/TrigXMonitor
+DQM/TrigXMonitorClient
 EventFilter/AutoBU
 EventFilter/Cosmics
 EventFilter/CSCRawToDigi
@@ -324,6 +334,7 @@ HLTrigger/JetMET
 HLTrigger/Muon
 HLTrigger/special
 HLTrigger/Timer
+Iguana/Framework
 Iguana/Utilities
 IOPool/CMSSealPlugins
 IOPool/Common
@@ -394,6 +405,7 @@ PhysicsTools/Utilities
 RecoBTag/ImpactParameter
 RecoBTag/SoftLepton
 RecoBTag/TrackProbability
+RecoBTag/XMLCalibration
 RecoBTau/JetCrystalsAssociator
 RecoBTau/JetTagComputer
 RecoCaloTools/MetaCollections
@@ -485,8 +497,12 @@ RecoVertex/KalmanVertexFit
 RecoVertex/KinematicFit
 RecoVertex/KinematicFitPrimitives
 RecoVertex/LinearizationPointFinders
+RecoVertex/PrimaryVertexProducer
+RecoVertex/TrimmedKalmanVertexFinder
 RecoVertex/VertexPrimitives
 RecoVertex/VertexTools
+SimCalorimetry/CaloSimAlgos
+SimCalorimetry/EcalSimAlgos
 SimCalorimetry/EcalTrigPrimAlgos
 SimCalorimetry/EcalTrigPrimProducers
 SimCalorimetry/HcalTrigPrimAlgos
@@ -505,6 +521,8 @@ SimDataFormats/TrackingHit
 SimDataFormats/Vertex
 SimGeneral/HepPDTESSource
 SimGeneral/HepPDTRecord
+SimGeneral/NoiseGenerators
+SimTracker/Records
 SimTracker/TrackAssociation
 SimTracker/TrackerHitAssociation
 TBDataFormats/EcalTBObjects
@@ -535,5 +553,6 @@ TrackPropagation/RungeKutta
 TrackPropagation/SteppingHelixPropagator
 Utilities/BinningTools
 Utilities/General
+Utilities/StorageFactory
 Utilities/Testing
 Utilities/Timing
