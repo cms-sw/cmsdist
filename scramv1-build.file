@@ -94,8 +94,11 @@ Source0: %{configrepo}&tag=-r%{configtag}&module=%{cvsconfig}&export=config&outp
 %define lcprojname  %(echo %ucprojname | tr 'A-Z' 'a-z')
 
 %if "%{?buildsetfile:set}" == "set"
-%define source2 %buildsetfile 
-%define source3 partial.py
+%define source6 %buildsetfile 
+%define source7 partial.py
+%else
+%define source6 none
+%define source7 none
 %endif
 
 Source1: %source1
@@ -103,6 +106,9 @@ Source2: %source2
 Source3: %source3
 Source4: %lcprojname-tool
 Source5: findDependencies.pl
+Source6: %source6
+Source7: %source7
+
 
 %prep
 rm -rf config
