@@ -2,6 +2,7 @@
 # with cmsBuild, change the above version only when a new
 # tool is added
 ## INITENV SET CMSSW_PATCH_TOOL_CONF_ROOT $ONLINE_PATCH_TOOL_CONF_ROOT
+%define onlinesystemtoolsroot ${ONLINESYSTEMTOOLS_ROOT}
 
 Requires: online
 
