@@ -1,9 +1,10 @@
-### RPM external tkonlinesw 0.3-CMS19
+### RPM external tkonlinesw 0.3
 %define projectname trackerDAQ
 %define releasename %{projectname}-%{realversion}
 Source: http://cmsdoc.cern.ch/cms/cmt/online/rpm/SOURCE/%{releasename}.tgz
 Patch: Fed9U-gcc3.4
 Patch1: tkonlinesw-fPIC
+Patch2: tkonlinesw-0.3-onl
 
 # Note from Kristian: 
 # xdaq dependency is here only to re-use its makefiles. 
@@ -21,6 +22,7 @@ Requires: onlinesystemtools
 %setup -q -n %releasename
 %patch -p1
 %patch1 -p2
+%patch2 -p1
 # Clean up some mysterious old build within the sources that screws
 # up the install by copying in an old libFed9UUtils.so
 rm -fR TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/2.4/slc3_ia32_gcc323
