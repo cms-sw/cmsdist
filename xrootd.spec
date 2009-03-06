@@ -1,4 +1,4 @@
-### RPM external xrootd 20071116-0000b-CMS19
+### RPM external xrootd 20071116.0000b-CMS19
 # Override default realversion since there is a "-" in the realversion
 %define realversion 20071116-0000b
 Source: http://xrootd.slac.stanford.edu/download/%{realversion}/%n-%{realversion}.src.tgz
