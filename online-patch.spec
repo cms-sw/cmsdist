@@ -1,4 +1,4 @@
-### RPM cms online-patch CMSSW_2_1_9_patches_ONLINE
+### RPM cms online-patch CMSSW_2_2_6_onlpatch1_ONLINE
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: /bin/ksh
@@ -15,6 +15,7 @@ Requires: online-patch-tool-conf
 
 %define cmssw_release   %(perl -e '$_="%v"; s/_ONLINE//; print;')
 %define buildsetfile    online_build_set
+%define cvsrep          cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/%cvsdir?passwd=AA_:yZZ3e
 
 %define cvsprojuc       %(echo %n | sed -e "s|-patch.*||"| tr 'a-z' 'A-Z')
 %define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
