@@ -1,4 +1,5 @@
 CommonTools/Statistics
+CondFormats/AlignmentRecord
 CondFormats/JetMETObjects
 DataFormats/BeamSpot
 DataFormats/BTauReco
@@ -16,7 +17,6 @@ DataFormats/EcalRecHit
 DataFormats/EgammaCandidates
 DataFormats/EgammaReco
 DataFormats/EgammaTrackReco
-DataFormats/FEDRawData
 DataFormats/FWLite
 DataFormats/GeometryCommonDetAlgo
 DataFormats/GeometrySurface
@@ -60,11 +60,22 @@ DataFormats/TrajectorySeed
 DataFormats/TrajectoryState
 DataFormats/VertexReco
 DataFormats/WrappedStdDictionaries
+DetectorDescription/Base
+DetectorDescription/Core
+DetectorDescription/ExprAlgo
+FastSimDataFormats/External
+FWCore/Framework
 FWCore/FWLite
 FWCore/MessageLogger
+FWCore/ParameterSet
 FWCore/PluginManager
 FWCore/RootAutoLibraryLoader
+FWCore/ServiceRegistry
 FWCore/Utilities
+FWCore/Version
+Geometry/CaloGeometry
+Geometry/MuonNumbering
+Geometry/Records
 PhysicsTools/Utilities
 SimDataFormats/EncodedEventId
 SimDataFormats/HepMCProduct

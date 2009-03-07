@@ -1,6 +1,4 @@
 ### RPM cms cms-common 1.0
-## REVISION 1050
-## NOCOMPILER
 Source: cmsos
 %prep
 %build
@@ -13,14 +11,6 @@ mkdir -p %instroot/common %instroot/bin %{instroot}/%{cmsplatf}/etc/profile.d
 # This is to avoid different arch creating these files
 if [ ! -f %instroot/common/.cms-common ]; then
 install -m 755 %_sourcedir/cmsos %instroot/common/cmsos
-
-%if "%{?online_release:set}" == "set"
-echo echo %{cmsos} >  %instroot/common/cmsos
-chmod 755 %instroot/common/cmsos
-%endif
-
-
-%if "%{?online_release:set}" != "set"
 ### Detects the SCRAM_ARCH to be used.
 cat << \EOF_CMSARCH_SH >%instroot/common/cmsarch
 #!/bin/sh
@@ -44,13 +34,6 @@ else
 fi
 
 EOF_CMSARCH_SH
-%else
-cat << \EOF_CMSARCH_ONL >%instroot/common/cmsarch
-#!/bin/sh
-echo %{cmsplatf}
-EOF_CMSARCH_ONL
-%endif
-
 chmod 755 %instroot/common/cmsarch
 
 ### BASH code
@@ -103,7 +86,7 @@ fi
 
 if [ ! $CVSROOT ]
 then
-    CVSROOT=:kserver:cmscvs.cern.ch:/cvs_server/repositories/CMSSW
+    CVSROOT=:gserver:cmscvs.cern.ch:/cvs_server/repositories/CMSSW
     export CVSROOT
 fi
 
@@ -156,7 +139,7 @@ if( -e $CMS_PATH/SITECONF/local/JobConfig/cmsset_local.csh ) then
 endif
 
 if ( ! ${?CVSROOT}) then
-  setenv CVSROOT :kserver:cmscvs.cern.ch:/cvs_server/repositories/CMSSW
+  setenv CVSROOT :gserver:cmscvs.cern.ch:/cvs_server/repositories/CMSSW
 endif
 
 unset here
