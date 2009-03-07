@@ -10,6 +10,11 @@ Patch1: sherpa-hepmc-pdfinfo
 Patch2: sherpa-mixing
 Patch3: sherpa-algebra
 Patch4: sherpa-flibs
+Patch5: sherpa-total_xs_getter
+Patch6: sherpa-susy_vertex
+Patch7: sherpa-lhapdf_ranges_1
+Patch8: sherpa-analysis_jetid_scan
+Patch9: sherpa-addfix
 
 %prep
 %setup -n SHERPA-MC-%realversion
@@ -18,14 +23,22 @@ Patch4: sherpa-flibs
 %patch2 -p0 
 %patch3 -p0 
 %patch4 -p0
+%patch5 -p0
+%patch6 -p0
+%patch7 -p0
+%patch8 -p0
+%patch9 -p0
 
 %build
 
-%if "%cmsplatf" == "slc4_ia32_gcc412"
+case %gccver in
+  4.*)
 export FC=gfortran
-%else
+  ;;
+  3.*)
 export FC=g77
-%endif
+  ;;
+esac
 
 %if "%cmsplatf" == "slc4_ia32_gcc345"
 EXTRA_CFG_FLAGS="--copt LDFLAGS=-m32 --copt CFLAGS=-m32 --cxx -m32 --f -m32"
@@ -101,7 +114,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
    <Environment name="INCLUDE" default="$SHERPA_BASE/include"></Environment>
   </client>
   <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$SHERPA_BASE/include" type="path"/>
-  <runtime name="SHERPA_SHARE_PATH" valuse="$SHERPA_BASE/share/SHERPA-MC" type="path"/>
+  <runtime name="SHERPA_SHARE_PATH" value="$SHERPA_BASE/share/SHERPA-MC" type="path"/>
+  <runtime name="SHERPA_INCLUDE_PATH" value="$SHERPA_BASE/include/SHERPA-MC" type="path"/>
   <use name="HepMC"/>
   <use name="lhapdf"/>
  </Tool>
