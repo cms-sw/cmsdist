@@ -553,6 +553,7 @@ TrackPropagation/RungeKutta
 TrackPropagation/SteppingHelixPropagator
 Utilities/BinningTools
 Utilities/General
+Utilities/ReleaseScripts
 Utilities/StorageFactory
 Utilities/Testing
 Utilities/Timing
