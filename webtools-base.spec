@@ -1,8 +1,8 @@
-### RPM cms webtools-base 0.1.14
+### RPM cms webtools-base 0.1.15
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 %define moduleName WEBTOOLS
 %define exportName WEBTOOLS
-%define cvstag V01-03-30
+%define cvstag V01-03-31
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
 Requires: python cherrypy py2-cheetah yui webtools py2-pyopenssl
@@ -64,9 +64,9 @@ port=7999
 pid=`ps auxw | grep WSServer | grep $port | grep -v grep | awk '{print $2}'`
 base=base
 if [ -n "$WEBTOOLS_BASEURL" ]; then
-    url="$WEBTOOLS_BASEURL/$base"
+    url="$WEBTOOLS_BASEURL"
 else
-    url="http://cmsweb.cern.ch/$base"
+    url="$base"
 fi
 cmd="cmsWeb --base-url=$url --port $port --default-page /WSServer/"
 
