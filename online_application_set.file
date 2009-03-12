@@ -39,6 +39,8 @@ CondCore/RPCPlugins
 CondCore/SiPixelPlugins
 CondCore/SiStripPlugins
 CondCore/Utilities
+Configuration/HLT
+Configuration/PyReleaseValidation
 DataFormats/BTauReco
 DataFormats/CaloTowers
 DataFormats/Candidate
@@ -187,6 +189,7 @@ Geometry/TrackerTopology
 Geometry/TrackingGeometryAligner
 Geometry/TwentyFivePercentTrackerCommonData
 HLTrigger/btau
+HLTrigger/Configuration
 HLTrigger/Egamma
 HLTrigger/HLTanalyzers
 HLTrigger/HLTcore
@@ -199,6 +202,7 @@ IOPool/AdaptorConfig
 IOPool/CMSSealPlugins
 IOPool/Input
 IOPool/Output
+JetMETCorrections/Configuration
 JetMETCorrections/Modules
 JetMETCorrections/Type1MET
 L1TriggerConfig/CSCTFConfigProducers
@@ -212,6 +216,7 @@ L1TriggerConfig/L1GtConfigProducers
 L1TriggerConfig/L1ScalesProducers
 L1TriggerConfig/RCTConfigProducers
 L1TriggerConfig/RPCTriggerConfig
+L1Trigger/Configuration
 L1Trigger/CSCTrackFinder
 L1Trigger/CSCTriggerPrimitives
 L1Trigger/DTTrackFinder
@@ -240,6 +245,10 @@ RecoBTau/JetTagComputer
 RecoEcal/EgammaClusterProducers
 RecoEgamma/EgammaElectronProducers
 RecoEgamma/EgammaHLTProducers
+RecoHI/HiTracking
+RecoHIMuon/HiMuPropagator
+RecoHIMuon/HiMuSeed
+RecoHIMuon/HiMuTracking
 RecoJets/JetAssociationProducers
 RecoJets/JetProducers
 RecoLocalCalo/CaloTowersCreator

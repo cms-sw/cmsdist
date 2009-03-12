@@ -97,6 +97,8 @@ CondTools/Ecal
 CondTools/Hcal
 CondTools/L1Trigger
 CondTools/SiPixel
+Configuration/HLT
+Configuration/PyReleaseValidation
 DataFormats/BeamSpot
 DataFormats/BTauReco
 DataFormats/CaloRecHit
@@ -326,6 +328,7 @@ Geometry/TrackerTopology
 Geometry/TrackingGeometryAligner
 Geometry/TwentyFivePercentTrackerCommonData
 HLTrigger/btau
+HLTrigger/Configuration
 HLTrigger/Egamma
 HLTrigger/HLTanalyzers
 HLTrigger/HLTcore
@@ -344,6 +347,7 @@ IOPool/Streamer
 IORawData/DaqSource
 IORawData/SiStripInputSources
 JetMETCorrections/Algorithms
+JetMETCorrections/Configuration
 JetMETCorrections/Modules
 JetMETCorrections/Objects
 JetMETCorrections/Type1MET
@@ -359,6 +363,7 @@ L1TriggerConfig/L1GtConfigProducers
 L1TriggerConfig/L1ScalesProducers
 L1TriggerConfig/RCTConfigProducers
 L1TriggerConfig/RPCTriggerConfig
+L1Trigger/Configuration
 L1Trigger/CSCCommonTrigger
 L1Trigger/CSCTrackFinder
 L1Trigger/CSCTriggerPrimitives
@@ -419,6 +424,10 @@ RecoEgamma/EgammaElectronProducers
 RecoEgamma/EgammaHLTAlgos
 RecoEgamma/EgammaHLTProducers
 RecoEgamma/EgammaTools
+RecoHI/HiTracking
+RecoHIMuon/HiMuPropagator
+RecoHIMuon/HiMuSeed
+RecoHIMuon/HiMuTracking
 RecoJets/JetAlgorithms
 RecoJets/JetAssociationAlgorithms
 RecoJets/JetAssociationProducers
