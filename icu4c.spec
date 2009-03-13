@@ -2,11 +2,13 @@
 Source: http://download.icu-project.org/files/icu4c/4.0.1/%n-%realversion-src.tgz
 
 %prep
-%setup -n %n-%{realversion}
+#%setup -n %n-%{realversion}
+cd icu/source
 
 %build
-cd js/src
-make -f Makefile.ref
+chmod +x runConfigureICU configure install-sh
+./runConfigureICU Linux
+make
 
 %install
 make install
