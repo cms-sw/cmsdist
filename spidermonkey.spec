@@ -20,6 +20,7 @@ cp Linux_All_DBG.OBJ/{js,jscpucfg,jskwgen} %i/bin
 mkdir -p %i/lib
 cp Linux_All_DBG.OBJ/libjs* %i/lib
 mkdir -p %i/include/{editline,fdlibm,liveconnect}
+cp jsproto.tbl %i/include
 cp *.h %i/include
 cp Linux_All_DBG.OBJ/*.h %i/include
 cp editline/*.h %i/include/editline
