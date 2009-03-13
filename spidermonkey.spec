@@ -42,4 +42,4 @@ EOF_TOOLFILE
 %{relocateConfig}/bin/js
 %{relocateConfig}/bin/jscpucfg
 %{relocateConfig}/bin/jskwgen
-%{relocateConfig}/lib/libjs.a
+%{relocateConfig}/lib/libjs.so
