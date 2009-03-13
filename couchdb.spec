@@ -3,7 +3,7 @@ Source: http://mirrors.directorymix.com/apache/incubator/%n/%realversion-incubat
 Requires: gcc curl spidermonkey openssl icu4c erlang
 
 %prep
-%setup -n %n-%{realversion}
+#%setup -n %n-%{realversion}
 %setup -n apache-%n-%{realversion}-incubating
 
 %build
