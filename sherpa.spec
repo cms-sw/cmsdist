@@ -5,16 +5,16 @@ Source: http://www.hepforge.org/archive/sherpa/Sherpa-%realversion.tar.gz
 
 Requires: hepmc lhapdf
 
-Patch:  sherpa-lhapdf
-Patch1: sherpa-hepmc-pdfinfo
-Patch2: sherpa-mixing
-Patch3: sherpa-algebra
-Patch4: sherpa-flibs
-Patch5: sherpa-total_xs_getter
-Patch6: sherpa-susy_vertex
-Patch7: sherpa-lhapdf_ranges_1
-Patch8: sherpa-analysis_jetid_scan
-Patch9: sherpa-addfix
+Patch:  sherpa-1.1.2-lhapdf
+Patch1: sherpa-1.1.2-hepmc-pdfinfo
+Patch2: sherpa-1.1.2-mixing
+Patch3: sherpa-1.1.2-algebra
+Patch4: sherpa-1.1.2-flibs
+Patch5: sherpa-1.1.2-total_xs_getter
+Patch6: sherpa-1.1.2-susy_vertex
+Patch7: sherpa-1.1.2-lhapdf_ranges_1
+Patch8: sherpa-1.1.2-analysis_jetid_scan
+Patch9: sherpa-1.1.2-addfix
 
 %prep
 %setup -n SHERPA-MC-%realversion
