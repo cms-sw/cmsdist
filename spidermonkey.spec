@@ -2,9 +2,17 @@
 Source: http://ftp.mozilla.org/pub/mozilla.org/js/js-%realversion.tar.gz
 
 %prep
-%setup -n %n-%{realversion}
+#%setup -n %n-%{realversion}
+echo "test1"
+ls
+%setup -n js
+echo "test2"
+ls
+
 
 %build
+echo "build"
+ls
 cd js/src
 make -f Makefile.ref
 

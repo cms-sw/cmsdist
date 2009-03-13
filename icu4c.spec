@@ -3,9 +3,17 @@ Source: http://download.icu-project.org/files/icu4c/4.0.1/%n-%realversion-src.tg
 
 %prep
 #%setup -n %n-%{realversion}
-cd icu/source
+echo "test1"
+ls
+%setup -n icu
+echo "test2"
+ls
+
 
 %build
+echo "build"
+ls
+cd source
 chmod +x runConfigureICU configure install-sh
 ./runConfigureICU Linux
 make
