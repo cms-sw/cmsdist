@@ -1,6 +1,6 @@
 ### RPM external couchdb 0.8.1
-Source: http://www.apache.org/dyn/closer.cgi?path=/incubator/%s/%realversion-incubating/apache-%n-%realversion-incubating.tar.gz
 Source: http://mirrors.directorymix.com/apache/incubator/%n/%realversion-incubating/apache-%n-%realversion-incubating.tar.gz
+Requires: gcc curl spidermonkey openssl icu4c erlang
 
 %prep
 %setup -n %n-%{realversion}
