@@ -7,11 +7,15 @@ Source: http://ftp.mozilla.org/pub/mozilla.org/js/js-1.8.0-rc1.tar.gz
 
 %build
 cd src
-LDEMULATION=elf_i386 make -f Makefile.ref
+if [ `uname -m` != 'x86_64' ]; then
+    LDEMULATION=elf_i386 make -f Makefile.ref
+else
+    make -f Makefile.ref
+fi
 
 %install
 cd src
-#make -f Makefile.ref install
+mkdir -p %i/{bin, lib}
 cp Linux_All_DBG.OBJ/{js,jscpucfg,jskwgen} %i/bin
 cp Linux_All_DBG.OBJ/libjs* %i/lib
 
