@@ -19,6 +19,11 @@ mkdir -p %i/bin
 cp Linux_All_DBG.OBJ/{js,jscpucfg,jskwgen} %i/bin
 mkdir -p %i/lib
 cp Linux_All_DBG.OBJ/libjs* %i/lib
+mkdir -p %i/include/{editline,fdlibm,liveconnect}
+cp *.h %i/include
+cp editline/*.h %i/include/editline
+cp fdlibm/*.h %i/include/fdlibm
+cp liveconnect/*.h %i/include/liveconnect
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
@@ -43,3 +48,4 @@ EOF_TOOLFILE
 %{relocateConfig}/bin/jscpucfg
 %{relocateConfig}/bin/jskwgen
 %{relocateConfig}/lib/libjs.so
+%{relocateConfig}/lib/libjs.a

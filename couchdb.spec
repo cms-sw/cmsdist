@@ -7,7 +7,7 @@ Requires: gcc curl spidermonkey openssl icu4c erlang
 %setup -n apache-%n-%{realversion}-incubating
 
 %build
-./configure --prefix=%i
+./configure --prefix=%i --with-js-lib=$SPIDERMONKEY_ROOT/lib --with-js-include=$SPIDERMONKEY_ROOT/include --with-erlang=$ERLANG_ROOT/lib/erlang/usr/include
 make
 
 %install
