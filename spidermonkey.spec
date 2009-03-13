@@ -15,8 +15,9 @@ fi
 
 %install
 cd src
-mkdir -p %i/{bin, lib}
+mkdir -p %i/bin
 cp Linux_All_DBG.OBJ/{js,jscpucfg,jskwgen} %i/bin
+mkdir -p %i/lib
 cp Linux_All_DBG.OBJ/libjs* %i/lib
 
 # SCRAM ToolBox toolfile
