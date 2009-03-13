@@ -9,8 +9,8 @@ Provides: libc.so.6(GLIBC_PRIVATE)(64bit)
 %build
 LANG=C; export LANG
 if [ `uname -m` != 'x86_64' ]; then
-    LDEMULATION=elf_i386 LDFLAGS=-A`uname -m` ./configure --prefix=%i
-    LDEMULATION=elf_i386 LDFLAGS=-A`uname -m` make
+    LDFLAGS=-A`uname -m` ./configure --prefix=%i
+    LDFLAGS=-A`uname -m` make
 else
     ./configure --prefix=%i
     make
