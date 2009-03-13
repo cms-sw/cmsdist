@@ -1,6 +1,6 @@
 ### RPM external erlang R12B-5
 Source: http://erlang.org/download/otp_src_R12B-5.tar.gz
-Requires: gcc perl openssl
+Requires: gcc openssl
 
 %prep
 %setup -n otp_src_%{realversion}
