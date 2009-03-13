@@ -8,7 +8,11 @@ Requires: gcc openssl
 %build
 LANG=C; export LANG
 ./configure --prefix=%i
-make
+if [ `uname -m` != 'x86_64' ]; then
+    LDEMULATION=elf_i386 make
+else
+    make
+fi
 
 %install
 make install
