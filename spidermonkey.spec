@@ -21,6 +21,7 @@ mkdir -p %i/lib
 cp Linux_All_DBG.OBJ/libjs* %i/lib
 mkdir -p %i/include/{editline,fdlibm,liveconnect}
 cp *.h %i/include
+cp Linux_All_DBG.OBJ/*.h %i/include
 cp editline/*.h %i/include/editline
 cp fdlibm/*.h %i/include/fdlibm
 cp liveconnect/*.h %i/include/liveconnect
