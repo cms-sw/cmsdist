@@ -8,7 +8,7 @@ Source: http://download.icu-project.org/files/icu4c/4.0.1/%n-%realversion-src.tg
 %build
 cd source
 chmod +x runConfigureICU configure install-sh
-./runConfigureICU Linux
+./runConfigureICU Linux --prefix=%i
 make
 
 %install
