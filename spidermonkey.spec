@@ -7,8 +7,12 @@ Source: http://ftp.mozilla.org/pub/mozilla.org/js/js-1.8.0-rc1.tar.gz
 
 %build
 cd src
+uname -a
 uname -m
-LIBDIR=lib64 CFLAGS="-DHAVE_VA_COPY -DVA_COPY=va_copy -DPIC -fPIC" make -f Makefile.ref
+export PATH=/bin:$PATH
+uname -a
+uname -m
+make -f Makefile.ref
 
 %install
 cd src
