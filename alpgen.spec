@@ -1,16 +1,20 @@
-### RPM external alpgen 212-CMS19
+### RPM external alpgen 213
 %define realversion %(echo %v | cut -d- -f1 )
 Source: http://mlm.home.cern.ch/mlm/alpgen/V2.1/v%{realversion}.tgz
 Source1: config.sub-amd64
 Patch0: alpgen-212
 Patch1: alpgen-212-gfortran
+Patch2: alpgen-213
  
 %prep
 %setup -c -n alpgen-%v
 %patch0 -p1 
-%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422"))
+case %gccver in
+  4.*)
 %patch1 -p0
-%endif
+  ;;
+esac
+%patch2 -p1
 
 %build
 cd 2Qphwork; make gen; cd ..
@@ -36,7 +40,7 @@ export USRF=20_60bin
 make gen -f cmsMakefile
 export USRF=240_300bin
 make gen -f cmsMakefile
-export USRF=300_7000bin
+export USRF=300_5000bin
 make gen -f cmsMakefile
 export USRF=60_120bin
 make gen -f cmsMakefile
@@ -51,9 +55,7 @@ export USRF=300ptw800
 make gen -f cmsMakefile
 export USRF=800ptw1600
 make gen -f cmsMakefile
-export USRF=1600ptw3200
-make gen -f cmsMakefile
-export USRF=3200ptw5000
+export USRF=1600ptw
 make gen -f cmsMakefile
 export USRF=VBFHiggsTo2Tau
 make gen -f cmsMakefile
@@ -72,9 +74,7 @@ export USRF=300ptz800
 make gen -f cmsMakefile
 export USRF=800ptz1600
 make gen -f cmsMakefile
-export USRF=1600ptz3200
-make gen -f cmsMakefile
-export USRF=3200ptz5000
+export USRF=1600ptz
 make gen -f cmsMakefile
 export USRF=VBFHiggsTo2Tau
 make gen -f cmsMakefile
