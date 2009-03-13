@@ -3,8 +3,8 @@
 
 %define cvstag %{realversion}
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-Source: %cvsserver&strategy=checkout&module=DAS&nocache=true&export=DAS&tag=-r%{cvstag}&output=/das.tar.gz
-Requires: python cherrypy yui elementtree py2-simplejson py2-memcached couchdb
+Source: %cvsserver&strategy=checkout&module=COMP/DAS&nocache=true&export=DAS&tag=-r%{cvstag}&output=/das.tar.gz
+Requires: python cherrypy yui elementtree py2-simplejson py2-memcached couchdb wmcore
 
 %prep
 %setup -n DAS
