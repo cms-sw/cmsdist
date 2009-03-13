@@ -3,22 +3,16 @@ Source: http://download.icu-project.org/files/icu4c/4.0.1/%n-%realversion-src.tg
 
 %prep
 #%setup -n %n-%{realversion}
-echo "test1"
-ls
 %setup -n icu
-echo "test2"
-ls
-
 
 %build
-echo "build"
-ls
 cd source
 chmod +x runConfigureICU configure install-sh
 ./runConfigureICU Linux
 make
 
 %install
+cd source
 make install
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d

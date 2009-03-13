@@ -1,22 +1,16 @@
 ### RPM external spidermonkey 1.8.0-rc1
-Source: http://ftp.mozilla.org/pub/mozilla.org/js/js-%realversion.tar.gz
+Source: http://ftp.mozilla.org/pub/mozilla.org/js/js-1.8.0-rc1.tar.gz
 
 %prep
 #%setup -n %n-%{realversion}
-echo "test1"
-ls
 %setup -n js
-echo "test2"
-ls
-
 
 %build
-echo "build"
-ls
-cd js/src
+cd src
 make -f Makefile.ref
 
 %install
+cd src
 make install
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
