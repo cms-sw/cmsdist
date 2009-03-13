@@ -3,10 +3,12 @@ Source: http://ftp.mozilla.org/pub/mozilla.org/js/js-1.8.0-rc1.tar.gz
 
 %prep
 #%setup -n %n-%{realversion}
+unset LD_LIBRARY_PATH
 %setup -n js
 
 %build
 unset LD_LIBRARY_PATH
+env | grep LD_LIBRARY_PATH
 cd src
 make -f Makefile.ref
 
