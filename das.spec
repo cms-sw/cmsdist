@@ -1,4 +1,4 @@
-### RPM cms das V01_00_00
+### RPM cms das V01_00_01
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
 %define cvstag %{realversion}
@@ -13,11 +13,13 @@ Requires: python cherrypy yui elementtree py2-simplejson py2-memcached couchdb w
 %install
 mkdir -p %{i}/bin
 mkdir -p %{i}/test
+mkdir -p %{i}/src
 mkdir -p %{i}/etc/profile.d
 mkdir -p %{i}/etc/init.d
 mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
-cp -r src/* %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
+cp -r src/python/* %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 cp -r bin/* %i/bin
+cp -r src/* %i/src
 cp -r test/* %i/test
 
 # copy init script
