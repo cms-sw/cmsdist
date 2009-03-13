@@ -1,5 +1,4 @@
 ### RPM external icu4c 4_0_1
-Source: http://ftp.mozilla.org/pub/mozilla.org/js/js-%realversion.tar.gz
 Source: http://download.icu-project.org/files/icu4c/%realversion/%n-%realversion-src.tgz
 
 %prep
@@ -15,14 +14,14 @@ make install
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=Spidermonkey version=%v>
-<lib name=spidermonkey>
+<Tool name=Icu4c version=%v>
+<lib name=icu4c>
 <client>
- <Environment name=SPIDERMONKEY_BASE default="%i"></Environment>
- <Environment name=INCLUDE default="$SPIDERMONKEY_BASE/include"></Environment>
- <Environment name=LIBDIR  default="$SPIDERMONKEY_BASE/lib"></Environment>
+ <Environment name=ICU4C_BASE default="%i"></Environment>
+ <Environment name=INCLUDE default="$ICU4C_BASE/include"></Environment>
+ <Environment name=LIBDIR  default="$ICU4C_BASE/lib"></Environment>
 </client>
-<Runtime name=PATH value="$SPIDERMONKEY_BASE/bin" type=path>
+<Runtime name=PATH value="$ICU4C_BASE/bin" type=path>
 </Tool>
 EOF_TOOLFILE
 
