@@ -7,10 +7,12 @@ Requires: gcc curl spidermonkey openssl icu4c erlang
 %setup -n apache-%n-%{realversion}-incubating
 
 %build
+export PATH=$PATH:$ICU4CU_ROOT/bin:$ERLANG_ROOT/bin
 ./configure --prefix=%i --with-js-lib=$SPIDERMONKEY_ROOT/lib --with-js-include=$SPIDERMONKEY_ROOT/include --with-erlang=$ERLANG_ROOT/lib/erlang/usr/include
 make
 
 %install
+export PATH=$PATH:$ICU4CU_ROOT/bin:$ERLANG_ROOT/bin
 make install
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d

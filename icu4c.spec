@@ -31,4 +31,5 @@ EOF_TOOLFILE
 
 %post
 %{relocateConfig}etc/scram.d/%n
-
+%{relocateConfig}etc/profile.d/dependencies-setup.sh
+%{relocateConfig}etc/profile.d/dependencies-setup.csh
