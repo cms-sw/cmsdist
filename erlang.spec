@@ -7,7 +7,7 @@ Requires: gcc openssl
 
 %build
 LANG=C; export LANG
-./configure
+./configure --prefix=%i
 make
 
 %install
