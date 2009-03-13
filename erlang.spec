@@ -1,6 +1,10 @@
 ### RPM external erlang R12B-5
 Source: http://erlang.org/download/otp_src_R12B-5.tar.gz
 Requires: gcc openssl
+
+# 32-bit
+Provides: libc.so.6(GLIBC_PRIVATE)
+# 64-bit
 Provides: libc.so.6(GLIBC_PRIVATE)(64bit)
 
 %prep

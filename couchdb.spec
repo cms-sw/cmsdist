@@ -4,9 +4,10 @@ Requires: gcc curl spidermonkey openssl icu4c erlang
 
 %prep
 %setup -n %n-%{realversion}
+%setup -n apache-%n-%{realversion}-incubating
 
 %build
-./configure
+./configure --prefix=%i
 make
 
 %install
@@ -28,4 +29,6 @@ EOF_TOOLFILE
 
 %post
 %{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/profile.d/dependencies-setup.sh
+%{relocateConfig}etc/profile.d/dependencies-setup.csh
 
