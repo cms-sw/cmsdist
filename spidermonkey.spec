@@ -11,7 +11,10 @@ make -f Makefile.ref
 
 %install
 cd src
-make install
+#make -f Makefile.ref install
+cp Linux_All_DBG.OBJ/{js,jscpucfg,jskwgen} %i/bin
+cp Linux_All_DBG.OBJ/libjs* %i/lib
+
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
