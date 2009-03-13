@@ -1,5 +1,5 @@
 ### RPM external icu4c 4_0_1
-Source: http://download.icu-project.org/files/icu4c/%realversion/%n-%realversion-src.tgz
+Source: http://download.icu-project.org/files/icu4c/4.0.1/%n-%realversion-src.tgz
 
 %prep
 %setup -n %n-%{realversion}
