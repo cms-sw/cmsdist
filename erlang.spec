@@ -1,6 +1,7 @@
 ### RPM external erlang R12B-5
 Source: http://erlang.org/download/otp_src_R12B-5.tar.gz
 Requires: gcc openssl
+Provides: libc.so.6(GLIBC_PRIVATE)(64bit)
 
 %prep
 %setup -n otp_src_R12B-5
@@ -9,7 +10,7 @@ Requires: gcc openssl
 LANG=C; export LANG
 ./configure --prefix=%i
 if [ `uname -m` != 'x86_64' ]; then
-    LDEMULATION=elf_i386 make
+    LDEMULATION=elf_i386 LDFLAGS=-A`uname -m` make
 else
     make
 fi
@@ -33,4 +34,6 @@ EOF_TOOLFILE
 
 %post
 %{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/profile.d/dependencies-setup.sh
+%{relocateConfig}etc/profile.d/dependencies-setup.csh
 
