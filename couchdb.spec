@@ -32,6 +32,7 @@ EOF_TOOLFILE
 # This will generate the correct dependencies-setup.sh/dependencies-setup.csh
 # using the information found in the Requires statements of the different
 # specs and their dependencies.
+mkdir -p %i/etc/profile.d
 echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
 echo '#!/bin/tcsh' > %{i}/etc/profile.d/dependencies-setup.csh
 echo requiredtools `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
