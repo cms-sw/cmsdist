@@ -12,6 +12,8 @@ uname -m
 export PATH=/bin:$PATH
 uname -a
 uname -m
+which uname
+type uname
 make -f Makefile.ref
 
 %install
