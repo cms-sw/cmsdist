@@ -3,7 +3,7 @@ Source: http://erlang.org/download/otp_src_R12B-5.tar.gz
 Requires: gcc openssl
 
 %prep
-%setup -n otp_src_%{realversion}
+%setup -n otp_src_R12B-5
 
 %build
 LANG=C; export LANG
