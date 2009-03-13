@@ -7,14 +7,7 @@ Source: http://ftp.mozilla.org/pub/mozilla.org/js/js-1.8.0-rc1.tar.gz
 
 %build
 cd src
-uname -a
-uname -m
-export PATH=/bin:$PATH
-uname -a
-uname -m
-which uname
-type uname
-make -f Makefile.ref
+LDEMULATION=elf_i386 make -f Makefile.ref
 
 %install
 cd src
