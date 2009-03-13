@@ -7,14 +7,8 @@ Provides: libc.so.6(GLIBC_PRIVATE)(64bit)
 %setup -n otp_src_R12B-5
 
 %build
-LANG=C; export LANG
-if [ `uname -m` != 'x86_64' ]; then
-    LDFLAGS=-A`uname -m` ./configure --prefix=%i
-    LDFLAGS=-A`uname -m` make
-else
-    ./configure --prefix=%i
-    make
-fi
+./configure --prefix=%i
+make
 
 %install
 make install
