@@ -14,6 +14,8 @@ else
 fi
 
 %install
+mkdir -p %{i}/etc/profile.d
+
 cd src
 mkdir -p %i/bin
 cp Linux_All_DBG.OBJ/{js,jscpucfg,jskwgen} %i/bin
