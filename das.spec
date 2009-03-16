@@ -1,4 +1,4 @@
-### RPM cms das V01_00_01
+### RPM cms das V01_00_02
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
 %define cvstag %{realversion}
@@ -18,9 +18,10 @@ mkdir -p %{i}/etc/profile.d
 mkdir -p %{i}/etc/init.d
 #mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 #cp -r src/python/* %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
-cp -r bin/* %i/bin
-cp -r src/* %i/src
-cp -r test/* %i/test
+cp -r bin doc etc src test %i
+#cp -r bin/* %i/bin
+#cp -r src/* %i/src
+#cp -r test/* %i/test
 
 # copy init script
 cp bin/das_web %{i}/etc/init.d
