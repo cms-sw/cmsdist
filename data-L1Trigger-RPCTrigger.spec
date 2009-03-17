@@ -6,5 +6,5 @@
 %define dataDir3 data/Eff90PPT12/v1
 
 
-## IMPORT data-rpm-build
+## IMPORT data-rpm-build-MagInt
 
