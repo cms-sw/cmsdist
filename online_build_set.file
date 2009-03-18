@@ -423,6 +423,7 @@ RecoEgamma/EgammaElectronAlgos
 RecoEgamma/EgammaElectronProducers
 RecoEgamma/EgammaHLTAlgos
 RecoEgamma/EgammaHLTProducers
+RecoEgamma/EgammaIsolationAlgos
 RecoEgamma/EgammaTools
 RecoHI/HiTracking
 RecoHIMuon/HiMuPropagator
