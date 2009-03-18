@@ -2,9 +2,8 @@
 %define realversion %(echo %v | cut -d- -f1 )
 Source: http://mlm.home.cern.ch/mlm/alpgen/V2.1/v%{realversion}.tgz
 Source1: config.sub-amd64
-Patch0: alpgen-212
+Patch0: alpgen-213
 Patch1: alpgen-212-gfortran
-Patch2: alpgen-213
  
 %prep
 %setup -c -n alpgen-%v
@@ -14,7 +13,6 @@ case %gccver in
 %patch1 -p0
   ;;
 esac
-%patch2 -p1
 
 %build
 cd 2Qphwork; make gen; cd ..
@@ -59,10 +57,6 @@ export USRF=1600ptw
 make gen -f cmsMakefile
 export USRF=VBFHiggsTo2Tau
 make gen -f cmsMakefile
-export USRF=2j_vbf_inv
-make gen -f cmsMakefile
-export USRF=3j_vbf_inv
-make gen -f cmsMakefile
 cd ..
 
 cd zjetwork; make gen; 
@@ -78,40 +72,8 @@ export USRF=1600ptz
 make gen -f cmsMakefile
 export USRF=VBFHiggsTo2Tau
 make gen -f cmsMakefile
-export USRF=2j_vbf_inv
-make gen -f cmsMakefile
-export USRF=3j_vbf_inv
-make gen -f cmsMakefile
 cd ..
 
-cd Njetwork; make gen; 
-export USRF=100_160
-make gen -f cmsMakefile
-export USRF=100_180
-make gen -f cmsMakefile
-export USRF=140_180
-make gen -f cmsMakefile
-export USRF=140_5600
-make gen -f cmsMakefile
-export USRF=160_200
-make gen -f cmsMakefile
-export USRF=180_250
-make gen -f cmsMakefile
-export USRF=180_5600
-make gen -f cmsMakefile
-export USRF=200_250
-make gen -f cmsMakefile
-export USRF=20_100
-make gen -f cmsMakefile
-export USRF=20_80
-make gen -f cmsMakefile
-export USRF=250_400
-make gen -f cmsMakefile
-export USRF=400_5600
-make gen -f cmsMakefile
-export USRF=80_140
-make gen -f cmsMakefile
-cd ..
 
 %install
 mkdir -p %{i}/bin
@@ -119,14 +81,12 @@ mkdir -p %{i}/alplib
 cp zjetwork/zjet_*gen %{i}/bin/
 cp wjetwork/wjet_*gen %{i}/bin/
 cp phjetwork/phjet_*gen %{i}/bin/
-cp Njetwork/Njet_*gen %{i}/bin/
 
 cp 2Qphwork/2Qphgen %{i}/bin/
 cp 2Qwork/2Qgen %{i}/bin/
 cp 4Qwork/4Qgen %{i}/bin/
 
 cp hjetwork/hjetgen %{i}/bin/
-cp Njetwork/Njetgen %{i}/bin/
 cp phjetwork/phjetgen %{i}/bin/
 
 cp QQhwork/QQhgen %{i}/bin/
