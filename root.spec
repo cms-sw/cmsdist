@@ -10,6 +10,7 @@ Patch2:  root-5.22-00-TMVA-shut-the-hell-up-for-once
 Patch3:  root-5.22-00a-TMVA-shut-the-hell-up-again
 Patch4:  root-5.22-00a-CINTFunctional
 Patch5:  root-5.22-00a-TClass
+Patch6:  root-5.22-00a-fireworks-graf3d-gui
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -38,6 +39,7 @@ Requires: libtiff
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 mkdir -p %i
