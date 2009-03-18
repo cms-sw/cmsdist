@@ -3,7 +3,7 @@
 # Source: http://www.desy.de/~blobel/Mptwo.tgz
 Source: http://cmsrep.cern.ch/cmssw/millepede-mirror/millepede-2.0.tar.gz
 
-Patch: millepede_2008_08_18
+Patch: millepede_2009_01_22
 Patch1: millepede_64bit_2008_08_18
 Patch2: millepede-gcc412
 
@@ -15,9 +15,11 @@ Patch2: millepede-gcc412
 %patch1 -p1
 %endif
 
-%if "%cmsplatf" == "slc4_ia32_gcc412"
+case %gccver in
+  4.*)
 %patch2 -p0
-%endif
+  ;;
+esac
 
 %build
 make %makeprocesses
