@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V2_1_1
+### RPM lcg SCRAMV1 V2_1_2
 ## INITENV +PATH PATH %instroot/common
 ## NOCOMPILER
 
