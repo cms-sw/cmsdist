@@ -1,4 +1,4 @@
-### RPM cms das V01_00_02
+### RPM cms das V01_00_04
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
 %define cvstag %{realversion}
