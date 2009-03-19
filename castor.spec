@@ -1,6 +1,6 @@
-### RPM external castor 2.1.1.4-CMS19
+### RPM external castor 2.1.7.14
 # Override default realversion since they have a "-" in the realversion
-%define realversion 2.1.1-4
+%define realversion 2.1.7-14
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 %define downloadv v%(echo %realversion | tr - _ | tr . _)
 %define baseVersion %(echo %realversion | cut -d- -f1)

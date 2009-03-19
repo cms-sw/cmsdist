@@ -1,4 +1,4 @@
-### RPM external onlinesystemtools 2.1
+### RPM external onlinesystemtools 2.2
 Source: none
 
 # Here we are assuming that online release always uses system compiler:
@@ -26,7 +26,7 @@ Source: none
 %define xerces_version			2.7.0
 ## INITENV SET XERCES_C_VERSION         %xerces_version
 ## INITENV SET XERCES_C_ROOT		/opt/xdaq
-%define xdaq_version			3.16.1
+%define xdaq_version			3.24.0
 ## INITENV SET XDAQ_VERSION         	%xdaq_version
 ## INITENV SET XDAQ_ROOT         	/opt/xdaq
 %define mimetic_version			0.9.1
