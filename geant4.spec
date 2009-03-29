@@ -1,12 +1,12 @@
-### RPM external geant4 9.2
+### RPM external geant4 9.2.p01
 %define downloadv %(echo %v | cut -d- -f1)
 
 Requires: clhep
 
 %define photonEvaporationVersion 2.0
-%define g4NDLVersion 3.12
+%define g4NDLVersion 3.13
 %define g4ElasticScatteringVersion 1.1
-%define g4EMLOWVersion 5.1
+%define g4EMLOWVersion 6.2
 %define radioactiveDecayVersion 3.2
 
 Source0: http://geant4.cern.ch/support/source/%n.%downloadv.tar.gz
@@ -150,9 +150,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <use name=clhep>
 <Flags CPPDEFINES="G4USE_STD_NAMESPACE GNU_GCC G4V9">
 <Runtime name=G4LEVELGAMMADATA value="$GEANT4_BASE/data/PhotonEvaporation2.0" type=path>
-<Runtime name=G4NEUTRONHPDATA value="$GEANT4_BASE/data/G4NDL3.12" type=path>
+<Runtime name=G4NEUTRONHPDATA value="$GEANT4_BASE/data/G4NDL3.13" type=path>
 <Runtime name=G4RADIOACTIVEDATA value="$GEANT4_BASE/data/RadioactiveDecay3.2" type=path>
-<Runtime name=G4LEDATA value="$GEANT4_BASE/data/G4EMLOW5.1" type=path>
+<Runtime name=G4LEDATA value="$GEANT4_BASE/data/G4EMLOW6.2" type=path>
 </Tool>
 EOF_TOOLFILE
 
@@ -188,9 +188,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4core
 <use name=clhep>
 <Flags CPPDEFINES="G4USE_STD_NAMESPACE GNU_GCC G4V9">
 <Runtime name=G4LEVELGAMMADATA value="$GEANT4_BASE/data/PhotonEvaporation2.0" type=path>
-<Runtime name=G4NEUTRONHPDATA value="$GEANT4_BASE/data/G4NDL3.12" type=path>
+<Runtime name=G4NEUTRONHPDATA value="$GEANT4_BASE/data/G4NDL3.13" type=path>
 <Runtime name=G4RADIOACTIVEDATA value="$GEANT4_BASE/data/RadioactiveDecay3.2" type=path>
-<Runtime name=G4LEDATA value="$GEANT4_BASE/data/G4EMLOW5.1" type=path>
+<Runtime name=G4LEDATA value="$GEANT4_BASE/data/G4EMLOW6.2" type=path>
 </Tool>
 EOF_TOOLFILE
 
