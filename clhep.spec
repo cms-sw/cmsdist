@@ -1,8 +1,11 @@
 ### RPM external clhep 1.9.4.2
 Source: http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/distributions/%n-%realversion.tgz
+Patch0: clhep_20fwd
+
 
 %prep
 %setup -n %realversion/CLHEP
+%patch0 -p2
 
 %build
 if [ $(uname) = Darwin ]; then
