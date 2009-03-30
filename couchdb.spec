@@ -7,8 +7,6 @@ Requires: gcc curl spidermonkey openssl icu4c erlang
 %setup -n apache-%n-%{realversion}-incubating
 
 %build
-echo "ICU4C_ROOT"
-echo $ICU4C_ROOT
 export PATH=$PATH:$ICU4C_ROOT/bin:$ERLANG_ROOT/bin
 ./configure --prefix=%i --with-js-lib=$SPIDERMONKEY_ROOT/lib --with-js-include=$SPIDERMONKEY_ROOT/include --with-erlang=$ERLANG_ROOT/lib/erlang/usr/include
 make
