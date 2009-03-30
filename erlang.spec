@@ -16,6 +16,12 @@ make
 
 %install
 make install
+
+export ERLANG_INSTALL_DIR=%i
+cat %i/lib/erlang/bin/erl | sed "s,$ERLANG_INSTALL_DIR,\$ERLANG_ROOT,g" > %i/lib/erlang/bin/erl.new
+mv %i/lib/erlang/bin/erl.new %i/lib/erlang/bin/erl
+chmod a+x %i/lib/erlang/bin/erl
+
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
@@ -57,4 +63,14 @@ perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependen
 %{relocateConfig}etc/scram.d/%n
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
+
+# setup approripate links and made post install procedure
+. $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+rm -f $ERLANG_ROOT/bin/*
+rm -f $ERLANG_ROOT/lib/erlang/bin/epmd
+ln -s $ERLANG_ROOT/lib/erlang/erts-5.6.5/bin/epmd $ERLANG_ROOT/lib/erlang/bin/epmd
+for pkg in dialyzer epmd erl erlc escript run_erl to_erl typer
+do
+    ln -s $ERLANG_ROOT/lib/erlang/bin/$pkg $ERLANG_ROOT/bin/$pkg
+done
 

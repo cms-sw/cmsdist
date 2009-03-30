@@ -27,6 +27,7 @@ cat %i/bin/couchjs | \
     sed "s,$COUCH_INSTALL_DIR,\$COUCHDB_ROOT,g" \
         > %i/bin/couchjs.new
 mv %i/bin/couchjs.new %i/bin/couchjs
+chmod a+x %i/bin/couch*
 
 %install
 # SCRAM ToolBox toolfile

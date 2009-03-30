@@ -14,6 +14,14 @@ make
 %install
 cd source
 make install
+
+export ICU_INSTALL_DIR=%i
+cat %i/bin/icu-config | \
+    sed "s,$ICU_INSTALL_DIR,\$ICU4C_ROOT,g" \
+        > %i/bin/icu-config.new
+mv %i/bin/icu-config.new %i/bin/icu-config
+chmod a+x %i/bin/icu-config
+
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
