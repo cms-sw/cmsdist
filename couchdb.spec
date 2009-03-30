@@ -22,13 +22,19 @@ echo "ICU4C_ROOT"
 echo $ICU4C_ROOT
 echo "ERLANG_ROOT"
 echo $ERLANG_ROOT
+echo "percent i"
+echo %i
+echo "percent b"
+echo %buildroot
+export COUCH_BUILD=%buildroot
 
 # Modify couchdb script to use env. variables rather then full path
-cat %i/bin/couchdb | sed "s,$ICU4C_ROOT,\$ICU4C_ROOT,g" \
+cat %i/bin/couchdb | \
+    sed "s,$ICU4C_ROOT,\$ICU4C_ROOT,g" | \
+    sed "s,$ERLANG_ROOT,\$ERLANG_ROOT,g" | \
+    sed "s,$COUCH_BUILD,\$COUCHDB_ROOT,g" \
         > %i/bin/couchdb.new
-cat %i/bin/couchdb.new | sed "s,$ERLANG_ROOT,\$ERLANG_ROOT,g" \
-        > %i/bin/couchdb
-rm -f %i/bin/couchdb.new
+mv %i/bin/couchdb.new %i/bin/couchdb
    
 %install
 # SCRAM ToolBox toolfile
