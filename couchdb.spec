@@ -36,6 +36,13 @@ cat %i/bin/couchdb | \
         > %i/bin/couchdb.new
 mv %i/bin/couchdb.new %i/bin/couchdb
    
+cat %i/bin/couchjs | \
+    sed "s,$ICU4C_ROOT,\$ICU4C_ROOT,g" | \
+    sed "s,$ERLANG_ROOT,\$ERLANG_ROOT,g" | \
+    sed "s,$COUCH_BUILD,\$COUCHDB_ROOT,g" \
+        > %i/bin/couchjs.new
+mv %i/bin/couchjs.new %i/bin/couchjs
+
 %install
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
