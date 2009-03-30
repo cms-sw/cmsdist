@@ -20,7 +20,7 @@ find . -name couchdb
 ls %i/bin/couchdb
 
 # Modify couchdb script to use env. variables rather then full path
-cat %i/bin/couchdb | sed -i 's,$ICU4CU_ROOT,\\$ICU4CU_ROOT,g' \
+cat %i/bin/couchdb | sed 's,$ICU4CU_ROOT,\\$ICU4CU_ROOT,g' \
         > %i/bin/couchdb.new
 cat %i/bin/couchdb.new sed 's,$ERLANG_ROOT,\\$ERLANG_ROOT,g' \
         > %i/bin/couchdb
