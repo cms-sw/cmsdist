@@ -1,6 +1,5 @@
 ### RPM external couchdb 0.8.1
 Source: http://mirrors.directorymix.com/apache/incubator/%n/%realversion-incubating/apache-%n-%realversion-incubating.tar.gz
-Source1: %{name}.init
 Requires: gcc curl spidermonkey openssl icu4c erlang
 
 %prep
@@ -15,9 +14,6 @@ make
 %install
 export PATH=$PATH:$ICU4CU_ROOT/bin:$ERLANG_ROOT/bin
 make install DESTDIR=$RPM_BUILD_ROOT
-
-# Install couchdb initscript
-install -D -m 755 %{SOURCE1} $RPM_BUILD_ROOT%{_initrddir}/%{name}
 
 # Create /var/log/couchdb
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/log/couchdb
