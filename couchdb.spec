@@ -24,9 +24,9 @@ echo "ERLANG_ROOT"
 echo $ERLANG_ROOT
 
 # Modify couchdb script to use env. variables rather then full path
-cat %i/bin/couchdb | sed "s,$ICU4C_ROOT,\\$ICU4C_ROOT,g" \
+cat %i/bin/couchdb | sed "s,$ICU4C_ROOT,\$ICU4C_ROOT,g" \
         > %i/bin/couchdb.new
-cat %i/bin/couchdb.new | sed "s,$ERLANG_ROOT,\\$ERLANG_ROOT,g" \
+cat %i/bin/couchdb.new | sed "s,$ERLANG_ROOT,\$ERLANG_ROOT,g" \
         > %i/bin/couchdb
 rm -f %i/bin/couchdb.new
    
