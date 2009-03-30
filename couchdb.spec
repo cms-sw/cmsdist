@@ -7,7 +7,9 @@ Requires: gcc curl spidermonkey openssl icu4c erlang
 %setup -n apache-%n-%{realversion}-incubating
 
 %build
-export PATH=$PATH:$ICU4CU_ROOT/bin:$ERLANG_ROOT/bin
+echo "ICU4C_ROOT"
+echo $ICU4C_ROOT
+export PATH=$PATH:$ICU4C_ROOT/bin:$ERLANG_ROOT/bin
 ./configure --prefix=%i --with-js-lib=$SPIDERMONKEY_ROOT/lib --with-js-include=$SPIDERMONKEY_ROOT/include --with-erlang=$ERLANG_ROOT/lib/erlang/usr/include
 make
 
@@ -18,11 +20,13 @@ pwd
 find . -name couchdb
 ls %i/bin/couchdb
 
-echo "ICU4CU_ROOT"
-echo $ICU4CU_ROOT
+echo "ICU4C_ROOT"
+echo $ICU4C_ROOT
+echo "ERLANG_ROOT"
+echo $ERLANG_ROOT
 
 # Modify couchdb script to use env. variables rather then full path
-cat %i/bin/couchdb | sed "s,$ICU4CU_ROOT,\\$ICU4CU_ROOT,g" \
+cat %i/bin/couchdb | sed "s,$ICU4C_ROOT,\\$ICU4C_ROOT,g" \
         > %i/bin/couchdb.new
 cat %i/bin/couchdb.new | sed "s,$ERLANG_ROOT,\\$ERLANG_ROOT,g" \
         > %i/bin/couchdb
