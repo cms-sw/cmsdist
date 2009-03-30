@@ -11,14 +11,14 @@ export PATH=$PATH:$ICU4CU_ROOT/bin:$ERLANG_ROOT/bin
 ./configure --prefix=%i --with-js-lib=$SPIDERMONKEY_ROOT/lib --with-js-include=$SPIDERMONKEY_ROOT/include --with-erlang=$ERLANG_ROOT/lib/erlang/usr/include
 make
 
-%install
-export PATH=$PATH:$ICU4CU_ROOT/bin:$ERLANG_ROOT/bin
+#export PATH=$PATH:$ICU4CU_ROOT/bin:$ERLANG_ROOT/bin
 make install
 echo "### IN INSTALL"
 pwd
 find . -name couchdb
 ls %i/bin/couchdb
 
+echo "ICU4CU_ROOT"
 echo $ICU4CU_ROOT
 
 # Modify couchdb script to use env. variables rather then full path
@@ -28,6 +28,7 @@ cat %i/bin/couchdb.new | sed "s,$ERLANG_ROOT,\\$ERLANG_ROOT,g" \
         > %i/bin/couchdb
 rm -f %i/bin/couchdb.new
    
+%install
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
