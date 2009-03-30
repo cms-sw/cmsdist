@@ -11,35 +11,20 @@ export PATH=$PATH:$ICU4C_ROOT/bin:$ERLANG_ROOT/bin
 ./configure --prefix=%i --with-js-lib=$SPIDERMONKEY_ROOT/lib --with-js-include=$SPIDERMONKEY_ROOT/include --with-erlang=$ERLANG_ROOT/lib/erlang/usr/include
 make
 
-#export PATH=$PATH:$ICU4CU_ROOT/bin:$ERLANG_ROOT/bin
 make install
-echo "### IN INSTALL"
-pwd
-find . -name couchdb
-ls %i/bin/couchdb
-
-echo "ICU4C_ROOT"
-echo $ICU4C_ROOT
-echo "ERLANG_ROOT"
-echo $ERLANG_ROOT
-echo "percent i"
-echo %i
-echo "percent b"
-echo %buildroot
-export COUCH_BUILD=%buildroot
-
 # Modify couchdb script to use env. variables rather then full path
+export COUCH_INSTALL_DIR=%i
 cat %i/bin/couchdb | \
     sed "s,$ICU4C_ROOT,\$ICU4C_ROOT,g" | \
     sed "s,$ERLANG_ROOT,\$ERLANG_ROOT,g" | \
-    sed "s,$COUCH_BUILD,\$COUCHDB_ROOT,g" \
+    sed "s,$COUCH_INSTALL_DIR,\$COUCHDB_ROOT,g" \
         > %i/bin/couchdb.new
 mv %i/bin/couchdb.new %i/bin/couchdb
    
 cat %i/bin/couchjs | \
     sed "s,$ICU4C_ROOT,\$ICU4C_ROOT,g" | \
     sed "s,$ERLANG_ROOT,\$ERLANG_ROOT,g" | \
-    sed "s,$COUCH_BUILD,\$COUCHDB_ROOT,g" \
+    sed "s,$COUCH_INSTALL_DIR,\$COUCHDB_ROOT,g" \
         > %i/bin/couchjs.new
 mv %i/bin/couchjs.new %i/bin/couchjs
 
