@@ -13,7 +13,39 @@ make
 
 %install
 export PATH=$PATH:$ICU4CU_ROOT/bin:$ERLANG_ROOT/bin
-make install
+make install DESTDIR=$RPM_BUILD_ROOT
+
+# Install couchdb initscript
+install -D -m 755 %{SOURCE1} $RPM_BUILD_ROOT%{_initrddir}/%{name}
+
+# Create /var/log/couchdb
+mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/log/couchdb
+
+# Create /var/run/couchdb
+mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/run/couchdb
+
+# Create /var/lib/couchdb
+mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/lib/couchdb
+
+# Use /etc/sysconfig instead of /etc/default
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
+mv $RPM_BUILD_ROOT%{_sysconfdir}/default/couchdb \
+   $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/couchdb
+rm -rf $RPM_BUILD_ROOT%{_sysconfdir}/default
+
+# Modify local of couchdb.pid
+#sed -i 's/\%{_localstatedir}\/run\/couchdb.pid/\%{_localstatedir}\/run\/couchdb\/couchdb.pid/g' \
+#$RPM_BUILD_ROOT%{_sysconfdir}/default/couchdb
+sed -i 's/\%{_localstatedir}\/run\/couchdb.pid/\%{_localstatedir}\/run\/couchdb\/couchdb.pid/g' \
+$RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/couchdb
+
+# Modify couchdb script to use env. variables rather then full path
+cat $RPM_BUILD_ROOT/bin/couchdb | sed -i 's,$ICU4CU_ROOT,\\$ICU4CU_ROOT,g' \
+        > $RPM_BUILD_ROOT/bin/couchdb.new
+cat $RPM_BUILD_ROOT/bin/couchdb.new sed 's,$ERLANG_ROOT,\\$ERLANG_ROOT,g' \
+        > $RPM_BUILD_ROOT/bin/couchdb
+rm -f $RPM_BUILD_ROOT/bin/couchdb.new
+   
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
