@@ -1,4 +1,4 @@
-### RPM cms dqmgui 4.3.2b
+### RPM cms dqmgui 4.5.0
 
 # This is a RPM spec file for building the DQM GUI.  This effectively
 # builds a sliced version of CMSSW with some updated and added code,
@@ -14,20 +14,18 @@
 # CMSDIST with tag %cmssw, then take version from cms-scram-build.file.
 %define cvsserver   cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define scram       $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
-%define cmssw       CMSSW_2_2_3
+%define cmssw       CMSSW_2_2_7
 %define vcfg        V03-17-02
 %define initenv     export ZZPATH=$PATH ZZLD_LIBRARY_PATH=$LD_LIBRARY_PATH ZZPYTHONPATH=$PYTHONPATH; %initenv_all
 
 # Sources that go into this package.  To avoid listing every package
 # here we take entire subsystems then later select what we want.
 Source0: %{cvsserver}&strategy=checkout&module=config&export=config&tag=-r%{vcfg}&output=/config.tar.gz
-Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rV04-03-02&output=/DQMServer.tar.gz
-Source2: %{cvsserver}&strategy=checkout&module=CMSSW/DQM/RenderPlugins&export=DQM/RenderPlugins&tag=-rV04-02-01&output=/DQMRenderPlugins.tar.gz
-Source3: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Utilities&export=Iguana/Utilities&tag=-r%{cmssw}&output=/IgUtils.tar.gz
+Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rV04-05-00&output=/DQMServer.tar.gz
+Source2: %{cvsserver}&strategy=checkout&module=CMSSW/DQM/RenderPlugins&export=DQM/RenderPlugins&tag=-rV04-05-00&output=/DQMRenderPlugins.tar.gz
+Source3: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Utilities&export=Iguana/Utilities&tag=-rV03-00-09-01&output=/IgUtils.tar.gz
 Source4: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Framework&export=Iguana/Framework&tag=-r%{cmssw}&output=/IgFramework.tar.gz
-Source5: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-r%{cmssw}&output=/DQMCore.tar.gz
-Source6: %{cvsserver}&strategy=checkout&module=CMSSW/FWCore&export=FWCore&tag=-r%{cmssw}&output=/FWCore.tar.gz
-Source7: %{cvsserver}&strategy=checkout&module=CMSSW/DataFormats&export=DataFormats&tag=-r%{cmssw}&output=/DataFormats.tar.gz
+Source5: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-06-00&output=/DQMCore.tar.gz
 Requires: cherrypy py2-cheetah yui py2-pysqlite py2-cx-oracle py2-pil py2-matplotlib dqmgui-conf SCRAMV1
 
 # Set up the project build area: extract sources, bootstrap the SCRAM
@@ -42,31 +40,10 @@ rm -fr %_builddir/{config,src,THE_BUILD}
 %setup -D -T -a 3 -n src
 %setup -D -T -a 4 -n src
 %setup -D -T -a 5 -n src
-%setup -D -T -a 6 -n src
-%setup -D -T -a 7 -n src
 
 cd %_builddir
-rm -fr src/FWCore/Framework/bin
-rm -fr src/{FWCore,DataFormats,DQM*}/*/test
-for f in src/FWCore/* src/DataFormats/*; do
-  case $f in
-    */FWCore/Framework | \
-    */FWCore/MessageLogger | \
-    */FWCore/MessageService | \
-    */FWCore/ParameterSet | \
-    */FWCore/PluginManager | \
-    */FWCore/ServiceRegistry | \
-    */FWCore/Utilities | \
-    */FWCore/Version | \
-    */DataFormats/Common | \
-    */DataFormats/Provenance | \
-    */DataFormats/*StdDictionaries )
-      ;;
-    * )
-      rm -fr $f ;;
-  esac
-done
-
+rm -fr src/DQM*/*/{test,plugins}
+perl -n -i -e '/FWCore/ || print' src/DQM*/*/BuildFile
 config/updateConfig.pl -p CMSSW -v THE_BUILD -s $SCRAMV1_VERSION -t ${DQMGUI_CONF_ROOT}
 %scram project -d $PWD -b config/bootsrc.xml
 
@@ -81,10 +58,8 @@ export BUILD_LOG=yes
 export SCRAM_NOPLUGINREFRESH=yes
 export SCRAM_NOLOADCHECK=true
 export SCRAM_NOSYMCHECK=true
-(unset GCCXML_ROOT && %scram build -v -f %makeprocesses </dev/null) || { %scram build outputlog && false; }
+(%scram build -v -f %makeprocesses </dev/null) || { %scram build outputlog && false; }
 rm -f ../lib/*/.*cache
-(eval `%scram run -sh` ; SealPluginRefresh) || true
-(eval `%scram run -sh` ; EdmPluginRefresh) || true
 (eval `%scram run -sh` ; IgPluginRefresh) || true
 
 # Now clean up environment.  First eliminate non-existent directories
@@ -140,9 +115,9 @@ perl -w -i -p -e \
 # https://twiki.cern.ch/twiki//bin/view/CMS/DQMGuiProduction.
 %install
 mkdir -p %i/etc %i/external %i/{,x}bin %i/{,x}lib %i/{,x}python
-cp -p %_builddir/THE_BUILD/lib/%cmsplatf/.{iglets,edmplugincache} %i/lib
-cp -p %_builddir/THE_BUILD/lib/%cmsplatf/*.{so,edm,ig}* %i/lib
-cp -p %_builddir/THE_BUILD/bin/%cmsplatf/{vis*,Ig*,edm*,DQMCollector} %i/bin
+cp -p %_builddir/THE_BUILD/lib/%cmsplatf/.iglets %i/lib
+cp -p %_builddir/THE_BUILD/lib/%cmsplatf/*.{so,ig}* %i/lib
+cp -p %_builddir/THE_BUILD/bin/%cmsplatf/{vis*,Ig*,DQMCollector} %i/bin
 cp -p %_builddir/THE_BUILD/src/VisMonitoring/DQMServer/python/*.* %i/python
 tar -C %_builddir/THE_BUILD/external/%cmsplatf/lib -cf - . | tar -C %i/external -xvvf -
 
@@ -163,7 +138,9 @@ tar -C %_builddir/THE_BUILD/external/%cmsplatf/lib -cf - . | tar -C %i/external 
    tag=$(cat $f | sed 's/^N//')
    pkg=$(echo $f | sed 's|/CVS/Tag||')
    echo "\$doit cvs -Q co -r $tag $pkg"
- done) > %i/bin/visDQMDistSource
+ done
+ echo 'cvs -Q rel -d src/DQM*/*/{test,plugins}'
+ echo 'perl -n -i -e "/FWCore/ || print" src/DQM*/*/BuildFile') > %i/bin/visDQMDistSource
 
 # Script to patch the server from the local developer area.  The user's
 # stuff goes into xbin/xlib/xpython directories, which are in front of
