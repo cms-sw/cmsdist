@@ -78,8 +78,17 @@ perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependen
 . $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 # fix couch.ini file to use path on remote node
 export COUCH_INSTALL_DIR=%i
+if [ -f $COUCHDB_ROOT/etc/couchdb/couch.ini ]; then
 cat $COUCHDB_ROOT/etc/couchdb/couch.ini |  \
     sed "s,$COUCH_INSTALL_DIR,$COUCHDB_ROOT,g" > \
     $COUCHDB_ROOT/etc/couchdb/couch.ini.new
 mv $COUCHDB_ROOT/etc/couchdb/couch.ini.new $COUCHDB_ROOT/etc/couchdb/couch.ini
+fi
+
+if [ -f $COUCHDB_ROOT/etc/couchdb/default.ini ]; then
+cat $COUCHDB_ROOT/etc/couchdb/default.ini |  \
+    sed "s,$COUCH_INSTALL_DIR,$COUCHDB_ROOT,g" > \
+    $COUCHDB_ROOT/etc/couchdb/default.ini.new
+mv $COUCHDB_ROOT/etc/couchdb/default.ini.new $COUCHDB_ROOT/etc/couchdb/default.ini
+fi
 
