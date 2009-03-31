@@ -1,5 +1,6 @@
 ### RPM cms das V01_00_04
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
+## INITENV +PATH PYTHONPATH $WMCORE_ROOT/src/python
 
 %define cvstag %{realversion}
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
