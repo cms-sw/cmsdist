@@ -115,7 +115,7 @@ switch ($bostype)
   case Linux:x86_64:
     setenv PATH "%i/oracle64/bin:$PATH"
     setenv LD_LIBRARY_PATH "%i/oracle64/lib:$LD_LIBRARY_PATH"
-    setenv DYLD_FALLBACK_LIBRARY_PATH="%i/oracle64/lib:$DYLD_FALLBACK_LIBRARY_PATH"
+    setenv DYLD_FALLBACK_LIBRARY_PATH "%i/oracle64/lib:$DYLD_FALLBACK_LIBRARY_PATH"
     setenv SQLPATH "%i/oracle64/bin:$SQLPATH"
     breaksw
 endsw
@@ -152,8 +152,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 </Tool>
 EOF_TOOLFILE
 %post
-echo ". %i/etc/profile.d/init64.sh" >> %i/etc/profile.d/init.sh
-echo "source %i/etc/profile.d/init64.csh" >> %i/etc/profile.d/init.csh
+echo ". $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init64.sh" >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+echo "source $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init64.csh" >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
 %{relocateConfig}etc/scram.d/%n
 %{relocateConfig}etc/profile.d/init64.sh
 %{relocateConfig}etc/profile.d/init64.csh
