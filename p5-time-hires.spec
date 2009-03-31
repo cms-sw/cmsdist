@@ -1,6 +1,10 @@
 ### RPM external p5-time-hires 1.9715-CMS24
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 # a comment to build from scratch increase this number 15
+%if "%cmsplatf" == "slc4_ia32_gcc345"
+Provides: librt.so.1()(64bit)
+Provides: librt.so.1(GLIBC_2.2.5)(64bit)
+%endif
 %define perl /usr/bin/env perl
 %if "%(echo %cmsplatf | cut -f1 -d_ | sed -e 's|\([A-Za-z]*\)[0-9]*|\1|')" == "osx"
 %define perl /usr/bin/perl

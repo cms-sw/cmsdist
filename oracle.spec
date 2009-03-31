@@ -2,8 +2,25 @@
 ## INITENV SET ORACLE_HOME %i
 
 # TODO:  actually there is an instantclient for OSX now...  we could make it deployable
+
+%if "%cmsplatf" == "slc4_ia32_gcc345"
 Provides: libgcc_s.so.1()(64bit)
 Provides: libgcc_s.so.1(GCC_3.0)(64bit)
+Provides: libc.so.6(GLIBC_2.3)(64bit)
+Provides: libc.so.6(GLIBC_2.3.3)(64bit)
+Provides: libdl.so.2()(64bit)
+Provides: libdl.so.2(GLIBC_2.2.5)(64bit)
+Provides: libm.so.6()(64bit)
+Provides: libm.so.6(GLIBC_2.2.5)(64bit)
+Provides: libnsl.so.1()(64bit)
+Provides: libpthread.so.0()(64bit)
+Provides: libpthread.so.0(GLIBC_2.2.5)(64bit)
+Provides: libpthread.so.0(GLIBC_2.3.2)(64bit)
+Provides: libstdc++.so.5()(64bit)
+Provides: libstdc++.so.5(CXXABI_1.2)(64bit)
+Provides: libstdc++.so.5(GLIBCPP_3.2)(64bit)
+%endif
+
 %if "%(echo %cmsplatf | cut -b 1,2,3 )" == "osx"
 Source0: none
 %else
