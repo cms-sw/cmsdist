@@ -1,4 +1,4 @@
-### RPM external apache2 2.2.9
+### RPM external apache2 2.2.11
 # See:
 # http://httpd.apache.org/docs/2.2/install.html
 # for instruction on how to configure.
