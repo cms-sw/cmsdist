@@ -25,7 +25,7 @@ Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&exp
 Source2: %{cvsserver}&strategy=checkout&module=CMSSW/DQM/RenderPlugins&export=DQM/RenderPlugins&tag=-rV04-05-00&output=/DQMRenderPlugins.tar.gz
 Source3: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Utilities&export=Iguana/Utilities&tag=-rV03-00-09-01&output=/IgUtils.tar.gz
 Source4: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Framework&export=Iguana/Framework&tag=-r%{cmssw}&output=/IgFramework.tar.gz
-Source5: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-06-00&output=/DQMCore.tar.gz
+Source5: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-06-01&output=/DQMCore.tar.gz
 Requires: cherrypy py2-cheetah yui py2-pysqlite py2-cx-oracle py2-pil py2-matplotlib dqmgui-conf SCRAMV1
 
 # Set up the project build area: extract sources, bootstrap the SCRAM
@@ -43,7 +43,7 @@ rm -fr %_builddir/{config,src,THE_BUILD}
 
 cd %_builddir
 rm -fr src/DQM*/*/{test,plugins}
-perl -n -i -e '/FWCore/ || print' src/DQM*/*/BuildFile
+perl -n -i -e '$_ = "<flags CPPFLAGS=-DWITHOUT_CMS_FRAMEWORK=1>\n$_" if /<export>/; /FWCore/ || print' src/DQM*/*/BuildFile
 config/updateConfig.pl -p CMSSW -v THE_BUILD -s $SCRAMV1_VERSION -t ${DQMGUI_CONF_ROOT}
 %scram project -d $PWD -b config/bootsrc.xml
 
@@ -58,9 +58,12 @@ export BUILD_LOG=yes
 export SCRAM_NOPLUGINREFRESH=yes
 export SCRAM_NOLOADCHECK=true
 export SCRAM_NOSYMCHECK=true
+mkdir -p ../bin/`%scram arch`
+ln -s /bin/true ../bin/`%scram arch`/EdmPluginRefresh
 (%scram build -v -f %makeprocesses </dev/null) || { %scram build outputlog && false; }
 rm -f ../lib/*/.*cache
 (eval `%scram run -sh` ; IgPluginRefresh) || true
+rm -f ../bin/*/EdmPluginRefresh
 
 # Now clean up environment.  First eliminate non-existent directories
 # from the paths.  Then capture the SCRAM run-time environment, and
@@ -139,8 +142,9 @@ tar -C %_builddir/THE_BUILD/external/%cmsplatf/lib -cf - . | tar -C %i/external 
    pkg=$(echo $f | sed 's|/CVS/Tag||')
    echo "\$doit cvs -Q co -r $tag $pkg"
  done
- echo 'cvs -Q rel -d src/DQM*/*/{test,plugins}'
- echo 'perl -n -i -e "/FWCore/ || print" src/DQM*/*/BuildFile') > %i/bin/visDQMDistSource
+ echo "\$doit cvs -Q rel -d src/DQM*/*/{test,plugins}"
+ echo "\$doit perl -n -i -e '\$_ = \"<flags CPPFLAGS=-DWITHOUT_CMS_FRAMEWORK=1>\\n\$_\" if /<export>/; /FWCore/ || print' src/DQM*/*/BuildFile"
+) > %i/bin/visDQMDistSource
 
 # Script to patch the server from the local developer area.  The user's
 # stuff goes into xbin/xlib/xpython directories, which are in front of
