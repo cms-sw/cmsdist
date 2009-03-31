@@ -1,10 +1,12 @@
-### RPM external couchdb 0.8.1
-Source: http://mirrors.directorymix.com/apache/incubator/%n/%realversion-incubating/apache-%n-%realversion-incubating.tar.gz
+### RPM external couchdb 0.9.0
+#Source: http://mirrors.directorymix.com/apache/incubator/%n/%realversion-incubating/apache-%n-%realversion-incubating.tar.gz
+Source: http://mirror.jimbojay.com/apache/%n/%realversion/apache-%n-%realversion.tar.gz
 Requires: gcc curl spidermonkey openssl icu4c erlang
 
 %prep
 #%setup -n %n-%{realversion}
-%setup -n apache-%n-%{realversion}-incubating
+#%setup -n apache-%n-%{realversion}-incubating
+%setup -n apache-%n-%{realversion}
 
 %build
 export PATH=$PATH:$ICU4C_ROOT/bin:$ERLANG_ROOT/bin
