@@ -16,19 +16,27 @@ make
 make install
 # Modify couchdb script to use env. variables rather then full path
 export COUCH_INSTALL_DIR=%i
+cp %i/bin/couchdb %i/bin/couchdb.orig
+ls -l %i/bin/couchdb
 cat %i/bin/couchdb | \
     sed "s,$ICU4C_ROOT,\$ICU4C_ROOT,g" | \
     sed "s,$ERLANG_ROOT,\$ERLANG_ROOT,g" | \
     sed "s,$COUCH_INSTALL_DIR,\$COUCHDB_ROOT,g" \
         > %i/bin/couchdb.new
+ls -l %i/bin/couchdb.new
 mv %i/bin/couchdb.new %i/bin/couchdb
+ls -l %i/bin/couchdb
    
+cp %i/bin/couchjs %i/bin/couchjs.orig
+ls -l %i/bin/couchjs
 cat %i/bin/couchjs | \
     sed "s,$ICU4C_ROOT,\$ICU4C_ROOT,g" | \
     sed "s,$ERLANG_ROOT,\$ERLANG_ROOT,g" | \
     sed "s,$COUCH_INSTALL_DIR,\$COUCHDB_ROOT,g" \
         > %i/bin/couchjs.new
+ls -l %i/bin/couchjs.new
 mv %i/bin/couchjs.new %i/bin/couchjs
+ls -l %i/bin/couchjs
 chmod a+x %i/bin/couch*
 
 %install
