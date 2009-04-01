@@ -1,34 +1,12 @@
-### RPM cms apache2-conf 2.2c
+### RPM cms apache2-conf 2.2e
 # Configuration for additional apache2 modules
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
 Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rSERVER_CONF_2_2&output=/config.tar.gz
 Requires: apache2
+Obsoletes: cms+apache2-conf+2.2d-cmp
+Obsoletes: cms+apache2-conf+2.2c-cmp
 Obsoletes: cms+apache2-conf+2.2b-cmp
 Obsoletes: cms+apache2-conf+2.2-cmp
-Obsoletes: cms+apache2-conf+2.1-cmp
-Obsoletes: cms+apache2-conf+2.0b-cmp
-Obsoletes: cms+apache2-conf+2.0-cmp
-Obsoletes: cms+apache2-conf+1.15-cmp
-Obsoletes: cms+apache2-conf+1.14b-cmp
-Obsoletes: cms+apache2-conf+1.14-cmp
-Obsoletes: cms+apache2-conf+1.13-cmp
-Obsoletes: cms+apache2-conf+1.12c-cmp
-Obsoletes: cms+apache2-conf+1.12b-cmp
-Obsoletes: cms+apache2-conf+1.12-cmp
-Obsoletes: cms+apache2-conf+1.11-cmp
-Obsoletes: cms+apache2-conf+1.10-cmp
-Obsoletes: cms+apache2-conf+1.9b-cmp
-Obsoletes: cms+apache2-conf+1.9-cmp
-Obsoletes: cms+apache2-conf+1.8-cmp
-Obsoletes: cms+apache2-conf+1.7b-cmp
-Obsoletes: cms+apache2-conf+1.7-cmp
-Obsoletes: cms+apache2-conf+1.6-cmp
-Obsoletes: cms+apache2-conf+1.5-cmp
-Obsoletes: cms+apache2-conf+1.4-cmp
-Obsoletes: cms+apache2-conf+1.3-cmp
-Obsoletes: cms+apache2-conf+1.2-cmp
-Obsoletes: cms+apache2-conf+1.1-cmp
-Obsoletes: cms+apache2-conf+1.0-cmp
 
 %prep
 %setup -T -b 0 -n conf
