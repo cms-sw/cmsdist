@@ -16,9 +16,11 @@ Provides: libcom_err.so.2()(64bit)
 # That's probably good for security.
 Source0: http://mirror.switch.ch/mirror/apache/dist/httpd/httpd-%realversion.tar.gz
 Source1: http://www.apache.org/dist/httpd/httpd-%realversion.tar.gz
+Patch: apache2
 
 %prep
 %setup -n httpd-%realversion
+%patch -p0
 
 %build
 # See here:
@@ -40,7 +42,7 @@ Source1: http://www.apache.org/dist/httpd/httpd-%realversion.tar.gz
                         --enable-headers \
                         --enable-rewrite \
                         --enable-ssl \
-                        --with-openssl=$OPENSSL_ROOT \
+                        --with-ssl=$OPENSSL_ROOT \
                         --with-z=$ZLIB_ROOT \
 			--with-expat=$EXPAT_ROOT \
 			--with-uuid=$UUID_ROOT
