@@ -17,18 +17,15 @@ make install
 # Modify couchdb script to use env. variables rather then full path
 export COUCH_INSTALL_DIR=%i
 cp %i/bin/couchdb %i/bin/couchdb.orig
-ls -l %i/bin/couchdb
 cat %i/bin/couchdb | \
     sed "s,$ICU4C_ROOT,\$ICU4C_ROOT,g" | \
     sed "s,$ERLANG_ROOT,\$ERLANG_ROOT,g" | \
     sed "s,$COUCH_INSTALL_DIR,\$COUCHDB_ROOT,g" \
         > %i/bin/couchdb.new
-ls -l %i/bin/couchdb.new
 mv %i/bin/couchdb.new %i/bin/couchdb
 ls -l %i/bin/couchdb
    
 cp %i/bin/couchjs %i/bin/couchjs.orig
-ls -l %i/bin/couchjs
 cat %i/bin/couchjs | \
     sed "s,$ICU4C_ROOT,\$ICU4C_ROOT,g" | \
     sed "s,$ERLANG_ROOT,\$ERLANG_ROOT,g" | \
@@ -36,8 +33,60 @@ cat %i/bin/couchjs | \
         > %i/bin/couchjs.new
 ls -l %i/bin/couchjs.new
 mv %i/bin/couchjs.new %i/bin/couchjs
-ls -l %i/bin/couchjs
 chmod a+x %i/bin/couch*
+
+cat << \EOF >%i/etc/init.d/couchdb_init
+#!/bin/bash
+# chkconfig: 345 05 95
+
+if [ -z ${COUCHDB_ROOT} ]; then
+   echo $"The COUCHDB_ROOT environment is not set"
+   exit 1
+fi
+
+RETVAL=$?
+
+pid=`ps auxw | grep couchdb | grep -v grep | grep -v couchdb_init | awk '{print $2}'`
+cmd="$COUCHDB_ROOT/bin/couchdb"
+
+case "$1" in
+ restart)
+        echo $"Checking for existing CouchDB..."
+        if [ ! -z ${pid} ]; then
+          kill -9 ${pid}
+        fi
+        echo $"Restart CouchDB..."
+        nohup ${cmd} 2>&1 1>& /dev/null < /dev/null &
+        ;;
+ start)
+        if [ ! -z ${pid} ]; then
+          kill -9 ${pid}
+        fi
+        nohup ${cmd} 2>&1 1>& /dev/null < /dev/null &
+        ;;
+ status)
+        if [ ! -z ${pid} ]; then
+          echo $"couchdb is running, pid=${pid}"
+          exit 0
+        fi
+        echo $"couchdb is stopped"
+        exit 3
+        ;;
+ stop)
+        if [ ! -z ${pid} ]; then
+          kill -9 ${pid}
+        fi
+        ;;
+ *)
+        echo $"Usage: $0 {start|stop|status|restart}"
+        exit 1
+        ;;
+esac
+
+exit $RETVAL
+
+EOF
+chmod a+x %i/etc/init.d/couchdb_init
 
 %install
 # SCRAM ToolBox toolfile
