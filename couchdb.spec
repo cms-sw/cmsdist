@@ -35,6 +35,7 @@ ls -l %i/bin/couchjs.new
 mv %i/bin/couchjs.new %i/bin/couchjs
 chmod a+x %i/bin/couch*
 
+mkdir -p %i/etc/init.d
 cat << \EOF >%i/etc/init.d/couchdb_init
 #!/bin/bash
 # chkconfig: 345 05 95
