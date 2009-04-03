@@ -1,4 +1,4 @@
-### RPM cms dqmgui 4.5.0
+### RPM cms dqmgui 4.5.1
 
 # This is a RPM spec file for building the DQM GUI.  This effectively
 # builds a sliced version of CMSSW with some updated and added code,
@@ -21,8 +21,8 @@
 # Sources that go into this package.  To avoid listing every package
 # here we take entire subsystems then later select what we want.
 Source0: %{cvsserver}&strategy=checkout&module=config&export=config&tag=-r%{vcfg}&output=/config.tar.gz
-Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rV04-05-00&output=/DQMServer.tar.gz
-Source2: %{cvsserver}&strategy=checkout&module=CMSSW/DQM/RenderPlugins&export=DQM/RenderPlugins&tag=-rV04-05-00&output=/DQMRenderPlugins.tar.gz
+Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rV04-05-01&output=/DQMServer.tar.gz
+Source2: %{cvsserver}&strategy=checkout&module=CMSSW/DQM/RenderPlugins&export=DQM/RenderPlugins&tag=-rV04-06-00&output=/DQMRenderPlugins.tar.gz
 Source3: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Utilities&export=Iguana/Utilities&tag=-rV03-00-09-01&output=/IgUtils.tar.gz
 Source4: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Framework&export=Iguana/Framework&tag=-r%{cmssw}&output=/IgFramework.tar.gz
 Source5: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-06-01&output=/DQMCore.tar.gz
@@ -44,6 +44,8 @@ rm -fr %_builddir/{config,src,THE_BUILD}
 cd %_builddir
 rm -fr src/DQM*/*/{test,plugins}
 perl -n -i -e '$_ = "<flags CPPFLAGS=-DWITHOUT_CMS_FRAMEWORK=1>\n$_" if /<export>/; /FWCore/ || print' src/DQM*/*/BuildFile
+tar -jcvf distsrc.tar.bz2 -C src .
+
 config/updateConfig.pl -p CMSSW -v THE_BUILD -s $SCRAMV1_VERSION -t ${DQMGUI_CONF_ROOT}
 %scram project -d $PWD -b config/bootsrc.xml
 
@@ -58,12 +60,12 @@ export BUILD_LOG=yes
 export SCRAM_NOPLUGINREFRESH=yes
 export SCRAM_NOLOADCHECK=true
 export SCRAM_NOSYMCHECK=true
-mkdir -p ../bin/`%scram arch`
-ln -s /bin/true ../bin/`%scram arch`/EdmPluginRefresh
+mkdir -p ../bin/%cmsplatf
+ln -s /bin/true ../bin/%cmsplatf/EdmPluginRefresh
 (%scram build -v -f %makeprocesses </dev/null) || { %scram build outputlog && false; }
 rm -f ../lib/*/.*cache
 (eval `%scram run -sh` ; IgPluginRefresh) || true
-rm -f ../bin/*/EdmPluginRefresh
+rm -f ../bin/%cmsplatf/EdmPluginRefresh
 
 # Now clean up environment.  First eliminate non-existent directories
 # from the paths.  Then capture the SCRAM run-time environment, and
@@ -117,7 +119,8 @@ perl -w -i -p -e \
 # Usage at https://twiki.cern.ch/twiki/bin/view/CMS/DQMTest and
 # https://twiki.cern.ch/twiki//bin/view/CMS/DQMGuiProduction.
 %install
-mkdir -p %i/etc %i/external %i/{,x}bin %i/{,x}lib %i/{,x}python
+mkdir -p %i/etc %i/external %i/{,x}bin %i/{,x}lib %i/{,x}python %i/data
+cp -p %_builddir/distsrc.tar.bz2 %i/data
 cp -p %_builddir/THE_BUILD/lib/%cmsplatf/.iglets %i/lib
 cp -p %_builddir/THE_BUILD/lib/%cmsplatf/*.{so,ig}* %i/lib
 cp -p %_builddir/THE_BUILD/bin/%cmsplatf/{vis*,Ig*,DQMCollector} %i/bin
@@ -126,25 +129,20 @@ tar -C %_builddir/THE_BUILD/external/%cmsplatf/lib -cf - . | tar -C %i/external 
 
 # Script to record what sources went into this package so user can
 # check them out conveniently.
-(echo '#!/bin/sh';
- echo 'doit= shopt=-ex'
- echo 'while [ $# -gt 0 ]; do'
- echo ' case $1 in'
- echo '  -n ) doit=echo shopt=-e; shift ;;'
- echo '  * )  echo "$0: unrecognised parameter: $1" 1>&2; exit 1 ;;'
- echo ' esac'
- echo 'done'
- echo 'set $shopt'
- cd %_builddir/THE_BUILD/src
- for f in */*/CVS/Tag; do
-   [ -f $f ] || continue
-   tag=$(cat $f | sed 's/^N//')
-   pkg=$(echo $f | sed 's|/CVS/Tag||')
-   echo "\$doit cvs -Q co -r $tag $pkg"
- done
- echo "\$doit cvs -Q rel -d src/DQM*/*/{test,plugins}"
- echo "\$doit perl -n -i -e '\$_ = \"<flags CPPFLAGS=-DWITHOUT_CMS_FRAMEWORK=1>\\n\$_\" if /<export>/; /FWCore/ || print' src/DQM*/*/BuildFile"
-) > %i/bin/visDQMDistSource
+sed 's/^  //' > %i/bin/visDQMDistSource << \END_OF_SCRIPT
+  #!/bin/sh
+  doit= shopt=-ex cvs=${CVSROOT:-":pserver:anonymous@cmscvs.cern.ch:/cvs/CMSSW"}
+  while [ $# -gt 0 ]; do
+    case $1 in
+      -n ) doit=echo shopt=-e; shift ;;
+       * ) echo "$0: unrecognised parameter: $1" 1>&2; exit 1 ;;
+    esac
+  done
+  set $shopt
+  $doit tar -jxf %i/data/distsrc.tar.bz2
+  tar -jtf %i/data/distsrc.tar.bz2 '*/CVS/Root' |
+    xargs $doit perl -p -i -e "s|.*|$cvs|"
+END_OF_SCRIPT
 
 # Script to patch the server from the local developer area.  The user's
 # stuff goes into xbin/xlib/xpython directories, which are in front of
@@ -158,7 +156,7 @@ sed 's/^  //' > %i/bin/visDQMDistPatch << \END_OF_SCRIPT
   fi
 
   if [ X"$CMSSW_BASE" = X ]; then
-    echo "warning: local scram runtime environment not set, sourcing now" 1>&2
+    echo "scram runtime not set, will use one from $PWD" 1>&2
     eval `scram runtime -sh`
   fi
 
@@ -172,13 +170,13 @@ sed 's/^  //' > %i/bin/visDQMDistPatch << \END_OF_SCRIPT
   rm -fr %i/x{lib,bin,python}/{*,.??*}
 
   echo "copying $CMSSW_BASE/lib/$SCRAM_ARCH into %i/xlib"
-  (cd $CMSSW_BASE/lib/$SCRAM_ARCH && tar -cf - .) | (cd %i/xlib && tar -xvvf -)
+  (cd $CMSSW_BASE/lib/$SCRAM_ARCH && tar -cf - .) | (cd %i/xlib && tar -xf -)
 
   echo "copying $CMSSW_BASE/bin/$SCRAM_ARCH into %i/xbin"
-  (cd $CMSSW_BASE/bin/$SCRAM_ARCH && tar -cf - .) | (cd %i/xbin && tar -xvvf -)
+  (cd $CMSSW_BASE/bin/$SCRAM_ARCH && tar -cf - .) | (cd %i/xbin && tar -xf -)
 
   echo "copying $CMSSW_BASE/src/VisMonitoring/DQMServer/python into %i/xpython"
-  (cd $CMSSW_BASE/src/VisMonitoring/DQMServer/python && tar -cf - *.*) | (cd %i/xpython && tar -xvvf -)
+  (cd $CMSSW_BASE/src/VisMonitoring/DQMServer/python && tar -cf - *.*) | (cd %i/xpython && tar -xf -)
   exit 0
 END_OF_SCRIPT
 
