@@ -11,6 +11,7 @@ Patch3:  root-5.22-00a-TMVA-shut-the-hell-up-again
 Patch4:  root-5.22-00a-CINTFunctional
 Patch5:  root-5.22-00a-TClass
 Patch6:  root-5.22-00a-fireworks-graf3d-gui
+Patch7:  root-5.22-00a-Reflex-Class
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
