@@ -5,7 +5,7 @@
 %define nversion %(echo %v | sed 's|WEB_||' | sed 's|_|.|g')
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define deployutil WTDeployUtil.pm
-%define deployutilrev 1.4
+%define deployutilrev 1.5
 %define deployutilurl http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/COMP/WEBTOOLS/Configuration/%{deployutil}?revision=%{deployutilrev}
 
 Source: %cvsserver&strategy=checkout&module=%{downloadn}&export=%{downloadn}&&tag=-r%{v}&output=/%{n}.tar.gz
@@ -24,6 +24,7 @@ Provides: perl(DB_File)
 Provides: perl(XML::LibXML)
 
 # We obsolete each previous release to force them to be removed
+Obsoletes: cms+PHEDEX-web+WEB_3_1_1
 Obsoletes: cms+PHEDEX-web+WEB_3_1_0
 Obsoletes: cms+PHEDEX-web+WEB_3_0_2
 Obsoletes: cms+PHEDEX-web+WEB_3_0_1
