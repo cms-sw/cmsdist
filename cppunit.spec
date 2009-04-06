@@ -13,6 +13,13 @@ case %cmsplatf in
 						                						    config/ltmain.sh
     ;;
 esac
+case $(uname) in
+    Linux )
+       # Ugly hack to force -ldl to be linked, which for some reason is
+       # not currently happening via configure
+       perl -p -i -e 's|LIBS.*LIBS.*lm|LIBS="$LIBS -lm -ldl|' configure
+    ;;
+esac
 ./configure --prefix=%i 
 make %makeprocesses
 %install
