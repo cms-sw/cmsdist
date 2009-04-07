@@ -1,4 +1,4 @@
-### RPM cms data-MagneticField-Interpolation 23
+### RPM cms data-MagneticField-Interpolation 24
 ## NOCOMPILER
 %define realversion V00-03-05
 
