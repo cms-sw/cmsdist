@@ -143,11 +143,13 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcore
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=rootcore version=%v>
 <info url="http://root.cern.ch/root/"></info>
-<lib name=Cint>
-<lib name=Core>
-<lib name=RIO>
-<lib name=Net>
 <lib name=Tree>
+<lib name=Net>
+<lib name=Thread>
+<lib name=MathCore>
+<lib name=RIO>
+<lib name=Core>
+<lib name=Cint>
 <Client>
  <Environment name=ROOTCORE_BASE default="%i"></Environment>
  <Environment name=LIBDIR default="$ROOTCORE_BASE/lib"></Environment>
@@ -177,6 +179,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roothistmatrix
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=roothistmatrix version=%v> 
 <info url="http://root.cern.ch/root/"></info>
+<lib name=Gpad>
+<lib name=Graf>
 <lib name=Hist>
 <lib name=Matrix>
 <use name=ROOTCore>
@@ -199,14 +203,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootgraphics
 <Tool name=rootgraphics version=%v>
 <info url="http://root.cern.ch/root/"></info>
 <lib name=TreePlayer>
-<lib name=Gpad>
 <lib name=Graf3d>
-<lib name=Graf>
-<lib name=Hist>
-<lib name=Matrix>
-<lib name=Physics>
 <lib name=Postscript>
-<use name=ROOTCore>
+<use name=ROOTPhysics>
 </Tool>
 EOF_TOOLFILE
 
@@ -239,12 +238,10 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootinteractive2
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=rootinteractive2 version=%v>
 <info url="http://root.cern.ch/root/"></info>
-<lib name=Rint>
 <lib name=GQt>
+<lib name=Gui>
 <use name=qt>
-<use name=libjpg>
-<use name=libpng>
-<use name=ROOT>
+<use name=RootInteractive>
 </Tool> 
 EOF_TOOLFILE
 
@@ -254,9 +251,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootmath
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=rootmath version=%v>
 <info url="http://root.cern.ch/root/"></info>
-<lib name=MathCore>
-<lib name=MathMore>
 <lib name=GenVector>
+<lib name=MathMore>
 <use name=ROOTCore>
 <use name=gsl>
 </Tool>
@@ -307,7 +303,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roothtml
 <Tool name=roothtml version=%v>
 <info url="http://root.cern.ch/root/"></info>
 <lib name=Html>
-<use name=ROOT>
+<use name=RootHistMatrix>
 </Tool> 
 EOF_TOOLFILE
 
@@ -316,8 +312,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootroofit
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=rootroofit version=%v>
 <info url="http://root.cern.ch/root/"></info>
-<lib name=RooFitCore>
 <lib name=RooFit>
+<lib name=RooFitCore>
 <use name=ROOTMinuit>
 <use name=ROOTHtml>
 </Tool> 
@@ -329,7 +325,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootmlp
 <Tool name=rootmlp version=%v>
 <info url="http://root.cern.ch/root/"></info>
 <lib name=MLP>
-<use name=ROOT>
+<use name=RootGraphics>
 </Tool> 
 EOF_TOOLFILE
 
@@ -348,7 +344,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootthread
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=rootthread version=%v>
 <info url="http://root.cern.ch/root/"></info>
-<lib name=Thread>
 <use name=ROOTCore>
 </Tool>
 EOF_TOOLFILE
