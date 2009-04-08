@@ -1,9 +1,9 @@
-### RPM cms wmcore WMCORE_0_1_1_pre3
+### RPM cms wmcore WMCORE_0_1_1_pre6
 ## INITENV +PATH PYTHONPATH %i/lib
 
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=WMCORE&export=WMCORE&&tag=-r%{cvstag}&output=/WMCORE.tar.gz
-Requires: python py2-sqlalchemy py2-simplejson
+Requires: python py2-sqlalchemy py2-simplejson py2-cheetah py2-uuid
 
 %prep
 %setup -n WMCORE
