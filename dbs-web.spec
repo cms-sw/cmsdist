@@ -1,4 +1,4 @@
-### RPM cms dbs-web V06_00_01_for_DBS_2_0_6_pre1
+### RPM cms dbs-web V05_00_20
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PYTHONPATH $ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV SET DDHOME $DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
@@ -26,8 +26,6 @@ cp cmsweb_discovery dbs_discovery %{i}/etc/init.d
 chmod a+x %{i}/etc/init.d/*
 
 cd %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
-cp Templates/DBParam .
-
 #ln -s $YUI_ROOT/build YUI
 
 # This will generate the correct dependencies-setup.sh/dependencies-setup.csh
@@ -74,7 +72,8 @@ else
     cat ${pdir}/DBSDD.conf | sed "s/# URL=/### _url_=/g" | sed "s/# PORT=/### _port_=/g" > ${pdir}/DBSDD.conf.tmp
     mv ${pdir}/DBSDD.conf.tmp ${pdir}/DBSDD.conf
 fi
-#if [ -n "${WEBTOOLS_CONF}" ] && [ -f ${WEBTOOLS_CONF}/dbs/DBParam ]; then
-#    rm -f ${pdir}/DBParam
-#    ln -s ${WEBTOOLS_CONF}/dbs/DBParam ${pdir}/DBParam
-#fi
+if [ -n "${WEBTOOLS_CONF}" ] && [ -f ${WEBTOOLS_CONF}/dbs/DBParam ]; then
+    rm -f ${pdir}/DBParam
+    ln -s ${WEBTOOLS_CONF}/dbs/DBParam ${pdir}/DBParam
+fi
+###export TARGET_PROJECT=dbs-web
