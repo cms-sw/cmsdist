@@ -1,4 +1,4 @@
-### RPM external qt 4.4.3
+### RPM external qt 4.5.0
 ## INITENV UNSET QMAKESPEC
 ## INITENV SET QTDIR %i
 
@@ -63,6 +63,21 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/qtbase
 </Tool>
 EOF_TOOLFILE
 
+cat << \EOF_TOOLFILE >%i/etc/scram.d/qt3support
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=qt3support version=%v>
+<info url="http://www.trolltech.com/products/qt.html"></info>
+<LIB name=Qt3Support>
+<Client>
+ <Environment name=QT_BASE default="%i"></Environment>
+ <Environment name=INCLUDE default="$QT_BASE/include/Qt3Support"></Environment>
+</Client>
+<Flags CPPDEFINES="QT3_SUPPORT">
+<use name=qtbase>
+</Tool>
+EOF_TOOLFILE
+
+
 cat << \EOF_TOOLFILE >%i/etc/scram.d/qt
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=qt version=%v>
@@ -75,6 +90,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/qt
  <Environment name=INCLUDE default="$QT_BASE/include/QtGui"></Environment>
 </Client>
 <use name=qtbase>
+<use name=qt3support>
 <use name=X11>
 <use name=opengl>
 </Tool>
