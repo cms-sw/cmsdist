@@ -43,6 +43,9 @@ Requires: libtiff
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p0
+%patch8 -p0
+%patch9 -p1
 
 %build
 mkdir -p %i
@@ -227,24 +230,14 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootinteractive
 <Tool name=rootinteractive version=%v>
 <info url="http://root.cern.ch/root/"></info>
 <lib name=Rint>
+<lib name=GQt>
+<lib name=Gui>
+<use name=qt>
 <use name=libjpg>
 <use name=libpng>
 <use name=ROOT>
 </Tool> 
 EOF_TOOLFILE
-
-# rootinteractive2 toolfile (temporary, to allow access to Qt4)
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootinteractive2
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=rootinteractive2 version=%v>
-<info url="http://root.cern.ch/root/"></info>
-<lib name=GQt>
-<lib name=Gui>
-<use name=qt>
-<use name=RootInteractive>
-</Tool> 
-EOF_TOOLFILE
-
 
 # rootmath toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootmath
