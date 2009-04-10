@@ -6,6 +6,7 @@
 ## INITENV SET DBS_CLIENT_CONFIG %{i}/lib/DBSAPI/dbs.config
 ## INITENV SET DBSCMD_HOME %{i}/lib/DBSAPI
 
+
 %define cvstag %{realversion}
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=DBS/Clients/Python&nocache=true&export=DBS&tag=-r%{cvstag}&output=/dbs-client.tar.gz
