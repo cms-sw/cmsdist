@@ -1,5 +1,6 @@
-### RPM cms dbs-libs DBS_2_0_6_pre1
+### RPM cms dbs-libs DBS_2_0_6
 ## INITENV +PATH PYTHONPATH %i/lib/
+
 
 %define cvstag %{realversion}
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
