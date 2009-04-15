@@ -78,3 +78,4 @@ fi
 #    rm -f ${pdir}/DBParam
 #    ln -s ${WEBTOOLS_CONF}/dbs/DBParam ${pdir}/DBParam
 #fi
+cp ${pdir}/Templates/DBParam ${pdir}
