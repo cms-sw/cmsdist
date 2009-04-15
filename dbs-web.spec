@@ -1,4 +1,4 @@
-### RPM cms dbs-web V06_00_01
+### RPM cms dbs-web V06_00_02
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PYTHONPATH $ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV SET DDHOME $DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
@@ -65,8 +65,9 @@ ln -s $YUI_ROOT $DDHOME/yui
 mkdir -p $DDHOME/rss
 ln -s $WEBTOOLS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Controllers $DDHOME/WEBTOOLS
 pdir=$RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
-if [ `hostname` == "cmswttest.cern.ch" ]; then
-    ${pdir}/scripts/post-install.sh https://cmsweb.cern.ch/dbs_discovery_wttest 8008
+# if we use cmswttest which is vocms33
+if [ `hostname` == "vocms33.cern.ch" ]; then
+    ${pdir}/scripts/post-install.sh /dbs_discovery_wttest 8003
     cat ${pdir}/DBSDD.conf | sed "s/# URL=/URL=/g" | sed "s/# PORT=/PORT=/g" > ${pdir}/DBSDD.conf.tmp
     mv ${pdir}/DBSDD.conf.tmp ${pdir}/DBSDD.conf
 else
