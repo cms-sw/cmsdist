@@ -4,7 +4,7 @@
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
 Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 
-Patch0:  root-5.18-00-libpng
+Patch0:  root-5.18-00-libpng 
 Patch1:  root-5.21-04-CINT-maxlongline
 Patch2:  root-5.22-00-TMVA-shut-the-hell-up-for-once
 Patch3:  root-5.22-00a-TMVA-shut-the-hell-up-again
@@ -14,6 +14,7 @@ Patch6:  root-5.22-00a-fireworks-graf3d-gui
 Patch7:  root-5.22-00a-Reflex-Class
 Patch8:  root-5.22-00a-Cintex
 Patch9:  root-5.22-00a-roofit-silence-static-printout
+Patch10: root-5.22-00a-TMVA-just-shut-the-hell-up
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -46,6 +47,7 @@ Requires: libtiff
 %patch7 -p0
 %patch8 -p0
 %patch9 -p1
+%patch10 -p1
 
 %build
 mkdir -p %i
