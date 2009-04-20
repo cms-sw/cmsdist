@@ -1,4 +1,4 @@
-### RPM cms dbs-web V06_00_03
+### RPM cms dbs-web V06_00_04
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PYTHONPATH $ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV SET DDHOME $DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
@@ -75,8 +75,9 @@ else
     cat ${pdir}/DBSDD.conf | sed "s/# URL=/### _url_=/g" | sed "s/# PORT=/### _port_=/g" > ${pdir}/DBSDD.conf.tmp
     mv ${pdir}/DBSDD.conf.tmp ${pdir}/DBSDD.conf
 fi
-#if [ -n "${WEBTOOLS_CONF}" ] && [ -f ${WEBTOOLS_CONF}/dbs/DBParam ]; then
-#    rm -f ${pdir}/DBParam
-#    ln -s ${WEBTOOLS_CONF}/dbs/DBParam ${pdir}/DBParam
-#fi
-cp ${pdir}/Templates/DBParam ${pdir}
+if [ -n "${WEBTOOLS_CONF}" ] && [ -f ${WEBTOOLS_CONF}/dbs/DBParam ]; then
+    rm -f ${pdir}/DBParam
+    ln -s ${WEBTOOLS_CONF}/dbs/DBParam ${pdir}/DBParam
+else
+    cp ${pdir}/Templates/DBParam ${pdir}
+fi
