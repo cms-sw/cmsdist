@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_2_2_8
+### RPM cms cmssw CMSSW_2_1_19
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: /bin/ksh
@@ -10,7 +10,6 @@ Provides: perl(Term::ReadKey)
 Provides: perl(full)
 Provides: perl(LWP::UserAgent)
 Provides: perl(Template)
-Provides: perl(CMSDBA)
 Requires: cmssw-tool-conf python glimpse
 
 %define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
