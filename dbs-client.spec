@@ -1,10 +1,11 @@
-### RPM cms dbs-client DBS_2_0_6_pre1
+### RPM cms dbs-client DBS_2_0_6
 ## INITENV +PATH PYTHONPATH %i/lib/
 ## INITENV +PATH PYTHONPATH %i/bin/
 ## INITENV +PATH PYTHONPATH %{i}/lib/
 ## INITENV +PATH PYTHONPATH %{i}/lib/DBSAPI/
 ## INITENV SET DBS_CLIENT_CONFIG %{i}/lib/DBSAPI/dbs.config
 ## INITENV SET DBSCMD_HOME %{i}/lib/DBSAPI
+
 
 %define cvstag %{realversion}
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
