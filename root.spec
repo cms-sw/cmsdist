@@ -15,6 +15,9 @@ Patch7:  root-5.22-00a-Reflex-Class
 Patch8:  root-5.22-00a-Cintex
 Patch9:  root-5.22-00a-roofit-silence-static-printout
 Patch10: root-5.22-00a-TMVA-just-shut-the-hell-up
+Patch11: root-5.22-00a-th1
+Patch12: root-5.22-00a-smatrix
+Patch13: root-5.22-00a-fireworks1
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -48,6 +51,9 @@ Requires: libtiff
 %patch8 -p0
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
+%patch12 -p1
+%patch13 -p1
 
 %build
 mkdir -p %i
