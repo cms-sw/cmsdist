@@ -81,6 +81,7 @@ mkdir -p %{i}/alplib
 cp zjetwork/zjet_*gen %{i}/bin/
 cp wjetwork/wjet_*gen %{i}/bin/
 cp phjetwork/phjet_*gen %{i}/bin/
+cp Njetwork/Njetgen %{i}/bin/
 
 cp 2Qphwork/2Qphgen %{i}/bin/
 cp 2Qwork/2Qgen %{i}/bin/
