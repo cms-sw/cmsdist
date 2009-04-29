@@ -1,4 +1,4 @@
-### RPM cms dbs-client DBS_2_0_6_patch1
+### RPM cms dbs-client DBS_2_0_6_patch_2
 ## INITENV +PATH PYTHONPATH %i/lib/
 ## INITENV +PATH PYTHONPATH %i/bin/
 ## INITENV +PATH PYTHONPATH %{i}/lib/
