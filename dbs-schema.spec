@@ -1,4 +1,4 @@
-### RPM cms dbs-schema DBS_2_0_6
+### RPM cms dbs-schema DBS_2_0_6_patch1
 
 
 %define cvstag %{realversion}
