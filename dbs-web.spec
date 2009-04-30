@@ -5,6 +5,8 @@
 ## INITENV SET DBS_DBPARAM $DDHOME/DBParam
 ## INITENV SET PYTHONPATH ${DDHOME}:${DDHOME}/QueryBuilder:${PYTHONPATH}
 
+
+
 %define cvstag %{realversion}
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=DBS/Web/DataDiscovery&nocache=true&export=DBS&tag=-r%{cvstag}&output=/dbs-web.tar.gz

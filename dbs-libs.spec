@@ -1,7 +1,6 @@
 ### RPM cms dbs-libs DBS_2_0_6_patch_2
 ## INITENV +PATH PYTHONPATH %i/lib/
 
-
 %define cvstag %{realversion}
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=DBS/LibValut&nocache=true&export=DBS&tag=-r%{cvstag}&output=/dbs-libs.tar.gz
