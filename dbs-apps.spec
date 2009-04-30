@@ -5,6 +5,7 @@
 Requires: dbs-server dbs-client dbs-schema dbs-web
 Source: none
 
+
 %prep
 cd %_builddir
 mkdir dbs-apps-dummy
