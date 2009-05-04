@@ -3,6 +3,8 @@
 %define releasename %{projectname}-%{realversion}
 Source: http://cern.ch/cms-sdt/source-mirrors/tkonlinesw/trackerDAQ-2.5.1-3.tgz
 Patch0: tkonlinesw-2.5.1-gcc43
+Patch1: tkonlinesw-2.5.1-TShare-64bit
+Patch2: tkonlinesw-2.5.1-DbClient-64bit
 
 # Note from Kristian: 
 # xdaq dependency is here only to re-use its makefiles. 
@@ -22,6 +24,12 @@ Requires: onlinesystemtools
 # up the install by copying in an old libFed9UUtils.so
 # (this is really needed)
 %patch0 -p1
+case %cmsplatf in
+  *amd64* ) 
+%patch1 -p1
+%patch2 -p1
+  ;;
+esac
 rm -fR TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/2.4/slc3_ia32_gcc323
 
 %build
