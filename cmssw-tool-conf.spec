@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 9.0
+### RPM cms cmssw-tool-conf 10.0
 # with cmsBuild, change the above version only when a new
 # tool is added
 
@@ -40,8 +40,6 @@ Requires: cppunit
 Requires: frontier_client
 Requires: sqlite
 Requires: xerces-c
-Requires: p5-dbd-oracle
-Requires: mysqlpp
 Requires: systemtools
 Requires: coral
 Requires: pool
@@ -58,7 +56,6 @@ Requires: coin
 Requires: curl
 Requires: simage
 Requires: tkonlinesw
-Requires: doxygen
 Requires: meschach
 Requires: glimpse
 Requires: valgrind

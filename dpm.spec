@@ -1,11 +1,12 @@
-### RPM external dpm 1.6.7.4
+### RPM external dpm 1.7.0.6
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 # for x86_64 this was false, but it causes problems on installation at least with cmsBuild
  
 %define baseVersion %(echo %v | cut -d- -f1 | cut -d. -f1,2,3)
 %define patchLevel  %(echo %v | cut -d- -f1 | cut -d. -f4)
 %define downloadv %{baseVersion}-%{patchLevel}
-%define dpmarch     %(echo %cmsplatf | cut -d_ -f1 | sed 's/onl//')
+#%define dpmarch     %(echo %cmsplatf | cut -d_ -f1 | sed 's/onl//')
+%define dpmarch slc4
 
 Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{baseVersion}/src/DPM-%{downloadv}sec.%{dpmarch}.src.rpm
 
@@ -19,11 +20,11 @@ Provides: libdpm.so%{libsuffix}
 
 %prep
 rm -f %_builddir/DPM-%{downloadv}.src.tar.gz
-rpm2cpio %{_sourcedir}/DPM-%{downloadv}sec.%{dpmarch}.src.rpm | cpio -ivd DPM-%{baseVersion}.src.tar.gz
-cd %_builddir ; rm -rf DPM-%{baseVersion}; tar -xzvf DPM-%{baseVersion}.src.tar.gz
+rpm2cpio %{_sourcedir}/DPM-%{downloadv}sec.%{dpmarch}.src.rpm | cpio -ivd LCG-DM-%{baseVersion}.tar.gz
+cd %_builddir ; rm -rf LCG-DM-%{baseVersion}; tar -xzvf LCG-DM-%{baseVersion}.tar.gz
 
 %build
-cd DPM-%{baseVersion}
+cd LCG-DM-%{baseVersion}
 cp h/patchlevel.in h/patchlevel.h
 perl -pi -e "s!__PATCHLEVEL__!%patchLevel!;s!__BASEVERSION__!\"%baseVersion\"!;s!__TIMESTAMP__!%(date +%%s)!" h/patchlevel.h
 %if "%cpu" != "amd64"
@@ -51,7 +52,7 @@ mkdir -p %i/lib %i/include/dpm
 cd shlib; make
 
 %install
-cd DPM-%{baseVersion}
+cd LCG-DM-%{baseVersion}
 cp ./shlib/lib%n.so %i/lib/lib%n.so.%realversion
 cp ./h/*.h          %i/include/dpm
 ln -s lib%n.so.%realversion %i/lib/lib%n.so
