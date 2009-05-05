@@ -1,6 +1,4 @@
 ### RPM cms cms-common 1.0
-## REVISION 1051
-## NOCOMPILER
 Source: cmsos
 %prep
 %build
@@ -88,7 +86,7 @@ fi
 
 if [ ! $CVSROOT ]
 then
-    CVSROOT=:gserver:cmscvs.cern.ch:/cvs_server/repositories/CMSSW
+    CVSROOT=:kserver:cmscvs.cern.ch:/cvs_server/repositories/CMSSW
     export CVSROOT
 fi
 
@@ -141,7 +139,7 @@ if( -e $CMS_PATH/SITECONF/local/JobConfig/cmsset_local.csh ) then
 endif
 
 if ( ! ${?CVSROOT}) then
-  setenv CVSROOT :gserver:cmscvs.cern.ch:/cvs_server/repositories/CMSSW
+  setenv CVSROOT :kserver:cmscvs.cern.ch:/cvs_server/repositories/CMSSW
 endif
 
 unset here
