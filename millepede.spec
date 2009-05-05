@@ -2,6 +2,7 @@
 # CAREFUL: NO VERSION IN TARBALL !!!
 # Source: http://www.desy.de/~blobel/Mptwo.tgz
 Source: http://cmsrep.cern.ch/cmssw/millepede-mirror/millepede-2.0.tar.gz
+Requires: castor
 
 Patch: millepede_2009_01_22
 Patch1: millepede_64bit_2008_08_18
@@ -20,6 +21,8 @@ case %gccver in
 %patch2 -p0
   ;;
 esac
+
+perl -p -i -e "s!-lshift!-L$CASTOR_ROOT/lib -lshift!" Makefile
 
 %build
 make %makeprocesses
