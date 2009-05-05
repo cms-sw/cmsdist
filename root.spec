@@ -18,6 +18,8 @@ Patch10: root-5.22-00a-TMVA-just-shut-the-hell-up
 Patch11: root-5.22-00a-th1
 Patch12: root-5.22-00a-smatrix
 Patch13: root-5.22-00a-fireworks1
+Patch14: root-5.22-00a-Reflex-gendict_selclass
+Patch15: root-5.22-00a-MatrixInversion
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -54,7 +56,9 @@ Requires: libtiff
 %patch11 -p1
 %patch12 -p1
 %patch13 -p1
-
+%patch14 -p0
+%patch15 -p0
+ 
 %build
 mkdir -p %i
 export ROOTSYS=%_builddir/root
