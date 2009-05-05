@@ -40,8 +40,6 @@ Requires: cppunit
 Requires: frontier_client
 Requires: sqlite
 Requires: xerces-c
-Requires: p5-dbd-oracle
-Requires: mysqlpp
 Requires: systemtools
 Requires: coral
 Requires: pool
@@ -58,7 +56,6 @@ Requires: coin
 Requires: curl
 Requires: simage
 Requires: tkonlinesw
-Requires: doxygen
 Requires: meschach
 Requires: glimpse
 Requires: valgrind
