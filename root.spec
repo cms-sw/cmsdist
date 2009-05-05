@@ -194,11 +194,20 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roothistmatrix
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=roothistmatrix version=%v> 
 <info url="http://root.cern.ch/root/"></info>
-<lib name=Gpad>
-<lib name=Graf>
 <lib name=Hist>
 <lib name=Matrix>
 <use name=ROOTCore>
+</Tool>
+EOF_TOOLFILE
+
+# rootgpad toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootgpad
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=rootgpad version=%v> 
+<info url="http://root.cern.ch/root/"></info>
+<lib name=Gpad>
+<lib name=Graf>
+<use name=roothistmatrix>
 </Tool>
 EOF_TOOLFILE
 
@@ -220,7 +229,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootgraphics
 <lib name=TreePlayer>
 <lib name=Graf3d>
 <lib name=Postscript>
-<use name=ROOTPhysics>
+<use name=rootgpad>
 </Tool>
 EOF_TOOLFILE
 
@@ -247,7 +256,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootinteractive
 <use name=qt>
 <use name=libjpg>
 <use name=libpng>
-<use name=ROOT>
+<use name=rootgpad>
 </Tool> 
 EOF_TOOLFILE
 
@@ -269,7 +278,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootminuit
 <Tool name=rootminuit version=%v>
 <info url="http://root.cern.ch/root/"></info>
 <lib name=Minuit>
-<use name=ROOT>
+<use name=rootgpad>
 </Tool>
 EOF_TOOLFILE
 
@@ -279,7 +288,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootminuit2
 <Tool name=rootminuit2 version=%v>
 <info url="http://root.cern.ch/root/"></info>
 <lib name=Minuit2>
-<use name=ROOT>
+<use name=rootgpad>
 </Tool>
 EOF_TOOLFILE
 
@@ -308,7 +317,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roothtml
 <Tool name=roothtml version=%v>
 <info url="http://root.cern.ch/root/"></info>
 <lib name=Html>
-<use name=RootHistMatrix>
+<use name=rootgpad>
 </Tool> 
 EOF_TOOLFILE
 
@@ -320,7 +329,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootroofit
 <lib name=RooFit>
 <lib name=RooFitCore>
 <use name=ROOTMinuit>
-<use name=ROOTHtml>
 </Tool> 
 EOF_TOOLFILE
 
@@ -341,6 +349,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roottmva
 <info url="http://root.cern.ch/root/"></info>
 <lib name=TMVA>
 <use name=ROOTMLP>
+<use name=rootminuit>
 </Tool> 
 EOF_TOOLFILE
 
