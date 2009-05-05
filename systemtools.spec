@@ -63,7 +63,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sockets
 <Tool name=sockets version=%sockets_version>
 EOF_TOOLFILE
 case %cmsplatf in
-slc3_* | slc4_* | slc4onl_* | slc5_* )
+slc3_* | slc4_* | slc4onl_* )
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/sockets
 <lib name=nsl>
 <lib name=crypt>
