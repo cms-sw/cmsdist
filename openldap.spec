@@ -1,6 +1,7 @@
 ### RPM external openldap 2.3.39
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 Source: ftp://ftp.openldap.org/pub/OpenLDAP/openldap-stable/openldap-stable-20071118.tgz
+Patch0: openldap-2.3.39-gcc44
 Requires: openssl db4 
 #cyrus-sasl
 Provides: libsasl2.so.2 libsasl2.so.2()(64bit)
@@ -10,6 +11,8 @@ Provides: libsasl2.so.2 libsasl2.so.2()(64bit)
 %prep
 %setup -q -n %n-%{realversion}
 pwd
+%patch0 -p1
+
 %build
 
 pwd
