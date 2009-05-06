@@ -12,7 +12,7 @@
 # where the package is located. Normally this does not change
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=PRODAGENT&export=PRODAGENT&&tag=-r%{cvstag}&output=/PRODAGENT.tar.gz
 # dependencies. THis can change from time to time. The names correspond with the spec files of the saem name.
-Requires: webtools mysql py2-mysqldb dbs-client prodcommon py2-pyxml PHEDEX-micro py2-numpy py2-matplotlib py2-pil py2-pyopenssl wmcore dls-client boss
+Requires: webtools mysql py2-mysqldb dbs-client prodcommon py2-pyxml PHEDEX-micro py2-numpy py2-matplotlib py2-pil py2-pyopenssl wmcore dls-client
 
 %prep
 %setup -n PRODAGENT
