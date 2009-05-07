@@ -39,7 +39,6 @@ mkdir -p %i/workdir
  echo "source $DBS_CLIENT_ROOT/etc/profile.d/init.sh"; \
  echo "source $DLS_CLIENT_ROOT/etc/profile.d/init.sh"; \
  echo "source $PRODCOMMON_ROOT/etc/profile.d/init.sh"; \
- echo "source $BOSS_ROOT/etc/profile.d/init.sh"; \
  echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.sh"; \
  echo "source $PY2_NUMPY_ROOT/etc/profile.d/init.sh"; \
  echo "source $PY2_MATPLOTLIB_ROOT/etc/profile.d/init.sh"; \
@@ -55,7 +54,6 @@ mkdir -p %i/workdir
  echo "source $DBS_CLIENT_ROOT/etc/profile.d/init.csh"; \
  echo "source $DLS_CLIENT_ROOT/etc/profile.d/init.csh"; \
  echo "source $PRODCOMMON_ROOT/etc/profile.d/init.csh"; \
- echo "source $BOSS_ROOT/etc/profile.d/init.csh"; \
  echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.csh"; \
  echo "source $PY2_NUMPY_ROOT/etc/profile.d/init.csh"; \
  echo "source $PY2_MATPLOTLIB_ROOT/etc/profile.d/init.csh"; \
