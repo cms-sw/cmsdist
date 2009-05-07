@@ -5,7 +5,7 @@ Patch0: openssl-0.9.7m-gcc43-m486
 %prep
 %setup -n %n-%{realversion}
 case %gccver in
-  4.3.* | 4.4.*)
+  4.3.*)
 %patch0 -p1
   ;;
 esac
