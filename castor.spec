@@ -23,9 +23,19 @@ Provides: libshift.so.%(echo %realversion |cut -d. -f1,2)%{libsuffix}
 
 %prep
 %setup -n CASTOR2 
+
 %patch0 -p1
 
+
 %build
+
+# make sure the version gets properly set up as otherwise it's "unknown" to the server
+# to check: " %i/bin/castor -v " should give back the version
+perl -pi -e "s/\ \ __MAJORVERSION__/%(echo %realversion | cut -d. -f1)/" h/patchlevel.h
+perl -pi -e "s/\ \ __MINORVERSION__/%(echo %realversion | cut -d. -f2)/" h/patchlevel.h
+perl -pi -e "s/\ \ __MAJORRELEASE__/%(echo %realversion | cut -d. -f3 | cut -d- -f 1 )/" h/patchlevel.h
+perl -pi -e "s/\ \ __MINORRELEASE__/%(echo %realversion | cut -d- -f2)/" h/patchlevel.h
+
 perl -p -i -e "s!__PATCHLEVEL__!%patchLevel!;s!__BASEVERSION__!\"%baseVersion\"!;s!__TIMESTAMP__!%(date +%%s)!" h/patchlevel.h
 
 for this in BuildCupvDaemon BuildDlfDaemon BuildNameServerDaemon BuildRHCpp \
@@ -53,12 +63,12 @@ make -f Makefile.ini Makefiles
 which makedepend >& /dev/null
 [ $? -eq 0 ] && make depend
 
-make -j7 MAJOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f1) \
-         MINOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f2)
+make -j7 MAJOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f1-2) \
+         MINOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f3-4 | tr '-' '.' )
 
 %install
-make install MAJOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f1) \
-                MINOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f2) \
+make install MAJOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f1-2) \
+                MINOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f3-4 | tr '-' '.' ) \
                 EXPORTLIB=/ \
                 DESTDIR=%i/ \
                 PREFIX= \
