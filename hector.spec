@@ -1,4 +1,4 @@
-### RPM external hector 1_3_3
+### RPM external hector 1_3_4
 %define rname Hector
 %define realversion %(echo %v | cut -d- -f1 )
 Requires: root
@@ -6,6 +6,7 @@ Source: http://www.fynu.ucl.ac.be/themes/he/ggamma/hector/%{rname}_%{realversion
 
 %prep
 %setup -q -n %{rname}_%{realversion}
+perl -p -i -e "s|^ROOTLIBS.*$|ROOTLIBS=-L$ROOT_ROOT/lib -lCore -lRint -lMatrix -lPhysics -lCint -lMathCore -pthread -lm -ldl -rdynamic|" Makefile
 
 %build
 make
