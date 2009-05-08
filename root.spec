@@ -20,6 +20,7 @@ Patch12: root-5.22-00a-smatrix
 Patch13: root-5.22-00a-fireworks1
 Patch14: root-5.22-00a-Reflex-gendict_selclass
 Patch15: root-5.22-00a-MatrixInversion
+Patch16: root-5.22-00a-gcc44
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -58,6 +59,11 @@ Requires: libtiff
 %patch13 -p1
 %patch14 -p0
 %patch15 -p0
+case %gccver in
+  4.4)
+%patch16 -p1
+  ;;
+esac
  
 %build
 mkdir -p %i
