@@ -10,7 +10,7 @@ Patch3: fastjet-2.4.0-gcc44
 %patch2 -p1
 %patch3 -p1
 
-./configure --enable-shared --prefix=%i
+./configure --enable-shared --enable-cmsiterativecone --enable-atlascone --prefix=%i
 
 %build
 make
