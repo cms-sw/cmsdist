@@ -66,6 +66,8 @@ Requires: libtiff
 %patch17 -p1
 %patch18 -p1
 %patch19 -p0
+# work around patch issue...
+rm graf3d/gl/src/gl2ps.c
 
 case %gccver in
   4.4)
