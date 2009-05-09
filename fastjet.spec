@@ -25,9 +25,12 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=FastJet version=%v>
 <info url=http://www.lpthe.jussieu.fr/~salam/fastjet/></info>
+<lib name=CMSIterativeConePlugin>
 <lib name=SISConePlugin>
 <lib name=CDFConesPlugin>
+<lib name=ATLASConesPlugin>
 <lib name=siscone>
+<lib name=siscone_spherical>
 <lib name=fastjet>
 <client>
  <Environment name=FASTJET_BASE default="%i"></Environment>
