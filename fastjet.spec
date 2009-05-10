@@ -28,7 +28,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <lib name=CMSIterativeConePlugin>
 <lib name=SISConePlugin>
 <lib name=CDFConesPlugin>
-<lib name=ATLASConesPlugin>
+<lib name=ATLASConePlugin>
 <lib name=siscone>
 <lib name=siscone_spherical>
 <lib name=fastjet>
