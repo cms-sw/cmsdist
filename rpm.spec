@@ -31,7 +31,6 @@ Patch6: rpm-macosx
 Patch7: rpm-4.4.2.2
 Patch8: rpm-4.4.2.2-leopard
 Patch9: rpm-4.4.x-flcompress
-Patch10: rpm-fix-static-declaration
 
 # Defaults here
 %define libdir lib
@@ -80,7 +79,6 @@ echo %(echo %{cmsos} | cut -f1 -d_)
 %endif
 
 %patch9 -p1
-%patch10 -p1
 
 rm -rf neon sqlite beecrypt elfutils zlib 
 
