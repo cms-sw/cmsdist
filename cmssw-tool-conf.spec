@@ -2,7 +2,6 @@
 # with cmsBuild, change the above version only when a new
 # tool is added
 
-Provides: tmp/slc3_ia32_gcc323/src/FWCore/TFWLiteSelector/test/libFWCoreTFWLiteSelectorTest.so
 Provides: libboost_regex-gcc-mt.so 
 Provides: libboost_signals-gcc-mt.so 
 Provides: libboost_thread-gcc-mt.so
@@ -62,13 +61,6 @@ Requires: valgrind
 Requires: google-perftools
 Requires: fastjet
 Requires: ktjet
-# Remove this dependency altogether for the moment, until the java issues
-# are dealt with and igprof/ighook are migrated into CMSSW
-## Remove this dependency (temporarily) for gcc4.x, 64bit and other builds,
-## i.e. keep it only for the standard slc4_ia32_gcc345 build
-#%if ("%cmsplatf" == "slc4_ia32_gcc345")
-#Requires: ignominy
-#%endif
 Requires: herwig
 Requires: lhapdf
 Requires: pythia6
