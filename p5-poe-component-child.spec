@@ -1,4 +1,4 @@
-### RPM external p5-poe-component-child 1.39-patched
+### RPM external p5-poe-component-child 1.39
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 # a comment to build from scratch increase this number 15
 %define perl /usr/bin/env perl
@@ -11,7 +11,7 @@
 %define downloadn POE-Component-Child
 
 Source: http://search.cpan.org/CPAN/authors/id/E/EC/ECALDER/%{downloadn}-%{realversion}.tar.gz
-Patch0: p5-poe-component-child
+Patch0: p5-poe-component-child # fix wheel cleanup
 
 Requires:  p5-poe
 
