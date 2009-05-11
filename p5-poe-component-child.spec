@@ -11,7 +11,8 @@
 %define downloadn POE-Component-Child
 
 Source: http://search.cpan.org/CPAN/authors/id/E/EC/ECALDER/%{downloadn}-%{realversion}.tar.gz
-Patch0: p5-poe-component-child # fix wheel cleanup
+# fix wheel cleanup
+Patch0: p5-poe-component-child
 
 Requires:  p5-poe
 
