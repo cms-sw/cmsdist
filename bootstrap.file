@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.59 $
+# Revision: $Revision: 1.60 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -341,6 +341,9 @@ generateSeedSpec () {
             if [ "$?" == "0" ]
             then
               rpm -q $p --provides | sed 's!<*=.*!!; s!^!Provides: !'
+              rpm -q $p --list | fgrep .so | fgrep -v /lib/. | sed 's!^.*/!Provides: !'
+              rpm -q $p --list | fgrep /bin/ | sed 's!^!Provides: !'
+
               rpm -q $p --list | grep '\.so' | sed 's!^.*/!Provides: !'
               rpm -q $p --list | grep '/bin/' | sed 's!^!Provides: !'
             fi
