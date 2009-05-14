@@ -46,7 +46,13 @@ esac
 
 %build
 #export CFLAGS="-O0 -g"
-#export CXXFLAGS="-O0 -g"
+case %cmsplatf in
+  slc*_ia32_*)
+    export CXXFLAGS="-D_FILE_OFFSET_BITS=64"
+    ;;
+  *)
+    ;;
+esac
 export CPPFLAGS="-I$BZ2LIB_ROOT/include -I$BEECRYPT_ROOT/include -I$RPM_ROOT/include -I$RPM_ROOT/include/rpm"
 export LDFLAGS="-L$BZ2LIB_ROOT/lib -L$BEECRYPT_ROOT/%{libdir} -L$RPM_ROOT/%{libdir}"
 export LIBDIR="$LIBS"
