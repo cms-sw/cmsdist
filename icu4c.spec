@@ -1,29 +1,39 @@
-### RPM external memcached 1.2.6
-Source: http://www.danga.com/memcached/dist/memcached-%{realversion}.tar.gz
-Requires: libevent
+### RPM external icu4c 4_0_1
+Source: http://download.icu-project.org/files/icu4c/4.0.1/%n-%realversion-src.tgz
 
-%prep 
-%setup -n memcached-%realversion
+%prep
+#%setup -n %n-%{realversion}
+%setup -n icu
 
 %build
-source $LIBEVENT_ROOT/etc/profile.d/init.sh
-./configure --with-libevent=$LIBEVENT_ROOT --prefix=%i
+cd source
+chmod +x runConfigureICU configure install-sh
+./runConfigureICU Linux --prefix=%i
 make
 
 %install
+cd source
 make install
+
+export ICU_INSTALL_DIR=%i
+cat %i/bin/icu-config | \
+    sed "s,$ICU_INSTALL_DIR,\$ICU4C_ROOT,g" \
+        > %i/bin/icu-config.new
+mv %i/bin/icu-config.new %i/bin/icu-config
+chmod a+x %i/bin/icu-config
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=%n version=%v>
-<lib name=z>
+<Tool name=Icu4c version=%v>
+<lib name=icu4c>
 <client>
- <Environment name=MEMCACHED_BASE default="%i"></Environment>
- <Environment name=INCLUDE default="$MEMCACHED_BASE/include"></Environment>
- <Environment name=LIBDIR  default="$MEMCACHED_BASE/lib"></Environment>
+ <Environment name=ICU4C_BASE default="%i"></Environment>
+ <Environment name=INCLUDE default="$ICU4C_BASE/include"></Environment>
+ <Environment name=LIBDIR  default="$ICU4C_BASE/lib"></Environment>
 </client>
+<Runtime name=PATH value="$ICU4C_BASE/bin" type=path>
 </Tool>
 EOF_TOOLFILE
 
@@ -53,4 +63,3 @@ perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependen
 %{relocateConfig}etc/scram.d/%n
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
-
