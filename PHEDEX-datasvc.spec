@@ -47,7 +47,6 @@ rm -f %instroot/apache2/apps.d/datasvc-httpd.conf
 # Switch path-link template variables in the configuration files
 export DOCUMENT_ROOT=%i/PhEDExWeb/DataService
 export CACHE_DIRECTORY=%instroot/apache2/var/cache/phedex-datasvc
-mkdir -p $CACHE_DIRECTORY
 export VERSION=%nversion
 perl -p -i -e "s|\@DOCUMENT_ROOT\@|$DOCUMENT_ROOT|g;
 	       s|\@SERVER_ROOT\@|%instroot/apache2|g;
@@ -110,6 +109,9 @@ perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
 # Copy files to apache2 directory
 cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/PhEDExWeb/DataService/conf/datasvc-httpd.conf $RPM_INSTALL_PREFIX/apache2/apps.d
 cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh $RPM_INSTALL_PREFIX/apache2/etc/startenv.d/datasvc-env.sh
+
+# Create cache directory
+mkdir -p $CACHE_DIRECTORY
 
 %files
 %i/
