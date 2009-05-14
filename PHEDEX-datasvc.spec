@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-datasvc DATASVC_1_3_1b
+### RPM cms PHEDEX-datasvc DATASVC_1_4_0
 #
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -44,15 +44,17 @@ tar -cf - * | (cd %i && tar -xf -)
 rm -f %instroot/apache2/etc/startenv.d/datasvc-env.sh
 rm -f %instroot/apache2/apps.d/datasvc-httpd.conf
 
-# Switch path-linke template variables in the configuration files
+# Switch path-link template variables in the configuration files
 export DOCUMENT_ROOT=%i/PhEDExWeb/DataService
-export CACHE_DIRECTORY=/tmp/phedex-datasvc
+export CACHE_DIRECTORY=%instroot/apache2/var/cache/phedex-datasvc
+mkdir -p $CACHE_DIRECTORY
 export VERSION=%nversion
 perl -p -i -e "s|\@DOCUMENT_ROOT\@|$DOCUMENT_ROOT|g;
 	       s|\@SERVER_ROOT\@|%instroot/apache2|g;
 	       s|\@CACHE_DIRECTORY\@|$CACHE_DIRECTORY|g;
                s|\@VERSION\@|$VERSION|g;
-	       s|\@MOD_PERL_LIB\@|$MOD_PERL2_ROOT/modules/mod_perl.so|g;" \
+	       s|\@MOD_PERL_LIB\@|$MOD_PERL2_ROOT/modules/mod_perl.so|g;
+	       s|\@APACHE2_MODULES\@|$APACHE2_ROOT/modules|g;" \
   %i/PhEDExWeb/DataService/conf/*
 
 # Copy dependencies to dependencies-setup.sh
@@ -64,13 +66,21 @@ for x in %pkgreqs; do
  echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
 done
 
+# Make a script to clean the cache
+mkdir -p %i/bin
+echo "#!/bin/bash
+source %i/etc/profile.d/init.sh
+htcacheclean -n -t -p $CACHE_DIRECTORY -l \$1
+" > %i/bin/trim-cache
+chmod 544 %i/bin/trim-cache
+
 %post
-mkdir -p /tmp/phedex-datasvc
 %{relocateConfig}PhEDExWeb/DataService/conf/datasvc-app.conf
 %{relocateConfig}PhEDExWeb/DataService/conf/datasvc-httpd.conf
 %{relocateConfig}PhEDExWeb/DataService/conf/datasvc-secmod.conf
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
+%{relocateConfig}bin/trim-cache
 
 # Switch host-like template variables in the configuration files
 perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -e '
