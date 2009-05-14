@@ -8,6 +8,7 @@ Requires: expat bz2lib db4 gdbm
 %if "%cmsplatf" != "slc4onl_ia32_gcc346"
 Requires: zlib openssl
 %endif
+Provides: python2.5
 
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, tk/tcl, x11
