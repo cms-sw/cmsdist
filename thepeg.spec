@@ -1,4 +1,4 @@
-### RPM external thepeg 1.3.0
+### RPM external thepeg 1.4.2
 #Source: http://www.thep.lu.se/~leif/ThePEG/ThePEG-%{realversion}.tgz
 Source: http://projects.hepforge.org/herwig/files/ThePEG-%{realversion}.tar.gz
 Patch0: thepeg-1.3.0-LHAPDF

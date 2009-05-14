@@ -1,10 +1,10 @@
-### RPM external herwigpp 2.2.1
+### RPM external herwigpp 2.3.2
 Source: http://projects.hepforge.org/herwig/files/Herwig++-%{realversion}.tar.gz
 Requires: thepeg
 Requires: gsl
 Requires: hepmc
 
-Patch0: herwigpp-2.2.1-g77
+Patch0: herwigpp-2.3.2-g77
 
 %prep
 %setup -q -n Herwig++-%{realversion}
