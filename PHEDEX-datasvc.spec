@@ -111,7 +111,7 @@ cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/PhEDExWeb/DataService/conf/datasvc-httpd.con
 cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh $RPM_INSTALL_PREFIX/apache2/etc/startenv.d/datasvc-env.sh
 
 # Create cache directory
-mkdir -p $CACHE_DIRECTORY
+mkdir -p $RPM_INSTALL_PREFIX/apache2/var/cache/phedex-datasvc
 
 %files
 %i/
