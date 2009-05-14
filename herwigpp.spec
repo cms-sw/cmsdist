@@ -5,6 +5,7 @@ Requires: gsl
 Requires: hepmc
 
 Patch0: herwigpp-2.3.2-g77
+Patch1: herwigpp-2.3.2-amd64
 
 %prep
 %setup -q -n Herwig++-%{realversion}
@@ -13,6 +14,8 @@ case %gccver in
 %patch0 -p1
   ;;
 esac
+
+%patch1 -p1
 
 ./configure --with-hepmc=$HEPMC_ROOT --with-gsl=$GSL_ROOT --with-thepeg=$THEPEG_ROOT --prefix=%i CXXFLAGS="-O2 -fuse-cxa-atexit"
 # Fix up a configuration mistake coming from a test being confused
