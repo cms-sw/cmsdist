@@ -33,10 +33,8 @@ perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependen
 
 %install
 mkdir -p %i/etc
-mkdir -p %i/bin
 mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
 cp -r Applications/T0Mon %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
-mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications/T0Mon/csv
 
 %define pythonv %(echo $PYTHON_ROOT | cut -d. -f1,2)
 %post
