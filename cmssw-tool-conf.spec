@@ -1,4 +1,6 @@
-### RPM cms cmssw-tool-conf CMS_152f
+### RPM cms cmssw-tool-conf 10.0
+# with cmsBuild, change the above version only when a new
+# tool is added
 
 Provides: tmp/slc3_ia32_gcc323/src/FWCore/TFWLiteSelector/test/libFWCoreTFWLiteSelectorTest.so
 Provides: libboost_regex-gcc-mt.so 
@@ -7,7 +9,6 @@ Provides: libboost_thread-gcc-mt.so
 
 Requires: pool
 Requires: coral
-Requires: seal
 Requires: gcc-toolfile
 Requires: gmake
 Requires: pcre
@@ -39,13 +40,9 @@ Requires: cppunit
 Requires: frontier_client
 Requires: sqlite
 Requires: xerces-c
-Requires: p5-dbd-oracle
-Requires: mysqlpp
 Requires: systemtools
-Requires: seal
 Requires: coral
 Requires: pool
-
 Requires: xdaq
 Requires: geant4
 Requires: hepmc
@@ -59,10 +56,10 @@ Requires: coin
 Requires: curl
 Requires: simage
 Requires: tkonlinesw
-Requires: doxygen
 Requires: meschach
 Requires: glimpse
 Requires: valgrind
+Requires: google-perftools
 Requires: fastjet
 Requires: ktjet
 # Remove this dependency altogether for the moment, until the java issues
@@ -85,6 +82,16 @@ Requires: charybdis
 Requires: photos
 Requires: cmsswdata
 Requires: dpm
+Requires: evtgenlhc
+Requires: mcdb
+Requires: dbs-client
+Requires: herwigpp
+Requires: thepeg
+Requires: libhepml
+Requires: sherpa
+Requires: python-ldap
+Requires: millepede
+Requires: gdb
 
 %define skipreqtools jcompiler
 
