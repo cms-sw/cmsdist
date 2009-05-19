@@ -1,8 +1,15 @@
-### RPM external mimetic 0.9.5
+### RPM external mimetic 0.8.9-CMS19
 Source: http://codesink.org/download/%{n}-%{realversion}.tar.gz
+Patch0: mimetic-0.8.9-gcc412
+Patch1: mimetic-0.8.9-leopard
 
 %prep
 %setup -n %n-%{realversion}
+%patch0 -p1
+
+%if "%(echo %{cmsos} | cut -d_ -f 1 | sed -e 's|osx.*|osx|')" == "osx"
+%patch1 -p1
+%endif
 
 %build
 ./configure --prefix=%i

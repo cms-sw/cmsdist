@@ -9,6 +9,7 @@
 %define dpmarch slc4
 
 Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{baseVersion}/src/DPM-%{downloadv}sec.%{dpmarch}.src.rpm
+# Source: http://cmsrep.cern.ch/cms/cpt/Software/download/cms.ap/SOURCES/%{cmsplatf}/external/dpm/%{downloadv}/DPM-%{downloadv}.src.rpm
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %if "%cpu" != "amd64"
@@ -19,6 +20,8 @@ Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{bas
 Provides: libdpm.so%{libsuffix}
 
 %prep
+
+%build
 rm -f %_builddir/DPM-%{downloadv}.src.tar.gz
 rpm2cpio %{_sourcedir}/DPM-%{downloadv}sec.%{dpmarch}.src.rpm | cpio -ivd LCG-DM-%{baseVersion}.tar.gz
 cd %_builddir ; rm -rf LCG-DM-%{baseVersion}; tar -xzvf LCG-DM-%{baseVersion}.tar.gz

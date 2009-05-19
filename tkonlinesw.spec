@@ -1,4 +1,6 @@
 ### RPM external tkonlinesw 2.5.1
+## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
+
 %define projectname trackerDAQ
 %define releasename %{projectname}-%{realversion}
 Source: http://cern.ch/cms-sdt/source-mirrors/tkonlinesw/trackerDAQ-2.5.1-3.tgz
