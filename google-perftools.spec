@@ -6,7 +6,7 @@ Source: http://google-perftools.googlecode.com/files/%n-%{realversion}.tar.gz
 
 %build
 case %cmsplatf in
-  slc4_ia32* | slc5_ia32*)
+  slc4_ia32* | slc5_ia32* | osx105_ia32* )
     ./configure --prefix=%i
     make %makeprocesses
   ;;
@@ -27,7 +27,7 @@ esac
 
 %install
 case %cmsplatf in
-  slc4_ia32* | slc5_ia32*)
+  slc4_ia32* | slc5_ia32* | osx105_ia32* )
     make install
   ;;
   slc4_amd64* | slc5_amd64*)
