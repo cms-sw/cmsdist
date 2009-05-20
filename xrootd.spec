@@ -1,11 +1,11 @@
-### RPM external xrootd 20081007-0500
-# Override default realversion since there is a "-" in the realversion
-%define realversion 20081007-0500
-Source: https://root.cern.ch/svn/root/tags/v5-18-00e/xrootd/src/%n-%{realversion}.src.tgz
+### RPM external xrootd 5.22.00a
+Source: http://cmsrep.cern.ch//cmssw/xrootd_src/%n-%{realversion}.src.tgz
+Patch0: xrootd-gcc44
 Requires: openssl
 
 %prep 
 %setup -n xrootd
+%patch0 -p1
 
 %build
 ./configure.classic --disable-krb4 --with-ssl-incdir=$OPENSSL_ROOT/include --with-ssl-libdir=$OPENSSL_ROOT/lib
