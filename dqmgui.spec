@@ -1,4 +1,4 @@
-### RPM cms dqmgui 4.5.3
+### RPM cms dqmgui 4.5.3c
 
 # This is a RPM spec file for building the DQM GUI.  This effectively
 # builds a sliced version of CMSSW with some updated and added code,
@@ -22,7 +22,7 @@
 # here we take entire subsystems then later select what we want.
 Source0: %{cvsserver}&strategy=checkout&module=config&export=config&tag=-r%{vcfg}&output=/config.tar.gz
 Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rV04-05-03&output=/DQMServer.tar.gz
-Source2: %{cvsserver}&strategy=checkout&module=CMSSW/DQM/RenderPlugins&export=DQM/RenderPlugins&tag=-rV04-06-00&output=/DQMRenderPlugins.tar.gz
+Source2: %{cvsserver}&strategy=checkout&module=CMSSW/DQM/RenderPlugins&export=DQM/RenderPlugins&tag=-rV04-08-00&output=/DQMRenderPlugins.tar.gz
 Source3: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Utilities&export=Iguana/Utilities&tag=-rV03-00-09-01&output=/IgUtils.tar.gz
 Source4: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Framework&export=Iguana/Framework&tag=-r%{cmssw}&output=/IgFramework.tar.gz
 Source5: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-06-01&output=/DQMCore.tar.gz
@@ -141,7 +141,7 @@ sed 's/^  //' > %i/bin/visDQMDistSource << \END_OF_SCRIPT
   set $shopt
   $doit tar -jxf %i/data/distsrc.tar.bz2
   tar -jtf %i/data/distsrc.tar.bz2 '*/CVS/Root' |
-    xargs $doit perl -p -i -e "s|.*|$cvs|"
+    xargs $doit sed -i -e "s|.*|$cvs|"
 END_OF_SCRIPT
 
 # Script to patch the server from the local developer area.  The user's
