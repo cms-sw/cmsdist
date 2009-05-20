@@ -1,9 +1,10 @@
-### RPM cms frontend 3.16
+### RPM cms frontend 3.17
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
-Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rFRONTEND_CONF_3_16&output=/config.tar.gz
+Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rFRONTEND_CONF_3_17&output=/config.tar.gz
 Source1: %cvsserver&module=COMP/WEBTOOLS/WelcomePages&export=htdocs&tag=-rFRONTEND_HTDOCS_1_2&output=/htdocs.tar.gz
 Requires: apache2-conf mod_perl2 p5-apache2-modssl
 Provides: perl(Compress::Zlib) perl(Digest::HMAC_SHA1)
+Obsoletes: cms+frontend+3.16-cmp
 Obsoletes: cms+frontend+3.15-cmp
 Obsoletes: cms+frontend+3.14-cmp
 Obsoletes: cms+frontend+3.13-cmp
@@ -45,7 +46,6 @@ mkdir -p %instroot/apache2/ssl_rewrites.d
 mkdir -p %instroot/apache2/var/cookie-keys
 mkdir -p %instroot/apache2/htdocs
 mkdir -p %instroot/apache2/auth
-mkdir -p %instroot/apache2/var/cache
 
 # Replace template variables in configuration files with actual paths.
 perl -p -i -e "
@@ -90,7 +90,6 @@ chmod a-w $RPM_INSTALL_PREFIX/apache2/etc/update-and-sync-cookie-keys
 %files
 %i/
 %dir %instroot/apache2/var/cookie-keys
-%dir %instroot/apache2/var/cache
 %dir %instroot/apache2/rewrites.d
 %dir %instroot/apache2/ssl_rewrites.d
 %dir %instroot/apache2/auth
