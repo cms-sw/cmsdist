@@ -58,6 +58,42 @@ Source0: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir/download.ur
 %define source9 none
 %endif
 
+%if "%{?dataDir10:set}" == "set"
+%define source10 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir10/download.url&export=%{realsub}&output=/src10.tar.gz
+%else
+%define source10 none
+%endif
+
+%if "%{?dataDir11:set}" == "set"
+%define source11 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir11/download.url&export=%{realsub}&output=/src11.tar.gz
+%else
+%define source11 none
+%endif
+
+%if "%{?dataDir12:set}" == "set"
+%define source12 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir12/download.url&export=%{realsub}&output=/src12.tar.gz
+%else
+%define source12 none
+%endif
+
+%if "%{?dataDir13:set}" == "set"
+%define source13 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir13/download.url&export=%{realsub}&output=/src13.tar.gz
+%else
+%define source13 none
+%endif
+
+%if "%{?dataDir14:set}" == "set"
+%define source14 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir14/download.url&export=%{realsub}&output=/src14.tar.gz
+%else
+%define source14 none
+%endif
+
+%if "%{?dataDir15:set}" == "set"
+%define source15 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir15/download.url&export=%{realsub}&output=/src15.tar.gz
+%else
+%define source15 none
+%endif
+
 Source1: %source2
 Source2: %source3
 Source3: %source4
@@ -66,7 +102,13 @@ Source5: %source6
 Source6: %source7
 Source7: %source8
 Source8: %source9
- 
+Source9: %source10
+Source10: %source11
+Source11: %source12
+Source12: %source13
+Source13: %source14
+Source14: %source15
+
 
 %prep
 %setup -b 0 -n %realsub
@@ -78,6 +120,13 @@ Source8: %source9
 %setup -b 6 -D -n %realsub
 %setup -b 7 -D -n %realsub
 %setup -b 8 -D -n %realsub
+%setup -b 9 -D -n %realsub
+%setup -b 10 -D -n %realsub
+%setup -b 11 -D -n %realsub
+%setup -b 12 -D -n %realsub
+%setup -b 13 -D -n %realsub
+%setup -b 14 -D -n %realsub
+
  
 %build
 currdir=`pwd`
@@ -137,6 +186,48 @@ rm download.url
 %if "%{?dataDir9:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir9
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
+rm download.url
+%endif
+
+%if "%{?dataDir10:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir10
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
+rm download.url
+%endif
+
+%if "%{?dataDir11:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir11
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
+rm download.url
+%endif
+
+%if "%{?dataDir12:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir12
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
+rm download.url
+%endif
+
+%if "%{?dataDir13:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir13
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
+rm download.url
+%endif
+
+%if "%{?dataDir14:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir14
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
+rm download.url
+%endif
+
+%if "%{?dataDir15:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir15
 cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
