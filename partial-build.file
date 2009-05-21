@@ -1,19 +1,8 @@
 ### FILE partial-build
 
+%define cmsswsrc	http://cmsdoc.cern.ch/cms/cpt/Software/download/cms/SOURCES/cms/cmssw/%{cmssw_release}
 %define application  	%n
-
-%if "%{?isPatch}" == "yes"
-%define patchbaserelease %(echo %v | cut -d_ -f1-4)
-# patchbaserelease is used in TC url to get sources for patch-release, and should give the name 
-# of the full release, i.e. for CMSSW_X_Y_Z_patch2_ONLINE we need CMSSW_X_Y_Z.
-%define parent_release_base ../../%(echo %n | sed -e "s|-patch||")/%(echo %v | cut -d_ -f1-4,6)
-# parent_release_base is the location of the parent partial release, on top of which we are building 
-# our patch release, assuming following naming conventions:  
-#                     name:                 version:
-# parent release:     online                CMSSW_X_Y_Z_ONLINE
-# patch release:      online-patch          CMSSW_X_Y_Z_patchN_ONLINE
-%endif
-
+%define toolconf        ${FWLITE_TOOL_CONF_ROOT}/configurations/tools-STANDALONE.conf
 %define cvstag 		%cmssw_release
 
 %define cvsprojuc       CMSSW
@@ -27,13 +16,22 @@
 %define cvsconfig       config
 %define confversion     %cmsConfiguration
 %define conflevel       _2
+%define prebuildtarget  gindices
 %define buildtarget     release-build
 
-%define bootstrapfile config/%{application}_bootsrc.xml
+%define bootstrapfile config/%{application}_bootsrc
+%define reqfile config/%{application}_requirements
+
+# Provide list of packages for the partial release:
+%define additionalSrc0 cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%buildsetrepo/%buildsetfile&export=%buildsetrepo&tag=-r%{buildsetvers}
 
 # Creates bootstrap file for a partial release. 
-# List of packages is read from application specific buildsetfile
-# found in CMSDIST (name is defined in the application spec file).
+# List of packages is read from file which is unpacked from additionalSrc0.
 # Reading from file allows to supply a longer list of packages than 
 # rpm shell can handle:
-%define patchsrc perl -p -e 'if (s/(<download.*)(file:src)(.*)(name="src)("\\/>)/#$1$2$3$4$5/){open $fh, "%{_sourcedir}/%{buildsetfile}" or die; while(readline $fh){chomp;print "$1$2/$_$3$4/$_$5\\n"}}' config/bootsrc.xml > %bootstrapfile
+%define patchsrc perl -p -e 's!config/requirements!%{reqfile}!; if (s/(<download.*)(file:src)(.*)(name="src)(">)/#$1$2$3$4$5/){open $fh, "%srctree/%buildsetrepo/%buildsetfile" or die; while(readline $fh){chomp;print "$1$2/$_$3$4/$_$5\\n"}}' config/bootsrc > %bootstrapfile
+
+# Creates requirements file with a subset of tools.
+# List of required externals must be defined in the spec file for the partial release:
+%define patchsrc2 perl -p -e 'if (m/(<select name=)(.*)(>)/){foreach $t (split / /, %externals){if ($t eq lc($2)){$matches=1;last;}}; if ($matches != 1) {s/(.*)$/#$1/};$matches=0;}' config/requirements > %reqfile
+
