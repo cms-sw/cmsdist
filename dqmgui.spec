@@ -1,4 +1,4 @@
-### RPM cms dqmgui 4.5.3c
+### RPM cms dqmgui 4.6.0
 
 # This is a RPM spec file for building the DQM GUI.  This effectively
 # builds a sliced version of CMSSW with some updated and added code,
@@ -14,18 +14,16 @@
 # CMSDIST with tag %cmssw, then take version from cms-scram-build.file.
 %define cvsserver   cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define scram       $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
-%define cmssw       CMSSW_2_2_7
+%define cmssw       CMSSW_2_2_10
 %define vcfg        V03-17-02
 %define initenv     export ZZPATH=$PATH ZZLD_LIBRARY_PATH=$LD_LIBRARY_PATH ZZPYTHONPATH=$PYTHONPATH; %initenv_all
 
 # Sources that go into this package.  To avoid listing every package
 # here we take entire subsystems then later select what we want.
 Source0: %{cvsserver}&strategy=checkout&module=config&export=config&tag=-r%{vcfg}&output=/config.tar.gz
-Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rV04-05-03&output=/DQMServer.tar.gz
-Source2: %{cvsserver}&strategy=checkout&module=CMSSW/DQM/RenderPlugins&export=DQM/RenderPlugins&tag=-rV04-08-00&output=/DQMRenderPlugins.tar.gz
-Source3: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Utilities&export=Iguana/Utilities&tag=-rV03-00-09-01&output=/IgUtils.tar.gz
-Source4: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Framework&export=Iguana/Framework&tag=-r%{cmssw}&output=/IgFramework.tar.gz
-Source5: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-06-01&output=/DQMCore.tar.gz
+Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rR04-06-00&output=/DQMServer.tar.gz
+Source2: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Utilities&export=Iguana/Utilities&tag=-rV03-00-09-01&output=/IgUtils.tar.gz
+Source3: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-09-03&output=/DQMCore.tar.gz
 Requires: cherrypy py2-cheetah yui py2-pysqlite py2-cx-oracle py2-pil py2-matplotlib dqmgui-conf SCRAMV1
 
 # Set up the project build area: extract sources, bootstrap the SCRAM
@@ -38,12 +36,10 @@ rm -fr %_builddir/{config,src,THE_BUILD}
 %setup -c -T -a 1 -n src
 %setup -D -T -a 2 -n src
 %setup -D -T -a 3 -n src
-%setup -D -T -a 4 -n src
-%setup -D -T -a 5 -n src
 
 cd %_builddir
 rm -fr src/DQM*/*/{test,plugins}
-perl -n -i -e '$_ = "<flags CPPFLAGS=-DWITHOUT_CMS_FRAMEWORK=1>\n$_" if /<export>/; /FWCore/ || print' src/DQM*/*/BuildFile
+find src/DQM*/* -name BuildFile | xargs perl -n -i -e '/WITHOUT_CMS/ && s/=0/=1/; /FWCore/ || print'
 tar -jcvf distsrc.tar.bz2 -C src .
 
 config/updateConfig.pl -p CMSSW -v THE_BUILD -s $SCRAMV1_VERSION -t ${DQMGUI_CONF_ROOT}
@@ -60,12 +56,7 @@ export BUILD_LOG=yes
 export SCRAM_NOPLUGINREFRESH=yes
 export SCRAM_NOLOADCHECK=true
 export SCRAM_NOSYMCHECK=true
-mkdir -p ../bin/%cmsplatf
-ln -s /bin/true ../bin/%cmsplatf/EdmPluginRefresh
 (%scram build -v -f %makeprocesses </dev/null) || { %scram build outputlog && false; }
-rm -f ../lib/*/.*cache
-(eval `%scram run -sh` ; IgPluginRefresh) || true
-rm -f ../bin/%cmsplatf/EdmPluginRefresh
 
 # Now clean up environment.  First eliminate non-existent directories
 # from the paths.  Then capture the SCRAM run-time environment, and
@@ -80,8 +71,9 @@ for p in PATH LD_LIBRARY_PATH PYTHONPATH; do
     eval export $z$p=$(perl -e 'print join(":", grep($_ && -d $_ && scalar(@{[<$_/*>]}) > 0, split(/:/,$ENV{'$z$p'})))')
   done
 done
-scram runtime -sh | grep -v SCRAMRT > %i/etc/profile.d/env.sh
-scram runtime -csh | grep -v SCRAMRT > %i/etc/profile.d/env.csh
+removeenv='LOCALRT|CMSSW_(RELEASE_)*(BASE|VERSION|(FWLITE|SEARCH)_[A-Z_]*)|(COIN|IGUANA|SEAL)_[A-Z_]*'
+scram runtime -sh | grep -v SCRAMRT | egrep -v "^export ($removeenv)=" > %i/etc/profile.d/env.sh
+scram runtime -csh | grep -v SCRAMRT | egrep -v "^setenv ($removeenv) " > %i/etc/profile.d/env.csh
 perl -w -i -p -e \
   'BEGIN {
      %%linked = map { s|/+[^/]+$||; ($_ => 1) }
@@ -105,13 +97,15 @@ perl -w -i -p -e \
  echo "export PYTHONPATH=%i/xlib:%i/xpython:\$PYTHONPATH;"
  echo "export LD_LIBRARY_PATH=%i/xlib:\$LD_LIBRARY_PATH;"
  echo "export YUI_ROOT='$YUI_ROOT';"
- echo "export DQM_CMSSW_VERSION='%{cmssw}';") >> %i/etc/profile.d/env.sh
+ echo "export DQMGUI_ROOT='%i';"
+ echo "export DQMGUI_CMSSW_VERSION='%{cmssw}';") >> %i/etc/profile.d/env.sh
 
 (echo "setenv PATH %i/xbin:\$PATH;"
  echo "setenv PYTHONPATH %i/xlib:%i/xpython:\$PYTHONPATH;"
  echo "setenv LD_LIBRARY_PATH %i/xlib:\$LD_LIBRARY_PATH;"
  echo "setenv YUI_ROOT '$YUI_ROOT';"
- echo "setenv DQM_CMSSW_VERSION '%{cmssw}';") >> %i/etc/profile.d/env.csh
+ echo "setenv DQMGUI_ROOT '%i';"
+ echo "setenv DQMGUI_CMSSW_VERSION '%{cmssw}';") >> %i/etc/profile.d/env.csh
 
 # Install the project files.  Copies from SCRAM area to final install
 # area.  Creates scripts to patch and unpatch the server area from a
@@ -119,12 +113,14 @@ perl -w -i -p -e \
 # Usage at https://twiki.cern.ch/twiki/bin/view/CMS/DQMTest and
 # https://twiki.cern.ch/twiki//bin/view/CMS/DQMGuiProduction.
 %install
-mkdir -p %i/etc %i/external %i/{,x}bin %i/{,x}lib %i/{,x}python %i/data
+mkdir -p %i/etc %i/external %i/{,x}bin %i/{,x}lib %i/{,x}python %i/{,x}include %i/data
 cp -p %_builddir/distsrc.tar.bz2 %i/data
-cp -p %_builddir/THE_BUILD/lib/%cmsplatf/.iglets %i/lib
-cp -p %_builddir/THE_BUILD/lib/%cmsplatf/*.{so,ig}* %i/lib
-cp -p %_builddir/THE_BUILD/bin/%cmsplatf/{vis*,Ig*,DQMCollector} %i/bin
+cp -p %_builddir/THE_BUILD/lib/%cmsplatf/*.so %i/lib
+cp -p %_builddir/THE_BUILD/bin/%cmsplatf/*DQM* %i/bin
 cp -p %_builddir/THE_BUILD/src/VisMonitoring/DQMServer/python/*.* %i/python
+cp -p %_builddir/THE_BUILD/src/VisMonitoring/DQMServer/config/makefile %i/etc
+tar -C %_builddir/THE_BUILD/src -cf - */*/interface/*.h | tar -C %i/include -xvvf -
+tar -C %_builddir/THE_BUILD/include/%cmsplatf -cf - . | tar -C %i/include -xvvf -
 tar -C %_builddir/THE_BUILD/external/%cmsplatf/lib -cf - . | tar -C %i/external -xvvf -
 
 # Script to record what sources went into this package so user can
@@ -151,23 +147,19 @@ END_OF_SCRIPT
 sed 's/^  //' > %i/bin/visDQMDistPatch << \END_OF_SCRIPT
   #!/bin/sh
 
-  if [ X"$CMSSW_BASE" = X%i ]; then
-    unset CMSSW_BASE
-  fi
-
   if [ X"$CMSSW_BASE" = X ]; then
     echo "scram runtime not set, will use one from $PWD" 1>&2
     eval `scram runtime -sh`
   fi
 
   if [ X"$CMSSW_BASE" = X ] || [ X"$SCRAM_ARCH" = X ] || \
-     [ ! -f "$CMSSW_BASE/lib/$SCRAM_ARCH/.iglets" ]; then
+     [ ! -f "$CMSSW_BASE/lib/$SCRAM_ARCH/libVisDQMServer.so" ]; then
     echo "error: could not locate local scram developer area, exiting" 1>&2
     exit 1;
   fi
 
   set -e
-  rm -fr %i/x{lib,bin,python}/{*,.??*}
+  rm -fr %i/x{lib,bin,python,include}/{*,.??*}
 
   echo "copying $CMSSW_BASE/lib/$SCRAM_ARCH into %i/xlib"
   (cd $CMSSW_BASE/lib/$SCRAM_ARCH && tar -cf - .) | (cd %i/xlib && tar -xf -)
@@ -177,6 +169,12 @@ sed 's/^  //' > %i/bin/visDQMDistPatch << \END_OF_SCRIPT
 
   echo "copying $CMSSW_BASE/src/VisMonitoring/DQMServer/python into %i/xpython"
   (cd $CMSSW_BASE/src/VisMonitoring/DQMServer/python && tar -cf - *.*) | (cd %i/xpython && tar -xf -)
+
+  echo "copying $CMSSW_BASE/include/$SCRAM_ARCH into %i/xinclude"
+  (cd $CMSSW_BASE/include/$SCRAM_ARCH && tar -cf - .) | (cd %i/xinclude && tar -xf -)
+
+  echo "copying $CMSSW_BASE/src/*/*/interface/*.h into %i/xinclude"
+  (cd $CMSSW_BASE/src && tar -cf - */*/interface/*.h) | (cd %i/xinclude && tar -xf -)
   exit 0
 END_OF_SCRIPT
 
@@ -185,7 +183,7 @@ END_OF_SCRIPT
 sed 's/^  //' > %i/bin/visDQMDistUnpatch << \END_OF_SCRIPT
   #!/bin/sh
   echo "removing local overrides from %i"
-  rm -fr %i/x{lib,bin,python}/{*,.??*}
+  rm -fr %i/x{lib,bin,python,include}/{*,.??*}
   exit 0
 END_OF_SCRIPT
 
