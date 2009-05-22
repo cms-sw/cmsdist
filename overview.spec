@@ -3,7 +3,7 @@
 %define cvsserver   cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define initenv     export ZZPATH=$PATH ZZLD_LIBRARY_PATH=$LD_LIBRARY_PATH ZZPYTHONPATH=$PYTHONPATH; %initenv_all
 
-Source0: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rV04-05-03&output=/DQMServer.tar.gz
+Source0: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rR04-06-00&output=/DQMServer.tar.gz
 Requires: cherrypy py2-cheetah yui py2-pysqlite py2-cx-oracle py2-pil py2-matplotlib
 
 %prep
@@ -25,15 +25,17 @@ export PYTHONPATH=%i/python${PYTHONPATH+":$PYTHONPATH"};
 cd %_builddir/src
 for d in */*; do
   if [ -d $d/python ]; then
-    mkdir -p %i/python/$d
-    find %i/python/* -type d -print | xargs -i touch {}/__init__.py
-    cp -p $d/python/*.{py,js,css,gif,png,tmpl} %i/python/$d
-    python -c "from $(echo $d | sed s:/:.:g) import *"
+    cp -p $d/python/*.{py,js,css,gif,png,tmpl} %i/python
+    rm -f %i/python/GuiDQM.py
   fi
 
   for f in $d/scripts/*; do
     if [ -f $f ]; then cp -p $f %i/bin; fi
   done
+done
+
+for mod in %i/python/*.py; do
+  python -c "import $(basename $mod | sed 's/\.py$//')"
 done
 
 # Now generate server start-up environment. Eliminate non-existent and
