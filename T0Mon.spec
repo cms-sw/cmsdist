@@ -1,8 +1,8 @@
-### RPM cms T0Mon 1.0.0
+### RPM cms T0Mon 2.5.0
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 %define moduleName WEBTOOLS
 %define exportName WEBTOOLS
-%define cvstag T0Mon_081105_1
+%define cvstag T0Mon_090522_1
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
 Requires: python cherrypy py2-sqlalchemy webtools
@@ -33,17 +33,11 @@ perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependen
 
 %install
 mkdir -p %i/etc
-mkdir -p %i/bin
 mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
 cp -r Applications/T0Mon %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
-mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications/T0Mon/csv
 
 %define pythonv %(echo $PYTHON_ROOT | cut -d. -f1,2)
 %post
 
-%{relocateConfig}etc/cherrypy.conf
-%{relocateConfig}etc/apache2.conf
-%{relocateConfig}etc/apache2-header.conf
-%{relocateConfig}etc/apache2-footer.conf
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
