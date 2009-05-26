@@ -1,4 +1,6 @@
 ### RPM external herwigpp 2.3.2
+## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
+
 Source: http://projects.hepforge.org/herwig/files/Herwig++-%{realversion}.tar.gz
 Requires: thepeg
 Requires: gsl
@@ -16,7 +18,7 @@ case %gccver in
   ;;
 esac
 
-
+%build
 ./configure --with-hepmc=$HEPMC_ROOT --with-gsl=$GSL_ROOT --with-thepeg=$THEPEG_ROOT --prefix=%i CXXFLAGS="-O2 -fuse-cxa-atexit"
 # Fix up a configuration mistake coming from a test being confused
 # by the "skipping incompatible" linking messages when linking 32bit on 64bit
@@ -25,7 +27,6 @@ perl -p -i -e 's|/usr/lib64/libm.a /usr/lib64/libc.a||' */Makefile
 perl -p -i -e 's|/usr/lib64/libm.a /usr/lib64/libc.a||' */*/Makefile
 perl -p -i -e 's|/usr/lib64/libm.a /usr/lib64/libc.a||' */*/*/Makefile
 
-%build
 make %makeprocesses 
 
 
