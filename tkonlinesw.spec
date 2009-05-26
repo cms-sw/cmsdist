@@ -74,9 +74,18 @@ export ENV_CMS_TK_SBS_ROOT=blah
 ################################################################################
 # Configure
 ################################################################################
+case $(uname)-$(uname -p) in
+  Linux-x86_64)
+chmod +x ./configure && ./configure --with-xdaq-platform=x86_64
+cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure --with-xdaq-platform=x86_64 && cd -
+cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure --with-xdaq-platform=x86_64 && cd -
+  ;;
+  * )
 chmod +x ./configure && ./configure
 cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure && cd -
 cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure && cd -
+  ;;
+esac
 
 export CPPFLAGS=-fPIC
 make cmssw
