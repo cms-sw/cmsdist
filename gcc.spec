@@ -53,6 +53,14 @@ esac
 
 %if "%{?binutilsv:set}" == "set"
 %setup -D -T -b 3 -n binutils-%binutilsv
+
+case %cmsos in 
+  slc*_amd64 )
+    # This patches the default linker script to align stuff at 4096 kB boundaries rather 
+    # than the default 2MB (MAXPAGESIZE value for x86_64 architecture).
+    perl -p -i -e 's|\$[{]MAXPAGESIZE[}]|4096|g;s|\$[{]SEGMENT_SIZE[}]|4096|g' ld/scripttempl/elf.sc
+  ;;
+esac
 %endif
 
 %setup -D -T -b 1 -n gmp-%{gmpVersion}
