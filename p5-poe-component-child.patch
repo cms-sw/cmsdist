@@ -1,19 +1,46 @@
-*** Child.pm	2009-05-08 18:37:39.000000000 +0200
---- Child.pm.patched	2009-05-08 18:37:32.000000000 +0200
+*** Child.pm	2009-05-28 16:37:54.497391821 +0200
+--- Child.pm.patched	2009-05-28 16:38:08.687685140 +0200
 ***************
-*** 266,271 ****
+*** 266,272 ****
   	# clean up
   
-  	delete $self->{$PKG}{wheels}{$id};
-! 	delete $self->{$PKG}{pids}{$id};
+  	delete $self->{$PKG}{pids}{$self->{$PKG}{wheels}{$id}{ref}->PID};
+! 	delete $self->{$PKG}{wheels}{$id};
+  	delete $self->{$PKG}{SIGCHLD}{$id};
+  	delete $self->{$PKG}{CLOSED}{$id};
   
-  	# all expiring children should issue a "done" except when
---- 266,273 ----
+--- 266,272 ----
   	# clean up
   
-+ 	delete $self->{$PKG}{pids}{$self->{$PKG}{wheels}{$id}{ref}->PID};
-  	delete $self->{$PKG}{wheels}{$id};
-! 	delete $self->{$PKG}{SIGCHLD}{$id};
-! 	delete $self->{$PKG}{CLOSED}{$id};
+  	delete $self->{$PKG}{pids}{$self->{$PKG}{wheels}{$id}{ref}->PID};
+!         my $wheel = delete $self->{$PKG}{wheels}{$id};
+  	delete $self->{$PKG}{SIGCHLD}{$id};
+  	delete $self->{$PKG}{CLOSED}{$id};
   
-  	# all expiring children should issue a "done" except when
+***************
+*** 275,281 ****
+  	# if the caller asked we quit, fire a "done" regardless
+  	# of the child's return code value (we might have hard killed)
+  
+! 	my $event = ($self->{$PKG}{wheels}{$id}{quit} || $rc == 0)
+  		? "done" : "died"
+  		;
+  	$self->callback($event, { wheel => $id, rc => $rc });
+--- 275,281 ----
+  	# if the caller asked we quit, fire a "done" regardless
+  	# of the child's return code value (we might have hard killed)
+  
+! 	my $event = ($wheel->{quit} || $rc == 0)
+  		? "done" : "died"
+  		;
+  	$self->callback($event, { wheel => $id, rc => $rc });
+***************
+*** 308,313 ****
+--- 308,314 ----
+  sub wheel {
+  	my $self = shift;
+  	my $id = shift || $self->{$PKG}{wheels}{current};
++ 	return undef unless exists $self->{$PKG}{wheels}{$id};
+  	$self->{$PKG}{wheels}{$id}{ref};
+  	}
+  
