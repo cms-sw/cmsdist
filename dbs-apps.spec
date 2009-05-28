@@ -1,8 +1,10 @@
-### RPM cms dbs-apps DBS_2_0_6_pre1
+### RPM cms dbs-apps DBS_2_0_7_pre3
+
 
 #Requires: dbs-server dbs-client dbs-schema dbs-light dbs-web
 Requires: dbs-server dbs-client dbs-schema dbs-web
 Source: none
+
 
 %prep
 cd %_builddir
