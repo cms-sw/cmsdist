@@ -1,15 +1,15 @@
-### RPM external xrootd 20071116-0000b-CMS19
+### RPM external xrootd 20081007-0500
 # Override default realversion since there is a "-" in the realversion
-%define realversion 20071116-0000b
-Source: http://xrootd.slac.stanford.edu/download/%{realversion}/%n-%{realversion}.src.tgz
+%define realversion 20081007-0500
+Source: https://root.cern.ch/svn/root/tags/v5-18-00e/xrootd/src/%n-%{realversion}.src.tgz
 Requires: openssl
 
 %prep 
 %setup -n xrootd
 
 %build
-./configure.classic --disable-krb4 --disable-krb5 --with-ssl-incdir=$OPENSSL_ROOT/include --with-ssl-libdir=$OPENSSL_ROOT/lib
-make
+./configure.classic --disable-krb4 --with-ssl-incdir=$OPENSSL_ROOT/include --with-ssl-libdir=$OPENSSL_ROOT/lib
+make INCKRB5=-I/usr/include/et LIBKRB5=-lkrb5
 
 %install
 mkdir %i/bin
