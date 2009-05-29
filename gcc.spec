@@ -18,6 +18,7 @@ Source3: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 %define mpfrVersion 2.3.2
 Source1: ftp://ftp.gnu.org/gnu/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
+Patch0: binutils-2.19.1-fix-gold
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define gcc_major %(echo %realversion | cut -f1 -d.)
@@ -53,7 +54,7 @@ esac
 
 %if "%{?binutilsv:set}" == "set"
 %setup -D -T -b 3 -n binutils-%binutilsv
-
+%patch0 -p1
 case %cmsos in 
   slc*_amd64 )
     # This patches the default linker script to align stuff at 4096 kB boundaries rather 
@@ -84,7 +85,7 @@ esac
 # the system binutils.
 %if "%{?binutilsv:set}" == "set"
  cd ../binutils-%{binutilsv}
- CC="gcc $CCOPTS" ./configure --prefix=%i
+ CC="gcc $CCOPTS" ./configure --prefix=%i --enable-gold
  make %makeprocesses
  make install
 %endif
