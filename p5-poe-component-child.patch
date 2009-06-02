@@ -1,24 +1,15 @@
-*** Child.pm	2009-05-28 16:37:54.497391821 +0200
+*** Child.pm	2009-06-02 16:10:53.120660674 +0200
 --- Child.pm.patched	2009-05-28 16:38:08.687685140 +0200
 ***************
-*** 266,272 ****
+*** 265,279 ****
+  
   	# clean up
   
-  	delete $self->{$PKG}{pids}{$self->{$PKG}{wheels}{$id}{ref}->PID};
 ! 	delete $self->{$PKG}{wheels}{$id};
-  	delete $self->{$PKG}{SIGCHLD}{$id};
-  	delete $self->{$PKG}{CLOSED}{$id};
+! 	delete $self->{$PKG}{pids}{$id};
   
---- 266,272 ----
-  	# clean up
-  
-  	delete $self->{$PKG}{pids}{$self->{$PKG}{wheels}{$id}{ref}->PID};
-!         my $wheel = delete $self->{$PKG}{wheels}{$id};
-  	delete $self->{$PKG}{SIGCHLD}{$id};
-  	delete $self->{$PKG}{CLOSED}{$id};
-  
-***************
-*** 275,281 ****
+  	# all expiring children should issue a "done" except when
+  	# the return code is non-zero which indicates a failure
   	# if the caller asked we quit, fire a "done" regardless
   	# of the child's return code value (we might have hard killed)
   
@@ -26,7 +17,17 @@
   		? "done" : "died"
   		;
   	$self->callback($event, { wheel => $id, rc => $rc });
---- 275,281 ----
+--- 265,281 ----
+  
+  	# clean up
+  
+! 	delete $self->{$PKG}{pids}{$self->{$PKG}{wheels}{$id}{ref}->PID};
+!         my $wheel = delete $self->{$PKG}{wheels}{$id};
+! 	delete $self->{$PKG}{SIGCHLD}{$id};
+! 	delete $self->{$PKG}{CLOSED}{$id};
+  
+  	# all expiring children should issue a "done" except when
+  	# the return code is non-zero which indicates a failure
   	# if the caller asked we quit, fire a "done" regardless
   	# of the child's return code value (we might have hard killed)
   
@@ -35,7 +36,7 @@
   		;
   	$self->callback($event, { wheel => $id, rc => $rc });
 ***************
-*** 308,313 ****
+*** 306,311 ****
 --- 308,314 ----
   sub wheel {
   	my $self = shift;
