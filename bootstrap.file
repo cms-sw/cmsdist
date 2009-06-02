@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.61 $
+# Revision: $Revision: 1.62 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -305,7 +305,7 @@ generateSeedSpec () {
       if [ "X$unsupportDistribution" = X ]
       then
         # Guess perl
-        echo "Provides: perl = `perl -MConfig -e 'print $Config{version}'`"
+		echo "Provides: perl = `perl -MConfig -e 'print $Config{api_revision}.\".\".($Config{api_version}*1000).$Config{api_subversion};'`"
         for provide in $unsupportedProvides
         do
             echo "Provides: $provide"
