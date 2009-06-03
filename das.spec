@@ -1,31 +1,30 @@
-### RPM external memcached 1.2.6
-Source: http://www.danga.com/memcached/dist/memcached-%{realversion}.tar.gz
-Requires: libevent
+### RPM cms das V01_04_00
+## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
+## INITENV +PATH PYTHONPATH $WMCORE_ROOT/src/python
+## INITENV +PATH PYTHONPATH %i/src/python
+## INITENV +PATH PYTHONPATH $ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
+## INITENV +PATH PYTHONPATH $DAS_ROOT/src/python
 
-%prep 
-%setup -n memcached-%realversion
+%define cvstag %{realversion}
+%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
+Source: %cvsserver&strategy=checkout&module=COMP/DAS&nocache=true&export=DAS&tag=-r%{cvstag}&output=/das.tar.gz
+Requires: python cherrypy yui elementtree py2-simplejson memcached py2-memcached couchdb wmcore
 
+%prep
+%setup -n DAS
 %build
-source $LIBEVENT_ROOT/etc/profile.d/init.sh
-./configure --with-libevent=$LIBEVENT_ROOT --prefix=%i
-make
 
 %install
-make install
+mkdir -p %{i}/bin
+mkdir -p %{i}/test
+mkdir -p %{i}/src
+mkdir -p %{i}/etc/profile.d
+mkdir -p %{i}/etc/init.d
+cp -r bin doc etc src test %i
 
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=%n version=%v>
-<lib name=z>
-<client>
- <Environment name=MEMCACHED_BASE default="%i"></Environment>
- <Environment name=INCLUDE default="$MEMCACHED_BASE/include"></Environment>
- <Environment name=LIBDIR  default="$MEMCACHED_BASE/lib"></Environment>
-</client>
-</Tool>
-EOF_TOOLFILE
+# copy init script
+cp bin/das_web %{i}/etc/init.d
+chmod a+x %{i}/etc/init.d/*
 
 # This will generate the correct dependencies-setup.sh/dependencies-setup.csh
 # using the information found in the Requires statements of the different
@@ -50,7 +49,5 @@ perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-
 perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
 
 %post
-%{relocateConfig}etc/scram.d/%n
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
-
