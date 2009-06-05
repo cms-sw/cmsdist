@@ -1,4 +1,4 @@
-### RPM external graphviz 2.16.1
+### RPM external graphviz 2.16.1-CMS19
 Source: http://www.graphviz.org/pub/%{n}/ARCHIVE/%{n}-%{realversion}.tar.gz  
 Requires: expat zlib libjpg libpng 
 
@@ -63,7 +63,8 @@ fi
 # Probably the configure should just be remade on Darwin, but it builds
 # as-is with this small cleanup
 perl -p -i -e "s|-lexpat||g" configure
-make %makeprocesses
+# make %makeprocesses
+make 
 
 %install
 make install
