@@ -1,6 +1,5 @@
 ### RPM external mysql 5.1.35
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/mysql
-## INITENV SET MYSQL_HOME $MYSQL_ROOT
 
 #Different download locations according to the version.
 
