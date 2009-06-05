@@ -142,3 +142,4 @@ EOF_TOOLFILE
 %{relocateConfig}etc/scram.d/qt
 %{relocateConfig}etc/scram.d/qtdesigner
 %{relocateConfig}etc/scram.d/qtextra
+%{relocateConfig}etc/scram.d/qt3support
