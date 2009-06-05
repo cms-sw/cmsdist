@@ -1,5 +1,6 @@
 ### RPM external mysql 5.1.35
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/mysql
+## INITENV SET MYSQL_HOME $MYSQL_ROOT
 
 #Different download locations according to the version.
 
@@ -49,20 +50,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 </Tool>
 EOF_TOOLFILE
 
-%post
-%{relocateConfig}bin/msql2mysql
-%{relocateConfig}bin/mysqlaccess
-%{relocateConfig}bin/mysqlbug
-%{relocateConfig}bin/mysql_config
-%{relocateConfig}bin/mysqld_multi
-%{relocateConfig}bin/mysqld_safe
-%{relocateConfig}bin/mysql_fix_privilege_tables
-%{relocateConfig}bin/mysql_install_db
-%{relocateConfig}etc/scram.d/%n
-
-# setup approripate links and made post install procedure
-. $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
-cat > $MYSQL_ROOT/etc/my.cnf << EOF
+cat << \EOF > %i/etc/my.cnf
 [mysqld]
 max_allowed_packet=128M
 
@@ -80,7 +68,6 @@ query_cache_type=1
 query_cache_limit=10M
 query_cache_size=128M
 
-# inodb
 innodb_thread_concurrency=0
 innodb_concurrency_tickets=10000
 innodb_commit_concurrency=0
@@ -106,4 +93,16 @@ innodb_autoinc_lock_mode = 2
 STRICT_TRANS_TABLES=1
 transaction-isolation = READ-COMMITTED
 EOF
+
+
+%post
+%{relocateConfig}bin/msql2mysql
+%{relocateConfig}bin/mysqlaccess
+%{relocateConfig}bin/mysqlbug
+%{relocateConfig}bin/mysql_config
+%{relocateConfig}bin/mysqld_multi
+%{relocateConfig}bin/mysqld_safe
+%{relocateConfig}bin/mysql_fix_privilege_tables
+%{relocateConfig}bin/mysql_install_db
+%{relocateConfig}etc/scram.d/%n
 

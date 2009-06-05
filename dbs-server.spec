@@ -1,5 +1,4 @@
 ### RPM cms dbs-server DBS_2_0_7_pre5
-## INITENV SET MYSQL_HOME $MYSQL_ROOT
 
 %define cvstag %{realversion}
 # define version of DBS to use, it's schema version
