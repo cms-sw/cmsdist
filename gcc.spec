@@ -85,7 +85,7 @@ esac
 # the system binutils.
 %if "%{?binutilsv:set}" == "set"
  cd ../binutils-%{binutilsv}
- CC="gcc $CCOPTS" ./configure --prefix=%i --enable-gold
+ CC="gcc $CCOPTS" ./configure --prefix=%i
  make %makeprocesses
  make install
 %endif
@@ -124,20 +124,3 @@ find %i/lib %i/lib32 %i/lib64 -name '*.la' -exec rm -f {} \; || true
 # SCRAM ToolBox toolfile is now geneated by the gcc-toolfile.spec
 # so that everything works even in the case "--use-system-compiler"
 # option is specified.
-
-%post
-# %{relocateConfig}lib/libg2c.la
-# %{relocateConfig}lib/libstdc++.la
-# %{relocateConfig}lib/libsupc++.la
-# %if "%cpu" == "amd64"
-# %{relocateConfig}lib64/libg2c.la
-# %{relocateConfig}lib64/libstdc++.la
-# %{relocateConfig}lib64/libsupc++.la
-# %{relocateConfig}lib/32/libg2c.la
-# %{relocateConfig}lib/32/libstdc++.la
-# %{relocateConfig}lib/32/libsupc++.la
-# %endif
-# %if "%gcc4" == "true"
-# %{relocateConfig}lib/libgfortran.la
-# %{relocateConfig}lib/libgfortranbegin.la
-# %endif
