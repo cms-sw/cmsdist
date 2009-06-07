@@ -1,4 +1,4 @@
-### RPM external python 2.5.4
+### RPM external python 2.6.2
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 # OS X patches and build fudging stolen from fink
@@ -122,12 +122,12 @@ esac
 perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
                     %{i}/bin/pydoc \
                     %{i}/bin/python-config \
-                    %{i}/bin/python2.5-config \
+                    %{i}/bin/python2.6-config \
                     %{i}/bin/smtpd.py \
-                    %{i}/lib/python2.5/bsddb/dbshelve.py \
-                    %{i}/lib/python2.5/test/test_bz2.py \
-                    %{i}/lib/python2.5/test/test_largefile.py \
-                    %{i}/lib/python2.5/test/test_optparse.py
+                    %{i}/lib/python2.6/bsddb/dbshelve.py \
+                    %{i}/lib/python2.6/test/test_bz2.py \
+                    %{i}/lib/python2.6/test/test_largefile.py \
+                    %{i}/lib/python2.6/test/test_optparse.py
 rm  `find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*'`
 rm  `find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*'`
 
@@ -141,12 +141,12 @@ mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=%n version=%v>
-<lib name=python2.5>
+<lib name=python2.6>
 <Client>
  <Environment name=PYTHON_BASE default="%i"></Environment>
  <Environment name=LIBDIR default="$PYTHON_BASE/lib"></Environment>
- <Environment name=INCLUDE default="$PYTHON_BASE/include/python2.5"></Environment>
- <Environment name=PYTHON_COMPILE default="$PYTHON_BASE/lib/python2.5/compileall.py"></Environment>
+ <Environment name=INCLUDE default="$PYTHON_BASE/include/python2.6"></Environment>
+ <Environment name=PYTHON_COMPILE default="$PYTHON_BASE/lib/python2.6/compileall.py"></Environment>
 </Client>
 <use name=sockets>
 <Runtime name=PATH value="$PYTHON_BASE/bin" type=path>
