@@ -1,9 +1,10 @@
-### RPM cms wmcore WMCORE_DAS_V01_04_00_pre1
+### RPM cms wmcore WMCORE_DAS_pre2
 ## INITENV +PATH PYTHONPATH %i/lib
 
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=WMCORE&export=WMCORE&&tag=-r%{cvstag}&output=/WMCORE.tar.gz
-Requires: python py2-sqlalchemy py2-simplejson
+Requires: python py2-sqlalchemy
+#Requires: python py2-sqlalchemy py2-simplejson
 
 %prep
 %setup -n WMCORE
@@ -17,11 +18,11 @@ mkdir -p %{i}/etc/profile.d
 mkdir -p %i/workdir
 
 (echo "#!/bin/sh"; \
- echo "source $PY2_SIMPLEJSON_ROOT/etc/profile.d/init.sh"; \
+# echo "source $PY2_SIMPLEJSON_ROOT/etc/profile.d/init.sh"; \
  echo "source $PY2_SQLALCHEMY_ROOT/etc/profile.d/init.sh") > %{i}/etc/profile.d/dependencies-setup.sh
 
 (echo "#!/bin/tcsh"; \
- echo "source $PY2_SIMPLEJSON_ROOT/etc/profile.d/init.csh"; \
+# echo "source $PY2_SIMPLEJSON_ROOT/etc/profile.d/init.csh"; \
  echo "source $PY2_SQLALCHEMY_ROOT/etc/profile.d/init.csh") > %{i}/etc/profile.d/dependencies-setup.csh
 
 
