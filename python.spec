@@ -122,6 +122,7 @@ esac
 perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
                     %{i}/bin/pydoc \
                     %{i}/bin/python-config \
+                    %{i}/bin/2to3 \
                     %{i}/bin/python2.6-config \
                     %{i}/bin/smtpd.py \
                     %{i}/lib/python2.6/bsddb/dbshelve.py \
