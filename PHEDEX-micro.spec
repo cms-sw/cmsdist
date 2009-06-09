@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-micro PHEDEX_3_0_7
+### RPM cms PHEDEX-micro PHEDEX_3_2_0_pre4
 ## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -25,16 +25,7 @@ Provides: perl(XML::LibXML)
 %prep
 
 %setup -n %{downloadn}
-rm     Custom/Template/Config
-rm     Custom/Template/ConfigPart.CERN*
-rm     Custom/Template/ConfigPart.Export
-rm     Custom/Template/ConfigPart.FTSDownload
-rm     Custom/Template/ConfigPart.Management
-rm     Custom/Template/ConfigPart.MSS
-rm     Custom/Template/ConfigPart.SRMDownload
-rm     Custom/Template/File*
-rm     Custom/Template/ProxyRenew
-rm     Custom/Template/storage.xml
+rm -rf Custom/Template/*
 rm -rf Custom/DCache
 rm -rf Custom/Castor
 rm -rf Custom/SRM
