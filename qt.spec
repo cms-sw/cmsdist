@@ -24,7 +24,7 @@ case %cmsplatf in
   ;;
 esac
 
-echo yes | ./configure -prefix %i -stl -no-openssl -no-glib -no-libtiff $CONFIG_ARGS
+echo yes | ./configure -prefix %i -stl -no-openssl -no-glib -no-libtiff -no-libpng -no-separate-debug-info $CONFIG_ARGS
 
 # The following is a kludge around the fact that the fact that the 
 # /usr/lib/libfontconfig.so soft link (for 32-bit lib) is missing
@@ -142,3 +142,4 @@ EOF_TOOLFILE
 %{relocateConfig}etc/scram.d/qt
 %{relocateConfig}etc/scram.d/qtdesigner
 %{relocateConfig}etc/scram.d/qtextra
+%{relocateConfig}etc/scram.d/qt3support
