@@ -70,6 +70,9 @@ cd %{i}
 mv x86*/lib .
 mv x86*/bin .
 mv x86*/include .
+# Make the following directory (it will be missing in the gcc4 case where
+# things fail during the build and scram at least needs to see it)
+mkdir -p include/linux
 
 mkdir -p htdocs
 
