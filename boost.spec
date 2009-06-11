@@ -83,6 +83,7 @@ getLibName()
 export BOOST_THREAD_LIB=`getLibName thread`
 export BOOST_SIGNALS_LIB=`getLibName signals`
 export BOOST_FILESYSTEM_LIB=`getLibName filesystem`
+export BOOST_SYSTEM_LIB=`getLibName system`
 export BOOST_PROGRAM_OPTIONS_LIB=`getLibName program_options`
 export BOOST_PYTHON_LIB=`getLibName python`
 export BOOST_REGEX_LIB=`getLibName regex`
@@ -113,6 +114,17 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_filesystem
 <Tool name=boost_filesystem version=%v>
 <info url="http://www.boost.org"></info>
 <lib name="@BOOST_FILESYSTEM_LIB@">
+<use name=boost_system>
+<use name=boost>
+</Tool>
+EOF_TOOLFILE
+
+# boost_system toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_system
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=boost_system version=%v>
+<info url="http://www.boost.org"></info>
+<lib name="@BOOST_SYSTEM_LIB@">
 <use name=boost>
 </Tool>
 EOF_TOOLFILE
