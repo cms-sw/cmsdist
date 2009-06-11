@@ -1,10 +1,13 @@
-### RPM external gcc 4.4.0
+### RPM external gcc 4.3.2
+## BUILDIF case `uname`:`uname -p` in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
-%define binutilsv 2.17
-Source1: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
+%if "%(echo %cmsos | cut -f2 -d_)" == "amd64"
+%define binutilsv 2.19.1
+Source3: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
+%endif
+
 
 # If gcc version >= 4.0.0, we need two additional sources, for gmp and mpfr,
 # and we set the fortranCompiler macro (which is going to be used by the 
@@ -13,8 +16,9 @@ Source1: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 # and the using the newly built gcc.
 %define gmpVersion 4.2.4
 %define mpfrVersion 2.3.2
-Source2: ftp://ftp.gnu.org/gnu/gmp/gmp-%{gmpVersion}.tar.bz2
-Source3: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
+Source1: ftp://ftp.gnu.org/gnu/gmp/gmp-%{gmpVersion}.tar.bz2
+Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
+Patch0: binutils-2.19.1-fix-gold
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define gcc_major %(echo %realversion | cut -f1 -d.)
@@ -48,9 +52,20 @@ EOF_T_CMS
   ;;
 esac
 
-%setup -D -T -b 1 -n binutils-%binutilsv
-%setup -D -T -b 2 -n gmp-%{gmpVersion}
-%setup -D -T -b 3 -n mpfr-%{mpfrVersion}
+%if "%{?binutilsv:set}" == "set"
+%setup -D -T -b 3 -n binutils-%binutilsv
+%patch0 -p1
+case %cmsos in 
+  slc*_amd64 )
+    # This patches the default linker script to align stuff at 4096 kB boundaries rather 
+    # than the default 2MB (MAXPAGESIZE value for x86_64 architecture).
+    perl -p -i -e 's|\$[{]MAXPAGESIZE[}]|4096|g;s|\$[{]SEGMENT_SIZE[}]|4096|g' ld/scripttempl/elf.sc
+  ;;
+esac
+%endif
+
+%setup -D -T -b 1 -n gmp-%{gmpVersion}
+%setup -D -T -b 2 -n mpfr-%{mpfrVersion}
 
 %build
 # Set special variables required to build 32-bit executables on 64-bit
@@ -68,7 +83,7 @@ esac
 
 # If requested, build our own binutils.  Currently the default is to use
 # the system binutils.
-%if "%{?use_external_binutils:set}" == "set"
+%if "%{?binutilsv:set}" == "set"
  cd ../binutils-%{binutilsv}
  CC="gcc $CCOPTS" ./configure --prefix=%i
  make %makeprocesses
@@ -109,20 +124,3 @@ find %i/lib %i/lib32 %i/lib64 -name '*.la' -exec rm -f {} \; || true
 # SCRAM ToolBox toolfile is now geneated by the gcc-toolfile.spec
 # so that everything works even in the case "--use-system-compiler"
 # option is specified.
-
-%post
-# %{relocateConfig}lib/libg2c.la
-# %{relocateConfig}lib/libstdc++.la
-# %{relocateConfig}lib/libsupc++.la
-# %if "%cpu" == "amd64"
-# %{relocateConfig}lib64/libg2c.la
-# %{relocateConfig}lib64/libstdc++.la
-# %{relocateConfig}lib64/libsupc++.la
-# %{relocateConfig}lib/32/libg2c.la
-# %{relocateConfig}lib/32/libstdc++.la
-# %{relocateConfig}lib/32/libsupc++.la
-# %endif
-# %if "%gcc4" == "true"
-# %{relocateConfig}lib/libgfortran.la
-# %{relocateConfig}lib/libgfortranbegin.la
-# %endif
