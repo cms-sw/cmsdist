@@ -80,7 +80,6 @@ case %gccver in
 esac
  
 %build
-
 mkdir -p %i
 export ROOTSYS=%_builddir/root
 
@@ -137,10 +136,7 @@ case $(uname)-$(uname -p) in
   Linux-i*86)
     ./configure linux  $CONFIG_ARGS --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift;;
   Darwin*)
-    rm ${LIBJPG_ROOT}/lib/libjpeg.dylib
-    rm ${LIBTIFF_ROOT}/lib/libtiff.dylib
-    rm ${LIBPNG_ROOT}/lib/libpng.dylib
-    ./configure macosx $CONFIG_ARGS --disable-rfio --disable-builtin_afterimage ;;
+    ./configure macosx $CONFIG_ARGS --disable-rfio;;
   Linux-ppc64*)
     ./configure linux $CONFIG_ARGS --disable-rfio;;
 esac
