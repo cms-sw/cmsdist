@@ -23,11 +23,11 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pyqt
 <info url="http://www.riverbankcomputing.co.uk/software/pyqt/intro"></info>
 <Client>
  <Environment name=PYQT_BASE default="%i"></Environment>
- <Environment name=PYTHONPATH default="$PYQT_BASE/lib/python2.4/site-packages"></Environment>
 </Client>
 <Runtime name=PYTHONPATH value="$PYQT_BASE/lib/python2.4/site-packages" type=path>
 <use name="python">
 <use name="qt">
+<use name="sip">
 </Tool>
 EOF_TOOLFILE
 
