@@ -1,4 +1,4 @@
-### RPM external py2-matplotlib 0.90.1
+### RPM external py2-matplotlib 0.98.5.3
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 %define downloadn matplotlib
 Source: http://switch.dl.sourceforge.net/sourceforge/%downloadn/%downloadn-%realversion.tar.gz
@@ -12,7 +12,6 @@ Requires: py2-numpy
 # Requires: atlas lapack
 Requires: libpng
 # Requires: freetype
-Patch0: matplotlib-0.90.1
 %prep
 %setup -n %downloadn-%realversion
 %patch0 -p0
