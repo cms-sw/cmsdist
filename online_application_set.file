@@ -119,6 +119,7 @@ EventFilter/DTTFRawToDigi
 EventFilter/EcalDigiToRaw
 EventFilter/EcalRawToDigiDev
 EventFilter/EcalTBRawToDigi
+EventFilter/ESDigiToRaw
 EventFilter/ESRawToDigi
 EventFilter/GctRawToDigi
 EventFilter/HcalRawToDigi
