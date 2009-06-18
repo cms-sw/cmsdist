@@ -2,11 +2,11 @@
 ## INITENV SET APT_CONFIG %{i}/etc/apt.conf
 Source:  http://apt-rpm.org/releases/%n-%realversion.tar.bz2
 Source1: bootstrap
+%define online %(case %cmsplatf in *onl_*_*) echo true ;; esac)
 
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
-Requires: libxml2 beecrypt rpm zlib bz2lib openssl
-%else
-Requires: libxml2 beecrypt rpm bz2lib
+Requires: libxml2 rpm
+%if "%online" != "true"
+Requires: openssl
 %endif
 
 Patch0: apt-rpm449
