@@ -9,11 +9,11 @@
 ## INITENV SET SYSCONFIGDIR %{i}/lib/rpm
 Source: http://rpm.org/releases/rpm-4.4.x/rpm-%{realversion}.tar.gz
 #Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
+%define online %(case %cmsplatf in *onl_*_*) echo true ;; esac)
 
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
-Requires: beecrypt bz2lib neon db4 expat elfutils zlib
-%else
 Requires: beecrypt bz2lib neon db4 expat elfutils
+%if "%online" != "true"
+Requires: zlib
 %endif
 
 
@@ -32,7 +32,6 @@ Patch7: rpm-4.4.2.2
 Patch8: rpm-4.4.2.2-leopard
 Patch9: rpm-4.4.x-flcompress
 Patch10: rpm-fix-static-declaration
-Patch11: rpm-4.4.2.3-leopoard-bufsiz.patch
 
 # Defaults here
 %define libdir lib
@@ -78,7 +77,6 @@ Provides: Kerberos
 echo %(echo %{cmsos} | cut -f1 -d_)
 %if "%(echo %{cmsos} | cut -f1 -d_)" == "osx105"
 %patch8 -p1
-%patch11 -p1
 %endif
 
 %patch9 -p1
@@ -88,13 +86,13 @@ rm -rf neon sqlite beecrypt elfutils zlib
 
 %build
 case %cmsos in
-    osx*)
-        export CFLAGS="-fPIC "
-    ;;
-    *)
-        export CFLAGS="-fPIC -g -O0"
-    ;;
-esac
+  slc*_ia32)
+    export CFLAGS="-fPIC -D_FILE_OFFSET_BITS=64"
+  ;;
+  *)
+    export CFLAGS="-fPIC"
+  ;;
+esac 
 
 export CPPFLAGS="-I$BEECRYPT_ROOT/include -I$BEECRYPT_ROOT/include/beecrypt -I$BZ2LIB_ROOT/include -I$NEON_ROOT/include/neon -I$DB4_ROOT/include -I$EXPAT_ROOT/include/expat -I$ELFUTILS_ROOT/include -I$ZLIB_ROOT/include"
 export LDFLAGS="-L$BEECRYPT_ROOT/%libdir -L$BZ2LIB_ROOT/lib -L$NEON_ROOT/lib -L$DB4_ROOT/lib -L$EXPAT_ROOT/%libdir -L$ELFUTILS_ROOT/lib -L$ZLIB_ROOT/lib -lz -lexpat -lbeecrypt -lbz2 -lneon -lpthread"
