@@ -24,7 +24,7 @@ case %cmsplatf in
   ;;
 esac
 
-echo yes | ./configure -prefix %i -stl -no-openssl -no-glib -no-libtiff -no-libpng -no-separate-debug-info $CONFIG_ARGS
+echo yes | ./configure -prefix %i -stl -no-openssl -no-glib -no-libtiff -no-libpng -no-separate-debug-info -no-sql-odbc -no-sql-mysql $CONFIG_ARGS
 
 # The following is a kludge around the fact that the fact that the 
 # /usr/lib/libfontconfig.so soft link (for 32-bit lib) is missing
