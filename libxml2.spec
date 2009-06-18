@@ -1,14 +1,15 @@
 ### RPM external libxml2 2.6.23-CMS19
 Source: ftp://xmlsoft.org/%n/%n-%realversion.tar.gz
+%define online %(case %cmsplatf in *onl_*_*) echo true ;; esac)
 
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
+%if "%online" != "true"
 Requires: zlib
 %endif
 
 %prep
 %setup -n %n-%realversion
 %build
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
+%if "%online" != "true"
 ./configure --prefix=%i --with-zlib=$ZLIB_ROOT --without-python
 %else
 ./configure --prefix=%i --with-zlib=/usr --without-python
