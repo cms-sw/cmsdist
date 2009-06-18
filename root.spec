@@ -3,6 +3,7 @@
 ## INITENV SET ROOTSYS %i
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
 Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
+%define online %(case %cmsplatf in *onl_*_*) echo true ;; esac)
 
 Patch0:  root-5.18-00-libpng 
 Patch1:  root-5.21-04-CINT-maxlongline
@@ -32,7 +33,7 @@ Patch21: root-5.22-00a-TBranchElement_TStreamerInfo
 
 Requires: gccxml gsl castor libjpg dcap pcre python
 
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
+%if "%online" != "true"
 Requires: qt openssl mysql libpng zlib libungif xrootd
 %else
 %define skiplibtiff true
@@ -84,33 +85,32 @@ esac
 mkdir -p %i
 export ROOTSYS=%_builddir/root
 
-%if "%cmsplatf" == "slc4onl_ia32_gcc346"
+%if "%online" == "true"
 # Build without mysql, and use system qt.
 # Also skip xrootd and odbc for online case:
 
-EXTRA_CONFIG_ARGS="
+EXTRA_CONFIG_ARGS="--with-f77=/usr
              --disable-mysql
              --disable-xrootd
              --disable-odbc
-             --enable-qt"
+             --disable-qt --disable-qtgsi"
 %else
-EXTRA_CONFIG_ARGS="
+EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}
              --with-xrootd=$XROOTD_ROOT
              --enable-mysql --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
              --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
              --with-ssl-incdir=${OPENSSL_ROOT}/include
-             --with-ssl-libdir=${OPENSSL_ROOT}/lib"
+             --with-ssl-libdir=${OPENSSL_ROOT}/lib
+	     --enable-qtgsi"
 %endif
 
-CONFIG_ARGS="--with-f77=${GCC_ROOT}
-             --enable-table 
+CONFIG_ARGS="--enable-table 
              --disable-builtin-pcre
              --disable-builtin-freetype
              --disable-builtin-zlib
              --with-gccxml=${GCCXML_ROOT} 
              --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include/python2.4 
              --enable-explicitlink 
-             --enable-qtgsi
              --enable-mathmore
              --enable-reflex  
              --enable-cintex 
