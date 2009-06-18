@@ -8,7 +8,6 @@ Source: http://mirror.switch.ch/ftp/mirror/CPAN/authors/id/P/PY/PYTHIAN/%downloa
 
 Requires: p5-dbi oracle
 Provides: perl(Tk) perl(Tk::Balloon) perl(Tk::ErrorDialog) perl(Tk::FileSelect) perl(Tk::Pod) perl(Tk::ROText)
-Provides: /opt/local/bin/perl
 
 %prep
 %setup -n %{downloadn}-%{realversion}
