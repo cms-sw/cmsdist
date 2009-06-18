@@ -9,7 +9,6 @@ Provides: libboost_thread-gcc-mt.so
 
 Requires: pool
 Requires: coral
-Requires: seal
 Requires: gmake
 Requires: pcre
 Requires: bz2lib
@@ -21,7 +20,6 @@ Requires: boost
 Requires: gsl
 Requires: clhep
 Requires: root
-Requires: qt
 Requires: castor
 Requires: libjpg
 Requires: dcap
@@ -35,7 +33,6 @@ Requires: sigcpp
 Requires: tkonlinesw
 Requires: fastjet
 Requires: ktjet
-#Requires: dpm
 Requires: oracle-env
 Requires: onlinesystemtools
 
