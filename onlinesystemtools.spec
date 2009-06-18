@@ -4,7 +4,6 @@ Source: none
 # Here we are assuming that online release always uses system compiler:
 %define compilertools ccompiler cxxcompiler f77compiler jcompiler
 
-%if "%cmsplatf" == "slc4onl_ia32_gcc346"
 #%define onlinetools curl libpng libtiff libungif mimetic mysql openssl oracle python elementtree qt xdaq xerces zlib
 %define onlinetools zlib curl oracle openssl xerces-c xdaq mimetic
 # Define variables used in non-scram-managed tools, that would be
@@ -31,9 +30,6 @@ Source: none
 ## INITENV SET XDAQ_ROOT         	/opt/xdaq
 %define mimetic_version			0.9.1
 ## INITENV SET MIMETIC_VERSION         	%mimetic_version
-%else
-%define onlinetools %{nil}
-%endif
 
 %define systemtools			sockets opengl x11 %compilertools %onlinetools
 %define sockets_version			1.0
@@ -142,7 +138,6 @@ cat << \EOF_TOOLFILE >>%i/etc/scram.d/jcompiler
 </Tool>
 EOF_TOOLFILE
 
-%if "%cmsplatf" == "slc4onl_ia32_gcc346"
 #cxxcompiler
 cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
 <doc type=BuildSystem::ToolDoc version=1.1>
@@ -358,15 +353,11 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/mimetic
 </Tool>
 EOF_TOOLFILE
 
-%endif
-
 %post
 %{relocateConfig}etc/scram.d/sockets
 %{relocateConfig}etc/scram.d/opengl
 %{relocateConfig}etc/scram.d/x11
 %{relocateConfig}etc/scram.d/jcompiler
-
-%if "%cmsplatf" == "slc4onl_ia32_gcc346"
 %{relocateConfig}etc/scram.d/cxxcompiler
 %{relocateConfig}etc/scram.d/ccompiler
 %{relocateConfig}etc/scram.d/f77compiler
@@ -378,6 +369,4 @@ EOF_TOOLFILE
 %{relocateConfig}etc/scram.d/xdaq
 %{relocateConfig}etc/scram.d/xdaqheader
 %{relocateConfig}etc/scram.d/mimetic
-
-%endif
 
