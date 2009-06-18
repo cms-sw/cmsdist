@@ -2,22 +2,20 @@
 Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
 #Source: http://edge.fnal.gov:8888/frontier/%{n}__%{realversion}__src.tar.gz
 #Source: http://cern.ch/service-spi/external/tarFiles/%{n}__%{realversion}__src.tar.gz
+%define online %(case %cmsplatf in *onl_*_*) echo true ;; esac)
 
 Requires: expat
-
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
-Requires: zlib openssl
-%endif
-
-%if "%cmsplatf" == "slc4onl_ia32_gcc346"
+%if "%online" == "true"
 Requires: onlinesystemtools
+%else
+Requires: zlib openssl
 %endif
 
 %prep
 %setup -n %{n}__%{realversion}__src
 %build
 
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
+%if "%online" != "true"
 make EXPAT_DIR=$EXPAT_ROOT \
      COMPILER_TAG=gcc_$GCC_VERSION \
      ZLIB_DIR=$ZLIB_ROOT \

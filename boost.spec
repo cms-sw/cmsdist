@@ -1,10 +1,10 @@
 ### RPM external boost 1.38.0
 %define boostver _%(echo %realversion | tr . _)
 Source: http://internap.dl.sourceforge.net/sourceforge/%{n}/%{n}%{boostver}.tar.gz
+%define online %(case %cmsplatf in *onl_*_*) echo true ;; esac)
 
 Requires: boost-build python bz2lib
-%if "%cmsplatf" == "slc4onl_ia32_gcc346"
-%else
+%if "%online" != "true"
 Requires: zlib
 %endif
 
@@ -24,7 +24,7 @@ PR="PYTHON_ROOT=$PYTHON_ROOT"
 BZ2LIBR="BZIP2_LIBPATH=$BZ2LIB_ROOT/lib"
 BZ2LIBI="BZIP2_INCLUDE=$BZ2LIB_ROOT/include"
 
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
+%if "%online" != "true"
 ZLIBR="ZLIB_LIBPATH=$ZLIB_ROOT/lib"
 ZLIBI="ZLIB_INCLUDE=$ZLIB_ROOT/include"
 

@@ -1,10 +1,11 @@
 ### RPM external cmake 2.4.6
 %define downloaddir %(echo %realversion | cut -d. -f1,2)
 Source: http://www.cmake.org/files/v%{downloaddir}/%n-%realversion.tar.gz
+%define online %(case %cmsplatf in *onl_*_*) echo true ;; esac)
 #Patch1: cmake
 
 #We are using system zlib for the online builds:
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
+%if "%online" != "true"
 Requires: zlib
 %endif
 

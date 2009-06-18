@@ -7,38 +7,7 @@ Source: none
 %define compilertools %jcompiler
 %endif
 
-#PE%if "%{?online_release:set}" == "set"
-#PE#%define onlinetools curl libpng libtiff libungif mimetic mysql openssl oracle python elementtree qt xdaq xerces zlib
-#PE%define onlinetools zlib curl oracle openssl xerces-c xdaq mimetic
-#PE# Define variables used in non-scram-managed tools, that would be
-#PE# normally defined in package's init.sh/csh scrips.
-#PE# Set all versions as currently found on the system.
-#PE%define compiler_version                3.4.6
-#PE## INITENV SET CXXCOMPILER_VERSION      %compiler_version
-#PE## INITENV SET CCOMPILER_VERSION        %compiler_version
-#PE## INITENV SET F77COMPILER_VERSION      %compiler_version
-#PE%define curl_version                    7.12.1
-#PE## INITENV SET CURL_VERSION             %curl_version
-#PE%define zlib_version                    1.2.1.2
-#PE## INITENV SET ZLIB_VERSION             %zlib_version
-#PE%define oracle_version			10.2.1
-#PE## INITENV SET ORACLE_VERSION           %oracle_version
-#PE## INITENV SET ORACLE_ROOT		/opt/xdaq
-#PE%define openssl_version			0.9.7a
-#PE## INITENV SET OPENSSL_VERSION          %openssl_version
-#PE%define xerces_version			2.7.0
-#PE## INITENV SET XERCES_C_VERSION         %xerces_version
-#PE## INITENV SET XERCES_C_ROOT		/opt/xdaq
-#PE%define xdaq_version			3.13.0
-#PE## INITENV SET XDAQ_VERSION         	%xdaq_version
-#PE## INITENV SET XDAQ_ROOT         	/opt/xdaq
-#PE%define mimetic_version			0.9.1
-#PE## INITENV SET MIMETIC_VERSION         	%mimetic_version
-#PE%else
-%define onlinetools %{nil}
-#PE%endif
-
-%define systemtools			sockets opengl x11 %compilertools %onlinetools
+%define systemtools			sockets opengl x11 %compilertools
 %define sockets_version			1.0
 %define opengl_version			XFree4.2
 %define x11_version			R6
@@ -356,18 +325,3 @@ EOF_TOOLFILE
 %{relocateConfig}etc/scram.d/opengl
 %{relocateConfig}etc/scram.d/x11
 %{relocateConfig}etc/scram.d/jcompiler
-
-%if "%{?online_release:set}" == "set"
-%{relocateConfig}etc/scram.d/cxxcompiler
-%{relocateConfig}etc/scram.d/ccompiler
-%{relocateConfig}etc/scram.d/f77compiler
-%{relocateConfig}etc/scram.d/curl
-%{relocateConfig}etc/scram.d/zlib
-%{relocateConfig}etc/scram.d/oracle
-%{relocateConfig}etc/scram.d/openssl
-%{relocateConfig}etc/scram.d/xerces-c
-%{relocateConfig}etc/scram.d/xdaq
-%{relocateConfig}etc/scram.d/mimetic
-
-%endif
-

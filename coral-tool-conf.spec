@@ -1,12 +1,6 @@
 ### RPM cms coral-tool-conf 1.0
 # with cmsBuild, change the above version only when a new tool is added
-Requires: gmake
-
-%if "%cmsplatf" == "osx105_ia32_gcc401"
-Requires: gcc-toolfile
-# Requires: gmake                                                                                                                                   %endif
-
-Requires: gcc
+%define online %(case %cmsplatf in *onl_*_*) echo true ;; esac)
 Requires: pcre
 Requires: uuid
 Requires: python
@@ -14,21 +8,18 @@ Requires: expat
 Requires: boost
 Requires: frontier_client
 Requires: sqlite
-Requires: oracle
 Requires: oracle-env
 
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
-
+%if "%online" != "true"
 Requires: gcc-toolfile
 Requires: gcc
 Requires: zlib
 Requires: openssl
 Requires: cppunit
 Requires: xerces-c
+Requires: oracle
 Requires: systemtools
-%endif
-
-%if "%cmsplatf" == "slc4onl_ia32_gcc346"
+%else
 Requires: onlinesystemtools
 %define onlinesystemtoolsroot ${ONLINESYSTEMTOOLS_ROOT}
 %endif

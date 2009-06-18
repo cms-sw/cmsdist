@@ -1,24 +1,23 @@
-### RPM cms coral CORAL_2_3_0_pre1
+### RPM cms coral CORAL_2_3_0_pre2
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: libexpat.so.0
 Requires: coral-tool-conf
-
-Patch: coral-2_3_0_pre1-isnan
-Patch1: coral-2_3_0_pre1-boostSystem
+%define online %(case %cmsplatf in *onl_*_*) echo true ;; esac)
 
 %define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
 %define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
 %define cvsdir          %cvsprojlc
 %define cvsserver       %cvsprojlc
-%define preBuildCommand (rm -rf LFCLookupService LFCReplicaService MySQLAccess )
+%define preBuildCommand (rm -rf LFCLookupService LFCReplicaService MySQLAccess)
 %define prebuildtarget  prebuild
 %define buildtarget     release-build
 
-%if "%cmsplatf" == "slc4onl_ia32_gcc346"
+%if "%online" == "true"
 # Disable building tests in online release,
 # since they bring dependency on cppunit:
 %define patchsrc4       perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
+%define patchsrc5       rm -rf src/UnitTests
 %endif
 
 %if "%(echo %{cmsos} | cut -d_ -f 1 | sed -e 's|osx.*|osx|')" == "osx"
