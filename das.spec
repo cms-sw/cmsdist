@@ -52,16 +52,19 @@ perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependen
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 # setup approripate links and made post install procedure
-. $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
-cat $DAS_ROOT/etc/das.cfg |  sed "s,^dir =.*,dir = $DAS_ROOT/cache,g" > $DAS_ROOT/etc/das.cfg.tmp
-mv -f $DAS_ROOT/etc/das.cfg.tmp $DAS_ROOT/etc/das.cfg
 export HOSTNAME=`hostname`
 export IP=`host $HOSTNAME | awk '{print $4}'`
-cat $DAS_ROOT/src/python/DAS/web/das_cacheconfig.py | sed "s,127.0.0.1,$IP,g" > \
+. $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+
+cat $DAS_ROOT/etc/das.cfg |  sed "s,^dir =.*,dir = $DAS_ROOT/cache,g" |\
+sed "s,http://localhost,http://$IP,g" > $DAS_ROOT/etc/das.cfg.tmp
+/bin/mv -f $DAS_ROOT/etc/das.cfg.tmp $DAS_ROOT/etc/das.cfg
+
+cat $DAS_ROOT/src/python/DAS/web/das_cacheconfig.py | sed "s,127.0.0.1,$IP,g" >\
 $DAS_ROOT/src/python/DAS/web/das_cacheconfig.py.tmp
-mv -f $DAS_ROOT/src/python/DAS/web/das_cacheconfig.py.tmp \
-$DAS_ROOT/src/python/DAS/web/das_cacheconfig.py
-cat $DAS_ROOT/src/python/DAS/web/das_webconfig.py | sed "s,127.0.0.1,$IP,g" > \
+/bin/mv -f $DAS_ROOT/src/python/DAS/web/das_cacheconfig.py.tmp $DAS_ROOT/src/python/DAS/web/das_cacheconfig.py
+
+cat $DAS_ROOT/src/python/DAS/web/das_webconfig.py | sed "s,127.0.0.1,$IP,g" |\
+sed "s,http://localhost,http://$IP,g" > \
 $DAS_ROOT/src/python/DAS/web/das_webconfig.py.tmp
-mv -f $DAS_ROOT/src/python/DAS/web/das_webconfig.py.tmp \
-$DAS_ROOT/src/python/DAS/web/das_webconfig.py
+/bin/mv -f $DAS_ROOT/src/python/DAS/web/das_webconfig.py.tmp $DAS_ROOT/src/python/DAS/web/das_webconfig.py
