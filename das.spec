@@ -18,6 +18,7 @@ Requires: python cherrypy py2-cheetah sqlite py2-pysqlite py2-sqlalchemy yui ele
 mkdir -p %{i}/bin
 mkdir -p %{i}/test
 mkdir -p %{i}/src
+mkdir -p %{i}/logs
 mkdir -p %{i}/etc/profile.d
 mkdir -p %{i}/etc/init.d
 cp -r bin doc etc src test %i
