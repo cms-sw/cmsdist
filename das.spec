@@ -1,4 +1,4 @@
-### RPM cms das V01_04_09
+### RPM cms das V01_04_10
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PYTHONPATH $WMCORE_ROOT/src/python
 ## INITENV +PATH PYTHONPATH %i/src/python
@@ -55,3 +55,7 @@ perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependen
 . $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 cat $DAS_ROOT/etc/das.cfg |  sed "s,^dir =.*,dir = $DAS_ROOT/cache,g" > $DAS_ROOT/etc/das.cfg.tmp
 mv $DAS_ROOT/etc/das.cfg.tmp $DAS_ROOT/etc/das.cfg
+export HOSTNAME=`hostname`
+export IP=`host $HOSTNAME | awk '{print $4}'`
+cat $DAS_ROOT/src/python/DAS/web/das_cacheconfig.py | sed "s,127.0.0.1,$IP,g"
+cat $DAS_ROOT/src/python/DAS/web/das_webconfig.py | sed "s,127.0.0.1,$IP,g"
