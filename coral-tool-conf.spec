@@ -1,6 +1,7 @@
 ### RPM cms coral-tool-conf 1.0
 # with cmsBuild, change the above version only when a new tool is added
-%define online %(case %cmsplatf in *onl_*_*) echo true ;; esac)
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
 Requires: pcre
 Requires: uuid
 Requires: python

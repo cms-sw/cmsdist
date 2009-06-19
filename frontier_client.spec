@@ -2,7 +2,8 @@
 Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
 #Source: http://edge.fnal.gov:8888/frontier/%{n}__%{realversion}__src.tar.gz
 #Source: http://cern.ch/service-spi/external/tarFiles/%{n}__%{realversion}__src.tar.gz
-%define online %(case %cmsplatf in *onl_*_*) echo true ;; esac)
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
 
 Requires: expat
 %if "%online" == "true"

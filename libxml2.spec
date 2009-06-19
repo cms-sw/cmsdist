@@ -1,6 +1,7 @@
 ### RPM external libxml2 2.6.23-CMS19
 Source: ftp://xmlsoft.org/%n/%n-%realversion.tar.gz
-%define online %(case %cmsplatf in *onl_*_*) echo true ;; esac)
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
 
 %if "%online" != "true"
 Requires: zlib

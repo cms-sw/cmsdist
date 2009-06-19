@@ -2,7 +2,8 @@
 
 Requires: gmake
 Source0: tool2xml.pl
-%define online %(case %cmsplatf in *onl_*_*) echo true ;; esac)
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
 
 %prep
 %build

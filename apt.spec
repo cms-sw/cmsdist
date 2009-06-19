@@ -2,7 +2,8 @@
 ## INITENV SET APT_CONFIG %{i}/etc/apt.conf
 Source:  http://apt-rpm.org/releases/%n-%realversion.tar.bz2
 Source1: bootstrap
-%define online %(case %cmsplatf in *onl_*_*) echo true ;; esac)
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
 
 Requires: libxml2 rpm
 %if "%online" != "true"
