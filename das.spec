@@ -63,5 +63,5 @@ mv -f $DAS_ROOT/src/python/DAS/web/das_cacheconfig.py.tmp \
 $DAS_ROOT/src/python/DAS/web/das_cacheconfig.py
 cat $DAS_ROOT/src/python/DAS/web/das_webconfig.py | sed "s,127.0.0.1,$IP,g" > \
 $DAS_ROOT/src/python/DAS/web/das_webconfig.py.tmp
-mv -f $DAS_ROOT/src/python/DAS/web/das_webconfig.py.tmp
+mv -f $DAS_ROOT/src/python/DAS/web/das_webconfig.py.tmp \
 $DAS_ROOT/src/python/DAS/web/das_webconfig.py
