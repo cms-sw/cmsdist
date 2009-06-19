@@ -58,6 +58,7 @@ export IP=`host $HOSTNAME | awk '{print $4}'`
 . $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 
 cat $DAS_ROOT/etc/das.cfg |  sed "s,^dir =.*,dir = $DAS_ROOT/cache,g" |\
+sed "s,logdir = /tmp,logdir = $DAS_ROOT/logs,g" |\
 sed "s,http://localhost,http://$IP,g" > $DAS_ROOT/etc/das.cfg.tmp
 /bin/mv -f $DAS_ROOT/etc/das.cfg.tmp $DAS_ROOT/etc/das.cfg
 
