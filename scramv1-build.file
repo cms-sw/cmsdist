@@ -330,7 +330,7 @@ scramver=`cat config/scram_version`
 (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.pl --arch %cmsplatf --nolink INCLUDE) || true
 eval `%scramcmd run -sh`
 for cmd in SealPluginRefresh EdmPluginRefresh IgPluginRefresh ; do
-  cmdpath=`which $cmd || echo "" 2> /dev/null`
+  cmdpath=`which $cmd 2> /dev/null || echo ""`
   if [ "X$cmdpath" != X ] ; then
     $cmd || true
   fi
