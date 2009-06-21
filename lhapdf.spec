@@ -1,6 +1,4 @@
 ### RPM external lhapdf 5.6.0
-## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac 
-
 %define realversion %(echo %v | cut -d- -f1)
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Patch0: lhapdf-5.6.0-g77
@@ -20,10 +18,9 @@ case %gccver in
   ;;
 esac
 %patch1 -p2
-
-%build
 ./configure --disable-pyext --enable-low-memory --prefix=%i --with-max-num-pdfsets=1
 
+%build
 which perl
 cp Makefile Makefile.orig
 perl -p -i -e 's|/usr/lib64/libm.a||g' config.status
