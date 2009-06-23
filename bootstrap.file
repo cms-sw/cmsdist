@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.64 $
+# Revision: $Revision: 1.65 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -45,7 +45,16 @@ if [ -z "$download_method" ]; then
 fi
 
 # Safely create a user-specific temp directory.
-tempdir=`mktemp -d ${${TMPDIR}:-/tmp}/tmpXXXXX`
+# We look for TMPDIR since /tmp might not be user
+# writeable.
+# Notice that -p option does not work on MacOSX and
+# ${${TMPDIR:-/tmp}} is zsh only.
+if [ "X$TMPDIR" = X ]
+then
+  tempdir=`mktemp -d /tmp/tmpXXXXX`
+else
+  tempdir=`mktemp -d $TMPDIR/tmpXXXXX`
+fi
 
 # We have our own version of find-provides for bootstrap, so that we don't
 # depend on a "system" rpm installation. This is particularly handy in the case 
