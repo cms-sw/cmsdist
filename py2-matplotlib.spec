@@ -12,6 +12,7 @@ Requires: py2-numpy
 # Requires: atlas lapack
 Requires: libpng
 # Requires: freetype
+Patch0: matplotlib-0.98.5.3
 %prep
 %setup -n %downloadn-%realversion
 %patch0 -p0
