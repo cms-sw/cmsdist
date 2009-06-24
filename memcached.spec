@@ -1,4 +1,4 @@
-### RPM external memcached 1.2.6
+### RPM external memcached 1.2.8
 Source: http://www.danga.com/memcached/dist/memcached-%{realversion}.tar.gz
 Requires: libevent
 
