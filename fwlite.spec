@@ -1,4 +1,4 @@
-### RPM cms fwlite CMSSW_2_2_3_FWLITE
+### RPM cms fwlite CMSSW_2_2_13_FWLITE
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: /bin/sed
@@ -23,6 +23,7 @@ Requires: fwlite-tool-conf python
 
 # Switch off building tests:
 %define patchsrc3 perl -p -i -e ' s|(<classpath.*test\\+test.*>)||;' config/BuildFile.xml*
+%define patchsrc4 perl -p -i -e ' s|(<classpath.*plugins\\+plugins.*>)||;' config/BuildFile.xml*
 
 
 ## IMPORT cms-scram-build
