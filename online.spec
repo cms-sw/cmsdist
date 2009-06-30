@@ -27,7 +27,7 @@ Patch0: online_src
 #Defines for file containing list of packages for checkout and build:
 %define buildsetfile    online_build_set
 
-%define patchsrc2	perl -p -i -e ' s!(<classpath.*/test\\+.*>)!!; s!(.*PixelLowPtUtilities.*)!#$1!' config/BuildFile.xml  src/RecoHI/HiTracking/BuildFile
+%define patchsrc2	perl -p -i -e ' s!(<classpath.*/test\\+.*>)!!' config/BuildFile.xml
 %define patchsrc3       %patch -p0
 
 ## IMPORT cms-scram-build
