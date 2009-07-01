@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 12.0
+### RPM cms cmssw-tool-conf 11.0
 # with cmsBuild, change the above version only when a new
 # tool is added
 
@@ -84,7 +84,6 @@ Requires: sherpa
 Requires: python-ldap
 Requires: millepede
 Requires: gdb
-Requires: pyqt
 
 %define skipreqtools jcompiler
 
