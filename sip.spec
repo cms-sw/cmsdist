@@ -1,4 +1,4 @@
-### RPM external sip 4.7.9
+### RPM external sip 4.8
 ## INITENV +PATH PYTHONPATH %i/lib/python2.4/site-packages
 Source: http://www.riverbankcomputing.co.uk/static/Downloads/sip4/sip-%realversion.tar.gz
 Requires: python

@@ -2,11 +2,12 @@
 ## INITENV SET APT_CONFIG %{i}/etc/apt.conf
 Source:  http://apt-rpm.org/releases/%n-%realversion.tar.bz2
 Source1: bootstrap
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
 
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
-Requires: libxml2 beecrypt rpm zlib bz2lib openssl
-%else
-Requires: libxml2 beecrypt rpm bz2lib
+Requires: libxml2 rpm
+%if "%online" != "true"
+Requires: openssl
 %endif
 
 Patch0: apt-rpm449
@@ -46,7 +47,13 @@ esac
 
 %build
 #export CFLAGS="-O0 -g"
-#export CXXFLAGS="-O0 -g"
+case %cmsplatf in
+  slc*_ia32_*)
+    export CXXFLAGS="-D_FILE_OFFSET_BITS=64"
+    ;;
+  *)
+    ;;
+esac
 export CPPFLAGS="-I$BZ2LIB_ROOT/include -I$BEECRYPT_ROOT/include -I$RPM_ROOT/include -I$RPM_ROOT/include/rpm"
 export LDFLAGS="-L$BZ2LIB_ROOT/lib -L$BEECRYPT_ROOT/%{libdir} -L$RPM_ROOT/%{libdir}"
 export LIBDIR="$LIBS"
