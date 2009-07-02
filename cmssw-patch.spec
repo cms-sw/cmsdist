@@ -1,4 +1,4 @@
-### RPM cms cmssw-patch CMSSW_3_1_0_patch1
+### RPM cms cmssw-patch CMSSW_2_2_13_offpatch1
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: /bin/ksh
@@ -31,4 +31,4 @@ Requires: cmssw-patch-tool-conf
 %define isPatch         yes
 
 ## IMPORT cms-scram-build
-## IMPORT scramv1-patch-build
+## IMPORT scramv1-build
