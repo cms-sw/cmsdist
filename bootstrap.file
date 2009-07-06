@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.66 $
+# Revision: $Revision: 1.65 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -357,7 +357,7 @@ generateSeedSpec () {
       fi
       echo; echo "%description"; echo "Seeds RPM repository from the base system."
       echo; echo "%prep"; echo "%build"; echo "%install"; echo "%files";
-     ) > system-base-import.spec || exit 3
+     ) > system-base-import.spec
     perl -p -i -e 's|^Provides:[\s]*$||' system-base-import.spec
     cd $was
 }
@@ -366,8 +366,7 @@ seed ()
 {
     rcfile=$1
     cd $importTmp
-    (source $rootdir/$cmsplatf/external/rpm/$rpm_version/etc/profile.d/init.sh
-     rpmbuild -ba --rcfile $rcfile system-base-import.spec >/dev/null 2>&1
+    (rpmbuild -ba --rcfile $rcfile system-base-import.spec >/dev/null 2>&1
      [ "X$verbose" = Xtrue ] && echo && echo "...Seeding database in in $rootdir/$rpmdb"
      rpm --define "_rpmlock_path $rpmlock" -U -r $rootdir --rcfile $rcfile --dbpath $rootdir/$rpmdb RPMS/system-base-import.rpm
     ) || cleanup_and_exit $? "Error while seeding rpm database with system packages."
@@ -600,7 +599,7 @@ case $command in
         ;;
     reseed )
         generateSeedSpec
-        seed $rootdir/$cmsplatf/external/rpm/$rpm_version/lib/rpm/rpmrc 
+        seed $cmsplatf/external/rpm/$rpm_version/lib/rpm/rpmrc 
         ;;
 esac
 
