@@ -28,6 +28,7 @@ Patch18: root-5.22-00a-fireworks3
 Patch19: root-5.22-00a-TBranchElement
 Patch20: root-5.22-00a-tmplt
 Patch21: root-5.22-00a-TBranchElement_TStreamerInfo
+Patch22: root-5.22-00a-gcc43-array-bounds-dictionary-workaround
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -66,7 +67,7 @@ Requires: libtiff
 %patch13 -p1
 %patch14 -p0
 %patch15 -p0
-%patch16 -p1
+# patch16 is compiler version dependent, see below
 %patch17 -p1
 %patch18 -p1
 %patch19 -p0
@@ -74,8 +75,11 @@ Requires: libtiff
 %patch21 -p0
 # work around patch issue...
 rm graf3d/gl/src/gl2ps.c
+# patch22 is compiler version dependent, see below
 
 case %gccver in
+  4.3)
+%patch22 -p1
   4.4)
 %patch16 -p1
   ;;
