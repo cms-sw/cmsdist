@@ -80,6 +80,7 @@ rm graf3d/gl/src/gl2ps.c
 case %gccver in
   4.3)
 %patch22 -p1
+  ;;
   4.4)
 %patch16 -p1
   ;;
