@@ -342,6 +342,7 @@ IOPool/Input
 IOPool/Output
 IOPool/PFNCatalog
 IOPool/Streamer
+IOPool/TFileAdaptor
 IOPool/TrivialFileCatalog
 IORawData/DaqSource
 Iguana/Utilities

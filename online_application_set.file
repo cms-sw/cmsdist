@@ -206,6 +206,7 @@ HLTrigger/special
 IOPool/Input
 IOPool/Output
 IOPool/PFNCatalog
+IOPool/TFileAdaptor
 IOPool/TrivialFileCatalog
 JetMETCorrections/Configuration
 JetMETCorrections/Modules
