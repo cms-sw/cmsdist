@@ -29,7 +29,8 @@ Patch19: root-5.22-00a-TBranchElement
 Patch20: root-5.22-00a-tmplt
 Patch21: root-5.22-00a-TBranchElement_TStreamerInfo
 Patch22: root-5.22-00a-gcc43-array-bounds-dictionary-workaround
-Patch23: root-5.22-00a-TTreeCloner
+Patch23: root-5.22-00a-CINT-dict-init-speedup
+Patch24: root-5.22-00a-fireworks4
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -77,17 +78,18 @@ Requires: libtiff
 # work around patch issue...
 rm graf3d/gl/src/gl2ps.c
 # patch22 is compiler version dependent, see below
+# patch23 is (for now) only applied for gcc4.3, see below
+# doesn't work at the moment %patch24 -p1
 
 case %gccver in
-  4.3)
+  4.3.*)
 %patch22 -p1
+%patch23 -p1
   ;;
-  4.4)
+  4.4.*)
 %patch16 -p1
   ;;
 esac
-
-%patch23 -p0
  
 %build
 
