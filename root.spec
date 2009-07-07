@@ -79,7 +79,7 @@ Requires: libtiff
 rm graf3d/gl/src/gl2ps.c
 # patch22 is compiler version dependent, see below
 # patch23 is (for now) only applied for gcc4.3, see below
-%patch24 -p1
+# doesn't work at the moment %patch24 -p1
 
 case %gccver in
   4.3.*)
