@@ -1,4 +1,4 @@
-### RPM cms dbs-server DBS_2_0_8_pre1
+### RPM cms dbs-server DBS_2_0_8_pre2
 
 %define cvstag %{realversion}
 # define version of DBS to use, it's schema version
@@ -171,8 +171,25 @@ echo "$DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql"
 # DBS uses trigger which requires to have SUPER priveleges, so we'll create DB using root
 # and delegate this to dbs account.
 export DBS_SCHEMA=`grep "^use " $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql | awk '{print $2}' | sed "s/;//g"`
-$MYSQL_ROOT/bin/mysql -uroot -pcms --port=$MYSQL_PORT --socket=$MYSQL_SOCK < $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql
-$MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK --port=$MYSQL_PORT -uroot -pcms mysql -e "GRANT ALL ON ${DBS_SCHEMA}.* TO dbs@localhost;"
+
+# check existing DBS installation
+old=`mysql5 --vertical -uroot -pcms --port=$MYSQL_PORT --socket=$MYSQL_SOCK -e "show databases" | grep "Database:" | egrep "^CMS_DBS$" | awk '{print $2}'`
+if [ ! -z "$old" ]; then
+    # we need to do upgrade, first let's move existing CMS_DBS
+    cp -r $MYSQL_ROOT/var/db/mysql5/CMS_DBS $MYSQL_ROOT/var/db/mysql5/CMS_DBS_$old
+    while true; do
+       ver=`mysql5 --vertical -uroot -pcms --port=$MYSQL_PORT --socket=$MYSQL_SOCK -e "select SchemaVersion from SchemaVersion" CMS_DBS | grep SchemaVersion | awk '{print $2}'`
+       if  [ -f $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/upgrade.$ver ]; then
+           $MYSQL_ROOT/bin/mysql -uroot -pcms --port=$MYSQL_PORT --socket=$MYSQL_SOCK < $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/upgrade.$ver
+       else
+           break
+       fi
+    done
+else
+    # we will install fresh DBS
+    $MYSQL_ROOT/bin/mysql -uroot -pcms --port=$MYSQL_PORT --socket=$MYSQL_SOCK < $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql
+    $MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK --port=$MYSQL_PORT -uroot -pcms mysql -e "GRANT ALL ON ${DBS_SCHEMA}.* TO dbs@localhost;"
+fi
 
 # I need to copy/deploy DBS.war file into tomcat area
 cp $DBS_SERVER_ROOT/Servers/JavaServer/DBS.war $APACHE_TOMCAT_ROOT/webapps
