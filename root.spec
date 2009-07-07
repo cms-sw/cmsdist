@@ -78,10 +78,10 @@ rm graf3d/gl/src/gl2ps.c
 # patch22 is compiler version dependent, see below
 
 case %gccver in
-  4.3)
+  4.3.*)
 %patch22 -p1
   ;;
-  4.4)
+  4.4.*)
 %patch16 -p1
   ;;
 esac
