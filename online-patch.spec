@@ -31,6 +31,7 @@ Requires: online-patch-tool-conf
 %define saveDeps        yes
 
 %define isPatch         yes
+%define patchsrc2       perl -p -i -e ' s!(<classpath.*/test\\+.*>)!!' config/BuildFile.xml
 
 ## IMPORT cms-scram-build
 ## IMPORT partial-build
