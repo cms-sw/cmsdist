@@ -313,6 +313,7 @@ TrackingTools/MaterialEffects
 TrackingTools/Producers
 TrackingTools/TrackFitters
 TrackingTools/TransientTrack
+Utilities/ReleaseScripts
 Utilities/Testing
 SimDataFormats/TrackingHit
 SimDataFormats/CrossingFrame
