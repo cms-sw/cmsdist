@@ -50,7 +50,7 @@ slc*onl* )
     platformSeeds="$platformSeeds daq-config daq-log4cplus daq-logudpappender 
         daq-logxmlappender daq-pt daq-ptfifo daq-pthttp 
         daq-pttcp daq-toolbox daq-xcept daq-xdaq2rc daq-xdata
-        daq-xgi daq-xoap"
+        daq-xgi daq-xoap daq-sentinel"
     ;;
 *)
    platformSeeds="glibc glibc-32bit coreutils bash tcsh zsh pdksh perl
