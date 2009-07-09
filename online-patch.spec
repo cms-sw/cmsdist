@@ -10,6 +10,7 @@ Provides: perl(Term::ReadKey)
 Provides: perl(full)
 Provides: perl(LWP::UserAgent)
 Provides: perl(Template)
+Provides: libsentinelutils.so
 
 Requires: online-patch-tool-conf
 
