@@ -173,12 +173,12 @@ echo "$DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql"
 export DBS_SCHEMA=`grep "^use " $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql | awk '{print $2}' | sed "s/;//g"`
 
 # check existing DBS installation
-old=`mysql5 --vertical -uroot -pcms --port=$MYSQL_PORT --socket=$MYSQL_SOCK -e "show databases" | grep "Database:" | egrep "^CMS_DBS$" | awk '{print $2}'`
+old=`mysql --vertical -uroot -pcms --port=$MYSQL_PORT --socket=$MYSQL_SOCK -e "show databases" | grep "Database:" | egrep "^CMS_DBS$" | awk '{print $2}'`
 if [ ! -z "$old" ]; then
     # we need to do upgrade, first let's move existing CMS_DBS
-    cp -r $MYSQL_ROOT/var/db/mysql5/CMS_DBS $MYSQL_ROOT/var/db/mysql5/CMS_DBS_$old
+    cp -r $MYSQL_ROOT/var/db/mysql/CMS_DBS $MYSQL_ROOT/var/db/mysql/CMS_DBS_$old
     while true; do
-       ver=`mysql5 --vertical -uroot -pcms --port=$MYSQL_PORT --socket=$MYSQL_SOCK -e "select SchemaVersion from SchemaVersion" CMS_DBS | grep SchemaVersion | awk '{print $2}'`
+       ver=`mysql --vertical -uroot -pcms --port=$MYSQL_PORT --socket=$MYSQL_SOCK -e "select SchemaVersion from SchemaVersion" CMS_DBS | grep SchemaVersion | awk '{print $2}'`
        if  [ -f $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/upgrade.$ver ]; then
            $MYSQL_ROOT/bin/mysql -uroot -pcms --port=$MYSQL_PORT --socket=$MYSQL_SOCK < $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/upgrade.$ver
        else
