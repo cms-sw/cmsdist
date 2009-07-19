@@ -1,4 +1,4 @@
-### RPM cms dbs-server DBS_2_0_8_pre4
+### RPM cms dbs-server DBS_2_0_6_pre8
 
 %define cvstag %{realversion}
 # define version of DBS to use, it's schema version
@@ -60,9 +60,9 @@ MYSQL_ERR=\$MYSQL_PATH/error.log
 function dbs_stop() 
 {
     me=\`whoami\`
-    echo $"Stop mysqld|tomcat running under \$me account from $MYAREA area..."
-    ps -w -w -f -u\$me | grep mysqld | grep $MYAREA | grep \$MYSQL_PORT | grep -v grep | awk '{print "kill -9 "\$2""}'|/bin/sh
-    ps -w -w -f -u\$me | grep tomcat | grep $MYAREA | grep -v grep | awk '{print "kill -9 "\$2""}'|/bin/sh
+    echo $"Stop mysqld|tomcat running under \$me account..."
+    ps -w -w -f -u\$me | grep mysqld | grep \$MYSQL_PORT | grep -v grep | awk '{print "kill -9 "\$2""}'|/bin/sh
+    ps -w -w -f -u\$me | grep tomcat | grep -v grep | awk '{print "kill -9 "\$2""}'|/bin/sh
 }
 function dbs_start()
 {
@@ -78,18 +78,18 @@ function dbs_start()
 function dbs_status() 
 {
     me=\`whoami\`
-    dbs_mysqld=\`ps -w -w -f -u\$me | egrep "mysqld" | grep $MYAREA | grep \$MYSQL_PORT| grep -v egrep | wc -l\`
-    dbs_tomcat=\`ps -w -w -f -u\$me | egrep "tomcat" | grep $MYAREA | grep -v egrep | wc -l\`
+    dbs_mysqld=\`ps -w -w -f -u\$me | egrep "mysqld" | grep \$MYSQL_PORT| grep -v egrep | wc -l\`
+    dbs_tomcat=\`ps -w -w -f -u\$me | egrep "tomcat" | grep -v egrep | wc -l\`
     if [ \${dbs_tomcat} -ne 1 ]; then
        echo "Tomcat server is not running"
-       break
+       exit 1
     fi
     if [ \${dbs_mysqld} -ne 2 ]; then
        echo "MySQL server is not running"
        exit 1
     fi
-    ps -w -w -f -u\$me | grep $MYAREA | egrep "mysqld" | grep -v egrep | awk '{print "MySQLd server running, pid="\$2""}'
-    ps -w -w -f -u\$me | grep $MYAREA | egrep "tomcat" | grep -v egrep | awk '{print "Tomcat server running, pid="\$2""}'
+    ps -w -w -f -u\$me | egrep "mysqld" | grep -v egrep | awk '{print "MySQLd server running, pid="\$2""}'
+    ps -w -w -f -u\$me | egrep "tomcat" | grep -v egrep | awk '{print "Tomcat server running, pid="\$2""}'
     echo "For more information please have a look at tomcat log:"
     echo "\$APACHE_TOMCAT_ROOT/logs/catalina.out"
 }
@@ -171,25 +171,8 @@ echo "$DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql"
 # DBS uses trigger which requires to have SUPER priveleges, so we'll create DB using root
 # and delegate this to dbs account.
 export DBS_SCHEMA=`grep "^use " $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql | awk '{print $2}' | sed "s/;//g"`
-
-# check existing DBS installation
-old=`mysql --vertical -uroot -pcms --port=$MYSQL_PORT --socket=$MYSQL_SOCK -e "show databases" | grep "Database:" | egrep "^CMS_DBS$" | awk '{print $2}'`
-if [ ! -z "$old" ]; then
-    # we need to do upgrade, first let's move existing CMS_DBS
-    cp -r $MYSQL_ROOT/var/db/mysql/CMS_DBS $MYSQL_ROOT/var/db/mysql/CMS_DBS_$old
-    while true; do
-       ver=`mysql --vertical -uroot -pcms --port=$MYSQL_PORT --socket=$MYSQL_SOCK -e "select SchemaVersion from SchemaVersion" CMS_DBS | grep SchemaVersion | awk '{print $2}'`
-       if  [ -f $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/upgrade.$ver ]; then
-           $MYSQL_ROOT/bin/mysql -uroot -pcms --port=$MYSQL_PORT --socket=$MYSQL_SOCK < $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/upgrade.$ver
-       else
-           break
-       fi
-    done
-else
-    # we will install fresh DBS
-    $MYSQL_ROOT/bin/mysql -uroot -pcms --port=$MYSQL_PORT --socket=$MYSQL_SOCK < $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql
-    $MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK --port=$MYSQL_PORT -uroot -pcms mysql -e "GRANT ALL ON ${DBS_SCHEMA}.* TO dbs@localhost;"
-fi
+$MYSQL_ROOT/bin/mysql -uroot -pcms --port=$MYSQL_PORT --socket=$MYSQL_SOCK < $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-MySQL_DEPLOYABLE.sql
+$MYSQL_ROOT/bin/mysql --socket=$MYSQL_SOCK --port=$MYSQL_PORT -uroot -pcms mysql -e "GRANT ALL ON ${DBS_SCHEMA}.* TO dbs@localhost;"
 
 # I need to copy/deploy DBS.war file into tomcat area
 cp $DBS_SERVER_ROOT/Servers/JavaServer/DBS.war $APACHE_TOMCAT_ROOT/webapps
