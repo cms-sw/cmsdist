@@ -24,8 +24,6 @@ esac
 %build
 ./configure --disable-pyext --enable-low-memory --prefix=%i --with-max-num-pdfsets=1
 
-which perl
-cp Makefile Makefile.orig
 perl -p -i -e 's|/usr/lib64/libm.a||g' config.status
 perl -p -i -e 's|/usr/lib64/libc.a||g' config.status
 perl -p -i -e 's|/usr/lib64/libm.a||g' Makefile */Makefile */*/Makefile */*/*/Makefile
@@ -34,6 +32,18 @@ make
 
 %install
 make install
+# do another install-round for full libs
+make distclean
+%define fulllibpath %(echo %i"/full")
+%define fullname %(echo %n"full")
+./configure --disable-pyext --prefix=%fulllibpath --disable-pdfsets
+perl -p -i -e 's|/usr/lib64/libm.a||g' config.status
+perl -p -i -e 's|/usr/lib64/libc.a||g' config.status
+perl -p -i -e 's|/usr/lib64/libm.a||g' Makefile */Makefile */*/Makefile */*/*/Makefile
+perl -p -i -e 's|/usr/lib64/libc.a||g' Makefile */Makefile */*/Makefile */*/*/Makefile
+make
+make install
+
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
@@ -59,5 +69,32 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdfwrap
 </Tool>
 EOF_TOOLFILE
 
+# SCRAM ToolBox toolfiles for full libs
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%fullname
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=lhapdffull version=%v>
+<lib name=LHAPDF>
+<Client>
+ <Environment name=LHAPDF_BASE default="%i"></Environment>
+ <Environment name=LHAPATH_BASE default="%i"></Environment>
+ <Environment name=LIBDIR default="$LHAPDF_BASE/full/lib"></Environment>
+ <Environment name=INCLUDE default="$LHAPDF_BASE/include"></Environment>
+ <Environment name=LHAPATH default="$LHAPATH_BASE/share/lhapdf/PDFsets"></Environment>
+</Client>
+<Runtime name=LHAPATH value="$LHAPATH_BASE/share/lhapdf/PDFsets" type=path>
+<use name=f77compiler>
+</Tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdfwrapfull
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=lhapdfwrap version=%v>
+<lib name=LHAPDFWrap> 
+<use name=lhapdffull>
+</Tool>
+EOF_TOOLFILE
+
 %post
 %{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/scram.d/%fullname
