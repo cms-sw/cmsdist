@@ -29,6 +29,7 @@ Patch0: online_src
 
 %define patchsrc2	perl -p -i -e ' s!(<classpath.*/test\\+.*>)!!' config/BuildFile.xml
 %define patchsrc3       %patch -p0
+%define patchsrc4       rm -rf src/DQM/SiPixelHistoricInfoClient/bin
 
 ## IMPORT cms-scram-build
 ## IMPORT partial-build
