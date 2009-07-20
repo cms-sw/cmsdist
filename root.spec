@@ -31,6 +31,7 @@ Patch21: root-5.22-00a-TBranchElement_TStreamerInfo
 Patch22: root-5.22-00a-gcc43-array-bounds-dictionary-workaround
 Patch23: root-5.22-00a-CINT-dict-init-speedup
 Patch24: root-5.22-00a-fireworks4
+Patch25: root-5.22-00a-TTreeCloner
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -80,6 +81,16 @@ rm graf3d/gl/src/gl2ps.c
 # patch22 is compiler version dependent, see below
 # patch23 is (for now) only applied for gcc4.3, see below
 # doesn't work at the moment %patch24 -p1
+
+%patch24 -p1
+#work around patch issues in patch24
+rm graf3d/eve/inc/TEveLegoOverlay.h.orig
+rm graf3d/eve/src/TEveLegoOverlay.cxx
+rm graf3d/gl/inc/gl2ps.h.orig
+rm graf3d/gl/src/gl2ps.c.orig
+
+
+%patch25 -p0
 
 case %gccver in
   4.3.*)
