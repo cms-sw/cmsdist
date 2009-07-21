@@ -10,7 +10,6 @@ Provides: perl(Term::ReadKey)
 Provides: perl(full)
 Provides: perl(LWP::UserAgent)
 Provides: perl(Template)
-Provides: libsentinelutils.so
 Requires: online-patch-tool-conf
 
 %define cmssw_release   %(perl -e '$_="%v"; s/_ONLINE//; print;')
