@@ -1,4 +1,4 @@
-### RPM cms online CMSSW_3_2_0_ONLINE
+### RPM cms online CMSSW_3_2_1_ONLINE
 ## IMPORT configurations 
 
 Provides: /bin/zsh
@@ -11,7 +11,6 @@ Provides: perl(Term::ReadKey)
 Provides: perl(full)
 Provides: perl(LWP::UserAgent)
 Provides: perl(Template)
-Provides: libsentinelutils.so
 Requires: online-tool-conf python
 Patch0: online_src
 
