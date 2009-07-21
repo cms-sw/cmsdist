@@ -1,9 +1,7 @@
 ### RPM cms dbs-apps DBS_2_0_8_pre5
 
-#Requires: dbs-server dbs-client dbs-schema dbs-light dbs-web
 Requires: dbs-server dbs-client dbs-schema dbs-web
 Source: none
-
 
 %prep
 cd %_builddir
@@ -20,7 +18,6 @@ mkdir -p %{i}/etc/profile.d
  echo "source $DBS_SERVER_ROOT/etc/profile.d/init.sh"; \
  echo "source $DBS_CLIENT_ROOT/etc/profile.d/init.sh"; \
  echo "source $DBS_SCHEMA_ROOT/etc/profile.d/init.sh"; \
- echo "source $DBS_LIGHT_ROOT/etc/profile.d/init.sh"; \
  echo "source $DBS_WEB_ROOT/etc/profile.d/init.sh"; \
  ) > %{i}/etc/profile.d/dependencies-setup.sh
 
@@ -28,7 +25,6 @@ mkdir -p %{i}/etc/profile.d
  echo "source $DBS_SERVER_ROOT/etc/profile.d/init.csh"; \
  echo "source $DBS_CLIENT_ROOT/etc/profile.d/init.csh"; \
  echo "source $DBS_SCHEMA_ROOT/etc/profile.d/init.csh"; \
- echo "source $DBS_LIGHT_ROOT/etc/profile.d/init.csh"; \
  echo "source $DBS_WEB_ROOT/etc/profile.d/init.csh"; \
  ) > %{i}/etc/profile.d/dependencies-setup.csh
 
