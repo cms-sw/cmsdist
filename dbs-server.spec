@@ -175,14 +175,23 @@ export DBS_SCHEMA=`grep "^use " $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/DBS-NeXtGen-
 # check existing DBS installation
 old=`mysql --vertical -uroot -pcms --port=$MYSQL_PORT --socket=$MYSQL_SOCK -e "show databases" | grep "Database:" | egrep "^CMS_DBS$" | awk '{print $2}'`
 if [ ! -z "$old" ]; then
+    # stop both tomcat and mysql servers in order to copy previous DB
+    echo "+++ Stop Tomcat & MySQL to perform upgrade ..."
+    killall -q tomcat
+    $MYSQL_ROOT/bin/mysqladmin -uroot -pcms --socket=$MYSQL_SOCK --port=$MYSQL_PORT shutdown
     # we need to do upgrade, first let's move existing CMS_DBS
     cp -r $MYSQL_ROOT/var/db/mysql/CMS_DBS $MYSQL_ROOT/var/db/mysql/CMS_DBS_$old
-    while true; do
-       ver=`mysql --vertical -uroot -pcms --port=$MYSQL_PORT --socket=$MYSQL_SOCK -e "select SchemaVersion from SchemaVersion" CMS_DBS | grep SchemaVersion | awk '{print $2}'`
-       if  [ -f $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/upgrade.$ver ]; then
-           $MYSQL_ROOT/bin/mysql -uroot -pcms --port=$MYSQL_PORT --socket=$MYSQL_SOCK < $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/upgrade.$ver
-       else
-           break
+    # start mysql since we will upgrade
+    echo "+++ Start up CMS MySQL daemon on port ${MYSQL_PORT} ..."
+    $MYSQL_ROOT/bin/mysqld_safe --datadir=$MYSQL_PATH --port=$MYSQL_PORT \
+    --socket=$MYSQL_SOCK --log-error=$MYSQL_ERR --pid-file=$MYSQL_PID &
+    sleep 10
+    # perform upgrade
+    ver=`mysql --vertical -uroot -pcms --port=$MYSQL_PORT --socket=$MYSQL_SOCK -e "select DBS_RELEASE_VERSION from SchemaVersion" CMS_DBS | grep DBS_RELEASE_VERSION | awk '{print $2}'`
+    upgrade_files=`ls upgrade-mysql-*.sql | sort -u | awk '{if($0 > "upgrade-mysql-"DBSVER".sql") print $0}' DBSVER=$ver`
+    for ufile in $upgrade_files; do
+       if  [ -f $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/$ufile ]; then
+           $MYSQL_ROOT/bin/mysql -uroot -pcms --port=$MYSQL_PORT --socket=$MYSQL_SOCK < $DBS_SCHEMA_ROOT/lib/Schema/NeXtGen/$ufile
        fi
     done
 else
@@ -213,8 +222,8 @@ echo "+++ Clean-up mysqld|tomcat processes"
 #ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "$2""}' |/bin/sh
 #killall -q mysqld
 #cat $MYSQL_ROOT/mysqldb/mysqld.pid
-$MYSQL_ROOT/bin/mysqladmin -uroot -pcms --socket=$MYSQL_SOCK --port=$MYSQL_PORT shutdown
 killall -q tomcat
+$MYSQL_ROOT/bin/mysqladmin -uroot -pcms --socket=$MYSQL_SOCK --port=$MYSQL_PORT shutdown
 
 # made correct link to LibValut
 rm -f $DBS_SERVER_ROOT/LibValut
