@@ -2,8 +2,6 @@
 
 %define projectname trackerDAQ
 %define releasename %{projectname}-%{realversion}
-%define closingbrace )
-%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
 Source: http://cern.ch/cms-sdt/source-mirrors/tkonlinesw/trackerDAQ-2.5.1-3.tgz
 Patch0: tkonlinesw-2.5.1-gcc43
 Patch1: tkonlinesw-2.5.1-TShare-64bit
@@ -13,7 +11,7 @@ Patch3: tkonlinesw-2.5.1-gcc44
 # Note from Kristian: 
 # xdaq dependency is here only to re-use its makefiles. 
 
-%if "%online" != "true"
+%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 Requires: xerces-c
 Requires: oracle
 Requires: xdaq
