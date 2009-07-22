@@ -34,7 +34,7 @@ mkdir -p %{i}/etc/profile.d
 # setup approripate links and made post install procedure
 . $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 
-cat > %{i}/etc/profile.d/setup.sh << DBS_INIT_EOF
+cat > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/setup.sh << DBS_INIT_EOF
 #!/bin/sh
 export MYAREA=$RPM_INSTALL_PREFIX
 export SCRAM_ARCH=$SCRAM_ARCH
@@ -51,5 +51,5 @@ export MYSQL_UNIX_PORT=\$MYSQL_ROOT/mysqldb/mysql.sock
 DBS_INIT_EOF
 
 echo "To setup environment for this package please use"
-echo %{i}/etc/profile.d/setup.sh
+echo $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/setup.sh
 
