@@ -1,4 +1,4 @@
-### RPM cms cmssw-patch CMSSW_3_1_1_patch1
+### RPM cms cmssw-patch CMSSW_2_1_7_patch1
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: /bin/ksh
@@ -18,7 +18,6 @@ Requires: cmssw-patch-tool-conf
 %define cvsdir          %cvsprojuc
 %define cvssrc          %cvsprojuc
 %define cvsserver       cmssw
-%define cvsrep		cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/%cvsdir?passwd=AA_:yZZ3e
 # %define cvsrepo		cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/%cvsdir?passwd=AA_:yZZ3e
 %define useCmsTC        1
 
@@ -31,4 +30,4 @@ Requires: cmssw-patch-tool-conf
 %define isPatch         yes
 
 ## IMPORT cms-scram-build
-## IMPORT scramv1-patch-build
+## IMPORT scramv1-build
