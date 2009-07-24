@@ -16,7 +16,7 @@ Requires: online-patch-tool-conf
 %define buildsetfile    online_build_set
 %define cvsrep          cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/%cvsdir?passwd=AA_:yZZ3e
 
-%define cvsprojuc       %(echo %n | sed -e "s|-patch.*||"| tr 'a-z' 'A-Z')
+%define cvsprojuc       %(echo %n | sed -e "s|-...patch.*||"| tr 'a-z' 'A-Z')
 %define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
 %define cvsdir          %cvsprojuc
 %define cvssrc          %cvsprojuc
