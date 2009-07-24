@@ -26,7 +26,8 @@ perl -p -i -e 's/-traditional-cpp/-no-cpp-precomp/g' configure.in configure
 %build
 CFLAGS=-O3 CXX=gcc CXXFLAGS="-O3 -felide-constructors -fno-exceptions -fno-rtti" \
    ./configure --prefix=%i --with-extra-charsets=complex \
-      --enable-thread-safe-client --enable-local-infile
+      --enable-thread-safe-client --enable-local-infile \
+      --with-plugins=innobase
 make %makeprocesses
 
 %install
