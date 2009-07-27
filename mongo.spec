@@ -4,6 +4,8 @@
 ## INITENV +PATH PYTHONPATH $SCONS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/scons
 ## INITENV +PATH PYTHONPATH $SCONS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/scons/Scons
 
+Provides: libpcap.so.0.8.3
+
 #Provides: libstdc++.so.6(CXXABI_1.3.1)
 #Provides: rtld(GNU_HASH)
 
