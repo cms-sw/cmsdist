@@ -9,11 +9,12 @@
 ## INITENV SET SYSCONFIGDIR %{i}/lib/rpm
 Source: http://rpm.org/releases/rpm-4.4.x/rpm-%{realversion}.tar.gz
 #Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
 
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
-Requires: beecrypt bz2lib neon db4 expat elfutils zlib
-%else
 Requires: beecrypt bz2lib neon db4 expat elfutils
+%if "%online" != "true"
+Requires: zlib
 %endif
 
 
@@ -85,7 +86,15 @@ echo %(echo %{cmsos} | cut -f1 -d_)
 rm -rf neon sqlite beecrypt elfutils zlib 
 
 %build
-export CFLAGS="-fPIC -g -O0"
+case %cmsos in
+  slc*_ia32)
+    export CFLAGS="-fPIC -D_FILE_OFFSET_BITS=64"
+  ;;
+  *)
+    export CFLAGS="-fPIC"
+  ;;
+esac 
+
 export CPPFLAGS="-I$BEECRYPT_ROOT/include -I$BEECRYPT_ROOT/include/beecrypt -I$BZ2LIB_ROOT/include -I$NEON_ROOT/include/neon -I$DB4_ROOT/include -I$EXPAT_ROOT/include/expat -I$ELFUTILS_ROOT/include -I$ZLIB_ROOT/include"
 export LDFLAGS="-L$BEECRYPT_ROOT/%libdir -L$BZ2LIB_ROOT/lib -L$NEON_ROOT/lib -L$DB4_ROOT/lib -L$EXPAT_ROOT/%libdir -L$ELFUTILS_ROOT/lib -L$ZLIB_ROOT/lib -lz -lexpat -lbeecrypt -lbz2 -lneon -lpthread"
 #FIXME: this does not seem to work and we still get /usr/bin/python in some of the files.

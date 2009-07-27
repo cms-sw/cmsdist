@@ -1,5 +1,6 @@
 ### RPM external python-ldap 2.3.5
 Source: http://voxel.dl.sourceforge.net/sourceforge/python-ldap/python-ldap-%{realversion}.tar.gz
+Patch0: python-ldap-2.3.5-gcc44
 Requires: python
 Requires: openssl
 Requires: openldap
@@ -7,6 +8,8 @@ Requires: openldap
 %prep
 %setup -q -n %n-%{realversion}
 pwd
+%patch0 -p1
+
 %build
 pwd
 
