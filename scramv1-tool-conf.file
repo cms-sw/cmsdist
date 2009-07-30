@@ -74,7 +74,7 @@ done
 # Fixes logic in above loop in case of online release:
 # the descriptions of explicitly defined systemtools should 
 # take precedence over those from cms-rebuilt rpms
-%if "%{?online_release:set}" == "set"
+%if "%cmsplatf" == "slc4onl_ia32_gcc346"
 for tool in %systemtools ${PKGTOOLS_SYSTEM_TOOLS} ; do
   cp -rf %{onlinesystemtoolsroot}/etc/scram.d/$tool %i/tools/selected/$tool
 done
