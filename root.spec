@@ -1,24 +1,44 @@
-### RPM lcg root 5.18.00a
+### RPM lcg root 5.22.00a
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
 Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
 
-Patch0: root-5.18-00-libpng
-Patch1: root-5.18-00a-CINT-maxlongline
-Patch2: root_5.18-00-CINTFunctional
-Patch3: root-5.18-00a-TBufferXML
-Patch4: root-5.18-00a-Cintex
-Patch5: root-5.18-00a-Cintex2
-Patch6: root-5.18-00a-TBufferFile
-Patch7: root-5.18-00a-cintexquickfix2
+Patch0:  root-5.18-00-libpng 
+Patch1:  root-5.21-04-CINT-maxlongline
+Patch2:  root-5.22-00-TMVA-shut-the-hell-up-for-once
+Patch3:  root-5.22-00a-TMVA-shut-the-hell-up-again
+Patch4:  root-5.22-00a-CINTFunctional
+Patch5:  root-5.22-00a-TClass
+Patch6:  root-5.22-00a-fireworks-graf3d-gui
+Patch7:  root-5.22-00a-Reflex-Class
+Patch8:  root-5.22-00a-Cintex
+Patch9:  root-5.22-00a-roofit-silence-static-printout
+Patch10: root-5.22-00a-TMVA-just-shut-the-hell-up
+Patch11: root-5.22-00a-th1
+Patch12: root-5.22-00a-smatrix
+Patch13: root-5.22-00a-fireworks1
+Patch14: root-5.22-00a-Reflex-gendict_selclass
+Patch15: root-5.22-00a-MatrixInversion
+Patch16: root-5.22-00a-gcc44
+Patch17: root-5.22-00a-fireworks2
+Patch18: root-5.22-00a-fireworks3
+Patch19: root-5.22-00a-TBranchElement
+Patch20: root-5.22-00a-tmplt
+Patch21: root-5.22-00a-TBranchElement_TStreamerInfo
+Patch22: root-5.22-00a-gcc43-array-bounds-dictionary-workaround
+Patch23: root-5.22-00a-CINT-dict-init-speedup
+Patch24: root-5.22-00a-fireworks4
+Patch25: root-5.22-00a-TTreeCloner
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
 
 Requires: gccxml gsl castor libjpg dcap pcre python
 
-%if "%{?online_release:set}" != "set"
+%if "%online" != "true"
 Requires: qt openssl mysql libpng zlib libungif xrootd
 %else
 %define skiplibtiff true
@@ -36,33 +56,74 @@ Requires: libtiff
 %setup -n root
 %patch0 -p1
 %patch1 -p1
-%patch2 -p0
+%patch2 -p1
 %patch3 -p1
-%patch4 -p0
-%patch5 -p0
-%patch6 -p0
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
 %patch7 -p0
+%patch8 -p0
+%patch9 -p1
+%patch10 -p1
+%patch11 -p1
+%patch12 -p1
+%patch13 -p1
+%patch14 -p0
+%patch15 -p0
+# patch16 is compiler version dependent, see below
+%patch17 -p1
+%patch18 -p1
+%patch19 -p0
+%patch20 -p0
+%patch21 -p0
+# work around patch issue...
+rm graf3d/gl/src/gl2ps.c
+# patch22 is compiler version dependent, see below
+# patch23 is (for now) only applied for gcc4.3, see below
+# doesn't work at the moment %patch24 -p1
 
+%patch24 -p1
+#work around patch issues in patch24
+rm graf3d/eve/inc/TEveLegoOverlay.h.orig
+rm graf3d/eve/src/TEveLegoOverlay.cxx
+rm graf3d/gl/inc/gl2ps.h.orig
+rm graf3d/gl/src/gl2ps.c.orig
+
+
+%patch25 -p0
+
+case %gccver in
+  4.3.*)
+%patch22 -p1
+%patch23 -p1
+  ;;
+  4.4.*)
+%patch16 -p1
+  ;;
+esac
+ 
 %build
+
 mkdir -p %i
 export ROOTSYS=%_builddir/root
 
-%if "%{?online_release:set}" == "set"
+%if "%online" == "true"
 # Build without mysql, and use system qt.
 # Also skip xrootd and odbc for online case:
 
-EXTRA_CONFIG_ARGS="
+EXTRA_CONFIG_ARGS="--with-f77=/usr
              --disable-mysql
              --disable-xrootd
              --disable-odbc
-             --enable-qt"
+             --disable-qt --disable-qtgsi"
 %else
-EXTRA_CONFIG_ARGS="
+EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}
              --with-xrootd=$XROOTD_ROOT
              --enable-mysql --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
              --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
              --with-ssl-incdir=${OPENSSL_ROOT}/include
-             --with-ssl-libdir=${OPENSSL_ROOT}/lib"
+             --with-ssl-libdir=${OPENSSL_ROOT}/lib
+	     --enable-qtgsi"
 %endif
 
 CONFIG_ARGS="--enable-table 
@@ -72,8 +133,6 @@ CONFIG_ARGS="--enable-table
              --with-gccxml=${GCCXML_ROOT} 
              --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include/python2.4 
              --enable-explicitlink 
-             --enable-qtgsi
-             --enable-mathcore 
              --enable-mathmore
              --enable-reflex  
              --enable-cintex 
@@ -88,23 +147,35 @@ CONFIG_ARGS="--enable-table
              --disable-pgsql
              --disable-xml ${EXTRA_CONFIG_ARGS}"
 
-%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422")||("%cmsplatf" == "slc4_amd64_gcc345"))
-  CONFIG_ARGS="$CONFIG_ARGS --disable-cern"
-%endif
+#case %gccver in
+#  4.*)
+#  CONFIG_ARGS="$CONFIG_ARGS --disable-cern"
+#  ;;
+#esac
 
 case $(uname)-$(uname -p) in
   Linux-x86_64)
-    ./configure linuxx8664gcc $CONFIG_ARGS --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift --disable-astiff --disable-cern;; 
+    ./configure linuxx8664gcc $CONFIG_ARGS --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift --disable-astiff;; 
   Linux-i*86)
     ./configure linux  $CONFIG_ARGS --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift;;
   Darwin*)
-    ./configure macosx $CONFIG_ARGS --disable-rfio;;
+    ./configure macosx $CONFIG_ARGS --disable-rfio --disable-builtin_afterimage ;;
   Linux-ppc64*)
     ./configure linux $CONFIG_ARGS --disable-rfio;;
 esac
 
-make  %makeprocesses
+case %cmsplatf in
+  osx*)
+   makeopts=
+  ;;
+  *)
+   makeopts="%makeprocesses"
+  ;;
+esac
+ 
+make $makeopts 
 make cintdlls
+
 %install
 # Override installers if we are using GNU fileutils cp.  On OS X
 # ROOT's INSTALL is defined to "cp -pPR", which only works with
@@ -120,7 +191,7 @@ fi
 export ROOTSYS=%i
 make INSTALL="$cp" INSTALLDATA="$cp" install
 mkdir -p $ROOTSYS/lib/python
-cp -r reflex/python/genreflex $ROOTSYS/lib/python
+cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
 #
 
 # SCRAM ToolBox toolfile
@@ -130,11 +201,13 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcore
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=rootcore version=%v>
 <info url="http://root.cern.ch/root/"></info>
-<lib name=Cint>
-<lib name=Core>
-<lib name=RIO>
-<lib name=Net>
 <lib name=Tree>
+<lib name=Net>
+<lib name=Thread>
+<lib name=MathCore>
+<lib name=RIO>
+<lib name=Core>
+<lib name=Cint>
 <Client>
  <Environment name=ROOTCORE_BASE default="%i"></Environment>
  <Environment name=LIBDIR default="$ROOTCORE_BASE/lib"></Environment>
@@ -150,20 +223,56 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcore
 </Tool>
 EOF_TOOLFILE
 
-# root toolfile
+# root toolfile, alias for rootphysics. Using rootphysics is preferred.
 cat << \EOF_TOOLFILE >%i/etc/scram.d/root
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=root version=%v>
 <info url="http://root.cern.ch/root/"></info>
-<lib name=TreePlayer>
-<lib name=Gpad>
-<lib name=Graf3d>
-<lib name=Graf>
+<use name=rootphysics>
+</Tool>
+EOF_TOOLFILE
+
+# roothistmatrix toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/roothistmatrix
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=roothistmatrix version=%v> 
+<info url="http://root.cern.ch/root/"></info>
 <lib name=Hist>
 <lib name=Matrix>
-<lib name=Physics>
-<lib name=Postscript>
 <use name=ROOTCore>
+</Tool>
+EOF_TOOLFILE
+
+# rootgpad toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootgpad
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=rootgpad version=%v> 
+<info url="http://root.cern.ch/root/"></info>
+<lib name=Gpad>
+<lib name=Graf>
+<use name=roothistmatrix>
+</Tool>
+EOF_TOOLFILE
+
+# rootphysics toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootphysics
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=rootphysics version=%v>
+<info url="http://root.cern.ch/root/"></info>
+<lib name=Physics>
+<use name=roothistmatrix>
+</Tool>
+EOF_TOOLFILE
+
+# rootgraphics toolfile, identical to old "root" toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootgraphics
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=rootgraphics version=%v>
+<info url="http://root.cern.ch/root/"></info>
+<lib name=TreePlayer>
+<lib name=Graf3d>
+<lib name=Postscript>
+<use name=rootgpad>
 </Tool>
 EOF_TOOLFILE
 
@@ -178,17 +287,19 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcintex
 </Tool>
 EOF_TOOLFILE
 
-# rootinteractive toolfile
+# (temporarily eviscerated) rootinteractive toolfile (GQt/qt lib dependencies
+# have been removed for the moment)
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootinteractive
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=rootinteractive version=%v>
 <info url="http://root.cern.ch/root/"></info>
 <lib name=Rint>
 <lib name=GQt>
+<lib name=Gui>
 <use name=qt>
 <use name=libjpg>
 <use name=libpng>
-<use name=ROOT>
+<use name=rootgpad>
 </Tool> 
 EOF_TOOLFILE
 
@@ -197,7 +308,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootmath
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=rootmath version=%v>
 <info url="http://root.cern.ch/root/"></info>
-<lib name=MathCore>
+<lib name=GenVector>
 <lib name=MathMore>
 <use name=ROOTCore>
 <use name=gsl>
@@ -210,7 +321,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootminuit
 <Tool name=rootminuit version=%v>
 <info url="http://root.cern.ch/root/"></info>
 <lib name=Minuit>
-<use name=ROOT>
+<use name=rootgpad>
 </Tool>
 EOF_TOOLFILE
 
@@ -220,7 +331,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootminuit2
 <Tool name=rootminuit2 version=%v>
 <info url="http://root.cern.ch/root/"></info>
 <lib name=Minuit2>
-<use name=ROOT>
+<use name=rootgpad>
 </Tool>
 EOF_TOOLFILE
 
@@ -249,7 +360,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roothtml
 <Tool name=roothtml version=%v>
 <info url="http://root.cern.ch/root/"></info>
 <lib name=Html>
-<use name=ROOT>
+<use name=rootgpad>
 </Tool> 
 EOF_TOOLFILE
 
@@ -258,10 +369,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootroofit
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=rootroofit version=%v>
 <info url="http://root.cern.ch/root/"></info>
-<lib name=RooFitCore>
 <lib name=RooFit>
+<lib name=RooFitCore>
 <use name=ROOTMinuit>
-<use name=ROOTHtml>
 </Tool> 
 EOF_TOOLFILE
 
@@ -271,7 +381,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootmlp
 <Tool name=rootmlp version=%v>
 <info url="http://root.cern.ch/root/"></info>
 <lib name=MLP>
-<use name=ROOT>
+<use name=RootGraphics>
 </Tool> 
 EOF_TOOLFILE
 
@@ -282,6 +392,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roottmva
 <info url="http://root.cern.ch/root/"></info>
 <lib name=TMVA>
 <use name=ROOTMLP>
+<use name=rootminuit>
 </Tool> 
 EOF_TOOLFILE
 
@@ -290,7 +401,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootthread
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=rootthread version=%v>
 <info url="http://root.cern.ch/root/"></info>
-<lib name=Thread>
 <use name=ROOTCore>
 </Tool>
 EOF_TOOLFILE
@@ -298,6 +408,9 @@ EOF_TOOLFILE
 %post
 %{relocateConfig}etc/scram.d/root
 %{relocateConfig}etc/scram.d/rootcore
+%{relocateConfig}etc/scram.d/roothistmatrix
+%{relocateConfig}etc/scram.d/rootphysics
+%{relocateConfig}etc/scram.d/rootgraphics
 %{relocateConfig}etc/scram.d/rootcintex
 %{relocateConfig}etc/scram.d/rootinteractive
 %{relocateConfig}etc/scram.d/rootmath
