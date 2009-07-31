@@ -158,27 +158,18 @@
 %define distcc_define %{nil}
 %endif
 
-
-%if "%{?online_release:set}" == "set"
-%define onlinereldef --define "online_release true"
-%else
-%define onlinereldef %{nil}
-%endif
-
-
-%if "%norecurse" != "yes"
-%{expand:%%define pkgreqs %%{nil}%(rpm --define "norecurse yes" %ccache_define %onlinereldef --define "cmsplatf %cmsplatf" %distcc_define -q -R --specfile %_specdir/spec | sed '/(none)/d' | perl  -p -e 'chomp; print " "'; echo)}
-%endif
-
 # Define a little helper scriptlet to source package inits from other
 # packages.  This allows cross-package environment setup to work while
 # building.  See above how we determine the list by parsing the spec
 # itself.
 %if "%archfirst" == "yes"
-%define initenv		for x in %{pkgreqs} .; do i=%{instroot}/%{cmsplatf}/$(echo $x | sed 's/\\([^+]*\\)+\\(.*\\)+\\([A-Z0-9].*\\)/\\1 \\2 \\3/' | tr ' ' '/')/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_all	for x in %{pkgreqs} .      ; do i=%{instroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_direct	for x in %{directpkgreqs} .; do i=%{instroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %else
-%define initenv		for x in %{pkgreqs} .; do i=%{instroot}/$(echo $x | sed 's/\\([^+]*\\)+\\(.*\\)+\\([A-Z0-9].*\\)/\\1 \\2 \\3/' | tr ' ' '/')/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_all	for x in %{pkgreqs} .      ; do i=%{instroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_direct	for x in %{directpkgreqs} .; do i=%{instroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %endif
+%define initenv		%initenv_all
 
 %if "%{?compiling_processes:set}" == "set"
 %define makeprocesses -j %compiling_processes 
