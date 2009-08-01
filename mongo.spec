@@ -1,33 +1,19 @@
-### RPM external mongo 0.9.6
+### RPM external mongo 0.9.7
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PYTHONPATH $SCONS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV +PATH PYTHONPATH $SCONS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/scons
 ## INITENV +PATH PYTHONPATH $SCONS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/scons/Scons
+%define hash 6dc201583a91ae97f547fbff748019dfbc8ea1d4
 
 Provides: libpcap.so.0.8.3
-
-#Provides: libstdc++.so.6(CXXABI_1.3.1)
-#Provides: rtld(GNU_HASH)
-
-#%define tmpArch %(echo %cmsplatf | cut -d_ -f 1,2)
-
-#%if "%{tmpArch}" == "slc4_ia32"
-#%define downloadarch i686
-#%endif
-
-#%if "%{tmpArch}" == "slc4_amd64"
-#%define downloadarch x86_64
-#%endif
-
-#Source0: http://downloads.mongodb.org/linux/mongodb-linux-%downloadarch-%{realversion}.tgz
-#Source1: http://downloads.mongodb.org/linux/mongodb-linux-%downloadarch-%{realversion}.tgz
-Source: http://www.lepp.cornell.edu/~vk/Work/mongo-%{realversion}.tar.gz
+#Source: http://www.lepp.cornell.edu/~vk/Work/mongo-%{realversion}.tar.gz
+Source: http://github.com/mongodb/mongo/tarball/r%{realversion}
 Requires: gcc boost scons pcre spidermonkey
 Patch1: mongo.scons
 
 %prep
-#%setup -n mongodb-linux-i686-%{realversion}
-%setup -n mongo
+#%setup -n mongo
+%setup -n mongodb-mongo-%{hash}
 %patch1 -p0
 
 %build
