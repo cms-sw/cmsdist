@@ -3,6 +3,9 @@ Source: http://downloads.sourceforge.net/%n/%n-%{realversion}.tar.bz2
 
 %prep
 %setup -n %n-%{realversion}
+%build
+./configure --enable-unicode-properties --enable-pcregrep-libz --enable-pcregrep-libbz2 --prefix=%i
+make
 
 %install
 make install
