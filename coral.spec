@@ -1,6 +1,5 @@
 ### RPM cms coral CORAL_2_3_0_pre2
 ## IMPORT configurations 
-Patch: coral-2_3_0_pre2-remove-inline
 Provides: /bin/zsh
 Provides: libexpat.so.0
 Requires: coral-tool-conf
@@ -15,7 +14,6 @@ Requires: coral-tool-conf
 %define prebuildtarget  prebuild
 %define buildtarget     release-build
 
-%define patchsrc    %patch -p0
 %if "%online" == "true"
 # Disable building tests in online release,
 # since they bring dependency on cppunit:
@@ -27,6 +25,8 @@ Requires: coral-tool-conf
 %define patchsrc4    echo "<use name=boost>" >>src/UnitTests/BuildFile
 # Disable building tests, since they bring dependency on cppunit:
 %define patchsrc5       perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
+%define patchsrc    %patch -p0 
+%define patchsrc1    %patch1 -p0 
 %endif
 
 ## IMPORT lcg-scram-build
