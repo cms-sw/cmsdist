@@ -282,6 +282,7 @@ RecoMuon/L3TrackFinder
 RecoMuon/MuonSeedGenerator
 RecoMuon/TrackerSeedGenerator
 RecoMuon/TransientTrackingRecHit
+RecoPixelVertexing/PixelLowPtUtilities
 RecoPixelVertexing/PixelTrackFitting
 RecoPixelVertexing/PixelVertexFinding
 RecoTauTag/EcalIsolation
