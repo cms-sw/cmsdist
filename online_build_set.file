@@ -470,6 +470,7 @@ RecoMuon/StandAloneTrackFinder
 RecoMuon/TrackerSeedGenerator
 RecoMuon/TrackingTools
 RecoMuon/TransientTrackingRecHit
+RecoPixelVertexing/PixelLowPtUtilities
 RecoPixelVertexing/PixelTrackFitting
 RecoPixelVertexing/PixelTriplets
 RecoPixelVertexing/PixelVertexFinding
