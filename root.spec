@@ -28,6 +28,8 @@ Patch18: root-5.22-00a-fireworks3
 Patch19: root-5.22-00a-TBranchElement
 Patch20: root-5.22-00a-tmplt
 Patch21: root-5.22-00a-TBranchElement_TStreamerInfo
+Patch22: root-5.22-00a-gcc43-array-bounds-dictionary-workaround
+Patch23: root-5.22-00a-TTreeCloner
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -66,7 +68,7 @@ Requires: libtiff
 %patch13 -p1
 %patch14 -p0
 %patch15 -p0
-%patch16 -p1
+# patch16 is compiler version dependent, see below
 %patch17 -p1
 %patch18 -p1
 %patch19 -p0
@@ -74,12 +76,18 @@ Requires: libtiff
 %patch21 -p0
 # work around patch issue...
 rm graf3d/gl/src/gl2ps.c
+# patch22 is compiler version dependent, see below
 
 case %gccver in
+  4.3)
+%patch22 -p1
+  ;;
   4.4)
 %patch16 -p1
   ;;
 esac
+
+%patch23 -p0
  
 %build
 
@@ -138,9 +146,6 @@ case $(uname)-$(uname -p) in
   Linux-i*86)
     ./configure linux  $CONFIG_ARGS --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift;;
   Darwin*)
-    rm ${LIBJPG_ROOT}/lib/libjpeg.dylib
-    rm ${LIBTIFF_ROOT}/lib/libtiff.dylib
-    rm ${LIBPNG_ROOT}/lib/libpng.dylib
     ./configure macosx $CONFIG_ARGS --disable-rfio --disable-builtin_afterimage ;;
   Linux-ppc64*)
     ./configure linux $CONFIG_ARGS --disable-rfio;;
