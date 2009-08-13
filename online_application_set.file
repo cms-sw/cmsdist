@@ -1,4 +1,5 @@
 Alignment/CommonAlignmentProducer
+Alignment/LaserAlignment
 CalibCalorimetry/CaloTPG
 CalibCalorimetry/EcalLaserCorrection
 CalibCalorimetry/EcalTrivialCondModules
