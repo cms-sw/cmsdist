@@ -4,6 +4,7 @@ Alignment/CommonAlignmentMonitor
 Alignment/CommonAlignmentParametrization
 Alignment/CommonAlignmentProducer
 Alignment/HIPAlignmentAlgorithm
+Alignment/LaserAlignment
 Alignment/MuonAlignment
 Alignment/MuonAlignmentAlgorithms
 Alignment/OfflineValidation
@@ -199,6 +200,7 @@ DataFormats/L1GlobalMuonTrigger
 DataFormats/L1GlobalTrigger
 DataFormats/L1Trigger
 DataFormats/LTCDigi
+DataFormats/LaserAlignment
 DataFormats/METReco
 DataFormats/Math
 DataFormats/MuonData
