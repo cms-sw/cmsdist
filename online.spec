@@ -11,6 +11,7 @@ Provides: perl(Term::ReadKey)
 Provides: perl(full)
 Provides: perl(LWP::UserAgent)
 Provides: perl(Template)
+Provides: libg2c.so.0
 Requires: online-tool-conf python
 Patch0: online_src
 
