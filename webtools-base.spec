@@ -68,7 +68,7 @@ if [ -n "$WEBTOOLS_BASEURL" ]; then
 else
     url="$base"
 fi
-cmd="cmsWeb --base-url=$url --port $port --default-page /WSServer/ --log-file /data/projects/base/base.log"
+cmd="cmsWeb --base-url=$url --port $port --default-page /WSServer/ --log-level 100 --log-file /data/projects/base/base.log"
 
 case "$1" in
  restart)
