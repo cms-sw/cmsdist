@@ -9,11 +9,9 @@ Requires: python
 #%patch0 -p1
 %build
 %install
-# we need simple json only for python 2.5 and earlier, but for python 2.6 and higher
-if  [ -z `echo $PYTHON_VERSION | egrep "2.6|3."` ]; then
 mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 python setup.py build
 pwd
 mv build/lib*/* %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
-fi
+
 
