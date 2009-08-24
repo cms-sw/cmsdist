@@ -1,4 +1,4 @@
-### RPM external gdbm 1.8.3-CMS19
+### RPM external gdbm 1.8.3
 Source: http://ftp.download-by.net/gnu/gnu/%{n}/%{n}-%{realversion}.tar.gz
 
 %define thisuser %(id -u)
