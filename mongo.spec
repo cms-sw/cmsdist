@@ -24,7 +24,7 @@ export PYTHONPATH=$SCONS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/s
 export PYTHONPATH=$SCONS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/SCons/Tool:$PYTHONPATH
 export PATH=$PATH:$SCONS_ROOT/bin
 export CXX=$GCC_ROOT/bin/g++
-scons --64 --extrapath=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT all
+scons --extrapath=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT all
 
 %install
 #cp -r bin include lib %{i}/
@@ -33,7 +33,7 @@ export PYTHONPATH=$SCONS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/s
 export PYTHONPATH=$SCONS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/SCons/Tool:$PYTHONPATH
 export PATH=$PATH:$SCONS_ROOT/bin
 export CXX=$GCC_ROOT/bin/g++
-scons --64 --extrapath=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT --prefix=%i install
+scons --extrapath=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT --prefix=%i install
 
 mkdir -p %i/etc/profile.d/
 # This will generate the correct dependencies-setup.sh/dependencies-setup.csh
