@@ -1,12 +1,14 @@
-### RPM external mongo 0.9.7
+### RPM external mongo 0.9.10
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PYTHONPATH $SCONS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV +PATH PYTHONPATH $SCONS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/scons
 ## INITENV +PATH PYTHONPATH $SCONS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/scons/Scons
+# 0.9.7
 %define hash 6dc201583a91ae97f547fbff748019dfbc8ea1d4
+# 0.9.10
+%define hash b3e717fc3c2fe68da1508e45989ccd2ddbd1c822
 
 Provides: libpcap.so.0.8.3
-#Source: http://www.lepp.cornell.edu/~vk/Work/mongo-%{realversion}.tar.gz
 Source: http://github.com/mongodb/mongo/tarball/r%{realversion}
 Requires: gcc boost scons pcre spidermonkey
 Patch1: mongo.scons
@@ -22,7 +24,7 @@ export PYTHONPATH=$SCONS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/s
 export PYTHONPATH=$SCONS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/SCons/Tool:$PYTHONPATH
 export PATH=$PATH:$SCONS_ROOT/bin
 export CXX=$GCC_ROOT/bin/g++
-scons --extrapath=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT all
+scons --64 --extrapath=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT all
 
 %install
 #cp -r bin include lib %{i}/
@@ -31,7 +33,7 @@ export PYTHONPATH=$SCONS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/s
 export PYTHONPATH=$SCONS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/SCons/Tool:$PYTHONPATH
 export PATH=$PATH:$SCONS_ROOT/bin
 export CXX=$GCC_ROOT/bin/g++
-scons --extrapath=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT --prefix=%i install
+scons --64 --extrapath=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT --prefix=%i install
 
 mkdir -p %i/etc/profile.d/
 # This will generate the correct dependencies-setup.sh/dependencies-setup.csh
