@@ -2,9 +2,7 @@
 
 Requires: gmake
 Source0: tool2xml.pl
-%define closingbrace )
-%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
-
+ 
 %prep
 %build
 
@@ -76,7 +74,7 @@ done
 # Fixes logic in above loop in case of online release:
 # the descriptions of explicitly defined systemtools should 
 # take precedence over those from cms-rebuilt rpms
-%if "%online" == "true"
+%if "%cmsplatf" == "slc4onl_ia32_gcc346"
 for tool in %systemtools ${PKGTOOLS_SYSTEM_TOOLS} ; do
   cp -rf %{onlinesystemtoolsroot}/etc/scram.d/$tool %i/tools/selected/$tool
 done
