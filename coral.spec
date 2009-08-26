@@ -1,4 +1,4 @@
-### RPM cms coral CORAL_2_3_0_pre2
+### RPM cms coral CORAL_2_3_2
 ## IMPORT configurations 
 Patch: coral-2_3_0_pre2-remove-inline
 Provides: /bin/zsh
