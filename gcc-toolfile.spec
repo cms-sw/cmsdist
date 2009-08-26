@@ -105,7 +105,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
 <Flags CXXFLAGS="-pedantic -ansi -pthread -pipe">
 <Flags CXXFLAGS="-O2 -fvisibility-inlines-hidden">
 <Flags CXXFLAGS="-felide-constructors -fmessage-length=0 -ftemplate-depth-300">
-<Flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses -Werror=array-bounds">
+<Flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses -Werror=array-bounds -Wno-deprecated">
 <Flags LDFLAGS="-Wl,-E">
 <Flags CXXSHAREDFLAGS="-Wl,-E">
 <Flags SHAREDSUFFIX="so">
@@ -235,7 +235,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
 <Flags CXXFLAGS="-pedantic -ansi -pthread -pipe">
 <Flags CXXFLAGS="-O2">
 <Flags CXXFLAGS="-felide-constructors -fmessage-length=0 -ftemplate-depth-300">
-<Flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses -Werror=array-bounds">
+<Flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses -Werror=array-bounds -Wno-deprecated">
 <Flags LDFLAGS="-Wl,-E">
 <Flags CXXSHAREDFLAGS="-Wl,-E">
 <Flags SHAREDSUFFIX="so">
