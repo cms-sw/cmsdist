@@ -1,6 +1,5 @@
 ### RPM cms coral CORAL_2_3_2
 ## IMPORT configurations 
-Patch: coral-2_3_0_pre2-remove-inline
 Provides: /bin/zsh
 Provides: libexpat.so.0
 Requires: coral-tool-conf
@@ -15,7 +14,6 @@ Requires: coral-tool-conf
 %define prebuildtarget  prebuild
 %define buildtarget     release-build
 
-%define patchsrc    %patch -p0
 %if "%online" == "true"
 # Disable building tests in online release,
 # since they bring dependency on cppunit:
