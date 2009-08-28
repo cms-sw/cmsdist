@@ -17,3 +17,15 @@ pwd
 mv build/lib*/* %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 fi
 
+mkdir -p %{i}/etc/profile.d
+
+# Add dependencies
+(echo "#!/bin/sh"; \
+ echo "source $PYTHON_ROOT/etc/profile.d/init.sh") > %{i}/etc/profile.d/dependencies-setup.sh
+(echo "#!/bin/tcsh"; \
+ echo "source $PYTHON_ROOT/etc/profile.d/init.csh") > %{i}/etc/profile.d/dependencies-setup.csh
+
+%post
+%{relocateConfig}etc/profile.d/dependencies-setup.sh
+%{relocateConfig}etc/profile.d/dependencies-setup.csh
+
