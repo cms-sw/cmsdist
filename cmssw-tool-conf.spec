@@ -84,12 +84,6 @@ Requires: sherpa
 Requires: python-ldap
 Requires: millepede
 Requires: gdb
-#Requires: pyqt
-%define closingbrace )
-%define is64bit %(case %cmsos in slc*_amd64%closingbrace echo true;; *%closingbrace echo false;; esac)
-%if "%is64bit" == "true"
-Requires: libunwind
-%endif
 
 %define skipreqtools jcompiler
 
