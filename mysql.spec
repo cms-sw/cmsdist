@@ -77,7 +77,7 @@ innodb_flush_method=O_DIRECT
 innodb_file_io_threads = 4
 innodb_checksums=0
 innodb_doublewrite=0
-
+innodb_data_file_path = ibdata1:2047M;ibdata2:2000M:autoextend
 
 max_heap_table_size=1024M
 tmp_table_size=1024M
