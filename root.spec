@@ -1,4 +1,4 @@
-### RPM lcg root 5.22.00a
+### RPM lcg root 5.22.00d
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
@@ -10,28 +10,17 @@ Patch0:  root-5.18-00-libpng
 Patch1:  root-5.21-04-CINT-maxlongline
 Patch2:  root-5.22-00-TMVA-shut-the-hell-up-for-once
 Patch3:  root-5.22-00a-TMVA-shut-the-hell-up-again
-Patch4:  root-5.22-00a-CINTFunctional
-Patch5:  root-5.22-00a-TClass
-Patch6:  root-5.22-00a-fireworks-graf3d-gui
-Patch7:  root-5.22-00a-Reflex-Class
-Patch8:  root-5.22-00a-Cintex
-Patch9:  root-5.22-00a-roofit-silence-static-printout
-Patch10: root-5.22-00a-TMVA-just-shut-the-hell-up
-Patch11: root-5.22-00a-th1
-Patch12: root-5.22-00a-smatrix
-Patch13: root-5.22-00a-fireworks1
-Patch14: root-5.22-00a-Reflex-gendict_selclass
-Patch15: root-5.22-00a-MatrixInversion
-Patch16: root-5.22-00a-gcc44
-Patch17: root-5.22-00a-fireworks2
-Patch18: root-5.22-00a-fireworks3
-Patch19: root-5.22-00a-TBranchElement
-Patch20: root-5.22-00a-tmplt
-Patch21: root-5.22-00a-TBranchElement_TStreamerInfo
-Patch22: root-5.22-00a-gcc43-array-bounds-dictionary-workaround
-Patch23: root-5.22-00a-CINT-dict-init-speedup
-Patch24: root-5.22-00a-fireworks4
-Patch25: root-5.22-00a-TTreeCloner
+Patch4:  root-5.22-00d-fireworks-graf3d-gui
+Patch5:  root-5.22-00a-roofit-silence-static-printout
+Patch6: root-5.22-00a-TMVA-just-shut-the-hell-up
+Patch7: root-5.22-00a-th1
+Patch8: root-5.22-00a-smatrix
+Patch9: root-5.22-00a-fireworks1
+Patch10: root-5.22-00a-gcc44
+Patch11: root-5.22-00a-fireworks2
+Patch12: root-5.22-00a-fireworks3
+Patch13: root-5.22-00a-gcc43-array-bounds-dictionary-workaround
+Patch14: root-5.22-00a-fireworks4
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -59,46 +48,34 @@ Requires: libtiff
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+
 %patch5 -p1
 %patch6 -p1
-%patch7 -p0
-%patch8 -p0
+%patch7 -p1
+%patch8 -p1
 %patch9 -p1
-%patch10 -p1
+
+# patch10 is compiler version dependent, see below
 %patch11 -p1
 %patch12 -p1
-%patch13 -p1
-%patch14 -p0
-%patch15 -p0
-# patch16 is compiler version dependent, see below
-%patch17 -p1
-%patch18 -p1
-%patch19 -p0
-%patch20 -p0
-%patch21 -p0
+# patch13 is compiler version dependent, see below
+
 # work around patch issue...
 rm graf3d/gl/src/gl2ps.c
-# patch22 is compiler version dependent, see below
-# patch23 is (for now) only applied for gcc4.3, see below
 # doesn't work at the moment %patch24 -p1
-
-%patch24 -p1
+%patch14 -p1
 #work around patch issues in patch24
 rm graf3d/eve/inc/TEveLegoOverlay.h.orig
 rm graf3d/eve/src/TEveLegoOverlay.cxx
 rm graf3d/gl/inc/gl2ps.h.orig
 rm graf3d/gl/src/gl2ps.c.orig
 
-
-%patch25 -p0
-
 case %gccver in
   4.3.*)
-%patch22 -p1
-%patch23 -p1
+%patch13 -p1
   ;;
   4.4.*)
-%patch16 -p1
+%patch10 -p1
   ;;
 esac
  
