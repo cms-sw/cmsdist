@@ -1,4 +1,4 @@
-### RPM external py2-cheetah 2.0rc8
+### RPM external py2-cheetah 2.2.1
 Requires: python
 ## INITENV +PATH PYTHONPATH %i/lib/python%{pythonv}`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f 1,2)
