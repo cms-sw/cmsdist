@@ -150,6 +150,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
  <Environment name=PYTHON_COMPILE default="$PYTHON_BASE/lib/python2.4/compileall.py"></Environment>
 </Client>
 <use name=sockets>
+<Runtime name=PYTHONHOME value="$PYTHON_BASE">
 <Runtime name=PATH value="$PYTHON_BASE/bin" type=path>
 </Tool>
 EOF_TOOLFILE
