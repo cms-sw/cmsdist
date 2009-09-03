@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 11.0
+### RPM cms cmssw-tool-conf 12.0
 # with cmsBuild, change the above version only when a new
 # tool is added
 
@@ -84,13 +84,8 @@ Requires: sherpa
 Requires: python-ldap
 Requires: millepede
 Requires: gdb
-#Requires: pyqt
-%define closingbrace )
-%define is64bit %(case %cmsos in slc*_amd64%closingbrace echo true;; *%closingbrace echo false;; esac)
-%if "%is64bit" == "true"
-Requires: libunwind
-%endif
+Requires: pyqt
 
-%define skipreqtools jcompiler
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull
 
 ## IMPORT scramv1-tool-conf
