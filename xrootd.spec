@@ -1,15 +1,16 @@
-### RPM external xrootd 5.22.00a
-Source: http://cmsrep.cern.ch//cmssw/xrootd_src/%n-%{realversion}.src.tgz
+### RPM external xrootd 20090727.1318
+Source: http://project-arda-dev.web.cern.ch/project-arda-dev/xrootd/tarballs/base/%n-%{realversion}.tar.gz
 Patch0: xrootd-gcc44
 Requires: openssl
+Requires: readline
 
 %prep 
-%setup -n xrootd
+%setup -n %n-%{realversion}
 %patch0 -p1
 
 %build
 ./configure.classic --disable-krb4 --with-ssl-incdir=$OPENSSL_ROOT/include --with-ssl-libdir=$OPENSSL_ROOT/lib
-make INCKRB5=-I/usr/include/et LIBKRB5=-lkrb5
+make INCKRB5=-I/usr/include/et LIBKRB5=-lkrb5 LIBREADLINE="-L$READLINE_ROOT/lib -lreadline -lcurses"
 
 %install
 mkdir %i/bin
