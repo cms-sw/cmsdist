@@ -1,25 +1,19 @@
-### RPM external xdaq 03.14.00
+### RPM external xdaq VR15487
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
 
-Requires: zlib mimetic xerces-c uuid
+Requires: zlib mimetic xerces-c uuid sqlite
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
 
-# Download from cern afs area to speed up testing:  
-Source0: http://switch.dl.sourceforge.net/sourceforge/xdaq/coretools_G_V%xdaqv.tgz
-Source1: http://switch.dl.sourceforge.net/sourceforge/xdaq/powerpack_G_V01_13_00.tgz
-Source2: http://switch.dl.sourceforge.net/sourceforge/xdaq/worksuite_G_V01_13_00.tgz
-Patch: xdaq_3.14_p1
-Patch1: xdaq_3.14_p2
+Source: svn://svn.cern.ch/reps/cmsos/trunk/?scheme=svn+ssh&revision=15487&strategy=export&module=xdaq&output=/xdaq.gz
+
+Patch: xdaq_build
 Provides: /bin/awk
 
 %prep
-%setup -T -b 0 -n TriDAS
-%setup -D -T -b 1 -n TriDAS
-%setup -D -T -b 2 -n TriDAS
+%setup -T -b 0 -n xdaq
 
 %patch -p1
-%patch1 -p1
 ls
 echo " Install root in prep:" %{i}    %{pkginstroot}
 
@@ -43,6 +37,8 @@ esac
 export MIMETIC_PREFIX=$MIMETIC_ROOT
 export XERCES_PREFIX=$XERCES_C_ROOT
 export UUID_LIB_PREFIX=$UUID_ROOT/lib
+export SQLITE_PREFIX=$SQLITE_ROOT
+export SEARCH_PATH=$PATH
 
 case %cmsplatf in
 *gcc4* | osx*)
@@ -76,7 +72,7 @@ mkdir -p include/linux
 
 mkdir -p htdocs
 
-for subdir in `echo "xdaq2rc"; grep -h -v \# build/mfSet.coretools build/mfSet.extern_coretools build/mfSet.extern_powerpack build/mfSet.powerpack | grep -v Packages= | grep '[a-z]' | awk '{print $1}'`
+for subdir in `echo "xdaq2rc"; grep -h -v \# config/mfSet.coretools config/mfSet.extern_coretools config/mfSet.extern_powerpack config/mfSet.powerpack | grep -v Packages= | grep '[a-z]' | awk '{print $1}'`
 do
 	mkdir -p %{i}/htdocs/$subdir/{images,xml,html}
 	echo $subdir
@@ -101,10 +97,11 @@ mkdir -p include/interface
 mv daq/interface/evb/include/interface/evb include/interface
 mv daq/interface/shared/include/interface/shared include/interface
 mkdir -p etc
-mv daq/etc/default.profile etc/
+mv daq/xdaq/etc/default.profile etc/
 rm -fr daq 
 rm -fr CVS
 rm -fr x86*
+rm -f %{i}/lib/lib*.a %{i}/lib/lib*.la
 
 # Libraries from extern (not found cause they are symlinks)
 
