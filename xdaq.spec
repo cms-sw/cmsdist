@@ -42,12 +42,12 @@ export SEARCH_PATH=$PATH
 
 case %cmsplatf in
 *gcc4* | osx*)
-make CPPDEFINES=linux Set=extern_coretools install || true
-make CPPDEFINES=linux Set=coretools install || true
-make CPPDEFINES=linux Set=extern_powerpack install || true
-make CPPDEFINES=linux Set=powerpack install || true
+make CPPDEFINES=linux Set=extern_coretools install
+make CPPDEFINES=linux Set=coretools install
+make CPPDEFINES=linux Set=extern_powerpack install
+make CPPDEFINES=linux Set=powerpack install
 cd xdaq2rc
-make CPPDEFINES=linux install || true
+make CPPDEFINES=linux install
 cd ..
 ;;
 * )
