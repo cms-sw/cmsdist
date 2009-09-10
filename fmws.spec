@@ -1,4 +1,4 @@
-### RPM cms fmws 0.1.8-pre1
+### RPM cms fmws 0.1.8-pre4
 ## INITENV +PATH PYTHONPATH %i/lib/
 ## INITENV +PATH PYTHONPATH $ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV SET FMWSHOME $FMWS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
@@ -7,7 +7,7 @@
 ####%define cvstag %{realversion}
 %define moduleName FILEMOVER
 %define exportName FILEMOVER
-%define cvstag V01_00_11
+%define cvstag V01_00_14
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 ####Source: http://t2.unl.edu/store/CmsFileServer-%{realversion}.tar.gz
 Source: %cvsserver&strategy=checkout&module=COMP/%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
@@ -80,31 +80,3 @@ if [ -d /data/download ]; then
 else
    mkdir -p $FMWSHOME/download
 fi
-cat > $FMWSHOME/FMWS.conf << END
-#
-# Location for log files
-#
-LOGGERDIR=$FMWSHOME/logs
-#
-# Location of loca file storage
-#
-TRANSFERDIR=/data/pool
-#
-# Location of CMSSW release area to use
-#
-CMSSWDIR=/data/pool/cmssw
-#
-# Verbosity level for the FMWS server
-#
-VERBOSELEVEL=1
-#
-# Number of files allowed to users for simultaneous download
-#
-MAXTRANSFER=3
-#
-#
-# Number of query/per user/per day
-#
-USERTRANSFERPERDAY=10
-#
-END
