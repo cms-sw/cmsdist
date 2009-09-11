@@ -1,10 +1,15 @@
 ### RPM external llvm 2.5
+## NOCOMPILER
+## INITENV +PATH LD_LIBRARY_PATH %i/lib64
+
 Source0: http://llvm.org/releases/%realversion/%n-gcc-4.2-%realversion.source.tar.gz
 Source1: http://llvm.org/releases/%realversion/%n-%realversion.tar.gz
 %define gmpVersion 4.2.1
 %define mpfrVersion 2.2.1
+%define tmpgccVersion 4.2.2
 Source2: ftp://ftp.gnu.org/gnu/gmp/gmp-%{gmpVersion}.tar.bz2
 Source3: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
+Source4: ftp://ftp.fu-berlin.de/unix/gnu/gcc/gcc-%tmpgccVersion/gcc-%tmpgccVersion.tar.bz2
 
 %prep
 %setup -T -b 0 -n llvm-gcc4.2-%realversion.source
@@ -37,6 +42,7 @@ EOF_T_CMS
 %setup -D -T -b 1 -n llvm-%realversion
 %setup -D -T -b 2 -n gmp-%{gmpVersion}
 %setup -D -T -b 3 -n mpfr-%{mpfrVersion}
+%setup -D -T -b 4 -n gcc-%{tmpgccVersion}
 
 %build
 %define gcc4opts %{nil}
@@ -51,8 +57,27 @@ make %makeprocesses
 make install
 %define gcc4opts --with-gmp=%i/tmp/gmp --with-mpfr=%i/tmp/mpfr
 
-# Build llvm 
-cd ..
+# build a temporary gcc (c,c++ only) to use for the build 
+cd ../gcc-%tmpgccVersion
+mkdir -p obj
+cd obj
+CC="gcc $CCOPTS" \
+../configure --prefix=%i/tmp/gcc \
+  --enable-languages=c,c++ %gcc4opts --enable-shared
+make %makeprocesses bootstrap
+make install
+find %i/tmp/gcc/lib %i/tmp/gcc/lib32 %i/tmp/gcc/lib64 -name '*.la' -exec rm -f {} \; || true
+
+
+# Build llvm using the temp gcc
+export CC=%i/tmp/gcc/bin/gcc
+export CXX=%i/tmp/gcc/bin/g++
+export PATH=%i/tmp/gcc/bin:$PATH
+export LD_LIBRARY_PATH=%i/tmp/gcc/lib64:%i/tmp/gcc/lib:$LD_LIBRARY_PATH
+export GCC_VERSION=%{tmpgccVersion}
+export GCC_ROOT=%i/tmp/gcc
+export GCC_REVISION=1 
+cd ../..
 mkdir llvm-objects
 cd llvm-objects
 ../llvm-%realversion/configure --prefix=%i --enable-optimized
@@ -66,6 +91,9 @@ make %makeprocesses
 make install
 
 %install
+# Clean up the temporary builds of mpfr and gmp (which had only .a libs)
+# and gcc (which should no longer be needed)
+rm -fR %i/tmp
 # Fix up a perl path
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/bin/llvm-config
 # SCRAM ToolBox toolfile
