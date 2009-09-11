@@ -40,26 +40,12 @@ export UUID_LIB_PREFIX=$UUID_ROOT/lib
 export SQLITE_PREFIX=$SQLITE_ROOT
 export SEARCH_PATH=$PATH
 
-case %cmsplatf in
-*gcc4* | osx*)
 make CPPDEFINES=linux Set=extern_coretools install
 make CPPDEFINES=linux Set=coretools install
 make CPPDEFINES=linux Set=extern_powerpack install
 make CPPDEFINES=linux Set=powerpack install
 cd xdaq2rc
 make CPPDEFINES=linux install
-cd ..
-;;
-* )
-make CPPDEFINES=linux Set=extern_coretools install
-make CPPDEFINES=linux Set=coretools install
-make CPPDEFINES=linux Set=extern_powerpack install
-make CPPDEFINES=linux Set=powerpack install
-cd xdaq2rc
-make CPPDEFINES=linux install
-cd ..
-;;
-esac
 
 # The following structure used as defined in Xdaq "simplify" script:
 cd %{i}
