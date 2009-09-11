@@ -6,7 +6,7 @@ Patch0: mimetic-0.9.5-amd64-uint
 %setup -n %n-%{realversion}
 
 case %cmsplatf in
-*amd64* | osx*)
+*gcc4* | osx*)
 %patch0 -p1
 esac
 
