@@ -1,6 +1,7 @@
 ### RPM external llvm 2.5
 ## NOCOMPILER
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
+## INITENV SET GCC_ROOT %i
 
 Source0: http://llvm.org/releases/%realversion/%n-gcc-4.2-%realversion.source.tar.gz
 Source1: http://llvm.org/releases/%realversion/%n-%realversion.tar.gz
