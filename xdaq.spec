@@ -87,7 +87,7 @@ mv daq/xdaq/etc/default.profile etc/
 rm -fr daq 
 rm -fr CVS
 rm -fr x86*
-rm -f %{i}/lib/lib*.a %{i}/lib/lib*.la
+#rm -f %{i}/lib/lib*.a %{i}/lib/lib*.la
 
 # Libraries from extern (not found cause they are symlinks)
 
