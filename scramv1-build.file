@@ -214,13 +214,19 @@ mkdir -p %i/etc/dependencies
 chmod +x %{_sourcedir}/findDependencies.pl
 %{_sourcedir}/findDependencies.pl -rel %i
 gzip %i/etc/dependencies/uses.out
+gzip %i/etc/dependencies/pyuses.out
 %if "%{?isPatch}" == "yes"
 gunzip -c ../%{parent_release_base}/etc/dependencies/usedby.out.gz > usedbyAll.out
+gunzip -c ../%{parent_release_base}/etc/dependencies/pyusedby.out.gz > pyusedbyAll.out
 cat %i/etc/dependencies/usedby.out >>usedbyAll.out
+cat %i/etc/dependencies/pyusedby.out >>pyusedbyAll.out
 gzip usedbyAll.out
+gzip pyusedbyAll.out
 mv usedbyAll.out.gz %i/etc/dependencies/usedby.out.gz
+mv pyusedbyAll.out.gz %i/etc/dependencies/pyusedby.out.gz
 %else
 gzip %i/etc/dependencies/usedby.out
+gzip %i/etc/dependencies/pyusedby.out
 %endif
 %endif
 
