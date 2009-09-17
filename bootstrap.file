@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.66 $
+# Revision: $Revision: 1.67 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -134,9 +134,21 @@ server_main_dir=cms/cpt/Software/download
 repository=/cms
 apt_dir=apt
 groups="lcg cms external"
+unsupportedDistribution=false
 
 rootdir=$(pwd)
 testInstance=false
+
+# Get cmsos from the web
+cmsos=$server/$server_main_dir/cmsos
+[ "X$verbose" = Xtrue ] && echo_n "Downloading cmsos file..."
+download_${download_method} $cmsos $tempdir/cmsos
+[ -f $tempdir/cmsos ] || cleanup_and_exit 1 "FATAL: Unable to download cmsos: $cmsos"
+eval `cat $tempdir/cmsos`
+[ "X$verbose" = Xtrue ] && echo "Done."
+
+# Use cmsos to guess the platform.
+cmsplatf=`cmsos`
 
 while [ $# -gt 0 ]; do
   case $1 in
@@ -276,7 +288,7 @@ generateSeedSpec () {
     
     seed="$platformSeeds"
     
-    if [ "X$unsupportedDistribution" = Xtrue ]
+    if $unsupportedDistribution
     then
         echo "WARNING: you are running on an unsupported distribution."
         echo "This might lead to unknown problems."
@@ -311,7 +323,7 @@ generateSeedSpec () {
         echo "Provides: $provide"
       done
       
-      if [ "X$unsupportDistribution" = X ]
+      if $unsupportDistribution
       then
         # Guess perl
 		echo "Provides: perl = `perl -MConfig -e 'print $Config{api_revision}.\".\".($Config{api_version}*1000).$Config{api_subversion};'`"
@@ -347,7 +359,14 @@ generateSeedSpec () {
     	[ "X$verbose" = Xtrue ] && echo && echo "...rpm found in $(which rpm), using it to seed the database." >&2
     	  for p in $seed; do
             rpm -q $p >/dev/null
-            if [ "$?" == "0" ]
+            packageFound = "$?"
+            if $unsupportedDistribution || [ $packageFound = 0 ]; then :;
+            else
+              echo "Your system installation is lacking a required package: $p."
+              exit 1
+            fi
+            
+            if [ "X$packageFound" = X0 ]
             then
               rpm -q $p --provides | sed 's!<*=.*!!; s!^!Provides: !'
               rpm -q $p --list | fgrep .so | fgrep -v -e /lib/. -e /lib64/. | sed 's!^.*/!Provides: !'
