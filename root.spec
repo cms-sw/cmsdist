@@ -21,6 +21,7 @@ Patch11: root-5.22-00a-fireworks2
 Patch12: root-5.22-00a-fireworks3
 Patch13: root-5.22-00a-gcc43-array-bounds-dictionary-workaround
 Patch14: root-5.22-00a-fireworks4
+Patch15: root-5.22-00d-fireworks5
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
@@ -62,13 +63,13 @@ Requires: libtiff
 
 # work around patch issue...
 rm graf3d/gl/src/gl2ps.c
-# doesn't work at the moment %patch24 -p1
 %patch14 -p1
-#work around patch issues in patch24
+#work around patch issues in patch14(?)
 rm graf3d/eve/inc/TEveLegoOverlay.h.orig
 rm graf3d/eve/src/TEveLegoOverlay.cxx
 rm graf3d/gl/inc/gl2ps.h.orig
 rm graf3d/gl/src/gl2ps.c.orig
+%patch15 -p1
 
 case %gccver in
   4.3.*)
