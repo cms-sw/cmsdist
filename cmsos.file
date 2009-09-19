@@ -1,6 +1,6 @@
 ### FILE cmsos
 
-cmsos ()
+cmsos()
 {
   if [ "$BUILD_ARCH" != "" ]; then
       echo "$BUILD_ARCH"
@@ -72,6 +72,18 @@ cmsos ()
   else
     echo unsupported
   fi
+}
+
+defaultCompiler()
+{
+  case `cmsos` in
+    slc4* ) echo gcc345 ;;
+    slc5* ) echo gcc432 ;;
+    osx104* ) echo gcc400 ;;
+    osx105* ) echo gcc401 ;;
+    osx106* ) echo gcc421 ;;
+    * ) echo gcc345 ;;
+  esac
 }
 
 cmsos
