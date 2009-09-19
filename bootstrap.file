@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.67 $
+# Revision: $Revision: 1.68 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -130,9 +130,8 @@ source() { . ${1+"$@"}; }
 chmod u+x $rpmFindProvides
 
 server=cmsrep.cern.ch
-server_main_dir=cms/cpt/Software/download
-repository=/cms
-apt_dir=apt
+server_main_dir=cmssw
+repository=cms
 groups="lcg cms external"
 unsupportedDistribution=false
 
@@ -173,17 +172,19 @@ while [ $# -gt 0 ]; do
           shift; shift ;;
         -server-path )
           [ $# -gt 1 ] || cleanup_and_exit 1 "Option \`$1' requires an argument"
-          server_main_dir=`echo $2 | sed -e "s|\(.*\)/.*/.*|\1|"`
-          apt_dir=`echo $2 | sed -e "s|.*/||"`
-          repository=/`echo $2 | sed -e "s|.*/\(.*\)/.*|\1|"`
+          $hasRepository || cleanup_and_exit 1 "Cannot specify -repository and -server-path at the same time"
+          server_main_dir=`echo $2 | sed -e 's|/$||' | sed -e "s|\(.*\)/[^/]*$|\1|"`
+          repository=`echo $2 | sed -e 's|/$||' | sed -e "s|.*/\([^/]*\)$|\1|"`
           echo "server_main_dir $server_main_dir"
-          echo "apt_dir $apt_dir"
           echo "repository $repository"
           testInstance=true
+          hasServerPath=true
           shift; shift ;;
         -repository|-r )
           [ $# -gt 1 ] || cleanup_and_exit 1 "Option \`$1' requires an argument"
-          repository=/$2 
+          $hasServerPath || cleanup_and_exit 1 "Cannot specify -repository and -server-path at the same time"
+          repository=$2 
+          hasRepository=true
           testInstance=true
           shift; shift ;;
         -groups|-g )
@@ -253,6 +254,18 @@ EOF_HELP
         ;;
     esac
 done
+
+# Use cmsos to guess the platform if it is not set on command line.
+if [ "X$cmsplatf" = X ] 
+then
+  # Get cmsos from the web
+  cmsos=$server/$server_main_dir/$repository/cmsos
+  [ "X$verbose" = Xtrue ] && echo_n "Downloading cmsos file..."
+  download_${download_method} $cmsos $tempdir/cmsos
+  [ -f $tempdir/cmsos ] || cleanup_and_exit 1 "FATAL: Unable to download cmsos: $cmsos"
+  source $tempdir/cmsos
+  cmsplatf=`cmsos`_`defaultCompiler`
+fi
 
 rpmdb=$cmsplatf/var/lib/rpm
 rpmlock=$rootdir/$cmsplatf/var/lib/rpm/__db.0
@@ -584,7 +597,7 @@ echo "Done"
 # If we want to use a test instance, we need to adjust the sources.list accordingly.
 if [ "$testInstance" = "true" ]
 then
-    perl -p -i -e "s|^([^#][^;].*) http://cmsrep.cern.ch cms/cpt/Software/download/cms/|#\$1 http://cmsrep.cern.ch cms/cpt/Software/download/cms/|;
+    perl -p -i -e "s|^([^#][^;].*) http://cmsrep.cern.ch cms/cpt/Software/download/cms/|#\$1 http://cmsrep.cern.ch cmssw/cms/|;
                    s|#;||;
                    s|\@GROUPS\@|$groups|;
                    s|\@SERVER\@|$server|;

@@ -52,7 +52,7 @@ slc*onl* )
         daq-pttcp daq-toolbox daq-xcept daq-xdaq2rc daq-xdata
         daq-xgi daq-xoap daq-sentinelutils"
     ;;
-*)
+slc4*)
    platformSeeds="glibc glibc-32bit coreutils bash tcsh zsh pdksh perl
          tcl tk perl-Tk readline openssl ncurses XFree86-libs 
          e2fsprogs krb5-libs freetype fontconfig XFree86-Mesa-libGLU
@@ -60,6 +60,12 @@ slc*onl* )
          xorg-x11-libs xorg-x11-Mesa-libGLU xorg-x11-Mesa-libGL
          compat-libstdc++-33 fglrx_6_8_0 libidn"
    ;;
+slc5*)
+  platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype
+                 fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
+                 libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
+                 libXrender libXpm"
+  ;;
 esac
 
 case $cmsplatf in
