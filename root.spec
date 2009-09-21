@@ -384,7 +384,6 @@ EOF_TOOLFILE
 %{relocateConfig}etc/scram.d/rootminuit2
 %{relocateConfig}etc/scram.d/rootrflx
 %{relocateConfig}etc/scram.d/roothtml
-%{relocateConfig}etc/scram.d/rootroofit
 %{relocateConfig}etc/scram.d/rootmlp
 %{relocateConfig}etc/scram.d/roottmva
 %{relocateConfig}etc/scram.d/rootthread
