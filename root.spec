@@ -1,6 +1,6 @@
 ### RPM lcg root 5.22.00d
 ## INITENV +PATH PYTHONPATH %i/lib/python
-## INITENV SET ROOTSYS %i
+## INITENV SET ROOTSYS %i 
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
 Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 %define closingbrace )
@@ -115,7 +115,6 @@ CONFIG_ARGS="--enable-table
              --enable-reflex  
              --enable-cintex 
              --enable-minuit2 
-             --enable-roofit
              --disable-ldap
              --disable-krb5
              --with-gsl-incdir=${GSL_ROOT}/include
@@ -339,17 +338,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roothtml
 <info url="http://root.cern.ch/root/"></info>
 <lib name=Html>
 <use name=rootgpad>
-</Tool> 
-EOF_TOOLFILE
-
-# rootroofit toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootroofit
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=rootroofit version=%v>
-<info url="http://root.cern.ch/root/"></info>
-<lib name=RooFit>
-<lib name=RooFitCore>
-<use name=ROOTMinuit>
 </Tool> 
 EOF_TOOLFILE
 
