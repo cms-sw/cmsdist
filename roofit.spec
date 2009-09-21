@@ -14,6 +14,8 @@ Requires: root
  
 %build
 chmod +x build.sh
+# Remove an extra -m64 from Wouter's build script
+perl -p -i -e 's|-m64 ||' build.sh
 ./build.sh
 
 %install
@@ -24,14 +26,28 @@ cp -r build/inc/* %i/include
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 
+# rootroofitcore toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootroofitcore
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=rootroofit version=%v>
+<info url="http://root.cern.ch/root/"></info>
+<lib name=RooFitCore>
+<use name=rootcore>
+<use name=roothistmatrix>
+<use name=rootgpad>
+<use name=rootminuit>
+</Tool> 
+EOF_TOOLFILE
+
 # rootroofit toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootroofit
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=rootroofit version=%v>
 <info url="http://root.cern.ch/root/"></info>
-<lib name=TMVA>
-<use name=ROOTMLP>
-<use name=rootminuit>
+<lib name=RooFit>
+<use name=rootroofitcore>
+<use name=rootcore>
+<use name=roothistmatrix>
 </Tool> 
 EOF_TOOLFILE
 
@@ -40,12 +56,16 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootroostats
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=rootroostats version=%v>
 <info url="http://root.cern.ch/root/"></info>
-<lib name=TMVA>
-<use name=ROOTMLP>
-<use name=rootminuit>
+<lib name=RooStats>
+<use name=rootroofitcore>
+<use name=rootroofit>
+<use name=rootcore>
+<use name=roothistmatrix>
+<use name=rootgpad>
 </Tool> 
 EOF_TOOLFILE
 
 %post
+%{relocateConfig}etc/scram.d/rootroofitcore
 %{relocateConfig}etc/scram.d/rootroofit
 %{relocateConfig}etc/scram.d/rootroostats
