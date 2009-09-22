@@ -1,47 +1,36 @@
-### RPM external frontier_client 2.7.6-CMS19
-Source: http://edge.fnal.gov:8888/frontier/%{n}__%{realversion}__src.tar.gz
-#Source: http://cern.ch/service-spi/external/tarFiles/%{n}__%{realversion}__src.tar.gz
+### RPM external frontier_client 2.7.11
+Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
+
+Patch0: frontier-2.7.11-dist-tarfile
 
 Requires: expat
-
-%if "%{?online_release:set}" != "set"
-Requires: zlib openssl
+%if "%online" == "true"
+Requires: onlinesystemtools
 %else
-Requires: systemtools
+Requires: zlib openssl
 %endif
 
 %prep
 %setup -n %{n}__%{realversion}__src
+%patch0 -p1
+%if "%online" != "true"
+%define makeargs "EXPAT_DIR=$EXPAT_ROOT COMPILER_TAG=gcc_$GCC_VERSION ZLIB_DIR=$ZLIB_ROOT  OPENSSL_DIR=$OPENSSL_ROOT"
+%else
+%define makeargs "EXPAT_DIR=$EXPAT_ROOT COMPILER_TAG=gcc_$CXXCOMPILER_VERSION"
+%endif
+
 %build
 
-%if "%{?online_release:set}" != "set"
-make EXPAT_DIR=$EXPAT_ROOT \
-     COMPILER_TAG=gcc_$GCC_VERSION \
-     ZLIB_DIR=$ZLIB_ROOT \
-     OPENSSL_DIR=$OPENSSL_ROOT
-%else
-make EXPAT_DIR=$EXPAT_ROOT \
-     COMPILER_TAG=gcc_$CXXCOMPILER_VERSION
-%endif
+export MAKE_ARGS=%{makeargs}
+make $MAKE_ARGS
 
 %install
 mkdir -p %i/lib
 mkdir -p %i/include
-cp -r include %i
-case $(uname) in 
-  Darwin ) 
-    so=dylib 
-    cp libfrontier_client.%{realversion}.$so %i/lib
-    ln -s %i/lib/libfrontier_client.%{realversion}.$so %i/lib/libfrontier_client.$so
-    ln -s %i/lib/libfrontier_client.%{realversion}.$so %i/lib/libfrontier_client.%(echo %v | sed -e "s/\([0-9]*\)\..*/\1/").$so
-    ;; 
-  * ) 
-    so=so 
-    cp libfrontier_client.$so.%{realversion} %i/lib
-    ln -s %i/lib/libfrontier_client.$so.%{realversion} %i/lib/libfrontier_client.$so
-    ln -s %i/lib/libfrontier_client.$so.%{realversion} %i/lib/libfrontier_client.$so.%(echo %v | sed -e "s/\([0-9]*\)\..*/\1/")
-    ;; 
-esac
+export MAKE_ARGS=%{makeargs}
+make $MAKE_ARGS distdir=%i dist
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
@@ -57,6 +46,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <use name=zlib>
 <use name=openssl>
 <use name=expat>
+<Runtime name=FRONTIER_CLIENT_BASE value="$FRONTIER_CLIENT_BASE/">
 </Tool>
 EOF_TOOLFILE
 
