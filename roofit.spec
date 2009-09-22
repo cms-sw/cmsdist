@@ -4,7 +4,6 @@ Source: svn://root.cern.ch/svn/root/tags/v%svnTag/roofit?scheme=http&module=roof
 
 Patch:  roofit-5.24-00-build.sh 
 Patch1: root-5.22-00a-roofit-silence-static-printout
-Patch2: roofit-5.24-00-RooFactoryWSTool-include
 
 Requires: root 
 
@@ -12,7 +11,6 @@ Requires: root
 %setup -n roofit
 %patch -p1
 %patch1 -p2
-%patch2 -p1
  
 %build
 chmod +x build.sh
