@@ -1,20 +1,22 @@
-### RPM external frontier_client 2.7.6-CMS19
-Source: http://edge.fnal.gov:8888/frontier/%{n}__%{realversion}__src.tar.gz
+### RPM external frontier_client 2.7.11
+Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
+#Source: http://edge.fnal.gov:8888/frontier/%{n}__%{realversion}__src.tar.gz
 #Source: http://cern.ch/service-spi/external/tarFiles/%{n}__%{realversion}__src.tar.gz
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
 
 Requires: expat
-
-%if "%{?online_release:set}" != "set"
-Requires: zlib openssl
+%if "%online" == "true"
+Requires: onlinesystemtools
 %else
-Requires: systemtools
+Requires: zlib openssl
 %endif
 
 %prep
 %setup -n %{n}__%{realversion}__src
 %build
 
-%if "%{?online_release:set}" != "set"
+%if "%online" != "true"
 make EXPAT_DIR=$EXPAT_ROOT \
      COMPILER_TAG=gcc_$GCC_VERSION \
      ZLIB_DIR=$ZLIB_ROOT \
@@ -57,6 +59,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <use name=zlib>
 <use name=openssl>
 <use name=expat>
+<Runtime name=FRONTIER_CLIENT_BASE value="$FRONTIER_CLIENT_BASE/">
 </Tool>
 EOF_TOOLFILE
 
