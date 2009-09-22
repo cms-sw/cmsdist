@@ -2,7 +2,6 @@
 Source: http://project-arda-dev.web.cern.ch/project-arda-dev/xrootd/tarballs/base/%n-%{realversion}.tar.gz
 Patch0: xrootd-gcc44
 Requires: openssl
-Requires: readline
 
 %prep 
 %setup -n %n-%{realversion}
@@ -10,7 +9,20 @@ Requires: readline
 
 %build
 ./configure.classic --disable-krb4 --with-ssl-incdir=$OPENSSL_ROOT/include --with-ssl-libdir=$OPENSSL_ROOT/lib
-make INCKRB5=-I/usr/include/et LIBKRB5=-lkrb5 LIBREADLINE="-L$READLINE_ROOT/lib -lreadline -lcurses"
+# Workaround for the lack of a 32bit readline-devel rpm for SL4
+# Given that the 64bit readline-devel is there, the headers are there,
+# the only thing missing is the libreadline.so symlink
+case %cmsos in
+  slc4*ia32 )
+    mkdir tmplib
+    ln -s /usr/lib/libreadline.so.4 tmplib/libreadline.so 
+    make INCKRB5=-I/usr/include/et LIBKRB5=-lkrb5 LIBREADLINE="-L$PWD/tmplib -lreadline -lcurses"
+  ;;
+  *)
+    make INCKRB5=-I/usr/include/et LIBKRB5=-lkrb5 LIBREADLINE="-lreadline -lcurses"
+  ;;
+esac
+
 
 %install
 mkdir %i/bin
