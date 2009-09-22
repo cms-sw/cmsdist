@@ -17,8 +17,8 @@ Patch4: libjpg-makefile.cfg
 
 %build
 # libjpg ships with an old version of config.sub. 
-case %cmsplatf in 
-  *_*64 )
+case %cmsos in 
+  slc*_amd64 )
     cp %{_sourcedir}/config.sub-amd64 config.sub
   ;;
 esac
