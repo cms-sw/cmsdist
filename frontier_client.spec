@@ -59,6 +59,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <use name=zlib>
 <use name=openssl>
 <use name=expat>
+<Runtime name=FRONTIER_CLIENT_BASE value="$FRONTIER_CLIENT_BASE/">
 </Tool>
 EOF_TOOLFILE
 
