@@ -108,6 +108,7 @@ CondTools/L1Trigger
 CondTools/SiStrip
 Configuration/HLT
 Configuration/PyReleaseValidation
+DPGAnalysis/SiStripTools
 DQM/CSCMonitorModule
 DQM/DTMonitorClient
 DQM/DTMonitorModule
