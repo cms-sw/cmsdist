@@ -1,5 +1,8 @@
 ### RPM cms openid-client CERNOIDv01
 
+## INITENV +PATH PYTHONPATH %i/lib/python%{pythonv}`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
+%define pythonv %(echo $PYTHON_VERSION | cut -d. -f 1,2)
+
 # Needs python >= 2.6
 Requires: python py2-pycrypto cherrypy
 Source: http://openidenabled.com/files/python-openid/packages/python-openid-2.2.4.tar.gz
