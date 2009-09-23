@@ -31,13 +31,18 @@ mkdir -p %i/etc/scram.d
 # rootroofitcore toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootroofitcore
 <doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=rootroofit version=%v>
+<Tool name=rootroofitcore version=%v>
 <info url="http://root.cern.ch/root/"></info>
 <lib name=RooFitCore>
 <use name=rootcore>
 <use name=roothistmatrix>
 <use name=rootgpad>
 <use name=rootminuit>
+<Client>
+ <Environment name=ROOFIT_BASE default="%i"></Environment>
+ <Environment name=LIBDIR default="$ROOFIT_BASE/lib"></Environment>
+ <Environment name=INCLUDE default="$ROOFIT_BASE/include"></Environment>
+</Client>
 </Tool> 
 EOF_TOOLFILE
 
