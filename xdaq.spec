@@ -1,11 +1,11 @@
-### RPM external xdaq VR15487
+### RPM external xdaq VR15544
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
 
 Requires: zlib mimetic xerces-c uuid sqlite
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
 
-Source: svn://svn.cern.ch/reps/cmsos/trunk/?scheme=svn+ssh&revision=15487&strategy=export&module=xdaq&output=/xdaq.gz
+Source: svn://svn.cern.ch/reps/cmsos/releases/baseline9/trunk/?scheme=svn+ssh&revision=15544&strategy=export&module=xdaq&output=/xdaq.tar.gz
 
 Patch: xdaq_build
 Provides: /bin/awk
@@ -28,12 +28,7 @@ cp -rp *  %{i} # assuming there are no symlinks in the original source code
 cd %{i}
 export XDAQ_ROOT=$PWD
 cd %{i}/daq
-# Fix up a problem for the 64bit build
-case %cmsplatf in
-  *amd64* )
-    perl -p -i -e "s!configure --prefix!configure --with-pic --prefix!" extern/asyncresolv/Makefile
-    ;;
-esac
+
 export MIMETIC_PREFIX=$MIMETIC_ROOT
 export XERCES_PREFIX=$XERCES_C_ROOT
 export UUID_LIB_PREFIX=$UUID_ROOT/lib
@@ -87,7 +82,8 @@ mv daq/xdaq/etc/default.profile etc/
 rm -fr daq 
 rm -fr CVS
 rm -fr x86*
-#rm -f %{i}/lib/lib*.a %{i}/lib/lib*.la
+ln -s libasyncresolv %{i}/lib/libasyncresolv.so
+rm -f %{i}/lib/lib*.a %{i}/lib/lib*.la
 
 # Libraries from extern (not found cause they are symlinks)
 
