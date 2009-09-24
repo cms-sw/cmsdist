@@ -1,4 +1,4 @@
-### RPM cms wmcore forHEARTBEATr01
+### RPM cms wmcore WMCORE_PA_0_12_16
 ## INITENV +PATH PYTHONPATH %i/lib
 
 %define cvstag %v
