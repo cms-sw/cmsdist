@@ -5,6 +5,7 @@ Source: svn://root.cern.ch/svn/root/tags/v%svnTag/roofit?scheme=http&module=roof
 Patch:  roofit-5.24-00-build.sh 
 Patch1: root-5.22-00a-roofit-silence-static-printout
 Patch2: roofit-5.24-00-RooFactoryWSTool-include
+Patch3: roofit-5.24-00-NOROOMINIMIZER
 
 Requires: root 
 
@@ -13,11 +14,16 @@ Requires: root
 %patch -p1
 %patch1 -p2
 %patch2 -p1
+%patch3 -p1
  
 %build
 chmod +x build.sh
-# Remove an extra -m64 from Wouter's build script
+# Remove an extra -m64 from Wouter's build script (in CXXFLAGS and LDFLAGS)
 perl -p -i -e 's|-m64 ||' build.sh
+# Add in a macro needed (via the NOROOMINIMIZER patch above) to avoid 
+# compiling some code bits in roofit which do not build with 
+# ROOT5.22/00 (5.24/00 or later is needed) in CXXFLAGS
+perl -p -i -e 's|-O2 -pipe|-O2 -pipe -D__ROOFIT_NOROOMINIMIZER|' build.sh
 ./build.sh
 
 %install
