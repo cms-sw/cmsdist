@@ -1,5 +1,5 @@
 ### RPM external xrootd 20090727.1318
-Source: http://project-arda-dev.web.cern.ch/project-arda-dev/xrootd/tarballs/base/%n-%{realversion}.tar.gz
+Source: http://cmsrep.cern.ch//cmssw/xrootd_src/%n-%{realversion}.tar.gz
 Patch0: xrootd-gcc44
 Requires: openssl
 
