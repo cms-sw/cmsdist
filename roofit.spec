@@ -29,9 +29,9 @@ cp -r build/inc/* %i/include
 mkdir -p %i/etc/scram.d
 
 # rootroofitcore toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootroofitcore
+cat << \EOF_TOOLFILE >%i/etc/scram.d/roofitcore
 <doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=rootroofitcore version=%v>
+<Tool name=roofitcore version=%v>
 <info url="http://root.cern.ch/root/"></info>
 <lib name=RooFitCore>
 <use name=rootcore>
@@ -47,25 +47,25 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootroofitcore
 EOF_TOOLFILE
 
 # rootroofit toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootroofit
+cat << \EOF_TOOLFILE >%i/etc/scram.d/roofit
 <doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=rootroofit version=%v>
+<Tool name=roofit version=%v>
 <info url="http://root.cern.ch/root/"></info>
 <lib name=RooFit>
-<use name=rootroofitcore>
+<use name=roofitcore>
 <use name=rootcore>
 <use name=roothistmatrix>
 </Tool> 
 EOF_TOOLFILE
 
 # rootroostats toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootroostats
+cat << \EOF_TOOLFILE >%i/etc/scram.d/roostats
 <doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=rootroostats version=%v>
+<Tool name=roostats version=%v>
 <info url="http://root.cern.ch/root/"></info>
 <lib name=RooStats>
-<use name=rootroofitcore>
-<use name=rootroofit>
+<use name=roofitcore>
+<use name=roofit>
 <use name=rootcore>
 <use name=roothistmatrix>
 <use name=rootgpad>
@@ -73,6 +73,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootroostats
 EOF_TOOLFILE
 
 %post
-%{relocateConfig}etc/scram.d/rootroofitcore
-%{relocateConfig}etc/scram.d/rootroofit
-%{relocateConfig}etc/scram.d/rootroostats
+%{relocateConfig}etc/scram.d/roofitcore
+%{relocateConfig}etc/scram.d/roofit
+%{relocateConfig}etc/scram.d/roostats
