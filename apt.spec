@@ -1,7 +1,9 @@
 ### RPM external apt 0.5.15lorg3.2-CMS19c
 ## INITENV SET APT_CONFIG %{i}/etc/apt.conf
-Source:  http://apt-rpm.org/releases/%n-%realversion.tar.bz2
+Source0:  http://apt-rpm.org/releases/%n-%realversion.tar.bz2
 Source1: bootstrap
+Source2: http://search.cpan.org/CPAN/authors/id/T/TL/TLBDK/RPM-Header-PurePerl-1.0.2.tar.gz
+
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
 
@@ -24,7 +26,10 @@ Patch5: apt-fix-parameter-names
 %endif
 
 %prep
+%setup -T -b 2 -n RPM-Header-PurePerl-1.0.2
+cd ..
 %setup -n %n-%{realversion}
+
 case $RPM_VERSION in
     4.4.9*)
 %patch0 -p0
@@ -81,6 +86,11 @@ mkdir -p %{i}/etc/profile.d
  echo "source $LIBXML2_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 cp %_sourcedir/bootstrap %{i}/bin/bootstrap.sh
+pwd
+perl -p -i -e 'my $s = `cat ../RPM-Header-PurePerl-1.0.2/lib/RPM/Header/PurePerl.pm`;\
+               s|\@RPM_HEADER_PUREPERL_PM\@|$s|' %{i}/bin/bootstrap.sh
+perl -p -i -e 'my $s = `cat ../RPM-Header-PurePerl-1.0.2/lib/RPM/Header/PurePerl/Tagtable.pm`;\
+               s|\@RPM_HEADER_PUREPERL_TAGSTABLE_PM\@|$s|' %{i}/bin/bootstrap.sh
 
 mkdir -p %{i}/etc/apt
 cat << \EOF_APT_CONF > %{i}/etc/apt.conf
