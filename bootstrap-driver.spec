@@ -61,23 +61,23 @@ slc*)
          xorg-x11-libs xorg-x11-Mesa-libGLU xorg-x11-Mesa-libGL
          compat-libstdc++-33 fglrx_6_8_0 libidn"
   # Platform specific seeds. These are mandatory and the new bootstrap.sh will refuse continuing in the case they are not found.
-  slc4_ia32-platformSeeds="glibc coreutils bash tcsh zsh pdksh perl
+  slc4_ia32_platformSeeds="glibc coreutils bash tcsh zsh pdksh perl
          tcl tk perl-Tk readline openssl ncurses XFree86-libs 
          e2fsprogs krb5-libs freetype fontconfig XFree86-Mesa-libGLU
          XFree86-Mesa-libGL xorg-x11-deprecated-libs
          xorg-x11-libs xorg-x11-Mesa-libGLU xorg-x11-Mesa-libGL
          compat-libstdc++-33 fglrx_6_8_0 libidn"
-  slc4-amd64-platformSeeds="glibc glibc-32bit coreutils bash tcsh zsh pdksh perl
+  slc4_amd64_platformSeeds="glibc glibc-32bit coreutils bash tcsh zsh pdksh perl
          tcl tk perl-Tk readline openssl ncurses XFree86-libs 
          e2fsprogs krb5-libs freetype fontconfig XFree86-Mesa-libGLU
          XFree86-Mesa-libGL xorg-x11-deprecated-libs
          xorg-x11-libs xorg-x11-Mesa-libGLU xorg-x11-Mesa-libGL
          compat-libstdc++-33 fglrx_6_8_0 libidn"
-  slc5_ia32-platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype
+  slc5_ia32_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype
                  fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
                  libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
                  libXrender libXpm"
-  slc5_amd64-platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype
+  slc5_amd64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype
                  fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
                  libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
                  libXrender libXpm"
@@ -129,6 +129,10 @@ mkdir -p %{i}/etc/profile.d
  echo "apt_version=$APT_VERSION"; \
  echo "platformSeeds=\"$platformSeeds\""; \
  echo "unsupportedSeeds=\"$unsupportedSeeds\""; \
+ echo "slc4_amd64_platformSeeds=\"$slc4_amd64_platformSeeds\""; \
+ echo "slc4_ia32_platformSeeds=\"$slc4_ia32_platformSeeds\""; \
+ echo "slc5_ia32_platformSeeds=\"$slc5_ia32_platformSeeds\""; \
+ echo "slc5_ia32_platformSeeds=\"$slc5_ia32_platformSeeds\""; \
  echo "packageList=\"`echo $packageList`\""; \
  echo "additionalProvides=\"$additionalProvides\""; \
  echo "unsupportedProvides=\"$unsupportedProvides\""; \
