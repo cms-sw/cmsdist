@@ -1,6 +1,4 @@
 ### RPM external evtgenlhc 9.1
-## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac     
-
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Patch0: evtgenlhc-8.16-EvtPythia-iosfwd
 Patch1: evtgenlhc-9.1-gcc43
@@ -10,9 +8,9 @@ Requires: clhep
 %setup -q -n %{n}/%{realversion}
 %patch0 -p2
 %patch1 -p2
+./configure --lcgplatform=%cmsplatf --with-clhep=$CLHEP_ROOT
 
 %build
-./configure --lcgplatform=%cmsplatf --with-clhep=$CLHEP_ROOT
 make
 
 %install
