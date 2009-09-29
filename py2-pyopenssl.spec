@@ -1,5 +1,5 @@
 ### RPM external py2-pyopenssl 0.6.900 
-%define pythonv `echo $PYTHON_VERSION | cut -d. -f 1,2`
+%define pythonv %(echo $PYTHON_VERSION | cut -d. -f 1,2)
 ## INITENV +PATH PYTHONPATH %{i}/lib/python%{pythonv}/site-packages
 ## INITENV +PATH PATH %{i}/bin
 
