@@ -1,9 +1,9 @@
-### RPM cms PHEDEX-combined-web 1
+### RPM cms PHEDEX-combined-web 2
 
 # This is a fake spec whose only job is to build PHEDEX-web and
 # PHEDEX-datasvc on a combined platform of dependencies
 
-Requires: PHEDEX-web PHEDEX-datasvc
+Requires: PHEDEX-web PHEDEX-datasvc PHEDEX-appserv
 Source: none
 
 %prep
