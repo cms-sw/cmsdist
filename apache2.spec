@@ -1,4 +1,4 @@
-### RPM external apache2 2.2.9
+### RPM external apache2 2.2.11
 # See:
 # http://httpd.apache.org/docs/2.2/install.html
 # for instruction on how to configure.
@@ -16,9 +16,13 @@ Provides: libcom_err.so.2()(64bit)
 # That's probably good for security.
 Source0: http://mirror.switch.ch/mirror/apache/dist/httpd/httpd-%realversion.tar.gz
 Source1: http://www.apache.org/dist/httpd/httpd-%realversion.tar.gz
+#Patch0: apache2
+#Patch1: apache2-xlog
 
 %prep
 %setup -n httpd-%realversion
+#%patch0 -p0
+#%patch1 -p0
 
 %build
 # See here:
@@ -40,7 +44,7 @@ Source1: http://www.apache.org/dist/httpd/httpd-%realversion.tar.gz
                         --enable-headers \
                         --enable-rewrite \
                         --enable-ssl \
-                        --with-openssl=$OPENSSL_ROOT \
+                        --with-ssl=$OPENSSL_ROOT \
                         --with-z=$ZLIB_ROOT \
 			--with-expat=$EXPAT_ROOT \
 			--with-uuid=$UUID_ROOT
