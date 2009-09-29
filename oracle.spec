@@ -1,6 +1,5 @@
 ### RPM external oracle 11.2.0.1.0
 ## INITENV SET ORACLE_HOME %i
-## NOCOMPILER
 ## BUILDIF case `uname`:`uname -p` in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
 
 Source0: http://cmsrep.cern.ch/cmssw/oracle-mirror/%cmsos/%realversion/basic.zip?arch=%cmsos&version=%realversion
