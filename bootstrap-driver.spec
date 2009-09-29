@@ -50,38 +50,16 @@ slc*onl* )
     platformSeeds="$platformSeeds daq-config daq-log4cplus daq-logudpappender 
         daq-logxmlappender daq-pt daq-ptfifo daq-pthttp 
         daq-pttcp daq-toolbox daq-xcept daq-xdaq2rc daq-xdata
-        daq-xgi daq-xoap daq-sentinelutils"
+        daq-xgi daq-xoap"
     ;;
-slc*)
-  # Backward compatible seeds, so that old bootstrap does not suddenly stop working.
-  platformSeeds="glibc glibc-32bit coreutils bash tcsh zsh pdksh perl
+*)
+   platformSeeds="glibc glibc-32bit coreutils bash tcsh zsh pdksh perl
          tcl tk perl-Tk readline openssl ncurses XFree86-libs 
          e2fsprogs krb5-libs freetype fontconfig XFree86-Mesa-libGLU
          XFree86-Mesa-libGL xorg-x11-deprecated-libs
          xorg-x11-libs xorg-x11-Mesa-libGLU xorg-x11-Mesa-libGL
          compat-libstdc++-33 fglrx_6_8_0 libidn"
-  # Platform specific seeds. These are mandatory and the new bootstrap.sh will refuse continuing in the case they are not found.
-  slc4_ia32_platformSeeds="glibc coreutils bash tcsh zsh pdksh perl
-         tcl tk perl-Tk readline openssl ncurses XFree86-libs 
-         e2fsprogs krb5-libs freetype fontconfig XFree86-Mesa-libGLU
-         XFree86-Mesa-libGL xorg-x11-deprecated-libs
-         xorg-x11-libs xorg-x11-Mesa-libGLU xorg-x11-Mesa-libGL
-         compat-libstdc++-33 fglrx_6_8_0 libidn"
-  slc4_amd64_platformSeeds="glibc glibc-32bit coreutils bash tcsh zsh pdksh perl
-         tcl tk perl-Tk readline openssl ncurses XFree86-libs 
-         e2fsprogs krb5-libs freetype fontconfig XFree86-Mesa-libGLU
-         XFree86-Mesa-libGL xorg-x11-deprecated-libs
-         xorg-x11-libs xorg-x11-Mesa-libGLU xorg-x11-Mesa-libGL
-         compat-libstdc++-33 fglrx_6_8_0 libidn"
-  slc5_ia32_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype
-                 fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
-                 libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
-                 libXrender libXpm"
-  slc5_amd64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype
-                 fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
-                 libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
-                 libXrender libXpm"
-  ;;
+   ;;
 esac
 
 case $cmsplatf in
@@ -93,7 +71,6 @@ case $cmsplatf in
     ;;
 esac
 
-# Seeds for unsupported platforms. These will not make bootstrap die, if not found.
 # OpenSuse
 unsupportedSeeds="xorg-x11-Mesa compat-readline4 compat-curl2 freetype2 
     xorg-x11-libX11"
@@ -125,14 +102,11 @@ unsupportedProvides="libtcl8.3.so libtk8.3.so /bin/env libcom_err.so.3
 defaultPkgs="cms+cms-common+1.0"
 
 mkdir -p %{i}/etc/profile.d
-(echo "rpm_version=$RPM_VERSION"; \
+(echo "instroot=%{instroot}"; \
+ echo "rpm_version=$RPM_VERSION"; \
  echo "apt_version=$APT_VERSION"; \
  echo "platformSeeds=\"$platformSeeds\""; \
  echo "unsupportedSeeds=\"$unsupportedSeeds\""; \
- echo "slc4_amd64_platformSeeds=\"$slc4_amd64_platformSeeds\""; \
- echo "slc4_ia32_platformSeeds=\"$slc4_ia32_platformSeeds\""; \
- echo "slc5_ia32_platformSeeds=\"$slc5_ia32_platformSeeds\""; \
- echo "slc5_ia32_platformSeeds=\"$slc5_ia32_platformSeeds\""; \
  echo "packageList=\"`echo $packageList`\""; \
  echo "additionalProvides=\"$additionalProvides\""; \
  echo "unsupportedProvides=\"$unsupportedProvides\""; \
