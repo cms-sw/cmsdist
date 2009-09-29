@@ -1,4 +1,4 @@
-### RPM external oracle 11.2.0.1.0
+### RPM external oracle 11.1.0.7.0
 ## INITENV SET ORACLE_HOME %i
 ## BUILDIF case `uname`:`uname -p` in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
 
