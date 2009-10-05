@@ -1,16 +1,8 @@
 ### RPM external libtiff 3.8.2-CMS19
 
 Source: http://dl.maptools.org/dl/libtiff/tiff-%{realversion}.zip
-
-%if "%{?online_release:set}" != "set"
-Requires: zlib
-%endif
-
-%if "%{?online_release:set}" == "set"
-Requires: onlinesystemtools
-%endif
-
 Requires: libjpg
+Requires: zlib
 
 %prep
 %setup -n tiff-%{realversion}
