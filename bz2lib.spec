@@ -1,6 +1,6 @@
-### RPM external bz2lib 1.0.2
+### RPM external bz2lib 1.0.5
 # Build system patches by Lassi A. Tuura <lat@iki.fi>
-Source: ftp://sources.redhat.com/pub/bzip2/v%(echo %realversion | tr -d .)/bzip2-%realversion.tar.gz
+Source: http://www.bzip.org/%realversion/bzip2-%realversion.tar.gz
 %define cpu %(echo %cmsplatf | cut -f2 -d_)
 Provides: libbz2.so.1
 %if "%cpu" == "amd64"
