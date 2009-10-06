@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.71 $
+# Revision: $Revision: 1.72 $
 
 set -e
 
@@ -412,14 +412,10 @@ generateSeedSpec () {
       if which rpm 2>&1 >/dev/null && [ "$(rpm -qa 2>&1 | grep 'use alien')" = "" ]
       then
     	  [ "X$verbose" = Xtrue ] && echo && echo "...rpm found in $(which rpm), using it to seed the database." >&2
+          for p in $requiredSeeds; do 
+              rpm -q $p >/dev/null || { echo "Required package $p is missing." ; exit 1; }
+          done
     	  for p in $seed; do
-              if rpm -q $p >/dev/null
-              then
-                has_package=true
-              else
-                has_package=false
-              fi
-              $unsupportedDistribution || $has_package || { echo "Required package $p is missing." ; exit 1; }
               rpm -q $p --provides | sed 's!<*=.*!!; s!^!Provides: !' || true
               rpm -q $p --list | fgrep .so | fgrep -v -e /lib/. -e /lib64/. | sed 's!^.*/!Provides: !' || true
               rpm -q $p --list | fgrep /bin/ | sed 's!^!Provides: !' || true
