@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.69 $
+# Revision: $Revision: 1.70 $
 
 set -e
 
@@ -287,15 +287,16 @@ EOF_HELP
     esac
 done
 
+# Get cmsos from the web.
+cmsos=$server/$server_main_dir/$repository/cmsos
+[ "X$verbose" = Xtrue ] && echo_n "Downloading cmsos file..."
+download_${download_method} $cmsos $tempdir/cmsos
+[ -f $tempdir/cmsos ] || cleanup_and_exit 1 "FATAL: Unable to download cmsos: $cmsos"
+source $tempdir/cmsos
+
 # Use cmsos to guess the platform if it is not set on command line.
 if [ "X$cmsplatf" = X ] 
 then
-  # Get cmsos from the web
-  cmsos=$server/$server_main_dir/$repository/cmsos
-  [ "X$verbose" = Xtrue ] && echo_n "Downloading cmsos file..."
-  download_${download_method} $cmsos $tempdir/cmsos
-  [ -f $tempdir/cmsos ] || cleanup_and_exit 1 "FATAL: Unable to download cmsos: $cmsos"
-  source $tempdir/cmsos
   cmsplatf=`cmsos`_`defaultCompiler`
 fi
 
@@ -434,7 +435,7 @@ seed ()
 {
     rcfile=$1
     cd $importTmp
-    (source $rootdir/$cmsplatf/external/rpm/$rpm_version/etc/profile.d/init.sh
+    (source $rootdir/bootstraptmp/BOOTSTRAP/inst/$cmsplatf/external/rpm/$rpm_version/etc/profile.d/init.sh
      rpmbuild -ba --rcfile $rcfile system-base-import.spec >/dev/null 2>&1
      [ "X$verbose" = Xtrue ] && echo && echo "...Seeding database in in $rootdir/$rpmdb"
      rpm --define "_rpmlock_path $rpmlock" -U -r $rootdir --rcfile $rcfile --dbpath $rootdir/$rpmdb RPMS/system-base-import.rpm
