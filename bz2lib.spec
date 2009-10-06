@@ -21,10 +21,14 @@ make %makeprocesses -f Makefile-libbz2_$so
 %install
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
 make install PREFIX=%i
-cp libbz2.$so.%realversion %i/lib
-ln -s libbz2.$so.%realversion %i/lib/libbz2.$so
-ln -s libbz2.$so.%realversion %i/lib/libbz2.$so.`echo %realversion | cut -d. -f 1,2`
-ln -s libbz2.$so.%realversion %i/lib/libbz2.$so.`echo %realversion | cut -d. -f 1`
+# For bzip2 1.0.5, the library appears to retain the name libbz2.so.1.0.4
+# rather than libbz2.so.1.0.5 as one would expect, so use this "tmpversion"
+# instead of realversion
+%define tmpversion 1.0.4
+cp libbz2.$so.%tmpversion %i/lib
+ln -s libbz2.$so.%tmpversion %i/lib/libbz2.$so
+ln -s libbz2.$so.%tmpversion %i/lib/libbz2.$so.`echo %tmpversion | cut -d. -f 1,2`
+ln -s libbz2.$so.%tmpversion %i/lib/libbz2.$so.`echo %tmpversion | cut -d. -f 1`
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
