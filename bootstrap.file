@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.70 $
+# Revision: $Revision: 1.71 $
 
 set -e
 
@@ -332,7 +332,14 @@ generateSeedSpec () {
     # GL asound odbc java libtcl libtk
     [ "X$verbose" = Xtrue ] && echo && echo "...Seeding RPM database from selected system RPMs." 1>&2
     
-    seed="$platformSeeds"
+    requiredSeeds=$(eval echo $`cmsos`_platformSeeds)
+    if [ "X$requiredSeeds" = X ]
+    then
+      seed="$platformSeeds"
+    else
+      seed="$requiredSeeds"
+      unsupportedDistribution=false
+    fi
     
     if $unsupportedDistribution
     then
@@ -340,6 +347,7 @@ generateSeedSpec () {
         echo "This might lead to unknown problems."
         seed="$seed $unsupportedSeeds"
     fi
+
     
      rm -rf $importTmp
      mkdir -p $importTmp
@@ -404,19 +412,17 @@ generateSeedSpec () {
       if which rpm 2>&1 >/dev/null && [ "$(rpm -qa 2>&1 | grep 'use alien')" = "" ]
       then
     	  [ "X$verbose" = Xtrue ] && echo && echo "...rpm found in $(which rpm), using it to seed the database." >&2
-          requiredSeeds=$(eval echo $`cmsos`_platformSeeds)
-          for p in $requiredSeeds; do
-              rpm -q $p >/dev/null || { echo "Required package $p is missing." ; exit 1; }
-          done
-
-          seed="$requiredSeeds $seed"
     	  for p in $seed; do
-              if rpm -q $p >/dev/null 
+              if rpm -q $p >/dev/null
               then
-                  rpm -q $p --provides | sed 's!<*=.*!!; s!^!Provides: !' || true
-                  rpm -q $p --list | fgrep .so | fgrep -v -e /lib/. -e /lib64/. | sed 's!^.*/!Provides: !' || true
-                  rpm -q $p --list | fgrep /bin/ | sed 's!^!Provides: !' || true
+                has_package=true
+              else
+                has_package=false
               fi
+              $unsupportedDistribution || $has_package || { echo "Required package $p is missing." ; exit 1; }
+              rpm -q $p --provides | sed 's!<*=.*!!; s!^!Provides: !' || true
+              rpm -q $p --list | fgrep .so | fgrep -v -e /lib/. -e /lib64/. | sed 's!^.*/!Provides: !' || true
+              rpm -q $p --list | fgrep /bin/ | sed 's!^!Provides: !' || true
     	  done
       fi
       echo; echo "%description"; echo "Seeds RPM repository from the base system."
