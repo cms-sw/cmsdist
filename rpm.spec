@@ -100,8 +100,8 @@ export LDFLAGS="-L$BEECRYPT_ROOT/%libdir -L$BZ2LIB_ROOT/lib -L$NEON_ROOT/lib -L$
 #FIXME: this does not seem to work and we still get /usr/bin/python in some of the files.
 export __PYTHON="/usr/bin/env python"
 perl -p -i -e "s|\@WITH_NEON_LIB\@|$NEON_ROOT/lib/libneon.a|;
-s|^.*WITH_SELINUX.*$||;
-s|-lselinux||;
+               s|^.*WITH_SELINUX.*$||;
+               s|-lselinux||;
 " `find . -name \*.in` 
 perl -p -i -e "s|#undef HAVE_NEON_NE_GET_RESPONSE_HEADER|#define HAVE_NEON_NE_GET_RESPONSE_HEADER 1|;
                s|#undef HAVE_BZ2_1_0|#define HAVE_BZ2_1_0|;
@@ -114,7 +114,15 @@ case `uname` in
         ;;
 esac
 
-varprefix=%{instroot}/%{cmsplatf}/var ./configure --prefix=%i --disable-nls --without-selinux --without-python --without-libintl  --without-perl --with-zlib-includes=$ZLIB_ROOT/include --with-zlib-lib=$ZLIB_ROOT/lib/libz.%soname --without-lua
+# Needed to convince configure not to pick up any sqlite.
+perl -p -i -e "s|sqlite[^.]*[.]h|sqliteNOCOMPILE.h|" ./configure
+
+varprefix=%{instroot}/%{cmsplatf}/var ./configure --prefix=%i --disable-nls \
+                                                  --without-selinux --without-python \
+                                                  --without-libintl  --without-perl \
+                                                  --with-zlib-includes=$ZLIB_ROOT/include \
+                                                  --with-zlib-lib=$ZLIB_ROOT/lib/libz.%soname \
+                                                  --without-lua 
 perl -p -i -e "s|lua||" Makefile
 
 #this does nothing...(cd zlib; make)
