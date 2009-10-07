@@ -1,4 +1,5 @@
 Alignment/CommonAlignmentProducer
+Alignment/LaserAlignment
 CalibCalorimetry/CaloTPG
 CalibCalorimetry/EcalLaserCorrection
 CalibCalorimetry/EcalTrivialCondModules
@@ -43,6 +44,10 @@ CondCore/SiStripPlugins
 CondCore/Utilities
 Configuration/HLT
 Configuration/PyReleaseValidation
+CondFormats/RecoMuonObjects
+CondTools/DQM
+CondTools/Geometry
+CondTools/HLT
 DQM/CSCMonitorModule
 DQM/DTMonitorClient
 DQM/DTMonitorModule
@@ -201,6 +206,9 @@ HLTrigger/btau
 HLTrigger/special
 IOPool/Input
 IOPool/Output
+IOPool/PFNCatalog
+IOPool/TFileAdaptor
+IOPool/TrivialFileCatalog
 JetMETCorrections/Configuration
 JetMETCorrections/Modules
 JetMETCorrections/Type1MET
@@ -275,6 +283,7 @@ RecoMuon/L3TrackFinder
 RecoMuon/MuonSeedGenerator
 RecoMuon/TrackerSeedGenerator
 RecoMuon/TransientTrackingRecHit
+RecoPixelVertexing/PixelLowPtUtilities
 RecoPixelVertexing/PixelTrackFitting
 RecoPixelVertexing/PixelVertexFinding
 RecoTauTag/EcalIsolation
@@ -293,6 +302,7 @@ RecoTracker/TkSeedGenerator
 RecoTracker/TkSeedingLayers
 RecoTracker/TrackProducer
 RecoTracker/TransientTrackingRecHit
+RecoVertex/GhostTrackFitter
 RecoVertex/BeamSpotProducer
 SimCalorimetry/EcalTrigPrimProducers
 SimCalorimetry/HcalTrigPrimProducers
@@ -305,6 +315,7 @@ TrackingTools/MaterialEffects
 TrackingTools/Producers
 TrackingTools/TrackFitters
 TrackingTools/TransientTrack
+Utilities/ReleaseScripts
 Utilities/Testing
 SimDataFormats/TrackingHit
 SimDataFormats/CrossingFrame
