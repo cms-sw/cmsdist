@@ -132,7 +132,7 @@ mkdir -p %{i}/etc/profile.d
  echo "slc4_amd64_platformSeeds=\"$slc4_amd64_platformSeeds\""; \
  echo "slc4_ia32_platformSeeds=\"$slc4_ia32_platformSeeds\""; \
  echo "slc5_ia32_platformSeeds=\"$slc5_ia32_platformSeeds\""; \
- echo "slc5_ia32_platformSeeds=\"$slc5_ia32_platformSeeds\""; \
+ echo "slc5_amd64_platformSeeds=\"$slc5_amd64_platformSeeds\""; \
  echo "packageList=\"`echo $packageList`\""; \
  echo "additionalProvides=\"$additionalProvides\""; \
  echo "unsupportedProvides=\"$unsupportedProvides\""; \
