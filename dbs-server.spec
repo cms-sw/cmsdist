@@ -46,8 +46,8 @@ mkdir -p %{i}/Servers/JavaServer/bin
 cat > %{i}/Servers/JavaServer/bin/dbs_init.sh << DBS_INIT_EOF
 #!/bin/sh
 export MYAREA=rpm_install_area
-export SCRAM_ARCH=slc4_ia32_gcc345
-export APT_VERSION=0.5.15lorg3.2-cmp
+export SCRAM_ARCH=scram_arch
+export APT_VERSION=apt_version
 source \$MYAREA/\$SCRAM_ARCH/external/apt/\$APT_VERSION/etc/profile.d/init.sh 
 source \$MYAREA/%{pkgrel}/etc/profile.d/init.sh
 # set DBS DBs
@@ -207,7 +207,10 @@ cp $DBS_SERVER_ROOT/Servers/JavaServer/DBS.war $APACHE_TOMCAT_ROOT/webapps
 cp -f $DBS_LIBS_ROOT/lib/*.jar $APACHE_TOMCAT_ROOT/common/lib
 
 # Fix path in dbs_init.sh file since now we know install area
-cat $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh | sed "s,rpm_install_area,$RPM_INSTALL_PREFIX,g" > \
+cat $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh | \
+    sed "s,scram_arch,$SCRAM_ARCH,g" | \
+    sed "s,apt_version,$APT_VERSION,g" | \
+    sed "s,rpm_install_area,$RPM_INSTALL_PREFIX,g" > \
     $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh.new
 /bin/mv -f $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh.new $DBS_SERVER_ROOT/Servers/JavaServer/bin/dbs_init.sh
 echo "+++ Fix path in dbs_init.sh"
