@@ -222,24 +222,7 @@ do
 done
 
 %post
-%{relocateConfig}etc/profile.d/dependencies-setup.sh
-%{relocateConfig}etc/profile.d/dependencies-setup.csh
-%{relocateConfig}lib/rpm/check-rpaths 
-%{relocateConfig}lib/rpm/check-rpaths-worker 
-%{relocateConfig}lib/rpm/cpanflute 
-%{relocateConfig}lib/rpm/cpanflute2 
-%{relocateConfig}lib/rpm/cross-build 
-%{relocateConfig}lib/rpm/find-debuginfo.sh 
-%{relocateConfig}lib/rpm/find-provides.perl 
-%{relocateConfig}lib/rpm/find-requires.perl 
-%{relocateConfig}lib/rpm/freshen.sh 
-%{relocateConfig}lib/rpm/perldeps.pl 
-%{relocateConfig}lib/rpm/rpmdb_loadcvt 
-%{relocateConfig}lib/rpm/rpmrc 
-%{relocateConfig}lib/rpm/trpm 
-%{relocateConfig}lib/rpm/vpkg-provides.sh 
-%{relocateConfig}lib/rpm/vpkg-provides2.sh
-perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|g" `grep -r %instroot $RPM_INSTALL_PREFIX/%pkgrel | grep -v Binary | cut -d: -f1 | sort | uniq`
+perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|g" `grep -I -r %instroot $RPM_INSTALL_PREFIX/%pkgrel | cut -d: -f1 | sort | uniq`
 %files
 %{i}
 %{instroot}/%{cmsplatf}/var/spool/repackage
