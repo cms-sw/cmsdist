@@ -1,4 +1,4 @@
-### RPM external gsl 1.8-CMS19
+### RPM external gsl 1.10
 Source: ftp://ftp.gnu.org/gnu/%n/%n-%realversion.tar.gz
 
 %prep
@@ -35,3 +35,4 @@ EOF_TOOLFILE
 
 %post
 %{relocateConfig}etc/scram.d/%n
+perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find $RPM_INSTALL_PREFIX/ -name \*.la -type f)
