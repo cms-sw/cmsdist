@@ -1,9 +1,8 @@
-### RPM cms cmsswdata 22
+### RPM cms cmsswdata 23
 Source: none
 
 Requires: data-FastSimulation-MaterialEffects
 Requires: data-FastSimulation-PileUpProducer
-Requires: data-Geometry-CaloTopology
 Requires: data-MagneticField-Interpolation
 Requires: data-RecoParticleFlow-PFBlockProducer
 Requires: data-RecoParticleFlow-PFTracking
