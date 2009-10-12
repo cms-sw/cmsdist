@@ -160,6 +160,7 @@ DQM/TrackerCommon
 DQM/TrackerMonitorTrack
 DQM/TrackingMonitor
 DQM/TrigXMonitor
+DQMOffline/CalibTracker
 DQMServices/ClientConfig
 DQMServices/Core
 DQMServices/Diagnostic
