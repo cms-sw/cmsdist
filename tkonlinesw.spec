@@ -9,7 +9,6 @@ Patch0: tkonlinesw-2.5.1-gcc43
 Patch1: tkonlinesw-2.5.1-TShare-64bit
 Patch2: tkonlinesw-2.5.1-DbClient-64bit
 Patch3: tkonlinesw-2.5.1-gcc44
-Patch4: tkonlinesw-2.5.1-gcc43-2
 
 # Note from Kristian: 
 # xdaq dependency is here only to re-use its makefiles. 
@@ -25,6 +24,9 @@ Requires: onlinesystemtools
 
 %prep
 %setup -q -n %releasename
+# Clean up some mysterious old build within the sources that screws
+# up the install by copying in an old libFed9UUtils.so
+# (this is really needed)
 %patch0 -p1
 case %cmsplatf in
   *amd64* ) 
@@ -33,17 +35,7 @@ case %cmsplatf in
   ;;
 esac
 %patch3 -p1
-%patch4 -p1
-# Clean up some mysterious old build within the sources that screws
-# up the install by copying in an old libFed9UUtils.so 
-# (this is really needed) 
 rm -fR TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/2.4/slc3_ia32_gcc323
-
-case %gccver in
-  4.*)
-perl -p -i -e "s|-Werror||" FecSoftwareV3_0/generic/Makefile
-  ;;
-esac
 
 %build
 echo "pwd: $PWD"
