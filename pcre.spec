@@ -1,5 +1,6 @@
 ### RPM external pcre 7.9
 Source: http://downloads.sourceforge.net/%n/%n-%{realversion}.tar.bz2
+Requires: bz2lib
 
 %prep
 %setup -n %n-%{realversion}
