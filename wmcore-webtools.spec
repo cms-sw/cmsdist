@@ -10,7 +10,7 @@ Requires: py2-sqlalchemy
 Requires: cherrypy
 Requires: py2-cheetah
 Requires: py2-cx-oracle
-Requires: py2-simplejson py2-pysqlite  sqlite
+Requires: py2-simplejson py2-pysqlite  sqlite py2-openid
 
 %prep
 %setup -n WMCORE
