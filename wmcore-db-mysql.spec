@@ -1,7 +1,7 @@
-### RPM cms wmcore WMCORE_0_1_1_pre13
+### RPM cms wmcore-db-mysql WMCORE_0_1_1_pre13
 ## INITENV +PATH PYTHONPATH %i/lib
 
-Source: none
+#Source: none
 Requires: py2-mysqldb py2-sqlalchemy wmcore
 
 %prep
