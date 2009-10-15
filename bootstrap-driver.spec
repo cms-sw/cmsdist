@@ -159,3 +159,4 @@ mkdir -p %{i}/etc/profile.d
 # We should make sure that the $PACKAGE_CATEGORY variable is used (requires changes to cmsBuild.sh which
 # I don't want to do at this point.
 perl -p -i -e 's|external[+]cms-common|cms+cms-common|g' %{i}/%{cmsplatf}-driver.txt
+perl -p -i -e 's|external[+]cms-common|cms+cms-common|g' %{i}/%{cmsplatf}-driver-comp.txt
