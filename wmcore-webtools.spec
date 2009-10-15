@@ -1,8 +1,8 @@
 ### RPM cms wmcore-webtools forHEARTBEATr01
 ## INITENV +PATH PYTHONPATH %i/lib
 
-Source: none
-Requires: wmcore cherrypy py2-cheetah py2-openid
+#Source: none
+Requires: wmcore cherrypy py2-cheetah py2-openid py2-sqlalchemy
 
 %prep
 %build

@@ -3,7 +3,7 @@
 
 %define cvstag %v
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=WMCORE&export=WMCORE&&tag=-r%{cvstag}&output=/WMCORE.tar.gz
-Requires: py2-simplejson
+Requires: py2-simplejson 
 
 %prep
 %setup -n WMCORE
