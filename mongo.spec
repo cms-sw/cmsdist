@@ -9,6 +9,8 @@
 %define hash b3e717fc3c2fe68da1508e45989ccd2ddbd1c822
 
 Provides: libpcap.so.0.8.3
+# 64-bit versions
+Provides: libpcap.so.0.8.3()(64bit)
 Source: http://github.com/mongodb/mongo/tarball/r%{realversion}
 Requires: gcc boost scons pcre spidermonkey
 Patch1: mongo.scons
