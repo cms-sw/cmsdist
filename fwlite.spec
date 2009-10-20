@@ -1,4 +1,4 @@
-### RPM cms fwlite CMSSW_2_2_13_FWLITE
+### RPM cms fwlite CMSSW_3_3_0_FWLITE
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: /bin/sed
@@ -21,7 +21,7 @@ Requires: fwlite-tool-conf python
 # Skip library load and symbol checks to avoid dependency on seal:
 %define nolibchecks     on
 
-# Switch off building tests:
+# Switch off building tests and plugins:
 %define patchsrc3 perl -p -i -e ' s|(<classpath.*test\\+test.*>)||;' config/BuildFile.xml*
 %define patchsrc4 perl -p -i -e ' s|(<classpath.*plugins\\+plugins.*>)||;' config/BuildFile.xml*
 
