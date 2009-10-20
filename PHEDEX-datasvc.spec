@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-datasvc DATASVC_1_5_1
+### RPM cms PHEDEX-datasvc DATASVC_1_5_2
 #
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -10,7 +10,7 @@
 
 Source: %cvsserver&strategy=checkout&module=%{downloadn}&export=%{downloadn}&&tag=-r%{v}&output=/%{n}.tar.gz
 Requires: oracle oracle-env p5-time-hires p5-text-glob p5-compress-zlib p5-dbi p5-dbd-oracle p5-xml-parser
-Requires: p5-cgi p5-json-xs p5-apache-dbi
+Requires: p5-cgi p5-json-xs p5-apache-dbi p5-params-validate
 Requires: apache2-conf mod_perl2 webtools
 
 # Actually, it is p5-xml-parser that requires this, but it doesn't configure itself correctly
@@ -24,6 +24,7 @@ Provides: perl(Date::Manip)
 Provides: perl(XML::LibXML)
 
 # We obsolete each previous release to force them to be removed
+Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_5_1
 Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_5_0
 Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_4_2a
 Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_4_2
