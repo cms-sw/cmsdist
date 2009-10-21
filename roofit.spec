@@ -1,11 +1,11 @@
-### RPM lcg roofit 5.24.00
+### RPM lcg roofit 5.25.02
 %define svnTag %(echo %realversion | tr '.' '-')
 Source: svn://root.cern.ch/svn/root/tags/v%svnTag/roofit?scheme=http&module=roofit&output=/roofit.tgz
 
 Patch:  roofit-5.24-00-build.sh 
 Patch1: root-5.22-00a-roofit-silence-static-printout
 Patch2: roofit-5.24-00-RooFactoryWSTool-include
-Patch3: roofit-5.24-00-NOROOMINIMIZER
+Patch3: roofit-5.25-02-NOROOMINIMIZER
 
 Requires: root 
 
