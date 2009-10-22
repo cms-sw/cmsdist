@@ -1,4 +1,4 @@
-### RPM cms online CMSSW_3_1_0_ONLINE
+### RPM cms online CMSSW_3_2_7_ONLINE
 ## IMPORT configurations 
 
 Provides: /bin/zsh
@@ -11,7 +11,7 @@ Provides: perl(Term::ReadKey)
 Provides: perl(full)
 Provides: perl(LWP::UserAgent)
 Provides: perl(Template)
-
+Provides: libg2c.so.0
 Requires: online-tool-conf python
 Patch0: online_src
 
@@ -29,6 +29,7 @@ Patch0: online_src
 
 %define patchsrc2	perl -p -i -e ' s!(<classpath.*/test\\+.*>)!!' config/BuildFile.xml
 %define patchsrc3       %patch -p0
+%define patchsrc4       rm -rf src/DQM/SiPixelHistoricInfoClient/bin src/DQM/SiStripHistoricInfoClient/bin
 
 ## IMPORT cms-scram-build
 ## IMPORT partial-build
