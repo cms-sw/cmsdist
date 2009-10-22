@@ -80,7 +80,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/f77compiler
  <Environment name=FC default="$G77_BASE/bin/gfortran"></Environment>
 </client>
 <Flags SCRAM_COMPILER_NAME="gcc@COMPILER_VERSION@">
-<Flags FFLAGS="-fno-second-underscore -Wunused -Wuninitialized">
+<Flags FFLAGS="-fno-second-underscore -Wunused -Wuninitialized -O2">
 <Flags FCO2Flag="-O2">
 <Flags FCOPTIMISED="-O2">
 <Flags FCDEBUGFLAG="-g">
