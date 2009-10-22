@@ -1,11 +1,9 @@
-### RPM cms dbs-web V06_00_20
+### RPM cms dbs-web V05_00_20
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PYTHONPATH $ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV SET DDHOME $DBS_WEB_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV SET DBS_DBPARAM $DDHOME/DBParam
 ## INITENV SET PYTHONPATH ${DDHOME}:${DDHOME}/QueryBuilder:${PYTHONPATH}
-
-
 
 %define cvstag %{realversion}
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
@@ -28,8 +26,6 @@ cp cmsweb_discovery dbs_discovery %{i}/etc/init.d
 chmod a+x %{i}/etc/init.d/*
 
 cd %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
-cp Templates/DBParam .
-
 #ln -s $YUI_ROOT/build YUI
 
 # This will generate the correct dependencies-setup.sh/dependencies-setup.csh
@@ -67,9 +63,8 @@ ln -s $YUI_ROOT $DDHOME/yui
 mkdir -p $DDHOME/rss
 ln -s $WEBTOOLS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Controllers $DDHOME/WEBTOOLS
 pdir=$RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
-# if we use cmswttest which is vocms33
-if [ `hostname` == "vocms33.cern.ch" ]; then
-    ${pdir}/scripts/post-install.sh /dbs_discovery_wttest 8003
+if [ `hostname` == "cmswttest.cern.ch" ]; then
+    ${pdir}/scripts/post-install.sh https://cmsweb.cern.ch/dbs_discovery_wttest 8008
     cat ${pdir}/DBSDD.conf | sed "s/# URL=/URL=/g" | sed "s/# PORT=/PORT=/g" > ${pdir}/DBSDD.conf.tmp
     mv ${pdir}/DBSDD.conf.tmp ${pdir}/DBSDD.conf
 else
@@ -80,6 +75,5 @@ fi
 if [ -n "${WEBTOOLS_CONF}" ] && [ -f ${WEBTOOLS_CONF}/dbs/DBParam ]; then
     rm -f ${pdir}/DBParam
     ln -s ${WEBTOOLS_CONF}/dbs/DBParam ${pdir}/DBParam
-else
-    cp ${pdir}/Templates/DBParam ${pdir}
 fi
+###export TARGET_PROJECT=dbs-web
