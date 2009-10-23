@@ -82,7 +82,7 @@ slc*onl* )
     
     ##########################################################
     #slc5onl_ia32 Specific
-    slc5onl_ia32_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype
+    slc5onl_ia32_platformSeeds="external+gcc+4.3.4 glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype
                  fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
                  libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
                  libXrender libXpm"
