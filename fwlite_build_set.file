@@ -37,6 +37,7 @@ DataFormats/MuonDetId
 DataFormats/MuonReco
 DataFormats/ParticleFlowCandidate
 DataFormats/ParticleFlowReco
+DataFormats/PatCandidates
 DataFormats/Provenance
 DataFormats/RecoCandidate
 DataFormats/SiPixelCluster
@@ -68,3 +69,4 @@ SimDataFormats/Track
 SimDataFormats/TrackingAnalysis/
 SimDataFormats/TrackingHit
 SimDataFormats/Vertex
+Utilities/ReleaseScripts
