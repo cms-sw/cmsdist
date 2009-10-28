@@ -25,6 +25,8 @@ mkdir -p %i/test
 cp -R test/* %i/test/
 mkdir -p %i/util
 cp -R util/* %i/util/
+mkdir -p %i/ops
+cp -R ops/* %i/ops/
 mkdir -p %{i}/etc/profile.d
 mkdir -p %i/workdir
 
