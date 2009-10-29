@@ -13,4 +13,10 @@ make
 %install
 cp -r ./* %i
 
+%post
+# setup environment
+. $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+cat $APACHE_TOMCAT_ROOT/conf/server.xml | \
+sed 's,connectionTimeout="20000" disableUploadTimeout="true",connectionTimeout="20000" disableUploadTimeout="true" maxPostSize="0",g' > $APACHE_TOMCAT_ROOT/conf/server.xml.tmp
+mv $APACHE_TOMCAT_ROOT/conf/server.xml.tmp $APACHE_TOMCAT_ROOT/conf/server.xml
 #
