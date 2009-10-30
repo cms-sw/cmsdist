@@ -1,4 +1,4 @@
-### RPM external millepede 02.00.01
+### RPM external millepede 03.00.00
 # CAREFUL: NO VERSION IN TARBALL !!!
 # Source: http://www.desy.de/~blobel/Mptwo.tgz
 # Source: http://cmsrep.cern.ch/cmssw/millepede-mirror/millepede-2.0.tar.gz
@@ -43,7 +43,7 @@ mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/millepede
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=millepede version=%v>
-<info url="http://www.desy.de/~blobel"></info>
+<info url="http://www.wiki.terascale.de/index.php/Millepede_II"></info>
 <Client>
  <Environment name=MILLEPEDE_BASE default="%i"></Environment>
 </Client>
