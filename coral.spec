@@ -3,6 +3,7 @@
 Provides: /bin/zsh
 Provides: libexpat.so.0
 Requires: coral-tool-conf
+Patch: coral-2_3_2-includes 
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
 
@@ -13,6 +14,8 @@ Requires: coral-tool-conf
 %define preBuildCommand (rm -rf LFCLookupService LFCReplicaService MySQLAccess)
 %define prebuildtarget  prebuild
 %define buildtarget     release-build
+
+%define patchsrc    %patch -p0
 
 %if "%online" == "true"
 # Disable building tests in online release,
