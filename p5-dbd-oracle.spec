@@ -5,7 +5,7 @@
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn DBD-Oracle
 %define closingbrace )
-%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 %if "%online" != "true"
 Requires: p5-dbi oracle

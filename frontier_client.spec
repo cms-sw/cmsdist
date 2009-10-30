@@ -1,7 +1,7 @@
 ### RPM external frontier_client 2.7.11
 Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
 %define closingbrace )
-%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 Patch0: frontier-2.7.11-dist-tarfile
 
