@@ -93,8 +93,6 @@ case $cmsplatf in
     ;;
 esac
 
-slc5_compPackages="compat-readline43 libXp libXtst libXt"
-
 # Seeds for unsupported platforms. These will not make bootstrap die, if not found.
 # OpenSuse
 unsupportedSeeds="xorg-x11-Mesa compat-readline4 compat-curl2 freetype2 
@@ -140,23 +138,7 @@ mkdir -p %{i}/etc/profile.d
  echo "unsupportedProvides=\"$unsupportedProvides\""; \
  echo "defaultPkgs=\"$defaultPkgs\""; \
 ) > %{i}/%{cmsplatf}-driver.txt
-
-(echo "rpm_version=$RPM_VERSION"; \
- echo "apt_version=$APT_VERSION"; \
- echo "platformSeeds=\"$platformSeeds $compPackages\""; \
- echo "unsupportedSeeds=\"$unsupportedSeeds\""; \
- echo "slc4_amd64_platformSeeds=\"$slc4_amd64_platformSeeds \""; \
- echo "slc4_ia32_platformSeeds=\"$slc4_ia32_platformSeeds \""; \
- echo "slc5_ia32_platformSeeds=\"$slc5_ia32_platformSeeds $slc5_compPackages\""; \
- echo "slc5_amd64_platformSeeds=\"$slc5_amd64_platformSeeds $slc5_compPackages\""; \
- echo "packageList=\"`echo $packageList`\""; \
- echo "additionalProvides=\"$additionalProvides\""; \
- echo "unsupportedProvides=\"$unsupportedProvides\""; \
- echo "defaultPkgs=\"$defaultPkgs\""; \
-) > %{i}/%{cmsplatf}-driver-comp.txt
-
 # FIXME: Hack to make sure that the cms-common package is named correctly in the driver file.
 # We should make sure that the $PACKAGE_CATEGORY variable is used (requires changes to cmsBuild.sh which
 # I don't want to do at this point.
 perl -p -i -e 's|external[+]cms-common|cms+cms-common|g' %{i}/%{cmsplatf}-driver.txt
-perl -p -i -e 's|external[+]cms-common|cms+cms-common|g' %{i}/%{cmsplatf}-driver-comp.txt
