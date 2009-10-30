@@ -1,11 +1,9 @@
-### RPM external xerces-c 2.7.0
+### RPM external xerces-c 2.8.0
 %define xercesv %(echo %realversion | tr . _)
-Source: http://archive.apache.org/dist/xml/xerces-c/Xerces-C_%xercesv/source/xerces-c-src_%xercesv.tar.gz
-Patch0: xerces-c-2.7.0-XMLUTF8Transcoder
+Source: http://archive.apache.org/dist/xml/xerces-c/sources/xerces-c-src_%xercesv.tar.gz 
 
 %prep
 %setup -n xerces-c-src_%xercesv
-%patch0 -p1
 
 %build
 export XERCESCROOT=$PWD
