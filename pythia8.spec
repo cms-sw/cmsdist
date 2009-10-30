@@ -1,4 +1,4 @@
-### RPM external pythia8 108
+### RPM external pythia8 130
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
 
 Requires: hepmc
