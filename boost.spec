@@ -1,4 +1,4 @@
-### RPM external boost 1.38.0
+### RPM external boost 1.40.0
 %define boostver _%(echo %realversion | tr . _)
 Source: http://internap.dl.sourceforge.net/sourceforge/%{n}/%{n}%{boostver}.tar.gz
 %define closingbrace )
@@ -77,7 +77,7 @@ done
 
 getLibName()
 {
-  libname=`find %i/lib -name "libboost_$1*mt*.$so" -exec basename {} \;`
+  libname=`find %i/lib -name "libboost_$1.$so" -exec basename {} \;`
   echo $libname | sed -e 's|[.][^-]*$||;s|^lib||'
 }
 
