@@ -1,19 +1,26 @@
-### RPM external xdaq VR15544
-## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
-
-Requires: zlib mimetic xerces-c uuid sqlite
+### RPM external xdaq 03.14.00
+Requires: zlib mimetic xerces-c uuid
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
+%if "%cmsplatf" == "slc3_ia32_gcc323"
+%define installDir linux/x86
+%endif
 
-Source: svn://svn.cern.ch/reps/cmsos/releases/baseline9/trunk/?scheme=svn+ssh&revision=15544&strategy=export&module=xdaq&output=/xdaq.tar.gz
-
-Patch: xdaq_build
+# Download from cern afs area to speed up testing:  
+Source0: http://switch.dl.sourceforge.net/sourceforge/xdaq/coretools_G_V%xdaqv.tgz
+Source1: http://switch.dl.sourceforge.net/sourceforge/xdaq/powerpack_G_V01_13_00.tgz
+Source2: http://switch.dl.sourceforge.net/sourceforge/xdaq/worksuite_G_V01_13_00.tgz
+Patch: xdaq_3.14_p1
+Patch1: xdaq_3.14_p2
 Provides: /bin/awk
 
 %prep
-%setup -T -b 0 -n xdaq
+%setup -T -b 0 -n TriDAS
+%setup -D -T -b 1 -n TriDAS
+%setup -D -T -b 2 -n TriDAS
 
 %patch -p1
+%patch1 -p1
 ls
 echo " Install root in prep:" %{i}    %{pkginstroot}
 
@@ -28,32 +35,44 @@ cp -rp *  %{i} # assuming there are no symlinks in the original source code
 cd %{i}
 export XDAQ_ROOT=$PWD
 cd %{i}/daq
-
+# Fix up a problem for the 64bit build
+%if ("%cmsplatf" == "slc4_amd64_gcc345")
+perl -p -i -e "s!configure --prefix!configure --with-pic --prefix!" extern/asyncresolv/Makefile
+%endif
 export MIMETIC_PREFIX=$MIMETIC_ROOT
 export XERCES_PREFIX=$XERCES_C_ROOT
 export UUID_LIB_PREFIX=$UUID_ROOT/lib
-export SQLITE_PREFIX=$SQLITE_ROOT
-export SEARCH_PATH=$PATH
 
+case %cmsplatf in
+slc4_ia32_gcc412 | slc4_ia32_gcc422 | osx104_ppc32_gcc400 | osx104_ia32_gcc401)
+make CPPDEFINES=linux Set=extern_coretools install || true
+make CPPDEFINES=linux Set=coretools install || true
+make CPPDEFINES=linux Set=extern_powerpack install || true
+make CPPDEFINES=linux Set=powerpack install || true
+cd xdaq2rc
+make CPPDEFINES=linux install || true
+cd ..
+;;
+* )
 make CPPDEFINES=linux Set=extern_coretools install
 make CPPDEFINES=linux Set=coretools install
 make CPPDEFINES=linux Set=extern_powerpack install
 make CPPDEFINES=linux Set=powerpack install
 cd xdaq2rc
 make CPPDEFINES=linux install
+cd ..
+;;
+esac
 
 # The following structure used as defined in Xdaq "simplify" script:
 cd %{i}
 mv x86*/lib .
 mv x86*/bin .
 mv x86*/include .
-# Make the following directory (it will be missing in the gcc4 case where
-# things fail during the build and scram at least needs to see it)
-mkdir -p include/linux
 
 mkdir -p htdocs
 
-for subdir in `echo "xdaq2rc"; grep -h -v \# config/mfSet.coretools config/mfSet.extern_coretools config/mfSet.extern_powerpack config/mfSet.powerpack | grep -v Packages= | grep '[a-z]' | awk '{print $1}'`
+for subdir in `echo "xdaq2rc"; grep -h -v \# build/mfSet.coretools build/mfSet.extern_coretools build/mfSet.extern_powerpack build/mfSet.powerpack | grep -v Packages= | grep '[a-z]' | awk '{print $1}'`
 do
 	mkdir -p %{i}/htdocs/$subdir/{images,xml,html}
 	echo $subdir
@@ -78,12 +97,10 @@ mkdir -p include/interface
 mv daq/interface/evb/include/interface/evb include/interface
 mv daq/interface/shared/include/interface/shared include/interface
 mkdir -p etc
-mv daq/xdaq/etc/default.profile etc/
+mv daq/etc/default.profile etc/
 rm -fr daq 
 rm -fr CVS
 rm -fr x86*
-ln -s libasyncresolv %{i}/lib/libasyncresolv.so
-rm -f %{i}/lib/lib*.a %{i}/lib/lib*.la
 
 # Libraries from extern (not found cause they are symlinks)
 
