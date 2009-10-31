@@ -57,15 +57,15 @@ config/updateConfig.pl -p CMSSW -v THE_BUILD -s $SCRAMV1_VERSION -t ${DQMGUI_CON
 # Avoid generating excess environment.
 %build
 cd %_builddir/THE_BUILD/src
-(%scram b echo_foo </dev/null
- cd ../include/%cmsplatf
- mkdir -p boost/gil/extension rtgu
- tar -C boost/gil/extension -zxvf %_sourcedir/numeric.tar.gz
- find boost -name '*.hpp' -exec perl -p -i -e '/#include/ && s|\.\./\.\./|boost/gil/|' {} \;
- tar -C rtgu -zxvf %_sourcedir/rtgu.tar.gz
- mv rtgu/rtgu rtgu/image
- patch -p0 < %_sourcedir/dqmgui-rtgu)
+ %scram b echo_foo </dev/null
+cd ../include/%cmsplatf
+mkdir -p boost/gil/extension rtgu
+tar -C boost/gil/extension -zxvf %_sourcedir/numeric.tar.gz
+find boost -name '*.hpp' -exec perl -p -i -e '/#include/ && s|\.\./\.\./|boost/gil/|' {} \;
+tar -C rtgu -zxvf %_sourcedir/rtgu.tar.gz
+patch -p0 < %_sourcedir/dqmgui-rtgu
 
+cd %_builddir/THE_BUILD/src
 export BUILD_LOG=yes
 export SCRAM_NOPLUGINREFRESH=yes
 export SCRAM_NOLOADCHECK=true
