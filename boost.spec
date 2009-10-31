@@ -88,6 +88,7 @@ export BOOST_SYSTEM_LIB=`getLibName system`
 export BOOST_PROGRAM_OPTIONS_LIB=`getLibName program_options`
 export BOOST_PYTHON_LIB=`getLibName python`
 export BOOST_REGEX_LIB=`getLibName regex`
+export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
@@ -148,7 +149,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_python
 <lib name="@BOOST_PYTHON_LIB@">
 <Client>
  <Environment name=BOOST_PYTHON_BASE default="%i"></Environment>
- <Environment name=PYSTE_EXEC default="$BOOST_PYTHON_BASE/lib/python2.4/site-packages/Pyste/pyste.py"></Environment>
+ <Environment name=PYSTE_EXEC default="$BOOST_PYTHON_BASE/lib/python@PYTHONV@/site-packages/Pyste/pyste.py"></Environment>
  <Environment name=LIBDIR default="$BOOST_PYTHON_BASE/lib"></Environment>
  <Environment name=INCLUDE default="$BOOST_PYTHON_BASE/include"></Environment>
 </Client>
