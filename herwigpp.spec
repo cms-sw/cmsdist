@@ -1,7 +1,11 @@
-### RPM external herwigpp 2.3.2
+### RPM external herwigpp 2.4.0.UEfix
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
 
-Source: http://projects.hepforge.org/herwig/files/Herwig++-%{realversion}.tar.gz
+#
+# Careful to change or get rid of the next line when the version changes
+#
+%define srcTag 2.4.0-UEfix
+Source: http://projects.hepforge.org/herwig/files/Herwig++-%{srcTag}.tar.gz
 Requires: thepeg
 Requires: gsl
 Requires: hepmc
@@ -10,7 +14,7 @@ Patch0: herwigpp-2.3.2-g77
 Patch1: herwigpp-2.3.2-amd64
 
 %prep
-%setup -q -n Herwig++-%{realversion}
+%setup -q -n Herwig++-%{srcTag}
 case %gccver in
   3.*)
 %patch0 -p1
