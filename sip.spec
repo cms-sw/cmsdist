@@ -27,3 +27,4 @@ EOF_TOOLFILE
 
 %post
 %{relocateConfig}etc/scram.d/sip
+%{relocateConfig}lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages/sipconfig.py
