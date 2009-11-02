@@ -1,5 +1,5 @@
-### RPM external yui 2.7.0b
-Source: http://yuilibrary.com/downloads/yui2/yui_%realversion.zip 
+### RPM external yui 2.4.1
+Source: http://switch.dl.sourceforge.net/sourceforge/yui/yui_%realversion.zip 
 
 %prep
 rm -rf %{_builddir}/yui
