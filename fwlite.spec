@@ -1,11 +1,10 @@
-### RPM cms fwlite CMSSW_3_3_2_FWLITE
+### RPM cms fwlite CMSSW_2_0_0_pre7_FWLITE
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: /bin/sed
 Provides: perl(Date::Format)
 Provides: perl(Term::ReadKey)
 Provides: perl(full)
-Provides: perl(Template)
 Requires: fwlite-tool-conf python
 
 %define cmssw_release   %(perl -e '$_="%v"; s/_FWLITE//; print;')
@@ -13,18 +12,19 @@ Requires: fwlite-tool-conf python
 %define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
 %define cvsdir          %cvsprojuc
 %define cvsserver       %cvsprojlc
-%define useCmsTC        1
+%define buildtarget     release-build
 %define saveDeps        yes
 
 #Defines for file containing list of packages for checkout and build:
-%define buildsetfile    fwlite_build_set
+%define buildsetrepo    CMSDIST
+%define buildsetfile    fwlite_build_set.file
+%define buildsetvers    buildset_V3_5
 
 # Skip library load and symbol checks to avoid dependency on seal:
 %define nolibchecks     on
 
-# Switch off building tests and plugins:
+# Switch off building tests:
 %define patchsrc3 perl -p -i -e ' s|(<classpath.*test\\+test.*>)||;' config/BuildFile.xml*
-%define patchsrc4 perl -p -i -e ' s|(<classpath.*plugins\\+plugins.*>)||;' config/BuildFile.xml*
 
 
 ## IMPORT cms-scram-build
