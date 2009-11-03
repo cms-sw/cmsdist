@@ -229,7 +229,8 @@ do
 done
 
 %post
-perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|g" `grep -I -r %instroot $RPM_INSTALL_PREFIX/%pkgrel | cut -d: -f1 | sort | uniq`
+# do not relocate init.[c]sh as these are done by default from cmsBuild
+perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|g" `grep -I -r %instroot $RPM_INSTALL_PREFIX/%pkgrel | cut -d: -f1 | sort | uniq | grep -v init.csh | grep -v init.sh `
 %files
 %{i}
 %{instroot}/%{cmsplatf}/var/spool/repackage
