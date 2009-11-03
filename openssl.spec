@@ -10,6 +10,13 @@ case %gccver in
   ;;
 esac
 
+# in the online environment, the gccver is set to 434, not to 4.3.4, so we use a different case ... :(
+case %cmsplatf in
+  slc5onl*gcc4*)
+%patch0 -p1
+  ;;
+esac
+
 %build
 ./config --prefix=%i shared
 case $(uname)-$(uname -m) in
