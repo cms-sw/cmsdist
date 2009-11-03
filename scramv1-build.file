@@ -321,7 +321,6 @@ tar czf src.tar.gz src
 rm -fR src
 
 %post
-set -x
 export SCRAM_ARCH=%cmsplatf
 cd $RPM_INSTALL_PREFIX/%pkgrel
 if [ -e src.tar.gz ]
