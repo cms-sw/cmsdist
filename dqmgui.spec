@@ -1,4 +1,4 @@
-### RPM cms dqmgui 5.1.0
+### RPM cms dqmgui 5.1.1
 
 # This is a RPM spec file for building the DQM GUI.  This effectively
 # builds a sliced version of CMSSW with some updated and added code,
@@ -21,7 +21,7 @@
 # Sources that go into this package.  To avoid listing every package
 # here we take entire subsystems then later select what we want.
 Source0: %{cvsserver}&strategy=checkout&module=config&export=config&tag=-r%{vcfg}&output=/config.tar.gz
-Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rR05-01-00&output=/DQMServer.tar.gz
+Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rR05-01-01&output=/DQMServer.tar.gz
 Source2: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Utilities&export=Iguana/Utilities&tag=-rV03-00-09-01&output=/IgUtils.tar.gz
 Source3: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-13-00&output=/DQMCore.tar.gz
 Source4: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=image&revision=10&scheme=http&output=/rtgu.tar.gz
@@ -136,6 +136,8 @@ cp -p %_builddir/THE_BUILD/src/VisMonitoring/DQMServer/config/makefile %i/etc
 tar -C %_builddir/THE_BUILD/src -cf - */*/interface/*.h | tar -C %i/include -xvvf -
 tar -C %_builddir/THE_BUILD/include/%cmsplatf -cf - . | tar -C %i/include -xvvf -
 tar -C %_builddir/THE_BUILD/external/%cmsplatf/lib -cf - . | tar -C %i/external -xvvf -
+mkdir -p %i/etc/scramconfig
+cp -p %_builddir/THE_BUILD/config/toolbox/%cmsplatf/tools/selected/*.xml %i/etc/scramconfig
 
 # Script to record what sources went into this package so user can
 # check them out conveniently.
@@ -152,6 +154,21 @@ sed 's/^  //' > %i/bin/visDQMDistSource << \END_OF_SCRIPT
   $doit tar -jxf %i/data/distsrc.tar.bz2
   tar -jtf %i/data/distsrc.tar.bz2 '*/CVS/Root' |
     xargs $doit sed -i -e "s|.*|$cvs|"
+END_OF_SCRIPT
+
+# Script to update SCRAM tool definitions in CMSSW to our versions.
+sed 's/^  //' > %i/bin/visDQMDistTools << \END_OF_SCRIPT
+  #!/bin/sh
+  [ X"$CMSSW_BASE" = X ] && { echo '$CMSSW_BASE not set'; exit 1; }
+  [ X"$SCRAM_ARCH" = X ] && { echo '$SCRAM_ARCH not set'; exit 1; }
+
+  set -e
+  for tool in %i/etc/scramconfig/*.xml; do
+   toolname=$(basename $tool | sed 's/\.xml$//')
+   (set -x; scram tool remove $toolname)
+   cp -p $tool $CMSSW_BASE/config/toolbox/$SCRAM_ARCH/tools/selected
+   (set -x; scram setup -f $tool $toolname)
+  done
 END_OF_SCRIPT
 
 # Script to patch the server from the local developer area.  The user's
@@ -293,6 +310,7 @@ chmod a+x %i/etc/*-*
 %{relocateConfig}etc/crontab
 %{relocateConfig}etc/profile.d/env.sh
 %{relocateConfig}etc/profile.d/env.csh
+%{relocateConfig}etc/scramconfig/*.xml
 perl -w -e '
   ($oldroot, $newroot, @files) = @ARGV;
   foreach $f (@files) {
