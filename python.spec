@@ -1,11 +1,13 @@
-### RPM external python 2.6.2
+### RPM external python 2.6.4
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 # OS X patches and build fudging stolen from fink
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 Requires: expat bz2lib db4 gdbm
 
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
+%if "%online" != "true"
 Requires: zlib openssl
 %endif
 
@@ -52,7 +54,7 @@ perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" Lib/cgi.py
 #mkdir -p %i/include %i/lib
 mkdir -p %i/include %i/lib %i/bin
 
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
+%if "%online" != "true"
 %define extradirs $ZLIB_ROOT $OPENSSL_ROOT 
 %else
 %define extradirs %{nil}
@@ -132,10 +134,10 @@ perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
 rm  `find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*'`
 rm  `find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*'`
 
+%if "%online" == "true"
 # remove tkinter that brings dependency on libtk:
-#
-
 rm  `find %{i}/lib -type f -name "_tkinter.so"`
+%endif
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
