@@ -1,21 +1,8 @@
-### RPM external openssl 0.9.7m
+### RPM external openssl 0.9.7d-CMS19
 Source: http://www.openssl.org/source/%n-%realversion.tar.gz
-Patch0: openssl-0.9.7m-gcc43-m486
 
 %prep
 %setup -n %n-%{realversion}
-case %gccver in
-  4.3.* | 4.4.*)
-%patch0 -p1
-  ;;
-esac
-
-# in the online environment, the gccver is set to 434, not to 4.3.4, so we use a different case ... :(
-case %cmsplatf in
-  slc5onl*gcc4*)
-%patch0 -p1
-  ;;
-esac
 
 %build
 ./config --prefix=%i shared
