@@ -1,20 +1,13 @@
 ### RPM external tkonlinesw 2.5.1
-
 %define projectname trackerDAQ
 %define releasename %{projectname}-%{realversion}
-%define closingbrace )
-%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
 Source: http://cern.ch/cms-sdt/source-mirrors/tkonlinesw/trackerDAQ-2.5.1-3.tgz
 Patch0: tkonlinesw-2.5.1-gcc43
-Patch1: tkonlinesw-2.5.1-TShare-64bit
-Patch2: tkonlinesw-2.5.1-DbClient-64bit
-Patch3: tkonlinesw-2.5.1-gcc44
-Patch4: tkonlinesw-2.5.1-gcc43-2
 
 # Note from Kristian: 
 # xdaq dependency is here only to re-use its makefiles. 
 
-%if "%online" != "true"
+%if "%cmsplatf" != "slc4onl_ia32_gcc346"
 Requires: xerces-c
 Requires: oracle
 Requires: xdaq
@@ -25,25 +18,11 @@ Requires: onlinesystemtools
 
 %prep
 %setup -q -n %releasename
-%patch0 -p1
-case %cmsplatf in
-  *amd64* ) 
-%patch1 -p1
-%patch2 -p1
-  ;;
-esac
-%patch3 -p1
-%patch4 -p1
 # Clean up some mysterious old build within the sources that screws
-# up the install by copying in an old libFed9UUtils.so 
-# (this is really needed) 
+# up the install by copying in an old libFed9UUtils.so
+# (this is really needed)
+%patch0 -p1
 rm -fR TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/2.4/slc3_ia32_gcc323
-
-case %gccver in
-  4.*)
-perl -p -i -e "s|-Werror||" FecSoftwareV3_0/generic/Makefile
-  ;;
-esac
 
 %build
 echo "pwd: $PWD"
@@ -84,18 +63,9 @@ export ENV_CMS_TK_SBS_ROOT=blah
 ################################################################################
 # Configure
 ################################################################################
-case $(uname)-$(uname -p) in
-  Linux-x86_64)
-chmod +x ./configure && ./configure --with-xdaq-platform=x86_64
-cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure --with-xdaq-platform=x86_64 && cd -
-cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure --with-xdaq-platform=x86_64 && cd -
-  ;;
-  * )
 chmod +x ./configure && ./configure
 cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure && cd -
 cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure && cd -
-  ;;
-esac
 
 export CPPFLAGS=-fPIC
 make cmssw
