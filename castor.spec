@@ -16,7 +16,6 @@
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{v}.source.tar.gz
 Source: cvs://:pserver:anonymous@isscvs.cern.ch:/local/reps/castor?passwd=Ah<Z&tag=-r%{downloadv}&module=CASTOR2&output=/%{n}-%{realversion}.source.tar.gz
 Patch0: castor-2.1.7.14-gcc43
-Patch1: castor-2.1.7.14-gcc44
 
 # Ugly kludge : forces libshift.x.y to be in the provides (rpm only puts libshift.so.x)
 # root rpm require .x.y
@@ -26,7 +25,7 @@ Provides: libshift.so.%(echo %realversion |cut -d. -f1,2)%{libsuffix}
 %setup -n CASTOR2 
 
 %patch0 -p1
-%patch1 -p1
+
 
 %build
 
