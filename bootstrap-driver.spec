@@ -88,10 +88,10 @@ slc*onl* )
                  libXrender libXpm"
     
     # ONLINE: seed system compiler (only libraries for runtime)
-    slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds libgcc libstdc++"
+    slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds libgcc libstdc++ external+gcc+4.3.4"
     
     # ONLINE: seed other available system tools:
-    slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds curl libpng libtiff libungif openssl qt zlib perl-DBI-1.40-8"
+    slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds curl libpng libtiff libungif openssl qt zlib perl-DBI-1.40-8 libtermcap-2.0.8"
     
     # Python tools are commented out due to compatibility problems.
     slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds python python-elementtree"
@@ -169,6 +169,7 @@ case %cmsplatf in
         additionalProvides="AGL ApplicationServices Carbon CoreFoundation
                             CoreServices OpenGL Python QuickTime Tcl Tk
                             libintl.3.dylib"
+
     ;;
 esac
 
