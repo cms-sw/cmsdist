@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_3_3_0_pre5
+### RPM cms cmssw CMSSW_3_3_1
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: /bin/ksh
@@ -12,6 +12,9 @@ Provides: perl(full)
 Provides: perl(LWP::UserAgent)
 Provides: perl(Template)
 Provides: perl(CMSDBA)
+Provides: perl(Tk) >= 804
+Provides: perl(Tk::ROText)
+Provides: ld-linux.so.2(GLIBC_PRIVATE)
 Requires: cmssw-tool-conf python glimpse
 
 %define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
