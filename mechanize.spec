@@ -14,3 +14,7 @@ python setup.py build
 export PYTHONPATH=$PYTHONPATH:%i/lib/python%{pythonv}/site-packages/
 mkdir -p %i/lib/python%{pythonv}/site-packages/
 python setup.py install --prefix=%i
+
+# The following may be needed if your python files are using full paths
+# to the interpreter instead of /usr/bin/env python
+perl -p -i -e "s|^#!.*python(.*)|#!/usr/bin/env python$1|" `grep -r -e "^#\!.*python.*" %i | cut -d: -f1`
