@@ -1,9 +1,16 @@
-### RPM cms wmcore WMCORE_PA_0_12_17_pre1
+### RPM cms wmcore CERNOIDv02
 ## INITENV +PATH PYTHONPATH %i/lib
-
+%define pymajor %(echo $PYTHON_VERSION | cut -d. -f 1)
+%define pyminor %(echo $PYTHON_VERSION | cut -d. -f 2)
 %define cvstag %v
+
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=WMCORE&export=WMCORE&&tag=-r%{cvstag}&output=/WMCORE.tar.gz
+Requires: python
+
+# Also depends on py2-simplejson if python <= 2.4
+%if "%([ %{pymajor} -le 2 ] && [ %{pyminor} -le 4 ] && echo true || echo false)" == "true"
 Requires: py2-simplejson 
+%endif
 
 %prep
 %setup -n WMCORE
