@@ -1,16 +1,19 @@
-### RPM external millepede 2.0
-## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac 
-
+### RPM external millepede 02.00.01
 # CAREFUL: NO VERSION IN TARBALL !!!
 # Source: http://www.desy.de/~blobel/Mptwo.tgz
-Source: http://cmsrep.cern.ch/cmssw/millepede-mirror/millepede-2.0.tar.gz
+# Source: http://cmsrep.cern.ch/cmssw/millepede-mirror/millepede-2.0.tar.gz
 
-Patch: millepede_2009_01_22
-Patch1: millepede_64bit_2008_08_18
-Patch2: millepede-gcc412
+%define svnTag %(echo %realversion | tr '.' '-')
+Source: svn://svnsrv.desy.de/public/MillepedeII/tags/V%svnTag/?scheme=http&module=V%svnTag&output=/millepede.tgz
+
+Requires: castor
+
+Patch: millepede_V02-00-01
+Patch1: millepede_V02-00-01_64bit
+Patch2: millepede_V02-00-01_gcc4
 
 %prep
-%setup -n millepede-%realversion
+%setup -n V%svnTag
 %patch -p1
 
 %if "%cpu" == "amd64"
@@ -19,9 +22,11 @@ Patch2: millepede-gcc412
 
 case %gccver in
   4.*)
-%patch2 -p0
+%patch2 -p1
   ;;
 esac
+
+perl -p -i -e "s!-lshift!-L$CASTOR_ROOT/lib -lshift!" Makefile
 
 %build
 make %makeprocesses
