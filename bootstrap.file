@@ -1,7 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.72 $
-
-set -e
+# Revision: $Revision: 1.65 $
 
 if [ X"$(id -u)" = X0 ]; then
   echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
@@ -127,56 +125,15 @@ done | sort -u
 exit 0
 EOF_FIND_PROVIDES
 
-mkdir -p $tempdir/lib/perl5/site_perl/RPM/Header/PurePerl
-mkdir -p $tempdir/bin
-
-cat << \EOF_RPM_HEADER_PUREPERL_PM > $tempdir/lib/perl5/site_perl/RPM/Header/PurePerl.pm
-@RPM_HEADER_PUREPERL_PM@
-EOF_RPM_HEADER_PUREPERL_PM
-
-cat << \EOF_RPM_HEADER_PUREPERL_TAGSTABLE_PM > $tempdir/lib/perl5/site_perl/RPM/Header/PurePerl/Tagtable.pm
-@RPM_HEADER_PUREPERL_TAGSTABLE_PM@
-EOF_RPM_HEADER_PUREPERL_TAGSTABLE_PM
-
-export PERL5LIB=$tempdir/lib/perl5/site_perl
-
-cat << \EOF_RPM_HEADER_PL > $tempdir/bin/rpmHeader.pl
-#!/usr/bin/env perl
-die "Missing package name." if ($#ARGV == -1);
-my $fp = $ARGV[0];
-
-use RPM::Header::PurePerl;
-
-tie %HDR, "RPM::Header::PurePerl", $fp or die "An error occurred: $RPM::err";
-
-if ($#ARGV == 1)
-{
-  $l = $HDR{$ARGV[1]};
-  print join("\n", @$l);
-  print "\n";
-  exit;
-}
-
-while ( ($k,$v) = each %HDR) {
-  $l = $HDR{$k};
-  if ($ARGV == 0)
-  {
-    print "$k:";
-    print join(",", @$l);
-    print "\n";
-  }
-}
-EOF_RPM_HEADER_PL
-
 source() { . ${1+"$@"}; }
 
-chmod u+x $rpmFindProvides $tempdir/bin/rpmHeader.pl
+chmod u+x $rpmFindProvides
 
 server=cmsrep.cern.ch
-server_main_dir=cmssw
-repository=cms
+server_main_dir=cms/cpt/Software/download
+repository=/cms
+apt_dir=apt
 groups="lcg cms external"
-unsupportedDistribution=false
 
 rootdir=$(pwd)
 testInstance=false
@@ -204,19 +161,17 @@ while [ $# -gt 0 ]; do
           shift; shift ;;
         -server-path )
           [ $# -gt 1 ] || cleanup_and_exit 1 "Option \`$1' requires an argument"
-          $hasRepository || cleanup_and_exit 1 "Cannot specify -repository and -server-path at the same time"
-          server_main_dir=`echo $2 | sed -e 's|/$||' | sed -e "s|\(.*\)/[^/]*$|\1|"`
-          repository=`echo $2 | sed -e 's|/$||' | sed -e "s|.*/\([^/]*\)$|\1|"`
+          server_main_dir=`echo $2 | sed -e "s|\(.*\)/.*/.*|\1|"`
+          apt_dir=`echo $2 | sed -e "s|.*/||"`
+          repository=/`echo $2 | sed -e "s|.*/\(.*\)/.*|\1|"`
           echo "server_main_dir $server_main_dir"
+          echo "apt_dir $apt_dir"
           echo "repository $repository"
           testInstance=true
-          hasServerPath=true
           shift; shift ;;
         -repository|-r )
           [ $# -gt 1 ] || cleanup_and_exit 1 "Option \`$1' requires an argument"
-          $hasServerPath || cleanup_and_exit 1 "Cannot specify -repository and -server-path at the same time"
-          repository=$2 
-          hasRepository=true
+          repository=/$2 
           testInstance=true
           shift; shift ;;
         -groups|-g )
@@ -287,19 +242,6 @@ EOF_HELP
     esac
 done
 
-# Get cmsos from the web.
-cmsos=$server/$server_main_dir/$repository/cmsos
-[ "X$verbose" = Xtrue ] && echo_n "Downloading cmsos file..."
-download_${download_method} $cmsos $tempdir/cmsos
-[ -f $tempdir/cmsos ] || cleanup_and_exit 1 "FATAL: Unable to download cmsos: $cmsos"
-source $tempdir/cmsos
-
-# Use cmsos to guess the platform if it is not set on command line.
-if [ "X$cmsplatf" = X ] 
-then
-  cmsplatf=`cmsos`_`defaultCompiler`
-fi
-
 rpmdb=$cmsplatf/var/lib/rpm
 rpmlock=$rootdir/$cmsplatf/var/lib/rpm/__db.0
 importTmp=$rootdir/$cmsplatf/tmp/system-import
@@ -332,22 +274,14 @@ generateSeedSpec () {
     # GL asound odbc java libtcl libtk
     [ "X$verbose" = Xtrue ] && echo && echo "...Seeding RPM database from selected system RPMs." 1>&2
     
-    requiredSeeds=$(eval echo $`cmsos`_platformSeeds)
-    if [ "X$requiredSeeds" = X ]
-    then
-      seed="$platformSeeds"
-    else
-      seed="$requiredSeeds"
-      unsupportedDistribution=false
-    fi
+    seed="$platformSeeds"
     
-    if $unsupportedDistribution
+    if [ "X$unsupportedDistribution" = Xtrue ]
     then
         echo "WARNING: you are running on an unsupported distribution."
         echo "This might lead to unknown problems."
         seed="$seed $unsupportedSeeds"
     fi
-
     
      rm -rf $importTmp
      mkdir -p $importTmp
@@ -377,7 +311,7 @@ generateSeedSpec () {
         echo "Provides: $provide"
       done
       
-      if $unsupportedDistribution
+      if [ "X$unsupportDistribution" = X ]
       then
         # Guess perl
 		echo "Provides: perl = `perl -MConfig -e 'print $Config{api_revision}.\".\".($Config{api_version}*1000).$Config{api_subversion};'`"
@@ -391,9 +325,9 @@ generateSeedSpec () {
         osx* )
   	        find /usr/bin | sed 's!^!Provides: !'
   	        find /bin | sed 's!^!Provides: !'
-    	    /bin/ls -1 /usr/lib/*.dylib | awk -F"/" '{print $4}' | sed 's!^!Provides: !' || true
-    	    /bin/ls -1 /usr/lib/*/*.dylib | awk -F"/" '{print $5}' | sed 's!^!Provides: !' || true
-            /bin/ls -1 /usr/X11R6/lib/*.dylib | awk -F"/" '{print $5}' | sed 's!^!Provides: !' || true
+    	    /bin/ls -1 /usr/lib/*.dylib | awk -F"/" '{print $4}' | sed 's!^!Provides: !'
+    	    /bin/ls -1 /usr/lib/*/*.dylib | awk -F"/" '{print $5}' | sed 's!^!Provides: !'
+            /bin/ls -1 /usr/X11R6/lib/*.dylib | awk -F"/" '{print $5}' | sed 's!^!Provides: !'
         ;;
       esac
 
@@ -403,32 +337,27 @@ generateSeedSpec () {
     	for p in $seed; do
     	  if [ "$(dpkg -L $p 2>&1 | grep 'is not installed')" = "" ]; then
           	  dpkg -L $p 2>/dev/null | sed -e "s|^|Provides:|"
-              dpkg -L $p 2>/dev/null | $rpmFindProvides | sed -e "s|^|Provides:|" || true
+              dpkg -L $p 2>/dev/null | $rpmFindProvides | sed -e "s|^|Provides:|"
           fi
     	done
     	perlHarvester
       fi
-
       if which rpm 2>&1 >/dev/null && [ "$(rpm -qa 2>&1 | grep 'use alien')" = "" ]
       then
-    	  [ "X$verbose" = Xtrue ] && echo && echo "...rpm found in $(which rpm), using it to seed the database." >&2
-          for p in $requiredSeeds; do 
-              rpm -q $p >/dev/null || { echo "Required package $p is missing." ; exit 1; }
-          done
+    	[ "X$verbose" = Xtrue ] && echo && echo "...rpm found in $(which rpm), using it to seed the database." >&2
     	  for p in $seed; do
-              rpm -q $p --provides | sed 's!<*=.*!!; s!^!Provides: !' || true
-              rpm -q $p --list | fgrep .so | fgrep -v -e /lib/. -e /lib64/. | sed 's!^.*/!Provides: !' || true
-              rpm -q $p --list | fgrep /bin/ | sed 's!^!Provides: !' || true
+            rpm -q $p >/dev/null
+            if [ "$?" == "0" ]
+            then
+              rpm -q $p --provides | sed 's!<*=.*!!; s!^!Provides: !'
+              rpm -q $p --list | fgrep .so | fgrep -v -e /lib/. -e /lib64/. | sed 's!^.*/!Provides: !'
+              rpm -q $p --list | fgrep /bin/ | sed 's!^!Provides: !'
+            fi
     	  done
       fi
       echo; echo "%description"; echo "Seeds RPM repository from the base system."
       echo; echo "%prep"; echo "%build"; echo "%install"; echo "%files";
      ) > system-base-import.spec
-    if [ "X$?" = X0 ]; then : ; else 
-        echo "There was an error generating the platform seed"
-        exit 1
-    fi
-
     perl -p -i -e 's|^Provides:[\s]*$||' system-base-import.spec
     cd $was
 }
@@ -437,8 +366,7 @@ seed ()
 {
     rcfile=$1
     cd $importTmp
-    (source $rootdir/bootstraptmp/BOOTSTRAP/inst/$cmsplatf/external/rpm/$rpm_version/etc/profile.d/init.sh
-     rpmbuild -ba --rcfile $rcfile system-base-import.spec >/dev/null 2>&1
+    (rpmbuild -ba --rcfile $rcfile system-base-import.spec >/dev/null 2>&1
      [ "X$verbose" = Xtrue ] && echo && echo "...Seeding database in in $rootdir/$rpmdb"
      rpm --define "_rpmlock_path $rpmlock" -U -r $rootdir --rcfile $rcfile --dbpath $rootdir/$rpmdb RPMS/system-base-import.rpm
     ) || cleanup_and_exit $? "Error while seeding rpm database with system packages."
@@ -534,6 +462,28 @@ sub printhelp {
   print "rpm2cpio, perl version by orabidoo <odar\@pobox.com>\n";
   print "\n";
   print "use: rpm2cpio [file.rpm]\n";
+  print "dumps the contents to stdout as a GNU cpio archive\n";
+  print "\n";
+  print "In case it's non-obvious, you'll need to redirect output\n";
+  print "from this script, e.g., './rpm2cpio package.rpm > package.cpio'.\n";
+  print "Then, unpack in, say, /tmp with a cpio incantation like this one:\n";
+  print "'cpio -ivd < package.cpio'\n";
+  print "\n";
+  print "You can optionally combine both steps:\n";
+  print "'rpm2cpio package.rpm | cpio -iduv'\n";
+  print "\n";
+  print "In either event, you will also need the 'cpio' utility available\n";
+  print "on your system.  If you can't find it elsewhere, source code for\n";
+  print "GNU cpio is always available at ftp://ftp.gnu.org/gnu/cpio/.)\n";
+  print "You'll also, of course, need Perl, and will want this Perl script\n";
+  print "set as executable, i.e., by doing 'chmod 775 rpm2cpio'\n";
+  print "\n";
+  print "Be aware that this script works ONLY on version 3 or 4-format RPM\n";
+  print "archives.  You can check an archive's RPM-format version
+sing\n";
+  print "the Unix 'file' utility.  Also, be aware that the 'cpio'\n";
+  print "incantations above will unpack files at the current directory\n";
+  print "level.\n";
   print "\n";
   exit 0;
 }
@@ -581,44 +531,26 @@ close ZCAT;
 EOF_RPM2CPIO
 
 echo_n "Unpacking core packages..."
-# Unfortunately cpio unpacks its files including the original build path.
-# We therefore need some symlink tricks to make sure that everything
-# ends up in the same installation directory. 
-# We also use the rpmHeader.pl script to get the pre and post install
-# script and we execute them by hand.
-# This should really mimic what rpm does and removes the needs for
-# `instroot` to be defined in the bootstrap driver.
-mkdir $tempdir/scriptlets
-mkdir -p $PWD/inst
 for pkg in $packageList
 do
-    pkgInstRoot=`$tempdir/bin/rpmHeader.pl $DOWNLOAD_DIR/$pkg PREFIXES | tail -1`
-    mkdir -p `dirname .$pkgInstRoot`
-    ln -sf $PWD/inst .$pkgInstRoot
-    $tempdir/bin/rpmHeader.pl $DOWNLOAD_DIR/$pkg PREIN | grep -v "^Unknown" | sed -e "s|[$]RPM_INSTALL_PREFIX|$PWD/inst|g" > $tempdir/scriptlets/$pkg.pre.sh
-    sh -ex $tempdir/scriptlets/$pkg.pre.sh
-    perl ./myrpm2cpio $DOWNLOAD_DIR/$pkg | cpio -id || cleanup_and_exit 1 "Unable to unpack $DOWNLOAD_DIR/$pkg"
-    $tempdir/bin/rpmHeader.pl $DOWNLOAD_DIR/$pkg POSTIN | grep -v "^Unknown" | sed -e "s|[$]RPM_INSTALL_PREFIX|$PWD/inst|g" > $tempdir/scriptlets/$pkg.post.sh
-    sh -ex $tempdir/scriptlets/$pkg.post.sh
+    perl ./myrpm2cpio $DOWNLOAD_DIR/$pkg | cpio -idu 2>/dev/null || cleanup_and_exit 1 "Unable to unpack $DOWNLOAD_DIR/$pkg"
 done
 echo "Done."
 
 # Generate the seed spec using the old rpm:
 echo_n "Harvesting system for locally available software..."
 generateSeedSpec
-
 # Now move to use the new RPM by sourcing its init.sh
-source $DOWNLOAD_DIR/inst/$cmsplatf/external/rpm/$rpm_version/etc/profile.d/init.sh
+perl -p -i -e "s!(/[^ ]*$cmsplatf)!$DOWNLOAD_DIR\$1!g" `grep -R -e "/[^ ]*$cmsplatf" $DOWNLOAD_DIR$instroot | grep -v Binary | cut -d: -f1 | uniq`
+source $DOWNLOAD_DIR$instroot/$cmsplatf/external/rpm/$rpm_version/etc/profile.d/init.sh
 cd $rootdir
 echo "Done."
-
 # Initialise the rpmdb using the new rpm.
 echo_n "Initializing local rpm database..."
 rpm --define "_rpmlock_path $rpmlock" -r $rootdir --dbpath $rootdir/$rpmdb --initdb || cleanup_and_exit 1 "Unable to initialize $rootdir/$rpmdb. Exiting."
-
 # Build the seed spec and install it, in order to seed the newly generated db.
-rpmOptions="-r $rootdir --dbpath $rootdir/$rpmdb --rcfile $DOWNLOAD_DIR/inst/$cmsplatf/external/rpm/$rpm_version/lib/rpm/rpmrc --nodeps --prefix $rootdir --ignoreos --ignorearch"
-seed $DOWNLOAD_DIR/inst/$cmsplatf/external/rpm/$rpm_version/lib/rpm/rpmrc
+rpmOptions="-r $rootdir --dbpath $rootdir/$rpmdb --rcfile $DOWNLOAD_DIR$instroot/$cmsplatf/external/rpm/$rpm_version/lib/rpm/rpmrc --nodeps --prefix $rootdir --ignoreos --ignorearch"
+seed $DOWNLOAD_DIR$instroot/$cmsplatf/external/rpm/$rpm_version/lib/rpm/rpmrc
 echo "Done."
 
 # Install the packages, this time using rpm.
@@ -630,17 +562,17 @@ done
 echo "Done"
 
 # If we want to use a test instance, we need to adjust the sources.list accordingly.
-if $testInstance
+if [ "$testInstance" = "true" ]
 then
-    perl -p -i -e "s|^([^#][^;].*) http://cmsrep.cern.ch cms/cpt/Software/download/cms/|#\$1 http://cmsrep.cern.ch cmssw/cms/|;
+    perl -p -i -e "s|^([^#][^;].*) http://cmsrep.cern.ch cms/cpt/Software/download/cms/|#\$1 http://cmsrep.cern.ch cms/cpt/Software/download/cms/|;
                    s|#;||;
                    s|\@GROUPS\@|$groups|;
                    s|\@SERVER\@|$server|;
-                   s|\@SERVER_PATH\@|$server_main_dir/|;
+                   s|\@SERVER_PATH\@|$server_main_dir|;
                    s|\@REPOSITORY\@|$repository|" $rootdir/$cmsplatf/external/apt/$apt_version/etc/sources.list
 fi
 
-# Source the apt environment and upgrade what is already there.
+# Source the apt environment and upgrade what's already there.
 echo_n "Initializing apt-get environment."
 source $rootdir/$cmsplatf/external/apt/$apt_version/etc/profile.d/init.sh
 apt-get update >$tempdir/apt-get-update.log 2>&1 || cleanup_and_exit 1 "There was a problem while running apt-get update. "
@@ -667,7 +599,7 @@ case $command in
         ;;
     reseed )
         generateSeedSpec
-        seed $rootdir/$cmsplatf/external/rpm/$rpm_version/lib/rpm/rpmrc 
+        seed $cmsplatf/external/rpm/$rpm_version/lib/rpm/rpmrc 
         ;;
 esac
 
