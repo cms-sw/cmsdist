@@ -10,13 +10,8 @@ Requires: data-RecoParticleFlow-PFProducer
 Requires: data-RecoTracker-RingESSource
 Requires: data-RecoTracker-RoadMapESSource
 Requires: data-SimG4CMS-Calo
-Requires: data-Validation-EcalDigis
-Requires: data-Validation-EcalHits
-Requires: data-Validation-EcalRecHits
 Requires: data-Validation-Geometry
-Requires: data-Validation-HcalHits
 Requires: data-RecoMuon-MuonIdentification
-Requires: data-CondCore-SQLiteData
 Requires: data-L1Trigger-RPCTrigger
 Requires: data-Fireworks-Geometry
 
