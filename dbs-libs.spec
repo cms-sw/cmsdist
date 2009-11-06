@@ -1,4 +1,4 @@
-### RPM cms dbs-libs DBS_2_0_9_patch_3
+### RPM cms dbs-libs DBS_2_0_9_pre7
 ## INITENV +PATH PYTHONPATH %i/lib/
 
 %define cvstag %{realversion}
