@@ -82,6 +82,8 @@ mv daq/xdaq/etc/default.profile etc/
 rm -fr daq 
 rm -fr CVS
 rm -fr x86*
+rm -fR java
+rm -fR htdocs
 ln -s libasyncresolv %{i}/lib/libasyncresolv.so
 rm -f %{i}/lib/lib*.a %{i}/lib/lib*.la
 
