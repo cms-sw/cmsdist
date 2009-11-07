@@ -30,27 +30,81 @@ done
 
 case %cmsplatf in
 slc*onl* )
+    ##########################################################
+    # Backward compatible seeds, so that old bootstrap does not suddenly stop working.
     platformSeeds="glibc coreutils bash tcsh zsh pdksh perl tcl
           readline openssl ncurses
           e2fsprogs krb5-libs freetype fontconfig
           xorg-x11-deprecated-libs xorg-x11-libs xorg-x11-Mesa-libGLU
           xorg-x11-Mesa-libGL compat-libstdc++-33 libidn"
-          
+
     # ONLINE: seed system compiler (only libraries for runtime)
     platformSeeds="$platformSeeds libgcc libstdc++"
     
     # ONLINE: seed other available system tools:
     platformSeeds="$platformSeeds curl libpng libtiff libungif openssl qt zlib perl-DBI-1.40-8"
+    
     # Python tools are commented out due to compatibility problems.
-    #platformSeeds="$platformSeeds python python-elementtree"
+    platformSeeds="$platformSeeds python python-elementtree"
     
     # ONLINE: seed daq-built tools:
-    platformSeeds="$platformSeeds daq-cgicc daq-mimetic daq-oracle daq-tinyproxy 
-          daq-xerces daq-xdaq"
+    platformSeeds="$platformSeeds daq-cgicc daq-mimetic daq-oracle daq-tinyproxy  daq-xerces daq-xdaq"
+    
     platformSeeds="$platformSeeds daq-config daq-log4cplus daq-logudpappender 
         daq-logxmlappender daq-pt daq-ptfifo daq-pthttp 
         daq-pttcp daq-toolbox daq-xcept daq-xdaq2rc daq-xdata
         daq-xgi daq-xoap daq-sentinelutils"
+
+    ##########################################################
+    #slc4onl_ia32 Specific        
+    slc4onl_ia32_platformSeeds="glibc coreutils bash tcsh zsh pdksh perl tcl
+          readline openssl ncurses
+          e2fsprogs krb5-libs freetype fontconfig
+          xorg-x11-deprecated-libs xorg-x11-libs xorg-x11-Mesa-libGLU
+          xorg-x11-Mesa-libGL compat-libstdc++-33 libidn"
+	  
+    # ONLINE: seed system compiler (only libraries for runtime)
+    slc4onl_ia32_platformSeeds="$slc4onl_ia32_platformSeeds libgcc libstdc++"
+    
+    # ONLINE: seed other available system tools:
+    slc4onl_ia32_platformSeeds="$slc4onl_ia32_platformSeeds curl libpng libtiff libungif openssl qt zlib perl-DBI-1.40-8"
+    
+    # Python tools are commented out due to compatibility problems.
+    slc4onl_ia32_platformSeeds="$slc4onl_ia32_platformSeeds python python-elementtree"
+    
+    # ONLINE: seed daq-built tools:
+    slc4onl_ia32_platformSeeds="$slc4onl_ia32_platformSeeds daq-cgicc daq-mimetic daq-oracle daq-tinyproxy  daq-xerces daq-xdaq"
+    
+    slc4onl_ia32_platformSeeds="$slc4onl_ia32_platformSeeds daq-config daq-log4cplus daq-logudpappender 
+        daq-logxmlappender daq-pt daq-ptfifo daq-pthttp 
+        daq-pttcp daq-toolbox daq-xcept daq-xdaq2rc daq-xdata
+        daq-xgi daq-xoap daq-sentinelutils"
+    
+    ##########################################################
+    #slc5onl_ia32 Specific
+    slc5onl_ia32_platformSeeds="external+gcc+4.3.4 glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype
+                 fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
+                 libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
+                 libXrender libXpm"
+    
+    # ONLINE: seed system compiler (only libraries for runtime)
+    slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds libgcc libstdc++ external+gcc+4.3.4"
+    
+    # ONLINE: seed other available system tools:
+    slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds curl libpng libtiff libungif openssl qt zlib perl-DBI-1.40-8 libtermcap-2.0.8
+		 libX11-devel-1.0.3 libXpm-devel-3.5.5 libXext-devel-1.0.1 libXft-devel-2.1.10 "
+    
+    # Python tools are commented out due to compatibility problems.
+    slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds python python-elementtree"
+    
+    # ONLINE: seed daq-built tools:
+    slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds daq-cgicc daq-mimetic daq-oracle daq-tinyproxy  daq-xerces daq-xdaq"
+    
+    slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds daq-config daq-log4cplus daq-logudpappender 
+        daq-logxmlappender daq-pt daq-ptfifo daq-pthttp 
+        daq-pttcp daq-toolbox daq-xcept daq-xdaq2rc daq-xdata
+        daq-xgi daq-xoap daq-sentinelutils"
+
     ;;
 slc*)
   # Backward compatible seeds, so that old bootstrap does not suddenly stop working.
@@ -112,10 +166,14 @@ unsupportedSeeds="$unsupportedSeeds libX11 libXmu libSM libICE libXcursor
 
 # Case statement for additional provides.
 case %cmsplatf in
+    slc5onl* )
+        additionalProvides="libX11.so.6 libXext.so.6 libXft.so.2 libXpm.so.4"
+    ;;
     osx* )
         additionalProvides="AGL ApplicationServices Carbon CoreFoundation
                             CoreServices OpenGL Python QuickTime Tcl Tk
                             libintl.3.dylib"
+
     ;;
 esac
 
