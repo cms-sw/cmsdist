@@ -1,15 +1,19 @@
-### RPM external onlinesystemtools 2.2
+### RPM external onlinesystemtools 2.0
 Source: none
 
-# Here we are assuming that online release always uses system compiler:
+%if "%{?use_system_gcc:set}" == "set"
 %define compilertools ccompiler cxxcompiler f77compiler jcompiler
+%else
+%define compilertools %jcompiler
+%endif
 
+%if "%{?online_release:set}" == "set"
 #%define onlinetools curl libpng libtiff libungif mimetic mysql openssl oracle python elementtree qt xdaq xerces zlib
 %define onlinetools zlib curl oracle openssl xerces-c xdaq mimetic
 # Define variables used in non-scram-managed tools, that would be
 # normally defined in package's init.sh/csh scrips.
 # Set all versions as currently found on the system.
-%define compiler_version                4.3.4
+%define compiler_version                3.4.6
 ## INITENV SET CXXCOMPILER_VERSION      %compiler_version
 ## INITENV SET CCOMPILER_VERSION        %compiler_version
 ## INITENV SET F77COMPILER_VERSION      %compiler_version
@@ -17,7 +21,7 @@ Source: none
 ## INITENV SET CURL_VERSION             %curl_version
 %define zlib_version                    1.2.1.2
 ## INITENV SET ZLIB_VERSION             %zlib_version
-%define oracle_version			10.2.0.4
+%define oracle_version			10.2.1
 ## INITENV SET ORACLE_VERSION           %oracle_version
 ## INITENV SET ORACLE_ROOT		/opt/xdaq
 %define openssl_version			0.9.7a
@@ -25,11 +29,14 @@ Source: none
 %define xerces_version			2.7.0
 ## INITENV SET XERCES_C_VERSION         %xerces_version
 ## INITENV SET XERCES_C_ROOT		/opt/xdaq
-%define xdaq_version			3.24.0
+%define xdaq_version			3.15.0
 ## INITENV SET XDAQ_VERSION         	%xdaq_version
 ## INITENV SET XDAQ_ROOT         	/opt/xdaq
 %define mimetic_version			0.9.1
 ## INITENV SET MIMETIC_VERSION         	%mimetic_version
+%else
+%define onlinetools %{nil}
+%endif
 
 %define systemtools			sockets opengl x11 %compilertools %onlinetools
 %define sockets_version			1.0
@@ -56,7 +63,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sockets
 <Tool name=Sockets version=%sockets_version>
 EOF_TOOLFILE
 case %cmsplatf in
-slc3_* | slc4_* | slc4onl_* | slc5onl_* )
+slc3_* | slc4_* | slc4onl_* )
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/sockets
 <lib name=nsl>
 <lib name=crypt>
@@ -138,17 +145,18 @@ cat << \EOF_TOOLFILE >>%i/etc/scram.d/jcompiler
 </Tool>
 EOF_TOOLFILE
 
+%if "%{?online_release:set}" == "set"
 #cxxcompiler
 cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
 <doc type=BuildSystem::ToolDoc version=1.1>
 <tool name=cxxcompiler version=%compiler_version type=compiler>
 <client>
- <Environment name=GCC_BASE default="/opt/gcc/slc5onl_ia32_gcc434/external/gcc/4.3.4"></Environment>
+ <Environment name=GCC_BASE default="/usr"></Environment>
  <Environment name=GCCBINDIR default="$GCC_BASE/bin"></Environment>
  <Environment name=CXX value="$GCCBINDIR/c++"></Environment>
 </client>
-<Flags SCRAM_COMPILER_NAME="gcc434">
-<Flags CCcompiler="gcc4">
+<Flags SCRAM_COMPILER_NAME="gcc345">
+<Flags CCcompiler="gcc3">
 <Flags MODULEFLAGS="-shared">
 <Flags CXXDEBUGFLAG="-g">
 <Flags CPPDEFINES="GNU_GCC">
@@ -156,17 +164,13 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
 <Flags CXXSHAREDOBJECTFLAGS="-fPIC">
 <Flags CXXFLAGS="-pedantic -ansi -pthread -pipe">
 <Flags CXXFLAGS="-O2">
-<Flags CXXFLAGS="-felide-constructors -fmessage-length=0 -ftemplate-depth-300  ">
-<Flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses -Werror=array-bounds -Wno-deprecated">
+<Flags CXXFLAGS="-felide-constructors -fmessage-length=0 -ftemplate-depth-300">
+<Flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses">
 <Flags LDFLAGS="-Wl,-E">
 <Flags CXXSHAREDFLAGS="-Wl,-E">
 <Flags SHAREDSUFFIX="so">
 <Flags SCRAM_LANGUAGE_TYPE="C++">
-# <Runtime name=GCC_EXEC_PREFIX default="$GCC_BASE/lib/gcc">
-# <Runtime name=LIBRARY_PATH default="$GCC_BASE/lib/gcc/i686-pc-linux-gnu/4.3.4/:$GCC_BASE/include/c++/4.3.4/">
-# <Runtime name=COMPILER_PATH default="$GCC_BASE/bin:$GCC_BASE/libexec/gcc/i686-pc-linux-gnu/4.3.4/">
-<Runtime name=PATH value="$GCC_BASE/bin" type=path>
-<Runtime name=GXX_ROOT value="$GCC_BASE">
+<Runtime name=GCC_EXEC_PREFIX default="$GCC_BASE/lib/gcc-lib/">
 </tool>
 EOF_TOOLFILE
 #ccompiler
@@ -174,7 +178,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/ccompiler
 <doc type=BuildSystem::ToolDoc version=1.1>
 <tool name=ccompiler version=%compiler_version type=compiler>
 <client>
- <Environment name=GCC_BASE default="/opt/gcc/slc5onl_ia32_gcc434/external/gcc/4.3.4"></Environment>
+ <Environment name=GCC_BASE default="/usr"></Environment>
  <Environment name=GCCBINDIR value="$GCC_BASE/bin"></Environment>
  <Environment name=CC value="$GCCBINDIR/gcc"></Environment>
 </client>
@@ -184,7 +188,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/ccompiler
 <Flags CFLAGS="-O2">
 <Flags LDFLAGS="-Wl,-E">
 <Flags CSHAREDFLAGS="-Wl,-E">
-<Flags SCRAM_COMPILER_NAME="gcc434">
+<Flags SCRAM_COMPILER_NAME="gcc345">
 <Flags SCRAM_LANGUAGE_TYPE="C">
 </tool>
 EOF_TOOLFILE
@@ -196,10 +200,10 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/f77compiler
 <lib name=g2c>
 <lib name=m>
 <client>
- <Environment name=G77_BASE default="/opt/gcc/slc5onl_ia32_gcc434/external/gcc/4.3.4"></Environment>
- <Environment name=FC default="$G77_BASE/bin/gfortran"></Environment>
+ <Environment name=G77_BASE default="/usr"></Environment>
+ <Environment name=FC default="$G77_BASE/bin/g77"></Environment>
 </client>
-<Flags SCRAM_COMPILER_NAME="gcc434">
+<Flags SCRAM_COMPILER_NAME="gcc345">
 <Flags FFLAGS="-fno-second-underscore -Wno-globals -Wunused -Wuninitialized">
 <Flags FCO2Flag="-O2">
 <Flags FCOPTIMISED="-O2">
@@ -332,18 +336,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaq
 </Tool>
 EOF_TOOLFILE
 
-#xdaqheader
-cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaqheader
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=XDAQHEADER version=%xdaq_version>
-<info url=http://home.cern.ch/xdaq></info>
-<Client>
-<Environment name=XDAQHEADER_BASE  default="/opt/xdaq"></Environment>
-<Environment name=INCLUDE default="$XDAQHEADER_BASE/include"></Environment>
-</Client>
-</Tool>
-EOF_TOOLFILE
-
 #mimetic
 cat << \EOF_TOOLFILE >%i/etc/scram.d/mimetic
 <doc type=BuildSystem::ToolDoc version=1.0>
@@ -357,11 +349,15 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/mimetic
 </Tool>
 EOF_TOOLFILE
 
+%endif
+
 %post
 %{relocateConfig}etc/scram.d/sockets
 %{relocateConfig}etc/scram.d/opengl
 %{relocateConfig}etc/scram.d/x11
 %{relocateConfig}etc/scram.d/jcompiler
+
+%if "%{?online_release:set}" == "set"
 %{relocateConfig}etc/scram.d/cxxcompiler
 %{relocateConfig}etc/scram.d/ccompiler
 %{relocateConfig}etc/scram.d/f77compiler
@@ -371,6 +367,7 @@ EOF_TOOLFILE
 %{relocateConfig}etc/scram.d/openssl
 %{relocateConfig}etc/scram.d/xerces-c
 %{relocateConfig}etc/scram.d/xdaq
-%{relocateConfig}etc/scram.d/xdaqheader
 %{relocateConfig}etc/scram.d/mimetic
+
+%endif
 

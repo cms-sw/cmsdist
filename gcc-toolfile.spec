@@ -24,7 +24,7 @@ COMPILER_VERSION_MAJOR=`echo %cmsplatf | sed -e 's|.*gcc\([0-9]\).*|\1|'`
 # this template there are some additional cmsplatf-dependent substitutions
 # and some overall general substitutions below
 case %cmsplatf in
-slc4_ia32_gcc4* | slc5_ia32_gcc4* | slc4_amd64_gcc4* | slc5_amd64_gcc4* | slc5onl_ia32_gcc4* )
+slc4_ia32_gcc4* | slc5_ia32_gcc4* | slc4_amd64_gcc4* | slc5_amd64_gcc4* )
 cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
 <doc type=BuildSystem::ToolDoc version=1.1>
 <tool name=cxxcompiler version=@GCC_VERSION@ type=compiler>
@@ -126,7 +126,7 @@ case %cmsplatf in
     perl -p -i -e "s|\@GXXLIB\@|lib|g"   %i/etc/scram.d/cxxcompiler
     perl -p -i -e "s|\@GXXOPT\@|-O2 -fvisibility-inlines-hidden|g"  %i/etc/scram.d/cxxcompiler
   ;;
-  slc5_ia32_gcc4* | slc5onl_ia32_gcc4* )
+  slc5_ia32_gcc4* )
     perl -p -i -e "s|\@GXXLIB\@|lib|g"   %i/etc/scram.d/cxxcompiler
     perl -p -i -e "s|\@GXXOPT\@|-O2|g"   %i/etc/scram.d/cxxcompiler
   ;;
