@@ -28,7 +28,6 @@ Requires: roofit
 Requires: xrootd
 Requires: qt
 Requires: castor
-Requires: mysql
 Requires: libpng
 Requires: libjpg
 Requires: dcap
