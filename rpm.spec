@@ -95,20 +95,13 @@ case %cmsos in
   ;;
 esac 
 
-%if "%online" == "true"
-case %cmsos in
-  slc5* ) export ZLIB_ROOT=/usr ;;
-  * ) export ZLIB_ROOT= ;;
-esac 
-%endif
-
 export CPPFLAGS="-I$BEECRYPT_ROOT/include -I$BEECRYPT_ROOT/include/beecrypt -I$BZ2LIB_ROOT/include -I$NEON_ROOT/include/neon -I$DB4_ROOT/include -I$EXPAT_ROOT/include/expat -I$ELFUTILS_ROOT/include -I$ZLIB_ROOT/include"
 export LDFLAGS="-L$BEECRYPT_ROOT/%libdir -L$BZ2LIB_ROOT/lib -L$NEON_ROOT/lib -L$DB4_ROOT/lib -L$EXPAT_ROOT/%libdir -L$ELFUTILS_ROOT/lib -L$ZLIB_ROOT/lib -lz -lexpat -lbeecrypt -lbz2 -lneon -lpthread"
 #FIXME: this does not seem to work and we still get /usr/bin/python in some of the files.
 export __PYTHON="/usr/bin/env python"
 perl -p -i -e "s|\@WITH_NEON_LIB\@|$NEON_ROOT/lib/libneon.a|;
-               s|^.*WITH_SELINUX.*$||;
-               s|-lselinux||;
+s|^.*WITH_SELINUX.*$||;
+s|-lselinux||;
 " `find . -name \*.in` 
 perl -p -i -e "s|#undef HAVE_NEON_NE_GET_RESPONSE_HEADER|#define HAVE_NEON_NE_GET_RESPONSE_HEADER 1|;
                s|#undef HAVE_BZ2_1_0|#define HAVE_BZ2_1_0|;
@@ -121,15 +114,7 @@ case `uname` in
         ;;
 esac
 
-# Needed to convince configure not to pick up any sqlite.
-perl -p -i -e "s|sqlite[^.]*[.]h|sqliteNOCOMPILE.h|" ./configure
-
-varprefix=%{instroot}/%{cmsplatf}/var ./configure --prefix=%i --disable-nls \
-                                                  --without-selinux --without-python \
-                                                  --without-libintl  --without-perl \
-                                                  --with-zlib-includes=$ZLIB_ROOT/include \
-                                                  --with-zlib-lib=$ZLIB_ROOT/lib/libz.%soname \
-                                                  --without-lua 
+varprefix=%{instroot}/%{cmsplatf}/var ./configure --prefix=%i --disable-nls --without-selinux --without-python --without-libintl  --without-perl --with-zlib-includes=$ZLIB_ROOT/include --with-zlib-lib=$ZLIB_ROOT/lib/libz.%soname --without-lua
 perl -p -i -e "s|lua||" Makefile
 
 #this does nothing...(cd zlib; make)
@@ -229,8 +214,24 @@ do
 done
 
 %post
-# do not relocate init.[c]sh as these are done by default from cmsBuild
-perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|g" `grep -I -r %instroot $RPM_INSTALL_PREFIX/%pkgrel | cut -d: -f1 | sort | uniq | grep -v init.csh | grep -v init.sh `
+%{relocateConfig}etc/profile.d/dependencies-setup.sh
+%{relocateConfig}etc/profile.d/dependencies-setup.csh
+%{relocateConfig}lib/rpm/check-rpaths 
+%{relocateConfig}lib/rpm/check-rpaths-worker 
+%{relocateConfig}lib/rpm/cpanflute 
+%{relocateConfig}lib/rpm/cpanflute2 
+%{relocateConfig}lib/rpm/cross-build 
+%{relocateConfig}lib/rpm/find-debuginfo.sh 
+%{relocateConfig}lib/rpm/find-provides.perl 
+%{relocateConfig}lib/rpm/find-requires.perl 
+%{relocateConfig}lib/rpm/freshen.sh 
+%{relocateConfig}lib/rpm/perldeps.pl 
+%{relocateConfig}lib/rpm/rpmdb_loadcvt 
+%{relocateConfig}lib/rpm/rpmrc 
+%{relocateConfig}lib/rpm/trpm 
+%{relocateConfig}lib/rpm/vpkg-provides.sh 
+%{relocateConfig}lib/rpm/vpkg-provides2.sh
+perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|g" `grep -r %instroot $RPM_INSTALL_PREFIX/%pkgrel | grep -v Binary | cut -d: -f1 | sort | uniq`
 %files
 %{i}
 %{instroot}/%{cmsplatf}/var/spool/repackage
