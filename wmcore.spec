@@ -1,4 +1,4 @@
-### RPM cms wmcore CERNOIDv02
+### RPM cms wmcore  WMCORE_0_1_1_pre15
 ## INITENV +PATH PYTHONPATH %i/lib
 %define pymajor %(echo $PYTHON_VERSION | cut -d. -f 1)
 %define pyminor %(echo $PYTHON_VERSION | cut -d. -f 2)
