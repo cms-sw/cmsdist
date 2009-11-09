@@ -13,6 +13,7 @@ Provides: perl(LWP::UserAgent)
 Provides: perl(Template)
 Provides: libg2c.so.0
 Requires: online-tool-conf python
+Patch0: online_src
 
 %define cmssw_release   %(perl -e '$_="%v"; s/_ONLINE//; print;')
 %define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
@@ -27,6 +28,8 @@ Requires: online-tool-conf python
 %define buildsetfile    online_build_set
 
 %define patchsrc2	perl -p -i -e ' s!(<classpath.*/test\\+.*>)!!' config/BuildFile.xml
+%define patchsrc3       %patch -p0
+%define patchsrc4       rm -rf src/DQM/SiPixelHistoricInfoClient/bin src/DQM/SiStripHistoricInfoClient/bin
 
 ## IMPORT cms-scram-build
 ## IMPORT partial-build
