@@ -1,4 +1,4 @@
-### RPM cms online-patch CMSSW_3_2_7_onlpatch2_ONLINE
+### RPM cms online-patch CMSSW_3_3_2_onlpatch2_ONLINE
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: /bin/ksh
@@ -35,4 +35,4 @@ Requires: online-patch-tool-conf
 ## IMPORT cms-scram-build
 ## IMPORT partial-build
 ## IMPORT partial-build-patch
-## IMPORT scramv1-build
+## IMPORT scramv1-build-patch
