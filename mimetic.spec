@@ -1,14 +1,8 @@
 ### RPM external mimetic 0.9.5
 Source: http://codesink.org/download/%{n}-%{realversion}.tar.gz
-Patch0: mimetic-0.9.5-amd64-uint
 
 %prep
 %setup -n %n-%{realversion}
-
-case %cmsplatf in
-*gcc4* | osx*)
-%patch0 -p1
-esac
 
 %build
 ./configure --prefix=%i
