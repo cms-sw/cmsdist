@@ -22,6 +22,7 @@ CondCore/CSCPlugins
 CondCore/CalibPlugins
 CondCore/DBCommon
 CondCore/DBOutputService
+CondCore/DQMPlugins
 CondCore/DTPlugins
 CondCore/ESSources
 CondCore/EcalPlugins
@@ -45,6 +46,7 @@ CondCore/Utilities
 Configuration/HLT
 Configuration/PyReleaseValidation
 CondFormats/RecoMuonObjects
+CondFormats/DataRecord
 CondTools/DQM
 CondTools/Geometry
 CondTools/HLT
@@ -344,3 +346,4 @@ L1Trigger/HardwareValidation
 PhysicsTools/CandUtils
 PhysicsTools/IsolationUtils
 RecoTracker/SpecialSeedGenerators
+
