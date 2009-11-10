@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 15.0
+### RPM cms cmssw-tool-conf 14.0
 # with cmsBuild, change the above version only when a new
 # tool is added
 
@@ -28,6 +28,7 @@ Requires: roofit
 Requires: xrootd
 Requires: qt
 Requires: castor
+Requires: mysql
 Requires: libpng
 Requires: libjpg
 Requires: dcap
@@ -38,7 +39,6 @@ Requires: libtiff
 Requires: cppunit
 Requires: frontier_client
 Requires: sqlite
-Requires: graphviz
 Requires: xerces-c
 Requires: systemtools
 Requires: coral

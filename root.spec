@@ -28,7 +28,7 @@ Patch15: root-5.22-00d-fireworks5
 Requires: gccxml gsl castor libjpg dcap pcre python
 
 %if "%online" != "true"
-Requires: qt openssl libpng zlib libungif xrootd
+Requires: qt openssl mysql libpng zlib libungif xrootd
 %else
 %define skiplibtiff true
 %endif
@@ -86,15 +86,18 @@ export ROOTSYS=%_builddir/root
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
 %if "%online" == "true"
-# Use system qt. Also skip xrootd and odbc for online case:
+# Build without mysql, and use system qt.
+# Also skip xrootd and odbc for online case:
 
 EXTRA_CONFIG_ARGS="--with-f77=/usr
+             --disable-mysql
              --disable-xrootd
              --disable-odbc
              --disable-qt --disable-qtgsi"
 %else
 EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}
              --with-xrootd=$XROOTD_ROOT
+             --enable-mysql --with-mysql-libdir=${MYSQL_ROOT}/lib --with-mysql-incdir=${MYSQL_ROOT}/include
              --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
              --with-ssl-incdir=${OPENSSL_ROOT}/include
              --with-ssl-libdir=${OPENSSL_ROOT}/lib
@@ -119,7 +122,6 @@ CONFIG_ARGS="--enable-table
              --with-dcap-libdir=${DCAP_ROOT}/lib 
              --with-dcap-incdir=${DCAP_ROOT}/include
              --disable-pgsql
-             --disable-mysql
              --disable-xml ${EXTRA_CONFIG_ARGS}"
 
 #case %gccver in
