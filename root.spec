@@ -24,7 +24,6 @@ Patch14: root-5.22-00a-fireworks4
 Patch15: root-5.22-00d-fireworks5
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
-%define pythonv %(echo $PYTHON_VERSION | cut -d. -f1,2)
 
 Requires: gccxml gsl castor libjpg dcap pcre python
 
@@ -84,6 +83,7 @@ esac
 
 mkdir -p %i
 export ROOTSYS=%_builddir/root
+export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
 %if "%online" == "true"
 # Build without mysql, and use system qt.
@@ -109,7 +109,7 @@ CONFIG_ARGS="--enable-table
              --disable-builtin-freetype
              --disable-builtin-zlib
              --with-gccxml=${GCCXML_ROOT} 
-             --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include/python2.4 
+             --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include/python${PYTHONV}
              --enable-explicitlink 
              --enable-mathmore
              --enable-reflex  
