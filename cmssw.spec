@@ -15,6 +15,7 @@ Provides: perl(CMSDBA)
 Provides: perl(Tk) >= 804
 Provides: perl(Tk::ROText)
 Provides: perl(Tk::DialogBox)
+Provides: perl(DBI)
 Provides: ld-linux.so.2(GLIBC_PRIVATE)
 Provides: ld-linux-x86-64.so.2(GLIBC_PRIVATE)(64bit)
 Requires: cmssw-tool-conf python glimpse
