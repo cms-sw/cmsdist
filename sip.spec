@@ -30,4 +30,4 @@ perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*
 
 %post
 %{relocateConfig}etc/scram.d/sip
-%{relocateConfig}lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages/sipconfig.py
+%{relocateConfig}lib/python2.4/site-packages/sipconfig.py
