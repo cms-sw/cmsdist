@@ -41,6 +41,14 @@ make %makeprocesses
 %install
 make install
 
+# Remove the doc, as it is large and we don't need that in
+# our rpms (it is all available on the web in any case)
+rm -fR %i/doc
+# Remove also the demos and examples as they are not generally
+# useful from our rpm's and SW area
+rm -fR %i/demos
+rm -fR %i/examples
+
 # Qt itself has some paths that can only be overwritten by
 # using an appropriate `qt.conf`.
 # Without this qmake will complain whenever used in
