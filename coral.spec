@@ -4,6 +4,7 @@ Provides: /bin/zsh
 Provides: libexpat.so.0
 Requires: coral-tool-conf
 Patch: coral-2_3_2-includes 
+Patch2: coral-2_3_2-includes2
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
@@ -16,6 +17,7 @@ Patch: coral-2_3_2-includes
 %define buildtarget     release-build
 
 %define patchsrc    %patch -p0
+%define patchsrc2   %patch2 -p0
 
 %if "%online" == "true"
 # Disable building tests in online release,
