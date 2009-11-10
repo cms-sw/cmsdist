@@ -41,6 +41,24 @@ make %makeprocesses
 %install
 make install
 
+# Remove the doc, as it is large and we don't need that in
+# our rpms (it is all available on the web in any case)
+rm -fR %i/doc
+# Remove also the demos and examples as they are not generally
+# useful from our rpm's and SW area
+rm -fR %i/demos
+rm -fR %i/examples
+
+# Qt itself has some paths that can only be overwritten by
+# using an appropriate `qt.conf`.
+# Without this qmake will complain whenever used in
+# a directory different than the build one.
+mkdir -p %i/bin
+cat << \EOF_QT_CONF >%i/bin/qt.conf
+[Paths]
+Prefix = %{i}
+EOF_QT_CONF
+
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/qtbase
@@ -143,3 +161,4 @@ EOF_TOOLFILE
 %{relocateConfig}etc/scram.d/qtdesigner
 %{relocateConfig}etc/scram.d/qtextra
 %{relocateConfig}etc/scram.d/qt3support
+%{relocateConfig}bin/qt.conf
