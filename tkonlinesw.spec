@@ -14,9 +14,9 @@ Patch4: tkonlinesw-2.5.1-gcc43-2
 # Note from Kristian: 
 # xdaq dependency is here only to re-use its makefiles. 
 
+Requires: oracle
 %if "%online" != "true"
 Requires: xerces-c
-Requires: oracle
 Requires: xdaq
 Requires: systemtools
 %else

@@ -7,13 +7,10 @@
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
-%if "%online" != "true"
-Requires: p5-dbi oracle
+Requires: oracle
 %define oraclesdksrc none
-%else
-# we still need oracle sdk makefiles:
-%define oraclesdksrc http://cmsrep.cern.ch/cmssw/oracle-mirror/slc4_ia32/10.2.0.3/sdk.zip
-Provides: perl(DBI)
+%if "%online" != "true"
+Requires: p5-dbi
 %endif
 
 Source0: http://mirror.switch.ch/ftp/mirror/CPAN/authors/id/P/PY/PYTHIAN/%downloadn-%{realversion}.tar.gz
@@ -23,11 +20,6 @@ Provides: perl(Tk) perl(Tk::Balloon) perl(Tk::ErrorDialog) perl(Tk::FileSelect) 
 
 %prep
 %setup -T -b 0 -n %{downloadn}-%{realversion}
-
-%if "%online" == "true"
-rm -rf instantclient_*
-yes | unzip %_sourcedir/sdk.zip
-%endif
 
 %build
 patch Makefile.PL << \EOF
@@ -39,10 +31,5 @@ EOF
 perl -p -i -e 's/NMEDIT = nmedit/NMEDIT = true/' Makefile.PL
 %endif
 
-%if "%online" != "true"
 perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion -l -m $ORACLE_HOME/demo/demo.mk
-%else
-export ORACLE_HOME="/opt/xdaq"
-perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion -l -m instantclient_10_2/sdk/demo/demo.mk
-%endif
 make
