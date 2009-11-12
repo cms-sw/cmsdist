@@ -16,12 +16,14 @@ Patch6: root-5.22-00a-TMVA-just-shut-the-hell-up
 Patch7: root-5.22-00a-th1
 Patch8: root-5.22-00a-smatrix
 Patch9: root-5.22-00a-fireworks1
-Patch10: root-5.22-00a-gcc44
+Patch10: root-5.22-00a-gcc44 
 Patch11: root-5.22-00a-fireworks2
 Patch12: root-5.22-00a-fireworks3
 Patch13: root-5.22-00a-gcc43-array-bounds-dictionary-workaround
 Patch14: root-5.22-00a-fireworks4
 Patch15: root-5.22-00d-fireworks5
+Patch16: root-5.22-00d-genreflex_python26_popen3
+Patch17: root-5.22-00d-fireworks6
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -69,6 +71,8 @@ rm graf3d/eve/src/TEveLegoOverlay.cxx
 rm graf3d/gl/inc/gl2ps.h.orig
 rm graf3d/gl/src/gl2ps.c.orig
 %patch15 -p1
+%patch16 -p1
+%patch17 -p1
 
 case %gccver in
   4.3.*)
