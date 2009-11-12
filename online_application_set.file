@@ -111,6 +111,7 @@ DataFormats/EgammaReco
 DataFormats/EgammaTrackReco
 DataFormats/JetReco
 DataFormats/L1Trigger
+DataFormats/Luminosity
 DataFormats/METReco
 DataFormats/MuonReco
 DataFormats/SiStripDigi
@@ -253,6 +254,7 @@ RecoBTau/JetTagComputer
 RecoEcal/EgammaClusterProducers
 RecoEgamma/EgammaElectronProducers
 RecoEgamma/EgammaHLTProducers
+RecoHI/HiMuonAlgos
 RecoHI/HiTracking
 RecoHIMuon/HiMuPropagator
 RecoHIMuon/HiMuSeed

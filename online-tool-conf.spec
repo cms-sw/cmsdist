@@ -34,8 +34,9 @@ Requires: tkonlinesw
 Requires: fastjet
 Requires: ktjet
 Requires: oracle-env
+Requires: oracle
 Requires: onlinesystemtools
-
+Requires: gcc-toolfile
 
 %define skipreqtools jcompiler
 %define onlinesystemtoolsroot ${ONLINESYSTEMTOOLS_ROOT}
