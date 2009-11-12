@@ -108,7 +108,8 @@ tar -C %i/data -zxvf %_sourcedir/G4NDL*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/G4EMLOW*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/Photon*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/G4Rad*.tar.gz
-#
+# Clean up the sources, which are not needed in the rpm
+rm -rf %i/source
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
