@@ -1,15 +1,15 @@
-### RPM cms PHEDEX-combined-web 1
+### RPM cms PHEDEX-combined-agents 1
 
 # This is a fake spec whose only job is to build PHEDEX-web and
 # PHEDEX-datasvc on a combined platform of dependencies
 
-Requires: PHEDEX-web PHEDEX-datasvc
+Requires: PHEDEX PHEDEX-admin PHEDEX-micro
 Source: none
 
 %prep
 cd %_builddir
-mkdir PHEDEX-combined-web-dummy
-cd PHEDEX-combined-web-dummy
+mkdir PHEDEX-combined-agents-dummy
+cd PHEDEX-combined-agents-dummy
 cp -f %_sourcedir/none .
 %build
 %install
@@ -18,13 +18,15 @@ mkdir -p %{i}/lib
 mkdir -p %{i}/etc/profile.d
 
 (echo "#!/bin/sh"; \
- echo "source $PHEDEX_WEB_ROOT/etc/profile.d/init.sh"; \
- echo "source $PHEDEX_DATASVC_ROOT/etc/profile.d/init.sh"; \
+ echo "source $PHEDEX_ROOT/etc/profile.d/init.sh"; \
+ echo "source $PHEDEX_ADMIN_ROOT/etc/profile.d/init.sh"; \
+ echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.sh"; \
  ) > %{i}/etc/profile.d/dependencies-setup.sh
 
 (echo "#!/bin/tcsh"; \
- echo "source $PHEDEX_WEB_ROOT/etc/profile.d/init.csh"; \
- echo "source $PHEDEX_DATASVC_ROOT/etc/profile.d/init.csh"; \
+ echo "source $PHEDEX_ROOT/etc/profile.d/init.csh"; \
+ echo "source $PHEDEX_ADMIN_ROOT/etc/profile.d/init.csh"; \
+ echo "source $PHEDEX_MICRO_ROOT/etc/profile.d/init.csh"; \
  ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 %post
