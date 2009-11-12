@@ -37,7 +37,6 @@ CalibTracker/SiStripAPVAnalysis
 CalibTracker/SiStripCommon
 CalibTracker/SiStripESProducers
 CalibTracker/SiStripLorentzAngle
-CalibTracker/SiStripQuality
 Calibration/HcalIsolatedTrackReco
 CommonTools/CandAlgos
 CommonTools/CandUtils
@@ -203,6 +202,7 @@ DataFormats/L1GlobalTrigger
 DataFormats/L1Trigger
 DataFormats/LTCDigi
 DataFormats/LaserAlignment
+DataFormats/Luminosity
 DataFormats/METReco
 DataFormats/Math
 DataFormats/MuonData
@@ -429,6 +429,7 @@ RecoEgamma/EgammaHLTAlgos
 RecoEgamma/EgammaHLTProducers
 RecoEgamma/EgammaIsolationAlgos
 RecoEgamma/EgammaTools
+RecoHI/HiMuonAlgos
 RecoHI/HiTracking
 RecoHIMuon/HiMuPropagator
 RecoHIMuon/HiMuSeed
