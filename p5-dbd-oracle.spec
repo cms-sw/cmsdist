@@ -11,6 +11,8 @@ Requires: oracle
 %define oraclesdksrc none
 %if "%online" != "true"
 Requires: p5-dbi
+%else
+Provides: perl(DBI)
 %endif
 
 Source0: http://mirror.switch.ch/ftp/mirror/CPAN/authors/id/P/PY/PYTHIAN/%downloadn-%{realversion}.tar.gz
