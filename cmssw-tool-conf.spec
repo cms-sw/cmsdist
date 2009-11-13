@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 15.0
+### RPM cms cmssw-tool-conf 14.0
 # with cmsBuild, change the above version only when a new
 # tool is added
 
@@ -6,6 +6,7 @@ Provides: libboost_regex-gcc-mt.so
 Provides: libboost_signals-gcc-mt.so 
 Provides: libboost_thread-gcc-mt.so
 
+Requires: fakesystem
 Requires: pool
 Requires: coral
 Requires: gcc-toolfile

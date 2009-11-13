@@ -16,12 +16,15 @@ Patch6: root-5.22-00a-TMVA-just-shut-the-hell-up
 Patch7: root-5.22-00a-th1
 Patch8: root-5.22-00a-smatrix
 Patch9: root-5.22-00a-fireworks1
-Patch10: root-5.22-00a-gcc44
+Patch10: root-5.22-00a-gcc44 
 Patch11: root-5.22-00a-fireworks2
 Patch12: root-5.22-00a-fireworks3
 Patch13: root-5.22-00a-gcc43-array-bounds-dictionary-workaround
 Patch14: root-5.22-00a-fireworks4
 Patch15: root-5.22-00d-fireworks5
+Patch16: root-5.22-00d-genreflex_python26_popen3
+Patch17: root-5.22-00d-fireworks6
+Patch18: root-5.22-00d-linker-gnu-hash-style
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -69,6 +72,8 @@ rm graf3d/eve/src/TEveLegoOverlay.cxx
 rm graf3d/gl/inc/gl2ps.h.orig
 rm graf3d/gl/src/gl2ps.c.orig
 %patch15 -p1
+%patch16 -p1
+%patch17 -p1
 
 case %gccver in
   4.3.*)
@@ -76,6 +81,14 @@ case %gccver in
   ;;
   4.4.*)
 %patch10 -p1
+  ;;
+esac
+
+# The following patch can only be applied on SLC5 or later (extra linker 
+# options only available with the SLC5 binutils)
+case %cmsplatf in
+  slc5_* | slc5onl_* )
+%patch18 -p1
   ;;
 esac
  
@@ -122,13 +135,7 @@ CONFIG_ARGS="--enable-table
              --disable-mysql
              --disable-xml ${EXTRA_CONFIG_ARGS}"
 
-#case %gccver in
-#  4.*)
-#  CONFIG_ARGS="$CONFIG_ARGS --disable-cern"
-#  ;;
-#esac
-
-case $(uname)-$(uname -p) in
+case $(uname)-$(uname -m) in
   Linux-x86_64)
     ./configure linuxx8664gcc $CONFIG_ARGS --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift --disable-astiff;; 
   Linux-i*86)
