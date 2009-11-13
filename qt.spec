@@ -162,3 +162,4 @@ EOF_TOOLFILE
 %{relocateConfig}etc/scram.d/qtextra
 %{relocateConfig}etc/scram.d/qt3support
 %{relocateConfig}bin/qt.conf
+%{relocateConfig}mkspecs/qconfig.pri
