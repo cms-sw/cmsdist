@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_3_4_0_pre5
+### RPM cms cmssw CMSSW_3_3_3
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: /bin/ksh
@@ -15,6 +15,7 @@ Provides: perl(CMSDBA)
 Provides: perl(Tk) >= 804
 Provides: perl(Tk::ROText)
 Provides: perl(Tk::DialogBox)
+Provides: perl(DBI)
 Provides: ld-linux.so.2(GLIBC_PRIVATE)
 Provides: ld-linux-x86-64.so.2(GLIBC_PRIVATE)(64bit)
 Requires: cmssw-tool-conf python glimpse
