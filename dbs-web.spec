@@ -9,7 +9,7 @@
 %define cvstag %v
 #Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Web/DataDiscovery&export=DBS/Web/DataDiscovery&tag=-r%{cvstag}&output=/dbs-web.tar.gz
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Web/DataDiscovery&tag=-r%{cvstag}&output=/dbs-web.tar.gz
-Requires: python py2-sqlalchemy cherrypy mysql py2-mysqldb oracle py2-cx-oracle sqlite py2-pysqlite py2-cheetah webtools yui elementtree
+Requires: python py2-sqlalchemy cherrypy py2-cheetah webtools yui elementtree
 
 %prep
 %setup -n DBS/Web/DataDiscovery
