@@ -13,6 +13,7 @@ CalibTracker/SiPixelIsAliveCalibration
 CalibTracker/SiPixelSCurveCalibration
 CalibTracker/SiStripESProducers
 CalibTracker/SiStripLorentzAngle
+CalibTracker/SiStripQuality
 Calibration/HcalIsolatedTrackReco
 CommonTools/CandAlgos
 CondCore/AlignmentPlugins

@@ -37,6 +37,7 @@ CalibTracker/SiStripAPVAnalysis
 CalibTracker/SiStripCommon
 CalibTracker/SiStripESProducers
 CalibTracker/SiStripLorentzAngle
+CalibTracker/SiStripQuality
 Calibration/HcalIsolatedTrackReco
 CommonTools/CandAlgos
 CommonTools/CandUtils
