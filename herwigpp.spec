@@ -1,11 +1,5 @@
-### RPM external herwigpp 2.4.0.UEfix
-## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
-
-#
-# Careful to change or get rid of the next line when the version changes
-#
-%define srcTag 2.4.0-UEfix
-Source: http://projects.hepforge.org/herwig/files/Herwig++-%{srcTag}.tar.gz
+### RPM external herwigpp 2.3.2
+Source: http://projects.hepforge.org/herwig/files/Herwig++-%{realversion}.tar.gz
 Requires: thepeg
 Requires: gsl
 Requires: hepmc
@@ -14,7 +8,7 @@ Patch0: herwigpp-2.3.2-g77
 Patch1: herwigpp-2.3.2-amd64
 
 %prep
-%setup -q -n Herwig++-%{srcTag}
+%setup -q -n Herwig++-%{realversion}
 case %gccver in
   3.*)
 %patch0 -p1
@@ -22,7 +16,7 @@ case %gccver in
   ;;
 esac
 
-%build
+
 ./configure --with-hepmc=$HEPMC_ROOT --with-gsl=$GSL_ROOT --with-thepeg=$THEPEG_ROOT --prefix=%i CXXFLAGS="-O2 -fuse-cxa-atexit"
 # Fix up a configuration mistake coming from a test being confused
 # by the "skipping incompatible" linking messages when linking 32bit on 64bit
@@ -31,6 +25,7 @@ perl -p -i -e 's|/usr/lib64/libm.a /usr/lib64/libc.a||' */Makefile
 perl -p -i -e 's|/usr/lib64/libm.a /usr/lib64/libc.a||' */*/Makefile
 perl -p -i -e 's|/usr/lib64/libm.a /usr/lib64/libc.a||' */*/*/Makefile
 
+%build
 make %makeprocesses 
 
 
