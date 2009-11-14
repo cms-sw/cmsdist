@@ -136,7 +136,7 @@ rm  `find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*'`
 
 %if "%online" == "true"
 # remove tkinter that brings dependency on libtk:
-rm  `find %{i}/lib -type f -name "_tkinter.so"`
+find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
 %endif
 
 # SCRAM ToolBox toolfile
