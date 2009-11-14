@@ -4,12 +4,14 @@
 #Source: http://www.thep.lu.se/~leif/ThePEG/ThePEG-%{realversion}.tgz
 Source: http://projects.hepforge.org/herwig/files/ThePEG-%{realversion}.tar.gz
 Patch0: thepeg-1.3.0-LHAPDF
+Patch1: thepeg-1.4.2
 Requires: lhapdf
 Requires: gsl
 
 %prep
 %setup -q -n ThePEG-%{realversion}
 %patch0 -p1
+%patch1 -p1
 
 %build
 ./configure --with-LHAPDF=$LHAPDF_ROOT/lib --without-javagui --prefix=%i --with-gsl=$GSL_ROOT

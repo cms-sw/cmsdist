@@ -13,6 +13,7 @@ CalibTracker/SiPixelIsAliveCalibration
 CalibTracker/SiPixelSCurveCalibration
 CalibTracker/SiStripESProducers
 CalibTracker/SiStripLorentzAngle
+CalibTracker/SiStripQuality
 Calibration/HcalIsolatedTrackReco
 CommonTools/CandAlgos
 CondCore/AlignmentPlugins
@@ -22,6 +23,7 @@ CondCore/CSCPlugins
 CondCore/CalibPlugins
 CondCore/DBCommon
 CondCore/DBOutputService
+CondCore/DQMPlugins
 CondCore/DTPlugins
 CondCore/ESSources
 CondCore/EcalPlugins
@@ -45,6 +47,7 @@ CondCore/Utilities
 Configuration/HLT
 Configuration/PyReleaseValidation
 CondFormats/RecoMuonObjects
+CondFormats/DataRecord
 CondTools/DQM
 CondTools/Geometry
 CondTools/HLT
@@ -109,6 +112,7 @@ DataFormats/EgammaReco
 DataFormats/EgammaTrackReco
 DataFormats/JetReco
 DataFormats/L1Trigger
+DataFormats/Luminosity
 DataFormats/METReco
 DataFormats/MuonReco
 DataFormats/SiStripDigi
@@ -251,6 +255,7 @@ RecoBTau/JetTagComputer
 RecoEcal/EgammaClusterProducers
 RecoEgamma/EgammaElectronProducers
 RecoEgamma/EgammaHLTProducers
+RecoHI/HiMuonAlgos
 RecoHI/HiTracking
 RecoHIMuon/HiMuPropagator
 RecoHIMuon/HiMuSeed
@@ -344,3 +349,4 @@ L1Trigger/HardwareValidation
 PhysicsTools/CandUtils
 PhysicsTools/IsolationUtils
 RecoTracker/SpecialSeedGenerators
+
