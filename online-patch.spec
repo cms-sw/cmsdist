@@ -1,5 +1,6 @@
-### RPM cms online-patch CMSSW_3_3_2_onlpatch2_ONLINE
+### RPM cms online-patch CMSSW_3_3_3_onlpatch0_ONLINE
 ## IMPORT configurations 
+
 Provides: /bin/zsh
 Provides: /bin/ksh
 Provides: /bin/sed
@@ -13,12 +14,10 @@ Provides: perl(Template)
 Requires: online-patch-tool-conf
 
 %define cmssw_release   %(perl -e '$_="%v"; s/_ONLINE//; print;')
-%define buildsetfile    online_build_set
-%define cvsrep          cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/%cvsdir?passwd=AA_:yZZ3e
-
 %define cvsprojuc       %(echo %n | sed -e "s|-...patch.*||"| tr 'a-z' 'A-Z')
 %define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
 %define cvsdir          %cvsprojuc
+%define cvsrep          cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/%cvsdir?passwd=AA_:yZZ3e
 %define cvssrc          %cvsprojuc
 %define cvsserver       cmssw
 %define useCmsTC        1
@@ -29,10 +28,13 @@ Requires: online-patch-tool-conf
 %define buildtarget     release-build
 %define saveDeps        yes
 
+#Defines for file containing list of packages for checkout and build:
+%define buildsetfile    online_build_set
+
 %define isPatch         yes
 %define patchsrc2       perl -p -i -e ' s!(<classpath.*/test\\+.*>)!!' config/BuildFile.xml
 
 ## IMPORT cms-scram-build
 ## IMPORT partial-build
 ## IMPORT partial-build-patch
-## IMPORT scramv1-build-patch
+## IMPORT scramv1-build
