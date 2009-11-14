@@ -145,7 +145,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <lib name=G4VRML>
 <Client>
 <Environment name=GEANT4_BASE default="%i"></Environment>
-<Environment name=G4SRC default="$GEANT4_BASE/source"></Environment>
 <Environment name=LIBDIR default="$GEANT4_BASE/lib"></Environment>
 <Environment name=G4LIB value="$LIBDIR"></Environment>
 <Environment name=INCLUDE default="$GEANT4_BASE/include"></Environment>
@@ -183,7 +182,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4core
 <lib name=G4track>
 <Client>
 <Environment name=GEANT4_BASE default="%i"></Environment>
-<Environment name=G4SRC default="$GEANT4_BASE/source"></Environment>
 <Environment name=LIBDIR default="$GEANT4_BASE/lib"></Environment>
 <Environment name=G4LIB value="$LIBDIR"></Environment>
 <Environment name=INCLUDE default="$GEANT4_BASE/include"></Environment>
