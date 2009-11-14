@@ -85,7 +85,6 @@ DQM/SiPixelMonitorRecHit
 DQM/SiPixelMonitorTrack
 DQM/SiStripCommissioningAnalysis
 DQM/SiStripCommissioningClients
-DQM/SiStripCommissioningDbClients
 DQM/SiStripCommissioningSources
 DQM/SiStripCommissioningSummary
 DQM/SiStripCommon

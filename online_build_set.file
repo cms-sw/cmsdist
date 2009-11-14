@@ -144,7 +144,6 @@ DQM/SiPixelMonitorRecHit
 DQM/SiPixelMonitorTrack
 DQM/SiStripCommissioningAnalysis
 DQM/SiStripCommissioningClients
-DQM/SiStripCommissioningDbClients
 DQM/SiStripCommissioningSources
 DQM/SiStripCommissioningSummary
 DQM/SiStripCommon
@@ -402,8 +401,6 @@ MagneticField/VolumeBasedEngine
 MagneticField/VolumeGeometry
 OnlineDB/EcalCondDB
 OnlineDB/Oracle
-OnlineDB/SiStripConfigDb
-OnlineDB/SiStripESSources
 PhysicsTools/CandUtils
 PhysicsTools/IsolationAlgos
 PhysicsTools/IsolationUtils
