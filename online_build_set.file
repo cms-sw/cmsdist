@@ -37,6 +37,7 @@ CalibTracker/SiStripAPVAnalysis
 CalibTracker/SiStripCommon
 CalibTracker/SiStripESProducers
 CalibTracker/SiStripLorentzAngle
+CalibTracker/SiStripQuality
 Calibration/HcalIsolatedTrackReco
 CommonTools/CandAlgos
 CommonTools/CandUtils
@@ -54,6 +55,7 @@ CondCore/CSCPlugins
 CondCore/CalibPlugins
 CondCore/DBCommon
 CondCore/DBOutputService
+CondCore/DQMPlugins
 CondCore/DTPlugins
 CondCore/ESSources
 CondCore/EcalPlugins
@@ -100,7 +102,6 @@ CondFormats/RunInfo
 CondFormats/SiPixelObjects
 CondFormats/SiStripObjects
 CondTools/DQM
-CondTools/DT
 CondTools/Ecal
 CondTools/Geometry
 CondTools/HLT
@@ -108,6 +109,7 @@ CondTools/L1Trigger
 CondTools/SiStrip
 Configuration/HLT
 Configuration/PyReleaseValidation
+DPGAnalysis/SiStripTools
 DQM/CSCMonitorModule
 DQM/DTMonitorClient
 DQM/DTMonitorModule
@@ -201,6 +203,7 @@ DataFormats/L1GlobalTrigger
 DataFormats/L1Trigger
 DataFormats/LTCDigi
 DataFormats/LaserAlignment
+DataFormats/Luminosity
 DataFormats/METReco
 DataFormats/Math
 DataFormats/MuonData
@@ -209,6 +212,7 @@ DataFormats/MuonReco
 DataFormats/MuonSeed
 DataFormats/ParticleFlowCandidate
 DataFormats/ParticleFlowReco
+DataFormats/PatCandidates
 DataFormats/Provenance
 DataFormats/RPCDigi
 DataFormats/RPCRecHit
@@ -281,6 +285,7 @@ FWCore/Modules
 FWCore/ParameterSet
 FWCore/PluginManager
 FWCore/PrescaleService
+FWCore/PythonParameterSet
 FWCore/RootAutoLibraryLoader
 FWCore/ServiceRegistry
 FWCore/Services
@@ -425,6 +430,7 @@ RecoEgamma/EgammaHLTAlgos
 RecoEgamma/EgammaHLTProducers
 RecoEgamma/EgammaIsolationAlgos
 RecoEgamma/EgammaTools
+RecoHI/HiMuonAlgos
 RecoHI/HiTracking
 RecoHIMuon/HiMuPropagator
 RecoHIMuon/HiMuSeed
@@ -550,6 +556,7 @@ TrackingTools/MaterialEffects
 TrackingTools/MeasurementDet
 TrackingTools/PatternTools
 TrackingTools/Producers
+TrackingTools/RecoGeometry
 TrackingTools/Records
 TrackingTools/RoadSearchHitAccess
 TrackingTools/TrackAssociator
