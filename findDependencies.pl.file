@@ -48,6 +48,7 @@ foreach my $key (keys %usedby) {
 }
 close F1;
 
+&pythonDeps($rel);
 
 exit;
 
@@ -87,13 +88,13 @@ sub doexec ($@) {
 	else{
 	    $getnext=0;
 	    
-	    if ( $sp1[0] =~ /^tmp/ ) {
-		if ( $sp1[0] =~/o:$/) {
+	    if ( $sp1[0] =~ /^tmp/o ) {
+		if ( $sp1[0] =~/o:$/o) {
 		    $getnext=1;
 		}
 	    }
 	    else{
-		if ( $sp1[0] =~ /^src/ ) {
+		if ( $sp1[0] =~ /^src/o ) {
 #		    print "dep $tsp1\n";
 		    $uses{$depname}.="$tsp1 ";
 		    $usedby{$tsp1}.="$depname ";
@@ -109,3 +110,65 @@ sub doexec ($@) {
     return !$?;
 }
 
+sub pythonDeps()
+{
+  my $rel=shift;
+  my %cache=();
+  foreach my $fname (`find ${rel}/src -name "*.py" -type f`)
+  {
+    chomp $fname;
+    my $file=$fname;
+    $file=~s/^${rel}\/+src\/+//o;
+    if($fname!~/\/python\//o){next;}
+    foreach my $line (`grep 'import ' $fname`)
+    {
+      chomp $line;
+      if ($line=~/^\s*#/){next;}
+      if ($line=~/^\s*from\s+([^\s]+)\s+import\s+/)
+      {
+        foreach my $x (&import2CMSSWDir($1,\%cache))
+        {
+          $cache{usedby}{$x}{$file}=1;
+  	  $cache{uses}{$file}{$x}=1;
+        }
+      }
+      elsif ($line=~/^\s*import\s+([^\s]+)\s*/)
+      {
+        foreach my $x (&import2CMSSWDir($1,\%cache))
+        {
+          $cache{usedby}{$x}{$file}=1;
+	  $cache{uses}{$file}{$x}=1;
+        }
+      }
+    }
+  }
+  foreach my $type ("uses","usedby")
+  {  
+    my $ref;
+    open $ref,">${rel}/etc/dependencies/py${type}.out";
+    foreach my $x (sort keys %{$cache{$type}}){print $ref "$x ",join(" ",sort keys %{$cache{$type}{$x}}),"\n";}
+    close($ref);
+  }
+}
+
+sub import2CMSSWDir()
+{
+  my ($str,$cache)=@_;
+  my @pyfiles=();
+  foreach my $s (split ',',$str)
+  {
+    $s=~s/\./\//og;
+    if (exists $cache->{pymodule}{$s}){push @pyfiles,$cache->{pymodule}{$s};}
+    elsif(!exists $cache->{noncmsmodule}{$s})
+    {
+      if (-f "${rel}/python/${s}.py")
+      {
+	$s=~/^([^\/]+\/+[^\/]+)\/+(.+)$/o;
+	$cache->{pymodule}{$s}="${1}/python/${2}.py";
+	push @pyfiles,"${1}/python/${2}.py";
+      }
+      else{$cache->{noncmsmodule}{$s}=1;}
+    }
+  }
+  return @pyfiles;
+}
