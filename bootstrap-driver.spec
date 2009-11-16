@@ -1,7 +1,7 @@
 ### RPM external bootstrap-driver 19.0c
 Source: bootstrap
 %define closingbrace )
-%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 Requires: apt 
 
