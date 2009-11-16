@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1051
+## REVISION 1052
 ## NOCOMPILER
 Source: cmsos
 %prep
@@ -17,18 +17,16 @@ install -m 755 %_sourcedir/cmsos %instroot/common/cmsos
 cat << \EOF_CMSARCH_SH >%instroot/common/cmsarch
 #!/bin/sh
 osarch=`%instroot/common/cmsos`
-compilerv=gcc323
+compilerv=gcc345
 # We need to assume 1 compiler per platform. 
 # There is no other way around this.
 if [ ! "$SCRAM_ARCH" ]
 then
     case $osarch in
-        slc3_ia32) compilerv=gcc323;;
-        slc3_amd64) compilerv=gcc344;;
-        slc4_ia32) compilerv=gcc345;;
-        slc4_amd64) compilerv=gcc345; osarch=slc4_ia32;;
         osx104_ia32) compilerv=gcc401;;
         osx104_ppc32) compilerv=gcc400;;
+        osx105_*) compilerv=gcc401;;
+        *) compilerv=gcc345; osarch=slc4_ia32;;
     esac
     echo ${osarch}_${compilerv}
 else
