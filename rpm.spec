@@ -10,7 +10,7 @@
 Source: http://rpm.org/releases/rpm-4.4.x/rpm-%{realversion}.tar.gz
 #Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
 %define closingbrace )
-%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 Requires: beecrypt bz2lib neon db4 expat elfutils
 %if "%online" != "true"
@@ -229,7 +229,8 @@ do
 done
 
 %post
-perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|g" `grep -I -r %instroot $RPM_INSTALL_PREFIX/%pkgrel | cut -d: -f1 | sort | uniq`
+# do not relocate init.[c]sh as these are done by default from cmsBuild
+perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|g" `grep -I -r %instroot $RPM_INSTALL_PREFIX/%pkgrel | cut -d: -f1 | sort | uniq | grep -v init.csh | grep -v init.sh `
 %files
 %{i}
 %{instroot}/%{cmsplatf}/var/spool/repackage

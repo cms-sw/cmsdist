@@ -1,7 +1,7 @@
 ### RPM external bootstrap-driver 19.0c
 Source: bootstrap
 %define closingbrace )
-%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 Requires: apt 
 
@@ -88,10 +88,11 @@ slc*onl* )
                  libXrender libXpm"
     
     # ONLINE: seed system compiler (only libraries for runtime)
-    slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds libgcc libstdc++"
+    slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds libgcc libstdc++ external+gcc+4.3.4"
     
     # ONLINE: seed other available system tools:
-    slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds curl libpng libtiff libungif openssl qt zlib perl-DBI-1.40-8"
+    slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds curl libpng libtiff libungif openssl qt zlib perl-DBI-1.40-8 libtermcap-2.0.8
+		 libX11-devel-1.0.3 libXpm-devel-3.5.5 libXext-devel-1.0.1 libXft-devel-2.1.10 "
     
     # Python tools are commented out due to compatibility problems.
     slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds python python-elementtree"
@@ -165,10 +166,14 @@ unsupportedSeeds="$unsupportedSeeds libX11 libXmu libSM libICE libXcursor
 
 # Case statement for additional provides.
 case %cmsplatf in
+    slc5onl* )
+        additionalProvides="libX11.so.6 libXext.so.6 libXft.so.2 libXpm.so.4"
+    ;;
     osx* )
         additionalProvides="AGL ApplicationServices Carbon CoreFoundation
                             CoreServices OpenGL Python QuickTime Tcl Tk
                             libintl.3.dylib"
+
     ;;
 esac
 
