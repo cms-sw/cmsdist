@@ -1,29 +1,39 @@
-### RPM external memcached 1.2.8
-Source: http://www.danga.com/memcached/dist/memcached-%{realversion}.tar.gz
-Requires: libevent
+### RPM external erlang R12B-5
+Source: http://erlang.org/download/otp_src_R12B-5.tar.gz
+Requires: gcc openssl
 
-%prep 
-%setup -n memcached-%realversion
+# 32-bit
+Provides: libc.so.6(GLIBC_PRIVATE)
+# 64-bit
+Provides: libc.so.6(GLIBC_PRIVATE)(64bit)
+
+%prep
+%setup -n otp_src_R12B-5
 
 %build
-source $LIBEVENT_ROOT/etc/profile.d/init.sh
-./configure --with-libevent=$LIBEVENT_ROOT --prefix=%i
+./configure --prefix=%i
 make
 
 %install
 make install
 
+export ERLANG_INSTALL_DIR=%i
+cat %i/lib/erlang/bin/erl | sed "s,$ERLANG_INSTALL_DIR,\$ERLANG_ROOT,g" > %i/lib/erlang/bin/erl.new
+mv %i/lib/erlang/bin/erl.new %i/lib/erlang/bin/erl
+chmod a+x %i/lib/erlang/bin/erl
+
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=%n version=%v>
-<lib name=z>
+<Tool name=Erlang version=%v>
+<lib name=erlang>
 <client>
- <Environment name=MEMCACHED_BASE default="%i"></Environment>
- <Environment name=INCLUDE default="$MEMCACHED_BASE/include"></Environment>
- <Environment name=LIBDIR  default="$MEMCACHED_BASE/lib"></Environment>
+ <Environment name=ERLANG_BASE default="%i"></Environment>
+ <Environment name=INCLUDE default="$ERLANG_BASE/include"></Environment>
+ <Environment name=LIBDIR  default="$ERLANG_BASE/lib"></Environment>
 </client>
+<Runtime name=PATH value="$ERLANG_BASE/bin" type=path>
 </Tool>
 EOF_TOOLFILE
 
@@ -53,4 +63,14 @@ perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependen
 %{relocateConfig}etc/scram.d/%n
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
+
+# setup approripate links and made post install procedure
+. $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+rm -f $ERLANG_ROOT/bin/*
+rm -f $ERLANG_ROOT/lib/erlang/bin/epmd
+ln -s $ERLANG_ROOT/lib/erlang/erts-5.6.5/bin/epmd $ERLANG_ROOT/lib/erlang/bin/epmd
+for pkg in dialyzer epmd erl erlc escript run_erl to_erl typer
+do
+    ln -s $ERLANG_ROOT/lib/erlang/bin/$pkg $ERLANG_ROOT/bin/$pkg
+done
 
