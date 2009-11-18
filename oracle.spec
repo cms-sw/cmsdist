@@ -1,4 +1,4 @@
-### RPM external oracle 11.2.0.1.0
+### RPM external oracle 10.2.0.3
 ## INITENV SET ORACLE_HOME %i
 ## BUILDIF case `uname`:`uname -p` in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
 
@@ -45,12 +45,12 @@ chmod -R g-w %i
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+# oracle-client toolfile (w/o libocci)
+cat << \EOF_TOOLFILE >%i/etc/scram.d/oracleclient
 <doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=%n version=%v>
+<Tool name=oracleclient version=%v>
 <lib name=clntsh>
-<lib name=occi>
-<lib name=nnz11>
+<lib name=nnz10>
 <Client>
  <Environment name=ORACLE_BASE default="%i"></Environment>
  <Environment name=ORACLE_ADMINDIR></Environment>
@@ -65,6 +65,15 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <Runtime name=ORA_NLS33 default="$ORACLE_BASE/ocommon/nls/admin/data">
 <Runtime name=ORACLE_HOME default="$ORACLE_BASE">
 <Runtime name=TNS_ADMIN default="$ORACLE_ADMINDIR">
+</Tool>
+EOF_TOOLFILE
+
+# oracle toolfile (oracleclient + libocci)
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<lib name=occi>
+<use name=oracleclient>
 </Tool>
 EOF_TOOLFILE
 %post
