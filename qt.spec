@@ -1,8 +1,8 @@
-### RPM external qt 4.5.0
+### RPM external qt 4.5.2
 ## INITENV UNSET QMAKESPEC
 ## INITENV SET QTDIR %i
 
-# Requires: zlib, ...
+Requires: libjpg 
 Source0: ftp://ftp.trolltech.com/qt/source/%n-all-opensource-src-%{realversion}.tar.bz2
 
 %prep
@@ -24,7 +24,7 @@ case %cmsplatf in
   ;;
 esac
 
-echo yes | ./configure -prefix %i -stl -no-openssl -no-glib -no-libtiff -no-libpng -no-separate-debug-info -no-sql-odbc -no-sql-mysql $CONFIG_ARGS
+echo yes | ./configure -prefix %i -opensource -stl -no-openssl -L$LIBJPG_ROOT/lib -no-glib -no-libtiff -no-libpng -no-libmng -no-separate-debug-info -no-sql-odbc -no-sql-mysql $CONFIG_ARGS
 
 # The following is a kludge around the fact that the fact that the 
 # /usr/lib/libfontconfig.so soft link (for 32-bit lib) is missing
@@ -40,6 +40,24 @@ make %makeprocesses
 
 %install
 make install
+
+# Remove the doc, as it is large and we don't need that in
+# our rpms (it is all available on the web in any case)
+rm -fR %i/doc
+# Remove also the demos and examples as they are not generally
+# useful from our rpm's and SW area
+rm -fR %i/demos
+rm -fR %i/examples
+
+# Qt itself has some paths that can only be overwritten by
+# using an appropriate `qt.conf`.
+# Without this qmake will complain whenever used in
+# a directory different than the build one.
+mkdir -p %i/bin
+cat << \EOF_QT_CONF >%i/bin/qt.conf
+[Paths]
+Prefix = %{i}
+EOF_QT_CONF
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
@@ -143,3 +161,4 @@ EOF_TOOLFILE
 %{relocateConfig}etc/scram.d/qtdesigner
 %{relocateConfig}etc/scram.d/qtextra
 %{relocateConfig}etc/scram.d/qt3support
+%{relocateConfig}bin/qt.conf
