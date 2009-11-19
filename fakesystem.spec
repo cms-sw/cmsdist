@@ -30,6 +30,9 @@ Provides: ld-linux-x86-64.so.2(GLIBC_PRIVATE)(64bit)
 Provides: libaio.so.1
 Provides: libaio.so.1(LIBAIO_0.1)
 Provides: libaio.so.1(LIBAIO_0.4)
+Provides: libaio.so.1()(64bit)
+Provides: libaio.so.1(LIBAIO_0.1)(64bit)
+Provides: libaio.so.1(LIBAIO_0.4)(64bit)
 
 %prep
 %build
