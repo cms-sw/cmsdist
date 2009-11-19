@@ -1,4 +1,4 @@
-### RPM external oracle 10.2.0.3
+### RPM external oracle 11.2.0.1.0
 ## INITENV SET ORACLE_HOME %i
 ## BUILDIF case `uname`:`uname -p` in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
 
@@ -7,6 +7,7 @@ Source1: http://cmsrep.cern.ch/cmssw/oracle-mirror/%cmsos/%realversion/sdk.zip?a
 Source2: http://cmsrep.cern.ch/cmssw/oracle-mirror/%cmsos/%realversion/sqlplus.zip?arch=%cmsos&version=%realversion
 Source9: oracle-license
 Source10: http://www.oracle.com/technology/tech/oci/occi/downloads/occi_gcc343_102020.tar.gz
+Requires: fakesystem 
 
 ## INITENV +PATH SQLPATH %i/bin
 %prep
@@ -41,16 +42,20 @@ echo Copying libocci libraries for slc4_ia32_gcc345
 %endif
 (cd %i/lib && ln -s libclntsh.* $(echo libclntsh.* | sed 's/[0-9.]*$//'))
 (cd %i/lib && ln -s libocci.* $(echo libocci.* | sed 's/[0-9.]*$//'))
+# Clean up some things that are not needed
+rm -fr %i/demo
+rm -fr %i/lib/libocijdbc11.so
 chmod -R g-w %i
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
-# oracle-client toolfile (w/o libocci)
-cat << \EOF_TOOLFILE >%i/etc/scram.d/oracleclient
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=oracleclient version=%v>
+<Tool name=%n version=%v>
 <lib name=clntsh>
-<lib name=nnz10>
+<lib name=occi>
+<lib name=nnz11>
 <Client>
  <Environment name=ORACLE_BASE default="%i"></Environment>
  <Environment name=ORACLE_ADMINDIR></Environment>
@@ -68,13 +73,14 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/oracleclient
 </Tool>
 EOF_TOOLFILE
 
-# oracle toolfile (oracleclient + libocci)
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+cat << \EOF_TOOLFILE >%i/etc/scram.d/oracleocci
 <doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=%n version=%v>
+<Tool name=oracleocci version=%v>
 <lib name=occi>
-<use name=oracleclient>
+<use name=oracle>
 </Tool>
 EOF_TOOLFILE
+
 %post
 %{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/scram.d/oracleocci
