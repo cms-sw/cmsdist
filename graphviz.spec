@@ -63,8 +63,7 @@ fi
 # Probably the configure should just be remade on Darwin, but it builds
 # as-is with this small cleanup
 perl -p -i -e "s|-lexpat||g" configure
-# make %makeprocesses
-make 
+make %makeprocesses
 
 %install
 make install

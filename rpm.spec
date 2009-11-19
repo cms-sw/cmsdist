@@ -1,4 +1,4 @@
-### RPM external rpm 4.4.2.2-CMS19c
+### RPM external rpm 4.4.2.2-CMS19a
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV SET LIBRPMALIAS_FILENAME %{i}/lib/rpm/rpmpopt-%{realversion}
 ## INITENV SET LIBRPMRC_FILENAME %{i}/lib/rpm/rpmrc
@@ -9,15 +9,8 @@
 ## INITENV SET SYSCONFIGDIR %{i}/lib/rpm
 Source: http://rpm.org/releases/rpm-4.4.x/rpm-%{realversion}.tar.gz
 #Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
-%define closingbrace )
-%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
 
-Requires: beecrypt bz2lib neon db4 expat elfutils
-%if "%online" != "true"
-Requires: zlib
-%endif
-
-
+Requires: beecrypt bz2lib neon db4 expat elfutils zlib
 # The following two lines are a workaround for an issue seen with gcc4.1.2
 Provides: perl(Archive::Tar)
 Provides: perl(Specfile)
@@ -32,7 +25,6 @@ Patch6: rpm-macosx
 Patch7: rpm-4.4.2.2
 Patch8: rpm-4.4.2.2-leopard
 Patch9: rpm-4.4.x-flcompress
-Patch10: rpm-fix-static-declaration
 
 # Defaults here
 %define libdir lib
@@ -81,20 +73,11 @@ echo %(echo %{cmsos} | cut -f1 -d_)
 %endif
 
 %patch9 -p1
-%patch10 -p1
 
 rm -rf neon sqlite beecrypt elfutils zlib 
 
 %build
-case %cmsos in
-  slc*_ia32)
-    export CFLAGS="-fPIC -D_FILE_OFFSET_BITS=64"
-  ;;
-  *)
-    export CFLAGS="-fPIC"
-  ;;
-esac 
-
+export CFLAGS="-fPIC -g -O0"
 export CPPFLAGS="-I$BEECRYPT_ROOT/include -I$BEECRYPT_ROOT/include/beecrypt -I$BZ2LIB_ROOT/include -I$NEON_ROOT/include/neon -I$DB4_ROOT/include -I$EXPAT_ROOT/include/expat -I$ELFUTILS_ROOT/include -I$ZLIB_ROOT/include"
 export LDFLAGS="-L$BEECRYPT_ROOT/%libdir -L$BZ2LIB_ROOT/lib -L$NEON_ROOT/lib -L$DB4_ROOT/lib -L$EXPAT_ROOT/%libdir -L$ELFUTILS_ROOT/lib -L$ZLIB_ROOT/lib -lz -lexpat -lbeecrypt -lbz2 -lneon -lpthread"
 #FIXME: this does not seem to work and we still get /usr/bin/python in some of the files.

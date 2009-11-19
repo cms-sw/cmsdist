@@ -1,35 +1,32 @@
 ### RPM cms cms-common 1.0
-## REVISION 1053
-## NOCOMPILER
-%define closingbrace )
-%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
 Source: cmsos
 %prep
 %build
 echo $SCRAM_ROOT
 %install
 
-mkdir -p %instroot/common %instroot/bin %instroot/%{cmsplatf}/etc/profile.d
+mkdir -p %instroot/common %instroot/bin %{instroot}/%{cmsplatf}/etc/profile.d
 
 # Do not create these common files if already exist 
 # This is to avoid different arch creating these files
 if [ ! -f %instroot/common/.cms-common ]; then
 install -m 755 %_sourcedir/cmsos %instroot/common/cmsos
 ### Detects the SCRAM_ARCH to be used.
-%if "%online" != "true"
 cat << \EOF_CMSARCH_SH >%instroot/common/cmsarch
 #!/bin/sh
 osarch=`%instroot/common/cmsos`
-compilerv=gcc345
+compilerv=gcc323
 # We need to assume 1 compiler per platform. 
 # There is no other way around this.
 if [ ! "$SCRAM_ARCH" ]
 then
     case $osarch in
+        slc3_ia32) compilerv=gcc323;;
+        slc3_amd64) compilerv=gcc344;;
+        slc4_ia32) compilerv=gcc345;;
+        slc4_amd64) compilerv=gcc345; osarch=slc4_ia32;;
         osx104_ia32) compilerv=gcc401;;
         osx104_ppc32) compilerv=gcc400;;
-        osx105_*) compilerv=gcc401;;
-        *) compilerv=gcc345; osarch=slc4_ia32;;
     esac
     echo ${osarch}_${compilerv}
 else
@@ -37,17 +34,6 @@ else
 fi
 
 EOF_CMSARCH_SH
-%else
-cat << \EOF_CMSARCH_SH >%instroot/common/cmsarch
-#!/bin/sh
-if [ ! "$SCRAM_ARCH" ] ; then
-    echo %cmsplatf
-else
-    echo $SCRAM_ARCH
-fi
-
-EOF_CMSARCH_SH
-%endif
 chmod 755 %instroot/common/cmsarch
 
 ### BASH code
@@ -100,7 +86,7 @@ fi
 
 if [ ! $CVSROOT ]
 then
-    CVSROOT=:gserver:cmscvs.cern.ch:/cvs_server/repositories/CMSSW
+    CVSROOT=:kserver:cmscvs.cern.ch:/cvs_server/repositories/CMSSW
     export CVSROOT
 fi
 
@@ -153,7 +139,7 @@ if( -e $CMS_PATH/SITECONF/local/JobConfig/cmsset_local.csh ) then
 endif
 
 if ( ! ${?CVSROOT}) then
-  setenv CVSROOT :gserver:cmscvs.cern.ch:/cvs_server/repositories/CMSSW
+  setenv CVSROOT :kserver:cmscvs.cern.ch:/cvs_server/repositories/CMSSW
 endif
 
 unset here
@@ -165,19 +151,19 @@ CMSARCH=`cmsarch`
 srbase=%{instroot}/$CMSARCH
 sver=$SCRAM_VERSION
 dir=`/bin/pwd`
-while [ ! -d ${dir}/.SCRAM ] && [ "$dir" != "/" ] ; do
+while [ ! -d ${dir}/.SCRAM -a "$dir" != "/" ] ; do
   dir=`dirname $dir`
 done
 if [ -f ${dir}/config/scram_version ] ; then
   sver=`cat ${dir}/config/scram_version`
-elif [ "X$sver" = "X" ] ; then
+elif [ "X$sver" == "X" ] ; then
   sver=`cat  ${srbase}/etc/default-scramv1-version`
 fi
-if [ "X$sver" = "XV1_0_3-p1" ] && [ "X$CMSARCH" = "Xslc4_ia32_gcc345" ] ; then
+if [ "X$sver" = "XV1_0_3-p1" -a "X$CMSARCH" = "Xslc4_ia32_gcc345" ] ; then
   sver=V1_0_3-p2
 fi
 scram_rel_series=`echo $sver | grep '^V[0-9]\+_[0-9]\+_[0-9]\+' | sed 's|^\(V[0-9]\+_[0-9]\+\)_.*|\1|'`
-if [ "X${scram_rel_series}" != "X" ] && [ -f ${srbase}/etc/default-scram/${scram_rel_series} ] ; then
+if [ "X${scram_rel_series}" != "X" -a -f ${srbase}/etc/default-scram/${scram_rel_series} ] ; then
   sver=`cat ${srbase}/etc/default-scram/${scram_rel_series}`
 fi
 scmd=scram
@@ -191,13 +177,13 @@ if [ ! -f ${srbase}/${sver}/etc/profile.d/init.sh ] ; then
   echo "Unable to find SCRAM version $sver for $CMSARCH architecture."
   exit 1
 fi
-. ${srbase}/${sver}/etc/profile.d/init.sh
+source ${srbase}/${sver}/etc/profile.d/init.sh
 # In the case we are on linux ia32 we prepend the linux32 command to the 
 # actual scram command so that, no matter where the ia32 architecture is 
 # running (i686 or x84_64) scram detects it as ia32.
 CMSPLAT=`echo $CMSARCH | cut -d_ -f 2`
 USE_LINUX32=
-if [ `uname` = "Linux" ] && [ "$CMSPLAT" = "ia32" ] ; then
+if [ `uname` == Linux -a "$CMSPLAT" = "ia32" ] ; then
   USE_LINUX32=linux32
 fi
 $USE_LINUX32 ${srbase}/${sver}/bin/${scmd} $@
