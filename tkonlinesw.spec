@@ -136,6 +136,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/tkonlineswdb
 </Client>
 <use name=xerces-c>
 <use name=oracle>
+<use name=oracleocci>
 </Tool>
 EOF_TOOLFILE
 
