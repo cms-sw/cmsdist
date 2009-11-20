@@ -1,4 +1,4 @@
-### RPM cms dqmgui 5.1.4
+### RPM cms dqmgui 5.1.5
 
 # This is a RPM spec file for building the DQM GUI.  This effectively
 # builds a sliced version of CMSSW with some updated and added code,
@@ -31,9 +31,8 @@ Patch0: dqmgui-classlib
 Patch1: dqmgui-rtgu
 
 # Set up the project build area: extract sources, bootstrap the SCRAM
-# build area with them.  Filters out the sources we actually want.
-# Removes all tests and some EDM binaries to reduce dependencies on
-# otherwise unnecessary software.
+# build area with them.  Only builds with sources we need, with minimal
+# dependencies.
 %prep
 rm -fr %_builddir/{config,src,THE_BUILD}
 %setup    -T -b 0 -n config
@@ -127,7 +126,7 @@ perl -w -i -p -e \
 # Usage at https://twiki.cern.ch/twiki/bin/view/CMS/DQMTest and
 # https://twiki.cern.ch/twiki//bin/view/CMS/DQMGuiProduction.
 %install
-mkdir -p %i/etc %i/external %i/{,x}bin %i/{,x}lib %i/{,x}python %i/{,x}include %i/data
+mkdir -p %i/etc/profile.d %i/etc/scramconfig %i/external %i/{,x}bin %i/{,x}lib %i/{,x}python %i/{,x}include %i/data
 cp -p %_builddir/distsrc.tar.bz2 %i/data
 cp -p %_builddir/THE_BUILD/lib/%cmsplatf/*.so %i/lib
 cp -p %_builddir/THE_BUILD/bin/%cmsplatf/*DQM* %i/bin
@@ -136,8 +135,13 @@ cp -p %_builddir/THE_BUILD/src/VisMonitoring/DQMServer/config/makefile %i/etc
 tar -C %_builddir/THE_BUILD/src -cf - */*/interface/*.h | tar -C %i/include -xvvf -
 tar -C %_builddir/THE_BUILD/include/%cmsplatf -cf - . | tar -C %i/include -xvvf -
 tar -C %_builddir/THE_BUILD/external/%cmsplatf/lib -cf - . | tar -C %i/external -xvvf -
-mkdir -p %i/etc/scramconfig
 cp -p %_builddir/THE_BUILD/config/toolbox/%cmsplatf/tools/selected/*.xml %i/etc/scramconfig
+
+(set -e; eval `scram runtime -sh`;
+ export PYTHONPATH=%i/python${PYTHONPATH+":$PYTHONPATH"};
+ for mod in %i/python/*.py; do
+   python -c "import $(basename $mod | sed 's/\.py$//')"
+ done)
 
 # Script to record what sources went into this package so user can
 # check them out conveniently.
