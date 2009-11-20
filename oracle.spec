@@ -37,10 +37,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 </Client>
 <use name=sockets>
 <Runtime name=PATH value="$BINDIR" type=path>
-<Runtime name=NLS_LANG value="american_america.WE8ISO8859P9">
-<Runtime name=NLS_DATE_FORMAT value="DD-MON-FXYYYY">
-<Runtime name=ORA_NLS33 default="$ORACLE_BASE/ocommon/nls/admin/data">
-<Runtime name=ORACLE_HOME default="$ORACLE_BASE">
 <Runtime name=TNS_ADMIN default="$ORACLE_ADMINDIR">
 </Tool>
 EOF_TOOLFILE
