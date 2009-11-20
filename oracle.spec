@@ -27,7 +27,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=%n version=%v>
 <lib name=clntsh>
-<lib name=occi>
 <lib name=nnz11>
 <Client>
  <Environment name=ORACLE_BASE default="%i"></Environment>
