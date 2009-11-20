@@ -179,6 +179,19 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_signals
 </Tool>
 EOF_TOOLFILE
 
+# boost_header toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_header
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=boost_header version=%v>
+<info url="http://www.boost.org"></info>
+<Client>
+<Environment name=BOOSTHEADER_BASE default="%i"></Environment>
+<Environment name=INCLUDE default="$BOOSTHEADER_BASE/include"></Environment>
+</Client>
+</Tool>
+EOF_TOOLFILE
+
+
 perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*
 
 %post
@@ -188,3 +201,4 @@ perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*
 %{relocateConfig}etc/scram.d/boost_python
 %{relocateConfig}etc/scram.d/boost_regex
 %{relocateConfig}etc/scram.d/boost_signals
+%{relocateConfig}etc/scram.d/boost_header
