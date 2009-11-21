@@ -1,4 +1,4 @@
-### RPM external pyqt 4.5
+### RPM external pyqt 4.5.4
 ## INITENV +PATH PYTHONPATH %i/lib/python2.4/site-packages
 ## BUILDIF case %cmsplatf in osx*) false;; *) true;; esac
 Source: http://www.riverbankcomputing.co.uk/static/Downloads/PyQt4/PyQt-x11-gpl-%realversion.tar.gz
