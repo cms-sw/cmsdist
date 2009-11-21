@@ -1,4 +1,4 @@
-### RPM cms online-patch CMSSW_3_3_3_onlpatch2_ONLINE
+### RPM cms online-patch CMSSW_3_3_3_onlpatch3_ONLINE
 ## IMPORT configurations 
 
 Provides: /bin/zsh
