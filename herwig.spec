@@ -1,9 +1,25 @@
-### RPM external herwig 6.510-CMS19
+### RPM external herwig 6.510
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
+Requires: lhapdf photos tauola
+Patch1: herwig-6.510-tauola
+
 %prep
 %setup -q -n %n/%{realversion}
 # Danger - herwig doesn't actually need the hepmc, clhep,lhapdf 
 # that appear to be used in the configure
+
+# move tauola/photos dummy functions in new directory
+mkdir tauoladummy
+mv ./dummy/dexay.f ./tauoladummy/ 
+mv ./dummy/inietc.f ./tauoladummy/ 
+mv ./dummy/inimas.f ./tauoladummy/ 
+mv ./dummy/iniphx.f ./tauoladummy/ 
+mv ./dummy/initdk.f ./tauoladummy/ 
+mv ./dummy/phoini.f ./tauoladummy/ 
+mv ./dummy/photos.f ./tauoladummy/ 
+
+# apply patch to modify Makefile
+%patch1 -p2
 ./configure --enable-shared
 
 %build
@@ -22,16 +38,17 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <Tool name=herwig version=%v>
 <lib name=herwig>
 <lib name=herwig_dummy>
-<lib name=herwig_pdfdummy>
 <Client>
  <Environment name=HERWIG_BASE default="%i"></Environment>
  <Environment name=LIBDIR default="$HERWIG_BASE/lib"></Environment>
  <Environment name=INCLUDE default="$HERWIG_BASE/include"></Environment>
 </Client>
 <use name=f77compiler>
+<use name=lhapdf>
+<use name=tauola>
+<use name=photos>
 </Tool>
 EOF_TOOLFILE
 
 %post
 %{relocateConfig}etc/scram.d/%n
-
