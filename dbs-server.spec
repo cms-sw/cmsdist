@@ -60,9 +60,9 @@ MYSQL_ERR=\$MYSQL_PATH/error.log
 function dbs_stop() 
 {
     me=\`whoami\`
-    echo $"Stop mysqld|tomcat running under \$me account from $MYAREA area..."
-    ps -w -w -f -u\$me | grep mysqld | grep $MYAREA | grep \$MYSQL_PORT | grep -v grep | awk '{print "kill -9 "\$2""}'|/bin/sh
-    ps -w -w -f -u\$me | grep tomcat | grep $MYAREA | grep -v grep | awk '{print "kill -9 "\$2""}'|/bin/sh
+    echo $"Stop mysqld|tomcat running under \$me account from \$MYAREA area..."
+    ps -w -w -f -u\$me | grep mysqld | grep "\$MYAREA" | grep \$MYSQL_PORT | grep -v grep | awk '{print "kill -9 "\$2""}'|/bin/sh
+    ps -w -w -f -u\$me | grep tomcat | grep "\$MYAREA" | grep -v grep | awk '{print "kill -9 "\$2""}'|/bin/sh
 }
 function dbs_start()
 {
@@ -78,8 +78,8 @@ function dbs_start()
 function dbs_status() 
 {
     me=\`whoami\`
-    dbs_mysqld=\`ps -w -w -f -u\$me | egrep "mysqld" | grep $MYAREA | grep \$MYSQL_PORT| grep -v egrep | wc -l\`
-    dbs_tomcat=\`ps -w -w -f -u\$me | egrep "tomcat" | grep $MYAREA | grep -v egrep | wc -l\`
+    dbs_mysqld=\`ps -w -w -f -u\$me | egrep "mysqld" | grep "\$MYAREA" | grep \$MYSQL_PORT| grep -v egrep | wc -l\`
+    dbs_tomcat=\`ps -w -w -f -u\$me | egrep "tomcat" | grep "\$MYAREA" | grep -v egrep | wc -l\`
     if [ \${dbs_tomcat} -ne 1 ]; then
        echo "Tomcat server is not running"
        break
@@ -88,8 +88,8 @@ function dbs_status()
        echo "MySQL server is not running"
        exit 1
     fi
-    ps -w -w -f -u\$me | grep $MYAREA | egrep "mysqld" | grep -v egrep | awk '{print "MySQLd server running, pid="\$2""}'
-    ps -w -w -f -u\$me | grep $MYAREA | egrep "tomcat" | grep -v egrep | awk '{print "Tomcat server running, pid="\$2""}'
+    ps -w -w -f -u\$me | grep "\$MYAREA" | egrep "mysqld" | grep -v egrep | awk '{print "MySQLd server running, pid="\$2""}'
+    ps -w -w -f -u\$me | grep "\$MYAREA" | egrep "tomcat" | grep -v egrep | awk '{print "Tomcat server running, pid="\$2""}'
     echo "For more information please have a look at tomcat log:"
     echo "\$APACHE_TOMCAT_ROOT/logs/catalina.out"
 }
