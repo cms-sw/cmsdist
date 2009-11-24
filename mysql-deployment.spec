@@ -11,10 +11,10 @@ cat << \EOF > %{i}/bin/mysql-deployment.sh
 #!/bin/bash
 set -e
 
-if [ -z ${VO_CMS_SW_DIR} ]; then
-    echo "+++ Your CMS environment is not setup, missing VO_CMS_SW_DIR environment"
-    exit 1
-fi
+#if [ -z ${VO_CMS_SW_DIR} ]; then
+#    echo "+++ Your CMS environment is not setup, missing VO_CMS_SW_DIR environment"
+#    exit 1
+#fi
 if [ -z ${MYSQL_ROOT} ]; then
     echo "+++ Your CMS MYSQL environment is not setup, MYSQL_ROOT environment"
     exit 1
