@@ -18,12 +18,14 @@ Source5: http://geant4.cern.ch/support/source/G4ELASTIC.%{g4ElasticScatteringVer
 
 Patch:  geant-4.8.2.p01-nobanner
 Patch1: geant4.9.2.p01-gcc44
+Patch2: geant4.9.2.p01-G4Cons-G4QElasticCrossSection
 
 %prep
 %setup -n %n.%downloadv
 pwd
 %patch0 -p1 
 %patch1 -p1 
+%patch2 -p1
  
 %build
 if [ $(uname) = Darwin ]; then
