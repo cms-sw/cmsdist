@@ -98,3 +98,5 @@ EOF_TOOLFILE
 %post
 %{relocateConfig}etc/scram.d/%n
 %{relocateConfig}etc/scram.d/%fullname
+%{relocateConfig}lib/libLHAPDF.la
+%{relocateConfig}lib/libLHAPDFWrap.la
