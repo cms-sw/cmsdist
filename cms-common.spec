@@ -2,7 +2,7 @@
 ## REVISION 1054
 ## NOCOMPILER
 %define closingbrace )
-%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 Source: cmsos
 %prep
 %build
