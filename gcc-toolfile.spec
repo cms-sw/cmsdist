@@ -44,7 +44,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
 <Flags CXXFLAGS="@GXXOPT@">
 <Flags CXXFLAGS="-felide-constructors -fmessage-length=0 -ftemplate-depth-300">
 <Flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses -Werror=array-bounds -Wno-deprecated">
-<Flags LDFLAGS="@LDOPT@">
+<Flags LDFLAGS="-Wl,-E">
 <Flags CXXSHAREDFLAGS="-Wl,-E">
 <Flags SHAREDSUFFIX="so">
 <Flags SCRAM_LANGUAGE_TYPE="C++">
@@ -123,22 +123,14 @@ esac
 # Specific substitutions to the templates above (default case needed?)
 case %cmsplatf in
   slc4_ia32_gcc4* )
-    perl -p -i -e "s|\@LDOPT\@|-Wl,-E|g"   %i/etc/scram.d/cxxcompiler
     perl -p -i -e "s|\@GXXLIB\@|lib|g"   %i/etc/scram.d/cxxcompiler
     perl -p -i -e "s|\@GXXOPT\@|-O2 -fvisibility-inlines-hidden|g"  %i/etc/scram.d/cxxcompiler
   ;;
   slc5_ia32_gcc4* | slc5onl_ia32_gcc4* )
-    perl -p -i -e "s|\@LDOPT\@|-Wl,-E -Wl,--hash-style=gnu|g"   %i/etc/scram.d/cxxcompiler
     perl -p -i -e "s|\@GXXLIB\@|lib|g"   %i/etc/scram.d/cxxcompiler
     perl -p -i -e "s|\@GXXOPT\@|-O2|g"   %i/etc/scram.d/cxxcompiler
   ;;
-  slc4_amd64_gcc4* )
-    perl -p -i -e "s|\@LDOPT\@|-Wl,-E|g"   %i/etc/scram.d/cxxcompiler
-    perl -p -i -e "s|\@GXXLIB\@|lib64|g" %i/etc/scram.d/cxxcompiler
-    perl -p -i -e "s|\@GXXOPT\@|-O2|g"   %i/etc/scram.d/cxxcompiler
-  ;;
-  slc5_amd64_gcc4* )
-    perl -p -i -e "s|\@LDOPT\@|-Wl,-E -Wl,--hash-style=gnu|g"   %i/etc/scram.d/cxxcompiler
+  slc4_amd64_gcc4* | slc5_amd64_gcc4* )
     perl -p -i -e "s|\@GXXLIB\@|lib64|g" %i/etc/scram.d/cxxcompiler
     perl -p -i -e "s|\@GXXOPT\@|-O2|g"   %i/etc/scram.d/cxxcompiler
   ;;
