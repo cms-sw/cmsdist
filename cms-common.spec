@@ -20,7 +20,7 @@ install -m 755 %_sourcedir/cmsos %instroot/common/cmsos
 cat << \EOF_CMSARCH_SH >%instroot/common/cmsarch
 #!/bin/sh
 osarch=`%instroot/common/cmsos`
-compilerv=gcc345
+compilerv=gcc434
 # We need to assume 1 compiler per platform. 
 # There is no other way around this.
 if [ ! "$SCRAM_ARCH" ]
@@ -31,7 +31,7 @@ then
         osx105_*) compilerv=gcc401;;
         slc5_*) compilerv=gcc434; osarch=slc5_ia32;;
         slc4_*) compilerv=gcc345; osarch=slc4_ia32;;
-        *) compilerv=gcc345; osarch=slc4_ia32;;
+        *) compilerv=gcc434; osarch=slc5_ia32;;
     esac
     echo ${osarch}_${compilerv}
 else
