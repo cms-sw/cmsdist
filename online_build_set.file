@@ -37,7 +37,6 @@ CalibTracker/SiStripAPVAnalysis
 CalibTracker/SiStripCommon
 CalibTracker/SiStripESProducers
 CalibTracker/SiStripLorentzAngle
-CalibTracker/SiStripQuality
 Calibration/HcalIsolatedTrackReco
 CommonTools/CandAlgos
 CommonTools/CandUtils
@@ -144,6 +143,7 @@ DQM/SiPixelMonitorRecHit
 DQM/SiPixelMonitorTrack
 DQM/SiStripCommissioningAnalysis
 DQM/SiStripCommissioningClients
+DQM/SiStripCommissioningDbClients
 DQM/SiStripCommissioningSources
 DQM/SiStripCommissioningSummary
 DQM/SiStripCommon
@@ -401,6 +401,8 @@ MagneticField/VolumeBasedEngine
 MagneticField/VolumeGeometry
 OnlineDB/EcalCondDB
 OnlineDB/Oracle
+OnlineDB/SiStripConfigDb
+OnlineDB/SiStripESSources
 PhysicsTools/CandUtils
 PhysicsTools/IsolationAlgos
 PhysicsTools/IsolationUtils
