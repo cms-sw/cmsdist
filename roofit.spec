@@ -35,50 +35,45 @@ cp -r build/inc/* %i/include
 mkdir -p %i/etc/scram.d
 
 # rootroofitcore toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/roofitcore
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=roofitcore version=%v>
-<info url="http://root.cern.ch/root/"></info>
-<lib name=RooFitCore>
-<use name=rootcore>
-<use name=roothistmatrix>
-<use name=rootgpad>
-<use name=rootminuit>
-<Client>
- <Environment name=ROOFIT_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$ROOFIT_BASE/lib"></Environment>
- <Environment name=INCLUDE default="$ROOFIT_BASE/include"></Environment>
-</Client>
-</Tool> 
+cat << \EOF_TOOLFILE >%i/etc/scram.d/roofitcore.xml
+  <tool name="roofitcore" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="RooFitCore"/>
+    <client>
+      <environment name="ROOFIT_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$ROOFIT_BASE/lib"/>
+      <environment name="INCLUDE" default="$ROOFIT_BASE/include"/>
+    </client>
+    <use name="rootcore"/>
+    <use name="roothistmatrix"/>
+    <use name="rootgpad"/>
+    <use name="rootminuit"/>
+  </tool>
 EOF_TOOLFILE
 
 # rootroofit toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/roofit
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=roofit version=%v>
-<info url="http://root.cern.ch/root/"></info>
-<lib name=RooFit>
-<use name=roofitcore>
-<use name=rootcore>
-<use name=roothistmatrix>
-</Tool> 
+cat << \EOF_TOOLFILE >%i/etc/scram.d/roofit.xml
+  <tool name="roofit" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="RooFit"/>
+    <use name="roofitcore"/>
+    <use name="rootcore"/>
+    <use name="roothistmatrix"/>
+  </tool>
 EOF_TOOLFILE
 
 # rootroostats toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/roostats
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=roostats version=%v>
-<info url="http://root.cern.ch/root/"></info>
-<lib name=RooStats>
-<use name=roofitcore>
-<use name=roofit>
-<use name=rootcore>
-<use name=roothistmatrix>
-<use name=rootgpad>
-</Tool> 
+cat << \EOF_TOOLFILE >%i/etc/scram.d/roostats.xml
+  <tool name="roostats" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="RooStats"/>
+    <use name="roofitcore"/>
+    <use name="roofit"/>
+    <use name="rootcore"/>
+    <use name="roothistmatrix"/>
+    <use name="rootgpad"/>
+  </tool>
 EOF_TOOLFILE
 
 %post
-%{relocateConfig}etc/scram.d/roofitcore
-%{relocateConfig}etc/scram.d/roofit
-%{relocateConfig}etc/scram.d/roostats
+perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find $RPM_INSTALL_PREFIX/%pkgrel/etc/scram.d -type f)

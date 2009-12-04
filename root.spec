@@ -179,216 +179,186 @@ cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 # rootcore toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcore
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=rootcore version=%v>
-<info url="http://root.cern.ch/root/"></info>
-<lib name=Tree>
-<lib name=Net>
-<lib name=Thread>
-<lib name=MathCore>
-<lib name=RIO>
-<lib name=Core>
-<lib name=Cint>
-<Client>
- <Environment name=ROOTCORE_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$ROOTCORE_BASE/lib"></Environment>
- <Environment name=INCLUDE default="$ROOTCORE_BASE/include"></Environment>
- <Environment name=INCLUDE default="$ROOTCORE_BASE/cint"></Environment>
-</Client>
-<use name=sockets>
-<use name=pcre>
-<use name=zlib>
-<Runtime name=PATH value="$ROOTCORE_BASE/bin" type=path>
-<Runtime name=ROOTSYS value="$ROOTCORE_BASE/">
-<Runtime name=PYTHONPATH value="$ROOTCORE_BASE/lib" type=path>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcore.xml
+  <tool name="rootcore" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="Tree"/>
+    <lib name="Net"/>
+    <lib name="Thread"/>
+    <lib name="MathCore"/>
+    <lib name="RIO"/>
+    <lib name="Core"/>
+    <lib name="Cint"/>
+    <client>
+      <environment name="ROOTCORE_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$ROOTCORE_BASE/lib"/>
+      <environment name="INCLUDE" default="$ROOTCORE_BASE/include"/>
+      <environment name="INCLUDE" default="$ROOTCORE_BASE/cint"/>
+    </client>
+    <runtime name="PATH" value="$ROOTCORE_BASE/bin" type="path"/>
+    <runtime name="ROOTSYS" value="$ROOTCORE_BASE/"/>
+    <runtime name="PYTHONPATH" value="$ROOTCORE_BASE/lib" type="path"/>
+    <use name="sockets"/>
+    <use name="pcre"/>
+    <use name="zlib"/>
+  </tool>
 EOF_TOOLFILE
 
 # root toolfile, alias for rootphysics. Using rootphysics is preferred.
-cat << \EOF_TOOLFILE >%i/etc/scram.d/root
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=root version=%v>
-<info url="http://root.cern.ch/root/"></info>
-<use name=rootphysics>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/root.xml
+  <tool name="root" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <use name="rootphysics"/>
+  </tool>
 EOF_TOOLFILE
 
 # roothistmatrix toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/roothistmatrix
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=roothistmatrix version=%v> 
-<info url="http://root.cern.ch/root/"></info>
-<lib name=Hist>
-<lib name=Matrix>
-<use name=ROOTCore>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/roothistmatrix.xml
+  <tool name="roothistmatrix" version="%v"> 
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="Hist"/>
+    <lib name="Matrix"/>
+    <use name="ROOTCore"/>
+  </tool>
 EOF_TOOLFILE
 
 # rootgpad toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootgpad
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=rootgpad version=%v> 
-<info url="http://root.cern.ch/root/"></info>
-<lib name=Gpad>
-<lib name=Graf>
-<use name=roothistmatrix>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootgpad.xml
+  <tool name="rootgpad" version="%v"> 
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="Gpad"/>
+    <lib name="Graf"/>
+    <use name="roothistmatrix"/>
+  </tool>
 EOF_TOOLFILE
 
 # rootphysics toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootphysics
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=rootphysics version=%v>
-<info url="http://root.cern.ch/root/"></info>
-<lib name=Physics>
-<use name=roothistmatrix>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootphysics.xml
+  <tool name="rootphysics" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="Physics"/>
+    <use name="roothistmatrix"/>
+  </tool>
 EOF_TOOLFILE
 
 # rootgraphics toolfile, identical to old "root" toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootgraphics
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=rootgraphics version=%v>
-<info url="http://root.cern.ch/root/"></info>
-<lib name=TreePlayer>
-<lib name=Graf3d>
-<lib name=Postscript>
-<use name=rootgpad>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootgraphics.xml
+  <tool name="rootgraphics" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="TreePlayer"/>
+    <lib name="Graf3d"/>
+    <lib name="Postscript"/>
+    <use name="rootgpad"/>
+  </tool>
 EOF_TOOLFILE
 
 # rootcintex toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcintex
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=rootcintex version=%v>
-<info url="http://root.cern.ch/root/"></info>
-<lib name=Cintex>
-<use name=ROOTRflx>
-<use name=ROOTCore>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcintex.xml
+  <tool name="rootcintex" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="Cintex"/>
+    <use name="ROOTRflx"/>
+    <use name="ROOTCore"/>
+  </tool>
 EOF_TOOLFILE
 
 # (temporarily eviscerated) rootinteractive toolfile (GQt/qt lib dependencies
 # have been removed for the moment)
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootinteractive
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=rootinteractive version=%v>
-<info url="http://root.cern.ch/root/"></info>
-<lib name=Rint>
-<lib name=GQt>
-<lib name=Gui>
-<use name=qt>
-<use name=libjpg>
-<use name=libpng>
-<use name=rootgpad>
-</Tool> 
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootinteractive.xml
+  <tool name="rootinteractive" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="Rint"/>
+    <lib name="GQt"/>
+    <lib name="Gui"/>
+    <use name="qt"/>
+    <use name="libjpg"/>
+    <use name="libpng"/>
+    <use name="rootgpad"/>
+  </tool>
 EOF_TOOLFILE
 
 # rootmath toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootmath
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=rootmath version=%v>
-<info url="http://root.cern.ch/root/"></info>
-<lib name=GenVector>
-<lib name=MathMore>
-<use name=ROOTCore>
-<use name=gsl>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootmath.xml
+  <tool name="rootmath" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="GenVector"/>
+    <lib name="MathMore"/>
+    <use name="ROOTCore"/>
+    <use name="gsl"/>
+  </tool>
 EOF_TOOLFILE
 
 # rootminuit toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootminuit
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=rootminuit version=%v>
-<info url="http://root.cern.ch/root/"></info>
-<lib name=Minuit>
-<use name=rootgpad>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootminuit.xml
+  <tool name="rootminuit" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="Minuit"/>
+    <use name="rootgpad"/>
+  </tool>
 EOF_TOOLFILE
 
 # rootminuit2 toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootminuit2
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=rootminuit2 version=%v>
-<info url="http://root.cern.ch/root/"></info>
-<lib name=Minuit2>
-<use name=rootgpad>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootminuit2.xml
+  <tool name="rootminuit2" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="Minuit2"/>
+    <use name="rootgpad"/>
+  </tool>
 EOF_TOOLFILE
 
 # rootrflx toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootrflx
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=rootrflx version=%v>
-<info url="http://root.cern.ch/root/"></info>
-<lib name=Reflex>
-<Client>
- <Environment name=ROOTRFLX_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$ROOTRFLX_BASE/lib"></Environment>
- <Environment name=INCLUDE default="$ROOTRFLX_BASE/include"></Environment>
-</Client>
-<use name=sockets>
-<use name=gccxml>
-<Runtime name=PATH value="$ROOTRFLX_BASE/bin" type=path>
-<Runtime name=ROOTSYS value="$ROOTRFLX_BASE/">
-<Runtime name=GENREFLEX value="$ROOTRFLX_BASE/bin/genreflex">
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootrflx.xml
+  <tool name="rootrflx" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="Reflex"/>
+    <client>
+      <environment name="ROOTRFLX_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$ROOTRFLX_BASE/lib"/>
+      <environment name="INCLUDE" default="$ROOTRFLX_BASE/include"/>
+    </client>
+    <runtime name="PATH" value="$ROOTRFLX_BASE/bin" type="path"/>
+    <runtime name="ROOTSYS" value="$ROOTRFLX_BASE/"/>
+    <runtime name="GENREFLEX" value="$ROOTRFLX_BASE/bin/genreflex"/>
+    <use name="sockets"/>
+    <use name="gccxml"/>
+  </tool>
 EOF_TOOLFILE
 
 # roothtml toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/roothtml
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=roothtml version=%v>
-<info url="http://root.cern.ch/root/"></info>
-<lib name=Html>
-<use name=rootgpad>
-</Tool> 
+cat << \EOF_TOOLFILE >%i/etc/scram.d/roothtml.xml
+  <tool name="roothtml" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="Html"/>
+    <use name="rootgpad"/>
+  </tool>
 EOF_TOOLFILE
 
 # rootmlp toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootmlp
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=rootmlp version=%v>
-<info url="http://root.cern.ch/root/"></info>
-<lib name=MLP>
-<use name=RootGraphics>
-</Tool> 
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootmlp.xml
+  <tool name="rootmlp" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="MLP"/>
+    <use name="RootGraphics"/>
+  </tool>
 EOF_TOOLFILE
 
 # roottmva toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/roottmva
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=roottmva version=%v>
-<info url="http://root.cern.ch/root/"></info>
-<lib name=TMVA>
-<use name=ROOTMLP>
-<use name=rootminuit>
-</Tool> 
+cat << \EOF_TOOLFILE >%i/etc/scram.d/roottmva.xml
+  <tool name="roottmva" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="TMVA"/>
+    <use name="ROOTMLP"/>
+    <use name="rootminuit"/>
+  </tool>
 EOF_TOOLFILE
 
 # rootthread toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootthread
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=rootthread version=%v>
-<info url="http://root.cern.ch/root/"></info>
-<use name=ROOTCore>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootthread.xml
+  <tool name="rootthread" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <use name="ROOTCore"/>
+  </tool>
 EOF_TOOLFILE
 
 %post
-%{relocateConfig}etc/scram.d/root
-%{relocateConfig}etc/scram.d/rootcore
-%{relocateConfig}etc/scram.d/roothistmatrix
-%{relocateConfig}etc/scram.d/rootphysics
-%{relocateConfig}etc/scram.d/rootgraphics
-%{relocateConfig}etc/scram.d/rootcintex
-%{relocateConfig}etc/scram.d/rootinteractive
-%{relocateConfig}etc/scram.d/rootmath
-%{relocateConfig}etc/scram.d/rootminuit
-%{relocateConfig}etc/scram.d/rootminuit2
-%{relocateConfig}etc/scram.d/rootrflx
-%{relocateConfig}etc/scram.d/roothtml
-%{relocateConfig}etc/scram.d/rootmlp
-%{relocateConfig}etc/scram.d/roottmva
-%{relocateConfig}etc/scram.d/rootthread
+perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find $RPM_INSTALL_PREFIX/%pkgrel/etc/scram.d -type f)
