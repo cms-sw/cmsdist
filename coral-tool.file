@@ -1,10 +1,9 @@
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=CORAL version=@PROJECT_VERSION@ type=scram>
-<Client>
- <Environment name=CORAL_BASE default="@PROJECT_ROOT@"></Environment>
- <Environment name=LIBDIR default="$CORAL_BASE/$SCRAM_ARCH/lib"></Environment>
- <Environment name=INCLUDE default="$CORAL_BASE/include"></Environment>
-</Client>
-<Runtime name=PYTHONPATH   default="$CORAL_BASE/$SCRAM_ARCH/python" type=path>
-<Runtime name=PYTHONPATH   default="$CORAL_BASE/$SCRAM_ARCH/lib" type=path>
-</Tool>
+  <tool name="CORAL" version="@PROJECT_VERSION@" type="scram">
+    <client>
+      <environment name="CORAL_BASE" default="@PROJECT_ROOT@"/>
+      <environment name="LIBDIR" default="$CORAL_BASE/$SCRAM_ARCH/lib"/>
+      <environment name="INCLUDE" default="$CORAL_BASE/include"/>
+    </client>
+    <runtime name="PYTHONPATH" default="$CORAL_BASE/$SCRAM_ARCH/python" type="path"/>
+    <runtime name="PYTHONPATH" default="$CORAL_BASE/$SCRAM_ARCH/lib" type="path"/>
+  </tool>
