@@ -78,15 +78,18 @@ done
 # take precedence over those from cms-rebuilt rpms
 %if "%online" == "true"
 for tool in %systemtools ${PKGTOOLS_SYSTEM_TOOLS} ; do
+  rm -f %i/tools/selected/$tool %i/tools/selected/${tool}.xml
   cp -rf %{onlinesystemtoolsroot}/etc/scram.d/$tool %i/tools/selected/$tool
 done
 # For now copy all systemtools files. If needed, this can be done more selectively.
 %endif
 
-for tool in `find %i/tools/selected -type f`
+for tool in `find %i/tools/selected -type f | sed 's|\.xml$||' | sort | uniq`
 do
-    perl %_sourcedir/tool2xml.pl $tool > $tool.xml
-    rm -f $tool
+    if [ ! -f $tool.xml ] ; then
+      perl %_sourcedir/tool2xml.pl $tool > $tool.xml
+      rm -f $tool
+    fi
     toolname=`basename $tool`
     echo %skipreqtools | tr ' ' '\n' | grep "^$toolname\$" 2>&1 >/dev/null && mv $tool.xml %i/tools/available
 done
