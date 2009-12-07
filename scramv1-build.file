@@ -50,7 +50,7 @@ Requires: SCRAMV1
 
 %if "%{?isPatch}" == "yes"
 %if "%{?patchbaserelease:set}" != "set"
-%define patchbaserelease %(echo %v | sed -e "s|_...patch.||")
+%define patchbaserelease %(echo %v | sed -e "s|_...patch.||" -e "s|_patch.||")
 %endif
 %if "%{?parent_release_base:set}" != "set"
 %define parent_release_base ../../cmssw/%{patchbaserelease}
@@ -67,7 +67,7 @@ Source0: %{configrepo}&tag=-r%{configtag}&module=%{cvsconfig}&export=config&outp
 %if "%{?isPatch}" == "yes"
 %define source1 %{cvsrepo}://?tag=%{cvstag}&module=%{cvssrc}&export=%{srctree}&baserel=%{patchbaserelease}&output=/src.tar.gz
 # make sure we have FWCore/Version in the sources to be built
-%define basereldir %(echo `echo %i | sed -e's|-patch||' -e's|_...patch.||'`)
+%define basereldir %(echo `echo %i | sed -e's|-patch||' -e's|_...patch.||' -e "s|_patch.||"`)
 %define fwcverstag %(echo `grep FWCore/Version %{basereldir}/src/PackageList.cmssw | awk '{print $2}'`)
 # echo "tag is "%{fwcverstag}" from "%{basereldir} 
 %define additionalSrc0 %{cvsrep}&tag=-r%{fwcverstag}&module=FWCore/Version&export=FWCore
