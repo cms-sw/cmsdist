@@ -17,16 +17,13 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <info url="http://www.boost.org"></info>
 <Client>
  <Environment name=ELEMENTTREE_BASE default="%i"></Environment>
- <Environment name=ELEMENTTREE_PYPATH default="$ELEMENTTREE_BASE/share/lib/python@PYTHONV@/site-packages"></Environment>
+ <Environment name=ELEMENTTREE_PYPATH default="$ELEMENTTREE_BASE/share/lib/python2.4/site-packages"></Environment>
 </Client>
 <use name=gccxml>
 <use name=python>
 <Runtime name=PYTHONPATH value="$ELEMENTTREE_PYPATH" type=path>
 </Tool>
 EOF_TOOLFILE
-
-export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
-perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*
 
 %post
 %{relocateConfig}etc/scram.d/%n
