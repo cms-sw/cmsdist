@@ -7,13 +7,16 @@ Requires: zlib mimetic xerces-c uuid sqlite
 
 Source: svn://svn.cern.ch/reps/cmsos/releases/baseline9/trunk/?scheme=svn+ssh&revision=15544&strategy=export&module=xdaq&output=/xdaq.tar.gz
 
-Patch: xdaq_build
+Patch0: xdaq_build
+Patch1: xdaq_mfDefs_flags
+
 Provides: /bin/awk
 
 %prep
 %setup -T -b 0 -n xdaq
 
-%patch -p1
+%patch0 -p1
+%patch1 -p4
 ls
 echo " Install root in prep:" %{i}    %{pkginstroot}
 
