@@ -1,8 +1,8 @@
-### RPM external spidermonkey 1.8.0-rc1
-Source: http://ftp.mozilla.org/pub/mozilla.org/js/js-1.8.0-rc1.tar.gz
+### RPM external spidermonkey 1.8.0_rc1
+%define realver %(echo -n %v|sed s/_/-/g)
+Source: http://ftp.mozilla.org/pub/mozilla.org/js/js-%{realver}.tar.gz
 
 %prep
-#%setup -n %n-%{realversion}
 %setup -n js
 
 %build
@@ -32,7 +32,7 @@ cp liveconnect/*.h %i/include/liveconnect
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=Spidermonkey version=%v>
+<Tool name=Spidermonkey version=%{realver}>
 <lib name=spidermonkey>
 <client>
  <Environment name=SPIDERMONKEY_BASE default="%i"></Environment>

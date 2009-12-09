@@ -1,5 +1,5 @@
-### RPM external erlang R12B.5
-%define downloadv %(echo %realversion | tr . -)
+### RPM external erlang R12B_5
+%define downloadv %(echo %realversion | tr _ -)
 Source: http://erlang.org/download/otp_src_%{downloadv}.tar.gz
 Requires: openssl
 
@@ -27,7 +27,7 @@ chmod a+x %i/lib/erlang/bin/erl
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=Erlang version=%v>
+<Tool name=Erlang version=%{realver}>
 <lib name=erlang>
 <client>
  <Environment name=ERLANG_BASE default="%i"></Environment>
