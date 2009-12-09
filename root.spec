@@ -25,6 +25,7 @@ Patch15: root-5.22-00d-fireworks5
 Patch16: root-5.22-00d-genreflex_python26_popen3
 Patch17: root-5.22-00d-fireworks6
 Patch18: root-5.22-00d-linker-gnu-hash-style
+Patch19: root-5.22-00d-TFile-version3-Init
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -74,6 +75,7 @@ rm graf3d/gl/src/gl2ps.c.orig
 %patch15 -p1
 %patch16 -p1
 %patch17 -p1
+%patch19 -p1
 
 case %gccver in
   4.3.*)
@@ -91,7 +93,7 @@ case %cmsplatf in
 %patch18 -p1
   ;;
 esac
- 
+
 %build
 
 mkdir -p %i
