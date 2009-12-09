@@ -1,4 +1,4 @@
-### RPM cms online CMSSW_3_3_3_ONLINE
+### RPM cms online CMSSW_3_3_2_ONLINE
 ## IMPORT configurations 
 
 Provides: /bin/zsh
@@ -12,8 +12,8 @@ Provides: perl(full)
 Provides: perl(LWP::UserAgent)
 Provides: perl(Template)
 Provides: libg2c.so.0
-Provides: ld-linux.so.2(GLIBC_PRIVATE)
 Requires: online-tool-conf python
+Provides: ld-linux.so.2(GLIBC_PRIVATE)
 
 %define cmssw_release   %(perl -e '$_="%v"; s/_ONLINE//; print;')
 %define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
