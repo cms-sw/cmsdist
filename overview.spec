@@ -12,7 +12,7 @@
 %define initenv     export ZZPATH=$PATH ZZLD_LIBRARY_PATH=$LD_LIBRARY_PATH ZZPYTHONPATH=$PYTHONPATH; %initenv_all
 
 Source0: %{cvsserver}&strategy=checkout&module=config&export=config&tag=-r%{vcfg}&output=/config.tar.gz
-Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rR05-01-04&output=/DQMServer.tar.gz
+Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rR05-01-05&output=/DQMServer.tar.gz
 Requires: cherrypy py2-cheetah yui py2-cx-oracle py2-pil py2-matplotlib overview-conf SCRAMV1 dbs-client
 
 # Set up minimal SCRAM project build area with our sources.
