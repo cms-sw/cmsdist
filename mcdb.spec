@@ -8,16 +8,6 @@ Requires: xerces-c
 rm config.mk
 touch config.mk
 case %cmsplatf in
-  osx105_ia32_gcc401  ) 
-echo "PLATFORM = %cmsplatf" >> config.mk
-echo "CC       = gcc" >> config.mk
-echo "CXX      = g++" >> config.mk
-echo "CFLAGS   = -O2 -pipe -Wall -W -fPIC" >> config.mk
-echo "CXXFLAGS = -O2 -pipe -Wall -W -fPIC" >> config.mk
-echo "LINK     = g++" >> config.mk
-echo "LFLAGS   = -dynamiclib " >> config.mk
-echo "XERCESC  = $XERCES_C_ROOT" >> config.mk
-;;
   *ia32*  ) 
 echo "PLATFORM = %cmsplatf" >> config.mk
 echo "CC       = gcc" >> config.mk

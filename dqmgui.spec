@@ -1,4 +1,4 @@
-### RPM cms dqmgui 5.0.2
+### RPM cms dqmgui 5.1.5
 
 # This is a RPM spec file for building the DQM GUI.  This effectively
 # builds a sliced version of CMSSW with some updated and added code,
@@ -14,37 +14,40 @@
 # CMSDIST with tag %cmssw, then take version from cms-scram-build.file.
 %define cvsserver   cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define scram       $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
-%define cmssw       CMSSW_3_2_1
-%define vcfg        V03-24-02
+%define cmssw       CMSSW_3_3_1
+%define vcfg        V03-26-04-01
 %define initenv     export ZZPATH=$PATH ZZLD_LIBRARY_PATH=$LD_LIBRARY_PATH ZZPYTHONPATH=$PYTHONPATH; %initenv_all
 
 # Sources that go into this package.  To avoid listing every package
 # here we take entire subsystems then later select what we want.
 Source0: %{cvsserver}&strategy=checkout&module=config&export=config&tag=-r%{vcfg}&output=/config.tar.gz
-Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rR05-00-02&output=/DQMServer.tar.gz
+Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rR05-01-05&output=/DQMServer.tar.gz
 Source2: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Utilities&export=Iguana/Utilities&tag=-rV03-00-09-01&output=/IgUtils.tar.gz
-Source3: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-10-02&output=/DQMCore.tar.gz
-Requires: cherrypy py2-cheetah yui py2-pysqlite py2-cx-oracle py2-pil py2-matplotlib dqmgui-conf SCRAMV1
-Provides: /usr/bin/python
+Source3: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-13-01&output=/DQMCore.tar.gz
+Source4: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=image&revision=10&scheme=http&output=/rtgu.tar.gz
+Source5: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
+Requires: cherrypy py2-cheetah yui dqmgui-conf SCRAMV1
+Patch0: dqmgui-classlib
+Patch1: dqmgui-rtgu
 
 # Set up the project build area: extract sources, bootstrap the SCRAM
-# build area with them.  Filters out the sources we actually want.
-# Removes all tests and some EDM binaries to reduce dependencies on
-# otherwise unnecessary software.
+# build area with them.  Only builds with sources we need, with minimal
+# dependencies.
 %prep
 rm -fr %_builddir/{config,src,THE_BUILD}
 %setup    -T -b 0 -n config
 %setup -c -T -a 1 -n src
 %setup -D -T -a 2 -n src
 %setup -D -T -a 3 -n src
+%patch0 -p0
 
 cd %_builddir
-rm -fr src/DQM*/*/{test,plugins}
+rm -fr src/DQM*/*/{test,plugins,python}
 find src/DQM*/* -name BuildFile | xargs perl -n -i -e '/WITHOUT_CMS/ && s/=0/=1/; /FWCore/ || print'
 tar -jcvf distsrc.tar.bz2 -C src .
 
 config/updateConfig.pl -p CMSSW -v THE_BUILD -s $SCRAMV1_VERSION -t ${DQMGUI_CONF_ROOT}
-%scram project -d $PWD -b config/bootsrc.xml
+%scram project -d $PWD -b config/bootsrc.xml </dev/null
 
 # Build the code as a scram project area, then relocate it to more
 # normal directories (%i/{bin,lib,python}).  Save the scram runtime
@@ -53,11 +56,20 @@ config/updateConfig.pl -p CMSSW -v THE_BUILD -s $SCRAMV1_VERSION -t ${DQMGUI_CON
 # Avoid generating excess environment.
 %build
 cd %_builddir/THE_BUILD/src
+ %scram b echo_foo </dev/null
+cd ../include/%cmsplatf
+mkdir -p boost/gil/extension rtgu
+tar -C boost/gil/extension -zxvf %_sourcedir/numeric.tar.gz
+find boost -name '*.hpp' -exec perl -p -i -e '/#include/ && s|\.\./\.\./|boost/gil/|' {} \;
+tar -C rtgu -zxvf %_sourcedir/rtgu.tar.gz
+patch -p0 < %_sourcedir/dqmgui-rtgu
+
+cd %_builddir/THE_BUILD/src
 export BUILD_LOG=yes
 export SCRAM_NOPLUGINREFRESH=yes
 export SCRAM_NOLOADCHECK=true
 export SCRAM_NOSYMCHECK=true
-(%scram build -v -f %makeprocesses </dev/null) || { %scram build outputlog && false; }
+(%scram build -v -f %makeprocesses </dev/null) || { %scram build outputlog </dev/null && false; }
 
 # Now clean up environment.  First eliminate non-existent directories
 # from the paths.  Then capture the SCRAM run-time environment, and
@@ -114,7 +126,7 @@ perl -w -i -p -e \
 # Usage at https://twiki.cern.ch/twiki/bin/view/CMS/DQMTest and
 # https://twiki.cern.ch/twiki//bin/view/CMS/DQMGuiProduction.
 %install
-mkdir -p %i/etc %i/external %i/{,x}bin %i/{,x}lib %i/{,x}python %i/{,x}include %i/data
+mkdir -p %i/etc/profile.d %i/etc/scramconfig %i/external %i/{,x}bin %i/{,x}lib %i/{,x}python %i/{,x}include %i/data
 cp -p %_builddir/distsrc.tar.bz2 %i/data
 cp -p %_builddir/THE_BUILD/lib/%cmsplatf/*.so %i/lib
 cp -p %_builddir/THE_BUILD/bin/%cmsplatf/*DQM* %i/bin
@@ -123,6 +135,13 @@ cp -p %_builddir/THE_BUILD/src/VisMonitoring/DQMServer/config/makefile %i/etc
 tar -C %_builddir/THE_BUILD/src -cf - */*/interface/*.h | tar -C %i/include -xvvf -
 tar -C %_builddir/THE_BUILD/include/%cmsplatf -cf - . | tar -C %i/include -xvvf -
 tar -C %_builddir/THE_BUILD/external/%cmsplatf/lib -cf - . | tar -C %i/external -xvvf -
+cp -p %_builddir/THE_BUILD/config/toolbox/%cmsplatf/tools/selected/*.xml %i/etc/scramconfig
+
+(set -e; eval `scram runtime -sh`;
+ export PYTHONPATH=%i/python${PYTHONPATH+":$PYTHONPATH"};
+ for mod in %i/python/*.py; do
+   python -c "import $(basename $mod | sed 's/\.py$//')"
+ done)
 
 # Script to record what sources went into this package so user can
 # check them out conveniently.
@@ -139,6 +158,21 @@ sed 's/^  //' > %i/bin/visDQMDistSource << \END_OF_SCRIPT
   $doit tar -jxf %i/data/distsrc.tar.bz2
   tar -jtf %i/data/distsrc.tar.bz2 '*/CVS/Root' |
     xargs $doit sed -i -e "s|.*|$cvs|"
+END_OF_SCRIPT
+
+# Script to update SCRAM tool definitions in CMSSW to our versions.
+sed 's/^  //' > %i/bin/visDQMDistTools << \END_OF_SCRIPT
+  #!/bin/sh
+  [ X"$CMSSW_BASE" = X ] && { echo '$CMSSW_BASE not set'; exit 1; }
+  [ X"$SCRAM_ARCH" = X ] && { echo '$SCRAM_ARCH not set'; exit 1; }
+
+  set -e
+  for tool in %i/etc/scramconfig/*.xml; do
+   toolname=$(basename $tool | sed 's/\.xml$//')
+   (set -x; scram tool remove $toolname)
+   cp -p $tool $CMSSW_BASE/config/toolbox/$SCRAM_ARCH/tools/selected
+   (set -x; scram setup -f $tool $toolname)
+  done
 END_OF_SCRIPT
 
 # Script to patch the server from the local developer area.  The user's
@@ -280,6 +314,7 @@ chmod a+x %i/etc/*-*
 %{relocateConfig}etc/crontab
 %{relocateConfig}etc/profile.d/env.sh
 %{relocateConfig}etc/profile.d/env.csh
+%{relocateConfig}etc/scramconfig/*.xml
 perl -w -e '
   ($oldroot, $newroot, @files) = @ARGV;
   foreach $f (@files) {
