@@ -1,6 +1,7 @@
 ### RPM external spidermonkey 1.8.0_rc1
-%define realver %(echo -n %v|sed s/_/-/g)
-Source: http://ftp.mozilla.org/pub/mozilla.org/js/js-%{realver}.tar.gz
+%define realver %(echo -n %{v}|tr _ -)
+Source: http://ftp.mozilla.org/pub/mozilla.org/js/js-1.8.0-rc1.tar.gz
+
 
 %prep
 %setup -n js
