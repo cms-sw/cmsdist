@@ -1,46 +1,29 @@
-### RPM cms coral-tool-conf CMS_152f
-%if "%{?use_system_gcc:set}" != "set"
-Requires: gcc-toolfile
-Requires: gmake
-%endif
-
-%if "%{?online_release:set}" != "set"
-Requires: zlib
+### RPM cms coral-tool-conf 1.0
+# with cmsBuild, change the above version only when a new tool is added
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
+Requires: pcre
+Requires: uuid
+Requires: python
 Requires: expat
-Requires: openssl
-Requires: db4
-Requires: gdbm
-Requires: qt
-Requires: castor
-Requires: mysql
-Requires: libpng
-Requires: libjpg
-Requires: dcap
-Requires: oracle
+Requires: boost
+Requires: frontier_client
+Requires: sqlite
 Requires: oracle-env
-Requires: p5-dbd-oracle
-Requires: libungif
-Requires: libtiff
-Requires: xerces-c
+
+%if "%online" != "true"
+Requires: gcc-toolfile
+Requires: gcc
+Requires: zlib
+Requires: openssl
 Requires: cppunit
+Requires: xerces-c
+Requires: oracle
 Requires: systemtools
 %else
 Requires: onlinesystemtools
 %define onlinesystemtoolsroot ${ONLINESYSTEMTOOLS_ROOT}
 %endif
-
-Requires: python
-Requires: pcre
-Requires: bz2lib
-Requires: uuid
-Requires: gccxml
-Requires: boost
-Requires: gsl
-Requires: clhep
-Requires: root
-Requires: frontier_client
-Requires: sqlite
-Requires: seal
 
 %define skipreqtools %{nil}
 %define skipreqtools jcompiler
