@@ -165,4 +165,3 @@ rm -f %i/share/doc/python/Demo/rpc/test
 %post
 find $RPM_INSTALL_PREFIX/%pkgrel/lib -type l | xargs ls -la | sed -e "s|.*[ ]\(/.*\) -> \(.*\)| \2 \1|;s|[ ]/[^ ]*/external| $RPM_INSTALL_PREFIX/%cmsplatf/external|g" | xargs -n2 ln -sf
 %{relocateConfig}etc/scram.d/%n
-%{relocateConfig}lib/python2.6/config/Makefile
