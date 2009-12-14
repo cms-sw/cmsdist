@@ -6,6 +6,7 @@
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
 %define downloadv %(echo %realversion | cut -d"_" -f1)
 Requires: expat bz2lib db4 gdbm
+Provides: libpython2.4.so.1.0
 
 %if "%online" != "true"
 Requires: zlib openssl
