@@ -17,10 +17,11 @@ Patch4: libjpg-makefile.cfg
 
 %build
 # libjpg ships with an old version of config.sub. 
-if [ "$(uname -m)" == "x86_64" ] || [ "$(uname -m)" == "ppc64" ]
-then
-cp %{_sourcedir}/config.sub-amd64 config.sub
-fi
+case %cmsos in 
+  slc*_amd64 )
+    cp %{_sourcedir}/config.sub-amd64 config.sub
+  ;;
+esac
 ./configure --prefix=%{i} --enable-shared --enable-static
 
 make %makeprocesses
