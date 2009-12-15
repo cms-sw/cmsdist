@@ -1,4 +1,4 @@
-### RPM cms das V02_00_06
+### RPM cms das V02_00_07
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PYTHONPATH $WMCORE_ROOT/src/python
 ## INITENV +PATH PYTHONPATH %i/src/python
@@ -6,6 +6,8 @@
 ## INITENV +PATH PYTHONPATH $DAS_ROOT/src/python
 
 %define cvstag %{realversion}
+%define arch `uname -p`
+%define pver `echo $PYTHON_VERSION | cut -d. -f1,2`
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=COMP/DAS&nocache=true&export=DAS&tag=-r%{cvstag}&output=/das.tar.gz
 Requires: python cherrypy py2-cheetah sqlite py2-pysqlite py2-sqlalchemy yui elementtree memcached py2-memcached mongo-bin py2-pymongo py2-cjson wmcore-webtools
@@ -14,6 +16,8 @@ Requires: python cherrypy py2-cheetah sqlite py2-pysqlite py2-sqlalchemy yui ele
 %prep
 %setup -n DAS
 %build
+python setup.py build
+cp build/lib.linux-%{arch}-%{pver}/extensions/das_speed_utils.so src/python/DAS/extensions/
 
 %install
 mkdir -p %{i}/bin
