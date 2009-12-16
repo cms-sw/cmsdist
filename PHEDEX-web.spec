@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-web WEB_3_1_2a
+### RPM cms PHEDEX-web WEB_3_1_2
 #
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -24,7 +24,6 @@ Provides: perl(DB_File)
 Provides: perl(XML::LibXML)
 
 # We obsolete each previous release to force them to be removed
-Obsoletes: cms+PHEDEX-web+WEB_3_1_2
 Obsoletes: cms+PHEDEX-web+WEB_3_1_1b
 Obsoletes: cms+PHEDEX-web+WEB_3_1_1a
 Obsoletes: cms+PHEDEX-web+WEB_3_1_1
