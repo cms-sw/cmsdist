@@ -1,18 +1,21 @@
-### RPM external python 2.4.2-CMS19
+### RPM external python 2.4.2_CMS19
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 # OS X patches and build fudging stolen from fink
-
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
+%define downloadv %(echo %realversion | cut -d"_" -f1)
 Requires: expat bz2lib db4 gdbm
+Provides: libpython2.4.so.1.0
 
-%if "%{?online_release:set}" != "set"
+%if "%online" != "true"
 Requires: zlib openssl
 %endif
 
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, tk/tcl, x11
 
-Source0: http://www.python.org/ftp/%n/%realversion/Python-%realversion.tgz
+Source0: http://www.python.org/ftp/%n/%downloadv/Python-%downloadv.tgz
 Patch0: python-Include-pyport.h
 Patch1: python-Lib-plat-mac-applesingle.py
 Patch2: python-Lib-site.py
@@ -23,7 +26,7 @@ Patch6: python-setup.py
 
 
 %prep
-%setup -n Python-%realversion
+%setup -n Python-%downloadv
 #%patch0
 #%patch1
 #%patch2
@@ -51,7 +54,7 @@ perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" Lib/cgi.py
 # whether we like to pick up system libraries or want total control.
 mkdir -p %i/include %i/lib
 
-%if "%{?online_release:set}" != "set"
+%if "%online" != "true"
 %define extradirs $ZLIB_ROOT $OPENSSL_ROOT 
 %else
 %define extradirs %{nil}
@@ -97,7 +100,7 @@ make %makeprocesses
 
 %install
 make install
-%define pythonv %(echo %realversion | cut -d. -f 1,2)
+%define pythonv %(echo %downloadv | cut -d. -f 1,2)
 
 #if [ $(uname) = Darwin ]; then
   # make install prefix=%i 
@@ -130,11 +133,16 @@ perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
 rm  `find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*'`
 rm  `find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*'`
 
+%if "%online" == "true"
+# remove tkinter that brings dependency on libtk:
+find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
+%endif
+
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=%n version=%v>
+<Tool name=%n version=%downloadv>
 <lib name=python2.4>
 <Client>
  <Environment name=PYTHON_BASE default="%i"></Environment>
@@ -143,6 +151,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
  <Environment name=PYTHON_COMPILE default="$PYTHON_BASE/lib/python2.4/compileall.py"></Environment>
 </Client>
 <use name=sockets>
+<Runtime name=PYTHONHOME value="$PYTHON_BASE">
 <Runtime name=PATH value="$PYTHON_BASE/bin" type=path>
 </Tool>
 EOF_TOOLFILE
