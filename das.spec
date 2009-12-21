@@ -1,4 +1,4 @@
-### RPM cms das V02_00_04
+### RPM cms das V02_00_08
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PYTHONPATH $WMCORE_ROOT/src/python
 ## INITENV +PATH PYTHONPATH %i/src/python
@@ -6,13 +6,18 @@
 ## INITENV +PATH PYTHONPATH $DAS_ROOT/src/python
 
 %define cvstag %{realversion}
+%define arch `uname -p`
+%define pver `echo $PYTHON_VERSION | cut -d. -f1,2`
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=COMP/DAS&nocache=true&export=DAS&tag=-r%{cvstag}&output=/das.tar.gz
 Requires: python cherrypy py2-cheetah sqlite py2-pysqlite py2-sqlalchemy yui elementtree memcached py2-memcached mongo-bin py2-pymongo py2-cjson wmcore-webtools
+#Requires: python cherrypy py2-cheetah sqlite py2-pysqlite py2-sqlalchemy yui elementtree memcached py2-memcached mongo py2-pymongo py2-cjson wmcore-webtools
 
 %prep
 %setup -n DAS
 %build
+python setup.py build
+cp build/lib.linux-%{arch}-%{pver}/extensions/das_speed_utils.so src/python/DAS/extensions/
 
 %install
 mkdir -p %{i}/bin
@@ -22,10 +27,6 @@ mkdir -p %{i}/logs
 mkdir -p %{i}/etc/profile.d
 mkdir -p %{i}/etc/init.d
 cp -r bin doc etc src test %i
-
-# copy init script
-cp bin/das_web %{i}/etc/init.d
-chmod a+x %{i}/etc/init.d/*
 
 # This will generate the correct dependencies-setup.sh/dependencies-setup.csh
 # using the information found in the Requires statements of the different
@@ -56,6 +57,11 @@ perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependen
 export HOSTNAME=`hostname`
 export IP=`host $HOSTNAME | awk '{print $4}'`
 . $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+
+# make appropriate links to DAS services
+ln -s $DAS_ROOT/bin/das_web $DAS_ROOT/etc/init.d/das_web
+ln -s $DAS_ROOT/bin/das_map $DAS_ROOT/etc/init.d/das_map
+ln -s $DAS_ROOT/bin/das_cacheserver $DAS_ROOT/etc/init.d/das_cacheserver
 
 cat $DAS_ROOT/etc/das.cfg |  sed "s,^dir =.*,dir = $DAS_ROOT/cache,g" |\
 sed "s,logdir = /tmp,logdir = $DAS_ROOT/logs,g" |\
