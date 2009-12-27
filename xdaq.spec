@@ -9,6 +9,7 @@ Source: svn://svn.cern.ch/reps/cmsos/releases/baseline9/trunk/?scheme=svn+ssh&re
 
 Patch0: xdaq_build
 Patch1: xdaq_mfDefs_flags
+Patch2: xdaq_VR15544_gcc44
 
 Provides: /bin/awk
 
@@ -17,8 +18,7 @@ Provides: /bin/awk
 
 %patch0 -p1
 %patch1 -p4
-ls
-echo " Install root in prep:" %{i}    %{pkginstroot}
+%patch2 -p1
 
 %build
 # Xdaq does not provide makeinstall,  it uses "simplify" script instead to 
