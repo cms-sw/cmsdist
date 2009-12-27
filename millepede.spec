@@ -27,6 +27,7 @@ case %gccver in
 esac
 
 perl -p -i -e "s!-lshift!-L$CASTOR_ROOT/lib -lshift!" Makefile
+perl -p -i -e "s!C_INCLUDEDIRS =!C_INCLUDEDIRS = -I$CASTOR_ROOT/include!" Makefile
 
 %build
 make %makeprocesses
