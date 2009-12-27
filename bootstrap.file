@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.73 $
+# Revision: $Revision: 1.72 $
 
 set -e
 
@@ -332,16 +332,7 @@ generateSeedSpec () {
     # GL asound odbc java libtcl libtk
     [ "X$verbose" = Xtrue ] && echo && echo "...Seeding RPM database from selected system RPMs." 1>&2
     
-    # Decide which seeds to use. Notice that in case
-    # rhXYZ_WWW_ does not exists we try to use
-    # rhX_WWW_ platformSeeds before dropping to
-    # the (optional) platformSeeds. 
     requiredSeeds=$(eval echo $`cmsos`_platformSeeds)
-    if [ "X$requiredSeeds" = X ]
-    then
-      requiredSeeds=$(eval echo $`cmsos | sed -e 's|\([0-9]\)[0-9]*|\1|'`_platformSeeds)
-    fi
-
     if [ "X$requiredSeeds" = X ]
     then
       seed="$platformSeeds"

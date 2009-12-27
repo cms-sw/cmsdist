@@ -135,15 +135,6 @@ slc*)
                  fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
                  libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
                  libXrender libXpm"
-
-  # Add rh5* (not SLC5) as supported distribution.
-  rh5_ia32_platformSeeds=$slc5_ia32_platformSeeds
-  rh5_amd64_platformSeeds=$slc5_amd64_platformSeeds
-
-  # This bit here is needed in case we are using the old cmsos
-  # which was erroneously only reporting the platform, but not the
-  # architecture.
-  rh5_platformSeeds=$slc5_amd64_platformSeeds
   ;;
 esac
 
@@ -202,9 +193,6 @@ mkdir -p %{i}/etc/profile.d
  echo "slc4_ia32_platformSeeds=\"$slc4_ia32_platformSeeds\""; \
  echo "slc5_ia32_platformSeeds=\"$slc5_ia32_platformSeeds\""; \
  echo "slc5_amd64_platformSeeds=\"$slc5_amd64_platformSeeds\""; \
- echo "rh5_ia32_platformSeeds=\"$rh5_ia32_platformSeeds\""; \
- echo "rh5_amd64_platformSeeds=\"$rh5_amd64_platformSeeds\""; \
- echo "rh5_platformSeeds=\"$rh5_platformSeeds\""; \
  echo "packageList=\"`echo $packageList`\""; \
  echo "additionalProvides=\"$additionalProvides\""; \
  echo "unsupportedProvides=\"$unsupportedProvides\""; \
@@ -219,9 +207,6 @@ mkdir -p %{i}/etc/profile.d
  echo "slc4_ia32_platformSeeds=\"$slc4_ia32_platformSeeds \""; \
  echo "slc5_ia32_platformSeeds=\"$slc5_ia32_platformSeeds $slc5_compPackages\""; \
  echo "slc5_amd64_platformSeeds=\"$slc5_amd64_platformSeeds $slc5_compPackages\""; \
- echo "rh5_ia32_platformSeeds=\"$rh5_ia32_platformSeeds\""; \
- echo "rh5_amd64_platformSeeds=\"$rh5_amd64_platformSeeds\""; \
- echo "rh5_platformSeeds=\"$rh5_platformSeeds\""; \
  echo "packageList=\"`echo $packageList`\""; \
  echo "additionalProvides=\"$additionalProvides\""; \
  echo "unsupportedProvides=\"$unsupportedProvides\""; \
