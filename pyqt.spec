@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 ## BUILDIF case %cmsplatf in osx*) false;; *) true;; esac
 Source: http://www.riverbankcomputing.co.uk/static/Downloads/PyQt4/PyQt-x11-gpl-%realversion.tar.gz
-Patch0: pyqt-relocatable-build.patch
+Patch0: pyqt-relocatable-build
 Requires: python
 Requires: qt
 Requires: sip

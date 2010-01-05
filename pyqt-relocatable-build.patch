@@ -1,9 +1,9 @@
-diff --git a/qtdirs.cpp b/qtdirs.cpp
-index 62e4de2..88cd68b 100644
---- a/qtdirs.cpp
-+++ b/qtdirs.cpp
-@@ -1,9 +1,12 @@
- #include <QFile>
+diff --git a/configure.py b/configure.py
+index 8e77a38..cfc4c7c 100644
+--- a/configure.py
++++ b/configure.py
+@@ -1658,9 +1658,13 @@ SOURCES = %s
+ """#include <QFile>
  #include <QLibraryInfo>
  #include <QTextStream>
 +#include <QCoreApplication>
@@ -11,8 +11,9 @@ index 62e4de2..88cd68b 100644
 -int main(int, char **)
 +int main(int argc, char **argv)
  {
++    // A QCoreApplication is needed to make sure qt.conf is
++    // read and handled correctly.
 +    QCoreApplication *app = new QCoreApplication(argc, argv);
-+
-     QFile outf("qtdirs.out");
+     QFile outf("%s");
  
      if (!outf.open(QIODevice::WriteOnly|QIODevice::Truncate|QIODevice::Text))
