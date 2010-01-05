@@ -1,0 +1,18 @@
+diff --git a/qtdirs.cpp b/qtdirs.cpp
+index 62e4de2..88cd68b 100644
+--- a/qtdirs.cpp
++++ b/qtdirs.cpp
+@@ -1,9 +1,12 @@
+ #include <QFile>
+ #include <QLibraryInfo>
+ #include <QTextStream>
++#include <QCoreApplication>
+ 
+-int main(int, char **)
++int main(int argc, char **argv)
+ {
++    QCoreApplication *app = new QCoreApplication(argc, argv);
++
+     QFile outf("qtdirs.out");
+ 
+     if (!outf.open(QIODevice::WriteOnly|QIODevice::Truncate|QIODevice::Text))

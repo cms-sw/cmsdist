@@ -2,14 +2,24 @@
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 ## BUILDIF case %cmsplatf in osx*) false;; *) true;; esac
 Source: http://www.riverbankcomputing.co.uk/static/Downloads/PyQt4/PyQt-x11-gpl-%realversion.tar.gz
+Patch0: pyqt-relocatable-build.patch
 Requires: python
 Requires: qt
 Requires: sip
 
 %prep
 %setup -n PyQt-x11-gpl-%realversion
+# pyqt builds and uses an helper program "qtdirs" to determine where qt is installed.
+# We had to patch its sources so that it reads the configuration file qt.conf
+# like other qt applications, so that we get the correctly relocated information.
+# Notice that in %build we copy qt.conf from the QT installation to get the correct 
+# location.
+%patch0 -p1
 
 %build
+# See above for explanation.
+cp $QT_ROOT/bin/qt.conf . 
+
 echo yes | python ./configure.py --verbose -b %i/bin -d %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages \
                                  -e %i/include \
                                 `find $QT_ROOT/include/ -type d | xargs -n 1 basename| grep -v include | xargs echo | sed -e 's| | --enable=|g;s|^|--enable=|'` 
