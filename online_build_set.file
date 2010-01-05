@@ -9,6 +9,7 @@ Alignment/MuonAlignment
 Alignment/MuonAlignmentAlgorithms
 Alignment/OfflineValidation
 Alignment/TrackerAlignment
+AnalysisDataFormats/SiStripClusterInfo
 AnalysisDataFormats/TrackInfo
 CalibCalorimetry/CaloTPG
 CalibCalorimetry/EcalLaserCorrection
