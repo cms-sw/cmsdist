@@ -9,7 +9,6 @@ Alignment/MuonAlignment
 Alignment/MuonAlignmentAlgorithms
 Alignment/OfflineValidation
 Alignment/TrackerAlignment
-AnalysisDataFormats/SiStripClusterInfo
 AnalysisDataFormats/TrackInfo
 CalibCalorimetry/CaloTPG
 CalibCalorimetry/EcalLaserCorrection
@@ -75,6 +74,7 @@ CondCore/RPCPlugins
 CondCore/RunInfoPlugins
 CondCore/SiPixelPlugins
 CondCore/SiStripPlugins
+CondCore/TagCollection
 CondCore/Utilities
 CondFormats/Alignment
 CondFormats/AlignmentRecord
@@ -162,6 +162,7 @@ DQM/TrigXMonitor
 DQMServices/ClientConfig
 DQMServices/Core
 DQMServices/Diagnostic
+DataFormats/Alignment
 DataFormats/BTauReco
 DataFormats/BeamSpot
 DataFormats/CLHEP
@@ -201,7 +202,6 @@ DataFormats/L1GlobalMuonTrigger
 DataFormats/L1GlobalTrigger
 DataFormats/L1Trigger
 DataFormats/LTCDigi
-DataFormats/LaserAlignment
 DataFormats/Luminosity
 DataFormats/METReco
 DataFormats/Math
@@ -211,7 +211,6 @@ DataFormats/MuonReco
 DataFormats/MuonSeed
 DataFormats/ParticleFlowCandidate
 DataFormats/ParticleFlowReco
-DataFormats/PatCandidates
 DataFormats/Provenance
 DataFormats/RPCDigi
 DataFormats/RPCRecHit
@@ -276,6 +275,7 @@ EventFilter/SiStripRawToDigi
 EventFilter/StorageManager
 EventFilter/Utilities
 FWCore/Catalog
+FWCore/Common
 FWCore/FWLite
 FWCore/Framework
 FWCore/MessageLogger
