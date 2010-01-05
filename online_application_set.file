@@ -341,6 +341,7 @@ EventFilter/RawDataCollector
 DataFormats/RoadSearchSeed
 Alignment/HIPAlignmentAlgorithm
 AnalysisDataFormats/TrackInfo
+AnalysisDataFormats/SiStripClusterInfo
 CondTools/Ecal
 DataFormats/RoadSearchCloud
 DataFormats/Scalers
@@ -348,4 +349,3 @@ L1Trigger/HardwareValidation
 PhysicsTools/CandUtils
 PhysicsTools/IsolationUtils
 RecoTracker/SpecialSeedGenerators
-
