@@ -13,7 +13,6 @@ CalibTracker/SiPixelIsAliveCalibration
 CalibTracker/SiPixelSCurveCalibration
 CalibTracker/SiStripESProducers
 CalibTracker/SiStripLorentzAngle
-CalibTracker/SiStripQuality
 Calibration/HcalIsolatedTrackReco
 CommonTools/CandAlgos
 CondCore/AlignmentPlugins
@@ -85,6 +84,7 @@ DQM/SiPixelMonitorRecHit
 DQM/SiPixelMonitorTrack
 DQM/SiStripCommissioningAnalysis
 DQM/SiStripCommissioningClients
+DQM/SiStripCommissioningDbClients
 DQM/SiStripCommissioningSources
 DQM/SiStripCommissioningSummary
 DQM/SiStripCommon
