@@ -338,7 +338,6 @@ scramver=`cat config/scram_version`
 %scramcmd install -f
 # relocate the externals ...
 # (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.pl --arch %cmsplatf --nolink INCLUDE) || true
-echo "relocating links in external/%cmsplatf"
 cd   external/%cmsplatf
 for L in `find . -type l -maxdepth 2`; do
    mv $L $L-old; ln -s `readlink -n $L-old 2>&1 | sed -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" ` $L ; rm $L-old;
