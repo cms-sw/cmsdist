@@ -1,11 +1,9 @@
-### RPM external couchdb 0.10.0
+### RPM external couchdb 0.10.1
 
-#Source: http://mirror.jimbojay.com/apache/%n/%realversion/apache-%n-%realversion.tar.gz
-Source: http://mirror.switch.ch/mirror/apache/dist/%n/%realversion/apache-%n-%realversion.tar.gz
-Requires: gcc curl spidermonkey openssl icu4c erlang
+Source: http://apache.mirror.testserver.li/couchdb/%{v}/apache-%n-%realversion.tar.gz
+Requires: curl spidermonkey openssl icu4c erlang
 
 %prep
-#%setup -n %n-%{realversion}
 %setup -n apache-%n-%{realversion}
 
 %build

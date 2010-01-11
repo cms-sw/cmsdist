@@ -1,6 +1,7 @@
-### RPM external erlang R12B-5
-Source: http://erlang.org/download/otp_src_R12B-5.tar.gz
-Requires: gcc openssl
+### RPM external erlang R12B_5
+%define downloadv %(echo %realversion | tr _ -)
+Source: http://erlang.org/download/otp_src_%{downloadv}.tar.gz
+Requires: openssl
 
 # 32-bit
 Provides: libc.so.6(GLIBC_PRIVATE)
@@ -8,7 +9,7 @@ Provides: libc.so.6(GLIBC_PRIVATE)
 Provides: libc.so.6(GLIBC_PRIVATE)(64bit)
 
 %prep
-%setup -n otp_src_R12B-5
+%setup -n otp_src_%{downloadv}
 
 %build
 ./configure --prefix=%i
@@ -26,7 +27,7 @@ chmod a+x %i/lib/erlang/bin/erl
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=Erlang version=%v>
+<Tool name=Erlang version=%{realver}>
 <lib name=erlang>
 <client>
  <Environment name=ERLANG_BASE default="%i"></Environment>
