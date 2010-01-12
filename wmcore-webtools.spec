@@ -1,8 +1,8 @@
-### RPM cms wmcore-webtools CERNOIDv02
+### RPM cms wmcore-webtools WMCORE_0_1_1_pre17
 ## INITENV +PATH PYTHONPATH %i/lib
 
 #Source: none
-Requires: wmcore cherrypy py2-cheetah py2-openid
+Requires: wmcore cherrypy py2-cheetah py2-openid yui
 
 %prep
 %build
