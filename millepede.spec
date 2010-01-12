@@ -41,21 +41,20 @@ cp bin/* %i/bin
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 # millepede tool file
-cat << \EOF_TOOLFILE >%i/etc/scram.d/millepede
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=millepede version=%v>
-<info url="http://www.wiki.terascale.de/index.php/Millepede_II"></info>
-<Client>
- <Environment name=MILLEPEDE_BASE default="%i"></Environment>
-</Client>
-<use name=sockets>
-<use name=pcre>
-<use name=zlib>
-<Runtime name=PATH value="$MILLEPEDE_BASE/bin" type=path>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/millepede.xml
+  <tool name="millepede" version="%v">
+    <info url="http://www.wiki.terascale.de/index.php/Millepede_II"/>
+    <client>
+      <environment name="MILLEPEDE_BASE" default="%i"/>
+    </client>
+    <runtime name="PATH" value="$MILLEPEDE_BASE/bin" type="path"/>
+    <use name="sockets"/>
+    <use name="pcre"/>
+    <use name="zlib"/>
+  </tool>
 EOF_TOOLFILE
 
 %post
-%{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/scram.d/%n.xml
 
 

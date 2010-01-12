@@ -115,106 +115,103 @@ rm -rf %i/source
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.1>
-<Tool name=GEANT4 version=%v>
-<info url=http://wwwinfo.cern.ch/asd/geant4/geant4.html></info>
-<lib name=G4digits_hits>
-<lib name=G4error_propagation>
-<lib name=G4event>
-<lib name=G4FR>
-<lib name=G4geometry>
-<lib name=G4global>
-<lib name=G4graphics_reps>
-<lib name=G4intercoms>
-<lib name=G4interfaces>
-<lib name=G4materials>
-<lib name=G4modeling>
-<lib name=G4parmodels>
-<lib name=G4particles>     
-<lib name=G4persistency>
-<lib name=G4physicslists>
-<lib name=G4processes>
-<lib name=G4RayTracer>
-<lib name=G4readout>
-<lib name=G4run>
-<lib name=G4tracking>
-<lib name=G4track>
-<lib name=G4Tree>
-<lib name=G4visHepRep>
-<lib name=G4vis_management>
-<lib name=G4visXXX>
-<lib name=G4VRML>
-<Client>
-<Environment name=GEANT4_BASE default="%i"></Environment>
-<Environment name=LIBDIR default="$GEANT4_BASE/lib"></Environment>
-<Environment name=G4LIB value="$LIBDIR"></Environment>
-<Environment name=INCLUDE default="$GEANT4_BASE/include"></Environment>
-</Client>
-<use name=clhep>
-<Flags CPPDEFINES="G4USE_STD_NAMESPACE GNU_GCC G4V9">
-<Runtime name=G4LEVELGAMMADATA value="$GEANT4_BASE/data/PhotonEvaporation2.0" type=path>
-<Runtime name=G4NEUTRONHPDATA value="$GEANT4_BASE/data/G4NDL3.13" type=path>
-<Runtime name=G4RADIOACTIVEDATA value="$GEANT4_BASE/data/RadioactiveDecay3.2" type=path>
-<Runtime name=G4LEDATA value="$GEANT4_BASE/data/G4EMLOW6.2" type=path>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="GEANT4" version="%v">
+    <info url="http://wwwinfo.cern.ch/asd/geant4/geant4.html"/>
+    <lib name="G4digits_hits"/>
+    <lib name="G4error_propagation"/>
+    <lib name="G4event"/>
+    <lib name="G4FR"/>
+    <lib name="G4geometry"/>
+    <lib name="G4global"/>
+    <lib name="G4graphics_reps"/>
+    <lib name="G4intercoms"/>
+    <lib name="G4interfaces"/>
+    <lib name="G4materials"/>
+    <lib name="G4modeling"/>
+    <lib name="G4parmodels"/>
+    <lib name="G4particles"/>
+    <lib name="G4persistency"/>
+    <lib name="G4physicslists"/>
+    <lib name="G4processes"/>
+    <lib name="G4RayTracer"/>
+    <lib name="G4readout"/>
+    <lib name="G4run"/>
+    <lib name="G4tracking"/>
+    <lib name="G4track"/>
+    <lib name="G4Tree"/>
+    <lib name="G4visHepRep"/>
+    <lib name="G4vis_management"/>
+    <lib name="G4visXXX"/>
+    <lib name="G4VRML"/>
+    <client>
+      <environment name="GEANT4_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$GEANT4_BASE/lib"/>
+      <environment name="G4LIB" value="$LIBDIR"/>
+      <environment name="INCLUDE" default="$GEANT4_BASE/include"/>
+    </client>
+    <flags cppdefines="G4USE_STD_NAMESPACE GNU_GCC G4V9"/>
+    <runtime name="G4LEVELGAMMADATA" value="$GEANT4_BASE/data/PhotonEvaporation2.0" type="path"/>
+    <runtime name="G4NEUTRONHPDATA" value="$GEANT4_BASE/data/G4NDL3.13" type="path"/>
+    <runtime name="G4RADIOACTIVEDATA" value="$GEANT4_BASE/data/RadioactiveDecay3.2" type="path"/>
+    <runtime name="G4LEDATA" value="$GEANT4_BASE/data/G4EMLOW6.2" type="path"/>
+    <use name="clhep"/>
+  </tool>
+
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4core
-<doc type=BuildSystem::ToolDoc version=1.1>
-<Tool name=geant4core version=%v>
-<info url=http://wwwinfo.cern.ch/asd/geant4/geant4.html></info>
-<lib name=G4digits_hits>
-<lib name=G4error_propagation>
-<lib name=G4event>
-<lib name=G4geometry>
-<lib name=G4global>
-<lib name=G4graphics_reps>
-<lib name=G4intercoms>
-<lib name=G4interfaces>
-<lib name=G4materials>
-<lib name=G4parmodels>
-<lib name=G4particles>     
-<lib name=G4persistency>
-<lib name=G4physicslists>
-<lib name=G4processes>
-<lib name=G4readout>
-<lib name=G4run>
-<lib name=G4tracking>
-<lib name=G4track>
-<Client>
-<Environment name=GEANT4_BASE default="%i"></Environment>
-<Environment name=LIBDIR default="$GEANT4_BASE/lib"></Environment>
-<Environment name=G4LIB value="$LIBDIR"></Environment>
-<Environment name=INCLUDE default="$GEANT4_BASE/include"></Environment>
-</Client>
-<use name=clhep>
-<Flags CPPDEFINES="G4USE_STD_NAMESPACE GNU_GCC G4V9">
-<Runtime name=G4LEVELGAMMADATA value="$GEANT4_BASE/data/PhotonEvaporation2.0" type=path>
-<Runtime name=G4NEUTRONHPDATA value="$GEANT4_BASE/data/G4NDL3.13" type=path>
-<Runtime name=G4RADIOACTIVEDATA value="$GEANT4_BASE/data/RadioactiveDecay3.2" type=path>
-<Runtime name=G4LEDATA value="$GEANT4_BASE/data/G4EMLOW6.2" type=path>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4core.xml
+  <tool name="geant4core" version="%v">
+    <info url="http://wwwinfo.cern.ch/asd/geant4/geant4.html"/>
+    <lib name="G4digits_hits"/>
+    <lib name="G4error_propagation"/>
+    <lib name="G4event"/>
+    <lib name="G4geometry"/>
+    <lib name="G4global"/>
+    <lib name="G4graphics_reps"/>
+    <lib name="G4intercoms"/>
+    <lib name="G4interfaces"/>
+    <lib name="G4materials"/>
+    <lib name="G4parmodels"/>
+    <lib name="G4particles"/>
+    <lib name="G4persistency"/>
+    <lib name="G4physicslists"/>
+    <lib name="G4processes"/>
+    <lib name="G4readout"/>
+    <lib name="G4run"/>
+    <lib name="G4tracking"/>
+    <lib name="G4track"/>
+    <client>
+      <environment name="GEANT4_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$GEANT4_BASE/lib"/>
+      <environment name="G4LIB" value="$LIBDIR"/>
+      <environment name="INCLUDE" default="$GEANT4_BASE/include"/>
+    </client>
+    <flags cppdefines="G4USE_STD_NAMESPACE GNU_GCC G4V9"/>
+    <runtime name="G4LEVELGAMMADATA" value="$GEANT4_BASE/data/PhotonEvaporation2.0" type="path"/>
+    <runtime name="G4NEUTRONHPDATA" value="$GEANT4_BASE/data/G4NDL3.13" type="path"/>
+    <runtime name="G4RADIOACTIVEDATA" value="$GEANT4_BASE/data/RadioactiveDecay3.2" type="path"/>
+    <runtime name="G4LEDATA" value="$GEANT4_BASE/data/G4EMLOW6.2" type="path"/>
+    <use name="clhep"/>
+  </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4vis
-<doc type=BuildSystem::ToolDoc version=1.1>
-<Tool name=geant4vis version=%v>
-<info url=http://wwwinfo.cern.ch/asd/geant4/geant4.html></info>
-<lib name=G4FR>
-<lib name=G4modeling>
-<lib name=G4RayTracer>
-<lib name=G4Tree>
-<lib name=G4visHepRep>
-<lib name=G4vis_management>
-<lib name=G4visXXX>
-<lib name=G4VRML>
-<use name=geant4core>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4vis.xml
+  <tool name="geant4vis" version="%v">
+    <info url="http://wwwinfo.cern.ch/asd/geant4/geant4.html"/>
+    <lib name="G4FR"/>
+    <lib name="G4modeling"/>
+    <lib name="G4RayTracer"/>
+    <lib name="G4Tree"/>
+    <lib name="G4visHepRep"/>
+    <lib name="G4vis_management"/>
+    <lib name="G4visXXX"/>
+    <lib name="G4VRML"/>
+    <use name="geant4core"/>
+  </tool>
 EOF_TOOLFILE
-
 
 %post
-%{relocateConfig}etc/scram.d/%n
-%{relocateConfig}etc/scram.d/geant4core
-%{relocateConfig}etc/scram.d/geant4vis
+%{relocateConfig}etc/scram.d/%n.xml
+%{relocateConfig}etc/scram.d/geant4core.xml
+%{relocateConfig}etc/scram.d/geant4vis.xml

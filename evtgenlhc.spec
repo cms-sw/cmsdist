@@ -21,18 +21,17 @@ make
 tar -c lib EvtGen EvtGenBase EvtGenModels DecFiles | tar -x -C %i
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=evtgenlhc version=%v>
-<Client>
- <Environment name=EVTGENLHC_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$EVTGENLHC_BASE/lib"></Environment>
- <Environment name=INCLUDE default="$EVTGENLHC_BASE"></Environment>
-</Client>
-<lib name=evtgenlhc>
-<use name=clhep>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="evtgenlhc" version="%v">
+    <lib name="evtgenlhc"/>
+    <client>
+      <environment name="EVTGENLHC_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$EVTGENLHC_BASE/lib"/>
+      <environment name="INCLUDE" default="$EVTGENLHC_BASE"/>
+    </client>
+    <use name="clhep"/>
+  </tool>
 EOF_TOOLFILE
 
 %post
-%{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/scram.d/%n.xml

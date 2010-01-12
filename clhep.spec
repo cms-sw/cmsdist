@@ -51,31 +51,29 @@ rm %i/lib/libCLHEP-[A-Z]*-%realversion.$so
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=%n version=%v>
-<info url="http://wwwinfo.cern.ch/asd/lhc++/clhep"></info>
-<lib name=CLHEP-%realversion>
-<Client>
- <Environment name=CLHEP_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$CLHEP_BASE/lib"></Environment>
- <Environment name=INCLUDE default="$CLHEP_BASE/include"></Environment>
-</Client>
-<Runtime name=CLHEP_PARAM_PATH value="$CLHEP_BASE">
-<Runtime name=LD_LIBRARY_PATH value="$CLHEP_BASE/lib" type=path>
-<Runtime name=CMSSW_FWLITE_INCLUDE_PATH value="$CLHEP_BASE/include" type=path>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="clhep" version="%v">
+    <info url="http://wwwinfo.cern.ch/asd/lhc++/clhep"/>
+    <lib name="CLHEP-%realversion"/>
+    <client>
+      <environment name="CLHEP_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$CLHEP_BASE/lib"/>
+      <environment name="INCLUDE" default="$CLHEP_BASE/include"/>
+    </client>
+    <runtime name="CLHEP_PARAM_PATH" value="$CLHEP_BASE"/>
+    <runtime name="LD_LIBRARY_PATH" value="$CLHEP_BASE/lib" type="path"/>
+    <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$CLHEP_BASE/include" type="path"/>
+  </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/clhepheader
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=clhepheader version=%v>
-<info url="http://wwwinfo.cern.ch/asd/lhc++/clhep"></info>
-<Client>
- <Environment name=CLHEP_BASE default="%i"></Environment>
- <Environment name=INCLUDE default="$CLHEP_BASE/include"></Environment>
-</Client>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/clhepheader.xml
+  <tool name="clhepheader" version="%v">
+    <info url="http://wwwinfo.cern.ch/asd/lhc++/clhep"/>
+    <client>
+      <environment name="CLHEPHEADER_BASE" default="%i"/>
+      <environment name="INCLUDE"    default="$CLHEPHEADER_BASE/include"/>
+    </client>
+  </tool>
 EOF_TOOLFILE
 
 %post
@@ -91,5 +89,5 @@ EOF_TOOLFILE
 %{relocateConfig}bin/Units-config
 %{relocateConfig}bin/Vector-config
 %{relocateConfig}bin/clhep-config
-%{relocateConfig}etc/scram.d/%n
-%{relocateConfig}etc/scram.d/clhepheader
+%{relocateConfig}etc/scram.d/%n.xml
+%{relocateConfig}etc/scram.d/clhepheader.xml

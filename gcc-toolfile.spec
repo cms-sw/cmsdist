@@ -25,97 +25,93 @@ COMPILER_VERSION_MAJOR=`echo %cmsplatf | sed -e 's|.*gcc\([0-9]\).*|\1|'`
 # and some overall general substitutions below
 case %cmsplatf in
 slc4_ia32_gcc4* | slc5_ia32_gcc4* | slc4_amd64_gcc4* | slc5_amd64_gcc4* | slc5onl_ia32_gcc4* )
-cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
-<doc type=BuildSystem::ToolDoc version=1.1>
-<tool name=cxxcompiler version=@GCC_VERSION@ type=compiler>
-<client>
- <Environment name=GCC_BASE default="@GCC_ROOT@"></Environment>
- <Environment name=GCCBINDIR default="$GCC_BASE/bin"></Environment>
- <Environment name=CXX value="$GCCBINDIR/c++"></Environment>
-</client>
-<Flags SCRAM_COMPILER_NAME="gcc@COMPILER_VERSION@">
-<Flags CCcompiler="gcc@COMPILER_VERSION_MAJOR@">
-<Flags MODULEFLAGS="-shared">
-<Flags CXXDEBUGFLAG="-g">
-<Flags CPPDEFINES="GNU_GCC">
-<Flags CPPDEFINES="_GNU_SOURCE">
-<Flags CXXSHAREDOBJECTFLAGS="-fPIC">
-<Flags CXXFLAGS="-pedantic -ansi -pthread -pipe">
-<Flags CXXFLAGS="@GXXOPT@">
-<Flags CXXFLAGS="-felide-constructors -fmessage-length=0 -ftemplate-depth-300">
-<Flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses -Werror=array-bounds -Wno-deprecated -Werror=overflow -Werror=return-type -Werror=format-contains-nul -Werror=missing-braces -Werror=unused-value -Werror=address -fdiagnostics-show-option">
-<Flags LDFLAGS="@LDOPT@">
-<Flags CXXSHAREDFLAGS="-Wl,-E">
-<Flags SHAREDSUFFIX="so">
-<Flags SCRAM_LANGUAGE_TYPE="C++">
-<Runtime name=LD_LIBRARY_PATH value="$GCC_BASE/@GXXLIB@" type=path>
-<Runtime name=PATH value="$GCC_BASE/bin" type=path>
-</tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
+  <tool name="cxxcompiler" version="@GCC_VERSION@" type="compiler">
+    <client>
+      <environment name="GCC_BASE" default="@GCC_ROOT@"/>
+      <environment name="GCCBINDIR" default="$GCC_BASE/bin"/>
+      <environment name="CXX" value="$GCCBINDIR/c++"/>
+    </client>
+    <flags scram_compiler_name="gcc@COMPILER_VERSION@"/>
+    <flags cccompiler="gcc@COMPILER_VERSION_MAJOR@"/>
+    <flags moduleflags="-shared"/>
+    <flags cxxdebugflag="-g"/>
+    <flags cppdefines="GNU_GCC"/>
+    <flags cppdefines="_GNU_SOURCE"/>
+    <flags cxxsharedobjectflags="-fPIC"/>
+    <flags cxxflags="-pedantic -ansi -pthread -pipe"/>
+    <flags cxxflags="@GXXOPT@"/>
+    <flags cxxflags="-felide-constructors -fmessage-length=0 -ftemplate-depth-300"/>
+    <flags cxxflags="-Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses -Werror=array-bounds -Wno-deprecated -Werror=overflow -Werror=return-type -Werror=format-contains-nul -Werror=missing-braces -Werror=unused-value -Werror=address -fdiagnostics-show-option"/>
+    <flags ldflags="@LDOPT@"/>
+    <flags cxxsharedflags="-Wl,-E"/>
+    <flags sharedsuffix="so"/>
+    <flags scram_language_type="C++"/>
+    <runtime name="LD_LIBRARY_PATH" value="$GCC_BASE/@GXXLIB@" type="path"/>
+    <runtime name="PATH" value="$GCC_BASE/bin" type="path"/>
+  </tool>
 EOF_TOOLFILE
-cat << \EOF_TOOLFILE >%i/etc/scram.d/ccompiler
-<doc type=BuildSystem::ToolDoc version=1.1>
-<tool name=ccompiler version=@GCC_VERSION@ type=compiler>
-<client>
- <Environment name=GCC_BASE default="@GCC_ROOT@"></Environment>
- <Environment name=GCCBINDIR value="$GCC_BASE/bin"></Environment>
- <Environment name=CC value="$GCCBINDIR/gcc"></Environment>
-</client>
-<Flags CDEBUGFLAG="-g">
-<Flags CSHAREDOBJECTFLAGS="-fPIC">
-<Flags CFLAGS="-pthread">
-<Flags CFLAGS="-O2">
-<Flags LDFLAGS="-Wl,-E">
-<Flags CSHAREDFLAGS="-Wl,-E">
-<Flags SCRAM_COMPILER_NAME="gcc@COMPILER_VERSION@">
-<Flags SCRAM_LANGUAGE_TYPE="C">
-</tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/ccompiler.xml
+  <tool name="ccompiler" version="@GCC_VERSION@" type="compiler">
+    <client>
+      <environment name="GCC_BASE" default="@GCC_ROOT@"/>
+      <environment name="GCCBINDIR" value="$GCC_BASE/bin"/>
+      <environment name="CC" value="$GCCBINDIR/gcc"/>
+    </client>
+    <flags cdebugflag="-g"/>
+    <flags csharedobjectflags="-fPIC"/>
+    <flags cflags="-pthread"/>
+    <flags cflags="-O2"/>
+    <flags ldflags="-Wl,-E"/>
+    <flags csharedflags="-Wl,-E"/>
+    <flags scram_compiler_name="gcc@COMPILER_VERSION@"/>
+    <flags scram_language_type="C"/>
+  </tool>
 EOF_TOOLFILE
-cat << \EOF_TOOLFILE >%i/etc/scram.d/f77compiler
-<doc type=BuildSystem::ToolDoc version=1.1>
-<tool name=f77compiler version=@GCC_VERSION@ type=compiler>
-<lib name=gfortran>
-<lib name=m>
-<client>
- <Environment name=G77_BASE default="@GCC_ROOT@"></Environment>
- <Environment name=FC default="$G77_BASE/bin/gfortran"></Environment>
-</client>
-<Flags SCRAM_COMPILER_NAME="gcc@COMPILER_VERSION@">
-<Flags FFLAGS="-fno-second-underscore -Wunused -Wuninitialized -O2">
-<Flags FCO2Flag="-O2">
-<Flags FCOPTIMISED="-O2">
-<Flags FCDEBUGFLAG="-g">
-<Flags FCSHAREDOBJECTFLAGS="-fPIC">
-<Flags SCRAM_LANGUAGE_TYPE="FORTRAN">
-</tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/f77compiler.xml
+  <tool name="f77compiler" version="@GCC_VERSION@" type="compiler">
+    <lib name="gfortran"/>
+    <lib name="m"/>
+    <client>
+      <environment name="G77_BASE" default="@GCC_ROOT@"/>
+      <environment name="FC" default="$G77_BASE/bin/gfortran"/>
+    </client>
+    <flags scram_compiler_name="gcc@COMPILER_VERSION@"/>
+    <flags fflags="-fno-second-underscore -Wunused -Wuninitialized -O2"/>
+    <flags fco2flag="-O2"/>
+    <flags fcoptimised="-O2"/>
+    <flags fcdebugflag="-g"/>
+    <flags fcsharedobjectflags="-fPIC"/>
+    <flags scram_language_type="FORTRAN"/>
+  </tool>
 EOF_TOOLFILE
 ;;
 osx104_ppc32_gcc40* | osx104_ia32_gcc40* | osx105* )
-cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler
-<doc type=BuildSystem::ToolDoc version=1.1>
-<tool name=cxxcompiler version=@GCC_VERSION@ type=compiler>
-<client>
- <Environment name=GCC_BASE default="@GCC_ROOT@"></Environment>
- <Environment name=GCCBINDIR default="$GCC_BASE/bin"></Environment>
- <Environment name=CXX value="$GCCBINDIR/c++"></Environment>
-</client>
-<Flags SCRAM_COMPILER_NAME="gcc40">
-<Flags CCcompiler="gcc40">
-<Flags MODULEFLAGS=" ">
-<Flags CXXDEBUGFLAG="-g">
-<Flags CPPDEFINES="GNU_GCC">
-<Flags CPPDEFINES="_GNU_SOURCE">
-<Flags CXXSHAREDOBJECTFLAGS="-fPIC">
-<Flags CXXFLAGS="-pedantic -ansi -pipe">
-<Flags CXXFLAGS="-O2">
-<Flags CXXFLAGS="-felide-constructors -fmessage-length=0 -ftemplate-depth-300">
-<Flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses">
-<Flags LDFLAGS=" ">
-<Flags CXXSHAREDFLAGS="-dynamiclib -single_module">
-<Flags SHAREDSUFFIX="dylib">
-<Flags SCRAM_LANGUAGE_TYPE="C++">
-<Runtime name=DYLD_LIBRARY_PATH value="$GCC_BASE/lib" type=path>
-<Runtime name=PATH value="$GCC_BASE/bin" type=path>
-</tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
+  <tool name="cxxcompiler" version="@GCC_VERSION@" type="compiler">
+    <client>
+      <environment name="GCC_BASE"  default="@GCC_ROOT@"/>
+      <environment name="GCCBINDIR" default="$GCC_BASE/bin"/>
+      <environment name="CXX"       value="$GCCBINDIR/c++"/>
+    </client>
+    <flags SCRAM_COMPILER_NAME="gcc40"/>
+    <flags CCcompiler="gcc40"/>
+    <flags MODULEFLAGS=" "/>
+    <flags CXXDEBUGFLAG="-g"/>
+    <flags CPPDEFINES="GNU_GCC"/>
+    <flags CPPDEFINES="_GNU_SOURCE"/>
+    <flags CXXSHAREDOBJECTFLAGS="-fPIC"/>
+    <flags CXXFLAGS="-pedantic -ansi -pipe"/>
+    <flags CXXFLAGS="-O2"/>
+    <flags CXXFLAGS="-felide-constructors -fmessage-length=0 -ftemplate-depth-300"/>
+    <flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses"/>
+    <flags LDFLAGS=" "/>
+    <flags CXXSHAREDFLAGS="-dynamiclib -single_module"/>
+    <flags SHAREDSUFFIX="dylib"/>
+    <flags SCRAM_LANGUAGE_TYPE="C++"/>
+    <runtime name=DYLD_LIBRARY_PATH value="$GCC_BASE/lib" type="path"/>
+    <runtime name=PATH value="$GCC_BASE/bin" type="path"/>
+  </tool>
 EOF_TOOLFILE
 ;;
 esac
@@ -123,24 +119,24 @@ esac
 # Specific substitutions to the templates above (default case needed?)
 case %cmsplatf in
   slc4_ia32_gcc4* )
-    perl -p -i -e "s|\@LDOPT\@|-Wl,-E|g"   %i/etc/scram.d/cxxcompiler
-    perl -p -i -e "s|\@GXXLIB\@|lib|g"   %i/etc/scram.d/cxxcompiler
-    perl -p -i -e "s|\@GXXOPT\@|-O2 -fvisibility-inlines-hidden|g"  %i/etc/scram.d/cxxcompiler
+    perl -p -i -e "s|\@LDOPT\@|-Wl,-E|g"   %i/etc/scram.d/cxxcompiler.xml
+    perl -p -i -e "s|\@GXXLIB\@|lib|g"   %i/etc/scram.d/cxxcompiler.xml
+    perl -p -i -e "s|\@GXXOPT\@|-O2 -fvisibility-inlines-hidden|g"  %i/etc/scram.d/cxxcompiler.xml
   ;;
   slc5_ia32_gcc4* | slc5onl_ia32_gcc4* )
-    perl -p -i -e "s|\@LDOPT\@|-Wl,-E -Wl,--hash-style=gnu|g"   %i/etc/scram.d/cxxcompiler
-    perl -p -i -e "s|\@GXXLIB\@|lib|g"   %i/etc/scram.d/cxxcompiler
-    perl -p -i -e "s|\@GXXOPT\@|-O2|g"   %i/etc/scram.d/cxxcompiler
+    perl -p -i -e "s|\@LDOPT\@|-Wl,-E -Wl,--hash-style=gnu|g"   %i/etc/scram.d/cxxcompiler.xml
+    perl -p -i -e "s|\@GXXLIB\@|lib|g"   %i/etc/scram.d/cxxcompiler.xml
+    perl -p -i -e "s|\@GXXOPT\@|-O2|g"   %i/etc/scram.d/cxxcompiler.xml
   ;;
   slc4_amd64_gcc4* )
-    perl -p -i -e "s|\@LDOPT\@|-Wl,-E|g"   %i/etc/scram.d/cxxcompiler
-    perl -p -i -e "s|\@GXXLIB\@|lib64|g" %i/etc/scram.d/cxxcompiler
-    perl -p -i -e "s|\@GXXOPT\@|-O2|g"   %i/etc/scram.d/cxxcompiler
+    perl -p -i -e "s|\@LDOPT\@|-Wl,-E|g"   %i/etc/scram.d/cxxcompiler.xml
+    perl -p -i -e "s|\@GXXLIB\@|lib64|g" %i/etc/scram.d/cxxcompiler.xml
+    perl -p -i -e "s|\@GXXOPT\@|-O2|g"   %i/etc/scram.d/cxxcompiler.xml
   ;;
   slc5_amd64_gcc4* )
-    perl -p -i -e "s|\@LDOPT\@|-Wl,-E -Wl,--hash-style=gnu|g"   %i/etc/scram.d/cxxcompiler
-    perl -p -i -e "s|\@GXXLIB\@|lib64|g" %i/etc/scram.d/cxxcompiler
-    perl -p -i -e "s|\@GXXOPT\@|-O2|g"   %i/etc/scram.d/cxxcompiler
+    perl -p -i -e "s|\@LDOPT\@|-Wl,-E -Wl,--hash-style=gnu|g"   %i/etc/scram.d/cxxcompiler.xml
+    perl -p -i -e "s|\@GXXLIB\@|lib64|g" %i/etc/scram.d/cxxcompiler.xml
+    perl -p -i -e "s|\@GXXOPT\@|-O2|g"   %i/etc/scram.d/cxxcompiler.xml
   ;;
 esac
 
@@ -149,10 +145,10 @@ perl -p -i -e "s|\@GCC_ROOT\@|$GCC_ROOT|g;
                s|\@GCC_VERSION\@|$GCC_VERSION|g;
                s|\@COMPILER_VERSION\@|$COMPILER_VERSION|g;
                s|\@COMPILER_VERSION_MAJOR\@|$COMPILER_VERSION_MAJOR|g;                                        
-                                        " %i/etc/scram.d/cxxcompiler \
-                                          %i/etc/scram.d/ccompiler  \
-                                          %i/etc/scram.d/f77compiler
+                                        " %i/etc/scram.d/cxxcompiler.xml \
+                                          %i/etc/scram.d/ccompiler.xml  \
+                                          %i/etc/scram.d/f77compiler.xml
 %post
-%{relocateConfig}etc/scram.d/cxxcompiler
-%{relocateConfig}etc/scram.d/ccompiler
-%{relocateConfig}etc/scram.d/f77compiler
+%{relocateConfig}etc/scram.d/cxxcompiler.xml
+%{relocateConfig}etc/scram.d/ccompiler.xml
+%{relocateConfig}etc/scram.d/f77compiler.xml

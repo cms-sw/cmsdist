@@ -106,40 +106,31 @@ make cmsswinstall
 tar -c -C  %{_builddir}/%{releasename}/opt/%{projectname} --exclude "libcppunit.so" include lib | tar -x -C %{i}
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=TkOnlineSw version=%v>
-<info url="http://www.cern.ch/"></info>
-<lib name=ICUtils>
-<lib name=Fed9UUtils>
-<Client>
- <Environment name=TKONLINESW_BASE default="%i"></Environment>
- <Environment name=LIBDIR value="$TKONLINESW_BASE/lib"></Environment>
- <Environment name=INCLUDE value="$TKONLINESW_BASE/include"></Environment>
-</Client>
-<use name=xerces-c>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="TkOnlineSw" version="%v">
+    <info url="http://www.cern.ch/"/>
+    <lib name="ICUtils"/>
+    <lib name="Fed9UUtils"/>
+    <client>
+      <environment name="TKONLINESW_BASE" default="%i"/>
+      <environment name="LIBDIR" value="$TKONLINESW_BASE/lib"/>
+      <environment name="INCLUDE" value="$TKONLINESW_BASE/include"/>
+    </client>
+    <use name="xerces-c"/>
+  </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/tkonlineswdb
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=TkOnlineSwDB version=%v>
-<info url="http://www.cern.ch/"></info>
-<lib name=ICUtils>
-<lib name=Fed9UUtils>
-<lib name=DeviceDescriptions>
-<lib name=Fed9UDeviceFactory>
-<Client>
- <Environment name=TKONLINESW_BASE default="%i"></Environment>
- <Environment name=LIBDIR value="$TKONLINESW_BASE/lib"></Environment>
- <Environment name=INCLUDE value="$TKONLINESW_BASE/include"></Environment>
-</Client>
-<use name=xerces-c>
-<use name=oracle>
-<use name=oracleocci>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/tkonlineswdb.xml
+  <tool name="TkOnlineSwDB" version="%v">
+    <info url="http://www.cern.ch/"/>
+    <lib name="DeviceDescriptions"/>
+    <lib name="Fed9UDeviceFactory"/>
+    <use name="tkonlinesw"/>
+    <use name="oracle"/>
+    <use name="oracleocci"/>
+  </tool>
 EOF_TOOLFILE
 
 %post
-%{relocateConfig}etc/scram.d/%n
-%{relocateConfig}etc/scram.d/tkonlineswdb
+%{relocateConfig}etc/scram.d/%n.xml
+%{relocateConfig}etc/scram.d/tkonlineswdb.xml

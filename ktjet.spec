@@ -14,19 +14,18 @@ make
 make install
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=ktjet version=%v>
-<info url=http://hepforge.cedar.ac.uk/ktjet></info>
-<lib name=KtEvent>
-<Client>
-<Environment name=KTJET_BASE default="%i"></Environment>
-<Environment name=LIBDIR default="$KTJET_BASE/lib"></Environment>
-<Environment name=INCLUDE default="$KTJET_BASE/include"></Environment>
-</Client>
-<Flags CPPDEFINES="KTDOUBLEPRECISION">
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="ktjet" version="%v">
+    <info url="http://hepforge.cedar.ac.uk/ktjet"/>
+    <lib name="KtEvent"/>
+    <client>
+      <environment name="KTJET_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$KTJET_BASE/lib"/>
+      <environment name="INCLUDE" default="$KTJET_BASE/include"/>
+    </client>
+    <flags cppdefines="KTDOUBLEPRECISION"/>
+  </tool>
 EOF_TOOLFILE
 
 %post
-%{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/scram.d/%n.xml
