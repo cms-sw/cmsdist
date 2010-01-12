@@ -67,6 +67,17 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 </Tool>
 EOF_TOOLFILE
 
+cat << \EOF_TOOLFILE >%i/etc/scram.d/clhepheader
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=clhepheader version=%v>
+<info url="http://wwwinfo.cern.ch/asd/lhc++/clhep"></info>
+<Client>
+ <Environment name=CLHEP_BASE default="%i"></Environment>
+ <Environment name=INCLUDE default="$CLHEP_BASE/include"></Environment>
+</Client>
+</Tool>
+EOF_TOOLFILE
+
 %post
 %{relocateConfig}bin/Evaluator-config
 %{relocateConfig}bin/Cast-config
@@ -81,3 +92,4 @@ EOF_TOOLFILE
 %{relocateConfig}bin/Vector-config
 %{relocateConfig}bin/clhep-config
 %{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/scram.d/clhepheader
