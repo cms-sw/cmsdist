@@ -1,9 +1,11 @@
-### RPM cms coral CORAL_2_3_4
+### RPM cms coral CORAL_2_3_2
 ## IMPORT configurations 
 Provides: /bin/zsh
 Provides: libexpat.so.0
 Requires: coral-tool-conf
-Patch: coral-2_3_4-includes 
+Patch: coral-2_3_2-includes 
+Patch2: coral-2_3_2-includes2
+Patch3: coral-2_3_2-frontieraccess
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
@@ -16,6 +18,8 @@ Patch: coral-2_3_4-includes
 %define buildtarget     release-build
 
 %define patchsrc    %patch -p0
+%define patchsrc2   %patch2 -p0
+%define patchsrc3   %patch3 -p0
 
 %if "%online" == "true"
 # Disable building tests in online release,
