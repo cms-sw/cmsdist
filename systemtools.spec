@@ -27,95 +27,91 @@ Source: none
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 # Sockets
-cat << \EOF_TOOLFILE >%i/etc/scram.d/sockets
-<doc type=BuildSystem::ToolDoc version=1.1>
-<Tool name=sockets version=%sockets_version>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/sockets.xml
+  <tool name="sockets" version="%sockets_version">
 EOF_TOOLFILE
 case %cmsplatf in
 slc3_* | slc4_* | slc4onl_* | slc5_* )
-cat << \EOF_TOOLFILE >>%i/etc/scram.d/sockets
-<lib name=nsl>
-<lib name=crypt>
-<lib name=dl>
+cat << \EOF_TOOLFILE >>%i/etc/scram.d/sockets.xml
+    <lib name="nsl"/>
+    <lib name="crypt"/>
+    <lib name="dl"/>
 EOF_TOOLFILE
 ;;
 osx10* )
-cat << \EOF_TOOLFILE >>%i/etc/scram.d/sockets
-<lib name=dl>
+cat << \EOF_TOOLFILE >>%i/etc/scram.d/sockets.xml
+    <lib name="dl"/>
 EOF_TOOLFILE
 ;;
 esac
-echo "</Tool>" >>%i/etc/scram.d/sockets
+echo "  </tool>" >>%i/etc/scram.d/sockets.xml
 
 # OpenGL
-cat << \EOF_TOOLFILE >%i/etc/scram.d/opengl
-<doc type=BuildSystem::ToolDoc version=1.1>
-<Tool name=opengl version=%opengl_version>
-<use name=X11>
-<lib name=GL>
-<lib name=GLU>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/opengl.xml
+  <tool name="opengl" version="%opengl_version">
+    <lib name="GL"/>
+    <lib name="GLU"/>
+    <use name="x11"/>
 EOF_TOOLFILE
 case %cmsplatf in
 osx103* )
-cat << \EOF_TOOLFILE >>%i/etc/scram.d/opengl
-<Client>
- <Environment name=OPENGL_BASE default="/System/Library/Frameworks/OpenGL.framework/Versions/A"></Environment>
- <Environment name=INCLUDE default="$OPENGL_BASE/Headers"></Environment>
- <Environment name=LIBDIR default="$OPENGL_BASE/Libraries"></Environment>
-</Client>
+cat << \EOF_TOOLFILE >>%i/etc/scram.d/opengl.xml
+    <client>
+      <environment name="OPENGL_BASE" default="/System/Library/Frameworks/OpenGL.framework/Versions/A"/>
+      <environment name="INCLUDE"     default="$OPENGL_BASE/Headers"/>
+      <environment name="LIBDIR"      default="$OPENGL_BASE/Libraries"/>
+    </client>
 EOF_TOOLFILE
 ;;
 esac
-echo "</Tool>" >>%i/etc/scram.d/opengl 
+echo "  </tool>" >>%i/etc/scram.d/opengl.xml
 
 # X11
-cat << \EOF_TOOLFILE >%i/etc/scram.d/x11
-<doc type=BuildSystem::ToolDoc version=1.1>
-<Tool name=x11 version=%x11_version>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/x11.xml
+  <tool name="x11" version="%x11_version">
 EOF_TOOLFILE
 case %cmsplatf in
 slc3_* )
-cat << \EOF_TOOLFILE >>%i/etc/scram.d/x11
-<Client>
- <Environment name=INCLUDE value="/usr/X11R6/include"></Environment>
- <Environment name=LIBDIR value="/usr/X11R6/lib"></Environment>
-</Client>
-<lib name=Xt>
-<lib name=Xpm>
-<lib name=X11>
-<lib name=Xi>
-<lib name=Xext>
-<lib name=Xmu>
-<lib name=ICE>
-<lib name=SM>
+cat << \EOF_TOOLFILE >>%i/etc/scram.d/x11.xml
+    <client>
+      <environment name="INCLUDE" value="/usr/X11R6/include"/>
+      <environment name="LIBDIR" value="/usr/X11R6/lib"/>
+    </client>
+    <lib name="Xt"/>
+    <lib name="Xpm"/>
+    <lib name="X11"/>
+    <lib name="Xi"/>
+    <lib name="Xext"/>
+    <lib name="Xmu"/>
+    <lib name="ICE"/>
+    <lib name="SM"/>
 EOF_TOOLFILE
 ;;
 esac
-cat << \EOF_TOOLFILE >>%i/etc/scram.d/x11
-<use name=sockets>
-</Tool>
+cat << \EOF_TOOLFILE >>%i/etc/scram.d/x11.xml
+    <use name="sockets"/>
+  </tool>
 EOF_TOOLFILE
 
 # JCompiler
 %define compiler_ver        %(echo %jcompiler_version | sed -e "s|\\.||g")
-cat << \EOF_TOOLFILE >>%i/etc/scram.d/jcompiler
-<doc type=BuildSystem::ToolDoc version=1.1>
-<Tool name=jcompiler version=%jcompiler_version type=compiler>
-<Client>
- <Environment name=JAVA_BASE></Environment>
- <Environment name=JAVAC value="$JAVA_BASE/bin/javac"></Environment>
-</Client>
-<Runtime name=JAVA_HOME default="$JAVA_BASE">
-<flags JAVAC_="$(JAVAC)">
-<flags JAVAC_o="$(JAVAC) -O">
-<flags JAVAC_d="$(JAVAC) -g">
-<Flags SCRAM_COMPILER_NAME="jsdk%compiler_ver">
-<Flags SCRAM_LANGUAGE_TYPE="JAVA">
-</Tool>
+cat << \EOF_TOOLFILE >>%i/etc/scram.d/jcompiler.xml
+  <tool name="jcompiler" version="%jcompiler_version" type="compiler">
+    <client>
+      <environment name="JAVA_BASE"/>
+      <environment name="JAVAC" value="$JAVA_BASE/bin/javac"/>
+    </client>
+    <flags javac_="$(JAVAC)"/>
+    <flags javac_o="$(JAVAC) -O"/>
+    <flags javac_d="$(JAVAC) -g"/>
+    <flags scram_compiler_name="jsdk%compiler_ver"/>
+    <flags scram_language_type="JAVA"/>
+    <runtime name="JAVA_HOME" default="$JAVA_BASE"/>
+  </tool>
 EOF_TOOLFILE
 
 %post
-%{relocateConfig}etc/scram.d/sockets
-%{relocateConfig}etc/scram.d/opengl
-%{relocateConfig}etc/scram.d/x11
-%{relocateConfig}etc/scram.d/jcompiler
+%{relocateConfig}etc/scram.d/sockets.xml
+%{relocateConfig}etc/scram.d/opengl.xml
+%{relocateConfig}etc/scram.d/x11.xml
+%{relocateConfig}etc/scram.d/jcompiler.xml
