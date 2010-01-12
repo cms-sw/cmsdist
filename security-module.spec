@@ -5,7 +5,7 @@
 # Needs python >= 2.6
 Requires: wmcore-webtools
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true&module=WEBTOOLS/Applications/Security&export=%{n}&tag=-r%{v}&output=/%{n}.tar.gz
-
+Obsoletes: cms+security-module+V00_00_00
 
 %prep
 %setup -n %{n}

@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHONPATH %i/lib
 
 #Source: none
-Requires: wmcore cherrypy py2-cheetah py2-openid
+Requires: wmcore cherrypy py2-cheetah py2-openid yui
 
 %prep
 %build
