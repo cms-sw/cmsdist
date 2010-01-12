@@ -1,14 +1,10 @@
-### RPM external hepmc 2.03.06
+### RPM external hepmc 2.05.00
 Source: http://lcgapp.cern.ch/project/simu/HepMC/download/HepMC-%realversion.tar.gz
-Patch0: hepmc-2.03.06-gcc43
-Patch1: hepmc-2.03.06-reflex
 
 %prep
 %setup -q -n HepMC-%{realversion}
-%patch0 -p1
-%patch1 -p0
 
-./configure --prefix=%{i} 
+./configure --prefix=%{i} --with-momentum=GEV --with-length=MM 
 
 %build
 make 
