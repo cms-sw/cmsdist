@@ -26,7 +26,7 @@ Patch0: binutils-2.19.1-fix-gold
 %setup -T -b 0 -n gcc-%realversion 
 
 case %cmsos in
-  slc*_ia32 )
+  "slc4_ia32" | "slc5_ia32" )
 cat << \EOF_CONFIG_GCC >> gcc/config.gcc
 # CMS patch to include gcc/config/i386/t-cms when building gcc
 tm_file="$tm_file i386/cms.h"
@@ -73,7 +73,9 @@ esac
 # 64-bit system and need to produce a 32-bit capable compiler, which
 # _itself_ is a 32-bit executable.
 case $(uname -m):%{cmsos} in
-  *:slc*_ia32 )
+  *:slc4_ia32 )
+    CCOPTS="-m32 -Wa,--32" ;;
+  *:slc5_ia32 )
     CCOPTS="-m32 -Wa,--32" ;;
   * )
     CCOPTS="" ;;
