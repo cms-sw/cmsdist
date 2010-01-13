@@ -35,22 +35,21 @@ ln -sf HERWIG65.INC herwig65.inc
 tar -c lib include | tar -x -C %i
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=herwig version=%v>
-<lib name=herwig>
-<lib name=herwig_dummy>
-<Client>
- <Environment name=HERWIG_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$HERWIG_BASE/lib"></Environment>
- <Environment name=INCLUDE default="$HERWIG_BASE/include"></Environment>
-</Client>
-<use name=f77compiler>
-<use name=lhapdf>
-<use name=tauola>
-<use name=photos>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="herwig" version="%v">
+    <lib name="herwig"/>
+    <lib name="herwig_dummy"/>
+    <client>
+      <environment name="HERWIG_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$HERWIG_BASE/lib"/>
+      <environment name="INCLUDE" default="$HERWIG_BASE/include"/>
+    </client>
+    <use name="f77compiler"/>
+    <use name="lhapdf"/>
+    <use name="tauola"/>
+    <use name="photos"/>
+  </tool>
 EOF_TOOLFILE
 
 %post
-%{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/scram.d/%n.xml
