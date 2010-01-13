@@ -14,19 +14,18 @@ make install
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=HepMC version=%v>
-<lib name=HepMCfio>
-<lib name=HepMC>
-<Client>
- <Environment name=HEPMC_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$HEPMC_BASE/lib"></Environment>
- <Environment name=INCLUDE default="$HEPMC_BASE/include"></Environment>
-</Client>
-<Runtime name=CMSSW_FWLITE_INCLUDE_PATH value="$HEPMC_BASE/include" type=path>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="HepMC" version="%v">
+    <lib name="HepMCfio"/>
+    <lib name="HepMC"/>
+    <client>
+      <environment name="HEPMC_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$HEPMC_BASE/lib"/>
+      <environment name="INCLUDE" default="$HEPMC_BASE/include"/>
+    </client>
+    <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$HEPMC_BASE/include" type="path"/>
+  </tool>
 EOF_TOOLFILE
 
 %post
-%{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/scram.d/%n.xml

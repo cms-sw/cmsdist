@@ -41,18 +41,17 @@ rm %i/share/Herwig++/Doc/fixinterfaces.pl
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=herwigpp version=%v>
-<Client>
- <Environment name=HERWIGPP_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$HERWIGPP_BASE/lib"></Environment>
- <Environment name=INCLUDE default="$HERWIGPP_BASE/include"></Environment>
-</Client>
-<Runtime name=HERWIGPATH value="$HERWIGPP_BASE/share/Herwig++">
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="herwigpp" version="%v">
+    <client>
+      <environment name="HERWIGPP_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$HERWIGPP_BASE/lib"/>
+      <environment name="INCLUDE" default="$HERWIGPP_BASE/include"/>
+    </client>
+    <runtime name="HERWIGPATH" value="$HERWIGPP_BASE/share/Herwig++"/>
+  </tool>
 EOF_TOOLFILE
 
 %post
-%{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/scram.d/%n.xml
 %{relocateConfig}share/Herwig++/HerwigDefaults.rpo
