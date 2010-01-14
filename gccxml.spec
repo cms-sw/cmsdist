@@ -1,4 +1,4 @@
-### RPM external gccxml 0.9.0_20081130
+### RPM external gccxml 0.9.0_20100114
 %define gccxmlmajorver %(echo %realversion | cut -f1 -d_)
 %define gccxmlconfigver %(echo %realversion | cut -f1 -d_ | cut -f1,2 -d.)
 Requires: cmake
