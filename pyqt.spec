@@ -12,8 +12,8 @@ Requires: sip
 # pyqt builds and uses an helper program "qtdirs" to determine where qt is installed.
 # We had to patch its sources so that it reads the configuration file qt.conf
 # like other qt applications, so that we get the correctly relocated information.
-# Notice that in %build we copy qt.conf from the QT installation to get the correct 
-# location.
+# Notice that in the build section we copy qt.conf from the QT installation to 
+# get the correct location.
 %patch0 -p1
 
 %build
