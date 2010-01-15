@@ -1,4 +1,4 @@
-### RPM cms wmcore forSecMod
+### RPM cms wmcore WMCORE_0_1_1_pre18
 ## INITENV +PATH PYTHONPATH %i/lib
 %define cvstag %v
 
