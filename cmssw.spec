@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_3_5_0_pre2
+### RPM cms cmssw CMSSW_3_5_0_pre3
 
 ## IMPORT configurations 
 Requires: cmssw-tool-conf python glimpse
