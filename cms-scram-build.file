@@ -1,7 +1,7 @@
 ### FILE cms-scram-build
 
 %define cvsproj         %cvsprojuc
-%define configtag       V02-00-17
+%define configtag       V02-05-00
 %define configrepo	cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 
 %if "%{?useCmsTC:set}" != "set"

@@ -1,8 +1,8 @@
-### RPM external py2-numpy 1.0.1
+### RPM external py2-numpy 1.3.0
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 %define downloadn numpy
 Source: http://switch.dl.sourceforge.net/sourceforge/%downloadn/%downloadn-%realversion.tar.gz
-Patch0: py2-numpy-build 
+Patch0: py2-numpy-1.3.0
 Requires: python
 Requires: zlib
 %prep
