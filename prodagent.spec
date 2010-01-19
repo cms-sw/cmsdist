@@ -1,5 +1,7 @@
 ### RPM cms prodagent PRODAGENT_0_12_17_pre2
 ## INITENV +PATH PYTHONPATH %i/lib
+## INITENV +PATH PYTHONPATH $WEBTOOLS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Tools/GraphTool/src
+## INITENV +PATH PYTHONPATH $PY2_PIL_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/PIL
 #
 #The first line of this file you only edit the version name. This name
 # is equal to the with which you tagged the release in cvs. Note: if you 
