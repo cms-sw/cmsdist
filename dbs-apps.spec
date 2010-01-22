@@ -1,6 +1,5 @@
-### RPM cms dbs-apps DBS_2_0_6_pre1
+### RPM cms dbs-apps DBS_2_0_9_pre11
 
-#Requires: dbs-server dbs-client dbs-schema dbs-light dbs-web
 Requires: dbs-server dbs-client dbs-schema dbs-web
 Source: none
 
@@ -19,7 +18,6 @@ mkdir -p %{i}/etc/profile.d
  echo "source $DBS_SERVER_ROOT/etc/profile.d/init.sh"; \
  echo "source $DBS_CLIENT_ROOT/etc/profile.d/init.sh"; \
  echo "source $DBS_SCHEMA_ROOT/etc/profile.d/init.sh"; \
- echo "source $DBS_LIGHT_ROOT/etc/profile.d/init.sh"; \
  echo "source $DBS_WEB_ROOT/etc/profile.d/init.sh"; \
  ) > %{i}/etc/profile.d/dependencies-setup.sh
 
@@ -27,10 +25,25 @@ mkdir -p %{i}/etc/profile.d
  echo "source $DBS_SERVER_ROOT/etc/profile.d/init.csh"; \
  echo "source $DBS_CLIENT_ROOT/etc/profile.d/init.csh"; \
  echo "source $DBS_SCHEMA_ROOT/etc/profile.d/init.csh"; \
- echo "source $DBS_LIGHT_ROOT/etc/profile.d/init.csh"; \
  echo "source $DBS_WEB_ROOT/etc/profile.d/init.csh"; \
  ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
+# setup approripate links and made post install procedure
+. $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+
+cat > $RPM_INSTALL_PREFIX/setup_dbs.sh << DBS_INIT_EOF
+#!/bin/sh
+export MYAREA=$RPM_INSTALL_PREFIX
+export SCRAM_ARCH=$SCRAM_ARCH
+export APT_VERSION=$APT_VERSION
+source \$MYAREA/\$SCRAM_ARCH/external/apt/\$APT_VERSION/etc/profile.d/init.sh 
+source \$MYAREA/%{pkgrel}/etc/profile.d/init.sh
+DBS_INIT_EOF
+
+echo
+echo "### To setup environment for this package please use ###"
+echo $RPM_INSTALL_PREFIX/setup_dbs.sh
+
