@@ -1,4 +1,4 @@
-### RPM cms dbs-apps DBS_2_0_9_pre10
+### RPM cms dbs-apps DBS_2_0_9_pre11
 
 Requires: dbs-server dbs-client dbs-schema dbs-web
 Source: none
