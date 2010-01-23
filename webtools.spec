@@ -1,10 +1,10 @@
-### RPM cms webtools 1.3.34
+### RPM cms webtools 1.3.32
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PERL5LIB %i/lib/perl
 
 %define moduleName WEBTOOLS
 %define exportName WEBTOOLS
-%define cvstag V01-03-34
+%define cvstag V01-03-32
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
 Requires: python cherrypy py2-cheetah yui sqlite zlib py2-pysqlite expat openssl bz2lib db4 gdbm py2-cx-oracle py2-formencode py2-pycrypto oracle beautifulsoup py2-sqlalchemy oracle-env
@@ -44,8 +44,8 @@ mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 mkdir -p %i/lib/perl
 
 # copy init script
-#cp Applications/SiteDB/initscripts/start.sh %{i}/etc/init.d/
-#chmod a+x %{i}/etc/init.d/*
+cp Applications/SiteDB/initscripts/start.sh %{i}/etc/init.d/
+chmod a+x %{i}/etc/init.d/*
 
 rm -rf Applications Configuration
 cp -r SecurityModule/perl/lib/* %i/lib/perl

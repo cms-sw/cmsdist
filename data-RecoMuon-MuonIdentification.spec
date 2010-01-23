@@ -1,5 +1,5 @@
-### RPM cms data-RecoMuon-MuonIdentification 19
-%define realversion V01-02-02
+### RPM cms data-RecoMuon-MuonIdentification 20
+%define realversion V01-12-01
 
 
 ## IMPORT data-rpm-build
