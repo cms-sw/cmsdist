@@ -1,9 +1,7 @@
-### RPM external frontier_client 2.7.11
+### RPM external frontier_client 2.7.12
 Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
-
-Patch0: frontier-2.7.11-dist-tarfile
 
 Requires: expat
 %if "%online" == "true"
@@ -14,7 +12,7 @@ Requires: zlib openssl
 
 %prep
 %setup -n %{n}__%{realversion}__src
-%patch0 -p1
+
 %if "%online" != "true"
 %define makeargs "EXPAT_DIR=$EXPAT_ROOT COMPILER_TAG=gcc_$GCC_VERSION ZLIB_DIR=$ZLIB_ROOT  OPENSSL_DIR=$OPENSSL_ROOT"
 %else
