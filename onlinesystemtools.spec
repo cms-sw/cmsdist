@@ -17,7 +17,7 @@ Source: none
 %define xerces_version			2.7.0
 ## INITENV SET XERCES_C_VERSION         %xerces_version
 ## INITENV SET XERCES_C_ROOT		/opt/xdaq
-%define xdaq_version			3.24.0
+%define xdaq_version			3.28.0
 ## INITENV SET XDAQ_VERSION         	%xdaq_version
 ## INITENV SET XDAQ_ROOT         	/opt/xdaq
 %define mimetic_version			0.9.1
@@ -138,9 +138,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/curl
 <client>
  <Environment name=CURL_BASE default="/usr/"></Environment>
  <Environment name=INCLUDE default="$CURL_BASE/include"></Environment>
- <Environment name=LIBDIR  default="$CURL_BASE/lib"></Environment>
 </client>
-<Runtime name=PATH value="$CURL_BASE/bin" type=path>
 </Tool>
 EOF_TOOLFILE
 
@@ -152,7 +150,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/zlib
 <client>
  <Environment name=ZLIB_BASE default="/usr"></Environment>
  <Environment name=INCLUDE default="$ZLIB_BASE/include"></Environment>
- <Environment name=LIBDIR  default="$ZLIB_BASE/lib"></Environment>
 </client>
 </Tool>
 EOF_TOOLFILE
@@ -167,7 +164,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/openssl
 <client>
  <Environment name=OPENSSL_BASE default="/usr"></Environment>
  <Environment name=INCLUDE default="$OPENSSL_BASE/include"></Environment>
- <Environment name=LIBDIR  default="$OPENSSL_BASE/lib"></Environment>
 </client>
 </Tool>
 EOF_TOOLFILE
