@@ -13,7 +13,6 @@ CalibTracker/SiPixelIsAliveCalibration
 CalibTracker/SiPixelSCurveCalibration
 CalibTracker/SiStripESProducers
 CalibTracker/SiStripLorentzAngle
-CalibTracker/SiStripQuality
 Calibration/HcalIsolatedTrackReco
 CommonTools/CandAlgos
 CondCore/AlignmentPlugins
@@ -85,6 +84,7 @@ DQM/SiPixelMonitorRecHit
 DQM/SiPixelMonitorTrack
 DQM/SiStripCommissioningAnalysis
 DQM/SiStripCommissioningClients
+DQM/SiStripCommissioningDbClients
 DQM/SiStripCommissioningSources
 DQM/SiStripCommissioningSummary
 DQM/SiStripCommon
@@ -341,7 +341,6 @@ EventFilter/RawDataCollector
 DataFormats/RoadSearchSeed
 Alignment/HIPAlignmentAlgorithm
 AnalysisDataFormats/TrackInfo
-AnalysisDataFormats/SiStripClusterInfo
 CondTools/Ecal
 DataFormats/RoadSearchCloud
 DataFormats/Scalers
@@ -349,3 +348,4 @@ L1Trigger/HardwareValidation
 PhysicsTools/CandUtils
 PhysicsTools/IsolationUtils
 RecoTracker/SpecialSeedGenerators
+
