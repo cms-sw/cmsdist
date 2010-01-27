@@ -13,4 +13,11 @@ export PYTHONPATH=$PYTHONPATH:%i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.
 python setup.py build
 python setup.py install --prefix=%i
 
-
+cd %i/bin
+for name in `ls`;
+do
+    cat $name | sed -e "s,#\!/.*python$,#\!/usr/bin/env python,g" > $name.tmp
+    rm -f $name
+    mv $name.tmp $name
+    chmod a+x $name
+done
