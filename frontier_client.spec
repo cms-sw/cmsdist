@@ -32,20 +32,19 @@ make $MAKE_ARGS distdir=%i dist
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=%n version=%v>
-<lib name=frontier_client>
-<client>
- <Environment name=FRONTIER_CLIENT_BASE default="%i"></Environment>
- <Environment name=INCLUDE default="$FRONTIER_CLIENT_BASE/include"></Environment>
- <Environment name=LIBDIR  default="$FRONTIER_CLIENT_BASE/lib"></Environment>
-</client>
-<use name=zlib>
-<use name=openssl>
-<use name=expat>
-<Runtime name=FRONTIER_CLIENT value="$FRONTIER_CLIENT_BASE/">
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="frontier_client" version="%v">
+    <lib name="frontier_client"/>
+    <client>
+      <environment name="FRONTIER_CLIENT_BASE" default="%i"/>
+      <environment name="INCLUDE" default="$FRONTIER_CLIENT_BASE/include"/>
+      <environment name="LIBDIR" default="$FRONTIER_CLIENT_BASE/lib"/>
+    </client>
+    <runtime name="FRONTIER_CLIENT" value="$FRONTIER_CLIENT_BASE/"/>
+    <use name="zlib"/>
+    <use name="openssl"/>
+    <use name="expat"/>
+  </tool>
 EOF_TOOLFILE
 
 %post
@@ -61,4 +60,4 @@ case $(uname) in
     ln -sf $RPM_INSTALL_PREFIX/%cmsplatf/external/%n/%v/lib/libfrontier_client.$so.%{realversion} $RPM_INSTALL_PREFIX/%cmsplatf/external/%n/%v/lib/libfrontier_client.$so.%(echo %v | sed -e "s/\([0-9]*\)\..*/\1/")
     ;; 
 esac
-%{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/scram.d/%n.xml

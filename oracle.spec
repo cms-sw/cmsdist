@@ -23,32 +23,30 @@ cp -r include/* %i/include/
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=%n version=%v>
-<lib name=clntsh>
-<lib name=nnz11>
-<Client>
- <Environment name=ORACLE_BASE default="%i"></Environment>
- <Environment name=ORACLE_ADMINDIR></Environment>
- <Environment name=LIBDIR value="$ORACLE_BASE/lib"></Environment>
- <Environment name=BINDIR value="$ORACLE_BASE/bin"></Environment>
- <Environment name=INCLUDE value="$ORACLE_BASE/include"></Environment>
-</Client>
-<use name=sockets>
-<Runtime name=PATH value="$BINDIR" type=path>
-<Runtime name=TNS_ADMIN default="$ORACLE_ADMINDIR">
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="oracle" version="%v">
+    <lib name="clntsh"/>
+    <lib name="nnz11"/>
+    <client>
+      <environment name="ORACLE_BASE" default="%i"/>
+      <environment name="ORACLE_ADMINDIR"/>
+      <environment name="LIBDIR" value="$ORACLE_BASE/lib"/>
+      <environment name="BINDIR" value="$ORACLE_BASE/bin"/>
+      <environment name="INCLUDE" value="$ORACLE_BASE/include"/>
+    </client>
+    <runtime name="PATH" value="$BINDIR" type="path"/>
+    <runtime name="TNS_ADMIN" default="$ORACLE_ADMINDIR"/>
+    <use name="sockets"/>
+  </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/oracleocci
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=oracleocci version=%v>
-<lib name=occi>
-<use name=oracle>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/oracleocci.xml
+  <tool name="oracleocci" version="%v">
+    <lib name="occi"/>
+    <use name="oracle"/>
+  </tool>
 EOF_TOOLFILE
 
 %post
-%{relocateConfig}etc/scram.d/%n
-%{relocateConfig}etc/scram.d/oracleocci
+%{relocateConfig}etc/scram.d/%n.xml
+%{relocateConfig}etc/scram.d/oracleocci.xml
