@@ -10,6 +10,7 @@ Patch1: tkonlinesw-2.5.1-TShare-64bit
 Patch2: tkonlinesw-2.5.1-DbClient-64bit
 Patch3: tkonlinesw-2.5.1-gcc44
 Patch4: tkonlinesw-2.5.1-gcc43-2
+Patch5: tkonlinesw-2.5.1-gcc44-2
 
 # Note from Kristian: 
 # xdaq dependency is here only to re-use its makefiles. 
@@ -34,6 +35,7 @@ case %cmsplatf in
 esac
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 # Clean up some mysterious old build within the sources that screws
 # up the install by copying in an old libFed9UUtils.so 
 # (this is really needed) 
