@@ -1,4 +1,4 @@
-### RPM cms wmcore-webtools WMCORE_0_1_1_pre17
+### RPM cms wmcore-webtools WMCORE_0_1_1_pre19
 ## INITENV +PATH PYTHONPATH %i/lib
 
 #Source: none
