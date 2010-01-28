@@ -9,7 +9,7 @@
 %define service DBS
 %define dburl oracle://user:passwd@db
 %define dbowner schemaowner
-%define version DBS_3_0_0
+%define dbsver DBS_3_0_0
 
 Requires: wmcore-webtools wmcore-db-oracle py2-cjson
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true&module=COMP/DBS/DBS3&export=%{n}&tag=-r%{cvsver}&output=/%{n}.tar.gz
@@ -26,7 +26,7 @@ mkdir -p %{i}/%{serverlogsdir}
 
 #----------------------------------------
 # Generates the script used to start dbs3
-cat > %i/setup.sh << EOA
+cat > %i/setup.sh << EOF
 
 if [ -z "$DBS3_ROOT" ]; then
        source ./etc/profile.d/init.sh
@@ -50,11 +50,11 @@ if [ -z "$1" ]
 fi
 }
 
-EOA
+EOF
 
 #---------------------------
 # Generates DBS config file
-cat > %{i}/%{configdir}/%{instance}.py << EOA
+cat > %{i}/%{configdir}/%{instance}.py << EOF
 """
 DBS Server  configuration file
 """
@@ -88,9 +88,9 @@ active.%{service}.formatter.object = 'WMCore.WebTools.RESTFormatter'
 
 active.%{service}.database = '%{dburl}'
 active.%{service}.dbowner = '%{dbowner}'
-active.%{service}.version = '%{version}'
+active.%{service}.version = '%{dbsver}'
 
-EOA
+EOF
 
 #-----------------------------------
 # Generates DBS config file (writer)
