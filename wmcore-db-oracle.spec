@@ -1,4 +1,4 @@
-### RPM cms wmcore-db-oracle WMCORE_0_1_1_pre13
+### RPM cms wmcore-db-oracle WMCORE_0_1_1_pre19
 ## INITENV +PATH PYTHONPATH %i/lib
 
 Requires: py2-cx-oracle py2-sqlalchemy wmcore
