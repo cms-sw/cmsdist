@@ -1,4 +1,4 @@
-### RPM external xdaq 03.11.00-CMS19
+### RPM external xdaq 03.14.00
 Requires: zlib mimetic xerces-c uuid
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
@@ -6,12 +6,13 @@ Requires: zlib mimetic xerces-c uuid
 %define installDir linux/x86
 %endif
 
-# Download from cern afs area to speed up testing:
+# Download from cern afs area to speed up testing:  
 Source0: http://switch.dl.sourceforge.net/sourceforge/xdaq/coretools_G_V%xdaqv.tgz
-Source1: http://switch.dl.sourceforge.net/sourceforge/xdaq/powerpack_G_V01_11_00.tgz
-Source2: http://switch.dl.sourceforge.net/sourceforge/xdaq/worksuite_G_V01_11_00.tgz
-Patch: xdaq_3.11_p1
-Patch1: xdaq_3.11_p2
+Source1: http://switch.dl.sourceforge.net/sourceforge/xdaq/powerpack_G_V01_13_00.tgz
+Source2: http://switch.dl.sourceforge.net/sourceforge/xdaq/worksuite_G_V01_13_00.tgz
+Patch: xdaq_3.14_p1
+Patch1: xdaq_3.14_p2
+Provides: /bin/awk
 
 %prep
 %setup -T -b 0 -n TriDAS
@@ -34,6 +35,10 @@ cp -rp *  %{i} # assuming there are no symlinks in the original source code
 cd %{i}
 export XDAQ_ROOT=$PWD
 cd %{i}/daq
+# Fix up a problem for the 64bit build
+%if ("%cmsplatf" == "slc4_amd64_gcc345")
+perl -p -i -e "s!configure --prefix!configure --with-pic --prefix!" extern/asyncresolv/Makefile
+%endif
 export MIMETIC_PREFIX=$MIMETIC_ROOT
 export XERCES_PREFIX=$XERCES_C_ROOT
 export UUID_LIB_PREFIX=$UUID_ROOT/lib
@@ -65,7 +70,7 @@ mv x86*/lib .
 mv x86*/bin .
 mv x86*/include .
 
-mkdir htdocs
+mkdir -p htdocs
 
 for subdir in `echo "xdaq2rc"; grep -h -v \# build/mfSet.coretools build/mfSet.extern_coretools build/mfSet.extern_powerpack build/mfSet.powerpack | grep -v Packages= | grep '[a-z]' | awk '{print $1}'`
 do
@@ -88,10 +93,10 @@ do
         fi	
 done
 
-mkdir include/interface
+mkdir -p include/interface
 mv daq/interface/evb/include/interface/evb include/interface
 mv daq/interface/shared/include/interface/shared include/interface
-mkdir etc
+mkdir -p etc
 mv daq/etc/default.profile etc/
 rm -fr daq 
 rm -fr CVS
@@ -126,6 +131,13 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <lib name=pttcp>
 <lib name=i2outils>
 <lib name=xdaq2rc>
+<lib name=xoapfilter>
+<lib name=xalan-c>
+<lib name=xalanMsg>
+<lib name=wsaddressing>
+<lib name=wsclientsubscriber>
+<lib name=wseventing>
+<lib name=wsserviceeventing>
 <Client>
 <Environment name=XDAQ_BASE  default="%i"></Environment>
 <Environment name=LIBDIR default="$XDAQ_BASE/lib"></Environment>
@@ -147,6 +159,19 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 </Tool>
 EOF_TOOLFILE
 
+cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaqheader
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=XDAQHEADER version=%v>
+<info url=http://home.cern.ch/xdaq></info>
+<Client>
+<Environment name=XDAQHEADER_BASE  default="%i"></Environment>
+<Environment name=INCLUDE default="$XDAQHEADER_BASE/include"></Environment>
+</Client>
+</Tool>
+EOF_TOOLFILE
+
 %post
 find $RPM_INSTALL_PREFIX/%pkgrel -type l | xargs ls -la | sed -e "s|.*[ ]\(/.*\) -> \(.*\)| \2 \1|;s|[ ]/[^ ]*/external| $RPM_INSTALL_PREFIX/%cmsplatf/external|g" | xargs -n2 ln -sf
 %{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/scram.d/xdaqheader
+
