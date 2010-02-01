@@ -46,6 +46,7 @@ CommonTools/ConditionDBWriter
 CommonTools/RecoAlgos
 CommonTools/Statistics
 CommonTools/TrackerMap
+CommonTools/UtilAlgos
 CommonTools/Utils
 CondCore/AlignmentPlugins
 CondCore/BTauPlugins
