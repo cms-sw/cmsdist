@@ -1,4 +1,4 @@
-### RPM cms dbs3 HEAD_20100128
+### RPM cms dbs3 HEAD_20100129
 ## INITENV +PATH PYTHONPATH %i/Server/Python/src
 ## INITENV SET DBS3_SERVER_ROOT %i/Server/Python
 
@@ -26,7 +26,7 @@ mkdir -p %{i}/%{serverlogsdir}
 
 #----------------------------------------
 # Generates the script used to start dbs3
-cat > %i/setup.sh << EOF
+cat << \EOF > %i/setup.sh
 
 if [ -z "$DBS3_ROOT" ]; then
        source ./etc/profile.d/init.sh
@@ -54,7 +54,7 @@ EOF
 
 #---------------------------
 # Generates DBS config file
-cat > %{i}/%{configdir}/%{instance}.py << EOF
+cat << \EOF > %{i}/%{configdir}/%{instance}.py
 """
 DBS Server  configuration file
 """
@@ -72,7 +72,7 @@ config.Webtools.log_screen = True
 config.Webtools.application = '%{instance}'
 
 config.component_('%{instance}')
-config.%{instance}.templates = os.environ['WTBASE'] + '/templates/WMCore/WebTools'
+config.%{instance}.templates = os.environ['WMCORE_ROOT'] + '/src/templates/WMCore/WebTools'
 config.%{instance}.title = 'DBS Server'
 config.%{instance}.description = 'CMS DBS Service'
 
