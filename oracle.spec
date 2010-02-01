@@ -20,6 +20,7 @@ cp -r lib/* %i/lib/
 cp -r doc/* %i/doc/
 cp -r include/* %i/include/
 
+
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 
@@ -50,3 +51,10 @@ EOF_TOOLFILE
 %post
 %{relocateConfig}etc/scram.d/%n.xml
 %{relocateConfig}etc/scram.d/oracleocci.xml
+
+# Fix to the SELinux issue: 
+# http://www.appistry.com/community/forums/content/cannot-restore-segment-prot-after-reloc-permission-denied
+# as suggested by Andrea Valassi while the new Oracle libs are not released
+# But be aware that it may not work under certain scenarios.
+chcon -t textrel_shlib_t $RPM_INSTALL_PREFIX/%pkgrel/lib/*
+
