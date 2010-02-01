@@ -1,4 +1,4 @@
-### RPM cms fmws 0.1.8-pre7
+### RPM cms fmws 0.1.8_pre8
 ## INITENV +PATH PYTHONPATH %i/lib/
 ## INITENV +PATH PYTHONPATH $ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV SET FMWSHOME $FMWS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
@@ -7,11 +7,11 @@
 ####%define cvstag %{realversion}
 %define moduleName FILEMOVER
 %define exportName FILEMOVER
-%define cvstag V01_00_17
+%define cvstag V01_00_18
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 ####Source: http://t2.unl.edu/store/CmsFileServer-%{realversion}.tar.gz
 Source: %cvsserver&strategy=checkout&module=COMP/%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
-Requires: python openssl cherrypy py2-cheetah webtools yui java-jdk srmcp elementtree
+Requires: python openssl cherrypy py2-cheetah webtools yui java-jdk srmcp elementtree webtools-base
 
 %prep
 %setup -n %{moduleName}
