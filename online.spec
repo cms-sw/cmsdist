@@ -1,4 +1,4 @@
-### RPM cms online CMSSW_3_5_0_pre4_ONLINE
+### RPM cms online CMSSW_3_5_0_pre5_ONLINE
 ## IMPORT configurations 
 
 Provides: /bin/zsh

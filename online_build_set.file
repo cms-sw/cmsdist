@@ -46,7 +46,6 @@ CommonTools/ConditionDBWriter
 CommonTools/RecoAlgos
 CommonTools/Statistics
 CommonTools/TrackerMap
-CommonTools/UtilAlgos
 CommonTools/Utils
 CondCore/AlignmentPlugins
 CondCore/BTauPlugins
@@ -411,6 +410,7 @@ PhysicsTools/IsolationAlgos
 PhysicsTools/IsolationUtils
 PhysicsTools/KinFitter
 PhysicsTools/MVAComputer
+PhysicsTools/MVATrainer
 PhysicsTools/RecoAlgos
 PhysicsTools/RecoUtils
 PhysicsTools/UtilAlgos
