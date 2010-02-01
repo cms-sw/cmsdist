@@ -1,4 +1,4 @@
-### RPM cms wmcore-db-sqlite WMCORE_0_1_1_pre13
+### RPM cms wmcore-db-sqlite WMCORE_0_1_1_pre17
 ## INITENV +PATH PYTHONPATH %i/lib
 
 #Source: 
