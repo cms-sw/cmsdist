@@ -1,8 +1,8 @@
-### RPM cms dbs3 HEAD_20100129
+### RPM cms dbs3 DBS_3_S1_0_pre1
 ## INITENV +PATH PYTHONPATH %i/Server/Python/src
 ## INITENV SET DBS3_SERVER_ROOT %i/Server/Python
 
-%define cvsver HEAD
+%define cvsver %v
 %define configdir Config
 %define instance cms_dbs
 %define serverlogsdir Logs
@@ -75,6 +75,7 @@ config.component_('%{instance}')
 config.%{instance}.templates = os.environ['WMCORE_ROOT'] + '/src/templates/WMCore/WebTools'
 config.%{instance}.title = 'DBS Server'
 config.%{instance}.description = 'CMS DBS Service'
+config.%{instance}.admin = 'yourname'
 
 config.%{instance}.section_('views')
 
