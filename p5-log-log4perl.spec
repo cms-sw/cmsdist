@@ -1,4 +1,4 @@
-### RPM external p5-log-log4perl 1.16
+### RPM external p5-log-log4perl 1.26
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perl /usr/bin/env perl
 %if "%(echo %cmsplatf | cut -f1 -d_ | sed -e 's|\([A-Za-z]*\)[0-9]*|\1|')" == "osx"
