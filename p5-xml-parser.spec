@@ -1,6 +1,6 @@
-### RPM external p5-xml-parser 2.34-CMS19
+### RPM external p5-xml-parser 2.36
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
-# a comment to build from scratch increase this number 15
+
 %define perl /usr/bin/env perl
 %if "%(echo %cmsplatf | cut -f1 -d_ | sed -e 's|\([A-Za-z]*\)[0-9]*|\1|')" == "osx" 
 %define perl /usr/bin/perl
