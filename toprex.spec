@@ -1,19 +1,15 @@
-### RPM external toprex 4.23
-## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac 
-
+### RPM external toprex 4.23-CMS19
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Patch: toprex-4.23-gfortran
 
 %prep
 %setup -q -n %{n}/%{realversion}
-case %gccver in
-  4.*)
+%if (("%cmsplatf" == "slc4_ia32_gcc412")||("%cmsplatf" == "slc4_ia32_gcc422"))
 %patch -p0 
-  ;; 
-esac
+%endif
+./configure --lcgplatform=%cmsplatf
 
 %build
-./configure --lcgplatform=%cmsplatf
 make 
 
 %install

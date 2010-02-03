@@ -1,4 +1,4 @@
-### RPM external cppunit 1.12.1
+### RPM external cppunit 1.10.2-CMS19
 Source0: http://switch.dl.sourceforge.net/sourceforge/%n/%n-%realversion.tar.gz
 Source1: http://spi.cvs.cern.ch:8180/cgi-bin/spi.cgi/*checkout*/Components/UnitTesting/Tools/CppUnit/CppUnit_testdriver.cpp?rev=1.1
 
@@ -11,13 +11,6 @@ case %cmsplatf in
                                                                     aclocal.m4 \
 						                						    libtool \
 						                						    config/ltmain.sh
-    ;;
-esac
-case $(uname) in
-    Linux )
-       # Ugly hack to force -ldl to be linked, which for some reason is
-       # not currently happening via configure
-       perl -p -i -e 's|LIBS.*LIBS.*lm|LIBS="$LIBS -lm -ldl|' configure
     ;;
 esac
 ./configure --prefix=%i 
