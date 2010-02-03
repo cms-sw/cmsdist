@@ -1,4 +1,4 @@
-### RPM cms overview 5.1.5
+### RPM cms overview 5.1.7
 
 # This is a RPM spec file for building the Overview.  This is a very
 # minimal SCRAM build area with highly reduced set of dependencies.
@@ -7,13 +7,13 @@
 # See DQM GUI spec file for more commentary on what goes on here.
 %define cvsserver   cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define scram       $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
-%define cmssw       CMSSW_3_3_1
-%define vcfg        V03-26-04-01
+%define cmssw       CMSSW_3_4_1
+%define vcfg        V03-29-04
 %define initenv     export ZZPATH=$PATH ZZLD_LIBRARY_PATH=$LD_LIBRARY_PATH ZZPYTHONPATH=$PYTHONPATH; %initenv_all
 
 Source0: %{cvsserver}&strategy=checkout&module=config&export=config&tag=-r%{vcfg}&output=/config.tar.gz
-Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rR05-01-04&output=/DQMServer.tar.gz
-Requires: cherrypy py2-cheetah yui py2-cx-oracle py2-pil py2-matplotlib overview-conf SCRAMV1 dbs-client
+Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rR05-01-07&output=/DQMServer.tar.gz
+Requires: cherrypy py2-cheetah yui py2-cx-oracle py2-pil py2-matplotlib overview-conf SCRAMV1
 
 # Set up minimal SCRAM project build area with our sources.
 %prep
