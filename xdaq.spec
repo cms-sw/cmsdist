@@ -7,7 +7,7 @@ Requires: zlib mimetic xerces-c uuid sqlite
 %define svntrunk  %(echo %v | sed 's|^VR||')
 Source: svn://svn.cern.ch/reps/cmsos/releases/baseline9/trunk/?scheme=svn+ssh&revision=%svntrunk&strategy=export&module=xdaq&output=/xdaq.tar.gz
 
-Patch0: xdaq_build
+Patch0: xdaq_VR16021_build
 Patch1: xdaq_mfDefs_flags
 Patch2: xdaq_VR15544_gcc44
 
