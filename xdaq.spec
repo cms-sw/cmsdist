@@ -1,13 +1,13 @@
-### RPM external xdaq VR15544
+### RPM external xdaq VR16021
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
 
 Requires: zlib mimetic xerces-c uuid sqlite
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
+%define svntrunk  %(echo %v | sed 's|^VR||')
+Source: svn://svn.cern.ch/reps/cmsos/releases/baseline9/trunk/?scheme=svn+ssh&revision=%svntrunk&strategy=export&module=xdaq&output=/xdaq.tar.gz
 
-Source: svn://svn.cern.ch/reps/cmsos/releases/baseline9/trunk/?scheme=svn+ssh&revision=15544&strategy=export&module=xdaq&output=/xdaq.tar.gz
-
-Patch0: xdaq_build
+Patch0: xdaq_VR16021_build
 Patch1: xdaq_mfDefs_flags
 Patch2: xdaq_VR15544_gcc44
 
@@ -42,8 +42,7 @@ make CPPDEFINES=linux Set=extern_coretools install
 make CPPDEFINES=linux Set=coretools install
 make CPPDEFINES=linux Set=extern_powerpack install
 make CPPDEFINES=linux Set=powerpack install
-cd xdaq2rc
-make CPPDEFINES=linux install
+make CPPDEFINES=linux Set=general_worksuite install
 
 # The following structure used as defined in Xdaq "simplify" script:
 cd %{i}
