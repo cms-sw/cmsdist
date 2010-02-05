@@ -46,3 +46,4 @@ EOF_TOOLFILE
 %post
 %{relocateConfig}etc/scram.d/%n
 %{relocateConfig}lib/libexpat.la
+%{relocateConfig}lib64/libexpat.la
