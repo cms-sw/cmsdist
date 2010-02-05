@@ -20,4 +20,4 @@ Requires: cmssw-patch-tool-conf
 %define isPatch         yes
 
 ## IMPORT cms-scram-build
-## IMPORT scramv1-build
+## IMPORT scramv1-patch-build
