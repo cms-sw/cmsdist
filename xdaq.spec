@@ -5,7 +5,7 @@ Requires: zlib mimetic xerces-c uuid sqlite
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
 %define svntrunk  %(echo %v | sed 's|^VR||')
-Source: svn://svn.cern.ch/reps/cmsos/releases/baseline9/trunk/?scheme=svn+ssh&revision=%svntrunk&strategy=export&module=xdaq&output=/xdaq.tar.gz
+Source: svn://svn.cern.ch/reps/cmsos/releases/baseline10/tags/base/?scheme=svn+ssh&revision=%svntrunk&strategy=export&module=xdaq&output=/xdaq.tar.gz
 
 Patch0: xdaq_VR16021_build
 Patch1: xdaq_mfDefs_flags
@@ -17,7 +17,7 @@ Provides: /bin/awk
 %setup -T -b 0 -n xdaq
 
 %patch0 -p1
-%patch1 -p4
+%patch1 -p1
 %patch2 -p1
 
 %build
