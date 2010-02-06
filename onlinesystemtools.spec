@@ -17,7 +17,7 @@ Source: none
 %define xerces_version			2.7.0
 ## INITENV SET XERCES_C_VERSION         %xerces_version
 ## INITENV SET XERCES_C_ROOT		/opt/xdaq
-%define xdaq_version			3.28.0
+%define xdaq_version			3.32.1
 ## INITENV SET XDAQ_VERSION         	%xdaq_version
 ## INITENV SET XDAQ_ROOT         	/opt/xdaq
 %define mimetic_version			0.9.1
