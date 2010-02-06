@@ -16,6 +16,7 @@ CalibTracker/SiStripLorentzAngle
 CalibTracker/SiStripQuality
 Calibration/HcalIsolatedTrackReco
 CommonTools/CandAlgos
+CommonTools/UtilAlgos
 CondCore/AlignmentPlugins
 CondCore/BTauPlugins
 CondCore/BeamSpotPlugins
