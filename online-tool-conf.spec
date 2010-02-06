@@ -35,7 +35,6 @@ Requires: ktjet
 Requires: oracle-env
 Requires: onlinesystemtools
 
-
 %define skipreqtools jcompiler
 %define onlinesystemtoolsroot ${ONLINESYSTEMTOOLS_ROOT}
 ## IMPORT scramv1-tool-conf
