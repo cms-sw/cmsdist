@@ -1,0 +1,91 @@
+diff -x .svn -ru rtgu/image/filter_weight_table.hpp /afs/cern.ch/user/l/lat/dev/dqm/rtgu/image/filter_weight_table.hpp
+--- rtgu/image/filter_weight_table.hpp	2009-10-31 12:14:10.000000000 +0100
++++ /afs/cern.ch/user/l/lat/dev/dqm/rtgu/image/filter_weight_table.hpp	2009-10-27 07:31:51.000000000 +0100
+@@ -99,7 +99,6 @@
+   float const scale_offset = (0.5f / scale_factor) - 0.5f;
+ 
+   // scan through line of contributions
+-
+   for (unsigned u = 0; u < dst_size; u++)
+   {
+     float const sample_center = static_cast<float>(u) / scale_factor + scale_offset;   // reverse mapping to source coordinates
+@@ -131,7 +130,7 @@
+ 
+     // calculate weights
+ 
+-    float* const weight_base_pointer = &_weights_storage[ u * _window_size ];
++    float* weight_base_pointer = &_weights_storage[ u * _window_size ];
+     float* weight_storage = weight_base_pointer;
+ 
+     float total_weight = 0.f;  // zero sum of weights
+@@ -168,6 +167,16 @@
+       }
+     }
+ 
++    // if the weights equal previous weights, reuse them
++    if (u > 0 && (_contribution_table[u-1].right - _contribution_table[u-1].left) == (sample_end - sample_begin))
++    {
++       float diff = 0.f;
++       for (int i = 0; i <= sample_end - sample_begin; ++i)
++	  diff += fabsf(_contribution_table[u-1].weights[i] - weight_base_pointer[i]);
++       if (diff < 0.001)
++         weight_base_pointer = _contribution_table[u-1].weights;
++    }
++
+     // store contribution for current pixel
+ 
+     _contribution_table[u].left    = sample_begin; 
+diff -x .svn -ru rtgu/image/rescale.hpp /afs/cern.ch/user/l/lat/dev/dqm/rtgu/image/rescale.hpp
+--- rtgu/image/rescale.hpp	2009-10-31 12:14:10.000000000 +0100
++++ /afs/cern.ch/user/l/lat/dev/dqm/rtgu/image/rescale.hpp	2009-10-26 15:35:30.000000000 +0100
+@@ -4,6 +4,7 @@
+ #include <boost/gil/extension/numeric/algorithm.hpp>
+ #include <boost/gil/extension/numeric/pixel_numeric_operations.hpp>
+ #include "filter_weight_table.hpp"
++#include <stdexcept>
+ 
+ //----------------------------------------------------------------------------
+ 
+@@ -153,7 +154,7 @@
+ inline void boost::gil::rescale_cols(const SrcView& src, const DstView& dst, const Filter& filter)
+ {
+   typedef typename SrcView::value_type src_pixel_t;
+-  typedef gil::detail::create_accum_pixel_type<src_pixel_t>::type accum_pixel_t;
++  typedef typename gil::detail::create_accum_pixel_type<src_pixel_t>::type accum_pixel_t;
+ 
+   if (src.height() != dst.height())
+   {
+@@ -186,7 +187,7 @@
+ inline void boost::gil::rescale_rows(const SrcView& src, const DstView& dst, const Filter& filter)
+ {
+   typedef typename SrcView::value_type src_pixel_t;
+-  typedef gil::detail::create_accum_pixel_type<src_pixel_t>::type accum_pixel_t;
++  typedef typename gil::detail::create_accum_pixel_type<src_pixel_t>::type accum_pixel_t;
+ 
+   if (src.width() != dst.width())
+   {
+@@ -219,7 +220,7 @@
+ inline void boost::gil::rescale(const SrcView& src, const DstView& dst, const Filter& filter)
+ {
+   typedef typename SrcView::value_type src_pixel_t;
+-  typedef gil::detail::create_accum_pixel_type<src_pixel_t>::type accum_pixel_t;
++  typedef typename gil::detail::create_accum_pixel_type<src_pixel_t>::type accum_pixel_t;
+ 
+   // construct weights tables
+ 
+@@ -234,12 +235,12 @@
+   std::vector<accum_pixel_t> intermediate_row( src.width() );
+ 
+   typedef typename DstView::coord_t coord_t;
+-  coord_t const src_width  = src.width();
++  coord_t const src_width = src.width();
+   coord_t const dst_height = dst.height();
+ 
+   for (coord_t y=0; y<dst_height; y++)
+   {
+-    // create the intermediate row by vertically sampling the source image pixels
++    // create the intermediate row by horizontally sampling the source image pixels
+ 
+     detail::weight_table::const_iterator const vtable_begin = vertical_weights.begin() + y;
+     detail::weight_table::const_iterator const vtable_end   = vtable_begin + 1;
+Only in rtgu: tests
