@@ -1,4 +1,4 @@
-### RPM cms dqmgui 5.1.7
+### RPM cms dqmgui 5.1.7b
 
 # This is a RPM spec file for building the DQM GUI.  This effectively
 # builds a sliced version of CMSSW with some updated and added code,
@@ -14,8 +14,8 @@
 # CMSDIST with tag %cmssw, then take version from cms-scram-build.file.
 %define cvsserver   cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define scram       $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
-%define cmssw       CMSSW_3_4_1
-%define vcfg        V03-29-04
+%define cmssw       CMSSW_3_5_0
+%define vcfg        V03-29-06
 %define initenv     export ZZPATH=$PATH ZZLD_LIBRARY_PATH=$LD_LIBRARY_PATH ZZPYTHONPATH=$PYTHONPATH; %initenv_all
 
 # Sources that go into this package.  To avoid listing every package
