@@ -69,6 +69,7 @@ FWCore/RootAutoLibraryLoader
 FWCore/Utilities
 FastSimDataFormats/External
 PhysicsTools/FWLite
+PhysicsTools/SelectorUtils
 PhysicsTools/Utilities
 SimDataFormats/EncodedEventId
 SimDataFormats/GeneratorProducts

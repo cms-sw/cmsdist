@@ -5,10 +5,11 @@ DataFormats/HLTReco
 DataFormats/Histograms
 DataFormats/JetReco
 DataFormats/L1GlobalTrigger
-DataFormats/L1Trigger
 DataFormats/Luminosity
 DataFormats/METReco
 DataFormats/MuonReco
+DataFormats/PatCandidates
+DataFormats/RecoCandidate
 DataFormats/Scalers
 DataFormats/TauReco
 SimDataFormats/GeneratorProducts
@@ -16,7 +17,6 @@ CommonTools/Statistics
 CommonTools/Utils
 DataFormats/FWLite
 DataFormats/Math
-DataFormats/PatCandidates
 DataFormats/StdDictionaries
 DataFormats/WrappedStdDictionaries
 FWCore/PythonParameterSet
