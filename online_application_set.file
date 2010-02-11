@@ -2,6 +2,7 @@ Alignment/CommonAlignmentProducer
 Alignment/LaserAlignment
 CalibCalorimetry/CaloTPG
 CalibCalorimetry/EcalLaserCorrection
+CalibCalorimetry/EcalLaserSorting
 CalibCalorimetry/EcalTrivialCondModules
 CalibCalorimetry/HcalPlugins
 CalibCalorimetry/HcalTPGEventSetup
@@ -49,6 +50,7 @@ CondCore/SiStripPlugins
 CondCore/Utilities
 Configuration/HLT
 Configuration/PyReleaseValidation
+CondFormats/EcalCorrections
 CondFormats/RecoMuonObjects
 CondFormats/DataRecord
 CondTools/DQM

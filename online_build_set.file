@@ -13,6 +13,7 @@ AnalysisDataFormats/SiStripClusterInfo
 AnalysisDataFormats/TrackInfo
 CalibCalorimetry/CaloTPG
 CalibCalorimetry/EcalLaserCorrection
+CalibCalorimetry/EcalLaserSorting
 CalibCalorimetry/EcalTPGTools
 CalibCalorimetry/EcalTrivialCondModules
 CalibCalorimetry/HcalAlgos
@@ -91,6 +92,7 @@ CondFormats/DQMObjects
 CondFormats/DTObjects
 CondFormats/DataRecord
 CondFormats/ESObjects
+CondFormats/EcalCorrections
 CondFormats/EcalObjects
 CondFormats/EgammaObjects
 CondFormats/GeometryObjects
