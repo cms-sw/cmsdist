@@ -1,4 +1,4 @@
-### RPM cms das V03_00_04
+### RPM cms das V04_00_00
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PYTHONPATH $WMCORE_ROOT/src/python
 ## INITENV +PATH PYTHONPATH %i/src/python
@@ -18,7 +18,7 @@ Requires: python cherrypy py2-cheetah yui elementtree mongo-bin py2-pymongo py2-
 %setup -n DAS
 %build
 python setup.py build
-cp build/lib.linux-%{arch}-%{pver}/extensions/das_speed_utils.so src/python/DAS/extensions/
+cp build/lib.linux-%{arch}-%{pver}/DAS/extensions/das_speed_utils.so src/python/DAS/extensions/
 
 %install
 mkdir -p %{i}/bin
