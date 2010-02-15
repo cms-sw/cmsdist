@@ -13,16 +13,13 @@ CalibTracker/SiPixelIsAliveCalibration
 CalibTracker/SiPixelSCurveCalibration
 CalibTracker/SiStripESProducers
 CalibTracker/SiStripLorentzAngle
-CalibTracker/SiStripQuality
 Calibration/HcalIsolatedTrackReco
 CommonTools/CandAlgos
-CommonTools/UtilAlgos
 CondCore/AlignmentPlugins
 CondCore/BTauPlugins
 CondCore/BeamSpotPlugins
 CondCore/CSCPlugins
 CondCore/CalibPlugins
-CondCore/CastorPlugins
 CondCore/DBCommon
 CondCore/DBOutputService
 CondCore/DQMPlugins
@@ -35,7 +32,6 @@ CondCore/HLTPlugins
 CondCore/HcalPlugins
 CondCore/IOVService
 CondCore/L1TPlugins
-CondCore/LuminosityPlugins
 CondCore/MetaDataService
 CondCore/Modules
 CondCore/OptAlignPlugins
@@ -88,6 +84,7 @@ DQM/SiPixelMonitorRecHit
 DQM/SiPixelMonitorTrack
 DQM/SiStripCommissioningAnalysis
 DQM/SiStripCommissioningClients
+DQM/SiStripCommissioningDbClients
 DQM/SiStripCommissioningSources
 DQM/SiStripCommissioningSummary
 DQM/SiStripCommon
@@ -344,7 +341,6 @@ EventFilter/RawDataCollector
 DataFormats/RoadSearchSeed
 Alignment/HIPAlignmentAlgorithm
 AnalysisDataFormats/TrackInfo
-AnalysisDataFormats/SiStripClusterInfo
 CondTools/Ecal
 DataFormats/RoadSearchCloud
 DataFormats/Scalers
@@ -352,3 +348,4 @@ L1Trigger/HardwareValidation
 PhysicsTools/CandUtils
 PhysicsTools/IsolationUtils
 RecoTracker/SpecialSeedGenerators
+
