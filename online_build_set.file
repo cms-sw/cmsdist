@@ -37,7 +37,6 @@ CalibTracker/SiStripAPVAnalysis
 CalibTracker/SiStripCommon
 CalibTracker/SiStripESProducers
 CalibTracker/SiStripLorentzAngle
-CalibTracker/SiStripQuality
 Calibration/HcalIsolatedTrackReco
 CommonTools/CandAlgos
 CommonTools/CandUtils
@@ -53,7 +52,6 @@ CondCore/BTauPlugins
 CondCore/BeamSpotPlugins
 CondCore/CSCPlugins
 CondCore/CalibPlugins
-CondCore/CastorPlugins
 CondCore/DBCommon
 CondCore/DBOutputService
 CondCore/DQMPlugins
@@ -66,7 +64,6 @@ CondCore/HLTPlugins
 CondCore/HcalPlugins
 CondCore/IOVService
 CondCore/L1TPlugins
-CondCore/LuminosityPlugins
 CondCore/MetaDataService
 CondCore/Modules
 CondCore/OptAlignPlugins
@@ -77,7 +74,6 @@ CondCore/RPCPlugins
 CondCore/RunInfoPlugins
 CondCore/SiPixelPlugins
 CondCore/SiStripPlugins
-CondCore/TagCollection
 CondCore/Utilities
 CondFormats/Alignment
 CondFormats/AlignmentRecord
@@ -85,7 +81,6 @@ CondFormats/BTauObjects
 CondFormats/BeamSpotObjects
 CondFormats/CSCObjects
 CondFormats/Calibration
-CondFormats/CastorObjects
 CondFormats/Common
 CondFormats/DQMObjects
 CondFormats/DTObjects
@@ -98,7 +93,6 @@ CondFormats/HLTObjects
 CondFormats/HcalObjects
 CondFormats/JetMETObjects
 CondFormats/L1TObjects
-CondFormats/Luminosity
 CondFormats/OptAlignObjects
 CondFormats/PhysicsToolsObjects
 CondFormats/RPCObjects
@@ -149,6 +143,7 @@ DQM/SiPixelMonitorRecHit
 DQM/SiPixelMonitorTrack
 DQM/SiStripCommissioningAnalysis
 DQM/SiStripCommissioningClients
+DQM/SiStripCommissioningDbClients
 DQM/SiStripCommissioningSources
 DQM/SiStripCommissioningSummary
 DQM/SiStripCommon
@@ -167,7 +162,6 @@ DQM/TrigXMonitor
 DQMServices/ClientConfig
 DQMServices/Core
 DQMServices/Diagnostic
-DataFormats/Alignment
 DataFormats/BTauReco
 DataFormats/BeamSpot
 DataFormats/CLHEP
@@ -207,6 +201,7 @@ DataFormats/L1GlobalMuonTrigger
 DataFormats/L1GlobalTrigger
 DataFormats/L1Trigger
 DataFormats/LTCDigi
+DataFormats/LaserAlignment
 DataFormats/Luminosity
 DataFormats/METReco
 DataFormats/Math
@@ -216,6 +211,7 @@ DataFormats/MuonReco
 DataFormats/MuonSeed
 DataFormats/ParticleFlowCandidate
 DataFormats/ParticleFlowReco
+DataFormats/PatCandidates
 DataFormats/Provenance
 DataFormats/RPCDigi
 DataFormats/RPCRecHit
@@ -280,7 +276,6 @@ EventFilter/SiStripRawToDigi
 EventFilter/StorageManager
 EventFilter/Utilities
 FWCore/Catalog
-FWCore/Common
 FWCore/FWLite
 FWCore/Framework
 FWCore/MessageLogger
@@ -406,6 +401,8 @@ MagneticField/VolumeBasedEngine
 MagneticField/VolumeGeometry
 OnlineDB/EcalCondDB
 OnlineDB/Oracle
+OnlineDB/SiStripConfigDb
+OnlineDB/SiStripESSources
 PhysicsTools/CandUtils
 PhysicsTools/IsolationAlgos
 PhysicsTools/IsolationUtils
