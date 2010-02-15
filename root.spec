@@ -1,4 +1,4 @@
-### RPM lcg root 5.26.00a
+### RPM lcg root 5.22.00d
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i 
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
@@ -7,11 +7,26 @@ Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 Patch0:  root-5.18-00-libpng 
-Patch1:  root-5.22-00-TMVA-shut-the-hell-up-for-once
-Patch2:  root-5.22-00a-roofit-silence-static-printout
-Patch3:  root-5.22-00d-linker-gnu-hash-style
-Patch4:  root-5.26-00a-CINT-maxlongline
-Patch5:  root-5.26-00a-silence-TMVA
+Patch1:  root-5.21-04-CINT-maxlongline
+Patch2:  root-5.22-00-TMVA-shut-the-hell-up-for-once
+Patch3:  root-5.22-00a-TMVA-shut-the-hell-up-again
+Patch4:  root-5.22-00d-fireworks-graf3d-gui
+Patch5:  root-5.22-00a-roofit-silence-static-printout
+Patch6: root-5.22-00a-TMVA-just-shut-the-hell-up
+Patch7: root-5.22-00a-th1
+Patch8: root-5.22-00a-smatrix
+Patch9: root-5.22-00a-fireworks1
+Patch10: root-5.22-00a-gcc44 
+Patch11: root-5.22-00a-fireworks2
+Patch12: root-5.22-00a-fireworks3
+Patch13: root-5.22-00a-gcc43-array-bounds-dictionary-workaround
+Patch14: root-5.22-00a-fireworks4
+Patch15: root-5.22-00d-fireworks5
+Patch16: root-5.22-00d-genreflex_python26_popen3
+Patch17: root-5.22-00d-fireworks6
+Patch18: root-5.22-00d-linker-gnu-hash-style
+Patch19: root-5.22-00d-TFile-version3-Init 
+Patch20: root-5.22-00d-cint-namespace
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -38,7 +53,48 @@ Requires: libtiff
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+
 %patch5 -p1
+%patch6 -p1
+%patch7 -p1
+%patch8 -p1
+%patch9 -p1
+
+# patch10 is compiler version dependent, see below
+%patch11 -p1
+%patch12 -p1
+# patch13 is compiler version dependent, see below
+
+# work around patch issue...
+rm graf3d/gl/src/gl2ps.c
+%patch14 -p1
+#work around patch issues in patch14(?)
+rm graf3d/eve/inc/TEveLegoOverlay.h.orig
+rm graf3d/eve/src/TEveLegoOverlay.cxx
+rm graf3d/gl/inc/gl2ps.h.orig
+rm graf3d/gl/src/gl2ps.c.orig
+%patch15 -p1
+%patch16 -p1
+%patch17 -p1
+%patch19 -p1
+%patch20 -p1
+
+case %gccver in
+  4.3.*)
+%patch13 -p1
+  ;;
+  4.4.*)
+%patch10 -p1
+  ;;
+esac
+
+# The following patch can only be applied on SLC5 or later (extra linker 
+# options only available with the SLC5 binutils)
+case %cmsplatf in
+  slc5_* | slc5onl_* )
+%patch18 -p1
+  ;;
+esac
 
 %build
 
