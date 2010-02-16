@@ -1,4 +1,4 @@
-### RPM external expat 2.0.0-CMS19
+### RPM external expat 2.0.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 Source: http://dl.sourceforge.net/sourceforge/%n/%n-%realversion.tar.gz
 Provides: libc.so.6()(64bit)
@@ -46,3 +46,4 @@ EOF_TOOLFILE
 %post
 %{relocateConfig}etc/scram.d/%n
 %{relocateConfig}lib/libexpat.la
+%{relocateConfig}lib64/libexpat.la

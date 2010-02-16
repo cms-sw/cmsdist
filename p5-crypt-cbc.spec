@@ -1,10 +1,11 @@
-### RPM external p5-text-glob 0.06
+### RPM external p5-crypt-cbc 2.29
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
-%define downloadn Text-Glob
+%define downloadn Crypt-CBC
 
-Source: http://search.cpan.org/CPAN/authors/id/R/RC/RCLAMP/%{downloadn}-%{realversion}.tar.gz
+Source:  http://search.cpan.org/CPAN/authors/id/L/LD/LDS/%{downloadn}-%{realversion}.tar.gz
+
 %prep
 %setup -n %downloadn-%realversion
 %build

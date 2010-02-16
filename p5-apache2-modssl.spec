@@ -1,14 +1,15 @@
-### RPM external p5-text-glob 0.06
+### RPM external p5-apache2-modssl 0.07
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
-%define downloadn Text-Glob
+%define downloadn Apache2-ModSSL
+Source: http://search.cpan.org/CPAN/authors/id/O/OP/OPI/%downloadn-%realversion.tar.gz
+Requires: mod_perl2
 
-Source: http://search.cpan.org/CPAN/authors/id/R/RC/RCLAMP/%{downloadn}-%{realversion}.tar.gz
 %prep
 %setup -n %downloadn-%realversion
+
 %build
-LC_ALL=C; export LC_ALL
+export LC_ALL=C
 perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion
-make
-#
+make PASTHRU_INC=-I$MOD_PERL2_ROOT/include
