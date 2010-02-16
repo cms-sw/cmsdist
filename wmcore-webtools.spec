@@ -1,15 +1,12 @@
-### RPM cms T0Mon 3.0.2
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
-%define moduleName WEBTOOLS
-%define exportName WEBTOOLS
-%define cvstag T0Mon_100216_1
-%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
-Requires: python cherrypy py2-sqlalchemy webtools
-%prep
-%setup -n %{moduleName}
-%build
+### RPM cms wmcore-webtools forHEARTBEATr01
+## INITENV +PATH PYTHONPATH %i/lib
 
+Source: none
+Requires: wmcore cherrypy py2-cheetah py2-openid
+
+%prep
+%build
+%install
 rm -rf %i/etc/profile.d
 mkdir -p %i/etc/profile.d
 echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
@@ -31,13 +28,6 @@ done
 perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-setup.sh
 perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
 
-%install
-mkdir -p %i/etc
-mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
-cp -r Applications/T0Mon %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
-
-%define pythonv %(echo $PYTHON_ROOT | cut -d. -f1,2)
 %post
-
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
