@@ -109,8 +109,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
     <flags CXXSHAREDFLAGS="-dynamiclib -single_module"/>
     <flags SHAREDSUFFIX="dylib"/>
     <flags SCRAM_LANGUAGE_TYPE="C++"/>
-    <runtime name=DYLD_LIBRARY_PATH value="$GCC_BASE/lib" type="path"/>
-    <runtime name=PATH value="$GCC_BASE/bin" type="path"/>
+    <runtime name="DYLD_LIBRARY_PATH" value="$GCC_BASE/lib" type="path"/>
+    <runtime name="PATH" value="$GCC_BASE/bin" type="path"/>
   </tool>
 EOF_TOOLFILE
 ;;
