@@ -8,9 +8,13 @@ DataFormats/CSCRecHit
 DataFormats/CaloRecHit
 DataFormats/CaloTowers
 DataFormats/Candidate
+DataFormats/CastorReco
 DataFormats/Common
+DataFormats/DTDigi
+DataFormats/DTRecHit
 DataFormats/DetId
 DataFormats/EcalDetId
+DataFormats/EcalDigi
 DataFormats/EcalRecHit
 DataFormats/EgammaCandidates
 DataFormats/EgammaReco
@@ -43,6 +47,7 @@ DataFormats/ParticleFlowCandidate
 DataFormats/ParticleFlowReco
 DataFormats/PatCandidates
 DataFormats/Provenance
+DataFormats/RPCRecHit
 DataFormats/RecoCandidate
 DataFormats/Scalers
 DataFormats/SiPixelCluster
