@@ -1,4 +1,4 @@
-### RPM cms T0Mon 3.0.1
+### RPM cms T0Mon 3.0.2
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 %define moduleName WEBTOOLS
 %define exportName WEBTOOLS
