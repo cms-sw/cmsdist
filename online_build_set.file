@@ -419,6 +419,7 @@ PhysicsTools/RecoUtils
 PhysicsTools/UtilAlgos
 PhysicsTools/Utilities
 RecoBTag/ImpactParameter
+RecoBTag/SecondaryVertex
 RecoBTag/SoftLepton
 RecoBTag/TrackProbability
 RecoBTau/JetCrystalsAssociator
@@ -512,14 +513,18 @@ RecoTracker/TkSeedingLayers
 RecoTracker/TkTrackingRegions
 RecoTracker/TrackProducer
 RecoTracker/TransientTrackingRecHit
+RecoVertex/AdaptiveVertexFinder
 RecoVertex/AdaptiveVertexFit
 RecoVertex/BeamSpotProducer
+RecoVertex/ConfigurableVertexReco
 RecoVertex/GaussianSumVertexFit
 RecoVertex/GhostTrackFitter
 RecoVertex/KalmanVertexFit
 RecoVertex/KinematicFit
 RecoVertex/KinematicFitPrimitives
 RecoVertex/LinearizationPointFinders
+RecoVertex/MultiVertexFit
+RecoVertex/TrimmedKalmanVertexFinder
 RecoVertex/VertexPrimitives
 RecoVertex/VertexTools
 SimCalorimetry/CaloSimAlgos

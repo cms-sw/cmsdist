@@ -253,6 +253,7 @@ MagneticField/VolumeBasedEngine
 MagneticField/VolumeGeometry
 PhysicsTools/RecoAlgos
 RecoBTag/ImpactParameter
+RecoBTag/SecondaryVertex
 RecoBTag/SoftLepton
 RecoBTau/JetCrystalsAssociator
 RecoBTau/JetTagComputer
