@@ -1,12 +1,12 @@
-### RPM external py2-pymongo 1.3
+### RPM external py2-yaml 3.09
 %define pythonv %(echo $PYTHON_VERSION | cut -f1,2 -d.)
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
-Source: http://pypi.python.org/packages/source/p/pymongo/pymongo-%realversion.tar.gz
-Requires: python elementtree
+Source: http://pyyaml.org/download/pyyaml/PyYAML-%realversion.tar.gz
+Requires: python
 
 %prep
-%setup -n pymongo-%realversion
+%setup -n PyYAML-%realversion
 
 %build
 
