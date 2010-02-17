@@ -24,6 +24,15 @@ perl -p -i -e 's|-m64 ||' build.sh
 # compiling some code bits in roofit which do not build with 
 # ROOT5.22/00 (5.24/00 or later is needed) in CXXFLAGS
 perl -p -i -e 's|-O2 -pipe|-O2 -pipe -D__ROOFIT_NOROOMINIMIZER|' build.sh
+case %cmsplatf in
+  osx10[0-9]_* )
+# Change gawk to awk
+perl -p -i -e 's|gawk|awk|' build.sh
+# -soname not on osx
+perl -p -i -e 's|-Wl,-soname,\S*\.so|-dynamiclib|' build.sh
+  ;;
+esac
+
 ./build.sh
 
 %install
