@@ -4,7 +4,7 @@
 # for instruction on how to configure.
 
 # Required for https and compression support
-Requires: openssl zlib expat uuid
+Requires: openssl zlib expat uuid sqlite
 
 # Can't figure out how to get rpm to stop complaining about this...
 # should be in e2fsprogs-libs-1.39-7.slc4 ...
@@ -43,6 +43,7 @@ Source1: http://www.apache.org/dist/httpd/httpd-%realversion.tar.gz
                         --with-ssl=$OPENSSL_ROOT \
                         --with-z=$ZLIB_ROOT \
 			--with-expat=$EXPAT_ROOT \
+			--with-sqlite3=$SQLITE_ROOT \
 			--with-uuid=$UUID_ROOT
 
                         
