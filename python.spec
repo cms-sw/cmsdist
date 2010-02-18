@@ -1,12 +1,14 @@
-### RPM external python 2.5.4
+### RPM external python 2.6.4
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 # OS X patches and build fudging stolen from fink
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 Requires: expat bz2lib db4 gdbm
 
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
-Requires: zlib openssl
+%if "%online" != "true"
+Requires: zlib openssl sqlite
 %endif
 
 # FIXME: readline, crypt 
@@ -49,10 +51,11 @@ perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" Lib/cgi.py
 # see above for the commented-out list of packages that could be
 # linked specifically, or could be built by ourselves, depending on
 # whether we like to pick up system libraries or want total control.
-mkdir -p %i/include %i/lib
+#mkdir -p %i/include %i/lib
+mkdir -p %i/include %i/lib %i/bin
 
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
-%define extradirs $ZLIB_ROOT $OPENSSL_ROOT 
+%if "%online" != "true"
+%define extradirs $ZLIB_ROOT $OPENSSL_ROOT $SQLITE_ROOT 
 %else
 %define extradirs %{nil}
 %endif
@@ -120,30 +123,33 @@ esac
 
 perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
                     %{i}/bin/pydoc \
+                    %{i}/bin/python-config \
+                    %{i}/bin/2to3 \
+                    %{i}/bin/python2.6-config \
                     %{i}/bin/smtpd.py \
-                    %{i}/lib/python2.4/bsddb/dbshelve.py \
-                    %{i}/lib/python2.4/test/test_bz2.py \
-                    %{i}/lib/python2.4/test/test_largefile.py \
-                    %{i}/lib/python2.4/test/test_optparse.py
+                    %{i}/lib/python2.6/bsddb/dbshelve.py \
+                    %{i}/lib/python2.6/test/test_bz2.py \
+                    %{i}/lib/python2.6/test/test_largefile.py \
+                    %{i}/lib/python2.6/test/test_optparse.py
 rm  `find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*'`
 rm  `find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*'`
 
+%if "%online" == "true"
 # remove tkinter that brings dependency on libtk:
-#
-
-rm  `find %{i}/lib -type f -name "_tkinter.so"`
+find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
+%endif
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.0>
 <Tool name=%n version=%v>
-<lib name=python2.4>
+<lib name=python2.6>
 <Client>
  <Environment name=PYTHON_BASE default="%i"></Environment>
  <Environment name=LIBDIR default="$PYTHON_BASE/lib"></Environment>
- <Environment name=INCLUDE default="$PYTHON_BASE/include/python2.4"></Environment>
- <Environment name=PYTHON_COMPILE default="$PYTHON_BASE/lib/python2.4/compileall.py"></Environment>
+ <Environment name=INCLUDE default="$PYTHON_BASE/include/python2.6"></Environment>
+ <Environment name=PYTHON_COMPILE default="$PYTHON_BASE/lib/python2.6/compileall.py"></Environment>
 </Client>
 <use name=sockets>
 <Runtime name=PATH value="$PYTHON_BASE/bin" type=path>
@@ -159,3 +165,4 @@ rm -f %i/share/doc/python/Demo/rpc/test
 %post
 find $RPM_INSTALL_PREFIX/%pkgrel/lib -type l | xargs ls -la | sed -e "s|.*[ ]\(/.*\) -> \(.*\)| \2 \1|;s|[ ]/[^ ]*/external| $RPM_INSTALL_PREFIX/%cmsplatf/external|g" | xargs -n2 ln -sf
 %{relocateConfig}etc/scram.d/%n
+%{relocateConfig}lib/python2.6/config/Makefile
