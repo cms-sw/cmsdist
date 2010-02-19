@@ -1,4 +1,4 @@
-### RPM external libjpg 6b-CMS19
+### RPM external libjpg 6b
 Source: ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v%{realversion}.tar.gz
 Source1: config.sub-amd64
 Patch0: libjpg-config.sub
@@ -17,10 +17,11 @@ Patch4: libjpg-makefile.cfg
 
 %build
 # libjpg ships with an old version of config.sub. 
-if [ "$(uname -m)" == "x86_64" ] || [ "$(uname -m)" == "ppc64" ]
-then
-cp %{_sourcedir}/config.sub-amd64 config.sub
-fi
+case %cmsos in 
+  slc*_amd64 )
+    cp %{_sourcedir}/config.sub-amd64 config.sub
+  ;;
+esac
 ./configure --prefix=%{i} --enable-shared --enable-static
 
 make %makeprocesses
