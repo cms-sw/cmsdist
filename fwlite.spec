@@ -1,5 +1,11 @@
-### RPM cms fwlite CMSSW_3_4_2_FWLITE
+### RPM cms fwlite CMSSW_3_3_2_FWLITE
 ## IMPORT configurations 
+Provides: /bin/zsh
+Provides: /bin/sed
+Provides: perl(Date::Format)
+Provides: perl(Term::ReadKey)
+Provides: perl(full)
+Provides: perl(Template)
 Requires: fwlite-tool-conf python
 
 %define cmssw_release   %(perl -e '$_="%v"; s/_FWLITE//; print;')
