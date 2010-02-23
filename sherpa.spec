@@ -1,24 +1,22 @@
-### RPM external sherpa 1.1.2
+### RPM external sherpa 1.2.0
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac 
 
-Source: http://www.hepforge.org/archive/sherpa/Sherpa-%realversion.tar.gz
+Source: http://cern.ch/service-spi/external/MCGenerators/distribution/sherpa-%{realversion}-src.tgz
 
 Requires: hepmc lhapdf
 
-Patch:  sherpa-1.1.2-lhapdf
-Patch1: sherpa-1.1.2-hepmc-pdfinfo
-Patch2: sherpa-1.1.2-mixing
-Patch3: sherpa-1.1.2-algebra
-Patch4: sherpa-1.1.2-flibs
-Patch5: sherpa-1.1.2-total_xs_getter
-Patch6: sherpa-1.1.2-susy_vertex
-Patch7: sherpa-1.1.2-lhapdf_ranges_1
-Patch8: sherpa-1.1.2-analysis_jetid_scan
-Patch9: sherpa-1.1.2-addfix
+Patch:  sherpa-1.2.0-gcc-4.4.x
+Patch1: sherpa-1.2.0-nlo-example
+Patch2: sherpa-1.2.0-mpiforbsm
+Patch3: sherpa-1.2.0-ispartonstatuscode
+Patch4: sherpa-1.2.0-dupl_header_remove
+Patch5: sherpa-1.2.0-agc_fix
+Patch6: sherpa-1.2.0-xs-error-nan
+Patch7: sherpa-1.2.0-liblock_home_1
 
 %prep
-%setup -n SHERPA-MC-%realversion
-%patch -p1
+%setup -n sherpa/%{realversion}
+%patch -p0
 %patch1 -p0 
 %patch2 -p0 
 %patch3 -p0 
@@ -26,99 +24,119 @@ Patch9: sherpa-1.1.2-addfix
 %patch5 -p0
 %patch6 -p0
 %patch7 -p0
-%patch8 -p0
-%patch9 -p0
+
+autoreconf -i
+
+./configure --prefix=%i --enable-analysis --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT CXXFLAGS="-O2 -fuse-cxa-atexit -m32"
+
 
 %build
-
 case %gccver in
-  4.*)
-export FC=gfortran
-  ;;
   3.*)
 export FC=g77
   ;;
 esac
 
-%if "%cmsplatf" == "slc4_ia32_gcc345"
-EXTRA_CFG_FLAGS="--copt LDFLAGS=-m32 --copt CFLAGS=-m32 --cxx -m32 --f -m32"
-%endif
+# Fix up a configuration mistake coming from a test being confused
+# by the "skipping incompatible" linking messages when linking 32bit on 64bit
+for file in `find ./ -name Makefile`; do
+  perl -p -i -e 's|/usr/lib64/libm.a||' $file
+  perl -p -i -e 's|/usr/lib64/libc.a||' $file
+done
 
-# in case of errors the tool prompts ... and the build process hangs forever :(
-echo "a" | ./TOOLS/makeinstall -t --copt --enable-hepmc2=$HEPMC_ROOT --copt --enable-lhapdf=$LHAPDF_ROOT --copt --prefix=%i ${EXTRA_CFG_FLAGS}
-
+make
 
 %install
-# make install
+make install
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="sherpa" version="%v">
-    <lib name="AhadicDecays"/>
-    <lib name="AhadicFormation"/>
-    <lib name="AhadicMain"/>
-    <lib name="AhadicTools"/>
-    <lib name="AmegicPSGen"/>
-    <lib name="Amegic"/>
-    <lib name="AmisicModel"/>
-    <lib name="Amisic"/>
-    <lib name="AmisicTools"/>
-    <lib name="Amplitude"/>
-    <lib name="AnalysisDetector"/>
-    <lib name="Analysis"/>
-    <lib name="AnalysisTools"/>
-    <lib name="AnalysisTriggers"/>
-    <lib name="ApacicMain"/>
-    <lib name="ApacicShowers"/>
-    <lib name="Beam"/>
-    <lib name="ExtraXS2_2"/>
-    <lib name="ExtraXSModel"/>
-    <lib name="ExtraXS"/>
-    <lib name="GRV"/>
-    <lib name="HadronsCurrents"/>
-    <lib name="HadronsMain"/>
-    <lib name="HadronsMEs"/>
-    <lib name="HadronsPSs"/>
-    <lib name="HelicitiesMain"/>
-    <lib name="LHAPDFSherpa"/>
-    <lib name="LundTools"/>
-    <lib name="ModelDecays"/>
-    <lib name="ModelInteractions"/>
-    <lib name="ModelMain"/>
-    <lib name="Observables"/>
-    <lib name="PDF"/>
-    <lib name="Phasespace"/>
-    <lib name="PhotonsMain"/>
-    <lib name="PhotonsMEs"/>
-    <lib name="PhotonsPhaseSpace"/>
-    <lib name="PhotonsTools"/>
-    <lib name="Remnant"/>
-    <lib name="SherpaInitialization"/>
-    <lib name="SherpaMain"/>
-    <lib name="SherpaPerturbativePhysics"/>
-    <lib name="SherpaSingleEvents"/>
-    <lib name="SherpaSoftPhysics"/>
-    <lib name="SherpaTools"/>
-    <lib name="String"/>
-    <lib name="Sudakov"/>
-    <lib name="ToolsMath"/>
-    <lib name="ToolsOrg"/>
-    <lib name="ToolsPhys"/>
-    <lib name="Zfunctions"/>
-    <client>
-      <environment name="SHERPA_BASE" default="%i"/>
-      <environment name="BINDIR" default="$SHERPA_BASE/bin"/>
-      <environment name="LIBDIR" default="$SHERPA_BASE/lib/SHERPA-MC"/>
-      <environment name="INCLUDE" default="$SHERPA_BASE/include"/>
-    </client>
-    <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$SHERPA_BASE/include" type="path"/>
-    <runtime name="SHERPA_SHARE_PATH" value="$SHERPA_BASE/share/SHERPA-MC" type="path"/>
-    <runtime name="SHERPA_INCLUDE_PATH" value="$SHERPA_BASE/include/SHERPA-MC" type="path"/>
-    <use name="HepMC"/>
-    <use name="lhapdf"/>
-  </tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+ <Tool name=%n version=%v>
+  <lib name="AhadicDecays"/>
+  <lib name="AhadicFormation"/>
+  <lib name="AhadicMain"/>
+  <lib name="AhadicTools"/>
+  <lib name="AmegicCluster"/>
+  <lib name="AmegicPSGen"/>
+  <lib name="Amegic"/>
+  <lib name="AmisicModel"/>
+  <lib name="Amisic"/>
+  <lib name="AmisicTools"/>
+  <lib name="Amplitude"/>
+  <lib name="Beam"/>
+  <lib name="ComixAmplitude"/>
+  <lib name="ComixCluster"/>
+  <lib name="ComixCurrents"/>
+  <lib name="ComixModels"/>
+  <lib name="ComixPhasespace"/>
+  <lib name="Comix"/>
+  <lib name="ComixVertices"/>
+  <lib name="CSCalculators"/>
+  <lib name="CSMain"/>
+  <lib name="CSShowers"/>
+  <lib name="CSTools"/>
+  <lib name="CTEQ6Sherpa"/>
+  <lib name="DipoleSubtraction"/>
+  <lib name="ExtraXS2_2"/>
+  <lib name="ExtraXSCluster"/>
+  <lib name="ExtraXSNLO"/>
+  <lib name="ExtraXS"/>
+  <lib name="GRVSherpa"/>
+  <lib name="HadronsCurrents"/>
+  <lib name="HadronsMain"/>
+  <lib name="HadronsMEs"/>
+  <lib name="HadronsPSs"/>
+  <lib name="HelicitiesLoops"/>
+  <lib name="HelicitiesMain"/>
+  <lib name="LHAPDFSherpa"/>
+  <lib name="LundTools"/>
+  <lib name="ModelInteractions"/>
+  <lib name="ModelMain"/>
+  <lib name="MRST01LOSherpa"/>
+  <lib name="MRST04QEDSherpa"/>
+  <lib name="MRST99Sherpa"/>
+  <lib name="PDFESherpa"/>
+  <lib name="PDF"/>
+  <lib name="PhasicChannels"/>
+  <lib name="PhasicMain"/>
+  <lib name="PhasicProcess"/>
+  <lib name="PhasicScales"/>
+  <lib name="PhasicSelectors"/>
+  <lib name="PhotonsMain"/>
+  <lib name="PhotonsMEs"/>
+  <lib name="PhotonsPhaseSpace"/>
+  <lib name="PhotonsTools"/>
+  <lib name="Remnant"/>
+  <lib name="SherpaAnalysis"/>
+  <lib name="SherpaAnalysisTools"/>
+  <lib name="SherpaAnalysisTrigger"/>
+  <lib name="SherpaInitialization"/>
+  <lib name="SherpaMain"/>
+  <lib name="SherpaObservables"/>
+  <lib name="SherpaPerturbativePhysics"/>
+  <lib name="SherpaSingleEvents"/>
+  <lib name="SherpaSoftPhysics"/>
+  <lib name="SherpaTools"/>
+  <lib name="String"/>
+  <lib name="ToolsMath"/>
+  <lib name="ToolsOrg"/>
+  <lib name="ToolsPhys"/>
+  <lib name="Zfunctions"/>
+  <client>
+   <Environment name="SHERPA_BASE" default="%i"></Environment>
+   <Environment name="BINDIR"  default="$SHERPA_BASE/bin"></Environment>
+   <Environment name="LIBDIR"  default="$SHERPA_BASE/lib/SHERPA-MC"></Environment>
+   <Environment name="INCLUDE" default="$SHERPA_BASE/include/SHERPA-MC"></Environment>
+  </client>
+  <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$SHERPA_BASE/include" type="path"/>
+  <runtime name="SHERPA_SHARE_PATH" value="$SHERPA_BASE/share/SHERPA-MC" type="path"/>
+  <runtime name="SHERPA_INCLUDE_PATH" value="$SHERPA_BASE/include/SHERPA-MC" type="path"/>
+  <use name="HepMC"/>
+  <use name="lhapdf"/>
+ </Tool>
 EOF_TOOLFILE
 
 %post
-%{relocateConfig}etc/scram.d/%n.xml
+%{relocateConfig}etc/scram.d/%n
