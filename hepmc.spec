@@ -1,10 +1,10 @@
-### RPM external hepmc 2.05.00
+### RPM external hepmc 2.05.01
 Source: http://lcgapp.cern.ch/project/simu/HepMC/download/HepMC-%realversion.tar.gz
 
 %prep
 %setup -q -n HepMC-%{realversion}
 
-./configure --prefix=%{i} --with-momentum=GEV --with-length=MM 
+./configure --prefix=%{i} --with-momentum=GEV --with-length=MM F77="gfortran"
 
 %build
 make 
