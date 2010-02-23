@@ -3,7 +3,8 @@
 ## INITENV +PATH PYTHONPATH %i/lib/python%{pythonv}/site-packages
 
 # this is where mechanize version 0.1.11 is located
-Source: http://wwwsearch.sourceforge.net/mechanize/src/mechanize-%realversion.tar.gz
+# changed ez_setup to use version 0.6c11
+Source: http://cern.ch/giffels/mechanize-%realversion.tar.gz
 Requires: python
 
 %prep
