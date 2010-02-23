@@ -1,4 +1,4 @@
-### RPM external beecrypt 4.1.2-CMS19
+### RPM external beecrypt 4.1.2
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 Source: http://puzzle.dl.sourceforge.net/sourceforge/%n/%n-%realversion.tar.gz
 %prep
@@ -7,4 +7,4 @@ Source: http://puzzle.dl.sourceforge.net/sourceforge/%n/%n-%realversion.tar.gz
 ./configure --prefix=%i --without-python --without-java
 make
 %post
-%{relocateConfig}lib/libbeecrypt.la
+%{relocateConfig}lib64/libbeecrypt.la
