@@ -69,9 +69,3 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 EOF_TOOLFILE
 %post
 %{relocateConfig}etc/scram.d/%n
-
-# Fix to the SELinux issue: 
-# http://www.appistry.com/community/forums/content/cannot-restore-segment-prot-after-reloc-permission-denied
-# as suggested by Andrea Valassi while the new Oracle libs are not released
-# But be aware that it may not work under certain scenarios.
-chcon -t textrel_shlib_t $RPM_INSTALL_PREFIX/%pkgrel/lib/* &> /dev/null || true

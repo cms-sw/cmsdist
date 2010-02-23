@@ -6,5 +6,3 @@ Source: http://puzzle.dl.sourceforge.net/sourceforge/%n/%n-%realversion.tar.gz
 %build
 ./configure --prefix=%i --without-python --without-java
 make
-%post
-%{relocateConfig}lib/libbeecrypt.la
