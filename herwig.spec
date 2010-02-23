@@ -1,9 +1,8 @@
-### RPM external herwig 6.510
-## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac 
-
+### RPM external herwig 6.510.3
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Requires: lhapdf photos tauola
 Patch1: herwig-6.510-tauola
+Patch2: herwig-6.510.3-nmxhep
 
 %prep
 %setup -q -n %n/%{realversion}
@@ -22,6 +21,8 @@ mv ./dummy/photos.f ./tauoladummy/
 
 # apply patch to modify Makefile
 %patch1 -p2
+%patch2 -p2
+
 ./configure --enable-shared
 
 %build
