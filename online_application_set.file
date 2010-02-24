@@ -312,8 +312,9 @@ RecoTracker/TkSeedGenerator
 RecoTracker/TkSeedingLayers
 RecoTracker/TrackProducer
 RecoTracker/TransientTrackingRecHit
-RecoVertex/GhostTrackFitter
 RecoVertex/BeamSpotProducer
+RecoVertex/GhostTrackFitter
+RecoVertex/PrimaryVertexProducer
 SimCalorimetry/EcalTrigPrimProducers
 SimCalorimetry/HcalTrigPrimProducers
 SimCalorimetry/HcalZeroSuppressionProducers
