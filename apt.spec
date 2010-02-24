@@ -18,6 +18,7 @@ Patch2: apt
 Patch3: apt-multiarch
 Patch4: apt-ansi-headers
 Patch5: apt-fix-parameter-names
+Patch6: apt-osx-readline
 
 %if "%(echo %{cmsos} | cut -d_ -f 2 | sed -e 's|.*64.*|64|')" == "64"
 %define libdir lib64
@@ -49,6 +50,10 @@ esac
 %patch3 -p1
 %patch4 -p2
 %patch5 -p2
+
+%if "%(echo %{cmsos} | cut -d_ -f 1 | sed -e 's|osx.*|osx|')" == "osx"
+%patch6 -p0
+%endif
 
 %build
 #export CFLAGS="-O0 -g"
