@@ -250,7 +250,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/oracle.xml
     <lib name="nnz11"/>
     <client>
       <environment name="ORACLE_BASE" default="%xdaq_root"/>
-      <environment name="ORACLE_ADMINDIR"/>
+      <environment name="ORACLE_ADMINDIR" default="."/>
       <environment name="LIBDIR" value="$ORACLE_BASE/lib"/>
       <environment name="BINDIR" value="$ORACLE_BASE/bin"/>
       <environment name="INCLUDE" value="$ORACLE_BASE/include"/>
