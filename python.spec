@@ -15,24 +15,9 @@ Requires: zlib openssl sqlite
 # FIXME: gmp, panel, tk/tcl, x11
 
 Source0: http://www.python.org/ftp/%n/%realversion/Python-%realversion.tgz
-Patch0: python-Include-pyport.h
-Patch1: python-Lib-plat-mac-applesingle.py
-Patch2: python-Lib-site.py
-Patch3: python-Mac-OSX-Makefile
-Patch4: python-Makefile.pre.in
-Patch5: python-configure
-Patch6: python-setup.py
-
 
 %prep
 %setup -n Python-%realversion
-#%patch0
-#%patch1
-#%patch2
-#%patch3
-#%patch4
-#%patch5
-#%patch6
 perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" Lib/cgi.py
 
 %ifos darwin
@@ -162,7 +147,22 @@ find %i -type f -perm -555 -name '*.py' -exec perl -p -i -e 'if ($. == 1) {s|^\'
 find %i -type f -perm -555 -name '*.py' -exec perl -p -i -e 'if ($. == 1) {s|/usr/local/bin/python|/usr/bin/env python|}' {} \;
 rm -f %i/share/doc/python/Demo/rpc/test
 
+# Setups dependencies environment
+rm -rf %i/etc/profile.d
+mkdir -p %i/etc/profile.d
+for x in %pkgreqs; do
+  case $x in /* ) continue ;; esac
+  p=%{instroot}/%{cmsplatf}/$(echo $x | sed 's/\([^+]*\)+\(.*\)+\([A-Z0-9].*\)/\1 \2 \3/' | tr ' ' '/')
+  echo ". $p/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
+  echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+done
+
 %post
 find $RPM_INSTALL_PREFIX/%pkgrel/lib -type l | xargs ls -la | sed -e "s|.*[ ]\(/.*\) -> \(.*\)| \2 \1|;s|[ ]/[^ ]*/external| $RPM_INSTALL_PREFIX/%cmsplatf/external|g" | xargs -n2 ln -sf
 %{relocateConfig}etc/scram.d/%n
 %{relocateConfig}lib/python2.6/config/Makefile
+
+# Relocation for dependencies
+%{relocateConfig}etc/profile.d/dependencies-setup.sh
+%{relocateConfig}etc/profile.d/dependencies-setup.csh
+
