@@ -117,7 +117,7 @@ case %cmsplatf in
    (cd %i/lib/python%{pythonv}/config
     perl -p -i -e 's|-fno-common||g' Makefile)
 
-   find %i/lib/python%{pythonv}/config -name 'libpython*' -exec mv -f {} %i/lib \;
+   find %i/lib/python%{pythonv}/config -name 'libpython*' -exec mv {} %i/lib \;
   ;;
 esac
 
