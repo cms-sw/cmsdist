@@ -1,18 +1,26 @@
-### RPM cms PHEDEX-web WEB_3_1_2a
-#
+### RPM cms PHEDEX-web WEB_3_1_2b
+# note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define nversion %(echo %v | sed 's|WEB_||' | sed 's|_|.|g')
+%define cvsversion %(echo %v | sed 's/[a-z]$//')
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define deployutil WTDeployUtil.pm
 %define deployutilrev 1.5
 %define deployutilurl http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/COMP/WEBTOOLS/Configuration/%{deployutil}?revision=%{deployutilrev}
 
-Source: %cvsserver&strategy=checkout&module=%{downloadn}&export=%{downloadn}&&tag=-r%{v}&output=/%{n}.tar.gz
-Requires: oracle oracle-env p5-time-hires p5-text-glob p5-compress-zlib p5-dbi p5-dbd-oracle p5-xml-parser
-Requires: p5-cgi p5-cgi-session p5-json-xs p5-apache-dbi p5-sort-key
+Source: %cvsserver&strategy=checkout&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
+
+# For DB Access
+Requires: oracle oracle-env p5-dbi p5-dbd-oracle
+# Core for web apps
+Requires: apache2-conf mod_perl2 p5-apache-dbi webtools p5-cgi p5-cgi-session
+# Useful for web apps
+Requires: p5-json-xs p5-xml-parser
+# Misc. Utilities
+Requires: p5-params-validate p5-clone p5-time-hires p5-text-glob p5-compress-zlib p5-sort-key p5-mail-rfc822-address
+# For GraphTool component
 Requires: py2-pil py2-matplotlib py2-numpy libjpg
-Requires: apache2-conf mod_perl2 webtools
 
 # Actually, it is p5-xml-parser that requires this, but it doesn't configure itself correctly
 # This is so it gets into our dependencies-setup.sh
@@ -24,6 +32,7 @@ Provides: perl(DB_File)
 Provides: perl(XML::LibXML)
 
 # We obsolete each previous release to force them to be removed
+Obsoletes: cms+PHEDEX-web+WEB_3_1_2a
 Obsoletes: cms+PHEDEX-web+WEB_3_1_2
 Obsoletes: cms+PHEDEX-web+WEB_3_1_1b
 Obsoletes: cms+PHEDEX-web+WEB_3_1_1a
