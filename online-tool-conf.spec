@@ -1,4 +1,4 @@
-### RPM cms online-tool-conf 4.1
+### RPM cms online-tool-conf 5.0
 # with cmsBuild, change the above version only when a new
 # tool is added
 ## INITENV SET CMSSW_TOOL_CONF_ROOT $ONLINE_TOOL_CONF_ROOT
@@ -23,6 +23,7 @@ Requires: root
 Requires: castor
 Requires: libjpg
 Requires: dcap
+Requires: oracle-env
 Requires: p5-dbd-oracle
 Requires: frontier_client
 Requires: sqlite
@@ -32,7 +33,7 @@ Requires: elementtree
 Requires: sigcpp
 Requires: fastjet
 Requires: ktjet
-Requires: oracle-env
+Requires: cmsswdata
 Requires: onlinesystemtools
 
 %define skipreqtools jcompiler

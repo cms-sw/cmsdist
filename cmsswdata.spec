@@ -1,6 +1,8 @@
 ### RPM cms cmsswdata 23
 Source: none
 
+%if "%online" != "true"
+# data dependencies for standard builds
 Requires: data-FastSimulation-MaterialEffects
 Requires: data-FastSimulation-PileUpProducer
 Requires: data-MagneticField-Interpolation
@@ -14,6 +16,10 @@ Requires: data-Validation-Geometry
 Requires: data-RecoMuon-MuonIdentification
 Requires: data-L1Trigger-RPCTrigger
 Requires: data-Fireworks-Geometry
+%else
+# data dependencies for ONLINE builds
+Requires: data-MagneticField-Interpolation
+%endif
 
 %prep
 %build
