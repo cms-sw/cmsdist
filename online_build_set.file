@@ -524,6 +524,7 @@ RecoVertex/KinematicFit
 RecoVertex/KinematicFitPrimitives
 RecoVertex/LinearizationPointFinders
 RecoVertex/MultiVertexFit
+RecoVertex/PrimaryVertexProducer
 RecoVertex/TrimmedKalmanVertexFinder
 RecoVertex/VertexPrimitives
 RecoVertex/VertexTools
