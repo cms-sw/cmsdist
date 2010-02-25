@@ -247,7 +247,7 @@ EOF_TOOLFILE
 cat << \EOF_TOOLFILE >%i/etc/scram.d/oracle.xml
   <tool name="oracle" version="%oracle_version">
     <lib name="clntsh"/>
-    <lib name="nnz11"/>
+    <lib name="nnz10"/>
     <client>
       <environment name="ORACLE_BASE" default="%xdaq_root"/>
       <environment name="ORACLE_ADMINDIR" default="."/>
