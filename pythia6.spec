@@ -14,7 +14,7 @@ export F77=g77
 esac
 
 %setup -q -n %{n}/%{realversion}
-./configure --enable-shared
+./configure --enable-shared --with-hepevt=4000 
 
 %build
 make 
