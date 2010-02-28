@@ -1,23 +1,23 @@
 ### RPM external gdb 7.0
-## BUILDIF case $(uname):$(uname -m) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac 
+## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac 
 
 Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.bz2
 Requires: python
-Requires: expat
 
 %prep
 %setup -n %n-%{realversion}
 
 %build
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
-./configure --prefix=%{i} --with-expat=$EXPAT_ROOT --with-python=$PYTHON_ROOT
+#./configure --prefix=%{i} --with-expat=no --with-python=yes --with-python-lib=$PYTHON_ROOT/lib --with-python-include=$PYTHON_ROOT/include/python${PYTHONV}
+./configure --prefix=%{i} --with-expat=no --with-python=$PYTHON_ROOT
 make %makeprocesses
 
 %install
 make install
 mv %i/bin/gdb %i/bin/gdb-%{realversion}
 
-# To save space, clean up some things that we don't really need 
+# To save space, clean up some things that we don't really need
 rm %i/lib/*
 rm %i/bin/gdbserver
 rm %i/bin/gdbtui
