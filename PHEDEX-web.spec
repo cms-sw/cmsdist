@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-web WEB_3_1_2b
+### RPM cms PHEDEX-web WEB_3_1_3
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -19,6 +19,7 @@ Requires: apache2-conf mod_perl2 p5-apache-dbi webtools p5-cgi p5-cgi-session
 Requires: p5-json-xs p5-xml-parser
 # Misc. Utilities
 Requires: p5-params-validate p5-clone p5-time-hires p5-text-glob p5-compress-zlib p5-sort-key p5-mail-rfc822-address
+Requires: p5-log-log4perl
 # For GraphTool component
 Requires: py2-pil py2-matplotlib py2-numpy libjpg py2-pytz
 
