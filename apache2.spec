@@ -1,10 +1,10 @@
-### RPM external apache2 2.2.14
+### RPM external apache2 2.2.11
 # See:
 # http://httpd.apache.org/docs/2.2/install.html
 # for instruction on how to configure.
 
 # Required for https and compression support
-Requires: openssl zlib expat uuid sqlite
+Requires: openssl zlib expat uuid
 
 # Can't figure out how to get rpm to stop complaining about this...
 # should be in e2fsprogs-libs-1.39-7.slc4 ...
@@ -16,9 +16,13 @@ Provides: libcom_err.so.2()(64bit)
 # That's probably good for security.
 Source0: http://mirror.switch.ch/mirror/apache/dist/httpd/httpd-%realversion.tar.gz
 Source1: http://www.apache.org/dist/httpd/httpd-%realversion.tar.gz
+#Patch0: apache2
+#Patch1: apache2-xlog
 
 %prep
 %setup -n httpd-%realversion
+#%patch0 -p0
+#%patch1 -p0
 
 %build
 # See here:
@@ -43,7 +47,6 @@ Source1: http://www.apache.org/dist/httpd/httpd-%realversion.tar.gz
                         --with-ssl=$OPENSSL_ROOT \
                         --with-z=$ZLIB_ROOT \
 			--with-expat=$EXPAT_ROOT \
-			--with-sqlite3=$SQLITE_ROOT \
 			--with-uuid=$UUID_ROOT
 
                         
