@@ -1,6 +1,6 @@
 ### RPM external fakesystem 1.0
 ## NOCOMPILER
-Source: none
+
 # Various system scripts
 Provides: /bin/zsh
 Provides: /bin/ksh
