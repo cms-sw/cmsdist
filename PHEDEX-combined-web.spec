@@ -4,7 +4,6 @@
 # PHEDEX-datasvc on a combined platform of dependencies
 
 Requires: PHEDEX-web PHEDEX-datasvc PHEDEX-appserv
-Source: none
 
 %prep
 cd %_builddir
