@@ -7,9 +7,6 @@ Requires: PHEDEX-web PHEDEX-datasvc PHEDEX-appserv
 
 %prep
 cd %_builddir
-mkdir PHEDEX-combined-web-dummy
-cd PHEDEX-combined-web-dummy
-cp -f %_sourcedir/none .
 %build
 %install
 mkdir -p %{i}/bin
