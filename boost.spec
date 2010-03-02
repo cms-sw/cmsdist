@@ -1,4 +1,4 @@
-### RPM external boost 1.42.0
+### RPM external boost 1.40.0
 %define boostver _%(echo %realversion | tr . _)
 Source: http://internap.dl.sourceforge.net/sourceforge/%{n}/%{n}%{boostver}.tar.gz
 %define closingbrace )
@@ -13,6 +13,10 @@ Requires: zlib
 %setup -n %{n}%{boostver}
 
 %build
+# Note that some targets will fail to build (the test programs have
+# missing symbols), causing darwin to fail to link and bjam to return
+# an error.  So ignore the exit code from bjam on darwin to avoid
+# RPM falsely detecting a problem.
 PV="PYTHON_VERSION=$(echo $PYTHON_VERSION | sed 's/\.[0-9]*-.*$//')"
 PR="PYTHON_ROOT=$PYTHON_ROOT"
 
@@ -26,36 +30,50 @@ ZLIBR="ZLIB_LIBPATH=$ZLIB_ROOT/lib"
 ZLIBI="ZLIB_INCLUDE=$ZLIB_ROOT/include"
 
 case $(uname) in
-  Darwin )  bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$ZLIBR toolset=darwin stage;;
-  * )       bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$ZLIBR toolset=gcc stage;;
+  Darwin )  bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$ZLIBR -sTOOLS=darwin --toolset=darwin || true ;;
+  * )       bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$ZLIBR -sTOOLS=gcc ;;
 esac
 %else
-bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$BZ2LIBI toolset=gcc stage
+bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$BZ2LIBI -sTOOLS=gcc
 %endif
 
 %install
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
-mkdir -p %i/lib %i/include
-# copy files around in their final location.
-# We use tar to reduce the number of processes required
-# and because we need to build the build hierarchy for
-# the files that we are copying.
-pushd stage/lib
-  find . -name "*.$so*" -type f | tar cf - -T - | (cd %i/lib; tar xfp -)
-popd
-find boost -name '*.[hi]*' | tar cf - -T - | ( cd %i/include; tar xfp -)
+#no debug libs...
+#mkdir -p %i/lib/debug
+mkdir %i/lib
+#(cd bin/boost; find libs -path "libs/*/debug/*.$so" -exec cp {} %i/lib/debug \;)
+# Perhaps the following could be done with a wildcard for the darwin/gcc dir
+case %cmsplatf in 
+  osx*) 
+    (cd bin.v2; find libs -path "libs/*/build/darwin*/release/*.$so*" -exec cp  {} %i/lib/. \;)
+    ;;
+  * )
+    (cd bin.v2; find libs -path "libs/*/build/gcc*/release/*.$so*" -exec cp  {} %i/lib/. \;)
+    ;;
+esac
+
+find boost -name '*.[hi]*' -print |
+  while read f; do
+    mkdir -p %i/include/$(dirname $f)
+    install -c $f %i/include/$f
+  done
+find libs -name '*.py' -print |
+  while read f; do
+    mkdir -p %i/lib/$(dirname $f)
+    install -c $f %i/lib/$f
+  done
+
+# Do all manipulation with files before creating symbolic links:
+perl -p -i -e "s|^#!.*python|/usr/bin/env python|" $(find %{i}/lib %{i}/bin)
+#strip %i/lib/*.$so 
 
 for l in `find %i/lib -name "*.$so.*"`
 do
   ln -s `basename $l` `echo $l | sed -e "s|[.]$so[.].*|.$so|"`
 done
 
-pushd libs/python/pyste/install
-  python setup.py install --prefix=%i
-popd
-
-# Do all manipulation with files before creating symbolic links:
-perl -p -i -e "s|^#!.*python|/usr/bin/env python|" $(find %{i}/lib %{i}/bin -type f)
+(cd %i/lib/libs/python/pyste/install; python setup.py install --prefix=%i)
 
 getLibName()
 {
