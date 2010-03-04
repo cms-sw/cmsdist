@@ -1,6 +1,5 @@
-### RPM external libxml2 2.6.23_CMS19
-%define downloadv %(echo %realversion | cut -d"_" -f1)
-Source: ftp://xmlsoft.org/%n/%n-%downloadv.tar.gz
+### RPM external libxml2 2.6.23-CMS19
+Source: ftp://xmlsoft.org/%n/%n-%realversion.tar.gz
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
@@ -9,7 +8,7 @@ Requires: zlib
 %endif
 
 %prep
-%setup -n %n-%downloadv
+%setup -n %n-%realversion
 %build
 %if "%online" != "true"
 ./configure --prefix=%i --with-zlib=$ZLIB_ROOT --without-python
