@@ -17,7 +17,7 @@ cp -p downtimeFeed_cron.py rssParser.py samdb_dict.py ical.py getCICFeed.py getC
 mkdir %i/Monit # where dynamic data will be stored
 mkdir %i/conf
 sed -e 's:@ICAL_PATH@:%i/Monit:g' gcal-daemon.cfg > %i/conf/gcal-daemon.cfg
-cp -p $GCALDAEMON_ROOT/conf/logger-config.cfg > %i/conf/
+cp -p $GCALDAEMON_ROOT/conf/logger-config.cfg %i/conf/
 
 cat > %i/calendar.sh << \EOF_SCRIPT 
 #!/bin/sh
