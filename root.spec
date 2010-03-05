@@ -145,16 +145,7 @@ case $(uname)-$(uname -m) in
   Linux-i*86)
     ./configure linux  $CONFIG_ARGS --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift;;
   Darwin*)
-    case %cmsplatf in
-    *_ia32_* ) 
-      comparch=i386 ;;
-    *_amd64_* )
-      comparch=x86_64 ;;
-    * ) 
-      comparch=ppc ;;
-    esac
-    export CC="gcc -arch $comparch" CXX="g++ -arch $comparch"
-    ./configure macosx $CONFIG_ARGS --with-cc="$CC" --with-cxx="$CXX" --disable-rfio --disable-builtin_afterimage ;;
+    ./configure macosx $CONFIG_ARGS --disable-rfio --disable-builtin_afterimage ;;
   Linux-ppc64*)
     ./configure linux $CONFIG_ARGS --disable-rfio;;
 esac
@@ -275,24 +266,18 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcintex.xml
   </tool>
 EOF_TOOLFILE
 
-# rootinteractive toolfile (GQt/qt lib dependencies
-# have been moved to rootqt.xml)
+# (temporarily eviscerated) rootinteractive toolfile (GQt/qt lib dependencies
+# have been removed for the moment)
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootinteractive.xml
   <tool name="rootinteractive" version="%v">
     <info url="http://root.cern.ch/root/"/>
     <lib name="Rint"/>
+    <lib name="GQt"/>
     <lib name="Gui"/>
+    <use name="qt"/>
     <use name="libjpg"/>
     <use name="libpng"/>
     <use name="rootgpad"/>
-  </tool>
-EOF_TOOLFILE
-
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootqt.xml
-  <tool name="rootqt" version="%v">
-    <info url="http://root.cern.ch/root/"/>
-    <lib name="GQt"/>
-    <use name="qt"/>
   </tool>
 EOF_TOOLFILE
 
