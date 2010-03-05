@@ -24,7 +24,7 @@ COMPILER_VERSION_MAJOR=`echo %cmsplatf | sed -e 's|.*gcc\([0-9]\).*|\1|'`
 # this template there are some additional cmsplatf-dependent substitutions
 # and some overall general substitutions below
 case %cmsplatf in
-slc4_ia32_gcc4* | slc5_ia32_gcc4* | slc4_amd64_gcc4* | slc5_amd64_gcc4* | slc5onl_ia32_gcc4* )
+slc5_ia32_gcc4* | slc5_amd64_gcc4* | slc5onl_ia32_gcc4* )
 cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
   <tool name="cxxcompiler" version="@GCC_VERSION@" type="compiler">
     <client>
@@ -118,25 +118,15 @@ esac
 
 # Specific substitutions to the templates above (default case needed?)
 case %cmsplatf in
-  slc4_ia32_gcc4* )
-    perl -p -i -e "s|\@LDOPT\@|-Wl,-E|g"   %i/etc/scram.d/cxxcompiler.xml
-    perl -p -i -e "s|\@GXXLIB\@|lib|g"   %i/etc/scram.d/cxxcompiler.xml
-    perl -p -i -e "s|\@GXXOPT\@|-O2 -fvisibility-inlines-hidden|g"  %i/etc/scram.d/cxxcompiler.xml
-  ;;
   slc5_ia32_gcc4* | slc5onl_ia32_gcc4* )
     perl -p -i -e "s|\@LDOPT\@|-Wl,-E -Wl,--hash-style=gnu|g"   %i/etc/scram.d/cxxcompiler.xml
     perl -p -i -e "s|\@GXXLIB\@|lib|g"   %i/etc/scram.d/cxxcompiler.xml
     perl -p -i -e "s|\@GXXOPT\@|-O2|g"   %i/etc/scram.d/cxxcompiler.xml
   ;;
-  slc4_amd64_gcc4* )
-    perl -p -i -e "s|\@LDOPT\@|-Wl,-E|g"   %i/etc/scram.d/cxxcompiler.xml
-    perl -p -i -e "s|\@GXXLIB\@|lib64|g" %i/etc/scram.d/cxxcompiler.xml
-    perl -p -i -e "s|\@GXXOPT\@|-O2|g"   %i/etc/scram.d/cxxcompiler.xml
-  ;;
   slc5_amd64_gcc4* )
     perl -p -i -e "s|\@LDOPT\@|-Wl,-E -Wl,--hash-style=gnu|g"   %i/etc/scram.d/cxxcompiler.xml
     perl -p -i -e "s|\@GXXLIB\@|lib64|g" %i/etc/scram.d/cxxcompiler.xml
-    perl -p -i -e "s|\@GXXOPT\@|-O2|g"   %i/etc/scram.d/cxxcompiler.xml
+    perl -p -i -e "s|\@GXXOPT\@|-O2 -ftree-vectorize|g"   %i/etc/scram.d/cxxcompiler.xml
   ;;
   osx*_ia32_gcc4* )
     perl -p -i -e "s|\@OSXARCH\@|-arch i386|g"   %i/etc/scram.d/cxxcompiler.xml
