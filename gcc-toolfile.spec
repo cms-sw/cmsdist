@@ -86,7 +86,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/f77compiler.xml
   </tool>
 EOF_TOOLFILE
 ;;
-osx104_ppc32_gcc40* | osx104_ia32_gcc40* | osx10[56]* )
+osx104_ppc32_gcc40* | osx104_ia32_gcc40* | osx105* )
 cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
   <tool name="cxxcompiler" version="@GCC_VERSION@" type="compiler">
     <client>
@@ -101,12 +101,12 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
     <flags CPPDEFINES="GNU_GCC"/>
     <flags CPPDEFINES="_GNU_SOURCE"/>
     <flags CXXSHAREDOBJECTFLAGS="-fPIC"/>
-    <flags CXXFLAGS="@OSXARCH@ -pedantic -ansi -pipe"/>
+    <flags CXXFLAGS="-pedantic -ansi -pipe"/>
     <flags CXXFLAGS="-O2"/>
     <flags CXXFLAGS="-felide-constructors -fmessage-length=0 -ftemplate-depth-300"/>
     <flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses"/>
     <flags LDFLAGS=" "/>
-    <flags CXXSHAREDFLAGS="@OSXARCH@ -dynamiclib -single_module"/>
+    <flags CXXSHAREDFLAGS="-dynamiclib -single_module"/>
     <flags SHAREDSUFFIX="dylib"/>
     <flags SCRAM_LANGUAGE_TYPE="C++"/>
     <runtime name="DYLD_LIBRARY_PATH" value="$GCC_BASE/lib" type="path"/>
@@ -137,15 +137,6 @@ case %cmsplatf in
     perl -p -i -e "s|\@LDOPT\@|-Wl,-E -Wl,--hash-style=gnu|g"   %i/etc/scram.d/cxxcompiler.xml
     perl -p -i -e "s|\@GXXLIB\@|lib64|g" %i/etc/scram.d/cxxcompiler.xml
     perl -p -i -e "s|\@GXXOPT\@|-O2|g"   %i/etc/scram.d/cxxcompiler.xml
-  ;;
-  osx*_ia32_gcc4* )
-    perl -p -i -e "s|\@OSXARCH\@|-arch i386|g"   %i/etc/scram.d/cxxcompiler.xml
-  ;;
-  osx*_amd64_gcc4* )
-    perl -p -i -e "s|\@OSXARCH\@|-arch x86_64|g"   %i/etc/scram.d/cxxcompiler.xml
-  ;;
-  osx*_ppc32_gcc4* )
-    perl -p -i -e "s|\@OSXARCH\@|-arch ppc|g"   %i/etc/scram.d/cxxcompiler.xml
   ;;
 esac
 
