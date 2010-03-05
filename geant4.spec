@@ -39,6 +39,7 @@ echo "export G4TMP=$PWD/tmp" >> G4BuildConf.sh
 echo "export G4LIB=%i/lib" >> G4BuildConf.sh
 echo "export G4LIB_BUILD_SHARED=1" >> G4BuildConf.sh
 echo "unset G4DEBUG" >> G4BuildConf.sh
+echo "export G4_NO_VERBOSE=1" >> G4BuildConf.sh
 echo "export CPPVERBOSE=yes" >> G4BuildConf.sh
 
 echo "export G4LEVELGAMMADATA=%i/data/PhotonEvaporation/%{photonEvaporationVersion}" >> G4BuildConf.sh
