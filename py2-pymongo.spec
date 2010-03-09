@@ -1,4 +1,4 @@
-### RPM external py2-pymongo 1.3
+### RPM external py2-pymongo 1.4
 %define pythonv %(echo $PYTHON_VERSION | cut -f1,2 -d.)
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
