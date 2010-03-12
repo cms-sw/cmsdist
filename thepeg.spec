@@ -5,12 +5,14 @@
 #Source: http://projects.hepforge.org/herwig/files/ThePEG-%{realversion}.tar.gz
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/thepeg-%{realversion}-src.tgz
 Patch0: thepeg-1.6.1-break-termcap-dependence
+Patch1: thepeg-1.6.1-units
 Requires: lhapdf
 Requires: gsl
 
 %prep
 %setup -q -n %{n}/%{realversion}
 %patch0 -p2
+%patch1 -p2
 
 %build
 ./configure --with-LHAPDF=$LHAPDF_ROOT/lib --without-javagui --prefix=%i --with-gsl=$GSL_ROOT
