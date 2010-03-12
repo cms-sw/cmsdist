@@ -28,6 +28,7 @@ cp Linux_All_DBG.OBJ/*.h %i/include
 cp editline/*.h %i/include/editline
 cp fdlibm/*.h %i/include/fdlibm
 cp liveconnect/*.h %i/include/liveconnect
+ln -s %i/lib/libjs.a %i/lib/libjs_static.a
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
