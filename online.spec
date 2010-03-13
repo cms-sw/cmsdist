@@ -1,4 +1,4 @@
-### RPM cms online CMSSW_3_5_0_pre4_ONLINE
+### RPM cms online CMSSW_3_3_2_ONLINE
 ## IMPORT configurations 
 
 Provides: /bin/zsh
@@ -12,9 +12,8 @@ Provides: perl(full)
 Provides: perl(LWP::UserAgent)
 Provides: perl(Template)
 Provides: libg2c.so.0
-Provides: ld-linux.so.2(GLIBC_PRIVATE)
 Requires: online-tool-conf python
-Patch0: online_src
+Provides: ld-linux.so.2(GLIBC_PRIVATE)
 
 %define cmssw_release   %(perl -e '$_="%v"; s/_ONLINE//; print;')
 %define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
@@ -29,7 +28,6 @@ Patch0: online_src
 %define buildsetfile    online_build_set
 
 %define patchsrc2	perl -p -i -e ' s!(<classpath.*/test\\+.*>)!!' config/BuildFile.xml
-%define patchsrc3       %patch -p0
 
 ## IMPORT cms-scram-build
 ## IMPORT partial-build
