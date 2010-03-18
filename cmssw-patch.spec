@@ -1,4 +1,4 @@
-### RPM cms cmssw-patch CMSSW_3_3_6_patch3
+### RPM cms cmssw-patch CMSSW_3_5_4_patch1
 ## IMPORT configurations 
 Requires: cmssw-patch-tool-conf 
 
@@ -20,4 +20,4 @@ Requires: cmssw-patch-tool-conf
 %define isPatch         yes
 
 ## IMPORT cms-scram-build
-## IMPORT scramv1-build
+## IMPORT scramv1-patch-build
