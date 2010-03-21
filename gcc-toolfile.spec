@@ -42,7 +42,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
     <flags cxxflags="-pedantic -ansi -pthread -pipe"/>
     <flags cxxflags="@GXXOPT@"/>
     <flags cxxflags="-felide-constructors -fmessage-length=0 -ftemplate-depth-300"/>
-    <flags cxxflags="-Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses -Werror=array-bounds -Wno-deprecated -Werror=overflow -Werror=return-type -Werror=format-contains-nul -Werror=missing-braces -Werror=unused-value -Werror=address -fdiagnostics-show-option"/>
+    <flags cxxflags="-Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses -Werror=array-bounds -Wno-deprecated -Werror=overflow -Werror=return-type -Werror=format-contains-nul -Werror=missing-braces -Werror=unused-value -Werror=address -Werror=format -Werror=sign-compare -Werror=write-strings -Werror=strict-overflow -fdiagnostics-show-option"/>
     <flags ldflags="@LDOPT@"/>
     <flags cxxsharedflags="-Wl,-E"/>
     <flags sharedsuffix="so"/>
