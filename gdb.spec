@@ -1,16 +1,17 @@
-### RPM external gdb 7.0
+### RPM external gdb 7.1
 ## BUILDIF case $(uname):$(uname -m) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac 
 
 Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.bz2
 Requires: python
-Requires: expat
+#Requires: expat
 
 %prep
 %setup -n %n-%{realversion}
 
 %build
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
-./configure --prefix=%{i} --with-expat=$EXPAT_ROOT --with-python=$PYTHON_ROOT
+#./configure --prefix=%{i} --with-expat=$EXPAT_ROOT --with-python=$PYTHON_ROOT
+./configure --prefix=%{i} --with-expat=no --with-python=$PYTHON_ROOT
 make %makeprocesses
 
 %install
