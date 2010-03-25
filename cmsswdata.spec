@@ -1,6 +1,9 @@
 ### RPM cms cmsswdata 23
 Source: none
 
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
+
 %if "%online" != "true"
 # data dependencies for standard builds
 Requires: data-FastSimulation-MaterialEffects
