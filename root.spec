@@ -14,7 +14,7 @@ Patch4:  root-5.22-00d-fireworks-graf3d-gui
 Patch5:  root-5.22-00a-roofit-silence-static-printout
 Patch6: root-5.22-00a-TMVA-just-shut-the-hell-up
 Patch7: root-5.22-00a-th1
-# patch 8 was dropped
+Patch8: root-5.22-00d-makelib-ldl
 Patch9: root-5.22-00a-fireworks1
 Patch10: root-5.22-00a-gcc44 
 Patch11: root-5.22-00a-fireworks2
@@ -58,7 +58,7 @@ Requires: libtiff
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-# patch 8 was dropped
+%patch8 -p1
 %patch9 -p1
 
 # patch10 is compiler version dependent, see below
