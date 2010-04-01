@@ -80,3 +80,5 @@ if [ -d /data/download ]; then
 else
    mkdir -p $FMWSHOME/download
 fi
+cd $FMWSHOME
+./scripts/genTemplates.sh
