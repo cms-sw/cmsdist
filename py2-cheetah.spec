@@ -1,7 +1,8 @@
-### RPM external py2-cheetah 2.4.0
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
-Source: http://pypi.python.org/packages/source/C/Cheetah/Cheetah-%realversion.tar.gz
+### RPM external py2-cheetah 2.0rc8
 Requires: python
+## INITENV +PATH PYTHONPATH %i/lib/python%{pythonv}`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
+%define pythonv %(echo $PYTHON_VERSION | cut -d. -f 1,2)
+Source: http://switch.dl.sourceforge.net/sourceforge/cheetahtemplate/Cheetah-%realversion.tar.gz
 
 %prep
 %setup -n Cheetah-%realversion
