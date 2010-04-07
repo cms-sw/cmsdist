@@ -1,4 +1,4 @@
-### RPM cms das V04_00_06
+### RPM cms das V04_00_07
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PYTHONPATH $WMCORE_ROOT/src/python
 ## INITENV +PATH PYTHONPATH %i/src/python
@@ -10,7 +10,8 @@
 %define pver `echo $PYTHON_VERSION | cut -d. -f1,2`
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=COMP/DAS&nocache=true&export=DAS&tag=-r%{cvstag}&output=/das.tar.gz
-Requires: python cherrypy py2-cheetah yui elementtree mongo-bin py2-pymongo py2-cjson py2-yaml wmcore py2-sphinx py2-openid py2-sqlalchemy py2-ipython py2-pystemmer py2-mongoengine py2-lxml
+Requires: python cherrypy py2-cheetah yui elementtree mongo py2-pymongo py2-cjson py2-yaml wmcore py2-sphinx py2-openid py2-sqlalchemy py2-ipython py2-pystemmer py2-mongoengine py2-lxml
+#Requires: python cherrypy py2-cheetah yui elementtree mongo-bin py2-pymongo py2-cjson py2-yaml wmcore py2-sphinx py2-openid py2-sqlalchemy py2-ipython py2-pystemmer py2-mongoengine py2-lxml
 #Requires: python cherrypy py2-cheetah yui elementtree mongo py2-pymongo py2-cjson py2-yaml py2-sphinx py2-openid py2-sqlalchemy py2-ipython
 #Requires: python cherrypy py2-cheetah sqlite py2-pysqlite py2-sqlalchemy yui elementtree memcached py2-memcached mongo-bin py2-pymongo py2-cjson py2-yaml wmcore-webtools
 #Requires: python cherrypy py2-cheetah sqlite py2-pysqlite py2-sqlalchemy yui elementtree memcached py2-memcached mongo py2-pymongo py2-cjson py2-yaml wmcore-webtools
@@ -71,14 +72,14 @@ sed "s,logdir = /tmp,logdir = $DAS_ROOT/logs,g" |\
 sed "s,http://localhost,http://$IP,g" > $DAS_ROOT/etc/das.cfg.tmp
 /bin/mv -f $DAS_ROOT/etc/das.cfg.tmp $DAS_ROOT/etc/das.cfg
 
-cat $DAS_ROOT/src/python/DAS/web/das_cacheconfig.py | sed "s,127.0.0.1,$IP,g" >\
-$DAS_ROOT/src/python/DAS/web/das_cacheconfig.py.tmp
-/bin/mv -f $DAS_ROOT/src/python/DAS/web/das_cacheconfig.py.tmp $DAS_ROOT/src/python/DAS/web/das_cacheconfig.py
+#cat $DAS_ROOT/src/python/DAS/web/das_cacheconfig.py | sed "s,127.0.0.1,$IP,g" >\
+#$DAS_ROOT/src/python/DAS/web/das_cacheconfig.py.tmp
+#/bin/mv -f $DAS_ROOT/src/python/DAS/web/das_cacheconfig.py.tmp $DAS_ROOT/src/python/DAS/web/das_cacheconfig.py
 
-cat $DAS_ROOT/src/python/DAS/web/das_webconfig.py | sed "s,127.0.0.1,$IP,g" |\
-sed "s,http://localhost,http://$IP,g" > \
-$DAS_ROOT/src/python/DAS/web/das_webconfig.py.tmp
-/bin/mv -f $DAS_ROOT/src/python/DAS/web/das_webconfig.py.tmp $DAS_ROOT/src/python/DAS/web/das_webconfig.py
+#cat $DAS_ROOT/src/python/DAS/web/das_webconfig.py | sed "s,127.0.0.1,$IP,g" |\
+#sed "s,http://localhost,http://$IP,g" > \
+#$DAS_ROOT/src/python/DAS/web/das_webconfig.py.tmp
+#/bin/mv -f $DAS_ROOT/src/python/DAS/web/das_webconfig.py.tmp $DAS_ROOT/src/python/DAS/web/das_webconfig.py
 
 # build DAS sphinx documentation
 cd $DAS_ROOT/doc
