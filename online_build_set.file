@@ -121,6 +121,7 @@ CondTools/L1Trigger
 CondTools/SiStrip
 Configuration/HLT
 Configuration/PyReleaseValidation
+Configuration/StandardSequences
 DPGAnalysis/SiStripTools
 DQM/BeamMonitor
 DQM/CSCMonitorModule

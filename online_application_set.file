@@ -91,6 +91,7 @@ CondTools/HLT
 CondTools/SiStrip
 Configuration/HLT
 Configuration/PyReleaseValidation
+Configuration/StandardSequences
 DQM/BeamMonitor
 DQM/CSCMonitorModule
 DQM/CastorMonitor
