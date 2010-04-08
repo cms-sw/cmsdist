@@ -6,12 +6,12 @@ Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
-Patch0:  root-5.18-00-libpng 
-Patch1:  root-5.21-04-CINT-maxlongline
-Patch2:  root-5.22-00-TMVA-shut-the-hell-up-for-once
-Patch3:  root-5.22-00a-TMVA-shut-the-hell-up-again
-Patch4:  root-5.22-00d-fireworks-graf3d-gui
-Patch5:  root-5.22-00a-roofit-silence-static-printout
+Patch0: root-5.18-00-libpng 
+Patch1: root-5.21-04-CINT-maxlongline
+Patch2: root-5.22-00-TMVA-shut-the-hell-up-for-once
+Patch3: root-5.22-00a-TMVA-shut-the-hell-up-again
+Patch4: root-5.22-00d-fireworks-graf3d-gui
+Patch5: root-5.22-00a-roofit-silence-static-printout
 Patch6: root-5.22-00a-TMVA-just-shut-the-hell-up
 Patch7: root-5.22-00a-th1
 Patch8: root-5.22-00d-makelib-ldl
@@ -28,6 +28,8 @@ Patch18: root-5.22-00d-linker-gnu-hash-style
 Patch19: root-5.22-00d-TFile-version3-Init 
 Patch20: root-5.22-00d-cint-namespace
 Patch21: root-5.22-00d-fireworks7
+Patch22: root-5.22-00d-TMath-Vavilov
+Patch23: root-5.22-00d-TBranchElement-dropped-data-member
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -80,6 +82,8 @@ rm graf3d/gl/src/gl2ps.c.orig
 %patch19 -p1
 %patch20 -p1
 %patch21 -p1
+%patch22 -p1
+%patch23 -p1
 
 case %gccver in
   4.3.*)
