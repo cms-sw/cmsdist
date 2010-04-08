@@ -12,6 +12,7 @@ Alignment/TrackerAlignment
 AnalysisDataFormats/SiStripClusterInfo
 AnalysisDataFormats/TrackInfo
 CalibCalorimetry/CaloTPG
+CalibCalorimetry/CastorCalib
 CalibCalorimetry/EcalLaserCorrection
 CalibCalorimetry/EcalLaserSorting
 CalibCalorimetry/EcalTPGTools
@@ -22,6 +23,7 @@ CalibCalorimetry/HcalTPGAlgos
 CalibCalorimetry/HcalTPGEventSetup
 CalibFormats/CaloObjects
 CalibFormats/CaloTPG
+CalibFormats/CastorObjects
 CalibFormats/HcalObjects
 CalibFormats/SiPixelObjects
 CalibFormats/SiStripObjects
@@ -59,6 +61,7 @@ CondCore/DBCommon
 CondCore/DBOutputService
 CondCore/DQMPlugins
 CondCore/DTPlugins
+CondCore/ESPlugins
 CondCore/ESSources
 CondCore/EcalPlugins
 CondCore/EgammaPlugins
@@ -75,6 +78,7 @@ CondCore/PhysicsToolsPlugins
 CondCore/PluginSystem
 CondCore/PopCon
 CondCore/RPCPlugins
+CondCore/RecoMuonPlugins
 CondCore/RunInfoPlugins
 CondCore/SiPixelPlugins
 CondCore/SiStripPlugins
@@ -97,6 +101,7 @@ CondFormats/EcalObjects
 CondFormats/EgammaObjects
 CondFormats/GeometryObjects
 CondFormats/HLTObjects
+CondFormats/HcalMapping
 CondFormats/HcalObjects
 CondFormats/JetMETObjects
 CondFormats/L1TObjects
@@ -117,7 +122,9 @@ CondTools/SiStrip
 Configuration/HLT
 Configuration/PyReleaseValidation
 DPGAnalysis/SiStripTools
+DQM/BeamMonitor
 DQM/CSCMonitorModule
+DQM/CastorMonitor
 DQM/DTMonitorClient
 DQM/DTMonitorModule
 DQM/EcalBarrelMonitorClient
@@ -129,6 +136,8 @@ DQM/EcalEndcapMonitorClient
 DQM/EcalEndcapMonitorDbModule
 DQM/EcalEndcapMonitorModule
 DQM/EcalEndcapMonitorTasks
+DQM/EcalPreshowerMonitorClient
+DQM/EcalPreshowerMonitorModule
 DQM/HLTEvF
 DQM/HLXMonitor
 DQM/HcalMonitorClient
@@ -137,6 +146,7 @@ DQM/HcalMonitorTasks
 DQM/Integration
 DQM/L1TMonitor
 DQM/L1TMonitorClient
+DQM/Physics
 DQM/PhysicsObjectsMonitoring
 DQM/RCTMonitor
 DQM/RPCMonitorClient
@@ -166,9 +176,13 @@ DQM/TrackerCommon
 DQM/TrackerMonitorTrack
 DQM/TrackingMonitor
 DQM/TrigXMonitor
+DQM/TrigXMonitorClient
 DQMServices/ClientConfig
+DQMServices/Components
 DQMServices/Core
 DQMServices/Diagnostic
+DQMServices/Examples
+DQMServices/XdaqCollector
 DataFormats/Alignment
 DataFormats/BTauReco
 DataFormats/BeamSpot
@@ -178,6 +192,7 @@ DataFormats/CSCRecHit
 DataFormats/CaloRecHit
 DataFormats/CaloTowers
 DataFormats/Candidate
+DataFormats/CastorReco
 DataFormats/Common
 DataFormats/DTDigi
 DataFormats/DTRecHit
@@ -190,16 +205,20 @@ DataFormats/EgammaCandidates
 DataFormats/EgammaReco
 DataFormats/EgammaTrackReco
 DataFormats/FEDRawData
+DataFormats/FWLite
 DataFormats/GeometryCommonDetAlgo
 DataFormats/GeometrySurface
 DataFormats/GeometryVector
 DataFormats/GsfTrackReco
 DataFormats/HLTReco
+DataFormats/HcalCalibObjects
 DataFormats/HcalDetId
 DataFormats/HcalDigi
 DataFormats/HcalIsolatedTrack
 DataFormats/HcalRecHit
+DataFormats/HeavyIonEvent
 DataFormats/HepMCCandidate
+DataFormats/Histograms
 DataFormats/JetReco
 DataFormats/L1CSCTrackFinder
 DataFormats/L1CaloTrigger
@@ -210,6 +229,7 @@ DataFormats/L1GlobalTrigger
 DataFormats/L1Trigger
 DataFormats/LTCDigi
 DataFormats/Luminosity
+DataFormats/METObjects
 DataFormats/METReco
 DataFormats/Math
 DataFormats/MuonData
@@ -218,6 +238,7 @@ DataFormats/MuonReco
 DataFormats/MuonSeed
 DataFormats/ParticleFlowCandidate
 DataFormats/ParticleFlowReco
+DataFormats/PixelMatchTrackReco
 DataFormats/Provenance
 DataFormats/RPCDigi
 DataFormats/RPCRecHit
@@ -240,8 +261,11 @@ DataFormats/TrackCandidate
 DataFormats/TrackReco
 DataFormats/TrackerRecHit2D
 DataFormats/TrackingRecHit
+DataFormats/TrackingSeed
 DataFormats/TrajectorySeed
 DataFormats/TrajectoryState
+DataFormats/V0Candidate
+DataFormats/VZero
 DataFormats/VertexReco
 DataFormats/WrappedStdDictionaries
 DetectorDescription/Algorithm
@@ -252,6 +276,7 @@ DetectorDescription/Parser
 EventFilter/AutoBU
 EventFilter/CSCRawToDigi
 EventFilter/CSCTFRawToDigi
+EventFilter/CastorRawToDigi
 EventFilter/Cosmics
 EventFilter/DTRawToDigi
 EventFilter/DTTFRawToDigi
@@ -274,6 +299,7 @@ EventFilter/RPCRawToDigi
 EventFilter/RawDataCollector
 EventFilter/ResourceBroker
 EventFilter/SMProxyServer
+EventFilter/ScalersRawToDigi
 EventFilter/ShmBuffer
 EventFilter/ShmReader
 EventFilter/SiPixelRawToDigi
@@ -358,6 +384,8 @@ IOPool/Streamer
 IOPool/TFileAdaptor
 IOPool/TrivialFileCatalog
 IORawData/DaqSource
+IORawData/SiPixelInputSources
+IORawData/SiStripInputSources
 Iguana/Utilities
 JetMETCorrections/Algorithms
 JetMETCorrections/Configuration
@@ -419,6 +447,7 @@ PhysicsTools/RecoUtils
 PhysicsTools/UtilAlgos
 PhysicsTools/Utilities
 RecoBTag/ImpactParameter
+RecoBTag/Records
 RecoBTag/SecondaryVertex
 RecoBTag/SoftLepton
 RecoBTag/TrackProbability
@@ -438,14 +467,13 @@ RecoEgamma/EgammaIsolationAlgos
 RecoEgamma/EgammaTools
 RecoHI/HiMuonAlgos
 RecoHI/HiTracking
-RecoHIMuon/HiMuPropagator
-RecoHIMuon/HiMuSeed
-RecoHIMuon/HiMuTracking
 RecoJets/JetAlgorithms
 RecoJets/JetAssociationAlgorithms
 RecoJets/JetAssociationProducers
 RecoJets/JetProducers
 RecoLocalCalo/CaloTowersCreator
+RecoLocalCalo/Castor
+RecoLocalCalo/CastorReco
 RecoLocalCalo/EcalDeadChannelRecoveryAlgos
 RecoLocalCalo/EcalRecAlgos
 RecoLocalCalo/EcalRecProducers
@@ -488,7 +516,6 @@ RecoPixelVertexing/PixelLowPtUtilities
 RecoPixelVertexing/PixelTrackFitting
 RecoPixelVertexing/PixelTriplets
 RecoPixelVertexing/PixelVertexFinding
-RecoTauTag/EcalIsolation
 RecoTauTag/HLTProducers
 RecoTracker/CkfPattern
 RecoTracker/GeometryESProducer
