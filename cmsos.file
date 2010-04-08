@@ -3,27 +3,27 @@
 cmsos()
 {
   # Determine the cpu architecture string.
-  case `uname -i` in
+  case `uname -p` in
     i*86) cpuarch=ia32;;
     x86_64) cpuarch=amd64;;
     *EMT*) cpuarch=amd64;;
-    *) cpuarch=`uname -i`;;
+    *) cpuarch=`uname -p`;;
   esac
  
-  if [ "$BUILD_ARCH" != "" ]; then
+  if [ "X$BUILD_ARCH" != X ]; then
       echo "$BUILD_ARCH"
-  elif [ `uname -p` == ppc64 ]; then
+  elif [ "X`uname -p`" = Xppc64 ]; then
     # hard code this, should be done better
       echo ydl5_ppc64
-  elif [ `uname` = Linux ]; then
-    if [ `uname -i` == ppc ]; then
+  elif [ "X`uname`" = XLinux ]; then
+    if [ "X`uname -i`" = Xppc ]; then
     # hard code this, should be done better
       echo ydl5_ppc
     elif [ -f /etc/SuSE-release ]; then
       echo suse`grep -i '^version' < /etc/SuSE-release | tr -dc '[0-9]'`
     elif grep -q Scientific /etc/redhat-release 2>/dev/null; then
       slc_version=`grep Scientific /etc/redhat-release | sed 's/.*[rR]elease \([0-9]*\)\..*/\1/'`
-      if [ `uname -i` == i386 ]; then
+      if [ "X`uname -i`" = Xi386 ]; then
         echo slc${slc_version}_ia32
       else
         echo slc${slc_version}_amd64
@@ -59,9 +59,9 @@ cmsos()
         echo $archos$archosv_$cpuarch
       fi
     fi
-  elif [ `uname` = Darwin ]; then
+  elif [ "X`uname`" = XDarwin ]; then
     echo osx`sw_vers -productVersion | cut -d. -f1,2 | tr -dc [0-9]`_$cpuarch
-  elif [ `uname | cut -d_ -f1` = CYGWIN ]; then
+  elif [ "X`uname | cut -d_ -f1`" = XCYGWIN ]; then
     echo win32_$cpuarch
   else
     echo unsupported
