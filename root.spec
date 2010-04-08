@@ -14,7 +14,7 @@ Patch4:  root-5.22-00d-fireworks-graf3d-gui
 Patch5:  root-5.22-00a-roofit-silence-static-printout
 Patch6: root-5.22-00a-TMVA-just-shut-the-hell-up
 Patch7: root-5.22-00a-th1
-Patch8: root-5.22-00a-smatrix
+Patch8: root-5.22-00d-makelib-ldl
 Patch9: root-5.22-00a-fireworks1
 Patch10: root-5.22-00a-gcc44 
 Patch11: root-5.22-00a-fireworks2
@@ -27,6 +27,7 @@ Patch17: root-5.22-00d-fireworks6
 Patch18: root-5.22-00d-linker-gnu-hash-style
 Patch19: root-5.22-00d-TFile-version3-Init 
 Patch20: root-5.22-00d-cint-namespace
+Patch21: root-5.22-00d-fireworks7
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -78,6 +79,7 @@ rm graf3d/gl/src/gl2ps.c.orig
 %patch17 -p1
 %patch19 -p1
 %patch20 -p1
+%patch21 -p1
 
 case %gccver in
   4.3.*)
