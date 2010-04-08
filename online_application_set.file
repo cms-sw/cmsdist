@@ -358,6 +358,7 @@ RecoLocalTracker/SiPixelRecHits
 RecoLocalTracker/SiStripClusterizer
 RecoLocalTracker/SiStripRecHitConverter
 RecoLocalTracker/SiStripZeroSuppression
+RecoLuminosity/LumiProducer
 RecoMET/METProducers
 RecoMuon/CosmicMuonProducer
 RecoMuon/DetLayers
