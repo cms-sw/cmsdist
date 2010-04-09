@@ -1,4 +1,4 @@
-### RPM external gcc 4.3.2
+### RPM external gcc 4.3.4
 ## BUILDIF case `uname`:`uname -p` in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
@@ -80,13 +80,13 @@ case $(uname -m):%{cmsos} in
   * )
     CCOPTS="" ;;
 esac
-
 # If requested, build our own binutils.  Currently the default is to use
 # the system binutils.
 %if "%{?binutilsv:set}" == "set"
  cd ../binutils-%{binutilsv}
- CC="gcc $CCOPTS" ./configure --prefix=%i --enable-gold
+ CC="gcc $CCOPTS" ./configure --prefix=%i
  make %makeprocesses
+ perl -p -i -e 's|LN = ln|LN = cp -p|;s|ln ([^-])|cp -p $1|g' `find . -name Makefile`
  make install
 %endif
 
@@ -109,6 +109,7 @@ make install
 cd ../gcc-%realversion
 mkdir -p obj
 cd obj
+
 CC="gcc $CCOPTS" \
 ../configure --prefix=%i \
   --enable-languages=c,c++,`case %v in 3.*) echo f77;; *) echo fortran;; esac` \
@@ -117,27 +118,11 @@ CC="gcc $CCOPTS" \
 make %makeprocesses bootstrap
 
 %install
-cd %_builddir/gcc-%{realversion}/obj && make install
+cd %_builddir/gcc-%{realversion}/obj && make install 
+
 ln -s gcc %i/bin/cc
 find %i/lib %i/lib32 %i/lib64 -name '*.la' -exec rm -f {} \; || true
 
 # SCRAM ToolBox toolfile is now geneated by the gcc-toolfile.spec
 # so that everything works even in the case "--use-system-compiler"
 # option is specified.
-
-%post
-# %{relocateConfig}lib/libg2c.la
-# %{relocateConfig}lib/libstdc++.la
-# %{relocateConfig}lib/libsupc++.la
-# %if "%cpu" == "amd64"
-# %{relocateConfig}lib64/libg2c.la
-# %{relocateConfig}lib64/libstdc++.la
-# %{relocateConfig}lib64/libsupc++.la
-# %{relocateConfig}lib/32/libg2c.la
-# %{relocateConfig}lib/32/libstdc++.la
-# %{relocateConfig}lib/32/libsupc++.la
-# %endif
-# %if "%gcc4" == "true"
-# %{relocateConfig}lib/libgfortran.la
-# %{relocateConfig}lib/libgfortranbegin.la
-# %endif
