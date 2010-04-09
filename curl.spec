@@ -1,5 +1,7 @@
-### RPM external curl 7.15.5
+### RPM external curl 7.20.0
 Source: http://curl.haxx.se/download/%n-%realversion.tar.gz
+Requires: openldap
+Provides: libcurl.so.3()(64bit) 
 
 %prep
 %setup -n %n-%{realversion}
@@ -10,6 +12,8 @@ make %makeprocesses
 
 %install
 make install
+cd %i/lib
+ln -s libcurl.so libcurl.so.3
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
