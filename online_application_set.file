@@ -353,6 +353,7 @@ RecoLocalMuon/CSCSegment
 RecoLocalMuon/DTRecHit
 RecoLocalMuon/DTSegment
 RecoLocalMuon/RPCRecHit
+RecoLocalTracker/Configuration
 RecoLocalTracker/SiPixelClusterizer
 RecoLocalTracker/SiPixelRecHits
 RecoLocalTracker/SiStripClusterizer

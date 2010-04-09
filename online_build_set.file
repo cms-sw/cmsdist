@@ -486,6 +486,7 @@ RecoLocalMuon/DTRecHit
 RecoLocalMuon/DTSegment
 RecoLocalMuon/RPCRecHit
 RecoLocalTracker/ClusterParameterEstimator
+RecoLocalTracker/Configuration
 RecoLocalTracker/Records
 RecoLocalTracker/SiPixelClusterizer
 RecoLocalTracker/SiPixelRecHits
