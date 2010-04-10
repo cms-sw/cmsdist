@@ -11,6 +11,7 @@ Requires: castor
 Patch: millepede_V02-00-01
 Patch1: millepede_V02-00-01_64bit
 Patch2: millepede_V02-00-01_gcc4
+Patch3: millepede_V02-00-01_gcc45
 
 %prep
 %setup -n V%svnTag
@@ -21,8 +22,11 @@ Patch2: millepede_V02-00-01_gcc4
 %endif
 
 case %gccver in
-  4.*)
+  4.3.* | 4.4.*)
 %patch2 -p1
+  ;;
+  4.5.*)
+%patch3 -p1
   ;;
 esac
 
