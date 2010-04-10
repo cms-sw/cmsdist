@@ -10,6 +10,7 @@ Source: svn://svn.cern.ch/reps/cmsos/releases/baseline10/tags/base/?scheme=svn+s
 Patch0: xdaq_VR16021_build
 Patch1: xdaq_mfDefs_flags
 Patch2: xdaq_VR15544_gcc44
+Patch3: xdaq-VR16021-gcc45
 
 Provides: /bin/awk
 
@@ -19,6 +20,7 @@ Provides: /bin/awk
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 # Xdaq does not provide makeinstall,  it uses "simplify" script instead to 
