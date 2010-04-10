@@ -1,13 +1,14 @@
-### RPM external gcc 4.4.3
+### RPM external gcc 4.5.0
 ## BUILDIF case `uname`:`uname -p` in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
+%define gccsnapshot 20100408
+#Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
+Source0: ftp://ftp.nluug.nl/mirror/languages/gcc/snapshots/4.5-%gccsnapshot/gcc-4.5-%gccsnapshot.tar.bz2
 %if "%(echo %cmsos | cut -f2 -d_)" == "amd64"
 %define binutilsv 2.19.1
-Source3: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
+Source4: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 %endif
-
 
 # If gcc version >= 4.0.0, we need two additional sources, for gmp and mpfr,
 # and we set the fortranCompiler macro (which is going to be used by the 
@@ -16,14 +17,17 @@ Source3: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 # and the using the newly built gcc.
 %define gmpVersion 4.2.4
 %define mpfrVersion 2.3.2
+%define mpcVersion 0.8.1
 Source1: ftp://ftp.gnu.org/gnu/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
+Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
 Patch0: binutils-2.19.1-fix-gold
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define gcc_major %(echo %realversion | cut -f1 -d.)
 %prep
-%setup -T -b 0 -n gcc-%realversion 
+#%setup -T -b 0 -n gcc-%realversion 
+%setup -T -b 0 -n gcc-4.5-%gccsnapshot
 
 case %cmsos in
   slc*_ia32 )
@@ -53,7 +57,7 @@ EOF_T_CMS
 esac
 
 %if "%{?binutilsv:set}" == "set"
-%setup -D -T -b 3 -n binutils-%binutilsv
+%setup -D -T -b 4 -n binutils-%binutilsv
 %patch0 -p1
 case %cmsos in 
   slc*_amd64 )
@@ -66,6 +70,7 @@ esac
 
 %setup -D -T -b 1 -n gmp-%{gmpVersion}
 %setup -D -T -b 2 -n mpfr-%{mpfrVersion}
+%setup -D -T -b 3 -n mpc-%{mpcVersion}
 
 %build
 # Set special variables required to build 32-bit executables on 64-bit
@@ -88,7 +93,7 @@ esac
  make install
 %endif
 
-# Build GMP/MPFR for GCC 4.x
+# Build GMP/MPFR/MPC 
 %define gcc4opts %{nil}
 %if "%gcc_major" == "4"
 cd ../gmp-%{gmpVersion}
@@ -100,11 +105,18 @@ cd ../mpfr-%{mpfrVersion}
 CC="gcc $CCOPTS" ./configure --prefix=%i/tmp/mpfr --with-gmp=%i/tmp/gmp --disable-shared
 make %makeprocesses
 make install
-%define gcc4opts --with-gmp=%i/tmp/gmp --with-mpfr=%i/tmp/mpfr
+
+cd ../mpc-%{mpcVersion}
+CC="gcc $CCOPTS" ./configure --prefix=%i/tmp/mpc --with-gmp=%i/tmp/gmp --with-mpfr=%i/tmp/mpfr --disable-shared
+make %makeprocesses
+make install
+
+%define gcc4opts --with-gmp=%i/tmp/gmp --with-mpfr=%i/tmp/mpfr --with-mpc=%i/tmp/mpc
 %endif
 
 # Build the compilers
-cd ../gcc-%realversion
+#cd ../gcc-%realversion
+cd ../gcc-4.5-%gccsnapshot
 mkdir -p obj
 cd obj
 
@@ -116,7 +128,8 @@ CC="gcc $CCOPTS" \
 make %makeprocesses bootstrap
 
 %install
-cd %_builddir/gcc-%{realversion}/obj && make install 
+#cd %_builddir/gcc-%{realversion}/obj && make install 
+cd %_builddir/gcc-4.5-%{gccsnapshot}/obj && make install 
 
 ln -s gcc %i/bin/cc
 find %i/lib %i/lib32 %i/lib64 -name '*.la' -exec rm -f {} \; || true
