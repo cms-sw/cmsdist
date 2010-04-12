@@ -5,11 +5,6 @@
 %define gccsnapshot 20100408
 #Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
 Source0: ftp://ftp.nluug.nl/mirror/languages/gcc/snapshots/4.5-%gccsnapshot/gcc-4.5-%gccsnapshot.tar.bz2
-%if "%(echo %cmsos | cut -f2 -d_)" == "amd64"
-%define binutilsv 2.19.1
-Source4: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
-%endif
-
 # If gcc version >= 4.0.0, we need two additional sources, for gmp and mpfr,
 # and we set the fortranCompiler macro (which is going to be used by the 
 # --enable-languages option of gcc's configure) to gfortran. 
@@ -18,10 +13,19 @@ Source4: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 %define gmpVersion 4.2.4
 %define mpfrVersion 2.3.2
 %define mpcVersion 0.8.1
+%define pplVersion 0.10.2
+%define cloogpplVersion 0.15.9
 Source1: ftp://ftp.gnu.org/gnu/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
+Source4: http://www.cs.unipr.it/ppl/Download/ftp/releases/0.10.2/ppl-%{pplVersion}.tar.bz2
+Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-ppl-%{cloogpplVersion}.tar.gz
 Patch0: binutils-2.19.1-fix-gold
+
+%if "%(echo %cmsos | cut -f2 -d_)" == "amd64"
+%define binutilsv 2.20.1
+Source6: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
+%endif
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define gcc_major %(echo %realversion | cut -f1 -d.)
@@ -57,7 +61,7 @@ EOF_T_CMS
 esac
 
 %if "%{?binutilsv:set}" == "set"
-%setup -D -T -b 4 -n binutils-%binutilsv
+%setup -D -T -b 6 -n binutils-%binutilsv
 %patch0 -p1
 case %cmsos in 
   slc*_amd64 )
@@ -71,6 +75,8 @@ esac
 %setup -D -T -b 1 -n gmp-%{gmpVersion}
 %setup -D -T -b 2 -n mpfr-%{mpfrVersion}
 %setup -D -T -b 3 -n mpc-%{mpcVersion}
+%setup -D -T -b 4 -n ppl-%{pplVersion}
+%setup -D -T -b 5 -n cloog-ppl-%{cloogpplVersion}
 
 %build
 # Set special variables required to build 32-bit executables on 64-bit
@@ -111,7 +117,17 @@ CC="gcc $CCOPTS" ./configure --prefix=%i/tmp/mpc --with-gmp=%i/tmp/gmp --with-mp
 make %makeprocesses
 make install
 
-%define gcc4opts --with-gmp=%i/tmp/gmp --with-mpfr=%i/tmp/mpfr --with-mpc=%i/tmp/mpc
+cd ../ppl-%{pplVersion}
+CC="gcc $CCOPTS" ./configure --prefix=%i/tmp/ppl --disable-shared
+make %makeprocesses
+make install
+
+cd ../cloog-ppl-%{cloogpplVersion}
+CC="gcc $CCOPTS" ./configure --prefix=%i/tmp/cloog-ppl --with-ppl=%i/tmp/ppl --with-gmp=%i/tmp/gmp --disable-shared
+make %makeprocesses
+make install
+
+%define gcc4opts --with-gmp=%i/tmp/gmp --with-mpfr=%i/tmp/mpfr --with-mpc=%i/tmp/mpc --with-ppl=%i/tmp/ppl --with-cloog=%i/tmp/cloog-ppl
 %endif
 
 # Build the compilers
