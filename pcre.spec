@@ -25,6 +25,10 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 </Tool>
 EOF_TOOLFILE
 
+## IMPORT common-install
+
 %post
 %{relocateConfig}bin/pcre-config
 %{relocateConfig}etc/scram.d/%n
+## IMPORT common-post
+
