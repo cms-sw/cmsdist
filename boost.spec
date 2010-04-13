@@ -176,8 +176,6 @@ EOF_TOOLFILE
 
 perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*
 
-## IMPORT common-install
-
 %post
 %{relocateConfig}etc/scram.d/boost
 %{relocateConfig}etc/scram.d/boost_filesystem
@@ -186,4 +184,3 @@ perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*
 %{relocateConfig}etc/scram.d/boost_regex
 %{relocateConfig}etc/scram.d/boost_signals
 %{relocateConfig}etc/scram.d/boost_header
-## IMPORT common-post
