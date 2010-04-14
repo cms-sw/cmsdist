@@ -10,7 +10,6 @@ Requires: boost
 Requires: frontier_client
 Requires: sqlite
 Requires: gcc-toolfile
-Requires: oracle
 Requires: oracle-env
 
 %if "%online" != "true"
@@ -19,6 +18,7 @@ Requires: zlib
 Requires: openssl
 Requires: cppunit
 Requires: xerces-c
+Requires: oracle
 Requires: systemtools
 %else
 Requires: onlinesystemtools
