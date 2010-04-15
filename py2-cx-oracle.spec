@@ -1,4 +1,4 @@
-### RPM external py2-cx-oracle 5.0.1
+### RPM external py2-cx-oracle 4.2
 %define pythonv `echo $PYTHON_VERSION |cut -d. -f1,2`
 ## INITENV +PATH PYTHONPATH %i/lib/python%{pythonv}/site-packages
 %define downloadn cx_Oracle
@@ -9,5 +9,5 @@ Requires: python oracle oracle-env
 
 %build
 %install
-perl -p -i -e 's/(?<=includeDirs = \[)/"include", userOracleHome+"\/include" /' setup.py
+perl -p -i -e 's/(?<=includeDirs = \[)/"include", /' setup.py
 python setup.py install --prefix=%i

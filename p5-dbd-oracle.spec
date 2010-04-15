@@ -8,6 +8,7 @@
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 Requires: oracle
+%define oraclesdksrc none
 %if "%online" != "true"
 Requires: p5-dbi
 %else
@@ -15,6 +16,7 @@ Provides: perl(DBI)
 %endif
 
 Source0: http://mirror.switch.ch/ftp/mirror/CPAN/authors/id/P/PY/PYTHIAN/%downloadn-%{realversion}.tar.gz
+Source1: %oraclesdksrc
 
 Provides: perl(Tk) perl(Tk::Balloon) perl(Tk::ErrorDialog) perl(Tk::FileSelect) perl(Tk::Pod) perl(Tk::ROText) 
 
