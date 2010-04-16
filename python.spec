@@ -1,12 +1,11 @@
-### RPM external python 2.4.2_CMS19
+### RPM external python 2.4.2-CMS19
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 # OS X patches and build fudging stolen from fink
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo flase;; esac)
-%define downloadv %(echo %realversion | cut -d"_" -f1)
+
 Requires: expat bz2lib db4 gdbm
-Provides: libpython2.4.so.1.0
 
 %if "%online" != "true"
 Requires: zlib openssl
@@ -15,7 +14,7 @@ Requires: zlib openssl
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, tk/tcl, x11
 
-Source0: http://www.python.org/ftp/%n/%downloadv/Python-%downloadv.tgz
+Source0: http://www.python.org/ftp/%n/%realversion/Python-%realversion.tgz
 Patch0: python-Include-pyport.h
 Patch1: python-Lib-plat-mac-applesingle.py
 Patch2: python-Lib-site.py
@@ -26,7 +25,7 @@ Patch6: python-setup.py
 
 
 %prep
-%setup -n Python-%downloadv
+%setup -n Python-%realversion
 #%patch0
 #%patch1
 #%patch2
@@ -100,7 +99,7 @@ make %makeprocesses
 
 %install
 make install
-%define pythonv %(echo %downloadv | cut -d. -f 1,2)
+%define pythonv %(echo %realversion | cut -d. -f 1,2)
 
 #if [ $(uname) = Darwin ]; then
   # make install prefix=%i 
@@ -142,7 +141,7 @@ find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=%n version=%downloadv>
+<Tool name=%n version=%v>
 <lib name=python2.4>
 <Client>
  <Environment name=PYTHON_BASE default="%i"></Environment>

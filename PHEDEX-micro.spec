@@ -1,4 +1,5 @@
-### RPM cms PHEDEX-micro PHEDEX_3_3_0
+### RPM cms PHEDEX-micro PHEDEX_3_3_1_pre2
+
 ## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
