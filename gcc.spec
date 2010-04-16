@@ -2,9 +2,7 @@
 ## BUILDIF case `uname`:`uname -p` in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-%define gccsnapshot 20100408
-#Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
-Source0: ftp://ftp.nluug.nl/mirror/languages/gcc/snapshots/4.5-%gccsnapshot/gcc-4.5-%gccsnapshot.tar.bz2
+Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
 # If gcc version >= 4.0.0, we need two additional sources, for gmp and mpfr,
 # and we set the fortranCompiler macro (which is going to be used by the 
 # --enable-languages option of gcc's configure) to gfortran. 
@@ -30,8 +28,7 @@ Source6: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %define gcc_major %(echo %realversion | cut -f1 -d.)
 %prep
-#%setup -T -b 0 -n gcc-%realversion 
-%setup -T -b 0 -n gcc-4.5-%gccsnapshot
+%setup -T -b 0 -n gcc-%realversion 
 
 case %cmsos in
   slc*_ia32 )
@@ -131,8 +128,7 @@ make install
 %endif
 
 # Build the compilers
-#cd ../gcc-%realversion
-cd ../gcc-4.5-%gccsnapshot
+cd ../gcc-%realversion
 mkdir -p obj
 cd obj
 
@@ -144,8 +140,7 @@ CC="gcc $CCOPTS" \
 make %makeprocesses bootstrap
 
 %install
-#cd %_builddir/gcc-%{realversion}/obj && make install 
-cd %_builddir/gcc-4.5-%{gccsnapshot}/obj && make install 
+cd %_builddir/gcc-%{realversion}/obj && make install 
 
 ln -s gcc %i/bin/cc
 find %i/lib %i/lib32 %i/lib64 -name '*.la' -exec rm -f {} \; || true
