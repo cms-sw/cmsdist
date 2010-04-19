@@ -17,18 +17,8 @@ make %makeprocesses
 %install
 make install
 
-# For gcc45 we are required to use this newer gdb version, thus this
-# should go into the PATH as gdb. For earlier compiler versions include
-# it in the PATH with the version appeneded in the name.
-case %gccver in
-  4.5.*)
 cd %i/bin/
 ln -s gdb gdb-%{realversion}
-  ;;
-  *)
-mv %i/bin/gdb %i/bin/gdb-%{realversion}
-  ;;
-esac
 
 # To save space, clean up some things that we don't really need 
 rm %i/lib/*
