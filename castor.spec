@@ -1,6 +1,6 @@
 ### RPM external castor 2.1.9.4
 # Override default realversion since they have a "-" in the realversion
-%define realversion %(echo %v | sed 's|\\.\\([^\\.]\\+\\)$|-\\1|')
+%define realversion %(echo %v | sed 's|\\.\\([^\\.]\\{1,\\}\\)$|-\\1|')
 
 ## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 %define downloadv v%(echo %realversion | tr - _ | tr . _)
