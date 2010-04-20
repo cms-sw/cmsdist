@@ -47,22 +47,21 @@ EOF_INIT_ME
 
 perl -p -i -e "s|\@([^@]*)\@|\$ENV{\$1}|" %i/etc/profile.d/init-standalone.sh
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/pyqt
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=pyqt version=%v>
-<info url="http://www.riverbankcomputing.co.uk/software/pyqt/intro"></info>
-<Client>
- <Environment name=PYQT_BASE default="%i"></Environment>
-</Client>
-<Runtime name=PYTHONPATH value="$PYQT_BASE/lib/python@PYTHONV@/site-packages" type=path>
-<use name="python">
-<use name="qt">
-<use name="sip">
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="%n" version="%v">
+    <info url="http://www.riverbankcomputing.co.uk/software/pyqt/intro"/>
+    <client>
+      <environment name="PYQT_BASE" default="%i"/>
+    </client>
+    <runtime name="PYTHONPATH" value="$PYQT_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
+    <use name="python"/>
+    <use name="qt"/>
+    <use name="sip"/>
+  </tool>
 EOF_TOOLFILE
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*
 
 %post
-%{relocateConfig}etc/scram.d/pyqt
+%{relocateConfig}etc/scram.d/%n.xml
 %{relocateConfig}etc/profile.d/init-standalone.sh
