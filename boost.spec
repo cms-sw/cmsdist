@@ -75,102 +75,94 @@ export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 # boost toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/boost
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=boost version=%v>
-<info url="http://www.boost.org"></info>
-<lib name="@BOOST_THREAD_LIB@">
-<lib name="@BOOST_SIGNALS_LIB@">
-<Client>
- <Environment name=BOOST_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$BOOST_BASE/lib"></Environment>
- <Environment name=INCLUDE default="$BOOST_BASE/include"></Environment>
-</Client>
-<use name=sockets>
-<Runtime name=LD_LIBRARY_PATH value="$BOOST_BASE/lib" type=path>
-<Runtime name=CMSSW_FWLITE_INCLUDE_PATH value="$BOOST_BASE/include" type=path>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="%n" version="%v">
+    <info url="http://www.boost.org"/>
+    <lib name="@BOOST_THREAD_LIB@"/>
+    <lib name="@BOOST_SIGNALS_LIB@"/>
+    <client>
+      <environment name="BOOST_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$BOOST_BASE/lib"/>
+      <environment name="INCLUDE" default="$BOOST_BASE/include"/>
+    </client>
+    <runtime name="LD_LIBRARY_PATH" value="$BOOST_BASE/lib" type="path"/>
+    <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$BOOST_BASE/include" type="path"/>
+    <use name="sockets"/>
+  </tool>
 EOF_TOOLFILE
 
 # boost_filesystem toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_filesystem
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=boost_filesystem version=%v>
-<info url="http://www.boost.org"></info>
-<lib name="@BOOST_FILESYSTEM_LIB@">
-<use name=boost_system>
-<use name=boost>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_filesystem.xml
+  <tool name="boost_filesystem" version="%v">
+    <info url="http://www.boost.org"/>
+    <lib name="@BOOST_FILESYSTEM_LIB@"/>
+    <use name="boost_system"/>
+    <use name="boost"/>
+  </tool>
 EOF_TOOLFILE
 
 # boost_system toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_system
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=boost_system version=%v>
-<info url="http://www.boost.org"></info>
-<lib name="@BOOST_SYSTEM_LIB@">
-<use name=boost>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_system.xml
+  <tool name="boost_system" version="%v">
+    <info url="http://www.boost.org"/>
+    <lib name="@BOOST_SYSTEM_LIB@"/>
+    <use name="boost"/>
+  </tool>
 EOF_TOOLFILE
 
 # boost_program_options toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_program_options
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=boost_program_options version=%v>
-<info url="http://www.boost.org"></info>
-<lib name="@BOOST_PROGRAM_OPTIONS_LIB@">
-<use name=boost>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_program_options.xml
+  <tool name="boost_program_options" version="%v">
+    <info url="http://www.boost.org"/>
+    <lib name="@BOOST_PROGRAM_OPTIONS_LIB@"/>
+    <use name="boost"/>
+  </tool>
 EOF_TOOLFILE
 
 # boost_python toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_python
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=boost_python version=%v>
-<info url="http://www.boost.org"></info>
-<lib name="@BOOST_PYTHON_LIB@">
-<Client>
- <Environment name=BOOST_PYTHON_BASE default="%i"></Environment>
- <Environment name=PYSTE_EXEC default="$BOOST_PYTHON_BASE/lib/python@PYTHONV@/site-packages/Pyste/pyste.py"></Environment>
- <Environment name=LIBDIR default="$BOOST_PYTHON_BASE/lib"></Environment>
- <Environment name=INCLUDE default="$BOOST_PYTHON_BASE/include"></Environment>
-</Client>
-<use name=elementtree>
-<use name=gccxml>
-<use name=python>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_python.xml
+  <tool name="boost_python" version="%v">
+    <info url="http://www.boost.org"/>
+    <lib name="@BOOST_PYTHON_LIB@"/>
+    <client>
+      <environment name="BOOST_PYTHON_BASE" default="%i"/>
+      <environment name="PYSTE_EXEC" default="$BOOST_PYTHON_BASE/lib/python@PYTHONV@/site-packages/Pyste/pyste.py"/>
+      <environment name="LIBDIR" default="$BOOST_PYTHON_BASE/lib"/>
+      <environment name="INCLUDE" default="$BOOST_PYTHON_BASE/include"/>
+    </client>
+    <use name="elementtree"/>
+    <use name="gccxml"/>
+    <use name="python"/>
+  </tool>
 EOF_TOOLFILE
 
 # boost_regex toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_regex
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=boost_regex version=%v>
-<info url="http://www.boost.org"></info>
-<lib name="@BOOST_REGEX_LIB@">
-<use name=boost>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_regex.xml
+  <tool name="boost_regex" version="%v">
+    <info url="http://www.boost.org"/>
+    <lib name="@BOOST_REGEX_LIB@"/>
+    <use name="boost"/>
+  </tool>
 EOF_TOOLFILE
 
 # boost_signals toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_signals
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=boost_signals version=%v>
-<info url="http://www.boost.org"></info>
-<lib name="@BOOST_SIGNALS_LIB@">
-<use name=boost>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_signals.xml
+  <tool name="boost_signals" version="%v">
+    <info url="http://www.boost.org"/>
+    <lib name="@BOOST_SIGNALS_LIB@"/>
+    <use name="boost"/>
+  </tool>
 EOF_TOOLFILE
 
 # boost_header toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_header
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=boost_header version=%v>
-<info url="http://www.boost.org"></info>
-<Client>
-<Environment name=BOOSTHEADER_BASE default="%i"></Environment>
-<Environment name=INCLUDE default="$BOOSTHEADER_BASE/include"></Environment>
-</Client>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_header.xml
+  <tool name="boost_header" version="%v">
+    <info url="http://www.boost.org"/>
+    <client>
+      <environment name="BOOSTHEADER_BASE" default="%i"/>
+      <environment name="INCLUDE" default="$BOOSTHEADER_BASE/include"/>
+    </client>
+  </tool>
 EOF_TOOLFILE
 
 
@@ -187,13 +179,7 @@ for x in %pkgreqs; do
 done
 
 %post
-%{relocateConfig}etc/scram.d/boost
-%{relocateConfig}etc/scram.d/boost_filesystem
-%{relocateConfig}etc/scram.d/boost_program_options
-%{relocateConfig}etc/scram.d/boost_python
-%{relocateConfig}etc/scram.d/boost_regex
-%{relocateConfig}etc/scram.d/boost_signals
-%{relocateConfig}etc/scram.d/boost_header
+perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find $RPM_INSTALL_PREFIX/%pkgrel/etc/scram.d -type f)
 
 # The relocation is also needed because of dependencies
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
