@@ -2,6 +2,7 @@ Alignment/CommonAlignmentProducer
 Alignment/LaserAlignment
 CalibCalorimetry/CaloTPG
 CalibCalorimetry/EcalLaserCorrection
+CalibCalorimetry/EcalLaserSorting
 CalibCalorimetry/EcalTrivialCondModules
 CalibCalorimetry/HcalPlugins
 CalibCalorimetry/HcalTPGEventSetup
@@ -16,11 +17,13 @@ CalibTracker/SiStripLorentzAngle
 CalibTracker/SiStripQuality
 Calibration/HcalIsolatedTrackReco
 CommonTools/CandAlgos
+CommonTools/UtilAlgos
 CondCore/AlignmentPlugins
 CondCore/BTauPlugins
 CondCore/BeamSpotPlugins
 CondCore/CSCPlugins
 CondCore/CalibPlugins
+CondCore/CastorPlugins
 CondCore/DBCommon
 CondCore/DBOutputService
 CondCore/DQMPlugins
@@ -33,6 +36,7 @@ CondCore/HLTPlugins
 CondCore/HcalPlugins
 CondCore/IOVService
 CondCore/L1TPlugins
+CondCore/LuminosityPlugins
 CondCore/MetaDataService
 CondCore/Modules
 CondCore/OptAlignPlugins
@@ -46,6 +50,7 @@ CondCore/SiStripPlugins
 CondCore/Utilities
 Configuration/HLT
 Configuration/PyReleaseValidation
+CondFormats/EcalCorrections
 CondFormats/RecoMuonObjects
 CondFormats/DataRecord
 CondTools/DQM
@@ -248,6 +253,7 @@ MagneticField/VolumeBasedEngine
 MagneticField/VolumeGeometry
 PhysicsTools/RecoAlgos
 RecoBTag/ImpactParameter
+RecoBTag/SecondaryVertex
 RecoBTag/SoftLepton
 RecoBTau/JetCrystalsAssociator
 RecoBTau/JetTagComputer
@@ -306,8 +312,9 @@ RecoTracker/TkSeedGenerator
 RecoTracker/TkSeedingLayers
 RecoTracker/TrackProducer
 RecoTracker/TransientTrackingRecHit
-RecoVertex/GhostTrackFitter
 RecoVertex/BeamSpotProducer
+RecoVertex/GhostTrackFitter
+RecoVertex/PrimaryVertexProducer
 SimCalorimetry/EcalTrigPrimProducers
 SimCalorimetry/HcalTrigPrimProducers
 SimCalorimetry/HcalZeroSuppressionProducers
