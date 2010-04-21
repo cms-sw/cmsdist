@@ -29,6 +29,10 @@ cp libbz2.$so.%tmpversion %i/lib
 ln -s libbz2.$so.%tmpversion %i/lib/libbz2.$so
 ln -s libbz2.$so.%tmpversion %i/lib/libbz2.$so.`echo %tmpversion | cut -d. -f 1,2`
 ln -s libbz2.$so.%tmpversion %i/lib/libbz2.$so.`echo %tmpversion | cut -d. -f 1`
+ln -sf bzdiff %i/bin/bzcmp
+ln -sf bzgrep %i/bin/bzegrep
+ln -sf bzgrep %i/bin/bzfgrep
+ln -sf bzmore %i/bin/bzless
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
