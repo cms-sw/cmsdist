@@ -1,4 +1,4 @@
-### RPM cms fmws 0.1.8
+### RPM cms fmws 0.10.0
 ## INITENV +PATH PYTHONPATH %i/lib/
 ## INITENV +PATH PYTHONPATH $ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV SET FMWSHOME $FMWS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
@@ -7,7 +7,7 @@
 ####%define cvstag %{realversion}
 %define moduleName FILEMOVER
 %define exportName FILEMOVER
-%define cvstag V01_00_20
+%define cvstag V01_00_22
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 ####Source: http://t2.unl.edu/store/CmsFileServer-%{realversion}.tar.gz
 Source: %cvsserver&strategy=checkout&module=COMP/%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
@@ -26,6 +26,7 @@ pyver=`echo $PYTHON_VERSION | cut -d. -f1,2`
 mkdir -p %i/lib/python$pyver/site-packages
 cp -r src/CmsFileServer/* %i/lib/python$pyver/site-packages
 cp    etc/fmws_init* %{i}/etc/init.d
+cp    etc/*.sh %{i}/etc/init.d/
 chmod a+x %{i}/etc/init.d/*
 
 (echo "#!/bin/sh"; \
@@ -80,3 +81,11 @@ if [ -d /data/download ]; then
 else
    mkdir -p $FMWSHOME/download
 fi
+cd $FMWSHOME
+./scripts/genTemplates.sh
+
+# create new crontab
+echo "0 0,3,6,9,12,15,18,21 * * * $RPM_INSTALL_PREFIX/%{pkgrel}/etc/init.d/renew_proxy.sh 2>&1 1>& $RPM_INSTALL_PREFIX/%{pkgrel}/proxy.cron" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/init.d/cronjob.sh
+echo "0 8 26 4 * $RPM_INSTALL_PREFIX/%{pkgrel}/etc/init.d/notify_operator.sh 2>&1 1>& $RPM_INSTALL_PREFIX/%{pkgrel}/userproxy.cron" >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/init.d/cronjob.sh
+chmod a+x $RPM_INSTALL_PREFIX/%{pkgrel}/etc/init.d/cronjob.sh
+
