@@ -1,21 +1,12 @@
-### RPM external gcaldaemon 1.0
+### RPM cms wmcore-db-couch 1
 
-# Install instructions from http://gcaldaemon.sourceforge.net/usage11.html 
-
-Requires: java-jdk
-Source: http://downloads.sourceforge.net/project/%n/linux/%realversion/%{n}-linux-%{realversion}-beta16.zip?use_mirror=surfnet&output=/%{n}-linux-%{realversion}-beta16.zip
+# This is a meta package and doesn't require source
+Requires: wmcore couchdb
 
 %prep
-# You are at %_builddir
-unzip %_sourcedir/%{n}-linux-%{realversion}-beta16.zip
-
 %build
-
 %install
-cp -rp %_builddir/GCALDaemon/* %i/
-chmod 755 %i/bin/*sh
-
-# Dependencies
+# Dependencies environment
 rm -rf %i/etc/profile.d
 mkdir -p %i/etc/profile.d
 for x in %pkgreqs; do
@@ -26,7 +17,6 @@ for x in %pkgreqs; do
 done
 
 %post
-# The relocation below is also needed for dependencies
+# Relocation for dependencies
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
-
