@@ -290,7 +290,7 @@ for SUBSYS in `ls -d ../%{parent_release_base}/python/*`; do
     S=`basename $SUBSYS`
     # echo "checking subsystem "$S
     if [ -d $S ] ; then
-      for PKG in `ls -d ../%{parent_release_base}/python/$S/[A-Z]*`; do
+      for PKG in `ls -d ../%{parent_release_base}/python/$S/[A-Za-z]*`; do
         P=`basename $PKG`
         # echo "checking package "$P
         if [ -d $S/$P ] ; then # package is part of the patch-release, don't do anything
