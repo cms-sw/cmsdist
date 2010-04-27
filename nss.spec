@@ -3,20 +3,18 @@ Source: https://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_%(echo
 Requires: nspr
 
 %build
-case %cmsplatf in
-osx*)
-  CC_PLATF="cc -framework Foundation -framework Carbon"
-  ;;
-*)
-  CC_PLATF="cc"
-  ;;
-esac
-
 export NSPR_INCLUDE_DIR=$NSPR_ROOT/include/nspr
 export NSPR_LIB_DIR=$NSPR_ROOT/lib
 make -C ./mozilla/security/coreconf
 make -C ./mozilla/security/dbm
-make -C ./mozilla/security/nss CC="$CC_PLATF"
+case %cmsplatf in
+osx*)
+  make -C ./mozilla/security/nss CC="gcc -framework Foundation -framework Carbon"
+;;
+*)
+  make -C ./mozilla/security/nss
+;;
+esac
 
 %install
 case %cmsplatf in

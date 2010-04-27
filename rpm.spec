@@ -54,6 +54,10 @@ case %cmsos in
   slc*_ia32)
     export CFLAGS_PLATF="-fPIC -D_FILE_OFFSET_BITS=64"
   ;;
+  osx*)
+    export CFLAGS_PLATF="-fPIC -fnested-functions"
+    export LIBS_PLATF="-liconv"
+  ;;
   *)
     export CFLAGS_PLATF="-fPIC"
   ;;
@@ -69,7 +73,7 @@ esac
 ./configure --prefix %i --enable-static --disable-shared \
     --with-external-db --disable-pithon --disable-nls \
     --disable-rpath --with-lua \
-    CFLAGS="$CFLAGS_PLATF -ggdb -O0 -I$NSPR_ROOT/include/nspr -fnested-functions \
+    CFLAGS="$CFLAGS_PLATF -ggdb -O0 -I$NSPR_ROOT/include/nspr \
             -I$NSS_ROOT/include/nss3 -I$ZLIB_ROOT/include -I$BZ2LIB_ROOT/include \
             -I$DB4_ROOT/include -I$FILE_ROOT/include -I$POPT_ROOT/include \
             -I$LUA_ROOT/include" \
@@ -80,7 +84,7 @@ esac
               -I$FILE_ROOT/include -I$POPT_ROOT/include \
               -I$NSS_ROOT/include/nss3 -I$LUA_ROOT/include" \
     LIBS="-lnspr4 -lnss3 -lnssutil3 -lplds4 -lbz2 -lplc4 -lz -lpopt \
-          -liconv -ldb -llua $LIBS_PLATF"
+          -ldb -llua $LIBS_PLATF"
 
 
 #FIXME: this does not seem to work and we still get /usr/bin/python in some of the files.
