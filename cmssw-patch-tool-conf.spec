@@ -5,6 +5,6 @@
 Requires: cmssw
 
 # still need this (from the non-patch tool-conf spec ...
-%define skipreqtools jcompiler
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull
 
 ## IMPORT scramv1-tool-conf
