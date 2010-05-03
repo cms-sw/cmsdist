@@ -4,22 +4,26 @@ Source: none
 # Here we are assuming that online release always uses system compiler:
 %define compilertools jcompiler
 
-%define onlinetools zlib curl openssl xerces-c xdaq xdaqheader mimetic
+%define onlinetools zlib curl openssl xerces-c xdaq xdaqheader mimetic oracle oracleocci
 # Define variables used in non-scram-managed tools, that would be
 # normally defined in package's init.sh/csh scrips.
 # Set all versions as currently found on the system.
+%define xdaq_root                       /opt/xdaq
 %define curl_version                    7.12.1
 ## INITENV SET CURL_VERSION             %curl_version
 %define zlib_version                    1.2.1.2
 ## INITENV SET ZLIB_VERSION             %zlib_version
+%define oracle_version			10.2.1
+## INITENV SET ORACLE_VERSION           %oracle_version
+## INITENV SET ORACLE_ROOT		%xdaq_root
 %define openssl_version			0.9.7e
 ## INITENV SET OPENSSL_VERSION          %openssl_version
 %define xerces_version			2.7.0
 ## INITENV SET XERCES_C_VERSION         %xerces_version
-## INITENV SET XERCES_C_ROOT		/opt/xdaq
-%define xdaq_version			3.28.0
+## INITENV SET XERCES_C_ROOT		%xdaq_root
+%define xdaq_version			3.32.1
 ## INITENV SET XDAQ_VERSION         	%xdaq_version
-## INITENV SET XDAQ_ROOT         	/opt/xdaq
+## INITENV SET XDAQ_ROOT         	%xdaq_root
 %define mimetic_version			0.9.1
 ## INITENV SET MIMETIC_VERSION         	%mimetic_version
 
@@ -167,7 +171,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/xerces-c.xml
     <info url="http://xml.apache.org/xerces-c/"/>
     <lib name="xerces-c"/>
     <client>
-      <environment name="XERCES_C_BASE" default="/opt/xdaq"/>
+      <environment name="XERCES_C_BASE" default="%xdaq_root"/>
       <environment name="INCLUDE" default="$XERCES_C_BASE/include"/>
       <environment name="LIBDIR" default="$XERCES_C_BASE/lib"/>
     </client>
@@ -197,7 +201,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaq.xml
     <lib name="i2outils"/>
     <lib name="xdaq2rc"/>
     <client>
-      <environment name="XDAQ_BASE" default="/opt/xdaq"/>
+      <environment name="XDAQ_BASE" default="%xdaq_root"/>
       <environment name="LIBDIR" default="$XDAQ_BASE/lib"/>
       <environment name="BINDIR" default="$XDAQ_BASE/bin"/>
       <environment name="INCLUDE" default="$XDAQ_BASE/include"/>
@@ -222,7 +226,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaqheader.xml
   <tool name="XDAQHEADER" version="%xdaq_version">
     <info url="http://home.cern.ch/xdaq"/>
     <client>
-      <environment name="XDAQHEADER_BASE" default="/opt/xdaq"/>
+      <environment name="XDAQHEADER_BASE" default="%xdaq_root"/>
       <environment name="INCLUDE" default="$XDAQHEADER_BASE/include"/>
     </client>
   </tool>
@@ -233,10 +237,34 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/mimetic.xml
   <tool name="mimetic" version="%mimetic_version">
     <lib name="mimetic"/>
     <client>
-      <environment name="MIMETIC_BASE" default="/opt/xdaq"/>
+      <environment name="MIMETIC_BASE" default="%xdaq_root"/>
       <environment name="LIBDIR" default="$MIMETIC_BASE/lib"/>
       <environment name="INCLUDE" default="$MIMETIC_BASE/include"/>
     </client>
+  </tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/oracle.xml
+  <tool name="oracle" version="%oracle_version">
+    <lib name="clntsh"/>
+    <lib name="nnz10"/>
+    <client>
+      <environment name="ORACLE_BASE" default="%xdaq_root"/>
+      <environment name="ORACLE_ADMINDIR" default="."/>
+      <environment name="LIBDIR" value="$ORACLE_BASE/lib"/>
+      <environment name="BINDIR" value="$ORACLE_BASE/bin"/>
+      <environment name="INCLUDE" value="$ORACLE_BASE/include"/>
+    </client>
+    <runtime name="PATH" value="$BINDIR" type="path"/>
+    <runtime name="TNS_ADMIN" default="$ORACLE_ADMINDIR"/>
+    <use name="sockets"/>
+  </tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/oracleocci.xml
+  <tool name="oracleocci" version="%oracle_version">
+    <lib name="occi"/>
+    <use name="oracle"/>
   </tool>
 EOF_TOOLFILE
 
