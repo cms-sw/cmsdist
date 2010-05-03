@@ -1,6 +1,6 @@
-### RPM external apt 0.5.15lorg3.2-CMS19c
+### RPM external apt 0.5.15lorg3.94a
 ## INITENV SET APT_CONFIG %{i}/etc/apt.conf
-Source0:  http://apt-rpm.org/releases/%n-%realversion.tar.bz2
+Source0: http://apt-rpm.org/testing/apt-%realversion.tar.bz2
 Source1: bootstrap
 Source2: http://search.cpan.org/CPAN/authors/id/T/TL/TLBDK/RPM-Header-PurePerl-1.0.2.tar.gz
 
@@ -12,8 +12,6 @@ Requires: libxml2 rpm
 Requires: openssl
 %endif
 
-Patch0: apt-rpm449
-Patch1: apt-rpm446
 Patch2: apt
 Patch3: apt-multiarch
 Patch4: apt-ansi-headers
@@ -31,51 +29,52 @@ Patch6: apt-osx-readline
 cd ..
 %setup -n %n-%{realversion}
 
-case $RPM_VERSION in
-    4.4.9*)
-%patch0 -p0
-        ;;
-    4.4.6*)
-%patch1 -p0
-        ;;
-esac
-
 # scandir has a different prototype between macosx and linux.
-case %cmsplatf in
-    osx*)
-%patch2 -p1
-    ;;
-esac
+#case %cmsplatf in
+#    osx*)
+#%patch2 -p1
+#    ;;
+#esac
 
-%patch3 -p1
-%patch4 -p2
-%patch5 -p2
+#%patch3 -p1
+#%patch4 -p2
+#%patch5 -p2
 
-%if "%(echo %{cmsos} | cut -d_ -f 1 | sed -e 's|osx.*|osx|')" == "osx"
-%patch6 -p0
-%endif
+#%if "%(echo %{cmsos} | cut -d_ -f 1 | sed -e 's|osx.*|osx|')" == "osx"
+#%patch6 -p0
+#%endif
 
 %build
 #export CFLAGS="-O0 -g"
 case %cmsplatf in
   slc*_ia32_*)
-    export CXXFLAGS="-D_FILE_OFFSET_BITS=64"
+    export CXXFLAGS_PLATF="-D_FILE_OFFSET_BITS=64"
     ;;
   *)
     ;;
 esac
-export CPPFLAGS="-I$BZ2LIB_ROOT/include -I$BEECRYPT_ROOT/include -I$RPM_ROOT/include -I$RPM_ROOT/include/rpm"
-export LDFLAGS="-L$BZ2LIB_ROOT/lib -L$BEECRYPT_ROOT/%{libdir} -L$RPM_ROOT/%{libdir}"
-export LIBDIR="$LIBS"
-export LIBXML2_CFLAGS="-I$LIBXML2_ROOT/include/libxml2 -I$BEECRYPT_ROOT/include -I$RPM_ROOT/include"
-export LIBXML2_LIBS="-lxml2 -L$LIBXML2_ROOT/lib -L$BEECRYPT_ROOT/%{libdir} -L$RPM_ROOT/%{libdir}"
 
 ./configure --prefix=%{i} --exec-prefix=%{i} \
                             --disable-nls \
                             --disable-dependency-tracking \
                             --without-libintl-prefix \
                             --disable-docs \
-                            --disable-rpath
+                            --disable-rpath \
+                            CPPFLAGS="-I$BZ2LIB_ROOT/include \
+                                      -I$RPM_ROOT/include \
+                                      -I$POPT_ROOT/include \
+                                      -I$LIBXML2_ROOT/include/libxml2" \
+                            LD_FLAGS="-L$BZ2LIB_ROOT/lib \
+                                      -L$POPT_ROOT/lib \
+                                      -L$LIBXML2_ROOT/lib \
+                                      -L$RPM_ROOT/%{libdir}" \
+                            CXXFLAGS="$CXXFLAGS_PLATF" \
+                            CFLAGS="-I$BZ2LIB_ROOT/include \
+                                    -I$RPM_ROOT/include \
+                                    -I$POPT_ROOT/include \
+                                    -I$LIBXML2_ROOT/include/libxml2" \
+                            LIBXML2_CFLAGS="-I$LIBXML2_ROOT/include/libxml2" \
+                            LIBXML2_LIBS="-lxml2 -L$LIBXML2_ROOT/lib"
 make %makeprocesses
 
 
