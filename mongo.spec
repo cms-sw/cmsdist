@@ -1,4 +1,4 @@
-### RPM external mongo 1.4.0
+### RPM external mongo 1.4.2
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
 Provides: libpcap.so.0.8.3
@@ -35,3 +35,5 @@ done
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 
+. $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+mkdir -p $MONGO_ROOT/db
