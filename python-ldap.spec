@@ -1,15 +1,18 @@
 ### RPM external python-ldap 2.3.5
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
-
 Source: http://voxel.dl.sourceforge.net/sourceforge/python-ldap/python-ldap-%{realversion}.tar.gz
 Patch0: python-ldap-2.3.5-gcc44
-Requires: python openssl openldap
+Requires: python
+Requires: openssl
+Requires: openldap
 
 %prep
 %setup -q -n %n-%{realversion}
+pwd
 %patch0 -p1
 
 %build
+pwd
+
 mkdir -p sasl2lib
 ln -s /usr/lib/libsasl2.so.2.0.19 sasl2lib/libsasl2.so
 
@@ -38,20 +41,5 @@ EOF_TOOLFILE
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*
 
-# Dependencies environment
-rm -rf %i/etc/profile.d
-mkdir -p %i/etc/profile.d
-for x in %pkgreqs; do
-  case $x in /* ) continue ;; esac
-  p=%{instroot}/%{cmsplatf}/$(echo $x | sed 's/\([^+]*\)+\(.*\)+\([A-Z0-9].*\)/\1 \2 \3/' | tr ' ' '/')
-  echo ". $p/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-  echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
-done
-
-
 %post
 %{relocateConfig}etc/scram.d/%n
-# The relocation below is also needed for dependencies
-%{relocateConfig}etc/profile.d/dependencies-setup.sh
-%{relocateConfig}etc/profile.d/dependencies-setup.csh
-
