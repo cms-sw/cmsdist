@@ -1,4 +1,4 @@
-### RPM cms cmssw-patch CMSSW_3_6_0_patch1
+### RPM cms cmssw-patch CMSSW_3_6_0_patch2
 ## IMPORT configurations 
 Requires: cmssw-patch-tool-conf 
 
