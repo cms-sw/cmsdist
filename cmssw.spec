@@ -1,15 +1,8 @@
 ### RPM cms cmssw CMSSW_3_7_0_pre3
-## IMPORT configurations 
-Requires: cmssw-tool-conf python glimpse
+Requires: cmssw-tool-conf python
 
-%define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
-%define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
-%define cvsdir          %cvsprojuc
-%define cvsserver       %cvsprojlc
-%define prebuildtarget  gindices
-%define buildtarget     release-build
-%define useCmsTC        1
+%define runGlimpse      yes
+%define useCmsTC        yes
 %define saveDeps        yes
 
-## IMPORT cms-scram-build
-## IMPORT scramv1-build
+## IMPORT scram-project-build
