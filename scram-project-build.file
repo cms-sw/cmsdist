@@ -1,4 +1,4 @@
-### FILE scramv1-build
+### FILE scram-project-build
 # FIXME: support building all platforms together like scram does?
 # FIXME: automatic sub-packages for "doc" etc?
 
