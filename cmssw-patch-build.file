@@ -27,6 +27,10 @@
     false ;\
   fi
 
+%if "%{?PartialBootstrapPatch:set}" == "set"
+%define                       PartialBootstrapPatch   %{nil}
+%endif
+
 %define PatchReleasePythonSymlinks \
   CWD=`/bin/pwd`; cd %i; %scramcmd b --verbose -f tmp/common/python_symlinks </dev/null; cd %i/python;\
   for SUBSYS in `ls -d ../%{parent_release_rpath}/python/*`; do \
