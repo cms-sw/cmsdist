@@ -51,6 +51,7 @@ CondCore/ESSources
 CondCore/EcalPlugins
 CondCore/EgammaPlugins
 CondCore/GeometryPlugins
+CondCore/HIPlugins
 CondCore/HLTPlugins
 CondCore/HcalPlugins
 CondCore/IOVService
