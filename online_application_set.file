@@ -10,6 +10,7 @@ CalibCalorimetry/Configuration
 CalibCalorimetry/EcalCorrectionModules
 CalibCalorimetry/EcalLaserCorrection
 CalibCalorimetry/EcalLaserSorting
+CalibCalorimetry/EcalLaserAnalyzer
 CalibCalorimetry/EcalPedestalOffsets
 CalibCalorimetry/EcalSRTools
 CalibCalorimetry/EcalTBCondTools

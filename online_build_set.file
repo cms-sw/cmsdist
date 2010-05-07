@@ -16,6 +16,7 @@ CalibCalorimetry/CaloTPG
 CalibCalorimetry/CastorCalib
 CalibCalorimetry/Configuration
 CalibCalorimetry/EcalCorrectionModules
+CalibCalorimetry/EcalLaserAnalyzer
 CalibCalorimetry/EcalLaserCorrection
 CalibCalorimetry/EcalLaserSorting
 CalibCalorimetry/EcalPedestalOffsets
