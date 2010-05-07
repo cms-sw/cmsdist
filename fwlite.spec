@@ -1,4 +1,4 @@
-### RPM cms fwlite CMSSW_3_5_6_FWLITE
+### RPM cms fwlite CMSSW_3_5_0_FWLITE
 ## IMPORT configurations 
 Requires: fwlite-tool-conf python
 
