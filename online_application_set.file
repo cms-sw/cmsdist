@@ -344,10 +344,11 @@ HLTriggerOffline/special
 IOPool/Input
 IOPool/Output
 IOPool/PFNCatalog
+IOPool/SecondaryInput
 IOPool/TFileAdaptor
 IOPool/TrivialFileCatalog
+IORawData/CaloPatterns
 IORawData/SiPixelInputSources
-IORawData/SiStripInputSources
 JetMETCorrections/Configuration
 JetMETCorrections/Modules
 JetMETCorrections/Type1MET

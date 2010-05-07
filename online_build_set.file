@@ -433,12 +433,13 @@ IOPool/Common
 IOPool/Input
 IOPool/Output
 IOPool/PFNCatalog
+IOPool/SecondaryInput
 IOPool/Streamer
 IOPool/TFileAdaptor
 IOPool/TrivialFileCatalog
+IORawData/CaloPatterns
 IORawData/DaqSource
 IORawData/SiPixelInputSources
-IORawData/SiStripInputSources
 Iguana/Utilities
 JetMETCorrections/Algorithms
 JetMETCorrections/Configuration
