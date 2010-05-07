@@ -440,6 +440,9 @@ IOPool/TrivialFileCatalog
 IORawData/CaloPatterns
 IORawData/DaqSource
 IORawData/SiPixelInputSources
+IgTools/IgHook
+IgTools/IgProf
+IgTools/IgTrace
 Iguana/Utilities
 JetMETCorrections/Algorithms
 JetMETCorrections/Configuration

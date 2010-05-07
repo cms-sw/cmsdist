@@ -349,6 +349,9 @@ IOPool/TFileAdaptor
 IOPool/TrivialFileCatalog
 IORawData/CaloPatterns
 IORawData/SiPixelInputSources
+IgTools/IgHook
+IgTools/IgProf
+IgTools/IgTrace
 JetMETCorrections/Configuration
 JetMETCorrections/Modules
 JetMETCorrections/Type1MET
