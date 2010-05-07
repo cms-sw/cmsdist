@@ -493,11 +493,6 @@ HLTriggerOffline/SUSYBSM
 HLTriggerOffline/Tau
 HLTriggerOffline/Top
 HLTriggerOffline/special
-IOMC/EventVertexGenerators
-IOMC/Input
-IOMC/NtupleConverter
-IOMC/ParticleGuns
-IOMC/RandomEngine
 IOPool/Common
 IOPool/Input
 IOPool/Output
@@ -798,9 +793,9 @@ SimDataFormats/CaloHit
 SimDataFormats/EcalTestBeam
 SimDataFormats/EncodedEventId
 SimDataFormats/GeneratorProducts
-SimDataFormats/RandomEngine
 SimDataFormats/Track
 SimDataFormats/TrackingAnalysis
+SimDataFormats/TrackingHit
 SimDataFormats/Vertex
 SimGeneral/HepPDTRecord
 SimTracker/Records
