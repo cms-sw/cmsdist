@@ -331,6 +331,16 @@ HLTrigger/Muon
 HLTrigger/Timer
 HLTrigger/btau
 HLTrigger/special
+HLTriggerOffline/Common
+HLTriggerOffline/Egamma
+HLTriggerOffline/HeavyFlavor
+HLTriggerOffline/Higgs
+HLTriggerOffline/JetMET
+HLTriggerOffline/Muon
+HLTriggerOffline/SUSYBSM
+HLTriggerOffline/Tau
+HLTriggerOffline/Top
+HLTriggerOffline/special
 IOPool/Input
 IOPool/Output
 IOPool/PFNCatalog
