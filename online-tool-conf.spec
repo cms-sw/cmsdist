@@ -20,6 +20,7 @@ Requires: boost
 Requires: gsl
 Requires: clhep
 Requires: root
+Requires: roofit
 Requires: castor
 Requires: libjpg
 Requires: dcap
