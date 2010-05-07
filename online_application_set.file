@@ -218,6 +218,7 @@ DataFormats/RoadSearchSeed
 DataFormats/Scalers
 DataFormats/SiStripDigi
 DataFormats/StdDictionaries
+DataFormats/TestObjects
 DataFormats/TrackCandidate
 DataFormats/TrackReco
 DataFormats/TrackingRecHit
@@ -269,10 +270,14 @@ EventFilter/SiStripChannelChargeFilter
 EventFilter/SiStripRawToDigi
 EventFilter/StorageManager
 EventFilter/Utilities
+FWCore/GuiBrowsers
+FWCore/Integration
 FWCore/FWLite
 FWCore/MessageService
 FWCore/Modules
 FWCore/PrescaleService
+FWCore/Python
+FWCore/Skeletons
 FWCore/Version
 FastSimDataFormats/External
 Geometry/CMSCommonData
