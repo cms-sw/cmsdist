@@ -428,6 +428,7 @@ FWCore/TFWLiteSelector
 FWCore/TFWLiteSelectorTest
 FWCore/Utilities
 FWCore/Version
+FastSimDataFormats/External
 Geometry/CMSCommonData
 Geometry/CSCGeometry
 Geometry/CSCGeometryBuilder
