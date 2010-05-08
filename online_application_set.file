@@ -1,6 +1,11 @@
-# source-only, dependencies not picked up automatically
+# dependencies not picked up automatically
 FastSimDataFormats/External
+SimDataFormats/CrossingFrame
+SimDataFormats/JetMatching
+SimDataFormats/RPCDigiSimLink
+SimDataFormats/TrackerDigiSimLink
 SimDataFormats/TrackingHit
+SimGeneral/NoiseGenerators
 
 # packages
 Alignment/CommonAlignment
