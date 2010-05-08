@@ -32,6 +32,7 @@ Requires: hepmc
 Requires: heppdt
 Requires: elementtree
 Requires: sigcpp
+Requires: valgrind
 Requires: fastjet
 Requires: ktjet
 Requires: cmsswdata
