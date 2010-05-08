@@ -1,11 +1,3 @@
-Alignment/CocoaAnalysis
-Alignment/CocoaApplication
-Alignment/CocoaDDLObjects
-Alignment/CocoaDaq
-Alignment/CocoaFit
-Alignment/CocoaModel
-Alignment/CocoaToDDL
-Alignment/CocoaUtilities
 Alignment/CommonAlignment
 Alignment/CommonAlignmentAlgorithm
 Alignment/CommonAlignmentMonitor
@@ -631,12 +623,10 @@ RecoEgamma/EgammaHFProducers
 RecoEgamma/EgammaHLTAlgos
 RecoEgamma/EgammaHLTProducers
 RecoEgamma/EgammaIsolationAlgos
-RecoEgamma/EgammaMCTools
 RecoEgamma/EgammaPhotonAlgos
 RecoEgamma/EgammaPhotonProducers
 RecoEgamma/EgammaTools
 RecoEgamma/ElectronIdentification
-RecoEgamma/Examples
 RecoEgamma/PhotonIdentification
 RecoHI/Configuration
 RecoHI/HiCentralityAlgos

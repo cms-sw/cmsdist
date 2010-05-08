@@ -1,13 +1,8 @@
+# source-only, dependencies not picked up automatically
 FastSimDataFormats/External
 SimDataFormats/TrackingHit
-Alignment/CocoaAnalysis
-Alignment/CocoaApplication
-Alignment/CocoaDDLObjects
-Alignment/CocoaDaq
-Alignment/CocoaFit
-Alignment/CocoaModel
-Alignment/CocoaToDDL
-Alignment/CocoaUtilities
+
+# packages
 Alignment/CommonAlignment
 Alignment/CommonAlignmentAlgorithm
 Alignment/CommonAlignmentMonitor
@@ -630,12 +625,10 @@ RecoEgamma/EgammaHFProducers
 RecoEgamma/EgammaHLTAlgos
 RecoEgamma/EgammaHLTProducers
 RecoEgamma/EgammaIsolationAlgos
-RecoEgamma/EgammaMCTools
 RecoEgamma/EgammaPhotonAlgos
 RecoEgamma/EgammaPhotonProducers
 RecoEgamma/EgammaTools
 RecoEgamma/ElectronIdentification
-RecoEgamma/Examples
 RecoEgamma/PhotonIdentification
 RecoHI/Configuration
 RecoHI/HiCentralityAlgos
