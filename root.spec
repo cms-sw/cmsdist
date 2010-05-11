@@ -1,4 +1,4 @@
-### RPM lcg root 5.26.00b
+### RPM lcg root 5.27.02
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i 
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
@@ -12,10 +12,7 @@ Patch2:  root-5.22-00a-roofit-silence-static-printout
 Patch3:  root-5.22-00d-linker-gnu-hash-style
 Patch4:  root-5.26-00a-CINT-maxlongline
 Patch5:  root-5.26-00a-silence-TMVA
-Patch6:  root-5.22-00d-TMath-Vavilov
-Patch7:  root-5.22-00d-TBranchElement-dropped-data-member
-Patch8:  root-5.26-00b-genreflex-version-wildcard
-Patch9:  root-5.26.00b-fireworks1
+Patch6:  root-5.22-00d-TBranchElement-dropped-data-member
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -44,9 +41,6 @@ Requires: libtiff
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
 
 %build
 
