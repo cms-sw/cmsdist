@@ -1,4 +1,4 @@
-### RPM external xrootd 5.26.00a
+### RPM external xrootd 5.27.02
 Source: http://cmsrep.cern.ch//cmssw/xrootd_src/%n-%{realversion}.tgz
 Patch0: xrootd-gcc44
 Requires: openssl
