@@ -17,7 +17,7 @@ Requires: SCRAMV1
 %define bootstrapfile   config/bootsrc.xml
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V03-29-09
+%define configtag       V03-29-11
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
