@@ -1,4 +1,4 @@
-### RPM cms dbs3 DBS_3_S3_0_pre2
+### RPM cms dbs3 DBS_3_S4_0_pre2
 ## INITENV +PATH PYTHONPATH %i/Server/Python/src
 ## INITENV SET DBS3_SERVER_ROOT %i/Server/Python
 
