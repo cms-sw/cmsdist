@@ -54,8 +54,7 @@ exit;
 
 
 sub wanted {
-    /^.*\.dep\z/s &&
-    doexec(0, 'cat','{}');
+    doexec(0, 'cat','{}') if ($name=~/^.*(\.dep|\/a\/xr+\.cc\.d)\z/os);
 }
 
 
@@ -66,12 +65,13 @@ sub doexec ($@) {
     my $getnext=0;
     my $depname;
     open F1, $name;
-    while (<F1>) { 
-	my @sp1=split(' ',$_);
+    while (my $l=<F1>) {
+    	chomp($l);
+	$l=~s/\s*\\$//o;
+	my @sp1=split(' ',$l);
+	next if ( scalar(@sp1) == 0);
 	next if ( length($sp1[0]) < 4);
 	my @sp2=split('/',$sp1[0]);
-	my $lenarr=length(@sp2);
-# keep everything after src/
 	my $tsp1="";
 	my $foundsrc=0;
 	foreach my $t (@sp2) {
@@ -87,9 +87,8 @@ sub doexec ($@) {
 	}
 	else{
 	    $getnext=0;
-	    
-	    if ( $sp1[0] =~ /^tmp/o ) {
-		if ( $sp1[0] =~/o:$/o) {
+	    if ( $sp1[0] =~ /^tmp\//o ) {
+		if ( $sp1[0] =~/(\.o|\/a\/xr+\.cc):$/o) {
 		    $getnext=1;
 		}
 	    }
@@ -100,12 +99,10 @@ sub doexec ($@) {
 		    $usedby{$tsp1}.="$depname ";
 		}
 	    }
-	    
 	}
     }
     close F1;
     chdir $cwd; #sigh
-#    system @command;
     chdir $File::Find::dir;
     return !$?;
 }
