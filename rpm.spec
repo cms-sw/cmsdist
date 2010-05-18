@@ -79,9 +79,6 @@ echo %(echo %{cmsos} | cut -f1 -d_)
 %if "%(echo %{cmsos} | cut -f1 -d_)" == "osx105"
 %patch8 -p1
 %endif
-%if "%(echo %{cmsos} | cut -f1 -d_)" == "osx106"
-%patch8 -p1
-%endif
 
 %patch9 -p1
 %patch10 -p1
