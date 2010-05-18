@@ -1,14 +1,20 @@
-### RPM cms T0Mon 3.0.6
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
-%define moduleName WEBTOOLS
-%define exportName WEBTOOLS
-%define cvstag T0Mon_100518_1
-%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
-Requires: python cherrypy py2-sqlalchemy webtools
+### RPM external twisted 8.2.0
+
+## INITENV +PATH PYTHONPATH %i/lib/python%{pythonv}`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
+%define pythonv %(echo $PYTHON_VERSION | cut -d. -f 1,2)
+
+Requires: python
+Source: http://tmrc.mit.edu/mirror/twisted/Twisted/8.2/Twisted-8.2.0.tar.bz2
+
 %prep
-%setup -n %{moduleName}
+%setup -n Twisted-8.2.0
+
 %build
+
+%install
+python setup.py install --prefix=%i
+# Perhaps the following is needed to fix python source headers
+perl -p -i -e "s|^#!.*python(.*)|#!/usr/bin/env python$1|" `grep -r -e "^#\!.*python.*" %i | cut -d: -f1`
 
 rm -rf %i/etc/profile.d
 mkdir -p %i/etc/profile.d
@@ -31,13 +37,12 @@ done
 perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-setup.sh
 perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
 
-%install
-mkdir -p %i/etc
-mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
-cp -r Applications/T0Mon %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
 
-%define pythonv %(echo $PYTHON_ROOT | cut -d. -f1,2)
+
 %post
-
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
+
+
+#%files
+#%i/

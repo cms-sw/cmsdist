@@ -1,16 +1,35 @@
-### RPM cms T0Mon 3.0.6
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
-%define moduleName WEBTOOLS
-%define exportName WEBTOOLS
-%define cvstag T0Mon_100518_1
-%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
-Requires: python cherrypy py2-sqlalchemy webtools
-%prep
-%setup -n %{moduleName}
-%build
+### RPM external memcached 1.2.8
+Source: http://www.danga.com/memcached/dist/memcached-%{realversion}.tar.gz
+Requires: libevent
 
-rm -rf %i/etc/profile.d
+%prep 
+%setup -n memcached-%realversion
+
+%build
+source $LIBEVENT_ROOT/etc/profile.d/init.sh
+./configure --with-libevent=$LIBEVENT_ROOT --prefix=%i
+make
+
+%install
+make install
+
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<lib name=z>
+<client>
+ <Environment name=MEMCACHED_BASE default="%i"></Environment>
+ <Environment name=INCLUDE default="$MEMCACHED_BASE/include"></Environment>
+ <Environment name=LIBDIR  default="$MEMCACHED_BASE/lib"></Environment>
+</client>
+</Tool>
+EOF_TOOLFILE
+
+# This will generate the correct dependencies-setup.sh/dependencies-setup.csh
+# using the information found in the Requires statements of the different
+# specs and their dependencies.
 mkdir -p %i/etc/profile.d
 echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
 echo '#!/bin/tcsh' > %{i}/etc/profile.d/dependencies-setup.csh
@@ -27,17 +46,11 @@ do
         ;;
     esac
 done
-
 perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-setup.sh
 perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
 
-%install
-mkdir -p %i/etc
-mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
-cp -r Applications/T0Mon %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
-
-%define pythonv %(echo $PYTHON_ROOT | cut -d. -f1,2)
 %post
-
+%{relocateConfig}etc/scram.d/%n
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
+
