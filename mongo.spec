@@ -41,7 +41,7 @@ function mongo_stop()
 function mongo_start()
 {
     echo "+++ Start up MongoDB daemon ..."
-    \$MONGO_ROOT/bin/mongod --dbpath=\$MONGO_ROOT/db --quiet --cpu 2>&1 1>& \
+    \$MONGO_ROOT/bin/mongod --dbpath=\$MONGO_ROOT/db --quiet 2>&1 1>& \
     \$MONGO_ROOT/logs/mongo.log < /dev/null &
     sleep 2
     echo
