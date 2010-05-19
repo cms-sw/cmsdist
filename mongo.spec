@@ -20,16 +20,6 @@ export CXX=$GCC_ROOT/bin/g++
 #scons --64 --cxx=$CXX --extrapath=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT --prefix=%i install
 scons --64 --cxx=$CXX --extrapathdyn=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT --prefix=%i install
 
-# setup dependencies environment
-rm -rf %i/etc/profile.d
-mkdir -p %i/etc/profile.d
-for x in %pkgreqs; do
-  case $x in /* ) continue ;; esac
-  p=%{instroot}/%{cmsplatf}/$(echo $x | sed 's/\([^+]*\)+\(.*\)+\([A-Z0-9].*\)/\1 \2 \3/' | tr ' ' '/')
-  echo ". $p/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-  echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
-done
-
 mkdir -p %{i}/{db,logs}
 
 # create mongo init script
@@ -95,6 +85,16 @@ esac
 exit \$RETVAL
 MONGO_INIT_EOF
 chmod a+x %{i}/etc/profile.d/mongo_init.sh
+
+# setup dependencies environment
+rm -rf %i/etc/profile.d
+mkdir -p %i/etc/profile.d
+for x in %pkgreqs; do
+  case $x in /* ) continue ;; esac
+  p=%{instroot}/%{cmsplatf}/$(echo $x | sed 's/\([^+]*\)+\(.*\)+\([A-Z0-9].*\)/\1 \2 \3/' | tr ' ' '/')
+  echo ". $p/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
+  echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+done
 
 %post
 # The relocation is also needed because of dependencies
