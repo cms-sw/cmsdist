@@ -1,4 +1,4 @@
-### RPM cms dqmgui 5.1.5
+### RPM cms dqmgui 5.2.1
 
 # This is a RPM spec file for building the DQM GUI.  This effectively
 # builds a sliced version of CMSSW with some updated and added code,
@@ -14,19 +14,19 @@
 # CMSDIST with tag %cmssw, then take version from cms-scram-build.file.
 %define cvsserver   cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define scram       $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
-%define cmssw       CMSSW_3_3_1
-%define vcfg        V03-26-04-01
+%define cmssw       CMSSW_3_5_0
+%define vcfg        V03-29-06
 %define initenv     export ZZPATH=$PATH ZZLD_LIBRARY_PATH=$LD_LIBRARY_PATH ZZPYTHONPATH=$PYTHONPATH; %initenv_all
 
 # Sources that go into this package.  To avoid listing every package
 # here we take entire subsystems then later select what we want.
 Source0: %{cvsserver}&strategy=checkout&module=config&export=config&tag=-r%{vcfg}&output=/config.tar.gz
-Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rR05-01-05&output=/DQMServer.tar.gz
+Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rR05-02-01&output=/DQMServer.tar.gz
 Source2: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Utilities&export=Iguana/Utilities&tag=-rV03-00-09-01&output=/IgUtils.tar.gz
-Source3: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-13-01&output=/DQMCore.tar.gz
+Source3: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-13-09&output=/DQMCore.tar.gz
 Source4: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=image&revision=10&scheme=http&output=/rtgu.tar.gz
 Source5: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
-Requires: cherrypy py2-cheetah yui dqmgui-conf SCRAMV1
+Requires: cherrypy py2-cheetah yui extjs dqmgui-conf SCRAMV1
 Patch0: dqmgui-classlib
 Patch1: dqmgui-rtgu
 
@@ -110,6 +110,7 @@ perl -w -i -p -e \
  echo "export PYTHONPATH=%i/xlib:%i/xpython:\$PYTHONPATH;"
  echo "export LD_LIBRARY_PATH=%i/xlib:\$LD_LIBRARY_PATH;"
  echo "export YUI_ROOT='$YUI_ROOT';"
+ echo "export EXTJS_ROOT='$EXTJS_ROOT';"
  echo "export DQMGUI_ROOT='%i';"
  echo "export DQMGUI_CMSSW_VERSION='%{cmssw}';") >> %i/etc/profile.d/env.sh
 
@@ -117,6 +118,7 @@ perl -w -i -p -e \
  echo "setenv PYTHONPATH %i/xlib:%i/xpython:\$PYTHONPATH;"
  echo "setenv LD_LIBRARY_PATH %i/xlib:\$LD_LIBRARY_PATH;"
  echo "setenv YUI_ROOT '$YUI_ROOT';"
+ echo "setenv EXTJS_ROOT '$EXTJS_ROOT';"
  echo "setenv DQMGUI_ROOT '%i';"
  echo "setenv DQMGUI_CMSSW_VERSION '%{cmssw}';") >> %i/etc/profile.d/env.csh
 
@@ -143,175 +145,9 @@ cp -p %_builddir/THE_BUILD/config/toolbox/%cmsplatf/tools/selected/*.xml %i/etc/
    python -c "import $(basename $mod | sed 's/\.py$//')"
  done)
 
-# Script to record what sources went into this package so user can
-# check them out conveniently.
-sed 's/^  //' > %i/bin/visDQMDistSource << \END_OF_SCRIPT
-  #!/bin/sh
-  doit= shopt=-ex cvs=${CVSROOT:-":pserver:anonymous@cmscvs.cern.ch:/cvs/CMSSW"}
-  while [ $# -gt 0 ]; do
-    case $1 in
-      -n ) doit=echo shopt=-e; shift ;;
-       * ) echo "$0: unrecognised parameter: $1" 1>&2; exit 1 ;;
-    esac
-  done
-  set $shopt
-  $doit tar -jxf %i/data/distsrc.tar.bz2
-  tar -jtf %i/data/distsrc.tar.bz2 '*/CVS/Root' |
-    xargs $doit sed -i -e "s|.*|$cvs|"
-END_OF_SCRIPT
-
-# Script to update SCRAM tool definitions in CMSSW to our versions.
-sed 's/^  //' > %i/bin/visDQMDistTools << \END_OF_SCRIPT
-  #!/bin/sh
-  [ X"$CMSSW_BASE" = X ] && { echo '$CMSSW_BASE not set'; exit 1; }
-  [ X"$SCRAM_ARCH" = X ] && { echo '$SCRAM_ARCH not set'; exit 1; }
-
-  set -e
-  for tool in %i/etc/scramconfig/*.xml; do
-   toolname=$(basename $tool | sed 's/\.xml$//')
-   (set -x; scram tool remove $toolname)
-   cp -p $tool $CMSSW_BASE/config/toolbox/$SCRAM_ARCH/tools/selected
-   (set -x; scram setup -f $tool $toolname)
-  done
-END_OF_SCRIPT
-
-# Script to patch the server from the local developer area.  The user's
-# stuff goes into xbin/xlib/xpython directories, which are in front of
-# the server's own bin/lib/python directories.  So anything in x* will
-# be picked up in preference to the server-distributed files.
-sed 's/^  //' > %i/bin/visDQMDistPatch << \END_OF_SCRIPT
-  #!/bin/sh
-
-  if [ X"$CMSSW_BASE" = X ]; then
-    echo "scram runtime not set, will use one from $PWD" 1>&2
-    eval `scram runtime -sh`
-  fi
-
-  if [ X"$CMSSW_BASE" = X ] || [ X"$SCRAM_ARCH" = X ] || \
-     [ ! -f "$CMSSW_BASE/lib/$SCRAM_ARCH/libVisDQMServer.so" ]; then
-    echo "error: could not locate local scram developer area, exiting" 1>&2
-    exit 1;
-  fi
-
-  set -e
-  rm -fr %i/x{lib,bin,python,include}/{*,.??*}
-
-  echo "copying $CMSSW_BASE/lib/$SCRAM_ARCH into %i/xlib"
-  (cd $CMSSW_BASE/lib/$SCRAM_ARCH && tar -cf - .) | (cd %i/xlib && tar -xf -)
-
-  echo "copying $CMSSW_BASE/bin/$SCRAM_ARCH into %i/xbin"
-  (cd $CMSSW_BASE/bin/$SCRAM_ARCH && tar -cf - .) | (cd %i/xbin && tar -xf -)
-
-  echo "copying $CMSSW_BASE/src/VisMonitoring/DQMServer/python into %i/xpython"
-  (cd $CMSSW_BASE/src/VisMonitoring/DQMServer/python && tar -cf - *.*) | (cd %i/xpython && tar -xf -)
-
-  echo "copying $CMSSW_BASE/include/$SCRAM_ARCH into %i/xinclude"
-  (cd $CMSSW_BASE/include/$SCRAM_ARCH && tar -cf - .) | (cd %i/xinclude && tar -xf -)
-
-  echo "copying $CMSSW_BASE/src/*/*/interface/*.h into %i/xinclude"
-  (cd $CMSSW_BASE/src && tar -cf - */*/interface/*.h) | (cd %i/xinclude && tar -xf -)
-  exit 0
-END_OF_SCRIPT
-
-# Script to unpatch the server area.  Simply clears out xbin/xlib/xpython
-# so the server will then pick up the files distributed with the RPM.
-sed 's/^  //' > %i/bin/visDQMDistUnpatch << \END_OF_SCRIPT
-  #!/bin/sh
-  echo "removing local overrides from %i"
-  rm -fr %i/x{lib,bin,python,include}/{*,.??*}
-  exit 0
-END_OF_SCRIPT
-
-# CRON script to restart the DQM collector(s).
-sed 's/^  //' > %i/etc/restart-collector << \END_OF_SCRIPT
-  #!/bin/sh
-  . %instroot/cmsset_default.sh
-  . %i/etc/profile.d/env.sh
-  killall -9 DQMCollector
-  set -e
-  for opt; do
-    case $opt in
-      :* )  port= dir=$(echo $opt | sed 's/.*://') ;;
-      *:* ) dir=$(echo $opt | sed 's/.*://')
-            port=$(echo $opt | sed 's/:.*//') ;;
-      * )  port= dir=$opt ;;
-    esac
-
-    mkdir -p $dir/collector
-    cd $dir/collector
-    [ ! -f collector.out ] || mv -f collector.out collector.out.$(date +%%Y%%m%%d%%H%%M%%S)
-    DQMCollector ${port:+ --listen $port} > collector.out 2>&1 </dev/null &
-  done
-END_OF_SCRIPT
-
-# CRON script to archive collector longs in monthly zip files.
-sed 's/^  //' > %i/etc/archive-collector-logs << \END_OF_SCRIPT
-  #!/bin/sh
-  for opt; do
-    dir=$(echo $opt | sed 's/.*://')
-    cd $dir/collector
-    for month in $(ls | fgrep collector.out. | sed 's/.*out.\(......\).*/\1/' | sort | uniq); do
-      zip -rm collector-$month.zip collector.out.$month*
-    done
-  done
-END_OF_SCRIPT
-
-# CRON script to purge sessions abandoned by users.
-sed 's/^  //' > %i/etc/purge-old-sessions << \END_OF_SCRIPT
-  #!/bin/sh
-  . %instroot/cmsset_default.sh
-  . %i/etc/profile.d/env.sh
-  for opt; do
-    [ -d "$opt/gui/www/sessions" ] || continue
-    visDQMPurgeSessions $opt/gui/www/sessions
-  done
-END_OF_SCRIPT
-
-# Utility script to update CRONTAB entries to this server version.
-# Accounts for changes in the server configurations.  For details
-# of use see DQMGuiProduction twiki page.
-sed 's/^  //' > %i/etc/update-crontab << \END_OF_SCRIPT
-  #!/bin/sh
-  collector= defcollector=9090:$(dirname %instroot)
-  purge= defpurge=$(dirname %instroot)
-  while [ $# -gt 0 ]; do
-    case $1 in
-      --collector )
-        collector="$collector $2"
-        shift; shift ;;
-      --purge )
-        purge="$purge $2"
-        shift; shift ;;
-      * )
-        echo "$(basename $0): unrecognised option $1" 1>&2
-        exit 1 ;;
-    esac
-  done
-
-  set -x
-  (crontab -l | fgrep -v /dqmgui/;
-   sed -e "s|#COLLECTOR|${collector:-$defcollector}|g" \
-       -e "s|#PURGE|${purge:-$defpurge}|g" <%i/etc/crontab) |
-  crontab -
-END_OF_SCRIPT
-
-# CRONTAB entries for this server.  This will be modified by the
-# update-crontab script and merged to other crontab rules.
-sed 's/^  //' > %i/etc/crontab << \END_OF_SCRIPT
-  5 */2 * * * %i/etc/purge-old-sessions #PURGE
-  0 0 * * * %i/etc/restart-collector #COLLECTOR
-  20 0 1 * * %i/etc/archive-collector-logs #COLLECTOR
-END_OF_SCRIPT
-
-chmod a+x %i/bin/visDQMDist*
-chmod a+x %i/etc/*-*
-
 # Post installation rules.  Relocate the various scripts.
 # Relocate SCRAM-generated external link "database".
 %post
-%{relocateConfig}bin/visDQMDist*
-%{relocateConfig}etc/*-*
-%{relocateConfig}etc/crontab
 %{relocateConfig}etc/profile.d/env.sh
 %{relocateConfig}etc/profile.d/env.csh
 %{relocateConfig}etc/scramconfig/*.xml
