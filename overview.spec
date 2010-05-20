@@ -1,4 +1,4 @@
-### RPM cms overview 5.2.1
+### RPM cms overview 5.2.1c
 
 # This is a RPM spec file for building the Overview.  This is a very
 # minimal SCRAM build area with highly reduced set of dependencies.
@@ -7,8 +7,8 @@
 # See DQM GUI spec file for more commentary on what goes on here.
 %define cvsserver   cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define scram       $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
-%define cmssw       CMSSW_3_5_0
-%define vcfg        V03-29-06
+%define cmssw       CMSSW_3_6_1
+%define vcfg        V03-29-09
 %define initenv     export ZZPATH=$PATH ZZLD_LIBRARY_PATH=$LD_LIBRARY_PATH ZZPYTHONPATH=$PYTHONPATH; %initenv_all
 
 Source0: %{cvsserver}&strategy=checkout&module=config&export=config&tag=-r%{vcfg}&output=/config.tar.gz
