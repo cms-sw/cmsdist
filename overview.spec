@@ -1,4 +1,4 @@
-### RPM cms overview 5.1.8
+### RPM cms overview 5.2.1
 
 # This is a RPM spec file for building the Overview.  This is a very
 # minimal SCRAM build area with highly reduced set of dependencies.
