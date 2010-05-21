@@ -1,13 +1,13 @@
 ### RPM lcg root 5.22.00d
 ## INITENV +PATH PYTHONPATH %i/lib/python
-## INITENV SET ROOTSYS %i  
+## INITENV SET ROOTSYS %i 
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
 Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 Patch0: root-5.18-00-libpng 
-Patch1: root-5.22-00d-CINT-maxlongline-maxtypedef
+Patch1: root-5.21-04-CINT-maxlongline
 Patch2: root-5.22-00-TMVA-shut-the-hell-up-for-once
 Patch3: root-5.22-00a-TMVA-shut-the-hell-up-again
 Patch4: root-5.22-00d-fireworks-graf3d-gui
