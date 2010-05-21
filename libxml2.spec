@@ -19,6 +19,9 @@ Requires: zlib
 ./configure --prefix=%i --with-zlib=/usr
 %endif
 make %makeprocesses
+%install
+make install
+rm -rf %{i}/lib/pkgconfig
 %post
 %{relocateConfig}bin/xml2-config
 %{relocateConfig}lib/libxml2.la

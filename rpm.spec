@@ -8,7 +8,7 @@ Source: http://rpm.org/releases/rpm-%(echo %realversion | cut -f1,2 -d.).x/rpm-%
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
-Requires: file nspr nss popt bz2lib db4 lua
+Requires: file nspr nss popt bz2lib db4 lua elfutils
 %if "%online" != "true"
 Requires: zlib
 %endif
@@ -17,6 +17,11 @@ Requires: zlib
 # The following two lines are a workaround for an issue seen with gcc4.1.2
 Provides: perl(Archive::Tar)
 Provides: perl(Specfile)
+# The Module::ScanDeps::DataFeed code is actually contained in perldeps.pl
+# but it is dumped out in a temporary file and imported from there, AFAICT.
+# For this reason it does not show up as provided by this package.
+# In order to work around the problem, we add a fake Provides statement.
+Provides: perl(Module::ScanDeps::DataFeed)
 
 Patch0: rpm-case-insensitive-sources
 Patch1: rpm-add-missing-__fxstat64
@@ -24,6 +29,7 @@ Patch2: rpm-fix-glob_pattern_p
 Patch3: rpm-remove-strndup
 Patch4: rpm-case-insensitive-fixes
 Patch5: rpm-allow-empty-buildroot
+Patch6: rpm-remove-chroot-check
 
 # Defaults here
 %define libdir lib
@@ -48,11 +54,16 @@ rm -rf lib/rpmhash.*
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 case %cmsos in
   slc*_ia32)
     export CFLAGS_PLATF="-fPIC -D_FILE_OFFSET_BITS=64"
+  ;;
+  osx*)
+    export CFLAGS_PLATF="-fPIC -fnested-functions"
+    export LIBS_PLATF="-liconv"
   ;;
   *)
     export CFLAGS_PLATF="-fPIC"
@@ -66,22 +77,29 @@ case %cmsos in
 esac 
 %endif
 
-./configure --prefix %i --enable-static --disable-shared \
-    --with-external-db --disable-pithon --disable-nls \
+USER_CFLAGS="-ggdb -O0"
+USER_CXXFLAGS="-ggdb -O0"
+#USER_CFLAGS="$USER_CFLAGS -O2"
+
+perl -p -i -e's|-O2|-O0|' ./configure
+
+./configure --prefix %i \
+    --with-external-db --disable-python --disable-nls \
     --disable-rpath --with-lua \
-    CFLAGS="$CFLAGS_PLATF -ggdb -O0 -I$NSPR_ROOT/include/nspr -fnested-functions \
+    CXXFLAGS="$USER_CXXFLAGS" \
+    CFLAGS="$CFLAGS_PLATF $USER_CFLAGS -I$NSPR_ROOT/include/nspr \
             -I$NSS_ROOT/include/nss3 -I$ZLIB_ROOT/include -I$BZ2LIB_ROOT/include \
             -I$DB4_ROOT/include -I$FILE_ROOT/include -I$POPT_ROOT/include \
-            -I$LUA_ROOT/include" \
+            -I$LUA_ROOT/include -L$ELFUTILS_ROOT/include" \
     LDFLAGS="-L$NSPR_ROOT/lib -L$NSS_ROOT/lib -L$ZLIB_ROOT/lib -L$DB4_ROOT/lib \
+             -L$ELFUTIL_ROOT/lib \
              -L$FILE_ROOT/lib -L$POPT_ROOT/lib -L$BZ2LIB_ROOT/lib -L$LUA_ROOT/lib" \
     CPPFLAGS="-I$NSPR_ROOT/include/nspr \
               -I$ZLIB_ROOT/include -I$BZ2LIB_ROOT/include -I$DB4_ROOT/include \
-              -I$FILE_ROOT/include -I$POPT_ROOT/include \
+              -I$FILE_ROOT/include -I$POPT_ROOT/include -I$ELFUTILS_ROOT/include \
               -I$NSS_ROOT/include/nss3 -I$LUA_ROOT/include" \
     LIBS="-lnspr4 -lnss3 -lnssutil3 -lplds4 -lbz2 -lplc4 -lz -lpopt \
-          -liconv -ldb -llua $LIBS_PLATF"
-
+          -ldb -llua $LIBS_PLATF"
 
 #FIXME: this does not seem to work and we still get /usr/bin/python in some of the files.
 export __PYTHON="/usr/bin/env python"
@@ -105,6 +123,7 @@ perl -p -i -e "s!:/etc/[^:]*!!g;
 
 # This is for compatibility with rpm 4.3.3
 perl -p -i -e "s!^.buildroot!#%%buildroot!;
+               s!^%%_dbpath.*lib/rpm!%%_dbpath %{instroot}/%{cmsplatf}/var/lib/rpm!;
                s!^%%_repackage_dir.*/var/spool/repackage!%%_repackage_dir     %{instroot}/%{cmsplatf}/var/spool/repackage!" %i/lib/rpm/macros
 
 # Removes any reference to /usr/lib/rpm in lib/rpm
@@ -164,6 +183,7 @@ perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-
 perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
 
 ln -sf rpm/rpmpopt-%{realversion} %i/lib/rpmpopt
+perl -p -i -e 's|.[{]prefix[}]|%instroot|g' %{i}/lib/rpm/macros
 
 # Remove some of the path macros defined in macros since they could come from
 # different places (e.g. from system or from macports) and this would lead to
@@ -172,6 +192,11 @@ for shellUtil in tar cat chgrp chmod chown cp file gpg id make mkdir mv pgp rm r
 do
     perl -p -i -e "s|^%__$shellUtil\s(.*)|%__$shellUtil       $shellUtil|" %i/lib/rpm/macros
 done
+
+ln -sf rpm %i/bin/rpmdb
+ln -sf rpm %i/bin/rpmsign
+ln -sf rpm %i/bin/rpmverify
+ln -sf rpm %i/bin/rpmquery
 
 %post
 # do not relocate init.[c]sh as these are done by default from cmsBuild
