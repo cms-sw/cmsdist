@@ -8,7 +8,7 @@ export NSPR_LIB_DIR=$NSPR_ROOT/lib
 export USE_SYSTEM_ZLIB=1
 export ZLIB_LIBS="-L$ZLIB_ROOT -lz"
 
-case %cmsplatf is
+case %cmsplatf in
   *_amd64_*)
     export USE_64=1
   ;;
