@@ -17,6 +17,11 @@ Requires: zlib
 # The following two lines are a workaround for an issue seen with gcc4.1.2
 Provides: perl(Archive::Tar)
 Provides: perl(Specfile)
+# The Module::ScanDeps::DataFeed code is actually contained in perldeps.pl
+# but it is dumped out in a temporary file and imported from there, AFAICT.
+# For this reason it does not show up as provided by this package.
+# In order to work around the problem, we add a fake Provides statement.
+Provides: perl(Module::ScanDeps::DataFeed)
 
 Patch0: rpm-case-insensitive-sources
 Patch1: rpm-add-missing-__fxstat64
