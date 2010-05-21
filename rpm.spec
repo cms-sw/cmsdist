@@ -79,7 +79,7 @@ USER_CXXFLAGS="-ggdb -O0"
 perl -p -i -e's|-O2|-O0|' ./configure
 
 ./configure --prefix %i \
-    --with-external-db --disable-pithon --disable-nls \
+    --with-external-db --disable-python --disable-nls \
     --disable-rpath --with-lua \
     CXXFLAGS="$USER_CXXFLAGS" \
     CFLAGS="$CFLAGS_PLATF $USER_CFLAGS -I$NSPR_ROOT/include/nspr \
@@ -95,7 +95,6 @@ perl -p -i -e's|-O2|-O0|' ./configure
               -I$NSS_ROOT/include/nss3 -I$LUA_ROOT/include" \
     LIBS="-lnspr4 -lnss3 -lnssutil3 -lplds4 -lbz2 -lplc4 -lz -lpopt \
           -ldb -llua $LIBS_PLATF"
-
 
 #FIXME: this does not seem to work and we still get /usr/bin/python in some of the files.
 export __PYTHON="/usr/bin/env python"
