@@ -24,6 +24,7 @@ Patch2: rpm-fix-glob_pattern_p
 Patch3: rpm-remove-strndup
 Patch4: rpm-case-insensitive-fixes
 Patch5: rpm-allow-empty-buildroot
+Patch6: rpm-remove-chroot-check
 
 # Defaults here
 %define libdir lib
@@ -48,6 +49,7 @@ rm -rf lib/rpmhash.*
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 case %cmsos in
@@ -70,10 +72,17 @@ case %cmsos in
 esac 
 %endif
 
+USER_CFLAGS="-ggdb -O0"
+USER_CXXFLAGS="-ggdb -O0"
+#USER_CFLAGS="$USER_CFLAGS -O2"
+
+perl -p -i -e's|-O2|-O0|' ./configure
+
 ./configure --prefix %i --enable-static --disable-shared \
     --with-external-db --disable-pithon --disable-nls \
     --disable-rpath --with-lua \
-    CFLAGS="$CFLAGS_PLATF -ggdb -O0 -I$NSPR_ROOT/include/nspr \
+    CXXFLAGS="$USER_CXXFLAGS" \
+    CFLAGS="$CFLAGS_PLATF $USER_CFLAGS -I$NSPR_ROOT/include/nspr \
             -I$NSS_ROOT/include/nss3 -I$ZLIB_ROOT/include -I$BZ2LIB_ROOT/include \
             -I$DB4_ROOT/include -I$FILE_ROOT/include -I$POPT_ROOT/include \
             -I$LUA_ROOT/include" \
@@ -168,6 +177,7 @@ perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-
 perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
 
 ln -sf rpm/rpmpopt-%{realversion} %i/lib/rpmpopt
+perl -p -i -e 's|.[{]prefix[}]|%instroot|g' %{i}/lib/rpm/macros
 
 # Remove some of the path macros defined in macros since they could come from
 # different places (e.g. from system or from macports) and this would lead to
@@ -176,6 +186,11 @@ for shellUtil in tar cat chgrp chmod chown cp file gpg id make mkdir mv pgp rm r
 do
     perl -p -i -e "s|^%__$shellUtil\s(.*)|%__$shellUtil       $shellUtil|" %i/lib/rpm/macros
 done
+
+ln -sf rpm %i/bin/rpmdb
+ln -sf rpm %i/bin/rpmsign
+ln -sf rpm %i/bin/rpmverify
+ln -sf rpm %i/bin/rpmquery
 
 %post
 # do not relocate init.[c]sh as these are done by default from cmsBuild
