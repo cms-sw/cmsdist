@@ -1,10 +1,19 @@
 ### RPM external nss 3.12.6 
 Source: https://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_%(echo %realversion | tr . _)_RTM/src/nss-%realversion.tar.gz
-Requires: nspr
+Requires: nspr zlib
 
 %build
-export NSPR_INCLUDE_DIR=$NSPR_ROOT/include/nspr
+export NSPR_INCLUDE_DIR=$NSPR_ROOT/include/nspr 
 export NSPR_LIB_DIR=$NSPR_ROOT/lib
+export USE_SYSTEM_ZLIB=1
+export ZLIB_LIBS="-L$ZLIB_ROOT -lz"
+
+case %cmsplatf is
+  *_amd64_*)
+    export USE_64=1
+  ;;
+esac
+
 make -C ./mozilla/security/coreconf
 make -C ./mozilla/security/dbm
 case %cmsplatf in
