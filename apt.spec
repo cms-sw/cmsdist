@@ -49,7 +49,9 @@ esac
                           LDFLAGS="-L$BZ2LIB_ROOT/lib -L$DB4_ROOT/lib -L$LUA_ROOT/lib -L$RPM_ROOT/lib $USER_LDFLAGS" \
                           LIBS="-llua $USER_LIBS" \
                           LIBXML2_CFLAGS="-I$LIBXML2_ROOT/include/libxml2 -I$DB4_ROOT/include -I$LUA_ROOT/include -I$RPM_ROOT/include" \
-                          LIBXML2_LIBS="-lxml2 -L$DB4_ROOT/lib -L$LIBXML2_ROOT/lib -L$LUA_ROOT/lib -L$RPM_ROOT/lib"
+                          LIBXML2_LIBS="-lxml2 -L$DB4_ROOT/lib -L$LIBXML2_ROOT/lib -L$LUA_ROOT/lib -L$RPM_ROOT/lib" \
+                          RPM_LIBS="-L$RPM_ROOT/lib -lrpm -lrpmio -lrpmbuild"
+
 make %makeprocesses
 
 
