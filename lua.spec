@@ -2,6 +2,7 @@
 Source0: http://www.lua.org/ftp/lua-%realversion.tar.gz
 
 %build
+perl -p -i -e 's|^CFLAGS=|CFLAGS=-fPIC|' src/Makefile
 case %cmsplatf in
   osx*)
     make macosx

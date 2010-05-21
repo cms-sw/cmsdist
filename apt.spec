@@ -1,81 +1,55 @@
-### RPM external apt 0.5.15lorg3.2-CMS19c
+### RPM external apt 429
 ## INITENV SET APT_CONFIG %{i}/etc/apt.conf
-Source0:  http://apt-rpm.org/releases/%n-%realversion.tar.bz2
+Source0: svn://svn.github.com/ktf/apt-rpm.git?scheme=http&revision=%{realversion}&module=apt-rpm&output=/apt-rpm.tar.gz
 Source1: bootstrap
 Source2: http://search.cpan.org/CPAN/authors/id/T/TL/TLBDK/RPM-Header-PurePerl-1.0.2.tar.gz
 
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
-Requires: libxml2 rpm
+Requires: libxml2 rpm db4
 %if "%online" != "true"
 Requires: openssl
-%endif
-
-Patch0: apt-rpm449
-Patch1: apt-rpm446
-Patch2: apt
-Patch3: apt-multiarch
-Patch4: apt-ansi-headers
-Patch5: apt-fix-parameter-names
-Patch6: apt-osx-readline
-
-%if "%(echo %{cmsos} | cut -d_ -f 2 | sed -e 's|.*64.*|64|')" == "64"
-%define libdir lib64
-%else
-%define libdir lib
 %endif
 
 %prep
 %setup -T -b 2 -n RPM-Header-PurePerl-1.0.2
 cd ..
-%setup -n %n-%{realversion}
-
-case $RPM_VERSION in
-    4.4.9*)
-%patch0 -p0
-        ;;
-    4.4.6*)
-%patch1 -p0
-        ;;
-esac
-
-# scandir has a different prototype between macosx and linux.
-case %cmsplatf in
-    osx*)
-%patch2 -p1
-    ;;
-esac
-
-%patch3 -p1
-%patch4 -p2
-%patch5 -p2
-
-%if "%(echo %{cmsos} | cut -d_ -f 1 | sed -e 's|osx.*|osx|')" == "osx"
-%patch6 -p0
-%endif
+%setup -n apt-rpm
 
 %build
-#export CFLAGS="-O0 -g"
 case %cmsplatf in
   slc*_ia32_*)
-    export CXXFLAGS="-D_FILE_OFFSET_BITS=64"
+    export USER_CPPFLAGS="-D_FILE_OFFSET_BITS=64"
+    export USER_CFLAGS="-pthread"
+    export USER_CXXFLAGS="-pthread"
+    export USER_LDFLAGS="-pthread"
+    export USER_LIBS="-pthread"
+    ;;
+  slc*_amd64_*)
+    export USER_CFLAGS="-pthread"
+    export USER_CXXFLAGS="-pthread"
+    export USER_LDFLAGS="-pthread"
+    export USER_LIBS="-pthread"
     ;;
   *)
     ;;
 esac
-export CPPFLAGS="-I$BZ2LIB_ROOT/include -I$BEECRYPT_ROOT/include -I$RPM_ROOT/include -I$RPM_ROOT/include/rpm"
-export LDFLAGS="-L$BZ2LIB_ROOT/lib -L$BEECRYPT_ROOT/%{libdir} -L$RPM_ROOT/%{libdir}"
-export LIBDIR="$LIBS"
-export LIBXML2_CFLAGS="-I$LIBXML2_ROOT/include/libxml2 -I$BEECRYPT_ROOT/include -I$RPM_ROOT/include"
-export LIBXML2_LIBS="-lxml2 -L$LIBXML2_ROOT/lib -L$BEECRYPT_ROOT/%{libdir} -L$RPM_ROOT/%{libdir}"
 
 ./configure --prefix=%{i} --exec-prefix=%{i} \
-                            --disable-nls \
-                            --disable-dependency-tracking \
-                            --without-libintl-prefix \
-                            --disable-docs \
-                            --disable-rpath
+                          --disable-nls \
+                          --disable-dependency-tracking \
+                          --without-libintl-prefix \
+                          --disable-docs \
+                          --disable-selinux \
+                          --disable-rpath \
+                          CXXFLAGS="-fPIC $USER_CXXFLAGS" \
+                          CFLAGS="-fPIC $USER_CFLAGS" \
+                          CPPFLAGS="-DAPT_DISABLE_MULTIARCH -D_RPM_4_4_COMPAT -I$DB4_ROOT/include -I$BZ2LIB_ROOT/include -I$LUA_ROOT/include -I$RPM_ROOT/include -I$RPM_ROOT/include/rpm $USER_CPPFLAGS" \
+                          LDFLAGS="-L$BZ2LIB_ROOT/lib -L$DB4_ROOT/lib -L$LUA_ROOT/lib -L$RPM_ROOT/lib $USER_LDFLAGS" \
+                          LIBS="-llua $USER_LIBS" \
+                          LIBXML2_CFLAGS="-I$LIBXML2_ROOT/include/libxml2 -I$DB4_ROOT/include -I$LUA_ROOT/include -I$RPM_ROOT/include" \
+                          LIBXML2_LIBS="-lxml2 -L$DB4_ROOT/lib -L$LIBXML2_ROOT/lib -L$LUA_ROOT/lib -L$RPM_ROOT/lib"
 make %makeprocesses
 
 
