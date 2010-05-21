@@ -11,5 +11,3 @@ popd
 pushd mozilla/nsprpub
   make install
 popd
-find %i/lib -name '*.so' -exec rm {} \;
-find %i/lib -name '*.dylib' -exec rm {} \;
