@@ -1,4 +1,4 @@
-### RPM external apt 428
+### RPM external apt 429
 ## INITENV SET APT_CONFIG %{i}/etc/apt.conf
 Source0: svn://svn.github.com/ktf/apt-rpm.git?scheme=http&revision=%{realversion}&module=apt-rpm&output=/apt-rpm.tar.gz
 Source1: bootstrap
