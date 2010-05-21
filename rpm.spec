@@ -78,7 +78,7 @@ USER_CXXFLAGS="-ggdb -O0"
 
 perl -p -i -e's|-O2|-O0|' ./configure
 
-./configure --prefix %i --enable-static --disable-shared \
+./configure --prefix %i \
     --with-external-db --disable-pithon --disable-nls \
     --disable-rpath --with-lua \
     CXXFLAGS="$USER_CXXFLAGS" \
