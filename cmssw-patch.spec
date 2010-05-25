@@ -1,5 +1,15 @@
-### RPM cms cmssw-patch CMSSW_3_6_1_patch2
+### RPM cms cmssw-patch CMSSW_3_5_7_hltpatch4
 ## IMPORT configurations 
+Provides: /bin/zsh
+Provides: /bin/ksh
+Provides: /bin/sed
+Provides: /usr/bin/awk
+Provides: /usr/bin/python
+Provides: perl(Date::Format)
+Provides: perl(Term::ReadKey)
+Provides: perl(full)
+Provides: perl(LWP::UserAgent)
+Provides: perl(Template)
 
 Requires: cmssw-patch-tool-conf 
 
