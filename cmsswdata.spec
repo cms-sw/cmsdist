@@ -1,6 +1,11 @@
 ### RPM cms cmsswdata 23
 Source: none
 
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
+
+%if "%online" != "true"
+# data dependencies for standard builds
 Requires: data-FastSimulation-MaterialEffects
 Requires: data-FastSimulation-PileUpProducer
 Requires: data-MagneticField-Interpolation
@@ -14,6 +19,10 @@ Requires: data-Validation-Geometry
 Requires: data-RecoMuon-MuonIdentification
 Requires: data-L1Trigger-RPCTrigger
 Requires: data-Fireworks-Geometry
+%else
+# data dependencies for ONLINE builds
+Requires: data-MagneticField-Interpolation
+%endif
 
 %prep
 %build
