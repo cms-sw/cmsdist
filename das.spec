@@ -1,4 +1,4 @@
-### RPM cms das V0_4_9
+### RPM cms das V0_4_11
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PYTHONPATH $WMCORE_ROOT/src/python
 ## INITENV +PATH PYTHONPATH %i/src/python
@@ -6,15 +6,17 @@
 ## INITENV +PATH PYTHONPATH $DAS_ROOT/src/python
 
 %define cvstag %{realversion}
+%define svntag %(echo %{realversion}|tr _ .|tr -d V)
 %define arch `uname -p`
 %define pver `echo $PYTHON_VERSION | cut -d. -f1,2`
-%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-Source: %cvsserver&strategy=checkout&module=COMP/DAS&nocache=true&export=DAS&tag=-r%{cvstag}&output=/das.tar.gz
+
+#%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
+#Source: %cvsserver&strategy=checkout&module=COMP/DAS&nocache=true&export=DAS&tag=-r%{cvstag}&output=/das.tar.gz
+
+%define svnserver svn://svn.cern.ch/reps/CMSDMWM/DAS/tags/%{svntag}
+Source: %svnserver?scheme=svn+ssh&strategy=export&module=DAS&output=/das.tar.gz
+
 Requires: python cherrypy py2-cheetah yui elementtree mongo py2-pymongo py2-cjson py2-yaml wmcore py2-sphinx py2-openid py2-sqlalchemy py2-ipython py2-pystemmer py2-mongoengine py2-lxml py2-ply
-#Requires: python cherrypy py2-cheetah yui elementtree mongo-bin py2-pymongo py2-cjson py2-yaml wmcore py2-sphinx py2-openid py2-sqlalchemy py2-ipython py2-pystemmer py2-mongoengine py2-lxml
-#Requires: python cherrypy py2-cheetah yui elementtree mongo py2-pymongo py2-cjson py2-yaml py2-sphinx py2-openid py2-sqlalchemy py2-ipython
-#Requires: python cherrypy py2-cheetah sqlite py2-pysqlite py2-sqlalchemy yui elementtree memcached py2-memcached mongo-bin py2-pymongo py2-cjson py2-yaml wmcore-webtools
-#Requires: python cherrypy py2-cheetah sqlite py2-pysqlite py2-sqlalchemy yui elementtree memcached py2-memcached mongo py2-pymongo py2-cjson py2-yaml wmcore-webtools
 
 %prep
 %setup -n DAS
