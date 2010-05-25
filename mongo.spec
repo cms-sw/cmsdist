@@ -1,4 +1,4 @@
-### RPM external mongo 1.4.2
+### RPM external mongo 1.4.3
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
 Provides: libpcap.so.0.8.3
@@ -23,9 +23,9 @@ scons --64 --cxx=$CXX --extrapathdyn=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT -
 mkdir -p %{i}/{db,logs}
 
 # create mongo init script
-mkdir -p %{i}/etc/profile.d/
-cat > %{i}/etc/profile.d/mongo_init.sh << MONGO_INIT_EOF
-#!/bin/sh
+mkdir -p %{i}/etc/init.d/
+cat << \MONGO_INIT_EOF > %i/etc/init.d/mongo_init.sh
+#!/bin/bash
 export MYAREA=rpm_install_area
 export SCRAM_ARCH=scram_arch
 export APT_VERSION=apt_version
@@ -41,6 +41,7 @@ function mongo_stop()
 function mongo_start()
 {
     echo "+++ Start up MongoDB daemon ..."
+    mkdir -p \$MONGO_ROOT/db
     \$MONGO_ROOT/bin/mongod --dbpath=\$MONGO_ROOT/db --quiet 2>&1 1>& \
     \$MONGO_ROOT/logs/mongo.log < /dev/null &
     sleep 2
@@ -84,7 +85,7 @@ esac
 
 exit \$RETVAL
 MONGO_INIT_EOF
-chmod a+x %{i}/etc/profile.d/mongo_init.sh
+chmod a+x %{i}/etc/init.d/mongo_init.sh
 
 # setup dependencies environment
 rm -rf %i/etc/profile.d
@@ -105,12 +106,12 @@ done
 mkdir -p $MONGO_ROOT/db
 
 # Fix path in mongo_init.sh file since now we know install area
-cat $MONGO_ROOT/etc/profile.d/mongo_init.sh | sed "s,rpm_install_area,$RPM_INSTALL_PREFIX,g" | \
+cat $MONGO_ROOT/etc/init.d/mongo_init.sh | sed "s,rpm_install_area,$RPM_INSTALL_PREFIX,g" | \
     sed "s,scram_arch,$SCRAM_ARCH,g" | \
     sed "s,apt_version,$APT_VERSION,g" > \
-    $MONGO_ROOT/etc/profile.d/mongo_init.sh.new
-/bin/mv -f $MONGO_ROOT/etc/profile.d/mongo_init.sh.new $MONGO_ROOT/etc/profile.d/mongo_init.sh
+    $MONGO_ROOT/etc/init.d/mongo_init.sh.new
+/bin/mv -f $MONGO_ROOT/etc/init.d/mongo_init.sh.new $MONGO_ROOT/etc/init.d/mongo_init.sh
 echo "+++ Fix path in mongo_init.sh"
-chmod a+x $MONGO_ROOT/etc/profile.d/mongo_init.sh
+chmod a+x $MONGO_ROOT/etc/init.d/mongo_init.sh
 
 
