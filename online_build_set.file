@@ -89,6 +89,7 @@ CommonTools/CandUtils
 CommonTools/Clustering1D
 CommonTools/ConditionDBWriter
 CommonTools/RecoAlgos
+CommonTools/RecoUtils
 CommonTools/Statistics
 CommonTools/TrackerMap
 CommonTools/UtilAlgos
@@ -378,6 +379,7 @@ EventFilter/EcalRawToDigiDev
 EventFilter/EcalTBRawToDigi
 EventFilter/FEDInterface
 EventFilter/GctRawToDigi
+EventFilter/Goodies
 EventFilter/HcalRawToDigi
 EventFilter/L1GlobalTriggerRawToDigi
 EventFilter/LTCRawToDigi
