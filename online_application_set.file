@@ -5,6 +5,7 @@ SimDataFormats/JetMatching
 SimDataFormats/RPCDigiSimLink
 SimDataFormats/TrackerDigiSimLink
 SimDataFormats/TrackingHit
+SimGeneral/HepPDTESSource
 SimGeneral/NoiseGenerators
 
 # packages
