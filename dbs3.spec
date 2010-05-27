@@ -1,4 +1,4 @@
-### RPM cms dbs3 DBS_3_S2_0_pre3
+### RPM cms dbs3 DBS_3_S4_0_pre3
 ## INITENV +PATH PYTHONPATH %i/Server/Python/src
 ## INITENV SET DBS3_SERVER_ROOT %i/Server/Python
 
@@ -11,7 +11,7 @@
 %define dbowner schemaowner
 %define dbsver DBS_3_0_0
 
-Requires: wmcore-webtools wmcore-db-oracle py2-cjson
+Requires: wmcore-webtools wmcore-db-oracle py2-cjson py2-mysqldb
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true&module=COMP/DBS/DBS3&export=%{n}&tag=-r%{cvsver}&output=/%{n}.tar.gz
 
 %prep
@@ -31,6 +31,8 @@ cat << \EOF > %i/setup.sh
 if [ -z "$DBS3_ROOT" ]; then
        source ./etc/profile.d/init.sh
 fi
+
+export MYSQL_UNIX_PORT=$MYSQL_ROOT/mysqldb/mysql.sock
 
 dbs3_start1(){
 if [ -z "$1" ]
