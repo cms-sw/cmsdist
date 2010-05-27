@@ -1,0 +1,275 @@
+### FILE scram-project-build
+# FIXME: support building all platforms together like scram does?
+# FIXME: automatic sub-packages for "doc" etc?
+
+Requires: SCRAMV1
+
+%define initenv	        %initenv_direct
+%define scramcmd        $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
+%define cmsrepo         cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
+%define srctree		src
+
+#config stuff
+%define cvsconfig	config
+%define configtar	config.tar.gz
+%define configrepo	%cmsrepo
+%define buildtarget	release-build
+%define bootstrapfile   config/bootsrc.xml
+
+%if "%{?externalSymbols:set}" == "set"
+%define enableDebug     yes
+%endif
+
+%if "%{?enableDebug:set}" == "set"
+%define debugOptions    USER_CXXFLAGS="-g"
+%endif
+
+%if "%{?configtag:set}" != "set"
+%define configtag       V03-29-11
+%endif
+
+%if "%{?useCmsTC:set}" != "set"
+%if "%{?cvsrepo:set}" != "set"
+%define cvsrepo		%cmsrepo
+%endif
+%else
+%define cvsrepo cmstc
+%endif
+
+%if "%{?cvssrc:set}" != "set"
+%define cvssrc		%(echo %n | sed -e "s|-patch||"| tr 'a-z' 'A-Z')
+%endif
+
+%if "%{?cvstag:set}" != "set"
+%define cvstag		%(echo %v | cut -d- -f1)
+%endif
+
+%if "%{buildarch:set}" != "set"
+%define buildarch	:
+%endif
+
+%if "%{?ucprojtype:set}" != "set"
+%define ucprojtype      %(echo %n | sed -e "s|-patch||" | tr 'a-z' 'A-Z')
+%endif
+%define lcprojtype      %(echo %ucprojtype | tr 'A-Z' 'a-z')
+%define toolconf        %(echo %n | sed "s|-|_|g" | tr 'a-z' 'A-Z')_TOOL_CONF_ROOT
+
+%define source0 %{configrepo}&tag=-r%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
+
+%if "%{?source1:set}" != "set"
+%if  "%{cvsrepo}" != "cmstc"
+%define source1 %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
+%else
+%define source1 %{cvsrepo}://?tag=%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
+%endif
+%endif
+
+%if "%{?additionalSrc0:set}" == "set"
+%define source2 %{additionalSrc0}&output=/src1.tar.gz
+%endif
+
+%if "%{?additionalSrc1:set}" == "set"
+%define source3 %{additionalSrc1}&output=/src2.tar.gz
+%endif
+
+%if "%{?source2:set}" != "set"
+%define source2 none
+%endif
+
+%if "%{?source3:set}" != "set"
+%define source3 none
+%endif
+
+%if "%{?source4:set}" != "set"
+%define source4 none
+%endif
+
+%if "%{?source5:set}" != "set"
+%define source5 none
+%endif
+
+%if "%{?source6:set}" != "set"
+%define source6 none
+%endif
+
+%if "%{?source7:set}" != "set"
+%define source7 none
+%endif
+
+Source0: %source0
+Source1: %source1
+Source2: %source2
+Source3: %source3
+Source4: %source4
+Source5: %source5
+Source6: %source6
+Source7: %source7
+Source8: %lcprojtype-tool
+Source9: findDependencies.pl
+
+%prep
+rm -rf config
+rm -rf %{srctree}
+
+%setup -T -b 0 -n config
+%setup -D -T -b 1 -n %{srctree}
+
+%if "%{?additionalSrc0:set}" == "set"
+%setup -D -T -a 2 -n %{srctree}
+%endif
+
+%if "%{?additionalSrc1:set}" == "set"
+%setup -D -T -a 3 -n %{srctree}
+%endif
+
+%{?PatchReleaseAdditionalPackages:%PatchReleaseAdditionalPackages}
+
+cd %_builddir
+%_builddir/config/updateConfig.pl -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}}
+%{?PartialBootstrapPatch:%PartialBootstrapPatch}
+%{?patchsrc:%patchsrc}
+%{?patchsrc2:%patchsrc2}
+%{?patchsrc3:%patchsrc3}
+%{?patchsrc4:%patchsrc4}
+%{?patchsrc5:%patchsrc5}
+%{?patchsrc6:%patchsrc6}
+%{?patchsrc7:%patchsrc7}
+%{?patchsrc8:%patchsrc8}
+%{?patchsrc9:%patchsrc9}
+
+rm -rf %i
+mkdir -p $(dirname %i)
+%{?buildarch:%buildarch}
+%scramcmd project -d $(dirname %i) -b %{bootstrapfile}
+
+%build
+
+# Remove cmt stuff that brings unwanted dependencies:
+rm -rf `find %{i}/%{srctree} -type d -name cmt`
+grep -r -l -e "^#!.*perl.*" %{i}/%{srctree} | xargs perl -p -i -e "s|^#!.*perl(.*)|#!/usr/bin/env perl\$1|"
+
+%scramcmd arch
+cd %i/%{srctree}
+%{?buildarch:%buildarch}
+
+export BUILD_LOG=yes
+export SCRAM_NOPLUGINREFRESH=yes
+
+if [ $(uname) = Darwin ]; then
+  # %scramcmd doesn't know the rpath variable on darwin...
+  %scramcmd b echo_null # ensure lib, bin exist
+  eval `%scramcmd runtime -sh`
+  export DYLD_LIBRARY_PATH=$LD_LIBRARY_PATH
+fi
+
+%if "%{?nolibchecks:set}" == "set"
+export SCRAM_NOLOADCHECK=true
+export SCRAM_NOSYMCHECK=true
+%endif
+
+%{?preBuildCommand:%preBuildCommand}
+
+%scramcmd b -r echo_CXX </dev/null
+
+%{?PatchReleasePythonSymlinks:%PatchReleasePythonSymlinks}
+
+%if "%{?runGlimpse:set}" == "set"
+%scramcmd b --verbose -f gindices </dev/null
+%endif
+
+%if "%{?prebuildtarget:set}" == "set"
+%scramcmd b --verbose -f %{prebuildtarget} </dev/null
+%endif
+
+%scramcmd b --verbose -f %{compileOptions} %{debugOptions} %{makeprocesses} %{buildtarget} </dev/null || { %scramcmd b -f outputlog && false; }
+
+%if "%{?additionalBuildTarget0:set}" == "set"
+%scramcmd b --verbose -f %{additionalBuildTarget0} < /dev/null
+%endif
+
+%if "%{?postbuildtarget:set}" == "set"
+%scramcmd b --verbose -f %{postbuildtarget} </dev/null
+%endif
+
+# split the debug symbols out of tha main binaries, into separate files
+%if "%{?externalSymbols:set}" == "set"
+BINDIR="%{i}/bin/%{cmsplatf}"
+LIBDIR="%{i}/lib/%{cmsplatf}"
+
+mkdir -p $BINDIR/.debug
+for FILE in $(file $BINDIR/* | grep "ELF" | cut -d: -f1); do
+  NAME=$(basename $FILE)
+  eu-strip $FILE -f $BINDIR/.debug/$NAME
+done
+
+mkdir -p $LIBDIR/.debug
+for FILE in $LIBDIR/*.so; do
+  NAME=$(basename $FILE)
+  eu-strip $FILE -f $LIBDIR/.debug/$NAME
+done
+%endif
+
+%if "%{?saveDeps:set}" == "set"
+mkdir -p %i/etc/dependencies
+chmod +x %{_sourcedir}/findDependencies.pl
+%{_sourcedir}/findDependencies.pl -rel %i
+%{?PatchReleaseDependencyInfo:%PatchReleaseDependencyInfo}
+gzip -f %i/etc/dependencies/*.out
+%endif
+
+(eval `%scramcmd run -sh` ; echo $PYTHONPATH | sed -e "s/:/','/g" | awk '{print "#!/usr/bin/env python \n\ncmsswPythonPaths=['"'"'"$1"'"'"']"}' > %i/python/cmsswPaths.py) || true
+
+chmod -R 755 %i %i/.SCRAM
+rm -fR %i/lib/%cmsplatf/.edmplugincache
+(eval `%scramcmd run -sh` ; EdmPluginRefresh) || true
+
+%install
+cd %i
+%{?buildarch:%buildarch}
+
+mkdir -p etc/scram.d
+sed 's|@PROJECT_NAME@|%ucprojtype|g;s|@PROJECT_VERSION@|%v|g;s|@PROJECT_BUILD_PATH@|%_builddir|g;s|@PROJECT_ROOT@|%i|g' %_sourcedir/%lcprojtype-tool > etc/scram.d/%lcprojtype.xml
+%scramcmd install -f
+(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/%{srctree}; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.pl --arch %cmsplatf --nolink INCLUDE) || true
+ls -al external/%cmsplatf/lib/
+
+%{?PartialReleasePackageList:%PartialReleasePackageList}
+%{?PatchReleaseSourceSymlinks:%PatchReleaseSourceSymlinks}
+%{?PatchReleaseGlimpse:%PatchReleaseGlimpse}
+
+tar czf %{srctree}.tar.gz %{srctree}
+rm -fR %{srctree} tmp
+
+%post
+export SCRAM_ARCH=%cmsplatf
+cd $RPM_INSTALL_PREFIX/%pkgrel
+if [ -e %{srctree}.tar.gz ] ; then
+  tar xzf %{srctree}.tar.gz
+  rm -fR %{srctree}.tar.gz
+fi
+scramver=`cat config/scram_version`
+. $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver/etc/profile.d/init.sh
+%{relocateConfig}etc/scram.d/%lcprojtype.xml
+perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find config -type f)
+if [ -d python ]; then perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find python -maxdepth 1 -type f); fi
+(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/%{srctree}; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename.pl %{instroot} $RPM_INSTALL_PREFIX  %cmsplatf )
+%{?buildarch:%buildarch}
+for L in `find external/%cmsplatf -maxdepth 2 -type l`; do
+   mv $L $L-old; ln -s `readlink -n $L-old 2>&1 | sed -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" ` $L ; rm $L-old;
+done
+eval `%scramcmd run -sh`
+for cmd in EdmPluginRefresh IgPluginRefresh ; do
+  cmdpath=`which $cmd 2> /dev/null || echo ""`
+  if [ "X$cmdpath" != X ] ; then
+    $cmd || true
+  fi
+done
+%scramcmd install -f
+
+%{?PatchReleaseFilesRelocate:%PatchReleaseFilesRelocate}
+%{?PartialReleaseFilesRelocate:%PartialReleaseFilesRelocate}
+
+%postun
+if [ -e $RPM_INSTALL_PREFIX/%pkgrel ] ; then
+  rm -fR $RPM_INSTALL_PREFIX/%pkgrel/%{srctree} $RPM_INSTALL_PREFIX/%pkgrel/.SCRAM
+fi
