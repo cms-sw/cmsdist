@@ -16,6 +16,14 @@ Requires: SCRAMV1
 %define buildtarget	release-build
 %define bootstrapfile   config/bootsrc.xml
 
+%if "%{?externalSymbols:set}" == "set"
+%define enableDebug     yes
+%endif
+
+%if "%{?enableDebug:set}" == "set"
+%define debugOptions    USER_CXXFLAGS="-g"
+%endif
+
 %if "%{?configtag:set}" != "set"
 %define configtag       V03-29-11
 %endif
@@ -136,7 +144,7 @@ mkdir -p $(dirname %i)
 
 %build
 
-# Remove cmt stuff that brings unwanted dependencies: 
+# Remove cmt stuff that brings unwanted dependencies:
 rm -rf `find %{i}/%{srctree} -type d -name cmt`
 grep -r -l -e "^#!.*perl.*" %{i}/%{srctree} | xargs perl -p -i -e "s|^#!.*perl(.*)|#!/usr/bin/env perl\$1|"
 
@@ -173,7 +181,7 @@ export SCRAM_NOSYMCHECK=true
 %scramcmd b --verbose -f %{prebuildtarget} </dev/null
 %endif
 
-%scramcmd b --verbose -f %{compileOptions} %{makeprocesses}  %{buildtarget} </dev/null || { %scramcmd b -f outputlog && false; }
+%scramcmd b --verbose -f %{compileOptions} %{debugOptions} %{makeprocesses} %{buildtarget} </dev/null || { %scramcmd b -f outputlog && false; }
 
 %if "%{?additionalBuildTarget0:set}" == "set"
 %scramcmd b --verbose -f %{additionalBuildTarget0} < /dev/null
@@ -183,7 +191,25 @@ export SCRAM_NOSYMCHECK=true
 %scramcmd b --verbose -f %{postbuildtarget} </dev/null
 %endif
 
-%if "%{?saveDeps:set}" == "set" 
+# split the debug symbols out of tha main binaries, into separate files
+%if "%{?externalSymbols:set}" == "set"
+BINDIR="%{i}/bin/%{cmsplatf}"
+LIBDIR="%{i}/lib/%{cmsplatf}"
+
+mkdir -p $BINDIR/.debug
+for FILE in $(file $BINDIR/* | grep "ELF" | cut -d: -f1); do
+  NAME=$(basename $FILE)
+  eu-strip $FILE -f $BINDIR/.debug/$NAME
+done
+
+mkdir -p $LIBDIR/.debug
+for FILE in $LIBDIR/*.so; do
+  NAME=$(basename $FILE)
+  eu-strip $FILE -f $LIBDIR/.debug/$NAME
+done
+%endif
+
+%if "%{?saveDeps:set}" == "set"
 mkdir -p %i/etc/dependencies
 chmod +x %{_sourcedir}/findDependencies.pl
 %{_sourcedir}/findDependencies.pl -rel %i
@@ -203,7 +229,7 @@ cd %i
 
 mkdir -p etc/scram.d
 sed 's|@PROJECT_NAME@|%ucprojtype|g;s|@PROJECT_VERSION@|%v|g;s|@PROJECT_BUILD_PATH@|%_builddir|g;s|@PROJECT_ROOT@|%i|g' %_sourcedir/%lcprojtype-tool > etc/scram.d/%lcprojtype.xml
-%scramcmd install -f 
+%scramcmd install -f
 (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/%{srctree}; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.pl --arch %cmsplatf --nolink INCLUDE) || true
 ls -al external/%cmsplatf/lib/
 
