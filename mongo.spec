@@ -29,41 +29,41 @@ cat << \MONGO_INIT_EOF > %i/etc/init.d/mongo_init.sh
 export MYAREA=rpm_install_area
 export SCRAM_ARCH=scram_arch
 export APT_VERSION=apt_version
-source \$MYAREA/\$SCRAM_ARCH/external/apt/\$APT_VERSION/etc/profile.d/init.sh 
-source \$MYAREA/%{pkgrel}/etc/profile.d/init.sh
+source $MYAREA/$SCRAM_ARCH/external/apt/$APT_VERSION/etc/profile.d/init.sh 
+source $MYAREA/%{pkgrel}/etc/profile.d/init.sh
 
 function mongo_stop() 
 {
-    me=\`whoami\`
-    echo $"Stop mongo running under \$me account..."
-    ps -w -w -f -u\$me | grep mongod | grep -v grep | awk '{print "kill -9 "\$2""}'|/bin/sh
+    me=`whoami`
+    echo $"Stop mongo running under $me account..."
+    ps -w -w -f -u$me | grep mongod | grep -v grep | awk '{print "kill -9 "$2""}'|/bin/sh
 }
 function mongo_start()
 {
     echo "+++ Start up MongoDB daemon ..."
-    mkdir -p \$MONGO_ROOT/db
-    \$MONGO_ROOT/bin/mongod --dbpath=\$MONGO_ROOT/db --quiet 2>&1 1>& \
-    \$MONGO_ROOT/logs/mongo.log < /dev/null &
+    mkdir -p $MONGO_ROOT/db
+    $MONGO_ROOT/bin/mongod --dbpath=$MONGO_ROOT/db --quiet 2>&1 1>& \
+    $MONGO_ROOT/logs/mongo.log < /dev/null &
     sleep 2
     echo
     echo "Mongo service is ready ..."
 }
 function mongo_status() 
 {
-    me=\`whoami\`
-    mongo=\`ps -w -w -f -u\$me | egrep "mongod" | grep -v egrep | wc -l\`
-    if [ \${mongo} -ne 1 ]; then
+    me=`whoami`
+    mongo=`ps -w -w -f -u$me | egrep "mongod" | grep -v egrep | wc -l`
+    if [ ${mongo} -ne 1 ]; then
        echo "MongoDB server is not running"
        exit 1
     fi
-    ps -w -w -f -u\$me | egrep "mongod" | grep -v egrep | awk '{print "MongoDB server running, pid="\$2""}'
+    ps -w -w -f -u$me | egrep "mongod" | grep -v egrep | awk '{print "MongoDB server running, pid="$2""}'
     echo "For more information please have a look at mongo.log:"
-    echo "\$MONGO_ROOT/logs/mongo.log"
+    echo "$MONGO_ROOT/logs/mongo.log"
 }
 
-RETVAL=\$?
+RETVAL=$?
 
-case "\$1" in
+case "$1" in
  restart)
         mongo_stop
         mongo_start
@@ -78,12 +78,12 @@ case "\$1" in
         mongo_stop
         ;;
  *)
-        echo \$"Usage: \$0 {start|stop|status|restart}"
+        echo $"Usage: $0 {start|stop|status|restart}"
         exit 1
         ;;
 esac
 
-exit \$RETVAL
+exit $RETVAL
 MONGO_INIT_EOF
 chmod a+x %{i}/etc/init.d/mongo_init.sh
 
