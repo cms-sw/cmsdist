@@ -195,13 +195,16 @@ export SCRAM_NOSYMCHECK=true
 %if "%{?externalSymbols:set}" == "set"
 BINDIR=$(%scramcmd tool info Self | grep "^PATH\|LD_LIBRARY_PATH=" | cut -d= -f2 | tr ":" "\n" | grep -v external)
 
+rm -f %_builddir/files.debug
 for DIR in $BINDIR; do
   mkdir -p $DIR/.debug
+  echo "%dir $DIR/.debug" >> %_builddir/files.debug
 done
 for FILE in $(find $BINDIR -type f | xargs file | grep "ELF" | cut -d: -f1); do
   NAME=$(basename $FILE)
   DIR=$(dirname $FILE)
   eu-strip $FILE -f $DIR/.debug/$NAME
+  echo "$DIR/.debug/$NAME" >> %_builddir/files.debug
 done
 %endif
 
