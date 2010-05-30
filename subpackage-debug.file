@@ -10,6 +10,6 @@ AutoReqProv: no
 Separate debug symbol files for %{pkgname}.
 
 %if "%{?subpackageDebug:set}" == "set"
-%files -n %{pkgcategory}+%{pkgname}-debug+%{pkgversion}
+%files -n %{pkgcategory}+%{pkgname}-debug+%{pkgversion} -f %_builddir/files.debug
 %defattr(-, root, root)
 %endif
