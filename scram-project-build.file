@@ -16,7 +16,7 @@ Requires: SCRAMV1
 %define buildtarget	release-build
 %define bootstrapfile   config/bootsrc.xml
 
-%if "%{?externalSymbols:set}" == "set"
+%if "%{?subpackageDebug:set}" == "set"
 %define enableDebug     yes
 %endif
 
@@ -192,7 +192,7 @@ export SCRAM_NOSYMCHECK=true
 %endif
 
 # split the debug symbols out of tha main binaries, into separate files
-%if "%{?externalSymbols:set}" == "set"
+%if "%{?subpackageDebug:set}" == "set"
 BINDIR=$(%scramcmd tool info Self | grep "^PATH\|LD_LIBRARY_PATH=" | cut -d= -f2 | tr ":" "\n" | grep -v external)
 touch %_builddir/files.debug
 touch %_builddir/files
