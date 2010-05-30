@@ -1,0 +1,15 @@
+
+# debug subpackage
+
+%package -n %{pkgcategory}+%{pkgname}-debug+%{pkgversion}
+Summary: Separate debug symbol files for %{pkgname}.
+Group: %{pkgcategory}
+AutoReqProv: no
+
+%description -n %{pkgcategory}+%{pkgname}-debug+%{pkgversion}
+Separate debug symbol files for %{pkgname}.
+
+%if "%{?subpackageDebug:set}" == "set"
+%files -n %{pkgcategory}+%{pkgname}-debug+%{pkgversion}
+%defattr(-, root, root)
+%endif
