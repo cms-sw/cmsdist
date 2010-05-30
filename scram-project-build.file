@@ -194,17 +194,19 @@ export SCRAM_NOSYMCHECK=true
 # split the debug symbols out of tha main binaries, into separate files
 %if "%{?externalSymbols:set}" == "set"
 BINDIR=$(%scramcmd tool info Self | grep "^PATH\|LD_LIBRARY_PATH=" | cut -d= -f2 | tr ":" "\n" | grep -v external)
-
-rm -f %_builddir/files.debug
+touch %_builddir/files.debug
+touch %_builddir/files
 for DIR in $BINDIR; do
   mkdir -p $DIR/.debug
-  echo "%dir $DIR/.debug" >> %_builddir/files.debug
+  echo "%dir $DIR/.debug"     >> %_builddir/files.debug
+  echo "%exclude $DIR/.debug" >> %_builddir/files
 done
 for FILE in $(find $BINDIR -type f | xargs file | grep "ELF" | cut -d: -f1); do
   NAME=$(basename $FILE)
   DIR=$(dirname $FILE)
   eu-strip $FILE -f $DIR/.debug/$NAME
-  echo "$DIR/.debug/$NAME" >> %_builddir/files.debug
+  echo "$DIR/.debug/$NAME"          >> %_builddir/files.debug
+  echo "%exclude $DIR/.debug/$NAME" >> %_builddir/files
 done
 %endif
 
