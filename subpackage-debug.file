@@ -1,6 +1,3 @@
-
-# debug subpackage
-
 %package -n %{pkgcategory}+%{pkgname}-debug+%{pkgversion}
 Summary: Separate debug symbol files for %{pkgname}.
 Group: %{pkgcategory}
@@ -8,6 +5,10 @@ AutoReqProv: no
 
 %description -n %{pkgcategory}+%{pkgname}-debug+%{pkgversion}
 Separate debug symbol files for %{pkgname}.
+
+%pre -n %{pkgcategory}+%{pkgname}-debug+%{pkgversion}
+
+%post -n %{pkgcategory}+%{pkgname}-debug+%{pkgversion}
 
 %if "%{?subpackageDebug:set}" == "set"
 %files -n %{pkgcategory}+%{pkgname}-debug+%{pkgversion} -f %_builddir/files.debug
