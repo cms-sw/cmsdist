@@ -1,4 +1,4 @@
-### RPM external yui 2.7.0b
+### RPM external yui 2.8.1
 Source: http://yuilibrary.com/downloads/yui2/yui_%realversion.zip 
 
 %prep
