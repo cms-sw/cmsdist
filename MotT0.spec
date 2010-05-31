@@ -1,8 +1,8 @@
-### RPM cms MotT0 1.0.1
+### RPM cms MotT0 1.0.2
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 %define moduleName T0
 %define exportName T0
-%define cvstag MotT0_1_0_1
+%define cvstag MotT0_1_0_2
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
 Requires: python cherrypy wmcore py2-sqlalchemy py2-cheetah 
@@ -34,7 +34,7 @@ perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependen
 %install
 mkdir -p %i/etc
 mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications/MotT0
-cp -r  T0/src/python/T0/MotT0 %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications/MotT0/
+cp -r  src/python/T0/MotT0 %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications/MotT0/
 
 %define pythonv %(echo $PYTHON_ROOT | cut -d. -f1,2)
 %post
