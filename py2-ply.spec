@@ -1,23 +1,25 @@
-### RPM external twisted 8.2.0
+### RPM external py2-ply 3.3
+%define pythonv %(echo $PYTHON_VERSION | cut -f1,2 -d.)
+## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
-## INITENV +PATH PYTHONPATH %i/lib/python%{pythonv}`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
-%define pythonv %(echo $PYTHON_VERSION | cut -d. -f 1,2)
-
+Source: http://www.dabeaz.com/ply/ply-%realversion.tar.gz
 Requires: python
-Source: http://tmrc.mit.edu/mirror/twisted/Twisted/8.2/Twisted-8.2.0.tar.bz2
 
 %prep
-%setup -n Twisted-8.2.0
+%setup -n ply-%realversion
 
 %build
 
 %install
-python setup.py install --prefix=%i
-# Perhaps the following is needed to fix python source headers
-perl -p -i -e "s|^#!.*python(.*)|#!/usr/bin/env python$1|" `grep -r -e "^#\!.*python.*" %i | cut -d: -f1`
+mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
+python setup.py build
+#build builds lib.linux-i686-2.6
+mv build/lib*/* %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
-rm -rf %i/etc/profile.d
-mkdir -p %i/etc/profile.d
+mkdir -p %i/etc/profile.d/
+# This will generate the correct dependencies-setup.sh/dependencies-setup.csh
+# using the information found in the Requires statements of the different
+# specs and their dependencies.
 echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
 echo '#!/bin/tcsh' > %{i}/etc/profile.d/dependencies-setup.csh
 echo requiredtools `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
@@ -33,16 +35,9 @@ do
         ;;
     esac
 done
-
 perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-setup.sh
 perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
-
-
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
-
-
-#%files
-#%i/
