@@ -23,13 +23,13 @@ Provides: perl(Specfile)
 # In order to work around the problem, we add a fake Provides statement.
 Provides: perl(Module::ScanDeps::DataFeed)
 
-Patch0: rpm-case-insensitive-sources
-Patch1: rpm-add-missing-__fxstat64
-Patch2: rpm-fix-glob_pattern_p
-Patch3: rpm-remove-strndup
-Patch4: rpm-case-insensitive-fixes
-Patch5: rpm-allow-empty-buildroot
-Patch6: rpm-remove-chroot-check
+Patch0: rpm-4.8.0-case-insensitive-sources
+Patch1: rpm-4.8.0-add-missing-__fxstat64
+Patch2: rpm-4.8.0-fix-glob_pattern_p
+Patch3: rpm-4.8.0-remove-strndup
+Patch4: rpm-4.8.0-case-insensitive-fixes
+Patch5: rpm-4.8.0-allow-empty-buildroot
+Patch6: rpm-4.8.0-remove-chroot-check
 
 # Defaults here
 %define libdir lib
