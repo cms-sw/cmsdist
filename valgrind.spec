@@ -6,7 +6,7 @@ Source: http://www.valgrind.org/downloads/%{n}-%{realversion}.tar.bz2
 # These two patches (originally from version 3.2.3) should still work in 3.3.0
 Patch1: valgrind-vg330-global
 Patch2: valgrind-vg330-dump
-Patch3: valgrind-vg350-coregrind_n_segments
+Patch3: valgrind-vg330-coregrind_n_segments
 
 %prep
 %setup -n %n-%realversion
