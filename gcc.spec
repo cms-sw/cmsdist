@@ -8,8 +8,8 @@ Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.
 # --enable-languages option of gcc's configure) to gfortran. 
 # Notice that we need to build those twice: once using the system compiler
 # and the using the newly built gcc.
-%define gmpVersion 4.2.4
-%define mpfrVersion 2.3.2
+%define gmpVersion 4.3.2
+%define mpfrVersion 2.4.2
 %define mpcVersion 0.8.1
 %define pplVersion 0.10.2
 %define cloogpplVersion 0.15.9
@@ -59,7 +59,7 @@ esac
 
 %if "%{?binutilsv:set}" == "set"
 %setup -D -T -b 6 -n binutils-%binutilsv
-%patch0 -p1
+#%%patch0 -p1
 case %cmsos in 
   slc*_amd64 )
     # This patches the default linker script to align stuff at 4096 kB boundaries rather 
@@ -82,15 +82,18 @@ esac
 # _itself_ is a 32-bit executable.
 case $(uname -m):%{cmsos} in
   *:slc*_ia32 )
-    CCOPTS="-m32 -Wa,--32" ;;
+    CCOPTS="-fPIC -m32 -Wa,--32" ;;
   * )
-    CCOPTS="" ;;
+    CCOPTS="-fPIC" ;;
 esac
+
+USER_CXX=$CCOPTS
+
 # If requested, build our own binutils.  Currently the default is to use
 # the system binutils.
 %if "%{?binutilsv:set}" == "set"
  cd ../binutils-%{binutilsv}
- CC="gcc $CCOPTS" ./configure --prefix=%i
+ ./configure --prefix=%i CC="gcc $CCOPTS"
  make %makeprocesses
  perl -p -i -e 's|LN = ln|LN = cp -p|;s|ln ([^-])|cp -p $1|g' `find . -name Makefile`
  make install
@@ -100,42 +103,41 @@ esac
 %define gcc4opts %{nil}
 %if "%gcc_major" == "4"
 cd ../gmp-%{gmpVersion}
-CC="gcc $CCOPTS" ./configure --prefix=%i/tmp/gmp --disable-shared
+./configure --prefix=%i --enable-shared --disable-static --enable-cxx CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
 make %makeprocesses
 make install
 
 cd ../mpfr-%{mpfrVersion}
-CC="gcc $CCOPTS" ./configure --prefix=%i/tmp/mpfr --with-gmp=%i/tmp/gmp --disable-shared
+./configure --prefix=%i --with-gmp=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
 make %makeprocesses
 make install
 
 cd ../mpc-%{mpcVersion}
-CC="gcc $CCOPTS" ./configure --prefix=%i/tmp/mpc --with-gmp=%i/tmp/gmp --with-mpfr=%i/tmp/mpfr --disable-shared
+./configure --prefix=%i --with-gmp=%i --with-mpfr=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
 make %makeprocesses
 make install
 
 cd ../ppl-%{pplVersion}
-CC="gcc $CCOPTS" ./configure --prefix=%i/tmp/ppl --disable-shared
+./configure --prefix=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
 make %makeprocesses
 make install
 
 cd ../cloog-ppl-%{cloogpplVersion}
-CC="gcc $CCOPTS" ./configure --prefix=%i/tmp/cloog-ppl --with-ppl=%i/tmp/ppl --with-gmp=%i/tmp/gmp --disable-shared
+./configure --prefix=%i --with-ppl=%i --with-gmp=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
 make %makeprocesses
 make install
 
-%define gcc4opts --with-gmp=%i/tmp/gmp --with-mpfr=%i/tmp/mpfr --with-mpc=%i/tmp/mpc --with-ppl=%i/tmp/ppl --with-cloog=%i/tmp/cloog-ppl
+%define gcc4opts --with-gmp=%i --with-mpfr=%i --with-mpc=%i --with-ppl=%i --with-cloog=%i
 %endif
 
 # Build the compilers
 cd ../gcc-%realversion
 mkdir -p obj
 cd obj
-
-CC="gcc $CCOPTS" \
+export LD_LIBRARY_PATH=%i/lib64:%i/lib:$LD_LIBRARY_PATH
 ../configure --prefix=%i \
   --enable-languages=c,c++,`case %v in 3.*) echo f77;; *) echo fortran;; esac` \
-  %gcc4opts --enable-shared 
+  %gcc4opts --enable-shared CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
 
 make %makeprocesses bootstrap
 
@@ -144,7 +146,6 @@ cd %_builddir/gcc-%{realversion}/obj && make install
 
 ln -s gcc %i/bin/cc
 find %i/lib %i/lib32 %i/lib64 -name '*.la' -exec rm -f {} \; || true
-
 # SCRAM ToolBox toolfile is now geneated by the gcc-toolfile.spec
 # so that everything works even in the case "--use-system-compiler"
 # option is specified.
