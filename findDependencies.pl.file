@@ -68,6 +68,7 @@ sub doexec ($@) {
     open F1, $name;
     while (my $l=<F1>) {
     	chomp($l);
+	last if ($l=~/^[^:]+ :\s*$/o);
 	$l=~s/\s*\\$//o;
 	my @sp1=split(' ',$l);
 	next if ( scalar(@sp1) == 0);
@@ -83,7 +84,6 @@ sub doexec ($@) {
 	next if ( $tsp1 eq "");
 	if ( $getnext==1 ) {
 	    $depname=$tsp1;
-#	    print "filename $depname\n";
 	    $getnext=0;
 	}
 	else{
@@ -95,7 +95,6 @@ sub doexec ($@) {
 	    }
 	    else{
 		if ( $sp1[0] =~ /^src/o ) {
-#		    print "dep $tsp1\n";
 		    $uses{$depname}.="$tsp1 ";
 		    $usedby{$tsp1}.="$depname ";
 		}
