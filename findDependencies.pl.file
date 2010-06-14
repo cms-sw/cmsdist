@@ -1,4 +1,4 @@
-#! /usr/bin/perl -w
+#!/usr/bin/env perl
 # findDependencies.pl
 #
 
@@ -49,6 +49,7 @@ foreach my $key (keys %usedby) {
 close F1;
 
 &pythonDeps($rel);
+&buildFileDeps($rel);
 
 exit;
 
@@ -168,4 +169,65 @@ sub import2CMSSWDir()
     }
   }
   return @pyfiles;
+}
+
+sub buildFileDeps()
+{
+  my $rel=shift;
+  my $arch=shift || $ENV{SCRAM_ARCH};
+  my $scramroot=`sh -v scram arch 2>&1 |  grep 'SCRAMV1_ROOT=' | sed 's|;.*||;s|SCRAMV1_ROOT=||;s|"||g'`;
+  chomp $scramroot;
+  unshift @INC,"$scramroot", "${scramroot}/src";
+  my $pcache={};
+  if ($arch eq ""){$arch=`scram arch`; chomp $arch;}
+  eval ("use Cache::CacheUtilities;");
+  if(!$@){$pcache=&Cache::CacheUtilities::read("${rel}/.SCRAM/${arch}/ProjectCache.db.gz");}
+  else{die "Unable to find Cache/CacheUtilities.pm PERL module.";}  
+  my %cache=();
+  foreach my $dir (sort keys %{$pcache->{BUILDTREE}})
+  {
+    if ($pcache->{BUILDTREE}{$dir}{SUFFIX} ne ""){next;}
+    my $class=$pcache->{BUILDTREE}{$dir}{CLASS};
+    if ($class!~/^(LIBRARY|PACKAGE|CLASSLIB)$/){next;}
+    if (scalar(@{$pcache->{BUILDTREE}{$dir}{METABF}}) == 0){next;}
+    if (!exists $pcache->{BUILDTREE}{$dir}{RAWDATA}){next;}
+    if (scalar(keys %{$pcache->{BUILDTREE}{$dir}{RAWDATA}{DEPENDENCIES}})==0){next;}
+    my $bf=$pcache->{BUILDTREE}{$dir}{METABF}[0]; $bf=~s/src\///;
+    $cache{dirs}{$dir}=$bf;
+    my $pack=$dir;
+    if ($class=~/^(LIBRARY|CLASSLIB)$/){$pack=$pcache->{BUILDTREE}{$dir}{PARENT};}
+    $cache{packs}{$pack}=$dir;
+  }
+  foreach my $dir (keys %{$cache{dirs}}){&updateBFDeps($dir,$pcache,\%cache,"");}
+  foreach my $type ("uses","usedby")
+  {  
+    my $ref;
+    open $ref,">bf${type}.out";
+    foreach my $x (sort keys %{$cache{$type}}){print $ref "$x ",join(" ",sort keys %{$cache{$type}{$x}}),"\n";}
+    close($ref);
+  }
+}
+
+sub updateBFDeps()
+{
+  my ($dir,$pcache,$cache)=@_;
+  my $bf=$cache->{dirs}{$dir};
+  if (exists $cache->{uses}{$bf}){return;}
+  $cache->{uses}{$bf}={};
+  foreach my $pack (keys %{$pcache->{BUILDTREE}{$dir}{RAWDATA}{DEPENDENCIES}})
+  {
+    if (exists $cache->{packs}{$pack})
+    {
+      my $xdata=$cache->{packs}{$pack};
+      &updateBFDeps($xdata,$pcache,$cache);      
+      $xdata=$cache->{dirs}{$xdata};
+      $cache->{uses}{$bf}{$xdata}=1;
+      $cache->{usedby}{$xdata}{$bf}=1;
+      foreach my $xdep (keys %{$cache->{uses}{$xdata}})
+      {
+	$cache->{uses}{$bf}{$xdep}=1;
+        $cache->{usedby}{$xdep}{$bf}=1;    
+      }
+    }
+  }
 }
