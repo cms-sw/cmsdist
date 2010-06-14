@@ -186,14 +186,11 @@ sub buildFileDeps()
   foreach my $dir (sort keys %{$pcache->{BUILDTREE}})
   {
     if ($pcache->{BUILDTREE}{$dir}{SUFFIX} ne ""){next;}
-    my $class=$pcache->{BUILDTREE}{$dir}{CLASS};
-    if ($class!~/^(LIBRARY|PACKAGE|CLASSLIB)$/){next;}
     if (scalar(@{$pcache->{BUILDTREE}{$dir}{METABF}}) == 0){next;}
-    if (!exists $pcache->{BUILDTREE}{$dir}{RAWDATA}){next;}
-    if (scalar(keys %{$pcache->{BUILDTREE}{$dir}{RAWDATA}{DEPENDENCIES}})==0){next;}
     my $bf=$pcache->{BUILDTREE}{$dir}{METABF}[0]; $bf=~s/src\///;
     $cache{dirs}{$dir}=$bf;
     my $pack=$dir;
+    my $class=$pcache->{BUILDTREE}{$dir}{CLASS};
     if ($class=~/^(LIBRARY|CLASSLIB)$/){$pack=$pcache->{BUILDTREE}{$dir}{PARENT};}
     $cache{packs}{$pack}=$dir;
   }
