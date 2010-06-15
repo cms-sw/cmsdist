@@ -1,14 +1,10 @@
-### RPM external openssl 0.9.7m
-Source: http://www.openssl.org/source/%n-%realversion.tar.gz
-Patch0: openssl-0.9.7m-gcc43-m486
+### RPM external openssl 0.9.8e
+Source: http://cmsrep.cern.ch/cmssw/openssl-sources/%n-fips-%realversion-usa.tar.bz2
+Patch0: openssl-0.9.8e-rh-0.9.8e-12.el5_4.6
 
 %prep
-%setup -n %n-%{realversion}
-case %gccver in
-  4.3.* | 4.4.*)
+%setup -n %n-fips-%{realversion}
 %patch0 -p1
-  ;;
-esac
 
 %build
 ./config --prefix=%i shared
