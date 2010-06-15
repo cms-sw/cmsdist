@@ -198,7 +198,7 @@ sub buildFileDeps()
   foreach my $type ("uses","usedby")
   {  
     my $ref;
-    open $ref,">bf${type}.out";
+    open $ref,">${rel}/etc/dependencies/bf${type}.out";
     foreach my $x (sort keys %{$cache{$type}}){print $ref "$x ",join(" ",sort keys %{$cache{$type}{$x}}),"\n";}
     close($ref);
   }
