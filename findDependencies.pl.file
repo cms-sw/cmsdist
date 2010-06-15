@@ -174,11 +174,11 @@ sub buildFileDeps()
 {
   my $rel=shift;
   my $arch=shift || $ENV{SCRAM_ARCH};
-  my $scramroot=`sh -v scram arch 2>&1 |  grep 'SCRAMV1_ROOT=' | sed 's|;.*||;s|SCRAMV1_ROOT=||;s|"||g'`;
+  my $scramroot=`sh -v scramv1 arch 2>&1 |  grep 'SCRAMV1_ROOT=' | sed 's|;.*||;s|SCRAMV1_ROOT=||;s|"||g'`;
   chomp $scramroot;
   unshift @INC,"$scramroot", "${scramroot}/src";
   my $pcache={};
-  if ($arch eq ""){$arch=`scram arch`; chomp $arch;}
+  if ($arch eq ""){$arch=`scramv1 arch`; chomp $arch;}
   eval ("use Cache::CacheUtilities;");
   if(!$@){$pcache=&Cache::CacheUtilities::read("${rel}/.SCRAM/${arch}/ProjectCache.db.gz");}
   else{die "Unable to find Cache/CacheUtilities.pm PERL module.";}  
