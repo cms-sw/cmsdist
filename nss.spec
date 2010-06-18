@@ -14,16 +14,12 @@ case %cmsplatf in
   ;;
 esac
 
+make -C ./mozilla/security/coreconf clean
+make -C ./mozilla/security/dbm clean
+make -C ./mozilla/security/nss clean
 make -C ./mozilla/security/coreconf
 make -C ./mozilla/security/dbm
-case %cmsplatf in
-osx*)
-  make -C ./mozilla/security/nss CC="gcc -framework Foundation -framework Carbon"
-;;
-*)
-  make -C ./mozilla/security/nss
-;;
-esac
+make -C ./mozilla/security/nss
 
 %install
 case %cmsplatf in
