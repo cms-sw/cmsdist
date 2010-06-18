@@ -45,7 +45,7 @@ esac
                           --disable-rpath \
                           CXXFLAGS="-fPIC $USER_CXXFLAGS" \
                           CFLAGS="-fPIC $USER_CFLAGS" \
-                          CPPFLAGS="-DAPT_DISABLE_MULTIARCH -D_RPM_4_4_COMPAT -I$DB4_ROOT/include -I$BZ2LIB_ROOT/include -I$LUA_ROOT/include -I$RPM_ROOT/include -I$RPM_ROOT/include/rpm $USER_CPPFLAGS" \
+                          CPPFLAGS="-DAPT_DISABLE_MULTIARCH -D_RPM_4_4_COMPAT -I$POPT_ROOT/include -I$DB4_ROOT/include -I$BZ2LIB_ROOT/include -I$LUA_ROOT/include -I$RPM_ROOT/include -I$RPM_ROOT/include/rpm $USER_CPPFLAGS" \
                           LDFLAGS="-L$BZ2LIB_ROOT/lib -L$DB4_ROOT/lib -L$LUA_ROOT/lib -L$RPM_ROOT/lib $USER_LDFLAGS" \
                           LIBS="-llua $USER_LIBS" \
                           LIBXML2_CFLAGS="-I$LIBXML2_ROOT/include/libxml2 -I$DB4_ROOT/include -I$LUA_ROOT/include -I$RPM_ROOT/include" \
