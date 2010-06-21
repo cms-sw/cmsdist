@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.73 $
+# Revision: $Revision: 1.74 $
 
 set -e
 
@@ -299,6 +299,11 @@ if [ "X$cmsplatf" = X ]
 then
   cmsplatf=`cmsos`_`defaultCompiler`
 fi
+
+case $cmsplatf in
+  osx*)
+    cpio_opts="--insecure";;
+esac
 
 rpmdb=$cmsplatf/var/lib/rpm
 rpmlock=$rootdir/$cmsplatf/var/lib/rpm/__db.0
@@ -606,7 +611,7 @@ do
     ln -sf $PWD/inst .$pkgInstRoot
     $tempdir/bin/rpmHeader.pl $DOWNLOAD_DIR/$pkg PREIN | grep -v "^Unknown" | sed -e "s|[$]RPM_INSTALL_PREFIX|$PWD/inst|g" > $tempdir/scriptlets/$pkg.pre.sh
     sh -ex $tempdir/scriptlets/$pkg.pre.sh
-    perl ./myrpm2cpio $DOWNLOAD_DIR/$pkg | cpio -id || cleanup_and_exit 1 "Unable to unpack $DOWNLOAD_DIR/$pkg"
+    perl ./myrpm2cpio $DOWNLOAD_DIR/$pkg | cpio $cpio_opts -id || cleanup_and_exit 1 "Unable to unpack $DOWNLOAD_DIR/$pkg"
     $tempdir/bin/rpmHeader.pl $DOWNLOAD_DIR/$pkg POSTIN | grep -v "^Unknown" | sed -e "s|[$]RPM_INSTALL_PREFIX|$PWD/inst|g" > $tempdir/scriptlets/$pkg.post.sh
     sh -ex $tempdir/scriptlets/$pkg.post.sh
 done
