@@ -18,6 +18,7 @@ Requires: zlib openssl
 %else
 %define makeargs "EXPAT_DIR=$EXPAT_ROOT COMPILER_TAG=gcc_$CXXCOMPILER_VERSION"
 %endif
+perl -p -i -e 's|-lssl|-lssl -lcrypto|' Makefile
 
 %build
 
