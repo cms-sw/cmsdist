@@ -30,6 +30,7 @@ Patch20: root-5.22-00d-cint-namespace
 Patch21: root-5.22-00d-fireworks7
 Patch22: root-5.22-00d-TMath-Vavilov
 Patch23: root-5.22-00d-TBranchElement-dropped-data-member
+Patch24: root-5.22-00d-fireworks8
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -84,6 +85,7 @@ rm graf3d/gl/src/gl2ps.c.orig
 %patch21 -p1
 %patch22 -p1
 %patch23 -p1
+%patch24 -p1
 
 case %gccver in
   4.3.*)
