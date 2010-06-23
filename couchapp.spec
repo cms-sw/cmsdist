@@ -1,14 +1,20 @@
 ### RPM external couchapp 0.6.2
 
+Requires: python
 Source0: http://github.com/couchapp/couchapp/tarball/0.6.2
-#http://download.github.com/couchapp-couchapp-0.6.2-0-geecd2b8.tar.gz
+
+%prep
+cd %_builddir
+tar xvzf %_sourcedir/0.6.2
+mv %_builddir/couchapp-couchapp-eecd2b8 %_builddir/couchapp-0.6.2 
 
 %build
-cd %_builddir
-tar xvzf %_sourcedir/couchapp-couchapp-0.6.2-0-geecd2b8.tar.gz
-#make install
 
 %install
+cd %_builddir/couchapp-0.6.2
+#cd %_builddir/couchapp-couchapp-0.6.2-0-geecd2b8
+python setup.py install --prefix=%i
+
 # This will generate the correct dependencies-setup.sh/dependencies-setup.csh
 # using the information found in the Requires statements of the different
 # specs and their dependencies.
