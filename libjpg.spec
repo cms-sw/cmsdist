@@ -1,27 +1,10 @@
-### RPM external libjpg 6b
-Source: ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v%{realversion}.tar.gz
-Source1: config.sub-amd64
-Patch0: libjpg-config.sub
-Patch1: libjpg-config.guess
-Patch2: libjpg-ltmain.sh
-Patch3: libjpg-ltconfig
-Patch4: libjpg-makefile.cfg
+### RPM external libjpg 8b
+Source: http://www.ijg.org/files/jpegsrc.v%{realversion}.tar.gz
+
 %prep
 %setup -n jpeg-%realversion
-%patch0
-%patch1
-%patch2
-%patch3
-%patch4
-
 
 %build
-# libjpg ships with an old version of config.sub. 
-case %cmsos in 
-  slc*_amd64 )
-    cp %{_sourcedir}/config.sub-amd64 config.sub
-  ;;
-esac
 ./configure --prefix=%{i} --enable-shared --enable-static
 
 make %makeprocesses
