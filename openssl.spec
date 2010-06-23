@@ -1,25 +1,33 @@
-### RPM external openssl 0.9.7m
-Source: http://www.openssl.org/source/%n-%realversion.tar.gz
-Patch0: openssl-0.9.7m-gcc43-m486
+### RPM external openssl 0.9.8e
+Source: http://cmsrep.cern.ch/cmssw/openssl-sources/%n-fips-%realversion-usa.tar.bz2
+Patch0: openssl-0.9.8e-rh-0.9.8e-12.el5_4.6
 
 %prep
-%setup -n %n-%{realversion}
-case %gccver in
-  4.3.* | 4.4.*)
+%setup -n %n-fips-%{realversion}
 %patch0 -p1
-  ;;
-esac
 
 %build
-./config --prefix=%i shared
-case $(uname)-$(uname -m) in
-  Darwin*)
-    perl -p -i -e 's|-compatibility_version.*|-compatibility_version \${SHLIB_MAJOR}.\${SHLIB_MINOR} \\|' Makefile.ssl
+# Looks like rpmbuild passes its own sets of flags via the
+# RPM_OPT_FLAGS environment variable and those flags include
+# -m64 (probably since rpmbuild processor detection is not
+# fooled by linux32). A quick fix is to just set the variable
+# to "" but we should probably understand how rpm determines
+# those flags and use them for our own good.
+export RPM_OPT_FLAGS="-O2 -g -pipe -Wall -Wp,-DOPENSSL_USE_NEW_FUNCTIONS -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -mtune=generic"
+
+case %cmsplatf in
+  osx*)
+    perl -p -i -e 's|-compatibility_version.*|-compatibility_version \${SHLIB_MAJOR}.\${SHLIB_MINOR} \\|' Makefile.ssl ;;
 esac
+
+./config --prefix=%i enable-seed enable-tlsext enable-rfc3779 \
+                     no-idea no-mdc2 no-rc5 no-ec no-ecdh no-ecdsa shared
 
 make
 %install
 make install
+rm -rf %{i}/lib/pkgconfig
+
 # MacOSX is case insensitive and the man page structure has case sensitive logic
 case %cmsplatf in
     osx* ) 
