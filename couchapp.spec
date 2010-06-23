@@ -1,7 +1,7 @@
 ### RPM external couchapp 0.6.2
 
-Requires: python py2-setuptools
 Source0: http://github.com/couchapp/couchapp/tarball/0.6.2
+Requires: python py2-setuptools
 
 %prep
 cd %_builddir
