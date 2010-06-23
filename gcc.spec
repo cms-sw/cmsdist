@@ -13,6 +13,7 @@ Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.
 %define mpcVersion 0.8.1
 %define pplVersion 0.10.2
 %define cloogpplVersion 0.15.9
+%define bisonVersion 2.4
 Source1: ftp://ftp.gnu.org/gnu/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
@@ -22,7 +23,8 @@ Patch0: binutils-2.19.1-fix-gold
 
 %if "%(echo %cmsos | cut -f2 -d_)" == "amd64"
 %define binutilsv 2.20.1
-Source6: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
+Source6: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.bz2
+Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 %endif
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
@@ -58,7 +60,8 @@ EOF_T_CMS
 esac
 
 %if "%{?binutilsv:set}" == "set"
-%setup -D -T -b 6 -n binutils-%binutilsv
+%setup -D -T -b 6 -n bison-%{bisonVersion}
+%setup -D -T -b 7 -n binutils-%binutilsv
 #%%patch0 -p1
 case %cmsos in 
   slc*_amd64 )
@@ -92,8 +95,13 @@ USER_CXX=$CCOPTS
 # If requested, build our own binutils.  Currently the default is to use
 # the system binutils.
 %if "%{?binutilsv:set}" == "set"
+ cd ../bison-%{bisonVersion}
+ CC="gcc $CCOPTS" ./configure --prefix=%i/tmp/bison
+ make %makeprocesses
+ make install
+ export PATH=%i/tmp/bison/bin:$PATH
  cd ../binutils-%{binutilsv}
- ./configure --prefix=%i CC="gcc $CCOPTS"
+ ./configure --prefix=%i --enable-gold CC="gcc $CCOPTS"
  make %makeprocesses
  perl -p -i -e 's|LN = ln|LN = cp -p|;s|ln ([^-])|cp -p $1|g' `find . -name Makefile`
  make install
@@ -127,7 +135,7 @@ cd ../cloog-ppl-%{cloogpplVersion}
 make %makeprocesses
 make install
 
-%define gcc4opts --with-gmp=%i --with-mpfr=%i --with-mpc=%i --with-ppl=%i --with-cloog=%i
+%define gcc4opts --with-gmp=%i --with-mpfr=%i --with-mpc=%i --with-ppl=%i --with-cloog=%i --enable-gold
 %endif
 
 # Build the compilers
