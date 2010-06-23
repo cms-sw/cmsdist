@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-datasvc DATASVC_1_6_0
+### RPM cms PHEDEX-datasvc DATASVC_1_6_1pre1
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
