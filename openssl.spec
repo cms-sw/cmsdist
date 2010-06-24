@@ -13,18 +13,19 @@ Patch0: openssl-0.9.8e-rh-0.9.8e-12.el5_4.6
 # fooled by linux32). A quick fix is to just set the variable
 # to "" but we should probably understand how rpm determines
 # those flags and use them for our own good.
-export RPM_OPT_FLAGS="-O2 -g -pipe -Wall -Wp,-DOPENSSL_USE_NEW_FUNCTIONS -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -mtune=generic"
+export RPM_OPT_FLAGS="-O2 -fPIC -g -pipe -Wall -Wa,--noexecstack -fno-strict-aliasing -Wp,-DOPENSSL_USE_NEW_FUNCTIONS -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -mtune=generic"
 
 case %cmsplatf in
   osx*)
     perl -p -i -e 's|-compatibility_version.*|-compatibility_version \${SHLIB_MAJOR}.\${SHLIB_MINOR} \\|' Makefile.ssl ;;
 esac
 
-./config --prefix=%i enable-seed enable-tlsext enable-rfc3779 \
+./config --prefix=%i enable-seed enable-tlsext enable-rfc3779 no-asm \
                      no-idea no-mdc2 no-rc5 no-ec no-ecdh no-ecdsa shared
 
 make
 %install
+export RPM_OPT_FLAGS="-O2 -fPIC -g -pipe -Wall -Wa,--noexecstack -fno-strict-aliasing -Wp,-DOPENSSL_USE_NEW_FUNCTIONS -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -mtune=generic"
 make install
 rm -rf %{i}/lib/pkgconfig
 
