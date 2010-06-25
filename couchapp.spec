@@ -12,8 +12,9 @@ mv %_builddir/couchapp-couchapp-eecd2b8 %_builddir/couchapp-0.6.2
 
 %install
 cd %_builddir/couchapp-0.6.2
-#cd %_builddir/couchapp-couchapp-0.6.2-0-geecd2b8
 python setup.py install --prefix=%i
+cp -rp %_builddir/couchapp-0.6.2/* %i/
+rm -rf %i/couchapp # exclude the 'source' dir
 
 # This will generate the correct dependencies-setup.sh/dependencies-setup.csh
 # using the information found in the Requires statements of the different
