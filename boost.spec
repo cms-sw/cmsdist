@@ -85,7 +85,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
       <environment name="LIBDIR" default="$BOOST_BASE/lib"/>
       <environment name="INCLUDE" default="$BOOST_BASE/include"/>
     </client>
-    <runtime name="LD_LIBRARY_PATH" value="$BOOST_BASE/lib" type="path"/>
     <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$BOOST_BASE/include" type="path"/>
     <use name="sockets"/>
   </tool>

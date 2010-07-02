@@ -61,7 +61,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
       <environment name="INCLUDE" default="$CLHEP_BASE/include"/>
     </client>
     <runtime name="CLHEP_PARAM_PATH" value="$CLHEP_BASE"/>
-    <runtime name="LD_LIBRARY_PATH" value="$CLHEP_BASE/lib" type="path"/>
     <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$CLHEP_BASE/include" type="path"/>
   </tool>
 EOF_TOOLFILE
