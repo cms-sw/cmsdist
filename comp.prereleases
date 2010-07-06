@@ -1,3 +1,4 @@
-# <project-name> <CMSDIST-developer-tag> [<CMSDIST-base-tag>]
-security-module dg20100322-security
-
+# <CMSDIST-developer-tag> <project> 
+HEAD security-module 
+#HEAD das
+HEAD T0Mon
