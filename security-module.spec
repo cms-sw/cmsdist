@@ -7,6 +7,7 @@ Obsoletes: cms+security-module+V00_00_00-cmp
 Obsoletes: cms+security-module+V00_00_00-cmp2
 
 
+
 %prep
 %setup -n %{n}
 
