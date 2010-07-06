@@ -46,57 +46,52 @@ make install
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=lhapdf version=%v>
-<lib name=LHAPDF>
-<Client>
- <Environment name=LHAPDF_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$LHAPDF_BASE/lib"></Environment>
- <Environment name=INCLUDE default="$LHAPDF_BASE/include"></Environment>
- <Environment name=LHAPATH default="$LHAPDF_BASE/share/lhapdf/PDFsets"></Environment>
-</Client>
-<Runtime name=LHAPATH value="$LHAPDF_BASE/share/lhapdf/PDFsets" type=path>
-<use name=f77compiler>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="%n" version="%v">
+    <lib name="LHAPDF"/>
+    <client>
+      <environment name="LHAPDF_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$LHAPDF_BASE/lib"/>
+      <environment name="INCLUDE" default="$LHAPDF_BASE/include"/>
+      <environment name="LHAPATH" default="$LHAPDF_BASE/share/lhapdf/PDFsets"/>
+    </client>
+    <runtime name="LHAPATH" value="$LHAPDF_BASE/share/lhapdf/PDFsets" type="path"/>
+    <use name="f77compiler"/>
+  </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdfwrap
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=lhapdfwrap version=%v>
-<lib name=LHAPDFWrap>
-<use name=lhapdf>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdfwrap.xml
+  <tool name="lhapdfwrap" version="%v">
+    <lib name="LHAPDFWrap"/>
+    <use name="lhapdf"/>
+  </tool>
 EOF_TOOLFILE
 
 # SCRAM ToolBox toolfiles for full libs
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%fullname
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=lhapdffull version=%v>
-<lib name=LHAPDF>
-<Client>
- <Environment name=LHAPDF_BASE default="%i"></Environment>
- <Environment name=LHAPATH_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$LHAPDF_BASE/full/lib"></Environment>
- <Environment name=INCLUDE default="$LHAPDF_BASE/include"></Environment>
- <Environment name=LHAPATH default="$LHAPATH_BASE/share/lhapdf/PDFsets"></Environment>
-</Client>
-<Runtime name=LHAPATH value="$LHAPATH_BASE/share/lhapdf/PDFsets" type=path>
-<use name=f77compiler>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%fullname.xml
+  <tool name="%fullname" version="%v">
+    <lib name="LHAPDF"/>
+    <client>
+      <environment name="LHAPDFFULL_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$LHAPDFFULL_BASE/full/lib"/>
+      <environment name="INCLUDE" default="$LHAPDFFULL_BASE/include"/>
+      <environment name="LHAPATH" default="$LHAPDFFULL_BASE/share/lhapdf/PDFsets"/>
+    </client>
+    <runtime name="LHAPATH" value="$LHAPDFFULL_BASE/share/lhapdf/PDFsets" type="path"/>
+    <use name="f77compiler"/>
+  </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdfwrapfull
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=lhapdfwrap version=%v>
-<lib name=LHAPDFWrap> 
-<use name=lhapdffull>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdfwrapfull.xml
+  <tool name="lhapdfwrapfull" version="%v">
+    <lib name="LHAPDFWrap"/>
+    <use name="lhapdffull"/>
+  </tool>
 EOF_TOOLFILE
 
 %post
-%{relocateConfig}etc/scram.d/%n
-%{relocateConfig}etc/scram.d/%fullname
+%{relocateConfig}etc/scram.d/%n.xml
+%{relocateConfig}etc/scram.d/%fullname.xml
 %{relocateConfig}lib/libLHAPDF.la
 %{relocateConfig}lib/libLHAPDFWrap.la

@@ -25,22 +25,21 @@ rm %i/share/ThePEG/Doc/fixinterfaces.pl
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=thepeg version=%v>
-<Client>
- <Environment name=THEPEG_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$THEPEG_BASE/lib/ThePEG"></Environment>
- <Environment name=INCLUDE default="$THEPEG_BASE/include"></Environment>
-</Client>
-<lib name=ThePEG>
-<use name=lhapdf>
-<use name=gsl>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="%n" version="%v">
+    <lib name="ThePEG"/>
+    <client>
+      <environment name="THEPEG_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$THEPEG_BASE/lib/ThePEG"/>
+      <environment name="INCLUDE" default="$THEPEG_BASE/include"/>
+    </client>
+    <use name="lhapdf"/>
+    <use name="gsl"/>
+  </tool>
 EOF_TOOLFILE
 
 %post
-%{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/scram.d/%n.xml
 %{relocateConfig}lib/ThePEG/ACDCSampler.la
 %{relocateConfig}lib/ThePEG/BreitWignerMass.la
 %{relocateConfig}lib/ThePEG/ColourPairDecayer.la

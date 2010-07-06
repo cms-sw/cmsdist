@@ -31,16 +31,16 @@ perl -p -i -e 's|perl -w|perl|' %i/bin/callgrind_control
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<Tool name=valgrind version=%v>
-<Client>
- <Environment name=VALGRIND_BASE default="%i"></Environment>
- <Environment name=INCLUDE default="$VALGRIND_BASE/include"></Environment>
-</Client>
-<Runtime name=PATH value="$VALGRIND_BASE/bin" type=path>
-<Runtime name=VALGRIND_LIB value="$VALGRIND_BASE/lib/valgrind">
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="%n" version="%v">
+    <client>
+      <environment name="VALGRIND_BASE" default="%i"/>
+      <environment name="INCLUDE" default="$VALGRIND_BASE/include"/>
+    </client>
+    <runtime name="PATH" value="$VALGRIND_BASE/bin" type="path"/>
+    <runtime name="VALGRIND_LIB" value="$VALGRIND_BASE/lib/valgrind"/>
+  </tool>
 EOF_TOOLFILE
 
 %post
-%{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/scram.d/%n.xml

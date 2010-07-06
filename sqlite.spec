@@ -28,19 +28,18 @@ make %makeprocesses
 make install
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=%n version=%v>
-<lib name=sqlite3>
-<Client>
- <Environment name=SQLITE_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$SQLITE_BASE/lib"></Environment>
- <Environment name=BINDIR default="$SQLITE_BASE/bin"></Environment>
- <Environment name=INCLUDE default="$SQLITE_BASE/include"></Environment>
-</Client>
-<Runtime name=PATH value="$BINDIR" type=path>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="%n" version="%v">
+    <lib name="sqlite3"/>
+    <client>
+      <environment name="SQLITE_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$SQLITE_BASE/lib"/>
+      <environment name="BINDIR" default="$SQLITE_BASE/bin"/>
+      <environment name="INCLUDE" default="$SQLITE_BASE/include"/>
+    </client>
+    <runtime name="PATH" value="$BINDIR" type="path"/>
+  </tool>
 EOF_TOOLFILE
 
 %post
-%{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/scram.d/%n.xml

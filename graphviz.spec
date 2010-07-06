@@ -77,21 +77,20 @@ esac
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=%n version=%v>
-<info url="http://www.research.att.com/sw/tools/graphviz/"></info>
-<Client>
- <Environment name=GRAPHVIZ_BASE default="%i"></Environment>
- <Environment name=GRAPHVIZ_BINDIR default="$GRAPHVIZ_BASE/bin"></Environment>
- <Environment name=LIBDIR default="$GRAPHVIZ_BASE/lib/graphviz"></Environment>
-</Client>
-<Runtime name=PATH value="$GRAPHVIZ_BINDIR" type=path>
-<Use name=expat>
-<Use name=zlib>
-<Use name=libjpg>
-<use name=libpng>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="%n" version="%v">
+    <info url="http://www.research.att.com/sw/tools/graphviz/"/>
+    <client>
+      <environment name="GRAPHVIZ_BASE" default="%i"/>
+      <environment name="GRAPHVIZ_BINDIR" default="$GRAPHVIZ_BASE/bin"/>
+      <environment name="LIBDIR" default="$GRAPHVIZ_BASE/lib/graphviz"/>
+    </client>
+    <runtime name="PATH" value="$GRAPHVIZ_BINDIR" type="path"/>
+    <use name="expat"/>
+    <use name="zlib"/>
+    <use name="libjpg"/>
+    <use name="libpng"/>
+  </tool>
 EOF_TOOLFILE
 
 %post
@@ -99,4 +98,4 @@ EOF_TOOLFILE
 # the prefix, but then the find can add it and the others (also with the 
 # prefix)
 %{relocateConfig}/lib/libgraph.la `find $RPM_INSTALL_PREFIX/%pkgrel/lib -name *.la`
-%{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/scram.d/%n.xml
