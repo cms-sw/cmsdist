@@ -11,6 +11,7 @@
 Source: %cvsserver&strategy=checkout&module=DBS/Clients/Python&nocache=true&export=DBS&tag=-r%{cvstag}&output=/dbs-client.tar.gz
 Requires: python openssl py2-zsi py2-pyxml
 
+
 %prep
 %setup -n DBS
 %build
