@@ -1,36 +1,23 @@
-### RPM external python 2.6.2
+### RPM external python 2.6.4
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 # OS X patches and build fudging stolen from fink
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 Requires: expat bz2lib db4 gdbm
 
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
-Requires: zlib openssl
+%if "%online" != "true"
+Requires: zlib openssl sqlite
 %endif
 
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, tk/tcl, x11
 
 Source0: http://www.python.org/ftp/%n/%realversion/Python-%realversion.tgz
-Patch0: python-Include-pyport.h
-Patch1: python-Lib-plat-mac-applesingle.py
-Patch2: python-Lib-site.py
-Patch3: python-Mac-OSX-Makefile
-Patch4: python-Makefile.pre.in
-Patch5: python-configure
-Patch6: python-setup.py
-
 
 %prep
 %setup -n Python-%realversion
-#%patch0
-#%patch1
-#%patch2
-#%patch3
-#%patch4
-#%patch5
-#%patch6
 perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" Lib/cgi.py
 
 %ifos darwin
@@ -52,8 +39,8 @@ perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" Lib/cgi.py
 #mkdir -p %i/include %i/lib
 mkdir -p %i/include %i/lib %i/bin
 
-%if "%cmsplatf" != "slc4onl_ia32_gcc346"
-%define extradirs $ZLIB_ROOT $OPENSSL_ROOT 
+%if "%online" != "true"
+%define extradirs $ZLIB_ROOT $OPENSSL_ROOT $SQLITE_ROOT 
 %else
 %define extradirs %{nil}
 %endif
@@ -115,7 +102,7 @@ case %cmsplatf in
    (cd %i/lib/python%{pythonv}/config
     perl -p -i -e 's|-fno-common||g' Makefile)
 
-   find %i/lib/python%{pythonv}/config -name 'libpython*' -exec mv {} %i/lib \;
+   find %i/lib/python%{pythonv}/config -name 'libpython*' -exec mv -f {} %i/lib \;
   ;;
 esac
 
@@ -132,10 +119,10 @@ perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
 rm  `find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*'`
 rm  `find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*'`
 
+%if "%online" == "true"
 # remove tkinter that brings dependency on libtk:
-#
-
-rm  `find %{i}/lib -type f -name "_tkinter.so"`
+find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
+%endif
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
@@ -160,6 +147,22 @@ find %i -type f -perm -555 -name '*.py' -exec perl -p -i -e 'if ($. == 1) {s|^\'
 find %i -type f -perm -555 -name '*.py' -exec perl -p -i -e 'if ($. == 1) {s|/usr/local/bin/python|/usr/bin/env python|}' {} \;
 rm -f %i/share/doc/python/Demo/rpc/test
 
+# Setups dependencies environment
+rm -rf %i/etc/profile.d
+mkdir -p %i/etc/profile.d
+for x in %pkgreqs; do
+  case $x in /* ) continue ;; esac
+  p=%{instroot}/%{cmsplatf}/$(echo $x | sed 's/\([^+]*\)+\(.*\)+\([A-Z0-9].*\)/\1 \2 \3/' | tr ' ' '/')
+  echo ". $p/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
+  echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+done
+
 %post
 find $RPM_INSTALL_PREFIX/%pkgrel/lib -type l | xargs ls -la | sed -e "s|.*[ ]\(/.*\) -> \(.*\)| \2 \1|;s|[ ]/[^ ]*/external| $RPM_INSTALL_PREFIX/%cmsplatf/external|g" | xargs -n2 ln -sf
 %{relocateConfig}etc/scram.d/%n
+%{relocateConfig}lib/python2.6/config/Makefile
+
+# Relocation for dependencies
+%{relocateConfig}etc/profile.d/dependencies-setup.sh
+%{relocateConfig}etc/profile.d/dependencies-setup.csh
+

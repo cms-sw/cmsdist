@@ -1,4 +1,4 @@
-### RPM cms dbs-client DBS_2_0_9_pre2
+### RPM cms dbs-client DBS_2_1_0_patch_2
 ## INITENV +PATH PYTHONPATH %i/lib/
 ## INITENV +PATH PYTHONPATH %i/bin/
 ## INITENV +PATH PYTHONPATH %{i}/lib/
@@ -10,6 +10,7 @@
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=DBS/Clients/Python&nocache=true&export=DBS&tag=-r%{cvstag}&output=/dbs-client.tar.gz
 Requires: python openssl py2-zsi py2-pyxml
+
 
 %prep
 %setup -n DBS
@@ -42,26 +43,23 @@ mv %{i}/lib/bin/* %{i}/bin/
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=dbs-client version=%v>
-<client>
- <Environment name=DBS_CLIENT_BASE default="%i"></Environment>
-</client>
-<Runtime name=PATH value="$DBS_CLIENT_BASE/bin" type=path>
-<Runtime name=PYTHONPATH value="$DBS_CLIENT_BASE/lib" type=path>
-<Runtime name=PYTHONPATH value="$DBS_CLIENT_BASE/lib/DBSAPI" type=path>
-<Runtime name=DBS_CLIENT_CONFIG value="$DBS_CLIENT_BASE/lib/DBSAPI/dbs.config">
-<Runtime name=DBSCMD_HOME value="$DBS_CLIENT_BASE/lib/DBSAPI">
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="dbs-client" version="%v">
+    <client>
+      <environment name="DBS_CLIENT_BASE" default="%i"/>
+    </client>
+    <runtime name="PATH" value="$DBS_CLIENT_BASE/bin" type="path"/>
+    <runtime name="PYTHONPATH" value="$DBS_CLIENT_BASE/lib" type="path"/>
+    <runtime name="PYTHONPATH" value="$DBS_CLIENT_BASE/lib/DBSAPI" type="path"/>
+    <runtime name="DBS_CLIENT_CONFIG" value="$DBS_CLIENT_BASE/lib/DBSAPI/dbs.config"/>
+    <runtime name="DBSCMD_HOME" value="$DBS_CLIENT_BASE/lib/DBSAPI"/>
+  </tool>
 EOF_TOOLFILE
-
-
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
-%{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/scram.d/%n.xml
 
 # hack init.csh to get around bug in current version of PKGTOOLS
 # will have no effect with the bug fixed verion
