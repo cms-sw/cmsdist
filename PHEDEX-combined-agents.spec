@@ -5,6 +5,7 @@
 
 Requires: PHEDEX PHEDEX-admin PHEDEX-micro
 
+%prep
 %build
 %install
 mkdir -p %{i}/bin
