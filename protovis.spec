@@ -9,7 +9,7 @@ unzip %{_sourcedir}/protovis-%realversion.zip
 %build
 %install
 pwd
-cp -r protovis/* %i
+cp -r protovis-%realversion/protovis-*js %i
 mkdir -p %i/etc
 cat << \EOF_CHERRYPY_CONF > %i/etc/cherrypy.conf
 # Serve a complete directory 
