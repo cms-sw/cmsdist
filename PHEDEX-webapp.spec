@@ -49,6 +49,7 @@ perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
   s|\@SERVER_ROOT\@|%instroot/apache2|g;
   s|\@DOCUMENT_ROOT\@|$ENV{DOCUMENT_ROOT}|g;
   s|\@YUI_ROOT\@|$ENV{YUI_ROOT}|g;' \
+  s|\@PROTOVIS_ROOT\@|$ENV{PROTOVIS_ROOT}|g;' \
   %i/PhEDExWeb/ApplicationServer/conf/appserv-httpd.conf
 
 export APPSERV_BASEURL='/phedex/datasvc/app'
