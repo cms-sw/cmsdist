@@ -2,7 +2,7 @@
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
-%define nversion %(echo %v | sed 's|APPSERV_||' | sed 's|_|.|g')
+%define nversion %(echo %v | sed 's|WEBAPP_||' | sed 's|_|.|g')
 %define cvsversion %(echo %v | sed 's/[a-z]$//')
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define deployutil WTDeployUtil.pm
