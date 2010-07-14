@@ -1,4 +1,5 @@
-### RPM cms PHEDEX-admin PHEDEX_3_3_0
+### RPM cms PHEDEX-admin PHEDEX_3_3_2_pre1
+
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%{downloadn}&export=%{downloadn}&&tag=-r%{v}&output=/%{downloadn}.tar.gz
