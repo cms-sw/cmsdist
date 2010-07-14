@@ -10,9 +10,10 @@
 %define deployutilurl http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/COMP/WEBTOOLS/Configuration/%{deployutil}?revision=%{deployutilrev}
 
 Source: %cvsserver&strategy=checkout&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
-Requires: yui PHEDEX-datasvc
+Requires: protovis yui PHEDEX-datasvc
 
 # We obsolete each previous release to force them to be removed
+# Prior to BETA_0_9, WEBAPP was known as APPSERV
 Obsoletes: cms+PHEDEX-appserv+APPSERV_BETA_0_8
 Obsoletes: cms+PHEDEX-appserv+APPSERV_BETA_0_7
 Obsoletes: cms+PHEDEX-appserv+APPSERV_BETA_0_5
