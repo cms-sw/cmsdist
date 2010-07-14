@@ -81,7 +81,7 @@ FULL_INSTALL_CONF=$RPM_INSTALL_PREFIX/%{pkgrel}/$INSTALL_CONF
 cp -p $FULL_INSTALL_CONF/appserv-httpd.conf $SERVER_CONF/datasvc-xappserv.conf
 
 # Provide helpful symlink
-ln -s $RPM_INSTALL_PREFIX/PHEDEX-webapp .
+ln -sf $RPM_INSTALL_PREFIX/%{pkgrel}/PHEDEX-webapp $RPM_INSTALL_PREFIX
 
 %files
 %i/
