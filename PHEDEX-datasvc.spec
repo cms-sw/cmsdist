@@ -132,7 +132,7 @@ cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh $RPM_INSTALL_PREFIX/ap
 mkdir -p $RPM_INSTALL_PREFIX/apache2/var/cache/phedex-datasvc
 
 # Provide helpful symlink
-ln -s $RPM_INSTALL_PREFIX/%{pkgrel}/PHEDEX-datasvc $RPM_INSTALL_PREFIX
+ln -fs $RPM_INSTALL_PREFIX/%{pkgrel}/PHEDEX-datasvc $RPM_INSTALL_PREFIX
 
 # Update crontab-job for clearing the cache
 crontab -l | tee $RPM_INSTALL_PREFIX/crontab.original >/dev/null
