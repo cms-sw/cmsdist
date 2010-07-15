@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-micro PHEDEX_3_3_1_pre2
+### RPM cms PHEDEX-micro PHEDEX_3_3_2_pre2
 
 ## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request
 ## INITENV +PATH PERL5LIB %i/perl_lib
@@ -11,6 +11,8 @@ Requires: p5-time-hires p5-text-glob p5-compress-zlib p5-dbi
 Requires: p5-dbd-oracle p5-xml-parser p5-poe p5-poe-component-child
 Requires: p5-log-log4perl p5-log-dispatch p5-log-dispatch-filerotate
 Requires: p5-params-validate p5-monalisa-apmon
+# CMS COMP clients
+Requires: dbs-client dls-client
 # Etc.
 Requires: python
 # Actually, it is p5-xml-parser that requires this, but it doesn't configure itself correctly

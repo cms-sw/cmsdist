@@ -1,0 +1,14 @@
+# Do not put the same <project> in different entries
+# <pre-release-CMSDIST-tag> <top-level-project>
+#
+#dg20100630-phedexweb PHEDEX-combined-web PHEDEX-web PHEDEX-appserv PHEDEX-datasvc
+#
+#dg20100630-prodagent prodagent prodcommon
+#
+#HEAD dbs3
+#HEAD dbs-client
+#HEAD dbs-server dbs-libs dbs-schema
+#HEAD dbs-web
+
+#Nicolos_tag PHEDEX-combined-agents PHEDEX-admin PHEDEX PHEDEX-micro
+
