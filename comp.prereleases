@@ -10,5 +10,5 @@
 #HEAD dbs-server dbs-libs dbs-schema
 #HEAD dbs-web
 
-#Nicolos_tag PHEDEX-combined-agents PHEDEX-admin PHEDEX PHEDEX-micro
+forPHEDEX332pre2 PHEDEX-combined-agents PHEDEX-admin PHEDEX PHEDEX-micro
 
