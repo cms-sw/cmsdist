@@ -52,9 +52,9 @@ perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
   s|\@PROTOVIS_ROOT\@|$ENV{PROTOVIS_ROOT}|g;' \
   %i/PhEDExWeb/ApplicationServer/conf/webapp-httpd.conf
 
-export APPSERV_BASEURL='/phedex/datasvc/app'
-perl -p -i -e "s|\@APPSERV_VERSION\@|$VERSION|g; \
-               s|\@APPSERV_BASEURL\@|$APPSERV_BASEURL|g;" \
+export WEBAPP_BASEURL='/phedex/datasvc/app'
+perl -p -i -e "s|\@WEBAPP_VERSION\@|$VERSION|g; \
+               s|\@WEBAPP_BASEURL\@|$WEBAPP_BASEURL|g;" \
   %i/PhEDExWeb/ApplicationServer/js/phedex-base{,-loader}{,-min}.js
 cp %i/PhEDExWeb/ApplicationServer/html/phedex{,-debug}.html
 # Replace the base and loader files with the rollup, and switch everything to minified files.
