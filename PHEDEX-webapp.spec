@@ -40,7 +40,7 @@ tar -cf - * | (cd %i && tar -xf -)
 echo 'manifest of installation'
 find %i -type f
 
-rm -f %instroot/apache2/apps.d/appserv-httpd.conf
+rm -f %instroot/apache2/apps.d/webapp-httpd.conf
 
 # Set template variables in deployment files
 export DOCUMENT_ROOT=%i/PhEDExWeb/ApplicationServer
@@ -50,7 +50,7 @@ perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
   s|\@DOCUMENT_ROOT\@|$ENV{DOCUMENT_ROOT}|g;
   s|\@YUI_ROOT\@|$ENV{YUI_ROOT}|g; \
   s|\@PROTOVIS_ROOT\@|$ENV{PROTOVIS_ROOT}|g;' \
-  %i/PhEDExWeb/ApplicationServer/conf/appserv-httpd.conf
+  %i/PhEDExWeb/ApplicationServer/conf/webapp-httpd.conf
 
 export APPSERV_BASEURL='/phedex/datasvc/app'
 perl -p -i -e "s|\@APPSERV_VERSION\@|$VERSION|g; \
@@ -69,16 +69,16 @@ perl -p -i -e 's|phedex-base.js|phedex-base-loader.js|; \
 perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
   $hosts = join(",", &WTDeployUtil::frontend_hosts());
   s|\@FRONTEND_HOSTS\@|$hosts|g;' \
-  $RPM_INSTALL_PREFIX/%{pkgrel}/PhEDExWeb/ApplicationServer/conf/appserv-httpd.conf
+  $RPM_INSTALL_PREFIX/%{pkgrel}/PhEDExWeb/ApplicationServer/conf/webapp-httpd.conf
 
 SERVER_CONF=$RPM_INSTALL_PREFIX/apache2/apps.d
 INSTALL_CONF=PhEDExWeb/ApplicationServer/conf
 FULL_INSTALL_CONF=$RPM_INSTALL_PREFIX/%{pkgrel}/$INSTALL_CONF
-%{relocateConfig}$INSTALL_CONF/appserv-httpd.conf
+%{relocateConfig}$INSTALL_CONF/webapp-httpd.conf
 
 # copy to apps.d/ directory.  Note: we must ensure that this config is
 # sourced after datasvc-httpd.conf, so we give it a similar name
-cp -p $FULL_INSTALL_CONF/appserv-httpd.conf $SERVER_CONF/datasvc-xappserv.conf
+cp -p $FULL_INSTALL_CONF/webapp-httpd.conf $SERVER_CONF/datasvc-webapp.conf
 
 # Provide helpful symlink
 ln -sf $RPM_INSTALL_PREFIX/%{pkgrel} $RPM_INSTALL_PREFIX/PHEDEX-webapp
@@ -86,5 +86,5 @@ ln -sf $RPM_INSTALL_PREFIX/%{pkgrel} $RPM_INSTALL_PREFIX/PHEDEX-webapp
 %files
 %i/
 # does not work.  
-#%instroot/apache2/apps.d/datasvc-httpd.conf.02-appserv
-#%attr(444,-,-) %config %instroot/apache2/apps.d/datasvc-httpd.conf.02-appserv
+#%instroot/apache2/apps.d/datasvc-httpd.conf.02-webapp
+#%attr(444,-,-) %config %instroot/apache2/apps.d/datasvc-httpd.conf.02-webapp
