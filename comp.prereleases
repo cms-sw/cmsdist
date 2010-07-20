@@ -11,4 +11,4 @@
 #HEAD dbs-web
 
 forPHEDEX332pre3 PHEDEX-combined-agents PHEDEX-admin PHEDEX PHEDEX-micro p5-dbd-oracle oracle
-forPHEDEX-web-20100714-1 PHEDEX-combinedweb PHEDEX-web PHEDEX-datasvc PHEDEX-webapp
+forPHEDEX-web-20100714-1 PHEDEX-combinedweb PHEDEX-web PHEDEX-webapp PHEDEX-datasvc
