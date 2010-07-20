@@ -10,3 +10,15 @@ index 79020ba..6e607f2 100644
  
  #define SKIPSPACE(s) { while (*(s) && risspace(*(s))) (s)++; }
  #define        SKIPWHITE(_x)   {while(*(_x) && (risspace(*_x) || *(_x) == ',')) (_x)++;}
+diff --git a/build/parsePrep.c b/build/parsePrep.c
+index 729bbca..ae49797 100644
+--- a/build/parsePrep.c
++++ b/build/parsePrep.c
+@@ -10,6 +10,7 @@
+ #include <rpm/rpmlog.h>
+ #include <rpm/rpmfileutil.h>
+ #include "debug.h"
++#include <libgen.h>
+ 
+ /**
+  * Check that file owner and group are known.
