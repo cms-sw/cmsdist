@@ -52,6 +52,7 @@ esac
                           LIBXML2_LIBS="-lxml2 -L$DB4_ROOT/lib -L$LIBXML2_ROOT/lib -L$LUA_ROOT/lib -L$RPM_ROOT/lib" \
                           RPM_LIBS="-L$RPM_ROOT/lib -lrpm -lrpmio -lrpmbuild"
 
+chmod +x buildlib/install-sh
 make %makeprocesses
 
 
