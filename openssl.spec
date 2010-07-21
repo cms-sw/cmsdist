@@ -17,10 +17,12 @@ export RPM_OPT_FLAGS="-O2 -fPIC -g -pipe -Wall -Wa,--noexecstack -fno-strict-ali
 
 case %cmsplatf in
   osx*)
-    perl -p -i -e 's|-compatibility_version.*|-compatibility_version \${SHLIB_MAJOR}.\${SHLIB_MINOR} \\|' Makefile.ssl ;;
+    perl -p -i -e 's|-compatibility_version.*|-compatibility_version \${SHLIB_MAJOR}.\${SHLIB_MINOR} \\|' Makefile.ssl 
+    cfg_args="-DOPENSSL_USE_NEW_FUNCTIONS"
+   ;;
 esac
 
-./config --prefix=%i enable-seed enable-tlsext enable-rfc3779 no-asm \
+./config --prefix=%i $cfg_args enable-seed enable-tlsext enable-rfc3779 no-asm \
                      no-idea no-mdc2 no-rc5 no-ec no-ecdh no-ecdsa shared
 
 make
@@ -51,6 +53,5 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 </client>
 </Tool>
 EOF_TOOLFILE
-
 %post
 %{relocateConfig}etc/scram.d/%n
