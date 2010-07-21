@@ -32,6 +32,7 @@ Patch5: rpm-4.8.0-allow-empty-buildroot
 Patch6: rpm-4.8.0-remove-chroot-check
 Patch7: rpm-4.8.0-fix-missing-libgen
 Patch8: rpm-4.8.0-fix-find-provides
+Patch9: rpm-4.8.0-increase-line-buffer
 
 # Defaults here
 %define libdir lib
@@ -59,6 +60,11 @@ rm -rf lib/rpmhash.*
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+case %cmsos in
+  osx*)
+%patch9 -p1
+  ;;
+esac
 
 %build
 case %cmsos in
