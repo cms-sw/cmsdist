@@ -30,6 +30,7 @@ Patch3: rpm-4.8.0-remove-strndup
 Patch4: rpm-4.8.0-case-insensitive-fixes
 Patch5: rpm-4.8.0-allow-empty-buildroot
 Patch6: rpm-4.8.0-remove-chroot-check
+Patch7: rpm-4.8.0-fix-missing-libgen
 
 # Defaults here
 %define libdir lib
