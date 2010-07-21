@@ -31,6 +31,7 @@ Patch4: rpm-4.8.0-case-insensitive-fixes
 Patch5: rpm-4.8.0-allow-empty-buildroot
 Patch6: rpm-4.8.0-remove-chroot-check
 Patch7: rpm-4.8.0-fix-missing-libgen
+Patch8: rpm-4.8.0-fix-find-provides
 
 # Defaults here
 %define libdir lib
@@ -56,6 +57,8 @@ rm -rf lib/rpmhash.*
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
+%patch8 -p1
 
 %build
 case %cmsos in

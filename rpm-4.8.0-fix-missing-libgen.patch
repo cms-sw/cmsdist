@@ -1,17 +1,3 @@
-diff --git a/build/files.c b/build/files.c
-index 79020ba..6e607f2 100644
---- a/build/files.c
-+++ b/build/files.c
-@@ -25,6 +25,7 @@
- #include "build/buildio.h"
- 
- #include "debug.h"
-+#include <libgen.h>
- 
- #define SKIPSPACE(s) { while (*(s) && risspace(*(s))) (s)++; }
- #define        SKIPWHITE(_x)   {while(*(_x) && (risspace(*_x) || *(_x) == ',')) (_x)++;}
-diff --git a/build/parsePrep.c b/build/parsePrep.c
-index 729bbca..ae49797 100644
 --- a/build/parsePrep.c
 +++ b/build/parsePrep.c
 @@ -10,6 +10,7 @@
@@ -22,3 +8,13 @@ index 729bbca..ae49797 100644
  
  /**
   * Check that file owner and group are known.
+--- a/build/files.c
++++ b/build/files.c
+@@ -25,6 +25,7 @@
+ #include "build/buildio.h"
+ 
+ #include "debug.h"
++#include <libgen.h>
+ 
+ #define SKIPSPACE(s) { while (*(s) && risspace(*(s))) (s)++; }
+ #define	SKIPWHITE(_x)	{while(*(_x) && (risspace(*_x) || *(_x) == ',')) (_x)++;}

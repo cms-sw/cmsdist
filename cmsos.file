@@ -60,6 +60,7 @@ cmsos()
       fi
     fi
   elif [ "X`uname`" = XDarwin ]; then
+    case `sysctl hw.cpu64bit_capable | cut -f2 -d\ ` in 1) cpuarch=amd64;; 0) cpuarch=ia32;; esac
     echo osx`sw_vers -productVersion | cut -d. -f1,2 | tr -dc [0-9]`_$cpuarch
   elif [ "X`uname | cut -d_ -f1`" = XCYGWIN ]; then
     echo win32_$cpuarch
