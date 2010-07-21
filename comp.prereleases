@@ -1,5 +1,5 @@
 # Do not put the same <pkg> in different entries
 # The format of each line entry is:
-# <pre-release-CMSDIST-tag> <top-level-main-pkg> [<top-level-pkgs>]
+# <pre-release-CMSDIST-tag> <project-main-pkg> [<other-project-pkgs>]
 forPHEDEX332pre4 PHEDEX-combined-agents PHEDEX-admin PHEDEX PHEDEX-micro p5-dbd-oracle oracle
 forPHEDEX-web-20100721-1 PHEDEX-combined-web PHEDEX-web PHEDEX-webapp PHEDEX-datasvc
