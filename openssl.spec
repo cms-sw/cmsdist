@@ -1,10 +1,12 @@
 ### RPM external openssl 0.9.8e
 Source: http://cmsrep.cern.ch/cmssw/openssl-sources/%n-fips-%realversion-usa.tar.bz2
 Patch0: openssl-0.9.8e-rh-0.9.8e-12.el5_4.6
+Patch1: openssl-x86-64-gcc420
 
 %prep
 %setup -n %n-fips-%{realversion}
 %patch0 -p1
+%patch1 -p0
 
 %build
 # Looks like rpmbuild passes its own sets of flags via the
