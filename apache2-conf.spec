@@ -1,8 +1,10 @@
-### RPM cms apache2-conf 2.8b
+### RPM cms apache2-conf 2.8d
 # Configuration for additional apache2 modules
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
 Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rSERVER_CONF_2_8&output=/config.tar.gz
 Requires: apache2
+Obsoletes: cms+apache2-conf+2.8c-cmp
+Obsoletes: cms+apache2-conf+2.8b-cmp
 Obsoletes: cms+apache2-conf+2.8-cmp
 Obsoletes: cms+apache2-conf+2.7-cmp
 Obsoletes: cms+apache2-conf+2.6-cmp
