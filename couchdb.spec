@@ -1,9 +1,14 @@
 ### RPM external couchdb 0.11.0
 
-Source: http://apache.mirror.testserver.li/couchdb/%{realversion}/apache-%n-%{realversion}.tar.gz
-Requires: curl spidermonkey openssl icu4c erlang
+Source0: http://apache.mirror.testserver.li/couchdb/%{realversion}/apache-%n-%{realversion}.tar.gz
+
+# Although there is no technical software dependency,
+# couchapp was included because all CMS applications will need it.
+Requires: curl spidermonkey openssl icu4c erlang couchapp
 
 %prep
+#MD5 from: http://www.apache.org/dist/couchdb/%{realversion}/apache-%n-%{realversion}.tar.gz.md5
+[ "$(md5sum %{SOURCE0} |cut -b1-32)" == "c1784e3850da01dc37dad20c5b1a85f8" ]
 %setup -n apache-%n-%{realversion}
 
 %build
