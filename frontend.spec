@@ -2,6 +2,7 @@
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
 Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rFRONTEND_CONF_3_29&output=/config.tar.gz
 Source1: %cvsserver&module=COMP/WEBTOOLS/WelcomePages&export=htdocs&tag=-rFRONTEND_HTDOCS_1_6&output=/htdocs.tar.gz
+Source2: http://www.nikhef.nl/~janjust/proxy-verify/grid-proxy-verify.c
 Requires: apache2-conf mod_perl2 p5-apache2-modssl
 Provides: perl(Compress::Zlib) perl(Digest::HMAC_SHA1)
 Obsoletes: cms+frontend+3.28c-cmp
@@ -16,6 +17,11 @@ Obsoletes: cms+frontend+3.25-cmp
 %setup -D -T -b 1 -n htdocs
 
 %build
+gcc -o %_builddir/grid-proxy-verify \
+  %_sourcedir/grid-proxy-verify.c \
+  -I$OPENSSL_ROOT/include -L$OPENSSL_ROOT/lib \
+  -Wl,-Bstatic -lssl -lcrypto -Wl,-Bdynamic -ldl
+
 %install
 # Make directory for various resources of this package.
 rm -fr %instroot/htdocs/*
@@ -30,6 +36,7 @@ rm -f %instroot/apache2/*/update-and-sync-cookie-keys
 rm -f %instroot/apache2/*/update-ca-files
 rm -f %instroot/apache2/*/mkgridmap.conf
 rm -f %instroot/apache2/*/voms-gridmap.txt
+rm -f %instroot/apache2/*/grid-proxy-verify
 
 mkdir -p %instroot/apache2/apps.d
 mkdir -p %instroot/apache2/rewrites.d
@@ -52,6 +59,7 @@ cp -p %_builddir/conf/testme %instroot/apache2/conf/
 cp -p %_builddir/conf/CMSAuth.pm %instroot/apache2/conf/
 cp -p %_builddir/conf/cms-centres.txt %instroot/apache2/etc/
 cp -p %_builddir/conf/extra-certificates.txt %instroot/apache2/etc/
+cp -p %_builddir/grid-proxy-verify %instroot/apache2/etc/
 cp -p %_builddir/conf/mkgridmap.conf %instroot/apache2/etc/
 cp -p %_builddir/conf/update-ca-files %instroot/apache2/etc/
 cp -p %_builddir/conf/update-cookie-key %instroot/apache2/etc/
@@ -74,6 +82,7 @@ chmod a-w $RPM_INSTALL_PREFIX/apache2/*.d/*.conf
 chmod a-w $RPM_INSTALL_PREFIX/apache2/etc/*.d/*.sh
 chmod a-w $RPM_INSTALL_PREFIX/apache2/conf/testme
 chmod a-wx $RPM_INSTALL_PREFIX/apache2/conf/CMSAuth.pm
+chmod a-w $RPM_INSTALL_PREFIX/apache2/etc/grid-proxy-verify
 chmod a-w $RPM_INSTALL_PREFIX/apache2/etc/update-ca-files
 chmod a-w $RPM_INSTALL_PREFIX/apache2/etc/update-cookie-key
 chmod a-w $RPM_INSTALL_PREFIX/apache2/etc/update-and-sync-cookie-keys
@@ -86,6 +95,7 @@ chmod a-w $RPM_INSTALL_PREFIX/apache2/etc/update-and-sync-cookie-keys
 %dir %instroot/apache2/auth
 %attr(444,-,-) %instroot/apache2/etc/startenv.d/01-mod_perl2.sh
 %attr(444,-,-) %instroot/apache2/etc/startenv.d/02-p5-apache2-modssl.sh
+%attr(555,-,-) %instroot/apache2/etc/grid-proxy-verify
 %attr(555,-,-) %instroot/apache2/etc/update-ca-files
 %attr(555,-,-) %instroot/apache2/etc/update-cookie-key
 %attr(555,-,-) %instroot/apache2/etc/update-and-sync-cookie-keys
