@@ -1,4 +1,4 @@
-### RPM external apache2 2.2.14
+### RPM external apache2 2.2.14-gsi
 # See:
 # http://httpd.apache.org/docs/2.2/install.html
 # for instruction on how to configure.
@@ -16,9 +16,15 @@ Provides: libcom_err.so.2()(64bit)
 # That's probably good for security.
 Source0: http://mirror.switch.ch/mirror/apache/dist/httpd/httpd-%realversion.tar.gz
 Source1: http://www.apache.org/dist/httpd/httpd-%realversion.tar.gz
+Source2: svn://vdt.cs.wisc.edu/svn/vdt/tags/vdt-2.0.0p18/Apache?scheme=https&module=Apache&output=/VDT-Apache-GSI.tgz
+Patch0: apache2-verify-error
 
 %prep
 %setup -n httpd-%realversion
+%patch0 -p0
+gunzip -d -c < %_sourcedir/VDT-Apache-GSI.tgz |
+  tar -xOf - 'Apache/nmi/GSI.patch' |
+  patch -p0
 
 %build
 # See here:
