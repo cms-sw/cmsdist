@@ -55,7 +55,7 @@ perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
 export WEBAPP_BASEURL='/phedex/datasvc/app'
 export WEBAPP_DATASERVICEURL='/phedex/datasvc/json/'
 perl -p -i -e "s|\@WEBAPP_VERSION\@|$VERSION|g; \
-               s|\@WEBAPP_BASEURL\@|$WEBAPP_BASEURL|g;" \
+               s|\@WEBAPP_BASEURL\@|$WEBAPP_BASEURL|g; \
                s|\@WEBAPP_DATASERVICEURL\@|$WEBAPP_DATASERVICEURL|g;" \
   %i/PhEDExWeb/ApplicationServer/js/phedex-base{,-loader}{,-min}.js
 cp %i/PhEDExWeb/ApplicationServer/html/phedex{,-debug}.html
