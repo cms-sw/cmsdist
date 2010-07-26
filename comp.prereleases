@@ -2,4 +2,4 @@
 # The format of each line entry is:
 # <pre-release-CMSDIST-tag> <project-main-pkg> [<other-project-pkgs>]
 forPHEDEX332pre4 PHEDEX-combined-agents PHEDEX-admin PHEDEX PHEDEX-micro p5-dbd-oracle oracle
-forPHEDEX-web-20100726-2 PHEDEX-combined-web PHEDEX-web PHEDEX-webapp PHEDEX-datasvc
+forPHEDEX-web-20100726-3 PHEDEX-combined-web PHEDEX-web PHEDEX-webapp PHEDEX-datasvc
