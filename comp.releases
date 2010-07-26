@@ -1,4 +1,3 @@
 # The line entry format is:
 # <CMSDIST-tag> <project-main-pkg-only>
 #builder2010_07_07_1278518809-dbs-client dbs-client
-forPHEDEX-web-20100726-3 PHEDEX-combined-web PHEDEX-web PHEDEX-webapp PHEDEX-datasvc
