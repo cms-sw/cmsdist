@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-web WEB_3_1_3
+### RPM cms PHEDEX-web WEB_3_1_4
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -8,6 +8,7 @@
 %define deployutil WTDeployUtil.pm
 %define deployutilrev 1.5
 %define deployutilurl http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/COMP/WEBTOOLS/Configuration/%{deployutil}?revision=%{deployutilrev}
+
 
 Source: %cvsserver&strategy=checkout&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
 
