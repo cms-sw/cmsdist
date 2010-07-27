@@ -1,4 +1,5 @@
-### RPM cms PHEDEX-micro PHEDEX_3_3_0
+### RPM cms PHEDEX-micro PHEDEX_3_3_2
+
 ## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -10,6 +11,8 @@ Requires: p5-time-hires p5-text-glob p5-compress-zlib p5-dbi
 Requires: p5-dbd-oracle p5-xml-parser p5-poe p5-poe-component-child
 Requires: p5-log-log4perl p5-log-dispatch p5-log-dispatch-filerotate
 Requires: p5-params-validate p5-monalisa-apmon
+# CMS COMP clients
+Requires: dbs-client
 # Etc.
 Requires: python
 # Actually, it is p5-xml-parser that requires this, but it doesn't configure itself correctly
@@ -34,7 +37,20 @@ rm -rf Toolkit/Infrastructure
 rm -rf Toolkit/Monitoring
 rm -rf Toolkit/Transfer
 rm -rf Toolkit/Workflow
-find Utilities -type f | egrep -v "OracleConnectId|Master|phedex" | xargs rm
+rm -rf Toolkit/Verify
+rm -rf Toolkit/DropBox
+rm -rf Utilities/AgentFactory.pl
+rm -rf Utilities/AgentMon.pl                                                
+rm -rf Utilities/CMSSWMigrate
+rm -rf Utilities/DBDump
+rm -rf Utilities/DBLoad
+rm -rf Utilities/DropStatus
+rm -rf Utilities/FillNames
+rm -rf Utilities/GrepSites
+rm -rf Utilities/ping-watchdog.pl
+rm -rf Utilities/stagercp
+rm -rf Utilities/WordMunger
+rm -rf Utilities/wrapper_rfcp
 
 %build
 
