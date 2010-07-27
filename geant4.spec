@@ -1,4 +1,4 @@
-### RPM external geant4 9.3.ref04
+### RPM external geant4 9.3.p01
 %define downloadv %(echo %v | cut -d- -f1)
 
 Requires: clhep
@@ -8,21 +8,24 @@ Requires: clhep
 %define g4ElasticScatteringVersion 1.1
 %define g4EMLOWVersion 6.2
 %define radioactiveDecayVersion 3.2
+%define g4NeutronXS 1.0
 
-#Source0: http://geant4.cern.ch/support/source/%n.%downloadv.tar.gz
-Source0: http://cmsrep.cern.ch/cmssw/junk/geant4/%n.%downloadv.tgz
+Source0: http://geant4.cern.ch/support/source/%n.%downloadv.tar.gz
 Source1: http://geant4.cern.ch/support/source/G4NDL.%{g4NDLVersion}.tar.gz
 Source2: http://geant4.cern.ch/support/source/G4EMLOW.%{g4EMLOWVersion}.tar.gz
 Source3: http://geant4.cern.ch/support/source/PhotonEvaporation.%{photonEvaporationVersion}.tar.gz
 Source4: http://geant4.cern.ch/support/source/G4RadioactiveDecay.%{radioactiveDecayVersion}.tar.gz
 Source5: http://geant4.cern.ch/support/source/G4ELASTIC.%{g4ElasticScatteringVersion}.tar.gz
+Source6: http://geant4.cern.ch/support/source/G4NEUTRONXS.%{g4NeutronXS}.tar.gz
 
 Patch:  geant-4.8.2.p01-nobanner
+Patch1: geant4.9.3.p01-G4CascadeInterface
 
 %prep
 %setup -n %n.%downloadv
 pwd
 %patch0 -p1 
+%patch1 -p1 
  
 %build
 if [ $(uname) = Darwin ]; then
@@ -108,6 +111,7 @@ tar -C %i/data -zxvf %_sourcedir/G4NDL*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/G4EMLOW*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/Photon*.tar.gz
 tar -C %i/data -zxvf %_sourcedir/G4Rad*.tar.gz
+tar -C %i/data -zxvf %_sourcedir/G4NEU*.tar.gz
 # Clean up the sources, which are not needed in the rpm
 rm -rf %i/source
 
@@ -153,6 +157,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
     <runtime name="G4NEUTRONHPDATA" value="$GEANT4_BASE/data/G4NDL3.13" type="path"/>
     <runtime name="G4RADIOACTIVEDATA" value="$GEANT4_BASE/data/RadioactiveDecay3.2" type="path"/>
     <runtime name="G4LEDATA" value="$GEANT4_BASE/data/G4EMLOW6.2" type="path"/>
+    <runtime name="G4NEUTRONXS" value="$GEANT4_BASE/data/G4NEUTRONXS1.0" type="path"/>
     <use name="clhep"/>
   </tool>
 
@@ -190,6 +195,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4core.xml
     <runtime name="G4NEUTRONHPDATA" value="$GEANT4_BASE/data/G4NDL3.13" type="path"/>
     <runtime name="G4RADIOACTIVEDATA" value="$GEANT4_BASE/data/RadioactiveDecay3.2" type="path"/>
     <runtime name="G4LEDATA" value="$GEANT4_BASE/data/G4EMLOW6.2" type="path"/>
+    <runtime name="G4NEUTRONXS" value="$GEANT4_BASE/data/G4NEUTRONXS1.0" type="path"/>
     <use name="clhep"/>
   </tool>
 EOF_TOOLFILE
