@@ -778,6 +778,17 @@ RecoVertex/TrimmedVertexFit
 RecoVertex/V0Producer
 RecoVertex/VertexPrimitives
 RecoVertex/VertexTools
+SimDataFormats/CaloHit
+SimDataFormats/CrossingFrame
+SimDataFormats/EcalTestBeam
+SimDataFormats/EncodedEventId
+SimDataFormats/GeneratorProducts
+SimDataFormats/JetMatching
+SimDataFormats/RPCDigiSimLink
+SimDataFormats/Track
+SimDataFormats/TrackingAnalysis
+SimDataFormats/TrackingHit
+SimDataFormats/Vertex
 TBDataFormats/EcalTBObjects
 TBDataFormats/HcalTBObjects
 TrackPropagation/NavGeometry
