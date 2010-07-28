@@ -92,6 +92,7 @@ CommonTools/RecoAlgos
 CommonTools/RecoUtils
 CommonTools/Statistics
 CommonTools/TrackerMap
+CommonTools/TriggerUtils
 CommonTools/UtilAlgos
 CommonTools/Utils
 CondCore/AlignmentPlugins
@@ -185,7 +186,6 @@ Configuration/SVSuite
 Configuration/SiStripDAQ
 Configuration/Skimming
 Configuration/StandardSequences
-DPGAnalysis/SiStripTools
 DQM/BeamMonitor
 DQM/CSCMonitorModule
 DQM/CastorMonitor
@@ -413,6 +413,7 @@ FWCore/PluginManager
 FWCore/PrescaleService
 FWCore/Python
 FWCore/PythonParameterSet
+FWCore/PythonUtilities
 FWCore/RootAutoLibraryLoader
 FWCore/ServiceRegistry
 FWCore/Services
@@ -494,7 +495,6 @@ IOPool/PFNCatalog
 IOPool/SecondaryInput
 IOPool/Streamer
 IOPool/TFileAdaptor
-IOPool/TrivialFileCatalog
 IORawData/CaloPatterns
 IORawData/DaqSource
 IORawData/HcalTBInputService
@@ -502,7 +502,6 @@ IORawData/SiPixelInputSources
 IgTools/IgHook
 IgTools/IgProf
 IgTools/IgTrace
-Iguana/Utilities
 JetMETCorrections/Algorithms
 JetMETCorrections/Configuration
 JetMETCorrections/IsolatedParticles
@@ -779,26 +778,6 @@ RecoVertex/TrimmedVertexFit
 RecoVertex/V0Producer
 RecoVertex/VertexPrimitives
 RecoVertex/VertexTools
-SimCalorimetry/CaloSimAlgos
-SimCalorimetry/EcalSimAlgos
-SimDataFormats/CaloHit
-SimDataFormats/CrossingFrame
-SimDataFormats/EcalTestBeam
-SimDataFormats/EncodedEventId
-SimDataFormats/GeneratorProducts
-SimDataFormats/JetMatching
-SimDataFormats/RPCDigiSimLink
-SimDataFormats/Track
-SimDataFormats/TrackerDigiSimLink
-SimDataFormats/TrackingAnalysis
-SimDataFormats/TrackingHit
-SimDataFormats/Vertex
-SimGeneral/HepPDTESSource
-SimGeneral/HepPDTRecord
-SimGeneral/NoiseGenerators
-SimTracker/Records
-SimTracker/TrackAssociation
-SimTracker/TrackerHitAssociation
 TBDataFormats/EcalTBObjects
 TBDataFormats/HcalTBObjects
 TrackPropagation/NavGeometry

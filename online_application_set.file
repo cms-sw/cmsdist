@@ -1,12 +1,12 @@
 # dependencies not picked up automatically
 FastSimDataFormats/External
-SimDataFormats/CrossingFrame
-SimDataFormats/JetMatching
-SimDataFormats/RPCDigiSimLink
-SimDataFormats/TrackerDigiSimLink
-SimDataFormats/TrackingHit
-SimGeneral/HepPDTESSource
-SimGeneral/NoiseGenerators
+#SimDataFormats/CrossingFrame
+#SimDataFormats/JetMatching
+#SimDataFormats/RPCDigiSimLink
+#SimDataFormats/TrackerDigiSimLink
+#SimDataFormats/TrackingHit
+#SimGeneral/HepPDTESSource
+#SimGeneral/NoiseGenerators
 
 # packages
 Alignment/CommonAlignment
@@ -103,6 +103,7 @@ CommonTools/RecoAlgos
 CommonTools/RecoUtils
 CommonTools/Statistics
 CommonTools/TrackerMap
+CommonTools/TriggerUtils
 CommonTools/UtilAlgos
 CommonTools/Utils
 CondCore/AlignmentPlugins
@@ -423,6 +424,7 @@ FWCore/PluginManager
 FWCore/PrescaleService
 FWCore/Python
 FWCore/PythonParameterSet
+FWCore/PythonUtilities
 FWCore/RootAutoLibraryLoader
 FWCore/ServiceRegistry
 FWCore/Services
@@ -503,7 +505,6 @@ IOPool/PFNCatalog
 IOPool/SecondaryInput
 IOPool/Streamer
 IOPool/TFileAdaptor
-IOPool/TrivialFileCatalog
 IORawData/CaloPatterns
 IORawData/DaqSource
 IORawData/HcalTBInputService
