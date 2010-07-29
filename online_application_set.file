@@ -1,5 +1,5 @@
 # dependencies not picked up automatically
-#DPGAnalysis/SiStripTools
+DPGAnalysis/SiStripTools
 FastSimDataFormats/External
 Iguana/Utilities
 SimCalorimetry/EcalSimAlgos
@@ -16,17 +16,11 @@ SimDataFormats/TrackerDigiSimLink
 SimDataFormats/TrackingAnalysis
 SimDataFormats/TrackingHit
 SimDataFormats/Vertex
-#SimG4CMS/Calo
-#SimGeneral/HepPDTRecord
-#SimGeneral/HepPDTESSource
+SimGeneral/HepPDTRecord
 SimGeneral/NoiseGenerators
-#SimMuon/MCTruth
-#SimTracker/Records
+SimTracker/Records
 SimTracker/TrackAssociation
 SimTracker/TrackerHitAssociation
-
-#LHAPDF
-#tcmalloc_minimal
 
 # packages
 Alignment/CommonAlignment
@@ -219,7 +213,6 @@ Configuration/Skimming
 Configuration/StandardSequences
 DQM/BeamMonitor
 DQM/CSCMonitorModule
-DQM/CastorMonitor
 DQM/DTMonitorClient
 DQM/DTMonitorModule
 DQM/EcalBarrelMonitorClient

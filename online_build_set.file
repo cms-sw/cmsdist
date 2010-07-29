@@ -186,9 +186,9 @@ Configuration/SVSuite
 Configuration/SiStripDAQ
 Configuration/Skimming
 Configuration/StandardSequences
+DPGAnalysis/SiStripTools
 DQM/BeamMonitor
 DQM/CSCMonitorModule
-DQM/CastorMonitor
 DQM/DTMonitorClient
 DQM/DTMonitorModule
 DQM/EcalBarrelMonitorClient
@@ -793,7 +793,9 @@ SimDataFormats/TrackerDigiSimLink
 SimDataFormats/TrackingAnalysis
 SimDataFormats/TrackingHit
 SimDataFormats/Vertex
+SimGeneral/HepPDTRecord
 SimGeneral/NoiseGenerators
+SimTracker/Records
 SimTracker/TrackAssociation
 SimTracker/TrackerHitAssociation
 TBDataFormats/EcalTBObjects
