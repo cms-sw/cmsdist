@@ -78,12 +78,22 @@ INSTALL_CONF=PhEDExWeb/ApplicationServer/conf
 FULL_INSTALL_CONF=$RPM_INSTALL_PREFIX/%{pkgrel}/$INSTALL_CONF
 %{relocateConfig}$INSTALL_CONF/webapp-httpd.conf
 
-# copy to apps.d/ directory.  Note: we must ensure that this config is
-# sourced after datasvc-httpd.conf, so we give it a similar name
+# Clean out any old appserv config file(s)
+if [ -f $RPM_INSTALL_PREFIX/apache2/apps.d/datasvc-xappserv.conf ]; then
+  rm $RPM_INSTALL_PREFIX/apache2/apps.d/datasvc-xappserv.conf
+fi
+
+# copy to apps.d/ directory.
 cp -p $FULL_INSTALL_CONF/webapp-httpd.conf $SERVER_CONF/datasvc-webapp.conf
 
-# Provide helpful symlink
-ln -sf $RPM_INSTALL_PREFIX/%{pkgrel} $RPM_INSTALL_PREFIX/PHEDEX-webapp
+# Copy dependencies to dependencies-setup.sh
+mkdir -p %i/etc/profile.d
+for x in %pkgreqs; do
+ case $x in /* ) continue ;; esac
+ p=%{instroot}/%{cmsplatf}/$(echo $x | sed 's/\([^+]*\)+\(.*\)+\([A-Z0-9].*\)/\1 \2 \3/' | tr ' ' '/')
+ echo ". $p/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
+ echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+done
 
 %files
 %i/

@@ -123,21 +123,20 @@ perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
   s|\@PHEDEX_DBPARAM\@|$ENV{PHEDEX_DBPARAM}|g;
 '  $RPM_INSTALL_PREFIX/%{pkgrel}/PhEDExWeb/DataService/conf/datasvc-app.conf
 
-
 # Copy files to apache2 directory
 cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/PhEDExWeb/DataService/conf/datasvc-httpd.conf $RPM_INSTALL_PREFIX/apache2/apps.d
 cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh $RPM_INSTALL_PREFIX/apache2/etc/startenv.d/datasvc-env.sh
 
-# Create cache directory
+# (eliminate, and re-)create the cache directory
+if [ -d $RPM_INSTALL_PREFIX/apache2/var/cache/phedex-datasvc ]; then
+  rm -rf $RPM_INSTALL_PREFIX/apache2/var/cache/phedex-datasvc
+fi
 mkdir -p $RPM_INSTALL_PREFIX/apache2/var/cache/phedex-datasvc
 
-# Provide helpful symlink
-ln -fs $RPM_INSTALL_PREFIX/%{pkgrel} $RPM_INSTALL_PREFIX/PHEDEX-datasvc
-
 # Update crontab-job for clearing the cache
-crontab -l | tee $RPM_INSTALL_PREFIX/crontab.original >/dev/null
-(crontab -l | fgrep -v -e $RPM_INSTALL_PREFIX/;
- echo "0 * * * * $RPM_INSTALL_PREFIX/PHEDEX-datasvc/bin/trim-cache 1000M > /dev/null 2>&1") | crontab - 2>/dev/null
+#crontab -l | tee $RPM_INSTALL_PREFIX/crontab.original >/dev/null
+#(crontab -l | fgrep -v -e $RPM_INSTALL_PREFIX/;
+# echo "0 * * * * $RPM_INSTALL_PREFIX/PHEDEX-datasvc/bin/trim-cache 1000M > /dev/null 2>&1") | crontab - 2>/dev/null
 
 %files
 %i/
