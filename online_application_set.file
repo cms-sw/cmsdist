@@ -23,6 +23,7 @@ SimDataFormats/Vertex
 #SimTracker/Records
 SimTracker/TrackAssociation
 SimTracker/TrackerHitAssociation
+Iguana/Utilities
 
 # packages
 Alignment/CommonAlignment

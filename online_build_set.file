@@ -502,6 +502,7 @@ IORawData/SiPixelInputSources
 IgTools/IgHook
 IgTools/IgProf
 IgTools/IgTrace
+Iguana/Utilities
 JetMETCorrections/Algorithms
 JetMETCorrections/Configuration
 JetMETCorrections/IsolatedParticles
@@ -788,6 +789,7 @@ SimDataFormats/GeneratorProducts
 SimDataFormats/JetMatching
 SimDataFormats/RPCDigiSimLink
 SimDataFormats/Track
+SimDataFormats/TrackerDigiSimLink
 SimDataFormats/TrackingAnalysis
 SimDataFormats/TrackingHit
 SimDataFormats/Vertex
