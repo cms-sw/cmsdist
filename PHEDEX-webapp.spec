@@ -67,6 +67,15 @@ perl -p -i -e 's|phedex-base.js|phedex-base-loader.js|; \
 	      s|PHEDEX.Appserv.combineRequests.*$|PHEDEX.Appserv.combineRequests = false;|g;' \
   %i/PhEDExWeb/ApplicationServer/html/phedex.html
 
+# Copy dependencies to dependencies-setup.sh
+mkdir -p %i/etc/profile.d
+for x in %pkgreqs; do
+ case $x in /* ) continue ;; esac
+ p=%{instroot}/%{cmsplatf}/$(echo $x | sed 's/\([^+]*\)+\(.*\)+\([A-Z0-9].*\)/\1 \2 \3/' | tr ' ' '/')
+ echo ". $p/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
+ echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+done
+
 %post
 perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
   $hosts = join(",", &WTDeployUtil::frontend_hosts());
@@ -86,14 +95,8 @@ fi
 # copy to apps.d/ directory.
 cp -p $FULL_INSTALL_CONF/webapp-httpd.conf $SERVER_CONF/datasvc-webapp.conf
 
-# Copy dependencies to dependencies-setup.sh
-mkdir -p %i/etc/profile.d
-for x in %pkgreqs; do
- case $x in /* ) continue ;; esac
- p=%{instroot}/%{cmsplatf}/$(echo $x | sed 's/\([^+]*\)+\(.*\)+\([A-Z0-9].*\)/\1 \2 \3/' | tr ' ' '/')
- echo ". $p/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
- echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
-done
+%{relocateConfig}etc/profile.d/dependencies-setup.sh
+%{relocateConfig}etc/profile.d/dependencies-setup.csh
 
 %files
 %i/
