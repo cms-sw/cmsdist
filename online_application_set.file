@@ -1,9 +1,7 @@
 # dependencies not picked up automatically
-FastSimDataFormats/External
-#SimGeneral/HepPDTESSource
-SimGeneral/NoiseGenerators
-
 #DPGAnalysis/SiStripTools
+FastSimDataFormats/External
+Iguana/Utilities
 SimCalorimetry/EcalSimAlgos
 SimCalorimetry/CaloSimAlgos
 SimDataFormats/CaloHit
@@ -20,10 +18,15 @@ SimDataFormats/TrackingHit
 SimDataFormats/Vertex
 #SimG4CMS/Calo
 #SimGeneral/HepPDTRecord
+#SimGeneral/HepPDTESSource
+SimGeneral/NoiseGenerators
+#SimMuon/MCTruth
 #SimTracker/Records
 SimTracker/TrackAssociation
 SimTracker/TrackerHitAssociation
-Iguana/Utilities
+
+#LHAPDF
+#tcmalloc_minimal
 
 # packages
 Alignment/CommonAlignment
