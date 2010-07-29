@@ -1,11 +1,28 @@
 # dependencies not picked up automatically
 FastSimDataFormats/External
+#SimGeneral/HepPDTESSource
+SimGeneral/NoiseGenerators
+
+#DPGAnalysis/SiStripTools
+SimCalorimetry/EcalSimAlgos
+SimCalorimetry/CaloSimAlgos
+SimDataFormats/CaloHit
 SimDataFormats/CrossingFrame
+SimDataFormats/EcalTestBeam
+SimDataFormats/EncodedEventId
+SimDataFormats/GeneratorProducts
 SimDataFormats/JetMatching
 SimDataFormats/RPCDigiSimLink
+SimDataFormats/Track
 SimDataFormats/TrackerDigiSimLink
+SimDataFormats/TrackingAnalysis
 SimDataFormats/TrackingHit
-SimGeneral/NoiseGenerators
+SimDataFormats/Vertex
+#SimG4CMS/Calo
+#SimGeneral/HepPDTRecord
+#SimTracker/Records
+SimTracker/TrackAssociation
+SimTracker/TrackerHitAssociation
 
 # packages
 Alignment/CommonAlignment
@@ -99,8 +116,10 @@ CommonTools/CandUtils
 CommonTools/Clustering1D
 CommonTools/ConditionDBWriter
 CommonTools/RecoAlgos
+CommonTools/RecoUtils
 CommonTools/Statistics
 CommonTools/TrackerMap
+CommonTools/TriggerUtils
 CommonTools/UtilAlgos
 CommonTools/Utils
 CondCore/AlignmentPlugins
@@ -387,6 +406,7 @@ EventFilter/EcalRawToDigiDev
 EventFilter/EcalTBRawToDigi
 EventFilter/FEDInterface
 EventFilter/GctRawToDigi
+EventFilter/Goodies
 EventFilter/HcalRawToDigi
 EventFilter/L1GlobalTriggerRawToDigi
 EventFilter/LTCRawToDigi
@@ -420,6 +440,7 @@ FWCore/PluginManager
 FWCore/PrescaleService
 FWCore/Python
 FWCore/PythonParameterSet
+FWCore/PythonUtilities
 FWCore/RootAutoLibraryLoader
 FWCore/ServiceRegistry
 FWCore/Services
@@ -500,7 +521,6 @@ IOPool/PFNCatalog
 IOPool/SecondaryInput
 IOPool/Streamer
 IOPool/TFileAdaptor
-IOPool/TrivialFileCatalog
 IORawData/CaloPatterns
 IORawData/DaqSource
 IORawData/HcalTBInputService
