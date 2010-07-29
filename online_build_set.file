@@ -778,6 +778,8 @@ RecoVertex/TrimmedVertexFit
 RecoVertex/V0Producer
 RecoVertex/VertexPrimitives
 RecoVertex/VertexTools
+SimCalorimetry/CaloSimAlgos
+SimCalorimetry/EcalSimAlgos
 SimDataFormats/CaloHit
 SimDataFormats/CrossingFrame
 SimDataFormats/EcalTestBeam
@@ -789,6 +791,9 @@ SimDataFormats/Track
 SimDataFormats/TrackingAnalysis
 SimDataFormats/TrackingHit
 SimDataFormats/Vertex
+SimGeneral/NoiseGenerators
+SimTracker/TrackAssociation
+SimTracker/TrackerHitAssociation
 TBDataFormats/EcalTBObjects
 TBDataFormats/HcalTBObjects
 TrackPropagation/NavGeometry

@@ -1,10 +1,11 @@
 # dependencies not picked up automatically
 FastSimDataFormats/External
 #SimGeneral/HepPDTESSource
-#SimGeneral/NoiseGenerators
+SimGeneral/NoiseGenerators
 
 #DPGAnalysis/SiStripTools
-#SimCalorimetry/EcalSimAlgos
+SimCalorimetry/EcalSimAlgos
+SimCalorimetry/CaloSimAlgos
 SimDataFormats/CaloHit
 SimDataFormats/CrossingFrame
 SimDataFormats/EcalTestBeam
@@ -13,14 +14,15 @@ SimDataFormats/GeneratorProducts
 SimDataFormats/JetMatching
 SimDataFormats/RPCDigiSimLink
 SimDataFormats/Track
+SimDataFormats/TrackerDigiSimLink
 SimDataFormats/TrackingAnalysis
 SimDataFormats/TrackingHit
 SimDataFormats/Vertex
 #SimG4CMS/Calo
 #SimGeneral/HepPDTRecord
 #SimTracker/Records
-#SimTracker/TrackAssociation
-#SimTracker/TrackerHitAssociation
+SimTracker/TrackAssociation
+SimTracker/TrackerHitAssociation
 
 # packages
 Alignment/CommonAlignment
