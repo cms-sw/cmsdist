@@ -46,10 +46,12 @@ EOF_TOOLFILE
 %{relocateConfig}lib/ThePEG/DalitzDecayer.la
 %{relocateConfig}lib/ThePEG/FixedCMSLuminosity.la
 %{relocateConfig}lib/ThePEG/GaussianPtGenerator.la
+%{relocateConfig}lib/ThePEG/GraphvizPlot.la
 %{relocateConfig}lib/ThePEG/GRV94L.la
 %{relocateConfig}lib/ThePEG/GRV94M.la
 %{relocateConfig}lib/ThePEG/GRVBase.la
 %{relocateConfig}lib/ThePEG/KTClus.la
+%{relocateConfig}lib/ThePEG/KTRapidityCut.la
 %{relocateConfig}lib/ThePEG/LeptonLeptonPDF.la
 %{relocateConfig}lib/ThePEG/LeptonLeptonRemnant.la
 %{relocateConfig}lib/ThePEG/LesHouches.la
@@ -78,5 +80,6 @@ EOF_TOOLFILE
 %{relocateConfig}lib/ThePEG/V2LeptonsCut.la
 %{relocateConfig}lib/ThePEG/V2PPDecayer.la
 %{relocateConfig}lib/ThePEG/WeakToHadronsDecayer.la
+%{relocateConfig}lib/ThePEG/WeizsackerWilliamsPDF.la
 %{relocateConfig}lib/ThePEG/XSecCheck.la
 
