@@ -1,4 +1,4 @@
-### RPM cms fwlitedata 23
+### RPM cms fwlitedata 24
 Source: none
 
 Requires: data-Fireworks-Geometry
@@ -10,7 +10,7 @@ Requires: data-Fireworks-Geometry
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
 <doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=CMSSWData version=%v>
+<Tool name=FWLITEData version=%v>
 <Client>
  <Environment name=CMSSWDATA_BASE default="%{instroot}/%{cmsplatf}/%{pkgcategory}"></Environment>
  <Environment name=CMSSW_DATA_PATH default="$CMSSWDATA_BASE"></Environment>
