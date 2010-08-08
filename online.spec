@@ -1,4 +1,4 @@
-### RPM cms online CMSSW_3_8_0_ONLINE
+### RPM cms online CMSSW_3_8_1_ONLINE
 
 Requires: online-tool-conf python
 Patch: online_src
