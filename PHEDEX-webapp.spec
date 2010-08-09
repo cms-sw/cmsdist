@@ -1,13 +1,13 @@
-### RPM cms PHEDEX-webapp WEBAPP_BETA_1_0_0pre4
+### RPM cms PHEDEX-webapp WEBAPP_BETA_1_0_0pre5
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define nversion %(echo %v | sed 's|WEBAPP_||' | sed 's|_|.|g')
 %define cvsversion %(echo %v | sed 's/[a-z]$//')
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-%define deployutil WTDeployUtil.pm
-%define deployutilrev 1.6
-%define deployutilurl http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/COMP/WEBTOOLS/Configuration/%{deployutil}?revision=%{deployutilrev}
+#%define deployutil WTDeployUtil.pm
+#%define deployutilrev 1.6
+#%define deployutilurl http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/COMP/WEBTOOLS/Configuration/%{deployutil}?revision=%{deployutilrev}
 
 Source: %cvsserver&strategy=checkout&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
 Requires: protovis yui PHEDEX-datasvc
@@ -23,7 +23,7 @@ Obsoletes: cms+PHEDEX-appserv+APPSERV_BETA_0_1
 
 %prep
 %setup -n PHEDEX
-wget -O %{deployutil} '%{deployutilurl}'
+#wget -O %{deployutil} '%{deployutilurl}'
 
 %build
 echo 'now in the build section'
@@ -45,7 +45,8 @@ rm -f %instroot/apache2/apps.d/webapp-httpd.conf
 # Set template variables in deployment files
 export DOCUMENT_ROOT=%i/PhEDExWeb/ApplicationServer
 export VERSION=%nversion
-perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
+#perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
+perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -p -i -e '
   s|\@SERVER_ROOT\@|%instroot/apache2|g;
   s|\@DOCUMENT_ROOT\@|$ENV{DOCUMENT_ROOT}|g;
   s|\@YUI_ROOT\@|$ENV{YUI_ROOT}|g; \
@@ -77,10 +78,10 @@ for x in %pkgreqs; do
 done
 
 %post
-perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
-  $hosts = join(",", &WTDeployUtil::frontend_hosts());
-  s|\@FRONTEND_HOSTS\@|$hosts|g;' \
-  $RPM_INSTALL_PREFIX/%{pkgrel}/PhEDExWeb/ApplicationServer/conf/webapp-httpd.conf
+#perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
+#  $hosts = join(",", &WTDeployUtil::frontend_hosts());
+#  s|\@FRONTEND_HOSTS\@|$hosts|g;' \
+#  $RPM_INSTALL_PREFIX/%{pkgrel}/PhEDExWeb/ApplicationServer/conf/webapp-httpd.conf
 
 SERVER_CONF=$RPM_INSTALL_PREFIX/apache2/apps.d
 INSTALL_CONF=PhEDExWeb/ApplicationServer/conf

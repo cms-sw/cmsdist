@@ -1,13 +1,13 @@
-### RPM cms PHEDEX-datasvc DATASVC_1_6_2
+### RPM cms PHEDEX-datasvc DATASVC_1_6_3pre1
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define nversion %(echo %v | sed 's|DATASVC_||' | sed 's|_|.|g')
 %define cvsversion %(echo %v | sed 's/[a-z]$//')
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-%define deployutil WTDeployUtil.pm
-%define deployutilrev 1.8
-%define deployutilurl http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/COMP/WEBTOOLS/Configuration/%{deployutil}?revision=%{deployutilrev}
+#%define deployutil WTDeployUtil.pm
+#%define deployutilrev 1.8
+#%define deployutilurl http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/COMP/WEBTOOLS/Configuration/%{deployutil}?revision=%{deployutilrev}
 
 Source: %cvsserver&strategy=checkout&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
 
@@ -32,6 +32,7 @@ Provides: perl(Date::Manip)
 Provides: perl(XML::LibXML)
 
 # We obsolete each previous release to force them to be removed
+Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_6_2
 Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_6_1
 Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_6_0
 Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_5_2
@@ -52,7 +53,7 @@ Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_0_0
 
 %prep
 %setup -n PHEDEX
-wget -O %{deployutil} '%{deployutilurl}'
+#wget -O %{deployutil} '%{deployutilurl}'
 
 %build
 %install
@@ -100,14 +101,14 @@ chmod 544 %i/bin/trim-cache
 %{relocateConfig}bin/trim-cache
 
 # Switch host-like template variables in the configuration files
-perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -e '
-  print "Configuring service for @{[&WTDeployUtil::deployment()]} on @{[&WTDeployUtil::my_host()]}\n";
-'
+#perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -e '
+#  print "Configuring service for @{[&WTDeployUtil::deployment()]} on @{[&WTDeployUtil::my_host()]}\n";
+#'
 
-perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
-  $hosts = join(" ", &WTDeployUtil::frontend_hosts());
-  s|\@FRONTEND_HOSTS\@|$hosts|g;
-'  $RPM_INSTALL_PREFIX/%{pkgrel}/PhEDExWeb/DataService/conf/datasvc-httpd.conf
+#perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
+#  $hosts = join(" ", &WTDeployUtil::frontend_hosts());
+#  s|\@FRONTEND_HOSTS\@|$hosts|g;
+#'  $RPM_INSTALL_PREFIX/%{pkgrel}/PhEDExWeb/DataService/conf/datasvc-httpd.conf
 
 # password file default location
 export PHEDEX_DBPARAM=/data/projects/conf/phedex/DBParam
@@ -115,11 +116,14 @@ if [ ! -f $PHEDEX_DBPARAM ]; then
   export PHEDEX_DBPARAM=/where/i/put/my/DBParam
 fi
 
-perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
-  $hosts = join(",", &WTDeployUtil::frontend_ips());
-  $alias = &WTDeployUtil::frontend_alias();
-  s|\@FRONTEND_IPS\@|$hosts|g;
-  s|\@FRONTEND_ALIAS\@|$alias|g;
+#perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
+#  $hosts = join(",", &WTDeployUtil::frontend_ips());
+#  $alias = &WTDeployUtil::frontend_alias();
+#  s|\@FRONTEND_IPS\@|$hosts|g;
+#  s|\@FRONTEND_ALIAS\@|$alias|g;
+#  s|\@PHEDEX_DBPARAM\@|$ENV{PHEDEX_DBPARAM}|g;
+#'  $RPM_INSTALL_PREFIX/%{pkgrel}/PhEDExWeb/DataService/conf/datasvc-app.conf
+perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -p -i -e '
   s|\@PHEDEX_DBPARAM\@|$ENV{PHEDEX_DBPARAM}|g;
 '  $RPM_INSTALL_PREFIX/%{pkgrel}/PhEDExWeb/DataService/conf/datasvc-app.conf
 
