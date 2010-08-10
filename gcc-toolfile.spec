@@ -87,13 +87,40 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/f77compiler.xml
   </tool>
 EOF_TOOLFILE
 ;;
-osx104_ppc32_gcc40* | osx104_ia32_gcc40* | osx10[56]* )
+osx104_ppc32_gcc40* | osx104_ia32_gcc40* | osx10[56]*_gcc42* )
 cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
   <tool name="cxxcompiler" version="@GCC_VERSION@" type="compiler">
     <client>
       <environment name="GCC_BASE"  default="@GCC_ROOT@"/>
       <environment name="GCCBINDIR" default="$GCC_BASE/bin"/>
       <environment name="CXX"       value="$GCCBINDIR/c++"/>
+    </client>
+    <flags SCRAM_COMPILER_NAME="gcc40"/>
+    <flags CCcompiler="gcc40"/>
+    <flags MODULEFLAGS=" "/>
+    <flags CXXDEBUGFLAG="-g"/>
+    <flags CPPDEFINES="GNU_GCC"/>
+    <flags CPPDEFINES="_GNU_SOURCE"/>
+    <flags CXXSHAREDOBJECTFLAGS="-fPIC"/>
+    <flags CXXFLAGS="@OSXARCH@ -pedantic -ansi -pipe"/>
+    <flags CXXFLAGS="-O2"/>
+    <flags CXXFLAGS="-felide-constructors -fmessage-length=0 -ftemplate-depth-300"/>
+    <flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses"/>
+    <flags LDFLAGS=" "/>
+    <flags CXXSHAREDFLAGS="@OSXARCH@ -dynamiclib -single_module"/>
+    <flags SHAREDSUFFIX="dylib"/>
+    <flags SCRAM_LANGUAGE_TYPE="C++"/>
+    <runtime name="DYLD_LIBRARY_PATH" value="$GCC_BASE/lib" type="path"/>
+    <runtime name="PATH" value="$GCC_BASE/bin" type="path"/>
+  </tool>
+EOF_TOOLFILE
+osx10[56]*_gcc40* )
+cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
+  <tool name="cxxcompiler" version="@GCC_VERSION@" type="compiler">
+    <client>
+      <environment name="GCC_BASE"  default="@GCC_ROOT@"/>
+      <environment name="GCCBINDIR" default="$GCC_BASE/bin"/>
+      <environment name="CXX"       value="$GCCBINDIR/c++-4.0"/>
     </client>
     <flags SCRAM_COMPILER_NAME="gcc40"/>
     <flags CCcompiler="gcc40"/>
