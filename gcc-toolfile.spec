@@ -47,7 +47,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
     <flags cxxsharedflags="-Wl,-E"/>
     <flags sharedsuffix="so"/>
     <flags scram_language_type="C++"/>
-    <runtime name="LD_LIBRARY_PATH" value="$GCC_BASE/lib64" type="path"/>
+    <runtime name="LD_LIBRARY_PATH" value="$GCC_BASE/lib64" type="path" handler="warn"/>
     <runtime name="LD_LIBRARY_PATH" value="$GCC_BASE/lib" type="path"/>
     <runtime name="PATH" value="$GCC_BASE/bin" type="path"/>
   </tool>
@@ -166,14 +166,11 @@ case %cmsplatf in
 esac
 
 # General substitutions
-perl -p -i -e "s|\@GCC_ROOT\@|$GCC_ROOT|g;
-               s|\@GCC_VERSION\@|$GCC_VERSION|g;
-               s|\@COMPILER_VERSION\@|$COMPILER_VERSION|g;
-               s|\@COMPILER_VERSION_MAJOR\@|$COMPILER_VERSION_MAJOR|g;                                        
-                                        " %i/etc/scram.d/cxxcompiler.xml \
-                                          %i/etc/scram.d/ccompiler.xml  \
-                                          %i/etc/scram.d/f77compiler.xml
+perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*.xml
+
 %post
-%{relocateConfig}etc/scram.d/cxxcompiler.xml
-%{relocateConfig}etc/scram.d/ccompiler.xml
-%{relocateConfig}etc/scram.d/f77compiler.xml
+%{relocateConfig}etc/scram.d/*.xml
+grep '^GCC_TOOLFILE_' $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh.new
+grep '^setenv  *GCC_TOOLFILE_' $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh.new
+mv $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh.new $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
+mv $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh.new $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
