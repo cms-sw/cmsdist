@@ -111,7 +111,4 @@ cat << \EOF_TOOLFILE >>%i/etc/scram.d/jcompiler.xml
 EOF_TOOLFILE
 
 %post
-%{relocateConfig}etc/scram.d/sockets.xml
-%{relocateConfig}etc/scram.d/opengl.xml
-%{relocateConfig}etc/scram.d/x11.xml
-%{relocateConfig}etc/scram.d/jcompiler.xml
+%{relocateConfig}etc/scram.d/*.xml

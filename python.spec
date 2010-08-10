@@ -122,22 +122,6 @@ rm  `find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*'`
 # remove tkinter that brings dependency on libtk:
 find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
 
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="%n" version="%v">
-    <lib name="python2.6"/>
-    <client>
-      <environment name="PYTHON_BASE" default="%i"/>
-      <environment name="LIBDIR" default="$PYTHON_BASE/lib"/>
-      <environment name="INCLUDE" default="$PYTHON_BASE/include/python2.6"/>
-      <environment name="PYTHON_COMPILE" default="$PYTHON_BASE/lib/python2.6/compileall.py"/>
-    </client>
-    <runtime name="PATH" value="$PYTHON_BASE/bin" type="path"/>
-    <use name="sockets"/>
-  </tool>
-EOF_TOOLFILE
-
 # Makes sure that executables start with /usr/bin/env perl and not with comments. 
 find %i -type f -perm -555 -name '*.py' -exec perl -p -i -e 'if ($. == 1) {s|^"""|#/usr/bin/env python\n"""|}' {} \;
 find %i -type f -perm -555 -name '*.py' -exec perl -p -i -e 'if ($. == 1) {s|^\'\'\'|#/usr/bin/env python\n\'\'\'|}' {} \;
@@ -155,11 +139,7 @@ for x in %pkgreqs; do
 done
 
 %post
-find $RPM_INSTALL_PREFIX/%pkgrel/lib -type l | xargs ls -la | sed -e "s|.*[ ]\(/.*\) -> \(.*\)| \2 \1|;s|[ ]/[^ ]*/external| $RPM_INSTALL_PREFIX/%cmsplatf/external|g" | xargs -n2 ln -sf
-%{relocateConfig}etc/scram.d/%n.xml
 %{relocateConfig}lib/python2.6/config/Makefile
-
-# Relocation for dependencies
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 

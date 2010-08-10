@@ -1,4 +1,5 @@
 ### RPM cms oracle-env 25.0
+## NOCOMPILER
 ## INITENV +PATH SQLPATH %i/etc
 ## INITENV SET TNS_ADMIN %i/etc
 

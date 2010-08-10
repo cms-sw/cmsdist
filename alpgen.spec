@@ -147,20 +147,3 @@ cp zjetwork/zjetgen %{i}/bin/
 cp zqqwork/zqqgen %{i}/bin/
 
 cp -R alplib/* %{i}/alplib/
-
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=%n version=%v>
-<info url=http://mlm.home.cern.ch/mlm/alpgen/></info>
-<client>
- <Environment name=ALPGEN_BASE default="%i"></Environment>
-</client>
-<Runtime name=PATH value="$ALPGEN_BASE/bin" type=path>
-</Tool>
-EOF_TOOLFILE
-
-%post
-%{relocateConfig}etc/scram.d/%n
-

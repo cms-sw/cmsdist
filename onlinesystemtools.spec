@@ -269,5 +269,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/oracleocci.xml
 EOF_TOOLFILE
 
 %post
-cd $RPM_INSTALL_PREFIX/%pkgrel
-perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find $RPM_INSTALL_PREFIX/%pkgrel/etc/scram.d -type f)
+%{relocateConfig}/etc/scram.d/*.xml

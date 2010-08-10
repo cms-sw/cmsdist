@@ -40,25 +40,3 @@ make %makeprocesses
 make install
 mkdir -p %i/bin
 cp bin/* %i/bin
-
-# Toolfile with only PATH
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-# millepede tool file
-cat << \EOF_TOOLFILE >%i/etc/scram.d/millepede.xml
-  <tool name="millepede" version="%v">
-    <info url="http://www.wiki.terascale.de/index.php/Millepede_II"/>
-    <client>
-      <environment name="MILLEPEDE_BASE" default="%i"/>
-    </client>
-    <runtime name="PATH" value="$MILLEPEDE_BASE/bin" type="path"/>
-    <use name="sockets"/>
-    <use name="pcre"/>
-    <use name="zlib"/>
-  </tool>
-EOF_TOOLFILE
-
-%post
-%{relocateConfig}etc/scram.d/%n.xml
-
-

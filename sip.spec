@@ -12,21 +12,5 @@ make %makeprocesses
 %install
 make install
 
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="%n" version="%v">
-    <info url="http://www.riverbankcomputing.co.uk/software/sip/intro"/>
-    <client>
-      <environment name="SIP_BASE" default="%i"/>
-    </client>
-    <runtime name="PYTHONPATH" value="$SIP_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
-    <use name="python"/>
-  </tool>
-EOF_TOOLFILE
-
-export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
-perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*
-
 %post
-%{relocateConfig}etc/scram.d/%n.xml
 %{relocateConfig}lib/python2.6/site-packages/sipconfig.py

@@ -24,17 +24,3 @@ ln -s gdb gdb-%{realversion}
 rm %i/lib/*
 rm %i/bin/gdbserver
 rm %i/bin/gdbtui
-
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="%n" version="%v">
-    <client>
-      <environment name="GDB_BASE" default="%i"/>
-    </client>
-    <runtime name="PATH" value="$GDB_BASE/bin" type="path"/>
-  </tool>
-EOF_TOOLFILE
-
-%post
-%{relocateConfig}etc/scram.d/%n.xml

@@ -23,21 +23,4 @@ mkdir -p %i/lib
 mkdir -p %i/include
 cd lib/uuid
 make install
-
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="%n" version="%v">
-    <lib name="uuid"/>
-    <client>
-      <environment name="UUID_BASE" default="%i"/>
-      <environment name="LIBDIR" default="$UUID_BASE/lib"/>
-      <environment name="INCLUDE" default="$UUID_BASE/include"/>
-    </client>
-    <use name="sockets"/>
-  </tool>
-EOF_TOOLFILE
-
-%post
-ln -sf $RPM_INSTALL_PREFIX/%cmsplatf/external/%n/%v/lib/libuuid.so.1.2 $RPM_INSTALL_PREFIX/%cmsplatf/external/%n/%v/lib/libuuid.so
-%{relocateConfig}etc/scram.d/%n.xml
+ln -sf libuuid.so.1.2 %i/lib/libuuid.so

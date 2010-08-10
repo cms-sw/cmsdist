@@ -59,82 +59,6 @@ cat << \EOF_QT_CONF >%i/bin/qt.conf
 Prefix = %{i}
 EOF_QT_CONF
 
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/qtbase.xml
-  <tool name="qtbase" version="%v">
-    <info url="http://www.trolltech.com/products/qt.html"/>
-    <lib name="QtCore"/>
-    <lib name="QtXml"/>
-    <client>
-      <environment name="QTBASE_BASE" default="%i"/>
-      <environment name="LIBDIR" default="$QTBASE_BASE/lib"/>
-      <environment name="INCLUDE" default="$QTBASE_BASE/include"/>
-      <environment name="INCLUDE" default="$QTBASE_BASE/include/Qt"/>
-      <environment name="INCLUDE" default="$QTBASE_BASE/include/QtCore"/>
-      <environment name="INCLUDE" default="$QTBASE_BASE/include/QtXml"/>
-    </client>
-    <flags cppdefines="QT_ALTERNATE_QTSMANIP QT_CLEAN_NAMESPACE QT_THREAD_SUPPORT"/>
-    <runtime name="PATH" value="$QTBASE_BASE/bin" type="path"/>
-    <use name="zlib"/>
-  </tool>
-EOF_TOOLFILE
-
-cat << \EOF_TOOLFILE >%i/etc/scram.d/qt3support.xml
-  <tool name="qt3support" version="%v">
-    <info url="http://www.trolltech.com/products/qt.html"/>
-    <lib name="Qt3Support"/>
-    <client>
-      <environment name="QT3SUPPORT_BASE" default="%i"/>
-      <environment name="INCLUDE" default="$QT3SUPPORT_BASE/include/Qt3Support"/>
-    </client>
-    <flags cppdefines="QT3_SUPPORT"/>
-    <use name="qtbase"/>
-  </tool>
-EOF_TOOLFILE
-
-cat << \EOF_TOOLFILE >%i/etc/scram.d/qt.xml
-  <tool name="qt" version="%v">
-    <info url="http://www.trolltech.com/products/qt.html"/>
-    <lib name="QtOpenGL"/>
-    <lib name="QtGui"/>
-    <client>
-      <environment name="QT_BASE" default="%i"/>
-      <environment name="INCLUDE" default="$QT_BASE/include/QtOpenGL"/>
-      <environment name="INCLUDE" default="$QT_BASE/include/QtGui"/>
-    </client>
-    <use name="qtbase"/>
-    <use name="qt3support"/>
-    <use name="X11"/>
-    <use name="opengl"/>
-  </tool>
-EOF_TOOLFILE
-
-cat << \EOF_TOOLFILE >%i/etc/scram.d/qtdesigner.xml
-  <tool name="qtdesigner" version="%v">
-    <info url="http://www.trolltech.com/products/qt.html"/>
-    <lib name="QtDesigner"/>
-    <client>
-      <environment name="QTDESIGNER_BASE" default="%i"/>
-      <environment name="INCLUDE" default="$QTDESIGNER_BASE/include/QtDesigner"/>
-    </client>
-    <use name="qtbase"/>
-    <use name="qt"/>
-  </tool>
-EOF_TOOLFILE
-
-cat << \EOF_TOOLFILE >%i/etc/scram.d/qtextra.xml
-  <tool name="qtextra" version="%v">
-    <info url="http://www.trolltech.com/products/qt.html"/>
-    <lib name="QtScript"/>
-    <client>
-      <environment name="QTEXTRA_BASE" default="%i"/>
-      <environment name="INCLUDE" default="$QTEXTRA_BASE/include/QtScript"/>
-    </client>
-    <use name="qtbase"/>
-  </tool>
-EOF_TOOLFILE
-
 %post
 %{relocateConfig}lib/libQt3Support.la     
 %{relocateConfig}lib/libQtSql.la
@@ -150,10 +74,5 @@ EOF_TOOLFILE
 %{relocateConfig}lib/libQtXmlPatterns.la
 %{relocateConfig}lib/libQtOpenGL.la     
 %{relocateConfig}lib/libQtScript.la     
-%{relocateConfig}etc/scram.d/qtbase.xml
-%{relocateConfig}etc/scram.d/qt.xml
-%{relocateConfig}etc/scram.d/qtdesigner.xml
-%{relocateConfig}etc/scram.d/qtextra.xml
-%{relocateConfig}etc/scram.d/qt3support.xml
 %{relocateConfig}bin/qt.conf
 %{relocateConfig}mkspecs/qconfig.pri

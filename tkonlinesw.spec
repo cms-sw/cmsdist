@@ -113,33 +113,3 @@ make cmsswinstall
 %install
 # Option --prefix in configure is not working yet, using tar:
 tar -c -C  %{_builddir}/%{releasename}/opt/%{projectname} --exclude "libcppunit.so" include lib | tar -x -C %{i}
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="TkOnlineSw" version="%v">
-    <info url="http://www.cern.ch/"/>
-    <lib name="ICUtils"/>
-    <lib name="Fed9UUtils"/>
-    <client>
-      <environment name="TKONLINESW_BASE" default="%i"/>
-      <environment name="LIBDIR" value="$TKONLINESW_BASE/lib"/>
-      <environment name="INCLUDE" value="$TKONLINESW_BASE/include"/>
-    </client>
-    <use name="xerces-c"/>
-  </tool>
-EOF_TOOLFILE
-
-cat << \EOF_TOOLFILE >%i/etc/scram.d/tkonlineswdb.xml
-  <tool name="TkOnlineSwDB" version="%v">
-    <info url="http://www.cern.ch/"/>
-    <lib name="DeviceDescriptions"/>
-    <lib name="Fed9UDeviceFactory"/>
-    <use name="tkonlinesw"/>
-    <use name="oracle"/>
-    <use name="oracleocci"/>
-  </tool>
-EOF_TOOLFILE
-
-%post
-%{relocateConfig}etc/scram.d/%n.xml
-%{relocateConfig}etc/scram.d/tkonlineswdb.xml

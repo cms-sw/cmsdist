@@ -28,19 +28,3 @@ perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' $(grep -r -e "^#!.*perl.*
 # in these two scripts
 perl -p -i -e 's|perl -w|perl|' %i/bin/callgrind_annotate
 perl -p -i -e 's|perl -w|perl|' %i/bin/callgrind_control
-
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="%n" version="%v">
-    <client>
-      <environment name="VALGRIND_BASE" default="%i"/>
-      <environment name="INCLUDE" default="$VALGRIND_BASE/include"/>
-    </client>
-    <runtime name="PATH" value="$VALGRIND_BASE/bin" type="path"/>
-    <runtime name="VALGRIND_LIB" value="$VALGRIND_BASE/lib/valgrind"/>
-  </tool>
-EOF_TOOLFILE
-
-%post
-%{relocateConfig}etc/scram.d/%n.xml

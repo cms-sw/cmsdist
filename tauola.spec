@@ -20,21 +20,3 @@ make
 
 %install
 tar -c lib include | tar -x -C %i
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="tauola" version="%v">
-    <lib name="tauola"/>
-    <lib name="pretauola"/>
-    <client>
-      <environment name="TAUOLA_BASE" default="%i"/>
-      <environment name="LIBDIR" default="$TAUOLA_BASE/lib"/>
-      <environment name="INCLUDE" default="$TAUOLA_BASE/include"/>
-    </client>
-    <use name="f77compiler"/>
-    <use name="pythia6"/>
-  </tool>
-EOF_TOOLFILE
-
-%post
-%{relocateConfig}etc/scram.d/%n.xml

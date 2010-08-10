@@ -22,21 +22,3 @@ make install
 
 %install
 tar -c lib include | tar -x -C %i
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="pythia6" version="%v">
-    <lib name="pythia6"/>
-    <lib name="pythia6_dummy"/>
-    <lib name="pythia6_pdfdummy"/>
-    <client>
-      <environment name="PYTHIA6_BASE" default="%i"/>
-      <environment name="LIBDIR" default="$PYTHIA6_BASE/lib"/>
-      <environment name="INCLUDE" default="$PYTHIA6_BASE/include"/>
-    </client>
-    <use name="f77compiler"/>
-  </tool>
-EOF_TOOLFILE
-
-%post
-%{relocateConfig}etc/scram.d/%n.xml

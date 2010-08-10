@@ -1,6 +1,6 @@
 ### FILE scramv1-tool-conf
 
-Requires: gmake
+Requires: gmake-toolfile
 Source0: tool2xml.pl
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
@@ -95,5 +95,5 @@ do
 done
 
 %post
-perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find $RPM_INSTALL_PREFIX/%{pkgrel}/tools -type f)
-perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find $RPM_INSTALL_PREFIX/%{pkgrel}/site -type f)
+%{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/tools -type f)
+%{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/site -type f)

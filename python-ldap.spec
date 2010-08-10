@@ -18,25 +18,6 @@ python setup.py build
 %install
 python setup.py install --prefix=%i
 
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="%n" version="%v">
-    <info url="http://python-ldap.sourceforge.net/"/>
-    <client>
-      <environment name="PYTHON_LDAP_BASE" default="%i"/>
-      <environment name="PYTHON_LDAP_PYPATH" default="$PYTHON_LDAP_BASE/lib/python@PYTHONV@/site-packages"/>
-    </client>
-    <runtime name="PYTHONPATH" value="$PYTHON_LDAP_PYPATH" type="path"/>
-    <use name="openssl"/>
-    <use name="openldap"/>
-    <use name="python"/>
-  </tool>
-EOF_TOOLFILE
-
-export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
-perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*
-
 # Dependencies environment
 rm -rf %i/etc/profile.d
 mkdir -p %i/etc/profile.d
@@ -49,8 +30,6 @@ done
 
 
 %post
-%{relocateConfig}etc/scram.d/%n.xml
-# The relocation below is also needed for dependencies
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 

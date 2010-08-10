@@ -17,28 +17,3 @@ make
 
 %install
 make install
-
-
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=FastJet version=%v>
-<info url=http://www.lpthe.jussieu.fr/~salam/fastjet/></info>
-<lib name=CMSIterativeConePlugin>
-<lib name=SISConePlugin>
-<lib name=CDFConesPlugin>
-<lib name=ATLASConePlugin>
-<lib name=siscone>
-<lib name=siscone_spherical>
-<lib name=fastjet>
-<client>
- <Environment name=FASTJET_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$FASTJET_BASE/lib"></Environment>
- <Environment name=INCLUDE default="$FASTJET_BASE/include"></Environment>
-</client>
-</Tool>
-EOF_TOOLFILE
-
-%post
-%{relocateConfig}etc/scram.d/%n

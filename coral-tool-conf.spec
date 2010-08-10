@@ -1,24 +1,24 @@
-### RPM cms coral-tool-conf 1.0
+### RPM cms coral-tool-conf 2.0
+## NOCOMPILER
 # with cmsBuild, change the above version only when a new tool is added
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
-Requires: pcre
-Requires: uuid
-Requires: python
-Requires: expat
-Requires: boost
-Requires: frontier_client
-Requires: sqlite
+Requires: pcre-toolfile
+Requires: uuid-toolfile
+Requires: python-toolfile
+Requires: expat-toolfile
+Requires: boost-toolfile
+Requires: frontier_client-toolfile
+Requires: sqlite-toolfile
 Requires: gcc-toolfile
 Requires: oracle-env
 
 %if "%online" != "true"
-Requires: gcc
-Requires: zlib
-Requires: openssl
-Requires: cppunit
-Requires: xerces-c
-Requires: oracle
+Requires: zlib-toolfile
+Requires: openssl-toolfile
+Requires: cppunit-toolfile
+Requires: xerces-c-toolfile
+Requires: oracle-toolfile
 Requires: systemtools
 %else
 Requires: onlinesystemtools
