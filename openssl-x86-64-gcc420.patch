@@ -1,6 +1,8 @@
---- crypto/asn1/asn1.h~	2007-04-14 19:00:19.000000000 +0100
-+++ crypto/asn1/asn1.h	2007-05-16 14:48:27.000000000 +0100
-@@ -329,6 +329,17 @@ typedef struct ASN1_VALUE_st ASN1_VALUE;
+diff --git a/crypto/asn1/asn1.h b/crypto/asn1/asn1.h
+index 6ca50a8..238b208 100644
+--- a/crypto/asn1/asn1.h
++++ b/crypto/asn1/asn1.h
+@@ -322,6 +322,17 @@ typedef struct ASN1_VALUE_st ASN1_VALUE;
  #define I2D_OF(type) int (*)(type *,unsigned char **)
  #define I2D_OF_const(type) int (*)(const type *,unsigned char **)
  
@@ -18,7 +20,7 @@
  #define TYPEDEF_D2I_OF(type) typedef type *d2i_of_##type(type **,const unsigned char **,long)
  #define TYPEDEF_I2D_OF(type) typedef int i2d_of_##type(type *,unsigned char **)
  #define TYPEDEF_D2I2D_OF(type) TYPEDEF_D2I_OF(type); TYPEDEF_I2D_OF(type)
-@@ -914,23 +925,41 @@ int ASN1_object_size(int constructed, in
+@@ -902,23 +913,41 @@ int ASN1_object_size(int constructed, int length, int tag);
  
  /* Used to implement other functions */
  void *ASN1_dup(i2d_of_void *i2d, d2i_of_void *d2i, char *x);
@@ -65,7 +67,7 @@
  int ASN1_item_i2d_fp(const ASN1_ITEM *it, FILE *out, void *x);
  int ASN1_STRING_print_ex_fp(FILE *fp, ASN1_STRING *str, unsigned long flags);
  #endif
-@@ -939,14 +968,26 @@ int ASN1_STRING_to_UTF8(unsigned char **
+@@ -927,14 +956,26 @@ int ASN1_STRING_to_UTF8(unsigned char **out, ASN1_STRING *in);
  
  #ifndef OPENSSL_NO_BIO
  void *ASN1_d2i_bio(void *(*xnew)(void), d2i_of_void *d2i, BIO *in, void **x);
@@ -93,9 +95,9 @@
 +		  CHECKED_PTR_OF(const type, x)))
 +
  int ASN1_item_i2d_bio(const ASN1_ITEM *it, BIO *out, void *x);
- int ASN1_UTCTIME_print(BIO *fp, const ASN1_UTCTIME *a);
- int ASN1_GENERALIZEDTIME_print(BIO *fp, const ASN1_GENERALIZEDTIME *a);
-@@ -983,8 +1024,12 @@ void *ASN1_unpack_string(ASN1_STRING *oc
+ int ASN1_UTCTIME_print(BIO *fp,ASN1_UTCTIME *a);
+ int ASN1_GENERALIZEDTIME_print(BIO *fp,ASN1_GENERALIZEDTIME *a);
+@@ -977,8 +1018,12 @@ void *ASN1_unpack_string(ASN1_STRING *oct, d2i_of_void *d2i);
  void *ASN1_item_unpack(ASN1_STRING *oct, const ASN1_ITEM *it);
  ASN1_STRING *ASN1_pack_string(void *obj, i2d_of_void *i2d,
  			      ASN1_OCTET_STRING **oct);
@@ -109,9 +111,11 @@
  ASN1_STRING *ASN1_item_pack(void *obj, const ASN1_ITEM *it, ASN1_OCTET_STRING **oct);
  
  void ASN1_STRING_set_default_mask(unsigned long mask);
---- crypto/pem/pem.h~	2007-04-05 18:00:52.000000000 +0100
-+++ crypto/pem/pem.h	2007-05-16 14:48:42.000000000 +0100
-@@ -221,19 +221,28 @@ typedef struct pem_ctx_st
+diff --git a/crypto/pem/pem.h b/crypto/pem/pem.h
+index c4ad7f3..66ac7b7 100644
+--- a/crypto/pem/pem.h
++++ b/crypto/pem/pem.h
+@@ -220,19 +220,28 @@ typedef struct pem_ctx_st
  #define IMPLEMENT_PEM_read_fp(name, type, str, asn1) \
  type *PEM_read_##name(FILE *fp, type **x, pem_password_cb *cb, void *u)\
  { \
@@ -143,7 +147,7 @@
  }
  
  #define IMPLEMENT_PEM_write_cb_fp(name, type, str, asn1) \
-@@ -241,7 +250,10 @@ int PEM_write_##name(FILE *fp, type *x, 
+@@ -240,7 +249,10 @@ int PEM_write_##name(FILE *fp, type *x, const EVP_CIPHER *enc, \
  	     unsigned char *kstr, int klen, pem_password_cb *cb, \
  		  void *u) \
  	{ \
@@ -155,7 +159,7 @@
  	}
  
  #define IMPLEMENT_PEM_write_cb_fp_const(name, type, str, asn1) \
-@@ -249,7 +261,10 @@ int PEM_write_##name(FILE *fp, type *x, 
+@@ -248,7 +260,10 @@ int PEM_write_##name(FILE *fp, type *x, const EVP_CIPHER *enc, \
  	     unsigned char *kstr, int klen, pem_password_cb *cb, \
  		  void *u) \
  	{ \
@@ -167,7 +171,7 @@
  	}
  
  #endif
-@@ -257,33 +272,48 @@ int PEM_write_##name(FILE *fp, type *x, 
+@@ -256,33 +271,48 @@ int PEM_write_##name(FILE *fp, type *x, const EVP_CIPHER *enc, \
  #define IMPLEMENT_PEM_read_bio(name, type, str, asn1) \
  type *PEM_read_bio_##name(BIO *bp, type **x, pem_password_cb *cb, void *u)\
  { \
@@ -221,7 +225,7 @@
  	}
  
  #define IMPLEMENT_PEM_write(name, type, str, asn1) \
-@@ -414,13 +444,22 @@ int PEM_bytes_read_bio(unsigned char **p
+@@ -545,13 +575,22 @@ int PEM_bytes_read_bio(unsigned char **pdata, long *plen, char **pnm, const char
  	     pem_password_cb *cb, void *u);
  void *	PEM_ASN1_read_bio(d2i_of_void *d2i, const char *name, BIO *bp,
  			  void **x, pem_password_cb *cb, void *u);

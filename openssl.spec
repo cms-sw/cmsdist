@@ -6,7 +6,7 @@ Patch1: openssl-x86-64-gcc420
 %prep
 %setup -n %n-fips-%{realversion}
 %patch0 -p1
-%patch1 -p0
+%patch1 -p1
 
 %build
 # Looks like rpmbuild passes its own sets of flags via the
