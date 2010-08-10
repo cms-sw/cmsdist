@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V2_2_0
+### RPM lcg SCRAMV1 V2_2_1
 ## INITENV +PATH PATH %instroot/common
 ## NOCOMPILER
 
@@ -17,7 +17,7 @@
 # together into one big one?
 
 %define cvsrepo  cvs://:pserver:anonymous@cmscvs.cern.ch:/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-%define cvstag %v
+%define cvstag %realversion
 Source0: %{cvsrepo}&tag=-r%{cvstag}&module=SCRAM&output=/source.tar.gz
 
 %prep
@@ -39,7 +39,11 @@ ln -s ../../bin/scram %i/src/main/scram.pl
 chmod 755 %i/bin/scram
 
 %post
-%{relocateConfig}bin/scram
+%{relocateRpmPkg}bin/scram
+grep '^SCRAMV1_' $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh.new
+grep '^setenv  *SCRAMV1_' $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh.new
+mv $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh.new $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
+mv $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh.new $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/default-scram
 # default version for SCRAM release series Vx_y_
@@ -58,9 +62,9 @@ echo $VERSION_STR | tr ' ' '\n' | sort | tail -1 > $RPM_INSTALL_PREFIX/%{cmsplat
 mkdir -p $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb
 touch $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
 if [ -f $RPM_INSTALL_PREFIX/share/scramdb/project.lookup ] ; then
-  dblinked=`grep "DB $RPM_INSTALL_PREFIX/share/scramdb/project.lookup" $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup`
+  dblinked=`grep "DB $CMS_INSTALL_PREFIX/share/scramdb/project.lookup" $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup`
   if [ "X$dblinked" = "X" ] ; then
-    echo '!DB' $RPM_INSTALL_PREFIX/share/scramdb/project.lookup > $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link
+    echo '!DB' $CMS_INSTALL_PREFIX/share/scramdb/project.lookup > $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link
     cat $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup >> $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link
     mv $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
   fi
