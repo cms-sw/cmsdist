@@ -7,7 +7,7 @@ Requires: expat
 %if "%online" == "true"
 Requires: onlinesystemtools
 %else
-Requires: zlib openssl
+Requires: zlib openssl expat
 %endif
 
 %prep
@@ -31,34 +31,15 @@ mkdir -p %i/include
 export MAKE_ARGS=%{makeargs}
 make $MAKE_ARGS distdir=%i dist
 
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="frontier_client" version="%v">
-    <lib name="frontier_client"/>
-    <client>
-      <environment name="FRONTIER_CLIENT_BASE" default="%i"/>
-      <environment name="INCLUDE" default="$FRONTIER_CLIENT_BASE/include"/>
-      <environment name="LIBDIR" default="$FRONTIER_CLIENT_BASE/lib"/>
-    </client>
-    <runtime name="FRONTIER_CLIENT" value="$FRONTIER_CLIENT_BASE/"/>
-    <use name="zlib"/>
-    <use name="openssl"/>
-    <use name="expat"/>
-  </tool>
-EOF_TOOLFILE
-
-%post
 case $(uname) in 
   Darwin ) 
     so=dylib 
-    ln -sf $RPM_INSTALL_PREFIX/%cmsplatf/external/%n/%v/lib/libfrontier_client.%{realversion}.$so $RPM_INSTALL_PREFIX/%cmsplatf/external/%n/%v/lib/libfrontier_client.$so
-    ln -sf $RPM_INSTALL_PREFIX/%cmsplatf/external/%n/%v/lib/libfrontier_client.$so.%{realversion} $RPM_INSTALL_PREFIX/%cmsplatf/external/%n/%v/lib/libfrontier_client.%(echo %v | sed -e "s/\([0-9]*\)\..*/\1/").$so
+    ln -sf libfrontier_client.%{realversion}.$so %i/lib/libfrontier_client.$so
+    ln -sf libfrontier_client.$so.%{realversion} %i/libfrontier_client.%(echo %v | sed -e "s/\([0-9]*\)\..*/\1/").$so
     ;; 
   * ) 
     so=so 
-    ln -sf $RPM_INSTALL_PREFIX/%cmsplatf/external/%n/%v/lib/libfrontier_client.$so.%{realversion} $RPM_INSTALL_PREFIX/%cmsplatf/external/%n/%v/lib/libfrontier_client.$so
-    ln -sf $RPM_INSTALL_PREFIX/%cmsplatf/external/%n/%v/lib/libfrontier_client.$so.%{realversion} $RPM_INSTALL_PREFIX/%cmsplatf/external/%n/%v/lib/libfrontier_client.$so.%(echo %v | sed -e "s/\([0-9]*\)\..*/\1/")
+    ln -sf libfrontier_client.$so.%{realversion} %i/lib/libfrontier_client.$so
+    ln -sf libfrontier_client.$so.%{realversion} %i/lib/libfrontier_client.$so.%(echo %v | sed -e "s/\([0-9]*\)\..*/\1/")
     ;; 
 esac
-%{relocateConfig}etc/scram.d/%n.xml

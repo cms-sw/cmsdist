@@ -20,20 +20,6 @@ make %makeprocesses
 %install
 cd gccxml-build
 make install
-cd %i
-
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=%n version=%v>
-<Client>
- <Environment name=GCCXML_BASE default="%i"></Environment>
-</Client>
-<Runtime name=PATH value="$GCCXML_BASE/bin" type=path>
-</Tool>
-EOF_TOOLFILE
 
 %post
 %{relocateConfig}share/gccxml-%{gccxmlconfigver}/gccxml_config
-%{relocateConfig}etc/scram.d/%n

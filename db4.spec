@@ -11,22 +11,3 @@ make %makeprocesses
 %install
 cd obj
 make install
-
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="%n" version="%v">
-    <lib name="db"/>
-    <client>
-      <environment name="DB4_BASE" default="%i"/>
-      <environment name="LIBDIR" default="$DB4_BASE/lib"/>
-      <environment name="INCLUDE" default="$DB4_BASE/include"/>
-      <environment name="BINDIR" default="$DB4_BASE/bin"/>
-    </client>
-    <runtime name="PATH" value="$BINDIR" type="path"/>
-  </tool>
-EOF_TOOLFILE
-
-%post
-%{relocateConfig}etc/scram.d/%n.xml
-

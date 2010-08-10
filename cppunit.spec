@@ -26,21 +26,6 @@ make %makeprocesses
 make install
 cp %_sourcedir/CppUnit_testdriver.cpp* %i/include/CppUnit_testdriver.cpp
 
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="%n" version="%v">
-    <lib name="cppunit"/>
-    <client>
-      <environment name="CPPUNIT_BASE" default="%i"/>
-      <environment name="LIBDIR" default="$CPPUNIT_BASE/lib"/>
-      <environment name="INCLUDE" default="$CPPUNIT_BASE/include"/>
-    </client>
-    <use name="sockets"/>
-  </tool>
-EOF_TOOLFILE
-
 %post
 %{relocateConfig}/bin/cppunit-config
 %{relocateConfig}/lib/libcppunit.la
-%{relocateConfig}etc/scram.d/%n.xml

@@ -20,8 +20,6 @@ Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{bas
 Provides: libdpm.so%{libsuffix}
 
 %prep
-
-%build
 rm -f %_builddir/DPM-%{downloadv}.src.tar.gz
 rpm2cpio %{_sourcedir}/DPM-%{downloadv}sec.%{dpmarch}.src.rpm | cpio -ivd LCG-DM-%{baseVersion}.tar.gz
 cd %_builddir ; rm -rf LCG-DM-%{baseVersion}; tar -xzvf LCG-DM-%{baseVersion}.tar.gz
@@ -59,20 +57,3 @@ cd LCG-DM-%{baseVersion}
 cp ./shlib/lib%n.so %i/lib/lib%n.so.%realversion
 cp ./h/*.h          %i/include/dpm
 ln -s lib%n.so.%realversion %i/lib/lib%n.so
-
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=%n version=%v>
-<lib name=dpm>
-<Client>
- <Environment name=DPM_BASE default="%i"></Environment>
- <Environment name=INCLUDE default="$DPM_BASE/include"></Environment>
- <Environment name=LIBDIR default="$DPM_BASE/lib"></Environment>
-</Client>
-</Tool>
-EOF_TOOLFILE
-
-%post
-%{relocateConfig}etc/scram.d/%n

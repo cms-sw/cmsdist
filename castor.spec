@@ -70,19 +70,3 @@ make installclient \
                 BIN=bin \
                 DESTDIRCASTOR=include/shift \
                 TOPINCLUDE=include 
-
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="%n" version="%v">
-    <lib name="shift"/>
-    <client>
-      <environment name="CASTOR_BASE" default="%i"/>
-      <environment name="INCLUDE" default="$CASTOR_BASE/include"/>
-      <environment name="LIBDIR" default="$CASTOR_BASE/lib"/>
-    </client>
-  </tool>
-EOF_TOOLFILE
-
-%post
-%{relocateConfig}etc/scram.d/%n.xml

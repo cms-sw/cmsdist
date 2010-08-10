@@ -15,19 +15,3 @@ make %makeprocesses
 
 %install
 make install
-
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="%n" version="%v">
-    <lib name="gdbm"/>
-    <client>
-      <environment name="GDBM_BASE" default="%i"/>
-      <environment name="LIBDIR" default="$GDBM_BASE/lib"/>
-      <environment name="INCLUDE" default="$GDBM_BASE/include"/>
-    </client>
-  </tool>
-EOF_TOOLFILE
-
-%post
-%{relocateConfig}etc/scram.d/%n.xml
