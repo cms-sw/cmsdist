@@ -1,0 +1,18 @@
+### FILE scram-tools-post
+## NOCOMPILER
+%define   BaseTool   %(echo %n | sed 's|-toolfile||' | tr '[a-z-]' '[A-Z_]')
+
+export TOOL_ROOT=$%{BaseTool}_ROOT
+export TOOL_VERSION=$%{BaseTool}_VERSION
+echo ############################### START
+env
+echo ############################### END
+perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*.xml
+
+%post
+
+%{relocateConfig}etc/scram.d/*.xml
+grep '^%{BaseTool}_TOOLFILE_' $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh.new
+grep '^setenv  *%{BaseTool}_TOOLFILE_' $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh.new
+mv $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh.new $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
+mv $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh.new $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
