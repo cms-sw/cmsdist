@@ -1,9 +1,12 @@
-diff --git a/expand.c b/expand.c
-index 993e6d4..3cbc98e 100644
---- a/expand.c
-+++ b/expand.c
-@@ -449,20 +449,25 @@ char *
- variable_expand_for_file (char *line, struct file *file)
+Index: expand.c
+===================================================================
+RCS file: /sources/make/make/expand.c,v
+retrieving revision 1.50
+diff -u -B -b -r1.50 expand.c
+--- expand.c	20 Mar 2007 03:02:26 -0000	1.50
++++ expand.c	14 Jun 2007 02:25:49 -0000
+@@ -460,13 +460,16 @@
+ variable_expand_for_file (const char *line, struct file *file)
  {
    char *result;
 -  struct variable_set_list *save;
@@ -19,6 +22,9 @@ index 993e6d4..3cbc98e 100644
 +
 +  savef = reading_file;
    if (file->cmds && file->cmds->fileinfo.filenm)
+     reading_file = &file->cmds->fileinfo;
+   else
+@@ -471,9 +474,11 @@
      reading_file = &file->cmds->fileinfo;
    else
      reading_file = 0;
