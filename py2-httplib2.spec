@@ -1,11 +1,11 @@
-### RPM cms py2-httplib2 0.6.0
+### RPM external py2-httplib2 0.6.0
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
-Source: http://httplib2.googlecode.com/files/%n-%realversion.zip
+Source: http://httplib2.googlecode.com/files/httplib2-%realversion.zip
 Requires: python 
 
 %prep
-%setup -n %{n}
+%setup -n httplib2-%realversion
 
 %build
 
