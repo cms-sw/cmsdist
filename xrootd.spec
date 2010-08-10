@@ -1,5 +1,5 @@
-### RPM external xrootd 5.27.02
-Source: http://cmsrep.cern.ch//cmssw/xrootd_src/%n-%{realversion}.tgz
+### RPM external xrootd 20090727.1318
+Source: http://cmsrep.cern.ch//cmssw/xrootd_src/%n-%{realversion}.tar.gz
 Patch0: xrootd-gcc44
 Requires: openssl
 
@@ -61,24 +61,3 @@ perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/src/XrdMon/prepareMySQ
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/src/XrdMon/xrdmonCreateMySQL.pl
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/src/XrdMon/xrdmonLoadMySQL.pl
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/src/XrdMon/xrdmonPrepareStats.pl
-
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="%n" version="%v">
-    <lib name="XrdClient"/>
-    <lib name="XrdOuc"/>
-    <lib name="XrdNet"/>
-    <lib name="XrdSys"/>
-    <client>
-      <environment name="XROOTD_BASE" default="%i"/>
-      <environment name="INCLUDE" default="$XROOTD_BASE/src"/>
-      <environment name="LIBDIR" default="$XROOTD_BASE/lib"/>
-    </client>
-    <runtime name="PATH" value="$XROOTD_BASE/bin" type="path"/>
-  </tool>
-EOF_TOOLFILE
-
-%post
-%{relocateConfig}etc/scram.d/%n.xml
-
