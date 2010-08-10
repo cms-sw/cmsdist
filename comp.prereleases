@@ -3,3 +3,4 @@
 # <pre-release-CMSDIST-tag> <project-main-pkg> [<other-project-pkgs>]
 forPHEDEX-web-20100810-a PHEDEX-combined-web PHEDEX-web PHEDEX-webapp PHEDEX-datasvc
 #forPHEDEX332 PHEDEX-combined-agents PHEDEX-admin PHEDEX PHEDEX-micro
+#empty line...
