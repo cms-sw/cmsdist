@@ -13,22 +13,5 @@ make %makeprocesses
 make install
 perl -p -i -e "s|^#!.*perl|#!/usr/bin/env perl|" %{i}/bin/gifburst
 
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="%n" version="%v">
-    <info url="http://sourceforge.net/projects/libungif"/>
-    <lib name="ungif"/>
-    <client>
-      <environment name="LIBUNGIF_BASE" default="%i"/>
-      <environment name="LIBDIR" default="$LIBUNGIF_BASE/lib"/>
-      <environment name="INCLUDE" default="$LIBUNGIF_BASE/include"/>
-    </client>
-    <use name="libjpg"/>
-    <use name="zlib"/>
-  </tool>
-EOF_TOOLFILE
-
 %post
 %{relocateConfig}lib/libungif.la
-%{relocateConfig}etc/scram.d/%n.xml

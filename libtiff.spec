@@ -18,23 +18,6 @@ make %makeprocesses
 %install
 make install
 
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="%n" version="%v">
-    <info url="http://www.libtiff.org/"/>
-    <lib name="tiff"/>
-    <client>
-      <environment name="LIBTIFF_BASE" default="%i"/>
-      <environment name="LIBDIR" default="$LIBTIFF_BASE/lib"/>
-      <environment name="INCLUDE" default="$LIBTIFF_BASE/include"/>
-    </client>
-    <use name="libjpg"/>
-    <use name="zlib"/>
-  </tool>
-EOF_TOOLFILE
-
 %post
 %{relocateConfig}lib/libtiff.la
 %{relocateConfig}lib/libtiffxx.la
-%{relocateConfig}etc/scram.d/%n.xml

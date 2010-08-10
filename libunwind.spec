@@ -16,18 +16,3 @@ make %makeprocesses
 
 %install
 make install
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="%n" version="%v">
-    <info url="http://www.nongnu.org/libunwind/"/>
-    <lib name="unwind"/>
-    <client>
-      <environment name="LIBUNWIND_BASE" default="%i"/>
-      <environment name="LIBDIR" default="$LIBUNWIND_BASE/lib"/>
-      <environment name="INCLUDE" default="$LIBUNWIND_BASE/include"/>
-    </client>
-  </tool>
-EOF
-
-%post
-%{relocateConfig}etc/scram.d/%n.xml

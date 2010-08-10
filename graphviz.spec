@@ -75,27 +75,5 @@ case %cmsplatf in
     ;;
 esac
 
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="%n" version="%v">
-    <info url="http://www.research.att.com/sw/tools/graphviz/"/>
-    <client>
-      <environment name="GRAPHVIZ_BASE" default="%i"/>
-      <environment name="GRAPHVIZ_BINDIR" default="$GRAPHVIZ_BASE/bin"/>
-      <environment name="LIBDIR" default="$GRAPHVIZ_BASE/lib/graphviz"/>
-    </client>
-    <runtime name="PATH" value="$GRAPHVIZ_BINDIR" type="path"/>
-    <use name="expat"/>
-    <use name="zlib"/>
-    <use name="libjpg"/>
-    <use name="libpng"/>
-  </tool>
-EOF_TOOLFILE
-
 %post
-# It appears one needs to list at least one explicitly as the macro adds
-# the prefix, but then the find can add it and the others (also with the 
-# prefix)
-%{relocateConfig}/lib/libgraph.la `find $RPM_INSTALL_PREFIX/%pkgrel/lib -name *.la`
-%{relocateConfig}etc/scram.d/%n.xml
+%{relocateCmsFiles} `find $RPM_INSTALL_PREFIX/%pkgrel/lib -name *.la`

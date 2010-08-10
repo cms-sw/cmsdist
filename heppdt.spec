@@ -14,20 +14,3 @@ make
 
 %install
 make install
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="%n" version="%v">
-    <lib name="HepPDT"/>
-    <lib name="HepPID"/>
-    <client>
-      <environment name="HEPPDT_BASE" default="%i"/>
-      <environment name="LIBDIR" default="$HEPPDT_BASE/lib"/>
-      <environment name="INCLUDE" default="$HEPPDT_BASE/include"/>
-    </client>
-    <runtime name="HEPPDT_PARAM_PATH" value="$HEPPDT_BASE"/>
-  </tool>
-EOF_TOOLFILE
-
-%post
-%{relocateConfig}etc/scram.d/%n.xml

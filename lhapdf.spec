@@ -44,54 +44,6 @@ perl -p -i -e 's|/usr/lib64/libc.a||g' Makefile */Makefile */*/Makefile */*/*/Ma
 make
 make install
 
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="%n" version="%v">
-    <lib name="LHAPDF"/>
-    <client>
-      <environment name="LHAPDF_BASE" default="%i"/>
-      <environment name="LIBDIR" default="$LHAPDF_BASE/lib"/>
-      <environment name="INCLUDE" default="$LHAPDF_BASE/include"/>
-      <environment name="LHAPATH" default="$LHAPDF_BASE/share/lhapdf/PDFsets"/>
-    </client>
-    <runtime name="LHAPATH" value="$LHAPDF_BASE/share/lhapdf/PDFsets" type="path"/>
-    <use name="f77compiler"/>
-  </tool>
-EOF_TOOLFILE
-
-cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdfwrap.xml
-  <tool name="lhapdfwrap" version="%v">
-    <lib name="LHAPDFWrap"/>
-    <use name="lhapdf"/>
-  </tool>
-EOF_TOOLFILE
-
-# SCRAM ToolBox toolfiles for full libs
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%fullname.xml
-  <tool name="%fullname" version="%v">
-    <lib name="LHAPDF"/>
-    <client>
-      <environment name="LHAPDFFULL_BASE" default="%i"/>
-      <environment name="LIBDIR" default="$LHAPDFFULL_BASE/full/lib"/>
-      <environment name="INCLUDE" default="$LHAPDFFULL_BASE/include"/>
-      <environment name="LHAPATH" default="$LHAPDFFULL_BASE/share/lhapdf/PDFsets"/>
-    </client>
-    <runtime name="LHAPATH" value="$LHAPDFFULL_BASE/share/lhapdf/PDFsets" type="path"/>
-    <use name="f77compiler"/>
-  </tool>
-EOF_TOOLFILE
-
-cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdfwrapfull.xml
-  <tool name="lhapdfwrapfull" version="%v">
-    <lib name="LHAPDFWrap"/>
-    <use name="lhapdffull"/>
-  </tool>
-EOF_TOOLFILE
-
 %post
-%{relocateConfig}etc/scram.d/%n.xml
-%{relocateConfig}etc/scram.d/%fullname.xml
 %{relocateConfig}lib/libLHAPDF.la
 %{relocateConfig}lib/libLHAPDFWrap.la
