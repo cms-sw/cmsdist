@@ -116,8 +116,9 @@ perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
                     %{i}/lib/python2.6/test/test_bz2.py \
                     %{i}/lib/python2.6/test/test_largefile.py \
                     %{i}/lib/python2.6/test/test_optparse.py
-rm  `find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*'`
-rm  `find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*'`
+
+find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
+find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
 
 # remove tkinter that brings dependency on libtk:
 find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
