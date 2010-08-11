@@ -5,9 +5,9 @@
 %define nversion %(echo %v | sed 's|WEB_||' | sed 's|_|.|g')
 %define cvsversion %(echo %v | sed 's/[a-z]$//')
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-%define deployutil WTDeployUtil.pm
-%define deployutilrev 1.5
-%define deployutilurl http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/COMP/WEBTOOLS/Configuration/%{deployutil}?revision=%{deployutilrev}
+#%define deployutil WTDeployUtil.pm
+#%define deployutilrev 1.5
+#%define deployutilurl http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/COMP/WEBTOOLS/Configuration/%{deployutil}?revision=%{deployutilrev}
 
 Source: %cvsserver&strategy=checkout&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
 
@@ -46,7 +46,7 @@ Obsoletes: cms+PHEDEX-web+WEB_3_0_0
 
 %prep
 %setup -n PHEDEX
-wget -O %{deployutil} '%{deployutilurl}'
+#wget -O %{deployutil} '%{deployutilurl}'
 
 %build
 %install
@@ -87,9 +87,13 @@ cp %i/Documentation/WebConfig/cmsweb_phedex_graphs %i/bin
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 
 # Switch host-like template variables in the configuration files
-perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -e '
-  print "Configuring service for @{[&WTDeployUtil::deployment()]} on @{[&WTDeployUtil::my_host()]}\n";
-'
+# (copied from the apache2-conf.spec)
+H=$(hostname -f)
+if [ -r /etc/grid-security/hostcert.pem ]; then
+  CN=$(openssl x509 -noout -subject -in /etc/grid-security/hostcert.pem 2>/dev/null | sed 's|.*/CN=||')
+  case $CN in *.*.* ) H=$CN ;; esac
+fi
+echo "Configuring service on $H"
 
 # Not needed because 'allow from' no longer needed
 #perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
@@ -109,9 +113,13 @@ perl -p -i -e '
 
 # FRONTEND_IPS not needed because 'allow from' no longer needed
 #  s|\@FRONTEND_IPS\@|$hosts|g;
-perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
-  $alias = &WTDeployUtil::frontend_alias();
-  s|\@FRONTEND_ALIAS\@|$alias|g;
+#perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
+#  $alias = &WTDeployUtil::frontend_alias();
+#  s|\@FRONTEND_ALIAS\@|$alias|g;
+#'  $RPM_INSTALL_PREFIX/%{pkgrel}/Documentation/WebConfig/phedexweb-app.conf
+
+perl -I $RPM_INSTALL_PREFIX/%{pkgrel} -p -i -e '
+  s|\@FRONTEND_ALIAS\@|'$H'|g;
 '  $RPM_INSTALL_PREFIX/%{pkgrel}/Documentation/WebConfig/phedexweb-app.conf
 
 perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -p -i -e '
