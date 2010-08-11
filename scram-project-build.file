@@ -16,8 +16,14 @@ Requires: SCRAMV1
 %define buildtarget	release-build
 %define bootstrapfile   config/bootsrc.xml
 
+%if "%{?subpackageDebug:set}" == "set"
+%define debugOptions    USER_CXXFLAGS="-g"
+%else
+%define debugOptions    %{nil}
+%endif
+
 %if "%{?configtag:set}" != "set"
-%define configtag       V03-30-02
+%define configtag       V03-31-03
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -88,6 +94,10 @@ Requires: SCRAMV1
 %define source7 none
 %endif
 
+%if "%{?source8:set}" != "set"
+%define source8 none
+%endif
+
 Source0: %source0
 Source1: %source1
 Source2: %source2
@@ -96,7 +106,7 @@ Source4: %source4
 Source5: %source5
 Source6: %source6
 Source7: %source7
-Source8: %lcprojtype-tool
+Source8: %source8
 Source9: findDependencies.pl
 
 %prep
@@ -136,7 +146,7 @@ mkdir -p $(dirname %i)
 
 %build
 
-# Remove cmt stuff that brings unwanted dependencies: 
+# Remove cmt stuff that brings unwanted dependencies:
 rm -rf `find %{i}/%{srctree} -type d -name cmt`
 grep -r -l -e "^#!.*perl.*" %{i}/%{srctree} | xargs perl -p -i -e "s|^#!.*perl(.*)|#!/usr/bin/env perl\$1|"
 
@@ -173,7 +183,7 @@ export SCRAM_NOSYMCHECK=true
 %scramcmd b --verbose -f %{prebuildtarget} </dev/null
 %endif
 
-%scramcmd b --verbose -f %{compileOptions} %{makeprocesses}  %{buildtarget} </dev/null || { %scramcmd b -f outputlog && false; }
+%scramcmd b --verbose -f %{compileOptions} %{debugOptions} %{makeprocesses} %{buildtarget} </dev/null || { %scramcmd b -f outputlog && false; }
 
 %if "%{?additionalBuildTarget0:set}" == "set"
 %scramcmd b --verbose -f %{additionalBuildTarget0} < /dev/null
@@ -183,7 +193,26 @@ export SCRAM_NOSYMCHECK=true
 %scramcmd b --verbose -f %{postbuildtarget} </dev/null
 %endif
 
-%if "%{?saveDeps:set}" == "set" 
+# split the debug symbols out of tha main binaries, into separate files
+%if "%{?subpackageDebug:set}" == "set"
+BINDIR=$(%scramcmd tool info Self | grep "^PATH\|LD_LIBRARY_PATH=" | cut -d= -f2 | tr ":" "\n" | grep -v external)
+touch %_builddir/files.debug
+touch %_builddir/files
+for DIR in $BINDIR; do
+  mkdir -p $DIR/.debug
+  echo "%dir $DIR/.debug"     >> %_builddir/files.debug
+  echo "%exclude $DIR/.debug" >> %_builddir/files
+done
+for FILE in $(find $BINDIR -type f | xargs file | grep "ELF" | cut -d: -f1); do
+  NAME=$(basename $FILE)
+  DIR=$(dirname $FILE)
+  eu-strip $FILE -f $DIR/.debug/$NAME
+  echo "$DIR/.debug/$NAME"          >> %_builddir/files.debug
+  echo "%exclude $DIR/.debug/$NAME" >> %_builddir/files
+done
+%endif
+
+%if "%{?saveDeps:set}" == "set"
 mkdir -p %i/etc/dependencies
 chmod +x %{_sourcedir}/findDependencies.pl
 %{_sourcedir}/findDependencies.pl -rel %i
@@ -201,10 +230,8 @@ rm -fR %i/lib/%cmsplatf/.edmplugincache
 cd %i
 %{?buildarch:%buildarch}
 
-mkdir -p etc/scram.d
-sed 's|@PROJECT_NAME@|%ucprojtype|g;s|@PROJECT_VERSION@|%v|g;s|@PROJECT_BUILD_PATH@|%_builddir|g;s|@PROJECT_ROOT@|%i|g' %_sourcedir/%lcprojtype-tool > etc/scram.d/%lcprojtype.xml
-%scramcmd install -f 
-(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/%{srctree}; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.pl --arch %cmsplatf --nolink INCLUDE) || true
+%scramcmd install -f
+(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/%{srctree}; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.pl --arch %cmsplatf) || true
 ls -al external/%cmsplatf/lib/
 
 %{?PartialReleasePackageList:%PartialReleasePackageList}
@@ -223,21 +250,20 @@ if [ -e %{srctree}.tar.gz ] ; then
 fi
 scramver=`cat config/scram_version`
 . $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver/etc/profile.d/init.sh
-%{relocateConfig}etc/scram.d/%lcprojtype.xml
-perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find config -type f)
-if [ -d python ]; then perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find python -maxdepth 1 -type f); fi
-(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/%{srctree}; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename.pl %{instroot} $RPM_INSTALL_PREFIX  %cmsplatf )
+%{relocateCmsFiles} `find config -type f`
+if [ -d python ]; then %{relocateCmsFiles} $(find python -maxdepth 1 -type f); fi
+(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename.pl %{instroot} $CMS_INSTALL_PREFIX  %cmsplatf )
 %{?buildarch:%buildarch}
 for L in `find external/%cmsplatf -maxdepth 2 -type l`; do
-   mv $L $L-old; ln -s `readlink -n $L-old 2>&1 | sed -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" ` $L ; rm $L-old;
+   mv $L $L-old; ln -s `readlink -n $L-old 2>&1 | sed -e "s|%{instroot}|$CMS_INSTALL_PREFIX|g" ` $L ; rm $L-old;
 done
-eval `%scramcmd run -sh`
-for cmd in EdmPluginRefresh IgPluginRefresh ; do
-  cmdpath=`which $cmd 2> /dev/null || echo ""`
-  if [ "X$cmdpath" != X ] ; then
-    $cmd || true
-  fi
-done
+#eval `%scramcmd run -sh`
+#for cmd in EdmPluginRefresh IgPluginRefresh ; do
+#  cmdpath=`which $cmd 2> /dev/null || echo ""`
+#  if [ "X$cmdpath" != X ] ; then
+#    $cmd || true
+#  fi
+#done
 %scramcmd install -f
 
 %{?PatchReleaseFilesRelocate:%PatchReleaseFilesRelocate}
