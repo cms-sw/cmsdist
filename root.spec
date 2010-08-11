@@ -6,7 +6,7 @@ Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
-Patch0: root-5.18-00-libpng 
+Patch0: root-5.22-00d-externals
 Patch1: root-5.22-00d-CINT-maxlongline-maxtypedef
 Patch2: root-5.22-00-TMVA-shut-the-hell-up-for-once
 Patch3: root-5.22-00a-TMVA-shut-the-hell-up-again
@@ -35,19 +35,8 @@ Patch24: root-5.22-00d-fireworks8
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
 Requires: gccxml gsl castor libjpg dcap pcre python
-
 %if "%online" != "true"
-Requires: qt openssl libpng zlib libungif xrootd
-%else
-%define skiplibtiff true
-%endif
-
-%if "%cpu" == "amd64"
-%define skiplibtiff true
-%endif
-
-%if "%skiplibtiff" != "true"
-Requires: libtiff
+Requires: qt openssl libpng zlib libungif xrootd libtiff
 %endif
 
 %prep
@@ -116,7 +105,7 @@ export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 EXTRA_CONFIG_ARGS="--with-f77=/usr
              --disable-xrootd
              --disable-odbc
-             --disable-qt --disable-qtgsi"
+             --disable-qt --disable-qtgsi --disable-astiff"
 %else
 EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}
              --with-xrootd=$XROOTD_ROOT
@@ -149,9 +138,9 @@ CONFIG_ARGS="--enable-table
 
 case $(uname)-$(uname -m) in
   Linux-x86_64)
-    ./configure linuxx8664gcc $CONFIG_ARGS --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift --disable-astiff;; 
+    ./configure linuxx8664gcc $CONFIG_ARGS --with-rfio-libdir=${CASTOR_ROOT}/lib --with-rfio-incdir=${CASTOR_ROOT}/include/shift --with-castor-libdir=${CASTOR_ROOT}/lib --with-castor-incdir=${CASTOR_ROOT}/include/shift ;; 
   Linux-i*86)
-    ./configure linux  $CONFIG_ARGS --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift;;
+    ./configure linux  $CONFIG_ARGS --with-rfio-libdir=${CASTOR_ROOT}/lib --with-rfio-incdir=${CASTOR_ROOT}/include/shift --with-castor-libdir=${CASTOR_ROOT}/lib --with-castor-incdir=${CASTOR_ROOT}/include/shift ;;
   Darwin*)
     case %cmsplatf in
     *_ia32_* ) 
