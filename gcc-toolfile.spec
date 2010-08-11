@@ -114,6 +114,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
     <runtime name="PATH" value="$GCC_BASE/bin" type="path"/>
   </tool>
 EOF_TOOLFILE
+;;
 osx10[56]*_gcc40* )
 cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
   <tool name="cxxcompiler" version="@GCC_VERSION@" type="compiler">
