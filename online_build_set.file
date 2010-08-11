@@ -793,7 +793,6 @@ SimDataFormats/TrackerDigiSimLink
 SimDataFormats/TrackingAnalysis
 SimDataFormats/TrackingHit
 SimDataFormats/Vertex
-SimGeneral/HepPDTESSource
 SimGeneral/HepPDTRecord
 SimGeneral/NoiseGenerators
 SimTracker/Records
