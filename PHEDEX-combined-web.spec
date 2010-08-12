@@ -3,7 +3,7 @@
 # This is a fake spec whose only job is to build PHEDEX-web and
 # PHEDEX-datasvc on a combined platform of dependencies
 
-Requires: PHEDEX-web PHEDEX-datasvc PHEDEX-appserv
+Requires: PHEDEX-web PHEDEX-datasvc PHEDEX-webapp
 
 %prep
 cd %_builddir
@@ -24,5 +24,8 @@ mkdir -p %{i}/etc/profile.d
  ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 %post
+# soft link httpd startup script to our bin/
+ln -s $RPM_INSTALL_PREFIX/apache2/etc/init.d/httpd $RPM_INSTALL_PREFIX/%{pkgrel}/bin/httpd
+
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
