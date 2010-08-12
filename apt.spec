@@ -1,18 +1,24 @@
 ### RPM external apt 0.5.15lorg3.2-CMS19c
 ## INITENV SET APT_CONFIG %{i}/etc/apt.conf
-Source:  http://apt-rpm.org/releases/%n-%realversion.tar.bz2
+Source0:  http://apt-rpm.org/releases/%n-%realversion.tar.bz2
 Source1: bootstrap
+Source2: http://search.cpan.org/CPAN/authors/id/T/TL/TLBDK/RPM-Header-PurePerl-1.0.2.tar.gz
 
-%if "%{?online_release:set}" != "set"
-Requires: libxml2 beecrypt rpm zlib bz2lib openssl
-%else
-Requires: libxml2 beecrypt rpm bz2lib
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
+
+Requires: libxml2 rpm
+%if "%online" != "true"
+Requires: openssl
 %endif
 
 Patch0: apt-rpm449
 Patch1: apt-rpm446
 Patch2: apt
 Patch3: apt-multiarch
+Patch4: apt-ansi-headers
+Patch5: apt-fix-parameter-names
+
 %if "%(echo %{cmsos} | cut -d_ -f 2 | sed -e 's|.*64.*|64|')" == "64"
 %define libdir lib64
 %else
@@ -20,7 +26,10 @@ Patch3: apt-multiarch
 %endif
 
 %prep
+%setup -T -b 2 -n RPM-Header-PurePerl-1.0.2
+cd ..
 %setup -n %n-%{realversion}
+
 case $RPM_VERSION in
     4.4.9*)
 %patch0 -p0
@@ -38,10 +47,18 @@ case %cmsplatf in
 esac
 
 %patch3 -p1
+%patch4 -p2
+%patch5 -p2
 
 %build
 #export CFLAGS="-O0 -g"
-#export CXXFLAGS="-O0 -g"
+case %cmsplatf in
+  slc*_ia32_*)
+    export CXXFLAGS="-D_FILE_OFFSET_BITS=64"
+    ;;
+  *)
+    ;;
+esac
 export CPPFLAGS="-I$BZ2LIB_ROOT/include -I$BEECRYPT_ROOT/include -I$RPM_ROOT/include -I$RPM_ROOT/include/rpm"
 export LDFLAGS="-L$BZ2LIB_ROOT/lib -L$BEECRYPT_ROOT/%{libdir} -L$RPM_ROOT/%{libdir}"
 export LIBDIR="$LIBS"
@@ -69,6 +86,11 @@ mkdir -p %{i}/etc/profile.d
  echo "source $LIBXML2_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 cp %_sourcedir/bootstrap %{i}/bin/bootstrap.sh
+pwd
+perl -p -i -e 'my $s = `cat ../RPM-Header-PurePerl-1.0.2/lib/RPM/Header/PurePerl.pm`;\
+               s|\@RPM_HEADER_PUREPERL_PM\@|$s|' %{i}/bin/bootstrap.sh
+perl -p -i -e 'my $s = `cat ../RPM-Header-PurePerl-1.0.2/lib/RPM/Header/PurePerl/Tagtable.pm`;\
+               s|\@RPM_HEADER_PUREPERL_TAGSTABLE_PM\@|$s|' %{i}/bin/bootstrap.sh
 
 mkdir -p %{i}/etc/apt
 cat << \EOF_APT_CONF > %{i}/etc/apt.conf
@@ -122,6 +144,9 @@ RPM
     RootDir "%{instroot}";
     Architecture "%{cmsplatf}";
 };
+
+APT::Cache-Limit 33554432;
+
 EOF_APT_CONF
 
 
