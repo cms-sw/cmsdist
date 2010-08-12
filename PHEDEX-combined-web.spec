@@ -23,9 +23,6 @@ mkdir -p %{i}/etc/profile.d
  echo "source $PHEDEX_DATASVC_ROOT/etc/profile.d/init.csh"; \
  ) > %{i}/etc/profile.d/dependencies-setup.csh
 
-# copy startup scripts...
-cp %i/Documentation/WebConfig/cmsweb_phedex_graphs %i/bin
-
 %post
 # soft link httpd startup script to our bin/
 ln -s $RPM_INSTALL_PREFIX/apache2/etc/init.d/httpd $RPM_INSTALL_PREFIX/%{pkgrel}/bin/httpd
