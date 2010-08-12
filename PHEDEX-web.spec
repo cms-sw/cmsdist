@@ -1,13 +1,13 @@
-### RPM cms PHEDEX-web WEB_3_1_3
+### RPM cms PHEDEX-web WEB_3_1_5pre10
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define nversion %(echo %v | sed 's|WEB_||' | sed 's|_|.|g')
 %define cvsversion %(echo %v | sed 's/[a-z]$//')
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-%define deployutil WTDeployUtil.pm
-%define deployutilrev 1.5
-%define deployutilurl http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/COMP/WEBTOOLS/Configuration/%{deployutil}?revision=%{deployutilrev}
+#%define deployutil WTDeployUtil.pm
+#%define deployutilrev 1.5
+#%define deployutilurl http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/COMP/WEBTOOLS/Configuration/%{deployutil}?revision=%{deployutilrev}
 
 Source: %cvsserver&strategy=checkout&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
 
@@ -33,6 +33,7 @@ Provides: perl(DB_File)
 Provides: perl(XML::LibXML)
 
 # We obsolete each previous release to force them to be removed
+Obsoletes: cms+PHEDEX-web+WEB_3_1_4
 Obsoletes: cms+PHEDEX-web+WEB_3_1_2a
 Obsoletes: cms+PHEDEX-web+WEB_3_1_2
 Obsoletes: cms+PHEDEX-web+WEB_3_1_1b
@@ -45,7 +46,7 @@ Obsoletes: cms+PHEDEX-web+WEB_3_0_0
 
 %prep
 %setup -n PHEDEX
-wget -O %{deployutil} '%{deployutilurl}'
+#wget -O %{deployutil} '%{deployutilurl}'
 
 %build
 %install
@@ -86,14 +87,19 @@ cp %i/Documentation/WebConfig/cmsweb_phedex_graphs %i/bin
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 
 # Switch host-like template variables in the configuration files
-perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -e '
-  print "Configuring service for @{[&WTDeployUtil::deployment()]} on @{[&WTDeployUtil::my_host()]}\n";
-'
+# (copied from the apache2-conf.spec)
+H=$(hostname -f)
+if [ -r /etc/grid-security/hostcert.pem ]; then
+  CN=$(openssl x509 -noout -subject -in /etc/grid-security/hostcert.pem 2>/dev/null | sed 's|.*/CN=||')
+  case $CN in *.*.* ) H=$CN ;; esac
+fi
+echo "Configuring service on $H"
 
-perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
-  $hosts = join(" ", &WTDeployUtil::frontend_hosts());
-  s|\@FRONTEND_HOSTS\@|$hosts|g;
-'  $RPM_INSTALL_PREFIX/%{pkgrel}/Documentation/WebConfig/phedexweb-httpd.conf
+# Not needed because 'allow from' no longer needed
+#perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
+#  $hosts = join(" ", &WTDeployUtil::frontend_hosts());
+#  s|\@FRONTEND_HOSTS\@|$hosts|g;
+#'  $RPM_INSTALL_PREFIX/%{pkgrel}/Documentation/WebConfig/phedexweb-httpd.conf
 
 # password file default location
 export PHEDEX_DBPARAM=/data/projects/conf/phedex/DBParam
@@ -105,11 +111,18 @@ perl -p -i -e '
   s|\@PHEDEX_DBPARAM\@|$ENV{PHEDEX_DBPARAM}|g;
 '  $RPM_INSTALL_PREFIX/%{pkgrel}/bin/cmsweb_phedex_graphs
 
-perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
-  $hosts = join(",", &WTDeployUtil::frontend_ips());
-  $alias = &WTDeployUtil::frontend_alias();
-  s|\@FRONTEND_IPS\@|$hosts|g;
-  s|\@FRONTEND_ALIAS\@|$alias|g;
+# FRONTEND_IPS not needed because 'allow from' no longer needed
+#  s|\@FRONTEND_IPS\@|$hosts|g;
+#perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
+#  $alias = &WTDeployUtil::frontend_alias();
+#  s|\@FRONTEND_ALIAS\@|$alias|g;
+#'  $RPM_INSTALL_PREFIX/%{pkgrel}/Documentation/WebConfig/phedexweb-app.conf
+
+perl -I $RPM_INSTALL_PREFIX/%{pkgrel} -p -i -e '
+  s|\@FRONTEND_ALIAS\@|'$H'|g;
+'  $RPM_INSTALL_PREFIX/%{pkgrel}/Documentation/WebConfig/phedexweb-app.conf
+
+perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -p -i -e '
   s|\@PHEDEX_DBPARAM\@|$ENV{PHEDEX_DBPARAM}|g;
 '  $RPM_INSTALL_PREFIX/%{pkgrel}/Documentation/WebConfig/phedexweb-app.conf
 
@@ -120,6 +133,7 @@ cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh $RPM_INSTALL_PREFIX/ap
 # soft link httpd startup script to our bin/
 ln -s $RPM_INSTALL_PREFIX/apache2/etc/init.d/httpd $RPM_INSTALL_PREFIX/%{pkgrel}/bin/httpd
 
+# This was never needed...?
 # Relocate those files
 #perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|g" \ 
 # $RPM_INSTALL_PREFIX/apache2/apps.d/phedexweb-httpd.conf \
