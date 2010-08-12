@@ -10,7 +10,11 @@
 #%define deployutilurl http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/COMP/WEBTOOLS/Configuration/%{deployutil}?revision=%{deployutilrev}
 
 Source: %cvsserver&strategy=checkout&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
-Requires: protovis yui PHEDEX-datasvc
+# Would love to 'require' the PHEDEX_datasvc, but I don't see how I can do that
+# the post-install for the datasvc requires a trim-cache job, but I cannot
+# include that in the RPM, so it has to be 'Deploy'ed separately. Yuck!
+#Requires: protovis yui PHEDEX-datasvc
+Requires: protovis yui
 
 # We obsolete each previous release to force them to be removed
 # Prior to BETA_0_9, WEBAPP was known as APPSERV
