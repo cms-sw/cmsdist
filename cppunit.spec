@@ -7,14 +7,12 @@ Source1: http://spi.cvs.cern.ch:8180/cgi-bin/spi.cgi/*checkout*/Components/UnitT
 
 %build
 case %cmsplatf in
-    osx105* ) perl -p -i -e 's|rm(.*)conftest|rm -fr $1 conftest|g' configure \
-                                                                    aclocal.m4 \
-						                						    libtool \
-						                						    config/ltmain.sh
+    osx* ) perl -p -i -e 's|rm(.*)conftest|rm -fr $1 conftest|g' configure \
+                                                                 aclocal.m4 \
+						                 libtool \
+						               	 config/ltmain.sh
     ;;
-esac
-case $(uname) in
-    Linux )
+    slc* )
        # Ugly hack to force -ldl to be linked, which for some reason is
        # not currently happening via configure
        perl -p -i -e 's|LIBS.*LIBS.*lm|LIBS="$LIBS -lm -ldl|' configure
