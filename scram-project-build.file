@@ -17,11 +17,9 @@ Requires: SCRAMV1
 %define bootstrapfile   config/bootsrc.xml
 
 %if "%{?subpackageDebug:set}" == "set"
-%define enableDebug     yes
-%endif
-
-%if "%{?enableDebug:set}" == "set"
 %define debugOptions    USER_CXXFLAGS="-g"
+%else
+%define debugOptions    %{nil}
 %endif
 
 %if "%{?configtag:set}" != "set"
@@ -194,19 +192,23 @@ export SCRAM_NOSYMCHECK=true
 # split the debug symbols out of tha main binaries, into separate files
 %if "%{?subpackageDebug:set}" == "set"
 BINDIR=$(%scramcmd tool info Self | grep "^PATH\|LD_LIBRARY_PATH=" | cut -d= -f2 | tr ":" "\n" | grep -v external)
-touch %_builddir/files.debug
-touch %_builddir/files
+rm -f %_builddir/files.debug %_builddir/files
+touch %_builddir/files.debug %_builddir/files
 for DIR in $BINDIR; do
   mkdir -p $DIR/.debug
-  echo "%dir $DIR/.debug"     >> %_builddir/files.debug
+  # FIXME - work around the 2GB limit in RPM 4.4.2.3
+  #echo "%dir $DIR/.debug"     >> %_builddir/files.debug
   echo "%exclude $DIR/.debug" >> %_builddir/files
+  echo "$DIR/.debug"       | sed 's#%{pkginstroot}/##' >> %_builddir/files.debug
 done
 for FILE in $(find $BINDIR -type f | xargs file | grep "ELF" | cut -d: -f1); do
   NAME=$(basename $FILE)
   DIR=$(dirname $FILE)
   eu-strip $FILE -f $DIR/.debug/$NAME
-  echo "$DIR/.debug/$NAME"          >> %_builddir/files.debug
-  echo "%exclude $DIR/.debug/$NAME" >> %_builddir/files
+  # FIXME - work around the 2GB limit in RPM 4.4.2.3
+  #echo "$DIR/.debug/$NAME"          >> %_builddir/files.debug
+  #echo "%exclude $DIR/.debug/$NAME" >> %_builddir/files
+  echo "$DIR/.debug/$NAME" | sed 's#%{pkginstroot}/##' >> %_builddir/files.debug
 done
 %endif
 
@@ -241,13 +243,19 @@ ls -al external/%cmsplatf/lib/
 tar czf %{srctree}.tar.gz %{srctree}
 rm -fR %{srctree} tmp
 
+# FIXME - work around the 2GB limit in RPM 4.4.2.3
+%if "%{?subpackageDebug:set}" == "set"
+tar czf debug.tar.gz --files-from %_builddir/files.debug --no-recursion --remove-files
+%endif
+
 %post
 export SCRAM_ARCH=%cmsplatf
 cd $RPM_INSTALL_PREFIX/%pkgrel
 if [ -e %{srctree}.tar.gz ] ; then
   tar xzf %{srctree}.tar.gz
-  rm -fR %{srctree}.tar.gz
+  rm -fR  %{srctree}.tar.gz
 fi
+
 scramver=`cat config/scram_version`
 . $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver/etc/profile.d/init.sh
 %{relocateConfig}etc/scram.d/%lcprojtype.xml
