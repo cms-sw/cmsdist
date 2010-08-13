@@ -3,7 +3,7 @@
 # <pre-release-CMSDIST-tag> <project-main-pkg> [<other-project-pkgs>]
 forPHEDEX-web-20100812-6 PHEDEX-combined-web PHEDEX-web PHEDEX-webapp PHEDEX-datasvc
 #forPHEDEX332 PHEDEX-combined-agents PHEDEX-admin PHEDEX PHEDEX-micro
-DS_20100813   crab-server prodagent  prodcommon wmcore
+CRABSERVER_1_1_3_pre3_BUILD_SLC5  crab-server prodagent  prodcommon wmcore mysql
 # for CrabServer
 dg20100813-dbs dbs-server dbs-schema dbs-libs
 dg20100813-dbs dbs-client
