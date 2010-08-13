@@ -5,3 +5,5 @@ forPHEDEX-web-20100812-6 PHEDEX-combined-web PHEDEX-web PHEDEX-webapp PHEDEX-dat
 #forPHEDEX332 PHEDEX-combined-agents PHEDEX-admin PHEDEX PHEDEX-micro
 DS_20100813   crab-server prodagent  prodcommon wmcore
 # for CrabServer
+dg20100813-dbs dbs-server dbs-schema dbs-libs
+dg20100813-dbs dbs-client
