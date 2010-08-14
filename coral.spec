@@ -5,13 +5,11 @@ Requires: coral-tool-conf
 Patch: coral-2_3_2-includes 
 Patch2: coral-2_3_2-includes2
 Patch3: coral-2_3_2-frontieraccess
-
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 %define cvssrc          %n
 %define cvsrepo         cvs://:pserver:anonymous@%n.cvs.cern.ch/cvs/%n?passwd=Ah<Z
-%define subpackageDebug yes
 
 %define preBuildCommand (rm -rf LFCLookupService LFCReplicaService MySQLAccess)
 
@@ -32,4 +30,5 @@ Patch3: coral-2_3_2-frontieraccess
 %endif
 
 ## IMPORT scram-project-build
-## SUBPACKAGE debug
+
+
