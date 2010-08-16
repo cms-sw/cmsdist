@@ -1,8 +1,6 @@
-### RPM cms fwlite CMSSW_3_7_1_FWLITE
+### RPM cms fwlite CMSSW_3_8_1_FWLITE
 
 Requires: fwlite-tool-conf python
-
-Patch4: fwlite-memleak
 
 %define useCmsTC        yes
 %define saveDeps        yes
@@ -15,9 +13,6 @@ Patch4: fwlite-memleak
 
 # depends on RecoEgamma/EgammaTools, which adds too many other dependencies; should be fixed in 39x
 %define patchsrc3 rm -f src/PhysicsTools/SelectorUtils/src/SimpleCutBasedElectronIDSelectionFunctor.cc
-
-# for 37x only
-%define patchsrc4 %patch4 -p0
 
 ## IMPORT cmssw-partial-build
 ## IMPORT scram-project-build
