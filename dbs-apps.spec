@@ -1,4 +1,4 @@
-### RPM cms dbs-apps DBS_2_1_0_patch_2
+### RPM cms dbs-apps DBS_2_1_1_pre1
 
 Requires: dbs-server dbs-client dbs-schema dbs-web
 
