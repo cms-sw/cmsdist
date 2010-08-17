@@ -36,7 +36,7 @@ function mongo_stop()
 {
     me=`whoami`
     echo $"Stop mongo running under $me account..."
-    ps -w -w -f -u$me | grep mongod | grep -v grep | awk '{print "kill -9 "$2""}'|/bin/sh
+    ps -w -w -f -u$me | grep mongod | grep -v grep | awk '{print "kill -2 "$2""}'|/bin/sh
 }
 function mongo_start()
 {
