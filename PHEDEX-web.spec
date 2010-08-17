@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-web WEB_3_1_5pre12
+### RPM cms PHEDEX-web WEB_3_1_5pre13
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -55,7 +55,7 @@ tar -cf - * | (cd %i && tar -xf -)
 rm -f %instroot/apache2/etc/startenv.d/phedexweb-env.sh
 rm -f %instroot/apache2/apps.d/phedexweb-httpd.conf
 
-export PROJECT_ROOT=`dirname %instroot`/projects/phedex-web
+export PROJECT_ROOT=`dirname $RPM_INSTALL_PREFIX`/projects/phedex-web
 # Switch path-like template variables in the configuration files
 perl -p -i -e "s|\@PHEDEX_ROOT\@|%i|g;
 	       s|\@SERVER_ROOT\@|%instroot/apache2|g;

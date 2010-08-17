@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-datasvc DATASVC_1_6_3pre12
+### RPM cms PHEDEX-datasvc DATASVC_1_6_3pre13
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -67,7 +67,7 @@ rm -f %instroot/apache2/apps.d/datasvc-httpd.conf
 export DOCUMENT_ROOT=%i/PhEDExWeb/DataService
 #export CACHE_DIRECTORY=%instroot/apache2/var/cache/phedex-datasvc
 export VERSION=%nversion
-export PROJECT_ROOT=`dirname %instroot`/projects/phedex-webapp
+export PROJECT_ROOT=%instroot/../projects/phedex-webapp
 export CACHE_DIRECTORY=$PROJECT_ROOT/cache/phedex-datasvc
 perl -p -i -e "s|\@DOCUMENT_ROOT\@|$DOCUMENT_ROOT|g;
 	       s|\@SERVER_ROOT\@|%instroot/apache2|g;
