@@ -51,7 +51,6 @@ export DOCUMENT_ROOT=%i/PhEDExWeb/ApplicationServer
 export VERSION=%nversion
 #export PROJECT_ROOT=`echo %instroot | sed -e 's%/[^/]*$%%'`/projects/phedex-webapp
 export PROJECT_ROOT=`dirname $RPM_INSTALL_PREFIX`/projects/phedex-webapp
-mkdir -p $PROJECT_ROOT/logs
 perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -p -i -e '
   s|\@SERVER_ROOT\@|%instroot/apache2|g;
   s|\@PROJECT_ROOT\@|$PROJECT_ROOT|g;
@@ -102,6 +101,9 @@ fi
 
 # copy to apps.d/ directory.
 cp -p $FULL_INSTALL_CONF/webapp-httpd.conf $SERVER_CONF/datasvc-webapp.conf
+
+export PROJECT_ROOT=`dirname $RPM_INSTALL_PREFIX`/projects/phedex-webapp
+mkdir -p $PROJECT_ROOT/logs
 
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh

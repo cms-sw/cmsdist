@@ -56,7 +56,6 @@ rm -f %instroot/apache2/etc/startenv.d/phedexweb-env.sh
 rm -f %instroot/apache2/apps.d/phedexweb-httpd.conf
 
 export PROJECT_ROOT=`echo %instroot | sed -e 's%/[^/]*$%%'`/projects/phedex-web
-mkdir -p $PROJECT_ROOT/logs
 # Switch path-like template variables in the configuration files
 perl -p -i -e "s|\@PHEDEX_ROOT\@|%i|g;
 	       s|\@SERVER_ROOT\@|%instroot/apache2|g;
@@ -132,6 +131,9 @@ perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -p -i -e '
 # Copy files to apache2 directory
 cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/Documentation/WebConfig/phedexweb-httpd.conf $RPM_INSTALL_PREFIX/apache2/apps.d
 cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh $RPM_INSTALL_PREFIX/apache2/etc/startenv.d/phedexweb-env.sh
+
+export PROJECT_ROOT=`echo %$RPM_INSTALL_PREFIX | sed -e 's%/[^/]*$%%'`/projects/phedex-web
+mkdir -p $PROJECT_ROOT/logs
 
 # soft link httpd startup script to our bin/
 #ln -s $RPM_INSTALL_PREFIX/apache2/etc/init.d/httpd $RPM_INSTALL_PREFIX/%{pkgrel}/bin/httpd
