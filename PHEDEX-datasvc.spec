@@ -79,6 +79,10 @@ perl -p -i -e "s|\@DOCUMENT_ROOT\@|$DOCUMENT_ROOT|g;
 	       s|\@APACHE2_MODULES\@|$APACHE2_ROOT/modules|g;" \
   %i/PhEDExWeb/DataService/conf/*
 
+echo 1... %instroot >> %instroot/asdf
+echo 2... $RPM_INSTALL_PREFIX >> %instroot/asdf
+echo 3... $CACHE_DIRECTORY >> %instroot/asdf
+
 # Copy dependencies to dependencies-setup.sh
 mkdir -p %i/etc/profile.d
 for x in %pkgreqs; do

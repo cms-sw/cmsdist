@@ -49,8 +49,8 @@ rm -f %instroot/apache2/apps.d/webapp-httpd.conf
 # Set template variables in deployment files
 export DOCUMENT_ROOT=%i/PhEDExWeb/ApplicationServer
 export VERSION=%nversion
-#export PROJECT_ROOT=`echo %instroot | sed -e 's%/[^/]*$%%'`/projects/phedex-webapp
-export PROJECT_ROOT=`dirname $RPM_INSTALL_PREFIX`/projects/phedex-webapp
+PROJECT_ROOT=%instroot
+export PROJECT_ROOT=`echo $PROJECT_ROOT | sed -e 's%/[^/]*$%%'`/projects/phedex-webapp
 perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -p -i -e '
   s|\@SERVER_ROOT\@|%instroot/apache2|g;
   s|\@PROJECT_ROOT\@|$PROJECT_ROOT|g;
