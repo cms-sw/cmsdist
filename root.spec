@@ -1,38 +1,23 @@
-### RPM lcg root 5.26.00b
+### RPM lcg root 5.27.04
 ## INITENV +PATH PYTHONPATH %i/lib/python
-## INITENV SET ROOTSYS %i 
+## INITENV SET ROOTSYS %i  
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
 Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
-Patch0:  root-5.18-00-libpng 
-Patch1:  root-5.22-00-TMVA-shut-the-hell-up-for-once
-Patch2:  root-5.22-00a-roofit-silence-static-printout
-Patch3:  root-5.22-00d-linker-gnu-hash-style
-Patch4:  root-5.26-00a-CINT-maxlongline
-Patch5:  root-5.26-00a-silence-TMVA
-Patch6:  root-5.22-00d-TMath-Vavilov
-Patch7:  root-5.22-00d-TBranchElement-dropped-data-member
-Patch8:  root-5.26-00b-genreflex-version-wildcard
-Patch9:  root-5.26.00b-fireworks1
+Patch0: root-5.18-00-libpng
+Patch1: root-5.27-04-CINT-maxlongline-maxtypedef
+Patch2: root-5.22-00a-roofit-silence-static-printout
+Patch3: root-5.22-00d-linker-gnu-hash-style
+Patch4: root-5.22-00d-TBranchElement-dropped-data-member
+Patch5: root-5.27-04-fireworks8
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
 Requires: gccxml gsl castor libjpg dcap pcre python
-
 %if "%online" != "true"
-Requires: qt openssl libpng zlib libungif xrootd
-%else
-%define skiplibtiff true
-%endif
-
-%if "%cpu" == "amd64"
-%define skiplibtiff true
-%endif
-
-%if "%skiplibtiff" != "true"
-Requires: libtiff
+Requires: qt openssl libpng zlib libungif libtiff
 %endif
 
 %prep
@@ -40,13 +25,17 @@ Requires: libtiff
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
+# patch3 is OS version dependent, see below
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
+
+# The following patch can only be applied on SLC5 or later (extra linker
+# options only available with the SLC5 binutils)
+case %cmsplatf in
+  slc5_* | slc5onl_* )
+%patch3 -p1
+  ;;
+esac
 
 %build
 
@@ -58,12 +47,10 @@ export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 # Use system qt. Also skip xrootd and odbc for online case:
 
 EXTRA_CONFIG_ARGS="--with-f77=/usr
-             --disable-xrootd
              --disable-odbc
-             --disable-qt --disable-qtgsi"
+             --disable-qt --disable-qtgsi --disable-astiff"
 %else
 EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}
-             --with-xrootd=$XROOTD_ROOT
              --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
              --with-ssl-incdir=${OPENSSL_ROOT}/include
              --with-ssl-libdir=${OPENSSL_ROOT}/lib
@@ -93,11 +80,20 @@ CONFIG_ARGS="--enable-table
 
 case $(uname)-$(uname -m) in
   Linux-x86_64)
-    ./configure linuxx8664gcc $CONFIG_ARGS --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift --disable-astiff;; 
+    ./configure linuxx8664gcc $CONFIG_ARGS --with-rfio-libdir=${CASTOR_ROOT}/lib --with-rfio-incdir=${CASTOR_ROOT}/include/shift --with-castor-libdir=${CASTOR_ROOT}/lib --with-castor-incdir=${CASTOR_ROOT}/include/shift ;; 
   Linux-i*86)
-    ./configure linux  $CONFIG_ARGS --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift;;
+    ./configure linux  $CONFIG_ARGS --with-rfio-libdir=${CASTOR_ROOT}/lib --with-rfio-incdir=${CASTOR_ROOT}/include/shift --with-castor-libdir=${CASTOR_ROOT}/lib --with-castor-incdir=${CASTOR_ROOT}/include/shift ;;
   Darwin*)
-    ./configure macosx $CONFIG_ARGS --disable-rfio --disable-builtin_afterimage ;;
+    case %cmsplatf in
+    *_ia32_* ) 
+      comparch=i386 ;;
+    *_amd64_* )
+      comparch=x86_64 ;;
+    * ) 
+      comparch=ppc ;;
+    esac
+    export CC="gcc -arch $comparch" CXX="g++ -arch $comparch"
+    ./configure macosx $CONFIG_ARGS --with-cc="$CC" --with-cxx="$CXX" --disable-rfio --disable-builtin_afterimage ;;
   Linux-ppc64*)
     ./configure linux $CONFIG_ARGS --disable-rfio;;
 esac
@@ -130,7 +126,6 @@ export ROOTSYS=%i
 make INSTALL="$cp" INSTALLDATA="$cp" install
 mkdir -p $ROOTSYS/lib/python
 cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
-#
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
@@ -170,7 +165,7 @@ EOF_TOOLFILE
 
 # roothistmatrix toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/roothistmatrix.xml
-  <tool name="roothistmatrix" version="%v"> 
+  <tool name="roothistmatrix" version="%v">
     <info url="http://root.cern.ch/root/"/>
     <lib name="Hist"/>
     <lib name="Matrix"/>
@@ -180,7 +175,7 @@ EOF_TOOLFILE
 
 # rootgpad toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootgpad.xml
-  <tool name="rootgpad" version="%v"> 
+  <tool name="rootgpad" version="%v">
     <info url="http://root.cern.ch/root/"/>
     <lib name="Gpad"/>
     <lib name="Graf"/>
@@ -324,3 +319,4 @@ EOF_TOOLFILE
 
 %post
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find $RPM_INSTALL_PREFIX/%pkgrel/etc/scram.d -type f)
+
