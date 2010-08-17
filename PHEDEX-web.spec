@@ -55,9 +55,11 @@ tar -cf - * | (cd %i && tar -xf -)
 rm -f %instroot/apache2/etc/startenv.d/phedexweb-env.sh
 rm -f %instroot/apache2/apps.d/phedexweb-httpd.conf
 
+export PROJECT_ROOT=`dirname %instroot`/projects/phedex-web
 # Switch path-like template variables in the configuration files
 perl -p -i -e "s|\@PHEDEX_ROOT\@|%i|g;
 	       s|\@SERVER_ROOT\@|%instroot/apache2|g;
+	       s|\@PROJECT_ROOT\@|$PROJECT_ROOT|g;
 	       s|\@MOD_PERL_LIB\@|$MOD_PERL2_ROOT/modules/mod_perl.so|g;" \
   %i/Documentation/WebConfig/* \
   %i/Documentation/WebSite/PlotConfig/config/*

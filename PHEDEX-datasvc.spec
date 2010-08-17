@@ -65,10 +65,13 @@ rm -f %instroot/apache2/apps.d/datasvc-httpd.conf
 
 # Switch path-link template variables in the configuration files
 export DOCUMENT_ROOT=%i/PhEDExWeb/DataService
-export CACHE_DIRECTORY=%instroot/apache2/var/cache/phedex-datasvc
+#export CACHE_DIRECTORY=%instroot/apache2/var/cache/phedex-datasvc
 export VERSION=%nversion
+export PROJECT_ROOT=`dirname %instroot`/projects/phedex-webapp
+export CACHE_DIRECTORY=$PROJECT_ROOT/cache/phedex-datasvc
 perl -p -i -e "s|\@DOCUMENT_ROOT\@|$DOCUMENT_ROOT|g;
 	       s|\@SERVER_ROOT\@|%instroot/apache2|g;
+	       s|\@PROJECT_ROOT\@|$PROJECT_ROOT|g;
 	       s|\@CACHE_DIRECTORY\@|$CACHE_DIRECTORY|g;
                s|\@VERSION\@|$VERSION|g;
 	       s|\@MOD_PERL_LIB\@|$MOD_PERL2_ROOT/modules/mod_perl.so|g;
@@ -132,15 +135,12 @@ cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/PhEDExWeb/DataService/conf/datasvc-httpd.con
 cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh $RPM_INSTALL_PREFIX/apache2/etc/startenv.d/datasvc-env.sh
 
 # (eliminate, and re-)create the cache directory
-if [ -d $RPM_INSTALL_PREFIX/apache2/var/cache/phedex-datasvc ]; then
-  rm -rf $RPM_INSTALL_PREFIX/apache2/var/cache/phedex-datasvc
+export PROJECT_ROOT=`dirname $RPM_INSTALL_PREFIX`/projects/phedex-webapp
+export CACHE_DIRECTORY=$PROJECT_ROOT/cache/phedex-datasvc
+if [ -d $CACHE_DIRECTORY ]; then
+  rm -rf $CACHE_DIRECTORY
 fi
-mkdir -p $RPM_INSTALL_PREFIX/apache2/var/cache/phedex-datasvc
-
-# Update crontab-job for clearing the cache
-#crontab -l | tee $RPM_INSTALL_PREFIX/crontab.original >/dev/null
-#(crontab -l | fgrep -v -e $RPM_INSTALL_PREFIX/;
-# echo "0 * * * * $RPM_INSTALL_PREFIX/PHEDEX-datasvc/bin/trim-cache 1000M > /dev/null 2>&1") | crontab - 2>/dev/null
+mkdir -p $CACHE_DIRECTORY
 
 %files
 %i/

@@ -50,8 +50,10 @@ rm -f %instroot/apache2/apps.d/webapp-httpd.conf
 export DOCUMENT_ROOT=%i/PhEDExWeb/ApplicationServer
 export VERSION=%nversion
 #perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
+export PROJECT_ROOT=`dirname %instroot`/projects/phedex-webapp
 perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -p -i -e '
   s|\@SERVER_ROOT\@|%instroot/apache2|g;
+  s|\@PROJECT_ROOT\@|$PROJECT_ROOT|g;
   s|\@DOCUMENT_ROOT\@|$ENV{DOCUMENT_ROOT}|g;
   s|\@YUI_ROOT\@|$ENV{YUI_ROOT}|g; \
   s|\@PROTOVIS_ROOT\@|$ENV{PROTOVIS_ROOT}|g;' \
