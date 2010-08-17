@@ -8,17 +8,10 @@ Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 
 Patch0: root-5.18-00-libpng
 Patch1: root-5.27-04-CINT-maxlongline-maxtypedef
-Patch5: root-5.22-00a-roofit-silence-static-printout
-#Patch7: root-5.22-00a-th1
-#Patch8: root-5.22-00d-makelib-ldl
-#Patch10: root-5.22-00a-gcc44
-#Patch13: root-5.22-00a-gcc43-array-bounds-dictionary-workaround
-#Patch16: root-5.22-00d-genreflex_python26_popen3
-Patch18: root-5.22-00d-linker-gnu-hash-style
-#Patch19: root-5.22-00d-TFile-version3-Init
-#Patch20: root-5.22-00d-cint-namespace
-#Patch22: root-5.22-00d-TMath-Vavilov
-Patch23: root-5.22-00d-TBranchElement-dropped-data-member
+Patch2: root-5.22-00a-roofit-silence-static-printout
+Patch3: root-5.22-00d-linker-gnu-hash-style
+Patch4: root-5.22-00d-TBranchElement-dropped-data-member
+Patch5: root-5.27-04-fireworks8
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -31,34 +24,16 @@ Requires: qt openssl libpng zlib libungif libtiff
 %setup -n root
 %patch0 -p1
 %patch1 -p1
-
+%patch2 -p1
+# patch3 is OS version dependent, see below
+%patch4 -p1
 %patch5 -p1
-#%patch7 -p1
-#%patch8 -p1
-
-# patch10 is compiler version dependent, see below
-# patch13 is compiler version dependent, see below
-
-#%patch16 -p1
-#%patch19 -p1
-#%patch20 -p1
-#%patch22 -p1
-%patch23 -p1
-
-#case %gccver in
-#  4.3.*)
-#%patch13 -p1
-#  ;;
-#  4.4.*)
-#%patch10 -p1
-#  ;;
-#esac
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
 case %cmsplatf in
   slc5_* | slc5onl_* )
-%patch18 -p1
+%patch3 -p1
   ;;
 esac
 
