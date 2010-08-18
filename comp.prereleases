@@ -6,4 +6,4 @@ forPHEDEX-web-20100818-3 PHEDEX-combined-web PHEDEX-web PHEDEX-webapp PHEDEX-dat
 CRABSERVER_1_1_3_pre3_BUILD_SLC5  crab-server prodagent  prodcommon wmcore mysql
 # for CrabServer
 dg20100813-dbs dbs-apps dbs-server dbs-schema dbs-libs dbs-client
-DAS_20100817_slc5_amd64_gcc434 das
+DAS_20100818_slc5_amd64_gcc434 das
