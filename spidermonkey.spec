@@ -61,8 +61,11 @@ done
 %{relocateConfig}/bin/js
 %{relocateConfig}/bin/jscpucfg
 %{relocateConfig}/bin/jskwgen
-%{relocateConfig}/lib/libjs.so
-%{relocateConfig}/lib/libjs.a
+
+# Commented out the following lines because the relocation was breaking the binary
+# and avoing it to be recognized
+#%{relocateConfig}/lib/libjs.so
+#%{relocateConfig}/lib/libjs.a
 
 # The relocation is also needed because of dependencies
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
