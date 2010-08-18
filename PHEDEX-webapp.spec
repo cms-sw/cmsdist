@@ -99,10 +99,10 @@ if [ -f $RPM_INSTALL_PREFIX/apache2/apps.d/datasvc-xappserv.conf ]; then
 fi
 
 # copy to apps.d/ directory.
-cp -p $FULL_INSTALL_CONF/webapp-httpd.conf $SERVER_CONF/datasvc-webapp.conf
+cp -p $FULL_INSTALL_CONF/webapp-httpd.conf $SERVER_CONF/webapp-httpd.conf
 
-export PROJECT_ROOT=$RPM_INSTALL_PREFIX/../projects/phedex-webapp
-mkdir -p $PROJECT_ROOT/logs
+#export PROJECT_ROOT=$RPM_INSTALL_PREFIX/../projects/phedex-webapp
+#mkdir -p $PROJECT_ROOT/logs
 
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh

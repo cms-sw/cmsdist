@@ -134,12 +134,12 @@ cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/PhEDExWeb/DataService/conf/datasvc-httpd.con
 cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh $RPM_INSTALL_PREFIX/apache2/etc/startenv.d/datasvc-env.sh
 
 # (eliminate, and re-)create the cache directory
-export PROJECT_ROOT=$RPM_INSTALL_PREFIX/../projects/phedex-webapp
-export CACHE_DIRECTORY=$PROJECT_ROOT/cache/phedex-datasvc
-if [ -d $CACHE_DIRECTORY ]; then
-  rm -rf $CACHE_DIRECTORY
-fi
-mkdir -p $CACHE_DIRECTORY $PROJECT_ROOT/logs
+#export PROJECT_ROOT=$RPM_INSTALL_PREFIX/../projects/phedex-webapp
+#export CACHE_DIRECTORY=$PROJECT_ROOT/cache/phedex-datasvc
+#if [ -d $CACHE_DIRECTORY ]; then
+#  rm -rf $CACHE_DIRECTORY
+#fi
+#mkdir -p $CACHE_DIRECTORY $PROJECT_ROOT/logs
 
 %files
 %i/
