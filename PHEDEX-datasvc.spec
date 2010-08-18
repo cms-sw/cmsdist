@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-datasvc DATASVC_1_6_3pre15
+### RPM cms PHEDEX-datasvc DATASVC_1_6_3pre16
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -76,10 +76,6 @@ perl -p -i -e "s|\@DOCUMENT_ROOT\@|$DOCUMENT_ROOT|g;
 	       s|\@MOD_PERL_LIB\@|$MOD_PERL2_ROOT/modules/mod_perl.so|g;
 	       s|\@APACHE2_MODULES\@|$APACHE2_ROOT/modules|g;" \
   %i/PhEDExWeb/DataService/conf/*
-
-echo 1... %instroot > %instroot/asdf
-echo 2... $RPM_INSTALL_PREFIX >> %instroot/asdf
-echo 3... $CACHE_DIRECTORY >> %instroot/asdf
 
 # Copy dependencies to dependencies-setup.sh
 mkdir -p %i/etc/profile.d

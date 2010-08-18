@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-webapp WEBAPP_BETA_1_0_0pre14
+### RPM cms PHEDEX-webapp WEBAPP_BETA_1_0_0pre16
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -49,8 +49,7 @@ rm -f %instroot/apache2/apps.d/webapp-httpd.conf
 # Set template variables in deployment files
 export DOCUMENT_ROOT=%i/PhEDExWeb/ApplicationServer
 export VERSION=%nversion
-PROJECT_ROOT=%instroot
-export PROJECT_ROOT=`echo $PROJECT_ROOT | sed -e 's%/[^/]*$%%'`/projects/phedex-webapp
+export PROJECT_ROOT='%instroot/../projects/phedex-webapp'
 perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -p -i -e '
   s|\@SERVER_ROOT\@|%instroot/apache2|g;
   s|\@PROJECT_ROOT\@|$PROJECT_ROOT|g;
@@ -102,7 +101,7 @@ fi
 # copy to apps.d/ directory.
 cp -p $FULL_INSTALL_CONF/webapp-httpd.conf $SERVER_CONF/datasvc-webapp.conf
 
-export PROJECT_ROOT=`dirname $RPM_INSTALL_PREFIX`/projects/phedex-webapp
+export PROJECT_ROOT=$RPM_INSTALL_PREFIX/../projects/phedex-webapp
 mkdir -p $PROJECT_ROOT/logs
 
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
