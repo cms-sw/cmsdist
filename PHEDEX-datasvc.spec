@@ -65,10 +65,8 @@ rm -f %instroot/apache2/apps.d/datasvc-httpd.conf
 
 # Switch path-link template variables in the configuration files
 export DOCUMENT_ROOT=%i/PhEDExWeb/DataService
-#export CACHE_DIRECTORY=%instroot/apache2/var/cache/phedex-datasvc
 export VERSION=%nversion
-PROJECT_ROOT=%instroot
-export PROJECT_ROOT=`echo $PROJECT_ROOT | sed -e 's%/[^/]*$%%'`/projects/phedex-webapp
+export PROJECT_ROOT='%instroot/../projects/phedex-webapp'
 export CACHE_DIRECTORY=$PROJECT_ROOT/cache/phedex-datasvc
 perl -p -i -e "s|\@DOCUMENT_ROOT\@|$DOCUMENT_ROOT|g;
 	       s|\@SERVER_ROOT\@|%instroot/apache2|g;
@@ -140,7 +138,7 @@ cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/PhEDExWeb/DataService/conf/datasvc-httpd.con
 cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh $RPM_INSTALL_PREFIX/apache2/etc/startenv.d/datasvc-env.sh
 
 # (eliminate, and re-)create the cache directory
-export PROJECT_ROOT=`dirname $RPM_INSTALL_PREFIX`/projects/phedex-webapp
+export PROJECT_ROOT=$RPM_INSTALL_PREFIX/../projects/phedex-webapp
 export CACHE_DIRECTORY=$PROJECT_ROOT/cache/phedex-datasvc
 if [ -d $CACHE_DIRECTORY ]; then
   rm -rf $CACHE_DIRECTORY
