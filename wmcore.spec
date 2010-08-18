@@ -1,10 +1,10 @@
-### RPM cms wmcore DBS_3_S4_0_pre1
+### RPM cms wmcore WMAGENT_0_4_0
 ## INITENV +PATH PYTHONPATH %i/lib
 %define cvstag %v
 
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=WMCORE&export=WMCORE&&tag=-r%{cvstag}&output=/WMCORE.tar.gz
 
-Requires: python py2-simplejson py2-sqlalchemy
+Requires: python py2-simplejson py2-sqlalchemy py2-httplib2
 
 %prep
 %setup -n WMCORE
@@ -15,6 +15,7 @@ Requires: python py2-simplejson py2-sqlalchemy
 make PREFIX=%i install
 mkdir -p %i
 cp -r * %i
+chmod +x %i/lib/WMCore/WebTools/Root.py
 
 rm -rf %{i}/etc/profile.d
 mkdir -p %{i}/etc/profile.d

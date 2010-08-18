@@ -20,8 +20,6 @@ esac
 make
 %install
 make install
-rm -rf %{i}/lib/pkgconfig
-
 # MacOSX is case insensitive and the man page structure has case sensitive logic
 case %cmsplatf in
     osx* ) 
