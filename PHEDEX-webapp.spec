@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-webapp WEBAPP_BETA_1_0_0pre16
+### RPM cms PHEDEX-webapp WEBAPP_BETA_1_0_0pre17
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -50,12 +50,12 @@ rm -f %instroot/apache2/apps.d/webapp-httpd.conf
 export DOCUMENT_ROOT=%i/PhEDExWeb/ApplicationServer
 export VERSION=%nversion
 export PROJECT_ROOT='%instroot/../projects/phedex-webapp'
-perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -p -i -e '
+perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -p -i -e "
   s|\@SERVER_ROOT\@|%instroot/apache2|g;
   s|\@PROJECT_ROOT\@|$PROJECT_ROOT|g;
-  s|\@DOCUMENT_ROOT\@|$ENV{DOCUMENT_ROOT}|g;
-  s|\@YUI_ROOT\@|$ENV{YUI_ROOT}|g; \
-  s|\@PROTOVIS_ROOT\@|$ENV{PROTOVIS_ROOT}|g;' \
+  s|\@DOCUMENT_ROOT\@|$DOCUMENT_ROOT|g;
+  s|\@YUI_ROOT\@|$YUI_ROOT|g; \
+  s|\@PROTOVIS_ROOT\@|$PROTOVIS_ROOT|g;" \
   %i/PhEDExWeb/ApplicationServer/conf/webapp-httpd.conf
 
 export WEBAPP_BASEURL='/phedex/datasvc/app'
