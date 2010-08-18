@@ -67,7 +67,7 @@ rm -f %instroot/apache2/apps.d/datasvc-httpd.conf
 export DOCUMENT_ROOT=%i/PhEDExWeb/DataService
 export VERSION=%nversion
 export PROJECT_ROOT='%instroot/../projects/phedex-webapp'
-export CACHE_DIRECTORY=$PROJECT_ROOT/cache/phedex-datasvc
+export CACHE_DIRECTORY='%instroot/../projects/phedex-webapp/cache/phedex-datasvc'
 perl -p -i -e "s|\@DOCUMENT_ROOT\@|$DOCUMENT_ROOT|g;
 	       s|\@SERVER_ROOT\@|%instroot/apache2|g;
 	       s|\@PROJECT_ROOT\@|$PROJECT_ROOT|g;
