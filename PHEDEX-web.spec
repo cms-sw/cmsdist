@@ -1,13 +1,10 @@
-### RPM cms PHEDEX-web WEB_3_1_5pre18
+### RPM cms PHEDEX-web WEB_3_1_5pre20
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define nversion %(echo %v | sed 's|WEB_||' | sed 's|_|.|g')
 %define cvsversion %(echo %v | sed 's/[a-z]$//')
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-#%define deployutil WTDeployUtil.pm
-#%define deployutilrev 1.5
-#%define deployutilurl http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/COMP/WEBTOOLS/Configuration/%{deployutil}?revision=%{deployutilrev}
 
 Source: %cvsserver&strategy=checkout&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
 
@@ -46,7 +43,6 @@ Obsoletes: cms+PHEDEX-web+WEB_3_0_0
 
 %prep
 %setup -n PHEDEX
-#wget -O %{deployutil} '%{deployutilurl}'
 
 %build
 %install
@@ -97,12 +93,6 @@ if [ -r /etc/grid-security/hostcert.pem ]; then
 fi
 echo "Configuring service on $H"
 
-# Not needed because 'allow from' no longer needed
-#perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
-#  $hosts = join(" ", &WTDeployUtil::frontend_hosts());
-#  s|\@FRONTEND_HOSTS\@|$hosts|g;
-#'  $RPM_INSTALL_PREFIX/%{pkgrel}/Documentation/WebConfig/phedexweb-httpd.conf
-
 # password file default location
 export PHEDEX_DBPARAM=/data/projects/conf/phedex/DBParam
 if [ ! -f $PHEDEX_DBPARAM ]; then
@@ -112,13 +102,6 @@ fi
 perl -p -i -e '
   s|\@PHEDEX_DBPARAM\@|$ENV{PHEDEX_DBPARAM}|g;
 '  $RPM_INSTALL_PREFIX/%{pkgrel}/bin/cmsweb_phedex_graphs
-
-# FRONTEND_IPS not needed because 'allow from' no longer needed
-#  s|\@FRONTEND_IPS\@|$hosts|g;
-#perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
-#  $alias = &WTDeployUtil::frontend_alias();
-#  s|\@FRONTEND_ALIAS\@|$alias|g;
-#'  $RPM_INSTALL_PREFIX/%{pkgrel}/Documentation/WebConfig/phedexweb-app.conf
 
 perl -I $RPM_INSTALL_PREFIX/%{pkgrel} -p -i -e '
   s|\@FRONTEND_ALIAS\@|'$H'|g;
@@ -132,18 +115,6 @@ perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -p -i -e '
 cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/Documentation/WebConfig/phedexweb-httpd.conf $RPM_INSTALL_PREFIX/apache2/apps.d
 cp -p $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh $RPM_INSTALL_PREFIX/apache2/etc/startenv.d/phedexweb-env.sh
 
-#export PROJECT_ROOT=$RPM_INSTALL_PREFIX/../projects/phedex-web
-#mkdir -p $PROJECT_ROOT/logs
-
-# soft link httpd startup script to our bin/
-#ln -s $RPM_INSTALL_PREFIX/apache2/etc/init.d/httpd $RPM_INSTALL_PREFIX/%{pkgrel}/bin/httpd
-
-# This was never needed...?
-# Relocate those files
-#perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|g" \ 
-# $RPM_INSTALL_PREFIX/apache2/apps.d/phedexweb-httpd.conf \
-# $RPM_INSTALL_PREFIX/apache2/startenv.d/phedexweb-env.sh
- 
 %files
 %i/
 # %files processed before %post? listing these files causes a build failure

@@ -1,13 +1,10 @@
-### RPM cms PHEDEX-webapp WEBAPP_BETA_1_0_0pre18
+### RPM cms PHEDEX-webapp WEBAPP_BETA_1_0_0pre20
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define nversion %(echo %v | sed 's|WEBAPP_||' | sed 's|_|.|g')
 %define cvsversion %(echo %v | sed 's/[a-z]$//')
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-#%define deployutil WTDeployUtil.pm
-#%define deployutilrev 1.6
-#%define deployutilurl http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/COMP/WEBTOOLS/Configuration/%{deployutil}?revision=%{deployutilrev}
 
 Source: %cvsserver&strategy=checkout&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
 # Would love to 'require' the PHEDEX_datasvc, but I don't see how I can do that
@@ -27,7 +24,6 @@ Obsoletes: cms+PHEDEX-appserv+APPSERV_BETA_0_1
 
 %prep
 %setup -n PHEDEX
-#wget -O %{deployutil} '%{deployutilurl}'
 
 %build
 echo 'now in the build section'
@@ -83,11 +79,6 @@ for x in %pkgreqs; do
 done
 
 %post
-#perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -MWTDeployUtil -p -i -e '
-#  $hosts = join(",", &WTDeployUtil::frontend_hosts());
-#  s|\@FRONTEND_HOSTS\@|$hosts|g;' \
-#  $RPM_INSTALL_PREFIX/%{pkgrel}/PhEDExWeb/ApplicationServer/conf/webapp-httpd.conf
-
 SERVER_CONF=$RPM_INSTALL_PREFIX/apache2/apps.d
 INSTALL_CONF=PhEDExWeb/ApplicationServer/conf
 FULL_INSTALL_CONF=$RPM_INSTALL_PREFIX/%{pkgrel}/$INSTALL_CONF
@@ -100,9 +91,6 @@ fi
 
 # copy to apps.d/ directory.
 cp -p $FULL_INSTALL_CONF/webapp-httpd.conf $SERVER_CONF/webapp-httpd.conf
-
-#export PROJECT_ROOT=$RPM_INSTALL_PREFIX/../projects/phedex-webapp
-#mkdir -p $PROJECT_ROOT/logs
 
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
