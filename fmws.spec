@@ -1,4 +1,4 @@
-### RPM cms fmws 0.10.5
+### RPM cms fmws 0.10.6
 ## INITENV +PATH PYTHONPATH %i/lib/
 ## INITENV +PATH PYTHONPATH $ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV SET FMWSHOME $FMWS_ROOT/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
@@ -83,7 +83,7 @@ if  [ ! -z `hostname | grep cern.ch` ]; then
 elif [ ! -z `hostname | grep fnal.gov` ]; then
     site="FNAL"
 fi
-./FMWSConfig.py --config=$site
+#./FMWSConfig.py --config=$site
 
 # create new crontab
 echo "0 0,3,6,9,12,15,18,21 * * * $RPM_INSTALL_PREFIX/%{pkgrel}/etc/init.d/renew_proxy.sh 2>&1 1>& $RPM_INSTALL_PREFIX/%{pkgrel}/proxy.cron" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/init.d/cronjob.sh
