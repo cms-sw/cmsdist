@@ -1,18 +1,17 @@
-### RPM external libunwind 0.99
-Source: http://download.savannah.nongnu.org/releases/libunwind/%n-%realversion.tar.gz
-Patch0: libunwind-cleanup
-Patch1: libunwind-optimise
+### RPM external libunwind 0.99.20100804
+Source: http://git.savannah.gnu.org/gitweb/?p=libunwind.git;a=snapshot;h=982d590ddb778f0d301fe2e5647abd9135a2f9bc;sf=tgz
+Patch0: libunwind-mincore
+Patch1: libunwind-trace
+Requires: libatomic_ops
 
 %prep
-%setup -n %n-%realversion
-%patch0 -p0
-%patch1 -p0
-# Linker visibility attributes don't work with SL4 binutils.
-perl -p -i -e 's/__attribute__\s*\(\(visibility\s*\("[a-z]+"\)\)\)//' include/libunwind_i.h
+%setup -n %n-982d590
+%patch0 -p1
+%patch1 -p1
 
 %build
-./configure --prefix=%i
+./configure --prefix=%i --disable-block-signals
 make %makeprocesses
 
 %install
-make install
+make %makeprocesses install
