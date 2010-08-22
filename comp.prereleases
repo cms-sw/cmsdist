@@ -18,4 +18,4 @@ aa20100820-dbs dbs-apps dbs-server dbs-schema dbs-libs dbs-client dbs-web
 aa20100820-dbs3 dbs3
 #
 # FileMover
-FILEMOVER_20100820_slc5_amd64_gcc434_v1 fmws
+FILEMOVER_20100822_slc5_amd64_gcc434 fmws
