@@ -7,7 +7,6 @@ Provides: libboost_signals-gcc-mt.so
 Provides: libboost_thread-gcc-mt.so
 
 Requires: fakesystem
-Requires: pool
 Requires: coral
 Requires: gcc-toolfile
 Requires: gmake
