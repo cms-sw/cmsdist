@@ -15,7 +15,7 @@ esac
 rm config.mk
 touch config.mk
 case %cmsplatf in
-  osx105_ia32_gcc401  ) 
+  osx*) 
 echo "PLATFORM = %cmsplatf" >> config.mk
 echo "CC       = gcc" >> config.mk
 echo "CXX      = g++" >> config.mk
