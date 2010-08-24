@@ -22,3 +22,6 @@ FILEMOVER_20100822_slc5_amd64_gcc434 fmws
 #
 # SiteDB
 dg20100824b-sitedb sitedb
+# 
+# DBS discovery
+DD_20100824_slc5_amd64_gcc434 dbs-web dbs-client
