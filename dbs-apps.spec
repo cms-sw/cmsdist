@@ -1,13 +1,12 @@
-### RPM cms dbs-apps DBS_2_0_9_patch_5
+### RPM cms dbs-apps DBS_2_1_1
 
 Requires: dbs-server dbs-client dbs-schema dbs-web
-Source: none
 
 %prep
 cd %_builddir
 mkdir dbs-apps-dummy
 cd dbs-apps-dummy
-cp -f %_sourcedir/none .
+
 %build
 %install
 mkdir -p %{i}/bin
