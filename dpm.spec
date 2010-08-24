@@ -1,6 +1,4 @@
 ### RPM external dpm 1.7.0.6
-## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
-# for x86_64 this was false, but it causes problems on installation at least with cmsBuild
  
 %define baseVersion %(echo %v | cut -d- -f1 | cut -d. -f1,2,3)
 %define patchLevel  %(echo %v | cut -d- -f1 | cut -d. -f4)
@@ -10,6 +8,7 @@
 
 Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{baseVersion}/src/DPM-%{downloadv}sec.%{dpmarch}.src.rpm
 # Source: http://cmsrep.cern.ch/cms/cpt/Software/download/cms.ap/SOURCES/%{cmsplatf}/external/dpm/%{downloadv}/DPM-%{downloadv}.src.rpm
+Patch0: dpm-1.7.0-macosx
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %if "%cpu" != "amd64"
@@ -23,6 +22,7 @@ Provides: libdpm.so%{libsuffix}
 rm -f %_builddir/DPM-%{downloadv}.src.tar.gz
 rpm2cpio %{_sourcedir}/DPM-%{downloadv}sec.%{dpmarch}.src.rpm | cpio -ivd LCG-DM-%{baseVersion}.tar.gz
 cd %_builddir ; rm -rf LCG-DM-%{baseVersion}; tar -xzvf LCG-DM-%{baseVersion}.tar.gz
+%patch0 -p1
 
 %build
 cd LCG-DM-%{baseVersion}
@@ -53,7 +53,12 @@ mkdir -p %i/lib %i/include/dpm
 cd shlib; make
 
 %install
+case %cmsplatf in 
+  osx*) SONAME=dylib ;;
+  *) SONAME=so ;;
+esac
+
 cd LCG-DM-%{baseVersion}
-cp ./shlib/lib%n.so %i/lib/lib%n.so.%realversion
+cp ./shlib/lib%n.$SONAME %i/lib/lib%n.$SONAME.%realversion
 cp ./h/*.h          %i/include/dpm
-ln -s lib%n.so.%realversion %i/lib/lib%n.so
+ln -s lib%n.$SONAME.%realversion %i/lib/lib%n.$SONAME

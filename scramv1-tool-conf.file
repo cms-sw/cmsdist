@@ -66,10 +66,24 @@ fi
 %define skipreqtools %{nil}
 %endif
 
+DoneTools=" "
+SkipTools=
 for tool in %requiredtools %systemtools ${PKGTOOLS_SYSTEM_TOOLS} ; do
+  wot=`echo $tool | sed 's|-toolfile$||'`
+  [ "X$tool" == "X$wot" ] && SkipTools="${SkipTools}${tool} " && continue
   uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`
   toolbase=`perl -e 'print "$ENV{'$uctool'_ROOT}\n";'`
   [ -d $toolbase/etc/scram.d ] || continue
+  DoneTools="$DoneTools $wot "
+  echo ">> Copying tool files from: $tool"
+  find $toolbase/etc/scram.d -type f -exec cp {} %i/tools/selected \;
+done
+for tool in $SkipTools ; do
+  [ "X`echo $DoneTools | tr ' ' '\n' | grep $tool`" == "X" ] || continue
+  uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`
+  toolbase=`perl -e 'print "$ENV{'$uctool'_ROOT}\n";'`
+  [ -d $toolbase/etc/scram.d ] || continue
+  echo ">> Copying tool files from: $tool"
   find $toolbase/etc/scram.d -type f -exec cp {} %i/tools/selected \;
 done
 
