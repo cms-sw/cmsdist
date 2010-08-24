@@ -1,4 +1,4 @@
-### RPM cms wmcore DBS_3_S4_0_pre1
+### RPM cms wmcore WMCORE_0_1_1_pre24
 ## INITENV +PATH PYTHONPATH %i/lib
 %define cvstag %v
 
@@ -15,6 +15,7 @@ Requires: python py2-simplejson py2-sqlalchemy
 make PREFIX=%i install
 mkdir -p %i
 cp -r * %i
+chmod +x %i/lib/WMCore/WebTools/Root.py
 
 rm -rf %{i}/etc/profile.d
 mkdir -p %{i}/etc/profile.d
