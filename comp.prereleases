@@ -12,7 +12,7 @@ DAS_20100818_slc5_amd64_gcc434_v4 das
 sjg100819-MotT0 T0Mon
 #
 # DBS-2
-aa20100820-dbs dbs-apps dbs-server dbs-schema dbs-libs dbs-client dbs-web
+aa20100824-dbs dbs-apps dbs-server dbs-schema dbs-libs dbs-client dbs-web
 #
 # DBS-3
 aa20100823-dbs3 dbs3 dbs3
