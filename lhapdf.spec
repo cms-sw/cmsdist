@@ -31,9 +31,9 @@ case %cmsplatf in
     aclocal -Im4
     autoconf
     automake --add-missing
-    ./configure --disable-pyext --enable-low-memory --prefix=%i --with-max-num-pdfsets=1
   ;;
 esac
+./configure --disable-pyext --enable-low-memory --prefix=%i --with-max-num-pdfsets=1
 
 perl -p -i -e 's|/usr/lib64/libm.a||g' config.status
 perl -p -i -e 's|/usr/lib64/libc.a||g' config.status
