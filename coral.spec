@@ -7,7 +7,6 @@ Requires: coral-tool-conf
 
 %define cvssrc          %n
 %define cvsrepo         cvs://:pserver:anonymous@%n.cvs.cern.ch/cvs/%n?passwd=Ah<Z
-%define subpackageDebug yes
 
 %define preBuildCommand (rm -rf LFCLookupService LFCReplicaService MySQLAccess)
 
@@ -24,4 +23,3 @@ Requires: coral-tool-conf
 %endif
 
 ## IMPORT scram-project-build
-## SUBPACKAGE debug
