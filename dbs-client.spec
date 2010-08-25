@@ -1,4 +1,4 @@
-### RPM cms dbs-client DBS_2_0_9_patch_5
+### RPM cms dbs-client DBS_2_1_1_patch1
 ## INITENV +PATH PYTHONPATH %i/lib/
 ## INITENV +PATH PYTHONPATH %i/bin/
 ## INITENV +PATH PYTHONPATH %{i}/lib/
@@ -10,6 +10,7 @@
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=DBS/Clients/Python&nocache=true&export=DBS&tag=-r%{cvstag}&output=/dbs-client.tar.gz
 Requires: python openssl py2-zsi py2-pyxml
+
 
 %prep
 %setup -n DBS
