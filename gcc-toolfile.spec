@@ -170,8 +170,6 @@ esac
 perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*.xml
 
 %post
-%{relocateConfig}etc/scram.d/*.xml
-grep '^GCC_TOOLFILE_' $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh.new
-grep '^setenv  *GCC_TOOLFILE_' $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh.new
-mv $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh.new $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
-mv $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh.new $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+[ "X$RPM_INSTALL_PREFIX" == "X$CMS_INSTALL_PREFIX" ] || perl -p -i -e "s|$RPM_INSTALL_PREFIX|$CMS_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/etc/scram.d/*.xml
+echo "GCC_TOOLFILE_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'; export GCC_TOOLFILE_ROOT" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+echo "setenv GCC_TOOLFILE_ROOT '$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
