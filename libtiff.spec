@@ -1,6 +1,6 @@
-### RPM external libtiff 3.8.2
+### RPM external libtiff 3.9.4
 
-Source: http://dl.maptools.org/dl/libtiff/tiff-%{realversion}.zip
+Source: http://download.osgeo.org/libtiff/tiff-%{realversion}.zip
 Requires: libjpg
 Requires: zlib
 

@@ -1,6 +1,6 @@
-### RPM external boost 1.42.0
+### RPM external boost 1.44.0
 %define boostver _%(echo %realversion | tr . _)
-Source: http://internap.dl.sourceforge.net/sourceforge/%{n}/%{n}%{boostver}.tar.gz
+Source: http://switch.dl.sourceforge.net/project/%{n}/%{n}/%{v}/%{n}%{boostver}.tar.gz
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
