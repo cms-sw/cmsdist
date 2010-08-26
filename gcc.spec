@@ -1,4 +1,4 @@
-### RPM external gcc 4.5.0
+### RPM external gcc 4.5.1
 ## BUILDIF case `uname`:`uname -p` in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
@@ -14,6 +14,9 @@ Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.
 %define pplVersion 0.10.2
 %define cloogpplVersion 0.15.9
 %define bisonVersion 2.4
+# Choose one of the following and comment the other
+%define usegold %{nil}
+#%define usegold --enable-gold
 Source1: ftp://ftp.gnu.org/gnu/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
@@ -101,7 +104,7 @@ USER_CXX=$CCOPTS
  make install
  export PATH=%i/tmp/bison/bin:$PATH
  cd ../binutils-%{binutilsv}
- ./configure --prefix=%i --enable-gold CC="gcc $CCOPTS"
+ ./configure --prefix=%i %{usegold} CC="gcc $CCOPTS"
  make %makeprocesses
  perl -p -i -e 's|LN = ln|LN = cp -p|;s|ln ([^-])|cp -p $1|g' `find . -name Makefile`
  make install
@@ -135,7 +138,7 @@ cd ../cloog-ppl-%{cloogpplVersion}
 make %makeprocesses
 make install
 
-%define gcc4opts --with-gmp=%i --with-mpfr=%i --with-mpc=%i --with-ppl=%i --with-cloog=%i --enable-gold
+%define gcc4opts --with-gmp=%i --with-mpfr=%i --with-mpc=%i --with-ppl=%i --with-cloog=%i %{usegold}
 %endif
 
 # Build the compilers
