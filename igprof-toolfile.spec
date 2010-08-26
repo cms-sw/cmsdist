@@ -12,6 +12,7 @@ cat << \EOF_TOOLFILE > %i/etc/scram.d/igprof.xml
       <environment name="IGPROF_BASE" default="@TOOL_ROOT@"/>
       <environment name="LIBDIR" default="$IGPROF_BASE/lib"/>
     </client>
+    <runtime name="PATH" value="$IGPROF_BASE/bin" type="path"/>
   </tool>
 EOF_TOOLFILE
 ## IMPORT scram-tools-post
