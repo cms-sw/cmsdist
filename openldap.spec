@@ -6,24 +6,11 @@ Requires: openssl db4
 #cyrus-sasl
 Provides: libsasl2.so.2 libsasl2.so.2()(64bit)
 
-#http://www.openssl.org/source/%n-%realversion.tar.gz
-
 %prep
 %setup -q -n %n-%{realversion}
-pwd
 %patch0 -p1
 
 %build
-
-pwd
-
-# Fix missing sasl2 library link on 64-bit SLC4: 
-case %cmsplatf in
-   slc*)
-	mkdir -p sasl2lib
-	ln -s /usr/lib/libsasl2.so.2.0.19 sasl2lib/libsasl2.so
-   ;;
-esac
 
 #  CC          C compiler command
 #  CFLAGS      C compiler flags
@@ -36,8 +23,6 @@ esac
 export CPPFLAGS="-I$OPENSSL_ROOT/include -I$DB4_ROOT/include -I$CYRUS_SASL_ROOT/include"
 export LDFLAGS="-L$OPENSSL_ROOT/lib -L$DB4_ROOT/lib -L$CYRUS_SASL_ROOT/lib -L%{_builddir}/%n-%{realversion}/sasl2lib"
 echo $CPPFLAGS
-which cc
-which gcc
 
 ./configure --prefix=%i --with-cyrus-sasl --with-tls
 make depend
