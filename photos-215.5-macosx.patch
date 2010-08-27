@@ -31,12 +31,12 @@ index f167145..025e173 100644
  	@mkdir -p $(LIBDIR)
  	@echo creating the shared library $@
 -	$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@)
-+	case $ARCH in \
++	case ${ARCH} in \
 +	  Linux-*) \
 +	    $(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@) \
 +	  ;;\
 +	  Darwin-*) \
-+	    $(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -dynamic \
++	    $(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -L$(dir $(shell gfortran --print-file-name=libgfortran.a)) $(FLIBS) -dynamic \
 +	  ;; \
 +	esac
  
