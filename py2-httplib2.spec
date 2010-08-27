@@ -1,13 +1,18 @@
-### RPM cms wmcore-webtools 1
+### RPM external py2-httplib2 0.6.0
+## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
-Requires: wmcore cherrypy py2-cheetah py2-openid yui
+Source: http://httplib2.googlecode.com/files/httplib2-%realversion.zip
+Requires: python 
 
 %prep
-%build
-%install
-mkdir -p %i/bin
+%setup -n httplib2-%realversion
 
-# setup dependencies environment
+%build
+
+%install
+python setup.py install --prefix=%i
+
+# Code to source dependencies
 rm -rf %i/etc/profile.d
 mkdir -p %i/etc/profile.d
 for x in %pkgreqs; do
@@ -18,13 +23,7 @@ for x in %pkgreqs; do
 done
 
 %post
-# The relocation is also needed because of dependencies
+# The relocation below is also needed in case of dependencies
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
-
-# setup approripate links
-. $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
-if [ -n "${WMCORE_ROOT}" ]; then
-	ln -s ${WMCORE_ROOT}/lib/WMCore/WebTools/Root.py $RPM_INSTALL_PREFIX/%{pkgrel}/bin/Root.py
-fi
 
