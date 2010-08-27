@@ -9,7 +9,7 @@ CRABSERVER_1_1_3_pre3_BUILD_SLC5  crab-server prodagent  prodcommon wmcore mysql
 # DAS
 DAS_20100824_slc5_amd64_gcc434 das
 # try to make new T0Mon RPM
-sjg100819-MotT0 T0Mon
+sjg100827-MotT0 T0Mon
 #
 # DBS-2
 aa20100824-dbs dbs-apps dbs-server dbs-schema dbs-libs dbs-client dbs-web
