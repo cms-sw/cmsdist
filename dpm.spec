@@ -1,14 +1,15 @@
-### RPM external dpm 1.7.0.6
+### RPM external dpm 1.7.4.7
  
 %define baseVersion %(echo %v | cut -d- -f1 | cut -d. -f1,2,3)
 %define patchLevel  %(echo %v | cut -d- -f1 | cut -d. -f4)
 %define downloadv %{baseVersion}-%{patchLevel}
 #%define dpmarch     %(echo %cmsplatf | cut -d_ -f1 | sed 's/onl//')
-%define dpmarch slc4
+%define dpmarch sl5
 
-Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{baseVersion}/src/DPM-%{downloadv}sec.%{dpmarch}.src.rpm
+Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{baseVersion}/src/DPM-mysql-%{downloadv}sec.%{dpmarch}.src.rpm
 # Source: http://cmsrep.cern.ch/cms/cpt/Software/download/cms.ap/SOURCES/%{cmsplatf}/external/dpm/%{downloadv}/DPM-%{downloadv}.src.rpm
-Patch0: dpm-1.7.0-macosx
+#Patch0: dpm-1.7.0-macosx
+Patch0: dpm-1.7.4.7-ld
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %if "%cpu" != "amd64"
@@ -20,9 +21,9 @@ Provides: libdpm.so%{libsuffix}
 
 %prep
 rm -f %_builddir/DPM-%{downloadv}.src.tar.gz
-rpm2cpio %{_sourcedir}/DPM-%{downloadv}sec.%{dpmarch}.src.rpm | cpio -ivd LCG-DM-%{baseVersion}.tar.gz
+rpm2cpio %{_sourcedir}/DPM-mysql-%{downloadv}sec.%{dpmarch}.src.rpm | cpio -ivd LCG-DM-%{baseVersion}.tar.gz
 cd %_builddir ; rm -rf LCG-DM-%{baseVersion}; tar -xzvf LCG-DM-%{baseVersion}.tar.gz
-%patch0 -p1
+%patch0 -p0
 
 %build
 cd LCG-DM-%{baseVersion}
@@ -49,7 +50,7 @@ done
 
 mkdir -p %i/lib %i/include/dpm
 
-./configure
+./configure dpm --with-client-only
 cd shlib; make
 
 %install
