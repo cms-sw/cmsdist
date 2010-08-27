@@ -268,13 +268,14 @@ if [ -d python ]; then %{relocateCmsFiles} $(find python -maxdepth 1 -type f); f
 for L in `find external/%cmsplatf -maxdepth 2 -type l`; do
    mv $L $L-old; ln -s `readlink -n $L-old 2>&1 | sed -e "s|%{instroot}|$CMS_INSTALL_PREFIX|g" ` $L ; rm $L-old;
 done
-#eval `%scramcmd run -sh`
-#for cmd in EdmPluginRefresh IgPluginRefresh ; do
-#  cmdpath=`which $cmd 2> /dev/null || echo ""`
-#  if [ "X$cmdpath" != X ] ; then
-#    $cmd || true
-#  fi
-#done
+if [ -f lib/${SCRAM_ARCH}/.iglets ] ; then
+  find lib/${SCRAM_ARCH} -name "*.iglet" -type f -exec touch {} \;
+  touch lib/${SCRAM_ARCH}/.iglets
+fi
+if [ -f lib/${SCRAM_ARCH}/.edmplugincache ] ; then
+  find lib/${SCRAM_ARCH} -name "*.edmplugin" -type f -exec touch {} \;
+  touch lib/${SCRAM_ARCH}/.edmplugincache
+fi
 %scramcmd install -f
 
 %{?PatchReleaseFilesRelocate:%PatchReleaseFilesRelocate}
