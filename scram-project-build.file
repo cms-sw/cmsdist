@@ -196,24 +196,19 @@ export SCRAM_NOSYMCHECK=true
 # split the debug symbols out of tha main binaries, into separate files
 %if "%{?subpackageDebug:set}" == "set"
 BINDIR=$(%scramcmd tool info Self | grep "^PATH\|LD_LIBRARY_PATH=" | cut -d= -f2 | tr ":" "\n" | grep -v external)
-rm -f %_builddir/files.debug %_builddir/files
-touch %_builddir/files.debug %_builddir/files
+touch %_builddir/files.debug
+touch %_builddir/files
 for DIR in $BINDIR; do
   mkdir -p $DIR/.debug
-  # FIXME - work around the 2GB limit in RPM 4.4.2
-  #echo "%dir $DIR/.debug"     >> %_builddir/files.debug
+  echo "%dir $DIR/.debug"     >> %_builddir/files.debug
   echo "%exclude $DIR/.debug" >> %_builddir/files
-  echo "$DIR/.debug" | sed 's#%{pkginstroot}/##' >> %_builddir/files.debug
 done
 for FILE in $(find $BINDIR -type f | xargs file | grep "ELF" | cut -d: -f1); do
   NAME=$(basename $FILE)
   DIR=$(dirname $FILE)
-  DEBUG="$DIR/.debug/$NAME.debug"
-  eu-strip "$FILE" -f "$DEBUG"
-  # FIXME - work around the 2GB limit in RPM 4.4.2
-  #echo "$DEBUG"          >> %_builddir/files.debug
-  #echo "%exclude $DEBUG" >> %_builddir/files
-  echo "$DEBUG" | sed 's#%{pkginstroot}/##' >> %_builddir/files.debug
+  eu-strip $FILE -f $DIR/.debug/$NAME
+  echo "$DIR/.debug/$NAME"          >> %_builddir/files.debug
+  echo "%exclude $DIR/.debug/$NAME" >> %_builddir/files
 done
 %endif
 
@@ -246,19 +241,13 @@ ls -al external/%cmsplatf/lib/
 tar czf %{srctree}.tar.gz %{srctree}
 rm -fR %{srctree} tmp
 
-# FIXME - work around the 2GB limit in RPM 4.4.2
-%if "%{?subpackageDebug:set}" == "set"
-tar czf debug.tar.gz --files-from %_builddir/files.debug --no-recursion --remove-files
-%endif
-
 %post
 export SCRAM_ARCH=%cmsplatf
 cd $RPM_INSTALL_PREFIX/%pkgrel
 if [ -e %{srctree}.tar.gz ] ; then
   tar xzf %{srctree}.tar.gz
-  rm -fR  %{srctree}.tar.gz
+  rm -fR %{srctree}.tar.gz
 fi
-
 scramver=`cat config/scram_version`
 . $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver/etc/profile.d/init.sh
 %{relocateCmsFiles} `find config -type f`
@@ -268,14 +257,13 @@ if [ -d python ]; then %{relocateCmsFiles} $(find python -maxdepth 1 -type f); f
 for L in `find external/%cmsplatf -maxdepth 2 -type l`; do
    mv $L $L-old; ln -s `readlink -n $L-old 2>&1 | sed -e "s|%{instroot}|$CMS_INSTALL_PREFIX|g" ` $L ; rm $L-old;
 done
-if [ -f lib/${SCRAM_ARCH}/.iglets ] ; then
-  find lib/${SCRAM_ARCH} -name "*.iglet" -type f -exec touch {} \;
-  touch lib/${SCRAM_ARCH}/.iglets
-fi
-if [ -f lib/${SCRAM_ARCH}/.edmplugincache ] ; then
-  find lib/${SCRAM_ARCH} -name "*.edmplugin" -type f -exec touch {} \;
-  touch lib/${SCRAM_ARCH}/.edmplugincache
-fi
+#eval `%scramcmd run -sh`
+#for cmd in EdmPluginRefresh IgPluginRefresh ; do
+#  cmdpath=`which $cmd 2> /dev/null || echo ""`
+#  if [ "X$cmdpath" != X ] ; then
+#    $cmd || true
+#  fi
+#done
 %scramcmd install -f
 
 %{?PatchReleaseFilesRelocate:%PatchReleaseFilesRelocate}
