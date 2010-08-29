@@ -61,5 +61,9 @@ esac
 
 cd LCG-DM-%{baseVersion}
 cp ./shlib/lib%n.$SONAME %i/lib/lib%n.$SONAME.%realversion
+# RPM 4.4.2.2 didn't seem to be happy with the dependencies if a symlink
+# and realversion was used for liblcgdm.so, so just leave it with the original
+# name
+cp ./shlib/liblcgdm.$SONAME %i/lib/
 cp ./h/*.h          %i/include/dpm
 ln -s lib%n.$SONAME.%realversion %i/lib/lib%n.$SONAME
