@@ -15,7 +15,7 @@ Requires: gsl
 %patch1 -p2
 
 %build
-./configure --with-LHAPDF=$LHAPDF_ROOT/lib --without-javagui --prefix=%i --with-gsl=$GSL_ROOT
+./configure --with-LHAPDF=$LHAPDF_ROOT/lib --without-javagui --prefix=%i --with-gsl=$GSL_ROOT --disable-readline
 make
 
 %install
