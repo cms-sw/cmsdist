@@ -10,10 +10,8 @@ Requires: python openssl openldap
 %patch0 -p1
 
 %build
-mkdir -p sasl2lib
-ln -s /usr/lib/libsasl2.so.2.0.19 sasl2lib/libsasl2.so
 
-perl -p -i -e 's|/usr/local/openldap-2.3/|$ENV{OPENLDAP_ROOT}/|; s|(library_dirs = .*)|$1 /usr/lib/sasl2 %{_builddir}/%n-%{realversion}/sasl2lib $ENV{OPENSSL_ROOT}/lib|;' setup.cfg
+perl -p -i -e 's|/usr/local/openldap-2.3/|$ENV{OPENLDAP_ROOT}/|; s|(library_dirs = .*)|$1 /usr/lib/sasl2 $ENV{OPENSSL_ROOT}/lib|;' setup.cfg
 python setup.py build
 %install
 python setup.py install --prefix=%i
