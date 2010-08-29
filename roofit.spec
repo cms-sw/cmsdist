@@ -1,11 +1,11 @@
-### RPM lcg roofit 5.26.00
+### RPM lcg roofit 5.27.04
 %define svnTag %(echo %realversion | tr '.' '-')
 Source: svn://root.cern.ch/svn/root/tags/v%svnTag/roofit?scheme=http&module=roofit&output=/roofit.tgz
 
 Patch:  roofit-5.24-00-build.sh 
 Patch1: root-5.22-00a-roofit-silence-static-printout
 Patch2: roofit-5.24-00-RooFactoryWSTool-include
-Patch3: roofit-5.25-02-NOROOMINIMIZER
+Patch3: roofit-5.27-04-NOROOMINIMIZER
 
 Requires: root 
 
@@ -39,3 +39,50 @@ esac
 mv build/lib %i/
 mkdir %i/include
 cp -r build/inc/* %i/include
+
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+
+# rootroofitcore toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/roofitcore.xml
+  <tool name="roofitcore" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="RooFitCore"/>
+    <client>
+      <environment name="ROOFIT_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$ROOFIT_BASE/lib"/>
+      <environment name="INCLUDE" default="$ROOFIT_BASE/include"/>
+    </client>
+    <use name="rootcore"/>
+    <use name="roothistmatrix"/>
+    <use name="rootgpad"/>
+    <use name="rootminuit"/>
+  </tool>
+EOF_TOOLFILE
+
+# rootroofit toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/roofit.xml
+  <tool name="roofit" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="RooFit"/>
+    <use name="roofitcore"/>
+    <use name="rootcore"/>
+    <use name="roothistmatrix"/>
+  </tool>
+EOF_TOOLFILE
+
+# rootroostats toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/roostats.xml
+  <tool name="roostats" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="RooStats"/>
+    <use name="roofitcore"/>
+    <use name="roofit"/>
+    <use name="rootcore"/>
+    <use name="roothistmatrix"/>
+    <use name="rootgpad"/>
+  </tool>
+EOF_TOOLFILE
+
+%post
+perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find $RPM_INSTALL_PREFIX/%pkgrel/etc/scram.d -type f)
