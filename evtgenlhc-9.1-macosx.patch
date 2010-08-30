@@ -51,11 +51,11 @@ index 8814c9c..be282df 100644
  	mkdir -p $(LIBDIR_SHARED)
  	@echo creating the shared library $@
 -	$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@) $(FLIBS)
-+	case $ARCH in \
++	case ${ARCH} in \
 +	  Linux*) \
 +	    $(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@) $(FLIBS) ;; \
 +	  Darwin*) \
-+	    $(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@) $(FLIBS) ;; \
++	    $(CXX) $(LDFLAGSSHARED) $(objects) -L$(PHOTOS_ROOT)/lib -lphotos -L$(PYTHIA6_ROOT)/lib -lpythia6 -L$(CLHEP_ROOT)/lib -lCLHEP -L$(dir $(shell gfortran --print-file-name=libgfortran.a)) -o $@ -shared $(FLIBS) ;; \
 +	esac
 +
  
