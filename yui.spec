@@ -1,8 +1,5 @@
-### RPM external yui 2.8.1
+### RPM external yui 2.7.0b
 Source: http://yuilibrary.com/downloads/yui2/yui_%realversion.zip 
-
-# We obsolete each previous release to force them to be removed
-Obsoletes: external+yui+2.7.0b
 
 %prep
 rm -rf %{_builddir}/yui

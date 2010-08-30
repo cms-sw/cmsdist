@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 18.0
+### RPM cms cmssw-tool-conf 17.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -87,7 +87,11 @@ Requires: millepede-toolfile
 Requires: gdb-toolfile
 Requires: pyqt-toolfile
 Requires: sip-toolfile
-Requires: igprof-toolfile
+%define closingbrace )
+%define is64bit %(case %cmsos in slc*_amd64%closingbrace echo true;; *%closingbrace echo false;; esac)
+%if "%is64bit" == "true"
+Requires: libunwind-toolfile
+%endif
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull
 
