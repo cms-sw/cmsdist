@@ -1,13 +1,21 @@
 ### RPM external charybdis 1.003
-## BUILDIF case $(uname):$(uname -m) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac 
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
+Patch0: charybdis-1003-macosx
+
+Requires: pythia6
+Requires: lhapdf
+
+%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
+Requires: gfortran-macosx
+%endif
+
 %prep
 %setup -q -n %{n}/%{realversion}
+%patch0 -p3
 ./configure --lcgplatform=%cmsplatf --pythia_hadronization
 
 %build
-which g77
-make
+make PYTHIA6_ROOT=$PYTHIA6_ROOT LHAPDF_ROOT=$LHAPDF_ROOT
 
 %install
 tar -c lib include | tar -x -C %i

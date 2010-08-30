@@ -54,12 +54,12 @@ index 102c2fc..1d38460 100644
  	@mkdir -p $(LIBDIR)
  	@echo creating the shared library $@
 -	$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@)
-+	case $ARCH in \
++	case ${ARCH} in \
 +	  Linux-*) \
 +	    $(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@) \
 +	  ;; \
 +	  Darwin-*) \
-+	    $(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -dynamic ;; \
++	    $(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -L$(PYTHIA6_ROOT)/lib -lpythia6 -L$(LHAPDF_ROOT)/lib -lLHAPDF $(shell gfortran --print-file-name=libgfortran.a) -dynamic ;; \
 +	esac
  
  deps := $(patsubst $(DIRNAME)/%.F,$(TMPDIR)/%.d,$(wildcard $(DIRNAME)/*.F))
