@@ -66,8 +66,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roofit.xml
     <info url="http://root.cern.ch/root/"/>
     <lib name="RooFit"/>
     <use name="roofitcore"/>
-    <use name="rootcore"/>
-    <use name="roothistmatrix"/>
   </tool>
 EOF_TOOLFILE
 
@@ -76,11 +74,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roostats.xml
   <tool name="roostats" version="%v">
     <info url="http://root.cern.ch/root/"/>
     <lib name="RooStats"/>
-    <use name="roofitcore"/>
     <use name="roofit"/>
-    <use name="rootcore"/>
-    <use name="roothistmatrix"/>
-    <use name="rootgpad"/>
   </tool>
 EOF_TOOLFILE
 
