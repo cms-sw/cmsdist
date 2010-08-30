@@ -1,6 +1,4 @@
 ### RPM external herwigpp 2.4.2
-## BUILDIF case $(uname):$(uname -m) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
-
 #
 # Careful to change or get rid of the next line when the version changes
 #
@@ -12,6 +10,7 @@ Requires: gsl
 Requires: hepmc
 
 Patch0: herwigpp-2.4.2-amd64
+Patch1: herwigpp-2.4.2-macosx
 
 %prep
 %setup -q -n %{n}/%{realversion}
@@ -20,6 +19,7 @@ case %gccver in
 %patch0 -p2
   ;;
 esac
+%patch1 -p3
 
 %build
 ./configure --with-hepmc=$HEPMC_ROOT --with-gsl=$GSL_ROOT --with-thepeg=$THEPEG_ROOT --prefix=%i CXXFLAGS="-O2 -fuse-cxa-atexit"
