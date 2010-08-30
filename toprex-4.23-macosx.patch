@@ -7,11 +7,11 @@ index 9a832ec..acac5aa 100644
  	@mkdir -p $(LIBDIR)
  	@echo creating the shared library $@
 -	$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@)
-+	case $ARCH in \
++	case ${ARCH} in \
 +	  Linux-*) \
 +	    $(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@) ;; \
 +	  Darwin-*) \
-+	    $(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -dynamic ;; \
++	    $(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -L$(PYTHIA6_ROOT)/lib -lpythia6 -shared -dynamic $(shell gfortran --print-file-name=libgfortran.a);; \
 +	esac
  
  deps := $(patsubst $(DIRNAME)/%.F,$(TMPDIR)/%.d,$(wildcard $(DIRNAME)/*.F))

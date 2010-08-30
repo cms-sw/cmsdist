@@ -1,20 +1,26 @@
 ### RPM external toprex 4.23
-## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac 
 
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
-Patch: toprex-4.23-gfortran
+Patch0: toprex-4.23-gfortran
+Patch1: toprex-4.23-macosx
+Requires: pythia6
+
+%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
+Requires: gfortran-macosx
+%endif
 
 %prep
 %setup -q -n %{n}/%{realversion}
 case %gccver in
   4.*)
-%patch -p0 
+%patch0 -p0 
   ;; 
 esac
+%patch1 -p3
 
 %build
 ./configure --lcgplatform=%cmsplatf
-make 
+make  PYTHIA6_ROOT=$PYTHIA6_ROOT
 
 %install
 tar -c lib include | tar -x -C %i
