@@ -18,12 +18,12 @@ index cfb17bf..e4056c3 100644
  	@mkdir -p $(LIBDIR)
  	@echo creating the shared library $@
 -	$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@) -L$(PYTHIA6FORSHAREDLIBS) -l$(PYTHIA6LIBNAMEFORSHAREDLIBS)
-+	case $ARCH in \
++	case ${ARCH} in \
 +           Linux*) \
 +	$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@) -L$(PYTHIA6FORSHAREDLIBS) -l$(PYTHIA6LIBNAMEFORSHAREDLIBS) \
 +	   ;; \
 +	   Darwin*) \
-+	$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -dynamic -L$(PYTHIA6FORSHAREDLIBS) -l$(PYTHIA6LIBNAMEFORSHAREDLIBS) \
++	$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -dynamic $(shell echo $@ | grep pretauola >/dev/null && echo lib/libtauola.so) -L$(PYTHIA6FORSHAREDLIBS) -l$(PYTHIA6LIBNAMEFORSHAREDLIBS) -L$(PHOTOS_ROOT)/lib -lphotos $(shell gfortran --print-file-name=libgfortran.a) \
 +	   ;; \
 +	esac
  endif
@@ -53,3 +53,19 @@ index 81e13c4..cd03ba9 100755
  
  #Platform & opt/dbg - independent flags and variables:
  
+diff --git a/tauola/27.121.5/Makeshared.subdir b/tauola/27.121.5/Makeshared.subdir
+index 215a200..96a1af6 100644
+--- a/tauola/27.121.5/Makeshared.subdir
++++ b/tauola/27.121.5/Makeshared.subdir
+@@ -42,9 +42,9 @@ $(TMPDIR)/%.o : $(DIRNAME)/%.c
+ # Creating the dependency files *.d
+ 
+ $(TMPDIR)/%.d : $(DIRNAME)/%.F
+-	@echo Making dependency for file $<; \
++	echo Making dependency for file $<; \
+ 	mkdir -p $(TMPDIR); \
+-	$(CC) -M -I$(INCDIR) $< | \
++	$(FC) -M -I$(INCDIR) $< | \
+ 	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' | \
+ 	sed 's/$*.o/$(TMPDIR)\/$*.o/' > $@; \
+ 	[ -s $@ ] || rm -f $@
