@@ -18,7 +18,7 @@ Source4: http://geant4.cern.ch/support/source/G4RadioactiveDecay.%{radioactiveDe
 Source5: http://geant4.cern.ch/support/source/G4ELASTIC.%{g4ElasticScatteringVersion}.tar.gz
 Source6: http://geant4.cern.ch/support/source/G4NEUTRONXS.%{g4NeutronXS}.tar.gz
 
-Patch:  geant-4.8.2.p01-nobanner
+Patch0:  geant-4.8.2.p01-nobanner
 Patch1: geant4.9.3.p01-G4CascadeInterface
 
 %prep
