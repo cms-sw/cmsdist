@@ -17,7 +17,6 @@ SimDataFormats/TrackingAnalysis
 SimDataFormats/TrackingHit
 SimDataFormats/Vertex
 SimGeneral/HepPDTRecord
-SimGeneral/HepPDTESSource
 SimGeneral/NoiseGenerators
 SimTracker/Records
 SimTracker/TrackAssociation
