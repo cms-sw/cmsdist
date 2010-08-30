@@ -14,7 +14,7 @@
  export LDFLAGS=" -pthread -fPIC"
  
 -ARCH=`uname`
-+ARCH="Linux-gcc4" # Force it to be this for gcc4 builds
++ARCH=`uname`-gcc`gcc --version | head -1| sed -e 's|.*(GCC) ||' | cut -f1 -d.` # Try to detect gcc version.
  if [ ${ARCH} = "Linux" ]; then
  	export F77=g77
  	export FLIBS=" -lfrtbegin -lg2c "
