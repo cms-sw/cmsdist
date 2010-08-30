@@ -4,6 +4,10 @@
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Patch0: lhapdf-5.6.0-g77
 Patch1: lhapdf-5.6.0-32bit-on-64bit-recheck-workaround
+
+%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
+Requires: gfortran-macosx
+%endif
   
 %prep
 %setup -q -n %{n}/%{realversion}
