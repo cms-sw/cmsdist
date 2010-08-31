@@ -18,7 +18,7 @@ sjg100827-MotT0 T0Mon
 aa20100824-dbs dbs-apps dbs-server dbs-schema dbs-libs dbs-client dbs-web
 #
 # DBS-3
-aa20100831-dbs3 dbs3 dbs3
+aa20100831-dbs3 dbs3
 #
 # FileMover
 FILEMOVER_20100822_slc5_amd64_gcc434 fmws
