@@ -1,21 +1,18 @@
-### RPM external gcaldaemon 1.0
+### RPM external py2-httplib2 0.6.0
+## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
-# Install instructions from http://gcaldaemon.sourceforge.net/usage11.html 
-
-Requires: java-jdk
-Source: http://downloads.sourceforge.net/project/%n/linux/%realversion/%{n}-linux-%{realversion}-beta16.zip?use_mirror=surfnet&output=/%{n}-linux-%{realversion}-beta16.zip
+Source: http://httplib2.googlecode.com/files/httplib2-%realversion.zip
+Requires: python 
 
 %prep
-# You are at %_builddir
-unzip %_sourcedir/%{n}-linux-%{realversion}-beta16.zip
+%setup -n httplib2-%realversion
 
 %build
 
 %install
-cp -rp %_builddir/GCALDaemon/* %i/
-chmod 755 %i/bin/*sh
+python setup.py install --prefix=%i
 
-# Dependencies
+# Code to source dependencies
 rm -rf %i/etc/profile.d
 mkdir -p %i/etc/profile.d
 for x in %pkgreqs; do
@@ -26,7 +23,7 @@ for x in %pkgreqs; do
 done
 
 %post
-# The relocation below is also needed for dependencies
+# The relocation below is also needed in case of dependencies
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 
