@@ -1,6 +1,7 @@
 ### RPM lcg roofit 5.27.04
 %define svnTag %(echo %realversion | tr '.' '-')
-Source: svn://root.cern.ch/svn/root/tags/v%svnTag/roofit?scheme=http&module=roofit&output=/roofit.tgz
+Source0: svn://root.cern.ch/svn/root/tags/v%svnTag/roofit?scheme=http&module=roofit&output=/roofit.tgz
+Source1: svn://root.cern.ch/svn/root/tags/v%svnTag/tutorials/?scheme=http&module=tutorials&output=/rootutorials.tgz
 
 Patch:  roofit-5.24-00-build.sh 
 Patch1: root-5.22-00a-roofit-silence-static-printout
@@ -10,13 +11,21 @@ Patch3: roofit-5.27-04-NOROOMINIMIZER
 Requires: root 
 
 %prep
-%setup -n roofit
+%setup -b0 -n roofit
 %patch -p1
 %patch1 -p2
 %patch2 -p1
 %patch3 -p1
+%setup -D -T -b 1 -n tutorials
  
 %build
+#Copy over the tutorials
+mkdir -p %i/tutorials/
+cd ../tutorials/
+cp -R roofit %i/tutorials/
+cp -R roostats %i/tutorials/
+
+cd ../roofit/
 chmod +x build.sh
 # Remove an extra -m64 from Wouter's build script (in CXXFLAGS and LDFLAGS)
 perl -p -i -e 's|-m64 ||' build.sh
@@ -34,11 +43,11 @@ perl -p -i -e 's|-Wl,-soname,\S*\.so|-dynamiclib|' build.sh
 esac
 
 ./build.sh
-
-%install
 mv build/lib %i/
 mkdir %i/include
 cp -r build/inc/* %i/include
+
+%install
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
