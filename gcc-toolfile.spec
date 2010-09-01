@@ -59,9 +59,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
     <flags CXXSHAREDFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@"/>
     <flags SHAREDSUFFIX="@OS_SHAREDSUFFIX@"/>
     <flags SCRAM_LANGUAGE_TYPE="C++"/>
-    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$GCC_BASE/@OS_LIB64DIR@" type="path"/>
-    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$GCC_BASE/lib" type="path"/>
-    <runtime name="PATH" value="$GCC_BASE/bin" type="path"/>
+    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$CXXCOMPILER_BASE/@OS_LIB64DIR@" type="path"/>
+    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$CXXCOMPILER_BASE/lib" type="path"/>
+    <runtime name="PATH" value="$CXXCOMPILER_BASE/bin" type="path"/>
   </tool>
 EOF_TOOLFILE
 
