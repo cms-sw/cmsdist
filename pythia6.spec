@@ -2,6 +2,8 @@
 ## BUILDIF case $(uname):$(uname -m) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
 
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
+Patch0: pythia6.422-writesyntax 
+
 %prep
 
 case %gccver in
@@ -14,6 +16,8 @@ export F77=g77
 esac
 
 %setup -q -n %{n}/%{realversion}
+%patch0 -p2
+
 ./configure --enable-shared --with-hepevt=4000 
 
 %build

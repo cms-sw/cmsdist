@@ -5,6 +5,7 @@ Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{rea
 Patch0: evtgenlhc-8.16-EvtPythia-iosfwd
 Patch1: evtgenlhc-9.1-gcc43
 Patch2: evtgenlhc-9.1-CLHEP2
+Patch3: evtgenlhc-9.1-fixPythiaDecay
 Requires: clhep
 
 %prep
@@ -12,6 +13,7 @@ Requires: clhep
 %patch0 -p2
 %patch1 -p2
 %patch2 -p2
+%patch3 -p2
 
 %build
 ./configure --lcgplatform=%cmsplatf --with-clhep=$CLHEP_ROOT
