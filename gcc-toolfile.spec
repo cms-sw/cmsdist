@@ -60,7 +60,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
     <flags SHAREDSUFFIX="@OS_SHAREDSUFFIX@"/>
     <flags LD_UNIT="@OS_LD_UNIT@ @ARCH_LD_UNIT@"/>
     <flags SCRAM_LANGUAGE_TYPE="C++"/>
-    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$CXXCOMPILER_BASE/@OS_LIB64DIR@" type="path"/>
+    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$CXXCOMPILER_BASE/@ARCH_LIB64DIR@" type="path"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$CXXCOMPILER_BASE/lib" type="path"/>
     <runtime name="PATH" value="$CXXCOMPILER_BASE/bin" type="path"/>
   </tool>
@@ -110,14 +110,12 @@ case %cmsplatf in
   slc* )
     export OS_SHAREDFLAGS="-shared -Wl,-E"
     export OS_SHAREDSUFFIX="so"
-    export OS_LIB64DIR="lib64"
     export OS_LDFLAGS="-Wl,-E -Wl,--hash-style=gnu"
     export OS_RUNTIME_LDPATH_NAME="LD_LIBRARY_PATH"
   ;;
   osx* )
     export OS_SHAREDFLAGS="-shared -dynamic -single_module"
     export OS_SHAREDSUFFIX="dylib"
-    export OS_LIB64DIR="lib"
     export OS_RUNTIME_LDPATH_NAME="DYLD_LIBRARY_PATH"
   ;;
 esac
@@ -128,26 +126,35 @@ case %cmsplatf in
   osx*_ia32_* )
     export ARCH_CXXFLAGS="-arch i386"
     export ARCH_SHAREDFLAGS="-arch i386"
+    export ARCH_LIB64DIR="lib"
   ;;
   osx*_amd64_* )
     export ARCH_CXXFLAGS="-arch x86_64"
     export ARCH_SHAREDFLAGS="-arch x86_64"
+    export ARCH_LIB64DIR="lib"
   ;;
   osx*_ppc32_* )
     export ARCH_CXXFLAGS="-arch ppc"
     export ARCH_SHAREDFLAGS="-arch ppc"
-  ;;
-  slc*_ia32_* )
-    # For some reason on mac, some of the header do not compile if this is
-    # defined.  Ignore for now.
-    export ARCH_CXXFLAGS="-Werror=overflow"
-    export ARCH_LD_UNIT="-r -m elf_i386"
+    export ARCH_LIB64DIR="lib"
   ;;
   slc*_amd64_* )
     # For some reason on mac, some of the header do not compile if this is
     # defined.  Ignore for now.
     export ARCH_CXXFLAGS="-Werror=overflow"
+    export ARCH_LIB64DIR="lib64"
     export ARCH_LD_UNIT="-r -m elf_x86_64"
+  ;;
+  slc*_ia32_* )
+    # For some reason on mac, some of the header do not compile if this is
+    # defined.  Ignore for now.
+    export ARCH_CXXFLAGS="-Werror=overflow"
+    export ARCH_LIB64DIR="lib"
+    export ARCH_LD_UNIT="-r -m elf_i386"
+  ;;
+  *) 
+    echo "Unsupported."
+    exit 1
   ;;
 esac
 
