@@ -21,7 +21,7 @@ aa20100824-dbs dbs-apps dbs-server dbs-schema dbs-libs dbs-client dbs-web
 aa20100831-dbs3 dbs3
 #
 # FileMover
-FILEMOVER_20100901_slc5_amd64_gcc434_v4 fmws
+FILEMOVER_20100901_slc5_amd64_gcc434_v5 fmws
 #
 # SiteDB
 dg20100824b-sitedb sitedb
