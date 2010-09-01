@@ -37,7 +37,7 @@ Patch27: root-5.22-00d-TString-Clear
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
-Requires: gccxml gsl castor libjpg dcap pcre python
+Requires: gccxml gsl castor libjpg dcap pcre python fftw3
 
 %if "%online" != "true"
 Requires: qt openssl libpng zlib libungif xrootd
@@ -143,6 +143,9 @@ CONFIG_ARGS="--enable-table
              --enable-reflex  
              --enable-cintex 
              --enable-minuit2 
+             --enable-fftw3
+             --with-fftw3-incdir=${FFTW3_ROOT}/include
+             --with-fftw3-libdir=${FFTW3_ROOT}/lib
              --disable-ldap
              --disable-krb5
              --with-gsl-incdir=${GSL_ROOT}/include
