@@ -6,7 +6,7 @@ Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
-Patch0: root-5.18-00-libpng 
+Patch0: root-5.22-00d-externals
 Patch1: root-5.22-00d-CINT-maxlongline-maxtypedef
 Patch2: root-5.22-00-TMVA-shut-the-hell-up-for-once
 Patch3: root-5.22-00a-TMVA-shut-the-hell-up-again
@@ -34,23 +34,14 @@ Patch24: root-5.22-00d-fireworks8
 Patch25: root-5.22-00d-fix-python-shebang
 Patch26: root-5.22-00d-RootsysOnMac
 Patch27: root-5.22-00d-TString-Clear
+Patch28: root-5.22-00d-libgfortran-dylib-detection
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
 Requires: gccxml gsl castor libjpg dcap pcre python fftw3
 
 %if "%online" != "true"
-Requires: qt openssl libpng zlib libungif xrootd
-%else
-%define skiplibtiff true
-%endif
-
-%if "%cpu" == "amd64"
-%define skiplibtiff true
-%endif
-
-%if "%skiplibtiff" != "true"
-Requires: libtiff
+Requires: qt openssl libpng zlib libungif xrootd libtiff
 %endif
 
 %prep
@@ -92,6 +83,7 @@ rm graf3d/gl/src/gl2ps.c.orig
 %patch25 -p1
 %patch26 -p1
 %patch27 -p1
+%patch28 -p2
 
 case %gccver in
   4.3.*)
