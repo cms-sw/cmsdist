@@ -58,6 +58,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
     <flags LDFLAGS="@OS_LDFLAGS@"/>
     <flags CXXSHAREDFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@"/>
     <flags SHAREDSUFFIX="@OS_SHAREDSUFFIX@"/>
+    <flags LD_UNIT="@OS_LD_UNIT@ @ARCH_LD_UNIT@"/>
     <flags SCRAM_LANGUAGE_TYPE="C++"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$CXXCOMPILER_BASE/@OS_LIB64DIR@" type="path"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$CXXCOMPILER_BASE/lib" type="path"/>
@@ -107,7 +108,7 @@ export COMPILER_EXEC_NAME="c++"
 # First of all handle OS specific options.
 case %cmsplatf in
   slc* )
-    export OS_SHAREDFLAGS="-Wl,-E"
+    export OS_SHAREDFLAGS="-shared -Wl,-E"
     export OS_SHAREDSUFFIX="so"
     export OS_LIB64DIR="lib64"
     export OS_LDFLAGS="-Wl,-E -Wl,--hash-style=gnu"
@@ -136,10 +137,17 @@ case %cmsplatf in
     export ARCH_CXXFLAGS="-arch ppc"
     export ARCH_SHAREDFLAGS="-arch ppc"
   ;;
-  slc* )
+  slc*_ia32_* )
     # For some reason on mac, some of the header do not compile if this is
     # defined.  Ignore for now.
     export ARCH_CXXFLAGS="-Werror=overflow"
+    export ARCH_LD_UNIT="-r -m elf_i386"
+  ;;
+  slc*_amd64_* )
+    # For some reason on mac, some of the header do not compile if this is
+    # defined.  Ignore for now.
+    export ARCH_CXXFLAGS="-Werror=overflow"
+    export ARCH_LD_UNIT="-r -m elf_x86_64"
   ;;
 esac
 
