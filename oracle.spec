@@ -19,27 +19,21 @@ Source9: oracle-license
 Requires: fakesystem 
 
 %prep
-
 # We unpack only the sources for the architecture we are working on.  Do not
 # change this to unpack all the architectures.  Notice also that you cannot put
 # ;; on the same line as the %%setup macro, because the latter will swallow it
 # as part of the arguments.
-case %cmsos in
-  slc5_amd64)
+# Notice that we are forced to use rpm macros because %%setup registers the 
+# final directory to use as the one of the last %%setup happening.
+%if %cmsos == slc5_amd64
 %setup -T -n %linuxversion -b 0 
-  ;;
-  slc5_ia32)
+%endif
+%if %cmsos == slc5_ia32
 %setup -T -n %linuxversion -b 1 
-  ;;
-  osx106_amd64)
+%endif
+%if %cmsos == osx106_amd64
 %setup -T -n %macversion -b 2 
-  ;;
-  *)
-echo "Unsupported platform "%cmsos". Please put the oracle \
-client tarball for this architecture in \
-cmsrep.cern.ch:/data/cmssw/oracle-mirror/%cmsos \
-and update the spec file accordingly." ; exit 1 ;; 
-esac
+%endif
 
 %build
 
