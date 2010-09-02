@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-webapp WEBAPP_BETA_1_0_0pre32
+### RPM cms PHEDEX-webapp WEBAPP_BETA_1_0_1pre4
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -15,6 +15,7 @@ Requires: protovis yui
 
 # We obsolete each previous release to force them to be removed
 # Prior to BETA_0_9, WEBAPP was known as APPSERV
+Obsoletes: cms+PHEDEX-webapp+WEBAPP_BETA_1_0_0pre32
 Obsoletes: cms+PHEDEX-appserv+APPSERV_BETA_0_8
 Obsoletes: cms+PHEDEX-appserv+APPSERV_BETA_0_7
 Obsoletes: cms+PHEDEX-appserv+APPSERV_BETA_0_5
