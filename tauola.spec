@@ -22,8 +22,12 @@ esac
 ./configure --lcgplatform=%cmsplatf --with-pythia6libs=$PYTHIA6_ROOT/lib
 
 %build
-perl -p -i -e 's|libtaula.so|libtauola.dylib|g' Makefile
-perl -p -i -e 's|libpretauola.so|libpretauola.dylib|g' Makefile
+case %cmsplatf in 
+  osx*)
+  perl -p -i -e 's|libtauola.so|libtauola.dylib|g' Makefile
+  perl -p -i -e 's|libpretauola.so|libpretauola.dylib|g' Makefile
+  ;;
+esac
 make PHOTOS_ROOT=$PHOTOS_ROOT
 
 %install
