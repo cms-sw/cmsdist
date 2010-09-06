@@ -11,7 +11,7 @@ mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/oracle.xml
 <tool name="oracle" version="@TOOL_VERSION@">
   <lib name="clntsh"/>
-  <lib name="nnz11"/>
+  @OS_LIBS@
   <client>
     <environment name="ORACLE_BASE" default="@TOOL_ROOT@"/>
     <environment name="ORACLE_ADMINDIR"/>
@@ -31,5 +31,11 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/oracleocci.xml
   <use name="oracle"/>
 </tool>
 EOF_TOOLFILE
+
+case $ORACLE_VERSION in
+   11.* )
+   	export OS_LIBS="<lib name='nnz11'/>"
+   ;;
+esac
 
 ## IMPORT scram-tools-post
