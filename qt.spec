@@ -1,12 +1,12 @@
-### RPM external qt 4.5.2
+### RPM external qt 4.6.3
 ## INITENV UNSET QMAKESPEC
 ## INITENV SET QTDIR %i
 
 Requires: libjpg 
-Source0: ftp://ftp.trolltech.com/qt/source/%n-all-opensource-src-%{realversion}.tar.bz2
+Source0: ftp://ftp.qt.nokia.com/qt/source/%n-everywhere-opensource-src-%{realversion}.tar.gz
 
 %prep
-%setup -T -b 0 -n %n-all-opensource-src-%{realversion}
+%setup -T -b 0 -n %n-everywhere-opensource-src-%{realversion}
 
 %build
 unset QMAKESPEC || true
@@ -19,12 +19,16 @@ case %cmsplatf in
   slc*_amd64*)
     export CONFIG_ARGS="-platform linux-g++-64"
   ;;
-  osx*)
+  osx*_ia32*)
     export CONFIG_ARGS="-no-framework"
+  ;;
+  osx*_amd64*)
+    export CONFIG_ARGS="-no-framework -arch x86_64"
   ;;
 esac
 
-echo yes | ./configure -prefix %i -opensource -stl -no-openssl -L$LIBJPG_ROOT/lib -no-glib -no-libtiff -no-libpng -no-libmng -no-separate-debug-info -no-sql-odbc -no-sql-mysql $CONFIG_ARGS
+rm -rf demos examples doc
+echo yes | ./configure -prefix %i -opensource -stl -no-openssl -L$LIBJPG_ROOT/lib -no-glib -no-libtiff -no-libpng -no-libmng -no-separate-debug-info -no-sql-odbc -no-sql-mysql $CONFIG_ARGS -make "libs tools"
 
 # The following is a kludge around the fact that the fact that the 
 # /usr/lib/libfontconfig.so soft link (for 32-bit lib) is missing
@@ -40,14 +44,6 @@ make %makeprocesses
 
 %install
 make install
-
-# Remove the doc, as it is large and we don't need that in
-# our rpms (it is all available on the web in any case)
-rm -fR %i/doc
-# Remove also the demos and examples as they are not generally
-# useful from our rpm's and SW area
-rm -fR %i/demos
-rm -fR %i/examples
 
 # Qt itself has some paths that can only be overwritten by
 # using an appropriate `qt.conf`.
