@@ -1,8 +1,10 @@
-### RPM cms coral CORAL_2_3_10
+### RPM cms coral CORAL_2_3_2
 Provides: /bin/zsh
 Provides: libexpat.so.0
 Requires: coral-tool-conf
-Patch: coral-2_3_10_MsgReporter_lrt
+Patch: coral-2_3_2-combined-includes
+Patch2: coral-2_3_2-frontieraccess
+Patch3: coral-2_3_2-frontieraccess-removedups
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
@@ -12,6 +14,8 @@ Patch: coral-2_3_10_MsgReporter_lrt
 %define preBuildCommand (rm -rf LFCLookupService LFCReplicaService MySQLAccess)
 
 %define patchsrc    %patch -p0
+%define patchsrc2   %patch2 -p0
+%define patchsrc3   %patch3 -p0
 
 %if "%online" == "true"
 # Disable building tests, since they bring dependency on cppunit:
@@ -26,3 +30,5 @@ Patch: coral-2_3_10_MsgReporter_lrt
 %endif
 
 ## IMPORT scram-project-build
+
+
