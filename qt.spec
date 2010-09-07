@@ -28,17 +28,7 @@ case %cmsplatf in
 esac
 
 rm -rf demos examples doc
-echo yes | ./configure -prefix %i -opensource -stl -no-openssl -L$LIBJPG_ROOT/lib -no-glib -no-libtiff -no-libpng -no-libmng -no-separate-debug-info -no-sql-odbc -no-sql-mysql $CONFIG_ARGS -make "libs tools"
-
-# The following is a kludge around the fact that the fact that the 
-# /usr/lib/libfontconfig.so soft link (for 32-bit lib) is missing
-# on the 64-bit machines
-case %cmsplatf in
-  slc*_ia32*)
-    mkdir -p %{_builddir}/lib
-    ln -s /usr/lib/libfontconfig.so.1 %{_builddir}/%n-all-opensource-src-%{realversion}/lib/libfontconfig.so
-    ;;
-esac
+echo yes | ./configure -prefix %i -opensource -stl -no-openssl -L$LIBJPG_ROOT/lib -no-glib -no-libtiff -no-libpng -no-libmng -no-separate-debug-info -no-multimedia -no-sql-odbc -no-sql-mysql $CONFIG_ARGS -make "libs tools"
 
 make %makeprocesses
 
