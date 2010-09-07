@@ -1,6 +1,5 @@
-### RPM external pythia6 422
+### RPM external pythia6 423
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
-Patch0: pythia6.422-writesyntax 
 
 %if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
 Requires: gfortran-macosx
@@ -18,7 +17,6 @@ export F77=g77
 esac
 
 %setup -q -n %{n}/%{realversion}
-%patch0 -p2
 ./configure --enable-shared --with-hepevt=4000 
 
 %build
