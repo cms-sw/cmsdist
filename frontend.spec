@@ -1,10 +1,11 @@
-### RPM cms frontend 3.30
+### RPM cms frontend 3.31
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
-Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rFRONTEND_CONF_3_30&output=/config.tar.gz
+Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rFRONTEND_CONF_3_31&output=/config.tar.gz
 Source1: %cvsserver&module=COMP/WEBTOOLS/WelcomePages&export=htdocs&tag=-rFRONTEND_HTDOCS_1_6&output=/htdocs.tar.gz
 Source2: http://www.nikhef.nl/~janjust/proxy-verify/grid-proxy-verify.c
 Requires: apache2-conf mod_perl2 p5-apache2-modssl
 Provides: perl(Compress::Zlib) perl(Digest::HMAC_SHA1)
+Obsoletes: cms+frontend+3.30-cmp
 Obsoletes: cms+frontend+3.29b-cmp
 Obsoletes: cms+frontend+3.29-cmp
 Obsoletes: cms+frontend+3.28c-cmp
