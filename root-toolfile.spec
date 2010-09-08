@@ -142,6 +142,18 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootminuit2.xml
 EOF_TOOLFILE
 
 # rootrflx toolfile
+
+case %cmsos in
+  *_ia32)
+    GENREFLEX_GCCXMLOPT="-m32"
+  ;;
+  *_amd64)
+    GENREFLEX_GCCXMLOPT="-m64"
+  ;;
+esac
+
+export GENREFLEX_GCCXMLOPT
+
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootrflx.xml
 <tool name="rootrflx" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
@@ -151,6 +163,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootrflx.xml
     <environment name="LIBDIR" default="$ROOTRFLX_BASE/lib"/>
     <environment name="INCLUDE" default="$ROOTRFLX_BASE/include"/>
   </client>
+  <flags GENREFLEX_GCCXMLOPT="@GENREFLEX_GCCXMLOPT@"/>
+  <flags GENREFLEX_CPPFLAGS="-DCMS_DICT_IMPL -D_REENTRANT -DGNUSOURCE"/>
+  <flags GENREFLEX_ARGS="--deep"/>
   <runtime name="PATH" value="$ROOTRFLX_BASE/bin" type="path"/>
   <runtime name="ROOTSYS" value="$ROOTRFLX_BASE/"/>
   <runtime name="GENREFLEX" value="$ROOTRFLX_BASE/bin/genreflex"/>
