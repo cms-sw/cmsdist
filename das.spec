@@ -1,20 +1,21 @@
-### RPM cms das V04_00_07
+### RPM cms das 0.5.0
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PYTHONPATH $WMCORE_ROOT/src/python
 ## INITENV +PATH PYTHONPATH %i/src/python
 ## INITENV +PATH PYTHONPATH $ELEMENTTREE_ROOT/share/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 ## INITENV +PATH PYTHONPATH $DAS_ROOT/src/python
 
-%define cvstag %{realversion}
 %define arch `uname -p`
 %define pver `echo $PYTHON_VERSION | cut -d. -f1,2`
-%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-Source: %cvsserver&strategy=checkout&module=COMP/DAS&nocache=true&export=DAS&tag=-r%{cvstag}&output=/das.tar.gz
-Requires: python cherrypy py2-cheetah yui elementtree mongo py2-pymongo py2-cjson py2-yaml wmcore py2-sphinx py2-openid py2-sqlalchemy py2-ipython py2-pystemmer py2-mongoengine py2-lxml
-#Requires: python cherrypy py2-cheetah yui elementtree mongo-bin py2-pymongo py2-cjson py2-yaml wmcore py2-sphinx py2-openid py2-sqlalchemy py2-ipython py2-pystemmer py2-mongoengine py2-lxml
-#Requires: python cherrypy py2-cheetah yui elementtree mongo py2-pymongo py2-cjson py2-yaml py2-sphinx py2-openid py2-sqlalchemy py2-ipython
-#Requires: python cherrypy py2-cheetah sqlite py2-pysqlite py2-sqlalchemy yui elementtree memcached py2-memcached mongo-bin py2-pymongo py2-cjson py2-yaml wmcore-webtools
-#Requires: python cherrypy py2-cheetah sqlite py2-pysqlite py2-sqlalchemy yui elementtree memcached py2-memcached mongo py2-pymongo py2-cjson py2-yaml wmcore-webtools
+
+#%define cvstag %{realversion}
+#%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
+#Source: %cvsserver&strategy=checkout&module=COMP/DAS&nocache=true&export=DAS&tag=-r%{cvstag}&output=/das.tar.gz
+
+%define svnserver svn://svn.cern.ch/reps/CMSDMWM/DAS/tags/%{realversion}
+Source: %svnserver?scheme=svn+ssh&strategy=export&module=DAS&output=/das.tar.gz
+
+Requires: python cherrypy py2-cheetah yui elementtree mongo py2-pymongo py2-cjson py2-yaml wmcore py2-sphinx py2-openid py2-sqlalchemy py2-ipython py2-pystemmer py2-mongoengine py2-lxml py2-ply
 
 %prep
 %setup -n DAS
@@ -63,9 +64,10 @@ export IP=`host $HOSTNAME | awk '{print $4}'` | head -1
 . $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 
 # make appropriate links to DAS services
-ln -s $DAS_ROOT/bin/das_web $DAS_ROOT/etc/init.d/das_web
-ln -s $DAS_ROOT/bin/das_map $DAS_ROOT/etc/init.d/das_map
-ln -s $DAS_ROOT/bin/das_cacheserver $DAS_ROOT/etc/init.d/das_cacheserver
+#ln -s $DAS_ROOT/bin/das_web $DAS_ROOT/etc/init.d/das_web
+#ln -s $DAS_ROOT/bin/das_map $DAS_ROOT/etc/init.d/das_map
+#ln -s $DAS_ROOT/bin/das_cacheserver $DAS_ROOT/etc/init.d/das_cacheserver
+ln -s $DAS_ROOT/bin/das_server $DAS_ROOT/etc/init.d/das_server
 
 cat $DAS_ROOT/etc/das.cfg |  sed "s,^dir =.*,dir = $DAS_ROOT/cache,g" |\
 sed "s,logdir = /tmp,logdir = $DAS_ROOT/logs,g" |\
