@@ -55,7 +55,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/opengl.xml
     <use name="x11"/>
 EOF_TOOLFILE
 case %cmsplatf in
-osx103* )
+osx10* )
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/opengl.xml
     <client>
       <environment name="OPENGL_BASE" default="/System/Library/Frameworks/OpenGL.framework/Versions/A"/>
