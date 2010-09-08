@@ -36,6 +36,7 @@ cat << \EOF_TOOLFILE >>%i/etc/scram.d/sockets.xml
     <lib name="nsl"/>
     <lib name="crypt"/>
     <lib name="dl"/>
+    <lib name="rt"/>
 EOF_TOOLFILE
 ;;
 osx10* )
