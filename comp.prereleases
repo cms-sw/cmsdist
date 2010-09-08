@@ -9,7 +9,7 @@ forPHEDEX-web-20100831-1 PHEDEX-combined-web PHEDEX-web PHEDEX-webapp PHEDEX-dat
 CRABSERVER_1_1_3_pre3_BUILD_SLC5  crab-server prodagent  prodcommon wmcore mysql
 #
 # DAS
-DAS_20100824_slc5_amd64_gcc434 das
+DAS_20100907_slc5_amd64_gcc434 das
 #
 # try to make new T0Mon RPM
 sjg100827-MotT0 T0Mon
