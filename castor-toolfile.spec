@@ -10,6 +10,9 @@ mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/castor.xml
 <tool name="castor" version="@TOOL_VERSION@">
   <lib name="shift"/>
+  <lib name="castorrfio"/>
+  <lib name="castorclient"/>
+  <lib name="castorcommon"/>
   <client>
     <environment name="CASTOR_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$CASTOR_BASE/include"/>
