@@ -62,52 +62,26 @@ Requires: SCRAMV1
 %endif
 %endif
 
+Source0: %source0
+Source1: %source1
+
+# IMPORTANT: notice that the only reason
+# why we specify sources like this is that
+# we need the associated %%setup macro in the %%prep 
+# section.
+# In case you need to have a generic file copied
+# from CMSDIST, simply put whatever "SourceX: file" you
+# need in the spec which is importing this fragment.
+# DO NOT add any special hook which does not have a 
+# corresponding %%setup macro.
 %if "%{?additionalSrc0:set}" == "set"
-%define source2 %{additionalSrc0}&output=/src1.tar.gz
+Source2: %{additionalSrc0}&output=/src1.tar.gz
 %endif
 
 %if "%{?additionalSrc1:set}" == "set"
-%define source3 %{additionalSrc1}&output=/src2.tar.gz
+Source3: %{additionalSrc1}&output=/src2.tar.gz
 %endif
-
-%if "%{?source2:set}" != "set"
-%define source2 none
-%endif
-
-%if "%{?source3:set}" != "set"
-%define source3 none
-%endif
-
-%if "%{?source4:set}" != "set"
-%define source4 none
-%endif
-
-%if "%{?source5:set}" != "set"
-%define source5 none
-%endif
-
-%if "%{?source6:set}" != "set"
-%define source6 none
-%endif
-
-%if "%{?source7:set}" != "set"
-%define source7 none
-%endif
-
-%if "%{?source8:set}" != "set"
-%define source8 none
-%endif
-
-Source0: %source0
-Source1: %source1
-Source2: %source2
-Source3: %source3
-Source4: %source4
-Source5: %source5
-Source6: %source6
-Source7: %source7
-Source8: %source8
-Source9: findDependencies.pl
+Source4: findDependencies.pl
 
 %prep
 rm -rf config
