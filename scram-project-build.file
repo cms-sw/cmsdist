@@ -157,7 +157,11 @@ export SCRAM_NOSYMCHECK=true
 %scramcmd b --verbose -f %{prebuildtarget} </dev/null
 %endif
 
-%scramcmd b --verbose -f %{compileOptions} %{debugOptions} %{makeprocesses} %{buildtarget} </dev/null || { %scramcmd b -f outputlog && false; }
+# Notice that on make we continue and create a package even if the build
+# failed.  This is because we are still in a porting phase for the mac and we
+# still have hundreds of errors. This behavior should be changed when the have
+# a fully working mac release, aligned with the linux one.
+%scramcmd b --verbose -f %{compileOptions} %{debugOptions} %{makeprocesses} %{buildtarget} </dev/null || { %scramcmd b -f outputlog && case %cmsos in osx*) true;; *) false;; esac; }
 
 %if "%{?additionalBuildTarget0:set}" == "set"
 %scramcmd b --verbose -f %{additionalBuildTarget0} < /dev/null
