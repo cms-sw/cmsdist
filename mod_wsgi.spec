@@ -14,13 +14,15 @@ make %makeprocesses
 mkdir -p %i/modules
 make %makeprocesses install LIBEXECDIR=%i/modules
 
-# Generates dependencies-setup.{sh,csh} so init.{sh,csh} pick full environment.
+# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
+: > %i/etc/profile.d/dependencies-setup.sh
+: > %i/etc/profile.d/dependencies-setup.csh
 for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
-  eval "r=\$$(echo $tool | tr a-z- A-Z_)_ROOT"
+  root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
   if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
-    echo ". $r/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.sh
-    echo "source $r/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
+    echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
+    echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
   fi
 done
 
