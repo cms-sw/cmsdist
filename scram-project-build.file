@@ -198,9 +198,9 @@ done
 %if "%{?saveDeps:set}" == "set"
 mkdir -p %i/etc/dependencies
 chmod +x %{_sourcedir}/findDependencies.pl
-%{_sourcedir}/findDependencies.pl -rel %i
+%{_sourcedir}/findDependencies.pl -rel %i || { case %cmsos in osx*) true;; *) false;; esac; }
 %{?PatchReleaseDependencyInfo:%PatchReleaseDependencyInfo}
-gzip -f %i/etc/dependencies/*.out
+gzip -f %i/etc/dependencies/*.out || { case %cmsos in osx*) true;; *) false;; esac; }
 %endif
 
 (eval `%scramcmd run -sh` ; echo $PYTHONPATH | sed -e "s/:/','/g" | awk '{print "#!/usr/bin/env python \n\ncmsswPythonPaths=['"'"'"$1"'"'"']"}' > %i/python/cmsswPaths.py) || true
