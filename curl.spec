@@ -1,21 +1,34 @@
 ### RPM external curl 7.20.0
 Source: http://curl.haxx.se/download/%n-%realversion.tar.gz
+Requires: openldap
 Provides: libcurl.so.3()(64bit) 
 
 %prep
 %setup -n %n-%{realversion}
 
 %build
-./configure --prefix=%i --without-libidn --disable-crypto-auth --disable-ldap --without-ssl
-# This should change link from "-lz" to "-lrt -lz", needed by gold linker
-# This is a fairly ugly way to do it, however.
-perl -p -i -e "s!\(LIBS\)!(LIBCURL_LIBS)!" src/Makefile
+./configure --prefix=%i --without-libidn --disable-crypto-auth --without-ssl
 make %makeprocesses
 
 %install
 make install
 cd %i/lib
 ln -s libcurl.so libcurl.so.3
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=Curl version=%v>
+<lib name=curl>
+<client>
+ <Environment name=CURL_BASE default="%i"></Environment>
+ <Environment name=INCLUDE default="$CURL_BASE/include"></Environment>
+ <Environment name=LIBDIR  default="$CURL_BASE/lib"></Environment>
+</client>
+<Runtime name=PATH value="$CURL_BASE/bin" type=path>
+</Tool>
+EOF_TOOLFILE
 
 %post
 %{relocateConfig}bin/curl-config
+%{relocateConfig}etc/scram.d/%n

@@ -10,6 +10,21 @@ make %makeprocesses
 
 %install
 make install
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<info url="http://www.libpng.org/"></info>
+<lib name=png>
+<Client>
+ <Environment name=LIBPNG_BASE default="%i"></Environment>
+ <Environment name=LIBDIR default="$LIBPNG_BASE/lib"></Environment>
+ <Environment name=INCLUDE default="$LIBPNG_BASE/include"></Environment>
+</Client>
+<Use name=zlib>
+</Tool>
+EOF_TOOLFILE
 
 %post
 %{relocateConfig}bin/libpng-config
@@ -18,3 +33,4 @@ make install
 %{relocateConfig}lib/libpng12.la
 %{relocateConfig}lib/pkgconfig/libpng.pc
 %{relocateConfig}lib/pkgconfig/libpng12.pc
+%{relocateConfig}etc/scram.d/%n
