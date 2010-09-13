@@ -23,8 +23,10 @@ mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 easy_install --prefix %i -U couchapp
 
 # Fixes to static path's to python left by the easy_install installation
-perl -p -i -e "s|#!.*/usr/bin/python|#!/usr/bin/env python|" %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages/Couchapp-0.6.2-py2.6.egg/couchapp/hooks/compress/jsmin.py
+perl -p -i -e "s|#!.*/python|#!/usr/bin/env python|" %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages/Couchapp-0.6.2-py2.6.egg/couchapp/hooks/compress/jsmin.py
+perl -p -i -e "s|#!.*/python|#!/usr/bin/env python|" %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages/Couchapp-0.7.0-py2.6.egg/couchapp/hooks/compress/jsmin.py
 perl -p -i -e "s|#!.*/python|#!/usr/bin/env python|" %i/bin/couchapp
+perl -p -i -e "s|#!.*/python|#!/usr/bin/env python|" %i/bin/restcli
 
 # This will generate the correct dependencies-setup.sh/dependencies-setup.csh
 # using the information found in the Requires statements of the different
