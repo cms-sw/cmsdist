@@ -7,20 +7,20 @@ Requires: wmcore cherrypy py2-cheetah py2-openid yui
 %install
 mkdir -p %i/bin
 
-# setup dependencies environment
+# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 rm -rf %i/etc/profile.d
 mkdir -p %i/etc/profile.d
-for x in %pkgreqs; do
-  case $x in /* ) continue ;; esac
-  p=%{instroot}/%{cmsplatf}/$(echo $x | sed 's/\([^+]*\)+\(.*\)+\([A-Z0-9].*\)/\1 \2 \3/' | tr ' ' '/')
-  echo ". $p/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-  echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
+  root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
+  if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
+    echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
+    echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+  fi
 done
 
 %post
 # The relocation is also needed because of dependencies
-%{relocateConfig}etc/profile.d/dependencies-setup.sh
-%{relocateConfig}etc/profile.d/dependencies-setup.csh
+%{relocateConfig}etc/profile.d/dependencies-setup.*sh
 
 # setup approripate links
 . $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh

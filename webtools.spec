@@ -16,27 +16,8 @@ Provides: perl(DBI)
 %prep
 %setup -n %{moduleName}
 %build
-rm -rf %i/etc/profile.d
-mkdir -p %i/etc/profile.d
 mkdir -p %i/etc/init.d
-echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
-echo '#!/bin/tcsh' > %{i}/etc/profile.d/dependencies-setup.csh
-echo requiredtools `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
-for tool in `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
-do
-    case X$tool in
-        Xdistcc|Xccache )
-        ;;
-        * )
-            toolcap=`echo $tool | tr a-z- A-Z_`
-            eval echo ". $`echo ${toolcap}_ROOT`/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.sh
-            eval echo "source $`echo ${toolcap}_ROOT`/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
-        ;;
-    esac
-done
 
-perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-setup.sh
-perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
 %install
 mkdir -p %i/etc
 mkdir -p %i/bin
@@ -86,14 +67,24 @@ cat << \EOF_APACHE2_FOOTER > %i/etc/apache2-footer.conf
 RewriteRule ^/cms/services/webtools/Common(.*)$ %i/Common$1
 RewriteRule ^/cms/services/webtools/Templates(.*)$ %i/Templates$1
 EOF_APACHE2_FOOTER
-%define pythonv %(echo $PYTHON_ROOT | cut -d. -f1,2)
+
+# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
+rm -rf %i/etc/profile.d
+mkdir -p %i/etc/profile.d
+for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
+  root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
+  if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
+    echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
+    echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+  fi
+done
+
 %post
+%{relocateConfig}etc/profile.d/dependencies-setup.*sh
 %{relocateConfig}etc/cherrypy.conf
 %{relocateConfig}etc/apache2.conf
 %{relocateConfig}etc/apache2-header.conf
 %{relocateConfig}etc/apache2-footer.conf
-%{relocateConfig}etc/profile.d/dependencies-setup.sh
-%{relocateConfig}etc/profile.d/dependencies-setup.csh
 perl -p -i -e "s!\@RPM_INSTALL_PREFIX\@!$RPM_INSTALL_PREFIX/%pkgrel!" $RPM_INSTALL_PREFIX/%pkgrel/bin/cmsWeb
 
 
