@@ -1,4 +1,4 @@
-### RPM external mongo 1.6.1
+### RPM external mongo 1.6.2
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
 Provides: libpcap.so.0.8.3
