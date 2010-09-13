@@ -1,0 +1,169 @@
+% Licensed under the Apache License, Version 2.0 (the "License"); you may not
+% use this file except in compliance with the License.  You may obtain a copy of
+% the License at
+%
+%   http://www.apache.org/licenses/LICENSE-2.0
+%
+% Unless required by applicable law or agreed to in writing, software
+% distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+% WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+% License for the specific language governing permissions and limitations under
+% the License.
+%
+% --------------------------------------------------------------------
+%
+% This module implements two authentication handlers for the CMS CounchDB
+% cluster:
+%
+%    * cms_backend_authentication_handler
+%        Uses header information set by the WebTool front end to validate
+%        the source, and then create a user context based on the passed
+%        header values
+%
+%    * cms_spoof_backend_authentication_handler
+%        For use when the front end is not present, for testing a user
+%        context in CouchDB. Passes user / roles defined in the CouchDB
+%        config file into a user context
+%
+% To use either, specify one of the following in the CouchDB instance config file:
+%
+%   [httpd]
+%   ; Production handler
+%   authentication_handlers = {couch_cms_auth, cms_backend_authentication_handler}
+%   ; Spoof handler
+%   authentication_handlers = {couch_cms_auth, cms_spoof_backend_authentication_handler}
+%
+% Configuration options have sensible defaults, but they can be overriden
+% in the configuration file:
+%
+%   [couch_cms_auth]
+%   ; For spoof handler
+%   cms_spoof_user = anewuser
+%   cms_spoof_roles = Admin,SomeOtherRole
+%
+%   ; For production handler
+%   authn_header = CMS-AuthN-Header-New
+%   authz_header = CMS-AuthZ-Header-New
+%   hmac_header = CMS-HMAC-Header-New
+%
+% Note that for both handlers, if the roles passed include Admin, then the
+% true CouchDB admin role, _admin, will be added to the role list.
+%
+
+-module(couch_cms_auth).
+-include("couch_db.hrl").
+
+-export([cms_backend_authentication_handler/1, cms_spoof_backend_authentication_handler/1]).
+
+-import(couch_httpd, [header_value/2]).
+-import(mochijson2, [decode/1]).
+-import(proplists, [get_value/2]).
+    
+%% @doc CMS WebTools authentication failed
+%
+% Called in case of auth failure
+%
+auth_failed() -> throw({unauthorized, <<"Authorisation failed">>}).
+
+%% @doc CMS WebTools HMAC authentication
+%
+% Validates the passed HMAC string. Returns 1 for authenticated, 0 for failed
+% NEEDS IMPLEMENTING - CURRENTLY JUST A PASS THROUGH. Throws a security
+% exception if validation fails
+%
+validate_cms_hmac(HMAC) ->
+    case HMAC of
+        undefined -> auth_failed();
+        _ -> true
+    end.
+    
+%% @doc CMS WebTools JSON retrievel
+%
+% Gets the requested element from a JSON encoded string. Throws a security
+% exception if decoding / searching fails
+%
+get_cms_auth_element(Key, JSON) ->
+    case JSON of
+        undefined -> auth_failed();
+        _ ->
+            Decoded = mochijson2:decode(JSON),
+            case size(Decoded) of
+                2 ->
+                    case proplists:get_value(Key, element(2, Decoded)) of
+                        undefined -> auth_failed();
+                        Else -> Else
+                    end;
+                _ -> auth_failed()
+            end
+    end.
+
+%% @doc CMS WebTools CouchDB admin handling
+%
+% Adds the real couch _admin role if the Admin role is specified
+% in the parsed roles list
+%
+add_admin_role(Roles) ->
+    case lists:member(<<"Admin">>, Roles) of
+        true -> Roles ++ [<<"_admin">>];
+        _ -> Roles
+    end.
+
+%% @doc CMS WebTools proxy authentication handler
+%
+% This handler forwards a validated request from the CMS WebTools front end to couch.
+% All requests at this stage are considered authenticated, the auth handler simply
+% performs an HMAC check, and then re-formats the authentication headers into the
+% CouchDB user context document. If any validation (HMAC, User or Role) fails, a
+% user context is not granted. Header names can be specified in the couch configuration
+% section [couch_cms_auth], the defaults are:
+%
+%    * CMS-AuthN : contains the AuthN information in a JSON document of the form:
+%                  {dn: ".../CN=Simon Metson", login: "metson"}
+%    * CMS-AuthZ : contains the AuthZ information in a JSON document of the form:
+%                  {scope: "RegSvc", roles: ["Admin", "Read"]}}
+%    * CMS-HMAC : contains the HMAC string
+%
+cms_backend_authentication_handler(Req) ->
+    % Get the header names from config (or assign defaults)
+    CMSHeaderAuthN = couch_config:get("couch_cms_auth", "authn_header", "CMS-AuthN"),
+    CMSHeaderAuthZ = couch_config:get("couch_cms_auth", "authz_header", "CMS-AuthZ"),
+    CMSHeaderHMAC = couch_config:get("couch_cms_auth", "hmac_header", "CMS-HMAC"),
+
+    % Get the headers
+    ClientHMAC = header_value(Req, CMSHeaderHMAC),
+    ClientAuthN = header_value(Req, CMSHeaderAuthN),
+    ClientAuthZ = header_value(Req, CMSHeaderAuthZ),
+ 
+    % Authenticate the HMAC
+    validate_cms_hmac(ClientHMAC),
+    ?LOG_DEBUG("Authenticated HMAC", []),
+    
+    % Parse and authenticate the user
+    ClientUser = get_cms_auth_element(<<"login">>, ClientAuthN),
+    ?LOG_DEBUG("Authenticated user: ~s", [ClientUser]),
+    
+    % Parse and authenticate the roles
+    Roles = get_cms_auth_element(<<"roles">>, ClientAuthZ),
+    FinalRoles = add_admin_role(Roles),
+    ?LOG_DEBUG("Authenticated roles", []),
+    [?LOG_DEBUG("  Role: ~s", [R]) || R <- FinalRoles],
+    
+    % All validated, create the context
+    Req#httpd{user_ctx=#user_ctx{name=ClientUser, roles=FinalRoles}}.
+
+%% @doc CMS WebTools spoof proxy authentication handler
+%
+% This handler spoofs a validated front / back-end request, using the user and roles
+% specified in the configuration section [couch_cms_auth]:
+%
+%    * cms_user : a user login name
+%    * cms_roles : A comma separated list of roles for the user
+%
+cms_spoof_backend_authentication_handler(Req) ->
+    ConfigUser = couch_config:get("couch_cms_auth", "cms_spoof_user", "jacksonj"),
+    ConfigRoles = couch_config:get("couch_cms_auth", "cms_spoof_roles", "Admin,Read"),
+    User = ?l2b(ConfigUser),
+    Roles = [?l2b(R) || R <- string:tokens(ConfigRoles, ",")],
+    FinalRoles = add_admin_role(Roles),
+    [?LOG_DEBUG("  Role: ~s", [R]) || R <- FinalRoles],
+    Req#httpd{user_ctx=#user_ctx{name=User, roles=FinalRoles}}.
