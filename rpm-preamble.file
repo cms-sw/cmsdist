@@ -72,8 +72,8 @@
 %define _tmppath	%{instroot}/tmp
 %define _topdir		%{instroot}
 
-%define _rpmfilename	%{cmsplatf}/%%{name}-%%{version}-%%{release}.%{cmsplatf}.rpm
-%define _srpmfilename	%%{name}-%%{version}-%%{release}.src.rpm
+%define _rpmfilename	%{cmsplatf}/%{pkgcategory}+%{n}+%{v}-%{version}-%{release}.%{cmsplatf}.rpm
+%define _srpmfilename	%{pkgcategory}+%{n}+%{v}-%{version}-%{release}.src.rpm
 
 
 
@@ -184,10 +184,5 @@
 %endif
 
 # Define a macro for relocating configuration files in %%post section.
-%define relocateCmsFiles	perl -p -i -e "s|%{instroot}|$CMS_INSTALL_PREFIX|g" 
-%define relocateRpmFiles	perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" 
-%define reRelocateRpmFiles	perl -p -i -e "s|$CMS_INSTALL_PREFIX|$RPM_INSTALL_PREFIX|g" 
-%define reRelocateRpmPkg	perl -p -i -e "s|$CMS_INSTALL_PREFIX|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
-%define relocateRpmPkg		perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
-%define relocateCmsPkg		perl -p -i -e "s|%{instroot}|$CMS_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
-%define relocateConfig		%relocateCmsPkg
+%define relocateConfig perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
+
