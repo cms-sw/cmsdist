@@ -1,4 +1,4 @@
-### RPM external p5-time-hires 1.9715-CMS24
+### RPM external p5-time-hires 1.9715
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 # a comment to build from scratch increase this number 15
 %if "%cmsplatf" == "slc4_ia32_gcc345"
