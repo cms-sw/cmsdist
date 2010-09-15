@@ -36,4 +36,4 @@ cat > %i/etc/env.d/99-env-cleanup.sh <<- \EOF
 EOF
 
 %post
-%{relocateConfig}etc/profile.d/dependencies.*sh
+%{relocateConfig}etc/profile.d/dependencies-setup.*sh
