@@ -2,9 +2,9 @@
 Provides: /bin/zsh
 Provides: libexpat.so.0
 Requires: coral-tool-conf
-Patch: coral-2_3_2-includes 
-Patch2: coral-2_3_2-includes2
-Patch3: coral-2_3_2-frontieraccess
+Patch: coral-2_3_2-combined-includes
+Patch2: coral-2_3_2-frontieraccess
+Patch3: coral-2_3_2-frontieraccess-removedups
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
