@@ -1,4 +1,6 @@
 ### RPM external thepeg 1.6.1
+## INITENV +PATH LD_LIBRARY_PATH %i/lib/ThePEG
+## INITENV +PATH DYLD_LIBRARY_PATH %i/lib/ThePEG
 #Source: http://www.thep.lu.se/~leif/ThePEG/ThePEG-%{realversion}.tgz
 #Source: http://projects.hepforge.org/herwig/files/ThePEG-%{realversion}.tar.gz
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/thepeg-%{realversion}-src.tgz
