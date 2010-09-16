@@ -12,7 +12,7 @@
 #DAS_20100907_slc5_amd64_gcc434 das
 #
 # try to make new T0Mon RPM
-#sjg100827-MotT0 T0Mon
+HG1009a sjg100916-T0Mon T0Mon
 #
 # DBS-2
 #aa20100824-dbs dbs-apps dbs-server dbs-schema dbs-libs dbs-client dbs-web
