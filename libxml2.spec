@@ -12,11 +12,11 @@ Requires: zlib
 %setup -n %n-%downloadv
 %build
 %if "%online" != "true"
-#./configure --prefix=%i --with-zlib=$ZLIB_ROOT --without-python
-./configure --prefix=%i --with-zlib=$ZLIB_ROOT
+./configure --prefix=%i --with-zlib=$ZLIB_ROOT --without-python
+#./configure --prefix=%i --with-zlib=$ZLIB_ROOT
 %else
-#./configure --prefix=%i --with-zlib=/usr --without-python
-./configure --prefix=%i --with-zlib=/usr
+./configure --prefix=%i --with-zlib=/usr --without-python
+#./configure --prefix=%i --with-zlib=/usr
 %endif
 make %makeprocesses
 %install
@@ -25,5 +25,5 @@ rm -rf %{i}/lib/pkgconfig
 %post
 %{relocateConfig}bin/xml2-config
 %{relocateConfig}lib/libxml2.la
-%{relocateConfig}lib/pkgconfig/libxml-2.0.pc
+#%{relocateConfig}lib/pkgconfig/libxml-2.0.pc
 %{relocateConfig}lib/xml2Conf.sh
