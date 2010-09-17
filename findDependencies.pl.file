@@ -8,9 +8,17 @@ use Getopt::Long;
 Getopt::Long::config('bundling_override');
 
 my %options;
-GetOptions(\%options,'rel=s');
+GetOptions(\%options,'rel=s', 'arch=s','scramroot=s');
 
 my $rel=$options{'rel'};
+my $scramarch=$options{'arch'} || $ENV{SCRAM_ARCH};
+my $scramroot=$options{'scramroot'} || $ENV{SCRAMV1_ROOT};
+
+if ($scramroot eq "")
+{
+  $scramroot=`sh -v scram arch 2>&1 |  grep 'SCRAMV1_ROOT=' | sed 's|;.*||;s|SCRAMV1_ROOT=||;s|"||g' | sed -e "s|'||g"`;
+  chomp $scramroot;
+}
 
 # Set the variable $File::Find::dont_use_nlink if you're using AFS,
 # since AFS cheats.
@@ -49,7 +57,7 @@ foreach my $key (keys %usedby) {
 close F1;
 
 &pythonDeps($rel);
-&buildFileDeps($rel);
+&buildFileDeps($rel, $scramarch, $scramroot);
 
 exit;
 
@@ -173,12 +181,11 @@ sub import2CMSSWDir()
 sub buildFileDeps()
 {
   my $rel=shift;
-  my $arch=shift || $ENV{SCRAM_ARCH};
-  my $scramroot=`sh -v scramv1 arch 2>&1 |  grep 'SCRAMV1_ROOT=' | sed 's|;.*||;s|SCRAMV1_ROOT=||;s|"||g'`;
-  chomp $scramroot;
+  my $arch=shift;
+  my $scramroot=shift;
+
   unshift @INC,"$scramroot", "${scramroot}/src";
   my $pcache={};
-  if ($arch eq ""){$arch=`scramv1 arch`; chomp $arch;}
   eval ("use Cache::CacheUtilities;");
   if(!$@){$pcache=&Cache::CacheUtilities::read("${rel}/.SCRAM/${arch}/ProjectCache.db.gz");}
   else{die "Unable to find Cache/CacheUtilities.pm PERL module.";}  
