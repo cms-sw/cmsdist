@@ -5,17 +5,29 @@ Source: svn://svn.dcache.org/dCache/tags/production-%svnTag/modules/dcap?scheme=
 Patch0: dcap-macosx-workarounds
 
 %define isosx %(case %cmsos in osx*%closingbrace echo true;; *%closingbrace echo false;; esac)
-%if "%{?isosx:set}" == "set"
+%define cpu %(echo %cmsplatf | cut -d_ -f2)
+
+# Determine the soname and the suffix for the libraries.
+# We do it this way because rpm does not support nested
+# ifs.
+%if "%{?isosx:set}-%{cpu}" == "set-amd64"
 %define soname dylib
-%else
-%define soname so
+%define libsuffix %{nil}
 %endif
 
-%define cpu %(echo %cmsplatf | cut -d_ -f2)
-%if "%cpu" != "amd64"
+%if "%{?isosx:set}-%{cpu}" == "set-ia32"
+%define soname dylib
 %define libsuffix %{nil}
-%else
+%endif
+
+%if "%{?isosx:set}-${cpu}" == "-amd64"
+%define soname so 
 %define libsuffix ()(64bit)
+%endif
+
+%if "%{?isosx:set}-${cpu}" == "-ia32"
+%define soname so
+%define libsuffix %{nil} 
 %endif
 
 Provides: libdcap.%{soname}%{libsuffix}
