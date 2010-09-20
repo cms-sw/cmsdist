@@ -1,5 +1,4 @@
-### RPM cms PHEDEX-micro PHEDEX_3_3_2
-
+### RPM cms PHEDEX-micro PHEDEX_3_1_3
 ## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -11,8 +10,6 @@ Requires: p5-time-hires p5-text-glob p5-compress-zlib p5-dbi
 Requires: p5-dbd-oracle p5-xml-parser p5-poe p5-poe-component-child
 Requires: p5-log-log4perl p5-log-dispatch p5-log-dispatch-filerotate
 Requires: p5-params-validate p5-monalisa-apmon
-# CMS COMP clients
-Requires: dbs-client
 # Etc.
 Requires: python
 # Actually, it is p5-xml-parser that requires this, but it doesn't configure itself correctly
@@ -28,7 +25,16 @@ Provides: perl(XML::LibXML)
 %prep
 
 %setup -n %{downloadn}
-rm -rf Custom/Template/*
+rm     Custom/Template/Config
+rm     Custom/Template/ConfigPart.CERN*
+rm     Custom/Template/ConfigPart.Export
+rm     Custom/Template/ConfigPart.FTSDownload
+rm     Custom/Template/ConfigPart.Management
+rm     Custom/Template/ConfigPart.MSS
+rm     Custom/Template/ConfigPart.SRMDownload
+rm     Custom/Template/File*
+rm     Custom/Template/ProxyRenew
+rm     Custom/Template/storage.xml
 rm -rf Custom/DCache
 rm -rf Custom/Castor
 rm -rf Custom/SRM
@@ -37,20 +43,7 @@ rm -rf Toolkit/Infrastructure
 rm -rf Toolkit/Monitoring
 rm -rf Toolkit/Transfer
 rm -rf Toolkit/Workflow
-rm -rf Toolkit/Verify
-rm -rf Toolkit/DropBox
-rm -rf Utilities/AgentFactory.pl
-rm -rf Utilities/AgentMon.pl                                                
-rm -rf Utilities/CMSSWMigrate
-rm -rf Utilities/DBDump
-rm -rf Utilities/DBLoad
-rm -rf Utilities/DropStatus
-rm -rf Utilities/FillNames
-rm -rf Utilities/GrepSites
-rm -rf Utilities/ping-watchdog.pl
-rm -rf Utilities/stagercp
-rm -rf Utilities/WordMunger
-rm -rf Utilities/wrapper_rfcp
+find Utilities -type f | egrep -v "OracleConnectId|Master|phedex" | xargs rm
 
 %build
 
