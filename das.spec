@@ -1,4 +1,4 @@
-### RPM cms das 0.5.0
+### RPM cms das 0.5.1.pre1
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PYTHONPATH $WMCORE_ROOT/src/python
 ## INITENV +PATH PYTHONPATH %i/src/python
