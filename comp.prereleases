@@ -10,7 +10,7 @@
 #
 # DAS
 #DAS_20100907_slc5_amd64_gcc434 das
-HG1009c DAS_20100921_slc5_amd64_gcc434 das
+HG1009c DAS_20100921_slc5_amd64_gcc434_v2 das
 #
 # try to make new T0Mon RPM
 HG1009c sjg100916b-T0Mon T0Mon
