@@ -1,13 +1,25 @@
-### RPM cms wmcore-db-sqlite 1
-## INITENV +PATH PYTHONPATH %i/lib
+### RPM external py2-ply 3.3
+%define pythonv %(echo $PYTHON_VERSION | cut -f1,2 -d.)
+## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
-Requires: wmcore py2-pysqlite
+Source: http://www.dabeaz.com/ply/ply-%realversion.tar.gz
+Requires: python
 
 %prep
+%setup -n ply-%realversion
+
 %build
+
 %install
-rm -rf %i/etc/profile.d
-mkdir -p %i/etc/profile.d
+mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
+python setup.py build
+#build builds lib.linux-i686-2.6
+mv build/lib*/* %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
+
+mkdir -p %i/etc/profile.d/
+# This will generate the correct dependencies-setup.sh/dependencies-setup.csh
+# using the information found in the Requires statements of the different
+# specs and their dependencies.
 echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
 echo '#!/bin/tcsh' > %{i}/etc/profile.d/dependencies-setup.csh
 echo requiredtools `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
@@ -23,7 +35,6 @@ do
         ;;
     esac
 done
-
 perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-setup.sh
 perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
 
