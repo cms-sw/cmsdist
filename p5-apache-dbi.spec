@@ -1,20 +1,14 @@
-### RPM external p5-apache-dbi 1.06
+### RPM external p5-apache-dbi 1.08
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perlversion %(perl -e 'printf "%%vd", $^V')
-%define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn Apache-DBI
-
-Source: http://search.cpan.org/CPAN/authors/id/P/PG/PGOLLUCCI/%{downloadn}-%{realversion}.tar.gz
-
-Requires:  p5-dbi
-
-# Fake provides, should be on system.
-Provides:  perl(Digest::SHA1)
+Source: http://search.cpan.org/CPAN/authors/id/A/AB/ABH/%downloadn-%realversion.tar.gz
+Requires: p5-dbi p5-digest-sha1
 
 %prep
 %setup -n %downloadn-%realversion
+
 %build
-LC_ALL=C; export LC_ALL
+export LC_ALL=C
 perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion
 make
-#
