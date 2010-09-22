@@ -1,7 +1,17 @@
 # Do not put the same <pkg> in different entries
-# The format of each line entry is:
+#
+# The format of each entry may be:
 # <base-tag-name> <pre-release-CMSDIST-tag> <project-main-pkg> [<other-project-pkgs>]
 #
+# or:
+#
+# <base-tag-name> <project-main-pkg>
+# + <revision>(/<version>) file1 [file2 ...]
+# + ...
+#
+# When using HEAD as <revisio> you must specify <version>.
+
+
 #forPHEDEX-web-20100910-3 PHEDEX-combined-web PHEDEX-web PHEDEX-webapp PHEDEX-datasvc
 #forPHEDEX332 PHEDEX-combined-agents PHEDEX-admin PHEDEX PHEDEX-micro
 #
@@ -10,10 +20,10 @@
 #
 # DAS
 #DAS_20100907_slc5_amd64_gcc434 das
-HG1009c DAS_20100922_slc5_amd64_gcc434_v2 das
+#HG1009c DAS_20100920_slc5_amd64_gcc434 das
 #
 # try to make new T0Mon RPM
-HG1009c sjg100916b-T0Mon T0Mon
+#HG1009c sjg100916b-T0Mon T0Mon
 #
 # DBS-2
 HG1009c aa20101020-dbs dbs-apps dbs-server dbs-schema dbs-libs dbs-client dbs-web
@@ -32,4 +42,20 @@ HG1009c aa20100831-dbs3 dbs3
 #
 # Webtools-base
 #dg20100831b-webtools-base webtools-base
+#
+# Cms Webtools services
+HG1009c cmsweb
++ forHG1009 cmsweb.spec
++ HEAD/4.0 frontend.spec
++ HEAD/0.1.21 webtools-base.spec
++ HEAD/0.5.1 das.spec
++ HEAD/V06_00_40 dbs-web.spec
++ HEAD/DBS_2_1_1_patch1 dbs-client.spec
++ HEAD/0.10.13 fmws.spec
++ HEAD/1.9.2-4 srmcp.spec
+# Phedex was disabled because the build fails with the new frontend pkg
+#+ forPHEDEX-web-20100910-3 PHEDEX-combined-web.spec PHEDEX-web.spec PHEDEX-webapp.spec PHEDEX-datasvc.spec protovis.spec
++ HEAD/1.2.3 sitedb.spec
++ HEAD/1.0.23 T0Mon.spec
+
 

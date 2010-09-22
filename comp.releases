@@ -1,14 +1,17 @@
-# The line entry format is:
-# <CMSDIST-tag> <project-main-pkg-only>
+# The entry format is:
+# <builder-generated-CMSDIST-tag> <project-main-pkg-only>
+#
+# or the new format as in the comp.prereleases
+#
 #builder2010_07_07_1278518809-dbs-client dbs-client
-builder_2010-08-31_16-38-21_PHEDEX-combined-web PHEDEX-combined-web
-builder_2010-07-27_16-42-42_PHEDEX-combined-agents PHEDEX-combined-agents
-builder_2010-08-24_23-24-21_das das
-builder_2010-09-16_10-43-51_T0Mon T0Mon
-builder_2010-08-31_15-18-01_dbs-apps dbs-apps
-builder_2010-08-31_15-17-28_dbs-web dbs-web
-CRABSERVER_1_1_3_BUILD_SLC5 crab-server prodagent  prodcommon wmcore mysql
-builder_2010-09-01_23-43-04_fmws fmws
-builder_2010-08-31_14-43-26_sitedb sitedb
-builder_2010-08-31_20-02-29_webtools-base webtools-base
+#builder_2010-08-31_16-38-21_PHEDEX-combined-web PHEDEX-combined-web
+#builder_2010-07-27_16-42-42_PHEDEX-combined-agents PHEDEX-combined-agents
+#builder_2010-08-24_23-24-21_das das
+#builder_2010-09-16_10-43-51_T0Mon T0Mon
+#builder_2010-08-31_15-18-01_dbs-apps dbs-apps
+#builder_2010-08-31_15-17-28_dbs-web dbs-web
+#CRABSERVER_1_1_3_BUILD_SLC5 crab-server prodagent  prodcommon wmcore mysql
+#builder_2010-09-01_23-43-04_fmws fmws
+#builder_2010-08-31_14-43-26_sitedb sitedb
+#builder_2010-08-31_20-02-29_webtools-base webtools-base
 
