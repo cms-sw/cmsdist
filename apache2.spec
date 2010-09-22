@@ -1,17 +1,18 @@
-### RPM external apache2 2.2.14-gsi
+### RPM external apache2 2.2.14gsi
+%define apversion %(echo %realversion | sed 's/gsi.*$//')
 Requires: openssl zlib expat uuid sqlite
 
 # Silence dependencies which should have come via uuid from e2fsprogs
 Provides: libcom_err.so.2
 Provides: libcom_err.so.2()(64bit)
 
-Source0: http://mirror.switch.ch/mirror/apache/dist/httpd/httpd-%realversion.tar.gz
-Source1: http://www.apache.org/dist/httpd/httpd-%realversion.tar.gz
+Source0: http://mirror.switch.ch/mirror/apache/dist/httpd/httpd-%apversion.tar.gz
+Source1: http://www.apache.org/dist/httpd/httpd-%apversion.tar.gz
 Source2: svn://vdt.cs.wisc.edu/svn/vdt/tags/vdt-2.0.0p18/Apache?scheme=https&module=Apache&output=/VDT-Apache-GSI.tgz
 Patch0: apache2-verify-error
 
 %prep
-%setup -n httpd-%realversion
+%setup -n httpd-%apversion
 %patch0 -p0
 gunzip -d -c < %_sourcedir/VDT-Apache-GSI.tgz |
   tar -xOf - 'Apache/nmi/GSI.patch' |
