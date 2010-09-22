@@ -12,202 +12,175 @@
 Source0: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir/download.url&export=%realsub&output=/src0.tar.gz
 
 %if "%{?dataDir2:set}" == "set"
-%define source2 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir2/download.url&export=%{realsub}&output=/src2.tar.gz
-%else
-%define source2 none
+Source2: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir2/download.url&export=%{realsub}&output=/src2.tar.gz
 %endif
 
 %if "%{?dataDir3:set}" == "set"
-%define source3 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir3/download.url&export=%{realsub}&output=/src3.tar.gz
-%else
-%define source3 none
+Source3: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir3/download.url&export=%{realsub}&output=/src3.tar.gz
 %endif
 
 %if "%{?dataDir4:set}" == "set"
-%define source4 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir4/download.url&export=%{realsub}&output=/src4.tar.gz
-%else
-%define source4 none
+Source4: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir4/download.url&export=%{realsub}&output=/src4.tar.gz
 %endif
 
 %if "%{?dataDir5:set}" == "set"
-%define source5 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir5/download.url&export=%{realsub}&output=/src5.tar.gz
-%else
-%define source5 none
+Source5: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir5/download.url&export=%{realsub}&output=/src5.tar.gz
 %endif
 
 %if "%{?dataDir6:set}" == "set"
-%define source6 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir6/download.url&export=%{realsub}&output=/src6.tar.gz
-%else
-%define source6 none
+Source6: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir6/download.url&export=%{realsub}&output=/src6.tar.gz
 %endif
 
 %if "%{?dataDir7:set}" == "set"
-%define source7 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir7/download.url&export=%{realsub}&output=/src7.tar.gz
-%else
-%define source7 none
+Source7: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir7/download.url&export=%{realsub}&output=/src7.tar.gz
 %endif
 
 %if "%{?dataDir8:set}" == "set"
-%define source8 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir8/download.url&export=%{realsub}&output=/src8.tar.gz
-%else
-%define source8 none
+Source8: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir8/download.url&export=%{realsub}&output=/src8.tar.gz
 %endif
 
 %if "%{?dataDir9:set}" == "set"
-%define source9 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir9/download.url&export=%{realsub}&output=/src9.tar.gz
-%else
-%define source9 none
+Source9: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir9/download.url&export=%{realsub}&output=/src9.tar.gz
 %endif
 
 %if "%{?dataDir10:set}" == "set"
-%define source10 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir10/download.url&export=%{realsub}&output=/src10.tar.gz
-%else
-%define source10 none
+Source10: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir10/download.url&export=%{realsub}&output=/src10.tar.gz
 %endif
 
 %if "%{?dataDir11:set}" == "set"
-%define source11 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir11/download.url&export=%{realsub}&output=/src11.tar.gz
-%else
-%define source11 none
+Source11: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir11/download.url&export=%{realsub}&output=/src11.tar.gz
 %endif
 
 %if "%{?dataDir12:set}" == "set"
-%define source12 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir12/download.url&export=%{realsub}&output=/src12.tar.gz
-%else
-%define source12 none
+Source12: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir12/download.url&export=%{realsub}&output=/src12.tar.gz
 %endif
 
 %if "%{?dataDir13:set}" == "set"
-%define source13 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir13/download.url&export=%{realsub}&output=/src13.tar.gz
-%else
-%define source13 none
+Source13: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir13/download.url&export=%{realsub}&output=/src13.tar.gz
 %endif
 
 %if "%{?dataDir14:set}" == "set"
-%define source14 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir14/download.url&export=%{realsub}&output=/src14.tar.gz
-%else
-%define source14 none
+Source14: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir14/download.url&export=%{realsub}&output=/src14.tar.gz
 %endif
 
 %if "%{?dataDir15:set}" == "set"
-%define source15 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir15/download.url&export=%{realsub}&output=/src15.tar.gz
-%else
-%define source15 none
+Source15: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir15/download.url&export=%{realsub}&output=/src15.tar.gz
 %endif
 
 %if "%{?dataDir16:set}" == "set"
-%define source16 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir16/download.url&export=%{realsub}&output=/src16.tar.gz
-%else
-%define source16 none
+Source16: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir16/download.url&export=%{realsub}&output=/src16.tar.gz
 %endif
 
 %if "%{?dataDir17:set}" == "set"
-%define source17 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir17/download.url&export=%{realsub}&output=/src17.tar.gz
-%else
-%define source17 none
+Source17: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir17/download.url&export=%{realsub}&output=/src17.tar.gz
 %endif
 
 %if "%{?dataDir18:set}" == "set"
-%define source18 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir18/download.url&export=%{realsub}&output=/src18.tar.gz
-%else
-%define source18 none
+Source18: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir18/download.url&export=%{realsub}&output=/src18.tar.gz
 %endif
 
 %if "%{?dataDir19:set}" == "set"
-%define source19 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir19/download.url&export=%{realsub}&output=/src19.tar.gz
-%else
-%define source19 none
+Source19: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir19/download.url&export=%{realsub}&output=/src19.tar.gz
 %endif
 
 %if "%{?dataDir20:set}" == "set"
-%define source20 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir20/download.url&export=%{realsub}&output=/src20.tar.gz
-%else
-%define source20 none
+Source20: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir20/download.url&export=%{realsub}&output=/src20.tar.gz
 %endif
 
 %if "%{?dataDir21:set}" == "set"
-%define source21 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir21/download.url&export=%{realsub}&output=/src21.tar.gz
-%else
-%define source21 none
+Source21: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir21/download.url&export=%{realsub}&output=/src21.tar.gz
 %endif
 
 %if "%{?dataDir22:set}" == "set"
-%define source22 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir22/download.url&export=%{realsub}&output=/src22.tar.gz
-%else
-%define source22 none
+Source22: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir22/download.url&export=%{realsub}&output=/src22.tar.gz
 %endif
 
 %if "%{?dataDir23:set}" == "set"
-%define source23 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir23/download.url&export=%{realsub}&output=/src23.tar.gz
-%else
-%define source23 none
+Source23: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir23/download.url&export=%{realsub}&output=/src23.tar.gz
 %endif
 
 %if "%{?dataDir24:set}" == "set"
-%define source24 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir24/download.url&export=%{realsub}&output=/src24.tar.gz
-%else
-%define source24 none
+Source24: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir24/download.url&export=%{realsub}&output=/src24.tar.gz
 %endif
 
 %if "%{?dataDir25:set}" == "set"
-%define source25 %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir25/download.url&export=%{realsub}&output=/src25.tar.gz
-%else
-%define source25 none
+Source25: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir25/download.url&export=%{realsub}&output=/src25.tar.gz
 %endif
-
-Source2: %source2
-Source3: %source3
-Source4: %source4
-Source5: %source5
-Source6: %source6
-Source7: %source7
-Source8: %source8
-Source9: %source9
-Source10: %source10
-Source11: %source11
-Source12: %source12
-Source13: %source13
-Source14: %source14
-Source15: %source15
-Source16: %source16
-Source17: %source17
-Source18: %source18
-Source19: %source19
-Source20: %source20
-Source21: %source21
-Source22: %source22
-Source23: %source23
-Source24: %source24
-Source25: %source25
-
 
 %prep
 %setup -b 0 -n %realsub
+%if "%{?dataDir2:set}" == "set"
 %setup -b 2 -D -n %realsub
+%endif
+%if "%{?dataDir3:set}" == "set"
 %setup -b 3 -D -n %realsub
+%endif
+%if "%{?dataDir4:set}" == "set"
 %setup -b 4 -D -n %realsub
+%endif
+%if "%{?dataDir5:set}" == "set"
 %setup -b 5 -D -n %realsub
+%endif
+%if "%{?dataDir6:set}" == "set"
 %setup -b 6 -D -n %realsub
+%endif
+%if "%{?dataDir7:set}" == "set"
 %setup -b 7 -D -n %realsub
+%endif
+%if "%{?dataDir8:set}" == "set"
 %setup -b 8 -D -n %realsub
+%endif
+%if "%{?dataDir9:set}" == "set"
 %setup -b 9 -D -n %realsub
+%endif
+%if "%{?dataDir10:set}" == "set"
 %setup -b 10 -D -n %realsub
+%endif
+%if "%{?dataDir11:set}" == "set"
 %setup -b 11 -D -n %realsub
+%endif
+%if "%{?dataDir12:set}" == "set"
 %setup -b 12 -D -n %realsub
+%endif
+%if "%{?dataDir13:set}" == "set"
 %setup -b 13 -D -n %realsub
+%endif
+%if "%{?dataDir14:set}" == "set"
 %setup -b 14 -D -n %realsub
+%endif
+%if "%{?dataDir15:set}" == "set"
 %setup -b 15 -D -n %realsub
+%endif
+%if "%{?dataDir16:set}" == "set"
 %setup -b 16 -D -n %realsub
+%endif
+%if "%{?dataDir17:set}" == "set"
 %setup -b 17 -D -n %realsub
+%endif
+%if "%{?dataDir18:set}" == "set"
 %setup -b 18 -D -n %realsub
+%endif
+%if "%{?dataDir19:set}" == "set"
 %setup -b 19 -D -n %realsub
+%endif
+%if "%{?dataDir20:set}" == "set"
 %setup -b 20 -D -n %realsub
+%endif
+%if "%{?dataDir21:set}" == "set"
 %setup -b 21 -D -n %realsub
+%endif
+%if "%{?dataDir22:set}" == "set"
 %setup -b 22 -D -n %realsub
+%endif
+%if "%{?dataDir23:set}" == "set"
 %setup -b 23 -D -n %realsub
+%endif
+%if "%{?dataDir24:set}" == "set"
 %setup -b 24 -D -n %realsub
+%endif
+%if "%{?dataDir25:set}" == "set"
 %setup -b 25 -D -n %realsub
-
+%endif
  
 %build
 currdir=`pwd`
