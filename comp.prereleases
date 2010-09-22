@@ -48,7 +48,7 @@ HG1009c cmsweb
 + forHG1009 cmsweb.spec
 + HEAD/4.0 frontend.spec
 + HEAD/0.1.21 webtools-base.spec
-+ HEAD/0.5.1 das.spec
++ HEAD/0.5.2 das.spec
 + HEAD/V06_00_40 dbs-web.spec
 + HEAD/DBS_2_1_1_patch1 dbs-client.spec
 + HEAD/0.10.13 fmws.spec
