@@ -46,7 +46,10 @@ HG1009c aa20100831-dbs3 dbs3
 # Cms Webtools services
 HG1009c cmsweb
 + forHG1009 cmsweb.spec
-+ HEAD/4.0 frontend.spec
++ HEAD/2.2.14gsi apache2.spec
++ HEAD/3.1 apache2-conf.spec
++ HEAD/1.08 p5-apache-dbi.spec
++ HEAD/4.0a frontend.spec
 + HEAD/0.1.21 webtools-base.spec
 + HEAD/0.5.2 das.spec
 + HEAD/V06_00_40 dbs-web.spec
