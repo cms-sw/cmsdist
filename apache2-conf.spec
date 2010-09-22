@@ -1,18 +1,16 @@
-### RPM cms apache2-conf 3.0
-#%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
-#Source0: %cvsserver&module=COMP/WEBTOOLS/Configuration&export=conf&tag=-rSERVER_CONF_2_9&output=/config.tar.gz
-Source: http://cmsmac01.cern.ch/~lat/exports/apacheconf.tar.gz
+### RPM cms apache2-conf 3.1
+Source: svn://svn.cern.ch/reps/CMSDMWM/HTTPGroup/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=HTTPGroup&output=/conf.tar.gz
 Requires: apache2
 
 %prep
-%setup -c -n conf
+%setup -n HTTPGroup/ApacheConf
 
 %build
 
 %install
 mkdir -p %i/{bin,etc/env.d,etc/profile.d}
-mv %_builddir/conf/mkserver %i/bin/
-mv %_builddir/conf/* %i/
+mv mkserver %i/bin/
+mv archive-log-files %i/
 ln -sf ../profile.d/init.sh %i/etc/env.d/00-core-server.sh
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
