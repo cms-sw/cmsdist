@@ -40,10 +40,10 @@ chmod 755 %i/bin/scram
 
 %post
 %{relocateRpmPkg}bin/scram
-echo "SCRAMV1_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
-echo "SCRAMV1_VERSION='%v'" >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
-echo "set SCRAMV1_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
-echo "set SCRAMV1_VERSION='%v'" >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
+grep '^SCRAMV1_' $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh.new
+grep '^setenv  *SCRAMV1_' $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh.new
+mv $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh.new $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
+mv $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh.new $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 
 mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/default-scram
 # default version for SCRAM release series Vx_y_
