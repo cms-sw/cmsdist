@@ -97,11 +97,6 @@ Requires: graphviz-toolfile
 Requires: igprof-toolfile
 %endif
 
-%define is64bit %(case %cmsos in slc*_amd64%closingbrace echo true;; *%closingbrace echo false;; esac)
-%if "%is64bit-%isslc" == "true-true"
-Requires: libunwind-toolfile
-%endif
-
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull
 
 ## IMPORT scramv1-tool-conf
