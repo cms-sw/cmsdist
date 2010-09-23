@@ -1,9 +1,8 @@
-### RPM cms cmsweb 1
+### RPM cms cmsweb 1009d
 
 # This is a meta-package to group all cms webtools services from comp repository
 
-# PHEDEX-combined-web was left out because it is not yet prepared for the new frontend pkg
-Requires: frontend webtools-base das dbs-web fmws sitedb T0Mon
+Requires: frontend webtools-base das dbs-web fmws sitedb T0Mon PHEDEX-combined-web couchdb
 
 %prep
 %build
