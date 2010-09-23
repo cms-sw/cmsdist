@@ -8,8 +8,8 @@
 
 Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{baseVersion}/src/DPM-mysql-%{downloadv}sec.%{dpmarch}.src.rpm
 # Source: http://cmsrep.cern.ch/cms/cpt/Software/download/cms.ap/SOURCES/%{cmsplatf}/external/dpm/%{downloadv}/DPM-%{downloadv}.src.rpm
-#Patch0: dpm-1.7.0-macosx
 Patch0: dpm-1.7.4.7-ld
+Patch1: dpm-1.7.4.7-macosx
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %if "%cpu" != "amd64"
@@ -23,7 +23,15 @@ Provides: libdpm.so%{libsuffix}
 rm -f %_builddir/DPM-%{downloadv}.src.tar.gz
 rpm2cpio %{_sourcedir}/DPM-mysql-%{downloadv}sec.%{dpmarch}.src.rpm | cpio -ivd LCG-DM-%{baseVersion}.tar.gz
 cd %_builddir ; rm -rf LCG-DM-%{baseVersion}; tar -xzvf LCG-DM-%{baseVersion}.tar.gz
+
+perl -p -i -e 's|SHLIBREQLIBS = -lc|SHLIBREQLIBS = -lc /usr/lib/dylib1.o|' LCG-DM-%{baseVersion}/config/darwin.cf
+perl -p -i -e 's|FC = g77|FC = gfortran|' LCG-DM-%{baseVersion}/config/darwin.cf
 %patch0 -p0
+case %cmsos in 
+  osx*) 
+%patch1 -p1
+;;
+esac
 
 %build
 cd LCG-DM-%{baseVersion}
