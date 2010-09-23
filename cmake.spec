@@ -14,10 +14,11 @@ Requires: zlib
 %prep
 
 %setup -n cmake-%realversion
-#%patch1 -p1
-%if "%(echo %{cmsos} | cut -d_ -f 1 | sed -e 's|osx.*|osx|')" == "osx"
-%patch2 -p0
-%endif
+# This patch disables the warning about long doubles that some
+# macosx compilers emit. Even if it matters only for macosx,
+# we apply it anyway to avoid discrepancies and to avoid that 
+# it's left behind if cmake version is changed. 
+%patch2 -p1
 
 %build
 ./configure --prefix=%i
