@@ -1,7 +1,7 @@
-### RPM cms frontend 4.0a
+### RPM cms frontend 4.0b
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true
 Source: http://www.nikhef.nl/~janjust/proxy-verify/grid-proxy-verify.c
-Requires: apache2-conf mod_wsgi mod_perl2 p5-apache2-modssl p5-compress-zlib p5-digest-hmac p5-apache-dbi p5-dbi oracle p5-dbd-oracle oracle-env
+Requires: apache-setup mod_wsgi mod_perl2 p5-apache2-modssl p5-compress-zlib p5-digest-hmac p5-apache-dbi p5-dbi oracle p5-dbd-oracle oracle-env
 
 %prep
 
