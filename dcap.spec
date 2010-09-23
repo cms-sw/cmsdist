@@ -9,24 +9,19 @@ Patch0: dcap-macosx-workarounds
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
 # Determine the soname and the suffix for the libraries.
-# We do it this way because rpm does not support nested
-# ifs.
+# Yes, this is actually the syntax for else ifs 4.4.2.2
+# It looks like multiple if/endif or nested ones do not
+# actually work.
 %if "%{isosx}-%{cpu}" == "true-amd64"
 %define soname dylib
 %define libsuffix %{nil}
-%endif
-
-%if "%{isosx}-%{cpu}" == "true-ia32"
+%else \n %if "%{isosx}-%{cpu}" == "true-ia32"
 %define soname dylib
 %define libsuffix %{nil}
-%endif
-
-%if "%{isosx}-${cpu}" == "false-amd64"
+%else \n if "%{isosx}-${cpu}" == "false-amd64"
 %define soname so 
 %define libsuffix ()(64bit)
-%endif
-
-%if "%{isosx}-${cpu}" == "false-ia32"
+%else \n if "%{isosx}-${cpu}" == "false-ia32"
 %define soname so
 %define libsuffix %{nil} 
 %endif
@@ -35,6 +30,8 @@ Provides: libdcap.%{soname}%{libsuffix}
 Provides: libpdcap.%{soname}%{libsuffix}
 
 %prep
+echo %{isosx}-%{cpu}
+
 %setup -n dcap
 # THIS PATCH IS COMPLETELY UNTESTED AND HAS THE SOLE
 # PURPOSE OF BUILDING STUFF ON MAC, REGARDLESS WHETHER
