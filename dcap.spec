@@ -4,34 +4,17 @@
 Source: svn://svn.dcache.org/dCache/tags/production-%svnTag/modules/dcap?scheme=http&module=dcap&output=/dcap.tgz
 Patch0: dcap-macosx-workarounds
 
-%define closingbrace )
-%define isosx %(case %cmsos in osx*%closingbrace echo true;; *%closingbrace echo false;; esac)
-%define cpu %(echo %cmsplatf | cut -d_ -f2)
-
-# Determine the soname and the suffix for the libraries.
-# Yes, this is actually the syntax for else ifs 4.4.2.2
-# It looks like multiple if/endif or nested ones do not
-# actually work.
-%if "%{isosx}-%{cpu}" == "true-amd64"
-%define soname dylib
-%define libsuffix %{nil}
-%else \n %if "%{isosx}-%{cpu}" == "true-ia32"
-%define soname dylib
-%define libsuffix %{nil}
-%else \n if "%{isosx}-${cpu}" == "false-amd64"
-%define soname so 
-%define libsuffix ()(64bit)
-%else \n if "%{isosx}-${cpu}" == "false-ia32"
-%define soname so
-%define libsuffix %{nil} 
-%endif
-
-Provides: libdcap.%{soname}%{libsuffix}
-Provides: libpdcap.%{soname}%{libsuffix}
+# Unfortunately I could not find any rpm version invariant way to do and "if
+# else if", so I ended up hardcoding all the possible variants.
+# FIXME: move to multiple ifs once rpm 4.4.2.2 is deprecated.
+Provides: libdcap.so
+Provides: libpdcap.so
+Provides: libdcap.so()(64bit)
+Provides: libpdcap.so()(64bit)
+Provides: libdcap.dylib
+Provides: libpdcap.dylib
 
 %prep
-echo %{isosx}-%{cpu}
-
 %setup -n dcap
 # THIS PATCH IS COMPLETELY UNTESTED AND HAS THE SOLE
 # PURPOSE OF BUILDING STUFF ON MAC, REGARDLESS WHETHER
@@ -46,6 +29,19 @@ esac
 chmod +x mkmapfile.sh
 chmod +x mkdirs.sh
 chmod +x version.sh
-LD=gcc make BIN_PATH=%i SONAME=%soname %makeprocesses
+case %cmsos in
+  osx*)
+	SONAME=dylib ;;
+  slc*)
+	SONAME=so ;;
+esac	
+
+LD=gcc make BIN_PATH=%i SONAME=$SONAME %makeprocesses
 %install
-LD=gcc make BIN_PATH=%i SONAME=%soname install
+case %cmsos in
+  osx*)
+        SONAME=dylib ;;
+  slc*)
+        SONAME=so ;;
+esac    
+LD=gcc make BIN_PATH=%i SONAME=$SONAME install
