@@ -45,20 +45,24 @@ HG1009c aa20100831-dbs3 dbs3
 #
 # Cms Webtools services
 HG1009c cmsweb
-+ forHG1009 cmsweb.spec
-+ HEAD/2.2.14gsi apache2.spec
-+ HEAD/3.1 apache2-conf.spec
-+ HEAD/1.08 p5-apache-dbi.spec
-+ HEAD/4.0a frontend.spec
++ HEAD/1009d cmsweb.spec
++ HEAD/4.0b frontend.spec
+  + HEAD/2.2.14gsi apache2.spec
+  + HEAD/2.9b apache2-conf.spec
+  + HEAD/3.1 apache-setup.spec
+  + HEAD/1.08 p5-apache-dbi.spec
 + HEAD/0.1.21 webtools-base.spec
 + HEAD/0.5.2 das.spec
 + HEAD/V06_00_40 dbs-web.spec
 + HEAD/DBS_2_1_1_patch1 dbs-client.spec
 + HEAD/0.10.13 fmws.spec
 + HEAD/1.9.2-4 srmcp.spec
-# Phedex was disabled because the build fails with the new frontend pkg
-#+ forPHEDEX-web-20100910-3 PHEDEX-combined-web.spec PHEDEX-web.spec PHEDEX-webapp.spec PHEDEX-datasvc.spec protovis.spec
++ HEAD/2 PHEDEX-combined-web.spec
+  + HEAD/WEB_3_1_6pre7 PHEDEX-web.spec
+  + HEAD/WEBAPP_BETA_1_0_1pre7 PHEDEX-webapp.spec
+  + HEAD/DATASVC_1_6_4pre7 PHEDEX-datasvc.spec
+  + HEAD/3.2 protovis.spec
 + HEAD/1.2.3 sitedb.spec
 + HEAD/1.0.23 T0Mon.spec
-
-
++ HEAD/1.0.1 couchdb.spec
++ HEAD/0.6.2 couchapp.spec
