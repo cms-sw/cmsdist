@@ -10,22 +10,22 @@ Patch0: dcap-macosx-workarounds
 # Determine the soname and the suffix for the libraries.
 # We do it this way because rpm does not support nested
 # ifs.
-%if "%{?isosx:set}-%{cpu}" == "set-amd64"
+%if "%{isosx}-%{cpu}" == "true-amd64"
 %define soname dylib
 %define libsuffix %{nil}
 %endif
 
-%if "%{?isosx:set}-%{cpu}" == "set-ia32"
+%if "%{isosx}-%{cpu}" == "true-ia32"
 %define soname dylib
 %define libsuffix %{nil}
 %endif
 
-%if "%{?isosx:set}-${cpu}" == "-amd64"
+%if "%{isosx}-${cpu}" == "false-amd64"
 %define soname so 
 %define libsuffix ()(64bit)
 %endif
 
-%if "%{?isosx:set}-${cpu}" == "-ia32"
+%if "%{isosx}-${cpu}" == "false-ia32"
 %define soname so
 %define libsuffix %{nil} 
 %endif
@@ -48,6 +48,6 @@ esac
 chmod +x mkmapfile.sh
 chmod +x mkdirs.sh
 chmod +x version.sh
-LD=gcc make BIN_PATH=%i SONAME=%soname %makeprocesses 
+LD=gcc make BIN_PATH=%i SONAME=%soname %makeprocesses
 %install
 LD=gcc make BIN_PATH=%i SONAME=%soname install
