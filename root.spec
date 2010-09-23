@@ -35,6 +35,7 @@ Patch25: root-5.22-00d-fix-python-shebang
 Patch26: root-5.22-00d-RootsysOnMac
 Patch27: root-5.22-00d-TString-Clear
 Patch28: root-5.22-00d-libgfortran-dylib-detection
+Patch29: root-5.22-00d-cint-dll-correct-install-name
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -84,6 +85,7 @@ rm graf3d/gl/src/gl2ps.c.orig
 %patch26 -p1
 %patch27 -p1
 %patch28 -p2
+%patch29 -p1
 
 case %gccver in
   4.3.*)
