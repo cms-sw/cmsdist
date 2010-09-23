@@ -89,6 +89,7 @@ export XDAQ_PLATFORM=x86_slc4
 export ENV_CMS_TK_ORACLE_HOME=${ORACLE_ROOT}
 export ENV_ORACLE_HOME=${ORACLE_ROOT}
 export XERCESCROOT=${XERCES_C_ROOT}
+export XDAQ_ROOT
 
 ################################################################################
 # Configure

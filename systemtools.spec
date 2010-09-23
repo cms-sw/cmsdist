@@ -1,25 +1,23 @@
 ### RPM external systemtools 19
+## NOCOMPILER
 Source: none
+Requires: oracle-env
 
 %if "%{?use_system_gcc:set}" == "set"
-%define compilertools ccompiler cxxcompiler f77compiler jcompiler
+%define compilertools ccompiler cxxcompiler f77compiler
 %else
-%define compilertools %jcompiler
+%define compilertools %{nil}
 %endif
 
 %define systemtools			sockets opengl x11 %compilertools
 %define sockets_version			1.0
 %define opengl_version			XFree4.2
 %define x11_version			R6
-### why oh why is this hardwired?? 
-%define jcompiler_version		1.5.0.p6-CMS18
 
-## INITENV SET SOCKETS_VERSION		%sockets_version
-## INITENV SET OPENGL_VERSION		%opengl_version
-## INITENV SET X11_VERSION		%x11_version
-## INITENV SET JCOMPILER_VERSION	%jcompiler_version
-## INITENV SET JCOMPILER_TOOL	        java-jdk
-## INITENV SET PKGTOOLS_SYSTEM_TOOLS	%systemtools
+## INITENV SETV SOCKETS_VERSION		%sockets_version
+## INITENV SETV OPENGL_VERSION		%opengl_version
+## INITENV SETV X11_VERSION		%x11_version
+## INITENV SETV PKGTOOLS_SYSTEM_TOOLS	%systemtools
 
 %prep
 %build
@@ -53,9 +51,10 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/opengl.xml
     <lib name="GL"/>
     <lib name="GLU"/>
     <use name="x11"/>
+    <environment name="ORACLE_ADMINDIR" default="@ORACLE_ENV_ROOT@/etc"/>
 EOF_TOOLFILE
 case %cmsplatf in
-osx10* )
+osx103* )
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/opengl.xml
     <client>
       <environment name="OPENGL_BASE" default="/System/Library/Frameworks/OpenGL.framework/Versions/A"/>
@@ -72,7 +71,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/x11.xml
   <tool name="x11" version="%x11_version">
 EOF_TOOLFILE
 case %cmsplatf in
-slc3_*|osx*)
+slc3_* )
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/x11.xml
     <client>
       <environment name="INCLUDE" value="/usr/X11R6/include"/>
@@ -94,22 +93,8 @@ cat << \EOF_TOOLFILE >>%i/etc/scram.d/x11.xml
   </tool>
 EOF_TOOLFILE
 
-# JCompiler
-%define compiler_ver        %(echo %jcompiler_version | sed -e "s|\\.||g")
-cat << \EOF_TOOLFILE >>%i/etc/scram.d/jcompiler.xml
-  <tool name="jcompiler" version="%jcompiler_version" type="compiler">
-    <client>
-      <environment name="JAVA_BASE"/>
-      <environment name="JAVAC" value="$JAVA_BASE/bin/javac"/>
-    </client>
-    <flags javac_="$(JAVAC)"/>
-    <flags javac_o="$(JAVAC) -O"/>
-    <flags javac_d="$(JAVAC) -g"/>
-    <flags scram_compiler_name="jsdk%compiler_ver"/>
-    <flags scram_language_type="JAVA"/>
-    <runtime name="JAVA_HOME" default="$JAVA_BASE"/>
-  </tool>
-EOF_TOOLFILE
+export ORACLE_ENV_ROOT
+perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*.xml
 
 %post
 %{relocateConfig}etc/scram.d/*.xml

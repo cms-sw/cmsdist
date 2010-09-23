@@ -1,4 +1,5 @@
 ### FILE data-rpm-build.file
+## NOCOMPILER
 
 %define realname %(echo %n | cut -d- -f2,3 | tr '-' '/') 
 %define realsub %(echo %n | cut -d- -f2) 
@@ -25,7 +26,5 @@ cd ..
 tar -cv %realname | tar -x -C %i
 
 %post
-grep '^%{BaseTool}_' $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh.new
-grep '^setenv  *%{BaseTool}_' $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh.new
-mv $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh.new $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
-mv $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh.new $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+echo "%{BaseTool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+echo "set %{BaseTool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh

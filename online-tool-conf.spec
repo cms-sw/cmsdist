@@ -24,7 +24,6 @@ Requires: roofit
 Requires: castor
 Requires: libjpg
 Requires: dcap
-Requires: oracle-env
 Requires: p5-dbd-oracle
 Requires: frontier_client
 Requires: sqlite

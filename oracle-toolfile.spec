@@ -1,5 +1,6 @@
 ### RPM external oracle-toolfile 1.0
 Requires: oracle
+Requires: oracle-env
 %prep
 
 %build
@@ -14,7 +15,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/oracle.xml
   @OS_LIBS@
   <client>
     <environment name="ORACLE_BASE" default="@TOOL_ROOT@"/>
-    <environment name="ORACLE_ADMINDIR"/>
+    <environment name="ORACLE_ADMINDIR" value="@ORACLE_ENV_ROOT@/etc"/>
     <environment name="LIBDIR" value="$ORACLE_BASE/lib"/>
     <environment name="BINDIR" value="$ORACLE_BASE/bin"/>
     <environment name="INCLUDE" value="$ORACLE_BASE/include"/>
@@ -38,4 +39,5 @@ case $ORACLE_VERSION in
    ;;
 esac
 
+export ORACLE_ENV_ROOT
 ## IMPORT scram-tools-post

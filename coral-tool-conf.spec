@@ -11,7 +11,6 @@ Requires: boost-toolfile
 Requires: frontier_client-toolfile
 Requires: sqlite-toolfile
 Requires: gcc-toolfile
-Requires: oracle-env
 
 %if "%online" != "true"
 Requires: zlib-toolfile

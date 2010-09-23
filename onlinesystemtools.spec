@@ -1,45 +1,40 @@
 ### RPM external onlinesystemtools 2.2
 Source: none
+Requires: oracle-env
 
-# Here we are assuming that online release always uses system compiler:
-%define compilertools jcompiler
-
+%define compilertools %{nil}
 %define onlinetools zlib curl openssl xerces-c xdaq xdaqheader mimetic oracle oracleocci
 # Define variables used in non-scram-managed tools, that would be
 # normally defined in package's init.sh/csh scrips.
 # Set all versions as currently found on the system.
 %define xdaq_root                       /opt/xdaq
 %define curl_version                    7.12.1
-## INITENV SET CURL_VERSION             %curl_version
+## INITENV SETV CURL_VERSION             %curl_version
 %define zlib_version                    1.2.1.2
-## INITENV SET ZLIB_VERSION             %zlib_version
+## INITENV SETV ZLIB_VERSION             %zlib_version
 %define oracle_version			10.2.1
-## INITENV SET ORACLE_VERSION           %oracle_version
-## INITENV SET ORACLE_ROOT		%xdaq_root
+## INITENV SETV ORACLE_VERSION           %oracle_version
+## INITENV SETV ORACLE_ROOT		%xdaq_root
 %define openssl_version			0.9.7e
-## INITENV SET OPENSSL_VERSION          %openssl_version
+## INITENV SETV OPENSSL_VERSION          %openssl_version
 %define xerces_version			2.7.0
-## INITENV SET XERCES_C_VERSION         %xerces_version
-## INITENV SET XERCES_C_ROOT		%xdaq_root
+## INITENV SETV XERCES_C_VERSION         %xerces_version
+## INITENV SETV XERCES_C_ROOT		%xdaq_root
 %define xdaq_version			3.32.1
-## INITENV SET XDAQ_VERSION         	%xdaq_version
-## INITENV SET XDAQ_ROOT         	%xdaq_root
+## INITENV SETV XDAQ_VERSION         	%xdaq_version
+## INITENV SETV XDAQ_ROOT         	%xdaq_root
 %define mimetic_version			0.9.1
-## INITENV SET MIMETIC_VERSION         	%mimetic_version
+## INITENV SETV MIMETIC_VERSION         	%mimetic_version
 
 %define systemtools			sockets opengl x11 %compilertools %onlinetools
 %define sockets_version			1.0
 %define opengl_version			XFree4.2
 %define x11_version			R6
-### why oh why is this hardwired?? 
-%define jcompiler_version		1.5.0.p6-CMS8
 
-## INITENV SET SOCKETS_VERSION		%sockets_version
-## INITENV SET OPENGL_VERSION		%opengl_version
-## INITENV SET X11_VERSION		%x11_version
-## INITENV SET JCOMPILER_VERSION	%jcompiler_version
-## INITENV SET JCOMPILER_TOOL	        java-jdk
-## INITENV SET PKGTOOLS_SYSTEM_TOOLS	%systemtools
+## INITENV SETV SOCKETS_VERSION		%sockets_version
+## INITENV SETV OPENGL_VERSION		%opengl_version
+## INITENV SETV X11_VERSION		%x11_version
+## INITENV SETV PKGTOOLS_SYSTEM_TOOLS	%systemtools
 
 %prep
 %build
@@ -110,23 +105,6 @@ EOF_TOOLFILE
 esac
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/x11.xml
     <use name="sockets"/>
-  </tool>
-EOF_TOOLFILE
-
-# JCompiler
-%define compiler_ver        %(echo %jcompiler_version | sed -e "s|\\.||g")
-cat << \EOF_TOOLFILE >>%i/etc/scram.d/jcompiler.xml
-  <tool name="jcompiler" version="%jcompiler_version" type="compiler">
-    <client>
-      <environment name="JAVA_BASE"/>
-      <environment name="JAVAC" value="$JAVA_BASE/bin/javac"/>
-    </client>
-    <flags javac_="$(JAVAC)"/>
-    <flags javac_o="$(JAVAC) -O"/>
-    <flags javac_d="$(JAVAC) -g"/>
-    <flags scram_compiler_name="jsdk%compiler_ver"/>
-    <flags scram_language_type="JAVA"/>
-    <runtime name="JAVA_HOME" default="$JAVA_BASE"/>
   </tool>
 EOF_TOOLFILE
 
@@ -250,7 +228,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/oracle.xml
     <lib name="nnz10"/>
     <client>
       <environment name="ORACLE_BASE" default="%xdaq_root"/>
-      <environment name="ORACLE_ADMINDIR" default="."/>
+      <environment name="ORACLE_ADMINDIR" default="@ORACLE_ENV_ROOT@/etc"/>
       <environment name="LIBDIR" value="$ORACLE_BASE/lib"/>
       <environment name="BINDIR" value="$ORACLE_BASE/bin"/>
       <environment name="INCLUDE" value="$ORACLE_BASE/include"/>
@@ -267,6 +245,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/oracleocci.xml
     <use name="oracle"/>
   </tool>
 EOF_TOOLFILE
+
+export ORACLE_ENV_ROOT
+perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*.xml
 
 %post
 %{relocateConfig}/etc/scram.d/*.xml

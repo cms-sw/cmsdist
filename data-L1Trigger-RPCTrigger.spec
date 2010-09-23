@@ -1,5 +1,4 @@
 ### RPM cms data-L1Trigger-RPCTrigger 2
-## NOCOMPILER
 %define realversion V00-15-00
 %define dataDir data/CosmicPats/v7
 %define dataDir2 data/CosmicPats/v6

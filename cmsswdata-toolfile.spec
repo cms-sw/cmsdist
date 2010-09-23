@@ -17,7 +17,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cmsswdata.xml
 EOF_TOOLFILE
 for tool in `echo %requiredtools | tr ' ' '\n' | grep 'data-'` ; do
   uctool=`echo $tool | tr '-' '_' | tr '[a-z]' '[A-Z]'`
-  toolbase=`perl -e 'print "$ENV{'$uctool'_ROOT}\n";'`
+  toolbase=`eval echo \\$${uctool}_ROOT`
   echo "$uctool = $toolbase"
   if [ "X$toolbase" = X -o ! -d $toolbase/etc ] ; then continue ; fi
   echo "<runtime name=\"CMSSW_SEARCH_PATH\" default=\"$toolbase\" handler=\"warn\" type=\"path\"/>" >> %i/etc/scram.d/cmsswdata.xml

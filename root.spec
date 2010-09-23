@@ -105,6 +105,7 @@ esac
 %build
 
 mkdir -p %i
+export LIBJPG_ROOT
 export ROOTSYS=%_builddir/root
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
@@ -116,6 +117,7 @@ EXTRA_CONFIG_ARGS="--with-f77=/usr
              --disable-odbc
              --disable-qt --disable-qtgsi"
 %else
+export LIBPNG_ROOT ZLIB_ROOT LIBTIFF_ROOT LIBUNGIF_ROOT
 EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}
              --with-xrootd=$XROOTD_ROOT
              --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
