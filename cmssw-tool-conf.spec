@@ -77,6 +77,7 @@ Requires: toprex-toolfile
 Requires: uuid-toolfile
 Requires: xerces-c-toolfile
 Requires: zlib-toolfile
+Requires: dcap-toolfile
 
 %if "%isslc" == "true"
 Requires: tkonlinesw-toolfile
@@ -86,7 +87,6 @@ Requires: sip-toolfile
 Requires: xrootd-toolfile
 Requires: simage-toolfile
 Requires: xdaq-toolfile
-Requires: dcap-toolfile
 Requires: frontier_client-toolfile
 Requires: rulechecker-toolfile
 Requires: curl-toolfile
