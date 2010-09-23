@@ -4,6 +4,7 @@
 Source: svn://svn.dcache.org/dCache/tags/production-%svnTag/modules/dcap?scheme=http&module=dcap&output=/dcap.tgz
 Patch0: dcap-macosx-workarounds
 
+%define closingbrace )
 %define isosx %(case %cmsos in osx*%closingbrace echo true;; *%closingbrace echo false;; esac)
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
