@@ -1,4 +1,4 @@
-### RPM cms pystack 1.0
+### RPM cms pystack 1.0b
 Source: svn://svn.cern.ch/reps/CMSDMWM/HTTPGroup/tags/3.2?scheme=svn+ssh&strategy=export&module=HTTPGroup&output=/src.tar.gz
 Requires: gdb python
 
