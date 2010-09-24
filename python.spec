@@ -23,7 +23,7 @@ perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" Lib/cgi.py
 
 case %cmsplatf in
   osx*)
- 	sed 's|@PREFIX@|%i|g' < %_sourcedir/python-osx | patch -p1
+ 	sed 's|@PREFIX@|%i|g' < %_sourcedir/python-osx | patch -p1 
   ;;
 esac
 %patch0 -p1
@@ -90,6 +90,9 @@ esac
 make %makeprocesses
 
 %install
+# We need to export it because setup.py now uses it to determine the actual
+# location of DB4, this was needed to avoid having it picked up from the system.
+export DB4_ROOT
 make install
 %define pythonv %(echo %realversion | cut -d. -f 1,2)
 
