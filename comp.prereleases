@@ -47,7 +47,7 @@ HG1009c aa20100831-dbs3 dbs3
 HG1009c cmsweb
 + HEAD/1009e cmsweb.spec
 + HEAD/2.2.14 rotatelogs.spec
-+ HEAD/1.0 pystack.spec
++ HEAD/1.0b pystack.spec
   + HEAD/7.1 gdb.spec
 + HEAD/4.0b frontend.spec
   + HEAD/2.2.14gsi apache2.spec
