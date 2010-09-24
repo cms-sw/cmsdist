@@ -51,6 +51,10 @@ mkdir -p %i/include %i/lib %i/bin
 
 dirs="$EXPAT_ROOT $BZ2LIB_ROOT $NCURSES_ROOT $DB4_ROOT $GDBM_ROOT %{extradirs}" 
 
+# We need to export it because setup.py now uses it to determine the actual
+# location of DB4, this was needed to avoid having it picked up from the system.
+export DB4_ROOT
+
 echo $dirs
 for d in $dirs; do
   for f in $d/include/*; do
