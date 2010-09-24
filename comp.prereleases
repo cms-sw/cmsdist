@@ -23,7 +23,7 @@
 #HG1009c DAS_20100920_slc5_amd64_gcc434 das
 #
 # try to make new T0Mon RPM
-#HG1009c sjg100916b-T0Mon T0Mon
+HG1009c sjg100924-T0Mon T0Mon
 #
 # DBS-2
 HG1009c aa20101020-dbs dbs-apps dbs-server dbs-schema dbs-libs dbs-client dbs-web
