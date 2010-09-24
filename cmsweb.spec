@@ -1,8 +1,8 @@
-### RPM cms cmsweb 1009e
+### RPM cms cmsweb 1009f
 
 # This is a meta-package to group all cms webtools services from comp repository
 
-Requires: frontend webtools-base das dbs-web fmws sitedb T0Mon PHEDEX-combined-web couchdb rotatelogs
+Requires: frontend webtools-base das dbs-web fmws sitedb T0Mon PHEDEX-combined-web couchdb rotatelogs pystack
 
 %prep
 %build
