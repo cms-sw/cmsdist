@@ -6,6 +6,17 @@ Requires: xdaq
 
 %install
 
+case %cmsplatf in
+  osx*)
+    export XDAQ_OS=macosx
+    export XDAQ_PLATFORM=x86
+  ;;
+  slc*)
+    export XDAQ_OS=linux
+    export XDAQ_PLATFORM=x86
+  ;;
+esac
+
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaq.xml
 <tool name="XDAQ" version="@TOOL_VERSION@">
@@ -40,12 +51,12 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaq.xml
     <environment name="LIBDIR" default="$XDAQ_BASE/lib"/>
     <environment name="BINDIR" default="$XDAQ_BASE/bin"/>
     <environment name="INCLUDE" default="$XDAQ_BASE/include"/>
-    <environment name="INCLUDE" default="$XDAQ_BASE/include/linux"/>
+    <environment name="INCLUDE" default="$XDAQ_BASE/include/@XDAQ_OS@"/>
   </client>
   <flags cppdefines="SOAP__ LITTLE_ENDIAN__"/>
-  <flags cppdefines="linux"/>
-  <runtime name="XDAQ_OS" value="linux"/>
-  <runtime name="XDAQ_PLATFORM" value="x86"/>
+  <flags cppdefines="@XDAQ_OS@"/>
+  <runtime name="XDAQ_OS" value="@XDAQ_OS@"/>
+  <runtime name="XDAQ_PLATFORM" value="@XDAQ_PLATFORM@"/>
   <runtime name="PATH" value="$BINDIR" type="path"/>
   <runtime name="XDAQ_ROOT" value="$XDAQ_BASE"/>
   <runtime name="XDAQ_DOCUMENT_ROOT" value="$XDAQ_BASE/htdocs"/>
