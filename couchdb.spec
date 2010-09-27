@@ -1,8 +1,9 @@
 ### RPM external couchdb 1.0.1
 
-%define svnsources http://svn.apache.org/repos/asf/couchdb/tags/%realversion
-#SourceX: hdttp://apache.mirror.testserver.li/couchdb/%{realversion}/apache-%n-%{realversion}.tar.gz
-Source: couch_cms_auth.erl
+# Using the svn url instead of the default release on because we need the 
+# bootstrap script after patching the Makefile.am
+Source0: svn://svn.apache.org/repos/asf/couchdb/tags/%realversion?scheme=https&module=couchdb&output=/apache-%n-%realversion.tgz
+Source1: couch_cms_auth.erl
 Patch0: couchdb-1.0.1-Makefile
 
 # Although there is no technical software dependency,
@@ -10,19 +11,16 @@ Patch0: couchdb-1.0.1-Makefile
 Requires: curl spidermonkey openssl icu4c erlang couchapp
 
 %prep
-#[ "$(md5sum %{SOURCE0} |cut -b1-32)" == "001cf286b72492617e9ffba271702a00" ]
-#%setup -n apache-%n-%{realversion}
-svn co %svnsources %_builddir/apache-%n-%realversion
+%setup -n couchdb 
 %patch0 -p0
-cp %_sourcedir/couch_cms_auth.erl %_builddir/apache-%n-%realversion/src/couchdb
+cp %_sourcedir/couch_cms_auth.erl %_builddir/couchdb/src/couchdb
 
 %build
 export PATH=$PATH:$ICU4C_ROOT/bin:$ERLANG_ROOT/bin
-cd %_builddir/apache-%n-%realversion
+cd %_builddir/couchdb
 ./bootstrap
 ./configure --prefix=%i --with-js-lib=$SPIDERMONKEY_ROOT/lib --with-js-include=$SPIDERMONKEY_ROOT/include --with-erlang=$ERLANG_ROOT/lib/erlang/usr/include
 make
-
 make install
 
 # Modify couchdb script to use env. variables rather then full path
