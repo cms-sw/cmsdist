@@ -1,46 +1,44 @@
-### RPM external couchapp 0.6.2
+### RPM external couchapp 0.7.1
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
-# Don't need to specify sources since it installs using easy_install
-Requires: python py2-setuptools
+Source: http://github.com/couchapp/couchapp/tarball/%realversion?output=/%n-%realversion.tgz
+Requires: python py2-setuptools py2-restkit
 
 %prep
-#cd %_builddir
-#tar xvzf %_sourcedir/0.6.2
-#mv %_builddir/couchapp-couchapp-eecd2b8 %_builddir/couchapp-0.6.2 
-#mv %_sourcedir/ez_setup.py %_builddir/couchapp-0.6.2
+%setup -n couchapp-couchapp-202bba1
 
 %build
 
 %install
-#cd %_builddir/couchapp-0.6.2
-#python setup.py install --prefix=%i
-#python ez_setup.py -U setuptools --prefix=%i
-#cp -rp %_builddir/couchapp-0.6.2/* %i/
-#rm -rf %i/couchapp # exclude the 'source' dir
-export PYTHONPATH=$PYTHONPATH:%i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
-mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
-easy_install --prefix %i -U couchapp
+# Copy all files as requested by Simon
+cp -rp %_builddir/couchapp-couchapp-202bba1/* %i/
 
-# Fixes to static path's to python left by the easy_install installation
-perl -p -i -e "s|#!.*/python|#!/usr/bin/env python|" %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages/Couchapp-0.6.2-py2.6.egg/couchapp/hooks/compress/jsmin.py
-perl -p -i -e "s|#!.*/python|#!/usr/bin/env python|" %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages/Couchapp-0.7.0-py2.6.egg/couchapp/hooks/compress/jsmin.py
-perl -p -i -e "s|#!.*/python|#!/usr/bin/env python|" %i/bin/couchapp
-perl -p -i -e "s|#!.*/python|#!/usr/bin/env python|" %i/bin/restcli
+# Now build/install as normal procedure would do. But
+# does each part separately because the general 'install' procedure downloads
+# things from elsewhere and uses easy_install pkg management
+python setup.py install_lib --install-dir=%i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
+python setup.py install_data --install-dir=%i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
+#python setup.py install_scripts --install-dir=%i/bin
 
-# This will generate the correct dependencies-setup.sh/dependencies-setup.csh
-# using the information found in the Requires statements of the different
-# specs and their dependencies.
+# Setups properly the couchapp script because the default one is
+# easy_install dependent
+(echo '#!/usr/bin/env python'; cat %i/bin/couchapp.py) > %i/bin/couchapp
+chmod +x %i/bin/couchapp 
+
+# Cleans unnecessary stuff
+rm -rf %i/build %i/debian %i/contrib %i/bin/couchapp.py
+
+# Generates dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 rm -rf %i/etc/profile.d
 mkdir -p %i/etc/profile.d
-for x in %pkgreqs; do
-  case $x in /* ) continue ;; esac
-  p=%{instroot}/%{cmsplatf}/$(echo $x | sed 's/\([^+]*\)+\(.*\)+\([A-Z0-9].*\)/\1 \2 \3/' | tr ' ' '/')
-  echo ". $p/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-  echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
+  root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
+  if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
+    echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
+    echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+  fi
 done
 
 %post
-%{relocateConfig}etc/profile.d/dependencies-setup.sh
-%{relocateConfig}etc/profile.d/dependencies-setup.csh
+%{relocateConfig}etc/profile.d/dependencies-setup.*sh
 
