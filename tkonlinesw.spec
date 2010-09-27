@@ -11,6 +11,7 @@ Source: http://cms-trackerdaq-service.web.cern.ch/cms-trackerdaq-service/downloa
 #Patch3: tkonlinesw-2.5.1-gcc44
 #Patch4: tkonlinesw-2.5.1-gcc43-2
 #Patch5: tkonlinesw-2.5.1-gcc44-2
+Patch6: tkonlinesw-2.7.0-macosx
 
 # Note from Kristian: 
 # xdaq dependency is here only to re-use its makefiles. 
@@ -20,6 +21,7 @@ Requires: oracle
 Requires: xerces-c
 Requires: xdaq
 Requires: systemtools
+Requires: gmake
 %else
 Requires: onlinesystemtools
 %endif
@@ -36,6 +38,7 @@ Requires: onlinesystemtools
 #%patch3 -p1
 #%patch4 -p1
 #%patch5 -p1
+%patch6 -p1
 # Clean up some mysterious old build within the sources that screws
 # up the install by copying in an old libFed9UUtils.so 
 # (this is really needed) 
@@ -75,17 +78,29 @@ export ENV_CMS_TK_LASTGBOARD=%{_builddir}/%releasename/LAS
 ################################################################################
 # Fake variables for the configure script only
 ################################################################################
-export ENV_CMS_TK_HAL_ROOT=NULL
-export ROOTSYS=NULL
-export ENV_CMS_TK_CAEN_ROOT=NULL
-export ENV_CMS_TK_SBS_ROOT=NULL
-export ENV_CMS_TK_TTC_ROOT=NULL
+# We use an empty directory because the path neeeds to exist.
+mkdir -p %i/dummy/Linux/lib
+export ENV_CMS_TK_HAL_ROOT=%{i}/dummy/Linux
+export ROOTSYS=NULL%{i}/dummy/Linux
+export ENV_CMS_TK_CAEN_ROOT=%{i}/dummy/Linux
+export ENV_CMS_TK_SBS_ROOT=%{i}/dummy/Linux
+export ENV_CMS_TK_TTC_ROOT=%{i}/dummy/Linux
 
 ################################################################################
 # External Dependencies
 ################################################################################
-export XDAQ_OS=linux
-export XDAQ_PLATFORM=x86_slc4
+case %cmsos in 
+  slc*)
+    export XDAQ_OS=linux
+    export XDAQ_PLATFORM=x86_slc4
+  ;;
+  osx*)
+    export XDAQ_OS=macosx
+    export XDAQ_PLATFORM=x86_
+    export ENV_CMS_TK_FED9U_ORACLE_LIBRARY="-locci -lclntsh -lnnz10"
+  ;;
+esac
+
 export ENV_CMS_TK_ORACLE_HOME=${ORACLE_ROOT}
 export ENV_ORACLE_HOME=${ORACLE_ROOT}
 export XERCESCROOT=${XERCES_C_ROOT}
@@ -108,8 +123,19 @@ cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure && cd -
 esac
 
 export CPPFLAGS=-fPIC
-make cmssw
-make cmsswinstall
+# On osx ignore build errors and build as much as you possibly can.
+# FIXME: looks like there are some undefined symbols which on mac are
+#        fatal.
+case %cmsos in 
+  slc*)
+    make cmssw
+    make cmsswinstall
+  ;;
+  osx*)
+    make -k cmssw || true
+    make -k cmsswinstall || true
+  ;;
+esac
 
 %install
 # Option --prefix in configure is not working yet, using tar:
