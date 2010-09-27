@@ -26,7 +26,7 @@
 ##HG1009c sjg100924-T0Mon T0Mon
 #
 # DBS-2
-HG1009c aa20101027-2-dbs dbs-apps dbs-server dbs-schema dbs-libs dbs-client dbs-web
+HG1009c aa2010092703 dbs-apps dbs-server dbs-schema dbs-libs dbs-client dbs-web
 #
 # DBS-3
 HG1009c aa20100831-dbs3 dbs3
