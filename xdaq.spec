@@ -26,9 +26,25 @@ Provides: /bin/awk
 case %cmsos in
   osx*)
 %patch4 -p1
-mkdir daq/toolbox/include/macosx-new
-mv daq/toolbox/include/macosx daq/toolbox/include/macosx-new/toolbox
-mv daq/toolbox/include/macosx-new daq/toolbox/include/macosx
+  mkdir daq/toolbox/include/macosx-new
+  mv daq/toolbox/include/macosx daq/toolbox/include/macosx-new/toolbox
+  mv daq/toolbox/include/macosx-new daq/toolbox/include/macosx
+  # i2o package is case sensitive, but it looks like the all upper case 
+  # (or partially upper case) files are from an ancient version while the 
+  # lowercase one are the one needed, therefore we extract by hand the required
+  # files.
+  cd ..
+    rm -f xdaq/daq/extern/i2o/include/i2o/shared/i2omsg.h
+    rm -f xdaq/daq/extern/i2o/include/i2o/shared/i2oexec.h
+    rm -f xdaq/daq/extern/i2o/include/i2o/shared/I2OTYPES.h
+    rm -f xdaq/daq/extern/i2o/include/i2o/shared/I2omodule.h
+    rm -f xdaq/daq/extern/i2o/include/i2o/shared/I2outil.h
+    tar xzvf %{_sourcedir}/xdaq.tar.gz xdaq/daq/extern/i2o/include/i2o/shared/i2omsg.h \
+                                       xdaq/daq/extern/i2o/include/i2o/shared/i2oexec.h \
+                                       xdaq/daq/extern/i2o/include/i2o/shared/i2otypes.h \
+                                       xdaq/daq/extern/i2o/include/i2o/shared/i2omodule.h \
+                                       xdaq/daq/extern/i2o/include/i2o/shared/i2outil.h
+  cd xdaq 
 ;;
 esac
 
