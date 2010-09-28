@@ -1,14 +1,10 @@
 ### RPM external tauola 27.121.5
+## BUILDIF case $(uname):$(uname -m) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac     
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Patch: tauola-27.121-gfortran
 Patch1: tauola-27.121.5-gfortran-taueta
-Patch2: tauola-27.121.5-macosx
+Patch2: tauola-27.121-gfortran-tauola-srs
 Requires: pythia6
-Requires: photos
-
-%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
-Requires: gfortran-macosx
-%endif
 
 %prep
 %setup -q -n %{n}/%{realversion}
@@ -16,19 +12,31 @@ case %gccver in
   4.*)
 %patch -p0 
 %patch1 -p2
+%patch2 -p2
   ;;
 esac
-%patch2 -p3
 ./configure --lcgplatform=%cmsplatf --with-pythia6libs=$PYTHIA6_ROOT/lib
 
 %build
-case %cmsplatf in 
-  osx*)
-  perl -p -i -e 's|libtauola.so|libtauola.dylib|g' Makefile
-  perl -p -i -e 's|libpretauola.so|libpretauola.dylib|g' Makefile
-  ;;
-esac
-make PHOTOS_ROOT=$PHOTOS_ROOT
+make
 
 %install
 tar -c lib include | tar -x -C %i
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="tauola" version="%v">
+    <lib name="tauola"/>
+    <lib name="pretauola"/>
+    <client>
+      <environment name="TAUOLA_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$TAUOLA_BASE/lib"/>
+      <environment name="INCLUDE" default="$TAUOLA_BASE/include"/>
+    </client>
+    <use name="f77compiler"/>
+    <use name="pythia6"/>
+  </tool>
+EOF_TOOLFILE
+
+%post
+%{relocateConfig}etc/scram.d/%n.xml
