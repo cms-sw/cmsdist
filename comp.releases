@@ -28,7 +28,8 @@ HG1009c cmsweb
 + HEAD/0.1.21 webtools-base.spec
 + HEAD/0.5.2 das.spec
 + HEAD/V06_00_40 dbs-web.spec
-+ HEAD/DBS_2_1_1_patch1 dbs-client.spec
++ 1.137/DBS_2_1_1_patch1 dbs-client.spec
+#+ HEAD/DBS_2_1_1_patch1 dbs-client.spec
 + HEAD/0.10.13 fmws.spec
 + HEAD/1.9.2-4 srmcp.spec
 + forPHEDEX-web-20100831-1/* PHEDEX-combined-web.spec
