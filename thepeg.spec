@@ -25,32 +25,33 @@ rm %i/share/ThePEG/Doc/fixinterfaces.pl
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=thepeg version=%v>
-<Client>
- <Environment name=THEPEG_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$THEPEG_BASE/lib/ThePEG"></Environment>
- <Environment name=INCLUDE default="$THEPEG_BASE/include"></Environment>
-</Client>
-<lib name=ThePEG>
-<use name=lhapdf>
-<use name=gsl>
-</Tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="%n" version="%v">
+    <lib name="ThePEG"/>
+    <client>
+      <environment name="THEPEG_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$THEPEG_BASE/lib/ThePEG"/>
+      <environment name="INCLUDE" default="$THEPEG_BASE/include"/>
+    </client>
+    <use name="lhapdf"/>
+    <use name="gsl"/>
+  </tool>
 EOF_TOOLFILE
 
 %post
-%{relocateConfig}etc/scram.d/%n
+%{relocateConfig}etc/scram.d/%n.xml
 %{relocateConfig}lib/ThePEG/ACDCSampler.la
 %{relocateConfig}lib/ThePEG/BreitWignerMass.la
 %{relocateConfig}lib/ThePEG/ColourPairDecayer.la
 %{relocateConfig}lib/ThePEG/DalitzDecayer.la
 %{relocateConfig}lib/ThePEG/FixedCMSLuminosity.la
 %{relocateConfig}lib/ThePEG/GaussianPtGenerator.la
+%{relocateConfig}lib/ThePEG/GraphvizPlot.la
 %{relocateConfig}lib/ThePEG/GRV94L.la
 %{relocateConfig}lib/ThePEG/GRV94M.la
 %{relocateConfig}lib/ThePEG/GRVBase.la
 %{relocateConfig}lib/ThePEG/KTClus.la
+%{relocateConfig}lib/ThePEG/KTRapidityCut.la
 %{relocateConfig}lib/ThePEG/LeptonLeptonPDF.la
 %{relocateConfig}lib/ThePEG/LeptonLeptonRemnant.la
 %{relocateConfig}lib/ThePEG/LesHouches.la
@@ -79,5 +80,6 @@ EOF_TOOLFILE
 %{relocateConfig}lib/ThePEG/V2LeptonsCut.la
 %{relocateConfig}lib/ThePEG/V2PPDecayer.la
 %{relocateConfig}lib/ThePEG/WeakToHadronsDecayer.la
+%{relocateConfig}lib/ThePEG/WeizsackerWilliamsPDF.la
 %{relocateConfig}lib/ThePEG/XSecCheck.la
 
