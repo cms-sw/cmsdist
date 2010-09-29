@@ -49,10 +49,10 @@ HG1009c cmsweb
 + HEAD/2.2.14 rotatelogs.spec
 + HEAD/1.0b pystack.spec
   + HEAD/7.1 gdb.spec
-+ HEAD/4.0b frontend.spec
++ HEAD/4.0c frontend.spec
   + HEAD/2.2.14gsi apache2.spec
   + HEAD/2.9b apache2-conf.spec
-  + HEAD/3.1 apache-setup.spec
+  + HEAD/3.3 apache-setup.spec
   + HEAD/1.08 p5-apache-dbi.spec
 + HEAD/0.1.21 webtools-base.spec
 + HEAD/0.5.2 das.spec

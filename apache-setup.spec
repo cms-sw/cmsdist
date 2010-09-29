@@ -1,4 +1,4 @@
-### RPM cms apache-setup 3.1
+### RPM cms apache-setup 3.3
 Source: svn://svn.cern.ch/reps/CMSDMWM/HTTPGroup/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=HTTPGroup&output=/conf.tar.gz
 Requires: apache2
 
