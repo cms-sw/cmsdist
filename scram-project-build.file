@@ -23,7 +23,7 @@ Requires: SCRAMV1
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V03-33-01
+%define configtag       V03-34-00
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -101,7 +101,8 @@ rm -rf %{srctree}
 %{?PatchReleaseAdditionalPackages:%PatchReleaseAdditionalPackages}
 
 cd %_builddir
-%_builddir/config/updateConfig.pl -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}}
+%_builddir/config/updateConfig.pl -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} -a %cmsplatf
+
 %{?PartialBootstrapPatch:%PartialBootstrapPatch}
 %{?patchsrc:%patchsrc}
 %{?patchsrc2:%patchsrc2}
@@ -217,6 +218,10 @@ for cmd in EdmPluginRefresh IgPluginRefresh ; do
 done
 
 %install
+# FIXME: not having it set seems to cause a bunch of
+# issues on macosx, because various tools actually use it and are unable 
+# to autodetect. Temporary until we get proper support.
+SCRAM_ARCH=%cmsplatf ; export SCRAM_ARCH
 cd %i
 %{?buildarch:%buildarch}
 
