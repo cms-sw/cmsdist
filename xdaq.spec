@@ -13,6 +13,10 @@ Patch3: xdaq-VR16021-gcc45
 Patch4: xdaq-VR16021-macosx
 
 Provides: /bin/awk
+# This is needed on macosx because this is the install_name for the .so
+# library.  We could simply run install_name_tool, but I'm not sure if somthing
+# will break elsewhere.
+Provides: libasyncresolv.0
 
 %prep
 %setup -T -b 0 -n xdaq
