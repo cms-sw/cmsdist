@@ -10,10 +10,17 @@ case %cmsplatf in
   osx*)
     export XDAQ_OS=macosx
     export XDAQ_PLATFORM=x86
+    # For some reason (broken makefiles???) xdaq
+    # on macosx installs stuff in include/include
+    # rathar than just in "include" we use the following
+    # trick to make sure those tools get picked up in any
+    # case.
+    export XDAQ_DUMMY_INCLUDE='<environment name="INCLUDE" default="$XDAQ_BASE/include/include"/><environment name="INCLUDE" default="$XDAQ_BASE/include/include/macosx"/>'
   ;;
   slc*)
     export XDAQ_OS=linux
     export XDAQ_PLATFORM=x86
+    export XDAQ_DUMMY_INCLUDE=
   ;;
 esac
 
@@ -52,6 +59,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaq.xml
     <environment name="BINDIR" default="$XDAQ_BASE/bin"/>
     <environment name="INCLUDE" default="$XDAQ_BASE/include"/>
     <environment name="INCLUDE" default="$XDAQ_BASE/include/@XDAQ_OS@"/>
+    @XDAQ_DUMMY_INCLUDE@
   </client>
   <flags cppdefines="SOAP__ LITTLE_ENDIAN__"/>
   <flags cppdefines="@XDAQ_OS@"/>
