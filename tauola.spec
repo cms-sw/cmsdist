@@ -2,8 +2,7 @@
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Patch: tauola-27.121-gfortran
 Patch1: tauola-27.121.5-gfortran-taueta
-Patch2: tauola-27.121-gfortran-tauola-srs
-Patch3: tauola-27.121.5-macosx
+Patch2: tauola-27.121.5-macosx
 Requires: pythia6
 Requires: photos
 
@@ -17,10 +16,9 @@ case %gccver in
   4.*)
 %patch -p0 
 %patch1 -p2
-%patch2 -p2
   ;;
 esac
-%patch3 -p3
+%patch2 -p3
 ./configure --lcgplatform=%cmsplatf --with-pythia6libs=$PYTHIA6_ROOT/lib
 
 %build
