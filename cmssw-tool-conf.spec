@@ -77,16 +77,17 @@ Requires: uuid-toolfile
 Requires: xerces-c-toolfile
 Requires: zlib-toolfile
 Requires: dcap-toolfile
+Requires: xdaq-toolfile
+Requires: tkonlinesw-toolfile
+Requires: frontier_client-toolfile
+
 
 %if "%isslc" == "true"
-Requires: tkonlinesw-toolfile
 Requires: gdb-toolfile
 Requires: pyqt-toolfile
 Requires: sip-toolfile
 Requires: xrootd-toolfile
 Requires: simage-toolfile
-Requires: xdaq-toolfile
-Requires: frontier_client-toolfile
 Requires: rulechecker-toolfile
 Requires: curl-toolfile
 Requires: valgrind-toolfile
