@@ -7,6 +7,9 @@
 Source: svn://svnsrv.desy.de/public/MillepedeII/tags/V%svnTag/?scheme=http&module=V%svnTag&output=/millepede.tgz
 
 Requires: castor
+%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
+Requires: gfortran-macosx
+%endif
 
 Patch: millepede_V02-00-01
 Patch1: millepede_V02-00-01_64bit
@@ -22,7 +25,7 @@ Patch3: millepede_V02-00-01_gcc45
 %endif
 
 case %gccver in
-  4.3.* | 4.4.*)
+  4.[01234].* )
 %patch2 -p1
   ;;
   4.5.*)
@@ -33,8 +36,14 @@ esac
 perl -p -i -e "s!-lshift!-L$CASTOR_ROOT/lib -lshift -lcastorrfio!" Makefile
 perl -p -i -e "s!C_INCLUDEDIRS =!C_INCLUDEDIRS = -I$CASTOR_ROOT/include!" Makefile
 
+case %cmsplatf in osx*)
+    perl -p -i -e "s|-lshift|-lcastorrfio|" Makefile ;;
+esac
+
 %build
-make %makeprocesses
+# gcc on the mac cannot be used as a fortran compiler / linker because
+# gfortran is installed somewhere else.
+make %makeprocesses FCOMP=gfortran LOADER=gfortran
 
 %install
 make install
