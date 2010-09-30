@@ -5,6 +5,7 @@
 Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
+%define ismac %(case %cmsplatf in osx*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 Patch0: root-5.22-00d-externals
 Patch1: root-5.22-00d-CINT-maxlongline-maxtypedef
@@ -39,9 +40,17 @@ Patch29: root-5.22-00d-cint-dll-correct-install-name
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
-Requires: gccxml gsl castor libjpg dcap pcre python fftw3
+Requires: gccxml gsl libjpg pcre python fftw3
 
-%if "%online" != "true"
+%if "%ismac" == "false"
+Requires: castor dcap
+%endif
+
+%if "%online-%ismac" == "false-true"
+Requires: openssl libpng zlib libungif libtiff gfortran-macosx
+%endif
+
+%if "%online-%ismac" == "false-false"
 Requires: qt openssl libpng zlib libungif xrootd libtiff
 %endif
 
@@ -70,8 +79,6 @@ rm graf3d/gl/src/gl2ps.c
 #work around patch issues in patch14(?)
 rm graf3d/eve/inc/TEveLegoOverlay.h.orig
 rm graf3d/eve/src/TEveLegoOverlay.cxx
-rm graf3d/gl/inc/gl2ps.h.orig
-rm graf3d/gl/src/gl2ps.c.orig
 %patch15 -p1
 %patch16 -p1
 %patch17 -p1
