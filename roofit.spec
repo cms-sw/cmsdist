@@ -1,11 +1,11 @@
-### RPM lcg roofit 5.26.00
+### RPM lcg roofit 5.27.04
 %define svnTag %(echo %realversion | tr '.' '-')
 Source: svn://root.cern.ch/svn/root/tags/v%svnTag/roofit?scheme=http&module=roofit&output=/roofit.tgz
 
 Patch:  roofit-5.24-00-build.sh 
 Patch1: root-5.22-00a-roofit-silence-static-printout
 Patch2: roofit-5.24-00-RooFactoryWSTool-include
-Patch3: roofit-5.25-02-NOROOMINIMIZER
+Patch3: roofit-5.27-04-NOROOMINIMIZER
 
 Requires: root 
 
@@ -66,8 +66,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roofit.xml
     <info url="http://root.cern.ch/root/"/>
     <lib name="RooFit"/>
     <use name="roofitcore"/>
-    <use name="rootcore"/>
-    <use name="roothistmatrix"/>
   </tool>
 EOF_TOOLFILE
 
@@ -76,11 +74,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roostats.xml
   <tool name="roostats" version="%v">
     <info url="http://root.cern.ch/root/"/>
     <lib name="RooStats"/>
-    <use name="roofitcore"/>
     <use name="roofit"/>
-    <use name="rootcore"/>
-    <use name="roothistmatrix"/>
-    <use name="rootgpad"/>
   </tool>
 EOF_TOOLFILE
 

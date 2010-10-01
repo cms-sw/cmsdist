@@ -62,7 +62,7 @@
   done; cd $CWD
 
 %define PatchReleaseFilesRelocate \
-  cd %i; if [ -e %{srctree}/.glimpse_filenames ] ; then \
+  if [ -e %{srctree}/.glimpse_filenames ] ; then \
     perl -p -i -e "s|.*/%{baserelver}/%{srctree}/||g" %{srctree}/.glimpse_filenames; \
     perl -p -i -e "s|.*/%{baserelver}/%{srctree}/||g" %{srctree}/.glimpse_full/.glimpse_filenames ;\
   fi
