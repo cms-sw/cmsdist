@@ -5,13 +5,7 @@
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 Source: http://cms-trackerdaq-service.web.cern.ch/cms-trackerdaq-service/download/sources/trackerDAQ-2.7.0-9.tgz
-#Patch0: tkonlinesw-2.5.1-gcc43
-#Patch1: tkonlinesw-2.5.1-TShare-64bit
-#Patch2: tkonlinesw-2.5.1-DbClient-64bit
-#Patch3: tkonlinesw-2.5.1-gcc44
-#Patch4: tkonlinesw-2.5.1-gcc43-2
-#Patch5: tkonlinesw-2.5.1-gcc44-2
-Patch6: tkonlinesw-2.7.0-macosx
+Patch0: tkonlinesw-2.7.0-macosx
 
 # Note from Kristian: 
 # xdaq dependency is here only to re-use its makefiles. 
@@ -28,17 +22,11 @@ Requires: onlinesystemtools
 
 %prep
 %setup -q -n %releasename
-#%patch0 -p1
-#case %cmsplatf in
-#  *amd64* ) 
-#%patch1 -p1
-#%patch2 -p1
-#  ;;
-#esac
-#%patch3 -p1
-#%patch4 -p1
-#%patch5 -p1
-%patch6 -p1
+case %cmsos in 
+  osx*)
+%patch0 -p1
+  ;;
+esac
 # Clean up some mysterious old build within the sources that screws
 # up the install by copying in an old libFed9UUtils.so 
 # (this is really needed) 
