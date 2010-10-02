@@ -13,7 +13,7 @@ Requires: cmake
 %setup -D -T -b 1 -n libunwind-982d590
 %patch0 -p1
 %patch1 -p1
-%setup -D -T -b 2 -n igprof
+%setup -D -T -b 2 -n igprof-38bf98a
 
 %build
 cd ../libatomic_ops*
