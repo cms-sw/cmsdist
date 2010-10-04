@@ -1,5 +1,6 @@
-### RPM external apache2 2.2.14gsi
+### RPM external apache2 2.2.16gsi
 %define apversion %(echo %realversion | sed 's/gsi.*$//')
+%define vdtversion 2.0.0p20
 Requires: openssl zlib expat uuid sqlite
 
 # Silence dependencies which should have come via uuid from e2fsprogs
@@ -8,7 +9,7 @@ Provides: libcom_err.so.2()(64bit)
 
 Source0: http://mirror.switch.ch/mirror/apache/dist/httpd/httpd-%apversion.tar.gz
 Source1: http://www.apache.org/dist/httpd/httpd-%apversion.tar.gz
-Source2: svn://vdt.cs.wisc.edu/svn/vdt/tags/vdt-2.0.0p18/Apache?scheme=https&module=Apache&output=/VDT-Apache-GSI.tgz
+Source2: svn://vdt.cs.wisc.edu/svn/vdt/tags/vdt-%vdtversion/Apache?scheme=https&module=Apache&output=/VDT-Apache-GSI.tgz
 Patch0: apache2-verify-error
 
 %prep
