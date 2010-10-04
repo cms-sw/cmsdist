@@ -1,10 +1,10 @@
-### RPM cms webtools 1.3.43
+### RPM cms webtools 1.3.32
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PERL5LIB %i/lib/perl
 
 %define moduleName WEBTOOLS
 %define exportName WEBTOOLS
-%define cvstag V01-03-43
+%define cvstag V01-03-32
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
 Requires: python cherrypy py2-cheetah yui sqlite zlib py2-pysqlite expat openssl bz2lib db4 gdbm py2-cx-oracle py2-formencode py2-pycrypto oracle beautifulsoup py2-sqlalchemy oracle-env
@@ -16,8 +16,27 @@ Provides: perl(DBI)
 %prep
 %setup -n %{moduleName}
 %build
+rm -rf %i/etc/profile.d
+mkdir -p %i/etc/profile.d
 mkdir -p %i/etc/init.d
+echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
+echo '#!/bin/tcsh' > %{i}/etc/profile.d/dependencies-setup.csh
+echo requiredtools `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
+for tool in `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
+do
+    case X$tool in
+        Xdistcc|Xccache )
+        ;;
+        * )
+            toolcap=`echo $tool | tr a-z- A-Z_`
+            eval echo ". $`echo ${toolcap}_ROOT`/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.sh
+            eval echo "source $`echo ${toolcap}_ROOT`/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
+        ;;
+    esac
+done
 
+perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-setup.sh
+perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
 %install
 mkdir -p %i/etc
 mkdir -p %i/bin
@@ -25,8 +44,8 @@ mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 mkdir -p %i/lib/perl
 
 # copy init script
-#cp Applications/SiteDB/initscripts/start.sh %{i}/etc/init.d/
-#chmod a+x %{i}/etc/init.d/*
+cp Applications/SiteDB/initscripts/start.sh %{i}/etc/init.d/
+chmod a+x %{i}/etc/init.d/*
 
 rm -rf Applications Configuration
 cp -r SecurityModule/perl/lib/* %i/lib/perl
@@ -67,24 +86,14 @@ cat << \EOF_APACHE2_FOOTER > %i/etc/apache2-footer.conf
 RewriteRule ^/cms/services/webtools/Common(.*)$ %i/Common$1
 RewriteRule ^/cms/services/webtools/Templates(.*)$ %i/Templates$1
 EOF_APACHE2_FOOTER
-
-# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
-rm -rf %i/etc/profile.d
-mkdir -p %i/etc/profile.d
-for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
-  root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
-  if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
-    echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-    echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
-  fi
-done
-
+%define pythonv %(echo $PYTHON_ROOT | cut -d. -f1,2)
 %post
-%{relocateConfig}etc/profile.d/dependencies-setup.*sh
 %{relocateConfig}etc/cherrypy.conf
 %{relocateConfig}etc/apache2.conf
 %{relocateConfig}etc/apache2-header.conf
 %{relocateConfig}etc/apache2-footer.conf
+%{relocateConfig}etc/profile.d/dependencies-setup.sh
+%{relocateConfig}etc/profile.d/dependencies-setup.csh
 perl -p -i -e "s!\@RPM_INSTALL_PREFIX\@!$RPM_INSTALL_PREFIX/%pkgrel!" $RPM_INSTALL_PREFIX/%pkgrel/bin/cmsWeb
 
 
