@@ -1,5 +1,7 @@
 ### RPM external apt 429
 ## INITENV SET APT_CONFIG %{i}/etc/apt.conf
+## INITENV CMD_SH  if [ -f $RPM_INSTALL_PREFIX/common/apt-site-env.sh  ]; then . $RPM_INSTALL_PREFIX/common/apt-site-env.sh;  fi
+## INITENV CMD_CSH if ( -f $RPM_INSTALL_PREFIX/common/apt-site-env.csh )  source $RPM_INSTALL_PREFIX/common/apt-site-env.csh; endif
 Source0: svn://svn.github.com/ktf/apt-rpm.git?scheme=http&revision=%{realversion}&module=apt-rpm&output=/apt-rpm.tar.gz
 Source1: bootstrap
 Source2: http://search.cpan.org/CPAN/authors/id/T/TL/TLBDK/RPM-Header-PurePerl-1.0.2.tar.gz
