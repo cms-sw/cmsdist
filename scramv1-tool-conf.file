@@ -40,7 +40,7 @@ for tool in %requiredtools %systemtools ${PKGTOOLS_SYSTEM_TOOLS} ; do
   find $toolbase/etc/scram.d -type f -exec cp {} %i/tools/selected \;
 done
 for tool in $SkipTools ; do
-  [ "X`echo $DoneTools | tr ' ' '\n' | grep $tool`" == "X" ] || continue
+  [ "X`echo $DoneTools | tr ' ' '\n' | grep ^$tool$`" == "X" ] || continue
   uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`
   toolbase=`eval echo \\$${uctool}_ROOT`
   [ -d $toolbase/etc/scram.d ] || continue
