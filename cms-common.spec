@@ -218,12 +218,12 @@ fi
 touch %instroot/%cmsplatf/etc/profile.d/dummy
 
 %post
-echo $RPM_INSTALL_PREFIX
-perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/cmsset_default.sh
-perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/cmsset_default.csh
-perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/common/cmsos
-perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/common/cmsarch
-perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/common/scram
+echo $CMS_INSTALL_PREFIX
+%{relocateCmsFiles} $RPM_INSTALL_PREFIX/cmsset_default.sh
+%{relocateCmsFiles} $RPM_INSTALL_PREFIX/cmsset_default.csh
+%{relocateCmsFiles} $RPM_INSTALL_PREFIX/common/cmsos
+%{relocateCmsFiles} $RPM_INSTALL_PREFIX/common/cmsarch
+%{relocateCmsFiles} $RPM_INSTALL_PREFIX/common/scram
 
 %files
 %i
