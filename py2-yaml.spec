@@ -1,6 +1,5 @@
 ### RPM external py2-yaml 3.09
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
-%define pythonv %(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
 Source: http://pyyaml.org/download/pyyaml/PyYAML-%realversion.tar.gz
 Requires: python libyaml py2-pyrex
@@ -14,6 +13,7 @@ cat >> setup.cfg <<-EOF
 EOF
 
 %build
+python setup.py build
 
 %install
 python setup.py --with-libyaml install --prefix=%i
