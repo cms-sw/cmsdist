@@ -1,23 +1,16 @@
 ### RPM external py2-sphinx 0.6.4
-%define pythonv %(echo $PYTHON_VERSION | cut -f1,2 -d.)
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
 Source: http://pypi.python.org/packages/source/S/Sphinx/Sphinx-%realversion.tar.gz
-Requires: python 
+Requires: python py2-setuptools
+
 %prep
 %setup -n Sphinx-%realversion
-%build
-%install
-mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
-export PYTHONPATH=$PYTHONPATH:%i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
-python setup.py build
-python setup.py install --prefix=%i
 
-cd %i/bin
-for name in `ls`;
-do
-    cat $name | sed -e "s,#\!/.*python$,#\!/usr/bin/env python,g" > $name.tmp
-    rm -f $name
-    mv $name.tmp $name
-    chmod a+x $name
-done
+%build
+python setup.py build
+
+%install
+python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
+egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
+find %i -name '*.egg-info' -exec rm {} \;
