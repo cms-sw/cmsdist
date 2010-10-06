@@ -1,33 +1,24 @@
 ### RPM cms wmcore-db-mysql 1
 ## INITENV +PATH PYTHONPATH %i/lib
 
-#Source: none
-Requires: wmcore py2-mysqldb wmcore
+Requires: wmcore py2-mysqldb
 
 %prep
 %build
 %install
-rm -rf %i/etc/profile.d
+
+# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
-echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
-echo '#!/bin/tcsh' > %{i}/etc/profile.d/dependencies-setup.csh
-echo requiredtools `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
-for tool in `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
-do
-    case X$tool in
-        Xdistcc|Xccache )
-        ;;
-        * )
-            toolcap=`echo $tool | tr a-z- A-Z_`
-            eval echo ". $`echo ${toolcap}_ROOT`/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.sh
-            eval echo "source $`echo ${toolcap}_ROOT`/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
-        ;;
-    esac
+: > %i/etc/profile.d/dependencies-setup.sh
+: > %i/etc/profile.d/dependencies-setup.csh
+for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
+  root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
+  if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
+    echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
+    echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+  fi
 done
 
-perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-setup.sh
-perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
-
 %post
-%{relocateConfig}etc/profile.d/dependencies-setup.sh
-%{relocateConfig}etc/profile.d/dependencies-setup.csh
+%{relocateConfig}etc/profile.d/dependencies-setup.*sh
+
