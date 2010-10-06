@@ -21,6 +21,8 @@ cd %_builddir/couchdb
 ./bootstrap
 ./configure --prefix=%i --with-js-lib=$SPIDERMONKEY_ROOT/lib --with-js-include=$SPIDERMONKEY_ROOT/include --with-erlang=$ERLANG_ROOT/lib/erlang/usr/include
 make
+
+%install
 make install
 
 # Modify couchdb script to use env. variables rather then full path
@@ -31,10 +33,10 @@ perl -p -i -e "s|$ICU4C_ROOT|\\\$ICU4C_ROOT|g;" \
 chmod a+x %i/bin/couch*
 
 %install
-
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
-rm -rf %i/etc/profile.d
 mkdir -p %i/etc/profile.d
+: > %i/etc/profile.d/dependencies-setup.sh
+: > %i/etc/profile.d/dependencies-setup.csh
 for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
   if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
