@@ -1,5 +1,4 @@
 ### RPM external openldap 2.3.39
-## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 Source: ftp://ftp.openldap.org/pub/OpenLDAP/openldap-stable/openldap-stable-20071118.tgz
 Patch0: openldap-2.3.39-gcc44
