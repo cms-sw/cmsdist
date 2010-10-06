@@ -8,22 +8,10 @@ Requires: python
 %setup -n httplib2-%realversion
 
 %build
+python setup.py build
 
 %install
 python setup.py install --prefix=%i
-
-# Code to source dependencies
-rm -rf %i/etc/profile.d
-mkdir -p %i/etc/profile.d
-for x in %pkgreqs; do
-  case $x in /* ) continue ;; esac
-  p=%{instroot}/%{cmsplatf}/$(echo $x | sed 's/\([^+]*\)+\(.*\)+\([A-Z0-9].*\)/\1 \2 \3/' | tr ' ' '/')
-  echo ". $p/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-  echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
-done
-
-%post
-# The relocation below is also needed in case of dependencies
-%{relocateConfig}etc/profile.d/dependencies-setup.sh
-%{relocateConfig}etc/profile.d/dependencies-setup.csh
+egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
+find %i -name '*.egg-info' -exec rm {} \;
 
