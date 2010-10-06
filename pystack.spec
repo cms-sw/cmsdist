@@ -20,8 +20,9 @@ mkdir -p %i/bin
 cp -p pystack gdb %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
-rm -fr %i/etc/profile.d
 mkdir -p %i/etc/profile.d
+: > %i/etc/profile.d/dependencies-setup.sh
+: > %i/etc/profile.d/dependencies-setup.csh
 for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
   if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
