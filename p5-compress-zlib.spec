@@ -20,14 +20,5 @@ LC_ALL=C; export LC_ALL
 make
 make install
 
-if [ X%{cmsos} = Xslc4_ia32 ] && { ldd /usr/bin/gcc | grep -q /lib64/; }; then
-  mv %i/lib/site_perl/%perlversion/{x86_64-linux-thread-multi,i386-linux-thread-multi}
-  make clean
-  export PATH=/usr/bin/:$PATH
-  export GCC_EXEC_PREFIX=/usr/lib/gcc/
-  %perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion INCLUDE=$ZLIB_ROOT/include
-  make
-  make install
-fi 
-
 %install
+

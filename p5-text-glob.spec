@@ -17,25 +17,6 @@ Source: http://search.cpan.org/CPAN/authors/id/R/RC/RCLAMP/%{downloadn}-%{realve
 LC_ALL=C; export LC_ALL
 %perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion
 make
-#
-case %{cmsos} in
-    slc4_ia32)
-    if ldd /usr/bin/gcc | grep -q /lib64/
-    then
-        make install
-        mv %i/lib/site_perl/%perlversion/x86_64-linux-thread-multi  %i/lib/site_perl/%perlversion/i386-linux-thread-multi
-        make clean
-        export PATH=/usr/bin/:$PATH
-        export GCC_EXEC_PREFIX=/usr/lib/gcc/
-        %perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion
-        make
-        make install
-     else
-        make install
-     fi;;
-    *)
-        make install
-    ;;
-esac
+make install
 
 %install
