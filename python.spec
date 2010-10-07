@@ -15,18 +15,14 @@ Requires: zlib openssl sqlite
 # FIXME: gmp, panel, tk/tcl, x11
 
 Source0: http://www.python.org/ftp/%n/%realversion/Python-%realversion.tgz
-Patch0: python-2.6.4-dont-detect-dbm
 
 %prep
 %setup -n Python-%realversion
 perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" Lib/cgi.py
 
-case %cmsplatf in
-  osx*)
- 	sed 's|@PREFIX@|%i|g' < %_sourcedir/python-osx | patch -p1
-  ;;
-esac
-%patch0 -p1
+%ifos darwin
+ sed 's|@PREFIX@|%i|g' < %_sourcedir/python-osx | patch -p1
+%endif
 
 %build
 # Python is awkward about passing other include or library directories
