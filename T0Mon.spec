@@ -14,19 +14,19 @@ Requires: wmcore-webtools rotatelogs
 
 %install
 mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/
-cp -r  src/python/T0/MotT0 %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/
-# setup dependencies environment
-rm -rf %i/etc/profile.d
+cp -r src/python/T0/MotT0 %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/
+
+# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
-for x in %pkgreqs; do
-  case $x in /* ) continue ;; esac
-  p=%{instroot}/%{cmsplatf}/$(echo $x | sed 's/\([^+]*\)+\(.*\)+\([A-Z0-9].*\)/\1 \2 \3/' | tr ' ' '/')
-  echo ". $p/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-  echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+: > %i/etc/profile.d/dependencies-setup.sh
+: > %i/etc/profile.d/dependencies-setup.csh
+for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
+  root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
+  if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
+    echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
+    echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+  fi
 done
 
 %post
-# The relocation is also needed because of dependencies
-%{relocateConfig}etc/profile.d/dependencies-setup.sh
-%{relocateConfig}etc/profile.d/dependencies-setup.csh
-
+%{relocateConfig}etc/profile.d/dependencies-setup.*sh
