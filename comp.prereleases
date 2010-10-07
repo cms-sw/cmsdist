@@ -39,6 +39,7 @@ HG1009c aa20100831-dbs3 dbs3
 # 
 # DBS discovery
 #DD_20100824_slc5_amd64_gcc434_v1 dbs-web dbs-client
+HG1009c dbs-web dbs-client
 #
 # Webtools-base
 #dg20100831b-webtools-base webtools-base
