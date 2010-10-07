@@ -1,4 +1,4 @@
-### RPM external base HG1010pre1
+### RPM external base HG1010pre2
 
 # Top level service packages
 Requires: wmcore wmcore-webtools wmcore-db-sqlite wmcore-db-mysql wmcore-db-oracle wmcore-db-couch frontend webtools couchdb couchapp
@@ -11,6 +11,9 @@ Requires: p5-apache2-modssl p5-apache-dbi p5-cgi p5-cgi-session p5-clone p5-comp
 
 # Other packages
 Requires: boost boost-build erlang icu4c mongo libxslt curl libjpg libpng libtiff mysql memcached oracle oracle-env sqlite python yui zlib uuid pcre expat openssl libxml2 gmp db4 gdbm elfutils bz2lib beecrypt libevent mod_wsgi mod_perl2 apache2 apache-setup fakesystem java-jdk
+
+# New packages
+Requires: adns apache-setup cmake gdb geoip igprof libyaml protovis py2-adns py2-geoip py2-netaddr py2-pyrex py2-restkit pystack rotatelogs srmcp valgrind
 
 # Package candidates to be removed
 Requires: apache2-conf apache-ant apache-tomcat java-jdk mysql-deployment
