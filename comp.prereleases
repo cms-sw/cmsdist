@@ -24,6 +24,7 @@
 #
 # try to make new T0Mon RPM
 ##HG1009c sjg100924-T0Mon T0Mon
+HG1010pre2 sjg101008-T0DataSvc T0DataSvc
 #
 # DBS-2
 HG1009c aa28102010216-dbs dbs-apps dbs-server dbs-schema dbs-libs dbs-client dbs-web
