@@ -1,7 +1,7 @@
 # Do not put the same <pkg> in different entries
 #
 # The format of each entry may be:
-# <base-tag-name> <pre-release-CMSDIST-tag> <project-main-pkg> [<other-project-pkgs>]
+# <pre-release-CMSDIST-tag> <project-main-pkg> [<other-project-pkgs>]
 #
 # or:
 #
@@ -11,40 +11,44 @@
 #
 # When using HEAD as <revisio> you must specify <version>.
 
-
+# PHEDEX
 #forPHEDEX-web-20100910-3 PHEDEX-combined-web PHEDEX-web PHEDEX-webapp PHEDEX-datasvc
 #forPHEDEX332 PHEDEX-combined-agents PHEDEX-admin PHEDEX PHEDEX-micro
-#
+
 # CrabServer
 #CRABSERVER_1_1_3_pre3_BUILD_SLC5  crab-server prodagent  prodcommon wmcore mysql
-#
+
 # DAS
 #DAS_20100907_slc5_amd64_gcc434 das
-#HG1009c DAS_20100920_slc5_amd64_gcc434 das
-#
-# try to make new T0Mon RPM
-##HG1009c sjg100924-T0Mon T0Mon
-HG1010pre2 sjg101008-T0DataSvc T0DataSvc
-#
+HG1009c das 
++ DAS_20100920_slc5_amd64_gcc434 das.spec
+
+# T0Mon and T0DataSvc
+#HG1009c T0Mon + sjg100924-T0Mon T0Mon.spec
+HG1010pre2 T0DataSvc
++ HEAD/1.0.14 T0DataSvc.spec
+
 # DBS-2
-HG1009c aa28102010216-dbs dbs-apps dbs-server dbs-schema dbs-libs dbs-client dbs-web
-#
+HG1009c dbs-apps
++ aa28102010216-dbs dbs-{apps,server,schema,libs,client,web}.spec
+
 # DBS-3
-HG1009c aa20100831-dbs3 dbs3
-#
+#aa20100831-dbs3 dbs3
+
 # FileMover
 #FILEMOVER_20100901_slc5_amd64_gcc434_v5 fmws
-#
+
 # SiteDB
 #dg20100824b-sitedb sitedb
-# 
+ 
 # DBS discovery
 #DD_20100824_slc5_amd64_gcc434_v1 dbs-web dbs-client
-HG1009c DD_20101007_slc5_amd64_gcc434 dbs-web dbs-client
-#
+HG1009c dbs-web 
++ DD_20101007_slc5_amd64_gcc434 dbs-{web,client}.spec
+
 # Webtools-base
 #dg20100831b-webtools-base webtools-base
-#
+
 # Cms Webtools services
 HG1009c cmsweb
 + HEAD/1009f cmsweb.spec
@@ -71,7 +75,6 @@ HG1009c cmsweb
 + HEAD/1.0.23b T0Mon.spec
 + HEAD/1.0.1 couchdb.spec
 + HEAD/0.6.2 couchapp.spec
-#
-# HG1010 test build
+
+# HG1010 candidate test build
 HG1010pre2 base
-+ HEAD/1.0.14 T0DataSvc.spec
