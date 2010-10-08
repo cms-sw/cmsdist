@@ -27,3 +27,8 @@ cvs update -A pystack.spec
 cvs update -A srmcp.spec
 cvs update -A cherrypy.spec
 cvs update -A erlang.spec
+cvs update -A libevent.spec
+cvs update -A libyaml.spec
+cvs update -A memcached.spec
+cvs update -A mysql.spec
+cvs update -A sitedb.spec
