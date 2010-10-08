@@ -69,16 +69,18 @@ Requires: qt openssl libpng zlib libungif xrootd libtiff
 %patch9 -p1
 
 # patch10 is compiler version dependent, see below
+# Work around patch issue.
+#rm graf3d/gl/src/gl2ps.c
 %patch11 -p1
 %patch12 -p1
 # patch13 is compiler version dependent, see below
 
 # work around patch issue...
-rm graf3d/gl/src/gl2ps.c
+#rm graf3d/gl/src/gl2ps.c
 %patch14 -p1
 #work around patch issues in patch14(?)
-rm graf3d/eve/inc/TEveLegoOverlay.h.orig
-rm graf3d/eve/src/TEveLegoOverlay.cxx
+#rm graf3d/eve/inc/TEveLegoOverlay.h.orig
+#rm graf3d/eve/src/TEveLegoOverlay.cxx
 %patch15 -p1
 %patch16 -p1
 %patch17 -p1
