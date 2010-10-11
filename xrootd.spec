@@ -11,9 +11,9 @@ Requires: openssl
 CONFIG_ARGS="--disable-krb4 --with-ssl-incdir=${OPENSSL_ROOT}/include --with-ssl-libdir=${OPENSSL_ROOT}/lib"
 case %cmsos in
   slc*_amd64*)
-    ./configure.classic x86_64_linux $CONFIG_ARGS ;;
+    ./configure.classic x86_64_linux --ccflavour=gcc  $CONFIG_ARGS ;;
   slc*_ia32*)
-    ./configure.classic i386_linux $CONFIG_ARGS ;;
+    ./configure.classic i386_linux26 --ccflavour=gcc $CONFIG_ARGS ;;
   *)
    # This is wrong, the arch needs to be added, I think
     ./configure.classic $CONFIG_ARGS ;;
