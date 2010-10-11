@@ -54,7 +54,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/opengl.xml
     <environment name="ORACLE_ADMINDIR" default="@ORACLE_ENV_ROOT@/etc"/>
 EOF_TOOLFILE
 case %cmsplatf in
-osx103* )
+osx* )
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/opengl.xml
     <client>
       <environment name="OPENGL_BASE" default="/System/Library/Frameworks/OpenGL.framework/Versions/A"/>
@@ -71,7 +71,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/x11.xml
   <tool name="x11" version="%x11_version">
 EOF_TOOLFILE
 case %cmsplatf in
-slc3_* )
+slc3_*|osx* )
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/x11.xml
     <client>
       <environment name="INCLUDE" value="/usr/X11R6/include"/>
