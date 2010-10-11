@@ -1,5 +1,5 @@
-### RPM external xrootd 5.27.04
-Source: http://cmsrep.cern.ch//cmssw/xrootd_src/%n-%{realversion}.tgz
+### RPM external xrootd 20090727.1318 
+Source: http://cmsrep.cern.ch//cmssw/xrootd_src/%n-%{realversion}.tar.gz
 Patch0: xrootd-gcc44
 Requires: openssl
 
@@ -9,17 +9,16 @@ Requires: openssl
 
 %build
 CONFIG_ARGS="--disable-krb4 --with-ssl-incdir=${OPENSSL_ROOT}/include --with-ssl-libdir=${OPENSSL_ROOT}/lib"
-case $(uname)-$(uname -m) in
-  Linux-x86_64)
+case %cmsos in
+  slc*_amd64*)
     ./configure.classic x86_64_linux $CONFIG_ARGS ;;
-  Linux-i*86)
+  slc*_ia32*)
     ./configure.classic i386_linux $CONFIG_ARGS ;;
   *)
    # This is wrong, the arch needs to be added, I think
     ./configure.classic $CONFIG_ARGS ;;
 esac
 
-./configure.classic --disable-krb4 --with-ssl-incdir=$OPENSSL_ROOT/include --with-ssl-libdir=$OPENSSL_ROOT/lib
 # Workaround for the lack of a 32bit readline-devel rpm for SL4
 # Given that the 64bit readline-devel is there, the headers are there,
 # the only thing missing is the libreadline.so symlink
@@ -72,25 +71,3 @@ perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/src/XrdMon/prepareMySQ
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/src/XrdMon/xrdmonCreateMySQL.pl
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/src/XrdMon/xrdmonLoadMySQL.pl
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/src/XrdMon/xrdmonPrepareStats.pl
-
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=%n version=%v>
-<lib name=XrdClient>
-<lib name=XrdOuc>
-<lib name=XrdNet>
-<lib name=XrdSys>
-<client>
- <Environment name=XROOTD_BASE default="%i"></Environment>
- <Environment name=INCLUDE default="$XROOTD_BASE/src"></Environment>
- <Environment name=LIBDIR  default="$XROOTD_BASE/lib"></Environment>
-</client>
-<Runtime name=PATH value="$XROOTD_BASE/bin" type=path>
-<Runtime name=LD_LIBRARY_PATH value="$XROOTD_BASE/lib" type=path>
-</Tool>
-EOF_TOOLFILE
-
-%post
-%{relocateConfig}etc/scram.d/%n

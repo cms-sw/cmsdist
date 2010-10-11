@@ -35,22 +35,7 @@ make install
 perl -p -i -e "s|^#!.*perl(.*)|#!/usr/bin/env perl$1|" $(grep -r -e "^#!.*perl.*" %i | cut -d: -f1)
 rm -fR %i/mysql-test
 
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=%n version=%v>
-<Lib name=mysqlclient>
-<Client>
- <Environment name=MYSQL_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$MYSQL_BASE/lib/mysql"></Environment>
- <Environment name=MYSQL_BINDIR default="$MYSQL_BASE/bin"></Environment>
- <Environment name=INCLUDE default="$MYSQL_BASE/include/mysql"></Environment>
-</Client>
-<Runtime name=PATH value="$MYSQL_BINDIR" type=path>
-</Tool>
-EOF_TOOLFILE
-
+mkdir -p %i/etc
 cat << \EOF > %i/etc/my.cnf
 [mysqld]
 max_allowed_packet=128M
@@ -105,5 +90,4 @@ EOF
 %{relocateConfig}bin/mysqld_safe
 %{relocateConfig}bin/mysql_fix_privilege_tables
 %{relocateConfig}bin/mysql_install_db
-%{relocateConfig}etc/scram.d/%n
 
