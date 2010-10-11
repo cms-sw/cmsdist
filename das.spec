@@ -4,7 +4,7 @@
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM/DAS/tags/%{realversion}
 Source: %svnserver?scheme=svn+ssh&strategy=export&module=DAS&output=/das.tar.gz
 
-Requires: python cherrypy py2-cheetah yui elementtree mongo py2-pymongo py2-cjson py2-yaml wmcore py2-sphinx py2-openid py2-sqlalchemy py2-ipython py2-pystemmer py2-mongoengine py2-lxml py2-ply
+Requires: python cherrypy py2-cheetah yui elementtree mongo py2-pymongo py2-cjson py2-yaml wmcore py2-openid py2-pystemmer py2-mongoengine py2-lxml py2-ply
 Requires: py2-setuptools
 
 %prep
