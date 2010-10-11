@@ -92,7 +92,6 @@ Requires: py2-numpy-toolfile
 %if "%isslc" == "true"
 Requires: gdb-toolfile
 Requires: simage-toolfile
-Requires: rulechecker-toolfile
 Requires: curl-toolfile
 Requires: google-perftools-toolfile
 Requires: cmsswdata-toolfile
