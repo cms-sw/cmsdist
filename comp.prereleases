@@ -66,10 +66,7 @@ HG1009c cmsweb
 + HEAD/DBS_2_1_1_patch1 dbs-client.spec
 + HEAD/0.10.13 fmws.spec
 + HEAD/1.9.2-4 srmcp.spec
-+ forPHEDEX-web-20100831-1/* PHEDEX-combined-web.spec
-  + forPHEDEX-web-20100831-1/* PHEDEX-web.spec
-  + forPHEDEX-web-20100831-1/* PHEDEX-datasvc.spec
-  + forPHEDEX-web-20100831-1/* PHEDEX-webapp.spec
++ forPHEDEX-web-20100831-1/* PHEDEX-{combined-web,web,datasvc,webapp}.spec
   + forPHEDEX-web-20100831-1/* protovis.spec
 + HEAD/1.2.3 sitedb.spec
 + HEAD/1.0.23b T0Mon.spec
@@ -77,4 +74,4 @@ HG1009c cmsweb
 + HEAD/0.6.2 couchapp.spec
 
 # HG1010 candidate test build
-HG1010pre2 base
+HG1010pre3 base
