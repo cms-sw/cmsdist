@@ -1,4 +1,4 @@
-### RPM external base HG1010pre3
+### RPM external base HG1010pre4
 
 # Top level service packages
 Requires: wmcore wmcore-webtools wmcore-db-sqlite wmcore-db-mysql wmcore-db-oracle wmcore-db-couch frontend webtools couchdb couchapp
