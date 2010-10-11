@@ -593,6 +593,8 @@ RecoParticleFlow/PFBlockProducer
 RecoParticleFlow/PFClusterProducer               
 RecoParticleFlow/PFClusterShapeProducer          
 RecoParticleFlow/PFClusterTools                  
+RecoParticleFlow/PFProducer
+RecoParticleFlow/PFTracking
 PerfTools/Callgrind
 PerfTools/EdmEvent
 PhysicsTools/CandAlgos

@@ -710,6 +710,8 @@ RecoParticleFlow/PFBlockProducer
 RecoParticleFlow/PFClusterProducer
 RecoParticleFlow/PFClusterShapeProducer
 RecoParticleFlow/PFClusterTools
+RecoParticleFlow/PFProducer
+RecoParticleFlow/PFTracking
 RecoPixelVZero/PixelVZeroFinding
 RecoPixelVertexing/Configuration
 RecoPixelVertexing/PixelLowPtUtilities
