@@ -11,7 +11,7 @@ Patch0: root-5.22-00d-externals
 Patch1: root-5.22-00d-CINT-maxlongline-maxtypedef
 Patch2: root-5.22-00-TMVA-shut-the-hell-up-for-once
 Patch3: root-5.22-00a-TMVA-shut-the-hell-up-again
-Patch4: root-5.22-00d-fireworks-graf3d-gui
+Patch4: root-5.22-00d-fireworks-graf3d-gui-ko
 Patch5: root-5.22-00a-roofit-silence-static-printout
 Patch6: root-5.22-00a-TMVA-just-shut-the-hell-up
 Patch7: root-5.22-00a-th1
@@ -31,7 +31,7 @@ Patch20: root-5.22-00d-cint-namespace
 Patch21: root-5.22-00d-fireworks7
 Patch22: root-5.22-00d-TMath-Vavilov
 Patch23: root-5.22-00d-TBranchElement-dropped-data-member
-Patch24: root-5.22-00d-fireworks8
+Patch24: root-5.22-00d-fireworks8-ko
 Patch25: root-5.22-00d-fix-python-shebang
 Patch26: root-5.22-00d-RootsysOnMac
 Patch27: root-5.22-00d-TString-Clear
