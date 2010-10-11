@@ -1,14 +1,18 @@
-### RPM external rpm 4.8.0
+### RPM external rpm 4.4.2.2-CMS19c
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-## INITENV SET RPM_CONFIGDIR %{i}/lib/rpm
-
-# Warning! While rpm itself seems to work, at the time of writing it
-# does not seem to be possible to build apt-rpm with 
-Source: http://rpm.org/releases/rpm-%(echo %realversion | cut -f1,2 -d.).x/rpm-%{realversion}.tar.bz2
+## INITENV SET LIBRPMALIAS_FILENAME %{i}/lib/rpm/rpmpopt-%{realversion}
+## INITENV SET LIBRPMRC_FILENAME %{i}/lib/rpm/rpmrc
+## INITENV SET RPM_MACROFILES %{i}/lib/rpm/macros
+## INITENV SET USRLIBRPM %{i}/lib/rpm
+## INITENV SET RPMMAGIC %{i}/lib/rpm/magic
+## INITENV SET RPMCONFIGDIR %{i}/lib/rpm
+## INITENV SET SYSCONFIGDIR %{i}/lib/rpm
+Source: http://rpm.org/releases/rpm-4.4.x/rpm-%{realversion}.tar.gz
+#Source: http://rpm5.org/files/rpm/rpm-4.4/%n-%realversion.tar.gz
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
-Requires: file nspr nss popt bz2lib db4 lua elfutils
+Requires: beecrypt bz2lib neon db4 expat elfutils
 %if "%online" != "true"
 Requires: zlib
 %endif
@@ -17,22 +21,18 @@ Requires: zlib
 # The following two lines are a workaround for an issue seen with gcc4.1.2
 Provides: perl(Archive::Tar)
 Provides: perl(Specfile)
-# The Module::ScanDeps::DataFeed code is actually contained in perldeps.pl
-# but it is dumped out in a temporary file and imported from there, AFAICT.
-# For this reason it does not show up as provided by this package.
-# In order to work around the problem, we add a fake Provides statement.
-Provides: perl(Module::ScanDeps::DataFeed)
 
-Patch0: rpm-4.8.0-case-insensitive-sources
-Patch1: rpm-4.8.0-add-missing-__fxstat64
-Patch2: rpm-4.8.0-fix-glob_pattern_p
-Patch3: rpm-4.8.0-remove-strndup
-Patch4: rpm-4.8.0-case-insensitive-fixes
-Patch5: rpm-4.8.0-allow-empty-buildroot
-Patch6: rpm-4.8.0-remove-chroot-check
-Patch7: rpm-4.8.0-fix-missing-libgen
-Patch8: rpm-4.8.0-fix-find-provides
-Patch9: rpm-4.8.0-increase-line-buffer
+Patch0: rpm-4.4.9-enum
+Patch1: rpm-4.4.9-rpmps
+Patch2: rpm-4.4.9-popt
+Patch3: rpm-4.4.9-macrofiles
+Patch4: rpm-4.4.6
+Patch5: rpm-4.4.2.1
+Patch6: rpm-macosx
+Patch7: rpm-4.4.2.2
+Patch8: rpm-4.4.2.2-leopard
+Patch9: rpm-4.4.x-flcompress
+Patch10: rpm-fix-static-declaration
 
 # Defaults here
 %define libdir lib
@@ -48,35 +48,50 @@ Patch9: rpm-4.8.0-increase-line-buffer
 Provides: Kerberos
 %endif
 
-%prep
-%setup -n %n-%realversion
-rm -rf lib/rpmhash.*
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
+%prep 
+%setup -n %n-%{realversion}
+%if "%{realversion}" == "4.4.9"
+%patch0 -p0
+%endif
+
+#%patch1 -p0
+
+%if "%{realversion}" == "4.4.9"
+%patch2 -p0
+%patch3 -p0
+%endif
+
+%if "%{realversion}" == "4.4.6"
+%patch4 -p0
+%endif
+
+%if "%{realversion}" == "4.4.2.1"
+%patch5 -p0
+%endif
+
 %patch6 -p1
+
+%if "%{realversion}" == "4.4.2.2"
 %patch7 -p1
+%endif
+
+echo %(echo %{cmsos} | cut -f1 -d_)
+%if "%(echo %{cmsos} | cut -f1 -d_)" == "osx105"
 %patch8 -p1
-case %cmsos in
-  osx*)
+%endif
+
 %patch9 -p1
-  ;;
-esac
+%patch10 -p1
+
+rm -rf neon sqlite beecrypt elfutils zlib 
 
 %build
 case %cmsos in
   slc*_ia32)
-    export CFLAGS_PLATF="-fPIC -D_FILE_OFFSET_BITS=64"
-  ;;
-  osx*)
-    export CFLAGS_PLATF="-fPIC -fnested-functions"
-    export LIBS_PLATF="-liconv"
+    export CFLAGS="-fPIC -D_FILE_OFFSET_BITS=64"
   ;;
   *)
-    export CFLAGS_PLATF="-fPIC"
+    export CFLAGS="-fPIC"
   ;;
 esac 
 
@@ -87,41 +102,53 @@ case %cmsos in
 esac 
 %endif
 
-USER_CFLAGS="-ggdb -O0"
-USER_CXXFLAGS="-ggdb -O0"
-#USER_CFLAGS="$USER_CFLAGS -O2"
-
-perl -p -i -e's|-O2|-O0|' ./configure
-
-./configure --prefix %i \
-    --with-external-db --disable-python --disable-nls \
-    --disable-rpath --with-lua \
-    CXXFLAGS="$USER_CXXFLAGS" \
-    CFLAGS="$CFLAGS_PLATF $USER_CFLAGS -I$NSPR_ROOT/include/nspr \
-            -I$NSS_ROOT/include/nss3 -I$ZLIB_ROOT/include -I$BZ2LIB_ROOT/include \
-            -I$DB4_ROOT/include -I$FILE_ROOT/include -I$POPT_ROOT/include \
-            -I$LUA_ROOT/include -L$ELFUTILS_ROOT/include" \
-    LDFLAGS="-L$NSPR_ROOT/lib -L$NSS_ROOT/lib -L$ZLIB_ROOT/lib -L$DB4_ROOT/lib \
-             -L$ELFUTIL_ROOT/lib \
-             -L$FILE_ROOT/lib -L$POPT_ROOT/lib -L$BZ2LIB_ROOT/lib -L$LUA_ROOT/lib" \
-    CPPFLAGS="-I$NSPR_ROOT/include/nspr \
-              -I$ZLIB_ROOT/include -I$BZ2LIB_ROOT/include -I$DB4_ROOT/include \
-              -I$FILE_ROOT/include -I$POPT_ROOT/include -I$ELFUTILS_ROOT/include \
-              -I$NSS_ROOT/include/nss3 -I$LUA_ROOT/include" \
-    LIBS="-lnspr4 -lnss3 -lnssutil3 -lplds4 -lbz2 -lplc4 -lz -lpopt \
-          -ldb -llua $LIBS_PLATF"
-
+export CPPFLAGS="-I$BEECRYPT_ROOT/include -I$BEECRYPT_ROOT/include/beecrypt -I$BZ2LIB_ROOT/include -I$NEON_ROOT/include/neon -I$DB4_ROOT/include -I$EXPAT_ROOT/include/expat -I$ELFUTILS_ROOT/include -I$ZLIB_ROOT/include"
+export LDFLAGS="-L$BEECRYPT_ROOT/%libdir -L$BZ2LIB_ROOT/lib -L$NEON_ROOT/lib -L$DB4_ROOT/lib -L$EXPAT_ROOT/%libdir -L$ELFUTILS_ROOT/lib -L$ZLIB_ROOT/lib -lz -lexpat -lbeecrypt -lbz2 -lneon -lpthread"
 #FIXME: this does not seem to work and we still get /usr/bin/python in some of the files.
 export __PYTHON="/usr/bin/env python"
-#perl -p -i -e "s|^.*WITH_SELINUX.*$||;
-#               s|-lselinux||;
-#" `find . -name \*.in` 
+perl -p -i -e "s|\@WITH_NEON_LIB\@|$NEON_ROOT/lib/libneon.a|;
+               s|^.*WITH_SELINUX.*$||;
+               s|-lselinux||;
+" `find . -name \*.in` 
+perl -p -i -e "s|#undef HAVE_NEON_NE_GET_RESPONSE_HEADER|#define HAVE_NEON_NE_GET_RESPONSE_HEADER 1|;
+               s|#undef HAVE_BZ2_1_0|#define HAVE_BZ2_1_0|;
+               s|#undef HAVE_GETPASSPHRASE||;
+               s|#undef HAVE_LUA||;" config.h.in
+#perl -p -i -e 's%^(WITH_DB_SUBDIR|WITH_INTERNAL_DB|DBLIBSRCS)%#$1%' configure
+case `uname` in
+    Darwin*)
+        perl -p -i -e s'![\t]\@WITH_ZLIB_LIB\@!!' Makefile.in
+        ;;
+esac
 
+# Needed to convince configure not to pick up any sqlite.
+perl -p -i -e "s|sqlite[^.]*[.]h|sqliteNOCOMPILE.h|" ./configure
+
+varprefix=%{instroot}/%{cmsplatf}/var ./configure --prefix=%i --disable-nls \
+                                                  --without-selinux --without-python \
+                                                  --without-libintl  --without-perl \
+                                                  --with-zlib-includes=$ZLIB_ROOT/include \
+                                                  --with-zlib-lib=$ZLIB_ROOT/lib/libz.%soname \
+                                                  --without-lua 
+perl -p -i -e "s|lua||" Makefile
+
+#this does nothing...(cd zlib; make)
+if ! make %makeprocesses
+then
+    # Very ugly hack to get rid of any kind of automatically generated dependecy on /usr/lib/beecrypt.
+    toBePatched=`grep -R -e '/usr/lib[6]*[4]*/[^ ]*.la' . | grep  "\.la" | cut -f1 -d:`
+    if [ "X$toBePatched" != X ]
+    then
+        perl -p -i -e 's|/usr/lib[6]*[4]*/[^ ]*.la||' $toBePatched 
+        make %makeprocesses 
+    fi
+fi
 perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|" scripts/get_magic.pl \
                                                       scripts/rpmdiff.cgi \
                                                       scripts/cpanflute2 \
                                                       scripts/perldeps.pl \
                                                       db/dist/camelize.pl 
+
 
 %install
 make install
@@ -133,7 +160,6 @@ perl -p -i -e "s!:/etc/[^:]*!!g;
 
 # This is for compatibility with rpm 4.3.3
 perl -p -i -e "s!^.buildroot!#%%buildroot!;
-               s!^%%_dbpath.*lib/rpm!%%_dbpath %{instroot}/%{cmsplatf}/var/lib/rpm!;
                s!^%%_repackage_dir.*/var/spool/repackage!%%_repackage_dir     %{instroot}/%{cmsplatf}/var/spool/repackage!" %i/lib/rpm/macros
 
 # Removes any reference to /usr/lib/rpm in lib/rpm
@@ -168,9 +194,9 @@ perl -p -i -e 's|^#[!]/usr/bin/perl(.*)|#!/usr/bin/env perl$1|' \
 
 mkdir -p %{instroot}/%{cmsplatf}/var/spool/repackage
 
-# Generates the dependencies-setup.sh/dependencies-setup.csh which is
-# automatically sourced by init.sh/init.csh, providing the environment for all
-# the dependencies.
+# Generates the dependencies-setup.sh/dependencies-setup.csh
+# which is automatically sourced by init.sh/init.csh, providing 
+# the environment for all the dependencies.
 mkdir -p %{i}/etc/profile.d
 
 echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
@@ -193,20 +219,14 @@ perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-
 perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
 
 ln -sf rpm/rpmpopt-%{realversion} %i/lib/rpmpopt
-perl -p -i -e 's|.[{]prefix[}]|%instroot|g' %{i}/lib/rpm/macros
 
-# Remove some of the path macros defined in macros since they could come from
-# different places (e.g. from system or from macports) and this would lead to
-# problems if a developer with macports builds a bootstrap package set.
+# Remove some of the path macros defined in macros since they could come
+# from different places (e.g. from system or from macports) and this would
+# lead to problems if a developer with macports builds a bootstrap package set.
 for shellUtil in tar cat chgrp chmod chown cp file gpg id make mkdir mv pgp rm rsh sed ssh gzip cpio perl unzip patch grep 
 do
     perl -p -i -e "s|^%__$shellUtil\s(.*)|%__$shellUtil       $shellUtil|" %i/lib/rpm/macros
 done
-
-ln -sf rpm %i/bin/rpmdb
-ln -sf rpm %i/bin/rpmsign
-ln -sf rpm %i/bin/rpmverify
-ln -sf rpm %i/bin/rpmquery
 
 %post
 # do not relocate init.[c]sh as these are done by default from cmsBuild
