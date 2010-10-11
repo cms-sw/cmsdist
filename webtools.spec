@@ -3,74 +3,34 @@
 ## INITENV +PATH PERL5LIB %i/lib/perl
 
 %define moduleName WEBTOOLS
-%define exportName WEBTOOLS
 %define cvstag V01-03-43
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
-Requires: python cherrypy py2-cheetah yui sqlite zlib py2-pysqlite expat openssl bz2lib db4 gdbm py2-cx-oracle py2-formencode py2-pycrypto oracle beautifulsoup py2-sqlalchemy oracle-env
+Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{moduleName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
+
+Requires: python cherrypy py2-cheetah yui sqlite zlib py2-pysqlite expat openssl bz2lib db4 gdbm py2-cx-oracle py2-formencode py2-pycrypto oracle beautifulsoup py2-sqlalchemy oracle-env py2-pyopenssl
 Requires: p5-crypt-cbc p5-crypt-blowfish
-Provides: perl(CGI) 
-Provides: perl(Crypt::CBC) 
+
 Provides: perl(SecurityModule) 
-Provides: perl(DBI)
+
 %prep
 %setup -n %{moduleName}
+
 %build
-mkdir -p %i/etc/init.d
 
 %install
-mkdir -p %i/etc
-mkdir -p %i/bin
+mkdir -p %i/{etc,bin}
 mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 mkdir -p %i/lib/perl
 
-# copy init script
-#cp Applications/SiteDB/initscripts/start.sh %{i}/etc/init.d/
-#chmod a+x %{i}/etc/init.d/*
-
-rm -rf Applications Configuration
 cp -r SecurityModule/perl/lib/* %i/lib/perl
+rm -rf Applications Configuration Tools/StartupScripts SecurityModule/perl
 cp -r * %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 cp cmsWeb %i/bin
 
-cat << \EOF_CHERRYPY_CONF > %i/etc/cherrypy.conf
-# Serve a complete directory 
-[/Common] 
-tools.staticdir.on = True 
-tools.staticdir.dir = %i/Common
-[/Templates]
-tools.staticdir.on = True
-tools.staticdir.dir = %i/Templates
-# Serve a complete directory 
-[/WEBTOOLS/Common]
-tools.staticdir.on = True
-tools.staticdir.dir = %i/Common
-[/WEBTOOLS/Templates]
-tools.staticdir.on = True
-tools.staticdir.dir = %i/Templates
-EOF_CHERRYPY_CONF
-cat << \EOF_APACHE2_HEADER > %i/etc/apache2-header.conf
-RewriteEngine On
-RewriteBase /cms/services
-EOF_APACHE2_HEADER
-
-cat << \EOF_APACHE2_CONF > %i/etc/apache2.conf
-<Directory %i/Common>
-Allow from all
-</Directory>
-<Directory %i/Templates>
-Allow from all
-</Directory>
-EOF_APACHE2_CONF
-
-cat << \EOF_APACHE2_FOOTER > %i/etc/apache2-footer.conf
-RewriteRule ^/cms/services/webtools/Common(.*)$ %i/Common$1
-RewriteRule ^/cms/services/webtools/Templates(.*)$ %i/Templates$1
-EOF_APACHE2_FOOTER
-
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
-rm -rf %i/etc/profile.d
 mkdir -p %i/etc/profile.d
+: > %i/etc/profile.d/dependencies-setup.sh
+: > %i/etc/profile.d/dependencies-setup.csh
 for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
   if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
@@ -81,16 +41,5 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
-%{relocateConfig}etc/cherrypy.conf
-%{relocateConfig}etc/apache2.conf
-%{relocateConfig}etc/apache2-header.conf
-%{relocateConfig}etc/apache2-footer.conf
 perl -p -i -e "s!\@RPM_INSTALL_PREFIX\@!$RPM_INSTALL_PREFIX/%pkgrel!" $RPM_INSTALL_PREFIX/%pkgrel/bin/cmsWeb
-
-
-# setup approripate links and made post install procedure
-. $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
-if [ -n "${WEBTOOLS_CONF}" ] && [ -f ${WEBTOOLS_CONF}/sitedb/security.ini ]; then
-ln -s ${WEBTOOLS_CONF}/sitedb/security.ini $RPM_INSTALL_PREFIX/%{pkgrel}/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Tools/SiteDBCore/security.ini
-fi
 
