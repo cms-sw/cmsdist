@@ -16,10 +16,9 @@ Requires: curl spidermonkey openssl icu4c erlang couchapp
 cp %_sourcedir/couch_cms_auth.erl %_builddir/couchdb/src/couchdb
 
 %build
-export PATH=$PATH:$ICU4C_ROOT/bin:$ERLANG_ROOT/bin
-cd %_builddir/couchdb
 ./bootstrap
-./configure --prefix=%i --with-js-lib=$SPIDERMONKEY_ROOT/lib --with-js-include=$SPIDERMONKEY_ROOT/include --with-erlang=$ERLANG_ROOT/lib/erlang/usr/include
+export CURL_ROOT SPIDERMONKEY_ROOT OPENSSL_ROOT ICU4C_ROOT ERLANG_ROOT
+./configure --prefix=%i --with-js-lib=$SPIDERMONKEY_ROOT/lib --with-js-include=$SPIDERMONKEY_ROOT/include --with-erlang=$ERLANG_ROOT/lib/erlang/usr/include --with-icu4c=$ICU4C_ROOT
 make
 
 %install
