@@ -9,11 +9,11 @@ Requires: expat zlib libjpg libpng
 which gcc
 LIB64_SUFFIX=
 case %cmsplatf in
-    *_ia32_* )
+    slc*_ia32_* )
         export LD_LIBRARY_PATH=`echo $LD_LIBRARY_PATH | sed -e 's|lib64|lib|g'`
         ADDITIONAL_OPTIONS="--with-freetype2=no --disable-shared --enable-static --disable-libtdl"
     ;;
-    *_amd64_* )
+    slc*_amd64_* )
         LIB64_SUFFIX=64
         ADDITIONAL_OPTIONS="--with-freetype2=no --disable-shared --enable-static --disable-ltdl"
     ;;
@@ -70,7 +70,7 @@ make
 make install
 # To match configure options above
 case %cmsplatf in
-    *_ia32_* | *_amd64_*)
+    slc*_ia32_* | slc*_amd64_*)
         ln -s dot_static %i/bin/dot
     ;;
 esac
