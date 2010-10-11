@@ -33,6 +33,7 @@ Patch6: rpm-4.8.0-remove-chroot-check
 Patch7: rpm-4.8.0-fix-missing-libgen
 Patch8: rpm-4.8.0-fix-find-provides
 Patch9: rpm-4.8.0-increase-line-buffer
+Patch10: rpm-4.8.0-increase-macro-buffer
 
 # Defaults here
 %define libdir lib
@@ -63,6 +64,7 @@ rm -rf lib/rpmhash.*
 case %cmsos in
   osx*)
 %patch9 -p1
+%patch10 -p1
   ;;
 esac
 
