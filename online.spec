@@ -1,4 +1,4 @@
-### RPM cms online CMSSW_3_8_1_ONLINE
+### RPM cms online CMSSW_3_8_5_ONLINE
 
 Requires: online-tool-conf python
 
