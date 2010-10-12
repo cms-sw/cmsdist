@@ -31,7 +31,6 @@ perl -p -i -e "s|$ICU4C_ROOT|\\\$ICU4C_ROOT|g;" \
 	%i/bin/couchdb %i/bin/couchjs
 chmod a+x %i/bin/couch*
 
-%install
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
 : > %i/etc/profile.d/dependencies-setup.sh
