@@ -76,3 +76,4 @@ HG1009c cmsweb
 # HG1010 candidate test build
 HG1010a base
 + 1.43 couchdb.spec
+  + 1.18 erlang.spec
