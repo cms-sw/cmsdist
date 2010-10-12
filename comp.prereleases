@@ -75,3 +75,4 @@ HG1009c cmsweb
 
 # HG1010 candidate test build
 HG1010a base
++ 1.43/1.0.1 couchdb.spec
