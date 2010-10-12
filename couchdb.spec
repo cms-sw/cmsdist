@@ -24,13 +24,6 @@ make
 %install
 make install
 
-# Modify couchdb script to use env. variables rather then full path
-perl -p -i -e "s|$ICU4C_ROOT|\\\$ICU4C_ROOT|g;" \
-           -e "s|$ERLANG_ROOT|\\\$ERLANG_ROOT|g;" \
-           -e "s|%i|\\\$COUCHDB_ROOT|g;" \
-	%i/bin/couchdb %i/bin/couchjs
-chmod a+x %i/bin/couch*
-
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
 : > %i/etc/profile.d/dependencies-setup.sh
@@ -46,4 +39,4 @@ done
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
 %{relocateConfig}etc/couchdb/default.ini
-
+%{relocateConfig}bin/couch*
