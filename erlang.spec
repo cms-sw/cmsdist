@@ -18,10 +18,9 @@ make
 %install
 make install
 
-export ERLANG_INSTALL_DIR=%i
-cat %i/lib/erlang/bin/erl | sed "s,$ERLANG_INSTALL_DIR,\$ERLANG_ROOT,g" > %i/lib/erlang/bin/erl.new
-mv %i/lib/erlang/bin/erl.new %i/lib/erlang/bin/erl
-chmod a+x %i/lib/erlang/bin/erl
+# Fix annoying problem with symbolic links
+ln -sf ../erts-5.6.5/bin/epmd %i/lib/erlang/bin
+ln -sf ../lib/erlang/bin/{dialyzer,epmd,erl,erlc,escript,run_erl,to_erl,typer} %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
@@ -37,14 +36,5 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
-
-# setup approripate links and made post install procedure
-. $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
-rm -f $ERLANG_ROOT/bin/*
-rm -f $ERLANG_ROOT/lib/erlang/bin/epmd
-ln -s $ERLANG_ROOT/lib/erlang/erts-5.6.5/bin/epmd $ERLANG_ROOT/lib/erlang/bin/epmd
-for pkg in dialyzer epmd erl erlc escript run_erl to_erl typer
-do
-    ln -s $ERLANG_ROOT/lib/erlang/bin/$pkg $ERLANG_ROOT/bin/$pkg
-done
-
+%{relocateConfig}lib/erlang/bin/{erl,start}
+%{relocateConfig}lib/erlang/erts-5.6.5/bin/{erl,start}
