@@ -56,7 +56,7 @@ HG1010a dbs-web
 
 # Cms Webtools services
 HG1010a cmsweb
-+ HEAD/1009g cmsweb.spec
++ HEAD/1010a cmsweb.spec
 + HEAD/4.0c frontend.spec
 + HEAD/0.1.21 webtools-base.spec
 + HEAD/1.2.3 sitedb.spec
