@@ -38,5 +38,9 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
+%{relocateConfig}etc/{rc.d,logrotate.d}/couchdb
 %{relocateConfig}etc/couchdb/default.ini
 %{relocateConfig}bin/couch*
+%{relocateConfig}lib/couchdb/erlang/lib/couch-1.0.1/ebin/couch.app
+%{relocateConfig}lib/couchdb/erlang/lib/couch-1.0.1/priv/lib/couch_icu_driver.la
+
