@@ -10,6 +10,7 @@ Requires: python webtools rotatelogs
 
 %prep
 %setup -n %{moduleName}
+rm -f Applications/SiteDB/Utilities/MigrateSites # requires phedex
 
 %build
 
