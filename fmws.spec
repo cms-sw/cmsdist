@@ -12,7 +12,7 @@
 ####Source: http://t2.unl.edu/store/CmsFileServer-%{realversion}.tar.gz
 Source: %cvsserver&strategy=checkout&module=COMP/%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
 #Requires: python openssl cherrypy py2-cheetah webtools yui java-jdk srmcp elementtree mongo py2-pymongo
-Requires: python openssl cherrypy py2-cheetah webtools yui java-jdk srmcp elementtree
+Requires: python openssl cherrypy py2-cheetah webtools yui java-jdk srmcp elementtree rotatelogs
 
 %prep
 %setup -n %{moduleName}
