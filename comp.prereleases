@@ -55,28 +55,21 @@ HG1010a dbs-web
 #dg20100831b-webtools-base webtools-base
 
 # Cms Webtools services
-HG1009c cmsweb
-+ HEAD/1009f cmsweb.spec
-+ HEAD/2.2.14 rotatelogs.spec
-+ HEAD/1.0b pystack.spec
-  + HEAD/7.1 gdb.spec
+HG1010a cmsweb
++ HEAD/1009g cmsweb.spec
 + HEAD/4.0c frontend.spec
-  + HEAD/2.2.14gsi apache2.spec
-  + HEAD/2.9b apache2-conf.spec
-  + HEAD/3.3 apache-setup.spec
-  + HEAD/1.08 p5-apache-dbi.spec
 + HEAD/0.1.21 webtools-base.spec
-+ HEAD/0.5.2 das.spec
-+ HEAD/V06_00_40 dbs-web.spec
-+ HEAD/DBS_2_1_1_patch1 dbs-client.spec
-+ HEAD/0.10.13 fmws.spec
-+ HEAD/1.9.2-4 srmcp.spec
-+ forPHEDEX-web-20100831-1/* PHEDEX-{combined-web,web,datasvc,webapp}.spec
-  + forPHEDEX-web-20100831-1/* protovis.spec
 + HEAD/1.2.3 sitedb.spec
++ HEAD/0.10.13 fmws.spec
++ HEAD/0.5.2 das.spec
++ 1.24 mongo.spec
++ HEAD/V06_00_41 dbs-web.spec
++ HEAD/DBS_2_1_5 dbs-client.spec
+# + forPHEDEX-web-20100831-1/* PHEDEX-{combined-web,web,datasvc,webapp}.spec
 + HEAD/1.0.23b T0Mon.spec
-+ HEAD/1.0.1 couchdb.spec
-+ HEAD/0.6.2 couchapp.spec
++ 1.44 couchdb.spec
+  + 1.18 erlang.spec
++ HEAD/0.7.1 couchapp.spec
 
 # HG1010 candidate test build
 HG1010a base
