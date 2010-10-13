@@ -59,7 +59,7 @@ HG1010a cmsweb
 + HEAD/1010a cmsweb.spec
 + HEAD/4.0c frontend.spec
 + HEAD/0.1.21 webtools-base.spec
-+ HEAD/1.2.3 sitedb.spec
++ 1.22 sitedb.spec
 + HEAD/0.10.13 fmws.spec
 + HEAD/0.5.2 das.spec
 + 1.24 mongo.spec
