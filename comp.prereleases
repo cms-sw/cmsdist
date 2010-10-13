@@ -24,8 +24,9 @@ HG1009c das
 + DAS_20100920_slc5_amd64_gcc434 das.spec
 
 # T0Mon and T0DataSvc
-#HG1009c T0Mon + sjg100924-T0Mon T0Mon.spec
-HG1010pre2 T0DataSvc
+HG1010a T0Mon
++ HEAD T0Mon.spec
+HG1010a T0DataSvc
 + HEAD/1.0.14 T0DataSvc.spec
 
 # DBS-2
