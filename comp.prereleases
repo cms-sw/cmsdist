@@ -38,6 +38,8 @@ HG1009c dbs-apps
 
 # FileMover
 #FILEMOVER_20100901_slc5_amd64_gcc434_v5 fmws
+HG1010a fmws
++ python-2.6.4-dont-detect-dbm.patch fmws.spec
 
 # SiteDB
 #dg20100824b-sitedb sitedb
