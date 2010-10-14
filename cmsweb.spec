@@ -3,7 +3,7 @@
 # This is a meta-package to group all cms webtools services from comp repository
 
 # Requires: frontend webtools-base das dbs-web fmws sitedb T0Mon PHEDEX-combined-web couchdb
-Requires: frontend webtools-base das dbs-web fmws sitedb T0Mon couchdb
+Requires: frontend webtools-base das dbs-web fmws sitedb T0Mon couchdb PHEDEX-datasvc
 Requires: rotatelogs pystack py2-geoip py2-adns py2-netaddr valgrind igprof
 
 %prep
