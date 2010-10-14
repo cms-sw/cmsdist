@@ -49,7 +49,7 @@ HG1010a fmws
 #HG1009c dbs-web 
 #+ DD_20101007_slc5_amd64_gcc434 dbs-{web,client}.spec
 HG1010a dbs-web 
-+ DD_20101013_slc5_amd64_gcc434 dbs-{web,client}.spec
++ DD_20101014_slc5_amd64_gcc434 dbs-{web,client}.spec
 
 # Webtools-base
 #dg20100831b-webtools-base webtools-base
