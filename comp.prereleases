@@ -56,21 +56,26 @@ HG1010a dbs-web
 
 # Cms Webtools services
 HG1010a cmsweb
-+ 1.10/* cmsweb.spec
++ 1.4 py2-sphinx.spec
+  + 1.1 py2-docutils.spec
+  + 1.1 py2-jinja.spec
+  + 1.1 py2-pygments.spec
++ 1.1 subpackage-webdoc.file
 + 1.15 apache2.spec
   + 1.1 apache2-ssl-report-cert.patch
++ 1.24 mongo.spec
++ 1.44 couchdb.spec
+  + 1.18 erlang.spec
++ 1.10/* cmsweb.spec
 + HEAD/4.0c frontend.spec
 + HEAD/0.1.21 webtools-base.spec
 + 1.22 sitedb.spec
 + HEAD/0.10.13 fmws.spec
 + HEAD/0.5.2 das.spec
-+ 1.24 mongo.spec
 + HEAD/V06_00_41 dbs-web.spec
 + HEAD/DBS_2_1_5 dbs-client.spec
 + forPHEDEX-web-20100831-1/* PHEDEX-{combined-web,web,datasvc,webapp}.spec
 + HEAD/1.0.23b T0Mon.spec
-+ 1.44 couchdb.spec
-  + 1.18 erlang.spec
 + HEAD/0.7.1 couchapp.spec
 
 # HG1010 candidate test build
