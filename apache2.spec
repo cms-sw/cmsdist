@@ -11,10 +11,12 @@ Source0: http://mirror.switch.ch/mirror/apache/dist/httpd/httpd-%apversion.tar.g
 Source1: http://www.apache.org/dist/httpd/httpd-%apversion.tar.gz
 Source2: svn://vdt.cs.wisc.edu/svn/vdt/tags/vdt-%vdtversion/Apache?scheme=https&module=Apache&output=/VDT-Apache-GSI.tgz
 Patch0: apache2-verify-error
+Patch1: apache2-ssl-report-cert
 
 %prep
 %setup -n httpd-%apversion
 %patch0 -p0
+%patch1 -p0
 gunzip -d -c < %_sourcedir/VDT-Apache-GSI.tgz |
   tar -xOf - 'Apache/nmi/GSI.patch' |
   patch -p0
