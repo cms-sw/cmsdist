@@ -65,8 +65,7 @@ HG1010a cmsweb
 + 1.24 mongo.spec
 + HEAD/V06_00_41 dbs-web.spec
 + HEAD/DBS_2_1_5 dbs-client.spec
-+ forPHEDEX-web-20100831-1/* PHEDEX-datasvc.spec
-# + forPHEDEX-web-20100831-1/* PHEDEX-{combined-web,web,datasvc,webapp}.spec
++ forPHEDEX-web-20100831-1/* PHEDEX-{combined-web,web,datasvc,webapp}.spec
 + HEAD/1.0.23b T0Mon.spec
 + 1.44 couchdb.spec
   + 1.18 erlang.spec
