@@ -20,7 +20,7 @@ cd doc
 cat sphinx/conf.py | sed "s,development,%{realversion},g" > sphinx/conf.py.tmp
 mv sphinx/conf.py.tmp sphinx/conf.py
 mkdir -p build
-make dirhtml
+make html
 
 %install
 #cp build/lib.*/DAS/extensions/das_speed_utils.so src/python/DAS/extensions/
@@ -29,7 +29,7 @@ egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/
 find %i -name '*.egg-info' -exec rm {} \;
 
 mkdir -p %i/doc
-tar -C doc/build/dirhtml -cf - . | tar -C %i/doc -xvf -
+tar --exclude '.buildinfo' -C doc/build/html -cf - . | tar -C %i/doc -xvf -
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
