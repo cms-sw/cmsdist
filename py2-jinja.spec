@@ -1,11 +1,11 @@
-### RPM external py2-sphinx 0.6.4
+### RPM external py2-jinja 2.5.2
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
-Source: http://pypi.python.org/packages/source/S/Sphinx/Sphinx-%realversion.tar.gz
-Requires: python py2-docutils py2-jinja py2-pygments py2-setuptools
+Source: http://pypi.python.org/packages/source/J/Jinja2/Jinja2-%realversion.tar.gz
+Requires: python py2-setuptools
 
 %prep
-%setup -n Sphinx-%realversion
+%setup -n Jinja2-%realversion
 
 %build
 python setup.py build

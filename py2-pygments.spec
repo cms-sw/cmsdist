@@ -1,11 +1,11 @@
-### RPM external py2-sphinx 0.6.4
+### RPM external py2-pygments 1.3.1
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
-Source: http://pypi.python.org/packages/source/S/Sphinx/Sphinx-%realversion.tar.gz
-Requires: python py2-docutils py2-jinja py2-pygments py2-setuptools
+Source: http://pypi.python.org/packages/source/P/Pygments/Pygments-%realversion.tar.gz
+Requires: python py2-setuptools
 
 %prep
-%setup -n Sphinx-%realversion
+%setup -n Pygments-%realversion
 
 %build
 python setup.py build
