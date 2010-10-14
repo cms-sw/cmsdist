@@ -6,7 +6,7 @@
 Source: %cvsserver&strategy=checkout&module=DBS/Web/DataDiscovery&nocache=true&export=DBS&tag=-r%{cvstag}&output=/dbs-web.tar.gz
 
 Requires: python mysql py2-mysqldb py2-simplejson py2-memcached elementtree
-Requires: webtools dbs-client
+Requires: webtools dbs-client rotatelogs
 
 %prep
 %setup -n DBS/Web/DataDiscovery
