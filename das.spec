@@ -1,11 +1,12 @@
 ### RPM cms das 0.5.2
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
+%define webdoc_files %i/doc/
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM/DAS/tags/%{realversion}
 Source: %svnserver?scheme=svn+ssh&strategy=export&module=DAS&output=/das.tar.gz
 
 Requires: python cherrypy py2-cheetah yui elementtree mongo py2-pymongo py2-cjson py2-yaml wmcore py2-openid py2-pystemmer py2-mongoengine py2-lxml py2-ply
-Requires: py2-setuptools
+Requires: py2-setuptools py2-sphinx
 
 %prep
 %setup -n DAS
@@ -13,11 +14,22 @@ Requires: py2-setuptools
 %build
 python setup.py build
 
+# build DAS sphinx documentation
+PYTHONPATH=$PWD/src/python:$PYTHONPATH
+cd doc
+cat sphinx/conf.py | sed "s,development,%{realversion},g" > sphinx/conf.py.tmp
+mv sphinx/conf.py.tmp sphinx/conf.py
+mkdir -p build
+make dirhtml
+
 %install
 #cp build/lib.*/DAS/extensions/das_speed_utils.so src/python/DAS/extensions/
 python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
 egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
+
+mkdir -p %i/doc
+tar -C doc/build/dirhtml -cf - . | tar -C %i/doc -xvf -
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
@@ -33,3 +45,9 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
+
+%files
+%i/
+%exclude %i/doc
+
+## SUBPACKAGE webdoc
