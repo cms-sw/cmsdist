@@ -6,7 +6,7 @@
 Source: %svnserver?scheme=svn+ssh&strategy=export&module=DAS&output=/das.tar.gz
 
 Requires: python cherrypy py2-cheetah yui mongo py2-pymongo py2-cjson py2-yaml wmcore py2-pystemmer py2-mongoengine py2-lxml py2-ply
-Requires: py2-setuptools py2-sphinx
+Requires: py2-setuptools py2-sphinx rotatelogs
 
 %prep
 %setup -n DAS
