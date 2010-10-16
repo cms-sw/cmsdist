@@ -20,8 +20,10 @@
 
 # DAS
 #DAS_20100907_slc5_amd64_gcc434 das
-HG1009c das 
-+ DAS_20100920_slc5_amd64_gcc434 das.spec
+#HG1009c das 
+#+ DAS_20100920_slc5_amd64_gcc434 das.spec
+HG1010a das
++ DAS_20101015_slc5_amd64_gcc434 das.spec
 
 # T0Mon and T0DataSvc
 HG1010a T0Mon
