@@ -23,7 +23,7 @@
 #HG1009c das 
 #+ DAS_20100920_slc5_amd64_gcc434 das.spec
 HG1010a das
-+ DAS_20101017_slc5_amd64_gcc434 das.spec subpackage-webdoc.file 
++ DAS_20101018_slc5_amd64_gcc434 das.spec subpackage-webdoc.file 
 + 1.4 py2-sphinx.spec
   + 1.1 py2-docutils.spec
   + 1.1 py2-jinja.spec
