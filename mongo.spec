@@ -1,7 +1,7 @@
 ### RPM external mongo 1.6.2
 
 Source: http://downloads.mongodb.org/src/mongodb-src-r%{realversion}.tar.gz
-Requires: boost scons pcre spidermonkey rotatelogs
+Requires: boost scons pcre spidermonkey
 
 Provides: libpcap.so.0.8.3
 Provides: libpcap.so.0.8.3()(64bit)
@@ -11,11 +11,12 @@ Provides: libpcap.so.0.8.3()(64bit)
 
 %build
 export CXX=$GCC_ROOT/bin/g++
-scons %makeprocesses --64 --cxx=$CXX --extrapathdyn=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT all
+scons --64 --cxx=$CXX --extrapathdyn=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT all
 
 %install
 export CXX=$GCC_ROOT/bin/g++
-scons %makeprocesses --64 --cxx=$CXX --extrapathdyn=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT --prefix=%i install
+scons --64 --cxx=$CXX --extrapathdyn=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT --prefix=%i install
+mkdir -p %{i}/{db,logs}
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
