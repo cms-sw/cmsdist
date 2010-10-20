@@ -90,3 +90,7 @@ HG1010a cmsweb
 HG1010a base
 + 1.44 couchdb.spec
   + 1.18 erlang.spec
+
+# StageManager
+HG1010a stagemanager
++ 1.1 stagemanager.spec
