@@ -88,7 +88,6 @@ PhysicsTools/SelectorUtils
 PhysicsTools/Utilities
 SimDataFormats/EncodedEventId
 SimDataFormats/GeneratorProducts
-SimDataFormats/PileupSummaryInfo
 SimDataFormats/Track
 SimDataFormats/TrackingAnalysis
 SimDataFormats/TrackingHit

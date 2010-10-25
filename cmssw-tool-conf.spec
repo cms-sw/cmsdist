@@ -80,22 +80,21 @@ Requires: dcap-toolfile
 Requires: xdaq-toolfile
 Requires: tkonlinesw-toolfile
 Requires: frontier_client-toolfile
+Requires: xrootd-toolfile
+Requires: pyqt-toolfile
+Requires: sip-toolfile
+Requires: graphviz-toolfile
+Requires: valgrind-toolfile
 Requires: py2-matplotlib-toolfile
 Requires: py2-numpy-toolfile
 
 
 %if "%isslc" == "true"
 Requires: gdb-toolfile
-Requires: pyqt-toolfile
-Requires: sip-toolfile
-Requires: xrootd-toolfile
 Requires: simage-toolfile
-Requires: rulechecker-toolfile
 Requires: curl-toolfile
-Requires: valgrind-toolfile
 Requires: google-perftools-toolfile
 Requires: cmsswdata-toolfile
-Requires: graphviz-toolfile
 Requires: igprof-toolfile
 %endif
 
