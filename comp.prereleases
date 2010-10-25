@@ -59,11 +59,11 @@ HG1010a dbs-web
 # Cms Webtools services
 HG1010b cmsweb
 + 1.10/* cmsweb.spec
-+ 1.1 subpackage-webdoc.file
 + HEAD/0.1.21 webtools-base.spec
 + 1.22 sitedb.spec
-+ HEAD/0.10.13 fmws.spec
-+ HEAD/0.5.2 das.spec
++ FILEMOVER_20101014_slc5_amd64_gcc434/0.10.13 fmws.spec
++ DAS_20101018_slc5_amd64_gcc434_v4/0.5.4a das.spec
++ 1.1 subpackage-webdoc.file
 + HEAD/V06_00_41 dbs-web.spec
 + HEAD/DBS_2_1_5 dbs-client.spec
 + forPHEDEX-web-20100831-1/* PHEDEX-{combined-web,web,datasvc,webapp}.spec
