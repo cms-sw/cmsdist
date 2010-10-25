@@ -11,6 +11,7 @@ cat << \EOF_TOOLFILE > %i/etc/scram.d/xz.xml
     <client>
       <environment name="XZ_BASE" default="@TOOL_ROOT@"/>
       <environment name="LIBDIR" default="$XZ_BASE/lib"/>
+      <environment name="INCLUDE" default="$XZ_BASE/include"/>
     </client>
   </tool>
 EOF_TOOLFILE

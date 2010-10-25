@@ -11,6 +11,7 @@ cat << \EOF_TOOLFILE > %i/etc/scram.d/classlib.xml
     <client>
       <environment name="CLASSLIB_BASE" default="@TOOL_ROOT@"/>
       <environment name="LIBDIR" default="$CLASSLIB_BASE/lib"/>
+      <environment name="INCLUDE" default="$CLASSLIB_BASE/include"/>
     </client>
   </tool>
 EOF_TOOLFILE
