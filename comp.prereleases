@@ -49,9 +49,6 @@ HG1009c dbs-apps
 HG1010a fmws
 + FILEMOVER_20101014_slc5_amd64_gcc434 fmws.spec
 
-# SiteDB
-#dg20100824b-sitedb sitedb
- 
 # DBS discovery
 #DD_20100824_slc5_amd64_gcc434_v1 dbs-web dbs-client
 #HG1009c dbs-web 
@@ -59,23 +56,10 @@ HG1010a fmws
 HG1010a dbs-web 
 + DD_20101014_slc5_amd64_gcc434 dbs-{web,client}.spec
 
-# Webtools-base
-#dg20100831b-webtools-base webtools-base
-
 # Cms Webtools services
-HG1010a cmsweb
-+ 1.4 py2-sphinx.spec
-  + 1.1 py2-docutils.spec
-  + 1.1 py2-jinja.spec
-  + 1.1 py2-pygments.spec
-+ 1.1 subpackage-webdoc.file
-+ 1.15 apache2.spec
-  + 1.1 apache2-ssl-report-cert.patch
-+ 1.24 mongo.spec
-+ 1.44 couchdb.spec
-  + 1.18 erlang.spec
+HG1010b cmsweb
 + 1.10/* cmsweb.spec
-+ HEAD/4.0c frontend.spec
++ 1.1 subpackage-webdoc.file
 + HEAD/0.1.21 webtools-base.spec
 + 1.22 sitedb.spec
 + HEAD/0.10.13 fmws.spec
@@ -84,12 +68,6 @@ HG1010a cmsweb
 + HEAD/DBS_2_1_5 dbs-client.spec
 + forPHEDEX-web-20100831-1/* PHEDEX-{combined-web,web,datasvc,webapp}.spec
 + HEAD/1.0.23b T0Mon.spec
-+ HEAD/0.7.1 couchapp.spec
-
-# HG1010 candidate test build
-HG1010a base
-+ 1.44 couchdb.spec
-  + 1.18 erlang.spec
 
 # StageManager
 HG1010a stagemanager
