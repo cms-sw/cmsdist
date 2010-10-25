@@ -1,4 +1,4 @@
-### RPM external sip 4.11.1
+### RPM external sip 4.11.2
 ## INITENV +PATH PYTHONPATH %i/lib/python$(echo $PYTHON_VERSION |cut -d. -f 1,2)/site-packages
 Source: http://www.riverbankcomputing.co.uk/static/Downloads/sip4/sip-%realversion.tar.gz
 Patch0: sip-4.11.1-macosx
