@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-web WEB_3_1_6pre7
+### RPM cms PHEDEX-web WEB_3_1_5
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -30,7 +30,6 @@ Provides: perl(DB_File)
 Provides: perl(XML::LibXML)
 
 # We obsolete each previous release to force them to be removed
-Obsoletes: cms+PHEDEX-web+WEB_3_1_5
 Obsoletes: cms+PHEDEX-web+WEB_3_1_4
 Obsoletes: cms+PHEDEX-web+WEB_3_1_2a
 Obsoletes: cms+PHEDEX-web+WEB_3_1_2
@@ -88,6 +87,10 @@ cp %i/Documentation/WebConfig/cmsweb_phedex_graphs %i/bin
 # Switch host-like template variables in the configuration files
 # (copied from the apache2-conf.spec)
 H=$(hostname -f)
+if [ -r /etc/grid-security/hostcert.pem ]; then
+  CN=$(openssl x509 -noout -subject -in /etc/grid-security/hostcert.pem 2>/dev/null | sed 's|.*/CN=||')
+  case $CN in *.*.* ) H=$CN ;; esac
+fi
 echo "Configuring service on $H"
 
 # password file default location
@@ -99,6 +102,10 @@ fi
 perl -p -i -e '
   s|\@PHEDEX_DBPARAM\@|$ENV{PHEDEX_DBPARAM}|g;
 '  $RPM_INSTALL_PREFIX/%{pkgrel}/bin/cmsweb_phedex_graphs
+
+perl -I $RPM_INSTALL_PREFIX/%{pkgrel} -p -i -e '
+  s|\@FRONTEND_ALIAS\@|'$H'|g;
+'  $RPM_INSTALL_PREFIX/%{pkgrel}/Documentation/WebConfig/phedexweb-app.conf
 
 perl -I  $RPM_INSTALL_PREFIX/%{pkgrel} -p -i -e '
   s|\@PHEDEX_DBPARAM\@|$ENV{PHEDEX_DBPARAM}|g;

@@ -25,7 +25,7 @@ case %cmsplatf in
 esac
 
 ./config --prefix=%i $cfg_args enable-seed enable-tlsext enable-rfc3779 no-asm \
-                     no-idea no-mdc2 no-rc5 no-ec no-ecdh no-ecdsa shared fipscanisterbuild
+                     no-idea no-mdc2 no-rc5 no-ec no-ecdh no-ecdsa shared
 
 make
 %install
@@ -40,4 +40,23 @@ case %cmsplatf in
     ;;
 esac
 perl -p -i -e "s|^#!.*perl|#!/usr/bin/env perl|" %{i}/ssl/misc/CA.pl %{i}/ssl/misc/der_chop %{i}/bin/c_rehash
+
+#
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<lib name=ssl>
+<lib name=crypto>
+<client>
+ <Environment name=OPENSSL_BASE default="%i"></Environment>
+ <Environment name=INCLUDE default="$OPENSSL_BASE/include"></Environment>
+ <Environment name=LIBDIR  default="$OPENSSL_BASE/lib"></Environment>
+</client>
+</Tool>
+EOF_TOOLFILE
+
+%post
+%{relocateConfig}etc/scram.d/%n
 
