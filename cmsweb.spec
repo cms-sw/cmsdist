@@ -1,4 +1,4 @@
-### RPM cms cmsweb 1010a
+### RPM cms cmsweb 1010b
 
 # This is a meta-package to group all cms webtools services from comp repository
 
