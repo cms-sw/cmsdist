@@ -1,6 +1,7 @@
 ### RPM external classlib 3.1.0
 Source: http://cmsmac01.cern.ch/~lat/exports/%n-%realversion.tar.bz2
-Requires: zlib bz2lib pcre openssl lzo xz
+# Requires: zlib bz2lib pcre openssl lzo xz
+Requires: zlib bz2lib pcre openssl
 
 %prep
 %setup -n %n-%realversion
@@ -14,11 +15,12 @@ Requires: zlib bz2lib pcre openssl lzo xz
   --with-pcre-includes=$PCRE_ROOT/include       \
   --with-pcre-libraries=$PCRE_ROOT/lib          \
   --with-openssl-includes=$OPENSSL_ROOT/include \
-  --with-openssl-libraries=$OPENSSL_ROOT/lib    \
-  --with-lzo-includes=$LZO_ROOT/include         \
-  --with-lzo-libraries=$LZO_ROOT/lib            \
-  --with-lzma-includes=$XZ_ROOT/include         \
-  --with-lzma-libraries=$XZ_ROOT/lib
+  --with-openssl-libraries=$OPENSSL_ROOT/lib
+
+perl -p -i -e '
+  s{-l(lzo2|lzma)}{}g;
+  !/^\S+: / && s{\S+LZ(O|MA)((C|Dec)ompressor|Constants|Error)\S+}{}g' \
+ Makefile
 
 make %makeprocesses
 
