@@ -17,15 +17,20 @@ Patch1: openssl-x86-64-gcc420
 # those flags and use them for our own good.
 export RPM_OPT_FLAGS="-O2 -fPIC -g -pipe -Wall -Wa,--noexecstack -fno-strict-aliasing -Wp,-DOPENSSL_USE_NEW_FUNCTIONS -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -mtune=generic"
 
+cfg_opts="no-idea no-mdc2 no-rc5 no-ec no-ecdh no-ecdsa shared fipscanisterbuild"
+
 case %cmsplatf in
   osx*)
     perl -p -i -e 's|-compatibility_version.*|-compatibility_version \${SHLIB_MAJOR}.\${SHLIB_MINOR} \\|' Makefile.ssl 
     cfg_args="-DOPENSSL_USE_NEW_FUNCTIONS"
    ;;
+  *)
+    cfg_args="fipscanisterbuild"
+   ;;
 esac
 
 ./config --prefix=%i $cfg_args enable-seed enable-tlsext enable-rfc3779 no-asm \
-                     no-idea no-mdc2 no-rc5 no-ec no-ecdh no-ecdsa shared fipscanisterbuild
+                     no-idea no-mdc2 no-rc5 no-ec no-ecdh no-ecdsa shared
 
 make
 %install
