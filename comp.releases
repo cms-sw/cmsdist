@@ -8,7 +8,8 @@
 
 # Cms Webtools services
 HG1010b cmsweb
-+ 1.10/* cmsweb.spec
++ 1.11 cmsweb.spec
++ 1.16/2.2.16gsi apache2.spec
 + HEAD/0.1.21 webtools-base.spec
 + 1.22 sitedb.spec
 + FILEMOVER_20101014_slc5_amd64_gcc434/0.10.13 fmws.spec
