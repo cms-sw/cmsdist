@@ -3,42 +3,18 @@
 #
 # or the new format as in the comp.prereleases
 #
-#builder2010_07_07_1278518809-dbs-client dbs-client
-#builder_2010-08-31_16-38-21_PHEDEX-combined-web PHEDEX-combined-web
-#builder_2010-07-27_16-42-42_PHEDEX-combined-agents PHEDEX-combined-agents
-#builder_2010-09-22_16-23-52_das das
-#builder_2010-09-16_10-43-51_T0Mon T0Mon
 #builder_2010-08-31_15-18-01_dbs-apps dbs-apps
-#builder_2010-08-31_15-17-28_dbs-web dbs-web
-builder_2010-10-14_16-43-12_dbs-web dbs-web
 #CRABSERVER_1_1_3_BUILD_SLC5 crab-server prodagent  prodcommon wmcore mysql
-#builder_2010-09-01_23-43-04_fmws fmws
-#builder_2010-08-31_14-43-26_sitedb sitedb
-#builder_2010-08-31_20-02-29_webtools-base webtools-base
 
-#HG1009c cmsweb
-#+ HEAD/1009f cmsweb.spec
-#+ HEAD/2.2.14 rotatelogs.spec
-#+ HEAD/1.0b pystack.spec
-#  + HEAD/7.1 gdb.spec
-#+ HEAD/4.0c frontend.spec
-#  + HEAD/2.2.14gsi apache2.spec
-#  + HEAD/2.9b apache2-conf.spec
-#  + HEAD/3.3 apache-setup.spec
-#  + HEAD/1.08 p5-apache-dbi.spec
-#+ HEAD/0.1.21 webtools-base.spec
-#+ HEAD/0.5.2 das.spec
-#+ HEAD/V06_00_40 dbs-web.spec
-#+ 1.137/DBS_2_1_1_patch1 dbs-client.spec
-##+ HEAD/DBS_2_1_1_patch1 dbs-client.spec
-#+ HEAD/0.10.13 fmws.spec
-#+ HEAD/1.9.2-4 srmcp.spec
-#+ forPHEDEX-web-20100831-1/* PHEDEX-combined-web.spec
-#  + forPHEDEX-web-20100831-1/* PHEDEX-web.spec
-#  + forPHEDEX-web-20100831-1/* PHEDEX-datasvc.spec
-#  + forPHEDEX-web-20100831-1/* PHEDEX-webapp.spec
-#  + forPHEDEX-web-20100831-1/* protovis.spec
-#+ HEAD/1.2.3 sitedb.spec
-#+ HEAD/1.0.23b T0Mon.spec
-#+ HEAD/1.0.1 couchdb.spec
-#+ HEAD/0.6.2 couchapp.spec
+# Cms Webtools services
+HG1010b cmsweb
++ 1.10/* cmsweb.spec
++ HEAD/0.1.21 webtools-base.spec
++ 1.22 sitedb.spec
++ FILEMOVER_20101014_slc5_amd64_gcc434/0.10.13 fmws.spec
++ DAS_20101018_slc5_amd64_gcc434_v4/0.5.4a das.spec
++ 1.1 subpackage-webdoc.file
++ HEAD/V06_00_41 dbs-web.spec
++ HEAD/DBS_2_1_5 dbs-client.spec
++ forPHEDEX-web-20100831-1/* PHEDEX-{combined-web,web,datasvc,webapp}.spec
++ HEAD/1.0.23b T0Mon.spec
