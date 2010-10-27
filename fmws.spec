@@ -13,9 +13,9 @@ Requires: python webtools java-jdk srmcp elementtree rotatelogs
 %setup -n %{moduleName}
 
 %build
+cheetah compile --flat --odir src/CmsFileServer/Templates src/CmsFileServer/Templates/tmpl/template{Form,Top}.tmpl
 
 %install
-mkdir -p %{i}/bin
 mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 cp -r src/CmsFileServer/* %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 
