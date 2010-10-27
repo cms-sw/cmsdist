@@ -15,13 +15,6 @@ perl -p -i -e 's!VG_N_SEGMENTS 5000!VG_N_SEGMENTS 20000!; s!VG_N_SEGNAMES 1000!V
 pwd
 
 %build
-# We run autogen.sh again on macosx to make sure the configure
-# is regenerated with support for 10.6.
-case %cmsos in
-  osx*)
-    sh ./autogen.sh
-  ;;
-esac
 ./configure --prefix=%i
 make %makeprocesses
 %install
