@@ -1,4 +1,4 @@
-### RPM external apt 429
+### RPM external apt 431
 ## INITENV SET APT_CONFIG %{i}/etc/apt.conf
 ## INITENV CMD_SH  if [ -f $RPM_INSTALL_PREFIX/common/apt-site-env.sh  ]; then . $RPM_INSTALL_PREFIX/common/apt-site-env.sh;  fi
 ## INITENV CMD_CSH if ( -f $RPM_INSTALL_PREFIX/common/apt-site-env.csh )  source $RPM_INSTALL_PREFIX/common/apt-site-env.csh; endif
@@ -38,6 +38,7 @@ case %cmsplatf in
     ;;
 esac
 
+chmod +x buildlib/install-sh
 ./configure --prefix=%{i} --exec-prefix=%{i} \
                           --disable-nls \
                           --disable-dependency-tracking \
