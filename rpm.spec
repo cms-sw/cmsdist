@@ -8,7 +8,7 @@ Source: http://rpm.org/releases/rpm-%(echo %realversion | cut -f1,2 -d.).x/rpm-%
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
-Requires: file nspr nss popt bz2lib db4 lua elfutils
+Requires: file nspr nss popt bz2lib db4 lua
 %if "%online" != "true"
 Requires: zlib
 %endif
