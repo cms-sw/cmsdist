@@ -424,8 +424,6 @@ FWCore/TFWLiteSelectorTest
 FWCore/Utilities
 FWCore/Version
 FastSimDataFormats/External
-FastSimulation/BaseParticlePropagator
-FastSimulation/Particle
 Geometry/CMSCommonData
 Geometry/CSCGeometry
 Geometry/CSCGeometryBuilder
@@ -705,13 +703,6 @@ RecoMuon/StandAloneTrackFinder
 RecoMuon/TrackerSeedGenerator
 RecoMuon/TrackingTools
 RecoMuon/TransientTrackingRecHit
-RecoParticleFlow/Configuration
-RecoParticleFlow/PFBlockProducer
-RecoParticleFlow/PFClusterProducer
-RecoParticleFlow/PFClusterShapeProducer
-RecoParticleFlow/PFClusterTools
-RecoParticleFlow/PFProducer
-RecoParticleFlow/PFTracking
 RecoPixelVZero/PixelVZeroFinding
 RecoPixelVertexing/Configuration
 RecoPixelVertexing/PixelLowPtUtilities
