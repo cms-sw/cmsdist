@@ -19,7 +19,7 @@ case %gccver in
 %patch1 -p0
   ;;
 esac
-%patch2 -p2
+%patch2 -p1
 
 %build
 cd 2Qphwork; make gen; cd ..

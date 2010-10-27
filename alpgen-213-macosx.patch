@@ -1,7 +1,7 @@
-diff --git a/alpgen-213/compile.mk b/alpgen-213/compile.mk
+diff --git a/compile.mk b/compile.mk
 index 4201a4a..8c96177 100755
---- a/alpgen-213/compile.mk
-+++ b/alpgen-213/compile.mk
+--- a/compile.mk
++++ b/compile.mk
 @@ -15,11 +15,11 @@ ifeq ($(shell uname),Darwin)
  	 -ffast-math
    endif
@@ -18,3 +18,16 @@ index 4201a4a..8c96177 100755
    endif
  endif
  # Unix-ALPHA fortran
+diff --git a/compile.mk b/compile.mk
+index 34d704a..8011a1d 100755
+--- a/compile.mk
++++ b/compile.mk
+@@ -14,7 +14,7 @@ ifeq ($(shell uname),Darwin)
+      FFF = g77 -O1 -Wall -fno-automatic -Wno-globals -fno-backslash \
+ 	 -ffast-math
+   endif
+-  ifeq  ($(shell uname -m),i386) 
++  ifeq  ($(shell uname -p),i386) 
+ #    FFF = ifort -noautomatic -warn
+ #    FF90 = ifort -noautomatic -warn
+ #     FFF= g77 -O1 -Wall -fno-automatic -Wno-globals
