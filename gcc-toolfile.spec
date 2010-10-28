@@ -84,6 +84,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/ccompiler.xml
   </tool>
 EOF_TOOLFILE
 
+# Notice that on OSX we have a LIBDIR defined for f77compiler because gcc C++
+# compiler (which comes from the system) does not know about where to find
+# libgfortran. 
 cat << \EOF_TOOLFILE >%i/etc/scram.d/f77compiler.xml
   <tool name="f77compiler" version="@GCC_VERSION@" type="compiler">
     <lib name="gfortran"/>
@@ -91,6 +94,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/f77compiler.xml
     <client>
       <environment name="F77COMPILER_BASE" default="@G77_ROOT@"/>
       <environment name="FC" default="$F77COMPILER_BASE/bin/gfortran"/>
+      @OS_FORTRAN_LIBDIR@
     </client>
     <flags SCRAM_COMPILER_NAME="gcc@COMPILER_VERSION@"/>
     <flags FFLAGS="-fno-second-underscore -Wunused -Wuninitialized -O2"/>
@@ -117,6 +121,7 @@ case %cmsplatf in
     export OS_SHAREDFLAGS="-shared -dynamic -single_module"
     export OS_SHAREDSUFFIX="dylib"
     export OS_RUNTIME_LDPATH_NAME="DYLD_LIBRARY_PATH"
+    export OS_FORTRAN_LIBDIR='<environment name="LIBDIR" default="$F77_COMPILER_BASE/lib/i686-apple-darwin10/4.2.1"/>'
   ;;
 esac
 
