@@ -121,7 +121,7 @@ case %cmsplatf in
     export OS_SHAREDFLAGS="-shared -dynamic -single_module"
     export OS_SHAREDSUFFIX="dylib"
     export OS_RUNTIME_LDPATH_NAME="DYLD_LIBRARY_PATH"
-    export OS_FORTRAN_LIBDIR='<environment name="LIBDIR" default="$F77_COMPILER_BASE/lib/i686-apple-darwin10/4.2.1"/>'
+    export OS_FORTRAN_LIBDIR='<environment name="LIBDIR" default="$F77COMPILER_BASE/lib/i686-apple-darwin10/4.2.1"/>'
   ;;
 esac
 
