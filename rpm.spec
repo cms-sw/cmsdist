@@ -72,6 +72,11 @@ esac
 case %cmsos in
   slc*_ia32)
     export CFLAGS_PLATF="-fPIC -D_FILE_OFFSET_BITS=64"
+    LIBS_PLATF="-ldl"
+  ;;
+  slc*_amd64)
+    CFLAGS_PLATF="-fPIC"
+    LIBS_PLATF="-ldl"
   ;;
   osx*)
     export CFLAGS_PLATF="-fPIC -fnested-functions"
