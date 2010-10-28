@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 18.0
+### RPM cms cmssw-tool-conf 20.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -10,6 +10,7 @@ Provides: libboost_thread-gcc-mt.so
 %define isslc %(case %cmsos in slc*%closingbrace echo true;; *%closingbrace echo false;; esac)
 %define is64bit %(case %cmsos in slc*_amd64%closingbrace echo true;; *%closingbrace echo false;; esac)
 
+Requires: classlib-toolfile
 Requires: alpgen-toolfile
 Requires: boost-toolfile
 Requires: bz2lib-toolfile
