@@ -8,7 +8,7 @@
 Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
 
 # TODO change to webtools
-Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah py2-openid yui
+Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah py2-openid yui rotatelogs
 
 %prep
 %setup -n WMCore
