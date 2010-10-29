@@ -37,6 +37,7 @@ Patch26: root-5.22-00d-RootsysOnMac
 Patch27: root-5.22-00d-TString-Clear
 Patch28: root-5.22-00d-libgfortran-dylib-detection
 Patch29: root-5.22-00d-cint-dll-correct-install-name
+Patch30: root-5.22-00d-fireworks9
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -95,6 +96,7 @@ Requires: qt openssl libpng zlib libungif xrootd libtiff
 %patch27 -p1
 %patch28 -p2
 %patch29 -p1
+%patch30 -p1
 
 case %gccver in
   4.3.*)
