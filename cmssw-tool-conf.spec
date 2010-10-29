@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 20.0
+### RPM cms cmssw-tool-conf 18.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -87,7 +87,7 @@ Requires: graphviz-toolfile
 Requires: valgrind-toolfile
 Requires: py2-matplotlib-toolfile
 Requires: py2-numpy-toolfile
-Requires: classlib-toolfile
+
 
 %if "%isslc" == "true"
 Requires: gdb-toolfile
