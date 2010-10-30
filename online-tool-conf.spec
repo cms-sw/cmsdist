@@ -7,7 +7,6 @@ Provides: libboost_regex-gcc-mt.so
 Provides: libboost_signals-gcc-mt.so 
 Provides: libboost_thread-gcc-mt.so
 
-Requires: pool
 Requires: coral
 Requires: gmake
 Requires: pcre
@@ -24,6 +23,7 @@ Requires: roofit
 Requires: castor
 Requires: libjpg
 Requires: dcap
+Requires: oracle-env
 Requires: p5-dbd-oracle
 Requires: frontier_client
 Requires: sqlite
@@ -36,6 +36,7 @@ Requires: fastjet
 Requires: ktjet
 Requires: cmsswdata
 Requires: onlinesystemtools
+Requires: igprof-toolfile
 
 %define skipreqtools jcompiler
 %define onlinesystemtoolsroot ${ONLINESYSTEMTOOLS_ROOT}
