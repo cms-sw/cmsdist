@@ -1,4 +1,4 @@
-### RPM external classlib 3.1.0
+### RPM external classlib 3.1.1
 Source: http://cmsmac01.cern.ch/~lat/exports/%n-%realversion.tar.bz2
 # Requires: zlib bz2lib pcre openssl lzo xz
 Requires: zlib bz2lib pcre openssl
