@@ -12,21 +12,13 @@ Requires: py2-numpy
 # Requires: atlas lapack
 Requires: libpng
 # Requires: freetype
-
+Patch0: matplotlib-0.98.5.3
 %prep
 %setup -n %downloadn-%realversion
-cat >> setup.cfg <<- EOF
-[build_ext]
-include_dirs = $LIBPNG_ROOT/include:$ZLIB_ROOT/include
-library_dirs = $LIBPNG_ROOT/lib:$ZLIB_ROOT/lib
-EOF
-
+%patch0 -p0
+perl -p -i -e "s|\@LIBPNG_ROOT\@|$LIBPNG_ROOT|;s|\@ZLIB_ROOT\@|$ZLIB_ROOT|" setupext.py
 %build
-python setup.py build
-
 %install
 python -c 'import numpy'
 python setup.py install --prefix=%i
-egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
-find %i -name '*.egg-info' -exec rm {} \;
-
+perl -p -i -e "s|^#!.*python(.*)|#!/usr/bin/env python$1|" `grep -r -e "#\!.*python" %i | cut -d: -f1`
