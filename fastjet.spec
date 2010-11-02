@@ -8,7 +8,7 @@ Patch2: fastjet-2.3.4-siscone-banner
 %patch1 -p1
 %patch2 -p1
 
-./configure --enable-shared --enable-cmsiterativecone --enable-atlascone --prefix=%i
+./configure --enable-shared --enable-cmsiterativecone --enable-atlascone --prefix=%i --enable-allcxxplugins
 
 %build
 make
