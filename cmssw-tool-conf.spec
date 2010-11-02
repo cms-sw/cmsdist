@@ -87,7 +87,7 @@ Requires: graphviz-toolfile
 Requires: valgrind-toolfile
 Requires: py2-matplotlib-toolfile
 Requires: py2-numpy-toolfile
-Requires: classlib-toolfile
+Requires: rivet-toolfile
 
 %if "%isslc" == "true"
 Requires: gdb-toolfile
