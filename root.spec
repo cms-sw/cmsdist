@@ -15,7 +15,7 @@ Patch5: root-5.27-06-fireworks9
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
-Requires: gccxml gsl castor libjpg dcap pcre python
+Requires: xrootd gccxml gsl castor libjpg dcap pcre python
 %if "%online" != "true"
 Requires: qt openssl libpng zlib libungif libtiff
 %endif
@@ -72,6 +72,7 @@ CONFIG_ARGS="--enable-table
              --enable-minuit2 
              --disable-ldap
              --disable-krb5
+             --with-xrootd=${XROOTD_ROOT}
              --with-gsl-incdir=${GSL_ROOT}/include
              --with-gsl-libdir=${GSL_ROOT}/lib
              --with-dcap-libdir=${DCAP_ROOT}/lib 
