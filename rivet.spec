@@ -8,22 +8,3 @@ Requires: hepmc boost fastjet swig gsl
 make
 %install
 make install
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rivet.xml
-<tool name="rivet" version="%v">
-<lib name="rivet"/>
-<client>
-<environment name="RIVET_BASE" default="%i"/>
-<environment name="LIBDIR" default="$RIVET_BASE/lib"/>
-<environment name="INCLUDE" default="$RIVET_BASE/include"/>
-<environment name="PDFPATH" default="$RIVET_BASE/share"/>
-</client>
-<runtime name="PATH" value="$RIVET_BASE/bin"/>
-<runtime name="LD_LIBRARY_PATH" value="$RIVET_BASE/lib"/>
-<runtime name="PYTHONPATH" value="$RIVET_BASE/lib/python2.6/site-packages"/>
-<runtime name="RIVET_ANALYSIS_PATH" value="$RIVET_BASE/lib"/>
-</tool>
-EOF_TOOLFILE
-%post
-%{relocateConfig}etc/scram.d/rivet.xml
