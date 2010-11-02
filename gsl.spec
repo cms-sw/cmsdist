@@ -19,3 +19,4 @@ make install
 %post
 %{relocateConfig}lib/libgslcblas.la
 %{relocateConfig}lib/libgsl.la
+%{relocateConfig}bin/gsl-config
