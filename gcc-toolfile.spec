@@ -165,15 +165,18 @@ esac
 
 # Then handle compiler specific options. E.g. enable
 # optimizations as they become available in gcc.
+COMPILER_CXXFLAGS=
 case %cmsplatf in
    *_gcc4[56789]* )
-     export COMPILER_CXXFLAGS="-std=c++0x -ftree-vectorize"
+     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++0x -ftree-vectorize"
+     export COMPILER_CXXFLAGS
    ;;
 esac
 
 case %cmsplatf in
    *_gcc4[3456789]* )
-     export COMPILER_CXXFLAGS="-Werror=array-bounds -Werror=format-contains-nul"
+     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Werror=array-bounds -Werror=format-contains-nul"
+     export COMPILER_CXXFLAGS
    ;;
 esac
 
