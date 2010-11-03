@@ -1,4 +1,4 @@
-### RPM external google-perftools 1.4
+### RPM external google-perftools 1.6
 Source: http://google-perftools.googlecode.com/files/%n-%{realversion}.tar.gz
 
 %prep
