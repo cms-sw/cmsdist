@@ -1,4 +1,4 @@
-#! /usr/bin/perl -w
+#!/usr/bin/env perl
 # findDependencies.pl
 #
 
@@ -8,9 +8,17 @@ use Getopt::Long;
 Getopt::Long::config('bundling_override');
 
 my %options;
-GetOptions(\%options,'rel=s');
+GetOptions(\%options,'rel=s', 'arch=s','scramroot=s');
 
 my $rel=$options{'rel'};
+my $scramarch=$options{'arch'} || $ENV{SCRAM_ARCH};
+my $scramroot=$options{'scramroot'} || $ENV{SCRAMV1_ROOT};
+
+if ($scramroot eq "")
+{
+  $scramroot=`sh -v scram arch 2>&1 |  grep 'SCRAMV1_ROOT=' | sed 's|;.*||;s|SCRAMV1_ROOT=||;s|"||g' | sed -e "s|'||g"`;
+  chomp $scramroot;
+}
 
 # Set the variable $File::Find::dont_use_nlink if you're using AFS,
 # since AFS cheats.
@@ -49,6 +57,7 @@ foreach my $key (keys %usedby) {
 close F1;
 
 &pythonDeps($rel);
+&buildFileDeps($rel, $scramarch, $scramroot);
 
 exit;
 
@@ -67,6 +76,7 @@ sub doexec ($@) {
     open F1, $name;
     while (my $l=<F1>) {
     	chomp($l);
+	last if ($l=~/^[^:]+ :\s*$/o);
 	$l=~s/\s*\\$//o;
 	my @sp1=split(' ',$l);
 	next if ( scalar(@sp1) == 0);
@@ -82,7 +92,6 @@ sub doexec ($@) {
 	next if ( $tsp1 eq "");
 	if ( $getnext==1 ) {
 	    $depname=$tsp1;
-#	    print "filename $depname\n";
 	    $getnext=0;
 	}
 	else{
@@ -94,7 +103,6 @@ sub doexec ($@) {
 	    }
 	    else{
 		if ( $sp1[0] =~ /^src/o ) {
-#		    print "dep $tsp1\n";
 		    $uses{$depname}.="$tsp1 ";
 		    $usedby{$tsp1}.="$depname ";
 		}
@@ -168,4 +176,61 @@ sub import2CMSSWDir()
     }
   }
   return @pyfiles;
+}
+
+sub buildFileDeps()
+{
+  my $rel=shift;
+  my $arch=shift;
+  my $scramroot=shift;
+
+  unshift @INC,"$scramroot", "${scramroot}/src";
+  my $pcache={};
+  eval ("use Cache::CacheUtilities;");
+  if(!$@){$pcache=&Cache::CacheUtilities::read("${rel}/.SCRAM/${arch}/ProjectCache.db.gz");}
+  else{die "Unable to find Cache/CacheUtilities.pm PERL module.";}  
+  my %cache=();
+  foreach my $dir (sort keys %{$pcache->{BUILDTREE}})
+  {
+    if ($pcache->{BUILDTREE}{$dir}{SUFFIX} ne ""){next;}
+    if (scalar(@{$pcache->{BUILDTREE}{$dir}{METABF}}) == 0){next;}
+    my $bf=$pcache->{BUILDTREE}{$dir}{METABF}[0]; $bf=~s/src\///;
+    $cache{dirs}{$dir}=$bf;
+    my $pack=$dir;
+    my $class=$pcache->{BUILDTREE}{$dir}{CLASS};
+    if ($class=~/^(LIBRARY|CLASSLIB)$/){$pack=$pcache->{BUILDTREE}{$dir}{PARENT};}
+    $cache{packs}{$pack}=$dir;
+  }
+  foreach my $dir (keys %{$cache{dirs}}){&updateBFDeps($dir,$pcache,\%cache,"");}
+  foreach my $type ("uses","usedby")
+  {  
+    my $ref;
+    open $ref,">${rel}/etc/dependencies/bf${type}.out";
+    foreach my $x (sort keys %{$cache{$type}}){print $ref "$x ",join(" ",sort keys %{$cache{$type}{$x}}),"\n";}
+    close($ref);
+  }
+}
+
+sub updateBFDeps()
+{
+  my ($dir,$pcache,$cache)=@_;
+  my $bf=$cache->{dirs}{$dir};
+  if (exists $cache->{uses}{$bf}){return;}
+  $cache->{uses}{$bf}={};
+  foreach my $pack (keys %{$pcache->{BUILDTREE}{$dir}{RAWDATA}{DEPENDENCIES}})
+  {
+    if (exists $cache->{packs}{$pack})
+    {
+      my $xdata=$cache->{packs}{$pack};
+      &updateBFDeps($xdata,$pcache,$cache);      
+      $xdata=$cache->{dirs}{$xdata};
+      $cache->{uses}{$bf}{$xdata}=1;
+      $cache->{usedby}{$xdata}{$bf}=1;
+      foreach my $xdep (keys %{$cache->{uses}{$xdata}})
+      {
+	$cache->{uses}{$bf}{$xdep}=1;
+        $cache->{usedby}{$xdep}{$bf}=1;    
+      }
+    }
+  }
 }
