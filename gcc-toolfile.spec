@@ -167,7 +167,7 @@ esac
 # optimizations as they become available in gcc.
 case %cmsplatf in
    *_gcc4[56789]* )
-     export COMPILER_CXXFLAGS="-ftree-vectorize"
+     export COMPILER_CXXFLAGS="-std=c++0x -ftree-vectorize"
    ;;
 esac
 
