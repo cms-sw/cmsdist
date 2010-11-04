@@ -1,25 +1,26 @@
-### RPM external xrootd 5.27.06
-Source: http://cmsrep.cern.ch//cmssw/xrootd_src/%n-%{realversion}.tgz
+### RPM external xrootd 20090727.1318
+Source: http://cmsrep.cern.ch//cmssw/xrootd_src/%n-%{realversion}.tar.gz
 Patch0: xrootd-gcc44
+Patch1: xrootd-readv
 Requires: openssl
 
 %prep 
 %setup -n %n-%{realversion}
 %patch0 -p1
+%patch1 -p1
 
 %build
 CONFIG_ARGS="--disable-krb4 --with-ssl-incdir=${OPENSSL_ROOT}/include --with-ssl-libdir=${OPENSSL_ROOT}/lib"
-case $(uname)-$(uname -m) in
-  Linux-x86_64)
-    ./configure.classic x86_64_linux $CONFIG_ARGS ;;
-  Linux-i*86)
-    ./configure.classic i386_linux $CONFIG_ARGS ;;
+case %cmsos in
+  slc*_amd64*)
+    ./configure.classic x86_64_linux_26 --ccflavour=gccx8664  $CONFIG_ARGS ;;
+  slc*_ia32*)
+    ./configure.classic i386_linux26 --ccflavour=gcc $CONFIG_ARGS ;;
   *)
    # This is wrong, the arch needs to be added, I think
     ./configure.classic $CONFIG_ARGS ;;
 esac
 
-./configure.classic --disable-krb4 --with-ssl-incdir=$OPENSSL_ROOT/include --with-ssl-libdir=$OPENSSL_ROOT/lib
 # Workaround for the lack of a 32bit readline-devel rpm for SL4
 # Given that the 64bit readline-devel is there, the headers are there,
 # the only thing missing is the libreadline.so symlink
@@ -94,3 +95,4 @@ EOF_TOOLFILE
 
 %post
 %{relocateConfig}etc/scram.d/%n
+
