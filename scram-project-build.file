@@ -16,8 +16,14 @@ Requires: SCRAMV1
 %define buildtarget	release-build
 %define bootstrapfile   config/bootsrc.xml
 
+%if "%{?subpackageDebug:set}" == "set"
+%define debugOptions    USER_CXXFLAGS="-g"
+%else
+%define debugOptions    %{nil}
+%endif
+
 %if "%{?configtag:set}" != "set"
-%define configtag       V03-30-04
+%define configtag       V03-36-00
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -33,7 +39,7 @@ Requires: SCRAMV1
 %endif
 
 %if "%{?cvstag:set}" != "set"
-%define cvstag		%(echo %v | cut -d- -f1)
+%define cvstag		%realversion
 %endif
 
 %if "%{buildarch:set}" != "set"
@@ -56,48 +62,26 @@ Requires: SCRAMV1
 %endif
 %endif
 
+Source0: %source0
+Source1: %source1
+
+# IMPORTANT: notice that the only reason
+# why we specify sources like this is that
+# we need the associated %%setup macro in the %%prep 
+# section.
+# In case you need to have a generic file copied
+# from CMSDIST, simply put whatever "SourceX: file" you
+# need in the spec which is importing this fragment.
+# DO NOT add any special hook which does not have a 
+# corresponding %%setup macro.
 %if "%{?additionalSrc0:set}" == "set"
-%define source2 %{additionalSrc0}&output=/src1.tar.gz
+Source2: %{additionalSrc0}&output=/src1.tar.gz
 %endif
 
 %if "%{?additionalSrc1:set}" == "set"
-%define source3 %{additionalSrc1}&output=/src2.tar.gz
+Source3: %{additionalSrc1}&output=/src2.tar.gz
 %endif
-
-%if "%{?source2:set}" != "set"
-%define source2 none
-%endif
-
-%if "%{?source3:set}" != "set"
-%define source3 none
-%endif
-
-%if "%{?source4:set}" != "set"
-%define source4 none
-%endif
-
-%if "%{?source5:set}" != "set"
-%define source5 none
-%endif
-
-%if "%{?source6:set}" != "set"
-%define source6 none
-%endif
-
-%if "%{?source7:set}" != "set"
-%define source7 none
-%endif
-
-Source0: %source0
-Source1: %source1
-Source2: %source2
-Source3: %source3
-Source4: %source4
-Source5: %source5
-Source6: %source6
-Source7: %source7
-Source8: %lcprojtype-tool
-Source9: findDependencies.pl
+Source4: findDependencies.pl
 
 %prep
 rm -rf config
@@ -117,7 +101,8 @@ rm -rf %{srctree}
 %{?PatchReleaseAdditionalPackages:%PatchReleaseAdditionalPackages}
 
 cd %_builddir
-%_builddir/config/updateConfig.pl -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}}
+%_builddir/config/updateConfig.pl -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} -a %cmsplatf
+
 %{?PartialBootstrapPatch:%PartialBootstrapPatch}
 %{?patchsrc:%patchsrc}
 %{?patchsrc2:%patchsrc2}
@@ -136,7 +121,7 @@ mkdir -p $(dirname %i)
 
 %build
 
-# Remove cmt stuff that brings unwanted dependencies: 
+# Remove cmt stuff that brings unwanted dependencies:
 rm -rf `find %{i}/%{srctree} -type d -name cmt`
 grep -r -l -e "^#!.*perl.*" %{i}/%{srctree} | xargs perl -p -i -e "s|^#!.*perl(.*)|#!/usr/bin/env perl\$1|"
 
@@ -173,7 +158,11 @@ export SCRAM_NOSYMCHECK=true
 %scramcmd b --verbose -f %{prebuildtarget} </dev/null
 %endif
 
-%scramcmd b --verbose -f %{compileOptions} %{makeprocesses}  %{buildtarget} </dev/null || { %scramcmd b -f outputlog && false; }
+# Notice that on make we continue and create a package even if the build
+# failed.  This is because we are still in a porting phase for the mac and we
+# still have hundreds of errors. This behavior should be changed when the have
+# a fully working mac release, aligned with the linux one.
+%scramcmd b --verbose -f %{compileOptions} %{debugOptions} %{makeprocesses} %{buildtarget} </dev/null || { %scramcmd b -f outputlog && case %cmsos in osx*) true;; *) false;; esac; }
 
 %if "%{?additionalBuildTarget0:set}" == "set"
 %scramcmd b --verbose -f %{additionalBuildTarget0} < /dev/null
@@ -183,28 +172,61 @@ export SCRAM_NOSYMCHECK=true
 %scramcmd b --verbose -f %{postbuildtarget} </dev/null
 %endif
 
-%if "%{?saveDeps:set}" == "set" 
+# Move the debug logs into the builddir, so that they do not get packaged.
+mv %i/tmp/%cmsplatf/cache/log %_builddir/logs
+
+# split the debug symbols out of tha main binaries, into separate files
+%if "%{?subpackageDebug:set}" == "set"
+BINDIR=$(%scramcmd tool info Self | grep "^PATH\|LD_LIBRARY_PATH=" | cut -d= -f2 | tr ":" "\n" | grep -v external)
+rm -f %_builddir/files.debug %_builddir/files
+touch %_builddir/files.debug %_builddir/files
+for DIR in $BINDIR; do
+  mkdir -p $DIR/.debug
+  # FIXME - work around the 2GB limit in RPM 4.4.2
+  #echo "%dir $DIR/.debug"     >> %_builddir/files.debug
+  echo "%exclude $DIR/.debug" >> %_builddir/files
+  echo "$DIR/.debug" | sed 's#%{pkginstroot}/##' >> %_builddir/files.debug
+done
+for FILE in $(find $BINDIR -type f | xargs file | grep "ELF" | cut -d: -f1); do
+  NAME=$(basename $FILE)
+  DIR=$(dirname $FILE)
+  DEBUG="$DIR/.debug/$NAME.debug"
+  eu-strip "$FILE" -f "$DEBUG"
+  # FIXME - work around the 2GB limit in RPM 4.4.2
+  #echo "$DEBUG"          >> %_builddir/files.debug
+  #echo "%exclude $DEBUG" >> %_builddir/files
+  echo "$DEBUG" | sed 's#%{pkginstroot}/##' >> %_builddir/files.debug
+done
+%endif
+
+%if "%{?saveDeps:set}" == "set"
 mkdir -p %i/etc/dependencies
-chmod +x %{_sourcedir}/findDependencies.pl
-%{_sourcedir}/findDependencies.pl -rel %i
+perl %{_sourcedir}/findDependencies.pl -rel %i -arch %cmsplatf -scramroot $SCRAMV1_ROOT
 %{?PatchReleaseDependencyInfo:%PatchReleaseDependencyInfo}
 gzip -f %i/etc/dependencies/*.out
 %endif
 
 (eval `%scramcmd run -sh` ; echo $PYTHONPATH | sed -e "s/:/','/g" | awk '{print "#!/usr/bin/env python \n\ncmsswPythonPaths=['"'"'"$1"'"'"']"}' > %i/python/cmsswPaths.py) || true
 
-chmod -R 755 %i %i/.SCRAM
-rm -fR %i/lib/%cmsplatf/.edmplugincache
-(eval `%scramcmd run -sh` ; EdmPluginRefresh) || true
+rm -f %i/lib/%cmsplatf/.edmplugincache %i/lib/%cmsplatf/.iglets
+eval `%scramcmd run -sh`
+for cmd in EdmPluginRefresh IgPluginRefresh ; do
+  cmdpath=`which $cmd 2> /dev/null || echo ""`
+  if [ "X$cmdpath" != X ] ; then
+    $cmd || true
+  fi
+done
 
 %install
+# FIXME: not having it set seems to cause a bunch of
+# issues on macosx, because various tools actually use it and are unable 
+# to autodetect. Temporary until we get proper support.
+SCRAM_ARCH=%cmsplatf ; export SCRAM_ARCH
 cd %i
 %{?buildarch:%buildarch}
 
-mkdir -p etc/scram.d
-sed 's|@PROJECT_NAME@|%ucprojtype|g;s|@PROJECT_VERSION@|%v|g;s|@PROJECT_BUILD_PATH@|%_builddir|g;s|@PROJECT_ROOT@|%i|g' %_sourcedir/%lcprojtype-tool > etc/scram.d/%lcprojtype.xml
-%scramcmd install -f 
-(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/%{srctree}; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.pl --arch %cmsplatf --nolink INCLUDE) || true
+%scramcmd install -f
+(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/%{srctree}; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.pl --arch %cmsplatf) || true
 ls -al external/%cmsplatf/lib/
 
 %{?PartialReleasePackageList:%PartialReleasePackageList}
@@ -214,31 +236,36 @@ ls -al external/%cmsplatf/lib/
 tar czf %{srctree}.tar.gz %{srctree}
 rm -fR %{srctree} tmp
 
+# FIXME - work around the 2GB limit in RPM 4.4.2
+%if "%{?subpackageDebug:set}" == "set"
+tar czf debug.tar.gz --files-from %_builddir/files.debug --no-recursion --remove-files
+%endif
+
 %post
 export SCRAM_ARCH=%cmsplatf
 cd $RPM_INSTALL_PREFIX/%pkgrel
 if [ -e %{srctree}.tar.gz ] ; then
   tar xzf %{srctree}.tar.gz
-  rm -fR %{srctree}.tar.gz
+  rm -fR  %{srctree}.tar.gz
 fi
+%{relocateCmsFiles} `find config -type f`
 scramver=`cat config/scram_version`
-. $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver/etc/profile.d/init.sh
-%{relocateConfig}etc/scram.d/%lcprojtype.xml
-perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find config -type f)
-if [ -d python ]; then perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find python -maxdepth 1 -type f); fi
-(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/%{srctree}; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename.pl %{instroot} $RPM_INSTALL_PREFIX  %cmsplatf )
+SCRAMV1_ROOT=$RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver
+if [ -d python ]; then %{relocateCmsFiles} $(find python -maxdepth 1 -type f); fi
+(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename.pl %{instroot} $CMS_INSTALL_PREFIX  %cmsplatf )
 %{?buildarch:%buildarch}
 for L in `find external/%cmsplatf -maxdepth 2 -type l`; do
-   mv $L $L-old; ln -s `readlink -n $L-old 2>&1 | sed -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" ` $L ; rm $L-old;
+   mv $L $L-old.$$; ln -s `readlink -n $L-old.$$ 2>&1 | sed -e "s|%{instroot}|$CMS_INSTALL_PREFIX|g" ` $L ; rm $L-old.$$;
 done
-eval `%scramcmd run -sh`
-for cmd in EdmPluginRefresh IgPluginRefresh ; do
-  cmdpath=`which $cmd 2> /dev/null || echo ""`
-  if [ "X$cmdpath" != X ] ; then
-    $cmd || true
-  fi
-done
-%scramcmd install -f
+if [ -f lib/${SCRAM_ARCH}/.iglets ] ; then
+  find lib/${SCRAM_ARCH} -name "*.iglet" -type f -exec touch {} \;
+  touch lib/${SCRAM_ARCH}/.iglets
+fi
+if [ -f lib/${SCRAM_ARCH}/.edmplugincache ] ; then
+  find lib/${SCRAM_ARCH} -name "*.edmplugin" -type f -exec touch {} \;
+  touch lib/${SCRAM_ARCH}/.edmplugincache
+fi
+%scramcmd install -f -d $CMS_INSTALL_PREFIX/%pkgrel
 
 %{?PatchReleaseFilesRelocate:%PatchReleaseFilesRelocate}
 %{?PartialReleaseFilesRelocate:%PartialReleaseFilesRelocate}
