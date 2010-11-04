@@ -94,7 +94,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/f77compiler.xml
     <client>
       <environment name="F77COMPILER_BASE" default="@G77_ROOT@"/>
       <environment name="FC" default="$F77COMPILER_BASE/bin/gfortran"/>
-      @OS_FORTRAN_LIBDIR@
+      @ARCH_FORTRAN_LIBDIR@
     </client>
     <flags SCRAM_COMPILER_NAME="gcc@COMPILER_VERSION@"/>
     <flags FFLAGS="-fno-second-underscore -Wunused -Wuninitialized -O2"/>
@@ -121,7 +121,6 @@ case %cmsplatf in
     export OS_SHAREDFLAGS="-shared -dynamic -single_module"
     export OS_SHAREDSUFFIX="dylib"
     export OS_RUNTIME_LDPATH_NAME="DYLD_LIBRARY_PATH"
-    export OS_FORTRAN_LIBDIR='<environment name="LIBDIR" default="$F77COMPILER_BASE/lib/gcc/i686-apple-darwin10/4.2.1"/>'
   ;;
 esac
 
@@ -132,11 +131,13 @@ case %cmsplatf in
     export ARCH_CXXFLAGS="-arch i386"
     export ARCH_SHAREDFLAGS="-arch i386"
     export ARCH_LIB64DIR="lib"
+    export ARCH_FORTRAN_LIBDIR='<environment name="LIBDIR" default="$F77COMPILER_BASE/lib/gcc/i686-apple-darwin10/4.2.1"/>'
   ;;
   osx*_amd64_* )
     export ARCH_CXXFLAGS="-arch x86_64"
     export ARCH_SHAREDFLAGS="-arch x86_64"
     export ARCH_LIB64DIR="lib"
+    export ARCH_FORTRAN_LIBDIR='<environment name="LIBDIR" default="$F77COMPILER_BASE/lib/gcc/i686-apple-darwin10/4.2.1/x86_64"/>'
   ;;
   osx*_ppc32_* )
     export ARCH_CXXFLAGS="-arch ppc"
