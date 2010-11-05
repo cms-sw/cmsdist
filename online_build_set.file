@@ -89,8 +89,10 @@ CommonTools/CandUtils
 CommonTools/Clustering1D
 CommonTools/ConditionDBWriter
 CommonTools/RecoAlgos
+CommonTools/RecoUtils
 CommonTools/Statistics
 CommonTools/TrackerMap
+CommonTools/TriggerUtils
 CommonTools/UtilAlgos
 CommonTools/Utils
 CondCore/AlignmentPlugins
@@ -116,6 +118,7 @@ CondCore/L1TPlugins
 CondCore/LuminosityPlugins
 CondCore/MetaDataService
 CondCore/Modules
+CondCore/ORA
 CondCore/OptAlignPlugins
 CondCore/PhysicsToolsPlugins
 CondCore/PluginSystem
@@ -187,7 +190,6 @@ Configuration/StandardSequences
 DPGAnalysis/SiStripTools
 DQM/BeamMonitor
 DQM/CSCMonitorModule
-DQM/CastorMonitor
 DQM/DTMonitorClient
 DQM/DTMonitorModule
 DQM/EcalBarrelMonitorClient
@@ -378,6 +380,7 @@ EventFilter/EcalRawToDigiDev
 EventFilter/EcalTBRawToDigi
 EventFilter/FEDInterface
 EventFilter/GctRawToDigi
+EventFilter/Goodies
 EventFilter/HcalRawToDigi
 EventFilter/L1GlobalTriggerRawToDigi
 EventFilter/LTCRawToDigi
@@ -411,6 +414,7 @@ FWCore/PluginManager
 FWCore/PrescaleService
 FWCore/Python
 FWCore/PythonParameterSet
+FWCore/PythonUtilities
 FWCore/RootAutoLibraryLoader
 FWCore/ServiceRegistry
 FWCore/Services
@@ -421,6 +425,8 @@ FWCore/TFWLiteSelectorTest
 FWCore/Utilities
 FWCore/Version
 FastSimDataFormats/External
+FastSimulation/BaseParticlePropagator
+FastSimulation/Particle
 Geometry/CMSCommonData
 Geometry/CSCGeometry
 Geometry/CSCGeometryBuilder
@@ -492,7 +498,6 @@ IOPool/PFNCatalog
 IOPool/SecondaryInput
 IOPool/Streamer
 IOPool/TFileAdaptor
-IOPool/TrivialFileCatalog
 IORawData/CaloPatterns
 IORawData/DaqSource
 IORawData/HcalTBInputService
@@ -701,6 +706,13 @@ RecoMuon/StandAloneTrackFinder
 RecoMuon/TrackerSeedGenerator
 RecoMuon/TrackingTools
 RecoMuon/TransientTrackingRecHit
+RecoParticleFlow/Configuration
+RecoParticleFlow/PFBlockProducer
+RecoParticleFlow/PFClusterProducer
+RecoParticleFlow/PFClusterShapeProducer
+RecoParticleFlow/PFClusterTools
+RecoParticleFlow/PFProducer
+RecoParticleFlow/PFTracking
 RecoPixelVZero/PixelVZeroFinding
 RecoPixelVertexing/Configuration
 RecoPixelVertexing/PixelLowPtUtilities
@@ -791,6 +803,7 @@ SimDataFormats/TrackerDigiSimLink
 SimDataFormats/TrackingAnalysis
 SimDataFormats/TrackingHit
 SimDataFormats/Vertex
+SimGeneral/HepPDTESSource
 SimGeneral/HepPDTRecord
 SimGeneral/NoiseGenerators
 SimTracker/Records
