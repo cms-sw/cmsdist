@@ -1,4 +1,4 @@
-### RPM cms online-patch CMSSW_3_8_5_onlpatch4_ONLINE
+### RPM cms online-patch CMSSW_3_9_1_onlpatch1_ONLINE
 
 Requires: online-patch-tool-conf
 
