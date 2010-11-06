@@ -32,3 +32,12 @@ cvs update -A libyaml.spec
 cvs update -A memcached.spec
 cvs update -A mysql.spec
 cvs update -A sitedb.spec
+cvs update -A T0DataSvc.spec
+cvs update -A py2-docutils.spec
+cvs update -A py2-jinja.spec
+cvs update -A py2-pygments.spec
+cvs update -A das_docs.spec
+cvs update -A subpackage-webdoc.file
+cvs update -A online*
+cvs update -A stagemanager.spec
+cvs update -A apache2-ssl-report-cert*
