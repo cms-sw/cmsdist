@@ -11,6 +11,7 @@ Patch1: xdaq_mfDefs_flags
 Patch2: xdaq_VR15544_gcc44
 Patch3: xdaq-VR16021-gcc45
 Patch4: xdaq-VR16021-macosx
+Patch5: xdaq-VR16021-fix-slp-macosx
 
 Provides: /bin/awk
 # This is needed on macosx because this is the install_name for the .so
@@ -30,6 +31,7 @@ Provides: libasyncresolv.0
 case %cmsos in
   osx*)
 %patch4 -p1
+%patch5 -p1
   mkdir daq/toolbox/include/macosx-new
   mv daq/toolbox/include/macosx daq/toolbox/include/macosx-new/toolbox
   mv daq/toolbox/include/macosx-new daq/toolbox/include/macosx
