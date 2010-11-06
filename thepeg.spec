@@ -6,8 +6,11 @@
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/thepeg-%{realversion}-src.tgz
 Patch0: thepeg-1.6.1-break-termcap-dependence
 Patch1: thepeg-1.6.1-units
+Patch2: thepeg-1.6.1-use-dylibs-macosx
 Requires: lhapdf
 Requires: gsl
+# FIXME: hepmc?
+# FIXME: rivet?
 %if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
 Requires: gfortran-macosx
 %endif
@@ -16,6 +19,9 @@ Requires: gfortran-macosx
 %setup -q -n %{n}/%{realversion}
 %patch0 -p2
 %patch1 -p2
+%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
+%patch2 -p1
+%endif
 
 %build
 ./configure --with-LHAPDF=$LHAPDF_ROOT/lib --without-javagui --prefix=%i --with-gsl=$GSL_ROOT --disable-readline
