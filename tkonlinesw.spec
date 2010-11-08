@@ -69,7 +69,7 @@ export ENV_CMS_TK_LASTGBOARD=%{_builddir}/%releasename/LAS
 # We use an empty directory because the path neeeds to exist.
 mkdir -p %i/dummy/Linux/lib
 export ENV_CMS_TK_HAL_ROOT=%{i}/dummy/Linux
-export ROOTSYS=NULL%{i}/dummy/Linux
+export ROOTSYS=%{i}/dummy/Linux
 export ENV_CMS_TK_CAEN_ROOT=%{i}/dummy/Linux
 export ENV_CMS_TK_SBS_ROOT=%{i}/dummy/Linux
 export ENV_CMS_TK_TTC_ROOT=%{i}/dummy/Linux
