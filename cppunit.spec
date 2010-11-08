@@ -1,6 +1,6 @@
 ### RPM external cppunit 1.12.1
 Source0: http://switch.dl.sourceforge.net/sourceforge/%n/%n-%realversion.tar.gz
-Source1: http://spi.cvs.cern.ch:8180/cgi-bin/spi.cgi/*checkout*/Components/UnitTesting/Tools/CppUnit/CppUnit_testdriver.cpp?rev=1.1
+Source1: CppUnit_testdriver_cpp
 
 %prep
 %setup -n %n-%realversion
@@ -22,7 +22,7 @@ esac
 make %makeprocesses
 %install
 make install
-cp %_sourcedir/CppUnit_testdriver.cpp* %i/include/CppUnit_testdriver.cpp
+cp %_sourcedir/CppUnit_testdriver_cpp %i/include/CppUnit_testdriver.cpp
 
 %post
 %{relocateConfig}/bin/cppunit-config
