@@ -1,4 +1,4 @@
-### RPM external sherpa 1.2.1
+### RPM external sherpa 1.2.2
 ## BUILDIF case $(uname):$(uname -m) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac 
 
 #Source: http://cern.ch/service-spi/external/MCGenerators/distribution/sherpa-%{realversion}-src.tgz
@@ -91,6 +91,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
     <lib name="MRST01LOSherpa"/>
     <lib name="MRST04QEDSherpa"/>
     <lib name="MRST99Sherpa"/>
+    <lib name="MSTW08Sherpa"/>
     <lib name="PDFESherpa"/>
     <lib name="PDF"/>
     <lib name="PhasicChannels"/>
