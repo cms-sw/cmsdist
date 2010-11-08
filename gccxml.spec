@@ -2,7 +2,7 @@
 %define gccxmlmajorver %(echo %realversion | cut -f1 -d_)
 %define gccxmlconfigver %(echo %realversion | cut -f1 -d_ | cut -f1,2 -d.)
 Requires: cmake
-Source: http://cern.ch/service-spi/external/tarFiles/%n-%realversion.tar.gz
+Source: http://service-spi.web.cern.ch/service-spi/external/tarFiles/%n-%realversion.tar.gz
 Patch0: gccxml-0.9.0_20100308-gcc45-iomanip
 
 %prep
