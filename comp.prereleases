@@ -33,7 +33,7 @@ HG1010a das
 HG1010b T0Mon
 + sjg101109-T0/4.0.4 T0Mon.spec
 HG1010b T0DataSvc
-+ sjg101109-T0/4.0.4 T0DataSvc.spec
++ 1.4/4.0.5 T0DataSvc.spec
 
 # DBS-2
 HG1009c dbs-apps
