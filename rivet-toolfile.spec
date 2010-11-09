@@ -14,14 +14,15 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rivet.xml
 <environment name="RIVET_BASE" default="@TOOL_ROOT@"/>
 <environment name="LIBDIR" default="$RIVET_BASE/lib"/>
 <environment name="INCLUDE" default="$RIVET_BASE/include"/>
-<environment name="PDFPATH" default="$RIVET_BASE/share"/>
 </client>
-<runtime name="PATH" value="$RIVET_BASE/bin"/>
-<runtime name="LD_LIBRARY_PATH" value="$RIVET_BASE/lib"/>
-<runtime name="PYTHONPATH" value="$RIVET_BASE/lib/python2.6/site-packages"/>
-<runtime name="RIVET_ANALYSIS_PATH" value="$RIVET_BASE/lib"/>
+<runtime name="PATH" value="$RIVET_BASE/bin" type="path"/>
+<runtime name="PYTHONPATH" value="$RIVET_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
+<runtime name="RIVET_ANALYSIS_PATH" value="$RIVET_BASE/lib" type="path"/>
+<runtime name="PDFPATH" default="$RIVET_BASE/share" type="path"/>
 </tool>
 EOF_TOOLFILE
+
+export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
 ## IMPORT scram-tools-post
 
