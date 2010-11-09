@@ -62,7 +62,7 @@ perl -p -i -e "s|\+0 \-1|-k1,1|g" dotneato/common/Makefile
 fi
 # Probably the configure should just be remade on Darwin, but it builds
 # as-is with this small cleanup
-perl -p -i -e "s|-lexpat||g" configure
+perl -p -i -e "s|-lexpat||g;s|-ljpeg||g" configure
 # make %makeprocesses
 make 
 
