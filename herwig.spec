@@ -1,9 +1,7 @@
-### RPM external herwig 6.510.3
+### RPM external herwig 6.520
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Requires: lhapdf photos tauola
-Patch1: herwig-6.510-tauola
-Patch2: herwig-6.510.3-nmxhep
-Patch3: herwig-6.510.3-macosx
+Patch1: herwig-6.520-tauoladummy
 
 %prep
 %setup -q -n %n/%{realversion}
@@ -22,30 +20,26 @@ mv ./dummy/photos.f ./tauoladummy/
 
 # apply patch to modify Makefile
 %patch1 -p2
-%patch2 -p2
-%patch3 -p3
 
-# move the rest of the dummy files in the src directory, so that they get picked up.
-cp dummy/*.f src
-
-./configure --enable-shared
+./configure --enable-shared --prefix=%i F77=gfortran
 
 %build
-#perl -p -i -e 's|libherwig([^.]).so|libherwig$1.dylib|g' Makefile
-make TAUOLA_ROOT=$TAUOLA_ROOT LHAPDF_ROOT=$LHAPDF_ROOT PHOTOS_ROOT=$PHOTOS_ROOT
+make %{makeprocesses} TAUOLA_ROOT=$TAUOLA_ROOT LHAPDF_ROOT=$LHAPDF_ROOT PHOTOS_ROOT=$PHOTOS_ROOT
+
+make check
+
+%install
+make install
 
 # then hack include area as jimmy depends on missing header file..
 # but only on slc*. On macosx HERWIG65.INC == herwig65.inc
 # what is actually needed is a link to herwig6510.inc
-cd include
+cd %i/include
 case %cmsplatf in
     slc*)
 	ln -sf HERWIG65.INC herwig65.inc
     ;;
     osx*)
-	ln -sf herwig6510.inc herwig65.inc
+	ln -sf herwig6520.inc herwig65.inc
     ;;
 esac
-
-%install
-tar -c lib include | tar -x -C %i
