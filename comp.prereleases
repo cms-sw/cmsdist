@@ -31,9 +31,9 @@ HG1010a das
 
 # T0Mon and T0DataSvc
 HG1010b T0Mon
-+ sjg101109-T0/4.0.4 T0Mon.spec
++ sjg101110a/4.0.5 T0Mon.spec
 HG1010b T0DataSvc
-+ 1.4/4.0.5 T0DataSvc.spec
++ sjg101110a/4.0.7 T0DataSvc.spec
 
 # DBS-2
 HG1009c dbs-apps
