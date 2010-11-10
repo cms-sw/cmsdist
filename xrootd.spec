@@ -1,4 +1,4 @@
-### RPM external xrootd 5.27.02
+### RPM external xrootd 5.27.06
 Source: http://cmsrep.cern.ch//cmssw/xrootd_src/%n-%{realversion}.tgz
 Patch0: xrootd-gcc44
 Requires: openssl
@@ -8,6 +8,17 @@ Requires: openssl
 %patch0 -p1
 
 %build
+CONFIG_ARGS="--disable-krb4 --with-ssl-incdir=${OPENSSL_ROOT}/include --with-ssl-libdir=${OPENSSL_ROOT}/lib"
+case $(uname)-$(uname -m) in
+  Linux-x86_64)
+    ./configure.classic x86_64_linux $CONFIG_ARGS ;;
+  Linux-i*86)
+    ./configure.classic i386_linux $CONFIG_ARGS ;;
+  *)
+   # This is wrong, the arch needs to be added, I think
+    ./configure.classic $CONFIG_ARGS ;;
+esac
+
 ./configure.classic --disable-krb4 --with-ssl-incdir=$OPENSSL_ROOT/include --with-ssl-libdir=$OPENSSL_ROOT/lib
 # Workaround for the lack of a 32bit readline-devel rpm for SL4
 # Given that the 64bit readline-devel is there, the headers are there,
@@ -83,4 +94,3 @@ EOF_TOOLFILE
 
 %post
 %{relocateConfig}etc/scram.d/%n
-

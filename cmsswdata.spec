@@ -1,4 +1,4 @@
-### RPM cms cmsswdata 23
+### RPM cms cmsswdata 24
 Source: none
 
 %define closingbrace )
@@ -19,6 +19,7 @@ Requires: data-Validation-Geometry
 Requires: data-RecoMuon-MuonIdentification
 Requires: data-L1Trigger-RPCTrigger
 Requires: data-Fireworks-Geometry
+Requires: data-SimG4CMS-Forward
 %else
 # data dependencies for ONLINE builds
 Requires: data-MagneticField-Interpolation
