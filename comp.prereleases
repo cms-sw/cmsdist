@@ -26,10 +26,10 @@ HG1010a das
   + 1.1 py2-pygments.spec
 
 # T0Mon and T0DataSvc
-HG1010b T0Mon
-+ sjg101110a/4.0.5 T0Mon.spec
-HG1010b T0DataSvc
-+ sjg101110a/4.0.7 T0DataSvc.spec
+HG1012a T0Mon
++ sjg101115a/4.0.8 T0Mon.spec
+HG1012a T0DataSvc
++ sjg101115a/4.0.7 T0DataSvc.spec
 
 # DBS-2
 HG1009c dbs-apps
