@@ -1,6 +1,6 @@
 ### RPM cms wmcore-webtools 1
 
-Requires: wmcore cherrypy py2-cheetah py2-openid yui
+Requires: wmcore cherrypy py2-cheetah yui
 
 %prep
 %build
