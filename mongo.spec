@@ -1,4 +1,4 @@
-### RPM external mongo 1.6.2
+### RPM external mongo 1.6.3
 
 Source: http://downloads.mongodb.org/src/mongodb-src-r%{realversion}.tar.gz
 Requires: boost scons pcre spidermonkey rotatelogs
