@@ -11,10 +11,6 @@
 #
 # When using HEAD as <revisio> you must specify <version>.
 
-# PHEDEX
-#forPHEDEX-web-20100910-3 PHEDEX-combined-web PHEDEX-web PHEDEX-webapp PHEDEX-datasvc
-#forPHEDEX332 PHEDEX-combined-agents PHEDEX-admin PHEDEX PHEDEX-micro
-
 # CrabServer
 #CRABSERVER_1_1_3_pre3_BUILD_SLC5  crab-server prodagent  prodcommon wmcore mysql
 
@@ -70,3 +66,5 @@ HG1010b cmsweb
 + forPHEDEX-web-20100831-1/* PHEDEX-{combined-web,web,datasvc,webapp}.spec
 + HEAD/1.0.23b T0Mon.spec
 + 1.2 stagemanager.spec
+
+HG1012a base
