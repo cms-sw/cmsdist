@@ -15,15 +15,14 @@
 #CRABSERVER_1_1_3_pre3_BUILD_SLC5  crab-server prodagent  prodcommon wmcore mysql
 
 # DAS
-#DAS_20100907_slc5_amd64_gcc434 das
-#HG1009c das 
-#+ DAS_20100920_slc5_amd64_gcc434 das.spec
-HG1010a das
-+ DAS_20101018_slc5_amd64_gcc434_v4 das.spec subpackage-webdoc.file 
-+ 1.4 py2-sphinx.spec
-  + 1.1 py2-docutils.spec
-  + 1.1 py2-jinja.spec
-  + 1.1 py2-pygments.spec
+#HG1010a das
+#+ DAS_20101018_slc5_amd64_gcc434_v4 das.spec subpackage-webdoc.file 
+#+ 1.4 py2-sphinx.spec
+#  + 1.1 py2-docutils.spec
+#  + 1.1 py2-jinja.spec
+#  + 1.1 py2-pygments.spec
+HG1012a das
++ DAS_20101116_slc5_amd64_gcc434 das.spec
 
 # T0Mon and T0DataSvc
 HG1012a T0Mon
@@ -42,15 +41,19 @@ HG1009c dbs-apps
 #FILEMOVER_20100901_slc5_amd64_gcc434_v5 fmws
 #HG1010a fmws
 #+ python-2.6.4-dont-detect-dbm.patch fmws.spec
-HG1010a fmws
-+ FILEMOVER_20101014_slc5_amd64_gcc434 fmws.spec
+#HG1010a fmws
+#+ FILEMOVER_20101014_slc5_amd64_gcc434 fmws.spec
+HG1012a fmws
++ FILEMOVER_20101116_slc5_amd64_gcc434 fmws.spec
 
 # DBS discovery
 #DD_20100824_slc5_amd64_gcc434_v1 dbs-web dbs-client
 #HG1009c dbs-web 
 #+ DD_20101007_slc5_amd64_gcc434 dbs-{web,client}.spec
-HG1010a dbs-web 
-+ DD_20101014_slc5_amd64_gcc434 dbs-{web,client}.spec
+#HG1010a dbs-web 
+#+ DD_20101014_slc5_amd64_gcc434 dbs-{web,client}.spec
+HG1012a dbs-web
++ DD_20101116_slc5_amd64_gcc434 dbs-web.spec
 
 # Cms Webtools services
 HG1012a cmsweb
