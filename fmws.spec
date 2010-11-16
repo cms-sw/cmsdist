@@ -1,9 +1,9 @@
-### RPM cms fmws 0.10.13
+### RPM cms fmws 0.10.14
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 
 %define moduleName FILEMOVER
 %define exportName FILEMOVER
-%define cvstag V01_00_32
+%define cvstag V01_00_33
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=COMP/%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
 
