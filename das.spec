@@ -1,4 +1,4 @@
-### RPM cms das 0.5.4a
+### RPM cms das 0.5.6.pre3
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
 %define webdoc_files %i/doc/
@@ -6,7 +6,7 @@
 Source: %svnserver?scheme=svn+ssh&strategy=export&module=DAS&output=/das.tar.gz
 
 Requires: python cherrypy py2-cheetah yui mongo py2-pymongo py2-cjson py2-yaml wmcore py2-pystemmer py2-mongoengine py2-lxml py2-ply
-Requires: py2-setuptools py2-sphinx rotatelogs
+Requires: py2-sphinx rotatelogs
 
 %prep
 %setup -n DAS
@@ -29,7 +29,8 @@ make html
 
 %install
 #cp build/lib.*/DAS/extensions/das_speed_utils.so src/python/DAS/extensions/
-python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
+#python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
+python setup.py install --prefix=%i
 egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
 
