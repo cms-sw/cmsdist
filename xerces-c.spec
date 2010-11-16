@@ -15,11 +15,15 @@ esac
 %build
 export XERCESCROOT=$PWD
 cd $PWD/src/xercesc
-case $(uname) in
- Linux )
+case %cmsos in
+ slc*)
    ./runConfigure -P%i -plinux -cgcc -xg++ ;;
- Darwin )
-   ./runConfigure -P%i -b 64 -pmacosx -cgcc -xg++ ;;
+ osx*_amd64)
+   ./runConfigure -P%i -b 64 -pmacosx -nnative -rnone -cgcc -xg++ ;;
+ osx*_amd32)
+   ./runConfigure -P%i -b 32 -pmacosx -nnative -rnone -cgcc -xg++ ;;
+ *)
+   exit 1
 esac
 make
 
