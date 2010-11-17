@@ -23,7 +23,7 @@ index cfb17bf..e4056c3 100644
 +	$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@) -L$(PYTHIA6FORSHAREDLIBS) -l$(PYTHIA6LIBNAMEFORSHAREDLIBS) \
 +	   ;; \
 +	   Darwin*) \
-+	$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -dynamic $(shell echo $@ | grep pretauola >/dev/null && echo lib/libtauola.dylib) -L$(PYTHIA6FORSHAREDLIBS) -l$(PYTHIA6LIBNAMEFORSHAREDLIBS) -L$(PHOTOS_ROOT)/lib -lphotos $(shell gfortran --print-file-name=libgfortran.a) \
++	$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -dynamic -Wl,-commons,use_dylibs $(shell echo $@ | grep pretauola >/dev/null && echo lib/libtauola.dylib) -L$(PYTHIA6FORSHAREDLIBS) -l$(PYTHIA6LIBNAMEFORSHAREDLIBS) -L$(PHOTOS_ROOT)/lib -lphotos $(shell gfortran --print-file-name=libgfortran.a) \
 +	   ;; \
 +	esac
  endif
