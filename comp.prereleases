@@ -22,7 +22,7 @@
 #  + 1.1 py2-jinja.spec
 #  + 1.1 py2-pygments.spec
 HG1012a das
-+ DAS_20101117_slc5_amd64_gcc434 das.spec
++ DAS_20101117_slc5_amd64_gcc434_v1 das.spec
 
 # T0Mon and T0DataSvc
 HG1012a T0Mon
