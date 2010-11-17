@@ -1,11 +1,13 @@
-### RPM external xrootd 5.27.02
-Source: http://cmsrep.cern.ch//cmssw/xrootd_src/%n-%{realversion}.tgz
+### RPM external xrootd 20090727.1318
+Source: http://cmsrep.cern.ch//cmssw/xrootd_src/%n-%{realversion}.tar.gz
 Patch0: xrootd-gcc44
+Patch1: xrootd-readv
 Requires: openssl
 
 %prep 
 %setup -n %n-%{realversion}
 %patch0 -p1
+%patch1 -p1
 
 %build
 ./configure.classic --disable-krb4 --with-ssl-incdir=$OPENSSL_ROOT/include --with-ssl-libdir=$OPENSSL_ROOT/lib
