@@ -57,7 +57,7 @@ HG1012a dbs-web
 
 # PlotFairy
 HG1012a plotfairy
-+ HEAD/0.0.1 plotfairy.spec
++ HEAD/WMCORE_0_6_0 plotfairy.spec
 
 # Cms Webtools services
 HG1012a cmsweb
