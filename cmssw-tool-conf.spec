@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 16.0
+### RPM cms cmssw-tool-conf 18.1
 # with cmsBuild, change the above version only when a new
 # tool is added
 
@@ -7,8 +7,6 @@ Provides: libboost_signals-gcc-mt.so
 Provides: libboost_thread-gcc-mt.so
 
 Requires: fakesystem
-Requires: pool
-Requires: coral
 Requires: gcc-toolfile
 Requires: gmake
 Requires: pcre
@@ -43,7 +41,6 @@ Requires: graphviz
 Requires: xerces-c
 Requires: systemtools
 Requires: coral
-Requires: pool
 Requires: xdaq
 Requires: geant4
 Requires: hepmc
@@ -63,10 +60,9 @@ Requires: valgrind
 Requires: google-perftools
 Requires: fastjet
 Requires: ktjet
-Requires: herwig
 Requires: lhapdf
-Requires: pythia6
-Requires: pythia8
+Requires: pythia6-toolfile
+Requires: pythia8-toolfile
 Requires: jimmy
 Requires: hector
 Requires: alpgen
@@ -87,11 +83,11 @@ Requires: python-ldap
 Requires: millepede
 Requires: gdb
 Requires: pyqt
-%define closingbrace )
-%define is64bit %(case %cmsos in slc*_amd64%closingbrace echo true;; *%closingbrace echo false;; esac)
-%if "%is64bit" == "true"
-Requires: libunwind
-%endif
+Requires: igprof-toolfile
+Requires: py2-matplotlib-toolfile
+Requires: py2-numpy-toolfile
+Requires: classlib-toolfile
+Requires: herwig-toolfile
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull
 

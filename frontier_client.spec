@@ -1,4 +1,4 @@
-### RPM external frontier_client 2.7.13
+### RPM external frontier_client 2.7.15
 Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
