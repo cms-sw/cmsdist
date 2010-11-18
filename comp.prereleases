@@ -53,7 +53,7 @@ HG1012a fmws
 #HG1010a dbs-web 
 #+ DD_20101014_slc5_amd64_gcc434 dbs-{web,client}.spec
 HG1012a dbs-web
-+ DD_20101116_slc5_amd64_gcc434 dbs-web.spec
++ DD_20101118_slc5_amd64_gcc434 dbs-web.spec
 
 # PlotFairy
 HG1012a plotfairy
