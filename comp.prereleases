@@ -55,5 +55,9 @@ HG1012a fmws
 HG1012a dbs-web
 + DD_20101116_slc5_amd64_gcc434 dbs-web.spec
 
+# PlotFairy
+HG1012a plotfairy
++ HEAD/0.0.1 plotfairy.spec
+
 # Cms Webtools services
 HG1012a cmsweb
