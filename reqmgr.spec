@@ -1,4 +1,4 @@
-### RPM cms reqmgr WMCORE_0_5_10
+### RPM cms reqmgr WMCORE_0_6_0
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 ## INITENV +PATH PATH %i/bin
 # FIXME Move this to webtools
@@ -8,7 +8,7 @@
 Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
 
 # TODO change to webtools
-Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah py2-openid yui rotatelogs
+Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah py2-openid py2-cx-oracle yui rotatelogs
 
 %prep
 %setup -n WMCore
