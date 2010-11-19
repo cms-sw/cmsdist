@@ -61,3 +61,7 @@ HG1012a plotfairy
 
 # Cms Webtools services
 HG1012a cmsweb
+
+# ReqMgr
+HG1012a reqmgr
++ 1.3 reqmgr.spec
