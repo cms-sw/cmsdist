@@ -70,3 +70,4 @@ HG1012a reqmgr
 HG1012a prodagent
 + 1.301/PRODAGENT_0_12_18_patch2 prodagent.spec
 + 1.224/PRODCOMMON_0_12_18_patch2 prodcommon.spec
++ builder_2010-07-27_16-42-42_PHEDEX-combined-agents/PHEDEX_3_3_2 PHEDEX-micro.spec
