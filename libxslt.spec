@@ -14,3 +14,6 @@ Requires: libxml2
 %build
 ./configure --prefix=%i --with-libxml-prefix=$LIBXML2_ROOT
 make %makeprocesses
+
+%post
+%{relocateConfig}bin/xslt-config
