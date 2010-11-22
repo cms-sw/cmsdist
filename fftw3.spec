@@ -14,3 +14,4 @@ make install
 
 %post
 %{relocateConfig}lib/pkgconfig/fftw3.pc
+%{relocateConfig}lib/*.la
