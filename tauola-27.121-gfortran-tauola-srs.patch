@@ -1,0 +1,12 @@
+--- orig.tauola/27.121.5/pretauola/tauola_srs.F	2010-09-17 13:59:09.000000000 +0200
++++ tauola/27.121.5/pretauola/tauola_srs.F	2010-09-22 11:07:54.000000000 +0200
+@@ -243,6 +243,9 @@
+             ELSEIF ((IMOTH.EQ.IM0.OR.IMOTH.EQ.IM).AND.ISEL.EQ.0) THEN
+                ISON(2)=I
+             ELSEIF ((IMOTH.NE.IM0.AND.IMOTH.NE.IM).AND.ISEL.EQ.0) THEN
++               IF( IDHEP(I).EQ.22. AND. JMOHEP(1,I).LT.IM0 ) THEN
++                  IF(ABS(IDHEP(JMOHEP(1,I))).NE.KFTAU) GOTO 76
++               ENDIF
+                ISEL=1
+                GOTO 77
+             ENDIF
