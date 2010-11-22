@@ -20,7 +20,7 @@ export LHAPDF="$LHAPDF_ROOT"
 ./configure --enable-shared --with-hepevt=4000 --prefix=%i
 
 %build
-make 
+make %makeprocesses
 
 %install
 make install
