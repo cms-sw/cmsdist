@@ -7,7 +7,7 @@
 #CRABSERVER_1_1_3_BUILD_SLC5 crab-server prodagent  prodcommon wmcore mysql
 
 # Cms Webtools services
-#HG1012b cmsweb
+HG1012b cmsweb
 
 # Base packages
-HG1012b base
+#HG1012b base
