@@ -59,7 +59,7 @@ index 102c2fc..1d38460 100644
 +	    $(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@) \
 +	  ;; \
 +	  Darwin-*) \
-+	    $(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -L$(PYTHIA6_ROOT)/lib -lpythia6 -L$(LHAPDF_ROOT)/lib -lLHAPDF $(shell gfortran --print-file-name=libgfortran.a) -dynamic ;; \
++	    $(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -Wl,-commons -Wl,use_dylibs -shared -L$(PYTHIA6_ROOT)/lib -lpythia6 -L$(LHAPDF_ROOT)/lib -lLHAPDF $(shell gfortran --print-file-name=libgfortran.a) -dynamic ;; \
 +	esac
  
  deps := $(patsubst $(DIRNAME)/%.F,$(TMPDIR)/%.d,$(wildcard $(DIRNAME)/*.F))
