@@ -55,7 +55,7 @@ index 8814c9c..be282df 100644
 +	  Linux*) \
 +	    $(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@) $(FLIBS) ;; \
 +	  Darwin*) \
-+	    $(CXX) $(LDFLAGSSHARED) $(objects) -L$(PHOTOS_ROOT)/lib -lphotos -L$(PYTHIA6_ROOT)/lib -lpythia6 -L$(CLHEP_ROOT)/lib -lCLHEP -L$(dir $(shell gfortran --print-file-name=libgfortran.a)) -o $@ -shared $(FLIBS) ;; \
++	    $(CXX) $(LDFLAGSSHARED) $(objects) -Wl,-commons -Wl,use_dylibs -L$(PHOTOS_ROOT)/lib -lphotos -L$(PYTHIA6_ROOT)/lib -lpythia6 -L$(CLHEP_ROOT)/lib -lCLHEP -L$(dir $(shell gfortran --print-file-name=libgfortran.a)) -o $@ -shared $(FLIBS) ;; \
 +	esac
 +
  
