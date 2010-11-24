@@ -8,7 +8,7 @@ Requires: geant4
 
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4.xml
-<tool name="GEANT4" version="@TOOL_VERSION@">
+<tool name="geant4" version="@TOOL_VERSION@">
   <info url="http://wwwinfo.cern.ch/asd/geant4/geant4.html"/>
   <lib name="G4digits_hits"/>
   <lib name="G4error_propagation"/>
