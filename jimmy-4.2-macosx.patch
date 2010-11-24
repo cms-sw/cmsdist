@@ -48,7 +48,7 @@ index 5d52ef0..eb17554 100644
 +	   Linux*) \
 +		$(F77) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@) ;; \
 +	   Darwin*) \
-+		$(F77) $(LDFLAGSSHARED) $(objects) -L$(HERWIG_ROOT)/lib -lherwig -o $@ -shared -dynamic ;; \
++		$(F77) $(LDFLAGSSHARED) $(objects) -L$(HERWIG_ROOT)/lib -lherwig -o $@ -shared -dynamic -Wl,-commons -Wl,use_dylibs ;; \
 +	esac
 +
  
