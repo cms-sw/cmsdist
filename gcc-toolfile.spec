@@ -120,6 +120,7 @@ case %cmsplatf in
   osx* )
     export OS_SHAREDFLAGS="-shared -dynamic -single_module"
     export OS_SHAREDSUFFIX="dylib"
+    export OS_LDFLAGS="-Wl,-commons -Wl,use_dylibs"
     export OS_RUNTIME_LDPATH_NAME="DYLD_LIBRARY_PATH"
   ;;
 esac
