@@ -78,8 +78,12 @@ case %cmsos in
     CFLAGS_PLATF="-fPIC"
     LIBS_PLATF="-ldl"
   ;;
-  osx*)
-    export CFLAGS_PLATF="-fPIC -fnested-functions"
+  osx*_amd64)
+    export CFLAGS_PLATF="-arch x86_64 -fPIC -fnested-functions"
+    export LIBS_PLATF="-liconv"
+  ;;
+  osx*_i386)
+    export CFLAGS_PLATF="-arch i386 -fPIC -fnested-functions"
     export LIBS_PLATF="-liconv"
   ;;
   *)
@@ -107,13 +111,12 @@ perl -p -i -e's|-O2|-O0|' ./configure
     CFLAGS="$CFLAGS_PLATF $USER_CFLAGS -I$NSPR_ROOT/include/nspr \
             -I$NSS_ROOT/include/nss3 -I$ZLIB_ROOT/include -I$BZ2LIB_ROOT/include \
             -I$DB4_ROOT/include -I$FILE_ROOT/include -I$POPT_ROOT/include \
-            -I$LUA_ROOT/include -L$ELFUTILS_ROOT/include" \
+            -I$LUA_ROOT/include" \
     LDFLAGS="-L$NSPR_ROOT/lib -L$NSS_ROOT/lib -L$ZLIB_ROOT/lib -L$DB4_ROOT/lib \
-             -L$ELFUTIL_ROOT/lib \
              -L$FILE_ROOT/lib -L$POPT_ROOT/lib -L$BZ2LIB_ROOT/lib -L$LUA_ROOT/lib" \
     CPPFLAGS="-I$NSPR_ROOT/include/nspr \
               -I$ZLIB_ROOT/include -I$BZ2LIB_ROOT/include -I$DB4_ROOT/include \
-              -I$FILE_ROOT/include -I$POPT_ROOT/include -I$ELFUTILS_ROOT/include \
+              -I$FILE_ROOT/include -I$POPT_ROOT/include \
               -I$NSS_ROOT/include/nss3 -I$LUA_ROOT/include" \
     LIBS="-lnspr4 -lnss3 -lnssutil3 -lplds4 -lbz2 -lplc4 -lz -lpopt \
           -ldb -llua $LIBS_PLATF"
