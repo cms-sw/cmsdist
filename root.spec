@@ -11,7 +11,7 @@ Patch0: root-5.22-00d-externals
 Patch1: root-5.22-00d-CINT-maxlongline-maxtypedef
 Patch2: root-5.22-00-TMVA-shut-the-hell-up-for-once
 Patch3: root-5.22-00a-TMVA-shut-the-hell-up-again
-Patch4: root-5.22-00d-fireworks-graf3d-gui
+Patch4: root-5.22-00d-fireworks-graf3d-gui-ko
 Patch5: root-5.22-00a-roofit-silence-static-printout
 Patch6: root-5.22-00a-TMVA-just-shut-the-hell-up
 Patch7: root-5.22-00a-th1
@@ -31,14 +31,13 @@ Patch20: root-5.22-00d-cint-namespace
 Patch21: root-5.22-00d-fireworks7
 Patch22: root-5.22-00d-TMath-Vavilov
 Patch23: root-5.22-00d-TBranchElement-dropped-data-member
-Patch24: root-5.22-00d-fireworks8
+Patch24: root-5.22-00d-fireworks8-ko
 Patch25: root-5.22-00d-fix-python-shebang
 Patch26: root-5.22-00d-RootsysOnMac
 Patch27: root-5.22-00d-TString-Clear
 Patch28: root-5.22-00d-libgfortran-dylib-detection
 Patch29: root-5.22-00d-cint-dll-correct-install-name
 Patch30: root-5.22-00d-fireworks9
-Patch31: root-5.22-00d-async-readbuffers
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -71,16 +70,18 @@ Requires: qt openssl libpng zlib libungif xrootd libtiff
 %patch9 -p1
 
 # patch10 is compiler version dependent, see below
+# Work around patch issue.
+#rm graf3d/gl/src/gl2ps.c
 %patch11 -p1
 %patch12 -p1
 # patch13 is compiler version dependent, see below
 
 # work around patch issue...
-rm graf3d/gl/src/gl2ps.c
+#rm graf3d/gl/src/gl2ps.c
 %patch14 -p1
 #work around patch issues in patch14(?)
-rm graf3d/eve/inc/TEveLegoOverlay.h.orig
-rm graf3d/eve/src/TEveLegoOverlay.cxx
+#rm graf3d/eve/inc/TEveLegoOverlay.h.orig
+#rm graf3d/eve/src/TEveLegoOverlay.cxx
 %patch15 -p1
 %patch16 -p1
 %patch17 -p1
@@ -96,7 +97,6 @@ rm graf3d/eve/src/TEveLegoOverlay.cxx
 %patch28 -p2
 %patch29 -p1
 %patch30 -p1
-%patch31 -p1
 
 case %gccver in
   4.3.*)
