@@ -88,6 +88,7 @@ Requires: graphviz-toolfile
 Requires: valgrind-toolfile
 Requires: py2-matplotlib-toolfile
 Requires: py2-numpy-toolfile
+Requires: cmsswdata-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
 Requires: fftw3-toolfile
@@ -98,7 +99,6 @@ Requires: gdb-toolfile
 Requires: simage-toolfile
 Requires: curl-toolfile
 Requires: google-perftools-toolfile
-Requires: cmsswdata-toolfile
 Requires: igprof-toolfile
 %endif
 
