@@ -29,7 +29,6 @@ then
         osx104_ia32) compilerv=gcc401;;
         osx104_ppc32) compilerv=gcc400;;
         osx105_*) compilerv=gcc401;;
-        osx106_*) compilerv=gcc421;;
         slc5_*) compilerv=gcc434; osarch=slc5_ia32;;
         slc4_*) compilerv=gcc345; osarch=slc4_ia32;;
         *) compilerv=gcc434; osarch=slc5_ia32;;
@@ -218,12 +217,12 @@ fi
 touch %instroot/%cmsplatf/etc/profile.d/dummy
 
 %post
-echo $CMS_INSTALL_PREFIX
-%{relocateCmsFiles} $RPM_INSTALL_PREFIX/cmsset_default.sh
-%{relocateCmsFiles} $RPM_INSTALL_PREFIX/cmsset_default.csh
-%{relocateCmsFiles} $RPM_INSTALL_PREFIX/common/cmsos
-%{relocateCmsFiles} $RPM_INSTALL_PREFIX/common/cmsarch
-%{relocateCmsFiles} $RPM_INSTALL_PREFIX/common/scram
+echo $RPM_INSTALL_PREFIX
+perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/cmsset_default.sh
+perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/cmsset_default.csh
+perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/common/cmsos
+perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/common/cmsarch
+perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/common/scram
 
 %files
 %i
