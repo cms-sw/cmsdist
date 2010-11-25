@@ -1,6 +1,9 @@
 ### RPM external fftjet 1.3.1
 Source: http://www.hepforge.org/archive/fftjet/%n-%realversion.tar.gz
 Requires: fftw3
+%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
+Requires: gfortran-macosx
+%endif
 
 %prep
 %setup -n %n-%realversion
