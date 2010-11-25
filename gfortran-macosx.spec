@@ -1,4 +1,4 @@
-### RPM external gfortran-macosx 5659
+### RPM external gfortran-macosx 5664
 
 # On macosx we compile using the system compiler,
 # but it actually does not include gfortran.
