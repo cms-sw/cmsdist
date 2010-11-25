@@ -13,32 +13,20 @@ Requires: hepmc lhapdf
 %patch1 -p0
 autoreconf -i
 
-# Assumes 32bit for non-amd64, may not be correct for all platforms
-case %cmsos in
-  slc*_amd64)
-   ./configure --prefix=%i --enable-analysis --enable-multithread --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT CXXFLAGS="-O2 -fuse-cxa-atexit"
-   ;;
-  slc*_ia32)
-   ./configure --prefix=%i --enable-analysis --enable-multithread --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT CXXFLAGS="-O2 -fuse-cxa-atexit -m32"
-  ;;
-  osx10*_ia32)
-   ./configure --prefix=%i --enable-analysis --enable-multithread --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT CXXFLAGS="-O2 -fuse-cxa-atexit -m32"
-   ;;
-  osx10*_amd64)
-   ./configure --prefix=%i --enable-analysis --enable-multithread --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT CXXFLAGS="-O2 -fuse-cxa-atexit"
-   ;;
-  *)
-   ./configure --prefix=%i --enable-analysis --enable-multithread --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT CXXFLAGS="-O2 -fuse-cxa-atexit"
+# Force architecture based on %%cmsplatf
+case %cmsplatf in
+  *_amd64_gcc*) ARCH_CMSPLATF="-m64" ;;
+  *_ia32_gcc*) ARCH_CMSPLATF="-m32" ;;
 esac
 
+./configure --prefix=%i --enable-analysis --enable-multithread \
+            --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT \
+            CXXFLAGS="-O2 -fuse-cxa-atexit $ARCH_CMSPLATF"
 
 %build
 # Fix up a configuration mistake coming from a test being confused
 # by the "skipping incompatible" linking messages when linking 32bit on 64bit
-for file in `find ./ -name Makefile`; do
-  perl -p -i -e 's|/usr/lib64/libm.a||' $file
-  perl -p -i -e 's|/usr/lib64/libc.a||' $file
-done
+find . -name Makefile -exec perl -p -i -e 's|/usr/lib64/libm.a||g;s|/usr/lib64/libc.a||g;' {} \;
 
 make %{makeprocesses} 
 
