@@ -1,39 +1,14 @@
-### RPM external oracle 100.0
+### RPM external oracle 11.2.0.1.0a
 ## INITENV SET ORACLE_HOME %i
-## INITENV +PATH SQLPATH %i/bin
+## BUILDIF case `uname`:`uname -p` in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
 
-# Notice that we have a dummy package version because the mac and linux clients
-# are not in sync. Moreover, because it's a binary only package we need to
-# point to different tarballs for different architecture.
-# Do not even think about commenting out one of the sources, simply because
-# it's not needed for your platform.
-# Also notice that even if LCG provides a tarball named without references
-# to CMS architecture, we need to have a -%%cmsos suffix in order to
-# avoid that one overwrites the other.
-%define macversion 10.2.0.4.0
-%define linuxversion 11.2.0.1.0p2
-Source0: http://cmsrep.cern.ch/cmssw/oracle-mirror/slc5_amd64/%{linuxversion}/oracle_lcg-slc5_amd64.tgz
-Source1: http://cmsrep.cern.ch/cmssw/oracle-mirror/slc5_ia32/%{linuxversion}/oracle_lcg-slc5_ia32.tgz
-Source2: http://cmsrep.cern.ch/cmssw/oracle-mirror/osx106_amd64/%{macversion}/oracle_lcg-osx106_amd64.tgz
+Source0: http://cmsrep.cern.ch/cmssw/oracle-mirror/%cmsos/%realversion/oracle_lcg.tgz
 Source9: oracle-license
 Requires: fakesystem 
 
-%prep
-# We unpack only the sources for the architecture we are working on.  Do not
-# change this to unpack all the architectures.  Notice also that you cannot put
-# ;; on the same line as the %%setup macro, because the latter will swallow it
-# as part of the arguments.
-# Notice that we are forced to use rpm macros because %%setup registers the 
-# final directory to use as the one of the last %%setup happening.
-%if %cmsos == slc5_amd64
-%setup -T -n %linuxversion -b 0 
-%endif
-%if %cmsos == slc5_ia32
-%setup -T -n %linuxversion -b 1 
-%endif
-%if %cmsos == osx106_amd64
-%setup -T -n %macversion -b 2 
-%endif
+## INITENV +PATH SQLPATH %i/bin
+%prep 
+%setup -n %realversion
 
 %build
 
@@ -45,9 +20,41 @@ cp -r lib/* %i/lib/
 cp -r doc/* %i/doc/
 cp -r include/* %i/include/
 
-case %cmsplatf in
-  osx* )
-    ln -sf libclntsh.dylib.10.1 %i/lib/libclntsh.dylib
-    ln -sf libocci.dylib.10.1 %i/lib/libocci.dylib
-  ;;
-esac
+
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="oracle" version="%v">
+    <lib name="clntsh"/>
+    <lib name="nnz11"/>
+    <client>
+      <environment name="ORACLE_BASE" default="%i"/>
+      <environment name="ORACLE_ADMINDIR"/>
+      <environment name="LIBDIR" value="$ORACLE_BASE/lib"/>
+      <environment name="BINDIR" value="$ORACLE_BASE/bin"/>
+      <environment name="INCLUDE" value="$ORACLE_BASE/include"/>
+    </client>
+    <runtime name="PATH" value="$BINDIR" type="path"/>
+    <runtime name="TNS_ADMIN" default="$ORACLE_ADMINDIR"/>
+    <use name="sockets"/>
+  </tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/oracleocci.xml
+  <tool name="oracleocci" version="%v">
+    <lib name="occi"/>
+    <use name="oracle"/>
+  </tool>
+EOF_TOOLFILE
+
+%post
+%{relocateConfig}etc/scram.d/%n.xml
+%{relocateConfig}etc/scram.d/oracleocci.xml
+
+# Fix to the SELinux issue: 
+# http://www.appistry.com/community/forums/content/cannot-restore-segment-prot-after-reloc-permission-denied
+# as suggested by Andrea Valassi while the new Oracle libs are not released
+# But be aware that it may not work under certain scenarios.
+chcon -t textrel_shlib_t $RPM_INSTALL_PREFIX/%pkgrel/lib/* &> /dev/null || true
+
