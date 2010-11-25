@@ -5,19 +5,17 @@ Patch0: cascade-2.2.0-nomanual
 Requires: lhapdf pythia6
 %prep
 
-case %gccver in
- 4.*)
-export F77=gfortran
- ;;
-esac
-
 %setup -q -n %{n}/%{realversion}
 %patch0 -p2
 
-export PYTHIA="$PYTHIA6_ROOT"
-export LHAPDF="$LHAPDF_ROOT"
+# Notice that cascade expects a flat pythia installation,
+# where libraries and headers are all in the same place.
+# Since the source code is not actually needed, we point
+# it to the library location so that it links correctly.
+PYTHIA="$PYTHIA6_ROOT/lib"
+LHAPDF="$LHAPDF_ROOT"
 
-./configure --enable-shared --with-hepevt=4000 --prefix=%i
+PYTHIA=$PYTHIA LHAPDF=$LHAPDF ./configure --enable-shared --with-hepevt=4000 --prefix=%i F77=`which gfortran`
 
 %build
 make %makeprocesses
