@@ -19,7 +19,7 @@ case %cmsplatf in
   *_ia32_gcc*) ARCH_CMSPLATF="-m32" ;;
 esac
 
-./configure --prefix=%i --enable-analysis --enable-multithread \
+./configure --prefix=%i --enable-analysis \
             --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT \
             CXXFLAGS="-O2 -fuse-cxa-atexit $ARCH_CMSPLATF"
 
