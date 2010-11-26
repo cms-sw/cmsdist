@@ -9,10 +9,9 @@ Requires: gfortran-macosx
 %setup -n %n-%realversion
 
 %build
-export DEPS_CFLAGS=-I$FFTW3_ROOT/include
-export DEPS_LIBS="-L$FFTW3_ROOT/lib -lfftw3"
-export F77=gfortran
-./configure --enable-shared --disable-dependency-tracking --enable-threads --prefix=%i
+./configure --enable-shared --disable-dependency-tracking --enable-threads \
+            --prefix=%i F77=`which gfortran` DEPS_CFLAGS=-I$FFTW3_ROOT/include \
+            DEPS_LIBS="-L$FFTW3_ROOT/lib -lfftw3"
 make %makeprocesses
 
 %install
