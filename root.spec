@@ -5,9 +5,8 @@
 Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
-%define ismac %(case %cmsplatf in osx*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
-Patch0: root-5.22-00d-externals
+Patch0: root-5.18-00-libpng 
 Patch1: root-5.22-00d-CINT-maxlongline-maxtypedef
 Patch2: root-5.22-00-TMVA-shut-the-hell-up-for-once
 Patch3: root-5.22-00a-TMVA-shut-the-hell-up-again
@@ -31,29 +30,24 @@ Patch20: root-5.22-00d-cint-namespace
 Patch21: root-5.22-00d-fireworks7
 Patch22: root-5.22-00d-TMath-Vavilov
 Patch23: root-5.22-00d-TBranchElement-dropped-data-member
-Patch24: root-5.22-00d-fireworks8
-Patch25: root-5.22-00d-fix-python-shebang
-Patch26: root-5.22-00d-RootsysOnMac
-Patch27: root-5.22-00d-TString-Clear
-Patch28: root-5.22-00d-libgfortran-dylib-detection
-Patch29: root-5.22-00d-cint-dll-correct-install-name
-Patch30: root-5.22-00d-fireworks9
-Patch31: root-5.22-00d-async-readbuffers
+Patch24: root-5.22-00d-async-readbuffers
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
-Requires: gccxml gsl libjpg pcre python fftw3
+Requires: gccxml gsl castor libjpg dcap pcre python
 
-%if "%ismac" == "false"
-Requires: castor dcap
+%if "%online" != "true"
+Requires: qt openssl libpng zlib libungif xrootd
+%else
+%define skiplibtiff true
 %endif
 
-%if "%online-%ismac" == "false-true"
-Requires: openssl libpng zlib libungif libtiff gfortran-macosx
+%if "%cpu" == "amd64"
+%define skiplibtiff true
 %endif
 
-%if "%online-%ismac" == "false-false"
-Requires: qt openssl libpng zlib libungif xrootd libtiff
+%if "%skiplibtiff" != "true"
+Requires: libtiff
 %endif
 
 %prep
@@ -81,6 +75,8 @@ rm graf3d/gl/src/gl2ps.c
 #work around patch issues in patch14(?)
 rm graf3d/eve/inc/TEveLegoOverlay.h.orig
 rm graf3d/eve/src/TEveLegoOverlay.cxx
+rm graf3d/gl/inc/gl2ps.h.orig
+rm graf3d/gl/src/gl2ps.c.orig
 %patch15 -p1
 %patch16 -p1
 %patch17 -p1
@@ -90,13 +86,6 @@ rm graf3d/eve/src/TEveLegoOverlay.cxx
 %patch22 -p1
 %patch23 -p1
 %patch24 -p1
-%patch25 -p1
-%patch26 -p1
-%patch27 -p1
-%patch28 -p2
-%patch29 -p1
-%patch30 -p1
-%patch31 -p1
 
 case %gccver in
   4.3.*)
@@ -118,7 +107,6 @@ esac
 %build
 
 mkdir -p %i
-export LIBJPG_ROOT
 export ROOTSYS=%_builddir/root
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
@@ -130,7 +118,6 @@ EXTRA_CONFIG_ARGS="--with-f77=/usr
              --disable-odbc
              --disable-qt --disable-qtgsi"
 %else
-export LIBPNG_ROOT ZLIB_ROOT LIBTIFF_ROOT LIBUNGIF_ROOT
 EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}
              --with-xrootd=$XROOTD_ROOT
              --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
@@ -150,9 +137,6 @@ CONFIG_ARGS="--enable-table
              --enable-reflex  
              --enable-cintex 
              --enable-minuit2 
-             --enable-fftw3
-             --with-fftw3-incdir=${FFTW3_ROOT}/include
-             --with-fftw3-libdir=${FFTW3_ROOT}/lib
              --disable-ldap
              --disable-krb5
              --with-gsl-incdir=${GSL_ROOT}/include
