@@ -1,5 +1,7 @@
 CommonTools/Statistics
 CommonTools/Utils
+CondFormats/L1TObjects
+CondFormats/RPCObjects
 DataFormats/BTauReco
 DataFormats/BeamSpot
 DataFormats/CLHEP
@@ -18,6 +20,7 @@ DataFormats/EcalDigi
 DataFormats/EcalRecHit
 DataFormats/EgammaCandidates
 DataFormats/EgammaReco
+DataFormats/FEDRawData
 DataFormats/FWLite
 DataFormats/GeometryCommonDetAlgo
 DataFormats/GeometrySurface
@@ -47,11 +50,13 @@ DataFormats/ParticleFlowCandidate
 DataFormats/ParticleFlowReco
 DataFormats/PatCandidates
 DataFormats/Provenance
+DataFormats/RPCDigi
 DataFormats/RPCRecHit
 DataFormats/RecoCandidate
 DataFormats/Scalers
 DataFormats/SiPixelCluster
 DataFormats/SiPixelDetId
+DataFormats/SiPixelDigi
 DataFormats/SiStripCluster
 DataFormats/SiStripDetId
 DataFormats/SiStripDigi
@@ -71,6 +76,7 @@ FWCore/ParameterSet
 FWCore/PluginManager
 FWCore/PythonParameterSet
 FWCore/RootAutoLibraryLoader
+FWCore/ServiceRegistry
 FWCore/Utilities
 FastSimDataFormats/External
 Fireworks/Calo
@@ -86,10 +92,16 @@ Fireworks/Vertices
 PhysicsTools/FWLite
 PhysicsTools/SelectorUtils
 PhysicsTools/Utilities
+SimDataFormats/CaloHit
+SimDataFormats/CrossingFrame
+SimDataFormats/DigiSimLinks
 SimDataFormats/EncodedEventId
 SimDataFormats/GeneratorProducts
 SimDataFormats/PileupSummaryInfo
+SimDataFormats/RPCDigiSimLink
+SimDataFormats/RandomEngine
 SimDataFormats/Track
+SimDataFormats/TrackerDigiSimLink
 SimDataFormats/TrackingAnalysis
 SimDataFormats/TrackingHit
 SimDataFormats/Vertex
