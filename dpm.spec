@@ -1,7 +1,7 @@
-### RPM external dpm 1.8.0-1
+### RPM external dpm 1.8.0.1
  
 %define baseVersion %(echo %v | cut -d- -f1 | cut -d. -f1,2,3)
-%define patchLevel  %(echo %v | cut -d- -f2)
+%define patchLevel  %(echo %v | cut -d- -f1 | cut -d. -f4)
 %define downloadv %{baseVersion}-%{patchLevel}
 #%define dpmarch     %(echo %cmsplatf | cut -d_ -f1 | sed 's/onl//')
 %define dpmarch sl5
