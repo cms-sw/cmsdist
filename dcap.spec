@@ -1,6 +1,7 @@
 ### RPM external dcap 2.47.5.0
 #get dcap from dcache svn repo now...
-Source: svn://svn.dcache.org/dCache/tags/dcap-2.47.5-0?scheme=http&module=dcap&output=/dcap.tgz
+Source: http://cmsrep.cern.ch/cmssw/download/dcap/dcap.tgz
+#Source: svn://svn.dcache.org/dCache/tags/dcap-2.47.5-0?scheme=http&module=dcap&output=/dcap.tgz
 Patch0: dcap-macosx-workarounds
 
 # Unfortunately I could not find any rpm version invariant way to do and "if
