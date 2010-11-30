@@ -1,4 +1,4 @@
-### RPM cms data-RecoParticleFlow-PFProducer 1
+### RPM cms data-RecoParticleFlow-PFProducer 2
 ## NOCOMPILER
 %define realversion V12-03-04
 
