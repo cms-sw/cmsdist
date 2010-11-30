@@ -1,15 +1,15 @@
-### RPM external dpm 1.7.0.6
-## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
-# for x86_64 this was false, but it causes problems on installation at least with cmsBuild
+### RPM external dpm 1.8.0-1
  
 %define baseVersion %(echo %v | cut -d- -f1 | cut -d. -f1,2,3)
-%define patchLevel  %(echo %v | cut -d- -f1 | cut -d. -f4)
+%define patchLevel  %(echo %v | cut -d- -f2)
 %define downloadv %{baseVersion}-%{patchLevel}
 #%define dpmarch     %(echo %cmsplatf | cut -d_ -f1 | sed 's/onl//')
-%define dpmarch slc4
+%define dpmarch sl5
 
-Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{baseVersion}/src/DPM-%{downloadv}sec.%{dpmarch}.src.rpm
+Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{baseVersion}/src/DPM-mysql-%{downloadv}sec.%{dpmarch}.src.rpm
 # Source: http://cmsrep.cern.ch/cms/cpt/Software/download/cms.ap/SOURCES/%{cmsplatf}/external/dpm/%{downloadv}/DPM-%{downloadv}.src.rpm
+Patch0: dpm-1.7.4.7-ld
+Patch1: dpm-1.7.4.7-macosx
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %if "%cpu" != "amd64"
@@ -20,11 +20,19 @@ Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{bas
 Provides: libdpm.so%{libsuffix}
 
 %prep
-
-%build
 rm -f %_builddir/DPM-%{downloadv}.src.tar.gz
-rpm2cpio %{_sourcedir}/DPM-%{downloadv}sec.%{dpmarch}.src.rpm | cpio -ivd LCG-DM-%{baseVersion}.tar.gz
+rpm2cpio %{_sourcedir}/DPM-mysql-%{downloadv}sec.%{dpmarch}.src.rpm | cpio -ivd LCG-DM-%{baseVersion}.tar.gz
 cd %_builddir ; rm -rf LCG-DM-%{baseVersion}; tar -xzvf LCG-DM-%{baseVersion}.tar.gz
+
+perl -p -i -e 's|SHLIBREQLIBS = -lc|SHLIBREQLIBS = -lc /usr/lib/dylib1.o|' LCG-DM-%{baseVersion}/config/darwin.cf
+perl -p -i -e 's|FC = g77|FC = gfortran|' LCG-DM-%{baseVersion}/config/darwin.cf
+cd LCG-DM-%{baseVersion}
+%patch0 -p1
+case %cmsos in 
+  osx*) 
+%patch1 -p2
+;;
+esac
 
 %build
 cd LCG-DM-%{baseVersion}
@@ -51,28 +59,20 @@ done
 
 mkdir -p %i/lib %i/include/dpm
 
-./configure
+./configure dpm --with-client-only
 cd shlib; make
 
 %install
+case %cmsplatf in 
+  osx*) SONAME=dylib ;;
+  *) SONAME=so ;;
+esac
+
 cd LCG-DM-%{baseVersion}
-cp ./shlib/lib%n.so %i/lib/lib%n.so.%realversion
+cp ./shlib/lib%n.$SONAME %i/lib/lib%n.$SONAME.%realversion
+# RPM 4.4.2.2 didn't seem to be happy with the dependencies if a symlink
+# and realversion was used for liblcgdm.so, so just leave it with the original
+# name
+cp ./shlib/liblcgdm.$SONAME %i/lib/
 cp ./h/*.h          %i/include/dpm
-ln -s lib%n.so.%realversion %i/lib/lib%n.so
-
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=%n version=%v>
-<lib name=dpm>
-<Client>
- <Environment name=DPM_BASE default="%i"></Environment>
- <Environment name=INCLUDE default="$DPM_BASE/include"></Environment>
- <Environment name=LIBDIR default="$DPM_BASE/lib"></Environment>
-</Client>
-</Tool>
-EOF_TOOLFILE
-
-%post
-%{relocateConfig}etc/scram.d/%n
+ln -s lib%n.$SONAME.%realversion %i/lib/lib%n.$SONAME
