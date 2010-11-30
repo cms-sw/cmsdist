@@ -1,8 +1,7 @@
-### RPM external herwig 6.510.3
+### RPM external herwig 6.520
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Requires: lhapdf photos tauola
-Patch1: herwig-6.510-tauola
-Patch2: herwig-6.510.3-nmxhep
+Patch1: herwig-6.520-tauoladummy
 
 %prep
 %setup -q -n %n/%{realversion}
@@ -21,36 +20,26 @@ mv ./dummy/photos.f ./tauoladummy/
 
 # apply patch to modify Makefile
 %patch1 -p2
-%patch2 -p2
 
-./configure --enable-shared
+./configure --enable-shared --prefix=%i F77=gfortran
 
 %build
-make 
+make %{makeprocesses} TAUOLA_ROOT=$TAUOLA_ROOT LHAPDF_ROOT=$LHAPDF_ROOT PHOTOS_ROOT=$PHOTOS_ROOT
 
-# then hack include area as jimmy depends on missing header file..
-cd include
-ln -sf HERWIG65.INC herwig65.inc
+make check
 
 %install
-tar -c lib include | tar -x -C %i
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="herwig" version="%v">
-    <lib name="herwig"/>
-    <lib name="herwig_dummy"/>
-    <client>
-      <environment name="HERWIG_BASE" default="%i"/>
-      <environment name="LIBDIR" default="$HERWIG_BASE/lib"/>
-      <environment name="INCLUDE" default="$HERWIG_BASE/include"/>
-    </client>
-    <use name="f77compiler"/>
-    <use name="lhapdf"/>
-    <use name="tauola"/>
-    <use name="photos"/>
-  </tool>
-EOF_TOOLFILE
+make install
 
-%post
-%{relocateConfig}etc/scram.d/%n.xml
+# then hack include area as jimmy depends on missing header file..
+# but only on slc*. On macosx HERWIG65.INC == herwig65.inc
+# what is actually needed is a link to herwig6510.inc
+cd %i/include
+case %cmsplatf in
+    slc*)
+	ln -sf HERWIG65.INC herwig65.inc
+    ;;
+    osx*)
+	ln -sf herwig6520.inc herwig65.inc
+    ;;
+esac

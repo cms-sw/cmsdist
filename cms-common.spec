@@ -29,7 +29,6 @@ then
         osx104_ia32) compilerv=gcc401;;
         osx104_ppc32) compilerv=gcc400;;
         osx105_*) compilerv=gcc401;;
-        osx106_*) compilerv=gcc421;;
         slc5_*) compilerv=gcc434; osarch=slc5_ia32;;
         slc4_*) compilerv=gcc345; osarch=slc4_ia32;;
         *) compilerv=gcc434; osarch=slc5_ia32;;
