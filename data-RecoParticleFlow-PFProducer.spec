@@ -1,5 +1,5 @@
 ### RPM cms data-RecoParticleFlow-PFProducer 1
 ## NOCOMPILER
-%define realversion V10-01-05
+%define realversion V12-03-04
 
 ## IMPORT data-rpm-build
