@@ -1,7 +1,6 @@
-### RPM external dcap 1.7.0.48
+### RPM external dcap 2.47.5.0
 #get dcap from dcache svn repo now...
-%define svnTag %(echo %realversion | tr '.' '-')
-Source: svn://svn.dcache.org/dCache/tags/production-%svnTag/modules/dcap?scheme=http&module=dcap&output=/dcap.tgz
+Source: svn://svn.dcache.org/dCache/tags/dcap-2.47.5-0?scheme=http&module=dcap&output=/dcap.tgz
 Patch0: dcap-macosx-workarounds
 
 # Unfortunately I could not find any rpm version invariant way to do and "if
@@ -26,22 +25,8 @@ case %cmsos in
 esac
 
 %build
-chmod +x mkmapfile.sh
-chmod +x mkdirs.sh
-chmod +x version.sh
-case %cmsos in
-  osx*)
-	SONAME=dylib ;;
-  slc*)
-	SONAME=so ;;
-esac	
-
-LD=gcc make BIN_PATH=%i SONAME=$SONAME %makeprocesses
+sh bootstrap.sh
+./configure --prefix %i
+make -C src %makeprocesses
 %install
-case %cmsos in
-  osx*)
-        SONAME=dylib ;;
-  slc*)
-        SONAME=so ;;
-esac    
-LD=gcc make BIN_PATH=%i SONAME=$SONAME install
+make -C src install
