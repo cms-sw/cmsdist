@@ -14,3 +14,7 @@ HG1012b cmsweb
 
 # ProdAgent
 dg20101105-prodagent prodagent
+
+# DAS build to force uploading of das-webdocs
+HG1012b das
++ 1.98 das.spec
