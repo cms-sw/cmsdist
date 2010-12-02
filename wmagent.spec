@@ -1,22 +1,10 @@
-### RPM cms wmcore WMCORE_0_6_0
-## INITENV +PATH PYTHONPATH %i/lib
+### RPM cms wmcore WMAGENT_0_6_0
 
-%define svnserver svn://svn.cern.ch/reps/CMSDMWM/WMCORE/tags/%{realversion}
-Source: %svnserver?scheme=svn+ssh&strategy=export&module=WMCORE&output=/WMCORE.tar.gz
-
-Requires: python py2-simplejson py2-sqlalchemy py2-httplib2
+Requires: wmcore-db-mysql wmcore-db-couch py2-cjson dbs-client dls-client
 
 %prep
-%setup -n WMCORE
-
 %build
-
 %install
-make PREFIX=%i install
-mkdir -p %i
-cp -r * %i
-chmod +x %i/lib/WMCore/WebTools/Root.py
-mkdir -p %{i}/workdir
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
