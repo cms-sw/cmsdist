@@ -54,7 +54,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
     <flags CXXFLAGS="-O2 -pedantic -ansi -pthread -pipe"/>
     <flags CXXFLAGS="@ARCH_CXXFLAGS@ @COMPILER_CXXFLAGS@"/>
     <flags CXXFLAGS="-felide-constructors -fmessage-length=0 -ftemplate-depth-300"/>
-    <flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses -Werror=type-limits -Wno-deprecated -Werror=return-type -Werror=missing-braces -Werror=unused-value -Werror=address -Werror=format -Werror=sign-compare -Werror=write-strings -Werror=strict-overflow -fdiagnostics-show-option"/>
+    <flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses -Wno-deprecated -Werror=return-type -Werror=missing-braces -Werror=unused-value -Werror=address -Werror=format -Werror=sign-compare -Werror=write-strings -Werror=strict-overflow -fdiagnostics-show-option"/>
     <flags LDFLAGS="@OS_LDFLAGS@"/>
     <flags CXXSHAREDFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@"/>
     <flags SHAREDSUFFIX="@OS_SHAREDSUFFIX@"/>
@@ -171,16 +171,26 @@ COMPILER_CXXFLAGS=
 case %cmsplatf in
    *_gcc4[56789]* )
      COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++0x -ftree-vectorize"
-     export COMPILER_CXXFLAGS
    ;;
 esac
 
 case %cmsplatf in
    *_gcc4[3456789]* )
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Werror=array-bounds -Werror=format-contains-nul"
-     export COMPILER_CXXFLAGS
+     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Werror=array-bounds -Werror=format-contains-nul -Werror=type-limits"
    ;;
 esac
+
+# Enable visibility inlines hidden. Should drastically remove
+# the amount of symbols due to templates.
+# FIXME: not enabled on linux, yet, change the case statement
+#        to *_gcc4[23456789]* when stable.
+case %cmsplatf in
+  osx* )
+    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fvisibility-inlines-hidden"
+  ;;
+esac
+
+export COMPILER_CXXFLAGS
 
 # Handle here platform specific overrides. In case we
 # want to tune something for a specific architecture.
