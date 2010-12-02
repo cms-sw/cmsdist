@@ -74,9 +74,9 @@ HG1012a reqmgr
 + 1.3 reqmgr.spec
 
 # PA test build
-HG1012b prodagent
-+ dg20101105-prodagent prodagent.spec prodcommon.spec wmcore.spec webtools.spec
-+ dg20101105-prodagent dbs-client.spec dls-client.spec PHEDEX-micro.spec
-+ dg20101105-prodagent mysql.spec py2-mysqldb.spec
-+ dg20101105-prodagent oracle-env.spec oracle.spec py2-cx-oracle.spec
-+ dg20101105-prodagent py2-sqlalchemy.spec
+#HG1012b prodagent
+#+ dg20101105-prodagent prodagent.spec prodcommon.spec wmcore.spec webtools.spec
+#+ dg20101105-prodagent dbs-client.spec dls-client.spec PHEDEX-micro.spec
+#+ dg20101105-prodagent mysql.spec py2-mysqldb.spec
+#+ dg20101105-prodagent oracle-env.spec oracle.spec py2-cx-oracle.spec
+#+ dg20101105-prodagent py2-sqlalchemy.spec
