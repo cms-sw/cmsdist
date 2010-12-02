@@ -3,8 +3,10 @@
 #
 # or the new format as in the comp.prereleases
 #
-#builder_2010-08-31_15-18-01_dbs-apps dbs-apps
-#CRABSERVER_1_1_3_BUILD_SLC5 crab-server prodagent  prodcommon wmcore mysql
+
+# DAS build to force uploading of das-webdocs
+#HG1012b das
+#+ 1.98 das.spec
 
 # Cms Webtools services
 HG1012b cmsweb
@@ -13,13 +15,9 @@ HG1012b cmsweb
 #HG1012b base
 
 # ProdAgent
-HG1012b prodagent
-+ dg20101105-prodagent prodagent.spec prodcommon.spec wmcore.spec webtools.spec
-+ dg20101105-prodagent dbs-client.spec dls-client.spec PHEDEX-micro.spec
-+ dg20101105-prodagent mysql.spec py2-mysqldb.spec
-+ dg20101105-prodagent oracle-env.spec oracle.spec py2-cx-oracle.spec
-+ dg20101105-prodagent py2-sqlalchemy.spec
-
-# DAS build to force uploading of das-webdocs
-HG1012b das
-+ 1.98 das.spec
+#HG1012b prodagent
+#+ dg20101105-prodagent prodagent.spec prodcommon.spec wmcore.spec webtools.spec
+#+ dg20101105-prodagent dbs-client.spec dls-client.spec PHEDEX-micro.spec
+#+ dg20101105-prodagent mysql.spec py2-mysqldb.spec
+#+ dg20101105-prodagent oracle-env.spec oracle.spec py2-cx-oracle.spec
+#+ dg20101105-prodagent py2-sqlalchemy.spec
