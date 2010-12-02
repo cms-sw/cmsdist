@@ -1,4 +1,4 @@
-### RPM external clhep 2.0.4.2
+### RPM external clhep 2.0.4.6
 Source: http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/distributions/%n-%realversion.tgz
 
 %prep
