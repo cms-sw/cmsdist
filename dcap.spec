@@ -1,8 +1,8 @@
-### RPM external dcap 1.7.0.48
+### RPM external dcap 2.47.5.0
 #get dcap from dcache svn repo now...
-%define svnTag %(echo %realversion | tr '.' '-')
-Source: svn://svn.dcache.org/dCache/tags/production-%svnTag/modules/dcap?scheme=http&module=dcap&output=/dcap.tgz
-Patch0: dcap-macosx-workarounds
+Source: http://cmsrep.cern.ch/cmssw/download/dcap/dcap.tgz
+#Source: svn://svn.dcache.org/dCache/tags/dcap-2.47.5-0?scheme=http&module=dcap&output=/dcap.tgz
+Patch0: dcap-2.47.5.0-macosx
 
 # Unfortunately I could not find any rpm version invariant way to do and "if
 # else if", so I ended up hardcoding all the possible variants.
@@ -16,32 +16,27 @@ Provides: libpdcap.dylib
 
 %prep
 %setup -n dcap
-# THIS PATCH IS COMPLETELY UNTESTED AND HAS THE SOLE
-# PURPOSE OF BUILDING STUFF ON MAC, REGARDLESS WHETHER
-# IT WORKS OR NOT.
-case %cmsos in 
- osx*) 
+# THIS PATCH IS COMPLETELY UNTESTED AND HAS THE SOLE PURPOSE OF BUILDING STUFF
+# ON MAC, REGARDLESS WHETHER IT WORKS OR NOT. It is however safe to include,
+# since every change is ifdeffed with __APPLE__.
 %patch0 -p1
-  ;;
-esac
 
 %build
-chmod +x mkmapfile.sh
-chmod +x mkdirs.sh
-chmod +x version.sh
+# Since we are using the checked out code, we need to regenerate the auto-tools
+# crap.
 case %cmsos in
-  osx*)
-	SONAME=dylib ;;
-  slc*)
-	SONAME=so ;;
-esac	
+  osx*) LIBTOOLIZE=glibtoolize ;;
+  slc*) LIBTOOLIZE=libtoolize ;;
+esac
+mkdir -p config
+aclocal -I config
+autoheader
+$LIBTOOLIZE --automake
+automake --add-missing --copy --foreign
+autoconf
+./configure --prefix %i
 
-LD=gcc make BIN_PATH=%i SONAME=$SONAME %makeprocesses
+# We don't care about the plugins and other stuff and build only the source.
+make -C src %makeprocesses
 %install
-case %cmsos in
-  osx*)
-        SONAME=dylib ;;
-  slc*)
-        SONAME=so ;;
-esac    
-LD=gcc make BIN_PATH=%i SONAME=$SONAME install
+make -C src install

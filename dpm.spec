@@ -1,4 +1,4 @@
-### RPM external dpm 1.7.4.7
+### RPM external dpm 1.8.0.1
  
 %define baseVersion %(echo %v | cut -d- -f1 | cut -d. -f1,2,3)
 %define patchLevel  %(echo %v | cut -d- -f1 | cut -d. -f4)
@@ -26,10 +26,11 @@ cd %_builddir ; rm -rf LCG-DM-%{baseVersion}; tar -xzvf LCG-DM-%{baseVersion}.ta
 
 perl -p -i -e 's|SHLIBREQLIBS = -lc|SHLIBREQLIBS = -lc /usr/lib/dylib1.o|' LCG-DM-%{baseVersion}/config/darwin.cf
 perl -p -i -e 's|FC = g77|FC = gfortran|' LCG-DM-%{baseVersion}/config/darwin.cf
-%patch0 -p0
+cd LCG-DM-%{baseVersion}
+%patch0 -p1
 case %cmsos in 
   osx*) 
-%patch1 -p1
+%patch1 -p2
 ;;
 esac
 
