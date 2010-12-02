@@ -173,16 +173,10 @@ diff --git a/src/print_size.h b/src/print_size.h
 index cc4b7ee..919beac 100644
 --- a/src/print_size.h
 +++ b/src/print_size.h
-@@ -13,6 +13,9 @@
- /*
-  * $Id: dcap-2.47.5.0-macosx.patch,v 1.1 2010/12/01 14:32:08 eulisse Exp $
-  */
+@@ -16,0 +16,3 @@
 +#ifdef __APPLE__
 +#define off64_t off_t
 +#endif
- 
- void dc_bytes_as_size( char *buffer, off64_t size);
- void dc_bytes_as_size_with_max_fraction( char *buffer, off64_t size,
 diff --git a/src/system_io.c b/src/system_io.c
 index 6619b3e..67d00a0 100644
 --- a/src/system_io.c
