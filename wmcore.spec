@@ -1,8 +1,8 @@
-### RPM cms wmcore WMCORE_PA_0_12_18_patch2
+### RPM cms wmcore WMCORE_0_6_0
 ## INITENV +PATH PYTHONPATH %i/lib
-%define cvstag %v
 
-Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=WMCORE&export=WMCORE&&tag=-r%{cvstag}&output=/WMCORE.tar.gz
+%define svnserver svn://svn.cern.ch/reps/CMSDMWM/WMCORE/tags/%{realversion}
+Source: %svnserver?scheme=svn+ssh&strategy=export&module=WMCORE&output=/WMCORE.tar.gz
 
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2
 
