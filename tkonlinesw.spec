@@ -4,12 +4,21 @@
 %define releasename %{projectname}-%{realversion}
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
-Source: http://cms-trackerdaq-service.web.cern.ch/cms-trackerdaq-service/download/sources/trackerDAQ-2.7.0-9.tgz
+Source0: http://cms-trackerdaq-service.web.cern.ch/cms-trackerdaq-service/download/sources/trackerDAQ-2.7.0-9.tgz
 Patch0: tkonlinesw-2.7.0-macosx
+
+# NOTE: given how broken the standard build system is
+#       on macosx, it's not worth fixing it.
+#       The 4 libraries we need can be built with the
+#       attached 118 lines of cmakefile, at least on macosx 
+#       (and without dependencies on xdaq).
+%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
+Source1: tkonlinesw-cmake-build
+Requires: cmake
+%endif
 
 # Note from Kristian: 
 # xdaq dependency is here only to re-use its makefiles. 
-
 Requires: oracle
 %if "%online" != "true"
 Requires: xerces-c
@@ -84,8 +93,7 @@ case %cmsos in
   ;;
   osx*)
     export XDAQ_OS=macosx
-    export XDAQ_PLATFORM=x86_
-    export ENV_CMS_TK_FED9U_ORACLE_LIBRARY="-locci -lclntsh -lnnz10"
+    export XDAQ_PLATFORM=x86_slc4
   ;;
 esac
 
@@ -97,34 +105,50 @@ export XDAQ_ROOT
 ################################################################################
 # Configure
 ################################################################################
-case $(uname)-$(uname -p) in
-  Linux-x86_64)
-chmod +x ./configure && ./configure --with-xdaq-platform=x86_64
-cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure --with-xdaq-platform=x86_64 && cd -
-cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure --with-xdaq-platform=x86_64 && cd -
+case %cmsos in
+  slc*_amd64)
+    chmod +x ./configure && ./configure --with-xdaq-platform=x86_64
+    cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure --with-xdaq-platform=x86_64 && cd -
+    cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure --with-xdaq-platform=x86_64 && cd -
   ;;
-  * )
-chmod +x ./configure && ./configure
-cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure && cd -
-cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure && cd -
+  slc*_ia32)
+    chmod +x ./configure && ./configure
+    cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure && cd -
+    cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure && cd -
+  ;;
+  osx*_amd64)
+    chmod +x ./configure && ./configure
+    cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure && cd -
+    cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure && cd -
   ;;
 esac
 
 export CPPFLAGS=-fPIC
-# On osx ignore build errors and build as much as you possibly can.
-# FIXME: looks like there are some undefined symbols which on mac are
-#        fatal.
 case %cmsos in 
   slc*)
     make cmssw
     make cmsswinstall
   ;;
   osx*)
-    make -k cmssw || true
-    make -k cmsswinstall || true
+    # We still need the old makefile to generate a few headers.
+    make -C TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils include/Fed9UUtils.hh
+    make -C TrackerOnline/Fed9U/Fed9USoftware Fed9UUtils/include/Fed9UVersion.inc
+
+    # We use CMake for all the rest since the build system on macosx
+    # is simply broken by circular dependencies and other linux only bits.
+    cp %_sourcedir/tkonlinesw-cmake-build ./CMakeLists.txt
+    make -C TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils include/Fed9UUtils.hh
+    cmake . -DORACLE_ROOT=${ORACLE_ROOT} -DXERCES_ROOT=${XERCES_C_ROOT} -DXERCESC=2 -DCMAKE_INSTALL_PREFIX=%i
+    make %makeprocesses
+    make install
   ;;
 esac
 
 %install
-# Option --prefix in configure is not working yet, using tar:
-tar -c -C  %{_builddir}/%{releasename}/opt/%{projectname} --exclude "libcppunit.so" include lib | tar -x -C %{i}
+# Again, installing is actually done by make install on macosx.
+case %cmsos in
+  slc*)
+    # Option --prefix in configure is not working yet, using tar:
+    tar -c -C  %{_builddir}/%{releasename}/opt/%{projectname} --exclude "libcppunit.so" include lib | tar -x -C %{i}
+  ;;
+esac
