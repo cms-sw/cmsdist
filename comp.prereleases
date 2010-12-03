@@ -83,5 +83,6 @@ HG1012a reqmgr
 
 # WMAGENT
 HG1012b wmagent
-+ WMAGENT_0_6_0 wmagent.spec dls-client.spec
++ WMAGENT_0_6_0 dls-client.spec
 + 1.80 wmcore.spec
++ 1.3 wmagent.spec
