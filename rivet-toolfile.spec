@@ -9,7 +9,7 @@ Requires: rivet
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rivet.xml
 <tool name="rivet" version="@TOOL_VERSION@">
-<lib name="rivet"/>
+<lib name="Rivet"/>
 <client>
 <environment name="RIVET_BASE" default="@TOOL_ROOT@"/>
 <environment name="LIBDIR" default="$RIVET_BASE/lib"/>
