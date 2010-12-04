@@ -1,4 +1,4 @@
-### RPM cms wmcore WMCORE_0_6_0
+### RPM cms wmcore WMCORE_0_6_2
 ## INITENV +PATH PYTHONPATH %i/src/python
 
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}
