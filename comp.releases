@@ -11,8 +11,8 @@
 # Cms Webtools services
 #HG1012b cmsweb
 
-HG1012b T0Mon
-+ sjg101201b/4.0.8a T0Mon.spec
+#HG1012b T0Mon
+#+ sjg101201b/4.0.8a T0Mon.spec
 
 # Base packages
 #HG1012b base
@@ -24,3 +24,6 @@ HG1012b T0Mon
 #+ dg20101105-prodagent mysql.spec py2-mysqldb.spec
 #+ dg20101105-prodagent oracle-env.spec oracle.spec py2-cx-oracle.spec
 #+ dg20101105-prodagent py2-sqlalchemy.spec
+
+HG1102a wmagent
++ WMAGENT_0_6_2 dls-client.spec wmagent.spec
