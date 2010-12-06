@@ -50,7 +50,7 @@ HG1009c dbs-apps
 #HG1012a fmws
 #+ FILEMOVER_20101116_slc5_amd64_gcc434_v2 fmws.spec
 HG1102a filemover
-+ FILEMOVER_20101206_slc5_amd64_gcc434 filemover.spec
++ 1.2 filemover.spec
 
 # DBS discovery
 #DD_20100824_slc5_amd64_gcc434_v1 dbs-web dbs-client
