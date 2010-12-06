@@ -50,7 +50,7 @@ HG1009c dbs-apps
 #HG1012a fmws
 #+ FILEMOVER_20101116_slc5_amd64_gcc434_v2 fmws.spec
 HG1102a filemover
-+ FILEMOVER_20101116_slc5_amd64_gcc434 filemover.spec
++ FILEMOVER_20101206_slc5_amd64_gcc434 filemover.spec
 
 # DBS discovery
 #DD_20100824_slc5_amd64_gcc434_v1 dbs-web dbs-client
@@ -61,7 +61,7 @@ HG1102a filemover
 #HG1012a dbs-web
 #+ DD_20101118_slc5_amd64_gcc434 dbs-web.spec
 HG1102a dbs-web
-+ DD_20101118_slc5_amd64_gcc434 dbs-web.spec
++ DD_20101206_slc5_amd64_gcc434 dbs-web.spec
 
 # PlotFairy
 HG1012a plotfairy
