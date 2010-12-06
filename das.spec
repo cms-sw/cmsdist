@@ -1,4 +1,4 @@
-### RPM cms das 0.5.7.pre1
+### RPM cms das 0.5.7.pre2
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
 %define webdoc_files %i/doc/
@@ -11,13 +11,24 @@ Requires: py2-sphinx rotatelogs
 %prep
 %setup -n DAS
 
-# remove maps, they will be supplied via SITECONFG/T1_CH_CERN/DAS/
-rm -rf src/python/DAS/services/maps
 # remove ipython deps
 rm src/python/DAS/tools/ipy_profile_mongo.py
 
 %build
 python setup.py build
+
+# build DAS JSON maps out of DAS YML files
+cmd="python src/python/DAS/tools/das_drop_maps.py"
+dir="src/python/DAS/services/maps/"
+map_file="src/python/DAS/services/maps/das_maps.json"
+rm -f $map_file
+export PYTHONPATH=$PYTHONPATH:$PWD/src/python
+for amap in `ls $dir/*.yml`
+do
+    $cmd --uri-map=$amap >> $map_file
+    $cmd --notation-map=$amap >> $map_file
+    $cmd --presentation-map=$amap >> $map_file
+done
 
 # build DAS sphinx documentation
 PYTHONPATH=$PWD/src/python:$PYTHONPATH
@@ -28,7 +39,6 @@ mkdir -p build
 make html
 
 %install
-#cp build/lib.*/DAS/extensions/das_speed_utils.so src/python/DAS/extensions/
 #python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
 python setup.py install --prefix=%i
 egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
