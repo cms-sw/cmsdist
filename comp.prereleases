@@ -80,5 +80,5 @@ HG1012a reqmgr
 #+ dg20101105-prodagent py2-sqlalchemy.spec
 
 # WMAGENT
-HG1012b wmagent
-+ WMAGENT_0_6_2 dls-client.spec wmcore.spec wmagent.spec
+HG1102a wmagent
++ WMAGENT_0_6_2 dls-client.spec wmagent.spec
