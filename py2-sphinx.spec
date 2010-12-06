@@ -1,4 +1,4 @@
-### RPM external py2-sphinx 0.6.4
+### RPM external py2-sphinx 1.0.4
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
 Source: http://pypi.python.org/packages/source/S/Sphinx/Sphinx-%realversion.tar.gz
