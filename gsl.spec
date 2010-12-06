@@ -15,23 +15,8 @@ make %makeprocesses
 
 %install
 make install
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=%n version=%v>
-<info url="http://www.gnu.org/software/gsl/gsl.html"></info>
-<lib name=gsl>
-<lib name=gslcblas>
-<Client>
- <Environment name=GSL_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$GSL_BASE/lib"></Environment>
- <Environment name=INCLUDE default="$GSL_BASE/include"></Environment>
-</Client>
-</Tool>
-EOF_TOOLFILE
 
 %post
-%{relocateConfig}etc/scram.d/%n
 %{relocateConfig}lib/libgslcblas.la
 %{relocateConfig}lib/libgsl.la
+%{relocateConfig}bin/gsl-config
