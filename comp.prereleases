@@ -26,7 +26,7 @@
 #HG1012b das
 #+ 1.98 das.spec
 HG1102a das
-+ DAS_20101206_slc5_amd64_gcc434 das.spec
++ DAS_20101206_slc5_amd64_gcc434_v2 das.spec
 
 # T0Mon and T0DataSvc
 HG1012b T0Mon
