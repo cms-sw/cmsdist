@@ -23,8 +23,10 @@
 #  + 1.1 py2-pygments.spec
 #HG1012a das
 #+ DAS_20101117_slc5_amd64_gcc434_v3 das.spec
-HG1012b das
-+ 1.98 das.spec
+#HG1012b das
+#+ 1.98 das.spec
+HG1102a das
++ DAS_20101206_slc5_amd64_gcc434 das.spec
 
 # T0Mon and T0DataSvc
 HG1012b T0Mon
@@ -45,8 +47,10 @@ HG1009c dbs-apps
 #+ python-2.6.4-dont-detect-dbm.patch fmws.spec
 #HG1010a fmws
 #+ FILEMOVER_20101014_slc5_amd64_gcc434 fmws.spec
-HG1012a fmws
-+ FILEMOVER_20101116_slc5_amd64_gcc434_v2 fmws.spec
+#HG1012a fmws
+#+ FILEMOVER_20101116_slc5_amd64_gcc434_v2 fmws.spec
+HG1102a filemover
++ FILEMOVER_20101116_slc5_amd64_gcc434 filemover.spec
 
 # DBS discovery
 #DD_20100824_slc5_amd64_gcc434_v1 dbs-web dbs-client
@@ -54,7 +58,9 @@ HG1012a fmws
 #+ DD_20101007_slc5_amd64_gcc434 dbs-{web,client}.spec
 #HG1010a dbs-web 
 #+ DD_20101014_slc5_amd64_gcc434 dbs-{web,client}.spec
-HG1012a dbs-web
+#HG1012a dbs-web
+#+ DD_20101118_slc5_amd64_gcc434 dbs-web.spec
+HG1102a dbs-web
 + DD_20101118_slc5_amd64_gcc434 dbs-web.spec
 
 # PlotFairy
