@@ -1,20 +1,22 @@
 ### RPM cms wmcore WMCORE_0_6_2
-## INITENV +PATH PYTHONPATH %i/src/python
+## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
-%define svnserver svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}
-Source: %svnserver?scheme=svn+ssh&strategy=export&module=WMCORE&output=/WMCORE.tar.gz
-
+Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%realversion?scheme=svn+ssh&strategy=export&module=WMCore&output=/WMCORE.tar.gz
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2
 
 %prep
-%setup -n WMCORE
+%setup -n WMCore
 
 %build
+python setup.py build
 
 %install
 mkdir -p %i
 cp -r * %i
-chmod +x %i/src/python/WMCore/WebTools/Root.py
+python setup.py install --prefix=%i
+egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
+find %i -name '*.egg-info' -exec rm {} \;
+chmod +x %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages/WMCore/WebTools/Root.py
 mkdir -p %{i}/workdir
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
@@ -31,4 +33,3 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
-
