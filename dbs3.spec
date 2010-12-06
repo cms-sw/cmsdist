@@ -1,4 +1,4 @@
-### RPM cms dbs3 DBS_3_S6_0_pre2
+### RPM cms dbs3 DBS_0_1_0
 ## INITENV +PATH PYTHONPATH %i/Server/Python/src
 ## INITENV SET DBS3_SERVER_ROOT %i/Server/Python
 
@@ -9,10 +9,10 @@
 %define service DBS
 %define dburl oracle://user:passwd@db
 %define dbowner schemaowner
-%define dbsver DBS_3_0_0
+%define dbsver DBS_0_1_0
 
 Requires: wmcore-webtools wmcore-db-oracle py2-cjson py2-mysqldb
-Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&strategy=export&nocache=true&module=COMP/DBS/DBS3&export=%{n}&tag=-r%{cvsver}&output=/%{n}.tar.gz
+Source: svn://svn.cern.ch/reps/CMSDMWM/DBS/tags/%realversion?scheme=svn+ssh&strategy=export&module=WMCore&output=/%{n}.tar.gz
 
 %prep
 %setup -n %{n}
