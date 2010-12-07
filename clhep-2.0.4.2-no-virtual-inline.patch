@@ -282,3 +282,18 @@ index 38f4551..1425980 100755
  // Simple operation for all elements
  
  #define SIMPLE_UOP(OPER)          \
+diff --git a/Matrix/Matrix/SymMatrix.h b/Matrix/Matrix/SymMatrix.h
+index 14c00a5..f3fbc9a 100755
+--- a/Matrix/Matrix/SymMatrix.h
++++ b/Matrix/Matrix/SymMatrix.h
+@@ -148,8 +148,8 @@ public:
+    virtual ~HepSymMatrix();
+    // Destructor.
+ 
+-   inline int num_row() const;
+-   inline int num_col() const;
++   int num_row() const;
++   int num_col() const;
+    // Returns number of rows/columns.
+ 
+    const double & operator()(int row, int col) const; 
