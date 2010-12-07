@@ -15,12 +15,12 @@ Requires: wmcore-webtools wmcore-db-oracle py2-cjson py2-mysqldb
 Source: svn://svn.cern.ch/reps/CMSDMWM/DBS/tags/%realversion?scheme=svn+ssh&strategy=export&module=WMCore&output=/%{n}.tar.gz
 
 %prep
-%setup -n %{n}
+%setup -n WMCore
 
 %build
 
 %install
-cp -rp %_builddir/%{n}/* %i/
+cp -rp %_builddir/WMCore/* %i/
 mkdir -p %{i}/%{configdir}
 mkdir -p %{i}/%{serverlogsdir}
 
