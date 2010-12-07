@@ -40,6 +40,8 @@ HG1009c dbs-apps
 
 # DBS-3
 #aa20100831-dbs3 dbs3
+HG1102a dbs3
++ HEAD/DBS_0_1_0 dbs3.spec
 
 # FileMover
 #FILEMOVER_20100901_slc5_amd64_gcc434_v5 fmws
