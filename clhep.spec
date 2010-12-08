@@ -1,8 +1,23 @@
 ### RPM external clhep 2.0.4.6
 Source: http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/distributions/%n-%realversion.tgz
+Patch1: clhep-2.0.4.2-no-virtual-inline
 
 %prep
 %setup -n %realversion/CLHEP
+# Apply the patch only for MacOSX and gcc45 (test builds as of Dec2010)
+# (Technically these aren't guaranteed to be mutually exclusive, but in
+# practice they are at the moment.)
+case %gccver in
+  4.5.*)
+%patch -p0
+  ;;
+esac
+case %cmsplatf in 
+  osx*)
+%patch -p0
+  ;;
+esac
+
 
 %build
 if [ $(uname) = Darwin ]; then
