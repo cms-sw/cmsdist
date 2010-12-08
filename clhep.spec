@@ -9,12 +9,12 @@ Patch: clhep-2.0.4.2-no-virtual-inline
 # practice they are at the moment.)
 case %gccver in
   4.5.*)
-%patch -p0
+%patch -p1
   ;;
 esac
 case %cmsplatf in 
   osx*)
-%patch -p0
+%patch -p1
   ;;
 esac
 
