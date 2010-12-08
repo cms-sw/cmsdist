@@ -39,7 +39,7 @@ index 5d944b0..85b035a 100755
  typedef __u32 keyType ;
 +#else
 +#include <stdint.h>
-+typedef uint32_t keyType;
++typedef uint32_t keyType; typedef uint16_t __u16;
 +#endif
  
  /* Value for each part */
@@ -56,3 +56,90 @@ index 3314811..3abf2e7 100755
  	$(CUSTOM_LIBS)
  #	-L$(ENV_CMS_TK_FED9U_DAQ_ROOT)/TriDAS/daq/extern/log4cplus/linuxx86/lib/ \
  #	-L$(ENV_CMS_TK_FED9U_DAQ_ROOT)/TriDAS/lib/linux/x86/               \
+diff --git a/FecSoftwareV3_0/generic/include/FecRingRegisters.h b/FecSoftwareV3_0/generic/include/FecRingRegisters.h
+index 364cb3a..3af98c0 100755
+--- a/FecSoftwareV3_0/generic/include/FecRingRegisters.h
++++ b/FecSoftwareV3_0/generic/include/FecRingRegisters.h
+@@ -698,11 +698,11 @@ class FecRingRegisters {
+     ccuerrstr += "\n" ;
+ 
+     ushort channelBusy[18] = {0} ;
+-    for (ushort i = 0 ; i < 18 ; i ++)
++    for (unsigned short i = 0 ; i < 18 ; i ++)
+       if (ccureg & (0x1 << i)) channelBusy[i] = 1 ;
+ 
+     ccuerrstr += "  i2c busy channel: " ;
+-    for (ushort i = 0 ; i < 16 ; i ++) 
++    for (unsigned short i = 0 ; i < 16 ; i ++) 
+       if (channelBusy[i]) {
+ 	sprintf(hexwrd,"%d",(unsigned int)i+1);
+ 	ccuerrstr += hexwrd ;
+@@ -825,9 +825,9 @@ class FecRingRegisters {
+     ccuerrstr += hexwrd;
+     ccuerrstr += "\n" ;
+ 
+-    ushort channelEnable[23] = {0} ;
++    unsigned short channelEnable[23] = {0} ;
+     bool i2cDisplay = false, piaDisplay = false ;
+-    for (ushort i = 0 ; i < 23 ; i ++) {
++    for (unsigned short i = 0 ; i < 23 ; i ++) {
+       channelEnable[i] = ccureg & (0x1 << i) ;
+       if (channelEnable[i]) {
+ 	if (i < 16) i2cDisplay = true ;
+@@ -839,7 +839,7 @@ class FecRingRegisters {
+     ccuerrstr += "  i2c enabled: " ;
+     if (! i2cDisplay) ccuerrstr += "None" ;
+     else {
+-      for (ushort i = 0 ; i < 16 ; i ++) {
++      for (unsigned short i = 0 ; i < 16 ; i ++) {
+ 	if (channelEnable[i]) {
+ 	  sprintf(hexwrd,"%d ",(i+1));
+ 	  ccuerrstr += hexwrd ;
+@@ -851,7 +851,7 @@ class FecRingRegisters {
+     ccuerrstr += "  PIA enabled: " ;
+     if (! piaDisplay) ccuerrstr += "None" ;
+     else {
+-      for (ushort i = 16; i < 20 ; i ++) 
++      for (unsigned short i = 16; i < 20 ; i ++) 
+ 	if (channelEnable[i]) {
+ 	  sprintf(hexwrd,"%d",(i+1));
+ 	  ccuerrstr += hexwrd ;
+diff --git a/FecSoftwareV3_0/generic/src/common/TShare.cc b/FecSoftwareV3_0/generic/src/common/TShare.cc
+index a5d6c8c..48653ed 100644
+--- a/FecSoftwareV3_0/generic/src/common/TShare.cc
++++ b/FecSoftwareV3_0/generic/src/common/TShare.cc
+@@ -11,7 +11,7 @@
+ 
+ #include <iostream>
+ 
+-#if defined(__GNU_LIBRARY__) && !defined(_SEM_SEMUN_UNDEFINED)
++#if (defined(__GNU_LIBRARY__) && !defined(_SEM_SEMUN_UNDEFINED)) || defined(__APPLE__)
+ /* union semun is defined by including <sys/sem.h> */
+ #else
+ /* according to X/OPEN we have to define it ourselves */
+diff --git a/TrackerOnline/Fed9U/Fed9USoftware/Fed9UDeviceFactory/src/Fed9UXMLDescriptionFromDb.cc b/TrackerOnline/Fed9U/Fed9USoftware/Fed9UDeviceFactory/src/Fed9UXMLDescriptionFromDb.cc
+index 21a0cb9..4a73c2d 100755
+--- a/TrackerOnline/Fed9U/Fed9USoftware/Fed9UDeviceFactory/src/Fed9UXMLDescriptionFromDb.cc
++++ b/TrackerOnline/Fed9U/Fed9USoftware/Fed9UDeviceFactory/src/Fed9UXMLDescriptionFromDb.cc
+@@ -35,8 +35,6 @@
+ #include "xercesc/framework/Wrapper4InputSource.hpp"
+ #include "xercesc/util/BinInputStream.hpp"
+ 
+-
+-
+ namespace Fed9U {
+   u32 xmlBufferLength=0;
+ //   using xercesc::XMLPlatformUtils;
+diff --git a/FecSoftwareV3_0/generic/include/FecRingRegisters.h b/FecSoftwareV3_0/generic/include/FecRingRegisters.h
+index 87407b4..3af98c0 100755
+--- a/FecSoftwareV3_0/generic/include/FecRingRegisters.h
++++ b/FecSoftwareV3_0/generic/include/FecRingRegisters.h
+@@ -697,7 +697,7 @@ class FecRingRegisters {
+     ccuerrstr += hexwrd;
+     ccuerrstr += "\n" ;
+ 
+-    ushort channelBusy[18] = {0} ;
++    unsigned short channelBusy[18] = {0} ;
+     for (unsigned short i = 0 ; i < 18 ; i ++)
+       if (ccureg & (0x1 << i)) channelBusy[i] = 1 ;
+ 
