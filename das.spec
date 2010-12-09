@@ -20,7 +20,7 @@ python setup.py build
 # build DAS JSON maps out of DAS YML files
 cmd="python src/python/DAS/tools/das_drop_maps.py"
 dir="src/python/DAS/services/maps/"
-map_file="src/python/DAS/services/maps/das_maps.json"
+map_file="src/python/DAS/services/maps/das_maps.js"
 rm -f $map_file
 export PYTHONPATH=$PYTHONPATH:$PWD/src/python
 for amap in `ls $dir/*.yml`
