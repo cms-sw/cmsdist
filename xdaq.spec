@@ -35,6 +35,8 @@ case %cmsos in
   mkdir daq/toolbox/include/macosx-new
   mv daq/toolbox/include/macosx daq/toolbox/include/macosx-new/toolbox
   mv daq/toolbox/include/macosx-new daq/toolbox/include/macosx
+  # Copy the linux implementation for the toolbox, hoping it will work.
+  mv daq/toolbox/src/linux daq/toolbox/src/macosx
   # i2o package is case sensitive, but it looks like the all upper case 
   # (or partially upper case) files are from an ancient version while the 
   # lowercase one are the one needed, therefore we extract by hand the required
