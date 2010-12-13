@@ -15,12 +15,12 @@
 #HG1012b base
 
 # ProdAgent
-HG1012b prodagent
-+ sw20101207-prodagent prodagent.spec prodcommon.spec wmcore.spec webtools.spec
-+ sw20101207-prodagent dbs-client.spec dls-client.spec PHEDEX-micro.spec
-+ sw20101207-prodagent mysql.spec py2-mysqldb.spec
-+ sw20101207-prodagent oracle-env.spec oracle.spec py2-cx-oracle.spec
-+ sw20101207-prodagent py2-sqlalchemy.spec
+#HG1012b prodagent
+#+ sw20101207-prodagent prodagent.spec prodcommon.spec wmcore.spec webtools.spec
+#+ sw20101207-prodagent dbs-client.spec dls-client.spec PHEDEX-micro.spec
+#+ sw20101207-prodagent mysql.spec py2-mysqldb.spec
+#+ sw20101207-prodagent oracle-env.spec oracle.spec py2-cx-oracle.spec
+#+ sw20101207-prodagent py2-sqlalchemy.spec
 
-#HG1102a wmagent
-#+ WMAGENT_0_6_2 dls-client.spec wmagent.spec
+HG1102a wmagent
++ WMAGENT_0_6_3 dls-client.spec wmagent.spec wmcore.spec
