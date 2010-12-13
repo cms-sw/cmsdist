@@ -1,4 +1,4 @@
-### RPM cms das 0.5.7.pre3
+### RPM cms das 0.5.7.pre4
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
 %define webdoc_files %i/doc/
@@ -20,7 +20,7 @@ python setup.py build
 # build DAS JSON maps out of DAS YML files
 cmd="python src/python/DAS/tools/das_drop_maps.py"
 dir="src/python/DAS/services/cms_maps/"
-map_file="src/python/DAS/services/cms_maps/das_maps.js"
+map_file="$dir/das_maps.js"
 rm -f $map_file
 export PYTHONPATH=$PYTHONPATH:$PWD/src/python
 for amap in `ls $dir/*.yml`
