@@ -20,6 +20,8 @@ Patch10: root-5.27-06b-r36707
 Patch11: root-5.27-06b-r36594
 Patch12: root-5.27-06b-tmva-MethodBase-initvar
 Patch13: root-5.27-06b-tmva_Event_dynamic_hack
+Patch14: root-5.27-06b-r37405
+Patch15: root-5.27-06b-r37556
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -44,6 +46,8 @@ Requires: qt openssl libpng zlib libungif libtiff
 %patch11 -p1
 %patch12 -p1
 %patch13 -p1
+%patch14 -p1
+%patch15 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
