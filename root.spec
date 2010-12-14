@@ -19,7 +19,7 @@ Patch9: root-5.27-06b-r36572
 Patch10: root-5.27-06b-r36707
 Patch11: root-5.27-06b-r36594
 Patch12: root-5.27-06b-tmva-MethodBase-initvar
-Patch13: root-5.27-06b-tmva_Event_dynamic_hack
+Patch13: root-5.27-06b-r37582-tmva
 Patch14: root-5.27-06b-r37405
 Patch15: root-5.27-06b-r37556
 
