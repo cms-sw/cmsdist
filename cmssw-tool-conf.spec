@@ -17,7 +17,6 @@ Requires: castor-toolfile
 Requires: charybdis-toolfile
 Requires: classlib-toolfile
 Requires: clhep-toolfile
-Requires: coin-toolfile
 Requires: coral-toolfile
 Requires: cppunit-toolfile
 Requires: curl-toolfile
@@ -68,7 +67,6 @@ Requires: roofit-toolfile
 Requires: root-toolfile
 Requires: sherpa-toolfile
 Requires: sigcpp-toolfile
-Requires: soqt-toolfile
 Requires: sqlite-toolfile
 Requires: systemtools
 Requires: tauola-toolfile
@@ -96,7 +94,6 @@ Requires: fftjet-toolfile
 
 %if "%isslc" == "true"
 Requires: gdb-toolfile
-Requires: simage-toolfile
 Requires: curl-toolfile
 Requires: google-perftools-toolfile
 Requires: igprof-toolfile
