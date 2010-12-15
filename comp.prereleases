@@ -51,9 +51,11 @@ HG1102a dbs3
 #+ FILEMOVER_20101014_slc5_amd64_gcc434 fmws.spec
 #HG1012a fmws
 #+ FILEMOVER_20101116_slc5_amd64_gcc434_v2 fmws.spec
-HG1102a filemover
+#HG1102a filemover
 #+ 1.2 filemover.spec
-+ FILEMOVER_20101215_slc5_amd64_gcc434 filemover.spec
+#+ FILEMOVER_20101215_slc5_amd64_gcc434 filemover.spec
+HG1102a filemover
++ 1.3 filemover.spec
 
 # DBS discovery
 #DD_20100824_slc5_amd64_gcc434_v1 dbs-web dbs-client
