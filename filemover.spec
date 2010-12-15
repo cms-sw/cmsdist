@@ -1,20 +1,33 @@
-### RPM external py2-memcached 1.43
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
+### RPM cms filemover 1.0.1.pre4
+## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
-Source: ftp://ftp.tummy.com/pub/python-memcached/old-releases/python-memcached-%realversion.tar.gz
+%define webdoc_files %i/doc/
+%define svnserver svn://svn.cern.ch/reps/CMSDMWM/FileMover/tags/%{realversion}
+Source: %svnserver?scheme=svn+ssh&strategy=export&module=FileMover&output=/filemover.tar.gz
 
-Requires: python memcached py2-setuptools
+Requires: python cherrypy py2-cheetah yui wmcore py2-sphinx rotatelogs
 
-%prep 
-%setup -n python-memcached-%realversion
+%prep
+%setup -n FileMover
 
 %build
 python setup.py build
 
+# build FileMover sphinx documentation
+PYTHONPATH=$PWD/src/python:$PYTHONPATH
+cd doc
+cat sphinx/conf.py | sed "s,development,%{realversion},g" > sphinx/conf.py.tmp
+mv sphinx/conf.py.tmp sphinx/conf.py
+mkdir -p build
+make html
+
 %install
-python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
+python setup.py install --prefix=%i
 egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
+
+mkdir -p %i/doc
+tar --exclude '.buildinfo' -C doc/build/html -cf - . | tar -C %i/doc -xvf -
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
@@ -31,3 +44,9 @@ done
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
 
+%files
+%i/
+%exclude %i/doc
+
+
+## SUBPACKAGE webdoc
