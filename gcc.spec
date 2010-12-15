@@ -14,9 +14,8 @@ Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.
 %define pplVersion 0.10.2
 %define cloogpplVersion 0.15.9
 %define bisonVersion 2.4
-# Choose one of the following and comment the other
-%define usegold %{nil}
-#%define usegold --enable-gold
+# Change to %{nil} to disable. 
+%define usegold --enable-gold
 Source1: ftp://ftp.gnu.org/gnu/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
@@ -60,19 +59,34 @@ MULTILIB_DIRNAMES = ../lib
 MULTILIB_MATCHES = m32=m32
 EOF_T_CMS
   ;;
+  slc*_amd64 )
+# Hack needed to align sections to 4096 bytes rather than 2MB.
+# This is done to reduce the amount of address space wasted
+# by relocating many libraries. This was done with a linker
+# script before, but this approach seems to be more correct.
+cat << \EOF_CONFIG_GCC >> gcc/config.gcc
+# CMS patch to include gcc/config/i386/t-cms when building gcc
+tm_file="$tm_file i386/cms.h"
+EOF_CONFIG_GCC
+
+cat << \EOF_CMS_H > gcc/config/i386/cms.h
+#undef LINK_SPEC
+#define LINK_SPEC "%{" SPEC_64 ":-m elf_x86_64} %{" SPEC_32 ":-m elf_i386} \
+  %{shared:-shared} \
+  %{!shared: \
+    %{!static: \
+      %{rdynamic:-export-dynamic} \
+      %{" SPEC_32 ":%{!dynamic-linker:-dynamic-linker " LINUX_DYNAMIC_LINKER32 "}} \
+      %{" SPEC_64 ":%{!dynamic-linker:-dynamic-linker " LINUX_DYNAMIC_LINKER64 "}}} \
+    %{static:-static}} -z common-page-size=4096 -z max-page-size=4096"
+EOF_CMS_H
+  ;;
 esac
 
 %if "%{?binutilsv:set}" == "set"
 %setup -D -T -b 6 -n bison-%{bisonVersion}
 %setup -D -T -b 7 -n binutils-%binutilsv
 #%%patch0 -p1
-case %cmsos in 
-  slc*_amd64 )
-    # This patches the default linker script to align stuff at 4096 kB boundaries rather 
-    # than the default 2MB (MAXPAGESIZE value for x86_64 architecture).
-    perl -p -i -e 's|\$[{]MAXPAGESIZE[}]|4096|g;s|\$[{]SEGMENT_SIZE[}]|4096|g' ld/scripttempl/elf.sc
-  ;;
-esac
 %endif
 
 %setup -D -T -b 1 -n gmp-%{gmpVersion}
