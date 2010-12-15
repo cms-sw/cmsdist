@@ -1,4 +1,4 @@
-### RPM external sherpa-toolfile 1.1
+### RPM external sherpa-toolfile 1.0
 Requires: sherpa
 %prep
 
@@ -52,7 +52,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa.xml
   <lib name="MRST01LOSherpa"/>
   <lib name="MRST04QEDSherpa"/>
   <lib name="MRST99Sherpa"/>
-  <lib name="MSTW08Sherpa"/>
   <lib name="PDFESherpa"/>
   <lib name="PDF"/>
   <lib name="PhasicChannels"/>
