@@ -68,7 +68,7 @@ HG1102a filemover
 #HG1012a dbs-web
 #+ DD_20101118_slc5_amd64_gcc434 dbs-web.spec
 HG1102a dbs-web
-+ DD_20101215_slc5_amd64_gcc434 dbs-web.spec
++ DD_20101215_slc5_amd64_gcc434_v2 dbs-web.spec
 
 # PlotFairy
 HG1012a plotfairy
