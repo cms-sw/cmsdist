@@ -1,40 +1,40 @@
 ### RPM external gcc 4.5.1
-## BUILDIF case `uname`:`uname -p` in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
-# If gcc version >= 4.0.0, we need two additional sources, for gmp and mpfr,
-# and we set the fortranCompiler macro (which is going to be used by the 
-# --enable-languages option of gcc's configure) to gfortran. 
-# Notice that we need to build those twice: once using the system compiler
-# and the using the newly built gcc.
+# If gcc version >= 4.0.0, we need two additional sources, for gmp and mpfr.
 %define gmpVersion 4.3.2
 %define mpfrVersion 2.4.2
 %define mpcVersion 0.8.1
-%define pplVersion 0.10.2
-%define cloogpplVersion 0.15.9
-%define bisonVersion 2.4
-# Change to %{nil} to disable. 
-%define usegold --enable-gold
 Source1: ftp://ftp.gnu.org/gnu/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
+
+# For gcc 4.5+ we need the additional tools ppl and cloog.
+%define gcc_45plus %(echo %realversion | sed -e 's|4[.][5-9].*|true|')
+%if "%{gcc_45plus}" == "true"
+%define pplVersion 0.10.2
+%define cloogpplVersion 0.15.9
 Source4: http://www.cs.unipr.it/ppl/Download/ftp/releases/0.10.2/ppl-%{pplVersion}.tar.bz2
 Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-ppl-%{cloogpplVersion}.tar.gz
-Patch0: binutils-2.19.1-fix-gold
+%endif
 
-%if "%(echo %cmsos | cut -f2 -d_)" == "amd64"
+# On 64bit Scientific Linux build our own binutils.
+%define use_custom_binutils %(echo %cmsos | sed -e 's|slc[0-9]*_amd64|true|')
+%if "%use_custom_binutils" == "true"
+%define bisonVersion 2.4
 %define binutilsv 2.20.1
 Source6: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.bz2
 Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 %endif
 
-%define cpu %(echo %cmsplatf | cut -d_ -f2)
-%define gcc_major %(echo %realversion | cut -f1 -d.)
 %prep
-%setup -T -b 0 -n gcc-%realversion 
+echo "use_custom_binutils: %use_custom_binutils"
+%setup -T -b 0 -n gcc-%realversion
 
 case %cmsos in
+# Hack to always have -m32 in the 32bit compiler, even when it's built on a 64
+# bit architecture.
   slc*_ia32 )
 cat << \EOF_CONFIG_GCC >> gcc/config.gcc
 # CMS patch to include gcc/config/i386/t-cms when building gcc
@@ -60,10 +60,10 @@ MULTILIB_MATCHES = m32=m32
 EOF_T_CMS
   ;;
   slc*_amd64 )
-# Hack needed to align sections to 4096 bytes rather than 2MB.
-# This is done to reduce the amount of address space wasted
-# by relocating many libraries. This was done with a linker
-# script before, but this approach seems to be more correct.
+# Hack needed to align sections to 4096 bytes rather than 2MB on 64bit linux
+# architectures.  This is done to reduce the amount of address space wasted by
+# relocating many libraries. This was done with a linker script before, but
+# this approach seems to be more correct.
 cat << \EOF_CONFIG_GCC >> gcc/config.gcc
 # CMS patch to include gcc/config/i386/t-cms when building gcc
 tm_file="$tm_file i386/cms.h"
@@ -83,50 +83,63 @@ EOF_CMS_H
   ;;
 esac
 
-%if "%{?binutilsv:set}" == "set"
+%if "%{use_custom_binutils}" == "true"
 %setup -D -T -b 6 -n bison-%{bisonVersion}
 %setup -D -T -b 7 -n binutils-%binutilsv
-#%%patch0 -p1
 %endif
 
+# These are required for any gcc 4.x build.
 %setup -D -T -b 1 -n gmp-%{gmpVersion}
 %setup -D -T -b 2 -n mpfr-%{mpfrVersion}
 %setup -D -T -b 3 -n mpc-%{mpcVersion}
+
+# For gcc 4.5 and later we also need the following.
+%if "%gcc_45plus" == "true"
 %setup -D -T -b 4 -n ppl-%{pplVersion}
 %setup -D -T -b 5 -n cloog-ppl-%{cloogpplVersion}
-
+%endif
 %build
+
 # Set special variables required to build 32-bit executables on 64-bit
 # systems.  Note that if the architecture is SLC4/IA32, we may be on a
 # 64-bit system and need to produce a 32-bit capable compiler, which
 # _itself_ is a 32-bit executable.
-case $(uname -m):%{cmsos} in
-  *:slc*_ia32 )
+case %{cmsos} in
+  slc*_ia32)
     CCOPTS="-fPIC -m32 -Wa,--32" ;;
-  * )
+  *)
     CCOPTS="-fPIC" ;;
 esac
 
+# Whenever we build custom binutils we also enable the new linker "gold".
+# We do so only if we are using the new gcc 4.5+
+if [ "X%use_custom_binutils:%gcc_45plus" = Xtrue:true ] ; then
+  CONF_BINUTILS_OPTS="--enable-gold"
+fi
+
 USER_CXX=$CCOPTS
 
-# If requested, build our own binutils.  Currently the default is to use
-# the system binutils.
-%if "%{?binutilsv:set}" == "set"
- cd ../bison-%{bisonVersion}
- CC="gcc $CCOPTS" ./configure --prefix=%i/tmp/bison
- make %makeprocesses
- make install
- export PATH=%i/tmp/bison/bin:$PATH
- cd ../binutils-%{binutilsv}
- ./configure --prefix=%i %{usegold} CC="gcc $CCOPTS"
- make %makeprocesses
- perl -p -i -e 's|LN = ln|LN = cp -p|;s|ln ([^-])|cp -p $1|g' `find . -name Makefile`
- make install
-%endif
+# If requested, build our own binutils.  Currently the default is to use the
+# system binutils on 32bit platforms and our own on 64 bit ones.  
+# FIXME: Notice that this copy is actually built using the system compiler, so
+# we chances are we will need to rebuild it later on to make sure they get
+# linked against our libstdc++ (required by gold).
+if [ "X%use_custom_binutils" = Xtrue ]
+then
+  cd ../bison-%{bisonVersion}
+  CC="gcc $CCOPTS" ./configure --prefix=%i/tmp/bison
+  make %makeprocesses
+  make install
+  export PATH=%i/tmp/bison/bin:$PATH
+  cd ../binutils-%{binutilsv}
+  ./configure --prefix=%i ${CONF_BINUTILS_OPTS} CC="gcc $CCOPTS"
+  make %makeprocesses
+  find . -name Makefile -exec perl -p -i -e 's|LN = ln|LN = cp -p|;s|ln ([^-])|cp -p $1|g' {} \; 
+  make install
+  which ld
+fi
 
-# Build GMP/MPFR/MPC 
-%define gcc4opts %{nil}
-%if "%gcc_major" == "4"
+# Build GMP/MPFR/MPC
 cd ../gmp-%{gmpVersion}
 ./configure --prefix=%i --enable-shared --disable-static --enable-cxx CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
 make %makeprocesses
@@ -141,19 +154,22 @@ cd ../mpc-%{mpcVersion}
 ./configure --prefix=%i --with-gmp=%i --with-mpfr=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
 make %makeprocesses
 make install
+CONF_GCC_VERSION_OPTS="--with-gmp=%i --with-mpfr=%i --with-mpc=%i"
 
-cd ../ppl-%{pplVersion}
-./configure --prefix=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
-make %makeprocesses
-make install
+# Build additional stuff for gcc 4.5+
+if [ "X%gcc_45plus" = Xtrue ]; then
+  cd ../ppl-%{pplVersion}
+  ./configure --prefix=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
+  make %makeprocesses
+  make install
 
-cd ../cloog-ppl-%{cloogpplVersion}
-./configure --prefix=%i --with-ppl=%i --with-gmp=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
-make %makeprocesses
-make install
+  cd ../cloog-ppl-%{cloogpplVersion}
+  ./configure --prefix=%i --with-ppl=%i --with-gmp=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
+  make %makeprocesses
+  make install
 
-%define gcc4opts --with-gmp=%i --with-mpfr=%i --with-mpc=%i --with-ppl=%i --with-cloog=%i %{usegold}
-%endif
+  CONF_GCC_VERSION_OPTS="$CONF_GCC_VERSION_OPTS --with-ppl=%i --with-cloog=%i"
+fi
 
 # Build the compilers
 cd ../gcc-%realversion
@@ -161,10 +177,11 @@ mkdir -p obj
 cd obj
 export LD_LIBRARY_PATH=%i/lib64:%i/lib:$LD_LIBRARY_PATH
 ../configure --prefix=%i \
-  --enable-languages=c,c++,`case %v in 3.*) echo f77;; *) echo fortran;; esac` \
-  %gcc4opts --enable-shared CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
+  --enable-languages=c,c++,fortran \
+  $CONF_GCC_VERSION_OPTS --enable-shared CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
 
 make %makeprocesses bootstrap
+make install
 
 %install
 cd %_builddir/gcc-%{realversion}/obj && make install 
