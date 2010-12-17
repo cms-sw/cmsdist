@@ -1,4 +1,4 @@
-### RPM external frontier_client 2.7.15
+### RPM external frontier_client 2.8.0
 Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
@@ -18,7 +18,6 @@ Requires: zlib openssl expat
 %else
 %define makeargs "EXPAT_DIR=$EXPAT_ROOT COMPILER_TAG=gcc_$CXXCOMPILER_VERSION"
 %endif
-perl -p -i -e 's|-lssl|-lssl -lcrypto|' Makefile
 
 %build
 
