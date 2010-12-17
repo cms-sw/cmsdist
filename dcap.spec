@@ -1,41 +1,33 @@
-### RPM external dcap 1.7.0.48
+### RPM external dcap 2.47.5.0
 #get dcap from dcache svn repo now...
-%define svnTag %(echo %realversion | tr '.' '-')
-Source: svn://svn.dcache.org/dCache/tags/production-%svnTag/modules/dcap?scheme=http&module=dcap&output=/dcap.tgz
+Source: http://cmsrep.cern.ch/cmssw/download/dcap/dcap.tgz
+#Source: svn://svn.dcache.org/dCache/tags/dcap-2.47.5-0?scheme=http&module=dcap&output=/dcap.tgz
+Patch0: dcap-macosx-workarounds
 
-%define cpu %(echo %cmsplatf | cut -d_ -f2)
-%if "%cpu" != "amd64"
-%define libsuffix %{nil}
-%else
-%define libsuffix ()(64bit)
-%endif
+# Unfortunately I could not find any rpm version invariant way to do and "if
+# else if", so I ended up hardcoding all the possible variants.
+# FIXME: move to multiple ifs once rpm 4.4.2.2 is deprecated.
+Provides: libdcap.so
+Provides: libpdcap.so
+Provides: libdcap.so()(64bit)
+Provides: libpdcap.so()(64bit)
+Provides: libdcap.dylib
+Provides: libpdcap.dylib
 
-Provides: libdcap.so%{libsuffix}
-Provides: libpdcap.so%{libsuffix}
 %prep
 %setup -n dcap
+# THIS PATCH IS COMPLETELY UNTESTED AND HAS THE SOLE
+# PURPOSE OF BUILDING STUFF ON MAC, REGARDLESS WHETHER
+# IT WORKS OR NOT.
+case %cmsos in 
+ osx*) 
+%patch0 -p1
+  ;;
+esac
 
 %build
-chmod +x mkmapfile.sh
-chmod +x mkdirs.sh
-chmod +x version.sh
-LD=gcc make BIN_PATH=%i %makeprocesses 
+sh bootstrap.sh
+./configure --prefix %i
+make -C src %makeprocesses
 %install
-LD=gcc make BIN_PATH=%i install
-
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=%n version=%v>
-<lib name=dcap>
-<Client>
- <Environment name=DCAP_BASE default="%i"></Environment>
- <Environment name=LIBDIR default="$DCAP_BASE/lib"></Environment>
- <Environment name=INCLUDE default="$DCAP_BASE/include"></Environment>
-</Client>
-</Tool>
-EOF_TOOLFILE
-
-%post
-%{relocateConfig}etc/scram.d/%n
+make -C src install
