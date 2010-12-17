@@ -29,7 +29,7 @@ Requires: qt
 Requires: castor-toolfile
 Requires: libpng
 Requires: libjpg
-Requires: dcap-toofile 
+Requires: dcap-toolfile 
 Requires: oracle
 Requires: oracle-env
 Requires: libungif
