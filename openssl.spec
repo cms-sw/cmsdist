@@ -29,7 +29,7 @@ case %cmsplatf in
    ;;
 esac
 
-./config --prefix=%i $cfg_args enable-seed enable-tlsext enable-rfc3779 no-asm \
+./config --prefix=%i --with-krb5-flavor=MIT $cfg_args enable-krb5 enable-seed enable-tlsext enable-rfc3779 no-asm \
                      no-idea no-mdc2 no-rc5 no-ec no-ecdh no-ecdsa shared
 
 make
