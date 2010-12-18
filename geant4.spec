@@ -1,4 +1,4 @@
-### RPM external geant4 9.4.ref00
+### RPM external geant4 9.4
 %define downloadv %(echo %v | cut -d- -f1)
 
 Requires: clhep
@@ -10,7 +10,8 @@ Requires: clhep
 %define radioactiveDecayVersion 3.2
 %define g4NeutronXS 1.0
 
-Source0: http://cmsrep.cern.ch/cmssw/junk/geant4/%n.%downloadv.tgz
+#Source0: http://cmsrep.cern.ch/cmssw/junk/geant4/%n.%downloadv.tgz
+Source1: http://geant4.cern.ch/support/source/%n.%downloadv.tgz
 Source1: http://geant4.cern.ch/support/source/G4NDL.%{g4NDLVersion}.tar.gz
 Source2: http://geant4.cern.ch/support/source/G4EMLOW.%{g4EMLOWVersion}.tar.gz
 Source3: http://geant4.cern.ch/support/source/PhotonEvaporation.%{photonEvaporationVersion}.tar.gz
