@@ -11,7 +11,7 @@ Requires: clhep
 %define g4NeutronXS 1.0
 
 #Source0: http://cmsrep.cern.ch/cmssw/junk/geant4/%n.%downloadv.tgz
-Source1: http://geant4.cern.ch/support/source/%n.%downloadv.tgz
+Source1: http://geant4.cern.ch/support/source/%n.%downloadv.tar.gz
 Source1: http://geant4.cern.ch/support/source/G4NDL.%{g4NDLVersion}.tar.gz
 Source2: http://geant4.cern.ch/support/source/G4EMLOW.%{g4EMLOWVersion}.tar.gz
 Source3: http://geant4.cern.ch/support/source/PhotonEvaporation.%{photonEvaporationVersion}.tar.gz
