@@ -15,7 +15,7 @@ Requires: bz2lib
 Requires: uuid
 Requires: python
 Requires: expat
-Requires: openssl-toolfile
+Requires: openssl
 Requires: db4
 Requires: gdbm
 Requires: gccxml
@@ -26,10 +26,10 @@ Requires: root
 Requires: roofit
 Requires: xrootd
 Requires: qt
-Requires: castor-toolfile
+Requires: castor
 Requires: libpng
 Requires: libjpg
-Requires: dcap-toolfile 
+Requires: dcap
 Requires: oracle
 Requires: oracle-env
 Requires: libungif
@@ -43,6 +43,7 @@ Requires: systemtools
 Requires: coral
 Requires: xdaq
 Requires: geant4-toolfile
+Requires: geant4data-toolfile
 Requires: hepmc
 Requires: heppdt
 Requires: elementtree
@@ -71,7 +72,7 @@ Requires: toprex
 Requires: charybdis
 Requires: photos
 Requires: cmsswdata
-Requires: dpm-toolfile
+Requires: dpm
 Requires: evtgenlhc
 Requires: mcdb
 Requires: dbs-client
