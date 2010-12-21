@@ -13,6 +13,7 @@ export SWIG_LIB
 perl -p -i -e "s|LIBS = $|LIBS = -lHepMC|g" bin/Makefile
 
 %build
+export SWIG_LIB
 make
 %install
 make install
