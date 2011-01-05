@@ -176,7 +176,7 @@ esac
 
 case %cmsplatf in
    *_gcc4[3456789]* )
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Werror=array-bounds -Werror=format-contains-nul -Wtype-limits"
+     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Werror=array-bounds -Werror=format-contains-nul -Werror=type-limits"
    ;;
 esac
 
