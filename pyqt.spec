@@ -1,6 +1,7 @@
-### RPM external pyqt 4.8.2
+### RPM external pyqt 4.8.1
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
-Source: http://www.riverbankcomputing.co.uk/static/Downloads/PyQt4/PyQt-x11-gpl-%realversion.tar.gz
+#Source: http://www.riverbankcomputing.co.uk/static/Downloads/PyQt4/PyQt-x11-gpl-%realversion.tar.gz
+Source: http://cmsrep.cern.ch/cmssw/pyqt-mirror/PyQt-x11-gpl-%realversion.tar.gz
 Patch0: pyqt-relocatable-build
 Requires: python
 Requires: qt
