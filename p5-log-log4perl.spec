@@ -14,6 +14,7 @@ Requires: p5-log-dispatch p5-log-dispatch-filerotate
 
 # Provided by system perl
 Provides:  perl(XML::DOM)
+Provides: perl(URI::Escape)
 
 # Fake provides for optional backends
 Provides:  perl(RRDs)
