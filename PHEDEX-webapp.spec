@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-webapp WEBAPP_BETA_1_0_1pre7
+### RPM cms PHEDEX-webapp WEBAPP_BETA_1_0_1pre8
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
