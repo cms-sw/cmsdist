@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1054
+## REVISION 1055
 ## NOCOMPILER
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
