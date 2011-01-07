@@ -1,4 +1,4 @@
-### RPM cms wmcore WMCORE_0_6_3
+### RPM cms wmcore WMCORE_0_6_6
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
 Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%realversion?scheme=svn+ssh&strategy=export&module=WMCore&output=/WMCORE.tar.gz
