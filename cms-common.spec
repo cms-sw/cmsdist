@@ -103,7 +103,7 @@ fi
 
 if [ ! $CVSROOT ]
 then
-    CVSROOT=:gserver:cmscvs.cern.ch:/cvs_server/repositories/CMSSW
+    CVSROOT=:gserver:cmssw.cvs.cern.ch:/cvs/CMSSW
     export CVSROOT
 fi
 
@@ -156,7 +156,7 @@ if( -e $CMS_PATH/SITECONF/local/JobConfig/cmsset_local.csh ) then
 endif
 
 if ( ! ${?CVSROOT}) then
-  setenv CVSROOT :gserver:cmscvs.cern.ch:/cvs_server/repositories/CMSSW
+  setenv CVSROOT :gserver:cmssw.cvs.cern.ch:/cvs/CMSSW
 endif
 
 unset here
