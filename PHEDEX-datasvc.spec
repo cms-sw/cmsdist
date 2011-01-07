@@ -27,6 +27,7 @@ Provides: perl(HTML::Entities)
 Provides: perl(DB_File)
 Provides: perl(Date::Manip)
 Provides: perl(XML::LibXML)
+Provides: perl(URI::Escape)
 
 # We obsolete each previous release to force them to be removed
 Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_6_3
