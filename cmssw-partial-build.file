@@ -6,11 +6,8 @@
 %define ucproject       %(echo %lcproject | tr 'a-z' 'A-Z')
 
 %define buildsetfile    %{lcproject}_build_set
-# Sources from 5 over are copied in the %%_sourcedir directly.
-# No need to use additional macros, since we do not need
-# to %setup them.
-Source5: %buildsetfile
-Source6: partial.py
+%define source6         %buildsetfile
+%define source7         partial.py
 
 %define cvssrc          %ucprojtype
 %if "%{?cvstag:set}" != "set"
