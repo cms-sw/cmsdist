@@ -19,6 +19,15 @@ pwd
 make %makeprocesses
 %install
 make install
+# We remove pkg-config files for two reasons:
+# * it's actually not required (macosx does not even have it).
+# * rpm 4.8 adds a dependency on the system /usr/bin/pkg-config 
+#   on linux.
+# In the case at some point we build a package that can be build
+# only via pkg-config we have to think on how to ship our own
+# version.
+rm -rf %i/lib/pkgconfig
+
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' $(grep -r -e "^#!.*perl.*" %i | cut -d: -f 1)
 # I don't see how to make perl options work nicely with env, so drop the -w
 # in these two scripts

@@ -23,6 +23,14 @@ make %makeprocesses
 %install
 make install
 cp %_sourcedir/CppUnit_testdriver_cpp %i/include/CppUnit_testdriver.cpp
+# We remove pkg-config files for two reasons:
+# * it's actually not required (macosx does not even have it).
+# * rpm 4.8 adds a dependency on the system /usr/bin/pkg-config 
+#   on linux.
+# In the case at some point we build a package that can be build
+# only via pkg-config we have to think on how to ship our own
+# version.
+rm -rf %i/lib/pkgconfig
 
 %post
 %{relocateConfig}/bin/cppunit-config
