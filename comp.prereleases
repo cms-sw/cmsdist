@@ -27,7 +27,7 @@
 #+ 1.98 das.spec
 HG1102a das
 #+ DAS_20101222_slc5_amd64_gcc434_v2 das.spec
-+ DAS_20110111_slc5_amd64_gcc434 das.spec
++ DAS_20110111_slc5_amd64_gcc434_v2 das.spec
 
 # T0Mon and T0DataSvc
 HG1012b T0Mon
@@ -58,7 +58,7 @@ HG1102a dbs3
 #HG1102a filemover
 #+ 1.3 filemover.spec
 HG1102a filemover
-+ FILEMOVER_20110111_slc5_amd64_gcc434 filemover.spec
++ FILEMOVER_20110111_slc5_amd64_gcc434_v2 filemover.spec
 
 # DBS discovery
 #DD_20100824_slc5_amd64_gcc434_v1 dbs-web dbs-client
