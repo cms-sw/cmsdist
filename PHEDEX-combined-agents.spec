@@ -4,13 +4,8 @@
 # PHEDEX-datasvc on a combined platform of dependencies
 
 Requires: PHEDEX PHEDEX-admin PHEDEX-micro
-Source: none
 
 %prep
-cd %_builddir
-mkdir PHEDEX-combined-agents-dummy
-cd PHEDEX-combined-agents-dummy
-cp -f %_sourcedir/none .
 %build
 %install
 mkdir -p %{i}/bin
