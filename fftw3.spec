@@ -21,5 +21,4 @@ make install
 rm -rf %i/lib/pkgconfig
 
 %post
-%{relocateConfig}lib/pkgconfig/fftw3.pc
 %{relocateConfig}lib/*.la

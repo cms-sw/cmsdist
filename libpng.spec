@@ -23,5 +23,3 @@ rm -rf %i/lib/pkgconfig
 %{relocateConfig}bin/libpng12-config
 %{relocateConfig}lib/libpng.la
 %{relocateConfig}lib/libpng12.la
-%{relocateConfig}lib/pkgconfig/libpng.pc
-%{relocateConfig}lib/pkgconfig/libpng12.pc

@@ -30,5 +30,4 @@ make install
 rm -rf %i/lib/pkgconfig
 
 %post
-%{relocateConfig}lib/pkgconfig/fftjet.pc
 %{relocateConfig}lib/*.la
