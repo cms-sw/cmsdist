@@ -46,7 +46,7 @@ index 7a1aa5d..bd613e2 100644
 +      {
 +          *argvp = xrealloc(*argvp, (argc + 1 + 1) * sizeof(argvp));
 +          argv = *argvp;
-+          memmove(argv + i + 1, argv + i, sizeof(*argv) * (argc-i));
++          memmove(argv + i + 1, argv + i, sizeof(*argv) * (argc-i+1));
 +          argv[i] = xstrdup(val);
 +          return 0;
 +      }
