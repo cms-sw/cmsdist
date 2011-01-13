@@ -9,6 +9,7 @@ Provides: libboost_thread-gcc-mt.so
 
 Requires: coral
 Requires: gmake
+Requires: gdb
 Requires: pcre
 Requires: bz2lib
 Requires: uuid
