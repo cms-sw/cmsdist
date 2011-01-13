@@ -168,7 +168,6 @@ CondTools/HLT
 CondTools/Hcal
 CondTools/IntegrationTest
 CondTools/L1Trigger
-CondTools/Luminosity
 CondTools/O2OFramework
 CondTools/RPC
 CondTools/RunInfo
@@ -376,7 +375,6 @@ EventFilter/ESDigiToRaw
 EventFilter/ESRawToDigi
 EventFilter/EcalDigiToRaw
 EventFilter/EcalRawToDigi
-EventFilter/EcalRawToDigiDev
 EventFilter/EcalTBRawToDigi
 EventFilter/FEDInterface
 EventFilter/GctRawToDigi
@@ -479,6 +477,7 @@ HLTrigger/HLTfilters
 HLTrigger/JetMET
 HLTrigger/Muon
 HLTrigger/Timer
+HLTrigger/Tools
 HLTrigger/btau
 HLTrigger/special
 HLTriggerOffline/Common
@@ -719,7 +718,6 @@ RecoPixelVertexing/PixelLowPtUtilities
 RecoPixelVertexing/PixelTrackFitting
 RecoPixelVertexing/PixelTriplets
 RecoPixelVertexing/PixelVertexFinding
-RecoTBCalo/EcalHVScan
 RecoTBCalo/EcalSimpleTBAnalysis
 RecoTBCalo/EcalTBAnalysisCoreTools
 RecoTBCalo/EcalTBHodoscopeReconstructor
