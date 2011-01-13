@@ -34,6 +34,7 @@ Patch7: rpm-4.8.0-fix-missing-libgen
 Patch8: rpm-4.8.0-fix-find-provides
 Patch9: rpm-4.8.0-increase-line-buffer
 Patch10: rpm-4.8.0-increase-macro-buffer
+Patch11: rpm-4.8.0-improve-file-deps-speed
 
 # Defaults here
 %define libdir lib
@@ -67,6 +68,7 @@ case %cmsos in
 %patch10 -p1
   ;;
 esac
+%patch11 -p1
 
 %build
 case %cmsos in
@@ -100,7 +102,17 @@ esac
 
 USER_CFLAGS="-ggdb -O0"
 USER_CXXFLAGS="-ggdb -O0"
-#USER_CFLAGS="$USER_CFLAGS -O2"
+# On SLCx add $GCC_ROOT to various paths because that's where elflib is to be
+# found.  Not required (and triggers a warning about missing include path) on
+# mac.
+case %cmsos in
+  slc*)
+    OS_CFLAGS="-I$GCC_ROOT/include"
+    OS_CXXFLAGS="-I$GCC_ROOT/include"
+    OS_CPPFLAGS="-I$GCC_ROOT/include"
+    OS_LDFLAGS="-L$GCC_ROOT/lib"
+  ;;
+esac
 
 perl -p -i -e's|-O2|-O0|' ./configure
 
@@ -108,18 +120,18 @@ perl -p -i -e's|-O2|-O0|' ./configure
 ./configure --prefix %i \
     --with-external-db --disable-python --disable-nls \
     --disable-rpath --with-lua \
-    CXXFLAGS="$USER_CXXFLAGS" \
+    CXXFLAGS="$USER_CXXFLAGS $OS_CXXFLAGS" \
     CFLAGS="$CFLAGS_PLATF $USER_CFLAGS -I$NSPR_ROOT/include/nspr \
             -I$NSS_ROOT/include/nss3 -I$ZLIB_ROOT/include -I$BZ2LIB_ROOT/include \
             -I$DB4_ROOT/include -I$FILE_ROOT/include -I$POPT_ROOT/include \
-            -I$LUA_ROOT/include -I$GCC_ROOT/include" \
+            -I$LUA_ROOT/include $OS_CFLAGS" \
     LDFLAGS="-L$NSPR_ROOT/lib -L$NSS_ROOT/lib -L$ZLIB_ROOT/lib -L$DB4_ROOT/lib \
              -L$FILE_ROOT/lib -L$POPT_ROOT/lib -L$BZ2LIB_ROOT/lib -L$LUA_ROOT/lib \
-             -L$GCC_ROOT/lib" \
+             $OS_LDFLAGS" \
     CPPFLAGS="-I$NSPR_ROOT/include/nspr \
               -I$ZLIB_ROOT/include -I$BZ2LIB_ROOT/include -I$DB4_ROOT/include \
               -I$FILE_ROOT/include -I$POPT_ROOT/include \
-              -I$GCC_ROOT/include \
+              $OS_CPPFLAGS \
               -I$NSS_ROOT/include/nss3 -I$LUA_ROOT/include" \
     LIBS="-lnspr4 -lnss3 -lnssutil3 -lplds4 -lbz2 -lplc4 -lz -lpopt \
           -ldb -llua $LIBS_PLATF"
