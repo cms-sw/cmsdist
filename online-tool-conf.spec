@@ -1,4 +1,4 @@
-### RPM cms online-tool-conf 5.0
+### RPM cms online-tool-conf 6.0
 # with cmsBuild, change the above version only when a new
 # tool is added
 ## INITENV SET CMSSW_TOOL_CONF_ROOT $ONLINE_TOOL_CONF_ROOT
@@ -16,8 +16,8 @@ Requires: python
 Requires: expat
 Requires: gccxml
 Requires: boost
-Requires: gsl
-Requires: clhep
+Requires: gsl-toolfile
+Requires: clhep-toolfile
 Requires: root
 Requires: roofit
 Requires: castor
@@ -32,7 +32,7 @@ Requires: heppdt
 Requires: elementtree
 Requires: sigcpp
 Requires: valgrind
-Requires: fastjet
+Requires: fastjet-toolfile
 Requires: ktjet
 Requires: cmsswdata
 Requires: onlinesystemtools
