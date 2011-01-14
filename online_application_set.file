@@ -1,11 +1,28 @@
 # dependencies not picked up automatically
+DPGAnalysis/SiStripTools
 FastSimDataFormats/External
+Iguana/Utilities
+SimCalorimetry/EcalSimAlgos
+SimCalorimetry/CaloSimAlgos
+SimDataFormats/CaloHit
 SimDataFormats/CrossingFrame
+SimDataFormats/EcalTestBeam
+SimDataFormats/EncodedEventId
+SimDataFormats/GeneratorProducts
+SimDataFormats/HiGenData
 SimDataFormats/JetMatching
 SimDataFormats/RPCDigiSimLink
+SimDataFormats/Track
 SimDataFormats/TrackerDigiSimLink
+SimDataFormats/TrackingAnalysis
 SimDataFormats/TrackingHit
+SimDataFormats/Vertex
+SimGeneral/HepPDTRecord
+SimGeneral/HepPDTESSource
 SimGeneral/NoiseGenerators
+SimTracker/Records
+SimTracker/TrackAssociation
+SimTracker/TrackerHitAssociation
 
 # packages
 Alignment/CommonAlignment
@@ -99,8 +116,10 @@ CommonTools/CandUtils
 CommonTools/Clustering1D
 CommonTools/ConditionDBWriter
 CommonTools/RecoAlgos
+CommonTools/RecoUtils
 CommonTools/Statistics
 CommonTools/TrackerMap
+CommonTools/TriggerUtils
 CommonTools/UtilAlgos
 CommonTools/Utils
 CondCore/AlignmentPlugins
@@ -175,7 +194,6 @@ CondTools/HLT
 CondTools/Hcal
 CondTools/IntegrationTest
 CondTools/L1Trigger
-CondTools/Luminosity
 CondTools/O2OFramework
 CondTools/RPC
 CondTools/RunInfo
@@ -196,7 +214,6 @@ Configuration/Skimming
 Configuration/StandardSequences
 DQM/BeamMonitor
 DQM/CSCMonitorModule
-DQM/CastorMonitor
 DQM/DTMonitorClient
 DQM/DTMonitorModule
 DQM/EcalBarrelMonitorClient
@@ -383,10 +400,10 @@ EventFilter/ESDigiToRaw
 EventFilter/ESRawToDigi
 EventFilter/EcalDigiToRaw
 EventFilter/EcalRawToDigi
-EventFilter/EcalRawToDigiDev
 EventFilter/EcalTBRawToDigi
 EventFilter/FEDInterface
 EventFilter/GctRawToDigi
+EventFilter/Goodies
 EventFilter/HcalRawToDigi
 EventFilter/L1GlobalTriggerRawToDigi
 EventFilter/LTCRawToDigi
@@ -420,6 +437,7 @@ FWCore/PluginManager
 FWCore/PrescaleService
 FWCore/Python
 FWCore/PythonParameterSet
+FWCore/PythonUtilities
 FWCore/RootAutoLibraryLoader
 FWCore/ServiceRegistry
 FWCore/Services
@@ -481,6 +499,7 @@ HLTrigger/HLTfilters
 HLTrigger/JetMET
 HLTrigger/Muon
 HLTrigger/Timer
+HLTrigger/Tools
 HLTrigger/btau
 HLTrigger/special
 HLTriggerOffline/Common
@@ -500,7 +519,6 @@ IOPool/PFNCatalog
 IOPool/SecondaryInput
 IOPool/Streamer
 IOPool/TFileAdaptor
-IOPool/TrivialFileCatalog
 IORawData/CaloPatterns
 IORawData/DaqSource
 IORawData/HcalTBInputService
@@ -570,6 +588,13 @@ MagneticField/VolumeGeometry
 Mixing/Base
 OnlineDB/EcalCondDB
 OnlineDB/Oracle
+RecoParticleFlow/Configuration                   
+RecoParticleFlow/PFBlockProducer                 
+RecoParticleFlow/PFClusterProducer               
+RecoParticleFlow/PFClusterShapeProducer          
+RecoParticleFlow/PFClusterTools                  
+RecoParticleFlow/PFProducer
+RecoParticleFlow/PFTracking
 PerfTools/Callgrind
 PerfTools/EdmEvent
 PhysicsTools/CandAlgos
@@ -714,7 +739,6 @@ RecoPixelVertexing/PixelLowPtUtilities
 RecoPixelVertexing/PixelTrackFitting
 RecoPixelVertexing/PixelTriplets
 RecoPixelVertexing/PixelVertexFinding
-RecoTBCalo/EcalHVScan
 RecoTBCalo/EcalSimpleTBAnalysis
 RecoTBCalo/EcalTBAnalysisCoreTools
 RecoTBCalo/EcalTBHodoscopeReconstructor
