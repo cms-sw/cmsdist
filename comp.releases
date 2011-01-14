@@ -22,7 +22,4 @@
 #+ sw20101207-prodagent oracle-env.spec oracle.spec py2-cx-oracle.spec
 #+ sw20101207-prodagent py2-sqlalchemy.spec
 
-HG1102a wmagent
-+ WMAGENT_0_6_3 dls-client.spec
-+ 1.84 wmcore.spec
-+ 1.6 wmagent.spec
+WMAGENT_0_6_7 wmagent
