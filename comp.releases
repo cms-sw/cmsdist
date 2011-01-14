@@ -23,4 +23,5 @@
 #+ sw20101207-prodagent py2-sqlalchemy.spec
 
 HG1102a wmagent	 
- + WMAGENT_0_6_7 mysql.spec dls-client.spec wmcore.spec wmagent.spec
+ + WMAGENT_0_6_7 mysql.spec dls-client.spec wmcore.spec
+ + 1.9 wmagent.spec
