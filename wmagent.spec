@@ -1,4 +1,4 @@
-### RPM cms wmagent WMAGENT_0_6_7
+### RPM cms wmagent WMAGENT_0_6_8
 
 Requires: wmcore-db-mysql wmcore-db-couch py2-cjson dbs-client dls-client
 
