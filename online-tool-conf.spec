@@ -38,6 +38,7 @@ Requires: ktjet
 Requires: cmsswdata
 Requires: onlinesystemtools
 Requires: igprof-toolfile
+Requires: classlib-toolfile
 
 %define skipreqtools jcompiler
 %define onlinesystemtoolsroot ${ONLINESYSTEMTOOLS_ROOT}

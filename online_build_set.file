@@ -794,6 +794,7 @@ SimDataFormats/CrossingFrame
 SimDataFormats/EcalTestBeam
 SimDataFormats/EncodedEventId
 SimDataFormats/GeneratorProducts
+SimDataFormats/HiGenData
 SimDataFormats/JetMatching
 SimDataFormats/RPCDigiSimLink
 SimDataFormats/Track
