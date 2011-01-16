@@ -21,15 +21,5 @@ Requires: zlib
 %patch2 -p1
 
 %build
-# Work around a bug in the latest Java Update on MacosX.
-case %cmsos in
-  osx*)
-    if [ ! -f /System/Library/Frameworks/JavaVM.framework/Headers/jni.h ]
-    then
-      echo "Please make sure you have JAVA SDK installed (http://connect.apple.com/cgi-bin/WebObjects/MemberSite.woa/wa/getSoftware?bundleID=20719)."
-      exit 1
-    fi
-  ;;
-esac
 ./configure --prefix=%i
 make %makeprocesses
