@@ -9,6 +9,7 @@ Patch3: coral-2_3_12-macosx
 
 %define cvssrc          %n
 %define cvsrepo         cvs://:pserver:anonymous@%n.cvs.cern.ch/cvs/%n?passwd=Ah<Z
+%define subpackageDebug yes
 
 %define preBuildCommand (rm -rf LFCLookupService LFCReplicaService MySQLAccess)
 
@@ -29,3 +30,4 @@ Patch3: coral-2_3_12-macosx
 %endif
 
 ## IMPORT scram-project-build
+## SUBPACKAGE debug
