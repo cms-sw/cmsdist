@@ -56,6 +56,7 @@ export PROJECT_ROOT='%instroot/../projects/phedex-web'
 # Switch path-like template variables in the configuration files
 perl -p -i -e "s|\@PHEDEX_ROOT\@|%i|g;
 	       s|\@SERVER_ROOT\@|%instroot/apache2|g;
+	       s|\@VERSION\@|%nversion|g;
 	       s|\@PROJECT_ROOT\@|$PROJECT_ROOT|g;
 	       s|\@MOD_PERL_LIB\@|$MOD_PERL2_ROOT/modules/mod_perl.so|g;" \
   %i/Documentation/WebConfig/* \
