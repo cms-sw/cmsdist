@@ -13,6 +13,7 @@ Provides: perl(HTTP::Response)
 Provides: perl(HTTP::Status)
 Provides: perl(Term::ReadKey)
 Provides: perl(URI)
+Provides: perl(URI::Escape)
 
 # Lies - these are not actually provided by system perl
 Provides: perl(Curses)
