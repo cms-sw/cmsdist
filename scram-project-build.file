@@ -209,9 +209,9 @@ gzip -f %i/etc/dependencies/*.out
 
 (eval `%scramcmd run -sh` ; echo $PYTHONPATH | sed -e "s/:/','/g" | awk '{print "#!/usr/bin/env python \n\ncmsswPythonPaths=['"'"'"$1"'"'"']"}' > %i/python/cmsswPaths.py) || true
 
-rm -f %i/lib/%cmsplatf/.edmplugincache %i/lib/%cmsplatf/.iglets
+rm -f %i/lib/%cmsplatf/.edmplugincache
 eval `%scramcmd run -sh`
-for cmd in EdmPluginRefresh IgPluginRefresh ; do
+for cmd in EdmPluginRefresh ; do
   cmdpath=`which $cmd 2> /dev/null || echo ""`
   if [ "X$cmdpath" != X ] ; then
     $cmd || true
@@ -255,13 +255,9 @@ SCRAMV1_ROOT=$RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver
 if [ -d python ]; then %{relocateCmsFiles} $(find python -maxdepth 1 -type f); fi
 (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename.pl %{instroot} $CMS_INSTALL_PREFIX  %cmsplatf )
 %{?buildarch:%buildarch}
-for L in `find external/%cmsplatf -maxdepth 2 -type l`; do
+for L in `find external/%cmsplatf -type l`; do
    mv $L $L-old.$$; ln -s `readlink -n $L-old.$$ 2>&1 | sed -e "s|%{instroot}|$CMS_INSTALL_PREFIX|g" ` $L ; rm $L-old.$$;
 done
-if [ -f lib/${SCRAM_ARCH}/.iglets ] ; then
-  find lib/${SCRAM_ARCH} -name "*.iglet" -type f -exec touch {} \;
-  touch lib/${SCRAM_ARCH}/.iglets
-fi
 if [ -f lib/${SCRAM_ARCH}/.edmplugincache ] ; then
   find lib/${SCRAM_ARCH} -name "*.edmplugin" -type f -exec touch {} \;
   touch lib/${SCRAM_ARCH}/.edmplugincache
