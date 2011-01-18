@@ -168,12 +168,15 @@ esac
 # Then handle compiler specific options. E.g. enable
 # optimizations as they become available in gcc.
 COMPILER_CXXFLAGS=
+# The following is the default even if not set here
+F77_MMD="-MMD"
 case %cmsplatf in
    *_gcc4[56789]* )
      COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++0x -ftree-vectorize"
      F77_MMD="-cpp -MMD"
    ;;
 esac
+export F77_MMD
 
 case %cmsplatf in
    *_gcc4[3456789]* )

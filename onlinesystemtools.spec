@@ -1,4 +1,4 @@
-### RPM external onlinesystemtools 2.3
+### RPM external onlinesystemtools 2.2
 Source: none
 Requires: oracle-env
 
@@ -8,19 +8,19 @@ Requires: oracle-env
 # normally defined in package's init.sh/csh scrips.
 # Set all versions as currently found on the system.
 %define xdaq_root                       /opt/xdaq
-%define curl_version                    7.15.5
+%define curl_version                    7.12.1
 ## INITENV SETV CURL_VERSION             %curl_version
-%define zlib_version                    1.2.3
+%define zlib_version                    1.2.1.2
 ## INITENV SETV ZLIB_VERSION             %zlib_version
-%define oracle_version			11.2.2
+%define oracle_version			10.2.1
 ## INITENV SETV ORACLE_VERSION           %oracle_version
 ## INITENV SETV ORACLE_ROOT		%xdaq_root
-%define openssl_version			0.9.8e
+%define openssl_version			0.9.7e
 ## INITENV SETV OPENSSL_VERSION          %openssl_version
-%define xerces_version			2.8.0
+%define xerces_version			2.7.0
 ## INITENV SETV XERCES_C_VERSION         %xerces_version
 ## INITENV SETV XERCES_C_ROOT		%xdaq_root
-%define xdaq_version			3.33.1
+%define xdaq_version			3.32.1
 ## INITENV SETV XDAQ_VERSION         	%xdaq_version
 ## INITENV SETV XDAQ_ROOT         	%xdaq_root
 %define mimetic_version			0.9.1
@@ -225,7 +225,7 @@ EOF_TOOLFILE
 cat << \EOF_TOOLFILE >%i/etc/scram.d/oracle.xml
   <tool name="oracle" version="%oracle_version">
     <lib name="clntsh"/>
-    <lib name="nnz11"/>
+    <lib name="nnz10"/>
     <client>
       <environment name="ORACLE_BASE" default="%xdaq_root"/>
       <environment name="ORACLE_ADMINDIR" default="@ORACLE_ENV_ROOT@/etc"/>
