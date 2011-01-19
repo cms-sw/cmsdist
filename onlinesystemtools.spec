@@ -10,22 +10,22 @@ Requires: oracle-env
 # Set all versions as currently found on the system.
 %define xdaq_root                       /opt/xdaq
 %define curl_version                    7.15.5
-## INITENV SETV CURL_VERSION             %curl_version
+## INITENV SETV CURL_VERSION            %curl_version
 %define zlib_version                    1.2.3
-## INITENV SETV ZLIB_VERSION             %zlib_version
+## INITENV SETV ZLIB_VERSION            %zlib_version
 %define oracle_version			11.2.2
-## INITENV SETV ORACLE_VERSION           %oracle_version
+## INITENV SETV ORACLE_VERSION          %oracle_version
 ## INITENV SETV ORACLE_ROOT		%xdaq_root
 %define openssl_version			0.9.8e
-## INITENV SETV OPENSSL_VERSION          %openssl_version
+## INITENV SETV OPENSSL_VERSION         %openssl_version
 %define xerces_version			2.8.0
-## INITENV SETV XERCES_C_VERSION         %xerces_version
+## INITENV SETV XERCES_C_VERSION        %xerces_version
 ## INITENV SETV XERCES_C_ROOT		%xdaq_root
 %define xdaq_version			3.33.1
 ## INITENV SETV XDAQ_VERSION         	%xdaq_version
 ## INITENV SETV XDAQ_ROOT         	%xdaq_root
 %define mimetic_version			0.9.1
-## INITENV SETV MIMETIC_VERSION         	%mimetic_version
+## INITENV SETV MIMETIC_VERSION        	%mimetic_version
 
 %define systemtools			sockets opengl x11 %compilertools %onlinetools
 %define sockets_version			1.0
