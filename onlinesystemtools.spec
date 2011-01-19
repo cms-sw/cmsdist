@@ -1,4 +1,5 @@
 ### RPM external onlinesystemtools 2.3
+## NOCOMPILER
 Source: none
 Requires: oracle-env
 
@@ -51,6 +52,7 @@ cat << \EOF_TOOLFILE >>%i/etc/scram.d/sockets.xml
     <lib name="nsl"/>
     <lib name="crypt"/>
     <lib name="dl"/>
+    <lib name="rt"/>
 EOF_TOOLFILE
 ;;
 osx10* )
@@ -67,9 +69,10 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/opengl.xml
     <lib name="GL"/>
     <lib name="GLU"/>
     <use name="x11"/>
+    <environment name="ORACLE_ADMINDIR" default="@ORACLE_ENV_ROOT@/etc"/>
 EOF_TOOLFILE
 case %cmsplatf in
-osx103* )
+osx* )
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/opengl.xml
     <client>
       <environment name="OPENGL_BASE" default="/System/Library/Frameworks/OpenGL.framework/Versions/A"/>
@@ -86,7 +89,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/x11.xml
   <tool name="x11" version="%x11_version">
 EOF_TOOLFILE
 case %cmsplatf in
-slc3_* )
+slc3_*|osx* )
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/x11.xml
     <client>
       <environment name="INCLUDE" value="/usr/X11R6/include"/>
@@ -129,7 +132,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/zlib.xml
     </client>
   </tool>
 EOF_TOOLFILE
-
 
 #openssl
 cat << \EOF_TOOLFILE >%i/etc/scram.d/openssl.xml
@@ -250,4 +252,4 @@ export ORACLE_ENV_ROOT
 perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*.xml
 
 %post
-%{relocateConfig}/etc/scram.d/*.xml
+%{relocateConfig}etc/scram.d/*.xml
