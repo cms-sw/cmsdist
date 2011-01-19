@@ -1,9 +1,11 @@
-### RPM cms cmsweb 1102a
+### RPM cms cmsweb 1102b
 
 # This is a meta-package to group all cms webtools services from comp repository
 
-Requires: frontend webtools-base das dbs-web fmws sitedb T0Mon T0DataSvc PHEDEX-combined-web couchdb stagemanager
+Requires: frontend webtools-base das dbs-web filemover sitedb T0Mon T0DataSvc
+Requires: PHEDEX-combined-web couchdb stagemanager reqmgr dqmgui overview
 Requires: rotatelogs pystack py2-geoip py2-adns py2-netaddr valgrind igprof
+Requires: cmsweb-analytics
 
 %prep
 %build
