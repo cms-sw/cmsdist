@@ -43,18 +43,18 @@ Patch32: root-5.22-00d-fireworks10
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
-Requires: gccxml gsl libjpg pcre python fftw3
+Requires: gccxml gsl libjpg libpng libtiff libungif pcre python fftw3
 
 %if "%ismac" == "false"
 Requires: castor dcap
 %endif
 
 %if "%online-%ismac" == "false-true"
-Requires: openssl libpng zlib libungif libtiff gfortran-macosx
+Requires: openssl zlib gfortran-macosx
 %endif
 
 %if "%online-%ismac" == "false-false"
-Requires: qt openssl libpng zlib libungif xrootd libtiff
+Requires: openssl zlib qt xrootd
 %endif
 
 %prep

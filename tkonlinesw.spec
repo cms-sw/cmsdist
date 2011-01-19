@@ -19,12 +19,12 @@ Requires: cmake
 
 # Note from Kristian: 
 # xdaq dependency is here only to re-use its makefiles. 
-Requires: oracle
 %if "%online" != "true"
+Requires: oracle
 Requires: xerces-c
 Requires: xdaq
-Requires: systemtools
 Requires: gmake
+Requires: systemtools
 %else
 Requires: onlinesystemtools
 %endif

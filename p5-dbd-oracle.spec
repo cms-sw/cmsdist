@@ -7,10 +7,11 @@
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
-Requires: oracle
 %if "%online" != "true"
+Requires: oracle
 Requires: p5-dbi
 %else
+Requires: onlinesystemtools
 Provides: perl(DBI)
 %endif
 

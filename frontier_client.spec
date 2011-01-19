@@ -4,10 +4,11 @@ Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 Requires: expat
-%if "%online" == "true"
-Requires: onlinesystemtools
+%if "%online" != "true"
+Requires: openssl
+Requires: zlib
 %else
-Requires: zlib openssl expat
+Requires: onlinesystemtools
 %endif
 
 %prep

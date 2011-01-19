@@ -82,8 +82,8 @@ slc*onl* )
     
     ##########################################################
     #slc5onl_ia32 Specific
-    slc5onl_ia32_platformSeeds="external+gcc+4.3.4 glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype
-                 fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
+    slc5onl_ia32_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype
+                 fontconfig libidn libX11 libXmu libSM libICE libXcursor
                  libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
                  libXrender libXpm"
     
@@ -91,16 +91,33 @@ slc*onl* )
     slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds libgcc libstdc++ external+gcc+4.3.4"
     
     # ONLINE: seed other available system tools:
-    slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds curl libpng libtiff libungif openssl qt zlib perl-DBI-1.40-8 libtermcap-2.0.8
-		 libX11-devel-1.0.3 libXpm-devel-3.5.5 libXext-devel-1.0.1 libXft-devel-2.1.10 "
-    
-    # Python tools are commented out due to compatibility problems.
-    slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds python python-elementtree"
+    slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds curl openssl zlib e2fsprogs-libs
+        perl-DBI-1.40-8 libtermcap-2.0.8 libX11-devel-1.0.3 libXpm-devel-3.5.5 libXext-devel-1.0.1 libXft-devel-2.1.10"
     
     # ONLINE: seed daq-built tools:
-    slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds daq-cgicc daq-mimetic daq-oracle daq-tinyproxy  daq-xerces daq-xdaq"
+    slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds daq-log4cplus daq-mimetic daq-oracle daq-sqlite daq-xdaq daq-xerces 
+        daq-cgicc daq-tinyproxy daq-config daq-logudpappender
+        daq-logxmlappender daq-pt daq-ptfifo daq-pthttp 
+        daq-pttcp daq-toolbox daq-xcept daq-xdaq2rc daq-xdata
+        daq-xgi daq-xoap daq-sentinelutils"
+
+    ##########################################################
+    #slc5onl_amd64 Specific
+    slc5onl_amd64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype
+                 fontconfig libidn libX11 libXmu libSM libICE libXcursor
+                 libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
+                 libXrender libXpm"
     
-    slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds daq-config daq-log4cplus daq-logudpappender 
+    # ONLINE: seed system compiler (only libraries for runtime)
+    slc5onl_amd64_platformSeeds="$slc5onl_amd64_platformSeeds libgcc libstdc++ external+gcc+4.3.4-onl64a"
+    
+    # ONLINE: seed other available system tools:
+    slc5onl_amd64_platformSeeds="$slc5onl_amd64_platformSeeds curl openssl zlib e2fsprogs-libs
+        perl-DBI-1.40-8 libtermcap-2.0.8 libX11-devel-1.0.3 libXpm-devel-3.5.5 libXext-devel-1.0.1 libXft-devel-2.1.10"
+    
+    # ONLINE: seed daq-built tools:
+    slc5onl_amd64_platformSeeds="$slc5onl_amd64_platformSeeds daq-log4cplus daq-mimetic daq-oracle daq-sqlite daq-xdaq daq-xerces 
+        daq-cgicc daq-tinyproxy daq-config daq-logudpappender
         daq-logxmlappender daq-pt daq-ptfifo daq-pthttp 
         daq-pttcp daq-toolbox daq-xcept daq-xdaq2rc daq-xdata
         daq-xgi daq-xoap daq-sentinelutils"
