@@ -120,7 +120,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/curl.xml
   <tool name="Curl" version="%curl_version">
     <lib name="curl"/>
     <client>
-      <environment name="CURL_BASE" default="/usr/"/>
+      <environment name="CURL_BASE" default="/usr"/>
       <environment name="INCLUDE" default="$CURL_BASE/include"/>
     </client>
   </tool>
@@ -234,7 +234,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/uuid.xml
     <lib name="uuid"/>
     <client>
       <environment name="UUID_BASE" default="/usr"/>
-      <environment name="LIBDIR" default="$UUID_BASE/lib"/>
+      <environment name="INCLUDE" default="$UUID_BASE/include"/>
     </client>
     <use name="sockets"/>
   </tool>
