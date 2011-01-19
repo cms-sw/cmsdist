@@ -1,4 +1,5 @@
-### RPM external onlinesystemtools 2.3
+### RPM external onlinesystemtools 3.0
+## NOCOMPILER
 Source: none
 Requires: oracle-env
 
@@ -9,32 +10,36 @@ Requires: oracle-env
 # Set all versions as currently found on the system.
 %define xdaq_root                       /opt/xdaq
 %define curl_version                    7.15.5
-## INITENV SETV CURL_VERSION             %curl_version
+## INITENV SETV CURL_VERSION            %curl_version
 %define zlib_version                    1.2.3
-## INITENV SETV ZLIB_VERSION             %zlib_version
-%define oracle_version			11.2.2
-## INITENV SETV ORACLE_VERSION           %oracle_version
-## INITENV SETV ORACLE_ROOT		%xdaq_root
-%define openssl_version			0.9.8e
-## INITENV SETV OPENSSL_VERSION          %openssl_version
-%define xerces_version			2.8.0
-## INITENV SETV XERCES_C_VERSION         %xerces_version
-## INITENV SETV XERCES_C_ROOT		%xdaq_root
-%define xdaq_version			3.33.1
-## INITENV SETV XDAQ_VERSION         	%xdaq_version
-## INITENV SETV XDAQ_ROOT         	%xdaq_root
-%define mimetic_version			0.9.1
-## INITENV SETV MIMETIC_VERSION         	%mimetic_version
+## INITENV SETV ZLIB_VERSION            %zlib_version
+%define uuid_version                    1.39
+## INITENV SETV UUID_VERSION            %uuid_version
+%define sqlite_version                  3.6.23
+## INITENV SETV SQLITE_VERSION          %sqlite_version
+%define oracle_version                  11.2.2
+## INITENV SETV ORACLE_VERSION          %oracle_version
+## INITENV SETV ORACLE_ROOT             %xdaq_root
+%define openssl_version                 0.9.8e
+## INITENV SETV OPENSSL_VERSION         %openssl_version
+%define xerces_version                  2.8.0
+## INITENV SETV XERCES_C_VERSION        %xerces_version
+## INITENV SETV XERCES_C_ROOT           %xdaq_root
+%define xdaq_version                    3.33.1
+## INITENV SETV XDAQ_VERSION            %xdaq_version
+## INITENV SETV XDAQ_ROOT               %xdaq_root
+%define mimetic_version                 0.9.1
+## INITENV SETV MIMETIC_VERSION         %mimetic_version
 
-%define systemtools			sockets opengl x11 %compilertools %onlinetools
-%define sockets_version			1.0
-%define opengl_version			XFree4.2
-%define x11_version			R6
+%define systemtools                     sockets opengl x11 %compilertools %onlinetools
+%define sockets_version                 1.0
+%define opengl_version                  XFree4.2
+%define x11_version                     R6
 
-## INITENV SETV SOCKETS_VERSION		%sockets_version
-## INITENV SETV OPENGL_VERSION		%opengl_version
-## INITENV SETV X11_VERSION		%x11_version
-## INITENV SETV PKGTOOLS_SYSTEM_TOOLS	%systemtools
+## INITENV SETV SOCKETS_VERSION         %sockets_version
+## INITENV SETV OPENGL_VERSION          %opengl_version
+## INITENV SETV X11_VERSION             %x11_version
+## INITENV SETV PKGTOOLS_SYSTEM_TOOLS   %systemtools
 
 %prep
 %build
@@ -51,6 +56,7 @@ cat << \EOF_TOOLFILE >>%i/etc/scram.d/sockets.xml
     <lib name="nsl"/>
     <lib name="crypt"/>
     <lib name="dl"/>
+    <lib name="rt"/>
 EOF_TOOLFILE
 ;;
 osx10* )
@@ -67,9 +73,10 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/opengl.xml
     <lib name="GL"/>
     <lib name="GLU"/>
     <use name="x11"/>
+    <environment name="ORACLE_ADMINDIR" default="@ORACLE_ENV_ROOT@/etc"/>
 EOF_TOOLFILE
 case %cmsplatf in
-osx103* )
+osx* )
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/opengl.xml
     <client>
       <environment name="OPENGL_BASE" default="/System/Library/Frameworks/OpenGL.framework/Versions/A"/>
@@ -86,7 +93,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/x11.xml
   <tool name="x11" version="%x11_version">
 EOF_TOOLFILE
 case %cmsplatf in
-slc3_* )
+slc3_*|osx* )
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/x11.xml
     <client>
       <environment name="INCLUDE" value="/usr/X11R6/include"/>
@@ -119,7 +126,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/curl.xml
   </tool>
 EOF_TOOLFILE
 
-#zlib
+# zlib
 cat << \EOF_TOOLFILE >%i/etc/scram.d/zlib.xml
   <tool name="zlib" version="%zlib_version">
     <lib name="z"/>
@@ -130,8 +137,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/zlib.xml
   </tool>
 EOF_TOOLFILE
 
-
-#openssl
+# openssl
 cat << \EOF_TOOLFILE >%i/etc/scram.d/openssl.xml
   <tool name="openssl" version="%openssl_version">
     <lib name="ssl"/>
@@ -143,7 +149,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/openssl.xml
   </tool>
 EOF_TOOLFILE
 
-#xerces-c
+# xerces-c
 cat << \EOF_TOOLFILE >%i/etc/scram.d/xerces-c.xml
   <tool name="xerces-c" version="%xerces_version">
     <info url="http://xml.apache.org/xerces-c/"/>
@@ -156,7 +162,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/xerces-c.xml
   </tool>
 EOF_TOOLFILE
 
-#xdaq
+# xdaq
 cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaq.xml
   <tool name="XDAQ" version="%xdaq_version">
     <info url="http://home.cern.ch/xdaq"/>
@@ -199,7 +205,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaq.xml
   </tool>
 EOF_TOOLFILE
 
-#xdaqheader
+# xdaqheader
 cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaqheader.xml
   <tool name="XDAQHEADER" version="%xdaq_version">
     <info url="http://home.cern.ch/xdaq"/>
@@ -210,7 +216,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaqheader.xml
   </tool>
 EOF_TOOLFILE
 
-#mimetic
+# mimetic
 cat << \EOF_TOOLFILE >%i/etc/scram.d/mimetic.xml
   <tool name="mimetic" version="%mimetic_version">
     <lib name="mimetic"/>
@@ -222,6 +228,33 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/mimetic.xml
   </tool>
 EOF_TOOLFILE
 
+# uuid (from e2fsprogs-libs)
+cat << \EOF_TOOLFILE >%i/etc/scram.d/uuid.xml
+  <tool name="uuid" version="%uuid_version">
+    <lib name="uuid"/>
+    <client>
+      <environment name="UUID_BASE" default="/usr"/>
+      <environment name="LIBDIR" default="$UUID_BASE/lib"/>
+    </client>
+    <use name="sockets"/>
+  </tool>
+EOF_TOOLFILE
+
+# sqlite
+cat << \EOF_TOOLFILE >%i/etc/scram.d/sqlite.xml
+  <tool name="sqlite" version="%sqlite_version">
+    <lib name="sqlite3"/>
+    <client>
+      <environment name="SQLITE_BASE" default="%xdaq_root"/>
+      <environment name="LIBDIR" default="$SQLITE_BASE/lib"/>
+      <environment name="BINDIR" default="$SQLITE_BASE/bin"/>
+      <environment name="INCLUDE" default="$SQLITE_BASE/include"/>
+    </client>
+    <runtime name="PATH" value="$BINDIR" type="path"/>
+  </tool>
+EOF_TOOLFILE
+
+# oracle
 cat << \EOF_TOOLFILE >%i/etc/scram.d/oracle.xml
   <tool name="oracle" version="%oracle_version">
     <lib name="clntsh"/>
@@ -239,6 +272,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/oracle.xml
   </tool>
 EOF_TOOLFILE
 
+# oracleocci
 cat << \EOF_TOOLFILE >%i/etc/scram.d/oracleocci.xml
   <tool name="oracleocci" version="%oracle_version">
     <lib name="occi"/>
@@ -250,4 +284,4 @@ export ORACLE_ENV_ROOT
 perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*.xml
 
 %post
-%{relocateConfig}/etc/scram.d/*.xml
+%{relocateConfig}etc/scram.d/*.xml
