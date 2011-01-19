@@ -97,8 +97,6 @@ Requires: gdb-toolfile
 Requires: google-perftools-toolfile
 Requires: igprof-toolfile
 
-Requires: p5-dbd-oracle
-
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull
 %define onlinesystemtoolsroot ${ONLINESYSTEMTOOLS_ROOT}
 ## IMPORT scramv1-tool-conf
