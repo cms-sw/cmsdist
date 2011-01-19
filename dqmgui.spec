@@ -22,28 +22,26 @@
 # here we take entire subsystems then later select what we want.
 Source0: %{cvsserver}&strategy=checkout&module=config&export=config&tag=-r%{vcfg}&output=/config.tar.gz
 Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rR05-03-02&output=/DQMServer.tar.gz
-Source2: %{cvsserver}&strategy=checkout&module=CMSSW/Iguana/Utilities&export=Iguana/Utilities&tag=-rV03-00-09-02&output=/IgUtils.tar.gz
-Source3: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-15-00&output=/DQMCore.tar.gz
-Source4: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=image&revision=10&scheme=http&output=/rtgu.tar.gz
-Source5: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
+Source2: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-15-00&output=/DQMCore.tar.gz
+Source3: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=image&revision=10&scheme=http&output=/rtgu.tar.gz
+Source4: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
 Requires: cherrypy py2-cheetah yui extjs dqmgui-conf SCRAMV1
-Patch0: dqmgui-classlib
-Patch1: dqmgui-rtgu
+Patch0: dqmgui-rtgu
 
 # Set up the project build area: extract sources, bootstrap the SCRAM
 # build area with them.  Only builds with sources we need, with minimal
 # dependencies.
 %prep
+export SCRAM_ARCH=%cmsplatf
 rm -fr %_builddir/{config,src,THE_BUILD}
 %setup    -T -b 0 -n config
 %setup -c -T -a 1 -n src
 %setup -D -T -a 2 -n src
-%setup -D -T -a 3 -n src
-%patch0 -p0
 
 cd %_builddir
 rm -fr src/DQM*/*/{test,plugins,python}
-find src/DQM*/* -name BuildFile | xargs perl -n -i -e '/WITHOUT_CMS/ && s/=0/=1/; /FWCore/ || print'
+find src -name 'BuildFile*' | xargs perl -p -i -e 's|Iguana/Utilities|classlib|'
+find src/DQM*/* -name 'BuildFile*' | xargs perl -n -i -e '/WITHOUT_CMS/ && s/=0/=1/; /FWCore/ || print'
 tar -jcvf distsrc.tar.bz2 -C src .
 
 config/updateConfig.pl -p CMSSW -v THE_BUILD -s $SCRAMV1_VERSION -t ${DQMGUI_CONF_ROOT}
@@ -55,6 +53,7 @@ config/updateConfig.pl -p CMSSW -v THE_BUILD -s $SCRAMV1_VERSION -t ${DQMGUI_CON
 # the scram environment to point to the installation directories.
 # Avoid generating excess environment.
 %build
+export SCRAM_ARCH=%cmsplatf
 cd %_builddir/THE_BUILD/src
  %scram b echo_foo </dev/null
 cd ../include/%cmsplatf
@@ -128,6 +127,7 @@ perl -w -i -p -e \
 # Usage at https://twiki.cern.ch/twiki/bin/view/CMS/DQMTest and
 # https://twiki.cern.ch/twiki//bin/view/CMS/DQMGuiProduction.
 %install
+export SCRAM_ARCH=%cmsplatf
 mkdir -p %i/etc/profile.d %i/etc/scramconfig %i/external %i/{,x}bin %i/{,x}lib %i/{,x}python %i/{,x}include %i/data
 cp -p %_builddir/distsrc.tar.bz2 %i/data
 cp -p %_builddir/THE_BUILD/lib/%cmsplatf/*.so %i/lib

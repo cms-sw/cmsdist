@@ -17,6 +17,7 @@ Requires: cherrypy py2-cheetah yui py2-cx-oracle py2-pil py2-matplotlib overview
 
 # Set up minimal SCRAM project build area with our sources.
 %prep
+export SCRAM_ARCH=%cmsplatf
 rm -fr %_builddir/{config,src,THE_BUILD}
 %setup    -T -b 0 -n config
 %setup -c -T -a 1 -n src
@@ -28,13 +29,13 @@ tar -jcvf distsrc.tar.bz2 -C src .
 config/updateConfig.pl -p CMSSW -v THE_BUILD -s $SCRAMV1_VERSION -t ${OVERVIEW_CONF_ROOT}
 %scram project -d $PWD -b config/bootsrc.xml </dev/null
 
-%build
 # Build the code as a scram project area, then relocate it to more
 # normal directories (%i/{bin,lib,python}).  Save the scram runtime
 # environment plus extra externals for later use, but manipulate
 # the scram environment to point to the installation directories.
 # Avoid generating excess environment.
 %build
+export SCRAM_ARCH=%cmsplatf
 cd %_builddir/THE_BUILD/src
 export BUILD_LOG=yes
 export SCRAM_NOPLUGINREFRESH=yes
@@ -97,6 +98,7 @@ perl -w -i -p -e \
 # Usage at https://twiki.cern.ch/twiki/bin/view/CMS/DQMTest and
 # https://twiki.cern.ch/twiki//bin/view/CMS/DQMGuiProduction.
 %install
+export SCRAM_ARCH=%cmsplatf
 mkdir -p %i/etc/profile.d %i/etc/scramconfig %i/external %i/{,x}bin %i/{,x}lib %i/{,x}python %i/data
 cp -p %_builddir/distsrc.tar.bz2 %i/data
 cp -p %_builddir/THE_BUILD/bin/%cmsplatf/* %i/bin
