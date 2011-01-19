@@ -91,7 +91,7 @@ Requires: valgrind-toolfile
 Requires: cmsswdata-toolfile
 #Requires: rivet-toolfile                   # not used online
 #Requires: cascade-toolfile                 # not used online
-#Requires: fftw3-toolfile                   # not used online
+Requires: fftw3-toolfile
 #Requires: fftjet-toolfile                  # not used online
 Requires: gdb-toolfile
 #Requires: google-perftools-toolfile        # not used online
