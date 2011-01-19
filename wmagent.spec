@@ -1,23 +1,10 @@
-### RPM cms wmcore WMCORE_0_6_9
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
+### RPM cms wmagent WMAGENT_0_6_9
 
-Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%realversion?scheme=svn+ssh&strategy=export&module=WMCore&output=/WMCORE.tar.gz
-Requires: python py2-simplejson py2-sqlalchemy py2-httplib2
+Requires: wmcore-db-mysql wmcore-db-couch wmcore-webtools py2-cjson dbs-client dls-client
 
 %prep
-%setup -n WMCore
-
 %build
-python setup.py build
-
 %install
-mkdir -p %i
-cp -r * %i
-python setup.py install --prefix=%i
-egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
-find %i -name '*.egg-info' -exec rm {} \;
-chmod +x %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages/WMCore/WebTools/Root.py
-mkdir -p %{i}/workdir
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
