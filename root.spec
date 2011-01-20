@@ -119,14 +119,20 @@ case $(uname)-$(uname -m) in
   Darwin*)
     case %cmsplatf in
     *_ia32_* ) 
-      comparch=i386 ;;
+      comparch=i386 
+      macconfig=macosx
+      ;; 
     *_amd64_* )
-      comparch=x86_64 ;;
+      comparch=x86_64
+      macconfig=macosx64
+      ;; 
     * ) 
-      comparch=ppc ;;
+      comparch=ppc 
+      macconfig=macosx
+      ;;
     esac
     export CC="gcc -arch $comparch" CXX="g++ -arch $comparch"
-    ./configure macosx $CONFIG_ARGS --with-cc="$CC" --with-cxx="$CXX" --disable-rfio --disable-builtin_afterimage ;;
+    ./configure $macconfig $CONFIG_ARGS --with-cc="$CC" --with-cxx="$CXX" --disable-rfio --disable-builtin_afterimage ;;
   Linux-ppc64*)
     ./configure linux $CONFIG_ARGS --disable-rfio;;
 esac
