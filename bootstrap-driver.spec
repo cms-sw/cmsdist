@@ -178,17 +178,17 @@ slc5_compPackages="compat-readline43 libXp libXtst libXt"
 # Seeds for unsupported platforms. These will not make bootstrap die, if not found.
 # OpenSuse
 unsupportedSeeds="xorg-x11-Mesa compat-readline4 compat-curl2 freetype2
-    xorg-x11-libX11"
+        xorg-x11-libX11"
 # Ubuntu
 unsupportedSeeds="$unsupportedSeeds libcomerr2 libidn11 libxi6 libxpm4 libxinerama1
-    libncurses5 libsm6 libice6 libc6 libxcursor1 libxmu6
-    libgl1-mesa-glx libxft2 perl-base xserver-xorg xserver-xorg-core
-    libfreetype6 libfontconfig1 libgl1-mesa libxrandr2 libglu1-mesa
-    libxext6 libx11-6 libxrender1"
+        libncurses5 libsm6 libice6 libc6 libxcursor1 libxmu6
+        libgl1-mesa-glx libxft2 perl-base xserver-xorg xserver-xorg-core
+        libfreetype6 libfontconfig1 libgl1-mesa libxrandr2 libglu1-mesa
+        libxext6 libx11-6 libxrender1"
 # Fedora
 unsupportedSeeds="$unsupportedSeeds libX11 libXmu libSM libICE libXcursor
-    libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama
-    libXft libXrender libXpm ncurses-libs libc6-i686 compat-readline5"
+        libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama
+        libXft libXrender libXpm ncurses-libs libc6-i686 compat-readline5"
 
 # Case statement for additional provides.
 case %cmsplatf in
@@ -204,9 +204,9 @@ case %cmsplatf in
 esac
 
 unsupportedProvides="libtcl8.3.so libtk8.3.so /bin/env libcom_err.so.3
-                     libcrypto.so.4 libgssapi_krb5.so.2 libk5crypto.so.3
-                     libkrb5.so.3 libssl.so.4 /bin/csh /bin/tcsh libreadline.so.4
-                     libtcl8.4.so libtk8.4.so"
+        libcrypto.so.4 libgssapi_krb5.so.2 libk5crypto.so.3
+        libkrb5.so.3 libssl.so.4 /bin/csh /bin/tcsh libreadline.so.4
+        libtcl8.4.so libtk8.4.so"
 
 defaultPkgs="cms+cms-common+1.0"
 
