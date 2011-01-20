@@ -1,19 +1,16 @@
 ### RPM external xrootd 20090727.1318
 Source: http://cmsrep.cern.ch//cmssw/xrootd_src/%n-%{realversion}.tar.gz
 Patch0: xrootd-gcc44
-Patch1: xrootd-readv2
-Patch2: xrootd-20090727.1318-fix-missing-krb5
+Patch1: xrootd-readv
 Requires: openssl
 
 %prep 
 %setup -n %n-%{realversion}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
-CONFIG_ARGS="--disable-krb4 --with-ssl-incdir=${OPENSSL_ROOT}/include --with-ssl-libdir=${OPENSSL_ROOT}/lib \
-             --with-krb5=/usr --with-cxx=`which c++` --with-ld=`which c++`"
+CONFIG_ARGS="--disable-krb4 --with-ssl-incdir=${OPENSSL_ROOT}/include --with-ssl-libdir=${OPENSSL_ROOT}/lib"
 case %cmsos in
   slc*_amd64*)
     ./configure.classic x86_64_linux_26 --ccflavour=gccx8664  $CONFIG_ARGS ;;

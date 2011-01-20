@@ -3,7 +3,6 @@
 Source: http://cmsrep.cern.ch/cmssw/download/dcap/dcap.tgz
 #Source: svn://svn.dcache.org/dCache/tags/dcap-2.47.5-0?scheme=http&module=dcap&output=/dcap.tgz
 Patch0: dcap-2.47.5.0-macosx
-Patch1: dcap-2.47.5.0-fork-safety
 
 # Unfortunately I could not find any rpm version invariant way to do and "if
 # else if", so I ended up hardcoding all the possible variants.
@@ -21,8 +20,6 @@ Provides: libpdcap.dylib
 # ON MAC, REGARDLESS WHETHER IT WORKS OR NOT. It is however safe to include,
 # since every change is ifdeffed with __APPLE__.
 %patch0 -p1
-# Apply fork safety patch from Brian Bockelman
-%patch1 -p0
 
 %build
 # Since we are using the checked out code, we need to regenerate the auto-tools
