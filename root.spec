@@ -27,16 +27,22 @@ Patch13: root-5.27-06b-tmva_Event_dynamic_hack
 
 Requires: gccxml gsl libjpg libpng libtiff libungif pcre python fftw3
 
-%if "%ismac" == "false"
+%if "%ismac" != "true"
 Requires: castor dcap
 %endif
 
-%if "%online-%ismac" == "false-true"
-Requires: openssl zlib gfortran-macosx
+%if "%online" != "true"
+Requires: openssl zlib xrootd
 %endif
 
-%if "%online-%ismac" == "false-false"
-Requires: openssl zlib qt xrootd
+%if "%ismac" == "true"
+Requires: gfortran-macosx
+%endif
+
+%if "%online" != "true"
+%if "%ismac" != "true"
+Requires: qt 
+%endif
 %endif
 
 %prep
