@@ -91,8 +91,8 @@ slc*onl* )
     slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds libgcc libstdc++ external+gcc+4.3.4"
 
     # ONLINE: seed other available system tools:
-    slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds curl-devel openssl-devel zlib-devel e2fsprogs-libs-devel
-        perl-DBI-1.40-8 libtermcap-2.0.8 libX11-devel-1.0.3 libXpm-devel-3.5.5 libXext-devel-1.0.1 libXft-devel-2.1.10"
+    slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds curl curl-devel openssl openssl-devel zlib zlib-devel e2fsprogs-libs e2fsprogs-devel
+        perl-DBI-1.52 libtermcap-2.0.8 libX11-devel-1.0.3 libXpm-devel-3.5.5 libXext-devel-1.0.1 libXft-devel-2.1.10"
 
     # ONLINE: seed daq-built tools:
     slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds daq-log4cplus daq-mimetic daq-oracle daq-sqlite daq-xdaq daq-xerces
@@ -112,8 +112,8 @@ slc*onl* )
     slc5onl_amd64_platformSeeds="$slc5onl_amd64_platformSeeds libgcc libstdc++ external+gcc+4.3.4-onl64a"
 
     # ONLINE: seed other available system tools:
-    slc5onl_amd64_platformSeeds="$slc5onl_amd64_platformSeeds curl-devel openssl-devel zlib-devel e2fsprogs-libs-devel
-        perl-DBI-1.40-8 libtermcap-2.0.8 libX11-devel-1.0.3 libXpm-devel-3.5.5 libXext-devel-1.0.1 libXft-devel-2.1.10"
+    slc5onl_amd64_platformSeeds="$slc5onl_amd64_platformSeeds curl curl-devel openssl openssl-devel zlib zlib-devel e2fsprogs-libs e2fsprogs-devel
+        perl-DBI-1.52 libtermcap-2.0.8 libX11-devel-1.0.3 libXpm-devel-3.5.5 libXext-devel-1.0.1 libXft-devel-2.1.10"
 
     # ONLINE: seed daq-built tools:
     slc5onl_amd64_platformSeeds="$slc5onl_amd64_platformSeeds daq-log4cplus daq-mimetic daq-oracle daq-sqlite daq-xdaq daq-xerces
