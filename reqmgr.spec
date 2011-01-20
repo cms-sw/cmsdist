@@ -24,7 +24,7 @@ egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/
 find %i -name '*.egg-info' -exec rm {} \;
 
 mkdir -p %i/bin
-cp -pf %_builddir/WMCore/bin/[a-z]* %i/bin
+cp -pf %_builddir/WMCore/bin/[[:lower:]]* %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 rm -rf %i/etc/profile.d
