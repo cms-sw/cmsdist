@@ -1,4 +1,4 @@
-### RPM external boost 1.44.0
+### RPM external boost 1.45.0
 %define boostver _%(echo %realversion | tr . _)
 Source: http://switch.dl.sourceforge.net/project/%{n}/%{n}/%{v}/%{n}%{boostver}.tar.gz
 %define closingbrace )
