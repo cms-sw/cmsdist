@@ -70,6 +70,10 @@ case %cmsplatf in
   ;;
 esac
 
+# Delete these (irrelevant) files as the fits appear to confuse rpm on OSX
+# (It tries to run install_name_tool on them.)
+rm -fR tutorials/fitsio
+
 %build
 
 mkdir -p %i
