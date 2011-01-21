@@ -15,13 +15,17 @@ Requires: gfortran-macosx
 %install
 mkdir -p %i/etc/scram.d
 
-# Determine the GCC_ROOT if "use system compiler is used.
+# Determine the GCC_ROOT if "use system compiler" is used.
 if [ "X$GCC_ROOT" = X ]
 then
     export GCC_PATH=`which gcc` || exit 1
     export GCC_ROOT=`echo $GCC_PATH | sed -e 's|/bin/gcc||'`
     export GCC_VERSION=`gcc -v 2>&1 | grep "gcc version" | sed 's|[^0-9]*\([0-9].[0-9].[0-9]\).*|\1|'` || exit 1
+%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
     export G77_ROOT=$GFORTRAN_MACOSX_ROOT
+%else
+    export G77_ROOT=$GCC_ROOT
+%endif
 else
     export GCC_PATH
     export GCC_ROOT
@@ -168,15 +172,12 @@ esac
 # Then handle compiler specific options. E.g. enable
 # optimizations as they become available in gcc.
 COMPILER_CXXFLAGS=
-# The following is the default even if not set here
-F77_MMD="-MMD"
 case %cmsplatf in
    *_gcc4[56789]* )
      COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++0x -ftree-vectorize"
      F77_MMD="-cpp -MMD"
    ;;
 esac
-export F77_MMD
 
 case %cmsplatf in
    *_gcc4[3456789]* )
