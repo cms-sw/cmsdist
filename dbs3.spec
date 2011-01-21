@@ -1,4 +1,4 @@
-### RPM cms dbs3 DBS_0_1_0
+### RPM cms dbs3 DBS_0_1_1
 ## INITENV +PATH PYTHONPATH %i/Server/Python/src
 ## INITENV SET DBS3_SERVER_ROOT %i/Server/Python
 
@@ -114,6 +114,4 @@ for x in %pkgreqs; do
 done
 
 %post
-%{relocateConfig}etc/profile.d/dependencies-setup.sh
-%{relocateConfig}etc/profile.d/dependencies-setup.csh
-  
+%{relocateConfig}etc/profile.d/dependencies-setup.*sh
