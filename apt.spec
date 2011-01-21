@@ -13,8 +13,6 @@ Source2: http://search.cpan.org/CPAN/authors/id/T/TL/TLBDK/RPM-Header-PurePerl-1
 Requires: libxml2 rpm db4
 %if "%online" != "true"
 Requires: openssl
-%else
-Requires: onlinesystemtools
 %endif
 
 %prep
