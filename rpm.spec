@@ -11,8 +11,6 @@ Source: http://rpm.org/releases/rpm-%(echo %realversion | cut -f1,2 -d.).x/rpm-%
 Requires: file nspr nss popt bz2lib db4 lua
 %if "%online" != "true"
 Requires: zlib
-%else
-Requires: onlinesystemtools
 %endif
 
 
