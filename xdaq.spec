@@ -1,14 +1,17 @@
-### RPM external xdaq VR16768
+### RPM external xdaq VR16021
 
 Requires: zlib mimetic xerces-c uuid sqlite
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
 %define svntrunk  %(echo %v | sed 's|^VR||')
-Source: svn://svn.cern.ch/reps/cmsos/trunk/?scheme=svn+ssh&revision=%svntrunk&strategy=export&module=xdaq&output=/xdaq.tar.gz
+Source: svn://svn.cern.ch/reps/cmsos/releases/baseline10/tags/base/?scheme=svn+ssh&revision=%svntrunk&strategy=export&module=xdaq&output=/xdaq.tar.gz
 
-Patch0: xdaq_VR16768_build
+Patch0: xdaq_VR16021_build
 Patch1: xdaq_mfDefs_flags
-Patch2: xdaq-VR16768-fix-install-headers
+Patch2: xdaq_VR15544_gcc44
+Patch3: xdaq-VR16021-gcc45
+Patch4: xdaq-VR16021-macosx
+Patch5: xdaq-VR16021-fix-slp-macosx
 
 Provides: /bin/awk
 # This is needed on macosx because this is the install_name for the .so
@@ -22,6 +25,36 @@ Provides: libasyncresolv.0
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+# We do not apply the macosx patch on linux, because we
+# do not want to have to validate it.
+case %cmsos in
+  osx*)
+%patch4 -p1
+%patch5 -p1
+  mkdir daq/toolbox/include/macosx-new
+  mv daq/toolbox/include/macosx daq/toolbox/include/macosx-new/toolbox
+  mv daq/toolbox/include/macosx-new daq/toolbox/include/macosx
+  # Copy the linux implementation for the toolbox, hoping it will work.
+  mv daq/toolbox/src/linux daq/toolbox/src/macosx
+  # i2o package is case sensitive, but it looks like the all upper case 
+  # (or partially upper case) files are from an ancient version while the 
+  # lowercase one are the one needed, therefore we extract by hand the required
+  # files.
+  cd ..
+    rm -f xdaq/daq/extern/i2o/include/i2o/shared/i2omsg.h
+    rm -f xdaq/daq/extern/i2o/include/i2o/shared/i2oexec.h
+    rm -f xdaq/daq/extern/i2o/include/i2o/shared/I2OTYPES.h
+    rm -f xdaq/daq/extern/i2o/include/i2o/shared/I2omodule.h
+    rm -f xdaq/daq/extern/i2o/include/i2o/shared/I2outil.h
+    tar xzvf %{_sourcedir}/xdaq.tar.gz xdaq/daq/extern/i2o/include/i2o/shared/i2omsg.h \
+                                       xdaq/daq/extern/i2o/include/i2o/shared/i2oexec.h \
+                                       xdaq/daq/extern/i2o/include/i2o/shared/i2otypes.h \
+                                       xdaq/daq/extern/i2o/include/i2o/shared/i2omodule.h \
+                                       xdaq/daq/extern/i2o/include/i2o/shared/i2outil.h
+  cd xdaq 
+;;
+esac
 
 %build
 # Xdaq does not provide makeinstall,  it uses "simplify" script instead to 
@@ -44,15 +77,30 @@ export SQLITE_PREFIX=$SQLITE_ROOT
 export SEARCH_PATH=$PATH
 
 case %cmsplatf in
-  osx*) PLATF_DEFINE=macosx ;;
+  osx*) 
+	PLATF_DEFINE=macosx 
+	# Hack to make sure things compile on the mac.
+	find . -name Makefile.rules -exec perl -p -i -e 's|cp -pd|cp -p|g' {} \;
+	;;
   slc*) PLATF_DEFINE=linux ;;
 esac
 
-make CPPDEFINES=$PLATF_DEFINE Set=extern_coretools install
-make CPPDEFINES=$PLATF_DEFINE Set=coretools install
-make CPPDEFINES=$PLATF_DEFINE Set=extern_powerpack install
-make CPPDEFINES=$PLATF_DEFINE Set=powerpack install
-make CPPDEFINES=$PLATF_DEFINE Set=general_worksuite install
+case %cmsplatf in
+  slc*)
+    make CPPDEFINES=$PLATF_DEFINE Set=extern_coretools install
+    make CPPDEFINES=$PLATF_DEFINE Set=coretools install
+    make CPPDEFINES=$PLATF_DEFINE Set=extern_powerpack install
+    make CPPDEFINES=$PLATF_DEFINE Set=powerpack install
+    make CPPDEFINES=$PLATF_DEFINE Set=general_worksuite install
+  ;;
+  osx*)
+    make -k CPPDEFINES=$PLATF_DEFINE CCDefines='-DHAVE_SOCKADDR_STORAGE_SS_LEN=linux -DLIBRARY_PATH_VARIABLE=\"DYLD_LIBRARY_PATH\" -DRLIMIT_SIGPENDING=-1 -DRLIMIT_LOCKS=-1 -DRLIMIT_MSGQUEUE=-1 -DRLIMIT_SIGPENDING=-1 -DLITTLE_ENDIAN__ -D"xdr_uint8_t(x,y)=false" -D"xdr_int8_t(x,y)=false" -D"xdr_uint16_t(x,y)=false" -D"xdr_uint32_t(x,y)=false" -D"xdr_uint64_t(x,y)=false"' Set=extern_coretools install || true
+    make -k CPPDEFINES=$PLATF_DEFINE CCDefines='-DHAVE_SOCKADDR_STORAGE_SS_LEN=linux -DLIBRARY_PATH_VARIABLE=\"DYLD_LIBRARY_PATH\" -DRLIMIT_SIGPENDING=-1 -DRLIMIT_LOCKS=-1 -DRLIMIT_MSGQUEUE=-1 -DRLIMIT_SIGPENDING=-1 -DLITTLE_ENDIAN__ -D"xdr_uint8_t(x,y)=false" -D"xdr_int8_t(x,y)=false" -D"xdr_uint16_t(x,y)=false" -D"xdr_uint32_t(x,y)=false" -D"xdr_uint64_t(x,y)=false"' Set=coretools install || true
+    make -k CPPDEFINES=$PLATF_DEFINE CCDefines='-DHAVE_SOCKADDR_STORAGE_SS_LEN=linux -DLIBRARY_PATH_VARIABLE=\"DYLD_LIBRARY_PATH\" -DRLIMIT_SIGPENDING=-1 -DRLIMIT_LOCKS=-1 -DRLIMIT_MSGQUEUE=-1 -DRLIMIT_SIGPENDING=-1 -DLITTLE_ENDIAN__ -D"xdr_uint8_t(x,y)=false" -D"xdr_int8_t(x,y)=false" -D"xdr_uint16_t(x,y)=false" -D"xdr_uint32_t(x,y)=false" -D"xdr_uint64_t(x,y)=false"' Set=extern_powerpack install || true
+    make -k CPPDEFINES=$PLATF_DEFINE CCDefines='-DHAVE_SOCKADDR_STORAGE_SS_LEN=linux -DLIBRARY_PATH_VARIABLE=\"DYLD_LIBRARY_PATH\" -DRLIMIT_SIGPENDING=-1 -DRLIMIT_LOCKS=-1 -DRLIMIT_MSGQUEUE=-1 -DRLIMIT_SIGPENDING=-1 -DLITTLE_ENDIAN__ -D"xdr_uint8_t(x,y)=false" -D"xdr_int8_t(x,y)=false" -D"xdr_uint16_t(x,y)=false" -D"xdr_uint32_t(x,y)=false" -D"xdr_uint64_t(x,y)=false"' Set=powerpack install || true
+    make -k CPPDEFINES=$PLATF_DEFINE CCDefines='-DHAVE_SOCKADDR_STORAGE_SS_LEN=linux -DLIBRARY_PATH_VARIABLE=\"DYLD_LIBRARY_PATH\" -DRLIMIT_SIGPENDING=-1 -DRLIMIT_LOCKS=-1 -DRLIMIT_MSGQUEUE=-1 -DRLIMIT_SIGPENDING=-1 -DLITTLE_ENDIAN__ -D"xdr_uint8_t(x,y)=false" -D"xdr_int8_t(x,y)=false" -D"xdr_uint16_t(x,y)=false" -D"xdr_uint32_t(x,y)=false" -D"xdr_uint64_t(x,y)=false"' Set=general_worksuite install || true
+  ;;
+esac
 
 # The following structure used as defined in Xdaq "simplify" script:
 cd %{i}
