@@ -122,12 +122,12 @@ CONFIG_ARGS="--enable-table
              --disable-oracle
              --disable-xml ${EXTRA_CONFIG_ARGS}"
 
-case $(uname)-$(uname -m) in
-  Linux-x86_64)
+case %cmsos in
+  slc*_amd64)
     ./configure linuxx8664gcc $CONFIG_ARGS --with-rfio-libdir=${CASTOR_ROOT}/lib --with-rfio-incdir=${CASTOR_ROOT}/include/shift --with-castor-libdir=${CASTOR_ROOT}/lib --with-castor-incdir=${CASTOR_ROOT}/include/shift ;; 
-  Linux-i*86)
+  slc*_ia32)
     ./configure linux  $CONFIG_ARGS --with-rfio-libdir=${CASTOR_ROOT}/lib --with-rfio-incdir=${CASTOR_ROOT}/include/shift --with-castor-libdir=${CASTOR_ROOT}/lib --with-castor-incdir=${CASTOR_ROOT}/include/shift ;;
-  Darwin*)
+  osx*)
     case %cmsplatf in
     *_ia32_* ) 
       comparch=i386 
@@ -142,9 +142,9 @@ case $(uname)-$(uname -m) in
       macconfig=macosx
       ;;
     esac
-    export CC="gcc -arch $comparch" CXX="g++ -arch $comparch"
-    ./configure $macconfig $CONFIG_ARGS --with-cc="$CC" --with-cxx="$CXX" --disable-rfio --disable-builtin_afterimage ;;
-  Linux-ppc64*)
+    export CC=`which gcc` CXX=`which g++`
+    ./configure $arch $CONFIG_ARGS --with-cc="$CC" --with-cxx="$CXX" --disable-rfio --disable-builtin_afterimage ;;
+  slc*_ppc64*)
     ./configure linux $CONFIG_ARGS --disable-rfio;;
 esac
 
@@ -156,8 +156,8 @@ case %cmsplatf in
    makeopts="%makeprocesses"
   ;;
 esac
- 
-make $makeopts 
+
+make $makeopts
 make cintdlls
 
 %install
@@ -176,6 +176,9 @@ export ROOTSYS=%i
 make INSTALL="$cp" INSTALLDATA="$cp" install
 mkdir -p $ROOTSYS/lib/python
 cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
+# This file confuses rpm's find-requires because it starts with
+# a """ and it thinks is the shebang.
+rm -f %i/tutorials/pyroot/mrt.py
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
