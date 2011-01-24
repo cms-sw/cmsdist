@@ -41,3 +41,8 @@ cvs update -A subpackage-webdoc.file
 cvs update -A online*
 cvs update -A stagemanager.spec
 cvs update -A apache2-ssl-report-cert*
+cvs update -A plotfairy.spec
+cvs update -A prodcommon.spec
+cvs update -A prodagent.spec
+cvs update -A reqmgr.spec
+cvs update -A afs-relocation-cern.spec
