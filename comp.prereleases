@@ -34,7 +34,7 @@ HG1102a das
 
 # T0Mon and T0DataSvc
 HG1102a T0Mon
-+ sjg110121a/4.2.1 T0Mon.spec
++ sjg110124a/4.2.3 T0Mon.spec
 HG1102a T0DataSvc
 + sjg110114b/4.0.10 T0DataSvc.spec
 
