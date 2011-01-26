@@ -20,3 +20,13 @@ cd objs
 make install
 # Fix up a perl path
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/bin/llvm-config
+
+case %cmsos in 
+  osx*)
+    #Fix up install names for some of the libraries.
+    for x in BugpointPasses.dylib profile_rt.dylib LLVMHello.dylib
+    do
+      install_name_tool -change $x lib$x -id lib$x %i/lib/lib$x
+    done
+  ;;
+esac
