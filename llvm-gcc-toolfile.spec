@@ -67,8 +67,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
     <flags CPPFLAGS="-I@GCC_ROOT@/include/c++/@GCC_REALVERSION@/backward"/>
     <flags CXXFLAGS="-O2 -pedantic -ansi -pthread -pipe"/>
     <flags CXXFLAGS="@ARCH_CXXFLAGS@ @COMPILER_CXXFLAGS@"/>
-    <flags CXXFLAGS="-felide-constructors -fmessage-length=0 -ftemplate-depth-300"/>
-    <flags CXXFLAGS="-Wunknown-warning-option -Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses -Wsign-compare -Wno-deprecated -Werror=return-type -Werror=missing-braces -Werror=unused-value -Werror=address -Werror=format -Werror=write-strings -Werror=strict-overflow -fdiagnostics-show-option"/>
+    <flags CXXFLAGS="-fmessage-length=0 -ftemplate-depth-300"/>
+    # -Wno-non-template-friend removed since it's not supported, yet, by llvm.
+    <flags CXXFLAGS="-Wall -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses -Wsign-compare -Wno-deprecated -Werror=return-type -Werror=missing-braces -Werror=unused-value -Werror=address -Werror=format -Werror=write-strings -Werror=strict-overflow -fdiagnostics-show-option"/>
     <flags LDFLAGS="@OS_LDFLAGS@"/>
     <flags CXXSHAREDFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@"/>
     <flags SHAREDSUFFIX="@OS_SHAREDSUFFIX@"/>
