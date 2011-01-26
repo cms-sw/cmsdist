@@ -65,7 +65,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
     <flags CPPFLAGS="-I@GCC_ROOT@/include/c++/@GCC_REALVERSION@"/>
     <flags CPPFLAGS="-I@GCC_ROOT@/include/c++/@GCC_REALVERSION@/@GCC_ARCH@"/>
     <flags CPPFLAGS="-I@GCC_ROOT@/include/c++/@GCC_REALVERSION@/backward"/>
-    <flags CXXFLAGS="-O2 -pedantic -ansi -pthread -pipe"/>
+    <flags CXXFLAGS="-O2 -ansi -pthread -pipe"/>
     <flags CXXFLAGS="@ARCH_CXXFLAGS@ @COMPILER_CXXFLAGS@"/>
     <flags CXXFLAGS="-fmessage-length=0 -ftemplate-depth-300"/>
     # -Wno-non-template-friend removed since it's not supported, yet, by llvm.

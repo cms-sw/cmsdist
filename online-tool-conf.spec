@@ -27,7 +27,7 @@ Requires: coral-toolfile
 Requires: elementtree-toolfile
 #Requires: evtgenlhc-toolfile               # not used online
 Requires: expat-toolfile
-Requires: fakesystem
+#Requires: fakesystem
 Requires: fastjet-toolfile
 #Requires: gcc-toolfile                     # installed as system compiler
 Requires: gccxml-toolfile
