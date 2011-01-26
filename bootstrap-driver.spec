@@ -96,10 +96,9 @@ slc*onl* )
 
     # ONLINE: seed daq-built tools:
     slc5onl_ia32_platformSeeds="$slc5onl_ia32_platformSeeds daq-log4cplus daq-mimetic daq-oracle daq-sqlite daq-xdaq daq-xerces
-        daq-cgicc daq-tinyproxy daq-config daq-logudpappender
-        daq-logxmlappender daq-pt daq-ptfifo daq-pthttp
-        daq-pttcp daq-toolbox daq-xcept daq-xdaq2rc daq-xdata
-        daq-xgi daq-xoap daq-sentinelutils"
+        daq-appweb daq-asyncresolv daq-cgicc daq-tinyproxy daq-config daq-logudpappender
+        daq-logxmlappender daq-pt daq-ptfifo daq-pthttp daq-pttcp daq-toolbox daq-xalan
+        daq-xcept daq-xdaq2rc daq-xdata daq-xgi daq-xoap daq-sentinelutils"
 
     ##########################################################
     #slc5onl_amd64 Specific
@@ -117,10 +116,9 @@ slc*onl* )
 
     # ONLINE: seed daq-built tools:
     slc5onl_amd64_platformSeeds="$slc5onl_amd64_platformSeeds daq-log4cplus daq-mimetic daq-oracle daq-sqlite daq-xdaq daq-xerces
-        daq-cgicc daq-tinyproxy daq-config daq-logudpappender
-        daq-logxmlappender daq-pt daq-ptfifo daq-pthttp
-        daq-pttcp daq-toolbox daq-xcept daq-xdaq2rc daq-xdata
-        daq-xgi daq-xoap daq-sentinelutils"
+        daq-appweb daq-asyncresolv daq-cgicc daq-tinyproxy daq-config daq-logudpappender
+        daq-logxmlappender daq-pt daq-ptfifo daq-pthttp daq-pttcp daq-toolbox daq-xalan 
+        daq-xcept daq-xdaq2rc daq-xdata daq-xgi daq-xoap daq-sentinelutils"
 
     ;;
 slc*)
