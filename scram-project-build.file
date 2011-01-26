@@ -173,7 +173,7 @@ export SCRAM_NOSYMCHECK=true
 %endif
 
 # Move the debug logs into the builddir, so that they do not get packaged.
-mv %i/tmp/%cmsplatf/cache/log %_builddir/logs
+rm -rf %_builddir/logs; mv %i/tmp/%cmsplatf/cache/log %_builddir/logs
 
 # split the debug symbols out of tha main binaries, into separate files
 %if "%{?subpackageDebug:set}" == "set"
