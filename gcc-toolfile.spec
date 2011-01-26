@@ -15,18 +15,23 @@ Requires: gfortran-macosx
 %install
 mkdir -p %i/etc/scram.d
 
-# Determine the GCC_ROOT if "use system compiler is used.
+# Determine the GCC_ROOT if "use system compiler" is used.
 if [ "X$GCC_ROOT" = X ]
 then
     export GCC_PATH=`which gcc` || exit 1
     export GCC_ROOT=`echo $GCC_PATH | sed -e 's|/bin/gcc||'`
     export GCC_VERSION=`gcc -v 2>&1 | grep "gcc version" | sed 's|[^0-9]*\([0-9].[0-9].[0-9]\).*|\1|'` || exit 1
-    export G77_ROOT=$GFORTRAN_MACOSX_ROOT
+    export G77_ROOT=$GCC_ROOT
 else
     export GCC_PATH
     export GCC_ROOT
     export GCC_VERSION
     export G77_ROOT=$GCC_ROOT
+fi
+
+if echo %cmsos | grep -q osx; then
+    # on Mac OS X, override G77_ROOT with GFORTRAN_MACOSX_ROOT
+    export G77_ROOT=$GFORTRAN_MACOSX_ROOT
 fi
 
 export COMPILER_VERSION=`echo %cmsplatf | sed -e 's|.*gcc\([0-9]*\).*|\1|'`

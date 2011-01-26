@@ -21,7 +21,10 @@ Patch9: root-5.27-06b-r36572
 Patch10: root-5.27-06b-r36707
 Patch11: root-5.27-06b-r36594
 Patch12: root-5.27-06b-tmva-MethodBase-initvar
-Patch13: root-5.27-06b-tmva_Event_dynamic_hack
+Patch13: root-5.27-06b-r37582-tmva
+Patch14: root-5.27-06b-r37405
+Patch15: root-5.27-06b-r37556
+Patch16: root-5.27-06-fireworks10
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -61,6 +64,9 @@ Requires: qt
 %patch11 -p1
 %patch12 -p1
 %patch13 -p1
+%patch14 -p1
+%patch15 -p1
+%patch16 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
@@ -69,6 +75,10 @@ case %cmsplatf in
 %patch3 -p1
   ;;
 esac
+
+# Delete these (irrelevant) files as the fits appear to confuse rpm on OSX
+# (It tries to run install_name_tool on them.)
+rm -fR tutorials/fitsio
 
 %build
 
@@ -115,14 +125,15 @@ CONFIG_ARGS="--enable-table
              --with-dcap-incdir=${DCAP_ROOT}/include
              --disable-pgsql
              --disable-mysql
+             --disable-oracle
              --disable-xml ${EXTRA_CONFIG_ARGS}"
 
-case $(uname)-$(uname -m) in
-  Linux-x86_64)
+case %cmsos in
+  slc*_amd64)
     ./configure linuxx8664gcc $CONFIG_ARGS --with-rfio-libdir=${CASTOR_ROOT}/lib --with-rfio-incdir=${CASTOR_ROOT}/include/shift --with-castor-libdir=${CASTOR_ROOT}/lib --with-castor-incdir=${CASTOR_ROOT}/include/shift ;; 
-  Linux-i*86)
+  slc*_ia32)
     ./configure linux  $CONFIG_ARGS --with-rfio-libdir=${CASTOR_ROOT}/lib --with-rfio-incdir=${CASTOR_ROOT}/include/shift --with-castor-libdir=${CASTOR_ROOT}/lib --with-castor-incdir=${CASTOR_ROOT}/include/shift ;;
-  Darwin*)
+  osx*)
     case %cmsplatf in
     *_ia32_* ) 
       comparch=i386 
@@ -137,9 +148,9 @@ case $(uname)-$(uname -m) in
       macconfig=macosx
       ;;
     esac
-    export CC="gcc -arch $comparch" CXX="g++ -arch $comparch"
-    ./configure $macconfig $CONFIG_ARGS --with-cc="$CC" --with-cxx="$CXX" --disable-rfio --disable-builtin_afterimage ;;
-  Linux-ppc64*)
+    export CC=`which gcc` CXX=`which g++`
+    ./configure $arch $CONFIG_ARGS --with-cc="$CC" --with-cxx="$CXX" --disable-rfio --disable-builtin_afterimage ;;
+  slc*_ppc64*)
     ./configure linux $CONFIG_ARGS --disable-rfio;;
 esac
 
@@ -151,8 +162,8 @@ case %cmsplatf in
    makeopts="%makeprocesses"
   ;;
 esac
- 
-make $makeopts 
+
+make $makeopts
 make cintdlls
 
 %install
@@ -171,6 +182,9 @@ export ROOTSYS=%i
 make INSTALL="$cp" INSTALLDATA="$cp" install
 mkdir -p $ROOTSYS/lib/python
 cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
+# This file confuses rpm's find-requires because it starts with
+# a """ and it thinks is the shebang.
+rm -f %i/tutorials/pyroot/mrt.py
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
