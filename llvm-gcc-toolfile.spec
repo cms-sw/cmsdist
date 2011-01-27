@@ -42,6 +42,8 @@ export COMPILER_VERSION=`echo $LLVM_VERSION`
 export COMPILER_VERSION_MAJOR=`echo $LLVM_VERSION | sed -e 's|\([0-9]\).*|\1|'`
 export COMPILER_VERSION_MINOR=`echo $LLVM_VERSION | sed -e 's|[0-9].\([0-9]\).*|\1|'`
 
+export GCC_ARCH=$(basename $(dirname `find $GCC_ROOT/include -mindepth 4 -maxdepth 4 -name bits`))
+
 # Generic template for the toolfiles. 
 # *** USE @VARIABLE@ plus associated environment variable to customize. ***
 # DO NOT DUPLICATE the toolfile template.
@@ -61,18 +63,18 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
     <flags CPPDEFINES="_GNU_SOURCE"/>
     <flags CXXSHAREDOBJECTFLAGS="-fPIC"/>
     <flags CPPFLAGS="-I@GCC_ROOT@/include/c++/@GCC_REALVERSION@"/>
-    <flags CPPFLAGS="-I@GCC_ROOT@/include/c++/@GCC_REALVERSION@/i686-pc-linux-gnu"/>
+    <flags CPPFLAGS="-I@GCC_ROOT@/include/c++/@GCC_REALVERSION@/@GCC_ARCH@"/>
     <flags CPPFLAGS="-I@GCC_ROOT@/include/c++/@GCC_REALVERSION@/backward"/>
     <flags CXXFLAGS="-O2 -pedantic -ansi -pthread -pipe"/>
     <flags CXXFLAGS="@ARCH_CXXFLAGS@ @COMPILER_CXXFLAGS@"/>
-    <flags CXXFLAGS="-felide-constructors -fmessage-length=0 -ftemplate-depth-300"/>
-    <flags CXXFLAGS="-Wunknown-warning-option -Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses -Wsign-compare -Wno-deprecated -Werror=return-type -Werror=missing-braces -Werror=unused-value -Werror=address -Werror=format -Werror=write-strings -Werror=strict-overflow -fdiagnostics-show-option"/>
+    <flags CXXFLAGS="-fmessage-length=0 -ftemplate-depth-300"/>
+    # -Wno-non-template-friend removed since it's not supported, yet, by llvm.
+    <flags CXXFLAGS="-Wall -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses -Wsign-compare -Wno-deprecated -Werror=return-type -Werror=missing-braces -Werror=unused-value -Werror=address -Werror=format -Werror=write-strings -Werror=strict-overflow -fdiagnostics-show-option"/>
     <flags LDFLAGS="@OS_LDFLAGS@"/>
     <flags CXXSHAREDFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@"/>
     <flags SHAREDSUFFIX="@OS_SHAREDSUFFIX@"/>
     <flags LD_UNIT="@OS_LD_UNIT@ @ARCH_LD_UNIT@"/>
     <flags SCRAM_LANGUAGE_TYPE="C++"/>
-    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$CXXCOMPILER_BASE/@ARCH_LIB64DIR@" type="path"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$CXXCOMPILER_BASE/lib" type="path"/>
     <runtime name="PATH" value="$CXXCOMPILER_BASE/bin" type="path"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="@GCC_ROOT@/@ARCH_LIB64DIR@" type="path"/>
@@ -223,6 +225,6 @@ esac
 perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*.xml
 
 %post
-[ "X$RPM_INSTALL_PREFIX" == "X$CMS_INSTALL_PREFIX" ] || perl -p -i -e "s|$RPM_INSTALL_PREFIX|$CMS_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/etc/scram.d/*.xml
+%{relocateConfig}etc/scram.d/*.xml
 echo "LLVM_GCC_TOOLFILE_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'; export GCC_TOOLFILE_ROOT" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 echo "setenv LLVM_GCC_TOOLFILE_ROOT '$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
