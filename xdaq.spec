@@ -1,4 +1,4 @@
-### RPM external xdaq VR16768
+### RPM external xdaq VR16796
 
 Requires: zlib mimetic xerces-c uuid sqlite
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
@@ -8,7 +8,6 @@ Source: svn://svn.cern.ch/reps/cmsos/trunk/?scheme=svn+ssh&revision=%svntrunk&st
 
 Patch0: xdaq_VR16768_build
 Patch1: xdaq_mfDefs_flags
-Patch2: xdaq-VR16768-fix-install-headers
 
 Provides: /bin/awk
 # This is needed on macosx because this is the install_name for the .so
@@ -21,7 +20,6 @@ Provides: libasyncresolv.0
 
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 # Xdaq does not provide makeinstall,  it uses "simplify" script instead to 
