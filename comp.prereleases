@@ -1,4 +1,4 @@
-# Do not put the same <pkg> in different entries
+A# Do not put the same <pkg> in different entries
 #
 # The format of each entry may be:
 # <pre-release-CMSDIST-tag> <project-main-pkg> [<other-project-pkgs>]
@@ -34,9 +34,9 @@ HG1102a das
 + 1.1 py2-yajl.spec
 
 # T0Mon and T0DataSvc
-HG1102a T0Mon
-+ sjg110124a/4.2.3 T0Mon.spec
-HG1102a T0DataSvc
+HG1102b T0Mon
++ sjg110127a/4.2.4 T0Mon.spec
+HG1102b T0DataSvc
 + sjg110127a/4.0.11 T0DataSvc.spec
 
 # DBS-2
