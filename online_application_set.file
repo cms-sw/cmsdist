@@ -146,6 +146,7 @@ CondCore/LuminosityPlugins
 CondCore/MetaDataService
 CondCore/Modules
 CondCore/OptAlignPlugins
+CondCore/ORA
 CondCore/PhysicsToolsPlugins
 CondCore/PluginSystem
 CondCore/PopCon
