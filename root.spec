@@ -1,51 +1,60 @@
-### RPM lcg root 5.27.06b
+### RPM lcg root 5.22.00d
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i  
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
 Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
-%define ismac %(case %cmsplatf in osx*%closingbrace echo true;; *%closingbrace e
-cho false;; esac)
+%define ismac %(case %cmsplatf in osx*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
-Patch0: root-5.27-06-externals
-Patch1: root-5.27-04-CINT-maxlongline-maxtypedef
-Patch2: root-5.22-00a-roofit-silence-static-printout
-Patch3: root-5.22-00d-linker-gnu-hash-style
-Patch4: root-5.22-00d-TBranchElement-dropped-data-member
-Patch5: root-5.27-06-fireworks9
-Patch6: root-5.27-06b-gdb-backtrace
-Patch7: root-5.27-06-tmva-DecisionTreeNode
-Patch8: root-5.27-06b-r36567
-Patch9: root-5.27-06b-r36572
-Patch10: root-5.27-06b-r36707
-Patch11: root-5.27-06b-r36594
-Patch12: root-5.27-06b-tmva-MethodBase-initvar
-Patch13: root-5.27-06b-r37582-tmva
-Patch14: root-5.27-06b-r37405
-Patch15: root-5.27-06b-r37556
-Patch16: root-5.27-06-fireworks10
+Patch0: root-5.22-00d-externals
+Patch1: root-5.22-00d-CINT-maxlongline-maxtypedef
+Patch2: root-5.22-00-TMVA-shut-the-hell-up-for-once
+Patch3: root-5.22-00a-TMVA-shut-the-hell-up-again
+Patch4: root-5.22-00d-fireworks-graf3d-gui-ko
+Patch5: root-5.22-00a-roofit-silence-static-printout
+Patch6: root-5.22-00a-TMVA-just-shut-the-hell-up
+Patch7: root-5.22-00a-th1
+Patch8: root-5.22-00d-makelib-ldl
+Patch9: root-5.22-00a-fireworks1
+Patch10: root-5.22-00a-gcc44 
+Patch11: root-5.22-00a-fireworks2
+Patch12: root-5.22-00a-fireworks3
+Patch13: root-5.22-00a-gcc43-array-bounds-dictionary-workaround
+Patch14: root-5.22-00a-fireworks4
+Patch15: root-5.22-00d-fireworks5
+Patch16: root-5.22-00d-genreflex_python26_popen3
+Patch17: root-5.22-00d-fireworks6
+Patch18: root-5.22-00d-linker-gnu-hash-style
+Patch19: root-5.22-00d-TFile-version3-Init 
+Patch20: root-5.22-00d-cint-namespace
+Patch21: root-5.22-00d-fireworks7
+Patch22: root-5.22-00d-TMath-Vavilov
+Patch23: root-5.22-00d-TBranchElement-dropped-data-member
+Patch24: root-5.22-00d-fireworks8-ko
+Patch25: root-5.22-00d-fix-python-shebang
+Patch26: root-5.22-00d-RootsysOnMac
+Patch27: root-5.22-00d-TString-Clear
+Patch28: root-5.22-00d-libgfortran-dylib-detection
+Patch29: root-5.22-00d-cint-dll-correct-install-name
+Patch30: root-5.22-00d-fireworks9
+Patch31: root-5.22-00d-async-readbuffers
+Patch32: root-5.22-00d-fireworks10
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
 Requires: gccxml gsl libjpg libpng libtiff libungif pcre python fftw3
 
-%if "%ismac" != "true"
+%if "%ismac" == "false"
 Requires: castor dcap
 %endif
 
-%if "%online" != "true"
-Requires: openssl zlib xrootd
+%if "%online-%ismac" == "false-true"
+Requires: openssl zlib gfortran-macosx
 %endif
 
-%if "%ismac" == "true"
-Requires: gfortran-macosx
-%endif
-
-%if "%online" != "true"
-%if "%ismac" != "true"
-Requires: qt 
-%endif
+%if "%online-%ismac" == "false-false"
+Requires: openssl zlib qt xrootd
 %endif
 
 %prep
@@ -53,32 +62,55 @@ Requires: qt
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-# patch3 is OS version dependent, see below
+%patch3 -p1
 %patch4 -p1
+
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
-%patch10 -p1
+
+# patch10 is compiler version dependent, see below
 %patch11 -p1
 %patch12 -p1
-%patch13 -p1
+# patch13 is compiler version dependent, see below
+
 %patch14 -p1
 %patch15 -p1
 %patch16 -p1
+%patch17 -p1
+%patch19 -p1
+%patch20 -p1
+%patch21 -p1
+%patch22 -p1
+%patch23 -p1
+%patch24 -p1
+%patch25 -p1
+%patch26 -p1
+%patch27 -p1
+%patch28 -p2
+%patch29 -p1
+%patch30 -p1
+%patch31 -p1
+%patch32 -p1
 
-# The following patch can only be applied on SLC5 or later (extra linker
-# options only available with the SLC5 binutils)
-case %cmsplatf in
-  slc5_* | slc5onl_* )
-%patch3 -p1
+case %gccver in
+  4.3.*)
+%patch13 -p1
+  ;;
+  4.4.*)
+%patch10 -p1
   ;;
 esac
 
-# Delete these (irrelevant) files as the fits appear to confuse rpm on OSX
-# (It tries to run install_name_tool on them.)
-rm -fR tutorials/fitsio
+# The following patch can only be applied on SLC5 or later (extra linker 
+# options only available with the SLC5 binutils)
+case %cmsplatf in
+  slc5_* | slc5onl_* )
+%patch18 -p1
+  ;;
+esac
 
 %build
 
@@ -91,11 +123,13 @@ export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 # Use system qt. Also skip xrootd and odbc for online case:
 
 EXTRA_CONFIG_ARGS="--with-f77=/usr
+             --disable-xrootd
              --disable-odbc
-             --disable-qt --disable-qtgsi --disable-astiff"
+             --disable-qt --disable-qtgsi"
 %else
 export LIBPNG_ROOT ZLIB_ROOT LIBTIFF_ROOT LIBUNGIF_ROOT
 EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}
+             --with-xrootd=$XROOTD_ROOT
              --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
              --with-ssl-incdir=${OPENSSL_ROOT}/include
              --with-ssl-libdir=${OPENSSL_ROOT}/lib
@@ -118,7 +152,6 @@ CONFIG_ARGS="--enable-table
              --with-fftw3-libdir=${FFTW3_ROOT}/lib
              --disable-ldap
              --disable-krb5
-             --with-xrootd=${XROOTD_ROOT}
              --with-gsl-incdir=${GSL_ROOT}/include
              --with-gsl-libdir=${GSL_ROOT}/lib
              --with-dcap-libdir=${DCAP_ROOT}/lib 
@@ -128,29 +161,23 @@ CONFIG_ARGS="--enable-table
              --disable-oracle
              --disable-xml ${EXTRA_CONFIG_ARGS}"
 
-case %cmsos in
-  slc*_amd64)
-    ./configure linuxx8664gcc $CONFIG_ARGS --with-rfio-libdir=${CASTOR_ROOT}/lib --with-rfio-incdir=${CASTOR_ROOT}/include/shift --with-castor-libdir=${CASTOR_ROOT}/lib --with-castor-incdir=${CASTOR_ROOT}/include/shift ;; 
-  slc*_ia32)
-    ./configure linux  $CONFIG_ARGS --with-rfio-libdir=${CASTOR_ROOT}/lib --with-rfio-incdir=${CASTOR_ROOT}/include/shift --with-castor-libdir=${CASTOR_ROOT}/lib --with-castor-incdir=${CASTOR_ROOT}/include/shift ;;
-  osx*)
+case $(uname)-$(uname -m) in
+  Linux-x86_64)
+    ./configure linuxx8664gcc $CONFIG_ARGS --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift --disable-astiff;; 
+  Linux-i*86)
+    ./configure linux  $CONFIG_ARGS --with-shift-libdir=${CASTOR_ROOT}/lib --with-shift-incdir=${CASTOR_ROOT}/include/shift;;
+  Darwin*)
     case %cmsplatf in
     *_ia32_* ) 
-      comparch=i386 
-      macconfig=macosx
-      ;; 
+      comparch=i386 ;;
     *_amd64_* )
-      comparch=x86_64
-      macconfig=macosx64
-      ;; 
+      comparch=x86_64 ;;
     * ) 
-      comparch=ppc 
-      macconfig=macosx
-      ;;
+      comparch=ppc ;;
     esac
-    export CC=`which gcc` CXX=`which g++`
-    ./configure $arch $CONFIG_ARGS --with-cc="$CC" --with-cxx="$CXX" --disable-rfio --disable-builtin_afterimage ;;
-  slc*_ppc64*)
+    export CC="gcc -arch $comparch" CXX="g++ -arch $comparch"
+    ./configure macosx $CONFIG_ARGS --with-cc="$CC" --with-cxx="$CXX" --disable-rfio --disable-builtin_afterimage ;;
+  Linux-ppc64*)
     ./configure linux $CONFIG_ARGS --disable-rfio;;
 esac
 
@@ -162,8 +189,8 @@ case %cmsplatf in
    makeopts="%makeprocesses"
   ;;
 esac
-
-make $makeopts
+ 
+make $makeopts 
 make cintdlls
 
 %install
@@ -182,9 +209,7 @@ export ROOTSYS=%i
 make INSTALL="$cp" INSTALLDATA="$cp" install
 mkdir -p $ROOTSYS/lib/python
 cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
-# This file confuses rpm's find-requires because it starts with
-# a """ and it thinks is the shebang.
-rm -f %i/tutorials/pyroot/mrt.py
+#
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
@@ -224,7 +249,7 @@ EOF_TOOLFILE
 
 # roothistmatrix toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/roothistmatrix.xml
-  <tool name="roothistmatrix" version="%v">
+  <tool name="roothistmatrix" version="%v"> 
     <info url="http://root.cern.ch/root/"/>
     <lib name="Hist"/>
     <lib name="Matrix"/>
@@ -234,7 +259,7 @@ EOF_TOOLFILE
 
 # rootgpad toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootgpad.xml
-  <tool name="rootgpad" version="%v">
+  <tool name="rootgpad" version="%v"> 
     <info url="http://root.cern.ch/root/"/>
     <lib name="Gpad"/>
     <lib name="Graf"/>
@@ -378,4 +403,3 @@ EOF_TOOLFILE
 
 %post
 perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $(find $RPM_INSTALL_PREFIX/%pkgrel/etc/scram.d -type f)
-
