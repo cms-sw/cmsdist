@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-datasvc DATASVC_1_6_4pre7
+### RPM cms PHEDEX-datasvc DATASVC_1_6_4a
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -27,6 +27,7 @@ Provides: perl(HTML::Entities)
 Provides: perl(DB_File)
 Provides: perl(Date::Manip)
 Provides: perl(XML::LibXML)
+Provides: perl(URI::Escape)
 
 # We obsolete each previous release to force them to be removed
 Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_6_3
