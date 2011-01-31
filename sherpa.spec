@@ -1,29 +1,14 @@
-### RPM external sherpa 1.2.0
+### RPM external sherpa 1.2.1
 ## BUILDIF case $(uname):$(uname -m) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac 
 
-Source: http://cern.ch/service-spi/external/MCGenerators/distribution/sherpa-%{realversion}-src.tgz
+#Source: http://cern.ch/service-spi/external/MCGenerators/distribution/sherpa-%{realversion}-src.tgz
+Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
 
 Requires: hepmc lhapdf
 
-Patch:  sherpa-1.2.0-gcc-4.4.x
-Patch1: sherpa-1.2.0-nlo-example
-Patch2: sherpa-1.2.0-mpiforbsm
-Patch3: sherpa-1.2.0-ispartonstatuscode
-Patch4: sherpa-1.2.0-dupl_header_remove
-Patch5: sherpa-1.2.0-agc_fix
-Patch6: sherpa-1.2.0-xs-error-nan
-Patch7: sherpa-1.2.0-liblock_home_1
-
 %prep
-%setup -n sherpa/%{realversion}
-%patch -p0
-%patch1 -p0 
-%patch2 -p0 
-%patch3 -p0 
-%patch4 -p0
-%patch5 -p0
-%patch6 -p0
-%patch7 -p0
+#%setup -n sherpa/%{realversion}
+%setup -n SHERPA-MC-%{realversion}
 
 autoreconf -i
 
