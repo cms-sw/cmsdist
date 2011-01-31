@@ -1,13 +1,11 @@
-diff --git a/callgrind/global.h b/callgrind/global.h
-index bfb5a48..0f4559e 100644
---- a/callgrind/global.h
-+++ b/callgrind/global.h
-@@ -116,7 +116,7 @@ struct _CommandLineOptions {
+--- orig.valgrind-3.3.0/callgrind/global.h	2007-12-11 00:18:11.000000000 +0100
++++ valgrind-3.3.0/callgrind/global.h	2007-12-14 01:50:36.000000000 +0100
+@@ -113,7 +113,7 @@
  
  /* Size of various buffers used for storing strings */
  #define FILENAME_LEN                    256
 -#define FN_NAME_LEN                    4096 /* for C++ code :-) */
 +#define FN_NAME_LEN                   32768 /* for C++ code :-) */
  #define OBJ_NAME_LEN                    256
- #define COSTS_LEN                       512 /* at least 17x 64bit values */
  #define BUF_LEN                         512
+ #define COMMIFY_BUF_LEN                 128
