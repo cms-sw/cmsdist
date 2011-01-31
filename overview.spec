@@ -17,7 +17,6 @@ Requires: cherrypy py2-cheetah yui py2-cx-oracle py2-pil py2-matplotlib overview
 
 # Set up minimal SCRAM project build area with our sources.
 %prep
-export SCRAM_ARCH=%cmsplatf
 rm -fr %_builddir/{config,src,THE_BUILD}
 %setup    -T -b 0 -n config
 %setup -c -T -a 1 -n src
@@ -27,7 +26,7 @@ rm -fr src/Vis*/*/{src,bin,interface,plugins,test}
 tar -jcvf distsrc.tar.bz2 -C src .
 
 config/updateConfig.pl -p CMSSW -v THE_BUILD -s $SCRAMV1_VERSION -t ${OVERVIEW_CONF_ROOT}
-%scram project -d $PWD -b config/bootsrc.xml </dev/null
+ %scram project -d $PWD -b config/bootsrc.xml </dev/null
 
 # Build the code as a scram project area, then relocate it to more
 # normal directories (%i/{bin,lib,python}).  Save the scram runtime
@@ -35,7 +34,6 @@ config/updateConfig.pl -p CMSSW -v THE_BUILD -s $SCRAMV1_VERSION -t ${OVERVIEW_C
 # the scram environment to point to the installation directories.
 # Avoid generating excess environment.
 %build
-export SCRAM_ARCH=%cmsplatf
 cd %_builddir/THE_BUILD/src
 export BUILD_LOG=yes
 export SCRAM_NOPLUGINREFRESH=yes
@@ -57,8 +55,8 @@ for p in PATH LD_LIBRARY_PATH PYTHONPATH; do
   done
 done
 removeenv='LOCALRT|CMSSW_(RELEASE_)*(BASE|VERSION|(FWLITE|SEARCH)_[A-Z_]*)|(COIN|IGUANA|SEAL)_[A-Z_]*'
-scram runtime -sh | grep -v SCRAMRT | egrep -v "^export ($removeenv)=" > %i/etc/profile.d/env.sh
-scram runtime -csh | grep -v SCRAMRT | egrep -v "^setenv ($removeenv) " > %i/etc/profile.d/env.csh
+ %scram runtime -sh | grep -v SCRAMRT | egrep -v "^export ($removeenv)=" > %i/etc/profile.d/env.sh
+ %scram runtime -csh | grep -v SCRAMRT | egrep -v "^setenv ($removeenv) " > %i/etc/profile.d/env.csh
 perl -w -i -p -e \
   'BEGIN {
      %%linked = map { s|/+[^/]+$||; ($_ => 1) }
@@ -98,7 +96,6 @@ perl -w -i -p -e \
 # Usage at https://twiki.cern.ch/twiki/bin/view/CMS/DQMTest and
 # https://twiki.cern.ch/twiki//bin/view/CMS/DQMGuiProduction.
 %install
-export SCRAM_ARCH=%cmsplatf
 mkdir -p %i/etc/profile.d %i/etc/scramconfig %i/external %i/{,x}bin %i/{,x}lib %i/{,x}python %i/data
 cp -p %_builddir/distsrc.tar.bz2 %i/data
 cp -p %_builddir/THE_BUILD/bin/%cmsplatf/* %i/bin
@@ -113,7 +110,7 @@ for f in %i/bin/visDQM*; do
   mv $f $(echo $f | sed s/visDQM/ov/g)
 done
 
-(set -e; eval `scram runtime -sh`;
+(set -e; eval `%scram runtime -sh`;
  export PYTHONPATH=%i/python${PYTHONPATH+":$PYTHONPATH"};
  for mod in %i/python/*.py; do
    python -c "import $(basename $mod | sed 's/\.py$//')"
