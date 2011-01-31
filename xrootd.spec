@@ -1,29 +1,27 @@
-### RPM external xrootd 20090727.1318
-Source: http://cmsrep.cern.ch//cmssw/xrootd_src/%n-%{realversion}.tar.gz
+### RPM external xrootd 5.27.06
+Source: http://cmsrep.cern.ch//cmssw/xrootd_src/%n-%{realversion}.tgz
 Patch0: xrootd-gcc44
-Patch1: xrootd-readv2
-Patch2: xrootd-20090727.1318-fix-missing-krb5
+Patch1: xrootd-5.27.06b-forkv2
 Requires: openssl
 
 %prep 
 %setup -n %n-%{realversion}
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
+%patch1 -p4
 
 %build
-CONFIG_ARGS="--disable-krb4 --with-ssl-incdir=${OPENSSL_ROOT}/include --with-ssl-libdir=${OPENSSL_ROOT}/lib \
-             --with-krb5=/usr --with-cxx=`which c++` --with-ld=`which c++`"
-case %cmsos in
-  slc*_amd64*)
-    ./configure.classic x86_64_linux_26 --ccflavour=gccx8664  $CONFIG_ARGS ;;
-  slc*_ia32*)
-    ./configure.classic i386_linux26 --ccflavour=gcc $CONFIG_ARGS ;;
+CONFIG_ARGS="--disable-krb4 --with-ssl-incdir=${OPENSSL_ROOT}/include --with-ssl-libdir=${OPENSSL_ROOT}/lib"
+case $(uname)-$(uname -m) in
+  Linux-x86_64)
+    ./configure.classic x86_64_linux $CONFIG_ARGS ;;
+  Linux-i*86)
+    ./configure.classic i386_linux $CONFIG_ARGS ;;
   *)
    # This is wrong, the arch needs to be added, I think
     ./configure.classic $CONFIG_ARGS ;;
 esac
 
+./configure.classic --disable-krb4 --with-ssl-incdir=$OPENSSL_ROOT/include --with-ssl-libdir=$OPENSSL_ROOT/lib
 # Workaround for the lack of a 32bit readline-devel rpm for SL4
 # Given that the 64bit readline-devel is there, the headers are there,
 # the only thing missing is the libreadline.so symlink
@@ -98,4 +96,3 @@ EOF_TOOLFILE
 
 %post
 %{relocateConfig}etc/scram.d/%n
-
