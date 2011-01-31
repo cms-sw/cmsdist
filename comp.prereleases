@@ -1,4 +1,4 @@
-A# Do not put the same <pkg> in different entries
+# Do not put the same <pkg> in different entries
 #
 # The format of each entry may be:
 # <pre-release-CMSDIST-tag> <project-main-pkg> [<other-project-pkgs>]
@@ -35,9 +35,9 @@ HG1102a das
 
 # T0Mon and T0DataSvc
 HG1102b T0Mon
-+ sjg110127a/4.2.4 T0Mon.spec
++ sjg110131a/4.2.6 T0Mon.spec
 HG1102b T0DataSvc
-+ sjg110127a/4.0.11 T0DataSvc.spec
++ sjg110131a/5.0.0 T0DataSvc.spec
 
 # DBS-2
 #HG1009c dbs-apps
