@@ -13,13 +13,7 @@ Patch: zlib-1.2.3-shared-for-32-bit-on-x86_64
 %endif
 
 %build
-%if "%cmscompiler" == "icc"
-%define cfgopts CC="icc -fPIC"
-%else
-%define cfgopts %nil
-%endif
-
-%cfgopts ./configure --shared --prefix=%i
+./configure --shared --prefix=%i
 make %makeprocesses
 
 %install
