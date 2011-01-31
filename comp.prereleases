@@ -40,8 +40,10 @@ HG1102b T0DataSvc
 + sjg110127a/4.0.11 T0DataSvc.spec
 
 # DBS-2
-HG1009c dbs-apps
-+ aa28102010216-dbs dbs-{apps,server,schema,libs,client,web}.spec
+#HG1009c dbs-apps
+#+ aa28102010216-dbs dbs-{apps,server,schema,libs,client,web}.spec
+HG1102b dbs-client
++ HEAD/DBS_2_1_1_patch1_1 dbs-client.spec
 
 # DBS-3
 #aa20100831-dbs3 dbs3
