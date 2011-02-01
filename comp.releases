@@ -10,6 +10,8 @@
 
 # Cms Webtools services
 HG1102b cmsweb
++ sjg110131a/4.2.6 T0Mon.spec
++ sjg110131a/5.0.0 T0DataSvc.spec
 
 # Base packages
 #HG1012b base
