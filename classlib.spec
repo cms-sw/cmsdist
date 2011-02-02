@@ -1,4 +1,4 @@
-### RPM external classlib 3.1.1
+### RPM external classlib 3.1.2
 Source: http://cmsmac01.cern.ch/~lat/exports/%n-%realversion.tar.bz2
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
