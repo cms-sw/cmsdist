@@ -12,7 +12,7 @@
 # When using HEAD as <revisio> you must specify <version>.
 
 # CrabServer
-#CRABSERVER_1_1_3_pre3_BUILD_SLC5  crab-server prodagent  prodcommon wmcore mysql
+CRABSERVER_1_1_4_pre1_BUILD_SLC5  crab-server prodagent  prodcommon wmcore mysql
 
 # DAS
 #HG1010a das
