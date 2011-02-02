@@ -29,7 +29,7 @@ HG1102a das
 #+ DAS_20101222_slc5_amd64_gcc434_v2 das.spec # this is 0.5.7 tag
 #+ DAS_20110113_slc5_amd64_gcc434_v6 das.spec # this is 0.5.8 tag
 #+ DAS_20110116_slc5_amd64_gcc434 das.spec # this is 0.5.9 tag
-+ DAS_20110202_slc5_amd64_gcc434_v2 das.spec
++ DAS_20110202_slc5_amd64_gcc434_v3 das.spec
 + 1.1 yajl.spec
 + 1.1 py2-yajl.spec
 
