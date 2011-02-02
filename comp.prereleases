@@ -39,6 +39,10 @@ HG1102b T0Mon
 HG1102b T0DataSvc
 + sjg110131a/5.0.0 T0DataSvc.spec
 
+# CmsTC
+HG1102b CmsTC
++ sjg110202a/0.0.0 CmsTC.spec
+
 # DBS-2
 #HG1009c dbs-apps
 #+ aa28102010216-dbs dbs-{apps,server,schema,libs,client,web}.spec
