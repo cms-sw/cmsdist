@@ -86,6 +86,12 @@ HG1012a plotfairy
 
 # Cms Webtools services
 HG1102b cmsweb
++ TW20110202c/2 PHEDEX-combined-web.spec
++ TW20110202c/DATASVC_1_6_5 PHEDEX-datasvc.spec
++ TW20110202c/WEBAPP_BETA_1_0_2 PHEDEX-webapp.spec
++ TW20110202c/WEB_3_1_7 PHEDEX-web.spec
++ sjg110131a/4.2.6 T0Mon.spec
++ sjg110131a/5.0.0 T0DataSvc.spec
 
 # ReqMgr
 HG1102b reqmgr
