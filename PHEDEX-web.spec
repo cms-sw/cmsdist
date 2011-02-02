@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-web WEB_3_1_6pre7
+### RPM cms PHEDEX-web WEB_3_1_7
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -30,6 +30,7 @@ Provides: perl(DB_File)
 Provides: perl(XML::LibXML)
 
 # We obsolete each previous release to force them to be removed
+Obsoletes: cms+PHEDEX-web+WEB_3_1_6
 Obsoletes: cms+PHEDEX-web+WEB_3_1_5
 Obsoletes: cms+PHEDEX-web+WEB_3_1_4
 Obsoletes: cms+PHEDEX-web+WEB_3_1_2a
@@ -56,6 +57,7 @@ export PROJECT_ROOT='%instroot/../projects/phedex-web'
 # Switch path-like template variables in the configuration files
 perl -p -i -e "s|\@PHEDEX_ROOT\@|%i|g;
 	       s|\@SERVER_ROOT\@|%instroot/apache2|g;
+	       s|\@VERSION\@|%nversion|g;
 	       s|\@PROJECT_ROOT\@|$PROJECT_ROOT|g;
 	       s|\@MOD_PERL_LIB\@|$MOD_PERL2_ROOT/modules/mod_perl.so|g;" \
   %i/Documentation/WebConfig/* \
