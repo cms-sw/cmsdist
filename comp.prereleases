@@ -44,7 +44,8 @@ HG1102b T0DataSvc
 
 # CmsTC
 HG1102b CmsTC
-+ sjg110202a/0.0.0 CmsTC.spec
++ sjg110203a/0.0.1 CmsTC.spec
++ sjg110203a/0.3.6 py2-mako.spec
 
 # DBS-2
 #HG1009c dbs-apps
