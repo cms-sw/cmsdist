@@ -26,7 +26,9 @@ Patch14: root-5.27-06b-r37405
 Patch15: root-5.27-06b-r37556
 Patch16: root-5.27-06-fireworks10
 Patch17: root-5.27-06-TTreeClonerTopLevel
-
+Patch18: root-5.27-06b-r37947
+Patch19: root-5.27-06b-TTreeCache-r37950-r37919-r37917-r37916-r37906
+ 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
 Requires: gccxml gsl libjpg libpng libtiff libungif pcre python fftw3
@@ -69,6 +71,8 @@ Requires: qt
 %patch15 -p1
 %patch16 -p1
 %patch17 -p0
+%patch18 -p1
+%patch19 -p0
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
