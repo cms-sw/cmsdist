@@ -12,7 +12,10 @@
 # When using HEAD as <revisio> you must specify <version>.
 
 # CrabServer
-CRABSERVER_1_1_4_pre1_BUILD_SLC5  crab-server prodagent  prodcommon wmcore mysql
+#CRABSERVER_1_1_4_pre1_BUILD_SLC5  crab-server prodagent  prodcommon wmcore mysql
+
+HG1102b crab-server
++ CRABSERVER_1_1_4_pre1_BUILD_SLC5 crab-server.spec mysql.spec prodagent.spec prodcommon.spec wmcore.spec PHEDEX-micro.spec dls-client.spec python-ldap.spec openldap.specopenldap-2.3.39-gcc44.patch python-ldap-2.3.5-gcc44.patch
 
 # DAS
 #HG1010a das
