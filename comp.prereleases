@@ -117,5 +117,5 @@ HG1102a wmagent
 + WMAGENT_0_6_2 dls-client.spec wmagent.spec
 
 # PHEDEX agents
-HG1102a PHEDEX-combined-agents
-+ forPHEDEX400pre3 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
+HG1102b PHEDEX-combined-agents
++ forPHEDEX400pre4 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
