@@ -1,4 +1,4 @@
-### RPM cms das 0.5.10.pre11
+### RPM cms das 0.5.10.pre12
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
 %define webdoc_files %i/doc/
