@@ -31,6 +31,9 @@ Provides: perl(XML::LibXML)
 Provides: perl(URI::Escape)
 
 # We obsolete each previous release to force them to be removed
+Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_6_7
+Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_6_6
+Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_6_5
 Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_6_4
 Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_6_3
 Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_6_2

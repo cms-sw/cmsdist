@@ -31,6 +31,7 @@ Provides: perl(DB_File)
 Provides: perl(XML::LibXML)
 
 # We obsolete each previous release to force them to be removed
+Obsoletes: cms+PHEDEX-web+WEB_3_1_7
 Obsoletes: cms+PHEDEX-web+WEB_3_1_6
 Obsoletes: cms+PHEDEX-web+WEB_3_1_5
 Obsoletes: cms+PHEDEX-web+WEB_3_1_4
