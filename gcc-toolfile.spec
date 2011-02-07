@@ -177,7 +177,7 @@ COMPILER_CXXFLAGS=
 F77_MMD="-MMD"
 case %cmsplatf in
    *_gcc4[56789]* )
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++0x -ftree-vectorize"
+     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++0x -msse3 -ftree-vectorize"
      F77_MMD="-cpp -MMD"
    ;;
 esac
