@@ -6,7 +6,6 @@
 %define srctree DLS/Client
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%{srctree}&export=%{compProjectName}&&tag=-r%{cvstag}&output=/DLS.tar.gz
 Requires: python dbs-client py2-pyxml
-
 %prep
 %setup -n DLS
 perl -p -i -e "s|#!/usr/bin/python|#!/usr/bin/env python|" $(find .)
