@@ -1,16 +1,7 @@
 ### RPM external classlib 3.1.1
 Source: http://cmsmac01.cern.ch/~lat/exports/%n-%realversion.tar.bz2
-%define closingbrace )
-%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
-
-Requires: bz2lib 
-Requires: pcre 
-%if "%online" != "true"
-Requires: openssl
-Requires: zlib 
-%else
-Requires: onlinesystemtools
-%endif
+# Requires: zlib bz2lib pcre openssl lzo xz
+Requires: zlib bz2lib pcre openssl
 
 %prep
 %setup -n %n-%realversion
