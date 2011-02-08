@@ -97,7 +97,7 @@ HG1102b cmsweb
 + TW20110202c/2 PHEDEX-combined-web.spec
 + 1.104/DATASVC_1_6_6 PHEDEX-datasvc.spec
 + TW20110202c/WEBAPP_BETA_1_0_2 PHEDEX-webapp.spec
-+ TW20110202c/WEB_3_1_7 PHEDEX-web.spec
++ TW20110208a/WEB_3_1_7post1 PHEDEX-web.spec
 + sjg110202a/4.2.6c T0Mon.spec
 + sjg110131a/5.0.0 T0DataSvc.spec
 
