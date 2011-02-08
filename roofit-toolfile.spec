@@ -32,6 +32,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roofit.xml
   <lib name="RooFit"/>
   <use name="roofitcore"/>
   <use name="rootcore"/>
+  <use name="rootmath"/>
   <use name="roothistmatrix"/>
 </tool>
 EOF_TOOLFILE
