@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-web WEB_3_1_7post1
+### RPM cms PHEDEX-web WEB_3_1_8pre2
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -31,6 +31,7 @@ Provides: perl(DB_File)
 Provides: perl(XML::LibXML)
 
 # We obsolete each previous release to force them to be removed
+Obsoletes: cms+PHEDEX-web+WEB_3_1_7post1
 Obsoletes: cms+PHEDEX-web+WEB_3_1_7
 Obsoletes: cms+PHEDEX-web+WEB_3_1_6
 Obsoletes: cms+PHEDEX-web+WEB_3_1_5
