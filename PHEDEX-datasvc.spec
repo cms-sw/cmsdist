@@ -1,9 +1,10 @@
-### RPM cms PHEDEX-datasvc DATASVC_1_6_4pre7
+### RPM cms PHEDEX-datasvc DATASVC_1_6_6
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define nversion %(echo %v | sed 's|DATASVC_||' | sed 's|_|.|g')
 %define cvsversion %(echo %v | sed 's/[a-z]$//')
+%define cvsversion %v
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 
 Source: %cvsserver&strategy=checkout&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
@@ -27,8 +28,11 @@ Provides: perl(HTML::Entities)
 Provides: perl(DB_File)
 Provides: perl(Date::Manip)
 Provides: perl(XML::LibXML)
+Provides: perl(URI::Escape)
 
 # We obsolete each previous release to force them to be removed
+Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_6_5
+Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_6_4
 Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_6_3
 Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_6_2
 Obsoletes: cms+PHEDEX-datasvc+DATASVC_1_6_1
