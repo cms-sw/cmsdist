@@ -2,18 +2,17 @@
 %define svnTag %(echo %realversion | tr '.' '-')
 Source0: svn://root.cern.ch/svn/root/tags/v%svnTag/roofit?scheme=http&module=roofit&output=/roofit.tgz
 Source1: svn://root.cern.ch/svn/root/tags/v%svnTag/tutorials/?scheme=http&module=tutorials&output=/rootutorials.tgz
+Source2: roofit-5.28.00-build.sh
 
-Patch:  roofit-5.28-00-build.sh 
-Patch1: root-5.22-00a-roofit-silence-static-printout
-Patch2: roofit-5.24-00-RooFactoryWSTool-include
+Patch: root-5.22-00a-roofit-silence-static-printout
+Patch1: roofit-5.24-00-RooFactoryWSTool-include
 
 Requires: root 
 
 %prep
 %setup -b0 -n roofit
-%patch -p1
-%patch1 -p2
-%patch2 -p1
+%patch -p2
+%patch1 -p1
 %setup -D -T -b 1 -n tutorials
  
 %build
@@ -22,8 +21,12 @@ mkdir -p %i/tutorials/
 cd ../tutorials/
 cp -R roofit %i/tutorials/
 cp -R roostats %i/tutorials/
+cp -R histfactory %i/tutorials/
 
 cd ../roofit/
+mkdir -p %i/config
+cp histfactory/config/prepareHistFactory %i/config/
+cp %_sourcedir/roofit-5.28.00-build.sh build.sh
 chmod +x build.sh
 # Remove an extra -m64 from Wouter's build script (in CXXFLAGS and LDFLAGS)
 perl -p -i -e 's|-m64 ||' build.sh
