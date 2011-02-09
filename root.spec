@@ -165,14 +165,7 @@ case %cmsos in
     ./configure linux $CONFIG_ARGS --disable-rfio;;
 esac
 
-case %cmsplatf in
-  osx*)
-   makeopts=
-  ;;
-  *)
-   makeopts="%makeprocesses"
-  ;;
-esac
+makeopts="%makeprocesses"
 
 make $makeopts
 make cintdlls
