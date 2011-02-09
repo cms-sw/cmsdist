@@ -20,6 +20,7 @@ DataFormats/EcalDigi
 DataFormats/EcalRecHit
 DataFormats/EgammaCandidates
 DataFormats/EgammaReco
+DataFormats/EgammaTrackReco
 DataFormats/FEDRawData
 DataFormats/FWLite
 DataFormats/GeometryCommonDetAlgo
@@ -62,6 +63,7 @@ DataFormats/SiStripDetId
 DataFormats/SiStripDigi
 DataFormats/StdDictionaries
 DataFormats/TauReco
+DataFormats/TrackCandidate
 DataFormats/TrackReco
 DataFormats/TrackerRecHit2D
 DataFormats/TrackingRecHit
@@ -75,6 +77,7 @@ FWCore/MessageLogger
 FWCore/ParameterSet
 FWCore/PluginManager
 FWCore/PythonParameterSet
+FWCore/PythonUtilities
 FWCore/RootAutoLibraryLoader
 FWCore/ServiceRegistry
 FWCore/Utilities
