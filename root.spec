@@ -29,6 +29,8 @@ Patch17: root-5.27-06-TTreeClonerTopLevel
 Patch18: root-5.27-06b-r37947
 Patch19: root-5.27-06b-TTreeCache-r37950-r37919-r37917-r37916-r37906
 Patch20: root-5.27-06b-extra-math-for-roofit-5.28.00
+Patch21: root-5.27-06b-TEfficiency-backport-from-5.28.00
+Patch22: root-5.27-06b-histfactory-bits-from-5.28.00
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -75,6 +77,8 @@ Requires: qt
 %patch18 -p1
 %patch19 -p0
 %patch20 -p1
+%patch21 -p1
+%patch22 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
