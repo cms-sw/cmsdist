@@ -137,8 +137,7 @@ CONFIG_ARGS="--enable-table
              --with-dcap-incdir=${DCAP_ROOT}/include
              --disable-pgsql
              --disable-mysql
-             --disable-oracle
-             --disable-xml ${EXTRA_CONFIG_ARGS}"
+             --disable-oracle ${EXTRA_CONFIG_ARGS}"
 
 case %cmsos in
   slc*_amd64)
@@ -385,6 +384,24 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootthread.xml
   <tool name="rootthread" version="%v">
     <info url="http://root.cern.ch/root/"/>
     <use name="ROOTCore"/>
+  </tool>
+EOF_TOOLFILE
+
+# rootxml toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootxml.xml
+  <tool name="rootxml" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="XMLParser"/>
+    <use name="ROOTCore"/>
+  </tool>
+EOF_TOOLFILE
+
+# rootfoam toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootfoam.xml
+  <tool name="rootfoam" version="%v">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="Foam"/>
+    <use name="roothistmatrix"/>
   </tool>
 EOF_TOOLFILE
 
