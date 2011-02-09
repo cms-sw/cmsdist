@@ -10,27 +10,22 @@ Requires: openssl
 %patch1 -p4
 
 %build
-CONFIG_ARGS="--disable-krb4 --with-ssl-incdir=${OPENSSL_ROOT}/include --with-ssl-libdir=${OPENSSL_ROOT}/lib"
-case $(uname)-$(uname -m) in
-  Linux-x86_64)
-    ./configure.classic x86_64_linux $CONFIG_ARGS ;;
-  Linux-i*86)
-    ./configure.classic i386_linux $CONFIG_ARGS ;;
+CONFIG_ARGS="--disable-krb4 --with-cxx=`which c++` --with-ld=`which c++` --with-ssl-incdir=${OPENSSL_ROOT}/include --with-ssl-libdir=${OPENSSL_ROOT}/lib"
+case %cmsos in
+  slc*_amd64)
+    ./configure.classic x86_64_linux --ccflavour=gccx8664  --enable-krb5 $CONFIG_ARGS --with-krb5=/usr ;;
+  slc*_ia32)
+    ./configure.classic i386_linux --ccflavour=gcc --enable-krb5 $CONFIG_ARGS --with-krb5=/usr ;;
   *)
    # This is wrong, the arch needs to be added, I think
     ./configure.classic $CONFIG_ARGS ;;
 esac
 
-./configure.classic --disable-krb4 --with-ssl-incdir=$OPENSSL_ROOT/include --with-ssl-libdir=$OPENSSL_ROOT/lib
-# Workaround for the lack of a 32bit readline-devel rpm for SL4
-# Given that the 64bit readline-devel is there, the headers are there,
-# the only thing missing is the libreadline.so symlink
+# Workaround to get kerberos compiled in.
 case %cmsos in
-  slc4*ia32 )
-    mkdir tmplib
-    ln -s /usr/lib/libreadline.so.4 tmplib/libreadline.so 
-    make INCKRB5=-I/usr/include/et LIBKRB5=-lkrb5 LIBREADLINE="-L$PWD/tmplib -lreadline -lcurses"
-  ;;
+  slc*)
+    make INCKRB5=-I/usr/include/et LIBKRB5=-lkrb5 LIBREADLINE="-lreadline -lcurses" TYPELIBS="-lnsl -lpthread -lrt -ldl -lc -lkrb5"
+  ;;  
   *)
     make INCKRB5=-I/usr/include/et LIBKRB5=-lkrb5 LIBREADLINE="-lreadline -lcurses"
   ;;
