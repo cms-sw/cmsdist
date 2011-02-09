@@ -8,7 +8,7 @@ Requires: roofit
 
 mkdir -p %i/etc/scram.d
 
-# rootroofitcore toolfile
+# roofitcore toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/roofitcore.xml
 <tool name="roofitcore" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
@@ -25,7 +25,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roofitcore.xml
 </tool>
 EOF_TOOLFILE
 
-# rootroofit toolfile
+# roofit toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/roofit.xml
 <tool name="roofit" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
@@ -37,7 +37,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roofit.xml
 </tool>
 EOF_TOOLFILE
 
-# rootroostats toolfile
+# roostats toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/roostats.xml
 <tool name="roostats" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
@@ -49,5 +49,22 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roostats.xml
   <use name="rootgpad"/>
 </tool>
 EOF_TOOLFILE
+
+# histfactory toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/histfactory.xml
+<tool name="histfactory" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="HistFactory"/>
+  <use name="roofitcore"/>
+  <use name="roofit"/>
+  <use name="roostats"/>
+  <use name="rootcore"/>
+  <use name="roothistmatrix"/>
+  <use name="rootgpad"/>
+  <use name="rootxml"/>
+  <use name="rootfoam"/>
+</tool>
+EOF_TOOLFILE
+
 
 ## IMPORT scram-tools-post
