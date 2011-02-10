@@ -18,12 +18,3 @@ python setup.py install --prefix=%i
 egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
 
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/py2-numpy.xml
-<tool name="py2-numpy" version="%v">
-<client>
-<environment name="PY2NUMPY_BASE" default="%i"/>
-</client>
-<runtime name="PYTHONPATH" value="$PY2NUMPY_BASE/lib/python2.6/site-packages" type="path"/>
-</tool>
-EOF_TOOLFILE

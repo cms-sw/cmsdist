@@ -26,12 +26,3 @@ python setup.py -h
 python setup.py config_fc --fcompiler=gfortran config_cc install --prefix=%i 
 perl -p -i -e "s|^#!.*python(.*)|#!/usr/bin/env python$1|" `grep -r -e "#\!.*python" %i | cut -d: -f1`
 
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/py2-scipy.xml
-<tool name="py2-scipy" version="%v">
-<client>
-<environment name="PY2SHIPY_BASE" default="%i"/>
-</client>
-<runtime name="PYTHONPATH" value="$PY2SHIPY_BASE/lib/python2.6/site-packages" type="path"/>
-</tool>
-EOF_TOOLFILE

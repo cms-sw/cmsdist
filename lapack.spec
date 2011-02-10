@@ -46,12 +46,3 @@ ln -sf libblas.so.2.0.1 libblas.so
 ln -sf libblas.so.2.0.1 libblas.so.2
 ln -sf libblas.so.2.0.1 libblas.so.2.0
 
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/lapack.xml
-<tool name="lapack" version="%v">
-<client>
-<environment name="LAPACK_BASE" default="%i"/>
-<environment name="LIBDIR" default="$LAPACK_BASE/lib"/>
-</client>
-</tool>
-EOF_TOOLFILE
