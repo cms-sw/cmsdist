@@ -1,4 +1,4 @@
-### RPM cms dqmgui 5.3.2
+### RPM cms dqmgui 5.3.2a
 
 # This is a RPM spec file for building the DQM GUI.  This effectively
 # builds a sliced version of CMSSW with some updated and added code,
@@ -14,19 +14,20 @@
 # CMSDIST with tag %cmssw, then take version from cms-scram-build.file.
 %define cvsserver   cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define scram       $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
-%define cmssw       CMSSW_3_8_0
-%define vcfg        V03-29-11
+%define cmssw       CMSSW_4_1_0_pre1
+%define vcfg        V03-37-09
 %define initenv     export ZZPATH=$PATH ZZLD_LIBRARY_PATH=$LD_LIBRARY_PATH ZZPYTHONPATH=$PYTHONPATH; %initenv_all
 
 # Sources that go into this package.  To avoid listing every package
 # here we take entire subsystems then later select what we want.
 Source0: %{cvsserver}&strategy=checkout&module=config&export=config&tag=-r%{vcfg}&output=/config.tar.gz
-Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rR05-03-02&output=/DQMServer.tar.gz
-Source2: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-15-00&output=/DQMCore.tar.gz
+Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rHEAD&output=/DQMServer.tar.gz
+Source2: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-15-09&output=/DQMCore.tar.gz
 Source3: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=image&revision=10&scheme=http&output=/rtgu.tar.gz
 Source4: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
 Requires: cherrypy py2-cheetah yui extjs dqmgui-conf SCRAMV1
 Patch0: dqmgui-rtgu
+Patch1: dqmgui-scram
 
 # Set up the project build area: extract sources, bootstrap the SCRAM
 # build area with them.  Only builds with sources we need, with minimal
@@ -34,6 +35,7 @@ Patch0: dqmgui-rtgu
 %prep
 rm -fr %_builddir/{config,src,THE_BUILD}
 %setup    -T -b 0 -n config
+%patch1 -p1
 %setup -c -T -a 1 -n src
 %setup -D -T -a 2 -n src
 
@@ -109,7 +111,8 @@ perl -w -i -p -e \
  echo "export YUI_ROOT='$YUI_ROOT';"
  echo "export EXTJS_ROOT='$EXTJS_ROOT';"
  echo "export DQMGUI_ROOT='%i';"
- echo "export DQMGUI_CMSSW_VERSION='%{cmssw}';") >> %i/etc/profile.d/env.sh
+ echo "export DQMGUI_CMSSW_VERSION='%{cmssw}';"
+ echo "export CLASSLIB='$CLASSLIB_ROOT';") >> %i/etc/profile.d/env.sh
 
 (echo "setenv PATH %i/xbin:\$PATH;"
  echo "setenv PYTHONPATH %i/xlib:%i/xpython:\$PYTHONPATH;"
@@ -117,7 +120,8 @@ perl -w -i -p -e \
  echo "setenv YUI_ROOT '$YUI_ROOT';"
  echo "setenv EXTJS_ROOT '$EXTJS_ROOT';"
  echo "setenv DQMGUI_ROOT '%i';"
- echo "setenv DQMGUI_CMSSW_VERSION '%{cmssw}';") >> %i/etc/profile.d/env.csh
+ echo "setenv DQMGUI_CMSSW_VERSION '%{cmssw}';"
+ echo "setenv CLASSLIB '$CLASSLIB_ROOT';") >> %i/etc/profile.d/env.csh
 
 # Install the project files.  Copies from SCRAM area to final install
 # area.  Creates scripts to patch and unpatch the server area from a
