@@ -10,6 +10,7 @@
 
 # Cms Webtools services
 HG1102d cmsweb
++ FILEMOVER_20110210_slc5_amd64_gcc434/1.0.7 filemover.spec
 
 # Base packages
 #HG1012b base
