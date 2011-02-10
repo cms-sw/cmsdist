@@ -1,19 +1,16 @@
-### RPM external rivet 1.3.0
+### RPM external rivet 1.4.0
 Source: http://www.hepforge.org/archive/rivet/Rivet-%{realversion}.tar.gz
-Patch0: rivet-1.3.0-make_pair-fix
 
 Requires: hepmc boost fastjet swig gsl
+Patch0: rivet-1.4.0
 %prep
 %setup -n Rivet-%{realversion}
-%patch0 -p1
-export SWIG_LIB
+%patch -p0
 ./configure --prefix=%i --with-boost=${BOOST_ROOT} --with-hepmc=$HEPMC_ROOT --with-fastjet=$FASTJET_ROOT --with-gsl=$GSL_ROOT --disable-doxygen --disable-pdfmanual --with-pic
 # The following hack insures that the bins with the library linked explicitly
 # rather than indirectly, as required by the gold linker
 perl -p -i -e "s|LIBS = $|LIBS = -lHepMC|g" bin/Makefile
-
 %build
-export SWIG_LIB
 make
 %install
 make install
