@@ -1,7 +1,7 @@
 clean:
 	rm -f *.o libblas.a libblas.so*
 
-OBJECTS= caxpy.o ccopy.o cdotc.o cdotu.o cgbmv.o cgemm.o cgemv.o \
+OBJECTS= caxpy.o ccopy.o cdotc.o cdotu.o cgemm.o cgbmv.o cgemv.o \
 	cgerc.o cgeru.o chbmv.o chemm.o chemv.o cher.o cher2.o \
 	cher2k.o cherk.o chpmv.o chpr.o chpr2.o crotg.o cscal.o \
 	csscal.o cswap.o csymm.o csyr2k.o csyrk.o ctbmv.o ctbsv.o \
@@ -21,7 +21,8 @@ OBJECTS= caxpy.o ccopy.o cdotc.o cdotu.o cgbmv.o cgemm.o cgemv.o \
 	zhemv.o zher.o zher2.o zher2k.o zherk.o zhpmv.o zhpr.o \
 	zhpr2.o zrotg.o zscal.o zswap.o zsymm.o zsyr2k.o zsyrk.o \
 	ztbmv.o ztbsv.o ztpmv.o ztpsv.o ztrmm.o ztrmv.o ztrsm.o \
-	ztrsv.o  
+	ztrsv.o scabs1.o csrot.o \
+	drotm.o drotmg.o dsdot.o sdsdot.o srotm.o srotmg.o xerbla_array.o zdrot.o
 
 static: $(OBJECTS)
 	ar ruv libblas.a $(OBJECTS)
@@ -30,8 +31,8 @@ static: $(OBJECTS)
 shared: $(OBJECTS)
 	gcc -shared -Wl,-soname,libblas.so.2 -o libblas.so.2.0.1 *.o -lm -lc
 
-
-
+.f.o:
+	gfortran -fPIC -fimplicit-none -g -c $< -o $@
 
 
 

@@ -1,15 +1,20 @@
-### RPM external lapack 3.0.2
+### RPM external lapack 3.3.0
 # NB: based on http://www.netlib.org/lapack/rpms
 Source0: http://www.netlib.org/lapack/lapack.tgz
 Source1: http://www.netlib.org/lapack/manpages.tgz
 Source2: lapack-makefile-blas
 Source3: lapack-makefile-lapack
+#Source4: lapack-BLAS_cgbmv_x-f2c
 
 %prep
-%setup -q -n LAPACK
-%setup -q -D -T -a 1 -n LAPACK
+%setup -q -n lapack-%{realversion} 
+%setup -q -D -T -a 1 -n lapack-%{realversion}
 cp %{_sourcedir}/lapack-makefile-blas BLAS/SRC/Makefile
 cp %{_sourcedir}/lapack-makefile-lapack SRC/Makefile
+#cp %{_sourcedir}/lapack-BLAS_cgbmv_x-f2c BLAS/SRC/BLAS_cgbmv_x-f2c.c
+
+cp make.inc.example make.inc
+perl -p -i -e 's|^OPTS     =|OPTS     = -fPIC|' make.inc 
 
 %build
 cd BLAS/SRC
@@ -40,3 +45,13 @@ ln -sf liblapack.so.2.0.1 liblapack.so.2.0
 ln -sf libblas.so.2.0.1 libblas.so
 ln -sf libblas.so.2.0.1 libblas.so.2
 ln -sf libblas.so.2.0.1 libblas.so.2.0
+
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/lapack.xml
+<tool name="lapack" version="%v">
+<client>
+<environment name="LAPACK_BASE" default="%i"/>
+<environment name="LIBDIR" default="$LAPACK_BASE/lib"/>
+</client>
+</tool>
+EOF_TOOLFILE
