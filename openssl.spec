@@ -25,11 +25,11 @@ case %cmsplatf in
     cfg_args="-DOPENSSL_USE_NEW_FUNCTIONS"
    ;;
   *)
-    cfg_args="fipscanisterbuild"
+    cfg_args="--with-krb5-flavor=MIT enable-krb5 fipscanisterbuild"
    ;;
 esac
 
-./config --prefix=%i --with-krb5-flavor=MIT $cfg_args enable-krb5 enable-seed enable-tlsext enable-rfc3779 no-asm \
+./config --prefix=%i $cfg_args enable-seed enable-tlsext enable-rfc3779 no-asm \
                      no-idea no-mdc2 no-rc5 no-ec no-ecdh no-ecdsa shared
 
 make
