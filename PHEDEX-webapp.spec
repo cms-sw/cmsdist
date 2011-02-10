@@ -1,9 +1,10 @@
-### RPM cms PHEDEX-webapp WEBAPP_BETA_1_0_1pre7
+### RPM cms PHEDEX-webapp WEBAPP_1_1_0pre1
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define nversion %(echo %v | sed 's|WEBAPP_||' | sed 's|_|.|g')
 %define cvsversion %(echo %v | sed 's/[a-z]$//')
+%define cvsversion %v
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 
 Source: %cvsserver&strategy=checkout&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
@@ -15,6 +16,8 @@ Requires: protovis yui
 
 # We obsolete each previous release to force them to be removed
 # Prior to BETA_0_9, WEBAPP was known as APPSERV
+Obsoletes: cms+PHEDEX-webapp+WEBAPP_BETA_1_0_2
+Obsoletes: cms+PHEDEX-webapp+WEBAPP_BETA_1_0_1
 Obsoletes: cms+PHEDEX-webapp+WEBAPP_BETA_1_0_0pre32
 Obsoletes: cms+PHEDEX-appserv+APPSERV_BETA_0_8
 Obsoletes: cms+PHEDEX-appserv+APPSERV_BETA_0_7
