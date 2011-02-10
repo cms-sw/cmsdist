@@ -87,11 +87,15 @@ Requires: graphviz-toolfile
 Requires: valgrind-toolfile
 Requires: py2-matplotlib-toolfile
 Requires: py2-numpy-toolfile
+Requires: py2-scipy-toolfile
 Requires: cmsswdata-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
 Requires: fftw3-toolfile
 Requires: fftjet-toolfile
+Requires: lapack-toolfile
+Requires: pyminuit2-toolfile
+Requires: professor-toolfile
 
 %if "%isslc" == "true"
 Requires: gdb-toolfile
