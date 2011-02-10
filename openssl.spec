@@ -37,6 +37,9 @@ make
 export RPM_OPT_FLAGS="-O2 -fPIC -g -pipe -Wall -Wa,--noexecstack -fno-strict-aliasing -Wp,-DOPENSSL_USE_NEW_FUNCTIONS -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -mtune=generic"
 make install
 rm -rf %{i}/lib/pkgconfig
+# We remove archive libraries because otherwise we need to propagate everywhere
+# their dependency on kerberos.
+rm -rf %{i}/lib/*.a
 
 # MacOSX is case insensitive and the man page structure has case sensitive logic
 case %cmsplatf in
