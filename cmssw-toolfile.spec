@@ -1,4 +1,4 @@
-### RPM external cmssw-toolfile 2.0
+### RPM cms cmssw-toolfile 2.0
 Requires: cmssw
 %prep
 
