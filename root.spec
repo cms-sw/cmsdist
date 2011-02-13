@@ -33,6 +33,7 @@ Patch21: root-5.27-06b-TEfficiency-backport-from-5.28.00
 Patch22: root-5.27-06b-histfactory-bits-from-5.28.00
 Patch23: root-5.27-06b-r37210
 Patch24: root-5.27-06b-r38023
+Patch25: root-5.27-06b-r36708
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -83,6 +84,7 @@ Requires: qt
 %patch22 -p1
 %patch23 -p1
 %patch24 -p1
+%patch25 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
