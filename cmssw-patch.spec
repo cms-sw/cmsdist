@@ -1,24 +1,17 @@
 ### RPM cms cmssw-patch CMSSW_3_11_1_patch1
-## IMPORT configurations 
-
 Requires: cmssw-patch-tool-conf 
 
-%define cvsprojuc       %(echo %n | sed -e "s|-patch.*||"| tr 'a-z' 'A-Z')
-%define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
-%define cvsdir          %cvsprojuc
-%define cvssrc          %cvsprojuc
-%define cvsserver       cmssw
-%define cvsrep		cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/%cvsdir?passwd=AA_:yZZ3e
-# %define cvsrepo		cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/%cvsdir?passwd=AA_:yZZ3e
-%define useCmsTC        1
-
-%define ucprojname      %cvsprojuc
-
-%define prebuildtarget  gindices
-%define buildtarget     release-build
+%define runGlimpse      yes
+%define useCmsTC        yes
 %define saveDeps        yes
 
-%define isPatch         yes
+#use of diff config tag in order to build patch release
+#without rebuilding full release
+#this should go away when the fix is integratedin to full release too
+%define configtag       V03-37-09-01
 
-## IMPORT cms-scram-build
-## IMPORT scramv1-patch-build
+#Set it to -cmsX added by cmsBuild (if any) to the base release
+%define baserel_postfix %{nil}
+
+## IMPORT cmssw-patch-build
+## IMPORT scram-project-build
