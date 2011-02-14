@@ -1,10 +1,21 @@
-### RPM cms wmagent WMAGENT_0_6_9
-
-Requires: wmcore-db-mysql wmcore-db-couch wmcore-webtools py2-cjson dbs-client dls-client
+### RPM cms CmsTC CmsTC_0_0_3
+## INITENV +PATH PYTHONPATH %i 
+%define moduleName %n
+%define exportName %n
+%define cvstag %realversion
+%define cvsserver cvs://:pserver:anonymous@cmssw.cvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
+Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
+Requires: python cherrypy py2-cx-oracle rotatelogs py2-cheetah  py2-pyopenssl
 
 %prep
+%setup -n %{moduleName}
+
 %build
+python -c 'import compileall; compileall.compile_dir(".",force=True)'
+
 %install
+cp -pr * %i
+egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d

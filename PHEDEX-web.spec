@@ -1,9 +1,10 @@
-### RPM cms PHEDEX-web WEB_3_1_6
+### RPM cms PHEDEX-web WEB_3_1_7post1
 # note: trailing letters in version are ignored when fetching from cvs
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define nversion %(echo %v | sed 's|WEB_||' | sed 's|_|.|g')
-%define cvsversion %(echo %v | sed 's/[a-z]$//')
+#%define cvsversion %(echo %v | sed 's/[a-z]$//')
+%define cvsversion %v
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 
 Source: %cvsserver&strategy=checkout&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
@@ -30,6 +31,8 @@ Provides: perl(DB_File)
 Provides: perl(XML::LibXML)
 
 # We obsolete each previous release to force them to be removed
+Obsoletes: cms+PHEDEX-web+WEB_3_1_7
+Obsoletes: cms+PHEDEX-web+WEB_3_1_6
 Obsoletes: cms+PHEDEX-web+WEB_3_1_5
 Obsoletes: cms+PHEDEX-web+WEB_3_1_4
 Obsoletes: cms+PHEDEX-web+WEB_3_1_2a
