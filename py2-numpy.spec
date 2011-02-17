@@ -25,6 +25,7 @@ esac
 LAPACK=$LAPACK_ROOT/lib/liblapack.$SONAME
 BLAS=$LAPACK_ROOT/lib/libblas.$SONAME
 
+LAPACK=$LAPACK BLAS=$BLAS python setup.py build --fcompiler "`which gfortran`"
 LAPACK=$LAPACK BLAS=$BLAS python setup.py install --prefix=%i
 egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
