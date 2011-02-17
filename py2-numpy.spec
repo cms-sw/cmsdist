@@ -11,10 +11,15 @@ Requires: lapack
 
 %build
 %install
-export LAPACK_SRC=%_builddir/%downloadn-%realversion/LAPACK
-export BLAS_SRC=%_builddir/%downloadn-%realversion/BLAS
+case %cmsos in 
+  osx*) SONAME=dylib ;;
+  *) SONAME=so ;;
+esac
 
-python setup.py install --prefix=%i
+LAPACK=$LAPACK_ROOT/lib/liblapack.$SONAME
+BLAS=$LAPACK_ROOT/lib/libblas.$SONAME
+
+LAPACK=$LAPACK BLAS=$BLAS python setup.py install --prefix=%i
 egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
 
