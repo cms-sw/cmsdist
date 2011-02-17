@@ -2,12 +2,18 @@
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 %define downloadn numpy
 Source: http://switch.dl.sourceforge.net/sourceforge/%downloadn/%downloadn-%realversion.tar.gz
+Patch0: py2-numpy-1.5.1-fix-macosx-build
 
 Requires: python
 Requires: zlib
 Requires: lapack
 %prep
 %setup -n %downloadn-%realversion
+case %cmsos in
+  osx*)
+%patch0 -p1
+  ;;
+esac
 
 %build
 %install
