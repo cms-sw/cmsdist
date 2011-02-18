@@ -1,104 +1,29 @@
-### RPM cms dbs3 DBS_0_1_1
+### RPM cms dbs3 3.0.2
 ## INITENV +PATH PYTHONPATH %i/Server/Python/src
 ## INITENV SET DBS3_SERVER_ROOT %i/Server/Python
 
-%define cvsver %v
-%define configdir Config
-%define instance cms_dbs
-%define serverlogsdir Logs
-%define service DBS
-%define dburl oracle://user:passwd@db
-%define dbowner schemaowner
-%define dbsver DBS_0_1_0
+%define cvstag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
 
-Requires: wmcore-webtools wmcore-db-oracle py2-cjson py2-mysqldb
-Source: svn://svn.cern.ch/reps/CMSDMWM/DBS/tags/%realversion?scheme=svn+ssh&strategy=export&module=WMCore&output=/%{n}.tar.gz
+Requires: wmcore-webtools wmcore-db-oracle py2-cjson py2-mysqldb rotatelogs
+Source: svn://svn.cern.ch/reps/CMSDMWM/DBS/tags/%cvstag?scheme=svn+ssh&strategy=export&module=DBS3&output=/%{n}.tar.gz
 
 %prep
-%setup -n WMCore
+%setup -n DBS3
 
 %build
 
 %install
-cp -rp %_builddir/WMCore/* %i/
-mkdir -p %{i}/%{configdir}
-mkdir -p %{i}/%{serverlogsdir}
+cp -rp %_builddir/DBS3/* %i/
 
 #----------------------------------------
-# Generates the script used to start dbs3
+## Generates the script used to setup dbs3
 cat << \EOF > %i/setup.sh
 
 if [ -z "$DBS3_ROOT" ]; then
        source ./etc/profile.d/init.sh
 fi
 
-export MYSQL_UNIX_PORT=$MYSQL_ROOT/mysqldb/mysql.sock
-
-dbs3_start1(){
-if [ -z "$1" ]
-   then
-       $WMCORE_ROOT/src/python/WMCore/WebTools/Root.py -i $DBS3_ROOT/%{configdir}/%{instance}.py
-   else
-       $WMCORE_ROOT/src/python/WMCore/WebTools/Root.py -i $DBS3_ROOT/%{configdir}/$1.py
-fi
-}
-
-dbs3start(){
-if [ -z "$1" ]   
-   then
-       dbs3_start1 1>/dev/null 2>&1 &
-   else
-       dbs3_start1 $1 1>/dev/null 2>&1 &
-fi
-}
-
 EOF
-
-#---------------------------
-# Generates DBS config file
-cat << \EOF > %{i}/%{configdir}/%{instance}.py
-"""
-DBS Server  configuration file
-"""
-import os, logging
-from WMCore.Configuration import Configuration
-
-config = Configuration()
-
-config.component_('Webtools')
-config.Webtools.port = 8585
-config.Webtools.host = '::'
-config.Webtools.access_log_file = os.environ['DBS3_ROOT'] +"/%{serverlogsdir}/%{instance}.log"
-config.Webtools.error_log_file = os.environ['DBS3_ROOT'] +"/%{serverlogsdir}/%{instance}.log"
-config.Webtools.log_screen = True
-config.Webtools.application = '%{instance}'
-
-config.component_('%{instance}')
-config.%{instance}.templates = os.environ['WMCORE_ROOT'] + '/src/templates/WMCore/WebTools'
-config.%{instance}.title = 'DBS Server'
-config.%{instance}.description = 'CMS DBS Service'
-config.%{instance}.admin = 'yourname'
-
-config.%{instance}.section_('views')
-
-active=config.%{instance}.views.section_('active')
-active.section_('%{service}')
-active.%{service}.object = 'WMCore.WebTools.RESTApi'
-active.%{service}.section_('model')
-active.%{service}.model.object = 'dbs.web.DBSReaderModel'
-active.%{service}.section_('formatter')
-active.%{service}.formatter.object = 'WMCore.WebTools.RESTFormatter'
-
-active.%{service}.database = '%{dburl}'
-active.%{service}.dbowner = '%{dbowner}'
-active.%{service}.version = '%{dbsver}'
-
-EOF
-
-#-----------------------------------
-# Generates DBS config file (writer)
-sed -e 's/%{instance}.log/%{instance}_writer.log/g' -e 's/DBSReaderModel/DBSWriterModel/g' \
-  < %{i}/%{configdir}/%{instance}.py > %{i}/%{configdir}/%{instance}_writer.py
 
 #--------------------------------------------------------------------
 # The following lines (including relocation ones in the post section) 
@@ -115,3 +40,9 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
+
+%files
+%i/
+%exclude %i/src
+%exclude %i/Server/JAVA
+%exclude %i/Server/Http
