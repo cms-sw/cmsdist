@@ -1,5 +1,5 @@
-### RPM cms cmssw-toolfile 2.0
-Requires: cmssw
+### RPM cms online-toolfile 2.0
+Requires: online
 %prep
 
 %build
