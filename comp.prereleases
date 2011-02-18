@@ -102,6 +102,7 @@ HG1102b cmsweb
 + sjg110202a/4.2.6c T0Mon.spec
 + sjg110131a/5.0.0 T0DataSvc.spec
 + HEAD/4.1 frontend.spec
++ HEAD/1.31 p5-dbd-sqlite.spec
 
 # ReqMgr
 HG1102b reqmgr
