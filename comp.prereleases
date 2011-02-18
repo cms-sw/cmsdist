@@ -101,6 +101,7 @@ HG1102b cmsweb
 + TW20110208a/WEB_3_1_7post1 PHEDEX-web.spec
 + sjg110202a/4.2.6c T0Mon.spec
 + sjg110131a/5.0.0 T0DataSvc.spec
++ HEAD/4.1 frontend.spec
 
 # ReqMgr
 HG1102b reqmgr
