@@ -7,7 +7,7 @@ Requires: online
 %install
 
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/online.xml
+cat << \EOF_TOOLFILE >%i/etc/scram.d/cmssw.xml
 <tool name="cmssw" version="@TOOL_VERSION@" type="scram">
   <client>
     <environment name="CMSSW_BASE" default="@TOOL_ROOT@"/>
