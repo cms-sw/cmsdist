@@ -1,23 +1,36 @@
-### RPM cms das 0.5.6a
+### RPM cms das 0.5.10.pre17
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
 %define webdoc_files %i/doc/
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM/DAS/tags/%{realversion}
 Source: %svnserver?scheme=svn+ssh&strategy=export&module=DAS&output=/das.tar.gz
 
-Requires: python cherrypy py2-cheetah yui mongo py2-pymongo py2-cjson py2-yaml wmcore py2-pystemmer py2-mongoengine py2-lxml py2-ply
+Requires: python cherrypy py2-cheetah yui mongo py2-pymongo py2-cjson py2-yaml wmcore py2-pystemmer py2-mongoengine py2-lxml py2-ply py2-yajl
 Requires: py2-sphinx rotatelogs
 
 %prep
 %setup -n DAS
 
-# remove maps, they will be supplied via SITECONFG/T1_CH_CERN/DAS/
-rm -rf src/python/DAS/services/maps
 # remove ipython deps
 rm src/python/DAS/tools/ipy_profile_mongo.py
 
 %build
 python setup.py build
+
+# build DAS JSON maps out of DAS YML files
+cmd="python src/python/DAS/tools/das_drop_maps.py"
+dir="src/python/DAS/services/cms_maps/"
+map_file="$dir/das_maps.js"
+rm -f $map_file
+export PYTHONPATH=$PYTHONPATH:$PWD/src/python
+for amap in `ls $dir/*.yml`
+do
+    $cmd --uri-map=$amap >> $map_file
+    $cmd --notation-map=$amap >> $map_file
+    $cmd --presentation-map=$amap >> $map_file
+done
+rm -f $dir/*.yml
+rm -rf src/python/DAS/services/maps
 
 # build DAS sphinx documentation
 PYTHONPATH=$PWD/src/python:$PYTHONPATH
@@ -28,7 +41,6 @@ mkdir -p build
 make html
 
 %install
-#cp build/lib.*/DAS/extensions/das_speed_utils.so src/python/DAS/extensions/
 #python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
 python setup.py install --prefix=%i
 egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
