@@ -96,7 +96,6 @@ Requires: fftjet-toolfile
 Requires: lapack-toolfile
 Requires: pyminuit2-toolfile
 Requires: professor-toolfile
-Requires: py2-ipython-toolfile
 
 %if "%isslc" == "true"
 Requires: gdb-toolfile
