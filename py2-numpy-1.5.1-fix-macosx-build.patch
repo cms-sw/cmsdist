@@ -22,12 +22,12 @@ index e0fd213..e944fd1 100644
 +                args.extend(['-msse3'])
 +            else:
 +                args.extend(['-faltivec'])
-+            link_args.extend(['-llapack'])
++            link_args.extend([os.environ["LAPACK"]])
 +            if intel:
 +                args.extend(['-msse3'])
 +            else:
 +                args.extend(['-faltivec'])
-+            link_args.extend(['-lblas'])
++            link_args.extend([os.environ["BLAS"]])
              if args:
                  self.set_info(extra_compile_args=args,
                                extra_link_args=link_args,
@@ -61,7 +61,7 @@ index e944fd1..0c6fd27 100644
 +                args.extend(['-faltivec'])
 +            args.extend([
 +                '-I' + os.environ.get("LAPACK_ROOT",".")])
-+            link_args.extend(['-lblas'])
++            link_args.extend([os.environ['BLAS']])
              if args:
                  self.set_info(extra_compile_args=args,
                                extra_link_args=link_args,
