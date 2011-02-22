@@ -22,7 +22,14 @@ EOF
 
 %build
 %install
-python setup.py -h
-python setup.py config_fc --fcompiler=gfortran config_cc install --prefix=%i 
+case %cmsos in
+  osx*) SONAME=dylib ;;
+  *) SONAME=so ;;
+esac
+
+LAPACK=$LAPACK_ROOT/lib/liblapack.$SONAME
+BLAS=$LAPACK_ROOT/lib/libblas.$SONAME
+
+LAPACK=$LAPACK BLAS=$BLAS python setup.py config_fc --fcompiler=gfortran config_cc install --prefix=%i 
 perl -p -i -e "s|^#!.*python(.*)|#!/usr/bin/env python$1|" `grep -r -e "#\!.*python" %i | cut -d: -f1`
 
