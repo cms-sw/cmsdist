@@ -57,7 +57,7 @@ mkdir -p $basebuilddir/build/tmp
 
 # Make list of .h .cxx and linkdef files
 HHLIST=`ls -1 ${dirname}/inc/*.h | grep -v LinkDef`
-LDLIST=`ls -1 ${dirname}/inc/LinkDef*.h`
+LDLIST=`ls -1 ${dirname}/inc/LinkDef*.h` 
 CCLIST=`ls -1 ${dirname}/src/*.cxx`
 
 # Ugly hack to handle different include scheme for RooStats
@@ -79,7 +79,7 @@ case $pkgname in
     LDLIBS="$LDLIBS -lRooFitCore -lRooFit -lTree -lRIO -lMatrix -lHist -lMathCore -lGraf -lGpad -lCore -lCint"
   ;;
   HistFactory)
-    pkginc='RooStats/HistFactory'
+    pkginc='RooStats/HistFactory/'
     LDLIBS="$LDLIBS -lRooStats -lRooFitCore -lRooFit -lMinuit -lFoam -lXMLParser -lTree -lRIO -lMatrix -lHist -lMathCore -lGraf -lGpad -lCore -lCint"
   ;;
 esac
