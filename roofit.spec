@@ -43,6 +43,9 @@ esac
 mv build/lib %i/
 mkdir %i/include
 cp -r build/inc/* %i/include
+# Change name of one binary by hand
+mkdir %i/bin
+mv build/bin/MakeModelAndMeasurements %i/bin/hist2workspace
 
 %install
 
