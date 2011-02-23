@@ -137,8 +137,8 @@ do
     # In this case allow also inclusion of .h files from the src directory
     echo g++ ${CXXFLAGS} -Ibuild/inc -I${dirname}/src/ -I${ROOTSYS}/include -o build/tmp/$OBJ -c $file
     g++ ${CXXFLAGS} -Ibuild/inc -I${dirname}/src/ -I${ROOTSYS}/include -o build/tmp/$OBJ -c $file
-    echo g++ $LDFLAGS $LDLIBS -o build/bin/$MYBIN build/tmp/$OBJ
-    g++ $LDFLAGS $LDLIBS -o build/bin/$MYBIN build/tmp/$OBJ
+    echo g++ $LDLIBS -o build/bin/$MYBIN build/tmp/$OBJ
+    g++ $LDLIBS -o build/bin/$MYBIN build/tmp/$OBJ build/lib/libHistFactory.so
 done
 
 

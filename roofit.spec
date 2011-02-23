@@ -46,6 +46,20 @@ cp -r build/inc/* %i/include
 # Change name of one binary by hand
 mkdir %i/bin
 mv build/bin/MakeModelAndMeasurements %i/bin/hist2workspace
+# On macosx we cannot simply rename libraries and executables.
+case %cmsos in 
+  osx*)
+	install_name_tool -change MakeModelAndMeasurements hist2workspace -id hist2workspace %i/bin/hist2workspace
+	find %i/lib -name "*.so" -exec install_name_tool -change build/lib/libRooStats.so libRooStats.so {} \;
+	find %i/lib -name "*.so" -exec install_name_tool -change build/lib/libRooFitCore.so libRooFitCore.so  {} \; 
+	find %i/lib -name "*.so" -exec install_name_tool -change build/lib/libRooFit.so libRooFit.so  {} \; 
+	find %i/lib -name "*.so" -exec install_name_tool -change build/lib/libHistFactory.so libRooFit.so {} \; 
+        find %i/bin -type f -exec install_name_tool -change build/lib/libRooStats.so libRooStats.so {} \;
+        find %i/bin -type f -exec install_name_tool -change build/lib/libRooFitCore.so libRooFitCore.so  {} \;
+        find %i/bin -type f -exec install_name_tool -change build/lib/libRooFit.so libRooFit.so  {} \;
+        find %i/bin -type f -exec install_name_tool -change build/lib/libHistFactory.so libRooFit.so {} \;
+  ;;
+esac
 
 %install
 
