@@ -7,10 +7,11 @@ Requires: zlib
 Requires: libpng
 %prep
 %setup -n matplotlib-%{realversion}
+
 cat >> setup.cfg <<- EOF
 [build_ext]
-include_dirs = $LIBPNG_ROOT/include:$ZLIB_ROOT/include
-library_dirs = $LIBPNG_ROOT/lib:$ZLIB_ROOT/lib
+include_dirs = $LIBPNG_ROOT/include:$ZLIB_ROOT/include:/usr/X11R6/include:/usr/X11R6/include/freetype2
+library_dirs = $LIBPNG_ROOT/lib:$ZLIB_ROOT/lib:/usr/X11/lib
 EOF
 
 %build
