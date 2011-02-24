@@ -73,21 +73,25 @@ case $pkgname in
     pkginc=''
     LDLIBS="$LDLIBS -lHist -lGraf -lMatrix -lTree -lMinuit -lRIO -lFoam -lMathCore -lCore -lCint"
     BINLIST=''
+    BINLIBS=''
   ;;
   RooFit)
     pkginc=''
     LDLIBS="$LDLIBS -lRooFitCore -lTree -lRIO -lMatrix -lMathMore -lMathCore -lCore -lCint"
     BINLIST=''
+    BINLIBS=''
   ;;
   RooStats)
     pkginc='RooStats/'
     LDLIBS="$LDLIBS -lRooFitCore -lRooFit -lTree -lRIO -lMatrix -lHist -lMathCore -lGraf -lGpad -lCore -lCint"
     BINLIST=''
+    BINLIBS=''
   ;;
   HistFactory)
     pkginc='RooStats/HistFactory/'
     LDLIBS="$LDLIBS -lRooStats -lRooFitCore -lRooFit -lMinuit -lFoam -lXMLParser -lTree -lRIO -lMatrix -lHist -lMathCore -lGraf -lGpad -lCore -lCint"
     BINLIST='histfactory/bin/MakeModelAndMeasurements.cxx'
+    BINLIBS="$LDLIBS -lHistFactory"
   ;;
 esac
 
@@ -137,8 +141,8 @@ do
     # In this case allow also inclusion of .h files from the src directory
     echo g++ ${CXXFLAGS} -Ibuild/inc -I${dirname}/src/ -I${ROOTSYS}/include -o build/tmp/$OBJ -c $file
     g++ ${CXXFLAGS} -Ibuild/inc -I${dirname}/src/ -I${ROOTSYS}/include -o build/tmp/$OBJ -c $file
-    echo g++ $LDLIBS -o build/bin/$MYBIN build/tmp/$OBJ
-    g++ $LDLIBS -o build/bin/$MYBIN build/tmp/$OBJ build/lib/libHistFactory.so
+    echo g++ $BINLIBS -o build/bin/$MYBIN build/tmp/$OBJ 
+    g++ $BINLIBS -o build/bin/$MYBIN build/tmp/$OBJ 
 done
 
 
