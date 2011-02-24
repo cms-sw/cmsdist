@@ -53,11 +53,11 @@ case %cmsos in
 	find %i/lib -name "*.so" -exec install_name_tool -change build/lib/libRooStats.so libRooStats.so {} \;
 	find %i/lib -name "*.so" -exec install_name_tool -change build/lib/libRooFitCore.so libRooFitCore.so  {} \; 
 	find %i/lib -name "*.so" -exec install_name_tool -change build/lib/libRooFit.so libRooFit.so  {} \; 
-	find %i/lib -name "*.so" -exec install_name_tool -change build/lib/libHistFactory.so libRooFit.so {} \; 
+	find %i/lib -name "*.so" -exec install_name_tool -change build/lib/libHistFactory.so libHistFactory.so {} \; 
         find %i/bin -type f -exec install_name_tool -change build/lib/libRooStats.so libRooStats.so {} \;
         find %i/bin -type f -exec install_name_tool -change build/lib/libRooFitCore.so libRooFitCore.so  {} \;
         find %i/bin -type f -exec install_name_tool -change build/lib/libRooFit.so libRooFit.so  {} \;
-        find %i/bin -type f -exec install_name_tool -change build/lib/libHistFactory.so libRooFit.so {} \;
+        find %i/bin -type f -exec install_name_tool -change build/lib/libHistFactory.so libHistFactory.so {} \;
   ;;
 esac
 
