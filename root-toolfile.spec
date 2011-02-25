@@ -210,4 +210,22 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootthread.xml
 </tool>
 EOF_TOOLFILE
 
+# rootxml toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootxml.xml
+  <tool name="rootxml" version="@TOOL_VERSION@">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="XMLParser"/>
+    <use name="ROOTCore"/>
+  </tool>
+EOF_TOOLFILE
+
+# rootfoam toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootfoam.xml
+  <tool name="rootfoam" version="@TOOL_VERSION@">
+    <info url="http://root.cern.ch/root/"/>
+    <lib name="Foam"/>
+    <use name="roothistmatrix"/>
+  </tool>
+EOF_TOOLFILE
+
 ## IMPORT scram-tools-post
