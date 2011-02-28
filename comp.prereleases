@@ -12,7 +12,7 @@
 # When using HEAD as <revisio> you must specify <version>.
 
 # PHEDEX web suite
-HG1102b PHEDEX-combined-agents
+HG1102b PHEDEX-combined-web
 + TW20110228a PHEDEX-combined-web.spec PHEDEX-web.spec PHEDEX-webapp.spec PHEDEX-datasvc.spec
 
 # CrabServer
