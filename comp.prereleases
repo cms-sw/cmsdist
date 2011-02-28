@@ -118,7 +118,8 @@ HG1102b reqmgr
 
 # WMAGENT
 HG1102d wmagent
-+ WMCORE_0_6_12  dls-client.spec
++ 1.33 openssl.spec
++ WMCORE_0_6_12 dls-client.spec
 + 1.90 wmcore.spec
 + 1.14 wmagent.spec
 
