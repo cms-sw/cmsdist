@@ -117,8 +117,10 @@ HG1102b reqmgr
 #+ dg20101105-prodagent py2-sqlalchemy.spec
 
 # WMAGENT
-HG1102a wmagent
-+ WMAGENT_0_6_2 dls-client.spec wmagent.spec
+HG1102d wmagent
++ WMCORE_0_6_12  dls-client.spec
++ 1.90 wmcore.spec
++ 1.14 wmagent.spec
 
 # PHEDEX agents
 HG1102b PHEDEX-combined-agents
