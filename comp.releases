@@ -23,9 +23,10 @@ HG1102d cmsweb
 #+ sw20101207-prodagent oracle-env.spec oracle.spec py2-cx-oracle.spec
 #+ sw20101207-prodagent py2-sqlalchemy.spec
 
-#HG1102a wmagent	 
-# + WMAGENT_0_6_8 mysql.spec dls-client.spec wmcore.spec
-# + 1.9 wmagent.spec
+HG1102d wmagent
++ WMCORE_0_6_12  dls-client.spec
++ 1.90 wmcore.spec
++ 1.14 wmagent.spec
 
 HG1102b dbs-client
 + HEAD/DBS_2_1_1_patch1_1 dbs-client.spec
