@@ -23,7 +23,8 @@ HG1102d cmsweb
 #+ sw20101207-prodagent oracle-env.spec oracle.spec py2-cx-oracle.spec
 #+ sw20101207-prodagent py2-sqlalchemy.spec
 
-HG1102c wmagent
+HG1102d wmagent
++ 1.33 openssl.spec
 + WMCORE_0_6_12  dls-client.spec
 + 1.90 wmcore.spec
 + 1.15 wmagent.spec
