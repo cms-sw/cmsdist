@@ -1,11 +1,3 @@
-### RPM external popt 1.15
-Source: http://rpm5.org/files/%n/%n-%realversion.tar.gz
+### RPM external popt 1.10.4 
+Source: http://wraptastic.org/pub/rpm-4.4.x/%n-%v.tar.gz
 
-%build
-./configure --disable-shared --enable-static --disable-nls \
-            --prefix %i \
-            CFLAGS="-fPIC" \
-            CXXFLAGS="-fPIC"  
-make
-%install
-make install
