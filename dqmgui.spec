@@ -1,4 +1,4 @@
-### RPM cms dqmgui 5.3.2b
+### RPM cms dqmgui 5.4.0b
 
 # This is a RPM spec file for building the DQM GUI.  This effectively
 # builds a sliced version of CMSSW with some updated and added code,
@@ -14,15 +14,15 @@
 # CMSDIST with tag %cmssw, then take version from cms-scram-build.file.
 %define cvsserver   cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define scram       $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
-%define cmssw       CMSSW_4_1_0_pre1
-%define vcfg        V03-37-09
+%define cmssw       CMSSW_4_1_2
+%define vcfg        V03-37-13
 %define initenv     export ZZPATH=$PATH ZZLD_LIBRARY_PATH=$LD_LIBRARY_PATH ZZPYTHONPATH=$PYTHONPATH; %initenv_all
 
 # Sources that go into this package.  To avoid listing every package
 # here we take entire subsystems then later select what we want.
 Source0: %{cvsserver}&strategy=checkout&module=config&export=config&tag=-r%{vcfg}&output=/config.tar.gz
-Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rHEAD&output=/DQMServer.tar.gz
-Source2: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-15-09&output=/DQMCore.tar.gz
+Source1: %{cvsserver}&strategy=checkout&module=CMSSW/VisMonitoring/DQMServer&export=VisMonitoring/DQMServer&tag=-rR05-04-00&output=/DQMServer.tar.gz
+Source2: %{cvsserver}&strategy=checkout&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-15-12&output=/DQMCore.tar.gz
 Source3: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=image&revision=10&scheme=http&output=/rtgu.tar.gz
 Source4: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
 Requires: cherrypy py2-cheetah yui extjs dqmgui-conf SCRAMV1
