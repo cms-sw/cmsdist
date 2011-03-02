@@ -1,23 +1,32 @@
-### RPM cms wmcore WMCORE_0_6_13
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
+### RPM cms filemover 1.0.8.pre2
+## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
-Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%realversion?scheme=svn+ssh&strategy=export&module=WMCore&output=/WMCORE.tar.gz
-Requires: python py2-simplejson py2-sqlalchemy py2-httplib2
+%define webdoc_files %i/doc/
+%define svnserver svn://svn.cern.ch/reps/CMSDMWM/FileMover/tags/%{realversion}
+Source: %svnserver?scheme=svn+ssh&strategy=export&module=FileMover&output=/filemover.tar.gz
+Requires: python cherrypy py2-cheetah yui wmcore py2-sphinx rotatelogs java-jdk srmcp
 
 %prep
-%setup -n WMCore
+%setup -n FileMover
 
 %build
 python setup.py build
 
+# build FileMover sphinx documentation
+PYTHONPATH=$PWD/src/python:$PYTHONPATH
+cd doc
+cat sphinx/conf.py | sed "s,development,%{realversion},g" > sphinx/conf.py.tmp
+mv sphinx/conf.py.tmp sphinx/conf.py
+mkdir -p build
+make html
+
 %install
-mkdir -p %i
-cp -r * %i
 python setup.py install --prefix=%i
 egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
-chmod +x %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages/WMCore/WebTools/Root.py
-mkdir -p %{i}/workdir
+
+mkdir -p %i/doc
+tar --exclude '.buildinfo' -C doc/build/html -cf - . | tar -C %i/doc -xvf -
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
@@ -33,3 +42,10 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
+
+%files
+%i/
+%exclude %i/doc
+
+
+## SUBPACKAGE webdoc
