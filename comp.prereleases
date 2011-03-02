@@ -69,8 +69,8 @@ HG1102b dbs3
 #HG1102a filemover
 #+ 1.3 filemover.spec
 HG1102a filemover
-+ FILEMOVER_20110302_slc5_amd64_gcc434_v2 filemover.spec
-+ WMCORE_0_6_13/WMCORE_0_6_13 wmcore.spec
++ FILEMOVER_20110302_slc5_amd64_gcc434_v3 filemover.spec
++ HEAD/WMCORE_0_6_13 wmcore.spec
 #+ FILEMOVER_20110111_slc5_amd64_gcc434_v3 filemover.spec
 
 # DBS discovery
