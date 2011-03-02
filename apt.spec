@@ -141,7 +141,6 @@ RPM
 };
 
 APT::Cache-Limit 33554432;
-APT::http::Max-Age 0;
 
 EOF_APT_CONF
 
