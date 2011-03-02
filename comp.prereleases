@@ -63,20 +63,13 @@ HG1102b dbs3
 + WMCORE_0_6_12/WMCORE_0_6_12 wmcore.spec
 
 # FileMover
-#FILEMOVER_20100901_slc5_amd64_gcc434_v5 fmws
-#HG1010a fmws
-#+ python-2.6.4-dont-detect-dbm.patch fmws.spec
-#HG1010a fmws
-#+ FILEMOVER_20101014_slc5_amd64_gcc434 fmws.spec
-#HG1012a fmws
-#+ FILEMOVER_20101116_slc5_amd64_gcc434_v2 fmws.spec
 #HG1102a filemover
 #+ 1.2 filemover.spec
 #+ FILEMOVER_20101215_slc5_amd64_gcc434 filemover.spec
 #HG1102a filemover
 #+ 1.3 filemover.spec
 HG1102a filemover
-+ FILEMOVER_20110301_slc5_amd64_gcc434 filemover.spec
++ FILEMOVER_20110302_slc5_amd64_gcc434 filemover.spec
 #+ FILEMOVER_20110111_slc5_amd64_gcc434_v3 filemover.spec
 
 # DBS discovery
