@@ -1,4 +1,4 @@
-### RPM cms filemover 1.0.8.pre1
+### RPM cms filemover 1.0.8.pre2
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
 %define webdoc_files %i/doc/
