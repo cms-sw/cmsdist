@@ -39,7 +39,7 @@ HG1102b crab-server
 #+ DAS_20110302_slc5_amd64_gcc434 das.spec
 #+ 1.1 yajl.spec
 #+ 1.1 py2-yajl.spec
-HG1103a
+HG1103a das
 + DAS_20110303_slc5_amd64_gcc434_v2 das.spec
 
 # T0Mon and T0DataSvc
