@@ -1,11 +1,11 @@
-### RPM cms T0PromptSkim 1.0.0
+### RPM cms T0PromptSkim 1.0.1
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 %define moduleName T0
 %define exportName T0
-%define cvstag T0PromptSkim-1_0_0
+%define cvstag T0PromptSkim-1_0_1
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
-Requires:
+Requires: wmcore
 
 %prep
 %setup -n %{moduleName}
