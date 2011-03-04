@@ -5,8 +5,7 @@
 Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
-%define ismac %(case %cmsplatf in osx*%closingbrace echo true;; *%closingbrace e
-cho false;; esac)
+%define ismac %(case %cmsplatf in osx*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 Patch0: root-5.27-06-externals
 Patch1: root-5.27-04-CINT-maxlongline-maxtypedef
