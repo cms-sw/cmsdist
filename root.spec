@@ -35,7 +35,7 @@ Patch24: root-5.27-06b-r38023
 Patch25: root-5.27-06b-r36708
 Patch26: root-5.27-06b-r38126-r38156
 Patch27: root-5.27-06b-r38210
-Patch28: root-5.27-06b-r38265-r38267
+Patch28: root-5.27-06b-r38248-r38252-r38259-r38264-r38265-r38267
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
