@@ -51,7 +51,7 @@ HG1102b T0DataSvc
 
 # T0PromptSkim
 HG1103a T0PromptSkim
-+ HEAD/1.0.1 T0PromptSkim.spec
++ HEAD/1.0.2 T0PromptSkim.spec
 
 # CmsTC
 HG1102b CmsTC
