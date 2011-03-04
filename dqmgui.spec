@@ -19,6 +19,7 @@ Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root libpng libjpg cla
 %patch0 -p1
 %setup -c -D -T -a 3 -n stuff/boost/gil/extension
 perl -p -i -e '/#include/ && s|\.\./\.\./|boost/gil/|' $(find . -name *.hpp)
+chmod 644 $(find . -name *.hpp)
 %setup -T -b 0 -n Monitoring
 
 # Adapt CMSSW sources to our build.
