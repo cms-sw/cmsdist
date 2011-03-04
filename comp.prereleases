@@ -75,8 +75,8 @@ HG1102b dbs3
 #+ FILEMOVER_20101215_slc5_amd64_gcc434 filemover.spec
 #HG1102a filemover
 #+ 1.3 filemover.spec
-HG1102a filemover
-+ FILEMOVER_20110303_slc5_amd64_gcc434 filemover.spec
+HG1103a filemover
++ FILEMOVER_20110304_slc5_amd64_gcc434 filemover.spec
 + HEAD/WMCORE_0_6_13 wmcore.spec
 #+ FILEMOVER_20110111_slc5_amd64_gcc434_v3 filemover.spec
 
