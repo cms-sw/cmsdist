@@ -1,5 +1,5 @@
 %package -n %{pkgcategory}+%{pkgname}-webdoc+%{pkgversion}
-Summary:     %{pkgname} web documentation.
+Summary:     Web documentation for %{pkgcategory}+%{pkgname}+%{pkgversion} SpecChecksum:SPECCHECKSUM
 Group:       %{pkgcategory}
 AutoReqProv: no
 
