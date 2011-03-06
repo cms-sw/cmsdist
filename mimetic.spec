@@ -12,7 +12,7 @@ case %cmsplatf in
 esac
 
 case %gccver in
-  4.4.* | 4.5.*)
+  4.4.* | 4.5.* | 4.6.*)
 %patch1 -p1
   ;;
 esac
