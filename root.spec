@@ -36,6 +36,7 @@ Patch25: root-5.27-06b-r36708
 Patch26: root-5.27-06b-r38126-r38156
 Patch27: root-5.27-06b-r38210
 Patch28: root-5.27-06b-r38248-r38252-r38259-r38264-r38265-r38267
+Patch29: root-5.27-06b-gcc46
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -90,6 +91,7 @@ Requires: qt
 %patch26 -p1
 %patch27 -p1
 %patch28 -p1
+%patch29 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
