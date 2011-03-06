@@ -28,7 +28,7 @@ case %gccver in
   4.[01234].* )
 %patch2 -p1
   ;;
-  4.5.*)
+  4.[56].*)
 %patch3 -p1
   ;;
 esac
