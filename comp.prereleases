@@ -49,10 +49,10 @@ HG1103a das
 + 1.1 wmcore-web.spec
 
 # T0Mon and T0DataSvc
-#LAT# HG1102b T0Mon
-#LAT# + sjg110202a/4.2.6c T0Mon.spec
-#LAT# HG1102b T0DataSvc
-#LAT# + sjg110131a/5.0.0 T0DataSvc.spec
+HG1103a T0Mon
++ sjg110307a/4.2.10 T0Mon.spec
+HG1103a T0DataSvc
++ sjg110307a/5.0.1 T0DataSvc.spec
 
 # T0PromptSkim
 #LAT# HG1103a T0PromptSkim
