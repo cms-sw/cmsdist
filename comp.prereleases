@@ -92,8 +92,8 @@ HG1102a dbs-web
 + DD_20101215_slc5_amd64_gcc434_v2 dbs-web.spec
 
 # PlotFairy
-HG1012a plotfairy
-+ 1.4 plotfairy.spec
+#HG1012a plotfairy
+#+ 1.4 plotfairy.spec
 
 # Base tag build
 #HG1102a base
