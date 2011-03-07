@@ -39,9 +39,14 @@ HG1102b crab-server
 #+ DAS_20110302_slc5_amd64_gcc434 das.spec
 #+ 1.1 yajl.spec
 #+ 1.1 py2-yajl.spec
+#HG1103a das
+#+ DAS_20110303_slc5_amd64_gcc434_v4 das.spec
+#+ HEAD/WMCORE_0_6_13 wmcore.spec
+
+# DAS test build with wmcore-web dependency
 HG1103a das
-+ DAS_20110303_slc5_amd64_gcc434_v4 das.spec
-+ HEAD/WMCORE_0_6_13 wmcore.spec
++ 1.151 das.spec
++ 1.1 wmcore-web.spec
 
 # T0Mon and T0DataSvc
 HG1102b T0Mon
