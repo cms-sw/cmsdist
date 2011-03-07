@@ -12,14 +12,14 @@
 # When using HEAD as <revisio> you must specify <version>.
 
 # PHEDEX web suite
-HG1103a PHEDEX-combined-web
-+ TW20110307b PHEDEX-combined-web.spec PHEDEX-web.spec PHEDEX-webapp.spec PHEDEX-datasvc.spec
+#LAT# HG1103a PHEDEX-combined-web
+#LAT# + TW20110307b PHEDEX-combined-web.spec PHEDEX-web.spec PHEDEX-webapp.spec PHEDEX-datasvc.spec
 
 # CrabServer
 #CRABSERVER_1_1_4_pre1_BUILD_SLC5  crab-server prodagent  prodcommon wmcore mysql
 
-HG1102b crab-server
-+ CRABSERVER_1_1_4_pre2_BUILD_SLC5 crab-server.spec mysql.spec prodagent.spec prodcommon.spec wmcore.spec PHEDEX-micro.spec dls-client.spec python-ldap.spec openldap.spec openldap-2.3.39-gcc44.patch python-ldap-2.3.5-gcc44.patch
+#LAT# HG1102b crab-server
+#LAT# + CRABSERVER_1_1_4_pre2_BUILD_SLC5 crab-server.spec mysql.spec prodagent.spec prodcommon.spec wmcore.spec PHEDEX-micro.spec dls-client.spec python-ldap.spec openldap.spec openldap-2.3.39-gcc44.patch python-ldap-2.3.5-gcc44.patch
 
 # DAS
 #HG1010a das
@@ -49,30 +49,30 @@ HG1103a das
 + 1.1 wmcore-web.spec
 
 # T0Mon and T0DataSvc
-HG1102b T0Mon
-+ sjg110202a/4.2.6c T0Mon.spec
-HG1102b T0DataSvc
-+ sjg110131a/5.0.0 T0DataSvc.spec
+#LAT# HG1102b T0Mon
+#LAT# + sjg110202a/4.2.6c T0Mon.spec
+#LAT# HG1102b T0DataSvc
+#LAT# + sjg110131a/5.0.0 T0DataSvc.spec
 
 # T0PromptSkim
-HG1103a T0PromptSkim
-+ HEAD/1.0.2 T0PromptSkim.spec
+#LAT# HG1103a T0PromptSkim
+#LAT# + HEAD/1.0.2 T0PromptSkim.spec
 
 # CmsTC
-HG1102b CmsTC
-+ 1.12/* CmsTC.spec
+#LAT# HG1102b CmsTC
+#LAT# + 1.12/* CmsTC.spec
 
 # DBS-2
 #HG1009c dbs-apps
 #+ aa28102010216-dbs dbs-{apps,server,schema,libs,client,web}.spec
-HG1102b dbs-client
-+ HEAD/DBS_2_1_1_patch1_1 dbs-client.spec
+#LAT# HG1102b dbs-client
+#LAT# + HEAD/DBS_2_1_1_patch1_1 dbs-client.spec
 
 # DBS-3
 #aa20100831-dbs3 dbs3
-HG1102b dbs3
-+ HEAD/3.0.4 dbs3.spec
-+ WMCORE_0_6_12/WMCORE_0_6_12 wmcore.spec
+#LAT# HG1102b dbs3
+#LAT# + HEAD/3.0.4 dbs3.spec
+#LAT# + WMCORE_0_6_12/WMCORE_0_6_12 wmcore.spec
 
 # FileMover
 #HG1102a filemover
@@ -80,9 +80,9 @@ HG1102b dbs3
 #+ FILEMOVER_20101215_slc5_amd64_gcc434 filemover.spec
 #HG1102a filemover
 #+ 1.3 filemover.spec
-HG1103a filemover
-+ FILEMOVER_20110304_slc5_amd64_gcc434 filemover.spec
-+ HEAD/WMCORE_0_6_13 wmcore.spec
+#LAT# HG1103a filemover
+#LAT# + FILEMOVER_20110304_slc5_amd64_gcc434 filemover.spec
+#LAT# + HEAD/WMCORE_0_6_13 wmcore.spec
 #+ FILEMOVER_20110111_slc5_amd64_gcc434_v3 filemover.spec
 
 # DBS discovery
@@ -93,8 +93,8 @@ HG1103a filemover
 #+ DD_20101014_slc5_amd64_gcc434 dbs-{web,client}.spec
 #HG1012a dbs-web
 #+ DD_20101118_slc5_amd64_gcc434 dbs-web.spec
-HG1102a dbs-web
-+ DD_20101215_slc5_amd64_gcc434_v2 dbs-web.spec
+#LAT# HG1102a dbs-web
+#LAT# + DD_20101215_slc5_amd64_gcc434_v2 dbs-web.spec
 
 # PlotFairy
 #HG1012a plotfairy
@@ -132,8 +132,8 @@ HG1102d wmagent
 + 1.14 wmagent.spec
 
 # PHEDEX agents
-HG1102b PHEDEX-combined-agents
-+ forPHEDEX400pre4 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
+#LAT# HG1102b PHEDEX-combined-agents
+#LAT# + forPHEDEX400pre4 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
 
-HG1103a wmcore-web
-+ 1.1/WMCORE_0_6_13 wmcore-web.spec
+#LAT# HG1103a wmcore-web
+#LAT# + 1.1/WMCORE_0_6_13 wmcore-web.spec
