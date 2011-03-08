@@ -5,7 +5,8 @@
 Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
-%define ismac %(case %cmsplatf in osx*%closingbrace echo true;; *%closingbrace echo false;; esac)
+%define ismac %(case %cmsplatf in osx*%closingbrace echo true;; *%closingbrace e
+cho false;; esac)
 
 Patch0: root-5.27-06-externals
 Patch1: root-5.27-04-CINT-maxlongline-maxtypedef
@@ -35,8 +36,6 @@ Patch24: root-5.27-06b-r38023
 Patch25: root-5.27-06b-r36708
 Patch26: root-5.27-06b-r38126-r38156
 Patch27: root-5.27-06b-r38210
-Patch28: root-5.27-06b-r38248-r38252-r38259-r38264-r38265-r38267
-Patch29: root-5.27-06b-gcc46
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -90,8 +89,6 @@ Requires: qt
 %patch25 -p1
 %patch26 -p1
 %patch27 -p1
-%patch28 -p1
-%patch29 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
