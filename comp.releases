@@ -26,8 +26,8 @@ HG1102d cmsweb
 HG1102d wmagent
 + 1.33 openssl.spec
 + WMCORE_0_6_12  dls-client.spec
-+ 1.90 wmcore.spec
-+ 1.15 wmagent.spec
++ 1.91 wmcore.spec
++ 1.16 wmagent.spec
 
 HG1102b dbs-client
 + HEAD/DBS_2_1_1_patch1_1 dbs-client.spec
