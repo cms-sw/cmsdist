@@ -110,6 +110,8 @@ HG1103a cmsweb
 + 1.64/6.0.0 dqmgui.spec
 + HEAD/26 oracle-env.spec
 + TW20110307b PHEDEX-combined-web.spec PHEDEX-web.spec PHEDEX-webapp.spec PHEDEX-datasvc.spec
++ HEAD/5.0.1 T0DataSvc.spec
++ HEAD/4.2.10 T0Mon.spec
 + 1.27/2.8.2r1 yui.spec
 
 # ReqMgr
