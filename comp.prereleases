@@ -43,9 +43,9 @@
 #+ DAS_20110303_slc5_amd64_gcc434_v4 das.spec
 #+ HEAD/WMCORE_0_6_13 wmcore.spec
 
-# DAS test build with wmcore-web dependency, 1.151 is 0.5.10 release, 1.154 is 0.5.11
+# DAS test build with wmcore-web dependency, 1.151 is 0.5.10 release, 1.155 is 0.5.11a
 HG1103a das
-+ 1.154 das.spec
++ 1.155 das.spec
 + HEAD/WMCORE_0_6_13 wmcore.spec
 #+ 1.1 wmcore-web.spec
 
