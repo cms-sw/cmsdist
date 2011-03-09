@@ -1,4 +1,4 @@
-### RPM cms dbs3 3.0.4
+### RPM cms dbs3 3.0.6
 ## INITENV +PATH PYTHONPATH %i/Server/Python/src
 ## INITENV SET DBS3_SERVER_ROOT %i/Server/Python
 
