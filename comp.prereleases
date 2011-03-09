@@ -11,6 +11,10 @@
 #
 # When using HEAD as <revisio> you must specify <version>.
 
+# PHEDEX web suite
+HG1102b PHEDEX-combined-web
++ TW20110228a PHEDEX-combined-web.spec PHEDEX-web.spec PHEDEX-webapp.spec PHEDEX-datasvc.spec
+
 # CrabServer
 #CRABSERVER_1_1_4_pre1_BUILD_SLC5  crab-server prodagent  prodcommon wmcore mysql
 
@@ -32,7 +36,7 @@ HG1102a das
 #+ DAS_20101222_slc5_amd64_gcc434_v2 das.spec # this is 0.5.7 tag
 #+ DAS_20110113_slc5_amd64_gcc434_v6 das.spec # this is 0.5.8 tag
 #+ DAS_20110116_slc5_amd64_gcc434 das.spec # this is 0.5.9 tag
-+ DAS_20110226_slc5_amd64_gcc434 das.spec
++ DAS_20110302_slc5_amd64_gcc434 das.spec
 + 1.1 yajl.spec
 + 1.1 py2-yajl.spec
 
@@ -44,7 +48,7 @@ HG1102b T0DataSvc
 
 # CmsTC
 HG1102b CmsTC
-+ 1.8/* CmsTC.spec
++ 1.10/* CmsTC.spec
 
 # DBS-2
 #HG1009c dbs-apps
@@ -55,24 +59,18 @@ HG1102b dbs-client
 # DBS-3
 #aa20100831-dbs3 dbs3
 HG1102b dbs3
-+ HEAD/3.0.2 dbs3.spec
++ HEAD/3.0.4 dbs3.spec
 + WMCORE_0_6_12/WMCORE_0_6_12 wmcore.spec
 
 # FileMover
-#FILEMOVER_20100901_slc5_amd64_gcc434_v5 fmws
-#HG1010a fmws
-#+ python-2.6.4-dont-detect-dbm.patch fmws.spec
-#HG1010a fmws
-#+ FILEMOVER_20101014_slc5_amd64_gcc434 fmws.spec
-#HG1012a fmws
-#+ FILEMOVER_20101116_slc5_amd64_gcc434_v2 fmws.spec
 #HG1102a filemover
 #+ 1.2 filemover.spec
 #+ FILEMOVER_20101215_slc5_amd64_gcc434 filemover.spec
 #HG1102a filemover
 #+ 1.3 filemover.spec
 HG1102a filemover
-+ FILEMOVER_20110210_slc5_amd64_gcc434 filemover.spec
++ FILEMOVER_20110302_slc5_amd64_gcc434_v3 filemover.spec
++ HEAD/WMCORE_0_6_13 wmcore.spec
 #+ FILEMOVER_20110111_slc5_amd64_gcc434_v3 filemover.spec
 
 # DBS discovery
@@ -94,15 +92,7 @@ HG1012a plotfairy
 #HG1102a base
 
 # Cms Webtools services
-HG1102b cmsweb
-+ LAT20110225a/* PHEDEX-combined-web.spec
-+ LAT20110225a/* PHEDEX-datasvc.spec
-+ LAT20110225a/* PHEDEX-webapp.spec
-+ LAT20110225a/* PHEDEX-web.spec
-+ sjg110202a/4.2.6c T0Mon.spec
-+ sjg110131a/5.0.0 T0DataSvc.spec
-+ HEAD/4.1 frontend.spec
-+ HEAD/1.31 p5-dbd-sqlite.spec
+HG1103a cmsweb
 
 # ReqMgr
 HG1102b reqmgr
@@ -117,8 +107,11 @@ HG1102b reqmgr
 #+ dg20101105-prodagent py2-sqlalchemy.spec
 
 # WMAGENT
-HG1102a wmagent
-+ WMAGENT_0_6_2 dls-client.spec wmagent.spec
+HG1102d wmagent
++ 1.33 openssl.spec
++ WMCORE_0_6_12 dls-client.spec
++ 1.90 wmcore.spec
++ 1.14 wmagent.spec
 
 # PHEDEX agents
 HG1102b PHEDEX-combined-agents
