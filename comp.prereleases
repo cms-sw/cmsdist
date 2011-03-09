@@ -46,7 +46,8 @@
 # DAS test build with wmcore-web dependency, 1.151 is 0.5.10 release, 1.152 is 0.5.11
 HG1103a das
 + 1.152 das.spec
-+ 1.1 wmcore-web.spec
++ HEAD/WMCORE_0_6_13 wmcore.spec
+#+ 1.1 wmcore-web.spec
 
 # T0Mon and T0DataSvc
 HG1103a T0Mon
