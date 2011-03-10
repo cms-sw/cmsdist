@@ -9,13 +9,23 @@ Provides: libpcap.so.0.8.3()(64bit)
 %prep
 %setup -n mongodb-src-r%{realversion}
 
+# scons apparently removes $PATH and $LD_LIBRARY_PATH when invoking
+# compiler commands, so force the environment back -- gcc needs it.
+# this isn't actually quite enough as scons also forces -L/lib64
+# type options straight into command line, with -lstdc++, etc., so
+# linking is also likely somewhat broken.
+cat > scons-sucks-wrapper <<-EOF
+	#!/bin/sh
+	. $GCC_ROOT/etc/profile.d/init.sh
+        exec c++ \${1+"\$@"}
+EOF
+chmod 755 scons-sucks-wrapper
+
 %build
-export CXX=$GCC_ROOT/bin/g++
-scons %makeprocesses --64 --cxx=$CXX --extrapathdyn=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT all
+scons %makeprocesses --64 --cxx=$PWD/scons-sucks-wrapper --extrapathdyn=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT all
 
 %install
-export CXX=$GCC_ROOT/bin/g++
-scons %makeprocesses --64 --cxx=$CXX --extrapathdyn=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT --prefix=%i install
+scons %makeprocesses --64 --cxx=$PWD/scons-sucks-wrapper --extrapathdyn=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT --prefix=%i install
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
