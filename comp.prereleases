@@ -12,8 +12,8 @@
 # When using HEAD as <revisio> you must specify <version>.
 
 # PHEDEX web suite
-#LAT# HG1103a PHEDEX-combined-web
-#LAT# + TW20110307b PHEDEX-combined-web.spec PHEDEX-web.spec PHEDEX-webapp.spec PHEDEX-datasvc.spec
+HG1103a PHEDEX-combined-web
++ TW20110310a PHEDEX-combined-web.spec PHEDEX-web.spec PHEDEX-webapp.spec PHEDEX-datasvc.spec
 
 # CrabServer
 #CRABSERVER_1_1_4_pre1_BUILD_SLC5  crab-server prodagent  prodcommon wmcore mysql
