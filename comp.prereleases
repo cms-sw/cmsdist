@@ -73,7 +73,7 @@ HG1102b CmsTC
 #aa20100831-dbs3 dbs3
 HG1103a dbs3
 + HEAD/3.0.6 dbs3.spec
-+ WMCORE_0_6_12/WMCORE_0_6_12 wmcore.spec
++ HEAD/WMCORE_0_7_0a wmcore.spec
 
 # FileMover
 #HG1102a filemover
