@@ -1,4 +1,4 @@
-### RPM cms wmcore-web WMCORE_0_6_13
+### RPM cms wmcore-web WMCORE_0_7_0a
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
 Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%realversion?scheme=svn+ssh&strategy=export&module=WMCore&output=/WMCORE.tar.gz
@@ -8,6 +8,7 @@ Requires: python py2-simplejson py2-sqlalchemy py2-httplib2
 %setup -n WMCore
 
 %build
+python setup.py build_system -s wmc-web
 
 %install
 mkdir -p %i
