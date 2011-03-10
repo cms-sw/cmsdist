@@ -16,8 +16,8 @@ HG1103a cmsweb
 + HEAD/4.2.10 T0Mon.spec
 + 1.27 yui.spec
 
-HG1102d wmagent
+HG1103a wmagent
 + WMCORE_0_6_12  dls-client.spec
-+ 1.91 wmcore.spec
-+ 1.16 wmagent.spec
++ 1.92 wmcore.spec
++ 1.17 wmagent.spec
 
