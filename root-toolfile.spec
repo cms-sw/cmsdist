@@ -91,8 +91,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcintex.xml
 </tool>
 EOF_TOOLFILE
 
-# rootinteractive toolfile (GQt/qt lib dependencies
-# have been moved to rootqt.xml)
+# rootinteractive toolfile 
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootinteractive.xml
 <tool name="rootinteractive" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
@@ -101,14 +100,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootinteractive.xml
   <use name="libjpg"/>
   <use name="libpng"/>
   <use name="rootgpad"/>
-</tool>
-EOF_TOOLFILE
-
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootqt.xml
-<tool name="rootqt" version="@TOOL_VERSION@">
-  <info url="http://root.cern.ch/root/"/>
-  <lib name="GQt"/>
-  <use name="qt"/>
 </tool>
 EOF_TOOLFILE
 
