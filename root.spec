@@ -55,12 +55,6 @@ Requires: openssl zlib xrootd
 Requires: gfortran-macosx
 %endif
 
-%if "%online" != "true"
-%if "%ismac" != "true"
-Requires: qt 
-%endif
-%endif
-
 %prep
 %setup -n root
 %patch0 -p1
@@ -115,18 +109,15 @@ export ROOTSYS=%_builddir/root
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
 %if "%online" == "true"
-# Use system qt. Also skip xrootd and odbc for online case:
+# Also skip xrootd and odbc for online case:
 
 EXTRA_CONFIG_ARGS="--with-f77=/usr
-             --disable-odbc
-             --disable-qt --disable-qtgsi --disable-astiff"
+             --disable-odbc --disable-astiff"
 %else
 export LIBPNG_ROOT ZLIB_ROOT LIBTIFF_ROOT LIBUNGIF_ROOT
 EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}
-             --enable-qt --with-qt-libdir=${QT_ROOT}/lib --with-qt-incdir=${QT_ROOT}/include 
              --with-ssl-incdir=${OPENSSL_ROOT}/include
-             --with-ssl-libdir=${OPENSSL_ROOT}/lib
-	     --enable-qtgsi"
+             --with-ssl-libdir=${OPENSSL_ROOT}/lib"
 %endif
 
 CONFIG_ARGS="--enable-table 
@@ -152,6 +143,7 @@ CONFIG_ARGS="--enable-table
              --with-dcap-incdir=${DCAP_ROOT}/include
              --disable-pgsql
              --disable-mysql
+             --disable-qt --disable-qtgsi
              --disable-oracle ${EXTRA_CONFIG_ARGS}"
 
 case %cmsos in
