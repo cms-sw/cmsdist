@@ -132,5 +132,5 @@ HG1102d wmagent
 #LAT# HG1102b PHEDEX-combined-agents
 #LAT# + forPHEDEX400pre4 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
 
-#LAT# HG1103a wmcore-web
-#LAT# + 1.1/WMCORE_0_6_13 wmcore-web.spec
+HG1103b wmcore-web
++ 1.2 wmcore-web.spec
