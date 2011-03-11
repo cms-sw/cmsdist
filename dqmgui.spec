@@ -1,4 +1,4 @@
-### RPM cms dqmgui 6.0.0
+### RPM cms dqmgui 6.0.1
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 
 %define svn svn://svn.cern.ch/reps/CMSDMWM/Monitoring/tags/%{realversion}
