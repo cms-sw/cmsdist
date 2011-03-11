@@ -20,6 +20,9 @@ Provides: perl(DB_File)
 Provides: perl(Date::Manip)
 Provides: perl(XML::LibXML)
 
+# Fake provide of twitter client; needs to be installed manually
+Provides: perl(Net::Twitter::Lite)
+
 %prep
 %setup -n %{downloadn}
 rm -rf Toolkit/DBS
