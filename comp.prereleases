@@ -110,6 +110,7 @@ HG1103b cmsweb
 + 1.74 webtools.spec
 + HEAD/6.0.1 dqmgui.spec
 + HEAD/6.0.1 overview.spec
++ HEAD/0.5.11a das.spec
 
 # ReqMgr
 HG1102b reqmgr
