@@ -1,9 +1,8 @@
 ### RPM external gsl 1.10
 Source: ftp://ftp.gnu.org/gnu/%n/%n-%realversion.tar.gz
-Patch0:  gsl-1.10-gcc46
+
 %prep
 %setup -n %n-%{realversion}
-%patch0 -p1
 
 %build
 CFLAGS="-O2" ./configure --prefix=%i --with-pic
