@@ -1,4 +1,4 @@
-### RPM external libevent 1.4.9
+### RPM external libevent 2.0.10
 Source: http://www.monkey.org/~provos/libevent-%{realversion}-stable.tar.gz
 
 %prep 
