@@ -50,14 +50,14 @@ HG1103a das
 #+ 1.1 wmcore-web.spec
 
 # T0Mon and T0DataSvc
-HG1103a T0Mon
-+ sjg110307a/4.2.10 T0Mon.spec
-HG1103a T0DataSvc
-+ sjg110307a/5.0.1 T0DataSvc.spec
+#DH# HG1103a T0Mon
+#DH# + sjg110307a/4.2.10 T0Mon.spec
+#DH# HG1103a T0DataSvc
+#DH# + sjg110307a/5.0.1 T0DataSvc.spec
 
 # T0PromptSkim
-#LAT# HG1103a T0PromptSkim
-#LAT# + HEAD/1.0.2 T0PromptSkim.spec
+HG1103c T0PromptSkim
++ HEAD/1.0.3 T0PromptSkim.spec
 
 # CmsTC
 HG1102b CmsTC
