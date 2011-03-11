@@ -89,6 +89,8 @@ Fireworks/Electrons
 Fireworks/GenParticle
 Fireworks/Macros
 Fireworks/Muons
+Fireworks/ParticleFlow
+Fireworks/SimData
 Fireworks/TableWidget
 Fireworks/Tracks
 Fireworks/Vertices
