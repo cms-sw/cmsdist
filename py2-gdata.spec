@@ -1,21 +1,20 @@
-### RPM cms wmcore-web WMCORE_0_7_0a
+### RPM external py2-gdata 2.0.14
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
-Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%realversion?scheme=svn+ssh&strategy=export&module=WMCore&output=/WMCORE.tar.gz
-Requires: python py2-simplejson py2-sqlalchemy py2-httplib2
+Source: http://gdata-python-client.googlecode.com/files/gdata-%realversion.tar.gz
+Requires: python elementtree
 
 %prep
-%setup -n WMCore
+%setup -n gdata-%realversion
 
 %build
-python setup.py build_system -s wmc-web
+python setup.py build
 
 %install
 mkdir -p %i
-python setup.py install_system -s wmc-web --prefix=%i
+python setup.py install --prefix=%i
 egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
-chmod +x %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages/WMCore/WebTools/Root.py
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d

@@ -35,12 +35,6 @@ case %cmsplatf in
   ;;
 esac
 
-case %gccver in
-  4.6.*)
-perl -pi -e "s|-Werror|-Werror -Wno-error=unused-but-set-variable|" config/Imake.tmpl
-perl -pi -e "s|--no-undefined||" config/Imake.rules
-  ;;
-esac
 
 %build
 
