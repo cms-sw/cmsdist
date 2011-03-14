@@ -105,12 +105,9 @@ HG1103a dbs3
 #HG1102a base
 
 # Cms Webtools services
-HG1103b cmsweb
-+ TW20110310a PHEDEX-combined-web.spec PHEDEX-web.spec PHEDEX-webapp.spec PHEDEX-datasvc.spec
-+ 1.74 webtools.spec
-+ HEAD/6.0.1 dqmgui.spec
-+ HEAD/6.0.1 overview.spec
-+ HEAD/0.5.11a das.spec
+HG1103d cmsweb
++ HEAD/6.0.2 overview.spec
++ HEAD/6.0.2 dqmgui.spec
 
 # ReqMgr
 HG1102b reqmgr

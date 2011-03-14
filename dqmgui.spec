@@ -1,5 +1,6 @@
-### RPM cms dqmgui 6.0.1
+### RPM cms dqmgui 6.0.2
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
+## INITENV +PATH PYTHONPATH %i/xlib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 
 %define svn svn://svn.cern.ch/reps/CMSDMWM/Monitoring/tags/%{realversion}
 %define cvs cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
@@ -81,7 +82,6 @@ done
 # Generate an env.sh which sets a few things more than init.sh.
 (echo ". %i/etc/profile.d/init.sh;"
  echo "export PATH=%i/xbin:\$PATH;"
- echo "export PYTHONPATH=%i/xpython:\$PYTHONPATH;"
  echo "export LD_LIBRARY_PATH=%i/xlib:\$LD_LIBRARY_PATH;"
  echo "export YUI_ROOT='$YUI_ROOT';"
  echo "export EXTJS_ROOT='$EXTJS_ROOT';"
