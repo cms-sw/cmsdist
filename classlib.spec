@@ -2,7 +2,6 @@
 Source: http://cmsmac01.cern.ch/~lat/exports/%n-%realversion.tar.bz2
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
-Patch0: classlib-3.1.2-gcc46
 
 Requires: bz2lib 
 Requires: pcre 
@@ -15,11 +14,6 @@ Requires: onlinesystemtools
 
 %prep
 %setup -n %n-%realversion
-case %gccver in
-  4.6.*)
-%patch0 -p1
-  ;;
-esac
 
 %build
 ./configure --prefix=%i                         \
