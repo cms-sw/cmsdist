@@ -1,4 +1,4 @@
-### RPM external gcc 4.5.1
+### RPM external gcc 4.3.4
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
@@ -26,17 +26,6 @@ Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-ppl-%{cloogpplVersion}.t
 %define binutilsv 2.20.1
 Source6: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.bz2
 Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
-%endif
-
-# gcc 4.5+ link time optimization support requires libelf to work. However
-# also rpm requires it. In order to have to duplicate dependencies we
-# build it in gcc and we pick it up from there also for rpm. Notice that
-# libelf does not work on Macosx however this is not a problem until
-# we use the system compiler there.
-%define isslc %(echo %cmsos | sed -e 's|slc.*|true|')
-%define elfutilsVersion 0.131
-%if "%isslc" == "true"
-Source8: ftp://sources.redhat.com/pub/systemtap/elfutils/elfutils-%{elfutilsVersion}.tar.gz
 %endif
 
 %prep
@@ -109,12 +98,6 @@ esac
 %setup -D -T -b 4 -n ppl-%{pplVersion}
 %setup -D -T -b 5 -n cloog-ppl-%{cloogpplVersion}
 %endif
-
-# These are required by rpm as well, but only on linux.
-%if "%isslc" == "true"
-%setup -D -T -b 8 -n elfutils-%{elfutilsVersion}
-%endif
-
 %build
 
 # Set special variables required to build 32-bit executables on 64-bit
@@ -136,14 +119,6 @@ fi
 
 USER_CXX=$CCOPTS
 
-# Build libelf.
-if [ "X%isslc" = Xtrue ]; then
-  cd ../elfutils-%{elfutilsVersion}
-  ./configure --prefix=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
-  make %makeprocesses
-  make install
-fi
-
 # If requested, build our own binutils.  Currently the default is to use the
 # system binutils on 32bit platforms and our own on 64 bit ones.  
 # FIXME: Notice that this copy is actually built using the system compiler, so
@@ -157,9 +132,7 @@ then
   make install
   export PATH=%i/tmp/bison/bin:$PATH
   cd ../binutils-%{binutilsv}
-  ./configure --prefix=%i ${CONF_BINUTILS_OPTS} \
-              CC="gcc $CCOPTS" CFLAGS="-I%i/include" \
-              CXXFLAGS="-I%i/include" LDFLAGS="-L%i/lib"
+  ./configure --prefix=%i ${CONF_BINUTILS_OPTS} CC="gcc $CCOPTS"
   make %makeprocesses
   find . -name Makefile -exec perl -p -i -e 's|LN = ln|LN = cp -p|;s|ln ([^-])|cp -p $1|g' {} \; 
   make install
