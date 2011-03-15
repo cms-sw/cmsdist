@@ -18,7 +18,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/herwig.xml
   </client>
   <use name="f77compiler"/>
   <use name="lhapdf"/>
-  <use name="tauola"/>
   <use name="photos"/>
 </tool>
 EOF_TOOLFILE
