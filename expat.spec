@@ -30,5 +30,4 @@ setarch x86_64 make install
 %install
 
 %post
-%{relocateConfig}lib/libexpat.la
-%{relocateConfig}lib64/libexpat.la
+find $RPM_INSTALL_PREFIX/%{pkgrel}/lib* -name "*.la" -exec perl -p -i -e "s|%{instroot}|$CMS_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/{} \;
