@@ -61,7 +61,7 @@ HG1103c T0PromptSkim
 
 # CmsTC
 HG1102b CmsTC
-+ 1.13/* CmsTC.spec
++ 1.14/* CmsTC.spec
 
 # DBS-2
 #HG1009c dbs-apps
