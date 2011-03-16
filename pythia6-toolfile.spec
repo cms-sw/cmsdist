@@ -15,9 +15,18 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pythia6.xml
   <client>
     <environment name="PYTHIA6_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$PYTHIA6_BASE/lib"/>
-    <environment name="INCLUDE" default="$PYTHIA6_BASE/include"/>
   </client>
+  <use name="pythia6_headers"/>
   <use name="f77compiler"/>
+</tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/pythia6_headers.xml
+<tool name="pythia6_headers" version="@TOOL_VERSION@">
+  <client>
+    <environment name="PYTHIA6_HEADERS_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$PYTHIA6_HEADERS_BASE/include"/>
+  </client>
 </tool>
 EOF_TOOLFILE
 
