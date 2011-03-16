@@ -22,11 +22,17 @@ Requires: gfortran-macosx
 %patch4 -p2
 
 %build
+# We build archive libraries only on macosx.
+case %cmsos in
+  osx*) BUILD_PRODUCT=lib_archive ;;
+esac
 ./configure --lcgplatform=%cmsplatf --with-clhep=$CLHEP_ROOT
 # The configure script does not actually specifies the -L$CLHEP_ROOT & co. 
 # On macosx this is fatal, We work around the problem by patching the makefile
 # and by setting the needed link time dependencies by hand.
-make PYTHIA6_ROOT=$PYTHIA6_ROOT CLHEP_ROOT=$CLHEP_ROOT PHOTOS_ROOT=$PHOTOS_ROOT
+make PYTHIA6_ROOT=$PYTHIA6_ROOT CLHEP_ROOT=$CLHEP_ROOT PHOTOS_ROOT=$PHOTOS_ROOT $BUILD_PRODUCT
 
 %install
 tar -c lib EvtGen EvtGenBase EvtGenModels DecFiles | tar -x -C %i
+mv %i/lib/archive/*.a %i/lib
+rm -rf %i/lib/archive
