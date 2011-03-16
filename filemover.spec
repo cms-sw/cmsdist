@@ -4,8 +4,7 @@
 %define webdoc_files %i/doc/
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM/FileMover/tags/%{realversion}
 Source: %svnserver?scheme=svn+ssh&strategy=export&module=FileMover&output=/filemover.tar.gz
-
-Requires: python cherrypy py2-cheetah yui wmcore-web py2-sphinx rotatelogs java-jdk srmcp
+Requires: python cherrypy py2-cheetah yui wmcore py2-sphinx rotatelogs java-jdk srmcp
 
 %prep
 %setup -n FileMover
