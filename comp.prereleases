@@ -13,7 +13,7 @@
 
 # PHEDEX web suite
 HG1103a PHEDEX-combined-web
-+ TW20110311a PHEDEX-combined-web.spec PHEDEX-web.spec PHEDEX-webapp.spec PHEDEX-datasvc.spec
++ TW20110316a PHEDEX-combined-web.spec PHEDEX-web.spec PHEDEX-webapp.spec PHEDEX-datasvc.spec
 
 # CrabServer
 #CRABSERVER_1_1_4_pre1_BUILD_SLC5  crab-server prodagent  prodcommon wmcore mysql
