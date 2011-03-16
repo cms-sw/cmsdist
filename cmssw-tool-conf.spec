@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 21.0
+### RPM cms cmssw-tool-conf 22.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -71,6 +71,7 @@ Requires: sigcpp-toolfile
 Requires: sqlite-toolfile
 Requires: systemtools
 Requires: tauola-toolfile
+Requires: tauolapp-toolfile
 Requires: thepeg-toolfile
 Requires: toprex-toolfile
 Requires: uuid-toolfile
