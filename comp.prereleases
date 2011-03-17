@@ -43,10 +43,11 @@ HG1103a PHEDEX-combined-web
 #+ DAS_20110303_slc5_amd64_gcc434_v4 das.spec
 #+ HEAD/WMCORE_0_6_13 wmcore.spec
 
-# DAS test build with wmcore-web dependency, 1.151 is 0.5.10 release, 1.155 is 0.5.11a
-HG1103d das
-+ 1.158 das.spec
-+ 1.1 wmcore-web.spec
+# DAS test build with wmcore-web dependency, 1.151 is 0.5.10 release, 1.155 is 0.5.11a, 1.160 is 0.5.11b1
+HG1104a das
++ 1.160 das.spec
++ 1.3 wmcore-web.spec
+#+ 1.1 wmcore-web.spec
 #+ HEAD/WMCORE_0_6_13 wmcore.spec
 
 # T0Mon and T0DataSvc
