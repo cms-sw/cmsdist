@@ -5,7 +5,7 @@
 Requires: frontend webtools-base das dbs-web filemover sitedb T0Mon T0DataSvc
 Requires: PHEDEX-combined-web couchdb stagemanager reqmgr dqmgui overview
 Requires: rotatelogs pystack py2-geoip py2-adns py2-netaddr valgrind igprof
-Requires: cmsweb-analytics wmcore
+Requires: cmsweb-analytics wmcore plotfairy
 
 %prep
 %build
