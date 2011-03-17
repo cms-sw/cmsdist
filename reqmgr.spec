@@ -3,8 +3,7 @@
 ## INITENV +PATH PATH %i/bin
 %define svnversion WMCORE_%(echo %realversion | tr . _)
 
-Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{svnversion}?scheme=svn+ssh&strategy=export&module=WMCore&out
-put=/src.tar.gz
+Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{svnversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
 Requires: py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah py2-cx-oracle yui rotatelogs couchdb
 
 %prep

@@ -2,8 +2,7 @@
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 %define svnversion WMCORE_%(echo %realversion | tr . _)
 
-Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%svnversion?scheme=svn+ssh&strategy=export&module=WMCore&outpu
-t=/WMCORE.tar.gz
+Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%svnversion?scheme=svn+ssh&strategy=export&module=WMCore&output=/WMCORE.tar.gz
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2
 
 %prep
