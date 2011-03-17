@@ -5,7 +5,7 @@
 %define cvstag T0DataSvc-5_0_1
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
-Requires: wmcore-web cherrypy rotatelogs py2-cheetah yui py2-cx-oracle
+Requires: wmcore-web rotatelogs py2-cx-oracle
 
 %prep
 %setup -n %{moduleName}
