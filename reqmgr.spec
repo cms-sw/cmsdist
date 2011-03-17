@@ -1,4 +1,4 @@
-### RPM cms reqmgr 0.7.0a
+### RPM cms reqmgr 0.7.1a
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 ## INITENV +PATH PATH %i/bin
 %define svnversion WMCORE_%(echo %realversion | tr . _)
