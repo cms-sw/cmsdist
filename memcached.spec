@@ -1,12 +1,11 @@
-### RPM external memcached 1.2.8
-Source: http://www.danga.com/memcached/dist/memcached-%{realversion}.tar.gz
+### RPM external memcached 1.4.5
+Source: http://memcached.googlecode.com/files/memcached-%{realversion}.tar.gz
 Requires: libevent
 
 %prep 
 %setup -n memcached-%realversion
 
 %build
-source $LIBEVENT_ROOT/etc/profile.d/init.sh
 ./configure --with-libevent=$LIBEVENT_ROOT --prefix=%i
 make
 
