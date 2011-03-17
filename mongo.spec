@@ -17,12 +17,19 @@ Provides: libpcap.so.0.8.3()(64bit)
 cat > scons-sucks-wrapper <<-EOF
 	#!/bin/sh
 	. $GCC_ROOT/etc/profile.d/init.sh
-        exec c++ \${1+"\$@"}
+
+        # Boost 1.46.0 has a bug on boost filesystem3, so we set to use filesystem2 instead.
+        # See http://www.freeorion.org/forum/viewtopic.php?f=24&t=5180
+        #
+        # We also get rid of deprecated bits that lead to compile warnings. See
+        # http://stackoverflow.com/questions/1814548/boostsystem-category-defined-but-not-used
+        exec c++ -DBOOST_SYSTEM_NO_DEPRECATED -DBOOST_FILESYSTEM_VERSION=2 \${1+"\$@"}
 EOF
 chmod 755 scons-sucks-wrapper
 
 %build
 scons %makeprocesses --64 --cxx=$PWD/scons-sucks-wrapper --extrapathdyn=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT all
+
 
 %install
 scons %makeprocesses --64 --cxx=$PWD/scons-sucks-wrapper --extrapathdyn=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT --prefix=%i install
