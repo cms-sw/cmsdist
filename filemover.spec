@@ -1,16 +1,21 @@
 ### RPM cms filemover 1.0.8
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
-
+%define wmcver WMCORE_0_7_1a
 %define webdoc_files %i/doc/
-%define svnserver svn://svn.cern.ch/reps/CMSDMWM/FileMover/tags/%{realversion}
-Source: %svnserver?scheme=svn+ssh&strategy=export&module=FileMover&output=/filemover.tar.gz
-
-Requires: python cherrypy py2-cheetah yui wmcore-web py2-sphinx rotatelogs java-jdk srmcp
+%define svnserver svn://svn.cern.ch/reps/CMSDMWM
+Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_fm.tar.gz
+Source1: %svnserver/FileMover/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=FileMover&output=/filemover.tar.gz
+Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui
+Requires: py2-sphinx rotatelogs java-jdk srmcp
 
 %prep
-%setup -n FileMover
+%setup -T -b 0 -n WMCore
+%setup -D -T -b 1 -n FileMover
 
 %build
+cd ../WMCore
+python setup.py build_system -s wmc-web
+cd ../FileMover
 python setup.py build
 
 # build FileMover sphinx documentation
@@ -22,6 +27,9 @@ mkdir -p build
 make html
 
 %install
+cd ../WMCore
+python setup.py install_system -s wmc-web --prefix=%i
+cd ../FileMover
 python setup.py install --prefix=%i
 egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;

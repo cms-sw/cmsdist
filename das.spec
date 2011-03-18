@@ -1,19 +1,25 @@
 ### RPM cms das 0.5.11b2
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
-
+%define wmcver WMCORE_0_7_1a
 %define webdoc_files %i/doc/
-%define svnserver svn://svn.cern.ch/reps/CMSDMWM/DAS/tags/%{realversion}
-Source: %svnserver?scheme=svn+ssh&strategy=export&module=DAS&output=/das.tar.gz
-Requires: python cherrypy py2-cheetah yui mongo py2-pymongo py2-cjson py2-yaml wmcore-web py2-pystemmer py2-mongoengine py2-lxml py2-ply py2-yajl
+%define svnserver svn://svn.cern.ch/reps/CMSDMWM
+Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_das.tar.gz
+Source1: %svnserver/DAS/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=DAS&output=/das.tar.gz
+Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui
+Requires: mongo py2-pymongo py2-cjson py2-yaml py2-pystemmer py2-mongoengine py2-lxml py2-ply py2-yajl
 Requires: py2-sphinx rotatelogs
 
 %prep
-%setup -n DAS
+%setup -T -b 0 -n WMCore
+%setup -D -T -b 1 -n DAS
 
 # remove ipython deps
 rm src/python/DAS/tools/ipy_profile_mongo.py
 
 %build
+cd ../WMCore
+python setup.py build_system -s wmc-web
+cd ../DAS
 python setup.py build
 
 # build DAS JSON maps out of DAS YML files
@@ -40,6 +46,9 @@ mkdir -p build
 make html
 
 %install
+cd ../WMCore
+python setup.py install_system -s wmc-web --prefix=%i
+cd ../DAS
 #python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
 python setup.py install --prefix=%i
 egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
@@ -66,6 +75,5 @@ done
 %files
 %i/
 %exclude %i/doc
-
 
 ## SUBPACKAGE webdoc
