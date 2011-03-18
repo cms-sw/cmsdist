@@ -13,7 +13,7 @@
 
 # PHEDEX web suite
 HG1103a PHEDEX-combined-web
-+ TW20110310a PHEDEX-combined-web.spec PHEDEX-web.spec PHEDEX-webapp.spec PHEDEX-datasvc.spec
++ TW20110316a PHEDEX-combined-web.spec PHEDEX-web.spec PHEDEX-webapp.spec PHEDEX-datasvc.spec
 
 # CrabServer
 #CRABSERVER_1_1_4_pre1_BUILD_SLC5  crab-server prodagent  prodcommon wmcore mysql
@@ -44,24 +44,24 @@ HG1103a PHEDEX-combined-web
 #+ HEAD/WMCORE_0_6_13 wmcore.spec
 
 # DAS test build with wmcore-web dependency, 1.151 is 0.5.10 release, 1.155 is 0.5.11a
-HG1103a das
-+ 1.155 das.spec
-+ HEAD/WMCORE_0_6_13 wmcore.spec
-#+ 1.1 wmcore-web.spec
+HG1103d das
++ 1.158 das.spec
++ 1.1 wmcore-web.spec
+#+ HEAD/WMCORE_0_6_13 wmcore.spec
 
 # T0Mon and T0DataSvc
-HG1103a T0Mon
-+ sjg110307a/4.2.10 T0Mon.spec
-HG1103a T0DataSvc
-+ sjg110307a/5.0.1 T0DataSvc.spec
+#DH# HG1103a T0Mon
+#DH# + sjg110307a/4.2.10 T0Mon.spec
+#DH# HG1103a T0DataSvc
+#DH# + sjg110307a/5.0.1 T0DataSvc.spec
 
 # T0PromptSkim
-#LAT# HG1103a T0PromptSkim
-#LAT# + HEAD/1.0.2 T0PromptSkim.spec
+HG1103c T0PromptSkim
++ HEAD/1.0.5 T0PromptSkim.spec
 
 # CmsTC
 HG1102b CmsTC
-+ 1.13/* CmsTC.spec
++ 1.14/* CmsTC.spec
 
 # DBS-2
 #HG1009c dbs-apps
@@ -105,9 +105,9 @@ HG1103a dbs3
 #HG1102a base
 
 # Cms Webtools services
-HG1103b cmsweb
-+ TW20110310a PHEDEX-combined-web.spec PHEDEX-web.spec PHEDEX-webapp.spec PHEDEX-datasvc.spec
-+ 1.74 webtools.spec
+HG1103e cmsweb
++ HEAD/6.0.2 overview.spec
++ HEAD/6.0.2 dqmgui.spec
 
 # ReqMgr
 HG1102b reqmgr
@@ -129,8 +129,6 @@ HG1102d wmagent
 + 1.14 wmagent.spec
 
 # PHEDEX agents
-#LAT# HG1102b PHEDEX-combined-agents
-#LAT# + forPHEDEX400pre4 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
+HG1103a PHEDEX-combined-agents
++ forPHEDEX400 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
 
-HG1103b wmcore-web
-+ 1.2 wmcore-web.spec
