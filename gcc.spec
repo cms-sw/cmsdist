@@ -1,7 +1,7 @@
 ### RPM external gcc 4.6.0
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-%define realversion 4.6-20110226
+%define realversion 4.6-20110312
 #Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
 Source0: ftp://ftp.nluug.nl/mirror/languages/gcc/snapshots/%realversion/gcc-%realversion.tar.bz2
 # If gcc version >= 4.0.0, we need two additional sources, for gmp and mpfr.
