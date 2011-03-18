@@ -30,9 +30,7 @@ HG1103a dbs3
 + HEAD/WMCORE_0_7_0a wmcore.spec
 
 # Cms Webtools services
-HG1103e cmsweb
-+ HEAD/6.0.2 overview.spec
-+ HEAD/6.0.2 dqmgui.spec
+HG1104a cmsweb
 
 # ReqMgr
 HG1102b reqmgr
