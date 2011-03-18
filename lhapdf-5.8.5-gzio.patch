@@ -2,7 +2,7 @@
 +++ lhapdf/5.8.5/src/gzio.inc	2011-02-14 14:18:38.000000000 +0100
 @@ -0,0 +1,11 @@
 +!*
-+!* $Id: lhapdf-5.8.5-gzio.patch,v 1.1 2011/03/04 12:54:28 fabiocos Exp $
++!* $Id: lhapdf-5.8.5-gzio.patch,v 1.2 2011/03/18 13:44:21 lenzip Exp $
 +!*
 +!* $Log: not supported by cvs2svn $
 +!*
@@ -16,7 +16,7 @@
 +++ lhapdf/5.8.5/src/gzio.F	2011-02-14 14:18:38.000000000 +0100
 @@ -0,0 +1,539 @@
 +!*
-+!* $Id: lhapdf-5.8.5-gzio.patch,v 1.1 2011/03/04 12:54:28 fabiocos Exp $
++!* $Id: lhapdf-5.8.5-gzio.patch,v 1.2 2011/03/18 13:44:21 lenzip Exp $
 +!*
 +!* $Log: not supported by cvs2svn $
 +!* Revision 1.2 2002/11/12 11:50:56 hvogt
@@ -66,7 +66,7 @@
 +      END
 + 
 +!*     
-+!*     $Id: lhapdf-5.8.5-gzio.patch,v 1.1 2011/03/04 12:54:28 fabiocos Exp $
++!*     $Id: lhapdf-5.8.5-gzio.patch,v 1.2 2011/03/18 13:44:21 lenzip Exp $
 +!*     
 +!*     $Log: not supported by cvs2svn $
 +!*     Revision 1.2 2002/11/12 11:51:04 hvogt
@@ -126,7 +126,7 @@
 +      END
 +!* 
 +!*     
-+!*     $Id: lhapdf-5.8.5-gzio.patch,v 1.1 2011/03/04 12:54:28 fabiocos Exp $
++!*     $Id: lhapdf-5.8.5-gzio.patch,v 1.2 2011/03/18 13:44:21 lenzip Exp $
 +!*     
 +!*     $Log: not supported by cvs2svn $
 +!*     Revision 1.3 2003/01/21 14:47:28 hvogt
@@ -192,7 +192,7 @@
 +      END
 +!*     
 +!*     
-+!*     $Id: lhapdf-5.8.5-gzio.patch,v 1.1 2011/03/04 12:54:28 fabiocos Exp $
++!*     $Id: lhapdf-5.8.5-gzio.patch,v 1.2 2011/03/18 13:44:21 lenzip Exp $
 +!*     
 +!*     $Log: not supported by cvs2svn $
 +!*     Revision 1.1 2002/11/12 11:50:39 hvogt
@@ -232,7 +232,7 @@
 +!*     
 +      END 
 +!*     
-+!*     $Id: lhapdf-5.8.5-gzio.patch,v 1.1 2011/03/04 12:54:28 fabiocos Exp $
++!*     $Id: lhapdf-5.8.5-gzio.patch,v 1.2 2011/03/18 13:44:21 lenzip Exp $
 +!*     
 +!*     $Log: not supported by cvs2svn $
 +!*     Revision 1.1.1.1 2002/06/05 16:48:52 hvogt
@@ -331,7 +331,7 @@
 +      END
 +!* 
 +!*     
-+!*     $Id: lhapdf-5.8.5-gzio.patch,v 1.1 2011/03/04 12:54:28 fabiocos Exp $
++!*     $Id: lhapdf-5.8.5-gzio.patch,v 1.2 2011/03/18 13:44:21 lenzip Exp $
 +!*     
 +!*     $Log: not supported by cvs2svn $
 +!*     Revision 1.2 2002/11/12 11:52:07 hvogt
@@ -381,7 +381,7 @@
 +      END
 +!* 
 +!*     
-+!*     $Id: lhapdf-5.8.5-gzio.patch,v 1.1 2011/03/04 12:54:28 fabiocos Exp $
++!*     $Id: lhapdf-5.8.5-gzio.patch,v 1.2 2011/03/18 13:44:21 lenzip Exp $
 +!*     
 +!*     $Log: not supported by cvs2svn $
 +!*     Revision 1.2 2002/11/12 11:52:20 hvogt
@@ -438,7 +438,7 @@
 +      END
 +!* 
 +!*     
-+!*     $Id: lhapdf-5.8.5-gzio.patch,v 1.1 2011/03/04 12:54:28 fabiocos Exp $
++!*     $Id: lhapdf-5.8.5-gzio.patch,v 1.2 2011/03/18 13:44:21 lenzip Exp $
 +!*     
 +!*     $Log: not supported by cvs2svn $
 +!*     Revision 1.2 2002/11/12 11:53:06 hvogt
@@ -559,7 +559,7 @@
 @@ -0,0 +1,230 @@
 +/*
 + *
-+ * $Id: lhapdf-5.8.5-gzio.patch,v 1.1 2011/03/04 12:54:28 fabiocos Exp $
++ * $Id: lhapdf-5.8.5-gzio.patch,v 1.2 2011/03/18 13:44:21 lenzip Exp $
 + *
 + * $Log: not supported by cvs2svn $
 + * Revision 1.1.1.1 2002/06/05 16:48:52 hvogt
