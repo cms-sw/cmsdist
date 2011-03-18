@@ -28,7 +28,7 @@ ln -s libcurl.$SONAME %i/lib/libcurl.$SONAME.3
 # library (which is different from the one coming from the system!).
 case %cmsos in
   osx*)
-install_name_tool -id %i/lib/libcurl-cms.4.dylib -change %i/lib/libcurl.4.dylib %i/lib/libcurl-cms.4.dylib  %i/lib/libcurl.4.dylib
+install_name_tool -id %i/lib/libcurl-cms.dylib -change %i/lib/libcurl.4.dylib %i/lib/libcurl-cms.dylib  %i/lib/libcurl.4.dylib
 install_name_tool -change %i/lib/libcurl.4.dylib %i/lib/libcurl-cms.dylib %i/bin/curl
 ln -s libcurl.4.dylib %i/lib/libcurl-cms.dylib
   ;;
