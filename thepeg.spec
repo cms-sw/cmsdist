@@ -7,8 +7,7 @@ Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distrib
 Patch0: thepeg-1.6.1-break-termcap-dependence
 Patch1: thepeg-1.6.1-units
 Patch2: thepeg-1.6.1-use-dylibs-macosx
-Patch3: thepeg-1.6.1-lhapdf-env
-Patch4: thepeg-1.6.1-gcc46
+patch3: thepeg-1.6.1-lhapdf-env
 Requires: lhapdf
 Requires: gsl
 # FIXME: hepmc?
@@ -25,7 +24,6 @@ Requires: gfortran-macosx
 %patch2 -p1
 %endif
 %patch3 -p2
-%patch4 -p2
 
 %build
 ./configure --with-LHAPDF=$LHAPDF_ROOT/lib --without-javagui --prefix=%i --with-gsl=$GSL_ROOT --disable-readline
