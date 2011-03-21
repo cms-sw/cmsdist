@@ -1,10 +1,6 @@
---- orig.lhapdf/5.8.5/src/gzio.inc	2011-02-15 13:25:37.000000000 +0100
-+++ lhapdf/5.8.5/src/gzio.inc	2011-02-14 14:18:38.000000000 +0100
-@@ -0,0 +1,11 @@
-+!*
-+!* $Id: lhapdf-5.8.5-gzio.patch,v 1.2 2011/03/18 13:44:21 lenzip Exp $
-+!*
-+!* $Log: not supported by cvs2svn $
+--- orig.lhapdf/5.8.5/src/gzio.inc	2011-03-21 14:54:14.256267000 +0100
++++ lhapdf/5.8.5/src/gzio.inc	2011-03-21 14:54:53.178589000 +0100
+@@ -0,0 +1,7 @@
 +!*
 +      INTEGER LUNMAX, STDLUN
 +      PARAMETER (LUNMAX=1000, STDLUN=6)
@@ -12,19 +8,9 @@
 +       FILDES(8,LUNMAX)
 +      INTEGER LUNS, LUNMODS, FILDES
 +!* 
---- orig.lhapdf/5.8.5/src/gzio.F	2011-02-15 13:25:40.000000000 +0100
-+++ lhapdf/5.8.5/src/gzio.F	2011-02-14 14:18:38.000000000 +0100
-@@ -0,0 +1,539 @@
-+!*
-+!* $Id: lhapdf-5.8.5-gzio.patch,v 1.2 2011/03/18 13:44:21 lenzip Exp $
-+!*
-+!* $Log: not supported by cvs2svn $
-+!* Revision 1.2 2002/11/12 11:50:56 hvogt
-+!* gzio modified for several I/O streams
-+!*
-+!* Revision 1.1.1.1 2002/06/05 16:48:52 hvogt
-+!* Initial Installation
-+!*
+--- orig.lhapdf/5.8.5/src/gzio.F	2011-03-21 14:54:14.256003000 +0100
++++ lhapdf/5.8.5/src/gzio.F	2011-03-21 14:57:14.390738000 +0100
+@@ -0,0 +1,457 @@
 +!*
 +      SUBROUTINE GZBREAD (LUN, CHBUF, NBBUF, ISTAT)
 +!************************************************************************
@@ -65,16 +51,6 @@
 +!*     
 +      END
 + 
-+!*     
-+!*     $Id: lhapdf-5.8.5-gzio.patch,v 1.2 2011/03/18 13:44:21 lenzip Exp $
-+!*     
-+!*     $Log: not supported by cvs2svn $
-+!*     Revision 1.2 2002/11/12 11:51:04 hvogt
-+!*     gzio modified for several I/O streams
-+!*     
-+!*     Revision 1.1.1.1 2002/06/05 16:48:52 hvogt
-+!*     Initial Installation
-+!*     
 +!*     
 +      SUBROUTINE GZBWRITE (LUN, BUFFER, NBYTES)
 +!*     
@@ -125,20 +101,6 @@
 +!*     
 +      END
 +!* 
-+!*     
-+!*     $Id: lhapdf-5.8.5-gzio.patch,v 1.2 2011/03/18 13:44:21 lenzip Exp $
-+!*     
-+!*     $Log: not supported by cvs2svn $
-+!*     Revision 1.3 2003/01/21 14:47:28 hvogt
-+!*     reset lun table if lun closed successfully
-+!*     
-+!*     Revision 1.2 2002/11/12 11:51:21 hvogt
-+!*     gzio modified for several I/O streams
-+!*     
-+!*     Revision 1.1.1.1 2002/06/05 16:48:52 hvogt
-+!*     Initial Installation
-+!*     
-+!*     
 +      SUBROUTINE GZCLOSE (LUN, ISTAT)
 +!*     
 +!*     
@@ -191,14 +153,6 @@
 +!*     
 +      END
 +!*     
-+!*     
-+!*     $Id: lhapdf-5.8.5-gzio.patch,v 1.2 2011/03/18 13:44:21 lenzip Exp $
-+!*     
-+!*     $Log: not supported by cvs2svn $
-+!*     Revision 1.1 2002/11/12 11:50:39 hvogt
-+!*     gzio modified for several I/O streams
-+!*     
-+!*     
 +      INTEGER FUNCTION GZFINDL (LUN)
 +!************************************************************************
 +!*     
@@ -231,13 +185,6 @@
 +      GZFINDL = 0
 +!*     
 +      END 
-+!*     
-+!*     $Id: lhapdf-5.8.5-gzio.patch,v 1.2 2011/03/18 13:44:21 lenzip Exp $
-+!*     
-+!*     $Log: not supported by cvs2svn $
-+!*     Revision 1.1.1.1 2002/06/05 16:48:52 hvogt
-+!*     Initial Installation
-+!*     
 +!*     
 +      SUBROUTINE GZOPEN (LUN, MODE, FILNAM, ISTAT)
 +!*     
@@ -330,17 +277,6 @@
 +!*     
 +      END
 +!* 
-+!*     
-+!*     $Id: lhapdf-5.8.5-gzio.patch,v 1.2 2011/03/18 13:44:21 lenzip Exp $
-+!*     
-+!*     $Log: not supported by cvs2svn $
-+!*     Revision 1.2 2002/11/12 11:52:07 hvogt
-+!*     gzio modified for several I/O streams
-+!*     
-+!*     Revision 1.1.1.1 2002/06/05 16:48:52 hvogt
-+!*     Initial Installation
-+!*     
-+!*     
 +      SUBROUTINE GZREAD (LUN, CHBUF, NBBUF, ISTAT)
 +!************************************************************************
 +!*     
@@ -380,17 +316,6 @@
 +!*     
 +      END
 +!* 
-+!*     
-+!*     $Id: lhapdf-5.8.5-gzio.patch,v 1.2 2011/03/18 13:44:21 lenzip Exp $
-+!*     
-+!*     $Log: not supported by cvs2svn $
-+!*     Revision 1.2 2002/11/12 11:52:20 hvogt
-+!*     gzio modified for several I/O streams
-+!*     
-+!*     Revision 1.1.1.1 2002/06/05 16:48:52 hvogt
-+!*     Initial Installation
-+!*     
-+!*     
 +      SUBROUTINE GZSTORE (IDIR, ARRAY, NROW, NCOL, I1, J1, J2, BUFFER)
 +!*     
 +!*     
@@ -437,17 +362,6 @@
 +!*     
 +      END
 +!* 
-+!*     
-+!*     $Id: lhapdf-5.8.5-gzio.patch,v 1.2 2011/03/18 13:44:21 lenzip Exp $
-+!*     
-+!*     $Log: not supported by cvs2svn $
-+!*     Revision 1.2 2002/11/12 11:53:06 hvogt
-+!*     gzio modified for several I/O streams
-+!*     
-+!*     Revision 1.1.1.1 2002/06/05 16:48:52 hvogt
-+!*     Initial Installation
-+!*     
-+!*     
 +      SUBROUTINE GZWRITE (LUN, OUTLINE)
 +!*     
 +!*     
@@ -554,19 +468,9 @@
 +
 +      RETURN
 +      END
---- orig.lhapdf/5.8.5/src/ftn_gzio.c	2011-02-15 13:29:46.000000000 +0100
-+++ lhapdf/5.8.5/src/ftn_gzio.c	2011-02-14 14:18:38.000000000 +0100
-@@ -0,0 +1,230 @@
-+/*
-+ *
-+ * $Id: lhapdf-5.8.5-gzio.patch,v 1.2 2011/03/18 13:44:21 lenzip Exp $
-+ *
-+ * $Log: not supported by cvs2svn $
-+ * Revision 1.1.1.1 2002/06/05 16:48:52 hvogt
-+ * Initial Installation
-+ *
-+ *
-+ */
+--- orig.lhapdf/5.8.5/src/ftn_gzio.c	2011-03-21 14:54:14.255781000 +0100
++++ lhapdf/5.8.5/src/ftn_gzio.c	2011-03-21 14:57:50.249876000 +0100
+@@ -0,0 +1,220 @@
 +/* ftn_gzio - usage of the zlib compression library by fortran calls
 + * Copyright (C) 2001 Harald Vogt
 + * derived from gzio
