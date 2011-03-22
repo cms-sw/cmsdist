@@ -11,8 +11,8 @@ Requires: fwlite-tool-conf python
 # Includes parts of the framework that we don't want in fwlite
 %define patchsrc2 rm -rf src/DataFormats/GeometrySurface/plugins
 
-# depends on RecoEgamma/EgammaTools, which adds too many other dependencies; should be fixed in 39x
-%define patchsrc3 rm -f src/PhysicsTools/SelectorUtils/src/SimpleCutBasedElectronIDSelectionFunctor.cc
+# depends on MessageService, which pulls in service dependencies
+%define patchsrc3 rm -f src/FWCore/MessageLogger/python/MessageLogger_cfi.py
 
 ## IMPORT cmssw-partial-build
 ## IMPORT scram-project-build
