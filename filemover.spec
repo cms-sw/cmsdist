@@ -1,9 +1,10 @@
-### RPM cms filemover 1.0.8.pre2
+### RPM cms filemover 1.0.7
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
 %define webdoc_files %i/doc/
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM/FileMover/tags/%{realversion}
 Source: %svnserver?scheme=svn+ssh&strategy=export&module=FileMover&output=/filemover.tar.gz
+
 Requires: python cherrypy py2-cheetah yui wmcore py2-sphinx rotatelogs java-jdk srmcp
 
 %prep
