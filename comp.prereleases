@@ -11,14 +11,10 @@
 #
 # When using HEAD as <revisio> you must specify <version>.
 
-# DAS test build with wmcore-web dependency
-# 1.151 is 0.5.10 release
-# 1.155 is 0.5.11a
-# 1.161 is 0.5.11b2
-# 1.163 is 0.5.11b3
-HG1104a das
-+ 1.163 das.spec
-#+ 1.4 wmcore-web.spec
+# DAS test build with wmcore-web dependency, 1.151 is 0.5.10 release, 1.155 is 0.5.11a, 1.161 is 0.5.11b2
+HG1103d das
++ 1.161 das.spec
++ 1.4 wmcore-web.spec
 
 # T0PromptSkim
 HG1103c T0PromptSkim
@@ -26,7 +22,7 @@ HG1103c T0PromptSkim
 
 # CmsTC
 HG1102b CmsTC
-+ 1.15/* CmsTC.spec
++ 1.14/* CmsTC.spec
 
 # DBS-3
 HG1103a dbs3
