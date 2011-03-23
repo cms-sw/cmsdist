@@ -1,4 +1,4 @@
-### RPM external couchdb 1.0.1
+### RPM external couchdb 1.0.2
 
 # Using the svn url instead of the default release on because we need the 
 # bootstrap script after patching the Makefile.am
