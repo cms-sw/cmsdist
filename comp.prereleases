@@ -29,14 +29,7 @@ HG1102b CmsTC
 + 1.15/* CmsTC.spec
 
 # Cms Webtools services
-HG1104a cmsweb
-+ 1.15 T0DataSvc.spec
-+ 1.78 T0Mon.spec
-+ 1.164/0.5.11b3 das.spec
-+ 1.19 dbs3.spec
-+ 1.21 filemover.spec
-+ 1.7 plotfairy.spec
-+ 1.12 reqmgr.spec
+HG1104b cmsweb
 
 # WMAGENT
 HG1102d wmagent
