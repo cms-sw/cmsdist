@@ -1,6 +1,6 @@
 ### RPM cms T0Mon 4.2.10
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
-%define wmcver WMCORE_0_7_1a
+%define wmcver WMCORE_0_7_2
 %define moduleName T0
 %define exportName T0
 %define cvstag T0Mon_4_2_10
