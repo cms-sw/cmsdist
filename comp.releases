@@ -6,6 +6,7 @@
 
 # Cms Webtools services
 HG1104b cmsweb
++ 1.45/1.0.2 couchdb.spec
 
 HG1103a wmagent
 + WMCORE_0_6_12  dls-client.spec
