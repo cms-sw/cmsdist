@@ -8,10 +8,10 @@
 HG1104b cmsweb
 + 1.45/1.0.2 couchdb.spec
 
-HG1103a wmagent
+HG1103e wmagent
 + WMCORE_0_6_12  dls-client.spec
-+ 1.99 wmcore.spec
-+ 1.21 wmagent.spec
++ 1.100 wmcore.spec
++ 1.22 wmagent.spec
 
 # PHEDEX agents
 HG1103a PHEDEX-combined-agents
