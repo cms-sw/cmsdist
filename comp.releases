@@ -10,7 +10,7 @@ HG1104b cmsweb
 
 HG1103a wmagent
 + WMCORE_0_6_12  dls-client.spec
-+ 1.98 wmcore.spec
++ 1.99 wmcore.spec
 + 1.21 wmagent.spec
 
 # PHEDEX agents
