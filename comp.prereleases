@@ -28,17 +28,15 @@ HG1103c T0PromptSkim
 HG1102b CmsTC
 + 1.15/* CmsTC.spec
 
-# DBS-3
-HG1103a dbs3
-+ HEAD/3.0.6 dbs3.spec
-+ HEAD/WMCORE_0_7_0a wmcore.spec
-
 # Cms Webtools services
 HG1104a cmsweb
-
-# ReqMgr
-HG1102b reqmgr
-+ 1.5 reqmgr.spec
++ 1.15 T0DataSvc.spec
++ 1.78 T0Mon.spec
++ 1.164/0.5.11b3 das.spec
++ 1.19 dbs3.spec
++ 1.21 filemover.spec
++ 1.7 plotfairy.spec
++ 1.12 reqmgr.spec
 
 # WMAGENT
 HG1102d wmagent
@@ -57,6 +55,3 @@ HG1103a PHEDEX-combined-web
 + 1.87 PHEDEX-web.spec
 + 1.77 PHEDEX-webapp.spec
 
-# Mechanize
-HG1103e mechanize
-+ 1.5/0.2.4 mechanize.spec
