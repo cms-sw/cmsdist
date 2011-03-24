@@ -17,6 +17,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/tauolapp.xml
     <environment name="INCLUDE" default="$TAUOLAPP_BASE/include"/>
   </client>
   <use name="hepmc"/>
+  <use name="f77compiler"/>
 </tool>
 EOF_TOOLFILE
 
