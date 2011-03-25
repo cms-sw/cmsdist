@@ -8,7 +8,7 @@
 Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_dbs.tar.gz
 Source1: %svnserver/DBS/tags/%cvstag?scheme=svn+ssh&strategy=export&module=DBS3&output=/%{n}.tar.gz
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui
-Requires: py2-cjson py2-mysqldb rotatelogs
+Requires: py2-cjson py2-mysqldb py2-cx-oracle rotatelogs
 
 %prep
 %setup -T -b 0 -n WMCore
