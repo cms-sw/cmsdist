@@ -1,9 +1,9 @@
-### RPM cms T0Mon 4.2.10
+### RPM cms T0Mon 4.2.11
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 %define wmcver WMCORE_0_7_2
 %define moduleName T0
 %define exportName T0
-%define cvstag T0Mon_4_2_10
+%define cvstag T0Mon_4_2_11
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_t0mon.tar.gz

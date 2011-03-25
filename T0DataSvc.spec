@@ -1,4 +1,4 @@
-### RPM cms T0DataSvc 5.0.1
+### RPM cms T0DataSvc 5.0.1b
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 %define wmcver WMCORE_0_7_2
 %define moduleName T0
@@ -25,11 +25,14 @@ python setup.py install_system -s wmc-web --prefix=%i
 tar -C src/python -cf - WMCore/HTTPFrontEnd/WorkQueue/Services/ServiceInterface.py |
  tar -C %i/lib/python*/site-packages -xvvf -
 find %i/lib/python*/site-packages/WMCore/HTTPFrontEnd -type d -exec touch {}/__init__.py \;
+find %i -name '*.egg-info' -exec rm {} \;
 
 cd ../%{moduleName}
-mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/
-cp -r src/python/T0 %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/
-find %i -name '*.egg-info' -exec rm {} \;
+tar -C src/python -cf - \
+  T0/DAS T0/GenericTier0/Tier0DB.py T0/Globals.py \
+  T0/State/Database/Reader/ListRuns.py |
+  tar -C %i/lib/python*/site-packages -xvvf -
+find %i/lib/python*/site-packages/T0 -type d -exec touch {}/__init__.py \;
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
