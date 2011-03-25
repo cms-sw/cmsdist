@@ -53,3 +53,6 @@ HG1104b reqmgr
 + 1.45/1.0.2 couchdb.spec
 + HEAD/0.7.2a reqmgr.spec
 
+# DBS3 build
+HG1104b dbs3
++ HEAD/3.0.7 dbs3.spec
