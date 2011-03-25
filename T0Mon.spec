@@ -14,7 +14,6 @@ Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah
 %setup -T -b 0 -n WMCore
 perl -p -i -e 's|\.app\.lower\(\)|\.app|g' src/python/WMCore/WebTools/Root.py
 %setup -D -T -b 1 -n %{moduleName}
-%patch -p0
 
 %build
 cd ../WMCore
