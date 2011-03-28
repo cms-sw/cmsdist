@@ -28,7 +28,17 @@ Requires: gfortran-macosx
 %patch4 -p2
 
 %build
-./configure --with-LHAPDF=$LHAPDF_ROOT/lib --without-javagui --prefix=%i --with-gsl=$GSL_ROOT --disable-readline
+# configure does not handle linking against archive LHAPDF
+# notice that we should probably build an archive library
+# also for this library, but we do not care for the moment.
+perl -p -i -e 's|LHAPDF[.]dylib|LHAPDF.a|' configure
+FC=`which gfortran`
+./configure --enable-shared --disable-static \
+            --with-LHAPDF=$LHAPDF_ROOT/lib \
+            --without-javagui --prefix=%i --with-gsl=$GSL_ROOT \
+            --disable-readline \
+            FC=$FC \
+            LIBS="`$FC --print-file-name=libgfortranbegin.a` `$FC --print-file-name=libgfortran.a`"
 make
 
 %install
