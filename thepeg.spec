@@ -11,6 +11,7 @@ Patch3: thepeg-1.6.1-lhapdf-env
 Patch4: thepeg-1.6.1-gcc46
 Requires: lhapdf
 Requires: gsl
+Requires: zlib
 # FIXME: hepmc?
 # FIXME: rivet?
 %if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
@@ -38,7 +39,7 @@ FC=`which gfortran`
             --without-javagui --prefix=%i --with-gsl=$GSL_ROOT \
             --disable-readline \
             FC=$FC \
-            LIBS="`$FC --print-file-name=libgfortranbegin.a` `$FC --print-file-name=libgfortran.a`"
+            LIBS="`$FC --print-file-name=libgfortranbegin.a` `$FC --print-file-name=libgfortran.a` -L$ZLIB_ROOT -lz"
 make
 
 %install
