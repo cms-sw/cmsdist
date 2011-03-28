@@ -119,23 +119,26 @@ perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
 rm  `find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*'`
 rm  `find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*'`
 
+%if "%online" == "true"
 # remove tkinter that brings dependency on libtk:
 find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
+%endif
 
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="%n" version="%v">
-    <lib name="python2.6"/>
-    <client>
-      <environment name="PYTHON_BASE" default="%i"/>
-      <environment name="LIBDIR" default="$PYTHON_BASE/lib"/>
-      <environment name="INCLUDE" default="$PYTHON_BASE/include/python2.6"/>
-      <environment name="PYTHON_COMPILE" default="$PYTHON_BASE/lib/python2.6/compileall.py"/>
-    </client>
-    <runtime name="PATH" value="$PYTHON_BASE/bin" type="path"/>
-    <use name="sockets"/>
-  </tool>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<lib name=python2.6>
+<Client>
+ <Environment name=PYTHON_BASE default="%i"></Environment>
+ <Environment name=LIBDIR default="$PYTHON_BASE/lib"></Environment>
+ <Environment name=INCLUDE default="$PYTHON_BASE/include/python2.6"></Environment>
+ <Environment name=PYTHON_COMPILE default="$PYTHON_BASE/lib/python2.6/compileall.py"></Environment>
+</Client>
+<use name=sockets>
+<Runtime name=PATH value="$PYTHON_BASE/bin" type=path>
+</Tool>
 EOF_TOOLFILE
 
 # Makes sure that executables start with /usr/bin/env perl and not with comments. 
@@ -156,7 +159,7 @@ done
 
 %post
 find $RPM_INSTALL_PREFIX/%pkgrel/lib -type l | xargs ls -la | sed -e "s|.*[ ]\(/.*\) -> \(.*\)| \2 \1|;s|[ ]/[^ ]*/external| $RPM_INSTALL_PREFIX/%cmsplatf/external|g" | xargs -n2 ln -sf
-%{relocateConfig}etc/scram.d/%n.xml
+%{relocateConfig}etc/scram.d/%n
 %{relocateConfig}lib/python2.6/config/Makefile
 
 # Relocation for dependencies
