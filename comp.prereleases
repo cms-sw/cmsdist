@@ -17,8 +17,10 @@
 # 1.161 is 0.5.11b2
 # 1.163 is 0.5.11b3
 # 1.165 is 0.5.12
+# 1.166 is 0.6.3.pre1
 HG1104a das
-+ 1.165 das.spec
++ 1.166 das.spec
++ 1.29 mongo.spec
 
 # T0PromptSkim
 HG1103c T0PromptSkim
