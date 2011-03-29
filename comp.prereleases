@@ -31,10 +31,7 @@ HG1102b CmsTC
 + 1.15/* CmsTC.spec
 
 # Cms Webtools services
-HG1104b cmsweb
-+ 1.45/1.0.2 couchdb.spec
-+ HEAD/4.2.11 T0Mon.spec
-+ HEAD/5.0.1b T0DataSvc.spec
+HG1104c cmsweb
 
 # WMAGENT
 HG1102d wmagent
