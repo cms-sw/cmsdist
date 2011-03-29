@@ -84,7 +84,7 @@
 	cp -r %{parent_release_fpath}/%{srctree}/$PKG $PKG;\
       fi;\
     fi;\
-  done;\
+  done;
 %endif
 
 %if "%{?runGlimpse:set}" == "set"
