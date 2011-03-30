@@ -789,10 +789,6 @@ RecoVertex/VertexPrimitives
 RecoVertex/VertexTools
 SimCalorimetry/CaloSimAlgos
 SimCalorimetry/EcalSimAlgos
-SimCalorimetry/EcalTrigPrimAlgos
-SimCalorimetry/EcalTrigPrimProducers
-SimCalorimetry/HcalTrigPrimAlgos
-SimCalorimetry/HcalTrigPrimProducers
 SimDataFormats/CaloHit
 SimDataFormats/CrossingFrame
 SimDataFormats/EcalTestBeam
