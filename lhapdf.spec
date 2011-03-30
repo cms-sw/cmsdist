@@ -58,7 +58,7 @@ rm -rf tests examples
 ./configure --prefix=%i $PLATF_CONF_OPTS --disable-pyext \
             --disable-octave --disable-doxygen \
             --enable-low-memory --with-max-num-pdfsets=1 \
-            FC="$PLATF_FC"
+            FC="$PLATF_FC" \
             CPPFLAGS="-I ${ZLIB_ROOT}/include" LDFLAGS="-L${ZLIB_ROOT}/lib -lz"
 perl -p -i -e 's|examples||;s|tests||' Makefile
 find . -name Makefile -o -name config.status -exec perl -p -i -e 's|/usr/lib64/lib[cm].a||g' {} \;
@@ -71,7 +71,7 @@ make distclean
 ./configure --prefix=%i/full $PLATF_CONF_OPTS \
             --disable-pyext \
             --disable-octave --disable-doxygen\
-            FC="$PLATF_FC"
+            FC="$PLATF_FC" \
             CPPFLAGS="-I ${ZLIB_ROOT}/include" LDFLAGS="-L${ZLIB_ROOT}/lib -lz"
 perl -p -i -e 's|examples||;s|tests||' Makefile
 find . -name Makefile -o -name config.status -exec perl -p -i -e 's|/usr/lib64/lib[cm].a||g' {} \;
