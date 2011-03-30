@@ -39,7 +39,8 @@ FC=`which gfortran`
             --without-javagui --prefix=%i --with-gsl=$GSL_ROOT \
             --disable-readline \
             FC=$FC \
-            LIBS="`$FC --print-file-name=libgfortranbegin.a` `$FC --print-file-name=libgfortran.a` -L$ZLIB_ROOT -lz"
+            LIBS="`$FC --print-file-name=libgfortranbegin.a` `$FC --print-file-name=libgfortran.a` -L$ZLIB_ROOT/lib -lz" \
+            LHAPDF_LIBS="-lLHAPDF -L$ZLIB_ROOT/lib -lz"
 make
 
 %install

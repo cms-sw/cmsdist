@@ -29,16 +29,20 @@ cd ../../..
 %build
 # We do everything in install because we need to do it twice.
 %install
+# Regenerate the configure and makefiles since we modified 
+# the Makefile.am to include the gzip stuff.
+LIBTOOLIZE=`which glibtoolize || which libtoolize`
+$LIBTOOLIZE --force --copy
+autoupdate
+aclocal -I m4
+autoconf
+automake --add-missing
+
 case %cmsplatf in
   # Looks like configure was generated with an ancient version
   # of autotools which does not work on snow leopard.
   # This seems to fix it. 
   osx*)
-    glibtoolize --force --copy
-    autoupdate 
-    aclocal -Im4
-    autoconf
-    automake --add-missing
     PLATF_CONF_OPTS="--enable-static --disable-shared"
     PLATF_FC="`which gfortran` -fPIC"
   ;;
