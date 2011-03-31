@@ -1,5 +1,5 @@
 ### RPM external tauolapp 1.0.2a
-Source: http://cern.ch/service-spi/external/MCGenerators/distribution/tauola++-%{realversion}-src.tgz
+Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/tauola++-%{realversion}-src.tgz
 Patch0: tauolapp-1.0.2a-osx-Makefile
 Requires: hepmc
 
