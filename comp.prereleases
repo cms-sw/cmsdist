@@ -18,9 +18,11 @@
 # 1.163 is 0.5.11b3
 # 1.165 is 0.5.12
 # 1.167 is 0.6.3.pre2, 1.29 for new MongoDB (version 1.8.0)
-HG1104a das
-+ 1.168 das.spec
-+ 1.29 mongo.spec
+HG1103d das
++ 1.165 das.spec
+#HG1104a das
+#+ 1.168 das.spec
+#+ 1.29 mongo.spec
 
 # T0PromptSkim
 HG1103c T0PromptSkim
