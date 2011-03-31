@@ -46,9 +46,9 @@ HG1103a PHEDEX-combined-agents
 
 # PHEDEX web
 HG1103a PHEDEX-combined-web
-+ 1.119 PHEDEX-datasvc.spec
++ 1.122 PHEDEX-datasvc.spec
 + 1.87 PHEDEX-web.spec
-+ 1.77 PHEDEX-webapp.spec
++ 1.79 PHEDEX-webapp.spec
 
 # ReqMgr test build by Diego
 HG1104b reqmgr
