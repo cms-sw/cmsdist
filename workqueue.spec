@@ -9,7 +9,7 @@
 Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
 
 # TODO change to webtools
-Requires: python py2-httplib2 cherrypy py2-cheetah py2-openid yui pystack rotatelogs couchdb dbs-client dls-client
+Requires: python py2-httplib2 cherrypy py2-cheetah py2-openid yui pystack rotatelogs couchdb dbs-client dls-client py2-cjson
 
 %prep
 %setup -n WMCore
@@ -23,7 +23,7 @@ egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/
 find %i -name '*.egg-info' -exec rm {} \;
 
 mkdir -p %i/bin
-cp -pf %_builddir/WMCore/bin/wmagent-workqueue %i/bin
+cp -pf %_builddir/WMCore/bin/{*workqueue*,wmagent-mod-config} %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 rm -rf %i/etc/profile.d

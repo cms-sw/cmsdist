@@ -9,5 +9,5 @@ HG1104c cmsweb
 
 HG1103e wmagent
 + WMCORE_0_6_12  dls-client.spec
-+ 1.102 wmcore.spec
-+ 1.24 wmagent.spec
++ 1.103 wmcore.spec
++ 1.25 wmagent.spec
