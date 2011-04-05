@@ -7,7 +7,7 @@
 # Cms Webtools services
 HG1104d cmsweb
 
-HG1103e wmagent
+HG1104d wmagent
 + WMCORE_0_6_12  dls-client.spec
-+ 1.103 wmcore.spec
-+ 1.25 wmagent.spec
++ 1.104 wmcore.spec
++ 1.26 wmagent.spec
