@@ -188,7 +188,7 @@ esac
 COMPILER_CXXFLAGS=
 case %cmsplatf in
    *_gcc4[56789]* )
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++0x -ftree-vectorize"
+     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS"
      F77_MMD="-cpp -MMD"
    ;;
 esac
