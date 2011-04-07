@@ -58,7 +58,7 @@ HG1104b reqmgr
 
 # DBS3 build
 HG1104b dbs3
-+ HEAD/3.0.7 dbs3.spec
++ HEAD/3.0.8 dbs3.spec
 
 HG1102b crab-server
 + CRABSERVER_1_1_4_pre4_BUILD_SLC5 crab-server.spec mysql.spec prodagent.spec prodcommon.spec wmcore.spec PHEDEX-micro.spec dls-client.spec python-ldap.spec openldap.spec openldap-2.3.39-gcc44.patch python-ldap-2.3.5-gcc44.patch
