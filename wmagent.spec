@@ -1,4 +1,4 @@
-### RPM cms wmagent 0.7.3
+### RPM cms wmagent 0.7.4
 
 Requires: wmcore-db-mysql wmcore-db-couch wmcore-webtools py2-cjson dbs-client dls-client
 
