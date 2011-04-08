@@ -1,6 +1,5 @@
-### RPM cms dbs3 3.0.8
+### RPM cms dbs3 3.0.6
 ## INITENV +PATH PYTHONPATH %i/Server/Python/src
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 ## INITENV SET DBS3_SERVER_ROOT %i/Server/Python
 %define wmcver WMCORE_0_7_2
 %define cvstag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
@@ -8,7 +7,7 @@
 Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_dbs.tar.gz
 Source1: %svnserver/DBS/tags/%cvstag?scheme=svn+ssh&strategy=export&module=DBS3&output=/%{n}.tar.gz
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui
-Requires: py2-cjson py2-mysqldb py2-cx-oracle rotatelogs
+Requires: py2-cjson py2-mysqldb rotatelogs
 
 %prep
 %setup -T -b 0 -n WMCore
