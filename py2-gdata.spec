@@ -4,6 +4,7 @@
 Source: http://gdata-python-client.googlecode.com/files/gdata-%realversion.tar.gz
 Requires: python elementtree
 
+
 %prep
 %setup -n gdata-%realversion
 

@@ -1,5 +1,4 @@
 ### RPM cms calendar-shift 1
-
 Requires: python py2-gdata py2-lxml
 
 %prep
