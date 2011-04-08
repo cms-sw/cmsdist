@@ -8,6 +8,6 @@
 HG1104d cmsweb
 
 HG1104d wmagent
-+ WMCORE_0_6_12  dls-client.spec
++ WMCORE_0_6_12  dls-client.spec wmcore-db-couch wmcore-db-mysql wmcore-webtools
 + 1.105 wmcore.spec
 + 1.27 wmagent.spec
