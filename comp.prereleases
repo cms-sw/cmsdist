@@ -33,6 +33,9 @@ HG1102b CmsTC
 
 # Cms Webtools services
 HG1104d cmsweb
++ 1.124 PHEDEX-datasvc.spec
++ 1.90 PHEDEX-web.spec
++ 1.79 PHEDEX-webapp.spec
 
 # WMAGENT
 HG1102d wmagent
