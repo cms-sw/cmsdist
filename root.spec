@@ -40,6 +40,7 @@ Patch29: root-5.27-06b-gcc46
 Patch30: root-5.27-06b-r38325
 Patch31: root-5.27-06b-tmva-MethodANNBase-uninitialized-var-fix
 Patch32: root-5.27-06b-r36196-r36698
+Patch33: root-5.27-06-fireworks11
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -92,6 +93,7 @@ Requires: gfortran-macosx
 %patch30 -p1
 %patch31 -p1
 %patch32 -p1
+%patch33 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
