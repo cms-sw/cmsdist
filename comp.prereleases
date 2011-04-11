@@ -14,10 +14,10 @@
 # 1.161 is 0.5.11b2
 # 1.163 is 0.5.11b3
 # 1.165 is 0.5.12
-# 1.178 is 0.6.3.pre13, 1.29 for new MongoDB (ver 1.8.0), 1.13 for pymongo (ver 1.10)
+# 1.179 is 0.6.3.pre14, 1.30 for new MongoDB (ver 1.8.1), 1.13 for pymongo (ver 1.10)
 HG1104a das
-+ 1.178 das.spec
-+ 1.29 mongo.spec
++ 1.179 das.spec
++ 1.30 mongo.spec
 + 1.13 py2-pymongo.spec
 
 # T0PromptSkim
