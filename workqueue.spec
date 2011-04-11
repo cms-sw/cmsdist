@@ -1,15 +1,12 @@
-### RPM cms workqueue 0_0_2
+### RPM cms workqueue 0.0.3
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 ## INITENV +PATH PATH %i/bin
-# FIXME Move this to webtools
-## INITENV SET WTBASE  %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 %define cvstag %v
 
 #Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
 Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
 
-# TODO change to webtools
-Requires: python py2-httplib2 cherrypy py2-cheetah py2-openid yui pystack rotatelogs couchdb dbs-client dls-client py2-cjson
+Requires: python py2-httplib2 pystack rotatelogs couchdb dbs-client dls-client py2-cjson
 
 %prep
 %setup -n WMCore
