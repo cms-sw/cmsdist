@@ -5,6 +5,7 @@ Patch1: charybdis-1.003-archive-only
 
 Requires: pythia6
 Requires: lhapdf
+Requires: zlib
 
 %if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
 Requires: gfortran-macosx
@@ -17,13 +18,13 @@ Requires: gfortran-macosx
 # blocks.
 case %cmsos in
   osx*)
-    %patch1 -p3
+%patch1 -p3
   ;;
 esac
 ./configure --lcgplatform=%cmsplatf --pythia_hadronization
 
 %build
-make FC="`which gfortran` -fPIC" PYTHIA6_ROOT=$PYTHIA6_ROOT LHAPDF_ROOT=$LHAPDF_ROOT
+make FC="`which gfortran` -fPIC" PYTHIA6_ROOT=$PYTHIA6_ROOT LHAPDF_ROOT=$LHAPDF_ROOT ZLIB_ROOT=$ZLIB_ROOT
 
 %install
 tar -c lib include | tar -x -C %i
