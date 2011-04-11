@@ -1,13 +1,9 @@
-# The entry format is:
-# <builder-generated-CMSDIST-tag> <project-main-pkg-only>
-#
-# or the new format as in the comp.prereleases
-#
+# The entry format is the same as in comp.prereleases
 
 # Cms Webtools services
-HG1104e cmsweb
+##DIE##HG1104e cmsweb
 
-HG1104d wmagent
-+ WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
-+ 1.105 wmcore.spec
-+ 1.27 wmagent.spec
+##DIE##HG1104d wmagent
+##DIE##+ WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
+##DIE##+ 1.105 wmcore.spec
+##DIE##+ 1.27 wmagent.spec

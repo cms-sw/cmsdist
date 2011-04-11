@@ -1,15 +1,12 @@
 # Do not put the same <pkg> in different entries
 #
-# The format of each entry may be:
-# <pre-release-CMSDIST-tag> <project-main-pkg> [<other-project-pkgs>]
-#
-# or:
+# The entry format is:
 #
 # <base-tag-name> <project-main-pkg>
 # + <revision>(/<version>) file1 [file2 ...]
 # + ...
 #
-# When using HEAD as <revisio> you must specify <version>.
+# When using HEAD as <revision> you must specify <version>.
 
 # DAS test build with wmcore-web dependency
 # 1.151 is 0.5.10 release
@@ -32,33 +29,28 @@ HG1102b CmsTC
 + 1.21/* CmsTC.spec
 
 # Cms Webtools services
-HG1104e cmsweb
+#HG1104e cmsweb
 
 # WMAGENT
-HG1102d wmagent
-+ 1.33 openssl.spec
-+ WMCORE_0_6_12 dls-client.spec
-+ 1.90 wmcore.spec
-+ 1.14 wmagent.spec
+##DIE##HG1102d wmagent
+##DIE##+ 1.33 openssl.spec
+##DIE##+ WMCORE_0_6_12 dls-client.spec
+##DIE##+ 1.90 wmcore.spec
+##DIE##+ 1.14 wmagent.spec
 
 # PHEDEX agents
-HG1103a PHEDEX-combined-agents
-+ forPHEDEX400 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
+##DIE##HG1103a PHEDEX-combined-agents
+##DIE##+ forPHEDEX400 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
 
 # PHEDEX web
-HG1103a PHEDEX-combined-web
-+ 1.124 PHEDEX-datasvc.spec
-+ 1.90 PHEDEX-web.spec
-+ 1.79 PHEDEX-webapp.spec
-
-# ReqMgr test build by Diego
-HG1104b reqmgr
-+ 1.45/1.0.2 couchdb.spec
-+ HEAD/0.7.2a reqmgr.spec
+##DIE##HG1103a PHEDEX-combined-web
+##DIE##+ 1.124 PHEDEX-datasvc.spec
+##DIE##+ 1.90 PHEDEX-web.spec
+##DIE##+ 1.79 PHEDEX-webapp.spec
 
 # DBS3 build
-HG1104b dbs3
-+ HEAD/3.0.8 dbs3.spec
+##DIE##HG1104b dbs3
+##DIE##+ HEAD/3.0.8 dbs3.spec
 
-HG1102b crab-server
-+ CRABSERVER_1_1_4_pre4_BUILD_SLC5 crab-server.spec mysql.spec prodagent.spec prodcommon.spec wmcore.spec PHEDEX-micro.spec dls-client.spec python-ldap.spec openldap.spec openldap-2.3.39-gcc44.patch python-ldap-2.3.5-gcc44.patch
+##DIE##HG1102b crab-server
+##DIE##+ CRABSERVER_1_1_4_pre4_BUILD_SLC5 crab-server.spec mysql.spec prodagent.spec prodcommon.spec wmcore.spec PHEDEX-micro.spec dls-client.spec python-ldap.spec openldap.spec openldap-2.3.39-gcc44.patch python-ldap-2.3.5-gcc44.patch
