@@ -1,4 +1,4 @@
-### RPM external onlinesystemtools 3.1
+### RPM external onlinesystemtools 3.2
 ## NOCOMPILER
 Source: none
 Requires: oracle-env
