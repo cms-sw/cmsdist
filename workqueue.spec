@@ -1,4 +1,4 @@
-### RPM cms workqueue 0.0.3
+### RPM cms workqueue 0.0.4
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 ## INITENV +PATH PATH %i/bin
 %define cvstag %v
@@ -12,7 +12,7 @@ Requires: python py2-httplib2 pystack rotatelogs couchdb dbs-client dls-client p
 %setup -n WMCore
 
 %build
-python setup.py build
+python setup.py build_system -s workqueue
 
 %install
 python setup.py install_system -s workqueue --prefix=%i
@@ -20,7 +20,7 @@ egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/
 find %i -name '*.egg-info' -exec rm {} \;
 
 mkdir -p %i/bin
-cp -pf %_builddir/WMCore/bin/{*workqueue*,wmagent-mod-config} %i/bin
+cp -pf %_builddir/WMCore/bin/*workqueue* %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 rm -rf %i/etc/profile.d
