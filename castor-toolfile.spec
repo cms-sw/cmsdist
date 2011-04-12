@@ -1,4 +1,4 @@
-### RPM external castor-toolfile 1.0
+### RPM external castor-toolfile 2.0
 Requires: castor
 %prep
 
@@ -7,6 +7,14 @@ Requires: castor
 %install
 
 mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/castor_header.xml
+<tool name="castor_header" version="@TOOL_VERSION@">
+  <client>
+    <environment name="CASTOR_HEADER_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$CASTOR_HEADER_BASE/include"/>
+  </client>
+</tool>
+EOF_TOOLFILE
 cat << \EOF_TOOLFILE >%i/etc/scram.d/castor.xml
 <tool name="castor" version="@TOOL_VERSION@">
   <lib name="shift"/>
@@ -15,9 +23,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/castor.xml
   <lib name="castorcommon"/>
   <client>
     <environment name="CASTOR_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE" default="$CASTOR_BASE/include"/>
     <environment name="LIBDIR" default="$CASTOR_BASE/lib"/>
   </client>
+  <use name="castor_header"/>
 </tool>
 EOF_TOOLFILE
 
