@@ -15,7 +15,7 @@ Requires: oracle-env
 ## INITENV SETV ZLIB_VERSION            %zlib_version
 %define uuid_version                    1.39
 ## INITENV SETV UUID_VERSION            %uuid_version
-%define sqlite_version                  3.6.23
+%define sqlite_version                  3.7.5
 ## INITENV SETV SQLITE_VERSION          %sqlite_version
 %define oracle_version                  11.2.2
 ## INITENV SETV ORACLE_VERSION          %oracle_version
