@@ -9,7 +9,7 @@ Requires: root
 mkdir -p %i/etc/scram.d
 # root_interface toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/root_interface.xml
-<tool name="root_header" version="@TOOL_VERSION@">
+<tool name="root_interface" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <client>
     <environment name="ROOT_INTERFACE_BASE" default="@TOOL_ROOT@"/>
