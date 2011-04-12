@@ -79,6 +79,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
     <runtime name="PATH" value="$CXXCOMPILER_BASE/bin" type="path"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="@GCC_ROOT@/@ARCH_LIB64DIR@" type="path"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="@GCC_ROOT@/lib" type="path"/>
+    <runtime name="COMPILER_RUNTIME_OBJECTS" value="@GCC_ROOT@/lib/gcc/@GCC_ARCH@/@GCC_REALVERSION@"/>
     <runtime name="PATH" value="@GCC_ROOT@/bin" type="path"/>
   </tool>
 EOF_TOOLFILE
