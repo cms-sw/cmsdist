@@ -1,4 +1,4 @@
-### RPM cms reqmgr 0.7.2a
+### RPM cms reqmgr 0.7.4
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 ## INITENV +PATH PATH %i/bin
 

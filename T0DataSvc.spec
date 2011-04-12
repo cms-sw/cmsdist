@@ -1,6 +1,6 @@
 ### RPM cms T0DataSvc 5.0.1b
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
-%define wmcver WMCORE_0_7_2
+%define wmcver 0.7.4
 %define moduleName T0
 %define exportName T0
 %define cvstag T0DataSvc-5_0_1
