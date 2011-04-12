@@ -1,10 +1,10 @@
-### RPM cms workqueue 0.0.4
+### RPM cms workqueue 0.0.5
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 ## INITENV +PATH PATH %i/bin
 %define cvstag %v
 
 #Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
-Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
+Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk@12267?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
 
 Requires: python py2-httplib2 pystack rotatelogs couchdb dbs-client dls-client py2-cjson
 
