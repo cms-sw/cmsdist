@@ -1,9 +1,0 @@
-# The entry format is the same as in comp.prereleases
-
-# Cms Webtools services
-##DIE##HG1104e cmsweb
-
-##DIE##HG1104d wmagent
-##DIE##+ WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
-##DIE##+ 1.105 wmcore.spec
-##DIE##+ 1.27 wmagent.spec
