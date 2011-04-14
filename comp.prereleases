@@ -28,7 +28,7 @@ HG1103c T0PromptSkim
 
 # CmsTC
 HG1102b CmsTC
-+ 1.22/* CmsTC.spec
++ 1.23/* CmsTC.spec
 
 # Cms Webtools services
 HG1105a cmsweb
