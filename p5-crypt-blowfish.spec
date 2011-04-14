@@ -1,4 +1,4 @@
-### RPM external p5-crypt-blowfish 2.10
+### RPM external p5-crypt-blowfish 2.12
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
 %define perl /usr/bin/env perl
 %if "%(echo %cmsplatf | cut -f1 -d_ | sed -e 's|\([A-Za-z]*\)[0-9]*|\1|')" == "osx"
