@@ -3,7 +3,6 @@
 # Cms Webtools services
 ##DIE##HG1104e cmsweb
 
-##DIE##HG1104d wmagent
-##DIE##+ WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
-##DIE##+ 1.105 wmcore.spec
-##DIE##+ 1.27 wmagent.spec
+HG1104d wmagent
++ WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
++ HEAD/0.7.5 wmcore.spec wmagent.spec
