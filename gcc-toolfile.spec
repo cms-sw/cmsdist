@@ -59,7 +59,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
     <flags CXXFLAGS="-O2 -pedantic -ansi -pthread -pipe"/>
     <flags CXXFLAGS="@ARCH_CXXFLAGS@ @COMPILER_CXXFLAGS@"/>
     <flags CXXFLAGS="-felide-constructors -fmessage-length=0 -ftemplate-depth-300"/>
-    <flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses -Wno-deprecated -Werror=return-type -Werror=missing-braces -Werror=unused-value -Werror=address -Werror=format -Werror=sign-compare -Werror=write-strings -Werror=strict-overflow -fdiagnostics-show-option"/>
+    <flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wreturn-type -Wunused -Wparentheses -Wno-deprecated -Werror=return-type -Werror=missing-braces -Werror=unused-value -Werror=address -Werror=format -Werror=sign-compare -Werror=write-strings -fdiagnostics-show-option"/>
     <flags LDFLAGS="@OS_LDFLAGS@"/>
     <flags CXXSHAREDFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@"/>
     <flags SHAREDSUFFIX="@OS_SHAREDSUFFIX@"/>
@@ -175,6 +175,27 @@ esac
 COMPILER_CXXFLAGS=
 # The following is the default even if not set here
 F77_MMD="-MMD"
+
+# Set the following for all gcc < 4.6. gcc46 claims it is no longer needed
+# This is perhaps the case also for the earlier versions, but leave it
+# there for now.
+case %cmsplatf in
+   *_gcc4[2345]* )
+     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Wimplicit"
+   ;;
+esac
+
+# The following causes problems for gcc46 and boost 1.45.0 so downgrade it
+case %cmsplatf in
+   *_gcc4[2345]* )
+     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Werror=strict-overflow"
+   ;;
+   *_gcc4[6789]* )
+     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Wstrict-overflow"
+   ;;
+esac
+
+
 case %cmsplatf in
    *_gcc4[56789]* )
      COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++0x -msse3 -ftree-vectorize"
