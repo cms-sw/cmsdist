@@ -1,4 +1,4 @@
-### RPM cms das 0.6.3.pre20
+### RPM cms das 0.6.3.pre21
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 %define wmcver 0.7.4 
 %define webdoc_files %i/doc/

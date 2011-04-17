@@ -14,9 +14,9 @@
 # 1.161 is 0.5.11b2
 # 1.163 is 0.5.11b3
 # 1.165 is 0.5.12
-# 1.186 is 0.6.3.pre20, 1.30 for new MongoDB (ver 1.8.1), 1.13 for pymongo (ver 1.10)
+# 1.187 is 0.6.3.pre21, 1.30 for new MongoDB (ver 1.8.1), 1.13 for pymongo (ver 1.10)
 HG1105a das
-+ 1.186 das.spec
++ 1.187 das.spec
 #HG1104a das
 #+ 1.182 das.spec
 #+ 1.30 mongo.spec
