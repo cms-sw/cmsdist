@@ -39,7 +39,7 @@ HG1105a reqmgr
 
 # WorkQueue
 HG1104e workqueue
-+ HEAD/0.0.8 workqueue.spec
++ HEAD/0.0.9 workqueue.spec
 + WMCORE_0_6_12 dls-client.spec
 
 # WMAGENT
