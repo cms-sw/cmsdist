@@ -23,8 +23,8 @@ HG1105a das
 #+ 1.13 py2-pymongo.spec
 
 # T0PromptSkim
-HG1103c T0PromptSkim
-+ HEAD/1.0.5 T0PromptSkim.spec
+HG1105a T0PromptSkim
++ HEAD/1.0.6 T0PromptSkim.spec
 
 # CmsTC
 HG1102b CmsTC
