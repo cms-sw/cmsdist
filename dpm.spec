@@ -10,6 +10,7 @@ Source: http://eticssoft.web.cern.ch/eticssoft/repository/org.glite/LCG-DM/%{bas
 # Source: http://cmsrep.cern.ch/cms/cpt/Software/download/cms.ap/SOURCES/%{cmsplatf}/external/dpm/%{downloadv}/DPM-%{downloadv}.src.rpm
 Patch0: dpm-1.7.4.7-ld
 Patch1: dpm-1.7.4.7-macosx
+Patch2: dpm-1.8.0-shlib-macosx
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 %if "%cpu" != "amd64"
@@ -31,6 +32,7 @@ cd LCG-DM-%{baseVersion}
 case %cmsos in 
   osx*) 
 %patch1 -p2
+%patch2 -p2
 ;;
 esac
 
