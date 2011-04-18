@@ -1,4 +1,4 @@
-### RPM external py2-pymongo 1.10
+### RPM external py2-pymongo 1.10.1
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
 Source: http://pypi.python.org/packages/source/p/pymongo/pymongo-%realversion.tar.gz
