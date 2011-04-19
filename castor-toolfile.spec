@@ -12,6 +12,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/castor_header.xml
   <client>
     <environment name="CASTOR_HEADER_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$CASTOR_HEADER_BASE/include"/>
+    <environment name="INCLUDE" default="$CASTOR_HEADER_BASE/include/shift"/>
   </client>
 </tool>
 EOF_TOOLFILE
