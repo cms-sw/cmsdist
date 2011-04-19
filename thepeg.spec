@@ -11,6 +11,7 @@ Patch3: thepeg-1.6.1-gcc46
 Requires: lhapdf
 Requires: gsl
 Requires: hepmc
+Requires: zlib
 # FIXME: rivet?
 %if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
 Requires: gfortran-macosx
@@ -19,14 +20,20 @@ Requires: gfortran-macosx
 %prep
 %setup -q -n %{n}/%{realversion}
 %patch0 -p2
-%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
+case %cmsos in 
+  osx*)
 %patch1 -p1
-%endif
+  ;;
+esac
 %patch2 -p2
 %patch3 -p2
 
 %build
-./configure --with-LHAPDF=$LHAPDF_ROOT/lib --with-hepmc=$HEPMC_ROOT --with-gsl=$GSL_ROOT --without-javagui --prefix=%i --disable-readline
+./configure --with-LHAPDF=$LHAPDF_ROOT --with-hepmc=$HEPMC_ROOT \
+            --with-gsl=$GSL_ROOT --with-zlib=$ZLIB_ROOT \
+            --without-javagui --prefix=%i \
+            --disable-readline CXX="`which c++`" CC="`which cc`" \
+            LIBS="`gfortran --print-file-name=libgfortran.a` -lz"
 make
 
 %install
