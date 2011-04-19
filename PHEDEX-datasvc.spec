@@ -33,7 +33,7 @@ Provides: perl(URI::Escape)
 %install
 mkdir -p %i/etc/{env,profile}.d
 tar -cf - * | (cd %i && tar -xf -)
-rm -r %i/PhEDExWeb/DataService/conf
+#rm -r %i/PhEDExWeb/DataService/conf
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 ln -sf ../profile.d/init.sh %i/etc/env.d/11-datasvc.sh
