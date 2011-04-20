@@ -12,9 +12,9 @@
 Source: none
 
 %prep
-rm -rf %_builddir/*
+rm -rf %_builddir/%{cmssw_subsystem}
 for subdir in %dataDir; do
-  cvs -d :pserver:anonymous@cmssw.cvs.cern.ch:2401/cvs_server/repositories/CMSSW export -r %realversion %{cmssw_package}/$subdir
+  cvs -d :pserver:anonymous@cmssw.cvs.cern.ch:/cvs_server/repositories/CMSSW export -r %realversion %{cmssw_package}/$subdir
 done
 %{?patchsrc:%patchsrc}
 %{?patchsrc2:%patchsrc2}
