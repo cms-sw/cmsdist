@@ -36,7 +36,6 @@ else
     export GCC_VERSION
     export G77_ROOT=$GCC_ROOT
 fi
-
 export GCC_REALVERSION=`echo $GCC_VERSION | sed -e's|-.*||'`
 export COMPILER_VERSION=`echo $LLVM_VERSION`
 export COMPILER_VERSION_MAJOR=`echo $LLVM_VERSION | sed -e 's|\([0-9]\).*|\1|'`
@@ -69,8 +68,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
     <flags CXXFLAGS="@ARCH_CXXFLAGS@ @COMPILER_CXXFLAGS@"/>
     <flags CXXFLAGS="-fmessage-length=0 -ftemplate-depth-300"/>
     # -Wno-non-template-friend removed since it's not supported, yet, by llvm.
-    <flags CXXFLAGS="-Wall -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wparentheses -Wsign-compare -Wno-deprecated -Werror=return-type -Werror=missing-braces -Werror=unused-value -Werror=address -Werror=format -Werror=write-strings -Werror=strict-overflow -fdiagnostics-show-option"/>
-    <flags LDFLAGS="@OS_LDFLAGS@"/>
+    <flags CXXFLAGS="-Wall -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wsign-compare -Wno-deprecated -Werror=return-type -Werror=missing-braces -Werror=unused-value -Werror=address -Werror=format -Werror=write-strings -Werror=strict-overflow -fdiagnostics-show-option"/>
+    <flags LDFLAGS="@OS_LDFLAGS@ -L@GCC_ROOT@/lib64"/>
     <flags CXXSHAREDFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@"/>
     <flags SHAREDSUFFIX="@OS_SHAREDSUFFIX@"/>
     <flags LD_UNIT="@OS_LD_UNIT@ @ARCH_LD_UNIT@"/>
@@ -95,7 +94,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/ccompiler.xml
     <flags CSHAREDOBJECTFLAGS="-fPIC"/>
     <flags CFLAGS="-pthread"/>
     <flags CFLAGS="-O2"/>
-    <flags LDFLAGS="@OS_LDFLAGS@"/>
+    <flags LDFLAGS="@OS_LDFLAGS@ -L@GCC_ROOT@/lib64"/>
     <flags CSHAREDFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@"/>
     <flags SCRAM_COMPILER_NAME="clangc@COMPILER_VERSION@"/>
     <flags SCRAM_LANGUAGE_TYPE="C"/>
