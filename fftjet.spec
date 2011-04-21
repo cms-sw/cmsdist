@@ -1,12 +1,14 @@
 ### RPM external fftjet 1.3.1
 Source: http://www.hepforge.org/archive/fftjet/%n-%realversion.tar.gz
 Requires: fftw3
+Patch0: fftjet-1.3.1-fix-clang
 %if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
 Requires: gfortran-macosx
 %endif
 
 %prep
 %setup -n %n-%realversion
+%patch0 -p1 
 
 %build
 # Fake the existance of pkg-config on systems which dont have it.
