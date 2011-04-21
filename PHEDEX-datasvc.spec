@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-datasvc 2.1.3
+### RPM cms PHEDEX-datasvc 2.1.4pre8
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define cvsversion DATASVC_%(echo %realversion | tr . _)
@@ -33,7 +33,7 @@ Provides: perl(URI::Escape)
 %install
 mkdir -p %i/etc/{env,profile}.d
 tar -cf - * | (cd %i && tar -xf -)
-rm -r %i/PhEDExWeb/DataService/conf
+#rm -r %i/PhEDExWeb/DataService/conf
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 ln -sf ../profile.d/init.sh %i/etc/env.d/11-datasvc.sh
