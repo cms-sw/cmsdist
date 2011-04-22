@@ -50,10 +50,10 @@ HG1104e workqueue
 ##DIE##+ forPHEDEX400 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
 
 # PHEDEX web
-##DIE##HG1103a PHEDEX-combined-web
-##DIE##+ 1.124 PHEDEX-datasvc.spec
-##DIE##+ 1.90 PHEDEX-web.spec
-##DIE##+ 1.79 PHEDEX-webapp.spec
+HG1105a PHEDEX-combined-web
++ 1.133 PHEDEX-datasvc.spec
++ 1.98 PHEDEX-web.spec
++ 1.88 PHEDEX-webapp.spec
 
 # DBS3 build
 ##DIE##HG1104b dbs3
