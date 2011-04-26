@@ -40,6 +40,10 @@ make
 
 make install
 rm %i/share/ThePEG/Doc/fixinterfaces.pl
+cd %i/lib/ThePEG
+for item in LesHouches.so ; do
+  [ -e lib$item ] || ln -s $item lib$item
+done
 
 %post
 %{relocateConfig}lib/ThePEG/*.la
