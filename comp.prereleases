@@ -27,7 +27,7 @@ HG1102b CmsTC
 + 1.24/* CmsTC.spec
 
 # Cms Webtools services
-HG1105a cmsweb
+HG1105b cmsweb
 
 HG1105a reqmgr
 + 1.46/1.0.2 couchdb.spec
