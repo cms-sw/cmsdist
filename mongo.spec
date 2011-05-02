@@ -1,4 +1,4 @@
-### RPM external mongo 1.8.1
+### RPM external mongo 1.6.5
 
 Source: http://downloads.mongodb.org/src/mongodb-src-r%{realversion}.tar.gz
 Requires: boost scons pcre spidermonkey rotatelogs
