@@ -1,17 +1,16 @@
-### RPM external py2-sqlobject 0.8.0
-%define pythonv %(echo $PYTHON_VERSION | cut -f1,2 -d.)
+### RPM external py2-sqlobject 1.0.0
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
-%define distname SQLObject-%realversion
-Source: http://cheeseshop.python.org/packages/source/S/SQLObject/%{distname}.tar.gz
-Patch0: patch-setup
-Requires: python
+Source: http://cheeseshop.python.org/packages/source/S/SQLObject/SQLObject-%realversion.tar.gz
+Requires: python py2-setuptools py2-formencode
 
 %prep
-%setup -n %{distname}
-%patch0
-%build
-%install
-python setup.py install --prefix=%i
-perl -p -i -e "s|#\!.*python|#!/usr/bin/env python|" %i/bin/sqlobject-admin
+%setup -n SQLObject-%realversion
 
+%build
+python setup.py build
+
+%install
+python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
+egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
+find %i -name '*.egg-info' -exec rm {} \;
