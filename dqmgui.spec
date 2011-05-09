@@ -1,4 +1,4 @@
-### RPM cms dqmgui 6.0.2
+### RPM cms dqmgui 6.0.3
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 ## INITENV +PATH PYTHONPATH %i/xlib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 
