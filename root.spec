@@ -99,7 +99,7 @@ Requires: gfortran-macosx
 %patch33 -p1
 %patch34 -p1
 %patch35 -p1
-%patch35 -p1
+%patch36 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
