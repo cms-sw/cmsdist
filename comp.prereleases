@@ -32,6 +32,7 @@ HG1105c cmsweb
 
 # DQM GUI
 HG1105c dqmgui
++ 1.67 dqmgui.spec
 + 1.261 root.spec
 + 1.1 root-5.27-06b-r36196-r36698.patch
 + 1.1 root-5.27-06-fireworks11.patch
