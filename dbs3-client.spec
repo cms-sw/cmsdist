@@ -1,4 +1,4 @@
-### RPM cms dbs3-client 3.0.8
+### RPM cms dbs3-client 3.0.9
 ## INITENV +PATH PYTHONPATH %i/Client/src/python
 ## INITENV SET DBS3_CLIENT_ROOT %i/Client
 ## INITENV SET DBS_READER_URL http://vocms09.cern.ch:8585/dbs/DBSReader 
