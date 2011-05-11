@@ -75,5 +75,4 @@ done
 %files
 %i/
 %exclude %i/doc
-
 ## SUBPACKAGE webdoc
