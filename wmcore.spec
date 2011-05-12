@@ -1,4 +1,4 @@
-### RPM cms wmcore 0.7.6
+### RPM cms wmcore 0.7.6a
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 %define svnversion %realversion
 
