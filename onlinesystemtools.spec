@@ -1,4 +1,4 @@
-### RPM external onlinesystemtools 3.0
+### RPM external onlinesystemtools 3.2
 ## NOCOMPILER
 Source: none
 Requires: oracle-env
@@ -15,7 +15,7 @@ Requires: oracle-env
 ## INITENV SETV ZLIB_VERSION            %zlib_version
 %define uuid_version                    1.39
 ## INITENV SETV UUID_VERSION            %uuid_version
-%define sqlite_version                  3.6.23
+%define sqlite_version                  3.7.5
 ## INITENV SETV SQLITE_VERSION          %sqlite_version
 %define oracle_version                  11.2.2
 ## INITENV SETV ORACLE_VERSION          %oracle_version
@@ -25,10 +25,10 @@ Requires: oracle-env
 %define xerces_version                  2.8.0
 ## INITENV SETV XERCES_C_VERSION        %xerces_version
 ## INITENV SETV XERCES_C_ROOT           %xdaq_root
-%define xdaq_version                    3.33.1
+%define xdaq_version                    3.34.1
 ## INITENV SETV XDAQ_VERSION            %xdaq_version
 ## INITENV SETV XDAQ_ROOT               %xdaq_root
-%define mimetic_version                 0.9.1
+%define mimetic_version                 0.9.6
 ## INITENV SETV MIMETIC_VERSION         %mimetic_version
 
 %define systemtools                     sockets opengl x11 %compilertools %onlinetools
