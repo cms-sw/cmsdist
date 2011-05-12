@@ -48,12 +48,9 @@ HG1104e workqueue
 + HEAD/0.0.10 workqueue.spec
 + WMCORE_0_6_12 dls-client.spec
 
-# WMAGENT
-##DIE##HG1102d wmagent
-##DIE##+ 1.33 openssl.spec
-##DIE##+ WMCORE_0_6_12 dls-client.spec
-##DIE##+ 1.90 wmcore.spec
-##DIE##+ 1.14 wmagent.spec
+HG1105c wmagent
++ WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
++ HEAD/0.8.0pre1 wmcore.spec wmagent.spec
 
 # PHEDEX agents
 ##DIE##HG1103a PHEDEX-combined-agents
