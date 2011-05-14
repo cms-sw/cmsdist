@@ -218,6 +218,9 @@ case %cmsplatf in
   osx* )
     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fvisibility-inlines-hidden"
   ;;
+  *_gcc4[56789]* )
+    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fvisibility-inlines-hidden"
+  ;;
 esac
 
 export COMPILER_CXXFLAGS
