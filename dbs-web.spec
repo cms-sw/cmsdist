@@ -1,12 +1,12 @@
-### RPM cms dbs-web V06_00_48
+### RPM cms dbs-web V06_00_41
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
 %define cvstag %{realversion}
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=DBS/Web/DataDiscovery&nocache=true&export=DBS&tag=-r%{cvstag}&output=/dbs-web.tar.gz
 
-Requires: python mysql py2-mysqldb py2-simplejson elementtree
-Requires: webtools dbs-client rotatelogs
+Requires: python mysql py2-mysqldb py2-simplejson py2-memcached elementtree
+Requires: webtools dbs-client
 
 %prep
 %setup -n DBS/Web/DataDiscovery
@@ -15,12 +15,7 @@ Requires: webtools dbs-client rotatelogs
 
 %install
 mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
-cp -r * %i/lib/python*/site-packages
-
-# Compile cheetah templates.
-cd %i/lib/python*/site-packages
-mkdir -p rss
-./scripts/genTemplates.sh
+cp -r * %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
