@@ -12,12 +12,19 @@ Requires: gfortran-macosx
 %endif
 
 Patch: millepede_V03-04-00_makefile
+Patch1: millepede_V03-04-00_gcc45
 
 %prep
 
 %setup -n V%svnTag
 
 %patch -p1
+
+case %gccver in
+  4.[56].*)
+%patch1 -p1
+  ;;
+esac
 
 perl -p -i -e "s!-lshift!-L$CASTOR_ROOT/lib -lshift -lcastorrfio!" Makefile
 perl -p -i -e "s!C_INCLUDEDIRS =!C_INCLUDEDIRS = -I$CASTOR_ROOT/include!" Makefile
