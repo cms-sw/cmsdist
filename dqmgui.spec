@@ -32,7 +32,6 @@ Patch0: dqmgui-rtgu
 # build area with them.  Only builds with sources we need, with minimal
 # dependencies.
 %prep
-export SCRAM_ARCH=%cmsplatf
 rm -fr %_builddir/{config,src,THE_BUILD}
 %setup    -T -b 0 -n config
 %setup -c -T -a 1 -n src
@@ -53,7 +52,6 @@ config/updateConfig.pl -p CMSSW -v THE_BUILD -s $SCRAMV1_VERSION -t ${DQMGUI_CON
 # the scram environment to point to the installation directories.
 # Avoid generating excess environment.
 %build
-export SCRAM_ARCH=%cmsplatf
 cd %_builddir/THE_BUILD/src
  %scram b echo_foo </dev/null
 cd ../include/%cmsplatf
@@ -84,8 +82,8 @@ for p in PATH LD_LIBRARY_PATH PYTHONPATH; do
   done
 done
 removeenv='LOCALRT|CMSSW_(RELEASE_)*(BASE|VERSION|(FWLITE|SEARCH)_[A-Z_]*)|(COIN|IGUANA|SEAL)_[A-Z_]*'
-scram runtime -sh | grep -v SCRAMRT | egrep -v "^export ($removeenv)=" > %i/etc/profile.d/env.sh
-scram runtime -csh | grep -v SCRAMRT | egrep -v "^setenv ($removeenv) " > %i/etc/profile.d/env.csh
+ %scram runtime -sh | grep -v SCRAMRT | egrep -v "^export ($removeenv)=" > %i/etc/profile.d/env.sh
+ %scram runtime -csh | grep -v SCRAMRT | egrep -v "^setenv ($removeenv) " > %i/etc/profile.d/env.csh
 perl -w -i -p -e \
   'BEGIN {
      %%linked = map { s|/+[^/]+$||; ($_ => 1) }
@@ -127,7 +125,6 @@ perl -w -i -p -e \
 # Usage at https://twiki.cern.ch/twiki/bin/view/CMS/DQMTest and
 # https://twiki.cern.ch/twiki//bin/view/CMS/DQMGuiProduction.
 %install
-export SCRAM_ARCH=%cmsplatf
 mkdir -p %i/etc/profile.d %i/etc/scramconfig %i/external %i/{,x}bin %i/{,x}lib %i/{,x}python %i/{,x}include %i/data
 cp -p %_builddir/distsrc.tar.bz2 %i/data
 cp -p %_builddir/THE_BUILD/lib/%cmsplatf/*.so %i/lib
@@ -139,7 +136,7 @@ tar -C %_builddir/THE_BUILD/include/%cmsplatf -cf - . | tar -C %i/include -xvvf 
 tar -C %_builddir/THE_BUILD/external/%cmsplatf/lib -cf - . | tar -C %i/external -xvvf -
 cp -p %_builddir/THE_BUILD/config/toolbox/%cmsplatf/tools/selected/*.xml %i/etc/scramconfig
 
-(set -e; eval `scram runtime -sh`;
+(set -e; eval `%scram runtime -sh`;
  export PYTHONPATH=%i/python${PYTHONPATH+":$PYTHONPATH"};
  for mod in %i/python/*.py; do
    python -c "import $(basename $mod | sed 's/\.py$//')"
