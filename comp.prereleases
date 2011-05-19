@@ -11,7 +11,7 @@
 # DAS test build with wmcore-web dependency
 # 1.165 is 0.5.12
 # 1.194 is 0.6.6, 1.30 for new MongoDB (ver 1.8.1), 1.14 for pymongo (ver 1.10.1)
-# 1.226 is 0.7.1.pre17
+# 1.226 is 0.7.1.pre15
 # 1.202 is 0.6.9
 #HG1105a das
 #+ 1.194 das.spec
