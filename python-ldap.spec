@@ -10,11 +10,32 @@ Requires: python openssl openldap
 %patch0 -p1
 
 %build
+mkdir -p sasl2lib
+ln -s /usr/lib/libsasl2.so.2.0.19 sasl2lib/libsasl2.so
 
-perl -p -i -e 's|/usr/local/openldap-2.3/|$ENV{OPENLDAP_ROOT}/|; s|(library_dirs = .*)|$1 /usr/lib/sasl2 $ENV{OPENSSL_ROOT}/lib|;' setup.cfg
+perl -p -i -e 's|/usr/local/openldap-2.3/|$ENV{OPENLDAP_ROOT}/|; s|(library_dirs = .*)|$1 /usr/lib/sasl2 %{_builddir}/%n-%{realversion}/sasl2lib $ENV{OPENSSL_ROOT}/lib|;' setup.cfg
 python setup.py build
 %install
 python setup.py install --prefix=%i
+
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="%n" version="%v">
+    <info url="http://python-ldap.sourceforge.net/"/>
+    <client>
+      <environment name="PYTHON_LDAP_BASE" default="%i"/>
+      <environment name="PYTHON_LDAP_PYPATH" default="$PYTHON_LDAP_BASE/lib/python@PYTHONV@/site-packages"/>
+    </client>
+    <runtime name="PYTHONPATH" value="$PYTHON_LDAP_PYPATH" type="path"/>
+    <use name="openssl"/>
+    <use name="openldap"/>
+    <use name="python"/>
+  </tool>
+EOF_TOOLFILE
+
+export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
+perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*
 
 # Dependencies environment
 rm -rf %i/etc/profile.d
@@ -28,6 +49,8 @@ done
 
 
 %post
+%{relocateConfig}etc/scram.d/%n.xml
+# The relocation below is also needed for dependencies
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 
