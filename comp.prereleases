@@ -79,3 +79,8 @@ HG1106a crab-server3
 # This is needed for the HappyFace testing setup
 HG1105c py2-sqlobject
 + HEAD/1.0.0 py2-sqlobject.spec
+
+# Site Readiness
+HG1106a sitereadiness
++ HEAD/0.0.1 sitereadiness.spec
+
