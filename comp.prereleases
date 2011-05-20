@@ -71,8 +71,11 @@ HG1104b dbs3
 HG1104b dbs3-client
 + HEAD/3.0.9 dbs3-client.spec
 
-##DIE##HG1102b crab-server
-##DIE##+ CRABSERVER_1_1_4_pre4_BUILD_SLC5 crab-server.spec mysql.spec prodagent.spec prodcommon.spec wmcore.spec PHEDEX-micro.spec dls-client.spec python-ldap.spec openldap.spec openldap-2.3.39-gcc44.patch python-ldap-2.3.5-gcc44.patch
+##DIE##
+HG1102b crab-server
+##DIE##
++ CRABSERVER_1_1_4_pre5_BUILD_SLC5 crab-server.spec mysql.spec prodagent.spec prodcommon.spec wmcore.spec PHEDEX-micro.spec dls-client.spec python-ldap.spec openldap.spec openldap-2.3.39-gcc44.patch python-ldap-2.3.5-gcc44.patch
+
 HG1106a crab-server3
 + 1.4/0.0.1 crab-server3.spec
 
