@@ -1,4 +1,4 @@
-### RPM cms online-patch CMSSW_4_2_3_onlpatch3_ONLINE
+### RPM cms online-patch CMSSW_4_2_3_onlpatch4_ONLINE
 Requires: online-patch-tool-conf
 
 %define useCmsTC        yes
