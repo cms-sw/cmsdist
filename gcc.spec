@@ -25,9 +25,10 @@ Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
 %define use_custom_binutils %(echo %cmsos | sed -e 's|slc[0-9]*_amd64|true|')
 %if "%use_custom_binutils" == "true"
 %define bisonVersion 2.4
-%define binutilsv 2.21
 Source6: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.bz2
-Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
+%define binutilsv 2.21.51.0.8
+#Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
+Source7: http://www.kernel.org/pub/linux/devel/binutils/binutils-%binutilsv.tar.bz2
 %endif
 
 # gcc 4.5+ link time optimization support requires libelf to work. However
@@ -133,7 +134,7 @@ esac
 # Whenever we build custom binutils we also enable the new linker "gold".
 # We do so only if we are using the new gcc 4.5+
 if [ "X%use_custom_binutils:%gcc_45plus" = Xtrue:true ] ; then
-  CONF_BINUTILS_OPTS="--enable-gold"
+  CONF_BINUTILS_OPTS="--enable-gold --enable-lto --enable-plugins --enable-threads"
 fi
 
 USER_CXX=$CCOPTS
@@ -206,6 +207,7 @@ mkdir -p obj
 cd obj
 export LD_LIBRARY_PATH=%i/lib64:%i/lib:$LD_LIBRARY_PATH
 ../configure --prefix=%i \
+  --enable-gold=yes --enable-lto  --with-build-config=bootstrap-lto \
   --enable-languages=c,c++,fortran \
   $CONF_GCC_VERSION_OPTS --enable-shared CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
 
