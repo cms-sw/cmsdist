@@ -160,6 +160,10 @@ then
   make install
   export PATH=%i/tmp/bison/bin:$PATH
   cd ../binutils-%{binutilsv}
+  # Try to avoid dependency on makeinfo.
+  perl -p -i -e 's|SUBDIRS = .*|SUBDIRS =|' bfd/Makefile.in binutils/Makefile.in
+  perl -p -i -e 's|all: info|all:|' etc/Makefile.in
+
   ./configure --prefix=%i ${CONF_BINUTILS_OPTS} \
               CC="gcc $CCOPTS" CFLAGS="-I%i/include" \
               CXXFLAGS="-I%i/include" LDFLAGS="-L%i/lib"
