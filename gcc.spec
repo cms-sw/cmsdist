@@ -134,7 +134,7 @@ esac
 # Whenever we build custom binutils we also enable the new linker "gold".
 # We do so only if we are using the new gcc 4.5+
 if [ "X%use_custom_binutils:%gcc_45plus" = Xtrue:true ] ; then
-  CONF_BINUTILS_OPTS="--enable-gold --enable-lto --enable-plugins --enable-threads"
+  CONF_BINUTILS_OPTS="--enable-gold=default --enable-lto --enable-plugins --enable-threads"
 fi
 
 USER_CXX=$CCOPTS
