@@ -160,11 +160,19 @@ then
   make install
   export PATH=%i/tmp/bison/bin:$PATH
   cd ../binutils-%{binutilsv}
-  # Try to avoid dependency on makeinfo.
-  perl -p -i -e 's|SUBDIRS = .*|SUBDIRS =|' bfd/Makefile.in binutils/Makefile.in
+  # Try to avoid dependency on makeinfo by forcing make not
+  # to build the documentation.
+  perl -p -i -e 's|SUBDIRS = .*|SUBDIRS =|' bfd/Makefile.in binutils/Makefile.in gas/Makefile.in
   perl -p -i -e 's|all: info|all:|' etc/Makefile.in
+  perl -p -i -e 's|TEXINFOS =.*|TEXINFOS =|;s|INFO_DEPS =.*|INFO_DEPS =|' gprof/Makefile.in
+  perl -p -i -e 's|man_MANS =.*|man_MANS =|' gprof/Makefile.in
+  perl -p -i -e 's|INFO_DEPS =.*|INFO_DEPS =|' ld/Makefile.in
+  perl -p -i -e 's|INFOFILES =.*|INFOFILES =|' etc/Makefile.in
+  perl -p -i -e 's|DVIFILES =.*|DVIFILES =|' etc/Makefile.in
+  perl -p -i -e 's|PDFFILES =.*|PDFFILES =|' etc/Makefile.in
+  perl -p -i -e 's|HTMLFILES =.*|HTMLFILES =|' etc/Makefile.in        
 
-  ./configure --prefix=%i ${CONF_BINUTILS_OPTS} \
+  ./configure --prefix=%i ${CONF_BINUTILS_OPTS} --disable-werror \
               CC="gcc $CCOPTS" CFLAGS="-I%i/include" \
               CXXFLAGS="-I%i/include" LDFLAGS="-L%i/lib"
   make %makeprocesses
