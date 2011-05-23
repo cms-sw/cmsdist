@@ -14,6 +14,5 @@ python setup.py build
 # we need simple json only for python 2.5 and earlier, but for python 2.6 and higher
 if  [ -z `echo $PYTHON_VERSION | egrep "2.6|3."` ]; then
    python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
-   egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
    find %i -name '*.egg-info' -exec rm {} \;
 fi

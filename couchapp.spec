@@ -17,8 +17,8 @@ rm -rf %i/{build,debian,contrib,bin}
 
 # Now build/install as normal procedure would do
 python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
-egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
+for f in %i/bin/couchapp; do perl -p -i -e 's{.*}{#!/usr/bin/env python} if $. == 1 && m{#!.*/bin/python}' $f; done
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
@@ -34,4 +34,3 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
-

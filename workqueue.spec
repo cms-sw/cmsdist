@@ -16,7 +16,6 @@ python setup.py build_system -s workqueue
 
 %install
 python setup.py install_system -s workqueue --prefix=%i
-egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
 
 mkdir -p %i/bin
@@ -36,4 +35,3 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
-

@@ -29,6 +29,5 @@ python selftest.py
 
 %install
 python setup.py install --prefix=%i
-egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
-
+for f in %i/bin/pil*; do perl -p -i -e 's{.*}{#!/usr/bin/env python} if $. == 1 && m{#!.*/bin/python}' $f; done

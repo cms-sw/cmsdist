@@ -18,6 +18,4 @@ python setup.py build
 
 %install
 python setup.py install --prefix=%i
-egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
-

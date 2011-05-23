@@ -15,6 +15,4 @@ python setup.py build_ext --inplace
 %install
 python setup.py install --prefix=%i
 # --single-version-externally-managed --record=/dev/null
-egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
-

@@ -13,7 +13,6 @@ python setup.py build
 
 %install
 python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
-egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
@@ -30,4 +29,3 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
-

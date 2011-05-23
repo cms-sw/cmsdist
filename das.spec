@@ -51,7 +51,6 @@ python setup.py install_system -s wmc-web --prefix=%i
 cd ../DAS
 #python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
 python setup.py install --prefix=%i
-egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
 
 mkdir -p %i/doc
