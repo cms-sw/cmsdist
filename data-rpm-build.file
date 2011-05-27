@@ -28,7 +28,7 @@ else
   download_cmd="wget --no-check-certificate {}"
 fi
 cd ../%realname/%dataDir
-cat download.url | xargs -i $download_cmd
+cat download.url | xargs -I "{}" $download_cmd
 rm download.url
 
 %install
