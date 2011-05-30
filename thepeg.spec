@@ -8,6 +8,7 @@ Patch0: thepeg-1.7.0-break-termcap-dependence
 Patch1: thepeg-1.7.0-use-dylibs-macosx
 Patch2: thepeg-1.6.1-lhapdf-env
 Patch3: thepeg-1.6.1-gcc46
+Patch4: thepeg-1.7.0-configure
 Requires: lhapdf
 Requires: gsl
 Requires: hepmc
@@ -27,6 +28,7 @@ case %cmsos in
 esac
 %patch2 -p2
 %patch3 -p2
+%patch4 -p1
 
 %build
 ./configure --with-LHAPDF=$LHAPDF_ROOT --with-hepmc=$HEPMC_ROOT \
