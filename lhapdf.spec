@@ -1,11 +1,9 @@
-### RPM external lhapdf 5.8.5
+### RPM external lhapdf 5.6.0
 
 %define realversion %(echo %v | cut -d- -f1)
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
-Patch0: lhapdf-5.8.5-32bit-on-64bit-recheck-workaround
-Patch1: lhapdf-5.8.5-gzio
-Patch2: lhapdf-data-5.8.5-gzio
-Requires: zlib
+Patch0: lhapdf-5.6.0-g77
+Patch1: lhapdf-5.6.0-32bit-on-64bit-recheck-workaround
 
 %if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
 Requires: gfortran-macosx
@@ -20,18 +18,11 @@ case %gccver in
     perl -p -i -e 's|^export F77\=g77|export F77=gfortran|' .scripts/platform_functions
     perl -p -i -e 's| -Wno-globals||' configure
   ;;
-esac
+  3.*)
 %patch0 -p2
-
-touch src/gzio.inc ; touch src/gzio.F ; touch src/ftn_gzio.c 
-
+  ;;
+esac
 %patch1 -p2
-
-cd share/lhapdf/PDFsets
-%patch2 -p5
-rm -f *gz NNPDF*1000*
-gzip -9 *
-cd ../../..
 
 %build
 case %cmsplatf in 
@@ -46,7 +37,7 @@ case %cmsplatf in
     automake --add-missing
   ;;
 esac
-./configure --disable-pyext --disable-octave --disable-doxygen --prefix=%i --enable-low-memory --with-max-num-pdfsets=1 F77=gfortran CPPFLAGS="-I ${LIBZLIB}/include" LDFLAGS="-L${LIBZLIB}/lib -lz" 
+./configure --disable-pyext --enable-low-memory --prefix=%i --with-max-num-pdfsets=1
 
 perl -p -i -e 's|/usr/lib64/libm.a||g' config.status
 perl -p -i -e 's|/usr/lib64/libc.a||g' config.status
@@ -56,15 +47,11 @@ make
 
 %install
 make install
-
-mkdir %i/share/lhapdf/PDFsets
-mv share/lhapdf/PDFsets/*gz %i/share/lhapdf/PDFsets
-
 # do another install-round for full libs
 make distclean
 %define fulllibpath %(echo %i"/full")
 %define fullname %(echo %n"full")
-./configure --disable-pyext --disable-octave --disable-doxygen --prefix=%fulllibpath F77=gfortran CPPFLAGS="-I ${LIBZLIB}/include" LDFLAGS="-L${LIBZLIB}/lib -lz" 
+./configure --disable-pyext --prefix=%fulllibpath --disable-pdfsets
 perl -p -i -e 's|/usr/lib64/libm.a||g' config.status
 perl -p -i -e 's|/usr/lib64/libc.a||g' config.status
 perl -p -i -e 's|/usr/lib64/libm.a||g' Makefile */Makefile */*/Makefile */*/*/Makefile
