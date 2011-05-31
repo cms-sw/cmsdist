@@ -1,9 +1,7 @@
-### RPM external gcc 4.6.0
+### RPM external gcc 4.5.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-%define realversion 4.6-20110226
-#Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
-Source0: ftp://ftp.nluug.nl/mirror/languages/gcc/snapshots/%realversion/gcc-%realversion.tar.bz2
+Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
 # If gcc version >= 4.0.0, we need two additional sources, for gmp and mpfr.
 %define gmpVersion 4.3.2
 %define mpfrVersion 2.4.2
@@ -15,10 +13,10 @@ Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
 # For gcc 4.5+ we need the additional tools ppl and cloog.
 %define gcc_45plus %(echo %realversion | sed -e 's|4[.][5-9].*|true|')
 %if "%{gcc_45plus}" == "true"
-%define pplVersion 0.11
-%define cloogVersion 0.16.1
-Source4: http://www.cs.unipr.it/ppl/Download/ftp/releases/%{pplVersion}/ppl-%{pplVersion}.tar.bz2
-Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
+%define pplVersion 0.10.2
+%define cloogpplVersion 0.15.9
+Source4: http://www.cs.unipr.it/ppl/Download/ftp/releases/0.10.2/ppl-%{pplVersion}.tar.bz2
+Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-ppl-%{cloogpplVersion}.tar.gz
 %endif
 
 # On 64bit Scientific Linux build our own binutils.
@@ -109,7 +107,7 @@ esac
 # For gcc 4.5 and later we also need the following.
 %if "%gcc_45plus" == "true"
 %setup -D -T -b 4 -n ppl-%{pplVersion}
-%setup -D -T -b 5 -n cloog-%{cloogVersion}
+%setup -D -T -b 5 -n cloog-ppl-%{cloogpplVersion}
 %endif
 
 # These are required by rpm as well, but only on linux.
@@ -192,12 +190,12 @@ if [ "X%gcc_45plus" = Xtrue ]; then
   make %makeprocesses
   make install
 
-  cd ../cloog-%{cloogVersion}
+  cd ../cloog-ppl-%{cloogpplVersion}
   ./configure --prefix=%i --with-ppl=%i --with-gmp=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
   make %makeprocesses
   make install
 
-  CONF_GCC_VERSION_OPTS="$CONF_GCC_VERSION_OPTS --with-ppl=%i --with-cloog=%i --enable-cloog-backend=isl"
+  CONF_GCC_VERSION_OPTS="$CONF_GCC_VERSION_OPTS --with-ppl=%i --with-cloog=%i"
 fi
 
 # Build the compilers
