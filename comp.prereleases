@@ -40,9 +40,9 @@ HG1105c dqmgui
 + 1.1 root-5.27-06b-r38369.patch
 + 1.3 root-5.27-06b-r39055.patch
 
-HG1106b reqmgr
+HG1106c reqmgr
 + 1.46/1.0.2 couchdb.spec
-+ HEAD/0.7.8b reqmgr.spec
++ HEAD/0.7.9 reqmgr.spec
 
 # WorkQueue
 HG1104e workqueue
