@@ -589,11 +589,11 @@ MagneticField/VolumeGeometry
 Mixing/Base
 OnlineDB/EcalCondDB
 OnlineDB/Oracle
-RecoParticleFlow/Configuration                   
-RecoParticleFlow/PFBlockProducer                 
-RecoParticleFlow/PFClusterProducer               
-RecoParticleFlow/PFClusterShapeProducer          
-RecoParticleFlow/PFClusterTools                  
+RecoParticleFlow/Configuration
+RecoParticleFlow/PFBlockProducer
+RecoParticleFlow/PFClusterProducer
+RecoParticleFlow/PFClusterShapeProducer
+RecoParticleFlow/PFClusterTools
 RecoParticleFlow/PFProducer
 RecoParticleFlow/PFTracking
 PerfTools/Callgrind
@@ -809,6 +809,10 @@ RecoVertex/TrimmedVertexFit
 RecoVertex/V0Producer
 RecoVertex/VertexPrimitives
 RecoVertex/VertexTools
+SimCalorimetry/EcalTrigPrimAlgos
+SimCalorimetry/EcalTrigPrimProducers
+SimCalorimetry/HcalTrigPrimAlgos
+SimCalorimetry/HcalTrigPrimProducers
 TBDataFormats/EcalTBObjects
 TBDataFormats/HcalTBObjects
 TrackPropagation/NavGeometry
