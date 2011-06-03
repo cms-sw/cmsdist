@@ -72,7 +72,6 @@ DataFormats/TrajectoryState
 DataFormats/VertexReco
 DataFormats/WrappedStdDictionaries
 FWCore/Common
-FWCore/Framework
 FWCore/FWLite
 FWCore/MessageLogger
 FWCore/ParameterSet
@@ -82,7 +81,6 @@ FWCore/PythonUtilities
 FWCore/RootAutoLibraryLoader
 FWCore/ServiceRegistry
 FWCore/Utilities
-FWCore/Version
 FastSimDataFormats/External
 Fireworks/Calo
 Fireworks/Candidates
