@@ -65,11 +65,11 @@ HG1106b PHEDEX-combined-web
 
 # DBS3 build
 HG1104b dbs3
-+ HEAD/3.0.9 dbs3.spec
++ HEAD/3.0.10 dbs3.spec
 
 # DBS3 Client
 HG1104b dbs3-client
-+ HEAD/3.0.9 dbs3-client.spec
++ HEAD/3.0.10 dbs3-client.spec
 
 ##DIE##
 HG1102b crab-server
