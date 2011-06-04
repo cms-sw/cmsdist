@@ -1,13 +1,13 @@
-### RPM cms dbs3 3.0.6
-## INITENV +PATH PYTHONPATH %i/Server/Python/src
-## INITENV SET DBS3_SERVER_ROOT %i/Server/Python
-%define wmcver WMCORE_0_7_2
+### RPM cms dbs3 3.0.10
+## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
+## INITENV SET DBS3_SERVER_ROOT %i/
+%define wmcver 0.7.4
 %define cvstag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_dbs.tar.gz
 Source1: %svnserver/DBS/tags/%cvstag?scheme=svn+ssh&strategy=export&module=DBS3&output=/%{n}.tar.gz
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui
-Requires: py2-cjson py2-mysqldb rotatelogs
+Requires: py2-cjson py2-mysqldb py2-cx-oracle rotatelogs
 
 %prep
 %setup -T -b 0 -n WMCore
@@ -16,12 +16,14 @@ Requires: py2-cjson py2-mysqldb rotatelogs
 %build
 cd ../WMCore
 python setup.py build_system -s wmc-web
+cd ../DBS3
+python setup.py build_system -s Server
 
 %install
 cd ../WMCore
 python setup.py install_system -s wmc-web --prefix=%i
 cd ../DBS3
-cp -rp %_builddir/DBS3/* %i/
+python setup.py install_system -s Server --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
@@ -41,6 +43,3 @@ done
 
 %files
 %i/
-%exclude %i/src
-%exclude %i/Server/JAVA
-%exclude %i/Server/Http
