@@ -1,10 +1,10 @@
-### RPM lcg roofit 5.28.00a
+### RPM lcg roofit 5.28.00d
 %define svnTag %(echo %realversion | tr '.' '-')
 Source0: svn://root.cern.ch/svn/root/tags/v%svnTag/roofit?scheme=http&module=roofit&output=/roofit.tgz
 Source1: svn://root.cern.ch/svn/root/tags/v%svnTag/tutorials/?scheme=http&module=tutorials&output=/rootutorials.tgz
 Source2: roofit-5.28.00-build.sh
 
-Patch: root-5.22-00a-roofit-silence-static-printout
+Patch: root-5.28-00d-roofit-silence-static-printout
 Patch1: roofit-5.24-00-RooFactoryWSTool-include
 
 Requires: root 
