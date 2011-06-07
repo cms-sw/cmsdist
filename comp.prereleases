@@ -42,7 +42,7 @@ HG1105c dqmgui
 
 HG1106c reqmgr
 + 1.46/1.0.2 couchdb.spec
-+ HEAD/0.7.9 reqmgr.spec
++ HEAD/0.7.9b reqmgr.spec
 
 # WorkQueue
 HG1104e workqueue
