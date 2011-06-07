@@ -1,9 +1,7 @@
-### RPM external gcc 4.6.0
+### RPM external gcc 4.3.4
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-%define realversion 4.6-20110226
-#Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
-Source0: ftp://ftp.nluug.nl/mirror/languages/gcc/snapshots/%realversion/gcc-%realversion.tar.bz2
+Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
 # If gcc version >= 4.0.0, we need two additional sources, for gmp and mpfr.
 %define gmpVersion 4.3.2
 %define mpfrVersion 2.4.2
@@ -15,10 +13,10 @@ Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
 # For gcc 4.5+ we need the additional tools ppl and cloog.
 %define gcc_45plus %(echo %realversion | sed -e 's|4[.][5-9].*|true|')
 %if "%{gcc_45plus}" == "true"
-%define pplVersion 0.11
-%define cloogVersion 0.16.1
-Source4: http://www.cs.unipr.it/ppl/Download/ftp/releases/%{pplVersion}/ppl-%{pplVersion}.tar.bz2
-Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
+%define pplVersion 0.10.2
+%define cloogpplVersion 0.15.9
+Source4: http://www.cs.unipr.it/ppl/Download/ftp/releases/0.10.2/ppl-%{pplVersion}.tar.bz2
+Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-ppl-%{cloogpplVersion}.tar.gz
 %endif
 
 # On 64bit Scientific Linux build our own binutils.
@@ -28,17 +26,6 @@ Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
 %define binutilsv 2.20.1
 Source6: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.bz2
 Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
-%endif
-
-# gcc 4.5+ link time optimization support requires libelf to work. However
-# also rpm requires it. In order to have to duplicate dependencies we
-# build it in gcc and we pick it up from there also for rpm. Notice that
-# libelf does not work on Macosx however this is not a problem until
-# we use the system compiler there.
-%define isslc %(echo %cmsos | sed -e 's|slc.*|true|')
-%define elfutilsVersion 0.131
-%if "%isslc" == "true"
-Source8: ftp://sources.redhat.com/pub/systemtap/elfutils/elfutils-%{elfutilsVersion}.tar.gz
 %endif
 
 %prep
@@ -109,14 +96,8 @@ esac
 # For gcc 4.5 and later we also need the following.
 %if "%gcc_45plus" == "true"
 %setup -D -T -b 4 -n ppl-%{pplVersion}
-%setup -D -T -b 5 -n cloog-%{cloogVersion}
+%setup -D -T -b 5 -n cloog-ppl-%{cloogpplVersion}
 %endif
-
-# These are required by rpm as well, but only on linux.
-%if "%isslc" == "true"
-%setup -D -T -b 8 -n elfutils-%{elfutilsVersion}
-%endif
-
 %build
 
 # Set special variables required to build 32-bit executables on 64-bit
@@ -138,14 +119,6 @@ fi
 
 USER_CXX=$CCOPTS
 
-# Build libelf.
-if [ "X%isslc" = Xtrue ]; then
-  cd ../elfutils-%{elfutilsVersion}
-  ./configure --prefix=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
-  make %makeprocesses
-  make install
-fi
-
 # If requested, build our own binutils.  Currently the default is to use the
 # system binutils on 32bit platforms and our own on 64 bit ones.  
 # FIXME: Notice that this copy is actually built using the system compiler, so
@@ -159,9 +132,7 @@ then
   make install
   export PATH=%i/tmp/bison/bin:$PATH
   cd ../binutils-%{binutilsv}
-  ./configure --prefix=%i ${CONF_BINUTILS_OPTS} \
-              CC="gcc $CCOPTS" CFLAGS="-I%i/include" \
-              CXXFLAGS="-I%i/include" LDFLAGS="-L%i/lib"
+  ./configure --prefix=%i ${CONF_BINUTILS_OPTS} CC="gcc $CCOPTS"
   make %makeprocesses
   find . -name Makefile -exec perl -p -i -e 's|LN = ln|LN = cp -p|;s|ln ([^-])|cp -p $1|g' {} \; 
   make install
@@ -192,12 +163,12 @@ if [ "X%gcc_45plus" = Xtrue ]; then
   make %makeprocesses
   make install
 
-  cd ../cloog-%{cloogVersion}
+  cd ../cloog-ppl-%{cloogpplVersion}
   ./configure --prefix=%i --with-ppl=%i --with-gmp=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
   make %makeprocesses
   make install
 
-  CONF_GCC_VERSION_OPTS="$CONF_GCC_VERSION_OPTS --with-ppl=%i --with-cloog=%i --enable-cloog-backend=isl"
+  CONF_GCC_VERSION_OPTS="$CONF_GCC_VERSION_OPTS --with-ppl=%i --with-cloog=%i"
 fi
 
 # Build the compilers
