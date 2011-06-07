@@ -6,9 +6,7 @@ Requires: python
 %prep
 %setup -n Cheetah-%realversion
 %build
-python setup.py build
-
 %install
 python setup.py install --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
-for f in %i/bin/cheetah*; do perl -p -i -e 's{.*}{#!/usr/bin/env python} if $. == 1 && m{#!.*/bin/python}' $f; done
+perl -p -i -e "s|#\!.*python|#!/usr/bin/env python|" %i/bin/cheetah
+perl -p -i -e "s|#\!.*python|#!/usr/bin/env python|" %i/bin/cheetah-compile
