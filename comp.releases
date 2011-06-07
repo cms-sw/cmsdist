@@ -5,7 +5,7 @@ HG1106c cmsweb
 
 HG1104d wmagent
 + WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
-+ HEAD/0.7.9a wmcore.spec wmagent.spec
++ HEAD/0.7.9b wmcore.spec wmagent.spec
 
 HG1106a crab-server3
 + 1.6/3.0.0 crab-server3.spec
