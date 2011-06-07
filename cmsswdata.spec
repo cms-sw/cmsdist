@@ -1,59 +1,58 @@
-### RPM cms cmsswdata 25
+### RPM cms cmsswdata 26
 ## NOCOMPILER
 Source: none
+
+%define BaseTool %(echo %n | tr '[a-z-]' '[A-Z_]')
 
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
+Requires: data-MagneticField-Interpolation
+Requires: data-Geometry-CMSCommonData
+Requires: data-Geometry-CSCGeometryBuilder
+Requires: data-Geometry-DTGeometryBuilder
+Requires: data-Geometry-EcalCommonData
+Requires: data-Geometry-EcalSimData
+Requires: data-Geometry-EcalTestBeam
+Requires: data-Geometry-FP420CommonData
+Requires: data-Geometry-FP420SimData
+Requires: data-Geometry-ForwardCommonData
+Requires: data-Geometry-ForwardSimData
+Requires: data-Geometry-HcalCommonData
+Requires: data-Geometry-HcalSimData
+Requires: data-Geometry-HcalTestBeamData
+Requires: data-Geometry-MTCCTrackerCommonData
+Requires: data-Geometry-MuonCommonData
+Requires: data-Geometry-MuonSimData
+Requires: data-Geometry-RPCGeometryBuilder
+Requires: data-Geometry-TrackerCommonData
+Requires: data-Geometry-TrackerRecoData
+Requires: data-Geometry-TrackerSimData
+Requires: data-Geometry-TwentyFivePercentTrackerCommonData
+Requires: data-L1Trigger-RPCTrigger
+Requires: data-RecoParticleFlow-PFBlockProducer
+Requires: data-RecoParticleFlow-PFTracking
+Requires: data-RecoParticleFlow-PFProducer
+Requires: data-RecoMuon-MuonIdentification
+Requires: data-RecoTracker-RingESSource
+Requires: data-RecoTracker-RoadMapESSource
+
 %if "%online" != "true"
-# data dependencies for standard builds
+# extra data dependencies for standard builds
 Requires: data-FastSimulation-MaterialEffects
 Requires: data-FastSimulation-PileUpProducer
-Requires: data-MagneticField-Interpolation
-Requires: data-RecoParticleFlow-PFBlockProducer
-Requires: data-RecoParticleFlow-PFTracking
-Requires: data-RecoParticleFlow-PFProducer
-Requires: data-RecoTracker-RingESSource
-Requires: data-RecoTracker-RoadMapESSource
 Requires: data-SimG4CMS-Calo
-Requires: data-Validation-Geometry
-Requires: data-RecoMuon-MuonIdentification
-Requires: data-L1Trigger-RPCTrigger
-Requires: data-Fireworks-Geometry
 Requires: data-SimG4CMS-Forward
-%else
-# data dependencies for ONLINE builds
-Requires: data-L1Trigger-RPCTrigger
-Requires: data-MagneticField-Interpolation
-Requires: data-RecoMuon-MuonIdentification
-Requires: data-RecoParticleFlow-PFBlockProducer
-Requires: data-RecoParticleFlow-PFProducer
-Requires: data-RecoParticleFlow-PFTracking
-Requires: data-RecoTracker-RingESSource
-Requires: data-RecoTracker-RoadMapESSource
+Requires: data-Validation-Geometry
+Requires: data-Fireworks-Geometry
 %endif
 
 %prep
+
 %build
+
 %install
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="%n" version="%v">
-    <client>
-      <environment name="CMSSWDATA_BASE" default="%{instroot}/%{cmsplatf}/%{pkgcategory}"/>
-      <environment name="CMSSW_DATA_PATH" default="$CMSSWDATA_BASE"/>
-    </client>
-    <runtime name="CMSSW_DATA_PATH" value="$CMSSWDATA_BASE" handler="warn" type="path"/>
-EOF_TOOLFILE
-for tool in `echo %requiredtools | tr ' ' '\n' | grep 'data-'` ; do
-  uctool=`echo $tool | tr '-' '_' | tr '[a-z]' '[A-Z]'`
-  toolbase=`eval echo \\$${uctool}_ROOT`
-  echo "$uctool = $toolbase"
-  if [ "X$toolbase" = X -o ! -d $toolbase/etc ] ; then continue ; fi
-  echo "<runtime name=\"CMSSW_SEARCH_PATH\" default=\"$toolbase\" handler=\"warn\" type=\"path\"/>" >> %i/etc/scram.d/%n.xml
-done
-echo "</tool>" >> %i/etc/scram.d/%n.xml
 
 %post
-%{relocateConfig}etc/scram.d/%n.xml
+echo "%{BaseTool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+echo "set %{BaseTool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
