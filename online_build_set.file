@@ -803,7 +803,7 @@ SimDataFormats/EncodedEventId
 SimDataFormats/GeneratorProducts
 SimDataFormats/HiGenData
 SimDataFormats/JetMatching
-SimDataFormats/PileupSummaryInfo 
+SimDataFormats/PileupSummaryInfo
 SimDataFormats/RPCDigiSimLink
 SimDataFormats/Track
 SimDataFormats/TrackerDigiSimLink
