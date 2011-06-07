@@ -1,3 +1,0 @@
-### FILE partial-build-patch
-%define bootstrapfile config/bootsrc%scram_xml
-%define patchsrc %{nil}
