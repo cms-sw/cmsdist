@@ -95,4 +95,4 @@ HG1106c stagemanager
 HG1106c couchdb
 + HEAD/1.1.0 couchdb.spec
 + 1.1 couchdb-cmsauth-Makefile.patch
-
++ HEAD/R14B03 erlang.spec
