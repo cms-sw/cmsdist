@@ -1,6 +1,5 @@
-### RPM external erlang R12B_5
-%define downloadv %(echo %realversion | tr _ -)
-Source: http://erlang.org/download/otp_src_%{downloadv}.tar.gz
+### RPM external erlang R14B03
+Source: http://erlang.org/download/otp_src_%{realversion}.tar.gz
 Requires: openssl
 
 # 32-bit
@@ -9,7 +8,7 @@ Provides: libc.so.6(GLIBC_PRIVATE)
 Provides: libc.so.6(GLIBC_PRIVATE)(64bit)
 
 %prep
-%setup -n otp_src_%{downloadv}
+%setup -n otp_src_%{realversion}
 
 %build
 ./configure --prefix=%i
