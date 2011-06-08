@@ -87,3 +87,12 @@ HG1105c py2-sqlobject
 HG1106a sitereadiness
 + HEAD/0.0.1 sitereadiness.spec
 
+# Stagemanager test build for 0.0.2
+HG1106c stagemanager
++ HEAD/0.0.2 stagemanager.spec
+
+# Test build for new couchdb version to be included on HG1107
+HG1106c couchdb
++ HEAD/1.1.0 couchdb.spec
++ 1.1 couchdb-cmsauth-Makefile.patch
+
