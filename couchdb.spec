@@ -1,10 +1,10 @@
-### RPM external couchdb 1.0.2
+### RPM external couchdb 1.1.0
 
 # Using the svn url instead of the default release on because we need the 
 # bootstrap script after patching the Makefile.am
 Source0: svn://svn.apache.org/repos/asf/couchdb/tags/%realversion?scheme=https&module=couchdb&output=/apache-%n-%realversion.tgz
 Source1: couch_cms_auth.erl
-Patch0: couchdb-1.0.1-Makefile
+Patch0: couchdb-cmsauth-Makefile
 
 # Although there is no technical software dependency,
 # couchapp was included because all CMS applications will need it.
