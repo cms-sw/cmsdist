@@ -1,29 +1,25 @@
-### RPM cms workqueue 0_0_2
+### RPM cms workqueue 0.0.12
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 ## INITENV +PATH PATH %i/bin
-# FIXME Move this to webtools
-## INITENV SET WTBASE  %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 %define cvstag %v
 
 #Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
-Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
+Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk@12766?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
 
-# TODO change to webtools
-Requires: python py2-httplib2 cherrypy py2-cheetah py2-openid yui pystack rotatelogs couchdb dbs-client dls-client py2-cjson
+Requires: python py2-httplib2 pystack rotatelogs couchdb dbs-client dls-client py2-cjson
 
 %prep
 %setup -n WMCore
 
 %build
-python setup.py build
+python setup.py build_system -s workqueue
 
 %install
 python setup.py install_system -s workqueue --prefix=%i
-egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
 
 mkdir -p %i/bin
-cp -pf %_builddir/WMCore/bin/{*workqueue*,wmagent-mod-config} %i/bin
+cp -pf %_builddir/WMCore/bin/*workqueue* %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 rm -rf %i/etc/profile.d
@@ -39,4 +35,3 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
-
