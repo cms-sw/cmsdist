@@ -9,6 +9,7 @@ Requires: openssl
 %setup -n %n-%{realversion}
 %patch0 -p1
 %patch1 -p1
+grep -r -l -e "^#!.*/perl *$" . | xargs perl -p -i -e "s|^#!.*perl *$|#!/usr/bin/env perl|"
 
 %build
 CONFIG_ARGS="--disable-krb4 --with-cxx=`which c++` --with-ld=`which c++` --with-ssl-incdir=${OPENSSL_ROOT}/include --with-ssl-libdir=${OPENSSL_ROOT}/lib"
