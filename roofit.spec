@@ -1,4 +1,4 @@
-### RPM lcg roofit 5.28.00d
+### RPM lcg roofit 5.30.00-rc1
 %define svnTag %(echo %realversion | tr '.' '-')
 Source0: svn://root.cern.ch/svn/root/tags/v%svnTag/roofit?scheme=http&module=roofit&output=/roofit.tgz
 Source1: svn://root.cern.ch/svn/root/tags/v%svnTag/tutorials/?scheme=http&module=tutorials&output=/rootutorials.tgz
@@ -25,6 +25,8 @@ cp -R histfactory %i/tutorials/
 
 cd ../roofit/
 mkdir -p %i/config
+cp roostats/inc/RooStats/*.h roostats/inc/
+cp histfactory/inc/RooStats/HistFactory/*.h histfactory/inc/
 cp histfactory/config/prepareHistFactory %i/config/
 cp %_sourcedir/roofit-5.28.00-build.sh build.sh
 chmod +x build.sh
