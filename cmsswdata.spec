@@ -29,22 +29,22 @@ Requires: data-Geometry-TrackerCommonData
 Requires: data-Geometry-TrackerRecoData
 Requires: data-Geometry-TrackerSimData
 Requires: data-Geometry-TwentyFivePercentTrackerCommonData
-Requires: data-L1Trigger-RPCTrigger
-Requires: data-RecoParticleFlow-PFBlockProducer
-Requires: data-RecoParticleFlow-PFTracking
-Requires: data-RecoParticleFlow-PFProducer
-Requires: data-RecoMuon-MuonIdentification
-Requires: data-RecoTracker-RingESSource
-Requires: data-RecoTracker-RoadMapESSource
 
 %if "%online" != "true"
 # extra data dependencies for standard builds
 Requires: data-FastSimulation-MaterialEffects
 Requires: data-FastSimulation-PileUpProducer
+Requires: data-RecoParticleFlow-PFBlockProducer
+Requires: data-RecoParticleFlow-PFTracking
+Requires: data-RecoParticleFlow-PFProducer
+Requires: data-RecoTracker-RingESSource
+Requires: data-RecoTracker-RoadMapESSource
 Requires: data-SimG4CMS-Calo
-Requires: data-SimG4CMS-Forward
 Requires: data-Validation-Geometry
+Requires: data-RecoMuon-MuonIdentification
+Requires: data-L1Trigger-RPCTrigger
 Requires: data-Fireworks-Geometry
+Requires: data-SimG4CMS-Forward
 %endif
 
 %prep
