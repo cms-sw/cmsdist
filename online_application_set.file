@@ -11,7 +11,6 @@ SimDataFormats/EncodedEventId
 SimDataFormats/GeneratorProducts
 SimDataFormats/HiGenData
 SimDataFormats/JetMatching
-SimDataFormats/PileupSummaryInfo 
 SimDataFormats/RPCDigiSimLink
 SimDataFormats/Track
 SimDataFormats/TrackerDigiSimLink
@@ -116,7 +115,6 @@ CommonTools/CandAlgos
 CommonTools/CandUtils
 CommonTools/Clustering1D
 CommonTools/ConditionDBWriter
-CommonTools/ParticleFlow
 CommonTools/RecoAlgos
 CommonTools/RecoUtils
 CommonTools/Statistics
@@ -489,6 +487,7 @@ Geometry/TrackerGeometryBuilder
 Geometry/TrackerNumberingBuilder
 Geometry/TrackerRecoData
 Geometry/TrackerSimData
+Geometry/TrackerTopology
 Geometry/TrackingGeometryAligner
 Geometry/TwentyFivePercentTrackerCommonData
 GeometryReaders/XMLIdealGeometryESSource
@@ -614,6 +613,7 @@ PhysicsTools/JetMCUtils
 PhysicsTools/KinFitter
 PhysicsTools/MVAComputer
 PhysicsTools/MVATrainer
+PhysicsTools/PFCandProducer
 PhysicsTools/ParallelAnalysis
 PhysicsTools/PatAlgos
 PhysicsTools/PatExamples
@@ -669,8 +669,6 @@ RecoHI/HiJetAlgos
 RecoHI/HiMuonAlgos
 RecoHI/HiTracking
 RecoJets/Configuration
-RecoJets/FFTJetAlgorithms
-RecoJets/FFTJetProducers
 RecoJets/JetAlgorithms
 RecoJets/JetAnalyzers
 RecoJets/JetAssociationAlgorithms
@@ -811,8 +809,6 @@ RecoVertex/TrimmedVertexFit
 RecoVertex/V0Producer
 RecoVertex/VertexPrimitives
 RecoVertex/VertexTools
-SimCalorimetry/EcalSelectiveReadoutAlgos
-SimCalorimetry/EcalSelectiveReadoutProducers
 SimCalorimetry/EcalTrigPrimAlgos
 SimCalorimetry/EcalTrigPrimProducers
 SimCalorimetry/HcalTrigPrimAlgos
