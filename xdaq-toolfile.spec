@@ -67,6 +67,14 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaq.xml
 </tool>
 EOF_TOOLFILE
 
+cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaqsentinelutils.xml
+<tool name="xdaqsentinelutil" version="@TOOL_VERSION@">
+  <info url="http://home.cern.ch/xdaq"/>
+  <lib name="sentinelutils"/>
+  <use name="xdaq"/>
+</tool>
+EOF_TOOLFILE
+
 cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaqheader.xml
 <tool name="xdaqheader" version="@TOOL_VERSION@">
   <info url="http://home.cern.ch/xdaq"/>
