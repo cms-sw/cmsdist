@@ -57,6 +57,15 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootrio.xml
 </tool>
 EOF_TOOLFILE
 
+# rootthread toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootthread.xml
+<tool name="rootthread" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="Thread"/>
+  <use name="rootrio"/>
+</tool>
+EOF_TOOLFILE
+
 # rootxmlio toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootxmlio.xml
 <tool name="rootxmlio" version="@TOOL_VERSION@">
@@ -66,15 +75,23 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootxmlio.xml
 </tool>
 EOF_TOOLFILE
 
+# rootmathcore toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootmathcore.xml
+<tool name="rootmathcore" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="MathCore"/>
+  <use name="rootcint"/>
+</tool>
+EOF_TOOLFILE
+
 # rootcore toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcore.xml
 <tool name="rootcore" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <lib name="Tree"/>
   <lib name="Net"/>
-  <lib name="Thread"/>
-  <lib name="MathCore"/>
-  <use name="rootrio"/>
+  <use name="rootmathcore"/>
+  <use name="rootthread"/>
 </tool>
 EOF_TOOLFILE
 
@@ -85,6 +102,15 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roothistmatrix.xml
   <lib name="Hist"/>
   <lib name="Matrix"/>
   <use name="rootcore"/>
+</tool>
+EOF_TOOLFILE
+
+# rootspectrum toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootspectrum.xml
+<tool name="rootspectrum" version="@TOOL_VERSION@"> 
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="Spectrum"/>
+  <use name="roothistmatrix"/>
 </tool>
 EOF_TOOLFILE
 
@@ -123,6 +149,24 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootgraphics.xml
   <lib name="Graf3d"/>
   <lib name="Postscript"/>
   <use name="rootgpad"/>
+</tool>
+EOF_TOOLFILE
+
+# rooteg toolfile, identical to old "root" toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rooteg.xml
+<tool name="rooteg" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="EG"/>
+  <use name="rootgraphics"/>
+</tool>
+EOF_TOOLFILE
+
+# rootpy toolfile, identical to old "root" toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootpy.xml
+<tool name="rootpy" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="PyROOT"/>
+  <use name="rootgraphics"/>
 </tool>
 EOF_TOOLFILE
 
@@ -212,14 +256,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roottmva.xml
 </tool>
 EOF_TOOLFILE
 
-# rootthread toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootthread.xml
-<tool name="rootthread" version="@TOOL_VERSION@">
-  <info url="http://root.cern.ch/root/"/>
-  <use name="rootcore"/>
-</tool>
-EOF_TOOLFILE
-
 # rootxml toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootxml.xml
 <tool name="rootxml" version="@TOOL_VERSION@">
@@ -245,6 +281,55 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcintex.xml
   <lib name="Cintex"/>
   <use name="rootrflx"/>
   <use name="rootcint"/>
+</tool>
+EOF_TOOLFILE
+
+# rootgeom toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootgeom.xml
+<tool name="rootgeom" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="Geom"/>
+  <use name="rootrio"/>
+  <use name="rootmathcore"/>
+</tool>
+EOF_TOOLFILE
+
+# rootgeompainter toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootgeompainter.xml
+<tool name="rootgeompainter" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="GeomPainter"/>
+  <use name="rootgeom"/>
+  <use name="rootgraphics"/>
+</tool>
+EOF_TOOLFILE
+
+# rootrgl toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootrgl.xml
+<tool name="rootrgl" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="RGL"/>
+  <use name="rootinteractive"/>
+  <use name="rootgraphics"/>
+</tool>
+EOF_TOOLFILE
+
+# rooteve toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rooteve.xml
+<tool name="rooteve" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="Eve"/>
+  <use name="rootgeompainter"/>
+  <use name="rootrgl"/>
+</tool>
+EOF_TOOLFILE
+
+# rootguihtml toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootguihtml.xml
+<tool name="rootguihtml" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="GuiHtml"/>
+  <use name="rootinteractive"/>
 </tool>
 EOF_TOOLFILE
 
