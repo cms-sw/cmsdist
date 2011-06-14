@@ -183,187 +183,176 @@ Source25: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir25/download
 %endif
  
 %build
-download_cmd=`which wget 2> /dev/null || echo ""`
-if [ "X$download_cmd" = X ] ; then
-  download_cmd=`which curl 2> /dev/null || echo ""`
-  if [ "X$download_cmd" = X ] ; then
-    echo "ERROR: Unable to find wget or curl shell command to download" && exit 1
-  else
-    download_cmd="curl -L -f -q -s -O {}"
-  fi
-else
-  download_cmd="wget --no-check-certificate {}"
-fi
 currdir=`pwd`
 cd ../%realname/%dataDir
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 
 %if "%{?dataDir2:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir2
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir3:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir3
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir4:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir4
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir5:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir5
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir6:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir6
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir7:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir7
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir8:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir8
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir9:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir9
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir10:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir10
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir11:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir11
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir12:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir12
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir13:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir13
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir14:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir14
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir15:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir15
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir16:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir16
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir17:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir17
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir18:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir18
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir19:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir19
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir20:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir20
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir21:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir21
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir22:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir22
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir23:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir23
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir24:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir24
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
 %if "%{?dataDir25:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir25
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
 %endif
 
