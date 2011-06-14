@@ -1,4 +1,4 @@
-### RPM external xz 5.0.0
+### RPM external xz 5.0.3
 Source: http://tukaani.org/%n/%n-%realversion.tar.bz2
 
 %prep
@@ -6,7 +6,7 @@ Source: http://tukaani.org/%n/%n-%realversion.tar.bz2
 perl -p -i -e '/LZMA_PROG_ERROR\s+=/ && s/,$//' src/liblzma/api/lzma/base.h
 
 %build
-./configure --prefix=%i
+./configure CFLAGS='-fPIC' --prefix=%i
 make %makeprocesses
 
 %install
