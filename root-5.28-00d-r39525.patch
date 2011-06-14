@@ -1,12 +1,6 @@
 diff -aur root.orig/math/matrix/inc/TDecompSVD.h root/math/matrix/inc/TDecompSVD.h
 --- root.orig/math/matrix/inc/TDecompSVD.h	2011-05-07 22:11:03.000000000 +0200
 +++ root/math/matrix/inc/TDecompSVD.h	2011-06-09 17:38:37.000000000 +0200
-@@ -1,4 +1,4 @@
--// @(#)root/matrix:$Id: root-5.28-00d-r39525.patch,v 1.1 2011/06/10 15:39:13 muzaffar Exp $
-+// @(#)root/matrix:$Id: root-5.28-00d-r39525.patch,v 1.1 2011/06/10 15:39:13 muzaffar Exp $
- // Authors: Fons Rademakers, Eddy Offermann   Dec 2003
- 
- /*************************************************************************
 @@ -52,8 +52,8 @@
     virtual ~TDecompSVD() {}
  
@@ -21,12 +15,6 @@ diff -aur root.orig/math/matrix/inc/TDecompSVD.h root/math/matrix/inc/TDecompSVD
 diff -aur root.orig/math/matrix/src/TDecompSVD.cxx root/math/matrix/src/TDecompSVD.cxx
 --- root.orig/math/matrix/src/TDecompSVD.cxx	2011-05-07 22:11:03.000000000 +0200
 +++ root/math/matrix/src/TDecompSVD.cxx	2011-06-09 17:38:40.000000000 +0200
-@@ -1,4 +1,4 @@
--// @(#)root/matrix:$Id: root-5.28-00d-r39525.patch,v 1.1 2011/06/10 15:39:13 muzaffar Exp $
-+// @(#)root/matrix:$Id: root-5.28-00d-r39525.patch,v 1.1 2011/06/10 15:39:13 muzaffar Exp $
- // Authors: Fons Rademakers, Eddy Offermann  Dec 2003
- 
- /*************************************************************************
 @@ -855,6 +855,17 @@
  }
  
