@@ -1,4 +1,4 @@
-### RPM cms cmsswdata 26
+### RPM cms cmsswdata 27
 ## NOCOMPILER
 Source: none
 
@@ -29,6 +29,7 @@ Requires: data-Geometry-TrackerCommonData
 Requires: data-Geometry-TrackerRecoData
 Requires: data-Geometry-TrackerSimData
 Requires: data-Geometry-TwentyFivePercentTrackerCommonData
+Requires: data-Geometry-CaloEventSetup
 Requires: data-L1Trigger-RPCTrigger
 Requires: data-RecoParticleFlow-PFBlockProducer
 Requires: data-RecoParticleFlow-PFTracking
