@@ -1,4 +1,4 @@
-### RPM cms workqueue 0.0.12
+### RPM cms workqueue 0.0.11
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 ## INITENV +PATH PATH %i/bin
 %define cvstag %v

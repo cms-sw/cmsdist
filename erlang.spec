@@ -17,10 +17,6 @@ make
 %install
 make install
 
-# Fix annoying problem with symbolic links
-ln -sf ../erts-5.6.5/bin/epmd %i/lib/erlang/bin
-ln -sf ../lib/erlang/bin/{dialyzer,epmd,erl,erlc,escript,run_erl,to_erl,typer} %i/bin
-
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
 : > %i/etc/profile.d/dependencies-setup.sh
@@ -36,4 +32,4 @@ done
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
 %{relocateConfig}lib/erlang/bin/{erl,start}
-%{relocateConfig}lib/erlang/erts-5.6.5/bin/{erl,start}
+%{relocateConfig}lib/erlang/erts-*/bin/{erl,start}

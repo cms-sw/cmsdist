@@ -1,6 +1,7 @@
-### RPM cms dbs3 3.0.10
+### RPM cms dbs3 3.0.9
+## INITENV +PATH PYTHONPATH %i/Server/Python/src
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
-## INITENV SET DBS3_SERVER_ROOT %i/
+## INITENV SET DBS3_SERVER_ROOT %i/Server/Python
 %define wmcver 0.7.4
 %define cvstag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
@@ -16,14 +17,12 @@ Requires: py2-cjson py2-mysqldb py2-cx-oracle rotatelogs
 %build
 cd ../WMCore
 python setup.py build_system -s wmc-web
-cd ../DBS3
-python setup.py build_system -s Server
 
 %install
 cd ../WMCore
 python setup.py install_system -s wmc-web --prefix=%i
 cd ../DBS3
-python setup.py install_system -s Server --prefix=%i
+cp -rp %_builddir/DBS3/* %i/
 find %i -name '*.egg-info' -exec rm {} \;
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
@@ -43,3 +42,6 @@ done
 
 %files
 %i/
+%exclude %i/src
+%exclude %i/Server/JAVA
+%exclude %i/Server/Http
