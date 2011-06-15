@@ -135,6 +135,9 @@ find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
 find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
 
 # Makes sure that executables start with /usr/bin/env perl and not with comments. 
+find %i -type f -perm -555 -name '*.py' -exec perl -p -i -e 'if ($. == 1) {s|^"""|#/usr/bin/env python\n"""|}' {} \;
+find %i -type f -perm -555 -name '*.py' -exec perl -p -i -e 'if ($. == 1) {s|^\'\'\'|#/usr/bin/env python\n\'\'\'|}' {} \;
+find %i -type f -perm -555 -name '*.py' -exec perl -p -i -e 'if ($. == 1) {s|/usr/local/bin/python|/usr/bin/env python|}' {} \;
 rm -f %i/share/doc/python/Demo/rpc/test
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
