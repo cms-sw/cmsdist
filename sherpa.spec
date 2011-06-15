@@ -1,22 +1,14 @@
-### RPM external sherpa 1.2.3
+### RPM external sherpa 1.3.0
 
 #Source: http://cern.ch/service-spi/external/MCGenerators/distribution/sherpa-%{realversion}-src.tgz
 Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
-Patch0: sherpa-1.2.3-add_masses
-Patch1: sherpa-1.2.3-examplemodel
-Patch2: sherpa-1.2.3-model_init_1
-Patch3: sherpa-1.2.3-nlo_simulation_1
-Patch4: sherpa-1.2.3-hepevt_interface
+Patch0: sherpa-1.3.0-nlo_event_generation_1
 Requires: hepmc lhapdf
 
 %prep
 #%setup -n sherpa/%{realversion}
 %setup -q -n SHERPA-MC-%{realversion}
 %patch0 -p0
-%patch1 -p0
-%patch2 -p0
-%patch3 -p0
-%patch4 -p0
 autoreconf -i --force
 
 # Force architecture based on %%cmsplatf
