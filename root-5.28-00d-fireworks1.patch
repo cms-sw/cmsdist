@@ -1,6 +1,6 @@
-diff -aur root.orig/graf3d/eve/inc/LinkDef1.h root/graf3d/eve/inc/LinkDef1.h
---- root.orig/graf3d/eve/inc/LinkDef1.h	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/eve/inc/LinkDef1.h	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/LinkDef1.h root/graf3d/eve/inc/LinkDef1.h
+--- root-old/graf3d/eve/inc/LinkDef1.h	2011-06-14 16:20:06.573752385 -0700
++++ root/graf3d/eve/inc/LinkDef1.h	2011-06-14 17:48:21.629752234 -0700
 @@ -90,16 +90,23 @@
  #pragma link C++ class TEveManager::TExceptionHandler+;
  
@@ -27,9 +27,9 @@ diff -aur root.orig/graf3d/eve/inc/LinkDef1.h root/graf3d/eve/inc/LinkDef1.h
  // TEveChunkManager
  #pragma link C++ class TEveChunkManager+;
  #pragma link C++ class TEveChunkManager::iterator-;
-diff -aur root.orig/graf3d/eve/inc/TEveCalo.h root/graf3d/eve/inc/TEveCalo.h
---- root.orig/graf3d/eve/inc/TEveCalo.h	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/eve/inc/TEveCalo.h	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveCalo.h root/graf3d/eve/inc/TEveCalo.h
+--- root-old/graf3d/eve/inc/TEveCalo.h	2011-06-14 16:20:06.587752385 -0700
++++ root/graf3d/eve/inc/TEveCalo.h	2011-06-14 17:48:24.929752233 -0700
 @@ -192,6 +192,7 @@
  {
     friend class TEveCalo2DGL;
@@ -47,9 +47,9 @@ diff -aur root.orig/graf3d/eve/inc/TEveCalo.h root/graf3d/eve/inc/TEveCalo.h
     ClassDef(TEveCalo2D, 0); // Class for visualization of projected calorimeter event data.
  };
  /**************************************************************************/
-diff -aur root.orig/graf3d/eve/inc/TEvePathMark.h root/graf3d/eve/inc/TEvePathMark.h
---- root.orig/graf3d/eve/inc/TEvePathMark.h	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/eve/inc/TEvePathMark.h	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEvePathMark.h root/graf3d/eve/inc/TEvePathMark.h
+--- root-old/graf3d/eve/inc/TEvePathMark.h	2011-06-14 16:20:06.567752385 -0700
++++ root/graf3d/eve/inc/TEvePathMark.h	2011-06-14 17:48:19.020752233 -0700
 @@ -42,6 +42,10 @@
     TEvePathMarkT(EType_e type, const TEveVectorT<TT>& v, const TEveVectorT<TT>& p, const TEveVectorT<TT>& e, TT time=0) :
        fType(type), fV(v), fP(p), fE(e), fTime(time) {}
@@ -61,9 +61,9 @@ diff -aur root.orig/graf3d/eve/inc/TEvePathMark.h root/graf3d/eve/inc/TEvePathMa
     const char* TypeName();
  
     ClassDefNV(TEvePathMarkT, 1); // Template for a special point on a track: position/momentum reference, daughter creation or decay.
-diff -aur root.orig/graf3d/eve/inc/TEveProjections.h root/graf3d/eve/inc/TEveProjections.h
---- root.orig/graf3d/eve/inc/TEveProjections.h	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/eve/inc/TEveProjections.h	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveProjections.h root/graf3d/eve/inc/TEveProjections.h
+--- root-old/graf3d/eve/inc/TEveProjections.h	2011-06-14 16:20:06.584752385 -0700
++++ root/graf3d/eve/inc/TEveProjections.h	2011-06-14 17:51:14.517752228 -0700
 @@ -54,8 +54,9 @@
     EGeoMode_e          fGeoMode;       // strategy of polygon projection (what to try first)
     TString             fName;          // name
@@ -109,7 +109,13 @@ diff -aur root.orig/graf3d/eve/inc/TEveProjections.h root/graf3d/eve/inc/TEvePro
     Bool_t   GetUsePreScale() const   { return fUsePreScale; }
     void     SetUsePreScale(Bool_t x) { fUsePreScale = x; }
  
-@@ -137,9 +136,12 @@
+@@ -133,13 +132,17 @@
+    virtual Bool_t      AcceptSegment(TEveVector&, TEveVector&, Float_t /*tolerance*/) const { return kTRUE; }
+    virtual Int_t       SubSpaceId(const TEveVector&) const { return 0; }
+    virtual Bool_t      IsOnSubSpaceBoundrary(const TEveVector&) const { return kFALSE; }
+-   virtual void        BisectBreakPoint(TEveVector& vL, TEveVector& vR, Float_t eps_sqr=1e-10f);
++   virtual void        BisectBreakPoint(TEveVector& vL, TEveVector& vR, Float_t eps_sqr);
++   virtual void        BisectBreakPoint(TEveVector& vL, TEveVector& vR, Bool_t project_result=kFALSE, Float_t depth=0);
     virtual void        SetDirectionalVector(Int_t screenAxis, TEveVector& vec);
  
     // utils to draw axis
@@ -123,7 +129,7 @@ diff -aur root.orig/graf3d/eve/inc/TEveProjections.h root/graf3d/eve/inc/TEvePro
  
     static   Float_t    fgEps;    // resolution of projected points
     static   Float_t    fgEpsSqr; // square of resolution of projected points
-@@ -166,11 +168,9 @@
+@@ -166,11 +169,9 @@
  
     virtual void        ProjectPoint(Float_t& x, Float_t& y, Float_t& z, Float_t d, EPProc_e proc = kPP_Full);
  
@@ -136,7 +142,7 @@ diff -aur root.orig/graf3d/eve/inc/TEveProjections.h root/graf3d/eve/inc/TEvePro
     virtual Bool_t      HasSeveralSubSpaces() const { return kTRUE; }
     virtual Bool_t      AcceptSegment(TEveVector& v1, TEveVector& v2, Float_t tolerance) const;
     virtual Int_t       SubSpaceId(const TEveVector& v) const;
-@@ -218,4 +218,7 @@
+@@ -218,4 +219,7 @@
     ClassDef(TEve3DProjection, 0); // 3D scaling "projection"
  };
  
@@ -144,9 +150,9 @@ diff -aur root.orig/graf3d/eve/inc/TEveProjections.h root/graf3d/eve/inc/TEvePro
 +#define TEVEPROJECTIONS_DISPLACE_ORIGIN_MODE	 
 +	 
  #endif
-diff -aur root.orig/graf3d/eve/inc/TEveTrack.h root/graf3d/eve/inc/TEveTrack.h
---- root.orig/graf3d/eve/inc/TEveTrack.h	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/eve/inc/TEveTrack.h	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveTrack.h root/graf3d/eve/inc/TEveTrack.h
+--- root-old/graf3d/eve/inc/TEveTrack.h	2011-06-14 16:20:06.585752385 -0700
++++ root/graf3d/eve/inc/TEveTrack.h	2011-06-14 17:48:23.826752234 -0700
 @@ -16,6 +16,7 @@
  
  #include "TEveVector.h"
@@ -282,21 +288,20 @@ diff -aur root.orig/graf3d/eve/inc/TEveTrack.h root/graf3d/eve/inc/TEveTrack.h
  
     //-------------------------------------------------------------------
  
-diff -aur root.orig/graf3d/eve/inc/TEveTrackProjected.h root/graf3d/eve/inc/TEveTrackProjected.h
---- root.orig/graf3d/eve/inc/TEveTrackProjected.h	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/eve/inc/TEveTrackProjected.h	2011-06-01 14:39:00.000000000 +0200
-@@ -26,7 +26,7 @@
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveTrackProjected.h root/graf3d/eve/inc/TEveTrackProjected.h
+--- root-old/graf3d/eve/inc/TEveTrackProjected.h	2011-06-14 16:20:06.572752385 -0700
++++ root/graf3d/eve/inc/TEveTrackProjected.h	2011-06-14 17:51:13.412752229 -0700
+@@ -26,7 +26,6 @@
     TEveTrackProjected& operator=(const TEveTrackProjected&); // Not implemented
  
     Int_t GetBreakPointIdx(Int_t start);
 -   void  GetBreakPoint(Int_t N, Bool_t back, Float_t& x, Float_t& y, Float_t& z);
-+   void  GetBreakPoint(TEveVector& vL, TEveVector& vR);
  
     TEveVector*          fOrigPnts;     // original track points
  
-diff -aur root.orig/graf3d/eve/inc/TEveTrackPropagator.h root/graf3d/eve/inc/TEveTrackPropagator.h
---- root.orig/graf3d/eve/inc/TEveTrackPropagator.h	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/eve/inc/TEveTrackPropagator.h	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveTrackPropagator.h root/graf3d/eve/inc/TEveTrackPropagator.h
+--- root-old/graf3d/eve/inc/TEveTrackPropagator.h	2011-06-14 16:20:06.591752385 -0700
++++ root/graf3d/eve/inc/TEveTrackPropagator.h	2011-06-14 17:48:55.278752233 -0700
 @@ -38,14 +38,21 @@
  
     virtual Bool_t IsConst() const {return fFieldConstant;};
@@ -646,9 +651,9 @@ diff -aur root.orig/graf3d/eve/inc/TEveTrackPropagator.h root/graf3d/eve/inc/TEv
  
     if (TMath::Abs(fH.fPlMag) > kMinPl)
     {
-diff -aur root.orig/graf3d/eve/inc/TEveVSDStructs.h root/graf3d/eve/inc/TEveVSDStructs.h
---- root.orig/graf3d/eve/inc/TEveVSDStructs.h	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/eve/inc/TEveVSDStructs.h	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveVSDStructs.h root/graf3d/eve/inc/TEveVSDStructs.h
+--- root-old/graf3d/eve/inc/TEveVSDStructs.h	2011-06-14 16:20:06.569752385 -0700
++++ root/graf3d/eve/inc/TEveVSDStructs.h	2011-06-14 17:48:20.125752233 -0700
 @@ -125,28 +125,31 @@
  /******************************************************************************/
  // TEveRecTrack
@@ -693,9 +698,9 @@ diff -aur root.orig/graf3d/eve/inc/TEveVSDStructs.h root/graf3d/eve/inc/TEveVSDS
  
  /******************************************************************************/
  // TEveRecKink
-diff -aur root.orig/graf3d/eve/src/TEveCaloLegoGL.cxx root/graf3d/eve/src/TEveCaloLegoGL.cxx
---- root.orig/graf3d/eve/src/TEveCaloLegoGL.cxx	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/eve/src/TEveCaloLegoGL.cxx	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveCaloLegoGL.cxx root/graf3d/eve/src/TEveCaloLegoGL.cxx
+--- root-old/graf3d/eve/src/TEveCaloLegoGL.cxx	2011-06-14 16:20:06.494752385 -0700
++++ root/graf3d/eve/src/TEveCaloLegoGL.cxx	2011-06-14 17:49:22.429752232 -0700
 @@ -419,34 +419,46 @@
  {
     // Draw z-axis and z-box at the appropriate grid corner-point including
@@ -838,9 +843,9 @@ diff -aur root.orig/graf3d/eve/src/TEveCaloLegoGL.cxx root/graf3d/eve/src/TEveCa
     ax.SetLimits(fM->GetPhiMin(), fM->GetPhiMax());
     ax.SetTitle(fM->GetData()->GetPhiBins()->GetTitle());
     fAxisPainter.RefTitlePos().Set(-fM->GetEtaRng()*(ax.GetTickLength()+ ax.GetLabelOffset()), fM->GetPhiMax(), 0);
-diff -aur root.orig/graf3d/eve/src/TEveCaloLegoOverlay.cxx root/graf3d/eve/src/TEveCaloLegoOverlay.cxx
---- root.orig/graf3d/eve/src/TEveCaloLegoOverlay.cxx	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/eve/src/TEveCaloLegoOverlay.cxx	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveCaloLegoOverlay.cxx root/graf3d/eve/src/TEveCaloLegoOverlay.cxx
+--- root-old/graf3d/eve/src/TEveCaloLegoOverlay.cxx	2011-06-14 16:20:06.497752385 -0700
++++ root/graf3d/eve/src/TEveCaloLegoOverlay.cxx	2011-06-14 17:49:24.826752231 -0700
 @@ -530,9 +530,9 @@
  
     TGLRect& vp = rnrCtx.RefCamera().RefViewport();
@@ -854,9 +859,9 @@ diff -aur root.orig/graf3d/eve/src/TEveCaloLegoOverlay.cxx root/graf3d/eve/src/T
     THLimitsFinder::Optimize(0, maxVal, 10, bl, bh, bn, bw);
     bn = TMath::CeilNint(maxVal/bw) + 1;
  
-diff -aur root.orig/graf3d/eve/src/TEveManager.cxx root/graf3d/eve/src/TEveManager.cxx
---- root.orig/graf3d/eve/src/TEveManager.cxx	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/eve/src/TEveManager.cxx	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveManager.cxx root/graf3d/eve/src/TEveManager.cxx
+--- root-old/graf3d/eve/src/TEveManager.cxx	2011-06-14 16:20:06.484752385 -0700
++++ root/graf3d/eve/src/TEveManager.cxx	2011-06-14 17:49:20.955752233 -0700
 @@ -667,18 +667,20 @@
           model->SetRnrChildren(kFALSE);
  
@@ -886,9 +891,9 @@ diff -aur root.orig/graf3d/eve/src/TEveManager.cxx root/graf3d/eve/src/TEveManag
           pair->SetValue(dynamic_cast<TObject*>(model));
           return kTRUE;
        }
-diff -aur root.orig/graf3d/eve/src/TEveProjectionAxesGL.cxx root/graf3d/eve/src/TEveProjectionAxesGL.cxx
---- root.orig/graf3d/eve/src/TEveProjectionAxesGL.cxx	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/eve/src/TEveProjectionAxesGL.cxx	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveProjectionAxesGL.cxx root/graf3d/eve/src/TEveProjectionAxesGL.cxx
+--- root-old/graf3d/eve/src/TEveProjectionAxesGL.cxx	2011-06-14 16:20:06.495752385 -0700
++++ root/graf3d/eve/src/TEveProjectionAxesGL.cxx	2011-06-14 17:49:23.531752232 -0700
 @@ -65,7 +65,7 @@
     TGLAxisPainter::LabVec_t &orig = fAxisPainter.RefLabVec();
     if (orig.size() == 0) return;
@@ -1101,9 +1106,9 @@ diff -aur root.orig/graf3d/eve/src/TEveProjectionAxesGL.cxx root/graf3d/eve/src/
     glDepthRange(old_depth_range[0], old_depth_range[1]);
  
     glPopAttrib();
-diff -aur root.orig/graf3d/eve/src/TEveProjections.cxx root/graf3d/eve/src/TEveProjections.cxx
---- root.orig/graf3d/eve/src/TEveProjections.cxx	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/eve/src/TEveProjections.cxx	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveProjections.cxx root/graf3d/eve/src/TEveProjections.cxx
+--- root-old/graf3d/eve/src/TEveProjections.cxx	2011-06-14 16:20:06.466752385 -0700
++++ root/graf3d/eve/src/TEveProjections.cxx	2011-06-14 17:51:09.388752229 -0700
 @@ -9,6 +9,8 @@
   * For the list of contributors see $ROOTSYS/README/CREDITS.             *
   *************************************************************************/
@@ -1214,10 +1219,74 @@ diff -aur root.orig/graf3d/eve/src/TEveProjections.cxx root/graf3d/eve/src/TEveP
  void TEveProjection::SetPastFixZFac(Float_t x)
  {
     // Set 2's-exponent for relative scaling beyond FixZ.
-@@ -354,6 +359,16 @@
+@@ -327,15 +332,37 @@
  }
  
  //______________________________________________________________________________
+-void TEveProjection::BisectBreakPoint(TEveVector& vL, TEveVector& vR, Float_t eps_sqr)
++void TEveProjection::BisectBreakPoint(TEveVector& vL, TEveVector& vR, Float_t /*eps_sqr*/)
+ {
+    // Find break-point on both sides of the discontinuity.
+-   // They still need to be projected.
++   // They still need to be projected after the call.
++   // This is an obsolete version of the method that required manual
++   // specification of precision -- this lead to (infrequent) infinite loops.
++
++   static Bool_t warnedp = kFALSE;
++
++   if (!warnedp)
++   {
++      Warning("BisectBreakPoint", "call with eps_sqr argument is obsolete - please use the new signature.");
++      warnedp = kTRUE;
++   }
++
++   BisectBreakPoint(vL, vR, kFALSE);
++}
++
++//______________________________________________________________________________
++void TEveProjection::BisectBreakPoint(TEveVector& vL, TEveVector& vR,
++                                      Bool_t project_result, Float_t depth)
++{
++   // Find break-point on both sides of the discontinuity.
++   // If project_result is true, the resulting break points will be projected
++   // with given depth value.
+ 
+    TEveVector vM, vLP, vMP;
+-   while ((vL-vR).Mag2() > eps_sqr)
++   Int_t n_loops = TMath::CeilNint(TMath::Log2(1e12 * (vL-vR).Mag2() / (0.5f*(vL+vR)).Mag2()) / 2);
++   while (--n_loops >= 0)
+    {
+-      vM.Mult(vL+vR, 0.5f);
++      vM.Mult(vL + vR, 0.5f);
+       vLP.Set(vL); ProjectPoint(vLP.fX, vLP.fY, vLP.fZ, 0);
+       vMP.Set(vM); ProjectPoint(vMP.fX, vMP.fY, vMP.fZ, 0);
+ 
+@@ -343,14 +370,34 @@
+       {
+          vL.Set(vM);
+          vR.Set(vM);
+-         return;
++         break;
+       }
+ 
+       if (AcceptSegment(vLP, vMP, 0.0f))
++      {
+          vL.Set(vM);
++      }
+       else
++      {
+          vR.Set(vM);
++      }
+    }
++
++   if (project_result)
++   {
++      ProjectVector(vL, depth);
++      ProjectVector(vR, depth);
++   }
++}
++
++//______________________________________________________________________________
 +Float_t TEveProjection::GetLimit(Int_t, Bool_t)
 +{
 +   // Method previously used by  TEveProjectionAxesGL. Now obsolete.
@@ -1225,13 +1294,10 @@ diff -aur root.orig/graf3d/eve/src/TEveProjections.cxx root/graf3d/eve/src/TEveP
 +  ::Warning("TEveProjection::GetLimits", "method is obsolete");
 +
 +   return 0;
-+}
-+
-+//______________________________________________________________________________
- void TEveProjection::SetDirectionalVector(Int_t screenAxis, TEveVector& vec)
- {
-    // Get vector for axis in a projected space.
-@@ -365,41 +380,79 @@
+ }
+ 
+ //______________________________________________________________________________
+@@ -365,41 +412,79 @@
  }
  
  //______________________________________________________________________________
@@ -1328,7 +1394,7 @@ diff -aur root.orig/graf3d/eve/src/TEveProjections.cxx root/graf3d/eve/src/TEveP
        }
     }
     else
-@@ -407,19 +460,41 @@
+@@ -407,19 +492,41 @@
        return 0.0f;
     }
  
@@ -1350,8 +1416,7 @@ diff -aur root.orig/graf3d/eve/src/TEveProjections.cxx root/graf3d/eve/src/TEveP
 -   } while (TMath::Abs(vec[i] - sv) >= fgEps);
 +      if (++cnt >= kMaxSteps) 
 +         throw eH + Form("can't converge %f %f, l/r %f/%f, idx=%d\n", vec[axisIdx], sv, xL, xR, axisIdx);
- 
--   return xM;
++
 +   } while (TMath::Abs(vec[axisIdx] - sv) >= fgEps);
 +
 +
@@ -1364,7 +1429,8 @@ diff -aur root.orig/graf3d/eve/src/TEveProjections.cxx root/graf3d/eve/src/TEveP
 +   // Project point on given axis and return projected value.
 +
 +   TEveVector pos = dirVec*x;
-+
+ 
+-   return xM;
 +   if (fDisplaceOrigin)
 +      pos += fCenter;
 +
@@ -1374,7 +1440,7 @@ diff -aur root.orig/graf3d/eve/src/TEveProjections.cxx root/graf3d/eve/src/TEveP
  }
  
  //______________________________________________________________________________
-@@ -427,10 +502,11 @@
+@@ -427,10 +534,11 @@
  {
     // Project point on given axis and return projected value.
  
@@ -1390,7 +1456,7 @@ diff -aur root.orig/graf3d/eve/src/TEveProjections.cxx root/graf3d/eve/src/TEveP
  }
  
  
-@@ -464,6 +540,11 @@
+@@ -464,6 +572,11 @@
  
     using namespace TMath;
  
@@ -1402,7 +1468,7 @@ diff -aur root.orig/graf3d/eve/src/TEveProjections.cxx root/graf3d/eve/src/TEveP
     if (proc == kPP_Plane || proc == kPP_Full)
     {
        // project
-@@ -475,11 +556,14 @@
+@@ -475,11 +588,14 @@
        if (fUsePreScale)
           PreScalePoint(y, x);
  
@@ -1420,7 +1486,7 @@ diff -aur root.orig/graf3d/eve/src/TEveProjections.cxx root/graf3d/eve/src/TEveP
        if (x > fFixZ)
           x =  fFixZ + fPastFixZScale*(x - fFixZ);
        else if (x < -fFixZ)
-@@ -494,13 +578,15 @@
+@@ -494,13 +610,15 @@
        else
           y =  y * fScaleR / (1.0f + Abs(y)*fDistortion);
  
@@ -1439,7 +1505,7 @@ diff -aur root.orig/graf3d/eve/src/TEveProjections.cxx root/graf3d/eve/src/TEveP
  //______________________________________________________________________________
  void TEveRhoZProjection::SetCenter(TEveVector& v)
  {
-@@ -508,26 +594,17 @@
+@@ -508,26 +626,17 @@
  
     fCenter = v;
  
@@ -1477,7 +1543,7 @@ diff -aur root.orig/graf3d/eve/src/TEveProjections.cxx root/graf3d/eve/src/TEveP
  }
  
  //______________________________________________________________________________
-@@ -620,6 +697,13 @@
+@@ -620,6 +729,13 @@
     // Project point.
  
     using namespace TMath;
@@ -1491,7 +1557,7 @@ diff -aur root.orig/graf3d/eve/src/TEveProjections.cxx root/graf3d/eve/src/TEveP
  
     if (proc != kPP_Plane)
     {
-@@ -633,8 +717,12 @@
+@@ -633,8 +749,12 @@
           y = r*Sin(phi);
        }
  
@@ -1506,7 +1572,7 @@ diff -aur root.orig/graf3d/eve/src/TEveProjections.cxx root/graf3d/eve/src/TEveP
        r   = Sqrt(x*x + y*y);
        phi = (x == 0.0f && y == 0.0f) ? 0.0f : ATan2(y, x);
  
-@@ -645,8 +733,14 @@
+@@ -645,8 +765,14 @@
        else
           r =  r * fScaleR / (1.0f + r*fDistortion);
  
@@ -1523,9 +1589,23 @@ diff -aur root.orig/graf3d/eve/src/TEveProjections.cxx root/graf3d/eve/src/TEveP
     }
     z = d;
  }
-diff -aur root.orig/graf3d/eve/src/TEveStraightLineSetGL.cxx root/graf3d/eve/src/TEveStraightLineSetGL.cxx
---- root.orig/graf3d/eve/src/TEveStraightLineSetGL.cxx	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/eve/src/TEveStraightLineSetGL.cxx	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveStraightLineSet.cxx root/graf3d/eve/src/TEveStraightLineSet.cxx
+--- root-old/graf3d/eve/src/TEveStraightLineSet.cxx	2011-06-14 16:20:06.468752385 -0700
++++ root/graf3d/eve/src/TEveStraightLineSet.cxx	2011-06-14 17:51:11.585752230 -0700
+@@ -306,9 +306,7 @@
+             trans->MultiplyIP(bp1);
+             trans->MultiplyIP(bp2);
+          }
+-         proj.BisectBreakPoint(bp1, bp2, 1e-10f);
+-         proj.ProjectVector(bp1, fDepth);
+-         proj.ProjectVector(bp2, fDepth);
++         proj.BisectBreakPoint(bp1, bp2, kTRUE, fDepth);
+ 
+          AddLine(p1, bp1)->fId = l->fId;
+          AddLine(bp2, p2)->fId = l->fId;
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveStraightLineSetGL.cxx root/graf3d/eve/src/TEveStraightLineSetGL.cxx
+--- root-old/graf3d/eve/src/TEveStraightLineSetGL.cxx	2011-06-14 16:20:06.464752385 -0700
++++ root/graf3d/eve/src/TEveStraightLineSetGL.cxx	2011-06-14 17:48:07.276752234 -0700
 @@ -88,7 +88,8 @@
  
     TEveStraightLineSet& mL = * fM;
@@ -1545,9 +1625,9 @@ diff -aur root.orig/graf3d/eve/src/TEveStraightLineSetGL.cxx root/graf3d/eve/src
        glPopAttrib();
  }
  
-diff -aur root.orig/graf3d/eve/src/TEveTrack.cxx root/graf3d/eve/src/TEveTrack.cxx
---- root.orig/graf3d/eve/src/TEveTrack.cxx	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/eve/src/TEveTrack.cxx	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveTrack.cxx root/graf3d/eve/src/TEveTrack.cxx
+--- root-old/graf3d/eve/src/TEveTrack.cxx	2011-06-14 16:20:06.483752385 -0700
++++ root/graf3d/eve/src/TEveTrack.cxx	2011-06-14 17:48:12.411752233 -0700
 @@ -12,7 +12,6 @@
  #include "TEveTrack.h"
  #include "TEveTrackPropagator.h"
@@ -1785,9 +1865,9 @@ diff -aur root.orig/graf3d/eve/src/TEveTrack.cxx root/graf3d/eve/src/TEveTrack.c
           Bool_t on = psq >= minpsq && psq <= maxpsq;
           track->SetRnrState(on);
           if (on && fRecurse)
-diff -aur root.orig/graf3d/eve/src/TEveTrackGL.cxx root/graf3d/eve/src/TEveTrackGL.cxx
---- root.orig/graf3d/eve/src/TEveTrackGL.cxx	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/eve/src/TEveTrackGL.cxx	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveTrackGL.cxx root/graf3d/eve/src/TEveTrackGL.cxx
+--- root-old/graf3d/eve/src/TEveTrackGL.cxx	2011-06-14 16:20:06.498752385 -0700
++++ root/graf3d/eve/src/TEveTrackGL.cxx	2011-06-14 17:48:17.196752233 -0700
 @@ -91,11 +91,11 @@
        Int_t    n    = 0;
        for (Int_t i = 0; i < fTrack->fLastPMIdx; ++i)
@@ -1805,48 +1885,51 @@ diff -aur root.orig/graf3d/eve/src/TEveTrackGL.cxx root/graf3d/eve/src/TEveTrack
           {
              pnts[n  ] = pm.fV.fX;
              pnts[n+1] = pm.fV.fY;
-diff -aur root.orig/graf3d/eve/src/TEveTrackProjected.cxx root/graf3d/eve/src/TEveTrackProjected.cxx
---- root.orig/graf3d/eve/src/TEveTrackProjected.cxx	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/eve/src/TEveTrackProjected.cxx	2011-06-01 14:39:00.000000000 +0200
-@@ -79,17 +79,16 @@
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveTrackProjected.cxx root/graf3d/eve/src/TEveTrackProjected.cxx
+--- root-old/graf3d/eve/src/TEveTrackProjected.cxx	2011-06-14 16:20:06.466752385 -0700
++++ root/graf3d/eve/src/TEveTrackProjected.cxx	2011-06-14 17:51:10.486752229 -0700
+@@ -79,40 +79,6 @@
  }
  
  //______________________________________________________________________________
 -void TEveTrackProjected::GetBreakPoint(Int_t idx, Bool_t back,
 -                                       Float_t& x, Float_t& y, Float_t& z)
-+void TEveTrackProjected::GetBreakPoint(TEveVector& vL, TEveVector& vR)
- {
+-{
 -   // With bisection calculate break-point vertex.
-+   // With bisection calculate break-point vertices.
-+   // Returns projected coordinates.
- 
-    TEveProjection *projection = fManager->GetProjection();
- 
+-
+-   TEveProjection *projection = fManager->GetProjection();
+-
 -   TEveVector vL = fOrigPnts[idx];
 -   TEveVector vR = fOrigPnts[idx+1];
-    TEveVector vM, vLP, vMP;
+-   TEveVector vM, vLP, vMP;
 -   while ((vL-vR).Mag2() > 1e-10f)
-+   Int_t n_loops = TMath::CeilNint(TMath::Log2(1e12 * (vL-vR).Mag2() / (0.5f*(vL+vR)).Mag2()) / 2);
-+   while (--n_loops >= 0)
-    {
-       vM.Mult(vL+vR, 0.5f);
-       vLP.Set(vL); projection->ProjectPoint(vLP.fX, vLP.fY, vLP.fZ, 0);
-@@ -104,12 +103,8 @@
-       }
-    }
- 
+-   {
+-      vM.Mult(vL+vR, 0.5f);
+-      vLP.Set(vL); projection->ProjectPoint(vLP.fX, vLP.fY, vLP.fZ, 0);
+-      vMP.Set(vM); projection->ProjectPoint(vMP.fX, vMP.fY, vMP.fZ, 0);
+-      if (projection->AcceptSegment(vLP, vMP, 0.0f))
+-      {
+-         vL.Set(vM);
+-      }
+-      else
+-      {
+-         vR.Set(vM);
+-      }
+-   }
+-
 -   if (back) {
 -      x = vL.fX; y = vL.fY; z = vL.fZ;
 -   } else {
 -      x = vR.fX; y = vR.fY; z = vR.fZ;
 -   }
 -   projection->ProjectPoint(x, y, z, fDepth);
-+   projection->ProjectVector(vL, fDepth);
-+   projection->ProjectVector(vR, fDepth);
- }
- 
- //______________________________________________________________________________
-@@ -124,20 +119,23 @@
+-}
+-
+-//______________________________________________________________________________
+ Int_t TEveTrackProjected::GetBreakPointIdx(Int_t start)
+ {
+    // Findex index of the last point that lies within the same
+@@ -124,20 +90,23 @@
  
     Int_t val = fLastPoint;
  
@@ -1880,14 +1963,14 @@ diff -aur root.orig/graf3d/eve/src/TEveTrackProjected.cxx root/graf3d/eve/src/TE
        }
     }
     return val;
-@@ -197,9 +195,12 @@
+@@ -197,9 +166,12 @@
        if (bR == fLastPoint)
           break;
  
 -      GetBreakPoint(bR, kTRUE,  x, y, z); vvec.push_back(TEveVector(x, y, z));
 +      TEveVector vL = fOrigPnts[bR];
 +      TEveVector vR = fOrigPnts[bR + 1];
-+      GetBreakPoint(vL, vR);
++      projection->BisectBreakPoint(vL, vR, kTRUE, fDepth);
 +      vvec.push_back(vL);
        fBreakPoints.push_back((Int_t)vvec.size());
 -      GetBreakPoint(bR, kFALSE, x, y, z); vvec.push_back(TEveVector(x, y, z));
@@ -1895,7 +1978,7 @@ diff -aur root.orig/graf3d/eve/src/TEveTrackProjected.cxx root/graf3d/eve/src/TE
  
        bL = bR + 1;
        bR = GetBreakPointIdx(bL);
-@@ -238,12 +239,12 @@
+@@ -238,12 +210,12 @@
        else
           SetNextPoint((*i).fX, (*i).fY, (*i).fZ);
     }
@@ -1910,9 +1993,9 @@ diff -aur root.orig/graf3d/eve/src/TEveTrackProjected.cxx root/graf3d/eve/src/TE
     }
  }
  
-diff -aur root.orig/graf3d/eve/src/TEveTrackPropagator.cxx root/graf3d/eve/src/TEveTrackPropagator.cxx
---- root.orig/graf3d/eve/src/TEveTrackPropagator.cxx	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/eve/src/TEveTrackPropagator.cxx	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveTrackPropagator.cxx root/graf3d/eve/src/TEveTrackPropagator.cxx
+--- root-old/graf3d/eve/src/TEveTrackPropagator.cxx	2011-06-14 16:20:06.476752385 -0700
++++ root/graf3d/eve/src/TEveTrackPropagator.cxx	2011-06-14 17:48:53.450752232 -0700
 @@ -20,10 +20,10 @@
  
  namespace
@@ -2513,9 +2596,9 @@ diff -aur root.orig/graf3d/eve/src/TEveTrackPropagator.cxx root/graf3d/eve/src/T
      f[0] = -fH.fB.fX;
      f[1] = -fH.fB.fY;
      f[2] = -fH.fB.fZ;
-diff -aur root.orig/graf3d/eve/src/TEveVSDStructs.cxx root/graf3d/eve/src/TEveVSDStructs.cxx
---- root.orig/graf3d/eve/src/TEveVSDStructs.cxx	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/eve/src/TEveVSDStructs.cxx	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveVSDStructs.cxx root/graf3d/eve/src/TEveVSDStructs.cxx
+--- root-old/graf3d/eve/src/TEveVSDStructs.cxx	2011-06-14 16:20:06.496752385 -0700
++++ root/graf3d/eve/src/TEveVSDStructs.cxx	2011-06-14 17:48:16.096752233 -0700
 @@ -20,8 +20,12 @@
  ClassImp(TEveMCTrack);
  ClassImp(TEveHit);
@@ -2530,9 +2613,24 @@ diff -aur root.orig/graf3d/eve/src/TEveVSDStructs.cxx root/graf3d/eve/src/TEveVS
 +
 +template class TEveRecTrackT<Float_t>;
 +template class TEveRecTrackT<Double_t>;
-diff -aur root.orig/graf3d/gl/inc/TGLAutoRotator.h root/graf3d/gl/inc/TGLAutoRotator.h
---- root.orig/graf3d/gl/inc/TGLAutoRotator.h	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/gl/inc/TGLAutoRotator.h	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveViewer.cxx root/graf3d/eve/src/TEveViewer.cxx
+--- root-old/graf3d/eve/src/TEveViewer.cxx	2011-06-14 16:20:06.490752385 -0700
++++ root/graf3d/eve/src/TEveViewer.cxx	2011-06-14 17:50:23.255752230 -0700
+@@ -42,6 +42,11 @@
+ // will delete that. TGLSAViewer and TGEmbeddedViewer both do so.
+ // This could be an optional argument to SetGLViewer. A frame could be
+ // passed as well.
++//
++// When stand-alone viewer is requested, it will come up with menu-hiding
++// enabled by default. If you dislike this, add the following line to rootrc
++// file (or set corresponding gEnv entry in application initialization):
++//   Eve.Viewer.HideMenus: off
+ 
+ ClassImp(TEveViewer);
+ 
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/inc/TGLAutoRotator.h root/graf3d/gl/inc/TGLAutoRotator.h
+--- root-old/graf3d/gl/inc/TGLAutoRotator.h	2011-06-14 16:20:06.783752385 -0700
++++ root/graf3d/gl/inc/TGLAutoRotator.h	2011-06-14 17:51:30.787752227 -0700
 @@ -13,6 +13,7 @@
  #define ROOT_TGLAutoRotator
  
@@ -2541,13 +2639,16 @@ diff -aur root.orig/graf3d/gl/inc/TGLAutoRotator.h root/graf3d/gl/inc/TGLAutoRot
  
  class TGLCamera;
  class TGLViewer;
-@@ -39,10 +40,15 @@
+@@ -39,10 +40,18 @@
     Double_t   fThetaA0, fDollyA0;
     Bool_t     fTimerRunning;
  
 +   TString    fImageName;
 +   Int_t      fImageCount;
 +   Bool_t     fImageAutoSave;
++
++   TString    fImageGUIBaseName;
++   Int_t      fImageGUIOutMode;
 +
  public:
     TGLAutoRotator(TGLViewer* v);
@@ -2557,7 +2658,7 @@ diff -aur root.orig/graf3d/gl/inc/TGLAutoRotator.h root/graf3d/gl/inc/TGLAutoRot
     TGLCamera* GetCamera() const { return fCamera; }
  
     // --------------------------------
-@@ -72,7 +78,18 @@
+@@ -72,7 +81,26 @@
     Double_t GetADolly() const     { return fADolly; }
     void     SetADolly(Double_t a);
  
@@ -2573,14 +2674,94 @@ diff -aur root.orig/graf3d/gl/inc/TGLAutoRotator.h root/graf3d/gl/inc/TGLAutoRot
 +   void     StartImageAutoSave(const TString& filename);
 +   void     StopImageAutoSave();
 +
++   TString  GetImageGUIBaseName() const               { return fImageGUIBaseName;  }
++   void     SetImageGUIBaseName(const TString& gname) { fImageGUIBaseName = gname; }
++
++   Int_t    GetImageGUIOutMode() const  { return fImageGUIOutMode; }
++   void     SetImageGUIOutMode(Int_t m);
++
++   void     StartImageAutoSaveWithGUISettings();
++
 +   ClassDef(TGLAutoRotator, 0); // Automatic, timer-based, rotation of GL-viewer's camera.
  };
  
  #endif
-diff -aur root.orig/graf3d/gl/src/TGLAutoRotator.cxx root/graf3d/gl/src/TGLAutoRotator.cxx
---- root.orig/graf3d/gl/src/TGLAutoRotator.cxx	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/gl/src/TGLAutoRotator.cxx	2011-06-01 14:39:00.000000000 +0200
-@@ -101,6 +101,8 @@
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/inc/TGLViewerEditor.h root/graf3d/gl/inc/TGLViewerEditor.h
+--- root-old/graf3d/gl/inc/TGLViewerEditor.h	2011-06-14 16:20:06.792752385 -0700
++++ root/graf3d/gl/inc/TGLViewerEditor.h	2011-06-14 17:51:31.883752228 -0700
+@@ -30,6 +30,7 @@
+ class TGColorSelect;
+ class TGComboBox;
+ class TGButton;
++class TGTextEntry;
+ class TGLViewer;
+ class TGTab;
+ 
+@@ -95,11 +96,14 @@
+    TGNumberEntry    *fARotATheta, *fARotWTheta;
+    TGNumberEntry    *fARotADolly, *fARotWDolly;
+ 
++   TGTextEntry      *fASavImageGUIBaseName;
++   TGButtonGroup    *fASavImageGUIOutMode;
++
+    TGNumberEntry    *fStereoZeroParallax;
+    TGNumberEntry    *fStereoEyeOffsetFac;
+    TGNumberEntry    *fStereoFrustumAsymFac;
+ 
+-   //Model
++   // Model
+    TGLViewer        *fViewer;
+    Bool_t	     fIsInPad;
+ 
+@@ -137,7 +141,7 @@
+    void DoAnnotation();
+    void DoDrawCameraCenter();
+    void UpdateCameraCenter();
+-   //Axis manipulation
++   // Axis manipulation
+    void UpdateViewerAxes(Int_t id);
+    void UpdateViewerReference();
+    void DoCameraOverlay();
+@@ -145,6 +149,10 @@
+    void UpdateRotator();
+    void DoRotatorStart();
+    void DoRotatorStop();
++   void DoASavImageGUIBaseName(const char* t);
++   void DoASavImageGUIOutMode(Int_t m);
++   void DoASavImageStart();
++   void DoASavImageStop();
+    void UpdateStereo();
+ 
+    void DetachFromPad(){fIsInPad = kFALSE;}
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLAutoRotator.cxx root/graf3d/gl/src/TGLAutoRotator.cxx
+--- root-old/graf3d/gl/src/TGLAutoRotator.cxx	2011-06-14 16:20:06.682752385 -0700
++++ root/graf3d/gl/src/TGLAutoRotator.cxx	2011-06-14 17:51:28.963752228 -0700
+@@ -25,6 +25,13 @@
+ // W's are angular velocities.
+ // ATheta -- Theta amplitude in units of Pi/2.
+ // ADolly -- In/out amplitude in units of initial distance.
++//
++// Can also save images automatically.
++
++// fGUIOutMode is used internally between TGLAutoRotator and TGLViewerEditor,
++// allowed values are:
++//   1 - animated gif
++//   2 - a series of png images
+ 
+ ClassImp(TGLAutoRotator);
+ 
+@@ -36,7 +43,9 @@
+    fWPhi  (0.40),
+    fWTheta(0.15), fATheta(0.5),
+    fWDolly(0.30), fADolly(0.4),
+-   fTimerRunning(kFALSE)
++   fTimerRunning(kFALSE),
++   fImageCount(0), fImageAutoSave(kFALSE),
++   fImageGUIBaseName("animation"), fImageGUIOutMode(1)
+ {
+    // Constructor.
+ 
+@@ -101,6 +110,8 @@
  //______________________________________________________________________________
  void TGLAutoRotator::Start()
  {
@@ -2589,7 +2770,7 @@ diff -aur root.orig/graf3d/gl/src/TGLAutoRotator.cxx root/graf3d/gl/src/TGLAutoR
     if (fTimerRunning)
     {
        Stop();
-@@ -121,6 +123,8 @@
+@@ -121,6 +132,8 @@
  //______________________________________________________________________________
  void TGLAutoRotator::Stop()
  {
@@ -2598,7 +2779,7 @@ diff -aur root.orig/graf3d/gl/src/TGLAutoRotator.cxx root/graf3d/gl/src/TGLAutoR
     if (fTimerRunning)
     {
        fWatch->Stop();
-@@ -132,6 +136,9 @@
+@@ -132,6 +145,9 @@
  //______________________________________________________________________________
  void TGLAutoRotator::Timeout()
  {
@@ -2608,7 +2789,7 @@ diff -aur root.orig/graf3d/gl/src/TGLAutoRotator.cxx root/graf3d/gl/src/TGLAutoR
     if (!fTimerRunning || gTQSender != fTimer)
     {
        Error("Timeout", "Not running or not called via timer.");
-@@ -156,4 +163,68 @@
+@@ -156,4 +172,104 @@
     fCamera->RefCamTrans().MoveLF(1, -delta_d);
  
     fViewer->RequestDraw(TGLRnrCtx::kLODHigh);
@@ -2661,7 +2842,7 @@ diff -aur root.orig/graf3d/gl/src/TGLAutoRotator.cxx root/graf3d/gl/src/TGLAutoR
 +
 +   if ( ! filename.Contains("%"))
 +   {
-+      Error("StartImageAutoSave", "Name should include a '%%' character, like 'image-%%04d.png'. Not starting.");
++      Error("StartImageAutoSave", "Name should include a '%%' character, like 'image-%%05d.png'. Not starting.");
 +      return;
 +   }
 +
@@ -2676,10 +2857,46 @@ diff -aur root.orig/graf3d/gl/src/TGLAutoRotator.cxx root/graf3d/gl/src/TGLAutoR
 +   // Stops automatic saving of images.
 +
 +   fImageAutoSave = kFALSE;
++}
++
++//______________________________________________________________________________
++void TGLAutoRotator::SetImageGUIOutMode(Int_t m)
++{
++   // Set output mode for GUI operation:
++   //   1 - animated gif;
++   //   2 - a series of pngs
++
++   if (m < 1 || m > 2)
++   {
++      Warning("SetImageGUIOutMode", "Invalid value, ignoring");
++      return;
++   }
++   fImageGUIOutMode = m;
++}
++
++//______________________________________________________________________________
++void TGLAutoRotator::StartImageAutoSaveWithGUISettings()
++{
++   // Start auto-saving images as set-up via GUI.
++
++   if (fImageGUIOutMode == 1)
++   {
++      TString name = fImageGUIBaseName + ".gif+";
++      StartImageAutoSaveAnimatedGif(name);
++   }
++   else if (fImageGUIOutMode == 2)
++   {
++      TString name = fImageGUIBaseName + "-%05d.png";
++      StartImageAutoSave(name);
++   }
++   else
++   {
++      Warning("StartImageAutoSaveWithGUISettings", "Unsupported mode '%d'.", fImageGUIOutMode);
++   }
  }
-diff -aur root.orig/graf3d/gl/src/TGLAxis.cxx root/graf3d/gl/src/TGLAxis.cxx
---- root.orig/graf3d/gl/src/TGLAxis.cxx	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/gl/src/TGLAxis.cxx	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLAxis.cxx root/graf3d/gl/src/TGLAxis.cxx
+--- root-old/graf3d/gl/src/TGLAxis.cxx	2011-06-14 16:20:06.704752385 -0700
++++ root/graf3d/gl/src/TGLAxis.cxx	2011-06-14 17:49:29.770752232 -0700
 @@ -371,7 +371,7 @@
     // Compute ticks positions. Linear and optimized.
  
@@ -2689,9 +2906,9 @@ diff -aur root.orig/graf3d/gl/src/TGLAxis.cxx root/graf3d/gl/src/TGLAxis.cxx
     Double_t wmin = fWmin;
     Double_t wmax = fWmax;
  
-diff -aur root.orig/graf3d/gl/src/TGLAxisPainter.cxx root/graf3d/gl/src/TGLAxisPainter.cxx
---- root.orig/graf3d/gl/src/TGLAxisPainter.cxx	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/gl/src/TGLAxisPainter.cxx	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLAxisPainter.cxx root/graf3d/gl/src/TGLAxisPainter.cxx
+--- root-old/graf3d/gl/src/TGLAxisPainter.cxx	2011-06-14 16:20:06.692752385 -0700
++++ root/graf3d/gl/src/TGLAxisPainter.cxx	2011-06-14 17:49:27.566752231 -0700
 @@ -350,11 +350,11 @@
     Int_t n1a = TMath::FloorNint(fAttAxis->GetNdivisions() / 100);
     Int_t n2a = fAttAxis->GetNdivisions() - n1a * 100;
@@ -2707,9 +2924,9 @@ diff -aur root.orig/graf3d/gl/src/TGLAxisPainter.cxx root/graf3d/gl/src/TGLAxisP
     THLimitsFinder::Optimize(bl1, bl1 + bw1, n2a, bl2, bh2, bn2, bw2);
  
     //______________________________________________________________________________
-diff -aur root.orig/graf3d/gl/src/TGLCameraOverlay.cxx root/graf3d/gl/src/TGLCameraOverlay.cxx
---- root.orig/graf3d/gl/src/TGLCameraOverlay.cxx	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/gl/src/TGLCameraOverlay.cxx	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLCameraOverlay.cxx root/graf3d/gl/src/TGLCameraOverlay.cxx
+--- root-old/graf3d/gl/src/TGLCameraOverlay.cxx	2011-06-14 16:20:06.702752385 -0700
++++ root/graf3d/gl/src/TGLCameraOverlay.cxx	2011-06-14 17:50:47.436752230 -0700
 @@ -262,14 +262,13 @@
           glLineStipple(1, stipple);
  
@@ -2730,9 +2947,47 @@ diff -aur root.orig/graf3d/gl/src/TGLCameraOverlay.cxx root/graf3d/gl/src/TGLCam
              {
                 val += bw1;
                 tmp = vy1 + xdir * val;
-diff -aur root.orig/graf3d/gl/src/TGLFontManager.cxx root/graf3d/gl/src/TGLFontManager.cxx
---- root.orig/graf3d/gl/src/TGLFontManager.cxx	2011-05-25 10:02:21.000000000 +0200
-+++ root/graf3d/gl/src/TGLFontManager.cxx	2011-06-01 14:39:00.000000000 +0200
+@@ -340,11 +339,11 @@
+          glLineStipple(1, stipple);
+ 
+          glBegin(GL_LINES);
+-         Int_t ondiv;
+-         Double_t omin, omax, bw1;
+-         Double_t val =0;
++         Int_t    ondiv;
++         Double_t omin = 0, omax = 0, bw1 = 0;
++         Double_t val  = 0;
+          THLimitsFinder::Optimize(labs[0].second, labs[1].second, secSteps, omin, omax, ondiv, bw1);
+-         val =  labs[0].second;
++         val = labs[0].second;
+          while(val < fFrustum[3])
+          {
+             for(Int_t k=0; k<ondiv; k++)
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLFBO.cxx root/graf3d/gl/src/TGLFBO.cxx
+--- root-old/graf3d/gl/src/TGLFBO.cxx	2011-06-14 16:20:06.715752385 -0700
++++ root/graf3d/gl/src/TGLFBO.cxx	2011-06-14 17:51:43.983752228 -0700
+@@ -130,12 +130,16 @@
+ 
+          delete [] modes;
+       }
+-      Info(eh.c_str(), "InitMultiSample coverage_samples=%d, color_samples=%d.", fMSCoverageSamples, fMSSamples);
++      if (gDebug > 0) {
++         Info(eh.c_str(), "InitMultiSample coverage_samples=%d, color_samples=%d.", fMSCoverageSamples, fMSSamples);
++      }
+       InitMultiSample();
+    }
+    else
+    {
+-      printf("TGLFBO::Init InitStandard ...\n");
++      if (gDebug > 0) {
++         Info(eh.c_str(), "InitStandard (no multi-sampling).");
++      }
+       InitStandard();
+    }
+ 
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLFontManager.cxx root/graf3d/gl/src/TGLFontManager.cxx
+--- root-old/graf3d/gl/src/TGLFontManager.cxx	2011-06-14 16:20:06.694752385 -0700
++++ root/graf3d/gl/src/TGLFontManager.cxx	2011-06-14 17:49:08.129752233 -0700
 @@ -457,7 +457,7 @@
     Int_t cnt = 0;
     while ((os = (TObjString*) next()) != 0)
@@ -2751,9 +3006,155 @@ diff -aur root.orig/graf3d/gl/src/TGLFontManager.cxx root/graf3d/gl/src/TGLFontM
  }
  
  //______________________________________________________________________________
-diff -aur root.orig/tutorials/eve/track.C root/tutorials/eve/track.C
---- root.orig/tutorials/eve/track.C	2011-05-25 10:02:21.000000000 +0200
-+++ root/tutorials/eve/track.C	2011-06-01 14:39:00.000000000 +0200
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLFormat.cxx root/graf3d/gl/src/TGLFormat.cxx
+--- root-old/graf3d/gl/src/TGLFormat.cxx	2011-06-14 16:20:06.702752385 -0700
++++ root/graf3d/gl/src/TGLFormat.cxx	2011-06-14 17:50:35.336752230 -0700
+@@ -36,7 +36,10 @@
+ #ifdef WIN32
+    fDepthSize(32),
+ #else
+-   fDepthSize(24),
++   // 16-bits needed for some virtual machines (VirtualBox) and Xming-mesa
++   // (when running ssh from windows to linux).
++   // All others seem to have 24-bit depth-buffers only and use this anyway.
++   fDepthSize(16),
+ #endif
+    fAccumSize(0),
+    fStencilSize(8),
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLViewerEditor.cxx root/graf3d/gl/src/TGLViewerEditor.cxx
+--- root-old/graf3d/gl/src/TGLViewerEditor.cxx	2011-06-14 16:20:06.679752385 -0700
++++ root/graf3d/gl/src/TGLViewerEditor.cxx	2011-06-14 17:51:27.867752229 -0700
+@@ -15,6 +15,7 @@
+ #include "TGNumberEntry.h"
+ #include "TGButtonGroup.h"
+ #include "TGColorSelect.h"
++#include "TGTextEntry.h"
+ #include "TVirtualGL.h"
+ #include "TG3DLine.h"
+ #include "TGButton.h"
+@@ -77,6 +78,7 @@
+    fCamOverlayOn(0),
+    fClipSet(0),
+    fARotDt(0), fARotWPhi(0), fARotATheta(0), fARotWTheta(0), fARotADolly(0), fARotWDolly(0),
++   fASavImageGUIBaseName(0), fASavImageGUIOutMode(0),
+    fStereoZeroParallax(0), fStereoEyeOffsetFac(0), fStereoFrustumAsymFac(0),
+    fViewer(0),
+    fIsInPad(kTRUE)
+@@ -142,6 +144,9 @@
+    fARotADolly->Connect("ValueSet(Long_t)", "TGLViewerEditor", this, "UpdateRotator()");
+    fARotWDolly->Connect("ValueSet(Long_t)", "TGLViewerEditor", this, "UpdateRotator()");
+ 
++   fASavImageGUIBaseName->Connect("TextChanged(char*", "TGLViewerEditor", this, "DoASavImageGUIBaseName(char*)");
++   fASavImageGUIOutMode->Connect("Clicked(Int_t)", "TGLViewerEditor", this, "DoASavImageGUIOutMode(Int_t)");
++
+    fStereoZeroParallax  ->Connect("ValueSet(Long_t)", "TGLViewerEditor", this, "UpdateStereo()");
+    fStereoEyeOffsetFac  ->Connect("ValueSet(Long_t)", "TGLViewerEditor", this, "UpdateStereo()");
+    fStereoFrustumAsymFac->Connect("ValueSet(Long_t)", "TGLViewerEditor", this, "UpdateStereo()");
+@@ -218,6 +223,9 @@
+       fARotWTheta->SetNumber(r->GetWTheta());
+       fARotADolly->SetNumber(r->GetADolly());
+       fARotWDolly->SetNumber(r->GetWDolly());
++
++      fASavImageGUIBaseName->SetText(r->GetImageGUIBaseName());
++      fASavImageGUIOutMode ->SetButton(r->GetImageGUIOutMode());
+    }
+ 
+    if (fViewer->GetStereo())
+@@ -603,6 +611,36 @@
+ 
+    tab->AddFrame(p, new TGLayoutHints(kLHintsTop | kLHintsExpandX));
+ 
++   // ----- Auto Save Images -----
++
++   p = new TGGroupFrame(tab, "Auto save images", kVerticalFrame);
++
++   fASavImageGUIBaseName = new TGTextEntry(p);
++   fASavImageGUIBaseName->SetDefaultSize(160, 0);
++   p->AddFrame(fASavImageGUIBaseName, new TGLayoutHints(kLHintsTop | kLHintsExpandX, 0, 0, 4, 0));
++
++   fASavImageGUIOutMode = new TGButtonGroup(p, "Output mode", kChildFrame|kHorizontalFrame);
++   new TGRadioButton(fASavImageGUIOutMode, "GIF+      ");
++   new TGRadioButton(fASavImageGUIOutMode, "PNG set   ");
++   fASavImageGUIOutMode->SetLayoutHints(new TGLayoutHints(kLHintsLeft | kLHintsBottom, 0, 0, 2, -10));
++   p->AddFrame(fASavImageGUIOutMode, new TGLayoutHints(kLHintsTop | kLHintsCenterX | kLHintsExpandX, 2, 3, 2, 2));
++
++   {
++      TGCompositeFrame *l = new TGHorizontalFrame(p);
++
++      TGTextButton *b = new TGTextButton(l, "Start");
++      b->Connect("Clicked()", "TGLViewerEditor", this, "DoASavImageStart()");
++      l->AddFrame(b, new TGLayoutHints(kLHintsLeft | kLHintsExpandX));
++
++      b = new TGTextButton(l, "Stop");
++      b->Connect("Clicked()", "TGLViewerEditor", this, "DoASavImageStop()");
++      l->AddFrame(b, new TGLayoutHints(kLHintsLeft | kLHintsExpandX));
++
++      p->AddFrame(l, new TGLayoutHints(kLHintsTop | kLHintsExpandX, 0, 0, 4, 0));
++   }
++
++   tab->AddFrame(p, new TGLayoutHints(kLHintsTop | kLHintsExpandX));
++
+    // ----- Stereo -----
+ 
+    fStereoFrame = p = new TGGroupFrame(tab, "Stereo", kVerticalFrame);
+@@ -720,6 +758,54 @@
+ }
+ 
+ //______________________________________________________________________________
++void TGLViewerEditor::DoASavImageGUIBaseName(const char* t)
++{
++   // Update base-name.
++
++   TGLAutoRotator *r = fViewer->GetAutoRotator();
++   r->SetImageGUIBaseName(t);
++}
++
++//______________________________________________________________________________
++void TGLViewerEditor::DoASavImageGUIOutMode(Int_t m)
++{
++   // Update output mode.
++
++   TGLAutoRotator *r = fViewer->GetAutoRotator();
++   r->SetImageGUIOutMode(m);
++}
++
++//______________________________________________________________________________
++void TGLViewerEditor::DoASavImageStart()
++{
++   // Start auto-rotator image auto-save.
++
++   TGLAutoRotator *r = fViewer->GetAutoRotator();
++   if (r->GetImageAutoSave())
++   {
++      Warning("DoASavImageStart", "AutoSave in progress.");
++      return;
++   }
++
++   r->StartImageAutoSaveWithGUISettings();
++}
++
++//______________________________________________________________________________
++void TGLViewerEditor::DoASavImageStop()
++{
++   // Stop auto-rotator image auto-save.
++
++   TGLAutoRotator *r = fViewer->GetAutoRotator();
++   if (!r->GetImageAutoSave())
++   {
++      Warning("DoASavImageStop", "AutoSave not in progress.");
++      return;
++   }
++
++   r->StopImageAutoSave();
++}
++
++//______________________________________________________________________________
+ void TGLViewerEditor::UpdateStereo()
+ {
+    // Update stereo related variables.
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/tutorials/eve/track.C root/tutorials/eve/track.C
+--- root-old/tutorials/eve/track.C	2011-06-14 16:19:59.917752385 -0700
++++ root/tutorials/eve/track.C	2011-06-14 17:48:03.907752233 -0700
 @@ -50,11 +50,11 @@
     ~GappedField(){};
     using   TEveMagField::GetField;
@@ -2770,16 +3171,21 @@ diff -aur root.orig/tutorials/eve/track.C root/tutorials/eve/track.C
     }
  };
  
-@@ -74,7 +74,7 @@
+@@ -73,11 +73,8 @@
+       m_simpleModel(true){}
  
     virtual ~CmsMagField(){}
- 
+-
 -   virtual Float_t GetMaxFieldMag() const
-+   virtual Double_t GetMaxFieldMag() const
-    { return m_magnetIsOn ? 3.8 : 0.0; }
- 
-    void setMagnetState( bool state )
-@@ -97,7 +97,7 @@
+-   { return m_magnetIsOn ? 3.8 : 0.0; }
+-
+-   void setMagnetState( bool state )
++   virtual Double_t   GetMaxFieldMagD() const { return m_magnetIsOn ? 3.8 : 0.0; }
++   void               setMagnetState( bool state )
+    {
+       if (state != m_magnetIsOn)
+       {
+@@ -97,7 +94,7 @@
  
     using   TEveMagField::GetField;
  
@@ -2788,7 +3194,7 @@ diff -aur root.orig/tutorials/eve/track.C root/tutorials/eve/track.C
     {
        double R = sqrt(x*x+y*y);
        double field = m_reverse?-GetMaxFieldMag():GetMaxFieldMag();
-@@ -105,23 +105,23 @@
+@@ -105,23 +102,23 @@
        if ( TMath::Abs(z)<724 )
        {
           //inside solenoid
@@ -2817,7 +3223,7 @@ diff -aur root.orig/tutorials/eve/track.C root/tutorials/eve/track.C
           }
           // proper model
           if ( ( TMath::Abs(z)>724 && TMath::Abs(z)<786  ) ||
-@@ -129,12 +129,12 @@
+@@ -129,12 +126,12 @@
                ( TMath::Abs(z)>975 && TMath::Abs(z)<1003 ) )
           {
              if ( z > 0 )
@@ -2833,7 +3239,7 @@ diff -aur root.orig/tutorials/eve/track.C root/tutorials/eve/track.C
     }
  };
  
-@@ -148,7 +148,7 @@
+@@ -148,7 +145,7 @@
    // Make track with given propagator.
    // Add to math-marks to test fit.
  
@@ -2842,7 +3248,7 @@ diff -aur root.orig/tutorials/eve/track.C root/tutorials/eve/track.C
    rc->fV.Set(0.028558, -0.000918, 3.691919);
    rc->fP.Set(0.767095, -2.400006, -0.313103);
    rc->fSign = sign;
-@@ -156,11 +156,11 @@
+@@ -156,11 +153,11 @@
    TEveTrack* track = new TEveTrack(rc, prop);
    track->SetName(Form("Charge %d", sign));
    // daughter 0
@@ -2856,7 +3262,7 @@ diff -aur root.orig/tutorials/eve/track.C root/tutorials/eve/track.C
    pm2->fV.Set(57.72345, -89.77011, -9.783746);
    track->AddPathMark(*pm2);
  
-@@ -168,7 +168,7 @@
+@@ -168,7 +165,7 @@
  }
  
  
@@ -2865,7 +3271,7 @@ diff -aur root.orig/tutorials/eve/track.C root/tutorials/eve/track.C
  {
  #if defined (__CINT__)
     Error("track.C", "Must be run in compiled mode!");
-@@ -230,7 +230,7 @@
+@@ -230,7 +227,7 @@
           list->SetElementName(Form("%s, gappedB", list->GetElementName()));
  
        
@@ -2874,7 +3280,7 @@ diff -aur root.orig/tutorials/eve/track.C root/tutorials/eve/track.C
           rc->fV.Set(0.028558, -0.000918, 3.691919);
           rc->fP.Set(0.767095, -0.400006, 2.313103);
           rc->fSign = 1;
-@@ -260,22 +260,22 @@
+@@ -260,22 +257,22 @@
           list->SetElementName(Form("%s, CMS field", list->GetElementName()));
  
        
@@ -2908,7 +3314,7 @@ diff -aur root.orig/tutorials/eve/track.C root/tutorials/eve/track.C
  
  	 track->SetRnrPoints(kTRUE);
  	 track->SetMarkerStyle(4);
-@@ -299,29 +299,29 @@
+@@ -299,29 +296,29 @@
  	 prop->RefPMAtt().SetMarkerStyle(4);
           list->SetElementName(Form("%s, CMS field", list->GetElementName()));
        
@@ -2956,7 +3362,7 @@ diff -aur root.orig/tutorials/eve/track.C root/tutorials/eve/track.C
  
  	 track->SetRnrPoints(kTRUE);
  	 track->SetMarkerStyle(4);
-@@ -342,18 +342,18 @@
+@@ -342,18 +339,18 @@
           list->SetElementName(Form("%s, Some ILC Detector field",
                                     list->GetElementName()));
  
