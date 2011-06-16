@@ -1,7 +1,7 @@
 ### RPM cms couchproxy 0.0.2
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 
-Source: https://github.com/stuartw/CouchProxy/tarball/%v
+Source: https://github.com/stuartw/CouchProxy/tarball/%realversion
 
 Requires: python py2-httplib2
 
