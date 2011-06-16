@@ -13,9 +13,12 @@
 # 1.194 is 0.6.6, 1.30 for new MongoDB (ver 1.8.1), 1.14 for pymongo (ver 1.10.1)
 # 1.202 is 0.6.9
 # 1.228 is 0.7.1
-# 1.232 is 0.8.0.dev3
+#HG1105a das
+#+ 1.194 das.spec
+#+ 1.14 py2-pymongo.spec
+#HG1105b das
 HG1106a das
-+ 1.232 das.spec
++ 1.228 das.spec
 
 # T0PromptSkim
 HG1105a T0PromptSkim
@@ -23,7 +26,7 @@ HG1105a T0PromptSkim
 
 # CmsTC
 HG1102b CmsTC
-+ 1.30/* CmsTC.spec
++ 1.29/* CmsTC.spec
 
 # Cms Webtools services
 HG1106d cmsweb
@@ -41,15 +44,9 @@ HG1104e workqueue
 + HEAD/0.0.12 workqueue.spec
 + WMCORE_0_6_12 dls-client.spec
 
-HG1106d wmagent
+HG1105c wmagent
 + WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
-+ HEAD/0.0.4 couchproxy.spec
-+ HEAD/2.0.11 zeromq.spec 
-+ HEAD/2.0.10.1 py2-zmq.spec
-+ HEAD/1.1.0 couchdb.spec
-+ 1.1 couchdb-cmsauth-Makefile.patch
-+ HEAD/R14B03 erlang.spec
-+ HEAD/0.8.0pre6 wmcore.spec wmagent.spec
++ HEAD/0.7.7 wmcore.spec wmagent.spec
 
 # PHEDEX agents
 ##DIE##HG1103a PHEDEX-combined-agents
@@ -85,12 +82,12 @@ HG1105c py2-sqlobject
 HG1106a sitereadiness
 + HEAD/0.0.1 sitereadiness.spec
 
+# Stagemanager test build for 0.0.2
+HG1106c stagemanager
++ HEAD/0.0.2 stagemanager.spec
+
 # Test build for new couchdb version to be included on HG1107
 HG1106c couchdb
 + HEAD/1.1.0 couchdb.spec
 + 1.1 couchdb-cmsauth-Makefile.patch
-+ 1.20/R14B03 erlang.spec
-
-# Build for stagemanager agent
-HG1106c stagemanager-agent
-+ HEAD/0.0.2 stagemanager-agent.spec
++ HEAD/R14B03 erlang.spec
