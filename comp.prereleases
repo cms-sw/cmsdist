@@ -44,7 +44,7 @@ HG1104e workqueue
 HG1106d wmagent
 + WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
 + HEAD/0.0.2 couchproxy.spec
-+ HEAD/2.0.11 zeromq.spec
++ HEAD/2.0.11 zeromq.spec py2-zmq.spec
 + HEAD/1.1.0 couchdb.spec
 + 1.1 couchdb-cmsauth-Makefile.patch
 + HEAD/R14B03 erlang.spec
