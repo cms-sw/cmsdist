@@ -3,9 +3,11 @@
 # Cms Webtools services
 HG1106d cmsweb
 
-HG1104d wmagent
+HG1106d wmagent
 + WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
-+ HEAD/0.7.10 wmcore.spec wmagent.spec
++ builder_2011-06-16_16-09-02_wmagent couchproxy.spec couchdb.spec couchdb-cmsauth-Makefile.patch erlang.spec
++ builder_2011-06-16_16-09-02_wmagent zeromq.spec py2-zmq.spec
++ HEAD/0.8.0pre6 wmcore.spec wmagent.spec
 
 HG1106a crab-server3
 + 1.6/3.0.0 crab-server3.spec
