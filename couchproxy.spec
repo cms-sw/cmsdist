@@ -1,4 +1,4 @@
-### RPM cms couchproxy 0.0.2
+### RPM cms couchproxy 0.0.4
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 
 Source: https://github.com/stuartw/CouchProxy/tarball/%realversion
