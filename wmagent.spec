@@ -19,5 +19,6 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   fi
 done
 
+
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
