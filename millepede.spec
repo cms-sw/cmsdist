@@ -1,4 +1,4 @@
-### RPM external millepede 03.04.00
+### RPM external millepede 03.00.00
 # CAREFUL: NO VERSION IN TARBALL !!!
 # Source: http://www.desy.de/~blobel/Mptwo.tgz
 # Source: http://cmsrep.cern.ch/cmssw/millepede-mirror/millepede-2.0.tar.gz
@@ -6,23 +6,30 @@
 %define svnTag %(echo %realversion | tr '.' '-')
 Source: svn://svnsrv.desy.de/public/MillepedeII/tags/V%svnTag/?scheme=http&module=V%svnTag&output=/millepede.tgz
 
-Requires: castor zlib
+Requires: castor
 %if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
 Requires: gfortran-macosx
 %endif
 
-Patch: millepede_V03-04-00_makefile
-Patch1: millepede_V03-04-00_gcc45
+Patch: millepede_V02-00-01
+Patch1: millepede_V02-00-01_64bit
+Patch2: millepede_V02-00-01_gcc4
+Patch3: millepede_V02-00-01_gcc45
 
 %prep
-
 %setup -n V%svnTag
-
 %patch -p1
 
-case %gccver in
-  4.[56].*)
+%if "%cpu" == "amd64"
 %patch1 -p1
+%endif
+
+case %gccver in
+  4.[01234].* )
+%patch2 -p1
+  ;;
+  4.[56].*)
+%patch3 -p1
   ;;
 esac
 
