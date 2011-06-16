@@ -19,6 +19,7 @@ Patch8: root-5.28-00d-fireworks1
 Patch9: root-5.28-00d-r39155
 Patch10: root-5.28-00d-r39525
 Patch11: root-5.28-00d-r39657
+Patch12: root-5.28-00d-r39759
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -50,6 +51,7 @@ Requires: gfortran-macosx
 %patch9 -p1
 %patch10 -p1
 %patch11 -p0
+%patch12 -p2
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
