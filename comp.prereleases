@@ -41,9 +41,14 @@ HG1104e workqueue
 + HEAD/0.0.12 workqueue.spec
 + WMCORE_0_6_12 dls-client.spec
 
-HG1105c wmagent
+HG1106d wmagent
 + WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
-+ HEAD/0.7.7 wmcore.spec wmagent.spec
++ HEAD/0.0.2 couchproxy.spec
++ HEAD/2.0.11 zeromq.spec
++ HEAD/1.1.0 couchdb.spec
++ 1.1 couchdb-cmsauth-Makefile.patch
++ HEAD/R14B03 erlang.spec
++ HEAD/0.8.0pre6 wmcore.spec wmagent.spec
 
 # PHEDEX agents
 ##DIE##HG1103a PHEDEX-combined-agents
