@@ -27,6 +27,7 @@ HG1102b CmsTC
 
 # Cms Webtools services
 HG1106d cmsweb
++ HEAD/6.0.6 dqmgui.spec
 
 # DQM GUI
 HG1106c dqmgui
