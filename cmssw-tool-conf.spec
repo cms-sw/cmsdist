@@ -96,13 +96,13 @@ Requires: pyminuit2-toolfile
 Requires: professor-toolfile
 Requires: py2-ipython-toolfile
 Requires: xz-toolfile
+Requires: protobuf-toolfile
 
 %if "%isslc" == "true"
 Requires: gdb-toolfile
 Requires: curl-toolfile
 Requires: google-perftools-toolfile
 Requires: igprof-toolfile
-Requires: protobuf-toolfile
 %endif
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull
