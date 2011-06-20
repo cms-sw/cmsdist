@@ -88,8 +88,9 @@ HG1106a sitereadiness
 
 # Test build for new couchdb version to be included on HG1107
 HG1106c couchdb
-+ HEAD/1.1.0 couchdb.spec
++ 1.48/1.1.0 couchdb.spec
 + 1.1 couchdb-cmsauth-Makefile.patch
++ 1.1 couchdb-ssl-client-cert.patch
 + 1.20/R14B03 erlang.spec
 
 # Build for stagemanager agent
