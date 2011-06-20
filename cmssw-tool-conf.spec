@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 23.0
+### RPM cms cmssw-tool-conf 24.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -96,6 +96,7 @@ Requires: pyminuit2-toolfile
 Requires: professor-toolfile
 Requires: py2-ipython-toolfile
 Requires: xz-toolfile
+Requires: protobuf-toolfile
 
 %if "%isslc" == "true"
 Requires: gdb-toolfile
