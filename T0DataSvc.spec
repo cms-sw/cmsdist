@@ -1,9 +1,9 @@
-### RPM cms T0DataSvc 5.0.1b
+### RPM cms T0DataSvc 5.0.2
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 %define wmcver 0.7.4
 %define moduleName T0
 %define exportName T0
-%define cvstag T0DataSvc-5_0_1
+%define cvstag T0DataSvc-5_0_2
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_t0datasvc.tar.gz
@@ -29,8 +29,7 @@ find %i -name '*.egg-info' -exec rm {} \;
 
 cd ../%{moduleName}
 tar -C src/python -cf - \
-  T0/DAS T0/GenericTier0/Tier0DB.py T0/Globals.py \
-  T0/State/Database/Reader/ListRuns.py |
+  T0/DAS | 
   tar -C %i/lib/python*/site-packages -xvvf -
 find %i/lib/python*/site-packages/T0 -type d -exec touch {}/__init__.py \;
 
