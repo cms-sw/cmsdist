@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 23.0
+### RPM cms cmssw-tool-conf 24.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -102,6 +102,7 @@ Requires: gdb-toolfile
 Requires: curl-toolfile
 Requires: google-perftools-toolfile
 Requires: igprof-toolfile
+Requires: protobuf-toolfile
 %endif
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull
