@@ -14,8 +14,13 @@
 # 1.202 is 0.6.9
 # 1.228 is 0.7.1
 # 1.232 is 0.8.0.dev3
+#HG1106a das
+#+ 1.232 das.spec
+# 1.233 is 0.8.0.dev4, 1.31 MongoDB (ver 1.8.2), 1.16 pymongo (ver 1.11)
 HG1106a das
-+ 1.232 das.spec
++ 1.233 das.spec
++ 1.31 mongo.spec
++ 1.16 py2-pymongo.spec
 
 # T0PromptSkim
 HG1105a T0PromptSkim
