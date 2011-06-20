@@ -19,3 +19,21 @@ mkdir -p %i/include
 mkdir -p %i/lib
 cp *.h %i/include
 cp meschach.a %i/lib/libmeschach.a
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=Meschach version=%v>
+<info url=http://www.meschach.com></info>
+<lib name=meschach>
+<Client>
+<Environment name=MESCHACH_BASE default="%i"></Environment>
+<Environment name=LIBDIR default="$MESCHACH_BASE/lib"></Environment>
+<Environment name=INCLUDE default="$MESCHACH_BASE/include"></Environment>
+</Client>
+</Tool>
+EOF_TOOLFILE
+
+%post
+%{relocateConfig}etc/scram.d/%n
+

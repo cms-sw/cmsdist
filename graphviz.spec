@@ -9,11 +9,11 @@ Requires: expat zlib libjpg libpng
 which gcc
 LIB64_SUFFIX=
 case %cmsplatf in
-    slc*_ia32_* )
+    *_ia32_* )
         export LD_LIBRARY_PATH=`echo $LD_LIBRARY_PATH | sed -e 's|lib64|lib|g'`
         ADDITIONAL_OPTIONS="--with-freetype2=no --disable-shared --enable-static --disable-libtdl"
     ;;
-    slc*_amd64_* )
+    *_amd64_* )
         LIB64_SUFFIX=64
         ADDITIONAL_OPTIONS="--with-freetype2=no --disable-shared --enable-static --disable-ltdl"
     ;;
@@ -62,27 +62,41 @@ perl -p -i -e "s|\+0 \-1|-k1,1|g" dotneato/common/Makefile
 fi
 # Probably the configure should just be remade on Darwin, but it builds
 # as-is with this small cleanup
-perl -p -i -e "s|-lexpat||g;s|-ljpeg||g" configure
+perl -p -i -e "s|-lexpat||g" configure
 # make %makeprocesses
 make 
 
 %install
 make install
-# We remove pkg-config files for two reasons:
-# * it's actually not required (macosx does not even have it).
-# * rpm 4.8 adds a dependency on the system /usr/bin/pkg-config 
-#   on linux.
-# In the case at some point we build a package that can be build
-# only via pkg-config we have to think on how to ship our own
-# version.
-rm -rf %i/lib/pkgconfig
-
 # To match configure options above
 case %cmsplatf in
-    slc*_ia32_* | slc*_amd64_*)
+    *_ia32_* | *_amd64_*)
         ln -s dot_static %i/bin/dot
     ;;
 esac
 
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<info url="http://www.research.att.com/sw/tools/graphviz/"></info>
+<Client>
+ <Environment name=GRAPHVIZ_BASE default="%i"></Environment>
+ <Environment name=GRAPHVIZ_BINDIR default="$GRAPHVIZ_BASE/bin"></Environment>
+ <Environment name=LIBDIR default="$GRAPHVIZ_BASE/lib/graphviz"></Environment>
+</Client>
+<Runtime name=PATH value="$GRAPHVIZ_BINDIR" type=path>
+<Use name=expat>
+<Use name=zlib>
+<Use name=libjpg>
+<use name=libpng>
+</Tool>
+EOF_TOOLFILE
+
 %post
-%{relocateCmsFiles} `find $RPM_INSTALL_PREFIX/%pkgrel/lib -name *.la`
+# It appears one needs to list at least one explicitly as the macro adds
+# the prefix, but then the find can add it and the others (also with the 
+# prefix)
+%{relocateConfig}/lib/libgraph.la `find $RPM_INSTALL_PREFIX/%pkgrel/lib -name *.la`
+%{relocateConfig}etc/scram.d/%n

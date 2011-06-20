@@ -15,18 +15,14 @@ Requires: zlib openssl sqlite
 # FIXME: gmp, panel, tk/tcl, x11
 
 Source0: http://www.python.org/ftp/%n/%realversion/Python-%realversion.tgz
-Patch0: python-2.6.4-dont-detect-dbm
 
 %prep
 %setup -n Python-%realversion
 perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" Lib/cgi.py
 
-case %cmsplatf in
-  osx*)
- 	sed 's|@PREFIX@|%i|g' < %_sourcedir/python-osx | patch -p1 
-  ;;
-esac
-%patch0 -p1
+%ifos darwin
+ sed 's|@PREFIX@|%i|g' < %_sourcedir/python-osx | patch -p1
+%endif
 
 %build
 # Python is awkward about passing other include or library directories
@@ -50,10 +46,6 @@ mkdir -p %i/include %i/lib %i/bin
 %endif
 
 dirs="$EXPAT_ROOT $BZ2LIB_ROOT $NCURSES_ROOT $DB4_ROOT $GDBM_ROOT %{extradirs}" 
-
-# We need to export it because setup.py now uses it to determine the actual
-# location of DB4, this was needed to avoid having it picked up from the system.
-export DB4_ROOT
 
 echo $dirs
 for d in $dirs; do
@@ -90,9 +82,6 @@ esac
 make %makeprocesses
 
 %install
-# We need to export it because setup.py now uses it to determine the actual
-# location of DB4, this was needed to avoid having it picked up from the system.
-export DB4_ROOT
 make install
 %define pythonv %(echo %realversion | cut -d. -f 1,2)
 
@@ -127,12 +116,27 @@ perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
                     %{i}/lib/python2.6/test/test_bz2.py \
                     %{i}/lib/python2.6/test/test_largefile.py \
                     %{i}/lib/python2.6/test/test_optparse.py
-
-find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
-find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
+rm  `find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*'`
+rm  `find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*'`
 
 # remove tkinter that brings dependency on libtk:
 find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
+
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="%n" version="%v">
+    <lib name="python2.6"/>
+    <client>
+      <environment name="PYTHON_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$PYTHON_BASE/lib"/>
+      <environment name="INCLUDE" default="$PYTHON_BASE/include/python2.6"/>
+      <environment name="PYTHON_COMPILE" default="$PYTHON_BASE/lib/python2.6/compileall.py"/>
+    </client>
+    <runtime name="PATH" value="$PYTHON_BASE/bin" type="path"/>
+    <use name="sockets"/>
+  </tool>
+EOF_TOOLFILE
 
 # Makes sure that executables start with /usr/bin/env perl and not with comments. 
 find %i -type f -perm -555 -name '*.py' -exec perl -p -i -e 'if ($. == 1) {s|^"""|#/usr/bin/env python\n"""|}' {} \;
@@ -140,18 +144,22 @@ find %i -type f -perm -555 -name '*.py' -exec perl -p -i -e 'if ($. == 1) {s|^\'
 find %i -type f -perm -555 -name '*.py' -exec perl -p -i -e 'if ($. == 1) {s|/usr/local/bin/python|/usr/bin/env python|}' {} \;
 rm -f %i/share/doc/python/Demo/rpc/test
 
-# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
+# Setups dependencies environment
+rm -rf %i/etc/profile.d
 mkdir -p %i/etc/profile.d
-: > %i/etc/profile.d/dependencies-setup.sh
-: > %i/etc/profile.d/dependencies-setup.csh
-for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
-  root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
-  if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
-    echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-    echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
-  fi
+for x in %pkgreqs; do
+  case $x in /* ) continue ;; esac
+  p=%{instroot}/%{cmsplatf}/$(echo $x | sed 's/\([^+]*\)+\(.*\)+\([A-Z0-9].*\)/\1 \2 \3/' | tr ' ' '/')
+  echo ". $p/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
+  echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
 done
 
 %post
+find $RPM_INSTALL_PREFIX/%pkgrel/lib -type l | xargs ls -la | sed -e "s|.*[ ]\(/.*\) -> \(.*\)| \2 \1|;s|[ ]/[^ ]*/external| $RPM_INSTALL_PREFIX/%cmsplatf/external|g" | xargs -n2 ln -sf
+%{relocateConfig}etc/scram.d/%n.xml
 %{relocateConfig}lib/python2.6/config/Makefile
-%{relocateConfig}etc/profile.d/dependencies-setup.*sh
+
+# Relocation for dependencies
+%{relocateConfig}etc/profile.d/dependencies-setup.sh
+%{relocateConfig}etc/profile.d/dependencies-setup.csh
+

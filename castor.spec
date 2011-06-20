@@ -1,7 +1,8 @@
-### RPM external castor 2.1.9.8
+### RPM external castor 2.1.9.4
 # Override default realversion since they have a "-" in the realversion
-%define realversion 2.1.9-8
+%define realversion %(echo %v | sed 's|\\.\\([^\\.]\\+\\)$|-\\1|')
 
+## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) true ;; esac
 %define downloadv v%(echo %realversion | tr - _ | tr . _)
 %define baseVersion %(echo %realversion | cut -d- -f1)
 %define patchLevel %(echo %realversion | cut -d- -f2)
@@ -16,7 +17,8 @@
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{v}.source.tar.gz
 #Source: cvs://:pserver:anonymous@isscvs.cern.ch:/local/reps/castor?passwd=Ah<Z&tag=-r%{downloadv}&module=CASTOR2&output=/%{n}-%{realversion}.source.tar.gz
 Source:  http://castor.web.cern.ch/castor/DIST/CERN/savannah/CASTOR.pkg/%{baseVersion}-*/%{realversion}/castor-%{realversion}.tar.gz
-Patch0: castor-2.1.9.8-macosx
+Patch0: castor-2.1.9.4-gcc43
+Patch1: castor-2.1.9.4-gcc44
 
 # Ugly kludge : forces libshift.x.y to be in the provides (rpm only puts libshift.so.x)
 # root rpm require .x.y
@@ -24,23 +26,9 @@ Provides: libshift.so.%(echo %realversion |cut -d. -f1,2)%{libsuffix}
 
 %prep
 %setup -n castor-%{baseVersion}
-# The macosx patch is really to get things compiling one way or another. Since
-# I'm not sure this actually works / does not have regressions on linux, I
-# simply do not apply it on stable platforms. 
-# Hopefully at some point castor people will come up with a macosx supported
-# version.
-case %cmsplatf in 
-  osx*)
-%patch0 -p2
-  ;;
-esac
 
-case %gccver in
-  4.6.*)
-perl -pi -e "s|-Werror|-Werror -Wno-error=unused-but-set-variable|" config/Imake.tmpl
-perl -pi -e "s|--no-undefined||" config/Imake.rules
-  ;;
-esac
+%patch0 -p1
+%patch1 -p1
 
 %build
 
@@ -82,3 +70,19 @@ make installclient \
                 BIN=bin \
                 DESTDIRCASTOR=include/shift \
                 TOPINCLUDE=include 
+
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="%n" version="%v">
+    <lib name="shift"/>
+    <client>
+      <environment name="CASTOR_BASE" default="%i"/>
+      <environment name="INCLUDE" default="$CASTOR_BASE/include"/>
+      <environment name="LIBDIR" default="$CASTOR_BASE/lib"/>
+    </client>
+  </tool>
+EOF_TOOLFILE
+
+%post
+%{relocateConfig}etc/scram.d/%n.xml

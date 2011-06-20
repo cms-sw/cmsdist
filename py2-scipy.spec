@@ -1,35 +1,22 @@
-### RPM external py2-scipy 0.8.0
+### RPM external py2-scipy 0.5.1
 ## INITENV +PATH PYTHONPATH %i/lib/python$(echo $PYTHON_VERSION | cut -d. -f 1,2)/site-packages
 %define downloadn scipy
-Source: http://switch.dl.sourceforge.net/sourceforge/%downloadn/%downloadn-%{realversion}.tar.gz
+Source: http://switch.dl.sourceforge.net/sourceforge/%downloadn/%downloadn-%v.tar.gz
 Requires: python
 Requires: py2-numpy
-#Requires: atlas
-Requires: lapack 
+Requires: atlas
 %prep
-%setup -n %downloadn-%{realversion}
+%setup -n %downloadn-%v
 
 cat > site.cfg <<EOF
-[blas]
-include_dirs = $LAPACK_ROOT/include
-library_dirs = $LAPACK_ROOT/lib
-blas_libs = blas
-[lapack]
-include_dirs = $LAPACK_ROOT/include
-library_dirs = $LAPACK_ROOT/lib
-lapack_libs = lapack
+[atlas]
+include_dirs = $ATLAS_ROOT/include
+library_dirs = $ATLAS_ROOT/lib
+atlas_libs = ptf77blas, ptcblas
+lapack_libs = lapack_atlas
 EOF
 
 %build
 %install
-case %cmsos in
-  osx*) SONAME=dylib ;;
-  *) SONAME=so ;;
-esac
-
-LAPACK=$LAPACK_ROOT/lib/liblapack.$SONAME
-BLAS=$LAPACK_ROOT/lib/libblas.$SONAME
-
-LAPACK=$LAPACK BLAS=$BLAS python setup.py config_fc --fcompiler=gfortran config_cc install --prefix=%i 
+python setup.py install --prefix=%i
 perl -p -i -e "s|^#!.*python(.*)|#!/usr/bin/env python$1|" `grep -r -e "#\!.*python" %i | cut -d: -f1`
-

@@ -29,7 +29,21 @@ cp libbz2.$so.%tmpversion %i/lib
 ln -s libbz2.$so.%tmpversion %i/lib/libbz2.$so
 ln -s libbz2.$so.%tmpversion %i/lib/libbz2.$so.`echo %tmpversion | cut -d. -f 1,2`
 ln -s libbz2.$so.%tmpversion %i/lib/libbz2.$so.`echo %tmpversion | cut -d. -f 1`
-ln -sf bzdiff %i/bin/bzcmp
-ln -sf bzgrep %i/bin/bzegrep
-ln -sf bzgrep %i/bin/bzfgrep
-ln -sf bzmore %i/bin/bzless
+
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<info url="http://sources.redhat.com/bzip2/"></info>
+<lib name=bz2>
+<Client>
+ <Environment name=BZ2LIB_BASE default="%i"></Environment>
+ <Environment name=LIBDIR default="$BZ2LIB_BASE/lib"></Environment>
+ <Environment name=INCLUDE default="$BZ2LIB_BASE/include"></Environment>
+</Client>
+</Tool>
+EOF_TOOLFILE
+
+%post
+%{relocateConfig}etc/scram.d/%n

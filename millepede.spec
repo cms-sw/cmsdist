@@ -7,9 +7,6 @@
 Source: svn://svnsrv.desy.de/public/MillepedeII/tags/V%svnTag/?scheme=http&module=V%svnTag&output=/millepede.tgz
 
 Requires: castor
-%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
-Requires: gfortran-macosx
-%endif
 
 Patch: millepede_V02-00-01
 Patch1: millepede_V02-00-01_64bit
@@ -25,27 +22,43 @@ Patch3: millepede_V02-00-01_gcc45
 %endif
 
 case %gccver in
-  4.[01234].* )
+  4.3.* | 4.4.*)
 %patch2 -p1
   ;;
-  4.[56].*)
+  4.5.*)
 %patch3 -p1
   ;;
 esac
 
-perl -p -i -e "s!-lshift!-L$CASTOR_ROOT/lib -lshift -lcastorrfio!" Makefile
+perl -p -i -e "s!-lshift!-L$CASTOR_ROOT/lib -lshift!" Makefile
 perl -p -i -e "s!C_INCLUDEDIRS =!C_INCLUDEDIRS = -I$CASTOR_ROOT/include!" Makefile
 
-case %cmsplatf in osx*)
-    perl -p -i -e "s|-lshift|-lcastorrfio|" Makefile ;;
-esac
-
 %build
-# gcc on the mac cannot be used as a fortran compiler / linker because
-# gfortran is installed somewhere else.
-make %makeprocesses FCOMP=gfortran LOADER=gfortran
+make %makeprocesses
 
 %install
 make install
 mkdir -p %i/bin
 cp bin/* %i/bin
+
+# Toolfile with only PATH
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+# millepede tool file
+cat << \EOF_TOOLFILE >%i/etc/scram.d/millepede.xml
+  <tool name="millepede" version="%v">
+    <info url="http://www.wiki.terascale.de/index.php/Millepede_II"/>
+    <client>
+      <environment name="MILLEPEDE_BASE" default="%i"/>
+    </client>
+    <runtime name="PATH" value="$MILLEPEDE_BASE/bin" type="path"/>
+    <use name="sockets"/>
+    <use name="pcre"/>
+    <use name="zlib"/>
+  </tool>
+EOF_TOOLFILE
+
+%post
+%{relocateConfig}etc/scram.d/%n.xml
+
+

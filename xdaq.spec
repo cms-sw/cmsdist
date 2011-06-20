@@ -1,20 +1,18 @@
-### RPM external xdaq VR16796
+### RPM external xdaq VR16021
+## BUILDIF case $(uname):$(uname -p) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
 
 Requires: zlib mimetic xerces-c uuid sqlite
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
 %define svntrunk  %(echo %v | sed 's|^VR||')
-Source: svn://svn.cern.ch/reps/cmsos/trunk/?scheme=svn+ssh&revision=%svntrunk&strategy=export&module=xdaq&output=/xdaq.tar.gz
+Source: svn://svn.cern.ch/reps/cmsos/releases/baseline10/tags/base/?scheme=svn+ssh&revision=%svntrunk&strategy=export&module=xdaq&output=/xdaq.tar.gz
 
-Patch0: xdaq_VR16768_build
+Patch0: xdaq_VR16021_build
 Patch1: xdaq_mfDefs_flags
-Patch2: xdaq-VR16796-gcc46
+Patch2: xdaq_VR15544_gcc44
+Patch3: xdaq-VR16021-gcc45
 
 Provides: /bin/awk
-# This is needed on macosx because this is the install_name for the .so
-# library.  We could simply run install_name_tool, but I'm not sure if somthing
-# will break elsewhere.
-Provides: libasyncresolv.0
 
 %prep
 %setup -T -b 0 -n xdaq
@@ -22,6 +20,7 @@ Provides: libasyncresolv.0
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 # Xdaq does not provide makeinstall,  it uses "simplify" script instead to 
@@ -30,8 +29,6 @@ Provides: libasyncresolv.0
 
 %install
 # Copy all code into the installation area, and build directly there:
-rm -rf %i
-mkdir -p %i
 cp -rp *  %{i} # assuming there are no symlinks in the original source code
 cd %{i}
 export XDAQ_ROOT=$PWD
@@ -43,16 +40,11 @@ export UUID_LIB_PREFIX=$UUID_ROOT/lib
 export SQLITE_PREFIX=$SQLITE_ROOT
 export SEARCH_PATH=$PATH
 
-case %cmsplatf in
-  osx*) PLATF_DEFINE=macosx ;;
-  slc*) PLATF_DEFINE=linux ;;
-esac
-
-make CPPDEFINES=$PLATF_DEFINE Set=extern_coretools install
-make CPPDEFINES=$PLATF_DEFINE Set=coretools install
-make CPPDEFINES=$PLATF_DEFINE Set=extern_powerpack install
-make CPPDEFINES=$PLATF_DEFINE Set=powerpack install
-make CPPDEFINES=$PLATF_DEFINE Set=general_worksuite install
+make CPPDEFINES=linux Set=extern_coretools install
+make CPPDEFINES=linux Set=coretools install
+make CPPDEFINES=linux Set=extern_powerpack install
+make CPPDEFINES=linux Set=powerpack install
+make CPPDEFINES=linux Set=general_worksuite install
 
 # The following structure used as defined in Xdaq "simplify" script:
 cd %{i}
@@ -62,40 +54,36 @@ mv x86*/include .
 # Make the following directory (it will be missing in the gcc4 case where
 # things fail during the build and scram at least needs to see it)
 mkdir -p include/linux
-mkdir -p include/macosx
+
 mkdir -p htdocs
 
-case %cmsplatf in 
-  slc*)
-    for subdir in `echo "xdaq2rc"; grep -h -v \# config/mfSet.coretools config/mfSet.extern_coretools config/mfSet.extern_powerpack config/mfSet.powerpack | grep -v Packages= | grep '[a-z]' | awk '{print $1}'`
-    do
-      mkdir -p %{i}/htdocs/$subdir/{images,xml,html}
-      echo $subdir
-      if [ -d daq/$subdir/xml ]; then
-	    cd daq/$subdir/xml
-        find . -name "*.*" -exec install -m 655 -D {} %{i}/htdocs/$subdir/xml/{} \;
-	    cd %{i}
-      fi	
-	  if [ -d daq/$subdir/images ]; then
-	    cd daq/$subdir/images
-        find . -name "*.*" -exec install -m 655 -D {} %{i}/htdocs/$subdir/images/{} \;
+for subdir in `echo "xdaq2rc"; grep -h -v \# config/mfSet.coretools config/mfSet.extern_coretools config/mfSet.extern_powerpack config/mfSet.powerpack | grep -v Packages= | grep '[a-z]' | awk '{print $1}'`
+do
+	mkdir -p %{i}/htdocs/$subdir/{images,xml,html}
+	echo $subdir
+	if [ -d daq/$subdir/xml ]; then
+	        cd daq/$subdir/xml
+                find . -name "*.*" -exec install -m 655 -D {} %{i}/htdocs/$subdir/xml/{} \;
 		cd %{i}
-      fi	
-      if [ -d daq/$subdir/html ]; then
-	    cd daq/$subdir/html
-        find . -name "*.*" -exec install -m 655 -D {} %{i}/htdocs/$subdir/html/{} \;
-	    cd %{i}
-      fi
-    done
-  ;;
-esac
+        fi	
+	if [ -d daq/$subdir/images ]; then
+	        cd daq/$subdir/images
+                find . -name "*.*" -exec install -m 655 -D {} %{i}/htdocs/$subdir/images/{} \;
+		cd %{i}
+        fi	
+	if [ -d daq/$subdir/html ]; then
+	        cd daq/$subdir/html
+                find . -name "*.*" -exec install -m 655 -D {} %{i}/htdocs/$subdir/html/{} \;
+		cd %{i}
+        fi	
+done
 
 mkdir -p include/interface
 mv daq/interface/evb/include/interface/evb include/interface
 mv daq/interface/shared/include/interface/shared include/interface
 mkdir -p etc
 mv daq/xdaq/etc/default.profile etc/
-rm -fr daq
+rm -fr daq 
 rm -fr CVS
 rm -fr x86*
 rm -fR java
@@ -107,4 +95,70 @@ rm -f %{i}/lib/lib*.a %{i}/lib/lib*.la
 
 #find daq -type f ! -path "*/extern/*lib*" -name "*.a" -exec cp {} %{i}/lib \;
 perl -p -i -e "s|^#!.*make|#!/usr/bin/env make|" %{i}/daq/extern/slp/openslp-1.2.0/debian/rules
+
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="XDAQ" version="%v">
+    <info url="http://home.cern.ch/xdaq"/>
+    <lib name="toolbox"/>
+    <lib name="xdaq"/>
+    <lib name="config"/>
+    <lib name="xoap"/>
+    <lib name="xgi"/>
+    <lib name="xdata"/>
+    <lib name="cgicc"/>
+    <lib name="log4cplus"/>
+    <lib name="xcept"/>
+    <lib name="logudpappender"/>
+    <lib name="peer"/>
+    <lib name="logxmlappender"/>
+    <lib name="asyncresolv"/>
+    <lib name="ptfifo"/>
+    <lib name="pthttp"/>
+    <lib name="pttcp"/>
+    <lib name="i2outils"/>
+    <lib name="xdaq2rc"/>
+    <lib name="xoapfilter"/>
+    <lib name="xalan-c"/>
+    <lib name="xalanMsg"/>
+    <lib name="wsaddressing"/>
+    <lib name="wsclientsubscriber"/>
+    <lib name="wseventing"/>
+    <lib name="wsserviceeventing"/>
+    <client>
+      <environment name="XDAQ_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$XDAQ_BASE/lib"/>
+      <environment name="BINDIR" default="$XDAQ_BASE/bin"/>
+      <environment name="INCLUDE" default="$XDAQ_BASE/include"/>
+      <environment name="INCLUDE" default="$XDAQ_BASE/include/linux"/>
+    </client>
+    <flags cppdefines="SOAP__ LITTLE_ENDIAN__"/>
+    <flags cppdefines="linux"/>
+    <runtime name="XDAQ_OS" value="linux"/>
+    <runtime name="XDAQ_PLATFORM" value="x86"/>
+    <runtime name="PATH" value="$BINDIR" type="path"/>
+    <runtime name="XDAQ_ROOT" value="$XDAQ_BASE"/>
+    <runtime name="XDAQ_DOCUMENT_ROOT" value="$XDAQ_BASE/htdocs"/>
+    <use name="xerces-c"/>
+    <use name="sockets"/>
+    <use name="mimetic"/>
+    <use name="uuid"/>
+  </tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaqheader.xml
+  <tool name="XDAQHEADER" version="%v">
+    <info url="http://home.cern.ch/xdaq"/>
+    <client>
+      <environment name="XDAQHEADER_BASE" default="%i"/>
+      <environment name="INCLUDE" default="$XDAQHEADER_BASE/include"/>
+    </client>
+  </tool>
+EOF_TOOLFILE
+
+%post
+find $RPM_INSTALL_PREFIX/%pkgrel -type l | xargs ls -la | sed -e "s|.*[ ]\(/.*\) -> \(.*\)| \2 \1|;s|[ ]/[^ ]*/external| $RPM_INSTALL_PREFIX/%cmsplatf/external|g" | xargs -n2 ln -sf
+%{relocateConfig}etc/scram.d/%n.xml
+%{relocateConfig}etc/scram.d/xdaqheader.xml
 

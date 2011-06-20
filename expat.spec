@@ -26,9 +26,24 @@ CXX=/usr/bin/c++ CC=/usr/bin/gcc setarch x86_64 ./configure --prefix=%{i} --bind
 setarch x86_64 make
 setarch x86_64 make install
 %endif
-
 %install
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<Lib name=expat>
+<Client>
+ <Environment name=EXPAT_BASE default="%i"></Environment>
+ <Environment name=LIBDIR default="$EXPAT_BASE/lib"></Environment>
+ <Environment name=INCLUDE default="$EXPAT_BASE/include"></Environment>
+ <Environment name=BINDIR default="$EXPAT_BASE/bin"></Environment>
+</Client>
+<Runtime name=PATH value="$BINDIR" type=path>
+</Tool>
+EOF_TOOLFILE
 
 %post
+%{relocateConfig}etc/scram.d/%n
 %{relocateConfig}lib/libexpat.la
 %{relocateConfig}lib64/libexpat.la

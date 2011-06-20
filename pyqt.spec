@@ -1,7 +1,7 @@
-### RPM external pyqt 4.8.1
+### RPM external pyqt 4.5.4
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
-#Source: http://www.riverbankcomputing.co.uk/static/Downloads/PyQt4/PyQt-x11-gpl-%realversion.tar.gz
-Source: http://cmsrep.cern.ch/cmssw/pyqt-mirror/PyQt-x11-gpl-%realversion.tar.gz
+## BUILDIF case %cmsplatf in osx*) false;; *) true;; esac
+Source: http://www.riverbankcomputing.co.uk/static/Downloads/PyQt4/PyQt-x11-gpl-%realversion.tar.gz
 Patch0: pyqt-relocatable-build
 Requires: python
 Requires: qt
@@ -46,6 +46,22 @@ source %i/etc/profile.d/init.sh
 EOF_INIT_ME
 
 perl -p -i -e "s|\@([^@]*)\@|\$ENV{\$1}|" %i/etc/profile.d/init-standalone.sh
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="%n" version="%v">
+    <info url="http://www.riverbankcomputing.co.uk/software/pyqt/intro"/>
+    <client>
+      <environment name="PYQT_BASE" default="%i"/>
+    </client>
+    <runtime name="PYTHONPATH" value="$PYQT_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
+    <use name="python"/>
+    <use name="qt"/>
+    <use name="sip"/>
+  </tool>
+EOF_TOOLFILE
+export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
+perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*
 
 %post
+%{relocateConfig}etc/scram.d/%n.xml
 %{relocateConfig}etc/profile.d/init-standalone.sh

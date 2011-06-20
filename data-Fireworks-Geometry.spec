@@ -1,6 +1,7 @@
-### RPM cms data-Fireworks-Geometry 4
+### RPM cms data-Fireworks-Geometry 2
 ## NOCOMPILER
-%define realversion V06-08-00
+%define realversion V04-02-02
 %define dataDir data
 
-## IMPORT data-rpm-build
+## IMPORT data-rpm-build-MagInt
+

@@ -12,7 +12,7 @@ case %cmsplatf in
 esac
 
 case %gccver in
-  4.4.* | 4.5.* | 4.6.*)
+  4.4.* | 4.5.*)
 %patch1 -p1
   ;;
 esac
@@ -23,3 +23,18 @@ make
 
 %install
 make install
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="mimetic" version="%v">
+    <lib name="mimetic"/>
+    <client>
+      <environment name="MIMETIC_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$MIMETIC_BASE/lib"/>
+      <environment name="INCLUDE" default="$MIMETIC_BASE/include"/>
+    </client>
+  </tool>
+EOF_TOOLFILE
+
+%post
+%{relocateConfig}etc/scram.d/%n.xml

@@ -1,9 +1,7 @@
 ### FILE data-rpm-build.file
-## NOCOMPILER
 
 %define realname %(echo %n | cut -d- -f2,3 | tr '-' '/') 
 %define realsub %(echo %n | cut -d- -f2) 
-%define BaseTool %(echo %n | tr '[a-z-]' '[A-Z_]')
 %define cvsrepo         cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 
 %if "%{?dataDir:set}" != "set" 
@@ -25,6 +23,3 @@ rm download.url
 cd ..
 tar -cv %realname | tar -x -C %i
 
-%post
-echo "%{BaseTool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
-echo "set %{BaseTool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh

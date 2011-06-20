@@ -1,23 +1,8 @@
-### RPM external clhep 2.0.4.6
+### RPM external clhep 2.0.4.2
 Source: http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/distributions/%n-%realversion.tgz
-Patch: clhep-2.0.4.2-no-virtual-inline
 
 %prep
 %setup -n %realversion/CLHEP
-# Apply the patch only for MacOSX and gcc45 (test builds as of Dec2010)
-# (Technically these aren't guaranteed to be mutually exclusive, but in
-# practice they are at the moment.)
-case %gccver in
-  4.5.*)
-%patch -p1
-  ;;
-esac
-case %cmsplatf in 
-  osx*)
-%patch -p1
-  ;;
-esac
-
 
 %build
 if [ $(uname) = Darwin ]; then
@@ -64,6 +49,33 @@ rm %i/lib/*.a
 # remove the separate libs:
 rm %i/lib/libCLHEP-[A-Z]*-%realversion.$so
 
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="clhep" version="%v">
+    <info url="http://wwwinfo.cern.ch/asd/lhc++/clhep"/>
+    <lib name="CLHEP-%realversion"/>
+    <client>
+      <environment name="CLHEP_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$CLHEP_BASE/lib"/>
+      <environment name="INCLUDE" default="$CLHEP_BASE/include"/>
+    </client>
+    <runtime name="CLHEP_PARAM_PATH" value="$CLHEP_BASE"/>
+    <runtime name="LD_LIBRARY_PATH" value="$CLHEP_BASE/lib" type="path"/>
+    <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$CLHEP_BASE/include" type="path"/>
+  </tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/clhepheader.xml
+  <tool name="clhepheader" version="%v">
+    <info url="http://wwwinfo.cern.ch/asd/lhc++/clhep"/>
+    <client>
+      <environment name="CLHEPHEADER_BASE" default="%i"/>
+      <environment name="INCLUDE"    default="$CLHEPHEADER_BASE/include"/>
+    </client>
+  </tool>
+EOF_TOOLFILE
+
 %post
 %{relocateConfig}bin/Evaluator-config
 %{relocateConfig}bin/Cast-config
@@ -77,3 +89,5 @@ rm %i/lib/libCLHEP-[A-Z]*-%realversion.$so
 %{relocateConfig}bin/Units-config
 %{relocateConfig}bin/Vector-config
 %{relocateConfig}bin/clhep-config
+%{relocateConfig}etc/scram.d/%n.xml
+%{relocateConfig}etc/scram.d/clhepheader.xml

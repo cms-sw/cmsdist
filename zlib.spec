@@ -1,26 +1,37 @@
 ### RPM external zlib 1.2.3
 Source: http://www.gzip.org/%n/%n-%realversion.tar.bz2
+Patch: zlib-1.2.3-shared-for-32-bit-on-x86_64
 
 %prep
 %setup -n %n-%realversion
-
-%build
-%if "%cmscompiler" == "icc"
-%define cfgopts CC="icc -fPIC"
-%else
-%define cfgopts %nil
+# Apply this patch to force shared libraries to be created. The problem
+# only appears when building 32-bit on 64-bit machines (./configure gets
+# confused by the 'skipping /usr/lib64' message), but applying it on all
+# linux builds should not hurt since they all should build shared libraries.
+%ifos linux
+%patch -p1
 %endif
 
-case %cmsplatf in
-   *_gcc4[56789]* )
-CFLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1 -msse3" ./configure --shared --prefix=%i
-   ;;
-   * )
-%cfgopts CFLAGS=./configure --shared --prefix=%i
-   ;;
-esac
-
+%build
+./configure --shared --prefix=%i
 make %makeprocesses
 
 %install
 make install
+
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<lib name=z>
+<client>
+ <Environment name=ZLIB_BASE default="%i"></Environment>
+ <Environment name=INCLUDE default="$ZLIB_BASE/include"></Environment>
+ <Environment name=LIBDIR  default="$ZLIB_BASE/lib"></Environment>
+</client>
+</Tool>
+EOF_TOOLFILE
+
+%post
+%{relocateConfig}etc/scram.d/%n

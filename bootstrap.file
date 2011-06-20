@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.77 $
+# Revision: $Revision: 1.73 $
 
 set -e
 
@@ -30,8 +30,8 @@ cleanup_and_exit () {
 }
 
 download_method=
-download_curl () { curl -f -H "Cache-Control: max-age=0" -q -s "$1" -o "$2.tmp" && mv "$2.tmp" "$2"; }
-download_wget () { (wget --no-check-certificate --header="Cache-Control: max-age=0" -q -O "$2.tmp" "$1" 2>/dev/null || wget -q -O "$2.tmp" "$1") && mv "$2.tmp" "$2"; }
+download_curl () { curl -f -q -s "$1" -o "$2.tmp" && mv "$2.tmp" "$2"; }
+download_wget () { (wget --no-check-certificate -q -O "$2.tmp" "$1" 2>/dev/null || wget -q -O "$2.tmp" "$1") && mv "$2.tmp" "$2"; }
 download_none () { cleanup_and_exit 1 "No curl or wget, cannot fetch $1" 
 }
 
@@ -300,11 +300,6 @@ then
   cmsplatf=`cmsos`_`defaultCompiler`
 fi
 
-case $cmsplatf in
-  osx*)
-    cpio_opts="--insecure";;
-esac
-
 rpmdb=$cmsplatf/var/lib/rpm
 rpmlock=$rootdir/$cmsplatf/var/lib/rpm/__db.0
 importTmp=$rootdir/$cmsplatf/tmp/system-import
@@ -403,9 +398,8 @@ generateSeedSpec () {
       
       case $cmsplatf in
         osx* )
-	    ls /System/Library/Frameworks | sed 's!.framework!!;s!^!Provides: !'
-  	    find /usr/bin | sed 's!^!Provides: !'
-  	    find /bin | sed 's!^!Provides: !'
+  	        find /usr/bin | sed 's!^!Provides: !'
+  	        find /bin | sed 's!^!Provides: !'
     	    /bin/ls -1 /usr/lib/*.dylib | awk -F"/" '{print $4}' | sed 's!^!Provides: !' || true
     	    /bin/ls -1 /usr/lib/*/*.dylib | awk -F"/" '{print $5}' | sed 's!^!Provides: !' || true
             /bin/ls -1 /usr/X11R6/lib/*.dylib | awk -F"/" '{print $5}' | sed 's!^!Provides: !' || true
@@ -612,7 +606,7 @@ do
     ln -sf $PWD/inst .$pkgInstRoot
     $tempdir/bin/rpmHeader.pl $DOWNLOAD_DIR/$pkg PREIN | grep -v "^Unknown" | sed -e "s|[$]RPM_INSTALL_PREFIX|$PWD/inst|g" > $tempdir/scriptlets/$pkg.pre.sh
     sh -ex $tempdir/scriptlets/$pkg.pre.sh
-    perl ./myrpm2cpio $DOWNLOAD_DIR/$pkg | cpio $cpio_opts -id || cleanup_and_exit 1 "Unable to unpack $DOWNLOAD_DIR/$pkg"
+    perl ./myrpm2cpio $DOWNLOAD_DIR/$pkg | cpio -id || cleanup_and_exit 1 "Unable to unpack $DOWNLOAD_DIR/$pkg"
     $tempdir/bin/rpmHeader.pl $DOWNLOAD_DIR/$pkg POSTIN | grep -v "^Unknown" | sed -e "s|[$]RPM_INSTALL_PREFIX|$PWD/inst|g" > $tempdir/scriptlets/$pkg.post.sh
     sh -ex $tempdir/scriptlets/$pkg.post.sh
 done

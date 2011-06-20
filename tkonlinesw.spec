@@ -4,26 +4,21 @@
 %define releasename %{projectname}-%{realversion}
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
-Source0: http://cms-trackerdaq-service.web.cern.ch/cms-trackerdaq-service/download/sources/trackerDAQ-2.7.0-9.tgz
-Patch0: tkonlinesw-2.7.0-macosx
-
-# NOTE: given how broken the standard build system is
-#       on macosx, it's not worth fixing it.
-#       The 4 libraries we need can be built with the
-#       attached 118 lines of cmakefile, at least on macosx 
-#       (and without dependencies on xdaq).
-%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
-Source1: tkonlinesw-cmake-build
-Requires: cmake
-%endif
+Source: http://cms-trackerdaq-service.web.cern.ch/cms-trackerdaq-service/download/sources/trackerDAQ-2.7.0-9.tgz
+#Patch0: tkonlinesw-2.5.1-gcc43
+#Patch1: tkonlinesw-2.5.1-TShare-64bit
+#Patch2: tkonlinesw-2.5.1-DbClient-64bit
+#Patch3: tkonlinesw-2.5.1-gcc44
+#Patch4: tkonlinesw-2.5.1-gcc43-2
+#Patch5: tkonlinesw-2.5.1-gcc44-2
 
 # Note from Kristian: 
 # xdaq dependency is here only to re-use its makefiles. 
-%if "%online" != "true"
+
 Requires: oracle
+%if "%online" != "true"
 Requires: xerces-c
 Requires: xdaq
-Requires: gmake
 Requires: systemtools
 %else
 Requires: onlinesystemtools
@@ -31,11 +26,16 @@ Requires: onlinesystemtools
 
 %prep
 %setup -q -n %releasename
-case %cmsos in 
-  osx*)
-%patch0 -p1
-  ;;
-esac
+#%patch0 -p1
+#case %cmsplatf in
+#  *amd64* ) 
+#%patch1 -p1
+#%patch2 -p1
+#  ;;
+#esac
+#%patch3 -p1
+#%patch4 -p1
+#%patch5 -p1
 # Clean up some mysterious old build within the sources that screws
 # up the install by copying in an old libFed9UUtils.so 
 # (this is really needed) 
@@ -75,80 +75,71 @@ export ENV_CMS_TK_LASTGBOARD=%{_builddir}/%releasename/LAS
 ################################################################################
 # Fake variables for the configure script only
 ################################################################################
-# We use an empty directory because the path neeeds to exist.
-mkdir -p %i/dummy/Linux/lib
-export ENV_CMS_TK_HAL_ROOT=%{i}/dummy/Linux
-export ROOTSYS=%{i}/dummy/Linux
-export ENV_CMS_TK_CAEN_ROOT=%{i}/dummy/Linux
-export ENV_CMS_TK_SBS_ROOT=%{i}/dummy/Linux
-export ENV_CMS_TK_TTC_ROOT=%{i}/dummy/Linux
+export ENV_CMS_TK_HAL_ROOT=NULL
+export ROOTSYS=NULL
+export ENV_CMS_TK_CAEN_ROOT=NULL
+export ENV_CMS_TK_SBS_ROOT=NULL
+export ENV_CMS_TK_TTC_ROOT=NULL
 
 ################################################################################
 # External Dependencies
 ################################################################################
-case %cmsos in 
-  slc*)
-    export XDAQ_OS=linux
-    export XDAQ_PLATFORM=x86_slc4
-  ;;
-  osx*)
-    export XDAQ_OS=macosx
-    export XDAQ_PLATFORM=x86_slc4
-  ;;
-esac
-
+export XDAQ_OS=linux
+export XDAQ_PLATFORM=x86_slc4
 export ENV_CMS_TK_ORACLE_HOME=${ORACLE_ROOT}
 export ENV_ORACLE_HOME=${ORACLE_ROOT}
 export XERCESCROOT=${XERCES_C_ROOT}
-export XDAQ_ROOT
 
 ################################################################################
 # Configure
 ################################################################################
-case %cmsos in
-  slc*_amd64)
-    chmod +x ./configure && ./configure --with-xdaq-platform=x86_64
-    cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure --with-xdaq-platform=x86_64 && cd -
-    cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure --with-xdaq-platform=x86_64 && cd -
+case $(uname)-$(uname -p) in
+  Linux-x86_64)
+chmod +x ./configure && ./configure --with-xdaq-platform=x86_64
+cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure --with-xdaq-platform=x86_64 && cd -
+cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure --with-xdaq-platform=x86_64 && cd -
   ;;
-  slc*_ia32)
-    chmod +x ./configure && ./configure
-    cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure && cd -
-    cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure && cd -
-  ;;
-  osx*_amd64)
-    chmod +x ./configure && ./configure
-    cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure && cd -
-    cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure && cd -
+  * )
+chmod +x ./configure && ./configure
+cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure && cd -
+cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure && cd -
   ;;
 esac
 
 export CPPFLAGS=-fPIC
-case %cmsos in 
-  slc*)
-    make cmssw
-    make cmsswinstall
-  ;;
-  osx*)
-    # We still need the old makefile to generate a few headers.
-    make -C TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils include/Fed9UUtils.hh
-    make -C TrackerOnline/Fed9U/Fed9USoftware Fed9UUtils/include/Fed9UVersion.inc
-
-    # We use CMake for all the rest since the build system on macosx
-    # is simply broken by circular dependencies and other linux only bits.
-    cp %_sourcedir/tkonlinesw-cmake-build ./CMakeLists.txt
-    make -C TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils include/Fed9UUtils.hh
-    cmake . -DORACLE_ROOT=${ORACLE_ROOT} -DXERCES_ROOT=${XERCES_C_ROOT} -DXERCESC=2 -DCMAKE_INSTALL_PREFIX=%i
-    make %makeprocesses
-    make install
-  ;;
-esac
+make cmssw
+make cmsswinstall
 
 %install
-# Again, installing is actually done by make install on macosx.
-case %cmsos in
-  slc*)
-    # Option --prefix in configure is not working yet, using tar:
-    tar -c -C  %{_builddir}/%{releasename}/opt/%{projectname} --exclude "libcppunit.so" include lib | tar -x -C %{i}
-  ;;
-esac
+# Option --prefix in configure is not working yet, using tar:
+tar -c -C  %{_builddir}/%{releasename}/opt/%{projectname} --exclude "libcppunit.so" include lib | tar -x -C %{i}
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="TkOnlineSw" version="%v">
+    <info url="http://www.cern.ch/"/>
+    <lib name="ICUtils"/>
+    <lib name="Fed9UUtils"/>
+    <client>
+      <environment name="TKONLINESW_BASE" default="%i"/>
+      <environment name="LIBDIR" value="$TKONLINESW_BASE/lib"/>
+      <environment name="INCLUDE" value="$TKONLINESW_BASE/include"/>
+    </client>
+    <use name="xerces-c"/>
+  </tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/tkonlineswdb.xml
+  <tool name="TkOnlineSwDB" version="%v">
+    <info url="http://www.cern.ch/"/>
+    <lib name="DeviceDescriptions"/>
+    <lib name="Fed9UDeviceFactory"/>
+    <use name="tkonlinesw"/>
+    <use name="oracle"/>
+    <use name="oracleocci"/>
+  </tool>
+EOF_TOOLFILE
+
+%post
+%{relocateConfig}etc/scram.d/%n.xml
+%{relocateConfig}etc/scram.d/tkonlineswdb.xml

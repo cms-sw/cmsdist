@@ -1,27 +1,35 @@
 ### RPM external sigcpp 2.2.3
 %define majorv %(echo %realversion | cut -d. -f1,2) 
 Source: http://ftp.gnome.org/pub/GNOME/sources/libsigc++/%{majorv}/libsigc++-%{realversion}.tar.gz
-Patch0: sigcpp-2.2.3-gcc46
+#Patch0: sigcpp-2.0.18-gcc42
 
 %prep
 %setup -q -n libsigc++-%{realversion}
-case %gccver in
-  4.6.*)
-%patch0 -p1
-  ;;
-esac
+#case %gccver in
+#  4.3.*)
+#%patch0 -p2
+#  ;;
+#esac
 ./configure --prefix=%{i} 
 
 %build
 make %makeprocesses 
 %install
 make install
-# We remove pkg-config files for two reasons:
-# * it's actually not required (macosx does not even have it).
-# * rpm 4.8 adds a dependency on the system /usr/bin/pkg-config 
-#   on linux.
-# In the case at some point we build a package that can be build
-# only via pkg-config we have to think on how to ship our own
-# version.
-rm -rf %i/lib/pkgconfig
 cp %i/lib/sigc++-2.0/include/sigc++config.h %i/include/sigc++-2.0/
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=sigcpp version=%v>
+<lib name=sigc-2.0>
+<Client>
+ <Environment name=SIGCPP_BASE default="%i"></Environment>
+ <Environment name=LIBDIR default="$SIGCPP_BASE/lib"></Environment>
+ <Environment name=INCLUDE default="$SIGCPP_BASE/include/sigc++-2.0"></Environment>
+</Client>
+</Tool>
+EOF_TOOLFILE
+
+%post
+%{relocateConfig}etc/scram.d/%n

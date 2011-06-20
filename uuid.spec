@@ -23,12 +23,22 @@ mkdir -p %i/lib
 mkdir -p %i/include
 cd lib/uuid
 make install
-ln -sf libuuid.so.1.2 %i/lib/libuuid.so
-# We remove pkg-config files for two reasons:
-# * it's actually not required (macosx does not even have it).
-# * rpm 4.8 adds a dependency on the system /usr/bin/pkg-config 
-#   on linux.
-# In the case at some point we build a package that can be build
-# only via pkg-config we have to think on how to ship our own
-# version.
-rm -rf %i/lib/pkgconfig
+
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<lib name=uuid>
+<Client>
+ <Environment name=UUID_BASE default="%i"></Environment>
+ <Environment name=LIBDIR default="$UUID_BASE/lib"></Environment>
+ <Environment name=INCLUDE default="$UUID_BASE/include"></Environment>
+</Client>
+<use name=sockets>
+</Tool>
+EOF_TOOLFILE
+
+%post
+ln -sf $RPM_INSTALL_PREFIX/%cmsplatf/external/%n/%v/lib/libuuid.so.1.2 $RPM_INSTALL_PREFIX/%cmsplatf/external/%n/%v/lib/libuuid.so
+%{relocateConfig}etc/scram.d/%n

@@ -1,18 +1,26 @@
-### RPM cms fwlite CMSSW_4_2_0_pre2_FWLITE
-
+### RPM cms fwlite CMSSW_3_5_0_FWLITE
+## IMPORT configurations 
 Requires: fwlite-tool-conf python
 
-%define useCmsTC        yes
+%define cmssw_release   %(perl -e '$_="%v"; s/_FWLITE//; print;')
+%define cvsprojuc       %(echo %n | sed -e "s|-debug||"| tr 'a-z' 'A-Z')
+%define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
+%define cvsdir          %cvsprojuc
+%define cvsserver       %cvsprojlc
+%define useCmsTC        1
 %define saveDeps        yes
 
-# Switch off building tests
-%define patchsrc perl -p -i -e ' s|(<classpath.*test\\+test.*>)||;' config/BuildFile.xml*
+#Defines for file containing list of packages for checkout and build:
+%define buildsetfile    fwlite_build_set
 
-# Includes parts of the framework that we don't want in fwlite
-%define patchsrc2 rm -rf src/DataFormats/GeometrySurface/plugins
+# Skip library load and symbol checks to avoid dependency on seal:
+%define nolibchecks     on
 
-# depends on RecoEgamma/EgammaTools, which adds too many other dependencies; should be fixed in 39x
-%define patchsrc3 rm -f src/PhysicsTools/SelectorUtils/src/SimpleCutBasedElectronIDSelectionFunctor.cc
+# Switch off building tests and plugins:
+%define patchsrc3 perl -p -i -e ' s|(<classpath.*test\\+test.*>)||;' config/BuildFile.xml*
+%define patchsrc4 perl -p -i -e ' s|(<classpath.*plugins\\+plugins.*>)||;' config/BuildFile.xml*
 
-## IMPORT cmssw-partial-build
-## IMPORT scram-project-build
+
+## IMPORT cms-scram-build
+## IMPORT partial-build
+## IMPORT scramv1-build

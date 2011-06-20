@@ -7,7 +7,7 @@ Patch0: mcdb-1.0.2-gcc45
 %setup -q -n %{n}-api-%{realversion}
 
 case %gccver in
-  4.5.* | 4.6.*)
+  4.5.*)
 %patch0 -p1
   ;;
 esac
@@ -15,7 +15,7 @@ esac
 rm config.mk
 touch config.mk
 case %cmsplatf in
-  osx*) 
+  osx105_ia32_gcc401  ) 
 echo "PLATFORM = %cmsplatf" >> config.mk
 echo "CC       = gcc" >> config.mk
 echo "CXX      = g++" >> config.mk
@@ -65,3 +65,19 @@ make
 
 %install
 tar -c lib interface | tar -x -C %i
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
+  <tool name="%n" version="%v">
+    <lib name="mcdb"/>
+    <client>
+      <environment name="MCDB_BASE" default="%i"/>
+      <environment name="LIBDIR" default="$MCDB_BASE/lib"/>
+      <environment name="INCLUDE" default="$MCDB_BASE/interface"/>
+    </client>
+    <use name="xerces-c"/>
+  </tool>
+EOF_TOOLFILE
+
+%post
+%{relocateConfig}etc/scram.d/%n.xml

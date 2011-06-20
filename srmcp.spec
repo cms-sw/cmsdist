@@ -1,30 +1,41 @@
-### RPM external srmcp 1.9.2_4
+### RPM external srmcp 1.8.0-4
 ## INITENV +PATH PATH %i/bin:%i/sbin
 ## INITENV SET SRM_PATH %i
 
-%define realv %(echo %realversion | tr "_" "-")
-Source: http://www.dcache.org/downloads/1.9/dcache-srmclient-%realv.noarch.rpm
-Requires: java-jdk
+Source: http://www.dcache.org/downloads/1.8.0/dcache-srmclient-%v.noarch.rpm
+Requires:  java-jdk
 
 %prep
-rpm2cpio %{_sourcedir}/dcache-srmclient-%realv.noarch.rpm | cpio -ivd 
+rpm2cpio %{_sourcedir}/dcache-srmclient-%v.noarch.rpm | cpio -ivd 
 
 %build
 
 %install
 mv %{_builddir}/opt/d-cache/srm/* %i
 
-# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
-mkdir -p %i/etc/profile.d
-: > %i/etc/profile.d/dependencies-setup.sh
-: > %i/etc/profile.d/dependencies-setup.csh
-for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
-  root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
-  if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
-    echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-    echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
-  fi
-done
+# unset SRM_PATH SRM_CONFIG || true
+# # (cd .. && tar -cf - srmclient) | (cd %i && tar -xf -)
+# mkdir -p %i/etc
+# SRM_PATH=%i SRM_CONFIG=%i/etc/config.xml \
+# %i/sbin/srm \
+# -x509_user_trusted_certificates /etc/grid-security/certificates \
+# -copy file:////dev/null file:////dev/null > /dev/null 2>&1 || true
 
+# perl -p -i -e "s|$HOME|%i|" %i/etc/config.xml
+
+# Build dependencies-setup
+
+mkdir -p %{i}/etc/profile.d
+ 
+(echo "#!/bin/sh"; \
+ echo "source $JAVA_JDK_ROOT/etc/profile.d/init.sh"; \
+) > %{i}/etc/profile.d/dependencies-setup.sh
+                                                                                                     
+(echo "#!/bin/tcsh"; \
+ echo "source $JAVA_JDK_ROOT/etc/profile.d/init.csh"; \
+) > %{i}/etc/profile.d/dependencies-setup.csh
+                                                                                                     
 %post
-%{relocateConfig}etc/profile.d/dependencies-setup.*sh
+%{relocateConfig}etc/profile.d/dependencies-setup.sh
+%{relocateConfig}etc/profile.d/dependencies-setup.csh
+

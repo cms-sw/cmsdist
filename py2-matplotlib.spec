@@ -1,26 +1,24 @@
-### RPM external py2-matplotlib 1.0.1
+### RPM external py2-matplotlib 0.98.5.3
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
-Source: http://sourceforge.net/projects/matplotlib/files/matplotlib/matplotlib-%{realversion}/matplotlib-%{realversion}.tar.gz
-
-Requires: py2-numpy 
+%define downloadn matplotlib
+Source: http://switch.dl.sourceforge.net/sourceforge/%downloadn/%downloadn-%realversion.tar.gz
+Requires: python
 Requires: zlib
+# Requires: agg
+# Requires: cairo
+Requires: py2-numpy 
+# py2-numpy is now built using its internal lapack_lite.
+# uncomment if otherwise.
+# Requires: atlas lapack
 Requires: libpng
+# Requires: freetype
+Patch0: matplotlib-0.98.5.3
 %prep
-%setup -n matplotlib-%{realversion}
-
-cat >> setup.cfg <<- EOF
-[build_ext]
-include_dirs = $LIBPNG_ROOT/include:$ZLIB_ROOT/include:/usr/X11R6/include:/usr/X11R6/include/freetype2
-library_dirs = $LIBPNG_ROOT/lib:$ZLIB_ROOT/lib:/usr/X11/lib
-EOF
-
+%setup -n %downloadn-%realversion
+%patch0 -p0
+perl -p -i -e "s|\@LIBPNG_ROOT\@|$LIBPNG_ROOT|;s|\@ZLIB_ROOT\@|$ZLIB_ROOT|" setupext.py
 %build
-python setup.py build 
-
 %install
 python -c 'import numpy'
 python setup.py install --prefix=%i
-egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
-find %i -name '*.egg-info' -exec rm {} \;
-
-#mkdir -p %i/lib/python2.6/site-packages
+perl -p -i -e "s|^#!.*python(.*)|#!/usr/bin/env python$1|" `grep -r -e "#\!.*python" %i | cut -d: -f1`

@@ -1,4 +1,5 @@
 ### RPM cms data-MagneticField-Interpolation 26
+## NOCOMPILER
 %define realversion V00-03-11
 
 %define dataDir data/grid_1103l_071212_2t
