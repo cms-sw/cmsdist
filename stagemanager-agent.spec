@@ -3,10 +3,10 @@
 %define wmcver WMCORE_0_7_2
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_stagemanager.tar.gz
-Source1: %svnserver/StageManager/trunk/src/python@12925?scheme=svn+ssh&strategy=export&module=StageManager&output=/src.tar.gz
+Source1: %svnserver/StageManager/trunk/src/python@13125?scheme=svn+ssh&strategy=export&module=StageManager&output=/src.tar.gz
 
-Requires: python
-# py2-simplejson py2-sqlalchemy py2-httplib2 rotatelogs
+Requires: python py2-httplib2 rotatelogs
+# py2-simplejson py2-sqlalchemy
 
 %prep
 %setup -T -b 0 -n WMCore
