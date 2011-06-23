@@ -1,18 +1,19 @@
-### RPM cms PHEDEX-webapp 1.1.4
+### RPM cms PHEDEX-webapp 1.1.6pre2
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define cvsversion WEBAPP_%(echo %realversion | tr . _)
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
+%define yuicompressorversion 2.4.6
 Source0: %cvsserver&strategy=export&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
-Source1: http://yui.zenfs.com/releases/yuicompressor/yuicompressor-2.4.2.zip
+Source1: http://yui.zenfs.com/releases/yuicompressor/yuicompressor-%{yuicompressorversion}.zip
 Requires: protovis yui PHEDEX-datasvc
 
 %prep
-%setup -T -b 1 -n yuicompressor-2.4.2
+%setup -T -b 1 -n yuicompressor-%{yuicompressorversion}
 %setup -D -T -b 0 -n PHEDEX
 
 %build
-export YUICOMPRESSOR_PATH=%_builddir/yuicompressor-2.4.2/build/yuicompressor-2.4.2.jar
+export YUICOMPRESSOR_PATH=%_builddir/yuicompressor-%{yuicompressorversion}/build/yuicompressor-%{yuicompressorversion}.jar
 cd %_builddir
 sh %_builddir/PHEDEX/PhEDExWeb/ApplicationServer/util/phedex-minify.sh
 rm -rf %_builddir/PHEDEX/PhEDExWeb/{ApplicationServer/{js,css,util},yuicompressor*}
