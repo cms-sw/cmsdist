@@ -81,7 +81,7 @@ Requires: dcap-toolfile
 #Requires: xdaq-toolfile                    # from XDAQ (daq-xdaq)
 #Requires: tkonlinesw-toolfile              # not used online
 Requires: frontier_client-toolfile
-#Requires: xrootd-toolfile                  # not used online
+Requires: xrootd-toolfile
 #Requires: pyqt-toolfile                    # not used online
 #Requires: sip-toolfile                     # not used online
 #Requires: graphviz-toolfile                # not used online
