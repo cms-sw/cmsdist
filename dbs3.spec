@@ -1,5 +1,5 @@
 ### RPM cms dbs3 3.0.10
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV SET DBS3_SERVER_ROOT %i/
 %define wmcver 0.7.4
 %define cvstag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
@@ -40,6 +40,3 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
-
-%files
-%i/

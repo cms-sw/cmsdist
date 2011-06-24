@@ -1,5 +1,5 @@
 ### RPM external couchapp 0.7.1
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 Source: http://github.com/couchapp/couchapp/tarball/%realversion?output=/%n-%realversion.tgz
 Requires: python py2-setuptools py2-restkit

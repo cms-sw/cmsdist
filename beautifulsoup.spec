@@ -1,5 +1,5 @@
 ### RPM external beautifulsoup 3.1.0.1
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 Source: http://www.crummy.com/software/BeautifulSoup/download/3.1.x/BeautifulSoup-%{realversion}.tar.gz
 Requires: python
 

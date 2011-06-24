@@ -1,5 +1,5 @@
 ### RPM external mod_wsgi 3.3
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 Source0: http://modwsgi.googlecode.com/files/%n-%realversion.tar.gz
 Requires: apache2 python
 
