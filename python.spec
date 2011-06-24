@@ -1,9 +1,10 @@
 ### RPM external python 2.6.4
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
+## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib/python%{python_major_version}/site-packages
 # OS X patches and build fudging stolen from fink
-%define closingbrace )
-%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
+%{expand:%%define python_major_version %(echo %realversion | cut -d. -f1,2)}
+%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
 Requires: expat bz2lib db4 gdbm
 
