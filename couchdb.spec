@@ -21,10 +21,10 @@ cp %_sourcedir/couch_cms_auth.erl %_builddir/couchdb/src/couchdb
 ./bootstrap
 export CURL_ROOT SPIDERMONKEY_ROOT OPENSSL_ROOT ICU4C_ROOT ERLANG_ROOT
 ./configure --prefix=%i --with-js-lib=$SPIDERMONKEY_ROOT/lib --with-js-include=$SPIDERMONKEY_ROOT/include --with-erlang=$ERLANG_ROOT/lib/erlang/usr/include --with-icu4c=$ICU4C_ROOT
-make
+make %makeprocesses
 
 %install
-make install
+make %makeprocesses install
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
