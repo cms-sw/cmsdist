@@ -1,7 +1,6 @@
 ### RPM external libtiff 3.9.4
 Source: http://download.osgeo.org/libtiff/tiff-%{realversion}.zip
-%define closingbrace )
-%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
+%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
 Requires: libjpg
 %if "%online" != "true"

@@ -1,8 +1,7 @@
 ### RPM external boost 1.46.0
 %define boostver _%(echo %realversion | tr . _)
 Source: http://switch.dl.sourceforge.net/project/%{n}/%{n}/%{v}/%{n}%{boostver}.tar.gz
-%define closingbrace )
-%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
+%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
 Requires: boost-build python bz2lib
 %if "%online" != "true"
