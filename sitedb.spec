@@ -1,5 +1,5 @@
 ### RPM cms sitedb 1.2.3
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 %define moduleName WEBTOOLS
 %define cvstag SiteDBv1-slc5-v3 
@@ -11,13 +11,17 @@ Requires: python webtools rotatelogs
 %prep
 %setup -n %{moduleName}
 rm -f Applications/SiteDB/Utilities/MigrateSites # requires phedex
+rm -f Applications/SiteDB/Schema/writergrants.py
 
 %build
 
 %install
-mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
-cp -r Applications/SiteDB %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
-mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications/SiteDB/csv
+mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES/Applications
+cp -r Applications/SiteDB %i/$PYTHON_LIB_SITE_PACKAGES/Applications
+mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES/Applications/SiteDB/csv
+
+# Generate .pyc files.
+python -m compileall %i/$PYTHON_LIB_SITE_PACKAGES || true
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
