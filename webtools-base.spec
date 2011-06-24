@@ -1,5 +1,5 @@
 ### RPM cms webtools-base 0.1.21
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 %define moduleName WEBTOOLS
 %define cvstag V01-03-43
@@ -14,10 +14,13 @@ Requires: python webtools rotatelogs
 %build
 
 %install
-mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
+mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES/Applications
 
 # Copy only the 'base' application
-cp -r Applications/base %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/Applications
+cp -r Applications/base %i/$PYTHON_LIB_SITE_PACKAGES/Applications
+
+# Generate .pyc files.
+python -m compileall %i/$PYTHON_LIB_SITE_PACKAGES || true
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d

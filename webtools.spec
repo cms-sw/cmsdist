@@ -1,5 +1,5 @@
 ### RPM cms webtools 1.3.47
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PERL5LIB %i/lib/perl
 
 %define moduleName WEBTOOLS
@@ -18,14 +18,15 @@ Provides: perl(SecurityModule)
 %build
 
 %install
-mkdir -p %i/{etc,bin}
-mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
-mkdir -p %i/lib/perl
+mkdir -p %i/{etc,bin} %i/$PYTHON_LIB_SITE_PACKAGES %i/lib/perl
 
 cp -r SecurityModule/perl/lib/* %i/lib/perl
 rm -rf Applications Configuration Tools/StartupScripts SecurityModule/perl
-cp -r * %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
+cp -r * %i/$PYTHON_LIB_SITE_PACKAGES
 cp cmsWeb %i/bin
+
+# Generate .pyc files.
+python -m compileall %i/$PYTHON_LIB_SITE_PACKAGES || true
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d

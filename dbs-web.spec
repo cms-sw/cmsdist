@@ -1,5 +1,5 @@
 ### RPM cms dbs-web V06_00_48
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 %define cvstag %{realversion}
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
@@ -14,13 +14,16 @@ Requires: webtools dbs-client rotatelogs
 %build
 
 %install
-mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
-cp -r * %i/lib/python*/site-packages
+mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
+cp -r * %i/$PYTHON_LIB_SITE_PACKAGES
 
 # Compile cheetah templates.
-cd %i/lib/python*/site-packages
+cd %i/$PYTHON_LIB_SITE_PACKAGES
 mkdir -p rss
 ./scripts/genTemplates.sh
+
+# Generate .pyc files.
+python -m compileall %i/$PYTHON_LIB_SITE_PACKAGES || true
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d

@@ -1,5 +1,5 @@
 ### RPM cms T0Mon 4.2.11
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver 0.7.4
 %define moduleName T0
 %define exportName T0
@@ -23,9 +23,12 @@ python setup.py build_system -s wmc-web
 cd ../WMCore
 python setup.py install_system -s wmc-web --prefix=%i
 cd ../%{moduleName}
-mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/
-cp -r src/python/T0/T0Mon %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/
+mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
+cp -r src/python/T0/T0Mon %i/$PYTHON_LIB_SITE_PACKAGES
 find %i -name '*.egg-info' -exec rm {} \;
+
+# Generate .pyc files.
+python -m compileall %i/$PYTHON_LIB_SITE_PACKAGES || true
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d

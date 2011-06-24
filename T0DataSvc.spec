@@ -1,5 +1,5 @@
 ### RPM cms T0DataSvc 5.0.3
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver 0.7.4
 %define moduleName T0
 %define exportName T0
@@ -32,6 +32,9 @@ tar -C src/python -cf - \
   T0/DAS | 
   tar -C %i/lib/python*/site-packages -xvvf -
 find %i/lib/python*/site-packages/T0 -type d -exec touch {}/__init__.py \;
+
+# Generate .pyc files.
+python -m compileall %i/$PYTHON_LIB_SITE_PACKAGES || true
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
