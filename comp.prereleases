@@ -32,10 +32,11 @@ HG1106b T0DataSvc
 
 # CmsTC
 HG1102b CmsTC
-+ 1.34/* CmsTC.spec
++ 1.33/* CmsTC.spec
 
 # Cms Webtools services
-HG1107a cmsweb
+HG1106d cmsweb
++ HEAD/6.0.6 dqmgui.spec
 
 # DQM GUI
 HG1106c dqmgui
@@ -46,8 +47,8 @@ HG1106c reqmgr
 + HEAD/0.7.9b reqmgr.spec
 
 # WorkQueue
-HG1107a workqueue
-+ HEAD/0.0.14 workqueue.spec
+HG1104e workqueue
++ HEAD/0.0.12 workqueue.spec
 + WMCORE_0_6_12 dls-client.spec
 
 HG1106d wmagent
