@@ -1,6 +1,8 @@
 ### RPM cms dqmgui 6.0.6
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
-## INITENV +PATH PYTHONPATH %i/xlib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
+## INITENV +PATH PATH %i/xbin
+## INITENV +PATH %{dynamic_path_var} %i/xlib
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
 %define svn svn://svn.cern.ch/reps/CMSDMWM/Monitoring/tags/%{realversion}
 %define cvs cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
@@ -11,7 +13,7 @@ Source2: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=im
 Source3: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
 Patch0: dqmgui-rtgu
 
-Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root libpng libjpg classlib rotatelogs
+Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root libpng libjpg classlib rotatelogs py2-pycurl
 
 %prep
 # Unpack sources.
@@ -64,7 +66,7 @@ python setup.py -v build_system -s DQM
 
 # Install
 %install
-mkdir -p %i/etc/profile.d %i/{x,}{bin,lib,include,data}
+mkdir -p %i/etc/profile.d %i/{x,}{bin,lib,include,data} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
 python setup.py install_system -s DQM --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
@@ -81,10 +83,7 @@ done
 
 # Generate an env.sh which sets a few things more than init.sh.
 (echo ". %i/etc/profile.d/init.sh;"
- echo "export PATH=%i/xbin:\$PATH;"
- echo "export LD_LIBRARY_PATH=%i/xlib:\$LD_LIBRARY_PATH;"
- echo "export YUI_ROOT='$YUI_ROOT';"
- echo "export EXTJS_ROOT='$EXTJS_ROOT';"
+ echo "export YUI_ROOT EXTJS_ROOT;"
  echo "export DQMGUI_VERSION='$DQMGUI_VERSION';" # for visDQMUpload
  echo "export MONITOR_ROOT='%i';") > %i/etc/profile.d/env.sh
 
