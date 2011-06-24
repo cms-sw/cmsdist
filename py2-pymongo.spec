@@ -1,5 +1,5 @@
 ### RPM external py2-pymongo 1.11
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 Source: http://pypi.python.org/packages/source/p/pymongo/pymongo-%realversion.tar.gz
 Requires: python elementtree py2-setuptools

@@ -1,5 +1,5 @@
 ### RPM external py2-geoip 1.2.4
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define downloadn GeoIP-Python
 Source: http://geolite.maxmind.com/download/geoip/api/python/%downloadn-%realversion.tar.gz
 Requires: python geoip

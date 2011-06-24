@@ -1,5 +1,5 @@
 ### RPM external py2-yajl 0.3.5
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 Source: https://github.com/rtyler/py-yajl/zipball/v%{realversion}
 Requires: python yajl

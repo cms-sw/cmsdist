@@ -1,5 +1,5 @@
 ### RPM external py2-lxml 2.2.6
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 Source: http://codespeak.net/lxml/lxml-%{realversion}.tgz
 Requires: python libxml2 libxslt

@@ -1,5 +1,5 @@
 ### RPM external py2-pysqlite 2.4.0
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define distname pysqlite-%realversion
 %define distmaindir %(echo %realversion | cut -d. -f1,2)
 Source: http://cmsrep.cern.ch/cmssw/pysqlite-mirror/%{distname}.tar.gz

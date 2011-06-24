@@ -1,5 +1,5 @@
 ### RPM external py2-memcached 1.43
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 Source: ftp://ftp.tummy.com/pub/python-memcached/old-releases/python-memcached-%realversion.tar.gz
 

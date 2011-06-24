@@ -1,5 +1,5 @@
 ### RPM external py2-yaml 3.09
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 Source: http://pyyaml.org/download/pyyaml/PyYAML-%realversion.tar.gz
 Requires: python libyaml py2-pyrex

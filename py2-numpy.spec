@@ -1,5 +1,5 @@
 ### RPM external py2-numpy 1.5.1
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define downloadn numpy
 Source: http://switch.dl.sourceforge.net/sourceforge/%downloadn/%downloadn-%realversion.tar.gz
 Patch0: py2-numpy-1.5.1-fix-macosx-build

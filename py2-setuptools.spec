@@ -1,5 +1,5 @@
 ### RPM external py2-setuptools 0.6c9
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 Source: http://pypi.python.org/packages/source/s/setuptools/setuptools-%realversion.tar.gz
 Requires: python

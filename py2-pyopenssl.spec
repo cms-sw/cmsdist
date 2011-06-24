@@ -1,5 +1,5 @@
 ### RPM external py2-pyopenssl 0.7
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 Source: http://downloads.sourceforge.net/pyopenssl/pyOpenSSL-%realversion.tar.gz
 Requires: python openssl
