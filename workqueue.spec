@@ -1,6 +1,5 @@
 ### RPM cms workqueue 0.0.13
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-## INITENV +PATH PATH %i/bin
 %define cvstag %v
 
 #Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
