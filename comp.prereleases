@@ -18,7 +18,7 @@
 #+ 1.232 das.spec
 # 1.234 is 0.8.0.dev5, 1.31 MongoDB (ver 1.8.2), 1.16 pymongo (ver 1.11)
 HG1107a das
-+ 1.234 das.spec
++ 1.236 das.spec
 
 # T0PromptSkim
 #HG1105a T0PromptSkim
