@@ -13,12 +13,14 @@
 # 1.194 is 0.6.6, 1.30 for new MongoDB (ver 1.8.1), 1.14 for pymongo (ver 1.10.1)
 # 1.202 is 0.6.9
 # 1.228 is 0.7.1
-# 1.236 is 0.8.0.pre1
+# 1.232 is 0.8.0.dev3
 #HG1106a das
 #+ 1.232 das.spec
 # 1.234 is 0.8.0.dev5, 1.31 MongoDB (ver 1.8.2), 1.16 pymongo (ver 1.11)
-HG1107a das
-+ 1.236 das.spec
+HG1106a das
++ 1.234 das.spec
++ 1.31 mongo.spec
++ 1.16 py2-pymongo.spec
 
 # T0PromptSkim
 #HG1105a T0PromptSkim
@@ -30,10 +32,11 @@ HG1106b T0DataSvc
 
 # CmsTC
 HG1102b CmsTC
-+ 1.34/* CmsTC.spec
++ 1.33/* CmsTC.spec
 
 # Cms Webtools services
-HG1107a cmsweb
+HG1106d cmsweb
++ HEAD/6.0.6 dqmgui.spec
 
 # DQM GUI
 HG1106c dqmgui
@@ -44,8 +47,8 @@ HG1106c reqmgr
 + HEAD/0.7.9b reqmgr.spec
 
 # WorkQueue
-HG1107a workqueue
-+ HEAD/0.0.16 workqueue.spec
+HG1104e workqueue
++ HEAD/0.0.12 workqueue.spec
 + WMCORE_0_6_12 dls-client.spec
 
 HG1106d wmagent
