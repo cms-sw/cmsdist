@@ -13,12 +13,12 @@
 # 1.194 is 0.6.6, 1.30 for new MongoDB (ver 1.8.1), 1.14 for pymongo (ver 1.10.1)
 # 1.202 is 0.6.9
 # 1.228 is 0.7.1
-# 1.238 is 0.8.1
+# 1.239 is 0.8.2
 #HG1106a das
 #+ 1.232 das.spec
 # 1.234 is 0.8.0.dev5, 1.31 MongoDB (ver 1.8.2), 1.16 pymongo (ver 1.11)
 HG1107a das
-+ 1.238 das.spec
++ 1.239 das.spec
 
 # T0PromptSkim
 #HG1105a T0PromptSkim
