@@ -1,6 +1,6 @@
-### RPM cms wmagent 0.8.0pre6
+### RPM cms wmagent 0.7.11
 
-Requires: wmcore-db-mysql wmcore-db-couch wmcore-webtools py2-cjson dbs-client dls-client couchproxy py2-zmq
+Requires: wmcore-db-mysql wmcore-db-couch wmcore-webtools py2-cjson dbs-client dls-client
 
 
 %prep
@@ -18,7 +18,6 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
     echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
   fi
 done
-
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
