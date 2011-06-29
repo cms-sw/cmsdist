@@ -28,6 +28,8 @@ HG1102b CmsTC
 
 # Cms Webtools services
 HG1107a cmsweb
++ 1.142 dbs-client.spec
++ 1.109 PHEDEX-web.spec
 
 # DQM GUI
 HG1106c dqmgui
