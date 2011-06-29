@@ -47,6 +47,8 @@ cat > %i/Documentation/WebSite/PlotConfig/tools/phedex-web.py <<-EOF
 	xc.globals['web'].kill()
 EOF
 
+python -m compileall %i || true
+
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 ln -sf ../profile.d/init.sh %i/etc/env.d/10-web.sh
 : > %i/etc/profile.d/dependencies-setup.sh
