@@ -92,15 +92,8 @@ HG1105c py2-sqlobject
 HG1106a sitereadiness
 + HEAD/0.0.1 sitereadiness.spec
 
-# Test build for new couchdb version to be included on HG1107
-HG1106c couchdb
-+ 1.48/1.1.0 couchdb.spec
-+ 1.1 couchdb-cmsauth-Makefile.patch
-+ 1.1 couchdb-ssl-client-cert.patch
-+ 1.20/R14B03 erlang.spec
-
 # Build for stagemanager agent for T1 tests
-HG1106c stagemanager-agent
+HG1107a stagemanager-agent
 + 1.2/0.0.2 stagemanager-agent.spec
-HG1106c stagemanager
-+ 1.4/0.0.2 stagemanager.spec
+HG1107a stagemanager
++ 1.5/0.0.2 stagemanager.spec
