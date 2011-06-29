@@ -10,10 +10,6 @@ Patch1: formencode
 %setup -n %{distname}
 %patch0
 %patch1 -p1
-
 %build
-python setup.py build
-
 %install
-python setup.py install --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
+python ./setup.py install --prefix=%i
