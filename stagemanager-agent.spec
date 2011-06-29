@@ -1,9 +1,9 @@
 ### RPM cms stagemanager-agent 0.0.2
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
-%define wmcver WMCORE_0_7_2
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+%define wmcver 0.7.4
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_stagemanager.tar.gz
-Source1: %svnserver/StageManager/trunk/src/python@13125?scheme=svn+ssh&strategy=export&module=StageManager&output=/src.tar.gz
+Source1: %svnserver/StageManager/trunk/src/python@13187?scheme=svn+ssh&strategy=export&module=StageManager&output=/src.tar.gz
 
 Requires: python py2-httplib2 rotatelogs
 # py2-simplejson py2-sqlalchemy
@@ -23,9 +23,11 @@ cd ../WMCore
 python setup.py install_system -s wmc-database --prefix=%i
 #cd ../StageManager
 #python setup.py install --prefix=%i
-mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/
-cp -r ../StageManager %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages/
+cp -rp ../StageManager %i/$PYTHON_LIB_SITE_PACKAGES
 find %i -name '*.egg-info' -exec rm {} \;
+
+# Generate .pyc files.
+python -m compileall %i/$PYTHON_LIB_SITE_PACKAGES || true
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
