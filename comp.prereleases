@@ -10,9 +10,9 @@
 
 # DAS test build with wmcore-web dependency
 # 1.228 is 0.7.1
-# 1.240 is 0.8.3
+# 1.241 is 0.8.4
 HG1107a das
-+ 1.240 das.spec
++ 1.241 das.spec
 
 # T0PromptSkim
 #HG1105a T0PromptSkim
