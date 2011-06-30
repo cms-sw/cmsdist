@@ -1,9 +1,7 @@
-### RPM external gcc 4.6.0
+### RPM external gcc 4.6.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-%define realversion 4.6-20110429
-#Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
-Source0: http://gcc.cybermirror.org/snapshots/%realversion/%n-%realversion.tar.bz2
+Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
 # For gcc version >= 4.0.0, a number of additional sources are needed.
 %define gmpVersion 4.3.2
 %define mpfrVersion 2.4.2
@@ -26,7 +24,7 @@ Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
 %if "%use_custom_binutils" == "true"
 %define bisonVersion 2.4
 Source6: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.bz2
-%define binutilsv 2.21.51.0.8
+%define binutilsv 2.21.52.0.2
 #Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 Source7: http://www.kernel.org/pub/linux/devel/binutils/binutils-%binutilsv.tar.bz2
 %endif
