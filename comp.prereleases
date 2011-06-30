@@ -30,6 +30,10 @@ HG1102b CmsTC
 HG1107a cmsweb
 + 1.142 dbs-client.spec
 + 1.109 PHEDEX-web.spec
++ 1.96 PHEDEX-webapp.spec
++ 1.140 PHEDEX-datasvc.spec
++ 1.72 dqmgui.spec
++ 1.19 overview.spec
 
 # DQM GUI
 HG1106c dqmgui
