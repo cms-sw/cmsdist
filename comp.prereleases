@@ -35,6 +35,7 @@ HG1107a cmsweb
 + 1.72 dqmgui.spec
 + 1.19 overview.spec
 + 1.241 das.spec
++ 1.5 stagemanager.spec
 
 # DQM GUI
 HG1106c dqmgui
