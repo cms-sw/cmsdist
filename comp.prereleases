@@ -36,6 +36,8 @@ HG1107a cmsweb
 + 1.19 overview.spec
 + 1.241 das.spec
 + 1.5 stagemanager.spec
++ 1.19 apache2.spec
+#+ 1.2 rotatelogs.spec
 
 # DQM GUI
 HG1106c dqmgui
