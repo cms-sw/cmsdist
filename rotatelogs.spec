@@ -1,4 +1,4 @@
-### RPM external rotatelogs 2.2.14
+### RPM external rotatelogs 2.2.19
 Source: http://archive.apache.org/dist/httpd/httpd-%realversion.tar.gz
 
 %prep

@@ -1,4 +1,4 @@
-### RPM external apache2 2.2.17gsi
+### RPM external apache2 2.2.19gsi
 %define apversion %(echo %realversion | sed 's/gsi.*$//')
 %define vdtversion 2.0.0p26
 Requires: openssl zlib expat uuid sqlite
