@@ -1,4 +1,4 @@
-### RPM cms dbs3 3.0.10
+### RPM cms dbs3 3.0.11
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV SET DBS3_SERVER_ROOT %i/
 %define wmcver 0.7.4

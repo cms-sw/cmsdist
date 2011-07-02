@@ -1,5 +1,5 @@
-### RPM cms dbs3-client 3.0.10
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
+### RPM cms dbs3-client 3.0.11
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV SET DBS3_CLIENT_ROOT %i/
 ## INITENV SET DBS_READER_URL http://vocms09.cern.ch:8585/dbs/DBSReader 
 ## INITENV SET DBS_WRITER_URL http://vocms09.cern.ch:8585/dbs/DBSWriter
