@@ -14,11 +14,7 @@ Requires: gfortran-macosx
 %prep
 %setup -c -n alpgen-%v
 %patch0 -p1 
-case %gccver in
-  4.*)
 %patch1 -p0
-  ;;
-esac
 %patch2 -p1
 
 %build
