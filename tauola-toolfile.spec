@@ -14,10 +14,18 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/tauola.xml
   <client>
     <environment name="TAUOLA_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$TAUOLA_BASE/lib"/>
-    <environment name="INCLUDE" default="$TAUOLA_BASE/include"/>
   </client>
   <use name="f77compiler"/>
-  <use name="pythia6"/>
+  <use name="tauola_headers"/>
+</tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/tauola_headers.xml
+<tool name="tauola_headers" version="@TOOL_VERSION@">
+  <client>
+    <environment name="TAUOLA_HEADERS_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$TAUOLA_HEADERS_BASE/include"/>
+  </client>
 </tool>
 EOF_TOOLFILE
 
