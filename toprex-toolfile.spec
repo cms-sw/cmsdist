@@ -13,10 +13,18 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/toprex.xml
   <client>
     <environment name="TOPREX_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$TOPREX_BASE/lib"/>
-    <environment name="INCLUDE" default="$TOPREX_BASE/include"/>
   </client>
+  <use name="toprex_headers"/>
   <use name="f77compiler"/>
 </tool>
 EOF_TOOLFILE
 
+cat << \EOF_TOOLFILE >%i/etc/scram.d/toprex_headers.xml
+<tool name="toprex_headers" version="@TOOL_VERSION@">
+  <client>
+    <environment name="TOPREX_HEADERS_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$TOPREX_HEADERS_BASE/include"/>
+  </client>
+</tool>
+EOF_TOOLFILE
 ## IMPORT scram-tools-post
