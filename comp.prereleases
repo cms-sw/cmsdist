@@ -68,9 +68,9 @@ HG1106d wmagent
 
 # PHEDEX web
 HG1107a PHEDEX-combined-web
-+ 1.144 PHEDEX-datasvc.spec
-+ 1.110 PHEDEX-web.spec
-+ 1.100 PHEDEX-webapp.spec
++ 1.145 PHEDEX-datasvc.spec
++ 1.111 PHEDEX-web.spec
++ 1.101 PHEDEX-webapp.spec
 
 # DBS3 build
 HG1107a dbs3
