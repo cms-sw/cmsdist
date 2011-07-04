@@ -29,15 +29,17 @@ HG1102b CmsTC
 # Cms Webtools services
 HG1107a cmsweb
 + 1.142 dbs-client.spec
-+ 1.109 PHEDEX-web.spec
-+ 1.99 PHEDEX-webapp.spec
-+ 1.143 PHEDEX-datasvc.spec
++ 1.111 PHEDEX-web.spec
++ 1.101 PHEDEX-webapp.spec
++ 1.146 PHEDEX-datasvc.spec
 + 1.72 dqmgui.spec
 + 1.19 overview.spec
 + 1.241 das.spec
-+ 1.5 stagemanager.spec
++ 1.6 stagemanager.spec
 + 1.19 apache2.spec
 + 1.2 rotatelogs.spec
++ 1.27 dbs3.spec
++ 1.23 workqueue.spec
 
 # DQM GUI
 HG1106c dqmgui
