@@ -97,10 +97,10 @@ HG1106a sitereadiness
 + HEAD/0.0.1 sitereadiness.spec
 
 # Build for stagemanager agent for T1 tests
-HG1107a stagemanager-agent
-+ 1.3/0.0.2 stagemanager-agent.spec
+#HG1107a stagemanager-agent
+#+ 1.3/0.0.2 stagemanager-agent.spec
 HG1107a stagemanager
-+ 1.5/0.0.2 stagemanager.spec
++ 1.6/0.0.2 stagemanager.spec
 
 # Test build for asyncstageout
 HG1107a asyncstageout
