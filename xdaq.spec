@@ -1,12 +1,12 @@
-### RPM external xdaq VR16796
+### RPM external xdaq VR17173
 
 Requires: zlib mimetic xerces-c uuid sqlite
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
 %define svntrunk  %(echo %v | sed 's|^VR||')
-Source: svn://svn.cern.ch/reps/cmsos/trunk/?scheme=svn+ssh&revision=%svntrunk&strategy=export&module=xdaq&output=/xdaq.tar.gz
+Source: svn://svn.cern.ch/reps/cmsos/releases/baseline11/trunk/?scheme=svn+ssh&revision=%svntrunk&strategy=export&module=xdaq&output=/xdaq.tar.gz
 
-Patch0: xdaq_VR16768_build
+Patch0: xdaq_VR16993_build
 Patch1: xdaq_mfDefs_flags
 Patch2: xdaq-VR16796-gcc46
 
