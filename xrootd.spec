@@ -1,13 +1,15 @@
-### RPM external xrootd 5.27.06
-Source: http://cmsrep.cern.ch//cmssw/xrootd_src/%n-%{realversion}.tgz
+### RPM external xrootd 5.28.00d
+%define svntag  %(echo %{realversion} | tr '.' '-')
+Source: svn://root.cern.ch/svn/root/tags/v%{svntag}/net/xrootd/src/xrootd?scheme=http&strategy=export&module=%n-%{realversion}&output=/%n-%{realversion}.tgz
 Patch0: xrootd-gcc44
-Patch1: xrootd-5.27.06b-forkv2
+Patch1: xrootd-5.28-00d-forkv2
 Requires: openssl
 
 %prep 
 %setup -n %n-%{realversion}
 %patch0 -p1
-%patch1 -p4
+%patch1 -p1
+grep -r -l -e "^#!.*/perl *$" . | xargs perl -p -i -e "s|^#!.*perl *$|#!/usr/bin/env perl|"
 
 %build
 CONFIG_ARGS="--disable-krb4 --with-cxx=`which c++` --with-ld=`which c++` --with-ssl-incdir=${OPENSSL_ROOT}/include --with-ssl-libdir=${OPENSSL_ROOT}/lib"
