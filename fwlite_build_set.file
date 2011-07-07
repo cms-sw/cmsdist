@@ -79,6 +79,7 @@ FWCore/PluginManager
 FWCore/PythonParameterSet
 FWCore/PythonUtilities
 FWCore/RootAutoLibraryLoader
+FWCore/ServiceRegistry
 FWCore/Utilities
 FastSimDataFormats/External
 Fireworks/Calo
