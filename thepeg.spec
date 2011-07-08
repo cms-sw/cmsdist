@@ -34,7 +34,19 @@ esac
 # Build as static only on new architectures.
 case %cmsplatf in 
   slc5*_*_gcc4[01234]*) ;;
+  osx*) perl -p -i -e 's|libLHAPDF[.]so|libLHAPDF.a|g' configure ;;
   *) perl -p -i -e 's|libLHAPDF[.]so|libLHAPDF.a|g;s|[.]dylib|.a|g' configure ;;
+esac
+
+case %cmsplatf in
+  osx*) 
+    LIBGFORTRAN=`gfortran --print-file-name=libgfortran.a` 
+    PLATF_CONF_OPTS="--enable-static --disable-shared"
+  ;;
+  *)
+    LIBGFORTRAN=`gfortran --print-file-name=libgfortran.so` 
+    PLATF_CONF_OPTS="--enable-shared --disable-static"
+  ;;
 esac
 
 ./configure --enable-shared --disable-static \
@@ -43,7 +55,7 @@ esac
             --with-gsl=$GSL_ROOT --with-zlib=$ZLIB_ROOT \
             --without-javagui --prefix=%i \
             --disable-readline CXX="`which c++`" CC="`which cc`" \
-            LIBS="-L$LHAPDF_ROOT/lib -lLHAPDF `gfortran --print-file-name=libgfortran.so` -lz"
+            LIBS="-L$LHAPDF_ROOT/lib -lLHAPDF $LIBGFORTRAN -lz"
 make
 
 %install
