@@ -28,6 +28,7 @@ HG1102b CmsTC
 
 # Cms Webtools services
 HG1107b cmsweb
++ 1.148 PHEDEX-datasvc.spec
 
 # DQM GUI
 HG1106c dqmgui
@@ -70,21 +71,17 @@ HG1107a dbs3
 HG1107a dbs3-client
 + HEAD/3.0.11 dbs3-client.spec
 
-##DIE##
+# Crab
 HG1102b crab-server
-##DIE##
 #+ CRABSERVER_1_1_4_pre5_BUILD_SLC5 crab-server.spec mysql.spec prodagent.spec prodcommon.spec wmcore.spec PHEDEX-micro.spec dls-client.spec python-ldap.spec openldap.spec openldap-2.3.39-gcc44.patch python-ldap-2.3.5-gcc44.patch
 
+# Crab3
 HG1107a crab-server3
 + 1.9/3.0.1a crab-server3.spec
 
 # This is needed for the HappyFace testing setup
 HG1105c py2-sqlobject
 + HEAD/1.0.0 py2-sqlobject.spec
-
-# Site Readiness
-HG1106a sitereadiness
-+ HEAD/0.0.1 sitereadiness.spec
 
 # Build for stagemanager agent for T1 tests
 #HG1107a stagemanager-agent
