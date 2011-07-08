@@ -1,4 +1,4 @@
-### RPM external xdaq VR17173
+### RPM external xdaq VR16993
 
 Requires: zlib mimetic xerces-c uuid sqlite
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
