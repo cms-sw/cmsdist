@@ -9,8 +9,8 @@ Requires: tauola
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/tauola.xml
 <tool name="tauola" version="@TOOL_VERSION@">
-  <lib name="tauola"/>
   <lib name="pretauola"/>
+  <lib name="tauola"/>
   <client>
     <environment name="TAUOLA_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$TAUOLA_BASE/lib"/>
