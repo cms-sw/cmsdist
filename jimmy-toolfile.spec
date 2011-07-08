@@ -13,10 +13,19 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/jimmy.xml
   <client>
     <environment name="JIMMY_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$JIMMY_BASE/lib"/>
-    <environment name="INCLUDE" default="$JIMMY_BASE/include"/>
   </client>
   <use name="f77compiler"/>
   <use name="herwig"/>
+  <use name="jimmy_headers"/>
+</tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/jimmy_headers.xml
+<tool name="jimmy_headers" version="@TOOL_VERSION@">
+  <client>
+    <environment name="JIMMY_HEADERS_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$JIMMY_HEADERS_BASE/include"/>
+  </client>
 </tool>
 EOF_TOOLFILE
 

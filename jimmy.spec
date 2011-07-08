@@ -20,8 +20,14 @@ esac
 
 
 %build
-./configure --with-herwig=$HERWIG_ROOT
-# Looks like ./configure does not do all it should do to have our 
+# NOTE: only in recent architectures we build static libraries. 
+case %cmsplatf in
+  slc*_*_gcc4[0123]*) ;;
+  *) PLATF_CONFIG_OPTS="--enable-static --disable-shared" ;;
+esac
+
+./configure $PLATF_CONFIG_OPTS --with-herwig=$HERWIG_ROOT
+# Looks like ./configure does not do all it should do to have our
 # version of herwig picked up at link time.
 # Workaround until they fix the GENESER makefiles is to define
 # the variable and use it directly inside "Makeshared".
@@ -29,3 +35,5 @@ make HERWIG_ROOT=$HERWIG_ROOT
 
 %install
 tar -c lib include | tar -x -C %i
+find %i/lib/archive -name "*.a" -exec mv {} %i/lib \;
+rm -rf %i/lib/archive
