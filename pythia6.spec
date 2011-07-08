@@ -6,27 +6,34 @@ Requires: gfortran-macosx
 %endif
 
 %prep
+# NOTE: Old gcc versions (up to 4.3.4) were building 
+#       dynamic libraries. from 4.5.1 (and on mac)
+#       we build archive ones.
 case %cmsplatf in
-  slc*)
-    PLATF_LD=`which gfortran`
-    PLATF_CONFIG_OPTS="--enable-shared --disable-static"
-    ;;
-  osx*_*_gcc*)
-    PLATF_LDFLAGS="-Wl,-commons,use_dylibs -Wl,-flat_namespace"
-    PLATF_LD=`which gcc`
-    PLATF_CONFIG_OPTS="--disable-shared --enable-static"
+  slc5_*_gcc4[01234]*) 
+    PLATF_CONF_OPTS="--enable-shared"
+    F77="`which gfortran`"
   ;;
-  *)
-    echo "Make sure you handle commons!" ; exit 1 ;;
+  *) 
+    PLATF_CONF_OPTS="--disable-shared --enable-static"
+    F77="`which gfortran` -fPIC"
+  ;;
 esac
 
-# Make sure we always build -fPIC, even if we use archive libraries.
-PLATF_F77="`which gfortran` -fPIC"
+# Notice we need to define LDFLAGS like this to avoid dropping 
+# the dynamic linker options on slc5_amd64_gcc434
+case %cmsplatf in
+  osx*) 
+    PLATF_LDFLAGS="LDFLAGS='-Wl,-commons,use_dylibs -Wl,-flat_namespace'"
+    PLATF_LD="LD='`which gcc`'" ;;
+  *)
+    PLATF_LD="" ;;
+esac
 
 %setup -q -n %{n}/%{realversion}
 
-./configure $PLATF_CONFIG_OPTS --with-hepevt=4000 \
-            F77="$PLATF_F77" LD="$PLATF_LD" LDFLAGS="$PLATF_LDFLAGS"
+./configure $PLATF_CONF_OPTS --with-hepevt=4000 \
+            F77="$F77" $PLATF_LD $PLATF_LDFLAGS
 # NOTE: force usage of gcc to link shared libraries in place of gfortran since
 # the latter causes a:
 #
@@ -35,9 +42,8 @@ PLATF_F77="`which gfortran` -fPIC"
 # error when building.
 # I couldn't find any better way to replace "CC" in the F77 section of libtool.
 case %cmsplatf in
-  osx*)
-    perl -p -i -e 's|^CC=.*$|CC=gcc|' libtool
-  ;;
+  slc5_*_gcc4[01234]*) ;;
+  *) perl -p -i -e 's|^CC=.*$|CC="gcc -fPIC"|' libtool ;;
 esac
 
 %build
