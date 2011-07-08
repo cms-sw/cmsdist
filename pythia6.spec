@@ -25,6 +25,7 @@ esac
 case %cmsplatf in
   osx*) 
     PLATF_LDFLAGS="LDFLAGS='-Wl,-commons,use_dylibs -Wl,-flat_namespace'"
+    PLATF_LDFLAGS=""
     PLATF_LD="LD='`which gcc`'" ;;
   *)
     PLATF_LD="" ;;
@@ -32,8 +33,19 @@ esac
 
 %setup -q -n %{n}/%{realversion}
 
-./configure $PLATF_CONF_OPTS --with-hepevt=4000 \
-            F77="$F77" $PLATF_LD $PLATF_LDFLAGS
+# Unfortunately we need the two cases because LDFLAGS= does not work on linux
+# and I couldn't get the space between use_dylibs and -Wl, preseved if
+# I tried to have the whole "LDFLAGS=foo" in a variable.
+case %cmsplatf in
+  osx*)
+    ./configure $PLATF_CONF_OPTS --with-hepevt=4000 F77="$F77" \
+		LD='`which gcc`' LDFLAGS='-Wl,-commons,use_dylibs -Wl,-flat_namespace' 
+  ;;
+  *)
+    ./configure $PLATF_CONF_OPTS --with-hepevt=4000 F77="$F77" 
+  ;;
+esac
+
 # NOTE: force usage of gcc to link shared libraries in place of gfortran since
 # the latter causes a:
 #
