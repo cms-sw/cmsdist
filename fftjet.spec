@@ -17,10 +17,12 @@ case %cmsplatf in
   slc5_*_gcc4[0123]*)
     PLATF_CONF_OPTS="--enable-shared"
     F77="`which gfortran`"
+    CXX="`which c++`"
   ;;
   *)
     PLATF_CONF_OPTS="--enable-static --disable-shared"
     F77="`which gfortran` -fPIC"
+    CXX="`which c++` -fPIC"
   ;;
 esac
 # Fake the existance of pkg-config on systems which dont have it.
@@ -28,7 +30,7 @@ esac
 # if you provide DEPS_CFLAGS and DEPS_LIBS.
 touch pkg-config ; chmod +x pkg-config
 ./configure $PLATF_CONF_OPTS --disable-dependency-tracking --enable-threads \
-            --prefix=%i F77="$F77" DEPS_CFLAGS=-I$FFTW3_ROOT/include \
+            --prefix=%i F77="$F77" CXX="$CXX" DEPS_CFLAGS=-I$FFTW3_ROOT/include \
             DEPS_LIBS="-L$FFTW3_ROOT/lib -lfftw3" PKG_CONFIG=$PWD/pkg-config
 make %makeprocesses
 
