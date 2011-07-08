@@ -13,6 +13,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost.xml
   <info url="http://www.boost.org"/>
   <lib name="@BOOST_THREAD_LIB@"/>
   <lib name="@BOOST_SIGNALS_LIB@"/>
+  <lib name="@BOOST_DATE_TIME_LIB@"/>
   <client>
     <environment name="BOOST_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$BOOST_BASE/lib"/>
@@ -107,6 +108,7 @@ getLibName()
 export BOOST_THREAD_LIB=`getLibName thread`
 export BOOST_SIGNALS_LIB=`getLibName signals`
 export BOOST_FILESYSTEM_LIB=`getLibName filesystem`
+export BOOST_DATE_TIME_LIB=`getLibName date_time`
 export BOOST_SYSTEM_LIB=`getLibName system`
 export BOOST_PROGRAM_OPTIONS_LIB=`getLibName program_options`
 export BOOST_PYTHON_LIB=`getLibName python`
