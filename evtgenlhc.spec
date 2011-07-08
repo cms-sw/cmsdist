@@ -22,9 +22,11 @@ Requires: gfortran-macosx
 %patch4 -p2
 
 %build
-# We build archive libraries only on macosx.
+# On old architectures we build dynamic libraries, on 
+# new ones archives.
 case %cmsos in
-  osx*) BUILD_PRODUCT=lib_archive ;;
+  slc5_*_gcc4[01234]*) ;;
+  *) BUILD_PRODUCT=lib_archive ;;
 esac
 ./configure --lcgplatform=%cmsplatf --with-clhep=$CLHEP_ROOT
 # The configure script does not actually specifies the -L$CLHEP_ROOT & co. 
