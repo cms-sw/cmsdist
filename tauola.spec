@@ -21,13 +21,21 @@ Requires: gfortran-macosx
 %patch1 -p2
 %patch2 -p2
 %patch3 -p3
-case %cmsos in
-  osx*)
+# Build static library only on new platforms.
+case %cmsplatf in 
+  slc5_*_gcc4[01234]*) FC="`which gfortran`" ;;
+  *) FC="`which gfortran` -fPIC" 
 %patch4 -p3
   ;;
 esac
-./configure --lcgplatform=%cmsplatf --with-pythia6libs=$PYTHIA6_ROOT/lib
-
+./configure --lcgplatform=%cmsplatf --with-pythia6libs=$PYTHIA6_ROOT/lib FC="$FC"
+case %cmsplatf in
+  slc5_*_gcc4[01234]*) ;;
+  *)
+    # Make sure we compile with -fPIC also in the case of archive libraries.
+    perl -p -i -e "s|FC = gfortran|FC = `which gfortran` -fPIC|;s|CC = gcc|CC = `which gcc` -fPIC|" config.mk
+  ;;
+esac
 %build
 make PHOTOS_ROOT=$PHOTOS_ROOT
 
