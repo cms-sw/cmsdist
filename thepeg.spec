@@ -31,11 +31,19 @@ esac
 %patch4 -p1
 
 %build
-./configure --with-LHAPDF=$LHAPDF_ROOT --with-hepmc=$HEPMC_ROOT \
+# Build as static only on new architectures.
+case %cmsplatf in 
+  slc5*_*_gcc4[01234]*) ;;
+  *) perl -p -i -e 's|libLHAPDF[.]so|libLHAPDF.a|g;s|[.]dylib|.a|g' configure ;;
+esac
+
+./configure --enable-shared --disable-static \
+            --with-LHAPDF=$LHAPDF_ROOT \
+            --with-hepmc=$HEPMC_ROOT \
             --with-gsl=$GSL_ROOT --with-zlib=$ZLIB_ROOT \
             --without-javagui --prefix=%i \
             --disable-readline CXX="`which c++`" CC="`which cc`" \
-            LIBS="`gfortran --print-file-name=libgfortran.a` -lz"
+            LIBS="-L$LHAPDF_ROOT/lib -lLHAPDF `gfortran --print-file-name=libgfortran.so` -lz"
 make
 
 %install
