@@ -14,15 +14,22 @@ Requires: gfortran-macosx
 %setup -q -n %{n}/%{realversion}
 %patch0 -p0 
 %patch1 -p3
-case %cmsos in
-  osx*)
+case %cmsplatf in
+  slc5_*_gcc4[01234]*) ;;
+  *) 
 %patch2 -p3
   ;;
 esac
-
 %build
+# NOTE: old platforms were built using dynamic libraries. Since
+#       gcc451 or on mac we need to use archive ones (because of gold).
+case %cmsplatf in
+  slc5_*_gcc4[01234]*) FC="`which gfortran`" ;;
+  *) FC="`which gfortran` -fPIC" ;;
+esac
+
 ./configure --lcgplatform=%cmsplatf
-make FC="`which gfortran` -fPIC" PYTHIA6_ROOT=$PYTHIA6_ROOT
+make FC="$FC" PYTHIA6_ROOT=$PYTHIA6_ROOT
 
 %install
 tar -c lib include | tar -x -C %i
