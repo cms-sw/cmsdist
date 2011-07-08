@@ -23,7 +23,14 @@ cd share/lhapdf/PDFsets
 %patch2 -p5
 
 rm -f *gz NNPDF*1000*
-gzip -9 *
+cat <<\EOF > ../compress.mk
+FILES=$(addsuffix .gz,$(wildcard *))
+all: ${FILES}
+%.gz: %
+	gzip -9 $<
+EOF
+
+make -j 4 -f ../compress.mk all
 cd ../../..
 
 %build
@@ -38,17 +45,18 @@ aclocal -I m4
 autoconf
 automake --add-missing
 
-case %cmsplatf in
-  # Looks like configure was generated with an ancient version
-  # of autotools which does not work on snow leopard.
-  # This seems to fix it. 
-  osx*)
-    PLATF_CONF_OPTS="--enable-static --disable-shared"
-    PLATF_FC="`which gfortran` -fPIC"
+# Only old platform can be build using shared librari 
+case %cmsplatf in 
+  slc5_*_gcc4[01234]*) 
+    FC="`which gfortran`"
+    CXX="`which c++`"
+    CC="`which gcc`"
   ;;
-  slc*)
-    PLATF_CONF_OPTS=""
-    PLATF_FC="`which gfortran`"
+  *) 
+    PLATF_CONF_OPTS="--enable-static --disable-shared" 
+    FC="`which gfortran` -fPIC"
+    CXX="`which c++` -fPIC"
+    CC="`which gcc` -fPIC"
   ;;
 esac
 
@@ -62,7 +70,7 @@ rm -rf tests examples
 ./configure --prefix=%i $PLATF_CONF_OPTS --disable-pyext \
             --disable-octave --disable-doxygen \
             --enable-low-memory --with-max-num-pdfsets=1 \
-            FC="$PLATF_FC" \
+            FC="$FC" CXX="$CXX" CC="$CC" \
             CPPFLAGS="-I ${ZLIB_ROOT}/include" LDFLAGS="-L${ZLIB_ROOT}/lib -lz"
 perl -p -i -e 's|examples||;s|tests||' Makefile
 find . -name Makefile -o -name config.status -exec perl -p -i -e 's|/usr/lib64/lib[cm].a||g' {} \;
@@ -75,7 +83,7 @@ make distclean
 ./configure --prefix=%i/full $PLATF_CONF_OPTS \
             --disable-pyext \
             --disable-octave --disable-doxygen\
-            FC="$PLATF_FC" \
+            FC="$FC" CXX="$CXX" CC="$CC" \
             CPPFLAGS="-I ${ZLIB_ROOT}/include" LDFLAGS="-L${ZLIB_ROOT}/lib -lz"
 perl -p -i -e 's|examples||;s|tests||' Makefile
 find . -name Makefile -o -name config.status -exec perl -p -i -e 's|/usr/lib64/lib[cm].a||g' {} \;
