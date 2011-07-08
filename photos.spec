@@ -11,13 +11,17 @@ Requires: gfortran-macosx
 %patch0 -p3
 
 %build
-./configure --lcgplatform=%cmsplatf
 case %cmsplatf in
-  osx*)
-    perl -p -i -e "s|libphotos.so|libphotos.dylib|g" Makefile
-  ;;
+  slc5_*_gcc4[01234]*) ;;
+  *) PLATF_CONFIG_OPTS="--enable-static --disable-shared" ;;
+esac
+./configure --lcgplatform=%cmsplatf $PLATF_CONFIG_OPTS 
+case %cmsplatf in
+  osx*) perl -p -i -e "s|libphotos.so|libphotos.dylib|g" Makefile ;;
 esac
 make 
 
 %install
 tar -c lib include | tar -x -C %i
+find %i/lib/archive -name "*.a" -exec mv {} %i/lib \;
+rm -rf %i/lib/archive

@@ -13,9 +13,17 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/photos.xml
   <client>
     <environment name="PHOTOS_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$PHOTOS_BASE/lib"/>
-    <environment name="INCLUDE" default="$PHOTOS_BASE/include"/>
   </client>
   <use name="f77compiler"/>
+</tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/photos_headers.xml
+<tool name="photos_headers" version="@TOOL_VERSION@">
+  <client>
+    <environment name="PHOTOS_HEADERS_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$PHOTOS_HEADERS_BASE/include"/>
+  </client>
 </tool>
 EOF_TOOLFILE
 
