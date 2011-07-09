@@ -1,6 +1,5 @@
-### RPM external p5-apache2-modssl 0.07
-## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
-%define perlversion %(perl -e 'printf "%%vd", $^V')
+### RPM external p5-apache2-modssl 0.08
+## INITENV +PATH PERL5LIB %i/lib/perl5
 %define downloadn Apache2-ModSSL
 Source: http://search.cpan.org/CPAN/authors/id/O/OP/OPI/%downloadn-%realversion.tar.gz
 Requires: mod_perl2
@@ -10,5 +9,5 @@ Requires: mod_perl2
 
 %build
 export LC_ALL=C
-perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion
+perl Makefile.PL INSTALL_BASE=%i
 make PASTHRU_INC=-I$MOD_PERL2_ROOT/include

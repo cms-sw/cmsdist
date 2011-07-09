@@ -1,7 +1,5 @@
 ### RPM external p5-dbd-sqlite 1.31
-## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
-%define perlversion %(perl -e 'printf "%%vd", $^V')
-%define perlarch %(perl -MConfig -e 'print $Config{archname}')
+## INITENV +PATH PERL5LIB %i/lib/perl5
 %define downloadn DBD-SQLite
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 Source: http://search.cpan.org/CPAN/authors/id/A/AD/ADAMK/%downloadn-%realversion.tar.gz
@@ -16,5 +14,5 @@ Provides: perl(DBI)
 %setup -n %{downloadn}-%{realversion}
 
 %build
-perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion SQLITE_LOCATION=$SQLITE_ROOT
+perl Makefile.PL INSTALL_BASE=%i SQLITE_LOCATION=$SQLITE_ROOT
 make

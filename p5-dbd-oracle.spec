@@ -1,8 +1,6 @@
 ### RPM external p5-dbd-oracle 1.23
-## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
-## BUILDIF case $(uname):$(uname -m) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac
-%define perlversion %(perl -e 'printf "%%vd", $^V')
-%define perlarch %(perl -MConfig -e 'print $Config{archname}')
+## INITENV +PATH PERL5LIB %i/lib/perl5
+## BUILDIF case $(uname):$(uname -m) in Linux:i*86 | Linux:x86_64 | Darwin:* ) true ;; * ) false ;; esac
 %define downloadn DBD-Oracle
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
@@ -26,5 +24,5 @@ Provides: perl(Tk) perl(Tk::Balloon) perl(Tk::ErrorDialog) perl(Tk::FileSelect) 
 perl -p -i -e 's/NMEDIT = nmedit/NMEDIT = true/' Makefile.PL
 %endif
 
-perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion -l -m $ORACLE_HOME/demo/demo.mk -h $ORACLE_HOME/include
+perl Makefile.PL INSTALL_BASE=%i -l -m $ORACLE_HOME/demo/demo.mk -h $ORACLE_HOME/include
 make

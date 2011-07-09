@@ -1,11 +1,6 @@
-### RPM external mod_perl2 2.0.3
-## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
-
-%define perlversion %(perl -e 'printf "%%vd", $^V')
-%define perlarch %(perl -MConfig -e 'print $Config{archname}')
-
+### RPM external mod_perl2 2.0.5
+## INITENV +PATH PERL5LIB %i/lib/perl5
 # See http://perl.apache.org/docs/2.0/user/install/install.html
-
 Source0: http://perl.apache.org/dist/mod_perl-%realversion.tar.gz
 
 # Requires apache2
@@ -27,7 +22,7 @@ Provides: perl(Module::Build)
 %setup -n mod_perl-%realversion
 
 %build
-perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion MP_APXS=$APACHE2_ROOT/bin/apxs MP_AP_DESTDIR=%i
+perl Makefile.PL INSTALL_BASE=%i MP_APXS=$APACHE2_ROOT/bin/apxs MP_AP_DESTDIR=%i
 make
 
 %install
@@ -62,5 +57,5 @@ done
 
 %post
 %{relocateConfig}conf/mod_perl2.conf
-%{relocateConfig}lib/site_perl/%perlversion/%perlarch/Apache2/BuildConfig.pm
+%{relocateConfig}lib/perl5/*/Apache2/BuildConfig.pm
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
