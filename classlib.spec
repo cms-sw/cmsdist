@@ -1,5 +1,5 @@
 ### RPM external classlib 3.1.3
-Source: http://cmsmac01.cern.ch/~lat/exports/%n-%realversion.tar.bz2
+Source: http://lat.web.cern.ch/lat/exports/%n-%realversion.tar.bz2
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
 Requires: bz2lib 
