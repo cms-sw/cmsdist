@@ -2,10 +2,12 @@
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 Source: https://github.com/rtyler/py-yajl/zipball/v%{realversion}
+Patch: py2-yajl-nogit
 Requires: python yajl
 
 %prep
-%setup -n rtyler-py-yajl-*
+%setup -n rtyler-py-yajl-4f25a9b
+%patch
 
 %build
 rm -rf yajl
