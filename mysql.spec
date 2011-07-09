@@ -22,6 +22,7 @@ Provides: perl(DBI)
 # There's for some reason a "-traditional-cpp", which breaks with GCC 3.3
 # so remove it.  (FIXME: check if this is solved in a newer version.)
 perl -p -i -e 's/-traditional-cpp/-no-cpp-precomp/g' configure.in configure
+autoreconf -i -f
 %endif
 
 %build
