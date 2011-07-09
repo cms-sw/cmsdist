@@ -1,8 +1,10 @@
 ### RPM external spidermonkey 1.8.0_rc1
 Source: http://ftp.mozilla.org/pub/mozilla.org/js/js-1.8.0-rc1.tar.gz
+Patch: spidermonkey-osx-va-copy
 
 %prep
 %setup -n js
+%patch -p1
 
 %build
 cd src
@@ -15,13 +17,13 @@ fi
 %install
 cd src
 mkdir -p %i/bin
-cp Linux_All_DBG.OBJ/{js,jscpucfg,jskwgen} %i/bin
+cp *_DBG.OBJ/{js,jscpucfg,jskwgen} %i/bin
 mkdir -p %i/lib
-cp Linux_All_DBG.OBJ/libjs* %i/lib
+cp *_DBG.OBJ/libjs* %i/lib
 mkdir -p %i/include/{editline,fdlibm,liveconnect}
 cp jsproto.tbl %i/include
 cp *.h %i/include
-cp Linux_All_DBG.OBJ/*.h %i/include
+cp *_DBG.OBJ/*.h %i/include
 cp editline/*.h %i/include/editline
 cp fdlibm/*.h %i/include/fdlibm
 cp liveconnect/*.h %i/include/liveconnect
