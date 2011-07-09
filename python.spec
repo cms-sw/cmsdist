@@ -20,7 +20,11 @@ Patch0: python-2.6.4-dont-detect-dbm
 
 %prep
 %setup -n Python-%realversion
-perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" Lib/cgi.py
+find . -type f | while read f; do
+  if head -n1 $f | grep -q /usr/local; then
+    perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" $f
+  else :; fi
+done
 
 case %cmsplatf in
   osx*)
@@ -131,6 +135,13 @@ perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
 
 find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
 find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
+
+# remove executable permission anything which is *.py script,
+# is executable, but does not start with she-bang so not valid
+# executable; this avoids problems with rpm 4.8+ find-requires
+find %i -name '*.py' -perm +0111 | while read f; do
+  if head -n1 $f | grep -q '"'; then chmod -x $f; else :; fi
+done
 
 # remove tkinter that brings dependency on libtk:
 find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
