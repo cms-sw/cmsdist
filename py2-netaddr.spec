@@ -4,7 +4,7 @@ Source: http://github.com/drkjam/netaddr/tarball/rel-%realversion?/%n-%realversi
 Requires: python
 
 %prep
-%setup -n drkjam-netaddr-*
+%setup -n drkjam-netaddr-3d45e61
 
 %build
 python setup.py build

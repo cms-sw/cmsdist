@@ -5,7 +5,7 @@ Source: https://github.com/downloads/lloyd/yajl/yajl-%{realversion}.tar.gz
 Requires: cmake
 
 %prep
-%setup -n yajl-*
+%setup -n yajl-%realversion
 
 %build
 mkdir build

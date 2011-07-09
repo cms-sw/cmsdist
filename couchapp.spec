@@ -5,7 +5,7 @@ Source: http://github.com/couchapp/couchapp/tarball/%realversion?output=/%n-%rea
 Requires: python py2-setuptools py2-restkit
 
 %prep
-%setup -n couchapp-couchapp-*
+%setup -n couchapp-couchapp-202bba1
 
 %build
 python setup.py build

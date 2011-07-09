@@ -5,7 +5,7 @@ Source: http://github.com/hmarr/mongoengine/tarball/v0.3
 Requires: python py2-sphinx py2-setuptools
 
 %prep
-%setup -n hmarr-mongoengine-*
+%setup -n hmarr-mongoengine-d314d88
 
 %build
 python setup.py build
