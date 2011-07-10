@@ -4,7 +4,8 @@
 %define perlversion %(perl -e 'printf "%%vd", $^V')
 %define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn DBD-Oracle
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 %if "%online" != "true"
 Requires: oracle
