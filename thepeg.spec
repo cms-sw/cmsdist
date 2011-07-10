@@ -34,8 +34,7 @@ esac
 # Build as static only on new architectures.
 case %cmsplatf in 
   slc5*_*_gcc4[01234]*) ;;
-  osx*) perl -p -i -e 's|libLHAPDF[.]so|libLHAPDF.a|g' configure ;;
-  *) perl -p -i -e 's|libLHAPDF[.]so|libLHAPDF.a|g;s|[.]dylib|.a|g' configure ;;
+  *) perl -p -i -e 's|libLHAPDF[.]so|libLHAPDF.a|g' configure ;;
 esac
 
 case %cmsplatf in
