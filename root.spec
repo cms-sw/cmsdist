@@ -1,4 +1,4 @@
-### RPM lcg root 5.28.00d
+### RPM lcg root 5.27.06b
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i  
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
@@ -7,18 +7,45 @@ Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 %define ismac %(case %cmsplatf in osx*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
-Patch0: root-5.28-00d-externals
-Patch1: root-5.28-00d-CINT-maxlongline-maxtypedef
-Patch2: root-5.28-00d-roofit-silence-static-printout
-Patch3: root-5.28-00d-linker-gnu-hash-style
-Patch4: root-5.28-00d-TBranchElement-dropped-data-member
-Patch5: root-5.28-00d-r37582-tmva
-Patch6: root-5.28-00d-TTreeCache-r37919
-Patch7: root-5.28-00d-r38248-r38259-r38264-r38265-r38267
-Patch8: root-5.28-00d-fireworks1
-Patch9: root-5.28-00d-r39155
-Patch10: root-5.28-00d-r39525
-Patch11: root-5.28-00d-r39657
+Patch0: root-5.27-06-externals
+Patch1: root-5.27-04-CINT-maxlongline-maxtypedef
+Patch2: root-5.22-00a-roofit-silence-static-printout
+Patch3: root-5.22-00d-linker-gnu-hash-style
+Patch4: root-5.22-00d-TBranchElement-dropped-data-member
+Patch5: root-5.27-06-fireworks9
+Patch6: root-5.27-06b-gdb-backtrace
+Patch7: root-5.27-06-tmva-DecisionTreeNode
+Patch8: root-5.27-06b-r36567
+Patch9: root-5.27-06b-r36572
+Patch10: root-5.27-06b-r36707
+Patch11: root-5.27-06b-r36594
+Patch12: root-5.27-06b-tmva-MethodBase-initvar
+Patch13: root-5.27-06b-r37582-tmva
+Patch14: root-5.27-06b-r37405
+Patch15: root-5.27-06b-r37556
+Patch16: root-5.27-06-fireworks10
+Patch17: root-5.27-06-TTreeClonerTopLevel
+Patch18: root-5.27-06b-r37947
+Patch19: root-5.27-06b-TTreeCache-r37950-r37919-r37917-r37916-r37906
+Patch20: root-5.27-06b-extra-math-for-roofit-5.28.00
+Patch21: root-5.27-06b-TEfficiency-backport-from-5.28.00
+Patch22: root-5.27-06b-histfactory-bits-from-5.28.00
+Patch23: root-5.27-06b-r37210
+Patch24: root-5.27-06b-r38023
+Patch25: root-5.27-06b-r36708
+Patch26: root-5.27-06b-r38126-r38156
+Patch27: root-5.27-06b-r38210
+Patch28: root-5.27-06b-r38248-r38252-r38259-r38264-r38265-r38267
+Patch29: root-5.27-06b-gcc46
+Patch30: root-5.27-06b-r38325
+Patch31: root-5.27-06b-tmva-MethodANNBase-uninitialized-var-fix
+Patch32: root-5.27-06b-r36196-r36698
+Patch33: root-5.27-06-fireworks11
+Patch34: root-5.27-06b-r38369
+Patch35: root-5.27-06b-r39055
+Patch36: root-5.27.06b-r39155
+Patch37: root-5.27.06b-r38057
+Patch38: root-5.27-06b-tbasket_revised_buffers_v4_cms527
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -49,7 +76,34 @@ Requires: gfortran-macosx
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
-%patch11 -p0
+%patch11 -p1
+%patch12 -p1
+%patch13 -p1
+%patch14 -p1
+%patch15 -p1
+%patch16 -p1
+%patch17 -p0
+%patch18 -p1
+%patch19 -p0
+%patch20 -p1
+%patch21 -p1
+%patch22 -p1
+%patch23 -p1
+%patch24 -p1
+%patch25 -p1
+%patch26 -p1
+%patch27 -p1
+%patch28 -p1
+%patch29 -p1
+%patch30 -p1
+%patch31 -p1
+%patch32 -p1
+%patch33 -p1
+%patch34 -p1
+%patch35 -p1
+%patch36 -p1
+%patch37 -p2
+%patch38 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
@@ -137,6 +191,7 @@ esac
 makeopts="%makeprocesses"
 
 make $makeopts
+make cintdlls
 
 %install
 # Override installers if we are using GNU fileutils cp.  On OS X
