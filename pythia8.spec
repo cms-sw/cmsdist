@@ -9,15 +9,6 @@ Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{rea
 %prep
 %setup -q -n %{n}/%{realversion}
 
-case %cmsplatf in
-  slc*) ;;
-  osx*_*_gcc*)
-    export USRLDFLAGSSHARED="-Wl,-commons,use_dylibs"
-  ;;
-  *)
-    echo "Make sure you handle commons!" ; exit 1 ;;
-esac
-
 export PYTHIA6LOCATION=${PYTHIA6_ROOT} 
 export PYTHIA6VERSION=${PYTHIA6_VERSION} 
 export HEPMCLOCATION=${HEPMC_ROOT} 
