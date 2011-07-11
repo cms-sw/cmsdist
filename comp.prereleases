@@ -27,8 +27,7 @@ HG1102b CmsTC
 + 1.34/* CmsTC.spec
 
 # Cms Webtools services
-HG1107b cmsweb
-+ 1.148 PHEDEX-datasvc.spec
+HG1107c cmsweb
 
 # DQM GUI
 HG1106c dqmgui
