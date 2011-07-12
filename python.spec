@@ -1,10 +1,9 @@
 ### RPM external python 2.6.4
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
-## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib/python%{python_major_version}/site-packages
 # OS X patches and build fudging stolen from fink
-%{expand:%%define python_major_version %(echo %realversion | cut -d. -f1,2)}
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 Requires: expat bz2lib db4 gdbm
 
@@ -136,6 +135,9 @@ find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
 find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
 
 # Makes sure that executables start with /usr/bin/env perl and not with comments. 
+find %i -type f -perm -555 -name '*.py' -exec perl -p -i -e 'if ($. == 1) {s|^"""|#/usr/bin/env python\n"""|}' {} \;
+find %i -type f -perm -555 -name '*.py' -exec perl -p -i -e 'if ($. == 1) {s|^\'\'\'|#/usr/bin/env python\n\'\'\'|}' {} \;
+find %i -type f -perm -555 -name '*.py' -exec perl -p -i -e 'if ($. == 1) {s|/usr/local/bin/python|/usr/bin/env python|}' {} \;
 rm -f %i/share/doc/python/Demo/rpc/test
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
