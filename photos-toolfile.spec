@@ -14,6 +14,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/photos.xml
     <environment name="PHOTOS_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$PHOTOS_BASE/lib"/>
   </client>
+  <use name="photos_headers"/>
   <use name="f77compiler"/>
 </tool>
 EOF_TOOLFILE
