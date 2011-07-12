@@ -1,4 +1,4 @@
-### RPM external millepede 03.04.00
+### RPM external millepede 03.04.01
 # CAREFUL: NO VERSION IN TARBALL !!!
 # Source: http://www.desy.de/~blobel/Mptwo.tgz
 # Source: http://cmsrep.cern.ch/cmssw/millepede-mirror/millepede-2.0.tar.gz
