@@ -2,14 +2,27 @@
 Source: http://lcgapp.cern.ch/project/simu/HepMC/download/HepMC-%realversion.tar.gz
 Patch0: hepmc-2.03.06-reflex
 
+%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
+Requires: gfortran-macosx
+%endif
+
 %prep
 %setup -q -n HepMC-%{realversion}
 %patch0 -p0
-
-./configure --prefix=%{i} --with-momentum=GEV --with-length=MM F77="gfortran"
+case %cmsplatf in
+  slc5_*_gcc4[01234]*) 
+    F77="`which gfortran`"
+    PLATF_CONFIG_OPTS=""
+  ;;
+  *)
+    F77="`which gfortran` -fPIC"
+    PLATF_CONFIG_OPTS="--enable-static --disable-shared"
+  ;;
+esac
+./configure $PLATF_CONFIG_OPTS --prefix=%{i} --with-momentum=GEV --with-length=MM F77="$F77"
 
 %build
-make 
+make %makeprocesses
 
 %install
 make install
