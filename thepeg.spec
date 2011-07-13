@@ -33,28 +33,32 @@ esac
 %build
 # Build as static only on new architectures.
 case %cmsplatf in 
-  slc5*_*_gcc4[01234]*) ;;
-  osx*) perl -p -i -e 's|libLHAPDF[.]so|libLHAPDF.a|g' configure ;;
-  *) perl -p -i -e 's|libLHAPDF[.]so|libLHAPDF.a|g;s|[.]dylib|.a|g' configure ;;
+  slc5*_*_gcc4[01234]*) 
+    CXX="`which c++`"
+    CC="`which gcc`"    
+    PLATF_CONF_OPTS="--enable-shared --disable-static"
+    LIBGFORTRAN=`gfortran --print-file-name=libgfortran.so` 
+  ;;
+  *) perl -p -i -e 's|libLHAPDF[.]so|libLHAPDF.a|g' configure 
+    CXX="`which c++` -fPIC"
+    CC="`which gcc` -fPIC"
+    PLATF_CONF_OPTS="--enable-shared --disable-static"
+    LIBGFORTRAN="`gfortran --print-file-name=libgfortran.so`"
+  ;;
 esac
 
 case %cmsplatf in
-  osx*) 
-    LIBGFORTRAN=`gfortran --print-file-name=libgfortran.a` 
-    PLATF_CONF_OPTS="--enable-static --disable-shared"
-  ;;
-  *)
-    LIBGFORTRAN=`gfortran --print-file-name=libgfortran.so` 
-    PLATF_CONF_OPTS="--enable-shared --disable-static"
+  osx*)
+    LIBGFORTRAN="`gfortran --print-file-name=libgfortran.a`"
   ;;
 esac
 
-./configure --enable-shared --disable-static \
+./configure $PLATF_CONF_OPTS \
             --with-LHAPDF=$LHAPDF_ROOT \
             --with-hepmc=$HEPMC_ROOT \
             --with-gsl=$GSL_ROOT --with-zlib=$ZLIB_ROOT \
             --without-javagui --prefix=%i \
-            --disable-readline CXX="`which c++`" CC="`which cc`" \
+            --disable-readline CXX="$CXX" CC="$CC" \
             LIBS="-L$LHAPDF_ROOT/lib -lLHAPDF $LIBGFORTRAN -lz"
 make
 
