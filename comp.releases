@@ -3,6 +3,9 @@
 # Cms Webtools services
 HG1107c cmsweb
 
+HG1107c stagemanager-agent
++ 1.4/0.0.2 stagemanager-agent.spec
+
 HG1104d wmagent
 + WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
 + HEAD/0.7.12 wmcore.spec wmagent.spec

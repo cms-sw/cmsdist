@@ -80,11 +80,9 @@ HG1107a crab-server3
 HG1105c py2-sqlobject
 + HEAD/1.0.0 py2-sqlobject.spec
 
-# Build for stagemanager agent for T1 tests
-#HG1107a stagemanager-agent
-#+ 1.3/0.0.2 stagemanager-agent.spec
-HG1107a stagemanager
-+ 1.6/0.0.2 stagemanager.spec
+# Stage manager
+HG1107c stagemanager-agent
++ 1.4/0.0.2 stagemanager-agent.spec
 
 # Test build for asyncstageout
 HG1107a asyncstageout
