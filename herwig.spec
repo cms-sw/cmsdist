@@ -38,3 +38,6 @@ case %cmsplatf in
 	ln -sf herwig6520.inc herwig65.inc
     ;;
 esac
+%post
+%{relocateConfig}lib/libherwig.la
+%{relocateConfig}lib/libherwig_pdfdummy.la
