@@ -5,8 +5,18 @@ Patch1: herwig-6.520-tauoladummy
 
 %prep
 %setup -q -n %n/%{realversion}
+case %cmsplatf in
+  slc5_*_gcc4[01234]*)
+    F77="`which gfortran`"
+    PLATF_CONFIG_OPTS="--enable-shared"
+  ;;
+  *)
+    F77="`which gfortran` -fPIC"
+    PLATF_CONFIG_OPTS="--disable-shared --enable-static"
+  ;;
+esac
 
-./configure --enable-shared --prefix=%i F77=gfortran
+./configure $PLATF_CONFIG_OPTS --prefix=%i F77="$F77"
 
 %build
 make %{makeprocesses} LHAPDF_ROOT=$LHAPDF_ROOT PHOTOS_ROOT=$PHOTOS_ROOT
@@ -28,3 +38,6 @@ case %cmsplatf in
 	ln -sf herwig6520.inc herwig65.inc
     ;;
 esac
+%post
+%{relocateConfig}lib/libherwig.la
+%{relocateConfig}lib/libherwig_pdfdummy.la
