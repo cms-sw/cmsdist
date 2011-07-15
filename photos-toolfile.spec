@@ -28,5 +28,5 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/photos_headers.xml
 </tool>
 EOF_TOOLFILE
 
-## IMPORT scram-tools-post\
+## IMPORT scram-tools-post
 
