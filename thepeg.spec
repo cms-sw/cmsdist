@@ -73,3 +73,4 @@ done
 
 %post
 %{relocateConfig}lib/ThePEG/*.la
+

@@ -30,3 +30,4 @@ make %{makeprocesses}
 
 %install
 make install
+

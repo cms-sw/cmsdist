@@ -42,3 +42,4 @@ make %makeprocesses FCOMP=gfortran LOADER=gfortran
 make install
 mkdir -p %i/bin
 cp bin/* %i/bin
+

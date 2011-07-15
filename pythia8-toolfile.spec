@@ -26,3 +26,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pythia8.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+

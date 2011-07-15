@@ -89,3 +89,4 @@ perl -p -i -e 's|examples||;s|tests||' Makefile
 find . -name Makefile -o -name config.status -exec perl -p -i -e 's|/usr/lib64/lib[cm].a||g' {} \;
 make %makeprocesses; make install
 rm -rf %{i}/lib/*.la
+

@@ -30,3 +30,4 @@ make FC="`which gfortran` -fPIC" PYTHIA6_ROOT=$PYTHIA6_ROOT LHAPDF_ROOT=$LHAPDF_
 tar -c lib include | tar -x -C %i
 find %i/lib/archive -name "*.a" -exec mv {} %i/lib \;
 rm -rf %i/lib/archive
+

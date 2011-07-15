@@ -47,3 +47,4 @@ rm -rf %i/lib/pkgconfig
 
 %post
 %{relocateConfig}lib/*.la
+

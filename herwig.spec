@@ -41,3 +41,4 @@ esac
 %post
 %{relocateConfig}lib/libherwig.la
 %{relocateConfig}lib/libherwig_pdfdummy.la
+

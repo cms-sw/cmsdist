@@ -31,3 +31,4 @@ rm %i/share/Herwig++/Doc/fixinterfaces.pl
 
 %post
 %{relocateConfig}share/Herwig++/HerwigDefaults.rpo
+

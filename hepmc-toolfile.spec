@@ -30,3 +30,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/hepmc_headers.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+
