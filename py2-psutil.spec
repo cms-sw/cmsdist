@@ -1,11 +1,20 @@
-### RPM cms wmcore-db-oracle 1
-## INITENV +PATH PYTHONPATH %i/lib
+### RPM external py2-psutil 0.3.0
+## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
-Requires: wmcore py2-cx-oracle 
+Source: http://psutil.googlecode.com/files/psutil-%realversion.tar.gz
+
+Requires: python 
 
 %prep
+%setup -n psutil-%realversion
+
 %build
+python setup.py build
+
 %install
+python setup.py install --prefix=%i
+find %i -name '*.egg-info' -exec rm {} \;
+find %i -name '.package-checksum' -exec rm {} \;
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
