@@ -1,9 +1,9 @@
-### RPM cms T0DataSvc 5.0.3
+### RPM cms T0DataSvc 5.0.4
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver 0.7.4
 %define moduleName T0
 %define exportName T0
-%define cvstag T0DataSvc-5_0_3
+%define cvstag T0DataSvc-5_0_4
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_t0datasvc.tar.gz
