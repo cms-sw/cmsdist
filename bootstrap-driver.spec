@@ -196,7 +196,7 @@ case %cmsplatf in
     osx* )
         additionalProvides="AGL ApplicationServices Carbon CoreFoundation
                             CoreServices OpenGL Python QuickTime Tcl Tk
-                            libintl.3.dylib libperl.dylib"
+                            libintl.3.dylib"
 
     ;;
 esac
