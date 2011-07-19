@@ -19,8 +19,8 @@ HG1107a das
 #+ HEAD/1.0.8 T0PromptSkim.spec
 
 # T0DataSvc
-HG1106b T0DataSvc
-+ HEAD/5.0.3 T0DataSvc.spec
+HG1107a T0DataSvc
++ HEAD/5.0.4 T0DataSvc.spec
 
 # CmsTC
 HG1102b CmsTC
