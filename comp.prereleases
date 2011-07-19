@@ -33,9 +33,9 @@ HG1107c cmsweb
 HG1106c dqmgui
 + 1.69 dqmgui.spec
 
-HG1106c reqmgr
+HG1108a reqmgr
 + 1.46/1.0.2 couchdb.spec
-+ HEAD/0.7.9b reqmgr.spec
++ HEAD/0.8.0 reqmgr.spec
 
 # WorkQueue
 HG1107a workqueue
