@@ -1,4 +1,4 @@
-### RPM external py2-zmq 2.0.10.1
+### RPM external py2-zmq 2.1.7
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
 Source: https://github.com/downloads/zeromq/pyzmq/pyzmq-%realversion.tar.gz
