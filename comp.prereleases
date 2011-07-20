@@ -11,8 +11,11 @@
 # DAS test build with wmcore-web dependency
 # 1.228 is 0.7.1
 # 1.241 is 0.8.4
+# 1.242 is 0.9.0.pre1
 HG1107a das
-+ 1.241 das.spec
++ 1.242 das.spec
++ 1.18 py2-pymongo.spec
++ 1.1 pymongo_enable_cbson.patch
 
 # T0PromptSkim
 #HG1105a T0PromptSkim
