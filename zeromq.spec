@@ -1,4 +1,4 @@
-### RPM external zeromq 2.0.11
+### RPM external zeromq 2.1.7
 Source: http://download.zeromq.org/%n-%realversion.tar.gz
 
 %prep
