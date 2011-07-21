@@ -83,9 +83,9 @@ HG1107a crab-server3
 HG1105c py2-sqlobject
 + HEAD/1.0.0 py2-sqlobject.spec
 
-# Stage manager
-HG1107c stagemanager-agent
-+ 1.4/0.0.2 stagemanager-agent.spec
+# CouchDB to work with client proxy certificates
+HG1107c couchdb
++ 1.2 couchdb-ssl-client-cert.patch
 
 # Test build for asyncstageout
 HG1107c asyncstageout
