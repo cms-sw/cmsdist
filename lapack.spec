@@ -1,4 +1,4 @@
-### RPM external lapack 3.3.1
+### RPM external lapack 3.3.0
 Source0: http://www.netlib.org/lapack/lapack.tgz
 Source1: http://www.netlib.org/lapack/manpages.tgz
 
