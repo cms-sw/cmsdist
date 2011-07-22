@@ -1,4 +1,4 @@
-### RPM external fastjet 2.4.3
+### RPM external fastjet 2.4.4
 Source: http://www.lpthe.jussieu.fr/~salam/fastjet/repo/%n-%realversion.tar.gz
 Patch1: fastjet-2.1.0-nobanner
 Patch2: fastjet-2.3.4-siscone-banner
