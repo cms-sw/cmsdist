@@ -17,6 +17,10 @@ HG1107a das
 + 1.18 py2-pymongo.spec
 + 1.1 pymongo_enable_cbson.patch
 
+# FileMover
+HG1107a filemover
++ 1.25 filemover.spec
+
 # T0PromptSkim
 #HG1105a T0PromptSkim
 #+ HEAD/1.0.8 T0PromptSkim.spec
