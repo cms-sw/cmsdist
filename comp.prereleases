@@ -86,6 +86,8 @@ HG1105c py2-sqlobject
 # CouchDB to work with client proxy certificates
 HG1107c couchdb
 + 1.2 couchdb-ssl-client-cert.patch
++ 1.21 erlang.spec
++ 1.1 erlang-ssl-connection.patch
 
 # Test build for asyncstageout
 HG1107c asyncstageout
