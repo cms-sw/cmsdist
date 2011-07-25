@@ -1,21 +1,19 @@
-### RPM external py2-pyopenssl 0.7
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+### RPM external py2-pyopenssl 0.6.900 
+%define pythonv %(echo $PYTHON_VERSION | cut -d. -f 1,2)
+## INITENV +PATH PYTHONPATH %{i}/lib/python%{pythonv}/site-packages
+## INITENV +PATH PATH %{i}/bin
 
-Source: http://downloads.sourceforge.net/pyopenssl/pyOpenSSL-%realversion.tar.gz
+Summary: A Python wrapper for OpenSSL
+Group: Development/Libraries
+Packager: Conrad Steenberg <conrad@hep.caltech.edu>
+Source: http://julian.ultralight.org/clarens/devel/pyOpenSSL-%v.tar.gz
 Requires: python openssl
-
 %prep
-%setup -n pyOpenSSL-%realversion
-
-cat >> setup.cfg <<- EOF
-[build_ext]
-include_dirs = $OPENSSL_ROOT/include
-library_dirs = $OPENSSL_ROOT/lib
-EOF
+%setup -n pyOpenSSL-%{v}
 
 %build
+CFLAGS="-I$OPENSSL_ROOT/include -I$OPENSSL_ROOT/include/openssl" LDFLAGS="-L$OPENSSL_ROOT/lib" \
 python setup.py build 
 
 %install
 python setup.py install --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
