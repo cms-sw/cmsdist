@@ -2,6 +2,7 @@
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 %define downloadn Digest-SHA1
 Source: http://search.cpan.org/CPAN/authors/id/G/GA/GAAS/%{downloadn}-%{realversion}.tar.gz
+Requires: p5-extutils-makemaker
 
 %prep
 %setup -n %downloadn-%realversion

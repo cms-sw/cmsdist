@@ -2,6 +2,7 @@
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 %define downloadn Test-Harness
 Source: http://search.cpan.org/CPAN/authors/id/A/AN/ANDYA/%{downloadn}-%{realversion}.tar.gz
+Requires: p5-extutils-makemaker
 
 %prep
 %setup -n %downloadn-%{realversion}

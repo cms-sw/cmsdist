@@ -2,7 +2,7 @@
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 %define downloadn CGI-Session
 Source: http://search.cpan.org/CPAN/authors/id/M/MA/MARKSTOS/%{downloadn}-%{realversion}.tar.gz
-Requires:  p5-cgi
+Requires: p5-extutils-makemaker p5-cgi
 
 # Fake provides for optional backends
 Provides:  perl(DBD::Pg)

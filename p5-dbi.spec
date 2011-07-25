@@ -8,6 +8,8 @@ Provides: perl(Win32::ODBC)
 Provides: libc.so.6(GLIBC_2.3)(64bit)
 
 Source:  http://cpan.mirror.solnet.ch/authors/id/T/TI/TIMB/%{downloadn}-%{realversion}.tar.gz
+Requires: p5-extutils-makemaker
+
 %prep
 %setup -n %downloadn-%{realversion}
 

@@ -2,7 +2,7 @@
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 %define downloadn Digest-HMAC
 Source: http://search.cpan.org/CPAN/authors/id/G/GA/GAAS/%{downloadn}-%{realversion}.tar.gz
-Requires: p5-digest-sha1
+Requires: p5-extutils-makemaker p5-digest-sha1
 
 %prep
 %setup -n %downloadn-%realversion

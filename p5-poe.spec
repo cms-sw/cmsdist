@@ -2,6 +2,7 @@
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 %define downloadn POE
 Source: http://search.cpan.org/CPAN/authors/id/R/RC/RCAPUTO/%{downloadn}-%{realversion}.tar.gz
+Requires: p5-extutils-makemaker
 
 # Fake provides - these are all availalbe on a standard system but unknown to build system
 Provides: perl(HTTP::Date)

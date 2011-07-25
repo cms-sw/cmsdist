@@ -2,7 +2,7 @@
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 %define downloadn CPAN-Meta
 Source: http://search.cpan.org/CPAN/authors/id/D/DA/DAGOLDEN/%{downloadn}-%{realversion}.tar.gz
-Requires: p5-parse-cpan-meta p5-version
+Requires: p5-extutils-makemaker p5-parse-cpan-meta p5-version
 
 %prep
 %setup -n %downloadn-%{realversion}

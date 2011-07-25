@@ -2,7 +2,7 @@
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 %define downloadn Log-Dispatch
 Source: http://search.cpan.org/CPAN/authors/id/D/DR/DROLSKY/%{downloadn}-%{realversion}.tar.gz
-Requires: p5-params-validate
+Requires: p5-extutils-makemaker p5-params-validate
 
 # Provided by system perl
 Provides:  perl(MIME::Lite)

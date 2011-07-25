@@ -2,7 +2,7 @@
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 %define downloadn Apache2-ModSSL
 Source: http://search.cpan.org/CPAN/authors/id/O/OP/OPI/%downloadn-%realversion.tar.gz
-Requires: mod_perl2
+Requires: mod_perl2 p5-extutils-makemaker
 
 %prep
 %setup -n %downloadn-%realversion

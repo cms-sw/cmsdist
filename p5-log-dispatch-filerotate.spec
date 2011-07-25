@@ -2,7 +2,7 @@
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 %define downloadn Log-Dispatch-FileRotate
 Source: http://search.cpan.org/CPAN/authors/id/M/MA/MARKPF/%{downloadn}-%{realversion}.tar.gz
-Requires:  p5-log-dispatch
+Requires: p5-extutils-makemaker p5-log-dispatch
 
 # provided by system perl
 Provides: perl(Date::Manip)

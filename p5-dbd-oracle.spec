@@ -13,7 +13,7 @@ Provides: perl(DBI)
 %endif
 
 Source0: http://mirror.switch.ch/ftp/mirror/CPAN/authors/id/P/PY/PYTHIAN/%downloadn-%{realversion}.tar.gz
-
+Requires: p5-extutils-makemaker
 Provides: perl(Tk) perl(Tk::Balloon) perl(Tk::ErrorDialog) perl(Tk::FileSelect) perl(Tk::Pod) perl(Tk::ROText) 
 
 %prep

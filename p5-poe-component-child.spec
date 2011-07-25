@@ -4,7 +4,7 @@
 Source: http://search.cpan.org/CPAN/authors/id/E/EC/ECALDER/%{downloadn}-%{realversion}.tar.gz
 Patch0: p5-poe-component-child
 
-Requires:  p5-poe
+Requires: p5-extutils-makemaker p5-poe
 
 %prep
 %setup -n %downloadn-%realversion

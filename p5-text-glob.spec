@@ -2,6 +2,8 @@
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 %define downloadn Text-Glob
 Source: http://search.cpan.org/CPAN/authors/id/R/RC/RCLAMP/%{downloadn}-%{realversion}.tar.gz
+Requires: p5-extutils-makemaker
+
 %prep
 %setup -n %downloadn-%realversion
 
