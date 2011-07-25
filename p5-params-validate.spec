@@ -2,7 +2,7 @@
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 %define downloadn Params-Validate
 Source: http://search.cpan.org/CPAN/authors/id/D/DR/DROLSKY/%{downloadn}-%{realversion}.tar.gz
-Requires: p5-module-build
+Requires: p5-extutils-makemaker p5-module-build p5-test-simple p5-attribute-handlers p5-extutils-cbuilder
 
 %prep
 %setup -n %downloadn-%realversion
