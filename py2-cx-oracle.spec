@@ -1,4 +1,4 @@
-### RPM external py2-cx-oracle 5.0.1
+### RPM external py2-cx-oracle 5.1
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define downloadn cx_Oracle
 Source: http://switch.dl.sourceforge.net/sourceforge/cx-oracle/%downloadn-%realversion.tar.gz
