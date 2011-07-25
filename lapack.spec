@@ -1,6 +1,6 @@
 ### RPM external lapack 3.3.1
-Source0: http://www.netlib.org/lapack/lapack.tgz
-Source1: http://www.netlib.org/lapack/manpages.tgz
+Source0: http://www.netlib.org/lapack/lapack-%realversion.tgz
+Source1: http://www.netlib.org/lapack/manpages-%realversion.tgz
 
 Requires: cmake
 
