@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-web 4.0.6pre2
+### RPM cms PHEDEX-web 4.0.9pre1
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define cvsversion WEB_%(echo %realversion | tr . _)
@@ -46,6 +46,8 @@ cat > %i/Documentation/WebSite/PlotConfig/tools/phedex-web.py <<-EOF
 	cherrypy.engine.start() 
 	xc.globals['web'].kill()
 EOF
+
+python -m compileall %i || true
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 ln -sf ../profile.d/init.sh %i/etc/env.d/10-web.sh
