@@ -8,9 +8,9 @@ Requires: p5-extutils-makemaker
 Provides: libc.so.6()(64bit)
 Provides: libc.so.6(GLIBC_2.2.5)(64bit)  
 
-%prep 
-%setup -T -b 0 -n %{downloadn}-%{realversion}
-%setup -D -T -b 1 -n expat-%expatversion
+%prep
+%setup -T -b 1 -n expat-%expatversion
+%setup -D -T -b 0 -n %{downloadn}-%{realversion}
 
 %build
 # We statically compile expat so that the perl module itself,
@@ -29,7 +29,3 @@ make install
 cd ../%{downloadn}-%{realversion}
 perl Makefile.PL INSTALL_BASE=%i EXPATLIBPATH=%_builddir/tmp/lib EXPATINCPATH=%_builddir/tmp/include
 make
-
-%install
-cd ../%{downloadn}-%{realversion}
-make install
