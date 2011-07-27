@@ -5,6 +5,7 @@ Requires: python
 
 %prep
 %setup -n CherryPy-%realversion
+perl -p -i -e 's/import profile/import cProfile as profile/' cherrypy/lib/profiler.py
 
 %build
 python setup.py build
