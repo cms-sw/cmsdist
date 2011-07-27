@@ -1,4 +1,4 @@
-### RPM external p5-locate-maketext-simple 0.21
+### RPM external p5-locale-maketext-simple 0.21
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 %define downloadn Locale-Maketext-Simple
 Source: http://search.cpan.org/CPAN/authors/id/J/JE/JESSE/%{downloadn}-%{realversion}.tar.gz
