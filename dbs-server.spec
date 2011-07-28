@@ -1,4 +1,4 @@
-### RPM cms dbs-server DBS_2_1_5
+### RPM cms dbs-server DBS_2_1_6
 
 %define cvstag %{realversion}
 # define version of DBS to use, it's schema version
@@ -9,8 +9,6 @@ Requires: apache-ant mysql mysql-deployment oracle apache-tomcat java-jdk dbs-sc
 
 %prep
 %setup -n DBS
-# kill running mysql|tomcat under my account since build is over
-ps -w -w -f -u`whoami` | egrep "mysqld|tomcat" | grep -v egrep | awk '{print "kill -9 "$2""}' |/bin/sh
 
 %build
 # DBS wants to have LibValut attached to DBS top-level dir, required by build.xml file

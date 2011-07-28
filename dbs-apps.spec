@@ -1,4 +1,4 @@
-### RPM cms dbs-apps DBS_2_1_5
+### RPM cms dbs-apps DBS_2_1_6
 
 Requires: dbs-server dbs-client dbs-schema dbs-web
 
