@@ -15,8 +15,6 @@ Requires: python openssl py2-zsi py2-pyxml
 %prep
 %setup -n DBS
 %build
-(make DBSHOME=%_builddir/DBS/Clients/Python )
-
 %install
 mkdir -p %{i}/bin
 mkdir -p %{i}/lib

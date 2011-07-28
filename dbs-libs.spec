@@ -8,8 +8,6 @@ Source: %cvsserver&strategy=checkout&module=DBS/LibValut&nocache=true&export=DBS
 %prep
 %setup -n DBS
 %build
-(make DBSHOME=%_builddir/DBS/LibValut )
-
 %install
 mkdir -p %{i}/bin
 mkdir -p %{i}/lib

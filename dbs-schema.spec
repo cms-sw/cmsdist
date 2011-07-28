@@ -9,8 +9,6 @@ Requires: mysql oracle
 %prep
 %setup -n DBS
 %build
-(make DBSHOME=%_builddir/DBS/Schema/NeXtGen )
-
 %install
 mkdir -p %{i}/etc/profile.d
 mkdir -p %{i}/lib/Schema/NeXtGen
