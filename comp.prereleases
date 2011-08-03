@@ -14,8 +14,6 @@
 # 1.243 is 0.9.0.pre2
 HG1108a das
 + 1.242 das.spec
-#+ 1.18 py2-pymongo.spec
-#+ 1.1 pymongo_enable_cbson.patch
 
 # FileMover
 HG1107a filemover
