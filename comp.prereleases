@@ -16,9 +16,9 @@ HG1108a das
 + 1.245 das.spec
 
 # FileMover
-# 1.27 is 1.0.9.pre3
+# 1.28 is 1.0.9.pre4
 HG1108a filemover
-+ 1.27 filemover.spec
++ 1.28 filemover.spec
 
 # T0PromptSkim
 #HG1105a T0PromptSkim
