@@ -1,4 +1,4 @@
-### RPM cms das 0.9.0.pre2
+### RPM cms das 0.9.0.pre3
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver WMCORE_0_7_2
 %define webdoc_files %i/doc/
@@ -12,7 +12,6 @@ Requires: py2-sphinx rotatelogs
 %prep
 %setup -T -b 0 -n WMCore
 %setup -D -T -b 1 -n DAS
-
 
 # remove ipython deps
 rm src/python/DAS/tools/ipy_profile_mongo.py
