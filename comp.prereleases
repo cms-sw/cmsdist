@@ -11,9 +11,9 @@
 # DAS test build with wmcore-web dependency
 # 1.228 is 0.7.1
 # 1.241 is 0.8.4
-# 1.243 is 0.9.0.pre2
+# 1.244 is 0.9.0.pre2
 HG1108a das
-+ 1.242 das.spec
++ 1.244 das.spec
 
 # FileMover
 HG1107a filemover
