@@ -4,6 +4,7 @@
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
+%define webdoc_files %i/doc/
 %define svn svn://svn.cern.ch/reps/CMSDMWM/Monitoring/tags/%{realversion}
 Source: %{svn}?scheme=svn+ssh&strategy=export&module=Monitoring&output=/src.tar.gz
 Requires: cherrypy py2-cheetah yui py2-cx-oracle py2-pil py2-matplotlib py2-pycurl
