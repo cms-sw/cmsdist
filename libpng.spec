@@ -1,6 +1,5 @@
-### RPM external libpng 1.2.45
+### RPM external libpng 1.2.46
 Source: http://downloads.sourceforge.net/libpng/libpng12/%realversion/%n-%realversion.tar.bz2
-Patch: libpng-make-sym
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
 %if "%online" != "true"
@@ -9,7 +8,6 @@ Requires: zlib
 
 %prep
 %setup -n %n-%{realversion}
-%patch
  
 %build
 ./configure --prefix=%{i}
