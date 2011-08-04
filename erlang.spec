@@ -1,6 +1,7 @@
 ### RPM external erlang R14B03
 Source: http://erlang.org/download/otp_src_%{realversion}.tar.gz
 Patch0: erlang-ssl-connection
+Patch1: erlang-ssl-session-cache
 Requires: openssl
 
 # 32-bit
@@ -11,6 +12,7 @@ Provides: libc.so.6(GLIBC_PRIVATE)(64bit)
 %prep
 %setup -n otp_src_%{realversion}
 %patch0 -p0
+%patch1 -p0
 
 %build
 ./configure --prefix=%i
