@@ -1,5 +1,5 @@
 ### RPM external py2-numpy 1.5.1
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 %define downloadn numpy
 Source: http://switch.dl.sourceforge.net/sourceforge/%downloadn/%downloadn-%realversion.tar.gz
 Patch0: py2-numpy-1.5.1-fix-macosx-build
@@ -27,4 +27,6 @@ BLAS=$LAPACK_ROOT/lib/libblas.$SONAME
 
 LAPACK=$LAPACK BLAS=$BLAS python setup.py build --fcompiler "`which gfortran`"
 LAPACK=$LAPACK BLAS=$BLAS python setup.py install --prefix=%i
+egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
+
