@@ -9,11 +9,10 @@
 # When using HEAD as <revision> you must specify <version>.
 
 # DAS test build with wmcore-web dependency
-# 1.228 is 0.7.1
 # 1.241 is 0.8.4
-# 1.245 is 0.9.0.pre3
+# 1.246 is 0.9.0.pre4
 HG1108a das
-+ 1.245 das.spec
++ 1.246 das.spec
 
 # FileMover
 # 1.28 is 1.0.9.pre4
