@@ -1,4 +1,4 @@
-### RPM cms overview 6.0.2
+### RPM cms overview 6.0.7
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH %{dynamic_path_var} %i/xlib
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
@@ -12,6 +12,7 @@ Requires: py2-cjson rotatelogs py2-sphinx
 %prep
 # Unpack sources.
 %setup -n Monitoring
+perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/*/conf.py
 
 # Build
 %build
