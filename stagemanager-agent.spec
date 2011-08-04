@@ -1,4 +1,4 @@
-### RPM cms stagemanager-agent 0.0.2
+### RPM cms stagemanager-agent 0.0.3
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver 0.7.4
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
