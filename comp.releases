@@ -1,17 +1,15 @@
 # The entry format is the same as in comp.prereleases
 
 # Cms Webtools services
-HG1107c cmsweb
+HG1106d cmsweb
++ HEAD/6.0.6 dqmgui.spec
 
-HG1107c stagemanager-agent
-+ 1.4/0.0.2 stagemanager-agent.spec
-
-HG1108a wmagent
+HG1106d wmagent
 + WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
-+ HEAD/0.0.4 couchproxy.spec
-+ HEAD/2.1.7 zeromq.spec py2-zmq.spec
-+ HEAD/0.3.0 py2-psutil.spec
-+ HEAD/0.8.1pre1 wmcore.spec wmagent.spec
++ builder_2011-06-16_16-09-02_wmagent couchproxy.spec couchdb.spec couchdb-cmsauth-Makefile.patch erlang.spec
++ builder_2011-06-16_16-09-02_wmagent zeromq.spec py2-zmq.spec
++ HEAD/0.8.0pre6 wmcore.spec wmagent.spec
 
-HG1107a crab-server3
-+ 1.9/3.0.1a crab-server3.spec
+HG1106a crab-server3
++ 1.6/3.0.0 crab-server3.spec
+
