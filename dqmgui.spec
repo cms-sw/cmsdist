@@ -13,7 +13,7 @@ Source2: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=im
 Source3: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
 Patch0: dqmgui-rtgu
 
-Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root libpng libjpg classlib rotatelogs py2-pycurl py2-cjson
+Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root libpng libjpg classlib rotatelogs py2-pycurl py2-cjson py2-sphinx
 
 %prep
 # Unpack sources.
@@ -24,6 +24,7 @@ Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root libpng libjpg cla
 perl -p -i -e '/#include/ && s|\.\./\.\./|boost/gil/|' $(find . -name *.hpp)
 chmod 644 $(find . -name *.hpp)
 %setup -T -b 0 -n Monitoring
+perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/*/conf.py
 
 # Adapt CMSSW sources to our build.
 mv %_builddir/stuff/{rtgu,boost} src/cpp
@@ -90,3 +91,9 @@ done
 %post
 %{relocateConfig}etc/makefile.ext
 %{relocateConfig}etc/profile.d/{env,dep*}.*sh
+
+%files
+%i/
+%exclude %i/doc
+
+## SUBPACKAGE webdoc
