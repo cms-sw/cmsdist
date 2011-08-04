@@ -6,7 +6,8 @@
 
 %define svn svn://svn.cern.ch/reps/CMSDMWM/Monitoring/tags/%{realversion}
 Source: %{svn}?scheme=svn+ssh&strategy=export&module=Monitoring&output=/src.tar.gz
-Requires: cherrypy py2-cheetah yui py2-cx-oracle py2-pil py2-matplotlib py2-pycurl py2-cjson rotatelogs
+Requires: cherrypy py2-cheetah yui py2-cx-oracle py2-pil py2-matplotlib py2-pycurl
+Requires: py2-cjson rotatelogs py2-sphinx
 
 %prep
 # Unpack sources.
