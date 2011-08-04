@@ -34,6 +34,11 @@ HG1102b CmsTC
 
 # Cms Webtools services
 HG1108a cmsweb
++ 1.22 erlang.spec
++ 1.1 erlang-ssl-session-cache.patch
++ 1.21/1.2.46 libpng.spec
++ 1.6/0.7.1 py2-httplib2.spec
++ 1.7/0.0.3 stagemanager.spec
 
 # DQM GUI
 HG1106c dqmgui
