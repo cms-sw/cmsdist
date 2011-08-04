@@ -40,3 +40,9 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/{env,dep*}.*sh
+
+%files
+%i/
+%exclude %i/doc
+
+## SUBPACKAGE webdoc
