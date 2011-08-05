@@ -6,6 +6,7 @@ Source0: svn://svn.apache.org/repos/asf/couchdb/tags/%realversion?scheme=https&m
 Source1: couch_cms_auth.erl
 Patch0: couchdb-cmsauth-Makefile
 Patch1: couchdb-ssl-client-cert
+Patch2: couchdb-replication-timeout
 
 # Although there is no technical software dependency,
 # couchapp was included because all CMS applications will need it.
@@ -15,6 +16,7 @@ Requires: curl spidermonkey openssl icu4c erlang couchapp
 %setup -n couchdb 
 %patch0 -p0
 %patch1 -p0
+%patch2 -p0
 cp %_sourcedir/couch_cms_auth.erl %_builddir/couchdb/src/couchdb
 
 %build
