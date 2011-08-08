@@ -1,4 +1,4 @@
-### RPM cms dbs-libs DBS_2_1_5
+### RPM cms dbs-libs DBS_2_1_6
 ## INITENV +PATH PYTHONPATH %i/lib/
 
 %define cvstag %{realversion}
@@ -8,8 +8,6 @@ Source: %cvsserver&strategy=checkout&module=DBS/LibValut&nocache=true&export=DBS
 %prep
 %setup -n DBS
 %build
-(make DBSHOME=%_builddir/DBS/LibValut )
-
 %install
 mkdir -p %{i}/bin
 mkdir -p %{i}/lib
