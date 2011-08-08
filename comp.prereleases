@@ -83,12 +83,12 @@ HG1107a PHEDEX-combined-web
 
 # DBS-2
 HG1107c dbs-server
-+ DBS_2_1_6-pre3 dbs-{server,libs,schema}.spec
-+ DBS_2_1_6-pre3 apache-{ant,tomcat}.spec
++ DBS_2_1_6-pre4 dbs-{server,libs,schema}.spec
++ DBS_2_1_6-pre4 apache-{ant,tomcat}.spec
 
 # DBS-2 client
 HG1107c dbs-client
-+ DBS_2_1_6-pre3 dbs-client.spec
++ DBS_2_1_6-pre4 dbs-client.spec
 
 # DBS3 build
 HG1107a dbs3
