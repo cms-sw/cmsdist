@@ -43,3 +43,6 @@ done
  
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
+
+. $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+ln -sf $DBS_LIBS_ROOT/lib $DBS_SERVER_ROOT/LibValut
