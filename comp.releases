@@ -1,7 +1,7 @@
 # The entry format is the same as in comp.prereleases
 
 # Cms Webtools services
-HG1107b cmsweb
+HG1107c cmsweb
 
 HG1104d wmagent
 + WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
