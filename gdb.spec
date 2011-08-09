@@ -1,5 +1,5 @@
 ### RPM external gdb 7.1
-## BUILDIF case $(uname):$(uname -m) in Linux:i*86 | Linux:x86_64 | Darwin:* ) true ;; * ) false ;; esac 
+## BUILDIF case $(uname):$(uname -m) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) false ;; * ) false ;; esac 
 
 Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.bz2
 Requires: python
@@ -21,6 +21,6 @@ cd %i/bin/
 ln -s gdb gdb-%{realversion}
 
 # To save space, clean up some things that we don't really need 
-rm -r %i/lib/*
-rm -f %i/bin/gdbserver
-rm -f %i/bin/gdbtui
+rm %i/lib/*
+rm %i/bin/gdbserver
+rm %i/bin/gdbtui
