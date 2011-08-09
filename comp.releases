@@ -3,9 +3,10 @@
 # Cms Webtools services
 HG1107c cmsweb
 
-# DBS-2 client
-HG1107c dbs-client
-+ DBS_2_1_6-pre5 dbs-client.spec
+# DBS-2
+HG1107c dbs-server
++ DBS_2_1_6-pre5 dbs-{server,libs,schema}.spec
++ DBS_2_1_6-pre5 apache-{ant,tomcat}.spec
 
 HG1107c stagemanager-agent
 + 1.4/0.0.2 stagemanager-agent.spec
