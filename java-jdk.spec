@@ -1,10 +1,6 @@
 ### RPM external java-jdk 1.5.0_15
-# Linux only; OS X ships java on system which we use instead
+## BUILDIF [ "$(uname)" != "Darwin" ]
 
-%ifos darwin
-Source: none
-
-%else
 Provides: libasound.so.2
 Provides: libasound.so.2(ALSA_0.9)
 Provides: libjava_crw_demo_g.so
@@ -44,19 +40,18 @@ Provides: libodbcinst.so()(64bit)
 
 Source0: http://cmsrep.cern.ch/cmssw/jdk-mirror/jdk-%downloadv-linux-i586.bin
 Source1: http://cmsrep.cern.ch/cmssw/jdk-mirror/jdk-%downloadv-linux-amd64.bin
-%endif
 
 %prep
-%ifnos darwin
+%if %(uname) != Darwin
+ls
 %define javadir jdk%(echo %realversion| sed -e "s/.p/_0/")
 rm -rf %javadir
 yes | sh %{_sourcedir}/jdk-%downloadv-linux-%downloadarch.bin
 cd %javadir
 %endif
-
 %build
-
 %install
-%ifnos darwin
+%if %(uname) != Darwin
+ls 
 cp -r %javadir/* %i
 %endif
