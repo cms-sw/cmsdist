@@ -1,10 +1,9 @@
 ### RPM external python 2.6.4
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
-## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib/python%{python_major_version}/site-packages
 # OS X patches and build fudging stolen from fink
-%{expand:%%define python_major_version %(echo %realversion | cut -d. -f1,2)}
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 Requires: expat bz2lib db4 gdbm
 
@@ -20,11 +19,7 @@ Patch0: python-2.6.4-dont-detect-dbm
 
 %prep
 %setup -n Python-%realversion
-find . -type f | while read f; do
-  if head -n1 $f | grep -q /usr/local; then
-    perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" $f
-  else :; fi
-done
+perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" Lib/cgi.py
 
 case %cmsplatf in
   osx*)
@@ -136,17 +131,13 @@ perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
 find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
 find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
 
-# remove executable permission anything which is *.py script,
-# is executable, but does not start with she-bang so not valid
-# executable; this avoids problems with rpm 4.8+ find-requires
-find %i -name '*.py' -perm +0111 | while read f; do
-  if head -n1 $f | grep -q '"'; then chmod -x $f; else :; fi
-done
-
 # remove tkinter that brings dependency on libtk:
 find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
 
 # Makes sure that executables start with /usr/bin/env perl and not with comments. 
+find %i -type f -perm -555 -name '*.py' -exec perl -p -i -e 'if ($. == 1) {s|^"""|#/usr/bin/env python\n"""|}' {} \;
+find %i -type f -perm -555 -name '*.py' -exec perl -p -i -e 'if ($. == 1) {s|^\'\'\'|#/usr/bin/env python\n\'\'\'|}' {} \;
+find %i -type f -perm -555 -name '*.py' -exec perl -p -i -e 'if ($. == 1) {s|/usr/local/bin/python|/usr/bin/env python|}' {} \;
 rm -f %i/share/doc/python/Demo/rpc/test
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
