@@ -5,7 +5,7 @@
 %define cvstag %realversion
 %define cvsserver cvs://:pserver:anonymous@cmssw.cvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
-Requires: python cherrypy py2-cx-oracle rotatelogs py2-cheetah  py2-pyopenssl
+Requires: python cherrypy py2-cx-oracle rotatelogs py2-cheetah  py2-pyopenssl graphviz
  
 %prep
 %setup -n %{moduleName}
