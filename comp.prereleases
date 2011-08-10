@@ -59,8 +59,8 @@ HG1106c dqmgui
 #+ HEAD/0.8.0 reqmgr.spec
 
 # WorkQueue
-HG1107a workqueue
-+ HEAD/0.0.18 workqueue.spec
+HG1108a workqueue
++ HEAD/0.0.19 workqueue.spec
 + WMCORE_0_6_12 dls-client.spec
 
 HG1107c wmagent

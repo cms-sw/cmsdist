@@ -1,9 +1,9 @@
-### RPM cms workqueue 0.0.18
+### RPM cms workqueue 0.0.19
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define cvstag %v
 
 #Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
-Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk@13232?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
+Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk@13463?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
 
 Requires: python py2-httplib2 pystack rotatelogs couchdb dbs-client dls-client py2-cjson
 
@@ -19,6 +19,7 @@ find %i -name '*.egg-info' -exec rm {} \;
 
 mkdir -p %i/bin
 cp -pf %_builddir/WMCore/bin/*workqueue* %i/bin
+cp -pf %_builddir/WMCore/bin/wmagent-couchapp-init %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 rm -rf %i/etc/profile.d
