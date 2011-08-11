@@ -1,6 +1,6 @@
-### RPM cms wmagent 0.8.1pre1
+### RPM cms wmagent 0.7.14a
 
-Requires: wmcore-db-mysql wmcore-db-couch wmcore-webtools py2-cjson dbs-client dls-client couchproxy py2-zmq py2-psutil
+Requires: wmcore-db-mysql wmcore-db-couch wmcore-webtools py2-cjson dbs-client dls-client
 
 
 %prep
