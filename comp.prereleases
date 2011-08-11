@@ -30,6 +30,7 @@ HG1107a T0DataSvc
 # CmsTC
 HG1102b CmsTC
 + 1.38/* CmsTC.spec
++ HEAD/2.16.1 graphviz.spec
 
 # Cms Webtools services
 HG1108a cmsweb
