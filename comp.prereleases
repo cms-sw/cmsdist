@@ -61,7 +61,7 @@ HG1108a reqmgr
 
 # WorkQueue
 HG1108a workqueue
-+ HEAD/0.0.19 workqueue.spec
++ HEAD/0.0.20 workqueue.spec
 + WMCORE_0_6_12 dls-client.spec
 
 HG1107c wmagent
