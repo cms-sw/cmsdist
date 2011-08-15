@@ -41,7 +41,9 @@ HG1108a cmsweb
 + 1.1 couchdb-replication-id.patch
 + 1.21/1.2.46 libpng.spec
 + 1.5/0.6.0 py2-httplib2.spec
-+ 1.7/0.0.3 stagemanager.spec
++ 1.8/0.0.4 stagemanager.spec
++ 1.75/6.0.7 dqmgui.spec
++ 1.23/6.0.7 overview.spec
 
 # Stagemanager offsite agent
 HG1108a stagemanager-agent
