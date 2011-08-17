@@ -18,7 +18,7 @@ case %gccver in
 esac
 
 %build
-./configure --prefix=%i
+./configure --prefix=%i --disable-static
 make
 
 %install

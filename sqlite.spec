@@ -5,7 +5,7 @@ Source: http://www.sqlite.org/sqlite-%{realversion}.tar.gz
 %setup -n %n-%{realversion}
 
 %build
-./configure --prefix=%i --disable-tcl
+./configure --prefix=%i --disable-tcl --disable-static
 make %makeprocesses
 
 %install

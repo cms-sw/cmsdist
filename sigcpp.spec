@@ -10,7 +10,7 @@ case %gccver in
 %patch0 -p1
   ;;
 esac
-./configure --prefix=%{i} 
+./configure --prefix=%{i} --disable-static
 
 %build
 make %makeprocesses 
@@ -24,4 +24,6 @@ make install
 # only via pkg-config we have to think on how to ship our own
 # version.
 rm -rf %i/lib/pkgconfig
+# Read documentation online.
+rm -rf %i/share
 cp %i/lib/sigc++-2.0/include/sigc++config.h %i/include/sigc++-2.0/

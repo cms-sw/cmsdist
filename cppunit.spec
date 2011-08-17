@@ -18,7 +18,7 @@ case %cmsplatf in
        perl -p -i -e 's|LIBS.*LIBS.*lm|LIBS="$LIBS -lm -ldl|' configure
     ;;
 esac
-./configure --prefix=%i 
+./configure --prefix=%i --disable-static
 make %makeprocesses
 %install
 make install
@@ -31,6 +31,8 @@ cp %_sourcedir/CppUnit_testdriver_cpp %i/include/CppUnit_testdriver.cpp
 # only via pkg-config we have to think on how to ship our own
 # version.
 rm -rf %i/lib/pkgconfig
+# Read documentation online
+rm -rf %i/share
 
 %post
 %{relocateConfig}/bin/cppunit-config

@@ -24,8 +24,10 @@ export CPPFLAGS="-I$OPENSSL_ROOT/include -I$DB4_ROOT/include -I$CYRUS_SASL_ROOT/
 export LDFLAGS="-L$OPENSSL_ROOT/lib -L$DB4_ROOT/lib -L$CYRUS_SASL_ROOT/lib -L%{_builddir}/%n-%{realversion}/sasl2lib"
 echo $CPPFLAGS
 
-./configure --prefix=%i --with-cyrus-sasl --with-tls
+./configure --prefix=%i --with-cyrus-sasl --with-tls --disable-static
 make depend
 make
 %install
 make install
+# Read documentation online.
+rm -rf %i/man
