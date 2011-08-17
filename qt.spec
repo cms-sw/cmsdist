@@ -28,7 +28,11 @@ case %cmsplatf in
 esac
 
 rm -rf demos examples doc
-echo yes | ./configure -prefix %i -opensource -stl -no-openssl -L$LIBJPG_ROOT/lib -no-glib -no-libtiff -no-libpng -no-libmng -no-separate-debug-info -no-multimedia -no-sql-odbc -no-sql-mysql $CONFIG_ARGS -make "libs tools"
+echo yes | ./configure -prefix %i -opensource -stl -no-openssl -no-webkit -no-debug \
+                       -L$LIBJPG_ROOT/lib -no-glib -no-libtiff -no-libpng -no-libmng \
+                       -no-phonon -no-multimedia \
+                       -no-separate-debug-info -no-multimedia -no-sql-odbc -no-sql-mysql $CONFIG_ARGS \
+                       -make "libs tools"
 
 make %makeprocesses
 
