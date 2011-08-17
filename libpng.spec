@@ -10,7 +10,7 @@ Requires: zlib
 %setup -n %n-%{realversion}
  
 %build
-./configure --prefix=%{i}
+./configure --prefix=%{i} --enable-static=no
 make %makeprocesses
 
 %install
@@ -23,6 +23,10 @@ make install
 # only via pkg-config we have to think on how to ship our own
 # version.
 rm -rf %i/lib/pkgconfig
+# Strip libraries, we are not going to debug them.
+find %i/lib -type f -perm /a+x -exec strip {} \;
+# No need for documentation, look it up online.
+rm -rf %i/man
 %post
 %{relocateConfig}bin/libpng-config
 %{relocateConfig}bin/libpng12-config
