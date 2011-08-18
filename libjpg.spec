@@ -15,7 +15,7 @@ mkdir -p %{i}/include
 mkdir -p %{i}/man/man1
 make install
 # Strip libraries, we are not going to debug them.
-find %i/lib -type f -perm /a+x -exec strip {} \;
+find %i/lib -type f -perm -a+x -exec strip {} \;
 
 %post
 %{relocateConfig}lib/libjpeg.la

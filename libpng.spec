@@ -24,7 +24,7 @@ make install
 # version.
 rm -rf %i/lib/pkgconfig
 # Strip libraries, we are not going to debug them.
-find %i/lib -type f -perm /a+x -exec strip {} \;
+find %i/lib -type f -perm -a+x -exec strip {} \;
 # No need for documentation, look it up online.
 rm -rf %i/man
 %post

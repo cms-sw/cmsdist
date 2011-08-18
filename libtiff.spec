@@ -21,8 +21,8 @@ make %makeprocesses
 %install
 make install
 # Strip libraries / executables, we are not going to debug them.
-find %i/lib -type f -perm /a+x -exec strip {} \;
-find %i/bin -type f -perm /a+x -exec strip {} \;
+find %i/lib -type f -perm -a+x -exec strip {} \;
+find %i/bin -type f -perm -a+x -exec strip {} \;
 # Remove documentation, get it online.
 rm -rf %i/share
 
