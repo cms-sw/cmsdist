@@ -7,7 +7,7 @@ Requires: python elementtree py2-setuptools
 
 %prep
 %setup -n pymongo-%realversion
-%patch -p1
+#%patch -p1
 
 %build
 python setup.py build
