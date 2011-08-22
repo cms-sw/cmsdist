@@ -13,6 +13,8 @@
 # 1.246 is 0.9.0.pre4
 HG1108a das
 + 1.246 das.spec
++ 1.33 mongo.spec
++ 1.19 py2-pymongo.spec
 
 # FileMover
 # 1.28 is 1.0.9.pre4
