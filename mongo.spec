@@ -1,4 +1,4 @@
-### RPM external mongo 1.8.2
+### RPM external mongo 1.8.3
 
 Patch: mongo-osx
 Source: http://downloads.mongodb.org/src/mongodb-src-r%{realversion}.tar.gz
