@@ -1,9 +1,9 @@
-### RPM external boost 1.46.0
+### RPM external boost 1.47.0
 %define boostver _%(echo %realversion | tr . _)
 Source: http://switch.dl.sourceforge.net/project/%{n}/%{n}/%{v}/%{n}%{boostver}.tar.gz
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
-Requires: boost-build python bz2lib
+Requires: python bz2lib
 %if "%online" != "true"
 Requires: zlib
 %endif
@@ -12,6 +12,16 @@ Requires: zlib
 %setup -n %{n}%{boostver}
 
 %build
+case %cmsos in 
+  osx*) TOOLSET=darwin ;;
+  *) TOOLSET=gcc ;;
+esac
+
+pushd tools/build/v2
+
+sh bootstrap.sh $TOOLSET
+popd
+
 PV="PYTHON_VERSION=$(echo $PYTHON_VERSION | sed 's/\.[0-9]*-.*$//')"
 PR="PYTHON_ROOT=$PYTHON_ROOT"
 
@@ -20,20 +30,16 @@ PR="PYTHON_ROOT=$PYTHON_ROOT"
 BZ2LIBR="BZIP2_LIBPATH=$BZ2LIB_ROOT/lib"
 BZ2LIBI="BZIP2_INCLUDE=$BZ2LIB_ROOT/include"
 
-%if "%online" != "true"
-ZLIBR="ZLIB_LIBPATH=$ZLIB_ROOT/lib"
-ZLIBI="ZLIB_INCLUDE=$ZLIB_ROOT/include"
+if [ ! X%online = "Xtrue" ]
+then
+  ZLIBR="ZLIB_LIBPATH=$ZLIB_ROOT/lib"
+  ZLIBI="ZLIB_INCLUDE=$ZLIB_ROOT/include"
+fi
 
-case $(uname) in
-  Darwin )  bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$ZLIBR toolset=darwin stage;;
-  * )       bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$ZLIBR toolset=gcc stage;;
-esac
-%else
-bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$BZ2LIBI toolset=gcc stage
-%endif
+tools/build/v2/bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$BZ2LIBI ${ZLIBR+-s$ZLIBR} ${ZLIBI+-s$ZLIBI} toolset=$TOOLSET stage
 
 %install
-case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
+case %cmsos in osx*) so=dylib ;; *) so=so ;; esac
 mkdir -p %i/lib %i/include
 # copy files around in their final location.
 # We use tar to reduce the number of processes required
