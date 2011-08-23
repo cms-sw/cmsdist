@@ -1,4 +1,4 @@
-### RPM cms das 0.9.0.pre6
+### RPM cms das 0.9.0.pre7
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver WMCORE_0_7_2
 %define webdoc_files %i/doc/
