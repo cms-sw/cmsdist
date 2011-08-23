@@ -1,13 +1,11 @@
 ### RPM external py2-pymongo 2.0.1
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
-#Patch: pymongo_enable_cbson
 Source: http://pypi.python.org/packages/source/p/pymongo/pymongo-%realversion.tar.gz
 Requires: python elementtree py2-setuptools
 
 %prep
 %setup -n pymongo-%realversion
-#%patch -p1
 
 %build
 python setup.py build
