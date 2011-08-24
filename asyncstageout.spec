@@ -1,4 +1,4 @@
-### RPM cms asyncstageout test_tag1
+### RPM cms asyncstageout test_tag2
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 Source0: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/0.7.11?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_wmc_asyncstageout.tar.gz
