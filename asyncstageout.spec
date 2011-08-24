@@ -16,12 +16,12 @@ python setup.py build_system -s asyncstageout
 
 %install
 python setup.py install_system -s asyncstageout --prefix=%i
-cp -pr ../AsyncStageout/src/python/AsyncStageout %i/$PYTHON_LIB_SITE_PACKAGES/
+cp -pr ../AsyncStageout/src/python/AsyncStageOut %i/$PYTHON_LIB_SITE_PACKAGES/
 cp -pr ../AsyncStageout/src/couchapp %i/
 find %i -name '*.egg-info' -exec rm {} \;
 
 # Generate .pyc files.
-python -m compileall %i/$PYTHON_LIB_SITE_PACKAGES/AsyncStageout || true
+python -m compileall %i/$PYTHON_LIB_SITE_PACKAGES/AsyncStageOut || true
 
 mkdir -p %i/bin
 cp -pf %_builddir/WMCore/bin/{wmcoreD,wmcore-db-init,wmcore-new-config} %i/bin/
