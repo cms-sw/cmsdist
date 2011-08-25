@@ -18,6 +18,7 @@ python setup.py build_system -s asyncstageout
 python setup.py install_system -s asyncstageout --prefix=%i
 cp -pr ../AsyncStageout/src/python/AsyncStageOut %i/$PYTHON_LIB_SITE_PACKAGES/
 cp -pr ../AsyncStageout/src/couchapp %i/
+cp -pr ../AsyncStageout/configuration %i/
 find %i -name '*.egg-info' -exec rm {} \;
 
 # Generate .pyc files.
