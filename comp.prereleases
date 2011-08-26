@@ -17,9 +17,9 @@ HG1108a das
 + 1.21 py2-pymongo.spec
 
 # FileMover
-# 1.28 is 1.0.9.pre4
+# 1.29 is 1.0.9
 HG1108a filemover
-+ 1.28 filemover.spec
++ 1.29 filemover.spec
 
 # T0PromptSkim
 #HG1105a T0PromptSkim
