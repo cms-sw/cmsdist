@@ -1,7 +1,9 @@
 ### RPM cms asyncstageout test_tag2
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
-Source0: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/0.7.11?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_wmc_asyncstageout.tar.gz
+%define wmcver 0.8.1.pre4
+
+Source0: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_wmc_asyncstageout.tar.gz
 Source1: svn://svn.cern.ch/reps/CMSDMWM/AsyncStageout/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=AsyncStageout&output=/src_asyncstageout.tar.gz
 Requires: py2-simplejson py2-sqlalchemy py2-httplib2 rotatelogs
 Patch0: asyncstageout-setup
