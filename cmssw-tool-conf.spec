@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 25.0
+### RPM cms cmssw-tool-conf 25.1
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -38,6 +38,7 @@ Requires: hepmc-toolfile
 Requires: heppdt-toolfile
 Requires: herwig-toolfile
 Requires: herwigpp-toolfile
+Requires: jemalloc-toolfile
 Requires: jimmy-toolfile
 Requires: ktjet-toolfile
 Requires: lhapdf-toolfile
