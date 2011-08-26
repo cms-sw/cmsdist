@@ -28,7 +28,7 @@ find %i -name '*.egg-info' -exec rm {} \;
 python -m compileall %i/$PYTHON_LIB_SITE_PACKAGES/AsyncStageOut || true
 
 mkdir -p %i/bin
-cp -pf %_builddir/WMCore/bin/{wmcoreD,wmcore-db-init,wmcore-new-config} %i/bin/
+cp -pf %_builddir/WMCore/bin/{wmcoreD,wmcore-new-config} %i/bin/
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
