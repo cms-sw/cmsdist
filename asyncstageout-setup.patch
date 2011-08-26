@@ -7,7 +7,7 @@
 +                'asyncstageout':{
 +                        'packages': ['WMCore.Agent+', 'WMCore.Storage',
 +                                    'WMCore.Credential','WMCore.WorkerThreads',
-+                                    'WMCore.Services.PhEDEx+','WMCore.ACDC','WMCore.Alerts'],
++                                    'WMCore.Services.PhEDEx+','WMCore.ACDC','WMCore.Alerts+'],
 +                        'modules': ['WMQuality.TestInitCouchApp'],
 +                        'systems': ['wmc-database'],
 +                        'statics': ['src/couchapps/Agent+'],
