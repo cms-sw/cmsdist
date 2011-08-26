@@ -1,9 +1,10 @@
-### RPM external boost 1.47.0
+### RPM external boost 1.44.0
 %define boostver _%(echo %realversion | tr . _)
 Source: http://switch.dl.sourceforge.net/project/%{n}/%{n}/%{v}/%{n}%{boostver}.tar.gz
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
-Requires: python bz2lib
+Requires: boost-build python bz2lib
 %if "%online" != "true"
 Requires: zlib
 %endif
@@ -12,16 +13,6 @@ Requires: zlib
 %setup -n %{n}%{boostver}
 
 %build
-case %cmsos in 
-  osx*) TOOLSET=darwin ;;
-  *) TOOLSET=gcc ;;
-esac
-
-pushd tools/build/v2
-
-sh bootstrap.sh $TOOLSET
-popd
-
 PV="PYTHON_VERSION=$(echo $PYTHON_VERSION | sed 's/\.[0-9]*-.*$//')"
 PR="PYTHON_ROOT=$PYTHON_ROOT"
 
@@ -30,16 +21,20 @@ PR="PYTHON_ROOT=$PYTHON_ROOT"
 BZ2LIBR="BZIP2_LIBPATH=$BZ2LIB_ROOT/lib"
 BZ2LIBI="BZIP2_INCLUDE=$BZ2LIB_ROOT/include"
 
-if [ ! X%online = "Xtrue" ]
-then
-  ZLIBR="ZLIB_LIBPATH=$ZLIB_ROOT/lib"
-  ZLIBI="ZLIB_INCLUDE=$ZLIB_ROOT/include"
-fi
+%if "%online" != "true"
+ZLIBR="ZLIB_LIBPATH=$ZLIB_ROOT/lib"
+ZLIBI="ZLIB_INCLUDE=$ZLIB_ROOT/include"
 
-tools/build/v2/bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$BZ2LIBI ${ZLIBR+-s$ZLIBR} ${ZLIBI+-s$ZLIBI} toolset=$TOOLSET stage
+case $(uname) in
+  Darwin )  bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$ZLIBR toolset=darwin stage;;
+  * )       bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$ZLIBR toolset=gcc stage;;
+esac
+%else
+bjam %makeprocesses -s$PR -s$PV -s$BZ2LIBR -s$BZ2LIBI toolset=gcc stage
+%endif
 
 %install
-case %cmsos in osx*) so=dylib ;; *) so=so ;; esac
+case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
 mkdir -p %i/lib %i/include
 # copy files around in their final location.
 # We use tar to reduce the number of processes required
@@ -62,17 +57,16 @@ popd
 # Do all manipulation with files before creating symbolic links:
 perl -p -i -e "s|^#!.*python|/usr/bin/env python|" $(find %{i}/lib %{i}/bin -type f)
 
-# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
+# setup dependencies environment
+rm -rf %i/etc/profile.d
 mkdir -p %i/etc/profile.d
-: > %i/etc/profile.d/dependencies-setup.sh
-: > %i/etc/profile.d/dependencies-setup.csh
-for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
-  root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
-  if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
-    echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-    echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
-  fi
+for x in %pkgreqs; do
+  case $x in /* ) continue ;; esac
+  p=%{instroot}/%{cmsplatf}/$(echo $x | sed 's/\([^+]*\)+\(.*\)+\([A-Z0-9].*\)/\1 \2 \3/' | tr ' ' '/')
+  echo ". $p/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
+  echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
 done
 
 %post
-%{relocateConfig}etc/profile.d/dependencies-setup.*sh
+%{relocateConfig}etc/profile.d/dependencies-setup.sh
+%{relocateConfig}etc/profile.d/dependencies-setup.csh
