@@ -113,5 +113,4 @@ HG1105c py2-sqlobject
 
 # Test build for asyncstageout
 HG1107c asyncstageout
-+ 1.6/test_tag2 asyncstageout.spec
-+ 1.2 asyncstageout-setup.patch
++ 1.8/test_tag2 asyncstageout.spec
