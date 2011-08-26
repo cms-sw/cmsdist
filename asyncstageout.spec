@@ -5,7 +5,8 @@
 
 Source0: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_wmc_asyncstageout.tar.gz
 Source1: svn://svn.cern.ch/reps/CMSDMWM/AsyncStageout/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=AsyncStageout&output=/src_asyncstageout.tar.gz
-Requires: py2-simplejson py2-sqlalchemy py2-httplib2 rotatelogs
+Requires: py2-simplejson py2-sqlalchemy py2-httplib2 rotatelogs py2-zmq
+
 Patch0: asyncstageout-setup
 
 %prep
