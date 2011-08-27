@@ -5,9 +5,9 @@ Source: http://www.canonware.com/download/jemalloc/jemalloc-%realversion.tar.bz2
 %setup -n %n-%{realversion}
 
 %build
+perl -p -i -e 's|-no-cpp-precomp||' configure
 ./configure --prefix %i
 
 %install
 make install
-strip %i/lib/*
 rm -rf %i/share
