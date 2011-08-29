@@ -21,3 +21,6 @@ python setup.py build
 python -c 'import numpy'
 python setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
+
+# No need for test files
+rm -rf %i/$PYTHON_LIB_SITE_PACKAGES/matplotlib/tests
