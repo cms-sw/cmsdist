@@ -32,3 +32,6 @@ case %cmsos in
 esac
 ./configure --prefix=%i
 make %makeprocesses
+
+%install
+make install/strip
