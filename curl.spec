@@ -10,7 +10,7 @@ Requires: zlib
 %build
 export OPENSSL_ROOT
 export ZLIB_ROOT
-./configure --prefix=%i --disable-static --without-libidn --disable-ldap --with-ssl=${OPENSSL_ROOT} --with-zlib=${ZLIB_ROOT}
+./configure --prefix=%i --without-libidn --disable-ldap --with-ssl=${OPENSSL_ROOT} --with-zlib=${ZLIB_ROOT}
 # This should change link from "-lz" to "-lrt -lz", needed by gold linker
 # This is a fairly ugly way to do it, however.
 perl -p -i -e "s!\(LIBS\)!(LIBCURL_LIBS)!" src/Makefile
@@ -42,9 +42,6 @@ esac
 # only via pkg-config we have to think on how to ship our own
 # version.
 rm -rf %i/lib/pkgconfig
-
-# Read documentation online.
-rm -rf %i/share
 
 %post
 %{relocateConfig}bin/curl-config
