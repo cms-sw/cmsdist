@@ -35,26 +35,7 @@ HG1102b CmsTC
 #+ HEAD/2.16.1 graphviz.spec
 
 # Cms Webtools services
-HG1108b cmsweb
-+ HEAD/1109a cmsweb.spec
-+ 1.63/1.47.0 boost.spec
-+ 1.29 cmake.spec
-+ 1.251/0.9.0 das.spec
-+ 1.199/V06_00_51 dbs-web.spec
-+ 1.30/1.0.9 filemover.spec
-+ 1.15 gdb.spec
-+ 1.12 igprof.spec
-+ 1.25 libjpg.spec
-+ 1.23 libpng.spec
-+ 1.26 libtiff.spec
-+ 1.16 libungif.spec
-+ 1.33/1.8.3 mongo.spec
-+ 1.19 py2-matplotlib.spec
-+ 1.21/2.0.1 py2-pymongo.spec
-+ 1.75 python.spec
-+ 1.49 qt.spec
-+ 1.28 sqlite.spec
-+ 1.28 yui.spec
+HG1109a cmsweb
 
 # Stagemanager offsite agent
 HG1108b stagemanager-agent
