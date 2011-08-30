@@ -11,10 +11,11 @@
 # DAS test build with wmcore-web dependency
 # 1.241 is 0.8.4
 # 1.251 is 0.9.0
-HG1108a das
-+ 1.251 das.spec
-+ 1.33 mongo.spec
-+ 1.21 py2-pymongo.spec
+# 1.252 is 0.9.1.pre1
+HG1109a das
++ 1.252 das.spec
+#+ 1.33 mongo.spec
+#+ 1.21 py2-pymongo.spec
 
 # FileMover
 # 1.30 is 1.0.9
