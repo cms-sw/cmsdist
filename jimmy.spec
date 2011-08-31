@@ -5,7 +5,7 @@ Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distrib
 Patch0: jimmy-4.2-gfortran
 Patch1: jimmy-4.2-macosx
 
-%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif
 

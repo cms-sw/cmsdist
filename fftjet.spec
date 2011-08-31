@@ -2,7 +2,8 @@
 Source: http://www.hepforge.org/archive/fftjet/%n-%realversion.tar.gz
 Requires: fftw3
 Patch0: fftjet-1.3.1-fix-clang
-%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
+
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif
 
