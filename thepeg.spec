@@ -14,7 +14,7 @@ Requires: gsl
 Requires: hepmc
 Requires: zlib
 # FIXME: rivet?
-%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif
 
@@ -53,13 +53,18 @@ case %cmsplatf in
   ;;
 esac
 
+case %cmsplatf in
+  osx*_*_gcc4[0-5]*) ;;
+  osx*_*_gcc*) LIBQUADMATH="-lquadmath" ;;
+esac
+
 ./configure $PLATF_CONF_OPTS \
             --with-LHAPDF=$LHAPDF_ROOT \
             --with-hepmc=$HEPMC_ROOT \
             --with-gsl=$GSL_ROOT --with-zlib=$ZLIB_ROOT \
             --without-javagui --prefix=%i \
             --disable-readline CXX="$CXX" CC="$CC" \
-            LIBS="-L$LHAPDF_ROOT/lib -lLHAPDF $LIBGFORTRAN -lz"
+            LIBS="-L$LHAPDF_ROOT/lib -lLHAPDF $LIBGFORTRAN -lz $LIBQUADMATH"
 make
 
 %install
