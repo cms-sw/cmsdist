@@ -1,6 +1,5 @@
 ### RPM external tauola 27.121.5
-Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
-Patch: tauola-27.121-gfortran
+Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz?date=20110831
 Patch1: tauola-27.121.5-gfortran-taueta
 Patch2: tauola-27.121-gfortran-tauola-srs
 Patch3: tauola-27.121.5-macosx
@@ -11,13 +10,17 @@ Patch4: tauola-27.121.5-archive-only
 Requires: pythia6
 Requires: photos
 
-%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif
 
 %prep
 %setup -q -n %{n}/%{realversion}
-%patch -p0 
+# Remove options by hand since it looks like they have
+# the bad habit of republishing sources.
+perl -p -i -e 's|-fno-globals||g;s|-finit-local-zero||g;s|-fugly-logint||g;s|-fugly-complex||' configure
+# Removed since this appears to have already been applied in the new tarball...
+# Sigh...
 %patch1 -p2
 %patch2 -p2
 %patch3 -p3
