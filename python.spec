@@ -146,8 +146,8 @@ done
 # remove tkinter that brings dependency on libtk:
 find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
 
-# Makes sure that executables start with /usr/bin/env perl and not with comments. 
-rm -f %i/share/doc/python/Demo/rpc/test
+# Remove documentation and examples. 
+rm -rf %i/share
 
 # No need for test files
 rm -rf %{i}/lib/python%{pythonv}/test
