@@ -2,7 +2,7 @@
 
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Patch0: photos-215.5-macosx
-%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif
 
