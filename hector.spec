@@ -16,6 +16,10 @@ Patch0: hector-1.3.4-macosx
 perl -p -i -e "s|^.*[@]strip.*\n||" Makefile
 # Correct link path for root.
 perl -p -i -e "s|^ROOTLIBS.*$|ROOTLIBS=-L$ROOT_ROOT/lib -lCore -lRint -lMatrix -lPhysics -lCint -lMathCore -pthread -lm -ldl -rdynamic|" Makefile
+case %cmsplatf in
+  osx*) perl -p -i -e 's|-rdynamic||g' Makefile ;;
+esac
+
 make
 
 %install
