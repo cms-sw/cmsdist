@@ -1,16 +1,14 @@
 ### RPM external lapack 3.3.1
 Source0: http://www.netlib.org/lapack/lapack-%realversion.tgz
-Source1: http://www.netlib.org/lapack/manpages-%realversion.tgz
 
 Requires: cmake
 
-%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif
 
 %prep
 %setup -q -n lapack-%{realversion} 
-%setup -q -D -T -a 1 -n lapack-%{realversion}
 
 %build
 # We remove the testing directory because it seems
