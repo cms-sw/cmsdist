@@ -3,7 +3,7 @@ Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distrib
 Patch0: tauolapp-1.0.2a-osx-Makefile
 Requires: hepmc
 
-%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif
 
