@@ -50,7 +50,7 @@ index 8814c9c..be282df 100644
  $(LIB_SHARED) : $(objects)
  	mkdir -p $(LIBDIR_SHARED)
  	@echo creating the shared library $@
--	$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@) $(FLIBS)
+-	$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@) $(LIBS_CLHEP) $(FLIBS)
 +	case ${ARCH} in \
 +	  Linux*) \
 +	    $(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@) $(FLIBS) ;; \

@@ -1,15 +1,16 @@
 ### RPM external evtgenlhc 9.1
-Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
+Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz?date=20110831
 Patch0: evtgenlhc-8.16-EvtPythia-iosfwd
 Patch1: evtgenlhc-9.1-gcc43
 Patch2: evtgenlhc-9.1-CLHEP2
 Patch3: evtgenlhc-9.1-macosx
 Patch4: evtgenlhc-9.1-fixPythiaDecay
+Patch5: evtgenlhc-9.1-gcc46
 Requires: clhep
 Requires: pythia6
 Requires: photos
 
-%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif
 
@@ -20,6 +21,7 @@ Requires: gfortran-macosx
 %patch2 -p2
 %patch3 -p3
 %patch4 -p2
+%patch5 -p2
 
 %build
 # On old architectures we build dynamic libraries, on 
