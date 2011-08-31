@@ -1,11 +1,10 @@
 ### RPM external xrootd 5.30.00
 %define svntag  %(echo %{realversion} | tr '.' '-')
-%define closingbrace )
-%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
+%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
 Source: svn://root.cern.ch/svn/root/tags/v%{svntag}/net/xrootd/src/xrootd?scheme=http&strategy=export&module=%n-%{realversion}&output=/%n-%{realversion}.tgz
 Patch0: xrootd-gcc44
-#Patch1: xrootd-5.28-00d-forkv2
+Patch1: xrootd-5.30.00-fix-gcc46
 %if "%online" != "true"
 Requires: openssl
 %endif
@@ -13,7 +12,7 @@ Requires: openssl
 %prep 
 %setup -n %n-%{realversion}
 %patch0 -p1
-#%patch1 -p1
+%patch1 -p1
 grep -r -l -e "^#!.*/perl *$" . | xargs perl -p -i -e "s|^#!.*perl *$|#!/usr/bin/env perl|"
 
 %build
