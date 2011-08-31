@@ -15,7 +15,15 @@ perl -p -i -e 's!VG_N_SEGMENTS 5000!VG_N_SEGMENTS 20000!; s!VG_N_SEGNAMES 1000!V
 pwd
 
 %build
-./configure --prefix=%i --disable-static --enable-only64bit
+# FIXME: This is really a hack that should be included in
+# GCC spec for non system compilers.
+case %cmsos in
+  osx*_*_gcc421) ;;
+  osx*) CFLAGS="-D__private_extern__=extern" ;;
+  *) ;;
+esac
+
+./configure --prefix=%i --disable-static --enable-only64bit ${CFLAGS+CFLAGS=$CFLAGS}
 make %makeprocesses
 %install
 make install
