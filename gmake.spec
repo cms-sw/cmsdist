@@ -14,6 +14,7 @@ make %makeprocesses
 
 %install
 make install
+rm -rf %{i}/{man,info}
 # Put in the symlink
 cd %{i}/bin
 ln -sf make gmake
