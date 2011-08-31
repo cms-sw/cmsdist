@@ -18,3 +18,10 @@ mv *.pkg/Payload Payload.gz
 %build
 %install
 pax --insecure -rz -f Payload.gz -s ',./usr,%i,'
+
+# Only ship x86_64 binaries.
+find %{i} ! -name '*.la' -type f -perm -a+x -exec lipo -thin x86_64 {} -output {} \;
+rm -rf %i/lib/gcc/powerpc-apple-darwin10
+rm -rf %i/bin/powerpc-apple-darwin10-gfortran-4.2.1
+rm -rf %i/libexec/gcc/powerpc-apple-darwin10
+rm -rf %i/share
