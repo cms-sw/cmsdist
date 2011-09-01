@@ -27,11 +27,25 @@ case %cmsplatf in
   ;;
 esac
 
+# Force system compiler also when using gcc 4.6.1 ++ on mac.  This is required
+# because the mainline compiler does not support a bunch of objective-c 2.0
+# features which are heavily used in Qt/Cocoa.
+case %cmsplatf in
+  osx*_*_gcc421) ;;
+  osx*)
+    export CXX=/usr/bin/c++
+    export CC=/usr/bin/gcc
+    export LD=/usr/bin/c++
+    export LINK=/usr/bin/c++
+    export PATH=/usr/bin:$PATH
+  ;;
+esac
+
 rm -rf demos examples doc
 echo yes | ./configure -prefix %i -opensource -stl -no-openssl -no-webkit -no-debug \
                        -L$LIBJPG_ROOT/lib -no-glib -no-libtiff -no-libpng -no-libmng \
-                       -no-phonon -no-multimedia \
-                       -no-separate-debug-info -no-multimedia -no-sql-odbc -no-sql-mysql $CONFIG_ARGS \
+                       -no-dwarf2 -no-phonon -no-multimedia -no-stl -no-exceptions \
+                       -no-separate-debug-info -no-multimedia -no-sql-sqlite -no-sql-odbc -no-sql-mysql $CONFIG_ARGS \
                        -make "libs tools"
 
 make %makeprocesses
