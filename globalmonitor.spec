@@ -1,4 +1,4 @@
-### RPM cms globalmonitor 0.0.1
+### RPM cms globalmonitor 0.8.1.pre1
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define version V_0_1
 
