@@ -17,9 +17,20 @@ case %cmsplatf in
   *_ia32_gcc*) ARCH_CMSPLATF="-m32" ;;
 esac
 
+case %cmsplatf in
+  osx*)
+perl -p -i -e 's|-rdynamic||g' configure \
+                               AddOns/Analysis/Scripts/Makefile.in
+LDFLAGS="-L$(basename $(gfortran --print-file-name=libgfortran.a))"
+  ;;
+esac
 ./configure --prefix=%i --enable-analysis \
             --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT \
-            CXXFLAGS="-O2 -fuse-cxa-atexit $ARCH_CMSPLATF"
+            CXXFLAGS="-O2 -fuse-cxa-atexit $ARCH_CMSPLATF" \
+            CXX="`which c++`" \
+            CC="`which gcc`" \
+            FC="`which gfortran`" \
+            LD="`which gfortran`"
 
 %build
 # Fix up a configuration mistake coming from a test being confused
