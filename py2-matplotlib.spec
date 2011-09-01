@@ -15,6 +15,14 @@ library_dirs = $LIBPNG_ROOT/lib:$ZLIB_ROOT/lib:/usr/X11/lib
 EOF
 
 %build
+# Pick up the system compiler also when building with gcc 4.6.1 on mac.
+case %cmsos in 
+  osx*_*_gcc421) ;;
+  osx*) 
+    export CC=/usr/bin/gcc
+    export CXX=/usr/bin/c++
+  ;;
+esac
 python setup.py build 
 
 %install
