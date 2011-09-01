@@ -3,9 +3,9 @@
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
 # For gcc version >= 4.0.0, a number of additional sources are needed.
-%define gmpVersion 4.3.2
-%define mpfrVersion 2.4.2
-%define mpcVersion 0.8.1
+%define gmpVersion 5.0.2
+%define mpfrVersion 3.0.1 
+%define mpcVersion 0.9
 Source1: ftp://ftp.gnu.org/gnu/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
@@ -13,8 +13,8 @@ Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
 # For gcc 4.5+ we need the additional tools ppl and cloog.
 %define gcc_45plus %(echo %realversion | sed -e 's|4[.][5-9].*|true|')
 %if "%{gcc_45plus}" == "true"
-%define pplVersion 0.11
-%define cloogVersion 0.16.1
+%define pplVersion 0.11.2
+%define cloogVersion 0.16.2
 Source4: http://www.cs.unipr.it/ppl/Download/ftp/releases/%{pplVersion}/ppl-%{pplVersion}.tar.bz2
 Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
 %endif
@@ -24,7 +24,7 @@ Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
 %if "%use_custom_binutils" == "true"
 %define bisonVersion 2.4
 Source6: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.bz2
-%define binutilsv 2.21.52.0.2
+%define binutilsv 2.21.53.0.2
 #Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 Source7: http://www.kernel.org/pub/linux/devel/binutils/binutils-%binutilsv.tar.bz2
 %endif
@@ -39,38 +39,20 @@ Source7: http://www.kernel.org/pub/linux/devel/binutils/binutils-%binutilsv.tar.
 %if "%isslc" == "true"
 Source8: ftp://sources.redhat.com/pub/systemtap/elfutils/elfutils-%{elfutilsVersion}.tar.gz
 %endif
+Patch0: gcc-4.6.1-ignore-arch-flags-macosx
 
 %prep
 echo "use_custom_binutils: %use_custom_binutils"
 %setup -T -b 0 -n gcc-%realversion
+# Get the macosx build to accept -arch, -F options like the official Apple one.
+# Notice that  patch command have to stay on a single line.
+case %cmsos in
+  osx*)
+%patch0 -p1 
+  ;;
+esac
 
 case %cmsos in
-# Hack to always have -m32 in the 32bit compiler, even when it's built on a 64
-# bit architecture.
-  slc*_ia32 )
-cat << \EOF_CONFIG_GCC >> gcc/config.gcc
-# CMS patch to include gcc/config/i386/t-cms when building gcc
-tm_file="$tm_file i386/cms.h"
-tmake_file="$tmake_file i386/t-cms"
-EOF_CONFIG_GCC
-
-cat << \EOF_CMS_H > gcc/config/i386/cms.h
-#undef ASM_SPEC
-#define ASM_SPEC  "%%{v:-V} %%{Qy:} %%{!Qn:-Qy} %%{n} %%{T} %%{Ym,*} %%{Yd,*} %%{Wa,*:%%*} --32"
-#undef CC1_SPEC
-#define CC1_SPEC  "%%(cc1_cpu) %%{profile:-p} -m32"
-#undef CC1PLUS_SPEC
-#define CC1PLUS_SPEC "-m32"
-#undef MULTILIB_DEFAULTS
-#define MULTILIB_DEFAULTS { "m32" }
-EOF_CMS_H
-
-cat << \EOF_T_CMS > gcc/config/i386/t-cms
-MULTILIB_OPTIONS = m32
-MULTILIB_DIRNAMES = ../lib
-MULTILIB_MATCHES = m32=m32
-EOF_T_CMS
-  ;;
   slc*_amd64 )
 # Hack needed to align sections to 4096 bytes rather than 2MB on 64bit linux
 # architectures.  This is done to reduce the amount of address space wasted by
@@ -117,17 +99,23 @@ esac
 %endif
 
 %build
-
-# Set special variables required to build 32-bit executables on 64-bit
-# systems.  Note that if the architecture is SLC4/IA32, we may be on a
-# 64-bit system and need to produce a 32-bit capable compiler, which
-# _itself_ is a 32-bit executable.
+# On mac we need to use gcc-proper, not gcc-llvm
 case %{cmsos} in
-  slc*_ia32)
-    CCOPTS="-fPIC -m32 -Wa,--32" ;;
+  osx*)
+    CC=/usr/bin/gcc-4.2
+    CXX=/usr/bin/c++-4.2
+    CPP=/usr/bin/cpp-4.2
+    ADDITIONAL_LANGUAGES=,objc,obj-c++
+  ;;
   *)
-    CCOPTS="-fPIC" ;;
+    CC=gcc
+    CXX=c++
+    CPP=cpp
+  ;;
 esac
+
+CC="$CC -fPIC"
+CXX="$CXX -fPIC"
 
 # Whenever we build custom binutils we also enable the new linker "gold".
 # We do so only if we are using the new gcc 4.5+
@@ -135,12 +123,10 @@ if [ "X%use_custom_binutils:%gcc_45plus" = Xtrue:true ] ; then
   CONF_BINUTILS_OPTS="--enable-gold=default --enable-lto --enable-plugins --enable-threads"
 fi
 
-USER_CXX=$CCOPTS
-
 # Build libelf.
 if [ "X%isslc" = Xtrue ]; then
   cd ../elfutils-%{elfutilsVersion}
-  ./configure --prefix=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
+  ./configure --prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP"
   make %makeprocesses
   make install
 fi
@@ -153,7 +139,7 @@ fi
 if [ "X%use_custom_binutils" = Xtrue ]
 then
   cd ../bison-%{bisonVersion}
-  CC="gcc $CCOPTS" ./configure --prefix=%i/tmp/bison
+  CC="$CC" ./configure --prefix=%i/tmp/bison
   make %makeprocesses
   make install
   export PATH=%i/tmp/bison/bin:$PATH
@@ -171,7 +157,7 @@ then
   perl -p -i -e 's|HTMLFILES =.*|HTMLFILES =|' etc/Makefile.in        
 
   ./configure --prefix=%i ${CONF_BINUTILS_OPTS} --disable-werror \
-              CC="gcc $CCOPTS" CFLAGS="-I%i/include" \
+              CC="$CC" CXX="$CXX" CPP="$CPP" CFLAGS="-I%i/include" \
               CXXFLAGS="-I%i/include" LDFLAGS="-L%i/lib"
   make %makeprocesses
   find . -name Makefile -exec perl -p -i -e 's|LN = ln|LN = cp -p|;s|ln ([^-])|cp -p $1|g' {} \; 
@@ -181,17 +167,17 @@ fi
 
 # Build GMP/MPFR/MPC
 cd ../gmp-%{gmpVersion}
-./configure --prefix=%i --enable-shared --disable-static --enable-cxx CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
+./configure --prefix=%i --enable-shared --disable-static --enable-cxx CC="$CC" CXX="$CXX" CPP="$CPP"
 make %makeprocesses
 make install
 
 cd ../mpfr-%{mpfrVersion}
-./configure --prefix=%i --with-gmp=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
+./configure --prefix=%i --with-gmp=%i CC="$CC" CXX="$CXX" CPP="$CPP"
 make %makeprocesses
 make install
 
 cd ../mpc-%{mpcVersion}
-./configure --prefix=%i --with-gmp=%i --with-mpfr=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
+./configure --prefix=%i --with-gmp=%i --with-mpfr=%i CC="$CC" CXX="$CXX" CPP="$CPP"
 make %makeprocesses
 make install
 CONF_GCC_VERSION_OPTS="--with-gmp=%i --with-mpfr=%i --with-mpc=%i"
@@ -199,12 +185,12 @@ CONF_GCC_VERSION_OPTS="--with-gmp=%i --with-mpfr=%i --with-mpc=%i"
 # Build additional stuff for gcc 4.5+
 if [ "X%gcc_45plus" = Xtrue ]; then
   cd ../ppl-%{pplVersion}
-  ./configure --prefix=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
+  ./configure --prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP"
   make %makeprocesses
   make install
 
   cd ../cloog-%{cloogVersion}
-  ./configure --prefix=%i --with-ppl=%i --with-gmp=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
+  ./configure --prefix=%i --with-ppl=%i --with-gmp-prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP"
   make %makeprocesses
   make install
 
@@ -218,8 +204,8 @@ cd obj
 export LD_LIBRARY_PATH=%i/lib64:%i/lib:$LD_LIBRARY_PATH
 ../configure --prefix=%i \
   --enable-gold=yes --enable-lto  --with-build-config=bootstrap-lto \
-  --enable-languages=c,c++,fortran \
-  $CONF_GCC_VERSION_OPTS --enable-shared CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
+  --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES \
+  $CONF_GCC_VERSION_OPTS --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP"
 
 make %makeprocesses bootstrap
 make install
@@ -228,7 +214,7 @@ make install
 cd %_builddir/gcc-%{realversion}/obj && make install 
 
 ln -s gcc %i/bin/cc
-find %i/lib %i/lib32 %i/lib64 -name '*.la' -exec rm -f {} \; || true
+find %i/lib %i/lib64 -name '*.la' -exec rm -f {} \; || true
 # SCRAM ToolBox toolfile is now geneated by the gcc-toolfile.spec
 # so that everything works even in the case "--use-system-compiler"
 # option is specified.
