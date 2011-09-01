@@ -1,9 +1,8 @@
-### RPM external gccxml 0.9.0_20100308
+### RPM external gccxml 20110825 
 %define gccxmlmajorver %(echo %realversion | cut -f1 -d_)
 %define gccxmlconfigver %(echo %realversion | cut -f1 -d_ | cut -f1,2 -d.)
 Requires: cmake
-Source: http://eulisse.web.cern.ch/eulisse/gccxml-20110825.tgz
-#ource: http://service-spi.web.cern.ch/service-spi/external/tarFiles/%n-%realversion.tar.gz
+Source: http://service-spi.web.cern.ch/service-spi/external/tarFiles/%n-%realversion.tgz
 Patch0: gccxml-0.9.0_20100308-gcc45-iomanip
 
 %prep
