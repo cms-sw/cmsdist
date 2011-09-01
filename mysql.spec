@@ -1,4 +1,4 @@
-### RPM external mysql 5.1.37
+### RPM external mysql 5.1.35
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/mysql
 ## INITENV SET MYSQL_HOME $MYSQL_ROOT
 
@@ -8,8 +8,7 @@
 %define source http://downloads.mysql.com/archives/mysql-4.0/%n-%realversion.tar.gz
 %else
 #%define source http://mirror.provenscaling.com/mysql/community/source/5.0/mysql-%realversion.tar.gz
-#%define source http://opensource.become.com/mysql/Downloads/MySQL-5.1/mysql-%realversion.tar.gz
-%define source http://downloads.mysql.com/archives/mysql-5.1/mysql-%realversion.tar.gz
+%define source http://opensource.become.com/mysql/Downloads/MySQL-5.1/mysql-%realversion.tar.gz
 %endif
 
 Source: %source
@@ -22,7 +21,6 @@ Provides: perl(DBI)
 # There's for some reason a "-traditional-cpp", which breaks with GCC 3.3
 # so remove it.  (FIXME: check if this is solved in a newer version.)
 perl -p -i -e 's/-traditional-cpp/-no-cpp-precomp/g' configure.in configure
-autoreconf -i -f
 %endif
 
 %build
