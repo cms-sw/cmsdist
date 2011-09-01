@@ -19,6 +19,14 @@ Requires: sip
 %build
 # See above for explanation.
 cp $QT_ROOT/bin/qt.conf . 
+# Build with system compiler even when building with gcc 4.6.1, since thats the
+# only way one can actually get the cocoa stuff to build. 
+case %cmsos in
+  osx*_*_gcc421) ;;
+  osx*)
+    export PATH=/usr/bin:$PATH
+  ;;
+esac
 
 echo yes | python ./configure.py --verbose -b %i/bin -d %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages \
                                  -e %i/include \
