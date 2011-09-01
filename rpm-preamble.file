@@ -74,7 +74,11 @@
 # then make sure the right compiler gets picked up in the environment
 # by setting $PATH and $LD_LIBRARY_PATH correctly.
 %ifos darwin
-%define use_system_gcc	yes
+%define is_darwin true
+%endif
+
+%if "%{?is_darwin:set}-%gccver" == "set-4.2.1"
+%define use_system_gcc true
 %endif
 
 # Old version of install.sh/cmsBuild.sh did not set the cmscompiler variable,
