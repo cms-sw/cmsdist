@@ -1,9 +1,9 @@
-### RPM cms globalmonitor 0.8.1.pre4
+### RPM cms globalmonitor 0.8.1.pre5
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 #%define version V_0_1
 
-#Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_globalmonitor.tar.gz
-Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk/?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_globalmonitor.tar.gz
+Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_globalmonitor.tar.gz
+#Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk/?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_globalmonitor.tar.gz
 Requires: py2-simplejson py2-httplib2 cherrypy py2-cheetah yui rotatelogs
 
 %prep
