@@ -69,7 +69,6 @@ HG1107c wmagent
 
 # Registration Service
 HG1108a regsvc
-+ 1.50 couchdb.spec
 + HEAD/0.0.1 regsvc.spec
 
 # PHEDEX agents
