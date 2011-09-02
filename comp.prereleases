@@ -52,7 +52,7 @@ HG1108a reqmgr
 
 # GlobalMonitor
 HG1109a globalmointor
-+ HEAD/0.8.1.pre5 globalmonitor.spec
++ HEAD/0.8.1.pre4 globalmonitor.spec
 
 # WorkQueue
 HG1109a workqueue
