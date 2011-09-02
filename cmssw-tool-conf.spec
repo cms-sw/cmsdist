@@ -76,7 +76,7 @@ Requires: xerces-c-toolfile
 Requires: zlib-toolfile
 Requires: dcap-toolfile
 Requires: xdaq-toolfile
-%if "%(case %cmsplatf in (osx*_*_gcc421) echo false ;; (osx*) echo true ;; (*) echo false ;; esac)" == "true"
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (osx*) echo false ;; (*) echo true;; esac)" == "true"
 Requires: tkonlinesw-toolfile
 %endif
 Requires: frontier_client-toolfile
@@ -89,7 +89,7 @@ Requires: py2-matplotlib-toolfile
 Requires: py2-numpy-toolfile
 Requires: py2-scipy-toolfile
 Requires: cmsswdata-toolfile
-%if "%(case %cmsplatf in (osx*_*_gcc421) echo false ;; (osx*) echo true ;; (*) echo false ;; esac)" == "true"
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (osx*) echo false ;; (*) echo true;; esac)" == "true"
 Requires: rivet-toolfile
 %endif
 Requires: cascade-toolfile
@@ -97,7 +97,7 @@ Requires: fftw3-toolfile
 Requires: fftjet-toolfile
 Requires: lapack-toolfile
 Requires: pyminuit2-toolfile
-%if "%(case %cmsplatf in (osx*_*_gcc421) echo false ;; (osx*) echo true ;; (*) echo false ;; esac)" == "true"
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (osx*) echo false ;; (*) echo true ;; esac)" == "true"
 Requires: professor-toolfile
 %endif
 Requires: py2-ipython-toolfile
