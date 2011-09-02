@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 25.1
+### RPM cms cmssw-tool-conf 25.2
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -61,6 +61,7 @@ Requires: pythia6-toolfile
 Requires: pythia8-toolfile
 Requires: python-ldap-toolfile
 Requires: python-toolfile
+Requires: py2-cx-oracle-toolfile
 Requires: qt-toolfile
 Requires: roofit-toolfile
 Requires: root-toolfile
