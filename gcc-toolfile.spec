@@ -39,6 +39,11 @@ case %cmsplatf in
   ;;
 esac
 
+case %cmsplatf in
+  slc*_*_gcc4[012345]*) ;;
+  *) export ARCH_FFLAGS="-cpp" ;;
+esac
+
 export COMPILER_VERSION=`echo %cmsplatf | sed -e 's|.*gcc\([0-9]*\).*|\1|'`
 export COMPILER_VERSION_MAJOR=`echo %cmsplatf | sed -e 's|.*gcc\([0-9]\).*|\1|'`
 export COMPILER_VERSION_MINOR=`echo %cmsplatf | sed -e 's|.*gcc[0-9]\([0-9]\).*|\1|'`
@@ -107,7 +112,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/f77compiler.xml
       @ARCH_FORTRAN_LIBDIR@
     </client>
     <flags SCRAM_COMPILER_NAME="gcc@COMPILER_VERSION@"/>
-    <flags FFLAGS="-fno-second-underscore -Wunused -Wuninitialized -O2"/>
+    <flags FFLAGS="-fno-second-underscore -Wunused -Wuninitialized -O2 @ARCH_FFLAGS@"/>
     <flags FCO2FLAG="-O2"/>
     <flags FCOPTIMISED="-O2"/>
     <flags FCDEBUGFLAG="-g"/>
