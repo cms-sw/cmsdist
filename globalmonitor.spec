@@ -20,9 +20,10 @@ mkdir -p %i/bin
 cp -pf %_builddir/WMCore/bin/[[:lower:]]* %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
+rm -rf %i/etc/profile.d
 mkdir -p %i/etc/profile.d
-: > %i/etc/profile.d/dependencies-setup.sh
-: > %i/etc/profile.d/dependencies-setup.csh
+#: > %i/etc/profile.d/dependencies-setup.sh
+#: > %i/etc/profile.d/dependencies-setup.csh
 for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
   if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
