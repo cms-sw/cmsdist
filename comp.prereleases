@@ -51,8 +51,8 @@ HG1108a reqmgr
 + HEAD/0.8.1pre1 reqmgr.spec
 
 # GlobalMonitor
-HG1108a globalmonitor
-+ HEAD/0.8.1.pre5 globalmonitor.spec
+HG1109a globalmonitor
++ HEAD/0.8.1 globalmonitor.spec
 
 # WorkQueue
 HG1109a workqueue
@@ -68,8 +68,8 @@ HG1107c wmagent
 + HEAD/0.8.0pre7 wmcore.spec wmagent.spec
 
 # Registration Service
-HG1108a regsvc
-+ HEAD/0.0.1 regsvc.spec
+HG1109a regsvc
++ HEAD/0.0.2 regsvc.spec
 
 # PHEDEX agents
 ##DIE##HG1103a PHEDEX-combined-agents
