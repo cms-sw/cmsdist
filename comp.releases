@@ -8,8 +8,8 @@ HG1107c dbs-server
 + DBS_2_1_6-pre5 dbs-{server,libs,schema}.spec
 + DBS_2_1_6-pre5 apache-{ant,tomcat}.spec
 
-HG1107c stagemanager-agent
-+ 1.4/0.0.2 stagemanager-agent.spec
+HG1108b stagemanager-agent
++ 1.6/0.0.4 stagemanager-agent.spec
 
 HG1109a wmagent
 + WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
