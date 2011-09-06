@@ -1,11 +1,22 @@
-### RPM cms wmcore-db-oracle 1
-## INITENV +PATH PYTHONPATH %i/lib
+### RPM cms globalmonitor 0.8.1
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
-Requires: wmcore py2-cx-oracle 
+Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_globalmonitor.tar.gz
+#Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk/?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_globalmonitor.tar.gz
+Requires: py2-simplejson py2-httplib2 cherrypy py2-cheetah yui rotatelogs
 
 %prep
+%setup -n WMCore
+
 %build
+python setup.py build_system -s globalmonitor
+
 %install
+python setup.py install_system -s globalmonitor --prefix=%i
+find %i -name '*.egg-info' -exec rm {} \;
+
+mkdir -p %i/bin
+cp -pf %_builddir/WMCore/bin/[[:lower:]]* %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
