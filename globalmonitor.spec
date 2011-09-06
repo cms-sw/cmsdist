@@ -1,4 +1,4 @@
-### RPM cms globalmonitor 0.8.1.pre5
+### RPM cms globalmonitor 0.8.1
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_globalmonitor.tar.gz
@@ -32,3 +32,4 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
+
