@@ -39,7 +39,7 @@ HG1102b CmsTC
 HG1109a cmsweb
 
 # Stagemanager offsite agent
-HG1108c stagemanager-agent
+HG1108b stagemanager-agent
 + 1.6/0.0.4 stagemanager-agent.spec
 
 # DQM GUI
