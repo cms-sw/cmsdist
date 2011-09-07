@@ -1,6 +1,4 @@
 ### RPM external igprof 5.9.2
-# ### RPM external libunwind 0.99.20100804
-# ### RPM external libatomic_ops 7.2alpha4
 Source0: http://www.hpl.hp.com/research/linux/atomic_ops/download/libatomic_ops-7.2alpha4.tar.gz
 Source1: http://download.savannah.gnu.org/releases/libunwind/libunwind-1.0.tar.gz
 Source2: http://downloads.sourceforge.net/igprof/igprof-%{realversion}.tar.gz
