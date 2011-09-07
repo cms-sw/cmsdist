@@ -1,4 +1,4 @@
-### RPM cms asyncstageout 0.8.1
+### RPM cms asyncstageout 0.0.1
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 %define wmcver 0.8.1
