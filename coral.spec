@@ -3,6 +3,7 @@ Requires: coral-tool-conf
 Patch: coral-2_3_12-SearchPath
 Patch2: coral-2_3_12-FrontierAccess
 Patch3: coral-2_3_12-macosx
+Patch4: coral-2_3_12-fix-new-boost
 
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
@@ -24,5 +25,6 @@ Patch3: coral-2_3_12-macosx
 %define patchsrc4       perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
 %define patchsrc5       %patch3 -p1
 %endif
+%define patchsrc7       %patch4 -p0
 
 ## IMPORT scram-project-build
