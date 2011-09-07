@@ -29,4 +29,4 @@ cd gccxml-build
 make install
 
 %post
-%{relocateConfig}share/gccxml-%{gccxmlconfigver}/gccxml_config
+find $RPM_INSTALL_PREFIX/%{pkgrel}/share/gccxml-*/gccxml_config -exec %relocateCmsFiles \;
