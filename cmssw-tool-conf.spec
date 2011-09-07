@@ -1,11 +1,10 @@
-### RPM cms cmssw-tool-conf 25.2
+### RPM cms cmssw-tool-conf 25.1
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
 
-%define closingbrace )
-%define isslc %(case %cmsos in slc*%closingbrace echo true;; *%closingbrace echo false;; esac)
-%define is64bit %(case %cmsos in slc*_amd64%closingbrace echo true;; *%closingbrace echo false;; esac)
+%define isslc %(case %cmsos in (slc*) echo true;; (*) echo false;; esac)
+%define is64bit %(case %cmsos in (slc*_amd64) echo true;; (*) echo false;; esac)
 
 Requires: alpgen-toolfile
 Requires: boost-toolfile
@@ -61,7 +60,6 @@ Requires: pythia6-toolfile
 Requires: pythia8-toolfile
 Requires: python-ldap-toolfile
 Requires: python-toolfile
-Requires: py2-cx-oracle-toolfile
 Requires: qt-toolfile
 Requires: roofit-toolfile
 Requires: root-toolfile
@@ -78,7 +76,9 @@ Requires: xerces-c-toolfile
 Requires: zlib-toolfile
 Requires: dcap-toolfile
 Requires: xdaq-toolfile
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (osx*) echo false ;; (*) echo true;; esac)" == "true"
 Requires: tkonlinesw-toolfile
+%endif
 Requires: frontier_client-toolfile
 Requires: xrootd-toolfile
 Requires: pyqt-toolfile
@@ -89,13 +89,17 @@ Requires: py2-matplotlib-toolfile
 Requires: py2-numpy-toolfile
 Requires: py2-scipy-toolfile
 Requires: cmsswdata-toolfile
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (osx*) echo false ;; (*) echo true;; esac)" == "true"
 Requires: rivet-toolfile
+%endif
 Requires: cascade-toolfile
 Requires: fftw3-toolfile
 Requires: fftjet-toolfile
 Requires: lapack-toolfile
 Requires: pyminuit2-toolfile
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (osx*) echo false ;; (*) echo true ;; esac)" == "true"
 Requires: professor-toolfile
+%endif
 Requires: py2-ipython-toolfile
 Requires: xz-toolfile
 Requires: protobuf-toolfile
