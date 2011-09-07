@@ -11,11 +11,10 @@
 # DAS test build with wmcore-web dependency
 # 1.241 is 0.8.4
 # 1.251 is 0.9.0
-# 1.253 is 0.9.1
-HG1109a das
-+ 1.253 das.spec
-#+ 1.33 mongo.spec
-#+ 1.21 py2-pymongo.spec
+HG1108a das
++ 1.251 das.spec
++ 1.33 mongo.spec
++ 1.21 py2-pymongo.spec
 
 # FileMover
 # 1.30 is 1.0.9
@@ -36,7 +35,26 @@ HG1102b CmsTC
 #+ HEAD/2.16.1 graphviz.spec
 
 # Cms Webtools services
-HG1109a cmsweb
+HG1108b cmsweb
++ HEAD/1109a cmsweb.spec
++ 1.63/1.47.0 boost.spec
++ 1.29 cmake.spec
++ 1.251/0.9.0 das.spec
++ 1.199/V06_00_51 dbs-web.spec
++ 1.30/1.0.9 filemover.spec
++ 1.15 gdb.spec
++ 1.12 igprof.spec
++ 1.25 libjpg.spec
++ 1.23 libpng.spec
++ 1.26 libtiff.spec
++ 1.16 libungif.spec
++ 1.33/1.8.3 mongo.spec
++ 1.19 py2-matplotlib.spec
++ 1.21/2.0.1 py2-pymongo.spec
++ 1.75 python.spec
++ 1.49 qt.spec
++ 1.28 sqlite.spec
++ 1.28 yui.spec
 
 # Stagemanager offsite agent
 HG1108b stagemanager-agent
@@ -51,8 +69,8 @@ HG1108a reqmgr
 + HEAD/0.8.1pre1 reqmgr.spec
 
 # WorkQueue
-HG1109a workqueue
-+ HEAD/0.8.1.pre5 workqueue.spec
+HG1108a workqueue
++ HEAD/0.0.20 workqueue.spec
 + WMCORE_0_6_12 dls-client.spec
 
 HG1107c wmagent
