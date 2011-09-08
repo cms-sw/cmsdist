@@ -1,8 +1,8 @@
-### RPM cms reqmgr 0.8.1pre1
+### RPM cms reqmgr 0.8.2
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_reqmgr.tar.gz
-Requires: py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah py2-cx-oracle yui rotatelogs couchdb
+Requires: py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah py2-cx-oracle yui rotatelogs couchdb py2-zmq py2-psutil
 
 %prep
 %setup -n WMCore
