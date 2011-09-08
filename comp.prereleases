@@ -51,8 +51,8 @@ HG1106c dqmgui
 HG1109b reqmgr
 + 1.50 couchdb.spec
 + HEAD/0.8.2 reqmgr.spec
-+ HEAD/2.0.11 zeromq.spec
-+ HEAD/2.0.10.1 py2-zmq.spec
++ 1.3/2.1.7 py2-zmq.spec
++ 1.3/2.1.7 zeromq.spec
 + HEAD/0.3.0 py2-psutil.spec
 
 # GlobalMonitor
