@@ -37,6 +37,7 @@ HG1102b CmsTC
 
 # Cms Webtools services
 HG1109b cmsweb
++ 1.76/6.1.0 dqmgui.spec
 
 # Stagemanager offsite agent
 HG1108b stagemanager-agent
