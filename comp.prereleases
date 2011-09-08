@@ -48,9 +48,9 @@ HG1108b stagemanager-agent
 HG1106c dqmgui
 + 1.69 dqmgui.spec
 
-HG1108a reqmgr
+HG1109b reqmgr
 + 1.50 couchdb.spec
-+ HEAD/0.8.1pre1 reqmgr.spec
++ HEAD/0.8.2 reqmgr.spec
 
 # GlobalMonitor
 HG1109a globalmonitor
