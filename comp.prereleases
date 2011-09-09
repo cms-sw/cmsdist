@@ -96,12 +96,12 @@ HG1107c dbs-client
 + DBS_2_1_6-pre5 dbs-client.spec
 
 # DBS3 build
-HG1107a dbs3
-+ HEAD/3.0.11 dbs3.spec
+HG1109b dbs3
++ HEAD/3.0.11.b dbs3.spec
 
 # DBS3 Client
-HG1107a dbs3-client
-+ HEAD/3.0.11 dbs3-client.spec
+HG1109b dbs3-client
++ HEAD/3.0.11.b dbs3-client.spec
 
 # Crab
 HG1102b crab-server

@@ -1,5 +1,6 @@
-### RPM cms dbs3-client 3.0.11
+### RPM cms dbs3-client 3.0.11.b
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 ## INITENV SET DBS3_CLIENT_ROOT %i/
 ## INITENV SET DBS_READER_URL http://vocms09.cern.ch:8585/dbs/DBSReader 
 ## INITENV SET DBS_WRITER_URL http://vocms09.cern.ch:8585/dbs/DBSWriter
@@ -13,10 +14,8 @@ Requires: python py2-cjson
 %setup -D -T -b 0 -n DBS3
 
 %build
-#cd ../DBS3
 python setup.py build_system -s Client
 %install
-#cd ../DBS3
 python setup.py install_system -s Client --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
