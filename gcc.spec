@@ -40,6 +40,8 @@ Source7: http://www.kernel.org/pub/linux/devel/binutils/binutils-%binutilsv.tar.
 Source8: ftp://sources.redhat.com/pub/systemtap/elfutils/elfutils-%{elfutilsVersion}.tar.gz
 %endif
 Patch0: gcc-4.6.1-ignore-arch-flags-macosx
+# See http://gcc.gnu.org/bugzilla/show_bug.cgi?id=49540
+Patch1: gcc-4.6.1-fix-gfortran-regression
 
 %prep
 echo "use_custom_binutils: %use_custom_binutils"
@@ -51,6 +53,7 @@ case %cmsos in
 %patch0 -p1 
   ;;
 esac
+%patch1 -p0
 
 case %cmsos in
   slc*_amd64 )
