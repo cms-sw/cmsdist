@@ -56,6 +56,7 @@ make
 
 %install
 make install
+rm -rf %{i}/share
 # We remove pkg-config files for two reasons:
 # * it's actually not required (macosx does not even have it).
 # * rpm 4.8 adds a dependency on the system /usr/bin/pkg-config 
