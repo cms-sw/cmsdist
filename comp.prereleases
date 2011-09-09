@@ -60,7 +60,7 @@ HG1109a globalmonitor
 + HEAD/0.8.1 globalmonitor.spec
 
 # WorkQueue
-HG1109b workqueue
+HG1109a workqueue
 + HEAD/0.8.3 workqueue.spec
 + WMCORE_0_6_12 dls-client.spec
 
