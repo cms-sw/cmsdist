@@ -11,10 +11,10 @@ Requires: zlib
 %setup -n %n-%downloadv
 %build
 %if "%online" != "true"
-./configure --prefix=%i --with-zlib=$ZLIB_ROOT --without-python
+./configure --disable-static --prefix=%i --with-zlib=$ZLIB_ROOT --without-python
 #./configure --prefix=%i --with-zlib=$ZLIB_ROOT
 %else
-./configure --prefix=%i --with-zlib=/usr --without-python
+./configure --disable-static --prefix=%i --with-zlib=/usr --without-python
 #./configure --prefix=%i --with-zlib=/usr
 %endif
 make %makeprocesses
