@@ -832,13 +832,6 @@ Index: roostats/inc/RooStats/ProfileLikelihoodTestStat.h
 ===================================================================
 --- roostats/inc/RooStats/ProfileLikelihoodTestStat.h	(.../tags/v5-30-00/roofit)	(revision 40814)
 +++ roostats/inc/RooStats/ProfileLikelihoodTestStat.h	(.../branches/v5-30-00-patches/roofit)	(revision 40814)
-@@ -1,5 +1,6 @@
- // @(#)root/roostats:$Id: roofit-5.30.00-up-to-40810.patch,v 1.1 2011/09/08 21:08:26 eulisse Exp $
- // Author: Kyle Cranmer, Lorenzo Moneta, Gregory Schott, Wouter Verkerke
-+// Additional Contributions: Giovanni Petrucciani 
- /*************************************************************************
-  * Copyright (C) 1995-2008, Rene Brun and Fons Rademakers.               *
-  * All rights reserved.                                                  *
 @@ -47,6 +48,8 @@
  #include "RooNLLVar.h"
  
