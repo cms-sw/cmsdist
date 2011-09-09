@@ -8,12 +8,6 @@ diff --git a/math/mathcore/inc/Math/AdaptiveIntegratorMultiDim.h b/math/mathcore
 index 3d64855..13a7786 100644
 --- a/math/mathcore/inc/Math/AdaptiveIntegratorMultiDim.h
 +++ b/math/mathcore/inc/Math/AdaptiveIntegratorMultiDim.h
-@@ -1,4 +1,4 @@
--// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.1 2011/09/08 21:08:26 eulisse Exp $
-+// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.1 2011/09/08 21:08:26 eulisse Exp $
- // Author: M. Slawinska   08/2007 
- 
- /**********************************************************************
 @@ -43,19 +43,23 @@ class AdaptiveIntegratorMultiDim : public VirtualIntegratorMultiDim {
  public:
  
@@ -101,7 +95,7 @@ index 0000000..205f0ef
 --- /dev/null
 +++ b/math/mathcore/inc/Math/GenAlgoOptions.h
 @@ -0,0 +1,159 @@
-+// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.1 2011/09/08 21:08:26 eulisse Exp $ 
++// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.2 2011/09/09 10:00:30 eulisse Exp $ 
 +// Author: L. Moneta Nov 2010
 +
 +/**********************************************************************
@@ -266,7 +260,7 @@ index 0000000..ee25bed
 --- /dev/null
 +++ b/math/mathcore/inc/Math/IOptions.h
 @@ -0,0 +1,119 @@
-+// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.1 2011/09/08 21:08:26 eulisse Exp $ 
++// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.2 2011/09/09 10:00:30 eulisse Exp $ 
 +// Author: L. Moneta Fri Aug 15 2008
 +
 +/**********************************************************************
@@ -389,12 +383,6 @@ diff --git a/math/mathcore/inc/Math/Integrator.h b/math/mathcore/inc/Math/Integr
 index 4138c53..2fd4cc7 100644
 --- a/math/mathcore/inc/Math/Integrator.h
 +++ b/math/mathcore/inc/Math/Integrator.h
-@@ -1,4 +1,4 @@
--// @(#)root/mathmore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.1 2011/09/08 21:08:26 eulisse Exp $
-+// @(#)root/mathmore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.1 2011/09/08 21:08:26 eulisse Exp $
- // Authors: L. Moneta, M. Slawinska 10/2007
- 
-  /**********************************************************************
 @@ -18,6 +18,10 @@
  #include "Math/AllIntegrationTypes.h"
  #endif
@@ -580,7 +568,7 @@ index 0000000..3cb83b0
 --- /dev/null
 +++ b/math/mathcore/inc/Math/IntegratorOptions.h
 @@ -0,0 +1,273 @@
-+// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.1 2011/09/08 21:08:26 eulisse Exp $ 
++// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.2 2011/09/09 10:00:30 eulisse Exp $ 
 +// Author: L. Moneta Fri Aug 15 2008
 +
 +/**********************************************************************
@@ -857,12 +845,6 @@ diff --git a/math/mathcore/inc/Math/Minimizer.h b/math/mathcore/inc/Math/Minimiz
 index b7c2d21..332b9be 100644
 --- a/math/mathcore/inc/Math/Minimizer.h
 +++ b/math/mathcore/inc/Math/Minimizer.h
-@@ -1,4 +1,4 @@
--// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.1 2011/09/08 21:08:26 eulisse Exp $
-+// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.1 2011/09/08 21:08:26 eulisse Exp $
- // Author: L. Moneta Fri Sep 22 15:06:47 2006
- 
- /**********************************************************************
 @@ -17,9 +17,9 @@
  #include "Math/IFunction.h"
  #endif
@@ -1033,12 +1015,6 @@ diff --git a/math/mathcore/inc/Math/MinimizerOptions.h b/math/mathcore/inc/Math/
 index 5a7edfe..404f18e 100644
 --- a/math/mathcore/inc/Math/MinimizerOptions.h
 +++ b/math/mathcore/inc/Math/MinimizerOptions.h
-@@ -1,4 +1,4 @@
--// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.1 2011/09/08 21:08:26 eulisse Exp $ 
-+// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.1 2011/09/08 21:08:26 eulisse Exp $ 
- // Author: L. Moneta Fri Aug 15 2008
- 
- /**********************************************************************
 @@ -13,10 +13,15 @@
  
  #include <string>
@@ -1330,7 +1306,7 @@ index 0000000..97a8c03
 --- /dev/null
 +++ b/math/mathcore/src/GenAlgoOptions.cxx
 @@ -0,0 +1,80 @@
-+// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.1 2011/09/08 21:08:26 eulisse Exp $ 
++// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.2 2011/09/09 10:00:30 eulisse Exp $ 
 +// Author: L. Moneta Nov 2010
 +/**********************************************************************
 + *                                                                    *
@@ -1583,7 +1559,7 @@ index 0000000..179c7bc
 --- /dev/null
 +++ b/math/mathcore/src/IntegratorOptions.cxx
 @@ -0,0 +1,382 @@
-+// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.1 2011/09/08 21:08:26 eulisse Exp $ 
++// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.2 2011/09/09 10:00:30 eulisse Exp $ 
 +// Author: L. Moneta Fri Aug 15 2008
 +
 +/**********************************************************************
@@ -1969,12 +1945,6 @@ diff --git a/math/mathcore/src/MinimizerOptions.cxx b/math/mathcore/src/Minimize
 index 85761d0..4d69c6d 100644
 --- a/math/mathcore/src/MinimizerOptions.cxx
 +++ b/math/mathcore/src/MinimizerOptions.cxx
-@@ -1,4 +1,4 @@
--// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.1 2011/09/08 21:08:26 eulisse Exp $ 
-+// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.1 2011/09/08 21:08:26 eulisse Exp $ 
- // Author: L. Moneta Fri Aug 15 2008
- 
- /**********************************************************************
 @@ -10,104 +10,110 @@
  
  #include "Math/MinimizerOptions.h"
@@ -2242,12 +2212,6 @@ diff --git a/math/mathcore/inc/Math/GaussIntegrator.h b/math/mathcore/inc/Math/G
 index 2b66c73..ce39ab2 100644
 --- a/math/mathcore/inc/Math/GaussIntegrator.h
 +++ b/math/mathcore/inc/Math/GaussIntegrator.h
-@@ -1,4 +1,4 @@
--// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.1 2011/09/08 21:08:26 eulisse Exp $
-+// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.1 2011/09/08 21:08:26 eulisse Exp $
- // Authors: David Gonzalez Maline    01/2008 
- 
- /**********************************************************************
 @@ -202,6 +202,12 @@ public:
     /** This method is not implemented. */
     double IntegralCauchy (double a, double b, double c);
@@ -2265,12 +2229,6 @@ diff --git a/math/mathcore/src/GaussIntegrator.cxx b/math/mathcore/src/GaussInte
 index 43679fb..d800ae4 100644
 --- a/math/mathcore/src/GaussIntegrator.cxx
 +++ b/math/mathcore/src/GaussIntegrator.cxx
-@@ -1,4 +1,4 @@
--// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.1 2011/09/08 21:08:26 eulisse Exp $
-+// @(#)root/mathcore:$Id: root-5.27.06b-updated-mathcore-mathmore.patch,v 1.1 2011/09/08 21:08:26 eulisse Exp $
- // Authors: David Gonzalez Maline    01/2008 
- 
- /**********************************************************************
 @@ -179,6 +179,23 @@ double GaussIntegrator::IntegralCauchy (double /*a*/, double /*b*/, double /*c*/
     return -1.0;  
  }
