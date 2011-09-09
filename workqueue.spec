@@ -1,4 +1,4 @@
-### RPM cms workqueue 0.8.2
+### RPM cms workqueue 0.8.3
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define cvstag %v
 
