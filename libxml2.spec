@@ -21,8 +21,8 @@ make %makeprocesses
 %install
 make install
 rm -rf %{i}/lib/pkgconfig
+rm -rf %{i}/share/{man,doc,gtk-doc}
 %post
 %{relocateConfig}bin/xml2-config
 %{relocateConfig}lib/libxml2.la
-#%{relocateConfig}lib/pkgconfig/libxml-2.0.pc
 %{relocateConfig}lib/xml2Conf.sh
