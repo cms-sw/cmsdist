@@ -3,9 +3,8 @@
 # with cmsBuild, change the above version only when a new
 # tool is added
 
-%define closingbrace )
-%define isslc %(case %cmsos in slc*%closingbrace echo true;; *%closingbrace echo false;; esac)
-%define is64bit %(case %cmsos in slc*_amd64%closingbrace echo true;; *%closingbrace echo false;; esac)
+%define isslc %(case %cmsos in (slc*) echo true;; (*) echo false;; esac)
+%define is64bit %(case %cmsos in (slc*_amd64) echo true;; (*) echo false;; esac)
 
 #Requires: alpgen-toolfile                  # not used online
 Requires: boost-toolfile
