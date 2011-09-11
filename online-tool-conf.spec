@@ -3,10 +3,6 @@
 # with cmsBuild, change the above version only when a new
 # tool is added
 
-## INITENV SET CMSSW_TOOL_CONF_ROOT $ONLINE_TOOL_CONF_ROOT
-Provides: libboost_regex-gcc-mt.so 
-Provides: libboost_signals-gcc-mt.so 
-Provides: libboost_thread-gcc-mt.so
 %define closingbrace )
 %define isslc %(case %cmsos in slc*%closingbrace echo true;; *%closingbrace echo false;; esac)
 %define is64bit %(case %cmsos in slc*_amd64%closingbrace echo true;; *%closingbrace echo false;; esac)
