@@ -1,4 +1,4 @@
-### RPM cms online-tool-conf 7.0
+### RPM cms online-tool-conf 8.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -67,6 +67,7 @@ Requires: sigcpp-toolfile
 #Requires: sqlite-toolfile                  # from XDAQ (daq-sqlite)
 Requires: onlinesystemtools
 #Requires: tauola-toolfile                  # not used online
+#Requires: tauolapp-toolfile                # not used online
 #Requires: thepeg-toolfile                  # not used online
 #Requires: toprex-toolfile                  # not used online
 #Requires: uuid-toolfile                    # from SLC5 (e2fsprogs-libs)
@@ -83,6 +84,7 @@ Requires: xrootd-toolfile
 Requires: valgrind-toolfile
 #Requires: py2-matplotlib-toolfile          # not used online
 #Requires: py2-numpy-toolfile               # not used online
+#Requires: py2-scipy-toolfile               # not used online
 Requires: cmsswdata-toolfile
 #Requires: rivet-toolfile                   # not used online
 #Requires: cascade-toolfile                 # not used online
@@ -91,6 +93,12 @@ Requires: fftjet-toolfile
 Requires: gdb-toolfile
 #Requires: google-perftools-toolfile        # not used online
 Requires: igprof-toolfile
+#Requires: lapack-toolfile                  # not used online
+#Requires: pyminuit2-toolfile               # not used online
+#Requires: professor-toolfile               # not used online
+#Requires: py2-ipython-toolfile             # not used online
+Requires: xz-toolfile
+#Requires: protobuf-toolfile                # not used online
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull
 %define onlinesystemtoolsroot ${ONLINESYSTEMTOOLS_ROOT}
