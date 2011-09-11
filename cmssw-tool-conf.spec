@@ -102,7 +102,6 @@ Requires: protobuf-toolfile
 
 %if "%isslc" == "true"
 Requires: gdb-toolfile
-Requires: curl-toolfile
 Requires: google-perftools-toolfile
 Requires: igprof-toolfile
 %endif
