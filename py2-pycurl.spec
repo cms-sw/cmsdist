@@ -5,6 +5,7 @@ Requires: python curl
 
 %prep
 %setup -n pycurl-%realversion
+perl -p -i -e '/--static-libs/ && s/^(\s+)/$1"") #/' setup.py
 
 %build
 python setup.py build
