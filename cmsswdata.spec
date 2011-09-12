@@ -23,7 +23,14 @@ Requires: data-Fireworks-Geometry
 Requires: data-SimG4CMS-Forward
 %else
 # data dependencies for ONLINE builds
+Requires: data-L1Trigger-RPCTrigger
 Requires: data-MagneticField-Interpolation
+Requires: data-RecoMuon-MuonIdentification
+Requires: data-RecoParticleFlow-PFBlockProducer
+Requires: data-RecoParticleFlow-PFProducer
+Requires: data-RecoParticleFlow-PFTracking
+Requires: data-RecoTracker-RingESSource
+Requires: data-RecoTracker-RoadMapESSource
 %endif
 
 %prep
