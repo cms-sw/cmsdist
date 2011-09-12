@@ -1,59 +1,31 @@
-### RPM lcg root 5.27.06b
+### RPM lcg root 5.30.00
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i  
-#Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
-Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
+#Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
+%define svntag %(echo %realversion | tr . -)
+Source: svn://root.cern.ch/svn/root/tags/v%{svntag}/?scheme=http&strategy=export&module=%n-%{realversion}&output=/%n-%{realversion}.tgz
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 %define ismac %(case %cmsplatf in (osx*) echo true;; (*) echo false;; esac)
 
-Patch0: root-5.27-06-externals
-Patch1: root-5.27-04-CINT-maxlongline-maxtypedef
-Patch2: root-5.22-00a-roofit-silence-static-printout
-Patch3: root-5.22-00d-linker-gnu-hash-style
-Patch4: root-5.22-00d-TBranchElement-dropped-data-member
-Patch5: root-5.27-06-fireworks9
-Patch6: root-5.27-06b-gdb-backtrace
-Patch7: root-5.27-06-tmva-DecisionTreeNode
-Patch8: root-5.27-06b-r36567
-Patch9: root-5.27-06b-r36572
-Patch10: root-5.27-06b-r36707
-Patch11: root-5.27-06b-r36594
-Patch12: root-5.27-06b-tmva-MethodBase-initvar
-Patch13: root-5.27-06b-r37582-tmva
-Patch14: root-5.27-06b-r37405
-Patch15: root-5.27-06b-r37556
-Patch16: root-5.27-06-fireworks10
-Patch17: root-5.27-06-TTreeClonerTopLevel
-Patch18: root-5.27-06b-r37947
-Patch19: root-5.27-06b-TTreeCache-r37950-r37919-r37917-r37916-r37906
-Patch20: root-5.27-06b-extra-math-for-roofit-5.28.00
-Patch21: root-5.27-06b-TEfficiency-backport-from-5.28.00
-Patch22: root-5.27-06b-histfactory-bits-from-5.28.00
-Patch23: root-5.27-06b-r37210
-Patch24: root-5.27-06b-r38023
-Patch25: root-5.27-06b-r36708
-Patch26: root-5.27-06b-r38126-r38156
-Patch27: root-5.27-06b-r38210
-Patch28: root-5.27-06b-r38248-r38252-r38259-r38264-r38265-r38267
-Patch29: root-5.27-06b-gcc46
-Patch30: root-5.27-06b-r38325
-Patch31: root-5.27-06b-tmva-MethodANNBase-uninitialized-var-fix
-Patch32: root-5.27-06b-r36196-r36698
-Patch33: root-5.27-06-fireworks11
-Patch34: root-5.27-06b-r38369
-Patch35: root-5.27-06b-r39055
-Patch36: root-5.27.06b-r39155
-Patch37: root-5.27.06b-r38057
-Patch38: root-5.27-06b-tbasket_revised_buffers_v4_cms527
-Patch39: root-5.27.06b-r39139
-Patch40: root-5.28-00d-r39525
-Patch41: root-5.28-00d-fix-tsystem-load-macosx
-Patch42: root-5.27.06b-updated-mathcore-mathmore
-Patch43: root-5.27.06b-more-updated-mathcore-mathmore
-
+Patch0: root-5.28-00d-externals
+Patch1: root-5.28-00d-CINT-maxlongline-maxtypedef
+Patch2: root-5.28-00d-roofit-silence-static-printout
+Patch3: root-5.28-00d-linker-gnu-hash-style
+Patch4: root-5.28-00d-TBranchElement-dropped-data-member
+Patch5: root-5.30-00-TSchemaRuleProcessor-nested-space
+#Patch5: root-5.28-00d-r37582-tmva
+#Patch6: root-5.28-00d-TTreeCache-r37919
+#Patch7: root-5.28-00d-r38248-r38259-r38264-r38265-r38267
+#Patch8: root-5.28-00d-fireworks1
+#Patch9: root-5.28-00d-r39155
+#Patch10: root-5.28-00d-r39525
+#Patch11: root-5.28-00d-r39657
+#Patch12: root-5.28-00d-r39759
+#Patch13: root-5.28-00d-fix-tsystem-load-macosx
+ 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
-Requires: gccxml gsl libjpg libpng libtiff libungif pcre python fftw3 xrootd
+Requires: gccxml gsl libjpg libpng libtiff libungif pcre python fftw3 xz xrootd
 
 %if "%ismac" != "true"
 Requires: castor dcap
@@ -63,65 +35,27 @@ Requires: castor dcap
 Requires: openssl zlib
 %endif
 
-%if "%ismac" == "true"
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif
 
 %prep
-%setup -n root
+%setup -n root-%realversion
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
 # patch3 is OS version dependent, see below
 %patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
-%patch15 -p1
-%patch16 -p1
-%patch17 -p0
-%patch18 -p1
-%patch19 -p0
-%patch20 -p1
-%patch21 -p1
-%patch22 -p1
-%patch23 -p1
-%patch24 -p1
-%patch25 -p1
-%patch26 -p1
-%patch27 -p1
-%patch28 -p1
-%patch29 -p1
-%patch30 -p1
-%patch31 -p1
-%patch32 -p1
-%patch33 -p1
-%patch34 -p1
-%patch35 -p1
-%patch36 -p1
-%patch37 -p2
-%patch38 -p1
-%patch39 -p0
-%patch42 -p1
-%patch43 -p1
-
-# Since it is needed only to fix inline visibility issues,
-# we apply it only for gcc 4.5.1 and later.
-case %cmsplatf in
-  slc5_*_gcc4[01234]*) ;;
-  *)
-%patch40 -p1
-  ;;
-esac
-
-%patch41 -p1
+%patch5 -p2
+# patch5 -p1
+# patch6 -p1
+# patch7 -p1
+# patch8 -p1
+# patch9 -p1
+# patch10 -p1 TRY AGAIN!
+# patch11 -p0
+# patch12 -p2
+# patch13 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
@@ -153,7 +87,8 @@ EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}
              --with-ssl-incdir=${OPENSSL_ROOT}/include
              --with-ssl-libdir=${OPENSSL_ROOT}/lib"
 %endif
-
+LZMA=${XZ_ROOT}
+export LZMA
 CONFIG_ARGS="--enable-table 
              --disable-builtin-pcre
              --disable-builtin-freetype
@@ -164,7 +99,8 @@ CONFIG_ARGS="--enable-table
              --enable-mathmore
              --enable-reflex  
              --enable-cintex 
-             --enable-minuit2 
+             --enable-minuit2
+             --disable-builtin-lzma
              --enable-fftw3
              --with-fftw3-incdir=${FFTW3_ROOT}/include
              --with-fftw3-libdir=${FFTW3_ROOT}/lib
@@ -209,7 +145,6 @@ esac
 makeopts="%makeprocesses"
 
 make $makeopts
-make cintdlls
 
 %install
 # Override installers if we are using GNU fileutils cp.  On OS X
@@ -230,3 +165,5 @@ cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
 # This file confuses rpm's find-requires because it starts with
 # a """ and it thinks is the shebang.
 rm -f %i/tutorials/pyroot/mrt.py
+
+
