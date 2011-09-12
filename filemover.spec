@@ -3,7 +3,6 @@
 %define wmcver 0.8.3
 %define webdoc_files %i/doc/
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
-
 Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_fm.tar.gz
 Source1: %svnserver/FileMover/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=FileMover&output=/filemover.tar.gz
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui
