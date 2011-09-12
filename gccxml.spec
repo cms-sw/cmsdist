@@ -1,6 +1,4 @@
 ### RPM external gccxml 20110825 
-%define gccxmlmajorver %(echo %realversion | cut -f1 -d_)
-%define gccxmlconfigver %(echo %realversion | cut -f1 -d_ | cut -f1,2 -d.)
 Requires: cmake
 Source: http://service-spi.web.cern.ch/service-spi/external/tarFiles/%n-%realversion.tgz
 Patch0: gccxml-0.9.0_20100308-gcc45-iomanip
@@ -29,4 +27,4 @@ cd gccxml-build
 make install
 
 %post
-%{relocateConfig}share/gccxml-%{gccxmlconfigver}/gccxml_config
+find $RPM_INSTALL_PREFIX/%{pkgrel}/share -name gccxml_config -exec %relocateCmsFiles {} \;
