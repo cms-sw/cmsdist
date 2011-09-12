@@ -129,7 +129,7 @@ fi
 # Build libelf.
 if [ "X%isslc" = Xtrue ]; then
   cd ../elfutils-%{elfutilsVersion}
-  ./configure --prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP"
+  ./configure --disable-static --prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP"
   make %makeprocesses
   make install
 fi
@@ -159,7 +159,7 @@ then
   perl -p -i -e 's|PDFFILES =.*|PDFFILES =|' etc/Makefile.in
   perl -p -i -e 's|HTMLFILES =.*|HTMLFILES =|' etc/Makefile.in        
 
-  ./configure --prefix=%i ${CONF_BINUTILS_OPTS} --disable-werror \
+  ./configure --disable-static --prefix=%i ${CONF_BINUTILS_OPTS} --disable-werror \
               CC="$CC" CXX="$CXX" CPP="$CPP" CFLAGS="-I%i/include" \
               CXXFLAGS="-I%i/include" LDFLAGS="-L%i/lib"
   make %makeprocesses
@@ -170,17 +170,17 @@ fi
 
 # Build GMP/MPFR/MPC
 cd ../gmp-%{gmpVersion}
-./configure --prefix=%i --enable-shared --disable-static --enable-cxx CC="$CC" CXX="$CXX" CPP="$CPP"
+./configure --disable-static --prefix=%i --enable-shared --disable-static --enable-cxx CC="$CC" CXX="$CXX" CPP="$CPP"
 make %makeprocesses
 make install
 
 cd ../mpfr-%{mpfrVersion}
-./configure --prefix=%i --with-gmp=%i CC="$CC" CXX="$CXX" CPP="$CPP"
+./configure --disable-static --prefix=%i --with-gmp=%i CC="$CC" CXX="$CXX" CPP="$CPP"
 make %makeprocesses
 make install
 
 cd ../mpc-%{mpcVersion}
-./configure --prefix=%i --with-gmp=%i --with-mpfr=%i CC="$CC" CXX="$CXX" CPP="$CPP"
+./configure --disable-static --prefix=%i --with-gmp=%i --with-mpfr=%i CC="$CC" CXX="$CXX" CPP="$CPP"
 make %makeprocesses
 make install
 CONF_GCC_VERSION_OPTS="--with-gmp=%i --with-mpfr=%i --with-mpc=%i"
@@ -188,12 +188,12 @@ CONF_GCC_VERSION_OPTS="--with-gmp=%i --with-mpfr=%i --with-mpc=%i"
 # Build additional stuff for gcc 4.5+
 if [ "X%gcc_45plus" = Xtrue ]; then
   cd ../ppl-%{pplVersion}
-  ./configure --prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP"
+  ./configure --disable-static --prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP"
   make %makeprocesses
   make install
 
   cd ../cloog-%{cloogVersion}
-  ./configure --prefix=%i --with-ppl=%i --with-gmp-prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP"
+  ./configure --disable-static --prefix=%i --with-ppl=%i --with-gmp-prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP"
   make %makeprocesses
   make install
 
@@ -218,6 +218,28 @@ cd %_builddir/gcc-%{realversion}/obj && make install
 
 ln -s gcc %i/bin/cc
 find %i/lib %i/lib64 -name '*.la' -exec rm -f {} \; || true
+
+# Remove unneeded documentation.
+rm -rf %i/share/{man,info,doc,locale}
+# Strip things people will most likely never debug themself.
+find %i/libexec -name cc1 -exec strip {} \;
+find %i/libexec -name cc1plus -exec strip {} \;
+find %i/libexec -name f951 -exec strip {} \;
+find %i/libexec -name lto1 -exec strip {} \;
+find %i/libexec -name collect2 -exec strip {} \;
+find %i/bin -type f -exec file {} \; | grep executable | grep -v make-debug-archive | sed -e 's|:.*||' | xargs -n1 strip
+find %i/x86_64*/bin -type f -exec strip {} \;
+strip %i/lib/libmpfr*
+strip %i/lib/libppl*
+strip %i/lib/libgmp*
+strip %i/lib/libcloog*
+# Remove temporary bison installation
+rm -rf %i/tmp
+# Remove unneeded archive libraries.
+rm -rf %i/lib/libstdc++.a %i/lib/libsupc++.a
+# This avoids having a dependency on the system pkg-config.
+rm -rf %i/lib/pkg-config
+
 # SCRAM ToolBox toolfile is now geneated by the gcc-toolfile.spec
 # so that everything works even in the case "--use-system-compiler"
 # option is specified.
