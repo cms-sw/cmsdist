@@ -10,6 +10,7 @@ unzip %{_sourcedir}/yui_%realversion.zip
 %install
 pwd
 cp -r yui/* %i
+rm -rf %i/{examples,tests}
 mkdir -p %i/etc
 cat << \EOF_CHERRYPY_CONF > %i/etc/cherrypy.conf
 # Serve a complete directory 
