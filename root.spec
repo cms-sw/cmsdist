@@ -53,14 +53,14 @@ Patch43: root-5.27.06b-more-updated-mathcore-mathmore
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
-Requires: gccxml gsl libjpg libpng libtiff libungif pcre python fftw3
+Requires: gccxml gsl libjpg libpng libtiff libungif pcre python fftw3 xrootd
 
 %if "%ismac" != "true"
 Requires: castor dcap
 %endif
 
 %if "%online" != "true"
-Requires: openssl zlib xrootd
+Requires: openssl zlib
 %endif
 
 %if "%ismac" == "true"
