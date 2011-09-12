@@ -13,15 +13,17 @@
 # 1.251 is 0.9.0
 # 1.253 is 0.9.1
 # 1.254 is 0.9.2
+# 1.256 is 0.9.2 w/ WMCore 0.8.3
 HG1109b das
-+ 1.254 das.spec
++ 1.256 das.spec
 #+ 1.33 mongo.spec
 #+ 1.21 py2-pymongo.spec
 
 # FileMover
 # 1.30 is 1.0.9
+# 1.31 is 1.0.9 w/ WMCore 0.8.3
 HG1108a filemover
-+ 1.30 filemover.spec
++ 1.31 filemover.spec
 
 # T0PromptSkim
 #HG1105a T0PromptSkim
