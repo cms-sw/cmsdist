@@ -40,7 +40,28 @@ HG1102b CmsTC
 
 # Cms Webtools services
 HG1109b cmsweb
++ 1.39/1109c cmsweb.spec
++ 1.159/2.1.9 PHEDEX-datasvc.spec
++ 1.122/4.0.9 PHEDEX-web.spec
++ 1.112/1.1.9 PHEDEX-webapp.spec
++ 1.65 boost.spec
++ 1.36 castor.spec
++ 1.30/2.8.5 cmake.spec
++ 1.24 curl.spec
++ 1.256/0.9.2 das.spec
++ 1.144/DBS_2_1_6 dbs-client.spec
++ 1.28/3.0.11.b dbs3.spec
++ 1.16/DLS_1_1_3 dls-client.spec
 + 1.76/6.1.0 dqmgui.spec
++ 1.4 extjs.spec
++ 1.32 filemover.spec
++ 1.14 igprof.spec
++ 1.2 py2-pycurl.spec
++ 1.27/0.8.3 reqmgr.spec
++ 1.24/2.0.0 sitedb.spec
++ 1.33 valgrind.spec
++ 1.30/0.8.3 workqueue.spec
++ 1.2 yui3.spec
 
 # Stagemanager offsite agent
 HG1108b stagemanager-agent
