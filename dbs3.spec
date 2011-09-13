@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 ## INITENV SET DBS3_SERVER_ROOT %i/
-%define wmcver 0.8.2
+%define wmcver 0.8.3
 %define cvstag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_dbs.tar.gz

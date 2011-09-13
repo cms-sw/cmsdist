@@ -7,7 +7,7 @@
 %define webdoc_files %i/doc/
 %define cvssrc cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define svnsrc svn://svn.cern.ch/reps/CMSDMWM/SiteDB/tags/%{realversion}
-%define svnwmc svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/0.7.4
+%define svnwmc svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/0.8.3
 Source0: %{svnwmc}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_sitedb.tar.gz
 Source1: %{svnsrc}?scheme=svn+ssh&strategy=export&module=SiteDB&output=/sitedb.tar.gz
 Source2: %{cvssrc}&strategy=export&module=WEBTOOLS&nocache=true&export=WEBTOOLS&tag=-rSiteDBv1-slc5-v3&output=/old-sitedb.tar.gz

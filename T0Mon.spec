@@ -1,6 +1,6 @@
 ### RPM cms T0Mon 4.2.11
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-%define wmcver 0.7.4
+%define wmcver 0.8.3
 %define moduleName T0
 %define exportName T0
 %define cvstag T0Mon_4_2_11
