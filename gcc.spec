@@ -24,9 +24,10 @@ Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
 %if "%use_custom_binutils" == "true"
 %define bisonVersion 2.4
 Source6: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.bz2
-%define binutilsv 2.21.53.0.2
-#Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
-Source7: http://www.kernel.org/pub/linux/devel/binutils/binutils-%binutilsv.tar.bz2
+%define binutilsv 2.21.1
+Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
+#Source7: http://cmsrep.cern.ch/cmssw/binutils-mirror/binutils-%binutilsv.tar.bz2
+#Source7: http://www.kernel.org/pub/linux/devel/binutils/binutils-%binutilsv.tar.bz2
 %endif
 
 # gcc 4.5+ link time optimization support requires libelf to work. However
@@ -109,11 +110,19 @@ case %{cmsos} in
     CXX=/usr/bin/c++-4.2
     CPP=/usr/bin/cpp-4.2
     ADDITIONAL_LANGUAGES=,objc,obj-c++
+
+    # Apparently must emulate apple compiler even if we build
+    # full chain ourselves, as things come in via system libs.
+    #  - http://newartisans.com/2009/10/a-c-gotcha-on-snow-leopard/
+    #  - http://gcc.gnu.org/bugzilla/show_bug.cgi?id=41645
+    #  - http://trac.macports.org/ticket/25205 (and 22234)
+    CONF_GCC_OS_SPEC=--enable-fully-dynamic-string
   ;;
   *)
     CC=gcc
     CXX=c++
     CPP=cpp
+    CONF_GCC_OS_SPEC=
   ;;
 esac
 
@@ -124,6 +133,7 @@ CXX="$CXX -fPIC"
 # We do so only if we are using the new gcc 4.5+
 if [ "X%use_custom_binutils:%gcc_45plus" = Xtrue:true ] ; then
   CONF_BINUTILS_OPTS="--enable-gold=default --enable-lto --enable-plugins --enable-threads"
+  CONF_GCC_WITH_LTO="--enable-gold=yes --enable-lto  --with-build-config=bootstrap-lto"
 fi
 
 # Build libelf.
@@ -205,15 +215,20 @@ cd ../gcc-%realversion
 mkdir -p obj
 cd obj
 export LD_LIBRARY_PATH=%i/lib64:%i/lib:$LD_LIBRARY_PATH
-../configure --prefix=%i \
-  --enable-gold=yes --enable-lto  --with-build-config=bootstrap-lto \
+../configure --prefix=%i --disable-multilib --disable-nls \
   --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES \
-  $CONF_GCC_VERSION_OPTS --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP"
+  $CONF_GCC_OS_SPEC $CONF_GCC_WITH_LTO $CONF_GCC_VERSION_OPTS \
+  --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP"
 
 make %makeprocesses bootstrap
 make install
 
 %install
+case %{cmsos} in
+  osx*) STRIP_DYNAMIC="strip -x" ;;
+  *)    STRIP_DYNAMIC="strip" ;;
+esac
+
 cd %_builddir/gcc-%{realversion}/obj && make install 
 
 ln -s gcc %i/bin/cc
@@ -228,11 +243,13 @@ find %i/libexec -name f951 -exec strip {} \;
 find %i/libexec -name lto1 -exec strip {} \;
 find %i/libexec -name collect2 -exec strip {} \;
 find %i/bin -type f -exec file {} \; | grep executable | grep -v make-debug-archive | sed -e 's|:.*||' | xargs -n1 strip
-find %i/x86_64*/bin -type f -exec strip {} \;
-strip %i/lib/libmpfr*
-strip %i/lib/libppl*
-strip %i/lib/libgmp*
-strip %i/lib/libcloog*
+if [ "X%use_custom_binutils" = Xtrue ]; then
+  find %i/x86_64*/bin -type f -exec strip {} \;
+else :; fi
+$STRIP_DYNAMIC %i/lib/libmpfr*
+$STRIP_DYNAMIC %i/lib/libppl*
+$STRIP_DYNAMIC %i/lib/libgmp*
+$STRIP_DYNAMIC %i/lib/libcloog*
 # Remove temporary bison installation
 rm -rf %i/tmp
 # Remove unneeded archive libraries.
