@@ -22,8 +22,9 @@ HG1109b das
 # FileMover
 # 1.30 is 1.0.9
 # 1.32 is 1.0.9 w/ WMCore 0.8.3
+# 1.33 is 1.0.10
 HG1108a filemover
-+ 1.32 filemover.spec
++ 1.33 filemover.spec
 
 # T0PromptSkim
 #HG1105a T0PromptSkim
