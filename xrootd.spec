@@ -1,13 +1,9 @@
-### RPM external xrootd 5.30.00
+### RPM external xrootd 5.28.00d
 %define svntag  %(echo %{realversion} | tr '.' '-')
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
-
 Source: svn://root.cern.ch/svn/root/tags/v%{svntag}/net/xrootd/src/xrootd?scheme=http&strategy=export&module=%n-%{realversion}&output=/%n-%{realversion}.tgz
 Patch0: xrootd-gcc44
-Patch1: xrootd-5.30.00-fix-gcc46
-%if "%online" != "true"
+Patch1: xrootd-5.28-00d-forkv2
 Requires: openssl
-%endif
 
 %prep 
 %setup -n %n-%{realversion}
