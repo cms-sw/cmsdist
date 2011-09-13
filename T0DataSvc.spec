@@ -14,6 +14,8 @@ Requires: rotatelogs py2-cx-oracle
 %prep
 %setup -T -b 0 -n WMCore
 %setup -D -T -b 1 -n %{moduleName}
+perl -p -i -e '/from WMCore.HTTPFrontEnd.WorkQueue.Services.ServiceInterface import ServiceInterface/
+               && s/WMCore.HTTPFrontEnd.WorkQueue/T0.DAS/' src/python/T0/DAS/Services/*.py
 
 %build
 cd ../WMCore
@@ -22,15 +24,10 @@ python setup.py build_system -s wmc-web
 %install
 cd ../WMCore
 python setup.py install_system -s wmc-web --prefix=%i
-tar -C src/python -cf - WMCore/HTTPFrontEnd/WorkQueue/Services/ServiceInterface.py |
- tar -C %i/lib/python*/site-packages -xvvf -
-find %i/lib/python*/site-packages/WMCore/HTTPFrontEnd -type d -exec touch {}/__init__.py \;
 find %i -name '*.egg-info' -exec rm {} \;
 
 cd ../%{moduleName}
-tar -C src/python -cf - \
-  T0/DAS | 
-  tar -C %i/lib/python*/site-packages -xvvf -
+tar -C src/python -cf - T0/DAS | tar -C %i/lib/python*/site-packages -xvvf -
 find %i/lib/python*/site-packages/T0 -type d -exec touch {}/__init__.py \;
 
 # Generate .pyc files.
