@@ -1,6 +1,6 @@
-### RPM cms filemover 1.0.9.pre1
+### RPM cms filemover 1.0.11
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-%define wmcver 0.7.4
+%define wmcver 0.8.3
 %define webdoc_files %i/doc/
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_fm.tar.gz
