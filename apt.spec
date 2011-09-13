@@ -6,9 +6,9 @@ Source0: http://cmsrep.cern.ch/cmssw/apt-mirror/apt-rpm-%realversion.tar.gz
 # svn://svn.github.com/ktf/apt-rpm.git?scheme=http&revision=%{realversion}&module=apt-rpm&output=/apt-rpm.tar.gz
 Source1: bootstrap
 Source2: http://search.cpan.org/CPAN/authors/id/T/TL/TLBDK/RPM-Header-PurePerl-1.0.2.tar.gz
-Patch0: apt-429-fix-gcc-461
 
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 Requires: libxml2 rpm db4
 %if "%online" != "true"
@@ -19,7 +19,6 @@ Requires: openssl
 %setup -T -b 2 -n RPM-Header-PurePerl-1.0.2
 cd ..
 %setup -n apt-rpm-%realversion
-%patch0 -p1
 
 %build
 case %cmsplatf in
