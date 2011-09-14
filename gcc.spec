@@ -198,7 +198,7 @@ CONF_GCC_VERSION_OPTS="--with-gmp=%i --with-mpfr=%i --with-mpc=%i"
 # Build additional stuff for gcc 4.5+
 if [ "X%gcc_45plus" = Xtrue ]; then
   cd ../ppl-%{pplVersion}
-  ./configure --disable-static --prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP"
+  ./configure --disable-static --enable-interfaces=c --prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP"
   make %makeprocesses
   make install
 
