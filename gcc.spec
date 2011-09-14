@@ -38,7 +38,7 @@ Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 %define isslc %(echo %cmsos | sed -e 's|slc.*|true|')
 %define elfutilsVersion 0.131
 %if "%isslc" == "true"
-Source8: ftp://sources.redhat.com/pub/systemtap/elfutils/elfutils-%{elfutilsVersion}.tar.gz
+Source8: ftp://sources.redhat.com/pub/systemtap/elfutils.old/elfutils-%{elfutilsVersion}.tar.gz
 %endif
 Patch0: gcc-4.6.1-ignore-arch-flags-macosx
 # See http://gcc.gnu.org/bugzilla/show_bug.cgi?id=49540
