@@ -2,7 +2,7 @@
 Source: http://erlang.org/download/otp_src_%{realversion}.tar.gz
 Patch0: erlang-ssl-connection
 Patch1: erlang-ssl-session-cache
-Requires: openssl
+Requires: openssl zlib
 
 # 32-bit
 Provides: libc.so.6(GLIBC_PRIVATE)
@@ -16,7 +16,15 @@ Provides: libc.so.6(GLIBC_PRIVATE)(64bit)
 find . -name configure | xargs perl -p -i -e 's/-no-cpp-precomp//'
 
 %build
-./configure --prefix=%i
+%ifos darwin
+%define flavour --enable-darwin-64bit
+%else
+%define flavour --enable-m64-build --disable-m32-build
+%endif
+
+./configure CPPFLAGS=-I$ZLIB_ROOT/include LDFLAGS=-L$ZLIB_ROOT/lib \
+  --prefix=%i %flavour --without-javac --enable-shared-zlib \
+  --with-ssl=$OPENSSL_ROOT --enable-dynamic-ssl-lib
 make
 
 %install
