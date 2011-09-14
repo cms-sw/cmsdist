@@ -1,7 +1,7 @@
 # The entry format is the same as in comp.prereleases
 
 # Cms Webtools services
-HG1109c cmsweb
+HG1108b cmsweb
 
 # DBS-2
 HG1107c dbs-server
