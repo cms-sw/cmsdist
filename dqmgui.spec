@@ -13,6 +13,7 @@ Source1: %{cvs}&strategy=export&module=CMSSW/DQMServices/Core&export=DQMServices
 Source2: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=image&revision=10&scheme=http&output=/rtgu.tar.gz
 Source3: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
 Patch0: dqmgui-rtgu
+Patch1: dqmgui-osx
 
 Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root libpng libjpg classlib rotatelogs py2-pycurl py2-cjson py2-sphinx
 
@@ -26,6 +27,11 @@ perl -p -i -e '/#include/ && s|\.\./\.\./|boost/gil/|' $(find . -name *.hpp)
 chmod 644 $(find . -name *.hpp)
 %setup -T -b 0 -n Monitoring
 perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/*/conf.py
+%patch1
+%ifos darwin
+perl -p -i -e 's/-Wl,-z,defs/-mmacosx-version-min=10.6/' etc/makefile*
+perl -p -i -e 's/ptrdiff_t/std::ptrdiff_t/' src/cpp/DQM/VisDQMBuf.h
+%endif
 
 # Adapt CMSSW sources to our build.
 mv %_builddir/stuff/{rtgu,boost} src/cpp
