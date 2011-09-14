@@ -14,6 +14,7 @@ Patch1: apache2-ssl-report-cert
 
 %prep
 %setup -n httpd-%apversion
+perl -p -i -e 's/-no-cpp-precomp//' srclib/apr/configure
 %patch0 -p0
 %patch1 -p0
 gunzip -d -c < %_sourcedir/VDT-Apache-GSI.tgz |

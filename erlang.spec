@@ -13,6 +13,7 @@ Provides: libc.so.6(GLIBC_PRIVATE)(64bit)
 %setup -n otp_src_%{realversion}
 %patch0 -p0
 %patch1 -p0
+find . -name configure | xargs perl -p -i -e 's/-no-cpp-precomp//'
 
 %build
 ./configure --prefix=%i
