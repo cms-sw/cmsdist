@@ -1,4 +1,4 @@
-### RPM external mysql 5.1.37
+### RPM external mysql 5.1.51
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/mysql
 ## INITENV SET MYSQL_HOME $MYSQL_ROOT
 
@@ -18,7 +18,7 @@ Provides: perl(DBI)
 
 %prep
 %setup -n %n-%realversion
-%ifos darwin
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 # There's for some reason a "-traditional-cpp", which breaks with GCC 3.3
 # so remove it.  (FIXME: check if this is solved in a newer version.)
 perl -p -i -e 's/-traditional-cpp/-no-cpp-precomp/g' configure.in configure
