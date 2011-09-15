@@ -52,7 +52,7 @@ HG1106c dqmgui
 
 HG1109b reqmgr
 + 1.50 couchdb.spec
-+ HEAD/0.8.4.pre.test2 reqmgr.spec
++ HEAD/0.8.4.pre.test3 reqmgr.spec
 
 # GlobalMonitor
 HG1109a globalmonitor
