@@ -76,8 +76,8 @@ HG1109a regsvc
 + HEAD/0.0.2 regsvc.spec
 
 # PHEDEX agents
-##DIE##HG1103a PHEDEX-combined-agents
-##DIE##+ forPHEDEX400 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
+HG1109b PHEDEX-combined-agents
++ forPHEDEX401pre1 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
 
 # PHEDEX web
 HG1107a PHEDEX-combined-web
