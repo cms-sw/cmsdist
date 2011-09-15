@@ -1,4 +1,4 @@
-### RPM external py2-cjson 1.0
+### RPM external py2-cjson-toolfile 1.0
 Requires: py2-cjson
 %prep
 
