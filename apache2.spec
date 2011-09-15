@@ -1,4 +1,4 @@
-### RPM external apache2 2.2.20gsi
+### RPM external apache2 2.2.19gsi
 %define apversion %(echo %realversion | sed 's/gsi.*$//')
 %define vdtversion 2.0.0p26
 Requires: openssl zlib expat uuid sqlite
@@ -14,7 +14,6 @@ Patch1: apache2-ssl-report-cert
 
 %prep
 %setup -n httpd-%apversion
-perl -p -i -e 's/-no-cpp-precomp//' srclib/apr/configure
 %patch0 -p0
 %patch1 -p0
 gunzip -d -c < %_sourcedir/VDT-Apache-GSI.tgz |
