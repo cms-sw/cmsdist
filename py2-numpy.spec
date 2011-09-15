@@ -1,19 +1,16 @@
-### RPM external py2-numpy 1.5.1
+### RPM external py2-numpy 1.6.1
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-%define downloadn numpy
-Source: http://switch.dl.sourceforge.net/sourceforge/%downloadn/%downloadn-%realversion.tar.gz
-Patch0: py2-numpy-1.5.1-fix-macosx-build
+Source: http://downloads.sourceforge.net/project/numpy/NumPy/%realversion/numpy-%realversion.tar.gz
+Patch0: py2-numpy-%realversion-fix-macosx-build
 
 Requires: python
 Requires: zlib
 Requires: lapack
 %prep
-%setup -n %downloadn-%realversion
-case %cmsos in
-  osx*)
+%setup -n numpy-%realversion
+%ifos darwin
 %patch0 -p1
-  ;;
-esac
+%endif
 
 %build
 %install
@@ -22,9 +19,10 @@ case %cmsos in
   *) SONAME=so ;;
 esac
 
-LAPACK=$LAPACK_ROOT/lib/liblapack.$SONAME
-BLAS=$LAPACK_ROOT/lib/libblas.$SONAME
+export LAPACK_ROOT
+export LAPACK=$LAPACK_ROOT/lib/liblapack.$SONAME
+export BLAS=$LAPACK_ROOT/lib/libblas.$SONAME
 
-LAPACK=$LAPACK BLAS=$BLAS python setup.py build --fcompiler "`which gfortran`"
-LAPACK=$LAPACK BLAS=$BLAS python setup.py install --prefix=%i
+python setup.py build --fcompiler=gnu95
+python setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
