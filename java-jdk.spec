@@ -16,6 +16,9 @@ Provides: libasound.so.2(ALSA_0.9)(64bit)
 Provides: libjava_crw_demo_g.so()(64bit)
 Provides: libodbc.so()(64bit)
 Provides: libodbcinst.so()(64bit)
+Provides: libXp.so.6()(64bit)
+Provides: libXt.so.6()(64bit)
+Provides: libXtst.so.6()(64bit)
 
 %define downloadv %(echo %realversion | tr '.p' '_0')
 
@@ -59,4 +62,5 @@ cd %javadir
 %install
 %ifnos darwin
 cp -r %javadir/* %i
+rm -rf %i/man
 %endif
