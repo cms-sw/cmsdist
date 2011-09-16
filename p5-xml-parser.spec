@@ -29,3 +29,7 @@ make install
 cd ../%{downloadn}-%{realversion}
 perl Makefile.PL INSTALL_BASE=%i EXPATLIBPATH=%_builddir/tmp/lib EXPATINCPATH=%_builddir/tmp/include
 make
+
+%install
+make install
+find %i -name LWPExternEnt.pl -exec rm -f {} \;
