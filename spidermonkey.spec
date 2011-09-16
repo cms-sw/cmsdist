@@ -11,7 +11,7 @@ cd src
 if [ `uname -m` != 'x86_64' ]; then
     LDEMULATION=elf_i386 make -f Makefile.ref
 else
-    make -f Makefile.ref
+    make LD='$(CC)' -f Makefile.ref
 fi
 
 %install
