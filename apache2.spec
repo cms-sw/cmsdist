@@ -1,7 +1,7 @@
 ### RPM external apache2 2.2.20gsi
 %define apversion %(echo %realversion | sed 's/gsi.*$//')
 %define vdtversion 2.0.0p26
-Requires: openssl zlib expat uuid sqlite
+Requires: openssl zlib expat uuid sqlite pcre
 
 # Silence dependencies which should have come via uuid from e2fsprogs
 Provides: libcom_err.so.2
@@ -35,6 +35,7 @@ gunzip -d -c < %_sourcedir/VDT-Apache-GSI.tgz |
                         --enable-headers \
                         --enable-rewrite \
                         --enable-ssl \
+                        --with-pcre=$PCRE_ROOT \
                         --with-ssl=$OPENSSL_ROOT \
                         --with-z=$ZLIB_ROOT \
 			--with-expat=$EXPAT_ROOT \
@@ -57,6 +58,19 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
     echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
   fi
 done
+
+# Remove pkg-config to avoid rpm-generated dependency on /usr/bin/pkg-config
+# which we neither need nor use at this time.
+rm -rf %i/lib/pkgconfig
+
+# Strip libraries, we are not going to debug them.
+find %i/{bin,lib,modules} -type f -perm -a+x -exec strip {} \;
+
+# Don't need archive libraries.
+rm -f %i/lib/{apr*/,}*.{l,}a
+
+# Look up documentation online.
+rm -rf %i/{manual,man}
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
