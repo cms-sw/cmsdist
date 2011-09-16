@@ -14,6 +14,8 @@ Source2: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=im
 Source3: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
 Patch0: dqmgui-rtgu
 Patch1: dqmgui-osx
+Patch2: dqmgui-osx2
+Patch3: dqmgui-osx3
 
 Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root libpng libjpg classlib rotatelogs py2-pycurl py2-cjson py2-sphinx
 
@@ -28,9 +30,10 @@ chmod 644 $(find . -name *.hpp)
 %setup -T -b 0 -n Monitoring
 perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/*/conf.py
 %patch1
+%patch2 -p1
 %ifos darwin
+%patch3
 perl -p -i -e 's/-Wl,-z,defs/-mmacosx-version-min=10.6/' etc/makefile*
-perl -p -i -e 's/ptrdiff_t/std::ptrdiff_t/' src/cpp/DQM/VisDQMBuf.h
 %endif
 
 # Adapt CMSSW sources to our build.
