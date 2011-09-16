@@ -15,6 +15,7 @@
 Source: %source
 # Let's fake the fact that we have perl (DBI) so that rpm does not complain.
 Provides: perl(DBI)
+Requires: zlib
 
 %prep
 %setup -n %n-%realversion
@@ -29,6 +30,8 @@ autoreconf -i -f
 CFLAGS=-O3 CXX=gcc CXXFLAGS="-O3 -felide-constructors -fno-exceptions -fno-rtti" \
    ./configure --prefix=%i --with-extra-charsets=complex \
       --enable-thread-safe-client --enable-local-infile \
+      --disable-static --with-zlib-dir=$ZLIB_ROOT \
+      --without-docs --without-man \
       --with-plugins=innobase
 make %makeprocesses
 
@@ -82,6 +85,15 @@ STRICT_TRANS_TABLES=1
 transaction-isolation = READ-COMMITTED
 EOF
 
+# Strip libraries, we are not going to debug them.
+find %i/lib -type f -perm -a+x -exec strip {} \;
+
+# Don't need archive libraries.
+rm -f %i/lib/mysql/plugin/*.{l,}a
+rm -f %i/lib/mysql/libmysqlclient*.{l,}a
+
+# Look up documentation online.
+rm -rf %i/share/{man,info}
 
 %post
 %{relocateConfig}bin/msql2mysql
