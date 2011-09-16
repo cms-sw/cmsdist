@@ -26,3 +26,7 @@ perl -p -i -e 's/NMEDIT = nmedit/NMEDIT = true/' Makefile.PL
 
 perl Makefile.PL INSTALL_BASE=%i -l -m $ORACLE_HOME/demo/demo.mk -h $ORACLE_HOME/include
 make
+
+%install
+make install
+rm -rf %i/man

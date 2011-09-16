@@ -19,3 +19,7 @@ Provides:  perl(DBI)
 LC_ALL=C; export LC_ALL
 perl Makefile.PL INSTALL_BASE=%i
 make
+
+%install
+make install
+rm -rf %i/man

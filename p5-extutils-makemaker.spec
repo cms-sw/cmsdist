@@ -10,3 +10,7 @@ Source: http://search.cpan.org/CPAN/authors/id/M/MS/MSCHWERN/%{downloadn}-%{real
 LC_ALL=C; export LC_ALL
 perl Makefile.PL INSTALL_BASE=%i
 make
+
+%install
+make install
+rm -rf %i/man

@@ -14,3 +14,7 @@ Requires: p5-perl-ostype p5-version p5-module-metadata p5-test-harness
 LC_ALL=C; export LC_ALL
 perl Makefile.PL INSTALL_BASE=%i
 make
+
+%install
+make install
+rm -rf %i/man

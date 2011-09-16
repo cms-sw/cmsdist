@@ -23,3 +23,7 @@ Provides: perl(Tk)
 LC_ALL=C; export LC_ALL
 perl Makefile.PL --default INSTALL_BASE=%i
 make
+
+%install
+make install
+rm -rf %i/man

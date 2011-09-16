@@ -11,3 +11,7 @@ Requires: p5-extutils-makemaker p5-dbi p5-digest-sha1
 export LC_ALL=C
 perl Makefile.PL INSTALL_BASE=%i
 make
+
+%install
+make install
+rm -rf %i/man
