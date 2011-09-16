@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.78 $
+# Revision: $Revision: 1.79 $
 
 set -e
 
@@ -403,12 +403,12 @@ generateSeedSpec () {
       
       case $cmsplatf in
         osx* )
-	    ls /System/Library/Frameworks | grep -e -v '[ ()]' | sed 's!.framework!!;s!^!Provides: !'
-  	    find /usr/bin | grep -e -v '[ ()]' | sed 's!^!Provides: !'
-  	    find /bin | grep -e -v '[ ()]' | sed 's!^!Provides: !'
-    	    /bin/ls -1 /usr/lib/*.dylib | grep -e -v '[ ()]' | awk -F"/" '{print $4}' | sed 's!^!Provides: !' || true
-    	    /bin/ls -1 /usr/lib/*/*.dylib | grep -e -v '[ ()]' | awk -F"/" '{print $5}' | sed 's!^!Provides: !' || true
-            /bin/ls -1 /usr/X11R6/lib/*.dylib | grep -e -v '[ ()]' | awk -F"/" '{print $5}' | sed 's!^!Provides: !' || true
+	    ls /System/Library/Frameworks | grep -v -e '[ ()]' | sed 's!.framework!!;s!^!Provides: !'
+  	    find /usr/bin | grep -v -e '[ ()]' | sed 's!^!Provides: !'
+  	    find /bin | grep -v -e '[ ()]' | sed 's!^!Provides: !'
+    	    /bin/ls -1 /usr/lib/*.dylib | grep -v -e '[ ()]' | awk -F"/" '{print $4}' | sed 's!^!Provides: !' || true
+    	    /bin/ls -1 /usr/lib/*/*.dylib | grep -v -e '[ ()]' | awk -F"/" '{print $5}' | sed 's!^!Provides: !' || true
+            /bin/ls -1 /usr/X11R6/lib/*.dylib | grep -v -e '[ ()]' | awk -F"/" '{print $5}' | sed 's!^!Provides: !' || true
         ;;
       esac
 
