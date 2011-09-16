@@ -29,6 +29,8 @@ cp fdlibm/*.h %i/include/fdlibm
 cp liveconnect/*.h %i/include/liveconnect
 cd %i/lib
 ln -s libjs.a libjs_static.a
+rm -f %i/lib/*.{l,}a
+find %i/lib -type f -perm -a+x -exec strip {} \;
 
 %post
 %{relocateConfig}/bin/js

@@ -26,3 +26,9 @@ make %makeprocesses
 
 %install
 make install
+
+# Strip libraries, we are not going to debug them.
+find %i/lib -type f -perm -a+x -exec strip {} \;
+
+# Look up documentation online.
+rm -rf %i/share

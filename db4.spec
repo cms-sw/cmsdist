@@ -12,3 +12,5 @@ make %makeprocesses
 cd obj
 make install
 rm -rf %{i}/docs
+rm -f %i/lib/*.{l,}a
+find %i/lib -type f -perm -a+x -exec strip {} \;

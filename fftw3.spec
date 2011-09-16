@@ -11,14 +11,19 @@ make %makeprocesses
 
 %install
 make install
-# We remove pkg-config files for two reasons:
-# * it's actually not required (macosx does not even have it).
-# * rpm 4.8 adds a dependency on the system /usr/bin/pkg-config 
-#   on linux.
-# In the case at some point we build a package that can be build
-# only via pkg-config we have to think on how to ship our own
-# version.
+
+# Remove pkg-config to avoid rpm-generated dependency on /usr/bin/pkg-config
+# which we neither need nor use at this time.
 rm -rf %i/lib/pkgconfig
+
+# Strip libraries, we are not going to debug them.
+find %i/lib -type f -perm -a+x -exec strip {} \;
+
+# Don't need archive libraries.
+rm -f %i/lib/*.{l,}a
+
+# Look up documentation online.
+rm -rf %i/share
 
 %post
 %{relocateConfig}lib/*.la

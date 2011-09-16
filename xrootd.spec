@@ -53,7 +53,10 @@ cp -r lib/arch/* %i/lib
 cp -r utils/* %i/utils
 cp -r etc/* %i/etc
 cp -r src/* %i/src
-rm -fR %i/bin/CVS %i/lib/CVS %i/utils/CVS %i/etc/CVS %i/src/CVS %i/src/*/CVS
+find %i/src -name '*.cc' -exec rm -f {} \;
+find %i -name CVS -exec rm -r {} \;
+find %i/lib -type f -perm -a+x -exec strip {} \;
+#rm -f %i/lib/*.a
 # Need to fix the following in the xrootd CVS
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/etc/XrdOlbMonPerf
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/utils/mps_PreStage

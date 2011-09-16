@@ -28,3 +28,9 @@ cat %i/bin/icu-config | \
         > %i/bin/icu-config.new
 mv %i/bin/icu-config.new %i/bin/icu-config
 chmod a+x %i/bin/icu-config
+
+# Strip libraries, we are not going to debug them.
+find %i/lib -type f -perm -a+x -exec strip {} \;
+
+# Look up documentation online.
+rm -rf %i/man

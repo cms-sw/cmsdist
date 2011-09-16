@@ -15,3 +15,9 @@ make %makeprocesses
 
 %install
 make install
+
+# Strip libraries, we are not going to debug them.
+find %i/lib -type f -perm -a+x -exec strip {} \;
+
+# Don't need archive libraries.
+rm -f %i/lib/*.{l,}a

@@ -25,8 +25,10 @@ make install
 rm -rf %i/lib/pkgconfig
 # Strip libraries, we are not going to debug them.
 find %i/lib -type f -perm -a+x -exec strip {} \;
+# Don't need archive libraries.
+rm -f %i/lib/*.{l,}a
 # No need for documentation, look it up online.
-rm -rf %i/man
+rm -rf %i/man %i/share
 %post
 %{relocateConfig}bin/libpng-config
 %{relocateConfig}bin/libpng12-config

@@ -11,3 +11,5 @@ make %makeprocesses
 %install
 make install
 rm -rf %i/lib/pkgconfig
+find %i/lib -type f -perm -a+x -exec strip {} \;
+rm -f %i/lib/*.{l,}a

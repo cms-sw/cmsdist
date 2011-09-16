@@ -55,6 +55,12 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   fi
 done
 
+# Strip libraries, we are not going to debug them.
+find %i/{lib,modules} -type f -perm -a+x -exec strip {} \;
+
+# Look up documentation online.
+rm -rf %i/man
+
 %post
 %{relocateConfig}conf/mod_perl2.conf
 %{relocateConfig}lib/perl5/*/Apache2/BuildConfig.pm

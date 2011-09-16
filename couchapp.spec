@@ -17,7 +17,7 @@ rm -rf %i/{build,debian,contrib,bin}
 
 # Now build/install as normal procedure would do
 python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
-find %i -name '*.egg-info' -exec rm {} \;
+find %i -depth -name '*.egg-info' -exec rm -fr {} \;
 for f in %i/bin/couchapp; do perl -p -i -e 's{.*}{#!/usr/bin/env python} if $. == 1 && m{#!.*/bin/python}' $f; done
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
@@ -31,6 +31,10 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
     echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
   fi
 done
+
+# Look up documentation online.
+rm -f %i/[LMNRT]*
+rm -rf %i/{doc,tests}
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh

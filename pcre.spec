@@ -35,6 +35,19 @@ for x in %pkgreqs; do
   echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
 done
 
+# Remove pkg-config to avoid rpm-generated dependency on /usr/bin/pkg-config
+# which we neither need nor use at this time.
+rm -rf %i/lib/pkgconfig
+
+# Strip libraries, we are not going to debug them.
+find %i/lib -type f -perm -a+x -exec strip {} \;
+
+# Don't need archive libraries.
+rm -f %i/lib/*.{l,}a
+
+# Look up documentation online.
+rm -rf %i/share
+
 %post
 %{relocateConfig}bin/pcre-config
 %{relocateConfig}etc/scram.d/%n

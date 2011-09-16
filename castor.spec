@@ -82,3 +82,6 @@ make installclient \
                 BIN=bin \
                 DESTDIRCASTOR=include/shift \
                 TOPINCLUDE=include 
+
+# Strip libraries, we are not going to debug them.
+find %i/lib -type f -perm -a+x -exec strip {} \;

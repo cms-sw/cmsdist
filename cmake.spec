@@ -35,3 +35,6 @@ make %makeprocesses
 
 %install
 make install/strip
+
+# Look up documentation online.
+rm -rf %i/{doc,man}
