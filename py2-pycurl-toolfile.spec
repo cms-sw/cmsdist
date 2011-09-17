@@ -12,7 +12,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/py2-pycurl.xml
   <client>
     <environment name="PY2_PYCURL_BASE" default="@TOOL_ROOT@"/>
   </client>
-  <runtime name="PATH" value="$PY2_PYCURL_BASE/bin" type="path"/>
   <runtime name="PYTHONPATH" value="$PY2_PYCURL_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   <use name="python"/>
 </tool>
