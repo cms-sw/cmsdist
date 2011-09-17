@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.80 $
+# Revision: $Revision: 1.81 $
 
 set -e
 
@@ -452,7 +452,7 @@ seed ()
     rcfile=$1
     cd $importTmp
     (source $rootdir/bootstraptmp/BOOTSTRAP/inst/$cmsplatf/external/rpm/$rpm_version/etc/profile.d/init.sh
-     rpmbuild -ba --rcfile $rcfile system-base-import.spec >/dev/null 2>&1
+     rpmbuild -ba --define "_topdir $PWD" --rcfile $rcfile system-base-import.spec >/dev/null 2>&1
      [ "X$verbose" = Xtrue ] && echo && echo "...Seeding database in in $rootdir/$rpmdb"
      rpm --define "_rpmlock_path $rpmlock" -U -r $rootdir --rcfile $rcfile --dbpath $rootdir/$rpmdb RPMS/system-base-import.rpm
     ) || cleanup_and_exit $? "Error while seeding rpm database with system packages."
