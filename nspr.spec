@@ -9,7 +9,7 @@ case %cmsplatf in
 esac
 
 pushd mozilla/nsprpub
-  ./configure --prefix %i $USER_CFGOPTS
+  ./configure --disable-static --prefix %i $USER_CFGOPTS
   make %makeprocesses
 popd
 
@@ -17,3 +17,4 @@ popd
 pushd mozilla/nsprpub
   make install
 popd
+find %i/lib -name "lib*" -exec strip {} \;
