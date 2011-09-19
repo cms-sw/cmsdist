@@ -41,7 +41,7 @@ HG1102b CmsTC
 
 # Cms Webtools services
 HG1109c cmsweb
-+ 1.31/0.8.4 reqmgr.spec
++ 1.32/0.8.5 reqmgr.spec
 
 # Stagemanager offsite agent
 HG1108b stagemanager-agent
