@@ -42,6 +42,7 @@ esac
 
 chmod +x buildlib/install-sh
 ./configure --prefix=%{i} --exec-prefix=%{i} \
+                          --disable-static \
                           --disable-nls \
                           --disable-dependency-tracking \
                           --without-libintl-prefix \
@@ -63,6 +64,25 @@ make %makeprocesses
 
 %install
 make install
+case %cmsos in
+  osx*) SONAME=dylib 
+    STRIP_DYNAMIC="strip -x"
+  ;;
+  *) SONAME=so 
+    STRIP_DYNAMIC="strip"
+  ;;
+esac
+rm -rf %i/{share,include}
+find %i/lib -type f -name "*.$SONAME*" -exec strip {} \;
+$STRIP_DYNAMIC %i/bin/apt-config
+$STRIP_DYNAMIC %i/bin/genpkglist
+$STRIP_DYNAMIC %i/bin/apt-get
+$STRIP_DYNAMIC %i/bin/countpkglist
+$STRIP_DYNAMIC %i/bin/gensrclist
+$STRIP_DYNAMIC %i/bin/apt-cdrom
+$STRIP_DYNAMIC %i/bin/apt-cache
+$STRIP_DYNAMIC %i/bin/apt-shell
+$STRIP_DYNAMIC %i/lib/apt/methods/*
 
 # Remove pkg-config to avoid rpm-generated dependency on /usr/bin/pkg-config
 # which we neither need nor use at this time.
