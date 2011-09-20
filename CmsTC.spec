@@ -1,23 +1,22 @@
-### RPM cms wmcore WMCORE_0_6_2
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
-
-Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%realversion?scheme=svn+ssh&strategy=export&module=WMCore&output=/WMCORE.tar.gz
-Requires: python py2-simplejson py2-sqlalchemy py2-httplib2
-
+### RPM cms CmsTC CmsTC_1_3_1
+## INITENV +PATH PYTHONPATH %i 
+%define moduleName %n
+%define exportName %n
+%define cvstag %realversion
+%define cvsserver cvs://:pserver:anonymous@cmssw.cvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
+Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
+#Requires: python cherrypy py2-cx-oracle rotatelogs py2-cheetah  py2-pyopenssl graphviz
+Requires: python cherrypy py2-cx-oracle rotatelogs py2-cheetah py2-pyopenssl
+ 
 %prep
-%setup -n WMCore
+%setup -n %{moduleName}
 
 %build
-python setup.py build
+python -c 'import compileall; compileall.compile_dir(".",force=True)'
 
 %install
-mkdir -p %i
-cp -r * %i
-python setup.py install --prefix=%i
+cp -pr * %i
 egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
-find %i -name '*.egg-info' -exec rm {} \;
-chmod +x %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages/WMCore/WebTools/Root.py
-mkdir -p %{i}/workdir
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
