@@ -1,15 +1,8 @@
-### RPM external sigcpp 2.2.3
+### RPM external sigcpp 2.2.10
 %define majorv %(echo %realversion | cut -d. -f1,2) 
-Source: http://ftp.gnome.org/pub/GNOME/sources/libsigc++/%{majorv}/libsigc++-%{realversion}.tar.gz
-Patch0: sigcpp-2.2.3-gcc46
-
+Source: http://ftp.gnome.org/pub/GNOME/sources/libsigc++/%{majorv}/libsigc++-%{realversion}.tar.bz2
 %prep
 %setup -q -n libsigc++-%{realversion}
-case %gccver in
-  4.6.*)
-%patch0 -p1
-  ;;
-esac
 ./configure --prefix=%{i} --disable-static
 
 %build
