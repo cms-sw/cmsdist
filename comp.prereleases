@@ -74,7 +74,7 @@ HG1107c wmagent
 
 # Registration Service
 HG1109a regsvc
-+ HEAD/0.0.2 regsvc.spec
++ HEAD/0.0.3 regsvc.spec
 
 # PHEDEX agents
 HG1109b PHEDEX-combined-agents

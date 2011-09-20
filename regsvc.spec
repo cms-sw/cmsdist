@@ -1,4 +1,4 @@
-### RPM cms regsvc 0.0.2
+### RPM cms regsvc 0.0.3
 
 #Source: svn://svn.cern.ch/reps/CMSDMWM/RegSvc/tags/%{v}?scheme=svn+ssh&strategy=export&module=RegSvc&output=/src.tar.gz
 Source: svn://svn.cern.ch/reps/CMSDMWM/RegSvc/trunk/?scheme=svn+ssh&strategy=export&module=RegSvc&output=/src_RegSvc.tar.gz
