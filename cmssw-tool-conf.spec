@@ -58,6 +58,7 @@ Requires: photos-toolfile
 Requires: pythia6-toolfile
 Requires: pythia8-toolfile
 Requires: python-toolfile
+Requires: py2-cx-oracle-toolfile
 Requires: qt-toolfile
 Requires: roofit-toolfile
 Requires: root-toolfile
