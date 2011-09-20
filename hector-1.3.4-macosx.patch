@@ -9,7 +9,7 @@ index 1df264c..a92caad 100644
 -	@g++ -shared $(ROOTLIBS) $(WARNINGS) -o $@ -Wl,-soname,$@ $(addprefix $(OBJ),$(OBJECTS)) $(OPTIMIZE)
 +	@case `uname` in \
 +	  Darwin) \
-+	   g++ -shared $(ROOTLIBS) $(WARNINGS) -o $@ -Wl,-commons -Wl,use_dylibs $(addprefix $(OBJ),$(OBJECTS)) $(OPTIMIZE) ;; \
++	   g++ -shared $(ROOTLIBS) $(WARNINGS) -o $@ $(addprefix $(OBJ),$(OBJECTS)) $(OPTIMIZE) ;; \
 +	  Linux) \
 +	   g++ -shared $(ROOTLIBS) $(WARNINGS) -o $@ -Wl,-soname,$@ $(addprefix $(OBJ),$(OBJECTS)) $(OPTIMIZE) ;; \
 +	esac
