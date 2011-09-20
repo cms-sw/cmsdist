@@ -1,11 +1,18 @@
-### RPM cms wmcore-db-oracle 1
-## INITENV +PATH PYTHONPATH %i/lib
+### RPM cms regsvc 0.0.3
 
-Requires: wmcore py2-cx-oracle 
+#Source: svn://svn.cern.ch/reps/CMSDMWM/RegSvc/tags/%{v}?scheme=svn+ssh&strategy=export&module=RegSvc&output=/src.tar.gz
+Source: svn://svn.cern.ch/reps/CMSDMWM/RegSvc/trunk/?scheme=svn+ssh&strategy=export&module=RegSvc&output=/src_RegSvc.tar.gz
+
+Requires: couchdb
 
 %prep
+%setup -n RegSvc
+
 %build
+
 %install
+mkdir -p %i/RegSvc/couchapps
+cp -rp %_builddir/RegSvc/src/couchapps %i/RegSvc/couchapps
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
@@ -21,4 +28,3 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
-
