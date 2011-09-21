@@ -3,6 +3,7 @@ Source0: http://www.netlib.org/lapack/lapack-%realversion.tgz
 
 Requires: cmake
 
+%define keep_archives true
 %if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif

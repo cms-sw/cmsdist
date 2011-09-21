@@ -3,6 +3,7 @@ Source: http://lcgapp.cern.ch/project/simu/HepMC/download/HepMC-%realversion.tar
 Patch0: hepmc-2.03.06-reflex
 Patch1: hepmc-2.05.01-fix-gcc46
 
+%define keep_archives true
 %if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif
@@ -30,4 +31,3 @@ make %makeprocesses
 
 %install
 make install
-

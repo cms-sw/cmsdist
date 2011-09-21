@@ -9,6 +9,7 @@ Patch5: evtgenlhc-9.1-gcc46
 Requires: clhep
 Requires: pythia6
 Requires: photos
+%define keep_archives true
 
 %if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
@@ -40,4 +41,3 @@ make PYTHIA6_ROOT=$PYTHIA6_ROOT CLHEP_ROOT=$CLHEP_ROOT PHOTOS_ROOT=$PHOTOS_ROOT 
 tar -c lib EvtGen EvtGenBase EvtGenModels DecFiles | tar -x -C %i
 mv %i/lib/archive/*.a %i/lib
 rm -rf %i/lib/archive
-

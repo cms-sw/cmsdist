@@ -8,6 +8,7 @@ Source: svn://svnsrv.desy.de/public/MillepedeII/tags/V%svnTag/?scheme=http&modul
 
 Requires: castor zlib
 
+%define keep_archives true
 %if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif

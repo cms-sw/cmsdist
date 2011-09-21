@@ -5,6 +5,8 @@ Patch1: toprex-4.23-macosx
 Patch2: toprex-4.23-archive-only
 Requires: pythia6
 
+%define keep_archives true
+
 %if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif
@@ -37,4 +39,3 @@ make FC="$FC" PYTHIA6_ROOT=$PYTHIA6_ROOT
 tar -c lib include | tar -x -C %i
 find %i/lib/archive -name "*.a" -exec mv {} %i/lib \;
 rm -rf %i/lib/archive
-

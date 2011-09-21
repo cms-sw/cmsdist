@@ -8,6 +8,7 @@ Patch2: lhapdf-data-5.8.5-gzio
 
 Requires: zlib
 
+%define keep_archives true
 %if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif
@@ -89,4 +90,3 @@ perl -p -i -e 's|examples||;s|tests||' Makefile
 find . -name Makefile -o -name config.status -exec perl -p -i -e 's|/usr/lib64/lib[cm].a||g' {} \;
 make %makeprocesses; make install
 rm -rf %{i}/lib/*.la
-

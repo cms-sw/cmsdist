@@ -7,6 +7,7 @@ Patch0: alpgen-213
 Patch1: alpgen-212-gfortran
 Patch2: alpgen-213-macosx
 
+%define keep_archives true
 %if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif
