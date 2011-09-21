@@ -12,6 +12,5 @@ make %makeprocesses
 %install
 make %makeprocesses install
 rm -rf %i/lib/pkgconfig
-find %i/lib -type f -perm -a+x -exec strip {} \;
-rm -f %i/lib/*.{l,}a
-rm -rf %i/share
+%define strip_files %i/lib
+%define drop_files %i/share
