@@ -2,11 +2,9 @@
 Source: http://rpm5.org/files/%n/%n-%realversion.tar.gz
 
 %build
-./configure --disable-shared --enable-static --disable-nls \
+./configure --disable-static --disable-nls \
             --prefix %i \
             CFLAGS="-fPIC" \
             CXXFLAGS="-fPIC"  
 make
-%install
-make install
-rm -rf %i/share
+%define drop_files %i/share
