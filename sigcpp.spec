@@ -18,5 +18,5 @@ make install
 # version.
 rm -rf %i/lib/pkgconfig
 # Read documentation online.
-rm -rf %i/share
+%define drop_files %i/share
 cp %i/lib/sigc++-2.0/include/sigc++config.h %i/include/sigc++-2.0/
