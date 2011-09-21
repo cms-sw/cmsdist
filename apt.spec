@@ -65,34 +65,16 @@ make %makeprocesses
 %install
 make install
 case %cmsos in
-  osx*) SONAME=dylib 
-    STRIP_DYNAMIC="strip -x"
-  ;;
-  *) SONAME=so 
-    STRIP_DYNAMIC="strip"
-  ;;
+  osx*) SONAME=dylib ;;
+  *) SONAME=so ;;
 esac
-rm -rf %i/{share,include}
-find %i/lib -type f -name "*.$SONAME*" -exec strip {} \;
-$STRIP_DYNAMIC %i/bin/apt-config
-$STRIP_DYNAMIC %i/bin/genpkglist
-$STRIP_DYNAMIC %i/bin/apt-get
-$STRIP_DYNAMIC %i/bin/countpkglist
-$STRIP_DYNAMIC %i/bin/gensrclist
-$STRIP_DYNAMIC %i/bin/apt-cdrom
-$STRIP_DYNAMIC %i/bin/apt-cache
-$STRIP_DYNAMIC %i/bin/apt-shell
-$STRIP_DYNAMIC %i/lib/apt/methods/*
-
+# Drop documentation and developer files, since we do not need it.
+%define drop_files %i/{share,include}
+# Strip executables and libraries.
+%define strip_files %i/lib %i/bin/{apt-config,genpkglist,apt-get,countpkglist,gensrclist,apt-cache,apt-shell} %i/lib/apt/methods/*
 # Remove pkg-config to avoid rpm-generated dependency on /usr/bin/pkg-config
 # which we neither need nor use at this time.
 rm -rf %i/lib/pkgconfig
-
-# Strip libraries, we are not going to debug them.
-find %i/lib -type f -perm -a+x -exec strip {} \;
-
-# Don't need archive libraries.
-rm -f %i/lib/*.{l,}a
 
 mkdir -p %{i}/etc/profile.d
 
