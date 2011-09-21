@@ -195,3 +195,10 @@
 %define relocateRpmPkg		perl -p -i -e "s|\\Q%{instroot}\\E|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
 %define relocateCmsPkg		perl -p -i -e "s|\\Q%{instroot}\\E|$CMS_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
 %define relocateConfig		%relocateCmsPkg
+
+# On macosx one needs to use the -x option, to avoid excessive stripping.
+%ifos darwin
+%define strip strip -x
+%else
+%define strip strip
+%endif
