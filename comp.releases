@@ -17,7 +17,7 @@ HG1109a wmagent
 + WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
 + HEAD/2.1.9 zeromq.spec py2-zmq.spec
 + HEAD/0.3.0 py2-psutil.spec
-+ HEAD/0.8.5 wmcore.spec wmagent.spec
++ HEAD/0.8.6 wmcore.spec wmagent.spec
 
 HG1109a crab-server3
 + 1.13/3.0.2a crab-server3.spec
