@@ -24,15 +24,6 @@ mkdir -p %i/include
 cd lib/uuid
 make install
 ln -sf libuuid.so.1.2 %i/lib/libuuid.so
-# Remove pkg-config to avoid rpm-generated dependency on /usr/bin/pkg-config
-# which we neither need nor use at this time.
 rm -rf %i/lib/pkgconfig
-
-# Strip libraries, we are not going to debug them.
-find %i/lib -type f -perm -a+x -exec strip {} \;
-
-# Don't need archive libraries.
-rm -f %i/lib/*.{l,}a
-
-# Look up documentation online.
-rm -rf %i/man
+%define strip_files %{i}/lib
+%define drop_files %i/man
