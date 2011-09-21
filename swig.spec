@@ -8,9 +8,5 @@ Source: http://downloads.sourceforge.net/sourceforge/swig/swig/%n-%realversion.t
 ./configure --without-pcre --prefix=%i \
             CC="`which gcc`" CXX="`which c++`" LD="`which c++`"
 make %makeprocesses
-%install
-make install
-case %cmsos in
-  osx*) strip -x %i/bin/{swig,ccache-swig} ;;
-  *) strip %i/bin/{swig,ccache-swig} ;;
-esac
+
+%define strip_files %i/bin/{swig,ccache-swig}
