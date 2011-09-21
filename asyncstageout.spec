@@ -12,7 +12,6 @@ Requires: py2-simplejson py2-sqlalchemy py2-httplib2 py2-zmq rotatelogs
 %prep
 %setup -D -T -b 1 -n AsyncStageout
 %setup -T -b 0 -n WMCore
-#%patch0 -p0
 
 %build
 python setup.py build_system -s asyncstageout
