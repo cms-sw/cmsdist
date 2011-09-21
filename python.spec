@@ -146,11 +146,8 @@ done
 # remove tkinter that brings dependency on libtk:
 find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
 
-# Remove documentation and examples. 
-rm -rf %i/share
-
-# No need for test files
-rm -rf %{i}/lib/python%{pythonv}/test
+# Remove documentation, examples and test files. 
+%define drop_files %i/share %{i}/lib/python%{pythonv}/test
 
 # Remove .pyo files
 find %i -name '*.pyo' -exec rm {} \;

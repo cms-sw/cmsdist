@@ -84,4 +84,4 @@ make installclient \
                 TOPINCLUDE=include 
 
 # Strip libraries, we are not going to debug them.
-find %i/lib -type f -perm -a+x -exec strip {} \;
+%define strip_files %i/lib

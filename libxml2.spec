@@ -21,8 +21,9 @@ make %makeprocesses
 %install
 make install
 rm -rf %{i}/lib/pkgconfig
-rm -rf %{i}/share/{man,doc,gtk-doc}
+rm -rf %{i}/lib/*.{l,}a
+%define strip_files %i/lib/lib* %i/bin/{xmlcatalog,xmllint}
+%define drop_files %{i}/share/{man,doc,gtk-doc}
 %post
 %{relocateConfig}bin/xml2-config
-%{relocateConfig}lib/libxml2.la
 %{relocateConfig}lib/xml2Conf.sh

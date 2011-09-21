@@ -17,4 +17,4 @@ popd
 pushd mozilla/nsprpub
   make install
 popd
-find %i/lib -name "lib*" -exec strip {} \;
+%define strip_files %i/lib

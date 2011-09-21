@@ -11,6 +11,6 @@ make %makeprocesses
 %install
 cd obj
 make install
-rm -rf %{i}/docs
-rm -f %i/lib/*.{l,}a
-find %i/lib -type f -perm -a+x -exec strip {} \;
+
+%define drop_files %i/docs
+%define strip_files %i/lib

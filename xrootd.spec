@@ -55,7 +55,8 @@ cp -r etc/* %i/etc
 cp -r src/* %i/src
 find %i/src -name '*.cc' -exec rm -f {} \;
 find %i -name CVS -exec rm -r {} \;
-find %i/lib -type f -perm -a+x -exec strip {} \;
+%define strip_files %i/lib
+
 #rm -f %i/lib/*.a
 # Need to fix the following in the xrootd CVS
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/etc/XrdOlbMonPerf

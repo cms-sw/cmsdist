@@ -17,13 +17,9 @@ make install
 rm -rf %i/lib/pkgconfig
 
 # Strip libraries, we are not going to debug them.
-find %i/lib -type f -perm -a+x -exec strip {} \;
-
-# Don't need archive libraries.
-rm -f %i/lib/*.{l,}a
-
-# Look up documentation online.
-rm -rf %i/share
+%define strip_files %i/lib
+# Remove documentation. 
+%define drop_files %i/share
 
 %post
 %{relocateConfig}lib/*.la

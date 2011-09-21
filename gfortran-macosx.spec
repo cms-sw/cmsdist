@@ -21,7 +21,6 @@ pax --insecure -rz -f Payload.gz -s ',./usr,%i,'
 
 # Only ship x86_64 binaries.
 find %{i} ! -name '*.la' -type f -perm -a+x -exec lipo -thin x86_64 {} -output {} \;
-rm -rf %i/lib/gcc/powerpc-apple-darwin10
-rm -rf %i/bin/powerpc-apple-darwin10-gfortran-4.2.1
-rm -rf %i/libexec/gcc/powerpc-apple-darwin10
-rm -rf %i/share
+# Drop unneeded files
+%define drop_files %i/lib/gcc/powerpc-* %i/bin/powerpc-* i%i/libexec/gcc/powerpc %i/share
+%define keep_archives yes

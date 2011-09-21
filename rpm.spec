@@ -152,7 +152,7 @@ perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|" scripts/get_magic.pl \
 %install
 make install
 # Remove unneeded documentation
-rm -rf %{i}/share
+%define drop_files %i/share
 
 # We remove pkg-config files for two reasons:
 # * it's actually not required (macosx does not even have it).

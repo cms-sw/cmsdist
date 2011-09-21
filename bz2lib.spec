@@ -35,10 +35,6 @@ ln -sf bzgrep %i/bin/bzfgrep
 ln -sf bzmore %i/bin/bzless
 
 # Strip libraries, we are not going to debug them.
-find %i/lib -type f -perm -a+x -exec strip {} \;
-
-# Don't need archive libraries.
-rm -f %i/lib/*.{l,}a
-
+%define strip_files %i/lib
 # Look up documentation online.
-rm -rf %i/man
+%define drop_files %i/man

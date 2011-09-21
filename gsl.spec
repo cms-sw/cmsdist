@@ -1,6 +1,9 @@
 ### RPM external gsl 1.10
 Source: ftp://ftp.gnu.org/gnu/%n/%n-%realversion.tar.gz
 Patch0:  gsl-1.10-gcc46
+
+%define keep_archives true
+
 %prep
 %setup -n %n-%{realversion}
 %patch0 -p1
@@ -22,15 +25,10 @@ make install
 rm -rf %i/lib/pkgconfig
 
 # Strip libraries, we are not going to debug them.
-find %i/lib -type f -perm -a+x -exec strip {} \;
-
-# Don't need archive libraries.
-rm -f %i/lib/*.{l,}a
-
+%define strip_files %i/lib
+rm -f %i/lib/*.la
 # Look up documentation online.
-rm -rf %i/share
+%define drop_files %i/share
 
 %post
-%{relocateConfig}lib/libgslcblas.la
-%{relocateConfig}lib/libgsl.la
 %{relocateConfig}bin/gsl-config

@@ -39,14 +39,14 @@ done
 # which we neither need nor use at this time.
 rm -rf %i/lib/pkgconfig
 
-# Strip libraries, we are not going to debug them.
-find %i/lib -type f -perm -a+x -exec strip {} \;
+# Strip libraries.
+%define strip_files %i/lib
 
-# Don't need archive libraries.
+# Do not need to keep the archives.
 rm -f %i/lib/*.{l,}a
 
 # Look up documentation online.
-rm -rf %i/share
+%define drop_files %i/share
 
 %post
 %{relocateConfig}bin/pcre-config
@@ -55,4 +55,3 @@ rm -rf %i/share
 # The relocation is also needed because of dependencies
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
-

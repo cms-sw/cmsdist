@@ -56,7 +56,7 @@ make
 
 %install
 make install
-rm -rf %{i}/share
+%define drop_files %{i}/share
 # We remove pkg-config files for two reasons:
 # * it's actually not required (macosx does not even have it).
 # * rpm 4.8 adds a dependency on the system /usr/bin/pkg-config 
@@ -72,6 +72,5 @@ case %cmsplatf in
         ln -s dot_static %i/bin/dot
     ;;
 esac
-
-%post
-%{relocateCmsFiles} `find $RPM_INSTALL_PREFIX/%pkgrel/lib -name *.la`
+# Drop static libraries.
+rm -rf %i/lib/*.{l,}a

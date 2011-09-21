@@ -14,4 +14,4 @@ python setup.py build
 python setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 # Remove documentation.
-rm -rf %i/share
+%define drop_files %i/share

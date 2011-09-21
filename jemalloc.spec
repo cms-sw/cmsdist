@@ -8,6 +8,4 @@ Source: http://www.canonware.com/download/jemalloc/jemalloc-%realversion.tar.bz2
 perl -p -i -e 's|-no-cpp-precomp||' configure
 ./configure --prefix %i
 
-%install
-make install
-rm -rf %i/share
+%define drop_files %i/share

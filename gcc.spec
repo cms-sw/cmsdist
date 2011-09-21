@@ -1,7 +1,9 @@
 ### RPM external gcc 4.6.1
-## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
+
+%define keep_archives true
+
 # For gcc version >= 4.0.0, a number of additional sources are needed.
 %define gmpVersion 5.0.2
 %define mpfrVersion 3.0.1 
@@ -224,39 +226,16 @@ make %makeprocesses bootstrap
 make install
 
 %install
-case %{cmsos} in
-  osx*) STRIP_DYNAMIC="strip -x" ;;
-  *)    STRIP_DYNAMIC="strip" ;;
-esac
-
 cd %_builddir/gcc-%{realversion}/obj && make install 
 
 ln -s gcc %i/bin/cc
 find %i/lib %i/lib64 -name '*.la' -exec rm -f {} \; || true
 
-# Remove unneeded documentation.
-rm -rf %i/share/{man,info,doc,locale}
+# Remove unneeded documentation, temporary areas, unneeded files.
+%define drop_files %i/share/{man,info,doc,locale} %i/tmp %i/lib*/{libstdc++.a,libsupc++.a}
 # Strip things people will most likely never debug themself.
-find %i/libexec -name cc1 -exec strip {} \;
-find %i/libexec -name cc1plus -exec strip {} \;
-find %i/libexec -name f951 -exec strip {} \;
-find %i/libexec -name lto1 -exec strip {} \;
-find %i/libexec -name collect2 -exec strip {} \;
-find %i/bin -type f -exec file {} \; | grep executable | grep -v make-debug-archive | sed -e 's|:.*||' | xargs -n1 strip
-if [ "X%use_custom_binutils" = Xtrue ]; then
-  find %i/x86_64*/bin -type f -exec strip {} \;
-else :; fi
-$STRIP_DYNAMIC %i/lib/libmpfr*
-$STRIP_DYNAMIC %i/lib/libppl*
-$STRIP_DYNAMIC %i/lib/libgmp*
-$STRIP_DYNAMIC %i/lib/libcloog*
-# Remove temporary bison installation
-rm -rf %i/tmp
-# Remove unneeded archive libraries.
-rm -rf %i/lib/libstdc++.a %i/lib/libsupc++.a
+%define more_strip %i/bin/*{c++,g++,gcc,gfortran,gcov,ppl,cloog,cpp}*
+%define strip_symbols %i/libexec/*/*/{cc1,cc1plus,f951,lto1,collect2} %i/x86_64*/bin %i/lib/lib{mpfr,ppl,gmp,cloog}* %more_strip
+%define keep_archives yes
 # This avoids having a dependency on the system pkg-config.
 rm -rf %i/lib/pkg-config
-
-# SCRAM ToolBox toolfile is now geneated by the gcc-toolfile.spec
-# so that everything works even in the case "--use-system-compiler"
-# option is specified.

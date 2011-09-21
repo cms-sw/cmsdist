@@ -20,16 +20,9 @@ make %makeprocesses
 
 %install
 make install
-
 # Strip libraries / executables, we are not going to debug them.
-find %i/lib %i/bin -type f -perm -a+x -exec strip {} \;
-
+%define strip_files %i/{lib,bin}
+# Remove documentation, get it online.
+%define drop_files %i/share
 # Don't need archive libraries.
 rm -f %i/lib/*.{l,}a
-
-# Remove documentation, get it online.
-rm -rf %i/share
-
-%post
-%{relocateConfig}lib/libtiff.la
-%{relocateConfig}lib/libtiffxx.la

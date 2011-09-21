@@ -24,13 +24,9 @@ make install
 # version.
 rm -rf %i/lib/pkgconfig
 # Strip libraries, we are not going to debug them.
-find %i/lib -type f -perm -a+x -exec strip {} \;
-# Don't need archive libraries.
-rm -f %i/lib/*.{l,}a
+%define strip_files %i/lib
 # No need for documentation, look it up online.
-rm -rf %i/man %i/share
+%define drop_files %i/{man,share}
 %post
 %{relocateConfig}bin/libpng-config
 %{relocateConfig}bin/libpng12-config
-%{relocateConfig}lib/libpng.la
-%{relocateConfig}lib/libpng12.la

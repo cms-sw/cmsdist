@@ -28,17 +28,13 @@ make -C ./mozilla/security/nss
 %install
 case %cmsplatf in
   osx*)
-    soname=dylib 
-    DYNAMIC_STRIP="strip -x"
-    ;;
+    soname=dylib ;;
   *)
-    soname=so 
-    DYNAMIC_STRIP="strip"
-    ;;
+    soname=so ;;
 esac
 
 install -d %i/include/nss3
 install -d %i/lib
 find mozilla/dist/public/nss -name '*.h' -exec install -m 644 {} %i/include/nss3 \;
 find . -path "*/mozilla/dist/*.OBJ/lib/*.$soname" -exec install -m 755 {} %i/lib \;
-find %i/lib -name "*.$soname" -exec $DYNAMIC_STRIP {} \;
+%define strip_files %i/lib

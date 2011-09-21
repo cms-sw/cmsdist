@@ -13,4 +13,6 @@ case %cmsplatf in
 esac
 %install
 make install INSTALL_TOP=%i
-rm -rf %i/share
+%define keep_archives true
+%define strip_files %i/{lib,bin}
+%define drop_files %i/{share,man}
