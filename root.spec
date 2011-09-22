@@ -35,7 +35,7 @@ Requires: castor dcap
 Requires: openssl zlib
 %endif
 
-%if "%ismac" == "true"
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif
 
@@ -45,8 +45,8 @@ Requires: gfortran-macosx
 %patch1 -p1
 %patch2 -p1
 # patch3 is OS version dependent, see below
-#%patch4 -p1
-##%patch5 -p2
+# patch4 -p1
+# patch5 -p2
 # patch5 -p1
 # patch6 -p1
 # patch7 -p1
