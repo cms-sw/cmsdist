@@ -9,6 +9,7 @@ Requires: py2-simplejson py2-sqlalchemy py2-httplib2 py2-zmq rotatelogs
 
 #Patch0: asyncstageout-setup
 
+
 %prep
 %setup -D -T -b 1 -n AsyncStageout
 %setup -T -b 0 -n WMCore
