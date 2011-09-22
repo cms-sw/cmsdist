@@ -109,7 +109,7 @@ HG1102b crab-server
 
 # Crab3
 HG1109a crab-server3
-+ 1.13/3.0.2a crab-server3.spec
++ 1.14/3.0.2a crab-server3.spec
 
 # This is needed for the HappyFace testing setup
 HG1105c py2-sqlobject
@@ -117,7 +117,7 @@ HG1105c py2-sqlobject
 
 # Test build for asyncstageout
 HG1109a asyncstageout
-+ 1.18/0.0.1a asyncstageout.spec
++ 1.19/0.0.1a asyncstageout.spec
 + HEAD/2.1.9 zeromq.spec 
 + HEAD/2.1.9 py2-zmq.spec
 
