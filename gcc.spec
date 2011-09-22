@@ -38,9 +38,9 @@ Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 # libelf does not work on Macosx however this is not a problem until
 # we use the system compiler there.
 %define isslc %(echo %cmsos | sed -e 's|slc.*|true|')
-%define elfutilsVersion 0.131
+%define elfutilsVersion 0.152
 %if "%isslc" == "true"
-Source8: ftp://sources.redhat.com/pub/systemtap/elfutils.old/elfutils-%{elfutilsVersion}.tar.gz
+Source8: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
 %endif
 Patch0: gcc-4.6.1-ignore-arch-flags-macosx
 # See http://gcc.gnu.org/bugzilla/show_bug.cgi?id=49540
@@ -200,7 +200,7 @@ CONF_GCC_VERSION_OPTS="--with-gmp=%i --with-mpfr=%i --with-mpc=%i"
 # Build additional stuff for gcc 4.5+
 if [ "X%gcc_45plus" = Xtrue ]; then
   cd ../ppl-%{pplVersion}
-  ./configure --disable-static --enable-interfaces=c --prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP"
+  ./configure --disable-static --with-gmp-prefix=%i --with-cxxflags="-I%i/include" --enable-interfaces=c --prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP" LDFLAGS="-L%i/lib"
   make %makeprocesses
   make install
 
