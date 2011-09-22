@@ -45,6 +45,7 @@ Source8: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfut
 Patch0: gcc-4.6.1-ignore-arch-flags-macosx
 # See http://gcc.gnu.org/bugzilla/show_bug.cgi?id=49540
 Patch1: gcc-4.6.1-fix-gfortran-regression
+Patch2: gcc-4.6.1-elfutils-portability
 
 %prep
 echo "use_custom_binutils: %use_custom_binutils"
@@ -102,6 +103,7 @@ esac
 # These are required by rpm as well, but only on linux.
 %if "%isslc" == "true"
 %setup -D -T -b 8 -n elfutils-%{elfutilsVersion}
+%patch2 -p1
 %endif
 
 %build
