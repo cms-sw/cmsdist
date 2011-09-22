@@ -3,6 +3,9 @@
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Patch0: cascade-2.2.0-nomanual
 Requires: lhapdf pythia6
+
+%define keep_archives true
+
 %prep
 
 %setup -q -n %{n}/%{realversion}
@@ -31,4 +34,3 @@ make %makeprocesses
 
 %install
 make install
-

@@ -8,6 +8,7 @@ Patch1: xrootd-5.30.00-fix-gcc46
 %if "%online" != "true"
 Requires: openssl
 %endif
+%define keep_archives true
 
 %prep 
 %setup -n %n-%{realversion}
