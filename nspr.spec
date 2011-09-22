@@ -1,4 +1,4 @@
-### RPM external nspr 4.8.4 
+### RPM external nspr 4.8.9
 Source: https://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v%{realversion}/src/%n-%{realversion}.tar.gz
 
 %build

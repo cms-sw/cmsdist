@@ -1,4 +1,4 @@
-### RPM external nss 3.12.6 
+### RPM external nss 3.12.9
 Source: https://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_%(echo %realversion | tr . _)_RTM/src/nss-%realversion.tar.gz
 Requires: nspr zlib
 Patch0: nss-3.12.6-remove-appleisms
