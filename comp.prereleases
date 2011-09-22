@@ -117,7 +117,7 @@ HG1105c py2-sqlobject
 
 # Test build for asyncstageout
 HG1109a asyncstageout
-+ 1.19/0.0.1a asyncstageout.spec
++ 1.20/0.0.1a asyncstageout.spec
 + HEAD/2.1.9 zeromq.spec 
 + HEAD/2.1.9 py2-zmq.spec
 
