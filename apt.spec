@@ -41,6 +41,8 @@ case %cmsplatf in
 esac
 
 chmod +x buildlib/install-sh
+# Avoid picking up sqlite3 from the system.
+perl -p -i -e 's|sqlite3|sqlite3disabled|' configure
 ./configure --prefix=%{i} --exec-prefix=%{i} \
                           --disable-static \
                           --disable-nls \
