@@ -50,7 +50,7 @@ esac
 
 # Probably the configure should just be remade on Darwin, but it builds
 # as-is with this small cleanup
-perl -p -i -e "s|-lexpat||g;s|-ljpeg||g" configure
+#perl -p -i -e "s|-lexpat||g;s|-ljpeg||g" configure
 # make %makeprocesses
 make 
 
