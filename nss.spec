@@ -32,6 +32,8 @@ case %cmsplatf in
   *)
     soname=so ;;
 esac
+rm -rf %i/lib/libsoftokn3*
+rm -rf %i/lib/libsql*
 
 install -d %i/include/nss3
 install -d %i/lib
