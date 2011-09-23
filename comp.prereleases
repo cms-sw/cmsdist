@@ -56,9 +56,9 @@ HG1109b reqmgr
 + 1.50 couchdb.spec
 + HEAD/0.8.5 reqmgr.spec
 
-# GlobalMonitor
-HG1109a globalmonitor
-+ HEAD/0.8.1 globalmonitor.spec
+# RequestMonitor
+HG1109a reqmon
++ HEAD/0.0.1 reqmon.spec
 
 # WorkQueue
 HG1109c workqueue
