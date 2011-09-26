@@ -123,7 +123,10 @@ case %cmsos in
   ;;
 esac
 
-export CPPFLAGS=-fPIC
+# The CPPFLAGS is probably not needed. Clean up at some point.
+export CPPFLAGS="-fPIC"
+export CFLAGS="-O2 -fPIC"
+export CXXFLAGS="-O2 -fPIC"
 case %cmsos in 
   slc*)
     make cmssw
@@ -138,7 +141,12 @@ case %cmsos in
     # is simply broken by circular dependencies and other linux only bits.
     cp %_sourcedir/tkonlinesw-cmake-build ./CMakeLists.txt
     make -C TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils include/Fed9UUtils.hh
-    cmake . -DORACLE_ROOT=${ORACLE_ROOT} -DXERCES_ROOT=${XERCES_C_ROOT} -DXERCESC=2 -DCMAKE_INSTALL_PREFIX=%i
+    cmake . -DORACLE_ROOT=${ORACLE_ROOT} \
+	    -DCMAKE_C_COMPILER="`which gcc`" \
+	    -DCMAKE_CXX_COMPILER="`which c++`" \
+	    -DCMAKE_LINKER=`which ld` \
+	    -DXERCES_ROOT=${XERCES_C_ROOT} \
+	    -DXERCESC=2 -DCMAKE_INSTALL_PREFIX=%i
     make %makeprocesses
     make install
   ;;

@@ -75,9 +75,7 @@ Requires: xerces-c-toolfile
 Requires: zlib-toolfile
 Requires: dcap-toolfile
 Requires: xdaq-toolfile
-%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (osx*) echo false ;; (*) echo true;; esac)" == "true"
 Requires: tkonlinesw-toolfile
-%endif
 Requires: frontier_client-toolfile
 Requires: xrootd-toolfile
 Requires: pyqt-toolfile
