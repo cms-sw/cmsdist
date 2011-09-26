@@ -1,4 +1,4 @@
-### RPM cms stagemanager 0.0.4
+### RPM cms stagemanager 0.0.5
 
 Source: svn://svn.cern.ch/reps/CMSDMWM/StageManager/tags/%realversion/src/couchapp?scheme=svn+ssh&strategy=export&module=StageManager&output=/src.tar.gz
 
