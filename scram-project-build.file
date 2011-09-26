@@ -229,7 +229,7 @@ cd %i
 %scramcmd install -f
 (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/%{srctree}; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.pl --arch %cmsplatf) || true
 for L in `find external/%cmsplatf -type l`; do
-  rl=`echo $L | sed -e 's|[^/]*/|../|g;' | xargs -l dirname`
+  rl=`echo $L | sed -e 's|[^/]*/|../|g;' | xargs dirname`
   mv $L $L-old.$$
   ln -sf  `readlink -n $L-old.$$ 2>&1 | sed -e "s|^%{instroot}/%{cmsplatf}/|../../../$rl/|"` $L
   rm -f $L-old.$$
