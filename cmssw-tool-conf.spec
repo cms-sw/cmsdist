@@ -97,9 +97,7 @@ Requires: fftw3-toolfile
 Requires: fftjet-toolfile
 Requires: lapack-toolfile
 Requires: pyminuit2-toolfile
-%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (osx*) echo false ;; (*) echo true ;; esac)" == "true" 
 Requires: professor-toolfile
-%endif
 Requires: py2-ipython-toolfile
 Requires: xz-toolfile
 Requires: protobuf-toolfile
