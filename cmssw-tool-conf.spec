@@ -91,9 +91,7 @@ Requires: cmsswdata-toolfile
 Requires: py2-cjson-toolfile
 Requires: py2-pycurl-toolfile
 
-%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (osx*) echo false ;; (*) echo true;; esac)" == "true"
 Requires: rivet-toolfile
-%endif
 Requires: cascade-toolfile
 Requires: fftw3-toolfile
 Requires: fftjet-toolfile
