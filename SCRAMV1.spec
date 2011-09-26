@@ -69,6 +69,3 @@ if [ -f $RPM_INSTALL_PREFIX/share/scramdb/project.lookup ] ; then
     mv $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup.link $RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/scramdb/project.lookup
   fi
 fi
-
-%files
-%i
