@@ -59,7 +59,7 @@ HG1109b reqmgr
 
 # RequestMonitor
 HG1109a reqmon
-+ HEAD/0.0.2.head reqmon.spec
++ HEAD/0.0.3.head reqmon.spec
 
 # WorkQueue
 HG1109c workqueue
