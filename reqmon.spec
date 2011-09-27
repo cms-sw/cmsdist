@@ -1,11 +1,22 @@
-### RPM cms wmcore-db-oracle 1
-## INITENV +PATH PYTHONPATH %i/lib
+### RPM cms reqmon 0.0.3.head
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
-Requires: wmcore py2-cx-oracle 
+#Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_reqmon.tar.gz
+Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk/?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_reqmon.tar.gz
+Requires: py2-simplejson py2-httplib2 cherrypy py2-cheetah yui rotatelogs
 
 %prep
+%setup -n WMCore
+
 %build
+python setup.py build_system -s reqmon
+
 %install
+python setup.py install_system -s reqmon --prefix=%i
+find %i -name '*.egg-info' -exec rm {} \;
+
+mkdir -p %i/bin
+cp -pf %_builddir/WMCore/bin/[[:lower:]]* %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
