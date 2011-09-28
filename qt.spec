@@ -60,6 +60,7 @@ make install
 # only via pkg-config we have to think on how to ship our own
 # version.
 rm -rf %i/lib/pkgconfig
+rm -rf %i/lib/*.la
 
 # Qt itself has some paths that can only be overwritten by
 # using an appropriate `qt.conf`.
@@ -72,19 +73,5 @@ Prefix = %{i}
 EOF_QT_CONF
 
 %post
-%{relocateConfig}lib/libQt3Support.la     
-%{relocateConfig}lib/libQtSql.la
-%{relocateConfig}lib/libQtCLucene.la      
-%{relocateConfig}lib/libQtSvg.la
-%{relocateConfig}lib/libQtCore.la     
-%{relocateConfig}lib/libQtTest.la
-%{relocateConfig}lib/libQtGui.la      
-%{relocateConfig}lib/libQtWebKit.la
-%{relocateConfig}lib/libQtHelp.la     
-%{relocateConfig}lib/libQtXml.la
-%{relocateConfig}lib/libQtNetwork.la      
-%{relocateConfig}lib/libQtXmlPatterns.la
-%{relocateConfig}lib/libQtOpenGL.la     
-%{relocateConfig}lib/libQtScript.la     
 %{relocateConfig}bin/qt.conf
 %{relocateConfig}mkspecs/qconfig.pri
