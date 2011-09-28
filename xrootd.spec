@@ -1,4 +1,4 @@
-### RPM external xrootd 5.30.00
+### RPM external xrootd 5.30.02
 %define svntag  %(echo %{realversion} | tr '.' '-')
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
@@ -8,7 +8,6 @@ Patch1: xrootd-5.30.00-fix-gcc46
 %if "%online" != "true"
 Requires: openssl
 %endif
-%define keep_archives true
 
 %prep 
 %setup -n %n-%{realversion}
@@ -57,8 +56,8 @@ cp -r src/* %i/src
 find %i/src -name '*.cc' -exec rm -f {} \;
 find %i -name CVS -exec rm -r {} \;
 %define strip_files %i/lib
+%define keep_archives true
 
-#rm -f %i/lib/*.a
 # Need to fix the following in the xrootd CVS
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/etc/XrdOlbMonPerf
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/utils/mps_PreStage
