@@ -20,9 +20,4 @@ make
 
 %install
 make install
-
-%post
-%{relocateConfig}lib/libCDFConesPlugin.la
-%{relocateConfig}lib/libSISConePlugin.la
-%{relocateConfig}lib/libsiscone.la
-%{relocateConfig}lib/libJadePlugin.la
+rm -rf %i/lib/*.la
