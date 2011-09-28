@@ -14,8 +14,9 @@
 # 1.253 is 0.9.1
 # 1.254 is 0.9.2
 # 1.256 is 0.9.2 w/ WMCore 0.8.3
+# 1.257 is 0.9.3
 HG1109b das
-+ 1.256 das.spec
++ 1.257 das.spec
 #+ 1.33 mongo.spec
 #+ 1.21 py2-pymongo.spec
 
