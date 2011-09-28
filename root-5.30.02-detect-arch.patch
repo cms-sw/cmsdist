@@ -15,7 +15,7 @@
 -        logmsg " file -L $chklibcompat | grep 'x86_64'"
 -        if file -L $chklibcompat | grep 'x86_64' > /dev/null 2>& 1 ; then
 +        logmsg " otool -fv $chklibcompat | grep 'x86_64'"
-+        if otool -fv $chklibcompat | grep 'x86_64' > /dev/null 2>& 1 ; then
++        if otool -fh $chklibcompat | grep 'x86_64' > /dev/null 2>& 1 ; then
              ret=1
          fi
          ;;
