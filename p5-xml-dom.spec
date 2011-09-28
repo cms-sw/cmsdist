@@ -1,6 +1,7 @@
-### RPM external p5-xml-dom 1.4.4
+### RPM external p5-xml-dom 1.44
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 %define downloadn XML-DOM
+Source0: http://search.cpan.org/CPAN/authors/id/T/TJ/TJMATHER/%{downloadn}-%{realversion}.tar.gz
 Requires: p5-extutils-makemaker
 
 %prep
