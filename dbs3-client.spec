@@ -2,8 +2,8 @@
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 ## INITENV SET DBS3_CLIENT_ROOT %i/
-## INITENV SET DBS_READER_URL http://vocms09.cern.ch:8585/dbs/DBSReader 
-## INITENV SET DBS_WRITER_URL http://vocms09.cern.ch:8585/dbs/DBSWriter
+## INITENV SET DBS_READER_URL https://cmsweb.cern.ch/dbs/DBSReader 
+## INITENV SET DBS_WRITER_URL https://cmsweb.cern.ch/dbs/DBSWriter
 ## INITENV ALIAS dbs python $DBS3_CLIENT_ROOT/bin/dbs.py
 %define cvstag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
