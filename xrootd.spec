@@ -1,4 +1,4 @@
-### RPM external xrootd 5.30.00
+### RPM external xrootd 5.30.02
 %define svntag  %(echo %{realversion} | tr '.' '-')
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
