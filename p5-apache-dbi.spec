@@ -12,6 +12,4 @@ export LC_ALL=C
 perl Makefile.PL INSTALL_BASE=%i
 make
 
-%install
-make install
-rm -rf %i/man
+%define drop_files %i/man

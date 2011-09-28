@@ -33,4 +33,4 @@ make
 %install
 make install
 find %i -name LWPExternEnt.pl -exec rm -f {} \;
-rm -rf %i/man
+%define drop_files %i/man

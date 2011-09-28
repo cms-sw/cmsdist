@@ -59,18 +59,11 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   fi
 done
 
-# Remove pkg-config to avoid rpm-generated dependency on /usr/bin/pkg-config
-# which we neither need nor use at this time.
-rm -rf %i/lib/pkgconfig
-
 # Strip libraries, we are not going to debug them.
-find %i/{bin,lib,modules} -type f -perm -a+x -exec strip {} \;
+%define strip_files %i/{bin,lib,modules}
 
-# Don't need archive libraries.
-rm -f %i/lib/{apr*/,}*.{l,}a
-
-# Look up documentation online.
-rm -rf %i/{manual,man}
+# Look up documentation online; don't need archive libraries.
+%define drop_files %i/{manual,man} %i/lib/{apr*/,}*.{l,}a
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh

@@ -29,6 +29,7 @@ make %makeprocesses
 
 %install
 make %makeprocesses install
+%define drop_files %i/{man,share/doc}
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d

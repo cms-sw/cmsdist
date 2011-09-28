@@ -12,6 +12,4 @@ export LC_ALL=C
 perl Makefile.PL INSTALL_BASE=%i
 make PASTHRU_INC=-I$MOD_PERL2_ROOT/include
 
-%install
-make install
-rm -rf %i/man
+%define drop_files %i/man

@@ -6,4 +6,4 @@ Source: http://extjs.cachefly.net/ext-%realversion.zip
 %build
 %install
 cp -rp * %i
-rm -fr %i/{docs,examples}
+%define drop_files %i/{docs,examples}

@@ -16,3 +16,4 @@ make
 %install
 cp -r build/yajl-%{realversion}/* %i/
 cp -r src %i/
+%define drop_files %i/share/doc

@@ -32,8 +32,7 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
 done
 
 # Look up documentation online.
-rm -f %i/[LMNRT]*
-rm -rf %i/{doc,tests}
+%define drop_files %i/[LMNRT]* %i/{doc,tests}
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh

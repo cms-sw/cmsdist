@@ -5,6 +5,7 @@ Source0: http://search.cpan.org/CPAN/authors/id/T/TJ/TJMATHER/%{downloadn}-%{rea
 Requires: p5-extutils-makemaker
 Provides: perl(LWP::UserAgent)
 Provides: perl(XML::RegExp)
+
 %prep
 %setup -n %downloadn-%{realversion}
 
@@ -12,3 +13,5 @@ Provides: perl(XML::RegExp)
 LC_ALL=C; export LC_ALL
 perl Makefile.PL INSTALL_BASE=%i
 make
+
+%define drop_files %i/man

@@ -17,6 +17,4 @@ Provides: perl(DBI)
 perl Makefile.PL INSTALL_BASE=%i SQLITE_LOCATION=$SQLITE_ROOT
 make
 
-%install
-make install
-rm -rf %i/man
+%define drop_files %i/man

@@ -14,4 +14,5 @@ perl Build.PL --install_base %i
 
 %install
 ./Build install
-rm -rf %i/man
+
+%define drop_files %i/man

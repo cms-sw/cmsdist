@@ -3,7 +3,6 @@
 %define downloadn POE-Component-Child
 Source: http://search.cpan.org/CPAN/authors/id/E/EC/ECALDER/%{downloadn}-%{realversion}.tar.gz
 Patch0: p5-poe-component-child
-
 Requires: p5-extutils-makemaker p5-poe
 
 %prep
@@ -15,6 +14,4 @@ LC_ALL=C; export LC_ALL
 perl Makefile.PL INSTALL_BASE=%i
 make
 
-%install
-make install
-rm -rf %i/man
+%define drop_files %i/man

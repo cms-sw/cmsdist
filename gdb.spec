@@ -20,4 +20,4 @@ cd %i/bin/
 ln -s gdb gdb-%{realversion}
 
 # To save space, clean up some things that we don't really need 
-rm -rf %i/lib/* %i/bin/{gdbserver,gdbtui} %i/share/{man,info,locale}
+%define drop_files %i/lib/* %i/bin/{gdbserver,gdbtui} %i/share/{man,info,locale}

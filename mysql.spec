@@ -86,14 +86,10 @@ transaction-isolation = READ-COMMITTED
 EOF
 
 # Strip libraries, we are not going to debug them.
-find %i/lib -type f -perm -a+x -exec strip {} \;
+%define strip_files %i/lib
 
-# Don't need archive libraries.
-rm -f %i/lib/mysql/plugin/*.{l,}a
-rm -f %i/lib/mysql/libmysqlclient*.{l,}a
-
-# Look up documentation online.
-rm -rf %i/share/{man,info}
+# Look up documentation online; don't need archive libraries.
+%define drop_files %i/share/{man,info} %i/lib/mysql/plugin/*.{l,}a %i/lib/mysql/libmysqlclient*.{l,}a
 
 %post
 %{relocateConfig}bin/msql2mysql

@@ -22,6 +22,4 @@ perl -p -i -e 's|^#!.*perl|#!'"$P"'|' blib/script/dbiproxy
 perl -p -i -e 's|^#!.*perl|#!'"$P"'|' dbiprof
 perl -p -i -e 's|^#!.*perl|#!'"$P"'|' dbiproxy
 
-%install
-make install
-rm -rf %i/man
+%define drop_files %i/man
