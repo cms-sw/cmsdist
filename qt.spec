@@ -5,6 +5,8 @@
 Requires: libjpg 
 Source0: ftp://ftp.qt.nokia.com/qt/source/%n-everywhere-opensource-src-%{realversion}.tar.gz
 
+%define strip_files %i/lib %i/bin
+
 %prep
 %setup -T -b 0 -n %n-everywhere-opensource-src-%{realversion}
 
