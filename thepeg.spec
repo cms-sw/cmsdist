@@ -9,6 +9,7 @@ Patch1: thepeg-1.7.0-use-dylibs-macosx
 Patch2: thepeg-1.6.1-lhapdf-env
 Patch3: thepeg-1.6.1-gcc46
 Patch4: thepeg-1.7.0-configure
+Patch5: thepeg-1.7.0-gcc46
 Requires: lhapdf
 Requires: gsl
 Requires: hepmc
@@ -30,6 +31,7 @@ esac
 %patch2 -p2
 %patch3 -p2
 %patch4 -p1
+%patch5 -p1
 
 %build
 # Build as static only on new architectures.
@@ -49,9 +51,7 @@ case %cmsplatf in
 esac
 
 case %cmsplatf in
-  osx*)
-    LIBGFORTRAN="`gfortran --print-file-name=libgfortran.a`"
-  ;;
+  osx*) LIBGFORTRAN="`gfortran --print-file-name=libgfortran.a`" ;;
 esac
 
 case %cmsplatf in
@@ -76,7 +76,4 @@ cd %i/lib/ThePEG
 for item in LesHouches.so ; do
   [ -e lib$item ] || ln -s $item lib$item
 done
-
-%post
-%{relocateConfig}lib/ThePEG/*.la
-
+rm -rf %i/lib/*.la
