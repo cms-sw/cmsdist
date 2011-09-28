@@ -20,6 +20,4 @@ rm -rf %i/lib/pkgconfig
 %define strip_files %i/lib
 # Remove documentation. 
 %define drop_files %i/share
-
-%post
-%{relocateConfig}lib/*.la
+rm -rf %i/lib/*.la
