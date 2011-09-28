@@ -3,6 +3,8 @@ Source: http://www.math.uiowa.edu/~dstewart/meschach/mesch12b.tar.gz
 Patch: meschach-1.2-slc4
 Patch1: meschach-1.2b-fPIC
 
+%define keep_archives true
+
 %prep
 %setup -c -n meschach-1.2 -a 0
 %patch -p0
