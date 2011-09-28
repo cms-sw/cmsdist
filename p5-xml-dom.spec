@@ -3,7 +3,8 @@
 %define downloadn XML-DOM
 Source0: http://search.cpan.org/CPAN/authors/id/T/TJ/TJMATHER/%{downloadn}-%{realversion}.tar.gz
 Requires: p5-extutils-makemaker
-
+Provides: perl(LWP::UserAgent)
+Provides: perl(XML::RegExp)
 %prep
 %setup -n %downloadn-%{realversion}
 
