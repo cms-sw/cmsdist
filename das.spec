@@ -1,6 +1,6 @@
-### RPM cms das 0.9.1
+### RPM cms das 0.9.3
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-%define wmcver WMCORE_0_7_2
+%define wmcver 0.8.3
 %define webdoc_files %i/doc/
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_das.tar.gz
