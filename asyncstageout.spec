@@ -1,7 +1,7 @@
-### RPM cms asyncstageout 0.0.1a
+### RPM cms asyncstageout 0.0.2
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
-%define wmcver 0.8.6
+%define wmcver 0.8.9
 
 Source0: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_wmc_asyncstageout.tar.gz
 Source1: svn://svn.cern.ch/reps/CMSDMWM/AsyncStageout/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=AsyncStageout&output=/src_asyncstageout.tar.gz
@@ -29,7 +29,7 @@ find %i -name '*.egg-info' -exec rm {} \;
 python -m compileall %i/$PYTHON_LIB_SITE_PACKAGES/AsyncStageOut || true
 
 #mkdir -p %i/bin
-cp -pf %_builddir/WMCore/bin/{wmcoreD,wmcore-new-config,wmagent-mod-config} %i/bin/
+cp -pf %_builddir/WMCore/bin/{wmcoreD,wmcore-new-config,wmagent-mod-config,wmagent-couchapp-init} %i/bin/
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
