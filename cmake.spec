@@ -1,4 +1,4 @@
-### RPM external cmake 2.8.5
+### RPM external cmake 2.8.1
 %define downloaddir %(echo %realversion | cut -d. -f1,2)
 Source: http://www.cmake.org/files/v%{downloaddir}/%n-%realversion.tar.gz
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
