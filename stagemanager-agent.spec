@@ -1,9 +1,10 @@
-### RPM cms stagemanager-agent 0.0.4
+### RPM cms stagemanager-agent 0.0.5
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-%define wmcver 0.7.4
+%define wmcver 0.8.3
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_stagemanager.tar.gz
 Source1: %svnserver/StageManager/tags/%realversion/src/python?scheme=svn+ssh&strategy=export&module=StageManager&output=/src.tar.gz
+
 
 Requires: python py2-httplib2 rotatelogs
 # py2-simplejson py2-sqlalchemy
