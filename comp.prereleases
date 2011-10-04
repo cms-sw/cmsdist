@@ -44,7 +44,7 @@ HG1109b das @slc5_amd64_gcc434
 # Cms Webtools services
 HG1111a cmsweb @slc5_amd64_gcc461
 HG1111a cmsweb @osx106_amd64_gcc461
-#HG1111a-gcc434 cmsweb @slc5_amd64_gcc434
+HG1111a-gcc434 cmsweb @slc5_amd64_gcc434
 
 # Stagemanager offsite agent
 #DIE#HG1109d stagemanager-agent
