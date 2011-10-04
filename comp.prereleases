@@ -18,7 +18,7 @@
 # 1.259 is 0.9.5
 #DIE#HG1109b das
 #DIE#+ 1.258 das.spec
-HG1109b das
+HG1109b das @slc5_amd64_gcc434
 + 1.259 das.spec
 
 # FileMover
@@ -42,7 +42,9 @@ HG1109b das
 #+ HEAD/2.16.1 graphviz.spec
 
 # Cms Webtools services
-HG1109e cmsweb
+HG1111a cmsweb @slc5_amd64_gcc461
+HG1111a cmsweb @osx106_amd64_gcc461
+#HG1111a-gcc434 cmsweb @slc5_amd64_gcc434
 
 # Stagemanager offsite agent
 #DIE#HG1109d stagemanager-agent
