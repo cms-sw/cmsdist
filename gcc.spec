@@ -1,4 +1,4 @@
-### RPM external gcc 4.6.1
+### RPM external gcc 4.3.4
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
 
@@ -50,6 +50,7 @@ Patch2: gcc-4.6.1-elfutils-portability
 %prep
 echo "use_custom_binutils: %use_custom_binutils"
 %setup -T -b 0 -n gcc-%realversion
+%if "%gcc_45plus" == "true"
 # Get the macosx build to accept -arch, -F options like the official Apple one.
 # Notice that  patch command have to stay on a single line.
 case %cmsos in
@@ -58,6 +59,7 @@ case %cmsos in
   ;;
 esac
 %patch1 -p0
+%endif
 
 case %cmsos in
   slc*_amd64 )
