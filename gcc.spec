@@ -17,7 +17,7 @@ Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
 %if "%{gcc_45plus}" == "true"
 %define pplVersion 0.11.2
 %define cloogVersion 0.16.2
-Source4: http://www.cs.unipr.it/ppl/Download/ftp/releases/%{pplVersion}/ppl-%{pplVersion}.tar.bz2
+Source4: http://bugseng.com/products/ppl/download/ftp/releases/%{pplVersion}/ppl-%{pplVersion}.tar.bz2
 Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
 %endif
 
