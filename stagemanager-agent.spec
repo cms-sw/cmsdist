@@ -9,6 +9,7 @@ Source1: %svnserver/StageManager/tags/%realversion/src/python?scheme=svn+ssh&str
 Requires: python py2-httplib2 rotatelogs
 # py2-simplejson py2-sqlalchemy
 
+
 %prep
 %setup -T -b 0 -n WMCore
 %setup -D -T -b 1 -n StageManager
