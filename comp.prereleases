@@ -15,10 +15,11 @@
 # 1.254 is 0.9.2
 # 1.256 is 0.9.2 w/ WMCore 0.8.3
 # 1.258 is 0.9.4
+# 1.259 is 0.9.5
 #DIE#HG1109b das
 #DIE#+ 1.258 das.spec
-#+ 1.33 mongo.spec
-#+ 1.21 py2-pymongo.spec
+HG1109b das @slc5_amd64_gcc434
++ 1.259 das.spec
 
 # FileMover
 # 1.30 is 1.0.9
@@ -41,7 +42,9 @@
 #+ HEAD/2.16.1 graphviz.spec
 
 # Cms Webtools services
-HG1109e cmsweb
+HG1111a cmsweb @slc5_amd64_gcc461
+HG1111a cmsweb @osx106_amd64_gcc461
+#HG1111a-gcc434 cmsweb @slc5_amd64_gcc434
 
 # Stagemanager offsite agent
 #DIE#HG1109d stagemanager-agent
