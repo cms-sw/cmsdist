@@ -18,8 +18,8 @@
 # 1.259 is 0.9.5
 #DIE#HG1109b das
 #DIE#+ 1.258 das.spec
-HG1109b das @slc5_amd64_gcc434
-+ 1.259 das.spec
+#HG1109b das @slc5_amd64_gcc434
+#+ 1.259 das.spec
 
 # FileMover
 # 1.30 is 1.0.9
