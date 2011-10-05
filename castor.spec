@@ -17,6 +17,7 @@
 #Source: cvs://:pserver:anonymous@isscvs.cern.ch:/local/reps/castor?passwd=Ah<Z&tag=-r%{downloadv}&module=CASTOR2&output=/%{n}-%{realversion}.source.tar.gz
 Source:  http://castorold.web.cern.ch/castorold/DIST/CERN/savannah/CASTOR.pkg/%{baseVersion}-*/%{realversion}/castor-%{realversion}.tar.gz
 Patch0: castor-2.1.9.8-macosx
+Patch1: castor-2.1.9.8-fix-gcc47
 
 # Ugly kludge : forces libshift.x.y to be in the provides (rpm only puts libshift.so.x)
 # root rpm require .x.y
@@ -34,11 +35,13 @@ case %cmsplatf in
 %patch0 -p2
   ;;
 esac
+%patch1 -p1
 
-case %gccver in
-  4.6.*)
-perl -pi -e "s|-Werror|-Werror -Wno-error=unused-but-set-variable|" config/Imake.tmpl
-perl -pi -e "s|--no-undefined||" config/Imake.rules
+case %cmsplatf in
+  *_gcc4[012345]*) ;;
+  *)
+    perl -pi -e "s|-Werror|-Werror -Wno-error=unused-but-set-variable|" config/Imake.tmpl
+    perl -pi -e "s|--no-undefined||" config/Imake.rules
   ;;
 esac
 
