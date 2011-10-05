@@ -1,0 +1,12 @@
+diff -Naur orig.classlib-3.1.2/classlib/iotools/ReadWriteBuffer.h classlib-3.1.2/classlib/iotools/ReadWriteBuffer.h
+--- orig.classlib-3.1.2/classlib/iotools/ReadWriteBuffer.h	2010-10-22 20:09:35.000000000 +0200
++++ classlib-3.1.2/classlib/iotools/ReadWriteBuffer.h	2011-03-05 21:30:03.000000000 +0100
+@@ -2,7 +2,7 @@
+ # define CLASSLIB_READ_WRITE_BUFFER_H
+ # include "classlib/sysapi/system.h"
+ # include "classlib/sysapi/IOTypes.h"
+-
++# include <stddef.h>
+ namespace lat {
+ 
+ /** Buffer for reads and writes to a seekable backing store.
