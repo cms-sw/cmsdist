@@ -32,6 +32,14 @@
 %define instroot	/cms
 %endif
 
+%if "%{?cmsroot:set}" != "set"
+%define cmsroot        %instroot
+%endif
+
+%if "%{?tempprefix:set}" != "set"
+%define tempprefix        tmp
+%endif
+
 # We define cmsbuildApiVersion to be 0 in the case we are not using 
 # a recent enough version of cmsBuild/install.sh, which does not
 # set cmsbuildApiVersion.
