@@ -1,14 +1,15 @@
-### RPM cms dbs3-client 3.0.11.b
+### RPM cms dbs3-client 3.0.12
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 ## INITENV SET DBS3_CLIENT_ROOT %i/
-## INITENV SET DBS_READER_URL https://cmsweb.cern.ch/dbs/DBSReader 
-## INITENV SET DBS_WRITER_URL https://cmsweb.cern.ch/dbs/DBSWriter
+## INITENV SET DBS_READER_URL https://cmsweb.cern.ch/dbs/prod/global/DBSReader
+## INITENV SET DBS_WRITER_URL https://cmsweb.cern.ch/dbs/prod/global/DBSWriter
 ## INITENV ALIAS dbs python $DBS3_CLIENT_ROOT/bin/dbs.py
+%define webdoc_files %i/doc/
 %define cvstag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 Source0: %svnserver/DBS/tags/%cvstag?scheme=svn+ssh&strategy=export&module=DBS3&output=/%{n}.tar.gz
-Requires: python py2-cjson 
+Requires: python py2-cjson py2-sphinx
 
 %prep
 %setup -D -T -b 0 -n DBS3
@@ -36,3 +37,6 @@ done
 
 %files
 %i/
+%exclude %i/doc
+
+## SUBPACKAGE webdoc
