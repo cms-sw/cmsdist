@@ -1,21 +1,19 @@
-### RPM cms dqmgui 6.1.0
+### RPM cms dqmgui 6.1.1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH %{dynamic_path_var} %i/xlib
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH $ROOT_ROOT/lib
 
 %define webdoc_files %i/doc/
 %define svn svn://svn.cern.ch/reps/CMSDMWM/Monitoring/tags/%{realversion}
 %define cvs cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 
 Source0: %{svn}?scheme=svn+ssh&strategy=export&module=Monitoring&output=/src.tar.gz
-Source1: %{cvs}&strategy=export&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-15-12&output=/DQMCore.tar.gz
+Source1: %{cvs}&strategy=export&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-15-18&output=/DQMCore.tar.gz
 Source2: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=image&revision=10&scheme=http&output=/rtgu.tar.gz
 Source3: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
 Patch0: dqmgui-rtgu
-Patch1: dqmgui-osx
-Patch2: dqmgui-osx2
-Patch3: dqmgui-osx3
 
 Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root libpng libjpg classlib rotatelogs py2-pycurl py2-cjson py2-sphinx
 
@@ -29,12 +27,6 @@ perl -p -i -e '/#include/ && s|\.\./\.\./|boost/gil/|' $(find . -name *.hpp)
 chmod 644 $(find . -name *.hpp)
 %setup -T -b 0 -n Monitoring
 perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/*/conf.py
-%patch1
-%patch2 -p1
-%ifos darwin
-%patch3
-perl -p -i -e 's/-Wl,-z,defs/-mmacosx-version-min=10.6/' etc/makefile*
-%endif
 
 # Adapt CMSSW sources to our build.
 mv %_builddir/stuff/{rtgu,boost} src/cpp
