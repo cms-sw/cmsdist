@@ -42,8 +42,12 @@ Requires: SCRAMV1
 %define cvstag		%realversion
 %endif
 
-%if "%{buildarch:set}" != "set"
+%if "%{?buildarch:set}" != "set"
 %define buildarch	:
+%endif
+
+%if "%{?cmsroot:set}" != "set"
+%define cmsroot       %instroot
 %endif
 
 %if "%{?ucprojtype:set}" != "set"
@@ -228,13 +232,6 @@ cd %i
 
 %scramcmd install -f
 (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/%{srctree}; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.pl --arch %cmsplatf) || true
-for L in `find external/%cmsplatf -type l`; do
-  rl=`echo $L | sed -e 's|[^/]*/|../|g;' | xargs dirname`
-  mv $L $L-old.$$
-  ln -sf  `readlink -n $L-old.$$ 2>&1 | sed -e "s|^%{instroot}/%{cmsplatf}/|../../../$rl/|"` $L
-  rm -f $L-old.$$
-done
-find external/%cmsplatf -type l
 
 %{?PartialReleasePackageList:%PartialReleasePackageList}
 %{?PatchReleaseSourceSymlinks:%PatchReleaseSourceSymlinks}
@@ -247,6 +244,21 @@ rm -fR %{srctree} tmp
 %if "%{?subpackageDebug:set}" == "set"
 tar czf debug.tar.gz --files-from %_builddir/files.debug --no-recursion --remove-files
 %endif
+
+######################################################
+#Do the symlink relocation as a last step in %install
+for L in `find external/%cmsplatf -type l`; do
+  lnk=`readlink -n $L 2>&1`
+  case $lnk in
+     %{cmsroot}/%{cmsplatf}/*)
+       rl=`echo $L | sed -e 's|[^/]*/|../|g;' | xargs dirname`
+       al=`echo $lnk | sed -e "s|^%{cmsroot}/%{cmsplatf}/|../../../$rl/|"`
+       rm -f $L
+       ln -sf  $al $L
+       ;;
+   esac
+done
+find external/%cmsplatf -type l | xargs ls -l
 
 %post
 export SCRAM_ARCH=%cmsplatf
