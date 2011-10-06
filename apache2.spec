@@ -71,4 +71,3 @@ done
 %{relocateConfig}/build/{libtool,*.mk}
 %{relocateConfig}/conf/{original/,}{extra/,}*.conf
 %{relocateConfig}/include/ap_config_*.h
-%{relocateConfig}/lib/{*.la,pkgconfig/*.pc}
