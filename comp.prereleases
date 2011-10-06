@@ -101,12 +101,12 @@ HG1111a-gcc434 cmsweb @slc5_amd64_gcc434
 #DIE#+ DBS_2_1_6-pre5 dbs-client.spec
 
 # DBS3 build
-#DIE#HG1109b dbs3
-#DIE#+ HEAD/3.0.11.b dbs3.spec
+HG1111a dbs3 @slc5_amd64_gcc461
++ HEAD/3.0.12 dbs3.spec
 
 # DBS3 Client
-#DIE#HG1109b dbs3-client
-#DIE#+ HEAD/3.0.11.b dbs3-client.spec
+HG1111a dbs3-client @slc5_amd64_gcc461
++ HEAD/3.0.12 dbs3-client.spec
 
 # Crab
 #DIE#HG1102b crab-server
