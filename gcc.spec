@@ -1,11 +1,11 @@
-### RPM external gcc 4.6.1
+### RPM external gcc 4.5.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/32
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
-# For gcc version >= 4.0.0, a number of additional sources are needed.
-%define gmpVersion 5.0.2
-%define mpfrVersion 3.0.1 
-%define mpcVersion 0.9
+# If gcc version >= 4.0.0, we need two additional sources, for gmp and mpfr.
+%define gmpVersion 4.3.2
+%define mpfrVersion 2.4.2
+%define mpcVersion 0.8.1
 Source1: ftp://ftp.gnu.org/gnu/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
@@ -13,21 +13,19 @@ Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
 # For gcc 4.5+ we need the additional tools ppl and cloog.
 %define gcc_45plus %(echo %realversion | sed -e 's|4[.][5-9].*|true|')
 %if "%{gcc_45plus}" == "true"
-%define pplVersion 0.11.2
-%define cloogVersion 0.16.2
-Source4: http://www.cs.unipr.it/ppl/Download/ftp/releases/%{pplVersion}/ppl-%{pplVersion}.tar.bz2
-Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
+%define pplVersion 0.10.2
+%define cloogpplVersion 0.15.9
+Source4: http://www.cs.unipr.it/ppl/Download/ftp/releases/0.10.2/ppl-%{pplVersion}.tar.bz2
+Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-ppl-%{cloogpplVersion}.tar.gz
 %endif
 
 # On 64bit Scientific Linux build our own binutils.
 %define use_custom_binutils %(echo %cmsos | sed -e 's|slc[0-9]*_amd64|true|')
 %if "%use_custom_binutils" == "true"
 %define bisonVersion 2.4
+%define binutilsv 2.20.1
 Source6: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.bz2
-%define binutilsv 2.21.1
 Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
-#Source7: http://cmsrep.cern.ch/cmssw/binutils-mirror/binutils-%binutilsv.tar.bz2
-#Source7: http://www.kernel.org/pub/linux/devel/binutils/binutils-%binutilsv.tar.bz2
 %endif
 
 # gcc 4.5+ link time optimization support requires libelf to work. However
@@ -38,25 +36,40 @@ Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 %define isslc %(echo %cmsos | sed -e 's|slc.*|true|')
 %define elfutilsVersion 0.131
 %if "%isslc" == "true"
-Source8: ftp://sources.redhat.com/pub/systemtap/elfutils.old/elfutils-%{elfutilsVersion}.tar.gz
+Source8: ftp://sources.redhat.com/pub/systemtap/elfutils/elfutils-%{elfutilsVersion}.tar.gz
 %endif
-Patch0: gcc-4.6.1-ignore-arch-flags-macosx
-# See http://gcc.gnu.org/bugzilla/show_bug.cgi?id=49540
-Patch1: gcc-4.6.1-fix-gfortran-regression
 
 %prep
 echo "use_custom_binutils: %use_custom_binutils"
 %setup -T -b 0 -n gcc-%realversion
-# Get the macosx build to accept -arch, -F options like the official Apple one.
-# Notice that  patch command have to stay on a single line.
-case %cmsos in
-  osx*)
-%patch0 -p1 
-  ;;
-esac
-%patch1 -p0
 
 case %cmsos in
+# Hack to always have -m32 in the 32bit compiler, even when it's built on a 64
+# bit architecture.
+  slc*_ia32 )
+cat << \EOF_CONFIG_GCC >> gcc/config.gcc
+# CMS patch to include gcc/config/i386/t-cms when building gcc
+tm_file="$tm_file i386/cms.h"
+tmake_file="$tmake_file i386/t-cms"
+EOF_CONFIG_GCC
+
+cat << \EOF_CMS_H > gcc/config/i386/cms.h
+#undef ASM_SPEC
+#define ASM_SPEC  "%%{v:-V} %%{Qy:} %%{!Qn:-Qy} %%{n} %%{T} %%{Ym,*} %%{Yd,*} %%{Wa,*:%%*} --32"
+#undef CC1_SPEC
+#define CC1_SPEC  "%%(cc1_cpu) %%{profile:-p} -m32"
+#undef CC1PLUS_SPEC
+#define CC1PLUS_SPEC "-m32"
+#undef MULTILIB_DEFAULTS
+#define MULTILIB_DEFAULTS { "m32" }
+EOF_CMS_H
+
+cat << \EOF_T_CMS > gcc/config/i386/t-cms
+MULTILIB_OPTIONS = m32
+MULTILIB_DIRNAMES = ../lib
+MULTILIB_MATCHES = m32=m32
+EOF_T_CMS
+  ;;
   slc*_amd64 )
 # Hack needed to align sections to 4096 bytes rather than 2MB on 64bit linux
 # architectures.  This is done to reduce the amount of address space wasted by
@@ -94,7 +107,7 @@ esac
 # For gcc 4.5 and later we also need the following.
 %if "%gcc_45plus" == "true"
 %setup -D -T -b 4 -n ppl-%{pplVersion}
-%setup -D -T -b 5 -n cloog-%{cloogVersion}
+%setup -D -T -b 5 -n cloog-ppl-%{cloogpplVersion}
 %endif
 
 # These are required by rpm as well, but only on linux.
@@ -103,43 +116,30 @@ esac
 %endif
 
 %build
-# On mac we need to use gcc-proper, not gcc-llvm
+
+# Set special variables required to build 32-bit executables on 64-bit
+# systems.  Note that if the architecture is SLC4/IA32, we may be on a
+# 64-bit system and need to produce a 32-bit capable compiler, which
+# _itself_ is a 32-bit executable.
 case %{cmsos} in
-  osx*)
-    CC=/usr/bin/gcc-4.2
-    CXX=/usr/bin/c++-4.2
-    CPP=/usr/bin/cpp-4.2
-    ADDITIONAL_LANGUAGES=,objc,obj-c++
-
-    # Apparently must emulate apple compiler even if we build
-    # full chain ourselves, as things come in via system libs.
-    #  - http://newartisans.com/2009/10/a-c-gotcha-on-snow-leopard/
-    #  - http://gcc.gnu.org/bugzilla/show_bug.cgi?id=41645
-    #  - http://trac.macports.org/ticket/25205 (and 22234)
-    CONF_GCC_OS_SPEC=--enable-fully-dynamic-string
-  ;;
+  slc*_ia32)
+    CCOPTS="-fPIC -m32 -Wa,--32" ;;
   *)
-    CC=gcc
-    CXX=c++
-    CPP=cpp
-    CONF_GCC_OS_SPEC=
-  ;;
+    CCOPTS="-fPIC" ;;
 esac
-
-CC="$CC -fPIC"
-CXX="$CXX -fPIC"
 
 # Whenever we build custom binutils we also enable the new linker "gold".
 # We do so only if we are using the new gcc 4.5+
 if [ "X%use_custom_binutils:%gcc_45plus" = Xtrue:true ] ; then
-  CONF_BINUTILS_OPTS="--enable-gold=default --enable-lto --enable-plugins --enable-threads"
-  CONF_GCC_WITH_LTO="--enable-gold=yes --enable-lto  --with-build-config=bootstrap-lto"
+  CONF_BINUTILS_OPTS="--enable-gold"
 fi
+
+USER_CXX=$CCOPTS
 
 # Build libelf.
 if [ "X%isslc" = Xtrue ]; then
   cd ../elfutils-%{elfutilsVersion}
-  ./configure --disable-static --prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP"
+  ./configure --prefix=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
   make %makeprocesses
   make install
 fi
@@ -152,25 +152,13 @@ fi
 if [ "X%use_custom_binutils" = Xtrue ]
 then
   cd ../bison-%{bisonVersion}
-  CC="$CC" ./configure --prefix=%i/tmp/bison
+  CC="gcc $CCOPTS" ./configure --prefix=%i/tmp/bison
   make %makeprocesses
   make install
   export PATH=%i/tmp/bison/bin:$PATH
   cd ../binutils-%{binutilsv}
-  # Try to avoid dependency on makeinfo by forcing make not
-  # to build the documentation.
-  perl -p -i -e 's|SUBDIRS = .*|SUBDIRS =|' bfd/Makefile.in binutils/Makefile.in gas/Makefile.in
-  perl -p -i -e 's|all: info|all:|' etc/Makefile.in
-  perl -p -i -e 's|TEXINFOS =.*|TEXINFOS =|;s|INFO_DEPS =.*|INFO_DEPS =|' gprof/Makefile.in
-  perl -p -i -e 's|man_MANS =.*|man_MANS =|' gprof/Makefile.in
-  perl -p -i -e 's|INFO_DEPS =.*|INFO_DEPS =|' ld/Makefile.in
-  perl -p -i -e 's|INFOFILES =.*|INFOFILES =|' etc/Makefile.in
-  perl -p -i -e 's|DVIFILES =.*|DVIFILES =|' etc/Makefile.in
-  perl -p -i -e 's|PDFFILES =.*|PDFFILES =|' etc/Makefile.in
-  perl -p -i -e 's|HTMLFILES =.*|HTMLFILES =|' etc/Makefile.in        
-
-  ./configure --disable-static --prefix=%i ${CONF_BINUTILS_OPTS} --disable-werror \
-              CC="$CC" CXX="$CXX" CPP="$CPP" CFLAGS="-I%i/include" \
+  ./configure --prefix=%i ${CONF_BINUTILS_OPTS} \
+              CC="gcc $CCOPTS" CFLAGS="-I%i/include" \
               CXXFLAGS="-I%i/include" LDFLAGS="-L%i/lib"
   make %makeprocesses
   find . -name Makefile -exec perl -p -i -e 's|LN = ln|LN = cp -p|;s|ln ([^-])|cp -p $1|g' {} \; 
@@ -180,17 +168,17 @@ fi
 
 # Build GMP/MPFR/MPC
 cd ../gmp-%{gmpVersion}
-./configure --disable-static --prefix=%i --enable-shared --disable-static --enable-cxx CC="$CC" CXX="$CXX" CPP="$CPP"
+./configure --prefix=%i --enable-shared --disable-static --enable-cxx CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
 make %makeprocesses
 make install
 
 cd ../mpfr-%{mpfrVersion}
-./configure --disable-static --prefix=%i --with-gmp=%i CC="$CC" CXX="$CXX" CPP="$CPP"
+./configure --prefix=%i --with-gmp=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
 make %makeprocesses
 make install
 
 cd ../mpc-%{mpcVersion}
-./configure --disable-static --prefix=%i --with-gmp=%i --with-mpfr=%i CC="$CC" CXX="$CXX" CPP="$CPP"
+./configure --prefix=%i --with-gmp=%i --with-mpfr=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
 make %makeprocesses
 make install
 CONF_GCC_VERSION_OPTS="--with-gmp=%i --with-mpfr=%i --with-mpc=%i"
@@ -198,16 +186,16 @@ CONF_GCC_VERSION_OPTS="--with-gmp=%i --with-mpfr=%i --with-mpc=%i"
 # Build additional stuff for gcc 4.5+
 if [ "X%gcc_45plus" = Xtrue ]; then
   cd ../ppl-%{pplVersion}
-  ./configure --disable-static --enable-interfaces=c --prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP"
+  ./configure --prefix=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
   make %makeprocesses
   make install
 
-  cd ../cloog-%{cloogVersion}
-  ./configure --disable-static --prefix=%i --with-ppl=%i --with-gmp-prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP"
+  cd ../cloog-ppl-%{cloogpplVersion}
+  ./configure --prefix=%i --with-ppl=%i --with-gmp=%i CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
   make %makeprocesses
   make install
 
-  CONF_GCC_VERSION_OPTS="$CONF_GCC_VERSION_OPTS --with-ppl=%i --with-cloog=%i --enable-cloog-backend=isl"
+  CONF_GCC_VERSION_OPTS="$CONF_GCC_VERSION_OPTS --with-ppl=%i --with-cloog=%i"
 fi
 
 # Build the compilers
@@ -215,48 +203,18 @@ cd ../gcc-%realversion
 mkdir -p obj
 cd obj
 export LD_LIBRARY_PATH=%i/lib64:%i/lib:$LD_LIBRARY_PATH
-../configure --prefix=%i --disable-multilib --disable-nls \
-  --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES \
-  $CONF_GCC_OS_SPEC $CONF_GCC_WITH_LTO $CONF_GCC_VERSION_OPTS \
-  --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP"
+../configure --prefix=%i \
+  --enable-languages=c,c++,fortran \
+  $CONF_GCC_VERSION_OPTS --enable-shared CC="gcc $CCOPTS" CXX="c++ $USER_CXX"
 
 make %makeprocesses bootstrap
 make install
 
 %install
-case %{cmsos} in
-  osx*) STRIP_DYNAMIC="strip -x" ;;
-  *)    STRIP_DYNAMIC="strip" ;;
-esac
-
 cd %_builddir/gcc-%{realversion}/obj && make install 
 
 ln -s gcc %i/bin/cc
-find %i/lib %i/lib64 -name '*.la' -exec rm -f {} \; || true
-
-# Remove unneeded documentation.
-rm -rf %i/share/{man,info,doc,locale}
-# Strip things people will most likely never debug themself.
-find %i/libexec -name cc1 -exec strip {} \;
-find %i/libexec -name cc1plus -exec strip {} \;
-find %i/libexec -name f951 -exec strip {} \;
-find %i/libexec -name lto1 -exec strip {} \;
-find %i/libexec -name collect2 -exec strip {} \;
-find %i/bin -type f -exec file {} \; | grep executable | grep -v make-debug-archive | sed -e 's|:.*||' | xargs -n1 strip
-if [ "X%use_custom_binutils" = Xtrue ]; then
-  find %i/x86_64*/bin -type f -exec strip {} \;
-else :; fi
-$STRIP_DYNAMIC %i/lib/libmpfr*
-$STRIP_DYNAMIC %i/lib/libppl*
-$STRIP_DYNAMIC %i/lib/libgmp*
-$STRIP_DYNAMIC %i/lib/libcloog*
-# Remove temporary bison installation
-rm -rf %i/tmp
-# Remove unneeded archive libraries.
-rm -rf %i/lib/libstdc++.a %i/lib/libsupc++.a
-# This avoids having a dependency on the system pkg-config.
-rm -rf %i/lib/pkg-config
-
+find %i/lib %i/lib32 %i/lib64 -name '*.la' -exec rm -f {} \; || true
 # SCRAM ToolBox toolfile is now geneated by the gcc-toolfile.spec
 # so that everything works even in the case "--use-system-compiler"
 # option is specified.
