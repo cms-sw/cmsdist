@@ -1,9 +1,9 @@
-### RPM cms reqmon 0.0.5.head
+### RPM cms reqmon 0.0.6.head
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 #Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_reqmon.tar.gz
 Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk/?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_reqmon.tar.gz
-Requires: python py2-cjson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui rotatelogs pystack
+Requires: python py2-cjson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui py2-setuptools rotatelogs pystack
 
 %prep
 %setup -n WMCore
