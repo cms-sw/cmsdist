@@ -37,4 +37,4 @@ make %makeprocesses
 make install/strip
 
 # Look up documentation online.
-%define drop_files %i/{doc,man}
+rm -rf %i/{doc,man}
