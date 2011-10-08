@@ -45,6 +45,10 @@ Provides: libXtst.so.6()(64bit)
 %define downloadarch amd64
 %endif
 
+%if "%{tmpArch}" == "slc6_amd64"
+%define downloadarch amd64
+%endif
+
 Source0: http://cmsrep.cern.ch/cmssw/jdk-mirror/jdk-%downloadv-linux-i586.bin
 Source1: http://cmsrep.cern.ch/cmssw/jdk-mirror/jdk-%downloadv-linux-amd64.bin
 %endif
