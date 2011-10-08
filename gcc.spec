@@ -235,6 +235,12 @@ cd %_builddir/gcc-%{realversion}/obj && make install
 ln -s gcc %i/bin/cc
 find %i/lib %i/lib64 -name '*.la' -exec rm -f {} \; || true
 
+# Remove fixincludes borked features.h. It freezes system definitions,
+# and for example SL5-compiled compiler will no longer work with SL6
+# because there are differences in features.h, and specifically which
+# things become visible after defining _GNU_SOURCE.
+find %i/lib -path '*/include-fixed/features.h' -exec mv {} {}.off \;
+
 # Remove unneeded documentation, temporary areas, unneeded files.
 %define drop_files %i/share/{man,info,doc,locale} %i/tmp %i/lib*/{libstdc++.a,libsupc++.a}
 # Strip things people will most likely never debug themself.
