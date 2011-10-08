@@ -40,7 +40,8 @@ gunzip -d -c < %_sourcedir/VDT-Apache-GSI.tgz |
                         --with-z=$ZLIB_ROOT \
 			--with-expat=$EXPAT_ROOT \
 			--with-sqlite3=$SQLITE_ROOT \
-			--with-uuid=$UUID_ROOT
+			--with-uuid=$UUID_ROOT \
+			--without-pgsql
 make %makeprocesses
 find -type f | xargs perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|" 
 
