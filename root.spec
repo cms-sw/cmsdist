@@ -65,7 +65,7 @@ Requires: gfortran-macosx
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
 case %cmsplatf in
-  slc5_* | slc5onl_* )
+  slc[56]_* | slc5onl_* )
 %patch3 -p1
   ;;
 esac
