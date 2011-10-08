@@ -10,6 +10,7 @@ Provides: libpcap.so.0.8.3()(64bit)
 %prep
 %setup -n mongodb-src-r%{realversion}
 perl -p -i -e 's/-rdynamic//' SConstruct
+perl -p -i -e 's/"-mt"/""/' SConstruct
 %patch
 
 # scons apparently removes $PATH and $LD_LIBRARY_PATH when invoking
