@@ -7,14 +7,8 @@ Requires: p5-dbd-sqlite
 %prep
 
 %build
-case $(uname) in
-  Darwin ) STATIC= DYNAMIC= ;;
-  *      ) STATIC=-Wl,-Bstatic DYNAMIC=-Wl,-Bdynamic ;;
-esac
-gcc -o %_builddir/grid-proxy-verify \
-  %_sourcedir/grid-proxy-verify.c \
-  -I$OPENSSL_ROOT/include -L$OPENSSL_ROOT/lib \
-  $STATIC -lssl -lcrypto $DYNAMIC -ldl
+gcc -o %_builddir/grid-proxy-verify %_sourcedir/grid-proxy-verify.c \
+  -I$OPENSSL_ROOT/include -L$OPENSSL_ROOT/lib -lssl -lcrypto -ldl
 
 %install
 mkdir -p %i/{bin,etc/env.d,etc/profile.d}
