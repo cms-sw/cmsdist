@@ -30,6 +30,7 @@ rm -fr WEBTOOLS/SecurityModule/{perl,crypttest}
 %build
 cd ../WMCore
 python setup.py build_system -s wmc-web
+PYTHONPATH=$PWD/build/lib:$PYTHONPATH
 cd ../SiteDB
 python setup.py build_system
 
