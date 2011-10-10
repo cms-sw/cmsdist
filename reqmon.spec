@@ -1,4 +1,4 @@
-### RPM cms reqmon 0.0.6.head
+### RPM cms reqmon 0.0.7.head
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 #Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_reqmon.tar.gz
