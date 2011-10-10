@@ -2,10 +2,10 @@
 
 %define projectname trackerDAQ
 %define releasename %{projectname}-%{realversion}
-%define closingbrace )
-%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
+%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 Source0: http://cms-trackerdaq-service.web.cern.ch/cms-trackerdaq-service/download/sources/trackerDAQ-2.7.0-9.tgz
 Patch0: tkonlinesw-2.7.0-macosx
+Patch1: tkonlinesw-2.7.0-fix-gcc46
 
 # NOTE: given how broken the standard build system is
 #       on macosx, it's not worth fixing it.
@@ -36,16 +36,14 @@ case %cmsos in
 %patch0 -p1
   ;;
 esac
+%patch1 -p1
 # Clean up some mysterious old build within the sources that screws
 # up the install by copying in an old libFed9UUtils.so 
 # (this is really needed) 
 rm -fR TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/2.4/slc3_ia32_gcc323
 
-case %gccver in
-  4.*)
 perl -p -i -e "s|-Werror||" FecSoftwareV3_0/generic/Makefile
-  ;;
-esac
+
 
 %build
 echo "pwd: $PWD"
