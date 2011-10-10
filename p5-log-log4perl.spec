@@ -2,10 +2,7 @@
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 %define downloadn Log-Log4perl
 Source:  http://search.cpan.org/CPAN/authors/id/M/MS/MSCHILLI/%{downloadn}-%{realversion}.tar.gz
-Requires: p5-extutils-makemaker p5-log-dispatch p5-log-dispatch-filerotate
-
-# Provided by system perl
-Provides:  perl(XML::DOM)
+Requires: p5-extutils-makemaker p5-log-dispatch p5-log-dispatch-filerotate p5-xml-dom
 
 # Fake provides for optional backends
 Provides:  perl(RRDs)
@@ -19,3 +16,7 @@ Provides:  perl(DBI)
 LC_ALL=C; export LC_ALL
 perl Makefile.PL INSTALL_BASE=%i
 make
+
+%install
+make install
+rm -rf %i/man
