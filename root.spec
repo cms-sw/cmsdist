@@ -1,4 +1,4 @@
-### RPM lcg root 5.30.00
+### RPM lcg root 5.30.02
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i  
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
@@ -11,7 +11,8 @@ Patch0: root-5.28-00d-externals
 Patch1: root-5.28-00d-CINT-maxlongline-maxtypedef
 Patch2: root-5.28-00d-roofit-silence-static-printout
 Patch3: root-5.28-00d-linker-gnu-hash-style
-Patch4: root-5.28-00d-TBranchElement-dropped-data-member
+#Patch4: root-5.28-00d-TBranchElement-dropped-data-member
+#Patch5: root-5.30-00-TSchemaRuleProcessor-nested-space
 #Patch5: root-5.28-00d-r37582-tmva
 #Patch6: root-5.28-00d-TTreeCache-r37919
 #Patch7: root-5.28-00d-r38248-r38259-r38264-r38265-r38267
@@ -34,7 +35,7 @@ Requires: castor dcap
 Requires: openssl zlib
 %endif
 
-%if "%ismac" == "true"
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif
 
@@ -44,7 +45,8 @@ Requires: gfortran-macosx
 %patch1 -p1
 %patch2 -p1
 # patch3 is OS version dependent, see below
-%patch4 -p1
+# patch4 -p1
+# patch5 -p2
 # patch5 -p1
 # patch6 -p1
 # patch7 -p1
