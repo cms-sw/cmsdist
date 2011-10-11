@@ -1,4 +1,4 @@
-### RPM external hepmc 2.05.01
+### RPM external hepmc 2.06.05
 Source: http://lcgapp.cern.ch/project/simu/HepMC/download/HepMC-%realversion.tar.gz
 Patch0: hepmc-2.03.06-reflex
 
