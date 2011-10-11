@@ -16,12 +16,12 @@
 # 1.256 is 0.9.2 w/ WMCore 0.8.3
 # 1.258 is 0.9.4
 # 1.259 is 0.9.5
-# 1.260 is 0.9.6
+# 1.261 is 0.9.7
 #DIE#HG1109b das
 #DIE#+ 1.258 das.spec
 #HG1109b das @slc5_amd64_gcc434
 HG1111a das @slc5_amd64_gcc461
-+ 1.260 das.spec
++ 1.261 das.spec
 
 # FileMover
 # 1.30 is 1.0.9
