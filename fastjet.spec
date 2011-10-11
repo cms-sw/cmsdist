@@ -12,11 +12,15 @@ Patch4: fastjet-2.4.4-nodegeneracywarning
 %patch3 -p0
 %patch4 -p0
 
+case %cmsplatf in
+    *_gcc4[01234]*) ;;
+    *) CXXFLAGS="-O3 -Wall -ffast-math -std=c++0x -msse3 -ftree-vectorize" ;;
+esac
 
-./configure --enable-shared --enable-cmsiterativecone --enable-atlascone --prefix=%i --enable-allcxxplugins
+./configure --enable-shared --enable-cmsiterativecone --enable-atlascone --prefix=%i --enable-allcxxplugins ${CXXFLAGS+CXXFLAGS="$CXXFLAGS"}
 
 %build
-make
+make %makeprocesses
 
 %install
 make install
