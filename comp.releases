@@ -19,7 +19,7 @@ HG1109e cmsweb
 #DIE#+ WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
 #DIE#+ HEAD/2.1.9 zeromq.spec py2-zmq.spec
 #DIE#+ HEAD/0.3.0 py2-psutil.spec
-#DIE#+ HEAD/0.8.9 wmcore.spec wmagent.spec
+#DIE#+ HEAD/0.8.10 wmcore.spec wmagent.spec
 
 #DIE#HG1109a crab-server3
 #DIE#+ 1.15/3.0.3 crab-server3.spec
