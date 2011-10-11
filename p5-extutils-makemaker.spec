@@ -11,17 +11,14 @@ Source1: http://search.cpan.org/CPAN/authors/id/Y/YV/YVES/%{name_inst}-%{ver_ins
 %setup -D -T -b 1 -n %{name_inst}-%{ver_inst}
 
 %build
+export PERL5LIB=%i/lib/perl5
 for pkg in %{name_mm}-%{realversion} %{name_inst}-%{ver_inst}; do
   cd ../$pkg
   LC_ALL=C; export LC_ALL
   perl Makefile.PL INSTALL_BASE=%i
   make
-done
-
-%install
-for pkg in %{name_mm}-%{realversion} %{name_inst}-%{ver_inst}; do
-  cd ../$pkg
   make install
 done
 
+%install
 %define drop_files %i/man
