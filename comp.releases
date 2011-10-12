@@ -15,11 +15,24 @@ HG1109e cmsweb
 #DIE#+ DBS_2_1_6-pre5 dbs-{server,libs,schema}.spec
 #DIE#+ DBS_2_1_6-pre5 apache-{ant,tomcat}.spec
 
-#DIE#HG1109a wmagent
-#DIE#+ WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
-#DIE#+ HEAD/2.1.9 zeromq.spec py2-zmq.spec
-#DIE#+ HEAD/0.3.0 py2-psutil.spec
-#DIE#+ HEAD/0.8.10 wmcore.spec wmagent.spec
+# wmagent
+HG1111b wmagent @slc6_amd64_gcc461
++ WMCORE_0_6_12  dls-client.spec wmcore-{db-couch,db-mysql,webtools}.spec
++ HEAD/2.1.9 zeromq.spec py2-zmq.spec
++ HEAD/0.3.0 py2-psutil.spec
++ HEAD/0.8.10 wmcore.spec wmagent.spec
+
+HG1111b wmagent @slc5_amd64_gcc461
++ WMCORE_0_6_12  dls-client.spec wmcore-{db-couch,db-mysql,webtools}.spec
++ HEAD/2.1.9 zeromq.spec py2-zmq.spec
++ HEAD/0.3.0 py2-psutil.spec
++ HEAD/0.8.10 wmcore.spec wmagent.spec
+
+HG1111a-gcc434 wmagent @slc5_amd64_gcc434
++ WMCORE_0_6_12  dls-client.spec wmcore-{db-couch,db-mysql,webtools}.spec
++ HEAD/2.1.9 zeromq.spec py2-zmq.spec
++ HEAD/0.3.0 py2-psutil.spec
++ HEAD/0.8.10 wmcore.spec wmagent.spec
 
 #DIE#HG1109a crab-server3
 #DIE#+ 1.15/3.0.3 crab-server3.spec
