@@ -109,8 +109,8 @@ HG1111a reqmon @slc5_amd64_gcc461
 #DIE#+ DBS_2_1_6-pre5 dbs-client.spec
 
 # DBS3 build
-HG1111a dbs3 @slc5_amd64_gcc461
-+ HEAD/3.0.12 dbs3.spec
+HG1111b dbs3 @slc5_amd64_gcc461
++ HEAD/3.0.12a dbs3.spec
 
 # DBS3 Client
 HG1111a dbs3-client @slc5_amd64_gcc461
