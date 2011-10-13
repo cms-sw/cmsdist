@@ -1,5 +1,5 @@
-### RPM cms cmsweb-analytics 1.0
-Requires: python py2-adns py2-geoip py2-netaddr py2-yaml
+### RPM cms cmsweb-analytics 1.1
+Requires: python py2-adns py2-geoip py2-netaddr py2-yaml py2-cjson
 
 %prep
 %build
