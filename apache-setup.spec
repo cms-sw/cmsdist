@@ -1,4 +1,4 @@
-### RPM cms apache-setup 3.3
+### RPM cms apache-setup 3.4
 Source: svn://svn.cern.ch/reps/CMSDMWM/HTTPGroup/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=HTTPGroup&output=/conf.tar.gz
 Requires: apache2
 
@@ -10,7 +10,6 @@ Requires: apache2
 %install
 mkdir -p %i/{bin,etc/env.d,etc/profile.d}
 mv mkserver %i/bin/
-mv archive-log-files %i/
 ln -sf ../profile.d/init.sh %i/etc/env.d/00-core-server.sh
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
