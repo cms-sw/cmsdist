@@ -1,4 +1,4 @@
-### RPM cms dls-client DLS_1_1_3
+### RPM cms dls-client DLS_1_1_2
 ## INITENV +PATH PATH %{i}/Client/bin
 ## INITENV +PATH PYTHONPATH %{i}/Client/lib
 %define cvstag %realversion
@@ -20,7 +20,6 @@ cp -r lib %{i}/Client/.
 cp -r bin %{i}/Client/.
 cp README %{i}/Client/.
 #cp -r etc %{i}/Client/.
-python -m compileall %i/Client || true
 
 mkdir -p %{i}/etc/profile.d
  
