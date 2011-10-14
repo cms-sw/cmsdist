@@ -46,6 +46,7 @@ HG1111a das @slc5_amd64_gcc461
 # Cms Webtools services
 HG1111c cmsweb @slc6_amd64_gcc461
 HG1111c cmsweb @slc5_amd64_gcc461
++ 1.31/3.0.12a dbs3.spec
 HG1111c cmsweb @osx106_amd64_gcc461
 HG1111c-gcc434 cmsweb @slc5_amd64_gcc434
 
