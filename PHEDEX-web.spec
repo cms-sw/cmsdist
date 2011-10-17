@@ -25,6 +25,7 @@ Requires:  expat
 Provides: perl(HTML::Entities)
 Provides: perl(DB_File)
 Provides: perl(XML::LibXML)
+Provides: perl(URI::Escape)
 
 %prep
 %setup -n PHEDEX
