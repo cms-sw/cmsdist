@@ -29,10 +29,8 @@ Requires: libjpg-toolfile
 Requires: libpng-toolfile
 Requires: libtiff-toolfile
 Requires: libungif-toolfile
-Requires: openldap-toolfile
 Requires: openssl-toolfile
 Requires: pcre-toolfile
-Requires: python-ldap-toolfile
 Requires: python-toolfile
 Requires: roofit-toolfile
 Requires: root-toolfile
