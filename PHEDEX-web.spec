@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-web 4.1.1pre1
+### RPM cms PHEDEX-web 4.1.1pre6
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define cvsversion WEB_%(echo %realversion | tr . _)
@@ -25,6 +25,7 @@ Requires:  expat
 Provides: perl(HTML::Entities)
 Provides: perl(DB_File)
 Provides: perl(XML::LibXML)
+Provides: perl(URI::Escape)
 
 %prep
 %setup -n PHEDEX
