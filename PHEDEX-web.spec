@@ -1,9 +1,12 @@
-### RPM cms PHEDEX-web 4.1.1pre6
+### RPM cms PHEDEX-web 4.1.1pre7
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define cvsversion WEB_%(echo %realversion | tr . _)
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=export&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
+
+# This allows me to not pull everything in here, which duplicates code
+Requires: PHEDEX-datasvc
 
 # For DB Access
 Requires: oracle oracle-env p5-dbi p5-dbd-oracle
@@ -25,7 +28,6 @@ Requires:  expat
 Provides: perl(HTML::Entities)
 Provides: perl(DB_File)
 Provides: perl(XML::LibXML)
-Provides: perl(URI::Escape)
 
 %prep
 %setup -n PHEDEX
