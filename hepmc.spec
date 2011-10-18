@@ -1,8 +1,9 @@
-### RPM external hepmc 2.05.01
+### RPM external hepmc 2.06.05
 Source: http://lcgapp.cern.ch/project/simu/HepMC/download/HepMC-%realversion.tar.gz
 Patch0: hepmc-2.03.06-reflex
 
-%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
+%define keep_archives true
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif
 
@@ -28,4 +29,3 @@ make %makeprocesses
 
 %install
 make install
-
