@@ -51,6 +51,7 @@ HG1111c cmsweb @slc5_amd64_gcc461
 + 1.120/1.2.1 PHEDEX-webapp.spec
 + 1.132/4.1.1 PHEDEX-web.spec
 + 1.165/2.2.1 PHEDEX-datasvc.spec
++ 1.200/V06_00_52 dbs-web.spec
 HG1111c cmsweb @osx106_amd64_gcc461
 HG1111c-gcc434 cmsweb @slc5_amd64_gcc434
 
