@@ -1,4 +1,4 @@
-### RPM cms dbs-web V06_00_51
+### RPM cms dbs-web V06_00_52
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 %define cvstag %{realversion}
