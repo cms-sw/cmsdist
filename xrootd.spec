@@ -1,12 +1,12 @@
-### RPM external xrootd 5.30.02
+### RPM external xrootd 3.1.0-rc3
 %define svntag  %(echo %{realversion} | tr '.' '-')
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
-Source: svn://root.cern.ch/svn/root/tags/v%{svntag}/net/xrootd/src/xrootd?scheme=http&strategy=export&module=%n-%{realversion}&output=/%n-%{realversion}.tgz
+Source: http://xrootd.cern.ch/cgi-bin/cgit.cgi/xrootd/snapshot/%n-%{realversion}.tar.gz
 Patch0: xrootd-gcc44
 Patch1: xrootd-5.30.00-fix-gcc46
 %if "%online" != "true"
-Requires: openssl
+Requires: openssl cmake zlib
 %endif
 
 %prep 
@@ -17,9 +17,12 @@ grep -r -l -e "^#!.*/perl *$" . | xargs perl -p -i -e "s|^#!.*perl *$|#!/usr/bin
 
 %build
 CONFIG_ARGS="--disable-krb4 --with-cxx=`which c++` --with-ld=`which c++` --with-ssl-incdir=${OPENSSL_ROOT}/include --with-ssl-libdir=${OPENSSL_ROOT}/lib"
+mkdir build
+cd build
 case %cmsos in
   slc*_amd64)
-    ./configure.classic x86_64_linux --ccflavour=gccx8664  --enable-krb5 $CONFIG_ARGS --with-krb5=/usr ;;
+     cmake -DCMAKE_INSTALL_PREFIX=%i ../
+     make VERBOSE=1%{?_smp_mflags} ;;
   slc*_ia32)
     ./configure.classic i386_linux --ccflavour=gcc --enable-krb5 $CONFIG_ARGS --with-krb5=/usr ;;
   *)
@@ -39,22 +42,11 @@ esac
 
 
 %install
-mkdir %i/bin
-mkdir %i/lib
-mkdir %i/etc
-mkdir %i/utils
-mkdir %i/src
-cp -r bin/arch/* %i/bin
-cp -r lib/arch/* %i/lib
-[ $(uname) = Darwin ] &&
-  for f in %i/lib/*.a; do
-    ranlib $f 
-  done
-cp -r utils/* %i/utils
-cp -r etc/* %i/etc
-cp -r src/* %i/src
-find %i/src -name '*.cc' -exec rm -f {} \;
-find %i -name CVS -exec rm -r {} \;
+cd build
+rm -rf $RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT
+cd ..
+
 %define strip_files %i/lib
 %define keep_archives true
 
