@@ -41,6 +41,7 @@ Requires: sqlite-toolfile
 Requires: systemtools
 Requires: uuid-toolfile
 Requires: xrootd-toolfile
+Requires: xz-toolfile
 Requires: zlib-toolfile
 
 %define skipreqtools jcompiler
