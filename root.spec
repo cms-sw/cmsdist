@@ -26,6 +26,7 @@ Patch14: root-5.30.02-detect-arch
 #Patch15: root-5.30.02-fix-isnan
 Patch16: root-5.30.02-fix-gcc46
 Patch17: root-5.30.02-r41453
+Patch18: root-5.30.02-r41523
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
