@@ -29,17 +29,17 @@ HG1111c wmagent @slc5_amd64_gcc461
 + HEAD/0.8.11a wmcore.spec wmagent.spec
 
 # crab3
-HG1111b crab-server3 @slc5_amd64_gcc461
-+ 1.16/3.0.4 crab-server3.spec
+HG1111c crab-server3 @slc5_amd64_gcc461
++ 1.17/3.0.4 crab-server3.spec
 
-HG1111a-gcc434 crab-server3 @slc5_amd64_gcc434
-+ 1.16/3.0.4 crab-server3.spec
+#HG1111a-gcc434 crab-server3 @slc5_amd64_gcc434
+#+ 1.16/3.0.4 crab-server3.spec
 
 #asyncstageout
-HG1111a-gcc434 asyncstageout @slc5_amd64_gcc434
-+ 1.22/0.0.3 asyncstageout.spec
-+ HEAD/2.1.9 zeromq.spec
-+ HEAD/2.1.9 py2-zmq.spec
+#HG1111a-gcc434 asyncstageout @slc5_amd64_gcc434
+#+ 1.22/0.0.3 asyncstageout.spec
+#+ HEAD/2.1.9 zeromq.spec
+#+ HEAD/2.1.9 py2-zmq.spec
 
 HG1111b asyncstageout @slc5_amd64_gcc461
 + 1.22/0.0.3 asyncstageout.spec
