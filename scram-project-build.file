@@ -23,7 +23,7 @@ Requires: SCRAMV1
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V04-00-08
+%define configtag       V04-00-06
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -281,7 +281,6 @@ fi
 
 %{?PatchReleaseFilesRelocate:%PatchReleaseFilesRelocate}
 %{?PartialReleaseFilesRelocate:%PartialReleaseFilesRelocate}
-[ -f $RPM_INSTALL_PREFIX/etc/scramrc/%{pkgname}.map ] || (mkdir -p $RPM_INSTALL_PREFIX/etc/scramrc && echo '%{ucprojtype}=$SCRAM_ARCH/%{pkgcategory}/%{pkgname}/%{ucprojtype}_*' > $RPM_INSTALL_PREFIX/etc/scramrc/%{pkgname}.map)
 
 %postun
 if [ -e $RPM_INSTALL_PREFIX/%pkgrel ] ; then
