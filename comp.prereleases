@@ -73,8 +73,8 @@ HG1111a reqmgr @slc5_amd64_gcc461
 HG1111a reqmon @slc5_amd64_gcc461
 + HEAD/0.0.9.head reqmon.spec
 
-# WorkQueue @slc5_amd64_gcc461
-HG1111c workqueue
+# WorkQueue
+HG1111c workqueue @slc5_amd64_gcc461
 + HEAD/0.8.12 workqueue.spec
 
 #DIE#HG1107c wmagent
