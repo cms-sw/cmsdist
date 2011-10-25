@@ -90,7 +90,7 @@ HG1111a reqmon @slc5_amd64_gcc461
 #DIE#+ HEAD/0.0.3 regsvc.spec
 
 # PHEDEX agents
-HG1109b PHEDEX-combined-agents @slc5_amd64_gcc434
+HG1111d PHEDEX-combined-agents @slc5_amd64_gcc461
 + forPHEDEX401pre4 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
 
 # PHEDEX web
