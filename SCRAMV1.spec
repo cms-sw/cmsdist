@@ -5,9 +5,9 @@
 Source0: %{cvsrepo}&tag=-r%{realversion}&module=SCRAM&output=/source.tar.gz
 
 %define OldDB /%{cmsplatf}/lcg/SCRAMV1/scramdb/project.lookup
-%define SCRAM_ALL_VERSIONS   V[0-9]\\+_[0-9]\\+_[0-9]\\+
-%define SCRAM_REL_MINOR      %(echo %realversion | grep '%{SCRAM_ALL_VERSIONS}' | sed 's|^\\(V[0-9]\\+_[0-9]\\+\\)_.*|\\1|')
-%define SCRAM_REL_MAJOR      %(echo %realversion | sed 's|^\\(V[0-9]\\+\\)_.*|\\1|')
+%define SCRAM_ALL_VERSIONS   V[0-9][0-9]*_[0-9][0-9]*_[0-9][0-9]*
+%define SCRAM_REL_MINOR      %(echo %realversion | grep '%{SCRAM_ALL_VERSIONS}' | sed 's|^\\(V[0-9][0-9]*_[0-9][0-9]*\\)_.*|\\1|')
+%define SCRAM_REL_MAJOR      %(echo %realversion | sed 's|^\\(V[0-9][0-9]*\\)_.*|\\1|')
 %define SetLatestVersion \
   vers="" \
   for ver in `find %{pkgcategory}/%{pkgname} -maxdepth 2 -mindepth 2 -name "bin" -type d | sed 's|/bin$||' | xargs -I '{}' basename '{}' | grep "$VERSION_REGEXP" `; do \
@@ -19,7 +19,7 @@ Source0: %{cvsrepo}&tag=-r%{realversion}&module=SCRAM&output=/source.tar.gz
 
 %define BackwardCompatibilityVersionPolicy \
   touch etc/default-scram/%{SCRAM_REL_MINOR} \
-  for ver in `find etc/default-scram -maxdepth 1 -mindepth 1 -name "%{SCRAM_REL_MAJOR}_[0-9]*" -type f |  xargs -I '{}' basename '{}' | grep 'V[0-9]\\+_[0-9]\\+$' `; do \
+  for ver in `find etc/default-scram -maxdepth 1 -mindepth 1 -name "%{SCRAM_REL_MAJOR}_[0-9]*" -type f |  xargs -I '{}' basename '{}' | grep 'V[0-9][0-9]*_[0-9][0-9]*$' `; do \
     case $ver in \
       V2_[01] ) ;;\
       * ) \
@@ -48,7 +48,6 @@ mkdir -p %i/src/main %{i}/etc/profile.d
 sed -i -e "s|@CMS_PATH@|%instroot|g;s|@SCRAM_VERSION@|%v|g" %i/bin/scram
 ln -s ../../bin/scram %i/src/main/scram.pl
 chmod 755 %i/bin/scram
-
 
 %post
 %{relocateRpmPkg}bin/scram
