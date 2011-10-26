@@ -1,4 +1,4 @@
-### RPM external xrootd 5.30.00
+### RPM external xrootd 5.30.02
 %define svntag  %(echo %{realversion} | tr '.' '-')
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
@@ -53,7 +53,11 @@ cp -r lib/arch/* %i/lib
 cp -r utils/* %i/utils
 cp -r etc/* %i/etc
 cp -r src/* %i/src
-rm -fR %i/bin/CVS %i/lib/CVS %i/utils/CVS %i/etc/CVS %i/src/CVS %i/src/*/CVS
+find %i/src -name '*.cc' -exec rm -f {} \;
+find %i -name CVS -exec rm -r {} \;
+%define strip_files %i/lib
+%define keep_archives true
+
 # Need to fix the following in the xrootd CVS
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/etc/XrdOlbMonPerf
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/utils/mps_PreStage
