@@ -1,10 +1,15 @@
-### RPM cms online-tool-conf 8.0
+### RPM cms online-tool-conf 7.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
 
-%define isslc %(case %cmsos in (slc*) echo true;; (*) echo false;; esac)
-%define is64bit %(case %cmsos in (slc*_amd64) echo true;; (*) echo false;; esac)
+## INITENV SET CMSSW_TOOL_CONF_ROOT $ONLINE_TOOL_CONF_ROOT
+Provides: libboost_regex-gcc-mt.so 
+Provides: libboost_signals-gcc-mt.so 
+Provides: libboost_thread-gcc-mt.so
+%define closingbrace )
+%define isslc %(case %cmsos in slc*%closingbrace echo true;; *%closingbrace echo false;; esac)
+%define is64bit %(case %cmsos in slc*_amd64%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 #Requires: alpgen-toolfile                  # not used online
 Requires: boost-toolfile
@@ -67,7 +72,6 @@ Requires: sigcpp-toolfile
 #Requires: sqlite-toolfile                  # from XDAQ (daq-sqlite)
 Requires: onlinesystemtools
 #Requires: tauola-toolfile                  # not used online
-#Requires: tauolapp-toolfile                # not used online
 #Requires: thepeg-toolfile                  # not used online
 #Requires: toprex-toolfile                  # not used online
 #Requires: uuid-toolfile                    # from SLC5 (e2fsprogs-libs)
@@ -77,28 +81,21 @@ Requires: dcap-toolfile
 #Requires: xdaq-toolfile                    # from XDAQ (daq-xdaq)
 #Requires: tkonlinesw-toolfile              # not used online
 Requires: frontier_client-toolfile
-Requires: xrootd-toolfile
+#Requires: xrootd-toolfile                  # not used online
 #Requires: pyqt-toolfile                    # not used online
 #Requires: sip-toolfile                     # not used online
 #Requires: graphviz-toolfile                # not used online
 Requires: valgrind-toolfile
 #Requires: py2-matplotlib-toolfile          # not used online
 #Requires: py2-numpy-toolfile               # not used online
-#Requires: py2-scipy-toolfile               # not used online
 Requires: cmsswdata-toolfile
 #Requires: rivet-toolfile                   # not used online
 #Requires: cascade-toolfile                 # not used online
 Requires: fftw3-toolfile
-Requires: fftjet-toolfile
+#Requires: fftjet-toolfile                  # not used online
 Requires: gdb-toolfile
 #Requires: google-perftools-toolfile        # not used online
 Requires: igprof-toolfile
-#Requires: lapack-toolfile                  # not used online
-#Requires: pyminuit2-toolfile               # not used online
-#Requires: professor-toolfile               # not used online
-#Requires: py2-ipython-toolfile             # not used online
-Requires: xz-toolfile
-#Requires: protobuf-toolfile                # not used online
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull
 %define onlinesystemtoolsroot ${ONLINESYSTEMTOOLS_ROOT}
