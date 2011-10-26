@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V2_2_4_pre1
+### RPM lcg SCRAMV1 V2_2_4_pre2
 ## NOCOMPILER
 
 %define cvsrepo  cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/cvs/CMSSW?passwd=AA_:yZZ3e
@@ -51,6 +51,7 @@ chmod 755 %i/bin/scram
 
 %post
 %{relocateRpmPkg}bin/scram
+sed -i -e "s|dbPath = '$RPM_INSTALL_PREFIX';|dbPath = '$CMS_INSTALL_PREFIX';|" $RPM_INSTALL_PREFIX/%{pkgrel}/bin/scram
 echo "SCRAMV1_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 echo "SCRAMV1_VERSION='%v'" >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 echo "set SCRAMV1_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
