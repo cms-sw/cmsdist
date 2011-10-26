@@ -1,4 +1,4 @@
-### RPM external mysql 5.1.51
+### RPM external mysql 5.1.58
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/mysql
 ## INITENV SET MYSQL_HOME $MYSQL_ROOT
 
