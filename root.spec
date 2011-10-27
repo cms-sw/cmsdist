@@ -28,6 +28,7 @@ Patch16: root-5.30.02-fix-gcc46
 Patch17: root-5.30.02-r41453
 Patch18: root-5.30.02-r41523
 Patch19: root-5.30.02-fix-isnan-again
+Patch20: root-5.30.02-r41402
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -69,6 +70,7 @@ Requires: gfortran-macosx
 %patch17 -p1
 %patch18 -p2
 %patch19 -p1
+%patch20 -p2
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
