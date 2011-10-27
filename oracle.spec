@@ -25,7 +25,7 @@ Requires: fakesystem
 # as part of the arguments.
 # Notice that we are forced to use rpm macros because %%setup registers the 
 # final directory to use as the one of the last %%setup happening.
-%if %cmsos == slc6_amd64 || %cmsos == slc5_amd64
+%if %cmsos == slc5_amd64
 %setup -T -n %linuxversion -b 0 
 %endif
 %if %cmsos == slc5_ia32
