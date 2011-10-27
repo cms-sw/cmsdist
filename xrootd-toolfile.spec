@@ -16,7 +16,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/xrootd.xml
   <client>
     <environment name="XROOTD_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$XROOTD_BASE/src"/>
-    <environment name="LIBDIR" default="$XROOTD_BASE/lib64"/>
+    <environment name="LIBDIR" default="$XROOTD_BASE/lib"/>
   </client>
   <runtime name="PATH" value="$XROOTD_BASE/bin" type="path"/>
 </tool>
