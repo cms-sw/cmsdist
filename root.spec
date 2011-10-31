@@ -143,8 +143,7 @@ case %cmsos in
       macconfig=macosx64
       ;; 
     esac
-    export CC=`which gcc` CXX=`which g++`
-    ./configure $arch $CONFIG_ARGS --with-cc="$CC" --with-cxx="$CXX" --disable-rfio --disable-builtin_afterimage ;;
+    ./configure $arch $CONFIG_ARGS --disable-rfio --disable-builtin_afterimage ;;
   slc*_ppc64*)
     ./configure linux $CONFIG_ARGS --disable-rfio;;
 esac
