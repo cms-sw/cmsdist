@@ -1,4 +1,4 @@
-### RPM external sherpa 1.3.0
+### RPM external sherpa 1.3.1
 
 #Source: http://cern.ch/service-spi/external/MCGenerators/distribution/sherpa-%{realversion}-src.tgz
 Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
