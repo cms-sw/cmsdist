@@ -1,4 +1,4 @@
-### RPM external sherpa 1.3.0
+### RPM external sherpa 1.3.1
 
 #Source: http://cern.ch/service-spi/external/MCGenerators/distribution/sherpa-%{realversion}-src.tgz
 Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
@@ -17,22 +17,9 @@ case %cmsplatf in
   *_ia32_gcc*) ARCH_CMSPLATF="-m32" ;;
 esac
 
-case %cmsplatf in
-  osx*)
-     perl -p -i -e 's|-rdynamic||g' configure \
-                                    AddOns/Analysis/Scripts/Makefile.in
-     LDFLAGS="-L$(basename $(gfortran --print-file-name=libgfortran.a))"
-     CXX="`which c++`"
-     CC="`which gcc`"
-     FC="`which gfortran`"
-     LD="`which gfortran`"
-  ;;
-esac
-
 ./configure --prefix=%i --enable-analysis \
             --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT \
-            CXXFLAGS="-O2 -fuse-cxa-atexit $ARCH_CMSPLATF" ${CXX+CXX="$CXX"} \
-            ${CC+CC="$CC"} ${FC+FC="$FC"} ${LD+LD="$LD"}
+            CXXFLAGS="-O2 -fuse-cxa-atexit $ARCH_CMSPLATF"
 
 %build
 # Fix up a configuration mistake coming from a test being confused
