@@ -9,6 +9,7 @@ Source: svn://svn.cern.ch/reps/cmsos/releases/baseline11/trunk/?scheme=svn+ssh&r
 Patch0: xdaq_VR16993_build
 Patch1: xdaq_mfDefs_flags
 Patch2: xdaq-VR16796-gcc46
+Patch3: xdaq-VR17173-macosx
 
 Provides: /bin/awk
 # This is needed on macosx because this is the install_name for the .so
@@ -22,6 +23,7 @@ Provides: libasyncresolv.0
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 # Xdaq does not provide makeinstall,  it uses "simplify" script instead to 
@@ -107,4 +109,3 @@ rm -f %{i}/lib/lib*.a %{i}/lib/lib*.la
 
 #find daq -type f ! -path "*/extern/*lib*" -name "*.a" -exec cp {} %{i}/lib \;
 perl -p -i -e "s|^#!.*make|#!/usr/bin/env make|" %{i}/daq/extern/slp/openslp-1.2.0/debian/rules
-
