@@ -120,8 +120,11 @@ HG1111a dbs3-client @slc5_amd64_gcc461
 #+ CRABSERVER_1_1_4_pre5_BUILD_SLC5 crab-server.spec mysql.spec prodagent.spec prodcommon.spec wmcore.spec PHEDEX-micro.spec dls-client.spec python-ldap.spec openldap.spec openldap-2.3.39-gcc44.patch python-ldap-2.3.5-gcc44.patch
 
 # Crab3
-HG1111a-gcc434 crab-server3 @slc5_amd64_gcc434
-+ 1.16/3.0.4 crab-server3.spec
+#HG1111a-gcc434 crab-server3 @slc5_amd64_gcc434
+#+ 1.16/3.0.4 crab-server3.spec
+
+HG1111d crab-server3 @slc5_amd64_gcc461
++ 1.18/3.0.4 crab-server3.spec
 
 # This is needed for the HappyFace testing setup
 #DIE#HG1105c py2-sqlobject
