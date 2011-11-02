@@ -124,7 +124,7 @@ HG1111a dbs3-client @slc5_amd64_gcc461
 #+ 1.16/3.0.4 crab-server3.spec
 
 HG1111d crab-server3 @slc5_amd64_gcc461
-+ 1.18/3.0.4 crab-server3.spec
++ 1.19/3.0.4 crab-server3.spec
 
 # This is needed for the HappyFace testing setup
 #DIE#HG1105c py2-sqlobject
