@@ -90,7 +90,7 @@ HG1111c workqueue @slc5_amd64_gcc461
 
 # PHEDEX agents
 HG1109b PHEDEX-combined-agents @slc5_amd64_gcc434
-+ forPHEDEX401 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
++ forPHEDEX401a PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
 
 # PHEDEX web
 #DIE#HG1107a PHEDEX-combined-web
