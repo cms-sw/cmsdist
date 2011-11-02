@@ -12,7 +12,6 @@ Requires: cmake
 %setup -D -T -b 2 -n igprof-%{realversion}
 
 %build
-%ifnos darwin
 cd ../libatomic_ops*
 ./configure --prefix=%i
 make %makeprocesses install
@@ -25,9 +24,6 @@ make %makeprocesses install
 cd ../igprof*
 cmake -DCMAKE_INSTALL_PREFIX=%i -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="-g -O3" .
 make %makeprocesses
-%endif
 
 %install
-%ifnos darwin
 make %makeprocesses install
-%endif
