@@ -58,7 +58,7 @@ Requires: pcre-toolfile
 #Requires: pythia6-toolfile                 # not used online
 #Requires: pythia8-toolfile                 # not used online
 Requires: python-toolfile
-Requires: py2-cx-oracle-toolfile
+#Requires: py2-cx-oracle-toolfile           # not working online
 #Requires: qt-toolfile                      # not used online
 Requires: roofit-toolfile
 Requires: root-toolfile
