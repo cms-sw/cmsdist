@@ -140,8 +140,8 @@ HG1111d crab-client3 @slc5_amd64_gcc461
 #DIE#+ HEAD/1.0.0 py2-sqlobject.spec
 
 # Test build for asyncstageout
-HG1111a-gcc434 asyncstageout @slc5_amd64_gcc434
-+ 1.22/0.0.3 asyncstageout.spec
+HG1111d asyncstageout @slc5_amd64_gcc461
++ 1.24/0.0.4 asyncstageout.spec
 + HEAD/2.1.9 zeromq.spec 
 + HEAD/2.1.9 py2-zmq.spec
 
