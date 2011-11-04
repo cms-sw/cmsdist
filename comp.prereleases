@@ -17,9 +17,9 @@
 # 1.258 is 0.9.4
 # 1.259 is 0.9.5
 # 1.261 is 0.9.7
-# 1.268 is 1.0.0.pre7
+# 1.269 is 1.0.0.pre7
 HG1111d das @slc5_amd64_gcc461
-+ 1.268 das.spec
++ 1.269 das.spec
 #+ 1.36 mongo.spec
 
 # FileMover
