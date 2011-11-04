@@ -12,7 +12,6 @@ Requires: py2-sphinx rotatelogs
 %prep
 %setup -T -b 0 -n WMCore
 %setup -D -T -b 1 -n DAS
-
 # remove ipython deps
 rm src/python/DAS/tools/ipy_profile_mongo.py
 
