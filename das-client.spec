@@ -23,16 +23,6 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
     echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
   fi
 done
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="das-client" version="%v">
-    <client>
-      <environment name="DAS_CLIENT_BASE" default="%i"/>
-    </client>
-    <runtime name="PATH" value="$DAS_CLIENT_BASE/bin" type="path"/>
-  </tool>
-EOF_TOOLFILE
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
