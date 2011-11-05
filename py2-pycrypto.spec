@@ -1,22 +1,15 @@
 ### RPM external py2-pycrypto 2.0.1 
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-
 %define downloadn pycrypto
 Requires: python gmp
+## INITENV +PATH PYTHONPATH %i/lib/python%{pythonv}`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
+%define pythonv %(echo $PYTHON_VERSION | cut -d. -f 1,2)
 Source: http://www.amk.ca/files/python/crypto/%downloadn-%realversion.tar.gz 
+Patch: py2-pycrypto-setup
 
 %prep
 %setup -n %downloadn-%realversion
-
-cat >> setup.cfg <<- EOF
-[build_ext]
-include_dirs = $GMP_ROOT/include
-library_dirs = $GMP_ROOT/lib
-EOF
-
+%patch0 -p0
 %build
-python setup.py build
-
 %install
 python setup.py install --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
+perl -p -i -e "s|^#!.*python(.*)|#!/usr/bin/env python$1|" `grep -r -e "^#\!.*python.*" %i | cut -d: -f1`
