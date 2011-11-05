@@ -1,15 +1,15 @@
 ### RPM external p5-compress-zlib 1.34
-## INITENV +PATH PERL5LIB %i/lib/perl5
+## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
+%define perlversion %(perl -e 'printf "%%vd", $^V')
+%define perlarch %(perl -MConfig -e 'print $Config{archname}')
 %define downloadn Compress-Zlib
-Source: http://search.cpan.org/CPAN/authors/id/P/PM/PMQS/%{downloadn}-%{realversion}.tar.gz
-Requires: zlib p5-extutils-makemaker
 
+Requires: zlib
+Source: http://search.cpan.org/CPAN/authors/id/P/PM/PMQS/%{downloadn}-%{v}.tar.gz
 %prep
-%setup -n %downloadn-%realversion
-
+%setup -n %downloadn-%v
 %build
 LC_ALL=C; export LC_ALL
-perl Makefile.PL INSTALL_BASE=%i INCLUDE=$ZLIB_ROOT/include
+perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion INCLUDE=$ZLIB_ROOT/include
 make
-
-%define drop_files %i/man
+#
