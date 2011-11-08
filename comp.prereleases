@@ -18,9 +18,11 @@
 # 1.259 is 0.9.5
 # 1.261 is 0.9.7
 # 1.271 is 0.9.8
-# 1.272 is 1.0.0.pre8
+# 1.273 is 1.0.0.pre9
 HG1111c das @slc5_amd64_gcc461
-+ 1.272 das.spec
++ 1.273 das.spec
++ 1.2 mongo-osx.patch
++ 1.38 mongo.spec
 
 # FileMover
 # 1.30 is 1.0.9
