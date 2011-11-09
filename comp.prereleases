@@ -152,5 +152,5 @@ HG1111d wmagent @slc5_amd64_gcc461
 + HEAD/0.3.0 py2-psutil.spec
 + HEAD/5.1.58 mysql.spec
 + 1.1 couchdb-changes-timeout.patch
-+ HEAD/1.1.0 couchdb.spec
++ 1.53/1.1.0 couchdb.spec
 + HEAD/0.8.14 wmcore.spec wmagent.spec
