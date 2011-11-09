@@ -1,22 +1,16 @@
-### RPM cms wmcore 0.8.0
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
-%define svnversion %realversion
-
-
-Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%svnversion?scheme=svn+ssh&strategy=export&module=WMCore&output=/WMCORE.tar.gz
-Requires: python py2-simplejson py2-sqlalchemy py2-httplib2
+### RPM cms das-client 0.9.7
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+%define svnserver svn://svn.cern.ch/reps/CMSDMWM
+Source0: %svnserver/DAS/tags/%{realversion}/src/python/DAS/tools/?scheme=svn+ssh&strategy=export&module=DAS&output=/das-client.tar.gz
+Requires: python
 
 %prep
-%setup -n WMCore
+%setup -D -T -b 0 -n DAS
 
 %build
-python setup.py build
-
 %install
-python setup.py install --prefix=%i
-egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
-find %i -name '*.egg-info' -exec rm {} \;
-mkdir -p %{i}/workdir
+mkdir -p %{i}/bin
+cp das_client.py %{i}/bin/
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
@@ -32,3 +26,6 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
+
+%files
+%i/bin/das_client.py
