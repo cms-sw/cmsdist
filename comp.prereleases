@@ -146,3 +146,11 @@ HG1111d asyncstageout @slc5_amd64_gcc461
 + HEAD/2.1.9 zeromq.spec 
 + HEAD/2.1.9 py2-zmq.spec
 
+HG1111d wmagent @slc5_amd64_gcc461
++ WMCORE_0_6_12  dls-client.spec wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
++ HEAD/2.1.9 zeromq.spec py2-zmq.spec
++ HEAD/0.3.0 py2-psutil.spec
++ HEAD/5.1.58 mysql.spec
++ 1.1 couchdb-changes-timeout.patch
++ HEAD/1.1.0 couchdb.spec
++ HEAD/0.8.14 wmcore.spec wmagent.spec
