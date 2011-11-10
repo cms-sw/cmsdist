@@ -1,13 +1,13 @@
-### RPM external srmcp 1.9.2_4
+### RPM external srmcp 1.9.2-4
 ## INITENV +PATH PATH %i/bin:%i/sbin
 ## INITENV SET SRM_PATH %i
 
-%define realv %(echo %realversion | tr "_" "-")
-Source: http://www.dcache.org/downloads/1.9/dcache-srmclient-%realv.noarch.rpm
+%define realversion %(echo %v | cut -d- -f1,2)
+Source: http://www.dcache.org/downloads/1.9/dcache-srmclient-%realversion.noarch.rpm
 Requires: java-jdk
 
 %prep
-rpm2cpio %{_sourcedir}/dcache-srmclient-%realv.noarch.rpm | cpio -ivd 
+rpm2cpio %{_sourcedir}/dcache-srmclient-%realversion.noarch.rpm | cpio -ivd 
 
 %build
 
@@ -27,4 +27,4 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
 done
 
 %post
-%{relocateConfig}etc/profile.d/dependencies-setup.*sh
+%{relocateConfig}etc/profile.d/dependencies-setup.*sh                                                                                                     
