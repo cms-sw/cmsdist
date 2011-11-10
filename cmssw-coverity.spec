@@ -30,8 +30,12 @@ cd $CMSSW_VERSION
 eval `%scram run -sh`
 COVERITY_ROOT=/build/coverity/5.5.1/Static-Analysis
 $COVERITY_ROOT/bin/cov-configure --compiler c++ --comptype g++ --config %i/cfg/coverity_configure.xml
-$COVERITY_ROOT/bin/cov-build --config %i/cfg/coverity_configure.xml --dir %i/intermediate-dir scram build -j 8
+$COVERITY_ROOT/bin/cov-build --config %i/cfg/coverity_configure.xml --dir %i/intermediate-dir scram build %makeprocesses
 CHK=`$COVERITY_ROOT/bin/cov-analyze --list-checkers | grep -v 'Available ' | grep -v symbian | grep -v -E '^COM\.' | grep -v -E '^MISRA_CAST ' | grep -v -E '^USER_POINTER '  | grep -v -E '^INTEGER_OVERFLOW ' | grep -v -E '^STACK_USE ' | sed 's, (.*$,,' | sed -e 's/^/-en /g' | xargs echo`
 $COVERITY_ROOT/bin/cov-analyze ${MODELS+--user-model-file $MODELS} --disable-default --dir %i/intermediate-dir -j 8 -en $CHK
-$COVERITY_ROOT/bin/cov-commit-defects --host 127.0.0.1 --dataport 9090 --user admin --password $PASSWD --stream $STREAM --strip-path $PWD/src --strip-path %instroot --dir %i/intermediate-dir 
+echo $COVERITY_ROOT/bin/cov-commit-defects --host 127.0.0.1 --dataport 9090 --user admin --password $PASSWD --stream $STREAM --strip-path $PWD/src --strip-path %instroot --dir %i/intermediate-dir > %i/bin/commit-coverity-defects
+chmod +x %i/bin/commit-coverity-defects
+%i/bin/commit-coverity-defects
 %install
+%post
+%{relocateConfig}bin/commit-coverity-defects
