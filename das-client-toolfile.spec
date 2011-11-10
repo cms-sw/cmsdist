@@ -1,4 +1,4 @@
-### RPM external das-client-toolfile 1.0
+### RPM cms das-client-toolfile 1.0
 Requires: das-client
 %prep
 
