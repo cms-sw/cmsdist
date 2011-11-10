@@ -68,9 +68,10 @@ HG1111c-gcc434 cmsweb @slc5_amd64_gcc434
 #DIE#+ HEAD/0.8.5 reqmgr.spec
 
 # RequestManager
-HG1111a reqmgr @slc5_amd64_gcc461
-+ 1.50 couchdb.spec
-+ HEAD/0.8.11 reqmgr.spec
+HG1111d reqmgr @slc5_amd64_gcc461
++ 1.1 couchdb-changes-timeout.patch
++ 1.53/1.1.0 couchdb.spec
++ HEAD/0.8.14 reqmgr.spec
 
 # RequestMonitor
 HG1111a reqmon @slc5_amd64_gcc461
