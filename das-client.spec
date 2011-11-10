@@ -1,11 +1,16 @@
-### RPM cms wmcore-db-oracle 1
-## INITENV +PATH PYTHONPATH %i/lib
-
-Requires: wmcore py2-cx-oracle 
+### RPM cms das-client 0.9.7
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+%define svnserver svn://svn.cern.ch/reps/CMSDMWM
+Source0: %svnserver/DAS/tags/%{realversion}/src/python/DAS/tools/?scheme=svn+ssh&strategy=export&module=DAS&output=/das-client.tar.gz
+Requires: python
 
 %prep
+%setup -D -T -b 0 -n DAS
+
 %build
 %install
+mkdir -p %{i}/bin
+cp das_client.py %{i}/bin/
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
@@ -22,3 +27,5 @@ done
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
 
+%files
+%i/bin/das_client.py
