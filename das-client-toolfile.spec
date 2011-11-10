@@ -12,13 +12,10 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/das-client.xml
   <client>
     <environment name="DAS_CLIENT_BASE" default="@TOOL_ROOT@"/>
   </client>
-  <runtime name="PATH" value="$DAS_CLIENT_BASE/bin" type="path"/>
+  <runtime name="PATH"       value="$DAS_CLIENT_BASE/bin" type="path"/>
   <runtime name="PYTHONPATH" value="$DAS_CLIENT_BASE/bin" type="path"/>
   <use name="python"/>
 </tool>
 EOF_TOOLFILE
-
-export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
-
 
 ## IMPORT scram-tools-post
