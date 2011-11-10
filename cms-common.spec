@@ -1,23 +1,36 @@
 ### RPM cms cms-common 1.0
-## REVISION 1057
+## REVISION 1100
 ## NOCOMPILER
-%define closingbrace )
-%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
+
+%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
+%if "%{?cmsroot:set}" != "set"
+%define cmsroot       %instroot
+%endif
+
 Source: cmsos
+
 %prep
+#Make sure that we always build cms-common with a different revision and 
+#hardcoded version 1.0 because this is what bootstrap.sh is going to install
+%if "%v" != "1.0"
+  echo "ERROR: Please do not change the version. We have to build this RPM with a different REVISION"
+  echo "       Please update the revision in %n.spec and make sure that version is set to 1.0"
+  exit 1
+%endif
+
 %build
-echo $SCRAM_ROOT
+
 %install
 
-mkdir -p %instroot/common %instroot/bin %instroot/%{cmsplatf}/etc/profile.d
+#Create all files in %i/%{pkgrevision} directory.
+#This can be avoid if we move to --buildroot based builds
+mkdir -p %i/%{pkgrevision}/common
+cd %i/%{pkgrevision}
 
-# Do not create these common files if already exist 
-# This is to avoid different arch creating these files
-if [ ! -f %instroot/common/.cms-common ]; then
-install -m 755 %_sourcedir/cmsos %instroot/common/cmsos
-### Detects the SCRAM_ARCH to be used.
+cp %_sourcedir/cmsos ./common/cmsos
+
 %if "%online" != "true"
-cat << \EOF_CMSARCH_SH >%instroot/common/cmsarch
+cat << \EOF_CMSARCH_SH > ./common/cmsarch
 #!/bin/sh
 osarch=`%instroot/common/cmsos`
 compilerv=gcc434
@@ -30,6 +43,7 @@ then
         osx104_ppc32) compilerv=gcc400;;
         osx105_*) compilerv=gcc401;;
         osx106_*) compilerv=gcc421;;
+        slc6_*) compilerv=gcc461; osarch=slc6_amd64;;
         slc5_*) compilerv=gcc434; osarch=slc5_amd64;;
         slc4_*) compilerv=gcc345; osarch=slc4_ia32;;
         *) compilerv=gcc434; osarch=slc5_ia32;;
@@ -41,7 +55,7 @@ fi
 
 EOF_CMSARCH_SH
 %else
-cat << \EOF_CMSARCH_SH >%instroot/common/cmsarch
+cat << \EOF_CMSARCH_SH > ./common/cmsarch
 #!/bin/sh
 if [ ! "$SCRAM_ARCH" ] ; then
     echo %cmsplatf
@@ -51,11 +65,10 @@ fi
 
 EOF_CMSARCH_SH
 %endif
-chmod 755 %instroot/common/cmsarch
 
 ### BASH code
 
-cat << \EOF_CMSSET_DEFAULT_SH > %instroot/cmsset_default.sh
+cat << \EOF_CMSSET_DEFAULT_SH > ./cmsset_default.sh
 export PATH=%instroot/common:%instroot/bin:$PATH
 
 if [ ! $SCRAM_ARCH ]
@@ -112,7 +125,7 @@ EOF_CMSSET_DEFAULT_SH
 
 ### CSH code
 
-cat << \EOF_CMSSET_DEFAULT_CSH > %instroot/cmsset_default.csh
+cat << \EOF_CMSSET_DEFAULT_CSH > ./cmsset_default.csh
 
 if (${?PATH}) then
     setenv PATH %instroot/common:%instroot/bin:$PATH
@@ -136,8 +149,10 @@ else
     # OSG                       
 endif
 
-if ( ! -e $here/cmsset_default.csh ) then
-    echo "Please cd into the directory where cmsset_default.csh is."
+if ( ! -d $here/${SCRAM_ARCH}/etc/profile.d ) then
+    echo "Your shell is not able to find where cmsset_default.csh is located." 
+    echo "Either you have not set VO_CMS_SW_DIR or OSG_APP correctly"
+    echo "or SCRAM_ARCH is not set to a valid architecture."
 endif
 
 foreach pkg ( `/bin/ls ${here}/${SCRAM_ARCH}/etc/profile.d/ | grep 'S.*[.]csh'` )
@@ -162,7 +177,7 @@ endif
 unset here
 EOF_CMSSET_DEFAULT_CSH
 
-cat << \EOF_COMMON_SCRAM > %instroot/common/scram
+cat << \EOF_COMMON_SCRAM > ./common/scram
 #!/bin/sh
 CMSARCH=`cmsarch`
 srbase=%{instroot}/$CMSARCH
@@ -179,7 +194,11 @@ fi
 if [ "X$sver" = "XV1_0_3-p1" ] && [ "X$CMSARCH" = "Xslc4_ia32_gcc345" ] ; then
   sver=V1_0_3-p2
 fi
-scram_rel_series=`echo $sver | grep '^V[0-9]\+_[0-9]\+_[0-9]\+' | sed 's|^\(V[0-9]\+_[0-9]\+\)_.*|\1|'`
+scram_rel_series=`echo $sver | grep '^V[0-9][0-9]*_[0-9][0-9]*_[0-9][0-9]*' | sed 's|^\(V[0-9][0-9]*_[0-9][0-9]*\)_.*|\1|'`
+case $sver in
+  V[01]_*|V2_[012]_* ) ;;
+  * ) scram_rel_series=`echo $scram_rel_series | sed 's|_.*||'` ;;
+esac
 if [ "X${scram_rel_series}" != "X" ] && [ -f ${srbase}/etc/default-scram/${scram_rel_series} ] ; then
   sver=`cat ${srbase}/etc/default-scram/${scram_rel_series}`
 fi
@@ -206,37 +225,41 @@ fi
 $USE_LINUX32 ${srbase}/${sver}/bin/${scmd} $@
 EOF_COMMON_SCRAM
 
-chmod +x %{instroot}/common/scram
-ln -sf scram %{instroot}/common/scramv1
-ln -sf scram %{instroot}/common/scramv0
-ln -sf ../common/cmsarch %instroot/bin/cmsarch
-ln -sf ../common/cmsarch %instroot/bin/cmsos
-ln -sf ../common/scramv1 %instroot/bin/scramv1
-touch %instroot/common/.cms-common
-fi
-
-touch %instroot/%cmsplatf/etc/profile.d/dummy
+find . -name "*" -type f | xargs chmod +x 
 
 %post
-echo $CMS_INSTALL_PREFIX
-%{relocateCmsFiles} $RPM_INSTALL_PREFIX/cmsset_default.sh
-%{relocateCmsFiles} $RPM_INSTALL_PREFIX/cmsset_default.csh
-%{relocateCmsFiles} $RPM_INSTALL_PREFIX/common/cmsos
-%{relocateCmsFiles} $RPM_INSTALL_PREFIX/common/cmsarch
-%{relocateCmsFiles} $RPM_INSTALL_PREFIX/common/scram
+cd $RPM_INSTALL_PREFIX/%{pkgrel}/%{pkgrevision}
+%{relocateCmsFiles} `find . -name "*" -type f`
+
+mkdir -p $RPM_INSTALL_PREFIX/common $RPM_INSTALL_PREFIX/bin $RPM_INSTALL_PREFIX/etc/%{pkgname}  $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/profile.d
+
+#Check if a newer revision is already installed
+#Also force installation if older revision has deleted cmsset_default.sh
+if [ -f $RPM_INSTALL_PREFIX/cmsset_default.csh ] && [ -f $RPM_INSTALL_PREFIX/etc/%{pkgname}/revision ] ; then
+  oldrev=`cat $RPM_INSTALL_PREFIX/etc/%{pkgname}/revision`
+  if [ $oldrev -ge %{pkgrevision} ] ; then
+    exit 0
+  fi
+fi
+
+for file in `find . -name "*" -type f`; do
+  rm -f $RPM_INSTALL_PREFIX/$file
+  cp $file $RPM_INSTALL_PREFIX/$file
+done
+
+cd $RPM_INSTALL_PREFIX
+rm -f common/scramv1; ln -s scram             common/scramv1
+rm -f common/scramv0; ln -s scram             common/scramv0
+rm -f bin/cmsarch;    ln -s ../common/cmsarch bin/cmsarch
+rm -f bin/cmsos;      ln -s ../common/cmsarch bin/cmsos
+rm -f bin/scramv1;    ln -s ../common/scramv1 bin/scramv1
+echo %{pkgrevision} > etc/%{pkgname}/revision
 
 %files
-%i
-%instroot/cmsset_default.sh
-%instroot/cmsset_default.csh
-%instroot/common/cmsos
-%instroot/common/cmsarch
-%instroot/common/scram
-%instroot/common/scramv1
-%instroot/common/scramv0
-%instroot/common/.cms-common
-%instroot/bin/cmsos
-%instroot/bin/cmsarch
-%instroot/bin/scramv1
-%instroot/%cmsplatf/etc/profile.d
-%exclude %instroot/%cmsplatf/etc/profile.d/*
+%{cmsroot}/%{pkgrel}/etc
+%{cmsroot}/%{pkgrel}/%{pkgrevision}
+%dir %{cmsroot}/
+%dir %{cmsroot}/%{cmsplatf}/
+%dir %{cmsroot}/%{cmsplatf}/%{pkgcategory}/
+%dir %{cmsroot}/%{cmsplatf}/%{pkgcategory}/%{pkgname}/
+%dir %{cmsroot}/%{cmsplatf}/%{pkgcategory}/%{pkgname}/%{pkgversion}/
