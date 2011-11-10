@@ -40,6 +40,14 @@
 %define tempprefix        tmp
 %endif
 
+%if "%{?allpkgreqs:set}" != "set"
+%define allpkgreqs       %{pkgreqs}
+%endif
+
+%if "%{?builddirectpkgreqs:set}" != "set"
+%define builddirectpkgreqs       %{nil}
+%endif
+
 # We define cmsbuildApiVersion to be 0 in the case we are not using 
 # a recent enough version of cmsBuild/install.sh, which does not
 # set cmsbuildApiVersion.
@@ -182,11 +190,11 @@
 # building.  See above how we determine the list by parsing the spec
 # itself.
 %if "%archfirst" == "yes"
-%define initenv_all	for x in %{pkgreqs} .      ; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
-%define initenv_direct	for x in %{directpkgreqs} .; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_all	for x in %{allpkgreqs}                          .; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_direct	for x in %{directpkgreqs} %{builddirectpkgreqs} .; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %else
-%define initenv_all	for x in %{pkgreqs} .      ; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
-%define initenv_direct	for x in %{directpkgreqs} .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_all	for x in %{allpkgreqs}                          .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_direct	for x in %{directpkgreqs} %{builddirectpkgreqs} .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %endif
 %define initenv		%initenv_all
 
