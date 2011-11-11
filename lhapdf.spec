@@ -77,6 +77,11 @@ find . -name Makefile -o -name config.status -exec perl -p -i -e 's|/usr/lib64/l
 make %makeprocesses; make install
 mkdir %i/share/lhapdf/PDFsets
 mv share/lhapdf/PDFsets/*gz %i/share/lhapdf/PDFsets
+pushd %i/share/lhapdf/PDFsets
+  for x in `ls *.gz`; do
+    ln -sf $x `echo $x | sed -e's|\.gz$||'`
+  done
+popd
 
 # do another install-round for full libs
 make distclean
