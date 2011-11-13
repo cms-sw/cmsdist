@@ -47,10 +47,6 @@ Requires: openssl zlib
 Requires: gfortran-macosx
 %endif
 
-%if "%(case %cmsplatf in (osx*) echo true ;; (*) echo false ;; esac)" == "true"
-Requires: freetype
-%endif
-
 %prep
 %setup -n root-%realversion
 %patch0 -p1
