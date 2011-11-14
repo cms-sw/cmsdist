@@ -1,5 +1,12 @@
 ### FILE rpm-preamble
 
+#When build with non-empty buildroot rpm runs some post scripts
+#to strip the binary. Following two definition avoid running those
+#scripts. These scripts were not doing anything in past as we always
+#built with empty buildroot.
+%define __os_install_post   %{nil}
+%define __spec_install_post %{nil}
+
 # Preliminarily define where things go.  These are the places we
 # know even without knowing the architecture yet.  In particular
 # we need %_specdir to find "cmsos" to determine the architecture.
@@ -25,6 +32,22 @@
 %define instroot	/cms
 %endif
 
+%if "%{?cmsroot:set}" != "set"
+%define cmsroot        %instroot
+%endif
+
+%if "%{?tempprefix:set}" != "set"
+%define tempprefix        tmp
+%endif
+
+%if "%{?allpkgreqs:set}" != "set"
+%define allpkgreqs       %{pkgreqs}
+%endif
+
+%if "%{?builddirectpkgreqs:set}" != "set"
+%define builddirectpkgreqs       %{nil}
+%endif
+
 # We define cmsbuildApiVersion to be 0 in the case we are not using 
 # a recent enough version of cmsBuild/install.sh, which does not
 # set cmsbuildApiVersion.
@@ -48,22 +71,22 @@
 
 %define pkginstroot	%{instroot}/%{pkgrel}
 
-#define _rpmdbdir	%{instroot}/RPMDB
-%define _sourcedir	%{instroot}/SOURCES/%{pkgdir}
-%define _builddir	%{instroot}/BUILD/%{cmsplatf}/%{pkgdir}
-%define _specdir	%{instroot}/SPECS/%{pkgdir}
+#define _rpmdbdir	%{cmsroot}/RPMDB
+%define _sourcedir	%{cmsroot}/SOURCES/%{pkgdir}
+%define _builddir	%{cmsroot}/BUILD/%{cmsplatf}/%{pkgdir}
+%define _specdir	%{cmsroot}/SPECS/%{pkgdir}
 # The new cmsBuild script puts packages in a directory structure that
 # includes the package checksum. This way it is possible to decide
 # what spec was used to build a given package.
 %if "%cmsbuildApiVersion" == "0"
-%define _rpmdir     %{instroot}/RPMS
-%define _srcrpmdir  %{instroot}/SRPMS
+%define _rpmdir     %{cmsroot}/RPMS
+%define _srcrpmdir  %{cmsroot}/SRPMS
 %else
-%define _rpmdir     %{instroot}/RPMS/cache/%{specchecksum}
-%define _srcrpmdir  %{instroot}/SRPMS/cache/%{specchecksum}
+%define _rpmdir     %{cmsroot}/RPMS/cache/%{specchecksum}
+%define _srcrpmdir  %{cmsroot}/SRPMS/cache/%{specchecksum}
 %endif
-%define _tmppath	%{instroot}/tmp
-%define _topdir		%{instroot}
+%define _tmppath	%{cmsroot}/%{tempprefix}
+%define _topdir		%{cmsroot}
 
 %define _rpmfilename	%{cmsplatf}/%%{name}-%%{version}-%%{release}.%{cmsplatf}.rpm
 %define _srpmfilename	%%{name}-%%{version}-%%{release}.src.rpm
@@ -167,11 +190,11 @@
 # building.  See above how we determine the list by parsing the spec
 # itself.
 %if "%archfirst" == "yes"
-%define initenv_all	for x in %{pkgreqs} .      ; do i=%{instroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
-%define initenv_direct	for x in %{directpkgreqs} .; do i=%{instroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_all	for x in %{allpkgreqs}                          .; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_direct	for x in %{directpkgreqs} %{builddirectpkgreqs} .; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %else
-%define initenv_all	for x in %{pkgreqs} .      ; do i=%{instroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
-%define initenv_direct	for x in %{directpkgreqs} .; do i=%{instroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_all	for x in %{allpkgreqs}                          .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_direct	for x in %{directpkgreqs} %{builddirectpkgreqs} .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %endif
 %define initenv		%initenv_all
 
@@ -195,3 +218,10 @@
 %define relocateRpmPkg		perl -p -i -e "s|\\Q%{instroot}\\E|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
 %define relocateCmsPkg		perl -p -i -e "s|\\Q%{instroot}\\E|$CMS_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
 %define relocateConfig		%relocateCmsPkg
+
+# On macosx one needs to use the -x option, to avoid excessive stripping.
+%ifos darwin
+%define strip strip -x
+%else
+%define strip strip
+%endif
