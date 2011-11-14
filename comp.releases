@@ -6,6 +6,7 @@ HG1111d cmsweb @slc5_amd64_gcc461
 + 1.170/2.2.4 PHEDEX-datasvc.spec
 + 1.136/4.1.4 PHEDEX-web.spec
 + 1.125/1.1.9 PHEDEX-webapp.spec
++ 1.271/0.9.8 das.spec
 
 # Stagemanager offsite agent
 #DIE#HG1109d stagemanager-agent
