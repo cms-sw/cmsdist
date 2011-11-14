@@ -195,7 +195,7 @@ esac
 
 case %cmsplatf in
    *_gcc4[56789]* )
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++0x -msse3 -ftree-vectorize"
+     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++0x -msse3 -ftree-vectorize -Wno-strict-overflow"
      F77_MMD="-cpp -MMD"
    ;;
 esac
@@ -203,7 +203,7 @@ export F77_MMD
 
 case %cmsplatf in
    *_gcc4[3456789]* )
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Werror=array-bounds -Werror=format-contains-nul -Werror=type-limits -Wno-strict-overflow"
+     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Werror=array-bounds -Werror=format-contains-nul -Werror=type-limits"
    ;;
 esac
 
