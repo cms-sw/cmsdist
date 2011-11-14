@@ -1,9 +1,7 @@
-### RPM cms dbs3-client 3.0.12
+### RPM cms dbs3-client 3.0.13
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 ## INITENV SET DBS3_CLIENT_ROOT %i/
-## INITENV SET DBS_READER_URL https://cmsweb.cern.ch/dbs/prod/global/DBSReader
-## INITENV SET DBS_WRITER_URL https://cmsweb.cern.ch/dbs/prod/global/DBSWriter
 ## INITENV ALIAS dbs python $DBS3_CLIENT_ROOT/bin/dbs.py
 %define webdoc_files %i/doc/
 %define cvstag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
