@@ -19,10 +19,10 @@
 # 1.261 is 0.9.7
 # 1.271 is 0.9.8
 # 1.275 is 1.0.0
-# 1.277 is 1.0.1.pre2
+# 1.278 is 1.0.1
 #HG1111c das @slc5_amd64_gcc461
 HG1112a das @slc5_amd64_gcc461
-+ 1.277 das.spec
++ 1.278 das.spec
 + 1.2 mongo-osx.patch
 + 1.38 mongo.spec
 
