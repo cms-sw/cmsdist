@@ -62,8 +62,12 @@ rm -rf lib/rpmhash.*
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+case %cmsos in
+  osx*)
 %patch9 -p1
 %patch10 -p1
+  ;;
+esac
 %patch11 -p1
 %patch12 -p1
 
@@ -244,3 +248,6 @@ ln -sf rpm %i/bin/rpmquery
 %post
 # do not relocate init.[c]sh as these are done by default from cmsBuild
 perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|g" `grep -I -r %instroot $RPM_INSTALL_PREFIX/%pkgrel | cut -d: -f1 | sort | uniq | grep -v init.csh | grep -v init.sh `
+%files
+%{i}
+%{instroot}/%{cmsplatf}/var/spool/repackage
