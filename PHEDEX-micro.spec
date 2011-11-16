@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-micro PHEDEX_4_0_0
+### RPM cms PHEDEX-micro PHEDEX_3_3_2
 
 ## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request
 ## INITENV +PATH PERL5LIB %i/perl_lib
@@ -24,9 +24,6 @@ Provides: perl(HTML::Entities)
 Provides: perl(DB_File)
 Provides: perl(Date::Manip)
 Provides: perl(XML::LibXML)
-
-# Fake provide of twitter client; needs to be installed manually
-Provides: perl(Net::Twitter::Lite)
 
 %prep
 

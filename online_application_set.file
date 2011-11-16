@@ -759,6 +759,7 @@ RecoTauTag/RecoTau
 RecoTauTag/TauTagTools
 RecoTracker/CkfPattern
 RecoTracker/Configuration
+RecoTracker/ConversionSeedGenerators
 RecoTracker/DeDx
 RecoTracker/DebugTools
 RecoTracker/FinalTrackSelectors
