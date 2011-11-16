@@ -80,8 +80,8 @@ HG1111a reqmon @slc5_amd64_gcc461
 + HEAD/0.0.9.head reqmon.spec
 
 # WorkQueue
-HG1111c workqueue @slc5_amd64_gcc461
-+ HEAD/0.8.13 workqueue.spec
+HG1112a workqueue @slc5_amd64_gcc461
++ HEAD/0.8.15 workqueue.spec
 
 #DIE#HG1107c wmagent
 #DIE#+ WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
