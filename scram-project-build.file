@@ -267,7 +267,7 @@ if [ -e %{srctree}.tar.gz ] ; then
   tar xzf %{srctree}.tar.gz
   rm -fR  %{srctree}.tar.gz
 fi
-%{relocateCmsFiles} `find config -type f`
+find config/toolbox -name "*.xml" -type f | xargs sed -i -e "s|%{cmsroot}|$CMS_INSTALL_PREFIX|g"
 scramver=`cat config/scram_version`
 SCRAMV1_ROOT=$RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver
 if [ -d python ]; then %{relocateCmsFiles} $(find python -maxdepth 1 -type f); fi
