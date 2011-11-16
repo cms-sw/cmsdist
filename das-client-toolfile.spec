@@ -1,9 +1,7 @@
 ### RPM cms das-client-toolfile 1.0
 Requires: das-client
 %prep
-
 %build
-
 %install
 
 mkdir -p %i/etc/scram.d
