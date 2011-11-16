@@ -3,11 +3,10 @@
 %define hfrev %(echo %realversion|tr -d 'r')
 
 Source0: http://ekphappyface.physik.uni-karlsruhe.de/~happyface/hf_svnSnapshot/hfTemplateInstance_svnSnap_%realversion.tar.bz2
-Source1: svn://svn.cern.ch/reps/cmsmon/HappyFace/trunk?scheme=svn+ssh&strategy=export&module=HappyFace&output=/srcmodules.tar.gz
+Source1: svn://svn.cern.ch/reps/cmsfomon/HappyFace/trunk?scheme=svn+ssh&strategy=export&module=HappyFace&output=/srcmodules.tar.gz
 Requires: python py2-sqlobject py2-formencode py2-lxml py2-matplotlib
 
 %prep
-#(cd HappyFace; tar xvzf %_sourcedir/cmst1prodmon.tar.gz)
 %setup -T -b 0 -n hfTemplateInstance
 %setup -T -b 1 -n HappyFace
 
