@@ -4,7 +4,7 @@
 
 
 Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%svnversion?scheme=svn+ssh&strategy=export&module=WMCore&output=/WMCORE.tar.gz
-Requires: python py2-simplejson py2-sqlalchemy py2-httplib2
+Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 py2-pycurl
 
 %prep
 %setup -n WMCore
