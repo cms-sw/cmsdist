@@ -23,7 +23,7 @@ Requires: SCRAMV1
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V03-42-01
+%define configtag       V04-00-08
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -42,8 +42,12 @@ Requires: SCRAMV1
 %define cvstag		%realversion
 %endif
 
-%if "%{buildarch:set}" != "set"
+%if "%{?buildarch:set}" != "set"
 %define buildarch	:
+%endif
+
+%if "%{?cmsroot:set}" != "set"
+%define cmsroot       %instroot
 %endif
 
 %if "%{?ucprojtype:set}" != "set"
@@ -228,7 +232,6 @@ cd %i
 
 %scramcmd install -f
 (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/%{srctree}; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.pl --arch %cmsplatf) || true
-ls -al external/%cmsplatf/lib/
 
 %{?PartialReleasePackageList:%PartialReleasePackageList}
 %{?PatchReleaseSourceSymlinks:%PatchReleaseSourceSymlinks}
@@ -242,6 +245,21 @@ rm -fR %{srctree} tmp
 tar czf debug.tar.gz --files-from %_builddir/files.debug --no-recursion --remove-files
 %endif
 
+######################################################
+#Do the symlink relocation as a last step in %install
+for L in `find external/%cmsplatf -type l`; do
+  lnk=`readlink -n $L 2>&1`
+  case $lnk in
+     %{cmsroot}/%{cmsplatf}/*)
+       rl=`echo $L | sed -e 's|[^/]*/|../|g;' | xargs dirname`
+       al=`echo $lnk | sed -e "s|^%{cmsroot}/%{cmsplatf}/|../../../$rl/|"`
+       rm -f $L
+       ln -sf  $al $L
+       ;;
+   esac
+done
+find external/%cmsplatf -type l | xargs ls -l
+
 %post
 export SCRAM_ARCH=%cmsplatf
 cd $RPM_INSTALL_PREFIX/%pkgrel
@@ -249,15 +267,17 @@ if [ -e %{srctree}.tar.gz ] ; then
   tar xzf %{srctree}.tar.gz
   rm -fR  %{srctree}.tar.gz
 fi
-%{relocateCmsFiles} `find config -type f`
 scramver=`cat config/scram_version`
 SCRAMV1_ROOT=$RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver
-if [ -d python ]; then %{relocateCmsFiles} $(find python -maxdepth 1 -type f); fi
+if [ -d python ]; then
+  for f in `find python -maxdepth 1 -type f` ; do
+    sed -i -e 's|%{instroot}|$CMS_INSTALL_PREFIX|g' $f
+    sed -i -e 's|%{cmsroot}|$CMS_INSTALL_PREFIX|g' $f
+  done
+fi
 (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename.pl %{instroot} $CMS_INSTALL_PREFIX  %cmsplatf )
+(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename.pl %{cmsroot} $CMS_INSTALL_PREFIX  %cmsplatf )
 %{?buildarch:%buildarch}
-for L in `find external/%cmsplatf -type l`; do
-   mv $L $L-old.$$; ln -s `readlink -n $L-old.$$ 2>&1 | sed -e "s|%{instroot}|$CMS_INSTALL_PREFIX|g" ` $L ; rm $L-old.$$;
-done
 if [ -f lib/${SCRAM_ARCH}/.edmplugincache ] ; then
   find lib/${SCRAM_ARCH} -name "*.edmplugin" -type f -exec touch {} \;
   touch lib/${SCRAM_ARCH}/.edmplugincache
@@ -266,6 +286,7 @@ fi
 
 %{?PatchReleaseFilesRelocate:%PatchReleaseFilesRelocate}
 %{?PartialReleaseFilesRelocate:%PartialReleaseFilesRelocate}
+[ -f $RPM_INSTALL_PREFIX/etc/scramrc/%{pkgname}.map ] || (mkdir -p $RPM_INSTALL_PREFIX/etc/scramrc && echo '%{ucprojtype}=$SCRAM_ARCH/%{pkgcategory}/%{pkgname}/%{ucprojtype}_*' > $RPM_INSTALL_PREFIX/etc/scramrc/%{pkgname}.map)
 
 %postun
 if [ -e $RPM_INSTALL_PREFIX/%pkgrel ] ; then

@@ -7,8 +7,8 @@ Patch1: lhapdf-5.8.5-gzio
 Patch2: lhapdf-data-5.8.5-gzio
 
 Requires: zlib
-
-%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
+%define keep_archives true
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif
   
@@ -77,6 +77,11 @@ find . -name Makefile -o -name config.status -exec perl -p -i -e 's|/usr/lib64/l
 make %makeprocesses; make install
 mkdir %i/share/lhapdf/PDFsets
 mv share/lhapdf/PDFsets/*gz %i/share/lhapdf/PDFsets
+pushd %i/share/lhapdf/PDFsets
+  for x in `ls *.gz`; do
+    ln -sf $x `echo $x | sed -e's|\.gz$||'`
+  done
+popd
 
 # do another install-round for full libs
 make distclean
@@ -89,4 +94,3 @@ perl -p -i -e 's|examples||;s|tests||' Makefile
 find . -name Makefile -o -name config.status -exec perl -p -i -e 's|/usr/lib64/lib[cm].a||g' {} \;
 make %makeprocesses; make install
 rm -rf %{i}/lib/*.la
-
