@@ -159,5 +159,5 @@ HG1111d wmagent @slc5_amd64_gcc461
 
 HG1111d happyface @slc5_amd64_gcc461
 + 1.11/1.0.0 py2-sqlobject.spec
-+ 1.1/r656 happyface.spec
++ 1.2/r656 happyface.spec
 
