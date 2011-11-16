@@ -61,3 +61,6 @@ HG1111c asyncstageout @slc5_amd64_gcc461
 HG1109b PHEDEX-combined-agents @slc5_amd64_gcc434
 + forPHEDEX401a PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
 
+HG1111d happyface @slc5_amd64_gcc461
++ 1.11/1.0.0 py2-sqlobject.spec
++ 1.2/r656 happyface.spec
