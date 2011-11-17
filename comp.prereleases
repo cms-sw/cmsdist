@@ -50,8 +50,11 @@ HG1111c filemover @slc5_amd64_gcc461
 
 # Cms Webtools services
 HG1111c cmsweb @slc6_amd64_gcc461
-HG1112a cmsweb @slc5_amd64_gcc461
+
+HG1111e cmsweb @slc5_amd64_gcc461
+
 HG1111c cmsweb @osx106_amd64_gcc461
+
 HG1111c-gcc434 cmsweb @slc5_amd64_gcc434
 
 # Stagemanager offsite agent
