@@ -16,8 +16,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cascade.xml
     <environment name="CASCADE_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$CASCADE_BASE/lib"/>
     <environment name="INCLUDE" default="$CASCADE_BASE/include"/>
+    <environment name="PDFPATH" default="$CASCADE_BASE/share"/>
   </client>
-  <runtime name="CASCADE_PDFPATH" value="$CASCADE_BASE/share" type="path/"/>
   <use name="f77compiler"/>
 </tool>
 EOF_TOOLFILE
