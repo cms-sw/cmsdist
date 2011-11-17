@@ -65,4 +65,4 @@ do
 done
 
 %post
-find $RPM_INSTALL_PREFIX/%pkgrel/tools -name "*.xml" -type f | xargs sed -i -e "s|%{cmsroot}|$CMS_INSTALL_PREFIX|g"
+%{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/tools -type f)
