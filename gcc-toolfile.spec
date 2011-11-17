@@ -1,6 +1,6 @@
 ### RPM cms gcc-toolfile 11.0
 
-# gcc has a separate spec file for the generating a
+# gcc has a separate spec file for the generating a 
 # toolfile because gcc.spec could be not build because of the 
 # "--use-system-compiler" option.
 
