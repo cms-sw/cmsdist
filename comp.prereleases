@@ -80,7 +80,7 @@ HG1111d reqmgr @slc5_amd64_gcc461
 
 # RequestMonitor
 HG1111a reqmon @slc5_amd64_gcc461
-+ HEAD/0.0.9.head reqmon.spec
++ HEAD/0.8.15 reqmon.spec
 
 # WorkQueue
 HG1112a workqueue @slc5_amd64_gcc461
