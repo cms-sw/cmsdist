@@ -16,10 +16,6 @@ Requires: clhep-toolfile
 Requires: coral-toolfile
 Requires: cppunit-toolfile
 Requires: curl-toolfile
-# Use our own freetype only on macosx.
-%if "%(case %cmsplatf in (osx*) echo true ;; (*) echo false ;; esac)" == "true"
-Requires: freetype-toolfile
-%endif
 Requires: das-client-toolfile
 Requires: db4-toolfile
 Requires: dbs-client-toolfile
