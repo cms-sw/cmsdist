@@ -81,7 +81,7 @@ Requires: dcap-toolfile
 #Requires: xdaq-toolfile                    # from XDAQ (daq-xdaq)
 #Requires: tkonlinesw-toolfile              # not used online
 Requires: frontier_client-toolfile
-Requires: xrootd-toolfile
+#Requires: xrootd-toolfile                  # not used online
 #Requires: pyqt-toolfile                    # not used online
 #Requires: sip-toolfile                     # not used online
 #Requires: graphviz-toolfile                # not used online
@@ -92,7 +92,7 @@ Requires: cmsswdata-toolfile
 #Requires: rivet-toolfile                   # not used online
 #Requires: cascade-toolfile                 # not used online
 Requires: fftw3-toolfile
-Requires: fftjet-toolfile
+#Requires: fftjet-toolfile                  # not used online
 Requires: gdb-toolfile
 #Requires: google-perftools-toolfile        # not used online
 Requires: igprof-toolfile
