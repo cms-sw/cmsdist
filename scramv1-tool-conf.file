@@ -60,8 +60,8 @@ done
 
 for tool in `find %i/tools/selected -name "*.xml" -type f`
 do
-    toolname=`basename $tool`
-    echo %skipreqtools | tr ' ' '\n' | grep "^$toolname\$" 2>&1 >/dev/null && mv $tool.xml %i/tools/available
+    toolname=`basename $tool .xml`
+    echo %skipreqtools | tr ' ' '\n' | grep "^$toolname\$" 2>&1 >/dev/null && mv $tool %i/tools/available
 done
 
 %post
