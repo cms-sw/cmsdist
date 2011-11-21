@@ -146,9 +146,8 @@ HG1112a dbs3-client @slc5_amd64_gcc461
 #HG1111a-gcc434 crab-server3 @slc5_amd64_gcc434
 #+ 1.16/3.0.4 crab-server3.spec
 
-HG1111d crab-server3 @slc5_amd64_gcc461
-+ 1.21/3.0.5 crab-server3.spec
-+ 1.2 crabserver3-setup.patch
+HG1112a crab-server3 @slc5_amd64_gcc461
++ 1.22/3.0.6 crab-server3.spec
 
 HG1111d crab-client3 @slc5_amd64_gcc461
 + 1.2/3.0.4b crab-client3.spec
