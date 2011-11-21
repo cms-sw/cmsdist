@@ -108,9 +108,9 @@ HG1109b PHEDEX-combined-agents @slc5_amd64_gcc434
 #DIE#+ 1.111 PHEDEX-web.spec
 #DIE#+ 1.101 PHEDEX-webapp.spec
 HG1112a PHEDEX-combined-web @slc5_amd64_gcc461
-+ HEAD/1.174 PHEDEX-datasvc.spec
-+ HEAD/1.140 PHEDEX-web.spec
-+ HEAD/1.131 PHEDEX-webapp.spec
++ 1.174 PHEDEX-datasvc.spec
++ 1.140 PHEDEX-web.spec
++ 1.131 PHEDEX-webapp.spec
 
 # DBS-2
 #DIE#HG1107c dbs-server
