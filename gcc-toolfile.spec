@@ -1,6 +1,6 @@
 ### RPM cms gcc-toolfile 11.0
 
-# gcc has a separate spec file for the generating a
+# gcc has a separate spec file for the generating a 
 # toolfile because gcc.spec could be not build because of the 
 # "--use-system-compiler" option.
 
@@ -195,7 +195,7 @@ esac
 
 case %cmsplatf in
    *_gcc4[56789]* )
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++0x -msse3 -ftree-vectorize"
+     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++0x -msse3 -ftree-vectorize -Wno-strict-overflow"
      F77_MMD="-cpp -MMD"
    ;;
 esac
