@@ -3,11 +3,11 @@
 %define svnversion %realversion
 
 
-Source: svn://svn.cern.ch/reps/CMSIntBld/tags/CmsProjectBuilder/V00-00-01
+Source: svn://svn.cern.ch/reps/CMSIntBld/tags/%svnversion?scheme=svn+ssh&strategy=export&module=CmsProjectBuilder&output=/CmsProjectBuilder.tar.gz
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2
 
 %prep
-%setup
+%setup -n CmsProjectBuilder
 
 %build
 python setup.py build
