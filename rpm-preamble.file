@@ -112,6 +112,8 @@
 %define cmscompiler	gcc
 %endif
 
+#set cmscompilerv only if not already set by cmsBuild
+%if "%{?cmscompilerv:set}" != "set"
 # Guess compiler version.  "gccver" is defined by install.sh when
 # producing the spec file from the version of the gcc spec.
 %if "%cmscompiler" == "gcc"
@@ -125,6 +127,7 @@
 %if "%cmscompiler" != "gcc"
 %{expand:%%define cmscompilerv %(echo %compilerRealVersion | cut -d. -f1,2 | tr -d .)}
 %endif
+%endif
 
 # Define compiler platform version strings.  We use an external
 # script to determine platform name as RPM doesn't support multi-
@@ -132,6 +135,8 @@
 %define debugsuffix %{?debug_build:_dbg}
 %define cmscomp	    	%{cmscompiler}%{cmscompilerv}
 
+#set cmsos only if cmsBuild does not set it
+%if "%{?cmsos:set}" != "set"
 # Old versions of cmsBuild/install.sh used to keep cmsos script in
 # _specdir rather than in _sourcedir. This makes sure that
 # rpm-preamble works for boths.
@@ -139,6 +144,7 @@
 %{expand:%%define cmsos %(sh %_specdir/cmsos)}
 %else
 %{expand:%%define cmsos	%(sh %_sourcedir/cmsos)}
+%endif
 %endif
 
 %define cmsplatf    	%{cmsos}_%{cmscomp}%{debugsuffix}
