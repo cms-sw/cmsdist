@@ -12,7 +12,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/coral.xml
   <client>
     <environment name="CORAL_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$CORAL_BASE/$SCRAM_ARCH/lib"/>
-    <environment name="INCLUDE" default="$CORAL_BASE/include"/>
+    <environment name="INCLUDE" default="$CORAL_BASE/include/LCG"/>
   </client>
   <runtime name="PYTHONPATH" default="$CORAL_BASE/$SCRAM_ARCH/python" type="path"/>
   <runtime name="PYTHONPATH" default="$CORAL_BASE/$SCRAM_ARCH/lib" type="path"/>

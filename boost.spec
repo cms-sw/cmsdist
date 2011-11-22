@@ -10,6 +10,8 @@ Requires: zlib
 
 %prep
 %setup -n %{n}%{boostver}
+perl -p -i -e 's/-no-cpp-precomp//' tools/build/v2/tools/darwin.jam \
+                                    tools/build/v2/tools/darwin.py
 
 %build
 case %cmsos in 
