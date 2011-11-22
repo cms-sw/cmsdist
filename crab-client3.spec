@@ -1,6 +1,6 @@
-### RPM cms crab-client3 3.0.4b
+### RPM cms crab-client3 3.0.6
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-%define wmcver 0.8.11a
+%define wmcver 0.8.17
 %define webdoc_files %i/doc/
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_crabclient3.tar.gz

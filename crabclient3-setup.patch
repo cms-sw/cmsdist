@@ -1,11 +1,11 @@
 --- setup_dependencies.py
 +++ setup_dependencies.py
-@@ -94,6 +94,11 @@ dependencies = {
-                         'packages': ['WMCore.Services+'],
-                         'systems': ['wmagent', 'reqmgr']
+@@ -97,6 +97,11 @@ dependencies = {
+                                      'WMCore.RequestManager+'],
+                         'systems': ['wmc-web']
                          },
 +                'crabclient':{
-+                        'packages': ['WMCore.Credential'],
++                        'packages': ['WMCore.Wrappers+', 'WMCore.Credential', 'PSetTweaks'],
 +                        'systems': ['wmc-base'],
 +                        'modules': ['WMCore.FwkJobReport.FileInfo', 'WMCore.Services.Requests']
 +                        },
