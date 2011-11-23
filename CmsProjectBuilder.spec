@@ -4,6 +4,7 @@
 
 Source: svn://svn.cern.ch/reps/CMSIntBld/tags/CmsProjectBuilder/%svnversion?scheme=svn+ssh&strategy=export&module=CmsProjectBuilder&output=/CmsProjectBuilder.tar.gz
 
+
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2
 
 %prep
