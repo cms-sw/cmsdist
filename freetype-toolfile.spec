@@ -7,7 +7,7 @@ Requires: freetype
 %install
 
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/curl.xml
+cat << \EOF_TOOLFILE >%i/etc/scram.d/freetype.xml
 <tool name="freetype" version="@TOOL_VERSION@">
   <lib name="freetype-cms"/>
   <client>
