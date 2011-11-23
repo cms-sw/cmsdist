@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1100
+## REVISION 1101
 ## NOCOMPILER
 
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
@@ -254,12 +254,3 @@ rm -f bin/cmsarch;    ln -s ../common/cmsarch bin/cmsarch
 rm -f bin/cmsos;      ln -s ../common/cmsarch bin/cmsos
 rm -f bin/scramv1;    ln -s ../common/scramv1 bin/scramv1
 echo %{pkgrevision} > etc/%{pkgname}/revision
-
-%files
-%{cmsroot}/%{pkgrel}/etc
-%{cmsroot}/%{pkgrel}/%{pkgrevision}
-%dir %{cmsroot}/
-%dir %{cmsroot}/%{cmsplatf}/
-%dir %{cmsroot}/%{cmsplatf}/%{pkgcategory}/
-%dir %{cmsroot}/%{cmsplatf}/%{pkgcategory}/%{pkgname}/
-%dir %{cmsroot}/%{cmsplatf}/%{pkgcategory}/%{pkgname}/%{pkgversion}/
