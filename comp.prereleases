@@ -150,7 +150,7 @@ HG1112a crab-client3 @slc5_amd64_gcc461
 
 # Test build for asyncstageout
 HG1112a asyncstageout @slc5_amd64_gcc461
-+ 1.25/0.0.5 asyncstageout.spec
++ 1.26/0.0.5 asyncstageout.spec
 + HEAD/2.1.9 zeromq.spec 
 + HEAD/2.1.9 py2-zmq.spec
 
