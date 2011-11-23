@@ -19,6 +19,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roofitcore.xml
     <environment name="INCLUDE" default="$ROOFIT_BASE/include"/>
   </client>
   <runtime name="ROOFITSYS" value="$ROOFIT_BASE/"/>
+  <runtime name="PATH"      value="$ROOFIT_BASE/bin" type="path"/>
   <use name="rootcore"/>
   <use name="roothistmatrix"/>
   <use name="rootgpad"/>
