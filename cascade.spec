@@ -1,8 +1,7 @@
-### RPM external cascade 2.2.04
+### RPM external cascade 2.2.0
 
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Patch0: cascade-2.2.0-nomanual
-Patch1: cascade-2.2.04-getenv
 Requires: lhapdf pythia6
 
 %define keep_archives true
@@ -11,13 +10,12 @@ Requires: lhapdf pythia6
 
 %setup -q -n %{n}/%{realversion}
 %patch0 -p2
-%patch1 -p2
 
 # Notice that cascade expects a flat pythia installation,
 # where libraries and headers are all in the same place.
 # Since the source code is not actually needed, we point
 # it to the library location so that it links correctly.
-PYTHIA="$PYTHIA6_ROOT"
+PYTHIA="$PYTHIA6_ROOT/lib"
 LHAPDF="$LHAPDF_ROOT"
 case %cmsplatf in 
   slc5_*_gcc4[0123]*)
@@ -30,7 +28,7 @@ case %cmsplatf in
     LIBS='-lstdc++ -lz'
   ;;
 esac
-./configure $PLATF_CONFIG_OPTS --with-pythia6=$PYTHIA  --with-lhapdf=$LHAPDF --prefix=%i F77="$F77" LIBS="$LIBS" 
+PYTHIA=$PYTHIA LHAPDF=$LHAPDF ./configure $PLATF_CONFIG_OPTS --with-hepevt=4000 --prefix=%i F77="$F77" LIBS="$LIBS" 
 %build
 make %makeprocesses
 
