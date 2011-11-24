@@ -1,6 +1,7 @@
-### RPM cms cmssw-dqm-reference CMSSW_5_0_0_pre5
+### RPM cms cmssw-dqm-reference CMSSW_5_0_0_pre6
 ## NOCOMPILER
 BuildRequires: cmssw
+BuildRequires: local-cern-siteconf
 Source: none
 %define initenv %initenv_direct
 
@@ -13,7 +14,8 @@ if [ "$cmssw_ver" != "%{realversion}" ] ; then
   exit 1
 fi
 
-PATH=%{cmsroot}/common:$PATH
+source %{cmsroot}/cmsset_default.sh
+CMS_PATH=$LOCAL_CERN_SITECONF_ROOT; export CMS_PATH
 cd $CMSSW_ROOT
 eval `scram run -sh`
 
@@ -28,8 +30,8 @@ runTheMatrix.py -j 8 -l $relvals
 mkdir %i/data
 for dir in `find  %{_builddir}/pyRelval -name "*+HARVEST*" -maxdepth 1 -mindepth 1 -type d` ; do
   dname=`basename $dir`
-  mkdir -p %i/data/$dname/
   for file in `find $dir -name "DQM_V*.root" -type f`; do
+    [ -d %i/data/$dname ] || mkdir %i/data/$dname
     cp $file %i/data/$dname
   done
 done
