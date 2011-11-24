@@ -14,10 +14,10 @@ Requires: python py2-simplejson py2-sqlalchemy py2-httplib2
 %setup -n CmsProjectBuilder
 
 %build
-python setup.py build
+python setup2.py build
 
 %install
-python setup.py install --prefix=%i
+python setup2.py install --prefix=%i
 egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
 mkdir -p %{i}/workdir
