@@ -168,4 +168,4 @@ HG1111d happyface @slc5_amd64_gcc461
 + 1.2/r656 happyface.spec
 
 HG1112a CmsProjectBuilder @slc5_amd64_gcc461
-+ HEAD/V00-00-01 CmsProjectBuilder.spec
++ 1.9 CmsProjectBuilder.spec
