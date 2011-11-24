@@ -1,2 +1,2 @@
-### RPM cms data-Geometry-CMSCommonData V01-07-08
+### RPM cms data-Geometry-CMSCommonData V01-08-04
 ## IMPORT cmssw-xmldata-build
