@@ -53,7 +53,7 @@ HG1111c cmsweb @slc6_amd64_gcc461
 
 HG1112b cmsweb @slc5_amd64_gcc461
 
-HG1112a cmsweb @osx106_amd64_gcc461
+HG1112b cmsweb @osx106_amd64_gcc461
 
 HG1111c-gcc434 cmsweb @slc5_amd64_gcc434
 
