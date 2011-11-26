@@ -215,7 +215,7 @@ gzip -f %i/etc/dependencies/*.out
 
 rm -f %i/lib/%cmsplatf/.edmplugincache
 eval `%scramcmd run -sh`
-for cmd in EdmPluginRefresh ; do
+for cmd in edmPluginRefresh ; do
   cmdpath=`which $cmd 2> /dev/null || echo ""`
   if [ "X$cmdpath" != X ] ; then
     $cmd || true
