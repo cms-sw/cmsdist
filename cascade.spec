@@ -3,15 +3,19 @@
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 Patch0: cascade-2.2.0-nomanual
 Patch1: cascade-2.2.04-getenv
+# Drop dcasrn symbol, which we need to redifine in CMSSW. Do not build cascade
+# executable, since it would use the wrong symbol in anycase.
+Patch2: cascade-2.2.04-drop-dcasrn
 Requires: lhapdf pythia6
 
 %define keep_archives true
 
 %prep
-
+rm -rf %{n}
 %setup -q -n %{n}/%{realversion}
 %patch0 -p2
 %patch1 -p2
+%patch2 -p1
 
 # Notice that cascade expects a flat pythia installation,
 # where libraries and headers are all in the same place.
@@ -36,3 +40,15 @@ make %makeprocesses
 
 %install
 make install
+# In case we build archive libraries we need to merge all of them, because
+# otherwise that results some missing symbol due to a circular dependency among
+# them which cannot be solved by reshuffling the various -l statements.
+case %cmsplatf in
+    slc5_*_gcc4[0123]*) ;;
+    *)
+      cd %i/lib
+      find . -name "*.a" -exec ar -x {} \;
+      ar rcs libcascade_merged.a *.o
+      rm -rf *.o
+    ;;
+esac
