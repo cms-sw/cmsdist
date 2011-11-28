@@ -32,8 +32,9 @@ HG1112a das @slc5_amd64_gcc461
 # 1.34 is 1.0.11
 # 1.35 is 1.0.11.phedex_test
 # 1.37 is 1.1.0
+# 1.38 is 1.1.1
 HG1111c filemover @slc5_amd64_gcc461
-+ 1.37 filemover.spec
++ 1.38 filemover.spec
 
 # T0PromptSkim
 #HG1105a T0PromptSkim
