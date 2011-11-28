@@ -7,6 +7,7 @@ Source: none
 %define closingbrace )
 %define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
+Requires: data-DetectorDescription-Schema
 Requires: data-MagneticField-Interpolation
 Requires: data-Geometry-CMSCommonData
 Requires: data-Geometry-CSCGeometryBuilder
