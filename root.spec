@@ -23,12 +23,7 @@ Patch3: root-5.28-00d-linker-gnu-hash-style
 #Patch12: root-5.28-00d-r39759
 #Patch13: root-5.28-00d-fix-tsystem-load-macosx
 Patch14: root-5.30.02-detect-arch
-#Patch15: root-5.30.02-fix-isnan
-Patch16: root-5.30.02-fix-gcc46
-Patch17: root-5.30.02-r41453
-Patch18: root-5.30.02-r41523
-Patch19: root-5.30.02-fix-isnan-again
-Patch20: root-5.30.02-r41402
+Patch15: root-5.30.02-fix-isnan
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -45,10 +40,6 @@ Requires: openssl zlib
 %define keep_archives true
 %if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
-%endif
-
-%if "%(case %cmsplatf in (osx*) echo true ;; (*) echo false ;; esac)" == "true"
-Requires: freetype
 %endif
 
 %prep
@@ -69,12 +60,7 @@ Requires: freetype
 # patch12 -p2
 # patch13 -p1
 %patch14 -p0
-# patch15 -p1
-%patch16 -p1
-%patch17 -p1
-%patch18 -p2
-%patch19 -p1
-%patch20 -p2
+%patch15 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
@@ -147,7 +133,8 @@ case %cmsos in
       macconfig=macosx64
       ;; 
     esac
-    ./configure $arch $CONFIG_ARGS --disable-rfio --disable-builtin_afterimage ;;
+    export CC=`which gcc` CXX=`which g++`
+    ./configure $arch $CONFIG_ARGS --with-cc="$CC" --with-cxx="$CXX" --disable-rfio --disable-builtin_afterimage ;;
   slc*_ppc64*)
     ./configure linux $CONFIG_ARGS --disable-rfio;;
 esac
