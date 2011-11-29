@@ -105,7 +105,7 @@ HG1109b PHEDEX-combined-agents @slc5_amd64_gcc434
 
 # PHEDEX web
 HG1112a PHEDEX-combined-web @slc5_amd64_gcc461
-+ 1.178 PHEDEX-datasvc.spec
++ 1.179 PHEDEX-datasvc.spec
 + 1.143 PHEDEX-web.spec
 + 1.137 PHEDEX-webapp.spec
 
