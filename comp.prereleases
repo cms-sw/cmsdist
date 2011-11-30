@@ -56,13 +56,13 @@ HG1112b cmsweb @slc5_amd64_gcc461
 + 1.38/1.1.1 filemover.spec
 + 1.179/2.2.8 PHEDEX-datasvc.spec
 + 1.137/1.3.3 PHEDEX-webapp.spec
-+ 1.144/4.1.8 PHEDEX-web.spec
++ 1.145/4.1.9 PHEDEX-web.spec
 
 HG1112b cmsweb @osx106_amd64_gcc461
 + 1.38/1.1.1 filemover.spec
 + 1.179/2.2.8 PHEDEX-datasvc.spec
 + 1.137/1.3.3 PHEDEX-webapp.spec
-+ 1.144/4.1.8 PHEDEX-web.spec
++ 1.145/4.1.9 PHEDEX-web.spec
 
 HG1111c-gcc434 cmsweb @slc5_amd64_gcc434
 
