@@ -16,6 +16,11 @@ Requires: clhep-toolfile
 Requires: coral-toolfile
 Requires: cppunit-toolfile
 Requires: curl-toolfile
+# Use our own freetype only on macosx.
+%if "%(case %cmsplatf in (osx*) echo true ;; (*) echo false ;; esac)" == "true"
+Requires: freetype-toolfile
+%endif
+Requires: das-client-toolfile
 Requires: db4-toolfile
 Requires: dbs-client-toolfile
 Requires: dpm-toolfile
@@ -50,7 +55,6 @@ Requires: mcdb-toolfile
 Requires: meschach-toolfile
 Requires: millepede-toolfile
 Requires: mimetic-toolfile
-Requires: openldap-toolfile
 Requires: openssl-toolfile
 Requires: oracle-env
 Requires: oracle-toolfile
@@ -58,7 +62,6 @@ Requires: pcre-toolfile
 Requires: photos-toolfile
 Requires: pythia6-toolfile
 Requires: pythia8-toolfile
-Requires: python-ldap-toolfile
 Requires: python-toolfile
 Requires: py2-cx-oracle-toolfile
 Requires: qt-toolfile
@@ -88,6 +91,9 @@ Requires: py2-matplotlib-toolfile
 Requires: py2-numpy-toolfile
 Requires: py2-scipy-toolfile
 Requires: cmsswdata-toolfile
+Requires: py2-cjson-toolfile
+Requires: py2-pycurl-toolfile
+
 Requires: rivet-toolfile
 Requires: cascade-toolfile
 Requires: fftw3-toolfile
