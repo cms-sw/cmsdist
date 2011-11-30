@@ -7,7 +7,7 @@ Index: src/couchdb/couch_rep_changes_feed.erl
      {ibrowse_async_headers, ReqId, Code, _} ->
          {stop, {changes_error_code, list_to_integer(Code)}}
 -    after 10000 ->
-+    after 300000 ->
++    after 30000 ->
          {stop, changes_timeout}
      end;
  
