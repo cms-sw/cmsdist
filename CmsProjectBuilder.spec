@@ -1,4 +1,4 @@
-### RPM cms CmsProjectBuilder 1.39
+### RPM cms CmsProjectBuilder 1.40
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 %define svnversion %realversion
 
@@ -11,10 +11,11 @@ Requires: python py2-simplejson py2-sqlalchemy py2-httplib2
 %setup -n CmsProjectBuilder
 
 %build
-python setup2.py build_system -s CmsProjectBuilder
+python setup2.py build 
 
 %install
-python setup2.py install_system -s CmsProjectBuilder --prefix=%i
+python setup2.py install --prefix=%i
+python setup2.py install_data --install-dir=%i
 egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
 mkdir -p %{i}/workdir
