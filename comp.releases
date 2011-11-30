@@ -40,9 +40,9 @@ HG1112a wmagent @osx106_amd64_gcc461
 HG1112a crab-server3 @slc5_amd64_gcc461
 + 1.23/3.0.6a crab-server3.spec
 
-#HG1112a crab-client3 @slc5_amd64_gcc461
-#+ 1.3/3.0.6 crab-client3.spec
-#+ 1.2 crabclient3-setup.patch
+HG1112a crab-client3 @slc5_amd64_gcc461
++ 1.4/3.0.6a crab-client3.spec
++ 1.2 crabclient3-setup.patch
 
 HG1112a asyncstageout @slc5_amd64_gcc461
 + 1.27/0.0.5a asyncstageout.spec
