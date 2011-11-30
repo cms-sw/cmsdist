@@ -44,10 +44,10 @@ HG1112a crab-server3 @slc5_amd64_gcc461
 #+ 1.3/3.0.6 crab-client3.spec
 #+ 1.2 crabclient3-setup.patch
 
-#HG1112a asyncstageout @slc5_amd64_gcc461
-#+ 1.26/0.0.5 asyncstageout.spec
-#+ HEAD/2.1.9 zeromq.spec
-#+ HEAD/2.1.9 py2-zmq.spec
+HG1112a asyncstageout @slc5_amd64_gcc461
++ 1.27/0.0.5a asyncstageout.spec
++ HEAD/2.1.9 zeromq.spec
++ HEAD/2.1.9 py2-zmq.spec
 
 # PHEDEX agents
 HG1109b PHEDEX-combined-agents @slc5_amd64_gcc434
