@@ -1,4 +1,4 @@
-### RPM cms CmsProjectBuilder 1.43
+### RPM cms CmsProjectBuilder 1.44
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 %define svnversion %realversion
 
@@ -15,7 +15,6 @@ python setup2.py build
 
 %install
 python setup2.py install --prefix=%i
-python setup2.py install_data --install-dir=%i
 egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
 mkdir -p %{i}/workdir
