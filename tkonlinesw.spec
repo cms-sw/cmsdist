@@ -104,17 +104,12 @@ export XDAQ_ROOT
 # Configure
 ################################################################################
 case %cmsos in
-  slc*_amd64)
+  slc*)
     chmod +x ./configure && ./configure --with-xdaq-platform=x86_64
     cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure --with-xdaq-platform=x86_64 && cd -
     cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure --with-xdaq-platform=x86_64 && cd -
   ;;
-  slc*_ia32)
-    chmod +x ./configure && ./configure
-    cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure && cd -
-    cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure && cd -
-  ;;
-  osx*_amd64)
+  osx*)
     chmod +x ./configure && ./configure
     cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure && cd -
     cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure && cd -
