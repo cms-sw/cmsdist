@@ -25,21 +25,13 @@ cd ..
 
 %build
 case %cmsplatf in
-  slc*_ia32_*)
-    export USER_CPPFLAGS="-D_FILE_OFFSET_BITS=64"
+  slc*)
     export USER_CFLAGS="-pthread"
     export USER_CXXFLAGS="-pthread"
     export USER_LDFLAGS="-pthread"
     export USER_LIBS="-pthread"
     ;;
-  slc*_amd64_*)
-    export USER_CFLAGS="-pthread"
-    export USER_CXXFLAGS="-pthread"
-    export USER_LDFLAGS="-pthread"
-    export USER_LIBS="-pthread"
-    ;;
-  *)
-    ;;
+  *) ;;
 esac
 
 chmod +x buildlib/install-sh
