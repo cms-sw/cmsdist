@@ -1,9 +1,8 @@
 ### FILE scramv1-tool-conf
 
 Requires: gmake-toolfile
-Source0: tool2xml.pl
-%define closingbrace )
-%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
+Source: none
+%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
 %prep
 %build
@@ -59,14 +58,10 @@ done
 # For now copy all systemtools files. If needed, this can be done more selectively.
 %endif
 
-for tool in `find %i/tools/selected -type f | sed 's|\.xml$||' | sort | uniq`
+for tool in `find %i/tools/selected -name "*.xml" -type f`
 do
-    if [ ! -f $tool.xml ] ; then
-      perl %_sourcedir/tool2xml.pl $tool > $tool.xml
-      rm -f $tool
-    fi
-    toolname=`basename $tool`
-    echo %skipreqtools | tr ' ' '\n' | grep "^$toolname\$" 2>&1 >/dev/null && mv $tool.xml %i/tools/available
+    toolname=`basename $tool .xml`
+    echo %skipreqtools | tr ' ' '\n' | grep "^$toolname\$" 2>&1 >/dev/null && mv $tool %i/tools/available
 done
 
 %post
