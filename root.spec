@@ -136,17 +136,11 @@ CONFIG_ARGS="--enable-table
              --disable-oracle ${EXTRA_CONFIG_ARGS}"
 
 case %cmsos in
-  slc*_amd64)
+  slc*)
     ./configure linuxx8664gcc $CONFIG_ARGS --with-rfio-libdir=${CASTOR_ROOT}/lib --with-rfio-incdir=${CASTOR_ROOT}/include/shift --with-castor-libdir=${CASTOR_ROOT}/lib --with-castor-incdir=${CASTOR_ROOT}/include/shift ;; 
-  slc*_ia32)
-    ./configure linux  $CONFIG_ARGS --with-rfio-libdir=${CASTOR_ROOT}/lib --with-rfio-incdir=${CASTOR_ROOT}/include/shift --with-castor-libdir=${CASTOR_ROOT}/lib --with-castor-incdir=${CASTOR_ROOT}/include/shift ;;
   osx*)
-    case %cmsplatf in
-    *_amd64_* )
-      comparch=x86_64
-      macconfig=macosx64
-      ;; 
-    esac
+    comparch=x86_64
+    macconfig=macosx64
     ./configure $arch $CONFIG_ARGS --disable-rfio --disable-builtin_afterimage ;;
   slc*_ppc64*)
     ./configure linux $CONFIG_ARGS --disable-rfio;;
