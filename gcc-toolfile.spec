@@ -154,7 +154,7 @@ case %cmsplatf in
     export ARCH_SHAREDFLAGS="-arch x86_64"
     export ARCH_LIB64DIR="lib"
   ;;
-  slc*_amd64_* )
+  slc*)
     # For some reason on mac, some of the header do not compile if this is
     # defined.  Ignore for now.
     export ARCH_CXXFLAGS="-Werror=overflow"
