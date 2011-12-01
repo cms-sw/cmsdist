@@ -9,12 +9,12 @@ Requires: cascade
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/cascade.xml
 <tool name="cascade" version="@TOOL_VERSION@">
-  <architecture name="slc[^_]*_amd64_gcc4[0-3]">
+  <architecture name="slc[^_]*_[^_]*_gcc4[0-3]">
     <lib name="cascade2"/>
     <lib name="bases"/>
     <lib name="mycern"/>
   </architecture>
-  <architecture name="slc[^_]*_amd64_gcc4[4-9]">
+  <architecture name="slc[^_]*_[^_]*_gcc4[4-9]">
     <lib name="cascade_merged"/>
   </architecture>
   <architecture name="osx">
