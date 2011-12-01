@@ -11,12 +11,7 @@ export NSPR_INCLUDE_DIR=$NSPR_ROOT/include/nspr
 export NSPR_LIB_DIR=$NSPR_ROOT/lib
 export USE_SYSTEM_ZLIB=1
 export ZLIB_LIBS="-L$ZLIB_ROOT -lz"
-
-case %cmsplatf in
-  *_amd64_*)
-    export USE_64=1
-  ;;
-esac
+export USE_64=1
 
 make -C ./mozilla/security/coreconf clean
 make -C ./mozilla/security/dbm clean
