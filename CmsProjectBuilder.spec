@@ -1,6 +1,6 @@
-### RPM cms CmsProjectBuilder 1.52
+### RPM cms CmsProjectBuilder 1.53
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
-%define svnversion V00-00-01
+%define svnversion V00-00-02
 
 Source: svn://svn.cern.ch/reps/CMSIntBld/tags/CmsProjectBuilder/%svnversion?scheme=svn+ssh&strategy=export&module=CmsProjectBuilder&output=/CmsProjectBuilder.tar.gz 
 
