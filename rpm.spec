@@ -69,20 +69,12 @@ rm -rf lib/rpmhash.*
 
 %build
 case %cmsos in
-  slc*_ia32)
-    export CFLAGS_PLATF="-fPIC -D_FILE_OFFSET_BITS=64"
-    LIBS_PLATF="-ldl"
-  ;;
-  slc*_amd64)
+  slc*)
     CFLAGS_PLATF="-fPIC"
     LIBS_PLATF="-ldl"
   ;;
-  osx*_amd64)
+  osx*)
     export CFLAGS_PLATF="-arch x86_64 -fPIC"
-    export LIBS_PLATF="-liconv"
-  ;;
-  osx*_ia32)
-    export CFLAGS_PLATF="-arch i386 -fPIC"
     export LIBS_PLATF="-liconv"
   ;;
   *)
