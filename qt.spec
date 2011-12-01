@@ -18,13 +18,10 @@ export LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
 export DYLD_LIBRARY_PATH=$QTDIR/lib:$DYLD_LIBRARY_PATH
 
 case %cmsplatf in
-  slc*_amd64*)
+  slc*)
     export CONFIG_ARGS="-platform linux-g++-64"
   ;;
-  osx*_ia32*)
-    export CONFIG_ARGS="-no-framework"
-  ;;
-  osx*_amd64*)
+  osx*)
     export CONFIG_ARGS="-no-framework -arch x86_64"
   ;;
 esac
