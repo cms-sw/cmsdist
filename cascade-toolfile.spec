@@ -17,6 +17,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cascade.xml
   <architecture name="slc[^_]*_amd64_gcc4[4-9]">
     <lib name="cascade_merged"/>
   </architecture>
+  <architecture name="osx">
+    <lib name="cascade_merged"/>
+  </architecture>
   <client>
     <environment name="CASCADE_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$CASCADE_BASE/lib"/>
