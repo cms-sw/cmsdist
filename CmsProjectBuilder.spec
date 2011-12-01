@@ -1,4 +1,4 @@
-### RPM cms CmsProjectBuilder 1.50
+### RPM cms CmsProjectBuilder 1.51
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 %define svnversion V00-00-01
 
