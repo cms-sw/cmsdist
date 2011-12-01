@@ -8,10 +8,10 @@ Requires: expat zlib libjpg libpng
 %build
 which gcc
 case %cmsplatf in
-    slc*_amd64_* )
+    slc*)
         ADDITIONAL_OPTIONS="--with-freetype2=no --disable-shared --enable-static --disable-ltdl"
     ;;
-    osx* )
+    osx*)
         ADDITIONAL_OPTIONS="--with-freetype2=no"
     ;;
 esac
@@ -68,7 +68,7 @@ rm -rf %i/lib/pkgconfig
 
 # To match configure options above
 case %cmsplatf in
-    slc*_amd64_*)
+    slc*)
         ln -s dot_static %i/bin/dot
     ;;
 esac
