@@ -29,6 +29,8 @@ Patch17: root-5.30.02-r41453
 Patch18: root-5.30.02-r41523
 Patch19: root-5.30.02-fix-isnan-again
 Patch20: root-5.30.02-r41402
+Patch21: root-5.30.02-r41602
+Patch22: root-5.30.02-r42390
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -75,6 +77,8 @@ Requires: freetype
 %patch18 -p2
 %patch19 -p1
 %patch20 -p2
+%patch21 -p1
+%patch22 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
