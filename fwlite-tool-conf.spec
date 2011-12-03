@@ -29,10 +29,8 @@ Requires: libjpg-toolfile
 Requires: libpng-toolfile
 Requires: libtiff-toolfile
 Requires: libungif-toolfile
-Requires: openldap-toolfile
 Requires: openssl-toolfile
 Requires: pcre-toolfile
-Requires: python-ldap-toolfile
 Requires: python-toolfile
 Requires: roofit-toolfile
 Requires: root-toolfile
@@ -41,6 +39,7 @@ Requires: sqlite-toolfile
 Requires: systemtools
 Requires: uuid-toolfile
 Requires: xrootd-toolfile
+Requires: xz-toolfile
 Requires: zlib-toolfile
 
 %define skipreqtools jcompiler
