@@ -201,16 +201,20 @@ echo rpm ${1+"$@"} >> %{instroot}/var/log/rpm/log.txt
 exec rpm ${1+"$@"}
 EOF_BIN_RPM
 chmod +x %{i}/bin/rpm-wrapper
-mkdir -p %{instroot}/%{cmsplatf}/var/lib/apt/lists/partial
-mkdir -p %{instroot}/%{cmsplatf}/var/lib/rpm 
-mkdir -p %{instroot}/%{cmsplatf}/var/lib/cache/%{cmsplatf}/partial
-mkdir -p %{instroot}/%{cmsplatf}/var/lib/dpkg/status
-mkdir -p %{instroot}/%{cmsplatf}/etc/rpm
-mkdir -p %{instroot}/%{cmsplatf}/lib/apt/methods
 
 %post
-%{relocateRpmPkg}etc/profile.d/dependencies-setup.*
-%{relocateRpmPkg}bin/apt-cache-wrapper
-%{relocateRpmPkg}bin/apt-get-wrapper
-%{relocateRpmPkg}bin/rpm-wrapper
-%{relocateRpmPkg}etc/apt.conf
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/apt/lists/partial
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/rpm 
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/cache/%{cmsplatf}/partial
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/rpm
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/lib/apt/methods
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/dpkg/status
+mkdir -p $RPM_INSTALL_PREFIX/bin
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/cache/%{cmsplatf}
+%{relocateConfig}etc/profile.d/dependencies-setup.sh
+%{relocateConfig}etc/profile.d/dependencies-setup.csh
+%{relocateConfig}bin/apt-cache-wrapper
+%{relocateConfig}bin/apt-get-wrapper
+%{relocateConfig}bin/rpm-wrapper
+%{relocateConfig}etc/apt.conf 

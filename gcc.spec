@@ -22,7 +22,7 @@ Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
 %endif
 
 # On 64bit Scientific Linux build our own binutils.
-%define use_custom_binutils %(echo %cmsos | sed -e 's|slc[^_]*_amd64|true|')
+%define use_custom_binutils %(echo %cmsos | sed -e 's|slc[0-9]*_amd64|true|')
 %if "%use_custom_binutils" == "true"
 %define bisonVersion 2.4
 Source6: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.bz2
