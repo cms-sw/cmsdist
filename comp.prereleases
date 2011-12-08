@@ -45,7 +45,7 @@ HG1111c filemover @slc5_amd64_gcc461
 #DIE#+ HEAD/5.0.4 T0DataSvc.spec
 
 # CmsTC
-HG1102b CmsTC @slc5_amd64_gcc434
+HG1112c CmsTC @slc5_amd64_gcc461
 + 1.62/* CmsTC.spec
 #+ HEAD/2.16.1 graphviz.spec
 
