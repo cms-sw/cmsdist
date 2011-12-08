@@ -50,13 +50,13 @@
 #+ HEAD/2.16.1 graphviz.spec
 
 # Cms Webtools services
-#DIE#HG1111c cmsweb @slc6_amd64_gcc461
+HG1111c cmsweb @slc6_amd64_gcc461
 
-#DIE#HG1112c cmsweb @slc5_amd64_gcc461
+HG1112c cmsweb @slc5_amd64_gcc461
 
-#DIE#HG1112c cmsweb @osx106_amd64_gcc461
+HG1112c cmsweb @osx106_amd64_gcc461
 
-#DIE#HG1111c-gcc434 cmsweb @slc5_amd64_gcc434
+HG1111c-gcc434 cmsweb @slc5_amd64_gcc434
 
 # Stagemanager offsite agent
 #DIE#HG1109d stagemanager-agent
