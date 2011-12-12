@@ -1,8 +1,7 @@
-### RPM cms frontend 4.1
+### RPM cms frontend 4.3
 Source: http://www.nikhef.nl/~janjust/proxy-verify/grid-proxy-verify.c
-Requires: apache-setup mod_wsgi mod_perl2 p5-apache2-modssl p5-compress-zlib
-Requires: p5-digest-hmac p5-apache-dbi p5-dbi oracle p5-dbd-oracle oracle-env
-Requires: p5-dbd-sqlite
+Requires: apache-setup mod_perl2 p5-apache2-modssl p5-compress-zlib p5-json-xs
+Requires: p5-digest-hmac py2-cx-oracle oracle-env sqlite
 
 %prep
 
@@ -29,9 +28,6 @@ done
 # Clean up unnecessary environment before starting the server.
 cat > %i/etc/env.d/99-env-cleanup.sh <<- \EOF
         case $(uname) in Darwin ) unset LD_LIBRARY_PATH ;; * ) unset DYLD_FALLBACK_LIBRARY_PATH ;; esac
-	for P in $(perl -e 'print map { /^([A-Z0-9_]+)_CATEGORY$/ && "$1\n" } keys %ENV'); do
-	  unset ${P}_ROOT ${P}_VERSION ${P}_CATEGORY ${P}_REVISION
-	done
 EOF
 
 %post
