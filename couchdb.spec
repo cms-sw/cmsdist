@@ -9,6 +9,7 @@ Patch1: couchdb-ssl-client-cert
 Patch2: couchdb-replication-timeout
 Patch3: couchdb-replication-id
 Patch4: couchdb-changes-timeout
+Patch5: couchdb-changes-heartbeat
 
 # Although there is no technical software dependency,
 # couchapp was included because all CMS applications will need it.
@@ -21,6 +22,7 @@ Requires: curl spidermonkey openssl icu4c erlang couchapp
 %patch2 -p0
 %patch3 -p0
 %patch4 -p0
+%patch5 -p0
 cp %_sourcedir/couch_cms_auth.erl %_builddir/couchdb/src/couchdb
 
 %build
