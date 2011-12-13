@@ -53,6 +53,9 @@
 HG1111c cmsweb @slc6_amd64_gcc461
 
 HG1112c cmsweb @slc5_amd64_gcc461
++ 1.48 cmsweb.spec
++ 1.54 couchdb.spec
++ 1.1 couchdb-changes-heartbeat.patch
 
 HG1112c cmsweb @osx106_amd64_gcc461
 
