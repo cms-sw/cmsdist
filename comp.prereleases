@@ -84,8 +84,10 @@ HG1111c-gcc434 cmsweb @slc5_amd64_gcc434
 #DIE#+ HEAD/0.8.15 reqmon.spec
 
 # WorkQueue
-#DIE#HG1112a workqueue @slc5_amd64_gcc461
-#DIE#+ HEAD/0.8.17 workqueue.spec
+HG1112a workqueue @slc5_amd64_gcc461
++ 1.54 couchdb.spec
++ 1.1 couchdb-changes-heartbeat.patch
++ HEAD/0.8.17 workqueue.spec
 
 #DIE#HG1107c wmagent
 #DIE#+ WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
