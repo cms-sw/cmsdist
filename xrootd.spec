@@ -18,18 +18,28 @@ grep -r -l -e "^#!.*/perl *$" . | xargs perl -p -i -e "s|^#!.*perl *$|#!/usr/bin
 %build
 mkdir build
 cd build
-case %cmsos in
-  *)
-     cmake -DCMAKE_INSTALL_PREFIX=%i -DCMAKE_LIBRARY_PATH=${OPENSSL_ROOT}/lib -DCMAKE_INCLUDE_PATH=${OPENSSL_ROOT}/include ../ ;;
-esac
 
-# Workaround to get kerberos compiled in.
-case %cmsos in
-  *)
-    make VERBOSE=1 %{?_smp_mflags}
-  ;;
-esac
+SOLIB_EXT=so
+if [[ %cmsplatf == osx* ]]; then
+  SOLIB_EXT=dylib
+fi
 
+# By default xrootd has perl, fuse, krb5, readline, and crypto enabled.
+# libfuse and libperl are not produced by CMSDIST.
+cmake ../ \
+  -DCMAKE_INSTALL_PREFIX=%i \
+  -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT} \
+  -DZLIB_INCLUDE_DIR:PATH=${ZLIB_ROOT}/include \
+  -DZLIB_LIBRARY:FILEPATH=${ZLIB_ROOT}/lib/libz.${SOLIB_EXT} \
+  -DENABLE_PERL=FALSE \
+  -DENABLE_FUSE=FALSE \
+  -DENABLE_KRB5=TRUE \
+  -DENABLE_READLINE=TRUE \
+  -DENABLE_CRYPTO=TRUE
+
+# Use makeprocess macro, it uses compiling_processes defined by
+# build configuration file or build argument
+make %makeprocesses VERBOSE=1
 
 %install
 cd build
