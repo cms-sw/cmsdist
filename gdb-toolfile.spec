@@ -13,10 +13,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gdb.xml
     <environment name="GDB_BASE" default="@TOOL_ROOT@"/>
   </client>
   <runtime name="PATH" value="$GDB_BASE/bin" type="path"/>
-  <runtime name="PYTHONHOME" value="@PYTHON_ROOT@"/>
 </tool>
 EOF_TOOLFILE
-
-export PYTHON_ROOT
 
 ## IMPORT scram-tools-post
