@@ -31,18 +31,16 @@ esac
 ./config --prefix=%i $cfg_args enable-seed enable-tlsext enable-rfc3779 no-asm \
                      no-idea no-mdc2 no-rc5 no-ec no-ecdh no-ecdsa shared
 
+# On Mac OS X fix the shared library version
+if [[ %cmsplatf == osx* ]]; then
+  sed -E -i osxbak 's/LIBVERSION=\${SHLIB_SONAMEVER}/LIBVERSION=\${SHLIB_MAJOR}\.\${SHLIB_MINOR}/g' Makefile
+fi
+
 make
 %install
 export RPM_OPT_FLAGS="-O2 -fPIC -g -pipe -Wall -Wa,--noexecstack -fno-strict-aliasing -Wp,-DOPENSSL_USE_NEW_FUNCTIONS -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -mtune=generic"
 
-case %cmsplatf in
-  osx*)
-    make install -e SHLIB_EXT=`ls -1 | grep -E -m 1 '^.*\..*\.dylib$' | sed -E "s/.*\.(.*)\.dylib/.\1.dylib/"`
-    ;;
-  *)
-    make install
-    ;;
-esac
+make install
 
 rm -rf %{i}/lib/pkgconfig
 # We remove archive libraries because otherwise we need to propagate everywhere
