@@ -1,9 +1,9 @@
-### RPM external geant4 9.4p03cand
+### RPM external geant4 9.4.p03
 %define downloadv %(echo %v | cut -d- -f1)
 
 Requires: clhep
 
-Source0: http://cmsrep.cern.ch/cmssw/junk/%n/%n.%downloadv.tgz
+Source0: http://geant4.cern.ch/support/source/%n.%downloadv.tar.gz
 
 Patch0:  geant-4.8.2.p01-nobanner
 
