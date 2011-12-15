@@ -203,6 +203,7 @@ CondTools/RunInfo
 CondTools/SiPixel
 CondTools/SiStrip
 CondTools/Utilities
+Configuration/AlCa
 Configuration/DataProcessing
 Configuration/EcalTB
 Configuration/EventContent
