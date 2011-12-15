@@ -16,6 +16,7 @@ Requires: clhep-toolfile
 Requires: coral-toolfile
 #Requires: cppunit-toolfile                 # not used online
 #Requires: curl-toolfile                    # from SLC5 (curl)
+#Requires: das-client-toolfile              # not used online
 #Requires: db4-toolfile                     # not used online
 #Requires: dbs-client-toolfile              # not used online
 #Requires: dpm-toolfile                     # not used online
