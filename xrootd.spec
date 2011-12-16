@@ -13,7 +13,15 @@ Requires: openssl cmake zlib gcc
 %setup -n %n-%{realversion}
 %patch0 -p1
 %patch1 -p1
-grep -r -l -e "^#!.*/perl *$" . | xargs perl -p -i -e "s|^#!.*perl *$|#!/usr/bin/env perl|"
+
+# need to fix these from xrootd git
+perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
+perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/loadRTDataToMySQL.pl
+perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonCollector.pl
+perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/prepareMySQLStats.pl
+perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonCreateMySQL.pl
+perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonLoadMySQL.pl
+perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonPrepareStats.pl
 
 %build
 mkdir build
@@ -43,40 +51,9 @@ make %makeprocesses VERBOSE=1
 
 %install
 cd build
-rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
+make install
 cd ..
 
 %define strip_files %i/lib
 %define keep_archives true
 
-# need to fix these from xrootd git
-perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/src/XrdMon/cleanup.pl
-perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/src/XrdMon/loadRTDataToMySQL.pl
-perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/src/XrdMon/xrdmonCollector.pl
-perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/src/XrdMon/prepareMySQLStats.pl
-perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/src/XrdMon/xrdmonCreateMySQL.pl
-perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/src/XrdMon/xrdmonLoadMySQL.pl
-perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/src/XrdMon/xrdmonPrepareStats.pl
-
-# SCRAM ToolBox toolfile
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
-<doc type=BuildSystem::ToolDoc version=1.0>
-<Tool name=%n version=%v>
-<lib name=XrdClient>
-<lib name=XrdOuc>
-<lib name=XrdNet>
-<lib name=XrdSys>
-<client>
- <Environment name=XROOTD_BASE default="%i"></Environment>
- <Environment name=INCLUDE default="$XROOTD_BASE/src"></Environment>
- <Environment name=LIBDIR  default="$XROOTD_BASE/lib64"></Environment>
-</client>
-<Runtime name=PATH value="$XROOTD_BASE/bin" type=path>
-<Runtime name=LD_LIBRARY_PATH value="$XROOTD_BASE/lib64" type=path>
-</Tool>
-EOF_TOOLFILE
-
-%post
-%{relocateConfig}etc/scram.d/%n
