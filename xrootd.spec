@@ -5,6 +5,7 @@
 Source: http://xrootd.cern.ch/cgi-bin/cgit.cgi/xrootd/snapshot/%n-%{realversion}.tar.gz
 Patch0: xrootd-gcc44
 Patch1: xrootd-5.30.00-fix-gcc46
+Patch2: xrootd-3.1.0-fix-read-after-read
 %if "%online" != "true"
 Requires: openssl cmake zlib gcc
 %endif
@@ -13,6 +14,7 @@ Requires: openssl cmake zlib gcc
 %setup -n %n-%{realversion}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 # need to fix these from xrootd git
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
