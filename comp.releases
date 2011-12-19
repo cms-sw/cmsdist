@@ -1,8 +1,8 @@
 # The entry format is the same as in comp.prereleases
 
 # Cms Webtools services
-HG1112d cmsweb @slc5_amd64_gcc461
-HG1112d cmsweb @osx106_amd64_gcc461
+HG1201a cmsweb @slc5_amd64_gcc461
+HG1201a cmsweb @osx106_amd64_gcc461
 
 # Stagemanager offsite agent
 #DIE#HG1109d stagemanager-agent
