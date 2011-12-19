@@ -23,7 +23,7 @@ case %cmsos in
   *) ;;
 esac
 
-./configure --prefix=%i --disable-static --enable-only64bit ${CFLAGS+CFLAGS=$CFLAGS}
+./configure --prefix=%i --without-mpicc --disable-static --enable-only64bit ${CFLAGS+CFLAGS=$CFLAGS}
 make %makeprocesses
 %install
 make install
