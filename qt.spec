@@ -5,6 +5,8 @@
 Requires: libjpg 
 Source0: ftp://ftp.qt.nokia.com/qt/source/%n-everywhere-opensource-src-%{realversion}.tar.gz
 
+%define strip_files %i/lib %i/bin
+
 %prep
 %setup -T -b 0 -n %n-everywhere-opensource-src-%{realversion}
 
@@ -16,22 +18,33 @@ export LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
 export DYLD_LIBRARY_PATH=$QTDIR/lib:$DYLD_LIBRARY_PATH
 
 case %cmsplatf in
-  slc*_amd64*)
+  slc*)
     export CONFIG_ARGS="-platform linux-g++-64"
   ;;
-  osx*_ia32*)
-    export CONFIG_ARGS="-no-framework"
-  ;;
-  osx*_amd64*)
+  osx*)
     export CONFIG_ARGS="-no-framework -arch x86_64"
+  ;;
+esac
+
+# Force system compiler also when using gcc 4.6.1 ++ on mac.  This is required
+# because the mainline compiler does not support a bunch of objective-c 2.0
+# features which are heavily used in Qt/Cocoa.
+case %cmsplatf in
+  osx*_*_gcc421) ;;
+  osx*)
+    export CXX=/usr/bin/c++
+    export CC=/usr/bin/gcc
+    export LD=/usr/bin/c++
+    export LINK=/usr/bin/c++
+    export PATH=/usr/bin:$PATH
   ;;
 esac
 
 rm -rf demos examples doc
 echo yes | ./configure -prefix %i -opensource -stl -no-openssl -no-webkit -no-debug \
                        -L$LIBJPG_ROOT/lib -no-glib -no-libtiff -no-libpng -no-libmng \
-                       -no-phonon -no-multimedia \
-                       -no-separate-debug-info -no-multimedia -no-sql-odbc -no-sql-mysql $CONFIG_ARGS \
+                       -no-dwarf2 -no-phonon -no-multimedia -no-stl -no-exceptions \
+                       -no-separate-debug-info -no-multimedia -no-sql-sqlite -no-sql-odbc -no-sql-mysql $CONFIG_ARGS \
                        -make "libs tools"
 
 make %makeprocesses
@@ -46,6 +59,7 @@ make install
 # only via pkg-config we have to think on how to ship our own
 # version.
 rm -rf %i/lib/pkgconfig
+rm -rf %i/lib/*.la
 
 # Qt itself has some paths that can only be overwritten by
 # using an appropriate `qt.conf`.
@@ -58,19 +72,5 @@ Prefix = %{i}
 EOF_QT_CONF
 
 %post
-%{relocateConfig}lib/libQt3Support.la     
-%{relocateConfig}lib/libQtSql.la
-%{relocateConfig}lib/libQtCLucene.la      
-%{relocateConfig}lib/libQtSvg.la
-%{relocateConfig}lib/libQtCore.la     
-%{relocateConfig}lib/libQtTest.la
-%{relocateConfig}lib/libQtGui.la      
-%{relocateConfig}lib/libQtWebKit.la
-%{relocateConfig}lib/libQtHelp.la     
-%{relocateConfig}lib/libQtXml.la
-%{relocateConfig}lib/libQtNetwork.la      
-%{relocateConfig}lib/libQtXmlPatterns.la
-%{relocateConfig}lib/libQtOpenGL.la     
-%{relocateConfig}lib/libQtScript.la     
 %{relocateConfig}bin/qt.conf
 %{relocateConfig}mkspecs/qconfig.pri
