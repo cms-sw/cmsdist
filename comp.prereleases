@@ -73,14 +73,14 @@ HG1201a cmsweb @osx106_amd64_gcc461
 
 # RequestManager
 # Had to add junk to change checksum due to error in spec
-HG1112a reqmgr @slc5_amd64_gcc461
+HG1201a reqmgr @slc5_amd64_gcc461
 + 1.1 couchdb-changes-timeout.patch
 + 1.53/1.1.0 couchdb.spec
 + HEAD/0.8.19 reqmgr.spec
 
 # RequestMonitor
-#DIE#HG1111a reqmon @slc5_amd64_gcc461
-#DIE#+ HEAD/0.8.15 reqmon.spec
+HG1201a reqmon @slc5_amd64_gcc461
++ HEAD/0.8.19 reqmon.spec
 
 # WorkQueue
 HG1112a workqueue @slc5_amd64_gcc461
