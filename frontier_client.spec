@@ -1,7 +1,6 @@
 ### RPM external frontier_client 2.8.5
 Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
-%define closingbrace )
-%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
+%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
 Requires: expat
 %if "%online" != "true"
