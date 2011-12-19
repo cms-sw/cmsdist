@@ -15,19 +15,20 @@ perl -p -i -e 's!VG_N_SEGMENTS 5000!VG_N_SEGMENTS 20000!; s!VG_N_SEGNAMES 1000!V
 pwd
 
 %build
-./configure --prefix=%i --disable-static --enable-only64bit
+# FIXME: This is really a hack that should be included in
+# GCC spec for non system compilers.
+case %cmsos in
+  osx*_*_gcc421) ;;
+  osx*) CFLAGS="-D__private_extern__=extern" ;;
+  *) ;;
+esac
+
+./configure --prefix=%i --without-mpicc --disable-static --enable-only64bit ${CFLAGS+CFLAGS=$CFLAGS}
 make %makeprocesses
 %install
 make install
-# We remove pkg-config files for two reasons:
-# * it's actually not required (macosx does not even have it).
-# * rpm 4.8 adds a dependency on the system /usr/bin/pkg-config 
-#   on linux.
-# In the case at some point we build a package that can be build
-# only via pkg-config we have to think on how to ship our own
-# version.
-rm -rf %i/lib/pkgconfig
-find %i/lib/valgrind -name "*.a" -exec rm {} \;
+%define strip_files %i/lib %i/bin/{cg_merge,no_op*,valgrind*}
+%define drop_files %i/lib/valgrind/*.a %i/share
 
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' $(grep -r -e "^#!.*perl.*" %i | cut -d: -f 1)
 # I don't see how to make perl options work nicely with env, so drop the -w
