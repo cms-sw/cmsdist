@@ -3,7 +3,7 @@
 
 Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
 #Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk@13490?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
-Requires: python py2-httplib2 pystack rotatelogs couchdb dbs-client dls-client py2-cjson yui
+Requires: python py2-httplib2 pystack rotatelogs couchdb dbs-client dls-client py2-cjson yui py2-sphinx
 
 %prep
 %setup -n WMCore
