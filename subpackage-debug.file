@@ -33,6 +33,6 @@ fi
 %files -n %{pkgcategory}+%{pkgname}-debug+%{pkgversion} 
 # FIXME - work around the 2GB limit in RPM 4.4.2
 #%files -n %{pkgcategory}+%{pkgname}-debug+%{pkgversion} -f %_builddir/files.debug
-%{pkginstroot}/debug.tar.gz
+%{installroot}/%{pkgrel}/debug.tar.gz
 %defattr(-, root, root)
 %endif

@@ -183,14 +183,15 @@ rm -rf %_builddir/logs; mv %i/tmp/%cmsplatf/cache/log %_builddir/logs
 %if "%{?subpackageDebug:set}" == "set"
 rm -f %_builddir/files.debug %_builddir/files
 touch %_builddir/files.debug %_builddir/files
-echo "%exclude %i/debug.tar.gz" >> %_builddir/files
+echo "%exclude %{installroot}/%{pkgrel}/debug.tar.gz" >> %_builddir/files
 BINDIR=$(%scramcmd tool info Self | grep "^PATH\|LD_LIBRARY_PATH=" | cut -d= -f2 | tr ":" "\n" | grep -v external)
 for DIR in $BINDIR; do
   mkdir -p $DIR/.debug
   # FIXME - work around the 2GB limit in RPM 4.4.2
   #echo "%dir $DIR/.debug"     >> %_builddir/files.debug
-  echo "%exclude $DIR/.debug" >> %_builddir/files
-  echo "$DIR/.debug" | sed 's#%{pkginstroot}/##' >> %_builddir/files.debug
+  DIR=`echo $DIR | sed 's|^%i/||'`
+  echo "%exclude %{installroot}/%{pkgrel}/$DIR/.debug" >> %_builddir/files
+  echo "$DIR/.debug" >> %_builddir/files.debug
 done
 for FILE in $(find $BINDIR -type f | xargs file | grep "ELF" | cut -d: -f1); do
   NAME=$(basename $FILE)
