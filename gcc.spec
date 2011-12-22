@@ -4,7 +4,7 @@ Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.
 
 %define keep_archives true
 
-# For gcc version >= 4.0.0, a number of additional sources are needed.
+# For gcc version >= 4.0.0, a number of additional sources are needed. 
 %define gmpVersion 5.0.2
 %define mpfrVersion 3.0.1 
 %define mpcVersion 0.9
