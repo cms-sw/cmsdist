@@ -1,4 +1,4 @@
-### RPM external mysql 5.1.58
+### RPM external mysql 5.1.35
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/mysql
 ## INITENV SET MYSQL_HOME $MYSQL_ROOT
 
@@ -8,30 +8,25 @@
 %define source http://downloads.mysql.com/archives/mysql-4.0/%n-%realversion.tar.gz
 %else
 #%define source http://mirror.provenscaling.com/mysql/community/source/5.0/mysql-%realversion.tar.gz
-#%define source http://opensource.become.com/mysql/Downloads/MySQL-5.1/mysql-%realversion.tar.gz
-%define source http://downloads.mysql.com/archives/mysql-5.1/mysql-%realversion.tar.gz
+%define source http://opensource.become.com/mysql/Downloads/MySQL-5.1/mysql-%realversion.tar.gz
 %endif
 
 Source: %source
 # Let's fake the fact that we have perl (DBI) so that rpm does not complain.
 Provides: perl(DBI)
-Requires: zlib
 
 %prep
 %setup -n %n-%realversion
-%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
+%ifos darwin
 # There's for some reason a "-traditional-cpp", which breaks with GCC 3.3
 # so remove it.  (FIXME: check if this is solved in a newer version.)
 perl -p -i -e 's/-traditional-cpp/-no-cpp-precomp/g' configure.in configure
-autoreconf -i -f
 %endif
 
 %build
 CFLAGS=-O3 CXX=gcc CXXFLAGS="-O3 -felide-constructors -fno-exceptions -fno-rtti" \
    ./configure --prefix=%i --with-extra-charsets=complex \
       --enable-thread-safe-client --enable-local-infile \
-      --disable-static --with-zlib-dir=$ZLIB_ROOT \
-      --without-docs --without-man \
       --with-plugins=innobase
 make %makeprocesses
 
@@ -85,11 +80,6 @@ STRICT_TRANS_TABLES=1
 transaction-isolation = READ-COMMITTED
 EOF
 
-# Strip libraries, we are not going to debug them.
-%define strip_files %i/lib
-
-# Look up documentation online; don't need archive libraries.
-%define drop_files %i/share/{man,info} %i/lib/mysql/plugin/*.{l,}a %i/lib/mysql/libmysqlclient*.{l,}a
 
 %post
 %{relocateConfig}bin/msql2mysql
