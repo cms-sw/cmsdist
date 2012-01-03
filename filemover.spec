@@ -1,4 +1,4 @@
-### RPM cms filemover 1.1.2.pre5
+### RPM cms filemover 1.1.2
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver 0.8.3
 %define webdoc_files %i/doc/
