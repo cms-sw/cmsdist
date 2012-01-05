@@ -17,15 +17,15 @@ HG1201a cmsweb @osx106_amd64_gcc461
 #DIE#+ DBS_2_1_6-pre5 apache-{ant,tomcat}.spec
 
 # wmagent
-HG1112c wmagent @slc6_amd64_gcc461
+HG1201a wmagent @slc6_amd64_gcc461
 + WMCORE_0_6_12  dls-client.spec wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
 + HEAD/0.8.19 wmcore.spec wmagent.spec
 
-HG1112c wmagent @slc5_amd64_gcc461
+HG1201a wmagent @slc5_amd64_gcc461
 + WMCORE_0_6_12  dls-client.spec wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
 + HEAD/0.8.19 wmcore.spec wmagent.spec
 
-HG1112c wmagent @osx106_amd64_gcc461
+HG1201a wmagent @osx106_amd64_gcc461
 + WMCORE_0_6_12  dls-client.spec wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
 + HEAD/0.8.19 wmcore.spec wmagent.spec
 
