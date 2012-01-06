@@ -7,7 +7,7 @@ Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=
 Source1: %svnserver/DAS/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=DAS&output=/das.tar.gz
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui
 Requires: mongo py2-pymongo py2-cjson py2-yaml py2-pystemmer py2-mongoengine py2-lxml py2-ply py2-yajl
-Requires: py2-sphinx rotatelogs
+Requires: py2-sphinx py2-pycurl rotatelogs
 
 %prep
 %setup -T -b 0 -n WMCore
