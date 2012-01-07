@@ -20,10 +20,9 @@
 # 1.271 is 0.9.8
 # 1.275 is 1.0.0
 # 1.278 is 1.0.1
-# 1.290 is 1.1.0 (new analytics, DASQuery, reduced number of threads)
-# 1.292 is 1.1.1.pre2 (new analytics, DASQuery, reduced number of threads)
+# 1.293 is 1.1.1 (new analytics, DASQuery, reduced number of threads)
 HG1201a das @slc5_amd64_gcc461
-+ 1.292 das.spec
++ 1.293 das.spec
 
 # FileMover
 # 1.30 is 1.0.9
