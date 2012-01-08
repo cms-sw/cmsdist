@@ -151,16 +151,6 @@ slc*)
         libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
         libXrender libXpm"
 
-  slc5_corei7_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype
-        fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
-        libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
-        libXrender libXpm"
-
-  slc6_amd64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype compat-readline5 ncurses-libs perl-libs perl-ExtUtils-Embed
-        fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
-        libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
-        libXrender libXpm libcom_err"
-
   # Add rh5* (not SLC5) as supported distribution.
   rh5_ia32_platformSeeds=$slc5_ia32_platformSeeds
   rh5_amd64_platformSeeds=$slc5_amd64_platformSeeds
@@ -206,7 +196,7 @@ case %cmsplatf in
     osx* )
         additionalProvides="AGL ApplicationServices Carbon CoreFoundation
                             CoreServices OpenGL Python QuickTime Tcl Tk
-                            libintl.3.dylib libperl.dylib"
+                            libintl.3.dylib"
 
     ;;
 esac
@@ -227,8 +217,6 @@ mkdir -p %{i}/etc/profile.d
  echo "slc4_ia32_platformSeeds=\"$slc4_ia32_platformSeeds\""; \
  echo "slc5_ia32_platformSeeds=\"$slc5_ia32_platformSeeds\""; \
  echo "slc5_amd64_platformSeeds=\"$slc5_amd64_platformSeeds\""; \
- echo "slc5_corei7_platformSeeds=\"$slc5_corei7_platformSeeds\""; \
- echo "slc6_amd64_platformSeeds=\"$slc6_amd64_platformSeeds\""; \
  echo "slc5onl_ia32_platformSeeds=\"$slc5onl_ia32_platformSeeds\""; \
  echo "slc5onl_amd64_platformSeeds=\"$slc5onl_amd64_platformSeeds\""; \
  echo "rh5_ia32_platformSeeds=\"$rh5_ia32_platformSeeds\""; \
@@ -248,8 +236,6 @@ mkdir -p %{i}/etc/profile.d
  echo "slc4_ia32_platformSeeds=\"$slc4_ia32_platformSeeds \""; \
  echo "slc5_ia32_platformSeeds=\"$slc5_ia32_platformSeeds $slc5_compPackages\""; \
  echo "slc5_amd64_platformSeeds=\"$slc5_amd64_platformSeeds $slc5_compPackages\""; \
- echo "slc5_corei7_platformSeeds=\"$slc5_corei7_platformSeeds $slc5_compPackages\""; \
- echo "slc6_amd64_platformSeeds=\"$slc6_amd64_platformSeeds $slc6_compPackages\""; \
  echo "slc5onl_ia32_platformSeeds=\"$slc5onl_ia32_platformSeeds $slc5_compPackages\""; \
  echo "slc5onl_amd64_platformSeeds=\"$slc5onl_amd64_platformSeeds $slc5_compPackages\""; \
  echo "rh5_ia32_platformSeeds=\"$rh5_ia32_platformSeeds\""; \

@@ -8,10 +8,10 @@ Requires: expat zlib libjpg libpng
 %build
 which gcc
 case %cmsplatf in
-    slc*)
+    slc*_amd64_* )
         ADDITIONAL_OPTIONS="--with-freetype2=no --disable-shared --enable-static --disable-ltdl"
     ;;
-    osx*)
+    osx* )
         ADDITIONAL_OPTIONS="--with-freetype2=no"
     ;;
 esac
@@ -50,13 +50,13 @@ esac
 
 # Probably the configure should just be remade on Darwin, but it builds
 # as-is with this small cleanup
-#perl -p -i -e "s|-lexpat||g;s|-ljpeg||g" configure
+perl -p -i -e "s|-lexpat||g;s|-ljpeg||g" configure
 # make %makeprocesses
 make 
 
 %install
 make install
-%define drop_files %{i}/share
+rm -rf %{i}/share
 # We remove pkg-config files for two reasons:
 # * it's actually not required (macosx does not even have it).
 # * rpm 4.8 adds a dependency on the system /usr/bin/pkg-config 
@@ -68,9 +68,10 @@ rm -rf %i/lib/pkgconfig
 
 # To match configure options above
 case %cmsplatf in
-    slc*)
+    slc*_amd64_*)
         ln -s dot_static %i/bin/dot
     ;;
 esac
-# Drop static libraries.
-rm -rf %i/lib/*.{l,}a
+
+%post
+%{relocateCmsFiles} `find $RPM_INSTALL_PREFIX/%pkgrel/lib -name *.la`

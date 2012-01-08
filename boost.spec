@@ -7,14 +7,9 @@ Requires: python bz2lib
 %if "%online" != "true"
 Requires: zlib
 %endif
-Patch0: boost-1.47.0-fix-strict-overflow
-Patch1: boost-1.47.0-fix-unused
 
 %prep
 %setup -n %{n}%{boostver}
-%patch0 -p1
-%patch1 -p1
-
 perl -p -i -e 's/-no-cpp-precomp//' tools/build/v2/tools/darwin.jam \
                                     tools/build/v2/tools/darwin.py
 

@@ -11,4 +11,3 @@ make %makeprocesses
 %install
 make install
 rm -rf %i/lib/pkgconfig
-%define strip_files %i/lib

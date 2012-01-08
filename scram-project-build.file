@@ -246,7 +246,7 @@ tar czf debug.tar.gz --files-from %_builddir/files.debug --no-recursion --remove
 %endif
 
 ######################################################
-#Do the symlink relocation as a last step in install
+#Do the symlink relocation as a last step in %install
 for L in `find external/%cmsplatf -type l`; do
   lnk=`readlink -n $L 2>&1`
   case $lnk in

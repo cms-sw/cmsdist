@@ -1,12 +1,12 @@
 ### RPM cms gcc-toolfile 11.0
 
-# gcc has a separate spec file for the generating a 
+# gcc has a separate spec file for the generating a
 # toolfile because gcc.spec could be not build because of the 
 # "--use-system-compiler" option.
 
 Source: none
 
-%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
+%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
 Requires: gfortran-macosx
 %endif
 
@@ -29,20 +29,10 @@ else
     export G77_ROOT=$GCC_ROOT
 fi
 
-case %cmsplatf in
-  osx*_*_gcc421)
+if echo %cmsos | grep -q osx; then
     # on Mac OS X, override G77_ROOT with GFORTRAN_MACOSX_ROOT
     export G77_ROOT=$GFORTRAN_MACOSX_ROOT
-  ;;
-  osx*)
-    export G77_ROOT=$GCC_ROOT 
-  ;;
-esac
-
-case %cmsplatf in
-  slc*_*_gcc4[012345]*) ;;
-  *) export ARCH_FFLAGS="-cpp" ;;
-esac
+fi
 
 export COMPILER_VERSION=`echo %cmsplatf | sed -e 's|.*gcc\([0-9]*\).*|\1|'`
 export COMPILER_VERSION_MAJOR=`echo %cmsplatf | sed -e 's|.*gcc\([0-9]\).*|\1|'`
@@ -112,7 +102,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/f77compiler.xml
       @ARCH_FORTRAN_LIBDIR@
     </client>
     <flags SCRAM_COMPILER_NAME="gcc@COMPILER_VERSION@"/>
-    <flags FFLAGS="-fno-second-underscore -Wunused -Wuninitialized -O2 @ARCH_FFLAGS@"/>
+    <flags FFLAGS="-fno-second-underscore -Wunused -Wuninitialized -O2"/>
     <flags FCO2FLAG="-O2"/>
     <flags FCOPTIMISED="-O2"/>
     <flags FCDEBUGFLAG="-g"/>
@@ -136,30 +126,43 @@ case %cmsplatf in
     export OS_SHAREDFLAGS="-shared -dynamic -single_module"
     export OS_SHAREDSUFFIX="dylib"
     export OS_LDFLAGS="-Wl,-commons -Wl,use_dylibs"
-    export OS_RUNTIME_LDPATH_NAME="DYLD_FALLBACK_LIBRARY_PATH"
+    export OS_RUNTIME_LDPATH_NAME="DYLD_LIBRARY_PATH"
   ;;
 esac
 
 # Then handle OS + architecture specific options (maybe we should enable more
 # aggressive optimizations for amd64 as well??)
 case %cmsplatf in
-  osx*_amd64_gcc421 )
+  osx*_ia32_* )
+    export ARCH_CXXFLAGS="-arch i386"
+    export ARCH_SHAREDFLAGS="-arch i386"
+    export ARCH_LIB64DIR="lib"
+    export ARCH_FORTRAN_LIBDIR='<environment name="LIBDIR" default="$F77COMPILER_BASE/lib/gcc/i686-apple-darwin10/4.2.1"/>'
+  ;;
+  osx*_amd64_* )
     export ARCH_CXXFLAGS="-arch x86_64"
     export ARCH_SHAREDFLAGS="-arch x86_64"
     export ARCH_LIB64DIR="lib"
     export ARCH_FORTRAN_LIBDIR='<environment name="LIBDIR" default="$F77COMPILER_BASE/lib/gcc/i686-apple-darwin10/4.2.1/x86_64"/>'
   ;;
-  osx*)
-    export ARCH_CXXFLAGS="-arch x86_64"
-    export ARCH_SHAREDFLAGS="-arch x86_64"
+  osx*_ppc32_* )
+    export ARCH_CXXFLAGS="-arch ppc"
+    export ARCH_SHAREDFLAGS="-arch ppc"
     export ARCH_LIB64DIR="lib"
   ;;
-  slc*)
+  slc*_amd64_* )
     # For some reason on mac, some of the header do not compile if this is
     # defined.  Ignore for now.
     export ARCH_CXXFLAGS="-Werror=overflow"
     export ARCH_LIB64DIR="lib64"
     export ARCH_LD_UNIT="-r -m elf_x86_64"
+  ;;
+  slc*_ia32_* )
+    # For some reason on mac, some of the header do not compile if this is
+    # defined.  Ignore for now.
+    export ARCH_CXXFLAGS="-Werror=overflow"
+    export ARCH_LIB64DIR="lib"
+    export ARCH_LD_UNIT="-r -m elf_i386"
   ;;
   *) 
     echo "Unsupported."
@@ -195,7 +198,7 @@ esac
 
 case %cmsplatf in
    *_gcc4[56789]* )
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++0x -msse3 -ftree-vectorize -Wno-strict-overflow"
+     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++0x -msse3 -ftree-vectorize"
      F77_MMD="-cpp -MMD"
    ;;
 esac
@@ -225,7 +228,7 @@ export COMPILER_CXXFLAGS
 # Handle here platform specific overrides. In case we
 # want to tune something for a specific architecture.
 case %cmsplatf in
-  osx*_*_gcc421)
+  osx10[56]*)
      # On macosx we explicitly pick up a compiler version so that there is
      # actually matching between the platform specified to cmsBuild and the
      # compiler.

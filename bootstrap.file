@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.81 $
+# Revision: $Revision: 1.77 $
 
 set -e
 
@@ -322,13 +322,14 @@ eval `cat $tempdir/$cmsplatf-driver.txt`
 
 
 perlHarvester () {
-    [ "X$verbose" = Xtrue ] && echo && echo "...Harvesting for perl modules" 1>&2
-    for x in $(perl -e 'print "@INC\n"'); do
-        find -L $x 2>/dev/null |
-            grep -v -e '\(^[.]/\|[/]$\)' |
-            grep -e '\([.]p[lm]$\|[.]pod$\)' |
-            sed -e "s|$x/||;s|^[0-9.]*/||;s|^[-a-z0-9]*-thread-multi/||;s|[.]p[ml]||;s|[.]pod||;s|/|::|g;s|^\(.*\)|Provides: perl(\1)|"
-    done | sort | uniq
+	[ "X$verbose" = Xtrue ] && echo && echo "...Harvesting for perl modules" 1>&2
+    for x in `perl -e'print join "\n", @INC'`
+    do
+        find -L $x 2>/dev/null  \
+		| grep -v -e '\(^[.]/\|[/]$\)' \
+		| grep -e '\([.]pm$\|[.]pl$\|[.]pod$\)' \
+		| sed -e "s|$x/||;s|[.]pm||;s|[.]pod||;s|/|::|g;s|^\(.*\)|Provides: perl(\1)|"
+	done
 }
 
 generateSeedSpec () {
@@ -402,12 +403,12 @@ generateSeedSpec () {
       
       case $cmsplatf in
         osx* )
-	    ls /System/Library/Frameworks | grep -v -e '[ ()]' | sed 's!.framework!!;s!^!Provides: !'
-  	    find /usr/bin | grep -v -e '[ ()]' | sed 's!^!Provides: !'
-  	    find /bin | grep -v -e '[ ()]' | sed 's!^!Provides: !'
-    	    /bin/ls -1 /usr/lib/*.dylib | grep -v -e '[ ()]' | awk -F"/" '{print $4}' | sed 's!^!Provides: !' || true
-    	    /bin/ls -1 /usr/lib/*/*.dylib | grep -v -e '[ ()]' | awk -F"/" '{print $5}' | sed 's!^!Provides: !' || true
-            /bin/ls -1 /usr/X11R6/lib/*.dylib | grep -v -e '[ ()]' | awk -F"/" '{print $5}' | sed 's!^!Provides: !' || true
+	    ls /System/Library/Frameworks | sed 's!.framework!!;s!^!Provides: !'
+  	    find /usr/bin | sed 's!^!Provides: !'
+  	    find /bin | sed 's!^!Provides: !'
+    	    /bin/ls -1 /usr/lib/*.dylib | awk -F"/" '{print $4}' | sed 's!^!Provides: !' || true
+    	    /bin/ls -1 /usr/lib/*/*.dylib | awk -F"/" '{print $5}' | sed 's!^!Provides: !' || true
+            /bin/ls -1 /usr/X11R6/lib/*.dylib | awk -F"/" '{print $5}' | sed 's!^!Provides: !' || true
         ;;
       esac
 
@@ -452,7 +453,7 @@ seed ()
     rcfile=$1
     cd $importTmp
     (source $rootdir/bootstraptmp/BOOTSTRAP/inst/$cmsplatf/external/rpm/$rpm_version/etc/profile.d/init.sh
-     rpmbuild -ba --define "_topdir $PWD" --rcfile $rcfile system-base-import.spec >/dev/null 2>&1
+     rpmbuild -ba --rcfile $rcfile system-base-import.spec >/dev/null 2>&1
      [ "X$verbose" = Xtrue ] && echo && echo "...Seeding database in in $rootdir/$rpmdb"
      rpm --define "_rpmlock_path $rpmlock" -U -r $rootdir --rcfile $rcfile --dbpath $rootdir/$rpmdb RPMS/system-base-import.rpm
     ) || cleanup_and_exit $? "Error while seeding rpm database with system packages."

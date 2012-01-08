@@ -31,10 +31,9 @@ cp %_sourcedir/CppUnit_testdriver_cpp %i/include/CppUnit_testdriver.cpp
 # only via pkg-config we have to think on how to ship our own
 # version.
 rm -rf %i/lib/pkgconfig
-# Remove unneded files
-rm -rf %i/lib/*.{l,}a
 # Read documentation online
-%define drop_files %i/share
+rm -rf %i/share
 
 %post
 %{relocateConfig}/bin/cppunit-config
+%{relocateConfig}/lib/libcppunit.la

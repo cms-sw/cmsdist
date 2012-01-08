@@ -12,10 +12,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pyminuit2.xml
 <client>
 <environment name="PYMINUIT2_BASE" default="@TOOL_ROOT@"/>
 </client>
-<runtime name="PYTHONPATH" value="$PYMINUIT2_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
+<runtime name="PYTHONPATH" value="$PYMINUIT2_BASE/lib/python2.6/site-packages" type="path"/>
 </tool>
 EOF_TOOLFILE
-
-export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
 ## IMPORT scram-tools-post

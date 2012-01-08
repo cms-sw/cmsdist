@@ -33,8 +33,3 @@ ln -sf bzdiff %i/bin/bzcmp
 ln -sf bzgrep %i/bin/bzegrep
 ln -sf bzgrep %i/bin/bzfgrep
 ln -sf bzmore %i/bin/bzless
-
-# Strip libraries, we are not going to debug them.
-%define strip_files %i/lib
-# Look up documentation online.
-%define drop_files %i/man

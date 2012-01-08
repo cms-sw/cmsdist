@@ -14,10 +14,8 @@ mkdir -p %{i}/bin
 mkdir -p %{i}/include
 mkdir -p %{i}/man/man1
 make install
-
 # Strip libraries, we are not going to debug them.
-%define strip_files %i/lib
-# Don't need archive libraries.
-rm -f %i/lib/*.{l,}a
-# Look up documentation online.
-%define drop_files %i/{share,man}
+find %i/lib -type f -perm -a+x -exec strip {} \;
+
+%post
+%{relocateConfig}lib/libjpeg.la

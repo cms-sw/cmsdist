@@ -1,15 +1,16 @@
-### RPM external lapack 3.3.1
-Source0: http://www.netlib.org/lapack/lapack-%realversion.tgz
+### RPM external lapack 3.3.0
+Source0: http://www.netlib.org/lapack/lapack.tgz
+Source1: http://www.netlib.org/lapack/manpages.tgz
 
 Requires: cmake
 
-%define keep_archives true
-%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
+%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
 Requires: gfortran-macosx
 %endif
 
 %prep
 %setup -q -n lapack-%{realversion} 
+%setup -q -D -T -a 1 -n lapack-%{realversion}
 
 %build
 # We remove the testing directory because it seems
@@ -21,11 +22,3 @@ make %{makeprocesses}
 
 %install
 make install
-# We remove pkg-config files for two reasons:
-# * it's actually not required (macosx does not even have it).
-# * rpm 4.8 adds a dependency on the system /usr/bin/pkg-config 
-#   on linux.
-# In the case at some point we build a package that can be build
-# only via pkg-config we have to think on how to ship our own
-# version.
-rm -rf %i/lib/pkgconfig

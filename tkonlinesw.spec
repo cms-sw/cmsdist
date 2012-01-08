@@ -2,10 +2,10 @@
 
 %define projectname trackerDAQ
 %define releasename %{projectname}-%{realversion}
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 Source0: http://cms-trackerdaq-service.web.cern.ch/cms-trackerdaq-service/download/sources/trackerDAQ-2.7.0-9.tgz
 Patch0: tkonlinesw-2.7.0-macosx
-Patch1: tkonlinesw-2.7.0-fix-gcc46
 
 # NOTE: given how broken the standard build system is
 #       on macosx, it's not worth fixing it.
@@ -36,14 +36,16 @@ case %cmsos in
 %patch0 -p1
   ;;
 esac
-%patch1 -p1
 # Clean up some mysterious old build within the sources that screws
 # up the install by copying in an old libFed9UUtils.so 
 # (this is really needed) 
 rm -fR TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/2.4/slc3_ia32_gcc323
 
+case %gccver in
+  4.*)
 perl -p -i -e "s|-Werror||" FecSoftwareV3_0/generic/Makefile
-
+  ;;
+esac
 
 %build
 echo "pwd: $PWD"
@@ -104,22 +106,24 @@ export XDAQ_ROOT
 # Configure
 ################################################################################
 case %cmsos in
-  slc*)
+  slc*_amd64)
     chmod +x ./configure && ./configure --with-xdaq-platform=x86_64
     cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure --with-xdaq-platform=x86_64 && cd -
     cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure --with-xdaq-platform=x86_64 && cd -
   ;;
-  osx*)
+  slc*_ia32)
+    chmod +x ./configure && ./configure
+    cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure && cd -
+    cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure && cd -
+  ;;
+  osx*_amd64)
     chmod +x ./configure && ./configure
     cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure && cd -
     cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure && cd -
   ;;
 esac
 
-# The CPPFLAGS is probably not needed. Clean up at some point.
-export CPPFLAGS="-fPIC"
-export CFLAGS="-O2 -fPIC"
-export CXXFLAGS="-O2 -fPIC"
+export CPPFLAGS=-fPIC
 case %cmsos in 
   slc*)
     make cmssw
@@ -134,12 +138,7 @@ case %cmsos in
     # is simply broken by circular dependencies and other linux only bits.
     cp %_sourcedir/tkonlinesw-cmake-build ./CMakeLists.txt
     make -C TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils include/Fed9UUtils.hh
-    cmake . -DORACLE_ROOT=${ORACLE_ROOT} \
-	    -DCMAKE_C_COMPILER="`which gcc`" \
-	    -DCMAKE_CXX_COMPILER="`which c++`" \
-	    -DCMAKE_LINKER=`which ld` \
-	    -DXERCES_ROOT=${XERCES_C_ROOT} \
-	    -DXERCESC=2 -DCMAKE_INSTALL_PREFIX=%i
+    cmake . -DORACLE_ROOT=${ORACLE_ROOT} -DXERCES_ROOT=${XERCES_C_ROOT} -DXERCESC=2 -DCMAKE_INSTALL_PREFIX=%i
     make %makeprocesses
     make install
   ;;

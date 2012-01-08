@@ -18,9 +18,3 @@ mv *.pkg/Payload Payload.gz
 %build
 %install
 pax --insecure -rz -f Payload.gz -s ',./usr,%i,'
-
-# Only ship x86_64 binaries.
-find %{i} ! -name '*.la' -type f -perm -a+x -exec lipo -thin x86_64 {} -output {} \;
-# Drop unneeded files
-%define drop_files %i/lib/gcc/powerpc-* %i/bin/powerpc-* i%i/libexec/gcc/powerpc %i/share
-%define keep_archives yes

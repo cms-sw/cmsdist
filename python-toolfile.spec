@@ -9,7 +9,7 @@ Requires: python
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/python.xml
 <tool name="python" version="@TOOL_VERSION@">
-  <lib name="python@PYTHONV@"/>
+  <lib name="python2.6"/>
   <client>
     <environment name="PYTHON_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$PYTHON_BASE/lib"/>

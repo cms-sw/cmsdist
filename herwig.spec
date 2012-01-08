@@ -3,8 +3,6 @@ Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{rea
 Requires: lhapdf photos 
 Patch1: herwig-6.520-tauoladummy
 
-%define keep_archives true
-
 %prep
 %setup -q -n %n/%{realversion}
 case %cmsplatf in
@@ -40,4 +38,7 @@ case %cmsplatf in
 	ln -sf herwig6520.inc herwig65.inc
     ;;
 esac
-rm -rf %i/lib/*.la
+%post
+%{relocateConfig}lib/libherwig.la
+%{relocateConfig}lib/libherwig_pdfdummy.la
+

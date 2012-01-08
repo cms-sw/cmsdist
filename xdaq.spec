@@ -10,7 +10,6 @@ Patch0: xdaq_VR16993_build
 Patch1: xdaq_mfDefs_flags
 Patch2: xdaq-VR16796-gcc46
 Patch3: xdaq-VR17173-macosx
-Patch4: xdaq-VR17173-gcc46
 
 Provides: /bin/awk
 # This is needed on macosx because this is the install_name for the .so
@@ -25,7 +24,6 @@ Provides: libasyncresolv.0
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 
 %build
 # Xdaq does not provide makeinstall,  it uses "simplify" script instead to 

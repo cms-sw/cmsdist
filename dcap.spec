@@ -43,8 +43,3 @@ autoconf
 make -C src %makeprocesses
 %install
 make -C src install
-
-# Strip libraries, we are not going to debug them.
-%define strip_files %i/lib
-# Look up documentation online.
-%define drop_files %i/share

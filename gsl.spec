@@ -1,9 +1,6 @@
 ### RPM external gsl 1.10
 Source: ftp://ftp.gnu.org/gnu/%n/%n-%realversion.tar.gz
 Patch0:  gsl-1.10-gcc46
-
-%define keep_archives true
-
 %prep
 %setup -n %n-%{realversion}
 %patch0 -p1
@@ -20,15 +17,15 @@ make %makeprocesses
 %install
 make install
 
-# Remove pkg-config to avoid rpm-generated dependency on /usr/bin/pkg-config
-# which we neither need nor use at this time.
+# We remove pkg-config files for two reasons:
+# * it's actually not required (macosx does not even have it).
+# * rpm 4.8 adds a dependency on the system /usr/bin/pkg-config 
+#   on linux.
+# In the case at some point we build a package that can be build
+# only via pkg-config we have to think on how to ship our own
+# version.
 rm -rf %i/lib/pkgconfig
-
-# Strip libraries, we are not going to debug them.
-%define strip_files %i/lib
-rm -f %i/lib/*.la
-# Look up documentation online.
-%define drop_files %i/share
-
 %post
+%{relocateConfig}lib/libgslcblas.la
+%{relocateConfig}lib/libgsl.la
 %{relocateConfig}bin/gsl-config
