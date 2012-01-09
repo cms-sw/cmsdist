@@ -166,3 +166,6 @@ HG1112a workqueue @slc5_amd64_gcc461
 
 HG1112a CmsProjectBuilder @slc5_amd64_gcc461
 + 1.54 CmsProjectBuilder.spec
+
+HG1112a cmsBuilder @slc5_amd64_gcc461
++ 1.54 cmsBuilder.spec
