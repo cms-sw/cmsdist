@@ -26,6 +26,9 @@ Patch14: root-5.32.00-detect-arch
 #Patch15: root-5.30.02-fix-isnan
 Patch16: root-5.30.02-fix-gcc46
 Patch19: root-5.30.02-fix-isnan-again
+Patch20: root-5.32.00-fix-macosx-check-lib-compat
+# See https://hypernews.cern.ch/HyperNews/CMS/get/edmFramework/2913/1/1.html
+Patch21: root-5.32.00-fix-oneline
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -71,8 +74,12 @@ Requires: freetype
 # patch17 -p1
 # patch18 -p2
 %patch19 -p1
-# patch20 -p2
-
+# Fix lib compatibility check on Mac OS X, otherwise libMathMore.so is not
+# built (silently dropped in configure).
+if [[ %cmsplatf == osx* ]]; then
+%patch20 -p0
+fi
+%patch21 -p1
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
 case %cmsplatf in
