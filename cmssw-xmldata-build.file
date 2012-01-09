@@ -13,8 +13,9 @@ Source: none
 
 %prep
 rm -rf %_builddir/%{cmssw_subsystem}
+echo "/1 :pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW AA_:yZZ3e" > ./cvspass
 for subdir in %dataDir; do
-  cvs -d :pserver:anonymous@cmssw.cvs.cern.ch:/cvs_server/repositories/CMSSW export -r %realversion %{cmssw_package}/$subdir
+  CVS_PASSFILE=./cvspass cvs -d :pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW export -r %realversion %{cmssw_package}/$subdir
 done
 %{?patchsrc:%patchsrc}
 %{?patchsrc2:%patchsrc2}
