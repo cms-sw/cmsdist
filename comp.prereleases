@@ -9,21 +9,11 @@
 # When using HEAD as <revision> you must specify <version>.
 
 # DAS test build with wmcore-web dependency
-# 1.241 is 0.8.4
-# 1.251 is 0.9.0
-# 1.253 is 0.9.1
-# 1.254 is 0.9.2
-# 1.256 is 0.9.2 w/ WMCore 0.8.3
-# 1.258 is 0.9.4
-# 1.259 is 0.9.5
-# 1.261 is 0.9.7
-# 1.271 is 0.9.8
 # 1.275 is 1.0.0
 # 1.278 is 1.0.1
-# 1.293 is 1.1.1 (new analytics, DASQuery, reduced number of threads)
-# 1.294 is 1.1.2.pre1 (new analytics, DASQuery, reduced number of threads)
+# 1.295 is 1.1.2 (new analytics, DASQuery, reduced number of threads)
 HG1201a das @slc5_amd64_gcc461
-+ 1.294 das.spec
++ 1.295 das.spec
 
 # FileMover
 # 1.30 is 1.0.9
