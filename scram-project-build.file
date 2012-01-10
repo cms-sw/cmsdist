@@ -17,7 +17,9 @@ Requires: SCRAMV1
 %define bootstrapfile   config/bootsrc.xml
 
 %if "%{?subpackageDebug:set}" == "set"
-%define debugOptions    USER_CXXFLAGS="-g"
+# note: do not change the order of the -fdebug-prefix-map options, they seem to be use in reverse order
+# note: the single quotes are needed to protect the double quotes, otherwise scram will pass separate arguments to make
+%define debugOptions    USER_CXXFLAGS='"-fdebug-prefix-map=%{cmsroot}=%{installroot} -fdebug-prefix-map=%{instroot}=%{installroot} -g"'
 %else
 %define debugOptions    %{nil}
 %endif
