@@ -134,17 +134,17 @@ HG1201a crab-server3 @slc5_amd64_gcc461
 + 1.25/3.0.7 crab-server3.spec
 + 1.4 crabserver3-setup.patch
 
-#DIE#HG1112a crab-client3 @slc5_amd64_gcc461
-#DIE#+ 1.3/3.0.6 crab-client3.spec
-#DIE#+ 1.2 crabclient3-setup.patch
+HG1201a crab-client3 @slc5_amd64_gcc461
++ 1.5/3.0.7 crab-client3.spec
++ 1.2 crabclient3-setup.patch
 
 # This is needed for the HappyFace testing setup
 #DIE#HG1105c py2-sqlobject
 #DIE#+ HEAD/1.0.0 py2-sqlobject.spec
 
 #asyncstageout
-#DIE#HG1112a asyncstageout @slc5_amd64_gcc461
-#DIE#+ 1.26/0.0.5 asyncstageout.spec
+HG1201a asyncstageout @slc5_amd64_gcc461
++ 1.28/0.0.6 asyncstageout.spec
 
 #DIE#HG1111d wmagent @slc5_amd64_gcc461
 #DIE#+ WMCORE_0_6_12  dls-client.spec wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
