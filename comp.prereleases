@@ -131,7 +131,7 @@ HG1112a workqueue @slc5_amd64_gcc461
 #+ CRABSERVER_1_1_4_pre5_BUILD_SLC5 crab-server.spec mysql.spec prodagent.spec prodcommon.spec wmcore.spec PHEDEX-micro.spec dls-client.spec python-ldap.spec openldap.spec openldap-2.3.39-gcc44.patch python-ldap-2.3.5-gcc44.patch
 
 HG1201a crab-server3 @slc5_amd64_gcc461
-+ 1.24/3.0.7 crab-server3.spec
++ 1.25/3.0.7 crab-server3.spec
 + 1.4 crabserver3-setup.patch
 
 #DIE#HG1112a crab-client3 @slc5_amd64_gcc461
