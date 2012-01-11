@@ -1,6 +1,5 @@
 ### RPM external bootstrap-driver 20.0
 Source: bootstrap
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
 Requires: apt
 
@@ -106,8 +105,10 @@ slc*onl* )
         libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
         libXrender libXpm"
 
-    # ONLINE: seed system compiler (only libraries for runtime)
-    slc5onl_amd64_platformSeeds="$slc5onl_amd64_platformSeeds libgcc libstdc++ external+gcc+4.3.4-onl64a"
+    # ONLINE: seed system compiler (only libraries for runtime) only for amd64_gcc434 arch
+    case %cmsplatf in
+        *_amd64_gcc434 ) slc5onl_amd64_platformSeeds="$slc5onl_amd64_platformSeeds libgcc libstdc++ external+gcc+4.3.4-onl64a" ;;
+    esac
 
     # ONLINE: seed other available system tools:
     slc5onl_amd64_platformSeeds="$slc5onl_amd64_platformSeeds curl curl-devel openssl openssl-devel zlib zlib-devel e2fsprogs-libs e2fsprogs-devel
