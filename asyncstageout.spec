@@ -5,7 +5,7 @@
 
 Source0: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_wmc_asyncstageout.tar.gz
 Source1: svn://svn.cern.ch/reps/CMSDMWM/AsyncStageout/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=AsyncStageout&output=/src_asyncstageout.tar.gz
-Requires: py2-simplejson py2-sqlalchemy py2-httplib2 py2-zmq rotatelogs pystack
+Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 py2-zmq rotatelogs pystack py2-sphinx
 
 #Patch0: asyncstageout-setup
 
@@ -15,9 +15,11 @@ Requires: py2-simplejson py2-sqlalchemy py2-httplib2 py2-zmq rotatelogs pystack
 %setup -T -b 0 -n WMCore
 
 %build
+cd ../WMCore
 python setup.py build_system -s asyncstageout
 
 %install
+cd ../WMCore
 python setup.py install_system -s asyncstageout --prefix=%i
 cp -pr ../AsyncStageout/src/python/AsyncStageOut %i/$PYTHON_LIB_SITE_PACKAGES/
 cp -pr ../AsyncStageout/src/couchapp %i/
