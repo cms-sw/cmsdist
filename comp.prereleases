@@ -151,5 +151,5 @@ HG1201a asyncstageout @slc5_amd64_gcc461
 #DIE#+ 1.2/r656 happyface.spec
 
 HG1112a cmsBuilder @slc5_amd64_gcc461
-+ 1.55 cmsBuilder.spec
++ 1.14 cmsBuilder.spec
 
