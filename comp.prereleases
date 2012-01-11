@@ -150,8 +150,6 @@ HG1201a asyncstageout @slc5_amd64_gcc461
 #DIE#+ 1.11/1.0.0 py2-sqlobject.spec
 #DIE#+ 1.2/r656 happyface.spec
 
-#DIE#HG1112a CmsProjectBuilder @slc5_amd64_gcc461
-#DIE#+ 1.54 CmsProjectBuilder.spec
-
 HG1112a cmsBuilder @slc5_amd64_gcc461
-+ 1.58 cmsBuilder.spec
++ 1.55 cmsBuilder.spec
+
