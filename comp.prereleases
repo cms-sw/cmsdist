@@ -154,4 +154,4 @@ HG1201a asyncstageout @slc5_amd64_gcc461
 #DIE#+ 1.54 CmsProjectBuilder.spec
 
 HG1112a cmsBuilder @slc5_amd64_gcc461
-+ 1.57 cmsBuilder.spec
++ 1.58 cmsBuilder.spec
