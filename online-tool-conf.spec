@@ -1,4 +1,4 @@
-### RPM cms online-tool-conf 8.0
+### RPM cms online-tool-conf 9.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -16,6 +16,7 @@ Requires: clhep-toolfile
 Requires: coral-toolfile
 #Requires: cppunit-toolfile                 # not used online
 #Requires: curl-toolfile                    # from SLC5 (curl)
+#Requires: das-client-toolfile              # not used online
 #Requires: db4-toolfile                     # not used online
 #Requires: dbs-client-toolfile              # not used online
 #Requires: dpm-toolfile                     # not used online
@@ -37,6 +38,7 @@ Requires: hepmc-toolfile
 Requires: heppdt-toolfile
 #Requires: herwig-toolfile                  # not used online
 #Requires: herwigpp-toolfile                # not used online
+Requires: jemalloc-toolfile
 #Requires: jimmy-toolfile                   # not used online
 Requires: ktjet-toolfile
 #Requires: lhapdf-toolfile                  # not used online
@@ -49,7 +51,6 @@ Requires: libungif-toolfile
 #Requires: meschach-toolfile                # not used online
 #Requires: millepede-toolfile               # not used online
 #Requires: mimetic-toolfile                 # from XDAQ (daq-mimetic)
-#Requires: openldap-toolfile                # not used online
 #Requires: openssl-toolfile                 # from SLC5 (openssl)
 Requires: oracle-env
 #Requires: oracle-toolfile                  # from XDAQ (daq-oracle)
@@ -57,8 +58,8 @@ Requires: pcre-toolfile
 #Requires: photos-toolfile                  # not used online
 #Requires: pythia6-toolfile                 # not used online
 #Requires: pythia8-toolfile                 # not used online
-#Requires: python-ldap-toolfile             # not used online
 Requires: python-toolfile
+#Requires: py2-cx-oracle-toolfile           # not working online
 #Requires: qt-toolfile                      # not used online
 Requires: roofit-toolfile
 Requires: root-toolfile
@@ -86,19 +87,21 @@ Requires: valgrind-toolfile
 #Requires: py2-numpy-toolfile               # not used online
 #Requires: py2-scipy-toolfile               # not used online
 Requires: cmsswdata-toolfile
+Requires: py2-cjson-toolfile
+Requires: py2-pycurl-toolfile
 #Requires: rivet-toolfile                   # not used online
 #Requires: cascade-toolfile                 # not used online
 Requires: fftw3-toolfile
 Requires: fftjet-toolfile
-Requires: gdb-toolfile
-#Requires: google-perftools-toolfile        # not used online
-Requires: igprof-toolfile
 #Requires: lapack-toolfile                  # not used online
 #Requires: pyminuit2-toolfile               # not used online
 #Requires: professor-toolfile               # not used online
 #Requires: py2-ipython-toolfile             # not used online
 Requires: xz-toolfile
 #Requires: protobuf-toolfile                # not used online
+Requires: gdb-toolfile
+#Requires: google-perftools-toolfile        # not used online
+Requires: igprof-toolfile
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull
 %define onlinesystemtoolsroot ${ONLINESYSTEMTOOLS_ROOT}
