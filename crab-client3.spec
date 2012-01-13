@@ -5,7 +5,7 @@
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_crabclient3.tar.gz
 Source1: %svnserver/CRABClient/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=CRABClient&output=/crabclient3.tar.gz
-Requires: python py2-httplib2 py2-sphinx
+Requires: python py2-httplib2 py2-sphinx py2-pycurl
 
 Patch0: crabclient3-setup
 
