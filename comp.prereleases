@@ -126,7 +126,7 @@ HG1201a crab-server3 @slc5_amd64_gcc461
 + 1.4 crabserver3-setup.patch
 
 HG1201a crab-client3 @slc5_amd64_gcc461
-+ 1.5/3.0.7 crab-client3.spec
++ 1.6/3.0.7 crab-client3.spec
 + 1.2 crabclient3-setup.patch
 
 # This is needed for the HappyFace testing setup
