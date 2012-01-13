@@ -127,7 +127,7 @@ HG1201a crab-server3 @slc5_amd64_gcc461
 
 HG1201a crab-client3 @slc5_amd64_gcc461
 + 1.6/3.0.7 crab-client3.spec
-+ 1.2 crabclient3-setup.patch
++ 1.3 crabclient3-setup.patch
 
 # This is needed for the HappyFace testing setup
 #DIE#HG1105c py2-sqlobject
