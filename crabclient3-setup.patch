@@ -7,7 +7,7 @@
 +                'crabclient':{
 +                        'packages': ['WMCore.Wrappers+', 'WMCore.Credential', 'PSetTweaks'],
 +                        'systems': ['wmc-base'],
-+                        'modules': ['WMCore.FwkJobReport.FileInfo', 'WMCore.Services.Requests']
++                        'modules': ['WMCore.FwkJobReport.FileInfo', 'WMCore.Services.Requests', 'WMCore.Services.pycurl_manager']
 +                        },
                  'wmclient':{
                          'systems': ['wmc-runtime', 'wmc-database']
