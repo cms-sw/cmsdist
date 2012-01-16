@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_4_4_0_pre6
+### RPM cms cmssw CMSSW_4_4_2_p10JEmalloc
 Requires: cmssw-tool-conf python
 
 %define runGlimpse      yes

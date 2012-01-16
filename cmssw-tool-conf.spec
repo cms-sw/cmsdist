@@ -1,11 +1,11 @@
-### RPM cms cmssw-tool-conf 24.0
+### RPM cms cmssw-tool-conf 24.1
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
 
 %define closingbrace )
-%define isslc %(case %cmsos in slc*%closingbrace echo true;; *%closingbrace echo false;; esac)
-%define is64bit %(case %cmsos in slc*_amd64%closingbrace echo true;; *%closingbrace echo false;; esac)
+%define isslc %(case %cmsos in (slc*) echo true;; (*) echo false;; esac)
+%define is64bit %(case %cmsos in (slc*_amd64) echo true;; (*) echo false;; esac)
 
 Requires: alpgen-toolfile
 Requires: boost-toolfile
@@ -38,6 +38,7 @@ Requires: hepmc-toolfile
 Requires: heppdt-toolfile
 Requires: herwig-toolfile
 Requires: herwigpp-toolfile
+Requires: jemalloc-toolfile
 Requires: jimmy-toolfile
 Requires: ktjet-toolfile
 Requires: lhapdf-toolfile
