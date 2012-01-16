@@ -71,12 +71,13 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/x11.xml
   <tool name="x11" version="%x11_version">
 EOF_TOOLFILE
 case %cmsplatf in
-slc3_*|osx* )
+osx* )
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/x11.xml
     <client>
       <environment name="INCLUDE" value="/usr/X11R6/include"/>
       <environment name="LIBDIR" value="/usr/X11R6/lib"/>
     </client>
+    <runtime name="DYLD_FALLBACK_LIBRARY_PATH" value="$LIBDIR" type="path"/>
     <lib name="Xt"/>
     <lib name="Xpm"/>
     <lib name="X11"/>
