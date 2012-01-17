@@ -1,4 +1,4 @@
-### RPM cms crab-client3 3.0.7
+### RPM cms crab-client3 3.0.7a
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver 0.8.21
 %define webdoc_files %i/doc/
