@@ -1,5 +1,6 @@
 ### RPM external xdaq VR17173
 
+
 Requires: zlib mimetic xerces-c uuid sqlite
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
@@ -11,6 +12,7 @@ Patch1: xdaq_mfDefs_flags
 Patch2: xdaq-VR16796-gcc46
 Patch3: xdaq-VR17173-macosx
 Patch4: xdaq-VR17173-gcc46
+Patch5: xdaq-VR17173-remove-sqlite-macosx
 
 Provides: /bin/awk
 # This is needed on macosx because this is the install_name for the .so
@@ -26,6 +28,7 @@ Provides: libasyncresolv.0
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p0
 
 %build
 # Xdaq does not provide makeinstall,  it uses "simplify" script instead to 
