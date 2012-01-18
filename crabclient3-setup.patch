@@ -9,7 +9,7 @@
 +                                     'WMCore.Services.UserFileCache'],
 +                        'systems': ['wmc-base'],
 +                        'modules': ['WMCore.FwkJobReport.FileInfo', 'WMCore.Services.Requests',
-+                                    'WMCore.Services.pycurl_manager']
++                                    'WMCore.Services.Service', 'WMCore.Services.pycurl_manager']
 +                        },
 +
                  'wmclient':{
