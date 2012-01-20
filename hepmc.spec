@@ -1,7 +1,6 @@
-### RPM external hepmc 2.06.05
+### RPM external hepmc 2.06.07
 Source: http://lcgapp.cern.ch/project/simu/HepMC/download/HepMC-%realversion.tar.gz
 Patch0: hepmc-2.03.06-reflex
-Patch1: hepmc-2.06.05-drop-pythia-symbols
 
 %define keep_archives true
 %if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
@@ -11,7 +10,6 @@ Requires: gfortran-macosx
 %prep
 %setup -q -n HepMC-%{realversion}
 %patch0 -p0
-%patch1 -p1
 
 case %cmsplatf in
   slc5_*_gcc4[01234]*) 
@@ -25,6 +23,7 @@ case %cmsplatf in
     PLATF_CONFIG_OPTS="--enable-static --disable-shared"
   ;;
 esac
+./bootstrap
 ./configure $PLATF_CONFIG_OPTS --prefix=%{i} --with-momentum=GEV --with-length=MM F77="$F77" CXX="$CXX"
 
 %build
