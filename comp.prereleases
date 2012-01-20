@@ -57,9 +57,9 @@ HG1201a cmsweb @osx106_amd64_gcc461
 #DIE#HG1106c dqmgui
 #DIE#+ 1.69 dqmgui.spec
 
-#DIE#HG1109b reqmgr
-#DIE#+ 1.50 couchdb.spec
-#DIE#+ HEAD/0.8.5 reqmgr.spec
+HG1201a reqmgr
++ 1.50 couchdb.spec
++ HEAD/0.8.23 reqmgr.spec
 
 # RequestManager
 # Had to add junk to change checksum due to error in spec
