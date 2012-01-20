@@ -65,6 +65,8 @@ Requires: SCRAMV1
 %if %(case %realversion in (*_TS*) echo true ;; (*) echo false ;; esac) == "true"
 %define extraTagsets    %(echo %realversion | perl -p -e "s/.*?_TS/&extratags=/;s/_TS/+/g;")
 %define cvstag %(echo %realversion | perl -p -e "s/_TS.*//")
+%else
+%define extraTagsets %{nil}
 %endif
 
 %if "%{?source1:set}" != "set"
