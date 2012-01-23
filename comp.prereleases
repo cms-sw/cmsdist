@@ -11,9 +11,9 @@
 # DAS test build with wmcore-web dependency
 # 1.275 is 1.0.0
 # 1.278 is 1.0.1
-# 1.297 is 1.1.4.pre1 (new analytics, DASQuery, reduced number of threads)
+# 1.298 is 1.1.4 (new analytics, DASQuery, reduced number of threads)
 HG1201a das @slc5_amd64_gcc461
-+ 1.297 das.spec
++ 1.298 das.spec
 
 # FileMover
 # 1.30 is 1.0.9
