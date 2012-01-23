@@ -17,6 +17,7 @@ Requires: zlib openssl sqlite
 
 Source0: http://www.python.org/ftp/%n/%realversion/Python-%realversion.tgz
 Patch0: python-2.6.4-dont-detect-dbm
+Patch1: python-2.6.4-fix-macosx-relocation
 
 %prep
 %setup -n Python-%realversion
@@ -32,6 +33,7 @@ case %cmsplatf in
   ;;
 esac
 %patch0 -p1
+%patch1 -p1
 
 %build
 # Python is awkward about passing other include or library directories
@@ -146,8 +148,11 @@ done
 # remove tkinter that brings dependency on libtk:
 find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
 
-# Makes sure that executables start with /usr/bin/env perl and not with comments. 
-rm -f %i/share/doc/python/Demo/rpc/test
+# Remove documentation, examples and test files. 
+%define drop_files %i/share %{i}/lib/python%{pythonv}/test
+
+# Remove .pyo files
+find %i -name '*.pyo' -exec rm {} \;
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
