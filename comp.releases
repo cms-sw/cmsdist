@@ -2,7 +2,9 @@
 
 # Cms Webtools services
 HG1201b cmsweb @slc5_amd64_gcc461
++ 1.299/1.1.5 das.spec
 HG1201b cmsweb @osx106_amd64_gcc461
++ 1.299/1.1.5 das.spec
 
 # Stagemanager offsite agent
 #DIE#HG1109d stagemanager-agent
