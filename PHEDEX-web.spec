@@ -11,7 +11,7 @@ Requires: PHEDEX-datasvc
 # For DB Access
 Requires: oracle oracle-env p5-dbi p5-dbd-oracle
 # Core for web apps
-Requires: apache-setup mod_perl2 p5-apache-dbi p5-cgi p5-cgi-session
+Requires: apache-setup mod_perl2 p5-apache-dbi webtools p5-cgi p5-cgi-session
 # Useful for web apps
 Requires: p5-json-xs p5-xml-parser
 # Misc. Utilities
