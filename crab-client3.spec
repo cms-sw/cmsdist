@@ -17,7 +17,7 @@ Patch0: crabclient3-setup
 %build
 cd ../WMCore
 python setup.py build_system -s crabclient
-#cd ../CRABClient
+##cd ../CRABClient
 #python setup.py build
 
 # build DAS sphinx documentation
