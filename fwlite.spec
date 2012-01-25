@@ -1,4 +1,4 @@
-### RPM cms fwlite CMSSW_5_1_0_pre2_FWLITE
+### RPM cms fwlite CMSSW_4_4_3_FWLITE
 
 Requires: fwlite-tool-conf python
 
