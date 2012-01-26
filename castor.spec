@@ -17,7 +17,6 @@
 #Source: cvs://:pserver:anonymous@isscvs.cern.ch:/local/reps/castor?passwd=Ah<Z&tag=-r%{downloadv}&module=CASTOR2&output=/%{n}-%{realversion}.source.tar.gz
 Source:  http://castorold.web.cern.ch/castorold/DIST/CERN/savannah/CASTOR.pkg/%{baseVersion}-*/%{realversion}/castor-%{realversion}.tar.gz
 Patch0: castor-2.1.9.8-macosx
-Patch1: castor-2.1.9.8-fix-gcc47
 
 # Ugly kludge : forces libshift.x.y to be in the provides (rpm only puts libshift.so.x)
 # root rpm require .x.y
@@ -35,14 +34,11 @@ case %cmsplatf in
 %patch0 -p2
   ;;
 esac
-%patch1 -p1
 
-case %cmsplatf in
-  *_gcc4[012345]*) ;;
-  *)
-    perl -pi -e "s|-Werror|-Werror -Wno-error=unused-but-set-variable|" config/Imake.tmpl
-    perl -pi -e "s|--no-undefined||" config/Imake.rules
-    perl -pi -e 's|^(\s+)(\$\(MAKE\) depend)|$1#$2|' Makefile.ini
+case %gccver in
+  4.6.*)
+perl -pi -e "s|-Werror|-Werror -Wno-error=unused-but-set-variable|" config/Imake.tmpl
+perl -pi -e "s|--no-undefined||" config/Imake.rules
   ;;
 esac
 
@@ -64,9 +60,10 @@ find . -type f -exec touch {} \;
 CASTOR_NOSTK=yes; export CASTOR_NOSTK
 
 make -f Makefile.ini Makefiles
+which makedepend >& /dev/null
+[ $? -eq 0 ] && make depend
 make %{makeprocesses} client MAJOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f1-2) \
-                             MINOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f3-4 | tr '-' '.' ) \
-			     LDFLAGS=-ldl
+                             MINOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f3-4 | tr '-' '.' )
 
 %install
 make installclient \
