@@ -62,19 +62,16 @@ dirs="$EXPAT_ROOT $BZ2LIB_ROOT $NCURSES_ROOT $DB4_ROOT $GDBM_ROOT %{extradirs}"
 # location of DB4, this was needed to avoid having it picked up from the system.
 export DB4_ROOT
 
+# Python's configure parses LDFLAGS and CPPFLAGS to look for aditional library and include directories
 echo $dirs
+LDFLAGS=""
+CPPFLAGS=""
 for d in $dirs; do
-  for f in $d/include/*; do
-    [ -e $f ] || continue
-    rm -f %i/include/$(basename $f)
-    ln -s $f %i/include
-  done
-  for f in $d/lib/*; do
-    [ -e $f ] || continue
-    rm -f %i/lib/$(basename $f)
-    ln -s $f %i/lib
-  done
+  LDFLAGS="$LDFLAGS -L $d/lib"
+  CPPFLAGS="$CPPFLAGS -I $d/include"
 done
+export LDFLAGS
+export CPPFLAGS
 
 additionalConfigureOptions=""
 case %cmsplatf in
@@ -83,7 +80,7 @@ case %cmsplatf in
     ;;
 esac
 
-./configure --prefix=%i $additionalConfigureOptions --enable-shared \
+./configure --prefix=%{installroot}/%{pkgrel} $additionalConfigureOptions --enable-shared \
             --without-tkinter --disable-tkinter
 
 # The following is a kludge around the fact that the /usr/lib/libreadline.so
@@ -100,7 +97,7 @@ make %makeprocesses
 # We need to export it because setup.py now uses it to determine the actual
 # location of DB4, this was needed to avoid having it picked up from the system.
 export DB4_ROOT
-make install
+make install prefix=%i
 %define pythonv %(echo %realversion | cut -d. -f 1,2)
 
 case %cmsplatf in

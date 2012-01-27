@@ -23,12 +23,19 @@ case %cmsos in
   *) ;;
 esac
 
-./configure --prefix=%i --without-mpicc --disable-static --enable-only64bit ${CFLAGS+CFLAGS=$CFLAGS}
+./configure --prefix=%i --disable-static --enable-only64bit ${CFLAGS+CFLAGS=$CFLAGS}
 make %makeprocesses
 %install
 make install
-%define strip_files %i/lib %i/bin/{cg_merge,no_op*,valgrind*}
-%define drop_files %i/lib/valgrind/*.a %i/share
+# We remove pkg-config files for two reasons:
+# * it's actually not required (macosx does not even have it).
+# * rpm 4.8 adds a dependency on the system /usr/bin/pkg-config 
+#   on linux.
+# In the case at some point we build a package that can be build
+# only via pkg-config we have to think on how to ship our own
+# version.
+rm -rf %i/lib/pkgconfig
+find %i/lib/valgrind -name "*.a" -exec rm {} \;
 
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' $(grep -r -e "^#!.*perl.*" %i | cut -d: -f 1)
 # I don't see how to make perl options work nicely with env, so drop the -w
