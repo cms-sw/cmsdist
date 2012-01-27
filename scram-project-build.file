@@ -17,7 +17,9 @@ Requires: SCRAMV1
 %define bootstrapfile   config/bootsrc.xml
 
 %if "%{?subpackageDebug:set}" == "set"
-%define debugOptions    USER_CXXFLAGS="-g"
+# note: do not change the order of the -fdebug-prefix-map options, they seem to be use in reverse order
+# note: the single quotes are needed to protect the double quotes, otherwise scram will pass separate arguments to make
+%define debugOptions    USER_CXXFLAGS='"-fdebug-prefix-map=%{cmsroot}=%{installroot} -fdebug-prefix-map=%{instroot}=%{installroot} -g"'
 %else
 %define debugOptions    %{nil}
 %endif
@@ -162,11 +164,7 @@ export SCRAM_NOSYMCHECK=true
 %scramcmd b --verbose -f %{prebuildtarget} </dev/null
 %endif
 
-# Notice that on make we continue and create a package even if the build
-# failed.  This is because we are still in a porting phase for the mac and we
-# still have hundreds of errors. This behavior should be changed when the have
-# a fully working mac release, aligned with the linux one.
-%scramcmd b --verbose -f %{compileOptions} %{debugOptions} %{makeprocesses} %{buildtarget} </dev/null || { %scramcmd b -f outputlog && case %cmsos in osx*) true;; *) false;; esac; }
+%scramcmd b --verbose -f %{compileOptions} %{debugOptions} %{makeprocesses} %{buildtarget} </dev/null || { %scramcmd b -f outputlog && [ "%{?ignore_compile_errors:set}" == "set" ]; }
 
 %if "%{?additionalBuildTarget0:set}" == "set"
 %scramcmd b --verbose -f %{additionalBuildTarget0} < /dev/null
@@ -260,6 +258,7 @@ for L in `find external/%cmsplatf -type l`; do
    esac
 done
 find external/%cmsplatf -type l | xargs ls -l
+%{?PatchReleaseSymlinkRelocate:%PatchReleaseSymlinkRelocate}
 
 %post
 export SCRAM_ARCH=%cmsplatf
