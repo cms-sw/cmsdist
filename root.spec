@@ -48,10 +48,6 @@ Requires: openssl zlib
 Requires: gfortran-macosx
 %endif
 
-%if "%(case %cmsplatf in (osx*) echo true ;; (*) echo false ;; esac)" == "true"
-Requires: freetype
-%endif
-
 %prep
 %setup -n root-%realversion
 %patch0 -p1
@@ -138,11 +134,17 @@ CONFIG_ARGS="--enable-table
              --disable-oracle ${EXTRA_CONFIG_ARGS}"
 
 case %cmsos in
-  slc*)
+  slc*_amd64)
     ./configure linuxx8664gcc $CONFIG_ARGS --with-rfio-libdir=${CASTOR_ROOT}/lib --with-rfio-incdir=${CASTOR_ROOT}/include/shift --with-castor-libdir=${CASTOR_ROOT}/lib --with-castor-incdir=${CASTOR_ROOT}/include/shift ;; 
+  slc*_ia32)
+    ./configure linux  $CONFIG_ARGS --with-rfio-libdir=${CASTOR_ROOT}/lib --with-rfio-incdir=${CASTOR_ROOT}/include/shift --with-castor-libdir=${CASTOR_ROOT}/lib --with-castor-incdir=${CASTOR_ROOT}/include/shift ;;
   osx*)
-    comparch=x86_64
-    macconfig=macosx64
+    case %cmsplatf in
+    *_amd64_* )
+      comparch=x86_64
+      macconfig=macosx64
+      ;; 
+    esac
     ./configure $arch $CONFIG_ARGS --disable-rfio --disable-builtin_afterimage ;;
   slc*_ppc64*)
     ./configure linux $CONFIG_ARGS --disable-rfio;;
