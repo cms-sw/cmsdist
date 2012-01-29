@@ -46,7 +46,7 @@ Requires: freetype
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
+%patch7 -p2
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
 case %cmsplatf in
