@@ -1,7 +1,9 @@
-### RPM external pythia6 424
+### RPM external pythia6 426
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
 
-%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
+%define keep_archives true
+
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif
 
