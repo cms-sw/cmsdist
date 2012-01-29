@@ -19,7 +19,7 @@ Patch7: root-5.32.00-longBranchName
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
-Requires: gccxml gsl libjpg libpng libtiff libungif pcre python fftw3 xz xrootd
+Requires: gccxml gsl libjpg libpng libtiff libungif pcre python fftw3 xz xrootd libxml2
 
 %if "%ismac" != "true"
 Requires: castor dcap
