@@ -17,13 +17,12 @@ Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
 %if "%{gcc_45plus}" == "true"
 %define pplVersion 0.11.2
 %define cloogVersion 0.16.2
-Source4: http://bugseng.com/products/ppl/download/ftp/releases/%{pplVersion}/ppl-%{pplVersion}.tar.bz2
+Source4: http://www.cs.unipr.it/ppl/Download/ftp/releases/%{pplVersion}/ppl-%{pplVersion}.tar.bz2
 Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
 %endif
 
 # On 64bit Scientific Linux build our own binutils.
-# Notice that since we don't support building 32bit nor slc4 anymore.
-%define use_custom_binutils %(case %cmsos in (slc*) echo true ;; (*) echo false ;; esac)
+%define use_custom_binutils %(echo %cmsos | sed -e 's|slc[0-9]*_amd64|true|')
 %if "%use_custom_binutils" == "true"
 %define bisonVersion 2.4
 Source6: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.bz2
@@ -38,7 +37,7 @@ Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 # build it in gcc and we pick it up from there also for rpm. Notice that
 # libelf does not work on Macosx however this is not a problem until
 # we use the system compiler there.
-%define isslc %(case %cmsos in (slc*) echo true ;; (*) echo false ;; esac)
+%define isslc %(echo %cmsos | sed -e 's|slc.*|true|')
 %define elfutilsVersion 0.152
 %if "%isslc" == "true"
 Source8: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
@@ -51,7 +50,6 @@ Patch2: gcc-4.6.1-elfutils-portability
 %prep
 echo "use_custom_binutils: %use_custom_binutils"
 %setup -T -b 0 -n gcc-%realversion
-%if "%gcc_45plus" == "true"
 # Get the macosx build to accept -arch, -F options like the official Apple one.
 # Notice that  patch command have to stay on a single line.
 case %cmsos in
@@ -60,10 +58,9 @@ case %cmsos in
   ;;
 esac
 %patch1 -p0
-%endif
 
 case %cmsos in
-  slc*)
+  slc*_amd64 )
 # Hack needed to align sections to 4096 bytes rather than 2MB on 64bit linux
 # architectures.  This is done to reduce the amount of address space wasted by
 # relocating many libraries. This was done with a linker script before, but
@@ -83,19 +80,6 @@ cat << \EOF_CMS_H > gcc/config/i386/cms.h
       %{" SPEC_32 ":%{!dynamic-linker:-dynamic-linker " LINUX_DYNAMIC_LINKER32 "}} \
       %{" SPEC_64 ":%{!dynamic-linker:-dynamic-linker " LINUX_DYNAMIC_LINKER64 "}}} \
     %{static:-static}} -z common-page-size=4096 -z max-page-size=4096"
-EOF_CMS_H
-  ;;
-esac
-
-case %cmsos in
-  slc*_corei7)
-cat << \EOF_CMS_H >> gcc/config/i386/cms.h
-#undef ASM_SPEC
-#define ASM_SPEC  "%%{v:-V} %%{Qy:} %%{!Qn:-Qy} %%{n} %%{T} %%{Ym,*} %%{Yd,*} %%{Wa,*:%%*} -march=corei7 -mtune=corei7"
-#undef CC1_SPEC
-#define CC1_SPEC  "%%(cc1_cpu) %%{profile:-p} -march=corei7 -mtune=corei7"
-#undef CC1PLUS_SPEC
-#define CC1PLUS_SPEC "-march=corei7"
 EOF_CMS_H
   ;;
 esac
@@ -153,7 +137,7 @@ CXX="$CXX -fPIC"
 # We do so only if we are using the new gcc 4.5+
 if [ "X%use_custom_binutils:%gcc_45plus" = Xtrue:true ] ; then
   CONF_BINUTILS_OPTS="--enable-gold=default --enable-lto --enable-plugins --enable-threads"
-  CONF_GCC_WITH_LTO="--enable-gold=yes --enable-lto" # --with-build-config=bootstrap-lto
+  CONF_GCC_WITH_LTO="--enable-gold=yes --enable-lto  --with-build-config=bootstrap-lto"
 fi
 
 # Build libelf.
@@ -253,7 +237,7 @@ find %i/lib %i/lib64 -name '*.la' -exec rm -f {} \; || true
 %define drop_files %i/share/{man,info,doc,locale} %i/tmp %i/lib*/{libstdc++.a,libsupc++.a}
 # Strip things people will most likely never debug themself.
 %define more_strip %i/bin/*{c++,g++,gcc,gfortran,gcov,ppl,cloog,cpp}*
-%define strip_files %i/libexec/*/*/*/{cc1,cc1plus,f951,lto1,collect2} %i/x86_64*/bin %i/lib/lib{mpfr,ppl,gmp,cloog}* %more_strip
+%define strip_symbols %i/libexec/*/*/{cc1,cc1plus,f951,lto1,collect2} %i/x86_64*/bin %i/lib/lib{mpfr,ppl,gmp,cloog}* %more_strip
 %define keep_archives yes
 # This avoids having a dependency on the system pkg-config.
 rm -rf %i/lib/pkg-config
