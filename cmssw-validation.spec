@@ -15,17 +15,22 @@ eval `%scram runtime -sh`
 %build
 cd $CMSSW_VERSION
 eval `%scram runtime -sh`
-rm -rf test-addontests
+rm -rf test-addontests test-runTheMatrix
 mkdir test-addontests
-cd test-addontests
+pushd test-addontests
+  BEGIN_TT=`date +%s`
+  addOnTests.py -j %compiling_processes &> result.log
+  END_TT=`date +%s`
+  DIFF_TT=$((END_TT - BEGIN_TT))
 
-BEGIN_TT=`date +%s`
-addOnTests.py -j %compiling_processes &> result.log
-END_TT=`date +%s`
-DIFF_TT=$((END_TT - BEGIN_TT))
-
-PASSED_TESTS=`cat result.log | awk '/tests passed/ { print $1 }'`
-FAILED_TESTS=`cat result.log | awk '/tests passed/ { print $4 }'`
+  PASSED_TESTS=`cat result.log | awk '/tests passed/ { print $1 }'`
+  FAILED_TESTS=`cat result.log | awk '/tests passed/ { print $4 }'`
+popd
+# Do runTheMatrix.py (let's start with -s)
+mkdir test-runTheMatrix
+pushd test-addontests
+  runTheMatrix.py -s
+popd
 
 # TODO: Add logs to the package or send them directly to the DB.
 %install
