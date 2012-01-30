@@ -1,4 +1,4 @@
-### RPM cms cmssw-addontests 1.0.0
+### RPM cms cmssw-validation 1.0.0
 
 Requires: cmssw SCRAMV1
 Source: none
@@ -10,11 +10,12 @@ Source: none
 cd $CMSSW_VERSION
 %scram build clean
 eval `%scram runtime -sh`
-rsync -av $CMSSW_RELEASE_BASE/src/ src/
+#rsync -av $CMSSW_RELEASE_BASE/src/ src/
 
 %build
 cd $CMSSW_VERSION
 eval `%scram runtime -sh`
+rm -rf test-addontests
 mkdir test-addontests
 cd test-addontests
 
@@ -25,11 +26,6 @@ DIFF_TT=$((END_TT - BEGIN_TT))
 
 PASSED_TESTS=`cat result.log | awk '/tests passed/ { print $1 }'`
 FAILED_TESTS=`cat result.log | awk '/tests passed/ { print $4 }'`
-
-# If some of the tests failed, return error
-if [ "$FAILED_TESTS" -ne 0 ]; then
-  exit 1
-fi
 
 # TODO: Add logs to the package or send them directly to the DB.
 %install
