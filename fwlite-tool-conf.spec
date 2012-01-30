@@ -43,12 +43,6 @@ Requires: uuid-toolfile
 Requires: xrootd-toolfile
 Requires: zlib-toolfile
 
-%ifnos darwin
-Requires: pyqt-toolfile
-Requires: qt-toolfile
-Requires: sip-toolfile
-%endif
-
 %define skipreqtools jcompiler
 
 ## IMPORT scramv1-tool-conf
