@@ -2,11 +2,9 @@
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 Source: http://switch.dl.sourceforge.net/sourceforge/pyxml/PyXML-%{realversion}.tar.gz
 Requires: python expat
-Patch0: py2-pyxml-fix-as-keyword-usage-as-variable
 
 %prep
 %setup -n PyXML-%{realversion}
-%patch0 -p0
 
 %build
 python setup.py build
