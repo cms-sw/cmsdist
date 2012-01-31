@@ -60,7 +60,7 @@ case %cmsos in
   ;;
 esac
 
-case %cmsos in
+case %cmsplatf in
   *_amd64_gcc461)
 %patch1 -p0
   ;;
