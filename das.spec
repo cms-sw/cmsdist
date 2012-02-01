@@ -14,7 +14,7 @@ Requires: py2-sphinx py2-pycurl rotatelogs
 %setup -D -T -b 1 -n DAS
 
 # remove ipython deps
-if [ ! -f src/python/DAS/tools/ipy_profile_mongo.py ]; then
+if [ -f src/python/DAS/tools/ipy_profile_mongo.py ]; then
 rm src/python/DAS/tools/ipy_profile_mongo.py
 fi
 
