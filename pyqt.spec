@@ -3,7 +3,6 @@
 #Source: http://www.riverbankcomputing.co.uk/static/Downloads/PyQt4/PyQt-x11-gpl-%realversion.tar.gz
 Source: http://cmsrep.cern.ch/cmssw/pyqt-mirror/PyQt-x11-gpl-%realversion.tar.gz
 Patch0: pyqt-relocatable-build
-Patch1: pyqt-fix-qt-conf-relocation-on-macosx
 Requires: python
 Requires: qt
 Requires: sip
@@ -16,7 +15,6 @@ Requires: sip
 # Notice that in the build section we copy qt.conf from the QT installation to 
 # get the correct location.
 %patch0 -p1
-%patch1 -p0
 
 %build
 # See above for explanation.
