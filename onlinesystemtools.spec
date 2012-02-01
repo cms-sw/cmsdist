@@ -13,6 +13,8 @@ Requires: oracle-env
 ## INITENV SETV CURL_VERSION            %curl_version
 %define zlib_version                    1.2.3
 ## INITENV SETV ZLIB_VERSION            %zlib_version
+%define zlib_root                       /usr
+## INITENV SETV ZLIB_ROOT               %zlib_root
 %define uuid_version                    1.39
 ## INITENV SETV UUID_VERSION            %uuid_version
 %define sqlite_version                  3.7.5
@@ -22,6 +24,8 @@ Requires: oracle-env
 ## INITENV SETV ORACLE_ROOT             %xdaq_root
 %define openssl_version                 0.9.8e
 ## INITENV SETV OPENSSL_VERSION         %openssl_version
+%define openssl_root                    /usr
+## INITENV SETV OPENSSL_ROOT            %openssl_root
 %define xerces_version                  2.8.0
 ## INITENV SETV XERCES_C_VERSION        %xerces_version
 ## INITENV SETV XERCES_C_ROOT           %xdaq_root
@@ -131,7 +135,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/zlib.xml
   <tool name="zlib" version="%zlib_version">
     <lib name="z"/>
     <client>
-      <environment name="ZLIB_BASE" default="/usr"/>
+      <environment name="ZLIB_BASE" default="%zlib_root"/>
       <environment name="INCLUDE" default="$ZLIB_BASE/include"/>
     </client>
   </tool>
@@ -143,7 +147,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/openssl.xml
     <lib name="ssl"/>
     <lib name="crypto"/>
     <client>
-      <environment name="OPENSSL_BASE" default="/usr"/>
+      <environment name="OPENSSL_BASE" default="%openssl_root"/>
       <environment name="INCLUDE" default="$OPENSSL_BASE/include"/>
     </client>
   </tool>
