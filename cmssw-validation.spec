@@ -1,5 +1,6 @@
 ### RPM cms cmssw-validation 1.0.0
-Requires: cmssw SCRAMV1 local-cern-siteconf
+Requires: cmssw SCRAMV1
+BuildRequires: local-cern-siteconf
 Source: none
 
 %define scram $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
