@@ -66,7 +66,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
     <flags CPPDEFINES="GNU_GCC"/>
     <flags CPPDEFINES="_GNU_SOURCE"/>
     <flags CXXSHAREDOBJECTFLAGS="-fPIC"/>
-    <flags CXXFLAGS="-O2 -pedantic -ansi -pthread -pipe -Wno-vla"/>
+    <flags CXXFLAGS="-O2 -pedantic -ansi -pthread -pipe"/>
     <flags CXXFLAGS="@ARCH_CXXFLAGS@ @COMPILER_CXXFLAGS@"/>
     <flags CXXFLAGS="-felide-constructors -fmessage-length=0 -ftemplate-depth-300"/>
     <flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wreturn-type -Wunused -Wparentheses -Wno-deprecated -Werror=return-type -Werror=missing-braces -Werror=unused-value -Werror=address -Werror=format -Werror=sign-compare -Werror=write-strings -fdiagnostics-show-option"/>
