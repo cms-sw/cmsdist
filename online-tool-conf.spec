@@ -16,6 +16,7 @@ Requires: clhep-toolfile
 Requires: coral-toolfile
 #Requires: cppunit-toolfile                 # not used online
 #Requires: curl-toolfile                    # from SLC5 (curl)
+#Requires: freetype-toolfile                # only on MacOS X
 #Requires: das-client-toolfile              # not used online
 #Requires: db4-toolfile                     # not used online
 #Requires: dbs-client-toolfile              # not used online
@@ -25,7 +26,7 @@ Requires: elementtree-toolfile
 Requires: expat-toolfile
 Requires: fakesystem
 Requires: fastjet-toolfile
-#Requires: gcc-toolfile                     # installed as system compiler
+Requires: gcc-toolfile
 Requires: gccxml-toolfile
 #Requires: gdbm-toolfile                    # not used online
 #Requires: geant4-toolfile                  # not used online
