@@ -1,21 +1,16 @@
-### RPM cms dbs-web V06_00_41
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
-
-%define cvstag %{realversion}
-%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-Source: %cvsserver&strategy=checkout&module=DBS/Web/DataDiscovery&nocache=true&export=DBS&tag=-r%{cvstag}&output=/dbs-web.tar.gz
-
-Requires: python mysql py2-mysqldb py2-simplejson py2-memcached elementtree
-Requires: webtools dbs-client
+### RPM cms das-client 0.9.7
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+%define svnserver svn://svn.cern.ch/reps/CMSDMWM
+Source0: %svnserver/DAS/tags/%{realversion}/src/python/DAS/tools/?scheme=svn+ssh&strategy=export&module=DAS&output=/das-client.tar.gz
+Requires: python
 
 %prep
-%setup -n DBS/Web/DataDiscovery
+%setup -D -T -b 0 -n DAS
 
 %build
-
 %install
-mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
-cp -r * %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
+mkdir -p %{i}/bin
+cp das_client.py %{i}/bin/
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
@@ -31,3 +26,6 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
+
+%files
+%i/bin/das_client.py
