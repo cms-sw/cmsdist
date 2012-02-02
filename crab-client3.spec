@@ -1,23 +1,23 @@
-### RPM cms crab-client3 3.0.6a
+### RPM cms crab-client3 3.0.7d
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-%define wmcver 0.8.18
+%define wmcver 0.8.24
 %define webdoc_files %i/doc/
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_crabclient3.tar.gz
 Source1: %svnserver/CRABClient/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=CRABClient&output=/crabclient3.tar.gz
-Requires: python py2-httplib2 py2-sphinx
+Requires: python py2-httplib2 py2-sphinx py2-pycurl
 
-Patch0: crabclient3-setup
+#Patch0: crabclient3-setup
 
 %prep
 %setup -D -T -b 1 -n CRABClient
 %setup -T -b 0 -n WMCore
-%patch0 -p0
+#%patch0 -p0
 
 %build
 cd ../WMCore
 python setup.py build_system -s crabclient
-#cd ../CRABClient
+##cd ../CRABClient
 #python setup.py build
 
 # build DAS sphinx documentation
