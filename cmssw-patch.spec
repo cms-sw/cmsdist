@@ -1,4 +1,4 @@
-### RPM cms cmssw-patch CMSSW_4_4_2_patch9
+### RPM cms cmssw-patch CMSSW_5_0_1_patch1
 Requires: cmssw-patch-tool-conf 
 
 %define runGlimpse      yes
