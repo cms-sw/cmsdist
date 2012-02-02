@@ -23,7 +23,7 @@ popd
 
 # Do runTheMatrix.py (let's start with -s)
 pushd %i/test-runTheMatrix
-  time runTheMatrix.py -s
+  time runTheMatrix.py -s -j %compiling_processes &> result.log
 popd
 
 # TODO: Add logs to the package or send them directly to the DB.
