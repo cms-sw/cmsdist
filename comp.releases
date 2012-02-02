@@ -40,6 +40,9 @@ HG1201a wmagent @osx106_amd64_gcc461
 
 HG1201a crab @slc5_amd64_gcc461
 + HEAD/1201a crab.spec
++ 1.29/3.0.7d crab-server3.spec
++ 1.10/3.0.7d crab-client3.spec
++ 1.30/0.0.6  asyncstageout.spec
 
 #DIE#HG1112a crab-server3 @slc5_amd64_gcc461
 #DIE#+ 1.23/3.0.6a crab-server3.spec
