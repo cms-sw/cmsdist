@@ -19,8 +19,9 @@ EOF
 case %cmsos in 
   osx*_*_gcc421) ;;
   osx*) 
-    export CC=/usr/bin/gcc
-    export CXX=/usr/bin/c++
+    export PATH=/Developer/usr/bin:$PATH
+    export CC='/Developer/usr/bin/llvm-gcc-4.2'
+    export CXX='/Developer/usr/bin/llvm-g++-4.2'
   ;;
 esac
 python setup.py build 
