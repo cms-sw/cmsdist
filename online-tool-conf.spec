@@ -89,7 +89,7 @@ Requires: valgrind-toolfile
 #Requires: py2-scipy-toolfile               # not used online
 Requires: cmsswdata-toolfile
 Requires: py2-cjson-toolfile
-Requires: py2-pycurl-toolfile
+#Requires: py2-pycurl-toolfile              # not used online
 #Requires: rivet-toolfile                   # not used online
 #Requires: cascade-toolfile                 # not used online
 Requires: fftw3-toolfile
