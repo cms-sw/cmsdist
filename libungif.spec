@@ -12,7 +12,5 @@ make %makeprocesses
 %install
 make install
 # Strip libraries, we are not going to debug them.
-%define strip_files %i/lib
-# Drop all the perl scripts. They are not needed and force the installation of
-# more packages on Ubuntu.
-%define drop_files %i/bin
+%define strip_files %i/{lib,bin}
+perl -p -i -e "s|^#!.*perl|#!/usr/bin/env perl|" %{i}/bin/gifburst
