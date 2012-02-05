@@ -1,7 +1,12 @@
 ### RPM external py2-pycurl 7.19.0
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 Source: http://pycurl.sourceforge.net/download/pycurl-%realversion.tar.gz
-Requires: python curl
+
+Requires: python
+%if "%online" != "true"
+Requires: curl
+%endif
 
 %prep
 %setup -n pycurl-%realversion
