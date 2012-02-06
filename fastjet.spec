@@ -4,6 +4,7 @@ Patch1: fastjet-3.0.1-nobanner
 Patch2: fastjet-3.0.1-siscone-banner
 Patch3: fastjet-3.0.1-noemptyareawarning
 Patch4: fastjet-3.0.1-nodegeneracywarning
+Patch5: fastjet-3.0.1-cluster-sequence-banner
 
 %prep
 %setup -n %n-%realversion
@@ -11,11 +12,13 @@ Patch4: fastjet-3.0.1-nodegeneracywarning
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 case %cmsplatf in
     *_gcc4[01234]*) ;;
     *) CXXFLAGS="-O3 -Wall -ffast-math -std=c++0x -msse3 -ftree-vectorize" ;;
 esac
+
 
 ./configure --enable-shared  --enable-atlascone --enable-cmsiterativecone --enable-siscone --prefix=%i --enable-allcxxplugins ${CXXFLAGS+CXXFLAGS="$CXXFLAGS"}
 
