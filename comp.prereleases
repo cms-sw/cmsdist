@@ -13,9 +13,9 @@
 # 1.278 is 1.0.1
 # 1.299 is 1.1.5 (new analytics, DASQuery, reduced number of threads)
 # 1.303 is 1.2.1.pre1 (qhash look-up, new SiteDB)
-# 1.304 is 1.1.6
+# 1.305 is 1.1.6
 HG1201a das @slc5_amd64_gcc461
-+ 1.304 das.spec
++ 1.305 das.spec
 
 # FileMover
 # 1.30 is 1.0.9
