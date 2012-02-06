@@ -1,10 +1,10 @@
-### RPM external d3 2.6.0
+### RPM external d3 2.7.4
 ## NOCOMPILER
 
 Source: https://github.com/mbostock/d3/tarball/v%{realversion}
 
 %prep
-%setup -n mbostock-d3-9a93804
+%setup -n mbostock-d3-76400ac
 
 %build
 
