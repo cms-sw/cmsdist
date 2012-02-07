@@ -14,7 +14,6 @@ Requires: oracle-env
 %define zlib_version                    1.2.3
 ## INITENV SETV ZLIB_VERSION            %zlib_version
 %define zlib_root                       /usr
-## INITENV SETV ZLIB_ROOT               %zlib_root
 %define uuid_version                    1.39
 ## INITENV SETV UUID_VERSION            %uuid_version
 %define sqlite_version                  3.7.5
@@ -25,7 +24,6 @@ Requires: oracle-env
 %define openssl_version                 0.9.8e
 ## INITENV SETV OPENSSL_VERSION         %openssl_version
 %define openssl_root                    /usr
-## INITENV SETV OPENSSL_ROOT            %openssl_root
 %define xerces_version                  2.8.0
 ## INITENV SETV XERCES_C_VERSION        %xerces_version
 ## INITENV SETV XERCES_C_ROOT           %xdaq_root

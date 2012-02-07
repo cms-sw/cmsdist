@@ -136,7 +136,7 @@ case %cmsplatf in
     export OS_SHAREDFLAGS="-shared -dynamic -single_module"
     export OS_SHAREDSUFFIX="dylib"
     export OS_LDFLAGS="-Wl,-commons -Wl,use_dylibs"
-    export OS_RUNTIME_LDPATH_NAME="DYLD_FALLBACK_LIBRARY_PATH"
+    export OS_RUNTIME_LDPATH_NAME="DYLD_LIBRARY_PATH"
   ;;
 esac
 
