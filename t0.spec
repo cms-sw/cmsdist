@@ -11,6 +11,10 @@ Requires: python py2-sphinx
 %setup -T -b 0 -n WMCore
 %setup -D -T -b 1 -n T0
 
+# setup version
+cat src/python/T0/__init__.py | sed "s,development,%{realversion},g" > init.tmp
+mv -f init.tmp src/python/T0/__init__.py
+
 %build
 cd ../WMCore
 python setup.py build
