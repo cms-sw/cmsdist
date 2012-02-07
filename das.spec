@@ -1,4 +1,4 @@
-### RPM cms das 1.1.7
+### RPM cms das 1.1.8.pre1
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver 0.8.3
 %define webdoc_files %i/doc/
@@ -17,6 +17,10 @@ Requires: py2-sphinx py2-pycurl rotatelogs
 if [ -f src/python/DAS/tools/ipy_profile_mongo.py ]; then
    rm src/python/DAS/tools/ipy_profile_mongo.py
 fi
+
+# setup version
+cat src/python/DAS/__init__.py | sed "s,development,%{realversion},g" > init.tmp
+mv -f init.tmp src/python/DAS/__init__.py
 
 %build
 cd ../WMCore
