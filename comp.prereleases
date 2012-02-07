@@ -164,4 +164,4 @@ HG1112a cmsbuilder @slc5_amd64_gcc461
 
 # T0
 HG1201c t0 @slc5_amd64_gcc461
-+ 1.2 t0.spec
++ 1.3 t0.spec
