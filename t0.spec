@@ -1,14 +1,19 @@
 ### RPM cms t0 1.0.1
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+%define wmcver 0.8.26pre1
 %define webdoc_files %i/doc/
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
+Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_das.tar.gz
 Source1: %svnserver/T0/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=T0&output=/T0.tar.gz
-Requires: python wmcore py2-sphinx
+Requires: python py2-sphinx
 
 %prep
+%setup -T -b 0 -n WMCore
 %setup -D -T -b 1 -n T0
 
 %build
+cd ../WMCore
+python setup.py build
 cd ../T0
 python setup.py build
 
@@ -21,6 +26,8 @@ mkdir -p build
 make html
 
 %install
+cd ../WMCore
+python setup.py install --prefix=%i
 cd ../T0
 python setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
