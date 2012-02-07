@@ -1,4 +1,4 @@
-### RPM cms t0 1.0.0
+### RPM cms t0 1.0.1
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define webdoc_files %i/doc/
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
