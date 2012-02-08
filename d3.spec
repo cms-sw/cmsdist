@@ -4,7 +4,7 @@
 Source: https://github.com/mbostock/d3/tarball/v%{realversion}
 
 %prep
-%setup -n mbostock-d3-76400ac
+%setup -n mbostock-d3-0a6ad07
 
 %build
 
