@@ -7,14 +7,15 @@
 %define webdoc_files %i/doc/
 %define cvssrc cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define svnsrc svn://svn.cern.ch/reps/CMSDMWM/SiteDB/tags/%{realversion}
-%define svnwmc svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/0.8.3
+%define svnwmc svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/0.8.25
 Source0: %{svnwmc}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_sitedb.tar.gz
 Source1: %{svnsrc}?scheme=svn+ssh&strategy=export&module=SiteDB&output=/sitedb.tar.gz
 Source2: %{cvssrc}&strategy=export&module=WEBTOOLS&nocache=true&export=WEBTOOLS&tag=-rSiteDBv1-slc5-v3&output=/old-sitedb.tar.gz
 Source3: %{cvssrc}&strategy=export&module=WEBTOOLS&nocache=true&export=WEBTOOLS&tag=-rV01-03-47&output=/old-webtools.tar.gz
-Requires: cherrypy yui yui3 d3 xregexp yuicompressor py2-cx-oracle py2-cjson rotatelogs py2-sphinx py2-coverage
-Requires: py2-cheetah py2-pysqlite py2-formencode py2-pycrypto beautifulsoup py2-sqlalchemy oracle-env py2-pyopenssl
+Requires: cherrypy yui3 d3 xregexp py2-cx-oracle py2-cjson rotatelogs wmcore-devtools
+Requires: yui py2-cheetah py2-pysqlite py2-formencode py2-pycrypto beautifulsoup py2-sqlalchemy oracle-env py2-pyopenssl
 # ^ = line for legacy SiteDB support, remove when migrating fully to sitedb 2.x
+#BuildRequires: wmcore-devtools
 
 %prep
 %setup -T -b 0 -n WMCore
