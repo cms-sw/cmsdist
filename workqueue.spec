@@ -1,4 +1,4 @@
-### RPM cms workqueue 0.8.23
+### RPM cms workqueue 0.8.26pre2
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
