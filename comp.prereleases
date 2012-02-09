@@ -60,11 +60,10 @@ HG1201c cmsweb @osx106_amd64_gcc461
 + 1.39/0.8.11 reqmgr.spec
 
 # Stagemanager offsite agent
-#DIE#HG1109d stagemanager-agent
-#DIE#+ 1.7/0.0.5 stagemanager-agent.spec
-
-#DIE#HG1109d stagemanager
-#DIE#+ 1.9/0.0.5 stagemanager.spec
+HG1201c stagemanager-agent @slc5_amd64_gcc461
++ 1.10/1.0.1 stagemanager-agent.spec
+HG1201c stagemanager @slc5_amd64_gcc461
++ 1.10/1.0.1 stagemanager.spec
 
 # DQM GUI
 #DIE#HG1106c dqmgui
