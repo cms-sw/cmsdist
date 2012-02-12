@@ -1,14 +1,11 @@
-### RPM cms t0 1.0.1
+### RPM cms t0 1.0.2
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-%define wmcver 0.8.26pre1
 %define webdoc_files %i/doc/
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
-Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_das.tar.gz
-Source1: %svnserver/T0/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=T0&output=/T0.tar.gz
-Requires: python py2-sphinx
+Source0: %svnserver/T0/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=T0&output=/T0.tar.gz
+Requires: wmagent
 
 %prep
-%setup -T -b 0 -n WMCore
 %setup -D -T -b 1 -n T0
 
 # setup version
@@ -16,9 +13,7 @@ cat src/python/T0/__init__.py | sed "s,development,%{realversion},g" > init.tmp
 mv -f init.tmp src/python/T0/__init__.py
 
 %build
-cd ../WMCore
-python setup.py build
-cd ../T0
+cd T0
 python setup.py build
 
 # build T0 sphinx documentation
@@ -30,12 +25,9 @@ mkdir -p build
 make html
 
 %install
-cd ../WMCore
-python setup.py install --prefix=%i
 cd ../T0
 python setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
-#cp -r src/python/T0 %{i}
 
 mkdir -p %i/doc
 tar --exclude '.buildinfo' -C doc/build/html -cf - . | tar -C %i/doc -xvf -
