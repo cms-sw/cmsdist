@@ -27,5 +27,4 @@ make %makeprocesses
 %install
 %ifnos darwin
 make %makeprocesses install
-%define drop_files %i/share/man
 %endif
