@@ -5,6 +5,7 @@ Requires: python curl
 
 %prep
 %setup -n pycurl-%realversion
+perl -p -i -e '/--static-libs/ && s/^(\s+)/$1"") #/' setup.py
 
 %build
 python setup.py build
@@ -12,3 +13,5 @@ python setup.py build
 %install
 python setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
+# Remove documentation.
+rm -rf %i/share
