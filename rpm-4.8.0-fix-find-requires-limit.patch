@@ -5,7 +5,8 @@ index 9bb08b7..dfaf2fa 100644
 @@ -6,7 +6,7 @@ ulimit -c 0
  
  filelist=`sed "s/['\"]/\\\&/g"`
- exelist=`echo $filelist | xargs file | fgrep Mach-O | cut -d: -f1 `
+-exelist=`echo $filelist | xargs file | fgrep Mach-O | cut -d: -f1 `
++exelist=`echo $filelist | xargs file -n 2000 | fgrep Mach-O | cut -d: -f1 `
 -scriptlist=`echo $filelist | xargs file | egrep ":.* (commands|script) " | cut -d: -f1 `
 +scriptlist=`echo $filelist | xargs -n 2000 file | egrep ":.* (commands|script) " | cut -d: -f1 `
  
