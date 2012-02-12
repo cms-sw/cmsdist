@@ -13,7 +13,7 @@ cat src/python/T0/__init__.py | sed "s,development,%{realversion},g" > init.tmp
 mv -f init.tmp src/python/T0/__init__.py
 
 %build
-cd T0
+cd ../T0
 python setup.py build
 
 # build T0 sphinx documentation
