@@ -7,14 +7,8 @@ Requires: expat zlib libjpg libpng
 
 %build
 which gcc
-LIB64_SUFFIX=
 case %cmsplatf in
-    slc*_ia32_* )
-        export LD_LIBRARY_PATH=`echo $LD_LIBRARY_PATH | sed -e 's|lib64|lib|g'`
-        ADDITIONAL_OPTIONS="--with-freetype2=no --disable-shared --enable-static --disable-libtdl"
-    ;;
     slc*_amd64_* )
-        LIB64_SUFFIX=64
         ADDITIONAL_OPTIONS="--with-freetype2=no --disable-shared --enable-static --disable-ltdl"
     ;;
     osx* )
@@ -22,7 +16,7 @@ case %cmsplatf in
     ;;
 esac
 ./configure \
-  --with-expatlibdir=$EXPAT_ROOT/lib$LIB64_SUFFIX \
+  --with-expatlibdir=$EXPAT_ROOT/lib \
   --with-expatincludedir=$EXPAT_ROOT/include \
   --with-zincludedir=$ZLIB_ROOT/include \
   --with-zlibdir=$ZLIB_ROOT/lib \
@@ -54,12 +48,6 @@ esac
   --prefix=%{i} \
   $ADDITIONAL_OPTIONS
 
-# This is a workaround for the fact that sort from coreutils 5.96 doesn't 
-# like "sort +0 -1", not really something specific to ppc64/ydl5.0
-if [ "$(uname -m)" == "ppc64" ]
-then
-perl -p -i -e "s|\+0 \-1|-k1,1|g" dotneato/common/Makefile
-fi
 # Probably the configure should just be remade on Darwin, but it builds
 # as-is with this small cleanup
 perl -p -i -e "s|-lexpat||g;s|-ljpeg||g" configure
@@ -68,6 +56,7 @@ make
 
 %install
 make install
+rm -rf %{i}/share
 # We remove pkg-config files for two reasons:
 # * it's actually not required (macosx does not even have it).
 # * rpm 4.8 adds a dependency on the system /usr/bin/pkg-config 
@@ -79,7 +68,7 @@ rm -rf %i/lib/pkgconfig
 
 # To match configure options above
 case %cmsplatf in
-    slc*_ia32_* | slc*_amd64_*)
+    slc*_amd64_*)
         ln -s dot_static %i/bin/dot
     ;;
 esac
