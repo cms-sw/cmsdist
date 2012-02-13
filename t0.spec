@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define webdoc_files %i/doc/
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
-Source0: %svnserver/T0/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=T0&output=/T0.tar.gz
+Source1: %svnserver/T0/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=T0&output=/T0.tar.gz
 Requires: wmagent
 
 %prep
