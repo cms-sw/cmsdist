@@ -1,4 +1,4 @@
-### RPM cms sitedb 2.2.1
+### RPM cms sitedb 2.2.2
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
@@ -6,6 +6,7 @@
 
 %define webdoc_files %i/doc/
 %define cvssrc cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
+#%define svnsrc svn://svn.cern.ch/reps/CMSDMWM/SiteDB/trunk@15167
 %define svnsrc svn://svn.cern.ch/reps/CMSDMWM/SiteDB/tags/%{realversion}
 %define svnwmc svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/0.8.25
 Source0: %{svnwmc}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_sitedb.tar.gz
