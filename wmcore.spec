@@ -1,7 +1,9 @@
 ### RPM cms wmcore 0.8.26pre4
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
-%define svnversion %realversion
+## INITENV +PATH PATH %i/xbin
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
+%define svnversion %realversion
 
 Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%svnversion?scheme=svn+ssh&strategy=export&module=WMCore&output=/WMCORE.tar.gz
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 py2-pycurl py2-sphinx
@@ -13,6 +15,7 @@ Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 py2-pycurl py2-sphin
 python setup.py build
 
 %install
+mkdir -p %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
 python setup.py install --prefix=%i
 egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
