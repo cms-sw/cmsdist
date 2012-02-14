@@ -13,11 +13,12 @@
 # 1.299 is 1.1.5 (new analytics, DASQuery, reduced number of threads)
 # 1.313 is 1.1.10
 # 1.314 is 1.2.1.pre3 (qhash look-up, new SiteDB)
+# 1.315 is 1.1.11
 HG1201a das @slc5_amd64_gcc461
-+ 1.314 das.spec
-+ 1.39 mongo.spec
-+ 1.22 py2-pymongo.spec 
-+ 1.5 py2-ply.spec
++ 1.315 das.spec
+#+ 1.39 mongo.spec
+#+ 1.22 py2-pymongo.spec 
+#+ 1.5 py2-ply.spec
 
 # FileMover
 # 1.30 is 1.0.9
