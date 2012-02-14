@@ -1,4 +1,4 @@
-### RPM cms filemover 1.1.2
+### RPM cms filemover 1.1.3
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver 0.8.3
 %define webdoc_files %i/doc/
@@ -12,6 +12,10 @@ Requires: py2-sphinx rotatelogs java-jdk srmcp
 %prep
 %setup -T -b 0 -n WMCore
 %setup -D -T -b 1 -n FileMover
+
+# setup version
+cat src/python/fm/__init__.py | sed "s,development,%{realversion},g" > init.tmp
+mv -f init.tmp src/python/fm/__init__.py
 
 %build
 cd ../WMCore
