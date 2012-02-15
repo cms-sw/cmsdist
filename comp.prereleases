@@ -113,12 +113,12 @@ HG1201c workqueue @slc5_amd64_gcc461
 #DIE#+ DBS_2_1_6-pre5 dbs-client.spec
 
 # DBS3 build
-HG1201a dbs3 @slc5_amd64_gcc461
-+ HEAD/3.0.14b dbs3.spec
+HG1203a dbs3 @slc5_amd64_gcc461
++ HEAD/3.0.15 dbs3.spec
 
 # DBS3 Client
-HG1201a dbs3-client @slc5_amd64_gcc461
-+ HEAD/3.0.14b dbs3-client.spec
+HG1203a dbs3-client @slc5_amd64_gcc461
++ HEAD/3.0.15 dbs3-client.spec
 
 # Crab
 #DIE#HG1102b crab-server

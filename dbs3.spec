@@ -1,4 +1,4 @@
-### RPM cms dbs3 3.0.14b
+### RPM cms dbs3 3.0.15
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 ## INITENV SET DBS3_SERVER_ROOT %i/
@@ -22,6 +22,7 @@ cd ../DBS3
 python setup.py build_system -s Server
 
 %install
+mkdir -p %i/etc/profile.d %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
 cd ../WMCore
 python setup.py install_system -s wmc-web --prefix=%i
 cd ../DBS3

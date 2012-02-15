@@ -1,4 +1,4 @@
-### RPM cms dbs3-client 3.0.14b
+### RPM cms dbs3-client 3.0.15
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 ## INITENV SET DBS3_CLIENT_ROOT %i/
@@ -16,6 +16,7 @@ Requires: python py2-cjson py2-sphinx
 %build
 python setup.py build_system -s Client
 %install
+mkdir -p %i/etc/profile.d %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
 python setup.py install_system -s Client --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
