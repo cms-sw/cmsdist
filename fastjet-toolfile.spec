@@ -10,8 +10,10 @@ mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/fastjet.xml
   <tool name="fastjet" version="@TOOL_VERSION@">
     <info url="http://www.lpthe.jussieu.fr/~salam/fastjet/"/>
-    <lib name="fastjetplugins"/>
-    <lib name="fastjettools"/>
+    <lib name="CMSIterativeConePlugin"/>
+    <lib name="SISConePlugin"/>
+    <lib name="CDFConesPlugin"/>
+    <lib name="ATLASConePlugin"/>
     <lib name="siscone"/>
     <lib name="siscone_spherical"/>
     <lib name="fastjet"/>
