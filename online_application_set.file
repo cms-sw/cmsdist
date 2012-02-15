@@ -203,6 +203,7 @@ CondTools/RunInfo
 CondTools/SiPixel
 CondTools/SiStrip
 CondTools/Utilities
+Configuration/AlCa
 Configuration/DataProcessing
 Configuration/EcalTB
 Configuration/EventContent
@@ -759,6 +760,7 @@ RecoTauTag/RecoTau
 RecoTauTag/TauTagTools
 RecoTracker/CkfPattern
 RecoTracker/Configuration
+RecoTracker/ConversionSeedGenerators
 RecoTracker/DeDx
 RecoTracker/DebugTools
 RecoTracker/FinalTrackSelectors
