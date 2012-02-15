@@ -19,20 +19,15 @@ esac
 
 case %cmsplatf in
   osx*)
-     perl -p -i -e 's|-rdynamic||g' configure \
-                                    AddOns/Analysis/Scripts/Makefile.in
-     LDFLAGS="-L$(basename $(gfortran --print-file-name=libgfortran.a))"
-     CXX="`which c++`"
-     CC="`which gcc`"
-     FC="`which gfortran`"
-     LD="`which gfortran`"
+    perl -p -i -e 's|-rdynamic||g' \
+      configure \
+      AddOns/Analysis/Scripts/Makefile.in
   ;;
 esac
 
 ./configure --prefix=%i --enable-analysis \
             --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT \
-            CXXFLAGS="-O2 -fuse-cxa-atexit $ARCH_CMSPLATF" ${CXX+CXX="$CXX"} \
-            ${CC+CC="$CC"} ${FC+FC="$FC"} ${LD+LD="$LD"}
+            --enable-multithread CXXFLAGS="-O2 -fuse-cxa-atexit $ARCH_CMSPLATF"
 
 %build
 # Fix up a configuration mistake coming from a test being confused
