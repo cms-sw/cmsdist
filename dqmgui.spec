@@ -1,4 +1,4 @@
-### RPM cms dqmgui 6.1.3
+### RPM cms dqmgui 6.1.4
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH %{dynamic_path_var} %i/xlib
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
@@ -10,7 +10,7 @@
 %define cvs cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 
 Source0: %{svn}?scheme=svn+ssh&strategy=export&module=Monitoring&output=/src.tar.gz
-Source1: %{cvs}&strategy=export&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-15-18&output=/DQMCore.tar.gz
+Source1: %{cvs}&strategy=export&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-15-19&output=/DQMCore.tar.gz
 Source2: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=image&revision=10&scheme=http&output=/rtgu.tar.gz
 Source3: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
 Patch0: dqmgui-rtgu
