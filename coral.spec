@@ -1,4 +1,4 @@
-### RPM cms coral CORAL_2_3_20
+### RPM cms coral CORAL_2_3_21
 Requires: coral-tool-conf
 Patch0: coral-2_3_20-macosx
 

@@ -14,9 +14,9 @@ Requires: onlinesystemtools
 %setup -n %{n}__%{realversion}__src
 
 %if "%online" != "true"
-%define makeargs "EXPAT_DIR=$EXPAT_ROOT COMPILER_TAG=gcc_%{gccver} ZLIB_DIR=$ZLIB_ROOT  OPENSSL_DIR=$OPENSSL_ROOT"
+%define makeargs "EXPAT_DIR=$EXPAT_ROOT COMPILER_TAG=gcc_$GCC_VERSION ZLIB_DIR=$ZLIB_ROOT  OPENSSL_DIR=$OPENSSL_ROOT"
 %else
-%define makeargs "EXPAT_DIR=$EXPAT_ROOT COMPILER_TAG=gcc_%{gccver}"
+%define makeargs "EXPAT_DIR=$EXPAT_ROOT COMPILER_TAG=gcc_$CXXCOMPILER_VERSION"
 %endif
 
 %build
