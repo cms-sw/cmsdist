@@ -114,6 +114,7 @@ HG1201c workqueue @slc5_amd64_gcc461
 
 # DBS3 
 HG1203a dbs3-combined @slc5_amd64_gcc461
++ HEAD/3.0.15 dbs3-combined.spec
 + HEAD/3.0.15 dbs3.spec
 + HEAD/3.0.15 dbs3-client.spec
 
