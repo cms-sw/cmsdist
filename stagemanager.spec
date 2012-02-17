@@ -1,6 +1,6 @@
 ### RPM cms stagemanager 1.0.1
 
-Source: svn://svn.cern.ch/reps/CMSDMWM/StageManager/tags/%realversion/src/couchapp?scheme=svn+ssh&strategy=export&module=StageManager&output=/srcsm.tar.gz
+Source: svn://svn.cern.ch/reps/CMSDMWM/StageManager/tags/%realversion/src/couchapp?scheme=svn+ssh&strategy=export&module=StageManager&output=/src.tar.gz
 
 Requires: python couchapp
 

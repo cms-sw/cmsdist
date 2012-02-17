@@ -1,4 +1,4 @@
-### RPM external py2-ply 3.4
+### RPM external py2-ply 3.3
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 Source: http://www.dabeaz.com/ply/ply-%realversion.tar.gz
