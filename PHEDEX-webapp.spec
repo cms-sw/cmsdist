@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-webapp 1.1.9
+### RPM cms PHEDEX-webapp 1.3.7
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define cvsversion WEBAPP_%(echo %realversion | tr . _)
@@ -6,7 +6,7 @@
 %define yuicompressorversion 2.4.6
 Source0: %cvsserver&strategy=export&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
 Source1: http://yui.zenfs.com/releases/yuicompressor/yuicompressor-%{yuicompressorversion}.zip
-Requires: protovis yui PHEDEX-datasvc
+Requires: protovis yui
 
 %prep
 %setup -T -b 1 -n yuicompressor-%{yuicompressorversion}
@@ -33,8 +33,7 @@ cp %i/PhEDExWeb/ApplicationServer/html/phedex{,-debug}.html
 # Also explicitly turn off combo-serving, for now.
 perl -p -i -e 's|phedex-base.js|phedex-base-loader.js|; \
 	      s|^.*phedex-loader.js.*||; \
-	      s|phedex([a-z,-]+).js|phedex\1-min.js|g; \
-	      s|PHEDEX.Appserv.combineRequests.*$|PHEDEX.Appserv.combineRequests = false;|g;' \
+	      s|phedex([a-z,-]+).js|phedex\1-min.js|g;' \
   %i/PhEDExWeb/ApplicationServer/html/phedex.html
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.

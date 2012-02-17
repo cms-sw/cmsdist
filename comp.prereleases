@@ -17,16 +17,24 @@
 # 1.258 is 0.9.4
 # 1.259 is 0.9.5
 # 1.261 is 0.9.7
-# 1.267 is 1.0.0.pre6
-HG1111d das @slc5_amd64_gcc461
-+ 1.267 das.spec
+# 1.271 is 0.9.8
+# 1.275 is 1.0.0
+# 1.278 is 1.0.1
+# 1.282 is 1.1.0.pre4 (new analytics)
+#DIE#HG1112a das @slc5_amd64_gcc461
+#DIE#+ 1.282 das.spec
+#DIE#+ 1.2 mongo-osx.patch
+#DIE#+ 1.38 mongo.spec
 
 # FileMover
 # 1.30 is 1.0.9
 # 1.32 is 1.0.9 w/ WMCore 0.8.3
 # 1.34 is 1.0.11
-#DIE#HG1108a filemover
-#DIE#+ 1.34 filemover.spec
+# 1.35 is 1.0.11.phedex_test
+# 1.37 is 1.1.0
+# 1.38 is 1.1.1
+#DIE#HG1111c filemover @slc5_amd64_gcc461
+#DIE#+ 1.38 filemover.spec
 
 # T0PromptSkim
 #HG1105a T0PromptSkim
@@ -37,16 +45,16 @@ HG1111d das @slc5_amd64_gcc461
 #DIE#+ HEAD/5.0.4 T0DataSvc.spec
 
 # CmsTC
-#DIE#HG1102b CmsTC
-#DIE#+ 1.61/* CmsTC.spec
+#DIE#HG1112c CmsTC @slc5_amd64_gcc461
+#DIE#+ 1.62/* CmsTC.spec
 #+ HEAD/2.16.1 graphviz.spec
 
 # Cms Webtools services
-HG1111c cmsweb @slc6_amd64_gcc461
-HG1111d cmsweb @slc5_amd64_gcc461
-+ 1.34/0.8.13 workqueue.spec
-HG1111c cmsweb @osx106_amd64_gcc461
-HG1111c-gcc434 cmsweb @slc5_amd64_gcc434
+HG1201a cmsweb @slc6_amd64_gcc461
+
+HG1201a cmsweb @slc5_amd64_gcc461
+
+HG1201a cmsweb @osx106_amd64_gcc461
 
 # Stagemanager offsite agent
 #DIE#HG1109d stagemanager-agent
@@ -64,17 +72,20 @@ HG1111c-gcc434 cmsweb @slc5_amd64_gcc434
 #DIE#+ HEAD/0.8.5 reqmgr.spec
 
 # RequestManager
-HG1111a reqmgr @slc5_amd64_gcc461
-+ 1.50 couchdb.spec
-+ HEAD/0.8.11 reqmgr.spec
+#DIE#HG1111d reqmgr @slc5_amd64_gcc461
+#DIE#+ 1.1 couchdb-changes-timeout.patch
+#DIE#+ 1.53/1.1.0 couchdb.spec
+#DIE#+ HEAD/0.8.14 reqmgr.spec
 
 # RequestMonitor
-HG1111a reqmon @slc5_amd64_gcc461
-+ HEAD/0.0.9.head reqmon.spec
+#DIE#HG1111a reqmon @slc5_amd64_gcc461
+#DIE#+ HEAD/0.8.15 reqmon.spec
 
 # WorkQueue
-HG1111c workqueue @slc5_amd64_gcc461
-+ HEAD/0.8.13 workqueue.spec
+HG1112a workqueue @slc5_amd64_gcc461
++ 1.54 couchdb.spec
++ 1.1 couchdb-changes-heartbeat.patch
++ HEAD/0.8.17 workqueue.spec
 
 #DIE#HG1107c wmagent
 #DIE#+ WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
@@ -89,14 +100,14 @@ HG1111c workqueue @slc5_amd64_gcc461
 #DIE#+ HEAD/0.0.3 regsvc.spec
 
 # PHEDEX agents
-HG1109b PHEDEX-combined-agents @slc5_amd64_gcc434
-+ forPHEDEX401 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
+#DIE#HG1109b PHEDEX-combined-agents @slc5_amd64_gcc434
+#DIE#+ forPHEDEX401a PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
 
 # PHEDEX web
-#DIE#HG1107a PHEDEX-combined-web
-#DIE#+ 1.145 PHEDEX-datasvc.spec
-#DIE#+ 1.111 PHEDEX-web.spec
-#DIE#+ 1.101 PHEDEX-webapp.spec
+#DIE#HG1112a PHEDEX-combined-web @slc5_amd64_gcc461
+#DIE#+ 1.179 PHEDEX-datasvc.spec
+#DIE#+ 1.143 PHEDEX-web.spec
+#DIE#+ 1.137 PHEDEX-webapp.spec
 
 # DBS-2
 #DIE#HG1107c dbs-server
@@ -108,12 +119,12 @@ HG1109b PHEDEX-combined-agents @slc5_amd64_gcc434
 #DIE#+ DBS_2_1_6-pre5 dbs-client.spec
 
 # DBS3 build
-HG1111a dbs3 @slc5_amd64_gcc461
-+ HEAD/3.0.12a dbs3.spec
+#DIE#HG1112a dbs3 @slc5_amd64_gcc461
+#DIE#+ HEAD/3.0.13 dbs3.spec
 
 # DBS3 Client
-HG1111a dbs3-client @slc5_amd64_gcc461
-+ HEAD/3.0.12 dbs3-client.spec
+#DIE#HG1112a dbs3-client @slc5_amd64_gcc461
+#DIE#+ HEAD/3.0.13 dbs3-client.spec
 
 # Crab
 #DIE#HG1102b crab-server
@@ -123,16 +134,35 @@ HG1111a dbs3-client @slc5_amd64_gcc461
 #HG1111a-gcc434 crab-server3 @slc5_amd64_gcc434
 #+ 1.16/3.0.4 crab-server3.spec
 
-HG1111d crab-server3 @slc5_amd64_gcc461
-+ 1.18/3.0.4 crab-server3.spec
+#DIE#HG1112a crab-server3 @slc5_amd64_gcc461
+#DIE#+ 1.22/3.0.6 crab-server3.spec
+
+#DIE#HG1112a crab-client3 @slc5_amd64_gcc461
+#DIE#+ 1.3/3.0.6 crab-client3.spec
+#DIE#+ 1.2 crabclient3-setup.patch
 
 # This is needed for the HappyFace testing setup
 #DIE#HG1105c py2-sqlobject
 #DIE#+ HEAD/1.0.0 py2-sqlobject.spec
 
 # Test build for asyncstageout
-HG1111a-gcc434 asyncstageout @slc5_amd64_gcc434
-+ 1.22/0.0.3 asyncstageout.spec
-+ HEAD/2.1.9 zeromq.spec 
-+ HEAD/2.1.9 py2-zmq.spec
+#DIE#HG1112a asyncstageout @slc5_amd64_gcc461
+#DIE#+ 1.26/0.0.5 asyncstageout.spec
+#DIE#+ HEAD/2.1.9 zeromq.spec 
+#DIE#+ HEAD/2.1.9 py2-zmq.spec
 
+#DIE#HG1111d wmagent @slc5_amd64_gcc461
+#DIE#+ WMCORE_0_6_12  dls-client.spec wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
+#DIE#+ HEAD/2.1.9 zeromq.spec py2-zmq.spec
+#DIE#+ HEAD/0.3.0 py2-psutil.spec
+#DIE#+ HEAD/5.1.58 mysql.spec
+#DIE#+ 1.1 couchdb-changes-timeout.patch
+#DIE#+ 1.53/1.1.0 couchdb.spec
+#DIE#+ HEAD/0.8.14 wmcore.spec wmagent.spec
+
+#DIE#HG1111d happyface @slc5_amd64_gcc461
+#DIE#+ 1.11/1.0.0 py2-sqlobject.spec
+#DIE#+ 1.2/r656 happyface.spec
+
+#DIE#HG1112a CmsProjectBuilder @slc5_amd64_gcc461
+#DIE#+ 1.53 CmsProjectBuilder.spec

@@ -1,11 +1,8 @@
 # The entry format is the same as in comp.prereleases
 
 # Cms Webtools services
-HG1111d cmsweb @slc5_amd64_gcc461
-+ 1.34/0.8.13 workqueue.spec
-+ 1.170/2.2.4 PHEDEX-datasvc.spec
-+ 1.135/4.1.3 PHEDEX-web.spec
-+ 1.125/1.1.9 PHEDEX-webapp.spec
+HG1112d cmsweb @slc5_amd64_gcc461
+HG1112d cmsweb @osx106_amd64_gcc461
 
 # Stagemanager offsite agent
 #DIE#HG1109d stagemanager-agent
@@ -20,43 +17,35 @@ HG1111d cmsweb @slc5_amd64_gcc461
 #DIE#+ DBS_2_1_6-pre5 apache-{ant,tomcat}.spec
 
 # wmagent
-HG1111d wmagent @slc6_amd64_gcc461
-+ WMCORE_0_6_12  dls-client.spec wmcore-{db-couch,db-mysql,webtools}.spec
-+ HEAD/2.1.9 zeromq.spec py2-zmq.spec
-+ HEAD/0.3.0 py2-psutil.spec
-+ HEAD/5.1.58 mysql.spec
-+ HEAD/0.8.13 wmcore.spec wmagent.spec
+HG1112c wmagent @slc6_amd64_gcc461
++ WMCORE_0_6_12  dls-client.spec wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
++ HEAD/0.8.18 wmcore.spec wmagent.spec
 
-HG1111d wmagent @slc5_amd64_gcc461
-+ WMCORE_0_6_12  dls-client.spec wmcore-{db-couch,db-mysql,webtools}.spec
-+ HEAD/2.1.9 zeromq.spec py2-zmq.spec
-+ HEAD/0.3.0 py2-psutil.spec
-+ HEAD/5.1.58 mysql.spec
-+ HEAD/0.8.13 wmcore.spec wmagent.spec
+HG1112c wmagent @slc5_amd64_gcc461
++ WMCORE_0_6_12  dls-client.spec wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
++ HEAD/0.8.18 wmcore.spec wmagent.spec
 
-HG1111d wmagent @osx106_amd64_gcc461
-+ WMCORE_0_6_12  dls-client.spec wmcore-{db-couch,db-mysql,webtools}.spec
-+ HEAD/2.1.9 zeromq.spec py2-zmq.spec
-+ HEAD/0.3.0 py2-psutil.spec
-+ HEAD/5.1.58 mysql.spec
-+ HEAD/0.8.13 wmcore.spec wmagent.spec
-
-# crab3
-HG1111c crab-server3 @slc5_amd64_gcc461
-+ 1.17/3.0.4 crab-server3.spec
-
-#HG1111a-gcc434 crab-server3 @slc5_amd64_gcc434
-#+ 1.16/3.0.4 crab-server3.spec
-
-#asyncstageout
-#HG1111a-gcc434 asyncstageout @slc5_amd64_gcc434
-#+ 1.22/0.0.3 asyncstageout.spec
-#+ HEAD/2.1.9 zeromq.spec
-#+ HEAD/2.1.9 py2-zmq.spec
-
-HG1111c asyncstageout @slc5_amd64_gcc461
-+ 1.23/0.0.3 asyncstageout.spec
-+ HEAD/2.1.9 zeromq.spec
-+ HEAD/2.1.9 py2-zmq.spec
+HG1112c wmagent @osx106_amd64_gcc461
++ WMCORE_0_6_12  dls-client.spec wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
++ HEAD/0.8.18 wmcore.spec wmagent.spec
 
 
+#DIE#HG1112a crab-server3 @slc5_amd64_gcc461
+#DIE#+ 1.23/3.0.6a crab-server3.spec
+
+#DIE#HG1112a crab-client3 @slc5_amd64_gcc461
+#DIE#+ 1.4/3.0.6a crab-client3.spec
+#DIE#+ 1.2 crabclient3-setup.patch
+
+#DIE#HG1112a asyncstageout @slc5_amd64_gcc461
+#DIE#+ 1.27/0.0.5a asyncstageout.spec
+#DIE#+ HEAD/2.1.9 zeromq.spec
+#DIE#+ HEAD/2.1.9 py2-zmq.spec
+
+# PHEDEX agents
+#DIE#HG1109b PHEDEX-combined-agents @slc5_amd64_gcc434
+#DIE#+ forPHEDEX401a PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
+
+#DIE#HG1111d happyface @slc5_amd64_gcc461
+#DIE#+ 1.11/1.0.0 py2-sqlobject.spec
+#DIE#+ 1.2/r656 happyface.spec
