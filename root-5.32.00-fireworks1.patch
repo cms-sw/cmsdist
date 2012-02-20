@@ -22,7 +22,7 @@ diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d
     virtual void CollectSceneParents(List_t& scenes);
 diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveCalo2DGL.cxx root/graf3d/eve/src/TEveCalo2DGL.cxx
 --- root-old/graf3d/eve/src/TEveCalo2DGL.cxx	2012-02-12 20:59:05.899916877 -0800
-+++ root/graf3d/eve/src/TEveCalo2DGL.cxx	2012-02-15 19:54:08.219991467 -0800
++++ root/graf3d/eve/src/TEveCalo2DGL.cxx	2012-02-20 12:46:41.286071492 -0800
 @@ -386,11 +386,13 @@
           }
  
@@ -39,7 +39,7 @@ diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d
              data->GetCellData(*i, cellData);
              if (cellData.Phi() > 0)
                 sliceValsUpRef [i->fSlice] += cellData.Value(fM->fPlotEt)*(*i).fFraction;
-@@ -462,14 +464,10 @@
+@@ -462,14 +464,12 @@
     static const TEveException eh("TEveCalo2DGL::DrawHighlight ");
  
     if (fM->fData->GetCellsSelected().empty() && fM->fData->GetCellsHighlighted().empty())
@@ -51,12 +51,13 @@ diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d
 -   glDisable(GL_LIGHTING);
 -   glDisable(GL_CULL_FACE);
 -   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
--
++   TGLCapabilitySwitch cull_off (GL_CULL_FACE, kFALSE);
+ 
 -   TGLUtil::LineWidth(2);
     TGLUtil::LockColor();
     try
     {
-@@ -484,25 +482,19 @@
+@@ -484,25 +484,19 @@
        }
        if (!fM->fData->GetCellsSelected().empty())
        {
