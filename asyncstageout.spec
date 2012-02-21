@@ -1,5 +1,7 @@
 ### RPM cms asyncstageout 0.0.6
+## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
 %define wmcver 0.8.24
 
@@ -17,10 +19,22 @@ Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 py2-zmq rotatelogs p
 %build
 cd ../WMCore
 python setup.py build_system -s asyncstageout
+cd ../AsyncStageOut 
+python setup.py build
+
+PYTHONPATH=$PWD/src/python:$PYTHONPATH
+cd doc
+cat asyncstageout/conf.py | sed "s,development,%{realversion},g" > asyncstageout/conf.py.tmp
+mv asyncstageout/conf.py.tmp asyncstageout/conf.py
+mkdir -p build
+make html
 
 %install
+mkdir -p %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
 cd ../WMCore
 python setup.py install_system -s asyncstageout --prefix=%i
+cd ../AsyncStageOut
+python setup.py install --prefix=%i
 cp -pr ../AsyncStageout/src/python/AsyncStageOut %i/$PYTHON_LIB_SITE_PACKAGES/
 cp -pr ../AsyncStageout/src/couchapp %i/
 cp -pr ../AsyncStageout/bin %i/
@@ -32,6 +46,9 @@ python -m compileall %i/$PYTHON_LIB_SITE_PACKAGES/AsyncStageOut || true
 
 #mkdir -p %i/bin
 cp -pf %_builddir/WMCore/bin/{wmcoreD,wmcore-new-config,wmagent-mod-config,wmagent-couchapp-init} %i/bin/
+
+mkdir -p %i/doc
+tar --exclude '.buildinfo' -C doc/build/html -cf - . | tar -C %i/doc -xvf -
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
