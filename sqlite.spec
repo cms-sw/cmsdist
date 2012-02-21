@@ -1,8 +1,8 @@
-### RPM external sqlite 3.7.10
-Source: http://www.sqlite.org/sqlite-autoconf-3071000.tar.gz
+### RPM external sqlite 3.6.23
+Source: http://www.sqlite.org/sqlite-%{realversion}.tar.gz
 
 %prep
-%setup -n sqlite-autoconf-3071000
+%setup -n %n-%{realversion}
 
 %build
 ./configure --prefix=%i --disable-tcl --disable-static

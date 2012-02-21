@@ -1,5 +1,7 @@
 ### RPM external bootstrap-driver 20.0
 Source: bootstrap
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 Requires: apt
 
@@ -105,10 +107,8 @@ slc*onl* )
         libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
         libXrender libXpm"
 
-    # ONLINE: seed system compiler (only libraries for runtime) only for amd64_gcc434 arch
-    case %cmsplatf in
-        *_amd64_gcc434 ) slc5onl_amd64_platformSeeds="$slc5onl_amd64_platformSeeds libgcc libstdc++ external+gcc+4.3.4-onl64a" ;;
-    esac
+    # ONLINE: seed system compiler (only libraries for runtime)
+    slc5onl_amd64_platformSeeds="$slc5onl_amd64_platformSeeds libgcc libstdc++ external+gcc+4.3.4-onl64a"
 
     # ONLINE: seed other available system tools:
     slc5onl_amd64_platformSeeds="$slc5onl_amd64_platformSeeds curl curl-devel openssl openssl-devel zlib zlib-devel e2fsprogs-libs e2fsprogs-devel
@@ -147,11 +147,6 @@ slc*)
         libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
         libXrender libXpm"
   slc5_amd64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype
-        fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
-        libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
-        libXrender libXpm"
-
-  slc5_corei7_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype
         fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
         libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
         libXrender libXpm"
@@ -227,7 +222,6 @@ mkdir -p %{i}/etc/profile.d
  echo "slc4_ia32_platformSeeds=\"$slc4_ia32_platformSeeds\""; \
  echo "slc5_ia32_platformSeeds=\"$slc5_ia32_platformSeeds\""; \
  echo "slc5_amd64_platformSeeds=\"$slc5_amd64_platformSeeds\""; \
- echo "slc5_corei7_platformSeeds=\"$slc5_corei7_platformSeeds\""; \
  echo "slc6_amd64_platformSeeds=\"$slc6_amd64_platformSeeds\""; \
  echo "slc5onl_ia32_platformSeeds=\"$slc5onl_ia32_platformSeeds\""; \
  echo "slc5onl_amd64_platformSeeds=\"$slc5onl_amd64_platformSeeds\""; \
@@ -248,7 +242,6 @@ mkdir -p %{i}/etc/profile.d
  echo "slc4_ia32_platformSeeds=\"$slc4_ia32_platformSeeds \""; \
  echo "slc5_ia32_platformSeeds=\"$slc5_ia32_platformSeeds $slc5_compPackages\""; \
  echo "slc5_amd64_platformSeeds=\"$slc5_amd64_platformSeeds $slc5_compPackages\""; \
- echo "slc5_corei7_platformSeeds=\"$slc5_corei7_platformSeeds $slc5_compPackages\""; \
  echo "slc6_amd64_platformSeeds=\"$slc6_amd64_platformSeeds $slc6_compPackages\""; \
  echo "slc5onl_ia32_platformSeeds=\"$slc5onl_ia32_platformSeeds $slc5_compPackages\""; \
  echo "slc5onl_amd64_platformSeeds=\"$slc5onl_amd64_platformSeeds $slc5_compPackages\""; \
