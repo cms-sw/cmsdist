@@ -9,7 +9,9 @@ Requires: jemalloc
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/jemalloc.xml
 <tool name="jemalloc" version="@TOOL_VERSION@">
+  <architecture name="slc">
   <lib name="jemalloc"/>
+  </architecture>
   <client>
     <environment name="JEMALLOC_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR"        default="$JEMALLOC_BASE/lib"/>
