@@ -25,8 +25,8 @@ python setup.py build
 
 PYTHONPATH=$PWD/src/python:$PYTHONPATH
 cd doc
-cat sphinx/conf.py | sed "s,development,%{realversion},g" > sphinx/conf.py.tmp
-mv sphinx/conf.py.tmp sphinx/conf.py
+cat crabclient/conf.py | sed "s,development,%{realversion},g" > crabclient/conf.py.tmp
+mv crabclient/conf.py.tmp crabclient/conf.py
 mkdir -p build
 make html
 
