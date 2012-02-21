@@ -1,7 +1,5 @@
 ### RPM cms workqueue 0.8.26pre4
-## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
 Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
 #Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk@13490?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
@@ -14,7 +12,6 @@ Requires: python py2-httplib2 pystack rotatelogs couchdb dbs-client dls-client p
 python setup.py build_system -s workqueue
 
 %install
-mkdir -p %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
 python setup.py install_system -s workqueue --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
