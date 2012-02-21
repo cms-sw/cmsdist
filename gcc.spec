@@ -59,12 +59,7 @@ case %cmsos in
 %patch0 -p1 
   ;;
 esac
-
-case %cmsos in
-  *_amd64_gcc461)
 %patch1 -p0
-  ;;
-esac
 %endif
 
 case %cmsos in
@@ -130,7 +125,7 @@ esac
 %build
 # On mac we need to use gcc-proper, not gcc-llvm
 case %{cmsos} in
-  osx10[0-6]*)
+  osx*)
     CC=/usr/bin/gcc-4.2
     CXX=/usr/bin/c++-4.2
     CPP=/usr/bin/cpp-4.2
@@ -141,13 +136,6 @@ case %{cmsos} in
     #  - http://newartisans.com/2009/10/a-c-gotcha-on-snow-leopard/
     #  - http://gcc.gnu.org/bugzilla/show_bug.cgi?id=41645
     #  - http://trac.macports.org/ticket/25205 (and 22234)
-    CONF_GCC_OS_SPEC=--enable-fully-dynamic-string
-  ;;
-  osx*)
-    CC=/usr/bin/gcc
-    CXX=/usr/bin/c++
-    CPP=/usr/bin/cpp
-    ADDITIONAL_LANGUAGES=,objc,obj-c++
     CONF_GCC_OS_SPEC=--enable-fully-dynamic-string
   ;;
   *)
