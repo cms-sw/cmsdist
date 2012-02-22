@@ -10,8 +10,9 @@ Patch3: xrootd-3.1.0-fixed-library-location-all-os
 Patch4: xrootd-3.1.0-client-send-moninfo
 
 %if "%online" != "true"
-Requires: openssl cmake zlib gcc
+Requires: openssl zlib
 %endif
+Requires: cmake gcc
 
 %prep 
 %setup -n %n-%{realversion}
