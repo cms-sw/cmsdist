@@ -25,7 +25,7 @@ Requires: SCRAMV1
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V04-00-15
+%define configtag       V04-00-09
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -60,20 +60,11 @@ Requires: SCRAMV1
 
 %define source0 %{configrepo}&tag=-r%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
 
-# Support for releases which have TS<tagset-id> in their name.
-# They are based on the official one, with only that tagset which changes.
-%if %(case %realversion in (*_TS*) echo true ;; (*) echo false ;; esac) == "true"
-%define extraTagsets    %(echo %realversion | perl -p -e "s/.*?_TS/&extratags=/;s/_TS/+/g;")
-%define cvstag %(echo %realversion | perl -p -e "s/_TS.*//")
-%else
-%define extraTagsets %{nil}
-%endif
-
 %if "%{?source1:set}" != "set"
 %if  "%{cvsrepo}" != "cmstc"
 %define source1 %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 %else
-%define source1 %{cvsrepo}://?tag=%{cvstag}%{extraTagsets}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
+%define source1 %{cvsrepo}://?tag=%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 %endif
 %endif
 
