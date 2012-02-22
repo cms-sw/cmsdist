@@ -1,6 +1,6 @@
-### RPM cms cmssw-addontests 1.0.0
-
+### RPM cms cmssw-validation 1.0.0
 Requires: cmssw SCRAMV1
+BuildRequires: local-cern-siteconf
 Source: none
 
 %define scram $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
@@ -10,26 +10,21 @@ Source: none
 cd $CMSSW_VERSION
 %scram build clean
 eval `%scram runtime -sh`
-rsync -av $CMSSW_RELEASE_BASE/src/ src/
+#rsync -av $CMSSW_RELEASE_BASE/src/ src/
 
 %build
 cd $CMSSW_VERSION
 eval `%scram runtime -sh`
-mkdir test-addontests
-cd test-addontests
+rm -rf %i/test-addontests %i/test-runTheMatrix
+mkdir -p %i/test-addontests %i/test-runTheMatrix
+pushd %i/test-addontests
+  time addOnTests.py -j %compiling_processes &> result.log
+popd
 
-BEGIN_TT=`date +%s`
-addOnTests.py -j %compiling_processes &> result.log
-END_TT=`date +%s`
-DIFF_TT=$((END_TT - BEGIN_TT))
-
-PASSED_TESTS=`cat result.log | awk '/tests passed/ { print $1 }'`
-FAILED_TESTS=`cat result.log | awk '/tests passed/ { print $4 }'`
-
-# If some of the tests failed, return error
-if [ "$FAILED_TESTS" -ne 0 ]; then
-  exit 1
-fi
+# Do runTheMatrix.py (let's start with -s)
+pushd %i/test-runTheMatrix
+  time runTheMatrix.py -s -j %compiling_processes &> result.log
+popd
 
 # TODO: Add logs to the package or send them directly to the DB.
 %install

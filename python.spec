@@ -80,7 +80,7 @@ case %cmsplatf in
     ;;
 esac
 
-./configure --prefix=%{installroot}/%{pkgrel} $additionalConfigureOptions --enable-shared \
+./configure --prefix=%i $additionalConfigureOptions --enable-shared \
             --without-tkinter --disable-tkinter
 
 # The following is a kludge around the fact that the /usr/lib/libreadline.so
@@ -97,7 +97,7 @@ make %makeprocesses
 # We need to export it because setup.py now uses it to determine the actual
 # location of DB4, this was needed to avoid having it picked up from the system.
 export DB4_ROOT
-make install prefix=%i
+make install
 %define pythonv %(echo %realversion | cut -d. -f 1,2)
 
 case %cmsplatf in
