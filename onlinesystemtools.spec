@@ -14,6 +14,7 @@ Requires: oracle-env
 %define zlib_version                    1.2.3
 ## INITENV SETV ZLIB_VERSION            %zlib_version
 %define zlib_root                       /usr
+## INITENV SETV ZLIB_ROOT               %zlib_root
 %define uuid_version                    1.39
 ## INITENV SETV UUID_VERSION            %uuid_version
 %define sqlite_version                  3.7.5

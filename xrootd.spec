@@ -11,6 +11,8 @@ Patch4: xrootd-3.1.0-client-send-moninfo
 
 %if "%online" != "true"
 Requires: openssl zlib
+%else
+Requires: onlinesystemtools
 %endif
 Requires: cmake gcc
 
