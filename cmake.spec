@@ -4,7 +4,6 @@ Source: http://www.cmake.org/files/v%{downloaddir}/%n-%realversion.tar.gz
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 #Patch1: cmake
 Patch2: cmake-osx-nld
-Requires: bz2lib curl expat
 
 #We are using system zlib for the online builds:
 %if "%online" != "true"
@@ -21,31 +20,21 @@ Requires: zlib
 %patch2 -p1
 
 %build
-cat > build-flags.cmake <<- EOF 
-	# Disable Java capabilities; we don't need it and on OS X might miss
-        # required /System/Library/Frameworks/JavaVM.framework/Headers/jni.h.
-	SET(JNI_H FALSE CACHE BOOL "" FORCE)
-	SET(Java_JAVA_EXECUTABLE FALSE CACHE BOOL "" FORCE)
-	SET(Java_JAVAC_EXECUTABLE FALSE CACHE BOOL "" FORCE)
-
-	# SL6 with GCC 4.6.1 and LTO requires -ltinfo with -lcurses for link
-	# to succeed, but cmake is not smart enough to find it. We don't
-	# really need ccmake anyway, so just disable it.
-	SET(BUILD_CursesDialog FALSE CACHE BOOL "" FORCE)
-
-	# Use system libraries, not cmake bundled ones.
-	SET(CMAKE_USE_SYSTEM_LIBRARY_CURL TRUE CACHE BOOL "" FORCE)
-	SET(CMAKE_USE_SYSTEM_LIBRARY_ZLIB TRUE CACHE BOOL "" FORCE)
-	SET(CMAKE_USE_SYSTEM_LIBRARY_BZIP2 TRUE CACHE BOOL "" FORCE)
-	SET(CMAKE_USE_SYSTEM_LIBRARY_EXPAT TRUE CACHE BOOL "" FORCE)
-EOF
-
-export CMAKE_PREFIX_PATH=$CURL_ROOT:$ZLIB_ROOT:$EXPAT_ROOT:$BZ2LIB_ROOT
-./configure --prefix=%i --init=build-flags.cmake --parallel=%compiling_processes
+# Work around a bug in the latest Java Update on MacosX.
+case %cmsos in
+  osx*)
+    if [ ! -f /System/Library/Frameworks/JavaVM.framework/Headers/jni.h ]
+    then
+      echo "Please make sure you have JAVA SDK installed (http://connect.apple.com/cgi-bin/WebObjects/MemberSite.woa/wa/getSoftware?bundleID=20719)."
+      exit 1
+    fi
+  ;;
+esac
+./configure --prefix=%i
 make %makeprocesses
 
 %install
 make install/strip
 
 # Look up documentation online.
-%define drop_files %i/{doc,man}
+rm -rf %i/{doc,man}
