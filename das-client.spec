@@ -1,4 +1,4 @@
-### RPM cms das-client 1.0.1
+### RPM cms das-client 1.2.0
 ## INITENV +PATH PYTHONPATH %i/bin/
 ## NOCOMPILER
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
