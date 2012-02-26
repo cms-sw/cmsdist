@@ -7,6 +7,7 @@ Patch0: xrootd-gcc44
 Patch1: xrootd-5.30.00-fix-gcc46
 Patch2: xrootd-3.1.0-fix-read-after-read
 Patch3: xrootd-3.1.0-fixed-library-location-all-os
+Patch4: xrootd-3.1.0-client-send-moninfo
 
 %if "%online" != "true"
 Requires: openssl cmake zlib gcc
