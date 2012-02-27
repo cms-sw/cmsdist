@@ -80,7 +80,7 @@ HG1201a reqmon @slc5_amd64_gcc461
 
 # WorkQueue
 HG1201c workqueue @slc5_amd64_gcc461
-+ HEAD/0.8.26pre4 workqueue.spec
++ HEAD/0.8.26pre6 workqueue.spec
 
 #DIE#HG1107c wmagent
 #DIE#+ WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
