@@ -22,6 +22,7 @@ Requires: cmake gcc
 %patch1 -p1
 %patch2 -p1
 %patch3 -p0
+%patch4 -p1
 
 # need to fix these from xrootd git
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
