@@ -5,12 +5,14 @@ Requires: clhep
 
 Source0: http://geant4.cern.ch/support/source/%n.%downloadv.tar.gz
 
-Patch0:  geant-4.8.2.p01-nobanner
+Patch0: geant-4.8.2.p01-nobanner
+Patch1: geant4-9.4.p03-fix-anti-proton-bug
 
 %prep
 %setup -n %n.%downloadv
 
 %patch0 -p1 
+%patch1 -p1
  
 %build
 if [ $(uname) = Darwin ]; then
