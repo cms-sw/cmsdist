@@ -1,4 +1,4 @@
-### RPM lcg root 5.32.00
+### RPM lcg root 5.30.02
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i  
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
@@ -7,20 +7,27 @@ Source: svn://root.cern.ch/svn/root/tags/v%{svntag}/?scheme=http&strategy=export
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 %define ismac %(case %cmsplatf in (osx*) echo true;; (*) echo false;; esac)
 
-Patch0: root-5.32-00-externals
-Patch1: root-5.28-00d-roofit-silence-static-printout
-Patch2: root-5.32-00-linker-gnu-hash-style
-Patch3: root-5.32.00-detect-arch
-Patch4: root-5.30.02-fix-gcc46
-Patch5: root-5.30.02-fix-isnan-again
-# See https://hypernews.cern.ch/HyperNews/CMS/get/edmFramework/2913/1/1.html
-Patch6: root-5.32.00-fix-oneline
-Patch7: root-5.32.00-longBranchName
-Patch8: root-5.32.00-fireworks1
+Patch0: root-5.28-00d-externals
+Patch1: root-5.28-00d-CINT-maxlongline-maxtypedef
+Patch2: root-5.28-00d-roofit-silence-static-printout
+Patch3: root-5.28-00d-linker-gnu-hash-style
+#Patch4: root-5.28-00d-TBranchElement-dropped-data-member
+#Patch5: root-5.30-00-TSchemaRuleProcessor-nested-space
+#Patch5: root-5.28-00d-r37582-tmva
+#Patch6: root-5.28-00d-TTreeCache-r37919
+#Patch7: root-5.28-00d-r38248-r38259-r38264-r38265-r38267
+#Patch8: root-5.28-00d-fireworks1
+#Patch9: root-5.28-00d-r39155
+#Patch10: root-5.28-00d-r39525
+#Patch11: root-5.28-00d-r39657
+#Patch12: root-5.28-00d-r39759
+#Patch13: root-5.28-00d-fix-tsystem-load-macosx
+Patch14: root-5.30.02-detect-arch
+Patch15: root-5.30.02-fix-isnan
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
-Requires: gccxml gsl libjpg libpng libtiff libungif pcre python fftw3 xz xrootd libxml2
+Requires: gccxml gsl libjpg libpng libtiff libungif pcre python fftw3 xz xrootd
 
 %if "%ismac" != "true"
 Requires: castor dcap
@@ -35,26 +42,31 @@ Requires: openssl zlib
 Requires: gfortran-macosx
 %endif
 
-%if "%(case %cmsplatf in (osx*) echo true ;; (*) echo false ;; esac)" == "true"
-Requires: freetype
-%endif
-
 %prep
 %setup -n root-%realversion
 %patch0 -p1
 %patch1 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p2
-%patch8 -p1
+%patch2 -p1
+# patch3 is OS version dependent, see below
+# patch4 -p1
+# patch5 -p2
+# patch5 -p1
+# patch6 -p1
+# patch7 -p1
+# patch8 -p1
+# patch9 -p1
+# patch10 -p1 TRY AGAIN!
+# patch11 -p0
+# patch12 -p2
+# patch13 -p1
+%patch14 -p0
+%patch15 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
 case %cmsplatf in
   slc[56]_* | slc5onl_* )
-%patch2 -p1
+%patch3 -p1
   ;;
 esac
 
@@ -107,18 +119,22 @@ CONFIG_ARGS="--enable-table
              --disable-pgsql
              --disable-mysql
              --disable-qt --disable-qtgsi
-	     --with-cint-maxstruct=36000
-	     --with-cint-maxtypedef=36000
-	     --with-cint-longline=4096
              --disable-oracle ${EXTRA_CONFIG_ARGS}"
 
 case %cmsos in
-  slc*)
+  slc*_amd64)
     ./configure linuxx8664gcc $CONFIG_ARGS --with-rfio-libdir=${CASTOR_ROOT}/lib --with-rfio-incdir=${CASTOR_ROOT}/include/shift --with-castor-libdir=${CASTOR_ROOT}/lib --with-castor-incdir=${CASTOR_ROOT}/include/shift ;; 
+  slc*_ia32)
+    ./configure linux  $CONFIG_ARGS --with-rfio-libdir=${CASTOR_ROOT}/lib --with-rfio-incdir=${CASTOR_ROOT}/include/shift --with-castor-libdir=${CASTOR_ROOT}/lib --with-castor-incdir=${CASTOR_ROOT}/include/shift ;;
   osx*)
-    comparch=x86_64
-    macconfig=macosx64
-    ./configure $arch $CONFIG_ARGS --disable-rfio --disable-builtin_afterimage ;;
+    case %cmsplatf in
+    *_amd64_* )
+      comparch=x86_64
+      macconfig=macosx64
+      ;; 
+    esac
+    export CC=`which gcc` CXX=`which g++`
+    ./configure $arch $CONFIG_ARGS --with-cc="$CC" --with-cxx="$CXX" --disable-rfio --disable-builtin_afterimage ;;
   slc*_ppc64*)
     ./configure linux $CONFIG_ARGS --disable-rfio;;
 esac
