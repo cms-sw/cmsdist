@@ -1,6 +1,7 @@
 ### RPM cms coral CORAL_2_3_21
 Requires: coral-tool-conf
 Patch0: coral-2_3_20-macosx
+Patch1: coral-2_3_21-slc6
 
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
@@ -19,6 +20,8 @@ Patch0: coral-2_3_20-macosx
 %define patchsrc4       perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
 %define patchsrc5       %patch0 -p1
 %endif
+
+%define patchsrc6       %patch1 -p0
 
 ## IMPORT scram-project-build
 ## SUBPACKAGE debug IF %subpackageDebug
