@@ -1,0 +1,12 @@
+diff -arupN config.orig/BuildFile.xml config/BuildFile.xml
+--- config.orig/BuildFile.xml	2012-02-28 08:14:48.000000000 +0100
++++ config/BuildFile.xml	2012-02-28 08:14:27.000000000 +0100
+@@ -10,7 +10,7 @@
+ <use name="self"/>
+ 
+ <architecture name="slc">
+-   <flags MISSING_SYMBOL_FLAGS="-Wl,-z,defs"/>
++   <flags MISSING_SYMBOL_FLAGS="-Wl,-z,defs -lrt -ldl"/>
+ </architecture>
+ <architecture name="osx">
+    <flags MISSING_SYMBOL_FLAGS="-Wl,-undefined,error"/>
