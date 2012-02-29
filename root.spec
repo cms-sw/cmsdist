@@ -16,6 +16,7 @@ Patch5: root-5.30.02-fix-isnan-again
 # See https://hypernews.cern.ch/HyperNews/CMS/get/edmFramework/2913/1/1.html
 Patch6: root-5.32.00-fix-oneline
 Patch7: root-5.32.00-longBranchName
+Patch8: root-5.32.00-fireworks1
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -47,6 +48,8 @@ Requires: freetype
 %patch5 -p1
 %patch6 -p1
 %patch7 -p2
+%patch8 -p1
+
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
 case %cmsplatf in
