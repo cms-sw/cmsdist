@@ -10,11 +10,8 @@ Patch3: xrootd-3.1.0-fixed-library-location-all-os
 Patch4: xrootd-3.1.0-client-send-moninfo
 
 %if "%online" != "true"
-Requires: openssl zlib
-%else
-Requires: onlinesystemtools
+Requires: openssl cmake zlib gcc
 %endif
-Requires: cmake gcc
 
 %prep 
 %setup -n %n-%{realversion}
@@ -22,7 +19,6 @@ Requires: cmake gcc
 %patch1 -p1
 %patch2 -p1
 %patch3 -p0
-%patch4 -p1
 
 # need to fix these from xrootd git
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
