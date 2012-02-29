@@ -69,6 +69,8 @@ find . -type f -exec touch {} \;
 CASTOR_NOSTK=yes; export CASTOR_NOSTK
 
 make -f Makefile.ini Makefiles
+which makedepend >& /dev/null
+[ $? -eq 0 ] && make depend
 make %{makeprocesses} client MAJOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f1-2) \
                              MINOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f3-4 | tr '-' '.' ) \
 			     LDFLAGS=-ldl
