@@ -17,10 +17,11 @@ Patch5: root-5.30.02-fix-isnan-again
 Patch6: root-5.32.00-fix-oneline
 Patch7: root-5.32.00-longBranchName
 Patch8: root-5.32.00-fireworks1
+Patch9: root-5.32.00-noungif
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
-Requires: gccxml gsl libjpg libpng libtiff libungif pcre python fftw3 xz xrootd libxml2
+Requires: gccxml gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2
 
 %if "%ismac" != "true"
 Requires: castor dcap
@@ -49,6 +50,7 @@ Requires: freetype
 %patch6 -p1
 %patch7 -p2
 %patch8 -p1
+%patch9 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
