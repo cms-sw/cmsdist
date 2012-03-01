@@ -112,6 +112,7 @@ CONFIG_ARGS="--enable-table
 	     --with-cint-maxstruct=36000
 	     --with-cint-maxtypedef=36000
 	     --with-cint-longline=4096
+             --disable-hdfs
              --disable-oracle ${EXTRA_CONFIG_ARGS}"
 
 case %cmsos in
