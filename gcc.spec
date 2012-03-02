@@ -1,7 +1,6 @@
-### RPM external gcc 4.6.2
+### RPM external gcc 4.6.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
-#Source0: svn://gcc.gnu.org/svn/gcc/trunk?module=gcc-%(echo %realversion | cut -f1,2 -d.)&date=20120116&output=/gcc-%realversion.tar.gz
 
 %define keep_archives true
 
@@ -60,16 +59,11 @@ case %cmsos in
 %patch0 -p1 
   ;;
 esac
-
-case %cmsplatf in
-  *_amd64_gcc461)
 %patch1 -p0
-  ;;
-esac
 %endif
 
 case %cmsos in
-  slc*_gcc4[0-6]*)
+  slc*)
 # Hack needed to align sections to 4096 bytes rather than 2MB on 64bit linux
 # architectures.  This is done to reduce the amount of address space wasted by
 # relocating many libraries. This was done with a linker script before, but
@@ -88,28 +82,6 @@ cat << \EOF_CMS_H > gcc/config/i386/cms.h
       %{rdynamic:-export-dynamic} \
       %{" SPEC_32 ":%{!dynamic-linker:-dynamic-linker " LINUX_DYNAMIC_LINKER32 "}} \
       %{" SPEC_64 ":%{!dynamic-linker:-dynamic-linker " LINUX_DYNAMIC_LINKER64 "}}} \
-    %{static:-static}} -z common-page-size=4096 -z max-page-size=4096"
-EOF_CMS_H
-  ;;
-slc*)
-# Hack needed to align sections to 4096 bytes rather than 2MB on 64bit linux
-# architectures.  This is done to reduce the amount of address space wasted by
-# relocating many libraries. This was done with a linker script before, but
-# this approach seems to be more correct.
-cat << \EOF_CONFIG_GCC >> gcc/config.gcc
-# CMS patch to include gcc/config/i386/t-cms when building gcc
-tm_file="$tm_file i386/cms.h"
-EOF_CONFIG_GCC
-
-cat << \EOF_CMS_H > gcc/config/i386/cms.h
-#undef LINK_SPEC
-#define LINK_SPEC "%{" SPEC_64 ":-m elf_x86_64} %{" SPEC_32 ":-m elf_i386} \
-  %{shared:-shared} \
-  %{!shared: \
-    %{!static: \
-      %{rdynamic:-export-dynamic} \
-      %{" SPEC_32 ":%{!dynamic-linker:-dynamic-linker " GNU_USER_DYNAMIC_LINKER32 "}} \
-      %{" SPEC_64 ":%{!dynamic-linker:-dynamic-linker " GNU_USER_DYNAMIC_LINKER64 "}}} \
     %{static:-static}} -z common-page-size=4096 -z max-page-size=4096"
 EOF_CMS_H
   ;;
@@ -153,11 +125,10 @@ esac
 %build
 # On mac we need to use gcc-proper, not gcc-llvm
 case %{cmsos} in
-  osx10[0-6]*)
-    CC='/usr/bin/gcc-4.2'
-    CXX='/usr/bin/c++-4.2'
-    CPP='/usr/bin/cpp-4.2'
-    CXXCPP='/usr/bin/c++-4.2 -E'
+  osx*)
+    CC=/usr/bin/gcc-4.2
+    CXX=/usr/bin/c++-4.2
+    CPP=/usr/bin/cpp-4.2
     ADDITIONAL_LANGUAGES=,objc,obj-c++
 
     # Apparently must emulate apple compiler even if we build
@@ -167,23 +138,10 @@ case %{cmsos} in
     #  - http://trac.macports.org/ticket/25205 (and 22234)
     CONF_GCC_OS_SPEC=--enable-fully-dynamic-string
   ;;
-  osx*)
-    # Depend on XCode provided /usr snapshot
-    export PATH=/Developer/usr/bin:$PATH
-    CC='/Developer/usr/bin/clang'
-    CXX='/Developer/usr/bin/clang++'
-    CPP='/Developer/usr/bin/clang -E'
-    CXXCPP='/Developer/usr/bin/clang++ -E'
-    ADDITIONAL_LANGUAGES=,objc,obj-c++
-    
-    # Disable for Lion (10.7.X) otherwise ld will fail on libgfortran.la
-    #CONF_GCC_OS_SPEC=--enable-fully-dynamic-string
-  ;;
   *)
     CC=gcc
     CXX=c++
     CPP=cpp
-    CXXCPP='c++ -E'
     CONF_GCC_OS_SPEC=
   ;;
 esac
@@ -201,7 +159,7 @@ fi
 # Build libelf.
 if [ "X%isslc" = Xtrue ]; then
   cd ../elfutils-%{elfutilsVersion}
-  ./configure --disable-static --prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
+  ./configure --disable-static --prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP"
   make %makeprocesses
   make install
 fi
@@ -232,7 +190,7 @@ then
   perl -p -i -e 's|HTMLFILES =.*|HTMLFILES =|' etc/Makefile.in        
 
   ./configure --disable-static --prefix=%i ${CONF_BINUTILS_OPTS} --disable-werror \
-              CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" CFLAGS="-I%i/include" \
+              CC="$CC" CXX="$CXX" CPP="$CPP" CFLAGS="-I%i/include" \
               CXXFLAGS="-I%i/include" LDFLAGS="-L%i/lib"
   make %makeprocesses
   find . -name Makefile -exec perl -p -i -e 's|LN = ln|LN = cp -p|;s|ln ([^-])|cp -p $1|g' {} \; 
@@ -242,19 +200,17 @@ fi
 
 # Build GMP/MPFR/MPC
 cd ../gmp-%{gmpVersion}
-./configure --disable-static --prefix=%i --enable-shared --disable-static --enable-cxx \
-  CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
+./configure --disable-static --prefix=%i --enable-shared --disable-static --enable-cxx CC="$CC" CXX="$CXX" CPP="$CPP"
 make %makeprocesses
 make install
 
 cd ../mpfr-%{mpfrVersion}
-./configure --disable-static --prefix=%i --with-gmp=%i CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
+./configure --disable-static --prefix=%i --with-gmp=%i CC="$CC" CXX="$CXX" CPP="$CPP"
 make %makeprocesses
 make install
 
 cd ../mpc-%{mpcVersion}
-./configure --disable-static --prefix=%i --with-gmp=%i --with-mpfr=%i CC="$CC" CXX="$CXX" \
-  CPP="$CPP" CXXCPP="$CXXCPP"
+./configure --disable-static --prefix=%i --with-gmp=%i --with-mpfr=%i CC="$CC" CXX="$CXX" CPP="$CPP"
 make %makeprocesses
 make install
 CONF_GCC_VERSION_OPTS="--with-gmp=%i --with-mpfr=%i --with-mpc=%i"
@@ -262,15 +218,12 @@ CONF_GCC_VERSION_OPTS="--with-gmp=%i --with-mpfr=%i --with-mpc=%i"
 # Build additional stuff for gcc 4.5+
 if [ "X%gcc_45plus" = Xtrue ]; then
   cd ../ppl-%{pplVersion}
-  ./configure --disable-static --with-gmp-prefix=%i --with-cxxflags="-I%i/include" \
-    --enable-interfaces=c --prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
-    LDFLAGS="-L%i/lib"
+  ./configure --disable-static --with-gmp-prefix=%i --with-cxxflags="-I%i/include" --enable-interfaces=c --prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP" LDFLAGS="-L%i/lib"
   make %makeprocesses
   make install
 
   cd ../cloog-%{cloogVersion}
-  ./configure --disable-static --prefix=%i --with-ppl=%i --with-gmp-prefix=%i CC="$CC" \
-    CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
+  ./configure --disable-static --prefix=%i --with-ppl=%i --with-gmp-prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP"
   make %makeprocesses
   make install
 
@@ -285,7 +238,7 @@ export LD_LIBRARY_PATH=%i/lib64:%i/lib:$LD_LIBRARY_PATH
 ../configure --prefix=%i --disable-multilib --disable-nls \
   --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES \
   $CONF_GCC_OS_SPEC $CONF_GCC_WITH_LTO $CONF_GCC_VERSION_OPTS \
-  --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
+  --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP"
 
 make %makeprocesses bootstrap
 make install
