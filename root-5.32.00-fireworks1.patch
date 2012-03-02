@@ -644,6 +644,18 @@ diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d
  
     // Histo import and Sub-pad traversal
     void AddHistoPhysical(TGLLogicalShape* log, const Float_t *histColor = 0);
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/inc/TGLSelectBuffer.h root/graf3d/gl/inc/TGLSelectBuffer.h
+--- root-old/graf3d/gl/inc/TGLSelectBuffer.h	2012-02-12 20:59:06.260916910 -0800
++++ root/graf3d/gl/inc/TGLSelectBuffer.h	2012-03-01 20:03:21.109332795 -0800
+@@ -52,7 +52,7 @@
+ 
+    UInt_t* RawRecord(Int_t i) { return fSortedRecords[i].second; }
+ 
+-   void SelectRecord(TGLSelectRecordBase& rec, Int_t i);
++   Int_t   SelectRecord(TGLSelectRecordBase& rec, Int_t i);
+ 
+    ClassDef(TGLSelectBuffer, 0) // OpenGL select buffer with depth sorting.
+ };
 diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/inc/TGLSelectRecord.h root/graf3d/gl/inc/TGLSelectRecord.h
 --- root-old/graf3d/gl/inc/TGLSelectRecord.h	2012-02-12 20:59:06.261916910 -0800
 +++ root/graf3d/gl/inc/TGLSelectRecord.h	2012-02-12 21:14:59.081006761 -0800
@@ -1010,6 +1022,23 @@ diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d
     // Render selected transparent elements.
  }
  
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLSelectBuffer.cxx root/graf3d/gl/src/TGLSelectBuffer.cxx
+--- root-old/graf3d/gl/src/TGLSelectBuffer.cxx	2012-02-12 20:59:06.170916904 -0800
++++ root/graf3d/gl/src/TGLSelectBuffer.cxx	2012-03-01 20:03:15.466333043 -0800
+@@ -87,9 +87,11 @@
+ }
+ 
+ //______________________________________________________________________________
+-void TGLSelectBuffer::SelectRecord(TGLSelectRecordBase& rec, Int_t i)
++Int_t TGLSelectBuffer::SelectRecord(TGLSelectRecordBase& rec, Int_t i)
+ {
+-   // Return select record on (sorted) position i.
++   // Fill select record rec with data on (sorted) position i.
++   // Returns depth of name-stack for this record.
+ 
+    rec.Set(fSortedRecords[i].second);
++   return rec.GetN();
+ }
 diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLSelectRecord.cxx root/graf3d/gl/src/TGLSelectRecord.cxx
 --- root-old/graf3d/gl/src/TGLSelectRecord.cxx	2012-02-12 20:59:06.190916906 -0800
 +++ root/graf3d/gl/src/TGLSelectRecord.cxx	2012-02-12 21:15:46.596011242 -0800
@@ -1096,7 +1125,7 @@ diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d
  /******************************************************************************/
 diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLViewer.cxx root/graf3d/gl/src/TGLViewer.cxx
 --- root-old/graf3d/gl/src/TGLViewer.cxx	2012-02-12 20:59:06.196916904 -0800
-+++ root/graf3d/gl/src/TGLViewer.cxx	2012-02-15 19:54:20.087992584 -0800
++++ root/graf3d/gl/src/TGLViewer.cxx	2012-03-01 20:03:18.875332895 -0800
 @@ -507,6 +507,25 @@
  }
  
@@ -1105,8 +1134,8 @@ diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d
 +{
 +   // Normal rendering, used by mono and stereo rendering.
 +
-+   RenderOpaque();
-+   RenderTransparent();
++   TGLViewerBase::Render();
++
 +   DrawGuides();
 +   RenderOverlay(TGLOverlayElement::kAllVisible, kFALSE);
 +
@@ -1180,6 +1209,15 @@ diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d
     }
     fRnrCtx->StopStopwatch();
  
+@@ -1176,7 +1165,7 @@
+    glRenderMode(GL_SELECT);
+ 
+    PreRender();
+-   Render();
++   TGLViewerBase::Render();
+    PostRender();
+ 
+    Int_t nHits = glRenderMode(GL_RENDER);
 @@ -1190,11 +1179,13 @@
        Int_t idx = 0;
        if (FindClosestRecord(fSelRec, idx))
@@ -1206,8 +1244,29 @@ diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d
           Info("TGLViewer::SecondarySelect", "Skipping secondary selection "
 diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLViewerBase.cxx root/graf3d/gl/src/TGLViewerBase.cxx
 --- root-old/graf3d/gl/src/TGLViewerBase.cxx	2012-02-12 20:59:06.185916904 -0800
-+++ root/graf3d/gl/src/TGLViewerBase.cxx	2012-02-15 19:54:18.211992408 -0800
-@@ -459,6 +459,66 @@
++++ root/graf3d/gl/src/TGLViewerBase.cxx	2012-03-01 20:03:17.052332976 -0800
+@@ -411,16 +411,12 @@
+ //______________________________________________________________________
+ void TGLViewerBase::Render()
+ {
+-   // Render all scenes. This is done in four passes:
++   // Render all scenes. This is done in two main passes:
+    // - render opaque objects from all scenes
+    // - render transparent objects from all scenes
+-   // - clear depth buffer
+-   // - render opaque selected objects from all scenes (with highlight)
+-   // - render transparent selected objects from all scenes (with highlight)
+-
+-   RenderNonSelected();
+-   glClear(GL_DEPTH_BUFFER_BIT);
+-   RenderSelected();
++
++   RenderOpaque();
++   RenderTransparent();
+ }
+ 
+ //______________________________________________________________________
+@@ -459,6 +455,66 @@
     TGLUtil::CheckError("TGLViewerBase::RenderSelected - pre exit check");
  }
  
@@ -1274,3 +1333,14 @@ diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d
  //______________________________________________________________________
  void TGLViewerBase::RenderOverlay(Int_t state, Bool_t selection)
  {
+@@ -541,7 +597,9 @@
+    if (recIdx >= sb->GetNRecords())
+        return kFALSE;
+ 
+-   sb->SelectRecord(rec, recIdx);
++   if (sb->SelectRecord(rec, recIdx) < 1)
++      return kFALSE;
++
+    UInt_t sceneIdx = rec.GetItem(0);
+    if (sceneIdx >= fVisScenes.size())
+        return kFALSE;
