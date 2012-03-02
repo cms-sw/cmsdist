@@ -1,4 +1,4 @@
-### RPM cms fwlite-tool-conf 8.2
+### RPM cms fwlite-tool-conf 8.3
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -18,6 +18,10 @@ Requires: elementtree-toolfile
 Requires: expat-toolfile
 Requires: fakesystem
 Requires: fftw3-toolfile
+# Use our own freetype only on macosx.
+%if "%(case %cmsplatf in (osx*) echo true ;; (*) echo false ;; esac)" == "true"
+Requires: freetype-toolfile
+%endif
 Requires: fwlitedata-toolfile
 Requires: gcc-toolfile
 Requires: gccxml-toolfile
@@ -42,6 +46,6 @@ Requires: xrootd-toolfile
 Requires: xz-toolfile
 Requires: zlib-toolfile
 
-%define skipreqtools jcompiler
+%define skipreqtools jcompiler db4 expat fftw3 sqlite
 
 ## IMPORT scramv1-tool-conf

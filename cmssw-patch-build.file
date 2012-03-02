@@ -4,7 +4,7 @@
 
 %define isPatch               yes
 %define baserelqueue          %(echo %realversion | sed -e "s|_[[:alnum:]]*patch.*||")
-%define baserelver            %(echo %realversion | sed -e "s|_[[:alnum:]]*patch[[:digit:]]\\+||")%{baserel_postfix}
+%define baserelver            %(echo %realversion | sed -e "s|_[[:alnum:]]*patch[[:digit:]][[:digit:]]*||")%{baserel_postfix}
 %define baserelname           %(echo %n | sed -e "s|-patch||")
 %define parent_release_fpath  %{cmsroot}/%{cmsplatf}/%{pkgcategory}/%{baserelname}/%{baserelver}
 %define must_have_packages    FWCore/Version
