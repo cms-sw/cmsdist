@@ -1,4 +1,4 @@
-### RPM cms dbs-client DBS_2_1_6
+### RPM cms dbs-client DBS_2_1_5
 ## INITENV +PATH PYTHONPATH %i/lib/
 ## INITENV +PATH PYTHONPATH %i/bin/
 ## INITENV +PATH PYTHONPATH %{i}/lib/
@@ -15,6 +15,8 @@ Requires: python openssl py2-zsi py2-pyxml
 %prep
 %setup -n DBS
 %build
+(make DBSHOME=%_builddir/DBS/Clients/Python )
+
 %install
 mkdir -p %{i}/bin
 mkdir -p %{i}/lib

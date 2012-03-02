@@ -1,61 +1,59 @@
-### RPM lcg root 5.30.00
+### RPM lcg root 5.28.00d
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i  
-#Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
-%define svntag %(echo %realversion | tr . -)
-Source: svn://root.cern.ch/svn/root/tags/v%{svntag}/?scheme=http&strategy=export&module=%n-%{realversion}&output=/%n-%{realversion}.tgz
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
-%define ismac %(case %cmsplatf in (osx*) echo true;; (*) echo false;; esac)
+#Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{realversion}.source.tar.gz
+Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
+%define ismac %(case %cmsplatf in osx*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 Patch0: root-5.28-00d-externals
 Patch1: root-5.28-00d-CINT-maxlongline-maxtypedef
 Patch2: root-5.28-00d-roofit-silence-static-printout
 Patch3: root-5.28-00d-linker-gnu-hash-style
 Patch4: root-5.28-00d-TBranchElement-dropped-data-member
-Patch5: root-5.30-00-TSchemaRuleProcessor-nested-space
-#Patch5: root-5.28-00d-r37582-tmva
-#Patch6: root-5.28-00d-TTreeCache-r37919
-#Patch7: root-5.28-00d-r38248-r38259-r38264-r38265-r38267
-#Patch8: root-5.28-00d-fireworks1
-#Patch9: root-5.28-00d-r39155
-#Patch10: root-5.28-00d-r39525
-#Patch11: root-5.28-00d-r39657
-#Patch12: root-5.28-00d-r39759
-#Patch13: root-5.28-00d-fix-tsystem-load-macosx
+Patch5: root-5.28-00d-r37582-tmva
+Patch6: root-5.28-00d-TTreeCache-r37919
+Patch7: root-5.28-00d-r38248-r38259-r38264-r38265-r38267
+Patch8: root-5.28-00d-fireworks1
+Patch9: root-5.28-00d-r39155
+Patch10: root-5.28-00d-r39525
+Patch11: root-5.28-00d-r39657
+Patch12: root-5.28-00d-r39759
+Patch13: root-5.28-00d-fix-tsystem-load-macosx
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
-Requires: gccxml gsl libjpg libpng libtiff libungif pcre python fftw3 xz xrootd
+Requires: gccxml gsl libjpg libpng libtiff libungif pcre python fftw3
 
 %if "%ismac" != "true"
 Requires: castor dcap
 %endif
 
 %if "%online" != "true"
-Requires: openssl zlib
+Requires: openssl zlib xrootd
 %endif
 
-%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
+%if "%ismac" == "true"
 Requires: gfortran-macosx
 %endif
 
 %prep
-%setup -n root-%realversion
+%setup -n root
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
 # patch3 is OS version dependent, see below
 %patch4 -p1
-%patch5 -p2
-# patch5 -p1
-# patch6 -p1
-# patch7 -p1
-# patch8 -p1
-# patch9 -p1
-# patch10 -p1 TRY AGAIN!
-# patch11 -p0
-# patch12 -p2
-# patch13 -p1
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
+%patch8 -p1
+%patch9 -p1
+%patch10 -p1
+%patch11 -p0
+%patch12 -p2
+%patch13 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
@@ -87,8 +85,7 @@ EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}
              --with-ssl-incdir=${OPENSSL_ROOT}/include
              --with-ssl-libdir=${OPENSSL_ROOT}/lib"
 %endif
-LZMA=${XZ_ROOT}
-export LZMA
+
 CONFIG_ARGS="--enable-table 
              --disable-builtin-pcre
              --disable-builtin-freetype
@@ -99,8 +96,7 @@ CONFIG_ARGS="--enable-table
              --enable-mathmore
              --enable-reflex  
              --enable-cintex 
-             --enable-minuit2
-             --disable-builtin-lzma
+             --enable-minuit2 
              --enable-fftw3
              --with-fftw3-incdir=${FFTW3_ROOT}/include
              --with-fftw3-libdir=${FFTW3_ROOT}/lib

@@ -1,4 +1,4 @@
-### RPM cms reqmgr 0.8.1pre1
+### RPM cms reqmgr 0.7.9b
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_reqmgr.tar.gz

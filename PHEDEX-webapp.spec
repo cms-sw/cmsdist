@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-webapp 1.1.9pre7
+### RPM cms PHEDEX-webapp 1.1.6
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define cvsversion WEBAPP_%(echo %realversion | tr . _)

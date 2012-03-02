@@ -5,7 +5,8 @@
 # Warning! While rpm itself seems to work, at the time of writing it
 # does not seem to be possible to build apt-rpm with 
 Source: http://rpm.org/releases/rpm-%(echo %realversion | cut -f1,2 -d.).x/rpm-%{realversion}.tar.bz2
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 Requires: file nspr nss popt bz2lib db4 lua
 %if "%online" != "true"
@@ -80,11 +81,11 @@ case %cmsos in
     LIBS_PLATF="-ldl"
   ;;
   osx*_amd64)
-    export CFLAGS_PLATF="-arch x86_64 -fPIC"
+    export CFLAGS_PLATF="-arch x86_64 -fPIC -fnested-functions"
     export LIBS_PLATF="-liconv"
   ;;
-  osx*_ia32)
-    export CFLAGS_PLATF="-arch i386 -fPIC"
+  osx*_i386)
+    export CFLAGS_PLATF="-arch i386 -fPIC -fnested-functions"
     export LIBS_PLATF="-liconv"
   ;;
   *)
@@ -149,9 +150,6 @@ perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|" scripts/get_magic.pl \
 
 %install
 make install
-# Remove unneeded documentation
-rm -rf %{i}/share
-
 # We remove pkg-config files for two reasons:
 # * it's actually not required (macosx does not even have it).
 # * rpm 4.8 adds a dependency on the system /usr/bin/pkg-config

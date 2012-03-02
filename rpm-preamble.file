@@ -74,11 +74,7 @@
 # then make sure the right compiler gets picked up in the environment
 # by setting $PATH and $LD_LIBRARY_PATH correctly.
 %ifos darwin
-%define is_darwin true
-%endif
-
-%if "%{?is_darwin:set}-%gccver" == "set-4.2.1"
-%define use_system_gcc true
+%define use_system_gcc	yes
 %endif
 
 # Old version of install.sh/cmsBuild.sh did not set the cmscompiler variable,
@@ -188,10 +184,10 @@
 %endif
 
 # Define a macro for relocating configuration files in %%post section.
-%define relocateCmsFiles	perl -p -i -e "s|\Q%{instroot}\E|$CMS_INSTALL_PREFIX|g" 
-%define relocateRpmFiles	perl -p -i -e "s|\Q%{instroot}\E|$RPM_INSTALL_PREFIX|g" 
-%define reRelocateRpmFiles	perl -p -i -e "s|\Q$CMS_INSTALL_PREFIX\E|$RPM_INSTALL_PREFIX|g" 
-%define reRelocateRpmPkg	perl -p -i -e "s|\Q$CMS_INSTALL_PREFIX\E|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
-%define relocateRpmPkg		perl -p -i -e "s|\Q%{instroot}\E|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
-%define relocateCmsPkg		perl -p -i -e "s|\Q%{instroot}\E|$CMS_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
+%define relocateCmsFiles	perl -p -i -e "s|%{instroot}|$CMS_INSTALL_PREFIX|g" 
+%define relocateRpmFiles	perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" 
+%define reRelocateRpmFiles	perl -p -i -e "s|$CMS_INSTALL_PREFIX|$RPM_INSTALL_PREFIX|g" 
+%define reRelocateRpmPkg	perl -p -i -e "s|$CMS_INSTALL_PREFIX|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
+%define relocateRpmPkg		perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
+%define relocateCmsPkg		perl -p -i -e "s|%{instroot}|$CMS_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
 %define relocateConfig		%relocateCmsPkg

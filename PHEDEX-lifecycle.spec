@@ -1,12 +1,12 @@
-### RPM cms PHEDEX PHEDEX_4_0_0
+### RPM cms PHEDEX-lifecycle LIFECYCLE_1_0_0
 
 ## INITENV +PATH PERL5LIB %i/perl_lib
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%n&export=%n&&tag=-r%{v}&output=/%n.tar.gz
-# Oracle libs
-Requires: oracle oracle-env
+
+#Requires: oracle oracle-env
 # perl libs
-Requires: p5-time-hires p5-text-glob p5-compress-zlib p5-dbi
-Requires: p5-dbd-oracle p5-xml-parser p5-monalisa-apmon p5-poe
+Requires: p5-time-hires p5-text-glob p5-compress-zlib p5-poe
+Requires: p5-dbd-oracle p5-dbi p5-xml-parser p5-monalisa-apmon
 Requires: p5-poe-component-child p5-log-log4perl p5-log-dispatch
 Requires: p5-log-dispatch-filerotate p5-params-validate
 # Actually, it is p5-xml-parser that requires this, but it doesn't configure itself correctly
@@ -14,39 +14,13 @@ Requires: p5-log-dispatch-filerotate p5-params-validate
 Requires: expat
 
 # Provided by system perl
-Provides: perl(HTML::Entities)
-Provides: perl(DB_File)
-Provides: perl(Date::Manip)
-Provides: perl(XML::LibXML)
-
-# Fake provide of twitter client; needs to be installed manually
-Provides: perl(Net::Twitter::Lite)
+#Provides: perl(HTML::Entities)
+#Provides: perl(DB_File)
+#Provides: perl(Date::Manip)
+#Provides: perl(XML::LibXML)
 
 %prep
 %setup -n %n
-rm -f  Custom/Template/Config.Micro
-rm -f  Custom/Template/ConfigPart.CERN*
-rm -f  Custom/Template/ConfigPart.Management
-rm -rf Schema
-rm -rf Toolkit/Infrastructure
-rm -rf Toolkit/Monitoring
-rm -rf Toolkit/Workflow
-rm -rf Toolkit/DBS
-rm -f  Utilities/CMSSWMigrate
-rm -f  Utilities/DBDump
-rm -f  Utilities/DBLoad
-rm -f  Utilities/DBSCheck
-rm -f  Utilities/GrepSites
-rm -f  Utilities/FileDeleteTMDB
-rm -f  Utilities/LinkNew
-rm -f  Utilities/LinkRemove
-rm -f  Utilities/MakeDailyReport
-rm -f  Utilities/MakeDailyStats
-rm -f  Utilities/netmon
-rm -f  Utilities/NodeNew
-rm -f  Utilities/NodeRemove
-rm -f  Utilities/RunTest
-rm -f  Utilities/WordMunger
 
 %build
 
@@ -55,7 +29,7 @@ mkdir -p %i/etc
 tar -cf - * | (cd %i && tar -xf -)
 
 # Set permissions
-chmod 755 %i/Utilities/*
+chmod 755 %i/Utilities/* Testbed/Lifecycle/*pl
 
 # Copy dependencies to dependencies-setup.sh
 mkdir -p %i/etc/profile.d

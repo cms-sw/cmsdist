@@ -15,15 +15,7 @@ perl -p -i -e 's!VG_N_SEGMENTS 5000!VG_N_SEGMENTS 20000!; s!VG_N_SEGNAMES 1000!V
 pwd
 
 %build
-# FIXME: This is really a hack that should be included in
-# GCC spec for non system compilers.
-case %cmsos in
-  osx*_*_gcc421) ;;
-  osx*) CFLAGS="-D__private_extern__=extern" ;;
-  *) ;;
-esac
-
-./configure --prefix=%i --disable-static --enable-only64bit ${CFLAGS+CFLAGS=$CFLAGS}
+./configure --prefix=%i
 make %makeprocesses
 %install
 make install
@@ -35,7 +27,6 @@ make install
 # only via pkg-config we have to think on how to ship our own
 # version.
 rm -rf %i/lib/pkgconfig
-find %i/lib/valgrind -name "*.a" -exec rm {} \;
 
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' $(grep -r -e "^#!.*perl.*" %i | cut -d: -f 1)
 # I don't see how to make perl options work nicely with env, so drop the -w
