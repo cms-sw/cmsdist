@@ -1,4 +1,4 @@
-### RPM cms sitedb 2.0.0
+### RPM cms sitedb 2.1.0
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
@@ -12,7 +12,7 @@ Source0: %{svnwmc}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_s
 Source1: %{svnsrc}?scheme=svn+ssh&strategy=export&module=SiteDB&output=/sitedb.tar.gz
 Source2: %{cvssrc}&strategy=export&module=WEBTOOLS&nocache=true&export=WEBTOOLS&tag=-rSiteDBv1-slc5-v3&output=/old-sitedb.tar.gz
 Source3: %{cvssrc}&strategy=export&module=WEBTOOLS&nocache=true&export=WEBTOOLS&tag=-rV01-03-47&output=/old-webtools.tar.gz
-Requires: cherrypy yui py2-cx-oracle py2-cjson rotatelogs protovis py2-sphinx
+Requires: cherrypy yui3 d3 yuicompressor py2-cx-oracle py2-cjson rotatelogs py2-sphinx
 Requires: py2-cheetah py2-pysqlite py2-formencode py2-pycrypto beautifulsoup py2-sqlalchemy oracle-env py2-pyopenssl
 # ^ = line for legacy SiteDB support, remove when migrating fully to sitedb 2.x
 
@@ -32,14 +32,14 @@ cd ../WMCore
 python setup.py build_system -s wmc-web
 PYTHONPATH=$PWD/build/lib:$PYTHONPATH
 cd ../SiteDB
-python setup.py build_system
+python setup.py build_system --compress
 
 %install
-mkdir -p %i/{doc,etc/profile.d} %i/{x,}{bin,lib,data} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
+mkdir -p %i/etc/profile.d %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
 cd ../WMCore
 python setup.py install_system -s wmc-web --prefix=%i
 cd ../SiteDB
-python setup.py install_system --prefix=%i
+python setup.py install_system --compress --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
 cd ../LEGACY-WEBTOOLS/WEBTOOLS
@@ -67,7 +67,7 @@ done
 
 # Generate an env.sh which sets a few things more than init.sh.
 (echo ". %i/etc/profile.d/init.sh;"
- echo "export YUI_ROOT PROTOVIS_ROOT SITEDB_ROOT;") > %i/etc/profile.d/env.sh
+ echo "export YUI3_ROOT D3_ROOT SITEDB_ROOT;") > %i/etc/profile.d/env.sh
 
 %post
 %{relocateConfig}etc/profile.d/{env,dep*}.*sh
