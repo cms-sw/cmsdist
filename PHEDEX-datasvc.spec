@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-datasvc 2.2.8
+### RPM cms PHEDEX-datasvc 2.3.6
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define cvsversion DATASVC_%(echo %realversion | tr . _)
@@ -8,7 +8,7 @@ Source: %cvsserver&strategy=export&module=%{downloadn}&export=%{downloadn}&&tag=
 # For DB Access
 Requires: oracle oracle-env p5-dbi p5-dbd-oracle
 # Core for web apps
-Requires: apache-setup mod_perl2 p5-apache-dbi webtools p5-cgi p5-cgi-session
+Requires: apache-setup mod_perl2 p5-apache-dbi p5-cgi p5-cgi-session
 # Useful for web apps
 Requires: p5-json-xs p5-xml-parser
 # Misc. Utilities
