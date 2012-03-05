@@ -35,7 +35,6 @@ Patch9: rpm-4.8.0-increase-line-buffer
 Patch10: rpm-4.8.0-increase-macro-buffer
 Patch11: rpm-4.8.0-improve-file-deps-speed
 Patch12: rpm-4.8.0-fix-fontconfig-provides
-Patch13: rpm-4.8.0-fix-find-requires-limit
 
 # Defaults here
 %define libdir lib
@@ -67,7 +66,6 @@ rm -rf lib/rpmhash.*
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
-%patch13 -p1
 
 %build
 case %cmsos in
