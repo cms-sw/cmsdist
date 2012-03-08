@@ -14,7 +14,7 @@
 # 1.313 is 1.1.10
 # 1.315 is 1.1.11
 # 1.316 is 1.1.12
-# 1.317 is 1.2.1.pre4 (qhash look-up, new SiteDB)
+# 1.318 is 1.2.1.pre5 (qhash look-up, new SiteDB)
 HG1203a das @slc5_amd64_gcc461
 + 1.317 das.spec
 + 1.39 mongo.spec
