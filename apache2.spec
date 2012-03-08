@@ -1,6 +1,6 @@
-### RPM external apache2 2.2.20gsi
+### RPM external apache2 2.2.22gsi
 %define apversion %(echo %realversion | sed 's/gsi.*$//')
-%define vdtversion 2.0.0p26
+%define vdtversion 2.0.0p35
 Requires: openssl zlib expat uuid sqlite pcre
 
 # Silence dependencies which should have come via uuid from e2fsprogs
