@@ -2,10 +2,12 @@
 
 # Cms Webtools services
 HG1203h cmsweb @slc5_amd64_gcc461
-+ 1.195/2.3.7pre1 PHEDEX-datasvc.spec
++ 1.197/2.3.7 PHEDEX-datasvc.spec
++ 1.158/4.2.3 PHEDEX-web.spec
 
 HG1203h cmsweb @osx106_amd64_gcc461
-+ 1.195/2.3.7pre1 PHEDEX-datasvc.spec
++ 1.197/2.3.7 PHEDEX-datasvc.spec
++ 1.158/4.2.3 PHEDEX-web.spec
 
 # Stagemanager offsite agent
 HG1201c stagemanager-agent @slc5_amd64_gcc461
