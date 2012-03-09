@@ -1,15 +1,23 @@
 --- setup_dependencies.py
 +++ setup_dependencies.py
-@@ -106,6 +106,12 @@ dependencies = {
-                         'modules': ['WMCore.FwkJobReport.FileInfo', 'WMCore.Services.Requests',
-                                     'WMCore.Services.Service', 'WMCore.Services.pycurl_manager'],
+@@ -92,13 +92,19 @@ dependencies = {
+                         'systems': ['wmc-database'],
+                         'statics': ['src/couchapps/Agent+'],
                          },
-+                'crabinterface':{
-+                        'packages' : ['WMCore.WMSpec+', 'WMCore.Services.SiteDB+', 'WMCore.Services.JSONParser+',
+-                'crabserver':{
++                'crab3':{
+                         'packages': ['WMCore.WMSpec', 'WMCore.ACDC',
+                                      'WMCore.Storage+', 'WMCore.HTTPFrontEnd.RequestManager+',
+                                      'WMCore.RequestManager+', 'WMComponent.DBSUpload',
+                                      'WMCore.ProcessPool'],
+                         'systems': ['wmc-web'],
+                         },
++                'crabserver':{
++                        'packages' : ['WMCore.WMSpec+','WMCore.Services.SiteDB+', 'WMCore.Services.JSONParser+',
 +                                      'WMCore.Services.WorkQueue', 'WMCore.HTTPFrontEnd', 'WMCore.RequestManager+',
-+                                      'WMCore.HTTPFrontEnd.RequestManager' ],
++                                      'WMCore.HTTPFrontEnd.RequestManager', 'WMCore.Services.PhEDEx+' ],
 +                        'systems': ['wmc-database'],
 +                        },
-                 'wmclient':{
-                         'systems': ['wmc-runtime', 'wmc-database']
-                         },
+                 'crabclient':{
+                         'packages': ['WMCore.Wrappers+', 'WMCore.Credential', 'PSetTweaks',
+                                      'WMCore.Services.UserFileCache'],
