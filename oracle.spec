@@ -64,18 +64,22 @@ rm -fr instantclient_*
 %endif
 
 %build
-chmod a-x sdk/include/*.h
+chmod a-x sdk/include/*.h *.sql
 
 %install
 mkdir -p %i/{bin,lib,java,demo,include,doc}
 cp %_sourcedir/oracle-license    %i/oracle-license
 mv *_README sdk/*_README         %i/doc
-mv sqlplus adrci genezi uidrvci  %i/bin
 mv lib*                          %i/lib
 mv glogin.sql                    %i/bin
 mv *.jar sdk/*.zip               %i/java
 mv sdk/demo/*                    %i/demo
 mv sdk/include/*                 %i/include
+
+for f in sqlplus adrci genezi uidrvci sdk/ott; do
+  [ -f $f ] || continue
+  mv $f %i/bin
+done
 
 cd %i/lib
 for f in lib*.{dylib,so}.[0-9]*; do
