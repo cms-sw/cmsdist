@@ -4,7 +4,7 @@
 %define cvsversion LIFECYCLE_%(echo %realversion | tr . _)
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source0: %cvsserver&strategy=export&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
-Source1: %cvsserver&strategy=export&module=T0&export=T0&&tag=-rPHEDEX_%{cvsversion}&output=/T0.tar.gz
+Source1: %cvsserver&strategy=export&module=T0&export=T0&&tag=-rPHEDEX_LIFECYCLE_1_0_0&output=/T0.tar.gz
 
 Requires: p5-poe p5-poe-component-child p5-clone p5-time-hires p5-text-glob
 Requires: p5-compress-zlib p5-log-log4perl p5-json-xs p5-xml-parser p5-monalisa-apmon
