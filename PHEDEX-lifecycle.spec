@@ -9,6 +9,8 @@ Source1: %cvsserver&strategy=export&module=T0&export=T0&&tag=-rPHEDEX_LIFECYCLE_
 Requires: p5-poe p5-poe-component-child p5-clone p5-time-hires p5-text-glob
 Requires: p5-compress-zlib p5-log-log4perl p5-json-xs p5-xml-parser p5-monalisa-apmon
 Requires: mod_perl2 
+Requires: lifecycle-dataprovider
+
 #Provides: perl(XML::LibXML)
 Provides: perl(XML::Twig)
 Provides: perl(T0::FileWatcher)
@@ -22,6 +24,8 @@ Provides: perl(T0::Util)
 %prep
 %setup -n PHEDEX
 tar zxf %_sourcedir/T0.tar.gz
+mv T0/perl_lib/T0 perl_lib
+rm -rf T0/
 
 %build
 %install
