@@ -6,9 +6,9 @@
 Source0: %cvsserver&strategy=export&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
 Source1: %cvsserver&strategy=export&module=T0&export=T0&&tag=-rPHEDEX_%{cvsversion}&output=/T0.tar.gz
 
-Requires: p5-poe p5-poe-component-child
-Requires: p5-clone p5-time-hires p5-text-glob p5-compress-zlib p5-log-log4perl
-Requires: mod_perl2
+Requires: p5-poe p5-poe-component-child p5-clone p5-time-hires p5-text-glob
+Requires: p5-compress-zlib p5-log-log4perl p5-json-xs p5-xml-parser p5-monalisa-apmon
+Requires: mod_perl2 
 Provides: perl(XML::LibXML)
 Provides: perl(T0::FileWatcher)
 Provides: perl(T0::Logger::Sender)
