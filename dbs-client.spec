@@ -1,4 +1,4 @@
-### RPM cms dbs-client DBS_2_1_5
+### RPM cms dbs-client DBS_2_1_1_patch1_1
 ## INITENV +PATH PYTHONPATH %i/lib/
 ## INITENV +PATH PYTHONPATH %i/bin/
 ## INITENV +PATH PYTHONPATH %{i}/lib/
@@ -23,8 +23,6 @@ mkdir -p %{i}/lib
 mkdir -p %{i}/etc/profile.d
 cp -r Clients/Python/* %{i}/lib/
 mv %{i}/lib/bin/* %{i}/bin/
-find %i -depth -type d -name CVS -exec rm -fr {} \;
-python -m compileall %i/lib || true
 
 #cp -r Clients/Python/DBSAPI/dbsCommandLine.py %{i}/bin/dbs
 #chmod a+x %{i}/bin/dbs
