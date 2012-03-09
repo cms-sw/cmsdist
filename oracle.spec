@@ -48,11 +48,11 @@ Requires: fakesystem
 # final directory to use as the one of the last %%setup happening.
 rm -fr instantclient_*
 %if %(case %cmsos in (osx*) echo true ;; (*) echo false ;; esac) == true
-%setup -D -T -b 0 -n %macdir %copydate-instantclient-basic-%macversion-%macarch.zip </dev/null
-%setup -D -T -b 1 -n %macdir %copydate-instantclient-basiclite-%macversion-%macarch.zip </dev/null
-%setup -D -T -b 2 -n %macdir %copydate-instantclient-jdbc-%macversion-%macarch.zip </dev/null
-%setup -D -T -b 3 -n %macdir %copydate-instantclient-sdk-%macversion-%macarch.zip </dev/null
-%setup -D -T -b 4 -n %macdir %copydate-instantclient-sqlplus-%macversion-%macarch.zip </dev/null
+%setup -D -T -b 0 -n %macdir %copydate-instantclient-basic-%macversion-%macarch.zip
+%setup -D -T -b 1 -n %macdir %copydate-instantclient-basiclite-%macversion-%macarch.zip
+%setup -D -T -b 2 -n %macdir %copydate-instantclient-jdbc-%macversion-%macarch.zip
+%setup -D -T -b 3 -n %macdir %copydate-instantclient-sdk-%macversion-%macarch.zip
+%setup -D -T -b 4 -n %macdir %copydate-instantclient-sqlplus-%macversion-%macarch.zip
 %endif
 
 %if %(case %cmsos in (slc*) echo true ;; (*) echo false ;; esac) == true
@@ -84,7 +84,7 @@ done
 cd %i/lib
 for f in lib*.{dylib,so}.[0-9]*; do
   [ -f $f ] || continue
-  dest=$(echo $f | sed 's/\(.*\.\(dylib\|so\)\)\.[.0-9]*$/\1/')
+  dest=$(echo $f | sed 's/\.[.0-9]*$//')
   rm -f $dest
   ln -s $f $dest
 done
