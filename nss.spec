@@ -1,23 +1,22 @@
 ### RPM external nss 3.12.9
 Source: https://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_%(echo %realversion | tr . _)_RTM/src/nss-%realversion.tar.gz
-Requires: nspr zlib sqlite
+Requires: nspr zlib
 Patch0: nss-3.12.6-remove-appleisms
-Patch1: nss-3.12.9-add-ZLIB-LIBS-DIR
-Patch2: nss-3.12.9-add-SQLITE-LIBS-DIR
 
 %prep
 %setup -n nss-%realversion
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
 %build
 export NSPR_INCLUDE_DIR=$NSPR_ROOT/include/nspr 
 export NSPR_LIB_DIR=$NSPR_ROOT/lib
 export USE_SYSTEM_ZLIB=1
-export ZLIB_LIBS_DIR="-L$ZLIB_ROOT/lib"
-export NSS_USE_SYSTEM_SQLITE=1
-export SQLITE_LIBS_DIR="-L$SQLITE_ROOT/lib"
-export USE_64=1
+export ZLIB_LIBS="-L$ZLIB_ROOT -lz"
+
+case %cmsplatf in
+  *_amd64_*)
+    export USE_64=1
+  ;;
+esac
 
 make -C ./mozilla/security/coreconf clean
 make -C ./mozilla/security/dbm clean
