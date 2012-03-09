@@ -1,6 +1,5 @@
 ### RPM cms PHEDEX-lifecycle 1.0.0
 ## INITENV +PATH PERL5LIB %i/perl_lib
-## INITENV +PATH PERL5LIB %i/T0/perl_lib
 ## INITENV +PATH PATH %i/Testbed/LifeCycle
 %define downloadn %(echo %n | cut -f1 -d-)
 %define cvsversion LIFECYCLE_%(echo %realversion | tr . _)
@@ -35,6 +34,8 @@ tar -cf - * | (cd %i && tar -xf -)
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 : > %i/etc/profile.d/dependencies-setup.sh
 : > %i/etc/profile.d/dependencies-setup.csh
+echo export LIFECYCLE=%i/Testbed/LifeCycle >> %i/etc/profile.d/dependencies-setup.sh
+echo setenv LIFECYCLE %i/Testbed/LifeCycle >> %i/etc/profile.d/dependencies-setup.csh
 for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
   if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
