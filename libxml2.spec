@@ -1,7 +1,8 @@
 ### RPM external libxml2 2.7.7
 %define downloadv %(echo %realversion | cut -d"_" -f1)
 Source: ftp://xmlsoft.org/%n/%n-%downloadv.tar.gz
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 %if "%online" != "true"
 Requires: zlib
