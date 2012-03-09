@@ -20,6 +20,7 @@ Provides: perl(T0::Util)
 
 %prep
 %setup -n PHEDEX
+tar zxf %_sourcedir/T0.tar.gz
 
 %build
 %install
