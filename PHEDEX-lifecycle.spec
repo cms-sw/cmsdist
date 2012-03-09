@@ -1,5 +1,7 @@
 ### RPM cms PHEDEX-lifecycle 1.0.0
 ## INITENV +PATH PERL5LIB %i/perl_lib
+## INITENV +PATH PERL5LIB %i/T0/perl_lib
+## INITENV +PATH LIFECYCLE %i/Testbed/LifeCycle
 %define downloadn %(echo %n | cut -f1 -d-)
 %define cvsversion LIFECYCLE_%(echo %realversion | tr . _)
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
