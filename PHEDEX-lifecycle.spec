@@ -1,51 +1,58 @@
-### RPM cms PHEDEX-lifecycle LIFECYCLE_1_0_0
-
+### RPM cms PHEDEX-lifecycle 1.0.0
 ## INITENV +PATH PERL5LIB %i/perl_lib
-Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%n&export=%n&&tag=-r%{v}&output=/%n.tar.gz
+%define downloadn %(echo %n | cut -f1 -d-)
+%define cvsversion LIFECYCLE_%(echo %realversion | tr . _)
+%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
+Source: %cvsserver&strategy=export&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
 
-#Requires: oracle oracle-env
-# perl libs
-Requires: p5-time-hires p5-text-glob p5-compress-zlib p5-poe
-Requires: p5-dbd-oracle p5-dbi p5-xml-parser p5-monalisa-apmon
-Requires: p5-poe-component-child p5-log-log4perl p5-log-dispatch
-Requires: p5-log-dispatch-filerotate p5-params-validate
+Requires: p5-poe p5-poe-component-child
+Requires: p5-clone p5-time-hires p5-text-glob p5-compress-zlib
+Requires: mod_perl2
+Provides: perl(XML::LibXML)
+Provides: perl(T0::FileWatcher)
+Provides: perl(T0::Logger::Sender)
+Provides: perl(T0::Util)
+
+# For DB Access
+#Requires: oracle oracle-env p5-dbi p5-dbd-oracle
+# Core for web apps
+#Requires: apache-setup mod_perl2 p5-apache-dbi p5-cgi p5-cgi-session
+# Useful for web apps
+Requires: p5-json-xs p5-xml-parser
+# Misc. Utilities
+#Requires: p5-params-validate p5-clone p5-time-hires p5-text-glob p5-compress-zlib p5-sort-key p5-mail-rfc822-address
+Requires: p5-log-log4perl
+
 # Actually, it is p5-xml-parser that requires this, but it doesn't configure itself correctly
 # This is so it gets into our dependencies-setup.sh
-Requires: expat
+Requires:  expat
 
 # Provided by system perl
 #Provides: perl(HTML::Entities)
 #Provides: perl(DB_File)
 #Provides: perl(Date::Manip)
 #Provides: perl(XML::LibXML)
+#Provides: perl(URI::Escape)
 
 %prep
-%setup -n %n
+%setup -n PHEDEX
 
 %build
-
 %install
-mkdir -p %i/etc
+mkdir -p %i/etc/{env,profile}.d
 tar -cf - * | (cd %i && tar -xf -)
+#rm -r %i/PhEDExWeb/DataService/conf
 
-# Set permissions
-chmod 755 %i/Utilities/* Testbed/Lifecycle/*pl
-
-# Copy dependencies to dependencies-setup.sh
-mkdir -p %i/etc/profile.d
-for x in %pkgreqs; do
- case $x in /* ) continue ;; esac
- p=%{instroot}/%{cmsplatf}/$(echo $x | sed 's/\([^+]*\)+\(.*\)+\([A-Z0-9].*\)/\1 \2 \3/' | tr ' ' '/')
- echo ". $p/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
- echo "source $p/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
+ln -sf ../profile.d/init.sh %i/etc/env.d/11-datasvc.sh
+: > %i/etc/profile.d/dependencies-setup.sh
+: > %i/etc/profile.d/dependencies-setup.csh
+for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
+  root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
+  if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
+    echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
+    echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+  fi
 done
 
-# Make "env.sh" = "init.sh" for legacy configs
-echo ". %i/etc/profile.d/init.sh" > %i/etc/profile.d/env.sh
-echo "source %i/etc/profile.d/init.csh" > %i/etc/profile.d/env.csh
-
 %post
-%{relocateConfig}etc/profile.d/env.sh
-%{relocateConfig}etc/profile.d/env.csh
-%{relocateConfig}etc/profile.d/dependencies-setup.sh
-%{relocateConfig}etc/profile.d/dependencies-setup.csh
