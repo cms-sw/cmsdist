@@ -1,4 +1,4 @@
-### RPM external curl 7.21.6
+### RPM external curl 7.20.0
 Source: http://curl.haxx.se/download/%n-%realversion.tar.gz
 Provides: libcurl.so.3()(64bit) 
 Requires: openssl
