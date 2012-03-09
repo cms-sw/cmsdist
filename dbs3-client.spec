@@ -1,9 +1,8 @@
-### RPM cms dbs3-client 3.0.14b
+### RPM cms dbs3-client 3.0.13
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 ## INITENV SET DBS3_CLIENT_ROOT %i/
 ## INITENV ALIAS dbs python $DBS3_CLIENT_ROOT/bin/dbs.py
-
 %define webdoc_files %i/doc/
 %define cvstag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
