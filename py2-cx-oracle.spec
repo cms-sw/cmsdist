@@ -1,22 +1,13 @@
-### RPM external py2-cx-oracle 5.1
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+### RPM external py2-cx-oracle 5.0.1
+%define pythonv `echo $PYTHON_VERSION |cut -d. -f1,2`
+## INITENV +PATH PYTHONPATH %i/lib/python%{pythonv}/site-packages
 %define downloadn cx_Oracle
 Source: http://switch.dl.sourceforge.net/sourceforge/cx-oracle/%downloadn-%realversion.tar.gz
-
 Requires: python oracle oracle-env
-
 %prep
 %setup -n %downloadn-%realversion
 
-cat >> setup.cfg <<- EOF
-[build_ext]
-include_dirs = $ORACLE_ROOT/include
-library_dirs = $ORACLE_ROOT/lib
-EOF
-
 %build
-python setup.py build
-
 %install
+perl -p -i -e 's/(?<=includeDirs = \[)/"include", userOracleHome+"\/include" /' setup.py
 python setup.py install --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
