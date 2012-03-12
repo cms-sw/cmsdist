@@ -10,6 +10,8 @@ Requires: zlib
 Requires: onlinesystemtools
 %endif
 
+Patch0: frontier_client-2.8.5-fix-gcc47
+
 %prep
 %setup -n %{n}__%{realversion}__src
 
@@ -18,6 +20,8 @@ Requires: onlinesystemtools
 %else
 %define makeargs "EXPAT_DIR=$EXPAT_ROOT COMPILER_TAG=gcc_%{gccver}"
 %endif
+
+%patch0 -p1
 
 %build
 
