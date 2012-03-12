@@ -7,7 +7,7 @@ Patch0: mcdb-1.0.2-gcc45
 %setup -q -n %{n}-api-%{realversion}
 
 case %gccver in
-  4.5.* | 4.6.*)
+  4.5.* | 4.6.* | 4.7.*)
 %patch0 -p1
   ;;
 esac
