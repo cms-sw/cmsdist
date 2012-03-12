@@ -6,6 +6,7 @@ Patch3: fastjet-3.0.1-noemptyareawarning
 Patch4: fastjet-3.0.1-nodegeneracywarning
 Patch5: fastjet-3.0.1-cluster-sequence-banner
 Patch6: fastjet-3.0.1-silence-warnings
+Patch7: fastjet-3.0.1-fix-gcc47
 
 %prep
 %setup -n %n-%realversion
@@ -15,6 +16,7 @@ Patch6: fastjet-3.0.1-silence-warnings
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 case %cmsplatf in
     *_gcc4[01234]*) ;;
