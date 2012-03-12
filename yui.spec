@@ -1,4 +1,4 @@
-### RPM external yui 2.8.2r1
+### RPM external yui 2.9.0
 ## NOCOMPILER
 
 Source: http://yuilibrary.com/downloads/yui2/yui_%realversion.zip 
