@@ -26,6 +26,7 @@ Requires: curl spidermonkey openssl icu4c erlang couchapp
 %patch5 -p0
 %patch6 -p0
 cp %_sourcedir/couch_cms_auth.erl %_builddir/couchdb/src/couchdb
+perl -p -i -e 's{\s*-L/(opt|usr)/local/lib}{}g; s{-I/(opt|usr)/local/include}{-I/no-no-no/include}g' configure.ac
 
 %build
 ./bootstrap
