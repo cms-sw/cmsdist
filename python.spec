@@ -18,6 +18,7 @@ Requires: zlib openssl sqlite
 Source0: http://www.python.org/ftp/%n/%realversion/Python-%realversion.tgz
 Patch0: python-2.6.4-dont-detect-dbm
 Patch1: python-2.6.4-fix-macosx-relocation
+Patch2: python-2.6.4-macosx-64bit
 
 %prep
 %setup -n Python-%realversion
@@ -34,6 +35,7 @@ case %cmsplatf in
 esac
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 # Python is awkward about passing other include or library directories
