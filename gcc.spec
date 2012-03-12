@@ -1,6 +1,6 @@
-### RPM external gcc 4.7.0
+### RPM external gcc 4.6.2
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
+Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
 #Source0: svn://gcc.gnu.org/svn/gcc/trunk?module=gcc-%(echo %realversion | cut -f1,2 -d.)&date=20120116&output=/gcc-%realversion.tar.gz
 
 %define keep_archives true
@@ -16,7 +16,7 @@ Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
 # For gcc 4.5+ we need the additional tools ppl and cloog.
 %define gcc_45plus %(echo %realversion | sed -e 's|4[.][5-9].*|true|')
 %if "%{gcc_45plus}" == "true"
-%define pplVersion 0.12
+%define pplVersion 0.11.2
 %define cloogVersion 0.16.2
 Source4: http://bugseng.com/products/ppl/download/ftp/releases/%{pplVersion}/ppl-%{pplVersion}.tar.bz2
 Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
@@ -51,7 +51,7 @@ Patch2: gcc-4.6.1-elfutils-portability
 
 %prep
 echo "use_custom_binutils: %use_custom_binutils"
-%setup -T -b 0 -n gcc-4.7.0-RC-20120302
+%setup -T -b 0 -n gcc-%realversion
 %if "%gcc_45plus" == "true"
 # Get the macosx build to accept -arch, -F options like the official Apple one.
 # Notice that  patch command have to stay on a single line.
@@ -262,7 +262,7 @@ CONF_GCC_VERSION_OPTS="--with-gmp=%i --with-mpfr=%i --with-mpc=%i"
 # Build additional stuff for gcc 4.5+
 if [ "X%gcc_45plus" = Xtrue ]; then
   cd ../ppl-%{pplVersion}
-  ./configure --disable-static --with-gmp=%i --with-cxxflags="-I%i/include" \
+  ./configure --disable-static --with-gmp-prefix=%i --with-cxxflags="-I%i/include" \
     --enable-interfaces=c --prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
     LDFLAGS="-L%i/lib"
   make %makeprocesses
@@ -278,7 +278,7 @@ if [ "X%gcc_45plus" = Xtrue ]; then
 fi
 
 # Build the compilers
-cd ../gcc-4.7.0-RC-20120302
+cd ../gcc-%realversion
 mkdir -p obj
 cd obj
 export LD_LIBRARY_PATH=%i/lib64:%i/lib:$LD_LIBRARY_PATH
@@ -291,7 +291,7 @@ make %makeprocesses bootstrap
 make install
 
 %install
-cd %_builddir/gcc-4.7.0-RC-20120302/obj && make install 
+cd %_builddir/gcc-%{realversion}/obj && make install 
 
 ln -s gcc %i/bin/cc
 find %i/lib %i/lib64 -name '*.la' -exec rm -f {} \; || true
