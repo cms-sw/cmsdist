@@ -23,7 +23,7 @@ Patch1: millepede_V03-04-00_gcc45
 %patch -p1
 
 case %gccver in
-  4.[56].*)
+  4.[567].*)
 %patch1 -p1
   ;;
 esac
