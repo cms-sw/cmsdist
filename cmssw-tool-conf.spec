@@ -105,6 +105,7 @@ Requires: xz-toolfile
 Requires: protobuf-toolfile
 
 %if "%isslc" == "true"
+Requires: openldap-toolfile
 Requires: python-ldap-toolfile
 Requires: gdb-toolfile
 Requires: google-perftools-toolfile
