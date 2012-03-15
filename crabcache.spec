@@ -26,6 +26,7 @@ perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/crabserver/conf.py
 python setup.py build_system -s UserFileCache
 
 %install
+mkdir -p %i/etc/profile.d %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
 cd ../WMCore
 python setup.py install_system -s crabcache --prefix=%i
 cd ../CRABServer
