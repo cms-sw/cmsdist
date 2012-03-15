@@ -1,4 +1,4 @@
-### RPM cms crabserver 1203b
+### RPM cms crabserver cs1503
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
@@ -8,8 +8,8 @@
 %define wmcver 0.8.25
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_ci.tar.gz
-## CURRENTLY USES trunk
-Source1: %svnserver/CRABServer/trunk?scheme=svn+ssh&strategy=export&module=CRABServer&output=/CRABInterface.tar.gz
+Source1: %svnserver/CRABServer/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=CRABServer&output=/CRABInterface.tar.gz
+#Source1: %svnserver/CRABServer/trunk?scheme=svn+ssh&strategy=export&module=CRABServer&output=/CRABInterface.tar.gz
 Requires: python cherrypy py2-cjson rotatelogs py2-sphinx py2-pycurl py2-httplib2 py2-sqlalchemy py2-cx-oracle
 Patch0: crabserver3-setup
 
