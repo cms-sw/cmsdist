@@ -23,15 +23,15 @@ HG1201c stagemanager @slc5_amd64_gcc461
 # wmagent
 HG1201a wmagent @slc6_amd64_gcc461
 + WMCORE_0_6_12 wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
-+ HEAD/0.8.27 wmcore.spec wmagent.spec
++ HEAD/0.8.28 wmcore.spec wmagent.spec
 
 HG1201a wmagent @slc5_amd64_gcc461
 + WMCORE_0_6_12 wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
-+ HEAD/0.8.27 wmcore.spec wmagent.spec
++ HEAD/0.8.28 wmcore.spec wmagent.spec
 
 HG1201a wmagent @osx106_amd64_gcc461
 + WMCORE_0_6_12 wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
-+ HEAD/0.8.27 wmcore.spec wmagent.spec
++ HEAD/0.8.28 wmcore.spec wmagent.spec
 
 HG1201a crab @slc5_amd64_gcc461
 + HEAD/1201a crab.spec
