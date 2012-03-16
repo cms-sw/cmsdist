@@ -11,6 +11,7 @@ Patch3: couchdb-replication-id
 Patch4: couchdb-changes-timeout
 Patch5: couchdb-changes-heartbeat
 Patch6: couchdb-994-db-open-logic-11x
+Patch7: couchdb-changes-retry
 
 # Although there is no technical software dependency,
 # couchapp was included because all CMS applications will need it.
@@ -25,6 +26,7 @@ Requires: curl spidermonkey openssl icu4c erlang couchapp
 %patch4 -p0
 %patch5 -p0
 %patch6 -p0
+%patch7 -p0
 cp %_sourcedir/couch_cms_auth.erl %_builddir/couchdb/src/couchdb
 perl -p -i -e 's{\s*-L/(opt|usr)/local/lib}{}g; s{-I/(opt|usr)/local/include}{-I/no-no-no/include}g' configure.ac
 
