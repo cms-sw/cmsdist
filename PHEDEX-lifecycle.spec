@@ -35,8 +35,8 @@ cp -p Testbed/LifeCycle/Lifecycle.pl %i/bin
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 : > %i/etc/profile.d/dependencies-setup.sh
 : > %i/etc/profile.d/dependencies-setup.csh
-echo export LIFECYCLE=%instroot/Testbed/LifeCycle >> %i/etc/profile.d/dependencies-setup.sh
-echo setenv LIFECYCLE %{i}/Testbed/LifeCycle >> %i/etc/profile.d/dependencies-setup.csh
+echo export LIFECYCLE=%instroot/$RPM_ARCH/cms/$RPM_PACKAGE_NAME/$RPM_PACKAGE_VERSION/Testbed/LifeCycle >> %i/etc/profile.d/dependencies-setup.sh
+echo setenv LIFECYCLE %instroot/$RPM_ARCH/cms/$RPM_PACKAGE_NAME/$RPM_PACKAGE_VERSION/Testbed/LifeCycle >> %i/etc/profile.d/dependencies-setup.csh
 for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
   if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
