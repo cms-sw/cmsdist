@@ -1,11 +1,9 @@
-### RPM cms reqmgr 0.8.23
-## INITENV +PATH PATH %i/xbin
+### RPM cms reqmgr 0.8.11
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
 Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_reqmgr.tar.gz
-#Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk@14944?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_reqmgr.tar.gz
-Requires: py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah py2-cx-oracle yui rotatelogs couchdb py2-cjson py2-sphinx
+#Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk/?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_reqmgr.tar.gz
+Requires: py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah py2-cx-oracle yui rotatelogs couchdb py2-cjson
 
 %prep
 %setup -n WMCore
@@ -14,7 +12,6 @@ Requires: py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah py2-cx
 python setup.py build_system -s reqmgr
 
 %install
-mkdir -p %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
 python setup.py install_system -s reqmgr --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
