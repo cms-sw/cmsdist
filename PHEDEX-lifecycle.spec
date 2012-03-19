@@ -47,5 +47,3 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
-
-%files
