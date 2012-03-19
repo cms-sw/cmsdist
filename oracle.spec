@@ -13,7 +13,8 @@
 %define macversion 10.2.0.4.0
 %define linuxversion 11.2.0.1.0p2
 Source0: http://cmsrep.cern.ch/cmssw/oracle-mirror/slc5_amd64/%{linuxversion}/oracle_lcg-slc5_amd64.tgz
-Source1: http://cmsrep.cern.ch/cmssw/oracle-mirror/osx106_amd64/%{macversion}/oracle_lcg-osx106_amd64.tgz
+Source1: http://cmsrep.cern.ch/cmssw/oracle-mirror/slc5_ia32/%{linuxversion}/oracle_lcg-slc5_ia32.tgz
+Source2: http://cmsrep.cern.ch/cmssw/oracle-mirror/osx106_amd64/%{macversion}/oracle_lcg-osx106_amd64.tgz
 Source9: oracle-license
 Requires: fakesystem 
 
@@ -24,11 +25,14 @@ Requires: fakesystem
 # as part of the arguments.
 # Notice that we are forced to use rpm macros because %%setup registers the 
 # final directory to use as the one of the last %%setup happening.
-%if %(case %cmsos in (slc*) echo true ;; (*) echo false ;; esac) == true
+%if %cmsos == slc6_amd64 || %cmsos == slc5_amd64
 %setup -T -n %linuxversion -b 0 
 %endif
-%if %(case %cmsos in (osx*) echo true ;; (*) echo false ;; esac) == true
-%setup -T -n %macversion -b 1
+%if %cmsos == slc5_ia32
+%setup -T -n %linuxversion -b 1 
+%endif
+%if %cmsos == osx106_amd64
+%setup -T -n %macversion -b 2 
 %endif
 
 %build
@@ -42,7 +46,7 @@ cp -r doc/* %i/doc/
 cp -r include/* %i/include/
 
 case %cmsplatf in
-  osx*)
+  osx* )
     ln -sf libclntsh.dylib.10.1 %i/lib/libclntsh.dylib
     ln -sf libocci.dylib.10.1 %i/lib/libocci.dylib
   ;;
