@@ -28,8 +28,9 @@ tar zxf %_sourcedir/T0.tar.gz
 
 %build
 %install
-mkdir -p %i/etc/{env,profile}.d
+mkdir -p %i/etc/{env,profile}.d %i/bin
 tar -cf - * | (cd %i && tar -xf -)
+cp -p Testbed/LifeCycle/Lifecycle.pl %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 : > %i/etc/profile.d/dependencies-setup.sh
