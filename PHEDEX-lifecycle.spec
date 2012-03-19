@@ -36,7 +36,7 @@ cp -p Testbed/LifeCycle/Lifecycle.pl %i/bin
 : > %i/etc/profile.d/dependencies-setup.sh
 : > %i/etc/profile.d/dependencies-setup.csh
 env >> %i/etc/profile.d/dependencies-setup.sh
-echo export LIFECYCLE=%{i}/Testbed/LifeCycle >> %i/etc/profile.d/dependencies-setup.sh
+echo export LIFECYCLE=%instroot/Testbed/LifeCycle >> %i/etc/profile.d/dependencies-setup.sh
 echo setenv LIFECYCLE %{i}/Testbed/LifeCycle >> %i/etc/profile.d/dependencies-setup.csh
 for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
@@ -47,3 +47,6 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
 done
 
 %post
+%{relocateConfig}etc/profile.d/dependencies-setup.*sh
+
+%files
