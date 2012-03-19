@@ -35,7 +35,6 @@ cp -p Testbed/LifeCycle/Lifecycle.pl %i/bin
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 : > %i/etc/profile.d/dependencies-setup.sh
 : > %i/etc/profile.d/dependencies-setup.csh
-env >> %i/etc/profile.d/dependencies-setup.sh
 echo export LIFECYCLE=%instroot/Testbed/LifeCycle >> %i/etc/profile.d/dependencies-setup.sh
 echo setenv LIFECYCLE %{i}/Testbed/LifeCycle >> %i/etc/profile.d/dependencies-setup.csh
 for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
