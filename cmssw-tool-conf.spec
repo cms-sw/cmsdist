@@ -4,6 +4,7 @@
 # tool is added
 
 %define isslc %(case %cmsos in (slc*) echo true;; (*) echo false;; esac)
+%define is64bit %(case %cmsos in (slc*_amd64) echo true;; (*) echo false;; esac)
 
 Requires: alpgen-toolfile
 Requires: boost-toolfile

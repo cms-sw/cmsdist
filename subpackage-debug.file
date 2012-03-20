@@ -1,5 +1,5 @@
 %package -n %{pkgcategory}+%{pkgname}-debug+%{pkgversion}
-Summary:        CMS Experiment package
+Summary:        Separate debug symbol files for %{pkgname}.
 Group:          %{pkgcategory}
 Requires:       %{pkgcategory}+%{pkgname}+%{pkgversion}
 AutoReqProv:    no
@@ -33,6 +33,6 @@ fi
 %files -n %{pkgcategory}+%{pkgname}-debug+%{pkgversion} 
 # FIXME - work around the 2GB limit in RPM 4.4.2
 #%files -n %{pkgcategory}+%{pkgname}-debug+%{pkgversion} -f %_builddir/files.debug
-%{installroot}/%{pkgrel}/debug.tar.gz
+%{pkginstroot}/debug.tar.gz
 %defattr(-, root, root)
 %endif
