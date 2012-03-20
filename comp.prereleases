@@ -93,8 +93,8 @@ HG1204b workqueue @slc5_amd64_gcc461
 #DIE#+ HEAD/0.0.3 regsvc.spec
 
 # PHEDEX agents
-#DIE#HG1109b PHEDEX-combined-agents @slc5_amd64_gcc434
-#DIE#+ forPHEDEX401a PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
+HG1203h PHEDEX-combined-agents @slc5_amd64_gcc461
++ forPHEDEX410pre1 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
 
 # PHEDEX web
 #DIE#HG1112a PHEDEX-combined-web @slc5_amd64_gcc461
