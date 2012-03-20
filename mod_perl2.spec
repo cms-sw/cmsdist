@@ -23,7 +23,7 @@ Provides: perl(Module::Build)
 
 %build
 perl Makefile.PL INSTALL_BASE=%i MP_APXS=$APACHE2_ROOT/bin/apxs MP_AP_DESTDIR=%i
-make
+make %makeprocesses
 
 %install
 make install
@@ -42,6 +42,7 @@ EOF
 # move these resources back to a sane location and clean up.
 mv %i/$APACHE2_ROOT/* %i
 rm -r %i/$(echo $APACHE2_ROOT | sed 's|^/||' | cut -d/ -f1)
+find %i/lib/perl5 -name '*PHP*.pm' -exec rm -f {} \;
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
