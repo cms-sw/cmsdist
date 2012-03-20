@@ -11,6 +11,8 @@ Requires: p5-poe p5-poe-component-child p5-clone p5-time-hires p5-text-glob
 Requires: p5-compress-zlib p5-log-log4perl p5-json-xs p5-xml-parser p5-monalisa-apmon
 Requires: mod_perl2 
 Requires: lifecycle-dataprovider
+# This is temporary, for the examples
+Requires: dbs3-client
 
 #Provides: perl(XML::LibXML)
 Provides: perl(XML::Twig)
