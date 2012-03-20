@@ -844,7 +844,7 @@
 +      character*512 outline
 +      data nbbuf /512/
 +      integer nitem
-+      character*20 chvec(40000)
++      character*20 chvec(16000)
        save 
  !                                                                       
        U =         X * CtLhCtq5Pdf(1,X,Q) 
@@ -934,7 +934,7 @@
 +      character*512 outline
 +      data nbbuf /512/
 +      integer nitem
-+      character*20 chvec(40000)
++      character*20 chvec(16000)
        save 
  !                                                                       
        call getnset(iset) 
@@ -1036,7 +1036,7 @@
 +      character*512 outline
 +      data nbbuf /512/
 +      integer nitem
-+      character*20 chvec(40000)
++      character*20 chvec(16000)
        save 
  !                                                                       
        call getnset(iset) 
@@ -1367,7 +1367,7 @@
 +      character*512 outline
 +      data nbbuf /512/
 +      integer nitem
-+      character*20 chvec(60000)
++      character*20 chvec(16000)
        save 
  !                                                                       
        call getnset(iset) 
@@ -1516,7 +1516,7 @@
 +      character*512 outline
 +      data nbbuf /512/
 +      integer nitem
-+      character*20 chvec(40000)
++      character*20 chvec(16000)
        save 
                                                                          
        xsave=x 
@@ -3452,7 +3452,7 @@
 +      character*512 outline
 +      data nbbuf /512/
 +      integer nitem
-+      character*20 chvec(40000)
++      character*20 chvec(16000)
        save 
  !                                                                       
  !      enddo                                                            
@@ -3506,7 +3506,7 @@
 +  character*512 outline
 +  data nbbuf /512/
 +  integer nitem
-+  character*20 chvec(40000)
++  character*20 chvec(16000)
  !
  #endif
    mem=imem
@@ -3610,7 +3610,7 @@
 +      character*512 outline
 +      data nbbuf /512/
 +      integer nitem
-+      character*20 chvec(40000)
++      character*20 chvec(16000)
        save 
        x=xin 
        q2=qin*qin 
@@ -3910,7 +3910,7 @@
 +      character*512 outline
 +      data nbbuf /512/
 +      integer nitem
-+      character*20 chvec(40000)
++      character*20 chvec(16000)
        save 
  !                                                                       
        call getnset(iset) 
@@ -4821,7 +4821,7 @@
 +      character*512 outline
 +      data nbbuf /512/
 +      integer nitem
-+      character*20 chvec(40000)
++      character*20 chvec(16000)
 +      character*512 compath
 +      logical pass
        save 
@@ -5196,7 +5196,7 @@
 +      character*512 outline
 +      data nbbuf /512/
 +      integer nitem
-+      character*20 chvec(40000)
++      character*20 chvec(16000)
 +      character*512 compath
        save 
  !                                                                       
@@ -5430,7 +5430,7 @@
 +      character*512 outline
 +      data nbbuf /512/
 +      integer nitem
-+      character*20 chvec(40000)
++      character*20 chvec(16000)
 +      character*512 compath
 +      logical pass
        save 
