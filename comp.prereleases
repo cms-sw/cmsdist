@@ -170,3 +170,4 @@ HG1203g lifecycle-dataprovider @slc5_amd64_gcc461
 # LifeCycle Agent
 HG1203g PHEDEX-lifecycle @slc5_amd64_gcc461
 + 1.24 PHEDEX-lifecycle.spec
++ 1.1 lifecycle-dataprovider.spec
