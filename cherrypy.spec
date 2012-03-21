@@ -1,10 +1,10 @@
-### RPM external cherrypy 3.1.2
+### RPM external cherrypy 3.2.2
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 Source: http://download.cherrypy.org/cherrypy/%v/CherryPy-%realversion.tar.gz
 Requires: python
-Patch0: cherrypy-upload
-Patch1: cherrypy-trailers
-Patch2: cherrypy-report-all-bytes
+#Patch0: cherrypy-upload
+#Patch1: cherrypy-trailers
+#Patch2: cherrypy-report-all-bytes
 
 %prep
 %setup -n CherryPy-%realversion

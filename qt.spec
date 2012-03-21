@@ -1,4 +1,4 @@
-### RPM external qt 4.8.0
+### RPM external qt 4.6.3
 ## INITENV UNSET QMAKESPEC
 ## INITENV SET QTDIR %i
 
@@ -32,11 +32,11 @@ esac
 case %cmsplatf in
   osx*_*_gcc421) ;;
   osx*)
-    export PATH=/Developer/usr/bin:$PATH
-    export CXX='/Developer/usr/bin/llvm-g++-4.2'
-    export CC='/Developer/usr/bin/llvm-gcc-4.2'
-    export LD='/Developer/usr/bin/llvm-g++-4.2'
-    export LINK='/Developer/usr/bin/llvm-g++-4.2'
+    export CXX=/usr/bin/c++
+    export CC=/usr/bin/gcc
+    export LD=/usr/bin/c++
+    export LINK=/usr/bin/c++
+    export PATH=/usr/bin:$PATH
   ;;
 esac
 
