@@ -32,7 +32,7 @@
 %endif
 
 %define PatchReleasePythonSymlinks \
-  CWD=`/bin/pwd`; cd %i; %scramcmd b --verbose -f tmp/common/python_symlinks </dev/null; cd %i/python;\
+  CWD=`/bin/pwd`; cd %i; %scramcmd b --verbose -f tmp/common/cache/python_symlinks </dev/null; cd %i/python;\
   for SUBSYS in `ls -d ../%{parent_release_rpath}/python/*`; do \
     if [ -d $SUBSYS ] ; then \
       S=`basename $SUBSYS`; \
