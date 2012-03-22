@@ -9,15 +9,15 @@ Requires: oracle-env
 %define compilertools %{nil}
 %endif
 
-%define systemtools                     sockets opengl x11 %compilertools
-%define sockets_version                 1.0
-%define opengl_version                  XFree4.2
-%define x11_version                     R6
+%define systemtools			sockets opengl x11 %compilertools
+%define sockets_version			1.0
+%define opengl_version			XFree4.2
+%define x11_version			R6
 
-## INITENV SETV SOCKETS_VERSION         %sockets_version
-## INITENV SETV OPENGL_VERSION          %opengl_version
-## INITENV SETV X11_VERSION             %x11_version
-## INITENV SETV PKGTOOLS_SYSTEM_TOOLS   %systemtools
+## INITENV SETV SOCKETS_VERSION		%sockets_version
+## INITENV SETV OPENGL_VERSION		%opengl_version
+## INITENV SETV X11_VERSION		%x11_version
+## INITENV SETV PKGTOOLS_SYSTEM_TOOLS	%systemtools
 
 %prep
 %build
@@ -29,7 +29,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sockets.xml
   <tool name="sockets" version="%sockets_version">
 EOF_TOOLFILE
 case %cmsplatf in
-slc4_* | slc4onl_* | slc5_* | slc5onl_* | slc6_* )
+slc3_* | slc4_* | slc4onl_* | slc5_* )
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/sockets.xml
     <lib name="nsl"/>
     <lib name="crypt"/>
