@@ -1,2 +1,2 @@
-### RPM cms data-Geometry-HcalSimData V01-02-02
+### RPM cms data-Geometry-HcalSimData V01-03-00
 ## IMPORT cmssw-xmldata-build
