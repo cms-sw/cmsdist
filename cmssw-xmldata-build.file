@@ -7,8 +7,8 @@
 
 Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/local/reps/CMSSW.admin?passwd=AA_:yZZ3e&tag=-r%{realversion}&export=%{cmssw_subsystem}&module=%{cmssw_package}&output=/data.tar.gz
 
-%if "%{?dataDirs:set}" != "set"
-%define dataDirs         data
+%if "%{?dataDir:set}" != "set"
+%define dataDir         data
 %endif
 
 %prep
@@ -21,7 +21,7 @@ Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/local/reps/CMSSW.admin?pass
 
 %install
 mkdir -p %i/%{cmssw_package}
-for dir in %{dataDirs}; do
+for dir in %{dataDir}; do
   cp -r %_builddir/%{cmssw_package}/$dir %i/%{cmssw_package}
 done
 
