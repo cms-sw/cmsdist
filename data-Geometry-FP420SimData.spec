@@ -1,2 +1,2 @@
-### RPM cms data-Geometry-FP420SimData V00-05-01
+### RPM cms data-Geometry-FP420SimData V00-06-00
 ## IMPORT cmssw-xmldata-build
