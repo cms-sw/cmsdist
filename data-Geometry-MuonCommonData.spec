@@ -1,2 +1,2 @@
-### RPM cms data-Geometry-MuonCommonData V01-05-01
+### RPM cms data-Geometry-MuonCommonData V01-06-00
 ## IMPORT cmssw-xmldata-build
