@@ -1,2 +1,2 @@
-### RPM cms data-Geometry-RPCGeometryBuilder V01-03-09
+### RPM cms data-Geometry-RPCGeometryBuilder V01-04-00
 ## IMPORT cmssw-xmldata-build
