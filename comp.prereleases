@@ -165,10 +165,12 @@ HG1204e t0 @slc5_amd64_gcc461
 + 1.2 wmcore-db-couch.spec
 
 # LifeCycle
-HG1203g lifecycle-dataprovider @slc5_amd64_gcc461
-+ 1.1 lifecycle-dataprovider.spec
+#HG1203g lifecycle-dataprovider @slc5_amd64_gcc461
+HG1204f lifecycle-dataprovider @slc5_amd64_gcc461
++ 1.2 lifecycle-dataprovider.spec
 
 # LifeCycle Agent
-HG1203g PHEDEX-lifecycle @slc5_amd64_gcc461
+#HG1203g PHEDEX-lifecycle @slc5_amd64_gcc461
+HG1204f PHEDEX-lifecycle @slc5_amd64_gcc461
 + 1.24 PHEDEX-lifecycle.spec
-+ 1.1 lifecycle-dataprovider.spec
++ 1.2 lifecycle-dataprovider.spec
