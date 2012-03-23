@@ -1,2 +1,2 @@
-### RPM cms data-Geometry-TwentyFivePercentTrackerCommonData V00-00-03
+### RPM cms data-Geometry-TwentyFivePercentTrackerCommonData V00-01-00
 ## IMPORT cmssw-xmldata-build
