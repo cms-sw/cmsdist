@@ -25,7 +25,6 @@ make %makeprocesses
 %install
 cd gccxml-build
 make install
-%define drop_files %i/share/{man,doc}
 
 %post
 find $RPM_INSTALL_PREFIX/%{pkgrel}/share -name gccxml_config -exec %relocateCmsFiles {} \;
