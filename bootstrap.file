@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.81 $
+# Revision: $Revision: 1.82 $
 
 set -e
 
@@ -479,6 +479,9 @@ fi
 
 # Fetch the required RPMS for RPM and APT from the server and install them using rpmcpio
 export DOWNLOAD_DIR=$rootdir/bootstraptmp/BOOTSTRAP
+if [ -d $rootdir/bootstraptmp ]; then
+  rm -r $rootdir/bootstraptmp
+fi
 mkdir -p $DOWNLOAD_DIR
 cd $DOWNLOAD_DIR
 downloadPath=$server/$server_main_dir/$repository/RPMS/$cmsplatf
