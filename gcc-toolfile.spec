@@ -195,7 +195,7 @@ esac
 
 case %cmsplatf in
    *_gcc4[56789]* )
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -msse3 -ftree-vectorize -Wno-strict-overflow"
+     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++0x -msse3 -ftree-vectorize -Wno-strict-overflow"
      F77_MMD="-cpp -MMD"
    ;;
 esac
