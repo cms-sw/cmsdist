@@ -1,9 +1,9 @@
-### RPM cms reqmgr 0.8.34
+### RPM cms reqmgr 0.8.35
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
-Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/0.8.32?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_reqmgr.tar.gz
+Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_reqmgr.tar.gz
 #Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk@14944?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_reqmgr.tar.gz
 Requires: py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah py2-cx-oracle yui rotatelogs couchdb py2-cjson py2-sphinx
 
