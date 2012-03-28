@@ -19,32 +19,32 @@ HG1201c stagemanager @slc5_amd64_gcc461
 # wmagent
 HG1204f wmagent @slc6_amd64_gcc461
 + WMCORE_0_6_12 wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
-+ HEAD/0.8.34 wmcore.spec wmagent.spec
++ HEAD/0.8.35 wmcore.spec wmagent.spec
 + 1.35 mysql.spec
 
 HG1204f wmagent @slc5_amd64_gcc461
 + WMCORE_0_6_12 wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
-+ HEAD/0.8.34 wmcore.spec wmagent.spec
++ HEAD/0.8.35 wmcore.spec wmagent.spec
 + 1.35 mysql.spec
 
 HG1204f wmagent @osx106_amd64_gcc461
 + WMCORE_0_6_12 wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
-+ HEAD/0.8.34 wmcore.spec wmagent.spec
++ HEAD/0.8.35 wmcore.spec wmagent.spec
 + 1.35 mysql.spec
 
 #DIE#HG1204f wmagent-dev @slc6_amd64_gcc461
 #DIE#+ WMCORE_0_6_12 wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
-#DIE#+ HEAD/0.8.34 wmcore.spec wmagent.spec wmagent-dev.spec
+#DIE#+ HEAD/0.8.35 wmcore.spec wmagent.spec wmagent-dev.spec
 #DIE#+ 1.35 mysql.spec
 
 #DIE#HG1204f wmagent-dev @slc5_amd64_gcc461
 #DIE#+ WMCORE_0_6_12 wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
-#DIE#+ HEAD/0.8.34 wmcore.spec wmagent.spec wmagent-dev.spec
+#DIE#+ HEAD/0.8.35 wmcore.spec wmagent.spec wmagent-dev.spec
 #DIE#+ 1.35 mysql.spec
 
 #DIE#HG1204f wmagent-dev @osx106_amd64_gcc461
 #DIE#+ WMCORE_0_6_12 wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
-#DIE#+ HEAD/0.8.34 wmcore.spec wmagent.spec wmagent-dev.spec
+#DIE#+ HEAD/0.8.35 wmcore.spec wmagent.spec wmagent-dev.spec
 #DIE#+ 1.35 mysql.spec
 
 HG1201a crab @slc5_amd64_gcc461
