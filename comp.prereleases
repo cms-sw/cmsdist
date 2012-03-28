@@ -68,7 +68,7 @@ HG1201a reqmgr
 
 # RequestManager
 HG1204b reqmgr @slc5_amd64_gcc461
-+ HEAD/0.8.34 reqmgr.spec
++ 1.48 reqmgr.spec
 
 # RequestMonitor
 HG1201a reqmon @slc5_amd64_gcc461
