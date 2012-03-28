@@ -35,8 +35,6 @@ Patch9: rpm-4.8.0-increase-line-buffer
 Patch10: rpm-4.8.0-increase-macro-buffer
 Patch11: rpm-4.8.0-improve-file-deps-speed
 Patch12: rpm-4.8.0-fix-fontconfig-provides
-Patch13: rpm-4.8.0-fix-find-requires-limit
-Patch14: rpm-4.8.0-disable-internal-dependency-generator-libtool
 
 # Defaults here
 %define libdir lib
@@ -64,21 +62,31 @@ rm -rf lib/rpmhash.*
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+case %cmsos in
+  osx*)
 %patch9 -p1
 %patch10 -p1
+  ;;
+esac
 %patch11 -p1
 %patch12 -p1
-%patch13 -p1
-%patch14 -p1
 
 %build
 case %cmsos in
-  slc*)
+  slc*_ia32)
+    export CFLAGS_PLATF="-fPIC -D_FILE_OFFSET_BITS=64"
+    LIBS_PLATF="-ldl"
+  ;;
+  slc*_amd64)
     CFLAGS_PLATF="-fPIC"
     LIBS_PLATF="-ldl"
   ;;
-  osx*)
+  osx*_amd64)
     export CFLAGS_PLATF="-arch x86_64 -fPIC"
+    export LIBS_PLATF="-liconv"
+  ;;
+  osx*_ia32)
+    export CFLAGS_PLATF="-arch i386 -fPIC"
     export LIBS_PLATF="-liconv"
   ;;
   *)
@@ -238,4 +246,8 @@ ln -sf rpm %i/bin/rpmverify
 ln -sf rpm %i/bin/rpmquery
 
 %post
-%{relocateRpmFiles} $(grep -I -r %cmsroot $RPM_INSTALL_PREFIX/%pkgrel | cut -d: -f1 | sort | uniq)
+# do not relocate init.[c]sh as these are done by default from cmsBuild
+perl -p -i -e "s|%instroot|$RPM_INSTALL_PREFIX|g" `grep -I -r %instroot $RPM_INSTALL_PREFIX/%pkgrel | cut -d: -f1 | sort | uniq | grep -v init.csh | grep -v init.sh `
+%files
+%{i}
+%{instroot}/%{cmsplatf}/var/spool/repackage
