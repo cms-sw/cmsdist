@@ -1,4 +1,4 @@
-### RPM cms online CMSSW_5_2_2_ONLINE
+### RPM cms online CMSSW_5_2_3_ONLINE
 Requires: online-tool-conf python
 
 %define useCmsTC        yes
