@@ -46,11 +46,11 @@ HG1204b filemover @slc5_amd64_gcc461
 #+ HEAD/2.16.1 graphviz.spec
 
 # Cms Webtools services
-HG1204e cmsweb @slc6_amd64_gcc461
+HG1204h cmsweb @slc6_amd64_gcc461
 
-HG1204e cmsweb @slc5_amd64_gcc461
+HG1204h cmsweb @slc5_amd64_gcc461
 
-HG1204e cmsweb @osx106_amd64_gcc461
+HG1204h cmsweb @osx106_amd64_gcc461
 
 # Stagemanager offsite agent
 HG1201c stagemanager-agent @slc5_amd64_gcc461
@@ -67,11 +67,8 @@ HG1201a reqmgr
 + HEAD/0.8.23 reqmgr.spec
 
 # RequestManager
-# Had to add junk to change checksum due to error in spec
-HG1201a reqmgr @slc5_amd64_gcc461
-+ 1.1 couchdb-changes-timeout.patch
-+ 1.53/1.1.0 couchdb.spec
-+ HEAD/0.8.19 reqmgr.spec
+HG1204b reqmgr @slc5_amd64_gcc461
++ 1.48 reqmgr.spec
 
 # RequestMonitor
 HG1201a reqmon @slc5_amd64_gcc461
@@ -94,8 +91,8 @@ HG1204b workqueue @slc5_amd64_gcc461
 #DIE#+ HEAD/0.0.3 regsvc.spec
 
 # PHEDEX agents
-HG1203h PHEDEX-combined-agents @slc5_amd64_gcc461
-+ forPHEDEX410pre2 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
+HG1204f PHEDEX-combined-agents @slc5_amd64_gcc461
++ forPHEDEX410pre4 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
 
 # PHEDEX web
 #DIE#HG1112a PHEDEX-combined-web @slc5_amd64_gcc461
@@ -147,28 +144,30 @@ HG1201a asyncstageout @slc5_amd64_gcc461
 #DIE#+ 1.53/1.1.0 couchdb.spec
 #DIE#+ HEAD/0.8.14 wmcore.spec wmagent.spec
 
-#DIE#HG1111d happyface @slc5_amd64_gcc461
-#DIE#+ 1.11/1.0.0 py2-sqlobject.spec
-#DIE#+ 1.2/r656 happyface.spec
+HG1204e happyface @slc5_amd64_gcc461
++ 1.11/1.0.0 py2-sqlobject.spec
++ 1.3/3.0 happyface.spec
 
 HG1112a cmsbuilder @slc5_amd64_gcc461
 + 1.3 cmsbuilder.spec
 
 # T0
-HG1203g t0 @slc5_amd64_gcc461
-+ 1.10 t0.spec
-+ 1.96 wmagent.spec
-+ 1.170 wmcore.spec
+HG1204e t0 @slc5_amd64_gcc461
++ 1.11 t0.spec
++ 1.98 wmagent.spec
++ 1.172 wmcore.spec
 + 1.16 wmcore-webtools.spec
 + 1.5 wmcore-db-mysql.spec
 + 1.6 wmcore-db-oracle.spec
 + 1.2 wmcore-db-couch.spec
 
 # LifeCycle
-HG1203g lifecycle-dataprovider @slc5_amd64_gcc461
-+ 1.1 lifecycle-dataprovider.spec
+#HG1203g lifecycle-dataprovider @slc5_amd64_gcc461
+HG1204f lifecycle-dataprovider @slc5_amd64_gcc461
++ 1.2 lifecycle-dataprovider.spec
 
 # LifeCycle Agent
-HG1203g PHEDEX-lifecycle @slc5_amd64_gcc461
+#HG1203g PHEDEX-lifecycle @slc5_amd64_gcc461
+HG1204f PHEDEX-lifecycle @slc5_amd64_gcc461
 + 1.24 PHEDEX-lifecycle.spec
-+ 1.1 lifecycle-dataprovider.spec
++ 1.2 lifecycle-dataprovider.spec
