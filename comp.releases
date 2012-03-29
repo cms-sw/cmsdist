@@ -17,17 +17,17 @@ HG1201c stagemanager @slc5_amd64_gcc461
 #DIE#+ DBS_2_1_6-pre5 apache-{ant,tomcat}.spec
 
 # wmagent
-HG1204f wmagent @slc6_amd64_gcc461
+HG1204g wmagent @slc6_amd64_gcc461
 + WMCORE_0_6_12 wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
 + HEAD/0.8.35 wmcore.spec wmagent.spec
 + 1.35 mysql.spec
 
-HG1204f wmagent @slc5_amd64_gcc461
+HG1204g wmagent @slc5_amd64_gcc461
 + WMCORE_0_6_12 wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
 + HEAD/0.8.35 wmcore.spec wmagent.spec
 + 1.35 mysql.spec
 
-HG1204f wmagent @osx106_amd64_gcc461
+HG1204g wmagent @osx106_amd64_gcc461
 + WMCORE_0_6_12 wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
 + HEAD/0.8.35 wmcore.spec wmagent.spec
 + 1.35 mysql.spec
