@@ -1,0 +1,182 @@
+--- src/javascript/WMCore/WebTools/GlobalMonitor/Filter.js	2011-07-12 21:59:37.000000000 +0200
++++ src/javascript/WMCore/WebTools/GlobalMonitor/Filter.js	2011-12-13 17:52:47.000000000 +0100
+@@ -27,7 +27,10 @@ WMCore.GlobalMonitor.Filter.addLocalFilt
+                     }
+                 }
+                 if (reqA[1]) {
+-                    if (data[i].status.toLowerCase().indexOf(reqA[1].toLowerCase()) != -1) {
++                    if (!data[i].status) {
++                        filterFlag1 = true;
++                    } 
++                    else if (data[i].status.toLowerCase().indexOf(reqA[1].toLowerCase()) != -1) {
+                         filterFlag1 = true;
+                     }
+                     else {
+@@ -35,7 +38,10 @@ WMCore.GlobalMonitor.Filter.addLocalFilt
+                     }
+                 }
+                 if (reqA[2]) {
+-                    if (data[i].type.toLowerCase().indexOf(reqA[2].toLowerCase()) != -1) {
++                    if (!data[i].type) {
++                        filterFlag2 = true;
++                    } 
++                    else if (data[i].type.toLowerCase().indexOf(reqA[2].toLowerCase()) != -1) {
+                         filterFlag2 = true;
+                     }
+                     else {
+--- src/javascript/WMCore/WebTools/GlobalMonitor/RequestMonitor.js	2012-02-24 18:00:04.000000000 +0100
++++ src/javascript/WMCore/WebTools/GlobalMonitor/RequestMonitor.js	2012-02-08 17:35:24.000000000 +0100
+@@ -60,7 +60,9 @@ WMCore.GlobalMonitor.RequestMonitor.over
+                  elCell.innerHTML = "<font color='red'> " + oRecord.getData("error") + "<font>";
+                  return;
+             };
+-            if (oRecord.getData("status") == "completed") {
++            if (oRecord.getData("status") == "completed" || 
++                oRecord.getData("status") == "announced" ||
++                oRecord.getData("status") == "closed-out"){
+                 var workloadSummaryUrl = WMCore.GlobalMonitor.Env['workload_summary_url'] +
+                 "/_design/WorkloadSummary/_show/histogramByWorkflow/";
+                 
+--- src/python/WMCore/HTTPFrontEnd/GlobalMonitor/DataCache.py	1970-01-01 01:00:00.000000000 +0100
++++ src/python/WMCore/HTTPFrontEnd/GlobalMonitor/DataCache.py	2011-12-13 17:35:30.000000000 +0100
+@@ -0,0 +1,79 @@
++import time
++
++class DataCache(object):
++    _duration = 600 # ten minitues
++    _requestData = {};
++    _agentData = {};
++    _siteData = {};
++
++    @staticmethod
++    def getDuration():
++        return DataCache._duration;
++
++    @staticmethod
++    def setDuration(sec):
++        DataCache._duration = sec;
++
++    @staticmethod
++    def getRequestData():
++        if (DataCache._requestData):
++            return DataCache._requestData["data"]
++        else:
++            return None
++
++    @staticmethod
++    def getAgentData():
++        if (DataCache._agentData):
++            return DataCache._agentData["data"]
++        else:
++            return None
++
++    @staticmethod
++    def getSiteData():
++        if (DataCache._siteData):
++            return DataCache._siteData["data"]
++        else:
++            return None
++
++    @staticmethod
++    def setRequestData(requestData):
++        DataCache._requestData["time"] = int(time.time())
++        DataCache._requestData["data"] = requestData
++
++    @staticmethod
++    def setAgentData(agentData):
++        DataCache._agentData["time"] = int(time.time())
++        DataCache._agentData["data"] = agentData
++
++    @staticmethod
++    def setSiteData(siteData):
++        DataCache._siteData["time"] = int(time.time())
++        DataCache._siteData["data"] = siteData
++
++    @staticmethod
++    def isRequestDataExpired():
++        if not DataCache._requestData:
++            return True
++
++        if (int(time.time()) - DataCache._requestData["time"]) > DataCache._duration:
++            return True
++        return False
++
++    @staticmethod
++    def isSiteDataExpired():
++        if not DataCache._siteData:
++            return True
++
++        if (int(time.time()) - DataCache._siteData["time"]) > DataCache._duration:
++            return True
++        return False
++
++    @staticmethod
++    def isAgentDataExpired():
++        if not DataCache._agentData:
++            return True
++
++        if (int(time.time()) - DataCache._agentData["time"]) > DataCache._duration:
++            return True
++        return False
++
+--- src/python/WMCore/HTTPFrontEnd/GlobalMonitor/GlobalMonitorRESTModel.py	2011-10-04 18:19:19.000000000 +0200
++++ src/python/WMCore/HTTPFrontEnd/GlobalMonitor/GlobalMonitorRESTModel.py	2011-12-13 17:39:33.000000000 +0100
+@@ -12,6 +12,7 @@ from WMCore.HTTPFrontEnd.GlobalMonitor.A
+      import getAgentOverview
+ from WMCore.HTTPFrontEnd.GlobalMonitor.API.SiteMonitor \
+      import getSiteOverview
++from WMCore.HTTPFrontEnd.GlobalMonitor.DataCache import DataCache
+ 
+ class GlobalMonitorRESTModel(RESTModel):
+     """
+@@ -21,7 +22,7 @@ class GlobalMonitorRESTModel(RESTModel):
+     def __init__(self, config = {}):
+ 
+         RESTModel.__init__(self, config)
+-        
++
+         self.serviceURL = self.config.serviceURL
+         self.serviceLevel = self.config.serviceLevel
+         self.workloadSummaryCouchURL = self.config.workloadSummaryCouchURL
+@@ -33,18 +34,24 @@ class GlobalMonitorRESTModel(RESTModel):
+         self._addMethod("GET", "env", self.getEnvValues, secured=True)
+ 
+     def getRequestMonitor(self):
+-        return getRequestOverview(self.serviceURL, self.serviceLevel)
++        if DataCache.isRequestDataExpired():
++            DataCache.setRequestData(getRequestOverview(self.serviceURL, self.serviceLevel))
++        return DataCache.getRequestData()
+ 
+     def getAgentMonitor(self):
+-        return getAgentOverview(self.serviceURL, self.serviceLevel)
++        if DataCache.isAgentDataExpired():
++            DataCache.setAgentData(getAgentOverview(self.serviceURL, self.serviceLevel))
++        return DataCache.getAgentData()
+ 
+     def getSiteMonitor(self):
+-        return getSiteOverview(self.serviceURL, self.serviceLevel)
+-    
++        if DataCache.isSiteDataExpired():
++            DataCache.setSiteData(getSiteOverview(self.serviceURL, self.serviceLevel))
++        return DataCache.getSiteData()
++
+     def getEnvValues(self):
+         if self.config.serviceURL.lower() == 'local':
+             reqURL = ""
+         else:
+             reqURL = "%s/" % self.serviceURL
+         return {'workload_summary_url': self.workloadSummaryCouchURL,
+-                'reqmgr_url': reqURL}
+\ No newline at end of file
++                'reqmgr_url': reqURL}
+--- src/python/WMCore/Services/Requests.py	2011-10-12 20:41:39.000000000 +0200
++++ src/python/WMCore/Services/Requests.py	2012-01-04 22:39:55.000000000 +0100
+@@ -69,7 +69,7 @@ class Requests(dict):
+             cache_dir = (self.cachePath(dict.get('cachepath'), dict.get('service_name')))
+             self["cachepath"] = cache_dir
+             self["req_cache_path"] = os.path.join(cache_dir, '.cache')
+-        self.setdefault("timeout", 30)
++        self.setdefault("timeout", 300)
+         self.setdefault("logger", logging)
+ 
+         check_server_url(self['host'])

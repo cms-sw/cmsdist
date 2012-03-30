@@ -1,12 +1,14 @@
-### RPM cms reqmon 0.8.19
+### RPM cms reqmon 0.8.15b 
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+%define svntag %(echo %realversion | tr -d "[a-z]")
+Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{svntag}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_reqmon.tar.gz
+Patch0: reqmon-critical-fixes-for0-8-15b
 
-Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_reqmon.tar.gz
-#Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk@14313?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_reqmon.tar.gz
 Requires: python py2-cjson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui py2-setuptools rotatelogs pystack sqlite
 
 %prep
 %setup -n WMCore
+%patch0 -p0
 
 %build
 python setup.py build_system -s reqmon
