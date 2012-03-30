@@ -15,6 +15,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/openldap.xml
   </client>
   <use name="openssl"/>
   <use name="db4"/>
+  <architecture name="slc6_*">
+    <use name="cyrus-sasl"/>
+  </architecture>
 </tool>
 EOF_TOOLFILE
 
