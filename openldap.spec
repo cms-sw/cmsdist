@@ -33,7 +33,7 @@ CYRUS_SASL_ROOT=${CYRUS_SASL_ROOT:-"/usr"}
 export CPPFLAGS="-D_GNU_SOURCE -I$OPENSSL_ROOT/include -I$DB4_ROOT/include -I$CYRUS_SASL_ROOT/include"
 export LDFLAGS="-L$OPENSSL_ROOT/lib -L$DB4_ROOT/lib -L$CYRUS_SASL_ROOT/lib -L%{_builddir}/%n-%{realversion}/sasl2lib"
 
-./configure --prefix=%i --with-cyrus-sasl --with-tls --disable-static
+./configure --prefix=%i --with-cyrus-sasl --with-tls --disable-static --disable-slapd --disable-slurpd
 make depend
 make
 %install
