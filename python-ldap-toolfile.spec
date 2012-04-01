@@ -18,6 +18,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/python-ldap.xml
   <use name="openssl"/>
   <use name="openldap"/>
   <use name="python"/>
+  <architecture name="slc6_*">
+    <use name="cyrus-sasl"/>
+  </architecture>
 </tool>
 EOF_TOOLFILE
 
