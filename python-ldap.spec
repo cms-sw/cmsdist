@@ -5,13 +5,33 @@ Source: http://voxel.dl.sourceforge.net/sourceforge/python-ldap/python-ldap-%{re
 Patch0: python-ldap-2.3.5-gcc44
 Requires: python openssl openldap
 
+%define isslc6 %(case %cmsplatf in (slc6*) echo true ;; (*) echo false ;; esac)
+
+%if "%isslc6" == "true"
+# On SLC6 we build missing Cyrus SASL.
+Requires: cyrus-sasl
+%endif
+
 %prep
 %setup -q -n %n-%{realversion}
 %patch0 -p1
 
 %build
 
-perl -p -i -e 's|/usr/local/openldap-2.3/|$ENV{OPENLDAP_ROOT}/|; s|(library_dirs = .*)|$1 /usr/lib/sasl2 $ENV{OPENSSL_ROOT}/lib|;' setup.cfg
+# XXX:
+# Paths in library_dirs (setup.cfg) are hardcoded into RPATH dynamic section
+# attribute of the binary. Shared libraries are first searched in RPATH paths
+# before LD_LIBRARY_PATH paths. More information in 'distutils' Python package
+# source code.
+
+# Modify setup.cfg with proper include/libs dirs
+# ROOT_CYRUS_SASL should be included only on SLC6.
+# SLC5 has the library by default
+
+CYRUS_SASL_ROOT=${CYRUS_SASL_ROOT:-"/usr"}
+sed -i'' "s:\(library_dirs =\)\(.*\):\1 ${CYRUS_SASL_ROOT}\/lib ${OPENSSL_ROOT}\/lib ${PYTHON_ROOT}\/lib ${OPENLDAP_ROOT}\/lib:g" setup.cfg
+sed -i'' "s:\(include_dirs = \)\(.*\):\1 ${CYRUS_SASL_ROOT}\/include\/sasl ${OPENSSL_ROOT}\/include ${PYTHON_ROOT}\/include ${OPENLDAP_ROOT}\/include:g" setup.cfg
+
 python setup.py build
 %install
 python setup.py install --prefix=%i
