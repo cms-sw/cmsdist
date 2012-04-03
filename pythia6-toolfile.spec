@@ -35,7 +35,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pydata.xml
   <client>
     <environment name="PYDATA_BASE" default="@TOOL_ROOT@"/>
   </client>
-  <flags LDFLAGS="$PYDATA_BASE/lib/pydata.o"/>
+  <architecture name="slc.*[^_]*_gcc4[5-9]">
+    <flags LDFLAGS="$PYDATA_BASE/lib/pydata.o"/>
+  </architecture>
   <flags NO_RECURSIVE_EXPORT="1"/>
 </tool>
 EOF_TOOLFILE
