@@ -39,6 +39,7 @@ Requires: data-RecoMuon-MuonIdentification
 Requires: data-RecoEgamma-ElectronIdentification
 Requires: data-RecoTracker-RingESSource
 Requires: data-RecoTracker-RoadMapESSource
+Requires: data-CalibTracker-SiPixelESProducers
 
 %if "%online" != "true"
 # extra data dependencies for standard builds
