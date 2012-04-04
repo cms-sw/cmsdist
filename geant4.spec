@@ -7,13 +7,19 @@ Source0: http://geant4.cern.ch/support/source/%n.%downloadv.tar.gz
 
 Patch0: geant-4.8.2.p01-nobanner
 Patch1: geant4-9.4.p03-fix-anti-proton-bug
+Patch2: geant4-9.4.p03-use-CXXFLAGS-env-variable
+
+%if "%{?cms_cxxflags:set}" != "set"
+%define cms_cxxflags -std=c++0x -O2
+%endif
 
 %prep
 %setup -n %n.%downloadv
 
 %patch0 -p1 
 %patch1 -p1
- 
+%patch2 -p1
+
 %build
 if [ $(uname) = Darwin ]; then
   export MACOSX_DEPLOYMENT_TARGET="10.4"
@@ -21,6 +27,7 @@ fi
 
 # Linux? -pthread?
 touch G4BuildConf.sh
+echo "export CXXFLAGS='%{cms_cxxflags}'" >> G4BuildConf.sh
 echo "export OS_ARCH=%{cmsplatf}" >> G4BuildConf.sh
 #FIXME: is this correct???
 echo "export G4SYSTEM=$(uname)-g++" >> G4BuildConf.sh
