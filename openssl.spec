@@ -1,19 +1,12 @@
-### RPM external openssl 0.9.8e__1.0.1
-%define linver 0.9.8e
-%define osxver 1.0.1
-Source0: http://www.openssl.org/source/openssl-%osxver.tar.gz
-Source1: http://cmsrep.cern.ch/cmssw/openssl-sources/%n-fips-%linver-usa.tar.bz2
+### RPM external openssl 0.9.8e
+Source: http://cmsrep.cern.ch/cmssw/openssl-sources/%n-fips-%realversion-usa.tar.bz2
 Patch0: openssl-0.9.8e-rh-0.9.8e-12.el5_4.6
 Patch1: openssl-x86-64-gcc420
 
 %prep
-%ifos darwin
-%setup -b 0 -n %n-%osxver
-%else
-%setup -b 1 -n %n-fips-%linver
+%setup -n %n-fips-%{realversion}
 %patch0 -p1
 %patch1 -p1
-%endif
 
 %build
 # Looks like rpmbuild passes its own sets of flags via the
@@ -28,7 +21,6 @@ cfg_opts="no-idea no-mdc2 no-rc5 no-ec no-ecdh no-ecdsa shared fipscanisterbuild
 
 case %cmsplatf in
   osx*)
-    export KERNEL_BITS=64 # used by config to decide 64-bit build
     cfg_args="-DOPENSSL_USE_NEW_FUNCTIONS"
    ;;
   *)
@@ -38,6 +30,11 @@ esac
 
 ./config --prefix=%i $cfg_args enable-seed enable-tlsext enable-rfc3779 no-asm \
                      no-idea no-mdc2 no-rc5 no-ec no-ecdh no-ecdsa shared
+
+# On Mac OS X fix the shared library version
+if [[ %cmsplatf == osx* ]]; then
+  sed -E -i osxbak 's/LIBVERSION=\${SHLIB_SONAMEVER}/LIBVERSION=\${SHLIB_MAJOR}\.\${SHLIB_MINOR}/g' Makefile
+fi
 
 make
 %install
@@ -52,8 +49,9 @@ rm -rf %{i}/lib/*.a
 
 # MacOSX is case insensitive and the man page structure has case sensitive logic
 case %cmsplatf in
-  osx* ) 
-    rm -rf %{i}/ssl/man
+    osx* ) 
+        rm -rf %{i}/ssl/man
     ;;
 esac
 perl -p -i -e "s|^#!.*perl|#!/usr/bin/env perl|" %{i}/ssl/misc/CA.pl %{i}/ssl/misc/der_chop %{i}/bin/c_rehash
+
