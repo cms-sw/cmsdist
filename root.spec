@@ -23,6 +23,7 @@ Patch7: root-5.32.00-longBranchName
 Patch8: root-5.32.00-fireworks1
 Patch9: root-5.32.00-noungif
 Patch10: root-5.32.00-fix-cxx11
+Patch11: root-5.32.00-gcc-470-literals-whitespace
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -57,6 +58,14 @@ Requires: freetype
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+
+case %gccver in
+  4.[78].*)
+# Apply for GNU GCC 4.7.0+ in **C++11** mode, "User-defined literals and whitespace",
+# http://gcc.gnu.org/gcc-4.7/porting_to.html
+%patch11 -p1
+  ;;
+esac
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
