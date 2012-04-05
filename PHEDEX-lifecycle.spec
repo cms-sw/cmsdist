@@ -9,6 +9,7 @@ Source1: %cvsserver&strategy=export&module=T0&export=T0&&tag=-rPHEDEX_LIFECYCLE_
 
 Requires: p5-poe p5-poe-component-child p5-clone p5-time-hires p5-text-glob
 Requires: p5-compress-zlib p5-log-log4perl p5-json-xs p5-xml-parser p5-monalisa-apmon
+Requires: p5-common-sense
 Requires: mod_perl2 
 Requires: lifecycle-dataprovider
 # This is temporary, for the examples
