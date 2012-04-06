@@ -8,6 +8,7 @@ Patch1: xrootd-5.30.00-fix-gcc46
 Patch2: xrootd-3.1.0-fix-read-after-read
 Patch3: xrootd-3.1.0-fixed-library-location-all-os
 Patch4: xrootd-3.1.0-client-send-moninfo
+Patch5: xrootd-3.1.0-gcc-470-literals-whitespace
 
 %if "%online" != "true"
 Requires: openssl zlib
@@ -16,6 +17,10 @@ Requires: onlinesystemtools
 %endif
 Requires: cmake gcc
 
+%if "%{?cms_cxxflags:set}" != "set"
+%define cms_cxxflags -std=c++0x -O2
+%endif
+
 %prep 
 %setup -n %n-%{realversion}
 %patch0 -p1
@@ -23,6 +28,7 @@ Requires: cmake gcc
 %patch2 -p1
 %patch3 -p0
 %patch4 -p1
+%patch5 -p1
 
 # need to fix these from xrootd git
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
@@ -53,7 +59,8 @@ cmake ../ \
   -DENABLE_FUSE=FALSE \
   -DENABLE_KRB5=TRUE \
   -DENABLE_READLINE=TRUE \
-  -DENABLE_CRYPTO=TRUE
+  -DENABLE_CRYPTO=TRUE \
+  -DCMAKE_CXX_FLAGS="%{cms_cxxflags}"
 
 # Use makeprocess macro, it uses compiling_processes defined by
 # build configuration file or build argument

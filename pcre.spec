@@ -2,13 +2,17 @@
 Source: http://downloads.sourceforge.net/%n/%n-%{realversion}.tar.bz2
 Requires: bz2lib
 
+%if "%{?cms_cxx:set}" != "set"
+%define cms_cxx c++ -std=c++0x
+%endif
+
 %prep
 %setup -n %n-%{realversion}
 %build
 CPPFLAGS="-I${BZ2LIB_ROOT}/include"
 LDFLAGS="-L${BZ2LIB_ROOT}/lib"
 ./configure --enable-unicode-properties --enable-pcregrep-libz --enable-pcregrep-libbz2 --prefix=%i \
-  CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}"
+  CXX="%cms_cxx" CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}"
 make
 
 %install
