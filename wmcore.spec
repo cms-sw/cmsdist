@@ -1,18 +1,15 @@
-### RPM cms wmcore 0.8.23patch1
+### RPM cms wmcore 0.8.36
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
 #%define svnversion %realversion
-%define svnversion 0.8.23
 
 Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%svnversion?scheme=svn+ssh&strategy=export&module=WMCore&output=/WMCORE.tar.gz
-Patch: https://github.com/dmwm/WMCore/commit/45fea27e43808496f2e26f2b082133ce4c90348c.patch
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 py2-pycurl py2-sphinx
 
 %prep
 %setup -n WMCore
-%patch -p1
 
 %build
 python setup.py build
