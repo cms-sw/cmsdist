@@ -3,7 +3,7 @@
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
-#%define svnversion %realversion
+%define svnversion %realversion
 
 Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%svnversion?scheme=svn+ssh&strategy=export&module=WMCore&output=/WMCORE.tar.gz
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 py2-pycurl py2-sphinx
