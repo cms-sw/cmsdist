@@ -1,4 +1,4 @@
-### RPM cms t0 1.0.8
+### RPM cms t0 1.0.9
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
@@ -32,9 +32,8 @@ cd ../T0
 python setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
-mkdir -p %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
+mkdir -p %i/{x,}{bin,lib,data,doc,etc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
 
-mkdir -p %i/doc
 tar --exclude '.buildinfo' -C doc/build/html -cf - . | tar -C %i/doc -xvf -
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
