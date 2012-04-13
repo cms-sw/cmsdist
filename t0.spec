@@ -6,7 +6,7 @@
 %define webdoc_files %i/doc/
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 Source1: %svnserver/T0/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=T0&output=/T0.tar.gz
-Requires: wmagent
+Requires: python wmagent
 
 %prep
 %setup -D -T -b 1 -n T0
