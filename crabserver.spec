@@ -1,34 +1,45 @@
-### RPM cms crabserver cs1503
+### RPM cms crabserver 1204c
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
+%define gitversion github.0.0.1pre10
 
 %define webdoc_files %i/doc/
-%define wmcver 0.8.25
+%define wmcver 0.8.28
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
-Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_ci.tar.gz
-Source1: %svnserver/CRABServer/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=CRABServer&output=/CRABInterface.tar.gz
+#Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_ci.tar.gz
+Source0: https://github.com/ticoann/WMCore/tarball/v0.0.1pre10?output=/%n-%gitversion.tgz
+Source1: https://github.com/lat/WMCore/zipball/f2fccdc7727e1a4acfdaf4df648e67ee184e0911#/wmcore_sitedb.zip
+Source2: %svnserver/CRABServer/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=CRABServer&output=/CRABInterface.tar.gz
 #Source1: %svnserver/CRABServer/trunk?scheme=svn+ssh&strategy=export&module=CRABServer&output=/CRABInterface.tar.gz
 Requires: python cherrypy py2-cjson rotatelogs py2-sphinx py2-pycurl py2-httplib2 py2-sqlalchemy py2-cx-oracle
 Patch0: crabserver3-setup
 
 %prep
-%setup -D -T -b 1 -n CRABServer
-%setup -T -b 0 -n WMCore
+%setup -D -T -b 2 -n CRABServer
+#%setup -D -T -b 1 -n WMCore
+%setup -T -b 1 -n lat-WMCore-f2fccdc
+%setup -T -b 0 -n ticoann-WMCore-20fda27
+#%setup -T -b 0 -n lat-WMCore-f2fccdc
 %patch0 -p0
 
 %build
-cd ../WMCore
+cd ../ticoann*
+cp -r ../lat-WMCore-f2fccdc/src/python/WMCore/REST src/python/WMCore/
+cp -r ../lat-WMCore-f2fccdc/bin/wmc-httpd bin/wmc-httpd
 python setup.py build_system -s crabserver
+PYTHONPATH=$PWD/build/lib:$PYTHONPATH
 cd ../CRABServer
 perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/crabserver/conf.py
 python setup.py build_system -s CRABInterface
 
 %install
 mkdir -p %i/etc/profile.d %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
-cd ../WMCore
+cd ../ticoann*
+###cd ../WMCore
 python setup.py install_system -s crabserver --prefix=%i
+cp -pr src/couchapps %i/
 cd ../CRABServer
 python setup.py install_system -s CRABInterface --prefix=%i
 
