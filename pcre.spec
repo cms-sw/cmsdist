@@ -5,10 +5,7 @@ Requires: bz2lib
 %prep
 %setup -n %n-%{realversion}
 %build
-CPPFLAGS="-I${BZ2LIB_ROOT}/include"
-LDFLAGS="-L${BZ2LIB_ROOT}/lib"
-./configure --enable-unicode-properties --enable-pcregrep-libz --enable-pcregrep-libbz2 --prefix=%i \
-  CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}"
+./configure --enable-unicode-properties --enable-pcregrep-libz --enable-pcregrep-libbz2 --prefix=%i
 make
 
 %install
