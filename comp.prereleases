@@ -14,9 +14,10 @@
 # 1.316 is 1.1.12
 # 1.323 is 1.2.4 (qhash look-up, new SiteDB)
 # 1.333 is 1.3.0
-# 1.335 is 1.3.1.pre1
-HG1204e das @slc5_amd64_gcc461
-+ 1.335 das.spec
+# 1.336 is 1.3.1.pre2
+#HG1204e das @slc5_amd64_gcc461
+HG1205a das @slc5_amd64_gcc461
++ 1.336 das.spec
 
 # FileMover
 # 1.30 is 1.0.9
