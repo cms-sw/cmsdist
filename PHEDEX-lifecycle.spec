@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-lifecycle 1.0.2
+### RPM cms PHEDEX-lifecycle 1.0.3
 ## INITENV +PATH PERL5LIB %i/perl_lib
 ## INITENV +PATH PERL5LIB %i/T0/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
