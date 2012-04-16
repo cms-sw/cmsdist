@@ -154,7 +154,7 @@ HG1112a cmsbuilder @slc5_amd64_gcc461
 
 # T0
 HG1204e t0 @slc5_amd64_gcc461
-+ 1.21 t0.spec
++ 1.23 t0.spec
 + 1.107 wmagent.spec
 + 1.182 wmcore.spec
 + 1.16 wmcore-webtools.spec
