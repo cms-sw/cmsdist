@@ -5,7 +5,7 @@
 
 %define gitversion github.0.0.1pre10
 
-%define webdoc_files %i/doc/
+%define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define wmcver 0.8.28
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 #Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_ci.tar.gz
@@ -64,7 +64,7 @@ done
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
 
 %files
-%i/
-%exclude %i/doc
+%{installroot}/%{pkgrel}/
+%exclude %{installroot}/%{pkgrel}/doc
 
 ## SUBPACKAGE webdoc

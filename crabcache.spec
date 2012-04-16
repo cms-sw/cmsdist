@@ -4,7 +4,7 @@
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
 
-%define webdoc_files %i/doc/
+%define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define wmcver 0.8.28
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 Source0: https://github.com/lat/WMCore/zipball/f2fccdc7727e1a4acfdaf4df648e67ee184e0911#/wmcore_sitedb-1.zip
@@ -53,7 +53,7 @@ done
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
 
 %files
-%i/
-%exclude %i/doc
+%{installroot}/%{pkgrel}/
+%exclude %{installroot}/%{pkgrel}/doc
 
 ## SUBPACKAGE webdoc
