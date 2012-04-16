@@ -11,7 +11,7 @@ Requires: python
 
 %build
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
-./configure --prefix=%{i} --with-system-gdbinit=%{i}/share/gdbinit --with-expat=no --with-python=$PYTHON_ROOT LDFLAGS="-L$PYTHON_ROOT/lib"
+./configure --prefix=%{i} --with-expat=no --with-python=$PYTHON_ROOT LDFLAGS="-L$PYTHON_ROOT/lib"
 make %makeprocesses
 
 %install
@@ -19,12 +19,6 @@ make install
 
 cd %i/bin/
 ln -s gdb gdb-%{realversion}
-cat << \EOF_GDBINIT > %{i}/share/gdbinit
-set substitute-path %{installroot} %{cmsroot}
-EOF_GDBINIT
 
 # To save space, clean up some things that we don't really need 
 %define drop_files %i/lib/* %i/bin/{gdbserver,gdbtui} %i/share/{man,info,locale}
-
-%post
-%{relocateConfig}/share/gdbinit
