@@ -5,7 +5,7 @@
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH $ROOT_ROOT/lib
 
-%define webdoc_files %i/doc/
+%define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define svn svn://svn.cern.ch/reps/CMSDMWM/Monitoring/tags/%{realversion}
 %define cvs cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 
@@ -95,7 +95,7 @@ done
 %{relocateConfig}etc/profile.d/{env,dep*}.*sh
 
 %files
-%i/
-%exclude %i/doc
+%{installroot}/%{pkgrel}/
+%exclude %{installroot}/%{pkgrel}/doc
 
 ## SUBPACKAGE webdoc

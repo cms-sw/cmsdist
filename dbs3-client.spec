@@ -4,7 +4,7 @@
 ## INITENV SET DBS3_CLIENT_ROOT %i/
 ## INITENV ALIAS dbs python $DBS3_CLIENT_ROOT/bin/dbs.py
 
-%define webdoc_files %i/doc/
+%define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define cvstag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 Source0: %svnserver/DBS/tags/%cvstag?scheme=svn+ssh&strategy=export&module=DBS3&output=/%{n}.tar.gz
@@ -36,7 +36,6 @@ done
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
 
 %files
-%i/
-%exclude %i/doc
-
+%{installroot}/%{pkgrel}/
+%exclude %{installroot}/%{pkgrel}/doc
 ## SUBPACKAGE webdoc

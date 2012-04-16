@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 ## INITENV SET DBS3_SERVER_ROOT %i/
-%define webdoc_files %i/doc/
+%define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define wmcver 0.8.22
 %define cvstag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
@@ -45,6 +45,6 @@ done
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
 
 %files
-%i/
-%exclude %i/doc
+%{installroot}/%{pkgrel}/
+%exclude %{installroot}/%{pkgrel}/doc
 ## SUBPACKAGE webdoc

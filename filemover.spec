@@ -1,7 +1,7 @@
 ### RPM cms filemover 1.1.4
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver 0.8.3
-%define webdoc_files %i/doc/
+%define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_fm.tar.gz
 Source1: %svnserver/FileMover/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=FileMover&output=/filemover.tar.gz
@@ -59,8 +59,6 @@ done
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
 
 %files
-%i/
-%exclude %i/doc
-
-
+%{installroot}/%{pkgrel}/
+%exclude %{installroot}/%{pkgrel}/doc
 ## SUBPACKAGE webdoc

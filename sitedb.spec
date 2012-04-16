@@ -4,7 +4,8 @@
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 ## INITENV SETV SITEDB_LEGACY_PYTHONPATH %i/legacy
 
-%define webdoc_files %i/doc/
+
+%define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define cvssrc cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 #%define svnsrc svn://svn.cern.ch/reps/CMSDMWM/SiteDB/trunk@15167
 %define svnsrc svn://svn.cern.ch/reps/CMSDMWM/SiteDB/tags/%{realversion}
@@ -75,7 +76,7 @@ done
 %{relocateConfig}etc/profile.d/{env,dep*}.*sh
 
 %files
-%i/
-%exclude %i/doc
+%{installroot}/%{pkgrel}/
+%exclude %{installroot}/%{pkgrel}/doc
 
 ## SUBPACKAGE webdoc
