@@ -1,9 +1,0 @@
-diff -aur root.orig/roofit/roofitcore/src/RooBanner.cxx root/roofit/roofitcore/src/RooBanner.cxx
---- root.orig/roofit/roofitcore/src/RooBanner.cxx	2011-05-25 10:02:19.000000000 +0200
-+++ root/roofit/roofitcore/src/RooBanner.cxx	2011-06-01 12:01:44.000000000 +0200
-@@ -25,4 +25,4 @@
-   return 0 ;
- }
- 
--static Int_t dummy = doBanner() ;
-+//static Int_t dummy = doBanner() ;
