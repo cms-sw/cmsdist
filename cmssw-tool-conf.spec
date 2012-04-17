@@ -51,6 +51,7 @@ Requires: libjpg-toolfile
 Requires: libpng-toolfile
 Requires: libtiff-toolfile
 Requires: libungif-toolfile
+Requires: libxml2-toolfile
 Requires: mcdb-toolfile
 Requires: meschach-toolfile
 Requires: millepede-toolfile
