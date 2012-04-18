@@ -113,7 +113,7 @@ HG1204f PHEDEX-combined-agents @slc5_amd64_gcc461
 # DBS3 
 HG1205a dbs3-combined @slc5_amd64_gcc461
 + HEAD/3.0.17 dbs3-combined.spec
-+ HEAD/3.0.17 dbs3.spec
++ 1.38/3.0.17 dbs3.spec
 + HEAD/3.0.17 dbs3-client.spec
 
 # Crab
