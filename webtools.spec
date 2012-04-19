@@ -1,9 +1,9 @@
-### RPM cms webtools 1.3.46
+### RPM cms webtools 1.3.43
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PERL5LIB %i/lib/perl
 
 %define moduleName WEBTOOLS
-%define cvstag V01-03-46
+%define cvstag V01-03-43
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{moduleName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
 
