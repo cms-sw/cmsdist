@@ -77,7 +77,7 @@ HG1204h reqmon-meta @slc5_amd64_gcc461
 
 # WorkQueue
 HG1205b workqueue @slc5_amd64_gcc461
-+ HEAD/0.8.37 workqueue.spec
++ HEAD/0.8.38 workqueue.spec
 
 #DIE#HG1107c wmagent
 #DIE#+ WMCORE_0_6_12  dls-client.spec wmcore-db-couch.spec wmcore-db-mysql.spec wmcore-webtools.spec
