@@ -1,4 +1,4 @@
-### RPM cms sitedb 2.3.1
+### RPM cms sitedb 2.3.2
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
@@ -9,7 +9,7 @@
 %define cvssrc cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 #%define svnsrc svn://svn.cern.ch/reps/CMSDMWM/SiteDB/trunk@15167
 %define svnsrc svn://svn.cern.ch/reps/CMSDMWM/SiteDB/tags/%{realversion}
-Source0: https://github.com/lat/WMCore/zipball/cdea8357c116e32e7229af7f4ff322e72f6e6643#/wmcore_sitedb.zip
+Source0: https://github.com/lat/WMCore/zipball/b99b0fe056e9fe508a6b9e37ff3ed543f3d18073#/wmcore_sitedb.zip
 Source1: %{svnsrc}?scheme=svn+ssh&strategy=export&module=SiteDB&output=/sitedb.tar.gz
 #Source1: https://cern.ch/lat/temp/sitedb5.tar.gz
 Source2: %{cvssrc}&strategy=export&module=WEBTOOLS&nocache=true&export=WEBTOOLS&tag=-rSiteDBv1-slc5-v3&output=/old-sitedb.tar.gz
@@ -20,7 +20,7 @@ Requires: yui py2-cheetah py2-pysqlite py2-formencode py2-pycrypto beautifulsoup
 #BuildRequires: wmcore-devtools
 
 %prep
-%setup -T -b 0 -n lat-WMCore-cdea835
+%setup -T -b 0 -n lat-WMCore-b99b0fe
 %setup -D -T -b 1 -n SiteDB
 perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/conf.py
 %setup -D -T -c -a 2 -n LEGACY-SITEDB
