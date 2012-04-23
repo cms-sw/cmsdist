@@ -153,10 +153,10 @@ HG1112a cmsbuilder @slc5_amd64_gcc461
 + 1.3 cmsbuilder.spec
 
 # T0
-HG1204e t0 @slc5_amd64_gcc461
-+ 1.23 t0.spec
-+ 1.107 wmagent.spec
-+ 1.182 wmcore.spec
+HG1204g t0 @slc5_amd64_gcc461
++ 1.24 t0.spec
++ 1.108 wmagent.spec
++ 1.183 wmcore.spec
 + 1.16 wmcore-webtools.spec
 + 1.5 wmcore-db-mysql.spec
 + 1.6 wmcore-db-oracle.spec
