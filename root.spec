@@ -7,10 +7,6 @@ Source: svn://root.cern.ch/svn/root/tags/v%{svntag}/?scheme=http&strategy=export
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 %define ismac %(case %cmsplatf in (osx*) echo true;; (*) echo false;; esac)
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx c++ -std=c++0x
-%endif
-
 Patch0: root-5.32-00-externals
 Patch1: root-5.28-00d-roofit-silence-static-printout
 Patch2: root-5.32-00-linker-gnu-hash-style
@@ -22,7 +18,6 @@ Patch6: root-5.32.00-fix-oneline
 Patch7: root-5.32.00-longBranchName
 Patch8: root-5.32.00-fireworks1
 Patch9: root-5.32.00-noungif
-Patch10: root-5.32.00-fix-cxx11
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -56,7 +51,6 @@ Requires: freetype
 %patch7 -p2
 %patch8 -p1
 %patch9 -p1
-%patch10 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
@@ -69,9 +63,6 @@ esac
 # Delete these (irrelevant) files as the fits appear to confuse rpm on OSX
 # (It tries to run install_name_tool on them.)
 rm -fR tutorials/fitsio
-
-# Block use of /opt/local, /usr/local.
-perl -p -i -e 's{/(usr|opt)/local}{/no-no-no/local}g' configure
 
 %build
 
@@ -126,11 +117,7 @@ CONFIG_ARGS="--enable-table
 
 case %cmsos in
   slc*)
-    ./configure linuxx8664gcc $CONFIG_ARGS \
-                  --with-rfio-libdir=${CASTOR_ROOT}/lib \
-                  --with-rfio-incdir=${CASTOR_ROOT}/include/shift \
-                  --with-castor-libdir=${CASTOR_ROOT}/lib \
-                  --with-castor-incdir=${CASTOR_ROOT}/include/shift ;; 
+    ./configure linuxx8664gcc $CONFIG_ARGS --with-rfio-libdir=${CASTOR_ROOT}/lib --with-rfio-incdir=${CASTOR_ROOT}/include/shift --with-castor-libdir=${CASTOR_ROOT}/lib --with-castor-incdir=${CASTOR_ROOT}/include/shift ;; 
   osx*)
     comparch=x86_64
     macconfig=macosx64
@@ -139,7 +126,9 @@ case %cmsos in
     ./configure linux $CONFIG_ARGS --disable-rfio;;
 esac
 
-make %makeprocesses CXX="%cms_cxx"
+makeopts="%makeprocesses"
+
+make $makeopts
 
 %install
 # Override installers if we are using GNU fileutils cp.  On OS X
