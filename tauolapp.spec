@@ -3,6 +3,14 @@ Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distrib
 #Patch0: tauolapp-1.0.2a-osx-Makefile
 Requires: hepmc
 
+%if "%{?cms_cxx:set}" != "set"
+%define cms_cxx c++
+%endif
+
+%if "%{?cms_cxxflags:set}" != "set"
+%define cms_cxxflags -std=c++0x -g -O2
+%endif
+
 %define keep_archives true
 %if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
@@ -20,7 +28,7 @@ case %cmsplatf in
   ;;
 esac
 
-./configure --prefix=%{i} --with-hepmc=$HEPMC_ROOT
+./configure --prefix=%{i} --with-hepmc=$HEPMC_ROOT CXX="%cms_cxx" CXXFLAGS="%cms_cxxflags"
 # One more fix-up for OSX (in addition to the patch above)
 case %cmsplatf in
   osx*)
