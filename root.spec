@@ -64,9 +64,6 @@ esac
 # (It tries to run install_name_tool on them.)
 rm -fR tutorials/fitsio
 
-# Block use of /opt/local, /usr/local.
-perl -p -i -e 's{/(usr|opt)/local}{/no-no-no/local}g' configure
-
 %build
 
 mkdir -p %i
