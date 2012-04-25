@@ -38,7 +38,16 @@ Patch27: root-5.27-06b-r38210
 Patch28: root-5.27-06b-r38248-r38252-r38259-r38264-r38265-r38267
 Patch29: root-5.27-06b-gcc46
 Patch30: root-5.27-06b-r38325
- 
+Patch31: root-5.27-06b-tmva-MethodANNBase-uninitialized-var-fix
+Patch32: root-5.27-06b-r36196-r36698
+Patch33: root-5.27-06-fireworks11
+Patch34: root-5.27-06b-r38369
+Patch35: root-5.27-06b-r39055
+Patch36: root-5.27.06b-r39155
+Patch37: root-5.27.06b-r38057
+Patch38: root-5.27-06b-tbasket_revised_buffers_v4_cms527
+Patch39: root-5.27.06b-r39139
+
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
 Requires: gccxml gsl libjpg libpng libtiff libungif pcre python fftw3
@@ -88,6 +97,15 @@ Requires: gfortran-macosx
 %patch28 -p1
 %patch29 -p1
 %patch30 -p1
+%patch31 -p1
+%patch32 -p1
+%patch33 -p1
+%patch34 -p1
+%patch35 -p1
+%patch36 -p1
+%patch37 -p2
+%patch38 -p1
+%patch39 -p0
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
