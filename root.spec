@@ -151,7 +151,7 @@ case %cmsos in
     ./configure linux $CONFIG_ARGS --disable-rfio;;
 esac
 
-make %makeprocesses CXX="%cms_cxx"
+make %makeprocesses 
 
 %install
 # Override installers if we are using GNU fileutils cp.  On OS X
