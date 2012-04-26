@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V2_2_4_pre3
+### RPM lcg SCRAMV1 V2_2_4_pre4
 ## NOCOMPILER
 
 %define cvsrepo  cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/cvs/CMSSW?passwd=AA_:yZZ3e
