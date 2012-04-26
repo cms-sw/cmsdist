@@ -8,7 +8,7 @@ Source: svn://root.cern.ch/svn/root/tags/v%{svntag}/?scheme=http&strategy=export
 %define ismac %(case %cmsplatf in (osx*) echo true;; (*) echo false;; esac)
 
 %if "%{?cms_cxx:set}" != "set"
-%define cms_cxx c++ -std=c++0x
+%define cms_cxx c++
 %endif
 
 Patch0: root-5.32-00-externals
@@ -24,6 +24,7 @@ Patch8: root-5.32.00-fireworks1
 Patch9: root-5.32.00-noungif
 Patch10: root-5.32.00-fix-cxx11
 Patch11: root-5.32.00-gcc-470-literals-whitespace
+Patch12: root-5.32.00-TTree-fix
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -57,15 +58,17 @@ Requires: freetype
 %patch7 -p2
 %patch8 -p1
 %patch9 -p1
-%patch10 -p1
 
-case %gccver in
-  4.[78].*)
-# Apply for GNU GCC 4.7.0+ in **C++11** mode, "User-defined literals and whitespace",
-# http://gcc.gnu.org/gcc-4.7/porting_to.html
+
+# Apply C++11 / gcc 4.7.x fixes only if using a 47x architecture.
+# See http://gcc.gnu.org/gcc-4.7/porting_to.html
+case %cmsplatf in
+  *gcc4[789]*)
+%patch10 -p1
 %patch11 -p1
   ;;
 esac
+%patch12 -p0
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
