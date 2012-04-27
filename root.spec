@@ -11,6 +11,10 @@ Source: svn://root.cern.ch/svn/root/tags/v%{svntag}/?scheme=http&strategy=export
 %define cms_cxx c++
 %endif
 
+%if "%{?cms_cxxflags:set}" != "set"
+%define cms_cxxflags -std=c++0x
+%endif
+
 Patch0: root-5.32-00-externals
 Patch1: root-5.28-00d-roofit-silence-static-printout
 Patch2: root-5.32-00-linker-gnu-hash-style
@@ -22,9 +26,8 @@ Patch6: root-5.32.00-fix-oneline
 Patch7: root-5.32.00-longBranchName
 Patch8: root-5.32.00-fireworks1
 Patch9: root-5.32.00-noungif
-Patch10: root-5.32.00-fix-cxx11
-Patch11: root-5.32.00-gcc-470-literals-whitespace
-Patch12: root-5.32.00-TTree-fix
+Patch10: root-5.30.00-fix-gcc47-cxx11
+Patch11: root-5.32.00-TTree-fix
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -65,10 +68,9 @@ Requires: freetype
 case %cmsplatf in
   *gcc4[789]*)
 %patch10 -p1
-%patch11 -p1
   ;;
 esac
-%patch12 -p0
+%patch11 -p0
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
@@ -151,7 +153,7 @@ case %cmsos in
     ./configure linux $CONFIG_ARGS --disable-rfio;;
 esac
 
-make %makeprocesses 
+make %makeprocesses CXX="%cms_cxx %cms_cxxflags" 
 
 %install
 # Override installers if we are using GNU fileutils cp.  On OS X
