@@ -1,10 +1,11 @@
-### RPM cms wmcore-db-oracle 1
-## INITENV +PATH PYTHONPATH %i/lib
-
-Requires: wmcore py2-cx-oracle 
+### RPM cms crabhb 0.0.1
+## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
+Requires: python py2-matplotlib py2-numpy
 
 %prep
+
 %build
+
 %install
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
@@ -21,4 +22,3 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
-

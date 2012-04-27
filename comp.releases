@@ -19,17 +19,17 @@ HG1201c stagemanager @slc5_amd64_gcc461
 # wmagent
 HG1204g wmagent-dev @slc6_amd64_gcc461
 + WMCORE_0_6_12 wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
-+ HEAD/0.8.38 wmcore.spec wmagent.spec wmagent-dev.spec
++ HEAD/0.8.37 wmcore.spec wmagent.spec wmagent-dev.spec
 + 1.35 mysql.spec
 
 HG1204g wmagent-dev @slc5_amd64_gcc461
 + WMCORE_0_6_12 wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
-+ HEAD/0.8.38 wmcore.spec wmagent.spec wmagent-dev.spec
++ HEAD/0.8.37 wmcore.spec wmagent.spec wmagent-dev.spec
 + 1.35 mysql.spec
 
 HG1204g wmagent-dev @osx106_amd64_gcc461
 + WMCORE_0_6_12 wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
-+ HEAD/0.8.38 wmcore.spec wmagent.spec wmagent-dev.spec
++ HEAD/0.8.37 wmcore.spec wmagent.spec wmagent-dev.spec
 + 1.35 mysql.spec
 
 HG1201a crab @slc5_amd64_gcc461
@@ -51,8 +51,8 @@ HG1201a crab @slc5_amd64_gcc461
 #DIE#+ HEAD/2.1.9 py2-zmq.spec
 
 # PHEDEX agents
-HG1204f PHEDEX-combined-agents @slc5_amd64_gcc461
-+ forPHEDEX410 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
+#DIE#HG1109b PHEDEX-combined-agents @slc5_amd64_gcc434
+#DIE#+ forPHEDEX401a PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
 
 #DIE#HG1111d happyface @slc5_amd64_gcc461
 #DIE#+ 1.11/1.0.0 py2-sqlobject.spec
