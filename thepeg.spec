@@ -82,6 +82,7 @@ case %cmsplatf in
 esac
 
 ./configure $PLATF_CONF_OPTS \
+            --disable-silent-rules \
             --with-LHAPDF=$LHAPDF_ROOT \
             --with-hepmc=$HEPMC_ROOT \
             --with-gsl=$GSL_ROOT --with-zlib=$ZLIB_ROOT \
