@@ -11,7 +11,15 @@ Requires: zlib
 %if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif
-  
+
+%if "%{?cms_cxx:set}" != "set"
+%define cms_cxx c++
+%endif
+
+%if "%{?cms_cxxflags:set}" != "set"
+%define cms_cxxflags -std=c++0x
+%endif
+
 %prep
 %setup -q -n %{n}/%{realversion}
 %patch0 -p2
@@ -49,13 +57,13 @@ automake --add-missing
 case %cmsplatf in 
   slc5_*_gcc4[01234]*) 
     FC="`which gfortran`"
-    CXX="`which c++`"
+    CXX="`which %cms_cxx`"
     CC="`which gcc`"
   ;;
   *) 
     PLATF_CONF_OPTS="--enable-static --disable-shared" 
     FC="`which gfortran` -fPIC"
-    CXX="`which c++` -fPIC"
+    CXX="`which %cms_cxx` -fPIC"
     CC="`which gcc` -fPIC"
   ;;
 esac
@@ -71,7 +79,7 @@ rm -rf tests examples
             --disable-octave --disable-doxygen \
             --enable-low-memory --with-max-num-pdfsets=1 \
             FC="$FC" CXX="$CXX" CC="$CC" \
-            CPPFLAGS="-I ${ZLIB_ROOT}/include" LDFLAGS="-L${ZLIB_ROOT}/lib -lz"
+            CPPFLAGS="-I ${ZLIB_ROOT}/include" CXXFLAGS="%cms_cxxflags" LDFLAGS="-L${ZLIB_ROOT}/lib -lz"
 perl -p -i -e 's|examples||;s|tests||' Makefile
 find . -name Makefile -o -name config.status -exec perl -p -i -e 's|/usr/lib64/lib[cm].a||g' {} \;
 make %makeprocesses; make install
