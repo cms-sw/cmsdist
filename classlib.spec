@@ -14,6 +14,14 @@ Requires: zlib
 Requires: onlinesystemtools
 %endif
 
+%if "%{?cms_cxx:set}" != "set"
+%define cms_cxx g++
+%endif
+
+%if "%{?cms_cxxflags:set}" != "set"
+%define cms_cxxflags -std=c++0x
+%endif
+
 %prep
 %setup -n %n-%realversion
 %patch0 -p1
@@ -38,7 +46,7 @@ perl -p -i -e '
   !/^\S+: / && s{\S+LZO((C|Dec)ompressor|Constants|Error)\S+}{}g' \
  Makefile
 
-make %makeprocesses
+make %makeprocesses CXX="%cms_cxx %cms_cxxflags"
 
 %install
 make %makeprocesses install
