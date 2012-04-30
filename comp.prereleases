@@ -46,10 +46,16 @@ HG1204b filemover @slc5_amd64_gcc461
 
 # Cms Webtools services
 HG1205d cmsweb @slc6_amd64_gcc461
++ 1.39 dbs3.spec
++ 1.15 dbs3-client.spec
 
 HG1205d cmsweb @slc5_amd64_gcc461
++ 1.39 dbs3.spec
++ 1.15 dbs3-client.spec
 
 HG1205d cmsweb @osx106_amd64_gcc461
++ 1.39 dbs3.spec
++ 1.15 dbs3-client.spec
 
 # Stagemanager offsite agent
 HG1201c stagemanager-agent @slc5_amd64_gcc461
