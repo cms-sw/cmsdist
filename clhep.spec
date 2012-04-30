@@ -2,6 +2,14 @@
 Source: http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/distributions/%n-%realversion.tgz
 Patch: clhep-2.0.4.2-no-virtual-inline
 
+%if "%{?cms_cxx:set}" != "set"
+%define cms_cxx g++
+%endif
+
+%if "%{?cms_cxxflags:set}" != "set"
+%define cms_cxxflags -std=c++0x
+%endif
+
 %prep
 %setup -n %realversion/CLHEP
 # Apply the patch only for MacOSX and gcc45 (test builds as of Dec2010)
@@ -23,7 +31,7 @@ esac
 if [ $(uname) = Darwin ]; then
   export MACOSX_DEPLOYMENT_TARGET="10.4"
 fi
-CXX=g++ ./configure --prefix=%i
+CXX="%cms_cxx" CXXFLAGS="%cms_cxxflags" ./configure --prefix=%i
 make
 
 #mkdir -p shared-tmp
