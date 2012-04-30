@@ -11,7 +11,7 @@ Patch3: thepeg-1.6.1-gcc46
 Patch4: thepeg-1.7.0-configure
 Patch5: thepeg-1.7.0-gcc46
 Patch6: thepeg-1.7.0-fix-bogus-ZLIB-HOME
-Patch7: thepeg-1.7.0-fix-gcc47
+Patch7: thepeg-1.7.0-fix-gcc47-cxx11
 Requires: lhapdf
 Requires: gsl
 Requires: hepmc
@@ -20,6 +20,14 @@ Requires: zlib
 %define keep_archives true
 %if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
+%endif
+
+%if "%{?cms_cxx:set}" != "set"
+%define cms_cxx c++
+%endif
+
+%if "%{?cms_cxxflags:set}" != "set"
+%define cms_cxxflags -std=c++0x
 %endif
 
 %prep
@@ -35,7 +43,14 @@ esac
 %patch4 -p1
 %patch5 -p1
 %patch6 -p2
-%patch7 -p2
+
+# Apply C++11 / gcc 4.7.x fixes only if using a 47x architecture.
+# See http://gcc.gnu.org/gcc-4.7/porting_to.html
+case %cmsplatf in
+  *gcc4[789]*)
+%patch7 -p1
+  ;;
+esac
 
 # Trick make not to re-run aclocal, autoconf, automake, autoscan, etc.
 find . -exec touch -m -t 201201010000 {} \;
@@ -44,13 +59,13 @@ find . -exec touch -m -t 201201010000 {} \;
 # Build as static only on new architectures.
 case %cmsplatf in 
   slc5*_*_gcc4[01234]*) 
-    CXX="`which c++`"
+    CXX="`which %cms_cxx`"
     CC="`which gcc`"    
     PLATF_CONF_OPTS="--enable-shared --disable-static"
     LIBGFORTRAN=`gfortran --print-file-name=libgfortran.so` 
   ;;
   *) perl -p -i -e 's|libLHAPDF[.]so|libLHAPDF.a|g' configure 
-    CXX="`which c++` -fPIC"
+    CXX="`which %cms_cxx` -fPIC"
     CC="`which gcc` -fPIC"
     PLATF_CONF_OPTS="--enable-shared --disable-static"
     LIBGFORTRAN="`gfortran --print-file-name=libgfortran.so`"
@@ -71,7 +86,7 @@ esac
             --with-hepmc=$HEPMC_ROOT \
             --with-gsl=$GSL_ROOT --with-zlib=$ZLIB_ROOT \
             --without-javagui --prefix=%i \
-            --disable-readline CXX="$CXX" CC="$CC" \
+            --disable-readline CXX="$CXX" CC="$CC" CXXFLAGS="%cms_cxxflags" \
             LIBS="-L$LHAPDF_ROOT/lib -lLHAPDF $LIBGFORTRAN -lz $LIBQUADMATH"
 make
 
