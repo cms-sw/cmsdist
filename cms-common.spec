@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1101
+## REVISION 1104
 ## NOCOMPILER
 
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
@@ -8,6 +8,7 @@
 %endif
 
 Source: cmsos
+Source1: migrate-cvsroot
 
 %prep
 #Make sure that we always build cms-common with a different revision and 
@@ -28,6 +29,7 @@ mkdir -p %i/%{pkgrevision}/common
 cd %i/%{pkgrevision}
 
 cp %_sourcedir/cmsos ./common/cmsos
+cp %_sourcedir/migrate-cvsroot ./common/migrate-cvsroot
 
 %if "%online" != "true"
 cat << \EOF_CMSARCH_SH > ./common/cmsarch
@@ -116,7 +118,7 @@ fi
 
 if [ ! $CVSROOT ]
 then
-    CVSROOT=:gserver:cmssw.cvs.cern.ch:/cvs/CMSSW
+    CVSROOT=:gserver:cmssw.cvs.cern.ch:/local/reps/CMSSW
     export CVSROOT
 fi
 
@@ -171,7 +173,7 @@ if( -e $CMS_PATH/SITECONF/local/JobConfig/cmsset_local.csh ) then
 endif
 
 if ( ! ${?CVSROOT}) then
-  setenv CVSROOT :gserver:cmssw.cvs.cern.ch:/cvs/CMSSW
+  setenv CVSROOT :gserver:cmssw.cvs.cern.ch:/local/reps/CMSSW
 endif
 
 unset here
