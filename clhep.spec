@@ -7,7 +7,7 @@ Patch: clhep-2.0.4.2-no-virtual-inline
 %endif
 
 %if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x
+%define cms_cxxflags -O2 -std=c++0x
 %endif
 
 %prep
