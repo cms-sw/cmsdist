@@ -21,14 +21,16 @@ cmsos()
       echo ydl5_ppc
     elif [ -f /etc/SuSE-release ]; then
       echo suse`grep -i '^version' < /etc/SuSE-release | tr -dc '[0-9]'`
-    elif egrep -q "Red Hat Enterprise|Scientific|CentOS" /etc/redhat-release 2>/dev/null; then
-      slc_version=`egrep "Red Hat Enterprise|Scientific|CentOS" /etc/redhat-release | \
-		   sed 's/.*[rR]elease \([0-9]*\).*/\1/'`
+    elif grep -q Scientific /etc/redhat-release 2>/dev/null; then
+      slc_version=`grep Scientific /etc/redhat-release | sed 's/.*[rR]elease \([0-9]*\)\..*/\1/'`
       if [ "X`uname -i`" = Xi386 ]; then
         echo slc${slc_version}_ia32
       else
         echo slc${slc_version}_amd64
       fi
+    elif grep -q "Red Hat Enterprise" /etc/redhat-release 2>/dev/null; then
+        slc_version=`grep Enterprise /etc/redhat-release | sed 's/.*[rR]elease \([0-9]*\).*/\1/'`
+        echo slc${slc_version}_$cpuarch
     elif grep -q Scientific /etc/rocks-release 2>/dev/null; then
         slc_version=`grep DISTRIB_RELEASE rocks-release | sed 's/DISTRIB_RELEASE="\([0-9]*\).*/\1/'`
   #   For the moment we assume that they are all ia32
