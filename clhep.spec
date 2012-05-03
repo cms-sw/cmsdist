@@ -15,22 +15,9 @@ Patch: clhep-2.0.4.2-no-virtual-inline
 # Apply the patch only for MacOSX and gcc45 (test builds as of Dec2010)
 # (Technically these aren't guaranteed to be mutually exclusive, but in
 # practice they are at the moment.)
-case %gccver in
-  4.5.*)
 %patch -p1
-  ;;
-esac
-case %cmsplatf in 
-  osx*)
-%patch -p1
-  ;;
-esac
-
 
 %build
-if [ $(uname) = Darwin ]; then
-  export MACOSX_DEPLOYMENT_TARGET="10.4"
-fi
 CXX="%cms_cxx" CXXFLAGS="%cms_cxxflags" ./configure --prefix=%i
 make
 
