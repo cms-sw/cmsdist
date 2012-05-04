@@ -29,7 +29,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sockets.xml
   <tool name="sockets" version="%sockets_version">
 EOF_TOOLFILE
 case %cmsplatf in
-slc4_* | slc4onl_* | slc5_* | slc5onl_* | slc6_* )
+slc4_* | slc4onl_* | slc5_* | slc5onl_* )
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/sockets.xml
     <lib name="nsl"/>
     <lib name="crypt"/>
