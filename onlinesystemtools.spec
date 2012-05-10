@@ -14,7 +14,6 @@ Requires: oracle-env
 %define zlib_version                    1.2.3
 ## INITENV SETV ZLIB_VERSION            %zlib_version
 %define zlib_root                       /usr
-## INITENV SETV ZLIB_ROOT               %zlib_root
 %define uuid_version                    1.39
 ## INITENV SETV UUID_VERSION            %uuid_version
 %define sqlite_version                  3.7.5
@@ -54,7 +53,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sockets.xml
   <tool name="sockets" version="%sockets_version">
 EOF_TOOLFILE
 case %cmsplatf in
-slc4_* | slc4onl_* | slc5_* | slc5onl_* )
+slc3_* | slc4_* | slc5_* | slc4onl_*| slc5onl_* )
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/sockets.xml
     <lib name="nsl"/>
     <lib name="crypt"/>
@@ -96,13 +95,12 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/x11.xml
   <tool name="x11" version="%x11_version">
 EOF_TOOLFILE
 case %cmsplatf in
-osx* )
+slc3_*|osx* )
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/x11.xml
     <client>
       <environment name="INCLUDE" value="/usr/X11R6/include"/>
       <environment name="LIBDIR" value="/usr/X11R6/lib"/>
     </client>
-    <runtime name="DYLD_FALLBACK_LIBRARY_PATH" value="$LIBDIR" type="path"/>
     <lib name="Xt"/>
     <lib name="Xpm"/>
     <lib name="X11"/>
