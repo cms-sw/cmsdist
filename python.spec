@@ -1,8 +1,7 @@
-### RPM external python 2.6.8
+### RPM external python 2.6.4
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 ## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib/python%{python_major_version}/site-packages
-## INITENV SETV PYTHONHASHSEED random
 # OS X patches and build fudging stolen from fink
 %{expand:%%define python_major_version %(echo %realversion | cut -d. -f1,2)}
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
@@ -17,8 +16,8 @@ Requires: zlib openssl sqlite
 # FIXME: gmp, panel, tk/tcl, x11
 
 Source0: http://www.python.org/ftp/%n/%realversion/Python-%realversion.tgz
-Patch0: python-dont-detect-dbm
-Patch1: python-fix-macosx-relocation
+Patch0: python-2.6.4-dont-detect-dbm
+Patch1: python-2.6.4-fix-macosx-relocation
 
 %prep
 %setup -n Python-%realversion
@@ -27,8 +26,14 @@ find . -type f | while read f; do
     perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" $f
   else :; fi
 done
-%patch0 -p0
-%patch1 -p0
+
+case %cmsplatf in
+  osx*)
+ 	sed 's|@PREFIX@|%i|g' < %_sourcedir/python-osx | patch -p1 
+  ;;
+esac
+%patch0 -p1
+%patch1 -p1
 
 %build
 # Python is awkward about passing other include or library directories
@@ -57,16 +62,19 @@ dirs="$EXPAT_ROOT $BZ2LIB_ROOT $NCURSES_ROOT $DB4_ROOT $GDBM_ROOT %{extradirs}"
 # location of DB4, this was needed to avoid having it picked up from the system.
 export DB4_ROOT
 
-# Python's configure parses LDFLAGS and CPPFLAGS to look for aditional library and include directories
 echo $dirs
-LDFLAGS=""
-CPPFLAGS=""
 for d in $dirs; do
-  LDFLAGS="$LDFLAGS -L $d/lib"
-  CPPFLAGS="$CPPFLAGS -I $d/include"
+  for f in $d/include/*; do
+    [ -e $f ] || continue
+    rm -f %i/include/$(basename $f)
+    ln -s $f %i/include
+  done
+  for f in $d/lib/*; do
+    [ -e $f ] || continue
+    rm -f %i/lib/$(basename $f)
+    ln -s $f %i/lib
+  done
 done
-export LDFLAGS
-export CPPFLAGS
 
 additionalConfigureOptions=""
 case %cmsplatf in
@@ -78,6 +86,14 @@ esac
 ./configure --prefix=%i $additionalConfigureOptions --enable-shared \
             --without-tkinter --disable-tkinter
 
+# The following is a kludge around the fact that the /usr/lib/libreadline.so
+# symlink (for 32-bit lib) is missing on the 64bit machines
+case %cmsplatf in
+  slc4_ia32* )
+    mkdir -p %{i}/lib
+    ln -s /usr/lib/libreadline.so.4.3 %{i}/lib/libreadline.so
+  ;;
+esac
 make %makeprocesses
 
 %install
@@ -108,16 +124,16 @@ case %cmsplatf in
   ;;
 esac
 
- perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
-                     %{i}/bin/pydoc \
-                     %{i}/bin/python-config \
-                     %{i}/bin/2to3 \
-                     %{i}/bin/python2.6-config \
-                     %{i}/bin/smtpd.py \
-                     %{i}/lib/python2.6/bsddb/dbshelve.py \
-                     %{i}/lib/python2.6/test/test_bz2.py \
-                     %{i}/lib/python2.6/test/test_largefile.py \
-                     %{i}/lib/python2.6/test/test_optparse.py
+perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
+                    %{i}/bin/pydoc \
+                    %{i}/bin/python-config \
+                    %{i}/bin/2to3 \
+                    %{i}/bin/python2.6-config \
+                    %{i}/bin/smtpd.py \
+                    %{i}/lib/python2.6/bsddb/dbshelve.py \
+                    %{i}/lib/python2.6/test/test_bz2.py \
+                    %{i}/lib/python2.6/test/test_largefile.py \
+                    %{i}/lib/python2.6/test/test_optparse.py
 
 find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
 find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
@@ -133,14 +149,7 @@ done
 find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
 
 # Remove documentation, examples and test files. 
-%define drop_files { %i/share %{i}/lib/python%{pythonv}/test \
-                   %{i}/lib/python%{pythonv}/distutils/tests \
-                   %{i}/lib/python%{pythonv}/json/tests \
-                   %{i}/lib/python%{pythonv}/ctypes/test \
-                   %{i}/lib/python%{pythonv}/sqlite3/test \
-                   %{i}/lib/python%{pythonv}/bsddb/test \
-                   %{i}/lib/python%{pythonv}/email/test \
-                   %{i}/lib/python%{pythonv}/lib2to3/tests }
+%define drop_files %i/share %{i}/lib/python%{pythonv}/test
 
 # Remove .pyo files
 find %i -name '*.pyo' -exec rm {} \;
