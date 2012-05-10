@@ -15,7 +15,7 @@ Requires: hepmc
 %endif
 
 %if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x
+%define cms_cxxflags -O2 -std=c++0x
 %endif
 
 %prep
@@ -32,7 +32,7 @@ esac
 %build
 ./configure \
   --disable-silent-rules --with-gsl=$GSL_ROOT --with-thepeg=$THEPEG_ROOT --prefix=%i \
-  CXXFLAGS="-O2 -fuse-cxa-atexit %cms_cxxflags" CXX="%cms_cxx"
+  CXXFLAGS="-fuse-cxa-atexit %cms_cxxflags" CXX="%cms_cxx"
 
 # Fix up a configuration mistake coming from a test being confused
 # by the "skipping incompatible" linking messages when linking 32bit on 64bit
