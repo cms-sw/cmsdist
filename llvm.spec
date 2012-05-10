@@ -1,25 +1,27 @@
-### RPM external llvm 3.0
+### RPM external llvm 3.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-
+%define llvmRevision 156558
+%define clangRevision 156558
+%define llvmBranch %(echo %realversion | sed -e 's|[.]||')
 # s/#/S/ to use the official version.
-Source0: http://llvm.org/releases/%realversion/llvm-%realversion.tar.gz
-Source1: http://llvm.org/releases/%realversion/clang-%realversion.tar.gz 
+Source0: svn://llvm.org/svn/llvm-project/llvm/branches/release_%llvmBranch/?scheme=http&revision=%llvmRevision&module=llvm-%realversion-%llvmRevision&output=/llvm-%realversion-%llvmRevision.tgz
+Source1: svn://llvm.org/svn/llvm-project/cfe/branches/release_%llvmBranch/?scheme=http&revision=%clangRevision&module=clang-%realversion-%clangRevision&output=/clang-%realversion-%clangRevision.tgz
 # SVN builds. Comment out to use the official version.
 #Source0: svn://llvm.org/svn/llvm-project/llvm/tags/RELEASE_29/rc3/?scheme=http&module=llvm-%realversion&output=/llvm-%realversion.tgz
 #Source1: svn://llvm.org/svn/llvm-project/cfe/tags/RELEASE_29/rc3/?scheme=http&module=clang-%realversion&output=/clang-%realversion.tgz
 Patch0: llvm-3.0-custom-gcc
 
 %prep
-%setup -T -b0 -n llvm-%realversion.src
-%setup -T -D -a1 -c -n llvm-%realversion.src/tools
-mv clang-%realversion.src clang
+%setup -T -b0 -n llvm-%realversion-%llvmRevision
+%setup -T -D -a1 -c -n llvm-%realversion-%llvmRevision/tools
+mv clang-%realversion-%clangRevision clang
 cd clang
 case %cmsos in
   slc*)
 %patch0 -p1
   ;;
 esac
-%setup -T -D -n llvm-%realversion.src
+%setup -T -D -n llvm-%realversion-%llvmRevision
 
 %build
 mkdir objs ; cd objs
