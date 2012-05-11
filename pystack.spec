@@ -1,9 +1,9 @@
-### RPM cms pystack 1.0b
-Source: svn://svn.cern.ch/reps/CMSDMWM/HTTPGroup/tags/3.2?scheme=svn+ssh&strategy=export&module=HTTPGroup&output=/src.tar.gz
+### RPM cms pystack 2.0
+Source: git://github.com/lat/pystack?obj=master/%{realversion}&export=pystack&output=/src.tar.gz
 Requires: gdb python
 
 %prep
-%setup -n HTTPGroup/Tools
+%setup -n pystack
 
 %build
 ENVIRON='. %i/etc/profile.d/init.sh' \
