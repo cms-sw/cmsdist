@@ -1,4 +1,4 @@
-### RPM cms dqmgui 6.2.2
+### RPM cms dqmgui 6.2.3
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH %{dynamic_path_var} %i/xlib
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
@@ -119,16 +119,11 @@ for flavor in %{flavors}; do
   # Generate an env.sh which sets a few things more than init.sh.
   (echo ". %i/etc/profile.d/init.sh;"
    echo "export YUI_ROOT EXTJS_ROOT;"
-   echo "export DQMGUI_VERSION='$DQMGUI_VERSION';" # for visDQMUpload
+   echo "export DQMGUI_VERSION='%{realversion}';" # for visDQMUpload
    echo "export MONITOR_ROOT='%i';") > %i/$flavor/etc/profile.d/env.sh
 done
 
 %post
-#echo $PWD
-#echo %i
-#echo %{instroot}
-#echo $RPM_INSTALL_PREFIX
-#echo $RPM_INSTALL_PREFIX/%{pkgrel}/
 for flavor in %{flavors}; do
  %{relocateConfig}/etc/makefile.ext
  %{relocateConfig}/etc/profile.d/{env,dep*}.*sh
@@ -141,7 +136,7 @@ for flavor in %{flavors}; do
       # The main relocation already took place (order of '' and other
       # flavor matter!): here we simply need to append the flavor.
       cp $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.*sh $RPM_INSTALL_PREFIX/%{pkgrel}/$flavor/etc/profile.d
-      perl -p -i -e "s|\\Q%{instroot}\\E|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/$flavor/etc/profile.d/{env,dep*}.*sh
+      %{relocateConfig}/$flavor/etc/profile.d/{env,dep*}.*sh
       perl -p -i -e "s|\\Q%{pkgrel}\\E|%{pkgrel}/$flavor|g" $RPM_INSTALL_PREFIX/%{pkgrel}/$flavor/etc/profile.d/env.*sh
       perl -p -i -e "s|\\Q%{pkgrel}\\E|%{pkgrel}/$flavor|g" $RPM_INSTALL_PREFIX/%{pkgrel}/$flavor/etc/profile.d/init.*sh
       ;;
