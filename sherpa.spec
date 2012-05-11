@@ -1,16 +1,12 @@
-### RPM external sherpa 1.3.1
+### RPM external sherpa 1.4.0
 
 #Source: http://cern.ch/service-spi/external/MCGenerators/distribution/sherpa-%{realversion}-src.tgz
 Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
-#Patch0: sherpa-1.3.0-nlo_event_generation_1
-Patch1: sherpa-1.3.1-fix-gcc47
 Requires: hepmc lhapdf
-
+Patch0: sherpa-1.4.0-lhapdf
 %prep
-#%setup -n sherpa/%{realversion}
 %setup -q -n SHERPA-MC-%{realversion}
-#%patch0 -p0
-%patch1 -p1
+%patch0 -p0
 autoreconf -i --force
 
 # Force architecture based on %%cmsplatf
@@ -29,7 +25,7 @@ esac
 
 ./configure --prefix=%i --enable-analysis \
             --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT \
-            --enable-multithread CXXFLAGS="-O2 -fuse-cxa-atexit $ARCH_CMSPLATF"
+            --enable-multithread CXXFLAGS="-O2 -fuse-cxa-atexit $ARCH_CMSPLATF" LDFLAGS="-ldl"
 
 %build
 # Fix up a configuration mistake coming from a test being confused
