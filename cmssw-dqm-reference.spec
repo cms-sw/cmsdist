@@ -1,4 +1,4 @@
-### RPM cms cmssw-dqm-reference CMSSW_5_2_5
+### RPM cms cmssw-dqm-reference CMSSW_5_3_0
 ## NOCOMPILER
 BuildRequires: cmssw
 BuildRequires: local-cern-siteconf

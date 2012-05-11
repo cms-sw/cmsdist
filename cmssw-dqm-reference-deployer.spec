@@ -1,4 +1,4 @@
-### RPM cms cmssw-dqm-reference-deployer CMSSW_5_2_5
+### RPM cms cmssw-dqm-reference-deployer CMSSW_5_3-0
 ## NOCOMPILER
 %define defaultArch slc5_amd64_gcc462
 Source: http://cmsrep.cern.ch/cmssw/cms/RPMS/%{defaultArch}/cms+cmssw-dqm-reference+%{realversion}-1-1.%{defaultArch}.rpm
