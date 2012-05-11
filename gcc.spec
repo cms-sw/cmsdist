@@ -1,7 +1,11 @@
-### RPM external gcc 4.6.2
+### RPM external gcc 4.7.0
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
-#Source0: svn://gcc.gnu.org/svn/gcc/trunk?module=gcc-%(echo %realversion | cut -f1,2 -d.)&date=20120116&output=/gcc-%realversion.tar.gz
+#Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
+# Use the svn repository for fetching the sources. This gives us more control while developing
+# a new platform so that we can compile yet to be released versions of the compiler.
+%define gccRevision 187361
+%define gccBranch gcc-%(echo %realversion | cut -f1,2 -d. | tr . _)-branch
+Source0: svn://gcc.gnu.org/svn/gcc/branches/%gccBranch?module=gcc-%gccBranch-%gccRevision&revision=%gccRevision&output=/gcc-%gccBranch-%gccRevision.tar.gz
 
 %define keep_archives true
 
@@ -16,7 +20,7 @@ Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
 # For gcc 4.5+ we need the additional tools ppl and cloog.
 %define gcc_45plus %(echo %realversion | sed -e 's|4[.][5-9].*|true|')
 %if "%{gcc_45plus}" == "true"
-%define pplVersion 0.11.2
+%define pplVersion 0.12
 %define cloogVersion 0.16.2
 Source4: http://bugseng.com/products/ppl/download/ftp/releases/%{pplVersion}/ppl-%{pplVersion}.tar.bz2
 Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
@@ -26,9 +30,9 @@ Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
 # Notice that since we don't support building 32bit nor slc4 anymore.
 %define use_custom_binutils %(case %cmsos in (slc*) echo true ;; (*) echo false ;; esac)
 %if "%use_custom_binutils" == "true"
-%define bisonVersion 2.4
+%define bisonVersion 2.5
 Source6: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.bz2
-%define binutilsv 2.21.1
+%define binutilsv 2.22
 Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 #Source7: http://cmsrep.cern.ch/cmssw/binutils-mirror/binutils-%binutilsv.tar.bz2
 #Source7: http://www.kernel.org/pub/linux/devel/binutils/binutils-%binutilsv.tar.bz2
@@ -40,18 +44,18 @@ Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 # libelf does not work on Macosx however this is not a problem until
 # we use the system compiler there.
 %define isslc %(case %cmsos in (slc*) echo true ;; (*) echo false ;; esac)
-%define elfutilsVersion 0.152
+%define elfutilsVersion 0.153
 %if "%isslc" == "true"
 Source8: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
 %endif
 Patch0: gcc-4.6.1-ignore-arch-flags-macosx
 # See http://gcc.gnu.org/bugzilla/show_bug.cgi?id=49540
 Patch1: gcc-4.6.1-fix-gfortran-regression
-Patch2: gcc-4.6.1-elfutils-portability
+Patch2: https://fedorahosted.org/releases/e/l/elfutils/0.153/elfutils-portability.patch
 
 %prep
 echo "use_custom_binutils: %use_custom_binutils"
-%setup -T -b 0 -n gcc-%realversion
+%setup -T -b 0 -n gcc-%gccBranch-%gccRevision
 %if "%gcc_45plus" == "true"
 # Get the macosx build to accept -arch, -F options like the official Apple one.
 # Notice that  patch command have to stay on a single line.
@@ -201,7 +205,9 @@ fi
 # Build libelf.
 if [ "X%isslc" = Xtrue ]; then
   cd ../elfutils-%{elfutilsVersion}
-  ./configure --disable-static --prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
+  ./configure --disable-static --without-zlib \
+              --without-bzlib --without-lzma \
+              --prefix=%i CC="$CC" CXX="$CXX -Wno-strict-aliasing" CPP="$CPP" CXXCPP="$CXXCPP"
   make %makeprocesses
   make install
 fi
@@ -262,7 +268,7 @@ CONF_GCC_VERSION_OPTS="--with-gmp=%i --with-mpfr=%i --with-mpc=%i"
 # Build additional stuff for gcc 4.5+
 if [ "X%gcc_45plus" = Xtrue ]; then
   cd ../ppl-%{pplVersion}
-  ./configure --disable-static --with-gmp-prefix=%i --with-cxxflags="-I%i/include" \
+  ./configure --disable-static --with-gmp=%i --with-cxxflags="-I%i/include" \
     --enable-interfaces=c --prefix=%i CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
     LDFLAGS="-L%i/lib"
   make %makeprocesses
@@ -278,7 +284,7 @@ if [ "X%gcc_45plus" = Xtrue ]; then
 fi
 
 # Build the compilers
-cd ../gcc-%realversion
+cd ../gcc-%gccBranch-%gccRevision
 mkdir -p obj
 cd obj
 export LD_LIBRARY_PATH=%i/lib64:%i/lib:$LD_LIBRARY_PATH
@@ -291,7 +297,7 @@ make %makeprocesses bootstrap
 make install
 
 %install
-cd %_builddir/gcc-%{realversion}/obj && make install 
+cd %_builddir/gcc-%gccBranch-%gccRevision/obj && make install 
 
 ln -s gcc %i/bin/cc
 find %i/lib %i/lib64 -name '*.la' -exec rm -f {} \; || true
