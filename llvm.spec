@@ -9,18 +9,16 @@ Source1: svn://llvm.org/svn/llvm-project/cfe/branches/release_%llvmBranch/?schem
 # SVN builds. Comment out to use the official version.
 #Source0: svn://llvm.org/svn/llvm-project/llvm/tags/RELEASE_29/rc3/?scheme=http&module=llvm-%realversion&output=/llvm-%realversion.tgz
 #Source1: svn://llvm.org/svn/llvm-project/cfe/tags/RELEASE_29/rc3/?scheme=http&module=clang-%realversion&output=/clang-%realversion.tgz
-Patch0: llvm-3.0-custom-gcc
+Patch0: llvm-3.1-custom-gcc
+Patch1: llvm-3.1-fix-requires
 
 %prep
 %setup -T -b0 -n llvm-%realversion-%llvmRevision
 %setup -T -D -a1 -c -n llvm-%realversion-%llvmRevision/tools
 mv clang-%realversion-%clangRevision clang
 cd clang
-case %cmsos in
-  slc*)
 %patch0 -p1
-  ;;
-esac
+%patch1 -p1
 %setup -T -D -n llvm-%realversion-%llvmRevision
 
 %build
@@ -31,5 +29,8 @@ make %makeprocesses
 %install
 cd objs
 make install
+find ../tools/clang/tools/scan-build -exec install {} %i/bin \;
+find ../tools/clang/tools/scan-view -exec install {} %i/bin \;
+rm -rf %{i}/bin/Resources %{i}⁄bin/set-xcode*
 # Fix up a perl path
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/bin/llvm-config
