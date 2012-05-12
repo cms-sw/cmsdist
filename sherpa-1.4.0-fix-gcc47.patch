@@ -1,0 +1,36 @@
+diff -rupN SHERPA-MC-1.4.0.orig/AMEGIC++/Main/Single_Process.C SHERPA-MC-1.4.0/AMEGIC++/Main/Single_Process.C
+--- SHERPA-MC-1.4.0.orig/AMEGIC++/Main/Single_Process.C	2012-03-18 00:03:09.000000000 +0100
++++ SHERPA-MC-1.4.0/AMEGIC++/Main/Single_Process.C	2012-05-12 18:39:27.000000000 +0200
+@@ -14,6 +14,8 @@
+ #include "ATOOLS/Org/MyStrStream.H"
+ #include "ATOOLS/Org/Data_Reader.H"
+ 
++#include <unistd.h>
++
+ using namespace AMEGIC;
+ using namespace MODEL;
+ using namespace PHASIC;
+diff -rupN SHERPA-MC-1.4.0.orig/AMEGIC++/Main/Single_Process_Combined.C SHERPA-MC-1.4.0/AMEGIC++/Main/Single_Process_Combined.C
+--- SHERPA-MC-1.4.0.orig/AMEGIC++/Main/Single_Process_Combined.C	2012-03-18 00:03:09.000000000 +0100
++++ SHERPA-MC-1.4.0/AMEGIC++/Main/Single_Process_Combined.C	2012-05-12 18:39:51.000000000 +0200
+@@ -14,6 +14,8 @@
+ #include "ATOOLS/Org/MyStrStream.H"
+ #include "ATOOLS/Org/Data_Reader.H"
+ 
++#include <unistd.h>
++
+ using namespace AMEGIC;
+ using namespace MODEL;
+ using namespace PHASIC;
+diff -rupN SHERPA-MC-1.4.0.orig/ATOOLS/Org/Shell_Tools.C SHERPA-MC-1.4.0/ATOOLS/Org/Shell_Tools.C
+--- SHERPA-MC-1.4.0.orig/ATOOLS/Org/Shell_Tools.C	2012-03-18 00:03:05.000000000 +0100
++++ SHERPA-MC-1.4.0/ATOOLS/Org/Shell_Tools.C	2012-05-12 18:39:14.000000000 +0200
+@@ -15,6 +15,8 @@
+ #include <iostream>
+ #endif
+ 
++#include <unistd.h>
++
+ using namespace ATOOLS;
+ 
+ bool ATOOLS::MakeDir(std::string path,const bool create_tree,

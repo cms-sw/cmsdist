@@ -4,9 +4,11 @@
 Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
 Requires: hepmc lhapdf
 Patch0: sherpa-1.4.0-lhapdf
+Patch1: sherpa-1.4.0-fix-gcc47
 %prep
 %setup -q -n SHERPA-MC-%{realversion}
 %patch0 -p0
+%patch1 -p1
 autoreconf -i --force
 
 # Force architecture based on %%cmsplatf
