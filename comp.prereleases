@@ -41,8 +41,8 @@ HG1204b filemover @slc5_amd64_gcc461
 #DIE#+ HEAD/5.0.4 T0DataSvc.spec
 
 # CmsTC
-#HG1111c-gcc434 CmsTC @slc5_amd64_gcc434
-#+ 1.68/* CmsTC.spec
+HG1111c-gcc434 CmsTC @slc5_amd64_gcc434
++ 1.69/* CmsTC.spec
 #+ HEAD/2.16.1 graphviz.spec
 
 # Cms Webtools services
