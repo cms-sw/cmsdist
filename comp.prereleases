@@ -123,21 +123,26 @@ HG1205c dbs3-combined @slc5_amd64_gcc461
 + HEAD/3.0.17b dbs3-client.spec
 
 # Crab
-HG1201a crab-server3 @slc5_amd64_gcc461
-+ 1.28/3.0.7b crab-server3.spec
-+ 1.4 crabserver3-setup.patch
+HG1205d crabserver @slc5_amd64_gcc461
++ 1.6/3.1.0 crabserver.spec
++ 1.8 crabserver3-setup.patch
 
-HG1201a crab-client3 @slc5_amd64_gcc461
-+ 1.9/3.0.7b crab-client3.spec
-+ 1.5 crabclient3-setup.patch
+HG1205d crabcache @slc5_amd64_gcc461
++ 1.7/3.1.0 crabcache.spec
++ 1.2 crabcache-setup.patch
+
+HG1205d crab-client3 @slc5_amd64_gcc461
++ 1.14/3.1.0 crab-client3.spec
++ 1.6 crabclient3-setup.patch
+
+#asyncstageout
+HG1205d asyncstageout @slc5_amd64_gcc461
++ 1.32/0.1.0 asyncstageout.spec
 
 # This is needed for the HappyFace testing setup
 #DIE#HG1105c py2-sqlobject
 #DIE#+ HEAD/1.0.0 py2-sqlobject.spec
 
-#asyncstageout
-HG1201a asyncstageout @slc5_amd64_gcc461
-+ 1.29/0.0.6 asyncstageout.spec
 
 # CMS Ops Monitoring services
 HG1205c cmsfomon @slc5_amd64_gcc461
