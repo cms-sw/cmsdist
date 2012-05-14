@@ -4,11 +4,28 @@
 Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
 Requires: hepmc lhapdf
 Patch0: sherpa-1.4.0-lhapdf
-Patch1: sherpa-1.4.0-fix-gcc47
+Patch1: sherpa-1.4.0-fix-gcc47-cxx11
+
+%if "%{?cms_cxx:set}" != "set"
+%define cms_cxx g++
+%endif
+
+%if "%{?cms_cxxflags:set}" != "set"
+%define cms_cxxflags -O2 -std=c++0x
+%endif
+
 %prep
 %setup -q -n SHERPA-MC-%{realversion}
 %patch0 -p0
+
+# Apply C++11 / gcc 4.7.x fixes only if using a 47x architecture.
+# See http://gcc.gnu.org/gcc-4.7/porting_to.html
+case %cmsplatf in
+  *gcc4[789]*)
 %patch1 -p1
+  ;;
+esac
+
 autoreconf -i --force
 
 # Force architecture based on %%cmsplatf
@@ -27,7 +44,7 @@ esac
 
 ./configure --prefix=%i --enable-analysis \
             --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT \
-            --enable-multithread CXXFLAGS="-O2 -fuse-cxa-atexit $ARCH_CMSPLATF" LDFLAGS="-ldl"
+            --enable-multithread CXX="%cms_cxx" CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF %cms_cxxflags" LDFLAGS="-ldl"
 
 %build
 # Fix up a configuration mistake coming from a test being confused
