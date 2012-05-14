@@ -15,6 +15,14 @@ Requires: photos
 Requires: gfortran-macosx
 %endif
 
+%if "%{?cms_cxx:set}" != "set"
+%define cms_cxx g++
+%endif
+
+%if "%{?cms_cxxflags:set}" != "set"
+%define cms_cxxflags -O2 -std=c++0x
+%endif
+
 %prep
 %setup -q -n %{n}/%{realversion}
 %patch0 -p2
@@ -31,6 +39,10 @@ case %cmsos in
   slc5_*_gcc4[01234]*) ;;
   *) BUILD_PRODUCT=lib_archive ;;
 esac
+
+# Modify CXXFLAGS_OPT and CXXFLAGS_DBG with CMS options
+sed -ibak "s/\(^CXXFLAGS_OPT=\)\(.*\)/\1\"%cms_cxxflags -Wall\"/g;s/\(^CXXFLAGS_DBG=\)\(.*\)/\1\"%cms_cxxflags -g -Wall\"/g" configure
+
 ./configure --lcgplatform=%cmsplatf --with-clhep=$CLHEP_ROOT
 # The configure script does not actually specifies the -L$CLHEP_ROOT & co. 
 # On macosx this is fatal, We work around the problem by patching the makefile
