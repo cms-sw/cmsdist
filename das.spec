@@ -1,19 +1,27 @@
-### RPM cms das 1.4.0.pre2
+### RPM cms das 1.4.0.pre3
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver 0.8.3
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
-Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_das.tar.gz
-Source1: %svnserver/DAS/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=DAS&output=/das.tar.gz
+Source0: https://github.com/vkuznet/DAS/tarball/%{realversion}
+Source1: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_das.tar.gz
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui
 Requires: mongo py2-pymongo py2-cjson py2-yaml py2-pystemmer py2-mongoengine py2-lxml py2-ply py2-yajl
 Requires: py2-sphinx py2-pycurl rotatelogs
 
+# RPM macros documentation
+# http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
 %prep
-%setup -T -b 0 -n WMCore
-%setup -D -T -b 1 -n DAS
+%setup -c
+# move github directory
+mv vkuznet-DAS* DAS
+%setup -T -D -a 1
 
-# remove ipython deps
+%build
+cd WMCore
+python setup.py build_system -s wmc-web
+cd ../DAS
+# remove ipython stuff
 if [ -f src/python/DAS/tools/ipy_profile_mongo.py ]; then
    rm src/python/DAS/tools/ipy_profile_mongo.py
 fi
@@ -22,10 +30,7 @@ fi
 cat src/python/DAS/__init__.py | sed "s,development,%{realversion},g" > init.tmp
 mv -f init.tmp src/python/DAS/__init__.py
 
-%build
-cd ../WMCore
-python setup.py build_system -s wmc-web
-cd ../DAS
+# do DAS build
 python setup.py build
 
 # build DAS JSON maps out of DAS YML files
@@ -52,10 +57,9 @@ mkdir -p build
 make html
 
 %install
-cd ../WMCore
+cd WMCore
 python setup.py install_system -s wmc-web --prefix=%i
 cd ../DAS
-#python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
 python setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
