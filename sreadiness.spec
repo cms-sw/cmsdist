@@ -1,4 +1,4 @@
-### RPM cms sreadiness r50
+### RPM cms sreadiness r60
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
 %define svnrev %(echo %realversion|tr -d 'r')
@@ -13,7 +13,6 @@ Requires: python py2-matplotlib py2-numpy py2-pyxml
 %install
 mkdir %i/bin
 cp -rp %_builddir/SiteReadiness/* %i/bin
-perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" $(find %{i} -type f)
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
