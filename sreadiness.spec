@@ -5,6 +5,7 @@
 Source1: svn://svn.cern.ch/reps/cmsfomon/SiteReadiness/trunk@%svnrev?scheme=svn+ssh&strategy=export&module=SiteReadiness&output=/srsrc.tar.gz
 Requires: python py2-matplotlib py2-numpy py2-pyxml
 
+
 %prep
 %setup -T -b 1 -n SiteReadiness
 
