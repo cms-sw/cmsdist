@@ -150,7 +150,7 @@ HG1205c cmsfomon @slc5_amd64_gcc461
 + 1.2/1205b cmsfomon.spec
 + 1.11/1.0.0 py2-sqlobject.spec
 + 1.3/3.0 happyface.spec
-+ 1.2 sreadiness.spec
++ 1.3 sreadiness.spec
 + 1.1 crabhb.spec
 
 HG1112a cmsbuilder @slc5_amd64_gcc461
