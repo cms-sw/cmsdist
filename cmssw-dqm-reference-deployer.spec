@@ -1,17 +1,24 @@
-### RPM cms cmssw-dqm-reference-deployer CMSSW_5_3-0
+### RPM cms cmssw-dqm-reference-deployer CMSSW_5_3_0
 ## NOCOMPILER
 %define defaultArch slc5_amd64_gcc462
-Source: http://cmsrep.cern.ch/cmssw/cms/RPMS/%{defaultArch}/cms+cmssw-dqm-reference+%{realversion}-1-1.%{defaultArch}.rpm
+Source: http://cmsrep.cern.ch/cmssw/cms/RPMS/%{defaultArch}/cms+cmssw-dqm-reference-hi+%{realversion}-1-1.%{defaultArch}.rpm
+Source: http://cmsrep.cern.ch/cmssw/cms/RPMS/%{defaultArch}/cms+cmssw-dqm-reference-nonhi+%{realversion}-1-1.%{defaultArch}.rpm
 
 %prep
 %build
+rm -rf %{_builddir}/data
 cd %{_builddir}
-rpmFile=%{_sourcedir}/*.rpm
-rpm2cpio $rpmFile | cpio -idmv
-
+for rpm in %{_sourcedir}/*.rpm; do
+  dir=`basename $rpm`  
+  mkdir -p data/$dir
+  (cd data/$dir; rpm2cpio $rpm | cpio -idmv)
+done
 %install
-mkdir %i/etc
-cd %i
-DQM_DATA_DIR=`find %{_builddir} -name "init.sh" -type f | head -n 1 | xargs dirname`
-mv $DQM_DATA_DIR/../../data .
-[ -f $DQM_DATA_DIR/../../etc/runTheMatrix.args ] && cp $DQM_DATA_DIR/../../etc/runTheMatrix.args etc/runTheMatrix.args
+mkdir %i/etc %i/data
+touch %i/etc/runTheMatrix.args
+for dir in `find %{_builddir}/data -name 'init.sh' -type f` ; do
+  dir=`dirname $dir`/../..
+  [ -d $dir/data ] || continue
+  cp -r $dir/data/*HARVEST* %i/data
+  [ -f $dir/etc/runTheMatrix.args ] && cat $dir/etc/runTheMatrix.args >> %i/etc/runTheMatrix.args
+done
