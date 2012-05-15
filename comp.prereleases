@@ -15,9 +15,9 @@
 # 1.323 is 1.2.4 (qhash look-up, new SiteDB)
 # 1.337 is 1.3.1 # use with HG1205a and above (new PKGTOOLS)
 # 1.339 is 1.4.0.pre2
-# 1.340 is 1.4.0.pre3 # switch to github DAS source
+# 1.341 is 1.4.0 # switch to github DAS source
 HG1205d das @slc5_amd64_gcc461
-+ 1.340 das.spec
++ 1.341 das.spec
 
 # FileMover
 # 1.30 is 1.0.9
