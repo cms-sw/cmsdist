@@ -4,10 +4,6 @@ Patch: tauola-27.121-gfortran
 Patch1: tauola-27.121.5-gfortran-taueta
 Patch2: tauola-27.121-gfortran-tauola-srs
 Patch3: tauola-27.121.5-macosx
-Patch4: tauola-27.121.5-archive-only
-# Notice that on macosx we don't build shared libraries, so the following
-# requires are not really mandatory, but we keep them for consistency with the
-# linux build.
 Requires: pythia6
 Requires: photos
 
@@ -17,21 +13,24 @@ Requires: gfortran-macosx
 
 %prep
 %setup -q -n %{n}/%{realversion}
+case %gccver in
+  4.*)
 %patch -p0 
 %patch1 -p2
 %patch2 -p2
-%patch3 -p3
-case %cmsos in
-  osx*)
-%patch4 -p3
   ;;
 esac
+%patch3 -p3
 ./configure --lcgplatform=%cmsplatf --with-pythia6libs=$PYTHIA6_ROOT/lib
 
 %build
+case %cmsplatf in 
+  osx*)
+  perl -p -i -e 's|libtauola.so|libtauola.dylib|g' Makefile
+  perl -p -i -e 's|libpretauola.so|libpretauola.dylib|g' Makefile
+  ;;
+esac
 make PHOTOS_ROOT=$PHOTOS_ROOT
 
 %install
 tar -c lib include | tar -x -C %i
-find %i/lib/archive -name "*.a" -exec mv {} %i/lib \;
-rm -rf %i/lib/archive
