@@ -7,10 +7,14 @@ Patch0: xrootd-gcc44
 Patch1: xrootd-5.30.00-fix-gcc46
 Patch2: xrootd-3.1.0-fix-read-after-read
 Patch3: xrootd-3.1.0-fixed-library-location-all-os
+Patch4: xrootd-3.1.0-client-send-moninfo
 
 %if "%online" != "true"
-Requires: openssl cmake zlib gcc
+Requires: openssl zlib
+%else
+Requires: onlinesystemtools
 %endif
+Requires: cmake gcc
 
 %prep 
 %setup -n %n-%{realversion}
@@ -18,6 +22,7 @@ Requires: openssl cmake zlib gcc
 %patch1 -p1
 %patch2 -p1
 %patch3 -p0
+%patch4 -p1
 
 # need to fix these from xrootd git
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
