@@ -18,8 +18,6 @@
 Source:  http://castorold.web.cern.ch/castorold/DIST/CERN/savannah/CASTOR.pkg/%{baseVersion}-*/%{realversion}/castor-%{realversion}.tar.gz
 Patch0: castor-2.1.9.8-macosx
 Patch1: castor-2.1.9.8-fix-gcc47
-Patch2: castor-2.1.9.8-add-ns-ldl
-Patch3: castor-2.1.9.8-rtcopy-add-rfio-dependency
 
 # Ugly kludge : forces libshift.x.y to be in the provides (rpm only puts libshift.so.x)
 # root rpm require .x.y
@@ -37,10 +35,7 @@ case %cmsplatf in
 %patch0 -p2
   ;;
 esac
-
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
 
 case %cmsplatf in
   *_gcc4[012345]*) ;;
@@ -69,8 +64,6 @@ find . -type f -exec touch {} \;
 CASTOR_NOSTK=yes; export CASTOR_NOSTK
 
 make -f Makefile.ini Makefiles
-which makedepend >& /dev/null
-[ $? -eq 0 ] && make depend
 make %{makeprocesses} client MAJOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f1-2) \
                              MINOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f3-4 | tr '-' '.' ) \
 			     LDFLAGS=-ldl

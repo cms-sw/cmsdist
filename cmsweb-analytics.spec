@@ -1,18 +1,9 @@
-### RPM cms cmsweb-analytics 2.0
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-Source: git://github.com/lat/analytics?obj=master/%{realversion}&export=analytics&output=/analytics.tar.gz
-#Source: git:/build/lat/comp/analytics?obj=master/%{realversion}&export=analytics&output=/analytics.tar.gz
+### RPM cms cmsweb-analytics 1.1
 Requires: python py2-adns py2-geoip py2-netaddr py2-yaml py2-cjson
 
 %prep
-%setup -n analytics
-
 %build
-python setup.py build
-
 %install
-python setup.py install --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d

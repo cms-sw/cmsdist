@@ -14,14 +14,6 @@ Requires: zlib
 Requires: onlinesystemtools
 %endif
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx g++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x
-%endif
-
 %prep
 %setup -n %n-%realversion
 %patch0 -p1
@@ -38,15 +30,14 @@ Requires: onlinesystemtools
   --with-openssl-includes=$OPENSSL_ROOT/include \
   --with-openssl-libraries=$OPENSSL_ROOT/lib	\
   --with-lzma-includes=$XZ_ROOT/include         \
-  --with-lzma-libraries=$XZ_ROOT/lib \
-  CXXFLAGS="-Wno-error=extra"
+  --with-lzma-libraries=$XZ_ROOT/lib	
 
 perl -p -i -e '
   s{-llzo2}{}g;
   !/^\S+: / && s{\S+LZO((C|Dec)ompressor|Constants|Error)\S+}{}g' \
  Makefile
 
-make %makeprocesses CXX="%cms_cxx %cms_cxxflags"
+make %makeprocesses
 
 %install
 make %makeprocesses install
