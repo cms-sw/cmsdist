@@ -1,4 +1,4 @@
-### RPM cms cmsweb 1205g
+### RPM cms cmsweb 1206a
 
 # This is a meta-package to group all cms webtools services from comp repository
 
