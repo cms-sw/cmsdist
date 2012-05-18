@@ -100,10 +100,10 @@ HG1205c cmsfomon @slc5_amd64_gcc461
 + 1.1 crabhb.spec
 
 # T0
-HG1204g t0 @slc5_amd64_gcc461
-+ 1.27 t0.spec
-+ 1.114 wmagent.spec
-+ 1.189 wmcore.spec
+HG1205d t0 @slc5_amd64_gcc461
++ 1.28 t0.spec
++ 1.116 wmagent.spec
++ 1.191 wmcore.spec
 + 1.16 wmcore-webtools.spec
 + 1.5 wmcore-db-mysql.spec
 + 1.6 wmcore-db-oracle.spec
