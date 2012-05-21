@@ -9,6 +9,7 @@
 
 Source: cmsos
 Source1: migrate-cvsroot
+Source2: cmspm
 
 %prep
 #Make sure that we always build cms-common with a different revision and 
@@ -30,6 +31,7 @@ cd %i/%{pkgrevision}
 
 cp %_sourcedir/cmsos ./common/cmsos
 cp %_sourcedir/migrate-cvsroot ./common/migrate-cvsroot
+cp %_sourcedir/cmspm ./common/cmspm
 
 %if "%online" != "true"
 cat << \EOF_CMSARCH_SH > ./common/cmsarch
