@@ -1,4 +1,4 @@
-#!/usr/bin/python -u
+#!/usr/bin/env python
 """CMS Package Management script. Feedback and Help: mojedasa@cern.ch
 
 This script must be able to run in Python 2.4.
@@ -111,12 +111,14 @@ import os
 import sys
 import shutil
 import fnmatch
+import httplib
 import optparse
 import subprocess
 import threading
 import Queue
-from commands import getstatusoutput
+
 from os import getenv
+from commands import getstatusoutput as sh
 
 try:
   from subprocess import CalledProcessError
@@ -203,30 +205,33 @@ def parseJSONTags(tags):
 
   return real_tags
 
-def getTcData(url):
-  tcurl = 'https://cmstags.cern.ch/tc/'+url
-  err, output = getstatusoutput('which wget')
-  cmd = "wget  --no-check-certificate -nv -o /dev/null -O- '"+tcurl+"'"
-  if err: cmd = "curl -L -k --stderr /dev/null '"+tcurl.replace('[','\[').replace(']','\]')+"'"
-  err, output =  getstatusoutput(cmd)
-  if err: raise Exception("Error: running command"+cmd+"\n"+output)
-  return output
-
 def getReleasesTags(releases, diff):
   if diff:
     diff = 'true'
   else:
     diff = 'false'
-  packs = getTcData ('py_getReleasesTags?releases=["' + '","'.join(releases) + '"]&diff=' + diff)
-  return parseJSONTags(packs)
-  
-# Get return a dictionary with package => tag for the
+  # This works in both Python 2.4 and Python 2.6 with the same code
+  # With urllib you need different code (i.e. no getcode()).
+  conn = httplib.HTTPSConnection("cmstags.cern.ch")
+  conn.request("GET", '/tc/py_getReleasesTags?releases=["' + '","'.join(releases) + '"]&diff=' + diff)
+  tags = conn.getresponse()
+  conn.close()
+  if tags.status != 200:
+    raise Exception(tags.read())
+  return parseJSONTags(tags.read())
+
+# Get return a dictionary with package => tag for the 
 # specified @a tagset
 def getTagSetTags(tagsets):
   extratags = {}
   for tagset in tagsets:
-    packs = getTcData('py_getTagsetTags?tagset=' + tagset)
-    extratags.update(dict(parseJSONTags(packs)))
+    conn = httplib.HTTPSConnection("cmstags.cern.ch")
+    conn.request("GET", '/tc/py_getTagsetTags?tagset=' + tagset)
+    response = conn.getresponse()
+    conn.close()
+    if response.status != 200:
+      raise Exception(response.read())
+    extratags.update(dict(parseJSONTags(response.read())))
   return extratags
 
 def formatTag(tag, maxlen = _maxtaglen):
@@ -411,7 +416,14 @@ def cmd_co(args):
       raise Exception("Error: The input contains a duplicate package with a different tag.")
     tags[package] = tag
 
-  checkoutTags(tags.items(), opts.nthreads, opts.export, opts.dryrun, opts.cvsroot)
+  removedTags = [k.strip("/").strip(".").strip("/") for (k,v) in tags.items() if v == "-" and k]
+  for tag in removedTags:
+    error, out = sh("rm -rf %s" % tag)
+    if error:
+      print out
+      exit(1)
+  addedTag = [(k,v) for (k,v) in tags.items() if v != "-"]
+  checkoutTags(addedTag, opts.nthreads, opts.export, opts.dryrun, opts.cvsroot)
 
 def cmd_corel(args):
   parser = optparse.OptionParser(usage="cmspm corel <release> [options]")
