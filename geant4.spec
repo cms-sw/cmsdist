@@ -27,7 +27,7 @@ fi
 
 # Linux? -pthread?
 touch G4BuildConf.sh
-echo "export CXXFLAGS='%{cms_cxxflags}'" >> G4BuildConf.sh
+echo "export CMS_CXXFLAGS='%{cms_cxxflags}'" >> G4BuildConf.sh
 echo "export OS_ARCH=%{cmsplatf}" >> G4BuildConf.sh
 #FIXME: is this correct???
 echo "export G4SYSTEM=$(uname)-g++" >> G4BuildConf.sh

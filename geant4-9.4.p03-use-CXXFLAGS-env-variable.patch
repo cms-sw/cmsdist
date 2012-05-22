@@ -6,7 +6,7 @@ diff -arupN geant4.9.4.p03.orig/config/sys/Darwin-g++.gmk geant4.9.4.p03/config/
  ifeq ($(G4SYSTEM),Darwin-g++)
    CXX       := g++
 -  CXXFLAGS  := -Wall -ansi -pedantic -Wno-non-virtual-dtor -Wno-long-long
-+  CXXFLAGS  += -Wall -ansi -pedantic -Wno-non-virtual-dtor -Wno-long-long
++  CXXFLAGS  := -Wall -ansi -pedantic -Wno-non-virtual-dtor -Wno-long-long $(CMS_CXXFLAGS)
  # CXXFLAGS  += -Wunused-parameter -Winline -Wunreachable-code
    CXXFLAGS  += -Wwrite-strings -Wpointer-arith -Woverloaded-virtual -pipe
    ifdef G4OPTIMISE
@@ -18,7 +18,7 @@ diff -arupN geant4.9.4.p03.orig/config/sys/Linux-g++.gmk geant4.9.4.p03/config/s
  ifeq ($(G4SYSTEM),Linux-g++)
    CXX       := g++
 -  CXXFLAGS  := -W -Wall -ansi -pedantic -Wno-non-virtual-dtor -Wno-long-long
-+  CXXFLAGS  += -W -Wall -ansi -pedantic -Wno-non-virtual-dtor -Wno-long-long
++  CXXFLAGS  := -W -Wall -ansi -pedantic -Wno-non-virtual-dtor -Wno-long-long $(CMS_CXXFLAGS)
    CXXFLAGS  += -Wwrite-strings -Wpointer-arith -Woverloaded-virtual -pipe
  #
  # Uncomment the following options to activate Pentium4 chip specific
