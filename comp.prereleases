@@ -44,6 +44,9 @@ HG1206a cmsweb @slc5_amd64_gcc461
 
 HG1206a cmsweb @osx106_amd64_gcc461
 
+HG1206a cmsweb-analytics @slc5_amd64_gcc461
++ 1.3 cmsweb-analytics.spec
+
 # Stagemanager offsite agent
 HG1201c stagemanager-agent @slc5_amd64_gcc461
 + 1.10/1.0.1 stagemanager-agent.spec
