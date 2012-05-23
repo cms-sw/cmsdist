@@ -7,7 +7,7 @@ Patch0: xerces-c-2.8.0-osx106
 %setup -n xerces-c-src_%xercesv
 
 case %cmsplatf in
-  osx*)
+  osx106_*)
 %patch0 -p1
   ;;
 esac
