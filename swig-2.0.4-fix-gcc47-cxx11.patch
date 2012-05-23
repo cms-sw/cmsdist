@@ -1,0 +1,13 @@
+diff --git a/Source/Modules/php.cxx b/Source/Modules/php.cxx
+index fbfa5e0..225c6dc 100644
+--- a/Source/Modules/php.cxx
++++ b/Source/Modules/php.cxx
+@@ -1714,7 +1714,7 @@ public:
+ 	      Printf(output, "\t\t\treturn new $c($r);\n");
+ 	    } else {
+ 	      Printf(output, "\t\t\t$c = new stdClass();\n");
+-	      Printf(output, "\t\t\t$c->"SWIG_PTR" = $r;\n");
++	      Printf(output, "\t\t\t$c->" SWIG_PTR " = $r;\n");
+ 	      Printf(output, "\t\t\treturn $c;\n");
+ 	    }
+ 	    Printf(output, "\t\t}\n\t\treturn $r;\n");
