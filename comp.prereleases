@@ -38,14 +38,11 @@ HG1111c-gcc434 CmsTC @slc5_amd64_gcc434
 #+ HEAD/2.16.1 graphviz.spec
 
 # Cms Webtools services
-HG1206a cmsweb @slc6_amd64_gcc461
+HG1206b cmsweb @slc6_amd64_gcc461
 
-HG1206a cmsweb @slc5_amd64_gcc461
+HG1206b cmsweb @slc5_amd64_gcc461
 
-HG1206a cmsweb @osx106_amd64_gcc461
-
-HG1206a cmsweb-analytics @slc5_amd64_gcc461
-+ 1.3 cmsweb-analytics.spec
+HG1206b cmsweb @osx106_amd64_gcc461
 
 # Stagemanager offsite agent
 HG1201c stagemanager-agent @slc5_amd64_gcc461
