@@ -7,7 +7,8 @@ Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=
 Source1: %svnserver/FileMover/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=FileMover&output=/filemover.tar.gz
 Source2: http://github.com/downloads/sstephenson/prototype/prototype_1-6-1.js
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui
-Requires: py2-sphinx rotatelogs java-jdk srmcp
+Requires: rotatelogs java-jdk srmcp
+BuildRequires: py2-sphinx
 
 %prep
 %setup -T -b 0 -n WMCore

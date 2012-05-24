@@ -5,7 +5,8 @@
 
 Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_reqmgr.tar.gz
 #Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk@15742?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_reqmgr.tar.gz
-Requires: py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah py2-cx-oracle yui rotatelogs couchdb py2-cjson py2-sphinx
+Requires: py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah py2-cx-oracle yui rotatelogs couchdb py2-cjson
+BuildRequires: py2-sphinx
 
 %prep
 %setup -n WMCore

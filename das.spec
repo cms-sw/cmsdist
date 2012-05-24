@@ -7,7 +7,8 @@ Source0: https://github.com/vkuznet/DAS/tarball/%{realversion}
 Source1: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_das.tar.gz
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui
 Requires: mongo py2-pymongo py2-cjson py2-yaml py2-pystemmer py2-mongoengine py2-lxml py2-ply py2-yajl
-Requires: py2-sphinx py2-pycurl rotatelogs
+Requires: py2-pycurl rotatelogs
+BuildRequires: py2-sphinx
 
 # RPM macros documentation
 # http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html

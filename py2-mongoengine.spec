@@ -2,7 +2,8 @@
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 Source: http://github.com/hmarr/mongoengine/tarball/v0.3
-Requires: python py2-sphinx py2-setuptools
+Requires: python
+BuildRequires: py2-sphinx py2-setuptools
 
 %prep
 %setup -n hmarr-mongoengine-d314d88

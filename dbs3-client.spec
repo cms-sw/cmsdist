@@ -8,7 +8,8 @@
 %define cvstag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 Source0: %svnserver/DBS/tags/%cvstag?scheme=svn+ssh&strategy=export&module=DBS3&output=/%{n}.tar.gz
-Requires: python py2-cjson py2-sphinx
+Requires: python py2-cjson
+BuildRequires: py2-sphinx
 
 %prep
 %setup -D -T -b 0 -n DBS3

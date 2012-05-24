@@ -6,7 +6,8 @@ Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=
 Source1: %svnserver/StageManager/tags/%realversion/src/python?scheme=svn+ssh&strategy=export&module=StageManager&output=/src.tar.gz
 
 
-Requires: python py2-httplib2 rotatelogs py2-sphinx
+Requires: python py2-httplib2 rotatelogs
+BuildRequires: py2-sphinx
 # py2-simplejson py2-sqlalchemy
 
 

@@ -2,7 +2,8 @@
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 Source: http://pypi.python.org/packages/source/s/simplejson/simplejson-%{realversion}.tar.gz
-Requires: python py2-setuptools
+Requires: python
+BuildRequires: py2-setuptools
 
 %prep
 %setup -n simplejson-%realversion

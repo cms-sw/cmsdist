@@ -10,12 +10,13 @@ Patch3: xrootd-3.1.0-fixed-library-location-all-os
 Patch4: xrootd-3.1.0-client-send-moninfo
 Patch5: xrootd-3.1.0-gcc-470-literals-whitespace
 
+BuildRequires: cmake
 %if "%online" != "true"
 Requires: openssl zlib
 %else
 Requires: onlinesystemtools
 %endif
-Requires: cmake gcc
+Requires: gcc
 
 %if "%{?cms_cxxflags:set}" != "set"
 %define cms_cxxflags -std=c++0x -O2

@@ -3,7 +3,8 @@
 
 Source: ftp://ftp.tummy.com/pub/python-memcached/old-releases/python-memcached-%realversion.tar.gz
 
-Requires: python memcached py2-setuptools
+Requires: python memcached
+BuildRequires: py2-setuptools
 
 %prep 
 %setup -n python-memcached-%realversion

@@ -17,7 +17,8 @@ Source3: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.t
 Source4: %{svn}?scheme=svn+ssh&strategy=export&module=Monitoring&output=/src1.tar.gz
 Patch0: dqmgui-rtgu
 
-Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root libpng libjpg classlib rotatelogs py2-pycurl py2-cjson py2-sphinx
+Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root libpng libjpg classlib rotatelogs py2-pycurl py2-cjson
+BuildRequires: py2-sphinx
 
 %prep
 # Unpack sources.
