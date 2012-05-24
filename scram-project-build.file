@@ -6,7 +6,7 @@ Requires: SCRAMV1
 
 %define initenv	        %initenv_direct
 %define scramcmd        $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
-%define cmsrepo         cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
+%define cmsrepo         cvs://:pserver:anonymous@cmscvs.cern.ch:2401/local/reps/CMSSW?passwd=AA_:yZZ3e
 %define srctree		src
 
 #config stuff
@@ -25,7 +25,7 @@ Requires: SCRAMV1
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V04-00-16
+%define configtag       V04-01-02
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
