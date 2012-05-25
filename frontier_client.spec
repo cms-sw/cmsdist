@@ -12,6 +12,10 @@ Requires: onlinesystemtools
 
 Patch0: frontier_client-2.8.5-fix-gcc47
 
+%if "%{?cms_cxxflags:set}" != "set"
+%define cms_cxxflags -std=c++0x -O2
+%endif
+
 %prep
 %setup -n %{n}__%{realversion}__src
 
@@ -26,7 +30,7 @@ Patch0: frontier_client-2.8.5-fix-gcc47
 %build
 
 export MAKE_ARGS=%{makeargs}
-make $MAKE_ARGS
+make $MAKE_ARGS CXXFLAGS="%cms_cxxflags"
 
 %install
 mkdir -p %i/lib
