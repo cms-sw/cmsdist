@@ -97,7 +97,7 @@ make distclean
             --disable-pyext \
             --disable-octave --disable-doxygen\
             FC="$FC" CXX="$CXX" CC="$CC" \
-            CPPFLAGS="-I ${ZLIB_ROOT}/include" LDFLAGS="-L${ZLIB_ROOT}/lib -lz"
+            CPPFLAGS="-I ${ZLIB_ROOT}/include" CXXFLAGS="%cms_cxxflags" LDFLAGS="-L${ZLIB_ROOT}/lib -lz"
 perl -p -i -e 's|examples||;s|tests||' Makefile
 find . -name Makefile -o -name config.status -exec perl -p -i -e 's|/usr/lib64/lib[cm].a||g' {} \;
 make %makeprocesses; make install
