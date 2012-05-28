@@ -1,4 +1,4 @@
-### RPM external pythia6-toolfile 2.0
+### RPM external pythia6-toolfile 2.1
 Requires: pythia6
 %prep
 
@@ -36,7 +36,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pydata.xml
     <environment name="PYDATA_BASE" default="@TOOL_ROOT@"/>
   </client>
   <architecture name="slc.*[^_]*_gcc4[5-9]">
-    <flags LDFLAGS="$PYDATA_BASE/lib/pydata.o"/>
+    <flags LDFLAGS="$(PYDATA_BASE)/lib/pydata.o"/>
   </architecture>
   <flags NO_RECURSIVE_EXPORT="1"/>
 </tool>
