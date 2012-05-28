@@ -68,44 +68,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
     <flags CXXFLAGS="@ARCH_CXXFLAGS@ @COMPILER_CXXFLAGS@"/>
     <flags CXXFLAGS="-fmessage-length=0 -ftemplate-depth-300"/>
     # -Wno-non-template-friend removed since it's not supported, yet, by llvm.
-    <flags CXXFLAGS="-Wall -Wno-long-long -Wreturn-type -Wunused -Wsign-compare -Wno-deprecated -Werror=return-type -Werror=missing-braces -Werror=unused-value -Werror=address -Werror=format -Werror=write-strings -Werror=strict-overflow -fdiagnostics-show-option"/>
-    <flags LDFLAGS="@OS_LDFLAGS@ -L@GCC_ROOT@/lib64"/>
-    <flags CXXSHAREDFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@"/>
-    <flags SHAREDSUFFIX="@OS_SHAREDSUFFIX@"/>
-    <flags LD_UNIT="@OS_LD_UNIT@ @ARCH_LD_UNIT@"/>
-    <flags SCRAM_LANGUAGE_TYPE="C++"/>
-    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$CXXCOMPILER_BASE/lib" type="path"/>
-    <runtime name="PATH" value="$CXXCOMPILER_BASE/bin" type="path"/>
-    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="@GCC_ROOT@/@ARCH_LIB64DIR@" type="path"/>
-    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="@GCC_ROOT@/lib" type="path"/>
-    <runtime name="COMPILER_RUNTIME_OBJECTS" value="@GCC_ROOT@/lib/gcc/@GCC_ARCH@/@GCC_REALVERSION@"/>
-    <runtime name="PATH" value="@GCC_ROOT@/bin" type="path"/>
-  </tool>
-EOF_TOOLFILE
-
-mkdir -p %i/etc/disabled/scram.d
-cat << \EOF_TOOLFILE >%i/etc/disabled/scram.d/cxx-analyzer.xml
-  <tool name="cxxcompiler" version="@LLVM_VERSION@" type="compiler">
-    <client>
-      <environment name="CXXCOMPILER_BASE" default="@LLVM_ROOT@"/>
-      <environment name="GCCBINDIR" default="$CXXCOMPILER_BASE/bin"/>
-      <environment name="CXX" value="$GCCBINDIR/c++-analyzer"/>
-    </client>
-    <flags SCRAM_COMPILER_NAME="clang@COMPILER_VERSION@"/>
-    <flags CCCOMPILER="clang@COMPILER_VERSION_MAJOR@"/>
-    <flags MODULEFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@"/>
-    <flags CXXDEBUGFLAG="-g"/>
-    <flags CPPDEFINES="GNU_GCC"/>
-    <flags CPPDEFINES="_GNU_SOURCE"/>
-    <flags CXXSHAREDOBJECTFLAGS="-fPIC"/>
-    <flags CPPFLAGS="-I@GCC_ROOT@/include/c++/@GCC_REALVERSION@"/>
-    <flags CPPFLAGS="-I@GCC_ROOT@/include/c++/@GCC_REALVERSION@/@GCC_ARCH@"/>
-    <flags CPPFLAGS="-I@GCC_ROOT@/include/c++/@GCC_REALVERSION@/backward"/>
-    <flags CXXFLAGS="-O2 -ansi -pthread -pipe"/>
-    <flags CXXFLAGS="@ARCH_CXXFLAGS@ @COMPILER_CXXFLAGS@"/>
-    <flags CXXFLAGS="-fmessage-length=0 -ftemplate-depth-300"/>
-    # -Wno-non-template-friend removed since it's not supported, yet, by llvm.
-    <flags CXXFLAGS="-std=c++11 -Wall -Wno-long-long -Wreturn-type -Wunused -Wsign-compare -Wno-deprecated -Werror=return-type -Werror=missing-braces -Werror=unused-value -Werror=address -Werror=format -Werror=write-strings -Werror=strict-overflow -fdiagnostics-show-option"/>
+    <flags CXXFLAGS="-Wall -Wno-long-long -Wimplicit -Wreturn-type -Wunused -Wsign-compare -Wno-deprecated -Werror=return-type -Werror=missing-braces -Werror=unused-value -Werror=address -Werror=format -Werror=write-strings -Werror=strict-overflow -fdiagnostics-show-option"/>
     <flags LDFLAGS="@OS_LDFLAGS@ -L@GCC_ROOT@/lib64"/>
     <flags CXXSHAREDFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@"/>
     <flags SHAREDSUFFIX="@OS_SHAREDSUFFIX@"/>
@@ -260,9 +223,8 @@ esac
 
 # General substitutions
 perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*.xml
-perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/disabled/scram.d/*.xml
+
 %post
-%{relocateConfig}etc/disabled/scram.d/cxx-analyzer.xml
 %{relocateConfig}etc/scram.d/*.xml
 echo "LLVM_GCC_TOOLFILE_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'; export GCC_TOOLFILE_ROOT" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 echo "setenv LLVM_GCC_TOOLFILE_ROOT '$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
