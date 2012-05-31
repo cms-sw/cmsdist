@@ -1,4 +1,4 @@
-### RPM cms CmsTC CmsTC_1_4_4a
+### RPM cms CmsTC CmsTC_1_4_4b
 ## INITENV +PATH PYTHONPATH %i 
 %define moduleName %n
 %define exportName %n
