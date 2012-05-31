@@ -5,7 +5,7 @@
 %define realsub %(echo %n | cut -d- -f2) 
 %define BaseTool %(echo %n | tr '[a-z-]' '[A-Z_]')
 
-%if "%{?cvsrepo:set}" != "set":
+%if "%{?cvsrepo:set}" != "set"
 %define cvsrepo cvs://:pserver:anonymous@cmscvs.cern.ch:2401/local/reps/CMSSW?passwd=AA_:yZZ3e
 %endif
 
