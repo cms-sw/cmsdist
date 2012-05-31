@@ -7,14 +7,6 @@ Patch0: hepmc-2.03.06-reflex
 Requires: gfortran-macosx
 %endif
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx c++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -O2 -std=c++0x
-%endif
-
 %prep
 %setup -q -n HepMC-%{realversion}
 %patch0 -p0
@@ -22,17 +14,17 @@ Requires: gfortran-macosx
 case %cmsplatf in
   slc5_*_gcc4[01234]*) 
     F77="`which gfortran`"
-    CXX="`which %cms_cxx`"
+    CXX="`which c++`"
     PLATF_CONFIG_OPTS=""
   ;;
   *)
     F77="`which gfortran` -fPIC"
-    CXX="`which %cms_cxx` -fPIC"
+    CXX="`which c++` -fPIC"
     PLATF_CONFIG_OPTS="--enable-static --disable-shared"
   ;;
 esac
 ./bootstrap
-./configure $PLATF_CONFIG_OPTS --prefix=%{i} --with-momentum=GEV --with-length=MM F77="$F77" CXX="$CXX" CXXFLAGS="%cms_cxxflags"
+./configure $PLATF_CONFIG_OPTS --prefix=%{i} --with-momentum=GEV --with-length=MM F77="$F77" CXX="$CXX"
 
 %build
 make %makeprocesses
