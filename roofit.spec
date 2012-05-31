@@ -7,21 +7,14 @@ Source2: roofit-5.28.00-build.sh
 Patch: root-5.28-00d-roofit-silence-static-printout
 Patch1: roofit-5.24-00-RooFactoryWSTool-include
 Patch2: roofit-5.30.00-remove-tmath-infinity
-Patch3: roofit-5.30.00-fix-gcc47-cxx11
 
 Requires: root 
-
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++11
-%endif
 
 %prep
 %setup -b0 -n roofit
 %patch -p2
 %patch1 -p1
 %patch2 -p2
-%patch3 -p2
 %setup -D -T -b 1 -n tutorials
  
 %build
@@ -40,8 +33,7 @@ cp histfactory/config/prepareHistFactory %i/bin/
 cp %_sourcedir/roofit-5.28.00-build.sh build.sh
 chmod +x build.sh
 # Remove an extra -m64 from Wouter's build script (in CXXFLAGS and LDFLAGS)
-perl -p -i -e 's|-m64||' build.sh
-perl -p -i -e "s|CXXFLAGS='|CXXFLAGS='%cms_cxxflags |" build.sh
+perl -p -i -e 's|-m64 ||' build.sh
 case %cmsplatf in
   osx10[0-9]_* )
 # Change gawk to awk
