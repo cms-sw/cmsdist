@@ -254,12 +254,12 @@ index 38f4551..1425980 100755
 +int HepVector::num_col() const { return 1; }
 +
 +#ifdef MATRIX_BOUND_CHECK
-+double & HepVector::operator()(int row, int col)
++inline double & HepVector::operator()(int row, int col)
 +{
 +  if( col!=1 || row<1 || row>nrow)
 +     error("Range error in HepVector::operator(i,j)");
 +#else
-+double & HepVector::operator()(int row, int)
++inline double & HepVector::operator()(int row, int)
 +{
 +#endif
 +
@@ -267,12 +267,12 @@ index 38f4551..1425980 100755
 +}
 +
 +#ifdef MATRIX_BOUND_CHECK
-+const double & HepVector::operator()(int row, int col) const 
++inline const double & HepVector::operator()(int row, int col) const 
 +{
 +  if( col!=1 || row<1 || row>nrow)
 +     error("Range error in HepVector::operator(i,j)");
 +#else
-+const double & HepVector::operator()(int row, int) const 
++inline const double & HepVector::operator()(int row, int) const 
 +{
 +#endif
 +
