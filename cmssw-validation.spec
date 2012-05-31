@@ -1,7 +1,7 @@
 ### RPM cms cmssw-validation 1.0.0
 Requires: cmssw SCRAMV1
 BuildRequires: local-cern-siteconf
-%define name1 1827
+%define name1 1937
 %define moduleName LogParser
 %define url HTMLFiles/
 Source: svn://svn.cern.ch/reps/CMSIntBld/tags/LogParser/parser?scheme=svn+ssh&revision=%{name1}&module=%{moduleName}&output=/%{moduleName}.tar.gz
@@ -33,7 +33,7 @@ pwd
 pushd %i/test-runTheMatrix
   time runTheMatrix.py -s -j %compiling_processes &> result.log
 popd
-python %{moduleName}/parseLogs.py -f %i/test-runTheMatrix/runall-report-step123-.log -d  %{url}dbname.db -o %{url}tables.html &> parseLog.log
+python %{moduleName}/parseLogs.py -f %i/test-runTheMatrix/runall-report-step123-.log -d  %{url}dbname.db -o %{url}tables.html -v $CMSSW_VERSION &> parseLog.log 
 
 # TODO: Add logs to the package or send them directly to the DB.
 %install
