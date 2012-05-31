@@ -14,21 +14,12 @@ Patch4: xdaq-VR17173-gcc46
 #Patch5: xdaq-VR17173-remove-sqlite-macosx
 Patch6: xdaq-VR17173-xalan-remove-hardcoded-lib-paths-linux-macosx
 Patch7: xdaq-VR17173-remove-stropts
-Patch8: xdaq-VR17173-fix-gcc47-cxx11
 
 Provides: /bin/awk
 # This is needed on macosx because this is the install_name for the .so
 # library.  We could simply run install_name_tool, but I'm not sure if somthing
 # will break elsewhere.
 Provides: libasyncresolv.0
-
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx g++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -O2 -std=c++0x
-%endif
 
 %prep
 %setup -T -b 0 -n xdaq
@@ -41,14 +32,6 @@ Provides: libasyncresolv.0
 #patch5 -p0
 %patch6 -p0
 %patch7 -p1
-
-# Apply C++11 / gcc 4.7.x fixes only if using a 47x architecture.
-# See http://gcc.gnu.org/gcc-4.7/porting_to.html
-case %cmsplatf in
-  *gcc4[789]*)
-%patch8 -p1
-  ;;
-esac
 
 %build
 # Xdaq does not provide makeinstall,  it uses "simplify" script instead to 
@@ -74,21 +57,6 @@ case %cmsplatf in
   osx*) PLATF_DEFINE=macosx ;;
   slc*) PLATF_DEFINE=linux ;;
 esac
-
-export CXX="%cms_cxx"
-export CXXFLAGS="%cms_cxxflags"
-export UserCCFlags="%cms_cxxflags"
-if [ $(uname) != Darwin ]; then
-  # Changes for Linux
-  sed -ibak "s/\(^CXX.*= \)\(.*\)/\1%cms_cxx/g" ../config/mfDefs.linux
-  sed -ibak "s/\(^CFlags.*= \)\(.*\)/\1-O2 -fPIC/g" ../config/mfDefs.linux
-  sed -ibak "s/\(^CCFlags.*= \)\(.*\)/\1-Wall -fPIC %cms_cxxflags/g" ../config/mfDefs.linux
-else
-  # Changes for Darwin
-  sed -ibak "s/\(^CXX.*= \)\(.*\)/\1%cms_cxx/g" ../config/mfDefs.macosx
-  sed -ibak "s/\(^CFlags.*= \)\(.*\)/\1/g" ../config/mfDefs.macosx
-  sed -ibak "s/\(^CCFlags.*= \)\(.*\)/\1%cms_cxxflags/g" ../config/mfDefs.macosx
-fi
 
 make CPPDEFINES=$PLATF_DEFINE Set=extern_coretools install
 make CPPDEFINES=$PLATF_DEFINE Set=coretools install
