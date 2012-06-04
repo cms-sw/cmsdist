@@ -43,11 +43,12 @@ export COMPILER_VERSION_MINOR=`echo $LLVM_VERSION | sed -e 's|[0-9].\([0-9]\).*|
 
 export GCC_ARCH=$(basename $(dirname `find $GCC_ROOT/include -mindepth 4 -maxdepth 4 -name bits`))
 
+mkdir -p %i/etc/disabled/scram.d
 # Generic template for the toolfiles. 
 # *** USE @VARIABLE@ plus associated environment variable to customize. ***
 # DO NOT DUPLICATE the toolfile template.
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
+cat << \EOF_TOOLFILE >%i/etc/disabled/scram.d/cxxcompiler.xml
   <tool name="cxxcompiler" version="@LLVM_VERSION@" type="compiler">
     <client>
       <environment name="CXXCOMPILER_BASE" default="@LLVM_ROOT@"/>
@@ -83,7 +84,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
   </tool>
 EOF_TOOLFILE
 
-mkdir -p %i/etc/disabled/scram.d
 cat << \EOF_TOOLFILE >%i/etc/disabled/scram.d/cxx-analyzer.xml
   <tool name="cxxcompiler" version="@LLVM_VERSION@" type="compiler">
     <client>
@@ -120,7 +120,7 @@ cat << \EOF_TOOLFILE >%i/etc/disabled/scram.d/cxx-analyzer.xml
   </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/ccompiler.xml
+cat << \EOF_TOOLFILE >%i/etc/disabled/scram.d/ccompiler.xml
   <tool name="ccompiler" version="@LLVM_VERSION@" type="compiler">
     <client>
       <environment name="CCOMPILER_BASE" default="@LLVM_ROOT@"/>
@@ -141,7 +141,7 @@ EOF_TOOLFILE
 # Notice that on OSX we have a LIBDIR defined for f77compiler because gcc C++
 # compiler (which comes from the system) does not know about where to find
 # libgfortran. 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/f77compiler.xml
+cat << \EOF_TOOLFILE >%i/etc/disabled/scram.d/f77compiler.xml
   <tool name="f77compiler" version="@GCC_VERSION@" type="compiler">
     <lib name="gfortran"/>
     <lib name="m"/>
@@ -157,6 +157,23 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/f77compiler.xml
     <flags FCDEBUGFLAG="-g"/>
     <flags FCSHAREDOBJECTFLAGS="-fPIC"/>
     <flags SCRAM_LANGUAGE_TYPE="FORTRAN"/>
+  </tool>
+EOF_TOOLFILE
+
+# This is a toolfile to use llvm / clang as a library, not as a compiler.
+cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm.xml
+  <tool name="llvm" version="@LLVM_VERSION@">
+    <lib name="clang"/>
+    <client>
+      <environment name="LLVM_BASE" default="@LLVM_ROOT@"/>
+      <environment name="LIBDIR" default="$LLVM_BASE/lib"/>
+      <environment name="INCLUDE" default="$LLVM_BASE/include"/>
+    </client>
+    <flags LDFLAGS="-Wl,-undefined -Wl,suppress"/>
+    <flags CXXFLAGS="-D_DEBUG -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS"/>
+    <flags CXXFLAGS="-D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -O3 "/>
+    <flags CXXFLAGS="-fomit-frame-pointer -fPIC -Wno-enum-compare "/>
+    <flags CXXFLAGS="-Wno-strict-aliasing -fno-rtti"/>
   </tool>
 EOF_TOOLFILE
 
@@ -262,7 +279,7 @@ esac
 perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*.xml
 perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/disabled/scram.d/*.xml
 %post
-%{relocateConfig}etc/disabled/scram.d/cxx-analyzer.xml
+%{relocateConfig}etc/disabled/scram.d/*.xml
 %{relocateConfig}etc/scram.d/*.xml
 echo "LLVM_GCC_TOOLFILE_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'; export GCC_TOOLFILE_ROOT" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 echo "setenv LLVM_GCC_TOOLFILE_ROOT '$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
