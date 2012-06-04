@@ -93,16 +93,16 @@ index 196e645..745d983 100755
  
  namespace CLHEP {
  
-+inline int HepDiagMatrix::num_row() const { return nrow;}
-+inline int HepDiagMatrix::num_col() const  { return nrow;}
-+inline int HepDiagMatrix::num_size() const  { return nrow;}
++int HepDiagMatrix::num_row() const { return nrow;}
++int HepDiagMatrix::num_col() const  { return nrow;}
++int HepDiagMatrix::num_size() const  { return nrow;}
 +
-+inline double & HepDiagMatrix::operator()(int row, int col)
++double & HepDiagMatrix::operator()(int row, int col)
 +{
 +   return fast(col,row);
 +}
 +
-+inline const double & HepDiagMatrix::operator()(int row, int col) const 
++const double & HepDiagMatrix::operator()(int row, int col) const 
 +{ 
 +   return fast(col,row);
 +}
@@ -132,13 +132,13 @@ index 8dd79ec..2629d0e 100755
  
  namespace CLHEP {
  
-+inline int HepSymMatrix::num_row() const { return nrow;}
-+inline int HepSymMatrix::num_col() const  { return nrow;}
-+inline int HepSymMatrix::num_size() const  { return size_;}
++int HepSymMatrix::num_row() const { return nrow;}
++int HepSymMatrix::num_col() const  { return nrow;}
++int HepSymMatrix::num_size() const  { return size_;}
 +
-+inline double & HepSymMatrix::operator()(int row, int col)
++double & HepSymMatrix::operator()(int row, int col)
 +    {return (row>=col? fast(row,col) : fast(col,row));}
-+inline const double & HepSymMatrix::operator()(int row, int col) const 
++const double & HepSymMatrix::operator()(int row, int col) const 
 +    {return (row>=col? fast(row,col) : fast(col,row));}
 +
  // Simple operation for all elements
