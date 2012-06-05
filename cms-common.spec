@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1105
+## REVISION 1102
 ## NOCOMPILER
 
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
@@ -8,8 +8,6 @@
 %endif
 
 Source: cmsos
-Source1: migrate-cvsroot
-Source2: cmspm
 
 %prep
 #Make sure that we always build cms-common with a different revision and 
@@ -30,8 +28,6 @@ mkdir -p %i/%{pkgrevision}/common
 cd %i/%{pkgrevision}
 
 cp %_sourcedir/cmsos ./common/cmsos
-cp %_sourcedir/migrate-cvsroot ./common/migrate-cvsroot
-cp %_sourcedir/cmspm ./common/cmspm
 
 %if "%online" != "true"
 cat << \EOF_CMSARCH_SH > ./common/cmsarch
