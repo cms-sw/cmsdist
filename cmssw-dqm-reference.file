@@ -1,10 +1,23 @@
-### RPM cms cmssw-dqm-reference CMSSW_5_2_5
 ## NOCOMPILER
 BuildRequires: cmssw
 BuildRequires: local-cern-siteconf
 Source: none
+
+%if "%{?events:set}" != "set"
+%define events       200
+%endif
+
+%if "%{?WFFilter:set}" != "set"
+%define WFFilter       grep '.*+HARVEST'
+%endif
+
+%if "%{?jobs:set}" != "set"
+%define jobs       8
+%endif
+
 %define initenv %initenv_direct
-%define RunTheMatrixArgs  --useInput all --command '-n 200'
+%define RunTheMatrixArgs  --useInput all --command '-n %{events}'
+
 %prep
 %build
 cmssw_ver=`echo $CMSSW_VERSION | sed 's|-cms\d*$||'`
@@ -23,8 +36,8 @@ cd %_builddir
 rm -rf pyRelval
 mkdir pyRelval
 cd pyRelval
-wfs=`runTheMatrix.py -n | grep '^[0-9][0-9]*\.[0-9][0-9]*  *.*+HARVEST' | awk '{print $1}' | tr '\n' ',' | sed 's|,$||'`
-runTheMatrix.py %{RunTheMatrixArgs} -l $wfs -j 8
+wfs=`runTheMatrix.py -n | grep '^[0-9][0-9]*\.[0-9][0-9]*  *.*+HARVEST' | %{WFFilter} | awk '{print $1}' | tr '\n' ',' | sed 's|,$||'`
+if [ "X$wfs" != "X" ]; then runTheMatrix.py %{RunTheMatrixArgs} -l $wfs -j %{jobs} ; fi
 
 %install
 mkdir %i/data
