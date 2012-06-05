@@ -5,6 +5,7 @@ Source2: http://downloads.sourceforge.net/igprof/igprof-%{realversion}.tar.gz
 BuildRequires: cmake
 Patch0: igprof-5.9.3-fix-gcc47
 Patch1: igprof-5.9.3-fix-python
+Patch2: igprof-5.9.3-fix-jemalloc
 
 %prep
 %setup -T -b 0 -n libatomic_ops-7.2alpha4
@@ -12,6 +13,7 @@ Patch1: igprof-5.9.3-fix-python
 %setup -D -T -b 2 -n igprof-%{realversion}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %ifnos darwin
