@@ -30,9 +30,9 @@ HG1205d das @slc5_amd64_gcc461
 # 1.43 is 1.1.2
 # 1.44 is 1.1.3
 # 1.46 is 1.1.4
-# 1.51 is 1.1.5 # source from github.com/dmwm/FileMover
+# 1.52 is 1.1.5a # source from github.com/dmwm/FileMover
 HG1204b filemover @slc5_amd64_gcc461
-+ 1.51 filemover.spec
++ 1.52 filemover.spec
 
 # CmsTC
 HG1111c-gcc434 CmsTC @slc5_amd64_gcc434
