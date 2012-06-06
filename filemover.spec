@@ -3,8 +3,6 @@
 %define wmcver 0.8.3
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
-#Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_fm.tar.gz
-#Source1: %svnserver/FileMover/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=FileMover&output=/filemover.tar.gz
 Source0: https://github.com/dmwm/FileMover/tarball/%{realversion}
 Source1: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_fm.tar.gz
 Source2: http://github.com/downloads/sstephenson/prototype/prototype_1-6-1.js
@@ -13,8 +11,6 @@ Requires: rotatelogs java-jdk srmcp
 BuildRequires: py2-sphinx
 
 %prep
-#%setup -T -b 0 -n WMCore
-#%setup -D -T -b 1 -n FileMover
 %setup -c
 # move github directory
 mv dmwm-FileMover* FileMover
