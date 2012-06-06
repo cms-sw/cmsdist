@@ -13,7 +13,6 @@ Patch3: xdaq-VR17173-macosx
 Patch4: xdaq-VR17173-gcc46
 #Patch5: xdaq-VR17173-remove-sqlite-macosx
 Patch6: xdaq-VR17173-xalan-remove-hardcoded-lib-paths-linux-macosx
-Patch7: xdaq-VR17173-remove-stropts
 
 Provides: /bin/awk
 # This is needed on macosx because this is the install_name for the .so
@@ -31,7 +30,6 @@ Provides: libasyncresolv.0
 %patch4 -p1
 #patch5 -p0
 %patch6 -p0
-%patch7 -p1
 
 %build
 # Xdaq does not provide makeinstall,  it uses "simplify" script instead to 
