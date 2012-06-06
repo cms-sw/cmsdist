@@ -1,9 +1,10 @@
 ### RPM cms DMWMMON-datasvc 0.0.1
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
+%define downloadm PHEDEX
 %define cvsversion DMWMMON_%(echo %realversion | tr . _)
-%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-Source: %cvsserver&strategy=export&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
+%define cvsserver cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e
+Source: %cvsserver&strategy=export&module=%{downloadm}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
 
 # For DB Access
 Requires: oracle oracle-env p5-dbi p5-dbd-oracle
