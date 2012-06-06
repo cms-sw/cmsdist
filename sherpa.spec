@@ -21,7 +21,7 @@ Patch1: sherpa-1.4.0-fix-gcc47-cxx11
 # Apply C++11 / gcc 4.7.x fixes only if using a 47x architecture.
 # See http://gcc.gnu.org/gcc-4.7/porting_to.html
 case %cmsplatf in
-  *gcc4[789]*)
+  *gcc4[6789]*)
 %patch1 -p1
   ;;
 esac
