@@ -4,7 +4,6 @@
 # tool is added
 
 %define isslc %(case %cmsos in (slc*) echo true;; (*) echo false;; esac)
-%define isslc6 %(case %cmsos in (slc6*) echo true ;; (*) echo false ;; esac)
 
 Requires: alpgen-toolfile
 Requires: boost-toolfile
@@ -51,7 +50,6 @@ Requires: libjpg-toolfile
 Requires: libpng-toolfile
 Requires: libtiff-toolfile
 Requires: libungif-toolfile
-Requires: libxml2-toolfile
 Requires: mcdb-toolfile
 Requires: meschach-toolfile
 Requires: millepede-toolfile
@@ -105,6 +103,7 @@ Requires: professor-toolfile
 Requires: py2-ipython-toolfile
 Requires: xz-toolfile
 Requires: protobuf-toolfile
+Requires: llvm-gcc-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
@@ -112,12 +111,6 @@ Requires: python-ldap-toolfile
 Requires: gdb-toolfile
 Requires: google-perftools-toolfile
 Requires: igprof-toolfile
-%endif
-
-%if "%isslc6" == "true"
-Requires: nspr-toolfile
-Requires: nss-toolfile
-Requires: cyrus-sasl-toolfile
 %endif
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull
