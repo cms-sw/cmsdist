@@ -16,10 +16,10 @@
 # 1.337 is 1.3.1 # use with HG1205a and above (new PKGTOOLS)
 # 1.339 is 1.4.0.pre2
 # 1.342 is 1.4.1 # DAS source comes from github
-# 1.345 is 1.4.2.pre2 # onhold fix
 # 1.348 is 1.4.1b # patched release
+# 1.349 is 1.4.2 # patched release
 HG1205d das @slc5_amd64_gcc461
-+ 1.348 das.spec
++ 1.349 das.spec
 
 # FileMover
 # 1.30 is 1.0.9
