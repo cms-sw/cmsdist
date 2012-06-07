@@ -1,10 +1,10 @@
-### RPM external sherpa 1.4.0
+### RPM external sherpa 1.3.1
 
 #Source: http://cern.ch/service-spi/external/MCGenerators/distribution/sherpa-%{realversion}-src.tgz
 Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
+#Patch0: sherpa-1.3.0-nlo_event_generation_1
+Patch1: sherpa-1.3.1-fix-gcc47-cxx11
 Requires: hepmc lhapdf
-Patch0: sherpa-1.4.0-lhapdf
-Patch1: sherpa-1.4.0-fix-gcc47-cxx11
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -15,13 +15,14 @@ Patch1: sherpa-1.4.0-fix-gcc47-cxx11
 %endif
 
 %prep
+#%setup -n sherpa/%{realversion}
 %setup -q -n SHERPA-MC-%{realversion}
-%patch0 -p0
+#%patch0 -p0
 
 # Apply C++11 / gcc 4.7.x fixes only if using a 47x architecture.
 # See http://gcc.gnu.org/gcc-4.7/porting_to.html
 case %cmsplatf in
-  *gcc4[6789]*)
+  *gcc4[789]*)
 %patch1 -p1
   ;;
 esac
@@ -44,7 +45,7 @@ esac
 
 ./configure --prefix=%i --enable-analysis \
             --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT \
-            --enable-multithread CXX="%cms_cxx" CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF %cms_cxxflags" LDFLAGS="-ldl"
+            --enable-multithread CXX="%cms_cxx" CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF %cms_cxxflags"
 
 %build
 # Fix up a configuration mistake coming from a test being confused
