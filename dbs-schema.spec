@@ -1,4 +1,4 @@
-### RPM cms dbs-schema DBS_2_1_6
+### RPM cms dbs-schema DBS_2_1_5
 
 %define cvstag %{realversion}
 #Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=DBS/Schema/NeXtGen&export=DBS/Schema/NeXtGen&tag=-r%{cvstag}&output=/dbs-schema.tar.gz
@@ -9,6 +9,8 @@ Requires: mysql oracle
 %prep
 %setup -n DBS
 %build
+(make DBSHOME=%_builddir/DBS/Schema/NeXtGen )
+
 %install
 mkdir -p %{i}/etc/profile.d
 mkdir -p %{i}/lib/Schema/NeXtGen

@@ -1,4 +1,4 @@
-### RPM lcg roofit 5.32.03
+### RPM lcg roofit 5.32.00
 %define svnTag %(echo %realversion | tr '.' '-')
 Source0: svn://root.cern.ch/svn/root/tags/v%svnTag/roofit?scheme=http&module=roofit&output=/roofit.tgz
 Source1: svn://root.cern.ch/svn/root/tags/v%svnTag/tutorials/?scheme=http&module=tutorials&output=/rootutorials.tgz
@@ -9,11 +9,6 @@ Patch1: roofit-5.24-00-RooFactoryWSTool-include
 Patch2: roofit-5.30.00-remove-tmath-infinity
 
 Requires: root 
-
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x
-%endif
 
 %prep
 %setup -b0 -n roofit
@@ -38,8 +33,7 @@ cp histfactory/config/prepareHistFactory %i/bin/
 cp %_sourcedir/roofit-5.28.00-build.sh build.sh
 chmod +x build.sh
 # Remove an extra -m64 from Wouter's build script (in CXXFLAGS and LDFLAGS)
-perl -p -i -e 's|-m64||' build.sh
-perl -p -i -e "s|CXXFLAGS='|CXXFLAGS='%cms_cxxflags |" build.sh
+perl -p -i -e 's|-m64 ||' build.sh
 case %cmsplatf in
   osx10[0-9]_* )
 # Change gawk to awk
