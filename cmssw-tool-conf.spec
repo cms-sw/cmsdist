@@ -105,7 +105,6 @@ Requires: professor-toolfile
 Requires: py2-ipython-toolfile
 Requires: xz-toolfile
 Requires: protobuf-toolfile
-Requires: llvm-gcc-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
