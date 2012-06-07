@@ -3,8 +3,8 @@
 %endif
 
 %define isPatch               yes
-%define baserelqueue          %(echo %realversion | sed -e "s|_patch.*||" -e "s|_...patch.*||")
-%define baserelver            %(echo %realversion | sed -e "s|_patch.||" -e "s|_...patch.||")%{baserel_postfix}
+%define baserelqueue          %(echo %realversion | sed -e "s|_[[:alnum:]]*patch.*||")
+%define baserelver            %(echo %realversion | sed -e "s|_[[:alnum:]]*patch[[:digit:]][[:digit:]]*||")%{baserel_postfix}
 %define baserelname           %(echo %n | sed -e "s|-patch||")
 %define parent_release_rpath  ../../%{baserelname}/%baserelver
 %define parent_release_fpath  %{instroot}/%{cmsplatf}/%{pkgcategory}/%{baserelname}/%{baserelver}
@@ -32,7 +32,7 @@
 %endif
 
 %define PatchReleasePythonSymlinks \
-  CWD=`/bin/pwd`; cd %i; %scramcmd b --verbose -f tmp/common/python_symlinks </dev/null; cd %i/python;\
+  CWD=`/bin/pwd`; cd %i; %scramcmd b --verbose -f tmp/common/cache/python_symlinks </dev/null; cd %i/python;\
   for SUBSYS in `ls -d ../%{parent_release_rpath}/python/*`; do \
     if [ -d $SUBSYS ] ; then \
       S=`basename $SUBSYS`; \
@@ -84,7 +84,7 @@
 	cp -r %{parent_release_fpath}/%{srctree}/$PKG $PKG;\
       fi;\
     fi;\
-  done;\
+  done;
 %endif
 
 %if "%{?runGlimpse:set}" == "set"
