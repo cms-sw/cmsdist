@@ -6,6 +6,7 @@ Requires: root
 Source: http://www.fynu.ucl.ac.be/themes/he/ggamma/hector/%{rname}_%{realversion}.tbz
 Patch0: hector-1.3.4-macosx
 Patch1: hector-1.3.4-fix-beam-dispersion-macro
+Patch2: hector-1.3.4-fix-narrowing-conversion
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -19,6 +20,7 @@ Patch1: hector-1.3.4-fix-beam-dispersion-macro
 %setup -q -n %{rname}_%{realversion}
 %patch0 -p2
 %patch1 -p1
+%patch2 -p1
 
 %build
 # On macosx strip -s means something different than on linux.
