@@ -1,4 +1,4 @@
-### RPM lcg roofit 5.32.03
+### RPM lcg roofit 5.32.00
 %define svnTag %(echo %realversion | tr '.' '-')
 Source0: svn://root.cern.ch/svn/root/tags/v%svnTag/roofit?scheme=http&module=roofit&output=/roofit.tgz
 Source1: svn://root.cern.ch/svn/root/tags/v%svnTag/tutorials/?scheme=http&module=tutorials&output=/rootutorials.tgz
@@ -7,12 +7,13 @@ Source2: roofit-5.28.00-build.sh
 Patch: root-5.28-00d-roofit-silence-static-printout
 Patch1: roofit-5.24-00-RooFactoryWSTool-include
 Patch2: roofit-5.30.00-remove-tmath-infinity
+Patch3: roofit-5.30.00-fix-gcc47-cxx11
 
 Requires: root 
 
 
 %if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x
+%define cms_cxxflags -std=c++11
 %endif
 
 %prep
@@ -20,6 +21,7 @@ Requires: root
 %patch -p2
 %patch1 -p1
 %patch2 -p2
+%patch3 -p2
 %setup -D -T -b 1 -n tutorials
  
 %build
