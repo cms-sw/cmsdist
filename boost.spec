@@ -15,6 +15,7 @@ Patch0: boost-1.47.0-fix-strict-overflow
 Patch1: boost-1.47.0-fix-unused
 Patch2: boost-1.49.0-explicit_stored_group
 Patch3: boost-1.49.0-lexical_cast_gnu_extension
+Patch4: boost-1.49.0-fix-warnings
 
 %prep
 %setup -n %{n}%{boostver}
@@ -22,6 +23,7 @@ Patch3: boost-1.49.0-lexical_cast_gnu_extension
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 perl -p -i -e 's/-no-cpp-precomp//' tools/build/v2/tools/darwin.jam \
                                     tools/build/v2/tools/darwin.py
