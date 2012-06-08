@@ -24,8 +24,10 @@ Patch0: geant4.9.5.p01-no-banner
 
 %build
 
+SOEXT=so
 if [ $(uname) = Darwin ]; then
   export MACOSX_DEPLOYMENT_TARGET="10.4"
+  SOEXT=dylib
 fi
 
 mkdir ../build
@@ -40,7 +42,7 @@ cmake ../%n.%v \
   -DGEANT4_USE_SYSTEM_CLHEP=ON \
   -DCLHEP_ROOT_DIR:PATH="$CLHEP_ROOT" \
   -DEXPAT_INCLUDE_DIR:PATH="$EXPAT_ROOT/include" \
-  -DEXPAT_LIBRARY:PATH="$EXPAT_ROOT/lib/libexpat.so" \
+  -DEXPAT_LIBRARY:PATH="$EXPAT_ROOT/lib/libexpat.$SOEXT" \
 
 make %makeprocesses VERBOSE=1
 
@@ -50,5 +52,5 @@ cd ../build
 make install
 
 # Move headers from ../include/Geant4 to ../include
-mv %i/include/Geant4/* %i/include
+tar -C %i/include/Geant4 -cf - . | tar -C %i/include -xf -
 rm -rf %i/include/Geant4
