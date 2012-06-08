@@ -115,6 +115,8 @@ Requires: igprof-toolfile
 %endif
 
 %if "%isslc6" == "true"
+Requires: nspr-toolfile
+Requires: nss-toolfile
 Requires: cyrus-sasl-toolfile
 %endif
 
