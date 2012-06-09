@@ -33,5 +33,9 @@ make install
 rm -f ../tools/clang/tools/scan-build/set-xcode*
 find ../tools/clang/tools/scan-build -exec install {} %i/bin \;
 find ../tools/clang/tools/scan-view -type f -exec install {} %i/bin \;
+# Remove compiled AppleScript scripts, otherwise install_name_tool from
+# DEFAULT_INSTALL_POSTAMBLE will fail. These are non-object files.
+# TODO: Improve DEFAULT_INSTALL_POSTAMBLE for OS X.
+rm  %i/bin/FileRadar.scpt %i/bin/GetRadarVersion.scpt
 # Fix up a perl path
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/bin/llvm-config
