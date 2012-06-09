@@ -1,6 +1,7 @@
 ### RPM external geant4 9.5.p01
 
-Source0: http://geant4.cern.ch/support/source/%n.%v.tar.gz
+%define downloadv %(echo %v | cut -d- -f1)
+Source0: http://geant4.cern.ch/support/source/%n.%downloadv.tar.gz
 
 BuildRequires: cmake
 
@@ -18,7 +19,7 @@ Patch0: geant4.9.5.p01-no-banner
 %endif
 
 %prep
-%setup -n %n.%v
+%setup -n %n.%downloadv
 
 %patch0 -p1 
 
@@ -33,7 +34,7 @@ fi
 mkdir ../build
 cd ../build
 
-cmake ../%n.%v \
+cmake ../%n.%downloadv \
   -DCMAKE_CXX_COMPILER="%cms_cxx" \
   -DCMAKE_CXX_FLAGS="%cms_cxxflags" \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
