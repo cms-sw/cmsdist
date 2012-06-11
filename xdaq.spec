@@ -15,6 +15,7 @@ Patch4: xdaq-VR17173-gcc46
 Patch6: xdaq-VR17173-xalan-remove-hardcoded-lib-paths-linux-macosx
 Patch7: xdaq-VR17173-remove-stropts
 Patch8: xdaq-VR17173-fix-gcc47-cxx11
+Patch9: xdaq-VR17173-drop-cgicc-docs
 
 Provides: /bin/awk
 # This is needed on macosx because this is the install_name for the .so
@@ -41,14 +42,8 @@ Provides: libasyncresolv.0
 #patch5 -p0
 %patch6 -p0
 %patch7 -p1
-
-# Apply C++11 / gcc 4.7.x fixes only if using a 47x architecture.
-# See http://gcc.gnu.org/gcc-4.7/porting_to.html
-case %cmsplatf in
-  *gcc4[789]*)
 %patch8 -p1
-  ;;
-esac
+%patch9 -p2
 
 %build
 # Xdaq does not provide makeinstall,  it uses "simplify" script instead to 
