@@ -18,8 +18,9 @@
 # 1.342 is 1.4.1 # DAS source comes from github
 # 1.348 is 1.4.1b # patched release
 # 1.349 is 1.4.2 # patched release
+# 1.350 is 1.5.0.pre1
 HG1205d das @slc5_amd64_gcc461
-+ 1.349 das.spec
++ 1.350 das.spec
 
 # FileMover
 # 1.30 is 1.0.9
