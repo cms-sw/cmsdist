@@ -4,9 +4,10 @@ Source0: svn://root.cern.ch/svn/root/tags/v%svnTag/roofit?scheme=http&module=roo
 Source1: svn://root.cern.ch/svn/root/tags/v%svnTag/tutorials/?scheme=http&module=tutorials&output=/rootutorials.tgz
 Source2: roofit-5.28.00-build.sh
 
-Patch: root-5.28-00d-roofit-silence-static-printout
+Patch0: root-5.28-00d-roofit-silence-static-printout
 Patch1: roofit-5.24-00-RooFactoryWSTool-include
 Patch2: roofit-5.30.00-remove-tmath-infinity
+Patch3: roofit-5.34.00-rev-44631
 
 Requires: root 
 
@@ -17,9 +18,10 @@ Requires: root
 
 %prep
 %setup -b0 -n roofit
-%patch -p2
+%patch0 -p2
 %patch1 -p1
 %patch2 -p2
+%patch3 -p2
 %setup -D -T -b 1 -n tutorials
  
 %build
