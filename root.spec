@@ -25,6 +25,7 @@ Patch9: root-5.32.00-noungif
 Patch10: root-5.32.00-fix-cxx11
 Patch11: root-5.32.00-gcc-470-literals-whitespace
 Patch12: root-5.32.00-TTree-fix
+Patch13: root-5.32.00-44642
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -69,6 +70,7 @@ case %cmsplatf in
   ;;
 esac
 %patch12 -p0
+%patch13 -p0
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
