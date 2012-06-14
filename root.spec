@@ -25,7 +25,7 @@ Patch9: root-5.32.00-noungif
 Patch10: root-5.32.00-fix-cxx11
 Patch11: root-5.32.00-gcc-470-literals-whitespace
 Patch12: root-5.32.00-TTree-fix
-Patch13: root-5.32.00-44642
+Patch13: root-5.32.00-r44642
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
