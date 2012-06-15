@@ -21,6 +21,7 @@ Requires: root
 %patch -p2
 %patch1 -p1
 %patch2 -p2
+%patch3 -p1
 %setup -D -T -b 1 -n tutorials
  
 %build
