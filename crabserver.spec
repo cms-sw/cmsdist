@@ -22,7 +22,7 @@ Patch0: crabserver3-setup
 %setup -D -T -b 2 -n CRABServer
 #%setup -D -T -b 1 -n WMCore
 %setup -T -b 1 -n lat-WMCore-f2fccdc
-%setup -T -b 0 -n ticoann*
+%setup -T -b 0 -n ticoann-WMCore-5dca689
 #%setup -T -b 0 -n lat-WMCore-f2fccdc
 %patch0 -p0
 
