@@ -1,16 +1,16 @@
-### RPM cms crabserver 3.1.0
+### RPM cms crabserver 3.1.1pre1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 #
 
-%define gitversion github.0.0.1pre10
+%define gitversion github.0.0.1pre25
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define wmcver 0.8.28
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 #Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_ci.tar.gz
-Source0: https://github.com/ticoann/WMCore/tarball/v0.0.1pre10?output=/%n-%gitversion.tgz
+Source0: https://github.com/ticoann/WMCore/tarball/v0.0.1pre25?output=/%n-%gitversion.tgz
 Source1: https://github.com/lat/WMCore/zipball/f2fccdc7727e1a4acfdaf4df648e67ee184e0911#/wmcore_sitedb.zip
 Source2: %svnserver/CRABServer/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=CRABServer&output=/CRABInterface.tar.gz
 #Source1: %svnserver/CRABServer/trunk?scheme=svn+ssh&strategy=export&module=CRABServer&output=/CRABInterface.tar.gz
@@ -22,7 +22,7 @@ Patch0: crabserver3-setup
 %setup -D -T -b 2 -n CRABServer
 #%setup -D -T -b 1 -n WMCore
 %setup -T -b 1 -n lat-WMCore-f2fccdc
-%setup -T -b 0 -n ticoann-WMCore-20fda27
+%setup -T -b 0 -n ticoann*
 #%setup -T -b 0 -n lat-WMCore-f2fccdc
 %patch0 -p0
 
