@@ -12,8 +12,8 @@ Requires: py2-numpy py2-scipy pyminuit2 py2-matplotlib
 ./setup.py install
 mkdir %i/bin
 cp bin/* %i/bin
-mkdir -p %i/lib/python2.6/site-packages
-cp -r build/lib/professor %i/lib/python2.6/site-packages 
+mkdir -p %i/lib/python2.7/site-packages
+cp -r build/lib/professor %i/lib/python2.7/site-packages 
 
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
