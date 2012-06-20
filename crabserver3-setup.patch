@@ -7,7 +7,7 @@
 +                        'packages' : ['WMCore.WMSpec+','WMCore.Services.SiteDB+', 'WMCore.Services.JSONParser+',
 +                                      'WMCore.Services.WorkQueue', 'WMCore.HTTPFrontEnd', 'WMCore.RequestManager+',
 +                                      'WMCore.HTTPFrontEnd.RequestManager', 'WMCore.Services.PhEDEx+', 'WMCore.WMStats',
-+                                      'WMCore.Services.WMStats'],
++                                      'WMCore.Services.WMStats', 'WMCore.Services.Dashboard'],
 +                        'systems': ['wmc-rest', 'wmc-database'],
 +                        'statics': ['src/couchapps/WMStat+'],
 +                        },
