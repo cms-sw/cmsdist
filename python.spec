@@ -17,7 +17,6 @@ Requires: zlib openssl sqlite
 # FIXME: gmp, panel, tk/tcl, x11
 
 Source0: http://www.python.org/ftp/%n/%realversion/Python-%realversion.tgz
-Patch0: python-2.7.3-dont-detect-dbm
 Patch1: python-fix-macosx-relocation
 
 %prep
@@ -27,7 +26,6 @@ find . -type f | while read f; do
     perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" $f
   else :; fi
 done
-%patch0 -p1
 %patch1 -p0
 
 %build
@@ -75,8 +73,10 @@ case %cmsplatf in
     ;;
 esac
 
-./configure --prefix=%i $additionalConfigureOptions --enable-shared \
-            --without-tkinter --disable-tkinter
+# Bugfix for dbm package. Use ndbm.h header and gdbm compatibility layer.
+sed -ibak "s/ndbm_libs = \[\]/ndbm_libs = ['gdbm', 'gdbm_compat']/" setup.py
+
+./configure --prefix=%i $additionalConfigureOptions --enable-shared
 
 # Modify pyconfig.h to match macros from GLIBC features.h on Linux machines.
 # _POSIX_C_SOURCE and _XOPEN_SOURCE macros are not identical anymore
@@ -192,5 +192,5 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
 done
 
 %post
-%{relocateConfig}lib/python2.6/config/Makefile
+%{relocateConfig}lib/python2.7/config/Makefile
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
