@@ -31,6 +31,8 @@ Provides: perl(URI::Escape)
 %setup -n DMWMMON
 
 %build
+mv %_builddir/DMWMMON/PhEDExWeb/DataService/static/{phedex,dmwmmon}_pod.css
+
 %install
 mkdir -p %i/etc/{env,profile}.d
 tar -cf - * | (cd %i && tar -xf -)
