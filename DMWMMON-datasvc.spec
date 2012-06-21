@@ -1,4 +1,4 @@
-### RPM cms DMWMMON-datasvc 0.0.5
+### RPM cms DMWMMON-datasvc 0.0.6
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define downloadm PHEDEX
