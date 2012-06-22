@@ -220,14 +220,6 @@ case %cmsplatf in
   ;;
 esac
 
-# More customizations when using gcc 4.7.x
-# See: https://hypernews.cern.ch/HyperNews/CMS/get/edmFramework/2955.html
-case %cmsplatf in
-  *_gcc4[789]*)
-    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fno-math-errno --param vect-max-version-for-alias-checks=50 -fipa-pta"
-  ;;
-esac
-
 export COMPILER_CXXFLAGS
 
 # Handle here platform specific overrides. In case we

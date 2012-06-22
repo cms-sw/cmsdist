@@ -2,12 +2,14 @@
 ## INITENV +PATH PYTHONPATH %i/lib/python$(echo $PYTHON_VERSION | cut -d. -f 1,2)/site-packages
 %define downloadn scipy
 Source: http://switch.dl.sourceforge.net/sourceforge/%downloadn/%downloadn-%{realversion}.tar.gz
+Patch0: py2-scipy-0.8.0-fix-python27-build-rev-6645
 Requires: python
 Requires: py2-numpy
 #Requires: atlas
-Requires: lapack 
+Requires: lapack
 %prep
 %setup -n %downloadn-%{realversion}
+%patch0 -p1
 
 cat > site.cfg <<EOF
 [blas]
