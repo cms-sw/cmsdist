@@ -13,3 +13,4 @@ Requires: python
 %install
 mkdir -p %i/bin
 cp %SOURCE0 %i/bin
+chmod 0755 %i/bin/das_client.py
