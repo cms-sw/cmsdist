@@ -1,4 +1,4 @@
-### RPM cms gcc-toolfile 11.0
+### RPM cms gcc-toolfile 12.0
 
 # gcc has a separate spec file for the generating a 
 # toolfile because gcc.spec could be not build because of the 
@@ -52,89 +52,65 @@ export COMPILER_VERSION_MINOR=`echo %cmsplatf | sed -e 's|.*gcc[0-9]\([0-9]\).*|
 # *** USE @VARIABLE@ plus associated environment variable to customize. ***
 # DO NOT DUPLICATE the toolfile template.
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/cxxcompiler.xml
-  <tool name="cxxcompiler" version="@GCC_VERSION@" type="compiler">
+cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-cxxcompiler.xml
+  <tool name="gcc-cxxcompiler" version="@GCC_VERSION@" type="compiler">
     <client>
-      <environment name="CXXCOMPILER_BASE" default="@GCC_ROOT@"/>
-      <environment name="GCCBINDIR" default="$CXXCOMPILER_BASE/bin"/>
-      <environment name="CXX" value="$GCCBINDIR/c++@COMPILER_NAME_SUFFIX@"/>
+      <environment name="GCC_CXXCOMPILER_BASE" default="@GCC_ROOT@"/>
+      <environment name="CXX" value="$GCC_CXXCOMPILER_BASE/bin/c++@COMPILER_NAME_SUFFIX@"/>
     </client>
-    <flags SCRAM_COMPILER_NAME="gcc@COMPILER_VERSION@"/>
-    <flags CCCOMPILER="gcc@COMPILER_VERSION_MAJOR@"/>
-    <flags MODULEFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@"/>
-    <flags CXXDEBUGFLAG="-g"/>
-    <flags CPPDEFINES="GNU_GCC"/>
-    <flags CPPDEFINES="_GNU_SOURCE"/>
-    <flags CXXSHAREDOBJECTFLAGS="-fPIC"/>
-    <flags CXXFLAGS="-O2 -pedantic -ansi -pthread -pipe -Wno-vla"/>
-    <flags CXXFLAGS="@ARCH_CXXFLAGS@ @COMPILER_CXXFLAGS@"/>
+    <flags CPPDEFINES="GNU_GCC _GNU_SOURCE @OS_CPPDEFINES@ @ARCH_CPPDEFINES@ @COMPILER_CPPDEFINES@"/>
+    <flags CXXSHAREDOBJECTFLAGS="-fPIC @OS_CXXSHAREDOBJECTFLAGS@ @ARCH_CXXSHAREDOBJECTFLAGS@ @COMPILER_CXXSHAREDOBJECTFLAGS@"/>
+    <flags CXXFLAGS="-O2 -pedantic -ansi -pthread -pipe -Wno-vla @OS_CXXFLAGS@ @ARCH_CXXFLAGS@ @COMPILER_CXXFLAGS@"/>
     <flags CXXFLAGS="-felide-constructors -fmessage-length=0 -ftemplate-depth-300"/>
     <flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wreturn-type -Wunused -Wparentheses -Wno-deprecated -Werror=return-type -Werror=missing-braces -Werror=unused-value -Werror=address -Werror=format -Werror=sign-compare -Werror=write-strings -fdiagnostics-show-option"/>
-    <flags LDFLAGS="@OS_LDFLAGS@"/>
-    <flags CXXSHAREDFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@"/>
-    <flags SHAREDSUFFIX="@OS_SHAREDSUFFIX@"/>
-    <flags LD_UNIT="@OS_LD_UNIT@ @ARCH_LD_UNIT@"/>
-    <flags SCRAM_LANGUAGE_TYPE="C++"/>
-    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$CXXCOMPILER_BASE/@ARCH_LIB64DIR@" type="path"/>
-    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$CXXCOMPILER_BASE/lib" type="path"/>
-    <runtime name="PATH" value="$CXXCOMPILER_BASE/bin" type="path"/>
+    <flags LDFLAGS="@OS_LDFLAGS@ @ARCH_LDFLAGS@ @COMPILER_LDFLAGS@"/>
+    <flags CXXSHAREDFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@ @COMPILER_SHAREDFLAGS@"/>
+    <flags LD_UNIT="@OS_LD_UNIT@ @ARCH_LD_UNIT@ @COMPILER_LD_UNIT@"/>
+    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@" type="path"/>
+    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$GCC_CXXCOMPILER_BASE/lib" type="path"/>
+    <runtime name="PATH" value="$GCC_CXXCOMPILER_BASE/bin" type="path"/>
   </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/ccompiler.xml
-  <tool name="ccompiler" version="@GCC_VERSION@" type="compiler">
+cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-ccompiler.xml
+  <tool name="gcc-ccompiler" version="@GCC_VERSION@" type="compiler">
     <client>
-      <environment name="CCOMPILER_BASE" default="@GCC_ROOT@"/>
-      <environment name="GCCBINDIR" value="$CCOMPILER_BASE/bin"/>
-      <environment name="CC" value="$GCCBINDIR/gcc@COMPILER_NAME_SUFFIX@"/>
+      <environment name="GCC_CCOMPILER_BASE" default="@GCC_ROOT@"/>
+      <environment name="CC" value="$GCC_CCOMPILER_BASE/bin/gcc@COMPILER_NAME_SUFFIX@"/>
     </client>
-    <flags CDEBUGFLAG="-g"/>
-    <flags CSHAREDOBJECTFLAGS="-fPIC"/>
-    <flags CFLAGS="-pthread"/>
-    <flags CFLAGS="-O2"/>
-    <flags LDFLAGS="@OS_LDFLAGS@"/>
-    <flags CSHAREDFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@"/>
-    <flags SCRAM_COMPILER_NAME="gcc@COMPILER_VERSION@"/>
-    <flags SCRAM_LANGUAGE_TYPE="C"/>
+    <flags CSHAREDOBJECTFLAGS="-fPIC @OS_CSHAREDOBJECTFLAGS@ @ARCH_CSHAREDOBJECTFLAGS@ @COMPILER_CSHAREDOBJECTFLAGS@"/>
+    <flags CFLAGS="-O2 -pthread @OS_CFLAGS@ @ARCH_CFLAGS@ @COMPILER_CFLAGS@"/>
   </tool>
 EOF_TOOLFILE
 
 # Notice that on OSX we have a LIBDIR defined for f77compiler because gcc C++
 # compiler (which comes from the system) does not know about where to find
 # libgfortran. 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/f77compiler.xml
-  <tool name="f77compiler" version="@GCC_VERSION@" type="compiler">
+cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-f77compiler.xml
+  <tool name="gcc-f77compiler" version="@GCC_VERSION@" type="compiler">
     <lib name="gfortran"/>
     <lib name="m"/>
     <client>
-      <environment name="F77COMPILER_BASE" default="@G77_ROOT@"/>
-      <environment name="FC" default="$F77COMPILER_BASE/bin/gfortran"/>
+      <environment name="GCC_F77COMPILER_BASE" default="@G77_ROOT@"/>
+      <environment name="FC" default="$GCC_F77COMPILER_BASE/bin/gfortran"/>
       @ARCH_FORTRAN_LIBDIR@
     </client>
-    <flags SCRAM_COMPILER_NAME="gcc@COMPILER_VERSION@"/>
-    <flags FFLAGS="-fno-second-underscore -Wunused -Wuninitialized -O2 @ARCH_FFLAGS@"/>
-    <flags FCO2FLAG="-O2"/>
-    <flags FCOPTIMISED="-O2"/>
-    <flags FCDEBUGFLAG="-g"/>
-    <flags FCSHAREDOBJECTFLAGS="-fPIC"/>
-    <flags SCRAM_LANGUAGE_TYPE="FORTRAN"/>
+    <flags FFLAGS="-fno-second-underscore -Wunused -Wuninitialized -O2 @OS_FFLAGS@ @ARCH_FFLAGS@ @COMPILER_FFLAGS@"/>
+    <flags FOPTIMISEDFLAGS="-O2 @OS_FOPTIMISEDFLAGS@ @ARCH_FOPTIMISEDFLAGS@ @COMPILER_FOPTIMISEDFLAGS@"/>
+    <flags FSHAREDOBJECTFLAGS="-fPIC @OS_FSHAREDOBJECTFLAGS@ @ARCH_FSHAREDOBJECTFLAGS@ @COMPILER_FSHAREDOBJECTFLAGS@"/>
   </tool>
 EOF_TOOLFILE
 
 # NON-empty defaults
-export COMPILER_EXEC_NAME="c++"
-
 # First of all handle OS specific options.
 case %cmsplatf in
   slc* )
     export OS_SHAREDFLAGS="-shared -Wl,-E"
-    export OS_SHAREDSUFFIX="so"
     export OS_LDFLAGS="-Wl,-E -Wl,--hash-style=gnu"
     export OS_RUNTIME_LDPATH_NAME="LD_LIBRARY_PATH"
   ;;
   osx* )
     export OS_SHAREDFLAGS="-shared -dynamic -single_module"
-    export OS_SHAREDSUFFIX="dylib"
     export OS_LDFLAGS="-Wl,-commons -Wl,use_dylibs"
     export OS_RUNTIME_LDPATH_NAME="DYLD_LIBRARY_PATH"
   ;;
@@ -147,7 +123,7 @@ case %cmsplatf in
     export ARCH_CXXFLAGS="-arch x86_64"
     export ARCH_SHAREDFLAGS="-arch x86_64"
     export ARCH_LIB64DIR="lib"
-    export ARCH_FORTRAN_LIBDIR='<environment name="LIBDIR" default="$F77COMPILER_BASE/lib/gcc/i686-apple-darwin10/4.2.1/x86_64"/>'
+    export ARCH_FORTRAN_LIBDIR='<environment name="LIBDIR" default="$GCC_F77COMPILER_BASE/lib/gcc/i686-apple-darwin10/4.2.1/x86_64"/>'
   ;;
   osx*)
     export ARCH_CXXFLAGS="-arch x86_64"
@@ -170,8 +146,6 @@ esac
 # Then handle compiler specific options. E.g. enable
 # optimizations as they become available in gcc.
 COMPILER_CXXFLAGS=
-# The following is the default even if not set here
-F77_MMD="-MMD"
 
 # Set the following for all gcc < 4.6. gcc46 claims it is no longer needed
 # This is perhaps the case also for the earlier versions, but leave it
@@ -196,10 +170,8 @@ esac
 case %cmsplatf in
    *_gcc4[56789]* )
      COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++0x -msse3 -ftree-vectorize -Wno-strict-overflow"
-     F77_MMD="-cpp -MMD"
    ;;
 esac
-export F77_MMD
 
 case %cmsplatf in
    *_gcc4[3456789]* )
