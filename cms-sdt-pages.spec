@@ -1,4 +1,4 @@
-### RPM cms-sdt-pages 1.0
+### RPM cms cms-sdt-pages 1.0
 ## NOCOMPILER
 
 %prep
