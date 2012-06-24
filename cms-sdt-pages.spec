@@ -4,4 +4,4 @@
 %prep
 %build
 %install
-echo "<html><H1>Hello world!</h1></html>" > %cmsroot/WEB/index.html
+echo "<html><H1>CMS SDT web pages</h1></html>" > %cmsroot/WEB/index.html
