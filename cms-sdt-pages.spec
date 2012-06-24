@@ -4,4 +4,4 @@
 %prep
 %build
 %install
-echo "<H1>Hello world!</h1>" > %cmsroot/WEB/index.html
+echo "<html><H1>Hello world!</h1></html>" > %cmsroot/WEB/index.html
