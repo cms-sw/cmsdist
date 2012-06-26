@@ -1,6 +1,5 @@
-### RPM external p5-xml-parser 2.36
+### RPM external p5-xml-parser 2.34-CMS19
 ## INITENV +PATH PERL5LIB %i/lib/site_perl/%perlversion
-
 %define perl /usr/bin/env perl
 %if "%(echo %cmsplatf | cut -f1 -d_ | sed -e 's|\([A-Za-z]*\)[0-9]*|\1|')" == "osx" 
 %define perl /usr/bin/perl
@@ -37,6 +36,39 @@ cd ../%{downloadn}-%{realversion}
                  EXPATLIBPATH=%_builddir/tmp/lib \
                  EXPATINCPATH=%_builddir/tmp/include
 make
-make install
+
+# If we are building on a machine which has a system compiler which 
+# can produce 64 bit binaries, than we also compile a 64 bit version
+# of the module, so that scram can work also on 64bit platforms disguised
+# as 32 bit via linux32.
+case %{cmsos} in
+    slc4_ia32)
+        if ldd /usr/bin/gcc | grep -q /lib64/
+        then
+            make install
+            mv %i/lib/site_perl/%perlversion/x86_64-linux-thread-multi  %i/lib/site_perl/%perlversion/i386-linux-thread-multi
+            make clean
+
+            export PATH=/usr/bin/:$PATH
+            export GCC_EXEC_PREFIX=/usr/lib/gcc/
+            cd ../expat-%expatversion
+            CXX="/usr/bin/c++ -fPIC" CC="/usr/bin/gcc -fPIC" setarch x86_64 ./configure --prefix=%_builddir/tmp --bindir=%_builddir/tmp/bin/64 --libdir=%_builddir/tmp/lib64 --disable-shared --enable-static
+            echo "Building 64bit version"
+            setarch x86_64 make clean
+            setarch x86_64 make
+            setarch x86_64 make install
+            cd ../%{downloadn}-%{realversion}
+            %perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion \
+                             EXPATLIBPATH=%_builddir/tmp/lib64 \
+                             EXPATINCPATH=%_builddir/tmp/include
+            make
+            make install
+        else
+            make install
+        fi;;
+    *)
+        make install
+    ;;
+esac
 
 %install
