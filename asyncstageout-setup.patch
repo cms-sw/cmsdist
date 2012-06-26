@@ -5,7 +5,7 @@
                          },
                  'asyncstageout':{
 -                        'packages': ['WMCore.Agent+', 'WMCore.Storage+',
-+                        'packages': ['WMCore.Agent+', 'WMCore.Storage+','WMComponent.DBSUpload'
++                        'packages': ['WMCore.Agent+', 'WMCore.Storage+','WMComponent.DBSUpload',
                                      'WMCore.Credential', 'WMCore.WorkerThreads',
 -                                    'WMCore.Services.PhEDEx+', 'WMCore.ACDC', 'WMCore.Alerts+'],
 -                        'modules': ['WMQuality.TestInitCouchApp'],
