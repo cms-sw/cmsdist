@@ -16,4 +16,4 @@ make %makeprocesses
 make install
 
 %post
-%{relocateConfig}lib/python2.7/site-packages/sipconfig.py
+%{relocateConfig}lib/python2.6/site-packages/sipconfig.py
