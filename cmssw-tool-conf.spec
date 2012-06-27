@@ -106,6 +106,7 @@ Requires: py2-ipython-toolfile
 Requires: xz-toolfile
 Requires: protobuf-toolfile
 Requires: llvm-gcc-toolfile
+Requires: py2-lint-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
