@@ -1,8 +1,10 @@
 ### RPM external fftw3 3.2.2
 Source: http://www.fftw.org/fftw-%realversion.tar.gz
+Patch0: fftw-3.2.2-remove-march-mtune-flags
 
 %prep
 %setup -n fftw-%realversion
+%patch0 -p1
 
 %build
 # This matches the configure options used to build FFTW3.1.2 for SL5
