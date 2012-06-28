@@ -13,7 +13,6 @@ make
 make install
 
 %install
-%define drop_files %i/man
 
 %post
 find $RPM_INSTALL_PREFIX/%{pkgrel}/lib* -name "*.la" -exec perl -p -i -e "s|%{instroot}|$CMS_INSTALL_PREFIX|g" {} \;
