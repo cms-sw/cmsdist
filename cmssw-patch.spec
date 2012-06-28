@@ -1,24 +1,12 @@
-### RPM cms cmssw-patch CMSSW_3_6_3_SLHC3_patch1
-## IMPORT configurations 
-
+### RPM cms cmssw-patch CMSSW_4_2_8_SLHChcal4_patch3
 Requires: cmssw-patch-tool-conf 
 
-%define cvsprojuc       %(echo %n | sed -e "s|-patch.*||"| tr 'a-z' 'A-Z')
-%define cvsprojlc       %(echo %cvsprojuc | tr 'A-Z' 'a-z')
-%define cvsdir          %cvsprojuc
-%define cvssrc          %cvsprojuc
-%define cvsserver       cmssw
-%define cvsrep		cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/%cvsdir?passwd=AA_:yZZ3e
-# %define cvsrepo		cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/%cvsdir?passwd=AA_:yZZ3e
-%define useCmsTC        1
-
-%define ucprojname      %cvsprojuc
-
-%define prebuildtarget  gindices
-%define buildtarget     release-build
+%define runGlimpse      yes
+%define useCmsTC        yes
 %define saveDeps        yes
 
-%define isPatch         yes
+#Set it to -cmsX added by cmsBuild (if any) to the base release
+%define baserel_postfix %{nil}
 
-## IMPORT cms-scram-build
-## IMPORT scramv1-patch-build
+## IMPORT cmssw-patch-build
+## IMPORT scram-project-build
