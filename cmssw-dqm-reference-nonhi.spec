@@ -1,3 +1,3 @@
-### RPM cms cmssw-dqm-reference-nonhi CMSSW_5_3_2
+### RPM cms cmssw-dqm-reference-nonhi CMSSW_6_0_0_pre4
 %define WFFilter grep -v '+HARVESTHI'
 ## IMPORT cmssw-dqm-reference
