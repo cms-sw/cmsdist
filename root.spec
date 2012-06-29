@@ -1,4 +1,4 @@
-### RPM lcg root 5.34.00
+### RPM lcg root 5.32.00
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i  
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
@@ -15,14 +15,19 @@ Source: svn://root.cern.ch/svn/root/tags/v%{svntag}/?scheme=http&strategy=export
 %define cms_cxxflags -std=c++0x
 %endif
 
-Patch0: root-5.34.00-externals
+Patch0: root-5.32-00-externals
 Patch1: root-5.28-00d-roofit-silence-static-printout
-Patch2: root-5.34.00-linker-gnu-hash-style
+Patch2: root-5.32-00-linker-gnu-hash-style
 Patch3: root-5.32.00-detect-arch
 Patch4: root-5.30.02-fix-gcc46
 Patch5: root-5.30.02-fix-isnan-again
-Patch6: root-5.34.00-rev-44641
-Patch7: root-5.34.00-rev-44679
+# See https://hypernews.cern.ch/HyperNews/CMS/get/edmFramework/2913/1/1.html
+Patch6: root-5.32.00-fix-oneline
+Patch7: root-5.32.00-longBranchName
+Patch8: root-5.32.00-fireworks1
+Patch9: root-5.32.00-noungif
+Patch10: root-5.30.00-fix-gcc47-cxx11
+Patch11: root-5.32.00-TTree-fix
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -53,7 +58,19 @@ Requires: freetype
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
+%patch7 -p2
+%patch8 -p1
+%patch9 -p1
+
+
+# Apply C++11 / gcc 4.7.x fixes only if using a 47x architecture.
+# See http://gcc.gnu.org/gcc-4.7/porting_to.html
+case %cmsplatf in
+  *gcc4[789]*)
+%patch10 -p1
+  ;;
+esac
+%patch11 -p0
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
