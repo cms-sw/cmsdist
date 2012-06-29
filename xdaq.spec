@@ -4,7 +4,7 @@ Requires: zlib mimetic xerces-c uuid sqlite
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
 %define svntrunk  %(echo %v | sed 's|^VR||')
-Source: svn://svn.cern.ch/reps/cmsos/releases/baseline11/trunk/?scheme=https&revision=%svntrunk&strategy=export&module=xdaq&output=/xdaq.tar.gz
+Source: svn://svnweb.cern.ch/guest/cmsos/releases/baseline11/trunk/?scheme=http&revision=%svntrunk&strategy=export&module=xdaq&output=/xdaq.tar.gz
 
 Patch0: xdaq_VR16993_build
 Patch1: xdaq_mfDefs_flags
