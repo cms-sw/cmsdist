@@ -1,9 +1,10 @@
-### RPM cms PHEDEX-datasvc 2.3.11pre4
+### RPM cms DMWMMON-datasvc 0.0.8
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
-%define cvsversion DATASVC_%(echo %realversion | tr . _)
+%define downloadm PHEDEX
+%define cvsversion DMWMMON_%(echo %realversion | tr . _)
 %define cvsserver cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e
-Source: %cvsserver&strategy=export&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
+Source: %cvsserver&strategy=export&module=%{downloadm}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
 
 # For DB Access
 Requires: oracle oracle-env p5-dbi p5-dbd-oracle
@@ -27,13 +28,14 @@ Provides: perl(XML::LibXML)
 Provides: perl(URI::Escape)
 
 %prep
-%setup -n PHEDEX
+%setup -n DMWMMON
 
 %build
+mv %_builddir/DMWMMON/PhEDExWeb/DataService/static/{phedex,dmwmmon}_pod.css
+
 %install
 mkdir -p %i/etc/{env,profile}.d
 tar -cf - * | (cd %i && tar -xf -)
-#rm -r %i/PhEDExWeb/DataService/conf
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 ln -sf ../profile.d/init.sh %i/etc/env.d/11-datasvc.sh
