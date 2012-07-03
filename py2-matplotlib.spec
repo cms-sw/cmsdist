@@ -31,6 +31,11 @@ python setup.py build
 %install
 python -c 'import numpy'
 PATH=$PWD/no-pkg-config:$PATH \
+# Notice that the install procedure will try to write in $HOME/.matplotlib by
+# default!!! This should work around the problem and have it write config
+# in a scratch area.
+export MPLCONFIGDIR=$PWD/no-pkg-config
+
 python setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
