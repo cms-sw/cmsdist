@@ -25,6 +25,7 @@ mkdir no-pkg-config
 chmod +x no-pkg-config/pkg-config
 
 %build
+export MPLCONFIGDIR=$PWD/no-pkg-config
 PATH=$PWD/no-pkg-config:$PATH \
 python setup.py build 
 
