@@ -93,8 +93,8 @@ HG1207b crab-client3 @slc5_amd64_gcc461
 + 1.6 crabclient3-setup.patch
 
 #asyncstageout
-HG1207b asyncstageout @slc5_amd64_gcc461
-+ 1.37/0.1.1pre3 asyncstageout.spec
+HG1204g asyncstageout @slc5_amd64_gcc461
++ 1.38/0.1.1pre4 asyncstageout.spec
 + 1.7 asyncstageout-setup.patch
 
 # CMS Ops Monitoring services
