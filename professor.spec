@@ -9,6 +9,7 @@ Requires: py2-numpy py2-scipy pyminuit2 py2-matplotlib
 %build
 
 %install
+export MPLCONFIGDIR=$PWD
 ./setup.py install
 mkdir %i/bin
 cp bin/* %i/bin
