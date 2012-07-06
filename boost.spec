@@ -1,4 +1,4 @@
-### RPM external boost 1.49.0
+### RPM external boost 1.50.0
 %define boostver _%(echo %realversion | tr . _)
 Source: http://switch.dl.sourceforge.net/project/%{n}/%{n}/%{v}/%{n}%{boostver}.tar.gz
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
@@ -14,16 +14,12 @@ Requires: zlib
 Patch0: boost-1.47.0-fix-strict-overflow
 Patch1: boost-1.47.0-fix-unused
 Patch2: boost-1.49.0-explicit_stored_group
-Patch3: boost-1.49.0-lexical_cast_gnu_extension
-Patch4: boost-1.49.0-fix-warnings
 
 %prep
 %setup -n %{n}%{boostver}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 perl -p -i -e 's/-no-cpp-precomp//' tools/build/v2/tools/darwin.jam \
                                     tools/build/v2/tools/darwin.py
