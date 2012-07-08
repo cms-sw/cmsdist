@@ -4,7 +4,6 @@
 # tool is added
 
 %define isslc %(case %cmsos in (slc*) echo true;; (*) echo false;; esac)
-%define is64bit %(case %cmsos in (slc*_amd64) echo true;; (*) echo false;; esac)
 
 #Requires: alpgen-toolfile                  # not used online
 Requires: boost-toolfile
@@ -100,6 +99,8 @@ Requires: fftjet-toolfile
 #Requires: py2-ipython-toolfile             # not used online
 Requires: xz-toolfile
 #Requires: protobuf-toolfile                # not used online
+#Requires: openldap-toolfile                # not used online
+#Requires: python-ldap-toolfile             # not used online
 Requires: gdb-toolfile
 #Requires: google-perftools-toolfile        # not used online
 Requires: igprof-toolfile
