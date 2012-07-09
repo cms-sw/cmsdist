@@ -85,7 +85,7 @@ HG1207b crabserver @slc5_amd64_gcc461
 + 1.9 crabserver3-setup.patch
 
 HG1207b crabcache @slc5_amd64_gcc461
-+ 1.12/3.1.1pre2 crabcache.spec
++ 1.13/3.1.1pre3 crabcache.spec
 + 1.2 crabcache-setup.patch
 
 HG1207b crab-client3 @slc5_amd64_gcc461
