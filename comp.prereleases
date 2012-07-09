@@ -89,7 +89,7 @@ HG1207b crabcache @slc5_amd64_gcc461
 + 1.2 crabcache-setup.patch
 
 HG1207b crab-client3 @slc5_amd64_gcc461
-+ 1.17/3.1.1pre2 crab-client3.spec
++ 1.18/3.1.1pre2 crab-client3.spec
 + 1.6 crabclient3-setup.patch
 
 #asyncstageout
