@@ -81,7 +81,7 @@ HG1206a dbs3-combined @slc5_amd64_gcc461
 
 # Crab
 HG1207b crabserver @slc5_amd64_gcc461
-+ 1.13/3.1.1pre3 crabserver.spec
++ 1.14/3.1.1pre3 crabserver.spec
 + 1.9 crabserver3-setup.patch
 
 HG1207b crabcache @slc5_amd64_gcc461
