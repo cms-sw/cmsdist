@@ -34,11 +34,16 @@ esac
 case %cmsplatf in
   osx*_*_gcc421) ;;
   osx*)
-    export PATH=/Developer/usr/bin:$PATH
-    export CXX='/Developer/usr/bin/llvm-g++-4.2'
-    export CC='/Developer/usr/bin/llvm-gcc-4.2'
-    export LD='/Developer/usr/bin/llvm-g++-4.2'
-    export LINK='/Developer/usr/bin/llvm-g++-4.2'
+    if [ -d /Applications/Xcode.app/Contents/Developer ]; then
+      CMS_XCODE_ROOT=/Applications/Xcode.app/Contents/Developer
+    else
+      CMS_XCODE_ROOT=/Developer
+    fi
+    export PATH=$CMS_XCODE_ROOT/usr/bin:$PATH
+    export CXX="$CMS_XCODE_ROOT/usr/bin/llvm-g++-4.2"
+    export CC="$CMS_XCODE_ROOT/usr/bin/llvm-gcc-4.2"
+    export LD="$CMS_XCODE_ROOT/usr/bin/llvm-g++-4.2"
+    export LINK="$CMS_XCODE_ROOT/usr/bin/llvm-g++-4.2"
   ;;
 esac
 
