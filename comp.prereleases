@@ -85,7 +85,7 @@ HG1207b crabserver @slc5_amd64_gcc461
 + 1.9 crabserver3-setup.patch
 
 HG1207b crabcache @slc5_amd64_gcc461
-+ 1.13/3.1.1pre3 crabcache.spec
++ 1.14/3.1.1pre3 crabcache.spec
 + 1.2 crabcache-setup.patch
 
 HG1207b crab-client3 @slc5_amd64_gcc461
@@ -94,7 +94,7 @@ HG1207b crab-client3 @slc5_amd64_gcc461
 
 #asyncstageout
 HG1204g asyncstageout @slc5_amd64_gcc461
-+ 1.40/0.1.1pre5 asyncstageout.spec
++ 1.41/0.1.1pre6 asyncstageout.spec
 + 1.7 asyncstageout-setup.patch
 
 # CMS Ops Monitoring services
