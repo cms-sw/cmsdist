@@ -7,9 +7,9 @@
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define wmcver 0.9.0
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
-Source0: https://github.com/lat/WMCore/zipball/f2fccdc7727e1a4acfdaf4df648e67ee184e0911#/wmcore_sitedb-1.zip
+Source2: https://github.com/lat/WMCore/zipball/f2fccdc7727e1a4acfdaf4df648e67ee184e0911#/wmcore_sitedb-1.zip
 Source1: %svnserver/CRABServer/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=CRABServer&output=/CRABCache.tar.gz
-Source2: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_ci.tar.gz
+Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_ci.tar.gz
 
 #Source1: %svnserver/CRABServer/trunk?scheme=svn+ssh&strategy=export&module=CRABServer&output=/CRABCache.tar.gz
 Requires: python cherrypy py2-cjson rotatelogs py2-pycurl py2-httplib2 py2-sqlalchemy py2-cx-oracle
@@ -18,14 +18,15 @@ Patch0: crabcache-setup
 
 %prep
 %setup -D -T -b 1 -n CRABServer
-%setup -T -b 0 -n lat-WMCore-f2fccdc
-%setup -T -b 2 -n WMCore
+%setup -T -b 0 -n WMCore
+%setup -T -b 2 -n lat-WMCore-f2fccdc
 %patch0 -p0
 
 %build
 cd ../WMCore
 cp -r ../lat-WMCore-f2fccdc/src/python/WMCore/REST src/python/WMCore/
 cp -r ../lat-WMCore-f2fccdc/bin/wmc-httpd bin/wmc-httpd
+cp -r ../lat-WMCore-f2fccdc/setup_dependencies.py .
 python setup.py build_system -s crabcache
 cd ../CRABServer
 perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/crabserver/conf.py
