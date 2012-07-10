@@ -3,6 +3,7 @@
 #Source: http://cern.ch/service-spi/external/MCGenerators/distribution/sherpa-%{realversion}-src.tgz
 Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
 Requires: hepmc lhapdf
+BuildRequires: autotools
 Patch0: sherpa-1.4.0-lhapdf
 Patch1: sherpa-1.4.0-fix-gcc47-cxx11
 
