@@ -117,6 +117,8 @@ CONFIG_ARGS="--enable-table
              --disable-hdfs
              --disable-oracle ${EXTRA_CONFIG_ARGS}"
 
+
+
 # Add support for GCC 4.6
 sed -ibak 's/\-std=c++11/-std=c++0x/g' \
   configure \
@@ -164,4 +166,5 @@ cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
 # a """ and it thinks is the shebang.
 rm -f %i/tutorials/pyroot/mrt.py
 
-
+%post
+%{relocateConfig}bin/root-config
