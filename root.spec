@@ -168,3 +168,9 @@ rm -f %i/tutorials/pyroot/mrt.py
 
 %post
 %{relocateConfig}bin/root-config
+%{relocateConfig}include/RConfigOptions.h
+%{relocateConfig}include/compiledata.h
+%{relocateConfig}cint/cint/lib/G__c_ipc.d
+%{relocateConfig}cint/cint/lib/G__c_stdfunc.d
+%{relocateConfig}cint/cint/lib/G__c_posix.d
+%{relocateConfig}lib/python/genreflex/gccxmlpath.py
