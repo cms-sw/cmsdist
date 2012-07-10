@@ -15,6 +15,8 @@ Provides: libpdcap.so()(64bit)
 Provides: libdcap.dylib
 Provides: libpdcap.dylib
 
+BuildRequires: autotools
+
 %prep
 %setup -n dcap
 # THIS PATCH IS COMPLETELY UNTESTED AND HAS THE SOLE PURPOSE OF BUILDING STUFF
@@ -27,14 +29,10 @@ Provides: libpdcap.dylib
 %build
 # Since we are using the checked out code, we need to regenerate the auto-tools
 # crap.
-case %cmsos in
-  osx*) LIBTOOLIZE=glibtoolize ;;
-  slc*) LIBTOOLIZE=libtoolize ;;
-esac
 mkdir -p config
 aclocal -I config
 autoheader
-$LIBTOOLIZE --automake
+libtoolize --automake
 automake --add-missing --copy --foreign
 autoconf
 ./configure --prefix %i
