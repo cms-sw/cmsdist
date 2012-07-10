@@ -13,25 +13,25 @@ Source2: http://ftpmirror.gnu.org/libtool/libtool-%libtool_version.tar.gz
 %setup -D -T -b 2 -n libtool-%{libtool_version}
 
 %build
-pushd %_sourcedir/autoconf-%{autoconf_version}
+pushd %_builddir/autoconf-%{autoconf_version}
   ./configure --disable-dependency-tracking --prefix %i
   make %makeprocesses
 popd
-pushd %_sourcedir/automake-%{automake_version}
+pushd %_builddir/automake-%{automake_version}
   ./configure --disable-dependency-tracking --prefix %i
   make %makeprocesses
 popd
-pushd %_sourcedir/libtool-%{libtool_version} 
+pushd %_builddir/libtool-%{libtool_version} 
   ./configure --disable-dependency-tracking --prefix %i --enable-ltdl-install
   make %makeprocesses
 popd
 %install
-pushd %_sourcedir/%_sourcedir/autoconf-%{autoconf_version}
+pushd %_builddir/autoconf-%{autoconf_version}
   make install
 popd
-pushd %_sourcedir/automake-%{automake_version}
+pushd %_builddir/automake-%{automake_version}
   make install
 popd
-pushd %_sourcedir/libtool-%{libtool_version} 
+pushd %_builddir/libtool-%{libtool_version} 
   make install
 popd
