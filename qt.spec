@@ -34,10 +34,8 @@ esac
 case %cmsplatf in
   osx*_*_gcc421) ;;
   osx*)
-    if [ -d /Applications/Xcode.app/Contents/Developer ]; then
-      CMS_XCODE_ROOT=/Applications/Xcode.app/Contents/Developer
-    else
-      CMS_XCODE_ROOT=/Developer
+    if [ xcode-select -print-path ]; then
+      CMS_XCODE_ROOT="`xcode-select -print-path`"
     fi
     export PATH=$CMS_XCODE_ROOT/usr/bin:$PATH
     export CXX="$CMS_XCODE_ROOT/usr/bin/llvm-g++-4.2"
