@@ -7,10 +7,13 @@ Patch1: lhapdf-5.8.5-gzio
 Patch2: lhapdf-data-5.8.5-gzio
 
 Requires: zlib
+BuildRequires: autotools
+
 %define keep_archives true
 %if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif
+
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx c++
@@ -44,10 +47,7 @@ cd ../../..
 %build
 # We do everything in install because we need to do it twice.
 %install
-# Regenerate the configure and makefiles since we modified 
-# the Makefile.am to include the gzip stuff.
-LIBTOOLIZE=`which glibtoolize || which libtoolize`
-$LIBTOOLIZE --force --copy
+libtoolize --force --copy
 autoupdate
 aclocal -I m4
 autoconf
