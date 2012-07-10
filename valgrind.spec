@@ -1,4 +1,4 @@
-### RPM external valgrind 3.6.1
+### RPM external valgrind 3.6.0
 ## INITENV SET VALGRIND_LIB %{i}/lib/valgrind
 %define realversion %(echo %v | cut -d- -f1)
 Source: http://www.valgrind.org/downloads/%{n}-%{realversion}.tar.bz2
