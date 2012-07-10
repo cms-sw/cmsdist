@@ -33,9 +33,9 @@ HG1207a das @slc5_amd64_gcc461
 # 1.44 is 1.1.3
 # 1.46 is 1.1.4
 # 1.52 is 1.1.5a # source from github.com/dmwm/FileMover
-# 1.53 is 1.1.6.pre1 # switch to new SiteDB API
+# 1.54 is 1.1.6.pre2 # switch to new SiteDB API
 HG1207a filemover @slc5_amd64_gcc461
-+ 1.53 filemover.spec
++ 1.54 filemover.spec
 
 # CmsTC
 HG1111c-gcc434 CmsTC @slc5_amd64_gcc434
