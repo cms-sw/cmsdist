@@ -107,17 +107,15 @@ CONFIG_ARGS="--enable-table
              --disable-pgsql
              --disable-mysql
              --enable-c++11
-             --with-cxx=$(which g++)
-             --with-cc=$(which gcc)
-             --with-ld=$(which g++)
+             --with-cxx=g++
+             --with-cc=gcc
+             --with-ld=g++
              --disable-qt --disable-qtgsi
 	     --with-cint-maxstruct=36000
 	     --with-cint-maxtypedef=36000
 	     --with-cint-longline=4096
              --disable-hdfs
              --disable-oracle ${EXTRA_CONFIG_ARGS}"
-
-
 
 # Add support for GCC 4.6
 sed -ibak 's/\-std=c++11/-std=c++0x/g' \
