@@ -32,6 +32,7 @@ case %cmsplatf in
     PLATF_CONFIG_OPTS="--enable-static --disable-shared"
   ;;
 esac
+perl -p -i -e 's|glibtoolize|libtoolize|g' ./bootstrap
 ./bootstrap
 ./configure $PLATF_CONFIG_OPTS --prefix=%{i} --with-momentum=GEV --with-length=MM F77="$F77" CXX="$CXX" CXXFLAGS="%cms_cxxflags"
 
