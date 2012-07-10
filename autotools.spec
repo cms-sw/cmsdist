@@ -13,25 +13,34 @@ Source2: http://ftpmirror.gnu.org/libtool/libtool-%libtool_version.tar.gz
 %setup -D -T -b 2 -n libtool-%{libtool_version}
 
 %build
+export PATH=%i/bin:$PATH
 pushd %_builddir/autoconf-%{autoconf_version}
   ./configure --disable-dependency-tracking --prefix %i
-  make %makeprocesses
+  make %makeprocesses && make install
 popd
 pushd %_builddir/automake-%{automake_version}
   ./configure --disable-dependency-tracking --prefix %i
-  make %makeprocesses
+  make %makeprocesses && make install
 popd
 pushd %_builddir/libtool-%{libtool_version} 
   ./configure --disable-dependency-tracking --prefix %i --enable-ltdl-install
-  make %makeprocesses
+  make %makeprocesses && make install
 popd
+
 %install
-pushd %_builddir/autoconf-%{autoconf_version}
-  make install
-popd
-pushd %_builddir/automake-%{automake_version}
-  make install
-popd
-pushd %_builddir/libtool-%{libtool_version} 
-  make install
-popd
+echo "Foo"
+%post
+%{relocateConfig}bin/aclocal
+%{relocateConfig}bin/aclocal-1.11
+%{relocateConfig}bin/autoconf
+%{relocateConfig}bin/autoheader
+%{relocateConfig}bin/autom4te
+%{relocateConfig}bin/automake
+%{relocateConfig}bin/automake-1.11
+%{relocateConfig}bin/autoreconf
+%{relocateConfig}bin/autoscan
+%{relocateConfig}bin/autoupdate
+%{relocateConfig}bin/ifnames
+%{relocateConfig}bin/libtoolize
+%{relocateConfig}share/autoconf/autom4te.cfg
+%{relocateConfig}share/automake-1.11/Automake/Config.pm
