@@ -15,6 +15,8 @@ Patch4: root-5.30.02-fix-gcc46
 Patch5: root-5.30.02-fix-isnan-again
 Patch6: root-5.34.00-rev-44641
 Patch7: root-5.34.00-rev-44679
+Patch8: root-5.34.00-rev-44965
+Patch9: root-5.34.00-rev-44770
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -46,6 +48,8 @@ Requires: freetype
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
+%patch9 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
