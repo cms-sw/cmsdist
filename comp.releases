@@ -32,18 +32,29 @@ HG1204g wmagent-dev @osx106_amd64_gcc461
 + HEAD/0.9.0 wmcore.spec wmagent.spec wmagent-dev.spec
 + 1.35 mysql.spec
 
-HG1201a crab @slc5_amd64_gcc461
-+ HEAD/1201a crab.spec
-+ 1.29/3.0.7d crab-server3.spec
-+ 1.10/3.0.7d crab-client3.spec
-+ 1.30/0.0.6  asyncstageout.spec
+#HG1201a crab @slc5_amd64_gcc461
+#+ HEAD/1201a crab.spec
+#+ 1.29/3.0.7d crab-server3.spec
+#+ 1.10/3.0.7d crab-client3.spec
+#+ 1.30/0.0.6  asyncstageout.spec
 
-#DIE#HG1112a crab-server3 @slc5_amd64_gcc461
-#DIE#+ 1.23/3.0.6a crab-server3.spec
 
-#DIE#HG1112a crab-client3 @slc5_amd64_gcc461
-#DIE#+ 1.4/3.0.6a crab-client3.spec
-#DIE#+ 1.2 crabclient3-setup.patch
+#asyncstageout
+HG1204g asyncstageout @slc5_amd64_gcc461
++ 1.42/0.1.1 asyncstageout.spec
++ 1.7 asyncstageout-setup.patch
+
+HG1207b crabserver @slc5_amd64_gcc461
++ 1.15/3.1.1 crabserver.spec
++ 1.9 crabserver3-setup.patch
+
+#HG1207b crabcache @slc5_amd64_gcc461
+#+ 1.15/3.1.1 crabcache.spec
+#+ 1.2 crabcache-setup.patch
+
+HG1207b crab-client3 @slc5_amd64_gcc461
++ 1.19/3.1.1 crab-client3.spec
++ 1.6 crabclient3-setup.patch
 
 #DIE#HG1112a asyncstageout @slc5_amd64_gcc461
 #DIE#+ 1.27/0.0.5a asyncstageout.spec
