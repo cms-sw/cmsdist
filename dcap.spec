@@ -1,7 +1,7 @@
 ### RPM external dcap 2.47.5.0
 #get dcap from dcache svn repo now...
 Source: http://cmsrep.cern.ch/cmssw/download/dcap/dcap.tgz
-#Source: svn://svn.dcache.org/dCache/tags/dcap-2.47.5-0?scheme=http&module=dcap&output=/dcap.tgz
+#Source: svn://svn.dcache.org/dCache/tags/dcap-%realversion?scheme=http&module=dcap&output=/dcap.tgz
 Patch0: dcap-2.47.5.0-macosx
 Patch1: dcap-2.47.5.0-fork-safety
 
@@ -29,12 +29,14 @@ BuildRequires: autotools
 %build
 # Since we are using the checked out code, we need to regenerate the auto-tools
 # crap.
+# There is also a problem with the way they define library_includedir which I could fix only like this.
+perl -p -i -e 's|library_includedir.*|library_includedir\=\$(includedir)|' src/Makefile.am
 mkdir -p config
 aclocal -I config
 autoheader
 libtoolize --automake
 automake --add-missing --copy --foreign
-autoconf
+autoconf 
 ./configure --prefix %i
 
 # We don't care about the plugins and other stuff and build only the source.
