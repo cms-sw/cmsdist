@@ -41,6 +41,7 @@ Requires: hepmc-toolfile
 Requires: heppdt-toolfile
 Requires: herwig-toolfile
 Requires: herwigpp-toolfile
+Requires: jemalloc-toolfile
 Requires: jimmy-toolfile
 Requires: ktjet-toolfile
 Requires: lhapdf-toolfile
