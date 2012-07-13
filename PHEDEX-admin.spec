@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-admin PHEDEX_4_0_0
+### RPM cms PHEDEX-admin PHEDEX_3_3_2
 
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -19,9 +19,6 @@ Provides: perl(HTML::Entities)
 Provides: perl(DB_File)
 Provides: perl(Date::Manip)
 Provides: perl(XML::LibXML)
-
-# Fake provide of twitter client; needs to be installed manually
-Provides: perl(Net::Twitter::Lite)
 
 %prep
 %setup -n %{downloadn}
