@@ -13,8 +13,10 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/professor.xml
 <environment name="PROFESSOR_BASE" default="@TOOL_ROOT@"/>
 </client>
 <runtime name="PATH" value="$PROFESSOR_BASE/bin" type="path"/>
-<runtime name="PYTHONPATH" value="$PROFESSOR_BASE/lib/python2.7/site-packages" type="path"/>
+<runtime name="PYTHONPATH" value="$PROFESSOR_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
 </tool>
 EOF_TOOLFILE
+
+export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
 ## IMPORT scram-tools-post
