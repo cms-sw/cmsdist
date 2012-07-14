@@ -9,6 +9,7 @@ Requires: clhep
 Requires: expat
 
 Patch0: geant4.9.5.p01-no-banner
+Patch1: geant4.9.5.p01-fix-cputime-regression
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -21,7 +22,8 @@ Patch0: geant4.9.5.p01-no-banner
 %prep
 %setup -n %n.%downloadv
 
-%patch0 -p1 
+%patch0 -p1
+%patch1 -p1
 
 %build
 
