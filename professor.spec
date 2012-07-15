@@ -13,8 +13,7 @@ export MPLCONFIGDIR=$PWD
 ./setup.py install
 mkdir %i/bin
 cp bin/* %i/bin
-mkdir -p %i/lib/python2.7/site-packages
-cp -r build/lib/professor %i/lib/python2.7/site-packages 
-
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
+mkdir -p %i/lib/python$PYTHONV/site-packages
+cp -r build/lib/professor %i/lib/python$PYTHONV/site-packages 
 
