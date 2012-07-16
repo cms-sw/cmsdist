@@ -3,13 +3,12 @@
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
-Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_reqmgr.tar.gz
-#Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk@15742?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_reqmgr.tar.gz
+Source: git://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=WMCore-%{realversion}&output=/WMCore-%{realversion}.tar.gz
 Requires: py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah py2-cx-oracle yui rotatelogs couchdb py2-cjson
 BuildRequires: py2-sphinx
 
 %prep
-%setup -n WMCore
+%setup -n WMCore-%{realversion}
 
 %build
 python setup.py build_system -s reqmgr

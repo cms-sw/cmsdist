@@ -5,11 +5,11 @@
 
 %define svnversion %realversion
 
-Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%svnversion?scheme=svn+ssh&strategy=export&module=WMCore&output=/WMCORE.tar.gz
+Source: git://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=WMCore-%{realversion}&output=/WMCore-%{realversion}.tar.gz
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 py2-pycurl py2-sphinx
 
 %prep
-%setup -n WMCore
+%setup -n WMCore-%{realversion}
 
 %build
 python setup.py build

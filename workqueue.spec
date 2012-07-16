@@ -3,12 +3,11 @@
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
-Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
-#Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/trunk@13490?scheme=svn+ssh&strategy=export&module=WMCore&output=/src.tar.gz
+Source: git://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=WMCore-%{realversion}&output=/WMCore-%{realversion}.tar.gz
 Requires: python py2-httplib2 pystack rotatelogs couchdb dbs-client dls-client py2-cjson yui py2-sphinx dbs3-client
 
 %prep
-%setup -n WMCore
+%setup -n WMCore-%{realversion}
 
 %build
 python setup.py build_system -s workqueue
