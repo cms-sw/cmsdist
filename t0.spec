@@ -9,14 +9,13 @@ Source: git://github.com/dmwm/T0.git?obj=master/%{realversion}&export=T0-%{realv
 Requires: wmagent
 
 %prep
-%setup -D -T -b 1 -n T0
+%setup -n T0-%{realversion}
 
 # setup version
-cat src/python/T0/__init__.py | sed "s,development,%{realversion},g" > init.tmp
-mv -f init.tmp src/python/T0/__init__.py
+#cat src/python/T0/__init__.py | sed "s,development,%{realversion},g" > init.tmp
+#mv -f init.tmp src/python/T0/__init__.py
 
 %build
-cd ../T0
 python setup.py build
 
 # build T0 sphinx documentation
@@ -28,7 +27,6 @@ mkdir -p build
 make html
 
 %install
-cd ../T0
 python setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
