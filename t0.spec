@@ -1,11 +1,11 @@
-### RPM cms t0 1.9.9
+### RPM cms t0 1.9.10
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define svnserver svn://svn.cern.ch/reps/CMSDMWM
-Source1: %svnserver/T0/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=T0&output=/T0.tar.gz
+
+Source: git://github.com/dmwm/T0.git?obj=master/%{realversion}&export=T0-%{realversion}&output=/T0-%{realversion}.tar.gz
 Requires: wmagent
 
 %prep
