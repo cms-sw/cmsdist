@@ -105,7 +105,7 @@ Requires: professor-toolfile
 Requires: py2-ipython-toolfile
 Requires: xz-toolfile
 Requires: protobuf-toolfile
-Requires: lcov
+Requires: lcov-toolfile
 Requires: llvm-gcc-toolfile
 Requires: py2-lint-toolfile
 
