@@ -107,7 +107,7 @@ HG1205c cmsfomon @slc5_amd64_gcc461
 
 # T0
 HG1205d t0 @slc5_amd64_gcc461
-+ 1.33 t0.spec
++ 1.34 t0.spec
 + 1.122 wmagent.spec
 + 1.198 wmcore.spec
 + 1.16 wmcore-webtools.spec
