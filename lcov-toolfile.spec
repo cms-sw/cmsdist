@@ -9,6 +9,7 @@ Requires: lcov
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/lcov.xml
 <tool name="lcov" version="@TOOL_VERSION@">
+  <info url="http://ltp.sourceforge.net/coverage/lcov.php"/>
   <client>
     <environment name="LCOV_BASE" default="@TOOL_ROOT@"/>
   </client>
