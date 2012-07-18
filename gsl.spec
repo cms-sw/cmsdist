@@ -10,10 +10,6 @@ Patch0:  gsl-1.10-gcc46
 
 %build
 CFLAGS="-O2" ./configure --prefix=%i --with-pic
-case $(uname)-$(uname -m) in
-  Darwin-i386)
-   perl -p -i -e "s|#define HAVE_DARWIN_IEEE_INTERFACE 1|/* option removed */|" config.h;; 
-esac
 
 make %makeprocesses
 
