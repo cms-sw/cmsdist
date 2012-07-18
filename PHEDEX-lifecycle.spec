@@ -37,6 +37,7 @@ cp -p Testbed/LifeCycle/Lifecycle.pl %i/bin
 cp -p Testbed/LifeCycle/CheckProxy.pl %i/bin
 cp -p Testbed/LifeCycle/fake-delete.pl %i/bin
 cp -p Testbed/LifeCycle/fake-validate.pl %i/bin
+cp -p Testbed/LifeCycle/FakeFTS.pl %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 : > %i/etc/profile.d/dependencies-setup.sh
