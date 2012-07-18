@@ -100,3 +100,4 @@ for item in LesHouches.so ; do
   [ -e lib$item ] || ln -s $item lib$item
 done
 rm -rf %i/lib/*.la
+rm -rf %i/lib/ThePEG/*.la
