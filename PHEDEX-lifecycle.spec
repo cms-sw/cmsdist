@@ -1,9 +1,9 @@
-### RPM cms PHEDEX-lifecycle 1.0.5
+### RPM cms PHEDEX-lifecycle 1.0.6
 ## INITENV +PATH PERL5LIB %i/perl_lib
 ## INITENV +PATH PERL5LIB %i/T0/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define cvsversion LIFECYCLE_%(echo %realversion | tr . _)
-%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
+%define cvsserver cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e
 Source0: %cvsserver&strategy=export&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
 Source1: %cvsserver&strategy=export&module=T0&export=T0&&tag=-rPHEDEX_LIFECYCLE_1_0_0&output=/T0.tar.gz
 
@@ -34,6 +34,10 @@ tar zxf %_sourcedir/T0.tar.gz
 mkdir -p %i/etc/{env,profile}.d %i/bin
 tar -cf - * | (cd %i && tar -xf -)
 cp -p Testbed/LifeCycle/Lifecycle.pl %i/bin
+cp -p Testbed/LifeCycle/CheckProxy.pl %i/bin
+cp -p Testbed/LifeCycle/fake-delete.pl %i/bin
+cp -p Testbed/LifeCycle/fake-validate.pl %i/bin
+cp -p Testbed/FakeFTS.pl %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 : > %i/etc/profile.d/dependencies-setup.sh
