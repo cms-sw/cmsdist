@@ -3,7 +3,8 @@
 %define wmcver 0.8.3
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
-Source0: https://nodeload.github.com/dmwm/FileMover/tarball/%{realversion}
+%define pkg FileMover
+Source0: git://github.com/dmwm/FileMover?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
 Source1: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_fm.tar.gz
 Source2: http://github.com/downloads/sstephenson/prototype/prototype_1-6-1.js
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui
@@ -12,8 +13,6 @@ BuildRequires: py2-sphinx
 
 %prep
 %setup -c
-# move github directory
-mv dmwm-FileMover* FileMover
 %setup -T -D -a 1
 
 %build
