@@ -1,4 +1,4 @@
-### RPM external python 2.7.3
+### RPM external python 2.6.8
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 ## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib/python%{python_major_version}/site-packages
@@ -17,7 +17,7 @@ Requires: zlib openssl sqlite
 # FIXME: gmp, panel, tk/tcl, x11
 
 Source0: http://www.python.org/ftp/%n/%realversion/Python-%realversion.tgz
-Patch0: python-2.7.3-dont-detect-dbm
+Patch0: python-dont-detect-dbm
 Patch1: python-fix-macosx-relocation
 
 %prep
@@ -27,7 +27,7 @@ find . -type f | while read f; do
     perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" $f
   else :; fi
 done
-%patch0 -p1
+%patch0 -p0
 %patch1 -p0
 
 %build
@@ -78,44 +78,6 @@ esac
 ./configure --prefix=%i $additionalConfigureOptions --enable-shared \
             --without-tkinter --disable-tkinter
 
-# Modify pyconfig.h to match macros from GLIBC features.h on Linux machines.
-# _POSIX_C_SOURCE and _XOPEN_SOURCE macros are not identical anymore
-# starting GLIBC 2.10.1. Python.h is not included before standard headers
-# in CMSSW and pyconfig.h is not smart enough to detect already defined
-# macros on Linux. The following problem does not exists on BSD machines as
-# cdefs.h does not define these macros.
-case %cmsplatf in
-  slc6*)
-    rm -f cms_configtest.cpp
-    cat <<CMS_EOF > cms_configtest.cpp
-#include <features.h>
-
-int main() {
-  return 0;
-}
-CMS_EOF
-
-    FEATURES=$(g++ -dM -E -DGNU_GCC=1 -D_GNU_SOURCE=1 -D_DARWIN_SOURCE=1 cms_configtest.cpp \
-      | grep -E '_POSIX_C_SOURCE |_XOPEN_SOURCE ')
-    rm -f cms_configtest.cpp a.out
-
-    POSIX_C_SOURCE=$(echo "${FEATURES}" | grep _POSIX_C_SOURCE | cut -d ' ' -f 3)
-    XOPEN_SOURCE=$(echo "${FEATURES}" | grep _XOPEN_SOURCE | cut -d ' ' -f 3)
-
-    sed -ibak "s/\(#define _POSIX_C_SOURCE \)\(.*\)/\1${POSIX_C_SOURCE}/g" pyconfig.h
-    sed -ibak "s/\(#define _XOPEN_SOURCE \)\(.*\)/\1${XOPEN_SOURCE}/g" pyconfig.h
-  ;;
-esac
-
-# The following is a kludge around the fact that the /usr/lib/libreadline.so
-# symlink (for 32-bit lib) is missing on the 64bit machines
-case %cmsplatf in
-  slc4_ia32* )
-    mkdir -p %{i}/lib
-    ln -s /usr/lib/libreadline.so.4.3 %{i}/lib/libreadline.so
-  ;;
-esac
-
 make %makeprocesses
 
 %install
@@ -150,8 +112,12 @@ esac
                      %{i}/bin/pydoc \
                      %{i}/bin/python-config \
                      %{i}/bin/2to3 \
-                     %{i}/bin/python2.7-config \
-                     %{i}/bin/smtpd.py
+                     %{i}/bin/python2.6-config \
+                     %{i}/bin/smtpd.py \
+                     %{i}/lib/python2.6/bsddb/dbshelve.py \
+                     %{i}/lib/python2.6/test/test_bz2.py \
+                     %{i}/lib/python2.6/test/test_largefile.py \
+                     %{i}/lib/python2.6/test/test_optparse.py
 
 find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
 find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
