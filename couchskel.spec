@@ -1,4 +1,4 @@
-### RPM cms couchskel 0.9.8 
+### RPM cms couchskel 0.9.9 
 Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
 
 # External javascripts

@@ -66,8 +66,8 @@ HG1204h reqmon-meta @slc5_amd64_gcc461
 + 1.1 reqmon-critical-fixes-for0-8-15b.patch
 
 # WorkQueue
-HG1205b workqueue @slc5_amd64_gcc461
-+ HEAD/0.8.41 workqueue.spec
+HG1207c workqueue @slc5_amd64_gcc461
++ HEAD/0.9.9 workqueue.spec
 
 # PHEDEX agents
 HG1204f PHEDEX-combined-agents @slc5_amd64_gcc461
