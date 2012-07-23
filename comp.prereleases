@@ -56,18 +56,22 @@ HG1201c stagemanager @slc5_amd64_gcc461
 + 1.10/1.0.1 stagemanager.spec
 
 # RequestManager
-HG1204b reqmgr @slc5_amd64_gcc461
-+ 1.48 reqmgr.spec
+HG1207c reqmgr @slc5_amd64_gcc461
++ 1.57 reqmgr.spec
 
-# RequestMonitor
-HG1204h reqmon-meta @slc5_amd64_gcc461
-+ 1.1/1204h reqmon-meta.spec
-+ 1.15/0.8.15b reqmon.spec
-+ 1.1 reqmon-critical-fixes-for0-8-15b.patch
+# Request Monitor
+HG1207c reqmon @slc5_amd64_gcc461
++ 1.20 reqmon.spec
+
+## RequestMonitor
+#HG1204h reqmon-meta @slc5_amd64_gcc461
+#+ 1.1/1204h reqmon-meta.spec
+#+ 1.15/0.8.15b reqmon.spec
+#+ 1.1 reqmon-critical-fixes-for0-8-15b.patch
 
 # WorkQueue
 HG1207c workqueue @slc5_amd64_gcc461
-+ HEAD/0.9.9 workqueue.spec
++ 1.52 workqueue.spec
 
 # PHEDEX agents
 HG1204f PHEDEX-combined-agents @slc5_amd64_gcc461
@@ -132,3 +136,7 @@ HG1207b dbs3-lifecycle @slc5_amd64_gcc461
 + 1.17 dbs3-client.spec
 + 1.30 PHEDEX-lifecycle.spec
 + 1.4 lifecycle-dataprovider.spec
+
+# WorkQueue
+HG1207c couchskel @slc5_amd64_gcc461
++ 1.2 couchskel.spec
