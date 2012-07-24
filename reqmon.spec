@@ -1,14 +1,12 @@
-### RPM cms reqmon 0.8.15b 
+### RPM cms reqmon 0.9.9 
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-%define svntag %(echo %realversion | tr -d "[a-z]")
-Source: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{svntag}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_reqmon.tar.gz
-Patch0: reqmon-critical-fixes-for0-8-15b
 
-Requires: python py2-cjson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui py2-setuptools rotatelogs pystack sqlite
+Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
+Requires: python rotatelogs
+BuildRequires: py2-setuptools py2-sphinx couchskel
 
 %prep
-%setup -n WMCore
-%patch0 -p0
+%setup -b 0 -n %n
 
 %build
 python setup.py build_system -s reqmon
@@ -17,8 +15,10 @@ python setup.py build_system -s reqmon
 python setup.py install_system -s reqmon --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
-mkdir -p %i/bin
-cp -pf %_builddir/WMCore/bin/[[:lower:]]* %i/bin
+# Pick external dependencies from couchskel
+mkdir %i/data/couchapps/WMStats/vendor/
+cp -rp $COUCHSKEL_ROOT/data/couchapps/couchskel/vendor/{couchapp,jquery,datatables} \
+  %i/data/couchapps/WMStats/vendor/
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
@@ -34,4 +34,3 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
-
