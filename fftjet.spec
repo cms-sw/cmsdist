@@ -9,14 +9,6 @@ Patch1: fftjet-1.3.1-fix-gcc46
 Requires: gfortran-macosx
 %endif
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx c++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x -O2
-%endif
-
 %prep
 %setup -n %n-%realversion
 %patch0 -p1 
@@ -29,12 +21,12 @@ case %cmsplatf in
   slc5_*_gcc4[0123]*)
     PLATF_CONF_OPTS="--enable-shared"
     F77="`which gfortran`"
-    CXX="`which %cms_cxx`"
+    CXX="`which c++`"
   ;;
   *)
     PLATF_CONF_OPTS="--enable-static --disable-shared"
     F77="`which gfortran` -fPIC"
-    CXX="`which %cms_cxx` -fPIC"
+    CXX="`which c++` -fPIC"
   ;;
 esac
 # Fake the existance of pkg-config on systems which dont have it.
@@ -43,8 +35,7 @@ esac
 touch pkg-config ; chmod +x pkg-config
 ./configure $PLATF_CONF_OPTS --disable-dependency-tracking --enable-threads \
             --prefix=%i F77="$F77" CXX="$CXX" DEPS_CFLAGS=-I$FFTW3_ROOT/include \
-            DEPS_LIBS="-L$FFTW3_ROOT/lib -lfftw3" PKG_CONFIG=$PWD/pkg-config \
-            CXXFLAGS="%cms_cxxflags"
+            DEPS_LIBS="-L$FFTW3_ROOT/lib -lfftw3" PKG_CONFIG=$PWD/pkg-config
 make %makeprocesses
 
 %install
