@@ -126,12 +126,11 @@ index 23bdad2..83e8cdf 100644
      
      # Dispatch attributes
      dispatch = cherrypy.dispatch.Dispatcher()
-@@ -715,10 +721,13 @@ class Request(object):
+@@ -715,10 +721,12 @@ class Request(object):
              h = self.headers
          
          try:
-+            if getattr(self.rfile, 'rfile', None):
-+                self.rfile.rfile.default_bufsize = max(1<<16, self.body_io_size)
++            self.rfile.rfile.default_bufsize = max(1<<16, self.body_io_size)
              forms = _cpcgifs.FieldStorage(fp=self.rfile,
                                            headers=h,
                                            # FieldStorage only recognizes POST.
