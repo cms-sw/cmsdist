@@ -262,7 +262,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootxml.xml
   <info url="http://root.cern.ch/root/"/>
   <lib name="XMLParser"/>
   <use name="rootcore"/>
-  <use name="libxml2"/>
 </tool>
 EOF_TOOLFILE
 
