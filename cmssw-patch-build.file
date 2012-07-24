@@ -31,16 +31,15 @@
 %endif
 
 %define PatchReleaseLink \
-  LnkType=`/bin/pwd`; LnkType=`basename $LnkType` ;\
-  for SUBSYS in `ls -d %{parent_release_fpath}/$LnkType/*`; do \
+  for SUBSYS in `ls -d %{parent_release_fpath}/$DIR/*`; do \
     if [ -d $SUBSYS ] ; then \
       S=`basename $SUBSYS`; \
-      if [ -d $S ] ; then \
+      if [ -d $DIR/$S ] ; then \
         for PKG in `ls -d $SUBSYS/[A-Za-z]*`; do \
           P=`basename $PKG`;\
-          if [ ! -e $S/$P ] ; then ln -s $SUBSYS/$P $S/. ; fi;\
+          if [ ! -e $DIR/$S/$P ] ; then ln -s $SUBSYS/$P $DIR/$S/. ; fi;\
         done;\
-      else ln -s $SUBSYS . ;\
+      else ln -s $SUBSYS $DIR/. ;\
       fi;\
     fi; \
   done
@@ -59,10 +58,10 @@
   done
 
 %define PatchReleasePythonSymlinks \
-  CWD=`/bin/pwd`; cd %i; %scramcmd b --verbose -f tmp/common/cache/python_symlinks </dev/null; cd %i/python; %{PatchReleaseLink} ; cd $CWD;
+  CWD=`/bin/pwd`; cd %i; %scramcmd b --verbose -f tmp/common/cache/python_symlinks </dev/null; DIR=python; %{PatchReleaseLink} ; cd $CWD;
  
 %define PatchReleaseSourceSymlinks \
-  CWD=`/bin/pwd`; cd %i/%{srctree}; %{PatchReleaseLink}; cd %i; DIR=%{srctree}; %{RelocateReleaseLinks}; DIR=python; %{RelocateReleaseLinks}; cd $CWD; 
+  CWD=`/bin/pwd`; cd %i; DIR=%{srctree}; %{PatchReleaseLink}; %{RelocateReleaseLinks}; DIR=cfipython/%{cmsplatf}; %{PatchReleaseLink}; %{RelocateReleaseLinks}; DIR=python; %{RelocateReleaseLinks}; cd $CWD; 
 
 %define PatchReleaseFilesRelocate \
   if [ -e %{srctree}/.glimpse_filenames ] ; then \
