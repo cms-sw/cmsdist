@@ -1,7 +1,6 @@
-diff --git a/source/processes/hadronic/cross_sections/include/G4HadronCrossSections.hh b/source/processes/hadronic/cross_sections/include/G4HadronCrossSections.hh
-index 8cad1c5..4b35c78 100644
---- a/source/processes/hadronic/cross_sections/include/G4HadronCrossSections.hh
-+++ b/source/processes/hadronic/cross_sections/include/G4HadronCrossSections.hh
+diff -arupN geant4.9.5.p01.orig/source/processes/hadronic/cross_sections/include/G4HadronCrossSections.hh geant4.9.5.p01/source/processes/hadronic/cross_sections/include/G4HadronCrossSections.hh
+--- geant4.9.5.p01.orig/source/processes/hadronic/cross_sections/include/G4HadronCrossSections.hh	2012-07-23 08:38:19.000000000 +0200
++++ geant4.9.5.p01/source/processes/hadronic/cross_sections/include/G4HadronCrossSections.hh	2012-07-23 09:14:23.000000000 +0200
 @@ -58,6 +58,8 @@
  
  enum { TSIZE=41, NPARTS=35, NELAB=17, NCNLW=15, NFISS=21 };
@@ -20,10 +19,9 @@ index 8cad1c5..4b35c78 100644
      G4double sigelastic;
      G4double siginelastic;
      G4ParticleDefinition* prevParticleDefinition;
-diff --git a/source/processes/hadronic/cross_sections/src/G4HadronCrossSections.cc b/source/processes/hadronic/cross_sections/src/G4HadronCrossSections.cc
-index ce7de08..154a4fe 100644
---- a/source/processes/hadronic/cross_sections/src/G4HadronCrossSections.cc
-+++ b/source/processes/hadronic/cross_sections/src/G4HadronCrossSections.cc
+diff -arupN geant4.9.5.p01.orig/source/processes/hadronic/cross_sections/src/G4HadronCrossSections.cc geant4.9.5.p01/source/processes/hadronic/cross_sections/src/G4HadronCrossSections.cc
+--- geant4.9.5.p01.orig/source/processes/hadronic/cross_sections/src/G4HadronCrossSections.cc	2012-07-23 08:38:19.000000000 +0200
++++ geant4.9.5.p01/source/processes/hadronic/cross_sections/src/G4HadronCrossSections.cc	2012-07-23 09:14:05.000000000 +0200
 @@ -55,7 +55,7 @@
  #include "G4HadronCrossSections.hh"
  #include "G4ios.hh"
@@ -33,7 +31,7 @@ index ce7de08..154a4fe 100644
   
  // Initialize static pointer for singleton instance
  G4HadronCrossSections* G4HadronCrossSections::theInstance = 0;
-@@ -1217,7 +1217,10 @@ G4bool G4HadronCrossSections::correctInelasticNearZero = 0;
+@@ -1217,7 +1217,10 @@ G4bool G4HadronCrossSections::correctIne
  G4HadronCrossSections::G4HadronCrossSections()
    : prevParticleDefinition(0), prevElement(0), prevZZ(0), prevAA(0), 
      prevKineticEnergy(DBL_MAX), lastEkx(0.), lastEkxPower(0.), verboseLevel(0)
@@ -45,7 +43,7 @@ index ce7de08..154a4fe 100644
  
  G4HadronCrossSections::~G4HadronCrossSections() 
  {}
-@@ -1243,7 +1246,12 @@ G4HadronCrossSections::GetInelasticCrossSection(const G4DynamicParticle* particl
+@@ -1243,7 +1246,12 @@ G4HadronCrossSections::GetInelasticCross
    if (particle->GetDefinition() != prevParticleDefinition ||
        particle->GetKineticEnergy() != prevKineticEnergy ||
        ZZ != prevZZ || AA != prevAA)
@@ -59,7 +57,7 @@ index ce7de08..154a4fe 100644
    return siginelastic;
  }
  
-@@ -1255,8 +1263,12 @@ G4HadronCrossSections::GetElasticCrossSection(const G4DynamicParticle* particle,
+@@ -1255,8 +1263,12 @@ G4HadronCrossSections::GetElasticCrossSe
    if (particle->GetDefinition() != prevParticleDefinition ||
        particle->GetKineticEnergy() != prevKineticEnergy ||
        ZZ != prevZZ || AA != prevAA)
@@ -73,7 +71,7 @@ index ce7de08..154a4fe 100644
    return sigelastic;
  }
  
-@@ -1279,33 +1291,37 @@ G4HadronCrossSections::CalcScatteringCrossSections(
+@@ -1279,33 +1291,37 @@ G4HadronCrossSections::CalcScatteringCro
     G4double xspiel, xspiin;
  
     G4int ipart = GetParticleCode(aParticle);
@@ -123,7 +121,7 @@ index ce7de08..154a4fe 100644
  
  // Low energy neutrons...
  
-@@ -1349,7 +1365,7 @@ G4HadronCrossSections::CalcScatteringCrossSections(
+@@ -1349,7 +1365,7 @@ G4HadronCrossSections::CalcScatteringCro
        G4int ja2 = NCNLW - 1;
        do {
           G4int midBin = (ja1 + ja2)/2;
@@ -132,7 +130,7 @@ index ce7de08..154a4fe 100644
             ja2 = midBin;
           else
             ja1 = midBin;
-@@ -1365,7 +1381,7 @@ G4HadronCrossSections::CalcScatteringCrossSections(
+@@ -1365,7 +1381,7 @@ G4HadronCrossSections::CalcScatteringCro
        dy = cnlwel[ja2][je1] - cnlwel[ja1][je1];
        rca = dy/dnlwat;
        b = cnlwel[ja1][je1] - rce*elab[je1] - rca*cnlwat[ja1];
@@ -141,7 +139,7 @@ index ce7de08..154a4fe 100644
  // Inelastic cross section:
        // E interpolation or extrapolation at JA1
        dy = cnlwin[ja1][je2] - cnlwin[ja1][je1];
-@@ -1374,7 +1390,7 @@ G4HadronCrossSections::CalcScatteringCrossSections(
+@@ -1374,7 +1390,7 @@ G4HadronCrossSections::CalcScatteringCro
        dy = cnlwin[ja2][je1] - cnlwin[ja1][je1];
        rca = dy/dnlwat;
        b = cnlwin[ja1][je1] - rce*elab[je1] - rca*cnlwat[ja1];
@@ -150,7 +148,7 @@ index ce7de08..154a4fe 100644
     // Convert cross sections from mb to default units
        sigelastic = sigelastic*millibarn;
        siginelastic = siginelastic*millibarn;
-@@ -1446,15 +1462,14 @@ G4HadronCrossSections::CalcScatteringCrossSections(
+@@ -1446,14 +1462,14 @@ G4HadronCrossSections::CalcScatteringCro
  
  // A-dependence from parameterization...
  
@@ -160,17 +158,15 @@ index ce7de08..154a4fe 100644
        crel = 1.;
        crin = 1.;
  
--      G4int i = 3;
+       G4int i = 3;
 -      if (a < 50.) i = 2;
 -      if (a > 100.) i = 4;
--      i = i - 1;      // For array indexing
-+      G4int i = 2;
-+      if (AA < 50) i = 1;
-+      else if (AA > 100) i = 3;
++      if (AA < 50) i = 2;
++      else if (AA > 100.) i = 4;
+       i = i - 1;      // For array indexing
  
  // Protons and neutrons
-       if (ipart == 14 || ipart == 16) {
-@@ -1474,7 +1489,7 @@ G4HadronCrossSections::CalcScatteringCrossSections(
+@@ -1474,7 +1490,7 @@ G4HadronCrossSections::CalcScatteringCro
           if (correctInelasticNearZero && je1 == 0 && i <= 3) {
              G4double m0 = aParticle->GetMass()/GeV;
              G4double T = std::sqrt(m0*m0 + p*p) - m0;
@@ -179,7 +175,7 @@ index ce7de08..154a4fe 100644
              rc = dy/dx;
              xsecin = rc*T + b;
           }
-@@ -1490,7 +1505,7 @@ G4HadronCrossSections::CalcScatteringCrossSections(
+@@ -1490,7 +1506,7 @@ G4HadronCrossSections::CalcScatteringCro
  // Calculate correction factors (crel, crin) from values
  // on Al, Cu, Pb.  Note that data is only available for pions and protons.
           G4double wgch = 0.5;
@@ -188,7 +184,7 @@ index ce7de08..154a4fe 100644
           sigel = wgch*sigel + (1. - wgch)*xsecel;
           sigin = wgch*sigin + (1. - wgch)*xsecin;
           
-@@ -1517,8 +1532,8 @@ G4HadronCrossSections::CalcScatteringCrossSections(
+@@ -1517,8 +1533,8 @@ G4HadronCrossSections::CalcScatteringCro
        }
  
  // Apply correction factors
@@ -199,7 +195,7 @@ index ce7de08..154a4fe 100644
        sigel = sigel*partel[ipart1];
        sigin = sigin*partin[ipart1];
     }
-@@ -1591,7 +1606,7 @@ G4HadronCrossSections::GetFissionCrossSection(const G4DynamicParticle* aParticle
+@@ -1591,7 +1607,7 @@ G4HadronCrossSections::GetFissionCrossSe
  
    G4double z43ba;
    if (j == 4) {
@@ -208,3 +204,138 @@ index ce7de08..154a4fe 100644
      z43ba = std::max(-67. + 38.7*z43ba, 0.);
    } else {
      z43ba = 1.;
+diff -arupN geant4.9.5.p01.orig/source/processes/hadronic/management/src/G4HadronicProcess.cc geant4.9.5.p01/source/processes/hadronic/management/src/G4HadronicProcess.cc
+--- geant4.9.5.p01.orig/source/processes/hadronic/management/src/G4HadronicProcess.cc	2012-07-23 08:38:33.000000000 +0200
++++ geant4.9.5.p01/source/processes/hadronic/management/src/G4HadronicProcess.cc	2012-07-23 09:15:11.000000000 +0200
+@@ -213,11 +213,13 @@ G4HadronicProcess::PostStepDoIt(const G4
+ 		ed);
+   }
+ 
+-  if (GetElementCrossSection(aParticle, anElement, aMaterial) <= 0.0) {
+-    // No interaction
+-    //theTotalResult->Clear();
+-    return theTotalResult;
+-  }    
++  if(aParticle->GetDefinition()->GetPDGCharge() != 0.0) {
++    if (GetElementCrossSection(aParticle, anElement, aMaterial) <= 0.0) {
++      // No interaction
++      //theTotalResult->Clear();
++      return theTotalResult;
++    }    
++  }
+ 
+   // Next check for illegal track status
+   //
+diff -arupN geant4.9.5.p01.orig/source/processes/hadronic/processes/src/G4WHadronElasticProcess.cc geant4.9.5.p01/source/processes/hadronic/processes/src/G4WHadronElasticProcess.cc
+--- geant4.9.5.p01.orig/source/processes/hadronic/processes/src/G4WHadronElasticProcess.cc	2012-07-23 08:38:33.000000000 +0200
++++ geant4.9.5.p01/source/processes/hadronic/processes/src/G4WHadronElasticProcess.cc	2012-07-23 09:14:51.000000000 +0200
+@@ -99,6 +99,9 @@ G4VParticleChange* G4WHadronElasticProce
+ 				  const G4Step& step)
+ {
+   aParticleChange.Initialize(track);
++  G4double weight = track.GetWeight();
++  aParticleChange.ProposeWeight(weight);
++
+   G4double kineticEnergy = track.GetKineticEnergy();
+   const G4DynamicParticle* dynParticle = track.GetDynamicParticle();
+   const G4ParticleDefinition* part = dynParticle->GetDefinition();
+@@ -112,14 +115,14 @@ G4VParticleChange* G4WHadronElasticProce
+       { return G4VDiscreteProcess::PostStepDoIt(track,step); }
+ 
+   G4Material* material = track.GetMaterial();
+-  G4Nucleus* targetNucleus = GetTargetNucleusPointer();
++  G4Nucleus* targNucleus = GetTargetNucleusPointer();
+ 
+   // Select element
+   G4Element* elm = 0;
+   try
+     {
+       elm = GetCrossSectionDataStore()->SampleZandA(dynParticle, material, 
+-						    *targetNucleus);
++						    *targNucleus);
+     }
+   catch(G4HadronicException & aR)
+     {
+@@ -138,8 +141,8 @@ G4VParticleChange* G4WHadronElasticProce
+     {
+       G4ExceptionDescription ed;
+       ed << "Target element "<< elm->GetName()<<"  Z= " 
+-	 << targetNucleus->GetZ_asInt() << "  A= " 
+-	 << targetNucleus->GetA_asInt() << G4endl;
++	 << targNucleus->GetZ_asInt() << "  A= " 
++	 << targNucleus->GetA_asInt() << G4endl;
+       DumpState(track,"ChooseHadronicInteraction",ed);
+       ed << " No HadronicInteraction found out" << G4endl;
+       G4Exception("G4WHadronElasticProcess::PostStepDoIt", "had005", 
+@@ -153,33 +156,38 @@ G4VParticleChange* G4WHadronElasticProce
+ 
+   // Initialize the hadronic projectile from the track
+   //  G4cout << "track " << track.GetDynamicParticle()->Get4Momentum()<<G4endl;
+-  G4HadProjectile thePro(track);
++  G4HadProjectile theProj(track);
+   if(verboseLevel>1) {
+     G4cout << "G4WHadronElasticProcess::PostStepDoIt for " 
+ 	   << part->GetParticleName()
+ 	   << " in " << material->GetName() 
+-	   << " Target Z= " << targetNucleus->GetZ_asInt() 
+-	   << " A= " << targetNucleus->GetA_asInt() << G4endl; 
++	   << " Target Z= " << targNucleus->GetZ_asInt() 
++	   << " A= " << targNucleus->GetA_asInt() << G4endl; 
+   }
+ 
+   G4HadFinalState* result = 0;
+   try
+     {
+-      result = hadi->ApplyYourself( thePro, *targetNucleus);
++      result = hadi->ApplyYourself( theProj, *targNucleus);
+     }
+   catch(G4HadronicException aR)
+     {
+       G4ExceptionDescription ed;
+       ed << "Call for " << hadi->GetModelName() << G4endl;
+       ed << "Target element "<< elm->GetName()<<"  Z= " 
+-	 << targetNucleus->GetZ_asInt() 
+-	 << "  A= " << targetNucleus->GetA_asInt() << G4endl;
++	 << targNucleus->GetZ_asInt() 
++	 << "  A= " << targNucleus->GetA_asInt() << G4endl;
+       DumpState(track,"ApplyYourself",ed);
+       ed << " ApplyYourself failed" << G4endl;
+       G4Exception("G4WHadronElasticProcess::PostStepDoIt", "had006", 
+ 		  FatalException, ed);
+     }
+ 
++  // Check the result for catastrophic energy non-conservation
++  // cannot be applied because is not guranteed that recoil 
++  // nucleus is created
++  // result = CheckResult(theProj, targNucleus, result);
++
+   // directions
+   G4ThreeVector indir = track.GetMomentumDirection();
+   G4double phi = CLHEP::twopi*G4UniformRand();
+@@ -224,8 +232,9 @@ G4VParticleChange* G4WHadronElasticProce
+ 
+   //G4cout << "Efinal= " << efinal << "  TrackStatus= " << status << G4endl;
+ 
+-  // recoil
+   aParticleChange.SetNumberOfSecondaries(0);
++
++  // recoil
+   if(result->GetNumberOfSecondaries() > 0) {
+     G4DynamicParticle* p = result->GetSecondary(0)->GetParticle();
+ 
+@@ -238,7 +247,14 @@ G4VParticleChange* G4WHadronElasticProce
+       pdir.rotateUz(indir);
+       // G4cout << "recoil rotated " << pdir << G4endl;
+       p->SetMomentumDirection(pdir);
+-      aParticleChange.AddSecondary(p);
++
++      // in elastic scattering time and weight are not changed
++      G4Track* t = new G4Track(p, track.GetGlobalTime(), 
++			       track.GetPosition());
++      t->SetWeight(weight);
++      t->SetTouchableHandle(track.GetTouchableHandle());
++      aParticleChange.AddSecondary(t);
++
+     } else {
+       edep += p->GetKineticEnergy();
+       delete p;
