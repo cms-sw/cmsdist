@@ -14,6 +14,8 @@ Requires: mod_perl2
 Requires: lifecycle-dataprovider
 # This is temporary, for the examples
 Requires: dbs3-client
+# The lifecycle doesn't require Oracle itself, but setting up a DB will!
+Requires: oracle oracle-env p5-dbi p5-dbd-oracle
 
 #Provides: perl(XML::LibXML)
 Provides: perl(XML::Twig)
