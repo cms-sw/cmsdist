@@ -5,38 +5,32 @@
 #
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 0.9.0
-%define svnserver svn://svn.cern.ch/reps/CMSDMWM
-Source2: https://github.com/lat/WMCore/zipball/f2fccdc7727e1a4acfdaf4df648e67ee184e0911#/wmcore_sitedb-1.zip
-Source1: %svnserver/CRABServer/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=CRABServer&output=/CRABCache.tar.gz
-Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_ci.tar.gz
+%define wmcver 0.9.9
 
-#Source1: %svnserver/CRABServer/trunk?scheme=svn+ssh&strategy=export&module=CRABServer&output=/CRABCache.tar.gz
+Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{wmcver}.tar.gz
+Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
+
 Requires: python cherrypy py2-cjson rotatelogs py2-pycurl py2-httplib2 py2-sqlalchemy py2-cx-oracle
 BuildRequires: py2-sphinx
 Patch0: crabcache-setup
 
 %prep
-%setup -D -T -b 1 -n CRABServer
-%setup -T -b 0 -n WMCore
-%setup -T -b 2 -n lat-WMCore-f2fccdc
+%setup -D -T -b 1 -n CRABServer-%{realversion}
+%setup -T -b 0 -n WMCore-%{wmcver}
 %patch0 -p0
 
 %build
-cd ../WMCore
-cp -r ../lat-WMCore-f2fccdc/src/python/WMCore/REST src/python/WMCore/
-cp -r ../lat-WMCore-f2fccdc/bin/wmc-httpd bin/wmc-httpd
-cp -r ../lat-WMCore-f2fccdc/setup_dependencies.py .
+cd ../WMCore-%{wmcver}
 python setup.py build_system -s crabcache
-cd ../CRABServer
+cd ../CRABServer-%{realversion}
 perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/crabserver/conf.py
 python setup.py build_system -s UserFileCache
 
 %install
 mkdir -p %i/etc/profile.d %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
-cd ../WMCore
+cd ../WMCore-%{wmcver}
 python setup.py install_system -s crabcache --prefix=%i
-cd ../CRABServer
+cd ../CRABServer-%{realversion}
 python setup.py install_system -s UserFileCache --prefix=%i
 
 find %i -name '*.egg-info' -exec rm {} \;

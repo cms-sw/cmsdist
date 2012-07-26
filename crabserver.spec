@@ -4,44 +4,36 @@
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
 
-#REMOVE
-#%define gitversion github.0.0.1pre28
-
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 0.9.0
+%define wmcver 0.9.9
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
-Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_ci.tar.gz
-#REMOVE
-#Source0: https://github.com/ticoann/WMCore/tarball/v0.0.1pre28?output=/%n-%gitversion.tgz
-Source1: https://github.com/lat/WMCore/zipball/f2fccdc7727e1a4acfdaf4df648e67ee184e0911#/wmcore_sitedb.zip
-Source2: %svnserver/CRABServer/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=CRABServer&output=/CRABInterface.tar.gz
+
+Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{wmcver}.tar.gz
+Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
+
 Requires: python cherrypy py2-cjson rotatelogs py2-pycurl py2-httplib2 py2-sqlalchemy py2-cx-oracle
 BuildRequires: py2-sphinx couchskel
 Patch0: crabserver3-setup
 
 %prep
-%setup -D -T -b 2 -n CRABServer
-#%setup -D -T -b 1 -n WMCore
-%setup -T -b 1 -n lat-WMCore-f2fccdc
-%setup -T -b 0 -n WMCore
+%setup -D -T -b 1 -n CRABServer-%{realversion}
+%setup -T -b 0 -n WMCore-%{wmcver}
 %patch0 -p0
 
 %build
-cd ../WMCore
-cp -r ../lat-WMCore-f2fccdc/src/python/WMCore/REST src/python/WMCore/
-cp -r ../lat-WMCore-f2fccdc/bin/wmc-httpd bin/wmc-httpd
+cd ../WMCore-%{wmcver}
 python setup.py build_system -s crabserver
 PYTHONPATH=$PWD/build/lib:$PYTHONPATH
-cd ../CRABServer
+cd ../CRABServer-%{realversion}
 perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/crabserver/conf.py
 python setup.py build_system -s CRABInterface
 
 %install
 mkdir -p %i/etc/profile.d %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
-cd ../WMCore
+cd ../WMCore-%{wmcver}
 python setup.py install_system -s crabserver --prefix=%i
 cp -pr src/couchapps %i/
-cd ../CRABServer
+cd ../CRABServer-%{realversion}
 python setup.py install_system -s CRABInterface --prefix=%i
 
 find %i -name '*.egg-info' -exec rm {} \;
