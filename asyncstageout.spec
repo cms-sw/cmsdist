@@ -37,10 +37,10 @@ cd ../WMCore-%{wmcver}
 python setup.py install_system -s asyncstageout --prefix=%i
 cd ../AsyncStageout-%{realversion}
 python setup.py install --prefix=%i
-cp -pr ../AsyncStageout/src/python/AsyncStageOut %i/$PYTHON_LIB_SITE_PACKAGES/
-cp -pr ../AsyncStageout/src/couchapp %i/
-cp -pr ../AsyncStageout/bin %i/
-cp -pr ../AsyncStageout/configuration %i/
+cp -pr ../AsyncStageout-%{realversion}/src/python/AsyncStageOut %i/$PYTHON_LIB_SITE_PACKAGES/
+cp -pr ../AsyncStageout-%{realversion}/src/couchapp %i/
+cp -pr ../AsyncStageout-%{realversion}/bin %i/
+cp -pr ../AsyncStageout-%{realversion}/configuration %i/
 find %i -name '*.egg-info' -exec rm {} \;
 
 # Generate .pyc files.
