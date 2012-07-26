@@ -47,7 +47,7 @@ find %i -name '*.egg-info' -exec rm {} \;
 python -m compileall %i/$PYTHON_LIB_SITE_PACKAGES/AsyncStageOut || true
 
 #mkdir -p %i/bin
-cp -pf %_builddir/WMCore/bin/{wmcoreD,wmcore-new-config,wmagent-mod-config,wmagent-couchapp-init} %i/bin/
+cp -pf %_builddir/WMCore-%{wmcver}/bin/{wmcoreD,wmcore-new-config,wmagent-mod-config,wmagent-couchapp-init} %i/bin/
 
 mkdir -p %i/doc
 tar --exclude '.buildinfo' -C doc/build/html -cf - . | tar -C %i/doc -xvf -
