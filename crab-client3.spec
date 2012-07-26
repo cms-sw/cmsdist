@@ -1,26 +1,27 @@
-### RPM cms crab-client3 3.1.1
+### RPM cms crab-client3 3.1.2pre1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
 %define wmcver 0.9.0
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define svnserver svn://svn.cern.ch/reps/CMSDMWM
-Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_crabclient3.tar.gz
-Source1: %svnserver/CRABClient/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=CRABClient&output=/crabclient3.tar.gz
+
+Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{wmcver}.tar.gz
+Source1: git://github.com/dmwm/CRABClient.git?obj=master/%{realversion}&export=CRABClient-%{realversion}&output=/CRABClient-%{realversion}.tar.gz
+
 Requires: python py2-httplib2 py2-sphinx py2-pycurl
 
 Patch0: crabclient3-setup
 #
 %prep
-%setup -D -T -b 1 -n CRABClient
-%setup -T -b 0 -n WMCore
+%setup -D -T -b 1 -n CRABClient-%{realversion}
+%setup -T -b 0 -n WMCore-%{wmcver}
 %patch0 -p0
 
 %build
-cd ../WMCore
+cd ../WMCore-%{wmcver}
 python setup.py build_system -s crabclient
-cd ../CRABClient
+cd ../CRABClient-%{realversion}
 python setup.py build
 
 PYTHONPATH=$PWD/src/python:$PYTHONPATH
@@ -32,9 +33,9 @@ make html
 
 %install
 mkdir -p %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
-cd ../WMCore
+cd ../WMCore-%{wmcver}
 python setup.py install_system -s crabclient --prefix=%i
-cd ../CRABClient
+cd ../CRABClient-%{realversion}
 python setup.py install --prefix=%i
 cp -rp src/python/* %i/$PYTHON_LIB_SITE_PACKAGES/
 python -m compileall %i/$PYTHON_LIB_SITE_PACKAGES || true
