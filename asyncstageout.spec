@@ -1,26 +1,27 @@
-### RPM cms asyncstageout 0.1.1
+### RPM cms asyncstageout 0.1.2pre1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
-%define wmcver 0.9.0
+%define wmcver 0.9.9
 
-Source0: svn://svn.cern.ch/reps/CMSDMWM/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/src_wmc_asyncstageout.tar.gz
-Source1: svn://svn.cern.ch/reps/CMSDMWM/AsyncStageout/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=AsyncStageout&output=/src_asyncstageout.tar.gz
+Source: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{wmcver}.tar.gz
+
+Source: git://github.com/dmwm/AsyncStageout.git?obj=master/%{realversion}&export=AsyncStageout-%{realversion}&output=/AsyncStageout-%{realversion}.tar.gz
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 py2-zmq rotatelogs pystack py2-sphinx dbs-client couchdb py2-pycurl
 
 Patch0: asyncstageout-setup
 
 
 %prep
-%setup -D -T -b 1 -n AsyncStageout
-%setup -T -b 0 -n WMCore
+%setup -D -T -b 1 -n AsyncStageout-%{realversion}
+%setup -T -b 0 -n WMCore-%{wmcver}
 %patch0 -p0
 
 %build
-cd ../WMCore
+cd ../WMCore-%{wmcver}
 python setup.py build_system -s asyncstageout
-cd ../AsyncStageout 
+cd ../AsyncStageout-%{realversion} 
 python setup.py build
 
 PYTHONPATH=$PWD/src/python:$PYTHONPATH
@@ -32,9 +33,9 @@ make html
 
 %install
 mkdir -p %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
-cd ../WMCore
+cd ../WMCore-%{wmcver}
 python setup.py install_system -s asyncstageout --prefix=%i
-cd ../AsyncStageout
+cd ../AsyncStageout-%{realversion}
 python setup.py install --prefix=%i
 cp -pr ../AsyncStageout/src/python/AsyncStageOut %i/$PYTHON_LIB_SITE_PACKAGES/
 cp -pr ../AsyncStageout/src/couchapp %i/
