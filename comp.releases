@@ -1,9 +1,9 @@
 # The entry format is the same as in comp.prereleases
 
 # Cms Webtools services
-HG1206b cmsweb @slc5_amd64_gcc461
+HG1207c cmsweb @slc5_amd64_gcc461
 
-HG1206b cmsweb @osx106_amd64_gcc461
+HG1207c cmsweb @osx106_amd64_gcc461
 
 # Stagemanager offsite agent
 HG1201c stagemanager-agent @slc5_amd64_gcc461
@@ -19,17 +19,17 @@ HG1201c stagemanager @slc5_amd64_gcc461
 # wmagent
 HG1204g wmagent-dev @slc6_amd64_gcc461
 + WMCORE_0_6_12 wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
-+ HEAD/0.8.47 wmcore.spec wmagent.spec wmagent-dev.spec
++ HEAD/0.9.0 wmcore.spec wmagent.spec wmagent-dev.spec
 + 1.35 mysql.spec
 
 HG1204g wmagent-dev @slc5_amd64_gcc461
 + WMCORE_0_6_12 wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
-+ HEAD/0.8.47 wmcore.spec wmagent.spec wmagent-dev.spec
++ HEAD/0.9.0 wmcore.spec wmagent.spec wmagent-dev.spec
 + 1.35 mysql.spec
 
 HG1204g wmagent-dev @osx106_amd64_gcc461
 + WMCORE_0_6_12 wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
-+ HEAD/0.8.47 wmcore.spec wmagent.spec wmagent-dev.spec
++ HEAD/0.9.0 wmcore.spec wmagent.spec wmagent-dev.spec
 + 1.35 mysql.spec
 
 HG1201a crab @slc5_amd64_gcc461
