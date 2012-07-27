@@ -73,6 +73,16 @@ HG1207c reqmon @slc5_amd64_gcc461
 HG1207c workqueue @slc5_amd64_gcc461
 + 1.52 workqueue.spec
 
+# DMWMMON
+HG1208a DMWMMON @slc5_amd64_gcc461
++ 1.14 DMWMMON-datasvc.spec
+
+# PHEDEX web
+HG1208a PHEDEX-combined-web @slc5_amd64_gcc461
++ 1.210 PHEDEX-datasvc.spec
++ 1.163 PHEDEX-web.spec
++ 1.153 PHEDEX-webapp.spec
+
 # PHEDEX agents
 HG1204f PHEDEX-combined-agents @slc5_amd64_gcc461
 + forPHEDEX410 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
