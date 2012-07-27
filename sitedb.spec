@@ -1,16 +1,13 @@
-### RPM cms sitedb 2.3.2
+### RPM cms sitedb 2.3.3
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 ## INITENV SETV SITEDB_LEGACY_PYTHONPATH %i/legacy
 
-
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define cvssrc cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-#%define svnsrc svn://svn.cern.ch/reps/CMSDMWM/SiteDB/trunk@15167
-%define svnsrc svn://svn.cern.ch/reps/CMSDMWM/SiteDB/tags/%{realversion}
 Source0: https://github.com/lat/WMCore/zipball/b99b0fe056e9fe508a6b9e37ff3ed543f3d18073#/wmcore_sitedb.zip
-Source1: %{svnsrc}?scheme=svn+ssh&strategy=export&module=SiteDB&output=/sitedb.tar.gz
+Source1: git://github.com/geneguvo/sitedb?obj=master/%realversion&export=%n&output=/%n.tar.gz
 #Source1: https://cern.ch/lat/temp/sitedb5.tar.gz
 Source2: %{cvssrc}&strategy=export&module=WEBTOOLS&nocache=true&export=WEBTOOLS&tag=-rSiteDBv1-slc5-v3&output=/old-sitedb.tar.gz
 Source3: %{cvssrc}&strategy=export&module=WEBTOOLS&nocache=true&export=WEBTOOLS&tag=-rV01-03-47&output=/old-webtools.tar.gz
@@ -21,7 +18,7 @@ Requires: yui py2-cheetah py2-pysqlite py2-formencode py2-pycrypto beautifulsoup
 
 %prep
 %setup -T -b 0 -n lat-WMCore-b99b0fe
-%setup -D -T -b 1 -n SiteDB
+%setup -D -T -b 1 -n %n
 perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/conf.py
 %setup -D -T -c -a 2 -n LEGACY-SITEDB
 rm -f WEBTOOLS/Applications/SiteDB/Utilities/MigrateSites # requires phedex
@@ -34,14 +31,14 @@ rm -fr WEBTOOLS/SecurityModule/{perl,crypttest}
 cd ../*WMCore*
 python setup.py build_system -s wmc-rest
 PYTHONPATH=$PWD/build/lib:$PYTHONPATH
-cd ../SiteDB
+cd ../%n
 python setup.py build_system --compress
 
 %install
 mkdir -p %i/etc/profile.d %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
 cd ../*WMCore*
 python setup.py install_system -s wmc-rest --prefix=%i
-cd ../SiteDB
+cd ../%n
 python setup.py install_system --compress --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
