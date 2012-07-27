@@ -74,7 +74,7 @@ HG1207c workqueue @slc5_amd64_gcc461
 + 1.52 workqueue.spec
 
 # DMWMMON
-HG1208a DMWMMON @slc5_amd64_gcc461
+HG1208a DMWMMON-datasvc @slc5_amd64_gcc461
 + 1.14 DMWMMON-datasvc.spec
 
 # PHEDEX web
