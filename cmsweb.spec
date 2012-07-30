@@ -1,4 +1,4 @@
-### RPM cms cmsweb 1208a
+### RPM cms cmsweb 1207d
 
 # This is a meta-package to group all cms webtools services from comp repository
 
@@ -6,7 +6,6 @@ Requires: frontend das dbs3 filemover sitedb T0Mon T0DataSvc reqmon
 Requires: PHEDEX-combined-web couchdb stagemanager reqmgr dqmgui overview workqueue
 Requires: rotatelogs pystack py2-geoip py2-adns py2-netaddr valgrind igprof wmcore-devtools
 Requires: cmsweb-analytics yui3 dbs3-client stagemanager-agent crabserver crabcache
-Requires: DMWMMON-datasvc
 
 %prep
 %build
