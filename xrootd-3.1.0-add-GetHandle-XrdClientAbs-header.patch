@@ -1,0 +1,13 @@
+diff --git a/src/XrdClient/XrdClientAbs.hh b/src/XrdClient/XrdClientAbs.hh
+index cf639d8..ef88cd0 100644
+--- a/src/XrdClient/XrdClientAbs.hh
++++ b/src/XrdClient/XrdClientAbs.hh
+@@ -65,6 +65,8 @@ public:
+    // Hook to the open connection (needed by TXNetFile)
+    XrdClientConn              *GetClientConn() const { return fConnModule; }
+ 
++   const char *                GetHandle () const { return fHandle; }
++
+    inline XrdClientUrlInfo GetCurrentUrl() {
+       if (fConnModule)
+ 	 return fConnModule->GetCurrentUrl();

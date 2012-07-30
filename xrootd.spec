@@ -9,6 +9,7 @@ Patch2: xrootd-3.1.0-fix-read-after-read
 Patch3: xrootd-3.1.0-fixed-library-location-all-os
 Patch4: xrootd-3.1.0-client-send-moninfo
 Patch5: xrootd-3.1.0-gcc-470-literals-whitespace
+Patch6: xrootd-3.1.0-add-GetHandle-XrdClientAbs-header
 
 BuildRequires: cmake
 %if "%online" != "true"
@@ -30,6 +31,7 @@ Requires: gcc
 %patch3 -p0
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 # need to fix these from xrootd git
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
