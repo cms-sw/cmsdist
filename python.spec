@@ -184,6 +184,10 @@ find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
 # Remove .pyo files
 find %i -name '*.pyo' -exec rm {} \;
 
+# Fix symlinks to match ``bin'' layout as in Python 2.6.4
+rm %{i}/bin/python %{i}/bin/python2 %{i}/bin/python2-config
+ln -s python2.7 %{i}/bin/python
+
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
 : > %i/etc/profile.d/dependencies-setup.sh
