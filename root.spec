@@ -1,4 +1,4 @@
-### RPM lcg root 5.34.01
+### RPM lcg root 5.32.00
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i  
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
@@ -7,13 +7,17 @@ Source: svn://root.cern.ch/svn/root/tags/v%{svntag}/?scheme=http&strategy=export
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 %define ismac %(case %cmsplatf in (osx*) echo true;; (*) echo false;; esac)
 
-Patch0: root-5.34.00-externals
+Patch0: root-5.32-00-externals
 Patch1: root-5.28-00d-roofit-silence-static-printout
-Patch2: root-5.34.00-linker-gnu-hash-style
+Patch2: root-5.32-00-linker-gnu-hash-style
 Patch3: root-5.32.00-detect-arch
 Patch4: root-5.30.02-fix-gcc46
 Patch5: root-5.30.02-fix-isnan-again
-Patch6: root-5.34.00-rev-45079
+# See https://hypernews.cern.ch/HyperNews/CMS/get/edmFramework/2913/1/1.html
+Patch6: root-5.32.00-fix-oneline
+Patch7: root-5.32.00-longBranchName
+Patch8: root-5.32.00-fireworks1
+Patch9: root-5.32.00-noungif
  
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -44,6 +48,9 @@ Requires: freetype
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p2
+%patch8 -p1
+%patch9 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
@@ -104,10 +111,6 @@ CONFIG_ARGS="--enable-table
              --with-dcap-incdir=${DCAP_ROOT}/include
              --disable-pgsql
              --disable-mysql
-             --enable-c++11
-             --with-cxx=g++
-             --with-cc=gcc
-             --with-ld=g++
              --disable-qt --disable-qtgsi
 	     --with-cint-maxstruct=36000
 	     --with-cint-maxtypedef=36000
@@ -115,23 +118,9 @@ CONFIG_ARGS="--enable-table
              --disable-hdfs
              --disable-oracle ${EXTRA_CONFIG_ARGS}"
 
-# Add support for GCC 4.6
-sed -ibak 's/\-std=c++11/-std=c++0x/g' \
-  configure \
-  Makefile \
-  config/Makefile.macosx64 \
-  config/Makefile.macosx \
-  config/Makefile.linux \
-  config/root-config.in \
-  config/Makefile.linuxx8664gcc 
-
 case %cmsos in
   slc*)
-    ./configure linuxx8664gcc $CONFIG_ARGS \
-                  --with-rfio-libdir=${CASTOR_ROOT}/lib \
-                  --with-rfio-incdir=${CASTOR_ROOT}/include/shift \
-                  --with-castor-libdir=${CASTOR_ROOT}/lib \
-                  --with-castor-incdir=${CASTOR_ROOT}/include/shift ;; 
+    ./configure linuxx8664gcc $CONFIG_ARGS --with-rfio-libdir=${CASTOR_ROOT}/lib --with-rfio-incdir=${CASTOR_ROOT}/include/shift --with-castor-libdir=${CASTOR_ROOT}/lib --with-castor-incdir=${CASTOR_ROOT}/include/shift ;; 
   osx*)
     comparch=x86_64
     macconfig=macosx64
@@ -140,7 +129,9 @@ case %cmsos in
     ./configure linux $CONFIG_ARGS --disable-rfio;;
 esac
 
-make %makeprocesses
+makeopts="%makeprocesses"
+
+make $makeopts
 
 %install
 # Override installers if we are using GNU fileutils cp.  On OS X
@@ -162,11 +153,4 @@ cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
 # a """ and it thinks is the shebang.
 rm -f %i/tutorials/pyroot/mrt.py
 
-%post
-%{relocateConfig}bin/root-config
-%{relocateConfig}include/RConfigOptions.h
-%{relocateConfig}include/compiledata.h
-%{relocateConfig}cint/cint/lib/G__c_ipc.d
-%{relocateConfig}cint/cint/lib/G__c_stdfunc.d
-%{relocateConfig}cint/cint/lib/G__c_posix.d
-%{relocateConfig}lib/python/genreflex/gccxmlpath.py
+
