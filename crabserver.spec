@@ -5,8 +5,7 @@
 
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 0.9.9
-%define svnserver svn://svn.cern.ch/reps/CMSDMWM
+%define wmcver 0.9.10
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{wmcver}.tar.gz
 Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
