@@ -96,6 +96,14 @@ HG1206a dbs3-combined @slc5_amd64_gcc461
 #crab-system
 HG1208a crab-system @slc5_amd64_gcc461
 + 1.3/1208a crab-system.spec
++ 1.47/0.1.2pre1 asyncstageout.spec
++ 1.7 asyncstageout-setup.patch
++ 1.19/3.1.1 crabserver.spec
++ 1.9 crabserver3-setup.patch
++ 1.17/3.1.1 crabcache.spec
++ 1.2 crabcache-setup.patch
++ 1.22/3.1.2pre1 crab-client3.spec
++ 1.6 crabclient3-setup.patch
 
 # Crab
 #HG1207b crabserver @slc5_amd64_gcc461
