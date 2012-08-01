@@ -1,8 +1,8 @@
-### RPM cms crab 1201a 
+### RPM cms crab 1208a 
 
 # This is a meta-package to group all cms webtools services from comp repository
 
-Requires: crab-client3 crab-server3 asyncstageout
+Requires: crab-client3 crabserver asyncstageout crabcache
 
 %prep
 %build
