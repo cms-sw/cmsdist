@@ -1,4 +1,4 @@
-### RPM cms crab 1208a 
+### RPM cms crab-system 1208a 
 
 # This is a meta-package to group all cms webtools services from comp repository
 
