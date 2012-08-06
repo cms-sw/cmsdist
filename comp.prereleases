@@ -19,8 +19,10 @@
 # 1.348 is 1.4.1b # patched release
 # 1.349 is 1.4.2 # patched release
 # 1.351 is 1.5.0
-HG1207a das @slc5_amd64_gcc461
-+ 1.351 das.spec
+# HG1207a das @slc5_amd64_gcc461
+# 1.353 is 1.6.0.pre1
+HG1208c das @slc5_amd64_gcc461
++ 1.353 das.spec
 
 # FileMover
 # 1.30 is 1.0.9
