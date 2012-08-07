@@ -340,6 +340,7 @@ DataFormats/Streamer
 DataFormats/TauReco
 DataFormats/TestObjects
 DataFormats/TrackCandidate
+DataFormats/TrackerCommon
 DataFormats/TrackReco
 DataFormats/TrackerRecHit2D
 DataFormats/TrackingRecHit
