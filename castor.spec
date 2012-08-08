@@ -17,17 +17,13 @@
 #Source: cvs://:pserver:anonymous@isscvs.cern.ch:/local/reps/castor?passwd=Ah<Z&tag=-r%{downloadv}&module=CASTOR2&output=/%{n}-%{realversion}.source.tar.gz
 Source:  http://castorold.web.cern.ch/castorold/DIST/CERN/savannah/CASTOR.pkg/%{baseVersion}-*/%{realversion}/castor-%{realversion}.tar.gz
 Patch0: castor-2.1.9.8-macosx
-Patch1: castor-2.1.9.8-add-ns-ldl
-Patch2: castor-2.1.9.8-rtcopy-add-rfio-dependency
-Patch3: castor-2.1.9.8-fix-gcc47-cxx11
+Patch1: castor-2.1.9.8-fix-gcc47
+Patch2: castor-2.1.9.8-add-ns-ldl
+Patch3: castor-2.1.9.8-rtcopy-add-rfio-dependency
 
 # Ugly kludge : forces libshift.x.y to be in the provides (rpm only puts libshift.so.x)
 # root rpm require .x.y
 Provides: libshift.so.%(echo %realversion |cut -d. -f1,2)%{libsuffix}
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x
-%endif
 
 %prep
 %setup -n castor-%{baseVersion}
@@ -44,14 +40,7 @@ esac
 
 %patch1 -p1
 %patch2 -p1
-
-# Apply C++11 / gcc 4.7.x fixes only if using a 47x architecture.
-# See http://gcc.gnu.org/gcc-4.7/porting_to.html
-case %cmsplatf in
-  *gcc4[789]*)
 %patch3 -p1
-  ;;
-esac
 
 case %cmsplatf in
   *_gcc4[012345]*) ;;
@@ -61,9 +50,6 @@ case %cmsplatf in
     perl -pi -e 's|^(\s+)(\$\(MAKE\) depend)|$1#$2|' Makefile.ini
   ;;
 esac
-
-# Add CMS CXXFLAGS
-sed -ibak "s/\(^CXX.*=.*\)/\1 %cms_cxxflags/g" config/Imake.tmpl
 
 %build
 
