@@ -524,7 +524,7 @@ def cmd_frombase(args):
   print "Checking out diff tags... DONE"
 
   print "Running checkdeps..."
-  deps = popen('eval `scram run -sh` && checkdeps', False, True)
+  deps = popen('export CVSROOT=%s && eval `scram run -sh` && checkdeps' % opts.cvsroot, False, True)
   deps = deps.splitlines()
   deps_tags = []
   for dep in deps:
