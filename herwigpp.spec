@@ -6,6 +6,7 @@
 #Source: http://projects.hepforge.org/herwig/files/Herwig++-%{srcTag}.tar.gz
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/herwig++-%{srcTag}-src.tgz
 Patch0: herwigpp-2.5.0-fix-gcc47-cxx11
+Patch1: herwigpp-2.5.0-fix-BaryonFactorizedDecayer-findModes
 Requires: thepeg
 Requires: gsl
 Requires: hepmc
@@ -28,6 +29,8 @@ case %cmsplatf in
 %patch0 -p1
   ;;
 esac
+
+%patch1 -p2
 
 %build
 ./configure \
