@@ -22,14 +22,7 @@ Requires: hepmc
 %prep
 %setup -q -n herwig++/%{realversion}
 
-# Apply C++11 / gcc 4.7.x fixes only if using a 47x architecture.
-# See http://gcc.gnu.org/gcc-4.7/porting_to.html
-case %cmsplatf in
-  *gcc4[789]*)
 %patch0 -p1
-  ;;
-esac
-
 %patch1 -p2
 
 %build
