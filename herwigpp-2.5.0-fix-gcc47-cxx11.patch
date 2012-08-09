@@ -36,7 +36,7 @@ index 54eb8f4..b035ee9 100644
      if(problem) {
        generator()->log() << "Problem with position of " << **it << "\n"
 diff --git a/Decay/Perturbative/SMTopDecayer.cc b/Decay/Perturbative/SMTopDecayer.cc
-index a99e148..ac540d7 100644
+index a99e148..ebf5b79 100644
 --- a/Decay/Perturbative/SMTopDecayer.cc
 +++ b/Decay/Perturbative/SMTopDecayer.cc
 @@ -426,7 +426,7 @@ InvEnergy SMTopDecayer::threeBodydGammads(const int imode, const Energy2 mt2,
@@ -48,6 +48,15 @@ index a99e148..ac540d7 100644
    return 0.5*width;
  }
  
+@@ -742,7 +742,7 @@ double SMTopDecayer::getHard(double ktb, double ktc) {
+ bool SMTopDecayer::softMatrixElementVeto(ShowerProgenitorPtr initial,
+ 					 ShowerParticlePtr parent,Branching br) {
+   // check if we need to apply the full correction
+-  unsigned int id[2]={abs(initial->progenitor()->id()),abs(parent->id())};
++  long int id[2]={abs(initial->progenitor()->id()),abs(parent->id())};
+   // the initial-state correction
+   if(id[0]==ParticleID::t&&id[1]==ParticleID::t)
+     {
 @@ -911,7 +911,7 @@ double SMTopDecayer::xab(double xgb, double kt, int toggle) {
              )/2./(xgb-1.);
      }
@@ -141,6 +150,19 @@ index 2ab1bed..7e36463 100644
    Energy pT56(p56*sqrt(1.-cth)*sqrt(1.+cth));
    Lorentz5Momentum k5(pT56*sin(phi),pT56*cos(phi),p56*cth,
  		      sqrt(p56*p56+sqr(m5)),m5);
+diff --git a/Models/StandardModel/SMWWWWVertex.cc b/Models/StandardModel/SMWWWWVertex.cc
+index e77e797..014342f 100644
+--- a/Models/StandardModel/SMWWWWVertex.cc
++++ b/Models/StandardModel/SMWWWWVertex.cc
+@@ -73,7 +73,7 @@ void SMWWWWVertex::Init() {
+ void SMWWWWVertex::setCoupling(Energy2 q2,tcPDPtr a,tcPDPtr b,
+ 			       tcPDPtr c,tcPDPtr d) {
+   // id's of the particles
+-  int id[4]={a->id(),b->id(),c->id(),d->id()};
++  long int id[4]={a->id(),b->id(),c->id(),d->id()};
+   // order the particles
+   int ngamma(0),nz(0);
+   int iorder[4];
 diff --git a/Shower/Default/QTildeReconstructor.cc b/Shower/Default/QTildeReconstructor.cc
 index 2c0243f..90aeec5 100644
 --- a/Shower/Default/QTildeReconstructor.cc
