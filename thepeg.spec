@@ -43,14 +43,7 @@ esac
 %patch4 -p1
 %patch5 -p1
 %patch6 -p2
-
-# Apply C++11 / gcc 4.7.x fixes only if using a 47x architecture.
-# See http://gcc.gnu.org/gcc-4.7/porting_to.html
-case %cmsplatf in
-  *gcc4[789]*)
 %patch7 -p1
-  ;;
-esac
 
 # Trick make not to re-run aclocal, autoconf, automake, autoscan, etc.
 find . -exec touch -m -t 201201010000 {} \;
