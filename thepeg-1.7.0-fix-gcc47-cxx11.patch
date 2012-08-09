@@ -51,6 +51,32 @@ index 863b212..8bb7767 100644
        throw Exception() 
  	<< "nan's as momenta in Les Houches file "
  	<< Exception::eventerror;
+diff --git a/MatrixElement/MEBase.cc b/MatrixElement/MEBase.cc
+index 96b2b0a..d7d3857 100644
+--- a/MatrixElement/MEBase.cc
++++ b/MatrixElement/MEBase.cc
+@@ -69,7 +69,7 @@ void MEBase::setKinematics(tPPair in, const PVector & out) {
+       omap.insert(make_pair(out[j]->dataPtr(), out[j]));
+ 
+     for ( int j = 2, M = diag.partons().size(); j < M; ++j ) {
+-      multimap<tcPDPtr,tPPtr>::iterator it = omap.find(diag.partons()[j]);
++      multimap<tcPDPtr,tPPtr>::const_iterator it = omap.find(diag.partons()[j]);
+       if ( it == omap.end() ) break;
+       parts.push_back(it->second);
+       omap.erase(it);
+diff --git a/Persistency/PersistentOStream.cc b/Persistency/PersistentOStream.cc
+index 6142b95..0c6186f 100644
+--- a/Persistency/PersistentOStream.cc
++++ b/Persistency/PersistentOStream.cc
+@@ -151,7 +151,7 @@ writeClassDescription(const ClassDescriptionBase * db) {
+ PersistentOStream & PersistentOStream::flush() {
+   ObjectMap::iterator it = writtenObjects.begin();
+   while ( it != writtenObjects.end() ) {
+-    ObjectMap::iterator it2 = it++;
++    ObjectMap::const_iterator it2 = it++;
+     if ( (*it2).second > lastSavedObject.top() ) writtenObjects.erase(it2);
+   }
+   os().flush();
 diff --git a/Utilities/UnitIO.h b/Utilities/UnitIO.h
 index 8efe8a1..146a323 100644
 --- a/Utilities/UnitIO.h
