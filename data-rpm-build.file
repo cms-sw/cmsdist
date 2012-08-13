@@ -16,20 +16,10 @@ Source: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir/download.url
 %setup -n %realsub
  
 %build
-download_cmd=`which wget 2> /dev/null || echo ""`
-if [ "X$download_cmd" = X ] ; then
-  download_cmd=`which curl 2> /dev/null || echo ""`
-  if [ "X$download_cmd" = X ] ; then
-    echo "ERROR: Unable to find wget or curl shell command to download" && exit 1
-  else
-    download_cmd="curl -L -f -q -s -O {}"
-  fi
-else
-  download_cmd="wget --no-check-certificate {}"
-fi
 cd ../%realname/%dataDir
-cat download.url | xargs -I "{}" $download_cmd
+cat download.url | perl -p -i -e '`wget --no-check-certificate $_`;'
 rm download.url
+
 
 %install
 cd ..

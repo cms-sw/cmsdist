@@ -1,4 +1,4 @@
-### RPM external curl 7.21.6
+### RPM external curl 7.20.0
 Source: http://curl.haxx.se/download/%n-%realversion.tar.gz
 Provides: libcurl.so.3()(64bit) 
 Requires: openssl
@@ -18,22 +18,6 @@ make %makeprocesses
 
 %install
 make install
-case %cmsos in 
-  osx*) SONAME=dylib ;;
-  *) SONAME=so ;;
-esac
-
-ln -s libcurl.$SONAME %i/lib/libcurl.$SONAME.3
-# Trick to get our version of curl pick up our version of its associated shared
-# library (which is different from the one coming from the system!).
-case %cmsos in
-  osx*)
-install_name_tool -id %i/lib/libcurl-cms.dylib -change %i/lib/libcurl.4.dylib %i/lib/libcurl-cms.dylib  %i/lib/libcurl.4.dylib
-install_name_tool -change %i/lib/libcurl.4.dylib %i/lib/libcurl-cms.dylib %i/bin/curl
-ln -s libcurl.4.dylib %i/lib/libcurl-cms.dylib
-  ;;
-esac
-
 # We remove pkg-config files for two reasons:
 # * it's actually not required (macosx does not even have it).
 # * rpm 4.8 adds a dependency on the system /usr/bin/pkg-config 
@@ -42,6 +26,8 @@ esac
 # only via pkg-config we have to think on how to ship our own
 # version.
 rm -rf %i/lib/pkgconfig
+cd %i/lib
+ln -s libcurl.so libcurl.so.3
 
 %post
 %{relocateConfig}bin/curl-config

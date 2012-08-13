@@ -1,6 +1,6 @@
 ### RPM external expat 2.0.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
-Source: http://downloads.sourceforge.net/expat/%n/%realversion/%n-%realversion.tar.gz
+Source: http://dl.sourceforge.net/sourceforge/%n/%n-%realversion.tar.gz
 Provides: libc.so.6()(64bit)
 Provides: libc.so.6(GLIBC_2.2.5)(64bit)  
 %define _ldd ldd
@@ -30,4 +30,4 @@ setarch x86_64 make install
 %install
 
 %post
-find $RPM_INSTALL_PREFIX/%{pkgrel}/lib* -name "*.la" -exec perl -p -i -e "s|%{instroot}|$CMS_INSTALL_PREFIX|g" {} \;
+find $RPM_INSTALL_PREFIX/%{pkgrel}/lib* -name "*.la" -exec perl -p -i -e "s|%{instroot}|$CMS_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/{} \;
