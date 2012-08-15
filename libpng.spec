@@ -1,7 +1,7 @@
-### RPM external libpng 1.2.45
-Source: http://downloads.sourceforge.net/libpng/libpng12/%realversion/%n-%realversion.tar.bz2
-Patch: libpng-make-sym
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
+### RPM external libpng 1.2.10
+Source: http://riksun.riken.go.jp/pub/pub/Linux/slackware/slackware-current/source/l/libpng/%{n}-%{realversion}.tar.bz2
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 %if "%online" != "true"
 Requires: zlib
@@ -9,7 +9,6 @@ Requires: zlib
 
 %prep
 %setup -n %n-%{realversion}
-%patch
  
 %build
 ./configure --prefix=%{i}
