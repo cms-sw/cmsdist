@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+if [ "X$1" = X ]; then
+  echo "Please specify the path to the check-out area to migrate to the new CVSROOT."
+  echo "E.g.: migrate-cvsroot /path/to/my/CMSSW_X_Y_Z"
+  exit 1
+fi
+
+REPO=$1
+
+find "$REPO" -path "*/CVS/Root" -exec perl -p -i -e 's|:/cvs/CMSSW|:/local/reps/CMSSW|;s|:/cvs_server/repositories/CMSSW|:/local/reps/CMSSW|;' {} \;
