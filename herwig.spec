@@ -18,6 +18,8 @@ case %cmsplatf in
   ;;
 esac
 
+%patch1 -p2
+
 ./configure $PLATF_CONFIG_OPTS --prefix=%i F77="$F77"
 
 %build
