@@ -1,4 +1,4 @@
-### RPM cms alertscollector 0.1-rc1
+### RPM cms alertscollector 0.1
 
 Source0: git://github.com/zdenekmaxa/WMCore?obj=alertscollector/HEAD&export=%n&output=/%n.tar.gz
 # realversion can be taken from above, but has to correspond to a GIT tag
