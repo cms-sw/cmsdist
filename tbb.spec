@@ -10,4 +10,8 @@ make %compilingprocesses
 %install
 install -d %i/lib
 cp -r include %i/include
+case %cmsplatf in 
+  slc*) SONAME=so ;;
+  osx*) SONAME=dylib ;;
+esac
 find build -name "*.$SONAME" -exec cp {} %i/lib \; 
