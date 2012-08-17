@@ -5,7 +5,7 @@ Source: http://threadingbuildingblocks.org/uploads/77/187/4.0%20update%205/tbb%{
 %setup -n tbb%{realversion}
 
 %build
-make %compilingprocesses
+make %makeprocesses
 
 %install
 install -d %i/lib
@@ -14,4 +14,4 @@ case %cmsplatf in
   slc*) SONAME=so ;;
   osx*) SONAME=dylib ;;
 esac
-find build -name "*.$SONAME" -exec cp {} %i/lib \; 
+find build -name "*.$SONAME*" -exec cp {} %i/lib \; 
