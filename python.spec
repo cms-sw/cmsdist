@@ -19,6 +19,7 @@ Requires: zlib openssl sqlite
 Source0: http://www.python.org/ftp/%n/%realversion/Python-%realversion.tgz
 Patch1: python-fix-macosx-relocation
 Patch2: python-2.7.3-fix-pyport
+Patch3: python-2.7.3-ssl-fragment.patch
 
 %prep
 %setup -n Python-%realversion
@@ -32,6 +33,8 @@ done
 %ifos darwin
 %patch2 -p1
 %endif
+
+%patch3 -p1
 
 %build
 # Python is awkward about passing other include or library directories
