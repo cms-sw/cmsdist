@@ -40,8 +40,9 @@ Requires: SCRAMV1
 %define cvssrc		%(echo %n | sed -e "s|-patch||"| tr 'a-z' 'A-Z')
 %endif
 
+# Build with clang if _CLANG is in the name of the package.
 %if "%{?cvstag:set}" != "set"
-%define cvstag		%realversion
+%define cvstag		%(echo %realversion | sed -e 's|_CLANG||')
 %endif
 
 %if "%{?buildarch:set}" != "set"
@@ -173,7 +174,14 @@ export SCRAM_NOSYMCHECK=true
 %scramcmd b --verbose -f %{prebuildtarget} </dev/null
 %endif
 
+case %realversion in
+  *_CLANG)
+%scramcmd b --verbose -f %{compileOptions} %{debugOptions} %{makeprocesses} %{buildtarget} checker -k </dev/null || { %scramcmd b -f outputlog && [ "set" == "set" ]; }
+  ;;
+  *)
 %scramcmd b --verbose -f %{compileOptions} %{debugOptions} %{makeprocesses} %{buildtarget} </dev/null || { %scramcmd b -f outputlog && [ "%{?ignore_compile_errors:set}" == "set" ]; }
+  ;;
+esac
 
 %if "%{?additionalBuildTarget0:set}" == "set"
 %scramcmd b --verbose -f %{additionalBuildTarget0} < /dev/null
