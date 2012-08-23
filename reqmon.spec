@@ -2,11 +2,16 @@
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
+
+# see GH issue 4022
+Patch0: reqmon_fail_updates_with_error_not_crashing
+
 Requires: python rotatelogs
 BuildRequires: py2-setuptools py2-sphinx couchskel
 
 %prep
 %setup -b 0 -n %n
+%patch0 -p1
 
 %build
 python setup.py build_system -s reqmon
