@@ -150,7 +150,7 @@ HG1205d t0 @slc5_amd64_gcc461
 
 # LifeCycle
 #HG1203g lifecycle-dataprovider @slc5_amd64_gcc461
-HG1207b lifecycle-dataprovider @slc5_amd64_gcc461
+HG1207c lifecycle-dataprovider @slc5_amd64_gcc461
 + 1.5 lifecycle-dataprovider.spec
 
 # LifeCycle Agent
