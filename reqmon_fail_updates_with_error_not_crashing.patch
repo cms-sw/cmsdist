@@ -1,0 +1,40 @@
+diff --git a/src/couchapps/WMStats/updates/requestStatus.js b/src/couchapps/WMStats/updates/requestStatus.js
+index 3f23208..3a89b5b 100644
+--- a/src/couchapps/WMStats/updates/requestStatus.js
++++ b/src/couchapps/WMStats/updates/requestStatus.js
+@@ -1,5 +1,9 @@
+ function (doc, req) { 
+     statusObj = JSON.parse(req.query.request_status);
++    if (doc === null) {
++        log("Error: missing doc id - " + req.id);
++        return [null, "ERROR: request not found - " + req.id];
++    }
+     if (!doc.request_status) {
+         doc.request_status = new Array();
+         doc.request_status.push(statusObj);
+diff --git a/src/couchapps/WMStats/updates/team.js b/src/couchapps/WMStats/updates/team.js
+index f283c38..09e45e9 100644
+--- a/src/couchapps/WMStats/updates/team.js
++++ b/src/couchapps/WMStats/updates/team.js
+@@ -1,4 +1,8 @@
+ function (doc, req) { 
++    if (doc === null) {
++        log("Error: missing doc id - " + req.id);
++        return [null, "ERROR: request not found - " + req.id];
++    }
+     if (!doc.teams) {
+         doc.teams = new Array()
+     }
+diff --git a/src/couchapps/WMStats/updates/totalStats.js b/src/couchapps/WMStats/updates/totalStats.js
+index 5eba419..1878f50 100644
+--- a/src/couchapps/WMStats/updates/totalStats.js
++++ b/src/couchapps/WMStats/updates/totalStats.js
+@@ -1,4 +1,8 @@
+ function (doc, req) {
++    if (doc === null) {
++        log("Error: missing doc id - " + req.id);
++        return [null, "ERROR: request not found - " + req.id];
++    }
+     //request query is tightly coupled in WorkQueue.py _splitWork method
+     var updateFlag = false; 
+     if (!doc.total_jobs) {
