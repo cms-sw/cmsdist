@@ -40,9 +40,9 @@ Requires: SCRAMV1
 %define cvssrc		%(echo %n | sed -e "s|-patch||"| tr 'a-z' 'A-Z')
 %endif
 
-# Build with clang if _CLANG is in the name of the package.
+# Build with clang if _CLANG_X is in the name of the package.
 %if "%{?cvstag:set}" != "set"
-%define cvstag		%(echo %realversion | sed -e 's|_CLANG||')
+%define cvstag		%(echo %realversion | sed -e 's|_CLANG_X|_X|')
 %endif
 
 %if "%{?buildarch:set}" != "set"
@@ -175,8 +175,8 @@ export SCRAM_NOSYMCHECK=true
 %endif
 
 case %realversion in
-  *_CLANG)
-%scramcmd b --verbose -f %{compileOptions} %{debugOptions} %{makeprocesses} %{buildtarget} checker -k </dev/null || { %scramcmd b -f outputlog && [ "set" == "set" ]; }
+  *_CLANG_X)
+%scramcmd b --verbose -f %{compileOptions} %{debugOptions} %{makeprocesses} %{buildtarget} checker -k </dev/null || { %scramcmd b -f outputlog; }
   ;;
   *)
 %scramcmd b --verbose -f %{compileOptions} %{debugOptions} %{makeprocesses} %{buildtarget} </dev/null || { %scramcmd b -f outputlog && [ "%{?ignore_compile_errors:set}" == "set" ]; }
@@ -190,6 +190,7 @@ esac
 %if "%{?postbuildtarget:set}" == "set"
 %scramcmd b --verbose -f %{postbuildtarget} </dev/null
 %endif
+
 
 # Move the debug logs into the builddir, so that they do not get packaged.
 rm -rf %_builddir/logs; mv %i/tmp/%cmsplatf/cache/log %_builddir/logs
