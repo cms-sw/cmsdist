@@ -1,4 +1,4 @@
-### RPM cms t0 1.9.13
+### RPM cms t0 1.9.14
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
@@ -53,5 +53,3 @@ done
 %{installroot}/%{pkgrel}/
 %exclude %{installroot}/%{pkgrel}/doc
 ## SUBPACKAGE webdoc
-
-
