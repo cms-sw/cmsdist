@@ -2,7 +2,6 @@
 
 Source:  http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%n-%realversion-src.tgz
 
-Requires: pythia8
 Requires: hepmc
 Requires: root
 
@@ -22,7 +21,6 @@ BuildRequires: autotools
 %setup -q -n %{n}/%{realversion}
 
 ./configure \
-  --with-Pythia8=${PYTHIA8_ROOT} \
   --with-HepMC=${HEPMC_ROOT} \
   --with-root=${ROOT_ROOT} \
   --prefix=%i \

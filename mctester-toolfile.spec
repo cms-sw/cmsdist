@@ -19,7 +19,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/mctester.xml
   </client>
   <use name="root"/>
   <use name="HepMC"/>
-  <use name="pythia8"/>
 </tool>
 EOF_TOOLFILE
 
