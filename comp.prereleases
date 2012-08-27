@@ -21,8 +21,9 @@
 # 1.351 is 1.5.0
 # HG1207a das @slc5_amd64_gcc461
 # 1.353 is 1.6.0.pre1
+# 1.355 is 1.6.0.pre3 (based on pymongo 2.2.1)
 HG1208c das @slc5_amd64_gcc461
-+ 1.354 das.spec
++ 1.355 das.spec
 + 1.41 mongo.spec
 + 1.24 py2-pymongo.spec
 
