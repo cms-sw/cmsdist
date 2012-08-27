@@ -22,7 +22,9 @@
 # HG1207a das @slc5_amd64_gcc461
 # 1.353 is 1.6.0.pre1
 HG1208c das @slc5_amd64_gcc461
-+ 1.353 das.spec
++ 1.354 das.spec
++ 1.41 mongo.spec
++ 1.24 py2-pymongo.spec
 
 # FileMover
 # 1.30 is 1.0.9
