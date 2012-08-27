@@ -13,9 +13,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/mctester.xml
   <lib name="HepMCEvent"/>
   <lib name="MCTester"/>
   <client>
-    <environment name="MC_TESTER_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$MC_TESTER_BASE/lib"/>
-    <environment name="INCLUDE" default="$MC_TESTER_BASE/include"/>
+    <environment name="MCTESTER_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$MCTESTER_BASE/lib"/>
+    <environment name="INCLUDE" default="$MCTESTER_BASE/include"/>
   </client>
   <use name="root"/>
   <use name="HepMC"/>
