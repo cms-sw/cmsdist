@@ -1,7 +1,6 @@
 # dependencies not picked up automatically
 DPGAnalysis/SiStripTools
 FastSimDataFormats/External
-Iguana/Utilities
 SimCalorimetry/EcalSimAlgos
 SimCalorimetry/CaloSimAlgos
 SimDataFormats/CaloHit
@@ -278,6 +277,7 @@ DQMOffline/Configuration
 DQMOffline/EGamma
 DQMOffline/Ecal
 DQMOffline/JetMET
+DQMOffline/L1Trigger
 DQMOffline/Muon
 DQMOffline/PFTau
 DQMOffline/RecoB
@@ -368,6 +368,7 @@ DataFormats/TauReco
 DataFormats/TestObjects
 DataFormats/TrackCandidate
 DataFormats/TrackReco
+DataFormats/TrackerCommon
 DataFormats/TrackerRecHit2D
 DataFormats/TrackingRecHit
 DataFormats/TrackingSeed
@@ -427,6 +428,8 @@ EventFilter/SiStripChannelChargeFilter
 EventFilter/SiStripRawToDigi
 EventFilter/StorageManager
 EventFilter/Utilities
+FastSimulation/BaseParticlePropagator
+FastSimulation/Particle
 FWCore/Catalog
 FWCore/Common
 FWCore/FWLite
