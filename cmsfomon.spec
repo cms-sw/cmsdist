@@ -1,4 +1,4 @@
-### RPM cms cmsfomon 1208e
+### RPM cms cmsfomon 1208f
 
 # This is a meta-package to group all cms ops services from comp repository
 Requires: crabhb happyface sreadiness
