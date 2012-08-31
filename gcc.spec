@@ -48,29 +48,11 @@ Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 %if "%isslc" == "true"
 Source8: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
 %endif
-Patch0: gcc-4.6.1-ignore-arch-flags-macosx
-# See http://gcc.gnu.org/bugzilla/show_bug.cgi?id=49540
-Patch1: gcc-4.6.1-fix-gfortran-regression
 Patch2: https://fedorahosted.org/releases/e/l/elfutils/0.153/elfutils-portability.patch
 
 %prep
 echo "use_custom_binutils: %use_custom_binutils"
 %setup -T -b 0 -n gcc-%gccBranch-%gccRevision
-%if "%gcc_45plus" == "true"
-# Get the macosx build to accept -arch, -F options like the official Apple one.
-# Notice that  patch command have to stay on a single line.
-case %cmsos in
-  osx*)
-%patch0 -p1 
-  ;;
-esac
-
-case %cmsplatf in
-  *_amd64_gcc461)
-%patch1 -p0
-  ;;
-esac
-%endif
 
 case %cmsos in
   slc*_gcc4[0-6]*)
