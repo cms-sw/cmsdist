@@ -3,11 +3,17 @@ Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
 Requires: expat
-%if "%online" != "true"
 Requires: openssl
+%if "%online" != "true"
 Requires: zlib
 %else
 Requires: onlinesystemtools
+%endif
+
+Patch0: frontier_client-2.8.5-fix-gcc47
+
+%if "%{?cms_cxxflags:set}" != "set"
+%define cms_cxxflags -std=c++0x -O2
 %endif
 
 %prep
@@ -19,10 +25,12 @@ Requires: onlinesystemtools
 %define makeargs "EXPAT_DIR=$EXPAT_ROOT COMPILER_TAG=gcc_%{gccver}"
 %endif
 
+%patch0 -p1
+
 %build
 
 export MAKE_ARGS=%{makeargs}
-make $MAKE_ARGS
+make $MAKE_ARGS CXXFLAGS="%cms_cxxflags"
 
 %install
 mkdir -p %i/lib

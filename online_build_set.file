@@ -251,6 +251,7 @@ DQMOffline/Configuration
 DQMOffline/EGamma
 DQMOffline/Ecal
 DQMOffline/JetMET
+DQMOffline/L1Trigger
 DQMOffline/Muon
 DQMOffline/PFTau
 DQMOffline/RecoB
@@ -341,6 +342,7 @@ DataFormats/TauReco
 DataFormats/TestObjects
 DataFormats/TrackCandidate
 DataFormats/TrackReco
+DataFormats/TrackerCommon
 DataFormats/TrackerRecHit2D
 DataFormats/TrackingRecHit
 DataFormats/TrackingSeed
@@ -505,7 +507,6 @@ IORawData/SiPixelInputSources
 IgTools/IgHook
 IgTools/IgProf
 IgTools/IgTrace
-Iguana/Utilities
 JetMETCorrections/Algorithms
 JetMETCorrections/Configuration
 JetMETCorrections/IsolatedParticles

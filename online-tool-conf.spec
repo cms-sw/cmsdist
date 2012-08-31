@@ -4,7 +4,6 @@
 # tool is added
 
 %define isslc %(case %cmsos in (slc*) echo true;; (*) echo false;; esac)
-%define is64bit %(case %cmsos in (slc*_amd64) echo true;; (*) echo false;; esac)
 
 #Requires: alpgen-toolfile                  # not used online
 Requires: boost-toolfile
@@ -15,7 +14,7 @@ Requires: classlib-toolfile
 Requires: clhep-toolfile
 Requires: coral-toolfile
 #Requires: cppunit-toolfile                 # not used online
-#Requires: curl-toolfile                    # from SLC5 (curl)
+Requires: curl-toolfile
 #Requires: freetype-toolfile                # only on MacOS X
 #Requires: das-client-toolfile              # not used online
 #Requires: db4-toolfile                     # not used online
@@ -52,7 +51,7 @@ Requires: libungif-toolfile
 #Requires: meschach-toolfile                # not used online
 #Requires: millepede-toolfile               # not used online
 #Requires: mimetic-toolfile                 # from XDAQ (daq-mimetic)
-#Requires: openssl-toolfile                 # from SLC5 (openssl)
+Requires: openssl-toolfile
 Requires: oracle-env
 #Requires: oracle-toolfile                  # from XDAQ (daq-oracle)
 Requires: pcre-toolfile
@@ -100,6 +99,8 @@ Requires: fftjet-toolfile
 #Requires: py2-ipython-toolfile             # not used online
 Requires: xz-toolfile
 #Requires: protobuf-toolfile                # not used online
+#Requires: openldap-toolfile                # not used online
+#Requires: python-ldap-toolfile             # not used online
 Requires: gdb-toolfile
 #Requires: google-perftools-toolfile        # not used online
 Requires: igprof-toolfile
