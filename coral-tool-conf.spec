@@ -1,4 +1,4 @@
-### RPM cms coral-tool-conf 2.0
+### RPM cms coral-tool-conf 2.1
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new tool is added
 %define closingbrace )
@@ -24,7 +24,6 @@ Requires: onlinesystemtools
 %define onlinesystemtoolsroot ${ONLINESYSTEMTOOLS_ROOT}
 %endif
 
-%define skipreqtools %{nil}
-%define skipreqtools jcompiler
+%define skipreqtools jcompiler boost_python
 
 ## IMPORT scramv1-tool-conf
