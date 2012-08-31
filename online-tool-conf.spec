@@ -14,7 +14,7 @@ Requires: classlib-toolfile
 Requires: clhep-toolfile
 Requires: coral-toolfile
 #Requires: cppunit-toolfile                 # not used online
-#Requires: curl-toolfile                    # from SLC5 (curl)
+Requires: curl-toolfile
 #Requires: freetype-toolfile                # only on MacOS X
 #Requires: das-client-toolfile              # not used online
 #Requires: db4-toolfile                     # not used online
@@ -51,7 +51,7 @@ Requires: libungif-toolfile
 #Requires: meschach-toolfile                # not used online
 #Requires: millepede-toolfile               # not used online
 #Requires: mimetic-toolfile                 # from XDAQ (daq-mimetic)
-#Requires: openssl-toolfile                 # from SLC5 (openssl)
+Requires: openssl-toolfile
 Requires: oracle-env
 #Requires: oracle-toolfile                  # from XDAQ (daq-oracle)
 Requires: pcre-toolfile
@@ -88,7 +88,7 @@ Requires: valgrind-toolfile
 #Requires: py2-scipy-toolfile               # not used online
 Requires: cmsswdata-toolfile
 Requires: py2-cjson-toolfile
-#Requires: py2-pycurl-toolfile              # not used online
+Requires: py2-pycurl-toolfile
 #Requires: rivet-toolfile                   # not used online
 #Requires: cascade-toolfile                 # not used online
 Requires: fftw3-toolfile

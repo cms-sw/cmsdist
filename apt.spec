@@ -12,10 +12,7 @@ Patch2: apt-429-less-dependencies
 
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
-Requires: libxml2 rpm db4
-%if "%online" != "true"
-Requires: openssl
-%endif
+Requires: libxml2 rpm db4 openssl
 
 %prep
 %setup -T -b 2 -n RPM-Header-PurePerl-1.0.2

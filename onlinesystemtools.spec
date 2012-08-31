@@ -4,13 +4,11 @@ Source: none
 Requires: oracle-env
 
 %define compilertools %{nil}
-%define onlinetools zlib curl openssl xerces-c xdaq xdaqheader mimetic oracle oracleocci
+%define onlinetools zlib xerces-c xdaq xdaqheader mimetic oracle oracleocci
 # Define variables used in non-scram-managed tools, that would be
 # normally defined in package's init.sh/csh scrips.
 # Set all versions as currently found on the system.
 %define xdaq_root                       /opt/xdaq
-%define curl_version                    7.15.5
-## INITENV SETV CURL_VERSION            %curl_version
 %define zlib_version                    1.2.3
 ## INITENV SETV ZLIB_VERSION            %zlib_version
 %define zlib_root                       /usr
@@ -22,9 +20,6 @@ Requires: oracle-env
 %define oracle_version                  11.2.2
 ## INITENV SETV ORACLE_VERSION          %oracle_version
 ## INITENV SETV ORACLE_ROOT             %xdaq_root
-%define openssl_version                 0.9.8e
-## INITENV SETV OPENSSL_VERSION         %openssl_version
-%define openssl_root                    /usr
 %define xerces_version                  2.8.0
 ## INITENV SETV XERCES_C_VERSION        %xerces_version
 ## INITENV SETV XERCES_C_ROOT           %xdaq_root
@@ -119,17 +114,6 @@ cat << \EOF_TOOLFILE >>%i/etc/scram.d/x11.xml
   </tool>
 EOF_TOOLFILE
 
-# curl
-cat << \EOF_TOOLFILE >%i/etc/scram.d/curl.xml
-  <tool name="Curl" version="%curl_version">
-    <lib name="curl"/>
-    <client>
-      <environment name="CURL_BASE" default="/usr"/>
-      <environment name="INCLUDE" default="$CURL_BASE/include"/>
-    </client>
-  </tool>
-EOF_TOOLFILE
-
 # zlib
 cat << \EOF_TOOLFILE >%i/etc/scram.d/zlib.xml
   <tool name="zlib" version="%zlib_version">
@@ -137,18 +121,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/zlib.xml
     <client>
       <environment name="ZLIB_BASE" default="%zlib_root"/>
       <environment name="INCLUDE" default="$ZLIB_BASE/include"/>
-    </client>
-  </tool>
-EOF_TOOLFILE
-
-# openssl
-cat << \EOF_TOOLFILE >%i/etc/scram.d/openssl.xml
-  <tool name="openssl" version="%openssl_version">
-    <lib name="ssl"/>
-    <lib name="crypto"/>
-    <client>
-      <environment name="OPENSSL_BASE" default="%openssl_root"/>
-      <environment name="INCLUDE" default="$OPENSSL_BASE/include"/>
     </client>
   </tool>
 EOF_TOOLFILE
