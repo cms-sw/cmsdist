@@ -154,12 +154,10 @@ case %{cmsos} in
     CONF_GCC_OS_SPEC=--enable-fully-dynamic-string
   ;;
   osx*)
-    # Depend on XCode provided /usr snapshot
-    export PATH=/Developer/usr/bin:$PATH
-    CC='/Developer/usr/bin/clang'
-    CXX='/Developer/usr/bin/clang++'
-    CPP='/Developer/usr/bin/clang -E'
-    CXXCPP='/Developer/usr/bin/clang++ -E'
+    CC='clang'
+    CXX='clang++'
+    CPP='clang -E'
+    CXXCPP='clang++ -E'
     ADDITIONAL_LANGUAGES=,objc,obj-c++
     
     # Disable for Lion (10.7.X) otherwise ld will fail on libgfortran.la
