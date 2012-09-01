@@ -9,6 +9,7 @@ Source2: http://search.cpan.org/CPAN/authors/id/T/TL/TLBDK/RPM-Header-PurePerl-1
 Patch0: apt-429-fix-gcc-461
 Patch1: apt-429-fix-gcc-47
 Patch2: apt-429-less-dependencies
+Patch3: apt-429-add-support-osx108
 
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
@@ -21,6 +22,12 @@ cd ..
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+
+case %cmsplatf in
+  osx108_*)
+%patch3 -p1
+  ;;
+esac
 
 %build
 case %cmsplatf in
