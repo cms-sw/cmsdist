@@ -98,7 +98,7 @@ CONFIG_ARGS="--enable-table
              --with-fftw3-incdir=${FFTW3_ROOT}/include
              --with-fftw3-libdir=${FFTW3_ROOT}/lib
              --with-ssl-incdir=${OPENSSL_ROOT}/include
-             --with-ssl-libdir=${OPENSSL_ROOT}/lib"
+             --with-ssl-libdir=${OPENSSL_ROOT}/lib
              --disable-ldap
              --disable-krb5
              --with-xrootd=${XROOTD_ROOT}
