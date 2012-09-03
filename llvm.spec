@@ -1,7 +1,7 @@
 ### RPM external llvm 3.2
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-%define llvmRevision 157628
-%define clangRevision 157628
+%define llvmRevision 163111
+%define clangRevision 163111
 %define llvmBranch %(echo %realversion | sed -e 's|[.]||')
 # s/#/S/ to use the official version.
 #Source0: svn://llvm.org/svn/llvm-project/llvm/branches/release_%llvmBranch/?scheme=http&revision=%llvmRevision&module=llvm-%realversion-%llvmRevision&output=/llvm-%realversion-%llvmRevision.tgz
