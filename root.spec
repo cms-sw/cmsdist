@@ -78,7 +78,7 @@ EXTRA_CONFIG_ARGS="--with-f77=/usr
              --disable-odbc --disable-astiff"
 %else
 export LIBPNG_ROOT ZLIB_ROOT LIBTIFF_ROOT LIBUNGIF_ROOT
-EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}
+EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}"
 %endif
 LZMA=${XZ_ROOT}
 export LZMA
