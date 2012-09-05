@@ -109,6 +109,7 @@ Requires: lcov-toolfile
 Requires: llvm-gcc-toolfile
 Requires: py2-lint-toolfile
 Requires: tbb-toolfile
+Requires: mctester-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
