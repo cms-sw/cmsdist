@@ -1,4 +1,4 @@
-### RPM external qt 4.8.0
+### RPM external qt 4.8.1
 ## INITENV UNSET QMAKESPEC
 ## INITENV SET QTDIR %i
 
