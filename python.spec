@@ -17,6 +17,7 @@ Requires: zlib sqlite
 # FIXME: gmp, panel, tk/tcl, x11
 
 Source0: http://www.python.org/ftp/%n/%realversion/Python-%realversion.tgz
+Patch0: python-2.7.3-dont-detect-dbm
 Patch1: python-fix-macosx-relocation
 Patch2: python-2.7.3-fix-pyport
 Patch3: python-2.7.3-ssl-fragment
@@ -28,6 +29,7 @@ find . -type f | while read f; do
     perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" $f
   else :; fi
 done
+%patch0 -p1
 %patch1 -p0
 
 %ifos darwin
