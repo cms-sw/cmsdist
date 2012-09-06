@@ -27,6 +27,14 @@ cd $PWD/src/xercesc
 export CXXFLAGS="%cms_cxxflags"
 export VERBOSE=1
 
+case %cmsplatf in
+  osx108_*)
+    # For OS X ("Mountain Lion") do not use Objective-C in C and C++ code.
+    export CXXFLAGS="${CXXFLAGS} -DOS_OBJECT_USE_OBJC=0"
+    export CFLAGS="${CXXFLAGS} -DOS_OBJECT_USE_OBJC=0"
+  ;;
+esac
+
 case %cmsos in
  slc*)
    ./runConfigure -P%i -plinux -cgcc -x%cms_cxx ;;

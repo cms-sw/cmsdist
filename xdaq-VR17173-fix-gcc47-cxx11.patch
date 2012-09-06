@@ -70,6 +70,18 @@ index 1e5d340..bef14d3 100755
  #include "toolbox/Task.h"
  #include "toolbox/TaskAttributes.h"
  #include "toolbox/TaskGroup.h"
+diff --git a/daq/toolbox/src/macosx/common/Task.cc b/daq/toolbox/src/macosx/common/Task.cc
+index 1e5d340..f3b9e3b 100755
+--- a/daq/toolbox/src/macosx/common/Task.cc
++++ b/daq/toolbox/src/macosx/common/Task.cc
+@@ -13,6 +13,7 @@
+ #include <string>
+ #include <stdarg.h>
+ #include <signal.h>
++#include <unistd.h>
+ #include "toolbox/Task.h"
+ #include "toolbox/TaskAttributes.h"
+ #include "toolbox/TaskGroup.h"
 diff --git a/daq/xoap/include/xoap/HTTPURLConnection.h b/daq/xoap/include/xoap/HTTPURLConnection.h
 index 9f0738c..4cd6128 100755
 --- a/daq/xoap/include/xoap/HTTPURLConnection.h
