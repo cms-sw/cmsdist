@@ -44,8 +44,8 @@ export CMAKE_PREFIX_PATH=$CURL_ROOT:$ZLIB_ROOT:$EXPAT_ROOT:$BZ2LIB_ROOT
 # C and C++ code.
 case %cmsplatf in
   osx108_*)
-    ./configure --prefix=%i --init=build-flags.cmake --parallel=%compiling_processes \
-      CXXFLAGS="-DOS_OBJECT_USE_OBJC=0" CFLAGS="-DOS_OBJECT_USE_OBJC=0"
+    CXXFLAGS="-DOS_OBJECT_USE_OBJC=0" CFLAGS="-DOS_OBJECT_USE_OBJC=0" \
+      ./configure --prefix=%i --init=build-flags.cmake --parallel=%compiling_processes
   ;;
   *)
     ./configure --prefix=%i --init=build-flags.cmake --parallel=%compiling_processes
