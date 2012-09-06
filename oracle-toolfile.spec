@@ -35,7 +35,7 @@ EOF_TOOLFILE
 
 case $ORACLE_VERSION in
    11.* )
-   	export OS_LIBS="<lib name='nnz11'/>"
+   	export OS_LIBS="<lib name=\"nnz11\"/>"
    ;;
 esac
 
