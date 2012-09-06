@@ -6,6 +6,7 @@ Requires: hepmc lhapdf
 BuildRequires: autotools
 Patch0: sherpa-1.4.0-lhapdf
 Patch1: sherpa-1.4.0-fix-gcc47-cxx11
+Patch2: sherpa-1.4.0-add-support-osx108
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -26,6 +27,10 @@ case %cmsplatf in
 %patch1 -p1
   ;;
 esac
+
+if [[ %cmsplatf == osx108_* ]]; then
+%patch2 -p1
+fi
 
 autoreconf -i --force
 
