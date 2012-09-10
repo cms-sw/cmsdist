@@ -13,3 +13,7 @@ perl Makefile.PL INSTALL_BASE=%i INCLUDE=$ZLIB_ROOT/include
 make
 
 %define drop_files %i/man
+
+%post
+%{relocateConfig}lib/perl5/x86_64-linux-thread-multi/perllocal.pod
+%{relocateConfig}lib/perl5/x86_64-linux-thread-multi/auto/Compress/Zlib/.packlist
