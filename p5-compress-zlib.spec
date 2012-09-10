@@ -1,4 +1,4 @@
-### RPM external p5-compress-zlib 1.34
+### RPM external p5-compress-zlib 1.42
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 %define downloadn Compress-Zlib
 Source: http://search.cpan.org/CPAN/authors/id/P/PM/PMQS/%{downloadn}-%{realversion}.tar.gz
