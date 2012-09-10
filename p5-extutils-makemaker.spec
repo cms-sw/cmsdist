@@ -1,4 +1,4 @@
-### RPM external p5-extutils-makemaker 6.58
+### RPM external p5-extutils-makemaker 6.63_02
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 %define name_mm ExtUtils-MakeMaker
 %define name_inst ExtUtils-Install
