@@ -21,11 +21,11 @@
 # 1.351 is 1.5.0
 # HG1207a das @slc5_amd64_gcc461
 # 1.359 is 1.6.2 (based on pymongo 2.2.1/mongo 2.0.7)
-# 1.360 is 1.7.0.pre1 (dev release)
+# 1.361 is 1.7.0.pre2 (dev release)
 HG1210a das @slc5_amd64_gcc461
 + 1.41 mongo.spec
 + 1.24 py2-pymongo.spec
-+ 1.360 das.spec
++ 1.361 das.spec
 # + 1.359 das.spec
 
 # FileMover
