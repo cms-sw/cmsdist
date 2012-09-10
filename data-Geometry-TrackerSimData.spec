@@ -1,2 +1,2 @@
-### RPM cms data-Geometry-TrackerSimData V01-02-05
+### RPM cms data-Geometry-TrackerSimData V01-03-00
 ## IMPORT cmssw-xmldata-build

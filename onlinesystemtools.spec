@@ -4,15 +4,16 @@ Source: none
 Requires: oracle-env
 
 %define compilertools %{nil}
-%define onlinetools zlib xerces-c xdaq xdaqheader mimetic oracle oracleocci
+%define onlinetools zlib curl openssl xerces-c xdaq xdaqheader mimetic oracle oracleocci
 # Define variables used in non-scram-managed tools, that would be
 # normally defined in package's init.sh/csh scrips.
 # Set all versions as currently found on the system.
 %define xdaq_root                       /opt/xdaq
+%define curl_version                    7.15.5
+## INITENV SETV CURL_VERSION            %curl_version
 %define zlib_version                    1.2.3
 ## INITENV SETV ZLIB_VERSION            %zlib_version
 %define zlib_root                       /usr
-## INITENV SETV ZLIB_ROOT               %zlib_root
 %define uuid_version                    1.39
 ## INITENV SETV UUID_VERSION            %uuid_version
 %define sqlite_version                  3.7.5
@@ -20,6 +21,9 @@ Requires: oracle-env
 %define oracle_version                  11.2.2
 ## INITENV SETV ORACLE_VERSION          %oracle_version
 ## INITENV SETV ORACLE_ROOT             %xdaq_root
+%define openssl_version                 0.9.8e
+## INITENV SETV OPENSSL_VERSION         %openssl_version
+%define openssl_root                    /usr
 %define xerces_version                  2.8.0
 ## INITENV SETV XERCES_C_VERSION        %xerces_version
 ## INITENV SETV XERCES_C_ROOT           %xdaq_root
@@ -49,7 +53,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sockets.xml
   <tool name="sockets" version="%sockets_version">
 EOF_TOOLFILE
 case %cmsplatf in
-slc4_* | slc4onl_* | slc5_* | slc5onl_* )
+slc3_* | slc4_* | slc5_* | slc4onl_*| slc5onl_* )
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/sockets.xml
     <lib name="nsl"/>
     <lib name="crypt"/>
@@ -91,13 +95,12 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/x11.xml
   <tool name="x11" version="%x11_version">
 EOF_TOOLFILE
 case %cmsplatf in
-osx* )
+slc3_*|osx* )
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/x11.xml
     <client>
       <environment name="INCLUDE" value="/usr/X11R6/include"/>
       <environment name="LIBDIR" value="/usr/X11R6/lib"/>
     </client>
-    <runtime name="DYLD_FALLBACK_LIBRARY_PATH" value="$LIBDIR" type="path"/>
     <lib name="Xt"/>
     <lib name="Xpm"/>
     <lib name="X11"/>
@@ -114,6 +117,17 @@ cat << \EOF_TOOLFILE >>%i/etc/scram.d/x11.xml
   </tool>
 EOF_TOOLFILE
 
+# curl
+cat << \EOF_TOOLFILE >%i/etc/scram.d/curl.xml
+  <tool name="Curl" version="%curl_version">
+    <lib name="curl"/>
+    <client>
+      <environment name="CURL_BASE" default="/usr"/>
+      <environment name="INCLUDE" default="$CURL_BASE/include"/>
+    </client>
+  </tool>
+EOF_TOOLFILE
+
 # zlib
 cat << \EOF_TOOLFILE >%i/etc/scram.d/zlib.xml
   <tool name="zlib" version="%zlib_version">
@@ -121,6 +135,18 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/zlib.xml
     <client>
       <environment name="ZLIB_BASE" default="%zlib_root"/>
       <environment name="INCLUDE" default="$ZLIB_BASE/include"/>
+    </client>
+  </tool>
+EOF_TOOLFILE
+
+# openssl
+cat << \EOF_TOOLFILE >%i/etc/scram.d/openssl.xml
+  <tool name="openssl" version="%openssl_version">
+    <lib name="ssl"/>
+    <lib name="crypto"/>
+    <client>
+      <environment name="OPENSSL_BASE" default="%openssl_root"/>
+      <environment name="INCLUDE" default="$OPENSSL_BASE/include"/>
     </client>
   </tool>
 EOF_TOOLFILE

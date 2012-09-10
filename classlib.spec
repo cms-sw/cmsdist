@@ -8,8 +8,8 @@ Patch2: classlib-3.1.3-fix-gcc47-cxx11
 Requires: bz2lib 
 Requires: pcre 
 Requires: xz
-Requires: openssl
 %if "%online" != "true"
+Requires: openssl
 Requires: zlib 
 %else
 Requires: onlinesystemtools
@@ -27,7 +27,13 @@ Requires: onlinesystemtools
 %setup -n %n-%realversion
 %patch0 -p1
 %patch1 -p1
+# Apply C++11 / gcc 4.7.x fixes only if using a 47x architecture.
+# See http://gcc.gnu.org/gcc-4.7/porting_to.html
+case %cmsplatf in
+  *gcc4[789]*)
 %patch2 -p1
+  ;;
+esac
 
 %build
 ./configure --prefix=%i                         \
