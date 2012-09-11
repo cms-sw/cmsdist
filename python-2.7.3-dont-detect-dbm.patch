@@ -1,5 +1,5 @@
 diff --git a/setup.py b/setup.py
-index 6b47451..cb79bdf 100644
+index 6b47451..b83da78 100644
 --- a/setup.py
 +++ b/setup.py
 @@ -801,7 +801,7 @@ class PyBuildExt(build_ext):
@@ -72,7 +72,7 @@ index 6b47451..cb79bdf 100644
              # See whether there is a Sleepycat header in the standard
              # search path.
 -            for d in inc_dirs + db_inc_paths:
-+            for d in [os.environ["DB4_ROOT"]]:
++            for d in ["%s/include" % os.environ["DB4_ROOT"]]:
                  f = os.path.join(d, "db.h")
  
                  if sys.platform == 'darwin' and is_macosx_sdk_path(d):
