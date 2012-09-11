@@ -77,8 +77,12 @@ case %cmsos in
     CFLAGS_PLATF="-fPIC"
     LIBS_PLATF="-ldl"
   ;;
-  osx*)
+  osx108*)
     export CFLAGS_PLATF="-arch x86_64 -fPIC"
+    export LIBS_PLATF="-liconv"
+  ;;
+  osx*)
+    export CFLAGS_PLATF="-arch x86_64 -fPIC -D_FORTIFY_SOURCE=0"
     export LIBS_PLATF="-liconv"
   ;;
   *)
