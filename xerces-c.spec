@@ -2,6 +2,7 @@
 %define xercesv %(echo %realversion | tr . _)
 Source: http://archive.apache.org/dist/xml/xerces-c/sources/xerces-c-src_%xercesv.tar.gz 
 Patch0: xerces-c-2.8.0-osx106
+Patch1: xerces-c-2.8.0-fix-narrowing-conversion
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -19,6 +20,8 @@ case %cmsplatf in
 %patch0 -p1
   ;;
 esac
+
+%patch1 -p1
 
 %build
 export XERCESCROOT=$PWD
