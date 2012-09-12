@@ -35,6 +35,8 @@ Patch9: rpm-4.8.0-increase-line-buffer
 Patch10: rpm-4.8.0-increase-macro-buffer
 Patch11: rpm-4.8.0-improve-file-deps-speed
 Patch12: rpm-4.8.0-fix-fontconfig-provides
+Patch13: rpm-4.8.0-fix-find-requires-limit
+Patch14: rpm-4.8.0-disable-internal-dependency-generator-libtool
 
 # Defaults here
 %define libdir lib
@@ -66,15 +68,21 @@ rm -rf lib/rpmhash.*
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
+%patch13 -p1
+%patch14 -p1
 
 %build
-case %cmsos in
+case %cmsplatf in
   slc*)
     CFLAGS_PLATF="-fPIC"
     LIBS_PLATF="-ldl"
   ;;
-  osx*)
+  osx108_*_gcc4[789]*)
     export CFLAGS_PLATF="-arch x86_64 -fPIC"
+    export LIBS_PLATF="-liconv"
+  ;;
+  osx*)
+    export CFLAGS_PLATF="-arch x86_64 -fPIC -D_FORTIFY_SOURCE=0"
     export LIBS_PLATF="-liconv"
   ;;
   *)
