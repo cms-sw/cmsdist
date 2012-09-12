@@ -1,8 +1,8 @@
-### RPM external mongo 2.0.7
+### RPM external mongo 2.2.0
 
-Patch: mongo-osx
+Patch: mongo2.2-osx
 Source: http://downloads.mongodb.org/src/mongodb-src-r%{realversion}.tar.gz
-Requires: boost scons pcre spidermonkey rotatelogs
+Requires: scons rotatelogs
 
 Provides: libpcap.so.0.8.3
 Provides: libpcap.so.0.8.3()(64bit)
@@ -23,13 +23,7 @@ cat > scons-cxx-wrapper << EOFCXX
 %if "%{?use_system_gcc:set}" != "set"
 . $GCC_ROOT/etc/profile.d/init.sh
 %endif
-
-# Boost 1.46.0 has a bug on boost filesystem3, so we set to use filesystem2 instead.
-# See http://www.freeorion.org/forum/viewtopic.php?f=24&t=5180
-#
-# We also get rid of deprecated bits that lead to compile warnings. See
-# http://stackoverflow.com/questions/1814548/boostsystem-category-defined-but-not-used
-exec c++ -DBOOST_SYSTEM_NO_DEPRECATED -DBOOST_FILESYSTEM_VERSION=2 \${1+"\$@"}
+exec c++ \${1+"\$@"}
 EOFCXX
 chmod 755 scons-cxx-wrapper
 
@@ -38,7 +32,7 @@ cat > scons-cc-wrapper << EOFCC
 %if "%{?use_system_gcc:set}" != "set"
 . $GCC_ROOT/etc/profile.d/init.sh
 %endif
-exec cc -DBOOST_SYSTEM_NO_DEPRECATED -DBOOST_FILESYSTEM_VERSION=2 \${1+"\$@"}
+exec cc \${1+"\$@"}
 EOFCC
 chmod 755 scons-cc-wrapper
 
@@ -47,8 +41,7 @@ case $(uname) in
   Darwin ) X64= ;;
   *      ) X64=--64 ;;
 esac
-#scons %makeprocesses $X64 --cxx=$PWD/scons-cxx-wrapper --cc=$PWD/scons-cc-wrapper --extrapathdyn=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT --prefix=%i all
-scons %makeprocesses $X64 --cxx=$PWD/scons-cxx-wrapper --cc=$PWD/scons-cc-wrapper --extrapathdyn=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT --prefix=%i install
+scons %makeprocesses $X64 --cxx=$PWD/scons-cxx-wrapper --cc=$PWD/scons-cc-wrapper --prefix=%i install
 
 
 %install
