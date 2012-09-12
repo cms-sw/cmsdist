@@ -13,19 +13,31 @@ Requires: SCRAMV1
 %define cvsconfig	config
 %define configtar	config.tar.gz
 %define configrepo	%cmsrepo
+%if "%{?buildtarget:set}" != "set"
 %define buildtarget	release-build
+%endif
+
+%if "%{?cvstag:set}" != "set"
+%define cvstag          %realversion
+%endif
+
+%if "%{?usercxxflags:set}" == "set"
+%define extraOptions USER_CXXFLAGS='"%{usercxxflags}"'
+%else
+%define extraOptions %{nil}
+%endif
 %define bootstrapfile   config/bootsrc.xml
 
 %if "%{?subpackageDebug:set}" == "set"
 # note: do not change the order of the -fdebug-prefix-map options, they seem to be use in reverse order
 # note: the single quotes are needed to protect the double quotes, otherwise scram will pass separate arguments to make
-%define debugOptions    USER_CXXFLAGS='"-fdebug-prefix-map=%{cmsroot}=%{installroot} -fdebug-prefix-map=%{instroot}=%{installroot} -g"'
+%define extraOptions USER_CXXFLAGS='"-fdebug-prefix-map=%{cmsroot}=%{installroot} -fdebug-prefix-map=%{instroot}=%{installroot} -g"'
 %else
-%define debugOptions    %{nil}
+%define extraOptions %{nil}
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V04-02-04
+%define configtag       V04-02-05
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -38,11 +50,6 @@ Requires: SCRAMV1
 
 %if "%{?cvssrc:set}" != "set"
 %define cvssrc		%(echo %n | sed -e "s|-patch||"| tr 'a-z' 'A-Z')
-%endif
-
-# Build with clang if _CLANG_X_ is in the name of the package.
-%if "%{?cvstag:set}" != "set"
-%define cvstag		%(echo %realversion | sed -e 's|_CLANG_X_|_X_|')
 %endif
 
 %if "%{?buildarch:set}" != "set"
@@ -165,14 +172,7 @@ export SCRAM_NOSYMCHECK=true
 %scramcmd b --verbose -f %{prebuildtarget} </dev/null
 %endif
 
-case %realversion in
-  *_CLANG_X_*)
-%scramcmd b --verbose -f %{compileOptions} %{debugOptions} %{makeprocesses} %{buildtarget} checker -k </dev/null || { %scramcmd b -f outputlog; }
-  ;;
-  *)
-%scramcmd b --verbose -f %{compileOptions} %{debugOptions} %{makeprocesses} %{buildtarget} </dev/null || { %scramcmd b -f outputlog && [ "%{?ignore_compile_errors:set}" == "set" ]; }
-  ;;
-esac
+%scramcmd b --verbose -f %{compileOptions} %{extraOptions} %{makeprocesses} %{buildtarget} </dev/null || { %scramcmd b -f outputlog && [ "%{?ignore_compile_errors:set}" == "set" ]; }
 
 %if "%{?additionalBuildTarget0:set}" == "set"
 %scramcmd b --verbose -f %{additionalBuildTarget0} < /dev/null
