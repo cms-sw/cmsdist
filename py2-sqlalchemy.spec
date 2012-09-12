@@ -1,4 +1,4 @@
-### RPM external py2-sqlalchemy 0.7.0
+### RPM external py2-sqlalchemy 0.5.2
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 Source: http://downloads.sourceforge.net/sqlalchemy/SQLAlchemy-%realversion.tar.gz
