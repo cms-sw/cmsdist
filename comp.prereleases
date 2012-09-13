@@ -67,8 +67,8 @@ HG1207c reqmgr @slc5_amd64_gcc461
 + 1.57 reqmgr.spec
 
 # Request Monitor
-HG1207c reqmon @slc5_amd64_gcc461
-+ 1.20 reqmon.spec
+HG1210a reqmon @slc5_amd64_gcc461
++ 1.23 reqmon.spec
 
 ## RequestMonitor
 #HG1204h reqmon-meta @slc5_amd64_gcc461
