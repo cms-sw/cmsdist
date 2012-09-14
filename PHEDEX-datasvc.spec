@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-datasvc 2.3.11
+### RPM cms PHEDEX-datasvc 2.3.12pre5
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define cvsversion DATASVC_%(echo %realversion | tr . _)
@@ -13,7 +13,7 @@ Requires: apache-setup mod_perl2 p5-apache-dbi p5-cgi p5-cgi-session
 Requires: p5-json-xs p5-xml-parser
 # Misc. Utilities
 Requires: p5-params-validate p5-clone p5-time-hires p5-text-glob p5-compress-zlib p5-sort-key p5-mail-rfc822-address
-Requires: p5-log-log4perl
+Requires: p5-log-log4perl p5-text-unaccent
 
 # Actually, it is p5-xml-parser that requires this, but it doesn't configure itself correctly
 # This is so it gets into our dependencies-setup.sh
