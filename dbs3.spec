@@ -1,30 +1,35 @@
-### RPM cms dbs3 3.0.18
+### RPM cms dbs3 3.0.19
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 ## INITENV SET DBS3_SERVER_ROOT %i/
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 0.8.47
+%define wmcver 0.9.13
 %define cvstag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
-Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_dbs.tar.gz
+%define gitserver https://nodeload.github.com
+Source0: %gitserver/dmwm/WMCore/tarball/%{wmcver}
 Source1: %svnserver/DBS/tags/%cvstag?scheme=svn+ssh&strategy=export&module=DBS3&output=/%{n}.tar.gz
+
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui
 Requires: py2-cjson py2-mysqldb py2-cx-oracle rotatelogs
 BuildRequires: py2-sphinx
 
 %prep
-%setup -T -b 0 -n WMCore
-%setup -D -T -b 1 -n DBS3
+%setup -c
+%setup -D -T -a 0
+%setup -D -T -a 1
+# move github directory
+mv dmwm-WMCore* WMCore
 
 %build
-cd ../WMCore
+cd WMCore
 python setup.py build_system -s wmc-web
 cd ../DBS3
 python setup.py build_system -s Server
 
 %install
 mkdir -p %i/etc/profile.d %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
-cd ../WMCore
+cd WMCore
 python setup.py install_system -s wmc-web --prefix=%i
 cd ../DBS3
 python setup.py install_system -s Server --prefix=%i
@@ -48,4 +53,7 @@ done
 %files
 %{installroot}/%{pkgrel}/
 %exclude %{installroot}/%{pkgrel}/doc
+
+# Exclude Migration server from official rpms 
+%exclude %{installroot}/%{pkgrel}/lib/python2.6/site-packages/dbs/web/DBSMigrateModel.py
 ## SUBPACKAGE webdoc
