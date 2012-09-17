@@ -1,7 +1,7 @@
 ### RPM external llvm 3.2
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-%define llvmRevision 163111
-%define clangRevision 163111
+%define llvmRevision 164012
+%define clangRevision 164012
 %define llvmBranch %(echo %realversion | sed -e 's|[.]||')
 # s/#/S/ to use the official version.
 #Source0: svn://llvm.org/svn/llvm-project/llvm/branches/release_%llvmBranch/?scheme=http&revision=%llvmRevision&module=llvm-%realversion-%llvmRevision&output=/llvm-%realversion-%llvmRevision.tgz
@@ -12,6 +12,8 @@ Source1: svn://llvm.org/svn/llvm-project/cfe/trunk/?scheme=http&revision=%clangR
 Patch0: llvm-3.1-custom-gcc
 Patch1: llvm-3.1-fix-requires
 %define keep_archives true
+
+Requires: gcc
 
 %prep
 %setup -T -b0 -n llvm-%realversion-%llvmRevision
@@ -24,7 +26,7 @@ cd clang
 
 %build
 mkdir objs ; cd objs
-../configure --prefix=%i --enable-optimized
+../configure --prefix=%i --enable-optimized --with-gcc-toolchain=$GCC_ROOT
 make %makeprocesses
 
 %install
@@ -39,3 +41,7 @@ find ../tools/clang/tools/scan-view -type f -exec install {} %i/bin \;
 rm  %i/bin/FileRadar.scpt %i/bin/GetRadarVersion.scpt
 # Fix up a perl path
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' %i/bin/llvm-config
+
+%post
+%{relocateConfig}include/llvm/Config/config.h
+%{relocateConfig}include/llvm/Config/llvm-config.h
