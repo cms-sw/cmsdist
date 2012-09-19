@@ -7,12 +7,11 @@ Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/
 # download tip of a branch (problem with added username and username's hash ...)
 #Source0: https://github.com/zdenekmaxa/WMCore/tarball/alertscollector
 
-Requires: python couchapp
 # (cherrypy) bug introduced in 
 # https://github.com/dmwm/WMCore/commit/2922d23d3f980caa65899f443f1a8f67a0cb8a1c
 # setup_test depends on that but it's not necessary
 # sphinx is also necessary for build try to produce documentation
-BuildRequires: cherrypy py2-sphinx
+BuildRequires: python cherrypy py2-setuptools py2-sphinx
 
 %prep
 %setup -b 0 -n %n

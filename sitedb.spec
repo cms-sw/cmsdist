@@ -1,4 +1,4 @@
-### RPM cms sitedb 2.3.3
+### RPM cms sitedb 2.3.4
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
@@ -6,18 +6,22 @@
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define cvssrc cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-Source0: https://github.com/lat/WMCore/zipball/b99b0fe056e9fe508a6b9e37ff3ed543f3d18073#/wmcore_sitedb.zip
-Source1: git://github.com/geneguvo/sitedb?obj=master/%realversion&export=%n&output=/%n.tar.gz
+%define wmcver 0.9.14
+
+Source0: git://github.com/dmwm/WMCore?obj=master/%wmcver&export=wmcore_%n&output=/wmcore_%n.tar.gz
+Source1: git://github.com/dmwm/sitedb?obj=master/%realversion&export=%n&output=/%n.tar.gz
+#Source1: git://github.com/geneguvo/sitedb?obj=master/%realversion&export=%n&output=/%n.tar.gz
 #Source1: https://cern.ch/lat/temp/sitedb5.tar.gz
 Source2: %{cvssrc}&strategy=export&module=WEBTOOLS&nocache=true&export=WEBTOOLS&tag=-rSiteDBv1-slc5-v3&output=/old-sitedb.tar.gz
 Source3: %{cvssrc}&strategy=export&module=WEBTOOLS&nocache=true&export=WEBTOOLS&tag=-rV01-03-47&output=/old-webtools.tar.gz
-Requires: cherrypy yui3 d3 xregexp py2-cx-oracle py2-cjson py2-pycurl rotatelogs wmcore-devtools
+
+Requires: cherrypy yui3 d3 xregexp py2-cx-oracle py2-cjson py2-pycurl rotatelogs
 Requires: yui py2-cheetah py2-pysqlite py2-formencode py2-pycrypto beautifulsoup py2-sqlalchemy oracle-env py2-pyopenssl
 # ^ = line for legacy SiteDB support, remove when migrating fully to sitedb 2.x
-#BuildRequires: wmcore-devtools
+BuildRequires: wmcore-devtools
 
 %prep
-%setup -T -b 0 -n lat-WMCore-b99b0fe
+%setup -T -b 0 -n wmcore_%n
 %setup -D -T -b 1 -n %n
 perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/conf.py
 %setup -D -T -c -a 2 -n LEGACY-SITEDB
@@ -28,7 +32,7 @@ rm -rf WEBTOOLS/{Applications,Configuration,Tools/StartupScripts}
 rm -fr WEBTOOLS/SecurityModule/{perl,crypttest}
 
 %build
-cd ../*WMCore*
+cd ../wmcore_%n
 python setup.py build_system -s wmc-rest
 PYTHONPATH=$PWD/build/lib:$PYTHONPATH
 cd ../%n
@@ -36,7 +40,7 @@ python setup.py build_system --compress
 
 %install
 mkdir -p %i/etc/profile.d %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
-cd ../*WMCore*
+cd ../wmcore_%n
 python setup.py install_system -s wmc-rest --prefix=%i
 cd ../%n
 python setup.py install_system --compress --prefix=%i
