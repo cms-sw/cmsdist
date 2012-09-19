@@ -1,4 +1,4 @@
-### RPM external p5-compress-zlib 1.42
+### RPM external p5-compress-zlib 1.34
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 %define downloadn Compress-Zlib
 Source: http://search.cpan.org/CPAN/authors/id/P/PM/PMQS/%{downloadn}-%{realversion}.tar.gz
@@ -13,7 +13,3 @@ perl Makefile.PL INSTALL_BASE=%i INCLUDE=$ZLIB_ROOT/include
 make
 
 %define drop_files %i/man
-
-%post
-%{relocateConfig}lib/perl5/x86_64-linux-thread-multi/perllocal.pod
-%{relocateConfig}lib/perl5/x86_64-linux-thread-multi/auto/Compress/Zlib/.packlist
