@@ -30,6 +30,5 @@ find %i -name '*.egg-info' -exec rm {} \;
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 # no dependencies
 
-
 %post
 # empty post section
