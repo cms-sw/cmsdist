@@ -1,4 +1,4 @@
-### RPM cms llvm-gcc-toolfile 12.0
+### RPM cms llvm-gcc-toolfile 13.0
 
 Requires: llvm
 %if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
@@ -17,7 +17,7 @@ mkdir -p %i/etc/scram.d
 if [ "X$GCC_ROOT" = X ]
 then
     GCC_PATH=`which gcc` || exit 1
-    GCC_VERSION=`gcc -v 2>&1 | grep "gcc version" | sed 's|[^0-9]*\([0-9].[0-9].[0-9]\).*|\1|'` || exit 1
+    GCC_VERSION=`gcc -dumpversion` || exit 1
     GCC_ROOT=`echo $GCC_PATH | sed -e 's|/bin/gcc||'`
     G77_ROOT=$GFORTRAN_MACOSX_ROOT
 else
@@ -27,9 +27,6 @@ export LLVM_ROOT
 export LLVM_VERSION
 export GCC_ROOT
 export G77_ROOT
-export GCC_REALVERSION=`echo $GCC_VERSION | sed -e's|-.*||'`
-
-export GCC_ARCH=$(basename $(dirname `find $GCC_ROOT/include -mindepth 4 -maxdepth 4 -name bits`))
 
 mkdir -p %i/etc/scram.d
 # Generic template for the toolfiles. 
@@ -43,17 +40,13 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm-cxxcompiler.xml
       <environment name="LLVM_CXXCOMPILER_BASE" default="@LLVM_ROOT@"/>
       <environment name="CXX" value="$LLVM_CXXCOMPILER_BASE/bin/clang++"/>
     </client>
-    <flags CPPFLAGS="-I@GCC_ROOT@/include/c++/@GCC_REALVERSION@"/>
-    <flags CPPFLAGS="-I@GCC_ROOT@/include/c++/@GCC_REALVERSION@/@GCC_ARCH@"/>
-    <flags CPPFLAGS="-I@GCC_ROOT@/include/c++/@GCC_REALVERSION@/backward"/>
-    <flags LDFLAGS="-L@GCC_ROOT@/lib64"/>
     # drop flags not supported by llvm
     # -Wno-non-template-friend removed since it's not supported, yet, by llvm.
     <flags REM_CXXFLAGS="-Wno-non-template-friend"/>
     <flags REM_CXXFLAGS="-Werror=format-contains-nul"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$LLVM_CXXCOMPILER_BASE/lib" type="path"/>
     <runtime name="PATH" value="$LLVM_CXXCOMPILER_BASE/bin" type="path"/>
-    <runtime name="COMPILER_RUNTIME_OBJECTS" value="@GCC_ROOT@/lib/gcc/@GCC_ARCH@/@GCC_REALVERSION@"/>
+    <runtime name="COMPILER_RUNTIME_OBJECTS" value="@GCC_ROOT@"/>
   </tool>
 EOF_TOOLFILE
 
@@ -84,6 +77,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm-analyzer-cxxcompiler.xml
       <environment name="LLVM_ANALYZER_CXXCOMPILER_BASE" default="@LLVM_ROOT@"/>
       <environment name="CXX" value="$LLVM_ANALYZER_CXXCOMPILER_BASE/bin/c++-analyzer"/>
     </client>
+    <runtime name="COMPILER_RUNTIME_OBJECTS" value="@GCC_ROOT@"/>
   </tool>
 EOF_TOOLFILE
 
