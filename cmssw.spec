@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_6_0_0_SLHCtkpre1
+### RPM cms cmssw CMSSW_5_2_7_cand4
 Requires: cmssw-tool-conf python
 
 %define runGlimpse      yes
@@ -13,7 +13,7 @@ Requires: cmssw-tool-conf python
 
 %if "%(case %realversion in (*_EXPERIMENTAL_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define cvstag		%(echo %realversion | sed -e 's|_EXPERIMENTAL_X|_X|')
-%define usercxxflags    -Ofast -march=native
+%define usercxxflags    -Ofast -march=native -DBOOST_DISABLE_ASSERTS
 %endif
 
 %if "%(case %realversion in (*_COVERAGE_X*) echo true ;; (*) echo false ;; esac)" == "true"
