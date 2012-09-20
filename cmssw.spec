@@ -13,7 +13,7 @@ Requires: cmssw-tool-conf python
 
 %if "%(case %realversion in (*_EXPERIMENTAL_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define cvstag		%(echo %realversion | sed -e 's|_EXPERIMENTAL_X|_X|')
-%define usercxxflags    -Ofast -march=native
+%define usercxxflags    -Ofast -march=native -DBOOST_DISABLE_ASSERTS
 %endif
 
 %if "%(case %realversion in (*_COVERAGE_X*) echo true ;; (*) echo false ;; esac)" == "true"
