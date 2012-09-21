@@ -1,12 +1,12 @@
-### RPM cms dbs-web V06_00_52
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+### RPM cms dbs-web V06_00_41
+## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
 %define cvstag %{realversion}
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=DBS/Web/DataDiscovery&nocache=true&export=DBS&tag=-r%{cvstag}&output=/dbs-web.tar.gz
 
-Requires: python mysql py2-mysqldb py2-simplejson elementtree
-Requires: webtools dbs-client rotatelogs
+Requires: python mysql py2-mysqldb py2-simplejson py2-memcached elementtree
+Requires: webtools dbs-client
 
 %prep
 %setup -n DBS/Web/DataDiscovery
@@ -14,16 +14,8 @@ Requires: webtools dbs-client rotatelogs
 %build
 
 %install
-mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
-cp -r * %i/$PYTHON_LIB_SITE_PACKAGES
-
-# Compile cheetah templates.
-cd %i/$PYTHON_LIB_SITE_PACKAGES
-mkdir -p rss
-./scripts/genTemplates.sh
-
-# Generate .pyc files.
-python -m compileall %i/$PYTHON_LIB_SITE_PACKAGES || true
+mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
+cp -r * %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
