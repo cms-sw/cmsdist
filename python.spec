@@ -6,10 +6,10 @@
 %{expand:%%define python_major_version %(echo %realversion | cut -d. -f1,2)}
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
-Requires: expat bz2lib db4 gdbm
+Requires: expat bz2lib db4 gdbm openssl
 
 %if "%online" != "true"
-Requires: zlib openssl sqlite
+Requires: zlib sqlite
 %endif
 
 # FIXME: readline, crypt 
@@ -51,7 +51,7 @@ esac
 mkdir -p %i/include %i/lib %i/bin
 
 %if "%online" != "true"
-%define extradirs $ZLIB_ROOT $OPENSSL_ROOT $SQLITE_ROOT 
+%define extradirs $ZLIB_ROOT $SQLITE_ROOT 
 %else
 %define extradirs %{nil}
 %endif
@@ -80,7 +80,7 @@ case %cmsplatf in
     ;;
 esac
 
-./configure --prefix=%{installroot}/%{pkgrel} $additionalConfigureOptions --enable-shared \
+./configure --prefix=%i $additionalConfigureOptions --enable-shared \
             --without-tkinter --disable-tkinter
 
 # The following is a kludge around the fact that the /usr/lib/libreadline.so
@@ -97,7 +97,7 @@ make %makeprocesses
 # We need to export it because setup.py now uses it to determine the actual
 # location of DB4, this was needed to avoid having it picked up from the system.
 export DB4_ROOT
-make install prefix=%i
+make install
 %define pythonv %(echo %realversion | cut -d. -f 1,2)
 
 case %cmsplatf in
