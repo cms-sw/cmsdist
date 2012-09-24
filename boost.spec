@@ -1,4 +1,4 @@
-### RPM external boost 1.50.0
+### RPM external boost 1.51.0
 %define boostver _%(echo %realversion | tr . _)
 Source: http://switch.dl.sourceforge.net/project/%{n}/%{n}/%{v}/%{n}%{boostver}.tar.gz
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
