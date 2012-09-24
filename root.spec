@@ -1,4 +1,4 @@
-### RPM lcg root 5.34.01
+### RPM lcg root 5.34.02
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i  
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
@@ -7,16 +7,12 @@ Source: svn://root.cern.ch/svn/root/tags/v%{svntag}/?scheme=http&strategy=export
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 %define ismac %(case %cmsplatf in (osx*) echo true;; (*) echo false;; esac)
 
-Patch0: root-5.34.00-externals
+Patch0: root-5.34.02-externals
 Patch1: root-5.28-00d-roofit-silence-static-printout
 Patch2: root-5.34.00-linker-gnu-hash-style
 Patch3: root-5.32.00-detect-arch
 Patch4: root-5.30.02-fix-gcc46
 Patch5: root-5.30.02-fix-isnan-again
-Patch6: root-5.34.00-rev-45079
-Patch7: root-5.34.01-rev-45321-45322
-Patch8: root-5.34.01-rev-45618
-Patch9: root-5.34.01-rev-45903
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -46,10 +42,6 @@ Requires: freetype
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
-%patch7 -p0
-%patch8 -p0
-%patch9 -p0
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
