@@ -151,22 +151,21 @@ HG1210a t0 @slc5_amd64_gcc461
 + WMCORE_0_6_12 wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
 
 # LifeCycle
-#HG1203g lifecycle-dataprovider @slc5_amd64_gcc461
-HG1207c lifecycle-dataprovider @slc5_amd64_gcc461
-+ 1.5 lifecycle-dataprovider.spec
+HG1210a lifecycle-dataprovider @slc5_amd64_gcc461
++ 1.6 lifecycle-dataprovider.spec
 
 # LifeCycle Agent
 #HG1203g PHEDEX-lifecycle @slc5_amd64_gcc461
 HG1207b PHEDEX-lifecycle @slc5_amd64_gcc461
 + 1.37 PHEDEX-lifecycle.spec
-+ 1.4 lifecycle-dataprovider.spec
++ 1.6 lifecycle-dataprovider.spec
 
 # DBS LifeCycle
 HG1207b dbs3-lifecycle @slc5_amd64_gcc461
 + 1.1 dbs3-lifecycle.spec
 + 1.17 dbs3-client.spec
 + 1.30 PHEDEX-lifecycle.spec
-+ 1.4 lifecycle-dataprovider.spec
++ 1.6 lifecycle-dataprovider.spec
 
 # WorkQueue
 HG1207c couchskel @slc5_amd64_gcc461
