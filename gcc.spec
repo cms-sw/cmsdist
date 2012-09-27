@@ -31,7 +31,7 @@ Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
 %define use_custom_binutils %(case %cmsos in (slc*) echo true ;; (*) echo false ;; esac)
 %if "%use_custom_binutils" == "true"
 %define bisonVersion 2.6.2
-Source6: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.bz2
+Source6: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
 %define binutilsv 2.22
 Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 #Source7: http://cmsrep.cern.ch/cmssw/binutils-mirror/binutils-%binutilsv.tar.bz2
