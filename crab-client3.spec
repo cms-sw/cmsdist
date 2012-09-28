@@ -12,7 +12,7 @@ Source1: git://github.com/dmwm/CRABClient.git?obj=master/%{realversion}&export=C
 Requires: python py2-httplib2 py2-sphinx py2-pycurl
 
 Patch0: crabclient3-setup
-#
+##
 %prep
 %setup -D -T -b 1 -n CRABClient-%{realversion}
 %setup -T -b 0 -n WMCore-%{wmcver}
