@@ -10,9 +10,9 @@ Source0: svn://gcc.gnu.org/svn/gcc/branches/%gccBranch?module=gcc-%gccBranch-%gc
 %define keep_archives true
 
 # For gcc version >= 4.0.0, a number of additional sources are needed. 
-%define gmpVersion 5.0.5
-%define mpfrVersion 3.1.1 
-%define mpcVersion 1.0.1
+%define gmpVersion 5.0.2
+%define mpfrVersion 3.0.1 
+%define mpcVersion 0.9
 Source1: ftp://ftp.gnu.org/gnu/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
@@ -20,8 +20,8 @@ Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
 # For gcc 4.5+ we need the additional tools ppl and cloog.
 %define gcc_45plus %(echo %realversion | sed -e 's|4[.][5-9].*|true|')
 %if "%{gcc_45plus}" == "true"
-%define pplVersion 1.0
-%define cloogVersion 0.17.0
+%define pplVersion 0.12
+%define cloogVersion 0.16.2
 Source4: http://bugseng.com/products/ppl/download/ftp/releases/%{pplVersion}/ppl-%{pplVersion}.tar.bz2
 Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
 %endif
@@ -30,8 +30,8 @@ Source5: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
 # Notice that since we don't support building 32bit nor slc4 anymore.
 %define use_custom_binutils %(case %cmsos in (slc*) echo true ;; (*) echo false ;; esac)
 %if "%use_custom_binutils" == "true"
-%define bisonVersion 2.6.2
-Source6: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
+%define bisonVersion 2.5
+Source6: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.bz2
 %define binutilsv 2.22
 Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 #Source7: http://cmsrep.cern.ch/cmssw/binutils-mirror/binutils-%binutilsv.tar.bz2
@@ -44,11 +44,11 @@ Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 # libelf does not work on Macosx however this is not a problem until
 # we use the system compiler there.
 %define isslc %(case %cmsos in (slc*) echo true ;; (*) echo false ;; esac)
-%define elfutilsVersion 0.155
+%define elfutilsVersion 0.153
 %if "%isslc" == "true"
 Source8: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
 %endif
-Patch2: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-portability.patch
+Patch2: https://fedorahosted.org/releases/e/l/elfutils/0.153/elfutils-portability.patch
 
 %prep
 echo "use_custom_binutils: %use_custom_binutils"
