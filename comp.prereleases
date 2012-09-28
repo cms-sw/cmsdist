@@ -114,7 +114,7 @@ HG1210c crab-system @slc5_amd64_gcc461
 + 1.9 crabserver3-setup.patch
 + 1.19/3.1.2pre3 crabcache.spec
 + 1.2 crabcache-setup.patch
-+ 1.24/3.1.2pre3 crab-client3.spec
++ 1.25/3.1.2pre3 crab-client3.spec
 + 1.6 crabclient3-setup.patch
 
 # Crab
