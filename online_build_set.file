@@ -88,6 +88,7 @@ CommonTools/CandAlgos
 CommonTools/CandUtils
 CommonTools/Clustering1D
 CommonTools/ConditionDBWriter
+CommonTools/ParticleFlow
 CommonTools/RecoAlgos
 CommonTools/RecoUtils
 CommonTools/Statistics
@@ -174,6 +175,7 @@ CondTools/RunInfo
 CondTools/SiPixel
 CondTools/SiStrip
 CondTools/Utilities
+Configuration/AlCa
 Configuration/DataProcessing
 Configuration/EcalTB
 Configuration/EventContent
@@ -464,7 +466,6 @@ Geometry/TrackerGeometryBuilder
 Geometry/TrackerNumberingBuilder
 Geometry/TrackerRecoData
 Geometry/TrackerSimData
-Geometry/TrackerTopology
 Geometry/TrackingGeometryAligner
 Geometry/TwentyFivePercentTrackerCommonData
 GeometryReaders/XMLIdealGeometryESSource
@@ -584,7 +585,6 @@ PhysicsTools/JetMCUtils
 PhysicsTools/KinFitter
 PhysicsTools/MVAComputer
 PhysicsTools/MVATrainer
-PhysicsTools/PFCandProducer
 PhysicsTools/ParallelAnalysis
 PhysicsTools/PatAlgos
 PhysicsTools/PatExamples
@@ -640,6 +640,8 @@ RecoHI/HiJetAlgos
 RecoHI/HiMuonAlgos
 RecoHI/HiTracking
 RecoJets/Configuration
+RecoJets/FFTJetAlgorithms
+RecoJets/FFTJetProducers
 RecoJets/JetAlgorithms
 RecoJets/JetAnalyzers
 RecoJets/JetAssociationAlgorithms
@@ -735,6 +737,7 @@ RecoTauTag/RecoTau
 RecoTauTag/TauTagTools
 RecoTracker/CkfPattern
 RecoTracker/Configuration
+RecoTracker/ConversionSeedGenerators
 RecoTracker/DeDx
 RecoTracker/DebugTools
 RecoTracker/FinalTrackSelectors

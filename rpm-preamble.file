@@ -116,13 +116,6 @@
 
 %define cmsplatf    	%{cmsos}_%{cmscomp}%{debugsuffix}
 
-# Define the variable name for dynamic linker search path.
-%ifos darwin
-%define dynamic_path_var DYLD_FALLBACK_LIBRARY_PATH
-%else
-%define dynamic_path_var LD_LIBRARY_PATH
-%endif
-
 # We are now done with locations.  Move to other things.
 
 # Disable for Fedora
@@ -184,10 +177,10 @@
 %endif
 
 # Define a macro for relocating configuration files in %%post section.
-%define relocateCmsFiles	perl -p -i -e "s|\Q%{instroot}\E|$CMS_INSTALL_PREFIX|g" 
-%define relocateRpmFiles	perl -p -i -e "s|\Q%{instroot}\E|$RPM_INSTALL_PREFIX|g" 
-%define reRelocateRpmFiles	perl -p -i -e "s|\Q$CMS_INSTALL_PREFIX\E|$RPM_INSTALL_PREFIX|g" 
-%define reRelocateRpmPkg	perl -p -i -e "s|\Q$CMS_INSTALL_PREFIX\E|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
-%define relocateRpmPkg		perl -p -i -e "s|\Q%{instroot}\E|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
-%define relocateCmsPkg		perl -p -i -e "s|\Q%{instroot}\E|$CMS_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
+%define relocateCmsFiles	perl -p -i -e "s|%{instroot}|$CMS_INSTALL_PREFIX|g" 
+%define relocateRpmFiles	perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" 
+%define reRelocateRpmFiles	perl -p -i -e "s|$CMS_INSTALL_PREFIX|$RPM_INSTALL_PREFIX|g" 
+%define reRelocateRpmPkg	perl -p -i -e "s|$CMS_INSTALL_PREFIX|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
+%define relocateRpmPkg		perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
+%define relocateCmsPkg		perl -p -i -e "s|%{instroot}|$CMS_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
 %define relocateConfig		%relocateCmsPkg

@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 24.0
+### RPM cms cmssw-tool-conf 24.1
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -17,6 +17,7 @@ Requires: clhep-toolfile
 Requires: coral-toolfile
 Requires: cppunit-toolfile
 Requires: curl-toolfile
+Requires: das-client-toolfile
 Requires: db4-toolfile
 Requires: dbs-client-toolfile
 Requires: dpm-toolfile
