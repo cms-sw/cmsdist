@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_5_2_7
+### RPM cms cmssw CMSSW_6_1_LTO_X_2012-09-27-1400
 Requires: cmssw-tool-conf python
 Patch10: cmssw-lto
 
@@ -24,12 +24,12 @@ Patch10: cmssw-lto
 
 %if "%(case %realversion in (*_FORTIFIED_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define cvstag		%(echo %realversion | sed -e 's|_FORTIFIED_X|_X|')
-%define usercxxflags    -fexceptions -fstack-protector-all --param=ssp-buffer-size=4 -Wp,-D_FORTIFY_SOURCE=2
+%define usercxxflags    -fexceptions -fstack-protector-all --param=ssp-buffer-size=4
 %endif
 
 %if "%(case %realversion in (*_LTO_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define cvstag		%(echo %realversion | sed -e 's|_LTO_X|_X|')
-%define patchsrc (cd .. ; patch -p1 <%_sourcedir/cmssw-lto)
+%define patchsrc pwd ; patch -p1 <%_sourcedir/cmssw-lto
 %endif
 
 ## IMPORT scram-project-build
