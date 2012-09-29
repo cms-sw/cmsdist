@@ -29,7 +29,7 @@ Patch10: cmssw-lto
 
 %if "%(case %realversion in (*_LTO_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define cvstag		%(echo %realversion | sed -e 's|_LTO_X|_X|')
-%define patchsrc pwd ; patch -p1 <%_sourcedir/cmssw-lto
+%define preBuildCommand pushd .. ; patch -p1 <%_sourcedir/cmssw-lto ; popd
 %endif
 
 ## IMPORT scram-project-build
