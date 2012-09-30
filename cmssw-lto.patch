@@ -1,5 +1,5 @@
 diff --git a/config/BuildFile.xml b/config/BuildFile.xml
-index 5f755d0..f0649dd 100755
+index 5f755d0..9510de8 100755
 --- a/config/BuildFile.xml
 +++ b/config/BuildFile.xml
 @@ -28,6 +28,12 @@
@@ -15,3 +15,13 @@ index 5f755d0..f0649dd 100755
  
  <flags LLVM_PLUGIN="UtilitiesStaticAnalyzers"/>
  <flags LLVM_CHECKERS="-enable-checker threadsafety"/>
+@@ -36,9 +42,6 @@
+ #  <flags EDM_LDFLAGS="-Wl,--version-script,$(SCRAM_CONFIGDIR)/SCRAM/EdmPluginVisibility.lds"/>
+    <flags MISSING_SYMBOL_FLAGS="-Wl,-z,defs"/>
+ </architecture>
+-<architecture name="slc.*_gcc4[6789]">
+-   <flags LDFLAGS="-Wl,--icf=all"/>
+-</architecture>
+ <architecture name="osx">
+    <flags MISSING_SYMBOL_FLAGS="-Wl,-undefined,error"/>
+ </architecture>
