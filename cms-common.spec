@@ -188,7 +188,7 @@ srbase=%{instroot}/$CMSARCH
 sver=$SCRAM_VERSION
 dir=`/bin/pwd`
 if [ "X${dir}" = "X" ] ; then
-  echo "Unable to find current working directory, may be directory was deleted."
+  echo "Unable to find current working directory, may be directory was deleted." >&2
   exit 1
 fi
 while [ ! -d ${dir}/.SCRAM ] && [ "$dir" != "/" ] ; do
@@ -209,7 +209,7 @@ if [ "X${scram_rel_series}" != "X" ] && [ -f ${srbase}/etc/default-scram/${scram
 fi
 srbase=%{instroot}/$CMSARCH/lcg/SCRAMV1/${sver}
 if [ ! -f ${srbase}/etc/profile.d/init.sh ] ; then
-  echo "Unable to find SCRAM version $sver for $CMSARCH architecture."
+  echo "Unable to find SCRAM version $sver for $CMSARCH architecture."  >&2
   exit 1
 fi
 . ${srbase}/etc/profile.d/init.sh
