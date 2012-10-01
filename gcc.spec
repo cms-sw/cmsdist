@@ -1,7 +1,6 @@
 ### RPM external gcc 4.6.2
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
-#Source0: svn://gcc.gnu.org/svn/gcc/trunk?module=gcc-%(echo %realversion | cut -f1,2 -d.)&date=20120116&output=/gcc-%realversion.tar.gz
 
 %define keep_archives true
 
@@ -69,7 +68,7 @@ esac
 %endif
 
 case %cmsos in
-  slc*_gcc4[0-6]*)
+  slc*)
 # Hack needed to align sections to 4096 bytes rather than 2MB on 64bit linux
 # architectures.  This is done to reduce the amount of address space wasted by
 # relocating many libraries. This was done with a linker script before, but
@@ -88,28 +87,6 @@ cat << \EOF_CMS_H > gcc/config/i386/cms.h
       %{rdynamic:-export-dynamic} \
       %{" SPEC_32 ":%{!dynamic-linker:-dynamic-linker " LINUX_DYNAMIC_LINKER32 "}} \
       %{" SPEC_64 ":%{!dynamic-linker:-dynamic-linker " LINUX_DYNAMIC_LINKER64 "}}} \
-    %{static:-static}} -z common-page-size=4096 -z max-page-size=4096"
-EOF_CMS_H
-  ;;
-slc*)
-# Hack needed to align sections to 4096 bytes rather than 2MB on 64bit linux
-# architectures.  This is done to reduce the amount of address space wasted by
-# relocating many libraries. This was done with a linker script before, but
-# this approach seems to be more correct.
-cat << \EOF_CONFIG_GCC >> gcc/config.gcc
-# CMS patch to include gcc/config/i386/t-cms when building gcc
-tm_file="$tm_file i386/cms.h"
-EOF_CONFIG_GCC
-
-cat << \EOF_CMS_H > gcc/config/i386/cms.h
-#undef LINK_SPEC
-#define LINK_SPEC "%{" SPEC_64 ":-m elf_x86_64} %{" SPEC_32 ":-m elf_i386} \
-  %{shared:-shared} \
-  %{!shared: \
-    %{!static: \
-      %{rdynamic:-export-dynamic} \
-      %{" SPEC_32 ":%{!dynamic-linker:-dynamic-linker " GNU_USER_DYNAMIC_LINKER32 "}} \
-      %{" SPEC_64 ":%{!dynamic-linker:-dynamic-linker " GNU_USER_DYNAMIC_LINKER64 "}}} \
     %{static:-static}} -z common-page-size=4096 -z max-page-size=4096"
 EOF_CMS_H
   ;;
