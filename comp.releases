@@ -26,34 +26,18 @@ HG1210a wmagent-dev @slc5_amd64_gcc461
 HG1210a wmagent-dev @osx106_amd64_gcc461
 + HEAD/0.9.19 wmagent.spec wmagent-dev.spec
 
-#HG1201a crab @slc5_amd64_gcc461
-#+ HEAD/1201a crab.spec
-#+ 1.29/3.0.7d crab-server3.spec
-#+ 1.10/3.0.7d crab-client3.spec
-#+ 1.30/0.0.6  asyncstageout.spec
-
-
-#asyncstageout
-HG1204g asyncstageout @slc5_amd64_gcc461
-+ 1.42/0.1.1 asyncstageout.spec
+#crab-system
+HG1210d crab-system @slc5_amd64_gcc461
++ 1.6/1210d crab-system.spec
++ 1.50/0.1.2 asyncstageout.spec
 + 1.7 asyncstageout-setup.patch
-
-HG1207b crabserver @slc5_amd64_gcc461
-+ 1.16/3.1.1 crabserver.spec
++ 1.22/3.1.2 crabserver.spec
 + 1.9 crabserver3-setup.patch
-
-HG1207b crabcache @slc5_amd64_gcc461
-+ 1.15/3.1.1 crabcache.spec
++ 1.20/3.1.2 crabcache.spec
 + 1.2 crabcache-setup.patch
-
-HG1207b crab-client3 @slc5_amd64_gcc461
-+ 1.19/3.1.1 crab-client3.spec
++ 1.26/3.1.2 crab-client3.spec
 + 1.6 crabclient3-setup.patch
 
-#DIE#HG1112a asyncstageout @slc5_amd64_gcc461
-#DIE#+ 1.27/0.0.5a asyncstageout.spec
-#DIE#+ HEAD/2.1.9 zeromq.spec
-#DIE#+ HEAD/2.1.9 py2-zmq.spec
 
 # PHEDEX agents
 HG1204f PHEDEX-combined-agents @slc5_amd64_gcc461
