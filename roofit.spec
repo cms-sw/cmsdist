@@ -1,4 +1,4 @@
-### RPM lcg roofit 5.34.02
+### RPM lcg roofit 5.34.01
 %define svnTag %(echo %realversion | tr '.' '-')
 Source0: svn://root.cern.ch/svn/root/tags/v%svnTag/roofit?scheme=http&module=roofit&output=/roofit.tgz
 Source1: svn://root.cern.ch/svn/root/tags/v%svnTag/tutorials/?scheme=http&module=tutorials&output=/rootutorials.tgz
