@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_6_1_0_pre3
+### RPM cms cmssw CMSSW_6_0_0
 Requires: cmssw-tool-conf python
 Patch10: cmssw-lto
 
