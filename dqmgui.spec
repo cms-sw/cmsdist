@@ -126,7 +126,7 @@ done
 
 %post
 for flavor in %{flavors}; do
- %{relocateConfig}/etc/makefile.ext
+ %{relocateConfig}/$flavor/etc/makefile.ext
  %{relocateConfig}/etc/profile.d/{env,dep*}.*sh
   case $flavor in
     '' )
