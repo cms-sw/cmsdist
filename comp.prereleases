@@ -146,9 +146,8 @@ HG1208c cmsfomon @slc5_amd64_gcc461
 
 # T0
 HG1210a t0 @slc5_amd64_gcc461
-+ HEAD/1.9.17 t0.spec
++ HEAD/1.9.18 t0.spec
 + HEAD/0.9.19 wmagent.spec
-#+ WMCORE_0_6_12 wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
 
 # LifeCycle
 HG1210a lifecycle-dataprovider @slc5_amd64_gcc461
