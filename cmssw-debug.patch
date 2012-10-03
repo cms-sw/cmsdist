@@ -6,7 +6,7 @@ index 5f755d0..9510de8 100755
  <flags REM_LCGDICT_CPPFLAGS="-O%"/>
  <flags REM_LCGDICT_CXXFLAGS="-fipa%"/>
  <flags LCGDICT_CXXFLAGS="-Os -Wno-unused-variable"/>
-+<flags REM_CXXFLAGS="-O%"/>
++<flags REM_CXXFLAGS="-O2"/>
 +<flags CXXFLAGS="-O0"/>
  
  <flags LLVM_PLUGIN="UtilitiesStaticAnalyzers"/>
