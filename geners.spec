@@ -32,7 +32,7 @@ cp ./geners/CPP11_config_enable.hh ./geners/CPP11_config.hh
   CXXFLAGS="%cms_cxxflags"
 
 %build
-make
+make %makeprocesses
 
 %install
 make install
