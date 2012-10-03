@@ -7,8 +7,6 @@ BuildRequires: autotools
 Requires: zlib
 Requires: bz2lib
 
-#define keep_archives true
-
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
 %endif
