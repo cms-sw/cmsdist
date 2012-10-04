@@ -1,5 +1,5 @@
-### RPM cms pystack 2.0
-Source: git://github.com/lat/pystack?obj=master/%{realversion}&export=pystack&output=/src.tar.gz
+### RPM cms pystack 2.1
+Source: git://github.com/dmwm/pystack?obj=master/%{realversion}&export=pystack&output=/src.tar.gz
 Requires: gdb python
 
 %prep

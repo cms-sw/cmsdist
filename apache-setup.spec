@@ -1,9 +1,9 @@
 ### RPM cms apache-setup 3.4
-Source: svn://svn.cern.ch/reps/CMSDMWM/HTTPGroup/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=HTTPGroup&output=/conf.tar.gz
+Source: git://github.com/dmwm/apache-conf?obj=master/%{realversion}&export=%n&output=/%n.tar.gz
 Requires: apache2
 
 %prep
-%setup -n HTTPGroup/ApacheConf
+%setup -n %n 
 
 %build
 
