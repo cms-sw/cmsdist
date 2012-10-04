@@ -1,7 +1,7 @@
 ### RPM cms PHEDEX PHEDEX_4_1_1_pre1
 
 ## INITENV +PATH PERL5LIB %i/perl_lib
-Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%n&export=%n&&tag=-r%{v}&output=/%n.tar.gz
+Source: cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e&module=%n&export=%n&&tag=-r%{v}&output=/%n.tar.gz
 # Oracle libs
 Requires: oracle oracle-env
 # perl libs
