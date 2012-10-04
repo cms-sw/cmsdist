@@ -1,9 +1,7 @@
-### RPM external gdb 7.3.1
-## BUILDIF case $(uname):$(uname -m) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) true ;; * ) false ;; esac
+### RPM external gdb 7.5
 Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.bz2
-Patch0: gdb-7.3.1-fix-pythonhome
+Patch0: gdb-7.5-fix-pythonhome
 Requires: python
-#Requires: expat
 
 %prep
 %setup -n %n-%realversion
@@ -24,7 +22,7 @@ set substitute-path %{installroot} %{cmsroot}
 EOF_GDBINIT
 
 # To save space, clean up some things that we don't really need 
-%define drop_files %i/lib/* %i/bin/{gdbserver,gdbtui} %i/share/{man,info,locale}
+%define drop_files %i/lib %i/bin/{gdbserver,gdbtui} %i/share/{man,info,locale}
 
 %post
 %{relocateConfig}/share/gdbinit
