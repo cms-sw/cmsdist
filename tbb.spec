@@ -1,11 +1,20 @@
-### RPM external tbb 40_20120613oss
-Source: http://threadingbuildingblocks.org/uploads/77/187/4.0%20update%205/tbb%{realversion}_src.tgz
+### RPM external tbb 41_20120718oss
+Source: http://threadingbuildingblocks.org/uploads/77/188/4.1/%{n}%{realversion}_src.tgz
+
+%if "%{?cms_cxx:set}" != "set"
+%define cms_cxx g++
+%endif
+
+%if "%{?cms_cxxflags:set}" != "set"
+%define cms_cxxflags -std=c++11
+%endif
 
 %prep
 %setup -n tbb%{realversion}
 
 %build
-make %makeprocesses
+
+CXX="%cms_cxx" CXXFLAGS="%cms_cxxflags" make %makeprocesses
 
 %install
 install -d %i/lib
