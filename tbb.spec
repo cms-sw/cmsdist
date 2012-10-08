@@ -6,7 +6,7 @@ Source: http://threadingbuildingblocks.org/uploads/77/188/4.1/%{n}%{realversion}
 %endif
 
 %if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++11
+%define cms_cxxflags -std=c++0x
 %endif
 
 %prep
