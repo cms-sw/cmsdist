@@ -33,11 +33,5 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/oracleocci.xml
 </tool>
 EOF_TOOLFILE
 
-case $ORACLE_VERSION in
-   11.* )
-   	export OS_LIBS="<lib name=\"nnz11\"/>"
-   ;;
-esac
-
 export ORACLE_ENV_ROOT
 ## IMPORT scram-tools-post
