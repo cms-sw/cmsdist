@@ -112,6 +112,7 @@ Requires: tbb-toolfile
 Requires: mctester-toolfile
 Requires: p5-extutils-makemaker-toolfile
 Requires: p5-compress-zlib-toolfile
+Requires: vdt-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
