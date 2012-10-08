@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1106
+## REVISION 1107
 ## NOCOMPILER
 
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
