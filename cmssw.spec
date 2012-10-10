@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_6_1_DEBUG_X_2012-10-03-0200
+### RPM cms cmssw CMSSW_5_3_5
 Requires: cmssw-tool-conf python
 Patch10: cmssw-lto
 Patch11: cmssw-debug
