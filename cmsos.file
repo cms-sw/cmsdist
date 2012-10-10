@@ -23,7 +23,7 @@ cmsos()
       echo suse`grep -i '^version' < /etc/SuSE-release | tr -dc '[0-9]'`
     elif egrep -q "Red Hat Enterprise|Scientific|CentOS" /etc/redhat-release 2>/dev/null; then
       slc_version=`egrep "Red Hat Enterprise|Scientific|CentOS" /etc/redhat-release | \
-		   sed 's/.*[rR]elease \([0-9]*\).*/\1/'`
+		   sed 's/.*[rR]elease \([0-9]*\)\..*/\1/'`
       if [ "X`uname -i`" = Xi386 ]; then
         echo slc${slc_version}_ia32
       else
