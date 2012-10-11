@@ -1,7 +1,6 @@
-### RPM cms cmssw CMSSW_6_1_DEBUG_X_2012-10-03-0200
+### RPM cms cmssw CMSSW_6_1_LTO_X_2012-10-03-0200
+
 Requires: cmssw-tool-conf python
-Patch10: cmssw-lto
-Patch11: cmssw-debug
 
 %define runGlimpse      yes
 %define useCmsTC        yes
@@ -25,17 +24,7 @@ Patch11: cmssw-debug
 
 %if "%(case %realversion in (*_FORTIFIED_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define cvstag		%(echo %realversion | sed -e 's|_FORTIFIED_X|_X|')
-%define usercxxflags    -fexceptions -fstack-protector-all --param=ssp-buffer-size=4
-%endif
-
-%if "%(case %realversion in (*_LTO_X*) echo true ;; (*) echo false ;; esac)" == "true"
-%define cvstag		%(echo %realversion | sed -e 's|_LTO_X|_X|')
-%define preBuildCommand pushd .. ; patch -p1 <%_sourcedir/cmssw-lto ; popd
-%endif
-
-%if "%(case %realversion in (*_DEBUG_X*) echo true ;; (*) echo false ;; esac)" == "true"
-%define cvstag		%(echo %realversion | sed -e 's|_DEBUG_X|_X|')
-%define preBuildCommand pushd .. ; patch -p1 <%_sourcedir/cmssw-debug; popd
+%define usercxxflags    -fexceptions -fstack-protector-all --param=ssp-buffer-size=4 -Wp,-D_FORTIFY_SOURCE=2
 %endif
 
 ## IMPORT scram-project-build
