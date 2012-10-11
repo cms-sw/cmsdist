@@ -9,7 +9,7 @@ Requires: qt
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/qtbase.xml
 <tool name="qtbase" version="@TOOL_VERSION@">
-  <info url="http://www.trolltech.com/products/qt.html"/>
+  <info url="http://qt-project.org"/>
   <lib name="QtCore"/>
   <lib name="QtXml"/>
   <client>
@@ -22,13 +22,16 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/qtbase.xml
   </client>
   <flags cppdefines="QT_ALTERNATE_QTSMANIP QT_CLEAN_NAMESPACE QT_THREAD_SUPPORT"/>
   <runtime name="PATH" value="$QTBASE_BASE/bin" type="path"/>
+  <runtime name="QTDIR" value="$QTBASE_BASE" type="path"/>
+  <runtime name="QTINC" value="$QTBASE_BASE/include" type="path"/>
+  <runtime name="QTLIB" value="$QTBASE_BASE/lib" type="path"/>
   <use name="zlib"/>
 </tool>
 EOF_TOOLFILE
 
 cat << \EOF_TOOLFILE >%i/etc/scram.d/qt3support.xml
 <tool name="qt3support" version="@TOOL_VERSION@">
-  <info url="http://www.trolltech.com/products/qt.html"/>
+  <info url="http://qt-project.org"/>
   <lib name="Qt3Support"/>
   <client>
     <environment name="QT3SUPPORT_BASE" default="@TOOL_ROOT@"/>
@@ -41,7 +44,7 @@ EOF_TOOLFILE
 
 cat << \EOF_TOOLFILE >%i/etc/scram.d/qt.xml
 <tool name="qt" version="@TOOL_VERSION@">
-  <info url="http://www.trolltech.com/products/qt.html"/>
+  <info url="http://qt-project.org"/>
   <lib name="QtOpenGL"/>
   <lib name="QtGui"/>
   <client>
@@ -58,7 +61,7 @@ EOF_TOOLFILE
 
 cat << \EOF_TOOLFILE >%i/etc/scram.d/qtdesigner.xml
 <tool name="qtdesigner" version="@TOOL_VERSION@">
-  <info url="http://www.trolltech.com/products/qt.html"/>
+  <info url="http://qt-project.org"/>
   <lib name="QtDesigner"/>
   <client>
     <environment name="QTDESIGNER_BASE" default="@TOOL_ROOT@"/>
@@ -71,7 +74,7 @@ EOF_TOOLFILE
 
 cat << \EOF_TOOLFILE >%i/etc/scram.d/qtextra.xml
 <tool name="qtextra" version="@TOOL_VERSION@">
-  <info url="http://www.trolltech.com/products/qt.html"/>
+  <info url="http://qt-project.org"/>
   <lib name="QtScript"/>
   <client>
     <environment name="QTEXTRA_BASE" default="@TOOL_ROOT@"/>
