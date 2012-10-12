@@ -57,7 +57,7 @@ HG1211b cmsweb @slc5_amd64_gcc461
 HG1211b cmsweb @osx106_amd64_gcc461
 
 HG1210e T0DataSvc @slc5_amd64_gcc461
-+ 1.24 T0DataSvc.spec
++ 1.25 T0DataSvc.spec
 
 # Stagemanager offsite agent
 HG1201c stagemanager-agent @slc5_amd64_gcc461
