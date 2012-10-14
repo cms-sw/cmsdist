@@ -149,7 +149,7 @@ HG1208c cmsfomon @slc5_amd64_gcc461
 
 # T0
 HG1210a t0 @slc5_amd64_gcc461
-+ HEAD/1.9.20 t0.spec
++ HEAD/1.9.21 t0.spec
 + HEAD/0.9.19 wmagent.spec
 
 # LifeCycle
