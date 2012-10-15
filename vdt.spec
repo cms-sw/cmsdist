@@ -15,14 +15,20 @@ BuildRequires: cmake
 
 %build
 cmake . \
-  -DCMAKE_CXX_COMPILER="%cms_cxx"
+  -DCMAKE_CXX_COMPILER="%cms_cxx" \
+  -DBUILD_SHARED_LIBS=1
 
 make %makeprocesses VERBOSE=1
 
 %install
+case %cmsplatf in
+  slc*) SOEXT=so ;;
+  osx*) SOEXT=dylib ;;
+esac
+
 # Copy VDT static library to final location
 mkdir -p %{i}/lib
-cp ./lib/libvdt.a %{i}/lib
+cp ./lib/libvdt.${SOEXT} %{i}/lib
 
 # Copy VDT headers to the final location
 rsync -av --exclude '*.cmake' ./include %{i}
