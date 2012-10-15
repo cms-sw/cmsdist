@@ -1,4 +1,4 @@
-### RPM external curl 7.24.0
+### RPM external curl 7.28.0
 Source: http://curl.haxx.se/download/%n-%realversion.tar.gz
 Provides: libcurl.so.3()(64bit) 
 Requires: openssl
@@ -10,7 +10,13 @@ Requires: zlib
 %build
 export OPENSSL_ROOT
 export ZLIB_ROOT
-./configure --prefix=%i --disable-static --without-libidn --disable-ldap --with-ssl=${OPENSSL_ROOT} --with-zlib=${ZLIB_ROOT}
+
+# For SLC adjust path to krb5-config (non-standard location)
+%ifos linux
+sed -i'' s'|/bin/krb5-config|/kerberos/bin/krb5-config|g' configure
+%endif
+
+./configure --prefix=%i --disable-static --without-libidn --disable-ldap --with-gssapi --with-ssl=${OPENSSL_ROOT} --with-zlib=${ZLIB_ROOT}
 # This should change link from "-lz" to "-lrt -lz", needed by gold linker
 # This is a fairly ugly way to do it, however.
 perl -p -i -e "s!\(LIBS\)!(LIBCURL_LIBS)!" src/Makefile
