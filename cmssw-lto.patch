@@ -2,7 +2,7 @@ diff --git a/config/BuildFile.xml b/config/BuildFile.xml
 index 5f755d0..9510de8 100755
 --- a/config/BuildFile.xml
 +++ b/config/BuildFile.xml
-@@ -28,6 +28,13 @@
+@@ -28,6 +28,15 @@
  <flags REM_LCGDICT_CPPFLAGS="-O%"/>
  <flags REM_LCGDICT_CXXFLAGS="-fipa%"/>
  <flags LCGDICT_CXXFLAGS="-Os -Wno-unused-variable"/>
@@ -12,6 +12,8 @@ index 5f755d0..9510de8 100755
 +<flags LCGDICT_CXXFLAGS="-Os -Wno-unused-variable"/>
 +<flags EDM_CXXFLAGS="-fvisibility=hidden"/>
 +<flags CXXFLAGS="-flto"/>
++<flags CXXFLAGS="-DBOOST_DISABLE_ASSERTS"/>
++<flags CXXFLAGS="-fno-fat-lto-objects"/>
 +<flags CAPABILITIES_CXXFLAGS="-fvisibility=default"/>
  
  <flags LLVM_PLUGIN="UtilitiesStaticAnalyzers"/>
