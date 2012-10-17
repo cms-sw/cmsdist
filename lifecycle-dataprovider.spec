@@ -1,20 +1,24 @@
-### RPM cms lifecycle-dataprovider 1.0.2
+### RPM cms lifecycle-dataprovider 1.0.5
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-%define webdoc_files %i/doc/
-%define svnserver svn://svn.cern.ch/reps/CMSDMWM
-#Source0: %svnserver/LifeCycle/trunk/DataProvider/?scheme=svn+ssh&strategy=export&module=DataProvider&output=/dataprovider.tar.gz
-Source0: %svnserver/LifeCycle/tags/%{realversion}/DataProvider/?scheme=svn+ssh&strategy=export&module=DataProvider&output=/dataprovider.tar.gz
-Requires: python py2-sphinx
+%define webdoc_files %{installroot}/%{pkgrel}/doc/
+%define pkg DataProvider
+#%define svnserver svn://svn.cern.ch/reps/CMSDMWM
+Source0: git://github.com/dmwm/LifeCycle?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
+#Source0: %svnserver/LifeCycle/tags/%{realversion}/DataProvider/?scheme=svn+ssh&strategy=export&module=DataProvider&output=/dataprovider.tar.gz
+Requires: python
+BuildRequires: py2-sphinx
 
 %prep
 %setup -D -T -b 0 -n DataProvider
+
+%build
+pwd
+cd DataProvider
 
 # setup version
 cat src/python/DataProvider/__init__.py | sed "s,development,%{realversion},g" > init.tmp
 mv -f init.tmp src/python/DataProvider/__init__.py
 
-%build
-cd ../DataProvider
 python setup.py build
 
 # build DataProvider sphinx documentation
@@ -24,12 +28,13 @@ cat sphinx/conf.py | sed "s,development,%{realversion},g" > sphinx/conf.py.tmp
 mv sphinx/conf.py.tmp sphinx/conf.py
 mkdir -p build
 make html
+cd -
 
 %install
-cd ../DataProvider
+pwd
+cd DataProvider
 python setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
-
 mkdir -p %i/doc
 tar --exclude '.buildinfo' -C doc/build/html -cf - . | tar -C %i/doc -xvf -
 
@@ -49,6 +54,6 @@ done
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
 
 %files
-%i/
-%exclude %i/doc
+%{installroot}/%{pkgrel}/
+%exclude %{installroot}/%{pkgrel}/doc
 ## SUBPACKAGE webdoc
