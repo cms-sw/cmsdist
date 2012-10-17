@@ -1,24 +1,19 @@
-### RPM cms dbs3-lifecycle 0.0.1
+### RPM cms dbs3-lifecycle 0.0.3
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 ## INITENV SET DBS3_LIFECYCLE_ROOT %i/
 
-%define gitserver https://nodeload.github.com 
-Source0: %gitserver/giffels/LifeCycleTests/tarball/%{realversion}
+Source0: git://github.com/giffels/LifeCycleTests.git?obj=master/%{realversion}&export=LifeCycleTests-%{realversion}&output=/LifeCycleTests-%{realversion}.tar.gz
 Requires: python dbs3-client lifecycle-dataprovider PHEDEX-lifecycle
 
 %prep
-%setup -c 
-# move github directory
-mv giffels-LifeCycleTests* LifeCycleTests
-%setup -D -T -a 0
+%setup -b 0 -n LifeCycleTests-%{realversion}
 
 %build
-cd LifeCycleTests
 python setup.py build_system -s LifeCycleTests
+
 %install
 mkdir -p %i/etc/profile.d %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
-cd LifeCycleTests
 python setup.py install_system -s LifeCycleTests --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
