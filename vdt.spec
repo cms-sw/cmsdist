@@ -1,4 +1,4 @@
-### RPM cms vdt v0.2.0
+### RPM cms vdt V0.2.1
 
 Source: svn://svnweb.cern.ch/guest/%{n}/tags/%{realversion}?scheme=http&strategy=export&module=%{n}&output=/%{n}-%{realversion}.tar.gz
 
@@ -16,19 +16,9 @@ BuildRequires: cmake
 %build
 cmake . \
   -DCMAKE_CXX_COMPILER="%cms_cxx" \
-  -DBUILD_SHARED_LIBS=1
+  -DCMAKE_INSTALL_PREFIX=%i
 
 make %makeprocesses VERBOSE=1
 
 %install
-case %cmsplatf in
-  slc*) SOEXT=so ;;
-  osx*) SOEXT=dylib ;;
-esac
-
-# Copy VDT static library to final location
-mkdir -p %{i}/lib
-cp ./lib/libvdt.${SOEXT} %{i}/lib
-
-# Copy VDT headers to the final location
-rsync -av --exclude '*.cmake' ./include %{i}
+make install
