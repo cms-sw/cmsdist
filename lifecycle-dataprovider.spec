@@ -1,4 +1,4 @@
-### RPM cms lifecycle-dataprovider 1.0.4
+### RPM cms lifecycle-dataprovider 1.0.5
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define pkg DataProvider
