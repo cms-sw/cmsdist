@@ -13,6 +13,7 @@ Source0: svn://gcc.gnu.org/svn/gcc/branches/%gccBranch?module=gcc-%gccBranch-%gc
 %define gmpVersion 5.0.2
 %define mpfrVersion 3.0.1 
 %define mpcVersion 0.9
+%define m4Version 1.4.16
 Source1: ftp://ftp.gnu.org/gnu/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
@@ -47,8 +48,12 @@ Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 %define elfutilsVersion 0.153
 %if "%isslc" == "true"
 Source8: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
-%endif
 Patch2: https://fedorahosted.org/releases/e/l/elfutils/0.153/elfutils-portability.patch
+%endif
+
+%if "%isslc" == "true"
+Source9: http://ftp.gnu.org/gnu/m4/m4-%m4Version.tar.gz
+%endif
 
 %prep
 echo "use_custom_binutils: %use_custom_binutils"
@@ -136,6 +141,11 @@ esac
 %patch2 -p1
 %endif
 
+# These are required by rpm as well, but only on linux.
+%if "%isslc" == "true"
+%setup -D -T -b 9 -n m4-%{m4Version}
+%endif
+
 %build
 # On mac we need to use gcc-proper, not gcc-llvm
 case %{cmsos} in
@@ -175,11 +185,19 @@ esac
 CC="$CC -fPIC"
 CXX="$CXX -fPIC"
 
-# Whenever we build custom binutils we also enable the new linker "gold".
-# We do so only if we are using the new gcc 4.5+
+# Disable gold since it's causing too much havoc with LTO.
 if [ "X%use_custom_binutils:%gcc_45plus" = Xtrue:true ] ; then
-  CONF_BINUTILS_OPTS="--enable-gold=default --enable-lto --enable-plugins --enable-threads"
-  CONF_GCC_WITH_LTO="--enable-gold=yes --enable-lto" # --with-build-config=bootstrap-lto
+  CONF_BINUTILS_OPTS="--enable-lto --enable-plugins --enable-threads"
+  CONF_GCC_WITH_LTO="--enable-lto" # --with-build-config=bootstrap-lto
+fi
+
+# Build M4
+if [ "X%isslc" = Xtrue ]; then
+  cd ../m4-%{m4Version}
+  CC="$CC" ./configure --prefix=%i/tmp/m4
+  make %makeprocesses
+  make install
+  export PATH=%i/tmp/m4/bin:$PATH
 fi
 
 # Build libelf.
