@@ -1,5 +1,5 @@
 #!/bin/bash
-# Revision: $Revision: 1.84 $
+# Revision: $Revision: 1.85 $
 
 set -e
 
@@ -427,8 +427,10 @@ generateSeedSpec () {
       then
     	  [ "X$verbose" = Xtrue ] && echo && echo "...rpm found in $(which rpm), using it to seed the database." >&2
           for p in $requiredSeeds; do 
-              rpm -q $p >/dev/null || { echo "Required package $p is missing." ; exit 1; }
+              MISSING_SEED=false
+              rpm -q $p >/dev/null || { echo "Required package $p is missing." ; MISSING_SEED=true; }
           done
+          $MISSING_SEED && exit 1
     	  for p in $seed; do
               rpm -q $p --provides | sed 's!<*=.*!!; s!^!Provides: !' || true
               rpm -q $p --list | fgrep .so | fgrep -v -e /lib/. -e /lib64/. | sed 's!^.*/!Provides: !' || true
