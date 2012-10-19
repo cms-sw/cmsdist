@@ -1,4 +1,4 @@
-### RPM cms alertscollector 0.9.13
+### RPM cms alertscollector 0.9.22
 
 # private repository tests
 #Source0: git://github.com/zdenekmaxa/WMCore?obj=alertscollector/HEAD&export=%n&output=/%n.tar.gz
@@ -6,11 +6,9 @@
 Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
 # download tip of a branch (problem with added username and username's hash ...)
 #Source0: https://github.com/zdenekmaxa/WMCore/tarball/alertscollector
+# Source0: https://maxa.home.cern.ch/maxa/alertscollector.tgz
 
-# (cherrypy) bug introduced in 
-# https://github.com/dmwm/WMCore/commit/2922d23d3f980caa65899f443f1a8f67a0cb8a1c
-# setup_test depends on that but it's not necessary
-# sphinx is also necessary for build try to produce documentation
+
 BuildRequires: python cherrypy py2-setuptools py2-sphinx
 
 %prep
