@@ -1,4 +1,4 @@
-### RPM cms alertscollector 0.9.22
+### RPM cms alertscollector 0.9.25
 
 # private repository tests
 #Source0: git://github.com/zdenekmaxa/WMCore?obj=alertscollector/HEAD&export=%n&output=/%n.tar.gz
