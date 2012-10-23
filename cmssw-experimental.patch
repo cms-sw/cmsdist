@@ -6,7 +6,7 @@ index 5f755d0..9510de8 100755
  <flags REM_LCGDICT_CPPFLAGS="-O%"/>
  <flags REM_LCGDICT_CXXFLAGS="-fipa%"/>
  <flags LCGDICT_CXXFLAGS="-Os -Wno-unused-variable"/>
-+<flags CXXFLAGS="-Ofast -march=native -DBOOST_DISABLE_ASSERTS"/>
++<flags CXXFLAGS="-Ofast -march=native -DBOOST_DISABLE_ASSERTS -ftree-loop-if-convert-stores"/>
  
  <flags LLVM_PLUGIN="UtilitiesStaticAnalyzers"/>
  <flags LLVM_CHECKERS="-enable-checker threadsafety"/>
