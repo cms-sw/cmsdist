@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_6_0_1
+### RPM cms cmssw CMSSW_6_1_EXPERIMENTAL_X_2012-10-15-0200
 Requires: cmssw-tool-conf python
 
 %define runGlimpse      yes
@@ -20,8 +20,9 @@ Patch10: cmssw-clang
 %endif
 
 %if "%(case %realversion in (*_EXPERIMENTAL_X*) echo true ;; (*) echo false ;; esac)" == "true"
+Patch11: cmssw-experimental
 %define cvstag		%(echo %realversion | sed -e 's|_EXPERIMENTAL_X|_X|')
-%define usercxxflags    -Ofast -march=native -DBOOST_DISABLE_ASSERTS
+%define preBuildCommand pushd .. ; patch -p1 <%_sourcedir/cmssw-experimental ; popd
 %endif
 
 %if "%(case %realversion in (*_COVERAGE_X*) echo true ;; (*) echo false ;; esac)" == "true"
@@ -35,13 +36,13 @@ Patch10: cmssw-clang
 %endif
 
 %if "%(case %realversion in (*_LTO_X*) echo true ;; (*) echo false ;; esac)" == "true"
-Patch11: cmssw-lto
+Patch12: cmssw-lto
 %define cvstag		%(echo %realversion | sed -e 's|_LTO_X|_X|')
 %define preBuildCommand pushd .. ; patch -p1 <%_sourcedir/cmssw-lto ; popd
 %endif
 
 %if "%(case %realversion in (*_DEBUG_X*) echo true ;; (*) echo false ;; esac)" == "true"
-Patch12: cmssw-debug
+Patch13: cmssw-debug
 %define cvstag		%(echo %realversion | sed -e 's|_DEBUG_X|_X|')
 %define preBuildCommand pushd .. ; patch -p1 <%_sourcedir/cmssw-debug; popd
 %endif
