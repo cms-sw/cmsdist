@@ -31,7 +31,7 @@ slc*onl* )
     ##########################################################
     # Backward compatible seeds, so that old bootstrap does not suddenly stop working.
     platformSeeds="glibc coreutils bash tcsh zsh pdksh perl tcl
-        readline openssl ncurses
+        readline ncurses
         e2fsprogs krb5-libs freetype fontconfig
         xorg-x11-deprecated-libs xorg-x11-libs xorg-x11-Mesa-libGLU
         xorg-x11-Mesa-libGL compat-libstdc++-33 libidn"
@@ -40,7 +40,7 @@ slc*onl* )
     platformSeeds="$platformSeeds libgcc libstdc++"
 
     # ONLINE: seed other available system tools:
-    platformSeeds="$platformSeeds curl libpng libtiff libungif openssl qt zlib perl-DBI-1.40-8"
+    platformSeeds="$platformSeeds libpng libtiff libungif qt zlib perl-DBI-1.40-8"
 
     # Python tools are commented out due to compatibility problems.
     platformSeeds="$platformSeeds python python-elementtree"
@@ -80,7 +80,7 @@ slc*onl* )
 
     ##########################################################
     #slc5onl_ia32 Specific
-    slc5onl_ia32_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype
+    slc5onl_ia32_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline ncurses e2fsprogs krb5-libs freetype
         fontconfig libidn libX11 libXmu libSM libICE libXcursor
         libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
         libXrender libXpm"
@@ -100,7 +100,7 @@ slc*onl* )
 
     ##########################################################
     #slc5onl_amd64 Specific
-    slc5onl_amd64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype
+    slc5onl_amd64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline ncurses e2fsprogs krb5-libs freetype
         fontconfig libidn libX11 libXmu libSM libICE libXcursor
         libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
         libXrender libXpm"
@@ -111,7 +111,7 @@ slc*onl* )
     esac
 
     # ONLINE: seed other available system tools:
-    slc5onl_amd64_platformSeeds="$slc5onl_amd64_platformSeeds curl curl-devel openssl openssl-devel zlib zlib-devel e2fsprogs-libs e2fsprogs-devel
+    slc5onl_amd64_platformSeeds="$slc5onl_amd64_platformSeeds zlib zlib-devel e2fsprogs-libs e2fsprogs-devel
         perl-DBI-1.52 libtermcap-2.0.8 libX11-devel-1.0.3 libXpm-devel-3.5.5 libXext-devel-1.0.1 libXft-devel-2.1.10"
 
     # ONLINE: seed daq-built tools:
