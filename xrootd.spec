@@ -1,39 +1,28 @@
-### RPM external xrootd 3.2.4
+### RPM external xrootd 3.1.0
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
 Source: http://xrootd.cern.ch/cgi-bin/cgit.cgi/xrootd/snapshot/%n-%{realversion}.tar.gz
 Patch0: xrootd-gcc44
 Patch1: xrootd-5.30.00-fix-gcc46
+Patch2: xrootd-3.1.0-fix-read-after-read
 Patch3: xrootd-3.1.0-fixed-library-location-all-os
 Patch4: xrootd-3.1.0-client-send-moninfo
-Patch5: xrootd-3.1.0-gcc-470-literals-whitespace
-Patch6: xrootd-3.1.0-add-GetHandle-XrdClientAbs-header
-Patch7: xrootd-3.1.0-narrowing-conversion
-Patch8: xrootd-3.2.3-rename-macos-to-apple
 
-BuildRequires: cmake
 %if "%online" != "true"
-Requires: zlib
+Requires: openssl zlib
 %else
 Requires: onlinesystemtools
 %endif
-Requires: gcc openssl
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x -O2
-%endif
+Requires: cmake gcc
 
 %prep 
 %setup -n %n-%{realversion}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 %patch3 -p0
 %patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
 
 # need to fix these from xrootd git
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
@@ -64,8 +53,7 @@ cmake ../ \
   -DENABLE_FUSE=FALSE \
   -DENABLE_KRB5=TRUE \
   -DENABLE_READLINE=TRUE \
-  -DENABLE_CRYPTO=TRUE \
-  -DCMAKE_CXX_FLAGS="%{cms_cxxflags}"
+  -DENABLE_CRYPTO=TRUE
 
 # Use makeprocess macro, it uses compiling_processes defined by
 # build configuration file or build argument
