@@ -21,8 +21,9 @@ Patch10: cmssw-clang
 
 %if "%(case %realversion in (*_EXPERIMENTAL_X*) echo true ;; (*) echo false ;; esac)" == "true"
 Patch11: cmssw-experimental
+Patch20: cmssw-drop-isnan
 %define cvstag		%(echo %realversion | sed -e 's|_EXPERIMENTAL_X|_X|')
-%define preBuildCommand pushd .. ; patch -p1 <%_sourcedir/cmssw-experimental ; popd
+%define preBuildCommand pushd .. ; patch -p1 <%_sourcedir/cmssw-experimental ; popd ; patch -p0 <%_sourcedir/cmssw-drop-isnan
 %endif
 
 %if "%(case %realversion in (*_COVERAGE_X*) echo true ;; (*) echo false ;; esac)" == "true"
