@@ -1,9 +1,9 @@
-### RPM cms webtools 1.3.47
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+### RPM cms webtools 1.3.43
+## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 ## INITENV +PATH PERL5LIB %i/lib/perl
 
 %define moduleName WEBTOOLS
-%define cvstag V01-03-47
+%define cvstag V01-03-43
 %define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{moduleName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
 
@@ -18,15 +18,14 @@ Provides: perl(SecurityModule)
 %build
 
 %install
-mkdir -p %i/{etc,bin} %i/$PYTHON_LIB_SITE_PACKAGES %i/lib/perl
+mkdir -p %i/{etc,bin}
+mkdir -p %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
+mkdir -p %i/lib/perl
 
 cp -r SecurityModule/perl/lib/* %i/lib/perl
 rm -rf Applications Configuration Tools/StartupScripts SecurityModule/perl
-cp -r * %i/$PYTHON_LIB_SITE_PACKAGES
+cp -r * %i/lib/python`echo $PYTHON_VERSION | cut -d. -f1,2`/site-packages
 cp cmsWeb %i/bin
-
-# Generate .pyc files.
-python -m compileall %i/$PYTHON_LIB_SITE_PACKAGES || true
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
