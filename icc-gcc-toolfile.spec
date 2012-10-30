@@ -52,17 +52,19 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
     <flags REM_CXXFLAGS="-Wno-non-template-friend"/>
     <flags REM_CXXFLAGS="-Werror=format-contains-nul"/>
     <flags REM_CXXFLAGS="-Wunknown-pragmas"/>
+    <flags REM_CXXFLAGS="-ftree-vectorize"/>
     <flags REM_LDFLAGS="-Wl,--icf=all"/>
     <flags CXXFLAGS="-Wno-unknown-pragmas"/>
+    <flags CXXFLAGS="-axSSE3"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$ICC_CXXCOMPILER_BASE/compiler/lib/intel64" type="path"/>
     <runtime name="PATH" value="$ICC_CXXCOMPILER_BASE/bin/intel64" type="path"/>
     <runtime name="COMPILER_RUNTIME_OBJECTS" value="@GCC_ROOT@"/>
-    <runtime name="INTEL_LICENSE_FILE" value="28518@lxlic01.cern.ch,28518@lxlic02.cern.ch,28518@lxlic03.cern.ch:/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.0.079/licenses:/opt/intel/licenses:/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.0.079/licenses:/opt/intel/licenses"/>
+    <runtime name="INTEL_LICENSE_FILE" value="28518@AT@lxlic01.cern.ch,28518@AT@lxlic02.cern.ch,28518@AT@lxlic03.cern.ch:/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.1.117/licenses:/opt/intel/licenses:/afs/cern.ch/user/e/eulisse/intel/licenses:/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.1.117/licenses:/opt/intel/licenses:/afs/cern.ch/user/e/eulisse/intel/licenses"/>
   </tool>
 EOF_TOOLFILE
 
 cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-ccompiler.xml
-  <tool name="llvm-ccompiler" version="@ICC_GCC_TOOLFILE_VERSION@" type="compiler">
+  <tool name="icc-ccompiler" version="@ICC_GCC_TOOLFILE_VERSION@" type="compiler">
     <use name="gcc-ccompiler"/>
     <client>
       <environment name="ICC_CCOMPILER_BASE" default="/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.1.117"/>
@@ -90,6 +92,7 @@ esac
 export OS_RUNTIME_LDPATH_NAME
 
 # General substitutions
+export AT="@"
 perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*.xml
 %post
 %{relocateConfig}etc/scram.d/*.xml
