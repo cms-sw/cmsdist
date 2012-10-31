@@ -142,14 +142,7 @@ case %cmsos in
     ./configure linux $CONFIG_ARGS --disable-rfio;;
 esac
 
-case %cmsplatf in
-  osx108_*)
-    make %makeprocesses CXX="g++ -DOS_OBJECT_USE_OBJC=0" CC="gcc -DOS_OBJECT_USE_OBJC=0"
-  ;;
-  *)
-    make %makeprocesses
-  ;;
-esac
+make %makeprocesses CXX="g++ -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL=" CC="gcc -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL="
 
 %install
 # Override installers if we are using GNU fileutils cp.  On OS X
