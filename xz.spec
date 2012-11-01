@@ -5,9 +5,8 @@ Source: http://tukaani.org/%n/%n-%realversion.tar.bz2
 %setup -n %n-%realversion
 perl -p -i -e '/LZMA_PROG_ERROR\s+=/ && s/,$//' src/liblzma/api/lzma/base.h
 
-
 %build
-./configure CFLAGS='-fPIC -Ofast' --prefix=%i --disable-static
+./configure CFLAGS='-fPIC' --prefix=%i --disable-static
 make %makeprocesses
 
 %install

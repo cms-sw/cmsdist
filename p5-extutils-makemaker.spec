@@ -1,4 +1,4 @@
-### RPM external p5-extutils-makemaker 6.63_02
+### RPM external p5-extutils-makemaker 6.58
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 %define name_mm ExtUtils-MakeMaker
 %define name_inst ExtUtils-Install
@@ -22,7 +22,3 @@ done
 
 %install
 %define drop_files %i/man
-
-%post
-%{relocateConfig}lib/perl5/x86_64-linux-thread-multi/perllocal.pod
-%{relocateConfig}lib/perl5/x86_64-linux-thread-multi/auto/ExtUtils/MakeMaker/.packlist
