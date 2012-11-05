@@ -26,16 +26,18 @@ HG1210a wmagent-dev @slc5_amd64_gcc461
 HG1210a wmagent-dev @osx106_amd64_gcc461
 + HEAD/0.9.27 wmagent.spec wmagent-dev.spec
 
+
+
 #crab-system
-HG1210d crab-system @slc5_amd64_gcc461
-+ 1.6/1210d crab-system.spec
-+ 1.50/0.1.2 asyncstageout.spec
+HG1211e crab-system @slc5_amd64_gcc461
++ 1.8/1211b crab-system.spec
++ 1.52/0.1.3 asyncstageout.spec
 + 1.7 asyncstageout-setup.patch
-+ 1.22/3.1.2 crabserver.spec
++ 1.24/3.1.3 crabserver.spec
 + 1.9 crabserver3-setup.patch
-+ 1.20/3.1.2 crabcache.spec
++ 1.22/3.1.3 crabcache.spec
 + 1.2 crabcache-setup.patch
-+ 1.26/3.1.2 crab-client3.spec
++ 1.29/3.1.3 crab-client3.spec
 + 1.6 crabclient3-setup.patch
 
 
