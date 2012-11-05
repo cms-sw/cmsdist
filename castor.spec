@@ -16,7 +16,6 @@
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{v}.source.tar.gz
 #Source: cvs://:pserver:anonymous@isscvs.cern.ch:/local/reps/castor?passwd=Ah<Z&tag=-r%{downloadv}&module=CASTOR2&output=/%{n}-%{realversion}.source.tar.gz
 Source:  http://castorold.web.cern.ch/castorold/DIST/CERN/savannah/CASTOR.pkg/%{baseVersion}-*/%{realversion}/castor-%{realversion}.tar.gz
-Patch0: castor-2.1.9.8-macosx
 
 # Ugly kludge : forces libshift.x.y to be in the provides (rpm only puts libshift.so.x)
 # root rpm require .x.y
@@ -28,17 +27,6 @@ Provides: libshift.so.%(echo %realversion |cut -d. -f1,2)%{libsuffix}
 
 %prep
 %setup -n castor-%{baseVersion}
-# The macosx patch is really to get things compiling one way or another. Since
-# I'm not sure this actually works / does not have regressions on linux, I
-# simply do not apply it on stable platforms. 
-# Hopefully at some point castor people will come up with a macosx supported
-# version.
-case %cmsplatf in 
-  osx*)
-%patch0 -p2
-  ;;
-esac
-
 case %cmsplatf in
   *_gcc4[012345]*) ;;
   *)
@@ -85,7 +73,9 @@ make installclient \
                 BIN=bin \
                 DESTDIRCASTOR=include/shift \
                 TOPINCLUDE=include 
-mv -T %i/usr/bin %i/bin
+
+rm -rf %i/bin
+mv %i/usr/bin %i/bin
 
 # Strip libraries, we are not going to debug them.
 %define strip_files %i/lib
