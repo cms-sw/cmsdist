@@ -1,4 +1,4 @@
-### RPM cms vdt v0.2.2
+### RPM cms vdt v0.2.3
 
 Source: svn://svnweb.cern.ch/guest/%{n}/tags/%{realversion}?scheme=http&strategy=export&module=%{n}&output=/%{n}-%{realversion}.tar.gz
 
