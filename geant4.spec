@@ -1,4 +1,4 @@
-### RPM external geant4 9.5.p01
+### RPM external geant4 9.5.p02
 
 %define downloadv %(echo %v | cut -d- -f1)
 Source0: http://geant4.cern.ch/support/source/%n.%downloadv.tar.gz
@@ -9,7 +9,6 @@ Requires: clhep
 Requires: expat
 
 Patch0: geant4.9.5.p01-no-banner
-Patch1: geant4.9.5.p01-fix-cputime-regression
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -23,7 +22,6 @@ Patch1: geant4.9.5.p01-fix-cputime-regression
 %setup -n %n.%downloadv
 
 %patch0 -p1
-%patch1 -p1
 
 %build
 
