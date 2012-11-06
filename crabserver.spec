@@ -13,7 +13,7 @@ Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=C
 Requires: python cherrypy py2-cjson rotatelogs py2-pycurl py2-httplib2 py2-sqlalchemy py2-cx-oracle
 BuildRequires: py2-sphinx couchskel
 Patch0: crabserver3-setup
-
+#
 %prep
 %setup -D -T -b 1 -n CRABServer-%{realversion}
 %setup -T -b 0 -n WMCore-%{wmcver}
