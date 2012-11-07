@@ -1,7 +1,8 @@
 ### RPM external castor 2.1.13.5
 # Override default realversion since they have a "-" in the realversion
-%define realversion 2.1.13-5
+%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
+%define realversion 2.1.13-5
 %define downloadv v%(echo %realversion | tr - _ | tr . _)
 %define baseVersion %(echo %realversion | cut -d- -f1)
 %define patchLevel %(echo %realversion | cut -d- -f2)
@@ -16,6 +17,12 @@
 #Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{v}.source.tar.gz
 #Source: cvs://:pserver:anonymous@isscvs.cern.ch:/local/reps/castor?passwd=Ah<Z&tag=-r%{downloadv}&module=CASTOR2&output=/%{n}-%{realversion}.source.tar.gz
 Source:  http://castorold.web.cern.ch/castorold/DIST/CERN/savannah/CASTOR.pkg/%{baseVersion}-*/%{realversion}/castor-%{realversion}.tar.gz
+
+%if "%online" != "true"
+Requires: uuid
+%else
+Requires: onlinesystemtools
+%endif
 
 # Ugly kludge : forces libshift.x.y to be in the provides (rpm only puts libshift.so.x)
 # root rpm require .x.y
@@ -55,7 +62,7 @@ find . -type f -exec touch {} \;
 
 CASTOR_NOSTK=yes; export CASTOR_NOSTK
 ./configure
-make %{makeprocesses} client
+LDFLAGS="-L${UUID_ROOT}/lib" make %{makeprocesses} client
 %install
 make installclient \
                 MAJOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f1-2) \
