@@ -1,6 +1,13 @@
 ### RPM external xdaq VR17173
 
-Requires: zlib mimetic xerces-c uuid sqlite
+%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
+Requires: zlib mimetic xerces-c sqlite
+%if "%online" != "true"
+Requires: uuid
+%else
+Requires: onlinesystemtools
+%endif
+
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
 %define svntrunk  %(echo %v | sed 's|^VR||')
