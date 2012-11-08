@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_5_3_6
+### RPM cms cmssw CMSSW_6_1_EXPERIMENTAL_X_2012-11-06-0200
 Requires: cmssw-tool-conf python
 
 %define runGlimpse      yes
@@ -23,7 +23,7 @@ Patch10: cmssw-clang
 Patch11: cmssw-experimental
 Patch20: cmssw-drop-isnan
 %define cvstag		%(echo %realversion | sed -e 's|_EXPERIMENTAL_X|_X|')
-%define preBuildCommand pushd .. ; patch -p1 <%_sourcedir/cmssw-experimental ; popd ; patch -p0 <%_sourcedir/cmssw-drop-isnan
+%define preBuildCommand pushd .. ; patch -p1 <%_sourcedir/cmssw-experimental ; popd ; patch -p0 <%_sourcedir/cmssw-drop-isnan & true
 %endif
 
 %if "%(case %realversion in (*_COVERAGE_X*) echo true ;; (*) echo false ;; esac)" == "true"
