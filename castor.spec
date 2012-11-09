@@ -1,4 +1,4 @@
-### RPM external castor 2.1.13.5
+### RPM external castor 2.1.13.6
 # Override default realversion since they have a "-" in the realversion
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
