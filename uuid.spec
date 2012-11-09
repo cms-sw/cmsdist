@@ -15,19 +15,19 @@ Source: http://switch.dl.sourceforge.net/sourceforge/e2fsprogs/e2fsprogs-%realve
 #endif
 
 %build
-./configure $([ $(uname) != Darwin ] && echo --enable-elf-shlibs) --prefix=%i
+./configure $([ $(uname) != Darwin ] && echo --enable-elf-shlibs) --libdir=%i/lib64 --prefix=%i
 make lib/ext2fs/ext2_types.h
 cd lib/uuid
 make
 
 %install
-mkdir -p %i/lib
+mkdir -p %i/lib64
 mkdir -p %i/include
 cd lib/uuid
 make install
 case %cmsos in
-  slc*) ln -sf libuuid.so.1.2 %i/lib/libuuid.so ;;
+  slc*) ln -sf libuuid.so.1.2 %i/lib64/libuuid.so ;;
 esac
-rm -rf %i/lib/pkgconfig
-%define strip_files %{i}/lib
+rm -rf %i/lib64/pkgconfig
+%define strip_files %{i}/lib64
 %define drop_files %i/man

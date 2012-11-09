@@ -12,7 +12,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/uuid.xml
   <lib name="uuid"/>
   <client>
     <environment name="UUID_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$UUID_BASE/lib"/>
+    <environment name="LIBDIR" default="$UUID_BASE/lib64"/>
     <environment name="INCLUDE" default="$UUID_BASE/include"/>
   </client>
   <use name="sockets"/>
