@@ -15,6 +15,8 @@ Requires: oracle-env
 ## INITENV SETV ZLIB_ROOT               %zlib_root
 %define uuid_version                    1.39
 ## INITENV SETV UUID_VERSION            %uuid_version
+%define uuid_root                       /usr
+## INITENV SETV UUID_ROOT               %uuid_root
 %define sqlite_version                  3.7.5
 ## INITENV SETV SQLITE_VERSION          %sqlite_version
 %define oracle_version                  11.2.2
@@ -209,7 +211,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/uuid.xml
   <tool name="uuid" version="%uuid_version">
     <lib name="uuid"/>
     <client>
-      <environment name="UUID_BASE" default="/usr"/>
+      <environment name="UUID_BASE" default="%uuid_root"/>
+      <environment name="LIBDIR" default="$UUID_BASE/lib64"/>
       <environment name="INCLUDE" default="$UUID_BASE/include"/>
     </client>
     <use name="sockets"/>
