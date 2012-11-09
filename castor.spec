@@ -2,7 +2,7 @@
 # Override default realversion since they have a "-" in the realversion
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
-%define realversion 2.1.13-5
+%define realversion 2.1.13-6
 %define downloadv v%(echo %realversion | tr - _ | tr . _)
 %define baseVersion %(echo %realversion | cut -d- -f1)
 %define patchLevel %(echo %realversion | cut -d- -f2)
