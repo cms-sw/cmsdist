@@ -18,6 +18,8 @@
 #Source: cvs://:pserver:anonymous@isscvs.cern.ch:/local/reps/castor?passwd=Ah<Z&tag=-r%{downloadv}&module=CASTOR2&output=/%{n}-%{realversion}.source.tar.gz
 Source:  http://castorold.web.cern.ch/castorold/DIST/CERN/savannah/CASTOR.pkg/%{baseVersion}-*/%{realversion}/castor-%{realversion}.tar.gz
 
+Patch0: castor-2.1.13.6-fix-pthreads-darwin
+
 %if "%online" != "true"
 Requires: uuid
 %else
@@ -34,6 +36,10 @@ Provides: libshift.so.%(echo %realversion |cut -d. -f1,2)%{libsuffix}
 
 %prep
 %setup -n castor-%{baseVersion}
+%ifos darwin
+%patch0 -p1
+%endif
+
 case %cmsplatf in
   *_gcc4[012345]*) ;;
   *)
