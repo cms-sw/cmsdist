@@ -7,7 +7,7 @@ Patch1: libhepml-0.2.1-leopard
 %setup -q -n %{n}-%{realversion}
 %patch0 -p2
 case %cmsplatf in
-  osx*)
+  osx106_*)
 %patch1 -p1
   ;;
 esac
