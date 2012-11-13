@@ -19,6 +19,6 @@ touch %i/etc/runTheMatrix.args
 for dir in `find %{_builddir}/data -name 'init.sh' -type f` ; do
   dir=`dirname $dir`/../..
   [ -d $dir/data ] || continue
-  cp -r $dir/data/*HARVEST* %i/data
+  cp -r $dir/data/*HARVEST* %i/data || continue
   [ -f $dir/etc/runTheMatrix.args ] && cat $dir/etc/runTheMatrix.args >> %i/etc/runTheMatrix.args
 done
