@@ -47,6 +47,10 @@ Patch36: root-5.27.06b-r39155
 Patch37: root-5.27.06b-r38057
 Patch38: root-5.27-06b-tbasket_revised_buffers_v4_cms527
 Patch39: root-5.27.06b-r39139
+Patch40: root-5.28-00d-r39525
+Patch41: root-5.28-00d-fix-tsystem-load-macosx
+Patch42: root-5.27.06b-longBranchName
+Patch43: root-5.27.06b-r45588
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -106,6 +110,19 @@ Requires: gfortran-macosx
 %patch37 -p2
 %patch38 -p1
 %patch39 -p0
+%patch42 -p1
+%patch43 -p0
+
+# Since it is needed only to fix inline visibility issues,
+# we apply it only for gcc 4.5.1 and later.
+case %cmsplatf in
+  slc5_*_gcc4[01234]*) ;;
+  *)
+%patch40 -p1
+  ;;
+esac
+
+%patch41 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
