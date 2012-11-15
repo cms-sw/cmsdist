@@ -104,15 +104,15 @@ HG1210a dbs3-combined @slc5_amd64_gcc461
 + HEAD/3.0.19 dbs3-pycurl-client.spec
 
 #crab-system
-HG1211e crab-system @slc5_amd64_gcc461
-+ 1.7/1211a crab-system.spec
-+ 1.51/0.1.3pre1 asyncstageout.spec
+HG1211g crab-system @slc5_amd64_gcc461
++ 1.12/1212a crab-system.spec
++ 1.54/0.1.5pre1 asyncstageout.spec
 + 1.7 asyncstageout-setup.patch
-+ 1.23/3.1.3pre1 crabserver.spec
++ 1.28/3.1.5pre1 crabserver.spec
 + 1.9 crabserver3-setup.patch
-+ 1.21/3.1.3pre1 crabcache.spec
++ 1.24/3.1.5pre1 crabcache.spec
 + 1.2 crabcache-setup.patch
-+ 1.27/3.1.3pre1 crab-client3.spec
++ 1.32/3.1.5pre1 crab-client3.spec
 + 1.6 crabclient3-setup.patch
 
 # Crab
