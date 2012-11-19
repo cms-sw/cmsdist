@@ -8,7 +8,7 @@
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{wmcver}.tar.gz
 
 Source1: git://github.com/dmwm/AsyncStageout.git?obj=master/%{realversion}&export=AsyncStageout-%{realversion}&output=/AsyncStageout-%{realversion}.tar.gz
-Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 py2-zmq rotatelogs pystack py2-sphinx dbs-client couchdb py2-pycurl
+Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 py2-zmq rotatelogs pystack py2-sphinx dbs-client couchdb py2-pycurl couchskel
 
 Patch0: asyncstageout-setup
 
@@ -42,6 +42,11 @@ cp -pr ../AsyncStageout-%{realversion}/src/couchapp %i/
 cp -pr ../AsyncStageout-%{realversion}/bin %i/
 cp -pr ../AsyncStageout-%{realversion}/configuration %i/
 find %i -name '*.egg-info' -exec rm {} \;
+
+# Pick external dependencies from couchskel
+mkdir %i/couchapp/UserMonitoring/vendor/
+cp -rp $COUCHSKEL_ROOT/data/couchapps/couchskel/vendor/{couchapp,jquery,datatables} \
+  %i/couchapp/UserMonitoring/vendor/
 
 # Generate .pyc files.
 python -m compileall %i/$PYTHON_LIB_SITE_PACKAGES/AsyncStageOut || true
