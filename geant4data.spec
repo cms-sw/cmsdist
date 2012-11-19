@@ -6,6 +6,7 @@ Requires: geant4-G4EMLOW
 Requires: geant4-G4PhotonEvaporation
 Requires: geant4-G4RadioactiveDecay
 Requires: geant4-G4NEUTRONXS
+Requires: geant4-G4SAIDDATA
 
 %prep
 %build
