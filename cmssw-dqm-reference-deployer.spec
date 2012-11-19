@@ -1,4 +1,4 @@
-### RPM cms cmssw-dqm-reference-deployer CMSSW_5_2_7
+### RPM cms cmssw-dqm-reference-deployer CMSSW_6_0_0_pre11
 ## NOCOMPILER
 %define defaultArch slc5_amd64_gcc462
 Source0: http://cmsrep.cern.ch/cmssw/cms/RPMS/%{defaultArch}/cms+cmssw-dqm-reference-hi+%{realversion}-1-1.%{defaultArch}.rpm
@@ -19,6 +19,6 @@ touch %i/etc/runTheMatrix.args
 for dir in `find %{_builddir}/data -name 'init.sh' -type f` ; do
   dir=`dirname $dir`/../..
   [ -d $dir/data ] || continue
-  cp -r $dir/data/*HARVEST* %i/data || continue
+  cp -r $dir/data/*HARVEST* %i/data
   [ -f $dir/etc/runTheMatrix.args ] && cat $dir/etc/runTheMatrix.args >> %i/etc/runTheMatrix.args
 done
