@@ -1,6 +1,6 @@
 ### RPM external clhep 2.1.1.0
 Source: http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/distributions/%n-%realversion.tgz
-Patch0: clhep-2.1.1.0-fix-virtual-inline
+Patch0: clhep-2.1.1.0-no-virtual-inline
 Patch1: clhep-2.1.1.0-fix-cmake
 
 BuildRequires: cmake
@@ -16,7 +16,11 @@ BuildRequires: cmake
 %prep
 %setup -n %realversion/CLHEP
 
+case %cmsplatf in
+  osx*|*gcc4[789]*)
 %patch0 -p2
+  ;;
+esac
 %patch1 -p2
 
 %build
