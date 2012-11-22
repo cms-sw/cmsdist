@@ -1,7 +1,7 @@
 ### RPM external geant4 9.6.cand01
 
 %define downloadv %(echo %v | cut -d- -f1)
-Source0: http://cern.ch/vnivanch/verification/verification/hadronic/geant4.9.6.cand01.tar.gz
+Source0: http://cern.ch/vnivanch/verification/verification/hadronic/geant4.9.6.cand01+.tar.gz
 
 BuildRequires: cmake
 
@@ -9,7 +9,6 @@ Requires: clhep
 Requires: expat
 
 Patch0: geant4.9.5.p01-no-banner
-Patch1: geant4-9.6.cand01-improvements
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -23,7 +22,6 @@ Patch1: geant4-9.6.cand01-improvements
 %setup -n %n
 
 %patch0 -p1
-%patch1 -p1
 
 %build
 
