@@ -1,7 +1,7 @@
-### RPM cms dbs3 3.1.0a
+### RPM cms dbs3-migration 3.1.0a
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
-## INITENV SET DBS3_SERVER_ROOT %i/
+## INITENV SET DBS3_MIGRATION_ROOT %i/
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define wmcver 0.9.30
 %define cvstag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
@@ -20,15 +20,16 @@ BuildRequires: py2-sphinx
 
 %build
 cd ../WMCore
-python setup.py build_system -s wmc-web
+python setup.py build_system -s wmc-database
 cd ../DBS
-python setup.py build_system -s dbs-web
+python setup.py build_system -s dbs-migration
+
 %install
 mkdir -p %i/etc/profile.d %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
 cd ../WMCore
 python setup.py install_system -s wmc-web --prefix=%i
 cd ../DBS
-python setup.py install_system -s dbs-web --prefix=%i
+python setup.py install_system -s dbs-migration --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
@@ -49,4 +50,5 @@ done
 %files
 %{installroot}/%{pkgrel}/
 %exclude %{installroot}/%{pkgrel}/doc
+
 ## SUBPACKAGE webdoc
