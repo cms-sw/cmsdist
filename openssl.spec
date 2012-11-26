@@ -3,10 +3,8 @@
 %define osxver 1.0.1
 Source0: http://www.openssl.org/source/openssl-%osxver.tar.gz
 Source1: http://cmsrep.cern.ch/cmssw/openssl-sources/%n-fips-%linver-usa.tar.bz2
-Patch0: openssl-0.9.8e-22.el5_8.1-bundle
+Patch0: openssl-0.9.8e-rh-0.9.8e-12.el5_4.6
 Patch1: openssl-x86-64-gcc420
-# The following fixes CVE-2012-2110 (from http://cvs.openssl.org/chngview?cn=22431)
-Patch2: openssl_patchset_22431
 
 %prep
 %ifos darwin
@@ -15,7 +13,6 @@ Patch2: openssl_patchset_22431
 %setup -b 1 -n %n-fips-%linver
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 %endif
 
 %build
