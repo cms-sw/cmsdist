@@ -2,7 +2,7 @@ diff --git a/config/BuildFile.xml b/config/BuildFile.xml
 index 3964dde..628ce06 100755
 --- a/config/BuildFile.xml
 +++ b/config/BuildFile.xml
-@@ -29,6 +29,16 @@
+@@ -29,6 +29,17 @@
  <flags REM_LCGDICT_CXXFLAGS="-fipa%"/>
  <flags LCGDICT_CXXFLAGS="-Os -Wno-unused-variable"/>
  <flags CXXFLAGS="-DBOOST_DISABLE_ASSERTS"/>
@@ -15,6 +15,7 @@ index 3964dde..628ce06 100755
 +<flags CXXFLAGS="-flto"/>
 +<flags CXXFLAGS="-fno-fat-lto-objects"/>
 +<flags REM_CXXFLAGS="-Werror=maybe-uninitialized"/>
++<flags CXXFLAGS="-Wno-maybe-uninitialized"/>
 +<flags CAPABILITIES_CXXFLAGS="-fvisibility=default"/>
  
  <flags LLVM_PLUGIN="UtilitiesStaticAnalyzers"/>
