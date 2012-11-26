@@ -83,9 +83,9 @@ HG1208a DMWMMON-datasvc @slc5_amd64_gcc461
 + 1.14 DMWMMON-datasvc.spec
 
 # PHEDEX web
-HG1208a PHEDEX-combined-web @slc5_amd64_gcc461
-+ 1.210 PHEDEX-datasvc.spec
-+ 1.163 PHEDEX-web.spec
+HG1212a PHEDEX-combined-web @slc5_amd64_gcc461
++ 1.221 PHEDEX-datasvc.spec
++ 1.164 PHEDEX-web.spec
 + 1.153 PHEDEX-webapp.spec
 
 # PHEDEX agents
