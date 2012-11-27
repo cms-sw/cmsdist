@@ -1,4 +1,4 @@
-### RPM cms sitedb 2.3.5
+### RPM cms sitedb 2.4.0
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
@@ -15,7 +15,7 @@ Source1: git://github.com/dmwm/sitedb?obj=master/%realversion&export=%n&output=/
 Source2: %{cvssrc}&strategy=export&module=WEBTOOLS&nocache=true&export=WEBTOOLS&tag=-rSiteDBv1-slc5-v3&output=/old-sitedb.tar.gz
 Source3: %{cvssrc}&strategy=export&module=WEBTOOLS&nocache=true&export=WEBTOOLS&tag=-rV01-03-47&output=/old-webtools.tar.gz
 
-Requires: cherrypy yui3 d3 xregexp py2-cx-oracle py2-cjson py2-pycurl rotatelogs
+Requires: cherrypy yui3 d3 xregexp py2-cx-oracle py2-cjson py2-pycurl python-ldap rotatelogs
 Requires: yui py2-cheetah py2-pysqlite py2-formencode py2-pycrypto beautifulsoup py2-sqlalchemy oracle-env py2-pyopenssl
 # ^ = line for legacy SiteDB support, remove when migrating fully to sitedb 2.x
 BuildRequires: wmcore-devtools
