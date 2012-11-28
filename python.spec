@@ -18,7 +18,6 @@ Requires: zlib openssl sqlite
 Source0: http://www.python.org/ftp/%n/%realversion/Python-%realversion.tgz
 Patch0: python-2.6.4-dont-detect-dbm
 Patch1: python-2.6.4-fix-macosx-relocation
-Patch2: python-2.6.4-macosx-64bit
 
 %prep
 %setup -n Python-%realversion
@@ -35,7 +34,6 @@ case %cmsplatf in
 esac
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 # Python is awkward about passing other include or library directories
@@ -64,16 +62,19 @@ dirs="$EXPAT_ROOT $BZ2LIB_ROOT $NCURSES_ROOT $DB4_ROOT $GDBM_ROOT %{extradirs}"
 # location of DB4, this was needed to avoid having it picked up from the system.
 export DB4_ROOT
 
-# Python's configure parses LDFLAGS and CPPFLAGS to look for aditional library and include directories
 echo $dirs
-LDFLAGS=""
-CPPFLAGS=""
 for d in $dirs; do
-  LDFLAGS="$LDFLAGS -L $d/lib"
-  CPPFLAGS="$CPPFLAGS -I $d/include"
+  for f in $d/include/*; do
+    [ -e $f ] || continue
+    rm -f %i/include/$(basename $f)
+    ln -s $f %i/include
+  done
+  for f in $d/lib/*; do
+    [ -e $f ] || continue
+    rm -f %i/lib/$(basename $f)
+    ln -s $f %i/lib
+  done
 done
-export LDFLAGS
-export CPPFLAGS
 
 additionalConfigureOptions=""
 case %cmsplatf in
