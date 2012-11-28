@@ -36,7 +36,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
   <tool name="icc-cxxcompiler" version="@ICC_GCC_TOOLFILE_VERSION@" type="compiler">
     <use name="gcc-cxxcompiler"/>
     <client>
-      <environment name="ICC_CXXCOMPILER_BASE" default="@ICC_GCC_TOOLFILE_ROOT@/sw"/>
+      <environment name="ICC_CXXCOMPILER_BASE" default="/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.1.117/"/>
       <environment name="CXX" value="$ICC_CXXCOMPILER_BASE/bin/intel64/icpc"/>
     </client>
     # drop flags not supported by llvm
@@ -94,7 +94,6 @@ export OS_RUNTIME_LDPATH_NAME
 # General substitutions
 export AT="@"
 perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*.xml
-ln -sf /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.1.117/ $ICC_GCC_TOOLFILE_ROOT/sw
 %post
 %{relocateConfig}etc/scram.d/*.xml
 echo "ICC_GCC_TOOLFILE_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'; export GCC_TOOLFILE_ROOT" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
