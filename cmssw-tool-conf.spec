@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 25.4
+### RPM cms cmssw-tool-conf 25.5
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -114,6 +114,7 @@ Requires: p5-extutils-makemaker-toolfile
 Requires: p5-compress-zlib-toolfile
 Requires: vdt-toolfile
 Requires: icc-gcc-toolfile
+Requires: gnuplot-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
