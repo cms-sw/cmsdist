@@ -98,12 +98,12 @@ HG1208a dbs-client @slc5_amd64_gcc461
 + DBS_2_1_8 dbs-client.spec
 
 # DBS3 
-HG1212a dbs3-combined @slc5_amd64_gcc461
-+ HEAD/3.1.0b dbs3-combined.spec
-+ HEAD/3.1.0b dbs3.spec
-+ HEAD/3.1.0b dbs3-client.spec
-+ HEAD/3.1.0b dbs3-pycurl-client.spec
-+ HEAD/3.1.0b dbs3-migration.spec
+HG1212c dbs3-combined @slc5_amd64_gcc461
++ HEAD/3.1.0d dbs3-combined.spec
++ HEAD/3.1.0d dbs3.spec
++ HEAD/3.1.0d dbs3-client.spec
++ HEAD/3.1.0d dbs3-pycurl-client.spec
++ HEAD/3.1.0d dbs3-migration.spec
 
 #crab-system
 HG1211g crab-system @slc5_amd64_gcc461
