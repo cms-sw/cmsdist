@@ -1,4 +1,4 @@
-### RPM external mongo 2.2.2
+### RPM external mongo 2.2.0
 
 Patch: mongo2.2-osx
 Source: http://downloads.mongodb.org/src/mongodb-src-r%{realversion}.tar.gz
