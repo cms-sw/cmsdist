@@ -10,7 +10,7 @@
 Requires: expat bz2lib db4 gdbm openssl
 
 %if "%online" != "true"
-Requires: zlib sqlite
+Requires: zlib sqlite readline
 %endif
 
 # FIXME: readline, crypt 
@@ -54,7 +54,7 @@ done
 mkdir -p %i/include %i/lib %i/bin
 
 %if "%online" != "true"
-%define extradirs $ZLIB_ROOT $SQLITE_ROOT 
+%define extradirs $ZLIB_ROOT $SQLITE_ROOT $READLINE_ROOT
 %else
 %define extradirs %{nil}
 %endif
@@ -75,13 +75,6 @@ for d in $dirs; do
 done
 export LDFLAGS
 export CPPFLAGS
-
-additionalConfigureOptions=""
-case %cmsplatf in
-    osx105* )
-    additionalConfigureOptions="--disable-readline"
-    ;;
-esac
 
 # Bugfix for dbm package. Use ndbm.h header and gdbm compatibility layer.
 sed -ibak "s/ndbm_libs = \[\]/ndbm_libs = ['gdbm', 'gdbm_compat']/" setup.py
@@ -114,15 +107,6 @@ CMS_EOF
 
     sed -ibak "s/\(#define _POSIX_C_SOURCE \)\(.*\)/\1${POSIX_C_SOURCE}/g" pyconfig.h
     sed -ibak "s/\(#define _XOPEN_SOURCE \)\(.*\)/\1${XOPEN_SOURCE}/g" pyconfig.h
-  ;;
-esac
-
-# The following is a kludge around the fact that the /usr/lib/libreadline.so
-# symlink (for 32-bit lib) is missing on the 64bit machines
-case %cmsplatf in
-  slc4_ia32* )
-    mkdir -p %{i}/lib
-    ln -s /usr/lib/libreadline.so.4.3 %{i}/lib/libreadline.so
   ;;
 esac
 
