@@ -40,10 +40,9 @@ HG1211e crab-system @slc5_amd64_gcc461
 + 1.31/3.1.4 crab-client3.spec
 + 1.6 crabclient3-setup.patch
 
-
 # PHEDEX agents
-HG1204f PHEDEX-combined-agents @slc5_amd64_gcc461
-+ forPHEDEX410 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
+HG1210d PHEDEX-combined-agents @slc5_amd64_gcc461
++ forPHEDEX411 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
 
 #DIE#HG1111d happyface @slc5_amd64_gcc461
 #DIE#+ 1.11/1.0.0 py2-sqlobject.spec
