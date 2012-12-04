@@ -91,7 +91,7 @@ HG1212a PHEDEX-combined-web @slc5_amd64_gcc461
 
 # PHEDEX agents
 HG1210d PHEDEX-combined-agents @slc5_amd64_gcc461
-+ forPHEDEX411pre3 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
++ forPHEDEX411 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
 
 # DBS-2 client
 HG1208a dbs-client @slc5_amd64_gcc461
