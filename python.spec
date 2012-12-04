@@ -10,7 +10,7 @@
 Requires: expat bz2lib db4 gdbm openssl
 
 %if "%online" != "true"
-Requires: zlib sqlite readline ncurses
+Requires: zlib sqlite readline
 %endif
 
 # FIXME: readline, crypt 
@@ -54,12 +54,12 @@ done
 mkdir -p %i/include %i/lib %i/bin
 
 %if "%online" != "true"
-%define extradirs $ZLIB_ROOT $SQLITE_ROOT $READLINE_ROOT $NCURSES_ROOT
+%define extradirs $ZLIB_ROOT $SQLITE_ROOT $READLINE_ROOT
 %else
 %define extradirs %{nil}
 %endif
 
-dirs="$EXPAT_ROOT $BZ2LIB_ROOT $NCURSES_ROOT $DB4_ROOT $GDBM_ROOT %{extradirs}" 
+dirs="$EXPAT_ROOT $BZ2LIB_ROOT $DB4_ROOT $GDBM_ROOT %{extradirs}" 
 
 # We need to export it because setup.py now uses it to determine the actual
 # location of DB4, this was needed to avoid having it picked up from the system.
