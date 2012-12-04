@@ -31,6 +31,7 @@ Alignment/CommonAlignmentMonitor
 Alignment/CommonAlignmentParametrization
 Alignment/CommonAlignmentProducer
 Alignment/HIPAlignmentAlgorithm
+Alignment/Geners
 Alignment/KalmanAlignmentAlgorithm
 Alignment/LaserAlignment
 Alignment/LaserDQM
@@ -428,6 +429,8 @@ EventFilter/SiStripChannelChargeFilter
 EventFilter/SiStripRawToDigi
 EventFilter/StorageManager
 EventFilter/Utilities
+JetMETCorrections/InterpolationTables
+JetMETCorrections/FFTJetObjects
 FastSimulation/BaseParticlePropagator
 FastSimulation/Particle
 FWCore/Catalog
