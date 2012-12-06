@@ -291,6 +291,4 @@ fi
 [ -f $RPM_INSTALL_PREFIX/etc/scramrc/%{pkgname}.map ] || (mkdir -p $RPM_INSTALL_PREFIX/etc/scramrc && echo '%{ucprojtype}=$SCRAM_ARCH/%{pkgcategory}/%{pkgname}/%{ucprojtype}_*' > $RPM_INSTALL_PREFIX/etc/scramrc/%{pkgname}.map)
 
 %postun
-if [ -e $RPM_INSTALL_PREFIX/%pkgrel ] ; then
-  rm -fR $RPM_INSTALL_PREFIX/%pkgrel/%{srctree} $RPM_INSTALL_PREFIX/%pkgrel/.SCRAM
-fi
+rm -fR $RPM_INSTALL_PREFIX/%pkgrel
