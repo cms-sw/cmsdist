@@ -17,13 +17,13 @@
 # 1.359 is 1.6.2 # based on pymongo 2.2.1 (rev 1.24), mongo 2.0.7 (rev 1.41)
 # 1.373 is 1.7.4 # pymongo 2.3 (rev 1.25), mongo 2.2 (rev 1.42)
 # 1.374 is 1.7.5 # minor upgrade from 1.7.4
-# 1.375 is 1.8.X # series, mongo 2.2.2 (rev 1.43), pymongo 2.4 (rev 1.26)
+# 1.376 is 1.8.X # series, mongo 2.2.2 (rev 1.43), pymongo 2.4 (rev 1.26)
 #HG1211a das @slc5_amd64_gcc461
 HG1212c das @slc5_amd64_gcc461
 + 1.43 mongo.spec
 + 1.1 mongo2.2-osx.patch
 + 1.26 py2-pymongo.spec
-+ 1.375 das.spec
++ 1.376 das.spec
 
 # FileMover
 # 1.30 is 1.0.9
