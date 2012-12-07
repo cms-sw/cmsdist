@@ -17,6 +17,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/jemalloc.xml
     <environment name="LIBDIR"        default="$JEMALLOC_BASE/lib"/>
     <environment name="INCLUDE"        default="$JEMALLOC_BASE/include"/>
   </client>
+  <runtime name="MALLOC_CONF" value="lg_chunk:18,lg_dirty_mult:4"/>
 </tool>
 EOF_TOOLFILE
 
