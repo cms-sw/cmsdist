@@ -7,6 +7,6 @@ Source: ftp://ftp.cwru.edu/pub/bash/readline-%realversion.tar.gz
 %setup -n readline-%realversion
 %build
 ./configure --prefix %i --disable-shared --enable-static
-make %makeprocesses
+make %makeprocesses CFLAGS="-O2 -fPIC"
 %install
 make install
