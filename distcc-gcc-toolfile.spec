@@ -40,9 +40,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/distcc-cxxcompiler.xml
     <client>
       <environment name="CXX" value="@DISTCC_ROOT@/bin/c++"/>
     </client>
-    # drop flags not supported by llvm
-    # -Wno-non-template-friend removed since it's not supported, yet, by llvm.
-    <runtime name="PATH" value="$DISTCC_CXXCOMPILER_BASE/bin" type="path"/>
   </tool>
 EOF_TOOLFILE
 
