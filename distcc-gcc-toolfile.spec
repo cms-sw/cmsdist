@@ -1,4 +1,4 @@
-### RPM cms distcc-gcc-toolfile 13.0
+### RPM cms distcc-gcc-toolfile 1.0
 Requires: distcc
 
 %if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
@@ -59,7 +59,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/distcc-f77compiler.xml
   <tool name="distcc-f77compiler" version="@DISTCC_GCC_TOOLFILE_VERSION@" type="compiler">
     <use name="gcc-f77compiler"/>
     <client>
-      <environment name="FC" default="$@DISTCC_ROOT@/bin/gfortran"/>
+      <environment name="FC" default="@DISTCC_ROOT@/bin/gfortran"/>
     </client>
   </tool>
 EOF_TOOLFILE
