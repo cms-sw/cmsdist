@@ -9,3 +9,7 @@ Requires: python
 make %makeprocesses
 %install
 make install
+ln -sf distcc %i/bin/c++
+ln -sf distcc %i/bin/cc
+ln -sf distcc %i/bin/gcc
+ln -sf distcc %i/bin/gfortran
