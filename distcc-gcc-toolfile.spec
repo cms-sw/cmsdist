@@ -34,11 +34,11 @@ mkdir -p %i/etc/scram.d
 # *** USE @VARIABLE@ plus associated environment variable to customize. ***
 # DO NOT DUPLICATE the toolfile template.
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
+cat << \EOF_TOOLFILE >%i/etc/scram.d/distcc-cxxcompiler.xml
   <tool name="distcc-cxxcompiler" version="@DISTCC_GCC_TOOLFILE_VERSION@" type="compiler">
     <use name="gcc-cxxcompiler"/>
     <client>
-      <environment name="CXX" value="@DISTCC_ROOT@/bin/distcc c++"/>
+      <environment name="CXX" value="@DISTCC_ROOT@/bin/c++"/>
     </client>
     # drop flags not supported by llvm
     # -Wno-non-template-friend removed since it's not supported, yet, by llvm.
@@ -46,20 +46,20 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
   </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-ccompiler.xml
+cat << \EOF_TOOLFILE >%i/etc/scram.d/distcc-ccompiler.xml
   <tool name="distcc-ccompiler" version="@DISTCC_GCC_TOOLFILE_VERSION@" type="compiler">
     <use name="gcc-ccompiler"/>
     <client>
-      <environment name="CC" value="@DISTCC_ROOT@/bin/distcc gcc"/>
+      <environment name="CC" value="@DISTCC_ROOT@/bin/gcc"/>
     </client>
   </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-f77compiler.xml
+cat << \EOF_TOOLFILE >%i/etc/scram.d/distcc-f77compiler.xml
   <tool name="distcc-f77compiler" version="@DISTCC_GCC_TOOLFILE_VERSION@" type="compiler">
     <use name="gcc-f77compiler"/>
     <client>
-      <environment name="FC" default="$@DISTCC_ROOT@/bin/distcc gfortran"/>
+      <environment name="FC" default="$@DISTCC_ROOT@/bin/gfortran"/>
     </client>
   </tool>
 EOF_TOOLFILE
