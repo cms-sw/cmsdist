@@ -1,4 +1,4 @@
-### RPM external mod_perl2 2.0.5
+### RPM external mod_perl2 2.0.7
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 # See http://perl.apache.org/docs/2.0/user/install/install.html
 Source0: http://perl.apache.org/dist/mod_perl-%realversion.tar.gz
