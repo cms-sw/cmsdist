@@ -3,8 +3,8 @@ Alignment/CommonAlignmentAlgorithm
 Alignment/CommonAlignmentMonitor
 Alignment/CommonAlignmentParametrization
 Alignment/CommonAlignmentProducer
-Alignment/HIPAlignmentAlgorithm
 Alignment/Geners
+Alignment/HIPAlignmentAlgorithm
 Alignment/KalmanAlignmentAlgorithm
 Alignment/LaserAlignment
 Alignment/LaserDQM
@@ -403,8 +403,6 @@ EventFilter/SiStripChannelChargeFilter
 EventFilter/SiStripRawToDigi
 EventFilter/StorageManager
 EventFilter/Utilities
-JetMETCorrections/FFTJetObjects
-JetMETCorrections/InterpolationTables
 FWCore/Catalog
 FWCore/Common
 FWCore/FWLite
@@ -512,6 +510,8 @@ IgTools/IgProf
 IgTools/IgTrace
 JetMETCorrections/Algorithms
 JetMETCorrections/Configuration
+JetMETCorrections/FFTJetObjects
+JetMETCorrections/InterpolationTables
 JetMETCorrections/IsolatedParticles
 JetMETCorrections/JetParton
 JetMETCorrections/JetVertexAssociation
