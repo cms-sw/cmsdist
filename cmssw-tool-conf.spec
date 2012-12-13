@@ -112,6 +112,8 @@ Requires: tbb-toolfile
 Requires: mctester-toolfile
 Requires: vdt-toolfile
 Requires: icc-gcc-toolfile
+Requires: ccache-gcc-toolfile
+Requires: distcc-gcc-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
