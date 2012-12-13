@@ -10,7 +10,7 @@ mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/libxml2.xml
 <tool name="libxml2" version="@TOOL_VERSION@">
   <info url="http://xmlsoft.org/"/>
-  <lib name="xml2"/>
+  <lib name="libxml2"/>
   <client>
     <environment name="LIBXML2_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$LIBXML2_BASE/lib"/>
