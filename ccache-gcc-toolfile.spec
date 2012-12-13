@@ -39,6 +39,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/ccache-cxxcompiler.xml
     <use name="gcc-cxxcompiler"/>
     <client>
       <environment name="CXX" value="@CCACHE_ROOT@/bin/c++"/>
+      <environment name="BUILDENV_CCACHE_BASEDIR" value="$LOCALTOP"/>
     </client>
   </tool>
 EOF_TOOLFILE
