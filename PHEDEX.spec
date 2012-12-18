@@ -1,4 +1,4 @@
-### RPM cms PHEDEX PHEDEX_4_1_1
+### RPM cms PHEDEX PHEDEX_4_1_2
 
 ## INITENV +PATH PERL5LIB %i/perl_lib
 Source: cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e&module=%n&export=%n&&tag=-r%{v}&output=/%n.tar.gz
