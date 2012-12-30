@@ -1,14 +1,14 @@
 ### RPM external llvm 3.2
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-%define llvmRevision 164298
-%define clangRevision 164298
+%define llvmRevision 171261
+%define clangRevision 171261
 %define llvmBranch %(echo %realversion | sed -e 's|[.]||')
 # s/#/S/ to use the official version.
-#Source0: svn://llvm.org/svn/llvm-project/llvm/branches/release_%llvmBranch/?scheme=http&revision=%llvmRevision&module=llvm-%realversion-%llvmRevision&output=/llvm-%realversion-%llvmRevision.tgz
-#Source1: svn://llvm.org/svn/llvm-project/cfe/branches/release_%llvmBranch/?scheme=http&revision=%clangRevision&module=clang-%realversion-%clangRevision&output=/clang-%realversion-%clangRevision.tgz
+Source0: svn://llvm.org/svn/llvm-project/llvm/branches/release_%llvmBranch/?scheme=http&revision=%llvmRevision&module=llvm-%realversion-%llvmRevision&output=/llvm-%realversion-%llvmRevision.tgz
+Source1: svn://llvm.org/svn/llvm-project/cfe/branches/release_%llvmBranch/?scheme=http&revision=%clangRevision&module=clang-%realversion-%clangRevision&output=/clang-%realversion-%clangRevision.tgz
 # SVN builds. Comment out to use the official version.
-Source0: svn://llvm.org/svn/llvm-project/llvm/trunk/?scheme=http&revision=%llvmRevision&module=llvm-%realversion-%llvmRevision&output=/llvm-%realversion-%llvmRevision.tgz
-Source1: svn://llvm.org/svn/llvm-project/cfe/trunk/?scheme=http&revision=%clangRevision&module=clang-%realversion-%clangRevision&output=/clang-%realversion-%clangRevision.tgz
+#Source0: svn://llvm.org/svn/llvm-project/llvm/trunk/?scheme=http&revision=%llvmRevision&module=llvm-%realversion-%llvmRevision&output=/llvm-%realversion-%llvmRevision.tgz
+#Source1: svn://llvm.org/svn/llvm-project/cfe/trunk/?scheme=http&revision=%clangRevision&module=clang-%realversion-%clangRevision&output=/clang-%realversion-%clangRevision.tgz
 Patch0: llvm-3.1-fix-requires
 Patch1: llvm-3.2-getGCCToolchainDir
 %define keep_archives true
