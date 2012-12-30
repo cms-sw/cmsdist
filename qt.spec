@@ -1,14 +1,16 @@
-### RPM external qt 4.8.3
+### RPM external qt 4.8.1
 ## INITENV UNSET QMAKESPEC
 ## INITENV SET QTDIR %i
 
 Requires: libjpg 
-Source0: http://releases.qt-project.org/qt4/source/%n-everywhere-opensource-src-%{realversion}.tar.gz
+Source0: ftp://ftp.qt.nokia.com/qt/source/%n-everywhere-opensource-src-%{realversion}.tar.gz
+Patch0: qt-4.8.0-fix-gcc47
 
 %define strip_files %i/lib %i/bin
 
 %prep
 %setup -T -b 0 -n %n-everywhere-opensource-src-%{realversion}
+%patch0 -p1
 
 %build
 unset QMAKESPEC || true

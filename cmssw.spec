@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_6_1_0
+### RPM cms cmssw CMSSW_6_1_EXPERIMENTAL_X_2012-11-06-0200
 Requires: cmssw-tool-conf python
 
 %define runGlimpse      yes
@@ -46,11 +46,6 @@ Patch12: cmssw-lto
 Patch13: cmssw-debug
 %define cvstag		%(echo %realversion | sed -e 's|_DEBUG_X|_X|')
 %define preBuildCommand pushd .. ; patch -p1 <%_sourcedir/cmssw-debug; popd
-%endif
-
-%if "%(case %realversion in (*_ICC_X*) echo true ;; (*) echo false ;; esac)" == "true"
-%define cvstag		%(echo %realversion | sed -e 's|_ICC_X|_X|')
-%define preBuildCommand scram setup icc-cxxcompiler ; scram setup icc-f77compiler ; scram setup icc-ccompiler ; export COMPILER=icc
 %endif
 
 ## IMPORT scram-project-build
