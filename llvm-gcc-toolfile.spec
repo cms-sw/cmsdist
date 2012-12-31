@@ -44,6 +44,14 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm-cxxcompiler.xml
     # -Wno-non-template-friend removed since it's not supported, yet, by llvm.
     <flags REM_CXXFLAGS="-Wno-non-template-friend"/>
     <flags REM_CXXFLAGS="-Werror=format-contains-nul"/>
+    <flags REM_CXXFLAGS="-Werror=maybe-uninitialized"/>
+    <flags REM_CXXFLAGS="-Werror=unused-but-set-variable"/>
+    <flags CXXFLAGS="-Wno-c99-extensions"/>
+    <flags CXXFLAGS="-Wno-c++11-narrowing"/>
+    <flags CXXFLAGS="-D__STRICT_ANSI__"/>
+    <flags CXXFLAGS="-Wno-unused-private-field"/>
+    <flags CXXFLAGS="-Wno-unknown-pragmas"/>
+    <flags CXXFLAGS="-Wno-unused-command-line-argument"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$LLVM_CXXCOMPILER_BASE/lib" type="path"/>
     <runtime name="PATH" value="$LLVM_CXXCOMPILER_BASE/bin" type="path"/>
     <runtime name="COMPILER_RUNTIME_OBJECTS" value="@GCC_ROOT@"/>
