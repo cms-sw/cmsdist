@@ -47,7 +47,7 @@ case %cmsplatf in
   ;;
 esac
 
-./configure --prefix=%i --enable-analysis \
+./configure --prefix=%i --enable-analysis --disable-silent-rules \
             --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT \
             --enable-multithread CXX="%cms_cxx" CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF %cms_cxxflags" LDFLAGS="-ldl"
 
