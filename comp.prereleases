@@ -64,11 +64,11 @@ HG1201c stagemanager @slc5_amd64_gcc461
 
 # RequestManager
 HG1211b reqmgr @slc5_amd64_gcc461
-+ 1.66 reqmgr.spec
++ 1.67 reqmgr.spec
 
 # Request Monitor
 HG1302a reqmon @slc5_amd64_gcc461
-+ 1.27 reqmon.spec
++ 1.28 reqmon.spec
 
 ## RequestMonitor
 #HG1204h reqmon-meta @slc5_amd64_gcc461
@@ -78,7 +78,8 @@ HG1302a reqmon @slc5_amd64_gcc461
 
 # WorkQueue
 HG1302a workqueue @slc5_amd64_gcc461
-+ HEAD/0.9.34 workqueue.spec
+#+ HEAD/0.9.34 workqueue.spec
++ 1.58 workqueue.spec
 
 # DMWMMON
 HG1208a DMWMMON-datasvc @slc5_amd64_gcc461
