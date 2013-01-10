@@ -606,6 +606,76 @@ diff -u -r1.7 MonitoredQuantity_t.cpp
  
  /////////////////////////////////////////////////////////////
  //
+Index: FWCore/Utilities/test/Math_t.cpp
+===================================================================
+RCS file: /local/reps/CMSSW/CMSSW/FWCore/Utilities/test/Attic/Math_t.cpp,v
+retrieving revision 1.6
+diff -u -r1.6 Math_t.cpp
+--- FWCore/Utilities/test/Math_t.cpp	6 Aug 2012 21:49:46 -0000	1.6
++++ FWCore/Utilities/test/Math_t.cpp	23 Oct 2012 20:14:46 -0000
+@@ -3,6 +3,7 @@
+ 
+ #include "FWCore/Utilities/interface/math.h"
+ #include "FWCore/Utilities/interface/HRRealTime.h"
++#include "FWCore/Utilities/interface/isFinite.h"
+ 
+ #include <Utilities/Testing/interface/CppUnit_testdriver.icpp>
+ #include <cppunit/extensions/HelperMacros.h>
+@@ -27,15 +28,15 @@
+   CPPUNIT_ASSERT(std::numeric_limits<FP>::is_specialized);
+   CPPUNIT_ASSERT(std::numeric_limits<FP>::has_quiet_NaN);
+   FP nan = std::numeric_limits<FP>::quiet_NaN();
+-  CPPUNIT_ASSERT(!edm::isnan(static_cast<FP>(1.0)));
+-  CPPUNIT_ASSERT(!edm::isnan(static_cast<FP>(-1.0)));
+-  CPPUNIT_ASSERT(!edm::isnan(static_cast<FP>(0.0)));
+-  CPPUNIT_ASSERT(!edm::isnan(static_cast<FP>(-0.0)));
+-  CPPUNIT_ASSERT(!edm::isnan(std::numeric_limits<FP>::infinity()));
+-  CPPUNIT_ASSERT(!edm::isnan(-std::numeric_limits<FP>::infinity()));
++  CPPUNIT_ASSERT(!edm::isNotFinite(static_cast<FP>(1.0)));
++  CPPUNIT_ASSERT(!edm::isNotFinite(static_cast<FP>(-1.0)));
++  CPPUNIT_ASSERT(!edm::isNotFinite(static_cast<FP>(0.0)));
++  CPPUNIT_ASSERT(!edm::isNotFinite(static_cast<FP>(-0.0)));
++  CPPUNIT_ASSERT(!edm::isNotFinite(std::numeric_limits<FP>::infinity()));
++  CPPUNIT_ASSERT(!edm::isNotFinite(-std::numeric_limits<FP>::infinity()));
+ 
+-  CPPUNIT_ASSERT(edm::isnan(nan));
+-  CPPUNIT_ASSERT(edm::isnan(std::numeric_limits<FP>::signaling_NaN()));
++  CPPUNIT_ASSERT(edm::isNotFinite(nan));
++  CPPUNIT_ASSERT(edm::isNotFinite(std::numeric_limits<FP>::signaling_NaN()));
+ }
+ 
+ 
+@@ -48,9 +49,8 @@
+   test_fp_type<double>();
+   test_fp_type<long double>();
+ 
+-  CPPUNIT_ASSERT(edm::isnan(std::numeric_limits<float>::quiet_NaN()));
+-  CPPUNIT_ASSERT(edm::isnan(std::numeric_limits<double>::quiet_NaN()));
+-  CPPUNIT_ASSERT(edm::isnan(std::numeric_limits<long double>::quiet_NaN()));
++  CPPUNIT_ASSERT(edm::isNotFinite(std::numeric_limits<float>::quiet_NaN()));
++  CPPUNIT_ASSERT(edm::isNotFinite(std::numeric_limits<double>::quiet_NaN()));
+ }
+ 
+ template <class FP>
+@@ -81,9 +81,9 @@
+   start = edm::hrRealTime();
+   for (int i = 0; i < 1000*1000; ++i)
+     for (int j = 0; j < 5; ++j)
+-      sum += (edm::isnan(values[j]) ? 0 : 1);
++      sum += (edm::isNotFinite(values[j]) ? 0 : 1);
+   stop = edm::hrRealTime();
+-  std::cout << "edm::isnan time:         " << (stop - start) << std::endl;
++  std::cout << "edm::isNotFinite time:         " << (stop - start) << std::endl;
+ 
+   sum = 0;
+   start = edm::hrRealTime();
+@@ -101,6 +101,4 @@
+   time_fp_type<float>();
+   std::cout << "\ntiming doubles\n";
+   time_fp_type<double>();
+-  std::cout << "\ntiming long doubles\n";
+-  time_fp_type<long double>();
+ }
 Index: MagneticField/VolumeBasedEngine/src/MagGeometry.cc
 ===================================================================
 RCS file: /local/reps/CMSSW/CMSSW/MagneticField/VolumeBasedEngine/src/MagGeometry.cc,v
@@ -1786,3 +1856,49 @@ diff -u -r1.12.2.3.2.1 PrimaryVertexAnalyzer4PU.cc
  	  // in addition, diagonal element must be positive
  	  if (j == i && v->covariance(i, j) < 0) {
  	    Fill(h,"nans",index*1., 1.);
+--- /dev/null
++++ FWCore/Utilities/interface/isFinite.h
+@@ -0,0 +1,43 @@
++#ifndef FWCORE_Utilities_isFinite_H
++#define FWCORE_Utilities_isFinite_H
++
++namespace edm {
++  template <typename T>
++  bool isFinite(T x);
++
++  template <typename T>
++  inline
++  bool isNotFinite(T x) {
++    return !isFinite(x);
++  }
++  
++  template<>
++  inline
++  bool isFinite(float x) {
++    const unsigned int mask =  0x7f800000;
++    union { unsigned int l; float d;} v;
++    v.d =x;
++    return (v.l&mask)!=mask;
++  }
++  
++  template<>
++  inline
++  bool isFinite(double x) {
++    const unsigned long long mask = 0x7FF0000000000000LL;
++    union { unsigned long long l; double d;} v;
++    v.d =x;
++    return (v.l&mask)!=mask;
++  }
++
++  template<>
++  inline
++  bool isFinite(long double x) {
++    const unsigned long long mask = 0x7FF0000000000000LL;
++    union { unsigned long long l; double d;} v;
++    v.d =x;
++    return (v.l&mask)!=mask;
++  }
++}
++
++#endif // FWCORE_Utilities_isFinite_H
++
