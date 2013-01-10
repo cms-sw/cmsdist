@@ -166,3 +166,25 @@ diff -u -r1.5 GsfMaterialEffectsUpdator.cc
  
    //
    // prepare output vector
+Index: DataFormats/Math/interface/SSEVec.h
+===================================================================
+RCS file: /local/reps/CMSSW/CMSSW/DataFormats/Math/interface/SSEVec.h,v
+retrieving revision 1.86
+diff -u -r1.86 SSEVec.h
+--- DataFormats/Math/interface/SSEVec.h	24 Sep 2012 08:07:05 -0000	1.86
++++ DataFormats/Math/interface/SSEVec.h	10 Jan 2013 14:49:03 -0000
+@@ -855,12 +855,12 @@
+ // double op 3d
+ 
+ 
+-#ifdef __SSE3__
++//#ifdef __SSE3__
+ // consistent with AVX...
+ inline mathSSE::Vec4D hadd(mathSSE::Vec4D a, mathSSE::Vec4D b) {
+     return  mathSSE::Vec4D(hadd(mathSSE::Vec2D(a.vec[0]),mathSSE::Vec2D(b.vec[0])),hadd(mathSSE::Vec2D(a.vec[1]),mathSSE::Vec2D(b.vec[1])) );
+ }
+-#endif
++//#endif
+ 
+ 
+ inline bool operator==(mathSSE::Vec4D a, mathSSE::Vec4D b) {
