@@ -7,7 +7,7 @@ index 3964dde..b11e7b1 100755
  <flags REM_LCGDICT_CXXFLAGS="-fipa%"/>
  <flags LCGDICT_CXXFLAGS="-Os -Wno-unused-variable"/>
 -<flags CXXFLAGS="-DBOOST_DISABLE_ASSERTS"/>
-+<flags CXXFLAGS="-DBOOST_DISABLE_ASSERTS -Ofast -mrepic=all -march=corei7 -ftree-loop-if-convert-stores"/>
++<flags CXXFLAGS="-DBOOST_DISABLE_ASSERTS -Ofast -mrecip=all -march=corei7 -ftree-loop-if-convert-stores"/>
  
  <flags LLVM_PLUGIN="UtilitiesStaticAnalyzers"/>
  <flags LLVM_CHECKERS="-enable-checker threadsafety"/>
