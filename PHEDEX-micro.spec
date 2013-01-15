@@ -1,9 +1,9 @@
-### RPM cms PHEDEX-micro PHEDEX_4_1_1
+### RPM cms PHEDEX-micro PHEDEX_3_3_2
 
 ## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
-Source: cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e&module=%{downloadn}&export=%{downloadn}&&tag=-r%{v}&output=/%{downloadn}-micro.tar.gz
+Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%{downloadn}&export=%{downloadn}&&tag=-r%{v}&output=/%{downloadn}.tar.gz
 # Oracle libs
 Requires: oracle oracle-env
 # perl libs
@@ -24,9 +24,6 @@ Provides: perl(HTML::Entities)
 Provides: perl(DB_File)
 Provides: perl(Date::Manip)
 Provides: perl(XML::LibXML)
-
-# Fake provide of twitter client; needs to be installed manually
-Provides: perl(Net::Twitter::Lite)
 
 %prep
 
