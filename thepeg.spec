@@ -10,8 +10,6 @@ Patch2: thepeg-1.6.1-lhapdf-env
 Patch3: thepeg-1.6.1-gcc46
 Patch4: thepeg-1.7.0-configure
 Patch5: thepeg-1.7.0-gcc46
-Patch6: thepeg-1.7.0-fix-bogus-ZLIB-HOME
-Patch7: thepeg-1.7.0-fix-gcc47
 Requires: lhapdf
 Requires: gsl
 Requires: hepmc
@@ -34,11 +32,6 @@ esac
 %patch3 -p2
 %patch4 -p1
 %patch5 -p1
-%patch6 -p2
-%patch7 -p2
-
-# Trick make not to re-run aclocal, autoconf, automake, autoscan, etc.
-find . -exec touch -m -t 201201010000 {} \;
 
 %build
 # Build as static only on new architectures.
