@@ -39,6 +39,7 @@ Requires: data-RecoMuon-MuonIdentification
 Requires: data-RecoEgamma-ElectronIdentification
 Requires: data-RecoTracker-RingESSource
 Requires: data-RecoTracker-RoadMapESSource
+Requires: data-CalibTracker-SiPixelESProducers
 
 %if "%online" != "true"
 # extra data dependencies for standard builds
@@ -48,6 +49,7 @@ Requires: data-SimG4CMS-Calo
 Requires: data-SimG4CMS-Forward
 Requires: data-Validation-Geometry
 Requires: data-Fireworks-Geometry
+Requires: data-GeneratorInterface-ReggeGribovPartonMCInterface
 %endif
 
 %prep
