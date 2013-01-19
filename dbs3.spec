@@ -1,9 +1,9 @@
-### RPM cms dbs3 3.1.0d
+### RPM cms dbs3 3.1.1a
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 ## INITENV SET DBS3_SERVER_ROOT %i/
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 0.9.30
+%define wmcver 0.9.34
 %define cvstag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 %define gitserver https://nodeload.github.com
