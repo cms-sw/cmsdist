@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_6_2_X_2013-01-14-1400
+### RPM cms cmssw CMSSW_5_3_8
 Requires: cmssw-tool-conf python
 
 %define runGlimpse      yes
