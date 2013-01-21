@@ -23,14 +23,15 @@ eval `%scram runtime -sh`
 %build
 cd ..
 cd $CMSSW_VERSION
-UPLOAD_AREA=%cmsroot/WEB/ib-results/$CMSSW_VERSION
+UPLOAD_AREA=%cmsroot/WEB/ib-results/$CMSSW_VERSION/%cmsplatf
 TEST_AREA=%i/workarea
 eval `%scram runtime -sh`
 rm -rf $TEST_AREA
 mkdir -p $TEST_AREA
 mkdir -p $UPLOAD_AREA
+WORKFLOWS=`runTheMatrix.py -n | grep -e '^[0-9]\+[.]' | cut -f1 -d\ | tail -n 200 | head -n 100 | tr \\n , | sed -e 's/,$//'`
 pushd $TEST_AREA
-  time runTheMatrix.py -s -j %compiling_processes 2>&1 >$UPLOAD_AREA/result.log 
+  time runTheMatrix.py -l $WORKFLOWS -j %compiling_processes 2>&1 >$UPLOAD_AREA/result0.log 
 popd
 rm -rf $TEST_AREA
 #python %{moduleName}/parseLogs.py -f %i/test-runTheMatrix/runall-report-step123-.log -d  %{url}dbname.db -o %{url}tables.html -v $CMSSW_VERSION &> parseLog.log 
