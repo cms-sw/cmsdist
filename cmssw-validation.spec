@@ -6,7 +6,10 @@ BuildRequires: local-cern-siteconf
 %define url HTMLFiles/
 Source: svn://svn.cern.ch/reps/CMSIntBld/tags/LogParser/parser?scheme=svn+ssh&revision=%{name1}&module=%{moduleName}&output=/%{moduleName}.tar.gz
 
-
+# Template spec file for implementing IB tasks.
+# Execute your test (runTheMatrix.py in this case) and copy all of what 
+# you want to expose to the user into %cmsroot/WEB/$CMSSW_VERSION/
+# This will be automatically uploaded to the repository in the WEB area.
 %define scram $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
 
 %prep
@@ -22,18 +25,14 @@ eval `%scram runtime -sh`
 cd ..
 cd $CMSSW_VERSION
 eval `%scram runtime -sh`
-rm -rf %i/test-addontests %i/test-runTheMatrix
-mkdir -p %i/test-addontests %i/test-runTheMatrix
-pushd %i/test-addontests
-  time addOnTests.py -j %compiling_processes &> result.log
+rm -rf %i/workarea
+mkdir %i/workarea
+mkdir -p %cmsroot/WEB/ib-results/$CMSSW_VERSION
+pushd %i/workarea
+  time runTheMatrix.py -l 1000.0 -j %compiling_processes 2>&1 >%cmsroot/WEB/$CMSSW_VERSION/result.log
 popd
-cd ..
-pwd
-# Do runTheMatrix.py (let's start with -s)
-pushd %i/test-runTheMatrix
-  time runTheMatrix.py -s -j %compiling_processes &> result.log
-popd
-python %{moduleName}/parseLogs.py -f %i/test-runTheMatrix/runall-report-step123-.log -d  %{url}dbname.db -o %{url}tables.html -v $CMSSW_VERSION &> parseLog.log 
+rm -rf %i/workarea
+#python %{moduleName}/parseLogs.py -f %i/test-runTheMatrix/runall-report-step123-.log -d  %{url}dbname.db -o %{url}tables.html -v $CMSSW_VERSION &> parseLog.log 
 
 # TODO: Add logs to the package or send them directly to the DB.
 %install
