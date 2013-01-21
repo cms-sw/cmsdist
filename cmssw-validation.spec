@@ -19,7 +19,6 @@ cd ..
 cd $CMSSW_VERSION
 %scram build clean
 eval `%scram runtime -sh`
-#rsync -av $CMSSW_RELEASE_BASE/src/ src/
 
 %build
 cd ..
@@ -30,8 +29,8 @@ eval `%scram runtime -sh`
 rm -rf $TEST_AREA
 mkdir -p $TEST_AREA
 mkdir -p $UPLOAD_AREA
-pushd $TEST_AREA 
-  time runTheMatrix.py -l 1000.0 -j %compiling_processes 2>&1 >$UPLOAD_AREA/result.log
+pushd $TEST_AREA
+  time runTheMatrix.py -l 1000 -j %compiling_processes 2>&1 >$UPLOAD_AREA/result.log
 popd
 rm -rf $TEST_AREA
 #python %{moduleName}/parseLogs.py -f %i/test-runTheMatrix/runall-report-step123-.log -d  %{url}dbname.db -o %{url}tables.html -v $CMSSW_VERSION &> parseLog.log 
