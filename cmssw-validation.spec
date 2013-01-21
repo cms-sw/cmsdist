@@ -26,7 +26,7 @@ cd ..
 cd $CMSSW_VERSION
 eval `%scram runtime -sh`
 rm -rf %i/workarea
-mkdir %i/workarea
+mkdir -p %i/workarea
 mkdir -p %cmsroot/WEB/ib-results/$CMSSW_VERSION
 pushd %i/workarea
   time runTheMatrix.py -l 1000.0 -j %compiling_processes 2>&1 >%cmsroot/WEB/$CMSSW_VERSION/result.log
