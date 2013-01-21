@@ -24,14 +24,16 @@ eval `%scram runtime -sh`
 %build
 cd ..
 cd $CMSSW_VERSION
+UPLOAD_AREA=%cmsroot/WEB/ib-results/$CMSSW_VERSION
+TEST_AREA=%i/workarea
 eval `%scram runtime -sh`
-rm -rf %i/workarea
-mkdir -p %i/workarea
-mkdir -p %cmsroot/WEB/ib-results/$CMSSW_VERSION
-pushd %i/workarea
-  time runTheMatrix.py -l 1000.0 -j %compiling_processes 2>&1 >%cmsroot/WEB/$CMSSW_VERSION/result.log
+rm -rf $TEST_AREA
+mkdir -p $TEST_AREA
+mkdir -p $UPLOAD_AREA
+pushd $TEST_AREA 
+  time runTheMatrix.py -l 1000.0 -j %compiling_processes 2>&1 >$UPLOAD_AREA/result.log
 popd
-rm -rf %i/workarea
+rm -rf $TEST_AREA
 #python %{moduleName}/parseLogs.py -f %i/test-runTheMatrix/runall-report-step123-.log -d  %{url}dbname.db -o %{url}tables.html -v $CMSSW_VERSION &> parseLog.log 
 
 # TODO: Add logs to the package or send them directly to the DB.
