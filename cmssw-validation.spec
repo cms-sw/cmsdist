@@ -29,7 +29,7 @@ eval `%scram runtime -sh`
 rm -rf $TEST_AREA
 mkdir -p $TEST_AREA
 mkdir -p $UPLOAD_AREA
-WORKFLOWS=`runTheMatrix.py -n | grep -e '^[0-9]\+[.]' | cut -f1 -d\ | tail -n 200 | head -n 100 | tr \\n , | sed -e 's/,$//'`
+WORKFLOWS=`runTheMatrix.py -n | grep -e '^[0-9]\+[.]' | cut -f1 -d\ | tail -n 200 | head -n 100 | tr '\n' , | sed -e 's/,$//'`
 pushd $TEST_AREA
   time runTheMatrix.py -l $WORKFLOWS -j %compiling_processes 2>&1 >$UPLOAD_AREA/result0.log 
 popd
