@@ -7,7 +7,7 @@ BuildRequires: python py2-matplotlib gnuplot cvs-stats
 mkdir -p %i
 cat $CVS_STATS_ROOT/per-user-data.txt | cut -f1,2 -d\ | sort | uniq -c | sed -e 's/[ ]*\([0-9]*\) \([0-9]*\) \([0-9]*\)/\2\3 \1/' > data.txt
 
-gnuplot << \EOF > %i/cvs-users-per-month.svg
+gnuplot << \EOF > %cmsroot/WEB/cvs-users-per-month.svg
 set macro                                                                                                                                                                                                                                                                                    
 
 # Palette URL:
