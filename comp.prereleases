@@ -176,5 +176,5 @@ HG1207c couchskel @slc5_amd64_gcc461
 + 1.2 couchskel.spec
 
 # T0 wmstats Monitor
-HG1302a t0wmstats @slc5_amd64_gcc461
-+ 1.2 t0wmstats.spec
+HG1302a t0_reqmon @slc5_amd64_gcc461
++ 1.1 t0_reqmon.spec
