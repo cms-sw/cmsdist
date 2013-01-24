@@ -5,7 +5,7 @@ Source: http://downloads.sourceforge.net/project/gnuplot/gnuplot/4.6.1/gnuplot-4
 %setup -n %n-%realversion
 
 %build
-./configure --prefix %i
+./configure --prefix %i --without-tutorial --without-x
 make %makeprocesses
 
 %install
