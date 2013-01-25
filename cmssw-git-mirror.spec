@@ -14,7 +14,7 @@ cd src
 BRANCH=`echo $CMSSW_VERSION | sed -e 's/_X.*/_X/`
 git checkout $BRANCH
 rsync -av --exclude .git --delete $CMSSW_ROOT/src/ ./
-git add .
+git add --all .
 git commit -m "$CMSSW_VERSION"
 git tag "$CMSSW_VERSION"
 git push -f origin $BRANCH
