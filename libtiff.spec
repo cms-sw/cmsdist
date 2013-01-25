@@ -7,14 +7,6 @@ Requires: libjpg
 Requires: zlib
 %endif
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx g++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x -O2
-%endif
-
 %prep
 %setup -n tiff-%{realversion}
 %build
@@ -22,8 +14,7 @@ Requires: zlib
             --with-zlib-lib-dir=$ZLIB_ROOT/lib \
             --with-zlib-include-dir=$ZLIB_ROOT/include \
             --with-jpeg-lib-dir=$LIBJPG_ROOT/lib \
-            --with-jpeg-include-dir=$LIBJPG_ROOT/include \
-            CXX="%cms_cxx" CXXFLAGS="%cms_cxxflags"
+            --with-jpeg-include-dir=$LIBJPG_ROOT/include 
                           
 make %makeprocesses
 
