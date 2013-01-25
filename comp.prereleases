@@ -66,12 +66,12 @@ HG1201c stagemanager @slc5_amd64_gcc461
 + 1.10/1.0.1 stagemanager.spec
 
 # RequestManager
-HG1302a reqmgr @slc5_amd64_gcc461
-+ 1.70 reqmgr.spec
+HG1302b reqmgr @slc5_amd64_gcc461
++ 1.71 reqmgr.spec
 
 # Request Monitor
-HG1302a reqmon @slc5_amd64_gcc461
-+ 1.31 reqmon.spec
+HG1302b reqmon @slc5_amd64_gcc461
++ 1.32 reqmon.spec
 
 ## RequestMonitor
 #HG1204h reqmon-meta @slc5_amd64_gcc461
@@ -80,7 +80,7 @@ HG1302a reqmon @slc5_amd64_gcc461
 #+ 1.1 reqmon-critical-fixes-for0-8-15b.patch
 
 # WorkQueue
-HG1302a workqueue @slc5_amd64_gcc461
+HG1302b workqueue @slc5_amd64_gcc461
 #+ HEAD/0.9.34 workqueue.spec
 + 1.59 workqueue.spec
 
@@ -176,5 +176,5 @@ HG1207c couchskel @slc5_amd64_gcc461
 + 1.2 couchskel.spec
 
 # T0 wmstats Monitor
-HG1302a t0_reqmon @slc5_amd64_gcc461
-+ 1.1 t0_reqmon.spec
+HG1302b t0_reqmon @slc5_amd64_gcc461
++ 1.2 t0_reqmon.spec
