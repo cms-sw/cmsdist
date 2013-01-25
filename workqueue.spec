@@ -1,8 +1,7 @@
-### RPM cms workqueue 0.9.38 
+### RPM cms workqueue 0.9.37 
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
-
 
 Source: git://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=%n&output=/%n.tar.gz
 Requires: python py2-httplib2 pystack rotatelogs couchdb dbs-client dls-client py2-cjson yui py2-sphinx dbs3-client
