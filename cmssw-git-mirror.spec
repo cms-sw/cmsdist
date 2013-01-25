@@ -13,7 +13,7 @@ git clone https://:@git.cern.ch/kerberos/CMSSW src
 cd src
 BRANCH=`echo $CMSSW_VERSION | sed -e 's/_X.*/_X/`
 git checkout $BRANCH
-rsync -av --exclude .git --delete $CMSSW_ROOT/src/ ./
+rsync -av --exclude .git --exclude "*.pyc" --delete $CMSSW_ROOT/src/ ./
 git add --all .
 git commit -m "$CMSSW_VERSION"
 git tag "$CMSSW_VERSION"
