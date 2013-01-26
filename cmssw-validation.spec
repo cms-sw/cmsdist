@@ -6,10 +6,10 @@ BuildRequires: cmssw SCRAMV1 local-cern-siteconf
 #%define url HTMLFiles/
 #Source: svn://svn.cern.ch/reps/CMSIntBld/tags/LogParser/parser?scheme=svn+ssh&revision=%{name1}&module=%{moduleName}&output=/%{moduleName}.tar.gz
 Source: svn://svn.cern.ch/reps/CMSIntBld/trunk/IntBuild?date=%(date +%%s)&scheme=svn+ssh&revision=HEAD&module=IntBuild&output=/IntBuild.tar.gz
-Source1: fwlite_application_set.file
-Source2: fwlite_build_set.file
-Source3: online_application_set.file
-Source4: online_build_set.file
+Source1: fwlite_application_set
+Source2: fwlite_build_set
+Source3: online_application_set
+Source4: online_build_set
 
 %define scram $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
 
