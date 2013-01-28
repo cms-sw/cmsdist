@@ -10,7 +10,12 @@ Requires: zlib
 %build
 export OPENSSL_ROOT
 export ZLIB_ROOT
-./configure --prefix=%i --disable-static --without-libidn --disable-ldap --with-ssl=${OPENSSL_ROOT} --with-zlib=${ZLIB_ROOT}
+case %cmsplatf in
+  slc6*) KERBEROS_ROOT=/usr ;;
+  slc5*) KERBEROS_ROOT=/usr/kerberos ;;
+  osx*) KERBEROS_ROOT=/usr/heimdal ;;
+esac
+./configure --prefix=%i --disable-static --without-libidn --disable-ldap --with-ssl=${OPENSSL_ROOT} --with-zlib=${ZLIB_ROOT} --with-gssapi=$KERBEROS_ROOT
 # This should change link from "-lz" to "-lrt -lz", needed by gold linker
 # This is a fairly ugly way to do it, however.
 perl -p -i -e "s!\(LIBS\)!(LIBCURL_LIBS)!" src/Makefile
