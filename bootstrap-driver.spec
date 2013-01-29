@@ -210,7 +210,7 @@ case %cmsplatf in
 
     ;;
     # Required to get slc5_amd64_gcc434 work on slc6.
-    slc5_amd64_gcc43* )
+    slc* )
         additionalProvides="perl(CGI)"
     ;;
 esac
