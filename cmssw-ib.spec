@@ -17,7 +17,7 @@ export CMSSW_VERSION
 DOW=`python -c "import os;from datetime import datetime;print datetime.strptime(os.environ['CMSSW_VERSION'].rsplit('_X_')[1], '%Y-%m-%d-%H00').strftime('%a').lower()"`
 HOUR=`python -c "import os;from datetime import datetime;print datetime.strptime(os.environ['CMSSW_VERSION'].rsplit('_X_')[1], '%Y-%m-%d-%H00').strftime('%H').lower()"`
 eval `%scram runtime -sh`
-CMSSW_MAJOR_MINOR=`echo $CMSSW_VERSION | sed -e 's/CMSSW_([0-9]+)_([0-9]+).*/\1.\2/g'`
+CMSSW_MAJOR_MINOR=`echo $CMSSW_VERSION | sed -e 's/CMSSW_\([0-9]*\)_\([0-9]*\).*/\1.\2/g'`
 %_builddir/IntBuild/IB/buildLogAnalyzer.py \
             --logDir %_builddir/logs \
             --topURL "http://cern.ch/cms-sdt/rc/%cmsplatf/www/$DOW/$CMSSW_MAJOR_MINOR-$DOW-$HOUR/new/"
