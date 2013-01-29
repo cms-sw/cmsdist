@@ -19,9 +19,8 @@ HOUR=`python -c "import os;from datetime import datetime;print datetime.strptime
 eval `%scram runtime -sh`
 CMSSW_MAJOR_MINOR=`echo $CMSSW_VERSION | sed -e 's/CMSSW_([0-9]+)_([0-9]+).*/\1.\2/g'`
 %_builddir/IntBuild/IB/buildLogAnalyzer.py \
-            --logDir %_builddir \
+            --logDir %_builddir/logs \
             --topURL "http://cern.ch/cms-sdt/rc/%cmsplatf/www/$DOW/$CMSSW_MAJOR_MINOR-$DOW-$HOUR/new/"
-
 rm -rf %i/*
 %install
 # NOP
