@@ -67,7 +67,7 @@ HG1201c stagemanager @slc5_amd64_gcc461
 
 # RequestManager
 HG1302b reqmgr @slc5_amd64_gcc461
-+ 1.72 reqmgr.spec
++ 1.73 reqmgr.spec
 
 # Request Monitor
 HG1302b reqmon @slc5_amd64_gcc461
@@ -177,4 +177,4 @@ HG1207c couchskel @slc5_amd64_gcc461
 
 # T0 wmstats Monitor
 HG1302b t0_reqmon @slc5_amd64_gcc461
-+ 1.2 t0_reqmon.spec
++ 1.3 t0_reqmon.spec
