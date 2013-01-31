@@ -8,6 +8,7 @@ Source3: http://xregexp.com/plugins/xregexp-unicode-scripts.js
 Source4: http://xregexp.com/plugins/xregexp-unicode-blocks.js
 Source5: http://xregexp.com/plugins/xregexp-matchrecursive.js
 Requires: yuicompressor
+BuildRequires: java-jdk
 
 %prep
 
