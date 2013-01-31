@@ -55,6 +55,8 @@ HG1302c cmsweb @slc6_amd64_gcc461
 HG1302c cmsweb @slc5_amd64_gcc461
 
 HG1302c cmsweb @osx106_amd64_gcc461
++ 1.2/* xregexp.spec
++ 1.56/0.1.5pre1 asyncstageout.spec
 
 HG1210e T0DataSvc @slc5_amd64_gcc461
 + 1.25 T0DataSvc.spec
