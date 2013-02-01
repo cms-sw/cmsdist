@@ -20,7 +20,7 @@ eval `%scram runtime -sh`
 CMSSW_MAJOR_MINOR=`echo $CMSSW_VERSION | sed -e 's/CMSSW_\([0-9]*\)_\([0-9]*\).*/\1.\2/g'`
 %_builddir/IntBuild/IB/buildLogAnalyzer.py \
             -r $CMSSW_VERSION \
-            -p $CMSSW_ROOT/src/PackageList.cmssw \ 
+            -p $CMSSW_ROOT/src/PackageList.cmssw \
             --logDir %cmsroot/BUILD/%cmsplatf/cms/cmssw/$CMSSW_VERSION/logs \
             --topURL "http://cern.ch/cms-sdt/rc/%cmsplatf/www/$DOW/$CMSSW_MAJOR_MINOR-$DOW-$HOUR/new/"
 rm -rf %i/*
