@@ -7,6 +7,7 @@
 Source0: %cvsserver&strategy=export&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
 Source1: http://yui.zenfs.com/releases/yuicompressor/yuicompressor-%{yuicompressorversion}.zip
 Requires: protovis yui
+BuildRequires: java-jdk
 
 %prep
 %setup -T -b 1 -n yuicompressor-%{yuicompressorversion}
