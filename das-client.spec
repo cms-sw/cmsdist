@@ -1,8 +1,8 @@
-### RPM cms das-client 1.4.1
+### RPM cms das-client 1.8.1
 ## INITENV +PATH PYTHONPATH %i/bin/
 ## NOCOMPILER
 
-Source0: https://raw.github.com/vkuznet/DAS/1.4.1/src/python/DAS/tools/das_client.py
+Source0: https://raw.github.com/dmwm/DAS/1.8.1/src/python/DAS/tools/das_client.py
 
 Requires: python
 
