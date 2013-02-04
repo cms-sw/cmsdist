@@ -1,0 +1,92 @@
+Index: tree/tree/src/TTree.cxx
+===================================================================
+--- tree/tree/src/TTree.cxx	(revision 44280)
++++ tree/tree/src/TTree.cxx	(revision 44281)
+@@ -4067,7 +4067,7 @@
+             if (fAutoSave!=0 && fEntries >= fAutoSave) AutoSave();    // FlushBaskets not called in AutoSave
+             if (gDebug > 0) Info("TTree::Fill","First AutoFlush.  fAutoFlush = %lld, fAutoSave = %lld\n", fAutoFlush, fAutoSave);
+          }
+-      } else if (fNClusterRange && fAutoFlush && (fEntries-fClusterRangeEnd[fNClusterRange-1]) % fAutoFlush) {
++      } else if (fNClusterRange && fAutoFlush && ( (fEntries-fClusterRangeEnd[fNClusterRange-1]) % fAutoFlush == 0)  ) {
+          if (fAutoSave != 0 && fEntries%fAutoSave == 0) {
+             //We are at an AutoSave point. AutoSave flushes baskets and saves the Tree header
+             AutoSave("flushbaskets");
+@@ -6545,15 +6545,16 @@
+ {
+    // Reset baskets, buffers and entries count in all branches and leaves.
+ 
+-   fNotify = 0;
+-   fEntries = 0;
++   fNotify        = 0;
++   fEntries       = 0;
+    fNClusterRange = 0;
+-   fTotBytes = 0;
+-   fZipBytes = 0;
+-   fSavedBytes = 0;
+-   fTotalBuffers = 0;
+-   fChainOffset = 0;
+-   fReadEntry = -1;
++   fTotBytes      = 0;
++   fZipBytes      = 0;
++   fFlushedBytes  = 0;
++   fSavedBytes    = 0;
++   fTotalBuffers  = 0;
++   fChainOffset   = 0;
++   fReadEntry     = -1;
+ 
+    delete fTreeIndex;
+    fTreeIndex = 0;
+@@ -6579,6 +6580,7 @@
+    fTotBytes      = 0;
+    fZipBytes      = 0;
+    fSavedBytes    = 0;
++   fFlushedBytes  = 0;
+    fTotalBuffers  = 0;
+    fChainOffset   = 0;
+    fReadEntry     = -1;
+@@ -6693,7 +6695,7 @@
+ }
+ 
+ //_______________________________________________________________________
+-void TTree::SetAutoFlush(Long64_t autof)
++void TTree::SetAutoFlush(Long64_t autof /* = -30000000 */ )
+ {
+    // This function may be called at the start of a program to change
+    // the default value for fAutoFlush.
+
+Property changes on: tree/tree/src/TTree.cxx
+___________________________________________________________________
+Modified: svn:mergeinfo
+   Merged /trunk/tree/tree/src/TTree.cxx:r44279
+
+
+Property changes on: tree/tree/src/TBranch.cxx
+___________________________________________________________________
+Modified: svn:mergeinfo
+   Merged /trunk/tree/tree/src/TBranch.cxx:r44279
+
+
+Property changes on: tree/tree/src
+___________________________________________________________________
+Modified: svn:mergeinfo
+   Merged /trunk/tree/tree/src:r44279
+
+Index: tree/tree/inc/TTree.h
+===================================================================
+--- tree/tree/inc/TTree.h	(revision 44280)
++++ tree/tree/inc/TTree.h	(revision 44281)
+@@ -483,7 +483,7 @@
+    virtual Long64_t        Scan(const char* varexp = "", const char* selection = "", Option_t* option = "", Long64_t nentries = 1000000000, Long64_t firstentry = 0); // *MENU*
+    virtual Bool_t          SetAlias(const char* aliasName, const char* aliasFormula);
+    virtual void            SetAutoSave(Long64_t autos = 300000000);
+-   virtual void            SetAutoFlush(Long64_t autof = 30000000);
++   virtual void            SetAutoFlush(Long64_t autof = -30000000);
+    virtual void            SetBasketSize(const char* bname, Int_t buffsize = 16000);
+ #if !defined(__CINT__)
+    virtual Int_t           SetBranchAddress(const char *bname,void *add, TBranch **ptr = 0);
+
+Property changes on: tree/tree
+___________________________________________________________________
+Added: svn:mergeinfo
+   Merged /trunk/tree/tree:r41891,41895,41941,43508-43509,43676-43678,43680-43686,43690,44279
+
