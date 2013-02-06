@@ -10,8 +10,8 @@ cat << \EOF_TOOLFILE > %i/etc/scram.d/sloccount.xml
     <info url="http://www.dwheeler.com/sloccount/"/>
     <client>
       <environment name="SLOCCOUNT_BASE" default="@TOOL_ROOT@"/>
-      <environment name="PATH" default="$SLOCCOUNT_BASE/bin"/>
     </client>
+    <runtime name="PATH" value="$SLOCCOUNT_BASE/bin" type="path"/>
   </tool>
 EOF_TOOLFILE
 ## IMPORT scram-tools-post
