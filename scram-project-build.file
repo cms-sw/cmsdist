@@ -35,7 +35,7 @@ Requires: SCRAMV1
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V04-02-15
+%define configtag       V04-02-17
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -180,9 +180,10 @@ export SCRAM_NOSYMCHECK=true
 %scramcmd b --verbose -f %{postbuildtarget} </dev/null
 %endif
 
-
 # Move the debug logs into the builddir, so that they do not get packaged.
-rm -rf %_builddir/logs; mv %i/tmp/%cmsplatf/cache/log %_builddir/logs
+LOG_WEB_DIR=%cmsroot/WEB/build-logs/%cmsplatf/%realversion
+mkdir -p $LOG_WEB_DIR
+mv %i/tmp/%cmsplatf/cache/log $LOG_WEB_DIR/logs
 
 # split the debug symbols out of tha main binaries, into separate files
 %if "%{?subpackageDebug:set}" == "set"

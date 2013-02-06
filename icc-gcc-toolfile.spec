@@ -36,7 +36,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
   <tool name="icc-cxxcompiler" version="@ICC_GCC_TOOLFILE_VERSION@" type="compiler">
     <use name="gcc-cxxcompiler"/>
     <client>
-      <environment name="ICC_CXXCOMPILER_BASE" default="/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.1.117/"/>
+      <environment name="ICC_CXXCOMPILER_BASE" default="/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.2.146/"/>
       <environment name="CXX" value="$ICC_CXXCOMPILER_BASE/bin/intel64/icpc"/>
     </client>
     # drop flags not supported by llvm
@@ -59,7 +59,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$ICC_CXXCOMPILER_BASE/compiler/lib/intel64" type="path"/>
     <runtime name="PATH" value="$ICC_CXXCOMPILER_BASE/bin/intel64" type="path"/>
     <runtime name="COMPILER_RUNTIME_OBJECTS" value="@GCC_ROOT@"/>
-    <runtime name="INTEL_LICENSE_FILE" value="28518@AT@lxlic01.cern.ch,28518@AT@lxlic02.cern.ch,28518@AT@lxlic03.cern.ch:/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.1.117/licenses:/opt/intel/licenses:/afs/cern.ch/user/e/eulisse/intel/licenses:/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.1.117/licenses:/opt/intel/licenses:/afs/cern.ch/user/e/eulisse/intel/licenses"/>
+    <runtime name="INTEL_LICENSE_FILE" value="28518@AT@lxlic01.cern.ch,28518@AT@lxlic02.cern.ch,28518@AT@lxlic03.cern.ch:/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.2.146/licenses:/opt/intel/licenses:/afs/cern.ch/user/e/eulisse/intel/licenses:/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.2.146/licenses:/opt/intel/licenses:/afs/cern.ch/user/e/eulisse/intel/licenses"/>
   </tool>
 EOF_TOOLFILE
 
@@ -67,7 +67,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-ccompiler.xml
   <tool name="icc-ccompiler" version="@ICC_GCC_TOOLFILE_VERSION@" type="compiler">
     <use name="gcc-ccompiler"/>
     <client>
-      <environment name="ICC_CCOMPILER_BASE" default="/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.1.117"/>
+      <environment name="ICC_CCOMPILER_BASE" default="/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.2.146"/>
       <environment name="CC" value="$ICC_CCOMPILER_BASE/bin/intel64/icc"/>
     </client>
   </tool>
@@ -77,7 +77,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-f77compiler.xml
   <tool name="icc-f77compiler" version="@ICC_GCC_TOOLFILE_VERSION@" type="compiler">
     <use name="gcc-f77compiler"/>    
     <client>
-      <environment name="ICC_FCOMPILER_BASE" default="/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.1.117/"/>
+      <environment name="ICC_FCOMPILER_BASE" default="/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.2.146/"/>
       <environment name="FC" default="$ICC_FCOMPILER_BASE/bin/intel64/ifort"/>
     </client>
   </tool>
