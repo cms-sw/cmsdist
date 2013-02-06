@@ -10,8 +10,8 @@ cat << \EOF_TOOLFILE > %i/etc/scram.d/gnuplot.xml
     <info url="http://gnuplot.sourceforge.net"/>
     <client>
       <environment name="GNUPLOT_BASE" default="@TOOL_ROOT@"/>
-      <environment name="PATH" default="$GNUPLOT_BASE/bin"/>
     </client>
+    <runtime name="PATH" value="$GNUPLOT_BASE/bin" type="path"/>
   </tool>
 EOF_TOOLFILE
 ## IMPORT scram-tools-post
