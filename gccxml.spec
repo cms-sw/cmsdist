@@ -1,35 +1,31 @@
-### RPM external gccxml 0.9.0-20130101-0
-
-BuildRequires: cmake
-
-Source: git+https://github.com/gccxml/gccxml.git?obj=master/2cbeb9d631e0198fcbeca3d230ef49fe07e87dd8&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tar.gz
-
-Patch0: gccxml-0.9.0-add-gcc-4.8
+### RPM external gccxml 20110825 
+Requires: cmake
+Source: http://service-spi.web.cern.ch/service-spi/external/tarFiles/%n-%realversion.tgz
+Patch0: gccxml-0.9.0_20100308-gcc45-iomanip
 
 %prep
-%setup -n %{n}-%{realversion}
-%patch0 -p1
-
-%ifos darwin
-# Drop no more supported -no-cpp-precomp on Darwin.
-sed -i '' 's/-no-cpp-precomp//g' \
-  GCC/CMakeLists.txt \
-  GCC/configure.in \
-  GCC/configure
-%endif
-
+%setup -n %{n}
+#patch0 -p1
+case %cmsos in 
+  osx*_*_gcc421) ;;
+  osx*)
+perl -p -i -e 's|-no-cpp-precomp||g' GCC/CMakeLists.txt \
+                                     GCC/configure.in \
+                                     GCC/configure
+  ;;
+esac
 %build
+cd GCC_XML/Support
+cd ../../
 mkdir gccxml-build
 cd gccxml-build
-cmake .. \
-   -DCMAKE_INSTALL_PREFIX:PATH=%{i}
+cmake -DCMAKE_INSTALL_PREFIX:PATH=%i ..
 make %makeprocesses
 
 %install
 cd gccxml-build
 make install
-
 %define drop_files %i/share/{man,doc}
 
 %post
-%{relocateConfig}share/gccxml-0.9/gccxml_config
+find $RPM_INSTALL_PREFIX/%{pkgrel}/share -name gccxml_config -exec %relocateCmsFiles {} \;

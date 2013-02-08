@@ -1,16 +1,16 @@
-### RPM cms couchskel 0.9.10 
+### RPM cms couchskel 0.9.39 
 Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
 
 # External javascripts
-Source1: http://datatables.net/releases/DataTables-1.9.1.zip
-Source2: https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js
-Source3: http://code.jquery.com/jquery-1.7.2.min.js
+Source1: http://datatables.net/releases/DataTables-1.9.4.zip
+Source2: https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js
+Source3: http://code.jquery.com/jquery-1.9.1.min.js
 Source4: http://d3js.org/d3.v2.min.js
 Source5: https://raw.github.com/mbostock/protovis/v3.3.1/protovis.min.js
 Requires: yui3
 
 %prep
-%setup -b 1 -n DataTables-1.9.1
+%setup -b 1 -n DataTables-1.9.4
 %setup -b 0 -n %n
 
 %build
