@@ -22,12 +22,13 @@
 # 1.387 is 1.8.2 # DAS w/o dataset summary, mongo 2.2.2 (rev 1.43), pymongo 2.4.1 (rev 1.27)
 # 1.388 is 1.8.3 # DAS w/o dataset summary, mongo 2.2.2 (rev 1.43), pymongo 2.4.1 (rev 1.27)
 # 1.389 is 1.8.4 # DAS w/o dataset summary, mongo 2.2.2 (rev 1.43), pymongo 2.4.1 (rev 1.27)
+# 1.390 is 1.9.X series
 #HG1211a das @slc5_amd64_gcc461
 HG1212c das @slc5_amd64_gcc461
 + 1.43 mongo.spec
 + 1.1 mongo2.2-osx.patch
 + 1.27 py2-pymongo.spec
-+ 1.389 das.spec
++ 1.390 das.spec
 
 # FileMover
 # 1.30 is 1.0.9
