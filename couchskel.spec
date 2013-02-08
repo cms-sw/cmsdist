@@ -10,7 +10,7 @@ Source5: https://raw.github.com/mbostock/protovis/v3.3.1/protovis.min.js
 Requires: yui3
 
 %prep
-%setup -b 1 -n DataTables-1.9.1
+%setup -b 1 -n DataTables-1.9.4
 %setup -b 0 -n %n
 
 %build
