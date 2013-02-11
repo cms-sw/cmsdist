@@ -5,7 +5,13 @@ Requires: python
 %prep
 %setup -n %n-%realversion
 %build
-./configure --prefix %i  --without-gtk --without-gnome CFLAGS="-O2 -Wno-unused-but-set-variable" CC="`which gcc`" PYTHON=$PYTHON_ROOT/bin/python
+CFLAGS="-O2 -Wno-unused-but-set-variable"
+case %cmsplatf in
+  *gcc4[89]*)
+    CFLAGS="$CFLAGS -Wno-unused-local-typedefs"
+    ;;
+esac
+./configure --prefix %i  --without-gtk --without-gnome CFLAGS="$CFLAGS" CC="`which gcc`" PYTHON=$PYTHON_ROOT/bin/python
 make %makeprocesses
 %install
 make install
