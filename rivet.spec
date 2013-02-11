@@ -1,45 +1,34 @@
-diff --git a/Makefile.am b/Makefile.am
-index e665b8f..64a4442 100644
---- a/Makefile.am.save
-+++ b/Makefile.am
-@@ -1,13 +1,10 @@
- ACLOCAL_AMFLAGS = -I m4
--SUBDIRS = src pyext data include bin doc test
-+SUBDIRS = src pyext data include bin test
- 
- #dist_pkgdata_DATA = rivetenv.sh rivetenv.csh
- EXTRA_DIST = GUIDELINES
- 
--doc:
--	cd doc && $(MAKE) doc
--
--.PHONY : doc dox pyclean
-+.PHONY : dox pyclean
- 
- clean-local:
- 	@rm -rf a.out
-diff --git a/Makefile.in b/Makefile.in
-index 8cf62fd..85fb528 100644
---- a/Makefile.in.save
-+++ b/Makefile.in
-@@ -325,7 +325,7 @@ top_build_prefix = @top_build_prefix@
- top_builddir = @top_builddir@
- top_srcdir = @top_srcdir@
- ACLOCAL_AMFLAGS = -I m4
--SUBDIRS = src pyext data include bin doc test
-+SUBDIRS = src pyext data include bin test
- 
- #dist_pkgdata_DATA = rivetenv.sh rivetenv.csh
- EXTRA_DIST = GUIDELINES
-@@ -870,10 +870,7 @@ uninstall-am: uninstall-local
- 	uninstall-local
- 
- 
--doc:
--	cd doc && $(MAKE) doc
--
--.PHONY : doc dox pyclean
-+.PHONY : dox pyclean
- 
- clean-local:
- 	@rm -rf a.out
+### RPM external rivet 1.8.2
+Source: http://www.hepforge.org/archive/rivet/Rivet-%{realversion}.tar.gz
+
+Requires: hepmc boost fastjet swig gsl
+Patch0: rivet-1.4.0
+Patch1: rivet-1.8.2-disable-doc
+
+%if "%{?cms_cxx:set}" != "set"
+%define cms_cxx g++
+%endif
+
+%if "%{?cms_cxxflags:set}" != "set"
+%define cms_cxxflags -O2 -std=c++0x
+%endif
+
+%prep
+%setup -n Rivet-%{realversion}
+%patch0 -p0
+%patch1 -p1
+./configure --disable-silent-rules --prefix=%i --with-boost=${BOOST_ROOT} --with-hepmc=$HEPMC_ROOT \
+            --with-fastjet=$FASTJET_ROOT --with-gsl=$GSL_ROOT --disable-doxygen --disable-pdfmanual --with-pic \
+            CXX="$(which %cms_cxx)" CXXFLAGS="%cms_cxxflags"
+# The following hack insures that the bins with the library linked explicitly
+# rather than indirectly, as required by the gold linker
+perl -p -i -e "s|LIBS = $|LIBS = -lHepMC|g" bin/Makefile
+%build
+make
+%install
+make install
+# The following creates a (for now) empty directory consistent with the 
+# tool definition (probably the PYTHONPATH entry could be removed there,
+# too, but I'm still not sure if there is a use case for the python or not)
+mkdir -p %i/lib/python2.7/site-packages
+
