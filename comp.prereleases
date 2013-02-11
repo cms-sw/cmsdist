@@ -17,18 +17,14 @@
 # 1.359 is 1.6.2 # based on pymongo 2.2.1 (rev 1.24), mongo 2.0.7 (rev 1.41)
 # 1.373 is 1.7.4 # pymongo 2.3 (rev 1.25), mongo 2.2 (rev 1.42)
 # 1.374 is 1.7.5 # minor upgrade from 1.7.4
-# 1.384 is 1.8.0 # DAS w/o dataset summary, mongo 2.2.2 (rev 1.43), pymongo 2.4.1 (rev 1.27)
-# 1.386 is 1.8.1 # DAS w/o dataset summary, mongo 2.2.2 (rev 1.43), pymongo 2.4.1 (rev 1.27)
-# 1.387 is 1.8.2 # DAS w/o dataset summary, mongo 2.2.2 (rev 1.43), pymongo 2.4.1 (rev 1.27)
-# 1.388 is 1.8.3 # DAS w/o dataset summary, mongo 2.2.2 (rev 1.43), pymongo 2.4.1 (rev 1.27)
 # 1.389 is 1.8.4 # DAS w/o dataset summary, mongo 2.2.2 (rev 1.43), pymongo 2.4.1 (rev 1.27)
-# 1.391 is 1.9.X series
-#HG1211a das @slc5_amd64_gcc461
-HG1212c das @slc5_amd64_gcc461
-+ 1.43 mongo.spec
-+ 1.1 mongo2.2-osx.patch
-+ 1.27 py2-pymongo.spec
-+ 1.391 das.spec
+# 1.392 is 1.9.X series
+# HG1212c das @slc5_amd64_gcc461
+# + 1.43 mongo.spec
+# + 1.1 mongo2.2-osx.patch
+# + 1.27 py2-pymongo.spec
+HG1302c cmsweb @slc6_amd64_gcc461
++ 1.392 das.spec
 
 # FileMover
 # 1.30 is 1.0.9
