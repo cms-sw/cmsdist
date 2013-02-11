@@ -72,7 +72,7 @@ HG1302b reqmgr @slc5_amd64_gcc461
 
 # Request Monitor
 HG1302b reqmon @slc5_amd64_gcc461
-+ 1.32 reqmon.spec
++ 1.33 reqmon.spec
 
 ## RequestMonitor
 #HG1204h reqmon-meta @slc5_amd64_gcc461
