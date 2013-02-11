@@ -1,7 +1,6 @@
-### RPM external geant4 9.6.cand01
+### RPM external geant4 9.6.p01
 
-%define downloadv %(echo %v | cut -d- -f1)
-Source0: http://cern.ch/vnivanch/verification/verification/hadronic/geant4.9.6.cand01+.tar.gz
+Source0: http://geant4.cern.ch/support/source/%{n}.%{realversion}.tar.gz
 
 BuildRequires: cmake
 
@@ -19,7 +18,7 @@ Patch0: geant4.9.5.p01-no-banner
 %endif
 
 %prep
-%setup -n %n
+%setup -n %{n}.%{realversion}
 
 %patch0 -p1
 
@@ -34,7 +33,7 @@ fi
 mkdir ../build
 cd ../build
 
-cmake ../%n \
+cmake ../%{n}.%{realversion} \
   -DCMAKE_CXX_COMPILER="%cms_cxx" \
   -DCMAKE_CXX_FLAGS="%cms_cxxflags" \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
