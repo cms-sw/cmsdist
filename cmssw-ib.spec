@@ -21,7 +21,7 @@ CMSSW_MAJOR_MINOR=`echo $CMSSW_VERSION | sed -e 's/CMSSW_\([0-9]*\)_\([0-9]*\).*
 %_builddir/IntBuild/IB/buildLogAnalyzer.py \
             -r $CMSSW_VERSION \
             -p $CMSSW_ROOT/src/PackageList.cmssw \
-            --logDir %cmsroot/BUILD/%cmsplatf/cms/cmssw/$CMSSW_VERSION/logs/src \
+            --logDir %cmsroot/WEB/build-logs/%cmsplatf/$CMSSW_VERSION/logs/src \
             --topURL "http://cern.ch/cms-sdt/rc/%cmsplatf/www/$DOW/$CMSSW_MAJOR_MINOR-$DOW-$HOUR/new/"
 rm -rf %i/*
 %install
