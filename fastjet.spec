@@ -32,3 +32,5 @@ make %makeprocesses
 %install
 make install
 rm -rf %i/lib/*.la
+%post
+%{relocateConfig}bin/fastjet-config
