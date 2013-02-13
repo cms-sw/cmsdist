@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_6_1_0
+### RPM cms cmssw CMSSW_6_1_1
 Requires: cmssw-tool-conf python
 
 %define runGlimpse      yes
@@ -8,8 +8,9 @@ Requires: cmssw-tool-conf python
 # Build with clang if _CLANG_X is in the name of the package.
 %if "%(case %realversion in (*_CLANG_X*) echo true ;; (*) echo false ;; esac)" == "true"
 Patch10: cmssw-clang
+Patch20: cmssw-clang-vla
 %define cvstag		%(echo %realversion | sed -e 's|_CLANG_X|_X|')
-%define preBuildCommand pushd .. ; patch -p1 <%_sourcedir/cmssw-clang ; popd
+%define preBuildCommand pushd .. ; patch -p1 <%_sourcedir/cmssw-clang ; popd ; patch -p0 <%_sourcedir/cmssw-clang-vla & true
 %define buildtarget     checker
 %endif
 
