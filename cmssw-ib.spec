@@ -5,7 +5,7 @@ BuildRequires: cmssw SCRAMV1 local-cern-siteconf
 #%define moduleName LogParser
 #%define url HTMLFiles/
 #Source: svn://svn.cern.ch/reps/CMSIntBld/tags/LogParser/parser?scheme=svn+ssh&revision=%{name1}&module=%{moduleName}&output=/%{moduleName}.tar.gz
-Source: svn://svn.cern.ch/reps/CMSIntBld/trunk/IntBuild?date=%(date +%%s)&scheme=svn+ssh&revision=HEAD&module=IntBuild&output=/IntBuild.tar.gz
+Source: svn://svn.cern.ch/reps/CMSIntBld/trunk/IntBuild?scheme=svn+ssh&revision=HEAD&module=IntBuild&output=/IntBuild.tar.gz
 %define scram $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
 
 %prep
