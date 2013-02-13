@@ -1,4 +1,14 @@
 ### RPM external uuid 1.38
+
+# ** Attention **
+# This package has been depricated. Use libuuid instead.
+# Libuuid is built from the more reliable/update Util-Linux-ng instead of
+# e2fsprogs. The package here actually was never properly working, but since
+# SL5 boxes came by default with the system libuuid installed, we were fooled.
+# On SL6 boxes, however, we don't have the system libuuid installed.
+# Therefore we fail to have some symbols not provided by the (old)
+# uuid from e2fsprogs.
+
 # Patches by Lassi A. Tuura <lat@iki.fi> (FIXME: contribute to e2fsprogs)
 Source: http://switch.dl.sourceforge.net/sourceforge/e2fsprogs/e2fsprogs-%realversion.tar.gz
 
