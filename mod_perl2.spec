@@ -5,7 +5,7 @@ Source0: http://perl.apache.org/dist/mod_perl-%realversion.tar.gz
 
 # Requires apache2
 # Requires p5-cgi -- system SLC4 system CGI.pm is broken for mod_perl2
-Requires: apache2 p5-cgi p5-extutils-makemaker p5-linux-pid
+Requires: apache2 p5-cgi p5-extutils-makemaker p5-linux-pid p5-test-harness p5-test-simple
 
 # Doesn't actually provide these, but supposedly not needed for
 # non-developers of mod_perl
