@@ -1,11 +1,7 @@
 ### RPM external apache2 2.2.23gsi
 %define apversion %(echo %realversion | sed 's/gsi.*$//')
 %define vdtversion 2.0.0p35
-Requires: openssl zlib expat uuid sqlite pcre
-
-# Silence dependencies which should have come via uuid from e2fsprogs
-Provides: libcom_err.so.2
-Provides: libcom_err.so.2()(64bit)
+Requires: openssl zlib expat libuuid sqlite pcre
 
 Source0: http://archive.apache.org/dist/httpd/httpd-%apversion.tar.gz
 Source1: svn://vdt.cs.wisc.edu/svn/vdt/tags/vdt-%vdtversion/Apache?scheme=https&module=Apache&output=/VDT-Apache-GSI.tgz
@@ -40,7 +36,7 @@ gunzip -d -c < %_sourcedir/VDT-Apache-GSI.tgz |
                         --with-z=$ZLIB_ROOT \
 			--with-expat=$EXPAT_ROOT \
 			--with-sqlite3=$SQLITE_ROOT \
-			--with-uuid=$UUID_ROOT \
+			--with-uuid=$LIBUUID_ROOT \
 			--without-pgsql
 make %makeprocesses
 find -type f | xargs perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|" 
