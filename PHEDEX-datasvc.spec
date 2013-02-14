@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-datasvc 2.3.14
+### RPM cms PHEDEX-datasvc 2.3.15pre1
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define cvsversion DATASVC_%(echo %realversion | tr . _)
