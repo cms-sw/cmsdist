@@ -2,6 +2,7 @@
 Source: http://www.hepforge.org/archive/rivet/Rivet-%{realversion}.tar.gz
 
 Requires: hepmc boost fastjet swig gsl
+Requires: python
 Patch0: rivet-1.4.0
 Patch1: rivet-1.8.2-fix-isnan
 Patch2: rivet-1.8.2-fix-duplicate-symbols
@@ -32,5 +33,5 @@ make install
 # The following creates a (for now) empty directory consistent with the 
 # tool definition (probably the PYTHONPATH entry could be removed there,
 # too, but I'm still not sure if there is a use case for the python or not)
-mkdir -p %i/lib/python2.7/site-packages
-
+export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
+mkdir -p %i/lib/python$PYTHONV/site-packages
