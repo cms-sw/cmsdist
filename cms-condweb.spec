@@ -12,9 +12,15 @@ Requires: cherrypy
 Requires: py2-pyopenssl
 Requires: py2-sqlalchemy
 Requires: py2-sqlalchemy
-Requires: py2-jinja
 Requires: py2-cx-oracle
 Requires: py2-lint
 Requires: py2-cjson
 Requires: py2-pycurl
+Requires: py2-jinja
+
+%prep
+
+%build
+
+%install
 
