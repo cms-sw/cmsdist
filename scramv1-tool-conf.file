@@ -67,7 +67,7 @@ done
 
 if [ -e $SCRAMV1_ROOT/bin/chktool ] ; then
   find %i/tools -name '*.xml' -type f | (xargs $SCRAMV1_ROOT/bin/chktool > %i/errors.log 2>&1 || true)
-  ToolErrors=`cat %i/errors.log | wc -l`
+  ToolErrors=`cat %i/errors.log | wc -l | awk '{print $1}'`
   if [ "X$ToolErrors" != "X0" ] ; then
     cat %i/errors.log
     exit 1
