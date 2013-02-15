@@ -1,11 +1,9 @@
-### RPM external igprof 5.9.5
+### RPM external igprof 5.9.6
 Source0: git://github.com/ktf/igprof.git?obj=master/v%{realversion}&export=igprof-%{realversion}&output=/igprof-%{realversion}.tgz
-#Source0: git:%(pwd)/../igprof?obj=master/%{realversion}&export=igprof-%{realversion}&output=/igprof-HEAD.tgz
+#Source0: git:%(pwd)/../igprof?obj=master/HEAD&export=igprof-%{realversion}&date=%(date +%s)&output=/igprof-HEAD.tgz
 BuildRequires: cmake libunwind libatomic_ops
-
 %prep
 %setup -T -b 0 -n igprof-%{realversion}
-
 %build
 mkdir -p %i
 rsync -av $LIBUNWIND_ROOT/ %i/
