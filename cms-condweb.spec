@@ -1,4 +1,4 @@
-### RPM cms cms-condweb CMS_CONDWEB_0_1
+### RPM cms cms-condweb CMS_CONDWEB_0_2
 
 #
 # to run/build:
@@ -7,6 +7,7 @@
 # mkdir build; cd build
 # ../PKGTOOLS/cmsBuild -c ../CMSDIST -a osx108_amd64_gcc472  build cms-condweb
 #
+#-ap: last update: Feb 15, 2013: updated version 
 
 Requires: cherrypy
 Requires: py2-pyopenssl
