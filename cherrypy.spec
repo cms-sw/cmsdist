@@ -2,6 +2,8 @@
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 Source: http://download.cherrypy.org/cherrypy/%v/CherryPy-%realversion.tar.gz
 Requires: python
+
+Patch0: cherrypy-322-ssl-uploads
 #Patch0: cherrypy-upload
 #Patch1: cherrypy-trailers
 #Patch2: cherrypy-report-all-bytes
