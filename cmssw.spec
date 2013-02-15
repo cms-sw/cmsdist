@@ -51,7 +51,7 @@ Patch13: cmssw-debug
 
 %if "%(case %realversion in (*_ICC_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define cvstag		%(echo %realversion | sed -e 's|_ICC_X|_X|')
-%define preBuildCommand scram setup icc-cxxcompiler ; scram setup icc-f77compiler ; scram setup icc-ccompiler ; export COMPILER=icc
+%define preBuildCommand export COMPILER=icc
 %endif
 
 %if "%(case %realversion in (*_ASAN_X*) echo true ;; (*) echo false ;; esac)" == "true"
