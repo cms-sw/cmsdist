@@ -54,4 +54,9 @@ Patch13: cmssw-debug
 %define preBuildCommand scram setup icc-cxxcompiler ; scram setup icc-f77compiler ; scram setup icc-ccompiler ; export COMPILER=icc
 %endif
 
+%if "%(case %realversion in (*_ASAN_X*) echo true ;; (*) echo false ;; esac)" == "true"
+%define cvstag		%(echo %realversion | sed -e 's|_ASAN_X|_X|')
+%define usercxxflags    -fsanitize=address -fno-omit-frame-pointer -g 
+%endif
+
 ## IMPORT scram-project-build
