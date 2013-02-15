@@ -1,8 +1,8 @@
 ### RPM external sloccount 2.26
-Source: http://www.dwheeler.com/sloccount/sloccount-%{v}.tar.gz
+Source: http://www.dwheeler.com/sloccount/sloccount-%{realversion}.tar.gz
 
 %prep
-%setup -n sloccount-%v
+%setup -n sloccount-%{realversion}
 %build
 cp makefile makefile.dist
 perl -p -i -e "s|^PREFIX=/usr/local|PREFIX=%i|g" makefile
