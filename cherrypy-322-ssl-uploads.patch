@@ -1,7 +1,7 @@
 diff --git a/slc5_amd64_gcc462/external/cherrypy/3.2.2/lib/python2.6/site-packages/cherrypy/wsgiserver/wsgiserver2.py b/slc5_amd64_gcc462/external/cherrypy/3.2.2/lib/python2.6/site-packages/cherrypy/wsgiserver/wsgiserver2.py
 index b6bd499..bdfed66 100644
---- a/slc5_amd64_gcc462/external/cherrypy/3.2.2/lib/python2.6/site-packages/cherrypy/wsgiserver/wsgiserver2.py
-+++ b/slc5_amd64_gcc462/external/cherrypy/3.2.2/lib/python2.6/site-packages/cherrypy/wsgiserver/wsgiserver2.py
+--- a/cherrypy/wsgiserver/wsgiserver2.py
++++ b/cherrypy/wsgiserver/wsgiserver2.py
 @@ -1049,7 +1049,13 @@ class CP_fileobject(socket._fileobject):
                          buf.write(data)
                          del data  # explicit free
