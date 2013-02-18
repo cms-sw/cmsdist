@@ -19,10 +19,9 @@
 Source:  http://castorold.web.cern.ch/castorold/DIST/CERN/savannah/CASTOR.pkg/%{baseVersion}-*/%{realversion}/castor-%{realversion}.tar.gz
 
 Patch0: castor-2.1.13.6-fix-pthreads-darwin
-Patch1: castor-2.1.13.6-fix-memset-in-showqueues
 
 %if "%online" != "true"
-Requires: uuid
+Requires: libuuid
 %else
 Requires: onlinesystemtools
 %endif
@@ -40,8 +39,6 @@ Provides: libshift.so.%(echo %realversion |cut -d. -f1,2)%{libsuffix}
 %ifos darwin
 %patch0 -p1
 %endif
-
-%patch1 -p1
 
 case %cmsplatf in
   *_gcc4[012345]*) ;;
@@ -71,7 +68,7 @@ find . -type f -exec touch {} \;
 
 CASTOR_NOSTK=yes; export CASTOR_NOSTK
 ./configure
-LDFLAGS="-L${UUID_ROOT}/lib" make %{makeprocesses} client
+LDFLAGS="-L${LIBUUID_ROOT}/lib64" make %{makeprocesses} client
 %install
 make installclient \
                 MAJOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f1-2) \
