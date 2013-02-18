@@ -6,7 +6,7 @@ Source: http://www.kernel.org/pub/linux/utils/util-linux/v2.22/util-linux-%realv
 %setup -n util-linux-%realversion
 
 %build
-./configure $([ $(uname) == Darwin ] && echo --disable-shared) --enable-uuidd --disable-login --disable-su --libdir=/lib64 --prefix=%i
+./configure $([ $(uname) == Darwin ] && echo --disable-shared) --enable-uuidd --disable-login --disable-su --libdir=%i/lib64 --prefix=%i
 make uuidd
 
 %install
