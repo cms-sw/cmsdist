@@ -1,12 +1,11 @@
-### RPM external fastjet 3.0.1
+### RPM external fastjet 3.0.3
 Source: http://www.lpthe.jussieu.fr/~salam/fastjet/repo/%n-%realversion.tar.gz
-Patch1: fastjet-3.0.1-nobanner
+Patch1: fastjet-3.0.3-nobanner
 Patch2: fastjet-3.0.1-siscone-banner
 Patch3: fastjet-3.0.1-noemptyareawarning
 Patch4: fastjet-3.0.1-nodegeneracywarning
 Patch5: fastjet-3.0.1-cluster-sequence-banner
 Patch6: fastjet-3.0.1-silence-warnings
-Patch7: fastjet-3.0.1-fix-gcc47
 
 %prep
 %setup -n %n-%realversion
@@ -16,7 +15,6 @@ Patch7: fastjet-3.0.1-fix-gcc47
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
 
 case %cmsplatf in
     *_gcc4[01234]*) ;;
