@@ -76,7 +76,7 @@ Requires: tauola-toolfile
 Requires: tauolapp-toolfile
 Requires: thepeg-toolfile
 Requires: toprex-toolfile
-Requires: uuid-toolfile
+Requires: libuuid-toolfile
 Requires: xerces-c-toolfile
 Requires: zlib-toolfile
 Requires: dcap-toolfile
