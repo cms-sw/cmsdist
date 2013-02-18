@@ -13,10 +13,10 @@ Requires: oracle-env
 ## INITENV SETV ZLIB_VERSION            %zlib_version
 %define zlib_root                       /usr
 ## INITENV SETV ZLIB_ROOT               %zlib_root
-%define uuid_version                    1.39
-## INITENV SETV UUID_VERSION            %uuid_version
-%define uuid_root                       /usr
-## INITENV SETV UUID_ROOT               %uuid_root
+%define libuuid_version                    1.39
+## INITENV SETV LIBUUID_VERSION            %libuuid_version
+%define libuuid_root                       /usr
+## INITENV SETV LIBUUID_ROOT               %libuuid_root
 %define sqlite_version                  3.7.5
 ## INITENV SETV SQLITE_VERSION          %sqlite_version
 %define oracle_version                  11.2.2
@@ -179,7 +179,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaq.xml
     <use name="xerces-c"/>
     <use name="sockets"/>
     <use name="mimetic"/>
-    <use name="uuid"/>
+    <use name="libuuid"/>
   </tool>
 EOF_TOOLFILE
 
@@ -207,13 +207,13 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/mimetic.xml
 EOF_TOOLFILE
 
 # uuid (from e2fsprogs-libs)
-cat << \EOF_TOOLFILE >%i/etc/scram.d/uuid.xml
-  <tool name="uuid" version="%uuid_version">
+cat << \EOF_TOOLFILE >%i/etc/scram.d/libuuid.xml
+  <tool name="libuuid" version="%libuuid_version">
     <lib name="uuid"/>
     <client>
-      <environment name="UUID_BASE" default="%uuid_root"/>
-      <environment name="LIBDIR" default="$UUID_BASE/lib64"/>
-      <environment name="INCLUDE" default="$UUID_BASE/include"/>
+      <environment name="LIBUUID_BASE" default="%libuuid_root"/>
+      <environment name="LIBDIR" default="$LIBUUID_BASE/lib64"/>
+      <environment name="INCLUDE" default="$LIBUUID_BASE/include"/>
     </client>
     <use name="sockets"/>
   </tool>
