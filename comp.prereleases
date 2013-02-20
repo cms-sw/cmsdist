@@ -72,8 +72,8 @@ HG1302b reqmgr @slc5_amd64_gcc461
 + 1.73 reqmgr.spec
 
 # Request Monitor
-HG1302b reqmon @slc5_amd64_gcc461
-+ 1.33 reqmon.spec
+HG1303a reqmon @slc5_amd64_gcc461
++ 1.34 reqmon.spec
 
 ## RequestMonitor
 #HG1204h reqmon-meta @slc5_amd64_gcc461
@@ -178,5 +178,5 @@ HG1302b couchskel @slc5_amd64_gcc461
 + 1.8 couchskel.spec
 
 # T0 wmstats Monitor
-HG1302b t0_reqmon @slc5_amd64_gcc461
+HG1303a t0_reqmon @slc5_amd64_gcc461
 + 1.3 t0_reqmon.spec
