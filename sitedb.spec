@@ -1,4 +1,4 @@
-### RPM cms sitedb 2.4.0
+### RPM cms sitedb 2.4.1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
@@ -36,6 +36,7 @@ cd ../wmcore_%n
 python setup.py build_system -s wmc-rest
 PYTHONPATH=$PWD/build/lib:$PYTHONPATH
 cd ../%n
+export SITEDB_VERSION=%realversion
 python setup.py build_system --compress
 
 %install
