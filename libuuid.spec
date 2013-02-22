@@ -1,9 +1,11 @@
 ### RPM external libuuid 2.22.2
 Source: http://www.kernel.org/pub/linux/utils/util-linux/v2.22/util-linux-%{realversion}.tar.gz
+Patch0: libuuid-2.22.2-disable-get_uuid_via_daemon
 %define keep_archives true
 
 %prep
 %setup -n util-linux-%{realversion}
+%patch0 -p1
 
 %build
 ./configure $([ $(uname) == Darwin ] && echo --disable-shared) \
@@ -38,10 +40,9 @@ Source: http://www.kernel.org/pub/linux/utils/util-linux/v2.22/util-linux-%{real
             --disable-schedutils \
             --disable-wall \
             --disable-makeinstall-setuid \
-            --enable-libuuid \
-            --disable-uuidd
+            --enable-libuuid
 
-make %{makeprocesses}
+make %{makeprocesses} uuidd
 
 %install
 # There is no make install action for the libuuid libraries only
