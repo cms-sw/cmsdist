@@ -20,13 +20,14 @@
 # 1.389 is 1.8.4 # DAS w/o dataset summary, mongo 2.2.2 (rev 1.43), pymongo 2.4.1 (rev 1.27)
 # 1.400 is 1.9.3 series
 # 1.403 is 1.9.4 series
+# 1.404 is 1.9.4 series
 HG1212c das @slc5_amd64_gcc461
 + 1.43 mongo.spec
 + 1.1 mongo2.2-osx.patch
 + 1.27 py2-pymongo.spec
-+ 1.403 das.spec
++ 1.404 das.spec
 #HG1303b cmsweb @slc6_amd64_gcc461
-#+ 1.403 das.spec
+#+ 1.404 das.spec
 
 # FileMover
 # 1.30 is 1.0.9
