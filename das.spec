@@ -1,4 +1,4 @@
-### RPM cms das 1.7.5
+### RPM cms das 1.9.4
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver 0.8.3
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
@@ -10,7 +10,6 @@ Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah
 Requires: mongo py2-pymongo py2-cjson py2-yaml py2-pystemmer py2-mongoengine py2-lxml py2-ply py2-yajl
 Requires: py2-pycurl rotatelogs
 BuildRequires: py2-sphinx
-
 
 # RPM macros documentation
 # http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
