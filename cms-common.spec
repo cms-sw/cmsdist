@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1107
+## REVISION 1108
 ## NOCOMPILER
 
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
@@ -50,6 +50,7 @@ then
         osx108_*) compilerv=gcc472;;
         slc6_*) compilerv=gcc462; osarch=slc6_amd64;;
         slc5_*) compilerv=gcc462; osarch=slc5_amd64;;
+        fc18_*) compilerv=gcc480; osarch=fc18_armv7hl;;
         *) compilerv=gcc462; osarch=slc5_amd64;;
     esac
     echo ${osarch}_${compilerv}
