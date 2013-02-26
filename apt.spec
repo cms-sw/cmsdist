@@ -15,6 +15,12 @@ Patch3: apt-429-add-support-osx108
 
 Requires: libxml2 rpm db4 openssl
 
+%if "%online" != "true"
+Requires: zlib
+%else
+Requires:onlinesystemtools
+%endif
+
 %prep
 %setup -T -b 2 -n RPM-Header-PurePerl-1.0.2
 cd ..
@@ -44,6 +50,8 @@ chmod +x buildlib/install-sh
 # Avoid picking up sqlite3 from the system.
 perl -p -i -e 's|sqlite3|sqlite3disabled|' configure
 ./configure --prefix=%{i} --exec-prefix=%{i} \
+                          --build="%{_build}" \
+                          --host="%{_host}" \
                           --disable-static \
                           --disable-nls \
                           --disable-dependency-tracking \
@@ -53,15 +61,15 @@ perl -p -i -e 's|sqlite3|sqlite3disabled|' configure
                           --disable-rpath \
                           CXXFLAGS="-fPIC $USER_CXXFLAGS" \
                           CFLAGS="-fPIC $USER_CFLAGS" \
-                          CPPFLAGS="-DAPT_DISABLE_MULTIARCH -D_RPM_4_4_COMPAT -I$POPT_ROOT/include -I$DB4_ROOT/include -I$BZ2LIB_ROOT/include -I$LUA_ROOT/include -I$RPM_ROOT/include -I$RPM_ROOT/include/rpm $USER_CPPFLAGS" \
-                          LDFLAGS="-L$BZ2LIB_ROOT/lib -L$DB4_ROOT/lib -L$LUA_ROOT/lib -L$RPM_ROOT/lib $USER_LDFLAGS" \
+                          CPPFLAGS="-DAPT_DISABLE_MULTIARCH -D_RPM_4_4_COMPAT -I$POPT_ROOT/include -I$ZLIB_ROOT/include -I$DB4_ROOT/include -I$BZ2LIB_ROOT/include -I$LUA_ROOT/include -I$RPM_ROOT/include -I$RPM_ROOT/include/rpm $USER_CPPFLAGS" \
+                          LDFLAGS="-L$BZ2LIB_ROOT/lib -L$DB4_ROOT/lib -L$ZLIB_ROOT/lib -L$LUA_ROOT/lib -L$RPM_ROOT/lib $USER_LDFLAGS" \
                           LIBS="-llua $USER_LIBS" \
                           LIBXML2_CFLAGS="-I$LIBXML2_ROOT/include/libxml2 -I$DB4_ROOT/include -I$LUA_ROOT/include -I$RPM_ROOT/include" \
                           LIBXML2_LIBS="-lxml2 -L$DB4_ROOT/lib -L$LIBXML2_ROOT/lib -L$LUA_ROOT/lib -L$RPM_ROOT/lib" \
                           RPM_LIBS="-L$RPM_ROOT/lib -lrpm -lrpmio -lrpmbuild"
 
 chmod +x buildlib/install-sh
-make %makeprocesses
+make %{makeprocesses}
 
 
 %install
