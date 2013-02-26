@@ -20,6 +20,8 @@ Source:  http://castorold.web.cern.ch/castorold/DIST/CERN/savannah/CASTOR.pkg/%{
 
 Patch0: castor-2.1.13.6-fix-pthreads-darwin
 Patch1: castor-2.1.13.6-fix-memset-in-showqueues
+Patch2: castor-2.1.13.9-fix-arm-m32-option
+Patch3: castor-2.1.13.9-fix-arm-type-limits
 
 %if "%online" != "true"
 Requires: libuuid
@@ -41,6 +43,8 @@ Provides: libshift.so.%(echo %realversion |cut -d. -f1,2)%{libsuffix}
 %patch0 -p1
 %endif
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 case %cmsplatf in
   *_gcc4[012345]*) ;;
@@ -70,13 +74,13 @@ find . -type f -exec touch {} \;
 
 CASTOR_NOSTK=yes; export CASTOR_NOSTK
 ./configure
-LDFLAGS="-L${LIBUUID_ROOT}/lib64" make %{makeprocesses} client
+LDFLAGS="-L${LIBUUID_ROOT}/lib64" CXXFLAGS="-I${LIBUUID_ROOT}/include" make %{makeprocesses} client
 %install
 make installclient \
                 MAJOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f1-2) \
                 MINOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f3-4 | tr '-' '.' ) \
                 EXPORTLIB=/ \
-                DESTDIR=%i/ \
+                DESTDIR=%i \
                 PREFIX= \
                 CONFIGDIR=etc \
                 FILMANDIR=usr/share/man/man4 \
