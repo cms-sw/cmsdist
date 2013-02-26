@@ -1,12 +1,21 @@
 ### RPM external lua 5.1.4
-Source0: http://www.lua.org/ftp/lua-%realversion.tar.gz
+Source0: http://www.lua.org/ftp/%{n}-%{realversion}.tar.gz
+
+Requires: readline ncurses
 
 %build
-# No LUA_USE_READLINE; -ldl is harmless on OS X (= -lSystem).
-make -C src all MYLIBS="-ldl" MYCFLAGS="-fPIC -DLUA_USE_POSIX -DLUA_USE_DLOPEN"
+sed -ibak "s|^CFLAGS=|CFLAGS=-fPIC -I${READLINE_ROOT}/include -I${NCURSES_ROOT}/include|g" src/Makefile
+sed -ibak "s|-lhistory||g" src/Makefile
+sed -ibak "s|^LIBS=|LIBS=-L${READLINE_ROOT}/lib -L${NCURSES_ROOT}/lib|g;" src/Makefile
+%ifos linux
+make linux
+%endif
+%ifos darwin
+make macosx
+%endif
 
 %install
-make install INSTALL_TOP=%i
+make install INSTALL_TOP=%{i}
 %define keep_archives true
-%define strip_files %i/{lib,bin}
-%define drop_files %i/{share,man}
+%define strip_files %{i}/{lib,bin}
+%define drop_files %{i}/{share,man}
