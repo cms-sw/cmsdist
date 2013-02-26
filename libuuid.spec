@@ -40,6 +40,7 @@ Patch0: libuuid-2.22.2-disable-get_uuid_via_daemon
             --disable-schedutils \
             --disable-wall \
             --disable-makeinstall-setuid \
+            --without-ncurses \
             --enable-libuuid
 
 make %{makeprocesses} uuidd
