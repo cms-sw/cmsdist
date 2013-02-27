@@ -2,12 +2,10 @@
 Requires: cmake
 Source: http://service-spi.web.cern.ch/service-spi/external/tarFiles/%n-%realversion.tgz
 Patch0: gccxml-0.9.0_20100308-gcc45-iomanip
-Patch1: gccxml-20110825-add-support-for-gcc-4.7
 
 %prep
 %setup -n %{n}
 #patch0 -p1
-%patch1 -p1
 case %cmsos in 
   osx*_*_gcc421) ;;
   osx*)
