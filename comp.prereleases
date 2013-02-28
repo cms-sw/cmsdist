@@ -70,11 +70,11 @@ HG1201c stagemanager @slc5_amd64_gcc461
 
 # RequestManager
 HG1303a reqmgr @slc5_amd64_gcc461
-+ 1.77 reqmgr.spec
++ 1.78 reqmgr.spec
 
 # Request Monitor
 HG1303a reqmon @slc5_amd64_gcc461
-+ 1.35 reqmon.spec
++ 1.36 reqmon.spec
 
 ## RequestMonitor
 #HG1204h reqmon-meta @slc5_amd64_gcc461
