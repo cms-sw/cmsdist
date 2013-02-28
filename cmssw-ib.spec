@@ -5,7 +5,7 @@ BuildRequires: cmssw SCRAMV1 local-cern-siteconf
 #%define moduleName LogParser
 #%define url HTMLFiles/
 #Source: svn://svn.cern.ch/reps/CMSIntBld/tags/LogParser/parser?scheme=svn+ssh&revision=%{name1}&module=%{moduleName}&output=/%{moduleName}.tar.gz
-Source: svn://svn.cern.ch/reps/CMSIntBld/trunk/IntBuild?scheme=svn+ssh&revision=HEAD&module=IntBuild&output=/IntBuild.tar.gz
+Source: svn://svn.cern.ch/reps/CMSIntBld/trunk/IntBuild?date=%(date +%%s)&scheme=svn+ssh&revision=HEAD&module=IntBuild&output=/IntBuild.tar.gz
 %define scram $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
 
 %prep
@@ -21,7 +21,7 @@ CMSSW_MAJOR_MINOR=`echo $CMSSW_VERSION | sed -e 's/CMSSW_\([0-9]*\)_\([0-9]*\).*
 %_builddir/IntBuild/IB/buildLogAnalyzer.py \
             -r $CMSSW_VERSION \
             -p $CMSSW_ROOT/src/PackageList.cmssw \
-            --logDir %cmsroot/WEB/build-logs/%cmsplatf/$CMSSW_VERSION/logs/src \
+            --logDir %cmsroot/BUILD/%cmsplatf/cms/cmssw/$CMSSW_VERSION/logs \
             --topURL "http://cern.ch/cms-sdt/rc/%cmsplatf/www/$DOW/$CMSSW_MAJOR_MINOR-$DOW-$HOUR/new/"
 rm -rf %i/*
 %install
