@@ -20,13 +20,13 @@ HG1201c stagemanager @slc5_amd64_gcc461
 
 # wmagent
 HG1210a wmagent-dev @slc6_amd64_gcc461
-+ HEAD/0.9.46 wmagent.spec wmagent-dev.spec
++ HEAD/0.9.47 wmagent.spec wmagent-dev.spec
 
 HG1210a wmagent-dev @slc5_amd64_gcc461
-+ HEAD/0.9.46 wmagent.spec wmagent-dev.spec
++ HEAD/0.9.47 wmagent.spec wmagent-dev.spec
 
 HG1210a wmagent-dev @osx106_amd64_gcc461
-+ HEAD/0.9.46 wmagent.spec wmagent-dev.spec
++ HEAD/0.9.47 wmagent.spec wmagent-dev.spec
 
 
 
