@@ -1,6 +1,7 @@
 ### FILE scramv1-tool-conf
 
 Requires: gmake-toolfile
+BuildRequires: SCRAMV1
 Source: none
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
@@ -63,6 +64,16 @@ do
     toolname=`basename $tool .xml`
     echo %skipreqtools | tr ' ' '\n' | grep "^$toolname\$" 2>&1 >/dev/null && mv $tool %i/tools/available
 done
+
+if [ -e $SCRAMV1_ROOT/bin/chktool ] ; then
+  find %i/tools -name '*.xml' -type f | (xargs $SCRAMV1_ROOT/bin/chktool > %i/errors.log 2>&1 || true)
+  ToolErrors=`cat %i/errors.log | wc -l | awk '{print $1}'`
+  if [ "X$ToolErrors" != "X0" ] ; then
+    cat %i/errors.log
+    exit 1
+  fi
+  rm -f %i/errors.log
+fi
 
 %post
 %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/tools -type f)
