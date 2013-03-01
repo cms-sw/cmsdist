@@ -196,10 +196,12 @@ chmod +x %{i}/bin/apt-get-wrapper
 cat << \EOF_BIN_RPM > %{i}/bin/rpm-wrapper
 #!/bin/sh
 if [ X"$(id -u)" = X0 ]; then
-  echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
-  echo "CMS software cannot be installed as the super-user." 1>&2
-  echo "(We recommend reading any standard unix security guide.)" 1>&2
-  exit 1
+  if [ ! -f /etc/cms-root-install-allowed ]; then
+    echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
+    echo "CMS software cannot be installed as the super-user." 1>&2
+    echo "(We recommend reading any standard unix security guide.)" 1>&2
+    exit 1
+  fi
 fi
 mkdir -p %{instroot}/var/log/rpm
 touch %{instroot}/var/log/rpm/log.txt
