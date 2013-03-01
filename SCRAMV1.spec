@@ -1,7 +1,7 @@
-### RPM lcg SCRAMV1 V2_2_4_pre3
+### RPM lcg SCRAMV1 V2_2_4
 ## NOCOMPILER
 
-%define cvsrepo  cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/cvs/CMSSW?passwd=AA_:yZZ3e
+%define cvsrepo  cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e
 Source0: %{cvsrepo}&tag=-r%{realversion}&module=SCRAM&output=/source.tar.gz
 
 %define OldDB /%{cmsplatf}/lcg/SCRAMV1/scramdb/project.lookup

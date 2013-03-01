@@ -1,8 +1,7 @@
 ### RPM external classlib 3.1.3
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 Source: http://lat.web.cern.ch/lat/exports/%n-%realversion.tar.bz2
-Patch0: classlib-3.1.3-gcc46
-Patch1: classlib-3.1.3-sl6
+Patch: classlib-3.1.3-gcc46
 
 Requires: bz2lib 
 Requires: pcre 
@@ -16,8 +15,7 @@ Requires: onlinesystemtools
 
 %prep
 %setup -n %n-%realversion
-%patch0 -p1
-%patch1 -p1
+%patch -p1
 
 %build
 ./configure --prefix=%i                         \
@@ -30,8 +28,7 @@ Requires: onlinesystemtools
   --with-openssl-includes=$OPENSSL_ROOT/include \
   --with-openssl-libraries=$OPENSSL_ROOT/lib	\
   --with-lzma-includes=$XZ_ROOT/include         \
-  --with-lzma-libraries=$XZ_ROOT/lib \
-  CXXFLAGS="-Wno-error=extra"
+  --with-lzma-libraries=$XZ_ROOT/lib	
 
 perl -p -i -e '
   s{-llzo2}{}g;
