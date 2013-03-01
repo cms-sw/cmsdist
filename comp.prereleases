@@ -85,7 +85,7 @@ HG1303c reqmon @slc5_amd64_gcc461
 # WorkQueue
 HG1302c workqueue @slc5_amd64_gcc461
 #+ HEAD/0.9.38 workqueue.spec
-+ 1.65 workqueue.spec
++ 1.66 workqueue.spec
 
 # DMWMMON
 HG1208a DMWMMON-datasvc @slc5_amd64_gcc461
