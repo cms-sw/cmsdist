@@ -52,11 +52,11 @@ HG1111c-gcc434 CmsTC @slc5_amd64_gcc434
 #+ HEAD/2.16.1 graphviz.spec
 
 # Cms Webtools services
-HG1303b cmsweb @slc5_amd64_gcc461
+HG1303c cmsweb @slc5_amd64_gcc461
 
-HG1303b cmsweb @slc6_amd64_gcc461
+HG1303c cmsweb @slc6_amd64_gcc461
 
-HG1303b cmsweb @osx106_amd64_gcc461
+HG1303c cmsweb @osx106_amd64_gcc461
 
 # T0 data service
 HG1210e T0DataSvc @slc5_amd64_gcc461
@@ -69,12 +69,12 @@ HG1201c stagemanager @slc5_amd64_gcc461
 + 1.10/1.0.1 stagemanager.spec
 
 # RequestManager
-HG1302b reqmgr @slc5_amd64_gcc461
-+ 1.73 reqmgr.spec
+HG1303a reqmgr @slc5_amd64_gcc461
++ 1.79 reqmgr.spec
 
 # Request Monitor
 HG1303a reqmon @slc5_amd64_gcc461
-+ 1.34 reqmon.spec
++ 1.37 reqmon.spec
 
 ## RequestMonitor
 #HG1204h reqmon-meta @slc5_amd64_gcc461
