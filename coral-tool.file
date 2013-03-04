@@ -1,9 +1,0 @@
-  <tool name="CORAL" version="@PROJECT_VERSION@" type="scram">
-    <client>
-      <environment name="CORAL_BASE" default="@PROJECT_ROOT@"/>
-      <environment name="LIBDIR" default="$CORAL_BASE/$SCRAM_ARCH/lib"/>
-      <environment name="INCLUDE" default="$CORAL_BASE/include"/>
-    </client>
-    <runtime name="PYTHONPATH" default="$CORAL_BASE/$SCRAM_ARCH/python" type="path"/>
-    <runtime name="PYTHONPATH" default="$CORAL_BASE/$SCRAM_ARCH/lib" type="path"/>
-  </tool>
