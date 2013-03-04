@@ -1,4 +1,4 @@
-### RPM cms sreadiness r133
+### RPM cms sreadiness r143
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
 %define svnrev %(echo %realversion|tr -d 'r')
