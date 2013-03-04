@@ -8,12 +8,13 @@ Source1: bootstrap
 Source2: http://search.cpan.org/CPAN/authors/id/T/TL/TLBDK/RPM-Header-PurePerl-1.0.2.tar.gz
 Patch0: apt-429-fix-gcc-461
 Patch1: apt-429-fix-gcc-47
-Patch2: apt-429-less-dependencies
-Patch3: apt-429-add-support-osx108
 
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
-Requires: libxml2 rpm db4 openssl
+Requires: libxml2 rpm db4
+%if "%online" != "true"
+Requires: openssl
+%endif
 
 %prep
 %setup -T -b 2 -n RPM-Header-PurePerl-1.0.2
@@ -21,23 +22,24 @@ cd ..
 %setup -n apt-rpm-%realversion
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
-
-case %cmsplatf in
-  osx108_*)
-%patch3 -p1
-  ;;
-esac
 
 %build
 case %cmsplatf in
-  slc*)
+  slc*_ia32_*)
+    export USER_CPPFLAGS="-D_FILE_OFFSET_BITS=64"
     export USER_CFLAGS="-pthread"
     export USER_CXXFLAGS="-pthread"
     export USER_LDFLAGS="-pthread"
     export USER_LIBS="-pthread"
     ;;
-  *) ;;
+  slc*_amd64_*)
+    export USER_CFLAGS="-pthread"
+    export USER_CXXFLAGS="-pthread"
+    export USER_LDFLAGS="-pthread"
+    export USER_LIBS="-pthread"
+    ;;
+  *)
+    ;;
 esac
 
 chmod +x buildlib/install-sh
@@ -199,16 +201,20 @@ echo rpm ${1+"$@"} >> %{instroot}/var/log/rpm/log.txt
 exec rpm ${1+"$@"}
 EOF_BIN_RPM
 chmod +x %{i}/bin/rpm-wrapper
-mkdir -p %{instroot}/%{cmsplatf}/var/lib/apt/lists/partial
-mkdir -p %{instroot}/%{cmsplatf}/var/lib/rpm 
-mkdir -p %{instroot}/%{cmsplatf}/var/lib/cache/%{cmsplatf}/partial
-mkdir -p %{instroot}/%{cmsplatf}/var/lib/dpkg/status
-mkdir -p %{instroot}/%{cmsplatf}/etc/rpm
-mkdir -p %{instroot}/%{cmsplatf}/lib/apt/methods
 
 %post
-%{relocateRpmPkg}etc/profile.d/dependencies-setup.*
-%{relocateRpmPkg}bin/apt-cache-wrapper
-%{relocateRpmPkg}bin/apt-get-wrapper
-%{relocateRpmPkg}bin/rpm-wrapper
-%{relocateRpmPkg}etc/apt.conf
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/apt/lists/partial
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/rpm 
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/cache/%{cmsplatf}/partial
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/rpm
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/lib/apt/methods
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/dpkg/status
+mkdir -p $RPM_INSTALL_PREFIX/bin
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/cache/%{cmsplatf}
+%{relocateConfig}etc/profile.d/dependencies-setup.sh
+%{relocateConfig}etc/profile.d/dependencies-setup.csh
+%{relocateConfig}bin/apt-cache-wrapper
+%{relocateConfig}bin/apt-get-wrapper
+%{relocateConfig}bin/rpm-wrapper
+%{relocateConfig}etc/apt.conf 
