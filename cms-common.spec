@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1106
+## REVISION 1102
 ## NOCOMPILER
 
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
@@ -8,8 +8,6 @@
 %endif
 
 Source: cmsos
-Source1: migrate-cvsroot
-Source2: cmspm
 
 %prep
 #Make sure that we always build cms-common with a different revision and 
@@ -25,18 +23,17 @@ Source2: cmspm
 %install
 
 #Create all files in %i/%{pkgrevision} directory.
+#This can be avoid if we move to --buildroot based builds
 mkdir -p %i/%{pkgrevision}/common
 cd %i/%{pkgrevision}
 
 cp %_sourcedir/cmsos ./common/cmsos
-cp %_sourcedir/migrate-cvsroot ./common/migrate-cvsroot
-cp %_sourcedir/cmspm ./common/cmspm
 
 %if "%online" != "true"
 cat << \EOF_CMSARCH_SH > ./common/cmsarch
 #!/bin/sh
 osarch=`%instroot/common/cmsos`
-compilerv=gcc462
+compilerv=gcc434
 # We need to assume 1 compiler per platform. 
 # There is no other way around this.
 if [ ! "$SCRAM_ARCH" ]
@@ -46,11 +43,10 @@ then
         osx104_ppc32) compilerv=gcc400;;
         osx105_*) compilerv=gcc401;;
         osx106_*) compilerv=gcc421;;
-        osx107_*) compilerv=gcc462;;
-        osx108_*) compilerv=gcc462;;
-        slc6_*) compilerv=gcc462; osarch=slc6_amd64;;
-        slc5_*) compilerv=gcc462; osarch=slc5_amd64;;
-        *) compilerv=gcc462; osarch=slc5_amd64;;
+        slc6_*) compilerv=gcc461; osarch=slc6_amd64;;
+        slc5_*) compilerv=gcc434; osarch=slc5_amd64;;
+        slc4_*) compilerv=gcc345; osarch=slc4_ia32;;
+        *) compilerv=gcc434; osarch=slc5_ia32;;
     esac
     echo ${osarch}_${compilerv}
 else
@@ -187,17 +183,16 @@ CMSARCH=`cmsarch`
 srbase=%{instroot}/$CMSARCH
 sver=$SCRAM_VERSION
 dir=`/bin/pwd`
-if [ "X${dir}" = "X" ] ; then
-  echo "Unable to find current working directory, may be directory was deleted."
-  exit 1
-fi
 while [ ! -d ${dir}/.SCRAM ] && [ "$dir" != "/" ] ; do
   dir=`dirname $dir`
 done
-if [ "${dir}" != "/" ] && [ -f ${dir}/config/scram_version ] ; then
+if [ -f ${dir}/config/scram_version ] ; then
   sver=`cat ${dir}/config/scram_version`
 elif [ "X$sver" = "X" ] ; then
   sver=`cat  ${srbase}/etc/default-scramv1-version`
+fi
+if [ "X$sver" = "XV1_0_3-p1" ] && [ "X$CMSARCH" = "Xslc4_ia32_gcc345" ] ; then
+  sver=V1_0_3-p2
 fi
 scram_rel_series=`echo $sver | grep '^V[0-9][0-9]*_[0-9][0-9]*_[0-9][0-9]*' | sed 's|^\(V[0-9][0-9]*_[0-9][0-9]*\)_.*|\1|'`
 case $sver in
@@ -207,13 +202,27 @@ esac
 if [ "X${scram_rel_series}" != "X" ] && [ -f ${srbase}/etc/default-scram/${scram_rel_series} ] ; then
   sver=`cat ${srbase}/etc/default-scram/${scram_rel_series}`
 fi
-srbase=%{instroot}/$CMSARCH/lcg/SCRAMV1/${sver}
-if [ ! -f ${srbase}/etc/profile.d/init.sh ] ; then
+scmd=scram
+srbase=%{instroot}/$CMSARCH/lcg/SCRAMV1
+case $sver in
+  V0_*  ) srbase=%{instroot}/$CMSARCH/lcg/SCRAM; scmd=scramv0;;
+  V1_0* ) scmd=scramv1;;
+  *     ) ;;
+esac
+if [ ! -f ${srbase}/${sver}/etc/profile.d/init.sh ] ; then
   echo "Unable to find SCRAM version $sver for $CMSARCH architecture."
   exit 1
 fi
-. ${srbase}/etc/profile.d/init.sh
-${srbase}/bin/scram $@
+. ${srbase}/${sver}/etc/profile.d/init.sh
+# In the case we are on linux ia32 we prepend the linux32 command to the 
+# actual scram command so that, no matter where the ia32 architecture is 
+# running (i686 or x84_64) scram detects it as ia32.
+CMSPLAT=`echo $CMSARCH | cut -d_ -f 2`
+USE_LINUX32=
+if [ `uname` = "Linux" ] && [ "$CMSPLAT" = "ia32" ] ; then
+  USE_LINUX32=linux32
+fi
+$USE_LINUX32 ${srbase}/${sver}/bin/${scmd} $@
 EOF_COMMON_SCRAM
 
 find . -name "*" -type f | xargs chmod +x 
