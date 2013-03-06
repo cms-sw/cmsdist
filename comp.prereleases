@@ -154,8 +154,8 @@ HG1303b cmsfomon @slc5_amd64_gcc461
 
 # T0
 HG1210a t0 @slc5_amd64_gcc461
-+ HEAD/1.9.27 t0.spec
-+ HEAD/0.9.34 wmagent.spec
++ HEAD/1.9.28 t0.spec
++ HEAD/0.9.49 wmagent.spec
 
 # LifeCycle
 HG1210a lifecycle-dataprovider @slc5_amd64_gcc461
