@@ -110,10 +110,6 @@ CMS_EOF
   ;;
 esac
 
-# Modify pyconfig.h to disable GCC format attribute as it is used incorrectly.
-# Triggers an error if -Werror=format is used with GNU GCC 4.8.0+.
-sed -ibak "s/\(#define HAVE_ATTRIBUTE_FORMAT_PARSETUPLE .*\)/\/* \1 *\//g" pyconfig.h
-
 make %makeprocesses
 
 %install
