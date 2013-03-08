@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_6_1_0
+### RPM cms cmssw CMSSW_6_1_2
 Requires: cmssw-tool-conf python
 
 %define runGlimpse      yes
@@ -8,8 +8,9 @@ Requires: cmssw-tool-conf python
 # Build with clang if _CLANG_X is in the name of the package.
 %if "%(case %realversion in (*_CLANG_X*) echo true ;; (*) echo false ;; esac)" == "true"
 Patch10: cmssw-clang
+Patch20: cmssw-clang-vla
 %define cvstag		%(echo %realversion | sed -e 's|_CLANG_X|_X|')
-%define preBuildCommand pushd .. ; patch -p1 <%_sourcedir/cmssw-clang ; popd
+%define preBuildCommand pushd .. ; patch -p1 <%_sourcedir/cmssw-clang ; popd ; patch -p0 <%_sourcedir/cmssw-clang-vla & true
 %define buildtarget     checker
 %endif
 
@@ -50,7 +51,12 @@ Patch13: cmssw-debug
 
 %if "%(case %realversion in (*_ICC_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define cvstag		%(echo %realversion | sed -e 's|_ICC_X|_X|')
-%define preBuildCommand scram setup icc-cxxcompiler ; scram setup icc-f77compiler ; scram setup icc-ccompiler ; export COMPILER=icc
+%define preBuildCommand export COMPILER=icc
+%endif
+
+%if "%(case %realversion in (*_ASAN_X*) echo true ;; (*) echo false ;; esac)" == "true"
+%define cvstag		%(echo %realversion | sed -e 's|_ASAN_X|_X|')
+%define usercxxflags    -fsanitize=address -fno-omit-frame-pointer -g 
 %endif
 
 ## IMPORT scram-project-build
