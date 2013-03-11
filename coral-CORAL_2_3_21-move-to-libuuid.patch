@@ -1,9 +1,0 @@
-diff -arupN src.orig/ConnectionService/BuildFile.xml src/ConnectionService/BuildFile.xml
---- src.orig/ConnectionService/BuildFile.xml	2013-02-19 12:18:12.000000000 +0100
-+++ src/ConnectionService/BuildFile.xml	2013-02-19 12:19:01.000000000 +0100
-@@ -1,4 +1,4 @@
--<use   name="uuid"/>
-+<use   name="libuuid"/>
- <use   name="LCG/CoralCommon"/>
- <use   name="LCG/RelationalAccess"/>
- <use   name="boost"/>

@@ -20,13 +20,14 @@
 # 1.389 is 1.8.4 # DAS w/o dataset summary, mongo 2.2.2 (rev 1.43), pymongo 2.4.1 (rev 1.27)
 # 1.400 is 1.9.3 series
 # 1.403 is 1.9.4 series
+# 1.404 is 1.9.4 series
 HG1212c das @slc5_amd64_gcc461
 + 1.43 mongo.spec
 + 1.1 mongo2.2-osx.patch
 + 1.27 py2-pymongo.spec
-+ 1.403 das.spec
++ 1.404 das.spec
 #HG1303b cmsweb @slc6_amd64_gcc461
-#+ 1.403 das.spec
+#+ 1.404 das.spec
 
 # FileMover
 # 1.30 is 1.0.9
@@ -51,11 +52,11 @@ HG1111c-gcc434 CmsTC @slc5_amd64_gcc434
 #+ HEAD/2.16.1 graphviz.spec
 
 # Cms Webtools services
-HG1303b cmsweb @slc5_amd64_gcc461
+HG1303f cmsweb @slc5_amd64_gcc461
 
-HG1303b cmsweb @slc6_amd64_gcc461
+HG1303f cmsweb @slc6_amd64_gcc461
 
-HG1303b cmsweb @osx106_amd64_gcc461
+HG1303f cmsweb @osx106_amd64_gcc461
 
 # T0 data service
 HG1210e T0DataSvc @slc5_amd64_gcc461
@@ -68,12 +69,12 @@ HG1201c stagemanager @slc5_amd64_gcc461
 + 1.10/1.0.1 stagemanager.spec
 
 # RequestManager
-HG1302b reqmgr @slc5_amd64_gcc461
-+ 1.73 reqmgr.spec
+HG1303b reqmgr @slc5_amd64_gcc461
++ 1.79 reqmgr.spec
 
 # Request Monitor
-HG1303a reqmon @slc5_amd64_gcc461
-+ 1.34 reqmon.spec
+HG1303b reqmon @slc5_amd64_gcc461
++ 1.37 reqmon.spec
 
 ## RequestMonitor
 #HG1204h reqmon-meta @slc5_amd64_gcc461
@@ -84,7 +85,7 @@ HG1303a reqmon @slc5_amd64_gcc461
 # WorkQueue
 HG1302b workqueue @slc5_amd64_gcc461
 #+ HEAD/0.9.38 workqueue.spec
-+ 1.63 workqueue.spec
++ 1.66 workqueue.spec
 
 # DMWMMON
 HG1208a DMWMMON-datasvc @slc5_amd64_gcc461
@@ -144,17 +145,17 @@ HG1211e crab-client3 @slc5_amd64_gcc461
 #+ 1.7 asyncstageout-setup.patch
 
 # CMS Ops Monitoring services
-HG1211g cmsfomon @slc5_amd64_gcc461
-+ 1.8/HG1211g cmsfomon.spec
+HG1303b cmsfomon @slc5_amd64_gcc461
++ 1.10/HG1303b cmsfomon.spec
 + 1.11/1.0.0 py2-sqlobject.spec
 + 1.3/3.0 happyface.spec
-+ 1.9 sreadiness.spec
++ 1.10 sreadiness.spec
 + 1.1 crabhb.spec
 
 # T0
 HG1210a t0 @slc5_amd64_gcc461
-+ HEAD/1.9.27 t0.spec
-+ HEAD/0.9.34 wmagent.spec
++ HEAD/1.9.28 t0.spec
++ HEAD/0.9.49 wmagent.spec
 
 # LifeCycle
 HG1210a lifecycle-dataprovider @slc5_amd64_gcc461
