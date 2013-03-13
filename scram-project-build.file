@@ -35,7 +35,7 @@ Requires: SCRAMV1
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V04-02-18
+%define configtag       V05-00-07
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -113,6 +113,7 @@ rm -rf %{srctree}
 %{?PatchReleaseAdditionalPackages:%PatchReleaseAdditionalPackages}
 
 cd %_builddir
+echo %{configtag} > %_builddir/config/config_tag
 %_builddir/config/updateConfig.pl -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} -a %cmsplatf
 
 %{?PartialBootstrapPatch:%PartialBootstrapPatch}
