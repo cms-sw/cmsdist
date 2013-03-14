@@ -1,4 +1,4 @@
-### RPM cms cmsweb HG1303b
+### RPM cms cmsweb HG1303g
 
 # This is a meta-package to group all cms webtools services from comp repository
 Requires: frontend das dbs3 filemover sitedb T0Mon T0DataSvc couchdb reqmon
