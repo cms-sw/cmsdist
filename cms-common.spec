@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1108
+## REVISION 1109
 ## NOCOMPILER
 
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
@@ -184,8 +184,8 @@ EOF_CMSSET_DEFAULT_CSH
 
 cat << \EOF_COMMON_SCRAM > ./common/scram
 #!/bin/sh
-CMSARCH=`cmsarch`
-srbase=%{instroot}/$CMSARCH
+export SCRAM_ARCH=`%instroot/common/cmsarch`
+srbase=%{instroot}/$SCRAM_ARCH
 sver=$SCRAM_VERSION
 dir=`/bin/pwd`
 if [ "X${dir}" = "X" ] ; then
@@ -198,19 +198,33 @@ done
 if [ "${dir}" != "/" ] && [ -f ${dir}/config/scram_version ] ; then
   sver=`cat ${dir}/config/scram_version`
 elif [ "X$sver" = "X" ] ; then
-  sver=`cat  ${srbase}/etc/default-scramv1-version`
+  if [ -f %{instroot}/share/etc/default-scramv1-version ] ; then
+    sver=`cat %{instroot}/share/etc/default-scramv1-version`
+  elif [ -f ${srbase}/etc/default-scramv1-version ] ; then
+    sver=`cat ${srbase}/etc/default-scramv1-version`
+  else
+    echo "Error: Unable to find ${srbase}/etc/default-scramv1-version. Looks like SCRAMV1 is not installed." >&2
+    exit 1
+  fi
 fi
 scram_rel_series=`echo $sver | grep '^V[0-9][0-9]*_[0-9][0-9]*_[0-9][0-9]*' | sed 's|^\(V[0-9][0-9]*_[0-9][0-9]*\)_.*|\1|'`
-case $sver in
-  V[01]_*|V2_[012]_* ) ;;
-  * ) scram_rel_series=`echo $scram_rel_series | sed 's|_.*||'` ;;
-esac
-if [ "X${scram_rel_series}" != "X" ] && [ -f ${srbase}/etc/default-scram/${scram_rel_series} ] ; then
-  sver=`cat ${srbase}/etc/default-scram/${scram_rel_series}`
+scram_main_series=`echo $scram_rel_series | sed 's|_.*||'`
+if [ "X${scram_rel_series}" != "X" ] ; then
+  if [ -f %{instroot}/share/etc/default-scram/${scram_main_series} ] ; then
+    sver=`cat %{instroot}/share/etc/default-scram/${scram_main_series}`
+    srbase=%{instroot}/share
+  elif [ -f %{instroot}/share/etc/default-scram/${scram_rel_series} ] ; then
+    sver=`cat %{instroot}/share/etc/default-scram/${scram_rel_series}`
+    srbase=%{instroot}/share
+  elif [ -f ${srbase}/etc/default-scram/${scram_main_series} ] ; then
+    sver=`cat ${srbase}/etc/default-scram/${scram_main_series}`
+  elif [ -f ${srbase}/etc/default-scram/${scram_rel_series} ] ; then
+    sver=`cat ${srbase}/etc/default-scram/${scram_rel_series}`
+  fi
 fi
-srbase=%{instroot}/$CMSARCH/lcg/SCRAMV1/${sver}
+srbase=${srbase}/lcg/SCRAMV1/${sver}
 if [ ! -f ${srbase}/etc/profile.d/init.sh ] ; then
-  echo "Unable to find SCRAM version $sver for $CMSARCH architecture."  >&2
+  echo "Unable to find SCRAM version $sver for $SCRAM_ARCH architecture."  >&2
   exit 1
 fi
 . ${srbase}/etc/profile.d/init.sh
