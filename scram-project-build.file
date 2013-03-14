@@ -286,7 +286,6 @@ if [ -f lib/${SCRAM_ARCH}/.edmplugincache ] ; then
   find lib/${SCRAM_ARCH} -name "*.edmplugin" -type f -exec touch {} \;
   touch lib/${SCRAM_ARCH}/.edmplugincache
 fi
-%scramcmd install -f -d $CMS_INSTALL_PREFIX/%pkgrel
 
 %{?PatchReleaseFilesRelocate:%PatchReleaseFilesRelocate}
 %{?PartialReleaseFilesRelocate:%PartialReleaseFilesRelocate}
