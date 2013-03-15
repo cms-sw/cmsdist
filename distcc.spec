@@ -8,7 +8,7 @@ Requires: python
 CFLAGS="-O2 -Wno-unused-but-set-variable"
 case %cmsplatf in
   *gcc4[89]*)
-    CFLAGS="$CFLAGS -Wno-unused-local-typedefs"
+    CFLAGS="$CFLAGS -Wno-unused-local-typedefs -Wno-unused-parameter"
     ;;
 esac
 ./configure --prefix %i  --without-gtk --without-gnome CFLAGS="$CFLAGS" CC="`which gcc`" PYTHON=$PYTHON_ROOT/bin/python
