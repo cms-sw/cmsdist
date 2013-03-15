@@ -5,15 +5,12 @@ Source: http://cmsrep.cern.ch/cmssw/download/dcap/dcap.tgz
 Patch0: dcap-2.47.5.0-macosx
 Patch1: dcap-2.47.5.0-fork-safety
 
-# Unfortunately I could not find any rpm version invariant way to do and "if
-# else if", so I ended up hardcoding all the possible variants.
-# FIXME: move to multiple ifs once rpm 4.4.2.2 is deprecated.
-Provides: libdcap.so
-Provides: libpdcap.so
-Provides: libdcap.so()(64bit)
-Provides: libpdcap.so()(64bit)
-Provides: libdcap.dylib
-Provides: libpdcap.dylib
+%define isonline %(case "%{cmsplatf}" in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
+%if %{isonline}
+Requires: onlinesystemtools
+%else
+Requires: zlib
+%endif
 
 BuildRequires: autotools
 
@@ -37,7 +34,7 @@ autoheader
 libtoolize --automake
 automake --add-missing --copy --foreign
 autoconf 
-./configure --prefix %i
+./configure --prefix %{i} CFLAGS="-I${ZLIB_ROOT}/include" LDFLAGS="-L${ZLIB_ROOT}/lib"
 
 # We don't care about the plugins and other stuff and build only the source.
 make -C src %makeprocesses
@@ -45,6 +42,6 @@ make -C src %makeprocesses
 make -C src install
 
 # Strip libraries, we are not going to debug them.
-%define strip_files %i/lib
+%define strip_files %{i}/lib
 # Look up documentation online.
-%define drop_files %i/share
+%define drop_files %{i}/share
