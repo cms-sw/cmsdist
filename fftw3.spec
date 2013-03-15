@@ -13,9 +13,9 @@ case "%{cmsplatf}" in
   *amd64*)
     CONFIG_ARGS="${CONFIG_ARGS} --enable-sse2"
   ;;
-  *armv7hl*)
-    CONFIG_ARGS="${CONFIG_ARGS} --enable-neon --enable-float"
-  ;;
+#  *armv7hl*)
+#    CONFIG_ARGS="${CONFIG_ARGS} --enable-neon --enable-float"
+#  ;;
 esac
 
 ./configure ${CONFIG_ARGS}
