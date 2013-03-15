@@ -1,7 +1,7 @@
 ### RPM external gdb 7.5
 Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.bz2
 Patch0: gdb-7.5-fix-pythonhome
-Requires: python
+Requires: python ncurses
 
 %prep
 %setup -n %n-%realversion
@@ -9,7 +9,7 @@ Requires: python
 
 %build
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
-./configure --prefix=%{i} --with-system-gdbinit=%{i}/share/gdbinit --with-expat=no --with-python=$PYTHON_ROOT LDFLAGS="-L$PYTHON_ROOT/lib" CFLAGS="-Wno-error=strict-aliasing"
+./configure --prefix=%{i} --with-system-gdbinit=%{i}/share/gdbinit --with-expat=no --with-python=${PYTHON_ROOT} LDFLAGS="-L${PYTHON_ROOT}/lib -L${NCURSES_ROOT}/lib" CFLAGS="-Wno-error=strict-aliasing -I${PYTHON_ROOT}/include -I${NCURSES_ROOT}/include"
 make %makeprocesses
 
 %install
