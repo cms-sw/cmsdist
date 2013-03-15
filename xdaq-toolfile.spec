@@ -63,7 +63,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaq.xml
   <use name="xerces-c"/>
   <use name="sockets"/>
   <use name="mimetic"/>
-  <use name="uuid"/>
+  <use name="libuuid"/>
 </tool>
 EOF_TOOLFILE
 

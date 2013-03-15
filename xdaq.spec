@@ -1,6 +1,6 @@
 ### RPM external xdaq VR17173
 
-Requires: zlib mimetic xerces-c uuid sqlite
+Requires: zlib mimetic xerces-c libuuid sqlite
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
 %define svntrunk  %(echo %v | sed 's|^VR||')
@@ -61,7 +61,7 @@ cd %{i}/daq
 
 export MIMETIC_PREFIX=$MIMETIC_ROOT
 export XERCES_PREFIX=$XERCES_C_ROOT
-export UUID_LIB_PREFIX=$UUID_ROOT/lib64
+export UUID_LIB_PREFIX=$LIBUUID_ROOT/lib64
 export SQLITE_PREFIX=$SQLITE_ROOT
 export SEARCH_PATH=$PATH
 

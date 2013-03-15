@@ -76,7 +76,7 @@ Requires: tauola-toolfile
 Requires: tauolapp-toolfile
 Requires: thepeg-toolfile
 Requires: toprex-toolfile
-Requires: uuid-toolfile
+Requires: libuuid-toolfile
 Requires: xerces-c-toolfile
 Requires: zlib-toolfile
 Requires: dcap-toolfile
@@ -114,6 +114,8 @@ Requires: vdt-toolfile
 Requires: icc-gcc-toolfile
 Requires: ccache-gcc-toolfile
 Requires: distcc-gcc-toolfile
+Requires: gnuplot-toolfile
+Requires: sloccount-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
