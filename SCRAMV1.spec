@@ -73,14 +73,14 @@ VERSION_REGEXP="%{SCRAM_REL_MAJOR}_"   ; VERSION_FILE=default-scram/%{SCRAM_REL_
 %{BackwardCompatibilityVersionPolicy}
 
 #Create a shared copy of this version
-if [ ! -e $RPM_INSTALL_PREFIX/share/%{pkgdir} ] ; then
-  mkdir -p `dirname $RPM_INSTALL_PREFIX/share/%{pkgdir}`
-  cp -r $RPM_INSTALL_PREFIX/%{pkgrel} $RPM_INSTALL_PREFIX/share/%{pkgdir}
-  perl -p -i -e "s|%{pkgrel}|share/%{pkgdir}|g" $RPM_INSTALL_PREFIX/share/%{pkgdir}/etc/profile.d/init.*
-  cd $RPM_INSTALL_PREFIX/share
-  VERSION_REGEXP="%{SCRAM_ALL_VERSIONS}" ; VERSION_FILE=default-scramv1-version         ; %{SetLatestVersion}
-  VERSION_REGEXP="%{SCRAM_REL_MAJOR}_"   ; VERSION_FILE=default-scram/%{SCRAM_REL_MAJOR}; %{SetLatestVersion}
-fi
+mkdir -p $RPM_INSTALL_PREFIX/share/%{pkgdir}
+rsync --links --ignore-existing --recursive --exclude='etc/'  $RPM_INSTALL_PREFIX/%{pkgrel}/ $RPM_INSTALL_PREFIX/share/%{pkgdir}
+for f in `rsync --links --ignore-existing --recursive --itemize-changes $RPM_INSTALL_PREFIX/%{pkgrel}/etc $RPM_INSTALL_PREFIX/share/%{pkgdir} | grep '^>f' | sed -e 's|.* ||'` ; do
+  sed -i -e 's|/%{pkgrel}|/share/%{pkgdir}|g' $RPM_INSTALL_PREFIX/share/%{pkgdir}/$f
+done
+cd $RPM_INSTALL_PREFIX/share
+VERSION_REGEXP="%{SCRAM_ALL_VERSIONS}" ; VERSION_FILE=default-scramv1-version         ; %{SetLatestVersion}
+VERSION_REGEXP="%{SCRAM_REL_MAJOR}_"   ; VERSION_FILE=default-scram/%{SCRAM_REL_MAJOR}; %{SetLatestVersion}
 
 #FIMEME: Remove it when cmsBuild has a fix
 #For some strange reason we need something after the last statement
