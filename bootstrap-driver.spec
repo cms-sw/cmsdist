@@ -175,7 +175,9 @@ fc*)
                               ncurses e2fsprogs krb5-libs freetype fontconfig libstdc++-4.7.2 
                               libidn libX11 libXmu libSM libICE libXcursor libXext libXrandr 
                               libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama 
-                              libXft libXrender libXpm gcc-c++ libcom_err"
+                              libXft libXrender libXpm gcc-c++ libcom_err libXpm-devel libXft-devel
+                              libX11-devel libXext-devel mesa-libGLU mesa-libGLU-devel libGLEW
+                              glew perl-Digest-MD5"
   ;;
 esac
 
