@@ -12,7 +12,7 @@ case %cmsplatf in
 						                 libtool \
 						               	 config/ltmain.sh
     ;;
-    slc* )
+    slc*|fc* )
        # Ugly hack to force -ldl to be linked, which for some reason is
        # not currently happening via configure
        perl -p -i -e 's|LIBS.*LIBS.*lm|LIBS="$LIBS -lm -ldl|' configure
