@@ -5,6 +5,7 @@ Patch1: coral-2_3_21-slc6
 Patch2: coral-CORAL_2_3_20-boost150-fix
 Patch3: coral-CORAL_2_3_20-hide-strict-aliasing
 Patch4: coral-CORAL_2_3_20-remove-lost-dependencies
+Patch5: coral-CORAL_2_3_21-move-to-libuuid
 
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
@@ -21,9 +22,10 @@ Patch4: coral-CORAL_2_3_20-remove-lost-dependencies
 %if "%(echo %{cmsos} | cut -d_ -f 1 | sed -e 's|osx.*|osx|')" == "osx"
 # Disable building tests, since they bring dependency on cppunit:
 %define patchsrc4       perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
-%define patchsrc5       %patch0 -p1
+%define patchsrc3       %patch0 -p1 
 %endif
 
+%define patchsrc5       %patch5 -p0
 %define patchsrc6       %patch1 -p0
 %define patchsrc7       %patch2 -p0
 %define patchsrc8       %patch3 -p0
