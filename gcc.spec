@@ -3,7 +3,7 @@
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
-%define gccRevision 196281
+%define gccRevision 196584
 %define gccBranch trunk
 Source0: svn://gcc.gnu.org/svn/gcc/trunk?module=gcc-%gccBranch-%gccRevision&revision=%gccRevision&output=/gcc-%gccBranch-%gccRevision.tar.gz
 
@@ -156,7 +156,7 @@ CXX="$CXX -fPIC"
   # Build binutils
   cd ../binutils-%{binutilsv}
   ./configure --disable-static --prefix=%{i} ${CONF_BINUTILS_OPTS} --disable-werror \
-              --build=%{_build} --host=%{_host} --disable-nls --with-zlib=no \
+              --build=%{_build} --host=%{_host} --disable-nls --with-zlib=no --enable-targets=all \
               CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" CFLAGS="-I%{i}/include" \
               CXXFLAGS="-I%{i}/include" LDFLAGS="-L%{i}/lib"
   make %{makeprocesses}
