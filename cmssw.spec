@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_6_1_1_SLHCphase1tk1
+### RPM cms cmssw CMSSW_6_2_X_2013-03-15-0200
 Requires: cmssw-tool-conf python
 
 %define runGlimpse      yes
@@ -51,6 +51,8 @@ Patch13: cmssw-debug
 
 %if "%(case %realversion in (*_ICC_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define cvstag		%(echo %realversion | sed -e 's|_ICC_X|_X|')
+# Required to compile boost. See https://premier.intel.com/premier/IssueDetail.aspx?IssueID=688951.
+%define usercxxflags   -D__PURE_SYS_C99_HEADERS__ 
 %define preBuildCommand export COMPILER=icc
 %endif
 
