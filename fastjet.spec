@@ -17,8 +17,9 @@ Patch6: fastjet-3.0.1-silence-warnings
 %patch6 -p1
 
 case %cmsplatf in
-    *_gcc4[01234]*) ;;
-    *) CXXFLAGS="-O3 -Wall -ffast-math -std=c++0x -msse3 -ftree-vectorize" ;;
+    *_gcc4[01234]* ) ;;
+    *_armv7hl_* ) CXXFLAGS="-O3 -Wall -ffast-math -std=c++0x -ftree-vectorize" ;;
+    * ) CXXFLAGS="-O3 -Wall -ffast-math -std=c++0x -msse3 -ftree-vectorize" ;;
 esac
 
 
