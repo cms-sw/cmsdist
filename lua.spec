@@ -5,7 +5,6 @@ Requires: readline ncurses
 
 %build
 sed -ibak "s|^CFLAGS=|CFLAGS=-fPIC -I${READLINE_ROOT}/include -I${NCURSES_ROOT}/include|g" src/Makefile
-sed -ibak "s|-lhistory||g" src/Makefile
 sed -ibak "s|^LIBS=|LIBS=-L${READLINE_ROOT}/lib -L${NCURSES_ROOT}/lib|g;" src/Makefile
 %ifos linux
 make linux

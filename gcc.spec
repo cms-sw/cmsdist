@@ -3,7 +3,7 @@
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
-%define gccRevision 195939
+%define gccRevision 196584
 %define gccBranch trunk
 Source0: svn://gcc.gnu.org/svn/gcc/trunk?module=gcc-%gccBranch-%gccRevision&revision=%gccRevision&output=/gcc-%gccBranch-%gccRevision.tar.gz
 
@@ -26,6 +26,7 @@ Source6: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
 %define binutilsv 2.23.1
 %define elfutilsVersion 0.155
 %define m4Version 1.4.16
+%define flexVersion 2.5.37
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
 Source8: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 Source9: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
@@ -33,6 +34,8 @@ Patch1: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfuti
 Patch2: elfutils-0.155-fix-nm-snprintf
 Patch3: elfutils-0.155-fix-memset-do_oper_delete
 Source10: http://ftp.gnu.org/gnu/m4/m4-%m4Version.tar.gz
+Patch4: m4-1.4.16-fix-gets
+Source11: http://garr.dl.sourceforge.net/project/flex/flex-%{flexVersion}.tar.bz2
 %endif
 
 %prep
@@ -50,6 +53,7 @@ EOF
 chmod +x %{__find_requires}
 
 %ifos linux
+%ifarch x86_64
 # Hack needed to align sections to 4096 bytes rather than 2MB on 64bit linux
 # architectures.  This is done to reduce the amount of address space wasted by
 # relocating many libraries. This was done with a linker script before, but
@@ -71,6 +75,7 @@ cat << \EOF_CMS_H > gcc/config/i386/cms.h
    %{static:-static}} -z common-page-size=4096 -z max-page-size=4096"
 EOF_CMS_H
 %endif
+%endif
 
 # GCC prerequisites
 %setup -D -T -b 1 -n gmp-5.1.0
@@ -87,6 +92,8 @@ EOF_CMS_H
 %patch2 -p1
 %patch3 -p1
 %setup -D -T -b 10 -n m4-%{m4Version}
+%patch4 -p1
+%setup -D -T -b 11 -n flex-%{flexVersion}
 %endif
 
 %build
@@ -111,89 +118,122 @@ CXX="$CXX -fPIC"
 %ifos linux
   CONF_BINUTILS_OPTS="--enable-gold=default --enable-lto --enable-plugins --enable-threads"
   CONF_GCC_WITH_LTO="--enable-gold=yes --enable-lto" # --with-build-config=bootstrap-lto
- 
+
+  # Build Flex
+  cd ../flex-%{flexVersion}
+  ./configure --disable-nls --prefix=%{i}/tmp/flex \
+              --build=%{_build} --host=%{_host} \
+              CC="$CC" CXX="$CXX"
+  make %{makeprocesses}
+  make install
+  export PATH=%{i}/tmp/flex/bin:$PATH
+
   # Build M4
   cd ../m4-%{m4Version}
-  ./configure --prefix=%i/tmp/m4 CC="$CC"
-  make %makeprocesses
+  ./configure --prefix=%{i}/tmp/m4 \
+              --build=%{_build} --host=%{_host} \
+              CC="$CC"
+  make %{makeprocesses}
   make install
-  export PATH=%i/tmp/m4/bin:$PATH
+  export PATH=%{i}/tmp/m4/bin:$PATH
   
   # Build elfutils
   cd ../elfutils-%{elfutilsVersion}
-  ./configure --disable-static --without-zlib \
-             --without-bzlib --without-lzma \
-             --prefix=%i CC="$CC" CXX="$CXX -Wno-strict-aliasing" CPP="$CPP" CXXCPP="$CXXCPP"
-  make %makeprocesses
+  ./configure --disable-static --without-zlib --without-bzlib --without-lzma \
+              --build=%{_build} --host=%{_host} \
+              --prefix=%{i} CC="$CC" CXX="$CXX -Wno-strict-aliasing" CPP="$CPP" CXXCPP="$CXXCPP"
+  make %{makeprocesses}
   make install
 
   # Build Bison
   cd ../bison-%{bisonVersion}
-  CC="$CC" ./configure --prefix=%i/tmp/bison
-  make %makeprocesses
+  ./configure --build=%{_build} --host=%{_host} \
+              --prefix=%{i}/tmp/bison CC="$CC"
+  make %{makeprocesses}
   make install
-  export PATH=%i/tmp/bison/bin:$PATH
+  export PATH=%{i}/tmp/bison/bin:$PATH
 
   # Build binutils
   cd ../binutils-%{binutilsv}
-  ./configure --disable-static --prefix=%i ${CONF_BINUTILS_OPTS} --disable-werror \
-             CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" CFLAGS="-I%i/include" \
-             CXXFLAGS="-I%i/include" LDFLAGS="-L%i/lib"
-  make %makeprocesses
+  ./configure --disable-static --prefix=%{i} ${CONF_BINUTILS_OPTS} --disable-werror \
+              --build=%{_build} --host=%{_host} --disable-nls --with-zlib=no --enable-targets=all \
+              CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" CFLAGS="-I%{i}/include" \
+              CXXFLAGS="-I%{i}/include" LDFLAGS="-L%{i}/lib"
+  make %{makeprocesses}
   find . -name Makefile -exec perl -p -i -e 's|LN = ln|LN = cp -p|;s|ln ([^-])|cp -p $1|g' {} \; 
   make install
-  which ld
 %endif
 
 # Build GMP
 cd ../gmp-5.1.0
-./configure --disable-static --prefix=%i --enable-shared --disable-static --enable-cxx \
- CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
-make %makeprocesses
+./configure --disable-static --prefix=%{i} --enable-shared --disable-static --enable-cxx \
+            --build=%{_build} --host=%{_host} \
+            CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
+make %{makeprocesses}
 make install
 
 # Build MPFR
 cd ../mpfr-%{mpfrVersion}
-./configure --disable-static --prefix=%i --with-gmp=%i \
- CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
-make %makeprocesses
+./configure --disable-static --prefix=%{i} --with-gmp=%{i} \
+            --build=%{_build} --host=%{_host} \
+            CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
+make %{makeprocesses}
 make install
 
 # Build MPC
 cd ../mpc-%{mpcVersion}
-./configure --disable-static --prefix=%i --with-gmp=%i --with-mpfr=%i \
- CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
-make %makeprocesses
+./configure --disable-static --prefix=%{i} --with-gmp=%{i} --with-mpfr=%{i} \
+            --build=%{_build} --host=%{_host} \
+            CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
+make %{makeprocesses}
 make install
 
 # Build ISL
 cd ../isl-%{islVersion}
-./configure --disable-static --with-gmp-prefix=%i --prefix=%i \
- --build=x86_64-unknown-linux-gnu --host=x86_64-unknown-linux-gnu \ 
- CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
-make %makeprocesses
+./configure --disable-static --with-gmp-prefix=%i --prefix=%{i} \
+            --build=%{_build} --host=%{_host} \
+            CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
+make %{makeprocesses}
 make install
 
 # Build CLooG
 cd ../cloog-%{cloogVersion}
-./configure --disable-static --prefix=%i --with-gmp=system --with-gmp-prefix=%i --with-gmp-exec-prefix=%i \
- --with-isl=system --with-isl-prefix=%i --with-isl-exec-prefix=%i \
- CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
-make %makeprocesses
+./configure --disable-static --prefix=%{i} --with-gmp=system --with-gmp-prefix=%{i} --with-gmp-exec-prefix=%{i} \
+            --with-isl=system --with-isl-prefix=%{i} --with-isl-exec-prefix=%{i} \
+            --build=%{_build} --host=%{_host} \
+            CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
+make %{makeprocesses}
 make install
 
+CONF_GCC_ARCH_SPEC=
+case %{cmsplatf} in
+  *_armv7hl_*)
+    CONF_GCC_ARCH_SPEC="$CONF_GCC_ARCH_SPEC \
+                        --enable-bootstrap --enable-threads=posix --enable-__cxa_atexit \
+                        --disable-libunwind-exceptions --enable-gnu-unique-object \
+                        --with-linker-hash-style=gnu --enable-plugin --enable-initfini-array \
+                        --enable-linker-build-id --disable-build-with-cxx --disable-build-poststage1-with-cxx \
+                        --with-cpu=cortex-a9 --with-tune=cortex-a9 --with-arch=armv7-a \
+                        --with-float=hard --with-fpu=vfpv3-d16 --with-abi=aapcs-linux \
+                        --disable-sjlj-exceptions"
+    ;;
+esac
+
 # Build GCC
-cd ../gcc-%gccBranch-%gccRevision
+cd ../gcc-%{gccBranch}-%{gccRevision}
+rm gcc/DEV-PHASE
+touch gcc/DEV-PHASE
 mkdir -p obj
 cd obj
-export LD_LIBRARY_PATH=%i/lib64:%i/lib:$LD_LIBRARY_PATH
-../configure --prefix=%i --disable-multilib --disable-nls \
- --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES \
- $CONF_GCC_OS_SPEC $CONF_GCC_WITH_LTO --with-gmp=%i --with-mpfr=%i \
- --with-mpc=%i --with-isl=%i --with-cloog=%i --enable-checking=release \
- --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
+export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
+../configure --prefix=%{i} --disable-multilib --disable-nls --with-zlib=no \
+             --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES \
+             $CONF_GCC_OS_SPEC $CONF_GCC_WITH_LTO --with-gmp=%{i} --with-mpfr=%{i} \
+             --with-mpc=%{i} --with-isl=%{i} --with-cloog=%{i} --enable-checking=release \
+             --build=%{_build} --host=%{_host} $CONF_GCC_ARCH_SPEC \
+             --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
 
-make %makeprocesses bootstrap
+make %{makeprocesses} bootstrap
 make install
 
 %install

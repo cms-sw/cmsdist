@@ -6,12 +6,15 @@ Source1: http://cmsrep.cern.ch/cmssw/openssl-sources/%{n}-fips-%{slc_version}-us
 Patch0: openssl-0.9.8e-rh-0.9.8e-12.el5_4.6
 Patch1: openssl-x86-64-gcc420
 
-%define ismac %([[ "%{cmsplatf}" == osx* ]] && echo 1 || echo 0)
-%define isfc18 %([[ "%{cmsplatf}" == fc18* ]] && echo 1 || echo 0)
-%define isslc %([[ "%{cmsplatf}" == slc* ]] && echo 1 || echo 0)
+%define ismac %(case %{cmsplatf} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
+%define isfc %(case %{cmsplatf} in (fc*) echo 1 ;; (*) echo 0 ;; esac)
+%define isslc %(case %{cmsplatf} in (slc*) echo 1 ;; (*) echo 0 ;; esac)
 
 %prep
-%if (%ismac || %isfc18)
+%if %ismac
+%setup -b 0 -n %{n}-%{generic_version}
+%endif
+%if %isfc
 %setup -b 0 -n %{n}-%{generic_version}
 %endif
 %if %isslc
