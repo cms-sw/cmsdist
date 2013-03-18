@@ -1,4 +1,4 @@
-### RPM cms CmsTC CmsTC_1_5_0_pre1
+### RPM cms CmsTC CmsTC_1_5_0_pre2
 ## INITENV +PATH PYTHONPATH %i 
 %define moduleName %n
 %define exportName %n
@@ -12,6 +12,7 @@ Requires: python cherrypy py2-cx-oracle rotatelogs py2-cheetah py2-pyopenssl
 %setup -n %{moduleName}
 
 %build
+sed -i -e 's|CMSTC_VERSION|%v|' tagcollector_config.py
 python -c 'import compileall; compileall.compile_dir(".",force=True)'
 
 %install
