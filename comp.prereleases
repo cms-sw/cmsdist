@@ -48,7 +48,7 @@ HG1212c filemover @slc5_amd64_gcc461
 
 # CmsTC
 HG1111c-gcc434 CmsTC @slc5_amd64_gcc434
-+ 1.95/* CmsTC.spec
++ 1.96/* CmsTC.spec
 #+ HEAD/2.16.1 graphviz.spec
 
 # Cms Webtools services
