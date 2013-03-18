@@ -1,9 +1,9 @@
-### RPM cms CmsTC CmsTC_1_3_6
+### RPM cms CmsTC CmsTC_1_5_0_pre2
 ## INITENV +PATH PYTHONPATH %i 
 %define moduleName %n
 %define exportName %n
 %define cvstag %realversion
-%define cvsserver cvs://:pserver:anonymous@cmssw.cvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
+%define cvsserver cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{exportName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
 #Requires: python cherrypy py2-cx-oracle rotatelogs py2-cheetah  py2-pyopenssl graphviz
 Requires: python cherrypy py2-cx-oracle rotatelogs py2-cheetah py2-pyopenssl
@@ -12,6 +12,7 @@ Requires: python cherrypy py2-cx-oracle rotatelogs py2-cheetah py2-pyopenssl
 %setup -n %{moduleName}
 
 %build
+sed -i -e 's|CMSTC_VERSION|%v|' tagcollector_config.py
 python -c 'import compileall; compileall.compile_dir(".",force=True)'
 
 %install
