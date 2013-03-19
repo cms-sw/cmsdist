@@ -76,12 +76,6 @@ EOF_CMSARCH_SH
 cat << \EOF_CMSSET_DEFAULT_SH > ./cmsset_default.sh
 export PATH=%instroot/common:%instroot/bin:$PATH
 
-if [ ! $SCRAM_ARCH ]
-then
-    SCRAM_ARCH=`%instroot/common/cmsarch`
-    export SCRAM_ARCH
-fi
-
 here=%{instroot}
 
 if [ "$VO_CMS_SW_DIR" != ""  ] 
@@ -94,17 +88,23 @@ else
     fi
 fi
 
-if [ ! -d $here/${SCRAM_ARCH}/etc/profile.d ] 
+if [ ! $SCRAM_ARCH ]
 then
-    echo "Your shell is not able to find where cmsset_default.sh is located." 
-    echo "Either you have not set VO_CMS_SW_DIR or OSG_APP correctly"
-    echo "or SCRAM_ARCH is not set to a valid architecture."
+    SCRAM_ARCH=`%instroot/common/cmsarch`
+    if [ ! -d $here/${SCRAM_ARCH}/etc/profile.d ]
+    then
+      SCRAM_ARCH=%cmsplatf
+    fi
+    export SCRAM_ARCH
 fi
 
-for pkg in `/bin/ls $here/${SCRAM_ARCH}/etc/profile.d/ | grep 'S.*[.]sh'`
-do
+if [ -d $here/${SCRAM_ARCH}/etc/profile.d ]
+then
+  for pkg in `/bin/ls $here/${SCRAM_ARCH}/etc/profile.d/ | grep 'S.*[.]sh'`
+  do
 	source $here/${SCRAM_ARCH}/etc/profile.d/$pkg
-done
+  done
+fi
 
 if [ ! $CMS_PATH ]
 then
@@ -138,31 +138,29 @@ else
     setenv PATH %instroot/common:%instroot/bin
 endif
 
-if ( ! ${?SCRAM_ARCH}) then
-    setenv SCRAM_ARCH `sh -c %instroot/common/cmsarch` 
-endif
-
 set here=%instroot 
 
 if ( ${?VO_CMS_SW_DIR} ) then
     set here=$VO_CMS_SW_DIR
 else
-    # OSG
     if ( ${?OSG_APP} ) then
         set here=$OSG_APP/cmssoft/cms
     endif
-    # OSG                       
 endif
 
-if ( ! -d $here/${SCRAM_ARCH}/etc/profile.d ) then
-    echo "Your shell is not able to find where cmsset_default.csh is located." 
-    echo "Either you have not set VO_CMS_SW_DIR or OSG_APP correctly"
-    echo "or SCRAM_ARCH is not set to a valid architecture."
+if ( ! ${?SCRAM_ARCH}) then
+    setenv SCRAM_ARCH `sh -c %instroot/common/cmsarch`
+    if ( ! -d $here/${SCRAM_ARCH}/etc/profile.d ) then
+      setenv SCRAM_ARCH %cmsplatf
+    endif
 endif
 
-foreach pkg ( `/bin/ls ${here}/${SCRAM_ARCH}/etc/profile.d/ | grep 'S.*[.]csh'` )
+if ( -d $here/${SCRAM_ARCH}/etc/profile.d ) then
+  foreach pkg ( `/bin/ls ${here}/${SCRAM_ARCH}/etc/profile.d/ | grep 'S.*[.]csh'` )
 	source ${here}/${SCRAM_ARCH}/etc/profile.d/$pkg
-end
+  end
+endif
+
 if ( ! ${?CMS_PATH} ) then
     setenv CMS_PATH $here
 endif
