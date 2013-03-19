@@ -1,10 +1,33 @@
-### RPM cms wmagent 0.9.10
+### RPM cms wmagent 0.9.51
+## INITENV +PATH PATH %i/xbin
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
-Requires: wmcore-db-mysql wmcore-db-oracle wmcore-db-couch wmcore-webtools py2-cjson dbs-client dls-client py2-zmq py2-psutil pystack dbs3-client
+Source: git://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=WMCore-%{realversion}&output=/WMCore-%{realversion}.tar.gz
+
+Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 py2-pycurl
+Requires: py2-mysqldb py2-cx-oracle couchdb
+Requires: cherrypy py2-cheetah yui
+Requires: py2-cjson dbs-client dls-client py2-zmq py2-psutil pystack dbs3-client
+
+BuildRequires: py2-sphinx couchskel
 
 %prep
+%setup -b 0 -n WMCore-%{realversion}
+
 %build
+python setup.py build
+
 %install
+mkdir -p %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
+python setup.py install --prefix=%i
+egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
+find %i -name '*.egg-info' -exec rm {} \;
+
+# Pick external dependencies from couchskel
+mkdir %i/data/couchapps/WMStats/vendor/
+cp -rp $COUCHSKEL_ROOT/data/couchapps/couchskel/vendor/{couchapp,jquery,datatables} \
+  %i/data/couchapps/WMStats/vendor/
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d

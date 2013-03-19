@@ -1,29 +1,27 @@
-### RPM cms filemover 1.1.6.pre2
+### RPM cms filemover 1.1.4
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver 0.8.3
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
-%define pkg FileMover
-Source0: git://github.com/dmwm/FileMover?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
-Source1: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_fm.tar.gz
+Source0: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_fm.tar.gz
+Source1: %svnserver/FileMover/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=FileMover&output=/filemover.tar.gz
 Source2: http://github.com/downloads/sstephenson/prototype/prototype_1-6-1.js
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui
 Requires: rotatelogs java-jdk srmcp
 BuildRequires: py2-sphinx
 
 %prep
-%setup -c
-%setup -T -D -a 1
-
-%build
-cd WMCore
-python setup.py build_system -s wmc-web
-cd ../FileMover
+%setup -T -b 0 -n WMCore
+%setup -D -T -b 1 -n FileMover
 
 # setup version
 cat src/python/fm/__init__.py | sed "s,development,%{realversion},g" > init.tmp
 mv -f init.tmp src/python/fm/__init__.py
 
+%build
+cd ../WMCore
+python setup.py build_system -s wmc-web
+cd ../FileMover
 rm -f src/js/prototype.js
 cp %{_sourcedir}/prototype*.js src/js/prototype.js
 python setup.py build
@@ -37,7 +35,7 @@ mkdir -p build
 make html
 
 %install
-cd WMCore
+cd ../WMCore
 python setup.py install_system -s wmc-web --prefix=%i
 cd ../FileMover
 python setup.py install --prefix=%i
