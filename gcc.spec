@@ -3,9 +3,9 @@
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
-%define gccRevision 196584
-%define gccBranch trunk
-Source0: svn://gcc.gnu.org/svn/gcc/trunk?module=gcc-%gccBranch-%gccRevision&revision=%gccRevision&output=/gcc-%gccBranch-%gccRevision.tar.gz
+%define gccRevision 196800
+%define gccBranch gcc-%(echo %{realversion} | cut -f1,2 -d. | tr . _)-branch
+Source0: svn://gcc.gnu.org/svn/gcc/branches/%{gccBranch}?module=gcc-%{gccBranch}-%{gccRevision}&revision=%{gccRevision}&output=/gcc-%{gccBranch}-%{gccRevision}.tar.gz
 
 %define keep_archives true
 
@@ -73,6 +73,9 @@ cat << \EOF_CMS_H > gcc/config/i386/cms.h
      %{" SPEC_32 ":%{!dynamic-linker:-dynamic-linker " GNU_USER_DYNAMIC_LINKER32 "}} \
      %{" SPEC_64 ":%{!dynamic-linker:-dynamic-linker " GNU_USER_DYNAMIC_LINKER64 "}}} \
    %{static:-static}} -z common-page-size=4096 -z max-page-size=4096"
+
+#undef CC1PLUS_SPEC
+#define CC1PLUS_SPEC "-fabi-version=6"
 EOF_CMS_H
 %endif
 %endif
@@ -233,7 +236,7 @@ export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
              --build=%{_build} --host=%{_host} $CONF_GCC_ARCH_SPEC \
              --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
 
-make %{makeprocesses} bootstrap
+make %{makeprocesses} profiledbootstrap
 make install
 
 %install
