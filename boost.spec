@@ -9,20 +9,11 @@ Requires: zlib
 %endif
 Patch0: boost-1.47.0-fix-strict-overflow
 Patch1: boost-1.47.0-fix-unused
-Patch2: boost-1.47.0-fix-gcc47
 
 %prep
 %setup -n %{n}%{boostver}
 %patch0 -p1
 %patch1 -p1
-
-case %cmsplatf in
-  *gcc47*)
-%patch2 -p1
-  ;;
-  *)
-  ;;
-esac
 
 perl -p -i -e 's/-no-cpp-precomp//' tools/build/v2/tools/darwin.jam \
                                     tools/build/v2/tools/darwin.py
