@@ -209,10 +209,6 @@ case %cmsplatf in
                             libintl.3.dylib libperl.dylib"
 
     ;;
-    # Required to get slc5_amd64_gcc434 work on slc6.
-    slc* )
-        additionalProvides="perl(CGI)"
-    ;;
 esac
 
 unsupportedProvides="libtcl8.3.so libtk8.3.so /bin/env libcom_err.so.3
