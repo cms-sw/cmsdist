@@ -1,2 +1,2 @@
-### RPM cms data-Fireworks-Geometry V06-13-04
-## IMPORT data-rpm-build
+### RPM cms data-Fireworks-Geometry V06-13-20
+## IMPORT data-cmssw-package-build
