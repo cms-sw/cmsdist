@@ -1,0 +1,40 @@
+--- SHERPA-MC-2.0.beta/AddOns/BlackHat/BlackHat_Virtual.C.orig	2012-12-09 22:45:42.000000000 +0100
++++ SHERPA-MC-2.0.beta/AddOns/BlackHat/BlackHat_Virtual.C	2012-12-09 22:43:45.000000000 +0100
+@@ -3,7 +3,7 @@
+ #include "MODEL/Main/Model_Base.H"
+ #include "ATOOLS/Org/Run_Parameter.H"
+ #include "ATOOLS/Org/Data_Reader.H"
+-#include "blackhat/BH_error.h"
++//#include "blackhat/BH_error.h"
+ 
+ using namespace BLACKHAT;
+ using namespace PHASIC;
+@@ -73,7 +73,7 @@
+     try {
+       msg_Info()<<"Trying BlackHat for "<<kfvector<<" ... "<<std::flush;
+       ampl = BlackHat_Virtual::Interface()->new_ampl(kfvector);
+-    } catch (BH::BHerror err) {
++    } catch (...) {
+       msg_Info()<<"not found."<<std::endl;
+       return NULL;
+     }
+--- SHERPA-MC-2.0.beta/AddOns/BlackHat/BlackHat_Tree.C.orig	2012-12-09 22:43:09.000000000 +0100
++++ SHERPA-MC-2.0.beta/AddOns/BlackHat/BlackHat_Tree.C	2012-12-09 22:44:55.000000000 +0100
+@@ -5,7 +5,7 @@
+ #include "ATOOLS/Org/Run_Parameter.H"
+ #include "ATOOLS/Org/Data_Reader.H"
+ #include "ATOOLS/Org/Message.H"
+-#include "blackhat/BH_error.h"
++//#include "blackhat/BH_error.h"
+ 
+ using namespace BLACKHAT;
+ using namespace PHASIC;
+@@ -102,7 +102,7 @@
+     try {
+       msg_Info()<<"Trying BlackHat for "<<kfvector<<" ... "<<std::flush;
+       ampl = BlackHat_Tree::Interface()->new_tree_ampl(kfvector);
+-    } catch (BH::BHerror err) {
++    } catch (...) {
+       msg_Info()<<"not found."<<std::endl;
+       return NULL;
+     }
