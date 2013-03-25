@@ -41,7 +41,7 @@ Requires: root-toolfile
 Requires: sigcpp-toolfile
 Requires: sqlite-toolfile
 Requires: systemtools
-Requires: uuid-toolfile
+Requires: libuuid-toolfile
 Requires: xrootd-toolfile
 Requires: xz-toolfile
 Requires: zlib-toolfile

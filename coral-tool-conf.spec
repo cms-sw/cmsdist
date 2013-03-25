@@ -13,7 +13,7 @@ Requires: openssl-toolfile
 
 %if "%online" != "true"
 Requires: sqlite-toolfile
-Requires: uuid-toolfile
+Requires: libuuid-toolfile
 Requires: zlib-toolfile
 Requires: cppunit-toolfile
 Requires: xerces-c-toolfile

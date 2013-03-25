@@ -27,7 +27,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/castor.xml
     <environment name="LIBDIR" default="$CASTOR_BASE/lib"/>
   </client>
   <use name="castor_header"/>
-  <use name="uuid"/>
+  <use name="libuuid"/>
 </tool>
 EOF_TOOLFILE
 
