@@ -1,4 +1,4 @@
-### RPM external sherpa-toolfile 1.0
+### RPM external sherpa-toolfile 2.0
 Requires: sherpa
 %prep
 
