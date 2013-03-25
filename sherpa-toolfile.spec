@@ -111,6 +111,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa.xml
 <runtime name="SHERPA_INCLUDE_PATH" value="$SHERPA_BASE/include/SHERPA-MC" type="path"/>
 <use name="HepMC"/>
 <use name="lhapdf"/>
+<use name="blackhat"/>
 </tool>
 EOF_TOOLFILE
 
