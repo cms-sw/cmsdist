@@ -1,10 +1,9 @@
-### RPM cms cmssw-tool-conf 25.6
+### RPM cms cmssw-tool-conf 25.2.1
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
 
 %define isslc %(case %cmsos in (slc*) echo true;; (*) echo false;; esac)
-%define isslc6 %(case %cmsos in (slc6*) echo true ;; (*) echo false ;; esac)
 
 Requires: alpgen-toolfile
 Requires: boost-toolfile
@@ -51,7 +50,6 @@ Requires: libjpg-toolfile
 Requires: libpng-toolfile
 Requires: libtiff-toolfile
 Requires: libungif-toolfile
-Requires: libxml2-toolfile
 Requires: mcdb-toolfile
 Requires: meschach-toolfile
 Requires: millepede-toolfile
@@ -69,6 +67,8 @@ Requires: qt-toolfile
 Requires: roofit-toolfile
 Requires: root-toolfile
 Requires: sherpa-toolfile
+Requires: blackhat-toolfile
+Requires: qd-toolfile
 Requires: sigcpp-toolfile
 Requires: sqlite-toolfile
 Requires: systemtools
@@ -76,7 +76,7 @@ Requires: tauola-toolfile
 Requires: tauolapp-toolfile
 Requires: thepeg-toolfile
 Requires: toprex-toolfile
-Requires: libuuid-toolfile
+Requires: uuid-toolfile
 Requires: xerces-c-toolfile
 Requires: zlib-toolfile
 Requires: dcap-toolfile
@@ -105,17 +105,7 @@ Requires: professor-toolfile
 Requires: py2-ipython-toolfile
 Requires: xz-toolfile
 Requires: protobuf-toolfile
-Requires: lcov-toolfile
 Requires: llvm-gcc-toolfile
-Requires: py2-lint-toolfile
-Requires: tbb-toolfile
-Requires: mctester-toolfile
-Requires: vdt-toolfile
-Requires: icc-gcc-toolfile
-Requires: ccache-gcc-toolfile
-Requires: distcc-gcc-toolfile
-Requires: gnuplot-toolfile
-Requires: sloccount-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
@@ -125,13 +115,7 @@ Requires: google-perftools-toolfile
 Requires: igprof-toolfile
 %endif
 
-%if "%isslc6" == "true"
-Requires: nspr-toolfile
-Requires: nss-toolfile
-Requires: cyrus-sasl-toolfile
-%endif
-
-%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull
 
 ## IMPORT scramv1-tool-conf
 
