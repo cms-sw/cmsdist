@@ -26,7 +26,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/blackhat.xml
 <lib name="ratext"/>
 <client>
 <environment name="BLACKHAT_BASE" default="@TOOL_ROOT@"/>
-<environment name="LIBDIR" default="$BLACKHAT_BASE/lib"/>
+<environment name="LIBDIR" default="$BLACKHAT_BASE/lib/blackhat"/>
 <environment name="INCLUDE" default="$BLACKHAT_BASE/include"/>
 </client>
 <use name="qd"/>
