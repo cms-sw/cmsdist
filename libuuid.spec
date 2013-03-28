@@ -9,7 +9,6 @@ Patch0: libuuid-2.22.2-disable-get_uuid_via_daemon
 
 %build
 ./configure $([ $(uname) == Darwin ] && echo --disable-shared) \
-            --libdir=%{i}/lib64 \
             --prefix="%{i}" \
             --build="%{_build}" \
             --host=%{_host} \
@@ -47,11 +46,8 @@ make %{makeprocesses} uuidd
 
 %install
 # There is no make install action for the libuuid libraries only
-mkdir -p %{i}/lib64
-cp -p %{_builddir}/util-linux-%{realversion}/.libs/libuuid.a* %{i}/lib64
-%ifos linux
-cp -p %{_builddir}/util-linux-%{realversion}/.libs/libuuid.so* %{i}/lib64
-%endif
+mkdir -p %{i}/lib
+cp -p %{_builddir}/util-linux-%{realversion}/.libs/libuuid.[as]* %{i}/lib
 mkdir -p %{i}/include
 make install-uuidincHEADERS
 
