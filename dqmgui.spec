@@ -17,7 +17,7 @@ Source3: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.t
 Source4: git+https://github.com/rovere/dqmgui.git?obj=index128/7.0.2&export=Monitoring&output=/Monitoring128.tar.gz
 Patch0: dqmgui-rtgu
 
-Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root libpng libjpg classlib rotatelogs py2-pycurl py2-cjson
+Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root libpng libjpg classlib rotatelogs py2-pycurl py2-cjson libuuid
 BuildRequires: py2-sphinx
 
 %prep
