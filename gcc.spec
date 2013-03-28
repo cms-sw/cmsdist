@@ -1,4 +1,4 @@
-### RPM external gcc 4.6.1
+### RPM external gcc 4.3.4
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 Source0: ftp://ftp.fu-berlin.de/unix/gnu/%n/%n-%realversion/%n-%realversion.tar.bz2
 
