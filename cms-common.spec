@@ -48,7 +48,7 @@ then
         osx106_*) compilerv=gcc421;;
         osx107_*) compilerv=gcc462;;
         osx108_*) compilerv=gcc472;;
-        slc6_*) compilerv=gcc462; osarch=slc6_amd64;;
+        slc6_*) compilerv=gcc472; osarch=slc6_amd64;;
         slc5_*) compilerv=gcc462; osarch=slc5_amd64;;
         fc18_*) compilerv=gcc480; osarch=fc18_armv7hl;;
         *) compilerv=gcc462; osarch=slc5_amd64;;
