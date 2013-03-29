@@ -11,6 +11,7 @@ Patch5: xrootd-3.1.0-gcc-470-literals-whitespace
 Patch6: xrootd-3.1.0-add-GetHandle-XrdClientAbs-header
 Patch7: xrootd-3.1.0-narrowing-conversion
 Patch8: xrootd-3.2.3-rename-macos-to-apple
+Patch9: xrootd-3.2.4-missing-zlib-include
 
 BuildRequires: cmake
 %if "%online" != "true"
@@ -34,6 +35,7 @@ Requires: gcc openssl
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 # need to fix these from xrootd git
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
@@ -48,23 +50,18 @@ perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonPrepareS
 mkdir build
 cd build
 
-SOLIB_EXT=so
-if [[ %cmsplatf == osx* ]]; then
-  SOLIB_EXT=dylib
-fi
-
 # By default xrootd has perl, fuse, krb5, readline, and crypto enabled.
 # libfuse and libperl are not produced by CMSDIST.
 cmake ../ \
-  -DCMAKE_INSTALL_PREFIX=%i \
-  -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT} \
-  -DZLIB_INCLUDE_DIR:PATH=${ZLIB_ROOT}/include \
-  -DZLIB_LIBRARY:FILEPATH=${ZLIB_ROOT}/lib/libz.${SOLIB_EXT} \
+  -DCMAKE_INSTALL_PREFIX=%{i} \
+  -DOPENSSL_ROOT_DIR:PATH=${OPENSSL_ROOT} \
+  -DZLIB_ROOT:PATH=${ZLIB_ROOT} \
   -DENABLE_PERL=FALSE \
   -DENABLE_FUSE=FALSE \
   -DENABLE_KRB5=TRUE \
-  -DENABLE_READLINE=TRUE \
+  -DENABLE_READLINE=FALSE \
   -DENABLE_CRYPTO=TRUE \
+  -DCMAKE_SKIP_RPATH=TRUE \
   -DCMAKE_CXX_FLAGS="%{cms_cxxflags}"
 
 # Use makeprocess macro, it uses compiling_processes defined by
