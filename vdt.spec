@@ -27,7 +27,8 @@ cmake . \
   -DCMAKE_CXX_COMPILER="%{cms_cxx}" \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DPRELOAD:BOOL=ON \
-  -DSSE:BOOL=OFF
+  -DSSE:BOOL=OFF \
+  -DNEON:BOOL=ON
 %endif
 
 make %{makeprocesses} VERBOSE=1
