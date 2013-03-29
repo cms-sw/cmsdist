@@ -6,16 +6,19 @@ Requires: xdaq
 
 %install
 
-case %cmsplatf in
-  osx*)
-    export XDAQ_OS=macosx
-    export XDAQ_PLATFORM=x86
-  ;;
-  slc*)
-    export XDAQ_OS=linux
-    export XDAQ_PLATFORM=x86
-  ;;
-esac
+%ifos linux
+%define xdaq_os linux
+%endif
+%ifos darwin
+%define xdaq_os darwin
+%endif
+
+%ifarch %{arm}
+%define xdaq_platform _RedHat
+%endif
+%ifarch i386 i486 i586 i686 x84_64
+%define xdaq_platform x86
+%endif
 
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaq.xml
@@ -51,12 +54,12 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/xdaq.xml
     <environment name="LIBDIR" default="$XDAQ_BASE/lib"/>
     <environment name="BINDIR" default="$XDAQ_BASE/bin"/>
     <environment name="INCLUDE" default="$XDAQ_BASE/include"/>
-    <environment name="INCLUDE" default="$XDAQ_BASE/include/@XDAQ_OS@"/>
+    <environment name="INCLUDE" default="$XDAQ_BASE/include/%{xdaq_os}"/>
   </client>
   <flags cppdefines="SOAP__ LITTLE_ENDIAN__"/>
-  <flags cppdefines="@XDAQ_OS@"/>
-  <runtime name="XDAQ_OS" value="@XDAQ_OS@"/>
-  <runtime name="XDAQ_PLATFORM" value="@XDAQ_PLATFORM@"/>
+  <flags cppdefines="%{xdaq_os}"/>
+  <runtime name="XDAQ_OS" value="%{xdaq_os}"/>
+  <runtime name="XDAQ_PLATFORM" value="%{xdaq_platform}"/>
   <runtime name="PATH" value="$BINDIR" type="path"/>
   <runtime name="XDAQ_ROOT" value="$XDAQ_BASE"/>
   <runtime name="XDAQ_DOCUMENT_ROOT" value="$XDAQ_BASE/htdocs"/>
