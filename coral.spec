@@ -1,35 +1,39 @@
 ### RPM cms coral CORAL_2_3_21
 Requires: coral-tool-conf
 Patch0: coral-2_3_20-macosx
-Patch1: coral-2_3_21-slc6
 Patch2: coral-CORAL_2_3_20-boost150-fix
 Patch3: coral-CORAL_2_3_20-hide-strict-aliasing
 Patch4: coral-CORAL_2_3_20-remove-lost-dependencies
 Patch5: coral-CORAL_2_3_21-move-to-libuuid
 
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
+%define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
 
-%define cvssrc          %n
-%define cvsrepo         cvs://:pserver:anonymous@%n.cvs.cern.ch/cvs/%n?passwd=Ah<Z&force=1
+%define cvssrc          %{n}
+%define cvsrepo         cvs://:pserver:anonymous@%{n}.cvs.cern.ch/cvs/%{n}?passwd=Ah<Z&force=1
 
-%if "%online" == "true"
+%if %{isonline}
 # Disable building tests, since they bring dependency on cppunit:
-%define patchsrc4       perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
+%define patchsrc1       %patch0 -p1 
+%define patchsrc2       perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
 # Build with debug symbols, and package them in a separate rpm:
 %define subpackageDebug yes
 %endif
 
-%if "%(echo %{cmsos} | cut -d_ -f 1 | sed -e 's|osx.*|osx|')" == "osx"
 # Disable building tests, since they bring dependency on cppunit:
-%define patchsrc4       perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
-%define patchsrc3       %patch0 -p1 
+%ifos darwin
+%define patchsrc3       perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
 %endif
 
-%define patchsrc5       %patch5 -p0
-%define patchsrc6       %patch1 -p0
-%define patchsrc7       %patch2 -p0
-%define patchsrc8       %patch3 -p0
-%define patchsrc9       %patch4 -p0
+%define patchsrc4       %patch5 -p0
+%define patchsrc5       %patch2 -p0
+%define patchsrc6       %patch3 -p0
+%define patchsrc7       %patch4 -p0
+
+# Drop Oracle interface on ARM machines. 
+# Oracle does not provide Instant Client for ARMv7/v8.
+%ifarch %{arm}
+%define patchsrc8       rm -rf ./src/OracleAccess
+%endif
 
 ## IMPORT scram-project-build
 ## SUBPACKAGE debug IF %subpackageDebug
