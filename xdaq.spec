@@ -1,5 +1,5 @@
 ### RPM external xdaq VR17173
-
+BuildRequires: byacc flex
 Requires: zlib mimetic xerces-c libuuid sqlite
 %define xdaqv %(echo %v | cut -f1 -d- | tr . _) 
 %define libext so
@@ -16,6 +16,7 @@ Patch6: xdaq-VR17173-xalan-remove-hardcoded-lib-paths-linux-macosx
 Patch7: xdaq-VR17173-remove-stropts
 Patch8: xdaq-VR17173-fix-gcc47-cxx11
 Patch9: xdaq-VR17173-drop-cgicc-docs
+Patch10: xdaq-VR17173-add-CMS_LIBRARY_DIRS-and-CMS_INCLUDE_DIRS
 
 Provides: /bin/awk
 # This is needed on macosx because this is the install_name for the .so
@@ -44,6 +45,7 @@ Provides: libasyncresolv.0
 %patch7 -p1
 %patch8 -p1
 %patch9 -p2
+%patch10 -p1
 
 %build
 # Xdaq does not provide makeinstall,  it uses "simplify" script instead to 
@@ -85,6 +87,9 @@ else
   sed -ibak "s/\(^CCFlags.*= \)\(.*\)/\1%cms_cxxflags/g" ../config/mfDefs.macosx
 fi
 
+export CMS_INCLUDE_DIRS="${LIBUUID_ROOT}/include"
+export CMS_LIBRARY_DIRS="${LIBUUID_ROOT}/lib64"
+
 make CPPDEFINES=$PLATF_DEFINE Set=extern_coretools install
 make CPPDEFINES=$PLATF_DEFINE Set=coretools install
 make CPPDEFINES=$PLATF_DEFINE Set=extern_powerpack install
@@ -93,9 +98,18 @@ make CPPDEFINES=$PLATF_DEFINE Set=general_worksuite install
 
 # The following structure used as defined in Xdaq "simplify" script:
 cd %{i}
-mv x86*/lib .
-mv x86*/bin .
-mv x86*/include .
+case %{cmsplatf} in
+  fc*)
+    mv _RedHat/lib .
+    mv _RedHat/bin .
+    mv _RedHat/include .
+  ;;
+  *) 
+    mv x86*/lib .
+    mv x86*/bin .
+    mv x86*/include .
+  ;;
+esac
 # Make the following directory (it will be missing in the gcc4 case where
 # things fail during the build and scram at least needs to see it)
 mkdir -p include/linux
@@ -103,7 +117,7 @@ mkdir -p include/macosx
 mkdir -p htdocs
 
 case %cmsplatf in 
-  slc*)
+  slc*|fc*)
     for subdir in `echo "xdaq2rc"; grep -h -v \# config/mfSet.coretools config/mfSet.extern_coretools config/mfSet.extern_powerpack config/mfSet.powerpack | grep -v Packages= | grep '[a-z]' | awk '{print $1}'`
     do
       mkdir -p %{i}/htdocs/$subdir/{images,xml,html}
@@ -135,6 +149,7 @@ mv daq/xdaq/etc/default.profile etc/
 rm -fr daq
 rm -fr CVS
 rm -fr x86*
+rm -fr _RedHat
 rm -fR java
 rm -fR htdocs
 ln -s libasyncresolv %{i}/lib/libasyncresolv.so
