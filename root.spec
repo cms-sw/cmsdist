@@ -2,10 +2,14 @@
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i  
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
-%define svntag %(echo %realversion | tr . -)
+%define svntag %(echo %{realversion} | tr . -)
 Source: svn://root.cern.ch/svn/root/tags/v%{svntag}/?scheme=http&strategy=export&module=%n-%{realversion}&output=/%n-%{realversion}.tgz
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
-%define ismac %(case %cmsplatf in (osx*) echo true;; (*) echo false;; esac)
+
+%define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
+%define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
+%define ismac %(case %{cmsplatf} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
+%define isnotmac %(case %{cmsplatf} in (osx*) echo 0 ;; (*) echo 1 ;; esac)
+%define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
 
 Patch0: root-5.34.02-externals
 Patch1: root-5.28-00d-roofit-silence-static-printout
@@ -13,45 +17,43 @@ Patch2: root-5.34.00-linker-gnu-hash-style
 Patch3: root-5.32.00-detect-arch
 Patch4: root-5.30.02-fix-gcc46
 Patch5: root-5.30.02-fix-isnan-again
-Patch6: root-5.34.05-r48904
+Patch6: root-5.34.05-cintex-armv7a-port
 
-%define cpu %(echo %cmsplatf | cut -d_ -f2)
+%define cpu %(echo %{cmsplatf} | cut -d_ -f2)
 
 Requires: gccxml gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl
 
-%if "%ismac" != "true"
+%if %isnotmac
 Requires: castor dcap
 %endif
 
-%if "%online" != "true"
+%if %isnotonline
 Requires: zlib
 %endif
 
-%define keep_archives true
-%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
-Requires: gfortran-macosx
-%endif
-
-%if "%(case %cmsplatf in (osx*) echo true ;; (*) echo false ;; esac)" == "true"
+%if %ismac
 Requires: freetype
 %endif
 
+%define keep_archives true
+
 %prep
-%setup -n root-%realversion
+%setup -n %{n}-%{realversion}
 %patch0 -p1
 %patch1 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p0
+
+%if %isarmv7
+%patch6 -p1
+%endif
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
-case %cmsplatf in
-  slc[56]_* | slc5onl_* )
+%ifos linux
 %patch2 -p1
-  ;;
-esac
+%endif
 
 # Delete these (irrelevant) files as the fits appear to confuse rpm on OSX
 # (It tries to run install_name_tool on them.)
@@ -125,20 +127,32 @@ sed -ibak 's/\-std=c++11/-std=c++0x/g' \
   config/root-config.in \
   config/Makefile.linuxx8664gcc 
 
-case %cmsos in
-  slc*)
-    ./configure linuxx8664gcc $CONFIG_ARGS \
-                  --with-rfio-libdir=${CASTOR_ROOT}/lib \
-                  --with-rfio-incdir=${CASTOR_ROOT}/include/shift \
-                  --with-castor-libdir=${CASTOR_ROOT}/lib \
-                  --with-castor-incdir=${CASTOR_ROOT}/include/shift ;; 
-  osx*)
-    comparch=x86_64
-    macconfig=macosx64
-    ./configure $arch $CONFIG_ARGS --disable-rfio --disable-builtin_afterimage ;;
-  slc*_ppc64*)
-    ./configure linux $CONFIG_ARGS --disable-rfio;;
-esac
+%if %isarmv7
+cp ./cint/iosenum/iosenum.linux3 ./cint/iosenum/iosenum.linuxarm3
+%endif
+
+EXTRA_OPTS=
+TARGET_PLATF=
+
+%ifos linux
+  TARGET_PLATF=linuxx8664gcc
+  EXTRA_OPTS="${EXTRA_OPTS} --with-rfio-libdir=${CASTOR_ROOT}/lib 
+                            --with-rfio-incdir=${CASTOR_ROOT}/include/shift
+                            --with-castor-libdir=${CASTOR_ROOT}/lib
+                            --with-castor-incdir=${CASTOR_ROOT}/include/shift"
+%endif
+
+%ifos darwin
+  TARGET_PLATF=x86_64
+  EXTRA_OPTS="${EXTRA_OPTS} --disable-rfio
+                            --disable-builtin_afterimage"
+%endif
+
+%if %isarmv7
+  TARGET_PLATF=linuxarm
+%endif
+
+./configure ${TARGET_PLATF} ${CONFIG_ARGS} ${EXTRA_OPTS}
 
 make %makeprocesses CXX="g++ -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL=" CC="gcc -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL="
 
