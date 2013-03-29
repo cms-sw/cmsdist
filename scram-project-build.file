@@ -35,7 +35,7 @@ Requires: SCRAMV1
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-00-11
+%define configtag       V04-02-18
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -113,7 +113,6 @@ rm -rf %{srctree}
 %{?PatchReleaseAdditionalPackages:%PatchReleaseAdditionalPackages}
 
 cd %_builddir
-echo %{configtag} > %_builddir/config/config_tag
 %_builddir/config/updateConfig.pl -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} -a %cmsplatf
 
 %{?PartialBootstrapPatch:%PartialBootstrapPatch}
@@ -286,6 +285,7 @@ if [ -f lib/${SCRAM_ARCH}/.edmplugincache ] ; then
   find lib/${SCRAM_ARCH} -name "*.edmplugin" -type f -exec touch {} \;
   touch lib/${SCRAM_ARCH}/.edmplugincache
 fi
+%scramcmd install -f -d $CMS_INSTALL_PREFIX/%pkgrel
 
 %{?PatchReleaseFilesRelocate:%PatchReleaseFilesRelocate}
 %{?PartialReleaseFilesRelocate:%PartialReleaseFilesRelocate}

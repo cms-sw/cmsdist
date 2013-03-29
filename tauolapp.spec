@@ -1,8 +1,7 @@
-### RPM external tauolapp 1.1.1a
-Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/tauola++/tauola++-%{realversion}-src.tgz
+### RPM external tauolapp 1.0.5
+Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/tauola++-%{realversion}-src.tgz
+#Patch0: tauolapp-1.0.2a-osx-Makefile
 Requires: hepmc
-Requires: pythia8
-Requires: lhapdf
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx c++
@@ -22,8 +21,6 @@ Requires: gfortran-macosx
 
 export HEPMCLOCATION=${HEPMC_ROOT}
 export HEPMCVERSION=${HEPMC_VERSION}
-export LHAPDF_LOCATION=${LHAPDF_ROOT}
-export PYTHIA8_LOCATION=${PYTHIA8_ROOT}
 
 case %cmsplatf in 
   osx*)
@@ -31,7 +28,7 @@ case %cmsplatf in
   ;;
 esac
 
-./configure --prefix=%{i} --with-hepmc=$HEPMC_ROOT --with-pythia8libs=$PYTHIA_ROOT --with-lhapdf=$LHAPDF_ROOT CXX="%cms_cxx" CXXFLAGS="%cms_cxxflags"
+./configure --prefix=%{i} --with-hepmc=$HEPMC_ROOT CXX="%cms_cxx" CXXFLAGS="%cms_cxxflags"
 # One more fix-up for OSX (in addition to the patch above)
 case %cmsplatf in
   osx*)
@@ -44,3 +41,4 @@ make
 
 %install
 make install
+
