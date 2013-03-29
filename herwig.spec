@@ -33,13 +33,10 @@ make install
 # then hack include area as jimmy depends on missing header file..
 # but only on slc*. On macosx HERWIG65.INC == herwig65.inc
 # what is actually needed is a link to herwig6510.inc
-cd %i/include
-case %cmsplatf in
-    slc*)
-	ln -sf HERWIG65.INC herwig65.inc
-    ;;
-    osx*)
-	ln -sf herwig6520.inc herwig65.inc
-    ;;
-esac
+%ifos darwin
+ln -sf herwig6520.inc %{i}/include/herwig65.inc
+%else
+ln -sf HERWIG65.INC %{i}/include/herwig65.inc
+%endif
+
 rm -rf %i/lib/*.la
