@@ -6,10 +6,6 @@
 
 Source: none
 
-%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
-Requires: gfortran-macosx
-%endif
-
 %prep
 %build
 %install
@@ -28,16 +24,6 @@ else
     export GCC_VERSION
     export G77_ROOT=$GCC_ROOT
 fi
-
-case %cmsplatf in
-  osx*_*_gcc421)
-    # on Mac OS X, override G77_ROOT with GFORTRAN_MACOSX_ROOT
-    export G77_ROOT=$GFORTRAN_MACOSX_ROOT
-  ;;
-  osx*)
-    export G77_ROOT=$GCC_ROOT 
-  ;;
-esac
 
 case %cmsplatf in
   slc*_*_gcc4[012345]*) ;;
@@ -103,28 +89,21 @@ EOF_TOOLFILE
 
 # NON-empty defaults
 # First of all handle OS specific options.
-case %cmsplatf in
-  slc* )
-    export OS_SHAREDFLAGS="-shared -Wl,-E"
-    export OS_LDFLAGS="-Wl,-E -Wl,--hash-style=gnu"
-    export OS_RUNTIME_LDPATH_NAME="LD_LIBRARY_PATH"
-  ;;
-  osx* )
-    export OS_SHAREDFLAGS="-shared -dynamic -single_module"
-    export OS_LDFLAGS="-Wl,-commons -Wl,use_dylibs"
-    export OS_RUNTIME_LDPATH_NAME="DYLD_LIBRARY_PATH"
-  ;;
-esac
+%ifos linux
+  export OS_SHAREDFLAGS="-shared -Wl,-E"
+  export OS_LDFLAGS="-Wl,-E -Wl,--hash-style=gnu"
+  export OS_RUNTIME_LDPATH_NAME="LD_LIBRARY_PATH"
+  export OS_CXXFLAGS="-Werror=overflow"
+%endif
+%ifos darwin
+  export OS_SHAREDFLAGS="-shared -dynamic -single_module"
+  export OS_LDFLAGS="-Wl,-commons -Wl,use_dylibs"
+  export OS_RUNTIME_LDPATH_NAME="DYLD_LIBRARY_PATH"
+%endif
 
 # Then handle OS + architecture specific options (maybe we should enable more
 # aggressive optimizations for amd64 as well??)
 case %cmsplatf in
-  osx*_amd64_gcc421 )
-    export ARCH_CXXFLAGS="-arch x86_64"
-    export ARCH_SHAREDFLAGS="-arch x86_64"
-    export ARCH_LIB64DIR="lib"
-    export ARCH_FORTRAN_LIBDIR='<environment name="LIBDIR" default="$GCC_F77COMPILER_BASE/lib/gcc/i686-apple-darwin10/4.2.1/x86_64"/>'
-  ;;
   osx*)
     export ARCH_CXXFLAGS="-arch x86_64"
     export ARCH_SHAREDFLAGS="-arch x86_64"
@@ -133,9 +112,11 @@ case %cmsplatf in
   slc*)
     # For some reason on mac, some of the header do not compile if this is
     # defined.  Ignore for now.
-    export ARCH_CXXFLAGS="-Werror=overflow"
     export ARCH_LIB64DIR="lib64"
     export ARCH_LD_UNIT="-r -m elf_x86_64"
+  ;;
+  *_armv7hl_*)
+    export ARCH_LIB64DIR="lib"
   ;;
   *) 
     echo "Unsupported."
@@ -168,8 +149,11 @@ esac
 
 
 case %cmsplatf in
-   *_gcc4[56789]* )
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++0x -msse3 -ftree-vectorize -Wno-strict-overflow"
+   *_amd64_gcc4[56789]* )
+     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++11 -msse3 -ftree-vectorize -Wno-strict-overflow"
+   ;;
+   *_armv7hl_* )
+    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++11 -mfpu=neon -ftree-vectorize -Wno-strict-overflow -fsigned-char -fsigned-bitfields -fabi-version=6"
    ;;
 esac
 
@@ -201,17 +185,6 @@ case %cmsplatf in
 esac
 
 export COMPILER_CXXFLAGS
-
-# Handle here platform specific overrides. In case we
-# want to tune something for a specific architecture.
-case %cmsplatf in
-  osx*_*_gcc421)
-     # On macosx we explicitly pick up a compiler version so that there is
-     # actually matching between the platform specified to cmsBuild and the
-     # compiler.
-     export COMPILER_NAME_SUFFIX="-$COMPILER_VERSION_MAJOR.$COMPILER_VERSION_MINOR"
-  ;;
-esac
 
 # General substitutions
 perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*.xml
