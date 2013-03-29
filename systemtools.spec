@@ -28,21 +28,19 @@ mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/sockets.xml
   <tool name="sockets" version="%sockets_version">
 EOF_TOOLFILE
-case %cmsplatf in
-slc4_* | slc4onl_* | slc5_* | slc5onl_* | slc6_* )
+%ifos linux
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/sockets.xml
     <lib name="nsl"/>
     <lib name="crypt"/>
     <lib name="dl"/>
     <lib name="rt"/>
 EOF_TOOLFILE
-;;
-osx10* )
+%endif
+%ifos darwin
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/sockets.xml
     <lib name="dl"/>
 EOF_TOOLFILE
-;;
-esac
+%endif
 echo "  </tool>" >>%i/etc/scram.d/sockets.xml
 
 # OpenGL
@@ -53,8 +51,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/opengl.xml
     <use name="x11"/>
     <environment name="ORACLE_ADMINDIR" default="@ORACLE_ENV_ROOT@/etc"/>
 EOF_TOOLFILE
-case %cmsplatf in
-osx* )
+%ifos darwin
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/opengl.xml
     <client>
       <environment name="OPENGL_BASE" default="/System/Library/Frameworks/OpenGL.framework/Versions/A"/>
@@ -62,16 +59,14 @@ cat << \EOF_TOOLFILE >>%i/etc/scram.d/opengl.xml
       <environment name="LIBDIR"      default="$OPENGL_BASE/Libraries"/>
     </client>
 EOF_TOOLFILE
-;;
-esac
+%endif
 echo "  </tool>" >>%i/etc/scram.d/opengl.xml
 
 # X11
 cat << \EOF_TOOLFILE >%i/etc/scram.d/x11.xml
   <tool name="x11" version="%x11_version">
 EOF_TOOLFILE
-case %cmsplatf in
-osx* )
+%ifos darwin
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/x11.xml
     <client>
       <environment name="INCLUDE" value="/usr/X11R6/include"/>
@@ -87,8 +82,7 @@ cat << \EOF_TOOLFILE >>%i/etc/scram.d/x11.xml
     <lib name="ICE"/>
     <lib name="SM"/>
 EOF_TOOLFILE
-;;
-esac
+%endif
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/x11.xml
     <use name="sockets"/>
   </tool>
