@@ -1,4 +1,4 @@
-### RPM external sherpa-toolfile 2.0
+### RPM external sherpa-toolfile 1.0
 Requires: sherpa
 %prep
 
@@ -13,35 +13,35 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa.xml
 <lib name="AhadicFormation"/>
 <lib name="AhadicMain"/>
 <lib name="AhadicTools"/>
+<lib name="Amegic"/>
 <lib name="AmegicCluster"/>
 <lib name="AmegicPSGen"/>
-<lib name="Amegic"/>
-<lib name="AmisicModel"/>
 <lib name="Amisic"/>
+<lib name="AmisicModel"/>
 <lib name="AmisicTools"/>
 <lib name="Amplitude"/>
 <lib name="Beam"/>
-<lib name="ComixAmplitude"/>
-<lib name="ComixCluster"/>
-<lib name="ComixPhasespace"/>
-<lib name="Comix"/>
 <lib name="CSCalculators"/>
 <lib name="CSMain"/>
 <lib name="CSShowers"/>
 <lib name="CSTools"/>
-<lib name="CT10Sherpa"/>
 <lib name="CTEQ6Sherpa"/>
+<lib name="Comix"/>
+<lib name="ComixAmplitude"/>
+<lib name="ComixCluster"/>
+<lib name="ComixPhasespace"/>
+<lib name="CT10Sherpa"/>
 <lib name="DipoleSubtraction"/>
+<lib name="ExtraXS"/>
 <lib name="ExtraXS1_2"/>
 <lib name="ExtraXS1_3"/>
 <lib name="ExtraXS2_2"/>
 <lib name="ExtraXSCluster"/>
 <lib name="ExtraXSNLO"/>
-<lib name="ExtraXS"/>
 <lib name="GRVSherpa"/>
 <lib name="HadronsCurrents"/>
-<lib name="HadronsMain"/>
 <lib name="HadronsMEs"/>
+<lib name="HadronsMain"/>
 <lib name="HadronsPSs"/>
 <lib name="LHAPDFSherpa"/>
 <lib name="LundTools"/>
@@ -56,14 +56,18 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa.xml
 <lib name="METoolsMain"/>
 <lib name="METoolsSpinCorrelations"/>
 <lib name="METoolsVertices"/>
-<lib name="ModelInteractions"/>
-<lib name="ModelMain"/>
 <lib name="MRST01LOSherpa"/>
 <lib name="MRST04QEDSherpa"/>
 <lib name="MRST99Sherpa"/>
 <lib name="MSTW08Sherpa"/>
-<lib name="PDFESherpa"/>
+<lib name="ModelInteractions"/>
+<lib name="ModelMain"/>
 <lib name="PDF"/>
+<lib name="PDFESherpa"/>
+<lib name="POWHEGCalculators"/>
+<lib name="POWHEGMain"/>
+<lib name="POWHEGShowers"/>
+<lib name="POWHEGTools"/>
 <lib name="PhasicChannels"/>
 <lib name="PhasicDecays"/>
 <lib name="PhasicEnhance"/>
@@ -71,8 +75,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa.xml
 <lib name="PhasicProcess"/>
 <lib name="PhasicScales"/>
 <lib name="PhasicSelectors"/>
-<lib name="PhotonsMain"/>
 <lib name="PhotonsMEs"/>
+<lib name="PhotonsMain"/>
 <lib name="PhotonsPhaseSpace"/>
 <lib name="PhotonsTools"/>
 <lib name="Remnant"/>
@@ -80,8 +84,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa.xml
 <lib name="SherpaAnalysis"/>
 <lib name="SherpaAnalysisTools"/>
 <lib name="SherpaAnalysisTrigger"/>
-<lib name="SherpaBlackHat"/>
-<lib name="SherpaHepMCOutput"/>
 <lib name="SherpaInitialization"/>
 <lib name="SherpaMain"/>
 <lib name="SherpaObservables"/>
@@ -111,7 +113,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa.xml
 <runtime name="SHERPA_INCLUDE_PATH" value="$SHERPA_BASE/include/SHERPA-MC" type="path"/>
 <use name="HepMC"/>
 <use name="lhapdf"/>
-<use name="blackhat"/>
 </tool>
 EOF_TOOLFILE
 
