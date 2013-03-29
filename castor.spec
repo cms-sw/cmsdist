@@ -74,7 +74,7 @@ find . -type f -exec touch {} \;
 
 CASTOR_NOSTK=yes; export CASTOR_NOSTK
 ./configure
-LDFLAGS="-L${LIBUUID_ROOT}/lib" CXXFLAGS="-I${LIBUUID_ROOT}/include" make %{makeprocesses} client
+LDFLAGS="-L${LIBUUID_ROOT}/lib64" CXXFLAGS="-I${LIBUUID_ROOT}/include" make %{makeprocesses} client
 %install
 make installclient \
                 MAJOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f1-2) \
