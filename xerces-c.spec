@@ -38,16 +38,20 @@ case %cmsplatf in
   ;;
 esac
 
-case %cmsos in
- slc*)
-   ./runConfigure -P%i -plinux -cgcc -x%cms_cxx ;;
- osx*_amd64)
-   ./runConfigure -P%i -b 64 -pmacosx -nnative -rnone -cgcc -x%cms_cxx ;;
- osx*_amd32)
-   ./runConfigure -P%i -b 32 -pmacosx -nnative -rnone -cgcc -x%cms_cxx ;;
- *)
-   exit 1
+case %{cmsplatf} in
+  slc*)
+    ./runConfigure -P%{i} -plinux -cgcc -x%{cms_cxx} ;;
+  osx*_amd64)
+    ./runConfigure -P%{i} -b 64 -pmacosx -nnative -rnone -cgcc -x%{cms_cxx} ;;
+  osx*_amd32)
+    ./runConfigure -P%{i} -b 32 -pmacosx -nnative -rnone -cgcc -x%{cms_cxx} ;;
+  *armv7*)
+    ./runConfigure -P%{i} -b 32 -plinux -cgcc -x%{cms_cxx} ;;
+  *)
+    echo "Unsupported configuration. Please modify SPEC file accordingly."
+    exit 1
 esac
+
 make
 
 %install
