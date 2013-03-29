@@ -1,5 +1,5 @@
-### RPM external tbb 41_20120718oss
-Source: http://threadingbuildingblocks.org/uploads/77/188/4.1/%{n}%{realversion}_src.tgz
+### RPM external tbb 41_20130314oss
+Source: http://threadingbuildingblocks.org/sites/default/files/software_releases/source/%{n}%{realversion}_src.tgz
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
