@@ -1,9 +1,9 @@
-### RPM cms workqueue 0.9.45b 
+### RPM cms workqueue 0.9.52 
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
-Source: git://github.com/dmwm/WMCore.git?obj=wq-replication-fix/%{realversion}&export=%n&output=/%n.tar.gz
+Source: git://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=%n&output=/%n.tar.gz
 Requires: python py2-httplib2 pystack rotatelogs couchdb dbs-client dls-client py2-cjson yui py2-sphinx dbs3-client
 
 %prep
