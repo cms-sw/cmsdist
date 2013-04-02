@@ -1,4 +1,4 @@
-### RPM lcg root 5.34.04
+### RPM lcg root 5.34.03
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i  
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
