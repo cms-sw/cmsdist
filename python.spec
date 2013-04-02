@@ -54,12 +54,12 @@ done
 mkdir -p %i/include %i/lib %i/bin
 
 %if "%online" != "true"
-%define extradirs $ZLIB_ROOT $SQLITE_ROOT $READLINE_ROOT
+%define extradirs ${ZLIB_ROOT} ${SQLITE_ROOT} ${READLINE_ROOT}
 %else
 %define extradirs %{nil}
 %endif
 
-dirs="$EXPAT_ROOT $BZ2LIB_ROOT $DB4_ROOT $GDBM_ROOT %{extradirs}" 
+dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB4_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} %{extradirs}" 
 
 # We need to export it because setup.py now uses it to determine the actual
 # location of DB4, this was needed to avoid having it picked up from the system.
@@ -88,7 +88,7 @@ sed -ibak "s/ndbm_libs = \[\]/ndbm_libs = ['gdbm', 'gdbm_compat']/" setup.py
 # macros on Linux. The following problem does not exists on BSD machines as
 # cdefs.h does not define these macros.
 case %cmsplatf in
-  slc6*)
+  slc6*|fc*)
     rm -f cms_configtest.cpp
     cat <<CMS_EOF > cms_configtest.cpp
 #include <features.h>
