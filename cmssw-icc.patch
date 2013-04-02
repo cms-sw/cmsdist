@@ -1,0 +1,23 @@
+diff -aur a/config/Self.xml b/config/Self.xml
+--- a/config/Self.xml	2013-04-02 11:18:45.000000000 +0200
++++ b/config/Self.xml	2013-04-02 11:19:50.000000000 +0200
+@@ -6,6 +6,7 @@
+   <environment name="INCLUDE"       value="$LOCALTOP/include/LCG"              handler="warn"/>
+   <flags SKIP_TOOLS_SYMLINK="cxxcompiler      ccompiler      f77compiler"/>
+   <flags SKIP_TOOLS_SYMLINK="gcc-cxxcompiler  gcc-ccompiler  gcc-f77compiler"/>
++  <flags SKIP_TOOLS_SYMLINK="icc-cxxcompiler  icc-ccompiler  icc-f77compiler"/>
+   <flags SKIP_TOOLS_SYMLINK="llvm-cxxcompiler llvm-ccompiler llvm-f77compiler"/>
+   <flags SKIP_TOOLS_SYMLINK="llvm-analyzer-cxxcompiler llvm-analyzer-ccompiler"/>
+   <flags SKIP_TOOLS_SYMLINK="x11"/>
+diff -aur a/config/SCRAM/Plugins/BuildRules.pm b/config/SCRAM/Plugins/BuildRules.pm
+--- a/config/SCRAM/Plugins/BuildRules.pm	2013-04-02 11:18:45.000000000 +0200
++++ b/config/SCRAM/Plugins/BuildRules.pm	2013-04-02 11:19:20.000000000 +0200
+@@ -1569,7 +1569,7 @@
+     if($odir1 ne ""){$odir=$odir1;}
+   }
+   my $stash=$self->{context}->stash();
+-  $self->{cache}{Compiler}="gcc";
++  $self->{cache}{Compiler}="icc";
+   $self->{cache}{CompilerTypes}=[];
+   $self->{cache}{DefaultCompilerFlags}=[];
+   foreach my $flag ("CXXFLAGS","CFLAGS","FFLAGS","CPPDEFINES","LDFLAGS","CPPFLAGS"){push @{$self->{cache}{DefaultCompilerFlags}},$flag;}
