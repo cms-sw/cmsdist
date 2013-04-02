@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 25.2
+### RPM cms cmssw-tool-conf 25.2.1
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -67,6 +67,8 @@ Requires: qt-toolfile
 Requires: roofit-toolfile
 Requires: root-toolfile
 Requires: sherpa-toolfile
+Requires: blackhat-toolfile
+Requires: qd-toolfile
 Requires: sigcpp-toolfile
 Requires: sqlite-toolfile
 Requires: systemtools
@@ -103,6 +105,7 @@ Requires: professor-toolfile
 Requires: py2-ipython-toolfile
 Requires: xz-toolfile
 Requires: protobuf-toolfile
+Requires: llvm-gcc-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
