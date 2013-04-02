@@ -1,8 +1,8 @@
-### RPM cms das-client 1.8.1
+### RPM cms das-client 1.9.5
 ## INITENV +PATH PYTHONPATH %i/bin/
 ## NOCOMPILER
 
-Source0: https://raw.github.com/dmwm/DAS/1.8.1/src/python/DAS/tools/das_client.py
+Source0: https://raw.github.com/dmwm/DAS/%{realversion}/src/python/DAS/tools/das_client.py
 
 Requires: python
 
@@ -11,6 +11,6 @@ Requires: python
 %build
 
 %install
-mkdir -p %i/bin
-cp %SOURCE0 %i/bin
-chmod 0755 %i/bin/das_client.py
+mkdir -p %{i}/bin
+cp %{SOURCE0} %{i}/bin
+chmod 0755 %{i}/bin/das_client.py
