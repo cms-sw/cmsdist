@@ -21,8 +21,11 @@
 # 1.351 is 1.5.0
 # HG1207a das @slc5_amd64_gcc461
 # 1.353 is 1.6.0.pre1
+# 1.355 is 1.6.0.pre3 (based on pymongo 2.2.1)
 HG1208c das @slc5_amd64_gcc461
-+ 1.353 das.spec
++ 1.355 das.spec
++ 1.41 mongo.spec
++ 1.24 py2-pymongo.spec
 
 # FileMover
 # 1.30 is 1.0.9
@@ -45,11 +48,11 @@ HG1111c-gcc434 CmsTC @slc5_amd64_gcc434
 #+ HEAD/2.16.1 graphviz.spec
 
 # Cms Webtools services
-HG1208e cmsweb @slc6_amd64_gcc461
+HG1210a cmsweb @slc6_amd64_gcc461
 
-HG1208e cmsweb @slc5_amd64_gcc461
+HG1210a cmsweb @slc5_amd64_gcc461
 
-HG1208e cmsweb @osx106_amd64_gcc461
+HG1210a cmsweb @osx106_amd64_gcc461
 
 # Stagemanager offsite agent
 HG1201c stagemanager-agent @slc5_amd64_gcc461
@@ -139,18 +142,17 @@ HG1208c cmsfomon @slc5_amd64_gcc461
 + 1.1 crabhb.spec
 
 # T0
-HG1205d t0 @slc5_amd64_gcc461
-+ 1.35 t0.spec
-+ 1.127 wmagent.spec
-+ 1.203 wmcore.spec
-+ 1.16 wmcore-webtools.spec
-+ 1.5 wmcore-db-mysql.spec
-+ 1.6 wmcore-db-oracle.spec
-+ 1.2 wmcore-db-couch.spec
+HG1208e t0 @slc5_amd64_gcc461
++ HEAD/1.9.15 t0.spec
++ HEAD/0.9.12 wmcore.spec wmagent.spec
++ WMCORE_0_6_12 wmcore-{db-couch,db-mysql,db-oracle,webtools}.spec
++ 1.91 python.spec
++ 1.151 dbs-client.spec
++ 1.1 python-2.6.8-ssl-fragment.patch
 
 # LifeCycle
 #HG1203g lifecycle-dataprovider @slc5_amd64_gcc461
-HG1207b lifecycle-dataprovider @slc5_amd64_gcc461
+HG1207c lifecycle-dataprovider @slc5_amd64_gcc461
 + 1.5 lifecycle-dataprovider.spec
 
 # LifeCycle Agent
