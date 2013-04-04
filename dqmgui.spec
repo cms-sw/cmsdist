@@ -1,4 +1,4 @@
-### RPM cms dqmgui 7.1.1
+### RPM cms dqmgui 7.3.0
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH %{dynamic_path_var} %i/xlib
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
@@ -9,15 +9,15 @@
 %define cvs cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define flavors '' 128 
 
-Source0: git+https://github.com/rovere/dqmgui.git?obj=master/6.3.1&export=Monitoring&output=/Monitoring.tar.gz
+Source0: git+https://github.com/rovere/dqmgui.git?obj=master/6.4.0&export=Monitoring&output=/Monitoring.tar.gz
 #Source0: %{svn}?scheme=svn+ssh&strategy=export&module=Monitoring&output=/src.tar.gz
 Source1: %{cvs}&strategy=export&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-15-19&output=/DQMCore.tar.gz
 Source2: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=image&revision=10&scheme=http&output=/rtgu.tar.gz
 Source3: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
-Source4: git+https://github.com/rovere/dqmgui.git?obj=index128/7.0.2&export=Monitoring&output=/Monitoring128.tar.gz
+Source4: git+https://github.com/rovere/dqmgui.git?obj=index128/7.3.0&export=Monitoring&output=/Monitoring128.tar.gz
 Patch0: dqmgui-rtgu
 
-Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root libpng libjpg classlib rotatelogs py2-pycurl py2-cjson
+Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root libpng libjpg classlib rotatelogs py2-pycurl py2-cjson libuuid d3 protobuf
 BuildRequires: py2-sphinx
 
 %prep
@@ -66,7 +66,7 @@ for flavor in %{flavors}; do
       ;;
   esac
   dirs="$CLASSLIB_ROOT $BOOST_ROOT $PYTHON_ROOT $ROOT_ROOT
-        $ZLIB_ROOT $PCRE_ROOT $LIBPNG_ROOT $LIBJPG_ROOT"
+        $ZLIB_ROOT $PCRE_ROOT $LIBPNG_ROOT $LIBJPG_ROOT $PROTOBUF_ROOT"
   for d in $dirs; do
     libs="$libs $d/lib"
     case $d in
@@ -119,7 +119,7 @@ for flavor in %{flavors}; do
 
   # Generate an env.sh which sets a few things more than init.sh.
   (echo ". %i/etc/profile.d/init.sh;"
-   echo "export YUI_ROOT EXTJS_ROOT;"
+   echo "export YUI_ROOT EXTJS_ROOT D3_ROOT;"
    echo "export DQMGUI_VERSION='%{realversion}';" # for visDQMUpload
    echo "export MONITOR_ROOT='%i';") > %i/$flavor/etc/profile.d/env.sh
 done
