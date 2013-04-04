@@ -51,11 +51,11 @@ HG1111c-gcc434 CmsTC @slc5_amd64_gcc434
 #+ HEAD/2.16.1 graphviz.spec
 
 # Cms Webtools services
-HG1304b cmsweb @slc5_amd64_gcc461
+HG1304c cmsweb @slc5_amd64_gcc461
 
-HG1304b cmsweb @slc6_amd64_gcc461
+HG1304c cmsweb @slc6_amd64_gcc461
 
-HG1304b cmsweb @osx106_amd64_gcc461
+HG1304c cmsweb @osx106_amd64_gcc461
 
 # T0 data service
 HG1210e T0DataSvc @slc5_amd64_gcc461
