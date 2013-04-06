@@ -1,9 +1,10 @@
-### RPM cms cmssw-tool-conf 26.0
+### RPM cms cmssw-tool-conf 25.6
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
 
-%define isnotslc5 %(case %{cmsos} in (slc5*) echo 0 ;; (*) echo 1 ;; esac)
+%define isslc %(case %cmsos in (slc*) echo true;; (*) echo false;; esac)
+%define isslc6 %(case %cmsos in (slc6*) echo true ;; (*) echo false ;; esac)
 
 Requires: alpgen-toolfile
 Requires: boost-toolfile
@@ -15,6 +16,10 @@ Requires: clhep-toolfile
 Requires: coral-toolfile
 Requires: cppunit-toolfile
 Requires: curl-toolfile
+# Use our own freetype only on macosx.
+%if "%(case %cmsplatf in (osx*) echo true ;; (*) echo false ;; esac)" == "true"
+Requires: freetype-toolfile
+%endif
 Requires: das-client-toolfile
 Requires: db4-toolfile
 Requires: dbs-client-toolfile
@@ -49,14 +54,17 @@ Requires: libungif-toolfile
 Requires: libxml2-toolfile
 Requires: mcdb-toolfile
 Requires: meschach-toolfile
+Requires: millepede-toolfile
 Requires: mimetic-toolfile
 Requires: openssl-toolfile
 Requires: oracle-env
+Requires: oracle-toolfile
 Requires: pcre-toolfile
 Requires: photos-toolfile
 Requires: pythia6-toolfile
 Requires: pythia8-toolfile
 Requires: python-toolfile
+Requires: py2-cx-oracle-toolfile
 Requires: qt-toolfile
 Requires: roofit-toolfile
 Requires: root-toolfile
@@ -73,6 +81,7 @@ Requires: xerces-c-toolfile
 Requires: zlib-toolfile
 Requires: dcap-toolfile
 Requires: xdaq-toolfile
+Requires: tkonlinesw-toolfile
 Requires: frontier_client-toolfile
 Requires: xrootd-toolfile
 Requires: pyqt-toolfile
@@ -85,6 +94,7 @@ Requires: py2-scipy-toolfile
 Requires: cmsswdata-toolfile
 Requires: py2-cjson-toolfile
 Requires: py2-pycurl-toolfile
+
 Requires: rivet-toolfile
 Requires: cascade-toolfile
 Requires: fftw3-toolfile
@@ -107,37 +117,18 @@ Requires: distcc-gcc-toolfile
 Requires: gnuplot-toolfile
 Requires: sloccount-toolfile
 
-# Only for Linux platform.
-%ifos linux
+%if "%isslc" == "true"
 Requires: openldap-toolfile
 Requires: python-ldap-toolfile
 Requires: gdb-toolfile
 Requires: google-perftools-toolfile
+Requires: igprof-toolfile
+%endif
 
-# For general Linux, but not SLC5.
-%if %isnotslc5
+%if "%isslc6" == "true"
 Requires: nspr-toolfile
 Requires: nss-toolfile
 Requires: cyrus-sasl-toolfile
-%endif
-%endif
-
-# Only for Darwin platform.
-%ifos darwin
-Requires: freetype-toolfile
-%endif
-
-# Only for INTEL/AMD platforms.
-%ifarch i386 i486 i586 i686 x84_64
-Requires: tkonlinesw-toolfile
-Requires: py2-cx-oracle-toolfile
-Requires: oracle-toolfile
-Requires: millepede-toolfile
-
-# Only for Linux platform.
-%ifos linux
-Requires: igprof-toolfile
-%endif
 %endif
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler
