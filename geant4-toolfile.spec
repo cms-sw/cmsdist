@@ -10,6 +10,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4.xml
   <info url="http://geant4.web.cern.ch/geant4/"/>
   <use name="geant4core"/>
   <use name="geant4vis"/>
+  <use name="xerces-c"/>
 </tool>
 EOF_TOOLFILE
 
