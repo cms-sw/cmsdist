@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_5_2_9
+### RPM cms cmssw CMSSW_6_2_0_pre1
 Requires: cmssw-tool-conf python
 
 %define runGlimpse      yes
@@ -51,12 +51,7 @@ Patch13: cmssw-debug
 
 %if "%(case %realversion in (*_ICC_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define cvstag		%(echo %realversion | sed -e 's|_ICC_X|_X|')
-%define preBuildCommand export COMPILER=icc
-%endif
-
-%if "%(case %realversion in (*_ASAN_X*) echo true ;; (*) echo false ;; esac)" == "true"
-%define cvstag		%(echo %realversion | sed -e 's|_ASAN_X|_X|')
-%define usercxxflags    -fsanitize=address -fno-omit-frame-pointer -g 
+%define preBuildCommand scram setup icc-cxxcompiler ; scram setup icc-f77compiler ; scram setup icc-ccompiler ; export COMPILER=icc
 %endif
 
 ## IMPORT scram-project-build
