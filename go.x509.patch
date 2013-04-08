@@ -1,0 +1,13 @@
+--- src/pkg/crypto/x509/x509.go.orig	2013-04-08 14:03:18.000000000 +0200
++++ src/pkg/crypto/x509/x509.go	2013-04-08 14:05:21.000000000 +0200
+@@ -773,7 +773,9 @@
+ 					out.PolicyIdentifiers[i] = policy.Policy
+ 				}
+ 			}
+-		}
++		} else {
++            return out, nil
++        }
+
+ 		if e.Critical {
+ 			return out, UnhandledCriticalExtension{}
