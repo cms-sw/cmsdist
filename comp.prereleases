@@ -19,8 +19,8 @@
 # 1.374 is 1.7.5 # minor upgrade from 1.7.4
 # 1.389 is 1.8.4 # DAS w/o dataset summary, mongo 2.2.2 (rev 1.43), pymongo 2.4.1 (rev 1.27)
 # 1.405 is 1.9.5 series
-# 1.407 is 1.10.X series
-# 1.408 is 1.10.X series: mongo 2.4.1 (rev 1.44), pymongo 2.5 (rev 1.28), urlfetch (rev 1.1)
+# 1.409 is 1.10.X series
+# 1.409 is 1.10.X series: mongo 2.4.1 (rev 1.44), pymongo 2.5 (rev 1.28), urlfetch (rev 1.1)
 #
 # HG1212c das @slc5_amd64_gcc461
 # + 1.43 mongo.spec
@@ -28,7 +28,7 @@
 # + 1.27 py2-pymongo.spec
 # + 1.407 das.spec
 HG1304a das @slc5_amd64_gcc461
-+ 1.408 das.spec
++ 1.409 das.spec
 + 1.43 mongo.spec
 + 1.1 mongo2.2-osx.patch
 + 1.27 py2-pymongo.spec
