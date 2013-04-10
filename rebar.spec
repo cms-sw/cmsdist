@@ -1,24 +1,23 @@
-### RPM cms reqmon 0.9.48
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+### RPM external rebar 2.0
+%define svnserver svn://svn.cern.ch/reps/CMSDMWM
+%define pkg rebar
+Source0: https://github.com/basho/rebar/archive/%{realversion}.tar.gz
+Requires: erlang
 
-Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
-Requires: python rotatelogs
-BuildRequires: py2-setuptools py2-sphinx couchskel
-
+# RPM macros documentation
+# http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
 %prep
-%setup -b 0 -n %n
+%setup -c
+%setup -T -D -a 0
 
 %build
-python setup.py build_system -s reqmon
+cd rebar-%{realversion}
+./bootstrap
 
 %install
-python setup.py install_system -s reqmon --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
-
-# Pick external dependencies from couchskel
-mkdir %i/data/couchapps/WMStats/vendor/
-cp -rp $COUCHSKEL_ROOT/data/couchapps/couchskel/vendor/{couchapp,jquery,datatables} \
-  %i/data/couchapps/WMStats/vendor/
+cd rebar-%{realversion}
+mkdir -p %i/bin
+cp rebar %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d

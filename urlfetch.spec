@@ -1,24 +1,23 @@
-### RPM cms reqmon 0.9.48
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+### RPM external urlfetch 1.0.0
+%define svnserver svn://svn.cern.ch/reps/CMSDMWM
+%define pkg urlfetch
+Source0: https://github.com/vkuznet/urlfetch/archive/master.tar.gz
+Requires: erlang rebar
 
-Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
-Requires: python rotatelogs
-BuildRequires: py2-setuptools py2-sphinx couchskel
-
+# RPM macros documentation
+# http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
 %prep
-%setup -b 0 -n %n
+%setup -c
+%setup -T -D -a 0
 
 %build
-python setup.py build_system -s reqmon
+cd urlfetch-master
+export PATH=$PATH:$REBAR_ROOT/ebin:$ERLANG_ROOT/bin
+make
 
 %install
-python setup.py install_system -s reqmon --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
-
-# Pick external dependencies from couchskel
-mkdir %i/data/couchapps/WMStats/vendor/
-cp -rp $COUCHSKEL_ROOT/data/couchapps/couchskel/vendor/{couchapp,jquery,datatables} \
-  %i/data/couchapps/WMStats/vendor/
+cd urlfetch-master
+cp -r rel/urlfetchd/* %i
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
