@@ -1,9 +1,11 @@
-### RPM cms reqmgr 0.9.57
+### RPM cms reqmgr 0.9.57b
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
-Source: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
+Source: git://github.com/dmwm/WMCore?obj=size-per-evt-fix/%realversion&export=%n&output=/%n.tar.gz
+#Source: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
+
 Requires: py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah py2-cx-oracle yui rotatelogs couchdb py2-cjson py2-sphinx
 
 %prep
