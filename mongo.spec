@@ -1,6 +1,6 @@
 ### RPM external mongo 2.4.1
 
-Patch: mongo2.2-osx
+Patch: mongo2.4
 Source: http://downloads.mongodb.org/src/mongodb-src-r%{realversion}.tar.gz
 Requires: scons rotatelogs
 
@@ -41,15 +41,17 @@ case $(uname) in
   Darwin ) X64= ;;
   *      ) X64=--64 ;;
 esac
-scons %makeprocesses $X64 --cxx=$PWD/scons-cxx-wrapper --cc=$PWD/scons-cc-wrapper --prefix=%i install
+# New mongo2.4.patch enforces scons to use system environment, therefore we
+# don't need anymore to pass special wrappers for MongoDB build
+#scons %makeprocesses $X64 --cxx=$PWD/scons-cxx-wrapper --cc=$PWD/scons-cc-wrapper --prefix=%i install
 
+scons %makeprocesses $X64 --prefix=%i install
 
 %install
 case $(uname) in
   Darwin ) X64= ;;
   *      ) X64=--64 ;;
 esac
-#scons %makeprocesses $X64 --cxx=$PWD/scons-sucks-wrapper --cc=$PWD/scons-cc-wrapper --extrapathdyn=$PCRE_ROOT,$BOOST_ROOT,$SPIDERMONKEY_ROOT --prefix=%i install
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
