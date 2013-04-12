@@ -5,11 +5,10 @@ Source: http://www.sqlite.org/sqlite-autoconf-3071000.tar.gz
 %setup -n sqlite-autoconf-3071000
 
 %build
-./configure --build="%{_build}" --host="%{_host}" --prefix=%{i} \
-            --disable-tcl --disable-static
-make %{makeprocesses}
+./configure --prefix=%i --disable-tcl --disable-static
+make %makeprocesses
 
 %install
 make install
-rm -rf %{i}/lib/pkgconfig
-%define strip_files %{i}/lib
+rm -rf %i/lib/pkgconfig
+%define strip_files %i/lib
