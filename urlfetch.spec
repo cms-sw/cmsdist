@@ -18,6 +18,7 @@ make
 %install
 cd urlfetch-master
 cp -r rel/urlfetchd/* %i
+cp -r apps %i
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
