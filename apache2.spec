@@ -1,21 +1,18 @@
-### RPM external apache2 2.2.23gsi
+### RPM external apache2 2.2.24gsi
 %define apversion %(echo %realversion | sed 's/gsi.*$//')
-%define vdtversion 2.0.0p35
 Requires: openssl zlib expat libuuid sqlite pcre
 
 Source0: http://archive.apache.org/dist/httpd/httpd-%apversion.tar.gz
-Source1: svn://vdt.cs.wisc.edu/svn/vdt/tags/vdt-%vdtversion/Apache?scheme=https&module=Apache&output=/VDT-Apache-GSI.tgz
 Patch0: apache2-verify-error
 Patch1: apache2-ssl-report-cert
+Patch2: apache2-gsi
 
 %prep
 %setup -n httpd-%apversion
 perl -p -i -e 's/-no-cpp-precomp//' srclib/apr/configure
 %patch0 -p0
 %patch1 -p0
-gunzip -d -c < %_sourcedir/VDT-Apache-GSI.tgz |
-  tar -xOf - 'Apache/nmi/GSI.patch' |
-  patch -p0
+%patch2 -p0
 
 %build
 ./configure --prefix=%i --with-mpm=prefork \
