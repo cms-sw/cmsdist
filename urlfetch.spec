@@ -2,7 +2,7 @@
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 %define pkg urlfetch
 Source0: https://github.com/vkuznet/urlfetch/archive/master.tar.gz
-Requires: erlang rebar
+Requires: erlang rebar rotatelogs
 
 # RPM macros documentation
 # http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
