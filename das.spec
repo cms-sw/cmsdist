@@ -11,7 +11,6 @@ Requires: mongo py2-pymongo py2-cjson py2-yaml py2-pystemmer py2-mongoengine py2
 Requires: py2-pycurl rotatelogs urlfetch
 BuildRequires: py2-sphinx
 
-
 # RPM macros documentation
 # http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
 %prep
