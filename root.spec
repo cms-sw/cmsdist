@@ -1,59 +1,82 @@
-### RPM lcg root 5.34.05
+### RPM lcg root 5.32.00
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i  
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
-%define svntag %(echo %{realversion} | tr . -)
+%define svntag %(echo %realversion | tr . -)
 Source: svn://root.cern.ch/svn/root/tags/v%{svntag}/?scheme=http&strategy=export&module=%n-%{realversion}&output=/%n-%{realversion}.tgz
+%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
+%define ismac %(case %cmsplatf in (osx*) echo true;; (*) echo false;; esac)
 
-%define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
-%define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
-%define ismac %(case %{cmsplatf} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
-%define isnotmac %(case %{cmsplatf} in (osx*) echo 0 ;; (*) echo 1 ;; esac)
-%define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
-
-Patch0: root-5.34.02-externals
+Patch0: root-5.32-00-externals
 Patch1: root-5.28-00d-roofit-silence-static-printout
-Patch2: root-5.34.00-linker-gnu-hash-style
+Patch2: root-5.32-00-linker-gnu-hash-style
 Patch3: root-5.32.00-detect-arch
 Patch4: root-5.30.02-fix-gcc46
 Patch5: root-5.30.02-fix-isnan-again
-Patch6: root-5.34.05-cintex-armv7a-port
+# See https://hypernews.cern.ch/HyperNews/CMS/get/edmFramework/2913/1/1.html
+Patch6: root-5.32.00-fix-oneline
+Patch7: root-5.32.00-longBranchName
+Patch8: root-5.32.00-fireworks1
+Patch9: root-5.32.00-noungif
+Patch10: root-5.32.00-fix-cxx11
+Patch11: root-5.32.00-gcc-470-literals-whitespace
+Patch12: root-5.32.00-TTree-fix
+Patch13: root-5.32.00-r44642
+Patch14: root-5.32.00-fireworks2
+ 
+%define cpu %(echo %cmsplatf | cut -d_ -f2)
 
-%define cpu %(echo %{cmsplatf} | cut -d_ -f2)
+Requires: gccxml gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2
 
-Requires: gccxml gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl
-
-%if %isnotmac
+%if "%ismac" != "true"
 Requires: castor dcap
 %endif
 
-%if %isnotonline
-Requires: zlib
-%endif
-
-%if %ismac
-Requires: freetype
+%if "%online" != "true"
+Requires: openssl zlib
 %endif
 
 %define keep_archives true
+%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
+Requires: gfortran-macosx
+%endif
+
+%if "%(case %cmsplatf in (osx*) echo true ;; (*) echo false ;; esac)" == "true"
+Requires: freetype
+%endif
 
 %prep
-%setup -n %{n}-%{realversion}
+%setup -n root-%realversion
 %patch0 -p1
 %patch1 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-
-%if %isarmv7
 %patch6 -p1
-%endif
+%patch7 -p2
+%patch8 -p1
+%patch9 -p1
+
+
+# Apply C++11 / gcc 4.7.x fixes only if using a 47x architecture.
+# See http://gcc.gnu.org/gcc-4.7/porting_to.html
+case %cmsplatf in
+  *gcc4[789]*)
+%patch10 -p1
+%patch11 -p1
+  ;;
+esac
+%patch12 -p0
+%patch13 -p0
+%patch14 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
-%ifos linux
+case %cmsplatf in
+  slc[56]_* | slc5onl_* )
 %patch2 -p1
-%endif
+  ;;
+esac
 
 # Delete these (irrelevant) files as the fits appear to confuse rpm on OSX
 # (It tries to run install_name_tool on them.)
@@ -76,7 +99,9 @@ EXTRA_CONFIG_ARGS="--with-f77=/usr
              --disable-odbc --disable-astiff"
 %else
 export LIBPNG_ROOT ZLIB_ROOT LIBTIFF_ROOT LIBUNGIF_ROOT
-EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}"
+EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}
+             --with-ssl-incdir=${OPENSSL_ROOT}/include
+             --with-ssl-libdir=${OPENSSL_ROOT}/lib"
 %endif
 LZMA=${XZ_ROOT}
 export LZMA
@@ -95,8 +120,6 @@ CONFIG_ARGS="--enable-table
              --enable-fftw3
              --with-fftw3-incdir=${FFTW3_ROOT}/include
              --with-fftw3-libdir=${FFTW3_ROOT}/lib
-             --with-ssl-incdir=${OPENSSL_ROOT}/include
-             --with-ssl-libdir=${OPENSSL_ROOT}/lib
              --disable-ldap
              --disable-krb5
              --with-xrootd=${XROOTD_ROOT}
@@ -106,10 +129,6 @@ CONFIG_ARGS="--enable-table
              --with-dcap-incdir=${DCAP_ROOT}/include
              --disable-pgsql
              --disable-mysql
-             --enable-c++11
-             --with-cxx=g++
-             --with-cc=gcc
-             --with-ld=g++
              --disable-qt --disable-qtgsi
 	     --with-cint-maxstruct=36000
 	     --with-cint-maxtypedef=36000
@@ -117,44 +136,22 @@ CONFIG_ARGS="--enable-table
              --disable-hdfs
              --disable-oracle ${EXTRA_CONFIG_ARGS}"
 
-# Add support for GCC 4.6
-sed -ibak 's/\-std=c++11/-std=c++0x/g' \
-  configure \
-  Makefile \
-  config/Makefile.macosx64 \
-  config/Makefile.macosx \
-  config/Makefile.linux \
-  config/root-config.in \
-  config/Makefile.linuxx8664gcc 
+case %cmsos in
+  slc*)
+    ./configure linuxx8664gcc $CONFIG_ARGS \
+                  --with-rfio-libdir=${CASTOR_ROOT}/lib \
+                  --with-rfio-incdir=${CASTOR_ROOT}/include/shift \
+                  --with-castor-libdir=${CASTOR_ROOT}/lib \
+                  --with-castor-incdir=${CASTOR_ROOT}/include/shift ;; 
+  osx*)
+    comparch=x86_64
+    macconfig=macosx64
+    ./configure $arch $CONFIG_ARGS --disable-rfio --disable-builtin_afterimage ;;
+  slc*_ppc64*)
+    ./configure linux $CONFIG_ARGS --disable-rfio;;
+esac
 
-%if %isarmv7
-cp ./cint/iosenum/iosenum.linux3 ./cint/iosenum/iosenum.linuxarm3
-%endif
-
-EXTRA_OPTS=
-TARGET_PLATF=
-
-%ifos linux
-  TARGET_PLATF=linuxx8664gcc
-  EXTRA_OPTS="${EXTRA_OPTS} --with-rfio-libdir=${CASTOR_ROOT}/lib 
-                            --with-rfio-incdir=${CASTOR_ROOT}/include/shift
-                            --with-castor-libdir=${CASTOR_ROOT}/lib
-                            --with-castor-incdir=${CASTOR_ROOT}/include/shift"
-%endif
-
-%ifos darwin
-  TARGET_PLATF=x86_64
-  EXTRA_OPTS="${EXTRA_OPTS} --disable-rfio
-                            --disable-builtin_afterimage"
-%endif
-
-%if %isarmv7
-  TARGET_PLATF=linuxarm
-%endif
-
-./configure ${TARGET_PLATF} ${CONFIG_ARGS} ${EXTRA_OPTS}
-
-make %makeprocesses CXX="g++ -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL=" CC="gcc -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL="
+make %makeprocesses
 
 %install
 # Override installers if we are using GNU fileutils cp.  On OS X
@@ -176,11 +173,4 @@ cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
 # a """ and it thinks is the shebang.
 rm -f %i/tutorials/pyroot/mrt.py
 
-%post
-%{relocateConfig}bin/root-config
-%{relocateConfig}include/RConfigOptions.h
-%{relocateConfig}include/compiledata.h
-%{relocateConfig}cint/cint/lib/G__c_ipc.d
-%{relocateConfig}cint/cint/lib/G__c_stdfunc.d
-%{relocateConfig}cint/cint/lib/G__c_posix.d
-%{relocateConfig}lib/python/genreflex/gccxmlpath.py
+
