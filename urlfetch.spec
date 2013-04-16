@@ -1,7 +1,8 @@
-### RPM external urlfetch 1.0.0
+### RPM external urlfetch 1.0
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 %define pkg urlfetch
-Source0: https://github.com/vkuznet/urlfetch/archive/master.tar.gz
+#Source0: https://github.com/vkuznet/urlfetch/archive/master.tar.gz
+Source0: git://github.com/vkuznet/urlfetch?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
 Requires: erlang rebar rotatelogs
 
 # RPM macros documentation
@@ -11,14 +12,13 @@ Requires: erlang rebar rotatelogs
 %setup -T -D -a 0
 
 %build
-cd urlfetch-master
+cd urlfetch
 export PATH=$PATH:$REBAR_ROOT/ebin:$ERLANG_ROOT/bin
 make
 
 %install
-cd urlfetch-master
-cp -r rel/urlfetchd/* %i
-cp -r apps %i
+cd urlfetch
+cp -r ebin deps src include priv rebar.config start.sh %i
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
