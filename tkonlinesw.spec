@@ -14,7 +14,7 @@ Patch1: tkonlinesw-2.7.0-fix-gcc46
 #       (and without dependencies on xdaq).
 %if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
 Source1: tkonlinesw-cmake-build
-BuildRequires: cmake
+Requires: cmake
 %endif
 
 # Note from Kristian: 
