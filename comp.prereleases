@@ -20,7 +20,8 @@
 # 1.389 is 1.8.4 # DAS w/o dataset summary, mongo 2.2.2 (rev 1.43), pymongo 2.4.1 (rev 1.27)
 # 1.405 is 1.9.5 series
 # 1.422 is 1.10.X series: mongo 2.4.1 (rev 1.45), pymongo 2.5 (rev 1.28), urlfetch (rev 1.6)
-# 1.423 is 1.10.X series: similar to above plus urlfetch2go (rev 1.1), go (rev 1.2)
+# 1.424 is 1.10.X series: similar to above plus urlfetch2go (rev 1.1), go (rev 1.2) and
+#                         support for handling both Erlang/Go implementation of urlfetch
 #
 # HG1212c das @slc5_amd64_gcc461
 # + 1.43 mongo.spec
@@ -28,7 +29,7 @@
 # + 1.27 py2-pymongo.spec
 # + 1.407 das.spec
 HG1304d das @slc5_amd64_gcc461
-+ 1.423 das.spec
++ 1.424 das.spec
 + 1.45 mongo.spec
 + 1.1 mongo2.4.patch
 + 1.28 py2-pymongo.spec
