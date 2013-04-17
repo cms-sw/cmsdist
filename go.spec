@@ -1,12 +1,12 @@
 ### RPM external go 1.0.3
 
 Source: http://go.googlecode.com/files/go%{realversion}.src.tar.gz
-Patch: go.x509
+#Patch: go.x509
 Requires: gcc fakesystem
 
 %prep
 %setup -n go
-%patch
+#%patch
 
 %build
 cd src
