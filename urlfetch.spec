@@ -1,4 +1,4 @@
-### RPM external urlfetch 1.1
+### RPM external urlfetch 1.2
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 %define pkg urlfetch
 #Source0: https://github.com/vkuznet/urlfetch/archive/master.tar.gz
