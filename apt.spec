@@ -8,17 +8,12 @@ Source1: bootstrap
 Source2: http://search.cpan.org/CPAN/authors/id/T/TL/TLBDK/RPM-Header-PurePerl-1.0.2.tar.gz
 Patch0: apt-429-fix-gcc-461
 Patch1: apt-429-fix-gcc-47
-Patch2: apt-429-less-dependencies
-Patch3: apt-429-add-support-osx108
 
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
-Requires: libxml2 rpm db4 openssl
-
+Requires: libxml2 rpm db4
 %if "%online" != "true"
-Requires: zlib
-%else
-Requires:onlinesystemtools
+Requires: openssl
 %endif
 
 %prep
@@ -27,31 +22,30 @@ cd ..
 %setup -n apt-rpm-%realversion
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
-
-case %cmsplatf in
-  osx108_*)
-%patch3 -p1
-  ;;
-esac
 
 %build
 case %cmsplatf in
-  slc*)
+  slc*_ia32_*)
+    export USER_CPPFLAGS="-D_FILE_OFFSET_BITS=64"
     export USER_CFLAGS="-pthread"
     export USER_CXXFLAGS="-pthread"
     export USER_LDFLAGS="-pthread"
     export USER_LIBS="-pthread"
     ;;
-  *) ;;
+  slc*_amd64_*)
+    export USER_CFLAGS="-pthread"
+    export USER_CXXFLAGS="-pthread"
+    export USER_LDFLAGS="-pthread"
+    export USER_LIBS="-pthread"
+    ;;
+  *)
+    ;;
 esac
 
 chmod +x buildlib/install-sh
 # Avoid picking up sqlite3 from the system.
 perl -p -i -e 's|sqlite3|sqlite3disabled|' configure
 ./configure --prefix=%{i} --exec-prefix=%{i} \
-                          --build="%{_build}" \
-                          --host="%{_host}" \
                           --disable-static \
                           --disable-nls \
                           --disable-dependency-tracking \
@@ -61,15 +55,15 @@ perl -p -i -e 's|sqlite3|sqlite3disabled|' configure
                           --disable-rpath \
                           CXXFLAGS="-fPIC $USER_CXXFLAGS" \
                           CFLAGS="-fPIC $USER_CFLAGS" \
-                          CPPFLAGS="-DAPT_DISABLE_MULTIARCH -D_RPM_4_4_COMPAT -I$POPT_ROOT/include -I$ZLIB_ROOT/include -I$DB4_ROOT/include -I$BZ2LIB_ROOT/include -I$LUA_ROOT/include -I$RPM_ROOT/include -I$RPM_ROOT/include/rpm $USER_CPPFLAGS" \
-                          LDFLAGS="-L$BZ2LIB_ROOT/lib -L$DB4_ROOT/lib -L$ZLIB_ROOT/lib -L$LUA_ROOT/lib -L$RPM_ROOT/lib $USER_LDFLAGS" \
+                          CPPFLAGS="-DAPT_DISABLE_MULTIARCH -D_RPM_4_4_COMPAT -I$POPT_ROOT/include -I$DB4_ROOT/include -I$BZ2LIB_ROOT/include -I$LUA_ROOT/include -I$RPM_ROOT/include -I$RPM_ROOT/include/rpm $USER_CPPFLAGS" \
+                          LDFLAGS="-L$BZ2LIB_ROOT/lib -L$DB4_ROOT/lib -L$LUA_ROOT/lib -L$RPM_ROOT/lib $USER_LDFLAGS" \
                           LIBS="-llua $USER_LIBS" \
                           LIBXML2_CFLAGS="-I$LIBXML2_ROOT/include/libxml2 -I$DB4_ROOT/include -I$LUA_ROOT/include -I$RPM_ROOT/include" \
                           LIBXML2_LIBS="-lxml2 -L$DB4_ROOT/lib -L$LIBXML2_ROOT/lib -L$LUA_ROOT/lib -L$RPM_ROOT/lib" \
                           RPM_LIBS="-L$RPM_ROOT/lib -lrpm -lrpmio -lrpmbuild"
 
 chmod +x buildlib/install-sh
-make %{makeprocesses}
+make %makeprocesses
 
 
 %install
@@ -196,12 +190,10 @@ chmod +x %{i}/bin/apt-get-wrapper
 cat << \EOF_BIN_RPM > %{i}/bin/rpm-wrapper
 #!/bin/sh
 if [ X"$(id -u)" = X0 ]; then
-  if [ ! -f /etc/cms-root-install-allowed ]; then
-    echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
-    echo "CMS software cannot be installed as the super-user." 1>&2
-    echo "(We recommend reading any standard unix security guide.)" 1>&2
-    exit 1
-  fi
+  echo "*** CMS SOFTWARE INSTALLATION ABORTED ***" 1>&2
+  echo "CMS software cannot be installed as the super-user." 1>&2
+  echo "(We recommend reading any standard unix security guide.)" 1>&2
+  exit 1
 fi
 mkdir -p %{instroot}/var/log/rpm
 touch %{instroot}/var/log/rpm/log.txt
@@ -209,16 +201,20 @@ echo rpm ${1+"$@"} >> %{instroot}/var/log/rpm/log.txt
 exec rpm ${1+"$@"}
 EOF_BIN_RPM
 chmod +x %{i}/bin/rpm-wrapper
-mkdir -p %{instroot}/%{cmsplatf}/var/lib/apt/lists/partial
-mkdir -p %{instroot}/%{cmsplatf}/var/lib/rpm 
-mkdir -p %{instroot}/%{cmsplatf}/var/lib/cache/%{cmsplatf}/partial
-mkdir -p %{instroot}/%{cmsplatf}/var/lib/dpkg/status
-mkdir -p %{instroot}/%{cmsplatf}/etc/rpm
-mkdir -p %{instroot}/%{cmsplatf}/lib/apt/methods
 
 %post
-%{relocateRpmPkg}etc/profile.d/dependencies-setup.*
-%{relocateRpmPkg}bin/apt-cache-wrapper
-%{relocateRpmPkg}bin/apt-get-wrapper
-%{relocateRpmPkg}bin/rpm-wrapper
-%{relocateRpmPkg}etc/apt.conf
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/apt/lists/partial
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/rpm 
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/cache/%{cmsplatf}/partial
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/rpm
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/lib/apt/methods
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/dpkg/status
+mkdir -p $RPM_INSTALL_PREFIX/bin
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/var/lib/cache/%{cmsplatf}
+%{relocateConfig}etc/profile.d/dependencies-setup.sh
+%{relocateConfig}etc/profile.d/dependencies-setup.csh
+%{relocateConfig}bin/apt-cache-wrapper
+%{relocateConfig}bin/apt-get-wrapper
+%{relocateConfig}bin/rpm-wrapper
+%{relocateConfig}etc/apt.conf 
