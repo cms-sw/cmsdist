@@ -1,4 +1,4 @@
-### RPM external urlfetch2go 1.0
+### RPM external urlfetch2go 1.1
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 %define pkg urlfetch2go
 Source0: git://github.com/vkuznet/urlfetch2go?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
