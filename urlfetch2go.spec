@@ -12,6 +12,8 @@ Requires: go rotatelogs
 
 %build
 cd urlfetch2go
+export GOPATH=$PWD
+export GOROOT=$GO_ROOT
 make
 
 %install
