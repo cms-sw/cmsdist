@@ -1,5 +1,5 @@
 ### RPM external rpm 4.8.0
-## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
+## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV SET RPM_CONFIGDIR %{i}/lib/rpm
 
 # Warning! While rpm itself seems to work, at the time of writing it
@@ -10,9 +10,8 @@ Source: http://rpm.org/releases/rpm-%(echo %realversion | cut -f1,2 -d.).x/rpm-%
 Requires: file nspr nss popt bz2lib db4 lua
 %if "%online" != "true"
 Requires: zlib
-%else
-Requires: onlinesystemtools
 %endif
+
 
 # The following two lines are a workaround for an issue seen with gcc4.1.2
 Provides: perl(Archive::Tar)
@@ -38,7 +37,6 @@ Patch11: rpm-4.8.0-improve-file-deps-speed
 Patch12: rpm-4.8.0-fix-fontconfig-provides
 Patch13: rpm-4.8.0-fix-find-requires-limit
 Patch14: rpm-4.8.0-disable-internal-dependency-generator-libtool
-Patch15: rpm-4.8.0-fix-arm
 
 # Defaults here
 %define libdir lib
@@ -72,26 +70,28 @@ rm -rf lib/rpmhash.*
 %patch12 -p1
 %patch13 -p1
 %patch14 -p1
-%patch15 -p1
 
 %build
-case %cmsplatf in
-  slc*|fc18*)
+case %cmsos in
+  slc*)
     CFLAGS_PLATF="-fPIC"
     LIBS_PLATF="-ldl"
   ;;
-  osx108_*_gcc4[789]*)
-    export CFLAGS_PLATF="-arch x86_64 -fPIC"
-    export LIBS_PLATF="-liconv"
-  ;;
   osx*)
-    export CFLAGS_PLATF="-arch x86_64 -fPIC -D_FORTIFY_SOURCE=0"
+    export CFLAGS_PLATF="-arch x86_64 -fPIC"
     export LIBS_PLATF="-liconv"
   ;;
   *)
     export CFLAGS_PLATF="-fPIC"
   ;;
 esac 
+
+%if "%online" == "true"
+case %cmsos in
+  slc5* ) export ZLIB_ROOT=/usr ;;
+  * ) export ZLIB_ROOT= ;;
+esac 
+%endif
 
 USER_CFLAGS="-ggdb -O0"
 USER_CXXFLAGS="-ggdb -O0"
@@ -110,9 +110,9 @@ esac
 perl -p -i -e's|-O2|-O0|' ./configure
 
 # Notice that libelf is now in $GCC_ROOT because also gcc LTO requires it.
-./configure --prefix %{i} --build="%{_build}" --host="%{_host}" \
+./configure --prefix %i \
     --with-external-db --disable-python --disable-nls \
-    --disable-rpath --with-lua --localstatedir=%{i}/var \
+    --disable-rpath --with-lua \
     CXXFLAGS="$USER_CXXFLAGS $OS_CXXFLAGS" \
     CFLAGS="$CFLAGS_PLATF $USER_CFLAGS -I$NSPR_ROOT/include/nspr \
             -I$NSS_ROOT/include/nss3 -I$ZLIB_ROOT/include -I$BZ2LIB_ROOT/include \
