@@ -1,7 +1,9 @@
-### RPM external gdb 7.5.1
+### RPM external gdb 7.3.1
+## BUILDIF case $(uname):$(uname -m) in Linux:i*86 ) true ;; Linux:x86_64 ) true ;;  Linux:ppc64 ) false ;; Darwin:* ) true ;; * ) false ;; esac
 Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.bz2
-Patch0: gdb-7.5-fix-pythonhome
-Requires: python ncurses zlib
+Patch0: gdb-7.3.1-fix-pythonhome
+Requires: python
+#Requires: expat
 
 %prep
 %setup -n %n-%realversion
@@ -9,9 +11,7 @@ Requires: python ncurses zlib
 
 %build
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
-./configure --prefix=%{i} --with-system-gdbinit=%{i}/share/gdbinit --with-expat=no  --with-zlib=yes --with-python=${PYTHON_ROOT} \
-            LDFLAGS="-L${PYTHON_ROOT}/lib -L${NCURSES_ROOT}/lib -L${ZLIB_ROOT}/lib" \
-            CFLAGS="-Wno-error=strict-aliasing -I${PYTHON_ROOT}/include -I${NCURSES_ROOT}/include -I${ZLIB_ROOT}/include"
+./configure --prefix=%{i} --with-system-gdbinit=%{i}/share/gdbinit --with-expat=no --with-python=$PYTHON_ROOT LDFLAGS="-L$PYTHON_ROOT/lib" CFLAGS="-Wno-error=strict-aliasing"
 make %makeprocesses
 
 %install
@@ -24,7 +24,7 @@ set substitute-path %{installroot} %{cmsroot}
 EOF_GDBINIT
 
 # To save space, clean up some things that we don't really need 
-%define drop_files %i/lib %i/bin/{gdbserver,gdbtui} %i/share/{man,info,locale}
+%define drop_files %i/lib/* %i/bin/{gdbserver,gdbtui} %i/share/{man,info,locale}
 
 %post
 %{relocateConfig}/share/gdbinit
