@@ -34,7 +34,7 @@ HG1304d das @slc5_amd64_gcc461
 + 1.1 mongo2.4.patch
 + 1.28 py2-pymongo.spec
 + 1.6 urlfetch.spec
-+ 1.2 go.spec
++ 1.1 go.spec
 + 1.3 urlfetch2go.spec
 + 1.1 rebar.spec
 
