@@ -25,11 +25,6 @@
 # 1.425 is 1.10.X series: w/o urlfetch deps 
 # 1.428 is 1.10.X series:
 #
-# HG1212c das @slc5_amd64_gcc461
-# + 1.43 mongo.spec
-# + 1.1 mongo2.2-osx.patch
-# + 1.27 py2-pymongo.spec
-# + 1.407 das.spec
 # experimental build with urlfetch (both Eralgn/Go)
 # HG1304d das @slc5_amd64_gcc461
 # + 1.424 das.spec
@@ -41,7 +36,7 @@
 # + 1.4 urlfetch2go.spec
 # + 1.1 rebar.spec
 HG1304d das @slc5_amd64_gcc461
-+ 1.427 das.spec
++ 1.428 das.spec
 + 1.45 mongo.spec
 + 1.1 mongo2.4.patch
 + 1.28 py2-pymongo.spec
