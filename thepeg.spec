@@ -12,6 +12,7 @@ Patch4: thepeg-1.7.0-configure
 Patch5: thepeg-1.7.0-gcc46
 Patch6: thepeg-1.7.0-fix-bogus-ZLIB-HOME
 Patch7: thepeg-1.7.0-fix-gcc47-cxx11
+Patch8: thepeg-1.7.0-zlib-void-to-gzFile-ptr
 Requires: lhapdf
 Requires: gsl
 Requires: hepmc
@@ -44,6 +45,7 @@ esac
 %patch5 -p1
 %patch6 -p2
 %patch7 -p1
+%patch8 -p2
 
 # Trick make not to re-run aclocal, autoconf, automake, autoscan, etc.
 find . -exec touch -m -t 201201010000 {} \;
