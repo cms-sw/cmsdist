@@ -1,5 +1,5 @@
-### RPM external herwig 6.520
-Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
+### RPM external herwig 6.521
+Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 Requires: lhapdf photos 
 Patch1: herwig-6.520-tauoladummy
 
@@ -33,10 +33,13 @@ make install
 # then hack include area as jimmy depends on missing header file..
 # but only on slc*. On macosx HERWIG65.INC == herwig65.inc
 # what is actually needed is a link to herwig6510.inc
-%ifos darwin
-ln -sf herwig6520.inc %{i}/include/herwig65.inc
-%else
-ln -sf HERWIG65.INC %{i}/include/herwig65.inc
-%endif
-
+cd %i/include
+case %cmsplatf in
+    slc*)
+	ln -sf HERWIG65.INC herwig65.inc
+    ;;
+    osx*)
+	ln -sf herwig6521.inc herwig65.inc
+    ;;
+esac
 rm -rf %i/lib/*.la
