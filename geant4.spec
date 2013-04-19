@@ -6,6 +6,7 @@ BuildRequires: cmake
 
 Requires: clhep
 Requires: expat
+Requires: xerces-c
 
 Patch0: geant4.9.5.p01-no-banner
 
@@ -40,9 +41,11 @@ cmake ../%{n}.%{realversion} \
   -DCMAKE_INSTALL_LIBDIR="lib" \
   -DCMAKE_BUILD_TYPE=Release \
   -DGEANT4_USE_SYSTEM_CLHEP=ON \
+  -DGEANT4_USE_GDML=ON \
+  -DXERCESC_ROOT_DIR:PATH="${XERCES_C_ROOT}" \
   -DCLHEP_ROOT_DIR:PATH="$CLHEP_ROOT" \
   -DEXPAT_INCLUDE_DIR:PATH="$EXPAT_ROOT/include" \
-  -DEXPAT_LIBRARY:PATH="$EXPAT_ROOT/lib/libexpat.$SOEXT" \
+  -DEXPAT_LIBRARY:FILEPATH="$EXPAT_ROOT/lib/libexpat.$SOEXT" \
 
 make %makeprocesses VERBOSE=1
 
