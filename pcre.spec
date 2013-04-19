@@ -2,29 +2,32 @@
 Source: http://downloads.sourceforge.net/%n/%n-%{realversion}.tar.bz2
 Requires: bz2lib
 
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
-
-%if "%online" != "true"
-Requires: zlib
-%else
-Requires: onlinesystemtools
-%endif
-
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx c++ -std=c++0x
-%endif
-
 %prep
 %setup -n %n-%{realversion}
 %build
-CPPFLAGS="-I${BZ2LIB_ROOT}/include -I${ZLIB_ROOT}/include"
-LDFLAGS="-L${BZ2LIB_ROOT}/lib -L${ZLIB_ROOT}/lib"
+CPPFLAGS="-I${BZ2LIB_ROOT}/include"
+LDFLAGS="-L${BZ2LIB_ROOT}/lib"
 ./configure --enable-unicode-properties --enable-pcregrep-libz --enable-pcregrep-libbz2 --prefix=%i \
-  CXX="%cms_cxx" CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}"
+  CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}"
 make
 
 %install
 make install
+# SCRAM ToolBox toolfile
+mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/%n
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=%n version=%v>
+<info url="http://www.pcre.org"></info>
+<lib name=pcre>
+<Client>
+ <Environment name=PCRE_BASE default="%i"></Environment>
+ <Environment name=LIBDIR default="$PCRE_BASE/lib"></Environment>
+ <Environment name=INCLUDE default="$PCRE_BASE/include"></Environment>
+</Client>
+</Tool>
+EOF_TOOLFILE
+
 # setup dependencies environment
 rm -rf %i/etc/profile.d
 mkdir -p %i/etc/profile.d
