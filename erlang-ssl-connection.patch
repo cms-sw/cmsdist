@@ -1,0 +1,20 @@
+--- lib/ssl/src/ssl_connection.erl	2011-07-22 11:42:28.000000000 +0200
++++ lib/ssl/src/ssl_connection.erl	2011-07-22 11:43:19.000000000 +0200
+@@ -1077,7 +1077,7 @@
+ 
+ init_certificates(undefined, CertDbRef, CacheRef, CertFile, client) ->
+     try 
+-	[OwnCert] = ssl_certificate:file_to_certificats(CertFile),
++	[OwnCert|T] = ssl_certificate:file_to_certificats(CertFile),
+ 	{ok, CertDbRef, CacheRef, OwnCert}
+     catch _Error:_Reason  ->
+ 	    {ok, CertDbRef, CacheRef, undefined}
+@@ -1085,7 +1085,7 @@
+ 
+ init_certificates(undefined, CertDbRef, CacheRef, CertFile, server) ->
+     try
+-	[OwnCert] = ssl_certificate:file_to_certificats(CertFile),
++	[OwnCert|T] = ssl_certificate:file_to_certificats(CertFile),
+ 	{ok, CertDbRef, CacheRef, OwnCert}
+     catch
+ 	Error:Reason ->

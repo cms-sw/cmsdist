@@ -1,5 +1,7 @@
 ### RPM external bootstrap-driver 20.0
 Source: bootstrap
+%define closingbrace )
+%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
 
 Requires: apt
 
@@ -31,7 +33,7 @@ slc*onl* )
     ##########################################################
     # Backward compatible seeds, so that old bootstrap does not suddenly stop working.
     platformSeeds="glibc coreutils bash tcsh zsh pdksh perl tcl
-        readline ncurses
+        readline openssl ncurses
         e2fsprogs krb5-libs freetype fontconfig
         xorg-x11-deprecated-libs xorg-x11-libs xorg-x11-Mesa-libGLU
         xorg-x11-Mesa-libGL compat-libstdc++-33 libidn"
@@ -40,7 +42,7 @@ slc*onl* )
     platformSeeds="$platformSeeds libgcc libstdc++"
 
     # ONLINE: seed other available system tools:
-    platformSeeds="$platformSeeds libpng libtiff libungif qt zlib perl-DBI-1.40-8"
+    platformSeeds="$platformSeeds curl libpng libtiff libungif openssl qt zlib perl-DBI-1.40-8"
 
     # Python tools are commented out due to compatibility problems.
     platformSeeds="$platformSeeds python python-elementtree"
@@ -80,7 +82,7 @@ slc*onl* )
 
     ##########################################################
     #slc5onl_ia32 Specific
-    slc5onl_ia32_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline ncurses e2fsprogs krb5-libs freetype
+    slc5onl_ia32_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype
         fontconfig libidn libX11 libXmu libSM libICE libXcursor
         libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
         libXrender libXpm"
@@ -100,18 +102,16 @@ slc*onl* )
 
     ##########################################################
     #slc5onl_amd64 Specific
-    slc5onl_amd64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline ncurses e2fsprogs krb5-libs freetype
+    slc5onl_amd64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype
         fontconfig libidn libX11 libXmu libSM libICE libXcursor
         libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
         libXrender libXpm"
 
-    # ONLINE: seed system compiler (only libraries for runtime) only for amd64_gcc434 arch
-    case %cmsplatf in
-        *_amd64_gcc434 ) slc5onl_amd64_platformSeeds="$slc5onl_amd64_platformSeeds libgcc libstdc++ external+gcc+4.3.4-onl64a" ;;
-    esac
+    # ONLINE: seed system compiler (only libraries for runtime)
+    slc5onl_amd64_platformSeeds="$slc5onl_amd64_platformSeeds libgcc libstdc++ external+gcc+4.3.4-onl64a"
 
     # ONLINE: seed other available system tools:
-    slc5onl_amd64_platformSeeds="$slc5onl_amd64_platformSeeds zlib zlib-devel e2fsprogs-libs e2fsprogs-devel
+    slc5onl_amd64_platformSeeds="$slc5onl_amd64_platformSeeds curl curl-devel openssl openssl-devel zlib zlib-devel e2fsprogs-libs e2fsprogs-devel
         perl-DBI-1.52 libtermcap-2.0.8 libX11-devel-1.0.3 libXpm-devel-3.5.5 libXext-devel-1.0.1 libXft-devel-2.1.10"
 
     # ONLINE: seed daq-built tools:
@@ -151,17 +151,7 @@ slc*)
         libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
         libXrender libXpm"
 
-  slc5_corei7_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype
-        fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
-        libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
-        libXrender libXpm"
-
   slc6_amd64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype compat-readline5 ncurses-libs perl-libs perl-ExtUtils-Embed
-        fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
-        libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
-        libXrender libXpm libcom_err"
-
-  slc6_mic_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype compat-readline5 ncurses-libs perl-libs perl-ExtUtils-Embed
         fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
         libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
         libXrender libXpm libcom_err"
@@ -174,15 +164,6 @@ slc*)
   # which was erroneously only reporting the platform, but not the
   # architecture.
   rh5_platformSeeds=$slc5_amd64_platformSeeds
-  ;;
-fc*)
-  fc18_armv7hl_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl 
-                              ncurses e2fsprogs krb5-libs freetype fontconfig libstdc++-4.7.2 
-                              libidn libX11 libXmu libSM libICE libXcursor libXext libXrandr 
-                              libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama 
-                              libXft libXrender libXpm gcc-c++ libcom_err libXpm-devel libXft-devel
-                              libX11-devel libXext-devel mesa-libGLU mesa-libGLU-devel libGLEW
-                              glew perl-Digest-MD5"
   ;;
 esac
 
@@ -223,10 +204,6 @@ case %cmsplatf in
                             libintl.3.dylib libperl.dylib"
 
     ;;
-    # Required to get slc5_amd64_gcc434 work on slc6.
-    slc* )
-        additionalProvides="perl(CGI)"
-    ;;
 esac
 
 unsupportedProvides="libtcl8.3.so libtk8.3.so /bin/env libcom_err.so.3
@@ -245,10 +222,7 @@ mkdir -p %{i}/etc/profile.d
  echo "slc4_ia32_platformSeeds=\"$slc4_ia32_platformSeeds\""; \
  echo "slc5_ia32_platformSeeds=\"$slc5_ia32_platformSeeds\""; \
  echo "slc5_amd64_platformSeeds=\"$slc5_amd64_platformSeeds\""; \
- echo "fc18_armv7hl_platformSeeds=\"$fc18_armv7hl_platformSeeds\""; \
- echo "slc5_corei7_platformSeeds=\"$slc5_corei7_platformSeeds\""; \
  echo "slc6_amd64_platformSeeds=\"$slc6_amd64_platformSeeds\""; \
- echo "slc6_mic_platformSeeds=\"$slc6_mic_platformSeeds\""; \
  echo "slc5onl_ia32_platformSeeds=\"$slc5onl_ia32_platformSeeds\""; \
  echo "slc5onl_amd64_platformSeeds=\"$slc5onl_amd64_platformSeeds\""; \
  echo "rh5_ia32_platformSeeds=\"$rh5_ia32_platformSeeds\""; \
@@ -268,10 +242,7 @@ mkdir -p %{i}/etc/profile.d
  echo "slc4_ia32_platformSeeds=\"$slc4_ia32_platformSeeds \""; \
  echo "slc5_ia32_platformSeeds=\"$slc5_ia32_platformSeeds $slc5_compPackages\""; \
  echo "slc5_amd64_platformSeeds=\"$slc5_amd64_platformSeeds $slc5_compPackages\""; \
- echo "fc18_armv7hl_platformSeeds=\"$fc18_armv7hl_platformSeeds\""; \
- echo "slc5_corei7_platformSeeds=\"$slc5_corei7_platformSeeds $slc5_compPackages\""; \
  echo "slc6_amd64_platformSeeds=\"$slc6_amd64_platformSeeds $slc6_compPackages\""; \
- echo "slc6_mic_platformSeeds=\"$slc6_mic_platformSeeds $slc6_compPackages\""; \
  echo "slc5onl_ia32_platformSeeds=\"$slc5onl_ia32_platformSeeds $slc5_compPackages\""; \
  echo "slc5onl_amd64_platformSeeds=\"$slc5onl_amd64_platformSeeds $slc5_compPackages\""; \
  echo "rh5_ia32_platformSeeds=\"$rh5_ia32_platformSeeds\""; \

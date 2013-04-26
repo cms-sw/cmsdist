@@ -1,7 +1,7 @@
 ### RPM external lapack 3.3.1
 Source0: http://www.netlib.org/lapack/lapack-%realversion.tgz
 
-Requires: cmake
+BuildRequires: cmake
 
 %define keep_archives true
 %if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"

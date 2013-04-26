@@ -72,17 +72,13 @@ rm -rf lib/rpmhash.*
 %patch14 -p1
 
 %build
-case %cmsplatf in
+case %cmsos in
   slc*)
     CFLAGS_PLATF="-fPIC"
     LIBS_PLATF="-ldl"
   ;;
-  osx108_*_gcc4[789]*)
-    export CFLAGS_PLATF="-arch x86_64 -fPIC"
-    export LIBS_PLATF="-liconv"
-  ;;
   osx*)
-    export CFLAGS_PLATF="-arch x86_64 -fPIC -D_FORTIFY_SOURCE=0"
+    export CFLAGS_PLATF="-arch x86_64 -fPIC"
     export LIBS_PLATF="-liconv"
   ;;
   *)

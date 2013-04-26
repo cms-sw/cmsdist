@@ -1,11 +1,14 @@
-### RPM external beautifulsoup 3.0.7
-%define pythonv `echo $PYTHON_VERSION |cut -d. -f1,2`
-## INITENV +PATH PYTHONPATH %i/lib/python%{pythonv}/site-packages
-Source: http://www.crummy.com/software/BeautifulSoup/download/3.x/BeautifulSoup-%{realversion}.tar.gz
+### RPM external beautifulsoup 3.1.0.1
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+Source: http://www.crummy.com/software/BeautifulSoup/download/3.1.x/BeautifulSoup-%{realversion}.tar.gz
 Requires: python
 
 %prep
 %setup -n BeautifulSoup-%{realversion}
+
 %build
+python setup.py build 
+
 %install
-python setup.py install --prefix=%i 
+python setup.py install --prefix=%i
+find %i -name '*.egg-info' -exec rm {} \;

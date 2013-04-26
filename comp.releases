@@ -1,0 +1,51 @@
+# The entry format is the same as in comp.prereleases
+
+# Cms Webtools services
+HG1304e cmsweb @slc5_amd64_gcc461
+
+HG1304e cmsweb @slc6_amd64_gcc461
+
+HG1304e cmsweb @osx106_amd64_gcc461
+
+# Stagemanager offsite agent
+HG1201c stagemanager-agent @slc5_amd64_gcc461
++ 1.10/1.0.1 stagemanager-agent.spec
+HG1201c stagemanager @slc5_amd64_gcc461
++ 1.11/1.0.1 stagemanager.spec
+
+# DBS-2
+#DIE#HG1107c dbs-server
+#DIE#+ DBS_2_1_6-pre5 dbs-{server,libs,schema}.spec
+#DIE#+ DBS_2_1_6-pre5 apache-{ant,tomcat}.spec
+
+# wmagent
+HG1210a wmagent-dev @slc6_amd64_gcc461
++ HEAD/0.9.58 wmagent.spec wmagent-dev.spec
+
+HG1210a wmagent-dev @slc5_amd64_gcc461
++ HEAD/0.9.58 wmagent.spec wmagent-dev.spec
+
+HG1210a wmagent-dev @osx106_amd64_gcc461
++ HEAD/0.9.58 wmagent.spec wmagent-dev.spec
+
+
+
+#crab-system
+HG1211e crab-system @slc5_amd64_gcc461
++ 1.11/1211f crab-system.spec
++ 1.53/0.1.4 asyncstageout.spec
++ 1.7 asyncstageout-setup.patch
++ 1.26/3.1.4 crabserver.spec
++ 1.9 crabserver3-setup.patch
++ 1.23/3.1.4 crabcache.spec
++ 1.2 crabcache-setup.patch
++ 1.31/3.1.4 crab-client3.spec
++ 1.6 crabclient3-setup.patch
+
+# PHEDEX agents
+HG1210d PHEDEX-combined-agents @slc5_amd64_gcc461
++ forPHEDEX412 PHEDEX-combined-agents.spec PHEDEX.spec PHEDEX-admin.spec PHEDEX-micro.spec
+
+#DIE#HG1111d happyface @slc5_amd64_gcc461
+#DIE#+ 1.11/1.0.0 py2-sqlobject.spec
+#DIE#+ 1.2/r656 happyface.spec

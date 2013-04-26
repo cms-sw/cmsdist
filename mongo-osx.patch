@@ -1,0 +1,12 @@
+--- SConstruct.orig	2011-11-08 03:06:57.000000000 +0100
++++ SConstruct	2011-11-08 15:27:26.000000000 +0100
+@@ -485,9 +485,6 @@
+         env.Append( LIBPATH=["/usr/64/lib"] )
+         if installDir == DEFAULT_INSTALL_DIR and not distBuild:
+             installDir = "/usr/64/"
+-    else:
+-        env.Append( CPPPATH=filterExists(["/sw/include" , "/opt/local/include"]) )
+-        env.Append( LIBPATH=filterExists(["/sw/lib/", "/opt/local/lib"]) )
+ 
+ elif "linux2" == os.sys.platform or "linux3" == os.sys.platform:
+     linux = True
