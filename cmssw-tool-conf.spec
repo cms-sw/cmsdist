@@ -3,7 +3,10 @@
 # with cmsBuild, change the above version only when a new
 # tool is added
 
-%define isnotslc5 %(case %{cmsos} in (slc5*) echo 0 ;; (*) echo 1 ;; esac)
+%define isNotSLC5 %(case %{cmsos} in (slc5*) echo 0 ;; (*) echo 1 ;; esac)
+%define isLinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
+%define isDarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
+%define isAMD64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 
 Requires: alpgen-toolfile
 Requires: boost-toolfile
@@ -106,16 +109,17 @@ Requires: ccache-gcc-toolfile
 Requires: distcc-gcc-toolfile
 Requires: gnuplot-toolfile
 Requires: sloccount-toolfile
+Requires: millepede-toolfile
 
 # Only for Linux platform.
-%ifos linux
+%if %isLinux
 Requires: openldap-toolfile
 Requires: python-ldap-toolfile
 Requires: gdb-toolfile
 Requires: google-perftools-toolfile
 
 # For general Linux, but not SLC5.
-%if %isnotslc5
+%if %isNotSLC5
 Requires: nspr-toolfile
 Requires: nss-toolfile
 Requires: cyrus-sasl-toolfile
@@ -123,19 +127,18 @@ Requires: cyrus-sasl-toolfile
 %endif
 
 # Only for Darwin platform.
-%ifos darwin
+%if %isDarwin
 Requires: freetype-toolfile
 %endif
 
 # Only for INTEL/AMD platforms.
-%ifarch i386 i486 i586 i686 x84_64
+%if %isAMD64
 Requires: tkonlinesw-toolfile
 Requires: py2-cx-oracle-toolfile
 Requires: oracle-toolfile
-Requires: millepede-toolfile
 
 # Only for Linux platform.
-%ifos linux
+%if %isLinux
 Requires: igprof-toolfile
 %endif
 %endif
