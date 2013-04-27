@@ -1,7 +1,7 @@
-### RPM external valgrind 3.8.0
+### RPM external valgrind 3.9.0-13380
 ## INITENV SET VALGRIND_LIB %{i}/lib/valgrind
-%define realversion %(echo %v | cut -d- -f1)
-Source: http://www.valgrind.org/downloads/%{n}-%{realversion}.tar.bz2
+%define rev %(echo %{realversion} | cut -d- -f2)
+Source: svn://svn.valgrind.org/valgrind/trunk?revision=%{rev}&module=%{n}&output=/%{n}-%{realversion}.tar.gz
 Patch1: valgrind-3.7.0-change-FN_NAME_LEN-global-buffer-size
 Patch2: valgrind-3.7.0-change-VG_N_SEGMENTS-VG_N_SEGNAMES-VG_MAX_SEGNAMELEN
 
@@ -19,6 +19,7 @@ case %cmsos in
   *) ;;
 esac
 
+./autogen.sh
 ./configure --prefix=%i --without-mpicc --disable-static --enable-only64bit ${CFLAGS+CFLAGS=$CFLAGS}
 make %makeprocesses
 %install
