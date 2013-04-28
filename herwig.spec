@@ -1,5 +1,5 @@
-### RPM external herwig 6.520
-Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
+### RPM external herwig 6.521
+Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 Requires: lhapdf photos 
 Patch1: herwig-6.520-tauoladummy
 
@@ -39,7 +39,7 @@ case %cmsplatf in
 	ln -sf HERWIG65.INC herwig65.inc
     ;;
     osx*)
-	ln -sf herwig6520.inc herwig65.inc
+	ln -sf herwig6521.inc herwig65.inc
     ;;
 esac
 rm -rf %i/lib/*.la
