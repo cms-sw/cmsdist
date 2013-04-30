@@ -1,6 +1,5 @@
 ### RPM external igprof-toolfile 1.0
 Requires: igprof
-
 %prep
 %build
 %install
