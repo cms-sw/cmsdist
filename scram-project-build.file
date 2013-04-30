@@ -9,10 +9,10 @@ Requires: SCRAMV1
 %define cmsrepo         cvs://:pserver:anonymous@cmscvs.cern.ch:2401/local/reps/CMSSW?passwd=AA_:yZZ3e
 %define srctree		src
 
-#config stuff
+#config stuff moved to github!
 %define cvsconfig	config
-%define configtar	config.tar.gz
-%define configrepo	%cmsrepo
+%define configtar	config.zip
+%define configrepo	https://nodeload.github.com/cms-sw/cmssw-config/zip
 %if "%{?buildtarget:set}" != "set"
 %define buildtarget	release-build
 %endif
@@ -35,7 +35,7 @@ Requires: SCRAMV1
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-00-11
+%define configtag       V05-00-12
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -64,7 +64,7 @@ Requires: SCRAMV1
 %define lcprojtype      %(echo %ucprojtype | tr 'A-Z' 'a-z')
 %define toolconf        %(echo %n | sed "s|-|_|g" | tr 'a-z' 'A-Z')_TOOL_CONF_ROOT
 
-%define source0 %{configrepo}&tag=-r%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
+%define source0 %{configrepo}/%{configtag}?module=%{cvsconfig}&export=config&output=/%configtar
 
 %if "%{?source1:set}" != "set"
 %if  "%{cvsrepo}" != "cmstc"
@@ -97,9 +97,10 @@ Source4: findDependencies.pl
 
 %prep
 rm -rf config
+rm -rf cmssw-config-*
 rm -rf %{srctree}
-
-%setup -T -b 0 -n config
+unzip %_sourcedir/config.zip
+mv cmssw-config-* config
 %setup -D -T -b 1 -n %{srctree}
 
 %if "%{?additionalSrc0:set}" == "set"
@@ -182,9 +183,10 @@ export SCRAM_NOSYMCHECK=true
 %endif
 
 # Move the debug logs into the builddir, so that they do not get packaged.
-LOG_WEB_DIR=%cmsroot/WEB/build-logs/%cmsplatf/%realversion
-mkdir -p $LOG_WEB_DIR
-mv %i/tmp/%cmsplatf/cache/log $LOG_WEB_DIR/logs
+LOG_WEB_DIR=%cmsroot/WEB/build-logs/%{cmsplatf}/%{v}
+rm -rf ${LOG_WEB_DIR}
+mkdir -p ${LOG_WEB_DIR}
+rsync -av --include='*.log' --prune-empty-dirs %{i}/tmp/%{cmsplatf}/cache/log/ ${LOG_WEB_DIR}/logs
 
 # split the debug symbols out of tha main binaries, into separate files
 %if "%{?subpackageDebug:set}" == "set"
