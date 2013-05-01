@@ -9,6 +9,7 @@ Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 py2-pycurl
 Requires: py2-mysqldb py2-cx-oracle couchdb
 Requires: cherrypy py2-cheetah yui
 Requires: py2-cjson dbs-client dls-client py2-zmq py2-psutil pystack dbs3-client
+Requires: py2-pyopenssl
 
 BuildRequires: py2-sphinx couchskel
 
