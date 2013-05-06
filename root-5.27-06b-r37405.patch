@@ -1,0 +1,21 @@
+diff -Naur orig.root/tree/tree/src/TBasket.cxx root/tree/tree/src/TBasket.cxx
+--- orig.root/tree/tree/src/TBasket.cxx	2010-11-05 15:46:29.000000000 +0100
++++ root/tree/tree/src/TBasket.cxx	2010-12-13 23:46:20.000000000 +0100
+@@ -204,7 +204,16 @@
+    // This function is called by TTreeCloner.
+    // The function returns 0 in case of success, 1 in case of error.
+ 
+-   fBufferRef = new TBufferFile(TBuffer::kRead, len);
++   if (fBufferRef) {
++      // Reuse the buffer if it exist.
++      fBufferRef->SetReadMode();
++      fBufferRef->Reset();
++      if (fBufferRef->BufferSize() < len) {
++         fBufferRef->Expand(len);
++      }
++   } else {
++      fBufferRef = new TBufferFile(TBuffer::kRead, len);
++   }
+    fBufferRef->SetParent(file);
+    char *buffer = fBufferRef->Buffer();
+    file->Seek(pos);

@@ -1,0 +1,36 @@
+diff -Naur orig.root/hist/hist/src/TProfile.cxx root/hist/hist/src/TProfile.cxx
+--- orig.root/hist/hist/src/TProfile.cxx	2010-11-05 15:46:35.000000000 +0100
++++ root/hist/hist/src/TProfile.cxx	2011-02-10 00:39:00.000000000 +0100
+@@ -927,7 +927,7 @@
+       }
+       for (binx = firstBinX; binx <= lastBinX; binx++) {
+          Double_t w   = fBinEntries.fArray[binx];
+-         Double_t w2  = (fBinSumw2.fN ? fBinSumw2.fArray[binx] : w*w );  
++         Double_t w2  = (fBinSumw2.fN ? fBinSumw2.fArray[binx] : w);  
+          Double_t x   = fXaxis.GetBinCenter(binx);
+          stats[0] += w;
+          stats[1] += w2;
+diff -Naur orig.root/hist/hist/src/TProfile2D.cxx root/hist/hist/src/TProfile2D.cxx
+--- orig.root/hist/hist/src/TProfile2D.cxx	2010-11-05 15:46:35.000000000 +0100
++++ root/hist/hist/src/TProfile2D.cxx	2011-02-10 00:38:50.000000000 +0100
+@@ -933,7 +933,7 @@
+          for (binx = firstBinX; binx <= lastBinX; binx++) {
+             bin = GetBin(binx,biny);
+             w         = fBinEntries.fArray[bin];
+-            w2        = (fBinSumw2.fN ? fBinSumw2.fArray[bin] : w*w );  
++            w2        = (fBinSumw2.fN ? fBinSumw2.fArray[bin] : w );  
+             x         = fXaxis.GetBinCenter(binx);
+             stats[0] += w;
+             stats[1] += w2;
+diff -Naur orig.root/hist/hist/src/TProfile3D.cxx root/hist/hist/src/TProfile3D.cxx
+--- orig.root/hist/hist/src/TProfile3D.cxx	2010-11-05 15:46:35.000000000 +0100
++++ root/hist/hist/src/TProfile3D.cxx	2011-02-10 00:38:54.000000000 +0100
+@@ -831,7 +831,7 @@
+             for (binx=fXaxis.GetFirst();binx<=fXaxis.GetLast();binx++) {
+                bin = GetBin(binx,biny,binz);
+                w         = fBinEntries.fArray[bin];
+-               w2        = (fBinSumw2.fN ? fBinSumw2.fArray[bin] : w*w );
++               w2        = (fBinSumw2.fN ? fBinSumw2.fArray[bin] : w );
+                x         = fXaxis.GetBinCenter(binx);
+                stats[0]  += w;
+                stats[1]  += w2;

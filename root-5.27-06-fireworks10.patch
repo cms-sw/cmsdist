@@ -1,0 +1,4179 @@
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveBoxGL.h root/graf3d/eve/inc/TEveBoxGL.h
+--- root-old/graf3d/eve/inc/TEveBoxGL.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/eve/inc/TEveBoxGL.h	2010-12-15 17:32:41.000000000 +0100
+@@ -47,6 +47,8 @@
+    virtual void Draw(TGLRnrCtx& rnrCtx) const;
+    virtual void DirectDraw(TGLRnrCtx& rnrCtx) const;
+ 
++   virtual Bool_t IgnoreSizeForOfInterest() const { return kTRUE; }
++
+    // To support two-level selection
+    // virtual Bool_t SupportsSecondarySelect() const { return kTRUE; }
+    // virtual void ProcessSelection(TGLRnrCtx & rnrCtx, TGLSelectRecord & rec);
+@@ -80,6 +82,8 @@
+    virtual void Draw(TGLRnrCtx& rnrCtx) const;
+    virtual void DirectDraw(TGLRnrCtx& rnrCtx) const;
+ 
++   virtual Bool_t IgnoreSizeForOfInterest() const { return kTRUE; }
++
+    // To support two-level selection
+    // virtual Bool_t SupportsSecondarySelect() const { return kTRUE; }
+    // virtual void ProcessSelection(TGLRnrCtx & rnrCtx, TGLSelectRecord & rec);
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveBoxSet.h root/graf3d/eve/inc/TEveBoxSet.h
+--- root-old/graf3d/eve/inc/TEveBoxSet.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/eve/inc/TEveBoxSet.h	2010-12-15 17:32:27.000000000 +0100
+@@ -38,7 +38,7 @@
+ 
+ protected:
+ 
+-   struct BFreeBox_t       : public DigitBase_t { Float_t fVertices[24]; };
++   struct BFreeBox_t       : public DigitBase_t { Float_t fVertices[8][3]; };
+ 
+    struct BOrigin_t        : public DigitBase_t { Float_t fA, fB, fC; };
+ 
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveBoxSetGL.h root/graf3d/eve/inc/TEveBoxSetGL.h
+--- root-old/graf3d/eve/inc/TEveBoxSetGL.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/eve/inc/TEveBoxSetGL.h	2010-12-15 17:32:27.000000000 +0100
+@@ -26,8 +26,9 @@
+    mutable UInt_t  fBoxDL;   // Display-list id for a box atom.
+ 
+    Int_t  PrimitiveType() const;
+-   void   MakeOriginBox(Float_t p[24], Float_t dx, Float_t dy, Float_t dz) const;
+-   void   RenderBox(const Float_t p[24]) const;
++   void   MakeOriginBox(Float_t p[8][3], Float_t dx, Float_t dy, Float_t dz) const;
++   void   RenderBoxStdNorm(const Float_t p[8][3]) const;
++   void   RenderBoxAutoNorm(const Float_t p[8][3]) const;
+    void   MakeDisplayList() const;
+ 
+    void   RenderBoxes(TGLRnrCtx& rnrCtx) const;
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveBrowser.h root/graf3d/eve/inc/TEveBrowser.h
+--- root-old/graf3d/eve/inc/TEveBrowser.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/eve/inc/TEveBrowser.h	2010-12-15 17:33:20.000000000 +0100
+@@ -156,6 +156,8 @@
+    TGMenuBar*         GetMenuBar()      const { return fMenuBar; }
+    TGHorizontalFrame* GetTopMenuFrame() const { return fTopMenuFrame; }
+ 
++   void HideBottomTab();
++
+    ClassDef(TEveBrowser, 0); // Specialization of TRootBrowser for Eve.
+ };
+ 
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveCaloLegoGL.h root/graf3d/eve/inc/TEveCaloLegoGL.h
+--- root-old/graf3d/eve/inc/TEveCaloLegoGL.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/eve/inc/TEveCaloLegoGL.h	2010-12-15 17:34:00.000000000 +0100
+@@ -62,7 +62,6 @@
+    typedef std::map<Int_t, UInt_t>::iterator SliceDLMap_i;
+ 
+    // histogram base
+-   mutable Float_t                   fDataMax;
+    mutable Color_t                   fGridColor;
+    mutable Color_t                   fFontColor;
+ 
+@@ -95,7 +94,8 @@
+    TEveCaloLegoGL(const TEveCaloLegoGL&);            // Stop default
+    TEveCaloLegoGL& operator=(const TEveCaloLegoGL&); // Stop default
+ 
+-protected:
++private:
++   void    GetScaleForMatrix(Float_t& sx, Float_t& sy, Float_t& sz) const;
+    Int_t   GetGridStep(TGLRnrCtx &rnrCtx) const;
+    void    RebinAxis(TAxis *orig, TAxis *curr) const;
+ 
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveDigitSet.h root/graf3d/eve/inc/TEveDigitSet.h
+--- root-old/graf3d/eve/inc/TEveDigitSet.h	2010-10-27 16:48:37.000000000 +0200
++++ root/graf3d/eve/inc/TEveDigitSet.h	2010-12-15 17:34:14.000000000 +0100
+@@ -70,7 +70,7 @@
+    TEveFrameBox*     fFrame;          //  Pointer to frame structure.
+    TEveRGBAPalette*  fPalette;        //  Pointer to signal-color palette.
+    ERenderMode_e     fRenderMode;     //  Render mode: as-is / line / filled.
+-   Bool_t            fDisableLigting; //  Disable lighting for rendering.
++   Bool_t            fDisableLighting;//  Disable lighting for rendering.
+    Bool_t            fHistoButtons;   //  Show histogram buttons in object editor.
+ 
+    Bool_t            fEmitSignals;    //  Emit signals on secondary-select.
+@@ -155,6 +155,9 @@
+    ERenderMode_e  GetRenderMode()           const { return fRenderMode; }
+    void           SetRenderMode(ERenderMode_e rm) { fRenderMode = rm; }
+ 
++   Bool_t GetDisableLighting() const   { return fDisableLighting; }
++   void   SetDisableLighting(Bool_t l) { fDisableLighting = l; }
++
+    Bool_t GetHistoButtons() const   { return fHistoButtons; }
+    void   SetHistoButtons(Bool_t f) { fHistoButtons = f; }
+ 
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveGeoPolyShape.h root/graf3d/eve/inc/TEveGeoPolyShape.h
+--- root-old/graf3d/eve/inc/TEveGeoPolyShape.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/eve/inc/TEveGeoPolyShape.h	2010-12-15 17:33:33.000000000 +0100
+@@ -13,10 +13,10 @@
+ #define ROOT_TEveGeoPolyShape
+ 
+ #include "TGeoBBox.h"
+-#include "TAttBBox.h"
+ 
+ class TBuffer3D;
+ class TGLFaceSet;
++class TGeoCompositeShape;
+ 
+ class TEveGeoPolyShape : public TGeoBBox
+ {
+@@ -33,10 +33,30 @@
+ 
+    virtual void FillBuffer3D(TBuffer3D& buffer, Int_t reqSections, Bool_t localFrame) const;
+ 
++   struct Edge_t
++   {
++      Int_t fI, fJ;
++      Edge_t(Int_t i, Int_t j)
++      {
++         if (i <= j) { fI = i; fJ = j; }
++         else        { fI = j; fJ = i; }
++      }
++
++      bool operator<(const Edge_t& e) const
++      {
++         if (fI == e.fI)
++            return fJ < e.fJ;
++         else
++            return fI < e.fI;
++      }
++   };
++
+ public:
+    TEveGeoPolyShape();
+    virtual ~TEveGeoPolyShape() {}
+ 
++   static TEveGeoPolyShape* Construct(TGeoCompositeShape *cshp, Int_t n_seg);
++
+    void SetFromFaceSet(TGLFaceSet* fs);
+ 
+    virtual const TBuffer3D& GetBuffer3D(Int_t reqSections, Bool_t localFrame) const;
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveGeoShape.h root/graf3d/eve/inc/TEveGeoShape.h
+--- root-old/graf3d/eve/inc/TEveGeoShape.h	2010-10-27 16:48:23.000000000 +0200
++++ root/graf3d/eve/inc/TEveGeoShape.h	2010-12-15 17:33:33.000000000 +0100
+@@ -12,32 +12,31 @@
+ #ifndef ROOT_TEveGeoShape
+ #define ROOT_TEveGeoShape
+ 
+-#include "TEveElement.h"
+-#include "TEveProjectionBases.h"
+-#include "TAttBBox.h"
++#include "TEveShape.h"
+ 
+ class TGeoShape;
++class TGeoCompositeShape;
+ class TEveGeoShapeExtract;
+ class TBuffer3D;
+ 
+-class TEveGeoShape : public TEveElement,
+-                     public TNamed,
+-                     public TEveProjectable
++class TEveGeoShape : public TEveShape
+ {
+ private:
+    TEveGeoShape(const TEveGeoShape&);            // Not implemented
+    TEveGeoShape& operator=(const TEveGeoShape&); // Not implemented
+ 
+ protected:
+-   Color_t           fColor;
+-   Int_t             fNSegments;
+-   TGeoShape*        fShape;
++   Int_t               fNSegments;
++   TGeoShape          *fShape;
++   TGeoCompositeShape *fCompositeShape; //! Temporary holder (if passed shape is composite shape).
+ 
+-   static TGeoManager* fgGeoMangeur;
++   static TGeoManager *fgGeoMangeur;
+ 
+    static TEveGeoShape* SubImportShapeExtract(TEveGeoShapeExtract* gse, TEveElement* parent);
+    TEveGeoShapeExtract* DumpShapeTree(TEveGeoShape* geon, TEveGeoShapeExtract* parent=0);
+ 
++   TGeoShape* MakePolyShape();
++
+ public:
+    TEveGeoShape(const char* name="TEveGeoShape", const char* title=0);
+    virtual ~TEveGeoShape();
+@@ -45,12 +44,12 @@
+    virtual TObject* GetObject(const TEveException&) const
+    { const TObject* obj = this; return const_cast<TObject*>(obj); }
+ 
+-   Color_t     GetColor()      const { return fColor; }
+    Int_t       GetNSegments()  const { return fNSegments; }
+-   void        SetNSegments(Int_t s) { fNSegments = s; }
+-   TGeoShape*  GetShape()            { return fShape; }
++   TGeoShape*  GetShape()      const { return fShape;     }
++   void        SetNSegments(Int_t s);
+    void        SetShape(TGeoShape* s);
+ 
++   virtual void ComputeBBox();
+    virtual void Paint(Option_t* option="");
+ 
+    void Save(const char* file, const char* name="Extract");
+@@ -65,21 +64,20 @@
+ 
+    static TGeoManager*  GetGeoMangeur();
+ 
+-   ClassDef(TEveGeoShape, 1); // Wrapper for TGeoShape with absolute positioning and color attributes allowing display of extracted TGeoShape's (without an active TGeoManager) and simplified geometries (needed for NLT projections).
++   ClassDef(TEveGeoShape, 2); // Wrapper for TGeoShape with absolute positioning and color attributes allowing display of extracted TGeoShape's (without an active TGeoManager) and simplified geometries (needed for NLT projections).
+ };
+ 
+ //------------------------------------------------------------------------------
+ 
+-class TEveGeoShapeProjected : public TEveElementList,
+-                              public TEveProjected,
+-                              public TAttBBox
++class TEveGeoShapeProjected : public TEveShape,
++                              public TEveProjected
+ {
+ private:
+    TEveGeoShapeProjected(const TEveGeoShapeProjected&);            // Not implemented
+    TEveGeoShapeProjected& operator=(const TEveGeoShapeProjected&); // Not implemented
+ 
+ protected:
+-   TBuffer3D*  fBuff;
++   TBuffer3D   *fBuff;
+ 
+    virtual void SetDepthLocal(Float_t d);
+ 
+@@ -87,14 +85,11 @@
+    TEveGeoShapeProjected();
+    virtual ~TEveGeoShapeProjected() {}
+ 
+-   virtual Bool_t  CanEditMainTransparency() const { return kTRUE; }
+-
+    virtual void SetProjection(TEveProjectionManager* proj, TEveProjectable* model);
+    virtual void UpdateProjection();
+    virtual TEveElement* GetProjectedAsElement() { return this; }
+ 
+    virtual void ComputeBBox();
+-   virtual void Paint(Option_t* option = ""); 
+ 
+    ClassDef(TEveGeoShapeProjected, 0);
+ };
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveGeoShapeExtract.h root/graf3d/eve/inc/TEveGeoShapeExtract.h
+--- root-old/graf3d/eve/inc/TEveGeoShapeExtract.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/eve/inc/TEveGeoShapeExtract.h	2010-12-15 17:32:56.000000000 +0100
+@@ -25,8 +25,11 @@
+ protected:
+    Double_t    fTrans[16];   // Transformation matrix, 4x4 column major.
+    Float_t     fRGBA[4];     // RGBA color.
++   Float_t     fRGBALine[4]; // RGBA color.
+    Bool_t      fRnrSelf;     // Render this object.
+    Bool_t      fRnrElements; // Render children of this object.
++   Bool_t      fRnrFrame;    // Also draw shape outline.
++   Bool_t      fMiniFrame;   // Minimize shape outline when drawing.
+    TGeoShape*  fShape;       // Shape to be drawn for this object.
+    TList*      fElements;    // Children elements.
+ 
+@@ -39,19 +42,25 @@
+ 
+    void SetTrans(const Double_t arr[16]);
+    void SetRGBA (const Float_t  arr[4]);
++   void SetRGBALine(const Float_t  arr[4]);
+    void SetRnrSelf(Bool_t r)     { fRnrSelf = r;     }
+    void SetRnrElements(Bool_t r) { fRnrElements = r; }
++   void SetRnrFrame(Bool_t r)    { fRnrFrame = r; }
++   void SetMiniFrame(Bool_t r)   { fMiniFrame = r; }
+    void SetShape(TGeoShape* s)   { fShape = s;       }
+    void SetElements(TList* e)    { fElements = e;    }
+ 
+    Double_t*  GetTrans()       { return fTrans; }
+    Float_t*   GetRGBA()        { return fRGBA;  }
++   Float_t*   GetRGBALine()    { return fRGBALine; }
+    Bool_t     GetRnrSelf()     { return fRnrSelf;     }
+    Bool_t     GetRnrElements() { return fRnrElements; }
++   Bool_t     GetRnrFrame()    { return fRnrFrame; }
++   Bool_t     GetMiniFrame()   { return fMiniFrame; }
+    TGeoShape* GetShape()       { return fShape;    }
+    TList*     GetElements()    { return fElements; }
+ 
+-   ClassDef(TEveGeoShapeExtract, 1); // Globally positioned TGeoShape with rendering attributes and an optional list of daughter shape-extracts.
++   ClassDef(TEveGeoShapeExtract, 2); // Globally positioned TGeoShape with rendering attributes and an optional list of daughter shape-extracts.
+ };
+ 
+ #endif
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEvePolygonSetProjected.h root/graf3d/eve/inc/TEvePolygonSetProjected.h
+--- root-old/graf3d/eve/inc/TEvePolygonSetProjected.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/eve/inc/TEvePolygonSetProjected.h	2010-12-15 17:33:33.000000000 +0100
+@@ -14,7 +14,6 @@
+ 
+ #include "TEveVector.h"
+ #include "TEveShape.h"
+-#include "TEveProjectionBases.h"
+ 
+ class TBuffer3D;
+ 
+@@ -41,7 +40,12 @@
+       { fNPnts = x.fNPnts; fPnts = x.fPnts; return *this; }
+ 
+       Int_t FindPoint(Int_t pi)
+-      { for (Int_t i=0; i<fNPnts; ++i) if (fPnts[i] == pi) return i; return -1; }
++      {
++         for (Int_t i=0; i<fNPnts; ++i) {
++            if (fPnts[i] == pi) return i;
++         }
++         return -1;
++      }
+    };
+ 
+    typedef std::list<Polygon_t>                    vpPolygon_t;
+@@ -68,6 +72,8 @@
+ 
+    virtual void SetDepthLocal(Float_t d);
+ 
++   Float_t PolygonSurfaceXY(const Polygon_t& poly) const;
++
+ public:
+    TEvePolygonSetProjected(const char* n="TEvePolygonSetProjected", const char* t="");
+    virtual ~TEvePolygonSetProjected();
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEvePolygonSetProjectedGL.h root/graf3d/eve/inc/TEvePolygonSetProjectedGL.h
+--- root-old/graf3d/eve/inc/TEvePolygonSetProjectedGL.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/eve/inc/TEvePolygonSetProjectedGL.h	2010-12-15 17:32:36.000000000 +0100
+@@ -14,8 +14,31 @@
+ 
+ #include "TGLObject.h"
+ 
++class TEvePolygonSetProjected;
++
+ class TEvePolygonSetProjectedGL : public TGLObject
+ {
++protected:
++   struct Edge_t
++   {
++      Int_t fI, fJ;
++      Edge_t(Int_t i, Int_t j)
++      {
++         if (i <= j) { fI = i; fJ = j; }
++         else        { fI = j; fJ = i; }
++      }
++
++      bool operator<(const Edge_t& e) const
++      {
++         if (fI == e.fI)
++            return fJ < e.fJ;
++         else
++            return fI < e.fI;
++      }
++   };
++
++   TEvePolygonSetProjected *fM;
++
+ public:
+    TEvePolygonSetProjectedGL();
+    virtual  ~TEvePolygonSetProjectedGL() {}
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveShape.h root/graf3d/eve/inc/TEveShape.h
+--- root-old/graf3d/eve/inc/TEveShape.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/eve/inc/TEveShape.h	2010-12-15 17:33:42.000000000 +0100
+@@ -40,6 +40,7 @@
+ 
+    Bool_t       fDrawFrame;      // draw frame
+    Bool_t       fHighlightFrame; // highlight frame / all shape
++   Bool_t       fMiniFrame;      // draw minimal frame
+ 
+ public:
+    TEveShape(const char* n="TEveShape", const char* t="");
+@@ -53,12 +54,14 @@
+    virtual Float_t GetLineWidth() const { return fLineWidth;}
+    virtual Bool_t  GetDrawFrame()      const { return fDrawFrame; }
+    virtual Bool_t  GetHighlightFrame() const { return fHighlightFrame; }
++   virtual Bool_t  GetMiniFrame()      const { return fMiniFrame; }
+ 
+    virtual void    SetFillColor(Color_t c)  { fFillColor = c; }
+    virtual void    SetLineColor(Color_t c)  { fLineColor = c; }
+    virtual void    SetLineWidth(Float_t lw) { fLineWidth = lw;}
+    virtual void    SetDrawFrame(Bool_t f)      { fDrawFrame = f; }
+    virtual void    SetHighlightFrame(Bool_t f) { fHighlightFrame = f; }
++   virtual void    SetMiniFrame(Bool_t r)      { fMiniFrame = r; }
+ 
+    // ----------------------------------------------------------------
+ 
+@@ -78,7 +81,13 @@
+ 
+    // ----------------------------------------------------------------
+ 
+-   static Int_t FindConvexHull(const vVector2_t& pin, vVector2_t& pout, TEveElement* caller=0);
++   static Int_t  FindConvexHull(const vVector2_t& pin, vVector2_t& pout, TEveElement* caller=0);
++
++   static Bool_t IsBoxOrientationConsistentEv(const TEveVector box[8]);
++   static Bool_t IsBoxOrientationConsistentFv(const Float_t    box[8][3]);
++
++   static void   CheckAndFixBoxOrientationEv(TEveVector box[8]);
++   static void   CheckAndFixBoxOrientationFv(Float_t    box[8][3]);
+ 
+    ClassDef(TEveShape, 0); // Abstract base-class for 2D/3D shapes.
+ };
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveStraightLineSet.h root/graf3d/eve/inc/TEveStraightLineSet.h
+--- root-old/graf3d/eve/inc/TEveStraightLineSet.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/eve/inc/TEveStraightLineSet.h	2010-12-15 17:33:06.000000000 +0100
+@@ -97,6 +97,9 @@
+    Marker_t* AddMarker(const TEveVector& p, Int_t line_id=-1);
+    Marker_t* AddMarker(Int_t line_id, Float_t pos);
+ 
++   void      SetLine(int idx, Float_t x1, Float_t y1, Float_t z1, Float_t x2, Float_t y2, Float_t z2);
++   void      SetLine(int idx, const TEveVector& p1, const TEveVector& p2);
++
+    TEveChunkManager& GetLinePlex()   { return fLinePlex;   }
+    TEveChunkManager& GetMarkerPlex() { return fMarkerPlex; }
+ 
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveBox.cxx root/graf3d/eve/src/TEveBox.cxx
+--- root-old/graf3d/eve/src/TEveBox.cxx	2010-10-27 16:37:10.000000000 +0200
++++ root/graf3d/eve/src/TEveBox.cxx	2010-12-15 17:33:42.000000000 +0100
+@@ -51,6 +51,7 @@
+    fVertices[i][0] = x;
+    fVertices[i][1] = y;
+    fVertices[i][2] = z;
++   ResetBBox();
+ }
+ 
+ //______________________________________________________________________________
+@@ -61,6 +62,7 @@
+    fVertices[i][0] = v[0];
+    fVertices[i][1] = v[1];
+    fVertices[i][2] = v[2];
++   ResetBBox();
+ }
+ 
+ //______________________________________________________________________________
+@@ -69,6 +71,7 @@
+    // Set vertices.
+ 
+    memcpy(fVertices, vs, sizeof(fVertices));
++   ResetBBox();
+ }
+ 
+ //==============================================================================
+@@ -78,6 +81,8 @@
+ {
+    // Compute bounding-box of the data.
+ 
++   TEveShape::CheckAndFixBoxOrientationFv(fVertices);
++
+    BBoxInit();
+    for (Int_t i=0; i<8; ++i)
+    {
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveBoxGL.cxx root/graf3d/eve/src/TEveBoxGL.cxx
+--- root-old/graf3d/eve/src/TEveBoxGL.cxx	2010-10-27 16:48:32.000000000 +0200
++++ root/graf3d/eve/src/TEveBoxGL.cxx	2010-12-15 17:32:27.000000000 +0100
+@@ -100,7 +100,7 @@
+ //______________________________________________________________________________
+ void TEveBoxGL::RenderBoxStdNorm(const Float_t p[8][3]) const
+ {
+-   // Render box with "standard" normals.
++   // Render box with standard axis-aligned normals.
+ 
+    glBegin(GL_QUADS);
+ 
+@@ -142,7 +142,7 @@
+    subtract_and_normalize(p[3], p[0], e[1]);
+    subtract_and_normalize(p[4], p[0], e[2]);
+    subtract_and_normalize(p[5], p[6], e[3]);
+-   subtract_and_normalize(p[4], p[6], e[4]);
++   subtract_and_normalize(p[7], p[6], e[4]);
+    subtract_and_normalize(p[2], p[6], e[5]);
+ 
+    glBegin(GL_QUADS);
+@@ -156,7 +156,7 @@
+    glVertex3fv(p[7]); glVertex3fv(p[6]);
+    glVertex3fv(p[5]); glVertex3fv(p[4]);
+    // back:  0451
+-   glNormal3fv(TMath::Cross(e[2], e[1], n));
++   glNormal3fv(TMath::Cross(e[2], e[0], n));
+    glVertex3fv(p[0]); glVertex3fv(p[4]);
+    glVertex3fv(p[5]); glVertex3fv(p[1]);
+    // front:   3267
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveBoxSet.cxx root/graf3d/eve/src/TEveBoxSet.cxx
+--- root-old/graf3d/eve/src/TEveBoxSet.cxx	2010-10-27 16:37:10.000000000 +0200
++++ root/graf3d/eve/src/TEveBoxSet.cxx	2010-12-15 17:34:14.000000000 +0100
+@@ -10,11 +10,9 @@
+  *************************************************************************/
+ 
+ #include "TEveBoxSet.h"
++#include "TEveShape.h"
++
+ #include "TRandom.h"
+-#include "TBuffer3D.h"
+-#include "TBuffer3DTypes.h"
+-#include "TVirtualPad.h"
+-#include "TVirtualViewer3D.h"
+ 
+ //==============================================================================
+ // TEveBoxSet
+@@ -60,7 +58,7 @@
+    // Constructor.
+ 
+    // Override from TEveDigitSet.
+-   fDisableLigting = kFALSE;
++   fDisableLighting = kFALSE;
+ }
+ 
+ /******************************************************************************/
+@@ -126,6 +124,7 @@
+ 
+    BFreeBox_t* b = (BFreeBox_t*) NewDigit();
+    memcpy(b->fVertices, verts, sizeof(b->fVertices));
++   TEveShape::CheckAndFixBoxOrientationFv(b->fVertices);
+ }
+ 
+ //______________________________________________________________________________
+@@ -233,9 +232,8 @@
+       {
+          while (bi.next()) {
+             BFreeBox_t& b = * (BFreeBox_t*) bi();
+-            Float_t * p = b.fVertices;
+-            for(int i=0; i<8; ++i, p+=3)
+-               BBoxCheckPoint(p);
++            for (Int_t i = 0; i < 8; ++i)
++               BBoxCheckPoint(b.fVertices[i]);
+          }
+          break;
+       }
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveBoxSetGL.cxx root/graf3d/eve/src/TEveBoxSetGL.cxx
+--- root-old/graf3d/eve/src/TEveBoxSetGL.cxx	2010-10-27 16:48:32.000000000 +0200
++++ root/graf3d/eve/src/TEveBoxSetGL.cxx	2010-12-15 17:34:28.000000000 +0100
+@@ -61,51 +61,110 @@
+ }
+ 
+ //______________________________________________________________________________
+-void TEveBoxSetGL::MakeOriginBox(Float_t p[24], Float_t dx, Float_t dy, Float_t dz) const
++void TEveBoxSetGL::MakeOriginBox(Float_t p[8][3], Float_t dx, Float_t dy, Float_t dz) const
+ {
+    // Fill array p to represent a box (0,0,0) - (dx,dy,dz).
+ 
+    // bottom
+-   p[0] = 0;  p[1] = dy; p[2] = 0;  p += 3;
+-   p[0] = dx; p[1] = dy; p[2] = 0;  p += 3;
+-   p[0] = dx; p[1] = 0;  p[2] = 0;  p += 3;
+-   p[0] = 0;  p[1] = 0;  p[2] = 0;  p += 3;
++   p[0][0] = 0;  p[0][1] = dy; p[0][2] = 0;
++   p[1][0] = dx; p[1][1] = dy; p[1][2] = 0;
++   p[2][0] = dx; p[2][1] = 0;  p[2][2] = 0;
++   p[3][0] = 0;  p[3][1] = 0;  p[3][2] = 0;
+    // top
+-   p[0] = 0;  p[1] = dy; p[2] = dz; p += 3;
+-   p[0] = dx; p[1] = dy; p[2] = dz; p += 3;
+-   p[0] = dx; p[1] = 0;  p[2] = dz; p += 3;
+-   p[0] = 0;  p[1] = 0;  p[2] = dz;
++   p[4][0] = 0;  p[4][1] = dy; p[4][2] = dz;
++   p[5][0] = dx; p[5][1] = dy; p[5][2] = dz;
++   p[6][0] = dx; p[6][1] = 0;  p[6][2] = dz;
++   p[7][0] = 0;  p[7][1] = 0;  p[7][2] = dz;
+ }
+ 
+ //______________________________________________________________________________
+-inline void TEveBoxSetGL::RenderBox(const Float_t p[24]) const
++inline void TEveBoxSetGL::RenderBoxStdNorm(const Float_t p[8][3]) const
+ {
+-   // Render a box specified by points in array p.
++   // Render a box specified by points in array p with standard
++   // axis-aligned normals.
+ 
+    // bottom: 0123
+    glNormal3f(0, 0, -1);
+-   glVertex3fv(p);      glVertex3fv(p + 3);
+-   glVertex3fv(p + 6);  glVertex3fv(p + 9);
++   glVertex3fv(p[0]);  glVertex3fv(p[1]);
++   glVertex3fv(p[2]);  glVertex3fv(p[3]);
+    // top:    7654
+    glNormal3f(0, 0, 1);
+-   glVertex3fv(p + 21); glVertex3fv(p + 18);
+-   glVertex3fv(p + 15); glVertex3fv(p + 12);
++   glVertex3fv(p[7]); glVertex3fv(p[6]);
++   glVertex3fv(p[5]); glVertex3fv(p[4]);
+    // back:  0451
+    glNormal3f(0, 1, 0);
+-   glVertex3fv(p);      glVertex3fv(p + 12);
+-   glVertex3fv(p + 15); glVertex3fv(p + 3);
++   glVertex3fv(p[0]); glVertex3fv(p[4]);
++   glVertex3fv(p[5]); glVertex3fv(p[1]);
+    // front:   3267
+    glNormal3f(0, -1, 0);
+-   glVertex3fv(p + 9);   glVertex3fv(p + 6);
+-   glVertex3fv(p + 18);  glVertex3fv(p + 21);
++   glVertex3fv(p[3]);  glVertex3fv(p[2]);
++   glVertex3fv(p[6]);  glVertex3fv(p[7]);
+    // left:    0374
+    glNormal3f(-1, 0, 0);
+-   glVertex3fv(p);       glVertex3fv(p + 9);
+-   glVertex3fv(p + 21);  glVertex3fv(p + 12);
++   glVertex3fv(p[0]);  glVertex3fv(p[3]);
++   glVertex3fv(p[7]);  glVertex3fv(p[4]);
+    // right:   1562
+    glNormal3f(1, 0, 0);
+-   glVertex3fv(p + 3);   glVertex3fv(p + 15);
+-   glVertex3fv(p + 18);  glVertex3fv(p + 6);
++   glVertex3fv(p[1]);  glVertex3fv(p[5]);
++   glVertex3fv(p[6]);  glVertex3fv(p[2]);
++}
++
++namespace
++{
++   void subtract_and_normalize(const Float_t a[3], const Float_t b[3],
++                               Float_t o[3])
++   {
++      // Calculate a - b and normalize the result.
++      o[0] = a[0] - b[0];
++      o[1] = a[1] - b[1];
++      o[2] = a[2] - b[2];
++      Float_t d = sqrtf(o[0]*o[0] + o[1]*o[1] + o[2]*o[2]);
++      if (d != 0)
++      {
++         d = 1.0f / d;
++         o[0] *= d;
++         o[1] *= d;
++         o[2] *= d;
++      }
++   }
++}
++//______________________________________________________________________________
++void TEveBoxSetGL::RenderBoxAutoNorm(const Float_t p[8][3]) const
++{
++   // Render box, calculate normals on the fly from first three points.
++
++   Float_t e[6][3], n[3];
++   subtract_and_normalize(p[1], p[0], e[0]);
++   subtract_and_normalize(p[3], p[0], e[1]);
++   subtract_and_normalize(p[4], p[0], e[2]);
++   subtract_and_normalize(p[5], p[6], e[3]);
++   subtract_and_normalize(p[7], p[6], e[4]);
++   subtract_and_normalize(p[2], p[6], e[5]);
++
++   // bottom: 0123
++   glNormal3fv(TMath::Cross(e[0], e[1], n));
++   glVertex3fv(p[0]); glVertex3fv(p[1]);
++   glVertex3fv(p[2]); glVertex3fv(p[3]);
++   // top:    7654
++   glNormal3fv(TMath::Cross(e[3], e[4], n));
++   glVertex3fv(p[7]); glVertex3fv(p[6]);
++   glVertex3fv(p[5]); glVertex3fv(p[4]);
++   // back:  0451
++   glNormal3fv(TMath::Cross(e[2], e[0], n));
++   glVertex3fv(p[0]); glVertex3fv(p[4]);
++   glVertex3fv(p[5]); glVertex3fv(p[1]);
++   // front:   3267
++   glNormal3fv(TMath::Cross(e[4], e[5], n));
++   glVertex3fv(p[3]); glVertex3fv(p[2]);
++   glVertex3fv(p[6]); glVertex3fv(p[7]);
++   // left:    0374
++   glNormal3fv(TMath::Cross(e[1], e[2], n));
++   glVertex3fv(p[0]); glVertex3fv(p[3]);
++   glVertex3fv(p[7]); glVertex3fv(p[4]);
++   // right:   1562
++   glNormal3fv(TMath::Cross(e[5], e[3], n));
++   glVertex3fv(p[1]); glVertex3fv(p[5]);
++   glVertex3fv(p[6]); glVertex3fv(p[2]);
+ }
+ 
+ //______________________________________________________________________________
+@@ -129,12 +188,12 @@
+       if (fM->fBoxType < TEveBoxSet::kBT_Cone)
+       {
+          glBegin(PrimitiveType());
+-         Float_t p[24];
++         Float_t p[8][3];
+          if (fM->fBoxType == TEveBoxSet::kBT_AABox)
+             MakeOriginBox(p, 1.0f, 1.0f, 1.0f);
+          else
+             MakeOriginBox(p, fM->fDefWidth, fM->fDefHeight, fM->fDefDepth);
+-         RenderBox(p);
++         RenderBoxStdNorm(p);
+          glEnd();
+       }
+       else
+@@ -253,12 +312,12 @@
+             {
+                if (rnrCtx.SecSelection()) glLoadName(bi.index());
+                glBegin(primitiveType);
+-               RenderBox(b.fVertices);
++               RenderBoxAutoNorm(b.fVertices);
+                glEnd();
+                if (fM->fAntiFlick)
+-                  AntiFlick(0.5f*(b.fVertices[0] + b.fVertices[18]),
+-                            0.5f*(b.fVertices[1] + b.fVertices[19]),
+-                            0.5f*(b.fVertices[2] + b.fVertices[20]));
++                  AntiFlick(0.5f*(b.fVertices[0][0] + b.fVertices[6][0]),
++                            0.5f*(b.fVertices[0][1] + b.fVertices[6][1]),
++                            0.5f*(b.fVertices[0][2] + b.fVertices[6][2]));
+             }
+             if (boxSkip) { Int_t s = boxSkip; while (s--) bi.next(); }
+          }
+@@ -395,10 +454,13 @@
+ 
+       glPushAttrib(GL_ENABLE_BIT | GL_POLYGON_BIT);
+ 
+-      if (mB.fRenderMode == TEveDigitSet::kRM_Fill)
+-         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+-      else if (mB.fRenderMode == TEveDigitSet::kRM_Line)
+-         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
++      if ( ! rnrCtx.IsDrawPassOutlineLine())
++      {
++         if (mB.fRenderMode == TEveDigitSet::kRM_Fill)
++            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
++         else if (mB.fRenderMode == TEveDigitSet::kRM_Line)
++            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
++      }
+ 
+       if (mB.fBoxType == TEveBoxSet::kBT_Cone ||
+           mB.fBoxType == TEveBoxSet::kBT_EllipticCone)
+@@ -406,7 +468,7 @@
+          glDisable(GL_CULL_FACE);
+       }
+ 
+-      if (mB.fDisableLigting) glDisable(GL_LIGHTING);
++      if (mB.fDisableLighting) glDisable(GL_LIGHTING);
+ 
+       RenderBoxes(rnrCtx);
+ 
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveBrowser.cxx root/graf3d/eve/src/TEveBrowser.cxx
+--- root-old/graf3d/eve/src/TEveBrowser.cxx	2010-10-27 16:37:10.000000000 +0200
++++ root/graf3d/eve/src/TEveBrowser.cxx	2010-12-15 17:33:20.000000000 +0100
+@@ -788,3 +788,9 @@
+ 
+    delete this;    // will in turn delete this object
+ }
++
++void TEveBrowser::HideBottomTab()
++{
++   fV2->HideFrame(fHSplitter);
++   fV2->HideFrame(fH2);
++}
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveCalo.cxx root/graf3d/eve/src/TEveCalo.cxx
+--- root-old/graf3d/eve/src/TEveCalo.cxx	2010-10-27 16:37:10.000000000 +0200
++++ root/graf3d/eve/src/TEveCalo.cxx	2010-12-15 17:34:00.000000000 +0100
+@@ -161,10 +161,7 @@
+ 
+    // Get maximum plotted value.
+ 
+-   if (fScaleAbs)
+-      return fMaxValAbs;
+-   else
+-      return fData->GetMaxVal(fPlotEt);
++   return fData->GetMaxVal(fPlotEt);
+ 
+ }
+ 
+@@ -629,12 +626,15 @@
+ }
+ 
+ //______________________________________________________________________________
+-void TEveCalo2D::CellSelectionChangedInternal(TEveCaloData::vCellId_t& cells, std::vector<TEveCaloData::vCellId_t*>& cellLists)
++void TEveCalo2D::CellSelectionChangedInternal(TEveCaloData::vCellId_t& inputCells, std::vector<TEveCaloData::vCellId_t*>& outputCellLists)
+ {
+    // Sort slected cells in eta or phi bins.
+ 
++   Bool_t isRPhi = (fManager->GetProjection()->GetType() == TEveProjection::kPT_RPhi);
++   const TAxis* axis = isRPhi ? fData->GetPhiBins() :  fData->GetEtaBins();
++
+    // clear old cache
+-   for (vBinCells_i it = cellLists.begin(); it != cellLists.end(); it++)
++   for (vBinCells_i it = outputCellLists.begin(); it != outputCellLists.end(); it++)
+    {
+       if (*it)
+       {
+@@ -642,35 +642,29 @@
+          delete *it;
+       }
+    }
+-   cellLists.clear();
+-
+-   TEveCaloData::CellData_t  cellData;
+-   if (cells.size())
+-   {
+-      Bool_t rPhi  = fManager->GetProjection()->GetType() == TEveProjection::kPT_RPhi;
+-      UInt_t nBins = rPhi ? fData->GetPhiBins()->GetNbins() : fData->GetEtaBins()->GetNbins();
+-
+-      cellLists.resize(nBins+1);
+-      for (UInt_t b = 0; b <= nBins; ++b)
+-         cellLists[b] = 0;
+-
+-      Int_t bin;
+-      for (TEveCaloData::vCellId_i i=cells.begin(); i!=cells.end(); i++)
+-      {
+-         fData->GetCellData(*i, cellData);
+-         if (CellInEtaPhiRng(cellData))
++   outputCellLists.clear();
++   UInt_t nBins = axis->GetNbins();
++   outputCellLists.resize(nBins+1);
++   for (UInt_t b = 0; b <= nBins; ++b)
++      outputCellLists[b] = 0;
++
++   for(UInt_t bin = 1; bin <= nBins; ++bin)
++   {
++      TEveCaloData::vCellId_t* idsInBin = fCellLists[bin];
++      if (!idsInBin)
++         continue;
++
++      for (TEveCaloData::vCellId_i i = idsInBin->begin(); i != idsInBin->end(); i++)
++      { 
++         for (TEveCaloData::vCellId_i j = inputCells.begin(); j != inputCells.end(); j++)
+          {
+-            if (rPhi)
++            if( (*i).fTower == (*j).fTower && (*i).fSlice == (*j).fSlice)
+             {
+-               bin = fData->GetPhiBins()->FindBin(cellData.Phi());
+-            }
+-            else {
+-               bin = fData->GetEtaBins()->FindBin(cellData.Eta());
+-            }
+-            if (cellLists[bin] == 0)
+-               cellLists[bin] = new TEveCaloData::vCellId_t();
++               if (!outputCellLists[bin])
++                  outputCellLists[bin] = new TEveCaloData::vCellId_t();
+ 
+-            cellLists[bin]->push_back(*i);
++               outputCellLists[bin]->push_back(TEveCaloData::CellId_t((*i).fTower, (*i).fSlice, (*i).fFraction));
++            }
+          }
+       }
+    }
+@@ -699,13 +693,13 @@
+    }
+    else
+    {
+-     if (fData->Empty())
+-       return 1;
++      if (fData->Empty())
++         return 1;
+ 
+-     if (fPlotEt)
+-      return fMaxTowerH/fMaxEtSumBin;
+-     else
+-      return fMaxTowerH/fMaxESumBin;
++      if (fPlotEt)
++         return fMaxTowerH/fMaxEtSumBin;
++      else
++         return fMaxTowerH/fMaxESumBin;
+    }
+ }
+ 
+@@ -819,7 +813,7 @@
+ 
+    BBoxZero();
+ 
+-   Float_t ex = 1.2*fMaxTowerH;
++   Float_t ex = 1.2; // 20% offset for axis labels
+ 
+    Float_t a = 0.5*ex;
+ 
+@@ -845,8 +839,8 @@
+    }
+ 
+    fBBox[4] =  0;
+-   if (fScaleAbs)
+-      fBBox[5] = fMaxTowerH;
++   if (fScaleAbs && !fData->Empty())
++      fBBox[5] = GetMaxVal()*GetValToHeight();
+    else
+-      fBBox[5] = 1;
++      fBBox[5] = fMaxTowerH;
+ }
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveCalo2DGL.cxx root/graf3d/eve/src/TEveCalo2DGL.cxx
+--- root-old/graf3d/eve/src/TEveCalo2DGL.cxx	2010-10-27 16:48:32.000000000 +0200
++++ root/graf3d/eve/src/TEveCalo2DGL.cxx	2010-12-15 17:34:04.000000000 +0100
+@@ -111,7 +111,7 @@
+    Float_t towerH;
+ 
+    UInt_t nPhi = data->GetPhiBins()->GetNbins();
+-
++   TAxis* axis = data->GetPhiBins();
+    for(UInt_t phiBin = 1; phiBin <= nPhi; ++phiBin)
+    {
+       if (cellLists[phiBin] )
+@@ -126,7 +126,7 @@
+          for (TEveCaloData::vCellId_i it = cids->begin(); it != cids->end(); it++)
+          {
+             data->GetCellData(*it, cellData);
+-            sliceVal[(*it).fSlice] += cellData.Value(fM->fPlotEt);
++            sliceVal[(*it).fSlice] += cellData.Value(fM->fPlotEt)*(*it).fFraction;
+          }
+ 
+          if (rnrCtx.SecSelection()) {
+@@ -137,7 +137,7 @@
+          {
+             if (rnrCtx.SecSelection())  glLoadName(s); // set name-stack slice
+             fM->SetupColorHeight(sliceVal[s], s, towerH);
+-            MakeRPhiCell(cellData.PhiMin(), cellData.PhiMax(), towerH, off);
++            MakeRPhiCell(axis->GetBinLowEdge(phiBin), axis->GetBinUpEdge(phiBin), towerH, off);
+             off += towerH;
+          }
+          if (rnrCtx.SecSelection()) glPopName(); // slice
+@@ -162,6 +162,7 @@
+    Float_t *sliceValRef = new Float_t[nSlices];
+    Float_t  towerH, towerHRef;
+ 
++   TAxis* axis = data->GetPhiBins();
+    for(UInt_t phiBin = 1; phiBin <= nPhiBins; ++phiBin)
+    {
+       if (cellLists[phiBin])
+@@ -175,14 +176,14 @@
+          TEveCaloData::vCellId_t& cids = *(cellLists[phiBin]);
+          for (TEveCaloData::vCellId_i i=cids.begin(); i!=cids.end(); i++) {
+             data->GetCellData((*i), cellData);
+-            sliceVal[i->fSlice] += cellData.Value(fM->fPlotEt);
++            sliceVal[i->fSlice] += cellData.Value(fM->fPlotEt)*(*i).fFraction;
+          }
+          // referenced eta sum
+          for (Int_t s=0; s<nSlices; ++s) sliceValRef[s] = 0;
+          TEveCaloData::vCellId_t& cidsRef = *(fM->fCellLists[phiBin]);
+          for (TEveCaloData::vCellId_i i=cidsRef.begin(); i!=cidsRef.end(); i++) {
+             data->GetCellData(*i, cellData);
+-            sliceValRef[i->fSlice] += cellData.Value(fM->fPlotEt);
++            sliceValRef[i->fSlice] += cellData.Value(fM->fPlotEt)*(*i).fFraction;
+          }
+          // draw
+          for (Int_t s = 0; s < nSlices; ++s)  {
+@@ -190,7 +191,7 @@
+             if (sliceVal[s] > 0)
+             {
+                fM->SetupColorHeight(sliceVal[s], s, towerH);
+-               MakeRPhiCell(cellData.PhiMin(), cellData.PhiMax(), towerH, off);
++               MakeRPhiCell(axis->GetBinLowEdge(phiBin), axis->GetBinUpEdge(phiBin), towerH, off);
+             }
+             off += towerHRef;
+          }
+@@ -270,12 +271,18 @@
+    Float_t  towerH;
+    Float_t transEta = fM->GetTransitionEta();
+ 
+-   UInt_t nEta = data->GetEtaBins()->GetNbins();
++   TAxis* axis = data->GetEtaBins();
++   UInt_t nEta = axis->GetNbins();
+    for (UInt_t etaBin = 1; etaBin <= nEta; ++etaBin)
+    {
+       if (cellLists[etaBin] )
+       {
+          assert(fM->fCellLists[etaBin]);
++         Float_t etaMin = axis->GetBinLowEdge(etaBin);
++         Float_t etaMax = axis->GetBinUpEdge(etaBin);
++         Float_t thetaMin = TEveCaloData::EtaToTheta(etaMax);
++         Float_t thetaMax = TEveCaloData::EtaToTheta(etaMin);
++
+          // clear
+          Float_t offUp  = 0;
+          Float_t offLow = 0;
+@@ -289,14 +296,14 @@
+          {
+             data->GetCellData(*it, cellData);
+             if (cellData.Phi() > 0)
+-               sliceValsUp [it->fSlice] += cellData.Value(fM->fPlotEt);
++               sliceValsUp [it->fSlice] += cellData.Value(fM->fPlotEt)*(*it).fFraction;
+             else
+-               sliceValsLow[it->fSlice] += cellData.Value(fM->fPlotEt);
++               sliceValsLow[it->fSlice] += cellData.Value(fM->fPlotEt)*(*it).fFraction;
+          }
+ 
+          isBarrel = true;
+-         if ((cellData.EtaMax() > 0 && cellData.EtaMax() > transEta) ||
+-             (cellData.EtaMin() < 0 && cellData.EtaMin() < -transEta))
++         if ((etaMax > 0 && etaMax > transEta) ||
++             (etaMin < 0 && etaMin < -transEta))
+          {
+             isBarrel = false;
+          }
+@@ -314,7 +321,7 @@
+             {
+                if (rnrCtx.SecSelection()) glLoadName(1);  // name-stack phi sign
+                fM->SetupColorHeight(sliceValsUp[s], s, towerH);
+-               MakeRhoZCell(cellData.ThetaMin(), cellData.ThetaMax(), offUp, isBarrel, kTRUE , towerH);
++               MakeRhoZCell(thetaMin, thetaMax, offUp, isBarrel, kTRUE , towerH);
+                offUp += towerH;
+             }
+             // phi -
+@@ -322,7 +329,7 @@
+             {
+                if (rnrCtx.SecSelection()) glLoadName(0);  // name-stack phi sign
+                fM->SetupColorHeight(sliceValsLow[s], s, towerH);
+-               MakeRhoZCell(cellData.ThetaMin(), cellData.ThetaMax(), offLow, isBarrel, kFALSE , towerH);
++               MakeRhoZCell(thetaMin, thetaMax, offLow, isBarrel, kFALSE , towerH);
+                offLow += towerH;
+             }
+             if (rnrCtx.SecSelection())  glPopName(); // phi sign is pos
+@@ -344,8 +351,9 @@
+    static const TEveException eh("TEveCalo2DGL::DrawRhoZHighlighted ");
+ 
+    TEveCaloData* data = fM->GetData();
++   TAxis* axis        = data->GetEtaBins();
++   UInt_t nEtaBins    = axis->GetNbins();
+    Int_t  nSlices     = data->GetNSlices();
+-   UInt_t nEtaBins    = data->GetEtaBins()->GetNbins();
+ 
+    Float_t *sliceValsUp     = new Float_t[nSlices];
+    Float_t *sliceValsLow    = new Float_t[nSlices];
+@@ -372,9 +380,9 @@
+          for (TEveCaloData::vCellId_i i=cids.begin(); i!=cids.end(); i++) {
+             data->GetCellData(*i, cellData);
+             if (cellData.Phi() > 0)
+-               sliceValsUp [i->fSlice] += cellData.Value(fM->fPlotEt);
++               sliceValsUp [i->fSlice] += cellData.Value(fM->fPlotEt)*(*i).fFraction;
+             else
+-               sliceValsLow[i->fSlice] += cellData.Value(fM->fPlotEt);
++               sliceValsLow[i->fSlice] += cellData.Value(fM->fPlotEt)*(*i).fFraction;
+          }
+ 
+          // reference phi sum
+@@ -385,19 +393,21 @@
+          for (TEveCaloData::vCellId_i i=cidsRef.begin(); i!=cidsRef.end(); i++) {
+             data->GetCellData(*i, cellData);
+             if (cellData.Phi() > 0)
+-               sliceValsUpRef [i->fSlice] += cellData.Value(fM->fPlotEt);
++               sliceValsUpRef [i->fSlice] += cellData.Value(fM->fPlotEt)*(*i).fFraction;
+             else
+-               sliceValsLowRef[i->fSlice] += cellData.Value(fM->fPlotEt);
++               sliceValsLowRef[i->fSlice] += cellData.Value(fM->fPlotEt)*(*i).fFraction;
+          }
+ 
+-         isBarrel = TMath::Abs(cellData.EtaMax()) < fM->GetTransitionEta();
++         isBarrel = TMath::Abs(axis->GetBinCenter(etaBin)) < fM->GetTransitionEta();
+          for (Int_t s = 0; s < nSlices; ++s)
+          {
++            Float_t thetaMin = TEveCaloData::EtaToTheta(axis->GetBinUpEdge(etaBin));
++            Float_t thetaMax = TEveCaloData::EtaToTheta(axis->GetBinLowEdge(etaBin));
+             //  phi +
+             fM->SetupColorHeight(sliceValsUpRef[s], s, towerHRef);
+             if (sliceValsUp[s] > 0) {
+                fM->SetupColorHeight(sliceValsUp[s], s, towerH);
+-               MakeRhoZCell(cellData.ThetaMin(), cellData.ThetaMax(), offUp, isBarrel, kTRUE , towerH);
++               MakeRhoZCell(thetaMin, thetaMax, offUp, isBarrel, kTRUE , towerH);
+             }
+             offUp += towerHRef;
+ 
+@@ -405,7 +415,7 @@
+             fM->SetupColorHeight(sliceValsLowRef[s], s, towerHRef);
+             if (sliceValsLow[s] > 0) {
+                fM->SetupColorHeight(sliceValsLow[s], s, towerH);
+-               MakeRhoZCell(cellData.ThetaMin(), cellData.ThetaMax(), offLow, isBarrel, kFALSE , towerH);
++               MakeRhoZCell(thetaMin, thetaMax, offLow, isBarrel, kFALSE , towerH);
+             }
+             offLow += towerHRef;
+          } // slices
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveCalo3DGL.cxx root/graf3d/eve/src/TEveCalo3DGL.cxx
+--- root-old/graf3d/eve/src/TEveCalo3DGL.cxx	2010-10-27 16:48:32.000000000 +0200
++++ root/graf3d/eve/src/TEveCalo3DGL.cxx	2010-12-15 17:34:04.000000000 +0100
+@@ -638,7 +638,7 @@
+ 
+       if (fM->CellInEtaPhiRng(cellData)) 
+       {
+-         if (TMath::Abs(cellData.EtaMax()) < fM->GetTransitionEta())
++         if (TMath::Abs(cellData.Eta()) < fM->GetTransitionEta())
+             RenderBarrelCell(cellData, towerH, offset);
+          else
+             RenderEndCapCell(cellData, towerH, offset);
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveCaloData.cxx root/graf3d/eve/src/TEveCaloData.cxx
+--- root-old/graf3d/eve/src/TEveCaloData.cxx	2010-10-27 16:48:23.000000000 +0200
++++ root/graf3d/eve/src/TEveCaloData.cxx	2010-12-15 17:32:27.000000000 +0100
+@@ -604,7 +604,7 @@
+    // Get cell geometry and value from cell ID.
+ 
+    cellData.CellGeom_t::operator=( fGeomVec[id.fTower] );
+-   cellData.fValue = fSliceVec[id.fSlice][id.fTower]*id.fFraction;
++   cellData.fValue = fSliceVec[id.fSlice][id.fTower];
+ }
+ 
+ //______________________________________________________________________________
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveCaloLegoGL.cxx root/graf3d/eve/src/TEveCaloLegoGL.cxx
+--- root-old/graf3d/eve/src/TEveCaloLegoGL.cxx	2010-10-27 16:48:32.000000000 +0200
++++ root/graf3d/eve/src/TEveCaloLegoGL.cxx	2010-12-15 17:34:00.000000000 +0100
+@@ -42,7 +42,6 @@
+ TEveCaloLegoGL::TEveCaloLegoGL() :
+    TGLObject(),
+ 
+-   fDataMax(0),
+    fGridColor(-1),
+    fFontColor(-1),
+ 
+@@ -320,7 +319,7 @@
+          idxLeft = i;
+       }
+    }
+-   fZAxisTitlePos.Set(cornerX[idxLeft], cornerY[idxLeft], 1.05 * fDataMax);
++   fZAxisTitlePos.Set(cornerX[idxLeft], cornerY[idxLeft], 1.05 * fMaxVal);
+ 
+ 
+    // XY axis location (closest to eye) first
+@@ -422,7 +421,7 @@
+    // tick-marks and labels.
+ 
+    // set font size first depending on size of projected axis
+-
++ 
+    TGLMatrix mm;
+    GLdouble pm[16];
+    GLint    vp[4];
+@@ -452,7 +451,7 @@
+       fZAxis->SetLabelColor(fFontColor);
+       fZAxis->SetTitleColor(fFontColor);
+       fZAxis->SetNdivisions(fM->fNZSteps*100 + 10);
+-      fZAxis->SetLimits(0, fDataMax);
++      fZAxis->SetLimits(0, fMaxVal);
+       fZAxis->SetTitle(fM->GetPlotEt() ? "Et[GeV]" : "E[GeV]");
+ 
+       fAxisPainter.SetTMNDim(1);
+@@ -481,21 +480,21 @@
+          TGLUtil::Color(fGridColor);
+ 
+          glVertex3f(fBackPlaneXConst[0].fX   ,fBackPlaneXConst[0].fY   ,0);
+-         glVertex3f(fBackPlaneXConst[0].fX   ,fBackPlaneXConst[0].fY   ,fDataMax);
++         glVertex3f(fBackPlaneXConst[0].fX   ,fBackPlaneXConst[0].fY   ,fMaxVal);
+          glVertex3f(fBackPlaneXConst[1].fX   ,fBackPlaneXConst[1].fY   ,0);
+-         glVertex3f(fBackPlaneXConst[1].fX   ,fBackPlaneXConst[1].fY   ,fDataMax);
++         glVertex3f(fBackPlaneXConst[1].fX   ,fBackPlaneXConst[1].fY   ,fMaxVal);
+ 
+ 
+          glVertex3f(fBackPlaneYConst[0].fX   ,fBackPlaneYConst[0].fY   ,0);
+-         glVertex3f(fBackPlaneYConst[0].fX   ,fBackPlaneYConst[0].fY   ,fDataMax);
++         glVertex3f(fBackPlaneYConst[0].fX   ,fBackPlaneYConst[0].fY   ,fMaxVal);
+          glVertex3f(fBackPlaneYConst[1].fX   ,fBackPlaneYConst[1].fY   ,0);
+-         glVertex3f(fBackPlaneYConst[1].fX   ,fBackPlaneYConst[1].fY   ,fDataMax);
++         glVertex3f(fBackPlaneYConst[1].fX   ,fBackPlaneYConst[1].fY   ,fMaxVal);
+ 
+          // box top
+-         glVertex3f(fBackPlaneXConst[0].fX   ,fBackPlaneXConst[0].fY   ,fDataMax);
+-         glVertex3f(fBackPlaneXConst[1].fX   ,fBackPlaneXConst[1].fY   ,fDataMax);
+-         glVertex3f(fBackPlaneYConst[0].fX   ,fBackPlaneYConst[0].fY   ,fDataMax);
+-         glVertex3f(fBackPlaneYConst[1].fX   ,fBackPlaneYConst[1].fY   ,fDataMax);
++         glVertex3f(fBackPlaneXConst[0].fX   ,fBackPlaneXConst[0].fY   ,fMaxVal);
++         glVertex3f(fBackPlaneXConst[1].fX   ,fBackPlaneXConst[1].fY   ,fMaxVal);
++         glVertex3f(fBackPlaneYConst[0].fX   ,fBackPlaneYConst[0].fY   ,fMaxVal);
++         glVertex3f(fBackPlaneYConst[1].fX   ,fBackPlaneYConst[1].fY   ,fMaxVal);
+ 
+          glEnd();
+ 
+@@ -503,7 +502,7 @@
+          glEnable(GL_LINE_STIPPLE);
+          Int_t ondiv;
+          Double_t omin, omax, bw1;
+-         THLimitsFinder::Optimize(0, fDataMax, fM->fNZSteps, omin, omax, ondiv, bw1);
++         THLimitsFinder::Optimize(0, fMaxVal, fM->fNZSteps, omin, omax, ondiv, bw1);
+ 
+          glLineStipple(1, 0x5555);
+          glBegin(GL_LINES);
+@@ -537,7 +536,7 @@
+    ax.SetLabelOffset(0.02);
+    ax.SetTickLength(0.05);
+    fAxisPainter.SetTMNDim(2);
+-   fAxisPainter.RefTMOff(1).Set(0, 0, -fDataMax);
++   fAxisPainter.RefTMOff(1).Set(0, 0, -fMaxVal);
+    fAxisPainter.SetLabelAlign(TGLFont::kCenterH, TGLFont::kBottom);
+ 
+    // eta
+@@ -548,7 +547,7 @@
+    ax.SetNdivisions(710);
+    ax.SetLimits(fM->GetEtaMin(), fM->GetEtaMax());
+    ax.SetTitle(fM->GetData()->GetEtaBins()->GetTitle());
+-   fAxisPainter.RefTitlePos().Set(fXAxisTitlePos.fX, yOff*1.5*ax.GetTickLength(), -fDataMax*ax.GetTickLength());
++   fAxisPainter.RefTitlePos().Set(fXAxisTitlePos.fX, yOff*1.5*ax.GetTickLength(), -fMaxVal*ax.GetTickLength());
+    fAxisPainter.PaintAxis(rnrCtx, &ax);
+    glPopMatrix();
+ 
+@@ -560,13 +559,34 @@
+    ax.SetTitle(fM->GetData()->GetPhiBins()->GetTitle());
+    glPushMatrix();
+    glTranslatef(fYAxisTitlePos.fX, 0, 0);
+-   fAxisPainter.RefTitlePos().Set( xOff*1.5*ax.GetTickLength(), fYAxisTitlePos.fY,  -fDataMax*ax.GetTickLength());
++   fAxisPainter.RefTitlePos().Set( xOff*1.5*ax.GetTickLength(), fYAxisTitlePos.fY,  -fMaxVal*ax.GetTickLength());
+    fAxisPainter.PaintAxis(rnrCtx, &ax);
+    glPopMatrix();
+ 
+ } // DrawAxis3D
+ 
+ //______________________________________________________________________________
++void  TEveCaloLegoGL::GetScaleForMatrix(Float_t& sx, Float_t& sy, Float_t& sz) const
++{
++   Double_t em, eM, pm, pM;
++   fM->fData->GetEtaLimits(em, eM);
++   fM->fData->GetPhiLimits(pm, pM);
++   Double_t unit = ((eM - em) < (pM - pm)) ? (eM - em) : (pM - pm);
++   sx = (eM - em) / (fM->GetEtaRng() * unit);
++   sy = (pM - pm) / (fM->GetPhiRng() * unit);
++
++   sz = 1;
++   if (fM->fScaleAbs)
++   {
++      sz = fM->GetMaxTowerH() / fM->fMaxValAbs;
++   }
++   else if (!fM->fData->Empty())
++   {
++      sz = fM->GetMaxTowerH() / fMaxVal;
++   }
++}
++
++//______________________________________________________________________________
+ void TEveCaloLegoGL::DrawAxis2D(TGLRnrCtx & rnrCtx) const
+ {
+    // Draw XY axis.
+@@ -995,7 +1015,7 @@
+          { 
+             glPushAttrib(GL_ENABLE_BIT | GL_POLYGON_BIT);
+             Float_t z    = 0;
+-            Float_t zOff = fDataMax*0.001 ; // avoid polygon stpiling
++            Float_t zOff = fMaxVal*0.001 ; // avoid polygon stipling
+             glBegin(GL_QUADS);
+             for ( vCell2D_i i = cells2D.begin(); i != cells2D.end(); ++i) {
+                Char_t transp = TMath::Min(100, 80 + fM->fData->GetSliceTransparency(i->fMaxSlice) / 5);
+@@ -1065,14 +1085,9 @@
+ 
+    // modelview matrix
+    glPushMatrix();
+-   Double_t em, eM, pm, pM;
+-   fM->fData->GetEtaLimits(em, eM);
+-   fM->fData->GetPhiLimits(pm, pM);
+-   Double_t unit = ((eM - em) < (pM - pm)) ? (eM - em) : (pM - pm);
+-   Float_t sx = (eM - em) / fM->GetEtaRng();
+-   Float_t sy = (pM - pm) / fM->GetPhiRng();
+-   Float_t sz = (fM->fData->Empty() && (fM->GetScaleAbs() == false)) ? 1 : fM->GetMaxTowerH() / fDataMax;
+-   glScalef(sx / unit, sy / unit, sz);
++   Float_t sx, sy, sz;
++   GetScaleForMatrix(sx, sy, sz);
++   glScalef(sx, sy, sz);
+    glTranslatef(-fM->GetEta(), -fM->fPhi, 0);
+ 
+    glDisable(GL_LIGHTING);
+@@ -1278,19 +1293,11 @@
+       }
+    }
+ 
+-   // cache max val
+-   fDataMax = (fM->fScaleAbs) ? fM->fMaxValAbs : fMaxVal;
+-
+    // modelview matrix
+-   Double_t em, eM, pm, pM;
+-   fM->fData->GetEtaLimits(em, eM);
+-   fM->fData->GetPhiLimits(pm, pM);
+-   Double_t unit = ((eM - em) < (pM - pm)) ? (eM - em) : (pM - pm);
+    glPushMatrix();
+-   Float_t sx = (eM - em) / fM->GetEtaRng();
+-   Float_t sy = (pM - pm) / fM->GetPhiRng();
+-   Float_t sz = (fM->fData->Empty() && (fM->GetScaleAbs() == false)) ? 1 : fM->GetMaxTowerH() / fDataMax;
+-   glScalef(sx / unit, sy / unit, sz);
++   Float_t sx, sy, sz;
++   GetScaleForMatrix(sx, sy, sz);
++   glScalef(sx, sy, sz);
+    glTranslatef(-fM->GetEta(), -fM->fPhi, 0);
+ 
+    fFontColor = fM->fFontColor;
+@@ -1364,7 +1371,7 @@
+          glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+          glDisable(GL_CULL_FACE);
+          TGLUtil::ColorTransparency(fM->fPlaneColor, fM->fPlaneTransparency);
+-         Float_t zhp = fM->fHPlaneVal * fDataMax;
++         Float_t zhp = fM->fHPlaneVal * fMaxVal;
+          glBegin(GL_POLYGON);
+          glVertex3f(fM->fEtaMin, fM->GetPhiMin(), zhp);
+          glVertex3f(fM->fEtaMax, fM->GetPhiMin(), zhp);
+@@ -1423,43 +1430,4 @@
+       }
+    }
+    fM->fData->ProcessSelection(sel, rec);
+-
+-   // if (rec.GetN() > 1)
+-   // {
+-   //    Int_t cellID = rec.GetItem(2);
+-   //    Int_t slice = rec.GetItem(1);
+-
+-   //    if (fBinStep == 1)
+-   //    {
+-   //       Int_t tower = fM->fCellList[cellID].fTower;
+-   //       while (cellID > 0 && tower == fM->fCellList[cellID].fTower)
+-   //       {
+-   //          cells.push_back(fM->fCellList[cellID]);
+-   //          if (fCells3D) break;
+-   //          --cellID;
+-   //       }
+-   //    }
+-   //    else
+-   //    {
+-   //       if (cellID > 0)
+-   //       {
+-   //          Int_t nEta   = fEtaAxis->GetNbins();
+-   //          Int_t phiBin = Int_t(cellID/(nEta+2));
+-   //          Int_t etaBin = cellID - phiBin*(nEta+2);
+-   //          TEveCaloData::vCellId_t sl;
+-   //          fM->fData->GetCellList(fEtaAxis->GetBinCenter(etaBin), fEtaAxis->GetBinWidth(etaBin),
+-   //                                 fPhiAxis->GetBinCenter(phiBin), fPhiAxis->GetBinWidth(phiBin),
+-   //                                 sl);
+-
+-   //          for (TEveCaloData::vCellId_i it = sl.begin(); it != sl.end(); ++it)
+-   //          {
+-   //             if (fCells3D) {
+-   //                if ((*it).fSlice == slice ) cells.push_back(*it);
+-   //             } else {
+-   //                if ((*it).fSlice <= slice ) cells.push_back(*it);
+-   //             }
+-   //          }
+-   //       }
+-   //    }
+-   // }
+ }
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveDigitSet.cxx root/graf3d/eve/src/TEveDigitSet.cxx
+--- root-old/graf3d/eve/src/TEveDigitSet.cxx	2010-10-27 16:37:10.000000000 +0200
++++ root/graf3d/eve/src/TEveDigitSet.cxx	2010-12-15 17:34:14.000000000 +0100
+@@ -75,7 +75,7 @@
+    fFrame          (0),
+    fPalette        (0),
+    fRenderMode     (kRM_AsIs),
+-   fDisableLigting (kTRUE),
++   fDisableLighting(kTRUE),
+    fHistoButtons   (kTRUE),
+    fEmitSignals    (kFALSE),
+    fCallbackFoo    (0),
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveGeoNode.cxx root/graf3d/eve/src/TEveGeoNode.cxx
+--- root-old/graf3d/eve/src/TEveGeoNode.cxx	2010-10-27 16:48:46.000000000 +0200
++++ root/graf3d/eve/src/TEveGeoNode.cxx	2010-12-15 17:32:56.000000000 +0100
+@@ -420,6 +420,16 @@
+       rgba[2] = c->GetBlue();
+    }
+    gse->SetRGBA(rgba);
++   rgba[3] = 1;
++   c = gROOT->GetColor(TColor::GetColorDark(ci));
++   if (c) {
++      rgba[0] = c->GetRed();
++      rgba[1] = c->GetGreen();
++      rgba[2] = c->GetBlue();
++   }
++   gse->SetRGBALine(rgba);
++
++   // Keep default extract line color --> black.
+    Bool_t rnr     = tnode ? tnode->IsVisible()      : geon->GetRnrSelf();
+    Bool_t rnr_els = tnode ? tnode->IsVisDaughters() : geon->GetRnrChildren();
+    if (tvolume) {
+@@ -428,6 +438,8 @@
+    }
+    gse->SetRnrSelf    (rnr);
+    gse->SetRnrElements(rnr_els);
++   gse->SetRnrFrame   (kTRUE);
++   gse->SetMiniFrame  (kTRUE);
+ 
+    gse->SetShape((leafs_only && geon->HasChildren()) ? 0 : tshape);
+ 
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveGeoPolyShape.cxx root/graf3d/eve/src/TEveGeoPolyShape.cxx
+--- root-old/graf3d/eve/src/TEveGeoPolyShape.cxx	2010-10-27 16:37:10.000000000 +0200
++++ root/graf3d/eve/src/TEveGeoPolyShape.cxx	2010-12-15 17:33:33.000000000 +0100
+@@ -10,11 +10,20 @@
+  *************************************************************************/
+ 
+ #include "TEveGeoPolyShape.h"
+-#include "TGLFaceSet.h"
++#include "TEveGeoShape.h"
++#include "TEvePad.h"
++#include "TEveUtil.h"
+ 
+ #include "TVirtualPad.h"
+ #include "TBuffer3D.h"
+ #include "TBuffer3DTypes.h"
++#include "TGLScenePad.h"
++#include "TGLFaceSet.h"
++
++#include "TList.h"
++#include "TGeoBoolNode.h"
++#include "TGeoCompositeShape.h"
++#include "TGeoMatrix.h"
+ 
+ //______________________________________________________________________________
+ // Description of TEveGeoPolyShape
+@@ -31,6 +40,69 @@
+ }
+ 
+ //______________________________________________________________________________
++TEveGeoPolyShape* TEveGeoPolyShape::Construct(TGeoCompositeShape *cshape, Int_t n_seg)
++{
++   // Static constructor from a composite shape.
++
++   TEvePad       pad;
++   TEvePadHolder gpad(kFALSE, &pad);
++   TGLScenePad   scene_pad(&pad);
++   pad.GetListOfPrimitives()->Add(cshape);
++   pad.SetViewer3D(&scene_pad);
++
++   TEveGeoManagerHolder gmgr(TEveGeoShape::GetGeoMangeur(), n_seg);
++
++   scene_pad.BeginScene();
++   {
++      Double_t halfLengths[3] = { cshape->GetDX(), cshape->GetDY(), cshape->GetDZ() };
++
++      TBuffer3D buff(TBuffer3DTypes::kComposite);
++      buff.fID           = cshape;
++      buff.fLocalFrame   = kTRUE;
++      buff.SetLocalMasterIdentity();
++      buff.SetAABoundingBox(cshape->GetOrigin(), halfLengths);
++      buff.SetSectionsValid(TBuffer3D::kCore|TBuffer3D::kBoundingBox);
++
++      Bool_t paintComponents = kTRUE;
++
++      // Start a composite shape, identified by this buffer
++      if (TBuffer3D::GetCSLevel() == 0)
++         paintComponents = gPad->GetViewer3D()->OpenComposite(buff);
++
++      TBuffer3D::IncCSLevel();
++
++      // Paint the boolean node - will add more buffers to viewer
++      TGeoHMatrix xxx;
++      TGeoMatrix *gst = TGeoShape::GetTransform();
++      TGeoShape::SetTransform(&xxx);
++      if (paintComponents) cshape->GetBoolNode()->Paint("");
++      TGeoShape::SetTransform(gst);
++      // Close the composite shape
++      if (TBuffer3D::DecCSLevel() == 0)
++         gPad->GetViewer3D()->CloseComposite();
++   }
++   scene_pad.EndScene();
++   pad.SetViewer3D(0);
++
++   TGLFaceSet* fs = dynamic_cast<TGLFaceSet*>(scene_pad.FindLogical(cshape));
++   if (!fs) {
++      ::Warning("TEveGeoPolyShape::Construct", "Failed extracting CSG tesselation for shape '%s'.", cshape->GetName());
++      return 0;
++   }
++
++   TEveGeoPolyShape *egps = new TEveGeoPolyShape;
++   egps->SetFromFaceSet(fs);
++   egps->fOrigin[0] = cshape->GetOrigin()[0];
++   egps->fOrigin[1] = cshape->GetOrigin()[1];
++   egps->fOrigin[2] = cshape->GetOrigin()[2];
++   egps->fDX = cshape->GetDX();
++   egps->fDY = cshape->GetDY();
++   egps->fDZ = cshape->GetDZ();
++
++   return egps;
++}
++
++//______________________________________________________________________________
+ void TEveGeoPolyShape::SetFromFaceSet(TGLFaceSet* fs)
+ {
+    // Set data-members from a face-set.
+@@ -64,19 +136,38 @@
+       UInt_t nvrt = fVertices.size() / 3;
+       UInt_t nseg = 0;
+ 
++      std::map<Edge_t, Int_t> edges;
++
+       const Int_t *pd = &fPolyDesc[0];
+       for (UInt_t i = 0; i < fNbPols; ++i)
+       {
+-         nseg += pd[0];
+-         pd   += pd[0] + 1;
++         UInt_t nv = pd[0]; ++pd;
++         for (UInt_t j = 0; j < nv; ++j)
++         {
++            Edge_t e(pd[j], (j != nv - 1) ? pd[j+1] : pd[0]);
++            if (edges.find(e) == edges.end())
++            {
++               edges.insert(std::make_pair(e, 0));
++               ++nseg;
++            }
++         }
++         pd += nv;
+       }
+ 
+       b.SetRawSizes(nvrt, 3*nvrt, nseg, 3*nseg, fNbPols, fNbPols+fPolyDesc.size());
+ 
+       memcpy(b.fPnts, &fVertices[0], sizeof(Double_t)*fVertices.size());
+ 
+-      Int_t si = 0, pi = 0, ns = 0;
++      Int_t si = 0, scnt = 0;
++      for (std::map<Edge_t, Int_t>::iterator i = edges.begin(); i != edges.end(); ++i)
++      {
++         b.fSegs[si++] = 0;
++         b.fSegs[si++] = i->first.fI;
++         b.fSegs[si++] = i->first.fJ;
++         i->second = scnt++;
++      }
+ 
++      Int_t pi = 0;
+       pd = &fPolyDesc[0];
+       for (UInt_t i = 0; i < fNbPols; ++i)
+       {
+@@ -85,15 +176,13 @@
+          b.fPols[pi++] = nv;
+          for (UInt_t j = 0; j < nv; ++j)
+          {
+-            b.fSegs[si++] = 0;
+-            b.fSegs[si++] = pd[j];
+-            b.fSegs[si++] = (j != nv - 1) ? pd[j+1] : pd[0];
+-
+-            b.fPols[pi++] = ns++;
++            b.fPols[pi++] = edges[Edge_t(pd[j], (j != nv - 1) ? pd[j+1] : pd[0])];
+          }
+          pd += nv;
+       }
+ 
++      
++
+       b.SetSectionsValid(TBuffer3D::kRawSizes | TBuffer3D::kRaw);
+    }
+ }
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveGeoShape.cxx root/graf3d/eve/src/TEveGeoShape.cxx
+--- root-old/graf3d/eve/src/TEveGeoShape.cxx	2010-10-27 16:37:10.000000000 +0200
++++ root/graf3d/eve/src/TEveGeoShape.cxx	2010-12-15 17:33:33.000000000 +0100
+@@ -21,6 +21,7 @@
+ 
+ #include "TROOT.h"
+ #include "TBuffer3D.h"
++#include "TBuffer3DTypes.h"
+ #include "TVirtualViewer3D.h"
+ #include "TColor.h"
+ #include "TFile.h"
+@@ -30,6 +31,7 @@
+ #include "TGeoNode.h"
+ #include "TGeoShapeAssembly.h"
+ #include "TGeoCompositeShape.h"
++#include "TGeoBoolNode.h"
+ #include "TGeoManager.h"
+ #include "TGeoMatrix.h"
+ #include "TVirtualGeoPainter.h"
+@@ -92,16 +94,13 @@
+ 
+ //______________________________________________________________________________
+ TEveGeoShape::TEveGeoShape(const char* name, const char* title) :
+-   TEveElement   (fColor),
+-   TNamed        (name, title),
+-   fColor        (0),
+-   fNSegments    (0),
+-   fShape        (0)
++   TEveShape       (name, title),
++   fNSegments      (0),
++   fShape          (0),
++   fCompositeShape (0)
+ {
+    // Constructor.
+ 
+-   fCanEditMainColor        = kTRUE;
+-   fCanEditMainTransparency = kTRUE;
+    InitMainTrans();
+ }
+ 
+@@ -114,26 +113,87 @@
+ }
+ 
+ //______________________________________________________________________________
++TGeoShape* TEveGeoShape::MakePolyShape()
++{
++   // Create derived TEveGeoShape form a TGeoCompositeShape.
++
++   return TEveGeoPolyShape::Construct(fCompositeShape, fNSegments);
++}
++
++//______________________________________________________________________________
++void TEveGeoShape::SetNSegments(Int_t s)
++{
++   // Set number of segments.
++
++   if (s != fNSegments && fCompositeShape != 0)
++   {
++      delete fShape;
++      fShape = MakePolyShape();
++   }
++   fNSegments = s;
++}
++
++//______________________________________________________________________________
+ void TEveGeoShape::SetShape(TGeoShape* s)
+ {
+    // Set TGeoShape shown by this object.
++   //
++   // The shape is owned by TEveGeoShape but TGeoShape::fUniqueID is
++   // used for reference counting so you can pass the same shape to
++   // several TEveGeoShapes.
++   //
++   // If it if is taken from an existing TGeoManager, manually
++   // increase the fUniqueID before passing it to TEveGeoShape.
+ 
+    TEveGeoManagerHolder gmgr(fgGeoMangeur);
+ 
+-   if (fShape) {
++   if (fCompositeShape)
++   {
++      delete fShape;
++      fShape = fCompositeShape;
++   }
++   if (fShape)
++   {
+       fShape->SetUniqueID(fShape->GetUniqueID() - 1);
+       if (fShape->GetUniqueID() == 0)
++      {
+          delete fShape;
++      }
+    }
+    fShape = s;
+-   if (fShape) {
++   if (fShape)
++   {
+       fShape->SetUniqueID(fShape->GetUniqueID() + 1);
++      fCompositeShape = dynamic_cast<TGeoCompositeShape*>(fShape);
++      if (fCompositeShape)
++      {
++         fShape = MakePolyShape();
++      }
+    }
+ }
+ 
+ /******************************************************************************/
+ 
+ //______________________________________________________________________________
++void TEveGeoShape::ComputeBBox()
++{
++   // Compute bounding-box.
++
++   TGeoBBox *bb = dynamic_cast<TGeoBBox*>(fShape);
++   if (bb)
++   {
++      BBoxInit();
++      const Double_t *o = bb->GetOrigin();
++      BBoxCheckPoint(o[0] - bb->GetDX(), o[0] - bb->GetDY(), o[0] - bb->GetDZ());
++      BBoxCheckPoint(o[0] + bb->GetDX(), o[0] + bb->GetDY(), o[0] + bb->GetDZ());
++   }
++   else
++   {
++      BBoxZero();
++   }
++}
++
++//______________________________________________________________________________
+ void TEveGeoShape::Paint(Option_t* /*option*/)
+ {
+    // Paint object.
+@@ -145,35 +205,69 @@
+ 
+    TEveGeoManagerHolder gmgr(fgGeoMangeur, fNSegments);
+ 
+-   TBuffer3D& buff = (TBuffer3D&) fShape->GetBuffer3D
+-      (TBuffer3D::kCore, kFALSE);
++   if (fCompositeShape)
++   {
++      Double_t halfLengths[3] = { fCompositeShape->GetDX(), fCompositeShape->GetDY(), fCompositeShape->GetDZ() };
+ 
+-   buff.fID           = this;
+-   buff.fColor        = GetMainColor();
+-   buff.fTransparency = GetMainTransparency();
+-   RefMainTrans().SetBuffer3D(buff);
+-   buff.fLocalFrame   = kTRUE; // Always enforce local frame (no geo manager).
+-
+-   Int_t sections = TBuffer3D::kBoundingBox | TBuffer3D::kShapeSpecific;
+-   if (fNSegments > 2)
+-      sections |= TBuffer3D::kRawSizes | TBuffer3D::kRaw;
+-   fShape->GetBuffer3D(sections, kTRUE);
+-
+-   Int_t reqSec = gPad->GetViewer3D()->AddObject(buff);
+-
+-   if (reqSec != TBuffer3D::kNone) {
+-      // This shouldn't happen, but I suspect it does sometimes.
+-      if (reqSec & TBuffer3D::kCore)
+-         Warning(eh, "Core section required again for shape='%s'. This shouldn't happen.", GetName());
+-      fShape->GetBuffer3D(reqSec, kTRUE);
+-      reqSec = gPad->GetViewer3D()->AddObject(buff);
++      TBuffer3D buff(TBuffer3DTypes::kComposite);
++      buff.fID           = this;
++      buff.fColor        = GetMainColor();
++      buff.fTransparency = GetMainTransparency();
++      RefMainTrans().SetBuffer3D(buff);
++      buff.fLocalFrame   = kTRUE; // Always enforce local frame (no geo manager).
++      buff.SetAABoundingBox(fCompositeShape->GetOrigin(), halfLengths);
++      buff.SetSectionsValid(TBuffer3D::kCore|TBuffer3D::kBoundingBox);
++
++      Bool_t paintComponents = kTRUE;
++
++      // Start a composite shape, identified by this buffer
++      if (TBuffer3D::GetCSLevel() == 0)
++         paintComponents = gPad->GetViewer3D()->OpenComposite(buff);
++
++      TBuffer3D::IncCSLevel();
++
++      // Paint the boolean node - will add more buffers to viewer
++      TGeoHMatrix xxx;
++      TGeoMatrix *gst = TGeoShape::GetTransform();
++      TGeoShape::SetTransform(&xxx);
++      if (paintComponents) fCompositeShape->GetBoolNode()->Paint("");
++      TGeoShape::SetTransform(gst);
++      // Close the composite shape
++      if (TBuffer3D::DecCSLevel() == 0)
++         gPad->GetViewer3D()->CloseComposite();
+    }
++   else
++   {
++      TBuffer3D& buff = (TBuffer3D&) fShape->GetBuffer3D
++         (TBuffer3D::kCore, kFALSE);
++
++      buff.fID           = this;
++      buff.fColor        = GetMainColor();
++      buff.fTransparency = GetMainTransparency();
++      RefMainTrans().SetBuffer3D(buff);
++      buff.fLocalFrame   = kTRUE; // Always enforce local frame (no geo manager).
++
++      Int_t sections = TBuffer3D::kBoundingBox | TBuffer3D::kShapeSpecific;
++      if (fNSegments > 2)
++         sections |= TBuffer3D::kRawSizes | TBuffer3D::kRaw;
++      fShape->GetBuffer3D(sections, kTRUE);
++
++      Int_t reqSec = gPad->GetViewer3D()->AddObject(buff);
++
++      if (reqSec != TBuffer3D::kNone) {
++         // This shouldn't happen, but I suspect it does sometimes.
++         if (reqSec & TBuffer3D::kCore)
++            Warning(eh, "Core section required again for shape='%s'. This shouldn't happen.", GetName());
++         fShape->GetBuffer3D(reqSec, kTRUE);
++         reqSec = gPad->GetViewer3D()->AddObject(buff);
++      }
+ 
+-   if (reqSec != TBuffer3D::kNone)
+-      Warning(eh, "Extra section required: reqSec=%d, shape=%s.", reqSec, GetName());
++      if (reqSec != TBuffer3D::kNone)
++         Warning(eh, "Extra section required: reqSec=%d, shape=%s.", reqSec, GetName());
++   }
+ }
+ 
+-/******************************************************************************/
++//==============================================================================
+ 
+ //______________________________________________________________________________
+ void TEveGeoShape::Save(const char* file, const char* name)
+@@ -218,18 +312,34 @@
+ 
+    TEveGeoShapeExtract* she = new TEveGeoShapeExtract(gsre->GetName(), gsre->GetTitle());
+    she->SetTrans(gsre->RefMainTrans().Array());
+-   Int_t ci = gsre->GetColor();
+-   TColor* c = gROOT->GetColor(ci);
+-   Float_t rgba[4] = {1, 0, 0, 1 - gsre->GetMainTransparency()/100.};
+-   if (c)
+-   {
+-      rgba[0] = c->GetRed();
+-      rgba[1] = c->GetGreen();
+-      rgba[2] = c->GetBlue();
++   {
++      Int_t   ci = gsre->GetFillColor();
++      TColor *c  = gROOT->GetColor(ci);
++      Float_t rgba[4] = { 1, 0, 0, 1 - gsre->GetMainTransparency()/100. };
++      if (c)
++      {
++         rgba[0] = c->GetRed();
++         rgba[1] = c->GetGreen();
++         rgba[2] = c->GetBlue();
++      }
++      she->SetRGBA(rgba);
++   }
++   {
++      Int_t   ci = gsre->GetLineColor();
++      TColor *c  = gROOT->GetColor(ci);
++      Float_t rgba[4] = { 1, 0, 0, 1 };
++      if (c)
++      {
++         rgba[0] = c->GetRed();
++         rgba[1] = c->GetGreen();
++         rgba[2] = c->GetBlue();
++      }
++      she->SetRGBALine(rgba);
+    }
+-   she->SetRGBA(rgba);
+    she->SetRnrSelf(gsre->GetRnrSelf());
+    she->SetRnrElements(gsre->GetRnrChildren());
++   she->SetRnrFrame(gsre->GetDrawFrame());
++   she->SetMiniFrame(gsre->GetMiniFrame());
+    she->SetShape(gsre->GetShape());
+    if (gsre->HasChildren())
+    {
+@@ -274,8 +384,12 @@
+    const Float_t* rgba = gse->GetRGBA();
+    gsre->SetMainColorRGB(rgba[0], rgba[1], rgba[2]);
+    gsre->SetMainAlpha(rgba[3]);
++   rgba = gse->GetRGBALine();
++   gsre->SetLineColor(TColor::GetColor(rgba[0], rgba[1], rgba[2]));
+    gsre->SetRnrSelf(gse->GetRnrSelf());
+    gsre->SetRnrChildren(gse->GetRnrElements());
++   gsre->SetDrawFrame(gse->GetRnrFrame());
++   gsre->SetMiniFrame(gse->GetMiniFrame());
+    gsre->SetShape(gse->GetShape());
+ 
+    if (parent)
+@@ -319,7 +433,7 @@
+    if (fShape == 0) return 0;
+ 
+    if (dynamic_cast<TGeoShapeAssembly*>(fShape)) {
+-      // !!!! TGeoShapeAssembly makes a bad TBuffer3D
++      // TGeoShapeAssembly makes a bad TBuffer3D.
+       return 0;
+    }
+ 
+@@ -353,7 +467,7 @@
+ 
+ //______________________________________________________________________________
+ TEveGeoShapeProjected::TEveGeoShapeProjected() :
+-   TEveElementList("TEveGeoShapeProjected", "", kTRUE),
++   TEveShape("TEveGeoShapeProjected"),
+    fBuff(0)
+ {
+    // Constructor.
+@@ -379,7 +493,6 @@
+    TEveProjected::SetProjection(mng, model);
+ 
+    TEveGeoShape* gre = dynamic_cast<TEveGeoShape*>(fProjectable);
+-   SetMainColor(gre->GetMainColor());
+    CopyVizParams(gre);
+ }
+ 
+@@ -428,26 +541,3 @@
+       BBoxZero();
+    }
+ }
+-
+-//______________________________________________________________________________
+-void TEveGeoShapeProjected::Paint(Option_t* /*option*/)
+-{
+-   // Paint object.
+-
+-   static const TEveException eh("TEveGeoShapeProjected::Paint ");
+-
+-   if (fBuff == 0)
+-      return;
+-
+-   TBuffer3D &buff = *fBuff;
+-
+-   buff.fID           = this;
+-   buff.fColor        = GetMainColor();
+-   buff.fTransparency = GetMainTransparency();
+-   buff.fLocalFrame   = kTRUE;
+-
+-   Int_t reqSec = gPad->GetViewer3D()->AddObject(buff);
+-
+-   if (reqSec != TBuffer3D::kNone)
+-      Warning(eh, "Extra section required: reqSec=%d, shape=%s.", reqSec, GetName());
+-}
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveGeoShapeExtract.cxx root/graf3d/eve/src/TEveGeoShapeExtract.cxx
+--- root-old/graf3d/eve/src/TEveGeoShapeExtract.cxx	2010-10-27 16:37:10.000000000 +0200
++++ root/graf3d/eve/src/TEveGeoShapeExtract.cxx	2010-12-15 17:32:56.000000000 +0100
+@@ -34,9 +34,10 @@
+ //______________________________________________________________________________
+ TEveGeoShapeExtract::TEveGeoShapeExtract(const char* n, const char* t) :
+    TNamed       (n,t),
+-
+    fRnrSelf     (kTRUE),
+    fRnrElements (kTRUE),
++   fRnrFrame    (kTRUE),
++   fMiniFrame   (kTRUE),
+    fShape       (0),
+    fElements    (0)
+ {
+@@ -45,6 +46,7 @@
+    memset(fTrans, 0, sizeof(fTrans));
+    fTrans[0] = fTrans[5] = fTrans[10] = fTrans[15] = 1;
+    fRGBA [0] = fRGBA [1] = fRGBA [2]  = fRGBA [3]  = 1;
++   fRGBALine[0] = fRGBALine[1] = fRGBALine[2] = 0; fRGBALine[3] = 1;
+    gGeoManager = TEveGeoShape::GetGeoMangeur(); // To inforce phony geo-manager on load time.
+ }
+ 
+@@ -90,10 +92,19 @@
+ }
+ 
+ //______________________________________________________________________________
+-void TEveGeoShapeExtract::SetRGBA (const Float_t  arr[4])
++void TEveGeoShapeExtract::SetRGBA(const Float_t  arr[4])
+ {
+    // Set RGBA color.
+ 
+    for(Int_t i=0; i<4; ++i)
+       fRGBA[i] = arr[i];
+ }
++
++//______________________________________________________________________________
++void TEveGeoShapeExtract::SetRGBALine(const Float_t  arr[4])
++{
++   // Set RGBA color for line.
++
++   for(Int_t i=0; i<4; ++i)
++      fRGBALine[i] = arr[i];
++}
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEvePolygonSetProjected.cxx root/graf3d/eve/src/TEvePolygonSetProjected.cxx
+--- root-old/graf3d/eve/src/TEvePolygonSetProjected.cxx	2010-10-27 16:37:10.000000000 +0200
++++ root/graf3d/eve/src/TEvePolygonSetProjected.cxx	2010-12-15 17:33:33.000000000 +0100
+@@ -20,20 +20,20 @@
+ 
+ namespace
+ {
+-struct Seg_t
+-{
+-   // Helper class for building 2D polygons from TBuffer3D.
+-   Int_t fV1;
+-   Int_t fV2;
+-
+-   Seg_t(Int_t i1=-1, Int_t i2=-1) : fV1(i1), fV2(i2) {}
+-};
++   struct Seg_t
++   {
++      // Helper class for building 2D polygons from TBuffer3D.
++      Int_t fV1;
++      Int_t fV2;
+ 
+-typedef std::list<Seg_t>           LSeg_t;
+-typedef std::list<Seg_t>::iterator LSegIt_t;
++      Seg_t(Int_t i1=-1, Int_t i2=-1) : fV1(i1), fV2(i2) {}
++   };
+ 
++   typedef std::list<Seg_t>           LSeg_t;
++   typedef std::list<Seg_t>::iterator LSegIt_t;
+ }
+ 
++
+ //==============================================================================
+ //==============================================================================
+ // TEvePolygonSetProjected
+@@ -93,17 +93,10 @@
+    // This is virtual method from base-class TEveProjected.
+ 
+    TEveProjected::SetProjection(mng, model);
+-   TEveGeoShape* gre = dynamic_cast<TEveGeoShape*>(model);
+ 
++   TEveGeoShape* gre = dynamic_cast<TEveGeoShape*>(model);
+    fBuff = gre->MakeBuffer3D();
+-   if (fBuff)
+-   {
+-      Color_t color = gre->GetMainColor();
+-      SetMainColor(color);
+-      SetLineColor(color);
+-      // SetLineColor((Color_t)TColor::GetColorBright(color));
+-      SetMainTransparency(gre->GetMainTransparency());
+-   }
++   CopyVizParams(gre);
+ }
+ 
+ //______________________________________________________________________________
+@@ -124,9 +117,8 @@
+ 
+    if (fBuff == 0) return;
+ 
+-   // drop polygons, and projected/reduced points
++   // drop polygons and projected/reduced points
+    fPols.clear();
+-
+    ProjectBuffer3D();
+ }
+ 
+@@ -205,9 +197,8 @@
+ 
+    if (pp.size() <= 2) return 0;
+ 
+-   // dimension of bbox
+-   Float_t bbox[] = { 1e6, -1e6, 1e6, -1e6, 1e6, -1e6 };
+-   for (std::list<Int_t>::iterator u = pp.begin(); u!= pp.end(); ++u)
++   Float_t bbox[4] = { 1e6, -1e6, 1e6, -1e6 };
++   for (std::list<Int_t>::iterator u = pp.begin(); u != pp.end(); ++u)
+    {
+       Int_t idx = *u;
+       if (fPnts[idx].fX < bbox[0]) bbox[0] = fPnts[idx].fX;
+@@ -219,37 +210,58 @@
+    Float_t eps = 2*TEveProjection::fgEps;
+    if ((bbox[1]-bbox[0]) < eps || (bbox[3]-bbox[2]) < eps) return 0;
+ 
+-   // duplication
++   // Duplication
+    for (vpPolygon_i poi = pols.begin(); poi != pols.end(); ++poi)
+    {
+       Polygon_t& refP = *poi;
+-      if ((Int_t)pp.size() != refP.fNPnts)
+-         continue;
+-      std::list<Int_t>::iterator u = pp.begin();
+-      Int_t pidx = refP.FindPoint(*u);
+-      if (pidx < 0)
++
++      if ((Int_t) pp.size() != refP.fNPnts)
+          continue;
+-      while (u != pp.end())
++
++      Int_t start_idx = refP.FindPoint(pp.front());
++      if (start_idx < 0)
++            continue;
++      if (++start_idx >= refP.fNPnts) start_idx = 0;
++      
++      // Same orientation duplicate
++      {
++         std::list<Int_t>::iterator u = ++pp.begin();
++         Int_t pidx = start_idx;
++         while (u != pp.end())
++         {
++            if ((*u) != refP.fPnts[pidx])
++               break;
++            ++u;
++            if (++pidx >= refP.fNPnts) pidx = 0;
++         }
++         if (u == pp.end()) return 0;
++      }
++      // Inverse orientation duplicate
+       {
+-         if ((*u) != refP.fPnts[pidx])
+-            break;
+-         ++u;
+-         if (++pidx >= refP.fNPnts) pidx = 0;
++         std::list<Int_t>::iterator u = --pp.end();
++         Int_t pidx = start_idx;
++         while (u != pp.begin())
++         {
++            if ((*u) != refP.fPnts[pidx])
++               break;
++            --u;
++            if (++pidx >= refP.fNPnts) pidx = 0;
++         }
++         if (u == pp.begin()) return 0;
+       }
+-      if (u == pp.end()) return 0;
+    }
+ 
+-   Int_t* pv = new Int_t[pp.size()];
+-   Int_t count=0;
+-   for (std::list<Int_t>::iterator u = pp.begin(); u != pp.end(); u++)
++   Int_t *pv    = new Int_t[pp.size()];
++   Int_t  count = 0;
++   for (std::list<Int_t>::iterator u = pp.begin(); u != pp.end(); ++u)
+    {
+       pv[count] = *u;
+-      count++;
++      ++count;
+    }
+ 
+    pols.push_back(Polygon_t());
+-   pols.back().fNPnts = pp.size();
+-   pols.back().fPnts = &pv[0];
++   pols.back().fNPnts =  pp.size();
++   pols.back().fPnts  = &pv[0];
+ 
+    return (bbox[1]-bbox[0]) * (bbox[3]-bbox[2]);
+ }
+@@ -260,17 +272,17 @@
+    // Build polygons from list of buffer polygons.
+ 
+    TEveProjection* projection = fManager->GetProjection();
+-   Int_t* bpols = fBuff->fPols;
+-   Float_t surf =0; // surface of projected polygons
+-   for (UInt_t pi = 0; pi< fBuff->NbPols(); pi++)
++   Int_t   *bpols = fBuff->fPols;
++   Float_t  surf  = 0; // surface of projected polygons
++   for (UInt_t pi = 0; pi < fBuff->NbPols(); ++pi)
+    {
+       std::list<Int_t> pp; // points in current polygon
+-      UInt_t segN = bpols[1];
+-      Int_t* seg =  &bpols[2];
++      UInt_t  segN =  bpols[1];
++      Int_t  *seg  = &bpols[2];
+       // start idx in the fist segment depends of second segment
+-      Int_t  tail, head;
+-      Bool_t h = IsFirstIdxHead(seg[0], seg[1]);
+-      if (h) {
++      Int_t   tail, head;
++      if (IsFirstIdxHead(seg[0], seg[1]))
++      {
+          head = idxMap[fBuff->fSegs[3*seg[0] + 1]];
+          tail = idxMap[fBuff->fSegs[3*seg[0] + 2]];
+       }
+@@ -285,24 +297,23 @@
+       for (UInt_t s = 1; s < segN; ++s)
+          segs.push_back(Seg_t(fBuff->fSegs[3*seg[s] + 1],fBuff->fSegs[3*seg[s] + 2]));
+ 
+-      Bool_t accepted = kFALSE;
+       for (LSegIt_t it = segs.begin(); it != segs.end(); ++it)
+       {
+          Int_t mv1 = idxMap[(*it).fV1];
+          Int_t mv2 = idxMap[(*it).fV2];
+-         accepted = projection->AcceptSegment(fPnts[mv1], fPnts[mv2], TEveProjection::fgEps);
+ 
+-         if (accepted == kFALSE)
++         if ( ! projection->AcceptSegment(fPnts[mv1], fPnts[mv2], TEveProjection::fgEps))
+          {
+             pp.clear();
+             break;
+          }
+          if (tail != pp.back()) pp.push_back(tail);
+-         tail = (mv1 == tail) ? mv2 :mv1;
++         tail = (mv1 == tail) ? mv2 : mv1;
+       }
+-      // DirectDraw() implementation: last and first vertices should not be equal
+-      if (pp.empty() == kFALSE)
++
++      if ( ! pp.empty())
+       {
++         // DirectDraw() implementation: last and first vertices should not be equal
+          if (pp.front() == pp.back()) pp.pop_front();
+          surf += AddPolygon(pp, fPolsBP);
+       }
+@@ -429,6 +440,22 @@
+ }
+ 
+ //______________________________________________________________________________
++Float_t TEvePolygonSetProjected::PolygonSurfaceXY(const TEvePolygonSetProjected::Polygon_t& p) const
++{
++   // Calculate XY surface of a polygon.
++
++   Float_t surf = 0;
++   Int_t nPnts = p.fNPnts;
++   for (Int_t i = 0; i < nPnts - 1; ++i)
++   {
++      Int_t a = p.fPnts[i];
++      Int_t b = p.fPnts[i+1];
++      surf += fPnts[a].fX * fPnts[b].fY - fPnts[a].fY * fPnts[b].fX;
++   }
++   return 0.5f * TMath::Abs(surf);
++}
++
++//______________________________________________________________________________
+ void TEvePolygonSetProjected::DumpPolys() const
+ {
+    // Dump information about built polygons.
+@@ -441,9 +468,9 @@
+       printf("Points of polygon %d [Np = %d]:\n", ++cnt, nPnts);
+       for (Int_t vi = 0; vi<nPnts; ++vi) {
+          Int_t pi = (*i).fPnts[vi];
+-         printf("(%f, %f, %f)", fPnts[pi].fX, fPnts[pi].fY, fPnts[pi].fZ);
++         printf("  (%f, %f, %f)", fPnts[pi].fX, fPnts[pi].fY, fPnts[pi].fZ);
+       }
+-      printf("\n");
++      printf(", surf=%f\n", PolygonSurfaceXY(*i));
+    }
+ }
+ 
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEvePolygonSetProjectedGL.cxx root/graf3d/eve/src/TEvePolygonSetProjectedGL.cxx
+--- root-old/graf3d/eve/src/TEvePolygonSetProjectedGL.cxx	2010-10-27 16:37:10.000000000 +0200
++++ root/graf3d/eve/src/TEvePolygonSetProjectedGL.cxx	2010-12-15 17:32:56.000000000 +0100
+@@ -34,7 +34,7 @@
+ {
+    // Constructor
+ 
+-   // fDLCache = false; // Disable DL.
++   // fDLCache = kFALSE; // Disable DL.
+    fMultiColor = kTRUE; // Potentially false, reset in DirectDraw().
+ }
+ 
+@@ -45,7 +45,8 @@
+ {
+    // Set model object.
+ 
+-   return SetModelCheckClass(obj, TEvePolygonSetProjected::Class());
++   fM = SetModelDynCast<TEvePolygonSetProjected>(obj);
++   return kTRUE;
+ }
+ 
+ //______________________________________________________________________________
+@@ -53,7 +54,7 @@
+ {
+    // Setup bounding-box information.
+ 
+-   SetAxisAlignedBBox(((TEvePolygonSetProjected*)fExternalObj)->AssertBBox());
++   SetAxisAlignedBBox(fM->AssertBBox());
+ }
+ 
+ /******************************************************************************/
+@@ -75,21 +76,46 @@
+ {
+    // Draw polygons outline.
+ 
+-   TEvePolygonSetProjected& refPS = * (TEvePolygonSetProjected*) fExternalObj;
+-   if (refPS.fPols.size() == 0) return;
++   if (fM->fPols.size() == 0) return;
+ 
+-   Int_t vi;
+-   for (TEvePolygonSetProjected::vpPolygon_ci i = refPS.fPols.begin();
+-        i != refPS.fPols.end(); ++i)
++   if (fM->GetMiniFrame())
+    {
+-      glBegin(GL_LINE_LOOP);
+-      for(Int_t k = 0; k < (*i).fNPnts; ++k)
++      std::map<Edge_t, Int_t> edges;
++
++      for (TEvePolygonSetProjected::vpPolygon_ci i = fM->fPols.begin();
++           i != fM->fPols.end(); ++i)
+       {
+-         vi = (*i).fPnts[k];
+-         glVertex3fv(refPS.fPnts[vi].Arr());
++         for(Int_t k = 0; k < i->fNPnts - 1; ++k)
++         {
++            ++edges[Edge_t(i->fPnts[k], i->fPnts[k+1])];
++         }
++         ++edges[Edge_t(i->fPnts[0], i->fPnts[i->fNPnts - 1])];
++      }
++
++      glBegin(GL_LINES);
++      for (std::map<Edge_t, Int_t>::iterator i = edges.begin(); i != edges.end(); ++i)
++      {
++         if (i->second == 1)
++         {
++            glVertex3fv(fM->fPnts[i->first.fI].Arr());
++            glVertex3fv(fM->fPnts[i->first.fJ].Arr());
++         }
+       }
+       glEnd();
+    }
++   else
++   {
++      for (TEvePolygonSetProjected::vpPolygon_ci i = fM->fPols.begin();
++           i != fM->fPols.end(); ++i)
++      {
++         glBegin(GL_LINE_LOOP);
++         for(Int_t k = 0; k < i->fNPnts; ++k)
++         {
++            glVertex3fv(fM->fPnts[i->fPnts[k]].Arr());
++         }
++         glEnd();
++      }
++   }
+ }
+ 
+ //______________________________________________________________________________
+@@ -97,8 +123,7 @@
+ {
+    // Do GL rendering.
+ 
+-   TEvePolygonSetProjected& refPS = * (TEvePolygonSetProjected*) fExternalObj;
+-   if (refPS.fPols.size() == 0) return;
++   if (fM->fPols.size() == 0) return;
+ 
+    glPushAttrib(GL_ENABLE_BIT | GL_LINE_BIT | GL_POLYGON_BIT);
+ 
+@@ -108,16 +133,16 @@
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glDisable(GL_CULL_FACE);
+ 
+-   fMultiColor = (refPS.fDrawFrame && refPS.fFillColor != refPS.fLineColor);
++   fMultiColor = (fM->fDrawFrame && fM->fFillColor != fM->fLineColor);
+ 
+    // polygons
+    glEnable(GL_POLYGON_OFFSET_FILL);
+    glPolygonOffset(1.0f,1.0f);
+    GLUtesselator *tessObj = TGLUtil::GetDrawTesselator3fv();
+ 
+-   TEveVector* pnts = refPS.fPnts;
+-   for (TEvePolygonSetProjected::vpPolygon_ci i = refPS.fPols.begin();
+-        i != refPS.fPols.end(); ++i)
++   TEveVector* pnts = fM->fPnts;
++   for (TEvePolygonSetProjected::vpPolygon_ci i = fM->fPols.begin();
++        i != fM->fPols.end(); ++i)
+    {
+       Int_t vi; //current vertex index of curent polygon
+       Int_t pntsN = (*i).fNPnts; // number of points in current polygon
+@@ -151,11 +176,11 @@
+    glDisable(GL_POLYGON_OFFSET_FILL);
+ 
+    // Outline
+-   if (refPS.fDrawFrame)
++   if (fM->fDrawFrame)
+    {
+-      TGLUtil::Color(refPS.fLineColor);
++      TGLUtil::Color(fM->fLineColor);
+       glEnable(GL_LINE_SMOOTH);
+-      TGLUtil::LineWidth(refPS.fLineWidth);
++      TGLUtil::LineWidth(fM->fLineWidth);
+       DrawOutline();
+    }
+ 
+@@ -170,9 +195,7 @@
+    // XXXX to support highlight AND selection ...
+    if (lvl < 0) lvl = pshp->GetSelected();
+ 
+-   TEvePolygonSetProjected& refPS = * (TEvePolygonSetProjected*) fExternalObj;
+-
+-   if (refPS.GetHighlightFrame())
++   if (fM->GetHighlightFrame())
+    {
+       glPushAttrib(GL_ENABLE_BIT | GL_LINE_BIT);
+       glDisable(GL_LIGHTING);
+@@ -196,7 +219,7 @@
+       TGLUtil::UnlockColor();
+       rnrCtx.SetHighlightOutline(kFALSE);
+ 
+-      TGLUtil::Color(refPS.fLineColor);
++      TGLUtil::Color(fM->fLineColor);
+       for (int i = 0; i < 4; ++i)
+       {
+          glViewport(vp.X() + inner[i][0], vp.Y() + inner[i][1], vp.Width(), vp.Height());
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveProjectionAxes.cxx root/graf3d/eve/src/TEveProjectionAxes.cxx
+--- root-old/graf3d/eve/src/TEveProjectionAxes.cxx	2010-10-27 16:37:10.000000000 +0200
++++ root/graf3d/eve/src/TEveProjectionAxes.cxx	2010-12-15 17:33:33.000000000 +0100
+@@ -75,7 +75,7 @@
+    static const TEveException eH("TEveProjectionManager::ComputeBBox ");
+ 
+    BBoxZero();
+-   if(fManager == 0)
++   if(fManager == 0 || fManager->GetBBox() == 0)
+       return;
+ 
+    for (Int_t i=0; i<6; ++i)
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveQuadSetGL.cxx root/graf3d/eve/src/TEveQuadSetGL.cxx
+--- root-old/graf3d/eve/src/TEveQuadSetGL.cxx	2010-10-27 16:48:32.000000000 +0200
++++ root/graf3d/eve/src/TEveQuadSetGL.cxx	2010-12-15 17:34:28.000000000 +0100
+@@ -85,12 +85,15 @@
+       glEnable(GL_COLOR_MATERIAL);
+       glDisable(GL_CULL_FACE);
+ 
+-      if (mQ.fRenderMode == TEveDigitSet::kRM_Fill)
+-         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+-      else if (mQ.fRenderMode == TEveDigitSet::kRM_Line)
+-         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
++      if ( ! rnrCtx.IsDrawPassOutlineLine())
++      {
++         if (mQ.fRenderMode == TEveDigitSet::kRM_Fill)
++            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
++         else if (mQ.fRenderMode == TEveDigitSet::kRM_Line)
++            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
++      }
+ 
+-      if (mQ.fDisableLigting)  glDisable(GL_LIGHTING);
++      if (mQ.fDisableLighting)  glDisable(GL_LIGHTING);
+ 
+       if (mQ.fQuadType < TEveQuadSet::kQT_Rectangle_End)    RenderQuads(rnrCtx);
+       else if (mQ.fQuadType < TEveQuadSet::kQT_Line_End)    RenderLines(rnrCtx);
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveSecondarySelectable.cxx root/graf3d/eve/src/TEveSecondarySelectable.cxx
+--- root-old/graf3d/eve/src/TEveSecondarySelectable.cxx	2010-10-27 16:37:10.000000000 +0200
++++ root/graf3d/eve/src/TEveSecondarySelectable.cxx	2010-12-15 17:34:19.000000000 +0100
+@@ -25,9 +25,10 @@
+ // and clear corresponding selection-set from there.
+ //
+ // To support tooltips for sub-elements, implement:
+-//    virtual TString GetHighlightTooltip();
++//    virtual TString TEveElement::GetHighlightTooltip();
+ // and return tooltip for the entry in the fHighlightedSet.
+ // There should always be a single entry there.
++// See TEveDigitSet for an example.
+ 
+ 
+ ClassImp(TEveSecondarySelectable);
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveShape.cxx root/graf3d/eve/src/TEveShape.cxx
+--- root-old/graf3d/eve/src/TEveShape.cxx	2010-10-27 16:37:10.000000000 +0200
++++ root/graf3d/eve/src/TEveShape.cxx	2010-12-15 17:33:42.000000000 +0100
+@@ -28,10 +28,11 @@
+ TEveShape::TEveShape(const char* n, const char* t) :
+    TEveElementList(n, t),
+    fFillColor(5),
+-   fLineColor(3),
++   fLineColor(5),
+    fLineWidth(1),
+    fDrawFrame(kTRUE),
+-   fHighlightFrame(kTRUE)
++   fHighlightFrame(kTRUE),
++   fMiniFrame(kTRUE)
+ {
+    // Constructor.
+ 
+@@ -73,6 +74,7 @@
+       fLineWidth = m->fLineWidth;
+       fDrawFrame      = m->fDrawFrame;
+       fHighlightFrame = m->fHighlightFrame;
++      fMiniFrame      = m->fMiniFrame;
+    }
+ 
+    TEveElementList::CopyVizParams(el);
+@@ -210,3 +212,62 @@
+ 
+    return N;
+ }
++
++//==============================================================================
++
++//______________________________________________________________________________
++Bool_t TEveShape::IsBoxOrientationConsistentEv(const TEveVector box[8])
++{
++   // Checks if the first face normal is pointing into the other
++   // direction as the vector pointing towards the opposite face.
++   // This assumes standard box vertex arrangement.
++
++   TEveVector f1 = box[1] - box[0];
++   TEveVector f2 = box[3] - box[0];
++   TEveVector up = box[4] - box[0];
++
++   return up.Dot(f1.Cross(f2)) < 0;
++}
++
++//______________________________________________________________________________
++Bool_t TEveShape::IsBoxOrientationConsistentFv(const Float_t box[8][3])
++{
++   // Checks if the first face normal is pointing into the other
++   // direction as the vector pointing towards the opposite face.
++   // This assumes standard box vertex arrangement.
++
++   TEveVector b0(box[0]);
++   TEveVector f1(box[1]); f1 -= b0;
++   TEveVector f2(box[3]); f2 -= b0;
++   TEveVector up(box[4]); up -= b0;
++
++   return up.Dot(f1.Cross(f2)) < 0;
++}
++
++//______________________________________________________________________________
++void TEveShape::CheckAndFixBoxOrientationEv(TEveVector box[8])
++{
++   // Make sure box orientation is consistent with standard arrangement.
++
++   if ( ! IsBoxOrientationConsistentEv(box))
++   {
++      std::swap(box[1], box[3]);
++      std::swap(box[5], box[7]);
++   }
++}
++
++//______________________________________________________________________________
++void TEveShape::CheckAndFixBoxOrientationFv(Float_t box[8][3])
++{
++   // Make sure box orientation is consistent with standard arrangement.
++
++   if ( ! IsBoxOrientationConsistentFv(box))
++   {
++      std::swap(box[1][0], box[3][0]);
++      std::swap(box[1][1], box[3][1]);
++      std::swap(box[1][2], box[3][2]);
++      std::swap(box[5][0], box[7][0]);
++      std::swap(box[5][1], box[7][1]);
++      std::swap(box[5][2], box[7][2]);
++   }
++}
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveStraightLineSet.cxx root/graf3d/eve/src/TEveStraightLineSet.cxx
+--- root-old/graf3d/eve/src/TEveStraightLineSet.cxx	2010-10-27 16:37:10.000000000 +0200
++++ root/graf3d/eve/src/TEveStraightLineSet.cxx	2010-12-15 17:33:06.000000000 +0100
+@@ -75,6 +75,29 @@
+ }
+ 
+ //______________________________________________________________________________
++void
++TEveStraightLineSet::SetLine(int idx,
++                             Float_t x1, Float_t y1, Float_t z1,
++                             Float_t x2, Float_t y2, Float_t z2)
++{
++   // Set line vertices with given index.
++
++   Line_t* l = (Line_t*) fLinePlex.Atom(idx);
++
++   l->fV1[0] = x1; l->fV1[1] = y1; l->fV1[2] = z1;
++   l->fV2[0] = x2; l->fV2[1] = y2; l->fV2[2] = z2;
++}
++
++//______________________________________________________________________________
++void
++TEveStraightLineSet::SetLine(int idx, const TEveVector& p1, const TEveVector& p2)
++{
++   // Set line vertices with given index.
++
++   SetLine(idx, p1.fX, p1.fY, p1.fZ, p2.fX, p2.fY, p2.fZ);
++}
++
++//______________________________________________________________________________
+ TEveStraightLineSet::Marker_t*
+ TEveStraightLineSet::AddMarker(Float_t x, Float_t y, Float_t z, Int_t line_id)
+ {
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveViewer.cxx root/graf3d/eve/src/TEveViewer.cxx
+--- root-old/graf3d/eve/src/TEveViewer.cxx	2010-10-27 16:37:10.000000000 +0200
++++ root/graf3d/eve/src/TEveViewer.cxx	2010-12-15 17:34:09.000000000 +0100
+@@ -24,6 +24,7 @@
+ #include "TGLEventHandler.h"
+ 
+ #include "TApplication.h"
++#include "TEnv.h"
+ #include "TSystem.h"
+ 
+ //==============================================================================
+@@ -178,7 +179,10 @@
+    cf->SetEditable(kFALSE);
+    v->ToggleEditObject();
+    v->DisableCloseMenuEntries();
+-   v->EnableMenuBarHiding();
++   if (gEnv->GetValue("Eve.Viewer.HideMenus", 1) == 1)
++   {
++      v->EnableMenuBarHiding();
++   }
+    SetGLViewer(v, v->GetFrame());
+ 
+    if (stereo)
+@@ -560,7 +564,10 @@
+    TEveElement *el = dynamic_cast<TEveElement*>(obj);
+    if (el && !el->IsPickable())
+       el = 0;
++
++   void *qsender = gTQSender;
+    gEve->GetHighlight()->UserPickedElement(el, kFALSE);
++   gTQSender = qsender;
+ 
+    HandleTooltip();
+ }
+@@ -579,7 +586,10 @@
+    TEveElement* el = dynamic_cast<TEveElement*>(obj);
+    if (el && !el->IsPickable())
+       el = 0;
++
++   void *qsender = gTQSender;
+    gEve->GetHighlight()->UserRePickedElement(el);
++   gTQSender = qsender;
+ 
+    HandleTooltip();
+ }
+@@ -598,7 +608,10 @@
+    TEveElement* el = dynamic_cast<TEveElement*>(obj);
+    if (el && !el->IsPickable())
+       el = 0;
++
++   void *qsender = gTQSender;
+    gEve->GetHighlight()->UserUnPickedElement(el);
++   gTQSender = qsender;
+ 
+    HandleTooltip();
+ }
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/inc/TGLAnnotation.h root/graf3d/gl/inc/TGLAnnotation.h
+--- root-old/graf3d/gl/inc/TGLAnnotation.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/inc/TGLAnnotation.h	2010-12-15 17:33:16.000000000 +0100
+@@ -75,18 +75,27 @@
+    TGLAnnotation(TGLViewerBase *parent, const char *text, Float_t posx, Float_t posy, TGLVector3 ref);
+    virtual ~TGLAnnotation();
+ 
+-   void SetTransparency(Char_t x) { fTransparency = x; }
+-   Char_t GetTransparency() const { return fTransparency; }
+-   void SetUseColorSet(Bool_t x)  { fUseColorSet = x; }
+-   Bool_t GetUseColorSet() const  { return fUseColorSet; }
+-   void SetBackColor(Color_t x)   { fBackColor = x; }
+-   Color_t GetBackColor() const   { return fBackColor; }
+-   void SetTextColor(Color_t x)   { fTextColor = x; }
+-   Color_t GetTextColor() const   { return fTextColor; }
+-   void SetTextSize(Float_t x)    { fTextSize = x; }
+-   Float_t GetTextSize() const    { return fTextSize; }
+-   void SetAllowClose(Bool_t x)   { fAllowClose = x; }
+-   Bool_t GetAllowClose() const   { return fAllowClose;}
++   void  SetText(const TString& x)   { fText = x; }
++   const TString& GetText()    const { return fText; }
++
++   void    SetTransparency(Char_t x) { fTransparency = x; }
++   Char_t  GetTransparency()   const { return fTransparency; }
++
++   void    SetUseColorSet(Bool_t x)  { fUseColorSet = x; }
++   Bool_t  GetUseColorSet()    const { return fUseColorSet; }
++
++   void    SetBackColor(Color_t x)   { fBackColor = x; }
++   Color_t GetBackColor()      const { return fBackColor; }
++
++   void    SetTextColor(Color_t x)   { fTextColor = x; }
++   Color_t GetTextColor()      const { return fTextColor; }
++
++   void    SetTextSize(Float_t x)    { fTextSize = x; }
++   Float_t GetTextSize()       const { return fTextSize; }
++
++   void    SetAllowClose(Bool_t x)   { fAllowClose = x; }
++   Bool_t  GetAllowClose()     const { return fAllowClose; }
++
+    TGLFont::ETextAlignH_e GetTextAlign() const { return fTextAlign; }
+    void SetTextAlign(TGLFont::ETextAlignH_e a) { fTextAlign = a; }
+ 
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/inc/TGLBoundingBox.h root/graf3d/gl/inc/TGLBoundingBox.h
+--- root-old/graf3d/gl/inc/TGLBoundingBox.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/inc/TGLBoundingBox.h	2010-12-15 17:34:23.000000000 +0100
+@@ -55,7 +55,7 @@
+    // For axis aligned 2 verticies would suffice.
+    // Rest could be calculated on demand - however speed more important
+    // than memory considerations
+-   std::vector<TGLVertex3> fVertex;     //! the 8 bounding box vertices
++   TGLVertex3              fVertex[8];  //! the 8 bounding box vertices
+    Double_t                fVolume;     //! box volume - cached for speed
+    Double_t                fDiagonal;   //! max box diagonal - cached for speed
+    TGLVector3              fAxes[3];    //! box axes in global frame - cached for speed
+@@ -107,7 +107,9 @@
+    TGLVertex3 MaxAAVertex() const;
+ 
+    // Multiple vertices accessors
+-   const std::vector<TGLVertex3> & Vertices() const;           // All 8 box vertices
++   const TGLVertex3* Vertices() const;           // All 8 box vertices
++   Int_t             NumVertices() const { return 8; }
++
+    enum EFace { kFaceLowX, kFaceHighX, kFaceLowY, kFaceHighY, kFaceLowZ, kFaceHighZ, kFaceCount };
+    const std::vector<UInt_t> & FaceVertices(EFace face) const; // 4 box face vertices
+ 
+@@ -154,7 +156,7 @@
+ }
+ 
+ //______________________________________________________________________________
+-inline const std::vector<TGLVertex3> & TGLBoundingBox::Vertices() const
++inline const TGLVertex3* TGLBoundingBox::Vertices() const
+ {
+    return fVertex;
+ }
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/inc/TGLContext.h root/graf3d/gl/inc/TGLContext.h
+--- root-old/graf3d/gl/inc/TGLContext.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/inc/TGLContext.h	2010-12-15 17:32:19.000000000 +0100
+@@ -46,7 +46,6 @@
+    TGLContextIdentity *fIdentity;
+ 
+    static Bool_t fgGlewInitDone;
+-   void GlewInit();
+ 
+ public:
+    TGLContext(TGLWidget *glWidget, Bool_t shareDefault=kTRUE, const TGLContext *shareList=0);
+@@ -69,6 +68,7 @@
+    Bool_t           IsValid() const { return fValid; }
+ 
+    static TGLContext *GetCurrent();
++   static void GlewInit();
+ 
+ private:
+    TGLContext(const TGLContext &);
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/inc/TGLFBO.h root/graf3d/gl/inc/TGLFBO.h
+--- root-old/graf3d/gl/inc/TGLFBO.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/inc/TGLFBO.h	2010-12-15 17:32:19.000000000 +0100
+@@ -24,20 +24,28 @@
+    UInt_t  fFrameBuffer;
+    UInt_t  fColorTexture;
+    UInt_t  fDepthBuffer;
+-   // UInt_t  fStencilBuffer;
++   UInt_t  fMSFrameBuffer;
++   UInt_t  fMSColorBuffer;
+ 
+-   Int_t   fW, fH;
++   Int_t   fW, fH, fMSSamples, fMSCoverageSamples;
+ 
+-   Bool_t  fIsRescaled;
+    Float_t fWScale, fHScale;
++   Bool_t  fIsRescaled;
+ 
+    static Bool_t fgRescaleToPow2;
++   static Bool_t fgMultiSampleNAWarned;
++
++   void InitStandard();
++   void InitMultiSample();
++
++   UInt_t CreateAndAttachRenderBuffer(Int_t format, Int_t type);
++   UInt_t CreateAndAttachColorTexture();
+ 
+ public:
+    TGLFBO();
+    virtual ~TGLFBO();
+ 
+-   void Init(int w, int h);
++   void Init(int w, int h, int ms_samples=0);
+    void Release();
+ 
+    void Bind();
+@@ -46,6 +54,8 @@
+    void BindTexture();
+    void UnbindTexture();
+ 
++   void SetAsReadBuffer();
++
+    ClassDef(TGLFBO, 0); // Frame-buffer object.
+ };
+ 
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/inc/TGLFaceSet.h root/graf3d/gl/inc/TGLFaceSet.h
+--- root-old/graf3d/gl/inc/TGLFaceSet.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/inc/TGLFaceSet.h	2010-12-15 17:33:34.000000000 +0100
+@@ -38,6 +38,7 @@
+    virtual void DirectDraw(TGLRnrCtx & rnrCtx) const;
+ 
+    void SetFromMesh(const RootCsg::TBaseMesh *m);
++   void CalculateNormals();
+    void EnforceTriangles();
+ 
+    std::vector<Double_t>& GetVertices() { return fVertices; }
+@@ -49,10 +50,10 @@
+    static void   SetEnforceTriangles(Bool_t e);
+ 
+ private:
+-   void GLDrawPolys()const;
+-   Int_t CheckPoints(const Int_t *source, Int_t *dest)const;
++   void  GLDrawPolys() const;
++   Int_t CheckPoints(const Int_t *source, Int_t *dest) const;
++
+    static Bool_t Eq(const Double_t *p1, const Double_t *p2);
+-   void CalculateNormals();
+ 
+    ClassDef(TGLFaceSet,0) // a faceset logical shape
+ };
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/inc/TGLFormat.h root/graf3d/gl/inc/TGLFormat.h
+--- root-old/graf3d/gl/inc/TGLFormat.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/inc/TGLFormat.h	2010-12-15 17:32:19.000000000 +0100
+@@ -12,9 +12,9 @@
+ #ifndef ROOT_TGLFormat
+ #define ROOT_TGLFormat
+ 
+-#ifndef ROOT_Rtypes
+ #include "Rtypes.h"
+-#endif
++
++#include <vector>
+ 
+ /*
+    TGLFormat class describes the pixel format of a drawing surface.
+@@ -31,23 +31,32 @@
+    -double/single buffered
+ */
+ 
+-class TGLFormat {
++class TGLFormat
++{
+ public:
+-   enum EFormatOptions {
++   enum EFormatOptions
++   {
++      kNone         = 0,
+       kDoubleBuffer = 1,
+       kDepth        = 2,
+       kAccum        = 4,
+       kStencil      = 8,
+-      kStereo       = 16
++      kStereo       = 16,
++      kMultiSample  = 32
+    };
+ 
+ private:
+    Bool_t fDoubleBuffered;
+    Bool_t fStereo;
+-   UInt_t fDepthSize;
+-   UInt_t fAccumSize;
+-   UInt_t fStencilSize;
+-   
++   Int_t  fDepthSize;
++   Int_t  fAccumSize;
++   Int_t  fStencilSize;
++   Int_t  fSamples;
++
++   static std::vector<Int_t> fgAvailableSamples;
++
++   static Int_t GetDefaultSamples();
++   static void  InitAvailableSamples();
+ 
+ public:
+    TGLFormat();
+@@ -60,16 +69,16 @@
+    Bool_t operator == (const TGLFormat &rhs)const;
+    Bool_t operator != (const TGLFormat &rhs)const;
+ 
+-   UInt_t GetDepthSize()const;
+-   void   SetDepthSize(UInt_t depth);
++   Int_t  GetDepthSize()const;
++   void   SetDepthSize(Int_t depth);
+    Bool_t HasDepth()const;
+ 
+-   UInt_t GetStencilSize()const;
+-   void   SetStencilSize(UInt_t stencil);
++   Int_t  GetStencilSize()const;
++   void   SetStencilSize(Int_t stencil);
+    Bool_t HasStencil()const;
+ 
+-   UInt_t GetAccumSize()const;
+-   void   SetAccumSize(UInt_t accum);
++   Int_t  GetAccumSize()const;
++   void   SetAccumSize(Int_t accum);
+    Bool_t HasAccumBuffer()const;
+ 
+    Bool_t IsDoubleBuffered()const;
+@@ -78,7 +87,11 @@
+    Bool_t IsStereo()const;
+    void   SetStereo(Bool_t db);
+ 
+-   ClassDef(TGLFormat, 0) // Describes GL buffer format.
++   Int_t  GetSamples()const;
++   void   SetSamples(Int_t samples);
++   Bool_t HasMultiSampling()const;
++
++   ClassDef(TGLFormat, 0); // Describes GL buffer format.
+ };
+ 
+ #endif
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/inc/TGLRnrCtx.h root/graf3d/gl/inc/TGLRnrCtx.h
+--- root-old/graf3d/gl/inc/TGLRnrCtx.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/inc/TGLRnrCtx.h	2010-12-15 17:32:19.000000000 +0100
+@@ -259,11 +259,8 @@
+    GLUquadric* GetGluQuadric() { return fQuadric; }
+ 
+    // Picture grabbing
+-   void     SetGrabImage(Bool_t gi, Int_t buf=-1) { fGrabImage = gi; fGrabBuffer = buf; }
++   void     SetGrabImage(Bool_t gi) { fGrabImage = gi;   }
+    Bool_t   GetGrabImage()    const { return fGrabImage; }
+-   Int_t    GetGrabBuffer()   const { return fGrabBuffer; }
+-   UChar_t* GetGrabbedImage() const { return fGrabbedImage; }
+-   void     SetGrabbedImage(UChar_t* img) { fGrabbedImage = img; }
+ 
+    // Matrix manipulation helpers
+    void ProjectionMatrixPushIdentity();
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/inc/TGLSAViewer.h root/graf3d/gl/inc/TGLSAViewer.h
+--- root-old/graf3d/gl/inc/TGLSAViewer.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/inc/TGLSAViewer.h	2010-12-15 17:33:01.000000000 +0100
+@@ -45,7 +45,7 @@
+       kGLOrthoRotate, kGLOrthoDolly,
+       kGLSaveEPS, kGLSavePDF, kGLSavePNG, kGLSaveGIF, kGLSaveAnimGIF,
+       kGLSaveJPG, kGLSaveAS, kGLCloseViewer, kGLQuitROOT,
+-      kGLEditObject };
++      kGLEditObject, kGLHideMenus };
+ 
+ private:
+    // GUI components
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/inc/TGLScenePad.h root/graf3d/gl/inc/TGLScenePad.h
+--- root-old/graf3d/gl/inc/TGLScenePad.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/inc/TGLScenePad.h	2010-12-15 17:32:46.000000000 +0100
+@@ -56,7 +56,7 @@
+ 
+    TGLLogicalShape* AttemptDirectRenderer(TObject* id);
+ 
+-   Bool_t         fSmartRefresh;   //! cache logicals during scene rebuilds, use TAtt3D time-stamp to determine if they are still valid
++   Bool_t         fSmartRefresh;   //! cache logicals during scene rebuilds
+ 
+ public:
+    TGLScenePad(TVirtualPad* pad);
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/inc/TGLViewer.h root/graf3d/gl/inc/TGLViewer.h
+--- root-old/graf3d/gl/inc/TGLViewer.h	2010-10-27 16:48:24.000000000 +0200
++++ root/graf3d/gl/inc/TGLViewer.h	2010-12-15 17:33:55.000000000 +0100
+@@ -147,8 +147,7 @@
+    Bool_t         fDrawCameraCenter; //! reference marker on?
+    TGLCameraOverlay  *fCameraOverlay; //! markup size of viewport in scene units
+ 
+-   Bool_t         fInitGL;         //! has GL been initialised?
+-   Bool_t         fSmartRefresh;   //! cache logicals during scene rebuilds, use TAtt3D time-stamp to determine if they are still valid
++   Bool_t         fSmartRefresh;   //! cache logicals during scene rebuilds
+ 
+    // Debug tracing (for scene rebuilds)
+    Bool_t         fDebugMode;            //! debug mode (forced rebuild + draw scene/frustum/interest boxes)
+@@ -194,8 +193,6 @@
+    TGLViewer(TVirtualPad* pad);
+    virtual ~TGLViewer();
+ 
+-   void ResetInitGL();
+-
+    // TVirtualViewer3D interface ... mostly a facade
+ 
+    // Forward to TGLScenePad
+@@ -280,6 +277,7 @@
+    TGLCameraOverlay* GetCameraOverlay() const { return fCameraOverlay; }
+    void SetCameraOverlay(TGLCameraOverlay* m) { fCameraOverlay = m; }
+    TGLAutoRotator* GetAutoRotator();
++   void SetAutoRotator(TGLAutoRotator* ar);
+ 
+    // Stereo
+    Bool_t  GetStereo()               const { return fStereo; }
+@@ -311,9 +309,9 @@
+    void RequestDraw(Short_t LOD = TGLRnrCtx::kLODMed); // Cross thread draw request
+    virtual void PreRender();
+    virtual void PostRender();
+-   void DoDraw();
+-   void DoDrawMono();
+-   void DoDrawStereo();
++   void DoDraw(Bool_t swap_buffers=kTRUE);
++   void DoDrawMono(Bool_t swap_buffers);
++   void DoDrawStereo(Bool_t swap_buffers);
+ 
+    void DrawGuides();
+    void DrawDebugInfo();
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/inc/TGLWSIncludes.h root/graf3d/gl/inc/TGLWSIncludes.h
+--- root-old/graf3d/gl/inc/TGLWSIncludes.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/inc/TGLWSIncludes.h	2010-12-15 17:32:23.000000000 +0100
+@@ -16,10 +16,13 @@
+ 
+ #include "TGLIncludes.h"
+ 
+-#ifdef WIN32
+-#include <GL/wglew.h>
++#if defined(WIN32)
++#  include <GL/wglew.h>
+ #else
+-#include <GL/glxew.h>
++#  if defined(__APPLE__)
++#    define GLEW_APPLE_GLX
++#  endif
++#  include <GL/glxew.h>
+ #endif
+ 
+ #endif
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/inc/TGLWidget.h root/graf3d/gl/inc/TGLWidget.h
+--- root-old/graf3d/gl/inc/TGLWidget.h	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/inc/TGLWidget.h	2010-12-15 17:32:19.000000000 +0100
+@@ -51,6 +51,8 @@
+    TGEventHandler                   *fEventHandler;
+ 
+ public:
++   static TGLWidget* CreateDummy();
++
+    static TGLWidget* Create(const TGWindow* parent, Bool_t selectInput,
+              Bool_t shareDefault, const TGLPaintDevice *shareDevice,
+              UInt_t width, UInt_t height);
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLBoundingBox.cxx root/graf3d/gl/src/TGLBoundingBox.cxx
+--- root-old/graf3d/gl/src/TGLBoundingBox.cxx	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/src/TGLBoundingBox.cxx	2010-12-15 17:34:23.000000000 +0100
+@@ -28,40 +28,35 @@
+ ClassImp(TGLBoundingBox)
+ 
+ //______________________________________________________________________________
+-TGLBoundingBox::TGLBoundingBox() :
+-   fVertex(8)
++TGLBoundingBox::TGLBoundingBox()
+ {
+    // Construct an empty bounding box
+    SetEmpty();
+ }
+ 
+ //______________________________________________________________________________
+-TGLBoundingBox::TGLBoundingBox(const TGLVertex3 vertex[8]) :
+-   fVertex(8)
++TGLBoundingBox::TGLBoundingBox(const TGLVertex3 vertex[8])
+ {
+    // Construct a bounding box from provided 8 vertices
+    Set(vertex);
+ }
+ 
+ //______________________________________________________________________________
+-TGLBoundingBox::TGLBoundingBox(const Double_t vertex[8][3]) :
+-   fVertex(8)
++TGLBoundingBox::TGLBoundingBox(const Double_t vertex[8][3])
+ {
+    // Construct a bounding box from provided 8 vertices
+    Set(vertex);
+ }
+ 
+ //______________________________________________________________________________
+-TGLBoundingBox::TGLBoundingBox(const TGLVertex3 & lowVertex, const TGLVertex3 & highVertex) :
+-   fVertex(8)
++TGLBoundingBox::TGLBoundingBox(const TGLVertex3 & lowVertex, const TGLVertex3 & highVertex)
+ {
+    // Construct an global axis ALIGNED bounding box from provided low/high vertex pair
+    SetAligned(lowVertex, highVertex);
+ }
+ 
+ //______________________________________________________________________________
+-TGLBoundingBox::TGLBoundingBox(const TGLBoundingBox & other) :
+-   fVertex(8)
++TGLBoundingBox::TGLBoundingBox(const TGLBoundingBox & other)
+ {
+    // Construct a bounding box as copy of existing one
+    Set(other);
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLCamera.cxx root/graf3d/gl/src/TGLCamera.cxx
+--- root-old/graf3d/gl/src/TGLCamera.cxx	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/src/TGLCamera.cxx	2010-12-15 17:34:23.000000000 +0100
+@@ -359,13 +359,13 @@
+    if (face) {
+       vertexCount = box.FaceVertices(*face).size();
+    } else {
+-      vertexCount = box.Vertices().size();
++      vertexCount = box.NumVertices();
+    }
+ 
+    for (UInt_t i = 0; i < vertexCount; i++)
+    {
+-      const TGLVertex3 & vertex = face ? box.Vertices().at(box.FaceVertices(*face).at(i)) :
+-                                      box.Vertices().at(i);
++      const TGLVertex3 & vertex = face ? box.Vertex(box.FaceVertices(*face).at(i)) :
++                                         box.Vertex(i);
+ 
+       gluProject(vertex.X(), vertex.Y(), vertex.Z(),
+                  fModVM.CArr(), fProjM.CArr(), fViewport.CArr(),
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLContext.cxx root/graf3d/gl/src/TGLContext.cxx
+--- root-old/graf3d/gl/src/TGLContext.cxx	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/src/TGLContext.cxx	2010-12-15 17:32:18.000000000 +0100
+@@ -77,14 +77,17 @@
+ void TGLContext::GlewInit()
+ {
+    // Initialize GLEW - static private function.
+-   // Called immediately after creation of the firs GL context.
++   // Called immediately after creation of the first GL context.
+ 
+-   GLenum status = glewInit();
+-   if (status != GLEW_OK)
+-      Warning("TGLContext::GlewInit", "GLEW initalization failed.");
+-   else if (gDebug > 0)
+-      Info("TGLContext::GlewInit", "GLEW initalization successful.");
+-   fgGlewInitDone = kTRUE;
++   if (!fgGlewInitDone)
++   {
++      GLenum status = glewInit();
++      if (status != GLEW_OK)
++         Warning("TGLContext::GlewInit", "GLEW initalization failed.");
++      else if (gDebug > 0)
++         Info("TGLContext::GlewInit", "GLEW initalization successful.");
++      fgGlewInitDone = kTRUE;
++   }
+ }
+ 
+ //==============================================================================
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLEmbeddedViewer.cxx root/graf3d/gl/src/TGLEmbeddedViewer.cxx
+--- root-old/graf3d/gl/src/TGLEmbeddedViewer.cxx	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/src/TGLEmbeddedViewer.cxx	2010-12-15 17:32:18.000000000 +0100
+@@ -108,8 +108,6 @@
+       return;
+    }
+ 
+-   ResetInitGL();
+-
+    fGLWidget = TGLWidget::Create(fFrame, kTRUE, kTRUE, 0, 10, 10);
+    fGLWidget->SetEventHandler(fEventHandler);
+ 
+@@ -131,8 +129,6 @@
+       return;
+    }
+ 
+-   ResetInitGL();
+-
+    fGLWidget->UnmapWindow();
+    fGLWidget->SetEventHandler(0);
+ 
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLFBO.cxx root/graf3d/gl/src/TGLFBO.cxx
+--- root-old/graf3d/gl/src/TGLFBO.cxx	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/src/TGLFBO.cxx	2010-12-15 17:32:19.000000000 +0100
+@@ -12,6 +12,7 @@
+ #include "TGLFBO.h"
+ #include <TMath.h>
+ #include <TString.h>
++#include <TError.h>
+ 
+ #include <GL/glew.h>
+ 
+@@ -30,17 +31,22 @@
+ 
+ ClassImp(TGLFBO);
+ 
+-Bool_t TGLFBO::fgRescaleToPow2 = kTRUE; // For ATI.
++Bool_t TGLFBO::fgRescaleToPow2       = kTRUE; // For ATI.
++Bool_t TGLFBO::fgMultiSampleNAWarned = kFALSE;
+ 
+ TGLFBO::TGLFBO() :
+    fFrameBuffer  (0),
+    fColorTexture (0),
+    fDepthBuffer  (0),
++   fMSFrameBuffer(0),
++   fMSColorBuffer(0),
+    fW (-1),
+    fH (-1),
+-   fIsRescaled (kFALSE),
++   fMSSamples  (0),
++   fMSCoverageSamples (0),
+    fWScale     (1),
+-   fHScale     (1)
++   fHScale     (1),
++   fIsRescaled (kFALSE)
+ {
+    // Constructor.
+ }
+@@ -54,15 +60,17 @@
+ }
+ 
+ //______________________________________________________________________________
+-void TGLFBO::Init(int w, int h)
++void TGLFBO::Init(int w, int h, int ms_samples)
+ {
+-   // Acquire GL resources for given width and height.
++   // Acquire GL resources for given width, height and number of
++   // multi-sampling samples.
+ 
+    static const std::string eh("TGLFBO::Init ");
+ 
+-   if (!GLEW_VERSION_1_5)
++   // Should be replaced with ARB_framebuffer_object (SLC6).
++   if (!GLEW_EXT_framebuffer_object)
+    {
+-      throw std::runtime_error(eh + "GL version 1.5 required for FBO.");
++      throw std::runtime_error(eh + "GL_EXT_framebuffer_object extension required for FBO.");
+    }
+ 
+    fIsRescaled = kFALSE;
+@@ -79,9 +87,19 @@
+       }
+    }
+ 
++   if (ms_samples > 0 && ! GLEW_EXT_framebuffer_multisample)
++   {
++      if (!fgMultiSampleNAWarned)
++      {
++         Info(eh.c_str(), "GL implementation does not support multi-sampling for FBOs.");
++         fgMultiSampleNAWarned = kTRUE;
++      }
++      ms_samples = 0;
++   }
++
+    if (fFrameBuffer != 0)
+    {
+-      if (fW == w || fH == h)
++      if (fW == w && fH == h && fMSSamples == ms_samples)
+          return;
+       Release();
+    }
+@@ -93,49 +111,37 @@
+       throw std::runtime_error(eh + Form("maximum size supported by GL implementation is %d.", maxSize));
+    }
+ 
+-   fW = w; fH = h;
+-
+-   glGenFramebuffersEXT (1, &fFrameBuffer);
+-   glGenTextures        (1, &fColorTexture);
+-   glGenRenderbuffersEXT(1, &fDepthBuffer);
+-   // glGenRenderbuffersEXT(1, &fStencilBuffer);
++   fW = w; fH = h; fMSSamples = ms_samples;
+ 
+-   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fFrameBuffer);
+-
+-   // initialize color texture
+-   glBindTexture(GL_TEXTURE_2D, fColorTexture);
+-   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+-   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+-   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+-   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+-   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, fW, fH, 0, GL_RGB,
+-                GL_UNSIGNED_BYTE, NULL);
+-
+-   glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
+-                             GL_TEXTURE_2D, fColorTexture, 0);
+-
+-   // initialize depth renderbuffer
+-   glBindRenderbufferEXT   (GL_RENDERBUFFER_EXT, fDepthBuffer);
+-   glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24, fW, fH);
+-
+-   glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT,
+-                                GL_RENDERBUFFER_EXT, fDepthBuffer);
+-
+-   /*
+-   // initialize stencil renderbuffer
+-   glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, fStencilBuffer);
+-   glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_STENCIL_INDEX, fW, fH);
+-
+-   glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_STENCIL_ATTACHMENT_EXT,
+-   GL_RENDERBUFFER_EXT, fStencilBuffer);
+-   */
++   if (fMSSamples > 0)
++   {
++      if (GLEW_NV_framebuffer_multisample_coverage)
++      {
++         GLint n_modes;
++         glGetIntegerv(GL_MAX_MULTISAMPLE_COVERAGE_MODES_NV, &n_modes);
++         GLint *modes = new GLint[2*n_modes];
++         glGetIntegerv(GL_MULTISAMPLE_COVERAGE_MODES_NV, modes);
++
++         for (int i = 0; i < n_modes; ++i)
++         {
++            if (modes[i*2+1] == fMSSamples && modes[i*2] > fMSCoverageSamples)
++               fMSCoverageSamples = modes[i*2];
++         }
+ 
+-   //-------------------------
++         delete [] modes;
++      }
++      Info(eh.c_str(), "InitMultiSample coverage_samples=%d, color_samples=%d.", fMSCoverageSamples, fMSSamples);
++      InitMultiSample();
++   }
++   else
++   {
++      printf("TGLFBO::Init InitStandard ...\n");
++      InitStandard();
++   }
+ 
+    GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+ 
+    glBindFramebufferEXT (GL_FRAMEBUFFER_EXT,  0);
+-   glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0); // ? is needed
+    glBindTexture        (GL_TEXTURE_2D,       0);
+ 
+    switch (status)
+@@ -150,7 +156,7 @@
+          break;
+       default:
+          Release();
+-         throw std::runtime_error(eh + "Constructed TGLFBO is crap, fix code in TGLFBO class.");
++         throw std::runtime_error(eh + "Constructed TGLFBO is not complete, unexpected error.");
+          break;
+    }
+ }
+@@ -161,12 +167,15 @@
+    // Release the allocated GL resources.
+ 
+    glDeleteFramebuffersEXT (1, &fFrameBuffer);
+-   glDeleteTextures        (1, &fColorTexture);
+    glDeleteRenderbuffersEXT(1, &fDepthBuffer);
+-   //glDeleteRenderbuffersEXT(1, &fStencilBuffer);
+ 
+-   fColorTexture = fFrameBuffer = fDepthBuffer = 0;
+-   fW = fH = -1;
++   if (fMSFrameBuffer) glDeleteFramebuffersEXT (1, &fMSFrameBuffer);
++   if (fMSColorBuffer) glDeleteRenderbuffersEXT(1, &fMSColorBuffer);
++   if (fColorTexture)  glDeleteTextures        (1, &fColorTexture);
++
++   fW = fH = -1; fMSSamples = fMSCoverageSamples = 0;
++   fFrameBuffer = fColorTexture = fDepthBuffer = fMSFrameBuffer = fMSColorBuffer = 0;
++
+ }
+ 
+ //______________________________________________________________________________
+@@ -174,7 +183,16 @@
+ {
+    // Bind the frame-buffer object.
+ 
+-   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fFrameBuffer);
++   if (fMSSamples > 0) {
++      glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fMSFrameBuffer);
++      // On by default
++      //   glEnable(GL_MULTISAMPLE);
++      // Experimenting:
++      //   glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE_ARB);
++      //   glEnable(GL_SAMPLE_COVERAGE_ARB);
++   } else {
++      glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fFrameBuffer);
++   }
+ }
+ 
+ //______________________________________________________________________________
+@@ -182,6 +200,13 @@
+ {
+    // Unbind the frame-buffer object.
+ 
++   if (fMSSamples > 0)
++   {
++      glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, fMSFrameBuffer);
++      glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, fFrameBuffer);
++      glBlitFramebufferEXT(0, 0, fW, fH, 0, 0, fW, fH, GL_COLOR_BUFFER_BIT, GL_NEAREST);
++   }
++
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+ }
+ 
+@@ -194,10 +219,13 @@
+    glBindTexture(GL_TEXTURE_2D, fColorTexture);
+    glEnable(GL_TEXTURE_2D);
+ 
+-   glMatrixMode(GL_TEXTURE);
+-   glPushMatrix();
+-   glScalef(fWScale, fHScale, 1);
+-   glMatrixMode(GL_MODELVIEW);
++   if (fIsRescaled)
++   {
++      glMatrixMode(GL_TEXTURE);
++      glPushMatrix();
++      glScalef(fWScale, fHScale, 1);
++      glMatrixMode(GL_MODELVIEW);
++   }
+ }
+ 
+ //______________________________________________________________________________
+@@ -205,9 +233,94 @@
+ {
+    // Unbind texture.
+ 
+-   glMatrixMode(GL_TEXTURE);
+-   glPopMatrix();
+-   glMatrixMode(GL_MODELVIEW);
++   if (fIsRescaled)
++   {
++      glMatrixMode(GL_TEXTURE);
++      glPopMatrix();
++      glMatrixMode(GL_MODELVIEW);
++   }
+ 
+    glPopAttrib();
+ }
++
++//______________________________________________________________________________
++void TGLFBO::SetAsReadBuffer()
++{
++   glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, fFrameBuffer);
++}
++
++//==============================================================================
++
++//______________________________________________________________________________
++void TGLFBO::InitStandard()
++{
++   glGenFramebuffersEXT(1, &fFrameBuffer);
++   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fFrameBuffer);
++
++   fDepthBuffer  = CreateAndAttachRenderBuffer(GL_DEPTH_COMPONENT24, GL_DEPTH_ATTACHMENT);
++   fColorTexture = CreateAndAttachColorTexture();
++}
++
++//______________________________________________________________________________
++void TGLFBO::InitMultiSample()
++{
++   glGenFramebuffersEXT(1, &fMSFrameBuffer);
++   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fMSFrameBuffer);
++
++   fMSColorBuffer = CreateAndAttachRenderBuffer(GL_RGBA8,             GL_COLOR_ATTACHMENT0);
++   fDepthBuffer   = CreateAndAttachRenderBuffer(GL_DEPTH_COMPONENT24, GL_DEPTH_ATTACHMENT);
++   // fDepthBuffer   = CreateAndAttachRenderBuffer(GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL_ATTACHMENT);
++
++   glGenFramebuffersEXT(1, &fFrameBuffer);
++   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fFrameBuffer);
++
++   fColorTexture = CreateAndAttachColorTexture();
++}
++
++//______________________________________________________________________________
++UInt_t TGLFBO::CreateAndAttachRenderBuffer(Int_t format, Int_t type)
++{
++   UInt_t id = 0;
++
++   glGenRenderbuffersEXT(1, &id);
++   glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, id);
++
++   if (fMSSamples > 0)
++   {
++      if (fMSCoverageSamples > 0)
++         glRenderbufferStorageMultisampleCoverageNV(GL_RENDERBUFFER_EXT, fMSCoverageSamples, fMSSamples, format, fW, fH);
++      else
++         glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, fMSSamples, format, fW, fH);
++   }
++   else
++   {
++      glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, format, fW, fH);
++   }
++
++   glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, type, GL_RENDERBUFFER_EXT, id);
++
++   return id;
++}
++
++//______________________________________________________________________________
++UInt_t TGLFBO::CreateAndAttachColorTexture()
++{
++   // Initialize color-texture and attach it to current FB.
++
++   UInt_t id = 0;
++
++   glGenTextures(1, &id);
++
++   glBindTexture(GL_TEXTURE_2D, id);
++   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
++   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
++   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
++   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
++   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, fW, fH, 0, GL_RGBA,
++                GL_UNSIGNED_BYTE, NULL);
++
++   glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
++                             GL_TEXTURE_2D, id, 0);
++
++   return id;
++}
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLFaceSet.cxx root/graf3d/gl/src/TGLFaceSet.cxx
+--- root-old/graf3d/gl/src/TGLFaceSet.cxx	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/src/TGLFaceSet.cxx	2010-12-15 17:33:34.000000000 +0100
+@@ -75,8 +75,9 @@
+    }
+ 
+    fPolyDesc.resize(descSize);
+-   {//fix for scope
+-   for (UInt_t numPol = 0, currInd = 0, j = 1; numPol < fNbPols; ++numPol) {
++
++   for (UInt_t numPol = 0, currInd = 0, j = 1; numPol < fNbPols; ++numPol)
++   {
+       Int_t segmentInd = pols[j] + j;
+       Int_t segmentCol = pols[j];
+       Int_t s1 = pols[segmentInd];
+@@ -119,12 +120,11 @@
+       }
+       j += segmentCol + 2;
+    }
++
++   if (fgEnforceTriangles) {
++      EnforceTriangles();
+    }
+-   //if (fgEnforceTriangles) {
+-   //   EnforceTriangles();
+-   //} else {
+-      CalculateNormals();
+-      //}
++   CalculateNormals();
+ }
+ 
+ //______________________________________________________________________________
+@@ -135,7 +135,6 @@
+ 
+    UInt_t nv = mesh->NumberOfVertices();
+    fVertices.reserve(3 * nv);
+-   fNormals.resize(mesh->NumberOfPolys() * 3);
+    UInt_t i;
+ 
+    for (i = 0; i < nv; ++i) {
+@@ -161,9 +160,8 @@
+ 
+    if (fgEnforceTriangles) {
+       EnforceTriangles();
+-   } else {
+-      CalculateNormals();
+    }
++   CalculateNormals();
+ }
+ 
+ //______________________________________________________________________________
+@@ -172,9 +170,8 @@
+    // Use GLU tesselator to replace all polygons with N > 3 with triangles.
+    // After this call polygon descriptions are changed.
+    // New vertices are not expected -- exception is thrown if this is
+-   // requested by the triangulator. Support for addin of new vertices can be
++   // requested by the triangulator. Support for adding of new vertices can be
+    // provided.
+-   // Normals are automatically recalculated at the end.
+ 
+    class TriangleCollector
+    {
+@@ -305,8 +302,6 @@
+ 
+    fPolyDesc.swap(tc.RefPolyDesc());
+    fNbPols = tc.GetNTrianlges();
+-
+-   CalculateNormals();
+ }
+ 
+ //______________________________________________________________________________
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLFormat.cxx root/graf3d/gl/src/TGLFormat.cxx
+--- root-old/graf3d/gl/src/TGLFormat.cxx	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/src/TGLFormat.cxx	2010-12-15 17:32:18.000000000 +0100
+@@ -10,14 +10,24 @@
+  *************************************************************************/
+ 
+ #include <cassert>
++#include <algorithm>
++#include <set>
+ 
+ #include "TGLFormat.h"
++#include "TGLWSIncludes.h"
++#include "TGLWidget.h"
++
++#include "TEnv.h"
++#include "TError.h"
++#include "TVirtualX.h"
+ 
+ //______________________________________________________________________________
+ //
+ // Encapsulation of format / contents of an OpenGL buffer.
+ 
+-ClassImp(TGLFormat)
++ClassImp(TGLFormat);
++
++std::vector<Int_t> TGLFormat::fgAvailableSamples;
+ 
+ //______________________________________________________________________________
+ TGLFormat::TGLFormat() :
+@@ -29,12 +39,16 @@
+    fDepthSize(16),//FIXFIX
+ #endif
+    fAccumSize(0),
+-   fStencilSize(8)
++   fStencilSize(8),
++   fSamples(GetDefaultSamples())
+ {
+    //Default ctor. Default surface is:
+    //-double buffered
+    //-RGBA
+    //-with depth buffer
++   //-no accumulation buffer
++   //-with stencil
++   //-multi-sampling depends on seeting of "OpenGL.Framebuffer.Multisample"
+ }
+ 
+ //______________________________________________________________________________
+@@ -46,8 +60,9 @@
+ #else
+    fDepthSize(opt & kDepth ? 16 : 0),//FIXFIX
+ #endif
+-   fAccumSize(opt & kAccum ? 8 : 0),    //I've never tested accumulation buffer size.
+-   fStencilSize(opt & kStencil ? 8 : 0) //I've never tested stencil buffer size.
++   fAccumSize(opt & kAccum ? 8 : 0),     //I've never tested accumulation buffer size.
++   fStencilSize(opt & kStencil ? 8 : 0), //I've never tested stencil buffer size.
++   fSamples(opt & kMultiSample ? GetDefaultSamples() : 0)
+ {
+    //Define surface using options.
+ }
+@@ -74,14 +89,14 @@
+ }
+ 
+ //______________________________________________________________________________
+-UInt_t TGLFormat::GetDepthSize()const
++Int_t TGLFormat::GetDepthSize()const
+ {
+    //Get the size of depth buffer.
+    return fDepthSize;
+ }
+ 
+ //______________________________________________________________________________
+-void TGLFormat::SetDepthSize(UInt_t depth)
++void TGLFormat::SetDepthSize(Int_t depth)
+ {
+    //Set the size of color buffer.
+    assert(depth);
+@@ -96,14 +111,14 @@
+ }
+ 
+ //______________________________________________________________________________
+-UInt_t TGLFormat::GetStencilSize()const
++Int_t TGLFormat::GetStencilSize()const
+ {
+    //Get the size of stencil buffer.
+    return fStencilSize;
+ }
+ 
+ //______________________________________________________________________________
+-void TGLFormat::SetStencilSize(UInt_t stencil)
++void TGLFormat::SetStencilSize(Int_t stencil)
+ {
+    //Set the size of stencil buffer.
+    assert(stencil);
+@@ -118,14 +133,14 @@
+ }
+ 
+ //______________________________________________________________________________
+-UInt_t TGLFormat::GetAccumSize()const
++Int_t TGLFormat::GetAccumSize()const
+ {
+    //Get the size of accum buffer.
+    return fAccumSize;
+ }
+ 
+ //______________________________________________________________________________
+-void TGLFormat::SetAccumSize(UInt_t accum)
++void TGLFormat::SetAccumSize(Int_t accum)
+ {
+    //Set the size of accum buffer.
+    assert(accum);
+@@ -166,3 +181,89 @@
+    //Set the surface as stereo/non-stereo buffered.
+    fStereo = db;
+ }
++
++//______________________________________________________________________________
++Int_t TGLFormat::GetSamples()const
++{
++   //Get the number of samples for multi-sampling.
++   return fSamples;
++}
++
++//______________________________________________________________________________
++void TGLFormat::SetSamples(Int_t samples)
++{
++   //Set the number of samples for multi-sampling.
++   fSamples = samples;
++}
++
++//______________________________________________________________________________
++Bool_t TGLFormat::HasMultiSampling()const
++{
++   //Check, if multi-sampling is requred.
++   return fSamples != 0;
++}
++
++//______________________________________________________________________________
++Int_t TGLFormat::GetDefaultSamples()
++{
++   // Return default number of samples for multi-sampling.
++
++   if (fgAvailableSamples.empty())
++      InitAvailableSamples();
++
++   Int_t req = gEnv->GetValue("OpenGL.Framebuffer.Multisample", 0);
++
++   std::vector<Int_t>::iterator i = fgAvailableSamples.begin();
++   while (i != fgAvailableSamples.end() - 1 && *i < req)
++      ++i;
++
++   if (*i != req) {
++      Info("TGLFormat::GetDefaultSamples", "Requested multi-sampling %d not available, using %d. Adjusting default.", req, *i);
++      gEnv->SetValue("OpenGL.Framebuffer.Multisample", *i);
++   }
++
++   return *i;
++}
++
++//______________________________________________________________________________
++void TGLFormat::InitAvailableSamples()
++{
++   std::set<Int_t> ns_set;
++   ns_set.insert(0);
++
++   TGLWidget *widget = TGLWidget::CreateDummy();
++   widget->MakeCurrent();
++
++#ifdef WIN32
++
++   // Missing implementation.
++
++#else
++   if (GLXEW_ARB_multisample)
++   {
++      Display *dpy  = (Display*) gVirtualX->GetDisplay();
++      XVisualInfo tmpl; tmpl.screen = gVirtualX->GetScreen();
++      long mask = VisualScreenMask;
++      int  numVisuals, use_gl, ms_ns;
++      XVisualInfo *vis = XGetVisualInfo(dpy, mask, &tmpl, &numVisuals);
++      for (int i = 0; i < numVisuals; i++)
++      {
++         if (glXGetConfig(dpy, &vis[i], GLX_USE_GL, &use_gl) == 0)
++         {
++            glXGetConfig(dpy, &vis[i], GLX_SAMPLES_ARB, &ms_ns);
++            ns_set.insert(ms_ns);
++         }
++      }
++      XFree(vis);
++   }
++
++#endif
++
++   delete widget;
++
++   fgAvailableSamples.reserve(ns_set.size());
++   for (std::set<Int_t>::iterator i = ns_set.begin(); i != ns_set.end(); ++i)
++   {
++      fgAvailableSamples.push_back(*i);
++   }
++}
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLLogicalShape.cxx root/graf3d/gl/src/TGLLogicalShape.cxx
+--- root-old/graf3d/gl/src/TGLLogicalShape.cxx	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/src/TGLLogicalShape.cxx	2010-12-15 17:32:46.000000000 +0100
+@@ -11,7 +11,6 @@
+ #include "TGLIncludes.h"
+ 
+ #include "TBuffer3D.h"
+-#include "TAtt3D.h"
+ #include "TClass.h"
+ #include "TContextMenu.h"
+ 
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLObject.cxx root/graf3d/gl/src/TGLObject.cxx
+--- root-old/graf3d/gl/src/TGLObject.cxx	2010-10-27 16:48:33.000000000 +0200
++++ root/graf3d/gl/src/TGLObject.cxx	2010-12-15 17:32:46.000000000 +0100
+@@ -17,8 +17,6 @@
+ #include "TBaseClass.h"
+ #include "TList.h"
+ #include "TString.h"
+-#include "TAtt3D.h"
+-#include "TAttBBox.h"
+ 
+ //==============================================================================
+ // TGLObject
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLSAViewer.cxx root/graf3d/gl/src/TGLSAViewer.cxx
+--- root-old/graf3d/gl/src/TGLSAViewer.cxx	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/src/TGLSAViewer.cxx	2010-12-15 17:33:24.000000000 +0100
+@@ -345,8 +345,6 @@
+    if (fFormat == 0)
+       fFormat = new TGLFormat;
+ 
+-   ResetInitGL();
+-
+    fGLWidget = TGLWidget::Create(*fFormat, fRightVerticalFrame, kTRUE, kTRUE, 0, 10, 10);
+    fGLWidget->SetEventHandler(fEventHandler);
+ 
+@@ -367,8 +365,6 @@
+       return;
+    }
+ 
+-   ResetInitGL();
+-
+    fGLWidget->UnmapWindow();
+    fGLWidget->SetEventHandler(0);
+ 
+@@ -383,6 +379,7 @@
+    //File/Camera/Help menus.
+ 
+    fFileMenu = new TGPopupMenu(fFrame->GetClient()->GetDefaultRoot());
++   fFileMenu->AddEntry("&Hide Menus", kGLHideMenus);
+    fFileMenu->AddEntry("&Edit Object", kGLEditObject);
+    fFileMenu->AddSeparator();
+    fFileMenu->AddEntry("&Close Viewer", kGLCloseViewer);
+@@ -425,7 +422,7 @@
+    fMenuBar = new TGMenuBar(fFrame);
+    fMenuBar->AddPopup("&File", fFileMenu, new TGLayoutHints(kLHintsTop | kLHintsLeft, 0, 4, 0, 0));
+    fMenuBar->AddPopup("&Camera", fCameraMenu, new TGLayoutHints(kLHintsTop | kLHintsLeft, 0, 4, 0, 0));
+-   fMenuBar->AddPopup("&Help",    fHelpMenu,    new TGLayoutHints(kLHintsTop | kLHintsRight));
++   fMenuBar->AddPopup("&Help",   fHelpMenu,   new TGLayoutHints(kLHintsTop | kLHintsRight));
+    fFrame->AddFrame(fMenuBar, new TGLayoutHints(kLHintsTop | kLHintsLeft | kLHintsExpandX, 0, 0, 1, 1));
+    gVirtualX->SelectInput(fMenuBar->GetId(),
+                           kKeyPressMask | kExposureMask | kPointerMotionMask
+@@ -552,6 +549,8 @@
+ 
+    fMenuHidingTimer = new TTimer;
+    fMenuHidingTimer->Connect("Timeout()", "TGLSAViewer", this, "MenuHidingTimeout()");
++
++   fFileMenu->CheckEntry(kGLHideMenus);
+ }
+ 
+ //______________________________________________________________________________
+@@ -571,8 +570,11 @@
+    fFrame->HideFrame(fMenuBut);
+    fFrame->Layout();
+ 
++   fMenuHidingTimer->TurnOff();
+    delete fMenuHidingTimer;
+    fMenuHidingTimer = 0;
++
++   fFileMenu->UnCheckEntry(kGLHideMenus);
+ }
+ 
+ //______________________________________________________________________________
+@@ -617,6 +619,10 @@
+ {
+    // Reset the timer for menu-bar hiding.
+ 
++   // This happens, mysteriously.
++   if (fMenuHidingTimer == 0)
++      return;
++
+    fMenuHidingTimer->TurnOff();
+ 
+    fMenuHidingShowMenu = show_menu;
+@@ -777,6 +783,12 @@
+                SavePicture(file);
+             }
+             break;
++         case kGLHideMenus:
++            if (fHideMenuBar)
++               DisableMenuBarHiding();
++            else
++               EnableMenuBarHiding();
++            break;
+          case kGLEditObject:
+             ToggleEditObject();
+             break;
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLScene.cxx root/graf3d/gl/src/TGLScene.cxx
+--- root-old/graf3d/gl/src/TGLScene.cxx	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/src/TGLScene.cxx	2010-12-15 17:34:23.000000000 +0100
+@@ -926,7 +926,7 @@
+          assert(kFALSE);
+          continue;
+       }
+-      TGLBoundingBox box = physicalShape->BoundingBox();
++      const TGLBoundingBox& box = physicalShape->BoundingBox();
+       if (physicalShapeIt == fPhysicalShapes.begin()) {
+          xMin = box.XMin(); xMax = box.XMax();
+          yMin = box.YMin(); yMax = box.YMax();
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLScenePad.cxx root/graf3d/gl/src/TGLScenePad.cxx
+--- root-old/graf3d/gl/src/TGLScenePad.cxx	2010-10-27 16:48:33.000000000 +0200
++++ root/graf3d/gl/src/TGLScenePad.cxx	2010-12-15 17:32:46.000000000 +0100
+@@ -154,8 +154,7 @@
+    }
+    else if (obj->InheritsFrom(TAtt3D::Class()))
+    {
+-      //Since TH3's derived from TAtt3D, it should be checked here.
+-      //printf("normal-painting %s / %s\n", obj->GetName(), obj->ClassName());
++      // Handle 3D primitives here.
+       obj->Paint(opt);
+    }
+    else if (obj->InheritsFrom(TVirtualPad::Class()))
+@@ -165,8 +164,6 @@
+    else
+    {
+       // Handle 2D primitives here.
+-      // printf("TGLScenePad::ObjectPaint skipping %p, %s, %s.\n",
+-      //        obj, obj->GetName(), obj->ClassName());
+       obj->Paint(opt);
+    }
+ }
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLViewer.cxx root/graf3d/gl/src/TGLViewer.cxx
+--- root-old/graf3d/gl/src/TGLViewer.cxx	2010-10-27 16:48:23.000000000 +0200
++++ root/graf3d/gl/src/TGLViewer.cxx	2010-12-15 17:33:55.000000000 +0100
+@@ -30,7 +30,6 @@
+ #include "TGLOutput.h"
+ 
+ #include "TVirtualPad.h" // Remove when pad removed - use signal
+-#include "TAtt3D.h"      // Remove when PadPaint delegated to PadScene.
+ #include "TVirtualX.h"
+ 
+ #include "TMath.h"
+@@ -137,7 +136,6 @@
+    fReferencePos(0.0, 0.0, 0.0),
+    fDrawCameraCenter(kFALSE),
+    fCameraOverlay(0),
+-   fInitGL(kFALSE),
+    fSmartRefresh(kFALSE),
+    fDebugMode(kFALSE),
+    fIsPrinting(kFALSE),
+@@ -200,7 +198,6 @@
+    fReferencePos(0.0, 0.0, 0.0),
+    fDrawCameraCenter(kFALSE),
+    fCameraOverlay(0),
+-   fInitGL(kFALSE),
+    fSmartRefresh(kFALSE),
+    fDebugMode(kFALSE),
+    fIsPrinting(kFALSE),
+@@ -400,28 +397,16 @@
+ /**************************************************************************/
+ /**************************************************************************/
+ 
+-void TGLViewer::ResetInitGL()
+-{
+-   // Reset GL initialization flag.
+-   // This is needed if GL-context is destroyed from outside.
+-
+-   fInitGL = kFALSE;
+-}
+-
+ //______________________________________________________________________________
+ void TGLViewer::InitGL()
+ {
+-   // Initialise GL state if not already done
+-   if (fInitGL) {
+-      Error("TGLViewer::InitGL", "GL already initialised");
+-   }
++   // Initialise GL state.
+ 
+-   // GL initialisation
+    glEnable(GL_LIGHTING);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+-   glClearColor(0.f, 0.f, 0.f, 1.f);
++   glClearColor(0.f, 0.f, 0.f, 0.f);
+    glClearDepth(1.0);
+    glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
+    glEnable(GL_COLOR_MATERIAL);
+@@ -438,7 +423,6 @@
+    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+ 
+    TGLUtil::CheckError("TGLViewer::InitGL");
+-   fInitGL = kTRUE;
+ }
+ 
+ //______________________________________________________________________________
+@@ -505,6 +489,15 @@
+ 
+    if (fSmoothPoints) glEnable(GL_POINT_SMOOTH); else glDisable(GL_POINT_SMOOTH);
+    if (fSmoothLines)  glEnable(GL_LINE_SMOOTH);  else glDisable(GL_LINE_SMOOTH);
++   if (fSmoothPoints || fSmoothLines)
++   {
++      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
++      glEnable(GL_BLEND);
++   }
++   else
++   {
++      glDisable(GL_BLEND);
++   }
+ 
+    TGLViewerBase::PreRender();
+ 
+@@ -518,14 +511,14 @@
+    // Restore state set in PreRender().
+    // Called after every render.
+ 
++   TGLViewerBase::PostRender();
++
+    TGLUtil::SetPointSizeScale(1);
+    TGLUtil::SetLineWidthScale(1);
+-
+-   TGLViewerBase::PostRender();
+ }
+ 
+ //______________________________________________________________________________
+-void TGLViewer::DoDraw()
++void TGLViewer::DoDraw(Bool_t swap_buffers)
+ {
+    // Draw out the viewer.
+ 
+@@ -571,11 +564,11 @@
+    if (fStereo && fCurrentCamera->IsPerspective() && !fRnrCtx->GetGrabImage() &&
+        !fIsPrinting)
+    {
+-      DoDrawStereo();
++      DoDrawStereo(swap_buffers);
+    }
+    else
+    {
+-      DoDrawMono();
++      DoDrawMono(swap_buffers);
+    }
+ 
+    ReleaseLock(kDrawLock);
+@@ -601,7 +594,7 @@
+ }
+ 
+ //______________________________________________________________________________
+-void TGLViewer::DoDrawMono()
++void TGLViewer::DoDrawMono(Bool_t swap_buffers)
+ {
+    // Draw out in monoscopic mode.
+ 
+@@ -636,11 +629,14 @@
+ 
+    PostDraw();
+ 
+-   SwapBuffers();
++   if (swap_buffers)
++   {
++      SwapBuffers();
++   }
+ }
+ 
+ //______________________________________________________________________________
+-void TGLViewer::DoDrawStereo()
++void TGLViewer::DoDrawStereo(Bool_t swap_buffers)
+ {
+    // Draw out in stereoscopic mode.
+ 
+@@ -747,7 +743,11 @@
+    PostDraw();
+ 
+    // End
+-   SwapBuffers();
++   if (swap_buffers)
++   {
++      SwapBuffers();
++   }
++
+    glDrawBuffer(GL_BACK);
+ }
+ 
+@@ -781,7 +781,7 @@
+    }
+    else
+    {
+-      if (GLEW_VERSION_1_5)
++      if (GLEW_EXT_framebuffer_object)
+       {
+          return SavePictureUsingFBO(fileName, fViewport.Width(), fViewport.Height(), kFALSE);
+       }
+@@ -818,24 +818,28 @@
+ 
+    TUnlocker ulck(this);
+ 
+-   std::auto_ptr<TImage> image(TImage::Create());
+-
+-   fRnrCtx->SetGrabImage(kTRUE, GL_BACK);
+-
+    fLOD = TGLRnrCtx::kLODHigh;
++   fRnrCtx->SetGrabImage(kTRUE);
+ 
+    if (!gVirtualX->IsCmdThread())
+-      gROOT->ProcessLineFast(Form("((TGLViewer *)0x%lx)->DoDraw()", (ULong_t)this));
++      gROOT->ProcessLineFast(Form("((TGLViewer *)0x%lx)->DoDraw(kFALSE)", (ULong_t)this));
+    else
+-      DoDraw();
+-
+-   image->FromGLBuffer(fRnrCtx->GetGrabbedImage(), fViewport.Width(), fViewport.Height());
++      DoDraw(kFALSE);
+ 
+    fRnrCtx->SetGrabImage(kFALSE);
+-   delete [] fRnrCtx->GetGrabbedImage();
+-   fRnrCtx->SetGrabbedImage(0);
+ 
+-   image->WriteImage(fileName.Data());
++   glReadBuffer(GL_BACK);
++
++   UChar_t* xx = new UChar_t[4 * fViewport.Width() * fViewport.Height()];
++   glPixelStorei(GL_PACK_ALIGNMENT, 1);
++   glReadPixels(0, 0, fViewport.Width(), fViewport.Height(),
++                GL_BGRA, GL_UNSIGNED_BYTE, xx);
++
++   std::auto_ptr<TImage> image(TImage::Create());
++   image->FromGLBuffer(xx, fViewport.Width(), fViewport.Height());
++   image->WriteImage(fileName);
++
++   delete [] xx;
+ 
+    return kTRUE;
+ }
+@@ -872,14 +876,12 @@
+ 
+    TUnlocker ulck(this);
+ 
+-   std::auto_ptr<TImage> image(TImage::Create());
+-
+    MakeCurrent();
+ 
+    TGLFBO *fbo = new TGLFBO();
+    try
+    {
+-      fbo->Init(w, h);
++      fbo->Init(w, h, fGLWidget->GetPixelFormat()->GetSamples());
+    }
+    catch (std::runtime_error& exc)
+    {
+@@ -897,27 +899,34 @@
+       fRnrCtx->SetRenderScale(old_scale * pixel_object_scale);
+    }
+ 
+-   fRnrCtx->SetGrabImage(kTRUE, 0);
++   fbo->Bind();
+ 
+    fLOD = TGLRnrCtx::kLODHigh;
+-
+-   fbo->Bind();
++   fRnrCtx->SetGrabImage(kTRUE);
+ 
+    if (!gVirtualX->IsCmdThread())
+-      gROOT->ProcessLineFast(Form("((TGLViewer *)0x%lx)->DoDraw()", (ULong_t)this));
++      gROOT->ProcessLineFast(Form("((TGLViewer *)0x%lx)->DoDraw(kFALSE)", (ULong_t)this));
+    else
+-      DoDraw();
++      DoDraw(kFALSE);
++
++   fRnrCtx->SetGrabImage(kFALSE);
+ 
+    fbo->Unbind();
+-   delete fbo;
+ 
+-   image->FromGLBuffer(fRnrCtx->GetGrabbedImage(), fViewport.Width(), fViewport.Height());
++   fbo->SetAsReadBuffer();
+ 
+-   fRnrCtx->SetGrabImage(kFALSE);
+-   delete [] fRnrCtx->GetGrabbedImage();
+-   fRnrCtx->SetGrabbedImage(0);
++   UChar_t* xx = new UChar_t[4 * fViewport.Width() * fViewport.Height()];
++   glPixelStorei(GL_PACK_ALIGNMENT, 1);
++   glReadPixels(0, 0, fViewport.Width(), fViewport.Height(),
++                GL_BGRA, GL_UNSIGNED_BYTE, xx);
+ 
+-   image->WriteImage(fileName.Data());
++   std::auto_ptr<TImage> image(TImage::Create());
++   image->FromGLBuffer(xx, fViewport.Width(), fViewport.Height());
++   image->WriteImage(fileName);
++
++   delete [] xx;
++
++   delete fbo;
+ 
+    if (pixel_object_scale != 0)
+    {
+@@ -1037,10 +1046,7 @@
+ {
+    // Perform GL work which must be done before each draw.
+ 
+-   // Initialise GL if not done
+-   if (!fInitGL) {
+-      InitGL();
+-   }
++   InitGL();
+ 
+    // For embedded gl clear color must be pad's background color.
+    {
+@@ -1052,10 +1058,10 @@
+       else
+          rgb[0] = rgb[1] = rgb[2] = 0.0f;
+ 
+-      glClearColor(rgb[0], rgb[1], rgb[2], 1.0f);
++      glClearColor(rgb[0], rgb[1], rgb[2], 0.0f);
+    }
+ 
+-   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
++   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+ 
+    TGLUtil::CheckError("TGLViewer::PreDraw");
+ }
+@@ -1066,20 +1072,6 @@
+    // Perform GL work which must be done after each draw.
+ 
+    glFlush();
+-   if (fRnrCtx->GetGrabImage())
+-   {
+-      UChar_t* xx = new UChar_t[4 * fViewport.Width() * fViewport.Height()];
+-      if (fRnrCtx->GetGrabBuffer() != 0)
+-      {
+-         glReadBuffer(fRnrCtx->GetGrabBuffer());
+-      }
+-      glPixelStorei(GL_PACK_ALIGNMENT,1);
+-      glReadPixels(0, 0, fViewport.Width(), fViewport.Height(),
+-                   GL_BGRA, GL_UNSIGNED_BYTE, xx);
+-
+-      fRnrCtx->SetGrabbedImage(xx);
+-   }
+-
+    TGLUtil::CheckError("TGLViewer::PostDraw");
+ }
+ 
+@@ -1790,6 +1782,15 @@
+    return fAutoRotator;
+ }
+ 
++//______________________________________________________________________________
++void TGLViewer::SetAutoRotator(TGLAutoRotator* ar)
++{
++   // Set the auto-rotator for this viewer. The old rotator is deleted.
++
++   delete fAutoRotator;
++   fAutoRotator = ar;
++}
++
+ 
+ /**************************************************************************/
+ // Guide methods
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLViewerBase.cxx root/graf3d/gl/src/TGLViewerBase.cxx
+--- root-old/graf3d/gl/src/TGLViewerBase.cxx	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/src/TGLViewerBase.cxx	2010-12-15 17:32:18.000000000 +0100
+@@ -430,14 +430,13 @@
+ 
+    SubRenderScenes(&TGLSceneBase::RenderOpaque);
+ 
+-   glDepthMask(GL_FALSE);
+-   glEnable(GL_BLEND);
++   TGLCapabilityEnabler blend(GL_BLEND, kTRUE);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
++   glDepthMask(GL_FALSE);
+ 
+    SubRenderScenes(&TGLSceneBase::RenderTransp);
+ 
+    glDepthMask(GL_TRUE);
+-   glDisable(GL_BLEND);
+ 
+    TGLUtil::CheckError("TGLViewerBase::RenderNonSelected - pre exit check");
+ }
+@@ -449,14 +448,13 @@
+ 
+    SubRenderScenes(&TGLSceneBase::RenderSelOpaque);
+ 
+-   glDepthMask(GL_FALSE);
+-   glEnable(GL_BLEND);
++   TGLCapabilityEnabler blend(GL_BLEND, kTRUE);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
++   glDepthMask(GL_FALSE);
+ 
+    SubRenderScenes(&TGLSceneBase::RenderSelTransp);
+ 
+    glDepthMask(GL_TRUE);
+-   glDisable(GL_BLEND);
+ 
+    TGLUtil::CheckError("TGLViewerBase::RenderSelected - pre exit check");
+ }
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLWidget.cxx root/graf3d/gl/src/TGLWidget.cxx
+--- root-old/graf3d/gl/src/TGLWidget.cxx	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/gl/src/TGLWidget.cxx	2010-12-15 17:32:18.000000000 +0100
+@@ -70,6 +70,16 @@
+ //==============================================================================
+ 
+ //______________________________________________________________________________
++TGLWidget* TGLWidget::CreateDummy()
++{
++   // Static constructor for creating widget with default pixel format.
++
++   TGLFormat format(TGLFormat::kNone);
++
++   return Create(format, gClient->GetDefaultRoot(), kFALSE, kFALSE, 0, 1, 1);
++}
++
++//______________________________________________________________________________
+ TGLWidget* TGLWidget::Create(const TGWindow* parent, Bool_t selectInput,
+               Bool_t shareDefault, const TGLPaintDevice *shareDevice,
+               UInt_t width, UInt_t height)
+@@ -126,6 +136,7 @@
+    : TGFrame(gClient, glw, p),
+      fGLContext(0),
+      fWindowIndex(-1),
++     fGLFormat(TGLFormat::kNone),
+      fFromInit(kTRUE),
+      fEventHandler(0)
+ {
+@@ -371,8 +382,8 @@
+ #else // Non WIN32
+ //==============================================================================
+ 
+-namespace {
+-
++namespace
++{
+    void fill_format(std::vector<Int_t> &format, const TGLFormat &request)
+    {
+       format.push_back(GLX_RGBA);
+@@ -405,8 +416,17 @@
+          format.push_back(1);
+       }
+ 
+-      if (request.IsStereo())
+-        format.push_back(GLX_STEREO);
++      if (request.IsStereo()) {
++         format.push_back(GLX_STEREO);
++      }
++
++      if (request.HasMultiSampling())
++      {
++         format.push_back(GLX_SAMPLE_BUFFERS_ARB);
++         format.push_back(1);
++         format.push_back(GLX_SAMPLES_ARB);
++         format.push_back(request.GetSamples());
++      }
+ 
+       format.push_back(None);
+    }
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/glew/src/glew.c root/graf3d/glew/src/glew.c
+--- root-old/graf3d/glew/src/glew.c	2010-10-27 16:37:11.000000000 +0200
++++ root/graf3d/glew/src/glew.c	2010-12-15 17:32:23.000000000 +0100
+@@ -29,8 +29,17 @@
+ ** THE POSSIBILITY OF SUCH DAMAGE.
+ */
+ 
++/* ROOT additions begin */
++
+ #define GLEW_BUILD
+ 
++#if defined(__APPLE__)
++#  define GLEW_APPLE_GLX
++#endif
++
++/* ROOT additions end */
++
++
+ #include <GL/glew.h>
+ 
+ #if defined(_WIN32)

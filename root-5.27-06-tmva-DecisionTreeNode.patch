@@ -1,0 +1,35 @@
+--- orig.root/tmva/src/DecisionTreeNode.cxx	2010-09-29 11:29:34.000000000 +0200
++++ root/tmva/src/DecisionTreeNode.cxx	2010-11-13 09:22:52.000000000 +0100
+@@ -305,20 +305,22 @@
+    this->SetSelector((UInt_t)ivar);
+    this->SetCutValue(cutVal);
+    this->SetCutType(cutType);
+-   this->SetNSigEvents(nsig);
+-   this->SetNBkgEvents(nbkg);
+-   this->SetNEvents(nEv);
+-   this->SetNSigEvents_unweighted(nsig_unweighted);
+-   this->SetNBkgEvents_unweighted(nbkg_unweighted);
+-   this->SetNEvents_unweighted(nEv_unweighted);
+-   this->SetSeparationIndex(separationIndex);
+-   this->SetSeparationGain(separationGain);
++   if (fgIsTraining){
++     this->SetNSigEvents(nsig);
++     this->SetNBkgEvents(nbkg);
++     this->SetNEvents(nEv);
++     this->SetNSigEvents_unweighted(nsig_unweighted);
++     this->SetNBkgEvents_unweighted(nbkg_unweighted);
++     this->SetNEvents_unweighted(nEv_unweighted);
++     this->SetSeparationIndex(separationIndex);
++     this->SetSeparationGain(separationGain);
++     this->SetCC(cc);
++     this->SetPurity();
++   }
+    this->SetNodeType(nodeType);
+-   this->SetPurity();
+ 
+    this->SetResponse(response);
+    this->SetSequence(lseq);
+-   this->SetCC(cc);
+ 
+    return kTRUE;
+ }

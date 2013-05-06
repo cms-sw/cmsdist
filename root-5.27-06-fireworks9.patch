@@ -1,0 +1,1992 @@
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveArrow.h root/graf3d/eve/inc/TEveArrow.h
+--- root-old/graf3d/eve/inc/TEveArrow.h	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/inc/TEveArrow.h	2010-10-27 16:48:23.000000000 +0200
+@@ -47,7 +47,7 @@
+              Float_t xOrg=0, Float_t yOrg=0, Float_t zOrg=0);
+    virtual ~TEveArrow() {}
+ 
+-   virtual TObject* GetObject(const TEveException& /*eh*/="TEveElementList::GetObject ") const
++   virtual TObject* GetObject(const TEveException& ) const
+    { const TObject* obj = this; return const_cast<TObject*>(obj); }
+ 
+    void SetTubeR(Float_t x) { fTubeR = x; }
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveDigitSet.h root/graf3d/eve/inc/TEveDigitSet.h
+--- root-old/graf3d/eve/inc/TEveDigitSet.h	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/inc/TEveDigitSet.h	2010-10-27 16:48:37.000000000 +0200
+@@ -84,7 +84,7 @@
+    TEveDigitSet(const char* n="TEveDigitSet", const char* t="");
+    virtual ~TEveDigitSet();
+ 
+-   virtual TObject* GetObject(const TEveException& /*eh*/="TEveDigitSet::GetObject ") const
++   virtual TObject* GetObject(const TEveException&) const
+    { const TObject* obj = this; return const_cast<TObject*>(obj); }
+ 
+    void   UseSingleColor();
+@@ -127,6 +127,7 @@
+    DigitBase_t* GetDigit(Int_t n) const { return (DigitBase_t*) fPlex.Atom(n); }
+    TObject*     GetId(Int_t n) const;
+    void*        GetUserData(Int_t n) const;
++   using TEveElement::GetUserData;
+ 
+    // --------------------------------
+ 
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveElement.h root/graf3d/eve/inc/TEveElement.h
+--- root-old/graf3d/eve/inc/TEveElement.h	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/inc/TEveElement.h	2010-10-27 16:48:28.000000000 +0200
+@@ -104,6 +104,7 @@
+ 
+    virtual void PreDeleteElement();
+    virtual void RemoveElementsInternal();
++   virtual void AnnihilateRecursively();
+ 
+    static const char* ToString(Bool_t b);
+ 
+@@ -159,6 +160,7 @@
+    Int_t   NumParents()    const { return  fParents.size();   }
+    Bool_t  HasParents()    const { return !fParents.empty();  }
+ 
++   const List_t& RefChildren() const { return  fChildren;     }
+    List_i  BeginChildren()       { return  fChildren.begin(); }
+    List_i  EndChildren()         { return  fChildren.end();   }
+    List_ci BeginChildren() const { return  fChildren.begin(); }
+@@ -191,9 +193,9 @@
+    virtual void PadPaint(Option_t* option);
+    virtual void PaintStandard(TObject* id);
+ 
+-   virtual TObject* GetObject      (const TEveException& eh="TEveElement::GetObject ") const;
+-   virtual TObject* GetEditorObject(const TEveException& eh="TEveElement::GetEditorObject ") const { return GetObject(eh); }
+-   virtual TObject* GetRenderObject(const TEveException& eh="TEveElement::GetRenderObject ") const { return GetObject(eh); }
++   virtual TObject* GetObject      (const TEveException& eh) const;
++   virtual TObject* GetEditorObject(const TEveException& eh) const { return GetObject(eh); }
++   virtual TObject* GetRenderObject(const TEveException& eh) const { return GetObject(eh); }
+ 
+    // --------------------------------
+ 
+@@ -234,6 +236,9 @@
+    virtual void RemoveElements();
+    virtual void RemoveElementsLocal();
+ 
++   virtual void AnnihilateElements();
++   virtual void Annihilate();
++
+    virtual void ProjectChild(TEveElement* el, Bool_t same_depth=kTRUE);
+    virtual void ProjectAllChildren(Bool_t same_depth=kTRUE);
+ 
+@@ -318,6 +323,13 @@
+       kCSCBApplyMainTransparencyToMatchingChildren = BIT(5)  // compound will apply transparency change to all children with matching color
+    };
+ 
++   enum EDestruct
++   {
++      kNone,
++      kStandard,
++      kAnnihilate
++   };
++
+    UChar_t fCSCBits;
+ 
+ public:
+@@ -376,7 +388,7 @@
+ 
+ protected:
+    UChar_t      fChangeBits;  //!
+-   Bool_t       fDestructing; //!
++   Char_t       fDestructing; //!
+ 
+ public:
+    void StampColorSelection() { AddStamp(kCBColorSelection); }
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveGeoNode.h root/graf3d/eve/inc/TEveGeoNode.h
+--- root-old/graf3d/eve/inc/TEveGeoNode.h	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/inc/TEveGeoNode.h	2010-10-27 16:48:23.000000000 +0200
+@@ -46,7 +46,7 @@
+ public:
+    TEveGeoNode(TGeoNode* node);
+ 
+-   virtual TObject* GetObject(const TEveException& /*eh*/="TEveElementList::GetObject ") const
++   virtual TObject* GetObject(const TEveException&) const
+    { const TObject* obj = this; return const_cast<TObject*>(obj); }
+ 
+    virtual const char* GetName()  const;
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveGeoShape.h root/graf3d/eve/inc/TEveGeoShape.h
+--- root-old/graf3d/eve/inc/TEveGeoShape.h	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/inc/TEveGeoShape.h	2010-10-27 16:48:23.000000000 +0200
+@@ -42,7 +42,7 @@
+    TEveGeoShape(const char* name="TEveGeoShape", const char* title=0);
+    virtual ~TEveGeoShape();
+ 
+-   virtual TObject* GetObject(const TEveException& /*eh*/="TEveElementList::GetObject ") const
++   virtual TObject* GetObject(const TEveException&) const
+    { const TObject* obj = this; return const_cast<TObject*>(obj); }
+ 
+    Color_t     GetColor()      const { return fColor; }
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEvePointSet.h root/graf3d/eve/inc/TEvePointSet.h
+--- root-old/graf3d/eve/inc/TEvePointSet.h	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/inc/TEvePointSet.h	2010-10-27 16:48:23.000000000 +0200
+@@ -52,7 +52,7 @@
+    TEvePointSet(const TEvePointSet& e);
+    virtual ~TEvePointSet();
+ 
+-   virtual TObject* GetObject(const TEveException& /*eh*/="TEvePointSet::GetObject ") const
++   virtual TObject* GetObject(const TEveException&) const
+    { const TObject* obj = this; return const_cast<TObject*>(obj); }
+ 
+    virtual TEvePointSet* CloneElement() const { return new TEvePointSet(*this); }
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveProjectionBases.h root/graf3d/eve/inc/TEveProjectionBases.h
+--- root-old/graf3d/eve/inc/TEveProjectionBases.h	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/inc/TEveProjectionBases.h	2010-10-27 16:48:23.000000000 +0200
+@@ -58,6 +58,9 @@
+    virtual void AddProjected(TEveProjected* p)    { fProjectedList.push_back(p); }
+    virtual void RemoveProjected(TEveProjected* p) { fProjectedList.remove(p);   }
+ 
++   virtual void AnnihilateProjecteds();
++   virtual void ClearProjectedList();
++
+    virtual void AddProjectedsToSet(std::set<TEveElement*>& set);
+ 
+    virtual void PropagateVizParams(TEveElement* el=0);
+@@ -100,7 +103,7 @@
+    Float_t                GetDepth()       const { return fDepth; }
+ 
+    virtual void SetProjection(TEveProjectionManager* mng, TEveProjectable* model);
+-   virtual void UnRefProjectable(TEveProjectable* assumed_parent);
++   virtual void UnRefProjectable(TEveProjectable* assumed_parent, bool notifyParent = true);
+ 
+    virtual void UpdateProjection() = 0;   
+    virtual TEveElement* GetProjectedAsElement();
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/inc/TEveUtil.h root/graf3d/eve/inc/TEveUtil.h
+--- root-old/graf3d/eve/inc/TEveUtil.h	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/inc/TEveUtil.h	2010-10-27 16:48:23.000000000 +0200
+@@ -19,6 +19,7 @@
+ #include "GuiTypes.h"
+ 
+ #include <list>
++#include <map>
+ #include <set>
+ #include <exception>
+ 
+@@ -186,7 +187,10 @@
+ class TEveRefBackPtr : public TEveRefCnt
+ {
+ protected:
+-   std::list<TEveElement*> fBackRefs;
++   typedef std::map<TEveElement*, Int_t> RefMap_t;
++   typedef RefMap_t::iterator            RefMap_i;
++
++   RefMap_t fBackRefs;
+ 
+ public:
+    TEveRefBackPtr();
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveArrowGL.cxx root/graf3d/eve/src/TEveArrowGL.cxx
+--- root-old/graf3d/eve/src/TEveArrowGL.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveArrowGL.cxx	2010-10-27 16:48:32.000000000 +0200
+@@ -37,11 +37,8 @@
+ {
+    // Set model object.
+ 
+-   if (SetModelCheckClass(obj, TEveArrow::Class())) {
+-      fM = dynamic_cast<TEveArrow*>(obj);
+-      return kTRUE;
+-   }
+-   return kFALSE;
++   fM = SetModelDynCast<TEveArrow>(obj);
++   return kTRUE;
+ }
+ 
+ //______________________________________________________________________________
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveBoxGL.cxx root/graf3d/eve/src/TEveBoxGL.cxx
+--- root-old/graf3d/eve/src/TEveBoxGL.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveBoxGL.cxx	2010-10-27 16:48:32.000000000 +0200
+@@ -41,11 +41,8 @@
+ {
+    // Set model object.
+ 
+-   if (SetModelCheckClass(obj, TEveBox::Class())) {
+-      fM = dynamic_cast<TEveBox*>(obj);
+-      return kTRUE;
+-   }
+-   return kFALSE;
++   fM = SetModelDynCast<TEveBox>(obj);
++   return kTRUE;
+ }
+ 
+ //______________________________________________________________________________
+@@ -193,6 +190,7 @@
+    {
+       if (fM->fDrawFrame)
+       {
++         glEnable(GL_BLEND);
+          TGLUtil::LineWidth(fM->fLineWidth);
+          TGLUtil::Color(fM->fLineColor);
+       }
+@@ -221,9 +219,9 @@
+    // Frame
+    if (fM->fDrawFrame)
+    {
++      glEnable(GL_BLEND);
+       TGLUtil::Color(fM->fLineColor);
+       TGLUtil::LineWidth(fM->fLineWidth);
+-      glEnable(GL_LINE_SMOOTH);
+       RenderOutline(fM->fVertices);
+    }
+ 
+@@ -257,11 +255,8 @@
+ {
+    // Set model object.
+ 
+-   if (SetModelCheckClass(obj, TEveBoxProjected::Class())) {
+-      fM = dynamic_cast<TEveBoxProjected*>(obj);
+-      return kTRUE;
+-   }
+-   return kFALSE;
++   fM = SetModelDynCast<TEveBoxProjected>(obj);
++   return kTRUE;
+ }
+ 
+ //______________________________________________________________________________
+@@ -315,6 +310,7 @@
+    {
+       if (fM->fDrawFrame)
+       {
++         glEnable(GL_BLEND);
+          TGLUtil::LineWidth(fM->fLineWidth);
+          TGLUtil::Color(fM->fLineColor);
+       }
+@@ -365,9 +361,9 @@
+    // Frame
+    if (fM->fDrawFrame)
+    {
++      glEnable(GL_BLEND);
+       TGLUtil::Color(fM->fLineColor);
+       TGLUtil::LineWidth(fM->fLineWidth);
+-      glEnable(GL_LINE_SMOOTH);
+       RenderPoints(GL_LINE_LOOP);
+    }
+ 
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveBoxSetGL.cxx root/graf3d/eve/src/TEveBoxSetGL.cxx
+--- root-old/graf3d/eve/src/TEveBoxSetGL.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveBoxSetGL.cxx	2010-10-27 16:48:32.000000000 +0200
+@@ -204,11 +204,8 @@
+    // Set model object.
+    // Virtual from TGLObject.
+ 
+-   if (SetModelCheckClass(obj, TEveBoxSet::Class())) {
+-      fM = dynamic_cast<TEveBoxSet*>(obj);
+-      return kTRUE;
+-   }
+-   return kFALSE;
++   fM = SetModelDynCast<TEveBoxSet>(obj);
++   return kTRUE;
+ }
+ 
+ /******************************************************************************/
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveCalo2DGL.cxx root/graf3d/eve/src/TEveCalo2DGL.cxx
+--- root-old/graf3d/eve/src/TEveCalo2DGL.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveCalo2DGL.cxx	2010-10-27 16:48:32.000000000 +0200
+@@ -46,11 +46,8 @@
+ {
+    // Set model object.
+ 
+-   if (SetModelCheckClass(obj, TEveCalo2D::Class())) {
+-      fM = dynamic_cast<TEveCalo2D*>(obj);
+-      return kTRUE;
+-   }
+-   return kFALSE;
++   fM = SetModelDynCast<TEveCalo2D>(obj);
++   return kTRUE;
+ }
+ 
+ //______________________________________________________________________________
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveCalo3DGL.cxx root/graf3d/eve/src/TEveCalo3DGL.cxx
+--- root-old/graf3d/eve/src/TEveCalo3DGL.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveCalo3DGL.cxx	2010-10-27 16:48:32.000000000 +0200
+@@ -43,11 +43,8 @@
+ {
+    // Set model object.
+ 
+-   if (SetModelCheckClass(obj, TEveCalo3D::Class())) {
+-      fM = dynamic_cast<TEveCalo3D*>(obj);
+-      return kTRUE;
+-   }
+-   return kFALSE;
++   fM = SetModelDynCast<TEveCalo3D>(obj);
++   return kTRUE;
+ }
+ 
+ //______________________________________________________________________________
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveCaloData.cxx root/graf3d/eve/src/TEveCaloData.cxx
+--- root-old/graf3d/eve/src/TEveCaloData.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveCaloData.cxx	2010-10-27 16:48:23.000000000 +0200
+@@ -63,7 +63,7 @@
+    if (isEt)
+       return fValue;
+    else
+-      return TMath::Abs(fValue/TMath::Cos(Theta()));
++      return TMath::Abs(fValue/TMath::Sin(Theta()));
+ }
+ 
+ //______________________________________________________________________________
+@@ -618,7 +618,7 @@
+ 
+    fMaxValE = 0;
+    fMaxValEt = 0;
+-   Float_t sum=0, cos=0;
++   Float_t sum=0;
+    //   printf("geom vec %d slices %d\n",fGeomVec.size(), fSliceVec.size() );
+ 
+    for (UInt_t tw=0; tw<fGeomVec.size(); tw++)
+@@ -629,8 +629,8 @@
+ 
+       if (sum > fMaxValEt ) fMaxValEt=sum;
+ 
+-      cos = Cos(2*ATan(Exp( -Abs(fGeomVec[tw].Eta()))));
+-      sum /= Abs(cos);
++      sum /= Abs(Sin(EtaToTheta(fGeomVec[tw].Eta())));
++
+       if (sum > fMaxValE) fMaxValE=sum;
+    }
+ 
+@@ -784,8 +784,8 @@
+ 
+          if (value > fMaxValEt ) fMaxValEt = value;
+ 
+-         Double_t cos = Cos(2*ATan(Exp(-Abs(eta))));
+-         value /= Abs(cos);
++         value /= Abs(Sin(EtaToTheta(eta)));
++
+          if (value > fMaxValE) fMaxValE = value;
+       }
+    }
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveCaloLegoGL.cxx root/graf3d/eve/src/TEveCaloLegoGL.cxx
+--- root-old/graf3d/eve/src/TEveCaloLegoGL.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveCaloLegoGL.cxx	2010-10-27 16:48:32.000000000 +0200
+@@ -85,12 +85,8 @@
+ {
+    // Set model object.
+ 
+-   if (SetModelCheckClass(obj, TEveCaloLego::Class())) {
+-      fM = dynamic_cast<TEveCaloLego*>(obj);
+-      return kTRUE;
+-   }
+-
+-   return kFALSE;
++   fM = SetModelDynCast<TEveCaloLego>(obj);
++   return kTRUE;
+ }
+ 
+ //______________________________________________________________________________
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveElement.cxx root/graf3d/eve/src/TEveElement.cxx
+--- root-old/graf3d/eve/src/TEveElement.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveElement.cxx	2010-10-27 16:48:28.000000000 +0200
+@@ -95,7 +95,7 @@
+    fImpliedHighlighted  (0),
+    fCSCBits             (0),
+    fChangeBits          (0),
+-   fDestructing         (kFALSE)
++   fDestructing         (kNone)
+ {
+    // Default contructor.
+ }
+@@ -130,7 +130,7 @@
+    fImpliedHighlighted  (0),
+    fCSCBits             (0),
+    fChangeBits          (0),
+-   fDestructing         (kFALSE)
++   fDestructing         (kNone)
+ {
+    // Constructor.
+ }
+@@ -165,7 +165,7 @@
+    fImpliedHighlighted  (0),
+    fCSCBits             (e.fCSCBits),
+    fChangeBits          (0),
+-   fDestructing         (kFALSE)
++   fDestructing         (kNone)
+ {
+    // Copy constructor. Does shallow copy.
+    // For deep-cloning and children-cloning, see:
+@@ -189,17 +189,20 @@
+ TEveElement::~TEveElement()
+ {
+    // Destructor.
++  
++   if (fDestructing != kAnnihilate)
++   { 
++      fDestructing = kStandard;
++      RemoveElementsInternal();
+ 
+-   fDestructing = kTRUE;
+-
+-   RemoveElementsInternal();
+-
+-   for (List_i p=fParents.begin(); p!=fParents.end(); ++p)
+-   {
+-      (*p)->RemoveElementLocal(this);
+-      (*p)->fChildren.remove(this);
+-      --((*p)->fNumChildren);
++      for (List_i p=fParents.begin(); p!=fParents.end(); ++p)
++      {
++         (*p)->RemoveElementLocal(this);
++         (*p)->fChildren.remove(this);
++         --((*p)->fNumChildren);
++      }  
+    }
++
+    fParents.clear();
+ 
+    for (sLTI_i i=fItems.begin(); i!=fItems.end(); ++i)
+@@ -495,8 +498,10 @@
+    // WriteVizParams() and, at the end, writes out the code for
+    // registration of the model into the VizDB.
+ 
++   static const TEveException eh("TEveElement::GetObject ");
++
+    TString t = "   ";
+-   TString cls(GetObject()->ClassName());
++   TString cls(GetObject(eh)->ClassName());
+ 
+    out << "\n";
+ 
+@@ -585,7 +590,9 @@
+    // If replace is true an existing element with the same tag will be replaced.
+    // If update is true, existing client of tag will be updated.
+ 
+-   TClass* cls = GetObject()->IsA();
++   static const TEveException eh("TEveElement::GetObject ");
++
++   TClass* cls = GetObject(eh)->IsA();
+    TEveElement* el = reinterpret_cast<TEveElement*>(cls->New());
+    if (el == 0) {
+       Error("VizDB_Insert", "Creation of replica failed.");
+@@ -659,7 +666,7 @@
+    // Check external references to this and eventually auto-destruct
+    // the render-element.
+ 
+-   if (fDestructing)
++   if (fDestructing != kNone)
+       return;
+ 
+    if (NumParents() <= fParentIgnoreCnt && fTopItemCnt  <= 0 &&
+@@ -1635,6 +1642,91 @@
+ /******************************************************************************/
+ 
+ //______________________________________________________________________________
++void TEveElement::AnnihilateRecursively()
++{
++   // Protected member function called from TEveElement::Annihilate().
++
++   static const TEveException eh("TEveElement::AnnihilateRecursively ");
++
++   // projected  were already destroyed in TEveElement::Anihilate(), now only clear its list
++   TEveProjectable* pable = dynamic_cast<TEveProjectable*>(this);
++   if (pable && pable->HasProjecteds())
++   {
++      pable->ClearProjectedList();
++   }
++
++   // same as TEveElements::RemoveElementsInternal(), except parents are ignored
++   for (sLTI_i i=fItems.begin(); i!=fItems.end(); ++i)
++   {
++      DestroyListSubTree(i->fTree, i->fItem);
++   }
++   RemoveElementsLocal();
++   for (List_i i=fChildren.begin(); i!=fChildren.end(); ++i)
++   {
++      (*i)->AnnihilateRecursively();
++   }
++
++   fChildren.clear();
++   fNumChildren = 0;
++   
++   fDestructing = kAnnihilate;
++   PreDeleteElement();
++ 
++   delete this;
++}
++
++//______________________________________________________________________________
++void TEveElement::Annihilate()
++{
++   // Optimized destruction without check of reference-count.
++   // Parents are not notified about child destruction. 
++   // The method should only be used when an element does not have
++   // more than one parent -- otherwise an exception is thrown.
++
++   static const TEveException eh("TEveElement::Annihilate ");
++
++   if (fParents.size() > 1)
++   {
++      Warning(eh, "More than one parent for '%s': %d. Refusing to delete.",
++              GetElementName(), (Int_t) fParents.size());
++      return;
++   }
++
++   fDestructing = kAnnihilate;
++
++   // recursive annihilation of projecteds
++   TEveProjectable* pable = dynamic_cast<TEveProjectable*>(this);
++   if (pable && pable->HasProjecteds())
++   {
++      pable->AnnihilateProjecteds();
++   }
++
++   // detach from the parent
++   while (!fParents.empty())
++   {
++      fParents.front()->RemoveElement(this);
++   }
++
++   AnnihilateRecursively();
++
++   gEve->Redraw3D();
++}
++
++//______________________________________________________________________________
++void TEveElement::AnnihilateElements()
++{  
++   // Annihilate elements.
++   
++   while (!fChildren.empty())
++   {
++      TEveElement* c = fChildren.front();
++      c->Annihilate();
++   }
++
++   fNumChildren = 0;
++}
++
++//______________________________________________________________________________
+ void TEveElement::Destroy()
+ {
+    // Destroy this element. Throws an exception if deny-destroy is in force.
+@@ -1973,7 +2065,7 @@
+    // actions. The base-class method should still be called (or replicated).
+ 
+    fChangeBits |= bits;
+-   if (!fDestructing) gEve->ElementStamped(this);
++   if (fDestructing == kNone) gEve->ElementStamped(this);
+ }
+ 
+ /******************************************************************************/
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveGedEditor.cxx root/graf3d/eve/src/TEveGedEditor.cxx
+--- root-old/graf3d/eve/src/TEveGedEditor.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveGedEditor.cxx	2010-10-27 16:48:23.000000000 +0200
+@@ -368,6 +368,8 @@
+ {
+    // Handle button.
+ 
++   static const TEveException eh("TEveGedNameTextButton::HandleButton ");
++
+    if (fTip) fTip->Hide();
+    if (fState == kButtonDisabled) return kTRUE;
+ 
+@@ -377,7 +379,7 @@
+       TEveElement   *el   = eged->GetEveElement();
+       if (el)
+          TEveGedEditor::GetContextMenu()->Popup(event->fXRoot, event->fYRoot,
+-                                                el->GetObject());
++                                                el->GetObject(eh));
+       return 1;
+    }
+    else if (event->fCode == kButton1)
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveGeoNode.cxx root/graf3d/eve/src/TEveGeoNode.cxx
+--- root-old/graf3d/eve/src/TEveGeoNode.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveGeoNode.cxx	2010-10-27 16:48:46.000000000 +0200
+@@ -78,7 +78,7 @@
+    SetMainColorPtr((Color_t*)(l + sizeof(void*)));
+    SetMainTransparency(fNode->GetVolume()->GetTransparency());
+ 
+-   fRnrSelf = fNode->TGeoAtt::IsVisible();
++   SetRnrSelfChildren(fNode->IsVisible(), fNode->IsVisDaughters());
+ }
+ 
+ //______________________________________________________________________________
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveJetConeGL.cxx root/graf3d/eve/src/TEveJetConeGL.cxx
+--- root-old/graf3d/eve/src/TEveJetConeGL.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveJetConeGL.cxx	2010-10-27 16:48:37.000000000 +0200
+@@ -42,11 +42,8 @@
+ {
+    // Set model object.
+ 
+-   if (SetModelCheckClass(obj, TEveJetCone::Class())) {
+-      fC = dynamic_cast<TEveJetCone*>(obj);
+-      return kTRUE;
+-   }
+-   return kFALSE;
++   fC = SetModelDynCast<TEveJetCone>(obj);
++   return kTRUE;
+ }
+ 
+ //______________________________________________________________________________
+@@ -200,12 +197,9 @@
+ {
+    // Set model object.
+ 
+-   if (SetModelCheckClass(obj, TEveJetConeProjected::Class())) {
+-      fM = dynamic_cast<TEveJetConeProjected*>(obj);
+-      fC = dynamic_cast<TEveJetCone*>(fM->GetProjectable());
+-      return kTRUE;
+-   }
+-   return kFALSE;
++   fM = SetModelDynCast<TEveJetConeProjected>(obj);
++   fC = dynamic_cast<TEveJetCone*>(fM->GetProjectable());
++   return fC != 0;
+ }
+ 
+ //______________________________________________________________________________
+@@ -352,9 +346,11 @@
+ 
+    fMultiColor = (fM->fDrawFrame && fM->fFillColor != fM->fLineColor);
+ 
++   glPushAttrib(GL_ENABLE_BIT);
++   glDisable(GL_LIGHTING);
++
+    if (fM->fDrawFrame)
+    {
+-      glPushAttrib(GL_ENABLE_BIT);
+       glEnable(GL_POLYGON_OFFSET_FILL);
+       glPolygonOffset(1.0f, 1.0f);
+    }
+@@ -368,7 +364,7 @@
+       TGLUtil::Color(fM->fLineColor);
+       TGLUtil::LineWidth(fM->fLineWidth);
+       RenderOutline();
+-
+-      glPopAttrib();
+    }
++
++   glPopAttrib();
+ }
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveLineGL.cxx root/graf3d/eve/src/TEveLineGL.cxx
+--- root-old/graf3d/eve/src/TEveLineGL.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveLineGL.cxx	2010-10-27 16:48:32.000000000 +0200
+@@ -42,11 +42,8 @@
+ {
+    // Set model object.
+ 
+-   if (SetModelCheckClass(obj, TEveLine::Class())) {
+-      fM = dynamic_cast<TEveLine*>(obj);
+-      return kTRUE;
+-   }
+-   return kFALSE;
++   fM = SetModelDynCast<TEveLine>(obj);
++   return kTRUE;
+ }
+ 
+ /******************************************************************************/
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEvePlot3DGL.cxx root/graf3d/eve/src/TEvePlot3DGL.cxx
+--- root-old/graf3d/eve/src/TEvePlot3DGL.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEvePlot3DGL.cxx	2010-10-27 16:48:32.000000000 +0200
+@@ -38,12 +38,9 @@
+ {
+    // Set model object.
+ 
+-   if (SetModelCheckClass(obj, TEvePlot3D::Class())) {
+-      fM = dynamic_cast<TEvePlot3D*>(obj);
+-      fPlotLogical = TGLPlot3D::CreatePlot(fM->fPlot, fM->fPlotOption, fM->fLogX, fM->fLogY, fM->fLogZ);
+-      return kTRUE;
+-   }
+-   return kFALSE;
++   fM = SetModelDynCast<TEvePlot3D>(obj);
++   fPlotLogical = TGLPlot3D::CreatePlot(fM->fPlot, fM->fPlotOption, fM->fLogX, fM->fLogY, fM->fLogZ);
++   return kTRUE;
+ }
+ 
+ //______________________________________________________________________________
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveProjectionAxesGL.cxx root/graf3d/eve/src/TEveProjectionAxesGL.cxx
+--- root-old/graf3d/eve/src/TEveProjectionAxesGL.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveProjectionAxesGL.cxx	2010-10-27 16:48:32.000000000 +0200
+@@ -45,12 +45,9 @@
+    // Set model object.
+    // Virtual from TGLObject.
+ 
+-   if (SetModelCheckClass(obj, TEveProjectionAxes::Class())) {
+-      fM = dynamic_cast<TEveProjectionAxes*>(obj);
+-      fAxisPainter.SetAttAxis(fM);
+-      return fM->GetManager() ? kTRUE : kFALSE;
+-   }
+-   return kFALSE;
++   fM = SetModelDynCast<TEveProjectionAxes>(obj);
++   fAxisPainter.SetAttAxis(fM);
++   return fM->GetManager() ? kTRUE : kFALSE;
+ }
+ 
+ //______________________________________________________________________________
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveProjectionBases.cxx root/graf3d/eve/src/TEveProjectionBases.cxx
+--- root-old/graf3d/eve/src/TEveProjectionBases.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveProjectionBases.cxx	2010-10-27 16:48:23.000000000 +0200
+@@ -53,7 +53,6 @@
+       p->UnRefProjectable(this);
+       TEveElement* el = p->GetProjectedAsElement();
+       assert(el);
+-      // if (el)
+       {
+          gEve->PreDeleteElement(el);
+          delete el;
+@@ -62,6 +61,27 @@
+ }
+ 
+ //______________________________________________________________________________
++void TEveProjectable::AnnihilateProjecteds()
++{
++   // Optimized destroy of projected elements with condition 
++   // there is only one parent for projected element. Method is 
++   // called from TEveElement::Annihilate(). 
++
++   for (ProjList_i i=fProjectedList.begin(); i!=fProjectedList.end(); ++i)
++   {
++      (*i)->UnRefProjectable(this, kFALSE);
++      (*i)->GetProjectedAsElement()->Annihilate();
++   }
++   fProjectedList.clear();
++}
++
++//______________________________________________________________________________
++void TEveProjectable::ClearProjectedList()
++{
++   fProjectedList.clear();
++}
++
++//______________________________________________________________________________
+ void TEveProjectable::AddProjectedsToSet(std::set<TEveElement*>& set)
+ {
+    // Add the projected elements to the set, dyn-casting them to
+@@ -185,7 +205,7 @@
+ }
+ 
+ //______________________________________________________________________________
+-void TEveProjected::UnRefProjectable(TEveProjectable* assumed_parent)
++void TEveProjected::UnRefProjectable(TEveProjectable* assumed_parent, bool notifyParent)
+ {
+    // Remove reference to projectable.
+ 
+@@ -193,7 +213,7 @@
+ 
+    assert(fProjectable == assumed_parent);
+ 
+-   fProjectable->RemoveProjected(this);
++   if (notifyParent) fProjectable->RemoveProjected(this);
+    fProjectable = 0;
+ }
+ 
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveQuadSetGL.cxx root/graf3d/eve/src/TEveQuadSetGL.cxx
+--- root-old/graf3d/eve/src/TEveQuadSetGL.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveQuadSetGL.cxx	2010-10-27 16:48:32.000000000 +0200
+@@ -45,11 +45,8 @@
+ {
+    // Set model object.
+ 
+-   if (SetModelCheckClass(obj, TEveQuadSet::Class())) {
+-      fM  = dynamic_cast<TEveQuadSet*>(obj);
+-      return kTRUE;
+-   }
+-   return kFALSE;
++   fM = SetModelDynCast<TEveQuadSet>(obj);
++   return kTRUE;
+ }
+ 
+ /******************************************************************************/
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveScene.cxx root/graf3d/eve/src/TEveScene.cxx
+--- root-old/graf3d/eve/src/TEveScene.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveScene.cxx	2010-10-27 16:48:23.000000000 +0200
+@@ -64,7 +64,7 @@
+ {
+    // Destructor.
+ 
+-   fDestructing = kTRUE;
++   fDestructing = kStandard;
+ 
+    gEve->GetViewers()->SceneDestructing(this);
+    gEve->GetScenes()->RemoveElement(this);
+@@ -140,13 +140,15 @@
+    // Set transformation matrix for physical shape of element el in
+    // the GL-scene and recursively descend into children (if enabled).
+ 
++   static const TEveException eh("TEveScene::RetransHierarchicallyRecurse ");
++
+    TEveTrans t(tp);
+    if (el->HasMainTrans())
+       t *= el->RefMainTrans();
+ 
+    if (el->GetRnrSelf() && el != this)
+    {
+-      fGLScene->UpdatePhysioLogical(el->GetRenderObject(), t.Array(), 0);
++      fGLScene->UpdatePhysioLogical(el->GetRenderObject(eh), t.Array(), 0);
+    }
+ 
+    if (el->GetRnrChildren())
+@@ -190,8 +192,10 @@
+    // Remove element from the scene.
+    // It is not an error if the element is not found in the scene.
+ 
++   static const TEveException eh("TEveScene::DestroyElementRenderers ");
++
+    fGLScene->BeginUpdate();
+-   Bool_t changed = fGLScene->DestroyLogical(element->GetRenderObject(), kFALSE);
++   Bool_t changed = fGLScene->DestroyLogical(element->GetRenderObject(eh), kFALSE);
+    fGLScene->EndUpdate(changed, changed);
+ }
+ 
+@@ -286,7 +290,9 @@
+    // Loop over all scenes and remove all instances of element from
+    // them.
+ 
+-   TObject* obj = element->GetRenderObject();
++   static const TEveException eh("TEveSceneList::DestroyElementRenderers ");
++
++   TObject* obj = element->GetRenderObject(eh);
+    for (List_i i=fChildren.begin(); i!=fChildren.end(); ++i)
+    {
+       ((TEveScene*)*i)->DestroyElementRenderers(obj);
+@@ -308,6 +314,8 @@
+    // parallel iteration over this list and the list of logical shapes
+    // in every scene.
+ 
++   static const TEveException eh("TEveSceneList::ProcessSceneChanges ");
++
+    typedef std::map<TObject*, TEveElement*> mObjectElement_t;
+    typedef mObjectElement_t::iterator       mObjectElement_i;
+ 
+@@ -318,7 +326,7 @@
+       while (stamped_elements.Next(key, value))
+       {
+          TEveElement *el = reinterpret_cast<TEveElement*>(key);
+-         changed_objects.insert(std::make_pair(el->GetRenderObject(), el));
++         changed_objects.insert(std::make_pair(el->GetRenderObject(eh), el));
+       }
+    }
+ 
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveStraightLineSetGL.cxx root/graf3d/eve/src/TEveStraightLineSetGL.cxx
+--- root-old/graf3d/eve/src/TEveStraightLineSetGL.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveStraightLineSetGL.cxx	2010-10-27 16:48:32.000000000 +0200
+@@ -43,11 +43,8 @@
+ {
+    // Set model object.
+ 
+-   if (SetModelCheckClass(obj, TEveStraightLineSet::Class())) {
+-      fM = dynamic_cast<TEveStraightLineSet*>(obj);
+-      return kTRUE;
+-   }
+-   return kFALSE;
++   fM = SetModelDynCast<TEveStraightLineSet>(obj);
++   return kTRUE;
+ }
+ 
+ //______________________________________________________________________________
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveTextGL.cxx root/graf3d/eve/src/TEveTextGL.cxx
+--- root-old/graf3d/eve/src/TEveTextGL.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveTextGL.cxx	2010-10-27 16:48:32.000000000 +0200
+@@ -41,11 +41,8 @@
+ {
+    // Set model object.
+ 
+-   if (SetModelCheckClass(obj, TEveText::Class())) {
+-      fM = dynamic_cast<TEveText*>(obj);
+-      return kTRUE;
+-   }
+-   return kFALSE;
++   fM = SetModelDynCast<TEveText>(obj);
++   return kTRUE;
+ }
+ 
+ //______________________________________________________________________________
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveTrackGL.cxx root/graf3d/eve/src/TEveTrackGL.cxx
+--- root-old/graf3d/eve/src/TEveTrackGL.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveTrackGL.cxx	2010-10-27 16:48:32.000000000 +0200
+@@ -42,12 +42,9 @@
+ {
+    // Set model object.
+ 
+-   if (TEveLineGL::SetModel(obj) == kFALSE) return kFALSE;
+-   if (SetModelCheckClass(obj, TEveTrack::Class())) {
+-      fTrack = dynamic_cast<TEveTrack*>(obj);
+-      return kTRUE;
+-   }
+-   return kFALSE;
++   TEveLineGL::SetModel(obj);
++   fTrack = DynCast<TEveTrack>(obj);
++   return kTRUE;
+ }
+ 
+ //______________________________________________________________________________
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveTrackProjectedGL.cxx root/graf3d/eve/src/TEveTrackProjectedGL.cxx
+--- root-old/graf3d/eve/src/TEveTrackProjectedGL.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveTrackProjectedGL.cxx	2010-10-27 16:48:32.000000000 +0200
+@@ -42,12 +42,9 @@
+ {
+    // Set model object.
+ 
+-   if (TEveTrackGL::SetModel(obj) == kFALSE) return kFALSE;
+-   if (SetModelCheckClass(obj, TEveTrackProjected::Class())) {
+-      fM = dynamic_cast<TEveTrackProjected*>(obj);
+-      return kTRUE;
+-   }
+-   return kFALSE;
++   TEveTrackGL::SetModel(obj);
++   fM = DynCast<TEveTrackProjected>(obj);
++   return kTRUE;
+ }
+ 
+ /******************************************************************************/
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveTrackPropagator.cxx root/graf3d/eve/src/TEveTrackPropagator.cxx
+--- root-old/graf3d/eve/src/TEveTrackPropagator.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveTrackPropagator.cxx	2010-10-27 16:48:23.000000000 +0200
+@@ -138,7 +138,7 @@
+    {
+       TEveVector d = fE2*(fR*fSin) + fE3*(fR*(1-fCos)) + fE1*fLStep;
+       vOut    += d;
+-      vOut.fT += fLStep;
++      vOut.fT += TMath::Abs(fLStep);
+ 
+       pOut = fPl + fE2*(fPtMag*fCos) + fE3*(fPtMag*fSin);
+ 
+@@ -148,7 +148,8 @@
+    {
+       // case: pT < kPtMinSqr or B < kBMin
+       // might happen if field directon changes pT ~ 0 or B becomes zero
+-      vOut += p * (fMaxStep / p.Mag());
++      vOut    += p * (fMaxStep / p.Mag());
++      vOut.fT += fMaxStep;
+       pOut  = p;
+    }
+ }
+@@ -267,10 +268,10 @@
+    // Virtual from TEveElement.
+ 
+    TEveTrack* track;
+-   std::list<TEveElement*>::iterator i = fBackRefs.begin();
++   RefMap_i i = fBackRefs.begin();
+    while (i != fBackRefs.end())
+    {
+-      track = dynamic_cast<TEveTrack*>(*i);
++      track = dynamic_cast<TEveTrack*>(i->first);
+       track->StampObjProps();
+       ++i;
+    }
+@@ -523,11 +524,7 @@
+    // make the remaining fractional step
+    if (np > first_point)
+    {
+-      TEveVector d1 = v;
+-      d1 -= currV;
+-      Float_t d1_mag = d1.Mag();
+-
+-      if (d1_mag > kStepEps)
++      if ((v - currV).Mag() > kStepEps)
+       {
+          Float_t step_frac = prod0 / (prod0 - prod1);
+          if (step_frac > 0)
+@@ -535,7 +532,7 @@
+             // Step for fraction of previous step size.
+             // We pass 'enforce_max_step' flag to Update().
+             Float_t orig_max_step = fH.fMaxStep;
+-            fH.fMaxStep = d1_mag * step_frac;
++            fH.fMaxStep = step_frac * (forwV - currV).Mag();
+             Update(currV, p, kTRUE, kTRUE);
+             Step(currV, p, forwV, forwP);
+             p     = forwP;
+@@ -547,7 +544,7 @@
+ 
+          // Distribute offset to desired crossing point over all segment.
+ 
+-         TEveVector off(v); off -= currV;
++         TEveVector off(v - currV);
+          off *= 1.0f / currV.fT;
+ 
+          // Calculate the required momentum rotation.
+@@ -752,10 +749,10 @@
+    // Rebuild all tracks using this render-style.
+ 
+    TEveTrack* track;
+-   std::list<TEveElement*>::iterator i = fBackRefs.begin();
++   RefMap_i i = fBackRefs.begin();
+    while (i != fBackRefs.end())
+    {
+-      track = dynamic_cast<TEveTrack*>(*i);
++      track = dynamic_cast<TEveTrack*>(i->first);
+       track->MakeTrack();
+       track->StampObjProps();
+       ++i;
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveTriangleSetGL.cxx root/graf3d/eve/src/TEveTriangleSetGL.cxx
+--- root-old/graf3d/eve/src/TEveTriangleSetGL.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveTriangleSetGL.cxx	2010-10-27 16:48:32.000000000 +0200
+@@ -49,11 +49,8 @@
+ {
+    // Set model object.
+ 
+-   if(SetModelCheckClass(obj, TEveTriangleSet::Class())) {
+-      fM = dynamic_cast<TEveTriangleSet*>(obj);
+-      return kTRUE;
+-   }
+-   return kFALSE;
++   fM = SetModelDynCast<TEveTriangleSet>(obj);
++   return kTRUE;
+ }
+ 
+ //______________________________________________________________________________
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/eve/src/TEveUtil.cxx root/graf3d/eve/src/TEveUtil.cxx
+--- root-old/graf3d/eve/src/TEveUtil.cxx	2010-09-29 11:29:27.000000000 +0200
++++ root/graf3d/eve/src/TEveUtil.cxx	2010-10-27 16:48:23.000000000 +0200
+@@ -610,7 +610,7 @@
+    // Increase reference cound and add re to the list of back-references.
+ 
+    TEveRefCnt::IncRefCount();
+-   fBackRefs.push_back(re);
++   ++fBackRefs[re];
+ }
+ 
+ //______________________________________________________________________________
+@@ -620,10 +620,10 @@
+ 
+    static const TEveException eh("TEveRefBackPtr::DecRefCount ");
+ 
+-   std::list<TEveElement*>::iterator i =
+-      std::find(fBackRefs.begin(), fBackRefs.end(), re);
++   RefMap_i i = fBackRefs.find(re);
+    if (i != fBackRefs.end()) {
+-      fBackRefs.erase(i);
++      if (--(i->second) <= 0)
++         fBackRefs.erase(i);
+       TEveRefCnt::DecRefCount();
+    } else {
+       Warning(eh, "render element '%s' not found in back-refs.",
+@@ -638,10 +638,10 @@
+ {
+    // Add givem stamps to elements in the list of reverse references.
+ 
+-   std::list<TEveElement*>::iterator i = fBackRefs.begin();
++   RefMap_i i = fBackRefs.begin();
+    while (i != fBackRefs.end())
+    {
+-      (*i)->AddStamp(stamps);
++      i->first->AddStamp(stamps);
+       ++i;
+    }
+ }
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/inc/LinkDef.h root/graf3d/gl/inc/LinkDef.h
+--- root-old/graf3d/gl/inc/LinkDef.h	2010-09-29 11:29:28.000000000 +0200
++++ root/graf3d/gl/inc/LinkDef.h	2010-10-27 16:48:24.000000000 +0200
+@@ -65,6 +65,7 @@
+ #pragma link C++ class TGLCameraOverlay;
+ #pragma link C++ class TGLCameraGuide;
+ #pragma link C++ class TGLPlotCamera+;
++#pragma link C++ class TGLAutoRotator+;
+ 
+ #pragma link C++ class TGLSceneBase+;
+ #pragma link C++ class TGLScene+;
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/inc/TGLAutoRotator.h root/graf3d/gl/inc/TGLAutoRotator.h
+--- root-old/graf3d/gl/inc/TGLAutoRotator.h	1970-01-01 01:00:00.000000000 +0100
++++ root/graf3d/gl/inc/TGLAutoRotator.h	2010-10-27 16:48:24.000000000 +0200
+@@ -0,0 +1,78 @@
++// @(#)root/eve:$Id: TGLAutoRotator.h 36373 2010-10-19 17:43:35Z matevz $
++// Author: Matevz Tadel 2007
++
++/*************************************************************************
++ * Copyright (C) 1995-2007, Rene Brun and Fons Rademakers.               *
++ * All rights reserved.                                                  *
++ *                                                                       *
++ * For the licensing terms see $ROOTSYS/LICENSE.                         *
++ * For the list of contributors see $ROOTSYS/README/CREDITS.             *
++ *************************************************************************/
++
++#ifndef ROOT_TGLAutoRotator
++#define ROOT_TGLAutoRotator
++
++#include "TObject.h"
++
++class TGLCamera;
++class TGLViewer;
++class TTimer;
++class TStopwatch;
++
++class TGLAutoRotator : public TObject
++{
++private:
++   TGLAutoRotator(const TGLAutoRotator&);            // Not implemented
++   TGLAutoRotator& operator=(const TGLAutoRotator&); // Not implemented
++
++protected:
++   TGLViewer  *fViewer;
++   TGLCamera  *fCamera;
++   TTimer     *fTimer;
++   TStopwatch *fWatch;
++
++   Double_t   fDt;
++   Double_t   fWPhi;
++   Double_t   fWTheta, fATheta;
++   Double_t   fWDolly, fADolly;
++
++   Double_t   fThetaA0, fDollyA0;
++   Bool_t     fTimerRunning;
++
++public:
++   TGLAutoRotator(TGLViewer* v);
++   virtual ~TGLAutoRotator();
++
++   TGLCamera* GetCamera() const { return fCamera; }
++
++   // --------------------------------
++
++   void Start();
++   void Stop();
++
++   void Timeout();
++
++   // --------------------------------
++
++   Bool_t   IsRunning() const     { return fTimerRunning; }
++
++   Double_t GetDt() const         { return fDt; }
++   void     SetDt(Double_t dt);
++
++   Double_t GetWPhi() const       { return fWPhi; }
++   void     SetWPhi(Double_t w)   { fWPhi = w;    }
++
++   Double_t GetWTheta() const     { return fWTheta; }
++   void     SetWTheta(Double_t w) { fWTheta = w;    }
++   Double_t GetATheta() const     { return fATheta; }
++   void     SetATheta(Double_t a);
++
++   Double_t GetWDolly() const     { return fWDolly; }
++   void     SetWDolly(Double_t w) { fWDolly = w;    }
++   Double_t GetADolly() const     { return fADolly; }
++   void     SetADolly(Double_t a);
++
++   ClassDef(TGLAutoRotator, 0); // Short description.
++};
++
++#endif
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/inc/TGLObject.h root/graf3d/gl/inc/TGLObject.h
+--- root-old/graf3d/gl/inc/TGLObject.h	2010-09-29 11:29:28.000000000 +0200
++++ root/graf3d/gl/inc/TGLObject.h	2010-10-27 16:48:33.000000000 +0200
+@@ -14,6 +14,7 @@
+ 
+ #include "TGLLogicalShape.h"
+ #include "TMap.h"
++#include <stdexcept>
+ 
+ class TClass;
+ 
+@@ -33,6 +34,21 @@
+                              Float_t zmin, Float_t zmax);
+    void   SetAxisAlignedBBox(const Float_t* p);
+ 
++   template <class TT> TT* SetModelDynCast(TObject* obj)
++   {
++      TT *ret = dynamic_cast<TT*>(obj);
++      if (!ret) throw std::runtime_error("Object of wrong type passed.");
++      fExternalObj = obj;
++      return ret;
++   }
++
++   template <class TT> TT* DynCast(TObject* obj)
++   {
++      TT *ret = dynamic_cast<TT*>(obj);
++      if (!ret) throw std::runtime_error("Object of wrong type passed.");
++      return ret;
++   }
++
+ public:
+    TGLObject() : TGLLogicalShape(0), fMultiColor(kFALSE) {}
+    virtual ~TGLObject() {}
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/inc/TGLViewer.h root/graf3d/gl/inc/TGLViewer.h
+--- root-old/graf3d/gl/inc/TGLViewer.h	2010-09-29 11:29:28.000000000 +0200
++++ root/graf3d/gl/inc/TGLViewer.h	2010-10-27 16:48:24.000000000 +0200
+@@ -42,6 +42,7 @@
+ class TGLManipSet;
+ class TGLCameraOverlay;
+ class TGLContextIdentity;
++class TGLAutoRotator;
+ class TTimer;
+ 
+ class TContextMenu;
+@@ -91,6 +92,7 @@
+    TGLOrthoCamera       fOrthoXnOZCamera;      //!
+    TGLOrthoCamera       fOrthoZnOYCamera;      //!
+    TGLCamera           *fCurrentCamera;        //!
++   TGLAutoRotator      *fAutoRotator;          //!
+ 
+    // Stereo
+    Bool_t               fStereo;               //! use stereo rendering
+@@ -277,6 +279,7 @@
+    void   PickAnnotate()        { fPushAction = kPushAnnotate;  RefreshPadEditor(this); }
+    TGLCameraOverlay* GetCameraOverlay() const { return fCameraOverlay; }
+    void SetCameraOverlay(TGLCameraOverlay* m) { fCameraOverlay = m; }
++   TGLAutoRotator* GetAutoRotator();
+ 
+    // Stereo
+    Bool_t  GetStereo()               const { return fStereo; }
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/inc/TGLViewerEditor.h root/graf3d/gl/inc/TGLViewerEditor.h
+--- root-old/graf3d/gl/inc/TGLViewerEditor.h	2010-09-29 11:29:28.000000000 +0200
++++ root/graf3d/gl/inc/TGLViewerEditor.h	2010-10-27 16:48:24.000000000 +0200
+@@ -91,6 +91,10 @@
+ 
+    TGLClipSetSubEditor *fClipSet;
+ 
++   TGNumberEntry    *fARotDt,     *fARotWPhi;
++   TGNumberEntry    *fARotATheta, *fARotWTheta;
++   TGNumberEntry    *fARotADolly, *fARotWDolly;
++
+    TGNumberEntry    *fStereoZeroParallax;
+    TGNumberEntry    *fStereoEyeOffsetFac;
+    TGNumberEntry    *fStereoFrustumAsymFac;
+@@ -107,7 +111,7 @@
+    void CreateStyleTab();
+    void CreateGuidesTab();
+    void CreateClippingTab();
+-   void CreateStereoTab();
++   void CreateExtrasTab();
+ 
+    void UpdateReferencePosState();
+ 
+@@ -137,7 +141,10 @@
+    void UpdateViewerAxes(Int_t id);
+    void UpdateViewerReference();
+    void DoCameraOverlay();
+-   // Stereo
++   // Extras
++   void UpdateRotator();
++   void DoRotatorStart();
++   void DoRotatorStop();
+    void UpdateStereo();
+ 
+    void DetachFromPad(){fIsInPad = kFALSE;}
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TF2GL.cxx root/graf3d/gl/src/TF2GL.cxx
+--- root-old/graf3d/gl/src/TF2GL.cxx	2010-09-29 11:29:28.000000000 +0200
++++ root/graf3d/gl/src/TF2GL.cxx	2010-10-27 16:48:32.000000000 +0200
+@@ -55,29 +55,27 @@
+    TString option(opt);
+    option.ToLower();
+ 
+-   if (SetModelCheckClass(obj, TF2::Class()))
+-   {
+-      fM = dynamic_cast<TF2*>(obj);
+-      fH = (TH2*) fM->CreateHistogram();
+-      fH->GetZaxis()->SetLimits(fH->GetMinimum(), fH->GetMaximum());
+-
+-      if (dynamic_cast<TF3*>(fM))
+-         SetPainter( new TGLTF3Painter((TF3*)fM, fH, 0, &fCoord) );
+-      else
+-         SetPainter( new TGLSurfacePainter(fH, 0, &fCoord) );
+-
+-      if (option.Index("sph") != kNPOS)
+-         fCoord.SetCoordType(kGLSpherical);
+-      else if (option.Index("pol") != kNPOS)
+-         fCoord.SetCoordType(kGLPolar);
+-      else if (option.Index("cyl") != kNPOS)
+-         fCoord.SetCoordType(kGLCylindrical);
+-
+-      fPlotPainter->AddOption(option);
+-      fPlotPainter->InitGeometry();
+-      return kTRUE;
+-   }
+-   return kFALSE;
++   fM = SetModelDynCast<TF2>(obj);
++
++   fH = (TH2*) fM->CreateHistogram();
++   fH->GetZaxis()->SetLimits(fH->GetMinimum(), fH->GetMaximum());
++
++   if (dynamic_cast<TF3*>(fM))
++      SetPainter( new TGLTF3Painter((TF3*)fM, fH, 0, &fCoord) );
++   else
++      SetPainter( new TGLSurfacePainter(fH, 0, &fCoord) );
++
++   if (option.Index("sph") != kNPOS)
++      fCoord.SetCoordType(kGLSpherical);
++   else if (option.Index("pol") != kNPOS)
++      fCoord.SetCoordType(kGLPolar);
++   else if (option.Index("cyl") != kNPOS)
++      fCoord.SetCoordType(kGLCylindrical);
++
++   fPlotPainter->AddOption(option);
++   fPlotPainter->InitGeometry();
++
++   return kTRUE;
+ }
+ 
+ //______________________________________________________________________________
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLAutoRotator.cxx root/graf3d/gl/src/TGLAutoRotator.cxx
+--- root-old/graf3d/gl/src/TGLAutoRotator.cxx	1970-01-01 01:00:00.000000000 +0100
++++ root/graf3d/gl/src/TGLAutoRotator.cxx	2010-10-27 16:48:23.000000000 +0200
+@@ -0,0 +1,159 @@
++// @(#)root/eve:$Id: TGLAutoRotator.cxx 36373 2010-10-19 17:43:35Z matevz $
++// Author: Matevz Tadel 2007
++
++/*************************************************************************
++ * Copyright (C) 1995-2007, Rene Brun and Fons Rademakers.               *
++ * All rights reserved.                                                  *
++ *                                                                       *
++ * For the licensing terms see $ROOTSYS/LICENSE.                         *
++ * For the list of contributors see $ROOTSYS/README/CREDITS.             *
++ *************************************************************************/
++
++#include "TGLAutoRotator.h"
++
++#include "TGLViewer.h"
++#include "TGLCamera.h"
++
++#include "TMath.h"
++#include "TTimer.h"
++#include "TStopwatch.h"
++
++//______________________________________________________________________________
++//
++// Automatically rotates GL camera.
++//
++// W's are angular velocities.
++// ATheta -- Theta amplitude in units of Pi/2.
++// ADolly -- In/out amplitude in units of initial distance.
++
++ClassImp(TGLAutoRotator);
++
++//______________________________________________________________________________
++TGLAutoRotator::TGLAutoRotator(TGLViewer* v) :
++   fViewer(v), fCamera(0),
++   fTimer(new TTimer), fWatch(new TStopwatch),
++   fDt    (0.01),
++   fWPhi  (0.40),
++   fWTheta(0.15), fATheta(0.5),
++   fWDolly(0.30), fADolly(0.4),
++   fTimerRunning(kFALSE)
++{
++   // Constructor.
++
++   fTimer->Connect("Timeout()", "TGLAutoRotator", this, "Timeout()");
++}
++
++//______________________________________________________________________________
++TGLAutoRotator::~TGLAutoRotator()
++{
++   // Destructor.
++
++   delete fWatch;
++   delete fTimer;
++}
++
++//==============================================================================
++
++//______________________________________________________________________________
++void TGLAutoRotator::SetDt(Double_t dt)
++{
++   // Set time between two redraws in seconds.
++   // Range: 0.001 -> 1.
++
++   fDt = TMath::Range(0.01, 1.0, dt);
++   if (fTimerRunning)
++   {
++      fTimer->SetTime(TMath::Nint(1000*fDt));
++      fTimer->Reset();
++   }
++}
++
++//______________________________________________________________________________
++void TGLAutoRotator::SetATheta(Double_t a)
++{
++   // Set relative amplitude of theta oscilation.
++   // Value range: 0.01 -> 1.
++
++   a = TMath::Range(0.01, 1.0, a);
++   if (fTimerRunning)
++   {
++      fThetaA0 = fThetaA0 * a / fATheta;
++   }
++   fATheta = a;
++}
++
++//______________________________________________________________________________
++void TGLAutoRotator::SetADolly(Double_t a)
++{
++   // Set relative amplitude of forward/backward oscilation.
++   // Value range: 0.01 -> 1.
++
++  a = TMath::Range(0.01, 1.0, a);
++  if (fTimerRunning)
++  {
++     fDollyA0 = fDollyA0 * a / fADolly;
++  }
++  fADolly = a;
++}
++
++//==============================================================================
++
++//______________________________________________________________________________
++void TGLAutoRotator::Start()
++{
++   if (fTimerRunning)
++   {
++      Stop();
++   }
++
++   fCamera = & fViewer->CurrentCamera();
++
++   fThetaA0 = fATheta * TMath::PiOver2();
++   fDollyA0 = fADolly * fCamera->GetCamTrans().GetBaseVec(4).Mag();
++
++   fTimerRunning = kTRUE;
++   fTimer->SetTime(TMath::Nint(1000*fDt));
++   fTimer->Reset();
++   fTimer->TurnOn();
++   fWatch->Start();
++}
++
++//______________________________________________________________________________
++void TGLAutoRotator::Stop()
++{
++   if (fTimerRunning)
++   {
++      fWatch->Stop();
++      fTimer->TurnOff();
++      fTimerRunning = kFALSE;
++   }
++}
++
++//______________________________________________________________________________
++void TGLAutoRotator::Timeout()
++{
++   if (!fTimerRunning || gTQSender != fTimer)
++   {
++      Error("Timeout", "Not running or not called via timer.");
++      return;
++   }
++
++   using namespace TMath;
++
++   fWatch->Stop();
++   Double_t time = fWatch->RealTime();
++   fWatch->Continue();
++
++   Double_t delta_p = fWPhi*fDt;
++   Double_t delta_t = fThetaA0*fWTheta*Cos(fWTheta*time)*fDt;
++   Double_t delta_d = fDollyA0*fWDolly*Cos(fWDolly*time)*fDt;
++   Double_t th      = fCamera->GetTheta();
++
++   if (th + delta_t > 3.0 || th + delta_t < 0.1416)
++      delta_t = 0;
++
++   fCamera->RotateRad(delta_t, delta_p);
++   fCamera->RefCamTrans().MoveLF(1, -delta_d);
++
++   fViewer->RequestDraw(TGLRnrCtx::kLODHigh);
++}
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLBoxPainter.cxx root/graf3d/gl/src/TGLBoxPainter.cxx
+--- root-old/graf3d/gl/src/TGLBoxPainter.cxx	2010-09-29 11:29:28.000000000 +0200
++++ root/graf3d/gl/src/TGLBoxPainter.cxx	2010-10-27 16:48:50.000000000 +0200
+@@ -517,6 +517,13 @@
+ void TGLBoxPainter::DrawPalette()const
+ {
+    //Draw. Palette.
++   //Originally, fCamera was never null.
++   //It can be a null now because of gl-viewer.
++   if (!fCamera) {
++      //Thank you, gl-viewer!
++      return;
++   }
++
+    const TGLLevelPalette * palette = 0;
+    const TGLVertex3 *frame = fBackBox.Get3DBox();
+ 
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLLegoPainter.cxx root/graf3d/gl/src/TGLLegoPainter.cxx
+--- root-old/graf3d/gl/src/TGLLegoPainter.cxx	2010-09-29 11:29:28.000000000 +0200
++++ root/graf3d/gl/src/TGLLegoPainter.cxx	2010-10-27 16:48:50.000000000 +0200
+@@ -1110,6 +1110,13 @@
+ void TGLLegoPainter::DrawPalette()const
+ {
+    //Draw. Palette.
++   //Originally, fCamera was never null.
++   //It can be a null now because of gl-viewer.
++   if (!fCamera) {
++      //Thank you, gl-viewer!
++      return;
++   }
++
+    Rgl::DrawPalette(fCamera, fPalette);
+ 
+    glFinish();
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLObject.cxx root/graf3d/gl/src/TGLObject.cxx
+--- root-old/graf3d/gl/src/TGLObject.cxx	2010-09-29 11:29:28.000000000 +0200
++++ root/graf3d/gl/src/TGLObject.cxx	2010-10-27 16:48:33.000000000 +0200
+@@ -73,6 +73,7 @@
+ {
+    // Checks if obj is of proper class and sets the model.
+    // Protected helper for subclasses.
++   // Most sub-classes use exception-throwing SetModelDynCast() instead.
+ 
+    if(obj->InheritsFrom(cls) == kFALSE) {
+       Warning("TGLObject::SetModelCheckClass", "object of wrong class passed.");
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLParametricEquationGL.cxx root/graf3d/gl/src/TGLParametricEquationGL.cxx
+--- root-old/graf3d/gl/src/TGLParametricEquationGL.cxx	2010-09-29 11:29:28.000000000 +0200
++++ root/graf3d/gl/src/TGLParametricEquationGL.cxx	2010-10-27 16:48:33.000000000 +0200
+@@ -44,16 +44,14 @@
+ {
+    // Set model object.
+ 
+-   if (SetModelCheckClass(obj, TGLParametricEquation::Class()))
+-   {
+-      fM = dynamic_cast<TGLParametricEquation*>(obj);
+-      SetPainter( new TGLParametricPlot(fM, 0) );
+-      TString option(opt);
+-      fPlotPainter->AddOption(option);
+-      fPlotPainter->InitGeometry();
+-      return kTRUE;
+-   }
+-   return kFALSE;
++   fM = SetModelDynCast<TGLParametricEquation>(obj);
++
++   SetPainter( new TGLParametricPlot(fM, 0) );
++   TString option(opt);
++   fPlotPainter->AddOption(option);
++   fPlotPainter->InitGeometry();
++
++   return kTRUE;
+ }
+ 
+ //______________________________________________________________________________
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLScenePad.cxx root/graf3d/gl/src/TGLScenePad.cxx
+--- root-old/graf3d/gl/src/TGLScenePad.cxx	2010-09-29 11:29:28.000000000 +0200
++++ root/graf3d/gl/src/TGLScenePad.cxx	2010-10-27 16:48:33.000000000 +0200
+@@ -697,7 +697,17 @@
+ 
+    TGLObject* rnr = reinterpret_cast<TGLObject*>(cls->New());
+    if (rnr) {
+-      if (rnr->SetModel(id) == kFALSE) {
++      Bool_t status;
++      try
++      {
++         status = rnr->SetModel(id);
++      }
++      catch (std::exception&)
++      {
++         status = kFALSE;
++      }
++      if (!status)
++      {
+          Warning("TGLScenePad::AttemptDirectRenderer", "failed initializing direct rendering.");
+          delete rnr;
+          return 0;
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLSurfacePainter.cxx root/graf3d/gl/src/TGLSurfacePainter.cxx
+--- root-old/graf3d/gl/src/TGLSurfacePainter.cxx	2010-09-29 11:29:28.000000000 +0200
++++ root/graf3d/gl/src/TGLSurfacePainter.cxx	2010-10-27 16:48:50.000000000 +0200
+@@ -1221,6 +1221,13 @@
+ void TGLSurfacePainter::DrawPalette()const
+ {
+    //Draw. Palette.
++   //Originally, fCamera was never null.
++   //It can be a null now because of gl-viewer.
++   if (!fCamera) {
++      //Thank you, gl-viewer!
++      return;
++   }
++
+    Rgl::DrawPalette(fCamera, fPalette);
+ 
+    glFinish();
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLViewer.cxx root/graf3d/gl/src/TGLViewer.cxx
+--- root-old/graf3d/gl/src/TGLViewer.cxx	2010-09-29 11:29:28.000000000 +0200
++++ root/graf3d/gl/src/TGLViewer.cxx	2010-10-27 16:48:23.000000000 +0200
+@@ -17,6 +17,7 @@
+ #include "TGLLightSet.h"
+ #include "TGLManipSet.h"
+ #include "TGLCameraOverlay.h"
++#include "TGLAutoRotator.h"
+ 
+ #include "TGLScenePad.h"
+ #include "TGLLogicalShape.h"
+@@ -110,6 +111,7 @@
+    fOrthoXnOZCamera(TGLOrthoCamera::kXnOZ, TGLVector3( 0.0, 1.0, 0.0), TGLVector3(0.0, 0.0, 1.0)), // Looking down  Y axis, -X horz, Z vert
+    fOrthoZnOYCamera(TGLOrthoCamera::kZnOY, TGLVector3( 1.0, 0.0, 0.0), TGLVector3(0.0, 1.0, 0.0)), // Looking down  X axis, -Z horz, Y vert
+    fCurrentCamera(&fPerspectiveCameraXOZ),
++   fAutoRotator(0),
+ 
+    fStereo               (kFALSE),
+    fStereoZeroParallax   (0.03f),
+@@ -172,6 +174,7 @@
+    fOrthoXnOZCamera(TGLOrthoCamera::kXnOZ, TGLVector3( 0.0, 1.0, 0.0), TGLVector3(0.0, 0.0, 1.0)), // Looking down  Y axis, -X horz, Z vert
+    fOrthoZnOYCamera(TGLOrthoCamera::kZnOY, TGLVector3( 1.0, 0.0, 0.0), TGLVector3(0.0, 1.0, 0.0)), // Looking down  X axis, -Z horz, Y vert
+    fCurrentCamera(&fPerspectiveCameraXOZ),
++   fAutoRotator(0),
+ 
+    fStereo               (kFALSE),
+    fStereoZeroParallax   (0.03f),
+@@ -267,6 +270,8 @@
+ {
+    // Destroy viewer object.
+ 
++   delete fAutoRotator;
++
+    delete fLightSet;
+    // fClipSet, fSelectedPShapeRef and fCameraOverlay deleted via overlay.
+ 
+@@ -1608,7 +1613,9 @@
+    }
+ 
+    // TODO: Move these into a vector!
+-   switch(cameraType) {
++   TGLCamera *prev = fCurrentCamera;
++   switch (cameraType)
++   {
+       case kCameraPerspXOZ: {
+          fCurrentCamera = &fPerspectiveCameraXOZ;
+          break;
+@@ -1651,12 +1658,29 @@
+       }
+    }
+ 
+-   // Ensure any viewport has been propigated to the current camera
+-   fCurrentCamera->SetViewport(fViewport);
+-   RefreshPadEditor(this);
++   if (fCurrentCamera != prev)
++   {
++      // Ensure any viewport has been propigated to the current camera
++      fCurrentCamera->SetViewport(fViewport);
++      RefreshPadEditor(this);
+ 
+-   // And viewer is redrawn
+-   RequestDraw(TGLRnrCtx::kLODHigh);
++      if (fAutoRotator)
++      {
++         if (fAutoRotator->IsRunning())
++         {
++            fAutoRotator->Stop();
++         }
++         else
++         {
++            if (fAutoRotator->GetCamera() == fCurrentCamera)
++            {
++               fAutoRotator->Start();
++            }
++         }
++      }
++
++      RequestDraw(TGLRnrCtx::kLODHigh);
++   }
+ }
+ 
+ //______________________________________________________________________________
+@@ -1756,6 +1780,16 @@
+    }
+ }
+ 
++//______________________________________________________________________________
++TGLAutoRotator* TGLViewer::GetAutoRotator()
++{
++   // Get the auto-rotator for this viewer.
++
++   if (fAutoRotator == 0)
++      fAutoRotator = new TGLAutoRotator(this);
++   return fAutoRotator;
++}
++
+ 
+ /**************************************************************************/
+ // Guide methods
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TGLViewerEditor.cxx root/graf3d/gl/src/TGLViewerEditor.cxx
+--- root-old/graf3d/gl/src/TGLViewerEditor.cxx	2010-09-29 11:29:28.000000000 +0200
++++ root/graf3d/gl/src/TGLViewerEditor.cxx	2010-10-27 16:48:23.000000000 +0200
+@@ -31,6 +31,7 @@
+ #include "TGLClipSetEditor.h"
+ #include "TGLUtil.h"
+ #include "TGLCameraOverlay.h"
++#include "TGLAutoRotator.h"
+ 
+ //______________________________________________________________________________
+ //
+@@ -75,9 +76,8 @@
+    fCamMode(0),
+    fCamOverlayOn(0),
+    fClipSet(0),
+-   fStereoZeroParallax(0),
+-   fStereoEyeOffsetFac(0),
+-   fStereoFrustumAsymFac(0),
++   fARotDt(0), fARotWPhi(0), fARotATheta(0), fARotWTheta(0), fARotADolly(0), fARotWDolly(0),
++   fStereoZeroParallax(0), fStereoEyeOffsetFac(0), fStereoFrustumAsymFac(0),
+    fViewer(0),
+    fIsInPad(kTRUE)
+ {
+@@ -86,7 +86,7 @@
+    CreateStyleTab();
+    CreateGuidesTab();
+    CreateClippingTab();
+-   CreateStereoTab();
++   CreateExtrasTab();
+ }
+ 
+ //______________________________________________________________________________
+@@ -135,6 +135,13 @@
+    fCamMode->Connect("Selected(Int_t)", "TGLViewerEditor", this, "DoCameraOverlay()");
+    fCamOverlayOn->Connect("Clicked()", "TGLViewerEditor", this, "DoCameraOverlay()");
+ 
++   fARotDt    ->Connect("ValueSet(Long_t)", "TGLViewerEditor", this, "UpdateRotator()");
++   fARotWPhi  ->Connect("ValueSet(Long_t)", "TGLViewerEditor", this, "UpdateRotator()");
++   fARotATheta->Connect("ValueSet(Long_t)", "TGLViewerEditor", this, "UpdateRotator()");
++   fARotWTheta->Connect("ValueSet(Long_t)", "TGLViewerEditor", this, "UpdateRotator()");
++   fARotADolly->Connect("ValueSet(Long_t)", "TGLViewerEditor", this, "UpdateRotator()");
++   fARotWDolly->Connect("ValueSet(Long_t)", "TGLViewerEditor", this, "UpdateRotator()");
++
+    fStereoZeroParallax  ->Connect("ValueSet(Long_t)", "TGLViewerEditor", this, "UpdateStereo()");
+    fStereoEyeOffsetFac  ->Connect("ValueSet(Long_t)", "TGLViewerEditor", this, "UpdateStereo()");
+    fStereoFrustumAsymFac->Connect("ValueSet(Long_t)", "TGLViewerEditor", this, "UpdateStereo()");
+@@ -202,6 +209,17 @@
+    fCaptureCenter->SetTextColor((fViewer->GetPushAction() == TGLViewer::kPushCamCenter) ? 0xa03060 : 0x000000);
+    fCaptureAnnotate->SetDown( (fViewer->GetPushAction() == TGLViewer::kPushAnnotate), kFALSE);
+ 
++   {
++      TGLAutoRotator *r = fViewer->GetAutoRotator();
++
++      fARotDt    ->SetNumber(r->GetDt());
++      fARotWPhi  ->SetNumber(r->GetWPhi());
++      fARotATheta->SetNumber(r->GetATheta());
++      fARotWTheta->SetNumber(r->GetWTheta());
++      fARotADolly->SetNumber(r->GetADolly());
++      fARotWDolly->SetNumber(r->GetWDolly());
++   }
++
+    if (fViewer->GetStereo())
+    {
+       fStereoZeroParallax  ->SetNumber(fViewer->GetStereoZeroParallax());
+@@ -539,14 +557,57 @@
+ }
+ 
+ //______________________________________________________________________________
+-void TGLViewerEditor::CreateStereoTab()
++void TGLViewerEditor::CreateExtrasTab()
+ {
+-   // Create GUI controls - clip type (none/plane/box) and plane/box properties.
+-
+-   fStereoFrame = CreateEditorTabSubFrame("Stereo");
++   // Create Extra Tab controls - camera rotator and stereo.
+ 
+    Int_t labw = 80;
+-   TGCompositeFrame *p = fStereoFrame;
++
++   TGCompositeFrame *tab = CreateEditorTabSubFrame("Extras"), *p = 0;
++
++   // ----- Auto rotator -----
++
++   p = new TGGroupFrame(tab, "Auto rotator", kVerticalFrame);
++
++   fARotDt = MakeLabeledNEntry(p, "Delta T:", labw, 5, TGNumberFormat::kNESRealThree);
++   fARotDt->SetLimits(TGNumberFormat::kNELLimitMinMax, 0.001, 1);
++
++   fARotWPhi = MakeLabeledNEntry(p, "Omega Phi:", labw, 5, TGNumberFormat::kNESRealTwo);
++   fARotWPhi->SetLimits(TGNumberFormat::kNELLimitMinMax, -10, 10);
++
++   fARotATheta = MakeLabeledNEntry(p, "A Theta:", labw, 5, TGNumberFormat::kNESRealTwo);
++   fARotATheta->SetLimits(TGNumberFormat::kNELLimitMinMax, 0.01, 1);
++
++   fARotWTheta = MakeLabeledNEntry(p, "Omega Theta:", labw, 5, TGNumberFormat::kNESRealTwo);
++   fARotWTheta->SetLimits(TGNumberFormat::kNELLimitMinMax, -10, 10);
++
++   fARotADolly = MakeLabeledNEntry(p, "A Dolly:", labw, 5, TGNumberFormat::kNESRealTwo);
++   fARotADolly->SetLimits(TGNumberFormat::kNELLimitMinMax, 0.01, 1);
++
++   fARotWDolly = MakeLabeledNEntry(p, "Omega Dolly:", labw, 5, TGNumberFormat::kNESRealTwo);
++   fARotWDolly->SetLimits(TGNumberFormat::kNELLimitMinMax, -10, 10);
++
++   {
++      TGCompositeFrame *l = new TGHorizontalFrame(p);
++
++      TGTextButton *b = new TGTextButton(l, "Start");
++      b->Connect("Clicked()", "TGLViewerEditor", this, "DoRotatorStart()");
++      l->AddFrame(b, new TGLayoutHints(kLHintsLeft | kLHintsExpandX));
++
++      b = new TGTextButton(l, "Stop");
++      b->Connect("Clicked()", "TGLViewerEditor", this, "DoRotatorStop()");
++      l->AddFrame(b, new TGLayoutHints(kLHintsLeft | kLHintsExpandX));
++
++      p->AddFrame(l, new TGLayoutHints(kLHintsTop | kLHintsExpandX, 0, 0, 4, 0));
++   }
++
++   tab->AddFrame(p, new TGLayoutHints(kLHintsTop | kLHintsExpandX));
++
++   // ----- Stereo -----
++
++   fStereoFrame = p = new TGGroupFrame(tab, "Stereo", kVerticalFrame);
++
++   // Int_t labw = 80;
+ 
+    fStereoZeroParallax = MakeLabeledNEntry(p, "Zero parallax:", labw, 5, TGNumberFormat::kNESRealThree);
+    fStereoZeroParallax->SetLimits(TGNumberFormat::kNELLimitMinMax, 0, 1);
+@@ -556,6 +617,8 @@
+ 
+    fStereoFrustumAsymFac = MakeLabeledNEntry(p, "Asymetry:", labw, 5, TGNumberFormat::kNESRealTwo);
+    fStereoFrustumAsymFac->SetLimits(TGNumberFormat::kNELLimitMinMax, 0, 2);
++
++   tab->AddFrame(p, new TGLayoutHints(kLHintsTop | kLHintsExpandX));
+ }
+ 
+ 
+@@ -626,6 +689,37 @@
+ }
+ 
+ //______________________________________________________________________________
++void TGLViewerEditor::UpdateRotator()
++{
++   // Update rotator related variables.
++
++   TGLAutoRotator *r = fViewer->GetAutoRotator();
++
++   r->SetDt    (fARotDt->GetNumber());
++   r->SetWPhi  (fARotWPhi->GetNumber());
++   r->SetATheta(fARotATheta->GetNumber());
++   r->SetWTheta(fARotWTheta->GetNumber());
++   r->SetADolly(fARotADolly->GetNumber());
++   r->SetWDolly(fARotWDolly->GetNumber());
++}
++
++//______________________________________________________________________________
++void TGLViewerEditor::DoRotatorStart()
++{
++   // Start auto-rotator.
++
++   fViewer->GetAutoRotator()->Start();
++}
++
++//______________________________________________________________________________
++void TGLViewerEditor::DoRotatorStop()
++{
++   // Stop auto-rotator.
++
++   fViewer->GetAutoRotator()->Stop();
++}
++
++//______________________________________________________________________________
+ void TGLViewerEditor::UpdateStereo()
+ {
+    // Update stereo related variables.
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TH2GL.cxx root/graf3d/gl/src/TH2GL.cxx
+--- root-old/graf3d/gl/src/TH2GL.cxx	2010-09-29 11:29:28.000000000 +0200
++++ root/graf3d/gl/src/TH2GL.cxx	2010-10-27 16:48:33.000000000 +0200
+@@ -55,28 +55,25 @@
+    TString option(opt);
+    option.ToLower();
+ 
+-   if (SetModelCheckClass(obj, TH2::Class()))
+-   {
+-      fM = dynamic_cast<TH2*>(obj);
+-
+-      // Plot type
+-      if (option.Index("surf") != kNPOS)
+-         SetPainter( new TGLSurfacePainter(fM, 0, &fCoord) );
+-      else
+-         SetPainter( new TGLLegoPainter(fM, 0, &fCoord) );
+-
+-      if (option.Index("sph") != kNPOS)
+-         fCoord.SetCoordType(kGLSpherical);
+-      else if (option.Index("pol") != kNPOS)
+-         fCoord.SetCoordType(kGLPolar);
+-      else if (option.Index("cyl") != kNPOS)
+-         fCoord.SetCoordType(kGLCylindrical);
+-
+-      fPlotPainter->AddOption(option);
+-      fPlotPainter->InitGeometry();
+-      return kTRUE;
+-   }
+-   return kFALSE;
++   fM = SetModelDynCast<TH2>(obj);
++
++   // Plot type
++   if (option.Index("surf") != kNPOS)
++      SetPainter( new TGLSurfacePainter(fM, 0, &fCoord) );
++   else
++      SetPainter( new TGLLegoPainter(fM, 0, &fCoord) );
++
++   if (option.Index("sph") != kNPOS)
++      fCoord.SetCoordType(kGLSpherical);
++   else if (option.Index("pol") != kNPOS)
++      fCoord.SetCoordType(kGLPolar);
++   else if (option.Index("cyl") != kNPOS)
++      fCoord.SetCoordType(kGLCylindrical);
++
++   fPlotPainter->AddOption(option);
++   fPlotPainter->InitGeometry();
++
++   return kTRUE;
+ }
+ 
+ //______________________________________________________________________________
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/graf3d/gl/src/TH3GL.cxx root/graf3d/gl/src/TH3GL.cxx
+--- root-old/graf3d/gl/src/TH3GL.cxx	2010-09-29 11:29:28.000000000 +0200
++++ root/graf3d/gl/src/TH3GL.cxx	2010-10-27 16:48:32.000000000 +0200
+@@ -55,23 +55,21 @@
+    TString option(opt);
+    option.ToLower();
+ 
+-   if (SetModelCheckClass(obj, TH3::Class()))
+-   {
+-      fM = dynamic_cast<TH3*>(obj);
+-      if (option.Index("iso") != kNPOS)
+-         SetPainter( new TGLIsoPainter(fM, 0, &fCoord) );
+-      else if (option.Index("box") != kNPOS)
+-         SetPainter( new TGLBoxPainter(fM, 0, &fCoord) );
+-      else {
+-         Warning("SetModel", "Option '%s' not supported, assuming 'box'.", option.Data());
+-         SetPainter( new TGLBoxPainter(fM, 0, &fCoord) );
+-      }
+-
+-      fPlotPainter->AddOption(option);
+-      fPlotPainter->InitGeometry();
+-      return kTRUE;
++   fM = SetModelDynCast<TH3>(obj);
++
++   if (option.Index("iso") != kNPOS)
++      SetPainter( new TGLIsoPainter(fM, 0, &fCoord) );
++   else if (option.Index("box") != kNPOS)
++      SetPainter( new TGLBoxPainter(fM, 0, &fCoord) );
++   else {
++      Warning("SetModel", "Option '%s' not supported, assuming 'box'.", option.Data());
++      SetPainter( new TGLBoxPainter(fM, 0, &fCoord) );
+    }
+-   return kFALSE;
++
++   fPlotPainter->AddOption(option);
++   fPlotPainter->InitGeometry();
++
++   return kTRUE;
+ }
+ 
+ //______________________________________________________________________________
+diff -Naur --exclude=.svn -I '@(#)root' -I '// Author' -I '\$Id' root-old/tutorials/eve/track.C root/tutorials/eve/track.C
+--- root-old/tutorials/eve/track.C	2010-09-29 11:29:20.000000000 +0200
++++ root/tutorials/eve/track.C	2010-10-27 16:48:41.000000000 +0200
+@@ -16,6 +16,7 @@
+ // 3 - magnetic field with a zero-field region;
+ // 4 - CMS magnetic field - simple track;
+ // 5 - CMS magnetic field - track with different path-marks.
++// 6 - Concpetual ILC detector, problematic track
+ 
+ #if defined(__CINT__) && !defined(__MAKECINT__)
+ {
+@@ -308,6 +309,34 @@
+ 
+          break;
+       }
++
++      case 6:
++      {
++         // Problematic track from Druid
++         prop->SetMagFieldObj(new TEveMagFieldDuo(350, -3.5, 2.0));
++         prop->SetMaxR(1000);
++         prop->SetMaxZ(1000);
++	 prop->SetRnrReferences(kTRUE);
++	 prop->SetRnrDaughters(kTRUE);
++	 prop->SetRnrDecay(kTRUE);
++	 prop->RefPMAtt().SetMarkerStyle(4);
++         list->SetElementName(Form("%s, Some ILC Detector field", list->GetElementName()));
++
++         TEveRecTrack *rc = new TEveRecTrack();
++         rc->fV.Set(57.1068, 31.2401, -7.07629);
++         rc->fP.Set(4.82895, 2.35083, -0.611757);
++         rc->fSign = 1;
++         track = new TEveTrack(rc, prop);
++
++         track->AddPathMark(TEvePathMark(TEvePathMark::kDaughter, TEveVector(1.692235e+02, 7.047929e+01, -2.064785e+01), TEveVector()));
++         track->AddPathMark(TEvePathMark(TEvePathMark::kDaughter, TEveVector(5.806180e+02, 6.990633e+01, -6.450000e+01), TEveVector()));
++         track->AddPathMark(TEvePathMark(TEvePathMark::kDecay,    TEveVector(6.527213e+02, 1.473249e+02, -8.348498e+01)));
++
++	 track->SetRnrPoints(kTRUE);
++	 track->SetMarkerStyle(4);
++
++         break;
++      }
+    };
+        
+    if (isRungeKutta)

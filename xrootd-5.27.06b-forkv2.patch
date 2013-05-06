@@ -1,0 +1,384 @@
+Index: net/xrootd/src/xrootd/src/XrdClient/XrdClientPhyConnection.cc
+===================================================================
+--- net/xrootd/src/xrootd/src/XrdClient/XrdClientPhyConnection.cc	(revision 37899)
++++ net/xrootd/src/xrootd/src/XrdClient/XrdClientPhyConnection.cc	(working copy)
+@@ -45,21 +45,16 @@
+ 
+    XrdClientPhyConnection *thisObj;
+ 
++
+    Info(XrdClientDebug::kHIDEBUG,
+ 	"SocketReaderThread",
+ 	"Reader Thread starting.");
+ 
+-   thr->SetCancelDeferred();
+-   thr->SetCancelOn();
+-
+    thisObj = (XrdClientPhyConnection *)arg;
+-
+    thisObj->StartedReader();
+ 
+    while (1) {
+-     thr->SetCancelOff();
+      thisObj->BuildMessage(TRUE, TRUE);
+-     thr->SetCancelOn();
+ 
+      if (thisObj->CheckAutoTerm())
+ 	break;
+@@ -110,7 +105,16 @@
+        "Destroying. [" << fServer.Host << ":" << fServer.Port << "]");
+ 
+    Disconnect();
++  if (fReaderthreadrunning)
++    for (int i = 0; i < READERCOUNT; i++)
++      if(fReaderthreadhandler[i])
++      {
++        fReaderthreadhandler[i]->Join();
++        delete fReaderthreadhandler[i];
++      }
+ 
++
++
+      if (fSocket) {
+         delete fSocket;
+         fSocket = 0;
+@@ -118,13 +122,6 @@
+ 
+    UnlockChannel();
+ 
+-   if (fReaderthreadrunning) 
+-      for (int i = 0; i < READERCOUNT; i++)
+-	if (fReaderthreadhandler[i]) {
+-	  fReaderthreadhandler[i]->Cancel();
+-	  fReaderthreadhandler[i]->Join();
+-	  delete fReaderthreadhandler[i];
+-	}
+ 
+    if (fSecProtocol) {
+       // This insures that the right destructor is called
+@@ -232,13 +229,7 @@
+          exit(-1);
+       }
+ 
+-      if (fReaderthreadhandler[i]->Detach())
+-      {
+-	 Error("PhyConnection", "Thread detach failed");
+-	 //return;
+       }
+-
+-      }
+       // sleep until at least one thread starts running, which hopefully
+       // is not forever.
+       int maxRetries = 10;
+Index: net/xrootd/src/xrootd/src/XrdClient/XrdClientEnv.cc
+===================================================================
+--- net/xrootd/src/xrootd/src/XrdClient/XrdClientEnv.cc	(revision 37899)
++++ net/xrootd/src/xrootd/src/XrdClient/XrdClientEnv.cc	(working copy)
+@@ -18,6 +18,9 @@
+ #include "XrdSys/XrdSysHeaders.hh"
+ #include "XrdClient/XrdClientConst.hh"
+ #include "XrdClient/XrdClientEnv.hh"
++#include "XrdClient/XrdClientConn.hh"
++#include "XrdClient/XrdClientConnMgr.hh"
++#include <iostream>
+ 
+ XrdClientEnv *XrdClientEnv::fgInstance = 0;
+ 
+@@ -68,3 +71,51 @@
+ 
+    fgInstance = 0;
+ }
++
++//------------------------------------------------------------------------------
++// To be called prior to forking
++//------------------------------------------------------------------------------
++static void prepare()
++{
++  ConnectionManager->ShutDown();
++  SessionIDRepo.Purge();
++}
++
++//------------------------------------------------------------------------------
++// To be called in the parent just after forking
++//------------------------------------------------------------------------------
++static void parent()
++{
++  ConnectionManager->BootUp();
++}
++
++//------------------------------------------------------------------------------
++// To be called in the child just after forking
++//------------------------------------------------------------------------------
++static void child()
++{
++  ConnectionManager->BootUp();
++}
++
++//------------------------------------------------------------------------------
++// Install the fork handlers on application startup
++//------------------------------------------------------------------------------
++namespace
++{
++  static struct Initializer
++  {
++    Initializer()
++    {
++      //------------------------------------------------------------------------
++      // Install the fork handlers
++      //------------------------------------------------------------------------
++#ifndef WIN32
++      if( pthread_atfork( prepare, parent, child ) != 0 )
++      {
++        std::cerr << "Unable to install the fork handlers - safe forking not ";
++        std::cerr << "possible" << std::endl;
++      }
++#endif
++    }
++  } initializer;
++}
+Index: net/xrootd/src/xrootd/src/XrdClient/XrdClientConn.cc
+===================================================================
+--- net/xrootd/src/xrootd/src/XrdClient/XrdClientConn.cc	(revision 37899)
++++ net/xrootd/src/xrootd/src/XrdClient/XrdClientConn.cc	(working copy)
+@@ -274,9 +274,9 @@
+ void XrdClientConn::Disconnect(bool ForcePhysicalDisc)
+ {
+     // Disconnect... is it so difficult? Yes!
++    if( ConnectionManager->SidManager() )
++      ConnectionManager->SidManager()->GetAllOutstandingWriteRequests(fPrimaryStreamid, fWriteReqsToRetry);
+ 
+-    ConnectionManager->SidManager()->GetAllOutstandingWriteRequests(fPrimaryStreamid, fWriteReqsToRetry);
+-
+     if (fMainReadCache && (DebugLevel() >= XrdClientDebug::kDUMPDEBUG) ) fMainReadCache->PrintCache();
+ 
+     if (fConnected)
+Index: net/xrootd/src/xrootd/src/XrdClient/XrdClient.cc
+===================================================================
+--- net/xrootd/src/xrootd/src/XrdClient/XrdClient.cc	(revision 37899)
++++ net/xrootd/src/xrootd/src/XrdClient/XrdClient.cc	(working copy)
+@@ -1227,9 +1227,10 @@
+     fConnModule->SendGenCommand(&closeFileRequest,
+ 				0,
+ 				0, 0 , FALSE, (char *)"Close");
+-  
++
+     // No file is opened for now
+     fOpenPars.opened = FALSE;
++    fConnModule->Disconnect( false );
+ 
+     return TRUE;
+ }
+Index: net/xrootd/src/xrootd/src/XrdClient/XrdClientEnv.hh
+===================================================================
+--- net/xrootd/src/xrootd/src/XrdClient/XrdClientEnv.hh	(revision 37899)
++++ net/xrootd/src/xrootd/src/XrdClient/XrdClientEnv.hh	(working copy)
+@@ -70,8 +70,7 @@
+       fOucEnv->PutInt(varname, value);
+    }
+ 
+-   static XrdClientEnv    *Instance();
+-
++  static XrdClientEnv *Instance();
+ };
+ 
+ #endif
+Index: net/xrootd/src/xrootd/src/XrdClient/XrdClientConnMgr.cc
+===================================================================
+--- net/xrootd/src/xrootd/src/XrdClient/XrdClientConnMgr.cc	(revision 37899)
++++ net/xrootd/src/xrootd/src/XrdClient/XrdClientConnMgr.cc	(working copy)
+@@ -137,11 +137,12 @@
+ 			  XrdClientPhyConnection *p, void *voidcmgr)
+ {
+   // Function applied to the hash table to destroy all the phyconns
+-
+   XrdClientConnectionMgr *cmgr = (XrdClientConnectionMgr *)voidcmgr;
+   assert(cmgr != 0);
+ 
+   if (p) {
++    p->Touch();
++    p->Disconnect();
+     p->UnsolicitedMsgHandler = 0;
+     delete(p);
+   }
+@@ -158,55 +159,81 @@
+    // XrdClientConnectionMgr constructor.
+    // Creates a Connection Manager object.
+    // Starts the garbage collector thread.
++   BootUp();
+ 
+-   fLastLogIdUsed = 0;
++}
+ 
+-   fGarbageColl = new XrdClientThread(GarbageCollectorThread);
+-   
+-   if (!fGarbageColl)
+-      Error("ConnectionMgr",
+-            "Can't create garbage collector thread: out of system resources");
+-   
+-   fGarbageColl->Run(this);
++//_____________________________________________________________________________
++XrdClientConnectionMgr::~XrdClientConnectionMgr()
++{
++   // Deletes mutex locks, stops garbage collector thread.
++  ShutDown();
++}
+ 
++//------------------------------------------------------------------------------
++// Initializer
++//------------------------------------------------------------------------------
++bool XrdClientConnectionMgr::BootUp()
++{
++  fLastLogIdUsed = 0;
+ 
+-   fSidManager = new XrdClientSid();
+-   if (!fSidManager) {
++  fGarbageColl = new XrdClientThread(GarbageCollectorThread);
++
++  if (!fGarbageColl)
+      Error("ConnectionMgr",
+-	   "Can't create sid manager: out of system resources");
+-     abort();
+-   }
++           "Can't create garbage collector thread: out of system resources");
+ 
++  fGarbageColl->Run(this);
++
++  fSidManager = new XrdClientSid();
++  if (!fSidManager) {
++    Error("ConnectionMgr",
++   "Can't create sid manager: out of system resources");
++    abort();
++  }
++
++  return true;
+ }
+ 
+-//_____________________________________________________________________________
+-XrdClientConnectionMgr::~XrdClientConnectionMgr()
++bool XrdClientConnectionMgr::ShutDown()
+ {
+-   // Deletes mutex locks, stops garbage collector thread.
++  fPhyHash.Apply(DumpPhyConn, this);
+ 
+-   int i=0;
++  {
++    XrdSysMutexHelper mtx(fMutex);
+ 
+-   {
+-      XrdSysMutexHelper mtx(fMutex);
++    for( int i = 0; i < fLogVec.GetSize(); i++)
++      if (fLogVec[i]) Disconnect(i, TRUE);
++  }
+ 
+-      for (i = 0; i < fLogVec.GetSize(); i++)
+-	 if (fLogVec[i]) Disconnect(i, FALSE);
++  if (fGarbageColl)
++  {
++    void *ret;
++    fGarbageColl->Cancel();
++    fGarbageColl->Join(&ret);
++    delete fGarbageColl;
++  }
+ 
+-   }
++  GarbageCollect();
+ 
+-   if (fGarbageColl) {
+-     void *ret;
+-      fGarbageColl->Cancel();
+-      fGarbageColl->Join(&ret);
+-      delete fGarbageColl;
+-   }
++  fPhyHash.Apply(DestroyPhyConn, this);
+ 
+-   GarbageCollect();
++  for(int i = fPhyTrash.GetSize()-1; i >= 0; i--)
++    DestroyPhyConn( "Trashed connection", fPhyTrash[i], this);
+ 
+-   fPhyHash.Apply(DestroyPhyConn, this);
+-   delete fSidManager;
++  fPhyTrash.Clear();
++  fPhyHash.Purge();
++  fLogVec.Clear();
++
++  delete fSidManager;
++
++  fSidManager  = 0;
++  fGarbageColl = 0;
++
++  return true;
+ }
+ 
++
+ //_____________________________________________________________________________
+ void XrdClientConnectionMgr::GarbageCollect()
+ {
+@@ -521,7 +548,7 @@
+ 	 return;
+       }
+ 
+-
++      fLogVec[LogConnectionID]->GetPhyConnection()->WipeStreamid(fLogVec[LogConnectionID]->Streamid());
+       if (ForcePhysicalDisc) {
+ 	 // We disconnect the phyconn
+ 	 // But it will be removed by the garbagecollector as soon as possible
+@@ -532,8 +559,7 @@
+ 	 fLogVec[LogConnectionID]->GetPhyConnection()->Disconnect();
+ 	 GarbageCollect();
+       }
+-      else
+-         fLogVec[LogConnectionID]->GetPhyConnection()->WipeStreamid(fLogVec[LogConnectionID]->Streamid());
++
+     
+       fLogVec[LogConnectionID]->GetPhyConnection()->Touch();
+       delete fLogVec[LogConnectionID];
+Index: net/xrootd/src/xrootd/src/XrdClient/XrdClientConn.hh
+===================================================================
+--- net/xrootd/src/xrootd/src/XrdClient/XrdClientConn.hh	(revision 37899)
++++ net/xrootd/src/xrootd/src/XrdClient/XrdClientConn.hh	(working copy)
+@@ -27,6 +27,7 @@
+ #include "XrdOuc/XrdOucHash.hh"
+ 
+ #define ConnectionManager XrdClientConn::GetConnectionMgr()
++#define SessionIDRepo     XrdClientConn::GetSessionIDRepo()
+ 
+ class XrdClientAbs;
+ class XrdSecProtocol;
+@@ -289,6 +290,9 @@
+     static XrdClientConnectionMgr *GetConnectionMgr()
+     { return fgConnectionMgr;} //Instance of the conn manager
+ 
++    static XrdOucHash<SessionIDInfo> &GetSessionIDRepo()
++    { return fSessionIDRepo; }
++
+     void GetSessionID(SessionIDInfo &sess) {
+       XrdOucString sessname;
+       char buf[20];
+Index: net/xrootd/src/xrootd/src/XrdClient/Makefile.am
+===================================================================
+--- net/xrootd/src/xrootd/src/XrdClient/Makefile.am	(revision 37899)
++++ net/xrootd/src/xrootd/src/XrdClient/Makefile.am	(working copy)
+@@ -83,7 +83,7 @@
+               ../XrdNet/libXrdNet.la \
+               ../XrdOuc/libXrdOuc.la \
+               ../XrdSys/libXrdSys.la \
+-              ../XrdNet/libXrdNetUtil.la
++              ../XrdNet/libXrdNetUtil.la -lpthread
+ 
+ clientlibs =  libXrdClient.la \
+               -ldl $(LIBZ)
+Index: net/xrootd/src/xrootd/src/XrdClient/XrdClientConnMgr.hh
+===================================================================
+--- net/xrootd/src/xrootd/src/XrdClient/XrdClientConnMgr.hh	(revision 37899)
++++ net/xrootd/src/xrootd/src/XrdClient/XrdClientConnMgr.hh	(working copy)
+@@ -80,6 +80,10 @@
+ 
+    virtual ~XrdClientConnectionMgr();
+ 
++  bool BootUp();
++  bool ShutDown();
++
++
+    int           Connect(XrdClientUrlInfo RemoteAddress);
+    void          Disconnect(int LogConnectionID, bool ForcePhysicalDisc);
+ 

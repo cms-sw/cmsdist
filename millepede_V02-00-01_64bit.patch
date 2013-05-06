@@ -1,0 +1,28 @@
+diff -Naur V02-00-01_rfio/Makefile V02-00-01_rfio_64/Makefile
+--- V02-00-01_rfio/Makefile	2009-08-20 12:15:11.000000000 +0200
++++ V02-00-01_rfio_64/Makefile	2009-08-20 12:25:06.000000000 +0200
+@@ -8,7 +8,7 @@
+ # To make it link with a BIG (>2 GB) static array in dynal.inc,
+ # we need '-mcmodel=medium', but does not work on 32 bit machines,
+ # so here we switch off and restrict to smaller binaries
+-LARGE_MEMORY_OPT=
++LARGE_MEMORY_OPT=-mcmodel=medium
+ # All but 'yes' disables support of reading C-binaries:
+ SUPPORT_READ_C = yes
+ # If yes (and if SUPPORT_READ_C is yes), uses rfio, i.e. shift library, for IO,
+@@ -57,12 +57,12 @@
+ # The specific ones (part of hack, see below) + the single:
+ #EXECUTABLES = pede pede_1GB pede_2GB 
+ # Or also those supporting rfio-reading:
+-EXECUTABLES = pede pede_1GB pede_2GB pede_1GB_rfio pede_2GB_rfio 
++#EXECUTABLES = pede pede_1GB pede_2GB pede_1GB_rfio pede_2GB_rfio 
+ # If you need also the executables with more memory, you need a
+ # 64-bit environment and the '-mcmodel=medium' option (see above).
+ #	pede_4GB pede_4GB_rfio pede_8GB pede_8GB_rfio
+-#EXECUTABLES = pede pede_1GB pede_2GB pede_1GB_rfio pede_2GB_rfio \
+-#	pede_4GB pede_4GB_rfio pede_8GB pede_8GB_rfio
++EXECUTABLES = pede pede_1GB pede_2GB pede_1GB_rfio pede_2GB_rfio \
++	pede_4GB pede_4GB_rfio pede_8GB pede_8GB_rfio
+ 
+ all:	$(EXECUTABLES)
+ 

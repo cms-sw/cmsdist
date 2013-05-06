@@ -1,0 +1,19 @@
+diff -Naur orig.root/io/io/src/TStreamerInfo.cxx root/io/io/src/TStreamerInfo.cxx
+--- orig.root/io/io/src/TStreamerInfo.cxx	2010-11-05 15:46:50.000000000 +0100
++++ root/io/io/src/TStreamerInfo.cxx	2011-02-23 13:43:03.000000000 +0100
+@@ -703,6 +703,15 @@
+                   e2->SetTitle(e1->GetTitle());
+                }
+             }
++            
++            if (TestBit(kCannotOptimize)) {
++               info->SetBit(TVirtualStreamerInfo::kCannotOptimize);
++               if (info->IsOptimized()) 
++               {
++                  // Optimizing does not work with splitting.
++                  info->Compile();
++               }
++            } 
+             done = kTRUE;
+          } else {
+             array->RemoveAt(fClassVersion);
