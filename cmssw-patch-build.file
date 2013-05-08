@@ -64,7 +64,7 @@
   CWD=`/bin/pwd`; cd %i; %scramcmd b --verbose -f tmp/common/cache/python_symlinks </dev/null; DIR=python; %{PatchReleaseLink} ; cd $CWD;
  
 %define PatchReleaseSourceSymlinks \
-  CWD=`/bin/pwd`; cd %i; DIR=%{srctree}; %{PatchReleaseLink}; %{RelocateReleaseLinks}; DIR=cfipython/%{cmsplatf}; %{PatchReleaseLink}; %{RelocateReleaseLinks}; DIR=python; %{RelocateReleaseLinks}; cd $CWD; 
+  CWD=`/bin/pwd`; cd %i; DIR=%{srctree}; %{PatchReleaseLink}; %{RunPatchReleaseGlimpse}; %{RelocateReleaseLinks}; DIR=cfipython/%{cmsplatf}; %{PatchReleaseLink}; %{RelocateReleaseLinks}; DIR=python; %{RelocateReleaseLinks}; cd $CWD; 
 
 %define PatchReleaseFilesRelocate \
   if [ -e %{srctree}/.glimpse_filenames ] ; then \
@@ -94,8 +94,5 @@
 
 %if "%{?runGlimpse:set}" == "set"
 %undefine runGlimpse
-%define PatchReleaseGlimpse \
-  CWD=`/bin/pwd`; \
-  cd %i ; %scramcmd b --verbose -f gindices; \
-  cd $CWD
+%define RunPatchReleaseGlimpseRun %scramcmd b --verbose -f gindices
 %endif
