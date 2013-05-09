@@ -1,5 +1,7 @@
-### RPM cms icc-gcc-toolfile 13.0
+### RPM cms icc-gcc-toolfile 1.0
 
+Requires: gcc-toolfile
+Requires: icc
 %if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
 Requires: gfortran-macosx
 %endif
@@ -22,8 +24,8 @@ then
 else
     G77_ROOT=$GCC_ROOT
 fi
-export ICC_GCC_TOOLFILE_ROOT
-export ICC_GCC_TOOLFILE_VERSION
+export ICC_ROOT
+export ICC_VERSION
 export GCC_ROOT
 export G77_ROOT
 
@@ -33,10 +35,10 @@ mkdir -p %i/etc/scram.d
 # DO NOT DUPLICATE the toolfile template.
 
 cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
-  <tool name="icc-cxxcompiler" version="@ICC_GCC_TOOLFILE_VERSION@" type="compiler">
+  <tool name="icc-cxxcompiler" version="@ICC_VERSION@" type="compiler">
     <use name="gcc-cxxcompiler"/>
     <client>
-      <environment name="ICC_CXXCOMPILER_BASE" default="/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.2.146/"/>
+      <environment name="ICC_CXXCOMPILER_BASE" default="@ICC_ROOT@/installation"/>
       <environment name="CXX" value="$ICC_CXXCOMPILER_BASE/bin/intel64/icpc"/>
     </client>
     # drop flags not supported by llvm
@@ -59,25 +61,25 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$ICC_CXXCOMPILER_BASE/compiler/lib/intel64" type="path"/>
     <runtime name="PATH" value="$ICC_CXXCOMPILER_BASE/bin/intel64" type="path"/>
     <runtime name="COMPILER_RUNTIME_OBJECTS" value="@GCC_ROOT@"/>
-    <runtime name="INTEL_LICENSE_FILE" value="28518@AT@lxlic01.cern.ch,28518@AT@lxlic02.cern.ch,28518@AT@lxlic03.cern.ch:/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.2.146/licenses:/opt/intel/licenses:/afs/cern.ch/user/e/eulisse/intel/licenses:/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.2.146/licenses:/opt/intel/licenses:/afs/cern.ch/user/e/eulisse/intel/licenses"/>
+    <runtime name="INTEL_LICENSE_FILE" value="28518@AT@lxlic01.cern.ch,28518@AT@lxlic02.cern.ch,28518@AT@lxlic03.cern.ch:$ICC_CXXCOMPILER_BASE/licenses:/opt/intel/licenses"/>
   </tool>
 EOF_TOOLFILE
 
 cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-ccompiler.xml
-  <tool name="icc-ccompiler" version="@ICC_GCC_TOOLFILE_VERSION@" type="compiler">
+  <tool name="icc-ccompiler" version="@ICC_VERSION@" type="compiler">
     <use name="gcc-ccompiler"/>
     <client>
-      <environment name="ICC_CCOMPILER_BASE" default="/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.2.146"/>
+      <environment name="ICC_CCOMPILER_BASE" default="@ICC_ROOT@/installation"/>
       <environment name="CC" value="$ICC_CCOMPILER_BASE/bin/intel64/icc"/>
     </client>
   </tool>
 EOF_TOOLFILE
 
 cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-f77compiler.xml
-  <tool name="icc-f77compiler" version="@ICC_GCC_TOOLFILE_VERSION@" type="compiler">
+  <tool name="icc-f77compiler" version="@ICC_VERSION@" type="compiler">
     <use name="gcc-f77compiler"/>    
     <client>
-      <environment name="ICC_FCOMPILER_BASE" default="/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013.2.146/"/>
+      <environment name="ICC_FCOMPILER_BASE" default="@ICC_ROOT@/installation"/>
       <environment name="FC" default="$ICC_FCOMPILER_BASE/bin/intel64/ifort"/>
     </client>
   </tool>
