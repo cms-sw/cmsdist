@@ -26,9 +26,9 @@ diff -u -r httpd-2.0.54.orig/modules/ssl/mod_ssl.h httpd-2.0.54/modules/ssl/mod_
  
      SSL_CTX_set_info_callback(ctx, ssl_callback_Info);
  }
---- modules/ssl/ssl_engine_kernel.c	2006-07-11 22:38:44.000000000 -0500
-+++ modules/ssl/ssl_engine_kernel.c	2008-02-07 16:15:07.000000000 -0600
-@@ -1156,6 +1156,725 @@
+--- modules/ssl/ssl_engine_kernel.c	2013-02-15 16:50:37.000000000 +0100
++++ modules/ssl/ssl_engine_kernel.c	2013-05-10 12:44:41.000000000 +0200
+@@ -1267,6 +1267,692 @@
      return (DH *)mc->pTmpKeys[idx];
  }
  
@@ -181,49 +181,6 @@ diff -u -r httpd-2.0.54.orig/modules/ssl/mod_ssl.h httpd-2.0.54/modules/ssl/mod_
 +		}
 +	else
 +		return 0;
-+};
-+
-+
-+static int check_chain_purpose(X509_STORE_CTX *ctx)
-+{
-+#ifdef NO_CHAIN_VERIFY
-+	return 1;
-+#else
-+	int i, ok=0;
-+	X509 *x;
-+	int (*cb)();
-+	cb=ctx->verify_cb;
-+	if (cb == NULL) cb=null_callback;
-+	/* Check all untrusted certificates */
-+	for (i = 0; i < ctx->last_untrusted; i++)
-+		{
-+		x = sk_X509_value(ctx->chain, i);
-+		if (!X509_check_purpose(x, ctx->PURPOSE, i))
-+			{
-+			if (i)
-+				ctx->error = X509_V_ERR_INVALID_CA;
-+			else
-+				ctx->error = X509_V_ERR_INVALID_PURPOSE;
-+			ctx->error_depth = i;
-+			ctx->current_cert = x;
-+			ok=cb(0,ctx);
-+			if (!ok) goto end;
-+			}
-+		/* Check pathlen */
-+		if ((i > 1) && (x->ex_pathlen != -1)
-+			   && (i > (x->ex_pathlen + 1)))
-+			{
-+			ctx->error = X509_V_ERR_PATH_LENGTH_EXCEEDED;
-+			ctx->error_depth = i;
-+			ctx->current_cert = x;
-+			ok=cb(0,ctx);
-+			if (!ok) goto end;
-+			}
-+		}
-+	ok = 1;
-+ end:
-+	return ok;
-+#endif
 +};
 +
 +static int internal_verify(X509_STORE_CTX *ctx)
@@ -432,6 +389,7 @@ diff -u -r httpd-2.0.54.orig/modules/ssl/mod_ssl.h httpd-2.0.54/modules/ssl/mod_
 +  STACK_OF(X509) *certstack;
 +  int j,k;
 +  int ret;
++  int n_found_ca = 0;
 +
 +  
 +  int errnum   = X509_STORE_CTX_get_error(ctx);
@@ -699,13 +657,22 @@ diff -u -r httpd-2.0.54.orig/modules/ssl/mod_ssl.h httpd-2.0.54/modules/ssl/mod_
 +        }
 +      }
 +      /* Check pathlen */
-+      if ((j > 1) && (cert->ex_pathlen != -1) && (j > (cert->ex_pathlen + 1)))
-+      {
-+          ctx->error = X509_V_ERR_PATH_LENGTH_EXCEEDED;
-+          ctx->error_depth = j;
-+          ctx->current_cert = cert;
-+          ok=cb(0,ctx);
-+          if (!ok) goto end;
++      /* Only check it for CAs. We ignore the pathlen check for any type of
++         proxies, though they could be done similarly for RFC3820 proxies.
++
++         The n_found_ca counts the nr of CAs found so far in the chain. If
++         any of such CAs requires the path length validation, we
++         verify it was not violated.
++      */
++      if (X509_check_ca(cert) == 0) {
++         if ((cert->ex_pathlen != -1) && (n_found_ca > cert->ex_pathlen)) {
++             ctx->error = X509_V_ERR_PATH_LENGTH_EXCEEDED;
++             ctx->error_depth = j;
++             ctx->current_cert = cert;
++             ok=cb(0,ctx);
++             if (!ok) goto end;
++         }
++         n_found_ca++;
 +      }
 +    }
 +    ok = 1;
