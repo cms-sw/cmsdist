@@ -11,3 +11,8 @@ Requires: qd python
 make %{makeprocesses}
 %install
 make install
+rm -f %{i}/lib/blackhat/*.la
+
+%post
+%{relocateRpmPkg}bin/blackhat-config
+%{relocateRpmPkg}bin/dataInstall

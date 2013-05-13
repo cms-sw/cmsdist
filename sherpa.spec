@@ -62,3 +62,9 @@ make %{makeprocesses}
 
 %install
 make install
+rm -f %{i}/lib/SHERPA-MC/*.la
+
+%post
+%{relocateRpmPkg}bin/Sherpa-config
+%{relocateRpmPkg}share/SHERPA-MC/sherpa-completion
+%{relocateRpmPkg}include/SHERPA-MC/ATOOLS/Org/CXXFLAGS.H

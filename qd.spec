@@ -10,3 +10,6 @@ Source: http://crd.lbl.gov/~dhbailey/mpdist/qd-%{realversion}.tar.gz
 make %{makeprocesses}
 %install
 make install
+
+%post
+%{relocateRpmPkg}bin/qd-config
