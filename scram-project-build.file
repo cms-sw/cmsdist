@@ -184,8 +184,10 @@ export SCRAM_NOSYMCHECK=true
 # Move the debug logs into the builddir, so that they do not get packaged.
 LOG_WEB_DIR=%cmsroot/WEB/build-logs/%{cmsplatf}/%{v}
 rm -rf ${LOG_WEB_DIR}
-mkdir -p ${LOG_WEB_DIR}
-rsync -av --include='*.log' --prune-empty-dirs %{i}/tmp/%{cmsplatf}/cache/log/ ${LOG_WEB_DIR}/logs
+mkdir -p ${LOG_WEB_DIR}/logs/src
+pushd %{i}/tmp/%{cmsplatf}/cache/log/src
+  tar czf ${LOG_WEB_DIR}/logs/src/src-logs.tgz ./
+popd
 
 # split the debug symbols out of tha main binaries, into separate files
 %if "%{?subpackageDebug:set}" == "set"
