@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 25.6
+### RPM cms cmssw-tool-conf 26.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -132,7 +132,7 @@ Requires: nss-toolfile
 Requires: cyrus-sasl-toolfile
 %endif
 
-%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler
 
 ## IMPORT scramv1-tool-conf
 
