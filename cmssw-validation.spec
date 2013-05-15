@@ -1,30 +1,52 @@
 ### RPM cms cmssw-validation 1.0.0
-BuildRequires: cmssw SCRAMV1 local-cern-siteconf
-%define initenv	        %initenv_direct
-#%define name1 1937
-#%define moduleName LogParser
-#%define url HTMLFiles/
-#Source: svn://svn.cern.ch/reps/CMSIntBld/tags/LogParser/parser?scheme=svn+ssh&revision=%{name1}&module=%{moduleName}&output=/%{moduleName}.tar.gz
-Source: svn://svn.cern.ch/reps/CMSIntBld/trunk/IntBuild?date=%(date +%%Y%%m%%d)&scheme=svn+ssh&revision=HEAD&module=IntBuild&output=/IntBuild.tar.gz
-Source1: fwlite_application_set
-Source2: fwlite_build_set
-Source3: online_application_set
-Source4: online_build_set
+Requires: cmssw SCRAMV1
+BuildRequires: local-cern-siteconf
+Source: none
 
 %define scram $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
 
 %prep
-%setup -n IntBuild
-cd ..
-cp -r %_sourcedir/fwlite_application_set %_builddir/fwlite_application_set.file
-cp -r %_sourcedir/fwlite_build_set       %_builddir/fwlite_build_set.file
-cp -r %_sourcedir/online_application_set %_builddir/online_application_set.file
-cp -r %_sourcedir/online_build_set       %_builddir/online_build_set.file
-%build
-cd $CMSSW_ROOT
+%scram project CMSSW $CMSSW_VERSION
+cd $CMSSW_VERSION
+%scram build clean
 eval `%scram runtime -sh`
-%_builddir/IntBuild/IB/runTests.py --appset %_builddir
-rm -rf %i/*
+#rsync -av $CMSSW_RELEASE_BASE/src/ src/
+
+%build
+
+# keep this for the DB regression tests below
+topDir=`pwd`
+
+cd $CMSSW_VERSION
+eval `%scram runtime -sh`
+rm -rf %i/test-addontests %i/test-runTheMatrix
+mkdir -p %i/test-addontests %i/test-runTheMatrix
+
+pushd %i/test-addontests
+  time addOnTests.py -j %compiling_processes &> result.log
+popd
+
+# Do runTheMatrix.py (let's start with -s)
+pushd %i/test-runTheMatrix
+  time runTheMatrix.py -s -j %compiling_processes &> result.log
+popd
+
+# Run the CondCore regression tests
+rm -rf %i/dbRegTests
+mkdir -p %i/dbRegTests
+pushd %i/dbRegTests
+	exePath=$topDir/$CMSSW_VERSION/src/CondCore/RegressionTest/python/
+   	# needed for now, to be moved to a python file and imported:
+	cp $exePath/sequences.xml .
+	# logs here are just in case something goes wrong with uploading them to the DB:
+	for rt in ORA ExportIOV; do
+		python $exePath/run_regression.py --full -t $rt"_regression" -r $CMSSW_VERSION -a $SCRAM_ARCH -p $topDir -w &>full_$rt.log
+		python $exePath/run_regression.py --self -t $rt"_regression" -r $CMSSW_VERSION -a $SCRAM_ARCH -p $topDir -w &>self_$rt.log
+	done
+popd
+
+
+# TODO: Add logs to the package or send them directly to the DB.
 %install
 # NOP
 
