@@ -1,4 +1,4 @@
-### RPM cms icc-gcc-toolfile 1.0
+### RPM cms icc-gcc-toolfile 2.0
 
 Requires: gcc-toolfile
 Requires: icc
@@ -20,14 +20,10 @@ then
     GCC_PATH=`which gcc` || exit 1
     GCC_VERSION=`gcc -dumpversion` || exit 1
     GCC_ROOT=`echo $GCC_PATH | sed -e 's|/bin/gcc||'`
-    G77_ROOT=$GFORTRAN_MACOSX_ROOT
-else
-    G77_ROOT=$GCC_ROOT
 fi
 export ICC_ROOT
 export ICC_VERSION
 export GCC_ROOT
-export G77_ROOT
 
 mkdir -p %i/etc/scram.d
 # Generic template for the toolfiles. 
@@ -98,5 +94,5 @@ export AT="@"
 perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*.xml
 %post
 %{relocateConfig}etc/scram.d/*.xml
-echo "ICC_GCC_TOOLFILE_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'; export GCC_TOOLFILE_ROOT" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+echo "ICC_GCC_TOOLFILE_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'; export ICC_GCC_TOOLFILE_ROOT" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 echo "setenv ICC_GCC_TOOLFILE_ROOT '$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
