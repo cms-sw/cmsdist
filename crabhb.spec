@@ -1,24 +1,12 @@
-### RPM cms an_reqmgr 0.9.25
-## INITENV +PATH PATH %i/xbin
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
-
-Source: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
-Requires: py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah py2-cx-oracle yui rotatelogs couchdb py2-cjson py2-sphinx
+### RPM cms crabhb 0.0.1
+## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
+Requires: python py2-matplotlib py2-numpy
 
 %prep
-%setup -b 0 -n %n 
 
 %build
-python setup.py build_system -s reqmgr
 
 %install
-mkdir -p %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
-python setup.py install_system -s reqmgr --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
-
-mkdir -p %i/bin
-cp -pf %_builddir/%n/bin/[[:lower:]]* %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d

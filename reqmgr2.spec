@@ -1,25 +1,28 @@
-### RPM cms an_reqmon 0.9.25
+### RPM cms reqmgr2 0.9.67
+## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
-Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
+Source: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
+#from WMCore github branch 
+#Source: git://github.com/dmwm/WMCore?obj=size-per-evt-fix/%realversion&export=%n&output=/%n.tar.gz
+#Source: https://maxa.home.cern.ch/maxa/reqmgr2-WMCore-0.9.59-rc1.tgz
 
-Requires: python rotatelogs
-BuildRequires: py2-setuptools py2-sphinx couchskel
+Requires: py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah rotatelogs couchdb py2-cjson py2-sphinx
 
 %prep
-%setup -b 0 -n %n
+%setup -b 0 -n %n 
 
 %build
-python setup.py build_system -s reqmon
+python setup.py build_system -s reqmgr2
 
 %install
-python setup.py install_system -s reqmon --prefix=%i
+mkdir -p %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
+python setup.py install_system -s reqmgr2 --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
-# Pick external dependencies from couchskel
-mkdir %i/data/couchapps/WMStats/vendor/
-cp -rp $COUCHSKEL_ROOT/data/couchapps/couchskel/vendor/{couchapp,jquery,datatables} \
-  %i/data/couchapps/WMStats/vendor/
+mkdir -p %i/bin
+cp -pf %_builddir/%n/bin/[[:lower:]]* %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d

@@ -1,17 +1,15 @@
-### RPM cms cmsweb HG1305d
+### RPM cms PHEDEX-combined-agents 1
 
-# This is a meta-package to group all cms webtools services from comp repository
-Requires: frontend das dbs3 filemover sitedb couchdb reqmon
-Requires: PHEDEX-combined-web stagemanager reqmgr dqmgui overview workqueue
-Requires: rotatelogs pystack py2-geoip py2-adns py2-netaddr valgrind igprof
-Requires: wmcore-devtools py2-psutil cmsweb-analytics yui3
-Requires: dbs3-client stagemanager-agent crabserver crabcache
-Requires: DMWMMON-datasvc alertscollector acdcserver
-Requires: asyncstageout t0wmadatasvc dbs3-migration t0_reqmon reqmgr2
+# This is a fake spec whose only job is to build PHEDEX-web and
+# PHEDEX-datasvc on a combined platform of dependencies
+
+Requires: PHEDEX PHEDEX-admin PHEDEX-micro
 
 %prep
 %build
 %install
+mkdir -p %{i}/bin
+mkdir -p %{i}/lib
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 rm -rf %i/etc/profile.d

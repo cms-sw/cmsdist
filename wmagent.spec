@@ -1,4 +1,4 @@
-### RPM cms wmagent 0.9.68
+### RPM cms wmagent 0.9.67
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
@@ -9,6 +9,7 @@ Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 py2-pycurl
 Requires: py2-mysqldb py2-cx-oracle couchdb
 Requires: cherrypy py2-cheetah yui
 Requires: py2-cjson dbs-client dls-client py2-zmq py2-psutil pystack dbs3-client
+Requires: py2-pyopenssl
 
 BuildRequires: py2-sphinx couchskel
 

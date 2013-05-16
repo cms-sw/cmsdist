@@ -1,26 +1,19 @@
-### RPM cms webtools-base 0.1.21
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+### RPM cms sreadiness r161
+## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
-%define moduleName WEBTOOLS
-%define cvstag V01-03-43
-%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{moduleName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
+%define svnrev %(echo %realversion|tr -d 'r')
+Source1: svn://svn.cern.ch/reps/cmsfomon/SiteReadiness/trunk@%svnrev?scheme=svn+ssh&strategy=export&module=SiteReadiness&output=/srsrc.tar.gz
+Requires: python py2-matplotlib py2-numpy py2-pyxml
 
-Requires: python webtools rotatelogs
 
 %prep
-%setup -n %{moduleName}
+%setup -T -b 1 -n SiteReadiness
 
 %build
 
 %install
-mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES/Applications
-
-# Copy only the 'base' application
-cp -r Applications/base %i/$PYTHON_LIB_SITE_PACKAGES/Applications
-
-# Generate .pyc files.
-python -m compileall %i/$PYTHON_LIB_SITE_PACKAGES || true
+mkdir %i/bin
+cp -rp %_builddir/SiteReadiness/* %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
@@ -36,4 +29,3 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
-
