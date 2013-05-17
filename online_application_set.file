@@ -50,7 +50,6 @@ CalibCalorimetry/EcalPedestalOffsets
 CalibCalorimetry/EcalSRTools
 CalibCalorimetry/EcalTBCondTools
 CalibCalorimetry/EcalTPGTools
-CalibCalorimetry/EcalTrivialCondModules
 CalibCalorimetry/HcalAlgos
 CalibCalorimetry/HcalPlugins
 CalibCalorimetry/HcalStandardModules
