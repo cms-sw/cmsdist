@@ -64,7 +64,8 @@ Requires: SCRAMV1
 %define lcprojtype      %(echo %ucprojtype | tr 'A-Z' 'a-z')
 %define toolconf        %(echo %n | sed "s|-|_|g" | tr 'a-z' 'A-Z')_TOOL_CONF_ROOT
 
-%define source0 %{configrepo}&obj=master/%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
+#define source0 %{configrepo}&obj=master/%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
+%define source0 https://github.com/cms-sw/cmssw-config/archive/%{configtag}.tar.gz
 
 %if "%{?source1:set}" != "set"
 %if  "%{cvsrepo}" != "cmstc"
