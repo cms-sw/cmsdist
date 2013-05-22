@@ -100,7 +100,9 @@ Source4: findDependencies.pl
 rm -rf config
 rm -rf %{srctree}
 
-%setup -T -b 0 -n config
+%setup -T -b 0 -n cmssw-config-%(echo %{configtag} | sed 's/^.//')
+# The following is a temporary hack until we move to 4.8.1
+cd ..; mv cmssw-config-%(echo %{configtag} | sed 's/^.//') config
 %setup -D -T -b 1 -n %{srctree}
 
 %if "%{?additionalSrc0:set}" == "set"
