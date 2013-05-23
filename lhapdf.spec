@@ -86,5 +86,5 @@ make install
 find %{i} -name '*.la' -exec rm -f {} \;
 
 %post
-%{relocateConfig}%i/bin/lhapdf-config
-%{relocateConfig}%i/full/bin/lhapdf-config
+%{relocateConfig}bin/lhapdf-config
+%{relocateConfig}full/bin/lhapdf-config
