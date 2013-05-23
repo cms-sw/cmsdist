@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 25.6
+### RPM cms cmssw-tool-conf 26.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
