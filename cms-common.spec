@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1107
+## REVISION 1112
 ## NOCOMPILER
 
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
@@ -48,8 +48,9 @@ then
         osx106_*) compilerv=gcc421;;
         osx107_*) compilerv=gcc462;;
         osx108_*) compilerv=gcc472;;
-        slc6_*) compilerv=gcc462; osarch=slc6_amd64;;
+        slc6_*) compilerv=gcc472; osarch=slc6_amd64;;
         slc5_*) compilerv=gcc462; osarch=slc5_amd64;;
+        fc18_*) compilerv=gcc480; osarch=fc18_armv7hl;;
         *) compilerv=gcc462; osarch=slc5_amd64;;
     esac
     echo ${osarch}_${compilerv}
@@ -75,12 +76,6 @@ EOF_CMSARCH_SH
 cat << \EOF_CMSSET_DEFAULT_SH > ./cmsset_default.sh
 export PATH=%instroot/common:%instroot/bin:$PATH
 
-if [ ! $SCRAM_ARCH ]
-then
-    SCRAM_ARCH=`%instroot/common/cmsarch`
-    export SCRAM_ARCH
-fi
-
 here=%{instroot}
 
 if [ "$VO_CMS_SW_DIR" != ""  ] 
@@ -93,17 +88,23 @@ else
     fi
 fi
 
-if [ ! -d $here/${SCRAM_ARCH}/etc/profile.d ] 
+if [ ! $SCRAM_ARCH ]
 then
-    echo "Your shell is not able to find where cmsset_default.sh is located." 
-    echo "Either you have not set VO_CMS_SW_DIR or OSG_APP correctly"
-    echo "or SCRAM_ARCH is not set to a valid architecture."
+    SCRAM_ARCH=`%instroot/common/cmsarch`
+    if [ ! -d $here/${SCRAM_ARCH}/etc/profile.d ]
+    then
+      SCRAM_ARCH=%cmsplatf
+    fi
+    export SCRAM_ARCH
 fi
 
-for pkg in `/bin/ls $here/${SCRAM_ARCH}/etc/profile.d/ | grep 'S.*[.]sh'`
-do
+if [ -d $here/${SCRAM_ARCH}/etc/profile.d ]
+then
+  for pkg in `/bin/ls $here/${SCRAM_ARCH}/etc/profile.d/ | grep 'S.*[.]sh'`
+  do
 	source $here/${SCRAM_ARCH}/etc/profile.d/$pkg
-done
+  done
+fi
 
 if [ ! $CMS_PATH ]
 then
@@ -137,31 +138,29 @@ else
     setenv PATH %instroot/common:%instroot/bin
 endif
 
-if ( ! ${?SCRAM_ARCH}) then
-    setenv SCRAM_ARCH `sh -c %instroot/common/cmsarch` 
-endif
-
 set here=%instroot 
 
 if ( ${?VO_CMS_SW_DIR} ) then
     set here=$VO_CMS_SW_DIR
 else
-    # OSG
     if ( ${?OSG_APP} ) then
         set here=$OSG_APP/cmssoft/cms
     endif
-    # OSG                       
 endif
 
-if ( ! -d $here/${SCRAM_ARCH}/etc/profile.d ) then
-    echo "Your shell is not able to find where cmsset_default.csh is located." 
-    echo "Either you have not set VO_CMS_SW_DIR or OSG_APP correctly"
-    echo "or SCRAM_ARCH is not set to a valid architecture."
+if ( ! ${?SCRAM_ARCH}) then
+    setenv SCRAM_ARCH `sh -c %instroot/common/cmsarch`
+    if ( ! -d $here/${SCRAM_ARCH}/etc/profile.d ) then
+      setenv SCRAM_ARCH %cmsplatf
+    endif
 endif
 
-foreach pkg ( `/bin/ls ${here}/${SCRAM_ARCH}/etc/profile.d/ | grep 'S.*[.]csh'` )
+if ( -d $here/${SCRAM_ARCH}/etc/profile.d ) then
+  foreach pkg ( `/bin/ls ${here}/${SCRAM_ARCH}/etc/profile.d/ | grep 'S.*[.]csh'` )
 	source ${here}/${SCRAM_ARCH}/etc/profile.d/$pkg
-end
+  end
+endif
+
 if ( ! ${?CMS_PATH} ) then
     setenv CMS_PATH $here
 endif
@@ -183,8 +182,8 @@ EOF_CMSSET_DEFAULT_CSH
 
 cat << \EOF_COMMON_SCRAM > ./common/scram
 #!/bin/sh
-CMSARCH=`cmsarch`
-srbase=%{instroot}/$CMSARCH
+export SCRAM_ARCH=`%instroot/common/cmsarch`
+srbase=%{instroot}/$SCRAM_ARCH
 sver=$SCRAM_VERSION
 dir=`/bin/pwd`
 if [ "X${dir}" = "X" ] ; then
@@ -197,19 +196,33 @@ done
 if [ "${dir}" != "/" ] && [ -f ${dir}/config/scram_version ] ; then
   sver=`cat ${dir}/config/scram_version`
 elif [ "X$sver" = "X" ] ; then
-  sver=`cat  ${srbase}/etc/default-scramv1-version`
+  if [ -f %{instroot}/share/etc/default-scramv1-version ] ; then
+    sver=`cat %{instroot}/share/etc/default-scramv1-version`
+  elif [ -f ${srbase}/etc/default-scramv1-version ] ; then
+    sver=`cat ${srbase}/etc/default-scramv1-version`
+  else
+    echo "Error: Unable to find ${srbase}/etc/default-scramv1-version. Looks like SCRAMV1 is not installed." >&2
+    exit 1
+  fi
 fi
 scram_rel_series=`echo $sver | grep '^V[0-9][0-9]*_[0-9][0-9]*_[0-9][0-9]*' | sed 's|^\(V[0-9][0-9]*_[0-9][0-9]*\)_.*|\1|'`
-case $sver in
-  V[01]_*|V2_[012]_* ) ;;
-  * ) scram_rel_series=`echo $scram_rel_series | sed 's|_.*||'` ;;
-esac
-if [ "X${scram_rel_series}" != "X" ] && [ -f ${srbase}/etc/default-scram/${scram_rel_series} ] ; then
-  sver=`cat ${srbase}/etc/default-scram/${scram_rel_series}`
+scram_main_series=`echo $scram_rel_series | sed 's|_.*||'`
+if [ "X${scram_rel_series}" != "X" ] ; then
+  if [ -f %{instroot}/share/etc/default-scram/${scram_main_series} ] ; then
+    sver=`cat %{instroot}/share/etc/default-scram/${scram_main_series}`
+    srbase=%{instroot}/share
+  elif [ -f %{instroot}/share/etc/default-scram/${scram_rel_series} ] ; then
+    sver=`cat %{instroot}/share/etc/default-scram/${scram_rel_series}`
+    srbase=%{instroot}/share
+  elif [ -f ${srbase}/etc/default-scram/${scram_main_series} ] ; then
+    sver=`cat ${srbase}/etc/default-scram/${scram_main_series}`
+  elif [ -f ${srbase}/etc/default-scram/${scram_rel_series} ] ; then
+    sver=`cat ${srbase}/etc/default-scram/${scram_rel_series}`
+  fi
 fi
-srbase=%{instroot}/$CMSARCH/lcg/SCRAMV1/${sver}
+srbase=${srbase}/lcg/SCRAMV1/${sver}
 if [ ! -f ${srbase}/etc/profile.d/init.sh ] ; then
-  echo "Unable to find SCRAM version $sver for $CMSARCH architecture."  >&2
+  echo "Unable to find SCRAM version $sver for $SCRAM_ARCH architecture."  >&2
   exit 1
 fi
 . ${srbase}/etc/profile.d/init.sh
