@@ -11,8 +11,8 @@ Requires: SCRAMV1
 
 #config stuff moved to github!
 %define cvsconfig	config
-%define configtar	config.zip
-%define configrepo	https://nodeload.github.com/cms-sw/cmssw-config/zip
+%define configtar	config.tar.gz
+%define configrepo	git://github.com/cms-sw/cmssw-config.git?protocol=https
 %if "%{?buildtarget:set}" != "set"
 %define buildtarget	release-build
 %endif
@@ -35,7 +35,7 @@ Requires: SCRAMV1
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-00-13
+%define configtag       V05-01-00
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -64,7 +64,8 @@ Requires: SCRAMV1
 %define lcprojtype      %(echo %ucprojtype | tr 'A-Z' 'a-z')
 %define toolconf        %(echo %n | sed "s|-|_|g" | tr 'a-z' 'A-Z')_TOOL_CONF_ROOT
 
-%define source0 %{configrepo}/%{configtag}?module=%{cvsconfig}&export=config&output=/%configtar
+#define source0 %{configrepo}&obj=master/%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
+%define source0 https://github.com/cms-sw/cmssw-config/archive/%{configtag}.tar.gz
 
 %if "%{?source1:set}" != "set"
 %if  "%{cvsrepo}" != "cmstc"
@@ -97,10 +98,11 @@ Source4: findDependencies.pl
 
 %prep
 rm -rf config
-rm -rf cmssw-config-*
 rm -rf %{srctree}
-unzip %_sourcedir/config.zip
-mv cmssw-config-* config
+
+%setup -T -b 0 -n cmssw-config-%(echo %{configtag} | sed 's/^.//')
+# The following is a temporary hack until we move to 4.8.1
+cd ..; mv cmssw-config-%(echo %{configtag} | sed 's/^.//') config
 %setup -D -T -b 1 -n %{srctree}
 
 %if "%{?additionalSrc0:set}" == "set"
