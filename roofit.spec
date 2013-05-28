@@ -1,8 +1,8 @@
-### RPM lcg roofit 5.34.05
-%define svnTag %(echo %realversion | tr '.' '-')
-Source0: svn://root.cern.ch/svn/root/tags/v%svnTag/roofit?scheme=http&module=roofit&output=/roofit.tgz
-Source1: svn://root.cern.ch/svn/root/tags/v%svnTag/tutorials/?scheme=http&module=tutorials&output=/rootutorials.tgz
-Source2: roofit-5.28.00-build.sh
+### RPM lcg roofit 5.34.07
+%define tag %(echo v%{realversion} | tr . -)
+%define branch %(echo %{realversion} | sed 's/\\.[0-9]*$/.00/;s/^/v/;s/$/-patches/g;s/\\./-/g')
+Source0: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source1: roofit-5.28.00-build.sh
 
 Patch0: root-5.28-00d-roofit-silence-static-printout
 Patch1: roofit-5.24-00-RooFactoryWSTool-include
@@ -16,26 +16,26 @@ Requires: root
 %endif
 
 %prep
-%setup -b0 -n roofit
-%patch0 -p2
-%patch1 -p1
-%patch2 -p2
-%setup -D -T -b 1 -n tutorials
+%setup -b0 -n %{n}-%{realversion}
+%patch0 -p1
+%patch1 -p0
+%patch2 -p1
  
 %build
 #Copy over the tutorials
-mkdir -p %i/tutorials/
-cd ../tutorials/
-cp -R roofit %i/tutorials/
-cp -R roostats %i/tutorials/
-cp -R histfactory %i/tutorials/
+mkdir -p %{i}/tutorials/
+pushd ./tutorials
+cp -R roofit %{i}/tutorials/
+cp -R roostats %{i}/tutorials/
+cp -R histfactory %{i}/tutorials/
+popd
 
-cd ../roofit/
-mkdir -p %i/bin
+cd ./roofit
+mkdir -p %{i}/bin
 cp roostats/inc/RooStats/*.h roostats/inc/
 cp histfactory/inc/RooStats/HistFactory/*.h histfactory/inc/
 cp histfactory/config/prepareHistFactory %i/bin/
-cp %_sourcedir/roofit-5.28.00-build.sh build.sh
+cp %{SOURCE1} build.sh
 chmod +x build.sh
 # Remove an extra -m64 from Wouter's build script (in CXXFLAGS and LDFLAGS)
 perl -p -i -e 's|-m64||' build.sh
