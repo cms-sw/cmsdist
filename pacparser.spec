@@ -5,7 +5,7 @@ Source: http://%{n}.googlecode.com/files/%{n}-%{realversion}.tar.gz
 %setup -n %{n}-%{realversion}
 
 %build
-make -C src %{makeprocesses} PREFIX=%{i}
+make -C src PREFIX=%{i}
 
 %install
 make -C src install PREFIX=%{i}
