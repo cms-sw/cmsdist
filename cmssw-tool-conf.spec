@@ -110,6 +110,8 @@ Requires: distcc-gcc-toolfile
 Requires: gnuplot-toolfile
 Requires: sloccount-toolfile
 Requires: millepede-toolfile
+Requires: cvs2git-toolfile
+Requires: pacparser-toolfile
 
 # Only for Linux platform.
 %if %isLinux
