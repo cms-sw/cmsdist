@@ -37,7 +37,7 @@ make $MAKE_ARGS CXXFLAGS="%cms_cxxflags -ldl"
 mkdir -p %i/lib
 mkdir -p %i/include
 export MAKE_ARGS=%{makeargs}
-make $MAKE_ARGS distdir=%i dist
+make $MAKE_ARGS CXXFLAGS="%cms_cxxflags -ldl" distdir=%i dist
 
 case $(uname) in 
   Darwin ) 
