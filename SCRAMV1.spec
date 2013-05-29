@@ -1,8 +1,8 @@
-### RPM lcg SCRAMV1 V2_2_5_pre2
+### RPM lcg SCRAMV1 V2_2_5_pre3
 ## NOCOMPILER
+%define GitHubVersion %(echo SCRAM-%realversion | sed 's|-V|-|')
 
-%define cvsrepo  cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e
-Source0: %{cvsrepo}&tag=-r%{realversion}&module=SCRAM&output=/source.tar.gz
+Source0: https://github.com/cms-sw/SCRAM/archive/%{realversion}.tar.gz
 
 %define OldDB /%{cmsplatf}/lcg/SCRAMV1/scramdb/project.lookup
 %define SCRAM_ALL_VERSIONS   V[0-9][0-9]*_[0-9][0-9]*_[0-9][0-9]*
@@ -38,7 +38,7 @@ if [ "X%{SCRAM_REL_MINOR}" == "X" ] ; then
   exit 1
 fi
 
-%setup -n SCRAM
+%setup -n %GitHubVersion
 %build
 %install
 tar -cf - . | tar -C %i -xvvf -
