@@ -117,6 +117,7 @@ Requires: distcc-gcc-toolfile
 Requires: gnuplot-toolfile
 Requires: sloccount-toolfile
 Requires: cvs2git-toolfile
+Requires: pacparser-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
