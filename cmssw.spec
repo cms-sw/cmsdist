@@ -1,5 +1,4 @@
 ### RPM cms cmssw CMSSW_5_3_11
-%define cvstag CMSSW_5_3_X
 Requires: cmssw-tool-conf python
 
 %define runGlimpse      yes
