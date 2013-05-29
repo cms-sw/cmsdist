@@ -4,6 +4,7 @@
 # tool is added
 
 %define isslc %(case %cmsos in (slc*) echo true;; (*) echo false;; esac)
+%define is64bit %(case %cmsos in (slc*_amd64) echo true;; (*) echo false;; esac)
 
 #Requires: alpgen-toolfile                  # not used online
 Requires: boost-toolfile
@@ -14,8 +15,7 @@ Requires: classlib-toolfile
 Requires: clhep-toolfile
 Requires: coral-toolfile
 #Requires: cppunit-toolfile                 # not used online
-Requires: curl-toolfile
-#Requires: freetype-toolfile                # only on MacOS X
+#Requires: curl-toolfile                    # from SLC5 (curl)
 #Requires: das-client-toolfile              # not used online
 #Requires: db4-toolfile                     # not used online
 #Requires: dbs-client-toolfile              # not used online
@@ -25,7 +25,7 @@ Requires: elementtree-toolfile
 Requires: expat-toolfile
 Requires: fakesystem
 Requires: fastjet-toolfile
-Requires: gcc-toolfile
+#Requires: gcc-toolfile                     # installed as system compiler
 Requires: gccxml-toolfile
 #Requires: gdbm-toolfile                    # not used online
 #Requires: geant4-toolfile                  # not used online
@@ -51,7 +51,7 @@ Requires: libungif-toolfile
 #Requires: meschach-toolfile                # not used online
 #Requires: millepede-toolfile               # not used online
 #Requires: mimetic-toolfile                 # from XDAQ (daq-mimetic)
-Requires: openssl-toolfile
+#Requires: openssl-toolfile                 # from SLC5 (openssl)
 Requires: oracle-env
 #Requires: oracle-toolfile                  # from XDAQ (daq-oracle)
 Requires: pcre-toolfile
@@ -99,8 +99,6 @@ Requires: fftjet-toolfile
 #Requires: py2-ipython-toolfile             # not used online
 Requires: xz-toolfile
 #Requires: protobuf-toolfile                # not used online
-#Requires: openldap-toolfile                # not used online
-#Requires: python-ldap-toolfile             # not used online
 Requires: gdb-toolfile
 #Requires: google-perftools-toolfile        # not used online
 Requires: igprof-toolfile

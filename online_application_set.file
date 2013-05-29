@@ -1,13 +1,29 @@
 # dependencies not picked up automatically
+DPGAnalysis/SiStripTools
 FastSimDataFormats/External
+Iguana/Utilities
+SimCalorimetry/EcalSimAlgos
+SimCalorimetry/CaloSimAlgos
+SimDataFormats/CaloHit
 SimDataFormats/CrossingFrame
+SimDataFormats/EcalTestBeam
+SimDataFormats/EncodedEventId
+SimDataFormats/GeneratorProducts
 SimDataFormats/HiGenData
 SimDataFormats/JetMatching
 SimDataFormats/PileupSummaryInfo
 SimDataFormats/RPCDigiSimLink
+SimDataFormats/Track
+SimDataFormats/TrackerDigiSimLink
+SimDataFormats/TrackingAnalysis
 SimDataFormats/TrackingHit
+SimDataFormats/Vertex
+SimGeneral/HepPDTRecord
 SimGeneral/HepPDTESSource
 SimGeneral/NoiseGenerators
+SimTracker/Records
+SimTracker/TrackAssociation
+SimTracker/TrackerHitAssociation
 
 # packages
 Alignment/CommonAlignment
@@ -16,7 +32,6 @@ Alignment/CommonAlignmentMonitor
 Alignment/CommonAlignmentParametrization
 Alignment/CommonAlignmentProducer
 Alignment/HIPAlignmentAlgorithm
-Alignment/Geners
 Alignment/KalmanAlignmentAlgorithm
 Alignment/LaserAlignment
 Alignment/LaserDQM
@@ -50,6 +65,7 @@ CalibCalorimetry/EcalPedestalOffsets
 CalibCalorimetry/EcalSRTools
 CalibCalorimetry/EcalTBCondTools
 CalibCalorimetry/EcalTPGTools
+CalibCalorimetry/EcalTrivialCondModules
 CalibCalorimetry/HcalAlgos
 CalibCalorimetry/HcalPlugins
 CalibCalorimetry/HcalStandardModules
@@ -262,7 +278,6 @@ DQMOffline/Configuration
 DQMOffline/EGamma
 DQMOffline/Ecal
 DQMOffline/JetMET
-DQMOffline/L1Trigger
 DQMOffline/Muon
 DQMOffline/PFTau
 DQMOffline/RecoB
@@ -353,7 +368,6 @@ DataFormats/TauReco
 DataFormats/TestObjects
 DataFormats/TrackCandidate
 DataFormats/TrackReco
-DataFormats/TrackerCommon
 DataFormats/TrackerRecHit2D
 DataFormats/TrackingRecHit
 DataFormats/TrackingSeed
@@ -413,10 +427,6 @@ EventFilter/SiStripChannelChargeFilter
 EventFilter/SiStripRawToDigi
 EventFilter/StorageManager
 EventFilter/Utilities
-JetMETCorrections/InterpolationTables
-JetMETCorrections/FFTJetObjects
-FastSimulation/BaseParticlePropagator
-FastSimulation/Particle
 FWCore/Catalog
 FWCore/Common
 FWCore/FWLite

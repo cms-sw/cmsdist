@@ -1,4 +1,4 @@
-### RPM external boost 1.51.0
+### RPM external boost 1.47.0
 %define boostver _%(echo %realversion | tr . _)
 Source: http://switch.dl.sourceforge.net/project/%{n}/%{n}/%{v}/%{n}%{boostver}.tar.gz
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
@@ -13,7 +13,7 @@ Requires: zlib
 %endif
 Patch0: boost-1.47.0-fix-strict-overflow
 Patch1: boost-1.47.0-fix-unused
-Patch2: boost-1.49.0-explicit_stored_group
+Patch2: boost-1.47.0-fix-gcc47
 
 %prep
 %setup -n %{n}%{boostver}

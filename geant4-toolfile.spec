@@ -7,16 +7,15 @@ Requires: geant4
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4.xml
 <tool name="geant4" version="@TOOL_VERSION@">
-  <info url="http://geant4.web.cern.ch/geant4/"/>
+  <info url="http://wwwinfo.cern.ch/asd/geant4/geant4.html"/>
   <use name="geant4core"/>
   <use name="geant4vis"/>
-  <use name="xerces-c"/>
 </tool>
 EOF_TOOLFILE
 
 cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4core.xml
 <tool name="geant4core" version="@TOOL_VERSION@">
-  <info url="http://geant4.web.cern.ch/geant4/"/>
+  <info url="http://wwwinfo.cern.ch/asd/geant4/geant4.html"/>
   <lib name="G4digits_hits"/>
   <lib name="G4error_propagation"/>
   <lib name="G4event"/>
@@ -35,21 +34,20 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4core.xml
   <lib name="G4run"/>
   <lib name="G4tracking"/>
   <lib name="G4track"/>
-  <lib name="G4analysis"/>
   <client>
     <environment name="GEANT4CORE_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$GEANT4CORE_BASE/lib"/>
     <environment name="G4LIB" value="$LIBDIR"/>
     <environment name="INCLUDE" default="$GEANT4CORE_BASE/include"/>
   </client>
-  <flags cppdefines="GNU_GCC G4V9"/>
+  <flags cppdefines="G4USE_STD_NAMESPACE GNU_GCC G4V9"/>
   <use name="clhep"/>
 </tool>
 EOF_TOOLFILE
 
 cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4vis.xml
 <tool name="geant4vis" version="@TOOL_VERSION@">
-  <info url="http://geant4.web.cern.ch/geant4/"/>
+  <info url="http://wwwinfo.cern.ch/asd/geant4/geant4.html"/>
   <lib name="G4FR"/>
   <lib name="G4modeling"/>
   <lib name="G4RayTracer"/>
@@ -58,8 +56,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4vis.xml
   <lib name="G4vis_management"/>
   <lib name="G4visXXX"/>
   <lib name="G4VRML"/>
-  <lib name="G4GMocren"/>
-  <lib name="G4zlib"/>
   <use name="geant4core"/>
 </tool>
 EOF_TOOLFILE

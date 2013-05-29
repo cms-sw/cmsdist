@@ -1,10 +1,9 @@
-### RPM external frontier_client 2.8.6
+### RPM external frontier_client 2.8.5
 Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
 Requires: expat
 Requires: openssl
-Requires: pacparser
 %if "%online" != "true"
 Requires: zlib
 %else
@@ -21,9 +20,9 @@ Patch0: frontier_client-2.8.5-fix-gcc47
 %setup -n %{n}__%{realversion}__src
 
 %if "%online" != "true"
-%define makeargs "EXPAT_DIR=${EXPAT_ROOT} PACPARSER_DIR=${PACPARSER_ROOT} COMPILER_TAG=gcc_%{gccver} ZLIB_DIR=${ZLIB_ROOT}  OPENSSL_DIR=${OPENSSL_ROOT}"
+%define makeargs "EXPAT_DIR=$EXPAT_ROOT COMPILER_TAG=gcc_%{gccver} ZLIB_DIR=$ZLIB_ROOT  OPENSSL_DIR=$OPENSSL_ROOT"
 %else
-%define makeargs "EXPAT_DIR=${EXPAT_ROOT} PACPARSER_DIR=${PACPARSER_ROOT} COMPILER_TAG=gcc_%{gccver}"
+%define makeargs "EXPAT_DIR=$EXPAT_ROOT COMPILER_TAG=gcc_%{gccver}"
 %endif
 
 %patch0 -p1
@@ -31,13 +30,13 @@ Patch0: frontier_client-2.8.5-fix-gcc47
 %build
 
 export MAKE_ARGS=%{makeargs}
-make $MAKE_ARGS CXXFLAGS="%cms_cxxflags -ldl"
+make $MAKE_ARGS CXXFLAGS="%cms_cxxflags"
 
 %install
 mkdir -p %i/lib
 mkdir -p %i/include
 export MAKE_ARGS=%{makeargs}
-make $MAKE_ARGS CXXFLAGS="%cms_cxxflags -ldl" distdir=%i dist
+make $MAKE_ARGS distdir=%i dist
 
 case $(uname) in 
   Darwin ) 

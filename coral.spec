@@ -2,7 +2,6 @@
 Requires: coral-tool-conf
 Patch0: coral-2_3_20-macosx
 Patch1: coral-2_3_21-slc6
-Patch2: coral-CORAL_2_3_20-boost150-fix
 Patch3: coral-CORAL_2_3_20-hide-strict-aliasing
 Patch4: coral-CORAL_2_3_20-remove-lost-dependencies
 Patch5: coral-CORAL_2_3_21-move-to-libuuid
@@ -27,7 +26,6 @@ Patch5: coral-CORAL_2_3_21-move-to-libuuid
 
 %define patchsrc5       %patch5 -p0
 %define patchsrc6       %patch1 -p0
-%define patchsrc7       %patch2 -p0
 %define patchsrc8       %patch3 -p0
 %define patchsrc9       %patch4 -p0
 

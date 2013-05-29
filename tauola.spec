@@ -1,5 +1,5 @@
 ### RPM external tauola 27.121.5
-Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
+Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz?date=20110831
 Patch1: tauola-27.121.5-gfortran-taueta
 Patch2: tauola-27.121-gfortran-tauola-srs
 Patch3: tauola-27.121.5-macosx

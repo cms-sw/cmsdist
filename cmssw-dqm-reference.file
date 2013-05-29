@@ -1,7 +1,14 @@
 ## NOCOMPILER
-BuildRequires: cmssw
 BuildRequires: local-cern-siteconf
 Source: none
+
+%if "%(case %realversion in (*_*patch*) echo true ;; (*) echo false ;; esac)" == "true"
+BuildRequires: cmssw-patch
+%define ToolBase CMSSW_PATCH
+%else
+BuildRequires: cmssw
+%define ToolBase CMSSW
+%endif
 
 %if "%{?events:set}" != "set"
 %define events       200
@@ -20,7 +27,7 @@ Source: none
 
 %prep
 %build
-cmssw_ver=`echo $CMSSW_VERSION | sed 's|-cms\d*$||'`
+cmssw_ver=`echo $%{ToolBase}_VERSION | sed 's|-cms\d*$||'`
 if [ "$cmssw_ver" != "%{realversion}" ] ; then
   echo "ERROR: %n version %realversion does not match with cmssw version $cmssw_ver"
   echo "       Please update %n.spec file and use $cmssw_ver as its version"
@@ -29,7 +36,7 @@ fi
 
 source %{cmsroot}/cmsset_default.sh
 CMS_PATH=$LOCAL_CERN_SITECONF_ROOT; export CMS_PATH
-cd $CMSSW_ROOT
+cd $%{ToolBase}_ROOT
 eval `scram run -sh`
 
 cd %_builddir

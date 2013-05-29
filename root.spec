@@ -1,20 +1,31 @@
-### RPM lcg root 5.34.07
+### RPM lcg root 5.32.00
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i  
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
-%define tag %(echo v%{realversion} | tr . -)
-%define branch %(echo %{realversion} | sed 's/\\.[0-9]*$/.00/;s/^/v/;s/$/-patches/g;s/\\./-/g')
-Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+%define svntag %(echo %realversion | tr . -)
+Source: svn://root.cern.ch/svn/root/tags/v%{svntag}/?scheme=http&strategy=export&module=%n-%{realversion}&output=/%n-%{realversion}.tgz
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 %define ismac %(case %cmsplatf in (osx*) echo true;; (*) echo false;; esac)
 
-Patch0: root-5.34.02-externals
+Patch0: root-5.32-00-externals
 Patch1: root-5.28-00d-roofit-silence-static-printout
-Patch2: root-5.34.00-linker-gnu-hash-style
+Patch2: root-5.32-00-linker-gnu-hash-style
 Patch3: root-5.32.00-detect-arch
 Patch4: root-5.30.02-fix-gcc46
 Patch5: root-5.30.02-fix-isnan-again
 
+# See https://hypernews.cern.ch/HyperNews/CMS/get/edmFramework/2913/1/1.html
+Patch6: root-5.32.00-fix-oneline
+Patch7: root-5.32.00-longBranchName
+Patch8: root-5.32.00-fireworks1
+Patch9: root-5.32.00-noungif
+Patch10: root-5.32.00-fix-cxx11
+Patch11: root-5.32.00-gcc-470-literals-whitespace
+Patch12: root-5.32.00-TTree-fix
+Patch13: root-5.32.00-r44642
+Patch14: root-5.32.00-fireworks2
+Patch15: root-5.32.00-r44281
+ 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
 Requires: gccxml gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl
@@ -43,6 +54,23 @@ Requires: freetype
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
+%patch7 -p2
+%patch8 -p1
+%patch9 -p1
+
+
+# Apply C++11 / gcc 4.7.x fixes only if using a 47x architecture.
+# See http://gcc.gnu.org/gcc-4.7/porting_to.html
+case %cmsplatf in
+  *gcc4[789]*)
+%patch10 -p1
+%patch11 -p1
+  ;;
+esac
+%patch12 -p0
+%patch13 -p0
+%patch14 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
@@ -51,6 +79,7 @@ case %cmsplatf in
 %patch2 -p1
   ;;
 esac
+%patch15 -p0
 
 # Delete these (irrelevant) files as the fits appear to confuse rpm on OSX
 # (It tries to run install_name_tool on them.)
@@ -103,7 +132,6 @@ CONFIG_ARGS="--enable-table
              --with-dcap-incdir=${DCAP_ROOT}/include
              --disable-pgsql
              --disable-mysql
-             --enable-c++11
              --with-cxx=g++
              --with-cc=gcc
              --with-ld=g++

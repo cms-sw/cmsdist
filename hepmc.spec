@@ -1,7 +1,6 @@
 ### RPM external hepmc 2.06.07
 Source: http://lcgapp.cern.ch/project/simu/HepMC/download/HepMC-%realversion.tar.gz
 Patch0: hepmc-2.03.06-reflex
-Patch1: hepmc-2.06.07-WeightContainer-fix-size_type
 Requires: autotools
 
 %define keep_archives true
@@ -21,7 +20,6 @@ Requires: gfortran-macosx
 %prep
 %setup -q -n HepMC-%{realversion}
 %patch0 -p0
-%patch1 -p1
 
 case %cmsplatf in
   slc5_*_gcc4[01234]*) 

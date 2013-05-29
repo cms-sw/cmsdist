@@ -1,4 +1,4 @@
-### RPM external python 2.7.3
+### RPM external python 2.6.4
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 ## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib/python%{python_major_version}/site-packages
@@ -17,10 +17,8 @@ Requires: zlib sqlite readline
 # FIXME: gmp, panel, tk/tcl, x11
 
 Source0: http://www.python.org/ftp/%n/%realversion/Python-%realversion.tgz
-Patch0: python-2.7.3-dont-detect-dbm
-Patch1: python-fix-macosx-relocation
-Patch2: python-2.7.3-fix-pyport
-Patch3: python-2.7.3-ssl-fragment
+Patch0: python-2.6.4-dont-detect-dbm
+Patch1: python-2.6.4-fix-macosx-relocation
 
 %prep
 %setup -n Python-%realversion
@@ -30,13 +28,7 @@ find . -type f | while read f; do
   else :; fi
 done
 %patch0 -p1
-%patch1 -p0
-
-%ifos darwin
-%patch2 -p1
-%endif
-
-%patch3 -p1
+%patch1 -p1
 
 %build
 # Python is awkward about passing other include or library directories
@@ -54,12 +46,12 @@ done
 mkdir -p %i/include %i/lib %i/bin
 
 %if "%online" != "true"
-%define extradirs ${ZLIB_ROOT} ${SQLITE_ROOT} ${READLINE_ROOT}
+%define extradirs $ZLIB_ROOT $SQLITE_ROOT $READLINE_ROOT
 %else
 %define extradirs %{nil}
 %endif
 
-dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB4_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} %{extradirs}" 
+dirs="$EXPAT_ROOT $BZ2LIB_ROOT $DB4_ROOT $GDBM_ROOT %{extradirs}" 
 
 # We need to export it because setup.py now uses it to determine the actual
 # location of DB4, this was needed to avoid having it picked up from the system.
@@ -88,7 +80,7 @@ sed -ibak "s/ndbm_libs = \[\]/ndbm_libs = ['gdbm', 'gdbm_compat']/" setup.py
 # macros on Linux. The following problem does not exists on BSD machines as
 # cdefs.h does not define these macros.
 case %cmsplatf in
-  slc6*|fc*)
+  slc6*)
     rm -f cms_configtest.cpp
     cat <<CMS_EOF > cms_configtest.cpp
 #include <features.h>
@@ -109,10 +101,6 @@ CMS_EOF
     sed -ibak "s/\(#define _XOPEN_SOURCE \)\(.*\)/\1${XOPEN_SOURCE}/g" pyconfig.h
   ;;
 esac
-
-# Modify pyconfig.h to disable GCC format attribute as it is used incorrectly.
-# Triggers an error if -Werror=format is used with GNU GCC 4.8.0+.
-sed -ibak "s/\(#define HAVE_ATTRIBUTE_FORMAT_PARSETUPLE .*\)/\/* \1 *\//g" pyconfig.h
 
 make %makeprocesses
 
@@ -144,12 +132,16 @@ case %cmsplatf in
   ;;
 esac
 
- perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
-                     %{i}/bin/pydoc \
-                     %{i}/bin/python-config \
-                     %{i}/bin/2to3 \
-                     %{i}/bin/python2.7-config \
-                     %{i}/bin/smtpd.py
+perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
+                    %{i}/bin/pydoc \
+                    %{i}/bin/python-config \
+                    %{i}/bin/2to3 \
+                    %{i}/bin/python2.6-config \
+                    %{i}/bin/smtpd.py \
+                    %{i}/lib/python2.6/bsddb/dbshelve.py \
+                    %{i}/lib/python2.6/test/test_bz2.py \
+                    %{i}/lib/python2.6/test/test_largefile.py \
+                    %{i}/lib/python2.6/test/test_optparse.py
 
 find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
 find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
@@ -190,5 +182,5 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
 done
 
 %post
-%{relocateConfig}lib/python2.7/config/Makefile
+%{relocateConfig}lib/python%{python_major_version}/config/Makefile
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
