@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 25.6
+### RPM cms cmssw-tool-conf 25.7
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -106,6 +106,7 @@ Requires: py2-ipython-toolfile
 Requires: xz-toolfile
 Requires: protobuf-toolfile
 Requires: llvm-gcc-toolfile
+Requires: cvs2git-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
