@@ -1,4 +1,4 @@
-### RPM cms dbs-client DBS_2_1_1_patch1_1
+### RPM cms dbs-client DBS_2_1_9
 ## INITENV +PATH PYTHONPATH %i/lib/
 ## INITENV +PATH PYTHONPATH %i/bin/
 ## INITENV +PATH PYTHONPATH %{i}/lib/
@@ -7,22 +7,21 @@
 ## INITENV SET DBSCMD_HOME %{i}/lib/DBSAPI
 
 %define cvstag %{realversion}
-%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
+%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e
 Source: %cvsserver&strategy=checkout&module=DBS/Clients/Python&nocache=true&export=DBS&tag=-r%{cvstag}&output=/dbs-client.tar.gz
 Requires: python openssl py2-zsi py2-pyxml
-
 
 %prep
 %setup -n DBS
 %build
-(make DBSHOME=%_builddir/DBS/Clients/Python )
-
 %install
 mkdir -p %{i}/bin
 mkdir -p %{i}/lib
 mkdir -p %{i}/etc/profile.d
 cp -r Clients/Python/* %{i}/lib/
 mv %{i}/lib/bin/* %{i}/bin/
+find %i -depth -type d -name CVS -exec rm -fr {} \;
+python -m compileall %i/lib
 
 #cp -r Clients/Python/DBSAPI/dbsCommandLine.py %{i}/bin/dbs
 #chmod a+x %{i}/bin/dbs
@@ -60,7 +59,3 @@ EOF_TOOLFILE
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
 %{relocateConfig}etc/scram.d/%n.xml
-
-# hack init.csh to get around bug in current version of PKGTOOLS
-# will have no effect with the bug fixed verion
-perl -p -i -e 's|\. |source |' $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
