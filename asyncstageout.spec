@@ -1,14 +1,14 @@
-### RPM cms asyncstageout 0.1.5pre1
+### RPM cms asyncstageout 1.0.0pre4
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
-%define wmcver 0.9.25
+%define wmcver 0.9.69
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{wmcver}.tar.gz
 
 Source1: git://github.com/dmwm/AsyncStageout.git?obj=master/%{realversion}&export=AsyncStageout-%{realversion}&output=/AsyncStageout-%{realversion}.tar.gz
-Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 rotatelogs pystack py2-sphinx dbs-client couchdb py2-pycurl couchskel
+Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 rotatelogs pystack py2-sphinx dbs-client couchdb py2-pycurl couchskel stomppy
 
 Patch0: asyncstageout-setup
 
