@@ -1,0 +1,299 @@
+diff --git a/Matrix/Matrix/DiagMatrix.icc b/Matrix/Matrix/DiagMatrix.icc
+index 2c1fd7a..6b8b87c 100755
+--- a/Matrix/Matrix/DiagMatrix.icc
++++ b/Matrix/Matrix/DiagMatrix.icc
+@@ -41,10 +41,6 @@ inline HepDiagMatrix::HepDiagMatrix()
+    : m(0), nrow(0)
+ {}
+ 
+-inline int HepDiagMatrix::num_row() const { return nrow;}
+-inline int HepDiagMatrix::num_col() const  { return nrow;}
+-inline int HepDiagMatrix::num_size() const  { return nrow;}
+-
+ inline double & HepDiagMatrix::fast(int row,int col)
+ {
+ #ifdef MATRIX_BOUND_CHECK
+@@ -76,15 +72,6 @@ inline const double & HepDiagMatrix::fast(int row,int col) const
+   }
+ }
+ 
+-inline double & HepDiagMatrix::operator()(int row, int col)
+-{
+-   return fast(col,row);
+-}
+-
+-inline const double & HepDiagMatrix::operator()(int row, int col) const 
+-{ 
+-   return fast(col,row);
+-}
+ 
+ inline void HepDiagMatrix::assign(const HepDiagMatrix &m2) {(*this)=m2;}
+ 
+diff --git a/Matrix/Matrix/GenMatrix.h b/Matrix/Matrix/GenMatrix.h
+index 777fbda..3712ddd 100755
+--- a/Matrix/Matrix/GenMatrix.h
++++ b/Matrix/Matrix/GenMatrix.h
+@@ -66,7 +66,7 @@ class HepGenMatrix;
+ class HepGenMatrix {
+  
+ public:
+-   virtual ~HepGenMatrix() {}
++   virtual ~HepGenMatrix();
+ 
+ 
+ #ifdef DISABLE_ALLOC   // disable this non-compliant allocator
+diff --git a/Matrix/Matrix/Matrix.icc b/Matrix/Matrix/Matrix.icc
+index 62b618b..2f2b01f 100755
+--- a/Matrix/Matrix/Matrix.icc
++++ b/Matrix/Matrix/Matrix.icc
+@@ -43,29 +43,6 @@ namespace CLHEP {
+ inline HepMatrix::HepMatrix()
+   : m(0), nrow(0), ncol(0), size(0) {}
+ 
+-inline int HepMatrix::num_row() const { return nrow;}
+-
+-inline int HepMatrix::num_col() const  { return ncol;}
+-
+-inline int HepMatrix::num_size() const { return size;}
+-
+-inline double & HepMatrix::operator()(int row, int col)
+-{
+-#ifdef MATRIX_BOUND_CHECK
+-  if(row<1 || row>num_row() || col<1 || col>num_col())
+-    error("Range error in HepMatrix::operator()");
+-#endif
+-  return *(m.begin()+(row-1)*ncol+col-1);
+-}
+-
+-inline const double & HepMatrix::operator()(int row, int col) const 
+-{
+-#ifdef MATRIX_BOUND_CHECK
+-  if(row<1 || row>num_row() || col<1 || col>num_col())
+-    error("Range error in HepMatrix::operator()");
+-#endif
+-  return *(m.begin()+(row-1)*ncol+col-1);
+-}
+ 
+ inline HepMatrix::HepMatrix_row HepMatrix::operator[] (int r)
+ #ifdef HEP_GNU_OPTIMIZED_RETURN
+diff --git a/Matrix/Matrix/SymMatrix.icc b/Matrix/Matrix/SymMatrix.icc
+index 51242bb..7896fbb 100755
+--- a/Matrix/Matrix/SymMatrix.icc
++++ b/Matrix/Matrix/SymMatrix.icc
+@@ -44,9 +44,6 @@ inline HepSymMatrix::HepSymMatrix()
+   : m(0), nrow(0), size(0)
+ {}
+ 
+-inline int HepSymMatrix::num_row() const { return nrow;}
+-inline int HepSymMatrix::num_col() const  { return nrow;}
+-inline int HepSymMatrix::num_size() const  { return size;}
+ 
+ inline double & HepSymMatrix::fast(int row,int col)
+ {
+@@ -65,11 +62,6 @@ inline const double & HepSymMatrix::fast(int row,int col) const
+   return *(m.begin()+(row*(row-1))/2+(col-1));
+ }
+ 
+-inline double & HepSymMatrix::operator()(int row, int col)
+-    {return (row>=col? fast(row,col) : fast(col,row));}
+-inline const double & HepSymMatrix::operator()(int row, int col) const 
+-    {return (row>=col? fast(row,col) : fast(col,row));}
+-
+ inline void HepSymMatrix::assign(const HepSymMatrix &m2) 
+   {(*this)=m2;}
+ 
+diff --git a/Matrix/Matrix/Vector.icc b/Matrix/Matrix/Vector.icc
+index 85d496d..41da576 100755
+--- a/Matrix/Matrix/Vector.icc
++++ b/Matrix/Matrix/Vector.icc
+@@ -52,9 +52,6 @@ inline HepVector::HepVector()
+ 
+ inline double HepVector::normsq() const {return dot((*this),(*this));}
+ inline double HepVector::norm() const {return sqrt(normsq());}
+-inline int HepVector::num_row() const {return nrow;} 
+-inline int HepVector::num_size() const {return nrow;} 
+-inline int HepVector::num_col() const { return 1; }
+ 
+ inline double & HepVector::operator()(int row)
+ {
+@@ -93,31 +90,6 @@ inline const double & HepVector::operator[](int row) const
+   return *(m.begin()+row);
+ }
+ 
+-#ifdef MATRIX_BOUND_CHECK
+-inline double & HepVector::operator()(int row, int col)
+-{
+-  if( col!=1 || row<1 || row>nrow)
+-     error("Range error in HepVector::operator(i,j)");
+-#else
+-inline double & HepVector::operator()(int row, int)
+-{
+-#endif
+-
+-  return *(m.begin()+(row-1));
+-}
+-
+-#ifdef MATRIX_BOUND_CHECK
+-inline const double & HepVector::operator()(int row, int col) const 
+-{
+-  if( col!=1 || row<1 || row>nrow)
+-     error("Range error in HepVector::operator(i,j)");
+-#else
+-inline const double & HepVector::operator()(int row, int) const 
+-{
+-#endif
+-
+-  return *(m.begin()+(row-1));
+-}
+ 
+ }  // namespace CLHEP
+ 
+diff --git a/Matrix/src/DiagMatrix.cc b/Matrix/src/DiagMatrix.cc
+index ba93f03..e3a897f 100755
+--- a/Matrix/src/DiagMatrix.cc
++++ b/Matrix/src/DiagMatrix.cc
+@@ -55,6 +55,20 @@
+ 
+ namespace CLHEP {
+ 
++int HepDiagMatrix::num_row() const { return nrow;}
++int HepDiagMatrix::num_col() const  { return nrow;}
++int HepDiagMatrix::num_size() const  { return nrow;}
++
++double & HepDiagMatrix::operator()(int row, int col)
++{
++   return fast(col,row);
++}
++
++const double & HepDiagMatrix::operator()(int row, int col) const 
++{ 
++   return fast(col,row);
++}
++
+ // Simple operation for all elements
+ 
+ #define SIMPLE_UOP(OPER)          \
+diff --git a/Matrix/src/GenMatrix.cc b/Matrix/src/GenMatrix.cc
+index bfbd1e6..f15be3a 100755
+--- a/Matrix/src/GenMatrix.cc
++++ b/Matrix/src/GenMatrix.cc
+@@ -56,6 +56,9 @@
+ 
+ namespace CLHEP {
+ 
++HepGenMatrix::~HepGenMatrix()
++{}
++
+ #ifdef HEP_THIS_FUNCTION_IS_NOT_NEEDED
+ static void delete_array(double *m)
+ {
+diff --git a/Matrix/src/Matrix.cc b/Matrix/src/Matrix.cc
+index 085eec5..8304372 100755
+--- a/Matrix/src/Matrix.cc
++++ b/Matrix/src/Matrix.cc
+@@ -56,6 +56,29 @@
+ #endif
+ 
+ namespace CLHEP {
++int HepMatrix::num_row() const { return nrow;}
++
++int HepMatrix::num_col() const  { return ncol;}
++
++int HepMatrix::num_size() const { return size;}
++
++double & HepMatrix::operator()(int row, int col)
++{
++#ifdef MATRIX_BOUND_CHECK
++  if(row<1 || row>num_row() || col<1 || col>num_col())
++    error("Range error in HepMatrix::operator()");
++#endif
++  return *(m.begin()+(row-1)*ncol+col-1);
++}
++
++const double & HepMatrix::operator()(int row, int col) const 
++{
++#ifdef MATRIX_BOUND_CHECK
++  if(row<1 || row>num_row() || col<1 || col>num_col())
++    error("Range error in HepMatrix::operator()");
++#endif
++  return *(m.begin()+(row-1)*ncol+col-1);
++}
+ 
+ // Simple operation for all elements
+ 
+diff --git a/Matrix/src/SymMatrix.cc b/Matrix/src/SymMatrix.cc
+index 8d41bd2..131933f 100755
+--- a/Matrix/src/SymMatrix.cc
++++ b/Matrix/src/SymMatrix.cc
+@@ -55,6 +55,15 @@
+ 
+ namespace CLHEP {
+ 
++int HepSymMatrix::num_row() const { return nrow;}
++int HepSymMatrix::num_col() const  { return nrow;}
++int HepSymMatrix::num_size() const  { return size;}
++
++double & HepSymMatrix::operator()(int row, int col)
++    {return (row>=col? fast(row,col) : fast(col,row));}
++const double & HepSymMatrix::operator()(int row, int col) const 
++    {return (row>=col? fast(row,col) : fast(col,row));}
++
+ // Simple operation for all elements
+ 
+ #define SIMPLE_UOP(OPER)          \
+diff --git a/Matrix/src/Vector.cc b/Matrix/src/Vector.cc
+index 38f4551..1425980 100755
+--- a/Matrix/src/Vector.cc
++++ b/Matrix/src/Vector.cc
+@@ -52,6 +52,36 @@
+ 
+ namespace CLHEP {
+ 
++int HepVector::num_row() const {return nrow;} 
++int HepVector::num_size() const {return nrow;} 
++int HepVector::num_col() const { return 1; }
++
++#ifdef MATRIX_BOUND_CHECK
++inline double & HepVector::operator()(int row, int col)
++{
++  if( col!=1 || row<1 || row>nrow)
++     error("Range error in HepVector::operator(i,j)");
++#else
++inline double & HepVector::operator()(int row, int)
++{
++#endif
++
++  return *(m.begin()+(row-1));
++}
++
++#ifdef MATRIX_BOUND_CHECK
++inline const double & HepVector::operator()(int row, int col) const 
++{
++  if( col!=1 || row<1 || row>nrow)
++     error("Range error in HepVector::operator(i,j)");
++#else
++inline const double & HepVector::operator()(int row, int) const 
++{
++#endif
++
++  return *(m.begin()+(row-1));
++}
++
+ // Simple operation for all elements
+ 
+ #define SIMPLE_UOP(OPER)          \
+diff --git a/Matrix/Matrix/SymMatrix.h b/Matrix/Matrix/SymMatrix.h
+index 14c00a5..f3fbc9a 100755
+--- a/Matrix/Matrix/SymMatrix.h
++++ b/Matrix/Matrix/SymMatrix.h
+@@ -148,8 +148,8 @@ public:
+    virtual ~HepSymMatrix();
+    // Destructor.
+ 
+-   inline int num_row() const;
+-   inline int num_col() const;
++   int num_row() const;
++   int num_col() const;
+    // Returns number of rows/columns.
+ 
+    const double & operator()(int row, int col) const; 
