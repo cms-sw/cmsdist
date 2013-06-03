@@ -1,12 +1,15 @@
 ### RPM external py2-python-dateutil 1.1 
-%define pythonv %(echo $PYTHON_VERSION | cut -f1,2 -d.)
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
-Source: http://labix.org/download/python-dateutil/python-dateutil-%{v}.tar.bz2 
+Source: http://labix.org/download/python-dateutil/python-dateutil-%{realversion}.tar.bz2 
 Requires: python
 
 %prep
-%setup -n python-dateutil-%{v} 
+%setup -n python-dateutil-%{realversion} 
+
 %build
+python setup.py build
+
 %install
 python setup.py install --prefix=%i
+find %i -name '*.egg-info' -exec rm {} \;
