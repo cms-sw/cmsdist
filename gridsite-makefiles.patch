@@ -1,0 +1,132 @@
+--- lib/Makefile.orig	2004-01-22 00:56:26.000000000 -0800
++++ lib/Makefile	2004-01-22 02:48:06.000000000 -0800
+@@ -34,9 +34,9 @@
+ 
+ include ../VERSION
+ 
+-RPMCMD=$(shell if [ -x /usr/bin/rpmbuild ] ; then echo /usr/bin/rpmbuild; else echo rpm; fi)
++RPMCMD=$(which rpmbuild)
+  
+-all: libgridsite.a libgridsite.so.$(PATCH_VERSION) urlencode apidoc htcp
++all: libgridsite.a libgridsite.so.$(PATCH_VERSION) 
+ 
+ libgridsite.so.$(VERSION): grst_x509.o grst_gacl.o grst_http.o
+ 	gcc -shared -Wl,-soname,libgridsite.so.$(MINOR_VERSION) \
+@@ -46,50 +46,55 @@
+ 	ar src libgridsite.a grst_x509.o grst_gacl.o grst_http.o
+ 
+ grst_x509.o: grst_x509.c gridsite.h
+-	gcc $(MYCFLAGS) -I../lib -I/usr/include/openssl \
+-            -I/usr/kerberos/include -c grst_x509.c
++	gcc $(MYCFLAGS) -I../lib -I$(prefix)/include/openssl -I$(prefix)/include \
++            -I$(prefix)/kerberos/include -c grst_x509.c
+ 
+ grst_gacl.o: grst_gacl.c gridsite.h
+-	gcc $(MYCFLAGS) -I../lib -I/usr/include/openssl \
+-            -I/usr/kerberos/include `xml2-config --cflags` -c grst_gacl.c
++	gcc $(MYCFLAGS) -I../lib -I$(prefix)/include/openssl -I$(prefix)/include \
++            -I$(prefix)/kerberos/include `xml2-config --cflags` -c grst_gacl.c
+ 
+ grst_http.o: grst_http.c gridsite.h
+-	gcc $(MYCFLAGS) -I../lib -I/usr/include/openssl \
+-                        -I/usr/kerberos/include -c grst_http.c
++	gcc $(MYCFLAGS) -I../lib -I$(prefix)/include/openssl -I$(prefix)/include \
++                        -I$(prefix)/kerberos/include -c grst_http.c
+ 
+ urlencode: urlencode.c libgridsite.a
+ 	gcc -DVERSION=\"$(PATCH_VERSION)\" \
+             -o urlencode urlencode.c -L. -I../lib \
+-            -I/usr/include/openssl -I/usr/kerberos/include -lgridsite
++            -I$(prefix)/include/openssl -I$(prefix)/include -I$(prefix)/kerberos/include -lgridsite
+ 
+ htcp: htcp.c
+ 	gcc -DVERSION=\"$(PATCH_VERSION)\" -I. -o htcp htcp.c \
+           `curl-config --cflags` `curl-config --libs` 
+ 
++install_all:
++	cp -f doxygen/index.html \
++              $(install_prefix)/share/doc/gridsite-$(PATCH_VERSION)/doxygen-index.html
++	cp -f doxygen/* $(install_prefix)/share/doc/gridsite-$(PATCH_VERSION)
++	cp -f htcp $(install_prefix)/bin
++	ln -sf htcp $(install_prefix)/bin/htls
++	ln -sf htcp $(install_prefix)/bin/htll
++	ln -sf htcp $(install_prefix)/bin/htrm
++	ln -sf htcp $(install_prefix)/bin/htmkdir
++
+ install:
+-	mkdir -p $(prefix)/include \
+-                 $(prefix)/lib \
+-                 $(prefix)/bin \
+-                 $(prefix)/share/doc/gridsite-$(PATCH_VERSION)
+-	cp -f gridsite.h $(prefix)/include
+-	cp -f gridsite-gacl.h $(prefix)/include
+-	cp -f urlencode $(prefix)/bin
+-	cp -f libgridsite.a $(prefix)/lib
+-	cp -f  libgridsite.so.$(PATCH_VERSION) $(prefix)/lib
++	mkdir -p $(install_prefix)/include \
++                 $(install_prefix)/lib \
++                 $(install_prefix)/bin \
++                 $(install_prefix)/share/doc/gridsite-$(PATCH_VERSION)
++	cp -f gridsite.h $(install_prefix)/include
++	cp -f gridsite-gacl.h $(install_prefix)/include
++	cp -f urlencode $(install_prefix)/bin
++	cp -f libgridsite.a $(install_prefix)/lib
++	cp -f  libgridsite.so.$(PATCH_VERSION) $(install_prefix)/lib
++	BDIR=`pwd`
++	cd $(install_prefix)/lib
+ 	ln -sf libgridsite.so.$(PATCH_VERSION) \
+-                                 $(prefix)/lib/libgridsite.so
++                                 libgridsite.so
+ 	ln -sf libgridsite.so.$(PATCH_VERSION) \
+-                                 $(prefix)/lib/libgridsite.so.$(MAJOR_VERSION)
++                                 libgridsite.so.$(MAJOR_VERSION)
+ 	ln -sf libgridsite.so.$(PATCH_VERSION) \
+-                                 $(prefix)/lib/libgridsite.so.$(MINOR_VERSION)
+-	cp -f doxygen/index.html \
+-              $(prefix)/share/doc/gridsite-$(PATCH_VERSION)/doxygen-index.html
+-	cp -f doxygen/* $(prefix)/share/doc/gridsite-$(PATCH_VERSION)
+-	cp -f htcp $(prefix)/bin
+-	ln -sf htcp $(prefix)/bin/htls
+-	ln -sf htcp $(prefix)/bin/htll
+-	ln -sf htcp $(prefix)/bin/htrm
+-	ln -sf htcp $(prefix)/bin/htmkdir
++                                 libgridsite.so.$(MINOR_VERSION)
++	cd $BDIR
+ 
+ dist:
+ 	mkdir -p ../gridsite-$(PATCH_VERSION)/lib
+@@ -107,6 +112,6 @@
+ 
+ gaclexample: gaclexample.c libgridsite.a
+ 	gcc -o gaclexample gaclexample.c -I. -L. \
+-            -I/usr/include/openssl -I/usr/kerberos/include -lgridsite \
++            -I$(prefix)/include/openssl -I$(prefix)/include -I$(prefix)/kerberos/include -lgridsite \
+             -lxml2 -lz -lm 
+ 
+--- mod/Makefile.orig	2004-01-22 01:05:02.000000000 -0800
++++ mod/Makefile	2004-01-22 02:48:35.000000000 -0800
+@@ -34,18 +34,19 @@
+ 
+ include ../VERSION
+ 
+-RPMCMD=$(shell if [ -x /usr/bin/rpmbuild ] ; then echo /usr/bin/rpmbuild; else echo rpm; fi)
++RPMCMD=$(shell which rpmbuild )
+  
+ mod_gridsite.so: mod_gridsite.c
+ 	gcc $(MYCFLAGS) -I../lib -shared -Wl,-soname=gridsite_module \
+-           -I/usr/include/openssl -I/usr/kerberos/include \
++           -I$(prefix)/include/openssl -I$(prefix)/kerberos/include \
++           -I$(prefix)/include/apache2 -I$(prefix)/include -L../lib\
+            -DVERSION=\"$(VERSION)\" -o mod_gridsite.so \
+            mod_gridsite.c $(MYLDFLAGS) -lxml2 -lm -lz -lgridsite
+ 
+ install:
+-	mkdir -p $(prefix)/lib/httpd/modules \
+-                 $(prefix)/share/doc/gridsite-$(VERSION)
+-	cp -f mod_gridsite.so $(prefix)/lib/httpd/modules
++	mkdir -p $(install_prefix)/libexec/apache2 \
++                 $(install_prefix)/share/doc/gridsite-$(VERSION)
++	cp -f mod_gridsite.so $(install_prefix)/libexec/apache2
+ 
+ dist: 
+ 	mkdir -p ../gridsite-$(VERSION)/mod

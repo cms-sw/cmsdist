@@ -1,0 +1,529 @@
+diff -Naur orig.src/CoralBase/CoralBase/AttributeSpecification.h src/CoralBase/CoralBase/AttributeSpecification.h
+--- orig.src/CoralBase/CoralBase/AttributeSpecification.h	2005-12-01 10:08:09.000000000 +0100
++++ src/CoralBase/CoralBase/AttributeSpecification.h	2008-11-25 17:21:27.000000000 +0100
+@@ -4,6 +4,20 @@
+ #include <typeinfo>
+ #include <string>
+ 
++/// List of supported Attribute types. This is the core of the Attribute type operations.
++/// Code generators take it as input, and generate code for each tpye in several places.
++#define CORALBASE_ATTRIBUTE_TYPELIST_1 (bool)(char)(unsigned char)(short)\
++	(unsigned short)(int)(unsigned int)(long)(unsigned long)
++
++#define CORALBASE_ATTRIBUTE_TYPELIST_2 (long long)(unsigned long long)\
++	(float)(double)(long double)(std::string)(coral::Blob)(coral::Date)(coral::TimeStamp)
++
++/// We need two list, as due to compiler limitations, a type list length cannot exceed
++/// a limit (normally it is 17).
++#define CORALBASE_ATTRIBUTE_TYPELIST \
++	CORALBASE_ATTRIBUTE_TYPELIST_1 \
++	CORALBASE_ATTRIBUTE_TYPELIST_2
++
+ namespace coral {
+ 
+   /**
+@@ -99,7 +113,7 @@
+   {}
+ 
+ 
+-  inline 
++  inline
+   AttributeSpecification::AttributeSpecification( const AttributeSpecification& rhs ):
+     m_name( rhs.m_name ),
+     m_type( rhs.m_type )
+@@ -120,14 +134,14 @@
+   {
+     return m_name;
+   }
+-  
++
+ 
+   inline const std::type_info&
+   AttributeSpecification::type() const
+   {
+     return *m_type;
+   }
+-  
++
+ 
+   inline std::string
+   AttributeSpecification::typeName() const
+@@ -142,7 +156,7 @@
+     return ( this->m_name == rhs.m_name &&
+              *( this->m_type ) == *( rhs.m_type ) );
+   }
+-  
++
+   inline bool
+   AttributeSpecification::operator!=( const AttributeSpecification& rhs ) const
+   {
+diff -Naur orig.src/CoralBase/tests/BlobReadWrite/blobReadWrite.cpp src/CoralBase/tests/BlobReadWrite/blobReadWrite.cpp
+--- orig.src/CoralBase/tests/BlobReadWrite/blobReadWrite.cpp	2008-01-16 17:13:26.000000000 +0100
++++ src/CoralBase/tests/BlobReadWrite/blobReadWrite.cpp	2008-11-25 17:21:27.000000000 +0100
+@@ -7,9 +7,9 @@
+ {
+   try {
+     coral::Blob blob1;
+-    
++
+     coral::Blob blob1cp( blob1 );
+-    
++
+     coral::Blob blob1cpasgn = blob1;
+ 
+     blob1cp = blob1cpasgn;
+@@ -29,7 +29,7 @@
+     int extraElements = 512;
+     blob1.extend( extraElements * sizeof(float) );
+     addressToElement = static_cast< float* >( blob1.startingAddress() );
+-    for ( int i = 0; i < numberOfElements; ++i, ++addressToElement );
++    for ( int i = 0; i < numberOfElements; ++i, ++addressToElement ) {}
+     for ( int i = numberOfElements; i < numberOfElements + extraElements; ++i, ++addressToElement ) {
+       *addressToElement = i;
+     }
+diff -Naur orig.src/CoralBricks/CoralBricks/BoostThreadTraits.h src/CoralBricks/CoralBricks/BoostThreadTraits.h
+--- orig.src/CoralBricks/CoralBricks/BoostThreadTraits.h	2008-10-16 05:20:33.000000000 +0200
++++ src/CoralBricks/CoralBricks/BoostThreadTraits.h	2008-11-25 17:21:27.000000000 +0100
+@@ -1,8 +1,8 @@
+-/* 
++/*
+  * Project: POOL
+  * Sub-project: CORAL
+  * Web site: http://pool.cern.ch/coral
+- * 
++ *
+  * Author: Zsolt.Molnar@cern.ch (http://www.zsoltmolnar.hu)
+  */
+ #ifndef CORALBRICKS_BOOSTTHREADTRAITS_H_
+@@ -11,7 +11,7 @@
+ /**
+  * Include this file only from ThreadTraits. If you include it from elsewhere,
+  * you will get compilation error.
+- */ 
++ */
+ 
+ #ifndef __THREADTRAITS_H_GUARD__
+   #error File is included from elsewhere that ThreadTraits.h
+@@ -29,6 +29,7 @@
+ #endif
+ 
+ #include <boost/thread.hpp>
++#include <boost/thread/condition.hpp>
+ 
+ #ifndef BOOST_HAS_THREADS
+   #error Threaded version of Boost is required.
+@@ -56,7 +57,7 @@
+         return 0;
+     }
+ #endif
+-    
++
+ };
+ 
+ } // namespace coral
+diff -Naur orig.src/CoralCommon/tests/Timer/timer.cpp src/CoralCommon/tests/Timer/timer.cpp
+--- orig.src/CoralCommon/tests/Timer/timer.cpp	2008-03-05 13:03:23.000000000 +0100
++++ src/CoralCommon/tests/Timer/timer.cpp	2008-11-25 17:21:27.000000000 +0100
+@@ -9,20 +9,20 @@
+   try
+   {
+     coral::SimpleTimer st;
+-    
++
+     if( st.total() != 0 )
+       throw std::logic_error( "Invalid total duration of an idle timer!" );
+-    
++
+     st.start();
+-    
++
+     if( st.total() != 0 )
+       throw std::logic_error( "Invalid total duration of an empty timer!" );
+-    
++
+     coral::SimpleTimer::ValueType snap1 = st.sample();
+-    
++
+     if( snap1 == 0 )
+       throw std::logic_error( "Invalid sample duration of a running timer!" );
+-    
++
+     if( st.total() != snap1 )
+       throw std::logic_error( "Invalid total duration of a running timer!" );
+ 
+@@ -32,7 +32,7 @@
+ 
+     if( snap2 == 0 )
+       throw std::logic_error( "Invalid sample duration of a running timer!" );
+-    
++
+     if( st.total() != snap2 )
+       throw std::logic_error( "Invalid total duration of a running timer!" );
+ 
+@@ -47,20 +47,20 @@
+     coral::sys::sleep(2);
+     slt.stop();
+     std::cout << "Was supposed to sleep for 2 secs and was sleeping roughly the " << slt.total() << " microseconds" << std::endl;
+-    
+-        
++
++
+     coral::SimpleTimer::ValueType snap3 = st.sample();
+-    
+-    for( int i=0; i<100000; i++ );
+-    
++
++    for( int i=0; i<100000; i++ ) {};
++
+     st.stop();
+-    
++
+     std::cout << "100000 iterations loop running for " << st.total()-snap3 << " microseconds" << std::endl;
+-    
++
+     if( st.total() <= snap2 )
+       throw std::logic_error( "Invalid total duration of a stopped timer!" );
+ 
+-    
++
+     std::cout << "Total running time " << st.total() << " microseconds" << std::endl;
+   }
+   catch( const std::exception& e )
+@@ -71,6 +71,6 @@
+   {
+     std::cerr << "Caught an unknown exception..." << std::endl;
+   }
+-  
++
+   return 0;
+ }
+diff -Naur orig.src/CoralKernel/src/PluginManager.cpp src/CoralKernel/src/PluginManager.cpp
+--- orig.src/CoralKernel/src/PluginManager.cpp	2008-11-06 10:48:57.000000000 +0100
++++ src/CoralKernel/src/PluginManager.cpp	2008-11-25 17:21:27.000000000 +0100
+@@ -92,6 +92,9 @@
+   pluginName  = "CORAL/Services/XMLAuthenticationService"; libraryName = "XMLAuthenticationService";
+   m_factories.insert( std::make_pair( pluginName, std::make_pair( libraryName, p ) ) );
+   
++  pluginName  = "CORAL/Services/RelationalAuthenticationService"; libraryName = "RelationalAuthenticationService";
++  m_factories.insert( std::make_pair( pluginName, std::make_pair( libraryName, p ) ) );
++
+   pluginName  = "CORAL/Services/XMLLookupService"; libraryName = "XMLLookupService";
+   m_factories.insert( std::make_pair( pluginName, std::make_pair( libraryName, p ) ) );
+ 
+diff -Naur orig.src/CoralKernel/src/PropertyManager.cpp src/CoralKernel/src/PropertyManager.cpp
+--- orig.src/CoralKernel/src/PropertyManager.cpp	2008-11-06 10:48:57.000000000 +0100
++++ src/CoralKernel/src/PropertyManager.cpp	2008-11-25 17:21:27.000000000 +0100
+@@ -23,6 +23,8 @@
+ 
+ void PropertyManager::_setDefaultProperties()
+ {
++	_addProperty("CredentialDatabase", "sqlite_file:coral_credentials.db");
++	_addProperty("EncryptionKey","");
+ 	_addProperty("AuthenticationFile", "authentication.xml");
+ 	_addProperty("DBLookupFile", "dblookup.xml");
+ 	_addProperty("Server_Hostname", "localhost");
+diff -Naur orig.src/RelationalAuthenticationService/cmt/requirements src/RelationalAuthenticationService/cmt/requirements
+--- orig.src/RelationalAuthenticationService/cmt/requirements	2008-11-03 16:21:36.000000000 +0100
++++ src/RelationalAuthenticationService/cmt/requirements	2008-11-25 17:21:27.000000000 +0100
+@@ -3,6 +3,7 @@
+ private
+ 
+ use CoralCommon
++use XercesC * LCG_Interfaces
+ 
+ apply_pattern lcg_module_library
+ 
+diff -Naur orig.src/RelationalAuthenticationService/cmt/version.cmt src/RelationalAuthenticationService/cmt/version.cmt
+--- orig.src/RelationalAuthenticationService/cmt/version.cmt	2008-11-03 16:21:36.000000000 +0100
++++ src/RelationalAuthenticationService/cmt/version.cmt	2008-11-25 17:21:27.000000000 +0100
+@@ -1 +1 @@
+-RelationalAuthenticationService-0-0-0
++RelationalAuthenticationService-0-0-1
+diff -Naur orig.src/RelationalAuthenticationService/src/RelationalAuthenticationService.cpp src/RelationalAuthenticationService/src/RelationalAuthenticationService.cpp
+--- orig.src/RelationalAuthenticationService/src/RelationalAuthenticationService.cpp	2008-11-03 16:21:36.000000000 +0100
++++ src/RelationalAuthenticationService/src/RelationalAuthenticationService.cpp	2008-11-25 17:21:27.000000000 +0100
+@@ -3,10 +3,10 @@
+ #include "CoralBase/Attribute.h"
+ #include "CoralBase/MessageStream.h"
+ #include "CoralCommon/AuthenticationCredentials.h"
+-#include "CoralCommon/AuthenticationCredentialSet.h"
++#include "AuthenticationCredentialSet.h"
+ #include "CoralCommon/Cipher.h"
+-#include "CoralCommon/XMLAuthenticationFileParser.h"
+-#include "CoralCommon/XMLAuthenticationFileContent.h"
++#include "XMLAuthenticationFileParser.h"
++#include "XMLAuthenticationFileContent.h"
+ #include "RelationalAccess/AuthenticationServiceException.h"
+ #include "RelationalAccess/IBulkOperation.h"
+ #include "RelationalAccess/IAuthenticationCredentials.h"
+diff -Naur orig.src/Tests/Integration_Basic/src/DmlOperations.cpp src/Tests/Integration_Basic/src/DmlOperations.cpp
+--- orig.src/Tests/Integration_Basic/src/DmlOperations.cpp	2008-08-13 18:50:38.000000000 +0200
++++ src/Tests/Integration_Basic/src/DmlOperations.cpp	2008-11-25 17:21:27.000000000 +0100
+@@ -4,35 +4,9 @@
+ DmlOperations::DmlOperations(TestEnv * env) : Testing(env) {
+ }
+ 
+-/*
+-DmlOperations::DmlOperations( coral::IRelationalDomain& domain,
+-                              const std::string& connectionString,
+-                              coral::IAuthenticationService& authenticationService ):
+-  TestBase( authenticationService, connectionString ),
+-  m_connection( 0 ),
+-  m_schemaName( "" )
+-{
+-  std::pair<std::string,std::string> databaseAndSchema = domain.decodeUserConnectionString( connectionString );
+-  m_connection = domain.newConnection( databaseAndSchema.first );
+-  m_schemaName = databaseAndSchema.second;
+-}
+-
+-
+-DmlOperations::~DmlOperations()
+-{
+-  if ( m_connection ) delete m_connection;
+-}
+-
+-*/
+ void
+ DmlOperations::atomicOperations()
+-{
+-//  try {
+-    
+-//    m_connection->connect();
+-//    std::auto_ptr<coral::ISession> session( m_connection->newSession( m_schemaName ) );
+-//    session->startUserSession( this->username(), this->password() );
+-    
++{    
+     session->transaction().start();
+ 
+     coral::ITableDataEditor& editor1 = session->nominalSchema().tableHandle(T1).dataEditor();
+@@ -110,10 +84,6 @@
+ void
+ DmlOperations::bulkOperations()
+ {
+-//  try {
+-//    m_connection->connect();
+-//    std::auto_ptr<coral::ISession> session( m_connection->newSession( m_schemaName ) );
+-//    session->startUserSession( this->username(), this->password() );
+     session->transaction().start();
+ 
+     // Fill in table T2
+@@ -202,13 +172,4 @@
+ 
+ 
+     session->transaction().commit();
+-//    session->endUserSession();
+-//    m_connection->disconnect();
+-
+-//  }
+-//  catch ( coral::SchemaException& e ) {
+-//    std::cerr << "Schema exception : " << e.what() << std::endl;
+-//    return false;
+-//  }
+-//  return true;
+ }
+diff -Naur orig.src/Tests/Integration_Basic/src/SchemaDefinition.cpp src/Tests/Integration_Basic/src/SchemaDefinition.cpp
+--- orig.src/Tests/Integration_Basic/src/SchemaDefinition.cpp	2008-10-07 16:24:56.000000000 +0200
++++ src/Tests/Integration_Basic/src/SchemaDefinition.cpp	2008-11-25 17:21:27.000000000 +0100
+@@ -61,6 +61,9 @@
+     constraintColumns[0] = "X";
+     constraintColumns[1] = "Z";
+     
++    ///follwing was commented out of fialing for mysql plugin
++    ///related to bug #36513
++    
+  //   table.schemaEditor().setUniqueConstraint( constraintColumns );
+ 
+     /// Add a unique index
+@@ -101,6 +104,10 @@
+     session->nominalSchema().createTable( description3 ).privilegeManager().grantToPublic( coral::ITablePrivilegeManager::Select );
+      
+      coral::sleepSeconds( 1 );
++     
++     ///following part was commented out of failing for mysql plugin
++     ///related to bug #36512
++     
+    // Create a view
+ /*    std::cout << "ende10" << std::endl;
+     coral::IViewFactory* factory = schema.viewFactory();
+diff -Naur orig.src/Tests/Integration_Basic/src/SetOperations.cpp src/Tests/Integration_Basic/src/SetOperations.cpp
+--- orig.src/Tests/Integration_Basic/src/SetOperations.cpp	2008-08-13 18:50:38.000000000 +0200
++++ src/Tests/Integration_Basic/src/SetOperations.cpp	2008-11-25 17:21:27.000000000 +0100
+@@ -1,9 +1,10 @@
+ #include "SetOperations.h"
+ #include "TestEnv/TestingConfig.h"
+ 
+-SetOperations::SetOperations(TestEnv * env) : Testing(env)
++SetOperations::SetOperations(TestEnv * env)
++  : Testing(env)
+ {
+-  env->getTableString(T4, "T4");
++  _env.getTableString(T4, "T4");
+ }
+ 
+ SetOperations::~SetOperations()
+@@ -34,7 +35,7 @@
+       throw std::runtime_error( "Unexpected number of rows" );
+       
+     //at the moment MINUS and INTERSECT only working on oracle databases
+-    if(env->getDBType(pos).compare("oracle") == 0){
++    if(_env.getDBType(pos).compare("oracle") == 0){
+ 
+     std::cout << " Query 2:" << std::endl;
+     coral::IQuery* query2 = workingSchema.newQuery();
+diff -Naur orig.src/Tests/Libraries/TestEnv/src/TestEnv.cpp src/Tests/Libraries/TestEnv/src/TestEnv.cpp
+--- orig.src/Tests/Libraries/TestEnv/src/TestEnv.cpp	2008-10-27 23:20:40.000000000 +0100
++++ src/Tests/Libraries/TestEnv/src/TestEnv.cpp	2008-11-25 17:21:27.000000000 +0100
+@@ -26,11 +26,15 @@
+   platformMatrix.insert(TStrStrPair("slc4_amd64_gcc34_dbg", "A1"));
+   platformMatrix.insert(TStrStrPair("slc4_amd64_gcc41", "A2"));
+   platformMatrix.insert(TStrStrPair("slc4_amd64_gcc41_dbg", "A3"));
++  platformMatrix.insert(TStrStrPair("slc4_amd64_gcc43", "A4"));
++  platformMatrix.insert(TStrStrPair("slc4_amd64_gcc43_dbg", "A5"));
+   //intel 32bit
+   platformMatrix.insert(TStrStrPair("slc4_ia32_gcc34", "B0"));
+   platformMatrix.insert(TStrStrPair("slc4_ia32_gcc34_dbg", "B1"));
+   platformMatrix.insert(TStrStrPair("slc4_ia32_gcc41", "B2"));
+   platformMatrix.insert(TStrStrPair("slc4_ia32_gcc41_dbg", "B3"));
++  platformMatrix.insert(TStrStrPair("slc4_ia32_gcc43", "B4"));
++  platformMatrix.insert(TStrStrPair("slc4_ia32_gcc43_dbg", "B5"));
+   //macosx for intel
+   platformMatrix.insert(TStrStrPair("osx104_ia32_gcc401", "C0"));
+   platformMatrix.insert(TStrStrPair("osx104_ia32_gcc401_dbg", "C1"));
+@@ -40,7 +44,19 @@
+   
+   platformMatrix.insert(TStrStrPair("win32_vc71", "D0"));
+   platformMatrix.insert(TStrStrPair("win32_vc71_dbg", "D1"));
+-
++  //new platforms
++  platformMatrix.insert(TStrStrPair("i686-slc5-gcc34-opt", "E0"));
++  platformMatrix.insert(TStrStrPair("i686-slc5-gcc34-dbg", "E1"));
++  platformMatrix.insert(TStrStrPair("i686-slc5-gcc43-opt", "E2"));
++  platformMatrix.insert(TStrStrPair("i686-slc5-gcc43-dbg", "E3"));
++  
++  platformMatrix.insert(TStrStrPair("x86_64-slc5-gcc34-opt", "F0"));
++  platformMatrix.insert(TStrStrPair("x86_64-slc5-gcc34-dbg", "F1"));
++  platformMatrix.insert(TStrStrPair("x86_64-slc5-gcc43-opt", "F2"));
++  platformMatrix.insert(TStrStrPair("x86_64-slc5-gcc43-dbg", "F3"));
++  
++  platformMatrix.insert(TStrStrPair("i686-winxp-vc9-dbg", "G0"));
++  
+   std::map<std::string, std::string> slotMatrix;
+   
+   slotMatrix.insert(TStrStrPair("dev", "A"));
+@@ -201,8 +217,8 @@
+   return m_services.size() - 1;
+ }
+ 
+-std::string
+-TestEnv::getServiceName(size_t index, bool reader)
++const std::string
++TestEnv::getServiceName(size_t index, bool reader) const
+ {
+   if( index >= m_services.size() ) throw coral::Exception( "TestEnv", "Index out of range", "TestEnv::getServiceName" );
+   if( reader == TESTENV_READER ){
+@@ -212,15 +228,15 @@
+   }
+ }
+ 
+-std::string&
+-TestEnv::getTableString(std::string& source, const std::string& tableName)
++const std::string&
++TestEnv::getTableString(std::string& source, const std::string& tableName) const
+ {
+   source = m_slotPrefix + m_platformPrefix + "_" + m_testName + "_" + tableName;
+   return source;
+ }
+ 
+-std::string
+-TestEnv::getDBType(size_t pos, bool reader)
++const std::string
++TestEnv::getDBType(size_t pos, bool reader) const
+ {
+   if( reader == TESTENV_READER ){
+     return m_writers[pos]->readers(m_writers[pos]->getCurrentName()).getCurrentName();
+diff -Naur orig.src/Tests/Libraries/TestEnv/src/Testing.cpp src/Tests/Libraries/TestEnv/src/Testing.cpp
+--- orig.src/Tests/Libraries/TestEnv/src/Testing.cpp	2008-10-07 16:24:55.000000000 +0200
++++ src/Tests/Libraries/TestEnv/src/Testing.cpp	2008-11-25 17:21:27.000000000 +0100
+@@ -4,9 +4,9 @@
+ #include <cmath>
+ 
+ Testing::Testing(TestEnv * env)
+-  : m_rowBuffer( 0 )
++  : _env(*env)
++  , m_rowBuffer( 0 )
+ {
+-  this->env = env;
+   //set default table names
+   env->getTableString(T1, "T1");
+   env->getTableString(T2, "T2");  
+@@ -22,18 +22,23 @@
+ 
+   
+ void 
+-Testing::createSession(int index, bool reader)
++Testing::createSession(int index, bool reader, bool sharing)
+ {
+   deleteSession();
+-  createSession(index, coral::Update, reader);
++  createSession(index, coral::Update, reader, sharing);
+ }
+ 
+-void 
+-Testing::createSession(int index, coral::AccessMode mode, bool reader)
++void
++Testing::createSession(int index, coral::AccessMode mode, bool reader, bool sharing)
+ {
+   deleteSession();
+   coral::ConnectionService * connService = new coral::ConnectionService();
+-  std::string serviceName = env->getServiceName(index, reader);
++  if(!sharing){
++    coral::IConnectionServiceConfiguration& config = connService->configuration();
++    config.disableConnectionSharing();
++  }
++  
++  std::string serviceName = _env.getServiceName(index, reader);
+ 
+   session = connService->connect( serviceName, mode );
+   if ( ! session )
+diff -Naur orig.src/Tests/Libraries/TestEnv/TestEnv/TestEnv.h src/Tests/Libraries/TestEnv/TestEnv/TestEnv.h
+--- orig.src/Tests/Libraries/TestEnv/TestEnv/TestEnv.h	2008-10-07 16:24:55.000000000 +0200
++++ src/Tests/Libraries/TestEnv/TestEnv/TestEnv.h	2008-11-25 17:21:27.000000000 +0100
+@@ -43,11 +43,11 @@
+     //set a service name
+     size_t addServiceName(size_t pos, const std::string writerexp, const std::string readerexp = "");
+     //get the service name using the index
+-    std::string getServiceName(size_t index, bool reader = TESTENV_WRITER);
++    const std::string getServiceName(size_t index, bool reader = TESTENV_WRITER) const;
+     //get the backend
+-    std::string getDBType(size_t pos, bool reader = TESTENV_WRITER);
++    const std::string getDBType(size_t pos, bool reader = TESTENV_WRITER) const;
+     //get table name
+-    std::string& getTableString(std::string& source, const std::string& tableName);
++    const std::string& getTableString(std::string& source, const std::string& tableName) const;
+ 
+ private:
+     void setupUserInput(int argc, char * argv[]);
+diff -Naur orig.src/Tests/Libraries/TestEnv/TestEnv/Testing.h src/Tests/Libraries/TestEnv/TestEnv/Testing.h
+--- orig.src/Tests/Libraries/TestEnv/TestEnv/Testing.h	2008-10-07 16:24:55.000000000 +0200
++++ src/Tests/Libraries/TestEnv/TestEnv/Testing.h	2008-11-25 17:21:27.000000000 +0100
+@@ -22,9 +22,9 @@
+     //destructor
+     ~Testing();
+     //create a session with coral::update mode
+-    void createSession(int index, bool reader = TESTENV_WRITER);
++    void createSession(int index, bool reader = TESTENV_WRITER, bool sharing = true);
+     //create a session with custom mode
+-    void createSession(int index, coral::AccessMode mode, bool reader = TESTENV_WRITER);
++    void createSession(int index, coral::AccessMode mode, bool reader = TESTENV_WRITER, bool sharing = true);
+     //create a session with a handle
+ //    void createSession(int index, coral::IHandle<coral::IConnectionService> handle, coral::AccessMode mode);
+     //delete all
+@@ -53,7 +53,7 @@
+ 
+ protected:
+     //test environment
+-    TestEnv * env;
++    const TestEnv& _env;
+     //default tables and views    
+     std::string T1;
+     std::string T2;

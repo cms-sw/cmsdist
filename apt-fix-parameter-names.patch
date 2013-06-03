@@ -1,0 +1,13 @@
+diff --git a/apt-0.5.15lorg3.2/apt-pkg/pkgcachegen.h b/apt-0.5.15lorg3.2/apt-pkg/pkgcachegen.h
+index 6a698be..3bf84ab 100644
+--- a/apt-0.5.15lorg3.2/apt-pkg/pkgcachegen.h
++++ b/apt-0.5.15lorg3.2/apt-pkg/pkgcachegen.h
+@@ -59,7 +59,7 @@ class pkgCacheGenerator
+    public:
+ 
+    // CNC:2003-02-27 - We need this in rpmListParser.
+-   bool NewPackage(pkgCache::PkgIterator &Pkg,string Pkg);
++   bool NewPackage(pkgCache::PkgIterator &Pkg,string Name);
+ 
+    unsigned long WriteUniqString(const char *S,unsigned int Size);
+    inline unsigned long WriteUniqString(string S) {return WriteUniqString(S.c_str(),S.length());};

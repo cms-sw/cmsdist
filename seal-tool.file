@@ -1,0 +1,16 @@
+<doc type=BuildSystem::ToolDoc version=1.0>
+<Tool name=SEAL version=@PROJECT_VERSION@ type=scram>
+<Client>
+ <Environment name=SEAL_BASE default="@PROJECT_ROOT@"></Environment>
+ <Environment name=LIBDIR default="$SEAL_BASE/$SCRAM_ARCH/lib"></Environment>
+ <Environment name=SEAL_BINDIR default="$SEAL_BASE/$SCRAM_ARCH/bin"></Environment>
+ <Environment name=INCLUDE default="$SEAL_BASE/include"></Environment>
+ <Environment name=SEAL_ARCH_INCLUDES default="$SEAL_BASE/$SCRAM_ARCH/include"></Environment>
+ <Environment name=INCLUDE value="$SEAL_ARCH_INCLUDES"></Environment>
+</Client>
+<Runtime name=SEAL value="$SEAL_BASE">
+<Runtime name=PATH value="$SEAL_BINDIR" type=path>
+<Runtime name=SEAL_KEEP_MODULES value="true">
+<Runtime name=SEAL_PLUGINS value="$LIBDIR/modules" type=path>
+<Runtime name=PYTHONPATH value="$LIBDIR" type=path>
+</Tool>

@@ -1,0 +1,210 @@
+diff -Naur orig.root/math/mathcore/inc/Math/DistFunc.h root/math/mathcore/inc/Math/DistFunc.h
+--- orig.root/math/mathcore/inc/Math/DistFunc.h	2010-11-05 15:46:22.000000000 +0100
++++ root/math/mathcore/inc/Math/DistFunc.h	2011-02-07 21:43:48.000000000 +0100
+@@ -44,9 +44,9 @@
+ #ifdef R__HAS_MATHMORE  
+ 
+ // // extra pdf functions from MathMore
+-// #ifndef ROOT_Math_PdfFuncMathMore
+-// #include "Math/PdfFuncMathMore.h"
+-// #endif
++#ifndef ROOT_Math_PdfFuncMathMore
++#include "Math/PdfFuncMathMore.h"
++#endif
+ 
+ // no -more extra cdf in MathMore
+ // #ifndef ROOT_Math_ProbFuncMathMore
+diff -Naur orig.root/math/mathcore/inc/Math/Integrator.h root/math/mathcore/inc/Math/Integrator.h
+--- orig.root/math/mathcore/inc/Math/Integrator.h	2010-11-05 15:46:22.000000000 +0100
++++ root/math/mathcore/inc/Math/Integrator.h	2011-02-07 21:43:48.000000000 +0100
+@@ -412,6 +412,9 @@
+    */
+    VirtualIntegratorOneDim * GetIntegrator() { return fIntegrator; }  
+ 
++   /// static function to get the enumeration from a string
++   static IntegrationOneDim::Type GetType(const char * name);  
++
+ 
+ protected: 
+ 
+diff -Naur orig.root/math/mathcore/inc/Math/IntegratorMultiDim.h root/math/mathcore/inc/Math/IntegratorMultiDim.h
+--- orig.root/math/mathcore/inc/Math/IntegratorMultiDim.h	2010-11-05 15:46:22.000000000 +0100
++++ root/math/mathcore/inc/Math/IntegratorMultiDim.h	2011-02-07 21:43:48.000000000 +0100
+@@ -179,6 +179,9 @@
+    /// return a pointer to integrator object 
+    VirtualIntegratorMultiDim * GetIntegrator() { return fIntegrator; }  
+ 
++   /// static function to get the enumeration from a string
++   static IntegrationMultiDim::Type GetType(const char * name);  
++
+ protected:
+ 
+    VirtualIntegratorMultiDim * CreateIntegrator(IntegrationMultiDim::Type type , double absTol, double relTol, unsigned int ncall);
+diff -Naur orig.root/math/mathcore/src/Integrator.cxx root/math/mathcore/src/Integrator.cxx
+--- orig.root/math/mathcore/src/Integrator.cxx	2010-11-05 15:46:21.000000000 +0100
++++ root/math/mathcore/src/Integrator.cxx	2011-02-07 21:55:26.000000000 +0100
+@@ -40,10 +40,39 @@
+ #endif
+ 
+ #include <cassert>
++#include <algorithm>
+ 
+ namespace ROOT {
+ namespace Math {
+ 
++IntegrationOneDim::Type IntegratorOneDim::GetType(const char *name) { 
++   if (name == 0) return IntegrationOneDim::kGAUSS; // default case
++   std::string typeName(name);
++   std::transform(typeName.begin(), typeName.end(), typeName.begin(), (int(*)(int)) toupper );  
++   if (typeName == "GAUSS") return IntegrationOneDim::kGAUSS;  
++   if (typeName == "GAUSSLEGENDRE") return IntegrationOneDim::kLEGENDRE;  
++   if (typeName == "ADAPTIVE") return IntegrationOneDim::kADAPTIVE;  
++   if (typeName == "ADAPTIVESINGULAR") return IntegrationOneDim::kADAPTIVESINGULAR;  
++   if (typeName == "NONADAPTIVE") return IntegrationOneDim::kNONADAPTIVE;  
++   if (!typeName.empty()) MATH_WARN_MSG("IntegratorOneDim::GetType","Invalid type name specified - return default " ); 
++   return IntegrationOneDim::kGAUSS; 
++}
++
++   
++
++IntegrationMultiDim::Type IntegratorMultiDim::GetType(const char *name) { 
++   if (name == 0) return IntegrationMultiDim::kADAPTIVE; // default case
++   std::string typeName(name); 
++   std::transform(typeName.begin(), typeName.end(), typeName.begin(), (int(*)(int)) toupper );  
++   if (typeName == "ADAPTIVE") return IntegrationMultiDim::kADAPTIVE;  
++   if (typeName == "VEGAS") return IntegrationMultiDim::kVEGAS;  
++   if (typeName == "MISER") return IntegrationMultiDim::kMISER;  
++   if (typeName == "PLAIN") return IntegrationMultiDim::kPLAIN;  
++   if (!typeName.empty()) MATH_WARN_MSG("IntegratorMultiDim::GetType","Invalid type name specified - return default " ); 
++   return IntegrationMultiDim::kADAPTIVE; 
++}
++
++
+ void IntegratorOneDim::SetFunction(const IMultiGenFunction &f, unsigned int icoord , const double * x ) { 
+    // set function from a multi-dim function 
+    // pass also x in case of multi-dim function express the other dimensions (which are fixed) 
+diff -Naur orig.root/math/mathmore/inc/Math/PdfFuncMathMore.h root/math/mathmore/inc/Math/PdfFuncMathMore.h
+--- orig.root/math/mathmore/inc/Math/PdfFuncMathMore.h	1970-01-01 01:00:00.000000000 +0100
++++ root/math/mathmore/inc/Math/PdfFuncMathMore.h	2011-02-07 21:45:10.000000000 +0100
+@@ -0,0 +1,55 @@
++// @(#)root/mathmore:$Id: root-5.27-06b-extra-math-for-roofit-5.28.00.patch,v 1.1 2011/02/07 21:44:19 elmer Exp $
++// Authors: L. Moneta, A. Zsenei   08/2005
++
++ /**********************************************************************
++  *                                                                    *
++  * Copyright (c) 2004 ROOT Foundation,  CERN/PH-SFT                   *
++  *                                                                    *
++  * This library is free software; you can redistribute it and/or      *
++  * modify it under the terms of the GNU General Public License        *
++  * as published by the Free Software Foundation; either version 2     *
++  * of the License, or (at your option) any later version.             *
++  *                                                                    *
++  * This library is distributed in the hope that it will be useful,    *
++  * but WITHOUT ANY WARRANTY; without even the implied warranty of     *
++  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU   *
++  * General Public License for more details.                           *
++  *                                                                    *
++  * You should have received a copy of the GNU General Public License  *
++  * along with this library (see file COPYING); if not, write          *
++  * to the Free Software Foundation, Inc., 59 Temple Place, Suite      *
++  * 330, Boston, MA 02111-1307 USA, or contact the author.             *
++  *                                                                    *
++  **********************************************************************/
++
++
++#ifndef ROOT_Math_PdfFuncMathMore
++#define ROOT_Math_PdfFuncMathMore
++
++namespace ROOT { 
++   namespace Math { 
++
++
++  /**
++
++  Probability density function of the non central \f$\chi^2\f$ distribution with \f$r\f$ 
++  degrees of freedom and the noon-central parameter \f$\lambda\f$ 
++
++  \f[ p_r(x) = \frac{1}{\Gamma(r/2) 2^{r/2}} x^{r/2-1} e^{-x/2} \f]
++
++  for \f$x \geq 0\f$. 
++  For detailed description see 
++  <A HREF="http://mathworld.wolfram.com/NoncentralChi-SquaredDistribution.html">
++  Mathworld</A>. 
++  
++  @ingroup PdfFunc
++
++  */
++
++  double noncentral_chisquared_pdf(double x, double r, double lambda);
++
++   }  //end namespace Math
++} // end namespace ROOT
++
++
++#endif  // ROOT_Math_PdfFuncMathMore
+diff -Naur orig.root/math/mathmore/src/PdfFuncMathMore.cxx root/math/mathmore/src/PdfFuncMathMore.cxx
+--- orig.root/math/mathmore/src/PdfFuncMathMore.cxx	1970-01-01 01:00:00.000000000 +0100
++++ root/math/mathmore/src/PdfFuncMathMore.cxx	2011-02-07 21:45:27.000000000 +0100
+@@ -0,0 +1,62 @@
++// @(#)root/mathmore:$Id: root-5.27-06b-extra-math-for-roofit-5.28.00.patch,v 1.1 2011/02/07 21:44:19 elmer Exp $
++// Authors: L. Moneta    10/2010 
++
++#include <cmath>
++
++#include "Math/SpecFuncMathMore.h"
++#include "Math/SpecFuncMathCore.h"
++#include "Math/PdfFuncMathCore.h"
++#include "Math/DistFuncMathMore.h"
++
++
++#include "gsl/gsl_sf_hyperg.h"  // needed for 0F1
++
++
++namespace ROOT {
++namespace Math {
++
++
++//non central chisquare pdf (impelmentation from Kyle Cranmer)
++// formula from Wikipedia http://en.wikipedia.org/wiki/Noncentral_chi-square_distribution
++// but use hybergeometric form for k < 2
++double noncentral_chisquared_pdf(double x, double k, double lambda) {
++
++   // special case (form below doesn't work when lambda==0)
++   if(lambda==0){
++     return ROOT::Math::chisquared_pdf(x,k);
++   }
++   double ret = 0; 
++   if (k < 2.0) { 
++
++      //  expression using regularized confluent hypergeometric limit function.
++      //see  http://mathworld.wolfram.com/NoncentralChi-SquaredDistribution.html
++      //  (note  0\tilde{F}(a,x)  = 0F1(a,x)/ Gamma(a)
++      // or  wikipedia 
++      // NOTE : this has problems for large k (so use only fr k <= 2)
++
++      ret = std::exp( - 0.5 *(x + lambda) ) * 1./(std::pow(2.0, 0.5 * k) * ROOT::Math::tgamma(0.5*k)) * std::pow( x, 0.5 * k - 1.0)
++      * gsl_sf_hyperg_0F1( 0.5 * k, 0.25 * lambda * x );
++
++   }
++   else { 
++   
++      // SECOND FORM
++      // 1/2 exp(-(x+lambda)/2) (x/lambda)^(k/4-1/2) I_{k/2 -1}(\sqrt(lamba x))
++      // where I_v(z) is modified bessel of the first kind
++      // bessel defined only for nu > 0
++      
++      ret = 0.5 * std::exp(-0.5 * (x+lambda) ) * std::pow(x/lambda, 0.25*k-0.5) 
++         * ROOT::Math::cyl_bessel_i (0.5*k-1., std::sqrt(lambda*x));
++
++//       ret = 0.5 * exp(-(_x+lambda)/2.) * pow(_x/lambda, k/4.-0.5) 
++//      * ROOT::Math::cyl_bessel_i (k/2.-1., sqrt(lambda*_x));
++
++   }
++
++   return ret; 
++}
++
++
++} // namespace Math
++
++} // namespace ROOT

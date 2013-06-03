@@ -1,0 +1,22 @@
+--- numpy/distutils/system_info.py	2006-10-03 06:35:22.000000000 +0200
++++ numpy/distutils/system_info.py	2007-01-24 17:37:03.000000000 +0100
+@@ -157,6 +157,7 @@
+ default_src_dirs = filter(os.path.isdir, default_src_dirs)
+ 
+ so_ext = distutils.sysconfig.get_config_vars('SO')[0] or ''
++default_lib_dirs = []
+ 
+ def get_standard_file(fname):
+     """Returns a list of files named 'fname' from
+--- numpy/distutils/fcompiler/gnu.py	2006-10-09 09:46:59.000000000 +0200
++++ numpy/distutils/fcompiler/gnu.py	2007-01-24 18:01:54.000000000 +0100
+@@ -227,8 +227,7 @@
+             if cpu.has_3dnow(): opt.append('-m3dnow')
+ 
+         if gnu_ver > '3.2.2':
+-            if cpu.has_sse2(): opt.append('-msse2')
+-            if cpu.has_sse(): opt.append('-msse')
++            pass
+         if gnu_ver >= '3.4':
+             if cpu.has_sse3(): opt.append('-msse3')
+         if cpu.is_Intel():

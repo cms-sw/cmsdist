@@ -1,0 +1,163 @@
+diff --git a/include/Inventor/engines/SoSubEngine.h b/include/Inventor/engines/SoSubEngine.h
+index ef9256e..48d2cba 100755
+--- a/include/Inventor/engines/SoSubEngine.h
++++ b/include/Inventor/engines/SoSubEngine.h
+@@ -119,7 +119,8 @@ _class_::atexit_cleanup(void) \
+   SoType::removeType(_class_::classTypeId.getName()); \
+   _class_::classTypeId STATIC_SOTYPE_INIT; \
+   _class_::classinstances = 0; \
+-}
++} \
++extern int dummy
+ 
+ #define SO_ENGINE_SOURCE(_class_) \
+ SO_ENGINE_ABSTRACT_SOURCE(_class_); \
+@@ -128,7 +129,8 @@ void * \
+ _class_::createInstance(void) \
+ { \
+   return new _class_; \
+-}
++} \
++extern int dummy2
+ 
+ // *************************************************************************
+ 
+diff --git a/include/Inventor/engines/SoSubNodeEngine.h b/include/Inventor/engines/SoSubNodeEngine.h
+index 185c49a..dfe0022 100755
+--- a/include/Inventor/engines/SoSubNodeEngine.h
++++ b/include/Inventor/engines/SoSubNodeEngine.h
+@@ -66,7 +66,8 @@ _class_::atexit_cleanupnodeengine(void) { \
+   _class_::outputdata = NULL; \
+   _class_::parentoutputdata = NULL; \
+   _class_::classTypeId STATIC_SOTYPE_INIT; \
+-}
++} \
++extern int dummy
+ 
+ #define SO_NODEENGINE_SOURCE(_class_) \
+ SO_NODEENGINE_ABSTRACT_SOURCE(_class_); \
+@@ -75,7 +76,8 @@ void * \
+ _class_::createInstance(void) \
+ { \
+   return new _class_; \
+-}
++} \
++extern int dummy2
+ 
+ #define SO_NODEENGINE_CONSTRUCTOR(_class_) \
+   do { \
+diff --git a/include/Inventor/fields/SoSubField.h b/include/Inventor/fields/SoSubField.h
+index b0d0905..c9bcfdd 100755
+--- a/include/Inventor/fields/SoSubField.h
++++ b/include/Inventor/fields/SoSubField.h
+@@ -75,11 +75,11 @@ protected: \
+  \
+ public: \
+   _valref_ getValue(void) const { this->evaluate(); return this->value; } \
+-  void setValue(_valref_ newvalue); \
+   _valref_ operator=(_valref_ newvalue) { this->setValue(newvalue); return this->value; } \
+  \
+   int operator==(const _class_ & field) const; \
+-  int operator!=(const _class_ & field) const { return ! operator==(field); }
++  int operator!=(const _class_ & field) const { return ! operator==(field); } \
++  void setValue(_valref_ newvalue) 
+ 
+ 
+ // FIXME: is really the operator=() definition below necessary?
+@@ -232,12 +232,12 @@ public: \
+   int find(_valref_ value, SbBool addifnotfound = FALSE); \
+   void setValues(const int start, const int num, const _valtype_ * newvals); \
+   void set1Value(const int idx, _valref_ value); \
+-  void setValue(_valref_ value); \
+   _valref_ operator=(_valref_ val) { this->setValue(val); return val; } \
+   SbBool operator==(const _class_ & field) const; \
+   SbBool operator!=(const _class_ & field) const { return !operator==(field); } \
+   _valtype_ * startEditing(void) { this->evaluate(); return this->values; } \
+-  void finishEditing(void) { this->valueChanged(); }
++  void finishEditing(void) { this->valueChanged(); } \
++  void setValue(_valref_ value) 
+ 
+ #define SO_MFIELD_DERIVED_VALUE_HEADER(_class_, _valtype_, _valref_) \
+   PRIVATE_MFIELD_IO_HEADER(); \
+diff --git a/include/Inventor/nodes/SoSubNode.h b/include/Inventor/nodes/SoSubNode.h
+index 6661431..f3ca715 100755
+--- a/include/Inventor/nodes/SoSubNode.h
++++ b/include/Inventor/nodes/SoSubNode.h
+@@ -94,10 +94,6 @@ SoType _class_::classTypeId STATIC_SOTYPE_INIT
+ #define SO_NODE_ABSTRACT_SOURCE(_class_) \
+ PRIVATE_NODE_TYPESYSTEM_SOURCE(_class_); \
+  \
+-unsigned int _class_::classinstances = 0; \
+-const SoFieldData ** _class_::parentFieldData = NULL; \
+-SoFieldData * _class_::fieldData = NULL; \
+- \
+ const SoFieldData ** \
+ _class_::getFieldDataPtr(void) \
+ { \
+@@ -119,12 +115,14 @@ _class_::atexit_cleanup(void) \
+   SoType::removeType(_class_::classTypeId.getName()); \
+   _class_::classTypeId STATIC_SOTYPE_INIT; \
+   _class_::classinstances = 0; \
+-}
++} \
++unsigned int _class_::classinstances = 0; \
++const SoFieldData ** _class_::parentFieldData = NULL; \
++SoFieldData * _class_::fieldData = NULL
++
+ 
+ // FIXME: document. 20000103 mortene.
+ #define SO_NODE_SOURCE(_class_) \
+-SO_NODE_ABSTRACT_SOURCE(_class_) \
+- \
+ /*! \
+   Creates a new instance of the class type corresponding to the SoType object. \
+ */ \
+@@ -132,7 +130,8 @@ void * \
+ _class_::createInstance(void) \
+ { \
+   return new _class_; \
+-}
++} \
++SO_NODE_ABSTRACT_SOURCE(_class_) \
+ 
+ // *************************************************************************
+ 
+diff --git a/include/Inventor/nodekits/SoSubKit.h b/include/Inventor/nodekits/SoSubKit.h
+index 1dd945c..43cb5e7 100644
+--- a/include/Inventor/nodekits/SoSubKit.h
++++ b/include/Inventor/nodekits/SoSubKit.h
+@@ -64,7 +64,6 @@ protected: SoSFNode _entry_
+ 
+ 
+ #define PRIVATE_KIT_SOURCE(_class_) \
+-SoNodekitCatalog * _class_::classcatalog = NULL; \
+ const SoNodekitCatalog ** _class_::parentcatalogptr = NULL; \
+  \
+ const SoNodekitCatalog * \
+@@ -91,10 +90,11 @@ _class_::atexit_cleanupkit(void) \
+    delete _class_::classcatalog; \
+   _class_::classcatalog = NULL; \
+   _class_::parentcatalogptr = NULL; \
+-}
++} \
++SoNodekitCatalog * _class_::classcatalog = NULL
+ 
+ #define SO_KIT_SOURCE(_class_) \
+-SO_NODE_SOURCE(_class_) \
++SO_NODE_SOURCE(_class_); \
+ PRIVATE_KIT_SOURCE(_class_)
+ 
+ #define SO_KIT_ABSTRACT_SOURCE(_class_) \
+diff --git a/src/foreignfiles/SoSTLFileKit.cpp b/src/foreignfiles/SoSTLFileKit.cpp
+index d283a7e..0ae361e 100644
+--- a/src/foreignfiles/SoSTLFileKit.cpp
++++ b/src/foreignfiles/SoSTLFileKit.cpp
+@@ -138,7 +138,7 @@ public:
+ 
+ #define PRIVATE(obj) ((obj)->pimpl)
+ 
+-SO_KIT_SOURCE(SoSTLFileKit)
++SO_KIT_SOURCE(SoSTLFileKit);
+ 
+ /*!
+   Initializes class and registers file identification functions.

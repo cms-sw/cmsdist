@@ -1,0 +1,69 @@
+--- rpm.c	2007-02-03 19:33:15.000000000 +0100
++++ rpm.c	2007-06-20 16:31:23.000000000 +0200
+@@ -2,6 +2,7 @@
+ 
+ #include <rpmcli.h>
+ #include <rpmbuild.h>
++#include <stdlib.h>
+ 
+ #include "fs.h"		/* XXX for rpmFreeFilesystems() */
+ 
+@@ -9,6 +10,7 @@
+ #include "signature.h"
+ #include "debug.h"
+ 
++
+ #define GETOPT_ADDSIGN		1005
+ #define GETOPT_RESIGN		1006
+ #define GETOPT_DBPATH		1010
+@@ -686,7 +688,11 @@
+     /* Make a first pass through the arguments, looking for --rcfile */
+     /* We need to handle that before dealing with the rest of the arguments. */
+     optCon = poptGetContext("rpm", argc, argv, optionsTable, 0);
+-    poptReadConfigFile(optCon, LIBRPMALIAS_FILENAME);
++    if (getenv ("LIBRPMALIAS_FILENAME")) {
++        poptReadConfigFile(optCon, getenv ("LIBRPMALIAS_FILENAME"));
++    } else {
++        poptReadConfigFile(optCon, LIBRPMALIAS_FILENAME);
++    }
+     poptReadDefaultConfig(optCon, 1);
+     poptSetExecPath(optCon, USRLIBRPM, 1);
+ 
+--- lib/poptALL.c	2007-06-20 16:27:51.000000000 +0200
++++ lib/poptALL.c	2007-06-20 16:34:17.000000000 +0200
+@@ -11,6 +11,7 @@
+ #include <fs.h>			/* XXX rpmFreeFilesystems() */
+ #include <fts.h>
+ #include <mire.h>
++#include <stdlib.h>
+ 
+ #include "debug.h"
+ 
+@@ -548,7 +549,11 @@
+ /*@-nullpass -temptrans@*/
+     optCon = poptGetContext(__progname, argc, (const char **)argv, optionsTable, 0);
+ /*@=nullpass =temptrans@*/
+-    (void) poptReadConfigFile(optCon, LIBRPMALIAS_FILENAME);
++    if (getenv("LIBRPMALIAS_FILENAME")) {
++        (void) poptReadConfigFile(optCon, getenv("LIBRPMALIAS_FILENAME"));
++    } else {
++        (void) poptReadConfigFile(optCon, LIBRPMALIAS_FILENAME);
++    }
+     (void) poptReadDefaultConfig(optCon, 1);
+     poptSetExecPath(optCon, USRLIBRPM, 1);
+ 
+--- lib/poptALL.c	2007-06-21 10:18:13.000000000 +0200
++++ lib/poptALL.c.new	2007-06-21 12:28:09.000000000 +0200
+@@ -555,7 +555,11 @@
+         (void) poptReadConfigFile(optCon, LIBRPMALIAS_FILENAME);
+     }
+     (void) poptReadDefaultConfig(optCon, 1);
+-    poptSetExecPath(optCon, USRLIBRPM, 1);
++    if (getenv ("USRLIBRPM")) {
++        poptSetExecPath(optCon, getenv ("USRLIBRPM"), 1);
++    } else {
++        poptSetExecPath(optCon, USRLIBRPM, 1);
++    }
+ 
+     /* Process all options, whine if unknown. */
+     while ((rc = poptGetNextOpt(optCon)) > 0) {

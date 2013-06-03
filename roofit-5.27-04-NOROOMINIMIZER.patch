@@ -1,0 +1,30 @@
+diff -Naur orig.roofit/roofitcore/inc/LinkDef3.h roofit/roofitcore/inc/LinkDef3.h
+--- orig.roofit/roofitcore/inc/LinkDef3.h	2010-06-25 23:03:15.000000000 +0200
++++ roofit/roofitcore/inc/LinkDef3.h	2010-08-29 12:31:20.000000000 +0200
+@@ -103,10 +103,10 @@
+ #pragma link C++ class RooCompositeDataStore+ ;
+ #pragma link C++ class RooTreeData+ ;
+ #pragma link C++ class RooRangeBoolean+ ;
+-#ifndef __ROOFIT_NOROOMINIMIZER
+-#pragma link C++ class RooMinimizer+ ;
+-#pragma link C++ class RooMinimizerFcn+ ;
+-#endif
++//#ifndef __ROOFIT_NOROOMINIMIZER
++//#pragma link C++ class RooMinimizer+ ;
++//#pragma link C++ class RooMinimizerFcn+ ;
++//#endif
+ #pragma link C++ class RooMoment+ ;
+ #pragma link C++ class RooStudyManager+ ;
+ #pragma link C++ class RooStudyPackage+ ;
+diff -Naur orig.roofit/roofitcore/inc/RooMinimizer.h roofit/roofitcore/inc/RooMinimizer.h
+--- orig.roofit/roofitcore/inc/RooMinimizer.h	2009-09-23 15:42:12.000000000 +0200
++++ roofit/roofitcore/inc/RooMinimizer.h	2010-08-29 12:30:05.000000000 +0200
+@@ -116,4 +116,8 @@
+ 
+ #endif
+ 
++#else
++
++class RooMinimizer;
++
+ #endif

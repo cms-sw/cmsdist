@@ -1,0 +1,1723 @@
+diff -Naur src.orig/config/scram/BuildFile src/config/scram/BuildFile
+--- src.orig/config/scram/BuildFile	2006-10-17 12:25:09.000000000 +0200
++++ src/config/scram/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,116 +0,0 @@
+-# Top-level project BuildFile for the SEAL project.
+-#
+-# This file is parsed by SCRAM before any other BuildFile.
+-# Project-wide defaults can be set here, including locations
+-# of build projects and externals that apply to all packages.
+-
+-
+-# Map architectures directly to compilers. Defaults here:
+-<Architecture name=cygwin>
+- <External ref=msvcwrap>
+- CCcompiler := Cygwin-msvc7
+-</Architecture>
+-
+-<Architecture name=Linux__2.4>
+- <External ref=gcc3>
+- CCcompiler := Linux-gcc3
+-</Architecture>
+-
+-<Architecture name=osx103_gcc33>
+- <External ref=OSXgcc>
+- CCcompiler := Darwin-gcc3
+-</Architecture>
+-
+-<Architecture name=osx104_ppc_gcc401>
+- <External ref=OSXgcc>
+- CCcompiler := Darwin-gcc3
+-</Architecture>
+-
+-<Architecture name=osx104_ppc_gcc401_dbg>
+- <External ref=OSXgcc>
+- CCcompiler := Darwin-gcc3
+-</Architecture>
+-
+-<Architecture name=slc3_ia32_gcc323>
+- <External ref=gcc3>
+- CCcompiler := Linux-gcc3
+-</Architecture>
+-
+-<Architecture name=slc3_ia32_gcc323_dbg>
+- <External ref=gcc3>
+- CCcompiler := Linux-gcc3
+-</Architecture>
+-
+-<Architecture name=slc3_ia32_gcc323_gcov>
+- <External ref=gcc3>
+- CCcompiler := Linux-gcc3
+-</Architecture>
+-
+-<Architecture name=slc3_ia32_gcc344>
+- <External ref=gcc344 version=3.4.4>
+- CCcompiler := Linux-gcc3
+-</Architecture>
+-
+-<Architecture name=slc3_ia32_gcc344_dbg>
+- <External ref=gcc344 version=3.4.4>
+- CCcompiler := Linux-gcc3
+-</Architecture>
+-
+-<Architecture name=slc3_amd64_gcc344>
+- <External ref=gcc344 version=3.4.4>
+- CCcompiler := Linux-gcc3
+-</Architecture>
+-
+-<Architecture name=slc3_amd64_gcc344_dbg>
+- <External ref=gcc344 version=3.4.4>
+- CCcompiler := Linux-gcc3
+-</Architecture>
+-
+-# -- SLC4, gcc 3.4.5
+-<Architecture name=slc4_ia32_gcc34>
+- <External ref=gcc3>
+- CCcompiler := Linux-gcc3
+-</Architecture>
+-
+-<Architecture name=slc4_ia32_gcc34_dbg>
+- <External ref=gcc3>
+- CCcompiler := Linux-gcc3
+-</Architecture>
+-
+-<Architecture name=slc4_amd64_gcc34>
+- <External ref=gcc3>
+- CCcompiler := Linux-gcc3
+-</Architecture>
+-
+-<Architecture name=slc4_amd64_gcc34_dbg>
+- <External ref=gcc3>
+- CCcompiler := Linux-gcc3
+-</Architecture>
+-
+-
+-# Include any additional compiler flags from compilers.mk:
+-include $(LOCALTOP)/$(projconfigdir)/compilers.mk
+-
+-# Set export behaviour. Project libraries are *not* made 
+-# explicitly available to other areas in the project tree,
+-# they must be explicitly used.
+-scram_autoexport=false
+-
+-# Now back to proper BuildFile directives.  
+-<SourceCode dir=src></SourceCode>
+-<ProductStore name=lib type=arch>Where to put libraries</ProductStore>
+-<ProductStore name=bin type=arch>Where to put binaries</ProductStore>
+-<ProductStore name=include type=arch>Where to put generated headers</ProductStore>
+-<ProductStore name=tests/lib type=arch>Where to put test libraries</ProductStore>
+-<ProductStore name=tests/bin type=arch>Where to put test binaries</ProductStore>
+-
+-# This builds the library or programs of a package; special for "dict" and tests
+-# plus SealPlatform.
+-<ClassPath path=+Project/+SubSystem/+Package/+Workspace/+Workspace/+Workspace/+Workspace>
+-<ClassPath path=+Project/+SubSystem/+Package/dict+dictlibrary>
+-<ClassPath path=+Project/+SubSystem/+Package/test+Testspace>
+-<ClassPath path=+Project/+SubSystem/+Package/tests+Testspace/+Testspace/+Testspace>
+-<ClassPath path=+Project/+SubSystem/SealPlatform+platform>
+-<ClassPath path=+Project/+SubSystem/PyLCGDict2+PyLCGDict2>
+-<ClassPath path=+Project/+SubSystem/Pyreflex+Pyreflex>
+-# BUILDVERBOSE=true
+diff -Naur src.orig/Foundation/BuildFile src/Foundation/BuildFile
+--- src.orig/Foundation/BuildFile	2004-06-07 14:29:50.000000000 +0200
++++ src/Foundation/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-BUILDORDER = SealPlatform SealBase SealIOTools SealZip SealUtil PluginManager
+-
+diff -Naur src.orig/Foundation/PluginCaps/tests/BuildFile src/Foundation/PluginCaps/tests/BuildFile
+--- src.orig/Foundation/PluginCaps/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/Foundation/PluginCaps/tests/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -0,0 +1,10 @@
++<Use name=Foundation/PluginManager>
++<library name=TestPluginCaps2 file=PluginCaps2/*.cpp>
++  <Flags SealPlugin=1>
++</library>
++<library name=TestPluginCaps3 file=PluginCaps3/*.cpp>
++  <Flags SealPlugin=1>
++</library>
++<library name=TestPluginCaps file=PluginCaps/*.cpp>
++  <Flags SealPlugin=1>
++</library>
+diff -Naur src.orig/Foundation/PluginCaps/tests/PluginCaps/BuildFile src/Foundation/PluginCaps/tests/PluginCaps/BuildFile
+--- src.orig/Foundation/PluginCaps/tests/PluginCaps/BuildFile	2003-11-24 15:25:42.000000000 +0100
++++ src/Foundation/PluginCaps/tests/PluginCaps/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-testlibname = TestPluginCaps
+-include $(SEAL)/config/module.mk
+diff -Naur src.orig/Foundation/PluginCaps/tests/PluginCaps2/BuildFile src/Foundation/PluginCaps/tests/PluginCaps2/BuildFile
+--- src.orig/Foundation/PluginCaps/tests/PluginCaps2/BuildFile	2003-11-24 15:25:42.000000000 +0100
++++ src/Foundation/PluginCaps/tests/PluginCaps2/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-<Use name=Foundation/PluginManager>
+-testlibname = TestPluginCaps2
+-include $(SEAL)/config/module.mk
+diff -Naur src.orig/Foundation/PluginCaps/tests/PluginCaps3/BuildFile src/Foundation/PluginCaps/tests/PluginCaps3/BuildFile
+--- src.orig/Foundation/PluginCaps/tests/PluginCaps3/BuildFile	2003-11-24 15:25:42.000000000 +0100
++++ src/Foundation/PluginCaps/tests/PluginCaps3/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-testlibname = TestPluginCaps3
+-include $(SEAL)/config/module.mk
+diff -Naur src.orig/Foundation/PluginChecker/BuildFile src/Foundation/PluginChecker/BuildFile
+--- src.orig/Foundation/PluginChecker/BuildFile	2003-10-16 12:09:42.000000000 +0200
++++ src/Foundation/PluginChecker/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-<Use name=Foundation/SealBase>
+-install_scripts = src/SealModuleSymCheck
+diff -Naur src.orig/Foundation/PluginChecker/src/BuildFile src/Foundation/PluginChecker/src/BuildFile
+--- src.orig/Foundation/PluginChecker/src/BuildFile	2003-10-16 12:09:42.000000000 +0200
++++ src/Foundation/PluginChecker/src/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -1 +1,4 @@
+-<bin name=SealModuleLoadCheck file=SealModuleLoadCheck.cpp>
++<bin file=SealModuleLoadCheck.cpp>
++  <use name=Foundation/SealBase>
++  <Flags INSTALL_SCRIPTS=SealModuleSymCheck>
++</bin>
+diff -Naur src.orig/Foundation/PluginDumper/BuildFile src/Foundation/PluginDumper/BuildFile
+--- src.orig/Foundation/PluginDumper/BuildFile	2003-05-19 20:46:29.000000000 +0200
++++ src/Foundation/PluginDumper/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1 +0,0 @@
+-<Use name=Foundation/PluginManager>
+diff -Naur src.orig/Foundation/PluginDumper/src/BuildFile src/Foundation/PluginDumper/src/BuildFile
+--- src.orig/Foundation/PluginDumper/src/BuildFile	2003-05-19 20:46:29.000000000 +0200
++++ src/Foundation/PluginDumper/src/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -1 +1,3 @@
+-<bin name=SealPluginDump file=main.cpp>
++<bin file=main.cpp name=SealPluginDump>
++  <use name=Foundation/PluginManager>
++</bin>
+diff -Naur src.orig/Foundation/PluginManager/BuildFile src/Foundation/PluginManager/BuildFile
+--- src.orig/Foundation/PluginManager/BuildFile	2003-11-24 15:26:45.000000000 +0100
++++ src/Foundation/PluginManager/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -1,3 +1,6 @@
+-<Export><Lib name=lcg_PluginManager></Export>
+-<Include_Path path=.>
+-<Use name=Foundation/SealBase>
++<use name=Foundation/SealBase>
++
++<export>
++ <lib name=lcg_PluginManager>
++ <use name=Foundation/SealBase>
++</export>
+diff -Naur src.orig/Foundation/PluginManager/tests/BuildFile src/Foundation/PluginManager/tests/BuildFile
+--- src.orig/Foundation/PluginManager/tests/BuildFile	2003-03-28 11:01:50.000000000 +0100
++++ src/Foundation/PluginManager/tests/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -1 +1,33 @@
+-BUILDORDER = PluginDump PluginFactory
++<use name=Foundation/PluginManager>
++<include_path path=$(LOCALTOP)/$(SCRAM_SOURCEDIR)/Foundation/PluginManager>
++<Flags LDFLAGS="-L$(LOCALTOP)/$(SCRAMSTORENAME_TESTS_LIB)">
++<library name=TestPluginFactory file="PluginFactory/*.cpp">
++</library>
++<library name=TestPluginFactoryArgs file="PluginFactoryArgs/module.cpp  PluginFactoryArgs/TestPluginFactoryArgs.cpp  PluginFactoryArgs/TestPluginTypeArgs.cpp">
++  <Flags SealPlugin=1>
++</library>
++<library name=TestPluginSample file="PluginSample/*.cpp">
++  <lib name=TestPluginFactory>
++  <Flags SealPlugin=1>
++</library>
++<library name=TestPluginInit file="PluginInit/*.cpp">
++  <lib name=TestPluginFactory>
++  <Flags SealPlugin=1>
++</library>
++
++<bin name=test_PluginManager_PluginArgs file="PluginFactoryArgs/main.cpp">
++  <lib name=TestPluginFactoryArgs>
++</bin>
++<bin name=test_PluginManager_PluginCreation file="PluginCreation/main.cpp">
++  <lib name=TestPluginFactory>
++</bin>
++<bin name=test_PluginManager_NoPath file="PluginNullPath/NoPath.cpp">
++</bin>
++<bin name=test_PluginManager_NullAllPath file="PluginNullPath/NullAllPath.cpp">
++</bin>
++<bin name=test_PluginManager_NullMidPath file="PluginNullPath/NullMidPath.cpp">
++</bin>
++<bin name=test_PluginManager_NullPrefixPath file="PluginNullPath/NullPrefixPath.cpp">
++</bin>
++<bin name=test_PluginManager_NullSuffixPath file="PluginNullPath/NullSuffixPath.cpp">
++</bin>
+diff -Naur src.orig/Foundation/PluginManager/tests/PluginCreation/BuildFile src/Foundation/PluginManager/tests/PluginCreation/BuildFile
+--- src.orig/Foundation/PluginManager/tests/PluginCreation/BuildFile	2003-10-27 12:07:26.000000000 +0100
++++ src/Foundation/PluginManager/tests/PluginCreation/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-<Use name=Foundation/PluginManager/tests/PluginFactory>
+-<bin name=test_PluginManager_PluginCreation file=main.cpp>
+diff -Naur src.orig/Foundation/PluginManager/tests/PluginFactory/BuildFile src/Foundation/PluginManager/tests/PluginFactory/BuildFile
+--- src.orig/Foundation/PluginManager/tests/PluginFactory/BuildFile	2003-11-24 15:32:35.000000000 +0100
++++ src/Foundation/PluginManager/tests/PluginFactory/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-<Export><Lib name=TestPluginFactory></Export>
+-<Use name=Foundation/PluginManager>
+-testlibname=TestPluginFactory
+diff -Naur src.orig/Foundation/PluginManager/tests/PluginFactoryArgs/BuildFile src/Foundation/PluginManager/tests/PluginFactoryArgs/BuildFile
+--- src.orig/Foundation/PluginManager/tests/PluginFactoryArgs/BuildFile	2004-05-24 16:11:16.000000000 +0200
++++ src/Foundation/PluginManager/tests/PluginFactoryArgs/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,9 +0,0 @@
+-<Export><Lib name=TestPluginFactoryArgs></Export>
+-<Use name=Foundation/PluginManager>
+-testlibname=TestPluginFactoryArgs
+-include $(SEAL)/config/module.mk
+-
+-<environment>
+-  <lib name=TestPluginFactoryArgs>
+-  <bin name=test_PluginManager_PluginArgs file=main.cpp>
+-</environment>
+diff -Naur src.orig/Foundation/PluginManager/tests/PluginInit/BuildFile src/Foundation/PluginManager/tests/PluginInit/BuildFile
+--- src.orig/Foundation/PluginManager/tests/PluginInit/BuildFile	2004-05-24 15:08:17.000000000 +0200
++++ src/Foundation/PluginManager/tests/PluginInit/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,4 +0,0 @@
+-<Export><Lib name=TestPluginSample></Export>
+-<Use name=Foundation/PluginManager/tests/PluginFactory>
+-testlibname=TestPluginInit
+-include $(SEAL)/config/module.mk
+diff -Naur src.orig/Foundation/PluginManager/tests/PluginNullPath/BuildFile src/Foundation/PluginManager/tests/PluginNullPath/BuildFile
+--- src.orig/Foundation/PluginManager/tests/PluginNullPath/BuildFile	2003-10-27 12:08:26.000000000 +0100
++++ src/Foundation/PluginManager/tests/PluginNullPath/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,6 +0,0 @@
+-<Use name=Foundation/PluginManager>
+-<bin name=test_PluginManager_NoPath file=NoPath.cpp>
+-<bin name=test_PluginManager_NullAllPath file=NullAllPath.cpp>
+-<bin name=test_PluginManager_NullMidPath file=NullMidPath.cpp>
+-<bin name=test_PluginManager_NullPrefixPath file=NullPrefixPath.cpp>
+-<bin name=test_PluginManager_NullSuffixPath file=NullSuffixPath.cpp>
+diff -Naur src.orig/Foundation/PluginManager/tests/PluginSample/BuildFile src/Foundation/PluginManager/tests/PluginSample/BuildFile
+--- src.orig/Foundation/PluginManager/tests/PluginSample/BuildFile	2003-11-24 15:32:35.000000000 +0100
++++ src/Foundation/PluginManager/tests/PluginSample/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,4 +0,0 @@
+-<Export><Lib name=TestPluginSample></Export>
+-<Use name=Foundation/PluginManager/tests/PluginFactory>
+-testlibname=TestPluginSample
+-include $(SEAL)/config/module.mk
+diff -Naur src.orig/Foundation/PluginRefresh/BuildFile src/Foundation/PluginRefresh/BuildFile
+--- src.orig/Foundation/PluginRefresh/BuildFile	2004-05-24 13:41:06.000000000 +0200
++++ src/Foundation/PluginRefresh/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1 +0,0 @@
+-<Use name=Foundation/PluginManager>
+diff -Naur src.orig/Foundation/PluginRefresh/src/BuildFile src/Foundation/PluginRefresh/src/BuildFile
+--- src.orig/Foundation/PluginRefresh/src/BuildFile	2004-05-24 13:41:06.000000000 +0200
++++ src/Foundation/PluginRefresh/src/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -1 +1,3 @@
+-<bin name=SealPluginRefresh file=main.cpp>
++<bin file=main.cpp name=SealPluginRefresh>
++  <use name=Foundation/PluginManager>
++</bin>
+diff -Naur src.orig/Foundation/SealBase/BuildFile src/Foundation/SealBase/BuildFile
+--- src.orig/Foundation/SealBase/BuildFile	2003-11-24 15:21:17.000000000 +0100
++++ src/Foundation/SealBase/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -1,9 +1,13 @@
+-<export><lib name=lcg_SealBase></export>
+-<include_path path=.>
+-
+ <use name=Foundation/SealPlatform>
+-<external ref=pcre>
+-<external ref=uuid>
+-<architecture name=cygwin_msvc7>
+- <external ref=rx>
+-</architecture>
++<use name=pcre>
++<use name=uuid>
++<flags NO_LIB_CHECKING=yes>
++<Flags ADD_SUBDIR=1>
++<Flags CPPDEFINES="_FILE_OFFSET_BITS=64">
++
++<export>
++ <lib name=lcg_SealBase>
++ <use name=Foundation/SealPlatform>
++ <use name=pcre>
++ <use name=uuid>
++</export>
+diff -Naur src.orig/Foundation/SealBase/examples/BuildFile src/Foundation/SealBase/examples/BuildFile
+--- src.orig/Foundation/SealBase/examples/BuildFile	2003-10-14 10:51:33.000000000 +0200
++++ src/Foundation/SealBase/examples/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -1,8 +1,5 @@
+-<Use name=Foundation/SealBase>
+-# turn around for external 
+-#
+-<bin file=exa_ResourceInfo.cpp></bin>
++<use name=Foundation/SealBase>
+ <bin file=exa_Debug.cpp></bin>
+ <bin file=exa_Log.cpp></bin>
++<bin file=exa_ResourceInfo.cpp></bin>
+ <bin file=exa_Signal.cpp></bin>
+-
+diff -Naur src.orig/Foundation/SealBase/src/BuildFile src/Foundation/SealBase/src/BuildFile
+--- src.orig/Foundation/SealBase/src/BuildFile	2004-10-21 07:34:07.000000000 +0200
++++ src/Foundation/SealBase/src/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-CPPFLAGS += -D_FILE_OFFSET_BITS=64
+-skip_subdirs = ext
+-extra_srcdirs = ext/aix-dlfcn
+diff -Naur src.orig/Foundation/SealBase/tests/BuildFile src/Foundation/SealBase/tests/BuildFile
+--- src.orig/Foundation/SealBase/tests/BuildFile	2006-01-23 13:58:50.000000000 +0100
++++ src/Foundation/SealBase/tests/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -1,155 +1,439 @@
+-<use name=Foundation/SealBase></use>
+-<use name=Foundation/SealTest></use>
+-
+-
+-# define TEST name as required  in SealTest
+-CPPFLAGS += -DTEST=$(basename $(*F))
+-
+-testlibname = SharedLibrary01
+-<environment>
+-<Bin name=test_SealBase_Argz01 file=Argz01.cpp>
+-<Bin name=test_SealBase_AutoLoad01 file=AutoLoad01.cpp>
+-<Bin name=test_SealBase_BitIterator01 file=BitIterator01.cpp>
+-<Bin name=test_SealBase_BitOps01 file=BitOps01.cpp>
+-<Bin name=test_SealBase_BitPattern01 file=BitPattern01.cpp>
+-<Bin name=test_SealBase_BitTraits01 file=BitTraits01.cpp>
+-<Bin name=test_SealBase_Callback01 file=Callback01.cpp>
+-<Bin name=test_SealBase_Debug01 file=Debug01.cpp>
+-<Bin name=test_SealBase_DirIterator01 file=DirIterator01.cpp>
+-<Bin name=test_SealBase_DirIterator02 file=DirIterator02.cpp>
+-<Bin name=test_SealBase_DirIterator03 file=DirIterator03.cpp>
+-<Bin name=test_SealBase_DirIterator04 file=DirIterator04.cpp>
+-<Bin name=test_SealBase_Environment01 file=Environment01.cpp>
+-<Bin name=test_SealBase_File01 file=File01.cpp>
+-<Bin name=test_SealBase_File02 file=File02.cpp>
+-<Bin name=test_SealBase_File03 file=File03.cpp>
+-<Bin name=test_SealBase_File04 file=File04.cpp>
+-<Bin name=test_SealBase_File05 file=File05.cpp>
+-<Bin name=test_SealBase_File06 file=File06.cpp>
+-<Bin name=test_SealBase_FileAcl01 file=FileAcl01.cpp>
+-<Bin name=test_SealBase_FileLock01 file=FileLock01.cpp>
+-<Bin name=test_SealBase_FileMapping01 file=FileMapping01.cpp>
+-<Bin name=test_SealBase_FileMapping02 file=FileMapping02.cpp>
+-<Bin name=test_SealBase_FileMapping03 file=FileMapping03.cpp>
+-<Bin name=test_SealBase_Filename000 file=Filename000.cpp>
+-<Bin name=test_SealBase_Filename01 file=Filename01.cpp>
+-<Bin name=test_SealBase_Filename02_01 file=Filename02_01.cpp>
+-<Bin name=test_SealBase_Filename02_02 file=Filename02_02.cpp>
+-<Bin name=test_SealBase_Filename02_03 file=Filename02_03.cpp>
+-<Bin name=test_SealBase_Filename02_04 file=Filename02_04.cpp>
+-<Bin name=test_SealBase_Filename02_05 file=Filename02_05.cpp>
+-<Bin name=test_SealBase_Filename02_06 file=Filename02_06.cpp>
+-<Bin name=test_SealBase_Filename02_07 file=Filename02_07.cpp>
+-<Bin name=test_SealBase_Filename02_08 file=Filename02_08.cpp>
+-<Bin name=test_SealBase_Filename02_09 file=Filename02_09.cpp>
+-<Bin name=test_SealBase_Filename02_10 file=Filename02_10.cpp>
+-<Bin name=test_SealBase_Filename02_11 file=Filename02_11.cpp>
+-<Bin name=test_SealBase_Filename02_12 file=Filename02_12.cpp>
+-<Bin name=test_SealBase_Filename02_13 file=Filename02_13.cpp>
+-<Bin name=test_SealBase_Filename03 file=Filename03.cpp>
+-<Bin name=test_SealBase_Filename04 file=Filename04.cpp>
+-<Bin name=test_SealBase_Filename05 file=Filename05.cpp>
+-<Bin name=test_SealBase_Filename06 file=Filename06.cpp>
+-<Bin name=test_SealBase_Filename07 file=Filename07.cpp>
+-<Bin name=test_SealBase_Filename08 file=Filename08.cpp>
+-<Bin name=test_SealBase_Filename09 file=Filename09.cpp>
+-<Bin name=test_SealBase_Hook01 file=Hook01.cpp>
+-<Bin name=test_SealBase_HookList01 file=HookList01.cpp>
+-<Bin name=test_SealBase_HostInfo01 file=HostInfo01.cpp>
+-<Bin name=test_SealBase_IOChannel01 file=IOChannel01.cpp>
+-<Bin name=test_SealBase_IOSelector01 file=IOSelector01.cpp>
+-<Bin name=test_SealBase_IOSelector02 file=IOSelector02.cpp>
+-<Bin name=test_SealBase_IOSelector03 file=IOSelector03.cpp>
+-<Bin name=test_SealBase_IOStatus01 file=IOStatus01.cpp>
+-<Bin name=test_SealBase_InetServerSocket01 file=InetServerSocket01.cpp>
+-<Bin name=test_SealBase_InetSocket01 file=InetSocket01.cpp>
+-<Bin name=test_SealBase_IntBits01 file=IntBits01.cpp>
+-<Bin name=test_SealBase_IntBits02 file=IntBits02.cpp>
+-<Bin name=test_SealBase_IntBits03 file=IntBits03.cpp>
+-<Bin name=test_SealBase_LocalServerSocket01 file=LocalServerSocket01.cpp>
+-<Bin name=test_SealBase_LocalSocket01 file=LocalSocket01.cpp>
+-<Bin name=test_SealBase_Log01 file=Log01.cpp>
+-<Bin name=test_SealBase_LogListener file=LogListener.cpp>
+-<Bin name=test_SealBase_LowMemoryPool01 file=LowMemoryPool01.cpp>
+-<Bin name=test_SealBase_MapIterator01 file=MapIterator01.cpp>
+-<Bin name=test_SealBase_MapIterator02 file=MapIterator02.cpp>
+-<Bin name=test_SealBase_MultiMethod01 file=MultiMethod01.cpp>
+-<Bin name=test_SealBase_MultiMethod02 file=MultiMethod02.cpp>
+-<Bin name=test_SealBase_MultiMethod03 file=MultiMethod03.cpp>
+-<Bin name=test_SealBase_NamedPipeServer01 file=NamedPipeServer01.cpp>
+-<Bin name=test_SealBase_Pipe01 file=Pipe01.cpp>
+-<Bin name=test_SealBase_PipeCmd01 file=PipeCmd01.cpp>
+-<Bin name=test_SealBase_ProcessInfo01 file=ProcessInfo01.cpp>
+-<Bin name=test_SealBase_Range01 file=Range01.cpp>
+-<Bin name=test_SealBase_ResourceInfo01 file=ResourceInfo01.cpp>
+-<Bin name=test_SealBase_SaveErrno01 file=SaveErrno01.cpp>
+-<Bin name=test_SealBase_SearchPath01 file=SearchPath01.cpp>
+-<Bin name=test_SealBase_SearchPath02 file=SearchPath02.cpp>
+-<Bin name=test_SealBase_Sequence01 file=Sequence01.cpp>
+-<Bin name=test_SealBase_SharedLibrary01 file=SharedLibrary01.cpp>
+-<Bin name=test_SealBase_ShellEnvironment01 file=ShellEnvironment01.cpp>
+-<Bin name=test_SealBase_Signal01 file=Signal01.cpp>
+-<Bin name=test_SealBase_Signal02 file=Signal02.cpp>
+-<Bin name=test_SealBase_Signal03 file=Signal03.cpp>
+-<Bin name=test_SealBase_SocketPair01 file=SocketPair01.cpp>
+-<Bin name=test_SealBase_StringFormat01_01 file=StringFormat01_01.cpp>
+-<Bin name=test_SealBase_StringFormat01_02 file=StringFormat01_02.cpp>
+-<Bin name=test_SealBase_StringFormat01_03 file=StringFormat01_03.cpp>
+-<Bin name=test_SealBase_StringFormat01_04 file=StringFormat01_04.cpp>
+-<Bin name=test_SealBase_StringFormat01_05 file=StringFormat01_05.cpp>
+-<Bin name=test_SealBase_StringFormat01_06 file=StringFormat01_06.cpp>
+-<Bin name=test_SealBase_StringFormat02_01 file=StringFormat02_01.cpp>
+-<Bin name=test_SealBase_StringFormat02_02 file=StringFormat02_02.cpp>
+-<Bin name=test_SealBase_StringFormat02_03 file=StringFormat02_03.cpp>
+-<Bin name=test_SealBase_StringFormat03_01 file=StringFormat03_01.cpp>
+-<Bin name=test_SealBase_StringFormat03_02 file=StringFormat03_02.cpp>
+-<Bin name=test_SealBase_StringFormat03_03 file=StringFormat03_03.cpp>
+-<Bin name=test_SealBase_StringFormat03_04 file=StringFormat03_04.cpp>
+-<Bin name=test_SealBase_StringFormat03_05 file=StringFormat03_05.cpp>
+-<Bin name=test_SealBase_StringFormat03_06 file=StringFormat03_06.cpp>
+-<Bin name=test_SealBase_StringFormat04_01 file=StringFormat04_01.cpp>
+-<Bin name=test_SealBase_StringOps01_01 file=StringOps01_01.cpp>
+-<Bin name=test_SealBase_StringOps02_01 file=StringOps02_01.cpp>
+-<Bin name=test_SealBase_StringOps02_02 file=StringOps02_02.cpp>
+-<Bin name=test_SealBase_StringOps02_03 file=StringOps02_03.cpp>
+-<Bin name=test_SealBase_StringOps03_01a file=StringOps03_01a.cpp>
+-<Bin name=test_SealBase_StringOps03_01b file=StringOps03_01b.cpp>
+-<Bin name=test_SealBase_StringOps03_02a file=StringOps03_02a.cpp>
+-<Bin name=test_SealBase_StringOps03_02b file=StringOps03_02b.cpp>
+-<Bin name=test_SealBase_StringOps03_03a file=StringOps03_03a.cpp>
+-<Bin name=test_SealBase_StringOps03_03b file=StringOps03_03b.cpp>
+-<Bin name=test_SealBase_StringOps03_04a file=StringOps03_04a.cpp>
+-<Bin name=test_SealBase_StringOps03_04b file=StringOps03_04b.cpp>
+-<Bin name=test_SealBase_StringOps03_05a file=StringOps03_05a.cpp>
+-<Bin name=test_SealBase_StringOps03_05b file=StringOps03_05b.cpp>
+-<Bin name=test_SealBase_StringOps03_06a file=StringOps03_06a.cpp>
+-<Bin name=test_SealBase_StringOps03_06b file=StringOps03_06b.cpp>
+-<Bin name=test_SealBase_StringOps03_07a file=StringOps03_07a.cpp>
+-<Bin name=test_SealBase_StringOps03_07b file=StringOps03_07b.cpp>
+-<Bin name=test_SealBase_StringOps03_08a file=StringOps03_08a.cpp>
+-<Bin name=test_SealBase_StringOps03_08b file=StringOps03_08b.cpp>
+-<Bin name=test_SealBase_StringOps03_09a file=StringOps03_09a.cpp>
+-<Bin name=test_SealBase_StringOps03_09b file=StringOps03_09b.cpp>
+-<Bin name=test_SealBase_StringOps03_10a file=StringOps03_10a.cpp>
+-<Bin name=test_SealBase_StringOps03_10b file=StringOps03_10b.cpp>
+-<Bin name=test_SealBase_StringOps03_11a file=StringOps03_11a.cpp>
+-<Bin name=test_SealBase_StringOps03_11b file=StringOps03_11b.cpp>
+-<Bin name=test_SealBase_SubProcess01 file=SubProcess01.cpp>
+-<Bin name=test_SealBase_SubProcess02 file=SubProcess02.cpp>
+-<Bin name=test_SealBase_SubProcess03 file=SubProcess03.cpp>
+-<Bin name=test_SealBase_SubProcess04 file=SubProcess04.cpp>
+-<Bin name=test_SealBase_SystemInfo01 file=SystemInfo01.cpp>
+-<Bin name=test_SealBase_Time01 file=Time01.cpp>
+-<Bin name=test_SealBase_Time02 file=Time02.cpp>
+-<Bin name=test_SealBase_Time03 file=Time03.cpp>
+-<Bin name=test_SealBase_TimeInfo01 file=TimeInfo01.cpp>
+-<Bin name=test_SealBase_TimeInfo02 file=TimeInfo02.cpp>
+-<Bin name=test_SealBase_UUID01 file=UUID01.cpp>
+-<Bin name=test_SealBase_UUID02 file=UUID02.cpp>
+-<Bin name=test_SealBase_UUID03 file=UUID03.cpp>
+-<Bin name=test_SealBase_UUID04 file=UUID04.cpp>
+-<Bin name=test_SealBase_UUID05 file=UUID05.cpp>
+-<Bin name=test_SealBase_Unwind01 file=Unwind01.cpp>
+-<Bin name=test_SealBase_UserInfo01 file=UserInfo01.cpp>
+-<Bin name=test_SealBase_XTypeInfo01 file=XTypeInfo01.cpp>
+-</environment>
++<use name=Foundation/SealBase>
++<use name=Foundation/SealTest>
++<library name=SharedLibrary01 file=SharedLibrary01Lib.cpp>
++</library>
++<bin name=test_SealBase_Argz01 file=Argz01.cpp>
++  <Flags CPPDEFINES="TEST=Argz01">
++</bin>
++<bin name=test_SealBase_AutoLoad01 file=AutoLoad01.cpp>
++  <Flags CPPDEFINES="TEST=AutoLoad01">
++</bin>
++<bin name=test_SealBase_BitIterator01 file=BitIterator01.cpp>
++  <Flags CPPDEFINES="TEST=BitIterator01">
++</bin>
++<bin name=test_SealBase_BitOps01 file=BitOps01.cpp>
++  <Flags CPPDEFINES="TEST=BitOps01">
++</bin>
++<bin name=test_SealBase_BitPattern01 file=BitPattern01.cpp>
++  <Flags CPPDEFINES="TEST=BitPattern01">
++</bin>
++<bin name=test_SealBase_BitTraits01 file=BitTraits01.cpp>
++  <Flags CPPDEFINES="TEST=BitTraits01">
++</bin>
++<bin name=test_SealBase_Callback01 file=Callback01.cpp>
++  <Flags CPPDEFINES="TEST=Callback01">
++</bin>
++<bin name=test_SealBase_Debug01 file=Debug01.cpp>
++  <Flags CPPDEFINES="TEST=Debug01">
++</bin>
++<bin name=test_SealBase_DirIterator01 file=DirIterator01.cpp>
++  <Flags CPPDEFINES="TEST=DirIterator01">
++</bin>
++<bin name=test_SealBase_DirIterator02 file=DirIterator02.cpp>
++  <Flags CPPDEFINES="TEST=DirIterator02">
++</bin>
++<bin name=test_SealBase_DirIterator03 file=DirIterator03.cpp>
++  <Flags CPPDEFINES="TEST=DirIterator03">
++</bin>
++<bin name=test_SealBase_DirIterator04 file=DirIterator04.cpp>
++  <Flags CPPDEFINES="TEST=DirIterator04">
++</bin>
++<bin name=test_SealBase_Environment01 file=Environment01.cpp>
++  <Flags CPPDEFINES="TEST=Environment01">
++</bin>
++<bin name=test_SealBase_File01 file=File01.cpp>
++  <Flags CPPDEFINES="TEST=File01">
++</bin>
++<bin name=test_SealBase_File02 file=File02.cpp>
++  <Flags CPPDEFINES="TEST=File02">
++</bin>
++<bin name=test_SealBase_File03 file=File03.cpp>
++  <Flags CPPDEFINES="TEST=File03">
++</bin>
++<bin name=test_SealBase_File04 file=File04.cpp>
++  <Flags CPPDEFINES="TEST=File04">
++</bin>
++<bin name=test_SealBase_File05 file=File05.cpp>
++  <Flags CPPDEFINES="TEST=File05">
++</bin>
++<bin name=test_SealBase_File06 file=File06.cpp>
++  <Flags CPPDEFINES="TEST=File06">
++</bin>
++<bin name=test_SealBase_FileAcl01 file=FileAcl01.cpp>
++  <Flags CPPDEFINES="TEST=FileAcl01">
++</bin>
++<bin name=test_SealBase_FileLock01 file=FileLock01.cpp>
++  <Flags CPPDEFINES="TEST=FileLock01">
++</bin>
++<bin name=test_SealBase_FileMapping01 file=FileMapping01.cpp>
++  <Flags CPPDEFINES="TEST=FileMapping01">
++</bin>
++<bin name=test_SealBase_FileMapping02 file=FileMapping02.cpp>
++  <Flags CPPDEFINES="TEST=FileMapping02">
++</bin>
++<bin name=test_SealBase_FileMapping03 file=FileMapping03.cpp>
++  <Flags CPPDEFINES="TEST=FileMapping03">
++</bin>
++<bin name=test_SealBase_Filename000 file=Filename000.cpp>
++  <Flags CPPDEFINES="TEST=Filename000">
++</bin>
++<bin name=test_SealBase_Filename01 file=Filename01.cpp>
++  <Flags CPPDEFINES="TEST=Filename01">
++</bin>
++<bin name=test_SealBase_Filename02_01 file=Filename02_01.cpp>
++  <Flags CPPDEFINES="TEST=Filename02_01">
++</bin>
++<bin name=test_SealBase_Filename02_02 file=Filename02_02.cpp>
++  <Flags CPPDEFINES="TEST=Filename02_02">
++</bin>
++<bin name=test_SealBase_Filename02_03 file=Filename02_03.cpp>
++  <Flags CPPDEFINES="TEST=Filename02_03">
++</bin>
++<bin name=test_SealBase_Filename02_04 file=Filename02_04.cpp>
++  <Flags CPPDEFINES="TEST=Filename02_04">
++</bin>
++<bin name=test_SealBase_Filename02_05 file=Filename02_05.cpp>
++  <Flags CPPDEFINES="TEST=Filename02_05">
++</bin>
++<bin name=test_SealBase_Filename02_06 file=Filename02_06.cpp>
++  <Flags CPPDEFINES="TEST=Filename02_06">
++</bin>
++<bin name=test_SealBase_Filename02_07 file=Filename02_07.cpp>
++  <Flags CPPDEFINES="TEST=Filename02_07">
++</bin>
++<bin name=test_SealBase_Filename02_08 file=Filename02_08.cpp>
++  <Flags CPPDEFINES="TEST=Filename02_08">
++</bin>
++<bin name=test_SealBase_Filename02_09 file=Filename02_09.cpp>
++  <Flags CPPDEFINES="TEST=Filename02_09">
++</bin>
++<bin name=test_SealBase_Filename02_10 file=Filename02_10.cpp>
++  <Flags CPPDEFINES="TEST=Filename02_10">
++</bin>
++<bin name=test_SealBase_Filename02_11 file=Filename02_11.cpp>
++  <Flags CPPDEFINES="TEST=Filename02_11">
++</bin>
++<bin name=test_SealBase_Filename02_12 file=Filename02_12.cpp>
++  <Flags CPPDEFINES="TEST=Filename02_12">
++</bin>
++<bin name=test_SealBase_Filename02_13 file=Filename02_13.cpp>
++  <Flags CPPDEFINES="TEST=Filename02_13">
++</bin>
++<bin name=test_SealBase_Filename03 file=Filename03.cpp>
++  <Flags CPPDEFINES="TEST=Filename03">
++</bin>
++<bin name=test_SealBase_Filename04 file=Filename04.cpp>
++  <Flags CPPDEFINES="TEST=Filename04">
++</bin>
++<bin name=test_SealBase_Filename05 file=Filename05.cpp>
++  <Flags CPPDEFINES="TEST=Filename05">
++</bin>
++<bin name=test_SealBase_Filename06 file=Filename06.cpp>
++  <Flags CPPDEFINES="TEST=Filename06">
++</bin>
++<bin name=test_SealBase_Filename07 file=Filename07.cpp>
++  <Flags CPPDEFINES="TEST=Filename07">
++</bin>
++<bin name=test_SealBase_Filename08 file=Filename08.cpp>
++  <Flags CPPDEFINES="TEST=Filename08">
++</bin>
++<bin name=test_SealBase_Filename09 file=Filename09.cpp>
++  <Flags CPPDEFINES="TEST=Filename09">
++</bin>
++<bin name=test_SealBase_Hook01 file=Hook01.cpp>
++  <Flags CPPDEFINES="TEST=Hook01">
++</bin>
++<bin name=test_SealBase_HookList01 file=HookList01.cpp>
++  <Flags CPPDEFINES="TEST=HookList01">
++</bin>
++<bin name=test_SealBase_HostInfo01 file=HostInfo01.cpp>
++  <Flags CPPDEFINES="TEST=HostInfo01">
++</bin>
++<bin name=test_SealBase_IOChannel01 file=IOChannel01.cpp>
++  <Flags CPPDEFINES="TEST=IOChannel01">
++</bin>
++<bin name=test_SealBase_IOSelector01 file=IOSelector01.cpp>
++  <Flags CPPDEFINES="TEST=IOSelector01">
++</bin>
++<bin name=test_SealBase_IOSelector02 file=IOSelector02.cpp>
++  <Flags CPPDEFINES="TEST=IOSelector02">
++</bin>
++<bin name=test_SealBase_IOSelector03 file=IOSelector03.cpp>
++  <Flags CPPDEFINES="TEST=IOSelector03">
++</bin>
++<bin name=test_SealBase_IOStatus01 file=IOStatus01.cpp>
++  <Flags CPPDEFINES="TEST=IOStatus01">
++</bin>
++<bin name=test_SealBase_InetServerSocket01 file=InetServerSocket01.cpp>
++  <Flags CPPDEFINES="TEST=InetServerSocket01">
++</bin>
++<bin name=test_SealBase_InetSocket01 file=InetSocket01.cpp>
++  <Flags CPPDEFINES="TEST=InetSocket01">
++</bin>
++<bin name=test_SealBase_IntBits01 file=IntBits01.cpp>
++  <Flags CPPDEFINES="TEST=IntBits01">
++</bin>
++<bin name=test_SealBase_IntBits02 file=IntBits02.cpp>
++  <Flags CPPDEFINES="TEST=IntBits02">
++</bin>
++<bin name=test_SealBase_IntBits03 file=IntBits03.cpp>
++  <Flags CPPDEFINES="TEST=IntBits03">
++</bin>
++<bin name=test_SealBase_LocalServerSocket01 file=LocalServerSocket01.cpp>
++  <Flags CPPDEFINES="TEST=LocalServerSocket01">
++</bin>
++<bin name=test_SealBase_LocalSocket01 file=LocalSocket01.cpp>
++  <Flags CPPDEFINES="TEST=LocalSocket01">
++</bin>
++<bin name=test_SealBase_Log01 file=Log01.cpp>
++  <Flags CPPDEFINES="TEST=Log01">
++</bin>
++<bin name=test_SealBase_LogListener file=LogListener.cpp>
++  <Flags CPPDEFINES="TEST=LogListener">
++</bin>
++<bin name=test_SealBase_LowMemoryPool01 file=LowMemoryPool01.cpp>
++  <Flags CPPDEFINES="TEST=LowMemoryPool01">
++</bin>
++<bin name=test_SealBase_MapIterator01 file=MapIterator01.cpp>
++  <Flags CPPDEFINES="TEST=MapIterator01">
++</bin>
++<bin name=test_SealBase_MapIterator02 file=MapIterator02.cpp>
++  <Flags CPPDEFINES="TEST=MapIterator02">
++</bin>
++<bin name=test_SealBase_MultiMethod01 file=MultiMethod01.cpp>
++  <Flags CPPDEFINES="TEST=MultiMethod01">
++</bin>
++<bin name=test_SealBase_MultiMethod02 file=MultiMethod02.cpp>
++  <Flags CPPDEFINES="TEST=MultiMethod02">
++</bin>
++<bin name=test_SealBase_MultiMethod03 file=MultiMethod03.cpp>
++  <Flags CPPDEFINES="TEST=MultiMethod03">
++</bin>
++<bin name=test_SealBase_NamedPipeServer01 file=NamedPipeServer01.cpp>
++  <Flags CPPDEFINES="TEST=NamedPipeServer01">
++</bin>
++<bin name=test_SealBase_Pipe01 file=Pipe01.cpp>
++  <Flags CPPDEFINES="TEST=Pipe01">
++</bin>
++<bin name=test_SealBase_PipeCmd01 file=PipeCmd01.cpp>
++  <Flags CPPDEFINES="TEST=PipeCmd01">
++</bin>
++<bin name=test_SealBase_ProcessInfo01 file=ProcessInfo01.cpp>
++  <Flags CPPDEFINES="TEST=ProcessInfo01">
++</bin>
++<bin name=test_SealBase_Range01 file=Range01.cpp>
++  <Flags CPPDEFINES="TEST=Range01">
++</bin>
++<bin name=test_SealBase_ResourceInfo01 file=ResourceInfo01.cpp>
++  <Flags CPPDEFINES="TEST=ResourceInfo01">
++</bin>
++<bin name=test_SealBase_SaveErrno01 file=SaveErrno01.cpp>
++  <Flags CPPDEFINES="TEST=SaveErrno01">
++</bin>
++<bin name=test_SealBase_SearchPath01 file=SearchPath01.cpp>
++  <Flags CPPDEFINES="TEST=SearchPath01">
++</bin>
++<bin name=test_SealBase_SearchPath02 file=SearchPath02.cpp>
++  <Flags CPPDEFINES="TEST=SearchPath02">
++</bin>
++<bin name=test_SealBase_Sequence01 file=Sequence01.cpp>
++  <Flags CPPDEFINES="TEST=Sequence01">
++</bin>
++<bin name=test_SealBase_SharedLibrary01 file=SharedLibrary01.cpp>
++  <Flags CPPDEFINES="TEST=SharedLibrary01">
++</bin>
++<bin name=test_SealBase_ShellEnvironment01 file=ShellEnvironment01.cpp>
++  <Flags CPPDEFINES="TEST=ShellEnvironment01">
++</bin>
++<bin name=test_SealBase_Signal01 file=Signal01.cpp>
++  <Flags CPPDEFINES="TEST=Signal01">
++</bin>
++<bin name=test_SealBase_Signal02 file=Signal02.cpp>
++  <Flags CPPDEFINES="TEST=Signal02">
++</bin>
++<bin name=test_SealBase_Signal03 file=Signal03.cpp>
++  <Flags CPPDEFINES="TEST=Signal03">
++</bin>
++<bin name=test_SealBase_SocketPair01 file=SocketPair01.cpp>
++  <Flags CPPDEFINES="TEST=SocketPair01">
++</bin>
++<bin name=test_SealBase_StringFormat01_01 file=StringFormat01_01.cpp>
++  <Flags CPPDEFINES="TEST=StringFormat01_01">
++</bin>
++<bin name=test_SealBase_StringFormat01_02 file=StringFormat01_02.cpp>
++  <Flags CPPDEFINES="TEST=StringFormat01_02">
++</bin>
++<bin name=test_SealBase_StringFormat01_03 file=StringFormat01_03.cpp>
++  <Flags CPPDEFINES="TEST=StringFormat01_03">
++</bin>
++<bin name=test_SealBase_StringFormat01_04 file=StringFormat01_04.cpp>
++  <Flags CPPDEFINES="TEST=StringFormat01_04">
++</bin>
++<bin name=test_SealBase_StringFormat01_05 file=StringFormat01_05.cpp>
++  <Flags CPPDEFINES="TEST=StringFormat01_05">
++</bin>
++<bin name=test_SealBase_StringFormat01_06 file=StringFormat01_06.cpp>
++  <Flags CPPDEFINES="TEST=StringFormat01_06">
++</bin>
++<bin name=test_SealBase_StringFormat02_01 file=StringFormat02_01.cpp>
++  <Flags CPPDEFINES="TEST=StringFormat02_01">
++</bin>
++<bin name=test_SealBase_StringFormat02_02 file=StringFormat02_02.cpp>
++  <Flags CPPDEFINES="TEST=StringFormat02_02">
++</bin>
++<bin name=test_SealBase_StringFormat02_03 file=StringFormat02_03.cpp>
++  <Flags CPPDEFINES="TEST=StringFormat02_03">
++</bin>
++<bin name=test_SealBase_StringFormat03_01 file=StringFormat03_01.cpp>
++  <Flags CPPDEFINES="TEST=StringFormat03_01">
++</bin>
++<bin name=test_SealBase_StringFormat03_02 file=StringFormat03_02.cpp>
++  <Flags CPPDEFINES="TEST=StringFormat03_02">
++</bin>
++<bin name=test_SealBase_StringFormat03_03 file=StringFormat03_03.cpp>
++  <Flags CPPDEFINES="TEST=StringFormat03_03">
++</bin>
++<bin name=test_SealBase_StringFormat03_04 file=StringFormat03_04.cpp>
++  <Flags CPPDEFINES="TEST=StringFormat03_04">
++</bin>
++<bin name=test_SealBase_StringFormat03_05 file=StringFormat03_05.cpp>
++  <Flags CPPDEFINES="TEST=StringFormat03_05">
++</bin>
++<bin name=test_SealBase_StringFormat03_06 file=StringFormat03_06.cpp>
++  <Flags CPPDEFINES="TEST=StringFormat03_06">
++</bin>
++<bin name=test_SealBase_StringFormat04_01 file=StringFormat04_01.cpp>
++  <Flags CPPDEFINES="TEST=StringFormat04_01">
++</bin>
++<bin name=test_SealBase_StringOps01_01 file=StringOps01_01.cpp>
++  <Flags CPPDEFINES="TEST=StringOps01_01">
++</bin>
++<bin name=test_SealBase_StringOps02_01 file=StringOps02_01.cpp>
++  <Flags CPPDEFINES="TEST=StringOps02_01">
++</bin>
++<bin name=test_SealBase_StringOps02_02 file=StringOps02_02.cpp>
++  <Flags CPPDEFINES="TEST=StringOps02_02">
++</bin>
++<bin name=test_SealBase_StringOps02_03 file=StringOps02_03.cpp>
++  <Flags CPPDEFINES="TEST=StringOps02_03">
++</bin>
++<bin name=test_SealBase_StringOps03_01a file=StringOps03_01a.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_01a">
++</bin>
++<bin name=test_SealBase_StringOps03_01b file=StringOps03_01b.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_01b">
++</bin>
++<bin name=test_SealBase_StringOps03_02a file=StringOps03_02a.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_02a">
++</bin>
++<bin name=test_SealBase_StringOps03_02b file=StringOps03_02b.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_02b">
++</bin>
++<bin name=test_SealBase_StringOps03_03a file=StringOps03_03a.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_03a">
++</bin>
++<bin name=test_SealBase_StringOps03_03b file=StringOps03_03b.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_03b">
++</bin>
++<bin name=test_SealBase_StringOps03_04a file=StringOps03_04a.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_04a">
++</bin>
++<bin name=test_SealBase_StringOps03_04b file=StringOps03_04b.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_04b">
++</bin>
++<bin name=test_SealBase_StringOps03_05a file=StringOps03_05a.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_05a">
++</bin>
++<bin name=test_SealBase_StringOps03_05b file=StringOps03_05b.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_05b">
++</bin>
++<bin name=test_SealBase_StringOps03_06a file=StringOps03_06a.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_06a">
++</bin>
++<bin name=test_SealBase_StringOps03_06b file=StringOps03_06b.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_06b">
++</bin>
++<bin name=test_SealBase_StringOps03_07a file=StringOps03_07a.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_07a">
++</bin>
++<bin name=test_SealBase_StringOps03_07b file=StringOps03_07b.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_07b">
++</bin>
++<bin name=test_SealBase_StringOps03_08a file=StringOps03_08a.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_08a">
++</bin>
++<bin name=test_SealBase_StringOps03_08b file=StringOps03_08b.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_08b">
++</bin>
++<bin name=test_SealBase_StringOps03_09a file=StringOps03_09a.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_09a">
++</bin>
++<bin name=test_SealBase_StringOps03_09b file=StringOps03_09b.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_09b">
++</bin>
++<bin name=test_SealBase_StringOps03_10a file=StringOps03_10a.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_10a">
++</bin>
++<bin name=test_SealBase_StringOps03_10b file=StringOps03_10b.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_10b">
++</bin>
++<bin name=test_SealBase_StringOps03_11a file=StringOps03_11a.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_11a">
++</bin>
++<bin name=test_SealBase_StringOps03_11b file=StringOps03_11b.cpp>
++  <Flags CPPDEFINES="TEST=StringOps03_11b">
++</bin>
++<bin name=test_SealBase_SubProcess01 file=SubProcess01.cpp>
++  <Flags CPPDEFINES="TEST=SubProcess01">
++</bin>
++<bin name=test_SealBase_SubProcess02 file=SubProcess02.cpp>
++  <Flags CPPDEFINES="TEST=SubProcess02">
++</bin>
++<bin name=test_SealBase_SubProcess03 file=SubProcess03.cpp>
++  <Flags CPPDEFINES="TEST=SubProcess03">
++</bin>
++<bin name=test_SealBase_SubProcess04 file=SubProcess04.cpp>
++  <Flags CPPDEFINES="TEST=SubProcess04">
++</bin>
++<bin name=test_SealBase_SystemInfo01 file=SystemInfo01.cpp>
++  <Flags CPPDEFINES="TEST=SystemInfo01">
++</bin>
++<bin name=test_SealBase_Time01 file=Time01.cpp>
++  <Flags CPPDEFINES="TEST=Time01">
++</bin>
++<bin name=test_SealBase_Time02 file=Time02.cpp>
++  <Flags CPPDEFINES="TEST=Time02">
++</bin>
++<bin name=test_SealBase_Time03 file=Time03.cpp>
++  <Flags CPPDEFINES="TEST=Time03">
++</bin>
++<bin name=test_SealBase_TimeInfo01 file=TimeInfo01.cpp>
++  <Flags CPPDEFINES="TEST=TimeInfo01">
++</bin>
++<bin name=test_SealBase_TimeInfo02 file=TimeInfo02.cpp>
++  <Flags CPPDEFINES="TEST=TimeInfo02">
++</bin>
++<bin name=test_SealBase_UUID01 file=UUID01.cpp>
++  <Flags CPPDEFINES="TEST=UUID01">
++</bin>
++<bin name=test_SealBase_UUID02 file=UUID02.cpp>
++  <Flags CPPDEFINES="TEST=UUID02">
++</bin>
++<bin name=test_SealBase_UUID03 file=UUID03.cpp>
++  <Flags CPPDEFINES="TEST=UUID03">
++</bin>
++<bin name=test_SealBase_UUID04 file=UUID04.cpp>
++  <Flags CPPDEFINES="TEST=UUID04">
++</bin>
++<bin name=test_SealBase_UUID05 file=UUID05.cpp>
++  <Flags CPPDEFINES="TEST=UUID05">
++</bin>
++<bin name=test_SealBase_Unwind01 file=Unwind01.cpp>
++  <Flags CPPDEFINES="TEST=Unwind01">
++</bin>
++<bin name=test_SealBase_UserInfo01 file=UserInfo01.cpp>
++  <Flags CPPDEFINES="TEST=UserInfo01">
++</bin>
++<bin name=test_SealBase_XTypeInfo01 file=XTypeInfo01.cpp>
++  <Flags CPPDEFINES="TEST=XTypeInfo01">
++</bin>
+diff -Naur src.orig/Foundation/SealIOTools/BuildFile src/Foundation/SealIOTools/BuildFile
+--- src.orig/Foundation/SealIOTools/BuildFile	2003-11-24 14:55:27.000000000 +0100
++++ src/Foundation/SealIOTools/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -1,3 +1,6 @@
+-<export><lib name=lcg_SealIOTools></export>
+-<include_path path=.>
+ <use name=Foundation/SealBase>
++
++<export>
++ <lib name=lcg_SealIOTools>
++ <use name=Foundation/SealBase>
++</export>
+diff -Naur src.orig/Foundation/SealIOTools/src/BuildFile src/Foundation/SealIOTools/src/BuildFile
+--- src.orig/Foundation/SealIOTools/src/BuildFile	2004-10-21 07:36:07.000000000 +0200
++++ src/Foundation/SealIOTools/src/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1 +0,0 @@
+-CPPFLAGS += -D_FILE_OFFSET_BITS=64
+diff -Naur src.orig/Foundation/SealIOTools/tests/BuildFile src/Foundation/SealIOTools/tests/BuildFile
+--- src.orig/Foundation/SealIOTools/tests/BuildFile	2004-06-10 16:18:55.000000000 +0200
++++ src/Foundation/SealIOTools/tests/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -1,45 +1,86 @@
+-<Use name=Foundation/SealIOTools>
+-<Use name=Foundation/SealTest>
+-
+-
+-
+-# remove these two line if want to build only one executable
+-#CPPFLAGS += -DRUNALL=1
+-#testlibname=TestSealIOTools
+-
+-# to make an executable for each single tests remove <ignore > tags 
+-#<ignore>
+- CPPFLAGS += -DTEST=$(basename $(*F))
+-
+-<environment>
+-<Bin name=test_SealIOTools_BufferInputStream01 file=BufferInputStream01.cpp>
+-<Bin name=test_SealIOTools_BufferOutputStream01 file=BufferOutputStream01.cpp>
+-<Bin name=test_SealIOTools_FilterInputStream01 file=FilterInputStream01.cpp>
+-<Bin name=test_SealIOTools_FilterOutputStream01 file=FilterOutputStream01.cpp>
+-<Bin name=test_SealIOTools_IOChannelInputStream01 file=IOChannelInputStream01.cpp>
+-<Bin name=test_SealIOTools_IOChannelOutputStream01 file=IOChannelOutputStream01.cpp>
+-<Bin name=test_SealIOTools_MemoryStorage01 file=MemoryStorage01.cpp>
+-<Bin name=test_SealIOTools_PipedInputStream01 file=PipedInputStream01.cpp>
+-<Bin name=test_SealIOTools_PipedOutputStream01 file=PipedOutputStream01.cpp>
+-<Bin name=test_SealIOTools_PushBackInputStream01 file=PushBackInputStream01.cpp>
+-<Bin name=test_SealIOTools_StdInputStream01 file=StdInputStream01.cpp>
+-<Bin name=test_SealIOTools_StdInputStream02 file=StdInputStream02.cpp>
+-<Bin name=test_SealIOTools_StdOutputStream01 file=StdOutputStream01.cpp>
+-<Bin name=test_SealIOTools_StdStorage01 file=StdStorage01.cpp>
+-<Bin name=test_SealIOTools_StdStorage02 file=StdStorage02.cpp>
+-<Bin name=test_SealIOTools_StdStorage03 file=StdStorage03.cpp>
+-<Bin name=test_SealIOTools_StdStorage04 file=StdStorage04.cpp>
+-<Bin name=test_SealIOTools_StdioStorage01 file=StdioStorage01.cpp>
+-<Bin name=test_SealIOTools_StdioStorage02 file=StdioStorage02.cpp>
+-<Bin name=test_SealIOTools_StdioStorage03 file=StdioStorage03.cpp>
+-<Bin name=test_SealIOTools_StdioStorage04 file=StdioStorage04.cpp>
+-<Bin name=test_SealIOTools_StorageInputStream01 file=StorageInputStream01.cpp>
+-<Bin name=test_SealIOTools_StorageOutputStream01 file=StorageOutputStream01.cpp>
+-<Bin name=test_SealIOTools_SubStorage01 file=SubStorage01.cpp>
+-<Bin name=test_SealIOTools_SubStorage02 file=SubStorage02.cpp>
+-<Bin name=test_SealIOTools_SubStorage03 file=SubStorage03.cpp>
+-<Bin name=test_SealIOTools_SubStorage04 file=SubStorage04.cpp>
+-<Bin name=test_SealIOTools_SubStorage05 file=SubStorage05.cpp>
+-
+-</environment>
+-#</ignore>
++<use name=Foundation/SealIOTools>
++<use name=Foundation/SealTest>
++<bin name=test_SealIOTools_BufferInputStream01 file=BufferInputStream01.cpp>
++  <Flags CPPDEFINES="TEST=BufferInputStream01">
++</bin>
++<bin name=test_SealIOTools_BufferOutputStream01 file=BufferOutputStream01.cpp>
++  <Flags CPPDEFINES="TEST=BufferOutputStream01">
++</bin>
++<bin name=test_SealIOTools_FilterInputStream01 file=FilterInputStream01.cpp>
++  <Flags CPPDEFINES="TEST=FilterInputStream01">
++</bin>
++<bin name=test_SealIOTools_FilterOutputStream01 file=FilterOutputStream01.cpp>
++  <Flags CPPDEFINES="TEST=FilterOutputStream01">
++</bin>
++<bin name=test_SealIOTools_IOChannelInputStream01 file=IOChannelInputStream01.cpp>
++  <Flags CPPDEFINES="TEST=IOChannelInputStream01">
++</bin>
++<bin name=test_SealIOTools_IOChannelOutputStream01 file=IOChannelOutputStream01.cpp>
++  <Flags CPPDEFINES="TEST=IOChannelOutputStream01">
++</bin>
++<bin name=test_SealIOTools_MemoryStorage01 file=MemoryStorage01.cpp>
++  <Flags CPPDEFINES="TEST=MemoryStorage01">
++</bin>
++<bin name=test_SealIOTools_PipedInputStream01 file=PipedInputStream01.cpp>
++  <Flags CPPDEFINES="TEST=PipedInputStream01">
++</bin>
++<bin name=test_SealIOTools_PipedOutputStream01 file=PipedOutputStream01.cpp>
++  <Flags CPPDEFINES="TEST=PipedOutputStream01">
++</bin>
++<bin name=test_SealIOTools_PushBackInputStream01 file=PushBackInputStream01.cpp>
++  <Flags CPPDEFINES="TEST=PushBackInputStream01">
++</bin>
++<bin name=test_SealIOTools_StdInputStream01 file=StdInputStream01.cpp>
++  <Flags CPPDEFINES="TEST=StdInputStream01">
++</bin>
++<bin name=test_SealIOTools_StdInputStream02 file=StdInputStream02.cpp>
++  <Flags CPPDEFINES="TEST=StdInputStream02">
++</bin>
++<bin name=test_SealIOTools_StdOutputStream01 file=StdOutputStream01.cpp>
++  <Flags CPPDEFINES="TEST=StdOutputStream01">
++</bin>
++<bin name=test_SealIOTools_StdStorage01 file=StdStorage01.cpp>
++  <Flags CPPDEFINES="TEST=StdStorage01">
++</bin>
++<bin name=test_SealIOTools_StdStorage02 file=StdStorage02.cpp>
++  <Flags CPPDEFINES="TEST=StdStorage02">
++</bin>
++<bin name=test_SealIOTools_StdStorage03 file=StdStorage03.cpp>
++  <Flags CPPDEFINES="TEST=StdStorage03">
++</bin>
++<bin name=test_SealIOTools_StdStorage04 file=StdStorage04.cpp>
++  <Flags CPPDEFINES="TEST=StdStorage04">
++</bin>
++<bin name=test_SealIOTools_StdioStorage01 file=StdioStorage01.cpp>
++  <Flags CPPDEFINES="TEST=StdioStorage01">
++</bin>
++<bin name=test_SealIOTools_StdioStorage02 file=StdioStorage02.cpp>
++  <Flags CPPDEFINES="TEST=StdioStorage02">
++</bin>
++<bin name=test_SealIOTools_StdioStorage03 file=StdioStorage03.cpp>
++  <Flags CPPDEFINES="TEST=StdioStorage03">
++</bin>
++<bin name=test_SealIOTools_StdioStorage04 file=StdioStorage04.cpp>
++  <Flags CPPDEFINES="TEST=StdioStorage04">
++</bin>
++<bin name=test_SealIOTools_StorageInputStream01 file=StorageInputStream01.cpp>
++  <Flags CPPDEFINES="TEST=StorageInputStream01">
++</bin>
++<bin name=test_SealIOTools_StorageOutputStream01 file=StorageOutputStream01.cpp>
++  <Flags CPPDEFINES="TEST=StorageOutputStream01">
++</bin>
++<bin name=test_SealIOTools_SubStorage01 file=SubStorage01.cpp>
++  <Flags CPPDEFINES="TEST=SubStorage01">
++</bin>
++<bin name=test_SealIOTools_SubStorage02 file=SubStorage02.cpp>
++  <Flags CPPDEFINES="TEST=SubStorage02">
++</bin>
++<bin name=test_SealIOTools_SubStorage03 file=SubStorage03.cpp>
++  <Flags CPPDEFINES="TEST=SubStorage03">
++</bin>
++<bin name=test_SealIOTools_SubStorage04 file=SubStorage04.cpp>
++  <Flags CPPDEFINES="TEST=SubStorage04">
++</bin>
++<bin name=test_SealIOTools_SubStorage05 file=SubStorage05.cpp>
++  <Flags CPPDEFINES="TEST=SubStorage05">
++</bin>
+diff -Naur src.orig/Foundation/SealPlatform/BuildFile src/Foundation/SealPlatform/BuildFile
+--- src.orig/Foundation/SealPlatform/BuildFile	2003-11-24 14:56:03.000000000 +0100
++++ src/Foundation/SealPlatform/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -1,5 +1,8 @@
++
++<include_path path=$(LOCALTOP)/$(SCRAM_SOURCEDIR)/Foundation/SealPlatform>
++<use name=sockets>
++
+ <export>
+-  INCLUDE += $(SEAL)/$(SCRAM_ARCH)/include
++ <use name=sockets>
+ </export>
+-<include_path path=.>
+-<external ref=sockets>
++
+diff -Naur src.orig/Foundation/SealTest/BuildFile src/Foundation/SealTest/BuildFile
+--- src.orig/Foundation/SealTest/BuildFile	2003-11-24 14:58:35.000000000 +0100
++++ src/Foundation/SealTest/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -1,2 +1,5 @@
+-<include_path path=.>
+-<external ref=cppunit>
++<use name=cppunit>
++
++<export>
++ <use name=cppunit>
++</export>
+diff -Naur src.orig/Foundation/SealUtil/BuildFile src/Foundation/SealUtil/BuildFile
+--- src.orig/Foundation/SealUtil/BuildFile	2004-10-12 00:01:37.000000000 +0200
++++ src/Foundation/SealUtil/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -1,6 +1,8 @@
+-<export><lib name=lcg_SealUtil></export>
+-<include_path path=.>
+ <use name=Foundation/SealBase>
++<use name=boost>
+ 
+-<External ref=Boost>
+-
++<export>
++ <lib name=lcg_SealUtil>
++ <use name=Foundation/SealBase>
++ <use name=boost>
++</export>
+diff -Naur src.orig/Foundation/SealUtil/tests/BuildFile src/Foundation/SealUtil/tests/BuildFile
+--- src.orig/Foundation/SealUtil/tests/BuildFile	2003-11-24 14:57:01.000000000 +0100
++++ src/Foundation/SealUtil/tests/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -1,2 +1,3 @@
+-<Include_Path path=.>
+ <Use name=Foundation/SealUtil>
++<use name=cppunit>
++<bin name=test_SealUtil_Timers file=timers/testTimers.cpp></bin>
+diff -Naur src.orig/Foundation/SealUtil/tests/timers/BuildFile src/Foundation/SealUtil/tests/timers/BuildFile
+--- src.orig/Foundation/SealUtil/tests/timers/BuildFile	2004-10-12 00:01:37.000000000 +0200
++++ src/Foundation/SealUtil/tests/timers/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-<environment>
+-  <bin name=test_SealUtil_Timers file=testTimers.cpp>
+-</environment>
+-
+-<external ref=cppunit></external>
+\ No newline at end of file
+diff -Naur src.orig/Foundation/SealZip/BuildFile src/Foundation/SealZip/BuildFile
+--- src.orig/Foundation/SealZip/BuildFile	2003-11-24 14:57:39.000000000 +0100
++++ src/Foundation/SealZip/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -1,7 +1,15 @@
+-<export><lib name=lcg_SealZip></export>
+-<include_path path=.>
++<include_path path=$(LOCALTOP)/$(SCRAM_SOURCEDIR)/Foundation/SealZip/src/ext/rfc1321>
++<include_path path=$(LOCALTOP)/$(SCRAM_SOURCEDIR)/Foundation/SealZip/src/ext/rfc3174>
+ <use name=Foundation/SealIOTools>
+-<external ref=zlib>
+-<external ref=bz2lib>
+-# external ref=rfc1321
+-# external ref=rfc3174
++<use name=zlib>
++<use name=bz2lib>
++<Flags ADD_SUBDIR=1>
++<Flags SKIP_FILES="ext/rfc1321/mddriver.c ext/rfc3174/sha1test.c">
++<Flags CPPDEFINES="_FILE_OFFSET_BITS=64">
++  
++<export>
++ <lib name=lcg_SealZip>
++ <use name=Foundation/SealIOTools>
++ <use name=zlib>
++ <use name=bz2lib>
++</export>
+diff -Naur src.orig/Foundation/SealZip/src/BuildFile src/Foundation/SealZip/src/BuildFile
+--- src.orig/Foundation/SealZip/src/BuildFile	2004-10-21 07:36:59.000000000 +0200
++++ src/Foundation/SealZip/src/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-CPPFLAGS += -D_FILE_OFFSET_BITS=64
+-INCLUDE += $(wildcard $(LOCALTOP)/$(THISDIR)/ext/*)
+-extra_srcdirs = ext/rfc1321 ext/rfc3174
+-skip_files = mddriver.c sha1test.c
+-skip_subdirs = ext
+diff -Naur src.orig/Foundation/SealZip/tests/BuildFile src/Foundation/SealZip/tests/BuildFile
+--- src.orig/Foundation/SealZip/tests/BuildFile	2004-01-13 00:58:13.000000000 +0100
++++ src/Foundation/SealZip/tests/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -1,55 +1,134 @@
+-<Use name=Foundation/SealZip>
+-<Use name=Foundation/SealTest>
+-
+-
+-
+-CPPFLAGS += -DTEST=$(basename $(*F))
+-
+-<environment>
+-
+-<Bin name=test_SealZip_Adler3201 file=Adler3201.cpp>
+-<Bin name=test_SealZip_BZCompressor01 file=BZCompressor01.cpp>
+-<Bin name=test_SealZip_BZDecompressor01 file=BZDecompressor01.cpp>
+-<Bin name=test_SealZip_BZIPOutputStream01 file=BZIPOutputStream01.cpp>
+-<Bin name=test_SealZip_BZIPInputStream01 file=BZIPInputStream01.cpp>
+-<Bin name=test_SealZip_CPIOInputStream01 file=CPIOInputStream01.cpp>
+-<Bin name=test_SealZip_CPIOInputStream02 file=CPIOInputStream02.cpp>
+-<Bin name=test_SealZip_CPIOOutputStream00 file=CPIOOutputStream00.cpp>
+-<Bin name=test_SealZip_CPIOOutputStream01 file=CPIOOutputStream01.cpp>
+-<Bin name=test_SealZip_CPIOOutputStream02 file=CPIOOutputStream02.cpp>
+-<Bin name=test_SealZip_CPIOOutputStream03 file=CPIOOutputStream03.cpp>
+-<Bin name=test_SealZip_CRC3201 file=CRC3201.cpp>
+-<Bin name=test_SealZip_CheckedInputStream01 file=CheckedInputStream01.cpp>
+-<Bin name=test_SealZip_CheckedOutputStream01 file=CheckedOutputStream01.cpp>
+-<Bin name=test_SealZip_GZIPInputStream01 file=GZIPInputStream01.cpp>
+-<Bin name=test_SealZip_GZIPInputStream02 file=GZIPInputStream02.cpp>
+-<Bin name=test_SealZip_GZIPOutputStream01 file=GZIPOutputStream01.cpp>
+-<Bin name=test_SealZip_InteractiveCompressor01 file=InteractiveCompressor01.cpp>
+-<Bin name=test_SealZip_InteractiveDecompressor01 file=InteractiveDecompressor01.cpp>
+-<Bin name=test_SealZip_MD5Digest01 file=MD5Digest01.cpp>
+-<Bin name=test_SealZip_SHA1Digest01 file=SHA1Digest01.cpp>
+-<Bin name=test_SealZip_TarOutputStream00 file=TarOutputStream00.cpp>
+-<Bin name=test_SealZip_TarOutputStream01 file=TarOutputStream01.cpp>
+-<Bin name=test_SealZip_TarInputStream01 file=TarInputStream01.cpp>
+-<Bin name=test_SealZip_TarInputStream02 file=TarInputStream02.cpp>
+-<Bin name=test_SealZip_TarInputStream03 file=TarInputStream03.cpp>
+-<Bin name=test_SealZip_ZCompressor01 file=ZCompressor01.cpp>
+-<Bin name=test_SealZip_ZDecompressor01 file=ZDecompressor01.cpp>
+-<Bin name=test_SealZip_ZInputStream01 file=ZInputStream01.cpp>
+-<Bin name=test_SealZip_ZOutputStream01 file=ZOutputStream01.cpp>
+-<Bin name=test_SealZip_ZipOutputStream00 file=ZipOutputStream00.cpp>
+-<Bin name=test_SealZip_ZipOutputStream01 file=ZipOutputStream01.cpp>
+-<Bin name=test_SealZip_ZipInputStream01 file=ZipInputStream01.cpp>
+-<Bin name=test_SealZip_ZipInputStream02 file=ZipInputStream02.cpp>
+-<Bin name=test_SealZip_ZipInputStream03 file=ZipInputStream03.cpp>
+-<Bin name=test_SealZip_ZipArchive01 file=ZipArchive01.cpp>
+-<Bin name=test_SealZip_ZipArchive02 file=ZipArchive02.cpp>
+-<Bin name=test_SealZip_ZipArchive03 file=ZipArchive03.cpp>
+-<Bin name=test_SealZip_ZipArchive04 file=ZipArchive04.cpp>
+-<Bin name=test_SealZip_ZipArchive05 file=ZipArchive05.cpp>
+-<Bin name=test_SealZip_ZipArchive06 file=ZipArchive06.cpp>
+-<Bin name=test_SealZip_ZipArchive07 file=ZipArchive07.cpp>
+-<Bin name=test_SealZip_ZipArchive08 file=ZipArchive08.cpp>
+-<Bin name=test_SealZip_ZipUtils01 file=ZipUtils01.cpp>
+-
+-</environment>
++<use name=Foundation/SealZip>
++<use name=Foundation/SealTest>
++<bin name=test_SealZip_Adler3201 file=Adler3201.cpp>
++  <Flags CPPDEFINES="TEST=Adler3201">
++</bin>
++<bin name=test_SealZip_BZCompressor01 file=BZCompressor01.cpp>
++  <Flags CPPDEFINES="TEST=BZCompressor01">
++</bin>
++<bin name=test_SealZip_BZDecompressor01 file=BZDecompressor01.cpp>
++  <Flags CPPDEFINES="TEST=BZDecompressor01">
++</bin>
++<bin name=test_SealZip_BZIPOutputStream01 file=BZIPOutputStream01.cpp>
++  <Flags CPPDEFINES="TEST=BZIPOutputStream01">
++</bin>
++<bin name=test_SealZip_BZIPInputStream01 file=BZIPInputStream01.cpp>
++  <Flags CPPDEFINES="TEST=BZIPInputStream01">
++</bin>
++<bin name=test_SealZip_CPIOInputStream01 file=CPIOInputStream01.cpp>
++  <Flags CPPDEFINES="TEST=CPIOInputStream01">
++</bin>
++<bin name=test_SealZip_CPIOInputStream02 file=CPIOInputStream02.cpp>
++  <Flags CPPDEFINES="TEST=CPIOInputStream02">
++</bin>
++<bin name=test_SealZip_CPIOOutputStream00 file=CPIOOutputStream00.cpp>
++  <Flags CPPDEFINES="TEST=CPIOOutputStream00">
++</bin>
++<bin name=test_SealZip_CPIOOutputStream01 file=CPIOOutputStream01.cpp>
++  <Flags CPPDEFINES="TEST=CPIOOutputStream01">
++</bin>
++<bin name=test_SealZip_CPIOOutputStream02 file=CPIOOutputStream02.cpp>
++  <Flags CPPDEFINES="TEST=CPIOOutputStream02">
++</bin>
++<bin name=test_SealZip_CPIOOutputStream03 file=CPIOOutputStream03.cpp>
++  <Flags CPPDEFINES="TEST=CPIOOutputStream03">
++</bin>
++<bin name=test_SealZip_CRC3201 file=CRC3201.cpp>
++  <Flags CPPDEFINES="TEST=CRC3201">
++</bin>
++<bin name=test_SealZip_CheckedInputStream01 file=CheckedInputStream01.cpp>
++  <Flags CPPDEFINES="TEST=CheckedInputStream01">
++</bin>
++<bin name=test_SealZip_CheckedOutputStream01 file=CheckedOutputStream01.cpp>
++  <Flags CPPDEFINES="TEST=CheckedOutputStream01">
++</bin>
++<bin name=test_SealZip_GZIPInputStream01 file=GZIPInputStream01.cpp>
++  <Flags CPPDEFINES="TEST=GZIPInputStream01">
++</bin>
++<bin name=test_SealZip_GZIPInputStream02 file=GZIPInputStream02.cpp>
++  <Flags CPPDEFINES="TEST=GZIPInputStream02">
++</bin>
++<bin name=test_SealZip_GZIPOutputStream01 file=GZIPOutputStream01.cpp>
++  <Flags CPPDEFINES="TEST=GZIPOutputStream01">
++</bin>
++<bin name=test_SealZip_InteractiveCompressor01 file=InteractiveCompressor01.cpp>
++  <Flags CPPDEFINES="TEST=InteractiveCompressor01">
++</bin>
++<bin name=test_SealZip_InteractiveDecompressor01 file=InteractiveDecompressor01.cpp>
++  <Flags CPPDEFINES="TEST=InteractiveDecompressor01">
++</bin>
++<bin name=test_SealZip_MD5Digest01 file=MD5Digest01.cpp>
++  <Flags CPPDEFINES="TEST=MD5Digest01">
++</bin>
++<bin name=test_SealZip_SHA1Digest01 file=SHA1Digest01.cpp>
++  <Flags CPPDEFINES="TEST=SHA1Digest01">
++</bin>
++<bin name=test_SealZip_TarOutputStream00 file=TarOutputStream00.cpp>
++  <Flags CPPDEFINES="TEST=TarOutputStream00">
++</bin>
++<bin name=test_SealZip_TarOutputStream01 file=TarOutputStream01.cpp>
++  <Flags CPPDEFINES="TEST=TarOutputStream01">
++</bin>
++<bin name=test_SealZip_TarInputStream01 file=TarInputStream01.cpp>
++  <Flags CPPDEFINES="TEST=TarInputStream01">
++</bin>
++<bin name=test_SealZip_TarInputStream02 file=TarInputStream02.cpp>
++  <Flags CPPDEFINES="TEST=TarInputStream02">
++</bin>
++<bin name=test_SealZip_TarInputStream03 file=TarInputStream03.cpp>
++  <Flags CPPDEFINES="TEST=TarInputStream03">
++</bin>
++<bin name=test_SealZip_ZCompressor01 file=ZCompressor01.cpp>
++  <Flags CPPDEFINES="TEST=ZCompressor01">
++</bin>
++<bin name=test_SealZip_ZDecompressor01 file=ZDecompressor01.cpp>
++  <Flags CPPDEFINES="TEST=ZDecompressor01">
++</bin>
++<bin name=test_SealZip_ZInputStream01 file=ZInputStream01.cpp>
++  <Flags CPPDEFINES="TEST=ZInputStream01">
++</bin>
++<bin name=test_SealZip_ZOutputStream01 file=ZOutputStream01.cpp>
++  <Flags CPPDEFINES="TEST=ZOutputStream01">
++</bin>
++<bin name=test_SealZip_ZipOutputStream00 file=ZipOutputStream00.cpp>
++  <Flags CPPDEFINES="TEST=ZipOutputStream00">
++</bin>
++<bin name=test_SealZip_ZipOutputStream01 file=ZipOutputStream01.cpp>
++  <Flags CPPDEFINES="TEST=ZipOutputStream01">
++</bin>
++<bin name=test_SealZip_ZipInputStream01 file=ZipInputStream01.cpp>
++  <Flags CPPDEFINES="TEST=ZipInputStream01">
++</bin>
++<bin name=test_SealZip_ZipInputStream02 file=ZipInputStream02.cpp>
++  <Flags CPPDEFINES="TEST=ZipInputStream02">
++</bin>
++<bin name=test_SealZip_ZipInputStream03 file=ZipInputStream03.cpp>
++  <Flags CPPDEFINES="TEST=ZipInputStream03">
++</bin>
++<bin name=test_SealZip_ZipArchive01 file=ZipArchive01.cpp>
++  <Flags CPPDEFINES="TEST=ZipArchive01">
++</bin>
++<bin name=test_SealZip_ZipArchive02 file=ZipArchive02.cpp>
++  <Flags CPPDEFINES="TEST=ZipArchive02">
++</bin>
++<bin name=test_SealZip_ZipArchive03 file=ZipArchive03.cpp>
++  <Flags CPPDEFINES="TEST=ZipArchive03">
++</bin>
++<bin name=test_SealZip_ZipArchive04 file=ZipArchive04.cpp>
++  <Flags CPPDEFINES="TEST=ZipArchive04">
++</bin>
++<bin name=test_SealZip_ZipArchive05 file=ZipArchive05.cpp>
++  <Flags CPPDEFINES="TEST=ZipArchive05">
++</bin>
++<bin name=test_SealZip_ZipArchive06 file=ZipArchive06.cpp>
++  <Flags CPPDEFINES="TEST=ZipArchive06">
++</bin>
++<bin name=test_SealZip_ZipArchive07 file=ZipArchive07.cpp>
++  <Flags CPPDEFINES="TEST=ZipArchive07">
++</bin>
++<bin name=test_SealZip_ZipArchive08 file=ZipArchive08.cpp>
++  <Flags CPPDEFINES="TEST=ZipArchive08">
++</bin>
++<bin name=test_SealZip_ZipUtils01 file=ZipUtils01.cpp>
++  <Flags CPPDEFINES="TEST=ZipUtils01">
++</bin>
+diff -Naur src.orig/Framework/SealKernel/BuildFile src/Framework/SealKernel/BuildFile
+--- src.orig/Framework/SealKernel/BuildFile	2006-10-03 12:03:26.000000000 +0200
++++ src/Framework/SealKernel/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -1,18 +1,8 @@
+-<include_path path=.>
+-<use name=Foundation/SealBase>
+ <use name=Foundation/PluginManager>
+-<external ref=boost>
+-
+-ifneq (,$(findstring slc, $(SCRAM_ARCH)))
+-  <lib name=boost_thread-gcc-mt>
+-endif
+-ifneq (,$(findstring osx, $(SCRAM_ARCH)))
+-  <lib name=boost_thread>
+-endif
+-ifneq (,$(findstring win32, $(SCRAM_ARCH)))
+-  <lib name=boost_thread-vc71-mt>
+-endif
++<use name=boost>
+ 
+ <export>
+-  <lib name=lcg_SealKernel>
++ <lib name=lcg_SealKernel>
++ <use name=Foundation/PluginManager>
++ <use name=boost>
+ </export>
+diff -Naur src.orig/Framework/SealKernel/examples/BuildFile src/Framework/SealKernel/examples/BuildFile
+--- src.orig/Framework/SealKernel/examples/BuildFile	2004-05-11 18:43:12.000000000 +0200
++++ src/Framework/SealKernel/examples/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -1 +1,13 @@
+-BUILDORDER = MyBaseComponent MyComponent MyComponent1 main
++<use name=Framework/SealKernel>
++<library name=lcg_MyComponent file="MyComponent/*.cpp">
++  <Flags SealPlugin=1>
++</library>
++<library name=lcg_MyComponent1 file="MyComponent1/*.cpp">
++  <Flags SealPlugin=1>
++  <lib name=lcg_MyBaseComponent>
++</library>
++<library name=lcg_MyBaseComponent file="MyBaseComponent/*.cpp">
++</library>
++#<bin name=example_SealKernel_Component file="main/*.cpp">
++#  <lib name=lcg_MyBaseComponent>
++#</bin>
+diff -Naur src.orig/Framework/SealKernel/examples/main/BuildFile src/Framework/SealKernel/examples/main/BuildFile
+--- src.orig/Framework/SealKernel/examples/main/BuildFile	2003-07-17 16:47:27.000000000 +0200
++++ src/Framework/SealKernel/examples/main/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-<Use name=Framework/SealKernel>
+-<Environment>
+-  <lib name=lcg_MyBaseComponent>
+-  <bin name=example_SealKernel_Component file=main.cpp>
+-</Environment>
+diff -Naur src.orig/Framework/SealKernel/examples/MyBaseComponent/BuildFile src/Framework/SealKernel/examples/MyBaseComponent/BuildFile
+--- src.orig/Framework/SealKernel/examples/MyBaseComponent/BuildFile	2003-10-31 12:45:07.000000000 +0100
++++ src/Framework/SealKernel/examples/MyBaseComponent/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,6 +0,0 @@
+-<Use name=Framework/SealKernel>
+-
+-# export on all platforms
+-<export>
+-  <lib name=lcg_MyBaseComponent>
+-</export>
+diff -Naur src.orig/Framework/SealKernel/examples/MyComponent/BuildFile src/Framework/SealKernel/examples/MyComponent/BuildFile
+--- src.orig/Framework/SealKernel/examples/MyComponent/BuildFile	2003-10-17 16:05:06.000000000 +0200
++++ src/Framework/SealKernel/examples/MyComponent/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-<Use name=Framework/SealKernel>
+-<Use name=Framework/SealKernel/examples/MyBaseComponent>
+-include $(LOCALTOP)/config/module.mk
+diff -Naur src.orig/Framework/SealKernel/examples/MyComponent1/BuildFile src/Framework/SealKernel/examples/MyComponent1/BuildFile
+--- src.orig/Framework/SealKernel/examples/MyComponent1/BuildFile	2003-10-17 16:10:22.000000000 +0200
++++ src/Framework/SealKernel/examples/MyComponent1/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-<Use name=Framework/SealKernel>
+-<Use name=Framework/SealKernel/examples/MyBaseComponent>
+-include $(LOCALTOP)/config/module.mk
+diff -Naur src.orig/Framework/SealKernel/tests/Benchmark/BuildFile src/Framework/SealKernel/tests/Benchmark/BuildFile
+--- src.orig/Framework/SealKernel/tests/Benchmark/BuildFile	2003-06-26 21:50:40.000000000 +0200
++++ src/Framework/SealKernel/tests/Benchmark/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1 +0,0 @@
+-<bin name=test_SealKernel_Benchmark file=main.cpp>
+diff -Naur src.orig/Framework/SealKernel/tests/BuildFile src/Framework/SealKernel/tests/BuildFile
+--- src.orig/Framework/SealKernel/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/Framework/SealKernel/tests/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -0,0 +1,36 @@
++<use name=Framework/SealKernel>
++<Flags LDFLAGS="-L$(LOCALTOP)/$(SCRAMSTORENAME_TESTS_LIB)">
++<library name=ComponentWrapperLibrary file="ComponentWrapper/*.cpp">
++  <Flags SKIP_FILES=ComponentWrapper/main.cpp>
++  <Flags SealPlugin=1>
++</library>
++<library name=IFaceLibrary file="IFace/*.cpp">
++  <Flags SKIP_FILES=IFace/main.cpp>
++  <Flags SealPlugin=1>
++</library>
++<library name=TestServices file="Services/*.cpp">
++  <Flags SKIP_FILES=Services/main.cpp>
++</library>
++<library name=TestLoadable file="Loadable/*.cpp">
++  <Flags SealPlugin=1>
++</library>
++
++<bin name=test_SealKernel_Services file=Services/main.cpp>
++  <lib name=TestServices>
++</bin>
++<bin name=test_SealKernel_ComponentWrapper file=ComponentWrapper/main.cpp>
++  <lib name=ComponentWrapperLibrary>
++</bin>
++<bin name=test_SealKernel_IFace file=IFace/main.cpp></bin>
++<bin name=test_SealKernel_MessageStream file=main.cpp></bin>
++<bin name=test_SealKernel_Exception file=Exception/Error01.cpp>
++  <use name=cppunit>
++</bin>
++<bin name=test_SealKernel_Benchmark file=Benchmark/main.cpp></bin>
++<bin name=test_SealKernel_Properties file=Properties/main.cpp>
++  <use name=cppunit>
++</bin>
++<bin name=test_SealKernel_MessageStreamSplitter file=MessageStreamSplitter/main.cpp></bin>
++<bin name=test_SealKernel_MessageStream file=MessageStream/main.cpp>
++  <use name=cppunit>
++</bin>
+diff -Naur src.orig/Framework/SealKernel/tests/ComponentWrapper/BuildFile src/Framework/SealKernel/tests/ComponentWrapper/BuildFile
+--- src.orig/Framework/SealKernel/tests/ComponentWrapper/BuildFile	2004-06-14 14:50:40.000000000 +0200
++++ src/Framework/SealKernel/tests/ComponentWrapper/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,10 +0,0 @@
+-<Include_Path path=.>
+-<Use name=Framework/SealKernel>
+-testlibname = ComponentWrapperLibrary
+-include $(LOCALTOP)/config/module.mk
+-<Environment>
+-  <lib name=ComponentWrapperLibrary>
+-  <bin name=test_SealKernel_ComponentWrapper file=main.cpp>
+-</Environment>
+-<External ref=cppunit></External>
+-
+diff -Naur src.orig/Framework/SealKernel/tests/Exception/BuildFile src/Framework/SealKernel/tests/Exception/BuildFile
+--- src.orig/Framework/SealKernel/tests/Exception/BuildFile	2003-07-18 08:42:28.000000000 +0200
++++ src/Framework/SealKernel/tests/Exception/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,6 +0,0 @@
+-<Include_path path=.>
+-<Environment>
+-  <Use name=Framework/SealKernel>
+-  <External ref=CppUnit>
+-  <Bin name=test_SealKernel_Exception file=Error01.cpp>
+-</Environment>
+diff -Naur src.orig/Framework/SealKernel/tests/IFace/BuildFile src/Framework/SealKernel/tests/IFace/BuildFile
+--- src.orig/Framework/SealKernel/tests/IFace/BuildFile	2003-09-10 07:25:34.000000000 +0200
++++ src/Framework/SealKernel/tests/IFace/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,8 +0,0 @@
+-<Include_Path path=.>
+-<Use name=Framework/SealKernel>
+-testlibname = IFaceLibrary
+-include $(LOCALTOP)/config/module.mk
+-<Environment>
+-  <bin name=test_SealKernel_IFace file=main.cpp>
+-</Environment>
+-<External ref=cppunit></External>
+diff -Naur src.orig/Framework/SealKernel/tests/Loadable/BuildFile src/Framework/SealKernel/tests/Loadable/BuildFile
+--- src.orig/Framework/SealKernel/tests/Loadable/BuildFile	2003-06-26 21:50:41.000000000 +0200
++++ src/Framework/SealKernel/tests/Loadable/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-<Use name=Framework/SealKernel>
+-include $(LOCALTOP)/config/module.mk
+diff -Naur src.orig/Framework/SealKernel/tests/MessageStream/BuildFile src/Framework/SealKernel/tests/MessageStream/BuildFile
+--- src.orig/Framework/SealKernel/tests/MessageStream/BuildFile	2003-07-18 01:31:04.000000000 +0200
++++ src/Framework/SealKernel/tests/MessageStream/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-<Use name=Framework/SealKernel>
+-<Environment>
+-  <bin name=test_SealKernel_MessageStream file=main.cpp>
+-</Environment>
+-<External ref=cppunit></External>
+diff -Naur src.orig/Framework/SealKernel/tests/MessageStreamSplitter/BuildFile src/Framework/SealKernel/tests/MessageStreamSplitter/BuildFile
+--- src.orig/Framework/SealKernel/tests/MessageStreamSplitter/BuildFile	2004-10-13 18:50:51.000000000 +0200
++++ src/Framework/SealKernel/tests/MessageStreamSplitter/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,4 +0,0 @@
+-<Use name=Framework/SealKernel>
+-<Environment>
+-  <bin name=test_SealKernel_MessageStreamSplitter file=main.cpp>
+-</Environment>
+diff -Naur src.orig/Framework/SealKernel/tests/Properties/BuildFile src/Framework/SealKernel/tests/Properties/BuildFile
+--- src.orig/Framework/SealKernel/tests/Properties/BuildFile	2003-07-15 15:08:03.000000000 +0200
++++ src/Framework/SealKernel/tests/Properties/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-<Use name=Framework/SealKernel>
+-<Environment>
+-  <bin name=test_SealKernel_Properties file=main.cpp>
+-</Environment>
+-<External ref=cppunit></External>
+diff -Naur src.orig/Framework/SealKernel/tests/Services/BuildFile src/Framework/SealKernel/tests/Services/BuildFile
+--- src.orig/Framework/SealKernel/tests/Services/BuildFile	2003-07-14 12:28:13.000000000 +0200
++++ src/Framework/SealKernel/tests/Services/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,6 +0,0 @@
+-<Use name=Framework/SealKernel>
+-testlibname = TestServices
+-<Environment>
+-  <lib name=TestServices>
+-  <bin name=test_SealKernel_Services file=main.cpp>
+-</Environment>
+diff -Naur src.orig/Framework/SealServices/BuildFile src/Framework/SealServices/BuildFile
+--- src.orig/Framework/SealServices/BuildFile	2006-01-19 10:47:28.000000000 +0100
++++ src/Framework/SealServices/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -1,9 +1,7 @@
+-<use name=Foundation/SealBase>
+-<use name=Foundation/PluginManager>
++<Flags SealPlugin=1>
+ <use name=Framework/SealKernel>
+-
+-<Include_Path path=.>
+-
++   
+ <export>
+-  <lib name=lcg_SealServices>
++ <lib name=lcg_SealServices>
++ <use name=Framework/SealKernel>
+ </export>
+diff -Naur src.orig/Framework/SealServices/examples/BuildFile src/Framework/SealServices/examples/BuildFile
+--- src.orig/Framework/SealServices/examples/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/Framework/SealServices/examples/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -0,0 +1,8 @@
++<use name=Framework/SealServices>
++<library name=lcg_ExampleComponents file="ExampleComponents/*.cpp">
++  <Flags SealPlugin=1>
++</library>
++<bin name=example_SealServices_SimpleApp file=simpleApplication/main.cpp>
++  <include_path path=$(LOCALTOP)/$(SCRAM_SOURCEDIR)/Framework/SealServices>
++  <lib name=lcg_ExampleComponents>
++</bin>
+diff -Naur src.orig/Framework/SealServices/examples/ExampleComponents/BuildFile src/Framework/SealServices/examples/ExampleComponents/BuildFile
+--- src.orig/Framework/SealServices/examples/ExampleComponents/BuildFile	2003-08-20 21:13:42.000000000 +0200
++++ src/Framework/SealServices/examples/ExampleComponents/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-<Include_Path path=.>
+-<Use name=Framework/SealServices>
+-include $(LOCALTOP)/config/module.mk
+diff -Naur src.orig/Framework/SealServices/examples/simpleApplication/BuildFile src/Framework/SealServices/examples/simpleApplication/BuildFile
+--- src.orig/Framework/SealServices/examples/simpleApplication/BuildFile	2003-08-20 21:16:16.000000000 +0200
++++ src/Framework/SealServices/examples/simpleApplication/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-<Use name=Framework/SealServices>
+-<Environment>
+-  <lib name=lcg_ExampleComponents>
+-  <bin name=example_SealServices_SimpleApp file=main.cpp>
+-</Environment>
+diff -Naur src.orig/Framework/SealServices/src/BuildFile src/Framework/SealServices/src/BuildFile
+--- src.orig/Framework/SealServices/src/BuildFile	2006-01-09 16:33:20.000000000 +0100
++++ src/Framework/SealServices/src/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-<Use name=Framework/SealKernel>
+-include $(LOCALTOP)/config/module.mk
+-
+diff -Naur src.orig/Framework/SealServices/tests/bug18909/BuildFile src/Framework/SealServices/tests/bug18909/BuildFile
+--- src.orig/Framework/SealServices/tests/bug18909/BuildFile	2006-10-02 17:42:05.000000000 +0200
++++ src/Framework/SealServices/tests/bug18909/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,6 +0,0 @@
+-<Use name=Framework/SealServices>
+-<Environment>
+-  <bin name=test_SealServices_bug18909 file=main.cpp>
+-</Environment>
+-<External ref=cppunit></External>
+-
+diff -Naur src.orig/Framework/SealServices/tests/bug18914/BuildFile src/Framework/SealServices/tests/bug18914/BuildFile
+--- src.orig/Framework/SealServices/tests/bug18914/BuildFile	2006-10-27 10:03:50.000000000 +0200
++++ src/Framework/SealServices/tests/bug18914/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,6 +0,0 @@
+-<Use name=Framework/SealServices>
+-<Environment>
+-  <bin name=test_SealServices_bug18914 file=main.cpp>
+-</Environment>
+-<External ref=cppunit></External>
+-
+diff -Naur src.orig/Framework/SealServices/tests/bug19005/BuildFile src/Framework/SealServices/tests/bug19005/BuildFile
+--- src.orig/Framework/SealServices/tests/bug19005/BuildFile	2006-10-03 00:40:08.000000000 +0200
++++ src/Framework/SealServices/tests/bug19005/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,6 +0,0 @@
+-<Use name=Framework/SealServices>
+-<Environment>
+-  <bin name=test_SealServices_bug19005 file=main.cpp>
+-</Environment>
+-<External ref=cppunit></External>
+-
+diff -Naur src.orig/Framework/SealServices/tests/bug19019/BuildFile src/Framework/SealServices/tests/bug19019/BuildFile
+--- src.orig/Framework/SealServices/tests/bug19019/BuildFile	2006-10-27 09:54:16.000000000 +0200
++++ src/Framework/SealServices/tests/bug19019/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,6 +0,0 @@
+-<Use name=Framework/SealServices>
+-<Environment>
+-  <bin name=test_SealServices_bug19019 file=main.cpp>
+-</Environment>
+-<External ref=cppunit></External>
+-
+diff -Naur src.orig/Framework/SealServices/tests/BuildFile src/Framework/SealServices/tests/BuildFile
+--- src.orig/Framework/SealServices/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/Framework/SealServices/tests/BuildFile	2007-06-19 17:52:02.000000000 +0200
+@@ -0,0 +1,12 @@
++<Use name=Framework/SealServices>
++<use name=cppunit>
++<bin name=test_SealServices_bug18909 file=bug18909/main.cpp></bin>
++<bin name=test_SealServices_bug18914 file=bug18914/main.cpp></bin>
++<bin name=test_SealServices_bug19005 file=bug19005/main.cpp></bin>
++<bin name=test_SealServices_bug19019 file=bug19019/main.cpp></bin>
++<bin name=test_SealServices_ConfigurationService file=ConfigurationService/main.cpp></bin>
++<bin name=test_SealServices_CreateMessageSvc file=CreateMessageSvc/main.cpp></bin>
++<bin name=test_SealServices_DictionaryService file=DictionaryService/main.cpp>
++  <use name=rootcore>
++  <lib name=Reflex>
++</bin>
+diff -Naur src.orig/Framework/SealServices/tests/ConfigurationService/BuildFile src/Framework/SealServices/tests/ConfigurationService/BuildFile
+--- src.orig/Framework/SealServices/tests/ConfigurationService/BuildFile	2003-07-17 19:33:21.000000000 +0200
++++ src/Framework/SealServices/tests/ConfigurationService/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-<Use name=Framework/SealServices>
+-<Environment>
+-  <bin name=test_SealServices_ConfigurationService file=main.cpp>
+-</Environment>
+-<External ref=cppunit></External>
+diff -Naur src.orig/Framework/SealServices/tests/CreateMessageSvc/BuildFile src/Framework/SealServices/tests/CreateMessageSvc/BuildFile
+--- src.orig/Framework/SealServices/tests/CreateMessageSvc/BuildFile	2003-09-05 09:49:06.000000000 +0200
++++ src/Framework/SealServices/tests/CreateMessageSvc/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-<include_path path=.>
+-<Use name=Framework/SealServices>
+-<bin name=test_SealServices_CreateMessageSvc file=main.cpp>
+diff -Naur src.orig/Framework/SealServices/tests/DictionaryService/BuildFile src/Framework/SealServices/tests/DictionaryService/BuildFile
+--- src.orig/Framework/SealServices/tests/DictionaryService/BuildFile	2006-08-24 18:38:04.000000000 +0200
++++ src/Framework/SealServices/tests/DictionaryService/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,9 +0,0 @@
+-#ROOTSYS = /Users/moneta/root/HEAD/root
+-CPPFLAGS += -I$(ROOTSYS)/include
+-LDFLAGS += -L$(ROOTSYS)/lib  -lReflex 
+-
+-<Use name=Framework/SealServices>
+-<Environment>
+-  <bin name=test_SealServices_DictionaryService file=main.cpp>
+-</Environment>
+-<External ref=cppunit></External>

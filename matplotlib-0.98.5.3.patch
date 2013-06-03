@@ -1,0 +1,29 @@
+--- setupext.py.orig	2009-04-13 04:54:04.000000000 +0200
++++ setupext.py	2009-06-23 20:17:49.000000000 +0200
+@@ -513,6 +513,7 @@ def add_png_flags(module):
+     add_numpy_flags(module)
+     module.libraries.append('z')
+     module.include_dirs.extend(['.'])
++    module.library_dirs.extend (['@LIBPNG_ROOT@/lib', '@ZLIB_ROOT@/lib'])
+     module.libraries.extend(std_libs)
+ 
+ def add_agg_flags(module):
+@@ -522,7 +523,8 @@ def add_agg_flags(module):
+     add_base_flags(module)
+     add_numpy_flags(module)
+     module.include_dirs.extend(['src', '%s/include'%AGG_VERSION, '.'])
+-
++    module.library_dirs.extend (['@LIBPNG_ROOT@/lib', '@ZLIB_ROOT@/lib'])
++    
+     # put these later for correct link order
+     module.libraries.extend(std_libs)
+ 
+@@ -1189,7 +1191,7 @@ def build_png(ext_modules, packages):
+         deps,
+         include_dirs=numpy_inc_dirs,
+         )
+-
++    
+     add_png_flags(module)
+     ext_modules.append(module)
+ 

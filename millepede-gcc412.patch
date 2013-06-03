@@ -1,0 +1,11 @@
+--- Makefile-orig	2008-09-25 10:55:29.000000000 +0200
++++ Makefile	2008-09-25 10:57:54.000000000 +0200
+@@ -28,7 +28,7 @@
+ CCOMP = gcc 
+ C_FLAGS = -Wall -O3 -Df2cFortran ${LARGE_MEMORY_OPT}
+ C_INCLUDEDIRS =  # e.g. -I .
+-C_LIBS = -lg2c -lfrtbegin
++C_LIBS = -lgfortran -lgfortranbegin
+ DEBUG =          # e.g. -g
+ #
+ LOADER = gcc

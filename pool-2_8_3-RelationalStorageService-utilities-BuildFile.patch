@@ -1,0 +1,10 @@
+--- orig.src/RelationalStorageService/utilities/BuildFile	2005-12-15 15:29:07.000000000 +0100
++++ src/RelationalStorageService/utilities/BuildFile	2009-02-13 16:13:04.000000000 +0100
+@@ -1 +1,6 @@
+-<lib name=lcg_RelationalStorageService>
++<use name=RelationalStorageService>
++<bin file=pool_drop_container.cpp></bin>
++<bin file=pool_query_database.cpp></bin>
++<bin file=pool_setup_database.cpp></bin>
++<bin file=pool_update_database.cpp></bin>
++

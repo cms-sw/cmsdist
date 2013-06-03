@@ -1,0 +1,254 @@
+--- apt-pkg/rpm/rpmpm.cc	2007-06-13 11:43:42.000000000 +0200
++++ apt-pkg/rpm/rpmpm.cc.new	2007-06-13 11:42:21.000000000 +0200
+@@ -34,6 +34,11 @@
+ #include <stdio.h>
+ #include <iostream>
+ 
++#if RPM_VERSION >= 0x040406
++#define _RPMPS_INTERNAL
++#include <rpm/rpmps.h>
++#endif
++
+ #if RPM_VERSION >= 0x040100
+ #include <rpm/rpmdb.h>
+ #define packagesTotal rpmcliPackagesTotal 
+@@ -834,8 +839,12 @@
+    if (_config->FindB("RPM::NoDeps", false) == false) {
+       rc = rpmtsCheck(TS);
+       probs = rpmtsProblems(TS);
++#if RPM_VERSION >=0x040406
++      if (rc || rpmpsNumProblems(probs)) {
++#else
+       if (rc || probs->numProblems > 0) {
+-	 rpmpsPrint(NULL, probs);
++#endif
++     rpmpsPrint(NULL, probs);
+ 	 rpmpsFree(probs);
+ 	 _error->Error(_("Transaction set check failed"));
+ 	 goto exit;
+@@ -891,8 +900,12 @@
+ 
+    if (rc > 0) {
+       _error->Error(_("Error while running transaction"));
++#if RPM_VERSION >= 0x040406
++      if (rpmpsNumProblems (probs))
++#else
+       if (probs->numProblems > 0)
+-	 rpmpsPrint(stderr, probs);
++#endif
++         rpmpsPrint(stderr, probs);
+    } else {
+       Success = true;
+       if (rc < 0)
+@@ -939,8 +952,10 @@
+ 	 else if (Opts->Value == "--test")
+ 	    *tsFlags |= RPMTRANS_FLAG_TEST;
+ #if RPM_VERSION >= 0x040000
+-	 else if (Opts->Value == "--nomd5")
++#if RPM_VERSION < 0x040406
++     else if (Opts->Value == "--nomd5")
+ 	    *tsFlags |= RPMTRANS_FLAG_NOMD5;
++#endif
+ 	 else if (Opts->Value == "--repackage")
+ 	    *tsFlags |= RPMTRANS_FLAG_REPACKAGE;
+ #endif
+--- apt-pkg/rpm/rpmhandler.cc	2007-06-13 14:16:22.000000000 +0200
++++ apt-pkg/rpm/rpmhandler.cc.new	2007-06-13 14:16:08.000000000 +0200
+@@ -32,10 +32,15 @@
+ 
+ #include <apti18n.h>
+ 
++#if RPM_VERSION >= 0x040406
++#define _RPMEVR_INTERNAL
++#endif
++
+ #if RPM_VERSION >= 0x040100
+ #include <rpm/rpmts.h>
+ #include <rpm/rpmdb.h>
+ #include <rpm/rpmds.h>
++#include <rpm/rpmfi.h>
+ #define rpmxxInitIterator(a,b,c,d) rpmtsInitIterator(a,(rpmTag)b,c,d)
+ #else
+ #define rpmxxInitIterator(a,b,c,d) rpmdbInitIterator(a,b,c,d)
+@@ -105,22 +110,14 @@
+ {
+    if (*File == '\0')
+       return false;
+-   char **names = NULL;
+-   void *val;
+-   int_32 count = 0;
+-   rpmHeaderGetEntry(HeaderP, RPMTAG_OLDFILENAMES,
+-                     NULL, (void **) &val, &count);
+-   if (count < 1)
+-      return false;
+ 
+-   names = (char **)val;
+-   while (count--)
+-   {
+-      char *name = names[count];
+-      if (strcmp(name, File) == 0)
++   vector<string> Files;
++   FileList(Files);
++   for (vector<string>::iterator I = Files.begin(); I != Files.end(); I++) {
++      if (string(File) == (*I)) {
+          return true;
++      }
+    }
+-   free(names);
+    return false;
+ }
+ 
+@@ -399,7 +396,21 @@
+ 
+ }
+ 
+-bool RPMHandler::FileProvides(vector<string> &FileProvs)
++#if RPM_VERSION >= 0x040100
++bool RPMHandler::FileList(vector<string> &FileList)
++{
++   rpmfi fi = NULL;
++   fi = rpmfiNew(NULL, HeaderP, RPMTAG_BASENAMES, 0);
++   if (fi != NULL) {
++      while (rpmfiNext(fi) >= 0) {
++        FileList.push_back(rpmfiFN(fi));
++      }
++   }
++   fi = rpmfiFree(fi);
++   return true;
++}
++#else
++bool RPMHandler::FileList(vector<string> &FileList)
+ {
+    const char **names = NULL;
+    void *val = NULL;
+@@ -409,12 +420,13 @@
+                      NULL, (void **) &val, &count);
+    names = (const char **)val;
+    while (count--) {
+-      FileProvs.push_back(names[count]);
++      FileList.push_back(names[count]);
+    }
+    free(names);
+    return ret;
+ 
+ }
++#endif
+ 
+ RPMFileHandler::RPMFileHandler(string File)
+ {
+@@ -1167,40 +1179,6 @@
+    return FindTag(n, "sourcerpm");
+ }
+ 
+-bool RPMRepomdHandler::HasFile(const char *File)
+-{
+-   if (*File == '\0')
+-      return false;
+-
+-   bool found = false;
+-
+-   xmlNode *format = FindNode("format");
+-   for (xmlNode *n = format->children; n; n = n->next) {
+-      if (xmlStrcmp(n->name, (xmlChar*)"file") != 0) 
+-	 continue;
+-      if (xmlStrcmp(xmlNodeGetContent(n), (xmlChar*)File) == 0) {
+-	 found = true;
+-	 break;
+-      }
+-   }
+-
+-#if 0
+-   // look through filelists.xml for the file if not in primary.xml
+-   if (! found) {
+-      for (xmlNode *n = FlNodeP->children; n; n = n->next) {
+-	 if (strcmp((char*)n->name, "file") != 0) 
+-	    continue;
+-	 if (strcmp(File, (char*)xmlNodeGetContent(n)) == 0) {
+-	    found = true;
+-	    break;
+-	 }
+-      }
+-   }
+-#endif
+-   return found;
+-
+-}
+-
+ bool RPMRepomdHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
+ {
+    xmlNode *format = FindNode("format");
+@@ -1349,7 +1327,7 @@
+    return true;
+ }
+ 
+-bool RPMRepomdHandler::FileProvides(vector<string> &FileProvs)
++bool RPMRepomdHandler::FileList(vector<string> &FileList)
+ {
+    // XXX maybe this should be made runtime configurable?
+    if ( !WithFilelist ) {
+@@ -1357,7 +1335,7 @@
+       for (xmlNode *n = format->children; n; n = n->next) {
+          if (xmlStrcmp(n->name, (xmlChar*)"file") != 0)  continue;
+          xmlChar *Filename = xmlNodeGetContent(n);
+-         FileProvs.push_back(string((char*)Filename));
++         FileList.push_back(string((char*)Filename));
+          xmlFree(Filename);
+       }
+    } else {
+@@ -1369,7 +1347,7 @@
+          if (xmlStrcmp(n->name, (xmlChar*)"file") != 0) 
+ 	    continue;
+          xmlChar *Filename = xmlNodeGetContent(n);
+-         FileProvs.push_back(string((char*)Filename));
++         FileList.push_back(string((char*)Filename));
+          xmlFree(Filename);
+       }
+    }
+--- apt-pkg/rpm/rpmhandler.h	2007-06-13 14:16:22.000000000 +0200
++++ apt-pkg/rpm/rpmhandler.h.new	2007-06-13 14:16:02.000000000 +0200
+@@ -98,7 +98,7 @@
+    bool InternalDep(const char *name, const char *ver, int_32 flag);
+    virtual bool Depends(unsigned int Type, vector<Dependency*> &Deps);
+    virtual bool Provides(vector<Dependency*> &Provs);
+-   virtual bool FileProvides(vector<string> &FileProvs);
++   virtual bool FileList(vector<string> &FileList);
+ 
+    virtual bool HasFile(const char *File);
+ 
+@@ -267,10 +267,9 @@
+    virtual string Description() {return FindTag(NodeP, "description");};
+    virtual string SourceRpm();
+ 
+-   virtual bool HasFile(const char *File);
+    virtual bool Depends(unsigned int Type, vector<Dependency*> &Deps);
+    virtual bool Provides(vector<Dependency*> &Provs);
+-   virtual bool FileProvides(vector<string> &FileProvs);
++   virtual bool FileList(vector<string> &FileList);
+ 
+    RPMRepomdHandler(string File, bool useFilelist);
+    virtual ~RPMRepomdHandler();
+--- apt-pkg/rpm/rpmlistparser.cc	2007-06-13 14:51:12.000000000 +0200
++++ apt-pkg/rpm/rpmlistparser.cc.new	2007-06-13 14:49:33.000000000 +0200
+@@ -345,7 +345,7 @@
+    vector<string> Files;
+    bool ret = true;
+ 
+-   if (Handler->FileProvides(Files) == false) {
++   if (Handler->FileList(Files) == false) {
+       return false;
+    }
+    for (vector<string>::iterator I = Files.begin(); I != Files.end(); I++) {
+--- apt-pkg/rpm/rpmversion.cc	2007-06-13 17:15:58.000000000 +0200
++++ apt-pkg/rpm/rpmversion.cc.new	2007-06-13 17:29:51.000000000 +0200
+@@ -19,6 +19,11 @@
+ 
+ #ifdef HAVE_RPM
+ 
++#if RPM_VERSION >= 0x040409
++#define _RPMEVR_INTERNAL
++#include <rpm/rpmevr.h>
++#endif
++
+ #include <apt-pkg/rpmversion.h>
+ #include <apt-pkg/pkgcache.h>
+ 

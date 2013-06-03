@@ -1,0 +1,58 @@
+diff -Naur orig.root/io/io/src/TStreamerInfoActions.cxx root/io/io/src/TStreamerInfoActions.cxx
+--- orig.root/io/io/src/TStreamerInfoActions.cxx	2010-11-05 15:46:50.000000000 +0100
++++ root/io/io/src/TStreamerInfoActions.cxx	2011-02-25 05:58:41.000000000 +0100
+@@ -109,6 +109,20 @@
+          // when it is making branches for a split object.
+          continue;
+       }
++      if (TestBit(kCannotOptimize) && element->IsBase()) 
++      {
++         // Make sure the StreamerInfo for the base class is also
++         // not optimized.
++         TClass *bclass = element->GetClassPointer();
++         Int_t clversion = ((TStreamerBase*)element)->GetBaseVersion();
++         TStreamerInfo *binfo = ((TStreamerInfo*)bclass->GetStreamerInfo(clversion));
++         binfo->SetBit(kCannotOptimize);
++         if (binfo->IsOptimized())
++         {
++            // Optimizing does not work with splitting.
++            binfo->Compile();
++         }      
++      }
+       Int_t asize = element->GetSize();
+       if (element->GetArrayLength()) {
+          asize /= element->GetArrayLength();
+diff -Naur orig.root/io/io/src/TStreamerInfoReadBuffer.cxx root/io/io/src/TStreamerInfoReadBuffer.cxx
+--- orig.root/io/io/src/TStreamerInfoReadBuffer.cxx	2010-11-05 15:46:50.000000000 +0100
++++ root/io/io/src/TStreamerInfoReadBuffer.cxx	2011-02-25 05:58:46.000000000 +0100
+@@ -1277,7 +1277,12 @@
+             } else {
+                // FIXME: what is that?
+                Int_t clversion = ((TStreamerBase*)aElement)->GetBaseVersion();
+-               ((TStreamerInfo*)cle->GetStreamerInfo(clversion))->ReadBuffer(b,arr,-1,narr,ioffset,arrayMode);
++               TStreamerInfo *binfo = ((TStreamerInfo*)cle->GetStreamerInfo(clversion));
++               if (!binfo->TestBit(kCannotOptimize) && binfo->IsCompiled()) { 
++                  binfo->SetBit(kCannotOptimize);
++                  binfo->Compile();
++               }
++               binfo->ReadBuffer(b,arr,-1,narr,ioffset,arrayMode);
+             }
+             continue;
+ 
+diff -Naur orig.root/io/io/src/TStreamerInfoWriteBuffer.cxx root/io/io/src/TStreamerInfoWriteBuffer.cxx
+--- orig.root/io/io/src/TStreamerInfoWriteBuffer.cxx	2010-11-05 15:46:50.000000000 +0100
++++ root/io/io/src/TStreamerInfoWriteBuffer.cxx	2011-02-25 05:58:51.000000000 +0100
+@@ -658,7 +658,12 @@
+                }
+             } else {
+                TClass *cl                 = fComp[i].fClass;
+-               ((TStreamerInfo*)cl->GetStreamerInfo())->WriteBufferAux(b,arr,-1,narr,ioffset,arrayMode);
++               TStreamerInfo *binfo = ((TStreamerInfo*)cl->GetStreamerInfo());
++               if (!binfo->TestBit(kCannotOptimize) && binfo->IsCompiled()) { 
++                  binfo->SetBit(kCannotOptimize);
++                  binfo->Compile();
++               }
++               binfo->WriteBufferAux(b,arr,-1,narr,ioffset,arrayMode);
+             }
+             continue;
+ 

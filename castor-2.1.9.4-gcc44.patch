@@ -1,0 +1,12 @@
+diff -Naur castor-2.1.9.orig/castor/server/ForkedProcessPool.cpp castor-2.1.9/castor/server/ForkedProcessPool.cpp
+--- castor-2.1.9.orig/castor/server/ForkedProcessPool.cpp	2010-03-01 15:17:36.000000000 +0100
++++ castor-2.1.9/castor/server/ForkedProcessPool.cpp	2010-03-01 16:13:05.000000000 +0100
+@@ -35,7 +35,7 @@
+ #include <sys/time.h>
+ #include <signal.h>
+ #include <unistd.h>
+-#include <stdio.h>
++#include <cstdio>
+ 
+ // Include Files
+ #include "castor/server/ForkedProcessPool.hpp"

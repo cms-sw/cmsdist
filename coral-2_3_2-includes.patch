@@ -1,0 +1,20 @@
+diff -Naur orig.src/CoralBase/src/MsgReporter2.cpp src/CoralBase/src/MsgReporter2.cpp
+--- orig.src/CoralBase/src/MsgReporter2.cpp	2009-07-10 13:19:08.000000000 +0200
++++ src/CoralBase/src/MsgReporter2.cpp	2009-10-21 23:13:46.000000000 +0200
+@@ -1,4 +1,5 @@
+ #include "MsgReporter2.h"
++#include <iostream>
+ 
+ /// Default constructor
+ coral::CoralBase::MsgReporter2::MsgReporter2()
+diff -Naur orig.src/SQLiteAccess/tests/BulkInserts/bulkInserts.cpp src/SQLiteAccess/tests/BulkInserts/bulkInserts.cpp
+--- orig.src/SQLiteAccess/tests/BulkInserts/bulkInserts.cpp	2008-12-04 16:07:50.000000000 +0100
++++ src/SQLiteAccess/tests/BulkInserts/bulkInserts.cpp	2009-10-21 23:25:51.000000000 +0200
+@@ -25,6 +25,7 @@
+ #include <memory>
+ #include <sstream>
+ #include <float.h>
++#include <limits.h>
+ 
+ #undef max  //solve windows compilation
+ #undef min

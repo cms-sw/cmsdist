@@ -1,0 +1,158 @@
+--- rpm.c	2007-06-25 13:56:33.000000000 +0200
++++ rpm.c.new	2007-06-25 19:24:40.000000000 +0200
+@@ -1,8 +1,10 @@
+ #include "system.h"
+ 
++#include <stdlib.h>
+ #include <rpmcli.h>
+ #include <rpmbuild.h>
+ 
++
+ #include "build.h"
+ #include "signature.h"
+ #include "debug.h"
+@@ -684,9 +686,17 @@
+     /* Make a first pass through the arguments, looking for --rcfile */
+     /* We need to handle that before dealing with the rest of the arguments. */
+     optCon = poptGetContext("rpm", argc, argv, optionsTable, 0);
+-    poptReadConfigFile(optCon, LIBRPMALIAS_FILENAME);
++    if (getenv ("LIBRPMALIAS_FILENAME")) {
++        poptReadConfigFile(optCon, getenv ("LIBRPMALIAS_FILENAME"));
++    } else {
++        poptReadConfigFile(optCon, LIBRPMALIAS_FILENAME);
++    }
+     poptReadDefaultConfig(optCon, 1);
+-    poptSetExecPath(optCon, RPMCONFIGDIR, 1);
++    if (getenv ("RPMCONFIGDIR")) {
++        poptSetExecPath(optCon, getenv ("RPMCONFIGDIR"), 1);
++    } else {
++        poptSetExecPath(optCon, RPMCONFIGDIR, 1);
++    }
+ 
+     /* reading rcfile early makes it easy to override */
+     /* XXX only --rcfile (and --showrc) need this pre-parse */
+--- rpmio/macro.c	2007-06-25 13:56:33.000000000 +0200
++++ rpmio/macro.c.new	2007-06-25 19:32:29.000000000 +0200
+@@ -1966,7 +1966,10 @@
+ rpmInitMacros(MacroContext mc, const char * macrofiles)
+ {
+     char *mfiles, *m, *me;
+-
++    if (getenv ("RPM_MACROFILES")) {
++        macrofiles = getenv ("RPM_MACROFILES");
++    }
++    
+     if (macrofiles == NULL)
+ 	return;
+ #ifdef	DYING
+--- rpmqv.c	2007-06-25 19:21:40.000000000 +0200
++++ rpmqv.c.new	2007-06-25 19:28:29.000000000 +0200
+@@ -13,6 +13,7 @@
+ 
+ #include <rpmcli.h>
+ #include <rpmbuild.h>
++#include <stdlib.h>
+ 
+ #include "rpmdb.h"
+ #include "rpmps.h"
+@@ -292,9 +293,17 @@
+     /*@-nullpass -temptrans@*/
+     optCon = poptGetContext(__progname, argc, argv, optionsTable, 0);
+     /*@=nullpass =temptrans@*/
+-    (void) poptReadConfigFile(optCon, LIBRPMALIAS_FILENAME);
++    if (getenv ("LIBRPMALIAS_FILENAME")) {
++        (void) poptReadConfigFile(optCon, getenv ("LIBRPMALIAS_FILENAME"));
++    } else {
++        (void) poptReadConfigFile(optCon, LIBRPMALIAS_FILENAME);
++    }
+     (void) poptReadDefaultConfig(optCon, 1);
+-    poptSetExecPath(optCon, RPMCONFIGDIR, 1);
++    if (getenv ("RPMCONFIGDIR")) {
++        poptSetExecPath(optCon, getenv ("RPMCONFIGDIR"), 1);
++    } else {
++        poptSetExecPath(optCon, RPMCONFIGDIR, 1);
++    }
+ 
+     while ((arg = poptGetNextOpt(optCon)) > 0) {
+ 	optArg = poptGetOptArg(optCon);
+--- lib/rpmrc.c	2007-06-25 13:56:32.000000000 +0200
++++ lib/rpmrc.c.new	2007-06-25 19:20:25.000000000 +0200
+@@ -1773,6 +1773,10 @@
+     if (rcfiles == NULL)
+ 	rcfiles = defrcfiles;
+ 
++    if (getenv ("LIBRPMRC_FILENAME")) {
++        rcfiles = getenv ("LIBRPMRC_FILENAME");
++    }
++    
+     /* Read each file in rcfiles. */
+     rc = 0;
+     for (r = myrcfiles = xstrdup(rcfiles); r && *r != '\0'; r = re) {
+--- lib/poptALL.c	2007-06-25 19:22:10.000000000 +0200
++++ lib/poptALL.c.new	2007-06-25 19:40:05.000000000 +0200
+@@ -6,6 +6,7 @@
+ #include "system.h"
+ const char *__progname;
+ 
++#include <stdlib.h>
+ #include <rpmcli.h>
+ #include <fts.h>
+ 
+@@ -426,9 +427,17 @@
+ /*@-nullpass -temptrans@*/
+     optCon = poptGetContext(__progname, argc, (const char **)argv, optionsTable, 0);
+ /*@=nullpass =temptrans@*/
+-    (void) poptReadConfigFile(optCon, LIBRPMALIAS_FILENAME);
++    if (getenv ("LIBRPMALIAS_FILENAME")) {
++        (void) poptReadConfigFile(optCon, getenv ("LIBRPMALIAS_FILENAME"));
++    } else {
++        (void) poptReadConfigFile(optCon, LIBRPMALIAS_FILENAME);
++    }
+     (void) poptReadDefaultConfig(optCon, 1);
+-    poptSetExecPath(optCon, RPMCONFIGDIR, 1);
++    if (getenv ("RPMCONFIGDIR")) {
++        poptSetExecPath(optCon, getenv ("RPMCONFIGDIR"), 1);
++    } else {
++        poptSetExecPath(optCon, RPMCONFIGDIR, 1);
++    }
+ 
+     /* Process all options, whine if unknown. */
+     while ((rc = poptGetNextOpt(optCon)) > 0) {
+--- lib/query.c	Wed Jun 27 16:29:16 2007 +0300
++++ lib/query.c	Thu Jun 28 14:44:48 2007 +0300
+@@ -680,10 +680,12 @@ int rpmQueryVerify(QVA_t qva, rpmts ts, 
+     case RPMQV_PACKAGE:
+     {
+ 	int matches = 0;
+-	qva->qva_mi = rpmtsInitIterator(ts, RPMDBI_LABEL, arg, 0);
+-	while (rpmdbNextIterator(qva->qva_mi) != NULL) {
++	rpmdbMatchIterator mi;
++	mi = rpmtsInitIterator(ts, RPMDBI_LABEL, arg, 0);
++	while (rpmdbNextIterator(mi) != NULL) {
+ 	    matches++;
+ 	}
++	rpmdbFreeIterator(mi);
+ 	if (! matches) {
+ 	    rpmError(RPMERR_QUERYINFO, _("package %s is not installed\n"), arg);
+ 	    res = 1;
+diff --git a/lib/fsm.c b/lib/fsm.c
+index 435bf71..73e1733 100644
+--- lib/fsm.c
++++ lib/fsm.c
+@@ -2179,15 +2179,7 @@ if (!(fsm->mapFlags & CPIO_ALL_HARDLINKS)) break;
+ 	    }
+ 	break;
+     case FSM_LSETFCON:
+-	if (fsm->fcontext == NULL || *fsm->fcontext == '\0'
+-	 || !strcmp(fsm->fcontext, "<<none>>"))
+-	    break;
+-	rc = lsetfilecon(fsm->path, (security_context_t)fsm->fcontext);
+-	if (_fsm_debug && (stage & FSM_SYSCALL))
+-	    rpmMessage(RPMMESS_DEBUG, " %8s (%s, %s) %s\n", cur,
+-		fsm->path, fsm->fcontext,
+-		(rc < 0 ? strerror(errno) : ""));
+-	if (rc < 0) rc = (errno == EOPNOTSUPP ? 0 : CPIOERR_LSETFCON_FAILED);
++        rc=0;
+ 	break;
+     case FSM_CHOWN:
+ 	rc = chown(fsm->path, st->st_uid, st->st_gid);

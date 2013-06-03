@@ -1,0 +1,34 @@
+--- xrootd-20090727.1318/src/XrdClient/XrdClient.cc	2009-07-21 10:46:26.000000000 +0200
++++ xrootd/src/XrdClient/XrdClient.cc	2010-11-03 16:38:10.000000000 +0100
+@@ -701,9 +701,28 @@
+ 	i++;
+       }
+ 
+-      res = XrdClientReadV::ReqReadV(fConnModule, fHandle, buf+bytesread,
+-				     reqvect, startitem, i-startitem,
+-				     fConnModule->GetParallelStreamToUse(reqsperstream) );
++      if (i-startitem == 1) {
++         if (buf) {
++            // Synchronous
++            res = Read(buf, reqvect[startitem].offset, reqvect[startitem].len);
++            
++         } else {
++            // Asynchronous, res stays the same
++            Read_Async(reqvect[startitem].offset, reqvect[startitem].len);
++         }
++      } else {
++         if (buf) {
++
++            res = XrdClientReadV::ReqReadV(fConnModule, fHandle, buf+bytesread,
++                                           reqvect, startitem, i-startitem,
++                                           fConnModule->GetParallelStreamToUse(reqsperstream) );
++         }
++         else {
++            res = XrdClientReadV::ReqReadV(fConnModule, fHandle, 0,
++                                           reqvect, startitem, i-startitem,
++                                           fConnModule->GetParallelStreamToUse(reqsperstream) );
++         }
++      }
+ 
+       // The next bunch of chunks to request starts from here
+       startitem = i;

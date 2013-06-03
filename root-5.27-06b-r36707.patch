@@ -1,0 +1,208 @@
+diff -Naur orig.root/core/meta/src/TDataMember.cxx root/core/meta/src/TDataMember.cxx
+--- orig.root/core/meta/src/TDataMember.cxx	2010-11-05 15:46:18.000000000 +0100
++++ root/core/meta/src/TDataMember.cxx	2010-11-29 13:39:42.000000000 +0100
+@@ -200,9 +200,9 @@
+    if (!fInfo && !fClass) return; // default ctor is called
+ 
+    if (fInfo) {
+-      fFullTypeName = gCint->DataMemberInfo_TypeName(fInfo);
+-      fTrueTypeName = gCint->DataMemberInfo_TypeTrueName(fInfo);
+-      fTypeName     = gCint->TypeName(fFullTypeName);
++      fFullTypeName = TClassEdit::GetLong64_Name(gCint->DataMemberInfo_TypeName(fInfo));
++      fTrueTypeName = TClassEdit::GetLong64_Name(gCint->DataMemberInfo_TypeTrueName(fInfo));
++      fTypeName     = TClassEdit::GetLong64_Name(gCint->TypeName(fFullTypeName));
+       SetName(gCint->DataMemberInfo_Name(fInfo));
+       const char *t = gCint->DataMemberInfo_Title(fInfo);
+       SetTitle(t);
+diff -Naur orig.root/io/io/inc/TMakeProject.h root/io/io/inc/TMakeProject.h
+--- orig.root/io/io/inc/TMakeProject.h	2010-11-05 15:46:50.000000000 +0100
++++ root/io/io/inc/TMakeProject.h	2010-11-29 13:39:46.000000000 +0100
+@@ -27,6 +27,7 @@
+ #endif
+ 
+ class TList;
++class TVirtualStreamerInfo;
+ class TStreamerElement;
+ 
+ class TMakeProject
+@@ -44,7 +45,7 @@
+    static UInt_t GenerateForwardDeclaration(FILE *fp, const char *clname, char *inclist, Bool_t implementEmptyClass, Bool_t needGenericTemplate, const TList *extrainfos);
+    static UInt_t GenerateIncludeForTemplate(FILE *fp, const char *clname, char *inclist, Bool_t forward, const TList *extrainfos);
+    static TString UpdateAssociativeToVector(const char *name);
+-
++   static void GeneratePostDeclaration(FILE *fp, const TVirtualStreamerInfo *info, char *inclist);
+ };
+ 
+ #endif // ROOT_TMakeProject
+diff -Naur orig.root/io/io/src/TFile.cxx root/io/io/src/TFile.cxx
+--- orig.root/io/io/src/TFile.cxx	2010-11-05 15:46:50.000000000 +0100
++++ root/io/io/src/TFile.cxx	2010-11-29 13:39:48.000000000 +0100
+@@ -2560,6 +2560,23 @@
+                   }
+                   break;
+                }
++            default:
++               if (strncmp(key->GetName(),"pair<",strlen("pair<"))==0) {
++                  if (genreflex) {
++                     tmp.Form("<class name=\"%s\" />\n",key->GetName());
++                     if ( selections.Index(tmp) == kNPOS ) {
++                        selections.Append(tmp);
++                     }
++                     tmp.Form("template class %s;\n",key->GetName());
++                     if ( instances.Index(tmp) == kNPOS ) {
++                        instances.Append(tmp);
++                     }
++                  } else {
++                     what.ReplaceAll("std::","");
++                     fprintf(fp,"#pragma link C++ class %s+;\n",key->GetName());
++                  }
++               }
++               break;
+             }
+          }
+          continue;
+diff -Naur orig.root/io/io/src/TMakeProject.cxx root/io/io/src/TMakeProject.cxx
+--- orig.root/io/io/src/TMakeProject.cxx	2010-11-05 15:46:50.000000000 +0100
++++ root/io/io/src/TMakeProject.cxx	2010-11-29 13:39:52.000000000 +0100
+@@ -567,6 +567,44 @@
+ 
+ 
+ //______________________________________________________________________________
++void TMakeProject::GeneratePostDeclaration(FILE *fp, const TVirtualStreamerInfo *info, char *inclist)
++{
++   // Add to the header file anything that need to appear after the class
++   // declaration (this includes some #pragma link).
++ 
++   TIter next(info->GetElements());
++   TStreamerElement *element;
++   while( (element = (TStreamerElement*)next()) ) {      
++      Int_t stlType = TClassEdit::IsSTLCont(element->GetTypeName());      
++      if (stlType) {
++         std::vector<std::string> inside;
++         int nestedLoc;
++         TClassEdit::GetSplit( element->GetTypeName(), inside, nestedLoc, TClassEdit::kLong64 );
++         Int_t stlkind =  TClassEdit::STLKind(inside[0].c_str());
++         TClass *key = TClass::GetClass(inside[1].c_str());
++         TString what;
++         if (strncmp(inside[1].c_str(),"pair<",strlen("pair<"))==0) {
++            what = inside[1].c_str();
++         } else if (key) {
++            switch (stlkind)  {
++               case TClassEdit::kMap:
++               case TClassEdit::kMultiMap: 
++               {
++                  // Already done (see GenerateIncludeForTemplate
++                  break;
++               }
++               default:
++                  break;
++            }
++         }
++         if (what.Length()) {
++            AddUniqueStatement(fp, Form("#ifdef __MAKECINT__\n#pragma link C++ class %s+;\n#endif\n",what.Data()), inclist);               
++         }
++      }
++   }
++}
++   
++//______________________________________________________________________________
+ TString TMakeProject::UpdateAssociativeToVector(const char *name)
+ {
+    // If we have a map, multimap, set or multiset,
+diff -Naur orig.root/io/io/src/TStreamerInfo.cxx root/io/io/src/TStreamerInfo.cxx
+--- orig.root/io/io/src/TStreamerInfo.cxx	2010-11-05 15:46:50.000000000 +0100
++++ root/io/io/src/TStreamerInfo.cxx	2010-11-29 13:39:55.000000000 +0100
+@@ -992,10 +992,28 @@
+ 
+       TVirtualCollectionProxy *oldProxy = oldClass->GetCollectionProxy();
+       TVirtualCollectionProxy *newProxy = newClass->GetCollectionProxy();
++      
++      TClass *oldContent = oldProxy->GetValueClass();
++      TClass *newContent = newProxy->GetValueClass();
++
++      Bool_t contentMatch = kFALSE;
++      if (oldContent) {
++         if (oldContent == newContent) {
++            contentMatch = kTRUE;
++         } else if (newContent) {
++            TString oldFlatContent( TMakeProject::UpdateAssociativeToVector(oldContent->GetName()) );
++            TString newFlatContent( TMakeProject::UpdateAssociativeToVector(newContent->GetName()) );
++            contentMatch = kTRUE;
++         } else {
++            contentMatch = kFALSE;
++         }
++      } else {
++         contentMatch = (newContent==0);
++      }
+ 
+-      if (oldProxy->GetValueClass() == newProxy->GetValueClass()) {
+-         if ((oldProxy->GetValueClass() ==0 && oldProxy->GetType() == newProxy->GetType())
+-             ||(oldProxy->GetValueClass() && oldProxy->HasPointers() == newProxy->HasPointers())) {
++      if (contentMatch) {
++         if ((oldContent==0 && oldProxy->GetType() == newProxy->GetType())
++             ||(oldContent && oldProxy->HasPointers() == newProxy->HasPointers())) {
+             // We have compatibles collections (they have the same content)!
+             return kTRUE;
+          }
+@@ -2757,6 +2775,8 @@
+    TString sourcename; sourcename.Form( "%s/%sProjectSource.cxx", dirname, dirname );
+    FILE *sfp = fopen( sourcename.Data(), "a" );
+    GenerateDeclaration(fp, sfp, subClasses);
++   
++   TMakeProject::GeneratePostDeclaration(fp, this, inclist);
+ 
+    fprintf(fp,"#endif\n");
+ 
+diff -Naur orig.root/math/genvector/inc/Math/LinkDef_GenVector.h root/math/genvector/inc/Math/LinkDef_GenVector.h
+--- orig.root/math/genvector/inc/Math/LinkDef_GenVector.h	2010-11-05 15:46:21.000000000 +0100
++++ root/math/genvector/inc/Math/LinkDef_GenVector.h	2010-11-29 13:39:58.000000000 +0100
+@@ -46,6 +46,20 @@
+ #pragma link C++ class ROOT::Math::PositionVector3D<ROOT::Math::Cylindrical3D<double> >+;
+ #pragma link C++ class ROOT::Math::PositionVector3D<ROOT::Math::CylindricalEta3D<double> >+;
+ 
++#if 0
++// Work around CINT and autoloader deficiency with template default parameter
++// Those requests are solely for rlibmap, they do no need to be seen by rootcint.
++#pragma link C++ class ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<double>,ROOT::Math::DefaultCoordinateSystemTag >+;
++#pragma link C++ class ROOT::Math::DisplacementVector3D<ROOT::Math::Polar3D<double>,ROOT::Math::DefaultCoordinateSystemTag >+;
++#pragma link C++ class ROOT::Math::DisplacementVector3D<ROOT::Math::Cylindrical3D<double>,ROOT::Math::DefaultCoordinateSystemTag >+;
++#pragma link C++ class ROOT::Math::DisplacementVector3D<ROOT::Math::CylindricalEta3D<double>,ROOT::Math::DefaultCoordinateSystemTag >+;
++
++#pragma link C++ class ROOT::Math::PositionVector3D<ROOT::Math::Cartesian3D<double>,ROOT::Math::DefaultCoordinateSystemTag >+;
++#pragma link C++ class ROOT::Math::PositionVector3D<ROOT::Math::Polar3D<double>,ROOT::Math::DefaultCoordinateSystemTag >+;
++#pragma link C++ class ROOT::Math::PositionVector3D<ROOT::Math::Cylindrical3D<double>,ROOT::Math::DefaultCoordinateSystemTag >+;
++#pragma link C++ class ROOT::Math::PositionVector3D<ROOT::Math::CylindricalEta3D<double>,ROOT::Math::DefaultCoordinateSystemTag >+;
++#endif
++
+ #pragma link C++ class ROOT::Math::PxPyPzE4D<double>+;
+ #pragma link C++ class ROOT::Math::PtEtaPhiE4D<double>+;
+ #pragma link C++ class ROOT::Math::PxPyPzM4D<double>+;
+diff -Naur orig.root/math/genvector/inc/Math/LinkDef_GenVector32.h root/math/genvector/inc/Math/LinkDef_GenVector32.h
+--- orig.root/math/genvector/inc/Math/LinkDef_GenVector32.h	2010-11-05 15:46:21.000000000 +0100
++++ root/math/genvector/inc/Math/LinkDef_GenVector32.h	2010-11-29 13:40:01.000000000 +0100
+@@ -28,13 +28,23 @@
+ #pragma link C++ class ROOT::Math::DisplacementVector3D<ROOT::Math::CylindricalEta3D<Double32_t> >+;
+ #pragma link C++ class ROOT::Math::DisplacementVector3D<ROOT::Math::Polar3D<Double32_t> >+;
+ #pragma link C++ class ROOT::Math::DisplacementVector3D<ROOT::Math::Cylindrical3D<Double32_t> >+;
+-#
++
+ #pragma link C++ class ROOT::Math::PositionVector3D<ROOT::Math::Cartesian3D<Double32_t> >+;
+ #pragma link C++ class ROOT::Math::PositionVector3D<ROOT::Math::CylindricalEta3D<Double32_t> >+;
+ #pragma link C++ class ROOT::Math::PositionVector3D<ROOT::Math::Polar3D<Double32_t> >+;
+ #pragma link C++ class ROOT::Math::PositionVector3D<ROOT::Math::Cylindrical3D<Double32_t> >+;
+ 
+-// using a tag (only cartesuab abd cylindrical eta)
++// using a tag (only cartesian and cylindrical eta)
++
++#if 0
++// Work around CINT and autoloader deficiency with template default parameter
++// Those requests as solely for rlibmap, they do no need to be seen by rootcint
++#pragma link C++ class ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<Double32_t>,ROOT::Math::DefaultCoordinateSystemTag >+;
++#pragma link C++ class ROOT::Math::DisplacementVector3D<ROOT::Math::CylindricalEta3D<Double32_t>,ROOT::Math::DefaultCoordinateSystemTag >+;
++
++#pragma link C++ class ROOT::Math::PositionVector3D<ROOT::Math::Cartesian3D<Double32_t>,ROOT::Math::DefaultCoordinateSystemTag >+;
++#pragma link C++ class ROOT::Math::PositionVector3D<ROOT::Math::CylindricalEta3D<Double32_t>,ROOT::Math::DefaultCoordinateSystemTag >+;
++#endif
+ 
+ #pragma link C++ class ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<Double32_t>, ROOT::Math::LocalCoordinateSystemTag >+;
+ #pragma link C++ class ROOT::Math::DisplacementVector3D<ROOT::Math::CylindricalEta3D<Double32_t>,ROOT::Math::LocalCoordinateSystemTag >+;

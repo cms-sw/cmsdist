@@ -1,0 +1,11 @@
+--- config/python_template.tmpl	2006-08-31 16:14:09.000000000 +0200
++++ config/python_template.tmpl.new	2006-08-31 16:13:47.000000000 +0200
+@@ -140,7 +140,7 @@
+ 	echo "extern \"C\" void initPy[% pymodule.name() %] () {";	\
+ 	echo 'boost::python::detail::init_module("Py[% pymodule.name() %]",'	\
+ 	'init_module_Py[% pymodule.name() %]);';			\
+-	echo "};";							\
++	echo "}";							\
+ 	) > $@.tmp
+ 	mv $@.tmp $@
+ 

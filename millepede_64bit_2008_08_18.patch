@@ -1,0 +1,65 @@
+diff -Naur myTests2008_08/Makefile myTests2008_08_64/Makefile
+--- myTests2008_08/Makefile	2008-08-18 22:47:18.000000000 +0200
++++ myTests2008_08_64/Makefile	2008-08-18 22:52:51.000000000 +0200
+@@ -1,14 +1,13 @@
+ # #################################################################
+ # Makefile for MillePede II with possible input from C
+-# (works on 32-bit SLC4)
++# (works on 64-bit SLC4)
+ # #################################################################
+ #
+ # compiler options
+ #
+ # To make it link with a BIG (>2 GB) static array in dynal.inc,
+-# we need '-mcmodel=medium', but does not work on 32 bit machines,
+-# so here we switch off and restrict to smaller binaries
+-LARGE_MEMORY_OPT=
++# but does not work on 32 bit machines (for simplicity use for all executables):
++LARGE_MEMORY_OPT=-mcmodel=medium
+ # All but 'yes' disables support of reading C-binaries:
+ SUPPORT_READ_C = yes
+ # If yes (and if SUPPORT_READ_C is yes), uses rfio, i.e. shift library, for IO,
+@@ -54,7 +53,8 @@
+ #
+ # Make the executables
+ # The specific ones (part of hack, see below) + the single:
+-EXECUTABLES = pede pede_1GB pede_1GB_rfio pede_2GB pede_2GB_rfio 
++EXECUTABLES = pede pede_1GB pede_1GB_rfio pede_2GB pede_2GB_rfio \
++		  pede_4GB pede_4GB_rfio pede_8GB pede_8GB_rfio
+ 
+ all:	$(EXECUTABLES)
+ 
+@@ -96,6 +96,10 @@
+ 	${FCOMP} ${F_FLAGS} -DNUMBER_OF_WORDS=250000000 -c $< -o $@
+ %_2GB.o: %.F dynal.inc Makefile
+ 	${FCOMP} ${F_FLAGS} -DNUMBER_OF_WORDS=500000000 -c $< -o $@
++%_4GB.o: %.F dynal.inc Makefile
++	${FCOMP} ${F_FLAGS}  -DNUMBER_OF_WORDS=1000000000 -c $< -o $@
++%_8GB.o: %.F dynal.inc Makefile
++	${FCOMP} ${F_FLAGS}  -DNUMBER_OF_WORDS=2000000000 -c $< -o $@
+ %_rfio.o: %.c Makefile
+ 	$(CCOMP) -c $(C_FLAGS) -DUSE_SHIFT_RFIO $(DEFINES) $(C_INCLUDEDIRS) \
+ 		$(DEBUG) -o $@ $<
+@@ -118,6 +122,22 @@
+ 	$(LOADER) $(L_FLAGS) $(C_LIBS) -lshift \
+ 		-o $@ ${USER_OBJ_PEDE_STATIC} pede_2GB.o dynal_2GB.o readc_rfio.o  
+ #
++pede_4GB: ${USER_OBJ_PEDE_STATIC} pede_4GB.o dynal_4GB.o readc.o Makefile
++	$(LOADER) $(L_FLAGS) $(C_LIBS) \
++		-o $@ ${USER_OBJ_PEDE_STATIC} pede_4GB.o dynal_4GB.o readc.o  
++#
++pede_4GB_rfio: ${USER_OBJ_PEDE_STATIC} pede_4GB.o dynal_4GB.o readc_rfio.o  Makefile
++	$(LOADER) $(L_FLAGS) $(C_LIBS) -lshift \
++		-o $@ ${USER_OBJ_PEDE_STATIC} pede_4GB.o dynal_4GB.o readc_rfio.o  
++#
++pede_8GB: ${USER_OBJ_PEDE_STATIC} pede_8GB.o dynal_8GB.o readc.o Makefile
++	$(LOADER) $(L_FLAGS) $(C_LIBS) \
++		-o $@ ${USER_OBJ_PEDE_STATIC} pede_8GB.o dynal_8GB.o readc.o  
++#
++pede_8GB_rfio: ${USER_OBJ_PEDE_STATIC} pede_8GB.o dynal_8GB.o readc_rfio.o  Makefile
++	$(LOADER) $(L_FLAGS) $(C_LIBS) -lshift \
++		-o $@ ${USER_OBJ_PEDE_STATIC} pede_8GB.o dynal_8GB.o readc_rfio.o  
++#
+ # End hack for the various executables...
+ ####################################################################
+ #

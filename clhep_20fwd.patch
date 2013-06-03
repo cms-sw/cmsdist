@@ -1,0 +1,186 @@
+diff -Naur 1.9.4.2/CLHEP/Units/Units/GlobalPhysicalConstants.h 1.9.4.2.patch/CLHEP/Units/Units/GlobalPhysicalConstants.h
+--- 1.9.4.2/CLHEP/Units/Units/GlobalPhysicalConstants.h	1970-01-01 01:00:00.000000000 +0100
++++ 1.9.4.2.patch/CLHEP/Units/Units/GlobalPhysicalConstants.h	2009-03-29 23:53:14.000000000 +0200
+@@ -0,0 +1,36 @@
++
++#include "CLHEP/Units/PhysicalConstants.h"
++
++using CLHEP::pi;
++using CLHEP::twopi;
++using CLHEP::halfpi;
++using CLHEP::pi2;
++using CLHEP::Avogadro;
++using CLHEP::c_light;
++using CLHEP::c_squared;
++using CLHEP::h_Planck;
++using CLHEP::hbar_Planck;
++using CLHEP::hbarc;
++using CLHEP::hbarc_squared;
++using CLHEP::electron_charge;
++using CLHEP::e_squared;
++using CLHEP::electron_mass_c2;
++using CLHEP::proton_mass_c2;
++using CLHEP::neutron_mass_c2;
++using CLHEP::amu_c2;
++using CLHEP::amu;
++using CLHEP::mu0;
++using CLHEP::epsilon0;
++using CLHEP::elm_coupling;
++using CLHEP::fine_structure_const;
++using CLHEP::classic_electr_radius;
++using CLHEP::electron_Compton_length;
++using CLHEP::Bohr_radius;
++using CLHEP::alpha_rcl2;
++using CLHEP::twopi_mc2_rcl2;
++using CLHEP::k_Boltzmann;
++using CLHEP::STP_Temperature;
++using CLHEP::STP_Pressure;
++using CLHEP::kGasThreshold;
++using CLHEP::universe_mean_density;
++
+diff -Naur 1.9.4.2/CLHEP/Units/Units/GlobalSystemOfUnits.h 1.9.4.2.patch/CLHEP/Units/Units/GlobalSystemOfUnits.h
+--- 1.9.4.2/CLHEP/Units/Units/GlobalSystemOfUnits.h	1970-01-01 01:00:00.000000000 +0100
++++ 1.9.4.2.patch/CLHEP/Units/Units/GlobalSystemOfUnits.h	2009-03-29 23:53:14.000000000 +0200
+@@ -0,0 +1,118 @@
++
++#include "CLHEP/Units/SystemOfUnits.h"
++
++using CLHEP::millimeter;
++using CLHEP::millimeter2;
++using CLHEP::millimeter3;
++using CLHEP::centimeter;
++using CLHEP::centimeter2;
++using CLHEP::centimeter3;
++using CLHEP::meter;
++using CLHEP::meter2;
++using CLHEP::meter3;
++using CLHEP::kilometer;
++using CLHEP::kilometer2;
++using CLHEP::kilometer3;
++using CLHEP::parsec;
++using CLHEP::micrometer;
++using CLHEP::nanometer;
++using CLHEP::angstrom;
++using CLHEP::fermi;
++using CLHEP::barn;
++using CLHEP::millibarn;
++using CLHEP::microbarn;
++using CLHEP::nanobarn;
++using CLHEP::picobarn;
++using CLHEP::mm;
++using CLHEP::um;
++using CLHEP::nm;
++using CLHEP::mm2;
++using CLHEP::mm3;
++using CLHEP::cm;
++using CLHEP::cm2;
++using CLHEP::cm3;
++using CLHEP::m;
++using CLHEP::m2;
++using CLHEP::m3;
++using CLHEP::km;
++using CLHEP::km2;
++using CLHEP::km3;
++using CLHEP::pc;
++using CLHEP::radian;
++using CLHEP::milliradian;
++using CLHEP::degree;
++using CLHEP::steradian;
++using CLHEP::rad;
++using CLHEP::mrad;
++using CLHEP::sr;
++using CLHEP::deg;
++using CLHEP::nanosecond;
++using CLHEP::second;
++using CLHEP::millisecond;
++using CLHEP::microsecond;
++using CLHEP::picosecond;
++using CLHEP::hertz;
++using CLHEP::kilohertz;
++using CLHEP::megahertz;
++using CLHEP::ns;
++using CLHEP::s;
++using CLHEP::ms;
++using CLHEP::eplus;
++using CLHEP::e_SI;
++using CLHEP::coulomb;
++using CLHEP::megaelectronvolt;
++using CLHEP::electronvolt;
++using CLHEP::kiloelectronvolt;
++using CLHEP::gigaelectronvolt;
++using CLHEP::teraelectronvolt;
++using CLHEP::petaelectronvolt;
++using CLHEP::joule;
++using CLHEP::MeV;
++using CLHEP::eV;
++using CLHEP::keV;
++using CLHEP::GeV;
++using CLHEP::TeV;
++using CLHEP::PeV;
++using CLHEP::kilogram;
++using CLHEP::gram;
++using CLHEP::milligram;
++using CLHEP::kg;
++using CLHEP::g;
++using CLHEP::mg;
++using CLHEP::watt;
++using CLHEP::newton;
++using CLHEP::hep_pascal;
++using CLHEP::bar;
++using CLHEP::atmosphere;
++using CLHEP::ampere;
++using CLHEP::milliampere;
++using CLHEP::microampere;
++using CLHEP::nanoampere;
++using CLHEP::megavolt;
++using CLHEP::kilovolt;
++using CLHEP::volt;
++using CLHEP::ohm;
++using CLHEP::farad;
++using CLHEP::millifarad;
++using CLHEP::microfarad;
++using CLHEP::nanofarad;
++using CLHEP::picofarad;
++using CLHEP::weber;
++using CLHEP::tesla;
++using CLHEP::gauss;
++using CLHEP::kilogauss;
++using CLHEP::henry;
++using CLHEP::kelvin;
++using CLHEP::mole;
++using CLHEP::becquerel;
++using CLHEP::curie;
++using CLHEP::gray;
++using CLHEP::kilogray;
++using CLHEP::milligray;
++using CLHEP::microgray;
++using CLHEP::candela;
++using CLHEP::lumen;
++using CLHEP::lux;
++using CLHEP::perCent;
++using CLHEP::perThousand;
++using CLHEP::perMillion;
+diff -Naur 1.9.4.2/CLHEP/Units/Units/Makefile.am 1.9.4.2.patch/CLHEP/Units/Units/Makefile.am
+--- 1.9.4.2/CLHEP/Units/Units/Makefile.am	2005-03-24 01:35:47.000000000 +0100
++++ 1.9.4.2.patch/CLHEP/Units/Units/Makefile.am	2009-03-29 23:56:11.000000000 +0200
+@@ -8,6 +8,8 @@
+ tempincludedir = $(TEMPDIR)/CLHEP/@PACKAGE@
+ 
+ pkginclude_HEADERS = \
++	GlobalPhysicalConstants.h	\
++	GlobalSystemOfUnits.h		\
+ 	PhysicalConstants.h	\
+ 	SystemOfUnits.h		\
+ 	defs.h
+diff -Naur 1.9.4.2/CLHEP/Units/Units/Makefile.in 1.9.4.2.patch/CLHEP/Units/Units/Makefile.in
+--- 1.9.4.2/CLHEP/Units/Units/Makefile.in	2008-11-19 20:13:22.000000000 +0100
++++ 1.9.4.2.patch/CLHEP/Units/Units/Makefile.in	2009-03-29 23:56:27.000000000 +0200
+@@ -172,6 +172,8 @@
+ @USE_GMAKE_TRUE@MAKE = gmake
+ tempincludedir = $(TEMPDIR)/CLHEP/@PACKAGE@
+ pkginclude_HEADERS = \
++	GlobalPhysicalConstants.h	\
++	GlobalSystemOfUnits.h		\
+ 	PhysicalConstants.h	\
+ 	SystemOfUnits.h		\
+ 	defs.h

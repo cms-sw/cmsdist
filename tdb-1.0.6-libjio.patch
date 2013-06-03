@@ -1,0 +1,169 @@
+
+NOTE: to build tdb after you applied this patch, you need to run
+
+make CFLAGS="-ljio"
+
+so it links the binaries against libjio. It's not the nicest thing (including
+it on the patch would have been better) but I rather do this than fight those
+awful configure scripts.
+
+The last part of the patch includes a modification to tdbtool.c's help()
+function because my gcc doesn't seem to like that multi-line string without
+\'s at the end, but that's not libjio-related, it was needed to make it
+compile. 
+
+If you have any doubts, please let me know (albertogli@telpin.com.ar).
+
+Thanks,
+		Alberto
+
+
+
+diff -ruN tdb-1.0.6/tdb.c tdb-1.0.6-alb/tdb.c
+--- tdb-1.0.6/tdb.c	2001-12-11 00:39:51.000000000 -0300
++++ tdb-1.0.6-alb/tdb.c	2004-05-19 13:51:43.737165784 -0300
+@@ -35,6 +35,7 @@
+ #include <errno.h>
+ #include <sys/mman.h>
+ #include <sys/stat.h>
++#include <libjio.h>
+ #include "tdb.h"
+ #include "spinlock.h"
+ #else
+@@ -297,10 +298,10 @@
+ 	if (tdb->map_ptr)
+ 		memcpy(off + (char *)tdb->map_ptr, buf, len);
+ #ifdef HAVE_PWRITE
+-	else if (pwrite(tdb->fd, buf, len, off) != (ssize_t)len) {
++	else if (jpwrite(&tdb->fs, buf, len, off) != (ssize_t)len) {
+ #else
+ 	else if (lseek(tdb->fd, off, SEEK_SET) != off
+-		 || write(tdb->fd, buf, len) != (ssize_t)len) {
++		 || jwrite(&tdb->fs, buf, len) != (ssize_t)len) {
+ #endif
+ 		TDB_LOG((tdb, 0,"tdb_write failed at %d len=%d (%s)\n",
+ 			   off, len, strerror(errno)));
+@@ -318,10 +319,10 @@
+ 	if (tdb->map_ptr)
+ 		memcpy(buf, off + (char *)tdb->map_ptr, len);
+ #ifdef HAVE_PREAD
+-	else if (pread(tdb->fd, buf, len, off) != (ssize_t)len) {
++	else if (jpread(&tdb->fs, buf, len, off) != (ssize_t)len) {
+ #else
+ 	else if (lseek(tdb->fd, off, SEEK_SET) != off
+-		 || read(tdb->fd, buf, len) != (ssize_t)len) {
++		 || jread(&tdb->fs, buf, len) != (ssize_t)len) {
+ #endif
+ 		TDB_LOG((tdb, 0,"tdb_read failed at %d len=%d (%s)\n",
+ 			   off, len, strerror(errno)));
+@@ -616,7 +617,7 @@
+ {
+ 	char buf[1024];
+ #if HAVE_FTRUNCATE_EXTEND
+-	if (ftruncate(tdb->fd, size+addition) != 0) {
++	if (jtruncate(&tdb->fs, size+addition) != 0) {
+ 		TDB_LOG((tdb, 0, "expand_file ftruncate to %d failed (%s)\n", 
+ 			   size+addition, strerror(errno)));
+ 		return -1;
+@@ -625,10 +626,10 @@
+ 	char b = 0;
+ 
+ #ifdef HAVE_PWRITE
+-	if (pwrite(tdb->fd,  &b, 1, (size+addition) - 1) != 1) {
++	if (jpwrite(&tdb->fs,  &b, 1, (size+addition) - 1) != 1) {
+ #else
+ 	if (lseek(tdb->fd, (size+addition) - 1, SEEK_SET) != (size+addition) - 1 || 
+-	    write(tdb->fd, &b, 1) != 1) {
++	    jwrite(&tdb->fs, &b, 1) != 1) {
+ #endif
+ 		TDB_LOG((tdb, 0, "expand_file to %d failed (%s)\n", 
+ 			   size+addition, strerror(errno)));
+@@ -642,12 +643,12 @@
+ 	while (addition) {
+ 		int n = addition>sizeof(buf)?sizeof(buf):addition;
+ #ifdef HAVE_PWRITE
+-		int ret = pwrite(tdb->fd, buf, n, size);
++		int ret = jpwrite(&tdb->fs, buf, n, size);
+ #else
+ 		int ret;
+ 		if (lseek(tdb->fd, size, SEEK_SET) != size)
+ 			return -1;
+-		ret = write(tdb->fd, buf, n);
++		ret = jwrite(&tdb->fs, buf, n);
+ #endif
+ 		if (ret != n) {
+ 			TDB_LOG((tdb, 0, "expand_file write of %d failed (%s)\n", 
+@@ -849,7 +850,7 @@
+ 	memcpy(&tdb->header, newdb, sizeof(tdb->header));
+ 	/* Don't endian-convert the magic food! */
+ 	memcpy(newdb->magic_food, TDB_MAGIC_FOOD, strlen(TDB_MAGIC_FOOD)+1);
+-	if (write(tdb->fd, newdb, size) != size)
++	if (jwrite(&tdb->fs, newdb, size) != size)
+ 		ret = -1;
+ 	else
+ 		ret = tdb_create_rwlocks(tdb->fd, hash_size);
+@@ -1449,7 +1450,7 @@
+ 		goto internal;
+ 	}
+ 
+-	if ((tdb->fd = open(name, open_flags, mode)) == -1) {
++	if ((tdb->fd = jopen(&tdb->fs, name, open_flags, mode, J_NOLOCK)) == -1) {
+ 		TDB_LOG((tdb, 0, "tdb_open_ex: could not open file %s: %s\n",
+ 			 name, strerror(errno)));
+ 		goto fail;	/* errno set by open(2) */
+@@ -1474,7 +1475,7 @@
+ 		}
+ 	}
+ 
+-	if (read(tdb->fd, &tdb->header, sizeof(tdb->header)) != sizeof(tdb->header)
++	if (jread(&tdb->fs, &tdb->header, sizeof(tdb->header)) != sizeof(tdb->header)
+ 	    || strcmp(tdb->header.magic_food, TDB_MAGIC_FOOD) != 0
+ 	    || (tdb->header.version != TDB_VERSION
+ 		&& !(rev = (tdb->header.version==TDB_BYTEREV(TDB_VERSION))))) {
+@@ -1559,7 +1560,7 @@
+ 	if (tdb->name)
+ 		free(tdb->name);
+ 	if (tdb->fd != -1)
+-		close(tdb->fd);
++		jclose(&tdb->fs);
+ 	if (tdb->locked)
+ 		free(tdb->locked);
+ 	errno = save_errno;
+@@ -1582,7 +1583,7 @@
+ 	if (tdb->name)
+ 		free(tdb->name);
+ 	if (tdb->fd != -1)
+-		ret = close(tdb->fd);
++		ret = jclose(&tdb->fs);
+ 	if (tdb->locked)
+ 		free(tdb->locked);
+ 	if (tdb->lockedkeys)
+@@ -1706,7 +1707,7 @@
+ 
+ 	tdb_munmap(tdb);
+ 	close(tdb->fd);
+-	tdb->fd = open(tdb->name, tdb->open_flags & ~(O_CREAT|O_TRUNC), 0);
++	tdb->fd = jopen(&tdb->fs, tdb->name, tdb->open_flags & ~(O_CREAT|O_TRUNC), 0, J_NOLOCK);
+ 	if (tdb->fd == -1) {
+ 		TDB_LOG((tdb, 0, "tdb_reopen: open failed (%s)\n", strerror(errno)));
+ 		goto fail;
+diff -ruN tdb-1.0.6/tdb.h tdb-1.0.6-alb/tdb.h
+--- tdb-1.0.6/tdb.h	2001-12-10 23:20:44.000000000 -0300
++++ tdb-1.0.6-alb/tdb.h	2004-05-19 13:39:34.973954632 -0300
+@@ -26,6 +26,8 @@
+ extern "C" {
+ #endif
+ 
++#include <libjio.h>
++
+ 
+ /* flags to tdb_store() */
+ #define TDB_REPLACE 1
+@@ -83,6 +85,7 @@
+ 	char *name; /* the name of the database */
+ 	void *map_ptr; /* where it is currently mapped */
+ 	int fd; /* open file descriptor for the database */
++	struct jfs fs; /* journal file descriptor for the database */
+ 	tdb_len map_size; /* how much space has been mapped */
+ 	int read_only; /* opened read-only */
+ 	struct tdb_lock_type *locked; /* array of chain locks */

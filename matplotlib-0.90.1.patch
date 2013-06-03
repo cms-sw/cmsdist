@@ -1,0 +1,10 @@
+--- setupext.py	2007-08-10 10:49:53.000000000 +0200
++++ setupext.py	2007-08-10 10:49:40.000000000 +0200
+@@ -158,6 +158,7 @@
+     module.libraries.append('z')
+     add_base_flags(module)
+     module.include_dirs.extend(['src','swig', '%s/include'%AGG_VERSION, '.'])
++    module.library_dirs.extend (['@LIBPNG_ROOT@/lib', '@ZLIB_ROOT@/lib'])
+ 
+ 
+     # put these later for correct link order

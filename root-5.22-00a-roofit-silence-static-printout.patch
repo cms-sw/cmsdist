@@ -1,0 +1,16 @@
+commit 411ddb64f2cb1e12efada1197e3ee8b8ec4b2c33
+Author: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date:   Sat Oct 9 11:15:41 2010 +0200
+
+    ../CMSDIST/root-5.22-00a-roofit-silence-static-printout.patch
+
+diff --git a/roofit/roofitcore/src/RooBanner.cxx b/roofit/roofitcore/src/RooBanner.cxx
+index e1e0a16..622a2bf 100644
+--- a/roofit/roofitcore/src/RooBanner.cxx
++++ b/roofit/roofitcore/src/RooBanner.cxx
+@@ -22,4 +22,4 @@ Int_t doBanner()
+   return 0 ;
+ }
+ 
+-static Int_t dummy = doBanner() ;
++//static Int_t dummy = doBanner() ;

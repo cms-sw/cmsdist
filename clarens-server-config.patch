@@ -1,0 +1,11 @@
+--- clarens-server-config.py.in.orig    2006-05-17 14:09:01.000000000 -0700
++++ clarens-server-config.py.in 2006-05-17 14:09:11.000000000 -0700
+@@ -1215,7 +1215,7 @@
+       messages.append(['Modifying Apache configuration','Busy'])
+       exp=re.compile("^\s*([ \S]*)\s+([ \S]+)$")
+       try:
+-        need_conf_include=1
++        need_conf_include=0
+         files=glob.glob(path_join([root_batch,config["clarens_apache_configdir"],'*.conf']))
+         found=None
+         for file in files:

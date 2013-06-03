@@ -1,0 +1,44 @@
+Index: SHERPA/Run/Main.C
+===================================================================
+--- SHERPA/Run/Main.C	(revision 11722)
++++ SHERPA/Run/Main.C	(working copy)
+@@ -4,6 +4,7 @@
+ #include "Random.H"
+ #include "Exception.H"
+ #include "Run_Parameter.H"
++#include "MyStrStream.H"
+ #include "CXXFLAGS.H"
+ #include "CXXFLAGS_PACKAGES.H"
+ 
+@@ -58,6 +59,10 @@
+       }
+       msg_Info()<<std::endl;      
+       Generator.SummarizeRun();
++      std::string sigmas(ATOOLS::rpa.gen.Variable("TOTAL_CROSS_SECTION"));
++      if (sigmas=="") msg_Error()<<"Error: xs info not available"<<std::endl;
++      double sigma(ATOOLS::ToType<double>(sigmas));
++      PRINT_INFO(sigma);
+     }
+     msg_Events()<<"=========================================================================="<<std::endl
+ 		     <<"Sherpa finished its simulation run with "
+Index: ANALYSIS/Observables/Statistics_Observable.C
+===================================================================
+--- ANALYSIS/Observables/Statistics_Observable.C	(revision 11722)
++++ ANALYSIS/Observables/Statistics_Observable.C	(working copy)
+@@ -2,6 +2,7 @@
+ #define Statistics_Observable_H
+ 
+ #include "Primitive_Observable_Base.H"
++#include "MyStrStream.H"
+ #include <iostream>
+ #include <iomanip>
+ 
+@@ -184,6 +185,8 @@
+       <<dsig<<" = "<<dsig/sig*100.0<<" % )\n";
+   file<<"# Total XS (cut): "<<csig<<" +- ( "
+       <<cdsig<<" = "<<cdsig/csig*100.0<<" % )\n\n";
++  if (m_listname=="FinalState")
++    rpa.gen.SetVariable("TOTAL_CROSS_SECTION",ToString(sig));
+   file.close();
+ }
+ 

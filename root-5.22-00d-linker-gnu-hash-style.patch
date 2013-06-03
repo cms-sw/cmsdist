@@ -1,0 +1,32 @@
+commit a2d86be14c74f339317ef2d4112a0abecc64452c
+Author: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date:   Sat Oct 9 11:15:46 2010 +0200
+
+    ../CMSDIST/root-5.22-00d-linker-gnu-hash-style.patch
+
+diff --git a/config/Makefile.linux b/config/Makefile.linux
+index a701cb8..abc87fa 100644
+--- a/config/Makefile.linux
++++ b/config/Makefile.linux
+@@ -33,7 +33,7 @@ COMPILER      = gnu
+ 
+ # Linker:
+ LD            = g++
+-LDFLAGS       = -m32 $(OPT) $(EXTRA_LDFLAGS)
++LDFLAGS       = -m32 -Wl,--hash-style=gnu $(OPT) $(EXTRA_LDFLAGS)
+ SOFLAGS       = -shared -Wl,-soname,
+ SOEXT         = so
+ 
+diff --git a/config/Makefile.linuxx8664gcc b/config/Makefile.linuxx8664gcc
+index 5958dd3..4970094 100644
+--- a/config/Makefile.linuxx8664gcc
++++ b/config/Makefile.linuxx8664gcc
+@@ -36,7 +36,7 @@ COMPILER      = gnu
+ 
+ # Linker:
+ LD            = g++
+-LDFLAGS       = -m64 $(OPT) $(EXTRA_LDFLAGS)
++LDFLAGS       = -m64 -Wl,--hash-style=gnu $(OPT) $(EXTRA_LDFLAGS)
+ SOFLAGS       = -shared -Wl,-soname,
+ SOEXT         = so
+ 

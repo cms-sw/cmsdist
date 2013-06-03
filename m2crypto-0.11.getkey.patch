@@ -1,0 +1,21 @@
+--- SWIG/_rsa.i.orig	Mon Jul 21 14:11:48 2003
++++ SWIG/_rsa.i	Mon Jul 21 14:12:38 2003
+@@ -6,15 +6,18 @@
+ #include <openssl/err.h>
+ #include <openssl/pem.h>
+ #include <openssl/rsa.h>
++#include <openssl/evp.h>
+ %}
+ 
+ %apply Pointer NONNULL { RSA * };
+ %apply Pointer NONNULL { PyObject *pyfunc };
++%apply Pointer NONNULL { EVP_PKEY * };
+ 
+ %name(rsa_new) extern RSA *RSA_new(void);
+ %name(rsa_free) extern void RSA_free(RSA *);
+ %name(rsa_size) extern int RSA_size(const RSA *);
+ %name(rsa_check_key) extern int RSA_check_key(const RSA *);
++%name(rsa_from_pkey) extern RSA *EVP_PKEY_get1_RSA(EVP_PKEY *);
+ 
+ %constant int no_padding        = RSA_NO_PADDING;
+ %constant int pkcs1_padding     = RSA_PKCS1_PADDING;

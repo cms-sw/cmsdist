@@ -1,0 +1,25 @@
+diff --git a/mysql++-1.7.40/lib/manip.h b/mysql++-1.7.40/lib/manip.h
+index 7dab6c9..259bddb 100644
+--- a/mysql++-1.7.40/lib/manip.h
++++ b/mysql++-1.7.40/lib/manip.h
+@@ -52,6 +52,7 @@
+ #include <mysql.h>
+ 
+ #include <iostream>
++#include <cstring>
+ 
+ /// All global symbols in MySQL++ are in namespace mysqlpp.  This is
+ /// needed because many symbols are rather generic (e.g. Row, Query...),
+diff --git a/mysql++-1.7.40/lib/sql_query.cpp b/mysql++-1.7.40/lib/sql_query.cpp
+index 0ee2e0a..02b69e8 100644
+--- a/mysql++-1.7.40/lib/sql_query.cpp
++++ b/mysql++-1.7.40/lib/sql_query.cpp
+@@ -30,6 +30,8 @@
+ #include "sql_query.h"
+ 
+ #include "exceptions.h"
++#include <cstdlib>
++#include <cstring>
+ 
+ using namespace std;
+ 

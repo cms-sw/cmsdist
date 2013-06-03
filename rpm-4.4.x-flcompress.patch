@@ -1,0 +1,27 @@
+diff -r ef3b9fefa1eb rpmdb/legacy.c
+--- a/rpmdb/legacy.c	Tue Nov 13 13:11:54 2007 +0200
++++ b/rpmdb/legacy.c	Tue Dec 11 10:38:28 2007 +0200
+@@ -298,9 +298,9 @@ void compressFilelist(Header h)
+     if (fileNames == NULL || count <= 0)
+ 	return;
+ 
+-    dirNames = alloca(sizeof(*dirNames) * count);	/* worst case */
+-    baseNames = alloca(sizeof(*dirNames) * count);
+-    dirIndexes = alloca(sizeof(*dirIndexes) * count);
++    dirNames = malloc(sizeof(*dirNames) * count);	/* worst case */
++    baseNames = malloc(sizeof(*dirNames) * count);
++    dirIndexes = malloc(sizeof(*dirIndexes) * count);
+ 
+     if (fileNames[0][0] != '/') {
+ 	/* HACK. Source RPM, so just do things differently */
+@@ -354,6 +354,10 @@ exit:
+     }
+ 
+     fileNames = hfd(fileNames, fnt);
++    free(dirNames);
++    free(baseNames);
++    free(dirIndexes);
++    
+ 
+     xx = hre(h, RPMTAG_OLDFILENAMES);
+ }

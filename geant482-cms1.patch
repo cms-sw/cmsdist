@@ -1,0 +1,5562 @@
+diff -Naur --exclude CVS source/geant4e/b.log source/geant4e/b.log
+--- source/geant4e/b.log	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/b.log	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,7 @@
++Compiling G4eManager.cc ...
++src/G4eManager.cc: In member function `bool 
++   G4eManager::InitFieldForBackwards()':
++src/G4eManager.cc:211: no matching function for call to `G4MagIntegratorStepper
++   ::SetEquationOfMotion(G4Mag_UsualEqRhs*&)'
++gmake: *** [/afs/cern.ch/cms/external/geant4/8.1.p01.pCMS2/share/tmp/Linux-g++/G4error/G4eManager.o] Error 1
++gmake: Target `lib' not remade because of errors.
+diff -Naur --exclude CVS source/geant4e/GNUmakefile source/geant4e/GNUmakefile
+--- source/geant4e/GNUmakefile	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/GNUmakefile	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,52 @@
++# $Id: GNUmakefile,v 1.1 1999/01/07 16:14:28 gunter Exp $
++# ----------------------------------------------------------
++# GNUmakefile for tracking library.  Katsuya Amako, 5/9/95.
++# ----------------------------------------------------------
++
++name := G4error
++
++ifndef G4INSTALL
++  G4INSTALL = ../..
++endif
++
++include $(G4INSTALL)/config/architecture.gmk
++
++CPPFLAGS += -I$(G4BASE)/global/management/include \
++            -I$(G4BASE)/global/HEPRandom/include \
++            -I$(G4BASE)/global/HEPGeometry/include \
++            -I$(G4BASE)/geometry/management/include \
++            -I$(G4BASE)/geometry/volumes/include \
++            -I$(G4BASE)/geometry/solids/CSG/include \
++            -I$(G4BASE)/geometry/navigation/include \
++            -I$(G4BASE)/track/include \
++            -I$(G4BASE)/materials/include \
++            -I$(G4BASE)/processes/management/include \
++            -I$(G4BASE)/processes/electromagnetic/utils/include \
++            -I$(G4BASE)/particles/management/include \
++            -I$(G4BASE)/digits_hits/detector/include \
++            -I$(G4BASE)/digits_hits/hits/include \
++            -I$(G4BASE)/graphics_reps/include \
++            -I$(G4BASE)/intercoms/include \
++            -I$(G4BASE)/geometry/magneticfield/include \
++            -I$(G4BASE)/tracking/include \
++            -I$(G4BASE)/event/include \
++            -I$(G4BASE)/run/include \
++            -I$(G4BASE)/particles/bosons/include \
++            -I$(G4BASE)/particles/leptons/include \
++            -I$(G4BASE)/particles/hadrons/mesons/include \
++            -I$(G4BASE)/particles/hadrons/barions/include \
++            -I$(G4BASE)/particles/hadrons/ions/include \
++            -I$(G4BASE)/digits_hits/digits/include \
++            -I$(G4BASE)/processes/electromagnetic/standard/include \
++            -I$(G4BASE)/processes/electromagnetic/muons/include \
++            -I$(G4BASE)/processes/cuts/include \
++            -I$(G4BASE)/processes/transportation/include \
++            -I$(G4BASE)/processes/decay/include
++
++CPPFLAGS += -DG4EVERBOSE
++
++include $(G4INSTALL)/config/common.gmk
++
++.PHONY: global
++
++global: lib
+diff -Naur --exclude CVS source/geant4e/include/ExN02PhysicsList.hh source/geant4e/include/ExN02PhysicsList.hh
+--- source/geant4e/include/ExN02PhysicsList.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/ExN02PhysicsList.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,51 @@
++//
++// class ExN02PhysicsList
++//
++// Class description:
++//
++//
++//
++
++// History:
++//
++// --------------------------------------------------------------------
++#ifndef ExN02PhysicsList_h
++#define ExN02PhysicsList_h 1
++
++#include "G4VUserPhysicsList.hh"
++#include "globals.hh"
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
++
++class ExN02PhysicsList: public G4VUserPhysicsList
++{
++  public:
++    ExN02PhysicsList();
++   ~ExN02PhysicsList();
++
++  protected:
++    // Construct particle and physics
++    void ConstructParticle();
++    void ConstructProcess();
++ 
++    void SetCuts();
++
++   
++  protected:
++    // these methods Construct particles 
++    void ConstructBosons();
++    void ConstructLeptons();
++    void ConstructMesons();
++    void ConstructBaryons();
++
++  protected:
++  // these methods Construct physics processes and register them
++    void ConstructGeneral();
++    void ConstructEM();
++};
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
++
++#endif
++
++ 
+diff -Naur --exclude CVS source/geant4e/include/G4eEnergyLossProcess.hh source/geant4e/include/G4eEnergyLossProcess.hh
+--- source/geant4e/include/G4eEnergyLossProcess.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eEnergyLossProcess.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,67 @@
++//
++// class G4eEnergyLossProcess
++//
++// Class description:
++//
++// Description: Continuous Process to calcualte energy loss through G4EnergyLossForExtrapolator
++
++// History:
++//
++// --------------------------------------------------------------------
++//
++
++#ifndef G4eEnergyLossProcess_h
++#define G4eEnergyLossProcess_h 1
++
++#include "globals.hh"
++#include "G4VContinuousProcess.hh"
++class G4EnergyLossForExtrapolator;
++
++/////////////////////
++// Class Definition
++/////////////////////
++
++class G4eEnergyLossProcess : public G4VContinuousProcess
++{
++
++public: 
++
++	G4eEnergyLossProcess(const G4String& processName = "G4eEnergyLossProcess");
++
++	~G4eEnergyLossProcess();	
++
++public:
++
++  G4bool IsApplicable(const G4ParticleDefinition& aParticleType);
++    // Returns true -> 'is applicable', for all charged particles.
++
++  G4double GetContinuousStepLimit(const G4Track& aTrack,
++				  G4double  ,
++				  G4double  ,
++				  G4double& );
++    // Returns DBL_MAX as continuous step limit
++
++  G4VParticleChange* AlongStepDoIt(const G4Track& aTrack, 
++				   const G4Step&  aStep);
++    // This is the method implementing the energy loss process.
++
++private:
++  static void InstantiateEforExtrapolator();
++    // Create the G4EnergyLossForExtrapolator
++
++private:
++ static G4EnergyLossForExtrapolator* theELossForExtrapolator;
++
++};
++
++////////////////////
++// Inline methods
++////////////////////
++
++inline 
++G4bool G4eEnergyLossProcess::IsApplicable(const G4ParticleDefinition& aParticleType)
++{
++   return (aParticleType.GetPDGCharge() != 0);
++}
++
++#endif /* G4eEnergyLossProcess_h */
+diff -Naur --exclude CVS source/geant4e/include/G4eIonisationChange.hh source/geant4e/include/G4eIonisationChange.hh
+--- source/geant4e/include/G4eIonisationChange.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eIonisationChange.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,42 @@
++//
++// class G4eIonisationChange
++//
++// Class description:
++//
++//
++//
++
++// History:
++//
++// --------------------------------------------------------------------
++//
++// Class description:
++//
++//  Serves to reverse the sign of the energy lost if propagationis backwards
++//
++// History:
++// - Created. P. Arce
++// ------------------------------------------------------------
++ 
++#ifndef G4eIonisationChange_h
++#define G4eIonisationChange_h 1
++ 
++#include "globals.hh"
++class G4ParticleChangeForLoss;
++class G4Track;
++ 
++class G4eIonisationChange
++{
++ public:
++ 
++  G4eIonisationChange(const G4String& processName = "GEANT4eMuIoni"); 
++
++  ~G4eIonisationChange();
++
++  void RecomputeParticleChange( G4ParticleChangeForLoss* fParticleChange, const G4Track& trackData);
++
++};
++ 
++ 
++#endif
++
+diff -Naur --exclude CVS source/geant4e/include/G4eMagneticFieldLimitsMessenger.hh source/geant4e/include/G4eMagneticFieldLimitsMessenger.hh
+--- source/geant4e/include/G4eMagneticFieldLimitsMessenger.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eMagneticFieldLimitsMessenger.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,44 @@
++//
++// class G4eMagneticFieldLimitsMessenger
++//
++// Class description:
++//
++// Messenger class for G4eMagneticFieldLimitsProcess
++//
++
++// History:
++// 
++//-----------------------------------------------------------------
++
++#ifndef G4eMagneticFieldLimitsMessenger_h
++#define G4eMagneticFieldLimitsMessenger_h 1
++
++#include "globals.hh"
++#include "G4UImessenger.hh"
++
++class G4UIdirectory;
++class G4UIcmdWithAString;
++class G4UIcmdWithADoubleAndUnit;
++class G4eMagneticFieldLimitsProcess;
++
++//-----------------------------------------------------------------
++
++class G4eMagneticFieldLimitsMessenger: public G4UImessenger
++{
++public:
++  G4eMagneticFieldLimitsMessenger(G4eMagneticFieldLimitsProcess*);
++  ~G4eMagneticFieldLimitsMessenger();
++  
++  void SetNewValue(G4UIcommand*, G4String);
++  
++private:
++
++  G4eMagneticFieldLimitsProcess* myAction;
++  
++  G4UIdirectory*             myDir;
++
++  G4UIcmdWithADoubleAndUnit* StepLimitCmd;
++};
++
++#endif
++
+diff -Naur --exclude CVS source/geant4e/include/G4eMagneticFieldLimitsProcess.hh source/geant4e/include/G4eMagneticFieldLimitsProcess.hh
+--- source/geant4e/include/G4eMagneticFieldLimitsProcess.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eMagneticFieldLimitsProcess.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,69 @@
++//
++// class G4eMagneticFieldLimitsProcess
++//
++// Class description:
++//
++//  Limits the step length if change of magnetic field is too big (user defined limit)
++
++// History:
++// - Created. P. Arce, September 2004
++//
++//-----------------------------------------------------------------
++
++#ifndef G4eMagneticFieldLimitsProcess_h
++#define G4eMagneticFieldLimitsProcess_h 1
++
++#include "G4ios.hh" 
++#include "globals.hh"
++#include "G4VDiscreteProcess.hh"
++#include "G4PhysicsTable.hh"
++#include "G4PhysicsLogVector.hh"
++#include "G4ElementTable.hh"
++#include "G4Gamma.hh" 
++#include "G4Electron.hh"
++#include "G4Step.hh" 
++class G4eMagneticFieldLimitsMessenger;
++
++//-----------------------------------------------------------------
++ 
++class G4eMagneticFieldLimitsProcess : public G4VDiscreteProcess
++{
++public:  // with description
++  
++  G4eMagneticFieldLimitsProcess(const G4String& processName ="G4eMagneticFieldLimitsProcess");
++  
++  ~G4eMagneticFieldLimitsProcess();
++  
++  virtual G4double PostStepGetPhysicalInteractionLength(
++                             const G4Track& track,
++                             G4double   previousStepSize,
++                             G4ForceCondition* condition
++                            );
++    // returns the step limit
++
++  virtual  G4double GetMeanFreePath(const class G4Track &, G4double, enum G4ForceCondition *);
++    // Never called, but needed as it is an abstract method
++
++  virtual G4VParticleChange* PostStepDoIt(
++					  const G4Track& ,
++					  const G4Step& );
++    // No action, but retrieving the G4VParticleChange extracted from the G4Track
++                             
++  // Get and Set methods
++  G4double GetStepLimit() const { return theStepLimit; }
++
++  void SetStepLimit( G4double val ) {
++    theStepLimit = val;
++    //    G4cout << " G4eMagneticFieldLimitsProcess set theStepLimit " << theStepLimit << G4endl; 
++  }
++
++private:
++  G4double theStepLimit;
++  G4eMagneticFieldLimitsMessenger* theMessenger;
++};
++
++//-----------------------------------------------------------------
++ 
++  
++#endif
++ 
+diff -Naur --exclude CVS source/geant4e/include/G4eMag_UsualEqRhs.hh source/geant4e/include/G4eMag_UsualEqRhs.hh
+--- source/geant4e/include/G4eMag_UsualEqRhs.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eMag_UsualEqRhs.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,33 @@
++//
++// class G4eMag_UsualEqRhs
++//
++// Class description:
++//
++// Serves to reverse the magnetic field when propagation is backwards
++//
++
++// History:
++//
++// --------------------------------------------------------------------
++
++#ifndef G4EMAG_USUAL_EQRHS
++#define G4EMAG_USUAL_EQRHS
++
++#include "G4Mag_UsualEqRhs.hh"
++#include "G4MagneticField.hh"
++
++class G4eMag_UsualEqRhs : public G4Mag_UsualEqRhs
++{
++   public:  // with description
++
++     G4eMag_UsualEqRhs( G4MagneticField* MagField )
++       : G4Mag_UsualEqRhs( MagField ) {;}
++    ~G4eMag_UsualEqRhs() {;}
++
++  void EvaluateRhsGivenB( const G4double y[],
++			  const G4double B[3],
++			  G4double dydx[] ) const;
++    // reverses dedx if propagation is backwards
++};
++
++#endif /* G4MAG_USUAL_EQRHS */
+diff -Naur --exclude CVS source/geant4e/include/G4eManager.hh source/geant4e/include/G4eManager.hh
+--- source/geant4e/include/G4eManager.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eManager.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,163 @@
++//
++// class G4eManager
++//
++// Class description:
++//
++// This is the class manager of the GEANT4e package 
++// It is the main interface for the user to define the setup and start the propagation 
++// Initializes GEANT4 for the propagation
++//
++// Keeps the G4eState, that controls when the propagation has ended
++// and the G4eMode, that controls if propagation is forwards or backwards
++//
++
++// History:
++// - Created. Pedro Arce, February 2001
++// --------------------------------------------------------------------
++#ifndef G4eManager_h
++#define G4eManager_h 1
++
++
++#include "globals.hh"
++#include "G4ApplicationState.hh"
++
++enum G4eState {G4eState_PreInit = 1, G4eState_Init, G4eState_Propagating, G4eState_TargetCloserThanBoundary, G4eState_StoppedAtTarget};
++enum G4eMode {G4eMode_PropForwards = 1, G4eMode_PropBackwards, G4eMode_PropTest};
++
++class G4eNavigator;
++class G4ePropagator;
++class G4eRunManagerKernel;
++class G4eTarget;
++class G4eTrajState;
++class G4eTrajStateFree;
++
++class G4VUserDetectorConstruction;
++class G4VPhysicalVolume;
++class G4VUserPhysicsList;
++class G4UserRunAction;
++class G4UserEventAction;
++class G4UserStackingAction;
++class G4UserTrackingAction;
++class G4UserSteppingAction;
++class G4Mag_UsualEqRhs;
++class G4Track;
++
++
++class G4eManager
++{
++public:
++  G4eManager();
++    // Initialise data to 0. Starts the G4eRunManagerKernel and G4eNavigator.
++
++public:
++  ~G4eManager();
++
++  static G4eManager* GetG4eManager();
++    // Get only instance of G4eManager. If it does not exists, creates it
++
++  void EventTermination();
++    // Set state to G4eState_Init
++
++  void RunTermination();
++    // Set state to G4eState_Init and invoke G4eRunManagerKernel::RunTermination()
++
++  void InitGeant4e();
++    // Initializes Geant4 and Geant4e
++
++  void InitTrackPropagation();
++    // Set the propagator step number to 0 and the G4eState to Propagating
++ 
++  bool InitFieldForBackwards();
++   // Creates the G4eMag_UsualEqRhs, that will control backwards tracking
++
++  int Propagate( G4eTrajState* currentTS, const G4eTarget* target, G4eMode mode = G4eMode_PropForwards );
++    //invokes G4ePropagator::Propagate
++
++  int PropagateOneStep( G4eTrajState* currentTS, G4eMode mode = G4eMode_PropForwards );
++    //invokes G4ePropagator::PropagateOneStep
++
++  void InvokePreUserTrackingAction( G4Track* fpTrack );
++    // Invoke the G4UserTrackingAction::PreUserTrackingAction
++  void InvokePostUserTrackingAction( G4Track* fpTrack );
++    // Invoke the G4UserTrackingAction::PostUserTrackingAction
++
++  bool CloseGeometry();
++    // Close Geant4 geometry
++
++  void SetUserInitialization(G4VUserDetectorConstruction* userInit);
++    // Invokes G4eRunManagerKernel to construct detector and set world volume
++  void SetUserInitialization(G4VPhysicalVolume* userInit);
++    // Invokes G4eRunManagerKernel to  set world volume
++   void SetUserInitialization(G4VUserPhysicsList* userInit);
++    // Invokes G4eRunManagerKernel to initialize physics
++
++  void SetUserAction(G4UserTrackingAction* userAction);
++    // Invokes G4EventManager to set a G4UserTrackingAction
++  void SetUserAction(G4UserSteppingAction* userAction);
++    // Invokes G4EventManager to set a G4UserSteppingAction
++
++  G4String PrintG4eState();
++  G4String PrintG4eState( G4eState state );
++    // print Geant4e state
++  G4String PrintG4State();
++  G4String PrintG4State( G4ApplicationState state );
++    // print Geant4 state
++ 
++private:
++  void StartG4eRunManagerKernel();
++    // Create a G4eRunManagerKernel if it does not exist and set to it the G4ePhysicsList
++ 
++  void StartNavigator();
++    // Create a G4eNavigator
++ 
++public:
++  // Set and Get methods 
++  G4eRunManagerKernel* GetG4eRunManagerKernel() const;
++
++  void SetSteppingManagerVerboseLevel();
++
++  const G4eState GetState() const;
++  void SetState( G4eState sta );
++
++  const G4eMode GetMode() const;
++  void SetMode( G4eMode mode );
++
++  const G4eTarget* GetTarget( bool mustExist = 0) const;
++  void SetTarget( const G4eTarget* target );
++
++  static int verbose();
++  static void SetVerbose( int ver );
++
++  G4eNavigator* GetG4eNavigator() const { return theG4eNavigator; }
++
++private:
++  static G4eManager* theG4eManager;
++  //--- The only instance 
++
++  G4eRunManagerKernel* theG4eRunManagerKernel;
++  //--- The G4eRunManagerKernel
++
++  static int theVerbosity;
++  //--- the verbosity for all GEANT4e classes
++
++  //--- State of the GEANT4e tracking to the target
++  G4eState theState;
++
++  G4eMode thePropagationMode;
++
++  G4eTarget* theFinalTarget;
++
++  G4ePropagator* thePropagator;
++
++  G4Mag_UsualEqRhs* theEquationOfMotion;
++
++  G4eTrajStateFree* theCurrentTS_FREE;
++
++  G4eNavigator* theG4eNavigator;
++
++};
++
++#include "G4eManager.icc"
++
++#endif
++
+diff -Naur --exclude CVS source/geant4e/include/G4eManager.icc source/geant4e/include/G4eManager.icc
+--- source/geant4e/include/G4eManager.icc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eManager.icc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,85 @@
++//
++// ********************************************************************
++// * DISCLAIMER                                                       *
++// *                                                                  *
++// * The following disclaimer summarizes all the specific disclaimers *
++// * of contributors to this software. The specific disclaimers,which *
++// * govern, are listed with their locations in:                      *
++// *   http://cern.ch/geant4/license                                  *
++// *                                                                  *
++// * Neither the authors of this software system, nor their employing *
++// * institutes,nor the agencies providing financial support for this *
++// * work  make  any representation or  warranty, express or implied, *
++// * regarding  this  software system or assume any liability for its *
++// * use.                                                             *
++// *                                                                  *
++// * This  code  implementation is the  intellectual property  of the *
++// * GEANT4 collaboration.                                            *
++// * By copying,  distributing  or modifying the Program (or any work *
++// * based  on  the Program)  you indicate  your  acceptance of  this *
++// * statement, and all its terms.                                    *
++// ********************************************************************
++//
++
++inline 
++void G4eManager::SetState( G4eState sta )
++{
++//  G4cout << " setting G4eState " << sta << G4endl;
++  theState = sta;
++}
++
++inline 
++const G4eState G4eManager::GetState() const
++{	
++  return theState;	
++}
++
++
++inline 
++void G4eManager::SetMode( G4eMode mode )
++{
++  thePropagationMode = mode;
++}
++
++
++inline 
++const G4eMode G4eManager::GetMode() const
++{
++  return thePropagationMode;
++}
++
++
++inline 
++const G4eTarget* G4eManager::GetTarget( bool mustExist ) const
++{ 	
++   if( theFinalTarget == 0 && mustExist ) {
++    G4Exception(" G4ePropagator defined but without final target "); 
++  }
++  return theFinalTarget;
++}
++
++
++inline 
++void G4eManager::SetTarget( const G4eTarget* target )
++{ 	
++  theFinalTarget = const_cast<G4eTarget*>(target);
++}
++
++
++inline 
++int G4eManager::verbose() 
++{
++  return theVerbosity;
++}
++
++inline 
++void G4eManager::SetVerbose( int ver )
++{
++  theVerbosity = ver;
++}
++
++inline
++G4eRunManagerKernel* G4eManager::GetG4eRunManagerKernel() const
++{
++  return theG4eRunManagerKernel;
++}
+diff -Naur --exclude CVS source/geant4e/include/G4eMuIonisation.hh source/geant4e/include/G4eMuIonisation.hh
+--- source/geant4e/include/G4eMuIonisation.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eMuIonisation.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,81 @@
++//
++// class G4eMuIonisation
++//
++// Class description:
++//
++//
++//
++
++// History:
++//
++// --------------------------------------------------------------------
++#define private public
++#include "G4MuIonisation.hh"
++#define private private
++
++// class G4eManager
++//
++// Class description:
++//
++//  Manages the energy loss processes: suppresses fluctuations and takes care that energy is gained instead of lost if propagation is backwards (by calling G4eIonisationChange methods)
++//
++// History:
++// - Created. Patricia Mendez
++// - Adapted to geant4.6.2.p01: P.Arce - Aug 04
++//
++
++#ifndef G4eMuIonisation_h
++#define G4eMuIonisation_h 1
++#define private public
++#include "G4VEnergyLossProcess.hh"
++#define private private
++
++#include "globals.hh"
++#include "G4eIonisationChange.hh"
++#include "G4MuIonisation.hh"
++#include "G4VParticleChange.hh"
++#include "G4VProcess.hh"
++#include "G4ParticleChange.hh"
++class G4Track;
++class G4Step;
++
++
++class G4eMuIonisation:public G4MuIonisation, public G4eIonisationChange 
++{
++
++public: 
++  G4eMuIonisation(const G4String& name = "G4eMuIoni");
++ 
++  ~G4eMuIonisation();
++
++  /*   virtual std::vector<G4Track*>* SecondariesAlongStep(
++                             const G4Step&,
++			           G4double&,
++			           G4double&,
++                                   G4double&);
++  */
++  std::vector<G4DynamicParticle*>* SecondariesPostStep(
++                                   G4VEmModel*,
++                             const G4MaterialCutsCouple*,
++                             const G4DynamicParticle*,
++                                   G4double& tcut);
++ 
++ 
++  G4VParticleChange* AlongStepDoIt( const G4Track& trackData,
++  			    const G4Step&  stepData);
++/* not needed becuase step is huge: this way AlongStepDoIt computes all the energy loss, if not the creation of secondaries will account for some energy loss, in a random way
++  virtual G4double AlongStepGetPhysicalInteractionLength(
++					 const G4Track&,
++					 G4double  ,
++					 G4double  ,
++					 G4double& ,
++					 G4GPILSelection*);
++  G4double PostStepGetPhysicalInteractionLength(    
++			     const G4Track& track,
++			     G4double   previousStepSize,
++			     G4ForceCondition* condition );
++*/
++ 
++};
++
++#endif
+diff -Naur --exclude CVS source/geant4e/include/G4eNavigator.hh source/geant4e/include/G4eNavigator.hh
+--- source/geant4e/include/G4eNavigator.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eNavigator.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,49 @@
++// 
++// class G4eNavigator
++//
++// Class description:
++//  This class serves to do the double navigation, in the detector geometry and in the target surface, by overwriting the ComputeStep and ComputeSafety methods
++//
++// History:
++// - Created. P. Arce
++//
++
++#ifndef G4eNavigator_H
++#define G4eNavigator_H 1
++
++#include "G4Navigator.hh"
++
++#include "G4eManager.hh"
++class G4eTargetSurface;
++class G4edd;
++#include "G4ThreeVector.hh"
++#include "geomdefs.hh"
++class G4eTargetSurface;
++
++#include <iostream>
++
++class G4eNavigator : public G4Navigator
++{
++  public:
++
++  G4eNavigator();
++  ~G4eNavigator();
++  
++  G4double ComputeStep (const G4ThreeVector &pGlobalPoint,
++			const G4ThreeVector &pDirection,
++			const G4double pCurrentProposedStepLength,
++			G4double &pNewSafety);
++    // calls the navigation in the detector geometry and then checks if the distance to surface is smaller than the proposed step
++
++  G4double ComputeSafety(const G4ThreeVector &globalpoint,
++                         const G4double pProposedMaxLength = DBL_MAX);
++    // calls the navigation in the detector geometry and then checks if the distance to surface is smaller than the proposed safety
++
++   void SetTarget( const G4eTarget* target );
++
++private:
++  //  G4edd* theTarget; // any data makes it crash??!!
++};
++
++#endif
++
+diff -Naur --exclude CVS source/geant4e/include/G4ePhysicsList.hh source/geant4e/include/G4ePhysicsList.hh
+--- source/geant4e/include/G4ePhysicsList.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4ePhysicsList.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,47 @@
++//
++// class G4ePhysicsList
++//
++// Class description:
++//  Default physics lsit for GEANT4e (should not be overridden, unless by experts)
++//  No multiple scattering and no production of secondaries.
++//  The energy loss process is G4EnergyLossForExtrapolator
++//  It also defines the geant4e processes to limit the step: G4eMagneticFieldLimitProcess, G4eStepLimitProcess
++
++// History:
++//
++// --------------------------------------------------------------------
++//
++#ifndef G4ePhysicsList_h
++#define G4ePhysicsList_h 1
++
++#include "G4VUserPhysicsList.hh"
++#include "globals.hh"
++
++class G4ePhysicsList: public G4VUserPhysicsList
++{
++public:
++  G4ePhysicsList();
++  virtual ~G4ePhysicsList();
++  
++protected:
++  virtual void ConstructParticle();
++    // constructs gamma, e+/- and mu+/- 
++
++  virtual void ConstructProcess();
++    // construct physical processes
++
++  virtual void SetCuts();  
++    // SetCutsWithDefault
++
++protected:
++  virtual void ConstructEM();
++  
++  private:
++  //  G4VPhysicsConstructor* emPhysicsList;
++
++};
++
++#endif
++
++
++
+diff -Naur --exclude CVS source/geant4e/include/G4ePropagatorG4.hh source/geant4e/include/G4ePropagatorG4.hh
+--- source/geant4e/include/G4ePropagatorG4.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4ePropagatorG4.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,72 @@
++//
++// class G4ePropagatorG4
++//
++// Class description:
++//
++//
++//
++
++// History:
++//
++// --------------------------------------------------------------------
++//
++#ifndef G4ePropagatorG4_h
++#define G4ePropagatorG4_h
++// 
++// class G4ePropagatorG4
++//
++// Class description:
++//
++//   Manages the propagation of tracks by GEANT4. Creates a G4Track, asks GEANT4 to propagate it and takes also care to propagate the errors. Stops the track when GEANT4 stops it or a G4eTarget is reached
++//
++// History:
++// - Created. Pedro Arce, June 2001
++
++#include "globals.hh"
++#include "G4ePropagator.hh"
++#include "G4TrackingManager.hh"
++
++class G4eTrajState;
++class G4eErrorMatrix;
++class G4Track;
++class G4eTrajState;
++class G4eTrajStateFree;
++
++class G4ePropagatorG4 : public G4ePropagator
++{
++public:
++  G4ePropagatorG4();
++  virtual ~G4ePropagatorG4(){};
++
++  G4Track* InitG4Track( G4eTrajState& initialTS );
++  virtual int Propagate( G4eTrajState* currentTS, const G4eTarget* target, G4eMode mode = G4eMode_PropForwards);
++  virtual int PropagateOneStep( G4eTrajState* currentTS );
++  int MakeOneStep( G4eTrajStateFree* currentTS_FREE );
++  // Creates theCurrentTS_FREE (transforms the user G4eTrajStateOnSurface or copies the G4eTrajStateFree)
++  G4eTrajStateFree* InitFreeTrajState( G4eTrajState* currentTS );
++  //--- After steps are done, convert the G4eTrajStateFree used for error propagation to the class of origin (G4eTrajStateFree or G4eTrajStatOnSurface)
++  void GetFinalTrajState( G4eTrajState* currentTS, G4eTrajStateFree* currentTS_FREE, const G4eTarget* target );
++
++private:
++  int MakeSteps( G4eTrajStateFree* currentTS_FREE );
++
++  G4bool CheckIfLastStep( G4Track* aTrack );
++
++  void SetTargetToNavigator( const G4eTarget* target );
++    // Set the target to G4eNavigator. Called at beginning of Propagate and PropagateOneStep (as user is allowed to change target to his will)
++
++private:
++  G4Track* theG4Track;
++
++  G4SteppingManager* fpSteppingManager;
++
++  G4int verbose;
++
++  //t  G4VPhysicslVolume* theTrackingGeometry;
++  //t  static G4VPhysicslVolume* theCurrentTrackingGeometry;
++
++  G4bool thePropIsInitialized;
++
++};
++
++#endif
+diff -Naur --exclude CVS source/geant4e/include/G4ePropagator.hh source/geant4e/include/G4ePropagator.hh
+--- source/geant4e/include/G4ePropagator.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4ePropagator.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,68 @@
++//
++// class G4ePropagator
++//
++// Class description:
++//
++//
++//
++
++// History:
++//
++// --------------------------------------------------------------------
++#ifndef G4ePropagator_h
++#define G4ePropagator_h
++// 
++// class G4ePropagator
++//
++// Class description:
++//   Base classes of propagators 
++//
++// History:
++// - Created. Pedro Arce, June 2001
++
++class G4eTrajState;
++class G4eTarget;
++
++#include "G4eManager.hh"
++#include "globals.hh"
++#include "G4ThreeVector.hh"
++
++class G4ePropagator
++{
++public:
++  G4ePropagator(){};
++  virtual ~G4ePropagator(){};
++
++  virtual int Propagate( G4eTrajState* currentTS, const G4eTarget* target, G4eMode mode ) = 0;
++  virtual int PropagateOneStep( G4eTrajState* currentTS ) = 0;
++  // Steers the GEANT4 propagation of a track:
++  //  The particle will be extrapolated until theFinalTarget is reached. The final G4Track parameters will be passed to theFinalTrajState
++
++
++private:
++  // set and get methods 
++public:
++  inline const G4eTrajState* GetInitialTrajState() const;
++
++  G4double GetStepLength() const 
++  { return theStepLength; }
++
++  void SetStepLength( const G4double sl )
++  { theStepLength = sl; }
++
++  void SetStepN( const int sn ){ 
++    theStepN = sn; }
++
++protected:
++  G4double theStepLength;
++  G4eTrajState* theInitialTrajState;
++  G4eTrajState* theFinalTrajState;
++
++  G4int theStepN;
++
++};
++
++#include "G4ePropagator.icc"
++
++#endif
++
+diff -Naur --exclude CVS source/geant4e/include/G4ePropagator.icc source/geant4e/include/G4ePropagator.icc
+--- source/geant4e/include/G4ePropagator.icc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4ePropagator.icc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,29 @@
++//
++// ********************************************************************
++// * DISCLAIMER                                                       *
++// *                                                                  *
++// * The following disclaimer summarizes all the specific disclaimers *
++// * of contributors to this software. The specific disclaimers,which *
++// * govern, are listed with their locations in:                      *
++// *   http://cern.ch/geant4/license                                  *
++// *                                                                  *
++// * Neither the authors of this software system, nor their employing *
++// * institutes,nor the agencies providing financial support for this *
++// * work  make  any representation or  warranty, express or implied, *
++// * regarding  this  software system or assume any liability for its *
++// * use.                                                             *
++// *                                                                  *
++// * This  code  implementation is the  intellectual property  of the *
++// * GEANT4 collaboration.                                            *
++// * By copying,  distributing  or modifying the Program (or any work *
++// * based  on  the Program)  you indicate  your  acceptance of  this *
++// * statement, and all its terms.                                    *
++// ********************************************************************
++//
++
++inline 
++const G4eTrajState* G4ePropagator::GetInitialTrajState() const
++{
++  return theInitialTrajState;
++}
++
+diff -Naur --exclude CVS source/geant4e/include/G4eRunManagerKernel.hh source/geant4e/include/G4eRunManagerKernel.hh
+--- source/geant4e/include/G4eRunManagerKernel.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eRunManagerKernel.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,79 @@
++//
++// class G4eRunManagerKernel
++//
++// Class description:
++//
++//
++//
++
++// History:
++//
++// --------------------------------------------------------------------
++// class G4eRunManagerKernel
++//
++// Class description:
++//
++// This is the G4RunManagerKernel of the GEANT4e package, it allows G4eManager to implement the run initialization and termination 
++// It does not inherit from G4RunManagerKernel but has a pointer to it. This is because G4RunManagerKernel cannot be inherited from, as G4RunManager creates one instance and then there would be two instances (what is forbidden)
++//
++// History:
++// - Created. Pedro Arce, January 2005
++
++#ifndef G4eRunManagerKernel_h
++#define G4eRunManagerKernel_h 1
++
++class G4RunManagerKernel;
++class G4VUserDetectorConstruction;
++class G4VPhysicalVolume;
++class G4VUserPhysicsList;
++class G4UserTrackingAction;
++class G4UserSteppingAction;
++
++
++class G4eRunManagerKernel 
++//: public G4RunManagerKernel
++{
++public: // with description
++  static G4eRunManagerKernel* GetRunManagerKernel();
++  //  Static method which returns the singleton pointer of G4eRunManagerKernel or
++  // its derived class.
++  
++private:
++  static G4eRunManagerKernel* fRunManagerKernel;
++  
++public:
++  G4eRunManagerKernel();
++  virtual ~G4eRunManagerKernel();
++  //  The constructor and the destructor. The user must construct this class
++  // object at the beginning of his/her main() and must delete it at the 
++  // bottom of the main().
++  
++public: // with description
++  // file is executed.
++
++  void SetUserInitialization(G4VUserDetectorConstruction* userInit);
++  void SetUserInitialization(G4VPhysicalVolume* userInit);
++
++  void SetUserInitialization(G4VUserPhysicsList* userInit);
++
++  void SetUserAction(G4UserTrackingAction* userAction);
++  void SetUserAction(G4UserSteppingAction* userAction);
++
++  G4VUserPhysicsList* GetUserPhysicsList() const
++  { return theUserPhysicsList; }
++
++  void RunInitialization();
++  void InitializeGeometry();
++  void InitializePhysics();
++
++  void RunTermination();
++
++private:
++  G4VUserPhysicsList* theUserPhysicsList;
++  G4VPhysicalVolume* theUserWorld;
++
++  G4RunManagerKernel* theG4RunManagerKernel;
++};
++
++#endif
++
+diff -Naur --exclude CVS source/geant4e/include/G4eTargetCylindricalSurface.hh source/geant4e/include/G4eTargetCylindricalSurface.hh
+--- source/geant4e/include/G4eTargetCylindricalSurface.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eTargetCylindricalSurface.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,56 @@
++//
++// class G4eTargetCylindricalSurface
++//
++// Class description:
++//
++//
++//
++
++// History:
++//
++// --------------------------------------------------------------------
++// 
++// class G4eTargetSurface
++//
++// Class description:
++//
++//  G4eTarget class: limits step when track reaches this cylindrical surface
++//
++// History:
++// - Created. P. Arce, September 2004
++
++#ifndef G4eTargetCylindricalSurface_h
++#define G4eTargetCylindricalSurface_h
++
++#include "globals.hh"
++#include "G4eTargetSurface.hh"
++#include "G4ThreeVector.hh"
++#include "G4RotationMatrix.hh"
++#include "G4Transform3D.hh"
++#include "G4Plane3D.hh"
++
++class G4eTargetCylindricalSurface : public G4eTargetSurface
++{
++public:
++  G4eTargetCylindricalSurface( const G4float& radius, const G4ThreeVector& trans=G4ThreeVector(), const G4RotationMatrix& rotm=G4RotationMatrix());
++  G4eTargetCylindricalSurface( const G4float& radius, const G4Transform3D& trans3D);
++
++  ~G4eTargetCylindricalSurface(){};
++
++public:
++
++  virtual G4ThreeVector Intersect( const G4ThreeVector& point, const G4ThreeVector& direc ) const;
++  virtual G4ThreeVector IntersectLocal( const G4ThreeVector& point, const G4ThreeVector& direc ) const;
++  virtual G4double GetDistanceFromPoint( const G4ThreeVector& point, const G4ThreeVector& direc ) const;
++  virtual G4double GetDistanceFromPoint( const G4ThreeVector& point ) const;
++  virtual G4Plane3D GetTangentPlane( const G4ThreeVector& point ) const;
++  virtual void Dump( G4String msg ) const;
++
++ private:
++  G4float fradius;
++  G4Transform3D ftransform3D;
++
++};
++
++#endif
++
+diff -Naur --exclude CVS source/geant4e/include/G4eTargetG4Volume.hh source/geant4e/include/G4eTargetG4Volume.hh
+--- source/geant4e/include/G4eTargetG4Volume.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eTargetG4Volume.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,51 @@
++//
++// class G4eTargetG4Volume
++//
++// Class description:
++//
++//
++//
++
++// History:
++//
++// --------------------------------------------------------------------
++#ifndef G4eTargetG4Volume_HH
++#define G4eTargetG4Volume_HH
++//
++// Class description:
++//
++// G4eTarget class: limits step when volume is reached.
++// !! NOT IMPLEMENTED YET
++//
++// History:
++// - Created. P. Arce, September 2004
++
++#include "globals.hh"
++#include "G4ThreeVector.hh"
++#include "G4eTargetWithTangentPlane.hh"
++#include "G4Plane3D.hh"
++  
++class G4Step;
++class G4String;
++
++class G4eTargetG4Volume : public G4eTargetWithTangentPlane
++{
++public:
++  G4eTargetG4Volume( const G4String& name );
++  virtual ~G4eTargetG4Volume(){};
++
++public:
++  virtual G4ThreeVector Intersect( const G4ThreeVector& point, const G4ThreeVector& direc ) const = 0;  
++  virtual G4Plane3D GetTangentPlane( const G4ThreeVector& point ) const;
++  virtual bool TargetReached(const G4Step* aStep);
++  virtual void Dump( G4String msg ) const;
++
++//access methods
++ private:
++  G4String  theName;
++
++};
++
++#endif
++
++
+diff -Naur --exclude CVS source/geant4e/include/G4eTarget.hh source/geant4e/include/G4eTarget.hh
+--- source/geant4e/include/G4eTarget.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eTarget.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,45 @@
++//
++// class G4eTarget
++//
++// Class description:
++//
++//  Base class for all targets
++// 
++// History:
++// - Created. P. Arce, September 2004
++
++#ifndef G4eTarget_h
++#define G4eTarget_h
++
++#include "globals.hh"
++#include "G4ThreeVector.hh"
++class G4Step;
++
++enum G4eTargetType{ G4eTarget_PlaneSurface,  G4eTarget_CylindricalSurface, G4eTarget_G4Volume, G4eTarget_TrkL };
++
++
++class G4eTarget
++{
++public:
++  G4eTarget(){};
++  virtual ~G4eTarget(){};
++
++public:
++    virtual double GetDistanceFromPoint( const G4ThreeVector&, const G4ThreeVector& ) const    { return DBL_MAX; }   //for targetVolume
++    virtual double GetDistanceFromPoint( const G4ThreeVector& ) const   { return DBL_MAX; }   //for targetVolume
++
++  virtual bool TargetReached(const G4Step*){ return 0; } //for TargetSurface and TargetTrackLength
++
++  virtual void Dump( G4String msg ) const = 0;
++
++//access methods
++  G4eTargetType GetType() const { return theType; }
++
++ protected:
++
++  G4eTargetType theType;
++};
++
++#endif
++
++
+diff -Naur --exclude CVS source/geant4e/include/G4eTargetPlaneSurface.hh source/geant4e/include/G4eTargetPlaneSurface.hh
+--- source/geant4e/include/G4eTargetPlaneSurface.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eTargetPlaneSurface.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,59 @@
++//
++// class G4eTargetPlaneSurface
++//
++// Class description:
++//
++//
++//
++
++// History:
++//
++// --------------------------------------------------------------------
++// class G4eTargetPlaneSurface
++//
++// Class description:
++//
++// G4eTarget class: limits step when track reaches this plane surface
++//
++//
++// History:
++// - Created. P. Arce, September 2004
++
++#ifndef G4eTargetPlaneSurface_h
++#define G4eTargetPlaneSurface_h
++
++#include "globals.hh"
++#include "G4eTargetSurface.hh"
++#include "G4ThreeVector.hh"
++#include "G4Plane3D.hh"
++
++class G4eTargetPlaneSurface : public G4eTargetSurface, G4Plane3D
++{
++public:
++  G4eTargetPlaneSurface(G4double a=0, G4double b=0, G4double c=0, G4double d=0);
++  G4eTargetPlaneSurface(const G4Normal3D &n, const G4Point3D &p);
++  G4eTargetPlaneSurface(const G4Point3D &p1, const G4Point3D &p2, const G4Point3D &p3);
++
++  ~G4eTargetPlaneSurface(){};
++
++public:
++  virtual G4ThreeVector Intersect( const G4ThreeVector& point, const G4ThreeVector& direc ) const;
++    // Intersects the surface with the line given by point + vector
++
++  virtual double GetDistanceFromPoint( const G4ThreeVector& point, const G4ThreeVector& direc ) const;
++    // Gets distance from point to surface in the direction of direc
++
++  virtual double GetDistanceFromPoint( const G4ThreeVector& pt ) const;
++    // Gets closest distance from point to surface
++
++  virtual G4Plane3D GetTangentPlane( const G4ThreeVector& point ) const;
++    // Returns tangent plane as itself
++
++  virtual void Dump( G4String msg ) const;
++
++ private:
++
++};
++
++#endif
++
+diff -Naur --exclude CVS source/geant4e/include/G4eTargetSurface.hh source/geant4e/include/G4eTargetSurface.hh
+--- source/geant4e/include/G4eTargetSurface.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eTargetSurface.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,43 @@
++//
++// class G4eTargetSurface
++//
++// Class description:
++//
++// Base class for targets that are surfaces
++
++//
++// History:
++// - Created. P. Arce, September 2004
++
++#ifndef G4eTargetSurface_h
++#define G4eTargetSurface_h
++
++#include "globals.hh"
++#include "G4ThreeVector.hh"
++#include "G4eTargetWithTangentPlane.hh"
++#include "G4Plane3D.hh"
++
++
++class G4eTargetSurface : public G4eTargetWithTangentPlane
++{
++public:
++  G4eTargetSurface(){  };
++  virtual ~G4eTargetSurface(){};
++
++public:
++  virtual double GetDistanceFromPoint( const G4ThreeVector& point, const G4ThreeVector& direc ) const = 0;
++
++  virtual double GetDistanceFromPoint( const G4ThreeVector& point ) const = 0;
++
++  virtual G4Plane3D GetTangentPlane( const G4ThreeVector& point ) const = 0;
++
++  virtual void Dump( G4String msg ) const = 0;
++
++ private:
++  virtual G4ThreeVector Intersect( const G4ThreeVector& point, const G4ThreeVector& direc ) const = 0;  
++    // Intersects the surface with the line given by point + vector
++};
++
++#endif
++
++
+diff -Naur --exclude CVS source/geant4e/include/G4eTargetTrackLength.hh source/geant4e/include/G4eTargetTrackLength.hh
+--- source/geant4e/include/G4eTargetTrackLength.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eTargetTrackLength.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,63 @@
++//
++// class G4eTargetTrackLength
++//
++// Class description:
++//
++// G4eTarget class: limits step when track length is bigger than theMaximumTrackLength
++// It is a G4VDiscreteProcess: limits the step in PostStepGetPhysicalInteractionLength
++//
++// History:
++// - Created. P. Arce, September 2004
++
++#ifndef G4eTargetTrackLength_h
++#define G4eTargetTrackLength_h 1
++
++#include "G4ios.hh" 
++#include "globals.hh"
++#include "G4VDiscreteProcess.hh"
++#include "G4PhysicsTable.hh"
++#include "G4PhysicsLogVector.hh"
++#include "G4ElementTable.hh"
++#include "G4Step.hh" 
++#include "G4eTarget.hh"
++
++//---------------------------------------------------------------------------- 
++class G4eTargetTrackLength : public G4VDiscreteProcess, public G4eTarget
++{
++public:  // with description
++
++    virtual double GetDistanceFromPoint( const G4ThreeVector&, const G4ThreeVector& ) const    { return DBL_MAX; }   //for targetVolume
++    virtual double GetDistanceFromPoint( const G4ThreeVector& ) const   { return DBL_MAX; }   //for targetVolume
++  
++  G4eTargetTrackLength(const double maxTrkLength );
++    // Constructs and add this process to G4ProcessManager
++
++  virtual ~G4eTargetTrackLength(){ };
++  
++  virtual G4double PostStepGetPhysicalInteractionLength(
++                             const G4Track& track,
++                             G4double   previousStepSize,
++                             G4ForceCondition* condition
++                            );
++    // Checks if the maximum track length has been reached
++
++  /*
++  virtual G4VParticleChange* PostStepDoIt(
++					  const G4Track& ,
++					  const G4Step& );
++
++  */
++                       
++  virtual  G4double GetMeanFreePath(const class G4Track & track, G4double, G4ForceCondition *);
++    // Mean free path = theMaximumTrackLength - track.GetTrackLength();
++
++  void Dump( G4String msg ) const;
++
++private:
++  G4double theMaximumTrackLength;
++};
++
++ 
++  
++#endif
++ 
+diff -Naur --exclude CVS source/geant4e/include/G4eTargetWithTangentPlane.hh source/geant4e/include/G4eTargetWithTangentPlane.hh
+--- source/geant4e/include/G4eTargetWithTangentPlane.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eTargetWithTangentPlane.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,35 @@
++// 
++// class G4eTargetWithTangentPlane
++//
++// Class description:
++//
++// Base class for G4eTarget classes for which a tangent plane is defined
++//
++// History:
++// - Created. P. Arce, September 2004
++#ifndef G4eTargetWithTangentPlane_HH
++#define G4eTargetWithTangentPlane_HH
++
++#include "globals.hh"
++#include "G4ThreeVector.hh"
++#include "G4eTarget.hh"
++#include "G4Plane3D.hh"
++
++class G4eTargetWithTangentPlane : public G4eTarget
++{
++public:
++  G4eTargetWithTangentPlane(){};
++  virtual ~G4eTargetWithTangentPlane(){};
++
++public:
++  virtual G4Plane3D GetTangentPlane( const G4ThreeVector& point ) const = 0;
++
++  virtual void Dump( G4String msg ) const = 0;
++
++ private:
++
++};
++
++#endif
++
++
+diff -Naur --exclude CVS source/geant4e/include/G4eTrajError.hh source/geant4e/include/G4eTrajError.hh
+--- source/geant4e/include/G4eTrajError.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eTrajError.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,18 @@
++//
++// class G4eTrajError
++//
++// Class description:
++//
++// Trajectory error. Implemented for the moment as a CLHEP HepSymMatrix, until other possibly faster implementations are studied
++//
++// History:
++// - Created. P. Arce
++#ifndef G4eTrajError_h
++#define G4eTrajError_h
++
++#include "CLHEP/Matrix/SymMatrix.h"
++
++typedef HepSymMatrix G4eTrajError;
++
++#endif
++
+diff -Naur --exclude CVS source/geant4e/include/G4eTrajParamFree.hh source/geant4e/include/G4eTrajParamFree.hh
+--- source/geant4e/include/G4eTrajParamFree.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eTrajParamFree.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,60 @@
++// 
++// class G4eTrajParamFree
++//
++// Class description:
++//
++// Holds the 5 independent variables of the trajectory for a G4eTrajStateFree object. It is not used for anything but for printing, but anyhow it is updated everytime the position and momentum are updated 
++//
++// History:
++// - Created. Pedro Arce, September 2002
++
++#ifndef G4eTrajParamFree_h
++#define G4eTrajParamFree_h
++
++#include "G4Point3D.hh"
++#include "G4Vector3D.hh"
++
++#include "globals.hh"
++#include "G4Track.hh"
++
++class G4eTrajParamFree
++{
++public:
++  G4eTrajParamFree(){};
++  G4eTrajParamFree( const G4Point3D& pos, const G4Vector3D& mom );
++    // Build parameters from position and momentum
++  virtual ~G4eTrajParamFree(){};
++
++  void Update( const G4Track* aTrack );
++    // Update parameters from G4Track
++
++  friend
++    std::ostream& operator<<(std::ostream&, const G4eTrajParamFree& ts);
++  
++  // Set and Get methods 
++public:
++  void SetParameters( const G4Point3D& pos, const G4Vector3D& mom );
++
++  G4Vector3D GetDirection() const { return fDir;}
++
++  double GetInvP() const { return fInvP; }
++
++  double GetLambda() const { return fLambda; }
++
++  double GetPhi() const { return fPhi; }
++
++  double GetYPerp() const { return fYPerp; }
++
++  double GetZPerp() const { return fZPerp; }
++
++private:
++  G4Vector3D fDir; //direction to which YPerp, ZPerp refer
++  double fInvP;
++  double fLambda; // 90 - theta
++  double fPhi;
++  double fYPerp;
++  double fZPerp;
++
++};
++
++#endif
+diff -Naur --exclude CVS source/geant4e/include/G4eTrajParamOnSurface.hh source/geant4e/include/G4eTrajParamOnSurface.hh
+--- source/geant4e/include/G4eTrajParamOnSurface.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eTrajParamOnSurface.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,60 @@
++// class G4eTrajParamOnSurface
++//
++// Class description:
++//
++//  Holds the 5 independent variables of the trajectory for a G4eTrajStateOnSurface object.  It is not used for anything but for printing, but anyhow it is updated everytime the position and momentum are updated 
++//
++// History:
++// - Created. P. Arce
++
++#ifndef G4eTrajParamOnSurface_h
++#define G4eTrajParamOnSurface_h
++
++#include "G4Point3D.hh"
++#include "G4Vector3D.hh"
++#include "G4Plane3D.hh"
++#include "G4ThreeVector.hh"
++
++#include "globals.hh"
++#include "G4Track.hh"
++
++class G4eTrajParamOnSurface
++{
++public:
++  G4eTrajParamOnSurface(){};
++  G4eTrajParamOnSurface( const G4Point3D& pos, const G4Vector3D& mom, const G4Vector3D& vecV, const G4Vector3D& vecW );
++  G4eTrajParamOnSurface( const G4Point3D& pos, const G4Vector3D& mom, const G4Plane3D& plane );
++  virtual ~G4eTrajParamOnSurface(){};
++
++  friend
++    std::ostream& operator<<(std::ostream&, const G4eTrajParamOnSurface& ts);
++  
++  // set and get methods 
++public:
++  void SetParameters( const G4Point3D& pos, const G4Vector3D& mom, const G4Vector3D& vecV, const G4Vector3D& vecW );
++  void SetParameters( const G4Point3D& pos, const G4Vector3D& mom, const G4Plane3D& plane );
++
++  G4Vector3D GetDirection() const { return fDir;}
++  G4Vector3D GetPlaneNormal() const { return fVectorV.cross(fVectorW);}
++  G4Vector3D GetVectorV() const { return fVectorV;}
++  G4Vector3D GetVectorW() const { return fVectorW;}
++  double GetPV() const{ return fPV; }
++  double GetPW() const{ return fPW; }
++  double GetV() const{ return fV; }
++  double GetW() const{ return fW; }
++
++private:
++  G4ThreeVector fDir;
++  G4Vector3D fVectorV; //one of the vectors defining the plane
++  G4Vector3D fVectorW; //one of the vectors defining the plane
++  double fInvP;
++  double fPV;
++  double fPW;
++  double fV;
++  double fW;
++
++};
++
++#endif
++
++
+diff -Naur --exclude CVS source/geant4e/include/G4eTrajStateFree.hh source/geant4e/include/G4eTrajStateFree.hh
+--- source/geant4e/include/G4eTrajStateFree.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eTrajStateFree.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,94 @@
++// 
++// class G4eTrajStateFree
++//
++// Class description:
++//
++// Represents a free trG4eTrajState
++// It can be represented by the 5 variables
++//     1/p, lambda, phi, y_perp, z_perp
++// where lambda and phi are the dip and azimuthal angles related
++// to the momentum components in the following way:
++//            p_x = p cos(lambda) cos(phi)  ! lambda = 90 - theta
++//            p_y = p cos(lambda) sin(phi)
++//            p_z = p sin(lambda)
++// y_perp and z_perp are the coordinates of the trajectory in a
++// local orthonormal reference frame with the x_perp axis along the
++// particle direction, the y_perp being parallel to the x-y plane.
++//
++// History:
++//
++//-------------------------------------------------------------------
++#ifndef G4eTrajStateFree_hh
++#define G4eTrajStateFree_hh
++
++#include "globals.hh"
++
++#include "G4eTrajState.hh"
++#include "G4eTrajParamFree.hh"
++
++#include "G4Point3D.hh"
++#include "G4Vector3D.hh"
++#include "CLHEP/Matrix/Matrix.h"
++class G4eTrajStateOnSurface;
++
++class G4eTrajStateFree : public G4eTrajState
++{
++public:
++  G4eTrajStateFree(){ }; //- ??
++  G4eTrajStateFree( const G4String& partType, const G4Point3D& pos, const G4Vector3D& mom, const G4eTrajError& errmat = G4eTrajError(5,0) );
++    // Construct by providing particle, position and momentum 
++  G4eTrajStateFree( const G4eTrajStateOnSurface& tpOS );
++    // Construct by providing G4eTrajStateOnSurface
++
++  ~G4eTrajStateFree(){};
++
++  virtual int Update( const G4Track* aTrack );
++    // Update parameters from G4Track
++
++  virtual int PropagateError( const G4Track* aTrack );
++    // Propagate the error along the step
++
++  virtual void Dump( std::ostream& out = G4cout ) const;
++    // Dump TrajState parameters
++  friend
++    std::ostream& operator<<(std::ostream&, const G4eTrajStateFree& ts);
++
++  // Set and Get methods 
++  virtual void SetPosition( const G4Point3D pos ) {
++    SetParameters( pos, fMomentum ); }
++
++  virtual void SetMomentum( const G4Vector3D& mom ) {
++    SetParameters( fPosition, mom ); }
++
++  void SetParameters( const G4Point3D& pos, const G4Vector3D& mom ){
++    fPosition = pos;
++    fMomentum = mom;
++    fTrajParam.SetParameters( pos, mom ); }
++
++private:  
++  void Init();
++    // Define TS type and build charge
++
++  int PropagateErrorMSC( const G4Track* aTrack );
++    // Add the error associated to multiple scattering
++
++  void CalculateEffectiveZandA( const G4Material* mate, double& effZ, double& effA );
++    // Calculate effective Z and A (needed by PropagateErrorMSC)
++
++  int PropagateErrorIoni( const G4Track* aTrack );
++    // Add the error associated to ionization energy loss
++
++  // Set and Get methods 
++public:
++  G4eTrajParamFree GetParameters() const { return fTrajParam; }
++
++private:
++  G4eTrajParamFree fTrajParam;
++
++  HepMatrix theTransfMat;
++
++  bool theFirstStep; // to count if transf mat is updated or initialized
++};
++
++#endif
++
+diff -Naur --exclude CVS source/geant4e/include/G4eTrajState.hh source/geant4e/include/G4eTrajState.hh
+--- source/geant4e/include/G4eTrajState.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eTrajState.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,111 @@
++//
++// class G4eTrajState
++//
++// Class description:
++//
++// Base class for the trajectory state
++//
++
++// History:
++//
++// --------------------------------------------------------------------
++//
++#ifndef G4eTrajState_h
++#define G4eTrajState_h
++
++#include "globals.hh"
++#include "G4Track.hh"
++#include "G4Point3D.hh"
++#include "G4Vector3D.hh"
++#include "G4eTrajError.hh"
++
++enum G4eTSType{ G4eTS_FREE, G4eTS_OS };
++
++class G4eTrajState
++{
++public:
++  G4eTrajState(){ };
++
++  G4eTrajState( const G4String& partType, const G4Point3D& pos, const G4Vector3D& mom, const G4eTrajError& errmat = G4eTrajError(5,0) );
++    // Construct by providing particle, position and momentum 
++
++  virtual ~G4eTrajState(){};
++
++  void SetData( const G4String& partType, const G4Point3D& pos, const G4Vector3D& mom );
++    // Set particle, position and momentum
++
++  void BuildCharge();
++    // Build charge based on particle type
++
++   friend
++    std::ostream& operator<<(std::ostream&, const G4eTrajState& ts);
++
++  virtual int PropagateError( const G4Track* ){ 
++    G4cout << " THIS SHOULD NOT BE CALLED PropagateError type " << int(GetTSType()) << G4endl;
++    return -1; };
++    // Propagate the error along the step
++
++  virtual int Update( const G4Track* ){ return -1; };
++    // Update parameters from G4Track
++ 
++  void UpdatePosMom( const G4Point3D& pos, const G4Vector3D& mom );
++    // Update position and momentum
++
++  void DumpPosMomError( std::ostream& out = G4cout ) const;
++    // Dump position, momentum and error
++
++  virtual void Dump( std::ostream& out = G4cout ) const = 0;
++    // Abstract method to dump all TrajState parameters
++  
++  // Set and Get methods 
++  const G4String& GetParticleType() const{
++    return fParticleType;}
++
++  G4Point3D GetPosition() const {
++    return fPosition; }
++
++  G4Vector3D GetMomentum() const {
++    return fMomentum; }
++
++  double GetCharge() const {
++    return fCharge; }
++
++  G4eTrajError GetError() const {
++    return fError; }
++
++  virtual G4eTSType GetTSType() const { return theTSType; }
++
++  G4Track* GetG4Track() const{ 
++    return theG4Track; }
++
++  void SetParticleType( const G4String& partType ){
++    fParticleType = partType;}
++
++  virtual void SetPosition( const G4Point3D pos ) {
++    fPosition = pos; }
++
++  virtual void SetMomentum( const G4Vector3D& mom ) {
++    fMomentum = mom; }
++
++  virtual void SetError( G4eTrajError em ) {
++    fError = em; }
++
++  void SetG4Track( G4Track* trk ){
++    theG4Track = trk; }
++
++protected:
++  G4String fParticleType;
++  G4Point3D fPosition;
++  G4Vector3D fMomentum;
++  double fCharge;
++  G4eTrajError fError;
++
++  G4eTSType theTSType;
++
++  G4Track* theG4Track;
++
++  int iverbose;
++};
++
++#endif
++
+diff -Naur --exclude CVS source/geant4e/include/G4eTrajStateOnSurface.hh source/geant4e/include/G4eTrajStateOnSurface.hh
+--- source/geant4e/include/G4eTrajStateOnSurface.hh	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/G4eTrajStateOnSurface.hh	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,90 @@
++//
++// class G4eTrajStateOnSurface
++//
++// Class description:
++//
++// Represents a trajectory state on a surface
++// It can be represented by the 5 variables
++//      1/p, v', w', v, w
++//  where v'=dv/du and w'=dw/du in an orthonormal coordinate system with
++//  axis u, v and w
++//
++// History:
++//
++// --------------------------------------------------------------------
++//
++#ifndef G4eTrajStateOnSurface_hh
++#define G4eTrajStateOnSurface_hh
++
++#include "globals.hh"
++
++#include "G4eTrajState.hh"
++#include "G4eTrajParamOnSurface.hh"
++#include "G4eTrajStateFree.hh"
++
++#include "G4Point3D.hh"
++#include "G4Vector3D.hh"
++#include "G4Plane3D.hh"
++
++
++class G4eTrajStateOnSurface : public G4eTrajState
++{
++
++public:
++  //  G4eTrajStateOnSurface(){}; //- ??
++
++  G4eTrajStateOnSurface( const G4String& partType, const G4Point3D& pos, const G4Vector3D& mom, const G4Plane3D& plane, const G4eTrajError& errmat = G4eTrajError(5,0) );
++    // Construct by providing particle, position, momentum and G4Plane3D surface
++
++  G4eTrajStateOnSurface( const G4String& partType, const G4Point3D& pos, const G4Vector3D& mom, const G4Vector3D& vecV, const G4Vector3D& vecW, const G4eTrajError& errmat = G4eTrajError(5,0) );
++    // Construct by providing particle, position, momentum and two vectors on surface
++
++  G4eTrajStateOnSurface( G4eTrajStateFree& tpSC, const G4Plane3D& plane );
++    // Construct by providing G4eTrajStateFree and G4Plane3D surface
++
++  G4eTrajStateOnSurface( G4eTrajStateFree& tpSC, const G4Vector3D& vecV, const G4Vector3D& vecW );
++    // Construct by providing G4eTrajStateFree and two vectors on surface
++
++  void BuildErrorMatrix( G4eTrajStateFree& tpSC, const G4Vector3D& vecV, const G4Vector3D& vecW );
++
++  ~G4eTrajStateOnSurface(){};
++
++  virtual void Dump( std::ostream& out = G4cout ) const;
++    // Dump class parameters
++  friend
++    std::ostream& operator<<(std::ostream&, const G4eTrajStateOnSurface& ts);
++
++  //--- Set and Get methods 
++  virtual void SetPosition( const G4Point3D pos ) {
++    SetParameters( pos, fMomentum, GetVectorV(), GetVectorW() ); }
++
++  virtual void SetMomentum( const G4Vector3D& mom ) {
++    SetParameters( fPosition, mom, GetVectorV(), GetVectorW() ); }
++
++  void SetParameters( const G4Point3D& pos, const G4Vector3D& mom, const G4Vector3D& vecV, const G4Vector3D& vecW ){
++    fPosition = pos;
++    fMomentum = mom;
++    fTrajParam.SetParameters( pos, mom, vecV, vecW ); }
++
++  void SetParameters( const G4Point3D& pos, const G4Vector3D& mom, const G4Plane3D& plane ){
++    fPosition = pos;
++    fMomentum = mom;
++    fTrajParam.SetParameters( pos, mom, plane ); }
++    
++  G4eTrajParamOnSurface GetParameters() const { return fTrajParam; }
++
++  G4Vector3D GetVectorV() const { return fTrajParam.GetVectorV();}
++
++  G4Vector3D GetVectorW() const { return fTrajParam.GetVectorW();}
++
++private:
++  void Init();
++    // Define TS type and build charge
++
++private:
++  G4eTrajParamOnSurface fTrajParam;
++
++};
++
++#endif
++
+diff -Naur --exclude CVS source/geant4e/include/lista.txt source/geant4e/include/lista.txt
+--- source/geant4e/include/lista.txt	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/include/lista.txt	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,28 @@
++ExN02PhysicsList.hh
++G4eEnergyLossProcess.hh
++G4eIonisationChange.hh
++G4eMagneticFieldLimitsMessenger.hh
++G4eMagneticFieldLimitsProcess.hh
++G4eMag_UsualEqRhs.hh
++G4eManager.hh
++G4eMuIonisation.hh
++G4eNavigator.hh
++G4ePhysicsList.hh
++G4ePropagatorG4.hh
++G4ePropagator.hh
++G4eRunManagerKernel.hh
++G4eSteppingManager.hh
++G4eSteppingMessenger.hh
++G4eTargetCylindricalSurface.hh
++G4eTargetG4Volume.hh
++G4eTarget.hh
++G4eTargetPlaneSurface.hh
++G4eTargetSurface.hh
++G4eTargetTrackLength.hh
++G4eTargetWithTangentPlane.hh
++G4eTrajError.hh
++G4eTrajParamFree.hh
++G4eTrajParamOnSurface.hh
++G4eTrajStateFree.hh
++G4eTrajState.hh
++G4eTrajStateOnSurface.hh
+diff -Naur --exclude CVS source/geant4e/src/ExN02PhysicsList.cc source/geant4e/src/ExN02PhysicsList.cc
+--- source/geant4e/src/ExN02PhysicsList.cc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/src/ExN02PhysicsList.cc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,222 @@
++#include "globals.hh"
++#include "ExN02PhysicsList.hh"
++
++#include "G4ProcessManager.hh"
++#include "G4ParticleTypes.hh"
++#include "G4eMagneticFieldLimitsProcess.hh"
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
++
++ExN02PhysicsList::ExN02PhysicsList():  G4VUserPhysicsList()
++{
++
++  defaultCutValue = 1.0*cm;
++   SetVerboseLevel(1);
++   //   G4cout << " ExN02PhysicsList::ExN02PhysicsList() " << G4endl;
++}
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
++
++ExN02PhysicsList::~ExN02PhysicsList()
++{}
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
++
++void ExN02PhysicsList::ConstructParticle()
++{
++  // In this method, static member functions should be called
++  // for all particles which you want to use.
++  // This ensures that objects of these particle types will be
++  // created in the program. 
++
++  ConstructBosons();
++  ConstructLeptons();
++  ConstructMesons();
++  ConstructBaryons();
++}
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
++
++void ExN02PhysicsList::ConstructBosons()
++{
++  // pseudo-particles
++  G4Geantino::GeantinoDefinition();
++  G4ChargedGeantino::ChargedGeantinoDefinition();
++
++  // gamma
++  G4Gamma::GammaDefinition();
++}
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
++
++void ExN02PhysicsList::ConstructLeptons()
++{
++  // leptons
++  //  e+/-
++  G4Electron::ElectronDefinition();
++  G4Positron::PositronDefinition();
++  // mu+/-
++  G4MuonPlus::MuonPlusDefinition();
++  G4MuonMinus::MuonMinusDefinition();
++  // nu_e
++  G4NeutrinoE::NeutrinoEDefinition();
++  G4AntiNeutrinoE::AntiNeutrinoEDefinition();
++  // nu_mu
++  G4NeutrinoMu::NeutrinoMuDefinition();
++  G4AntiNeutrinoMu::AntiNeutrinoMuDefinition();
++}
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
++
++void ExN02PhysicsList::ConstructMesons()
++{
++  //  mesons
++  //    light mesons
++  G4PionPlus::PionPlusDefinition();
++  G4PionMinus::PionMinusDefinition();
++  G4PionZero::PionZeroDefinition();
++  G4Eta::EtaDefinition();
++  G4EtaPrime::EtaPrimeDefinition();
++  G4KaonPlus::KaonPlusDefinition();
++  G4KaonMinus::KaonMinusDefinition();
++  G4KaonZero::KaonZeroDefinition();
++  G4AntiKaonZero::AntiKaonZeroDefinition();
++  G4KaonZeroLong::KaonZeroLongDefinition();
++  G4KaonZeroShort::KaonZeroShortDefinition();
++}
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
++
++void ExN02PhysicsList::ConstructBaryons()
++{
++  //  barions
++  G4Proton::ProtonDefinition();
++  G4AntiProton::AntiProtonDefinition();
++
++  G4Neutron::NeutronDefinition();
++  G4AntiNeutron::AntiNeutronDefinition();
++}
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
++
++void ExN02PhysicsList::ConstructProcess()
++{
++  AddTransportation();
++  ConstructEM();
++  ConstructGeneral();
++}
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
++
++#include "G4ComptonScattering.hh"
++#include "G4GammaConversion.hh"
++#include "G4PhotoElectricEffect.hh"
++
++#include "G4MultipleScattering.hh"
++
++#include "G4eIonisation.hh"
++#include "G4eBremsstrahlung.hh"
++#include "G4eplusAnnihilation.hh"
++
++#include "G4MuIonisation.hh"
++#include "G4MuBremsstrahlung.hh"
++#include "G4MuPairProduction.hh"
++
++#include "G4hIonisation.hh"
++
++#include "G4StepLimiter.hh"
++#include "G4UserSpecialCuts.hh"
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
++
++void ExN02PhysicsList::ConstructEM()
++{
++  theParticleIterator->reset();
++  while( (*theParticleIterator)() ){
++    G4ParticleDefinition* particle = theParticleIterator->value();
++    G4ProcessManager* pmanager = particle->GetProcessManager();
++    G4String particleName = particle->GetParticleName();
++     
++    if (particleName == "gamma") {
++      // gamma         
++      pmanager->AddDiscreteProcess(new G4PhotoElectricEffect);
++      pmanager->AddDiscreteProcess(new G4ComptonScattering);
++      pmanager->AddDiscreteProcess(new G4GammaConversion);
++      
++    } else if (particleName == "e-") {
++      //electron
++      pmanager->AddProcess(new G4MultipleScattering,-1, 1,1);
++      pmanager->AddProcess(new G4eIonisation,       -1, 2,2);
++      pmanager->AddProcess(new G4eBremsstrahlung,   -1, 3,3);      
++
++    } else if (particleName == "e+") {
++      //positron
++      pmanager->AddProcess(new G4MultipleScattering,-1, 1,1);
++      pmanager->AddProcess(new G4eIonisation,       -1, 2,2);
++      pmanager->AddProcess(new G4eBremsstrahlung,   -1, 3,3);
++      pmanager->AddProcess(new G4eplusAnnihilation,  0,-1,4);
++
++    } else if( particleName == "mu+" || 
++               particleName == "mu-"    ) {
++      //muon  
++      pmanager->AddProcess(new G4MultipleScattering,-1, 1,1);
++      G4VProcess* anIonisation = new G4MuIonisation();
++      G4eMagneticFieldLimitsProcess* theG4eMagneticFieldLimitsProcess = new G4eMagneticFieldLimitsProcess; 
++      pmanager->AddDiscreteProcess( theG4eMagneticFieldLimitsProcess );     
++      G4VEnergyLossProcess* io = (G4VEnergyLossProcess*)anIonisation;
++      io->SetLossFluctuations( FALSE );
++
++       pmanager->AddProcess(anIonisation,      -1, 2,2);
++       pmanager->AddProcess(new G4MuBremsstrahlung,  -1, 3,3);
++       pmanager->AddProcess(new G4MuPairProduction,  -1, 4,4);       
++      //      pmanager->AddProcess(anIonisation, -1);
++      //    pmanager->AddProcess(new G4MuBremsstrahlung, -1);
++      //  pmanager->AddProcess(new G4MuPairProduction, -1); 
++     
++    } else if ((!particle->IsShortLived()) &&
++	       (particle->GetPDGCharge() != 0.0) && 
++	       (particle->GetParticleName() != "chargedgeantino")) {
++      //all others charged particles except geantino
++      pmanager->AddProcess(new G4MultipleScattering,-1, 1,1);
++      pmanager->AddProcess(new G4hIonisation,       -1, 2,2);
++      //step limit
++      pmanager->AddProcess(new G4StepLimiter,       -1,-1,3);         
++      ///pmanager->AddProcess(new G4UserSpecialCuts,   -1,-1,4);  
++    }
++  }
++}
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
++
++#include "G4Decay.hh"
++void ExN02PhysicsList::ConstructGeneral()
++{
++  // Add Decay Process
++  G4Decay* theDecayProcess = new G4Decay();
++  theParticleIterator->reset();
++  while( (*theParticleIterator)() ){
++    G4ParticleDefinition* particle = theParticleIterator->value();
++    G4ProcessManager* pmanager = particle->GetProcessManager();
++    if (theDecayProcess->IsApplicable(*particle)) { 
++      pmanager ->AddProcess(theDecayProcess);
++      // set ordering for PostStepDoIt and AtRestDoIt
++      pmanager ->SetProcessOrdering(theDecayProcess, idxPostStep);
++      pmanager ->SetProcessOrdering(theDecayProcess, idxAtRest);
++    }
++  }
++}
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
++
++void ExN02PhysicsList::SetCuts()
++{
++  //G4VUserPhysicsList::SetCutsWithDefault method sets 
++  //the default cut value for all particle types 
++  //
++  SetCutsWithDefault();
++     
++  if (verboseLevel>0) DumpCutValuesTable();
++}
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
++
+diff -Naur --exclude CVS source/geant4e/src/G4eEnergyLossProcess.cc source/geant4e/src/G4eEnergyLossProcess.cc
+--- source/geant4e/src/G4eEnergyLossProcess.cc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/src/G4eEnergyLossProcess.cc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,114 @@
++////////////////////////////////////////////////////////////////////////
++// Energy Loss for extrapolator Implementation
++////////////////////////////////////////////////////////////////////////
++//
++// File:        G4eEnergyLossProcess.cc 
++// Description: Continuous Process -- energy loss for extrapolator
++// Version:     2.1
++// Created:     2005-12-22
++// Author:      Pedro Arce
++// Updated:     
++//
++// mail:        pedro.arce@cern.ch
++//
++////////////////////////////////////////////////////////////////////////
++
++#include "G4eEnergyLossProcess.hh"
++#include "G4eManager.hh"
++#include "G4EnergyLossForExtrapolator.hh"
++
++//--------------------------------------------------------------------------
++
++G4EnergyLossForExtrapolator* G4eEnergyLossProcess::theELossForExtrapolator = 0;
++
++//--------------------------------------------------------------------------
++G4eEnergyLossProcess::G4eEnergyLossProcess(const G4String& processName)
++           : G4VContinuousProcess(processName)
++{
++  if (verboseLevel>0) {
++    G4cout << GetProcessName() << " is created " << G4endl;
++  }
++
++  G4eEnergyLossProcess::InstantiateEforExtrapolator();
++
++}
++
++
++//--------------------------------------------------------------------------
++void G4eEnergyLossProcess::InstantiateEforExtrapolator()
++{
++
++  if( theELossForExtrapolator == 0 ) {
++    theELossForExtrapolator = new G4EnergyLossForExtrapolator;
++  }
++}
++
++
++//--------------------------------------------------------------------------
++G4eEnergyLossProcess::~G4eEnergyLossProcess() 
++{
++}
++
++
++//--------------------------------------------------------------------------
++G4VParticleChange*
++G4eEnergyLossProcess::AlongStepDoIt(const G4Track& aTrack, const G4Step& aStep)
++{
++  aParticleChange.Initialize(aTrack);
++
++  G4eManager* g4emgr =  G4eManager::GetG4eManager();
++
++  G4double kinEnergyStart = aTrack.GetKineticEnergy();
++  G4double step_length  = aStep.GetStepLength();
++  //  step_length = 10*mm;
++  const G4Material* aMaterial = aTrack.GetMaterial();
++  const G4ParticleDefinition* aParticleDef = aTrack.GetDynamicParticle()->GetDefinition();
++  G4double kinEnergyEnd;
++
++  //  G4cout << " mode " << g4emgr->GetMode()<< " " << G4eMode_PropForwards  << std::endl;
++ 
++  if( g4emgr->GetMode() == G4eMode(G4eMode_PropBackwards) ) {
++    kinEnergyEnd = G4eEnergyLossProcess::theELossForExtrapolator->EnergyBeforeStep( kinEnergyStart, step_length, aMaterial, aParticleDef );
++    G4double kinEnergyHalfStep = kinEnergyStart - (kinEnergyStart-kinEnergyEnd)/2.;
++    //-    G4cout << " G4eEnergyLossProcess FWD  end " << kinEnergyEnd << " halfstep " << kinEnergyHalfStep << G4endl;
++    //--- rescale to energy lost at 1/2 step
++    kinEnergyEnd = G4eEnergyLossProcess::theELossForExtrapolator->EnergyBeforeStep( kinEnergyHalfStep, step_length, aMaterial, aParticleDef );
++    kinEnergyEnd = kinEnergyStart - (kinEnergyHalfStep - kinEnergyEnd );
++  }else if( g4emgr->GetMode() == G4eMode(G4eMode_PropForwards) ) {
++    kinEnergyEnd = G4eEnergyLossProcess::theELossForExtrapolator->EnergyAfterStep( kinEnergyStart, step_length, aMaterial, aParticleDef );
++    G4double kinEnergyHalfStep = kinEnergyStart - (kinEnergyStart-kinEnergyEnd)/2.;
++    //-    G4cout << " G4eEnergyLossProcess BCKD  end " << kinEnergyEnd << " halfstep " << kinEnergyHalfStep << G4endl;
++    //--- rescale to energy lost at 1/2 step
++    kinEnergyEnd = G4eEnergyLossProcess::theELossForExtrapolator->EnergyAfterStep( kinEnergyHalfStep, step_length, aMaterial, aParticleDef );
++    kinEnergyEnd = kinEnergyStart - (kinEnergyHalfStep - kinEnergyEnd );
++  }
++
++  G4double edepo = kinEnergyEnd - kinEnergyStart;
++
++  if( G4eManager::verbose() >= 2 ) G4cout << "G4eEnergyLossProcess::AlongStepDoIt Estart= " << kinEnergyStart << " Eend " << kinEnergyEnd << " Ediff " << kinEnergyStart-kinEnergyEnd << " step= " << step_length << " mate= " << aMaterial->GetName() << " particle= " << aParticleDef->GetParticleName() << G4endl;
++
++  aParticleChange.ClearDebugFlag();
++  aParticleChange.ProposeLocalEnergyDeposit( edepo );
++  aParticleChange.SetNumberOfSecondaries(0);
++ 
++  aParticleChange.ProposeEnergy( kinEnergyEnd );
++
++  /*?????
++  //---- If it has lost all its energy, it is in status StopAndAlive: change it!
++  if(fParticleChange->GetTrackStatus() == fStopButAlive ) {
++  fParticleChange->ProposeTrackStatus( fAlive );
++  }
++  */	
++  
++  return &aParticleChange;
++}
++
++
++//--------------------------------------------------------------------
++G4double G4eEnergyLossProcess::GetContinuousStepLimit(const G4Track&,
++				   G4double,
++				   G4double,
++                                   G4double& )
++{
++  return DBL_MAX;
++}
+diff -Naur --exclude CVS source/geant4e/src/G4eIonisationChange.cc source/geant4e/src/G4eIonisationChange.cc
+--- source/geant4e/src/G4eIonisationChange.cc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/src/G4eIonisationChange.cc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,64 @@
++//
++// --------------------------------------------------------------
++//      GEANT 4 class implementation file
++//
++//      History: September 2001, P. Arce
++// --------------------------------------------------------------
++ 
++#include "G4eIonisationChange.hh"
++
++#include "G4Track.hh"
++#include "G4ParticleChangeForLoss.hh"
++
++#include "G4eManager.hh"
++
++// constructor and destructor
++ G4eIonisationChange::G4eIonisationChange(const G4String& )
++{ }
++
++G4eIonisationChange::~G4eIonisationChange() 
++{ }
++
++
++void G4eIonisationChange::RecomputeParticleChange( G4ParticleChangeForLoss* fParticleChange, const G4Track& trackData )
++{
++
++  //----- Reset number of secondaries to 0
++  //  fParticleChange->Clear();
++
++  //----- If propagation is backwards:
++  G4eManager* g4emgr =  G4eManager::GetG4eManager();
++  if( g4emgr->GetMode() == G4eMode(G4eMode_PropBackwards) ) {
++#ifdef G4EVERBOSE
++    if( g4emgr->verbose() >= 1) {
++      G4cout << "G4eIonisationChange::RecomputeParticleChange: backwards. fParticleChange->GetProposedKineticEnergy() " << fParticleChange->GetProposedKineticEnergy() << G4endl;
++    }
++#endif
++    //---- Reset energy deposited to negative value (gaining energy) 
++    //    double eDepoOld = trackData.GetStep()->GetTotalEnergyDeposit();
++    double eDepo = fParticleChange->GetLocalEnergyDeposit();
++    fParticleChange->ProposeLocalEnergyDeposit( -eDepo );
++    //---- Reset energy change to negative value (gaining energy) 
++    double energyNew = fParticleChange->GetProposedKineticEnergy();
++    double mass = trackData.GetDynamicParticle()->GetDefinition()->GetPDGMass();
++    double energyOld = trackData.GetDynamicParticle()->GetTotalEnergy()-mass;
++    //energyChange is =0  
++    fParticleChange->SetProposedKineticEnergy( energyNew - 2*(energyNew-energyOld) );
++
++    //---- If it has lost all its energy, it is in status StopAndAlive: change it!
++    if(fParticleChange->GetTrackStatus() == fStopButAlive ) {
++      fParticleChange->ProposeTrackStatus( fAlive );
++    }
++
++#ifdef G4EVERBOSE
++    if( g4emgr->verbose() >= 4) {
++      if( trackData.GetStep() != 0 ) G4cout << "G4eIonisationChange::RecomputeParticleChange energyDeposited new " << eDepo << " old " << trackData.GetStep()->GetTotalEnergyDeposit() << G4endl;
++      G4cout << " G4eIonisationChange::RecomputeParticleChangeForIoniPost energyChange new " << energyNew << " old " << energyOld << G4endl;
++    }
++#endif
++  }
++
++  return;
++
++}
++
+diff -Naur --exclude CVS source/geant4e/src/G4eMagneticFieldLimitsMessenger.cc source/geant4e/src/G4eMagneticFieldLimitsMessenger.cc
+--- source/geant4e/src/G4eMagneticFieldLimitsMessenger.cc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/src/G4eMagneticFieldLimitsMessenger.cc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,43 @@
++
++#include "G4eMagneticFieldLimitsMessenger.hh"
++#include "G4eMagneticFieldLimitsProcess.hh"
++
++#include "G4UIdirectory.hh"
++#include "G4UIcmdWithADoubleAndUnit.hh"
++#include "globals.hh"
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
++
++G4eMagneticFieldLimitsMessenger::G4eMagneticFieldLimitsMessenger(G4eMagneticFieldLimitsProcess* myAct)
++:myAction(myAct)
++{ 
++
++  myDir = new G4UIdirectory("/geant4e/");
++  myDir->SetGuidance("GEANT4e control commands");
++  
++  StepLimitCmd = new G4UIcmdWithADoubleAndUnit("/geant4e/stepLimit",this);  
++  StepLimitCmd->SetGuidance("Limit the length of an step");
++  StepLimitCmd->SetDefaultUnit("mm");
++  //-   StepLimitCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
++  //  G4cout << " G4eMagneticFieldLimitsMessenger::G4eMagneticFieldLimitsMessenger " << G4endl;
++}
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
++
++G4eMagneticFieldLimitsMessenger::~G4eMagneticFieldLimitsMessenger()
++{
++  delete StepLimitCmd;
++  delete myDir;
++}
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
++
++void G4eMagneticFieldLimitsMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
++{   
++  if( command == StepLimitCmd ) { 
++    //    G4cout << " G4eMagneticFieldLimitsMessenger::SetNewValue " << newValue << G4endl;
++    myAction->SetStepLimit(StepLimitCmd->GetNewDoubleValue(newValue));}
++
++}
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+diff -Naur --exclude CVS source/geant4e/src/G4eMagneticFieldLimitsProcess.cc source/geant4e/src/G4eMagneticFieldLimitsProcess.cc
+--- source/geant4e/src/G4eMagneticFieldLimitsProcess.cc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/src/G4eMagneticFieldLimitsProcess.cc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,48 @@
++#include "G4eMagneticFieldLimitsProcess.hh"
++#include "G4UnitsTable.hh"
++#include "G4eMagneticFieldLimitsMessenger.hh"
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
++G4eMagneticFieldLimitsProcess::G4eMagneticFieldLimitsProcess(const G4String& processName)
++  : G4VDiscreteProcess (processName) 
++{
++  theMessenger = new G4eMagneticFieldLimitsMessenger(this);
++  theStepLimit = 1000.*mm;// kInfinity;
++}
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
++G4eMagneticFieldLimitsProcess::~G4eMagneticFieldLimitsProcess()
++{ }
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
++ 
++
++G4double G4eMagneticFieldLimitsProcess::PostStepGetPhysicalInteractionLength(
++								      //G4double G4eMagneticFieldLimitsProcess::PostStepGPIL(
++			     const G4Track& ,
++			     G4double ,
++			     G4ForceCondition* condition )
++{
++  *condition = NotForced;
++  //-  G4cout << "G4eMagneticFieldLimitsProcess::PostStepGetPhysicalInteractionLength " << theStepLimit << G4endl;
++  return theStepLimit; 
++  //return kInfinity;
++}
++
++G4double G4eMagneticFieldLimitsProcess::GetMeanFreePath(const class G4Track &, G4double, enum G4ForceCondition *)
++{
++  //-  G4cout << "G4eMagneticFieldLimitsProcess GetMeanFreePath " << theStepLimit << G4endl;
++ return theStepLimit;
++}
++
++G4VParticleChange* G4eMagneticFieldLimitsProcess::PostStepDoIt(
++						       const G4Track& aTrack ,
++						       const G4Step& )
++{
++  G4ParticleChange* aParticleChange = new G4ParticleChange;
++  aParticleChange->Initialize(aTrack);
++  return aParticleChange; 
++  
++}
++
++
+diff -Naur --exclude CVS source/geant4e/src/G4eMag_UsualEqRhs.cc source/geant4e/src/G4eMag_UsualEqRhs.cc
+--- source/geant4e/src/G4eMag_UsualEqRhs.cc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/src/G4eMag_UsualEqRhs.cc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,32 @@
++//
++#include "G4eMag_UsualEqRhs.hh"
++#include "G4eManager.hh"
++
++
++void
++G4eMag_UsualEqRhs::EvaluateRhsGivenB( const G4double y[],
++				      const G4double B[3],
++				      G4double dydx[] ) const
++{
++
++  G4Mag_UsualEqRhs::EvaluateRhsGivenB(y, B, dydx );
++  
++  if(G4eManager::GetG4eManager()->GetMode() == G4eMode_PropBackwards){
++    G4double momentum_mag_square = sqr(y[3]) + sqr(y[4]) + sqr(y[5]);
++    G4double inv_momentum_magnitude = 1.0 / sqrt( momentum_mag_square );
++    
++    G4double cof = FCof()*inv_momentum_magnitude;
++
++    dydx[3] = cof*(y[4]*(-B[2]) - y[5]*(-B[1])) ;
++    dydx[4] = cof*(y[5]*(-B[0]) - y[3]*(-B[2])) ;
++    dydx[5] = cof*(y[3]*(-B[1]) - y[4]*(-B[0])) ;  
++    
++  }
++  
++  return ;
++}
++
++
++
++
++
+diff -Naur --exclude CVS source/geant4e/src/G4eManager.cc source/geant4e/src/G4eManager.cc
+--- source/geant4e/src/G4eManager.cc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/src/G4eManager.cc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,416 @@
++
++#define private public 
++#include "G4MagIntegratorStepper.hh"
++#define private private
++#include "G4Mag_UsualEqRhs.hh"
++#include "G4Mag_EqRhs.hh"
++#include "G4MagIntegratorDriver.hh"
++
++#include "G4ClassicalRK4.hh"
++#include "G4ExactHelixStepper.hh"
++#include "G4HelixExplicitEuler.hh"
++
++#include "G4eManager.hh"
++
++#include "G4EventManager.hh"
++#include "G4eRunManagerKernel.hh"
++#include "G4ePropagatorG4.hh"
++#include "G4eTrajStateFree.hh"
++#include "G4eTrajStateOnSurface.hh"
++#include "G4eMag_UsualEqRhs.hh"
++
++#include "G4VParticleChange.hh"
++#include "G4ParticleChangeForMSC.hh"
++#include "G4ParticleChange.hh"
++#include "G4Track.hh"
++#include "G4TransportationManager.hh"
++#include "G4eNavigator.hh"
++#include "G4GeometryManager.hh"
++#include "G4StateManager.hh"
++#include "G4ChordFinder.hh"
++#include "G4EquationOfMotion.hh"
++#include "G4FieldManager.hh"
++#include "G4VParticleChange.hh"
++
++G4eManager* G4eManager::theG4eManager = 0;
++
++int G4eManager::theVerbosity;
++
++//-----------------------------------------------------------------------
++G4eManager* G4eManager::GetG4eManager()
++{
++  if( theG4eManager == NULL ) {
++    theG4eManager = new G4eManager;
++  }
++
++  return theG4eManager;
++}
++
++
++//-----------------------------------------------------------------------
++G4eManager::G4eManager()
++{
++  //----- Initialize a few things
++  //o  theG4eManager = this;
++
++  char* g4emverb = getenv("G4EVERBOSE");
++  if( !g4emverb ) {
++    theVerbosity = 0;
++  } else {
++    theVerbosity = atoi( g4emverb );
++  }
++
++  thePropagator = 0;
++
++  theEquationOfMotion = 0;
++
++  theCurrentTS_FREE = 0;
++  
++  StartG4eRunManagerKernel(); 
++
++  theState = G4eState_PreInit;
++
++  theG4eNavigator = 0;
++
++  StartNavigator(); //navigator has to be initialized at the beggining !?!?!
++
++
++}
++
++//-----------------------------------------------------------------------
++G4eManager::~G4eManager()
++{
++}
++
++
++//-----------------------------------------------------------------------
++void G4eManager::StartG4eRunManagerKernel()
++{
++  //----- Initialize G4eRunManagerKernel
++  theG4eRunManagerKernel = G4eRunManagerKernel::GetRunManagerKernel();
++
++  if( theG4eRunManagerKernel == 0 ) {
++    theG4eRunManagerKernel = new G4eRunManagerKernel();
++  }
++
++  //----- User Initialization classes 
++  //--- GEANT4e PhysicsList
++  if( theVerbosity >= 4 ) G4cout << " G4eManager::StartG4eRunManager() done " << theG4eRunManagerKernel << G4endl;
++  //-  theG4eRunManager->SetUserInitialization(new G4ePhysicsList);
++
++}
++
++
++//-----------------------------------------------------------------------
++void G4eManager::StartNavigator()
++{
++  if( theG4eNavigator == 0 ) {
++    G4TransportationManager*transportationManager = G4TransportationManager::GetTransportationManager();
++    
++    G4Navigator* g4navi = transportationManager->GetNavigatorForTracking();
++   
++    G4VPhysicalVolume* world = g4navi->GetWorldVolume();
++    int verb = g4navi->GetVerboseLevel();
++    delete g4navi;
++
++    theG4eNavigator = new G4eNavigator();
++
++    if( world != 0 ) {
++      theG4eNavigator->SetWorldVolume( world );
++    }
++    theG4eNavigator->SetVerboseLevel( verb );   
++    
++    transportationManager->SetNavigatorForTracking(theG4eNavigator);
++    //  G4ThreeVector center(0,0,0);
++    //  theG4eNavigator->LocateGlobalPointAndSetup(center,0,false);
++    
++  }
++
++  if( theVerbosity >= 2 ) G4cout << " theState at StartNavigator " << PrintG4eState() << G4endl;
++
++}
++  
++
++//-----------------------------------------------------------------------
++void G4eManager::InitGeant4e()
++{
++  if( theVerbosity >= 1 ) G4cout << "InitGeant4e GEANT4e State= " << PrintG4eState() << " GEANT4 State= " << PrintG4State() << G4endl;
++  G4ApplicationState currentState = G4StateManager::GetStateManager()->GetCurrentState();
++  //----- Initialize run
++  //  if( G4StateManager::GetStateManager()->GetCurrentState() == G4State_PreInit) {
++  if( theState == G4eState_PreInit && (currentState == G4State_PreInit || currentState == G4State_Idle)) {
++    //    G4eRunManager::GetRunManager()->Initialize();
++    theG4eRunManagerKernel->InitializeGeometry();
++    theG4eRunManagerKernel->InitializePhysics();
++    
++    InitFieldForBackwards();
++    
++    //-    G4StateManager::GetStateManager()->SetNewState(G4State_Idle);
++
++    if( theVerbosity >= 4 )   G4cout << " bef  theG4eManager->RunInitialization() " <<  G4StateManager::GetStateManager()->GetCurrentState() << G4endl;
++    theG4eRunManagerKernel->RunInitialization();
++    if( theVerbosity >= 4 ) G4cout << " aft  theG4eManager->RunInitialization() " <<  G4StateManager::GetStateManager()->GetCurrentState() << G4endl;
++
++    if( !thePropagator ) thePropagator = new G4ePropagatorG4();  // currently the only propagator possible
++
++    InitTrackPropagation();
++  } else {
++    G4cerr << "G4eManager::InitGeant4e: Illegal application state - "
++         << "G4eManager::InitGeant4e() ignored." << G4endl;
++    G4cerr << " GEANT4e State= " << PrintG4eState() << " GEANT4 State= " <<  PrintG4State() << G4endl;
++  }
++
++  //----- Set the tracking geometry for this propagation
++  //t  SetTrackingGeometry();
++  //----- Set the physics list for this propagation
++  //t  SetPhysicsList();
++  //----- Set the field propagation parameters for this propagation
++  //t  SetFieldPropagationParameters();
++  if( theVerbosity >= 2 ) G4cout << "End InitGeant4e GEANT4e State= " << PrintG4eState() << " GEANT4 State= " << PrintG4State() << G4endl;
++
++}
++
++
++//-----------------------------------------------------------------------
++void G4eManager::InitTrackPropagation()
++{
++  thePropagator->SetStepN( 0 );
++
++  SetState( G4eState_Propagating );
++
++}
++
++//-----------------------------------------------------------------------
++bool G4eManager::InitFieldForBackwards()
++{
++
++  if( theVerbosity >= 4 ) G4cout << " G4eManager::InitFieldForBackwards() " << G4endl;
++  //----- Gets the current equation of motion
++  G4FieldManager* fieldMgr= G4TransportationManager::GetTransportationManager()->GetFieldManager();
++  //  G4cout << " fieldMgr " << fieldMgr << G4endl;
++  if( !fieldMgr ) return 0;
++
++  //  G4Field* myfield = fieldMgr->GetDetectorField();
++  G4ChordFinder* cf = fieldMgr ->GetChordFinder();
++  if( !cf ) return 0;
++  G4MagInt_Driver* mid = cf->GetIntegrationDriver();
++  if( !mid ) return 0;
++  G4MagIntegratorStepper* stepper = const_cast<G4MagIntegratorStepper*>(mid->GetStepper());
++  if( !stepper ) return 0;
++  G4EquationOfMotion* equation = stepper->GetEquationOfMotion();
++
++  //----- Replaces the equation by a G4eMag_UsualEqRhs to handle backwards tracking
++  if ( !dynamic_cast<G4eMag_UsualEqRhs*>(equation) ) {
++
++    G4MagneticField* myfield = (G4MagneticField*)fieldMgr->GetDetectorField();
++    
++    //    G4Mag_UsualEqRhs* fEquation_usual = dynamic_cast<G4Mag_UsualEqRhs*>(equation);
++    if( theEquationOfMotion == 0 ) theEquationOfMotion = new G4eMag_UsualEqRhs(myfield);
++ 
++    //---- Pass the equation of motion to the G4MagIntegratorStepper
++//    stepper->SetEquationOfMotion( theEquationOfMotion );
++    stepper->fEquation_Rhs = theEquationOfMotion;
++
++
++    //--- change stepper for speed tests
++    /*
++    G4MagIntegratorStepper* g4eStepper = new G4ClassicalRK4(theEquationOfMotion);
++    //G4MagIntegratorStepper* g4eStepper = new G4ExactHelixStepper(theEquationOfMotion);
++    
++    //---- 
++    G4MagneticField* field = static_cast<G4MagneticField*>(const_cast<G4Field*>(fieldMgr->GetDetectorField()));
++    G4ChordFinder* pChordFinder = new G4ChordFinder(field, 1.0e-2*mm, g4eStepper);
++
++    fieldMgr->SetChordFinder(pChordFinder);
++    */
++
++  }
++
++  return 1;
++}
++
++
++//-----------------------------------------------------------------------
++int G4eManager::Propagate( G4eTrajState* currentTS, const G4eTarget* target, G4eMode mode )
++{
++  thePropagationMode = mode;
++  if( !thePropagator ) thePropagator = new G4ePropagatorG4();  // currently the only propagator possible
++
++  return thePropagator->Propagate( currentTS, target, mode );
++}
++
++
++//-----------------------------------------------------------------------
++int G4eManager::PropagateOneStep( G4eTrajState* currentTS, G4eMode mode )
++{
++  thePropagationMode = mode;
++
++  if( !thePropagator ) thePropagator = new G4ePropagatorG4();  // currently the only propagator possible
++
++  return thePropagator->PropagateOneStep( currentTS );
++}
++
++//---------------------------------------------------------------------------
++void G4eManager::InvokePreUserTrackingAction( G4Track* fpTrack )
++{
++  const G4UserTrackingAction* fpUserTrackingAction = G4EventManager::GetEventManager()->GetUserTrackingAction();
++  if( fpUserTrackingAction != NULL ) {
++  const_cast<G4UserTrackingAction*>(fpUserTrackingAction)->PreUserTrackingAction((fpTrack) );
++  }
++
++}
++
++
++//---------------------------------------------------------------------------
++void G4eManager::InvokePostUserTrackingAction( G4Track* fpTrack )
++{
++  const G4UserTrackingAction* fpUserTrackingAction = G4EventManager::GetEventManager()->GetUserTrackingAction();
++  if( fpUserTrackingAction != NULL ) {
++  const_cast<G4UserTrackingAction*>(fpUserTrackingAction)->PostUserTrackingAction((fpTrack) );
++  }
++
++}
++
++
++//-----------------------------------------------------------------------
++bool G4eManager::CloseGeometry()
++{
++  G4GeometryManager* geomManager = G4GeometryManager::GetInstance();
++  geomManager->OpenGeometry();
++  if(  G4StateManager::GetStateManager()->GetCurrentState() != G4State_GeomClosed) {
++    G4StateManager::GetStateManager()->SetNewState(G4State_Quit);
++  }
++
++  return TRUE;
++}
++
++
++//---------------------------------------------------------------------------
++void G4eManager::SetUserInitialization(G4VUserDetectorConstruction* userInit)
++{
++  theG4eRunManagerKernel->SetUserInitialization( userInit); 
++}
++
++
++//---------------------------------------------------------------------------
++void G4eManager::SetUserInitialization(G4VPhysicalVolume* userInit)
++{ 
++  theG4eRunManagerKernel->SetUserInitialization( userInit); 
++}
++ 
++
++//---------------------------------------------------------------------------
++void G4eManager::SetUserInitialization(G4VUserPhysicsList* userInit)
++{ 
++  theG4eRunManagerKernel->SetUserInitialization( userInit); 
++}
++
++
++//---------------------------------------------------------------------------
++void G4eManager::SetUserAction(G4UserTrackingAction* userAction)
++{
++  G4EventManager::GetEventManager()->SetUserAction( userAction ); 
++}
++
++
++//---------------------------------------------------------------------------
++void G4eManager::SetUserAction(G4UserSteppingAction* userAction)
++{
++  G4EventManager::GetEventManager()->SetUserAction( userAction ); 
++}
++
++
++//---------------------------------------------------------------------------
++void G4eManager::SetSteppingManagerVerboseLevel()
++{
++  G4TrackingManager* trkmgr = G4EventManager::GetEventManager()->GetTrackingManager();
++  trkmgr->GetSteppingManager()->SetVerboseLevel( trkmgr->GetVerboseLevel() );
++}
++
++
++//---------------------------------------------------------------------------
++void G4eManager::EventTermination()
++{
++  SetState( G4eState_Init );
++}
++
++
++//---------------------------------------------------------------------------
++void G4eManager::RunTermination()
++{
++  SetState( G4eState_PreInit );
++  theG4eRunManagerKernel->RunTermination(); 
++}
++
++
++//---------------------------------------------------------------------------
++G4String G4eManager::PrintG4eState() 
++{
++  return PrintG4eState( theState );
++}
++
++
++//---------------------------------------------------------------------------
++G4String G4eManager::PrintG4eState( G4eState state ) 
++{
++  G4String nam = "";
++  switch (state){
++  case G4eState_PreInit: 
++    nam = "G4eState_PreInit"; 
++    break;
++  case G4eState_Init: 
++    nam = "G4eState_Init"; 
++    break;
++  case G4eState_Propagating:
++    nam = "G4eState_Propagating";
++    break;
++  case G4eState_TargetCloserThanBoundary:
++    nam = "G4eState_TargetCloserThanBoundary";
++    break;
++  case G4eState_StoppedAtTarget:
++    nam = "G4eState_StoppedAtTarget";
++    break;
++  }
++
++  return nam;
++}
++
++
++//---------------------------------------------------------------------------
++G4String G4eManager::PrintG4State()
++{
++  return PrintG4State(G4StateManager::GetStateManager()->GetCurrentState());
++}
++
++
++//---------------------------------------------------------------------------
++G4String G4eManager::PrintG4State( G4ApplicationState state )
++{
++  G4String nam = "";
++  switch ( state ){
++  case G4State_PreInit:
++    nam = "G4State_PreInit";
++    break;
++  case G4State_Init:
++    nam = "G4State_Init";
++    break;
++  case G4State_Idle:
++    nam = "G4State_Idle";
++    break;
++  case G4State_GeomClosed:
++    nam = "G4State_GeomClosed";
++    break;
++  case G4State_EventProc:
++    nam = "G4State_EventProc"; 
++    break;
++  case G4State_Quit:
++    nam = "G4State_Quit";
++    break;
++  case G4State_Abort:
++    nam = "G4State_Abort";
++    break;
++  }
++  
++  return nam;
++
++}
+diff -Naur --exclude CVS source/geant4e/src/G4eMuIonisation.cc source/geant4e/src/G4eMuIonisation.cc
+--- source/geant4e/src/G4eMuIonisation.cc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/src/G4eMuIonisation.cc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,170 @@
++
++#define private public
++#include "G4VEnergyLossProcess.hh"
++#define private private
++#include "G4eMuIonisation.hh"
++#include "G4VMuEnergyLoss.hh"
++#include "G4eIonisationChange.hh"
++#include "G4ios.hh"
++#include "G4Track.hh"
++#include "G4Step.hh"
++#include "G4VParticleChange.hh"
++#include "G4ParticleChange.hh"
++
++#include "G4eManager.hh"
++
++G4eMuIonisation::G4eMuIonisation(const G4String& name)
++  : G4MuIonisation(name)
++{
++}
++
++G4eMuIonisation::~G4eMuIonisation(){}
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
++/*inline std::vector<G4Track*>* G4eMuIonisation::SecondariesAlongStep(
++                           const G4Step& ,
++	             	         G4double& ,
++			         G4double& ,
++                                 G4double& )
++{
++  std::vector<G4Track*>* neqwp = 0;
++
++  return newp;
++}*/
++
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
++G4VParticleChange* G4eMuIonisation::AlongStepDoIt( const G4Track& trackData,
++                                                 const G4Step&  stepData)
++{  
++
++  G4double energyStart = trackData.GetKineticEnergy();
++
++  //  G4VParticleChange* fParticleChange = G4VEnergyLossProcessAlongStepDoIt( trackData, stepData );
++  G4VParticleChange* fParticleChange = G4MuIonisation::AlongStepDoIt( trackData, stepData );
++  G4ParticleChangeForLoss* fParticleChangen = static_cast<G4ParticleChangeForLoss*>(fParticleChange);
++
++  RecomputeParticleChange( fParticleChangen, trackData );
++
++  //  return fParticleChangen;
++
++  //-------------------------------------
++  //--- rescale to energy lost at 1/2 step
++
++  G4double energyEnd = fParticleChangen->GetProposedKineticEnergy();
++  //  G4cout << " G4eMuIonisation::AlongStepDoIt( energyStart " << energyStart << " energyEnd " << energyEnd << " diff " << energyEnd-energyStart << G4endl;
++
++  G4double energyHalfStep = energyStart - (energyStart-energyEnd)/2.;
++  G4Track trknew = trackData;
++  trknew.SetKineticEnergy(energyHalfStep);  
++
++  preStepKinEnergy = energyHalfStep;
++  preStepScaledEnergy = preStepKinEnergy*massRatio;
++
++  //  G4cout << " G4eMuIonisation::AlongStepDoIt( preStepKinEnergy set " << preStepKinEnergy << " -trknew.GetKineticEnergy() " << preStepKinEnergy-trknew.GetKineticEnergy() << G4endl;
++
++  fParticleChange = G4MuIonisation::AlongStepDoIt( trknew, stepData );
++  
++  fParticleChangen = static_cast<G4ParticleChangeForLoss*>(fParticleChange);
++  RecomputeParticleChange( fParticleChangen, trknew );
++
++  // G4cout << " G4eMuIonisation::AlongStepDoIt( energyEnd new " << fParticleChangen->GetProposedKineticEnergy() << " diff " << trknew.GetKineticEnergy() - fParticleChangen->GetProposedKineticEnergy() << G4endl;
++
++  //recover the 1/2 energy substracted above
++  fParticleChangen->SetProposedKineticEnergy( fParticleChangen->GetProposedKineticEnergy() + (energyStart-energyEnd)/2. );  
++
++  //t  preStepKinEnergy = oldPreStepKinEnergy;
++
++  //-  delete condition;
++
++  return fParticleChangen;
++
++}
++
++
++/*
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
++G4double G4eMuIonisation::AlongStepGetPhysicalInteractionLength(
++					 const G4Track& track,
++                             G4double previousStepSize,	
++                             G4double currentMinimumStep,
++                             G4double& currentSafety,
++                             G4GPILSelection* selection)
++{
++
++  //  G4VContinuousDiscreteProcess::AlongStepGetPhysicalInteractionLength(
++
++  G4MuIonisation::AlongStepGetPhysicalInteractionLength(
++				      track, previousStepSize, currentMinimumStep, currentSafety, selection );
++
++  return DBL_MAX;
++}
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
++G4double G4eMuIonisation::PostStepGetPhysicalInteractionLength(
++			     const G4Track& track,
++			     G4double   previousStepSize,
++			     G4ForceCondition* condition )
++{
++
++  G4VContinuousDiscreteProcess::PostStepGetPhysicalInteractionLength(
++  			      track, previousStepSize, condition );
++
++  *condition = Forced;
++  return DBL_MAX;
++}
++*/
++
++//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
++inline std::vector<G4DynamicParticle*>* G4eMuIonisation::SecondariesPostStep(
++                                   G4VEmModel*,
++                             const G4MaterialCutsCouple*,
++                             const G4DynamicParticle*,
++                                   G4double&)
++{
++  std::vector<G4DynamicParticle*>* empty = 0;
++  return empty;
++}
++
++/*
++  G4double stepLengthCm = aTrack->GetStep()->GetStepLength()/cm;
++  G4double DEDX2;
++  if( stepLengthCm < 1.E-7 ) {
++    DEDX2=0.;
++  }
++  //  *     Calculate xi factor (KeV).
++  G4Material* mate = aTrack->GetVolume()->GetLogicalVolume()->GetMaterial();
++  G4double effZ, effA;
++  CalculateEffectiveZandA( mate, effZ, effA );
++
++  G4double Etot = aTrack->GetTotalEnergy()/GeV;
++  G4double beta = aTrack->GetMomentum().mag()/GeV / Etot;
++  G4double mass = aTrack->GetDynamicParticle()->GetMass() / GeV;
++  G4double gamma = Etot / mass;
++  
++  // *     Calculate xi factor (KeV).
++  G4double XI = 153.5*effZ*stepLengthCm*(mate->GetDensity()/mg*mole) / 
++    (effA*beta*beta);
++
++#ifdef G4EVERBOSE
++  if( iverbose >= 2 ){
++    std::cout << "G4EP:IONI: XI " << XI << " beta " << beta << " gamma " << gamma << std::endl;
++    std::cout << " density " << (mate->GetDensity()/mg*mole) << " effA " << effA << " step " << stepLengthCm << std::endl;
++  }
++#endif
++  // *     Maximum energy transfer to atomic electron (KeV).
++  G4double eta = beta*gamma;
++  G4double etasq = eta*eta;
++  G4double eMass = 0.51099906/GeV;
++  G4double massRatio = eMass / mass;
++  G4double F1 = 2*eMass*etasq;
++  G4double F2 = 1. + 2. * massRatio * gamma + massRatio * massRatio;
++  G4double Emax = 1.E+6*F1/F2;
++
++  //  * *** and now sigma**2  in GeV
++  G4double dedxSq = XI*Emax*(1.-(beta*beta/2.))*1.E-12;
++
++}
++
++
++*/
+diff -Naur --exclude CVS source/geant4e/src/G4eNavigator.cc source/geant4e/src/G4eNavigator.cc
+--- source/geant4e/src/G4eNavigator.cc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/src/G4eNavigator.cc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,113 @@
++//
++#include "G4eNavigator.hh"
++#include "G4Navigator.hh"
++#include "globals.hh"
++
++#include "G4eManager.hh"
++#include "G4eTargetSurface.hh"
++
++#include "G4ThreeVector.hh"
++
++#define geant4e
++
++G4eNavigator::G4eNavigator():G4Navigator()
++{
++  G4cout << "creating G4eNavigator" << G4endl;}
++
++G4eNavigator::~G4eNavigator()
++{
++}
++
++
++void G4eNavigator::SetTarget( const G4eTarget* target )
++{
++  /*
++  G4cout << " set target " << G4endl;
++  if( static_cast<const G4eTargetSurface*>(target) ) {
++    const G4eTargetSurface* targetc = static_cast<const G4eTargetSurface*>(target);
++    theTarget = const_cast<G4eTargetSurface*>(targetc);
++    G4cout << " set target " << theTarget << G4endl;
++  } else {
++    theTarget = 0;
++  }
++*/
++}
++
++
++G4double G4eNavigator::ComputeStep (const G4ThreeVector &pGlobalPoint,
++			   const G4ThreeVector &pDirection,
++			   const G4double pCurrentProposedStepLength,
++			   G4double &pNewSafety)
++{
++  double Step = G4Navigator::ComputeStep(pGlobalPoint,pDirection,pCurrentProposedStepLength,pNewSafety);
++
++#ifdef geant4e
++  G4eManager *g4emgr = G4eManager::GetG4eManager();
++  if (g4emgr !=0){
++
++    const G4eTarget* target = g4emgr->GetTarget();
++    //    G4cout << " G4eNavigator::ComputeStep target = " << target << G4endl; 
++    if( target != 0 ) {
++      G4double StepPlane = target->GetDistanceFromPoint(pGlobalPoint,pDirection);
++      if( StepPlane < 0. ) StepPlane = 1.E9; //negative means target is crossed, will not be found
++      //t   if( StepPlane < 0. ) StepPlane = DBL_MAX; //negative means target is crossed, will not be found
++   if( G4eManager::verbose() >= 5 ) G4cout << " G4eNavigator::ComputeStep target step " << StepPlane << " transp step " << Step << G4endl;
++
++#ifdef G4EVERBOSE
++      if( G4eManager::verbose() >= 5 ) target->Dump( "G4eNavigator::ComputeStep Target " );
++#endif
++      
++      if(StepPlane<Step){
++#ifdef G4EVERBOSE
++	if( G4eManager::verbose() >= 2 ) std::cout << "G4eNavigator::ComputeStep TargetCloserThanBoundary " << StepPlane << " < " << Step << std::endl;
++#endif
++	Step = StepPlane;
++	g4emgr->SetState(G4eState_TargetCloserThanBoundary);
++      } else {
++	g4emgr->SetState(G4eState_Propagating);
++      }
++    }
++
++  }
++
++#endif
++
++  pNewSafety = ComputeSafety(pGlobalPoint, pCurrentProposedStepLength);
++
++#ifdef G4EVERBOSE
++  if( G4eManager::verbose() >= 3 ) std::cout << "G4eNavigator::ComputeStep " << Step << " ComputeSafety " << pNewSafety << std::endl;
++#endif
++
++
++  return Step;
++
++}
++
++G4double G4eNavigator::ComputeSafety( const G4ThreeVector &pGlobalpoint,
++                                     const G4double pMaxLength)
++{
++  double newSafety = G4Navigator::ComputeSafety(pGlobalpoint,pMaxLength);
++
++#ifdef geant4e
++
++  G4eManager *g4emgr = G4eManager::GetG4eManager();
++  if (g4emgr !=0){
++
++    const G4eTarget* target = g4emgr->GetTarget();
++    if( target != 0 ) {
++      G4double distance = target->GetDistanceFromPoint(pGlobalpoint);
++      
++      if(distance<newSafety){
++	newSafety = distance;
++	//      g4emgr->SetState(G4eState(G4eState_TargetCloserThanBoundary) );
++      } else{
++	//      g4emgr->SetState(G4eState(G4eState_Init) );
++      }
++    }
++  }
++
++#endif
++
++  return newSafety;
++
++} 
+diff -Naur --exclude CVS source/geant4e/src/G4ePhysicsList.cc source/geant4e/src/G4ePhysicsList.cc
+--- source/geant4e/src/G4ePhysicsList.cc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/src/G4ePhysicsList.cc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,256 @@
++// no decay
++// no annihilation
++
++#include "globals.hh"
++#include "G4eMuIonisation.hh"
++#include "G4ePhysicsList.hh"
++#include "G4ComptonScattering.hh"
++#include "G4GammaConversion.hh"
++#include "G4PhotoElectricEffect.hh"
++ 
++#include "G4eIonisation.hh"
++#include "G4eBremsstrahlung.hh"
++#include "G4eplusAnnihilation.hh"
++
++#include "G4MuIonisation.hh"
++#include "G4MuBremsstrahlung.hh"
++#include "G4MuPairProduction.hh"
++
++#include "G4hIonisation.hh"
++
++#include "G4MuIonisation.hh"
++#include "G4MuBremsstrahlung.hh"
++#include "G4MuPairProduction.hh"
++
++#include "G4hIonisation.hh"
++
++#include "G4ParticleDefinition.hh"
++#include "G4ParticleWithCuts.hh"
++#include "G4ProcessManager.hh"
++#include "G4ProcessVector.hh"
++#include "G4ParticleTypes.hh"
++#include "G4ParticleTable.hh"
++#include "G4Material.hh"
++#include "G4MaterialTable.hh"
++#include "G4ios.hh"
++#include <iomanip.h>                
++#include "G4PhysicsTable.hh"
++#include "G4Transportation.hh"
++
++//#include "G4ePhysListEmModel.hh"
++#include "G4eEnergyLossProcess.hh"
++
++G4ePhysicsList::G4ePhysicsList():  G4VUserPhysicsList()
++{
++  defaultCutValue = 1.0E+9*cm; // set big step so that AlongStep computes all the energy
++}
++
++G4ePhysicsList::~G4ePhysicsList()
++{
++}
++
++void G4ePhysicsList::ConstructParticle()
++{
++// In this method, static member functions should be called
++  // for all particles which you want to use.
++  // This ensures that objects of these particle types will be
++  // created in the program. 
++  //  gamma
++  G4Gamma::GammaDefinition(); 
++  //  e+/-
++  G4Electron::ElectronDefinition();
++  G4Positron::PositronDefinition();
++  // mu+/-
++  G4MuonPlus::MuonPlusDefinition();
++  G4MuonMinus::MuonMinusDefinition();
++
++}
++
++void G4ePhysicsList::ConstructProcess()
++{
++  G4Transportation* theTransportationProcess= new G4Transportation();
++
++#ifdef G4VERBOSE
++    if (verboseLevel >= 4){
++      G4cout << "G4VUserPhysicsList::ConstructProcess()  "<< G4endl;
++    }
++#endif
++
++  // loop over all particles in G4ParticleTable
++  theParticleIterator->reset();
++  while( (*theParticleIterator)() ){
++    G4ParticleDefinition* particle = theParticleIterator->value();
++    G4ProcessManager* pmanager = particle->GetProcessManager();
++    if (!particle->IsShortLived()) {
++      G4cout << particle << "G4ePhysicsList:: particle process manager " << particle->GetParticleName() << " = " << particle->GetProcessManager() << G4endl;
++      // Add transportation process for all particles other than  "shortlived"
++      if ( pmanager == 0) {
++	// Error !! no process manager
++	G4String particleName = particle->GetParticleName();
++	G4Exception("G4VUserPhysicsList::AddTransportation","No process manager",
++		    RunMustBeAborted, particleName );
++      } else {
++	// add transportation with ordering = ( -1, "first", "first" )
++	pmanager ->AddProcess(theTransportationProcess);
++	pmanager ->SetProcessOrderingToFirst(theTransportationProcess, idxAlongStep);
++	pmanager ->SetProcessOrderingToFirst(theTransportationProcess, idxPostStep);
++      }
++    } else {
++      // shortlived particle case
++    }
++  }
++
++  ConstructEM();
++}
++
++#include "G4eBremsstrahlung.hh"
++#include "G4eIonisation.hh"
++
++#include "G4eIonisation.hh"
++
++#include "G4MuBremsstrahlung.hh"
++#include "G4MuIonisation.hh"
++#include "G4MuPairProduction.hh"
++
++//#include "G4eMuIonisation"
++
++#include "G4PhysicsTable.hh"
++
++#include "G4VeEnergyLoss.hh"
++#include "G4VEnergyLoss.hh"
++#include "G4VMuEnergyLoss.hh"
++
++#include "G4MuIonisation.hh"
++
++#include "G4eMagneticFieldLimitsProcess.hh"
++
++void G4ePhysicsList::ConstructEM()
++{
++
++  G4eMagneticFieldLimitsProcess* theG4eMagneticFieldLimitsProcess = new G4eMagneticFieldLimitsProcess; 
++
++  theParticleIterator->reset();
++  while( (*theParticleIterator)() ){
++    G4ParticleDefinition* particle = theParticleIterator->value();
++    G4ProcessManager* pmanager = particle->GetProcessManager();
++    G4String particleName = particle->GetParticleName();
++     
++    if (particleName == "gamma") {
++    // gamma
++      pmanager->AddDiscreteProcess(new G4GammaConversion());
++      pmanager->AddDiscreteProcess(new G4ComptonScattering());      
++      pmanager->AddDiscreteProcess(new G4PhotoElectricEffect());
++
++    } else if (particleName == "e-"  || particleName == "e+") {
++      pmanager->AddProcess(new G4eIonisation,       -1, 2,2);
++      pmanager->AddProcess(new G4eBremsstrahlung,   -1, 3,3);      
++
++    //electron or  positron
++      //      G4VProcess* theeIonisation = new G4eMuIonisation(); //!!!
++      //
++      // add processes
++      //t      pmanager->AddProcess(theeIonisation);
++      pmanager->AddDiscreteProcess( theG4eMagneticFieldLimitsProcess );     
++      //
++      // set ordering for AtRestDoIt
++      //
++      // set ordering for AlongStepDoIt
++      //t      pmanager->SetProcessOrdering(theeIonisation, idxAlongStep,1);
++      //      pmanager->SetProcessOrdering(theG4eMagneticFieldLimitsProcess, idxAlongStep,2);
++      //
++      // set ordering for PostStepDoIt
++      //t      pmanager->SetProcessOrdering(theeIonisation, idxPostStep,1);
++      //      pmanager->SetProcessOrdering(theG4eMagneticFieldLimitsProcess, idxPostStep,2);
++  
++    } else if( particleName == "mu+" || 
++               particleName == "mu-"    ) {
++      
++      G4bool bElossExtrap;
++      char* elext = getenv("G4EELOSSEXTRAP");
++      if( !elext ) {
++	bElossExtrap = 0;
++      } else {
++	bElossExtrap = atoi( elext );
++      }
++
++      if( ! bElossExtrap ) {
++	G4cout << "!! G4ePhysicsList setting old G4e physics " << G4endl;
++	//muon  
++	//    G4VProcess* aMultipleScattering = new G4MultipleScattering();
++	G4VProcess* aBremsstrahlung     = new G4MuBremsstrahlung();
++	G4VProcess* aPairProduction     = new G4MuPairProduction();
++	//G4VProcess* anIonisation        = new G4MuIonisation();
++	
++	G4VProcess* anIonisation = new G4eMuIonisation();
++	
++	G4VEnergyLossProcess* io = (G4VEnergyLossProcess*)anIonisation;
++	io->SetLossFluctuations( FALSE );
++	// add processes
++	pmanager->AddProcess(anIonisation,-1,1,1);
++	//    pmanager->AddProcess(aMultipleScattering);
++	pmanager->AddProcess(aBremsstrahlung,-1,2,2);
++	pmanager->AddProcess(aPairProduction,-1,3,3);
++	pmanager->AddDiscreteProcess( theG4eMagneticFieldLimitsProcess );      
++	//
++	// set ordering for AlongStepDoIt
++	//    pmanager->SetProcessOrdering(aMultipleScattering, idxAlongStep,1);
++	pmanager->SetProcessOrdering(anIonisation, idxAlongStep,1);
++	//      pmanager->SetProcessOrdering(theG4eMagneticFieldLimitsProcess, idxAlongStep,2);
++	
++	//
++	// set ordering for PostStepDoIt
++	pmanager->SetProcessOrdering(anIonisation, idxPostStep,1);
++	//      pmanager->SetProcessOrdering(theG4eMagneticFieldLimitsProcess, idxPostStep,2);
++      }else {
++	G4cout << "!! G4ePhysicsList setting new G4e physics (G4eEnergyLossProcess) " << G4endl;
++
++	G4VProcess* anEloss = new G4eEnergyLossProcess();
++	
++	// add processes
++	pmanager->AddContinuousProcess(anEloss);
++	pmanager->AddDiscreteProcess( theG4eMagneticFieldLimitsProcess );      
++	//
++	// set ordering for AlongStepDoIt
++	//	pmanager->SetProcessOrdering(anEloss, idxAlongStep,1);
++	
++	// set ordering for PostStepDoIt
++	//	pmanager->SetProcessOrdering(theG4eMagneticFieldLimitsProcess, idxPostStep,1);
++      }
++    } else if ((!particle->IsShortLived()) &&
++	       (particle->GetPDGCharge() != 0.0) && 
++	       (particle->GetParticleName() != "chargedgeantino")) {
++     // all others charged particles except geantino
++      //   G4VProcess* aMultipleScattering = new G4MultipleScattering();
++     G4VProcess* anIonisation        = new G4hIonisation();     
++     ////G4VProcess*  theUserCuts = new G4UserSpecialCuts();
++     
++     //
++     // add processes
++     pmanager->AddProcess(anIonisation);
++     //   pmanager->AddProcess(aMultipleScattering);    
++     ////pmanager->AddProcess(theUserCuts);
++     
++     //
++     // set ordering for AlongStepDoIt
++     //   pmanager->SetProcessOrdering(aMultipleScattering, idxAlongStep,1);
++     pmanager->SetProcessOrdering(anIonisation, idxAlongStep,1);
++     
++     //
++     // set ordering for PostStepDoIt
++     //   pmanager->SetProcessOrdering(aMultipleScattering, idxPostStep,1);
++     pmanager->SetProcessOrdering(anIonisation, idxPostStep,1);
++     ////pmanager->SetProcessOrdering(theUserCuts,     idxPostStep,2);
++    }
++  }
++}
++
++
++void G4ePhysicsList::SetCuts()
++{
++  //  " G4VUserPhysicsList::SetCutsWithDefault" method sets 
++  //   the default cut value or all particle types 
++  SetCutsWithDefault(); 
++  // if (verboseLevel>0) 
++  //  DumpCutValuesTable();
++}
++
+diff -Naur --exclude CVS source/geant4e/src/G4ePropagatorG4.cc source/geant4e/src/G4ePropagatorG4.cc
+--- source/geant4e/src/G4ePropagatorG4.cc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/src/G4ePropagatorG4.cc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,436 @@
++#include "G4ePropagatorG4.hh"
++#include "G4eManager.hh"
++#include "G4eTrajStateFree.hh"
++#include "G4eTrajStateOnSurface.hh"
++#include "G4eTargetG4Volume.hh"
++#include "G4eNavigator.hh"
++
++#include "G4DynamicParticle.hh"
++#include "G4Track.hh"
++#include "G4UserTrackingAction.hh"
++#include "G4SteppingManager.hh"
++#include "G4EventManager.hh"
++#include "G4TrackingManager.hh"
++#include "G4StepStatus.hh"
++#include "G4GeometryManager.hh"
++#include "G4ParticleTable.hh"
++#include "G4UnitsTable.hh"
++#include "G4StateManager.hh"
++
++#include "G4VPhysicalVolume.hh"
++#include "G4PhysicalVolumeStore.hh"
++#include <vector>
++
++
++//---------------------------------------------------------------------------
++G4ePropagatorG4::G4ePropagatorG4(): G4ePropagator()
++{
++  verbose =  G4eManager::verbose();
++#ifdef G4EVERBOSE
++   if(verbose >= 5) G4cout << "G4ePropagatorG4 " << this << G4endl;
++#endif
++  //t  theTrackingGeometry = 0; //by default set it to 0, and when propagation it will be set to the world
++
++  theG4Track = 0;
++
++  G4eManager* g4emgr = G4eManager::GetG4eManager();
++  if( g4emgr->GetState() == G4eState_PreInit ) {
++    G4cout << " calling InitGeant4e " << G4endl;
++    g4emgr->InitGeant4e();
++  }
++
++  fpSteppingManager = G4EventManager::GetEventManager()->GetTrackingManager()->GetSteppingManager();
++
++  thePropIsInitialized = false;
++
++}
++
++
++//-----------------------------------------------------------------------
++int G4ePropagatorG4::Propagate( G4eTrajState* currentTS, const G4eTarget* target, G4eMode mode )
++{
++
++  // to start ierror is set to 1 (= OK)
++  int ierr = 1;
++
++  G4eManager* g4emgr = G4eManager::GetG4eManager();
++  g4emgr->SetSteppingManagerVerboseLevel();
++
++  //t  if( !thePropIsInitialized ) InitPropagation( target ); // allows several propagation with same field, geometry and target  !!! IT CRASHES
++
++  g4emgr->InitTrackPropagation();
++
++  //--- Do not propagate zero or too low energy particles
++  if( currentTS->GetMomentum().mag() < 1.E-9*MeV ) {
++    G4cerr << " !! G4ePropagatorG4::Propagate: energy too low to be propagated " << G4BestUnit(currentTS->GetMomentum().mag(),"Energy") << G4endl;
++    return -3; 
++  }
++
++  g4emgr->SetMode( mode );
++
++#ifdef G4EVERBOSE
++  if( verbose >= 1 ) G4cout << " =====> starting GEANT4E tracking for " << currentTS->GetParticleType() << "  Forwards= " << g4emgr->GetMode() << G4endl;
++  if(verbose >= 1 ) G4cout << G4endl << "@@@@@@@@@@@@@@@@@@@@@@@@@ NEW STEP " << G4endl;
++
++  if( verbose >= 3 ){
++    G4cout << " G4ePropagatorG4::Propagate initialTS ";
++    //    initialTS.Dump();
++    G4cout << *currentTS << G4endl;
++    target->Dump(G4String(" to target "));
++  }
++#endif
++
++  g4emgr->SetTarget( target );
++  //  SetTargetToNavigator( target );
++
++  //----- Create a track
++  if( theG4Track != 0 ) delete theG4Track;
++  theG4Track = InitG4Track( *currentTS );
++
++  //----- Create a G4eTrajStateFree
++  G4eTrajStateFree* currentTS_FREE = InitFreeTrajState( currentTS );
++
++  //----- Track the particle
++  ierr = MakeSteps( currentTS_FREE );
++
++  //------ Tracking ended, check if target has been reached
++  // if target not found
++  if( g4emgr->GetState() != G4eState_StoppedAtTarget ){
++    if( theG4Track->GetKineticEnergy() > 0. ) {
++      ierr = -ierr - 10;
++    } else {
++      ierr = -ierr - 20;
++    }
++    *currentTS = *currentTS_FREE;
++    if(verbose >= 0 ) G4cerr << " !!ERROR G4ePropagatorG4: particle does not reach target " << *currentTS << G4endl;
++  } else {
++    GetFinalTrajState( currentTS, currentTS_FREE, target );
++  }
++
++#ifdef G4EVERBOSE
++  if( verbose >= 1 ) G4cout << " G4ePropagator: propagation ended " << G4endl;
++  if( verbose >= 2 ) G4cout << " Current TrajState " << currentTS << G4endl;
++#endif
++
++  g4emgr->InvokePostUserTrackingAction( theG4Track );  
++
++  // Inform end of tracking to physics processes 
++  theG4Track->GetDefinition()->GetProcessManager()->EndTracking();
++
++  g4emgr->EventTermination();
++
++  return ierr;
++}
++
++
++//-----------------------------------------------------------------------
++int G4ePropagatorG4::PropagateOneStep( G4eTrajState* currentTS )
++{
++  G4eManager* g4emgr = G4eManager::GetG4eManager();
++  g4emgr->SetSteppingManagerVerboseLevel();
++
++  if( g4emgr->GetState() == G4eState_PreInit || G4StateManager::GetStateManager()->GetCurrentState() != G4State_GeomClosed) {
++    //G4cout << g4emgr << " G4eState " <<  g4emgr->GetState() << " <> " << G4eState_Propagating 
++    //	   << " G4State " << G4StateManager::GetStateManager()->GetCurrentState()<< " <> " << G4State_GeomClosed << G4endl;
++    G4Exception("!!! G4ePropagatorG4::PropagateOneStep called before initialization is done for this track, please call G4eManager::InitGeant4e() " );
++  }
++
++  // to start ierror is set to 0 (= OK)
++  int ierr = 0;
++
++  //--- Do not propagate zero or too low energy particles
++  if( currentTS->GetMomentum().mag() < 1.E-9*MeV ) {
++    G4cerr << " !! G4ePropagatorG4::PropagateOneStep: energy too low to be propagated " << G4BestUnit(currentTS->GetMomentum().mag(),"Energy") << G4endl;
++    return -3;   
++  }
++
++#ifdef G4EVERBOSE
++  if( verbose >= 1 ) G4cout << " =====> starting GEANT4E tracking for " << currentTS->GetParticleType() << "  Forwards= " << g4emgr->GetMode() << G4endl;
++
++  if( verbose >= 3 ){
++    G4cout << " G4ePropagatorG4::Propagate initialTS ";
++    G4cout << *currentTS << G4endl;
++  }
++#endif
++
++  //  SetTargetToNavigator( (G4eTarget*)0 );
++
++  //----- If it is the first step, create a track
++  if( theStepN == 0 ) theG4Track = InitG4Track( *currentTS );  // set to 0 by the initialization in G4eManager
++  theStepN++;
++
++  //----- Create a G4eTrajStateFree
++  G4eTrajStateFree* currentTS_FREE = InitFreeTrajState( currentTS );
++
++  //----- Track the particle one step
++  ierr = MakeOneStep( currentTS_FREE );
++
++  //----- Get the state on target
++  GetFinalTrajState( currentTS, currentTS_FREE, g4emgr->GetTarget() );
++
++  return ierr;
++}
++
++
++//---------------------------------------------------------------------------
++G4Track* G4ePropagatorG4::InitG4Track( G4eTrajState& initialTS )
++{
++  if( verbose >= 5 ) G4cout << "InitG4Track " << G4endl;
++
++  //----- Close geometry
++  //-  bool geometryToBeOptimized = true;
++  //  if(verboseLevel>1)
++  //-  G4GeometryManager* geomManager = G4GeometryManager::GetInstance();
++  //-  geomManager->OpenGeometry();
++  //- geomManager->CloseGeometry(geometryToBeOptimized);
++
++  //----- Create Particle
++  const G4String partType = initialTS.GetParticleType();
++  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
++  G4ParticleDefinition* particle = particleTable->FindParticle(partType); 
++  if( particle == 0) { 
++    G4Exception( "!!! G4eManager::InitializeTrack: particle type not defined " + partType );
++  } else {
++
++  }
++ 
++  G4DynamicParticle* DP = 
++     new G4DynamicParticle(particle,initialTS.GetMomentum());
++  DP->SetPolarization(0.,0.,0.);
++  // Set Charge
++  //    if (abs(primaryParticle->GetCharge()-DP->GetPDGCharge())>eplus) {
++  //      DP->SetCharge(primaryParticle->GetCharge());
++  if( particle->GetPDGCharge() < 0 ) {
++    DP->SetCharge(-eplus);
++  } else {
++    DP->SetCharge(eplus);
++  }
++  // Set decay products to the DynamicParticle
++  //??    SetDecayProducts( primaryParticle, DP );
++  
++  //----- Create Track 
++  theG4Track = new G4Track(DP, 0., initialTS.GetPosition() );
++  theG4Track->SetParentID(0);
++#ifdef G4EVERBOSE
++  if(verbose >= 3) G4cout << " G4eManager new track of energy: " << theG4Track->GetKineticEnergy() << G4endl;
++#endif
++  
++  //---- Reproduce G4TrackingManager::ProcessOneTrack initialization
++  G4eManager* g4emgr = G4eManager::GetG4eManager();
++  g4emgr->InvokePreUserTrackingAction( theG4Track );  
++
++  if( fpSteppingManager == 0 ) {
++    //    G4cerr << " event manager " << G4EventManager::GetEventManager() << G4endl;
++    G4Exception( "G4ePropagator::InitG4Track.  GEANT4e error: G4SteppingManager not initialized yet " );
++  } else {
++    fpSteppingManager->SetInitialStep(theG4Track);
++  }
++
++  // Give SteppingManger the maximum number of processes 
++  fpSteppingManager->GetProcessNumber();
++
++  // Give track the pointer to the Step
++  theG4Track->SetStep(fpSteppingManager->GetStep());
++
++  // Inform beginning of tracking to physics processes 
++  theG4Track->GetDefinition()->GetProcessManager()->StartTracking(theG4Track);
++
++  initialTS.SetG4Track( theG4Track );
++
++  return theG4Track;
++}
++
++
++//-----------------------------------------------------------------------
++int G4ePropagatorG4::MakeSteps( G4eTrajStateFree* currentTS_FREE )
++{
++  int ierr = 0;
++  //----- Track the particle Step-by-Step while it is alive
++  theStepLength = 0.;
++  
++  while( (theG4Track->GetTrackStatus() == fAlive) ||
++         (theG4Track->GetTrackStatus() == fStopButAlive) ){
++    ierr = MakeOneStep( currentTS_FREE );
++    if( ierr != 0 ) break;
++    //----- Check if last step for GEANT4e
++    if( CheckIfLastStep( theG4Track ) ) {
++      if( verbose >= 5 ) G4cout << "!!!! Last Step reached " << G4endl;
++      break;
++    }
++  }
++
++  return ierr;
++
++}
++
++//-----------------------------------------------------------------------
++int G4ePropagatorG4::MakeOneStep( G4eTrajStateFree* currentTS_FREE )
++{
++  G4eManager* g4emgr = G4eManager::GetG4eManager();
++  int ierr = 0;
++
++  //---------- Track one step
++#ifdef G4EVERBOSE
++  if(verbose >= 2 ) G4cout << G4endl << "@@@@@@@@@@@@@@@@@@@@@@@@@ NEW STEP " << G4endl;
++#endif
++  
++  theG4Track->IncrementCurrentStepNumber();
++  //-  G4StepStatus stepStatus = 
++  fpSteppingManager->Stepping(); //t
++  
++  //---------- Check if Target has been reached (and then set G4eState)
++#ifdef G4EVERBOSE
++  if(verbose >= 5 ) G4cout << " process = " << theG4Track->GetStep()->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName() << "  g4estate " << g4emgr->PrintG4eState() << G4endl;
++#endif
++  
++  // G4eNavigator limits the step if target is closer than boundary (but the winner process is always "Transportation": then geant4e will stop the track
++  if( theG4Track->GetStep()->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName() == "Transportation" ){
++    if( g4emgr->GetState() == G4eState(G4eState_TargetCloserThanBoundary) ){  // target or step length reached
++      
++#ifdef G4EVERBOSE
++      if(verbose >= 5 ) G4cout << " transportation determined by geant4e " << G4endl;
++#endif
++      
++      g4emgr->SetState( G4eState_StoppedAtTarget );
++      /*t      } else if( theFinalTarget->GetType() == G4eTarget_Volume ) {
++	if( static_cast<G4eTargetG4Volume*>( theFinalTarget )->TargetReached( theG4Track->GetStep() ) ) {
++	g4emgr->SetState( G4eState_StoppedAtTarget ); 
++	} */
++    }
++  }else if( theG4Track->GetStep()->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName() == "G4eTargetTrackLength" ){
++    g4emgr->SetState( G4eState_StoppedAtTarget );
++  }
++
++  /*if( g4emgr->GetState() == G4eState_StoppedAtTarget ) {
++    G4cout << " Run termination " << g4emgr->GetState() << G4endl;
++    g4emgr->RunTermination();
++    }*/
++  
++
++  //---------- Propagate error  
++#ifdef G4EVERBOSE
++  if(verbose >= 2 ) G4cout << " propagating error " << *currentTS_FREE << G4endl;
++#endif
++  const G4Track* cTrack = const_cast<G4Track*>(theG4Track);
++  ierr = currentTS_FREE->PropagateError( cTrack );
++  
++#ifdef G4EVERBOSE
++  if(verbose >= 3 ) G4cout << " PropagateError returns " << ierr << G4endl;
++#endif
++
++  currentTS_FREE->Update( cTrack );
++  
++  theStepLength += theG4Track->GetStepLength();
++   
++  if(ierr != 0 ) {
++    G4cerr << "!!! G4ePropagatorG4:MakeOneStep returns an error " << ierr << G4endl;
++    G4cerr << "!!! GEANT4 tracking will be stopped " << G4endl;
++  }
++
++  return ierr; 
++}
++
++
++//-----------------------------------------------------------------------
++G4eTrajStateFree* G4ePropagatorG4::InitFreeTrajState( G4eTrajState* currentTS )
++{
++  G4eTrajStateFree* currentTS_FREE;
++  //----- Transform the TrajState to Free coordinates if it is OnSurface
++  if( currentTS->GetTSType() == G4eTS_OS ){
++    G4eTrajStateOnSurface* tssd = static_cast<G4eTrajStateOnSurface*>(currentTS);
++    //t     if( theCurrentTS_FREE != 0 ) delete theCurrentTS_FREE;
++    currentTS_FREE = new G4eTrajStateFree( *tssd );
++  }else if( currentTS->GetTSType() == G4eTS_FREE ){
++    currentTS_FREE = static_cast<G4eTrajStateFree*>(currentTS);
++  } else {
++    G4Exception("G4ePropagatorG4::InitFreeTrajState WRONG TrajState " + currentTS->GetTSType());
++  }
++
++  return currentTS_FREE;
++}
++
++
++
++//-----------------------------------------------------------------------
++void G4ePropagatorG4::GetFinalTrajState( G4eTrajState* currentTS, G4eTrajStateFree* currentTS_FREE, const G4eTarget* target ) 
++{
++
++#ifdef G4EVERBOSE
++  G4eManager* g4emgr = G4eManager::GetG4eManager();
++  if(verbose >= 1 ) G4cout << " G4ePropagatorG4::Propagate: final state " << int(g4emgr->GetState()) << " TSType " << currentTS->GetTSType() << G4endl;
++#endif
++
++  if( currentTS->GetTSType() == G4eTS_FREE || 
++      ! g4emgr->GetState() == G4eState_StoppedAtTarget ){
++    currentTS = currentTS_FREE;
++  } else if( currentTS->GetTSType() == G4eTS_OS ){
++    if( target->GetType() == G4eTarget_TrkL ){
++      G4Exception("G4ePropagatorG4:GetFinalTrajState !! Using a G4eTrajStateOnSurface with a target of type G4eTargetTrackLength ");
++    }
++    //-    G4eTrajStateOnSurface* tssd = static_cast<G4eTrajStateOnSurface*>(currentTS);
++    //    delete currentTS;
++    const G4eTargetWithTangentPlane* targetWTP = static_cast<const G4eTargetWithTangentPlane*>(target);
++    *currentTS = G4eTrajStateOnSurface( *(static_cast<G4eTrajStateFree*>(currentTS_FREE)), targetWTP->GetTangentPlane( currentTS_FREE->GetPosition() ) );
++#ifdef G4EVERBOSE
++    if(verbose >= 1 ) G4cout << currentTS << " returning tssd " << *currentTS << G4endl;
++#endif
++    delete currentTS_FREE;
++  }
++}
++
++
++//-------------------------------------------------------------------------
++G4bool G4ePropagatorG4::CheckIfLastStep( G4Track* aTrack )
++{
++  G4bool exception = 0;
++  G4bool lastG4eStep = false;
++  G4eManager* g4emgr = G4eManager::GetG4eManager();
++
++  if( verbose >= 4 ) G4cout << " G4ePropagatorG4::CheckIfLastStep G4eState= " << int(g4emgr->GetState()) << G4endl;
++  
++  //----- Check if this is the last step: track has reached the target or the end of world
++  if(g4emgr->GetState() == G4eState(G4eState_StoppedAtTarget) ) {
++    lastG4eStep = true;    
++#ifdef G4EVERBOSE
++    if(verbose >= 5 ) G4cout << " G4ePropagatorG4::CheckIfLastStep " << lastG4eStep << " " << int(g4emgr->GetState()) << G4endl;
++#endif
++  } else if( aTrack->GetNextVolume() == 0 ) {
++    //----- If particle is out of world, without finding the G4eTarget, give a n error/warning
++    lastG4eStep = true;
++    if( exception ){
++      G4cerr << " !!!EXITING:  G4ePropagatorG4::CheckIfLastSte: track extrapolated until end of World without finding the defined target " << G4endl;
++      exit(1);
++    } else {
++      if( verbose >= 1 ) G4cerr << " !!!WARNING:  G4ePropagatorG4::CheckIfLastSte: track extrapolated until end of World without finding the defined target " << G4endl;
++    }
++  //----- not last step from G4e, but track is stopped (energy exhausted)
++  } else if( aTrack->GetTrackStatus() == fStopAndKill ) { 
++    if( exception ){
++      G4cerr << " !!!EXITING:  G4ePropagatorG4::CheckIfLastSte: track extrapolated until energy is exhausted without finding the defined target " << G4endl;
++      exit(1);
++    } else {
++      if( verbose >= 1 ) G4cerr << " !!!WARNING:  G4ePropagatorG4::CheckIfLastSte track extrapolated until energy is exhausted without finding the defined target " << G4endl;
++      lastG4eStep = 1;
++    }
++  }
++
++  if( verbose >= 5 ) G4cout << " return CheckIfLastStep " << lastG4eStep << G4endl;
++  return  lastG4eStep;
++}
++
++
++//-------------------------------------------------------------------------
++void G4ePropagatorG4::SetTargetToNavigator( const G4eTarget* target )
++{
++  G4eManager* g4emgr = G4eManager::GetG4eManager();
++
++  if( target == 0 ){
++    target = g4emgr->GetTarget();
++  }
++
++  //  g4emgr->GetG4eNavigator()->SetTarget( target );
++
++}
++
++    
++
+diff -Naur --exclude CVS source/geant4e/src/G4eRunManagerKernel.cc source/geant4e/src/G4eRunManagerKernel.cc
+--- source/geant4e/src/G4eRunManagerKernel.cc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/src/G4eRunManagerKernel.cc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,126 @@
++
++#include "G4Navigator.hh"
++// On Sun, to prevent conflict with ObjectSpace, G4Timer.hh has to be
++// loaded *before* globals.hh...
++#include "G4Timer.hh"
++
++#include "G4eRunManagerKernel.hh"
++
++#include "G4RunManagerKernel.hh"
++#include "G4VUserDetectorConstruction.hh"
++#include "G4ePhysicsList.hh"
++#include "ExN02PhysicsList.hh"
++#include "G4TransportationManager.hh"
++
++//-----------------------------------------------------------------------
++
++G4eRunManagerKernel* G4eRunManagerKernel::fRunManagerKernel = 0;
++
++//-----------------------------------------------------------------------
++G4eRunManagerKernel* G4eRunManagerKernel::GetRunManagerKernel()
++{ return fRunManagerKernel; }
++
++//-----------------------------------------------------------------------
++G4eRunManagerKernel::G4eRunManagerKernel()
++{
++  if(fRunManagerKernel)
++  { G4Exception("G4eRunManageKernel constructed twice."); }
++  fRunManagerKernel = this;
++
++  //----- Look if somebody has created a G4RunManagerKernel
++  theG4RunManagerKernel = G4RunManagerKernel::GetRunManagerKernel();
++  if( theG4RunManagerKernel == 0 ) {
++    //--- if not create it
++    theG4RunManagerKernel = new G4RunManagerKernel();
++    G4cout << " creating G4RunManagerKernel " <<  theG4RunManagerKernel << G4endl;
++  }
++    
++  theG4RunManagerKernel->SetVerboseLevel(2);
++  theUserPhysicsList = 0;
++  theUserWorld = 0;
++
++}
++
++//-----------------------------------------------------------------------
++G4eRunManagerKernel::~G4eRunManagerKernel()
++{
++}
++
++//-----------------------------------------------------------------------
++void G4eRunManagerKernel::SetUserInitialization(G4VUserDetectorConstruction* userInit)
++{ 
++  theUserWorld = userInit->Construct();
++}
++
++//-----------------------------------------------------------------------
++void G4eRunManagerKernel::SetUserInitialization(G4VPhysicalVolume* userInit)
++{
++  theUserWorld = userInit;
++}
++
++//-----------------------------------------------------------------------
++void G4eRunManagerKernel::SetUserInitialization(G4VUserPhysicsList* userInit)
++{
++  theUserPhysicsList = userInit;
++}
++
++//-----------------------------------------------------------------------
++ void G4eRunManagerKernel::InitializeGeometry()
++{
++  //check if user world has been directly called or someone initialized theworld volume already 
++  if( theUserWorld != 0 ) {
++    theG4RunManagerKernel->DefineWorldVolume( theUserWorld );
++  } else {
++
++    G4cerr << "G4 TM " << G4TransportationManager::GetTransportationManager() 
++	      << " NAV " << G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking() 
++	      << " WORLD " << G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking()->GetWorldVolume() << std::endl;
++    if ( G4TransportationManager::GetTransportationManager()
++	 ->GetNavigatorForTracking()->GetWorldVolume() == 0 ) {
++      G4Exception("G4eRunManagerKernel::InitializeGeometry no world defined in your geometry!" );
++    }
++  }
++
++}
++
++//-----------------------------------------------------------------------
++void G4eRunManagerKernel::InitializePhysics()
++{
++
++  if( theUserPhysicsList == 0 ) {
++    theG4RunManagerKernel->SetPhysics(new G4ePhysicsList);
++    //    theG4RunManagerKernel->SetPhysics(new ExN02PhysicsList);
++  }else {
++    theG4RunManagerKernel->SetPhysics(theUserPhysicsList);
++  }
++  G4cout << "  G4eRunManagerKernel::InitializePhysics "  << G4endl;
++  theG4RunManagerKernel->InitializePhysics();
++ 
++}
++
++//-----------------------------------------------------------------------
++void G4eRunManagerKernel::RunInitialization()
++{
++  theG4RunManagerKernel->RunInitialization();
++}
++
++
++//-----------------------------------------------------------------------
++void G4eRunManagerKernel::SetUserAction(G4UserTrackingAction* userAction)
++{
++
++  G4EventManager::GetEventManager()->SetUserAction( userAction );
++}
++
++//-----------------------------------------------------------------------
++void G4eRunManagerKernel::SetUserAction(G4UserSteppingAction* userAction)
++{
++  G4EventManager::GetEventManager()->SetUserAction( userAction );
++}
++
++//-----------------------------------------------------------------------
++void G4eRunManagerKernel::RunTermination()
++{
++  theG4RunManagerKernel->RunTermination();
++}
++
+diff -Naur --exclude CVS source/geant4e/src/G4eTargetCylindricalSurface.cc source/geant4e/src/G4eTargetCylindricalSurface.cc
+--- source/geant4e/src/G4eTargetCylindricalSurface.cc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/src/G4eTargetCylindricalSurface.cc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,149 @@
++//
++#include "G4eTargetCylindricalSurface.hh"
++#include "G4eManager.hh" //for verbosity checking
++#include "geomdefs.hh"
++
++#include "G4Plane3D.hh"
++
++      // Initialise a single volume, positioned in a frame which is rotated by
++      // *pRot and traslated by tlate, relative to the coordinate system of the
++      // mother volume pMotherLogical.
++      // If pRot=0 the volume is unrotated with respect to its mother.
++      // The physical volume is added to the mother's logical volume.
++      // Arguments particular to G4PVPlacement:
++      //   pMany Currently NOT used. For future use to identify if the volume
++      //         is meant to be considered an overlapping structure, or not.
++      //   pCopyNo should be set to 0 for the first volume of a given type.
++      // This is a very natural way of defining a physical volume, and is
++      // especially useful when creating subdetectors: the mother volumes are
++      // not placed until a later stage of the assembly program.
++
++//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
++G4eTargetCylindricalSurface::G4eTargetCylindricalSurface( const G4float& radius, const G4ThreeVector& trans, const G4RotationMatrix& rotm ): fradius(radius)
++{
++  theType = G4eTarget_CylindricalSurface;
++
++  ftransform3D = G4Transform3D( rotm.inverse(), -trans );
++  Dump( " $$$ creating G4eTargetCylindricalSurface ");
++}
++
++      // Additional constructor, which expects a G4Transform3D that represents 
++      // the direct rotation and translation of the solid (NOT of the frame).  
++      // The G4Transform3D argument should be constructed by:
++      //  i) First rotating it to align the solid to the system of 
++      //     reference of its mother volume *pMotherLogical, and 
++      // ii) Then placing the solid at the location Transform3D.getTranslation(),
++      //     with respect to the origin of the system of coordinates of the
++      //     mother volume.  
++      // [ This is useful for the people who prefer to think in terms 
++      //   of moving objects in a given reference frame. ]
++      // All other arguments are the same as for the previous constructor.
++
++//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
++G4eTargetCylindricalSurface::G4eTargetCylindricalSurface( const G4float& radius, const G4Transform3D& trans3D): fradius(radius), ftransform3D(trans3D.inverse())
++{
++  theType = G4eTarget_CylindricalSurface;
++}
++
++
++//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
++G4ThreeVector G4eTargetCylindricalSurface::Intersect( const G4ThreeVector& pt, const G4ThreeVector& dir ) const
++{
++  G4ThreeVector localPoint = ftransform3D * G4Point3D(pt);
++  G4ThreeVector localDir = ftransform3D * G4Normal3D(dir);
++  return IntersectLocal( localPoint, localDir );
++
++}
++
++
++//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
++G4ThreeVector G4eTargetCylindricalSurface::IntersectLocal( const G4ThreeVector& localPoint, const G4ThreeVector& localDir ) const
++{
++  G4double pointPerp = localPoint.perp();
++  G4double dirPerp = localDir.perp();
++
++  if( dirPerp == 0. ) {
++    G4Exception("G4eTargetCylindricalSurface::Intersect. Direction is perpendicular to cylinder axis ");
++  }
++
++  G4double lam = (fradius - pointPerp ) / dirPerp;
++  G4ThreeVector inters = localPoint + lam * localDir;
++
++#ifdef G4EVERBOSE
++  if(G4eManager::verbose() >= 4 ) { 
++    G4cout << " G4eTargetCylindricalSurface::getIntersection " << inters << " " << inters.perp() << G4endl;
++  } 
++#endif
++
++  return inters;
++}
++
++
++//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
++G4double G4eTargetCylindricalSurface::GetDistanceFromPoint( const G4ThreeVector& pt, const G4ThreeVector& dir ) const
++{
++
++  if( dir.mag() == 0. ) {
++    G4Exception("G4eTargetCylindricalSurface::GetDistanceFromPoint: direction is zero ");
++  }
++
++  //transform to local coordinates
++  G4ThreeVector localPoint = ftransform3D * G4Point3D(pt) ;
++  G4ThreeVector localDir = ftransform3D * G4Normal3D(dir/dir.mag());
++
++#ifdef G4EVERBOSE
++  if(G4eManager::verbose() >= 4 ) { 
++    G4cout << " global pt " << pt << " dir " << dir << G4endl;
++    G4cout << " transformed to local coordinates pt " << localPoint << " dir " << localDir << G4endl;
++    Dump( " cylsurf " );
++  }
++#endif
++
++  // If parallel to cylinder axis there is no intersection
++  if( localDir.perp() == 0 ) {
++    return kInfinity;
++  }
++
++
++  G4ThreeVector inters = IntersectLocal( localPoint, localDir );
++  G4double lam = (inters - localPoint).mag();
++#ifdef G4EVERBOSE
++  if(G4eManager::verbose() >= 3 ) {
++    G4cout << this << " G4eTargetCylindricalSurface::getDistanceFromPoint " << lam << " point " << pt << " direc " << dir << G4endl;
++  }
++#endif
++  
++  return lam;
++
++}
++
++//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
++G4double G4eTargetCylindricalSurface::GetDistanceFromPoint( const G4ThreeVector& pt ) const
++{
++  G4ThreeVector localPoint = ftransform3D * G4Point3D(pt);
++
++  return fradius - localPoint.perp();
++}
++
++
++//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
++G4Plane3D G4eTargetCylindricalSurface::GetTangentPlane( const G4ThreeVector& pt ) const
++{
++  G4ThreeVector localPoint = ftransform3D * G4Point3D(pt);
++
++  //check that point is at cylinder surface
++  if( fabs( localPoint.perp() - fradius ) > 1000.*kCarTolerance ) {
++    G4cerr << " !!WARNING  G4eTargetCylindricalSurface::GetTangentPlane: point " << pt << " is not at surface, but it is distant " << localPoint.perp() - fradius << G4endl;
++  }
++
++  G4Normal3D normal = localPoint - ftransform3D.getTranslation();
++  return G4Plane3D( normal ,pt );
++
++}
++
++//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
++void G4eTargetCylindricalSurface::Dump( G4String msg ) const
++{
++  G4cout << msg << " radius " << fradius << " centre " <<  ftransform3D.getTranslation() << " rotation " << ftransform3D.getRotation() << G4endl;
++
++}
+diff -Naur --exclude CVS source/geant4e/src/G4eTargetG4Volume.cc source/geant4e/src/G4eTargetG4Volume.cc
+--- source/geant4e/src/G4eTargetG4Volume.cc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/src/G4eTargetG4Volume.cc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,40 @@
++#include "G4eTargetG4Volume.hh"
++#include "G4eManager.hh" //for verbosity checking
++#include "G4Point3D.hh"
++#include "G4ThreeVector.hh"
++#include "G4Step.hh"
++
++
++//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
++G4eTargetG4Volume::G4eTargetG4Volume( const G4String& name )
++{
++  theType = G4eTarget_G4Volume;
++  theName = name; 
++}
++
++
++//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
++bool G4eTargetG4Volume::TargetReached( const G4Step* aStep )
++{
++  if( aStep->GetTrack()->GetNextVolume()->GetName() == theName ){
++    return 1;
++  }else {
++    return 0;
++  }
++}
++
++
++//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
++G4Plane3D G4eTargetG4Volume::GetTangentPlane( const G4ThreeVector& point ) const
++{
++  return G4Plane3D( G4Normal3D(1,0.,0), G4Point3D(0,0,0) );
++  //  return SurfaceNormal*this;
++}
++
++
++//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
++void G4eTargetG4Volume::Dump( G4String msg ) const
++{
++  //  G4cout << msg << " point = " << point() << " normal = " << normal() << G4endl;
++
++}
+diff -Naur --exclude CVS source/geant4e/src/G4eTargetPlaneSurface.cc source/geant4e/src/G4eTargetPlaneSurface.cc
+--- source/geant4e/src/G4eTargetPlaneSurface.cc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/src/G4eTargetPlaneSurface.cc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,83 @@
++#include "G4eTargetPlaneSurface.hh"
++#include "G4eManager.hh" //for verbosity checking
++#include "G4Point3D.hh"
++#include "G4ThreeVector.hh"
++
++//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
++G4eTargetPlaneSurface::G4eTargetPlaneSurface(G4double a, G4double b, G4double c, G4double d)
++  : G4Plane3D( a, b, c, d ) 
++{
++  theType = G4eTarget_PlaneSurface;
++}
++
++
++//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
++G4eTargetPlaneSurface::G4eTargetPlaneSurface(const G4Normal3D &n, const G4Point3D &p)
++  : G4Plane3D( n, p ) 
++{
++  theType = G4eTarget_PlaneSurface;
++}
++
++
++//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
++G4eTargetPlaneSurface::G4eTargetPlaneSurface(const G4Point3D &p1, const G4Point3D &p2, const G4Point3D &p3) : G4Plane3D( p1, p2, p3 )
++{
++  theType = G4eTarget_PlaneSurface;
++}
++
++
++//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
++//G4Point3D G4eTargetPlaneSurface::Intersect( const G4Point3D& pt, const G4ThreeVector& dir ) const
++G4ThreeVector G4eTargetPlaneSurface::Intersect( const G4ThreeVector& pt, const G4ThreeVector& dir ) const
++{
++  double lam = GetDistanceFromPoint( pt, dir); 
++  G4Point3D inters = pt + lam * dir;
++  return inters;
++
++}
++
++
++//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
++//double G4eTargetPlaneSurface::GetDistanceFromPoint( const G4Point3D& pt, const G4ThreeVector& dir ) const
++G4double G4eTargetPlaneSurface::GetDistanceFromPoint( const G4ThreeVector& pt, const G4ThreeVector& dir ) const
++{
++  if( fabs( dir.mag() -1. ) > 1.E-6 ) G4cerr << "!!!WARNING  G4eTargetPlaneSurface::GetDistanceFromPoint: direction is not a unit vector " << dir << G4endl;
++  double lam = -(a_ * pt.x() + b_ * pt.y() + c_ * pt.z() + d_) / 
++(a_ * dir.x() + b_ * dir.y() + c_ * dir.z() );
++
++#ifdef G4EVERBOSE
++  if(G4eManager::verbose() >= 5 ) {
++    G4cout << " G4eTargetPlaneSurface::getDistanceFromPoint " << lam << " point " << pt << " direc " << dir << G4endl;
++    G4cout << " a_ " << a_ << " b_ " << b_ << " c_ " << c_ << " d_ " << d_ << G4endl;
++  }
++#endif
++  
++  return lam;
++
++}
++
++
++//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
++G4double G4eTargetPlaneSurface::GetDistanceFromPoint( const G4ThreeVector& pt ) const
++{
++  G4ThreeVector vec = point() - pt;
++  double alpha = acos( vec * normal() / vec.mag() / normal().mag() );
++  double dist = fabs(vec.mag() * cos( alpha ));
++  
++  return dist;
++
++}
++
++//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
++G4Plane3D G4eTargetPlaneSurface::GetTangentPlane( const G4ThreeVector& ) const
++{
++  return *this;
++}
++
++
++//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
++void G4eTargetPlaneSurface::Dump( G4String msg ) const
++{
++  G4cout << msg << " point = " << point() << " normal = " << normal() << G4endl;
++
++}
+diff -Naur --exclude CVS source/geant4e/src/G4eTargetTrackLength.cc source/geant4e/src/G4eTargetTrackLength.cc
+--- source/geant4e/src/G4eTargetTrackLength.cc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/src/G4eTargetTrackLength.cc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,90 @@
++
++#include "G4eTargetTrackLength.hh"
++#include "G4UnitsTable.hh"
++#include "G4eMagneticFieldLimitsMessenger.hh"
++
++#include "G4ParticleTable.hh"
++#include "G4ParticleDefinition.hh"
++#include "G4VProcess.hh"
++#include "G4ProcessVector.hh"
++#include "G4ProcessManager.hh"
++
++//----------------------------------------------------------------------------
++G4eTargetTrackLength::G4eTargetTrackLength(const double maxTrkLength )
++  : G4VDiscreteProcess ("G4eTargetTrackLength"), theMaximumTrackLength( maxTrkLength )
++{
++  theType = G4eTarget_TrkL;
++
++   G4ParticleTable::G4PTblDicIterator* theParticleIterator = G4ParticleTable::GetParticleTable()->GetIterator();
++  // loop over all particles in G4ParticleTable
++  theParticleIterator->reset();
++  while( (*theParticleIterator)() ){
++    G4ParticleDefinition* particle = theParticleIterator->value();
++    G4ProcessManager* pmanager = particle->GetProcessManager();
++    if (!particle->IsShortLived()) {
++      // Add transportation process for all particles other than  "shortlived"
++      if ( pmanager == 0) {
++        // Error !! no process manager
++        G4String particleName = particle->GetParticleName();
++        G4Exception("G4VUserPhysicsList::AddTransportation","No process manager",
++                    RunMustBeAborted, particleName );
++      } else {
++	G4ProcessVector* procvec = pmanager->GetProcessList();
++	uint isiz = procvec->size();
++	G4bool processAlreadyDefined = false;
++	//-	G4eTargetTrackLength* tlproc = 0;
++	for( uint ii=0; ii < isiz; ii++ ){
++	  if( ((*procvec)[ii])->GetProcessName() == "G4eTargetTrackLength") {
++	   pmanager->RemoveProcess( (*procvec)[ii] );
++	   processAlreadyDefined = true;
++	  }
++	}
++	pmanager ->AddDiscreteProcess(this);
++	isiz = procvec->size();
++      }
++    } else {
++      // shortlived particle case
++    }
++  }
++
++}
++
++//-----------------------------------------------------------------------
++G4double G4eTargetTrackLength::PostStepGetPhysicalInteractionLength(
++			     const G4Track& track,
++			     G4double,
++			     G4ForceCondition* condition )
++{
++  *condition = NotForced;
++  return GetMeanFreePath( track, 0., condition );
++
++}
++
++
++//-----------------------------------------------------------------------
++G4double G4eTargetTrackLength::GetMeanFreePath(const class G4Track & track, G4double, enum G4ForceCondition *)
++{
++  return theMaximumTrackLength - track.GetTrackLength();
++}
++
++
++/*
++//-----------------------------------------------------------------------
++G4VParticleChange* G4eTargetTrackLength::PostStepDoIt(
++						       const G4Track& aTrack ,
++						       const G4Step& )
++{
++  G4ParticleChange* aParticleChange = new G4ParticleChange;
++  aParticleChange->Initialize(aTrack);
++  return aParticleChange; 
++  
++}
++*/
++
++
++//-----------------------------------------------------------------------
++void G4eTargetTrackLength::Dump( G4String msg ) const
++{
++  G4cout << msg << "G4eTargetTrackLength: max track length = " << theMaximumTrackLength << G4endl;
++
++}
+diff -Naur --exclude CVS source/geant4e/src/G4eTrajParamFree.cc source/geant4e/src/G4eTrajParamFree.cc
+--- source/geant4e/src/G4eTrajParamFree.cc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/src/G4eTrajParamFree.cc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,57 @@
++
++#include "G4eTrajParamFree.hh"
++#include "G4ThreeVector.hh"
++#include <iomanip>
++
++//------------------------------------------------------------------------
++G4eTrajParamFree::G4eTrajParamFree( const G4Point3D& pos, const G4Vector3D& mom )
++{
++  SetParameters( pos, mom );
++}
++
++
++//------------------------------------------------------------------------
++void G4eTrajParamFree::SetParameters( const G4Point3D& pos, const G4Vector3D& mom )
++{
++  fDir = mom;
++  fInvP = 1./mom.mag();
++  fLambda = 90.*deg - mom.theta();
++  fPhi = mom.phi();
++  G4Vector3D vxPerp(0.,0.,0.);
++ if( mom.mag() > 0.) {
++   vxPerp = mom/mom.mag();
++ }
++  G4Vector3D vyPerp = G4Vector3D( -vxPerp.y(), vxPerp.x(), 0.);
++  G4Vector3D vzPerp = vxPerp.cross( vyPerp );
++  // check if right handed
++  //  fXPerp = pos.proj( mom );
++  G4ThreeVector posv(pos);
++  if( vyPerp.mag() != 0. ) {
++    fYPerp = posv.project( vyPerp ).mag();
++    fZPerp = posv.project( vzPerp ).mag();
++  } else {
++    fYPerp = 0.;
++    fZPerp = 0.;
++  }
++}
++
++//------------------------------------------------------------------------
++void G4eTrajParamFree::Update( const G4Track* aTrack )
++{
++  SetParameters( aTrack->GetPosition(), aTrack->GetMomentum() );
++
++}
++
++
++//------------------------------------------------------------------------
++std::ostream& operator<<(std::ostream& out, const G4eTrajParamFree& tp)
++{
++  //  long mode = out.setf(std::ios::fixed,std::ios::floatfield);
++  
++  //  out << tp.theType;
++  //  out << std::setprecision(5) << std::setw(10);
++  out << std::setprecision(8) << " InvP= " << tp.fInvP << " Theta= " << tp.fLambda << " Phi= " << tp.fPhi << " YPerp= " << tp.fYPerp << " ZPerp= " << tp.fZPerp << G4endl;
++  out << " momentum direction= " << tp.fDir << G4endl;
++    
++  return out;
++}
+diff -Naur --exclude CVS source/geant4e/src/G4eTrajParamOnSurface.cc source/geant4e/src/G4eTrajParamOnSurface.cc
+--- source/geant4e/src/G4eTrajParamOnSurface.cc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/src/G4eTrajParamOnSurface.cc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,71 @@
++
++#include "G4eTrajParamOnSurface.hh"
++#include "G4ThreeVector.hh"
++#include <iomanip>
++
++//------------------------------------------------------------------------
++G4eTrajParamOnSurface::G4eTrajParamOnSurface( const G4Point3D& pos, const G4Vector3D& mom, const G4Vector3D& vecV, const G4Vector3D& vecW )
++{
++  SetParameters( pos, mom, vecV, vecW );
++}
++
++//------------------------------------------------------------------------
++G4eTrajParamOnSurface::G4eTrajParamOnSurface( const G4Point3D& pos, const G4Vector3D& mom, const G4Plane3D& plane )
++{
++  SetParameters( pos, mom, plane );
++}
++
++
++//------------------------------------------------------------------------
++void G4eTrajParamOnSurface::SetParameters( const G4Point3D& pos, const G4Vector3D& mom, const G4Plane3D& plane )
++{
++  //--- Get two perpendicular vectors: first parallel X (unless normal is parallel to X, then take Y)
++  G4ThreeVector Xvec(1.,0.,0.);
++  G4Vector3D vecV = -Xvec.cross(plane.normal());
++  if( vecV.mag() < kCarTolerance ) {
++    G4ThreeVector Zvec(0.,0.,1.);
++    vecV = Zvec.cross(plane.normal());
++  }
++
++  G4Vector3D vecW = plane.normal().cross( vecV );
++
++  SetParameters( pos, mom, vecV, vecW );
++}
++
++
++//------------------------------------------------------------------------
++void G4eTrajParamOnSurface::SetParameters( const G4Point3D& pos, const G4Vector3D& mom, const G4Vector3D& vecV, const G4Vector3D& vecW )
++{
++  if( mom.mag() > 0. ) {
++    fDir = mom;
++    fDir /= mom.mag();
++  } else {
++    fDir = G4Vector3D(0.,0.,0.);
++  }
++  fVectorV = vecV / vecV.mag();
++  fVectorW = vecW / vecW.mag();
++  fInvP = 1./mom.mag();
++  G4ThreeVector posv(pos);
++  //check 3 vectors are ortogonal and right handed
++
++  fPV = mom*vecV;
++  fPW = mom*vecW;
++
++  fV = pos*vecV;
++  fW = pos*vecW;
++
++}
++
++
++//------------------------------------------------------------------------
++std::ostream& operator<<(std::ostream& out, const G4eTrajParamOnSurface& tp)
++{
++  //  long mode = out.setf(std::ios::fixed,std::ios::floatfield);
++  
++  //  out << tp.theType;
++  //  out << std::setprecision(5) << std::setw(10);
++  out << " InvP= " << tp.fInvP << " PV= " << tp.fPV << " PW= " << tp.fPW << " V= " << tp.fV << " W= " << tp.fW << G4endl;
++  out << " vectorV direction= " << tp.fVectorV << " vectorW direction= " << tp.fVectorW << G4endl;
++    
++  return out;
++}
+diff -Naur --exclude CVS source/geant4e/src/G4eTrajState.cc source/geant4e/src/G4eTrajState.cc
+--- source/geant4e/src/G4eTrajState.cc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/src/G4eTrajState.cc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,63 @@
++#include "G4eTrajState.hh"
++#include "G4ParticleTable.hh"
++#include "G4ParticleDefinition.hh"
++#include "G4eManager.hh"
++
++#include <iomanip>
++
++
++//--------------------------------------------------------------------------
++G4eTrajState::G4eTrajState( const G4String& partType, const G4Point3D& pos, const G4Vector3D& mom, const G4eTrajError& errmat): fParticleType(partType), fPosition(pos), fMomentum(mom), fError(errmat)
++{
++  iverbose = G4eManager::verbose();
++
++}
++
++
++//--------------------------------------------------------------------------
++void G4eTrajState::UpdatePosMom( const G4Point3D& pos, const G4Vector3D& mom )
++{
++  fPosition = pos;
++  fMomentum = mom;
++}
++
++//--------------------------------------------------------------------------
++void G4eTrajState::SetData( const G4String& partType, const G4Point3D& pos, const G4Vector3D& mom )
++{
++  fParticleType = partType;
++  BuildCharge();
++  fPosition = pos;
++  fMomentum = mom;
++}
++
++//--------------------------------------------------------------------------
++void G4eTrajState::BuildCharge()
++{
++  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
++  G4ParticleDefinition* particle = particleTable->FindParticle(fParticleType); 
++  if( particle == 0) { 
++    G4Exception( "!!!EXITING: G4eTrajState::BuildCharge: particle type not defined: " + fParticleType );
++  }else {
++    fCharge = particle->GetPDGCharge();
++  }
++}
++
++//------------------------------------------------------------------------
++void G4eTrajState::DumpPosMomError( std::ostream& out ) const
++{
++  out << *this;
++}
++
++//--------------------------------------------------------------------------
++std::ostream& operator<<(std::ostream& out, const G4eTrajState& ts)
++{
++  //  long mode = out.setf(std::ios::fixed,std::ios::floatfield);
++  out  
++    << " G4eTrajState of type " << ts.theTSType << " : partycle: " << ts.fParticleType << "  position: " << std::setw(6) << ts.fPosition
++    << "              momentum: " << ts.fMomentum
++    << "   error matrix ";
++  G4cout << ts.fError << G4endl;
++
++  return out;
++}
++
+diff -Naur --exclude CVS source/geant4e/src/G4eTrajStateFree.cc source/geant4e/src/G4eTrajStateFree.cc
+--- source/geant4e/src/G4eTrajStateFree.cc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/src/G4eTrajStateFree.cc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,669 @@
++//
++#include "G4eTrajStateFree.hh"
++#include "G4eTrajParamFree.hh"
++#include "G4eTrajStateOnSurface.hh"
++
++#include "G4Field.hh"
++#include "G4FieldManager.hh"
++#include "G4TransportationManager.hh"
++#include "CLHEP/Matrix/Matrix.h"
++#include "G4Material.hh"
++#include "G4eManager.hh"
++#include <iomanip>
++
++//------------------------------------------------------------------------
++G4eTrajStateFree::G4eTrajStateFree( const G4String& partType, const G4Point3D& pos, const G4Vector3D& mom, const G4eTrajError& errmat) : G4eTrajState( partType, pos, mom, errmat )
++{
++  //  G4cout << " G4eTrajStateFree::G4eTrajStateFree: pos " << GetPosition() << std::endl;
++  fTrajParam = G4eTrajParamFree( pos, mom );
++  Init();
++}
++
++
++//------------------------------------------------------------------------
++G4eTrajStateFree::G4eTrajStateFree( const G4eTrajStateOnSurface& tpSD ) : G4eTrajState( tpSD.GetParticleType(), tpSD.GetPosition(), tpSD.GetMomentum() )
++{
++  //  G4ThreeVector planeNormal = tpSD.GetPlaneNormal();
++  // double fPt = tpSD.GetMomentum()*planeNormal;//mom projected on normal to plane  
++  //  G4eTrajParamOnSurface tpSDparam = tpSD.GetParameters();
++  //  G4ThreeVector Psc = fPt * planeNormal + tpSDparam.GetPU()*tpSDparam.GetVectorU() + tpSD.GetPV()*tpSD.GetVectorW();
++
++  fTrajParam = G4eTrajParamFree( fPosition, fMomentum );
++  Init();
++
++  //----- Get the error matrix in SC coordinates
++  G4eTrajParamOnSurface tpSDparam = tpSD.GetParameters();
++  double mom = fMomentum.mag();
++  double mom2 = fMomentum.mag2();
++  double TVW1 = sqrt( mom2 / ( mom2 + tpSDparam.GetPV()*tpSDparam.GetPV() + tpSDparam.GetPV()*tpSDparam.GetPV()) );
++  G4ThreeVector vTVW( TVW1, tpSDparam.GetPV()/mom * TVW1, tpSDparam.GetPW()/mom * TVW1 );
++  G4Vector3D vectorU = tpSDparam.GetVectorV().cross(  tpSDparam.GetVectorW() );
++  G4Vector3D vTN = vTVW.x()*vectorU + vTVW.y()*tpSDparam.GetVectorV() + vTVW.z()*tpSDparam.GetVectorW();
++
++  double pc2 = asin( vTN.z() );
++  double pc3 = atan (vTN.y()/vTN.x());
++
++#ifdef G4EVERBOSE
++   if( iverbose >= 5){
++     std::cout << " CHECK: pc2 " << pc2 << " = " << GetParameters().GetLambda() <<  " diff " << pc2-GetParameters().GetLambda() << std::endl;
++     std::cout << " CHECK: pc3 " << pc3 << " = " << GetParameters().GetPhi() <<  " diff " << pc3-GetParameters().GetPhi() << std::endl;
++   }
++#endif
++
++  //--- Get the unit vectors perp to P 
++  double cosl = cos( GetParameters().GetLambda() ); 
++  if (cosl < 1.E-30) cosl = 1.E-30;
++  double cosl1 = 1./cosl;
++  G4Vector3D vUN(-vTN.y()*cosl1, vTN.x()*cosl1, 0. );
++  G4Vector3D vVN(-vTN.z()*vUN.y(), vTN.z()*vUN.x(), cosl );
++
++  G4Vector3D vUperp = G4Vector3D( -fMomentum.y(), fMomentum.x(), 0.);
++  G4Vector3D vVperp = vUperp.cross( fMomentum );
++  vUperp *= 1./vUperp.mag();
++  vVperp *= 1./vVperp.mag();
++
++#ifdef G4EVERBOSE
++   if( iverbose >= 5){
++     std::cout << " CHECK: vUN " << vUN << " = " << vUperp <<  " diff " << (vUN-vUperp).mag() << std::endl;
++     std::cout << " CHECK: vVN " << vVN << " = " << vVperp <<  " diff " << (vVN-vVperp).mag() << std::endl;
++   }
++#endif
++
++  //get the dot products of vectors perpendicular to direction and vector defining SD plane
++  double dUU = vUperp * tpSD.GetVectorV();
++  double dUV = vUperp * tpSD.GetVectorW();
++  double dVU = vVperp * tpSD.GetVectorV();
++  double dVV = vVperp * tpSD.GetVectorW();
++
++
++  //--- Get transformation first
++  HepMatrix transfM(5, 5, 1 );
++  //--- Get magnetic field
++  const G4Field* field = G4TransportationManager::GetTransportationManager()->GetFieldManager()->GetDetectorField();
++  G4ThreeVector dir = fTrajParam.GetDirection();
++  G4double invCosTheta = 1./cos( dir.theta() );
++
++  if( fCharge != 0 
++&& field ) {
++    G4double pos1[3]; pos1[0] = fPosition.x()*cm; pos1[1] = fPosition.y()*cm; pos1[2] = fPosition.z()*cm;
++    G4double h1[3];
++    field->GetFieldValue( pos1, h1 );
++    G4ThreeVector HPre = G4ThreeVector( h1[0], h1[1], h1[2] ) / tesla *10.;
++    G4double magHPre = HPre.mag();
++    G4double invP = 1./fMomentum.mag();
++    G4double magHPreM = magHPre * invP;
++    if( magHPre != 0. ) {
++      G4double magHPreM2 = fCharge / magHPre;
++
++      G4double Q = -magHPreM * c_light;
++      G4double sinz = -HPre*vUperp * magHPreM2;
++      G4double cosz =  HPre*vVperp * magHPreM2;
++
++      transfM[1][3] = -Q*dir.y()*sinz;
++      transfM[1][4] = -Q*dir.z()*sinz;
++      transfM[2][3] = -Q*dir.y()*cosz*invCosTheta;
++      transfM[2][4] = -Q*dir.z()*cosz*invCosTheta;
++    }
++  }
++
++  transfM[0][0] = 1.;
++  transfM[1][1] = dir.x()*dVU;
++  transfM[1][2] = dir.x()*dVV;
++  transfM[2][1] = dir.x()*dUU*invCosTheta;
++  transfM[2][2] = dir.x()*dUV*invCosTheta;
++  transfM[3][3] = dUU;
++  transfM[3][4] = dUV;
++  transfM[4][3] = dVU;
++  transfM[4][4] = dVV;
++
++  fError = G4eTrajError( tpSD.GetError().similarity( transfM ) );
++
++#ifdef G4EVERBOSE
++  if( iverbose >= 1) std::cout << "error matrix SD2SC " << fError << std::endl;
++  if( iverbose >= 4) std::cout << "G4eTrajStateFree from SD " << *this << std::endl;
++#endif
++}
++
++
++//------------------------------------------------------------------------
++void G4eTrajStateFree::Init()
++{
++  theTSType = G4eTS_FREE;
++  BuildCharge();
++  theTransfMat = HepMatrix(5,5,0);
++  //-  theFirstStep = true;
++}
++
++//------------------------------------------------------------------------
++void G4eTrajStateFree::Dump( std::ostream& out ) const
++{
++  out << *this;
++}
++
++//------------------------------------------------------------------------
++G4int G4eTrajStateFree::Update( const G4Track* aTrack )
++{
++  G4int ierr = 0;
++  fTrajParam.Update( aTrack );
++  UpdatePosMom( aTrack->GetPosition(), aTrack->GetMomentum() );
++  return ierr;
++
++}
++
++
++//------------------------------------------------------------------------
++std::ostream& operator<<(std::ostream& out, const G4eTrajStateFree& ts)
++{
++  out.setf(std::ios::fixed,std::ios::floatfield);
++
++  
++  ts.DumpPosMomError( out );
++ 
++  out << " G4eTrajStateFree: Params: " << ts.fTrajParam << std::endl;
++
++  return out;
++
++}
++
++
++//------------------------------------------------------------------------
++int G4eTrajStateFree::PropagateError( const G4Track* aTrack )
++{
++  G4double stepLengthCm = aTrack->GetStep()->GetStepLength()/cm;
++  //-  if( G4eManager::GetG4eManager()->GetMode() == G4eMode_PropBackwards ) stepLengthCm*= -1;
++  if( fabs(stepLengthCm) <= kCarTolerance/cm ) return 0;
++  
++#ifdef G4EVERBOSE
++  if( iverbose >= 2 )std::cout << "  G4eTrajStateFree::PropagateError " << std::endl;
++#endif
++
++  // * *** ERROR PROPAGATION ON A HELIX ASSUMING SC VARIABLES
++  G4Point3D vposPost = aTrack->GetPosition()/cm;
++  G4Vector3D vpPost = aTrack->GetMomentum()/GeV;
++  //  G4Point3D vposPre = fPosition/cm;
++  //  G4Vector3D vpPre = fMomentum/GeV;
++  G4Point3D vposPre = aTrack->GetStep()->GetPreStepPoint()->GetPosition()/cm;
++  G4Vector3D vpPre = aTrack->GetStep()->GetPreStepPoint()->GetMomentum()/GeV;
++  //correct to avoid propagation along Z 
++  if( vpPre.mag() == vpPre.z() ) vpPre.setX( 1.E-6*MeV );
++  if( vpPost.mag() == vpPost.z() ) vpPost.setX( 1.E-6*MeV );
++
++  G4double pPre = vpPre.mag();
++  G4double pPost = vpPost.mag();
++#ifdef G4EVERBOSE
++  if( iverbose >= 2 ) {
++    std::cout << "G4EP: vposPre " << vposPre << std::endl
++	      << "G4EP: vposPost " << vposPost << std::endl;
++    std::cout << "G4EP: vpPre " << vpPre << std::endl
++	      << "G4EP: vpPost " << vpPost << std::endl;
++    std::cout << " err start step " << fError << std::endl;
++    std::cout << "G4EP: stepLengthCm " << stepLengthCm << std::endl;
++  }
++#endif
++
++  if( pPre == 0. || pPost == 0 ) return 2;
++  G4double pInvPre = 1./pPre;
++  G4double pInvPost = 1./pPost;
++  G4double deltaPInv = pInvPost - pInvPre;
++
++  G4Vector3D vpPreNorm = vpPre * pInvPre;
++  G4Vector3D vpPostNorm = vpPost * pInvPost;
++  //  if( iverbose >= 2 ) std::cout << "G4EP: vpPreNorm " << vpPreNorm << " vpPostNorm " << vpPostNorm << std::endl;
++  //return if propagation along Z??  
++  if( 1. - fabs(vpPostNorm.z()) < kCarTolerance ) return 4;
++  G4double sinpPre = sin( vpPreNorm.theta() ); //cosine perpendicular to pPre = sine pPre
++  G4double sinpPost = sin( vpPostNorm.theta() ); //cosine perpendicular to pPost = sine pPost
++  G4double sinpPostInv = 1./sin( vpPreNorm.theta() );
++
++#ifdef G4EVERBOSE
++  if( iverbose >= 2 ) std::cout << "G4EP: cosl " << sinpPre << " cosl0 " << sinpPost << std::endl;
++#endif
++  //* *** DEFINE TRANSFORMATION MATRIX BETWEEN X1 AND X2 FOR
++  //* *** NEUTRAL PARTICLE OR FIELDFREE REGION
++  HepMatrix transf(5, 5, 0 );
++
++  transf[3][2] = stepLengthCm * sinpPost;
++  transf[4][1] = stepLengthCm;
++  for( uint ii=0;ii < 5; ii++ ){
++    transf[ii][ii] = 1.;
++  }
++#ifdef G4EVERBOSE
++  if( iverbose >= 2 ) {
++    std::cout << "G4EP: transf matrix neutral " << transf;
++  }
++#endif
++
++  //  charge X propagation direction
++  G4double charge = aTrack->GetDynamicParticle()->GetCharge();
++  if( G4eManager::GetG4eManager()->GetMode() == G4eMode_PropBackwards ) {
++    charge *= -1.; 
++  }
++  //  std::cout << " charge " << charge << std::endl;
++  //t check if particle has charge
++  //t  if( charge == 0 ) goto 45;
++  // check if the magnetic field is = 0.
++
++  //position is from geant4, it is assumed to be in mm (for debugging, eventually it will not be transformed)
++  G4double pos1[3]; pos1[0] = vposPre.x()*cm; pos1[1] = vposPre.y()*cm; pos1[2] = vposPre.z()*cm;
++  G4double pos2[3]; pos2[0] = vposPost.x()*cm; pos2[1] = vposPost.y()*cm; pos2[2] = vposPost.z()*cm;
++  G4double h1[3], h2[3];
++
++  const G4Field* field = G4TransportationManager::GetTransportationManager()->GetFieldManager()->GetDetectorField();
++  if( !field ) return 0; //goto 45
++ 
++  // calculate transformation except it NEUTRAL PARTICLE OR FIELDFREE REGION
++  if( charge != 0. && field ) {
++
++    field->GetFieldValue( pos1, h1 );
++    field->GetFieldValue( pos2, h2 );
++    G4ThreeVector HPre = G4ThreeVector( h1[0], h1[1], h1[2] ) / tesla *10.; //10. is to get same dimensions as GEANT3 (kilogauss)
++    G4ThreeVector HPost= G4ThreeVector( h2[0], h2[1], h2[2] ) / tesla *10.;
++    G4double magHPre = HPre.mag();
++    G4double magHPost = HPost.mag();
++#ifdef G4EVERBOSE
++    if( iverbose >= 2 ) std::cout << "G4EP: HPre " << HPre << std::endl
++			    << "G4EP: HPost " << HPost << std::endl;
++#endif
++    
++  if( magHPre + magHPost != 0. ) {
++      
++   //* *** CHECK WHETHER H*ALFA/P IS TOO DIFFERENT AT X1 AND X2
++    G4double gam;
++    if( magHPost != 0. ){ 
++      gam = HPost * vpPostNorm / magHPost;
++    }else {
++      gam = HPre * vpPreNorm / magHPre;
++    }
++    
++    // G4eMagneticLimitsProcess will limit the step, but based on an straight line trajectory
++    G4double alphaSqr = 1. - gam * gam;
++    G4double diffHSqr = ( HPre * pInvPre - HPost * pInvPost ).mag2();
++    G4double delhp6Sqr = 300.*300.; 
++#ifdef G4EVERBOSE
++    if( iverbose >= 2 ) std::cout << " G4EP: gam " << gam << " alphaSqr " << alphaSqr << " diffHSqr " << diffHSqr << std::endl;
++#endif
++    if( diffHSqr * alphaSqr > delhp6Sqr ) return 3;
++
++
++    //* *** DEFINE AVERAGE MAGNETIC FIELD AND GRADIENT
++    G4double pInvAver = 1./(pInvPre + pInvPost );
++    G4double CFACT8 = 2.997925E-4; 
++    //G4double HAver
++    G4ThreeVector vHAverNorm( (HPre*pInvPre + HPost*pInvPost ) * pInvAver * charge * CFACT8 );
++    G4double HAver = vHAverNorm.mag();
++    G4double invHAver = 1./HAver;
++    vHAverNorm *= invHAver;
++#ifdef G4EVERBOSE
++    if( iverbose >= 2 ) std::cout << " G4EP: HaverNorm " << vHAverNorm << " magHAver " << HAver << " charge " << charge<< std::endl;
++#endif
++
++    G4double pAver = (pPre+pPost)*0.5;
++    G4double QAver = -HAver/pAver;
++    G4double thetaAver = QAver * stepLengthCm;
++    G4double sinThetaAver = sin(thetaAver);
++    G4double cosThetaAver = cos(thetaAver);
++    G4double gamma = vHAverNorm * vpPostNorm;
++    G4ThreeVector AN2 = vHAverNorm.cross( vpPostNorm );
++    
++#ifdef G4EVERBOSE
++    if( iverbose >= 2 ) std::cout << " G4EP: AN2 " << AN2 << std::endl;
++#endif
++    G4double AU = 1./vpPreNorm.perp();
++    //t  G4ThreeVector vU( vpPreNorm.cross( G4ThreeVector(0.,0.,1.) ) * AU );
++    G4ThreeVector vUPre( -AU*vpPreNorm.y(), 
++		      AU*vpPreNorm.x(), 
++		      0. );
++    G4ThreeVector vVPre( -vpPreNorm.z()*vUPre.y(), 
++		      vpPreNorm.z()*vUPre.x(), 
++		      vpPreNorm.x()*vUPre.y() - vpPreNorm.y()*vUPre.x() );
++    
++    //
++    AU = 1./vpPostNorm.perp();
++    //t  G4ThreeVector vU( vpPostNorm.cross( G4ThreeVector(0.,0.,1.) ) * AU );
++    G4ThreeVector vUPost( -AU*vpPostNorm.y(), 
++		       AU*vpPostNorm.x(), 
++		       0. );
++    G4ThreeVector vVPost( -vpPostNorm.z()*vUPost.y(), 
++		       vpPostNorm.z()*vUPost.x(), 
++		       vpPostNorm.x()*vUPost.y() - vpPostNorm.y()*vUPost.x() );
++#ifdef G4EVERBOSE
++    //-    std::cout << " vpPostNorm " << vpPostNorm << std::endl;
++    if( iverbose >= 2 ) std::cout << " G4EP: AU " << AU << " vUPre " << vUPre << " vVPre " << vVPre << " vUPost " << vUPost << " vVPost " << vVPost << std::endl;
++#endif
++    G4Point3D deltaPos( vposPre - vposPost );
++
++    // * *** COMPLETE TRANSFORMATION MATRIX BETWEEN ERRORS AT X1 AND X2
++    // * *** FIELD GRADIENT PERPENDICULAR TO TRACK IS PRESENTLY NOT
++    // * *** TAKEN INTO ACCOUNT
++    
++    G4double QP = QAver * pAver; // = -HAver
++#ifdef G4EVERBOSE
++    if( iverbose >= 2) std::cout << " G4EP: QP " << QP << " QAver " << QAver << " pAver " << pAver << std::endl;
++#endif
++    G4double ANV = -( vHAverNorm.x()*vUPost.x() + vHAverNorm.y()*vUPost.y() );
++    G4double ANU = ( vHAverNorm.x()*vVPost.x() + vHAverNorm.y()*vVPost.y() + vHAverNorm.z()*vVPost.z() );
++    G4double OMcosThetaAver = 1. - cosThetaAver;
++#ifdef G4EVERBOSE
++    if( iverbose >= 2) std::cout << "G4EP: OMcosThetaAver " << OMcosThetaAver << " cosThetaAver " << cosThetaAver << " thetaAver " << thetaAver << " QAver " << QAver << " stepLengthCm " << stepLengthCm << std::endl;
++#endif
++    G4double TMSINT = thetaAver - sinThetaAver;
++#ifdef G4EVERBOSE
++    if( iverbose >= 2 ) std::cout << " G4EP: ANV " << ANV << " ANU " << ANU << std::endl;
++#endif
++    
++    G4ThreeVector vHUPre( -vHAverNorm.z() * vUPre.y(),
++			  vHAverNorm.z() * vUPre.x(),
++			  vHAverNorm.x() * vUPre.y() - vHAverNorm.y() * vUPre.x() );
++#ifdef G4EVERBOSE
++    //    if( iverbose >= 2 ) std::cout << "G4EP: HUPre(1) " << vHUPre.x() << " " << vHAverNorm.z() << " " << vUPre.y() << std::endl;
++#endif
++    G4ThreeVector vHVPre( vHAverNorm.y() * vVPre.z() - vHAverNorm.z() * vVPre.y(),
++			  vHAverNorm.z() * vVPre.x() - vHAverNorm.x() * vVPre.z(),
++			  vHAverNorm.x() * vVPre.y() - vHAverNorm.y() * vVPre.x() );
++#ifdef G4EVERBOSE
++    if( iverbose >= 2 ) std::cout << " G4EP: HUPre " << vHUPre << " HVPre " << vHVPre << std::endl;
++#endif
++    
++    //------------------- COMPUTE MATRIX
++    //---------- 1/P
++    
++    transf[0][0] = 1.-deltaPInv*pAver*(1.+(vpPostNorm.x()*deltaPos.x()+vpPostNorm.y()*deltaPos.y()+vpPostNorm.z()*deltaPos.z())/stepLengthCm)
++      +2.*deltaPInv*pAver;
++    
++    transf[0][1] =  -deltaPInv/thetaAver*
++      ( TMSINT*gamma*(vHAverNorm.x()*vVPre.x()+vHAverNorm.y()*vVPre.y()+vHAverNorm.z()*vVPre.z()) +
++	sinThetaAver*(vVPre.x()*vpPostNorm.x()+vVPre.y()*vpPostNorm.y()+vVPre.z()*vpPostNorm.z()) +
++	OMcosThetaAver*(vHVPre.x()*vpPostNorm.x()+vHVPre.y()*vpPostNorm.y()+vHVPre.z()*vpPostNorm.z()) );
++    
++    transf[0][2] =  -sinpPre*deltaPInv/thetaAver*
++      ( TMSINT*gamma*(vHAverNorm.x()*vUPre.x()+vHAverNorm.y()*vUPre.y()            ) +
++	sinThetaAver*(vUPre.x()*vpPostNorm.x()+vUPre.y()*vpPostNorm.y()            ) +
++	OMcosThetaAver*(vHUPre.x()*vpPostNorm.x()+vHUPre.y()*vpPostNorm.y()+vHUPre.z()*vpPostNorm.z()) );
++    
++    transf[0][3] =  -deltaPInv/stepLengthCm*(vUPre.x()*vpPostNorm.x()+vUPre.y()*vpPostNorm.y()            );
++    
++    transf[0][4] =  -deltaPInv/stepLengthCm*(vVPre.x()*vpPostNorm.x()+vVPre.y()*vpPostNorm.y()+vVPre.z()*vpPostNorm.z());
++    
++    // ***   Lambda
++    transf[1][0] = -QP*ANV*(vpPostNorm.x()*deltaPos.x()+vpPostNorm.y()*deltaPos.y()+vpPostNorm.z()*deltaPos.z())
++      *(1.+deltaPInv*pAver);
++#ifdef G4EVERBOSE
++     if(iverbose >= 3) std::cout << "ctransf10= " << transf[1][0]  << " " <<  -QP<< " " << ANV<< " " << vpPostNorm.x()<< " " << deltaPos.x()<< " " << vpPostNorm.y()<< " " << deltaPos.y()<< " " << vpPostNorm.z()<< " " << deltaPos.z()
++      << " " << deltaPInv<< " " << pAver << std::endl;
++#endif
++    
++    transf[1][1] = cosThetaAver*(vVPre.x()*vVPost.x()+vVPre.y()*vVPost.y()+vVPre.z()*vVPost.z()) +
++      sinThetaAver*(vHVPre.x()*vVPost.x()+vHVPre.y()*vVPost.y()+vHVPre.z()*vVPost.z()) +
++      OMcosThetaAver*(vHAverNorm.x()*vVPre.x()+vHAverNorm.y()*vVPre.y()+vHAverNorm.z()*vVPre.z())*
++      (vHAverNorm.x()*vVPost.x()+vHAverNorm.y()*vVPost.y()+vHAverNorm.z()*vVPost.z()) +
++      ANV*( -sinThetaAver*(vVPre.x()*vpPostNorm.x()+vVPre.y()*vpPostNorm.y()+vVPre.z()*vpPostNorm.z()) +
++	    OMcosThetaAver*(vVPre.x()*AN2.x()+vVPre.y()*AN2.y()+vVPre.z()*AN2.z()) -
++	    TMSINT*gamma*(vHAverNorm.x()*vVPre.x()+vHAverNorm.y()*vVPre.y()+vHAverNorm.z()*vVPre.z()) );
++    
++    transf[1][2] = cosThetaAver*(vUPre.x()*vVPost.x()+vUPre.y()*vVPost.y()            ) +
++      sinThetaAver*(vHUPre.x()*vVPost.x()+vHUPre.y()*vVPost.y()+vHUPre.z()*vVPost.z()) +
++      OMcosThetaAver*(vHAverNorm.x()*vUPre.x()+vHAverNorm.y()*vUPre.y()            )*
++      (vHAverNorm.x()*vVPost.x()+vHAverNorm.y()*vVPost.y()+vHAverNorm.z()*vVPost.z()) +
++      ANV*( -sinThetaAver*(vUPre.x()*vpPostNorm.x()+vUPre.y()*vpPostNorm.y()            ) +
++	    OMcosThetaAver*(vUPre.x()*AN2.x()+vUPre.y()*AN2.y()             ) -
++	    TMSINT*gamma*(vHAverNorm.x()*vUPre.x()+vHAverNorm.y()*vUPre.y()            ) );
++    transf[1][2] = sinpPre*transf[1][3];
++    
++    transf[1][3] = -QAver*ANV*(vUPre.x()*vpPostNorm.x()+vUPre.y()*vpPostNorm.y()            );
++    
++    transf[1][4] = -QAver*ANV*(vVPre.x()*vpPostNorm.x()+vVPre.y()*vpPostNorm.y()+vVPre.z()*vpPostNorm.z());
++    
++    // ***   Phi
++    
++    transf[2][0] = -QP*ANU*(vpPostNorm.x()*deltaPos.x()+vpPostNorm.y()*deltaPos.y()+vpPostNorm.z()*deltaPos.z())*sinpPostInv
++      *(1.+deltaPInv*pAver);
++#ifdef G4EVERBOSE
++   if(iverbose >= 3)std::cout <<"ctransf20= " << transf[2][0] <<" "<< -QP<<" "<<ANU<<" "<<vpPostNorm.x()<<" "<<deltaPos.x()<<" "<<vpPostNorm.y()<<" "<<deltaPos.y()<<" "<<vpPostNorm.z()<<" "<<deltaPos.z()<<" "<<sinpPostInv
++	 <<" "<<deltaPInv<<" "<<pAver<< std::endl;
++#endif
++    transf[2][1] = cosThetaAver*(vVPre.x()*vUPost.x()+vVPre.y()*vUPost.y()            ) +
++      sinThetaAver*(vHVPre.x()*vUPost.x()+vHVPre.y()*vUPost.y()             ) +
++      OMcosThetaAver*(vHAverNorm.x()*vVPre.x()+vHAverNorm.y()*vVPre.y()+vHAverNorm.z()*vVPre.z())*
++      (vHAverNorm.x()*vUPost.x()+vHAverNorm.y()*vUPost.y()            ) +
++      ANU*( -sinThetaAver*(vVPre.x()*vpPostNorm.x()+vVPre.y()*vpPostNorm.y()+vVPre.z()*vpPostNorm.z()) +
++	    OMcosThetaAver*(vVPre.x()*AN2.x()+vVPre.y()*AN2.y()+vVPre.z()*AN2.z()) -
++	    TMSINT*gamma*(vHAverNorm.x()*vVPre.x()+vHAverNorm.y()*vVPre.y()+vHAverNorm.z()*vVPre.z()) );
++    transf[2][1] = sinpPostInv*transf[2][1];
++    
++    transf[2][2] = cosThetaAver*(vUPre.x()*vUPost.x()+vUPre.y()*vUPost.y()            ) +
++      sinThetaAver*(vHUPre.x()*vUPost.x()+vHUPre.y()*vUPost.y()             ) +
++      OMcosThetaAver*(vHAverNorm.x()*vUPre.x()+vHAverNorm.y()*vUPre.y()            )*
++      (vHAverNorm.x()*vUPost.x()+vHAverNorm.y()*vUPost.y()            ) +
++      ANU*( -sinThetaAver*(vUPre.x()*vpPostNorm.x()+vUPre.y()*vpPostNorm.y()            ) +
++	    OMcosThetaAver*(vUPre.x()*AN2.x()+vUPre.y()*AN2.y()             ) -
++	    TMSINT*gamma*(vHAverNorm.x()*vUPre.x()+vHAverNorm.y()*vUPre.y()            ) );
++    transf[2][2] = sinpPostInv*sinpPre*transf[2][2];
++    
++    transf[2][3] = -QAver*ANU*(vUPre.x()*vpPostNorm.x()+vUPre.y()*vpPostNorm.y()            )*sinpPostInv;
++#ifdef G4EVERBOSE
++    if(iverbose >= 3)std::cout <<"ctransf23= " << transf[2][3] <<" "<< -QAver<<" "<<ANU<<" "<<vUPre.x()<<" "<<vpPostNorm.x()<<" "<< vUPre.y()<<" "<<vpPostNorm.y()<<" "<<sinpPostInv<<std::endl;
++#endif
++    
++    transf[2][4] = -QAver*ANU*(vVPre.x()*vpPostNorm.x()+vVPre.y()*vpPostNorm.y()+vVPre.z()*vpPostNorm.z())*sinpPostInv;
++    
++    // ***   Yt
++    
++    transf[3][0] = pAver*(vUPost.x()*deltaPos.x()+vUPost.y()*deltaPos.y() )
++      *(1.+deltaPInv*pAver);
++#ifdef G4EVERBOSE
++   if(iverbose >= 3) std::cout <<"ctransf30= " << transf[3][0] <<" "<< pAver<<" "<<vUPost.x()<<" "<<deltaPos.x()<<" "<<vUPost.y()<<" "<<deltaPos.y()  
++      <<" "<<deltaPInv<<" "<<pAver<<std::endl;
++#endif
++
++    transf[3][1] = (   sinThetaAver*(vVPre.x()*vUPost.x()+vVPre.y()*vUPost.y()            ) +
++		       OMcosThetaAver*(vHVPre.x()*vUPost.x()+vHVPre.y()*vUPost.y()             ) +
++		       TMSINT*(vHAverNorm.x()*vUPost.x()+vHAverNorm.y()*vUPost.y()            )*
++		       (vHAverNorm.x()*vVPre.x()+vHAverNorm.y()*vVPre.y()+vHAverNorm.z()*vVPre.z()) )/QAver;
++    
++    transf[3][2] = (   sinThetaAver*(vUPre.x()*vUPost.x()+vUPre.y()*vUPost.y()            ) +
++		       OMcosThetaAver*(vHUPre.x()*vUPost.x()+vHUPre.y()*vUPost.y()             ) +
++		       TMSINT*(vHAverNorm.x()*vUPost.x()+vHAverNorm.y()*vUPost.y()            )*
++		       (vHAverNorm.x()*vUPre.x()+vHAverNorm.y()*vUPre.y()            ) )*sinpPre/QAver;
++#ifdef G4EVERBOSE 
++   if(iverbose >= 3) std::cout <<"ctransf32= " << transf[3][2] <<" "<< sinThetaAver<<" "<<vUPre.x()<<" "<<vUPost.x()<<" "<<vUPre.y()<<" "<<vUPost.y() <<" "<<
++		       OMcosThetaAver<<" "<<vHUPre.x()<<" "<<vUPost.x()<<" "<<vHUPre.y()<<" "<<vUPost.y() <<" "<<
++		       TMSINT<<" "<<vHAverNorm.x()<<" "<<vUPost.x()<<" "<<vHAverNorm.y()<<" "<<vUPost.y() <<" "<<
++      vHAverNorm.x()<<" "<<vUPre.x()<<" "<<vHAverNorm.y()<<" "<<vUPre.y() <<" "<<sinpPre<<" "<<QAver<<std::endl;
++#endif
++   
++    transf[3][3] = (vUPre.x()*vUPost.x()+vUPre.y()*vUPost.y()            );
++    
++    transf[3][4] = (vVPre.x()*vUPost.x()+vVPre.y()*vUPost.y()            );
++
++    // ***   Zt
++    transf[4][0] = pAver*(vVPost.x()*deltaPos.x()+vVPost.y()*deltaPos.y()+vVPost.z()*deltaPos.z())
++      *(1.+deltaPInv*pAver);
++   
++    transf[4][1] = (   sinThetaAver*(vVPre.x()*vVPost.x()+vVPre.y()*vVPost.y()+vVPre.z()*vVPost.z()) +
++		       OMcosThetaAver*(vHVPre.x()*vVPost.x()+vHVPre.y()*vVPost.y()+vHVPre.z()*vVPost.z()) +
++		       TMSINT*(vHAverNorm.x()*vVPost.x()+vHAverNorm.y()*vVPost.y()+vHAverNorm.z()*vVPost.z())*
++		       (vHAverNorm.x()*vVPre.x()+vHAverNorm.y()*vVPre.y()+vHAverNorm.z()*vVPre.z()) )/QAver;
++#ifdef G4EVERBOSE
++    if(iverbose >= 3)std::cout <<"ctransf41= " << transf[4][1] <<" "<< sinThetaAver<<" "<< OMcosThetaAver <<" "<<TMSINT<<" "<< vVPre <<" "<<vVPost <<" "<<vHVPre<<" "<<vHAverNorm <<" "<< QAver<<std::endl;
++#endif
++    
++    transf[4][2] = (   sinThetaAver*(vUPre.x()*vVPost.x()+vUPre.y()*vVPost.y()            ) +
++		       OMcosThetaAver*(vHUPre.x()*vVPost.x()+vHUPre.y()*vVPost.y()+vHUPre.z()*vVPost.z()) +
++		       TMSINT*(vHAverNorm.x()*vVPost.x()+vHAverNorm.y()*vVPost.y()+vHAverNorm.z()*vVPost.z())*
++                       (vHAverNorm.x()*vUPre.x()+vHAverNorm.y()*vUPre.y()            ) )*sinpPre/QAver;
++
++    transf[4][3] = (vUPre.x()*vVPost.x()+vUPre.y()*vVPost.y()  );
++
++    transf[4][4] = (vVPre.x()*vVPost.x()+vVPre.y()*vVPost.y()+vVPre.z()*vVPost.z()); 
++    //   if(iverbose >= 3) std::cout <<"ctransf44= " << transf[4][4] <<" "<< vVPre.x()  <<" "<<vVPost.x() <<" "<< vVPre.y() <<" "<< vVPost.y() <<" "<< vVPre.z() <<" "<< vVPost.z() << std::endl;
++
++  
++#ifdef G4EVERBOSE
++    if( iverbose >= 1 ) std::cout << "G4EP: transf matrix computed " << transf << std::endl;
++#endif
++    /*    for( int ii=0;ii<5;ii++){
++      for( int jj=0;jj<5;jj++){
++	std::cout << transf[ii][jj] << " ";
++      }
++      std::cout << std::endl;
++      } */
++   }
++  }
++  // end of calculate transformation except it NEUTRAL PARTICLE OR FIELDFREE REGION
++  /*  if( iverbose >= 1 ) std::cout << "G4EP: transf not updated but initialized " << theFirstStep << std::endl;
++  if( theFirstStep ) {
++    theTransfMat = transf;
++    theFirstStep = false;
++  }else{
++    theTransfMat = theTransfMat * transf;
++    if( iverbose >= 1 ) std::cout << "G4EP: transf matrix accumulated" << theTransfMat << std::endl;
++  } 
++  */
++    theTransfMat = transf;
++#ifdef G4EVERBOSE
++    if( iverbose >= 1 ) std::cout << "G4EP: error matrix before transformation " << fError << std::endl;
++    if( iverbose >= 2 ) std::cout << " tf * err " << theTransfMat * fError << std::endl
++				  << " transf matrix " << theTransfMat.T() << std::endl;
++#endif
++    
++    fError = fError.similarity(theTransfMat).T();
++    //-    fError = transf * fError * transf.T();
++#ifdef G4EVERBOSE
++    if( iverbose >= 1 ) std::cout << "G4EP: error matrix propagated " << fError << std::endl;
++#endif
++
++    //? S = B*S*BT S.similarity(B)
++    //? R = S
++    // not needed * *** TRANSFORM ERROR MATRIX FROM INTERNAL TO EXTERNAL VARIABLES;
++    
++    PropagateErrorMSC( aTrack );
++    
++    PropagateErrorIoni( aTrack );
++    
++    return 0;
++}
++
++
++//------------------------------------------------------------------------
++int G4eTrajStateFree::PropagateErrorMSC( const G4Track* aTrack )
++{ 
++  G4ThreeVector vpPre = aTrack->GetMomentum()/GeV;
++  G4double pPre = vpPre.mag();
++  G4double pBeta = pPre*pPre / (aTrack->GetTotalEnergy()/GeV);
++  G4double  stepLengthCm = aTrack->GetStep()->GetStepLength()/cm;
++
++  G4Material* mate = aTrack->GetVolume()->GetLogicalVolume()->GetMaterial();
++  G4double effZ, effA;
++  CalculateEffectiveZandA( mate, effZ, effA );
++
++#ifdef G4EVERBOSE
++  if( iverbose >= 4 ) std::cout << "material " << mate->GetName() 
++		     //<< " " << mate->GetZ() << " "  << mate->GetA() 
++			<< " " << effZ << " " << effA
++			<< " "  << mate->GetDensity()/g*mole << " " << mate->GetRadlen()/cm << " " << mate->GetNuclearInterLength()/cm << std::endl;
++#endif
++
++  G4double RI = stepLengthCm / (aTrack->GetVolume()->GetLogicalVolume()->GetMaterial()->GetRadlen()/cm);
++#ifdef G4EVERBOSE
++  if( iverbose >= 4 ) std::cout << std::setprecision(6) << std::setw(6) << "G4EP:MSC: RI " << RI << " stepLengthCm " << stepLengthCm << " radlen " << (aTrack->GetVolume()->GetLogicalVolume()->GetMaterial()->GetRadlen()/cm) << " " << RI*1.e10 << std::endl;
++#endif
++  G4double charge = aTrack->GetDynamicParticle()->GetCharge();
++  G4double DD = 1.8496E-4*RI*(charge/pBeta * charge/pBeta );
++#ifdef G4EVERBOSE
++  if( iverbose >= 3 ) std::cout << "G4EP:MSC: D*1E6= " << DD*1.E6 <<" pBeta " << pBeta << std::endl;
++#endif
++  G4double S1 = DD*stepLengthCm*stepLengthCm/3.;
++  G4double S2 = DD;
++  G4double S3 = DD*stepLengthCm/2.;
++
++  G4double CLA = sqrt( vpPre.x() * vpPre.x() + vpPre.y() * vpPre.y() )/pPre;
++#ifdef G4EVERBOSE
++  if( iverbose >= 2 ) std::cout << std::setw(6) << "G4EP:MSC: RI " << RI << " S1 " << S1 << " S2 "  << S2 << " S3 "  << S3 << " CLA " << CLA << std::endl;
++#endif
++  fError[1][1] += S2;
++  fError[1][4] -= S3;
++  fError[2][2] += S2/CLA/CLA;
++  fError[2][3] += S3/CLA;
++  fError[3][3] += S1;
++  fError[4][4] += S1;
++
++#ifdef G4EVERBOSE
++  if( iverbose >= 2 ) std::cout << "G4EP:MSC: error matrix propagated msc " << fError << std::endl;
++#endif
++
++  return 0;
++}
++
++
++//------------------------------------------------------------------------
++void G4eTrajStateFree::CalculateEffectiveZandA( const G4Material* mate, double& effZ, double& effA )
++{ 
++  effZ = 0.;
++  effA = 0.;
++  G4int ii, nelem = mate->GetNumberOfElements();
++  const G4double* fracVec = mate->GetFractionVector();
++  for(ii=0; ii < nelem; ii++ ) {
++    effZ += mate->GetElement( ii )->GetZ() * fracVec[ii];
++    effA += mate->GetElement( ii )->GetA() * fracVec[ii] /g*mole;
++  }
++
++}
++
++
++//------------------------------------------------------------------------
++int G4eTrajStateFree::PropagateErrorIoni( const G4Track* aTrack )
++{ 
++  G4double stepLengthCm = aTrack->GetStep()->GetStepLength()/cm;
++  G4double DEDX2;
++  if( stepLengthCm < 1.E-7 ) {
++    DEDX2=0.;
++  }
++  //  *     Calculate xi factor (KeV).
++  G4Material* mate = aTrack->GetVolume()->GetLogicalVolume()->GetMaterial();
++  G4double effZ, effA;
++  CalculateEffectiveZandA( mate, effZ, effA );
++
++  G4double Etot = aTrack->GetTotalEnergy()/GeV;
++  G4double beta = aTrack->GetMomentum().mag()/GeV / Etot;
++  G4double mass = aTrack->GetDynamicParticle()->GetMass() / GeV;
++  G4double gamma = Etot / mass;
++  
++  // *     Calculate xi factor (KeV).
++  G4double XI = 153.5*effZ*stepLengthCm*(mate->GetDensity()/mg*mole) / 
++    (effA*beta*beta);
++
++#ifdef G4EVERBOSE
++  if( iverbose >= 2 ){
++    std::cout << "G4EP:IONI: XI " << XI << " beta " << beta << " gamma " << gamma << std::endl;
++    std::cout << " density " << (mate->GetDensity()/mg*mole) << " effA " << effA << " step " << stepLengthCm << std::endl;
++  }
++#endif
++  // *     Maximum energy transfer to atomic electron (KeV).
++  G4double eta = beta*gamma;
++  G4double etasq = eta*eta;
++  G4double eMass = 0.51099906/GeV;
++  G4double massRatio = eMass / mass;
++  G4double F1 = 2*eMass*etasq;
++  G4double F2 = 1. + 2. * massRatio * gamma + massRatio * massRatio;
++  G4double Emax = 1.E+6*F1/F2;
++
++  //  * *** and now sigma**2  in GeV
++  G4double dedxSq = XI*Emax*(1.-(beta*beta/2.))*1.E-12;
++#ifdef G4EVERBOSE
++  if( iverbose >= 2 ) std::cout << "G4EP:IONI: DEDX2 " << dedxSq << " emass " << eMass << " Emax " << Emax << std::endl;
++#endif
++
++  //  if( iverbose >= 2 ) std::cout << "G4EP:IONI: Etot " << Etot << " DEDX2 " << dedxSq << " emass " << eMass << std::endl;
++  
++  G4double pPre6 = (aTrack->GetStep()->GetPreStepPoint()->GetMomentum()/GeV).mag();
++  pPre6 = pow(pPre6, 6 );
++  //Apply it to error 
++  fError[0][0] += Etot*Etot*dedxSq / pPre6;
++#ifdef G4EVERBOSE
++  if( iverbose >= 2 ) std::cout << "G4:IONI getot " << Etot << " dedx2 " << dedxSq << " p " << pPre6 << std::endl;
++  if( iverbose >= 2 ) std::cout << "G4EP:IONI: error_from_ionisation " << (Etot*Etot*dedxSq) / pPre6 << std::endl;
++#endif
++
++  return 0;
++}
++
+diff -Naur --exclude CVS source/geant4e/src/G4eTrajStateOnSurface.cc source/geant4e/src/G4eTrajStateOnSurface.cc
+--- source/geant4e/src/G4eTrajStateOnSurface.cc	1970-01-01 01:00:00.000000000 +0100
++++ source/geant4e/src/G4eTrajStateOnSurface.cc	2007-01-17 12:41:58.000000000 +0100
+@@ -0,0 +1,178 @@
++#include "G4eTrajStateOnSurface.hh"
++#include "G4eManager.hh"
++
++#include "G4Field.hh"
++#include "G4FieldManager.hh"
++#include "G4TransportationManager.hh"
++
++#include "CLHEP/Matrix/Matrix.h"
++#include <iomanip>
++
++
++//------------------------------------------------------------------------
++G4eTrajStateOnSurface::G4eTrajStateOnSurface( const G4String& partType, const G4Point3D& pos, const G4Vector3D& mom, const G4Vector3D& vecU, const G4Vector3D& vecV, const G4eTrajError& errmat) : G4eTrajState( partType, pos, mom, errmat )
++{
++  Init();
++  fTrajParam = G4eTrajParamOnSurface( pos, mom, vecU, vecV );
++}
++
++//------------------------------------------------------------------------
++G4eTrajStateOnSurface::G4eTrajStateOnSurface( const G4String& partType, const G4Point3D& pos, const G4Vector3D& mom, const G4Plane3D& plane, const G4eTrajError& errmat ): G4eTrajState( partType, pos, mom, errmat )
++{
++  Init();
++  fTrajParam = G4eTrajParamOnSurface( pos, mom, plane );
++
++}
++
++
++//------------------------------------------------------------------------
++G4eTrajStateOnSurface::G4eTrajStateOnSurface( G4eTrajStateFree& tpSC, const G4Plane3D& plane ): G4eTrajState( tpSC.GetParticleType(), tpSC.GetPosition(), tpSC.GetMomentum() )
++{
++  //  fParticleType = tpSC.GetParticleType();
++  //  fPosition = tpSC.GetPosition();
++  //  fMomentum = tpSC.GetMomentum();
++  fTrajParam = G4eTrajParamOnSurface( fPosition, fMomentum, plane );
++  Init();
++
++  //----- Get the error matrix in SC coordinates
++  BuildErrorMatrix( tpSC, GetVectorV(), GetVectorW() );
++}
++
++//------------------------------------------------------------------------
++G4eTrajStateOnSurface::G4eTrajStateOnSurface( G4eTrajStateFree& tpSC, const G4Vector3D& vecU, const G4Vector3D& vecV ) : G4eTrajState( tpSC.GetParticleType(), tpSC.GetPosition(), tpSC.GetMomentum() )
++{
++  fTrajParam = G4eTrajParamOnSurface( fPosition, fMomentum, vecU, vecV );
++  theTSType = G4eTS_OS;
++  //----- Get the error matrix in SC coordinates
++  BuildErrorMatrix( tpSC, vecU, vecV );
++}
++
++
++//------------------------------------------------------------------------
++void G4eTrajStateOnSurface::BuildErrorMatrix( G4eTrajStateFree& tpSC, const G4Vector3D&, const G4Vector3D& )
++{
++  double sclambda = tpSC.GetParameters().GetLambda();
++  double scphi = tpSC.GetParameters().GetPhi();
++  if( G4eManager::GetG4eManager()->GetMode() == G4eMode_PropBackwards ){
++    sclambda *= -1;
++    scphi += M_PI;
++  }
++  double cosLambda = cos( sclambda );
++  double sinLambda = sin( sclambda );
++  double sinPhi = sin( scphi );
++  double cosPhi = cos( scphi );
++
++#ifdef G4EVERBOSE
++  if( iverbose >= 4) G4cout << " PM " << fMomentum.mag() << " pLambda " << sclambda << " pPhi " << scphi << G4endl;
++#endif
++
++  G4ThreeVector vTN( cosLambda*cosPhi, cosLambda*sinPhi,sinLambda );
++  G4ThreeVector vUN( -sinPhi, cosPhi, 0. );
++  G4ThreeVector vVN( -vTN.z()*vUN.y(),vTN.z()*vUN.x(), cosLambda );
++  
++#ifdef G4EVERBOSE
++  if( iverbose >= 4) std::cout << " SC2SD: vTN " << vTN << " vUN " << vUN << " vVN " << vVN << std::endl;
++#endif
++  double UJ = vUN*GetVectorV();
++  double UK = vUN*GetVectorW();
++  double VJ = vVN*GetVectorV();
++  double VK = vVN*GetVectorW();
++
++
++  //--- Get transformation first
++  HepMatrix transfM(5, 5, 0 );
++  //--- Get magnetic field
++  const G4Field* field = G4TransportationManager::GetTransportationManager()->GetFieldManager()->GetDetectorField();
++
++  G4Vector3D vectorU = GetVectorV().cross( GetVectorW() );
++
++#ifdef G4EVERBOSE
++  if( iverbose >= 4) std::cout << "vectors " << vectorU << " " <<  GetVectorV() << " " << GetVectorW() << std::endl;
++#endif
++  double T1R = 1. / ( vTN * vectorU );
++
++  if( fCharge != 0 && field ) {
++    G4double pos[3]; pos[0] = fPosition.x()*cm; pos[1] = fPosition.y()*cm; pos[2] = fPosition.z()*cm;
++    G4double Hd[3];
++    field->GetFieldValue( pos, Hd );
++    G4ThreeVector H = G4ThreeVector( Hd[0], Hd[1], Hd[2] ) / tesla *10.;  //in kilogauus
++    G4double magH = H.mag();
++    G4double invP = 1./(fMomentum.mag()/GeV);
++    G4double magHM = magH * invP;
++    if( magH != 0. ) {
++      G4double magHM2 = fCharge / magH;
++      G4double Q = -magHM * c_light/ (km/ns);
++#ifdef G4EVERBOSE
++      if( iverbose >= 4) std::cout << GeV <<  " Q " << Q << " magHM " << magHM << " c_light/(km/ns) " << c_light/(km/ns) << std::endl;      
++#endif
++
++      G4double sinz = -H*vUN * magHM2;
++      G4double cosz =  H*vVN * magHM2;
++      double T3R = Q * pow(T1R,3);
++      double UI = vUN * vectorU;
++      double VI = vVN * vectorU;
++#ifdef G4EVERBOSE
++      if( iverbose >= 4) {
++	G4cout << " T1R " << T1R << " T3R " << T3R << G4endl;
++	G4cout << " UI " << UI << " VI " << VI << " vectorU " << vectorU << G4endl;
++	G4cout << " UJ " << UJ << " VJ " << VJ << G4endl;
++	G4cout << " UK " << UK << " VK " << VK << G4endl;
++      }
++#endif
++
++      transfM[1][3] = -UI*( VK*cosz-UK*sinz)*T3R;
++      transfM[1][4] = -VI*( VK*cosz-UK*sinz)*T3R;
++      transfM[2][3] = UI*( VJ*cosz-UJ*sinz)*T3R;
++      transfM[2][4] = VI*( VJ*cosz-UJ*sinz)*T3R;
++    }
++  }
++
++  double T2R = T1R * T1R;
++  transfM[0][0] = 1.;
++  transfM[1][1] = -UK*T2R;
++  transfM[1][2] = VK*cosLambda*T2R;
++  transfM[2][1] = UJ*T2R;
++  transfM[2][2] = -VJ*cosLambda*T2R;
++  transfM[3][3] = VK*T1R;
++  transfM[3][4] = -UK*T1R;
++  transfM[4][3] = -VJ*T1R;
++  transfM[4][4] = UJ*T1R;
++
++#ifdef G4EVERBOSE
++  if( iverbose >= 4) G4cout << " SC2SD transf matrix A= " << transfM << G4endl;
++#endif
++  fError = G4eTrajError( tpSC.GetError().similarity( transfM ) );
++
++#ifdef G4EVERBOSE
++  if( iverbose >= 1) std::cout << "G4EP: error matrix SC2SD " << fError << std::endl;
++  if( iverbose >= 4) G4cout << "G4eTrajStateOnSurface from SC " << *this << G4endl;
++#endif
++
++}
++
++//------------------------------------------------------------------------
++void G4eTrajStateOnSurface::Init()
++{
++ theTSType = G4eTS_OS;
++ BuildCharge();
++}
++
++
++//------------------------------------------------------------------------
++void G4eTrajStateOnSurface::Dump( std::ostream& out ) const
++{
++  out << *this;
++}
++
++
++//------------------------------------------------------------------------
++std::ostream& operator<<(std::ostream& out, const G4eTrajStateOnSurface& ts)
++{
++  out.setf(std::ios::fixed,std::ios::floatfield);
++  
++  ts.DumpPosMomError( out );
++ 
++  out << " G4eTrajStateOnSurface: Params: " << ts.fTrajParam << G4endl;
++  return out;
++}
++
+diff -Naur --exclude CVS source/track/include/G4VParticleChange.hh source/track/include/G4VParticleChange.hh
+--- source/track/include/G4VParticleChange.hh	2006-10-30 10:50:13.000000000 +0100
++++ source/track/include/G4VParticleChange.hh	2007-01-17 15:35:14.000000000 +0100
+@@ -264,6 +264,15 @@
+     void   SetDebugFlag();
+     G4bool GetDebugFlag() const; 
+ 
++  //>>GEANT4E
++    static void SetAccuracyForWarning( double accu ){
++      accuracyForWarning = accu; }
++
++    static void SetAccuracyForException(double accu ){
++      accuracyForException = accu; };
++  //<<GEANT4E
++
++
+   protected:
+     // CheckSecondary method is provided for debug
+     G4bool CheckSecondary(G4Track&);
+@@ -275,8 +284,12 @@
+     G4bool   debugFlag;
+  
+     // accuracy levels
+-    static const G4double accuracyForWarning;
+-    static const G4double accuracyForException; 
++  //>>GEANT4E
++  //    static const G4double accuracyForWarning;
++  //    static const G4double accuracyForException; 
++    static G4double accuracyForWarning;
++    static G4double accuracyForException; 
++  //<< GEANT4E
+ 
+ 
+   protected:
+diff -Naur --exclude CVS source/track/src/G4VParticleChange.cc source/track/src/G4VParticleChange.cc
+--- source/track/src/G4VParticleChange.cc	2006-10-30 10:50:13.000000000 +0100
++++ source/track/src/G4VParticleChange.cc	2007-01-17 15:36:53.000000000 +0100
+@@ -42,8 +42,12 @@
+ #include "G4TrackFastVector.hh"
+ #include "G4ExceptionSeverity.hh"
+ 
+-const G4double G4VParticleChange::accuracyForWarning = 1.0e-9;
+-const G4double G4VParticleChange::accuracyForException = 0.001;
++//>>GEANT4E
++//const G4double G4VParticleChange::accuracyForWarning = 1.0e-9;
++//const G4double G4VParticleChange::accuracyForException = 0.001;
++G4double G4VParticleChange::accuracyForWarning = 1.0e-9;
++G4double G4VParticleChange::accuracyForException = 0.001;
++//<<GEANT4E
+ 
+ G4VParticleChange::G4VParticleChange():
+    theNumberOfSecondaries(0),
+--- source/GNUmakefile	2006-12-14 11:39:45.000000000 +0100
++++ source/GNUmakefile	2007-01-23 10:57:51.000000000 +0100
+@@ -19,7 +19,7 @@
+ 
+ include $(G4INSTALL)/config/architecture.gmk
+ 
+-SUBDIR1 =  global intercoms graphics_reps materials
++SUBDIR1 = geant4e   global intercoms graphics_reps materials
+ SUBDIR2 =  geometry particles track digits_hits processes
+ SUBDIR2 += parameterisations tracking event run readout
+ SUBDIR3 =  persistency interfaces visualization

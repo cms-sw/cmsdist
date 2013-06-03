@@ -1,0 +1,57 @@
+Index: cintex/src/CINTFunctional.cxx
+===================================================================
+RCS file: /user/cvs/root/cintex/src/CINTFunctional.cxx,v
+retrieving revision 1.21.2.1
+diff -u -r1.21.2.1 CINTFunctional.cxx
+--- cintex/src/CINTFunctional.cxx	15 Mar 2007 08:51:22 -0000	1.21.2.1
++++ cintex/src/CINTFunctional.cxx	18 Feb 2008 22:33:32 -0000
+@@ -228,14 +228,14 @@
+                obj = context->fNewdelfuncs->fNewArray(nary, 0);
+             }
+             else {
+-               obj = ::operator new( nary * size);
++               obj = new char[size];
+                long p = (long)obj; 
+                for( long i = 0; i < nary; ++i, p += size )
+                   (*context->fStub)((void*)p, context->fParam, 0);
+             }
+          }
+          else {
+-            obj = ::operator new( size );
++            obj = new char[size];
+             (*context->fStub)(obj, context->fParam, 0);
+          }
+       }
+@@ -244,12 +244,12 @@
+          errtxt += e.what();
+          errtxt += " (C++ exception)";
+          G__genericerror(errtxt.c_str());
+-         ::operator delete (obj);
++         delete [] (char *)(obj);
+          obj = 0; 
+       } 
+       catch (...) {
+          G__genericerror("Exception: Unknown C++ exception");
+-         ::operator delete (obj);
++         delete [] (char *)(obj);
+          obj = 0; 
+       }
+      
+@@ -280,7 +280,7 @@
+             size_t size = context->fClass.SizeOf();
+             for(int i = G__getaryconstruct()-1; i>=0 ; i--)
+                (*context->fStub)((char*)obj + size*i, context->fParam, 0);
+-            ::operator delete (obj);
++            ::operator delete [] (obj);
+          }
+       }
+       else {
+@@ -289,7 +289,7 @@
+          (*context->fStub)(obj, context->fParam, 0);
+          G__setgvp(g__Xtmp);
+          if( !(long(obj) == G__getgvp() && G__PVOID != G__getgvp()) )  {
+-            ::operator delete (obj); //G__operator_delete(obj);
++            ::operator delete [] (obj); //G__operator_delete(obj);
+          }
+       }
+       G__setnull(result);

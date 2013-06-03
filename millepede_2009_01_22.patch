@@ -1,0 +1,621 @@
+diff -Naur versWebEndMay2007plain/dynal.inc versWork/dynal.inc
+--- versWebEndMay2007plain/dynal.inc	2006-09-29 20:09:30.000000000 +0200
++++ versWork/dynal.inc	2008-12-22 12:04:10.000000000 +0100
+@@ -1,5 +1,8 @@
+ 
+-      PARAMETER       (MEGA=100 000 000) ! 100 mio words
++       PARAMETER       (MEGA=NUMBER_OF_WORDS) ! make preprocessor decide
++*      PARAMETER       (MEGA=100 000 000) ! 100 mio words: 400 MB
++*         Following needs 64 bit and compiler option -mcmodel=medium:
++*      PARAMETER       (MEGA=1 000 000 000) ! 1000 mio words: 4 GB 
+ *                           -----------
+       COMMON/COMEGA/MQ(MEGA)
+       REAL          QM(MEGA)
+diff -Naur versWebEndMay2007plain/Makefile versWork/Makefile
+--- versWebEndMay2007plain/Makefile	2007-05-18 20:32:36.000000000 +0200
++++ versWork/Makefile	2009-01-22 13:38:39.000000000 +0100
+@@ -1,16 +1,25 @@
+ # #################################################################
+ # Makefile for MillePede II with possible input from C
+-# (works on 32-bit SLC3 and and 64-bit SLC4)
++# (works on 32-bit SLC4)
+ # #################################################################
+ #
+ # compiler options
+ #
+-# To make it link with a BIG static array in dynal.inc,
+-# but does not work on 32 bit machines:
+-#LARGE_MEMORY_OPT=-mcmodel=medium
++# To make it link with a BIG (>2 GB) static array in dynal.inc,
++# we need '-mcmodel=medium', but does not work on 32 bit machines,
++# so here we switch off and restrict to smaller binaries
+ LARGE_MEMORY_OPT=
+ # All but 'yes' disables support of reading C-binaries:
+ SUPPORT_READ_C = yes
++# If yes (and if SUPPORT_READ_C is yes), uses rfio, i.e. shift library, for IO,
++# requires shift library to be installed
++# (valid only for default executables, pede_*rfio*-ones will always get it):
++SUPPORT_C_RFIO =
++# yes
++#
++# Define the number of words for matrix/vector storage for the default pede program:
++NUMBER_OF_WORDS = 100000000 # =400 MB
++#
+ #
+ FCOMP = gcc
+ F_FLAGS = -Wall -fno-automatic -fno-backslash -O3 ${LARGE_MEMORY_OPT}
+@@ -19,6 +28,7 @@
+ CCOMP = gcc 
+ C_FLAGS = -Wall -O3 -Df2cFortran ${LARGE_MEMORY_OPT}
+ C_INCLUDEDIRS =  # e.g. -I .
++C_LIBS = -lg2c -lfrtbegin
+ DEBUG =          # e.g. -g
+ #
+ LOADER = gcc
+@@ -26,41 +36,91 @@
+ #
+ # objects for this project
+ #
+-USER_OBJ_PEDE = pede.o mptest.o mille.o mpnum.o mptext.o mphistab.o \
+-	dynal.o minresblas.o minres.o vertpr.o linesrch.o
++USER_OBJ_PEDE_STATIC = mptest.o mille.o mpnum.o mptext.o mphistab.o \
++	minresblas.o minres.o vertpr.o linesrch.o
++USER_OBJ_PEDE = ${USER_OBJ_PEDE_STATIC} pede.o dynal.o
+ #
+ # Chose flags/object files for C-binary support:
+ #
+ ifeq ($(SUPPORT_READ_C),yes)
+   F_FLAGS += -DREAD_C_FILES
+   USER_OBJ_PEDE += readc.o
++  ifeq ($(SUPPORT_C_RFIO),yes)
++    C_FLAGS += -DUSE_SHIFT_RFIO
++    C_LIBS += -lshift
++  endif
+ endif
+ #  
+ #
+ # Make the executables
+-#
++# The specific ones (part of hack, see below) + the single:
++EXECUTABLES = pede pede_1GB pede_1GB_rfio pede_2GB pede_2GB_rfio 
++
++all:	$(EXECUTABLES)
++
++# The single special one:
+ pede : 	${USER_OBJ_PEDE} Makefile
+-	$(LOADER) $(L_FLAGS) -lg2c -lfrtbegin \
++	$(LOADER) $(L_FLAGS) $(C_LIBS) \
+ 		-o $@ ${USER_OBJ_PEDE} 
+-#
++#  
+ #
+ #
+ clean:
+ 	rm -f *.o *~
+ #
++clobber: clean 
++	rm -f $(EXECUTABLES)
++
++install: $(EXECUTABLES) #clean
++	mkdir -p bin
++	mv $(EXECUTABLES) bin
++
+ # Make the object files - depend on source and include file 
+ #
+ %.o : %.F Makefile
+ 	${FCOMP} ${F_FLAGS} -c $< -o $@ 
+-#
+-# these two depend on the included memory:
+-dynal.o : dynal.F dynal.inc 
+-pede.o : pede.F dynal.inc 
+-#
++# These two depend on the memory defined by NUMBER_OF_WORDS, 
++# the second also on variable definitions:
++dynal.o : dynal.F dynal.inc Makefile
++	${FCOMP} ${F_FLAGS} -DNUMBER_OF_WORDS=${NUMBER_OF_WORDS} -c $< -o $@
++pede.o : pede.F dynal.inc mpinds.inc Makefile
++	${FCOMP} ${F_FLAGS} -DNUMBER_OF_WORDS=${NUMBER_OF_WORDS} -c $< -o $@
+ #
+ %.o: %.c Makefile
+ 	$(CCOMP) -c $(C_FLAGS) $(DEFINES) $(C_INCLUDEDIRS) $(DEBUG) -o $@ $<
+ #
++####################################################################
++# Here we start the hack for the various executables...
++
++%_1GB.o: %.F dynal.inc Makefile
++	${FCOMP} ${F_FLAGS} -DNUMBER_OF_WORDS=250000000 -c $< -o $@
++%_2GB.o: %.F dynal.inc Makefile
++	${FCOMP} ${F_FLAGS} -DNUMBER_OF_WORDS=500000000 -c $< -o $@
++%_rfio.o: %.c Makefile
++	$(CCOMP) -c $(C_FLAGS) -DUSE_SHIFT_RFIO $(DEFINES) $(C_INCLUDEDIRS) \
++		$(DEBUG) -o $@ $<
++#
++#
++#
++pede_1GB: ${USER_OBJ_PEDE_STATIC} pede_1GB.o dynal_1GB.o readc.o Makefile
++	$(LOADER) $(L_FLAGS) $(C_LIBS) \
++		-o $@ ${USER_OBJ_PEDE_STATIC} pede_1GB.o dynal_1GB.o readc.o  
++#
++pede_2GB: ${USER_OBJ_PEDE_STATIC} pede_2GB.o dynal_2GB.o readc.o Makefile
++	$(LOADER) $(L_FLAGS) $(C_LIBS) \
++		-o $@ ${USER_OBJ_PEDE_STATIC} pede_2GB.o dynal_2GB.o readc.o  
++#
++pede_1GB_rfio: ${USER_OBJ_PEDE_STATIC} pede_1GB.o dynal_1GB.o readc_rfio.o Makefile
++	$(LOADER) $(L_FLAGS) $(C_LIBS) -lshift \
++		-o $@ ${USER_OBJ_PEDE_STATIC} pede_1GB.o dynal_1GB.o readc_rfio.o  
++#
++pede_2GB_rfio: ${USER_OBJ_PEDE_STATIC} pede_2GB.o dynal_2GB.o readc_rfio.o Makefile
++	$(LOADER) $(L_FLAGS) $(C_LIBS) -lshift \
++		-o $@ ${USER_OBJ_PEDE_STATIC} pede_2GB.o dynal_2GB.o readc_rfio.o  
++#
++# End hack for the various executables...
++####################################################################
++#
+ # ##################################################################
+ # END
+ # ##################################################################
+diff -Naur versWebEndMay2007plain/mpinds.inc versWork/mpinds.inc
+--- versWebEndMay2007plain/mpinds.inc	2007-04-10 11:46:52.000000000 +0200
++++ versWork/mpinds.inc	2008-12-22 12:04:10.000000000 +0100
+@@ -21,22 +21,27 @@
+       PARAMETER (NDIMB=5000)
+       COMMON/MEMI/NST,GLDER(NDIMB),INDER(NDIMB)
+ 
+-      PARAMETER (MFILES=100)
++*GF      PARAMETER (MFILES=100)
++      PARAMETER (MFILES=500)
+       INTEGER MFD(MFILES)  ! MFD(.)=1 binary   MFD(.)=2 text
+       INTEGER LFD(MFILES)  ! LFD(.)=  number of characters
+       INTEGER NFD(MFILES)  ! NFD(.)=  index in file  
+-      CHARACTER*240 TFD(MFILES)        ! file names
++*GF      CHARACTER*240 TFD(MFILES)        ! file names
++      CHARACTER*500 TFD(MFILES)        ! file names
+       COMMON/MPFILE/IFILE,NFILES,NFILB,NFILC,MFD,LFD,TFD,NFD
+ 
+       LOGICAL RECPRI,NEWITE
++      DOUBLE PRECISION MRESTL
+       COMMON/MPSTER/NTGB,NVGB,NAGB,NCGB,NAGBN,NALCN,
+      +              METSOL,MATSTO,MPRINT,MDEBUG,MREQEN,INTRAC,
+      +              MITERA,MBANDW,ICTEST,NAEQN,NREC,NLOOPN,
+-     +              LUNKNO,LHUBER,CHICUT,CHIREM,DFLIM,NREJEC(3),
++*GF     +              LUNKNO,LHUBER,CHICUT,CHIREM,DFLIM,NREJEC(3),
++     +              LUNKNO,LHUBER,CHICUT,CHIREM,CHHUGE,DFLIM,NREJEC(3),
+      +              ITERAT,NTERAT,TIMES(0:6),GBM,UBM,STEPL,
+      +              NRECPR,NRECP2,NREC1,NREC2,VALUE1,VALUE2,
+      +              RECPRI,NEWITE,TA(2),DWCUT,ISUBIT,NHISTP,
+-     +              WOLFC1,WOLFC2,NOFEAS,DELFUN,ACTFUN,ANGRAS   
++*GF     +              WOLFC1,WOLFC2,NOFEAS,DELFUN,ACTFUN,ANGRAS   
++     +              WOLFC1,WOLFC2,MRESTL,NOFEAS,DELFUN,ACTFUN,ANGRAS   
+ *     NTGB  = total number of global parameters (incl. fixed)
+ *     NVGB  = number of variable parameters
+ *     NAGB  = number of fit parameters (incl. Lagrange multiplier)
+@@ -51,6 +56,7 @@
+ *     LHUBER= flag for Huber outlier down-weighting  
+ *     CHICUT= rejection in first iteration
+ *     CHIREM= rejection after first iteration
++*     CHHUGE= 'huge' rejection always applied (GF)
+ *     DFLIM = delta F limit for convergence
+ *     NREJEC(3) = counter for rejected cases
+ *     ITERAT= iteration in solution
+@@ -78,6 +84,7 @@
+ *     WOLFC2 = C_2 constant of strong Wolfe condition
+ *              default = 0.9 for Newton and quasi Newton
+ *              default = 0.1 for nonlinear CG
++*     MRESTL = tolerance criterion for MINRES (default 10^-8) (GF)
+ *     NOFEAS = do not make par feasible at start, if ne zero
+ *     DELFUN = expected function change for search step
+ *     ACTFUN = actual function change 
+diff -Naur versWebEndMay2007plain/mptext.F versWork/mptext.F
+--- versWebEndMay2007plain/mptext.F	2006-12-05 12:21:47.000000000 +0100
++++ versWork/mptext.F	2008-12-22 12:04:10.000000000 +0100
+@@ -210,8 +210,11 @@
+ *     returns MATCH=3, NPAT=4, NTEXT=8       
+ *     ------------------------------------------------------------------
+       CHARACTER*(*) PAT,TEXT
+-      INTEGER ID(0:100,2)
+-
++*GF
++*      INTEGER ID(0:100,2) 
++      PARAMETER (NPATMA=512)
++      INTEGER ID(0:NPATMA,2) 
++* end GF
+       LOGICAL START                        ! for case conversion
+       CHARACTER*26 CHU,CHL
+       INTEGER NJ(0:255)
+@@ -253,8 +256,12 @@
+        IF(PAT(I:I).NE.' ') IPB=I
+       END DO
+       NPAT=IPB-IPA+1
+-      IF(NPAT.GT.100) STOP 'MATINT: string PAT too long!   '
+-
++*GF      IF(NPAT.GT.100) STOP 'MATINT: string PAT too long!   '
++      IF(NPAT.GT.NPATMA) THEN
++         WRITE(*,*) 'too long PAT (', PAT,'):', NPAT, ' >', NPATMA
++         STOP 'MATINT: string PAT too long!   '
++      END IF
++*GF end
+       ID(0,1)=0 
+       DO I=0,NPAT
+        ID(I,2)=I
+diff -Naur versWebEndMay2007plain/pede.F versWork/pede.F
+--- versWebEndMay2007plain/pede.F	2007-05-25 12:37:09.000000000 +0200
++++ versWork/pede.F	2009-01-20 21:50:44.000000000 +0100
+@@ -521,7 +521,8 @@
+       NOUT  =0       ! suppress printout
+       ITNLIM=2000    ! iteration limit
+       SHIFT =0.0D0   ! not used
+-      RTOL  =1.0D-08 !   1.0D-04 ! 1.0D-3
++*GF      RTOL  = 1.0D-08 !   1.0D-04 ! 1.0D-3
++      RTOL = MRESTL ! from steering
+       NVAR=NAGB
+ 
+       IF(MBANDW.NE.0) THEN        ! solution with preconditioning
+@@ -970,7 +971,9 @@
+       NOUT  =0
+       ITNLIM=10
+       SHIFT =0.0D0
+-      RTOL  =1.0D-3
++*GF      RTOL  =1.0D-3
++      RTOL  = MRESTL ! from steering
++
+       NVAR=NAGB
+       CALL MINRES(NVAR,DQ(IGVEC/2+1),
+      +                 DQ(IDUX1/2+1),DQ(IDUX2/2+1),DQ(IDUX3/2+1),
+@@ -998,7 +1001,22 @@
+       END IF
+       DIAG=DQ(IGMAT/2+JK)
+       IF(GMATI*DIAG.GT.0.0) THEN   ! global correlation
+-         GCOR=SQRT(ABS(1.0-1.0/(GMATI*DIAG)))
++* GF                GCOR=SQRT(ABS(1.0-1.0/(GMATI*DIAG)))
++* GF                 why abs??? cf. http://rkb.home.cern.ch/rkb/AN16pp/node40.html#39
++* GF start...
++         GCOR=(1.0-1.0/(GMATI*DIAG))
++         IF(GCOR.LT.0.0) THEN
++            WRITE(*,*) 'ERROR: global correlation^2 = ',GCOR,' set -2.'
++            GCOR=-2.0
++         ELSE 
++            GCOR=SQRT(GCOR)
++            IF(GCOR.GT.1.0) THEN
++               WRITE(*,*) 'ERROR: global correlation = ',
++     +              GCOR,', set -1.'
++               GCOR=-1.0
++            END IF
++         END IF
++* GF end...
+       END IF
+       WRITE(*,102) ITGBL,PAR,QM(IND1+ITGBI),DPA,ERR,GCOR
+  101  FORMAT(1X,'    label    parameter  presigma     differ',
+@@ -1508,7 +1526,8 @@
+ *     open all binary files
+ 
+ 
+-      CHARACTER*256 TEXT,FILNAM 
++* GF      CHARACTER*256 TEXT,FILNAM 
++      CHARACTER*512 TEXT,FILNAM 
+ #include "dynal.inc"
+       CHARACTER*14 BITE(3)
+       CHARACTER*32 KEYSTX
+@@ -1532,6 +1551,9 @@
+       LHUBER=0  ! Huber down-weighting flag 
+       CHICUT=0  ! cut in terms of 3-sigma cut, first iteration
+       CHIREM=0  ! cut in terms of 3-sigma cut, other iterations
++* GF add
++      CHHUGE=50.0 ! cut in terms of 3-sigma for unreasonable data, all iterations
++* GF add end
+       NRECPR=0  ! record number with printout
+       NRECP2=0  ! record number with printout
+       NREC1 =0  ! record number with largest residual
+@@ -1542,6 +1564,9 @@
+       ISUBIT=0  ! subito flag
+       WOLFC1=0.0! C_1 of strong Wolfe condition
+       WOLFC2=0.0! C_2 of strong Wolfe condition 
++* GF add
++      MRESTL=1.0D-08            ! tolerance criterion for MINRES
++* GF add end
+       NOFEAS=0  ! default for making par feasible
+       NHISTP=0  ! no histogram printout
+       DELFUN=0.0! expected function change
+@@ -1642,18 +1667,18 @@
+       END IF
+ 
+       KEYSTX='fortranfiles'
+-      MAT=MATINT(TEXT(IA:IB),KEYSTX,NPAT,NTEXT)
+-      IF(MAT.GE.NTEXT-NTEXT/10) THEN
+-c      IF (TEXT(IA:IB).EQ.KEYSTX) THEN ! exact comparison by GF
++cGF      MAT=MATINT(TEXT(IA:IB),KEYSTX,NPAT,NTEXT)
++cGF      IF(MAT.GE.NTEXT-NTEXT/10) THEN
++      IF (TEXT(IA:IB).EQ.KEYSTX) THEN ! exact comparison by GF
+          NUF=3
+ c         WRITE(*,*) 'Fortran files'
+          GOTO 10   
+       END IF
+ 
+       KEYSTX='Cfiles'
+-      MAT=MATINT(TEXT(IA:IB),KEYSTX,NPAT,NTEXT)
+-      IF(MAT.GE.NTEXT-NTEXT/10) THEN 
+-c      IF (TEXT(IA:IB).EQ.KEYSTX) THEN ! exact comparison by GF
++cGF      MAT=MATINT(TEXT(IA:IB),KEYSTX,NPAT,NTEXT)
++cGF      IF(MAT.GE.NTEXT-NTEXT/10) THEN 
++      IF (TEXT(IA:IB).EQ.KEYSTX) THEN ! exact comparison by GF
+          NUF=1
+ c         WRITE(*,*) 'Cfiles'
+          GOTO 10
+@@ -1723,13 +1748,17 @@
+           WRITE(*,*) 'Opening C file ',NFILC+1, ': ',TFD(I)(1:LFD(I)) ! by GF
+           CALL OPENC(TFD(I)(1:LFD(I)),IOS)
+           IF(IOS.NE.0) THEN
+-             WRITE(*,*) 'Open error for file ',TFD(I)(1:LFD(I))
++*GF             WRITE(*,*) 'Open error for file ',TFD(I)(1:LFD(I))
++             WRITE(*,*) 'Open error ',IOS,' for file ',TFD(I)(1:LFD(I))
+              IOSUM=IOSUM+1 ! typo fixed by GF
+           ELSE 
+              NFILC=NFILC+1
+           END IF 
+ #else
+           WRITE(*,*) 'Opening of C-files not supported.'
++* GF add
++          IOSUM=IOSUM+1
++* GF add end
+ #endif
+        END IF
+       END DO
+@@ -2000,9 +2029,19 @@
+       SAVE
+ *     ...
+       NUFILE=0
+-      INQUIRE(FILE=FILNAM,IOSTAT=IOS,EXIST=EX)
+-      IF(IOS.NE.0) NUFILE=-ABS(IOS)
+-      IF(IOS.NE.0) RETURN
++* GF avoid INQUIRE on rfio files (will fail) and assume them to be binary
++      IF(FILNAM(1:5).EQ.'rfio:') THEN
++         LL=LEN(FILNAM) 
++         FILNAM=FILNAM(6:LL)
++         EX=.TRUE.
++         NUFILE=1
++         RETURN
++      ELSE
++* GF end avoid...
++         INQUIRE(FILE=FILNAM,IOSTAT=IOS,EXIST=EX)
++         IF(IOS.NE.0) NUFILE=-ABS(IOS)
++         IF(IOS.NE.0) RETURN
++      END IF ! GF
+       IF(EX) THEN
+          NUFILE=1                                   ! binary
+          LL=LEN(FILNAM) 
+@@ -2084,7 +2123,8 @@
+          IF(MAT.GE.(NPAT-NPAT/5)) THEN          
+ c         IF(MAT.GE.(NTEXT+NTEXT+3)/3) THEN
+             MDEBUG=1
+-            IF(NUMS.GT.0) MPRINT=DNUM(1)
++* GF            IF(NUMS.GT.0) MPRINT=DNUM(1)
++            IF(NUMS.GT.0) MDEBUG=DNUM(1)
+             RETURN
+          END IF
+ 
+@@ -2125,6 +2165,16 @@
+             RETURN
+          END IF
+ 
++* GF added:
++         KEYSTX='hugecut'
++         MAT=MATINT(TEXT(KEYA:KEYB),KEYSTX,NPAT,NTEXT) ! comparison
++         IF(MAT.GE.(NPAT-NPAT/5)) THEN          
++            IF(NUMS.GT.0) CHHUGE=DNUM(1)
++            IF(CHHUGE.LT.1.0) CHHUGE=1.0 ! at least (!!) 3-sigma
++            RETURN
++         END IF
++* GF added end
++
+          KEYSTX='bandwidth'
+          MAT=MATINT(TEXT(KEYA:KEYB),KEYSTX,NPAT,NTEXT) ! comparison
+ c         IF(MAT.GE.(NTEXT+NTEXT+3)/3) THEN
+@@ -2187,6 +2237,23 @@
+             RETURN
+          END IF
+ 
++* GF added:
++* convergence tolerance for minres:
++         KEYSTX='mrestol'
++         MAT=MATINT(TEXT(KEYA:KEYB),KEYSTX,NPAT,NTEXT) ! comparison
++         IF(MAT.GE.(NPAT-NPAT/5)) THEN
++            IF(NUMS.GT.0) THEN
++               IF (DNUM(1).LT.1.0D-08.OR.DNUM(1).GT.1.0D-04) THEN
++                  WRITE(*,*) 'ERROR: need 1.0D-08 <= MRESTL ',
++     +                 '<= 1.0D-04, but get ', DNUM(1)
++               ELSE
++                  MRESTL=DNUM(1)
++               ENDIF
++            ENDIF
++            RETURN
++         END IF
++* GF added end
++
+          KEYSTX='nofeasiblestart'
+          MAT=MATINT(TEXT(KEYA:KEYB),KEYSTX,NPAT,NTEXT) ! comparison
+          IF(MAT.GE.(NPAT-NPAT/5)) THEN
+@@ -2583,7 +2650,8 @@
+       ELSE         ! C file
+          NR=NDIMB
+ #ifdef READ_C_FILES
+-         CALL READC(GLDER,INDER,NR,IERRC)
++         NCFILE = 0 ! set to number of read file in next line
++         CALL READC(GLDER,INDER,NR,NCFILE,IERRC)
+ #else
+          IERRC=0
+ #endif
+@@ -2840,6 +2908,7 @@
+          IF(MQ(INDF-1).EQ.MQ(INDF)/2) THEN
+             MQ(INDF-5)=MQ(INDF-5)+1      ! overflow
+             WRITE(*,*) 'ovfl return with J=',J,MQ(INDF-1),MQ(INDF)/2
++            STOP 'Not enough memory, increase MEGA and recompile.'  ! GF
+             GOTO 93
+          END IF
+          MQ(INDF-1)=MQ(INDF-1)+1         ! increase number of elements
+@@ -3016,7 +3085,8 @@
+       ELSE IF(METSOL.EQ.2) THEN
+          WRITE(LU,*) '     METSOL = 2:  diagonalization'
+       ELSE IF(METSOL.EQ.3) THEN
+-         WRITE(LU,*) '     METSOL = 3:  GMRES'
++*GF         WRITE(LU,*) '     METSOL = 3:  GMRES'
++         WRITE(LU,*) '     METSOL = 3:  GMRES (rtol', MRESTL,')'
+       ELSE IF(METSOL.EQ.4) THEN
+          WRITE(LU,*) '     METSOL = 4:  limited memory BFGS'
+       ELSE IF(METSOL.EQ.5) THEN
+@@ -3070,10 +3140,12 @@
+ 
+       CALL FEASMA    ! prepare constraint matrices 
+ 
+-      GBM=1.0E-9*FLOAT(4*MEGA)
++* GF 1/2009 to prevent overflow for 4*MEGA     GBM=1.0E-9*FLOAT(4*MEGA)
++      GBM=1.0E-9*FLOAT(MEGA)*4.
+       CALL MEGSPC(NUSE)         ! unused
+       NUSE=MEGA-NUSE            !   used  
+-      UBM=1.0E-9*FLOAT(4*NUSE)  
++* GF 1/2009      UBM=1.0E-9*FLOAT(4*NUSE)  
++      UBM=1.0E-9*FLOAT(NUSE)*4.  
+       WRITE(*,*) ' '
+       WRITE(*,104) GBM,UBM,UBM/GBM*100.0
+ 
+@@ -3499,10 +3571,12 @@
+      +      STEPL,       NREJEC,NHOUR,MINUT,SECND  
+       END IF
+ 
+- 112  FORMAT(I3,I3,F14.2,2(1X,F8.2),I3,F6.2,F5.1,
++*GF  112  FORMAT(I3,I3,F14.2,2(1X,F8.2),I3,F6.2,F5.1,
++ 112  FORMAT(I3,I3,F14.2,2(1X,E8.2),I3,F6.2,F5.1,
+      +       1X,I2,I4,I5,1X,I2,I2,F6.2)
+ 
+- 114  FORMAT(3X,I3,F14.2,10X,F8.2,3X,F6.2,5X,
++*GF 114  FORMAT(3X,I3,F14.2,10X,F9.1,3X,F6.2,5X,
++ 114  FORMAT(3X,I3,F14.2,10X,E8.2,3X,F6.2,5X,
+      +       1X,I2,I4,I5,1X,I2,I2,F6.2)
+ 
+ c      IF(CVALUE.NE.0.0D0) WRITE(*,102) CVALUE
+@@ -3833,7 +3907,8 @@
+ c            RETURN
+ c         END IF
+       CHICHI=CHINDL(3,NDF)*FLOAT(NDF)
+-      IF(SUMM.GT.50.0*CHICHI) THEN ! huge 
++* GF      IF(SUMM.GT.50.0*CHICHI) THEN ! huge 
++      IF(SUMM.GT.CHHUGE*CHICHI) THEN ! huge 
+           NREJEC(2)=NREJEC(2)+1    ! count cases with huge chi^2
+           IF(RECPRI) THEN
+                WRITE(1,*) '   ---> rejected!'
+@@ -4076,8 +4151,24 @@
+              GCOR=0.0
+              DIAG=DQ(IDUX1/2+IVGBI)
+              IF(GMATI*DIAG.GT.0.0) THEN   ! global correlation
+-                GCOR=SQRT(ABS(1.0-1.0/(GMATI*DIAG)))
+-                IF(GCOR.LT.0.0.OR.GCOR.GT.1.0) GCOR=-1.0
++* GF                GCOR=SQRT(ABS(1.0-1.0/(GMATI*DIAG)))
++* GF                 why abs??? cf. http://rkb.home.cern.ch/rkb/AN16pp/node40.html#39
++* GF                IF(GCOR.LT.0.0.OR.GCOR.GT.1.0) GCOR=-1.0
++* GF start...
++                GCOR=(1.0-1.0/(GMATI*DIAG))
++                IF(GCOR.LT.0.0) THEN
++                   WRITE(*,*) 'ERROR: global correlation^2 = ',
++     +                  GCOR, ' set -2.'
++                   GCOR=-2.0
++                ELSE 
++                   GCOR=SQRT(GCOR)
++                   IF(GCOR.GT.1.0) THEN
++                      WRITE(*,*) 'ERROR: global correlation = ',
++     +                     GCOR,', set -1.'
++                      GCOR=-1.0
++                   END IF
++                END IF
++* GF end...
+              END IF
+           END IF
+        END IF
+@@ -4399,6 +4490,7 @@
+          IF(MQ(INDF-1).EQ.MQ(INDF)/2) THEN
+             MQ(INDF-5)=MQ(INDF-5)+1      ! overflow
+             WRITE(*,*) 'ovfl return with J=',J,MQ(INDF-1),MQ(INDF)/2
++            STOP 'Not enough memory, increase MEGA and recompile.'  ! GF
+             RETURN
+          END IF
+          MQ(INDF-1)=MQ(INDF-1)+1         ! increase number of elements
+diff -Naur versWebEndMay2007plain/readc.c versWork/readc.c
+--- versWebEndMay2007plain/readc.c	2007-05-04 09:35:49.000000000 +0200
++++ versWork/readc.c	2008-12-22 12:04:10.000000000 +0100
+@@ -10,16 +10,28 @@
+    goes through all files as if it were only one, in contrast to the 
+    fortran READ used in routine PEREAD of pede.F.
+ 
+-   written by Gero Flucke (gero.flucke@cern.ch),
+-   last update on March 1st, 2007
++   if compiled with preprocessor macro USE_SHIFT_RFIO, uses libRFIO,
++   i.e. includes shift.h instead of stdio.h
++
++   written by Gero Flucke (gero.flucke@cern.ch) in 2006/7,
++   update on July 14th, 2008
++   last update on October 29th, 2008: return for file number in readC
+ */
+ 
++#ifdef USE_SHIFT_RFIO
++#include <shift.h>
++// or this??
++// // needed?#define _LARGEFILE64_SOURCE
++//#include <sys/types.h>
++//#include "rfio_api.h"
++#else
+ #include <stdio.h>
++#endif
+ #include "cfortran.h"
+ 
+ /* ________ global variables used for file handling __________ */
+ 
+-#define MAXNUMFILES 90
++#define MAXNUMFILES 490        /* should roughly match MFILES in mpinds.inc */
+ FILE *files[MAXNUMFILES];      /* pointers to opened binary files */
+ int fileReadOnce[MAXNUMFILES]; /* flag to printout record number once */
+ unsigned int numAllFiles;      /* number of opened files */
+@@ -90,22 +102,25 @@
+ /*______________________________________________________________*/
+ 
+  void readC(float *bufferFloat, int *bufferInt, int *lengthBuffers,
+- 	       int *errorFlag)
++	    int *nFileOut, int *errorFlag)
+ {
+    /* No return value since to be called as subroutine from fortran,
+       negative *errorFlag are errors, otherwise fine:
+-      * -1: pointer to a buffer or to lengthBuffers are null
++      * -1: pointer to a buffer or lengthBuffers/nFileOut are null
+       * -2: problem reading record length
+       * -4: given buffers too short for record
+       * -8: problem with stream or EOF reading floats
+       *-16: problem with stream or EOF reading ints
+       *  0: reached end of all files (or read empty record?!)
+       * >0: number of words (floats + integers) read and stored in buffers
++      
++      *nFileOut: returns number of the file the record is read from,
++                 starting from 1 (not 0), but only if record read succesfully.
+    */
+    if (!errorFlag) return;
+    *errorFlag = 0;
+    if (fileIndex < 0) return; /* no file opened at all... */
+-   if (!bufferFloat || !bufferInt || !lengthBuffers) {
++   if (!bufferFloat || !bufferInt || !lengthBuffers || !nFileOut) {
+      *errorFlag = -1;
+      return;
+    }
+@@ -116,7 +131,9 @@
+    size_t nCheckR = fread(&recordLength, sizeof(recordLength), 1,
+  			 files[fileIndex]);
+    while (feof(files[fileIndex])) {
+-     rewind(files[fileIndex]);
++     /* rewind(files[fileIndex]);  Does not work with rfio, so call: */
++     fseek(files[fileIndex], 0L, SEEK_SET);
++     clearerr(files[fileIndex]); /* These two should be the same as rewind... */
+      if (!fileReadOnce[fileIndex]) {
+        printf("readC: %d. file read the first time, found %d records.\n",
+ 	      fileIndex+1, nRec);
+@@ -171,5 +188,6 @@
+ 
+    ++nRec;
+    *errorFlag = *lengthBuffers;
++   *nFileOut = fileIndex + 1; /* As output, starting from 1. */
+  }
+-FCALLSCSUB4(readC,READC,readc,PFLOAT,PINT,PINT,PINT)
++FCALLSCSUB5(readC,READC,readc,PFLOAT,PINT,PINT,PINT,PINT)

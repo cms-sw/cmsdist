@@ -1,0 +1,19 @@
+diff -Naur graphviz-1.9.orig/dotneato/dotgen/position.c graphviz-1.9/dotneato/dotgen/position.c
+--- graphviz-1.9.orig/dotneato/dotgen/position.c	2002-12-22 17:51:37.000000000 +0100
++++ graphviz-1.9/dotneato/dotgen/position.c	2006-06-02 12:18:05.000000000 +0200
+@@ -368,6 +368,7 @@
+ 	}
+ }
+ 
++static void clust_ht(graph_t *g);
+ /* set y coordinates of nodes, a rank at a time */
+ void set_ycoords(graph_t* g)
+ {
+@@ -375,7 +376,6 @@
+ 	node_t	*n;
+ 	rank_t	*rank = GD_rank(g);
+ 	graph_t	*clust;
+-	static void clust_ht(graph_t *g);
+ 
+ 	ht2 = maxht = 0;
+ 

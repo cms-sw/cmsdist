@@ -1,0 +1,156 @@
+--- branches/v5-27-06-patches/config/Makefile.in	2011/02/11 23:44:42	38056
++++ branches/v5-27-06-patches/config/Makefile.in	2011/02/12 14:59:48	38057
+@@ -149,6 +149,7 @@
+ DNSSDLIBDIR    := @dnssdlibdir@
+ DNSSDLIB       := @dnssdlib@
+ DNSSDINCDIR    := $(filter-out /usr/include, @dnssdincdir@)
++BONJOURCPPFLAGS := @bonjourcppflags@
+ 
+ BUILDCHIRP     := @buildchirp@
+ CHIRPLIBDIR    := @chirplibdir@
+--- branches/v5-27-06-patches/configure	2011/02/11 23:44:42	38056
++++ branches/v5-27-06-patches/configure	2011/02/12 14:59:48	38057
+@@ -3419,6 +3419,18 @@
+ #
+ # Check for libdns_sd
+ #
++bonjourcppflags=
++case $platform in
++    linux|macosx|ios)
++        ;;
++    *)
++        if test "x$enable_bonjour" = "xyes" ; then
++            message "Checking whether Bonjour/Avahi is supported"
++            result "no (currently only for Linux/MacOSX/iOS)"
++        fi
++        enable_bonjour=no
++        ;;
++esac
+ if test ! "x$enable_bonjour" = "xno" ; then
+     # Bonjour is built-in on MacOS X / iOS (i.e. available in libSystem)
+     if test ! "x$platform" = "xmacosx" && test ! "x$platform" = "xios" ; then
+@@ -3435,10 +3447,14 @@
+             enable_bonjour="no"
+         fi
+     fi
++    if test ! "x$enable_bonjour" = "xno" ; then
++       bonjourcppflags="-DBUILD_BONJOUR"
++    fi
+ fi
+ check_explicit "$enable_bonjour" "$enable_bonjour_explicit" \
+      "Explicitly required Bonjour dependencies not fulfilled"
+ 
++
+ ######################################################################
+ #
+ ### echo %%% gLite Support - Third party libraries
+@@ -3844,6 +3860,7 @@
+ externalxrd="no"
+ if test ! "x$xrdlibdir" = "x" && test ! "x$xrdincdir" = "x"; then
+    externalxrd="yes"
++   xrdcomm="no, using xrootd at $xrdlibdir, $xrdincdir"
+ elif test ! "x$xrootddir" = "x"; then
+    externalxrd="yes"
+    if test ! "x$xrdlibdir" = "x" && test ! "x$xrdincdir" = "x"; then
+@@ -3870,23 +3887,61 @@
+ decver=0
+ if test ! "x$enable_xrootd" = "xno" ; then
+ 
++   newver="no"
+    if test "x$externalxrd" = "xyes"; then
+       verh=$xrdincdir/XrdVersion.hh
+    else
+-      verh=net/xrootd/src/xrootd/src/XrdVersion.hh
++      newver="yes"
++      verh=$top_srcdir/net/xrootd/src/xrootd/VERSION_INFO
++      if test ! -f $verh ; then
++         newver="no"
++         verh=$top_srcdir/net/xrootd/src/xrootd/src/XrdVersion.hh
++      fi
+    fi
+-   xrdver=`grep XrdVERSION $verh`
+-   if test $? -eq 0 ; then
+-      set $xrdver
+-      xrdver=$3
++   xrdver="unknown"
++   if test "x$newver" = "xyes" ; then
++      xrdver=`grep RefNames $verh`
++      if test $? -eq 0 ; then
++         set $xrdver
++         xrdver=`echo $4 | sed -e 's|,||'`
++      fi
+    else
+-      xrdver="unknown"
++      xrdver=`grep XrdVERSION $verh`
++      if test $? -eq 0 ; then
++         set $xrdver
++         xrdver=$3
++      fi
+    fi
+    if test ! "x$xrdver" = "xunknown"; then
+-      tmpver=`echo $xrdver | sed 's|v||' | cut -c2-9`
+-      decver=`expr 1 \* 0"$tmpver"`
++      tmpver=`echo $xrdver | sed -e 's|"\(.*\)"|\1|' -e 's|^v||' -e 's|-.*||'`
++      if test "x$tmpver" = "xuntagged" ; then
++         decver=9999999999
++      else
++         oldver="no"
++         hasdash=`echo $tmpver | grep '-'`
++         hasdot=`echo $tmpver | grep '\.'`
++         if test ! "x$hasdash" = "x" || test "x$hasdot" = "x"; then
++            oldver="yes"
++         fi
++         if test "x$oldver" = "xno" ; then
++            if test ! "x$hasdot" = "x" ; then
++               ver1=`echo $tmpver | cut -d . -f 1`
++               ver2=`echo $tmpver | cut -d . -f 2`
++               if test "x$ver1.$ver2" = "x$tmpver" ; then
++                  oldver="yes"
++               else
++                  ver3=`echo $tmpver | cut -d . -f 3`
++                  decver=`expr $ver1 \* 100000000 + $ver2 \* 10000 + $ver3`
++               fi
++            fi
++         fi
++         if test "x$oldver" = "xyes" ; then
++            decver=`echo $tmpver | sed 's|[^0-9]||g' | cut -c1-8`
++	 fi
++      fi
+    fi
+ fi
++bjrcomm=
+ if test "x$enable_xrootd" = "xyes" && test "x$externalxrd" = "xyes"; then
+ 
+    if test "x$enable_xrootd" = "xyes" ; then
+@@ -3912,6 +3967,13 @@
+       fi
+    fi
+ 
++   if test "x$enable_bonjour" = "xyes"; then
++      if test ! -f $xrdincdir/XrdOuc/XrdOucBonjour.hh ; then
++         bjrcomm="External xrootd has no bonjour support: disabling bonjour in XrdProofd"
++         bonjourcppflags= 
++      fi
++   fi
++
+ else
+    if test "x$enable_xrootd" = "x" && test "x$DEFAULTENABLE" = "xno"; then
+        enable_xrootd="no"
+@@ -3975,6 +4037,9 @@
+     hasxrd="#"
+     hasnotxrd=""
+ fi
++if test ! "x$bjrcomm" = "x"; then
++   echo "$bjrcomm"
++fi
+ check_explicit "$enable_xrootd" "$enable_xrootd_explicit" \
+      "Explicitly required Xrootd dependencies not fulfilled"
+ 
+@@ -5828,6 +5893,7 @@
+     -e "s|@asimagelib@|$asimagelib|"            \
+     -e "s|@asimagelibdir@|$asimagelibdir|"      \
+     -e "s|@bindir@|$bindir|"                    \
++    -e "s|@bonjourcppflags@|$bonjourcppflags|"  \
+     -e "s|@buildasimage@|$enable_asimage|"      \
+     -e "s|@builtinafterimage@|$enable_builtin_afterimage|"  \
+     -e "s|@buildftgl@|$enable_builtin_ftgl|"      \

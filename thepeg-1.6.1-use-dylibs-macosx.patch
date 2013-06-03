@@ -1,0 +1,34 @@
+commit b580de510791bc80be83d392dc5b5f4cb23bc9c0
+Author: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date:   Sat Nov 6 01:06:20 2010 +0100
+
+    Do not use bundles.
+
+diff --git a/configure b/configure
+index 9bf6bdf..92cf557 100755
+--- a/configure
++++ b/configure
+@@ -9904,9 +9904,9 @@ if test -z "$aix_libpath"; then aix_libpath="/usr/lib:/lib"; fi
+   if test "$_lt_dar_can_shared" = "yes"; then
+     output_verbose_link_cmd=echo
+     archive_cmds="\$CC -dynamiclib \$allow_undefined_flag -o \$lib \$libobjs \$deplibs \$compiler_flags -install_name \$rpath/\$soname \$verstring $_lt_dar_single_mod${_lt_dsymutil}"
+-    module_cmds="\$CC \$allow_undefined_flag -o \$lib -bundle \$libobjs \$deplibs \$compiler_flags${_lt_dsymutil}"
++    module_cmds="$archive_cmds"
+     archive_expsym_cmds="sed 's,^,_,' < \$export_symbols > \$output_objdir/\${libname}-symbols.expsym~\$CC -dynamiclib \$allow_undefined_flag -o \$lib \$libobjs \$deplibs \$compiler_flags -install_name \$rpath/\$soname \$verstring ${_lt_dar_single_mod}${_lt_dar_export_syms}${_lt_dsymutil}"
+-    module_expsym_cmds="sed -e 's,^,_,' < \$export_symbols > \$output_objdir/\${libname}-symbols.expsym~\$CC \$allow_undefined_flag -o \$lib -bundle \$libobjs \$deplibs \$compiler_flags${_lt_dar_export_syms}${_lt_dsymutil}"
++    module_expsym_cmds="$archive_expsym_cmds"
+ 
+   else
+   ld_shlibs=no
+@@ -12849,9 +12849,9 @@ if test -z "$aix_libpath"; then aix_libpath="/usr/lib:/lib"; fi
+   if test "$_lt_dar_can_shared" = "yes"; then
+     output_verbose_link_cmd=echo
+     archive_cmds_CXX="\$CC -dynamiclib \$allow_undefined_flag -o \$lib \$libobjs \$deplibs \$compiler_flags -install_name \$rpath/\$soname \$verstring $_lt_dar_single_mod${_lt_dsymutil}"
+-    module_cmds_CXX="\$CC \$allow_undefined_flag -o \$lib -bundle \$libobjs \$deplibs \$compiler_flags${_lt_dsymutil}"
++    module_cmds_CXX="$archive_cmds_CXX"
+     archive_expsym_cmds_CXX="sed 's,^,_,' < \$export_symbols > \$output_objdir/\${libname}-symbols.expsym~\$CC -dynamiclib \$allow_undefined_flag -o \$lib \$libobjs \$deplibs \$compiler_flags -install_name \$rpath/\$soname \$verstring ${_lt_dar_single_mod}${_lt_dar_export_syms}${_lt_dsymutil}"
+-    module_expsym_cmds_CXX="sed -e 's,^,_,' < \$export_symbols > \$output_objdir/\${libname}-symbols.expsym~\$CC \$allow_undefined_flag -o \$lib -bundle \$libobjs \$deplibs \$compiler_flags${_lt_dar_export_syms}${_lt_dsymutil}"
++    module_expsym_cmds_CXX="$archive_expsym_cmds_CXX"
+        if test "$lt_cv_apple_cc_single_mod" != "yes"; then
+       archive_cmds_CXX="\$CC -r -keep_private_externs -nostdlib -o \${lib}-master.o \$libobjs~\$CC -dynamiclib \$allow_undefined_flag -o \$lib \${lib}-master.o \$deplibs \$compiler_flags -install_name \$rpath/\$soname \$verstring${_lt_dsymutil}"
+       archive_expsym_cmds_CXX="sed 's,^,_,' < \$export_symbols > \$output_objdir/\${libname}-symbols.expsym~\$CC -r -keep_private_externs -nostdlib -o \${lib}-master.o \$libobjs~\$CC -dynamiclib \$allow_undefined_flag -o \$lib \${lib}-master.o \$deplibs \$compiler_flags -install_name \$rpath/\$soname \$verstring${_lt_dar_export_syms}${_lt_dsymutil}"

@@ -1,0 +1,34 @@
+--- lib/rpmps.h	2007-06-13 10:34:45.000000000 +0200
++++ lib/rpmps.h.new	2007-06-13 10:36:24.000000000 +0200
+@@ -14,12 +14,10 @@
+ /**
+  * Raw data for an element of a problem set.
+  */
+-typedef /*@abstract@*/ struct rpmProblem_s * rpmProblem;
+ 
+ /**
+  * Transaction problems found while processing a transaction set/
+  */
+-typedef /*@abstract@*/ /*@refcounted@*/ struct rpmps_s * rpmps;
+ 
+ /**
+  * Enumerate transaction set problem types.
+@@ -58,7 +56,10 @@
+     char * str1;
+     unsigned long long ulong1;
+ };
++#endif
++typedef /*@abstract@*/ struct rpmProblem_s * rpmProblem;
+ 
++#if defined(_RPMPS_INTERNAL)
+ /**
+  */
+ struct rpmps_s {
+@@ -69,6 +70,7 @@
+     int nrefs;			/*!< Reference count. */
+ };
+ #endif
++typedef /*@abstract@*/ /*@refcounted@*/ struct rpmps_s * rpmps;
+ 
+ #ifdef __cplusplus
+ extern "C" {

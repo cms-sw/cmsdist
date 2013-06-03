@@ -1,0 +1,22 @@
+--- orig.root/cint/cint/inc/G__ci.h	2010-06-29 10:22:10.000000000 +0200
++++ root/cint/cint/inc/G__ci.h	2010-06-29 10:43:44.000000000 +0200
+@@ -791,7 +791,7 @@
+ #define G__ONELINEDICT    8  /* Length of subexpression,parameter,argument */
+ #define G__MAXNAME     4096  /* Variable name */
+ #else
+-#define G__LONGLINE    2048  /* Length of expression */
++#define G__LONGLINE    4096  /* Length of expression */
+ #define G__ONELINE     1024  /* Length of subexpression,parameter,argument */
+ #define G__MAXNAME      512  /* Variable name */
+ #define G__ONELINEDICT    8  /* Length of subexpression,parameter,argument */
+@@ -816,8 +816,8 @@
+ #define G__MAXTYPEDEF  8000  /* typedef table */
+ #endif
+ #else
+-#define G__MAXSTRUCT  24000  /* struct table */
+-#define G__MAXTYPEDEF 24000  /* typedef table */
++#define G__MAXSTRUCT  36000  /* struct table */
++#define G__MAXTYPEDEF 36000  /* typedef table */
+ #endif
+ 
+ /* G__MAXIFUNC and G__MEMDEPTH are not real limit

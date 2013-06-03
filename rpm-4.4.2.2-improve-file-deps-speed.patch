@@ -1,0 +1,90 @@
+diff --git a/build/rpmfc.c b/build/rpmfc.c
+index ac19e82..10edf84 100644
+--- a/build/rpmfc.c
++++ b/build/rpmfc.c
+@@ -292,10 +292,8 @@ static int rpmfcSaveArg(ARGV_t * argvp, const char * key)
+ {
+     int rc = 0;
+ 
+-    if (argvSearch(*argvp, key, NULL) == NULL) {
+-	rc = argvAdd(argvp, key);
+-	rc = argvSort(*argvp, NULL);
+-    }
++    rc = argvSortedInsert(argvp, key);
++
+     return rc;
+ }
+ 
+diff --git a/rpmio/argv.c b/rpmio/argv.c
+index b29468f..e7f70a7 100644
+--- a/rpmio/argv.c
++++ b/rpmio/argv.c
+@@ -157,6 +157,44 @@ int argvAdd(/*@out@*/ ARGV_t * argvp, ARGstr_t val)
+     return 0;
+ }
+ 
++int argvSortedInsert(ARGV_t *argvp, const char *val)
++{
++    ARGV_t argv;
++    int argc;
++    int i;
++    int comp;
++    if (argvp == NULL)
++      return -1;
++    argc = argvCount(*argvp);
++    argv = *argvp;
++    for (i = 0; i != argc; ++i)
++    {
++      comp = strcmp(val, argv[i]);
++      // String already in the list. Do not add.
++      if (!comp)
++        return 0;
++      // String can be inserted at position i. Move items in
++      // range [i, argc) to range [i+1, argc + 1) and then exit 
++      // the loop.
++      if (comp < 0)
++      {
++          *argvp = xrealloc(*argvp, (argc + 1 + 1) * sizeof(argvp));
++          argv = *argvp;
++          memmove(argv + i + 1, argv + i, sizeof(*argv) * (argc-i+1));
++          argv[i] = xstrdup(val);
++          return 0;
++      }
++    }
++    
++    // String has to be inserted at the end.
++    *argvp = xrealloc(*argvp, (argc + 1 + 1) * sizeof(argvp));
++    argv = *argvp;
++    argv[argc] = xstrdup(val);
++    argv[argc + 1] = NULL;
++    return 0;
++}
++
++
+ int argvAppend(/*@out@*/ ARGV_t * argvp, const ARGV_t av)
+ {
+     ARGV_t argv = *argvp;
+diff --git a/rpmio/argv.h b/rpmio/argv.h
+index 202aa46..6e6c3b8 100644
+--- a/rpmio/argv.h
++++ b/rpmio/argv.h
+@@ -132,6 +132,19 @@ int argiAdd(/*@out@*/ ARGI_t * argip, int ix, int val)
+ int argvAdd(/*@out@*/ ARGV_t * argvp, ARGstr_t val)
+ 	/*@modifies *argvp @*/;
+ 
++/**\ingroup rpmargv 
++ * If the string is not present in the argv array, add it so that ordering
++ * of array elements is still stricly growing.
++ *
++ * @retval *argvp       argv array
++ * @param val           string arg to insert
++ * @return              0 always
++ * 
++ * FIXME: do a binary search to find the insertion point,
++ *        rather than a linear one.
++ */
++int argvSortedInsert(ARGV_t *argvp, const char *val);
++
+ /**
+  * Append one argv array to another.
+  * @retval *argvp	argv array

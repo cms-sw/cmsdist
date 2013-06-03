@@ -1,0 +1,16 @@
+diff -Naur orig.V03-00-00/Makefile V03-00-00/Makefile
+--- orig.V03-00-00/Makefile	2009-10-29 17:57:33.000000000 +0100
++++ V03-00-00/Makefile	2010-08-27 20:19:44.000000000 +0200
+@@ -27,9 +27,9 @@
+ CCOMP = gcc 
+ C_FLAGS = -Wall -O3 -Df2cFortran ${LARGE_MEMORY_OPT}
+ C_INCLUDEDIRS =  # e.g. -I .
+-# gcc3: 
+-C_LIBS = -lg2c -lfrtbegin
+-# gcc4: C_LIBS = -lgfortran -lgfortranbegin
++# gcc3: C_LIBS = -lg2c -lfrtbegin
++#gcc4:
++C_LIBS = -lgfortran -lm
+ DEBUG =          # e.g. -g
+ #
+ LOADER = gcc

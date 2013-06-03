@@ -1,0 +1,19 @@
+--- root.orig/bindings/pyroot/src/Pythonize.cxx	2010-11-05 10:46:23.000000000 -0400
++++ root/bindings/pyroot/src/Pythonize.cxx	2011-02-11 10:54:46.000000000 -0500
+@@ -1783,6 +1783,7 @@
+ 
+       Utility::AddToClass( pyclass, "__len__",  "GetSize" );
+       ((PyTypeObject*)pyclass)->tp_iter = (getiterfunc)TCollectionIter;
++      Utility::AddToClass( pyclass, "__iter__",  (PyCFunction)TCollectionIter, METH_NOARGS );
+ 
+       return kTRUE;
+    }
+@@ -1896,6 +1897,8 @@
+ 
+    if ( name == "TIter" ) {
+       ((PyTypeObject*)pyclass)->tp_iter     = (getiterfunc)TIterIter;
++      Utility::AddToClass( pyclass, "__iter__", (PyCFunction) TIterIter, METH_NOARGS );
++
+       ((PyTypeObject*)pyclass)->tp_iternext = (iternextfunc)TIterNext;
+       Utility::AddToClass( pyclass, "next", (PyCFunction) TIterNext, METH_NOARGS );
+ 
