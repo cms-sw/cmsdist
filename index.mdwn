@@ -1,0 +1,13 @@
+---
+title: PKGTOOLS
+layout: default
+related:
+ - { name: Home, link: index.html }
+ - { name: Project, link: https://github.com/cms-sw/cmssw }
+ - { name: Feedback, link: https://github.com/cms-sw/cmssw/issues/new }
+---
+
+This is the documentation page for CMSDIST, CMS SW distribution recipes.
+
+* [Fetching sources](fetching-sources.html)
+
