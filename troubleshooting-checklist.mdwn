@@ -1,0 +1,60 @@
+---
+title: CMSDIST
+layout: default
+related:
+ - { name: Home, link: index.html }
+ - { name: Project, link: https://github.com/cms-sw/cmsdist}
+ - { name: Feedback, link: https://github.com/cms-sw/cmsdist/issues/new }
+---
+* Check the last lines of screenlog.0 log. If cmsBuild reported the errors,
+      investigate and start again from the beginning.
+
+* Check the number of RPMs created and which RPMs were built:
+
+      ls -1 a/RPMS/${ARCH} | wc -l
+      ls -1 a/RPMS/${ARCH}
+
+* You have to make sure that all RPMs are expected. The same PKGTOOLS branch
+  V00-XY-?? should not rebuilt RPMs if there is no direct modifications.
+  Package is rebuilt if its SPEC files was modified or it is depended upon
+  other package, which is also rebuilt. You can use rpmgraph to figure out
+  dependencies between packages:
+
+      rpmgraph a/RPMS/${ARCH}/*.rpm > rpmgraph-${CMSDIST_NEW_TAG}.dot
+  
+  rpmgraph is available in Linux (SLC), but not available for Mac OS X (unless
+  you build it explicitly using `PKGTOOLS/build_rpm.sh`). Using Graphviz you
+  can generate a visual representation of dependencies between built RPMs.
+
+* If you have added additional patch, additional compilation flags, etc you
+  should check the log of the specific external tool to make sure that your
+  changes were applied as expected. You can find external tool log:
+
+      find a/BUILD -name log | grep -E "BUILD/${ARCH}/([^/]+)/([^/]+)/([^/]+)/log" | grep -i '<EXT_TOOL_NAME>'
+
+* Check the logs of each external tools built looking for the most common
+  problems, e.g.:
+
+      # Check if we have anything suspicious
+      find a/BUILD -name log | grep -E "BUILD/${ARCH}/([^/]+)/([^/]+)/([^/]+)/log" | xargs grep -a -i -n -H 'error:' | wc -l
+      # Inspect
+      find a/BUILD -name log | grep -E "BUILD/${ARCH}/([^/]+)/([^/]+)/([^/]+)/log" | xargs grep -a -i -n -H 'error:' | less
+
+  It's better to pipe the result to less and inspect every line. The pattern to
+  ignore known problems could be:
+
+      <FIND_LOGS> | <XARGS_GREP_COMMON_PROBLEM> | [ <IGNORE_RULE> | ] wc -l
+
+  E.g.:
+
+      find a/BUILD -name log | grep -E "BUILD/${ARCH}/([^/]+)/([^/]+)/([^/]+)/log" | xargs grep -a -i -n -H 'error:' \
+      | grep -v '_configtest\.c' | wc -l
+
+  We check all logs for "error:", "Error:", "ERROR:", etc. and we ignore the ones
+  with `_configtest.c` file as they come from py2-numpy tool during configure run.
+  configure script is not able to surpress the errors. The errors are expected.
+  Note, that we ignore all `_configtest.c`, not only coming from py2-numpy
+  package.
+  We also might want to igore `configure.ac:10: error: Autoconf version 2.62 or
+  higher is required` errors, add `grep -v 'configure\.ac'`.
+
