@@ -1,4 +1,4 @@
-### RPM external xz-toolfile 1.0
+### RPM external xz-toolfile 1.1
 Requires: xz
 
 %prep
@@ -14,6 +14,7 @@ cat << \EOF_TOOLFILE > %i/etc/scram.d/xz.xml
       <environment name="LIBDIR" default="$XZ_BASE/lib"/>
       <environment name="INCLUDE" default="$XZ_BASE/include"/>
     </client>
+    <runtime name="PATH" value="$XZ_BASE/bin" type="path"/>
   </tool>
 EOF_TOOLFILE
 ## IMPORT scram-tools-post
