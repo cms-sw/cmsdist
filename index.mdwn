@@ -9,6 +9,9 @@ related:
 
 This is the documentation page for CMSDIST, CMS SW distribution recipes.
 
+* auto-gen TOC:
+{:toc}
+
 ## Branch structure
 
 Each release series should have a branch called:
