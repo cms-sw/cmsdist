@@ -5,7 +5,7 @@ Requires: frontend das dbs3 filemover sitedb couchdb reqmon
 Requires: PHEDEX-combined-web stagemanager reqmgr dqmgui overview workqueue
 Requires: rotatelogs pystack py2-geoip py2-adns py2-netaddr valgrind igprof
 Requires: wmcore-devtools py2-psutil cmsweb-analytics yui3
-Requires: dbs3-client stagemanager-agent crabserver crabcache
+Requires: dbs3-client stagemanager-agent crabserver crabclient crabcache
 Requires: DMWMMON-datasvc alertscollector acdcserver
 Requires: asyncstageout t0wmadatasvc dbs3-migration t0_reqmon reqmgr2
 
