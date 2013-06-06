@@ -2,10 +2,8 @@
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PERL5LIB %i/lib/perl
 
-%define moduleName WEBTOOLS
-%define cvstag V01-03-47
-%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
-Source: %cvsserver&strategy=checkout&module=%{moduleName}&nocache=true&export=%{moduleName}&tag=-r%{cvstag}&output=/%{moduleName}.tar.gz
+%define gittag V01-03-47
+Source: git://github.com/geneguvo/webtools?obj=master/%gittag&export=%n&output=/%n.tar.gz
 
 Requires: python cherrypy py2-cheetah yui sqlite zlib py2-pysqlite expat openssl bz2lib db4 gdbm py2-cx-oracle py2-formencode py2-pycrypto oracle beautifulsoup py2-sqlalchemy oracle-env py2-pyopenssl
 Requires: p5-crypt-cbc p5-crypt-blowfish
@@ -13,7 +11,7 @@ Requires: p5-crypt-cbc p5-crypt-blowfish
 Provides: perl(SecurityModule) 
 
 %prep
-%setup -n %{moduleName}
+%setup -n %n
 
 %build
 

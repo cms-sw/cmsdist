@@ -5,15 +5,14 @@
 ## INITENV SETV SITEDB_LEGACY_PYTHONPATH %i/legacy
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define cvssrc cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define wmcver 0.9.67
 
 Source0: git://github.com/dmwm/WMCore?obj=master/%wmcver&export=wmcore_%n&output=/wmcore_%n.tar.gz
 Source1: git://github.com/dmwm/sitedb?obj=master/%realversion&export=%n&output=/%n.tar.gz
 #Source1: git://github.com/geneguvo/sitedb?obj=master/%realversion&export=%n&output=/%n.tar.gz
 #Source1: https://cern.ch/lat/temp/sitedb5.tar.gz
-Source2: %{cvssrc}&strategy=export&module=WEBTOOLS&nocache=true&export=WEBTOOLS&tag=-rSiteDBv1-slc5-v3&output=/old-sitedb.tar.gz
-Source3: %{cvssrc}&strategy=export&module=WEBTOOLS&nocache=true&export=WEBTOOLS&tag=-rV01-03-47&output=/old-webtools.tar.gz
+Source2: git://github.com/geneguvo/webtools?obj=SiteDBv1/SiteDBv1-slc5-v3&export=WEBTOOLS&output=/old-sitedb.tar.gz
+Source3: git://github.com/geneguvo/webtools?obj=master/V01-03-47&export=WEBTOOLS&output=/old-webtools.tar.gz
 
 Requires: cherrypy yui3 d3 xregexp py2-cx-oracle py2-cjson py2-pycurl python-ldap rotatelogs
 Requires: yui py2-cheetah py2-pysqlite py2-formencode py2-pycrypto beautifulsoup py2-sqlalchemy oracle-env py2-pyopenssl
