@@ -118,6 +118,7 @@ Requires: gnuplot-toolfile
 Requires: sloccount-toolfile
 Requires: cvs2git-toolfile
 Requires: pacparser-toolfile
+Requires: git-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
@@ -133,7 +134,7 @@ Requires: nss-toolfile
 Requires: cyrus-sasl-toolfile
 %endif
 
-%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler git
 
 ## IMPORT scramv1-tool-conf
 
