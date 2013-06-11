@@ -112,6 +112,7 @@ Requires: sloccount-toolfile
 Requires: millepede-toolfile
 Requires: cvs2git-toolfile
 Requires: pacparser-toolfile
+Requires: git-toolfile
 
 # Only for Linux platform.
 %if %isLinux
@@ -145,7 +146,7 @@ Requires: igprof-toolfile
 %endif
 %endif
 
-%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler git
 
 ## IMPORT scramv1-tool-conf
 
