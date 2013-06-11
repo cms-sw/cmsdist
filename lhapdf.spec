@@ -57,7 +57,7 @@ CXX="`which %{cms_cxx}` -fPIC"
 CC="`which gcc` -fPIC"
 
 # Configure first with low memory.
-./configure --prefix=%{i} --enable-static --disable-shared --disable-pyext \
+./configure --prefix=%{i} --enable-static --disable-shared --enable-pyext \
             --disable-octave --disable-doxygen --enable-low-memory \
             --with-max-num-pdfsets=1 \
             FC="$FC" CXX="$CXX" CC="$CC" \
@@ -76,7 +76,7 @@ popd
 # do another install-round for full libs
 make distclean
 ./configure --prefix=%{i}/full --enable-static --disable-shared \
-            --disable-pyext --disable-octave --disable-doxygen \
+            --enable-pyext --disable-octave --disable-doxygen \
             FC="$FC" CXX="$CXX" CC="$CC" \
             CPPFLAGS="-I ${ZLIB_ROOT}/include" CXXFLAGS="%cms_cxxflags" LDFLAGS="-L${ZLIB_ROOT}/lib -lz"
 make %{makeprocesses}
