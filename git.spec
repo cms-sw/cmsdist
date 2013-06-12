@@ -3,11 +3,13 @@
 %define isDarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 Source: https://github.com/git/git/archive/v%{realversion}.tar.gz
+Patch1: git-1.8.3.1-no-symlink
 
 Requires: curl expat openssl zlib pcre
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch1 -p1
 
 %build
 make prefix=%{i} \
