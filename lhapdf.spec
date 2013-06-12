@@ -6,8 +6,8 @@ Patch1: lhapdf-5.8.5-gzio
 Patch2: lhapdf-data-5.8.5-gzio
 Patch3: lhapdf-5.8.5-disable-examples-and-tests
 
-Requires: zlib
-BuildRequires: autotools
+Requires: zlib python
+BuildRequires: autotools swig
 
 %define keep_archives true
 %if "%(case %{cmsplatf} in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
@@ -84,6 +84,9 @@ make install
 
 # Remove all libtool archives
 find %{i} -name '*.la' -exec rm -f {} \;
+
+# Remove egg-info
+find %{i} -name '*.egg-info' -delete
 
 %post
 %{relocateConfig}bin/lhapdf-config
