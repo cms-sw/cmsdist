@@ -51,9 +51,12 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
     <flags REM_CXXFLAGS="-Werror=format-contains-nul"/>
     <flags REM_CXXFLAGS="-Wunknown-pragmas"/>
     <flags REM_CXXFLAGS="-ftree-vectorize"/>
+    <flags REM_CXXFLAGS="-Wno-unused-local-typedefs"/>
+    <flags REM_CXXFLAGS="-std=c++0x"/>
     <flags REM_LDFLAGS="-Wl,--icf=all"/>
     <flags CXXFLAGS="-Wno-unknown-pragmas"/>
     <flags CXXFLAGS="-axSSE3"/>
+    <flags CXXFLAGS="-std=c++11"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$ICC_CXXCOMPILER_BASE/compiler/lib/intel64" type="path" handler="warn"/>
     <runtime name="PATH" value="$ICC_CXXCOMPILER_BASE/bin/intel64" type="path" handler="warn"/>
     <runtime name="COMPILER_RUNTIME_OBJECTS" value="@GCC_ROOT@" handler="warn"/>
