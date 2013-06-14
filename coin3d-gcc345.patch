@@ -1,0 +1,120 @@
+Index: include/Inventor/nodekits/SoSubKit.h
+===================================================================
+RCS file: /export/cvsroot/Coin-2/include/Inventor/nodekits/SoSubKit.h,v
+retrieving revision 1.5
+diff -u -r1.5 SoSubKit.h
+--- include/Inventor/nodekits/SoSubKit.h	7 Sep 2004 08:23:10 -0000	1.5
++++ include/Inventor/nodekits/SoSubKit.h	15 Dec 2004 17:14:11 -0000
+@@ -72,9 +72,6 @@
+ 
+ 
+ #define SO_KIT_SOURCE(_class_) \
+-SoNodekitCatalog * _class_::classcatalog = NULL; \
+-const SoNodekitCatalog ** _class_::parentcatalogptr = NULL; \
+- \
+ SO_NODE_SOURCE(_class_); \
+  \
+ const SoNodekitCatalog * \
+@@ -93,13 +90,13 @@
+ _class_::getClassNodekitCatalogPtr(void) \
+ { \
+   return (const class SoNodekitCatalog **)&_class_::classcatalog; \
+-}
++} \
++SoNodekitCatalog * _class_::classcatalog = NULL; \
++const SoNodekitCatalog ** _class_::parentcatalogptr = NULL
++
+ 
+ 
+ #define SO_KIT_ABSTRACT_SOURCE(_class_) \
+-SoNodekitCatalog * _class_::classcatalog = NULL; \
+-const SoNodekitCatalog ** _class_::parentcatalogptr = NULL; \
+- \
+ SO_NODE_ABSTRACT_SOURCE(_class_); \
+  \
+ const SoNodekitCatalog * \
+@@ -118,7 +115,10 @@
+ _class_::getClassNodekitCatalogPtr(void) \
+ { \
+   return (const class SoNodekitCatalog **)&_class_::classcatalog; \
+-}
++} \
++SoNodekitCatalog * _class_::classcatalog = NULL; \
++const SoNodekitCatalog ** _class_::parentcatalogptr = NULL
++
+ 
+ 
+ #define SO_KIT_IS_FIRST_INSTANCE() \
+--- include/Inventor/nodes/SoSubNode.h	2005-06-16 12:46:42.000000000 +0200
++++ include/Inventor/nodes/SoSubNode.h.new	2006-05-26 12:29:28.000000000 +0200
+@@ -92,17 +92,16 @@
+ // FIXME: document. 20000103 mortene.
+ #define SO_NODE_ABSTRACT_SOURCE(_class_) \
+ PRIVATE_NODE_TYPESYSTEM_SOURCE(_class_); \
+- \
+-unsigned int _class_::classinstances = 0; \
+-const SoFieldData ** _class_::parentFieldData = NULL; \
+-SoFieldData * _class_::fieldData = NULL; \
+- \
+ const SoFieldData ** \
+ _class_::getFieldDataPtr(void) \
+ { \
+   return (const SoFieldData **)(&_class_::fieldData); \
+ } \
+  \
++unsigned int _class_::classinstances = 0; \
++const SoFieldData ** _class_::parentFieldData = NULL; \
++SoFieldData * _class_::fieldData = NULL; \
++ \
+ const SoFieldData * \
+ _class_::getFieldData(void) const \
+ { \
+@@ -118,7 +117,6 @@
+ 
+ // FIXME: document. 20000103 mortene.
+ #define SO_NODE_SOURCE(_class_) \
+-SO_NODE_ABSTRACT_SOURCE(_class_); \
+ \
+ /*! \
+   Creates a new instance of the class type corresponding to the SoType object. \
+@@ -127,7 +125,8 @@
+ _class_::createInstance(void) \
+ { \
+   return new _class_; \
+-}
++} \
++SO_NODE_ABSTRACT_SOURCE(_class_) \
+ 
+ // *************************************************************************
+ 
+--- include/Inventor/fields/SoSubField.h	2005-06-16 12:51:42.000000000 +0200
++++ include/Inventor/fields/SoSubField.h.new	2006-05-26 14:00:29.000000000 +0200
+@@ -73,11 +73,11 @@
+  \
+ public: \
+   _valref_ getValue(void) const { this->evaluate(); return this->value; } \
+-  void setValue(_valref_ newvalue); \
+   _valref_ operator=(_valref_ newvalue) { this->setValue(newvalue); return this->value; } \
+  \
+   int operator==(const _class_ & field) const; \
+-  int operator!=(const _class_ & field) const { return ! operator==(field); }
++  int operator!=(const _class_ & field) const { return ! operator==(field); } \
++  void setValue(_valref_ newvalue) 
+ 
+ 
+ // FIXME: is really the operator=() definition below necessary?
+@@ -231,12 +231,12 @@
+   int find(_valref_ value, SbBool addifnotfound = FALSE); \
+   void setValues(const int start, const int num, const _valtype_ * newvals); \
+   void set1Value(const int idx, _valref_ value); \
+-  void setValue(_valref_ value); \
+   _valref_ operator=(_valref_ val) { this->setValue(val); return val; } \
+   SbBool operator==(const _class_ & field) const; \
+   SbBool operator!=(const _class_ & field) const { return !operator==(field); } \
+   _valtype_ * startEditing(void) { this->evaluate(); return this->values; } \
+-  void finishEditing(void) { this->valueChanged(); }
++  void finishEditing(void) { this->valueChanged(); } \
++  void setValue(_valref_ value) 
+ 
+ #define SO_MFIELD_DERIVED_VALUE_HEADER(_class_, _valtype_, _valref_) \
+   PRIVATE_MFIELD_IO_HEADER(); \

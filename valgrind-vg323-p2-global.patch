@@ -1,0 +1,11 @@
+--- callgrind/global.h~	2007-01-02 15:52:08.000000000 +0100
++++ callgrind/global.h	2007-02-19 09:49:36.000000000 +0100
+@@ -111,7 +111,7 @@
+ 
+ /* Size of various buffers used for storing strings */
+ #define FILENAME_LEN                    256
+-#define FN_NAME_LEN                    4096 /* for C++ code :-) */
++#define FN_NAME_LEN                   32768 /* for C++ code :-) */
+ #define OBJ_NAME_LEN                    256
+ #define BUF_LEN                         512
+ #define COMMIFY_BUF_LEN                 128

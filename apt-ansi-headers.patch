@@ -1,0 +1,212 @@
+diff --git a/apt-0.5.15lorg3.2/apt-pkg/contrib/strutl.h b/apt-0.5.15lorg3.2/apt-pkg/contrib/strutl.h
+index 353e78a..b0c3d35 100644
+--- a/apt-0.5.15lorg3.2/apt-pkg/contrib/strutl.h
++++ b/apt-0.5.15lorg3.2/apt-pkg/contrib/strutl.h
+@@ -20,7 +20,8 @@
+ #pragma interface "apt-pkg/strutl.h"
+ #endif 
+ 
+-#include <stdlib.h>
++#include <cstring>
++#include <cstdlib>
+ #include <string>
+ #include <vector>
+ #include <iostream>
+diff --git a/apt-0.5.15lorg3.2/apt-pkg/contrib/cdromutl.cc b/apt-0.5.15lorg3.2/apt-pkg/contrib/cdromutl.cc
+index 61fcfcf..175a449 100644
+--- a/apt-0.5.15lorg3.2/apt-pkg/contrib/cdromutl.cc
++++ b/apt-0.5.15lorg3.2/apt-pkg/contrib/cdromutl.cc
+@@ -26,6 +26,7 @@
+ 
+ #include <apti18n.h>
+     
++#include <cstdlib>
+ #include <sys/wait.h>
+ #include <sys/errno.h>
+ #include <sys/statvfs.h>
+@@ -33,7 +34,7 @@
+ #include <fcntl.h>
+ #include <sys/stat.h>
+ #include <unistd.h>
+-#include <stdio.h>
++#include <cstdio>
+ 									/*}}}*/
+ 
+ // IsMounted - Returns true if the mount point is mounted		/*{{{*/
+diff --git a/apt-0.5.15lorg3.2/apt-pkg/contrib/error.cc b/apt-0.5.15lorg3.2/apt-pkg/contrib/error.cc
+index 8110a56..ead183d 100644
+--- a/apt-0.5.15lorg3.2/apt-pkg/contrib/error.cc
++++ b/apt-0.5.15lorg3.2/apt-pkg/contrib/error.cc
+@@ -26,6 +26,7 @@
+ #include <string>
+ #include <stdarg.h>
+ #include <unistd.h>
++#include <cstring>
+ 
+ #include "config.h"
+    									/*}}}*/
+diff --git a/apt-0.5.15lorg3.2/apt-pkg/contrib/fileutl.cc b/apt-0.5.15lorg3.2/apt-pkg/contrib/fileutl.cc
+index 400ac67..02e4bf2 100644
+--- a/apt-0.5.15lorg3.2/apt-pkg/contrib/fileutl.cc
++++ b/apt-0.5.15lorg3.2/apt-pkg/contrib/fileutl.cc
+@@ -30,7 +30,8 @@
+ #include <sys/wait.h>
+ #include <signal.h>
+ #include <errno.h>
+-
++#include <cstring>
++#include <cstdlib>
+ // CNC:2003-02-14 - Ralf Corsepius told RH8 with GCC 3.2.1 fails
+ //                  compiling without moving this header to here.
+ #include <apti18n.h>
+diff --git a/apt-0.5.15lorg3.2/apt-pkg/contrib/md5.h b/apt-0.5.15lorg3.2/apt-pkg/contrib/md5.h
+index 5895966..6e6b13b 100644
+--- a/apt-0.5.15lorg3.2/apt-pkg/contrib/md5.h
++++ b/apt-0.5.15lorg3.2/apt-pkg/contrib/md5.h
+@@ -28,6 +28,7 @@
+ #endif 
+ 
+ #include <string>
++#include <cstring>
+ 
+ using std::string;
+ 
+diff --git a/apt-0.5.15lorg3.2/apt-pkg/contrib/mmap.cc b/apt-0.5.15lorg3.2/apt-pkg/contrib/mmap.cc
+index ed3cd78..589a3f1 100644
+--- a/apt-0.5.15lorg3.2/apt-pkg/contrib/mmap.cc
++++ b/apt-0.5.15lorg3.2/apt-pkg/contrib/mmap.cc
+@@ -35,6 +35,7 @@
+ #include <sys/stat.h>
+ #include <unistd.h>
+ #include <fcntl.h>
++#include <cstring>
+    									/*}}}*/
+ 
+ // MMap::MMap - Constructor						/*{{{*/
+diff --git a/apt-0.5.15lorg3.2/apt-pkg/contrib/progress.cc b/apt-0.5.15lorg3.2/apt-pkg/contrib/progress.cc
+index 0027ffc..50d07bb 100644
+--- a/apt-0.5.15lorg3.2/apt-pkg/contrib/progress.cc
++++ b/apt-0.5.15lorg3.2/apt-pkg/contrib/progress.cc
+@@ -18,7 +18,8 @@
+ #include <apti18n.h>
+ 
+ #include <iostream>
+-#include <stdio.h>
++#include <cstdio>
++#include <cstring>
+ 									/*}}}*/
+ 
+ using namespace std;
+diff --git a/apt-0.5.15lorg3.2/apt-pkg/contrib/sha1.h b/apt-0.5.15lorg3.2/apt-pkg/contrib/sha1.h
+index fb2c7df..00d8d52 100644
+--- a/apt-0.5.15lorg3.2/apt-pkg/contrib/sha1.h
++++ b/apt-0.5.15lorg3.2/apt-pkg/contrib/sha1.h
+@@ -19,6 +19,7 @@
+ #endif 
+ 
+ #include <string>
++#include <cstring>
+ 
+ using std::string;
+ 
+diff --git a/apt-0.5.15lorg3.2/apt-pkg/indexfile.cc b/apt-0.5.15lorg3.2/apt-pkg/indexfile.cc
+index 378f1e0..5a82ad9 100644
+--- a/apt-0.5.15lorg3.2/apt-pkg/indexfile.cc
++++ b/apt-0.5.15lorg3.2/apt-pkg/indexfile.cc
+@@ -14,6 +14,7 @@
+ 
+ #include <apt-pkg/indexfile.h>
+ #include <apt-pkg/error.h>
++#include <cstring>
+ 									/*}}}*/
+ 
+ // Global list of Item supported
+diff --git a/apt-0.5.15lorg3.2/apt-pkg/init.cc b/apt-0.5.15lorg3.2/apt-pkg/init.cc
+index 27e3722..813ed01 100644
+--- a/apt-0.5.15lorg3.2/apt-pkg/init.cc
++++ b/apt-0.5.15lorg3.2/apt-pkg/init.cc
+@@ -15,6 +15,8 @@
+ #include <apti18n.h>
+ #include <config.h>
+ #include <sys/stat.h>
++#include <cstring>
++#include <cstdlib>
+ 
+ // CNC:2003-03-17
+ #include <apt-pkg/luaiface.h>
+diff --git a/apt-0.5.15lorg3.2/apt-pkg/pkgsystem.cc b/apt-0.5.15lorg3.2/apt-pkg/pkgsystem.cc
+index e8ada85..914a8e2 100644
+--- a/apt-0.5.15lorg3.2/apt-pkg/pkgsystem.cc
++++ b/apt-0.5.15lorg3.2/apt-pkg/pkgsystem.cc
+@@ -16,7 +16,9 @@
+ 
+ #include <apt-pkg/pkgsystem.h>
+ #include <apt-pkg/policy.h>
+-									/*}}}*/
++#include <cstring>						
++                                                  			/*}}}*/
++
+ 
+ pkgSystem *_system = 0;
+ static pkgSystem *SysList[10];
+diff --git a/apt-0.5.15lorg3.2/apt-pkg/rpm/repomd.cc b/apt-0.5.15lorg3.2/apt-pkg/rpm/repomd.cc
+index f2e2b7f..9e18e81 100644
+--- a/apt-0.5.15lorg3.2/apt-pkg/rpm/repomd.cc
++++ b/apt-0.5.15lorg3.2/apt-pkg/rpm/repomd.cc
+@@ -19,7 +19,7 @@
+ #include <apt-pkg/error.h>
+ #include <libxml/parser.h>
+ #include <libxml/tree.h>
+-
++#include <cstring>
+ #include <apti18n.h>
+ 
+ using namespace std;
+diff --git a/apt-0.5.15lorg3.2/apt-pkg/rpm/rpmmisc.h b/apt-0.5.15lorg3.2/apt-pkg/rpm/rpmmisc.h
+index bc28c20..8aadc51 100644
+--- a/apt-0.5.15lorg3.2/apt-pkg/rpm/rpmmisc.h
++++ b/apt-0.5.15lorg3.2/apt-pkg/rpm/rpmmisc.h
+@@ -4,6 +4,7 @@
+ #ifdef WITH_GNU_HASH_MAP
+ 
+ #include <ext/hash_map>
++#include <cstring>
+ 
+ using namespace __gnu_cxx;
+ 
+diff --git a/apt-0.5.15lorg3.2/apt-pkg/rpm/rpmpm.cc b/apt-0.5.15lorg3.2/apt-pkg/rpm/rpmpm.cc
+index 02d8eac..5fcd6fc 100644
+--- a/apt-0.5.15lorg3.2/apt-pkg/rpm/rpmpm.cc
++++ b/apt-0.5.15lorg3.2/apt-pkg/rpm/rpmpm.cc
+@@ -31,8 +31,9 @@
+ #include <sys/wait.h>
+ #include <signal.h>
+ #include <errno.h>
+-#include <stdio.h>
++#include <cstdio>
+ #include <iostream>
++#include <cstring>
+ 
+ #if RPM_VERSION >= 0x040100
+ #include <rpm/rpmdb.h>
+diff --git a/apt-0.5.15lorg3.2/apt-pkg/rpm/rpmrecords.cc b/apt-0.5.15lorg3.2/apt-pkg/rpm/rpmrecords.cc
+index 4fb0f5f..727930d 100644
+--- a/apt-0.5.15lorg3.2/apt-pkg/rpm/rpmrecords.cc
++++ b/apt-0.5.15lorg3.2/apt-pkg/rpm/rpmrecords.cc
+@@ -16,7 +16,7 @@
+ 
+ #ifdef HAVE_RPM
+ 
+-#include <assert.h>
++#include <cassert>
+ 
+ #include <apt-pkg/rpmrecords.h>
+ #include <apt-pkg/error.h>
+@@ -24,6 +24,7 @@
+ #include <apt-pkg/rpmsystem.h>
+ 
+ #include <apti18n.h>
++#include <cstring>
+ 
+ using namespace std;
+ 

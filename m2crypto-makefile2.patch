@@ -1,0 +1,24 @@
+--- SWIG/Makefile.orig	Mon Sep 15 09:34:31 2003
++++ SWIG/Makefile	Mon Dec 13 07:09:43 2004
+@@ -2,15 +2,18 @@
+ 
+ CFLAGS	   = -DTHREADING -g
+ INCLUDE	   = -I/usr/local/include -I.
++INCLUDE	   = -I${opkg_root}/include -I.
+ LIBS       = -L/usr/local/lib -lssl -lcrypto
++LIBS       = -L${opkg_root}/lib -lssl -lcrypto
+ #if PYTHON_VERSION
+ PYVER = $(PYTHON_VERSION)
+ #else
+ PYVER = 2.3
+ #endif
+-PYINCLUDE  = -DHAVE_CONFIG_H -I/usr/local/include/python$(PYVER) \
+-	-I/usr/local/lib/python$(PYVER)/config
+-PYLIB      = /usr/local/lib/python$(PYVER)/config
++
++PYINCLUDE  = -DHAVE_CONFIG_H -I${opkg_root}/include/python \
++	-I${opkg_root}/lib/python/config
++PYLIB      = ${opkg_root}/lib/python/config
+ 
+ all:	_m2crypto
+ 

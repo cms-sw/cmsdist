@@ -1,0 +1,24 @@
+diff -Naur orig.sqlite-3.6.10/configure sqlite-3.6.10/configure
+--- orig.sqlite-3.6.10/configure	2009-01-15 15:01:45.000000000 +0100
++++ sqlite-3.6.10/configure	2009-01-26 21:36:42.000000000 +0100
+@@ -11669,7 +11669,7 @@
+   echo "$as_me: failed program was:" >&5
+ sed 's/^/| /' conftest.$ac_ext >&5
+ 
+-ac_cv_lib_readline_readline=no
++ac_cv_lib_readline_readline=yes
+ fi
+ rm -f conftest.err conftest.$ac_objext \
+       conftest$ac_exeext conftest.$ac_ext
+diff -Naur orig.sqlite-3.6.10/Makefile.in sqlite-3.6.10/Makefile.in
+--- orig.sqlite-3.6.10/Makefile.in	2009-01-15 15:01:45.000000000 +0100
++++ sqlite-3.6.10/Makefile.in	2009-01-26 21:33:31.000000000 +0100
+@@ -462,7 +462,7 @@
+ 
+ sqlite3$(TEXE):	$(TOP)/src/shell.c libsqlite3.la sqlite3.h
+ 	$(LTLINK) $(READLINE_FLAGS) \
+-		-o $@ $(TOP)/src/shell.c libsqlite3.la \
++		-o $@ $(TOP)/src/shell.c -L$(TOP)/.libs libsqlite3.la \
+ 		$(LIBREADLINE) $(TLIBS) -rpath "$(libdir)"
+ 
+ # This target creates a directory named "tsrc" and fills it with

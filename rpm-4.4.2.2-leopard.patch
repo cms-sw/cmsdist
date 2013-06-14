@@ -1,0 +1,21 @@
+commit 6bd1d7e413682d48343647047848aadbee0c7ad1
+Author: Giulio Eulisse <eulisse@iguana3.cern.ch>
+Date:   Thu Nov 22 02:32:51 2007 +0100
+
+    patched for leopard
+
+diff --git a/rpmio/fts.c b/rpmio/fts.c
+index 4ce33fe..6375ad7 100644
+--- a/rpmio/fts.c
++++ b/rpmio/fts.c
+@@ -61,9 +61,8 @@ static char sccsid[] = "@(#)fts.c	8.6 (Berkeley) 8/14/94";
+ #endif
+ #if defined(__APPLE__)
+ #   define __errno_location()	(__error())
+-#   define stat64		stat
+ #   define _STAT_VER		0
+-#   define __fxstat64(_stat_ver, _fd, _sbp)	fstat((_fd), (_sbp))
++#   define __fxstat64(_stat_ver, _fd, _sbp)	fstat64((_fd), (_sbp))
+ #endif
+ #include "system.h"
+ #include "fts.h"

@@ -1,0 +1,19 @@
+--- M2Crypto/RSA.py.orig	Thu Dec 30 10:08:37 2004
++++ M2Crypto/RSA.py	Thu Dec 30 11:36:31 2004
+@@ -97,6 +97,16 @@
+         bio = BIO.openfile(file, 'wb')
+         return self.save_key_bio(bio, cipher, callback)
+ 
++    save_pem = save_key
++
++    def as_pem(self, cipher='des_ede3_cbc', callback=util.passphrase_callback):
++        """
++        Returns the key(pair) as a string in PEM format.
++        """
++        bio = BIO.MemoryBuffer()
++        self.save_key_bio(bio, cipher, callback)
++        return bio.read()
++
+     def save_key_der_bio(self, bio):
+         """
+         Save the key pair to the M2Crypto.BIO object 'bio' in DER format.

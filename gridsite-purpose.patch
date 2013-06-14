@@ -1,0 +1,64 @@
+--- mod/mod_gridsite.c.orig	2005-11-04 10:16:57.000000000 -0800
++++ mod/mod_gridsite.c	2005-11-04 10:17:26.000000000 -0800
+@@ -1640,6 +1640,7 @@
+    int errdepth        = X509_STORE_CTX_get_error_depth(ctx);
+    int returned_ok;
+    int first_non_ca;
++   char err_str[128];
+ 
+    /*
+     * GSI Proxy user-cert-as-CA handling:
+@@ -1679,12 +1680,53 @@
+             X509_STORE_CTX_set_error(ctx, errnum);
+          }
+      }
++   /*
++    * we skip Invalid purpose errors at this stage, since we will check this
++    * again at errdepth=0 for the full chain using GRSTx509CheckChain
++    */
++   if (errnum == X509_V_ERR_INVALID_PURPOSE)
++     {
++        ap_log_error(APLOG_MARK, APLOG_DEBUG, 0, s,
++                    "Skip Invalid purpose error in case a GSI Proxy");
+ 
++        sslconn->verify_error = NULL;
++        ok = TRUE;
++        errnum = X509_V_OK;
++        X509_STORE_CTX_set_error(ctx, errnum);
++     }
++
++
++   ap_log_error(APLOG_MARK, APLOG_DEBUG, 0, s,
++                    "About to call ssl_callback_SSLVerify");
++   snprintf(err_str,127,"errnum=%d returned_ok=%d errdepth=%d\n",errnum, returned_ok, errdepth);
++   ap_log_error(APLOG_MARK, APLOG_DEBUG, 0, s,
++                    err_str);
+    returned_ok = ssl_callback_SSLVerify(ok, ctx);
+ 
++   ap_log_error(APLOG_MARK, APLOG_DEBUG, 0, s,
++                    "Done calling ssl_callback_SSLVerify");
++
++
+    /* in case ssl_callback_SSLVerify changed it */
+    errnum = X509_STORE_CTX_get_error(ctx); 
++   snprintf(err_str,127,"errnum=%d returned_ok=%d errdepth=%d\n",errnum, returned_ok, errdepth);
++   /*
++    * if returned_ok==0, we didn't get to the root of the cert tree yes
++    */
++   if (returned_ok==0 && errnum==X509_V_ERR_SUBJECT_ISSUER_MISMATCH)
++     {
++        ap_log_error(APLOG_MARK, APLOG_DEBUG, 0, s,
++                    "Still traversing tree, resetting");
++                                                                                
++        sslconn->verify_error = NULL;
++        ok = TRUE;
++        errnum = X509_V_OK;
++        X509_STORE_CTX_set_error(ctx, errnum);
++     }
++
+ 
++   ap_log_error(APLOG_MARK, APLOG_DEBUG, 0, s,
++                    err_str);
+    if ((errdepth == 0) && (errnum == X509_V_OK))
+    /*
+     * We've now got the last certificate - the identity being used for

@@ -1,0 +1,48 @@
+diff --git a/shlib/Imakefile b/shlib/Imakefile
+index 323f9e8..82467e0 100644
+--- a/shlib/Imakefile
++++ b/shlib/Imakefile
+@@ -54,16 +54,16 @@ exportshr:
+ libdpm.sl libdpm.so libdpm.dylib: $(RFIOLIB) $(NSLIB) $(DPMLIB)
+ liblfc.sl liblfc.so liblfc.dylib: $(NSLIB)
+ 
+-%.sl %.so %.dynlib: SharedLibraryTargetName(lcgdm)
++%.sl %.so %.dylib: SharedLibraryTargetName(lcgdm)
+ 	@echo " making $@ in `pwd`"
+ 	@-rm -rf tmp
+ 	@mkdir tmp
+ 	@for i in $^ ;\
+ 	do (cd tmp; case $$i in *.a) $(AR) x ../$$i; rm -f $(SYMTABNAM) ;; esac) done
+-	(cd tmp; c++ $(SHLIBLDFLAGS) -o ../$@ *.o $(SHLIBREQLIBS) -L .. -llcgdm $(LIBCSEC))
++	(cd tmp; c++ $(SHLIBLDFLAGS) -o ../$@ *.o $(SHLIBREQLIBS) -L.. $(LIBCSEC))
+ 	@-rm -rf tmp
+ 
+-liblcgdm.sl liblcgdm.so liblcgdm.dynlib: $(COMMONLIB) $(SECURITYLIB)
++liblcgdm.sl liblcgdm.so liblcgdm.dylib: $(COMMONLIB) $(SECURITYLIB)
+ 	@echo " making $@ in `pwd`"
+ 	@-rm -rf tmp
+ 	@mkdir tmp
+diff --git a/shlib/Makefile b/shlib/Makefile
+index 4d66933..2dfe80e 100644
+--- a/shlib/Makefile
++++ b/shlib/Makefile
+@@ -99,16 +99,16 @@ exportshr:
+ libdpm.sl libdpm.so libdpm.dylib: $(RFIOLIB) $(NSLIB) $(DPMLIB)
+ liblfc.sl liblfc.so liblfc.dylib: $(NSLIB)
+ 
+-%.sl %.so %.dynlib: liblcgdm.dylib
++%.sl %.so %.dylib: liblcgdm.dylib
+ 	@echo " making $@ in `pwd`"
+ 	@-rm -rf tmp
+ 	@mkdir tmp
+ 	@for i in $^ ;	do (cd tmp; case $$i in *.a) $(AR) x ../$$i; rm -f $(SYMTABNAM) ;; esac) done
+ 
+-	(cd tmp; c++ $(SHLIBLDFLAGS) -o ../$@ *.o $(SHLIBREQLIBS) -L .. -llcgdm $(LIBCSEC))
++	(cd tmp; c++ $(SHLIBLDFLAGS) -o ../$@ *.o $(SHLIBREQLIBS) -L.. $(LIBCSEC))
+ 	@-rm -rf tmp
+ 
+-liblcgdm.sl liblcgdm.so liblcgdm.dynlib: $(COMMONLIB) $(SECURITYLIB)
++liblcgdm.sl liblcgdm.so liblcgdm.dylib: $(COMMONLIB) $(SECURITYLIB)
+ 	@echo " making $@ in `pwd`"
+ 	@-rm -rf tmp
+ 	@mkdir tmp

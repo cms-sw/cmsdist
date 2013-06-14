@@ -1,0 +1,11 @@
+--- orig.valgrind-3.3.0/callgrind/dump.c	2007-12-11 00:18:11.000000000 +0100
++++ valgrind-3.3.0/callgrind/dump.c	2007-12-14 01:46:47.000000000 +0100
+@@ -55,7 +55,7 @@
+  *  print_fn_pos, fprint_apos, fprint_fcost, fprint_jcc,
+  *  fprint_fcc_ln, dump_run_info, dump_state_info
+  */
+-static Char outbuf[FILENAME_LEN + FN_NAME_LEN + OBJ_NAME_LEN];
++static Char outbuf[FILENAME_LEN + 256 * FN_NAME_LEN + OBJ_NAME_LEN];
+ 
+ Int CLG_(get_dump_counter)(void)
+ {

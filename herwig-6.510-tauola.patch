@@ -1,0 +1,22 @@
+--- orig.herwig/6.510/Makefile	2007-07-17 18:43:22.000000000 +0200
++++ herwig/6.510/Makefile	2008-12-30 14:27:51.000000000 +0100
+@@ -59,6 +59,9 @@
+ 	export LIBNAME ; export DIRNAME ; \
+ 	$(MAKE) -f Makearchive.subdir
+ 
++	@LIBNAME=$(LIBDIR)/archive/libherwig_tauoladummy.a ; DIRNAME=tauoladummy ; \
++	export LIBNAME ; export DIRNAME ; \
++	$(MAKE) -f Makearchive.subdir
+ 
+ libshared:
+ 	@LIBNAME=$(LIBDIR)/libherwig.so ; DIRNAME=src ; \
+@@ -73,6 +76,9 @@
+ 	export LIBNAME ; export DIRNAME ; \
+ 	$(MAKE) -f Makeshared.subdir
+ 
++	@LIBNAME=$(LIBDIR)/libherwig_tauoladummy.so ; DIRNAME=tauoladummy ; \
++	export LIBNAME ; export DIRNAME ; \
++	$(MAKE) -f Makeshared.subdir
+ 
+ clean:
+ 	rm -f *~; rm -f \#*;

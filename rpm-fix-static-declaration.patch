@@ -1,0 +1,12 @@
+diff --git a/tools/debugedit.c b/tools/debugedit.c
+index 21973f9..9f1241e 100644
+--- a/tools/debugedit.c
++++ b/tools/debugedit.c
+@@ -1341,7 +1341,6 @@ handle_build_id (DSO *dso, Elf_Data *build_id,
+      or Elf64 object, only that we are consistent in what bits feed the
+      hash so it comes out the same for the same file contents.  */
+   {
+-    inline void process (const void *data, size_t size);
+     inline void process (const void *data, size_t size)
+     {
+       memchunk chunk = { .data = (void *) data, .size = size };

@@ -1,0 +1,16 @@
+--- orig.frontier_client__2.7.11__src/Makefile	2009-06-18 21:12:25.000000000 +0200
++++ frontier_client__2.7.11__src/Makefile	2009-09-22 20:42:58.000000000 +0200
+@@ -148,9 +148,10 @@
+ 	chmod 755 $(BINSCRIPTS)
+ 	cp $(BINSCRIPTS) $(distdir)/bin
+ 	cp RELEASE_NOTES $(distdir)
+-	@echo "Making $@"
+-	rm -f $(distfile); (cd dist; tar cvf $(distfile) $(files))
+-	rm -f $(distfile_gz); gzip $(distfile)
++#	@echo "Making $@"
++	touch $(distfile_gz) 
++#	rm -f $(distfile); (cd dist; tar cvf $(distfile) $(files))
++#	rm -f $(distfile_gz); gzip $(distfile)
+ 
+ 
+ ### END KIT RELATED STUFF. 

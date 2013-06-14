@@ -1,0 +1,177 @@
+Index: MODEL/Main/ADD.C
+===================================================================
+--- MODEL/Main/ADD.C	(revision 11730)
++++ MODEL/Main/ADD.C	(working copy)
+@@ -58,7 +58,7 @@
+ void ADD::ParticleInit() {
+   //add the graviton and the gravi-scalar
+   s_kftable[39] = new Particle_Info(39,100.,0.,0,0,0,4,-1,1,1,1,"graviton","G");
+-  s_kftable[40] = new Particle_Info(40,100.,0.,0,0,0,0,-1,1,1,1,"gscalar","G_s");
++  s_kftable[40] = new Particle_Info(40,100.,0.,0,0,0,0,-1,0,1,1,"gscalar","G_s");
+ 
+   ReadParticleData();
+ }
+Index: AMEGIC++/Amplitude/Zfunc_Generator.C
+===================================================================
+--- AMEGIC++/Amplitude/Zfunc_Generator.C	(revision 11730)
++++ AMEGIC++/Amplitude/Zfunc_Generator.C	(working copy)
+@@ -145,7 +145,7 @@
+       if (!( ph->fl.IsFermion() || ph->fl.IsScalar() || 
+ 	     (ph->fl.IsVector() && ph->number<99) || ph->m==1 || ph->fl.Is5VDummy())
+ 	  &&ph->left)
+-	if(!(ph->left->fl.IsFermion())){
++	if(!(ph->left->fl.IsFermion())||ph->middle){
+ 	  ph->m=1;
+ 	  Convert(p); 
+ 	  return;
+@@ -154,7 +154,7 @@
+       if (!( ph->fl.IsFermion() || ph->fl.IsScalar() || 
+ 	     (ph->fl.IsVector() && ph->number<99) || ph->m==1 || ph->fl.Is5VDummy())
+ 	  &&ph->left)
+-	if(!(ph->left->fl.IsFermion())){
++	if(!(ph->left->fl.IsFermion())||ph->middle){
+ 	  ph->m=1;
+ 	  Convert(p); 
+ 	  return;
+@@ -164,7 +164,7 @@
+ 	if (!( ph->fl.IsFermion() || ph->fl.IsScalar() || 
+ 	       (ph->fl.IsVector() && ph->number<99) || ph->m==1 || ph->fl.Is5VDummy())
+ 	    &&ph->left)
+-	  if(!(ph->left->fl.IsFermion())){
++	  if(!(ph->left->fl.IsFermion())||ph->middle){
+ 	    ph->m=1;
+ 	    Convert(p); 
+ 	    return;
+Index: AMEGIC++/Amplitude/Amplitude_Handler.C
+===================================================================
+--- AMEGIC++/Amplitude/Amplitude_Handler.C	(revision 11730)
++++ AMEGIC++/Amplitude/Amplitude_Handler.C	(working copy)
+@@ -96,10 +96,21 @@
+   else ConstructSignalAmplitudes(N,fl,b,pinfo,subgraphlist,BS);
+ 
+   Single_Amplitude* n = firstgraph;
++  Single_Amplitude* prev = firstgraph;
+   ntotal = 0;
+   while (n){ 
+-    ++ntotal;
+-    n = n->Next;
++    if (TOrder(n)>1) {
++      Single_Amplitude* next = n->Next;
++      if (n==firstgraph) firstgraph = next;
++      else prev->Next = next;
++      delete n;
++      n = next;
++    }
++    else {
++      ++ntotal;
++      prev = n;
++      n = n->Next;
++    }
+   }
+   msg_Tracking()<<"Total number of Amplitudes "<<ntotal<<endl;
+   ngraph = ntotal;
+@@ -203,20 +214,7 @@
+ 
+   // fill color groups
+   int ncount = 0;
+-  int maxorder = 1;
+-  for(int i=0; i<N; i++) if (fl[i].IsKK()) maxorder--;
+-  if (maxorder<0) {
+-    msg_Error()<<"ERROR in Amplitude_Handler::CompleteAmplitudes :"<<std::endl
+-	       <<"   Multiple external KK-particles not supported. Abort the run."<<std::endl;
+-    abort();
+-  }
+   while (n) {
+-    while(TOrder(n)>maxorder){
+-      ncount++;	   
+-      n=n->Next;
+-      if (!n) break;
+-    }
+-    if (!n) break; 
+     pointlist.push_back(n->GetPointlist()); 
+     graphs[CFCol_Matrix->CFMap(ncount)]->Add(n,CFCol_Matrix->CFSign(ncount));
+     n = n->Next;
+@@ -328,15 +326,8 @@
+ 
+   // fill color groups
+   int ncount = 0;
+-  int maxorder = 1;
+ 
+   while (n) {
+-    while(TOrder(n)>maxorder){
+-      ncount++;	   
+-      n=n->Next;
+-      if (!n) break;
+-    }
+-    if (!n) break; 
+     pointlist.push_back(n->GetPointlist()); 
+     n = n->Next;
+     ncount++;	   
+@@ -825,11 +816,7 @@
+ int Amplitude_Handler::TOrder(Single_Amplitude* a)
+ {  
+   if(!MODEL::s_model->GetInteractionModel()->HasTensors()) return 0;
+-  int cnt=0;
+-  Pfunc_List* pl = a->GetPlist();
+-  for(Pfunc_Iterator pit=pl->begin();pit!=pl->end();++pit)
+-    if((*pit)->fl.IsKK())cnt++;
+-  return cnt;
++  return a->GetPointlist()->CountKK();
+ } 
+ 
+ int Amplitude_Handler::CompareAmplitudes(Amplitude_Handler* c_ampl, double & sf, map<string,Complex> & cplmap)
+Index: AMEGIC++/Amplitude/CFColor.C
+===================================================================
+--- AMEGIC++/Amplitude/CFColor.C	(revision 11730)
++++ AMEGIC++/Amplitude/CFColor.C	(working copy)
+@@ -632,6 +632,15 @@
+       if (s2->Str().length()==6) {
+ 	if (s2->Str()[0]=='D') {
+ 	  if (s2->Str()[2]==s2->Str()[4]) s2->SetString(string("3"));
++	  else {
++	    // kill D's
++	    // replace s2->Str()[2] -> s2->Str()[4]
++	    char from = s2->Str()[2];
++	    char to   = s2->Str()[4];
++	    int hit=0;
++	    hit = SingleReplaceD(start,s2,from,to);
++	    s2->SetString(string("1"));
++	  }
+ 	}
+       }
+     }
+Index: AMEGIC++/Main/Point.H
+===================================================================
+--- AMEGIC++/Main/Point.H	(revision 11730)
++++ AMEGIC++/Main/Point.H	(working copy)
+@@ -42,6 +42,7 @@
+   void ResetFlag();
+   Point* CopyList(Point* p);
+   size_t Ncpl() const {return cpl.size();}
++  int CountKK();
+ };
+ 
+  // Format of a Point to transport via MPI:
+Index: AMEGIC++/Main/Point.C
+===================================================================
+--- AMEGIC++/Main/Point.C	(revision 11730)
++++ AMEGIC++/Main/Point.C	(working copy)
+@@ -131,6 +131,18 @@
+   }
+ }
+ 
++int Point::CountKK()
++{
++  int KKnum=0;
++  if (left) {
++    KKnum+=left->CountKK();
++    KKnum+=right->CountKK();
++    if (middle) KKnum+=middle->CountKK();
++  }
++  if (fl.IsKK()) KKnum++;
++  return KKnum;
++}
++
+ std::ostream & AMEGIC::operator<<(std::ostream & s, const Point & p)
+ {
+ //   s<<p;

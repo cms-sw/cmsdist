@@ -1,0 +1,13 @@
+Index: ANALYSIS/Main/Primitive_Analysis.C
+===================================================================
+--- ANALYSIS/Main/Primitive_Analysis.C	(revision 11703)
++++ ANALYSIS/Main/Primitive_Analysis.C	(revision 11704)
+@@ -121,7 +121,7 @@
+       max="";
+     }
+   }
+-  for (size_t i(0);i<name.length();++i) {
++  for (size_t i(1);i<name.length();++i) {
+     if (name[i]=='_' && name[i-1]=='_') ++jets;
+     else if (name[i]=='[') {
+       std::string cmax;

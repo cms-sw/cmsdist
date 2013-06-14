@@ -1,0 +1,15 @@
+diff -Naur V02-00-01_plain/Makefile V02-00-01_rfio/Makefile
+--- V02-00-01_plain/Makefile	2009-08-20 12:08:27.000000000 +0200
++++ V02-00-01_rfio/Makefile	2009-08-20 12:15:11.000000000 +0200
+@@ -55,9 +55,9 @@
+ #
+ # Make the executables
+ # The specific ones (part of hack, see below) + the single:
+-EXECUTABLES = pede pede_1GB pede_2GB 
++#EXECUTABLES = pede pede_1GB pede_2GB 
+ # Or also those supporting rfio-reading:
+-#EXECUTABLES = pede pede_1GB pede_2GB pede_1GB_rfio pede_2GB_rfio 
++EXECUTABLES = pede pede_1GB pede_2GB pede_1GB_rfio pede_2GB_rfio 
+ # If you need also the executables with more memory, you need a
+ # 64-bit environment and the '-mcmodel=medium' option (see above).
+ #	pede_4GB pede_4GB_rfio pede_8GB pede_8GB_rfio
