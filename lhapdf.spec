@@ -28,6 +28,11 @@ Requires: gfortran-macosx
 %patch3 -p2
 
 touch src/gzio.inc ; touch src/gzio.F ; touch src/ftn_gzio.c 
+
+# Remove wrapper generated w/ SWIG 1.3* version. Makefile will
+# regenerate it w/ our SWIG version.
+rm ./pyext/lhapdf_wrap.cc
+
 %patch1 -p2
 
 cd share/lhapdf/PDFsets
