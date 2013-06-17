@@ -1,4 +1,4 @@
---- setup_dependencies.py
+--- setup_dependencies.py                                                                                                                                                                                   
 +++ setup_dependencies.py
 @@ -105,26 +105,27 @@
                                      'src/templates/WMCore/WebTools/WMBS'],
