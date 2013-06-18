@@ -6,8 +6,8 @@ Patch1: lhapdf-5.8.5-gzio
 Patch2: lhapdf-data-5.8.5-gzio
 Patch3: lhapdf-5.8.5-disable-examples-and-tests
 
-Requires: zlib
-BuildRequires: autotools
+Requires: zlib python
+BuildRequires: autotools swig
 
 %define keep_archives true
 %if "%(case %{cmsplatf} in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
@@ -28,6 +28,11 @@ Requires: gfortran-macosx
 %patch3 -p2
 
 touch src/gzio.inc ; touch src/gzio.F ; touch src/ftn_gzio.c 
+
+# Remove wrapper generated w/ SWIG 1.3* version. Makefile will
+# regenerate it w/ our SWIG version.
+rm ./pyext/lhapdf_wrap.cc
+
 %patch1 -p2
 
 cd share/lhapdf/PDFsets
@@ -57,7 +62,7 @@ CXX="`which %{cms_cxx}` -fPIC"
 CC="`which gcc` -fPIC"
 
 # Configure first with low memory.
-./configure --prefix=%{i} --enable-static --disable-shared --disable-pyext \
+./configure --prefix=%{i} --enable-static --disable-shared --enable-pyext \
             --disable-octave --disable-doxygen --enable-low-memory \
             --with-max-num-pdfsets=1 \
             FC="$FC" CXX="$CXX" CC="$CC" \
@@ -76,7 +81,7 @@ popd
 # do another install-round for full libs
 make distclean
 ./configure --prefix=%{i}/full --enable-static --disable-shared \
-            --disable-pyext --disable-octave --disable-doxygen \
+            --enable-pyext --disable-octave --disable-doxygen \
             FC="$FC" CXX="$CXX" CC="$CC" \
             CPPFLAGS="-I ${ZLIB_ROOT}/include" CXXFLAGS="%cms_cxxflags" LDFLAGS="-L${ZLIB_ROOT}/lib -lz"
 make %{makeprocesses}
@@ -84,6 +89,9 @@ make install
 
 # Remove all libtool archives
 find %{i} -name '*.la' -exec rm -f {} \;
+
+# Remove egg-info
+find %{i} -name '*.egg-info' -delete
 
 %post
 %{relocateConfig}bin/lhapdf-config

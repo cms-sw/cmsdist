@@ -1,0 +1,43 @@
+From b54356e5cd8e17b8848ae6ce9f7b27145d5059d2 Mon Sep 17 00:00:00 2001
+From: Philippe Canal <pcanal@fnal.gov>
+Date: Thu, 6 Jun 2013 15:17:32 -0500
+Subject: [PATCH] Fix spurrious (fatal) removal of duplicate part of branch
+ names.
+
+Since v5-34-06 (specifically commit b454e81), a TTree fails to save
+the content of a branch that is part of a split STL collection and
+whose name (of the data member) match some other component of the
+branch name (and the two must be separted my at least one level).
+
+For example out.OBJ.vec.OBJect
+or TH1DMEtoEDM_MEtoEDMConverter_MEtoEDMConverterRun_TEST.obj.MEtoEdmObject.object.
+
+When reading the file back in v5-34-06, 07 or 08, this will result
+in the data not being written and the missing data not being noticed in any way
+by the I/O .. but of course, it is not being read.
+
+When reading the file back with v5-34-05 or below, this can result
+in error messages like:
+
+  Error in <TBufferFile::ReadVersion>: Could not find the StreamerInfo with a checksum of 0x20000 for the class "TH1F" in output.root.
+---
+ tree/tree/src/TBranchElement.cxx | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/tree/tree/src/TBranchElement.cxx b/tree/tree/src/TBranchElement.cxx
+index 286238d..0277a30 100644
+--- a/tree/tree/src/TBranchElement.cxx
++++ b/tree/tree/src/TBranchElement.cxx
+@@ -3008,7 +3008,8 @@ void TBranchElement::InitializeOffsets()
+             //-----------------------------------------------------------------
+             if( stlParentName.Length() )
+             {
+-               if( !strncmp( stlParentName.Data(), dataName.Data(), stlParentName.Length()-1 ))
++               if( !strncmp( stlParentName.Data(), dataName.Data(), stlParentName.Length()-1 )
++                   && dataName[ stlParentName.Length() ] == '.' )
+                   dataName.Remove( 0, stlParentName.Length()+1 );
+             }
+ 
+-- 
+1.8.2
+
