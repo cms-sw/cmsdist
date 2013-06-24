@@ -1,4 +1,4 @@
-### RPM external geant4 9.6.p01
+### RPM external geant4 9.6.p02
 
 Source0: http://geant4.cern.ch/support/source/%{n}.%{realversion}.tar.gz
 
