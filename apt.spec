@@ -13,7 +13,13 @@ Patch3: apt-429-add-support-osx108
 
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
-Requires: libxml2 rpm db4 openssl bz2lib zlib
+Requires: libxml2 rpm db4 openssl bz2lib
+
+%if "%online" != "true"
+Requires: zlib
+%else
+Requires: onlinesystemtools
+%endif
 
 %prep
 %setup -T -b 2 -n RPM-Header-PurePerl-1.0.2
