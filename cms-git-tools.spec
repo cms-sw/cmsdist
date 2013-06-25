@@ -1,5 +1,5 @@
 ### RPM cms cms-git-tools 1.0
-## REVISION 1005
+## REVISION 1006
 ## NOCOMPILER
 
 %define commit v0.6.2
