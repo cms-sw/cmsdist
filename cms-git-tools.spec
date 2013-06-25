@@ -2,7 +2,7 @@
 ## REVISION 1005
 ## NOCOMPILER
 
-%define commit v0.6
+%define commit v0.6.2
 %define branch master
 Source0: git://github.com/cms-sw/cms-git-tools.git?obj=%{branch}/%{commit}&export=cms-git-tools&output=/cms-git-tools.tgz
 
