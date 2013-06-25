@@ -461,6 +461,7 @@ Geometry/FP420SimData
 Geometry/ForwardCommonData
 Geometry/ForwardGeometry
 Geometry/ForwardSimData
+Geometry/GEMGeometry
 Geometry/GlobalTrackingGeometryBuilder
 Geometry/HcalAlgo
 Geometry/HcalCommonData
