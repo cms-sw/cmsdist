@@ -1,8 +1,8 @@
 ### RPM cms cms-git-tools 1.0
-## REVISION 1006
+## REVISION 1007
 ## NOCOMPILER
 
-%define commit v0.6.2
+%define commit v0.6.3
 %define branch master
 Source0: git://github.com/cms-sw/cms-git-tools.git?obj=%{branch}/%{commit}&export=cms-git-tools&output=/cms-git-tools.tgz
 
