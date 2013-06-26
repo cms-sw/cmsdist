@@ -1,9 +1,12 @@
-### RPM cms cmssw CMSSW_6_2_0_pre8
-Requires: cmssw-tool-conf python
+### RPM cms cmssw CMSSW_7_0_X_2013-07-26-2000
+
+Requires: cmssw-tool-conf python cms-git-tools
 
 %define runGlimpse      yes
 %define useCmsTC        yes
 %define saveDeps        yes
+%define branch          %(echo %realversion | sed -e's|\(CMSSW_[0-9][0-9]*_[0-9][0-9]*\).*|\1|g')
+%define source1         git://github.com/cms-sw/cmssw.git?protocol=https&object=%{branch}/%{realversion}
 
 # Build with clang if _CLANG_X is in the name of the package.
 %if "%(case %realversion in (*_CLANG_X*) echo true ;; (*) echo false ;; esac)" == "true"
