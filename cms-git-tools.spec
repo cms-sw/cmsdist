@@ -1,8 +1,8 @@
 ### RPM cms cms-git-tools 1.0
-## REVISION 1007
+## REVISION 1008
 ## NOCOMPILER
 
-%define commit v0.6.3
+%define commit v0.6.4
 %define branch master
 Source0: git://github.com/cms-sw/cms-git-tools.git?obj=%{branch}/%{commit}&export=cms-git-tools&output=/cms-git-tools.tgz
 
@@ -17,8 +17,9 @@ Source0: git://github.com/cms-sw/cms-git-tools.git?obj=%{branch}/%{commit}&expor
 
 %setup -n %{n}
 
-mkdir -p %{i}/%{pkgrevision}/common
-cp * %{i}/%{pkgrevision}/common
+mkdir -p %{i}/%{pkgrevision}/common %{i}/%{pkgrevision}/share/man/man1
+cp git-cms-* %{i}/%{pkgrevision}/common
+cp docs/man/man1/*.1 %{i}/%{pkgrevision}/share/man/man1
 find %{i} -name '*' -type f -exec chmod +x {} \;
 
 %build
@@ -31,7 +32,7 @@ find %{i} -name '*' -type f -exec chmod +x {} \;
 cd ${RPM_INSTALL_PREFIX}/%{pkgrel}/%{pkgrevision}
 %{relocateCmsFiles} $(find . -name '*' -type f)
 
-mkdir -p ${RPM_INSTALL_PREFIX}/common ${RPM_INSTALL_PREFIX}/bin ${RPM_INSTALL_PREFIX}/etc/%{pkgname} ${RPM_INSTALL_PREFIX}/%{cmsplatf}/etc/profile.d
+mkdir -p ${RPM_INSTALL_PREFIX}/common ${RPM_INSTALL_PREFIX}/bin ${RPM_INSTALL_PREFIX}/etc/%{pkgname} ${RPM_INSTALL_PREFIX}/%{cmsplatf}/etc/profile.d ${RPM_INSTALL_PREFIX}/share/man/man1
 
 #Check if a newer revision is already installed
 if [ -f ${RPM_INSTALL_PREFIX}/etc/%{pkgname}/revision ] ; then
