@@ -6,13 +6,12 @@
 ## INITENV SET DBS_CLIENT_CONFIG %{i}/lib/DBSAPI/dbs.config
 ## INITENV SET DBSCMD_HOME %{i}/lib/DBSAPI
 
-%define cvstag %{realversion}
-%define cvsserver cvs://:pserver:anonymous@cmscvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e
-Source: %cvsserver&strategy=checkout&module=DBS/Clients/Python&nocache=true&export=DBS&tag=-r%{cvstag}&output=/dbs-client.tar.gz
+Source: git://github.com/geneguvo/dbs2-client?obj=master/%realversion&export=%n&output=/%n.tar.gz
+
 Requires: python openssl py2-zsi py2-pyxml
 
 %prep
-%setup -n DBS
+%setup -n %n
 %build
 %install
 mkdir -p %{i}/bin
@@ -20,7 +19,6 @@ mkdir -p %{i}/lib
 mkdir -p %{i}/etc/profile.d
 cp -r Clients/Python/* %{i}/lib/
 mv %{i}/lib/bin/* %{i}/bin/
-find %i -depth -type d -name CVS -exec rm -fr {} \;
 python -m compileall %i/lib
 
 #cp -r Clients/Python/DBSAPI/dbsCommandLine.py %{i}/bin/dbs
