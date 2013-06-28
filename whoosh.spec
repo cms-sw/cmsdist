@@ -5,11 +5,14 @@
 
 Source0: https://pypi.python.org/packages/source/W/%{mod_name}/%{mod_name}-%{realversion}.tar.gz
 
-Requires: python py2-yaml py2-numpy
-BuildRequires:  python2-devel python-setuptools python-nose python-sphinx
+Requires: python
+#BuildRequires:  python2-devel python-setuptools python-nose python-sphinx
+BuildRequires: py2-sphinx
 
 %prep
-%setup -n whoosh-%{realversion}
+%setup -n Whoosh-%{realversion}
+wget http://python-distribute.org/distribute_setup.py %{i}/${PYTHON_LIB_SITE_PACKAGES}/Whoosh-%{realversion}/
+# append distribute to top of setup.py
 
 %build
 python setup.py build
