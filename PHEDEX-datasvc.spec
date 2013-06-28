@@ -2,7 +2,7 @@
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define gittag PHEDEX-datasvc%(echo %realversion | tr . _)
-Source: git://github.com/dmwm/PHEDEX?obj=PHEDEX-datasvc/a60c3d6c3301fca2864710ac25712a9b3d9203fb&export=%n&output=/%n.tar.gz
+Source: git://github.com/dmwm/PHEDEX?obj=PHEDEX-datasvc/a8a85d7413f45c08473049927078a62b7b0b39ef&export=%n&output=/%n.tar.gz
 
 # For DB Access
 Requires: oracle oracle-env p5-dbi p5-dbd-oracle
