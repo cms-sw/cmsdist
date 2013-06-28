@@ -4,15 +4,17 @@
 %global mod_name Whoosh
 
 Source0: https://pypi.python.org/packages/source/W/%{mod_name}/%{mod_name}-%{realversion}.tar.gz
+#Patch0: py2-whoosh-%{realversion}-fix-distribute.patch
 
-Requires: python
+Requires: python py2-setuptools
 #BuildRequires:  python2-devel python-setuptools python-nose python-sphinx
 BuildRequires: py2-sphinx
 
 %prep
 %setup -n Whoosh-%{realversion}
-wget http://python-distribute.org/distribute_setup.py %{i}/${PYTHON_LIB_SITE_PACKAGES}/Whoosh-%{realversion}/
+#wget http://python-distribute.org/distribute_setup.py %{i}/${PYTHON_LIB_SITE_PACKAGES}/Whoosh-%{realversion}/
 # append distribute to top of setup.py
+#%patch0 -p1
 
 %build
 python setup.py build
@@ -20,8 +22,8 @@ python setup.py build
 #rm -f docs/html/.buildinfo
 #rm -rf docs/html/.doctrees
 
-%check
-%{__python} setup.py test
+#%check
+#%{__python} setup.py test
 
 %install
 # install nltk
