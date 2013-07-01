@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-webapp 1.3.13pre1
+### RPM cms PHEDEX-webapp 1.3.13
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define gittag WEBAPP_%(echo %realversion | tr . _)
