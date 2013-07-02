@@ -64,6 +64,21 @@ esac
 make
 
 %install
+RPM_OPT_FLAGS="-O2 -fPIC -g -pipe -Wall -Wa,--noexecstack -fno-strict-aliasing \
+               -Wp,-DOPENSSL_USE_NEW_FUNCTIONS -Wp,-D_FORTIFY_SOURCE=2 -fexceptions \
+               -fstack-protector --param=ssp-buffer-size=4"
+
+case "%{cmsplatf}" in
+  *armv7*)
+    RPM_OPT_FLAGS="${RPM_OPT_FLAGS} -mtune=generic-armv7-a"
+    ;;
+  *)
+    RPM_OPT_FLAGS="${RPM_OPT_FLAGS} -mtune=generic"
+    ;;
+esac
+
+export RPM_OPT_FLAGS
+
 make install
 
 rm -rf %{i}/lib/pkgconfig
