@@ -1,9 +1,9 @@
-### RPM cms reqmgr2 0.9.75
+### RPM cms reqmgr2 0.9.78a
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
-Source: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
+Source: git://github.com/geneguvo/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
 #from WMCore github branch 
 #Source: git://github.com/dmwm/WMCore?obj=size-per-evt-fix/%realversion&export=%n&output=/%n.tar.gz
 #Source: https://maxa.home.cern.ch/maxa/reqmgr2-WMCore-0.9.59-rc1.tgz
