@@ -3,13 +3,16 @@ Source0: http://www.lua.org/ftp/%{n}-%{realversion}.tar.gz
 
 Requires: readline ncurses
 
+%define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
+%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
+
 %build
 sed -ibak "s|^CFLAGS=|CFLAGS=-fPIC -I${READLINE_ROOT}/include -I${NCURSES_ROOT}/include|g" src/Makefile
 sed -ibak "s|^LIBS=|LIBS=-L${READLINE_ROOT}/lib -L${NCURSES_ROOT}/lib|g;" src/Makefile
-%ifos linux
+%if %islinux
 make linux
 %endif
-%ifos darwin
+%if %isdarwin
 make macosx
 %endif
 
