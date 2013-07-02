@@ -5,6 +5,8 @@ Requires: nspr sqlite
 Patch0: nss-3.14.3-add-ZLIB-LIBS-DIR-and-ZLIB-INCLUDE-DIR
 Patch1: nss-3.14.3-add-SQLITE-LIBS-DIR
 
+%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 %if "%online" != "true"
 Requires: zlib
@@ -26,7 +28,7 @@ export ZLIB_LIBS_DIR="${ZLIB_ROOT}/lib"
 export NSS_USE_SYSTEM_SQLITE=1
 export SQLITE_INCLUDE_DIR="${SQLITE_ROOT}/include"
 export SQLITE_LIBS_DIR="${SQLITE_ROOT}/lib"
-%ifarch x86_64
+%if %isamd64
 export USE_64=1
 %endif
 
