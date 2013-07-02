@@ -6,8 +6,8 @@ Requires: pcre
 
 %install
 
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/pcre.xml
+mkdir -p %{i}/etc/scram.d
+cat << \EOF_TOOLFILE >%{i}/ietc/scram.d/pcre.xml
 <tool name="pcre" version="@TOOL_VERSION@">
   <info url="http://www.pcre.org"/>
   <lib name="pcre"/>
@@ -16,6 +16,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pcre.xml
     <environment name="LIBDIR" default="$PCRE_BASE/lib"/>
     <environment name="INCLUDE" default="$PCRE_BASE/include"/>
   </client>
+  <use name="zlib"/>
+  <use name="bz2lib"/>
 </tool>
 EOF_TOOLFILE
 
