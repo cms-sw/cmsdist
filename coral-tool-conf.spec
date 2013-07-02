@@ -1,6 +1,7 @@
 ### RPM cms coral-tool-conf 2.1
 ## NOCOMPILER
 %define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
+%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 
 Requires: pcre-toolfile
 Requires: python-toolfile
@@ -16,7 +17,7 @@ Requires: libuuid-toolfile
 Requires: zlib-toolfile
 Requires: cppunit-toolfile
 Requires: xerces-c-toolfile
-%ifarch  i386 i486 i585 i686 x86_64
+%if %isamd64
 Requires: oracle-toolfile
 %endif
 Requires: systemtools
