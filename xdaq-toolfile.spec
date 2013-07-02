@@ -1,22 +1,28 @@
 ### RPM external xdaq-toolfile 1.0
 Requires: xdaq
+
+%define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
+%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
+%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+%define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
+
 %prep
 
 %build
 
 %install
 
-%ifos linux
+%if %islinux
 %define xdaq_os linux
 %endif
-%ifos darwin
+%if %isdarwin
 %define xdaq_os darwin
 %endif
 
-%ifarch %{arm}
+%if %isarmv7
 %define xdaq_platform _RedHat
 %endif
-%ifarch i386 i486 i586 i686 x84_64
+%if %isamd64
 %define xdaq_platform x86
 %endif
 
