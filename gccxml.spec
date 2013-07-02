@@ -1,16 +1,16 @@
-### RPM external gccxml 0.9.0-20130101-0
+### RPM external gccxml 0.9.0-20130702-0
 
 BuildRequires: cmake
 
-Source: git+https://github.com/gccxml/gccxml.git?obj=master/2cbeb9d631e0198fcbeca3d230ef49fe07e87dd8&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tar.gz
+%define commit 567213ac765c99d5dfd23b14000b3c7b76274fcb
+Source: git+https://github.com/gccxml/gccxml.git?obj=master/%{commit}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tar.gz
 
-Patch0: gccxml-0.9.0-add-gcc-4.8
+%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
 
-%ifos darwin
+%if %isdarwin
 # Drop no more supported -no-cpp-precomp on Darwin.
 sed -i '' 's/-no-cpp-precomp//g' \
   GCC/CMakeLists.txt \
