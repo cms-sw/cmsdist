@@ -114,7 +114,6 @@ Requires: pacparser-toolfile
 Requires: git-toolfile
 Requires: nspr-toolfile
 Requires: nss-toolfile
-Requires: cyrus-sasl-toolfile
 
 # Only for Linux platform.
 %if %islinux
