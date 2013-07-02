@@ -3,10 +3,9 @@
 # with cmsBuild, change the above version only when a new
 # tool is added
 
-%define isNotSLC5 %(case %{cmsos} in (slc5*) echo 0 ;; (*) echo 1 ;; esac)
-%define isLinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
-%define isDarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
-%define isAMD64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+%define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
+%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
+%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 
 Requires: alpgen-toolfile
 Requires: boost-toolfile
@@ -113,35 +112,31 @@ Requires: millepede-toolfile
 Requires: cvs2git-toolfile
 Requires: pacparser-toolfile
 Requires: git-toolfile
+Requires: nspr-toolfile
+Requires: nss-toolfile
+Requires: cyrus-sasl-toolfile
 
 # Only for Linux platform.
-%if %isLinux
+%if %islinux
 Requires: openldap-toolfile
 Requires: python-ldap-toolfile
 Requires: gdb-toolfile
 Requires: google-perftools-toolfile
-
-# For general Linux, but not SLC5.
-%if %isNotSLC5
-Requires: nspr-toolfile
-Requires: nss-toolfile
-Requires: cyrus-sasl-toolfile
-%endif
 %endif
 
 # Only for Darwin platform.
-%if %isDarwin
+%if %isdarwin
 Requires: freetype-toolfile
 %endif
 
 # Only for INTEL/AMD platforms.
-%if %isAMD64
+%if %isamd64
 Requires: tkonlinesw-toolfile
 Requires: py2-cx-oracle-toolfile
 Requires: oracle-toolfile
 
 # Only for Linux platform.
-%if %isLinux
+%if %islinux
 Requires: igprof-toolfile
 %endif
 %endif
