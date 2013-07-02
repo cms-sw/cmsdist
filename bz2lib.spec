@@ -7,6 +7,8 @@ Provides: libbz2.so.1
 Provides: libbz2.so.1()(64bit)
 %endif
 
+%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac
+
 %prep
 %setup -n bzip2-%{realversion}
 sed -e 's/ -shared/ -dynamiclib/' \
@@ -15,7 +17,7 @@ sed -e 's/ -shared/ -dynamiclib/' \
     < Makefile-libbz2_so > Makefile-libbz2_dylib
 
 %build
-%ifos darwin
+%if %isdarwin
 so=dylib
 %else
 so=so
@@ -23,7 +25,7 @@ so=so
 make %{makeprocesses} -f Makefile-libbz2_$so
 
 %install
-%ifos darwin
+%if %isdarwin
 so=dylib
 %else
 so=so
