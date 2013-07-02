@@ -4,6 +4,9 @@ Source: svn://svnweb.cern.ch/guest/%{n}/tags/%{realversion}?scheme=http&strategy
 
 BuildRequires: cmake
 
+%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+%define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
+
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
 %endif
@@ -14,7 +17,7 @@ BuildRequires: cmake
 %setup -q -n %{n}
 
 %build
-%ifarch i386 i486 i585 i686 x86_64
+%if %isamd64
 cmake . \
   -DCMAKE_CXX_COMPILER="%{cms_cxx}" \
   -DCMAKE_INSTALL_PREFIX=%{i} \
@@ -22,7 +25,7 @@ cmake . \
   -DSSE:BOOL=ON 
 %endif
 
-%ifarch %{arm}
+%if %isarmv7
 cmake . \
   -DCMAKE_CXX_COMPILER="%{cms_cxx}" \
   -DCMAKE_INSTALL_PREFIX=%{i} \
