@@ -9,6 +9,8 @@ BuildRequires: autotools
 
 %define keep_archives true
 
+%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
+
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
 %endif
@@ -33,6 +35,6 @@ make
 %install
 make install
 
-%ifos darwin
+%if %isdarwin
 find %i/lib -name "*.dylib" -exec install_name_tool -change '../lib/libHEPEvent.dylib' 'libHEPEvent.dylib' {} \;
 %endif
