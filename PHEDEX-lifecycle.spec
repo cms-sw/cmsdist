@@ -8,7 +8,7 @@
 Source1: %cvsserver&strategy=export&module=T0&export=T0&&tag=-rPHEDEX_LIFECYCLE_1_0_0&output=/T0.tar.gz
 
 %define realversion LIFECYCLE_1_2_0
-Source0: git://github.com/dmwm/LifeCycle?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
+Source0: git://github.com/dmwm/PHEDEX?obj=PHEDEX-LifeCycle/%realversion&export=%n&output=/%n.tar.gz
 
 Requires: p5-poe p5-poe-component-child p5-clone p5-time-hires p5-text-glob
 Requires: p5-compress-zlib p5-log-log4perl p5-json-xs p5-xml-parser p5-monalisa-apmon
@@ -31,7 +31,7 @@ Provides: perl(T0::Util)
 #Requires:  expat
 
 %prep
-%setup -n PHEDEX
+%setup -n PHEDEX-lifecycle
 tar zxf %_sourcedir/T0.tar.gz
 
 %build
