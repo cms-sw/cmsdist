@@ -7,7 +7,7 @@ Provides: libbz2.so.1
 Provides: libbz2.so.1()(64bit)
 %endif
 
-%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac
+%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 %prep
 %setup -n bzip2-%{realversion}
