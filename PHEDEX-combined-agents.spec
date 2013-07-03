@@ -1,7 +1,8 @@
 ### RPM cms PHEDEX-combined-agents 1
 
-# This is a fake spec whose only job is to build PHEDEX-web and
-# PHEDEX-datasvc on a combined platform of dependencies
+# This is a fake spec whose only job is to build PHEDEX,
+# PHEDEX-admin and PHEDEX-micro on a combined platform
+# of dependencies
 
 Requires: PHEDEX PHEDEX-admin PHEDEX-micro
 
