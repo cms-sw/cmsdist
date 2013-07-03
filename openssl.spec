@@ -18,7 +18,7 @@ Patch1: openssl-x86-64-gcc420
 %setup -b 0 -n %{n}-%{generic_version}
 %endif
 %if %isslc
-setup -b 1 -n %{n}-fips-%{slc_version}
+%setup -b 1 -n %{n}-fips-%{slc_version}
 patch0 -p1
 patch1 -p1
 %endif
