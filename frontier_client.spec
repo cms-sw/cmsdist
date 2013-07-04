@@ -1,4 +1,4 @@
-### RPM external frontier_client 2.8.6
+### RPM external frontier_client 2.8.7
 Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
