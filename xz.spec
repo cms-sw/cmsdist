@@ -8,9 +8,9 @@ Source1: http://tukaani.org/%{n}/%{n}-%{fc18arm_version}.tar.xz
 
 %prep
 %if %isfc18arm
-%setup -b 1 -n %{n}-%{realversion}
+%setup -b 1 -n %{n}-%{fc18arm_version}
 %else
-%setup -b 0 -n %{n}-%{realversion}
+%setup -b 0 -n %{n}-%{generic_version}
 %endif
 
 %build
