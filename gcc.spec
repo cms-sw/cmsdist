@@ -240,8 +240,6 @@ esac
 
 # Build GCC
 cd ../gcc-%{gccBranch}-%{gccRevision}
-rm gcc/DEV-PHASE
-touch gcc/DEV-PHASE
 mkdir -p obj
 cd obj
 export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
