@@ -1,4 +1,4 @@
-### RPM external jsonpath-rw 1.2.0
+### RPM external py2-jsonpath-rw 1.2.0
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 %global mod_name jsonpath-rw
