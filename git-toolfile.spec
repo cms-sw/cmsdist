@@ -16,6 +16,8 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/git.xml
   <runtime name="PATH" value="$GIT_BASE/bin" type="path"/>
   <runtime name="PATH" value="$GIT_BASE/libexec/git-core" type="path"/>
   <runtime name="GIT_TEMPLATE_DIR" value="$GIT_BASE/share/git-core/templates" type="path"/>
+  <runtime name="GIT_SSL_CAINFO" value="$GIT_BASE/share/ssl/certs/ca-bundle.crt" type="path"/>
+  <runtime name="PERL5LIB" value="$GIT_BASE/lib/perl5/site_perl" type="path"/>
 </tool>
 EOF_TOOLFILE
 
