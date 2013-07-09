@@ -1,4 +1,4 @@
-### RPM external whoosh 2.4.1
+### RPM external py2-whoosh 2.4.1
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 %global mod_name Whoosh
