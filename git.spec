@@ -19,6 +19,10 @@ Provides: perl(SVN::Core)
 Provides: perl(SVN::Delta)
 Provides: perl(SVN::Ra)
 Provides: perl(YAML::Any)
+Provides: perl(CGI)
+Provides: perl(CGI::Carp)
+Provides: perl(CGI::Util)
+Provides: perl(Time::HiRes)
 
 %define drop_files %{i}/share/man
 
