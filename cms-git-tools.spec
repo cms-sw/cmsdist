@@ -1,25 +1,22 @@
-### RPM cms cms-git-tools 1.0
-## REVISION 1007
+### RPM cms cms-git-tools 4.0
 ## NOCOMPILER
 
-%define commit v0.6.3
+# ***Do not change minor number of the above version.***
+
+%define commit v0.8.0
 %define branch master
+# We do not use a revision explicitly, because revisioned packages do not get
+# updated automatically when they are dependencies.
+%define fakerevision %(echo %realversion | cut -d. -f1)
 Source0: git://github.com/cms-sw/cms-git-tools.git?obj=%{branch}/%{commit}&export=cms-git-tools&output=/cms-git-tools.tgz
 
 %prep
-#Make sure that we always build cms-common with a different revision and 
-#hardcoded version 1.0 because this is what bootstrap.sh is going to install
-%if "%{v}" != "1.0"
-  echo "ERROR: Please do not change the version. We have to build this RPM with a different REVISION"
-  echo "       Please update the revision in %n.spec and make sure that version is set to 1.0"
-  exit 1
-%endif
-
 %setup -n %{n}
 
-mkdir -p %{i}/%{pkgrevision}/common
-cp * %{i}/%{pkgrevision}/common
-find %{i} -name '*' -type f -exec chmod +x {} \;
+mkdir -p %{i}/common %{i}/share/man/man1
+cp git-cms-* %{i}/common
+cp docs/man/man1/*.1 %{i}/share/man/man1
+find %{i}/common -name '*' -type f -exec chmod +x {} \;
 
 %build
 
@@ -28,21 +25,23 @@ find %{i} -name '*' -type f -exec chmod +x {} \;
 # NOP
 
 %post
-cd ${RPM_INSTALL_PREFIX}/%{pkgrel}/%{pkgrevision}
+cd ${RPM_INSTALL_PREFIX}/%{pkgrel}
 %{relocateCmsFiles} $(find . -name '*' -type f)
 
-mkdir -p ${RPM_INSTALL_PREFIX}/common ${RPM_INSTALL_PREFIX}/bin ${RPM_INSTALL_PREFIX}/etc/%{pkgname} ${RPM_INSTALL_PREFIX}/%{cmsplatf}/etc/profile.d
+mkdir -p ${RPM_INSTALL_PREFIX}/common ${RPM_INSTALL_PREFIX}/etc/%{pkgname} ${RPM_INSTALL_PREFIX}/share/man/man1
 
 #Check if a newer revision is already installed
-if [ -f ${RPM_INSTALL_PREFIX}/etc/%{pkgname}/revision ] ; then
-  oldrev=$(cat ${RPM_INSTALL_PREFIX}/etc/%{pkgname}/revision)
-  if [ ${oldrev} -ge %{pkgrevision} ] ; then
+if [ -f ${RPM_INSTALL_PREFIX}/etc/%{pkgname}/version ] ; then
+  oldrev=$(cat ${RPM_INSTALL_PREFIX}/etc/%{pkgname}/version )
+  if [ ${oldrev} -ge %{fakerevision} ] ; then
     exit 0
   fi
 fi
 
-for file in $(find . -name '*' -type f) ; do
+for file in $(find . -name '*' -type f -path '*/common/*' -o -type f -path '*/share/*') ; do
   cp -f ${file} ${RPM_INSTALL_PREFIX}/${file}
 done
+rm -f ${RPM_INSTALL_PREFIX}/common/git-addpkg
+rm -f ${RPM_INSTALL_PREFIX}/common/git-checkdeps
 
-echo %{pkgrevision} > ${RPM_INSTALL_PREFIX}/etc/%{pkgname}/revision
+echo %{fakerevision} > ${RPM_INSTALL_PREFIX}/etc/%{pkgname}/version
