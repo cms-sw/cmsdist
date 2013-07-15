@@ -1,8 +1,10 @@
-### RPM cms PHEDEX-admin PHEDEX_4_1_2
+### RPM cms PHEDEX-admin PHEDEX_4_1_3pre1
 
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
-Source: cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e&module=%{downloadn}&export=%{downloadn}&&tag=-r%{v}&output=/%{downloadn}-admin.tar.gz
+%define gittag PHEDEX-%(echo %realversion | tr . _)
+Source: git://github.com/dmwm/PHEDEX?obj=master/788560654b78555c96b71aa66c99e59e2b30581d&export=%n&output=/%{downloadn}-admin.tar.gz
+
 # Oracle libs
 Requires: oracle oracle-env 
 # perl libs
@@ -24,7 +26,7 @@ Provides: perl(XML::LibXML)
 Provides: perl(Net::Twitter::Lite)
 
 %prep
-%setup -n %{downloadn}
+%setup -n %{downloadn}-admin
 rm -rf Toolkit/DBS
 
 %build
