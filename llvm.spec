@@ -1,7 +1,12 @@
-### RPM external llvm 3.2
+### RPM external llvm 3.3
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-%define llvmRevision 171261
-%define clangRevision 171261
+
+BuildRequires: python
+
+Requires: gcc
+
+%define llvmRevision 183501
+%define clangRevision 183502
 %define llvmBranch %(echo %realversion | sed -e 's|[.]||')
 # s/#/S/ to use the official version.
 Source0: svn://llvm.org/svn/llvm-project/llvm/branches/release_%llvmBranch/?scheme=http&revision=%llvmRevision&module=llvm-%realversion-%llvmRevision&output=/llvm-%realversion-%llvmRevision.tgz
@@ -24,7 +29,7 @@ cd clang
 
 %build
 mkdir objs ; cd objs
-../configure --prefix=%i --enable-optimized
+../configure --prefix=%i --enable-optimized --with-binutils-include="${GCC_ROOT}/include"
 make %makeprocesses
 
 %install
