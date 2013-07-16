@@ -28,8 +28,16 @@ cd clang
 %setup -T -D -n llvm-%realversion-%llvmRevision
 
 %build
+
+CONF_OPTS=
+case "${cmsplatf}" in
+  slc*|fc*)
+    CONF_OPTS="${CONF_OPTS} --with-binutils-include='${GCC_ROOT}/include'"
+    ;;
+esac
+
 mkdir objs ; cd objs
-../configure --prefix=%i --enable-optimized --with-binutils-include="${GCC_ROOT}/include"
+../configure --prefix=%i --enable-optimized ${CONF_OPTS}
 make %makeprocesses
 
 %install
