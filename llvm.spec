@@ -30,9 +30,9 @@ cd clang
 %build
 
 CONF_OPTS=
-case "${cmsplatf}" in
+case "%{cmsplatf}" in
   slc*|fc*)
-    CONF_OPTS="${CONF_OPTS} --with-binutils-include='${GCC_ROOT}/include'"
+    CONF_OPTS="${CONF_OPTS} --with-binutils-include=${GCC_ROOT}/include"
     ;;
 esac
 
