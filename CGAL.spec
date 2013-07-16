@@ -1,6 +1,6 @@
 ### RPM external CGAL 4.2
 
-Source: https://gforge.inria.fr/frs/download.php/32361/%{n}-%{realversion}.tar.xz
+Source: https://gforge.inria.fr/frs/download.php/32360/%{n}-%{realversion}.tar.bz2
 
 BuildRequires: cmake
 
