@@ -1,4 +1,4 @@
-### RPM cms das 1.11.7
+### RPM cms das 1.11.9-hg1309-rc3
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver 0.8.3
 %define webdoc_files %{installroot}/%{pkgrel}/doc/

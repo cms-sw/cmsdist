@@ -21,11 +21,24 @@ python setup.py install --skip-build --prefix=%{i}
 # download and install nltk data
 # TODO: how to know this py2.6 prefix automatically?
 cd %i/$PYTHON_LIB_SITE_PACKAGES/nltk-%{realversion}-py2.6.egg/nltk/
-mkdir -p %{i}/%{_datadir}/nltk_data
-python downloader.py -d %{i}/%{_datadir}/nltk_data words wordnet
+mkdir -p %{i}/nltk_data
+python downloader.py -d %{i}/nltk_data words wordnet stopwords
 
 find %i -name '*.egg-info' -exec rm {} \;
 
+
 # get rid of /usr/bin/python
 egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
+
+%post
+# add NLTK_DATA into init so it would be available afterwards
+# TODO: relocate this directory???!!!
+( echo "export NLTK_DATA=\"\${PY2_NLTK_ROOT}/nltk_data\"") >> %i/etc/profile.d/init.sh
+( echo "setenv NLTK_DATA \"\${PY2_NLTK_ROOT}/nltk_data\"") >> %i/etc/profile.d/init.csh
+
+
+
+%files
+# TODO: this shall bee properly fixed. for some reason it can not find files just by %i/nltk_data even if that worked in earlier stages... 
+%{installroot}/%{pkgrel}/nltk_data/
 
