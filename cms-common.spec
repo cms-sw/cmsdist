@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1114
+## REVISION 1115
 ## NOCOMPILER
 
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
@@ -180,7 +180,11 @@ if ( ! ${?CVSROOT}) then
   setenv CVSROOT :gserver:cmssw.cvs.cern.ch:/local/reps/CMSSW
 endif
 
-setenv MANPATH $CMS_PATH/share/man:$MANPATH
+if (${?MANPATH}) then
+  setenv MANPATH $CMS_PATH/share/man:$MANPATH
+else
+  setenv MANPATH $CMS_PATH/share/man
+endif
 
 unset here
 EOF_CMSSET_DEFAULT_CSH
