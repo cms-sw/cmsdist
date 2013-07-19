@@ -16,10 +16,8 @@ mkdir -p %{i}/${PYTHON_LIB_SITE_PACKAGES}
 export PYTHONPATH=%{i}/${PYTHON_LIB_SITE_PACKAGES}:${PYTHONPATH}
 
 python setup.py install --skip-build --prefix=%{i} 
-#exit 1
 
 # download and install nltk data
-# TODO: how to know this py2.6 prefix automatically?
 cd %i/$PYTHON_LIB_SITE_PACKAGES/nltk-%{realversion}-py2.6.egg/nltk/
 mkdir -p %{i}/nltk_data
 python downloader.py -d %{i}/nltk_data words wordnet stopwords

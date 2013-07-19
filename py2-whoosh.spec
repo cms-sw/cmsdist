@@ -14,9 +14,6 @@ BuildRequires: py2-sphinx
 %build
 python setup.py build
 
-#%check
-#%{__python} setup.py test
-
 %install
 mkdir -p %{i}/${PYTHON_LIB_SITE_PACKAGES}
 export PYTHONPATH=%{i}/${PYTHON_LIB_SITE_PACKAGES}:${PYTHONPATH}
