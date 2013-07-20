@@ -1,15 +1,19 @@
-### RPM cms cmssw CMSSW_6_1_EXPERIMENTAL_X_2012-11-06-0200
-Requires: cmssw-tool-conf python
+### RPM cms cmssw CMSSW_7_0_0_pre0
+
+Requires: cmssw-tool-conf python cms-git-tools
 
 %define runGlimpse      yes
 %define useCmsTC        yes
 %define saveDeps        yes
+%define branch          CMSSW_7_0_X
+%define source1         git://github.com/cms-sw/cmssw.git?protocol=https&obj=%{branch}/%{realversion}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 
 # Build with clang if _CLANG_X is in the name of the package.
 %if "%(case %realversion in (*_CLANG_X*) echo true ;; (*) echo false ;; esac)" == "true"
 Patch10: cmssw-clang
+Patch20: cmssw-clang-vla
 %define cvstag		%(echo %realversion | sed -e 's|_CLANG_X|_X|')
-%define preBuildCommand pushd .. ; patch -p1 <%_sourcedir/cmssw-clang ; popd
+%define preBuildCommand pushd .. ; patch -p1 <%_sourcedir/cmssw-clang ; popd ; patch -p0 <%_sourcedir/cmssw-clang-vla & true
 %define buildtarget     checker
 %endif
 
@@ -46,6 +50,11 @@ Patch12: cmssw-lto
 Patch13: cmssw-debug
 %define cvstag		%(echo %realversion | sed -e 's|_DEBUG_X|_X|')
 %define preBuildCommand pushd .. ; patch -p1 <%_sourcedir/cmssw-debug; popd
+%endif
+
+%if "%(case %realversion in (*_ICC_X*) echo true ;; (*) echo false ;; esac)" == "true"
+%define cvstag		%(echo %realversion | sed -e 's|_ICC_X|_X|')
+%define preBuildCommand scram setup icc-cxxcompiler ; scram setup icc-f77compiler ; scram setup icc-ccompiler ; export COMPILER=icc
 %endif
 
 ## IMPORT scram-project-build
