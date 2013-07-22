@@ -120,6 +120,7 @@ Requires: cvs2git-toolfile
 Requires: pacparser-toolfile
 Requires: git-toolfile
 Requires: CGAL-toolfile
+Requires: doxygen-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
