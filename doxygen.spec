@@ -26,7 +26,7 @@ BuildRequires: flex bison graphviz
 
 make %{makeprocesses} \
   CXX="%{cms_cxx}" \
-  CXXFLAGS="-pipe -fno-exceptions -fno-rtti -D_LARGEFILE_SOURCE -DENGLISH_ONLY -Wall -W -O2 %{cms_cxxflags}"
+  CXXFLAGS="-pipe -fno-exceptions -fno-rtti -D_LARGEFILE_SOURCE -DENGLISH_ONLY -DOS_OBJECT_USE_OBJC=0 -Wall -W -O2 %{cms_cxxflags}"
 
 %install
 
