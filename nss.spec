@@ -2,13 +2,13 @@
 %define release_version %(echo "%{realversion}" | tr . _)_RTM
 Source: https://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_%{release_version}/src/%{n}-%{realversion}.tar.gz
 Requires: nspr sqlite
-Patch0: nss-3.14.3-add-ZLIB-LIBS-DIR-and-ZLIB-INCLUDE-DIR
-Patch1: nss-3.14.3-add-SQLITE-LIBS-DIR
+Patch0: nss-3.14.3-add-SQLITE-LIBS-DIR
+Patch1: nss-3.14.3-add-ZLIB-LIBS-DIR-and-ZLIB-INCLUDE-DIR
 
+%define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
-%if "%online" != "true"
+%if %isnotonline
 Requires: zlib
 %else
 Requires: onlinesystemtools
@@ -20,8 +20,8 @@ Requires: onlinesystemtools
 %patch1 -p1
 
 %build
-export NSPR_INCLUDE_DIR=${NSPR_ROOT}/include/nspr 
-export NSPR_LIB_DIR=${NSPR_ROOT}/lib
+export NSPR_INCLUDE_DIR="${NSPR_ROOT}/include/nspr"
+export NSPR_LIB_DIR="${NSPR_ROOT}/lib"
 export USE_SYSTEM_ZLIB=1
 export ZLIB_INCLUDE_DIR="${ZLIB_ROOT}/include"
 export ZLIB_LIBS_DIR="${ZLIB_ROOT}/lib"
@@ -46,13 +46,11 @@ case %{cmsplatf} in
   *)
     soname=so ;;
 esac
+rm -rf %{i}/lib/libsoftokn3*
+rm -rf %{i}/lib/libsql*
 
 install -d %{i}/include/nss3
 install -d %{i}/lib
 find mozilla/dist/public/nss -name '*.h' -exec install -m 644 {} %{i}/include/nss3 \;
 find . -path "*/mozilla/dist/*.OBJ/lib/*.${soname}" -exec install -m 755 {} %{i}/lib \;
-
-rm -rf %{i}/lib/libsoftokn3*
-rm -rf %{i}/lib/libsql*
-
 %define strip_files %{i}/lib
