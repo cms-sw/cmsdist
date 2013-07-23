@@ -1,6 +1,5 @@
-### RPM cms cmssw-patch CMSSW_5_3_11_patch3
-Requires: cmssw-patch-tool-conf 
-
+### RPM cms cmssw-patch CMSSW_5_3_11_patch4
+Requires: cmssw-patch-tool-conf cms-git-tools
 %define runGlimpse      yes
 %define useCmsTC        yes
 %define saveDeps        yes
