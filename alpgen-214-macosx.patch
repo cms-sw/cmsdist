@@ -1,0 +1,11 @@
+--- alpgen-214.orig/compile.mk	2013-07-22 21:57:42.000000000 +0200
++++ alpgen-214/compile.mk.new	2013-07-22 22:00:09.000000000 +0200
+@@ -20,7 +20,7 @@
+   ifeq  ($(shell uname -m),i386) 
+      FFF = ifort -V -noautomatic -warn
+      FF90 = ifort -V -noautomatic -warn
+-     FFF = gfortran -fno-automatic
++     FFF = gfortran -O1 -Wall -fno-automatic -fno-backslash -ffast-math
+ 	FF90 = gfortran -fno-automatic
+   endif
+ endif
