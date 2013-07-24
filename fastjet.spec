@@ -21,7 +21,6 @@ case %cmsplatf in
     *) CXXFLAGS="-O3 -Wall -ffast-math -std=c++0x -msse3 -ftree-vectorize" ;;
 esac
 
-
 ./configure --enable-shared  --enable-atlascone --enable-cmsiterativecone --enable-siscone --prefix=%i --enable-allcxxplugins ${CXXFLAGS+CXXFLAGS="$CXXFLAGS"}
 
 %build
@@ -30,3 +29,6 @@ make %makeprocesses
 %install
 make install
 rm -rf %i/lib/*.la
+
+%post
+%{relocateConfig}bin/fastjet-config

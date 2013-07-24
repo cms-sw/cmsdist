@@ -67,6 +67,9 @@ Requires: qt-toolfile
 Requires: roofit-toolfile
 Requires: root-toolfile
 Requires: sherpa-toolfile
+Requires: blackhat-toolfile
+Requires: qd-toolfile
+Requires: openmpi-toolfile
 Requires: sigcpp-toolfile
 Requires: sqlite-toolfile
 Requires: systemtools
@@ -115,7 +118,7 @@ Requires: google-perftools-toolfile
 Requires: igprof-toolfile
 %endif
 
-%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler 
 
 ## IMPORT scramv1-tool-conf
 
