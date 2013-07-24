@@ -72,6 +72,10 @@ make %{makeprocesses}
 make install
 rm -f %{i}/lib/SHERPA-MC/*.la
 
+%{relocateRpmPkg}bin/Sherpa-config
+%{relocateRpmPkg}share/SHERPA-MC/sherpa-completion
+%{relocateRpmPkg}include/SHERPA-MC/ATOOLS/Org/CXXFLAGS.H
+
 make clean
 
 # OpenMPI build
@@ -93,6 +97,6 @@ make install
 rm -f %{i}/lib/SHERPA-MC/*.la
 
 %post
-%{relocateRpmPkg}bin/Sherpa-config
-%{relocateRpmPkg}share/SHERPA-MC/sherpa-completion
-%{relocateRpmPkg}include/SHERPA-MC/ATOOLS/Org/CXXFLAGS.H
+%{relocateRpmPkg}openmpi/bin/Sherpa-config
+%{relocateRpmPkg}openmpi/share/SHERPA-MC/sherpa-completion
+%{relocateRpmPkg}openmpi/include/SHERPA-MC/ATOOLS/Org/CXXFLAGS.H
