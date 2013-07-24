@@ -209,7 +209,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpampi.xml
 <lib name="ToolsPhys"/>
 <lib name="Zfunctions"/>
 <client>
-<environment name="SHERPA_BASE" default="@TOOL_ROOT@"/>
+<environment name="SHERPA_BASE" default="@TOOL_ROOT@/openmpi"/>
 <environment name="BINDIR" default="$SHERPA_BASE/openmpi/bin"/>
 <environment name="LIBDIR" default="$SHERPA_BASE/openmpi/lib/SHERPA-MC"/>
 <environment name="INCLUDE" default="$SHERPA_BASE/openmpi/include/SHERPA-MC"/>
