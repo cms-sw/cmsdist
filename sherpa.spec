@@ -72,25 +72,25 @@ make %{makeprocesses}
 make install
 rm -f %{i}/lib/SHERPA-MC/*.la
 
-##make clean
+make clean
 
 # OpenMPI build
 
-##./configure --prefix=%i/openmpi --enable-analysis --disable-silent-rules --enable-mpi \
-##            --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT --enable-blackhat=$BLACKHAT_ROOT \
-##            CXX="%cms_cxx" MPICXX="%cms_mpicxx" CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF %cms_cxxflags -I$BLACKHAT_ROOT/include/ -I$OPENMPI_ROOT/include/" LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/ -L$OPENMPI_ROOT/lib/ -lmpi -lmpi_cxx" 
+./configure --prefix=%i/openmpi --enable-analysis --disable-silent-rules --enable-mpi \
+            --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT --enable-blackhat=$BLACKHAT_ROOT \
+            CXX="%cms_cxx" MPICXX="%cms_mpicxx" CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF %cms_cxxflags -I$BLACKHAT_ROOT/include/ -I$OPENMPI_ROOT/include/" LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/ -L$OPENMPI_ROOT/lib/ -lmpi -lmpi_cxx" 
 
 
 # Fix up a configuration mistake coming from a test being confused
 # by the "skipping incompatible" linking messages when linking 32bit on 64bit
-##find . -name Makefile -exec perl -p -i -e 's|/usr/lib64/libm.a||g;s|/usr/lib64/libc.a||g;' {} \;
+find . -name Makefile -exec perl -p -i -e 's|/usr/lib64/libm.a||g;s|/usr/lib64/libc.a||g;' {} \;
 
-##make %{makeprocesses} 
+make %{makeprocesses} 
 
 ##%install
 
-##make install
-##rm -f %{i}/lib/SHERPA-MC/*.la
+make install
+rm -f %{i}/lib/SHERPA-MC/*.la
 
 %post
 %{relocateRpmPkg}bin/Sherpa-config
