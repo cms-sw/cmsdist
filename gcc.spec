@@ -135,8 +135,8 @@ CC="$CC -fPIC"
 CXX="$CXX -fPIC"
 
 %if %islinux
-  CONF_BINUTILS_OPTS="--enable-gold=default --enable-lto --enable-plugins --enable-threads"
-  CONF_GCC_WITH_LTO="--enable-gold=yes --enable-lto" # --with-build-config=bootstrap-lto
+  CONF_BINUTILS_OPTS="--enable-gold=yes --enable-ld=default --enable-lto --enable-plugins --enable-threads"
+  CONF_GCC_WITH_LTO="--enable-gold=yes --enable-ld=default --enable-lto" # --with-build-config=bootstrap-lto
 
   # Build Flex
   cd ../flex-%{flexVersion}
