@@ -210,13 +210,13 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpampi.xml
 <lib name="Zfunctions"/>
 <client>
 <environment name="SHERPA_BASE" default="@TOOL_ROOT@/openmpi"/>
-<environment name="BINDIR" default="$SHERPA_BASE/openmpi/bin"/>
-<environment name="LIBDIR" default="$SHERPA_BASE/openmpi/lib/SHERPA-MC"/>
-<environment name="INCLUDE" default="$SHERPA_BASE/openmpi/include/SHERPA-MC"/>
+<environment name="BINDIR" default="$SHERPA_BASE/bin"/>
+<environment name="LIBDIR" default="$SHERPA_BASE/lib/SHERPA-MC"/>
+<environment name="INCLUDE" default="$SHERPA_BASE/include/SHERPA-MC"/>
 </client>
-<runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$SHERPA_BASE/openmpi/include" type="path"/>
-<runtime name="SHERPA_SHARE_PATH" value="$SHERPA_BASE/openmpi/share/SHERPA-MC" type="path"/>
-<runtime name="SHERPA_INCLUDE_PATH" value="$SHERPA_BASE/openmpi/include/SHERPA-MC" type="path"/>
+<runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$SHERPA_BASE/include" type="path"/>
+<runtime name="SHERPA_SHARE_PATH" value="$SHERPA_BASE/share/SHERPA-MC" type="path"/>
+<runtime name="SHERPA_INCLUDE_PATH" value="$SHERPA_BASE/include/SHERPA-MC" type="path"/>
 <use name="HepMC"/>
 <use name="lhapdf"/>
 <use name="blackhat"/>
