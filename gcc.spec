@@ -28,7 +28,7 @@ Source6: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
 
 %if %islinux
 %define bisonVersion 2.7
-%define binutilsv 2.23.1
+%define binutilsv 2.23.2
 %define elfutilsVersion 0.155
 %define m4Version 1.4.16
 %define flexVersion 2.5.37
