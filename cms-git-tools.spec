@@ -1,4 +1,4 @@
-### RPM cms cms-git-tools 6.0
+### RPM cms cms-git-tools 7.0
 ## NOCOMPILER
 
 # ***Do not change minor number of the above version.***

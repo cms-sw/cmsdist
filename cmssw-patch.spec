@@ -1,4 +1,4 @@
-### RPM cms cmssw-patch CMSSW_5_3_11_patch4
+### RPM cms cmssw-patch CMSSW_5_3_11_patch5
 Requires: cmssw-patch-tool-conf cms-git-tools
 %define runGlimpse      yes
 %define useCmsTC        yes
