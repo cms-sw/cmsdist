@@ -2,10 +2,12 @@
 Source: https://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v%{realversion}/src/%{n}-%{realversion}.tar.gz
 %define strip_files %{i}/lib
 
+%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+
 %build
 pushd mozilla/nsprpub
 CONF_OPTS="--disable-static --prefix=%{i} --build=%{_build} --host=%{_host}"
-%ifarch x86_64
+%if %isamd64
 CONF_OPTS="${CONF_OPTS} --enable-64bit"
 %endif
 

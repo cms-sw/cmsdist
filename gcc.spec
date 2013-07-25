@@ -1,11 +1,16 @@
-### RPM external gcc 4.8.0
+### RPM external gcc 4.8.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
-%define gccRevision 196584
-%define gccBranch trunk
-Source0: svn://gcc.gnu.org/svn/gcc/trunk?module=gcc-%gccBranch-%gccRevision&revision=%gccRevision&output=/gcc-%gccBranch-%gccRevision.tar.gz
+%define gccRevision 199526
+%define gccBranch gcc-%(echo %{realversion} | cut -f1,2 -d. | tr . _)-branch
+Source0: svn://gcc.gnu.org/svn/gcc/branches/%{gccBranch}?module=gcc-%{gccBranch}-%{gccRevision}&revision=%{gccRevision}&output=/gcc-%{gccBranch}-%{gccRevision}.tar.gz
+
+%define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
+%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
+%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+%define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
 
 %define keep_archives true
 
@@ -21,7 +26,7 @@ Source4: ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-%{islVersion}.tar.bz2
 Source5: https://llvm.org/svn/llvm-project/compiler-rt/trunk/lib/asan/scripts/asan_symbolize.py
 Source6: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
 
-%ifos linux
+%if %islinux
 %define bisonVersion 2.7
 %define binutilsv 2.23.1
 %define elfutilsVersion 0.155
@@ -52,14 +57,14 @@ EOF
 %global __find_requires %{_builddir}/gcc-%{gccBranch}-%{gccRevision}/%{name}-req
 chmod +x %{__find_requires}
 
-%ifos linux
-%ifarch x86_64
+%if %islinux
+%if %isamd64
 # Hack needed to align sections to 4096 bytes rather than 2MB on 64bit linux
 # architectures.  This is done to reduce the amount of address space wasted by
 # relocating many libraries. This was done with a linker script before, but
 # this approach seems to be more correct.
 cat << \EOF_CONFIG_GCC >> gcc/config.gcc
-# CMS patch to include gcc/config/i386/t-cms when building gcc
+# CMS patch to include gcc/config/i386/cms.h when building gcc
 tm_file="$tm_file i386/cms.h"
 EOF_CONFIG_GCC
 
@@ -73,6 +78,20 @@ cat << \EOF_CMS_H > gcc/config/i386/cms.h
      %{" SPEC_32 ":%{!dynamic-linker:-dynamic-linker " GNU_USER_DYNAMIC_LINKER32 "}} \
      %{" SPEC_64 ":%{!dynamic-linker:-dynamic-linker " GNU_USER_DYNAMIC_LINKER64 "}}} \
    %{static:-static}} -z common-page-size=4096 -z max-page-size=4096"
+
+#undef CC1PLUS_SPEC
+#define CC1PLUS_SPEC "-fabi-version=0"
+EOF_CMS_H
+%endif
+%if %isarmv7
+cat << \EOF_CONFIG_GCC >> gcc/config.gcc
+# CMS patch to include gcc/config/arm/cms.h when building gcc
+tm_file="$tm_file arm/cms.h"
+EOF_CONFIG_GCC
+
+cat << \EOF_CMS_H > gcc/config/arm/cms.h
+#undef CC1PLUS_SPEC
+#define CC1PLUS_SPEC "-fabi-version=0"
 EOF_CMS_H
 %endif
 %endif
@@ -84,7 +103,7 @@ EOF_CMS_H
 %setup -D -T -b 4 -n isl-%{islVersion}
 %setup -D -T -b 6 -n cloog-%{cloogVersion}
 
-%ifos linux
+%if %islinux
 %setup -D -T -b 7 -n bison-%{bisonVersion}
 %setup -D -T -b 8 -n binutils-%binutilsv
 %setup -D -T -b 9 -n elfutils-%{elfutilsVersion}
@@ -97,7 +116,7 @@ EOF_CMS_H
 %endif
 
 %build
-%ifos darwin
+%if %isdarwin
   CC='clang'
   CXX='clang++'
   CPP='clang -E'
@@ -115,7 +134,7 @@ EOF_CMS_H
 CC="$CC -fPIC"
 CXX="$CXX -fPIC"
 
-%ifos linux
+%if %islinux
   CONF_BINUTILS_OPTS="--enable-gold=default --enable-lto --enable-plugins --enable-threads"
   CONF_GCC_WITH_LTO="--enable-gold=yes --enable-lto" # --with-build-config=bootstrap-lto
 
@@ -214,15 +233,13 @@ case %{cmsplatf} in
                         --with-linker-hash-style=gnu --enable-plugin --enable-initfini-array \
                         --enable-linker-build-id --disable-build-with-cxx --disable-build-poststage1-with-cxx \
                         --with-cpu=cortex-a9 --with-tune=cortex-a9 --with-arch=armv7-a \
-                        --with-float=hard --with-fpu=vfpv3-d16 --with-abi=aapcs-linux \
+                        --with-float=hard --with-fpu=neon --with-abi=aapcs-linux \
                         --disable-sjlj-exceptions"
     ;;
 esac
 
 # Build GCC
 cd ../gcc-%{gccBranch}-%{gccRevision}
-rm gcc/DEV-PHASE
-touch gcc/DEV-PHASE
 mkdir -p obj
 cd obj
 export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
@@ -233,7 +250,11 @@ export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
              --build=%{_build} --host=%{_host} $CONF_GCC_ARCH_SPEC \
              --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
 
+%if %isamd64
+make %{makeprocesses} profiledbootstrap
+%else
 make %{makeprocesses} bootstrap
+%endif
 make install
 
 %install

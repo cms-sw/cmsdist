@@ -6,16 +6,17 @@
 %define downloadv v%(echo %realversion | tr - _ | tr . _)
 %define baseVersion %(echo %realversion | cut -d- -f1)
 %define patchLevel %(echo %realversion | cut -d- -f2)
-%define cpu %(echo %cmsplatf | cut -d_ -f2)
-%if "%cpu" != "amd64"
-%define libsuffix %nil
-%else
+
+%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+%define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
+%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
+
+%if %isamd64
 %define libsuffix ()(64bit)
+%else
+%define libsuffix %nil
 %endif
 
-#Source: http://cern.ch/castor/DIST/CERN/savannah/CASTOR.pkg/%realversion/castor-%downloadv.tar.gz
-#Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{v}.source.tar.gz
-#Source: cvs://:pserver:anonymous@isscvs.cern.ch:/local/reps/castor?passwd=Ah<Z&tag=-r%{downloadv}&module=CASTOR2&output=/%{n}-%{realversion}.source.tar.gz
 Source:  http://castorold.web.cern.ch/castorold/DIST/CERN/savannah/CASTOR.pkg/%{baseVersion}-*/%{realversion}/castor-%{realversion}.tar.gz
 
 Patch0: castor-2.1.13.6-fix-pthreads-darwin
@@ -23,10 +24,10 @@ Patch1: castor-2.1.13.6-fix-memset-in-showqueues
 Patch2: castor-2.1.13.9-fix-arm-m32-option
 Patch3: castor-2.1.13.9-fix-arm-type-limits
 
-%if "%online" != "true"
-Requires: libuuid
-%else
+%if %isonline
 Requires: onlinesystemtools
+%else
+Requires: libuuid
 %endif
 
 # Ugly kludge : forces libshift.x.y to be in the provides (rpm only puts libshift.so.x)
@@ -39,7 +40,7 @@ Provides: libshift.so.%(echo %realversion |cut -d. -f1,2)%{libsuffix}
 
 %prep
 %setup -n castor-%{baseVersion}
-%ifos darwin
+%if %isdarwin
 %patch0 -p1
 %endif
 %patch1 -p1
