@@ -5,11 +5,13 @@
 ## INITENV SETV PYTHONHASHSEED random
 # OS X patches and build fudging stolen from fink
 %{expand:%%define python_major_version %(echo %realversion | cut -d. -f1,2)}
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
+
+%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
+%define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
 
 Requires: expat bz2lib db4 gdbm openssl
 
-%if "%online" != "true"
+%if %isnotonline
 Requires: zlib sqlite readline
 %endif
 
@@ -32,7 +34,7 @@ done
 %patch0 -p1
 %patch1 -p0
 
-%ifos darwin
+%if %isdarwin
 %patch2 -p1
 %endif
 
@@ -53,7 +55,7 @@ done
 #mkdir -p %i/include %i/lib
 mkdir -p %i/include %i/lib %i/bin
 
-%if "%online" != "true"
+%if %isnotonline
 %define extradirs ${ZLIB_ROOT} ${SQLITE_ROOT} ${READLINE_ROOT}
 %else
 %define extradirs %{nil}

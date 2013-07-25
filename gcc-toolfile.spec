@@ -6,6 +6,9 @@
 
 Source: none
 
+%define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
+%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
+
 %prep
 %build
 %install
@@ -16,7 +19,7 @@ if [ "X$GCC_ROOT" = X ]
 then
     export GCC_PATH=`which gcc` || exit 1
     export GCC_ROOT=`echo $GCC_PATH | sed -e 's|/bin/gcc||'`
-    export GCC_VERSION=`gcc -v 2>&1 | grep "gcc version" | sed 's|[^0-9]*\([0-9].[0-9].[0-9]\).*|\1|'` || exit 1
+    export GCC_VERSION=`gcc -dumpversion` || exit 1
     export G77_ROOT=$GCC_ROOT
 else
     export GCC_PATH
@@ -89,13 +92,13 @@ EOF_TOOLFILE
 
 # NON-empty defaults
 # First of all handle OS specific options.
-%ifos linux
+%if %islinux
   export OS_SHAREDFLAGS="-shared -Wl,-E"
   export OS_LDFLAGS="-Wl,-E -Wl,--hash-style=gnu"
   export OS_RUNTIME_LDPATH_NAME="LD_LIBRARY_PATH"
   export OS_CXXFLAGS="-Werror=overflow"
 %endif
-%ifos darwin
+%if %isdarwin
   export OS_SHAREDFLAGS="-shared -dynamic -single_module"
   export OS_LDFLAGS="-Wl,-commons -Wl,use_dylibs"
   export OS_RUNTIME_LDPATH_NAME="DYLD_LIBRARY_PATH"
@@ -153,7 +156,7 @@ case %cmsplatf in
      COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++11 -msse3 -ftree-vectorize -Wno-strict-overflow"
    ;;
    *_armv7hl_* )
-    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++11 -mfpu=neon -ftree-vectorize -Wno-strict-overflow -fsigned-char -fsigned-bitfields -fabi-version=6"
+    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++11 -mfpu=neon -ftree-vectorize -Wno-strict-overflow -fsigned-char -fsigned-bitfields"
    ;;
 esac
 

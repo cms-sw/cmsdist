@@ -50,7 +50,6 @@ rm -f %i/lib/*.{l,}a
 
 %post
 %{relocateConfig}bin/pcre-config
-%{relocateConfig}etc/scram.d/%n
 
 # The relocation is also needed because of dependencies
 %{relocateConfig}etc/profile.d/dependencies-setup.sh

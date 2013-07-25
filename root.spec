@@ -6,10 +6,11 @@
 %define branch %(echo %{realversion} | sed 's/\\.[0-9]*$/.00/;s/^/v/;s/$/-patches/g;s/\\./-/g')
 Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
+%define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
 %define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
-%define ismac %(case %{cmsplatf} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
-%define isnotmac %(case %{cmsplatf} in (osx*) echo 0 ;; (*) echo 1 ;; esac)
+%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
+%define isnotdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
 
 Patch0: root-5.34.02-externals
@@ -18,14 +19,12 @@ Patch2: root-5.34.00-linker-gnu-hash-style
 Patch3: root-5.32.00-detect-arch
 Patch4: root-5.30.02-fix-gcc46
 Patch5: root-5.30.02-fix-isnan-again
-Patch6: root-5.34.05-cintex-armv7a-port
-Patch7: root-5.34.07-fix-fatal-removal-in-branch-names
-
-%define cpu %(echo %{cmsplatf} | cut -d_ -f2)
+Patch6: root-5.34.07-fix-fatal-removal-in-branch-names
+Patch7: root-5.34.05-cintex-armv7a-port
 
 Requires: gccxml gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl
 
-%if %isnotmac
+%if %isnotdarwin
 Requires: castor dcap
 %endif
 
@@ -33,7 +32,7 @@ Requires: castor dcap
 Requires: zlib
 %endif
 
-%if %ismac
+%if %isdarwin
 Requires: freetype
 %endif
 
@@ -46,15 +45,15 @@ Requires: freetype
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch7 -p1
+%patch6 -p1
 
 %if %isarmv7
-%patch6 -p1
+%patch7 -p1
 %endif
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
-%ifos linux
+%if %islinux
 %patch2 -p1
 %endif
 
@@ -137,7 +136,7 @@ cp ./cint/iosenum/iosenum.linux3 ./cint/iosenum/iosenum.linuxarm3
 EXTRA_OPTS=
 TARGET_PLATF=
 
-%ifos linux
+%if %islinux
   TARGET_PLATF=linuxx8664gcc
   EXTRA_OPTS="${EXTRA_OPTS} --with-rfio-libdir=${CASTOR_ROOT}/lib 
                             --with-rfio-incdir=${CASTOR_ROOT}/include/shift
@@ -145,7 +144,7 @@ TARGET_PLATF=
                             --with-castor-incdir=${CASTOR_ROOT}/include/shift"
 %endif
 
-%ifos darwin
+%if %isdarwin
   TARGET_PLATF=x86_64
   EXTRA_OPTS="${EXTRA_OPTS} --disable-rfio
                             --disable-builtin_afterimage"
