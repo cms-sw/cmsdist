@@ -1,5 +1,5 @@
-### RPM external sherpa-toolfile 2.0
-Requires: sherpa
+### RPM external sherpampi-toolfile 2.0
+Requires: sherpampi
 %prep
 
 %build
@@ -7,8 +7,8 @@ Requires: sherpa
 %install
 
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa.xml
-<tool name="sherpa" version="@TOOL_VERSION@">
+cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpampi.xml
+<tool name="sherpampi" version="@TOOL_VERSION@">
 <lib name="AhadicDecays"/>
 <lib name="AhadicFormation"/>
 <lib name="AhadicMain"/>
