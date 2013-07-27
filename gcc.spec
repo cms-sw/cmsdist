@@ -29,17 +29,15 @@ Source6: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
 %if %islinux
 %define bisonVersion 2.7
 %define binutilsv 2.23.2
-%define elfutilsVersion 0.155
+%define elfutilsVersion 0.156
 %define m4Version 1.4.16
 %define flexVersion 2.5.37
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
 Source8: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 Source9: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
 Patch1: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-portability.patch
-Patch2: elfutils-0.155-fix-nm-snprintf
-Patch3: elfutils-0.155-fix-memset-do_oper_delete
 Source10: http://ftp.gnu.org/gnu/m4/m4-%m4Version.tar.gz
-Patch4: m4-1.4.16-fix-gets
+Patch2: m4-1.4.16-fix-gets
 Source11: http://garr.dl.sourceforge.net/project/flex/flex-%{flexVersion}.tar.bz2
 %endif
 
@@ -108,10 +106,8 @@ EOF_CMS_H
 %setup -D -T -b 8 -n binutils-%binutilsv
 %setup -D -T -b 9 -n elfutils-%{elfutilsVersion}
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
 %setup -D -T -b 10 -n m4-%{m4Version}
-%patch4 -p1
+%patch2 -p1
 %setup -D -T -b 11 -n flex-%{flexVersion}
 %endif
 
