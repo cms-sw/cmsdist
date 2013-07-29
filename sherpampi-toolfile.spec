@@ -101,15 +101,15 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpampi.xml
 <lib name="ToolsPhys"/>
 <lib name="Zfunctions"/>
 <client>
-<environment name="SHERPA_BASE" default="@TOOL_ROOT@"/>
-<environment name="BINDIR" default="$SHERPA_BASE/bin"/>
-<environment name="LIBDIR" default="$SHERPA_BASE/lib/SHERPA-MC"/>
-<environment name="INCLUDE" default="$SHERPA_BASE/include/SHERPA-MC"/>
+<environment name="SHERPAMPI_BASE" default="@TOOL_ROOT@"/>
+<environment name="BINDIR" default="$SHERPAMPI_BASE/bin"/>
+<environment name="LIBDIR" default="$SHERPAMPI_BASE/lib/SHERPA-MC"/>
+<environment name="INCLUDE" default="$SHERPAMPI_BASE/include/SHERPA-MC"/>
 </client>
-<runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$SHERPA_BASE/include" type="path"/>
-<runtime name="SHERPA_SHARE_PATH" value="$SHERPA_BASE/share/SHERPA-MC" type="path"/>
-<runtime name="SHERPA_INCLUDE_PATH" value="$SHERPA_BASE/include/SHERPA-MC" type="path"/>
-<runtime name="SHERPA_LIBRARY_PATH" value="$SHERPA_BASE/lib/SHERPA-MC" type="path"/>
+<runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$SHERPAMPI_BASE/include" type="path"/>
+<runtime name="SHERPA_SHARE_PATH" value="$SHERPAMPI_BASE/share/SHERPA-MC" type="path"/>
+<runtime name="SHERPA_INCLUDE_PATH" value="$SHERPAMPI_BASE/include/SHERPA-MC" type="path"/>
+<runtime name="SHERPA_LIBRARY_PATH" value="$SHERPAMPI_BASE/lib/SHERPA-MC" type="path"/>
 <use name="HepMC"/>
 <use name="lhapdf"/>
 <use name="blackhat"/>
