@@ -1,8 +1,8 @@
-### RPM lcg SCRAMV1 V2_2_4
+### RPM lcg SCRAMV1 V2_2_5_pre3
 ## NOCOMPILER
+%define GitHubVersion %(echo SCRAM-%realversion | sed 's|-V|-|')
 
-%define cvsrepo  cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e
-Source0: %{cvsrepo}&tag=-r%{realversion}&module=SCRAM&output=/source.tar.gz
+Source0: https://github.com/cms-sw/SCRAM/archive/%{realversion}.tar.gz
 
 %define OldDB /%{cmsplatf}/lcg/SCRAMV1/scramdb/project.lookup
 %define SCRAM_ALL_VERSIONS   V[0-9][0-9]*_[0-9][0-9]*_[0-9][0-9]*
@@ -38,7 +38,7 @@ if [ "X%{SCRAM_REL_MINOR}" == "X" ] ; then
   exit 1
 fi
 
-%setup -n SCRAM
+%setup -n %GitHubVersion
 %build
 %install
 tar -cf - . | tar -C %i -xvvf -
@@ -66,11 +66,21 @@ if [ ! -d $RPM_INSTALL_PREFIX/etc/scramrc ] ; then
   [ ! -f $RPM_INSTALL_PREFIX/%{OldDB} ] || grep '%{OldDB} *$' $RPM_INSTALL_PREFIX/%{OldDB} | awk '{print $2}' | sed 's|%{OldDB}.*||' > $RPM_INSTALL_PREFIX/etc/scramrc/links.db
 fi
 
-mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/default-scram
+mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/default-scram $RPM_INSTALL_PREFIX/share/etc/default-scram
 cd $RPM_INSTALL_PREFIX/%{cmsplatf}
 VERSION_REGEXP="%{SCRAM_ALL_VERSIONS}" ; VERSION_FILE=default-scramv1-version         ; %{SetLatestVersion}
 VERSION_REGEXP="%{SCRAM_REL_MAJOR}_"   ; VERSION_FILE=default-scram/%{SCRAM_REL_MAJOR}; %{SetLatestVersion}
 %{BackwardCompatibilityVersionPolicy}
+
+#Create a shared copy of this version
+mkdir -p $RPM_INSTALL_PREFIX/share/%{pkgdir}
+rsync --links --ignore-existing --recursive --exclude='etc/'  $RPM_INSTALL_PREFIX/%{pkgrel}/ $RPM_INSTALL_PREFIX/share/%{pkgdir}
+for f in `rsync --links --ignore-existing --recursive --itemize-changes $RPM_INSTALL_PREFIX/%{pkgrel}/etc $RPM_INSTALL_PREFIX/share/%{pkgdir} | grep '^>f' | sed -e 's|.* ||'` ; do
+  sed -i -e 's|/%{pkgrel}|/share/%{pkgdir}|g' $RPM_INSTALL_PREFIX/share/%{pkgdir}/$f
+done
+cd $RPM_INSTALL_PREFIX/share
+VERSION_REGEXP="%{SCRAM_ALL_VERSIONS}" ; VERSION_FILE=default-scramv1-version         ; %{SetLatestVersion}
+VERSION_REGEXP="%{SCRAM_REL_MAJOR}_"   ; VERSION_FILE=default-scram/%{SCRAM_REL_MAJOR}; %{SetLatestVersion}
 
 #FIMEME: Remove it when cmsBuild has a fix
 #For some strange reason we need something after the last statement

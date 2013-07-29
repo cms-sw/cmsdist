@@ -30,6 +30,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/blackhat.xml
 <environment name="INCLUDE" default="$BLACKHAT_BASE/include"/>
 </client>
 <use name="qd"/>
+<runtime name="WORKER_DATA_PATH" value="$BLACKHAT_BASE/share/blackhat/datafiles/" type="path"/>
 </tool>
 EOF_TOOLFILE
 

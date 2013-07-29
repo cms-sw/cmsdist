@@ -1,0 +1,11 @@
+diff -Naur SHERPA-MC-2.0.beta2.orig/ATOOLS/Org/Exception_Handler.C SHERPA-MC-2.0.beta2/ATOOLS/Org/Exception_Handler.C
+--- SHERPA-MC-2.0.beta2.orig/ATOOLS/Org/Exception_Handler.C	2013-07-21 22:42:44.000000000 +0200
++++ SHERPA-MC-2.0.beta2/ATOOLS/Org/Exception_Handler.C	2013-07-21 22:58:03.000000000 +0200
+@@ -160,6 +160,7 @@
+ 
+ void Exception_Handler::MPISync()
+ {
++  return;
+ #ifdef USING__MPI
+   int size=MPI::COMM_WORLD.Get_size();
+   int rank=MPI::COMM_WORLD.Get_rank();

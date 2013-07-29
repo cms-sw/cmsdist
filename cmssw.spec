@@ -1,9 +1,11 @@
-### RPM cms cmssw CMSSW_5_3_9_sherpa2beta2
+### RPM cms cmssw CMSSW_5_3_11
 Requires: cmssw-tool-conf python
 
 %define runGlimpse      yes
 %define useCmsTC        yes
 %define saveDeps        yes
+%define branch          CMSSW_5_3_X
+%define source1         git://github.com/cms-sw/cmssw.git?protocol=https&obj=%{branch}/%{realversion}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 
 # Build with clang if _CLANG_X is in the name of the package.
 %if "%(case %realversion in (*_CLANG_X*) echo true ;; (*) echo false ;; esac)" == "true"
@@ -51,8 +53,6 @@ Patch13: cmssw-debug
 
 %if "%(case %realversion in (*_ICC_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define cvstag		%(echo %realversion | sed -e 's|_ICC_X|_X|')
-# Required to compile boost. See https://premier.intel.com/premier/IssueDetail.aspx?IssueID=688951.
-%define usercxxflags   -D__PURE_SYS_C99_HEADERS__ 
 %define preBuildCommand export COMPILER=icc
 %endif
 
