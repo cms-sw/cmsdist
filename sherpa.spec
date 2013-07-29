@@ -5,7 +5,6 @@ BuildRequires: autotools
 Patch0: sherpa-2.0.beta2-lhapdf
 Patch1: sherpa-1.4.2-fix-gcc47-cxx11
 Patch2: sherpa-1.4.0-add-support-osx108
-Patch3: sherpa-2.0.beta2-mpi
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -13,10 +12,6 @@ Patch3: sherpa-2.0.beta2-mpi
 
 %if "%{?cms_cxxflags:set}" != "set"
 %define cms_cxxflags -O2 -std=c++0x
-%endif
-
-%if "%{?cms_mpicxx:set}" != "set"
-%define cms_mpicxx ${OPENMPI_ROOT}/bin/mpic++
 %endif
 
 %prep
@@ -34,7 +29,6 @@ esac
 if [[ %cmsplatf == osx108_* ]]; then
 %patch2 -p1
 fi
-%patch3 -p1
 
 autoreconf -i --force
 
@@ -54,7 +48,6 @@ case %cmsplatf in
 esac
 
 %build
-# Standard build
 
 ./configure --prefix=%i --enable-analysis --disable-silent-rules \
             --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT --enable-blackhat=$BLACKHAT_ROOT \
