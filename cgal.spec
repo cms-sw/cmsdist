@@ -17,7 +17,7 @@ Requires: boost zlib
 %define drop_files %{i}/{share,bin} %{i}/lib/CGAL
 
 %prep
-%setup -n %{n}-%{realversion}
+%setup -n CGAL-%{realversion}
 
 %build
 
