@@ -1,5 +1,5 @@
-### RPM external CGAL-toolfile 1.0
-Requires: CGAL
+### RPM external cgal-toolfile 1.0
+Requires: cgal
 %prep
 
 %build
@@ -7,8 +7,8 @@ Requires: CGAL
 %install
 
 mkdir -p %{i}/etc/scram.d
-cat << \EOF_TOOLFILE >%{i}/etc/scram.d/CGAL.xml
-<tool name="CGAL" version="@TOOL_VERSION@">
+cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cgal.xml
+<tool name="cgal" version="@TOOL_VERSION@">
   <info url="http://www.cgal.org/"/>
   <lib name="CGAL_Core"/>
   <lib name="CGAL_ImageIO"/>
@@ -18,6 +18,8 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/CGAL.xml
     <environment name="LIBDIR" default="$CGAL_BASE/lib"/>
     <environment name="INCLUDE" default="$CGAL_BASE/include"/>
   </client>
+  <use name="zlib"/>
+  <use name="boost_system"/>
 </tool>
 EOF_TOOLFILE
 
