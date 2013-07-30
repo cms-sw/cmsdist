@@ -119,7 +119,7 @@ Requires: sloccount-toolfile
 Requires: cvs2git-toolfile
 Requires: pacparser-toolfile
 Requires: git-toolfile
-Requires: CGAL-toolfile
+Requires: cgal-toolfile
 Requires: doxygen-toolfile
 
 %if "%isslc" == "true"
