@@ -1,10 +1,10 @@
-### RPM external CGAL 4.2
+### RPM external cgal 4.2
 
 Source: https://gforge.inria.fr/frs/download.php/32360/%{n}-%{realversion}.tar.bz2
 
-BuildRequires: cmake
+BuildRequires: cmake gmp-static mpfr-static
 
-Requires: boost gcc zlib
+Requires: boost zlib
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -17,26 +17,18 @@ Requires: boost gcc zlib
 %define drop_files %{i}/{share,bin} %{i}/lib/CGAL
 
 %prep
-%setup -n %{n}-%{realversion}
+%setup -n CGAL-%{realversion}
 
 %build
 
-SOLIB_EXT=so
-case "%{cmsplatf}" in
-  osx*)
-    SOLIB_EXT=dylib
-    ;;
-esac
-
-export MPFR_LIB_DIR="${GCC_ROOT}/lib"
-export MPFR_INC_DIR="${GCC_ROOT}/include"
-export GMP_LIB_DIR="${GCC_ROOT}/lib"
-export GMP_INC_DIR="${GCC_ROOT}/include"
+export MPFR_LIB_DIR="${MPFR_STATIC_ROOT}/lib"
+export MPFR_INC_DIR="${MPFR_STATIC_ROOT}/include"
+export GMP_LIB_DIR="${GMP_STATIC_ROOT}/lib"
+export GMP_INC_DIR="${GMP_STATIC_ROOT}/include"
 
 cmake . \
   -DCMAKE_CXX_COMPILER:STRING="%{cms_cxx}" \
-  -DCMAKE_CXX_FLAGS:STRING="%{cms_cxxflags} -I${GCC_ROOT}/include" \
-  -DCMAKE_SHARED_LINKER_FLAGS:STRING="-L${GCC_ROOT}/lib" \
+  -DCMAKE_CXX_FLAGS:STRING="%{cms_cxxflags}" \
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
   -DCMAKE_SKIP_RPATH:BOOL=YES \
   -DWITH_BLAS:BOOL=OFF \
@@ -64,8 +56,7 @@ cmake . \
   -DWITH_ZLIB:BOOL=ON \
   -DWITH_demos:BOOL=OFF \
   -DWITH_examples:BOOL=OFF \
-  -DZLIB_INCLUDE_DIR:PATH="${ZLIB_ROOT}/include" \
-  -DZLIB_LIBRARY:FILEPATH="${ZLIB_ROOT}/lib/libz.${SOLIB_EXT}" \
+  -DZLIB_ROOT="${ZLIB_ROOT}" \
   -DCGAL_ENABLE_PRECONFIG:BOOL=NO \
   -DCGAL_IGNORE_PRECONFIGURED_GMP:BOOL=YES \
   -DCGAL_IGNORE_PRECONFIGURED_MPFR:BOOL=YES \

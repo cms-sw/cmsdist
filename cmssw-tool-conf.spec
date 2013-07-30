@@ -119,7 +119,7 @@ Requires: sloccount-toolfile
 Requires: cvs2git-toolfile
 Requires: pacparser-toolfile
 Requires: git-toolfile
-Requires: CGAL-toolfile
+Requires: cgal-toolfile
 Requires: doxygen-toolfile
 
 %if "%isslc" == "true"
@@ -128,6 +128,7 @@ Requires: python-ldap-toolfile
 Requires: gdb-toolfile
 Requires: google-perftools-toolfile
 Requires: igprof-toolfile
+Requires: dmtcp-toolfile
 %endif
 
 %if "%isslc6" == "true"
