@@ -128,6 +128,7 @@ Requires: python-ldap-toolfile
 Requires: gdb-toolfile
 Requires: google-perftools-toolfile
 Requires: igprof-toolfile
+Requires: dmtcp-toolfile
 %endif
 
 %if "%isslc6" == "true"
