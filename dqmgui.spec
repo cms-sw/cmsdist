@@ -12,7 +12,9 @@
 Source0: git+https://github.com/rovere/dqmgui.git?obj=master/6.6.0&export=Monitoring&output=/Monitoring.tar.gz
 #Source0: git+:///build1/rovere/GUIDevelopment/GHM?obj=RovereDevelopment&export=Monitoring&output=/Monitoring.tar.gz
 #Source0: %{svn}?scheme=svn+ssh&strategy=export&module=Monitoring&output=/src.tar.gz
-Source1: %{cvs}&strategy=export&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-15-19&output=/DQMCore.tar.gz
+# For documentation, please refer to http://cms-sw.github.io/pkgtools/fetching-sources.html
+Source1: git+https://github.com/cms-sw/cmssw.git?obj=CMSSW_7_0_X/CMSSW_7_0_0_pre1&export=./&filter=*DQMServices/Core*&output=/DQMCore.tar.gz
+#Source1: %{cvs}&strategy=export&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-15-19&output=/DQMCore.tar.gz
 Source2: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=image&revision=10&scheme=http&output=/rtgu.tar.gz
 Source3: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
 Source4: git+https://github.com/rovere/dqmgui.git?obj=index128/7.4.1&export=Monitoring&output=/Monitoring128.tar.gz
