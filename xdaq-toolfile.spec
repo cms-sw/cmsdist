@@ -16,7 +16,7 @@ Requires: xdaq
 %define xdaq_os linux
 %endif
 %if %isdarwin
-%define xdaq_os darwin
+%define xdaq_os macosx
 %endif
 
 %if %isarmv7
