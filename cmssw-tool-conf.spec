@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 26.0
+### RPM cms cmssw-tool-conf 27.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -87,6 +87,7 @@ Requires: py2-scipy-toolfile
 Requires: cmsswdata-toolfile
 Requires: py2-cjson-toolfile
 Requires: py2-pycurl-toolfile
+Requires: py2-sqlalchemy-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
 Requires: fftw3-toolfile
@@ -114,6 +115,8 @@ Requires: pacparser-toolfile
 Requires: git-toolfile
 Requires: nspr-toolfile
 Requires: nss-toolfile
+Requires: cgal-toolfile
+Requires: doxygen-toolfile
 
 # Only for Linux platform.
 %if %islinux
@@ -121,6 +124,7 @@ Requires: openldap-toolfile
 Requires: python-ldap-toolfile
 Requires: gdb-toolfile
 Requires: google-perftools-toolfile
+Requires: dmtcp-toolfile
 %endif
 
 # Only for Darwin platform.

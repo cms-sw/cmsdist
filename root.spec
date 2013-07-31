@@ -1,4 +1,4 @@
-### RPM lcg root 5.34.07
+### RPM lcg root 5.34.09
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i  
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
@@ -19,8 +19,7 @@ Patch2: root-5.34.00-linker-gnu-hash-style
 Patch3: root-5.32.00-detect-arch
 Patch4: root-5.30.02-fix-gcc46
 Patch5: root-5.30.02-fix-isnan-again
-Patch6: root-5.34.07-fix-fatal-removal-in-branch-names
-Patch7: root-5.34.05-cintex-armv7a-port
+Patch6: root-5.34.05-cintex-armv7a-port
 
 Requires: gccxml gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl
 
@@ -45,10 +44,9 @@ Requires: freetype
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
 
 %if %isarmv7
-%patch7 -p1
+%patch6 -p1
 %endif
 
 # The following patch can only be applied on SLC5 or later (extra linker
