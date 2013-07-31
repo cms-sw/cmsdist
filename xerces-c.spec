@@ -41,10 +41,8 @@ esac
 case %{cmsplatf} in
   slc*)
     ./runConfigure -P%{i} -plinux -cgcc -x%{cms_cxx} ;;
-  osx*_amd64)
+  osx*)
     ./runConfigure -P%{i} -b 64 -pmacosx -nnative -rnone -cgcc -x%{cms_cxx} ;;
-  osx*_amd32)
-    ./runConfigure -P%{i} -b 32 -pmacosx -nnative -rnone -cgcc -x%{cms_cxx} ;;
   *armv7*)
     ./runConfigure -P%{i} -b 32 -plinux -cgcc -x%{cms_cxx} ;;
   *)
