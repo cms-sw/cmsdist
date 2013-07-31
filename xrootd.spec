@@ -10,6 +10,7 @@ Patch4: xrootd-3.3.3-rc1-add-GetHandle-XrdClientAbs-header
 Patch5: xrootd-3.1.0-narrowing-conversion
 Patch6: xrootd-3.3.3-rc1-rename-macos-to-apple
 Patch7: xrootd-3.3.3-rc1-gcc47
+Patch8: xrootd-3.3.3-add-private-XrdClientProtocol.hh
 
 BuildRequires: cmake
 %if "%online" != "true"
@@ -32,6 +33,7 @@ Requires: gcc openssl
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1 
 
 # need to fix these from xrootd git
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
