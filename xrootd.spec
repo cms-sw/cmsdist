@@ -10,7 +10,7 @@ Patch4: xrootd-3.3.3-rc1-add-GetHandle-XrdClientAbs-header
 Patch5: xrootd-3.1.0-narrowing-conversion
 Patch6: xrootd-3.3.3-rc1-rename-macos-to-apple
 Patch7: xrootd-3.3.3-rc1-gcc47
-Patch8: xrootd-3.3.3-add-private-XrdClientProtocol.hh
+Patch8: xrootd-3.3.3-add-private-headers
 
 BuildRequires: cmake
 %if "%online" != "true"
