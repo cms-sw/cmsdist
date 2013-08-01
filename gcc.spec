@@ -76,23 +76,19 @@ cat << \EOF_CMS_H > gcc/config/i386/cms.h
      %{" SPEC_32 ":%{!dynamic-linker:-dynamic-linker " GNU_USER_DYNAMIC_LINKER32 "}} \
      %{" SPEC_64 ":%{!dynamic-linker:-dynamic-linker " GNU_USER_DYNAMIC_LINKER64 "}}} \
    %{static:-static}} -z common-page-size=4096 -z max-page-size=4096"
-
-#undef CC1PLUS_SPEC
-#define CC1PLUS_SPEC "-fabi-version=0"
 EOF_CMS_H
 %endif
-%if %isarmv7
+%endif
+
 cat << \EOF_CONFIG_GCC >> gcc/config.gcc
-# CMS patch to include gcc/config/arm/cms.h when building gcc
-tm_file="$tm_file arm/cms.h"
+# CMS patch to include gcc/config/general-cms.h when building gcc
+tm_file="$tm_file general-cms.h"
 EOF_CONFIG_GCC
 
-cat << \EOF_CMS_H > gcc/config/arm/cms.h
+cat << \EOF_CMS_H > gcc/config/general-cms.h
 #undef CC1PLUS_SPEC
 #define CC1PLUS_SPEC "-fabi-version=0"
 EOF_CMS_H
-%endif
-%endif
 
 # GCC prerequisites
 %setup -D -T -b 1 -n gmp-5.1.0
@@ -243,7 +239,7 @@ export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
              --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES \
              $CONF_GCC_OS_SPEC $CONF_GCC_WITH_LTO --with-gmp=%{i} --with-mpfr=%{i} \
              --with-mpc=%{i} --with-isl=%{i} --with-cloog=%{i} --enable-checking=release \
-             --build=%{_build} --host=%{_host} $CONF_GCC_ARCH_SPEC \
+             --build=%{_build} --host=%{_host} --enable-libstdcxx-time=rt $CONF_GCC_ARCH_SPEC \
              --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
 
 %if %isamd64

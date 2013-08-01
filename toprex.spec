@@ -1,6 +1,6 @@
 ### RPM external toprex 4.23
 
-Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/toprex/%{n}-%{realversion}-src.tgz
+Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 Patch1: toprex-4.23-macosx
 Patch2: toprex-4.23-archive-only
 Requires: pythia6

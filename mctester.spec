@@ -1,6 +1,6 @@
 ### RPM external mctester 1.25.0a
 
-Source:  http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%n-%realversion-src.tgz
+Source:  http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 
 Requires: hepmc
 Requires: root

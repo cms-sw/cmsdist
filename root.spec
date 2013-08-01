@@ -10,7 +10,6 @@ Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{
 %define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
 %define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
-%define isnotdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
 
 Patch0: root-5.34.02-externals
@@ -23,7 +22,7 @@ Patch6: root-5.34.05-cintex-armv7a-port
 
 Requires: gccxml gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl
 
-%if %isnotdarwin
+%if %islinux
 Requires: castor dcap
 %endif
 
@@ -102,8 +101,6 @@ CONFIG_ARGS="--enable-table
              --with-xrootd=${XROOTD_ROOT}
              --with-gsl-incdir=${GSL_ROOT}/include
              --with-gsl-libdir=${GSL_ROOT}/lib
-             --with-dcap-libdir=${DCAP_ROOT}/lib 
-             --with-dcap-incdir=${DCAP_ROOT}/include
              --disable-pgsql
              --disable-mysql
              --enable-c++11
@@ -139,11 +136,13 @@ TARGET_PLATF=
   EXTRA_OPTS="${EXTRA_OPTS} --with-rfio-libdir=${CASTOR_ROOT}/lib 
                             --with-rfio-incdir=${CASTOR_ROOT}/include/shift
                             --with-castor-libdir=${CASTOR_ROOT}/lib
-                            --with-castor-incdir=${CASTOR_ROOT}/include/shift"
+                            --with-castor-incdir=${CASTOR_ROOT}/include/shift
+                            --with-dcap-libdir=${DCAP_ROOT}/lib
+                            --with-dcap-incdir=${DCAP_ROOT}/include"
 %endif
 
 %if %isdarwin
-  TARGET_PLATF=x86_64
+  TARGET_PLATF=macosx64
   EXTRA_OPTS="${EXTRA_OPTS} --disable-rfio
                             --disable-builtin_afterimage"
 %endif

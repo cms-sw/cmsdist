@@ -1,7 +1,7 @@
 ### RPM external lhapdf 5.8.5
 
 %define realversion %(echo %{v} | cut -d- -f1)
-Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
+Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 Patch1: lhapdf-5.8.5-gzio
 Patch2: lhapdf-data-5.8.5-gzio
 Patch3: lhapdf-5.8.5-disable-examples-and-tests

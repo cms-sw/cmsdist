@@ -1,5 +1,5 @@
 ### RPM external mimetic 0.9.6
-Source: http://codesink.org/download/%{n}-%{realversion}.tar.gz
+Source: http://www.codesink.org/download/%{n}-%{realversion}.tar.gz
 Patch0: mimetic-0.9.5-amd64-uint
 Patch1: mimetic-0.9.6-uint32_t-gcc44
 Patch2: mimetic-0.9.6-fix-gcc47-cxx11

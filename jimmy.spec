@@ -1,7 +1,7 @@
 ### RPM external jimmy 4.2
 
 Requires: herwig
-Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
+Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 Patch0: jimmy-4.2-gfortran
 Patch1: jimmy-4.2-macosx
 

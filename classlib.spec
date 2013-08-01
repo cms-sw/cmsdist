@@ -1,6 +1,6 @@
 ### RPM external classlib 3.1.3
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
-Source: http://lat.web.cern.ch/lat/exports/%n-%realversion.tar.bz2
+Source: http://cmsrep.cern.ch/cmssw/cms/SOURCES/slc5_amd64_gcc472/external/classlib/3.1.3/classlib-3.1.3.tar.bz2
 Patch0: classlib-3.1.3-gcc46
 Patch1: classlib-3.1.3-sl6
 Patch2: classlib-3.1.3-fix-gcc47-cxx11

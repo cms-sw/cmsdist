@@ -27,7 +27,6 @@ Patch0: geant4.9.5.p01-no-banner
 
 SOEXT=so
 if [ $(uname) = Darwin ]; then
-  export MACOSX_DEPLOYMENT_TARGET="10.4"
   SOEXT=dylib
 fi
 
