@@ -5,6 +5,7 @@
 
 %define isslc %(case %cmsos in (slc*) echo true;; (*) echo false;; esac)
 
+Requires: autotools-toolfile
 Requires: alpgen-toolfile
 Requires: boost-toolfile
 Requires: bz2lib-toolfile

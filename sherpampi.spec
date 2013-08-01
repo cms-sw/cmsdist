@@ -1,7 +1,7 @@
 ### RPM external sherpampi 2.0.beta2
 Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
-Requires: hepmc lhapdf blackhat openmpi
-BuildRequires: autotools
+Requires: autotools hepmc lhapdf blackhat openmpi
+#BuildRequires: autotools
 Patch0: sherpa-2.0.beta2-lhapdf
 Patch1: sherpa-1.4.2-fix-gcc47-cxx11
 Patch2: sherpa-1.4.0-add-support-osx108
