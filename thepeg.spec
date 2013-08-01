@@ -3,7 +3,7 @@
 ## INITENV +PATH DYLD_LIBRARY_PATH %i/lib/ThePEG
 #Source: http://www.thep.lu.se/~leif/ThePEG/ThePEG-%{realversion}.tgz
 #Source: http://projects.hepforge.org/herwig/files/ThePEG-%{realversion}.tar.gz
-Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/thepeg-%{realversion}-src.tgz
+Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 Patch0: thepeg-1.7.0-break-termcap-dependence
 Patch1: thepeg-1.7.0-use-dylibs-macosx
 Patch2: thepeg-1.6.1-lhapdf-env
