@@ -1,5 +1,5 @@
 ### RPM external charybdis 1.003
-Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
+Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 Patch0: charybdis-1003-macosx
 Patch1: charybdis-1.003-archive-only
 
