@@ -1,5 +1,5 @@
 ### RPM external libpng 1.6.0
-Source: http://switch.dl.sourceforge.net/project/%{n}/libpng16/%{realversion}/%{n}-%{realversion}.tar.gz
+Source: http://download.sourceforge.net/%{n}/%{n}-%{realversion}.tar.gz
 %define online %(case %{cmsplatf} in (*onl_*_*) echo true;; (*) echo false;; esac)
 
 BuildRequires: cmake
@@ -17,8 +17,7 @@ Requires: onlinesystemtools
 cmake . \
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
   -DBUILD_SHARED_LIBS=YES \
-  -DZLIB_INCLUDE_DIR:PATH="${ZLIB_ROOT}/include" \
-  -DZLIB_LIBRARY:FILEPATH="${ZLIB_ROOT}/lib/libz.so" \
+  -DZLIB_ROOT:PATH=${ZLIB_ROOT} \
   -DCMAKE_SKIP_RPATH=YES \
   -DSKIP_INSTALL_FILES=1
 
