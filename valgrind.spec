@@ -5,23 +5,28 @@ Source: svn://svn.valgrind.org/valgrind/trunk?revision=%{rev}&module=%{n}-%{real
 Patch1: valgrind-3.7.0-change-FN_NAME_LEN-global-buffer-size
 Patch2: valgrind-3.7.0-change-VG_N_SEGMENTS-VG_N_SEGNAMES-VG_MAX_SEGNAMELEN
 
+BuildRequires: autotools
+
 %prep
 %setup -n %{n}-%{realversion}
 %patch1 -p1
 %patch2 -p1
 
 %build
-# FIXME: This is really a hack that should be included in
-# GCC spec for non system compilers.
-case %cmsos in
-  osx*_*_gcc421) ;;
-  osx*) CFLAGS="-D__private_extern__=extern" ;;
-  *) ;;
+case %{cmsplatf} in
+  osx*) 
+    CFLAGS="-D__private_extern__=extern" 
+    ;;
+  *_amd64_*)
+    CONF_OPTS="--enable-only64bit"
+    ;;
 esac
 
 ./autogen.sh
-./configure --prefix=%i --without-mpicc --disable-static --enable-only64bit ${CFLAGS+CFLAGS=$CFLAGS}
-make %makeprocesses
+./configure --prefix=%{i} --without-mpicc --disable-static \
+            ${CONF_OPTS} ${CFLAGS+CFLAGS=${CFLAGS}}
+make %{makeprocesses}
+
 %install
 make install
 %define strip_files %i/lib %i/bin/{cg_merge,no_op*,valgrind*}

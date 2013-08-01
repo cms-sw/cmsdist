@@ -3,7 +3,7 @@
 %define rname Hector
 %define realversion %(echo %v | cut -d- -f1 )
 Requires: root
-Source: http://www.fynu.ucl.ac.be/themes/he/ggamma/hector/%{rname}_%{realversion}.tbz
+Source: http://cmsrep.cern.ch/cmssw/cms/SOURCES/slc5_amd64_gcc472/external/hector/1_3_4/Hector_1_3_4.tbz
 Patch0: hector-1.3.4-macosx
 Patch1: hector-1.3.4-fix-beam-dispersion-macro
 Patch2: hector-1.3.4-fix-narrowing-conversion

@@ -1,5 +1,5 @@
 ### RPM external pythia6 426
-Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
+Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 
 %define keep_archives true
 

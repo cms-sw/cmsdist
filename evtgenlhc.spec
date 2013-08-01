@@ -1,5 +1,5 @@
 ### RPM external evtgenlhc 9.1
-Source: http://cern.ch/service-spi/external/MCGenerators/distribution/evtgenlhc/%{n}-%{realversion}-src.tgz
+Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 Patch0: evtgenlhc-8.16-EvtPythia-iosfwd
 Patch1: evtgenlhc-9.1-gcc43
 Patch2: evtgenlhc-9.1-CLHEP2

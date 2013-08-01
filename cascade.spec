@@ -1,6 +1,6 @@
 ### RPM external cascade 2.2.04
 
-Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
+Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 Patch0: cascade-2.2.0-nomanual
 Patch1: cascade-2.2.04-getenv
 # Drop dcasrn symbol, which we need to redifine in CMSSW. Do not build cascade
