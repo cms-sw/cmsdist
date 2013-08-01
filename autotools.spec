@@ -17,6 +17,10 @@ Source3: http://ftp.gnu.org/gnu/m4/m4-%m4_version.tar.bz2
 
 %build
 export PATH=%i/bin:$PATH
+pushd %_builddir/m4-%{m4_version} 
+  ./configure --disable-dependency-tracking --prefix %i
+  make %makeprocesses && make install
+popd
 pushd %_builddir/autoconf-%{autoconf_version}
   ./configure --disable-dependency-tracking --prefix %i
   make %makeprocesses && make install
@@ -29,25 +33,41 @@ pushd %_builddir/libtool-%{libtool_version}
   ./configure --disable-dependency-tracking --prefix %i --enable-ltdl-install
   make %makeprocesses && make install
 popd
-pushd %_builddir/m4-%{m4_version} 
-  ./configure --disable-dependency-tracking --prefix %i
-  make %makeprocesses && make install
-popd
 
 %install
 echo "Foo"
 %post
-%{relocateConfig}bin/aclocal
-%{relocateConfig}bin/aclocal-1.11
-%{relocateConfig}bin/autoconf
-%{relocateConfig}bin/autoheader
-%{relocateConfig}bin/autom4te
-%{relocateConfig}bin/automake
-%{relocateConfig}bin/automake-1.11
-%{relocateConfig}bin/autoreconf
-%{relocateConfig}bin/autoscan
-%{relocateConfig}bin/autoupdate
-%{relocateConfig}bin/ifnames
-%{relocateConfig}bin/libtoolize
-%{relocateConfig}share/autoconf/autom4te.cfg
-%{relocateConfig}share/automake-1.11/Automake/Config.pm
+%{relocateRpmPkg}bin/aclocal
+%{relocateRpmPkg}bin/aclocal-1.11
+%{relocateRpmPkg}bin/autoconf
+%{relocateRpmPkg}bin/autoheader
+%{relocateRpmPkg}bin/autom4te
+%{relocateRpmPkg}bin/automake
+%{relocateRpmPkg}bin/automake-1.11
+%{relocateRpmPkg}bin/autoreconf
+%{relocateRpmPkg}bin/autoscan
+%{relocateRpmPkg}bin/autoupdate
+%{relocateRpmPkg}bin/ifnames
+%{relocateRpmPkg}bin/libtoolize
+%{relocateRpmPkg}share/autoconf/autom4te.cfg
+%{relocateRpmPkg}share/automake-1.11/Automake/ChannelDefs.pm
+%{relocateRpmPkg}share/automake-1.11/Automake/Channels.pm
+%{relocateRpmPkg}share/automake-1.11/Automake/Condition.pm
+%{relocateRpmPkg}share/automake-1.11/Automake/Config.pm
+%{relocateRpmPkg}share/automake-1.11/Automake/Configure_ac.pm
+%{relocateRpmPkg}share/automake-1.11/Automake/DisjConditions.pm
+%{relocateRpmPkg}share/automake-1.11/Automake/FileUtils.pm
+%{relocateRpmPkg}share/automake-1.11/Automake/General.pm
+%{relocateRpmPkg}share/automake-1.11/Automake/Getopt.pm
+%{relocateRpmPkg}share/automake-1.11/Automake/Item.pm
+%{relocateRpmPkg}share/automake-1.11/Automake/ItemDef.pm
+%{relocateRpmPkg}share/automake-1.11/Automake/Location.pm
+%{relocateRpmPkg}share/automake-1.11/Automake/Options.pm
+%{relocateRpmPkg}share/automake-1.11/Automake/Rule.pm
+%{relocateRpmPkg}share/automake-1.11/Automake/RuleDef.pm
+%{relocateRpmPkg}share/automake-1.11/Automake/Struct.pm
+%{relocateRpmPkg}share/automake-1.11/Automake/VarDef.pm
+%{relocateRpmPkg}share/automake-1.11/Automake/Variable.pm
+%{relocateRpmPkg}share/automake-1.11/Automake/Version.pm
+%{relocateRpmPkg}share/automake-1.11/Automake/Wrap.pm
+%{relocateRpmPkg}share/automake-1.11/Automake/XFile.pm
