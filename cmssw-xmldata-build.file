@@ -5,7 +5,7 @@
 %define cmssw_subsystem %(echo %cmssw_package | cut -d/ -f1) 
 %define BaseTool        %(echo %n | tr '[a-z-]' '[A-Z_]')
 
-Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/local/reps/CMSSW.admin?passwd=AA_:yZZ3e&tag=-r%{realversion}&export=%{cmssw_subsystem}&module=%{cmssw_package}&output=/data.tar.gz
+Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/local/reps/CMSSW?passwd=AA_:yZZ3e&tag=-r%{realversion}&export=%{cmssw_subsystem}&module=%{cmssw_package}&output=/data.tar.gz
 
 %if "%{?dataDir:set}" != "set"
 %define dataDir         data
