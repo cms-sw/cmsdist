@@ -1,11 +1,10 @@
-### RPM external alpgen 213
+### RPM external alpgen 214
 
 %define realversion %(echo %v | cut -d- -f1 )
 Source: http://mlm.home.cern.ch/mlm/alpgen/V2.1/v%{realversion}.tgz
 Source1: config.sub-amd64
 Patch0: alpgen-213
-Patch1: alpgen-212-gfortran
-Patch2: alpgen-213-macosx
+Patch7: alpgen-214-Darwin-x86_84-gfortran
 
 %define keep_archives true
 %if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
@@ -15,8 +14,7 @@ Requires: gfortran-macosx
 %prep
 %setup -c -n alpgen-%v
 %patch0 -p1 
-%patch1 -p0
-%patch2 -p1
+%patch7 -p1
 
 %build
 cd 2Qphwork; make gen; cd ..
