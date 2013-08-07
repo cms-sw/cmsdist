@@ -1,5 +1,6 @@
 ### RPM cms cmssw CMSSW_6_2_0_p1_gcc481
 Requires: cmssw-tool-conf python cms-git-tools
+BuildRequires: git
 
 %define runGlimpse      yes
 %define useCmsTC        yes
