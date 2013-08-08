@@ -1,7 +1,6 @@
 ### RPM cms PHEDEX-datasvc 2.3.17
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
-%define gittag PHEDEX-datasvc%(echo %realversion | tr . _)
 Source: git://github.com/dmwm/PHEDEX?obj=PHEDEX-datasvc/f4f8c2b470201dd47b31845e434e7756f64b8f32&export=%n&output=/%n.tar.gz
 
 # For DB Access
