@@ -103,7 +103,15 @@ rm -rf %{srctree}
 %setup -T -b 0 -n cmssw-config-%(echo %{configtag} | sed 's/^.//')
 # The following is a temporary hack until we move to 4.8.1
 cd ..; mv cmssw-config-%(echo %{configtag} | sed 's/^.//') config
+%if "%{n}" == "cmssw"
+%setup -D -T -b 1 -n %{n}-%{realversion}
+cd ..
+mv %{n}-%{realversion} src;
+mkdir %{n}-%{realversion} # Needed for %build section as it cds into a directory
+cd src
+%else
 %setup -D -T -b 1 -n %{srctree}
+%endif
 
 %if "%{?additionalSrc0:set}" == "set"
 %setup -D -T -a 2 -n %{srctree}
@@ -136,6 +144,7 @@ mkdir -p $(dirname %i)
 %scramcmd project -d $(dirname %i) -b %{bootstrapfile}
 
 %build
+cd %_builddir/src
 
 # Remove cmt stuff that brings unwanted dependencies:
 rm -rf `find %{i}/%{srctree} -type d -name cmt`
@@ -240,6 +249,8 @@ for cmd in edmPluginRefresh ; do
 done
 
 %install
+cd %_builddir/src
+
 # FIXME: not having it set seems to cause a bunch of
 # issues on macosx, because various tools actually use it and are unable 
 # to autodetect. Temporary until we get proper support.
