@@ -2,6 +2,8 @@
 %define majorv %(echo %realversion | cut -d. -f1,2) 
 Source: http://ftp.gnome.org/pub/GNOME/sources/libsigc++/%{majorv}/libsigc++-%{realversion}.tar.bz2
 
+BuildRequires: autotools
+
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx c++ -std=c++0x
 %endif
