@@ -183,7 +183,7 @@ fc*)
                               libXft libXrender libXpm gcc-c++ libcom_err libXpm-devel libXft-devel
                               libX11-devel libXext-devel mesa-libGLU mesa-libGLU-devel libGLEW
                               glew perl-Digest-MD5 perl-ExtUtils-MakeMaker patch perl-libwww-perl
-                              krb5-libs krb5-devel"
+                              krb5-libs krb5-devel perl-Data-Dumper"
   ;;
 esac
 
