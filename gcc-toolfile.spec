@@ -156,7 +156,7 @@ case %cmsplatf in
      COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++11 -msse3 -ftree-vectorize -Wno-strict-overflow"
    ;;
    *_armv7hl_* )
-    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++11 -mfpu=neon -ftree-vectorize -Wno-strict-overflow -fsigned-char -fsigned-bitfields"
+    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++11 -ftree-vectorize -Wno-strict-overflow -fsigned-char -fsigned-bitfields"
    ;;
 esac
 
