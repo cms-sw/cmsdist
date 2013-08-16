@@ -2,6 +2,8 @@
 
 Source: ftp://ftp.gnu.org/gnu/gmp/gmp-%{realversion}.tar.bz2
 
+BuildRequires: autotools
+
 %define keep_archives true
 %define drop_files %{i}/share
 

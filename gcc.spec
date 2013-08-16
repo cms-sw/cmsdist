@@ -6,11 +6,14 @@
 %define gccRevision 199526
 %define gccBranch gcc-%(echo %{realversion} | cut -f1,2 -d. | tr . _)-branch
 Source0: svn://gcc.gnu.org/svn/gcc/branches/%{gccBranch}?module=gcc-%{gccBranch}-%{gccRevision}&revision=%{gccRevision}&output=/gcc-%{gccBranch}-%{gccRevision}.tar.gz
+Patch0: gcc-4.8.1-0000-pr-57748
+Patch1: gcc-4.8.1-0001-pr-58065
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 %define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
+%define iscpu_marvell %(cat /proc/cpuinfo | grep 'Marvell PJ4Bv7' 2>&1 >/dev/null && echo 1 || echo 0)
 
 %define keep_archives true
 
@@ -28,22 +31,25 @@ Source6: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
 
 %if %islinux
 %define bisonVersion 2.7
-%define binutilsv 2.23.2
+%define binutilsVersion 2.23.2
 %define elfutilsVersion 0.156
 %define m4Version 1.4.16
 %define flexVersion 2.5.37
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
-Source8: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
+Source8: http://ftp.gnu.org/gnu/binutils/binutils-%{binutilsVersion}.tar.bz2
+Patch2: binutils-2.23.2-0000-PR-gas-14987-14887
 Source9: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
-Patch1: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-portability.patch
+Patch3: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-portability.patch
 Source10: http://ftp.gnu.org/gnu/m4/m4-%m4Version.tar.gz
-Patch2: m4-1.4.16-fix-gets
+Patch4: m4-1.4.16-fix-gets
 Source11: http://garr.dl.sourceforge.net/project/flex/flex-%{flexVersion}.tar.bz2
 %endif
 
 %prep
 
 %setup -T -b 0 -n gcc-%gccBranch-%gccRevision
+%patch0 -p1
+%patch1 -p1
 
 # Filter out private stuff from RPM requires headers.
 cat << \EOF > %{name}-req
@@ -99,11 +105,12 @@ EOF_CMS_H
 
 %if %islinux
 %setup -D -T -b 7 -n bison-%{bisonVersion}
-%setup -D -T -b 8 -n binutils-%binutilsv
-%setup -D -T -b 9 -n elfutils-%{elfutilsVersion}
-%patch1 -p1
-%setup -D -T -b 10 -n m4-%{m4Version}
+%setup -D -T -b 8 -n binutils-%{binutilsVersion}
 %patch2 -p1
+%setup -D -T -b 9 -n elfutils-%{elfutilsVersion}
+%patch3 -p1
+%setup -D -T -b 10 -n m4-%{m4Version}
+%patch4 -p1
 %setup -D -T -b 11 -n flex-%{flexVersion}
 %endif
 
@@ -130,6 +137,15 @@ CXX="$CXX -fPIC"
   CONF_BINUTILS_OPTS="--enable-gold=yes --enable-ld=default --enable-lto --enable-plugins --enable-threads"
   CONF_GCC_WITH_LTO="--enable-gold=yes --enable-ld=default --enable-lto" # --with-build-config=bootstrap-lto
 
+  # Build M4
+  cd ../m4-%{m4Version}
+  ./configure --prefix=%{i}/tmp/m4 \
+              --build=%{_build} --host=%{_host} \
+              CC="$CC"
+  make %{makeprocesses}
+  make install
+  export PATH=%{i}/tmp/m4/bin:$PATH
+
   # Build Flex
   cd ../flex-%{flexVersion}
   ./configure --disable-nls --prefix=%{i}/tmp/flex \
@@ -139,15 +155,6 @@ CXX="$CXX -fPIC"
   make install
   export PATH=%{i}/tmp/flex/bin:$PATH
 
-  # Build M4
-  cd ../m4-%{m4Version}
-  ./configure --prefix=%{i}/tmp/m4 \
-              --build=%{_build} --host=%{_host} \
-              CC="$CC"
-  make %{makeprocesses}
-  make install
-  export PATH=%{i}/tmp/m4/bin:$PATH
-  
   # Build elfutils
   cd ../elfutils-%{elfutilsVersion}
   ./configure --disable-static --without-zlib --without-bzlib --without-lzma \
@@ -165,7 +172,7 @@ CXX="$CXX -fPIC"
   export PATH=%{i}/tmp/bison/bin:$PATH
 
   # Build binutils
-  cd ../binutils-%{binutilsv}
+  cd ../binutils-%{binutilsVersion}
   ./configure --disable-static --prefix=%{i} ${CONF_BINUTILS_OPTS} --disable-werror \
               --build=%{_build} --host=%{_host} --disable-nls --with-zlib=no --enable-targets=all \
               CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" CFLAGS="-I%{i}/include" \
@@ -216,6 +223,14 @@ cd ../cloog-%{cloogVersion}
 make %{makeprocesses}
 make install
 
+%if %isarmv7
+%if %iscpu_marvell
+%define armv7_fpu vfpv3
+%else
+%define armv7_fpu neon
+%endif # iscpu_marvell
+%endif # isarmv7
+
 CONF_GCC_ARCH_SPEC=
 case %{cmsplatf} in
   *_armv7hl_*)
@@ -225,7 +240,7 @@ case %{cmsplatf} in
                         --with-linker-hash-style=gnu --enable-plugin --enable-initfini-array \
                         --enable-linker-build-id --disable-build-with-cxx --disable-build-poststage1-with-cxx \
                         --with-cpu=cortex-a9 --with-tune=cortex-a9 --with-arch=armv7-a \
-                        --with-float=hard --with-fpu=neon --with-abi=aapcs-linux \
+                        --with-float=hard --with-fpu=%{armv7_fpu} --with-abi=aapcs-linux \
                         --disable-sjlj-exceptions"
     ;;
 esac
