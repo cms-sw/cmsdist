@@ -13,6 +13,7 @@ Patch1: gcc-4.8.1-0001-pr-58065
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 %define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
+%define iscpu_marvell %(cat /proc/cpuinfo | grep 'Marvell PJ4Bv7' 2>&1 >/dev/null && echo 1 || echo 0)
 
 %define keep_archives true
 
@@ -136,6 +137,15 @@ CXX="$CXX -fPIC"
   CONF_BINUTILS_OPTS="--enable-gold=yes --enable-ld=default --enable-lto --enable-plugins --enable-threads"
   CONF_GCC_WITH_LTO="--enable-gold=yes --enable-ld=default --enable-lto" # --with-build-config=bootstrap-lto
 
+  # Build M4
+  cd ../m4-%{m4Version}
+  ./configure --prefix=%{i}/tmp/m4 \
+              --build=%{_build} --host=%{_host} \
+              CC="$CC"
+  make %{makeprocesses}
+  make install
+  export PATH=%{i}/tmp/m4/bin:$PATH
+
   # Build Flex
   cd ../flex-%{flexVersion}
   ./configure --disable-nls --prefix=%{i}/tmp/flex \
@@ -145,15 +155,6 @@ CXX="$CXX -fPIC"
   make install
   export PATH=%{i}/tmp/flex/bin:$PATH
 
-  # Build M4
-  cd ../m4-%{m4Version}
-  ./configure --prefix=%{i}/tmp/m4 \
-              --build=%{_build} --host=%{_host} \
-              CC="$CC"
-  make %{makeprocesses}
-  make install
-  export PATH=%{i}/tmp/m4/bin:$PATH
-  
   # Build elfutils
   cd ../elfutils-%{elfutilsVersion}
   ./configure --disable-static --without-zlib --without-bzlib --without-lzma \
@@ -222,6 +223,14 @@ cd ../cloog-%{cloogVersion}
 make %{makeprocesses}
 make install
 
+%if %isarmv7
+%if %iscpu_marvell
+%define armv7_fpu vfpv3
+%else
+%define armv7_fpu neon
+%endif # iscpu_marvell
+%endif # isarmv7
+
 CONF_GCC_ARCH_SPEC=
 case %{cmsplatf} in
   *_armv7hl_*)
@@ -231,7 +240,7 @@ case %{cmsplatf} in
                         --with-linker-hash-style=gnu --enable-plugin --enable-initfini-array \
                         --enable-linker-build-id --disable-build-with-cxx --disable-build-poststage1-with-cxx \
                         --with-cpu=cortex-a9 --with-tune=cortex-a9 --with-arch=armv7-a \
-                        --with-float=hard --with-fpu=neon --with-abi=aapcs-linux \
+                        --with-float=hard --with-fpu=%{armv7_fpu} --with-abi=aapcs-linux \
                         --disable-sjlj-exceptions"
     ;;
 esac
