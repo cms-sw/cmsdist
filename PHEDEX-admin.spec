@@ -1,9 +1,9 @@
-### RPM cms PHEDEX-admin PHEDEX_4_1_3pre1
+### RPM cms PHEDEX-admin PHEDEX_4_1_3pre2
 
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
-%define gittag PHEDEX-%(echo %realversion | tr . _)
-Source: git://github.com/dmwm/PHEDEX?obj=master/788560654b78555c96b71aa66c99e59e2b30581d&export=%n&output=/%{downloadn}-admin.tar.gz
+%define gittag 788560654b78555c96b71aa66c99e59e2b30581d
+Source: git://github.com/dmwm/PHEDEX?obj=master/%gittag&export=%n&output=/%{downloadn}-admin.tar.gz
 
 # Oracle libs
 Requires: oracle oracle-env 

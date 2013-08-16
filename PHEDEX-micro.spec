@@ -3,7 +3,8 @@
 ## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
-Source: git://github.com/dmwm/PHEDEX?obj=master/788560654b78555c96b71aa66c99e59e2b30581d&export=%n&output=/%{downloadn}-micro.tar.gz
+$define gittag 788560654b78555c96b71aa66c99e59e2b30581d
+Source: git://github.com/dmwm/PHEDEX?obj=master/%gittag&export=%n&output=/%{downloadn}-micro.tar.gz
 
 # Oracle libs
 Requires: oracle oracle-env

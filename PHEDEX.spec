@@ -1,7 +1,8 @@
-### RPM cms PHEDEX PHEDEX_4_1_3pre1
+### RPM cms PHEDEX PHEDEX_4_1_3pre3
 
 ## INITENV +PATH PERL5LIB %i/perl_lib
-Source: git://github.com/dmwm/PHEDEX?obj=master/788560654b78555c96b71aa66c99e59e2b30581d&export=%n&output=/%n.tar.gz
+%define gittag 04558e10774408d7acd47b4779c9491fb8396071
+Source: git://github.com/dmwm/PHEDEX?obj=master/%gittag&export=%n&output=/%n.tar.gz
 
 # Oracle libs
 Requires: oracle oracle-env
