@@ -14,7 +14,9 @@ Source: http://ftp.gnu.org/pub/gnu/%{n}/%{n}-%{realversion}.tar.gz
             --enable-static \
             --without-debug \
             --without-ada \
-            --without-manpages
+            --without-manpages \
+            --disable-database \
+            --enable-termcap
 
 make %{makeprocesses} CFLAGS="-O2 -fPIC" CXXFLAGS="-O2 -fPIC -std=c++11"
 
