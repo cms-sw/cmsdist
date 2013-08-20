@@ -4,6 +4,7 @@ Source: http://cmsrep.cern.ch/cmssw/cms/SOURCES/slc5_amd64_gcc472/external/class
 Patch0: classlib-3.1.3-gcc46
 Patch1: classlib-3.1.3-sl6
 Patch2: classlib-3.1.3-fix-gcc47-cxx11
+Patch3: classlib-3.1.3-fix-unwind-x86_64
 
 Requires: bz2lib 
 Requires: pcre 
@@ -28,6 +29,7 @@ Requires: onlinesystemtools
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 ./configure --prefix=%i                         \
