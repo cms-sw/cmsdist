@@ -42,9 +42,9 @@ rm -rf Documentation/WebSite
 rm -rf Documentation/WhitePapers
 rm -rf Migration
 rm -rf perl_lib/DMWMMON
-rm -rf perl_lib/Schema
-rm -rf perl_lib/Testbed
-rm -rf perl_lib/Web
+rm -rf perl_lib/PHEDEX/Schema
+rm -rf perl_lib/PHEDEX/Testbed
+rm -rf perl_lib/PHEDEX/Web
 rm -rf PhEDExWeb
 rm -rf Schema
 rm -rf Testbed
