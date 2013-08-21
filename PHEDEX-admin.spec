@@ -12,6 +12,7 @@ Requires: p5-time-hires p5-text-glob p5-compress-zlib p5-dbi
 Requires: p5-dbd-oracle p5-xml-parser p5-poe p5-poe-component-child
 Requires: p5-log-log4perl p5-log-dispatch p5-log-dispatch-filerotate
 Requires: p5-params-validate p5-monalisa-apmon
+Requires p5-clone p5-json-xs p5-mail-rfc822-address
 # Actually, it is p5-xml-parser that requires this, but it doesn't configure itself correctly
 # This is so it gets into our dependencies-setup.sh
 Requires: expat
@@ -22,6 +23,8 @@ Provides: perl(DB_File)
 Provides: perl(Date::Manip)
 Provides: perl(XML::LibXML)
 
+# Fake for obsolete CLI/SiteDataInfo.pm
+Provides: (XML::Twig)
 # Fake provide of twitter client; needs to be installed manually
 Provides: perl(Net::Twitter::Lite)
 
@@ -40,7 +43,9 @@ rm -rf Documentation/WhitePapers
 rm -rf Migration
 rm -rf perl_lib/DMWMMON
 rm -rf perl_lib/PHEDEX/Testbed
-rm -rf perl_lib/PHEDEX/Web
+rm -rf perl_lib/PHEDEX/Web/API
+rm -rf perl_lib/PHEDEX/Web/{C,D,F,U}*
+rm -rf perl_lib/PHEDEX/Web/S{pooler,SLSpacw,TH}.pm
 rm -rf PhEDExWeb
 rm -rf Testbed
 rm -rf Toolkit/DBS
@@ -48,6 +53,7 @@ rm -rf Toolkit/Management
 rm -rf Toolkit/Peers
 rm -rf Toolkit/Test
 rm -rf Utilities/testSpace
+rm -f  Utilities/WebServiceWrite.pl
 
 %build
 
