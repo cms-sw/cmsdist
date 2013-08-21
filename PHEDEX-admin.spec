@@ -27,6 +27,8 @@ Provides: perl(Net::Twitter::Lite)
 
 %prep
 %setup -n %{downloadn}-admin
+rm -rf Build
+rm -rf Contrib
 rm -rf Documentation/ACAT2008
 rm -rf Documentation/DC04PostMortem
 rm -rf Documentation/DC04Stats
@@ -36,6 +38,9 @@ rm -rf Documentation/WebConfig
 rm -rf Documentation/WebSite
 rm -rf Documentation/WhitePapers
 rm -rf Migration
+rm -rf perl_lib/DMWMMON
+rm -rf perl_lib/PHEDEX/Testbed
+rm -rf perl_lib/PHEDEX/Web
 rm -rf PhEDExWeb
 rm -rf Testbed
 rm -rf Toolkit/DBS

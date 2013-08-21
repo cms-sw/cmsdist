@@ -34,6 +34,7 @@ Provides: perl(Net::Twitter::Lite)
 
 %setup -n %{downloadn}-micro
 rm -rf Build
+rm -rf Contrib
 rm -rf Custom/Template/*
 rm -rf Custom/DCache
 rm -rf Custom/Castor
