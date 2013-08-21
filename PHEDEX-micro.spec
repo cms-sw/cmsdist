@@ -53,7 +53,6 @@ rm -rf Migration
 rm -rf perl_lib/DMWMMON
 rm -f  perl_lib/PHEDEX/CLI/FakeAgent.pm
 rm -rf perl_lib/PHEDEX/Testbed
-rm -rf perl_lib/PHEDEX/Schema
 rm -rf perl_lib/PHEDEX/Web/API
 rm -rf perl_lib/PHEDEX/Web/{C,D,F,U}*
 rm -rf perl_lib/PHEDEX/Web/S{pooler,SLSpace}.pm
@@ -82,6 +81,7 @@ rm -rf Utilities/testSpace
 rm -rf Utilities/stagercp
 rm -rf Utilities/WordMunger
 rm -rf Utilities/wrapper_rfcp
+rm -f  Utilities/WebServiceWrite.pl
 
 %build
 
