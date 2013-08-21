@@ -3,7 +3,7 @@
 ## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
-%define gittag d5e9c8c85bc015c321617ac31638c196a929981e
+%define gittag 7572e79f0925d593180e1b6a62e2ae1ae29c0f39
 Source: git://github.com/dmwm/PHEDEX?obj=master/%gittag&export=%n&output=/%{downloadn}-micro.tar.gz
 
 # Oracle libs
