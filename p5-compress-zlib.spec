@@ -1,5 +1,6 @@
 ### RPM external p5-compress-zlib 1.42
 ## INITENV +PATH PERL5LIB %i/lib/perl5
+# Dummy comment: forcing the compiling for SLC6
 %define downloadn Compress-Zlib
 Source: http://search.cpan.org/CPAN/authors/id/P/PM/PMQS/%{downloadn}-%{realversion}.tar.gz
 Requires: zlib p5-extutils-makemaker
