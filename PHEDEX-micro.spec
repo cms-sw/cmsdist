@@ -1,9 +1,9 @@
-### RPM cms PHEDEX-micro PHEDEX_4_1_3pre1
+### RPM cms PHEDEX-micro PHEDEX_4_1_3
 
 ## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
-$define gittag 788560654b78555c96b71aa66c99e59e2b30581d
+%define gittag d5e9c8c85bc015c321617ac31638c196a929981e
 Source: git://github.com/dmwm/PHEDEX?obj=master/%gittag&export=%n&output=/%{downloadn}-micro.tar.gz
 
 # Oracle libs

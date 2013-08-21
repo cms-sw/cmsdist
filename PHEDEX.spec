@@ -1,7 +1,7 @@
-### RPM cms PHEDEX PHEDEX_4_1_3pre3
+### RPM cms PHEDEX PHEDEX_4_1_3
 
 ## INITENV +PATH PERL5LIB %i/perl_lib
-%define gittag 04558e10774408d7acd47b4779c9491fb8396071
+%define gittag d5e9c8c85bc015c321617ac31638c196a929981e
 Source: git://github.com/dmwm/PHEDEX?obj=master/%gittag&export=%n&output=/%n.tar.gz
 
 # Oracle libs
