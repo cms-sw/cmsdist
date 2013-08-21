@@ -1,13 +1,19 @@
-### RPM external pcre 7.9
-Source: http://downloads.sourceforge.net/%n/%n-%{realversion}.tar.bz2
+### RPM external pcre 7.9__8.33
+%define generic_version 7.9
+%define fc_version 8.33
+Source0: http://downloads.sourceforge.net/%{n}/%{n}-%{generic_version}.tar.bz2
+Source1: http://downloads.sourceforge.net/%{n}/%{n}-%{fc_version}.tar.bz2
+
 Requires: bz2lib
 
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
+%define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
+%define isfc %(case %{cmsplatf} in (fc*) echo 1 ;; (*) echo 0 ;; esac)
 
-%if "%online" != "true"
-Requires: zlib
-%else
+
+%if %isonline
 Requires: onlinesystemtools
+%else
+Requires: zlib
 %endif
 
 %if "%{?cms_cxx:set}" != "set"
@@ -15,7 +21,12 @@ Requires: onlinesystemtools
 %endif
 
 %prep
-%setup -n %n-%{realversion}
+%if %isfc
+%setup -b 1 -n %{n}-%{fc_version}
+%else
+%setup -b 0 -n %{n}-%{generic_version}
+%endif
+
 %build
 CPPFLAGS="-I${BZ2LIB_ROOT}/include -I${ZLIB_ROOT}/include"
 LDFLAGS="-L${BZ2LIB_ROOT}/lib -L${ZLIB_ROOT}/lib"
