@@ -26,14 +26,26 @@ Provides: perl(Net::Twitter::Lite)
 
 %prep
 %setup -n %n
+rm -rf Build
+rm -rf Contrib
 rm -f  Custom/Template/Config.Micro
 rm -f  Custom/Template/ConfigPart.CERN*
 rm -f  Custom/Template/ConfigPart.Management
+rm -rf Documentation/Updates
+rm -rf Documentation/WebSite
+rm -rf Documentation/WhitePapers
+rm -rf Migration
+rm -rf perl_lib/DMWMMON
+rm -rf PhEDExWeb
 rm -rf Schema
+rm -rf Testbed
+rm -rf Toolkit/DBS
 rm -rf Toolkit/Infrastructure
+rm -rf Toolkit/Management
 rm -rf Toolkit/Monitoring
 rm -rf Toolkit/Workflow
-rm -rf Toolkit/DBS
+rm -rf Toolkit/Peers
+rm -rf Toolkit/Test
 rm -f  Utilities/CMSSWMigrate
 rm -f  Utilities/DBDump
 rm -f  Utilities/DBLoad
@@ -48,6 +60,7 @@ rm -f  Utilities/netmon
 rm -f  Utilities/NodeNew
 rm -f  Utilities/NodeRemove
 rm -f  Utilities/RunTest
+rm -rf Utilities/testSpace
 rm -f  Utilities/WordMunger
 
 %build

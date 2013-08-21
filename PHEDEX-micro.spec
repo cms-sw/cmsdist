@@ -33,13 +33,32 @@ Provides: perl(Net::Twitter::Lite)
 %prep
 
 %setup -n %{downloadn}-micro
+rm -rf Build
 rm -rf Custom/Template/*
 rm -rf Custom/DCache
 rm -rf Custom/Castor
 rm -rf Custom/SRM
+rm -rf Documentation/ACAT2008
+rm -rf Documentation/DC04PostMortem
+rm -rf Documentation/DC04Stats
+rm -rf Documentation/Grid2005
+rm -rf Documentation/Updates
+rm -rf Documentation/WebConfig
+rm -rf Documentation/WebSite
+rm -rf Documentation/WhitePapers
+rm -rf Migration
+rm -rf perl_lib/DMWMMON
+rm -rf perl_lib/PHEDEX/Testbed
+rm -rf perl_lib/PHEDEX/Schema
+rm -rf perl_lib/PHEDEX/Web
+rm -rf PhEDExWeb
 rm -rf Schema
+rm -rf Testbed
 rm -rf Toolkit/Infrastructure
+rm -rf Toolkit/Management
 rm -rf Toolkit/Monitoring
+rm -rf Toolkit/Peers
+rm -rf Toolkit/Test
 rm -rf Toolkit/Transfer
 rm -rf Toolkit/Workflow
 rm -rf Toolkit/Verify
@@ -53,6 +72,7 @@ rm -rf Utilities/DropStatus
 rm -rf Utilities/FillNames
 rm -rf Utilities/GrepSites
 rm -rf Utilities/ping-watchdog.pl
+rm -rf Utilities/testSpace
 rm -rf Utilities/stagercp
 rm -rf Utilities/WordMunger
 rm -rf Utilities/wrapper_rfcp
