@@ -75,6 +75,7 @@ rm -f  Utilities/NodeRemove
 rm -f  Utilities/RunTest
 rm -rf Utilities/testSpace
 rm -f  Utilities/WordMunger
+rm -f  Utilities/WebServiceWrite.pl
 
 %build
 
