@@ -27,6 +27,8 @@ Provides: perl(DB_File)
 Provides: perl(Date::Manip)
 Provides: perl(XML::LibXML)
 
+# Fake for obsolete CLI/SiteDataInfo.pm
+Provides: perl(XML::Twig)
 # Fake provide of twitter client; needs to be installed manually
 Provides: perl(Net::Twitter::Lite)
 
@@ -49,9 +51,12 @@ rm -rf Documentation/WebSite
 rm -rf Documentation/WhitePapers
 rm -rf Migration
 rm -rf perl_lib/DMWMMON
+rm -f  perl_lib/PHEDEX/CLI/FakeAgent.pm
 rm -rf perl_lib/PHEDEX/Testbed
 rm -rf perl_lib/PHEDEX/Schema
-rm -rf perl_lib/PHEDEX/Web
+rm -rf perl_lib/PHEDEX/Web/API
+rm -rf perl_lib/PHEDEX/Web/{C,D,F,U}*
+rm -rf perl_lib/PHEDEX/Web/S{pooler,SLSpace}.pm
 rm -rf PhEDExWeb
 rm -rf Schema
 rm -rf Testbed

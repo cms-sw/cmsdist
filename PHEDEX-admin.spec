@@ -42,10 +42,11 @@ rm -rf Documentation/WebSite
 rm -rf Documentation/WhitePapers
 rm -rf Migration
 rm -rf perl_lib/DMWMMON
+rm -f  perl_lib/PHEDEX/CLI/FakeAgent.pm
 rm -rf perl_lib/PHEDEX/Testbed
 rm -rf perl_lib/PHEDEX/Web/API
 rm -rf perl_lib/PHEDEX/Web/{C,D,F,U}*
-rm -rf perl_lib/PHEDEX/Web/S{pooler,SLSpacw,TH}.pm
+rm -rf perl_lib/PHEDEX/Web/S{pooler,SLSpace}.pm
 rm -rf PhEDExWeb
 rm -rf Testbed
 rm -rf Toolkit/DBS
