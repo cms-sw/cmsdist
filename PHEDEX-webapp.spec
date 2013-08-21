@@ -1,11 +1,10 @@
 ### RPM cms PHEDEX-webapp 1.3.13
 ## INITENV +PATH PERL5LIB %i/perl_lib
-%define downloadn %(echo %n | cut -f1 -d-)
-%define gittag WEBAPP_%(echo %realversion | tr . _)
-%define yuicompressorversion 2.4.6
-
+#%define downloadn %(echo %n | cut -f1 -d-)
 %define gittag 5c0b49edc0b9ec4285ac87f12bea39e4638aa9da
 Source0: git://github.com/dmwm/PHEDEX?obj=PHEDEX-webapp/%gittag&export=%n&output=/%n.tar.gz
+
+%define yuicompressorversion 2.4.6
 Source1: http://yui.zenfs.com/releases/yuicompressor/yuicompressor-%{yuicompressorversion}.zip
 Requires: protovis yui
 BuildRequires: java-jdk

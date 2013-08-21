@@ -1,6 +1,6 @@
 ### RPM cms PHEDEX-web 4.2.9
 ## INITENV +PATH PERL5LIB %i/perl_lib
-%define downloadn %(echo %n | cut -f1 -d-)
+#%define downloadn %(echo %n | cut -f1 -d-)
 %define gittag 1cf6be60c2447feb33c8394e047b2b8a1285983a
 Source: git://github.com/dmwm/PHEDEX?obj=PHEDEX-web/%gittag&export=%n&output=/%n.tar.gz
 

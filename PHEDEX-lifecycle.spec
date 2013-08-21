@@ -1,14 +1,14 @@
 ### RPM cms PHEDEX-lifecycle 1.2.0
 ## INITENV +PATH PERL5LIB %i/perl_lib
 ## INITENV +PATH PERL5LIB %i/T0/perl_lib
-%define downloadn %(echo %n | cut -f1 -d-)
+#%define downloadn %(echo %n | cut -f1 -d-)
+
+%define gittag 58f3eed1c98b8edaae10f6befe9d0343c0abc38b
+Source0: git://github.com/dmwm/PHEDEX?obj=PHEDEX-LifeCycle/%gittag&export=%n&output=/%n.tar.gz
 
 # TODO Need to get this from somewhere else...
 %define cvsserver cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e
 Source1: %cvsserver&strategy=export&module=T0&export=T0&&tag=-rPHEDEX_LIFECYCLE_1_0_0&output=/T0.tar.gz
-
-%define gittag 58f3eed1c98b8edaae10f6befe9d0343c0abc38b
-Source0: git://github.com/dmwm/PHEDEX?obj=PHEDEX-LifeCycle/%gittag&export=%n&output=/%n.tar.gz
 
 Requires: p5-poe p5-poe-component-child p5-clone p5-time-hires p5-text-glob
 Requires: p5-compress-zlib p5-log-log4perl p5-json-xs p5-xml-parser p5-monalisa-apmon
