@@ -22,8 +22,6 @@ Provides: perl(Date::Manip)
 Provides: perl(XML::LibXML)
 Provides: perl(CGI)
 
-# Fake for obsolete CLI/SiteDataInfo.pm
-Provides: perl(XML::Twig)
 # Fake provide of twitter client; needs to be installed manually
 Provides: perl(Net::Twitter::Lite)
 
@@ -45,10 +43,11 @@ rm -rf Documentation/WhitePapers
 rm -rf Migration
 rm -rf perl_lib/DMWMMON
 rm -f  perl_lib/PHEDEX/CLI/FakeAgent.pm
+rm -f  perl_lib/PHEDEX/CLI/SiteDataInfo.pm
 rm -rf perl_lib/PHEDEX/Testbed
 rm -rf perl_lib/PHEDEX/Web/API
 rm -rf perl_lib/PHEDEX/Web/{C,D,F,U}*
-rm -rf perl_lib/PHEDEX/Web/S{pooler,SLSpace}.pm
+rm -rf perl_lib/PHEDEX/Web/S{pooler,QLSpace}.pm
 rm -rf PhEDExWeb
 rm -rf Schema
 rm -rf Testbed
@@ -59,10 +58,14 @@ rm -rf Toolkit/Monitoring
 rm -rf Toolkit/Workflow
 rm -rf Toolkit/Peers
 rm -rf Toolkit/Test
+rm -f  Utilities/AuthMap.txt
+rm -f  Utilities/AuthMapper.pl
+rm -f  Utilities/CheckPhEDExContactUsercert.py
 rm -f  Utilities/CMSSWMigrate
 rm -f  Utilities/DBDump
 rm -f  Utilities/DBLoad
 rm -f  Utilities/DBSCheck
+rm -f  Utilities/GetNodeIds
 rm -f  Utilities/GrepSites
 rm -f  Utilities/FileDeleteTMDB
 rm -f  Utilities/LinkNew
@@ -72,7 +75,14 @@ rm -f  Utilities/MakeDailyStats
 rm -f  Utilities/netmon
 rm -f  Utilities/NodeNew
 rm -f  Utilities/NodeRemove
+rm -f  Utilities/RequestAdministartion.pl
+rm -f  Utilities/RequestPhEDExContactUsercert.py
+rm -f  Utilities/RoleMap.txt
+rm -f  Utilities/RoleMapper.pl
+rm -f  Utilities/RouterControl
 rm -f  Utilities/RunTest
+rm -f  Utilities/spacecount
+rm -f  Utilities/stacc
 rm -rf Utilities/testSpace
 rm -f  Utilities/WordMunger
 rm -f  Utilities/WebServiceWrite.pl

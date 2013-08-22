@@ -27,8 +27,6 @@ Provides: perl(DB_File)
 Provides: perl(Date::Manip)
 Provides: perl(XML::LibXML)
 
-# Fake for obsolete CLI/SiteDataInfo.pm
-Provides: perl(XML::Twig)
 # Fake provide of twitter client; needs to be installed manually
 Provides: perl(Net::Twitter::Lite)
 
@@ -70,15 +68,26 @@ rm -rf Toolkit/Verify
 rm -rf Toolkit/DropBox
 rm -rf Utilities/AgentFactory.pl
 rm -rf Utilities/AgentMon.pl                                                
+rm -f  Utilities/AuthMap.txt
+rm -f  Utilities/AuthMapper.pl
+rm -f  Utilities/CheckPhEDExContactUsercert.py
 rm -rf Utilities/CMSSWMigrate
 rm -rf Utilities/DBDump
 rm -rf Utilities/DBLoad
 rm -rf Utilities/DropStatus
 rm -rf Utilities/FillNames
+rm -f  Utilities/GetNodeIds
 rm -rf Utilities/GrepSites
 rm -rf Utilities/ping-watchdog.pl
-rm -rf Utilities/testSpace
+rm -f  Utilities/RequestAdministartion.pl
+rm -f  Utilities/RequestPhEDExContactUsercert.py
+rm -f  Utilities/RoleMap.txt
+rm -f  Utilities/RoleMapper.pl
+rm -f  Utilities/RouterControl
+rm -f  Utilities/spacecount
+rm -f  Utilities/stacc
 rm -rf Utilities/stagercp
+rm -rf Utilities/testSpace
 rm -rf Utilities/WordMunger
 rm -rf Utilities/wrapper_rfcp
 rm -f  Utilities/WebServiceWrite.pl
