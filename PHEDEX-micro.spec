@@ -50,6 +50,7 @@ rm -rf Documentation/WhitePapers
 rm -rf Migration
 rm -rf perl_lib/DMWMMON
 rm -f  perl_lib/PHEDEX/CLI/FakeAgent.pm
+rm -f  perl_lib/PHEDEX/CLI/SiteDataInfo.pm
 rm -rf perl_lib/PHEDEX/Testbed
 rm -rf perl_lib/PHEDEX/Web/API
 rm -rf perl_lib/PHEDEX/Web/{C,D,F,U}*
