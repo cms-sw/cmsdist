@@ -23,6 +23,7 @@ Patch0: castor-2.1.13.6-fix-pthreads-darwin
 Patch1: castor-2.1.13.6-fix-memset-in-showqueues
 Patch2: castor-2.1.13.9-fix-arm-m32-option
 Patch3: castor-2.1.13.9-fix-arm-type-limits
+Patch4: castor-2.1.13.9-fix-link-libuuid
 
 %if %isonline
 Requires: onlinesystemtools
@@ -46,6 +47,7 @@ Provides: libshift.so.%(echo %realversion |cut -d. -f1,2)%{libsuffix}
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 case %cmsplatf in
   *_gcc4[012345]*) ;;
