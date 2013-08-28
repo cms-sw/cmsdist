@@ -1,10 +1,15 @@
-### RPM cms PHEDEX-micro PHEDEX_4_1_3
+### RPM cms PHEDEX-micro 4.1.3
 
 ## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
-%define gittag 7572e79f0925d593180e1b6a62e2ae1ae29c0f39
-Source: git://github.com/dmwm/PHEDEX?obj=master/%gittag&export=%n&output=/%{downloadn}-micro.tar.gz
+%define downloadp %(echo %n | cut -f2 -d- | tr '[a-z]' '[A-Z]')
+%define downloadt %(echo %realversion | tr '.' '_')
+%define setupdir  %{downloadn}-%{downloadn}_%{downloadt}
+Source: https://github.com/dmwm/PHEDEX/archive/%{downloadn}_%{downloadt}.tar.gz
+
+#%define gittag 7572e79f0925d593180e1b6a62e2ae1ae29c0f39
+#Source: git://github.com/dmwm/PHEDEX?obj=master/%gittag&export=%n&output=/%{downloadn}-micro.tar.gz
 
 # Oracle libs
 Requires: oracle oracle-env
@@ -32,7 +37,7 @@ Provides: perl(Net::Twitter::Lite)
 
 %prep
 
-%setup -n %{downloadn}-micro
+%setup -n %{setupdir}
 rm -rf Build
 rm -rf Contrib
 rm -rf Custom/Template/*
