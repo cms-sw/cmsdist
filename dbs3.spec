@@ -11,7 +11,7 @@ Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore&out
 Source1: %svnserver/DBS/tags/%cvstag?scheme=svn+ssh&strategy=export&module=DBS&output=/%{n}.tar.gz
 
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui
-Requires: py2-cjson py2-mysqldb py2-cx-oracle dbs3-pycurl-client rotatelogs
+Requires: py2-cjson py2-mysqldb py2-cx-oracle py2-docutils dbs3-pycurl-client rotatelogs
 BuildRequires: py2-sphinx
 
 %prep
