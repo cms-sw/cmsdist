@@ -15,6 +15,7 @@ Requires: openssl-toolfile
 Requires: sqlite-toolfile
 Requires: libuuid-toolfile
 Requires: zlib-toolfile
+Requires: bz2lib-toolfile
 Requires: cppunit-toolfile
 Requires: xerces-c-toolfile
 %if %isamd64
