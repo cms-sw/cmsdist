@@ -19,6 +19,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/tauolapp.xml
   </client>
   <use name="hepmc"/>
   <use name="f77compiler"/>
+  <use name="pythia8"/>
+  <use name="lhapdf"/>
 </tool>
 EOF_TOOLFILE
 
