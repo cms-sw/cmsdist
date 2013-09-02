@@ -45,6 +45,9 @@ do
     $cmd --notation-map=$amap >> $map_file
     $cmd --presentation-map=$amap >> $map_file
 done
+cat $map_file | grep -v "###" > $map_file.tmp
+rm -f $map_file
+mv $map_file.tmp $map_file
 rm -f $dir/*.yml
 rm -rf src/python/DAS/services/maps
 
