@@ -109,6 +109,8 @@ Requires: llvm-gcc-toolfile
 Requires: icc-gcc-toolfile
 Requires: cvs2git-toolfile
 Requires: cgal-toolfile
+Requires: pacparser-toolfile
+Requires: git-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
