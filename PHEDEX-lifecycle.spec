@@ -37,6 +37,7 @@ Provides: perl(T0::Util)
 %prep
 %setup -n %{setupdir}
 tar zxf %_sourcedir/T0.tar.gz
+rm Testbed/AutomatedTesting/check_API.pl
 
 %build
 %install
