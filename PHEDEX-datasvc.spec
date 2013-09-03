@@ -1,8 +1,14 @@
-### RPM cms PHEDEX-datasvc 2.3.16
+### RPM cms PHEDEX-datasvc 2.3.17
 ## INITENV +PATH PERL5LIB %i/perl_lib
+
 %define downloadn %(echo %n | cut -f1 -d-)
-%define gittag PHEDEX-datasvc%(echo %realversion | tr . _)
-Source: git://github.com/dmwm/PHEDEX?obj=PHEDEX-datasvc/62874fa45c9a73c78d9600beb41c8cbe7661fda4&export=%n&output=/%n.tar.gz
+%define downloadp %(echo %n | cut -f2 -d- | tr '[a-z]' '[A-Z]')
+%define downloadt %(echo %realversion | tr '.' '_')
+%define setupdir  %{downloadn}-%{downloadp}_%{downloadt}
+Source: https://github.com/dmwm/PHEDEX/archive/%{downloadp}_%{downloadt}.tar.gz
+
+#%define gittag f4f8c2b470201dd47b31845e434e7756f64b8f32
+#Source: git://github.com/dmwm/PHEDEX?obj=PHEDEX-datasvc/%gittag&export=%n&output=/%n.tar.gz
 
 # For DB Access
 Requires: oracle oracle-env p5-dbi p5-dbd-oracle
@@ -26,7 +32,7 @@ Provides: perl(XML::LibXML)
 Provides: perl(URI::Escape)
 
 %prep
-%setup -n PHEDEX-datasvc
+%setup -n %{setupdir}
 
 %build
 %install
