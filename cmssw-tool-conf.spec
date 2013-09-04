@@ -117,6 +117,7 @@ Requires: nspr-toolfile
 Requires: nss-toolfile
 Requires: cgal-toolfile
 Requires: doxygen-toolfile
+Requires: py2-python-dateutil-toolfile
 
 # Only for Linux platform.
 %if %islinux
