@@ -121,6 +121,7 @@ Requires: pacparser-toolfile
 Requires: git-toolfile
 Requires: cgal-toolfile
 Requires: doxygen-toolfile
+Requires: py2-python-dateutil-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
