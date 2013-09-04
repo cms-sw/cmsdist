@@ -1,4 +1,4 @@
-### RPM external gdb 7.6
+### RPM external gdb 7.6.1
 Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.bz2
 Patch0: gdb-7.6-fix-pythonhome
 Requires: python ncurses zlib xz expat

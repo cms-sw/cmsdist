@@ -17,6 +17,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cascade.xml
   <architecture name="slc[^_]*_[^_]*_gcc4[4-9]">
     <lib name="cascade_merged"/>
   </architecture>
+  <architecture name="^fc">
+    <lib name="cascade_merged"/>
+  </architecture>
   <architecture name="osx">
     <lib name="cascade_merged"/>
   </architecture>
