@@ -1,15 +1,16 @@
-### RPM external xrootd 3.3.3
+### RPM external xrootd 3.2.4
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
-Source: http://xrootd.org/download/v%{realversion}/%{n}-%{realversion}.tar.gz
+Source: http://xrootd.cern.ch/cgi-bin/cgit.cgi/xrootd/snapshot/%n-%{realversion}.tar.gz
+Patch0: xrootd-gcc44
 Patch1: xrootd-5.30.00-fix-gcc46
-Patch2: xrootd-3.1.0-fixed-library-location-all-os
-Patch3: xrootd-3.1.0-client-send-moninfo
-Patch4: xrootd-3.3.3-rc1-add-GetHandle-XrdClientAbs-header
-Patch5: xrootd-3.1.0-narrowing-conversion
-Patch6: xrootd-3.3.3-rc1-rename-macos-to-apple
-Patch7: xrootd-3.3.3-rc1-gcc47
+Patch3: xrootd-3.1.0-fixed-library-location-all-os
+Patch4: xrootd-3.1.0-client-send-moninfo
+Patch5: xrootd-3.1.0-gcc-470-literals-whitespace
+Patch6: xrootd-3.1.0-add-GetHandle-XrdClientAbs-header
+Patch7: xrootd-3.1.0-narrowing-conversion
+Patch8: xrootd-3.2.3-rename-macos-to-apple
 
 BuildRequires: cmake
 %if "%online" != "true"
@@ -25,13 +26,14 @@ Requires: gcc openssl
 
 %prep 
 %setup -n %n-%{realversion}
+%patch0 -p1
 %patch1 -p1
-%patch2 -p0
-%patch3 -p1
+%patch3 -p0
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 # need to fix these from xrootd git
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
