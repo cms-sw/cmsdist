@@ -29,10 +29,6 @@
     false ;\
   fi
 
-%if "%{?PartialBootstrapPatch:set}" == "set"
-%define                       PartialBootstrapPatch   %{nil}
-%endif
-
 %define PatchReleaseLink \
   for SUBSYS in `ls -d %{parent_release_fpath}/$DIR/*`; do \
     if [ -d $SUBSYS ] ; then \
