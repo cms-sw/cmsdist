@@ -4,22 +4,18 @@
 %define ucprojtype  	CMSSW
 %define lcproject       %(echo %n | sed -e "s|-patch||")
 %define ucproject       %(echo %lcproject | tr 'a-z' 'A-Z')
+%define cvssrc          %ucprojtype
 
+%if "%{lcproject}" == "%{n}"
 %define buildsetfile    %{lcproject}_build_set
 # Sources from 5 over are copied in the %%_sourcedir directly.
 # No need to use additional macros, since we do not need
 # to %setup them.
 Source5: %buildsetfile
-Source6: partial.py
-
-%define cvssrc          %ucprojtype
 %if "%{?cvstag:set}" != "set"
 %define cvstag	  %(echo %realversion | sed -e "s|_%{ucproject}.*||")
 %endif
-
+%define source1         git://github.com/cms-sw/cmssw.git?protocol=https&obj=%{branch}/%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 %define PartialBootstrapPatch \
   perl -p -i -e 'if (s/(<download.*)(file:%{srctree})(.*)(name="%{srctree})("\\/>)/#$1$2$3$4$5/){open $fh,"%{_sourcedir}/%{buildsetfile}" or die; while(readline $fh){chomp;print "$1$2/$_$3$4/$_$5\\n"}}' config/bootsrc.xml
-
-%define PartialReleasePackageList \
-  chmod +x %{_sourcedir}/partial.py;\
-  %{_sourcedir}/partial.py %{_sourcedir}/%buildsetfile %{_builddir}/%{srctree}/PackageList.cmssw %{srctree}/PackageList.cmssw
+%endif
