@@ -1,5 +1,5 @@
 ### RPM cms PHEDEX 4.1.3
-
+# Dummy line to force a rebuild
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define downloadp %(echo %downloadn)
@@ -16,7 +16,7 @@ Requires: oracle oracle-env
 Requires: p5-time-hires p5-text-glob p5-compress-zlib p5-dbi
 Requires: p5-dbd-oracle p5-xml-parser p5-monalisa-apmon p5-poe
 Requires: p5-poe-component-child p5-log-log4perl p5-log-dispatch
-Requires: p5-log-dispatch-filerotate p5-params-validate
+Requires: p5-log-dispatch-filerotate p5-params-validate p5-json-xs
 # Actually, it is p5-xml-parser that requires this, but it doesn't configure itself correctly
 # This is so it gets into our dependencies-setup.sh
 Requires: expat
@@ -50,6 +50,8 @@ rm -rf Migration
 rm -rf perl_lib/DMWMMON
 rm -f  perl_lib/PHEDEX/CLI/FakeAgent.pm
 rm -f  perl_lib/PHEDEX/CLI/SiteDataInfo.pm
+rm -f  perl_lib/PHEDEX/Core/Mail.pm
+rm -rf perl_lib/PHEDEX/Schema
 rm -rf perl_lib/PHEDEX/Testbed
 rm -rf perl_lib/PHEDEX/Web/API
 rm -rf perl_lib/PHEDEX/Web/{C,D,F,U}*

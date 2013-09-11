@@ -1,5 +1,5 @@
 ### RPM cms PHEDEX-micro 4.1.3
-
+# Dummy line to force a rebuild
 ## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -17,7 +17,7 @@ Requires: oracle oracle-env
 Requires: p5-time-hires p5-text-glob p5-compress-zlib p5-dbi
 Requires: p5-dbd-oracle p5-xml-parser p5-poe p5-poe-component-child
 Requires: p5-log-log4perl p5-log-dispatch p5-log-dispatch-filerotate
-Requires: p5-params-validate p5-monalisa-apmon
+Requires: p5-params-validate p5-monalisa-apmon pr-json-xs
 # CMS COMP clients
 Requires: dbs-client
 # Etc.
@@ -56,6 +56,8 @@ rm -rf Migration
 rm -rf perl_lib/DMWMMON
 rm -f  perl_lib/PHEDEX/CLI/FakeAgent.pm
 rm -f  perl_lib/PHEDEX/CLI/SiteDataInfo.pm
+rm -f  perl_lib/PHEDEX/Core/Mail.pm
+rm -rf perl_lib/PHEDEX/Schema
 rm -rf perl_lib/PHEDEX/Testbed
 rm -rf perl_lib/PHEDEX/Web/API
 rm -rf perl_lib/PHEDEX/Web/{C,D,F,U}*

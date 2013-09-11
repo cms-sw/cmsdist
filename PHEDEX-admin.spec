@@ -1,5 +1,5 @@
 ### RPM cms PHEDEX-admin 4.1.3
-
+# Dummy line to force a rebuild
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define downloadp %(echo %n | cut -f2 -d- | tr '[a-z]' '[A-Z]')

@@ -1,4 +1,5 @@
 ### RPM cms PHEDEX-datasvc 2.3.17
+# Dummy line to force a rebuild
 ## INITENV +PATH PERL5LIB %i/perl_lib
 
 %define downloadn %(echo %n | cut -f1 -d-)
