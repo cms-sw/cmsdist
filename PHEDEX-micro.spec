@@ -17,7 +17,7 @@ Requires: oracle oracle-env
 Requires: p5-time-hires p5-text-glob p5-compress-zlib p5-dbi
 Requires: p5-dbd-oracle p5-xml-parser p5-poe p5-poe-component-child
 Requires: p5-log-log4perl p5-log-dispatch p5-log-dispatch-filerotate
-Requires: p5-params-validate p5-monalisa-apmon pr-json-xs
+Requires: p5-params-validate p5-monalisa-apmon p5-json-xs
 # CMS COMP clients
 Requires: dbs-client
 # Etc.
