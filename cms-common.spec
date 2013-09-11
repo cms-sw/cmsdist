@@ -82,9 +82,8 @@ if [ "$VO_CMS_SW_DIR" != ""  ]
 then
     here=$VO_CMS_SW_DIR
 else
-    if [ "$OSG_APP" != "" ]
-    then
-        here=$OSG_APP/cmssoft/cms
+    if [ ! "X$OSG_APP" = "X" ] && [ -d "$OSG_APP/cmssoft/cms" ]; then
+        here="$OSG_APP/cmssoft/cms"
     fi
 fi
 
