@@ -1,5 +1,4 @@
 ### RPM cms PHEDEX-micro 4.1.3
-# Dummy line to force a rebuild
 ## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
