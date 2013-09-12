@@ -2,8 +2,7 @@
 
 %define projectname trackerDAQ
 %define releasename %{projectname}-%{realversion}
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
-Source0: http://cms-trackerdaq-service.web.cern.ch/cms-trackerdaq-service/download/sources/trackerDAQ-2.7.0-9.tgz
+Source0: http://cms-trackerdaq-service.web.cern.ch/cms-trackerdaq-service/download/sources/trackerDAQ-2.7.0-10.tgz
 Patch0: tkonlinesw-2.7.0-macosx
 Patch1: tkonlinesw-2.7.0-fix-gcc46
 
@@ -17,17 +16,10 @@ Source1: tkonlinesw-cmake-build
 Requires: cmake
 %endif
 
-# Note from Kristian: 
-# xdaq dependency is here only to re-use its makefiles. 
-%if "%online" != "true"
 Requires: oracle
 Requires: xerces-c
-Requires: xdaq
 Requires: gmake
 Requires: systemtools
-%else
-Requires: onlinesystemtools
-%endif
 
 %prep
 %setup -q -n %releasename
@@ -56,6 +48,7 @@ export ENV_TRACKER_DAQ=%{_builddir}/%releasename/opt/trackerDAQ
 ################################################################################
 # Tracker Specific Definitions for compilation
 ################################################################################
+export XDAQ_ROOT=$PWD/FecSoftwareV3_0/generic
 export XDAQ_RPMBUILD=yes
 export USBFEC=no
 export PCIFEC=yes
