@@ -2,9 +2,9 @@
 title: CMSDIST
 layout: default
 related:
- - { name: Home, link: index.html }
- - { name: Project, link: https://github.com/cms-sw/cmsdist}
- - { name: Feedback, link: https://github.com/cms-sw/cmsdist/issues/new }
+ - { name: Home, link: "index.html" }
+ - { name: Project, link: "https://github.com/cms-sw/cmsdist" }
+ - { name: Feedback, link: "https://github.com/cms-sw/cmsdist/issues/new" }
 ---
 * Check the last lines of screenlog.0 log. If cmsBuild reported the errors,
       investigate and start again from the beginning.

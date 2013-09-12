@@ -2,9 +2,9 @@
 title: CMSDIST
 layout: default
 related:
- - { name: Home, link: index.html }
- - { name: Project, link: https://github.com/cms-sw/cmsdist}
- - { name: Feedback, link: https://github.com/cms-sw/cmsdist/issues/new }
+ - { name: Home, link: "index.html" }
+ - { name: Project, link: "https://github.com/cms-sw/cmsdist" }
+ - { name: Feedback, link: "https://github.com/cms-sw/cmsdist/issues/new" }
 ---
 
 This is the documentation page for CMSDIST, CMS SW distribution recipes.
@@ -76,21 +76,23 @@ repository, you'll need it to propose your changes.
 
 0) Setup initial parameters:
 
-    export CVSROOT=:gserver:cmssw.cvs.cern.ch:/local/reps/CMSSW
     CMSSW=<RELEASE>
     # CMSSW=CMSSW_5_2_X
     # CMSSW=CMSSW_5_3_X
     # CMSSW=CMSSW_6_1_X
     # CMSSW=CMSSW_6_2_X
+    # CMSSW=CMSSW_7_0_X
     ARCH=<ARCH>
     # ARCH=slc5_amd64_gcc462
     # ARCH=slc5_amd64_gcc472
+    # ARCH=slc5_amd64_gcc481
     # ARCH=slc6_amd64_gcc472
-    # ARCH=slc6_amd64_gcc480
+    # ARCH=slc6_amd64_gcc481
     # ARCH=osx106_amd64_gcc462
     # ARCH=osx107_amd64_gcc462
     # ARCH=osx107_amd64_gcc472
     # ARCH=osx108_amd64_gcc472
+    # ARCH=osx108_amd64_gcc481
 
     # Set the partition used for building.
     # Partition depends on the machine (/build1 and /build might be available on Linux,
@@ -104,12 +106,15 @@ repository, you'll need it to propose your changes.
 
       HERE=${BUILDDIR}/${USER}
       DATETIME=$(date +'%Y%m%d_%H%M')
-      URL="https://raw.github.com/cms-sw/cmsdist/IB/$CMSSW/stable/config.map"
-      eval $(curl -s -k "${URL}" | grep $ARCH)
       TOPDIR=${HERE}/ext/${CMSSW}/${DATETIME}
       mkdir -p $TOPDIR
       cd $TOPDIR
-      git clone -b $CMSDIST_TAG git@github.com:cms-sw/cmsdist.git CMSDIST
+      git clone git@github.com:cms-sw/cmsdist.git CMSDIST
+      pushd CMSDIST
+        git checkout IB/$CMSSW/stable config.map
+        eval $(cat config.map | grep $ARCH)
+        git checkout $CMSDIST_TAG
+      popd
       git clone -b $PKGTOOLS_TAG git@github.com:cms-sw/pkgtools.git PKGTOOLS
 
 2) Edit CMSDIST, build and test the external:
