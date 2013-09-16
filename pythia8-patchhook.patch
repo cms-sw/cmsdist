@@ -1,0 +1,45 @@
+diff -Naur 153/include/UserHooks.h 153M/include/UserHooks.h
+--- 153/include/UserHooks.h	2011-08-08 10:29:30.000000000 +0200
++++ 153M/include/UserHooks.h	2013-08-24 23:10:37.000000000 +0200
+@@ -129,7 +129,7 @@
+   // Decide whether to veto current emission or not, based on event record.
+   // Usage: doVetoISREmission( sizeOld, event) where sizeOld is size
+   // of event record before current emission-to-be-scrutinized was added. 
+-  virtual bool doVetoISREmission( const int, const Event& ) {return false;} 
++  virtual bool doVetoISREmission( const int, const Event&, int) {return false;} 
+ 
+   // Possibility to veto an emission in the FSR machinery.
+   virtual bool canVetoFSREmission() {return false;}
+@@ -137,7 +137,7 @@
+   // Decide whether to veto current emission or not, based on event record.
+   // Usage: doVetoFSREmission( sizeOld, event) where sizeOld is size
+   // of event record before current emission-to-be-scrutinized was added. 
+-  virtual bool doVetoFSREmission( const int, const Event& ) {return false;} 
++  virtual bool doVetoFSREmission( const int, const Event&, int, bool=false ) {return false;} 
+ 
+ protected:
+ 
+diff -Naur 153/src/SpaceShower.cc 153M/src/SpaceShower.cc
+--- 153/src/SpaceShower.cc	2011-08-08 10:29:31.000000000 +0200
++++ 153M/src/SpaceShower.cc	2013-08-24 22:54:57.000000000 +0200
+@@ -1441,7 +1441,7 @@
+ 
+   // Allow veto of branching. If so restore event record to before emission.
+   if ( canVetoEmission 
+-    && userHooksPtr->doVetoISREmission(eventSizeOld, event) ) {
++    && userHooksPtr->doVetoISREmission(eventSizeOld, event, iSysSel) ) {
+     event.popBack( event.size() - eventSizeOld); 
+     event[1].daughter1( ev1dau1V);
+     event[2].daughter1( ev2dau1V);
+diff -Naur 153/src/TimeShower.cc 153M/src/TimeShower.cc
+--- 153/src/TimeShower.cc	2011-08-08 10:29:31.000000000 +0200
++++ 153M/src/TimeShower.cc	2013-08-24 22:56:33.000000000 +0200
+@@ -1847,7 +1847,7 @@
+ 
+   // Allow veto of branching. If so restore event record to before emission.
+   if ( canVetoEmission 
+-    && userHooksPtr->doVetoFSREmission(eventSizeOld, event) ) {
++    && userHooksPtr->doVetoFSREmission(eventSizeOld, event, iSysSel) ) {
+     event.popBack( event.size() - eventSizeOld);
+     event[iRadBef].status( iRadStatusV);
+     event[iRadBef].daughters( iRadDau1V, iRadDau2V);
