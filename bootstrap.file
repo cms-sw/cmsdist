@@ -1,5 +1,4 @@
 #!/bin/bash
-# Revision: $Revision: 1.81 $
 
 set -e
 
@@ -426,9 +425,11 @@ generateSeedSpec () {
       if which rpm 2>&1 >/dev/null && [ "$(rpm -qa 2>&1 | grep 'use alien')" = "" ]
       then
     	  [ "X$verbose" = Xtrue ] && echo && echo "...rpm found in $(which rpm), using it to seed the database." >&2
+          MISSING_SEED=false
           for p in $requiredSeeds; do 
-              rpm -q $p >/dev/null || { echo "Required package $p is missing." ; exit 1; }
+              rpm -q $p >/dev/null || { echo "Required package $p is missing." ; MISSING_SEED=true; }
           done
+          $MISSING_SEED && exit 1
     	  for p in $seed; do
               rpm -q $p --provides | sed 's!<*=.*!!; s!^!Provides: !' || true
               rpm -q $p --list | fgrep .so | fgrep -v -e /lib/. -e /lib64/. | sed 's!^.*/!Provides: !' || true
@@ -479,6 +480,9 @@ fi
 
 # Fetch the required RPMS for RPM and APT from the server and install them using rpmcpio
 export DOWNLOAD_DIR=$rootdir/bootstraptmp/BOOTSTRAP
+if [ -d $rootdir/bootstraptmp ]; then
+  rm -rf $rootdir/bootstraptmp/*
+fi
 mkdir -p $DOWNLOAD_DIR
 cd $DOWNLOAD_DIR
 downloadPath=$server/$server_main_dir/$repository/RPMS/$cmsplatf

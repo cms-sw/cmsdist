@@ -1,12 +1,13 @@
-### RPM external nss 3.14.3
+### RPM external nss 3.12.9
 %define release_version %(echo "%{realversion}" | tr . _)_RTM
 Source: https://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_%{release_version}/src/%{n}-%{realversion}.tar.gz
 Requires: nspr sqlite
-Patch0: nss-3.14.3-add-SQLITE-LIBS-DIR
-Patch1: nss-3.14.3-add-ZLIB-LIBS-DIR-and-ZLIB-INCLUDE-DIR
+Patch0: nss-3.12.6-remove-appleisms
+Patch1: nss-3.12.9-add-ZLIB-LIBS-DIR-and-ZLIB-INCLUDE-DIR
+Patch2: nss-3.12.9-add-SQLITE-LIBS-DIR
 
 %define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
-%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+%define isamd64 %(case %{cmsplatf} in (*amd64*|*_mic_*) echo 1 ;; (*) echo 0 ;; esac)
 
 %if %isnotonline
 Requires: zlib
@@ -18,6 +19,7 @@ Requires: onlinesystemtools
 %setup -n %{n}-%{realversion}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 export NSPR_INCLUDE_DIR="${NSPR_ROOT}/include/nspr"
