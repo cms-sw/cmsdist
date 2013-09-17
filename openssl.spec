@@ -1,6 +1,11 @@
 ### RPM external openssl 0.9.8e__1.0.1
 %define slc_version 0.9.8e
 %define generic_version 1.0.1
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+Provides: libcrypt.so.1(GLIBC_2.14)(64bit)
+%endif
 Source0: http://www.openssl.org/source/%{n}-%{generic_version}.tar.gz
 Source1: http://cmsrep.cern.ch/cmssw/openssl-sources/%{n}-fips-%{slc_version}-usa.tar.bz2
 Patch0: openssl-0.9.8e-rh-0.9.8e-12.el5_4.6
@@ -30,9 +35,15 @@ Patch1: openssl-x86-64-gcc420
 # fooled by linux32). A quick fix is to just set the variable
 # to "" but we should probably understand how rpm determines
 # those flags and use them for our own good.
+%if "%mic" == "true"
+RPM_OPT_FLAGS="-O2 -fPIC -g -pipe -Wall -Wa,--noexecstack -fno-strict-aliasing \
+               -Wp,-DOPENSSL_USE_NEW_FUNCTIONS -Wp,-D_FORTIFY_SOURCE=2 -fexceptions \
+               --param=ssp-buffer-size=4"
+%else
 RPM_OPT_FLAGS="-O2 -fPIC -g -pipe -Wall -Wa,--noexecstack -fno-strict-aliasing \
                -Wp,-DOPENSSL_USE_NEW_FUNCTIONS -Wp,-D_FORTIFY_SOURCE=2 -fexceptions \
                -fstack-protector --param=ssp-buffer-size=4"
+%endif
 
 case "%{cmsplatf}" in
   *armv7*)
@@ -46,6 +57,9 @@ esac
 export RPM_OPT_FLAGS
 
 case "%{cmsplatf}" in
+  *_mic_*)
+    cfg_args="fipscanisterbuild -mmic"
+   ;;
   osx*)
     export KERNEL_BITS=64 # used by config to decide 64-bit build
     cfg_args="-DOPENSSL_USE_NEW_FUNCTIONS"
@@ -67,12 +81,22 @@ case "%{cmsplatf}" in
     ;;
 esac
 
+%if "%mic" == "true"
+sed -i -e 's| gcc *$|icc|g' Makefile
+%endif
+sed -i -e 's|#SET_X=|SET_X=|' Makefile.shared
 make
 
 %install
+%if "%mic" == "true"
+RPM_OPT_FLAGS="-O2 -fPIC -g -pipe -Wall -Wa,--noexecstack -fno-strict-aliasing \
+               -Wp,-DOPENSSL_USE_NEW_FUNCTIONS -Wp,-D_FORTIFY_SOURCE=2 -fexceptions \
+               --param=ssp-buffer-size=4"
+%else
 RPM_OPT_FLAGS="-O2 -fPIC -g -pipe -Wall -Wa,--noexecstack -fno-strict-aliasing \
                -Wp,-DOPENSSL_USE_NEW_FUNCTIONS -Wp,-D_FORTIFY_SOURCE=2 -fexceptions \
                -fstack-protector --param=ssp-buffer-size=4"
+%endif
 
 case "%{cmsplatf}" in
   *armv7*)

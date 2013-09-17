@@ -1,8 +1,12 @@
 ### RPM external libpng 1.6.0
 Source: http://download.sourceforge.net/%{n}/%{n}-%{realversion}.tar.gz
 %define online %(case %{cmsplatf} in (*onl_*_*) echo true;; (*) echo false;; esac)
-
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+%else
 BuildRequires: cmake
+%endif
 
 %if "%{online}" != "true"
 Requires: zlib
@@ -14,13 +18,23 @@ Requires: onlinesystemtools
 %setup -n %{n}-%{realversion}
  
 %build
+%if "%mic" == "true"
+cmake . \
+  -DCMAKE_CXX_COMPILER="icpc" \
+  -DCMAKE_CXX_FLAGS="-fPIC -mmic" \
+  -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
+  -DBUILD_SHARED_LIBS=YES \
+  -DZLIB_ROOT:PATH=${ZLIB_ROOT} \
+  -DCMAKE_SKIP_RPATH=YES \
+  -DSKIP_INSTALL_FILES=1
+%else
 cmake . \
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
   -DBUILD_SHARED_LIBS=YES \
   -DZLIB_ROOT:PATH=${ZLIB_ROOT} \
   -DCMAKE_SKIP_RPATH=YES \
   -DSKIP_INSTALL_FILES=1
-
+%endif
 make %{makeprocesses} VERBOSE=1
 
 %install

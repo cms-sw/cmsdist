@@ -1,4 +1,8 @@
 ### RPM external fftw3 3.3.2
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+%endif
 Source: http://www.fftw.org/fftw-%{realversion}.tar.gz
 
 %prep
@@ -10,8 +14,8 @@ CONFIG_ARGS="--with-pic --enable-shared --enable-threads --disable-fortran
              --prefix=%{i} --build=%{_build} --host=%{_host}"
 
 case "%{cmsplatf}" in
-  *amd64*)
-    CONFIG_ARGS="${CONFIG_ARGS} --enable-sse2"
+  *amd64*|*_mic_*)
+    CONFIG_ARGS="${CONFIG_ARGS} --enable-sse2 "
   ;;
 #  *armv7hl*)
 #    CONFIG_ARGS="${CONFIG_ARGS} --enable-neon --enable-float"

@@ -1,8 +1,13 @@
 ### RPM lcg roofit 5.34.09
 %define tag %(echo v%{realversion} | tr . -)
 %define branch %(echo %{realversion} | sed 's/\\.[0-9]*$/.00/;s/^/v/;s/$/-patches/g;s/\\./-/g')
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+BuildRequires: rootcint-mic
+%endif
 Source0: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-Source1: roofit-5.28.00-build.sh
+Source1: roofit-5.34.07-build.sh
 
 Patch0: root-5.28-00d-roofit-silence-static-printout
 Patch1: roofit-5.24-00-RooFactoryWSTool-include
@@ -40,6 +45,11 @@ chmod +x build.sh
 # Remove an extra -m64 from Wouter's build script (in CXXFLAGS and LDFLAGS)
 perl -p -i -e 's|-m64||' build.sh
 perl -p -i -e "s|CXXFLAGS='|CXXFLAGS='%cms_cxxflags |" build.sh
+%if "%mic" == "true"
+export ROOTCINT_MIC_ROOT
+perl -p -i -e 's|g\+\+|icpc -mmic |g' build.sh
+perl -p -i -e 's|histfactory/bin/MakeModelAndMeasurements.cxx||' build.sh
+%endif
 case %cmsplatf in
   osx10[0-9]_* )
 # Change gawk to awk
@@ -54,7 +64,9 @@ mv build/lib %i/
 mkdir %i/include
 cp -r build/inc/* %i/include
 # Change name of one binary by hand
+%if "%mic" != "true"
 mv build/bin/MakeModelAndMeasurements %i/bin/hist2workspace
+%endif
 # On macosx we cannot simply rename libraries and executables.
 case %cmsos in 
   osx*)

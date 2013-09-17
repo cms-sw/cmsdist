@@ -4,6 +4,11 @@
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 %define tag %(echo v%{realversion} | tr . -)
 %define branch %(echo %{realversion} | sed 's/\\.[0-9]*$/.00/;s/^/v/;s/$/-patches/g;s/\\./-/g')
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+BuildRequires: rootcint-mic
+%endif
 Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
@@ -20,11 +25,14 @@ Patch4: root-5.30.02-fix-gcc46
 Patch5: root-5.30.02-fix-isnan-again
 Patch6: root-5.34.05-cintex-armv7a-port
 Patch7: root-5.34.09-ROOT-5437
+Patch8: root-5.34.07-mic
 
 Requires: gccxml gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl
 
 %if %islinux
+%if "%mic" != "true"
 Requires: castor dcap
+%endif
 %endif
 
 %if %isnotonline
@@ -32,6 +40,9 @@ Requires: zlib
 %endif
 
 %if %isdarwin
+Requires: freetype
+%endif
+%if "%mic" == "true"
 Requires: freetype
 %endif
 
@@ -48,6 +59,9 @@ Requires: freetype
 
 %if %isarmv7
 %patch6 -p1
+%endif
+%if "%mic" == "true"
+%patch8 -p0
 %endif
 
 # The following patch can only be applied on SLC5 or later (extra linker
@@ -77,10 +91,52 @@ EXTRA_CONFIG_ARGS="--with-f77=/usr
              --disable-odbc --disable-astiff"
 %else
 export LIBPNG_ROOT ZLIB_ROOT LIBTIFF_ROOT LIBUNGIF_ROOT
+%if "%mic" != "true"
 EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}"
+%else
+export ROOTCINT_MIC_ROOT
+%endif
 %endif
 LZMA=${XZ_ROOT}
 export LZMA
+%if "%mic" == "true"
+CONFIG_ARGS="--enable-table 
+             --disable-builtin-pcre
+             --disable-builtin-freetype
+             --disable-builtin-zlib
+             --with-gccxml=${GCCXML_ROOT} 
+             --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include/python${PYTHONV}
+             --enable-explicitlink 
+             --enable-mathmore
+             --enable-reflex  
+             --enable-cintex 
+             --enable-minuit2
+             --disable-builtin-lzma
+             --enable-fftw3
+             --with-fftw3-incdir=${FFTW3_ROOT}/include
+             --with-fftw3-libdir=${FFTW3_ROOT}/lib
+             --with-ssl-incdir=${OPENSSL_ROOT}/include
+             --with-ssl-libdir=${OPENSSL_ROOT}/lib
+             --disable-ldap
+             --disable-krb5
+             --with-xrootd=${XROOTD_ROOT}
+             --with-gsl-incdir=${GSL_ROOT}/include
+             --with-gsl-libdir=${GSL_ROOT}/lib
+             --disable-pgsql
+             --disable-mysql
+             --enable-c++11
+             --with-cxx=icc
+             --with-cc=icc
+             --with-f77=ifort
+             --disable-x11 --disable-xft
+             --disable-qt --disable-qtgsi
+             --with-cint-maxstruct=36000
+             --with-cint-maxtypedef=36000
+             --with-cint-longline=4096
+             --disable-hdfs
+             --disable-oracle ${EXTRA_CONFIG_ARGS}
+             --disable-rfio --disable-builtin_afterimage"
+%else
 CONFIG_ARGS="--enable-table 
              --disable-builtin-pcre
              --disable-builtin-freetype
@@ -115,7 +171,7 @@ CONFIG_ARGS="--enable-table
              --with-cint-longline=4096
              --disable-hdfs
              --disable-oracle ${EXTRA_CONFIG_ARGS}"
-
+%endif
 # Add support for GCC 4.6
 sed -ibak 's/\-std=c++11/-std=c++0x/g' \
   configure \
@@ -124,7 +180,8 @@ sed -ibak 's/\-std=c++11/-std=c++0x/g' \
   config/Makefile.macosx \
   config/Makefile.linux \
   config/root-config.in \
-  config/Makefile.linuxx8664gcc 
+  config/Makefile.linuxx8664gcc \
+  config/Makefile.linuxx8664icc
 
 %if %isarmv7
 cp ./cint/iosenum/iosenum.linux3 ./cint/iosenum/iosenum.linuxarm3
@@ -152,10 +209,22 @@ TARGET_PLATF=
 %if %isarmv7
   TARGET_PLATF=linuxarm
 %endif
-
+%if "%mic" == "true"
+TARGET_PLATF=linuxx8664icc
+EXTRA_OPTS=""
+CXX="icc -fPIC -mmic"  CC="icc -fPIC -mmic" ./configure ${TARGET_PLATF} ${CONFIG_ARGS} ${EXTRA_OPTS}
+sed -i -e 's|^EXTRA_LDFLAGS *:=.*|EXTRA_LDFLAGS:=-mmic|' config/Makefile.config
+sed -i -e 's|$(LD) $(LDFLAGS) -o $@ $(RMKDEPO)|$(LD) $(filter-out -mmic,$(LDFLAGS)) -o $@ $(RMKDEPO)|' build/Module.mk
+%else
 ./configure ${TARGET_PLATF} ${CONFIG_ARGS} ${EXTRA_OPTS}
+%endif
 
+%if "%mic" == "true"
+make -k %makeprocesses F77="ifort -fPIC -mmic" CXX="icc -fPIC -mmic -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL= -I${FREETYPE_ROOT}/include -I${ZLIB_ROOT}/include" \
+  CC="icc -fPIC -mmic -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL= -I${ZLIB_ROOT}/include" || true
+%else
 make %makeprocesses CXX="g++ -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL=" CC="gcc -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL="
+%endif
 
 %install
 # Override installers if we are using GNU fileutils cp.  On OS X
@@ -170,12 +239,19 @@ else
 fi
 
 export ROOTSYS=%i
+%if "%mic" == "true"
+mkdir -p %i/cint/cint %i/build
+$cp cint/cint/{include,lib,stl}  %i/cint/cint/
+$cp bin  etc  icons  LICENSE  man  test fonts  include  lib  macros  README  %i/
+$cp build/misc %i/build
+%else
 make INSTALL="$cp" INSTALLDATA="$cp" install
+%endif
 mkdir -p $ROOTSYS/lib/python
 cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
 # This file confuses rpm's find-requires because it starts with
 # a """ and it thinks is the shebang.
-rm -f %i/tutorials/pyroot/mrt.py
+rm -f %i/tutorials/pyroot/mrt.py %i/cint/test/testall.cxx
 
 %post
 %{relocateConfig}bin/root-config

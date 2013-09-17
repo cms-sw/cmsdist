@@ -6,6 +6,7 @@ Patch3: coral-CORAL_2_3_20-hide-strict-aliasing
 Patch4: coral-CORAL_2_3_20-remove-lost-dependencies
 Patch5: coral-CORAL_2_3_21-move-to-libuuid
 
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 %define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
 %define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
@@ -24,6 +25,9 @@ Patch5: coral-CORAL_2_3_21-move-to-libuuid
 # Disable building tests, since they bring dependency on cppunit:
 %if %isdarwin
 %define patchsrc3       perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
+%endif
+%if "%mic" == "true"
+%define patchsrc3       sed -i -e 's|</client>|<architecture name="_mic_"><flags DEFAULT_COMPILER="icc"/></architecture></client>|' config/Self.xml; rm -rf src/OracleAccess
 %endif
 
 %define patchsrc4       %patch5 -p0

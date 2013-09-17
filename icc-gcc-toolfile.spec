@@ -35,7 +35,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
     <use name="gcc-cxxcompiler"/>
     <client>
       <environment name="ICC_CXXCOMPILER_BASE" default="@ICC_ROOT@/installation" handler="warn"/>
-      <environment name="CXX" value="$ICC_CXXCOMPILER_BASE/bin/intel64/icpc" handler="warn"/>
+      <environment name="CXX" value="$ICC_CXXCOMPILER_BASE/bin/icpc" handler="warn"/>
     </client>
     # drop flags not supported by llvm
     # -Wno-non-template-friend removed since it's not supported, yet, by llvm.
@@ -52,11 +52,13 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
     <flags REM_CXXFLAGS="-Wunknown-pragmas"/>
     <flags REM_CXXFLAGS="-ftree-vectorize"/>
     <flags REM_CXXFLAGS="-Wno-unused-local-typedefs"/>
-    <flags REM_CXXFLAGS="-std=c++0x"/>
+    <flags REM_CXXFLAGS="-msse3"/>
     <flags REM_LDFLAGS="-Wl,--icf=all"/>
     <flags CXXFLAGS="-Wno-unknown-pragmas"/>
-    <flags CXXFLAGS="-axSSE3"/>
-    <flags CXXFLAGS="-std=c++11"/>
+    <architecture name="_mic_">
+      <flags CXXFLAGS="-mmic"/>
+      <flags LDFLAGS="-mmic"/>
+    </architecture>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$ICC_CXXCOMPILER_BASE/compiler/lib/intel64" type="path" handler="warn"/>
     <runtime name="PATH" value="$ICC_CXXCOMPILER_BASE/bin/intel64" type="path" handler="warn"/>
     <runtime name="COMPILER_RUNTIME_OBJECTS" value="@GCC_ROOT@" handler="warn"/>
@@ -69,8 +71,11 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-ccompiler.xml
     <use name="gcc-ccompiler"/>
     <client>
       <environment name="ICC_CCOMPILER_BASE" default="@ICC_ROOT@/installation" handler="warn"/>
-      <environment name="CC" value="$ICC_CCOMPILER_BASE/bin/intel64/icc" handler="warn"/>
+      <environment name="CC" value="$ICC_CCOMPILER_BASE/bin/icc" handler="warn"/>
     </client>
+    <architecture name="_mic_">
+      <flags CFLAGS="-mmic"/>
+    </architecture>
   </tool>
 EOF_TOOLFILE
 
@@ -79,8 +84,11 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-f77compiler.xml
     <use name="gcc-f77compiler"/>    
     <client>
       <environment name="ICC_FCOMPILER_BASE" default="@ICC_ROOT@/installation" handler="warn"/>
-      <environment name="FC" default="$ICC_FCOMPILER_BASE/bin/intel64/ifort" handler="warn"/>
+      <environment name="FC" default="$ICC_FCOMPILER_BASE/bin/ifort" handler="warn"/>
     </client>
+    <architecture name="_mic_">
+      <flags FFLAGS="-mmic"/>
+    </architecture>
   </tool>
 EOF_TOOLFILE
 

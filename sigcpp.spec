@@ -1,5 +1,9 @@
 ### RPM external sigcpp 2.2.10
 %define majorv %(echo %realversion | cut -d. -f1,2) 
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+%endif
 Source: http://ftp.gnome.org/pub/GNOME/sources/libsigc++/%{majorv}/libsigc++-%{realversion}.tar.bz2
 
 BuildRequires: autotools
@@ -10,7 +14,14 @@ BuildRequires: autotools
 
 %prep
 %setup -q -n libsigc++-%{realversion}
-./configure --prefix=%{i} --disable-static CXX="%cms_cxx"
+case %{cmsplatf} in
+   *_mic_* )
+    CXX="icpc -fPIC -mmic"  CC="icc -fPIC -mmic" ./configure --prefix=%{i} --disable-static --host=x86_64-k1om-linux
+     ;;
+   * )
+     ./configure --prefix=%{i} --disable-static CXX="%cms_cxx"
+     ;;
+esac
 
 %build
 make %makeprocesses 

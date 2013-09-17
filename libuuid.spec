@@ -1,4 +1,12 @@
 ### RPM external libuuid 2.22.2
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%define host %{_host}
+%define xcompiler %{nil}
+%if "%mic" == "true"
+Requires: icc
+%define host x86_64-k1om-linux
+%define xcompiler CXX="icpc -fPIC -mmic"  CC="icc -fPIC -mmic" 
+%endif
 Source: http://www.kernel.org/pub/linux/utils/util-linux/v2.22/util-linux-%{realversion}.tar.gz
 Patch0: libuuid-2.22.2-disable-get_uuid_via_daemon
 %define keep_archives true
@@ -10,11 +18,11 @@ Patch0: libuuid-2.22.2-disable-get_uuid_via_daemon
 %patch0 -p1
 
 %build
-./configure $([ $(uname) == Darwin ] && echo --disable-shared) \
+%{xcompiler} ./configure $([ $(uname) == Darwin ] && echo --disable-shared) \
             --libdir=%{i}/lib64 \
             --prefix="%{i}" \
             --build="%{_build}" \
-            --host=%{_host} \
+            --host=%{host} \
             --disable-silent-rules \
             --disable-tls \
             --disable-rpath \

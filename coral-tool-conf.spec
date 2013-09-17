@@ -12,6 +12,7 @@ Requires: gcc-toolfile
 Requires: openssl-toolfile
 
 %if %isnotonline
+Requires: icc-gcc-toolfile
 Requires: sqlite-toolfile
 Requires: libuuid-toolfile
 Requires: zlib-toolfile

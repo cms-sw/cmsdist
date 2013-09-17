@@ -1,10 +1,14 @@
 ### RPM external pcre 7.9__8.33
 %define generic_version 7.9
 %define fc_version 8.33
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+%endif
 Source0: http://downloads.sourceforge.net/%{n}/%{n}-%{generic_version}.tar.bz2
 Source1: http://downloads.sourceforge.net/%{n}/%{n}-%{fc_version}.tar.bz2
 
-Requires: bz2lib
+Requires: bz2lib readline
 
 %define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
 %define isfc %(case %{cmsplatf} in (fc*) echo 1 ;; (*) echo 0 ;; esac)
@@ -28,10 +32,18 @@ Requires: zlib
 %endif
 
 %build
-CPPFLAGS="-I${BZ2LIB_ROOT}/include -I${ZLIB_ROOT}/include"
-LDFLAGS="-L${BZ2LIB_ROOT}/lib -L${ZLIB_ROOT}/lib"
-./configure --enable-unicode-properties --enable-pcregrep-libz --enable-pcregrep-libbz2 --prefix=%i \
-  CXX="%cms_cxx" CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}"
+CPPFLAGS="-I${BZ2LIB_ROOT}/include -I${ZLIB_ROOT}/include -I${READLINE_ROOT}/include"
+LDFLAGS="-L${BZ2LIB_ROOT}/lib -L${ZLIB_ROOT}/lib -L${READLINE_ROOT}/lib"
+case %{cmsplatf} in
+   *_mic_* )
+     CXX="icpc -fPIC -mmic"  CC="icc -fPIC -mmic" ./configure --enable-unicode-properties --enable-pcregrep-libbz2 --enable-pcregrep-libbz --prefix=%i \
+     CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}" --host=x86_64-k1om-linux
+     ;;
+   * )
+     ./configure --enable-unicode-properties --enable-pcregrep-libz --enable-pcregrep-libbz2 --prefix=%i \
+     CXX="%cms_cxx" CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}"
+     ;;
+esac
 make
 
 %install

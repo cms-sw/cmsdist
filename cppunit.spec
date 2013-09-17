@@ -1,4 +1,8 @@
 ### RPM external cppunit 1.12.1
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+%endif
 Source0: http://switch.dl.sourceforge.net/sourceforge/%n/%n-%realversion.tar.gz
 Source1: CppUnit_testdriver_cpp
 
@@ -18,7 +22,11 @@ case %cmsplatf in
        perl -p -i -e 's|LIBS.*LIBS.*lm|LIBS="$LIBS -lm -ldl|' configure
     ;;
 esac
+%if "%mic" == "true"
+CXX="icpc -fPIC -mmic"  CC="icc -fPIC -mmic" ./configure --prefix=%i --disable-static --host=x86_64-k1om-linux
+%else
 ./configure --prefix=%i --disable-static
+%endif
 make %makeprocesses
 %install
 make install
