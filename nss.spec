@@ -26,10 +26,10 @@ export NSPR_INCLUDE_DIR="${NSPR_ROOT}/include/nspr"
 export NSPR_LIB_DIR="${NSPR_ROOT}/lib"
 export USE_SYSTEM_ZLIB=1
 export ZLIB_INCLUDE_DIR="${ZLIB_ROOT}/include"
-export ZLIB_LIBS_DIR="${ZLIB_ROOT}/lib"
+export ZLIB_LIBS_DIR="-L${ZLIB_ROOT}/lib"
 export NSS_USE_SYSTEM_SQLITE=1
 export SQLITE_INCLUDE_DIR="${SQLITE_ROOT}/include"
-export SQLITE_LIBS_DIR="${SQLITE_ROOT}/lib"
+export SQLITE_LIBS_DIR="-L${SQLITE_ROOT}/lib"
 %if %isamd64
 export USE_64=1
 %endif
