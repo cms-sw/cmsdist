@@ -1,0 +1,22 @@
+--- a/tools/build/v2/tools/gcc.py	2012-04-26 05:35:55.000000000 +0200
++++ b/tools/build/v2/tools/gcc.py	2013-06-10 16:45:22.000000000 +0200
+@@ -368,7 +368,7 @@
+     bound_list=['PCH_FILE'])
+ 
+ def gcc_compile_asm(targets, sources, properties):
+-    get_manager().engine().set_target_variable(targets, 'LANG', '-x assembler-with-cpp')
++    get_manager().engine().set_target_variable(targets, 'LANG', '-x assembler-with-cpp -mmic')
+ 
+ engine.register_action(
+     'gcc.compile.asm',
+--- a/tools/build/v2/tools/gcc.jam	2012-04-26 05:35:55.000000000 +0200
++++ b/tools/build/v2/tools/gcc.jam	2013-06-10 16:50:01.000000000 +0200
+@@ -626,7 +626,7 @@
+ {
+     setup-fpic $(targets) : $(sources) : $(properties) ;    
+     setup-address-model $(targets) : $(sources) : $(properties) ;
+-    LANG on $(<) = "-x assembler-with-cpp" ;
++    LANG on $(<) = "-x assembler-with-cpp -mmic" ;
+ }
+ 
+ actions compile.asm

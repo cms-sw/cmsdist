@@ -1,0 +1,108 @@
+diff -aur frontier_client__2.8.6__src.orig/Makefile frontier_client__2.8.6__src/Makefile
+--- frontier_client__2.8.6__src.orig/Makefile	2013-06-11 10:21:57.000000000 +0200
++++ frontier_client__2.8.6__src/Makefile	2013-06-11 10:28:26.000000000 +0200
+@@ -57,13 +57,13 @@
+ CFLAGS		=	$(DEBUG_OPTIM)
+ CXXFLAGS	=	$(DEBUG_OPTIM)
+ FNAPI_VERSION	=	$(FN_VER_MAJOR).$(FN_VER_MINOR)
+-CC		=	gcc
+-CXX		=	c++
++CC		=	icc -fPIC -mmic
++CXX		=	icpc -fPIC -mmic
+ CXXOPT_LIB	=	-Wall $(CXXFLAGS) -DFRONTIER_DEBUG -DFNTR_USE_NAMESPACE -DFNTR_USE_EXCEPTIONS -fPIC -DPIC
+ CXXOPT_APP	=	-Wall $(CXXFLAGS) -DFRONTIER_DEBUG -DFNTR_USE_NAMESPACE -DFNTR_USE_EXCEPTIONS -fPIC -DPIC
+ COPT		=	-Wall $(CFLAGS) -DFRONTIER_DEBUG -fPIC -DPIC
+-LINK_SO         =       c++ $(CXXFLAGS) -shared -o libfrontier_client.so.$(FN_VER_MAJOR).$(FN_VER_MINOR) -Wl,-soname,libfrontier_client.so.$(FN_VER_MAJOR) $(LIBS)
+-LINK_DYLIB	=	c++ $(CXXFLAGS) -dynamiclib -undefined dynamic_lookup  -compatibility_version $(FN_VER_MAJOR) -current_version $(FN_VER_MAJOR).$(FN_VER_MINOR) -o libfrontier_client.$(FN_VER_MAJOR).$(FN_VER_MINOR).dylib -single_module $(LIBS)
++LINK_SO         =       $(CXX) $(CXXFLAGS) -shared -o libfrontier_client.so.$(FN_VER_MAJOR).$(FN_VER_MINOR) -Wl,-soname,libfrontier_client.so.$(FN_VER_MAJOR) $(LIBS)
++LINK_DYLIB	=	$(CXX) $(CXXFLAGS) -dynamiclib -undefined dynamic_lookup  -compatibility_version $(FN_VER_MAJOR) -current_version $(FN_VER_MAJOR).$(FN_VER_MINOR) -o libfrontier_client.$(FN_VER_MAJOR).$(FN_VER_MINOR).dylib -single_module $(LIBS)
+ LINK		=	ar cr libfrontier_client.a
+ 
+ INC		=	${EXPAT_INC} ${OPENSSL_INC} ${PACPARSER_INC} ${ZLIB_INC} -I./include -I.
+@@ -157,7 +157,7 @@
+ #####################################################
+ 
+ htclient:
+-	(cd http && CC=$(CC) COPT="$(COPT)" make all)
++	(cd http && CC="$(CC)" COPT="$(COPT)" make all)
+ 
+ libfrontier_client.so: $(OBJ) http/.libs
+ 	rm -f libfrontier_client.so
+@@ -230,13 +230,13 @@
+ 	$(CC) $(COPT) $(INC) -c main.c
+ 
+ main: all main.o
+-	$(CXX) -g -Ldist/lib -o main main.o -L. -lfrontier_client
++	$(CXX) -g -Ldist/lib -o main main.o -L. -lfrontier_client $(LIBS)
+ 
+ test-b64url.o: test-b64url.c $(HDR)
+ 	$(CC) $(COPT) $(INC) -c test-b64url.c
+ 
+ test-b64url: test-b64url.o
+-	$(CXX) -g -L. -o test-b64url test-b64url.o -L. -lfrontier_client
++	$(CXX) -g -L. -o test-b64url test-b64url.o -L. -lfrontier_client $(LIBS)
+     
+ anydata.o: anydata.cc $(HDRXX) $(HDR)
+ 	$(CXX) $(CXXOPT_LIB) $(INC) -c anydata.cc
+@@ -248,13 +248,13 @@
+ 	$(CXX) $(CXXOPT_APP) -I./include -c maincc.cc
+ 
+ fn-maincc: maincc.o $(HDRXX)
+-	$(CXX) $(CXXOPT_APP) -L. -o fn-maincc maincc.o -L. -lfrontier_client
++	$(CXX) $(CXXOPT_APP) -L. -o fn-maincc maincc.o -L. -lfrontier_client $(LIBS)
+ 
+ maintest.o: maintest.cc $(HDRXX)
+ 	$(CXX) $(CXXOPT_APP) -I./include -c maintest.cc
+ 
+ fn-maintest: maintest.o $(HDRXX)
+-	$(CXX) $(CXXOPT_APP) -L. -o fn-maintest maintest.o -L. -lfrontier_client
++	$(CXX) $(CXXOPT_APP) -L. -o fn-maintest maintest.o -L. -lfrontier_client $(LIBS)
+ 
+ FrontierExceptionMapper.o: FrontierExceptionMapper.cpp $(HDRXX)
+ 	$(CXX) $(CXXOPT_APP) -I./include -c FrontierExceptionMapper.cpp
+@@ -263,31 +263,31 @@
+ 	$(CXX) $(CXXOPT_APP) -Idist/include -c getcids.cc
+ 
+ getcids: all getcids.o $(HDRXX)
+-	$(CXX) $(CXXOPT_APP) -Ldist/lib -o getcids getcids.o -L. -lfrontier_client
++	$(CXX) $(CXXOPT_APP) -Ldist/lib -o getcids getcids.o -L. -lfrontier_client $(LIBS)
+ 
+ request_each.o: request_each.cc $(HDRXX)
+ 	$(CXX) $(CXXOPT_APP) -Idist/include -c request_each.cc
+ 
+ request_each: all request_each.o $(HDRXX)
+-	$(CXX) $(CXXOPT_APP) -Ldist/lib -o request_each request_each.o -L. -lfrontier_client
++	$(CXX) $(CXXOPT_APP) -Ldist/lib -o request_each request_each.o -L. -lfrontier_client $(LIBS)
+ 
+ test-pescalib.o: test-pescalib.cc $(HDRXX)
+ 	$(CXX) $(CXXOPT_APP) -I./include -c test-pescalib.cc
+ 
+ fn-pescalib: test-pescalib.o $(HDRXX)
+-	$(CXX) $(CXXOPT_APP) -L. -o fn-pescalib test-pescalib.o -L. -lfrontier_client
++	$(CXX) $(CXXOPT_APP) -L. -o fn-pescalib test-pescalib.o -L. -lfrontier_client $(LIBS)
+ 
+ test-any.o: test-any.cc $(HDRXX)
+ 	$(CXX) $(CXXOPT_APP) -I./include -c test-any.cc
+ 
+ fn-any: test-any.o $(HDRXX)
+-	$(CXX) $(CXXOPT_APP) -L. -o fn-any test-any.o -L. -lfrontier_client
++	$(CXX) $(CXXOPT_APP) -L. -o fn-any test-any.o -L. -lfrontier_client $(LIBS)
+ 
+ test-req.o: test-req.cc $(HDRXX)
+ 	$(CXX) $(CXXOPT_APP) -I./include -c test-req.cc
+ 
+ fn-req: test-req.o $(HDRXX)
+-	$(CXX) $(CXXOPT_APP) -L. -o fn-req test-req.o -L. -lfrontier_client
++	$(CXX) $(CXXOPT_APP) -L. -o fn-req test-req.o -L. -lfrontier_client $(LIBS)
+ 
+ # staticly linked app works better in gdb
+ fn-req.static: libfrontier_client.so fn-req
+@@ -297,7 +297,7 @@
+ 	$(CC) $(COPT) $(INC) -c fn-fileget.c
+ 
+ fn-fileget: fn-fileget.o
+-	$(CC) $(COPT) $(INC) -o fn-fileget fn-fileget.o -L. -lfrontier_client
++	$(CC) $(COPT) $(LIBS) -o fn-fileget fn-fileget.o -L. -lfrontier_client
+ 
+ 
+ clean:

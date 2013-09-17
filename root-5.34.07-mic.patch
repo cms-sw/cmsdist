@@ -1,0 +1,78 @@
+--- Makefile	2013-06-12 09:58:48.000000000 +0200
++++ Makefile	2013-06-12 10:03:36.000000000 +0200
+@@ -606,11 +606,11 @@
+ 
+ build/rmkdepend/%.o: $(ROOT_SRCDIR)/build/rmkdepend/%.cxx
+ 	$(MAKEDIR)
+-	$(CXX) $(OPT) $(CXXFLAGS) $(CXXOUT)$@ -c $<
++	$(filter-out -mmic,$(CXX)) $(OPT) $(CXXFLAGS) $(CXXOUT)$@ -c $<
+ 
+ build/rmkdepend/%.o: $(ROOT_SRCDIR)/build/rmkdepend/%.c
+ 	$(MAKEDIR)
+-	$(CC) $(OPT) $(CFLAGS) $(CXXOUT)$@ -c $<
++	$(filter-out -mmic,$(CC)) $(OPT) $(CFLAGS) $(CXXOUT)$@ -c $<
+ 
+ define SRCTOOBJ_template
+ $(1)/%_tmp.o: $(1)/%_tmp.cxx
+--- cint/cint/Module.mk	2013-06-12 12:01:50.000000000 +0200
++++ cint/cint/Module.mk	2013-06-12 12:02:28.000000000 +0200
+@@ -49,7 +49,7 @@
+ CINTS2       := $(filter-out $(MODDIRS)/loadfile_tmp.%,$(CINTS2))
+ 
+ # strip off possible leading path from compiler command name
+-CXXCMD       := $(shell echo $(CXX) | sed s/".*\/"//)
++CXXCMD       := $(shell echo $(CXX) | sed 's| .*||' | sed s/".*\/"//)
+ 
+ ifeq ($(CXXCMD),KCC)
+ CINTS2       += $(MODDIRSD)/kccstrm.cxx
+--- cint/ROOT/cintdlls.mk	2013-06-12 12:43:50.000000000 +0200
++++ cint/ROOT/cintdlls.mk	2013-06-12 12:44:30.000000000 +0200
+@@ -263,7 +263,7 @@
+ 
+ $(CINTDLLDIRL)/posix/mktypes$(EXEEXT): $(CINTDLLDIRL)/posix/mktypes.c
+ 	$(MAKEDEP) -R -f$(patsubst %.c,%.d,$<) -Y -w 1000 -- $(CINTCFLAGS) -- $<
+-	$(CC) $(OPT) $(CXXOUT)$@ $<
++	$(filter-out -mmic,$(CC)) $(OPT) $(CXXOUT)$@ $<
+ ##### posix special treatment - END
+ 
+ ##### ipc special treatment
+--- core/utils/Module.mk	2013-06-12 12:48:10.000000000 +0200
++++ core/utils/Module.mk	2013-06-12 12:52:10.000000000 +0200
+@@ -64,9 +64,11 @@
+ 		  $(ROOTCLINGTMPO) $(METAUTILSO) $(METAUTILSTO) $(SNPRINTFO) $(STRLCPYO) \
+ 		  $(CINTTMPO) $(CINTTMPLIBS) -Llib -lCling $(CILIBS)
+ 
++$(RLIBMAPO): $(RLIBMAPS)
++	$(filter-out -mmic,$(CXX)) $(OPT) $(CXXFLAGS) -o $@ -c $<
+ $(RLIBMAP):     $(RLIBMAPO)
+ ifneq ($(PLATFORM),win32)
+-		$(LD) $(LDFLAGS) -o $@ $<
++		$(LD) $(filter-out -mmic,$(LDFLAGS)) -o $@ $<
+ else
+ 		$(LD) $(LDFLAGS) -o $@ $< imagehlp.lib
+ endif
+--- cint/cint/Module.mk	2013-06-12 15:22:56.000000000 +0200
++++ cint/cint/Module.mk	2013-06-12 15:30:24.000000000 +0200
+@@ -276,8 +276,7 @@
+ 		   $(RPATH) $(CINTLIBS) $(CILIBS)
+ 
+ $(CINTTMP):     $(CINTEXEO) $(CINTTMPO)
+-		$(LD) $(LDFLAGS) -o $@ $(CINTEXEO) \
+-		   $(CINTTMPO) $(CILIBS)
++		cp $$ROOTCINT_MIC_ROOT/bin/cint_tmp $@
+ 
+ $(MAKECINT):    $(MAKECINTO)
+ 		$(LD) $(LDFLAGS) -o $@ $(MAKECINTO)
+--- core/utils/Module.mk	2013-06-12 15:47:31.000000000 +0200
++++ core/utils/Module.mk	2013-06-12 15:50:01.000000000 +0200
+@@ -49,9 +49,7 @@
+ 
+ $(ROOTCINTTMPEXE): $(CINTTMPO) $(ROOTCINTTMPO) $(METAUTILSO) $(SNPRINTFO) \
+                    $(STRLCPYO) $(IOSENUM)
+-		$(LD) $(LDFLAGS) -o $@ \
+-		   $(ROOTCINTTMPO) $(METAUTILSO) $(SNPRINTFO) $(STRLCPYO) \
+-		   $(CINTTMPO) $(CINTTMPLIBS) $(CILIBS)
++		  cp $$ROOTCINT_MIC_ROOT/bin/rootcint_tmp $@
+ 
+ $(ROOTCLINGEXE): $(CINTLIB) $(ROOTCLINGO) $(METAUTILSO) $(METAUTILSTO) $(SNPRINTFO) \
+                 $(STRLCPYO) $(IOSENUM) $(CLINGLIB)

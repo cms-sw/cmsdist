@@ -1,0 +1,88 @@
+--- xerces-c-src_2_8_0.orig/src/xercesc/runConfigure	2007-08-28 20:44:56.000000000 +0200
++++ xerces-c-src_2_8_0/src/xercesc/runConfigure	2013-06-11 11:42:12.000000000 +0200
+@@ -114,77 +114,6 @@
+ libtype=shared           # by default build shared libraries
+ 
+ # Check the command line parameters
+-if test -x /usr/bin/getopt -o -x bin/getopt; then
+-	#
+-	# os400 Users will need to comment out the next line.
+-	getoptErr=`getopt p:c:x:dm:n:t:r:sb:l:z:P:C:h $*`
+-	if [ $? != 0 ]
+-	   then
+-	   usage
+-	   exit ${ERROR_EXIT_CODE}
+-	fi
+-	# Now get the command line parameters
+-	set -- `getopt p:c:x:dm:n:t:r:sb:l:z:P:C:h $*`
+-	while [ $# -gt 0 ]
+-	   do
+-	   case $1 in
+-	   -p)
+-			platform=$2; shift 2;;
+-
+-	   -c)
+-			ccompiler=$2; shift 2;;
+-
+-	   -x)
+-			cppcompiler=$2; shift 2;;
+-
+-	   -d)
+-			debug=on; shift;;
+-
+-	   -m)
+-			msgloader=$2; shift 2;;
+-
+-	   -n)
+-			netaccessor=$2; shift 2;;
+-
+-	   -t)
+-			transcoder=$2; shift 2;;
+-
+-	   -r)
+-			thread=$2; shift 2;;
+-
+-	   -s)
+-	                libtype=static; shift;;
+-
+-	   -b)
+-			bitsToBuild=$2; shift 2;;
+-
+-	   -z)
+-			compileroptions="$compileroptions $2"; shift 2;;
+-
+-	   -l)
+-			linkeroptions="$linkeroptions $2"; shift 2;;
+-
+-	   -P)
+-			configureoptions="$configureoptions --prefix=$2"; shift 2;;
+-
+-	   -C)
+-			configureoptions="$configureoptions $2"; shift 2;;
+-
+-	   -h)
+-			usage
+-			exit ${ERROR_EXIT_CODE};;
+-
+-	   --)
+-			shift; break;;
+-
+-	   *)
+-		   echo "unknown option $1"
+-		   usage
+-		   exit ${ERROR_EXIT_CODE};;
+-	   esac
+-	done
+-
+-else
+ 	while getopts "p:c:x:dm:n:t:r:sb:l:z:P:C:h" switch; do
+ 	   case $switch in
+ 	   p)
+@@ -239,7 +168,6 @@
+ 		   exit ${ERROR_EXIT_CODE};;
+ 	   esac
+ 	done
+-fi
+ 
+ if test -z "$netaccessor"; then
+ 
