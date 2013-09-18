@@ -1,6 +1,44 @@
+diff -Naur 153/include/PartonLevel.h 153M/include/PartonLevel.h
+--- 153/include/PartonLevel.h	2011-08-08 10:29:30.000000000 +0200
++++ 153M/include/PartonLevel.h	2013-09-18 12:26:38.000000000 +0200
+@@ -76,13 +76,13 @@
+   bool   doMinBias, doDiffraction, doMI, doMIMB, doMISDA, doMISDB, doMIinit, 
+          doISR, doFSRduringProcess, doFSRafterProcess,  doFSRinResonances, 
+          doRemnants, doSecondHard, hasLeptonBeams, hasPointLeptons, 
+-         canVetoPT, canVetoStep, canVetoMIStep, canSetScale, allowRH;
++         canVetoPT, canVetoStep, canVetoMPIStep, canSetScale, allowRH;
+   double mMinDiff, mWidthDiff;
+ 
+   // Event generation strategy. Number of steps. Maximum pT scales.
+   bool   doVeto;
+   int    nMI, nISR, nFSRinProc, nFSRinRes, nISRhard, nFSRhard, 
+-         typeLatest, nVetoStep, typeVetoStep, nVetoMIStep, iSysNow;
++         typeLatest, nVetoStep, typeVetoStep, nVetoMPIStep, iSysNow;
+   double pTsaveMI, pTsaveISR, pTsaveFSR, pTvetoPT;
+ 
+   // Current event properties.
 diff -Naur 153/include/UserHooks.h 153M/include/UserHooks.h
 --- 153/include/UserHooks.h	2011-08-08 10:29:30.000000000 +0200
-+++ 153M/include/UserHooks.h	2013-08-24 23:10:37.000000000 +0200
++++ 153M/include/UserHooks.h	2013-09-18 12:27:40.000000000 +0200
+@@ -99,14 +99,14 @@
+ 
+   // Possibility to veto MI + ISR + FSR evolution and kill event, 
+   // making decision after fixed number of MI steps.
+-  virtual bool canVetoMIStep() {return false;}
++  virtual bool canVetoMPIStep() {return false;}
+ 
+   // Up to how many MI steps should be checked.
+-  virtual int numberVetoMIStep() {return 1;}
++  virtual int numberVetoMPIStep() {return 1;}
+ 
+   // Decide whether to veto current event or not, based on event record.
+-  // Usage: doVetoMIStep( nMI, event), where nMI is number of MI's so far.
+-  virtual bool doVetoMIStep( int , const Event& ) {return false;} 
++  // Usage: doVetoMPIStep( nMI, event), where nMI is number of MI's so far.
++  virtual bool doVetoMPIStep( int , const Event& ) {return false;} 
+    
+   // Possibility to veto event after parton-level selection.
+   virtual bool canVetoPartonLevel() {return false;}
 @@ -129,7 +129,7 @@
    // Decide whether to veto current emission or not, based on event record.
    // Usage: doVetoISREmission( sizeOld, event) where sizeOld is size
@@ -19,6 +57,49 @@ diff -Naur 153/include/UserHooks.h 153M/include/UserHooks.h
  
  protected:
  
+diff -Naur 153/src/PartonLevel.cc 153M/src/PartonLevel.cc
+--- 153/src/PartonLevel.cc	2011-08-08 10:29:31.000000000 +0200
++++ 153M/src/PartonLevel.cc	2013-09-18 12:24:49.000000000 +0200
+@@ -110,8 +110,8 @@
+   pTvetoPT      = (canVetoPT)        ? userHooksPtr->scaleVetoPT() : -1.;
+   canVetoStep   = (userHooksPtr > 0) ? userHooksPtr->canVetoStep() : false;
+   nVetoStep     = (canVetoStep)   ? userHooksPtr->numberVetoStep() : -1;
+-  canVetoMIStep = (userHooksPtr > 0) ? userHooksPtr->canVetoMIStep() : false;
+-  nVetoMIStep   = (canVetoStep)   ? userHooksPtr->numberVetoMIStep() : -1;
++  canVetoMPIStep = (userHooksPtr > 0) ? userHooksPtr->canVetoMPIStep() : false;
++  nVetoMPIStep   = (canVetoStep)   ? userHooksPtr->numberVetoMPIStep() : -1;
+ 
+   // Possibility to set maximal shower scale in resonance decays.
+   canSetScale = (userHooksPtr > 0) ? userHooksPtr->canSetResonanceScale() 
+@@ -227,8 +227,8 @@
+     setupHardSys( iHardLoop, process, event);
+ 
+     // Optionally check for a veto after the hardest interaction.
+-    if (canVetoMIStep) {
+-      doVeto = userHooksPtr->doVetoMIStep( 1, event);
++    if (canVetoMPIStep) {
++      doVeto = userHooksPtr->doVetoMPIStep( 1, event);
+       // Abort event if vetoed.
+       if (doVeto) {
+         if (isDiff) leaveResolvedDiff( iHardLoop, event);
+@@ -308,7 +308,7 @@
+         multiPtr->scatter( event);  
+         typeLatest = 1;
+         ++nMI;
+-        if (canVetoMIStep && nMI <= nVetoMIStep) typeVetoStep = 1;
++        if (canVetoMPIStep && nMI <= nVetoMPIStep) typeVetoStep = 1;
+  
+         // Update ISR and FSR dipoles.
+         if (doISR)              spacePtr->prepare( nMI - 1, event);
+@@ -377,7 +377,7 @@
+       // Optionally check for a veto after the first few interactions,
+       // or after the first few emissions, ISR or FSR, in the hardest system.
+       if (typeVetoStep == 1) {
+-        doVeto = userHooksPtr->doVetoMIStep( nMI, event);
++        doVeto = userHooksPtr->doVetoMPIStep( nMI, event);
+       } else if (typeVetoStep > 1) {
+         doVeto = userHooksPtr->doVetoStep( typeVetoStep, nISRhard, 
+           nFSRhard, event);
 diff -Naur 153/src/SpaceShower.cc 153M/src/SpaceShower.cc
 --- 153/src/SpaceShower.cc	2011-08-08 10:29:31.000000000 +0200
 +++ 153M/src/SpaceShower.cc	2013-08-24 22:54:57.000000000 +0200
