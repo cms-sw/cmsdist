@@ -1,4 +1,4 @@
-### RPM cms das 1.11.9-hg1309-rc4
+### RPM cms das 1.11.9-hg1310-rc1
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver 0.8.3
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
@@ -6,7 +6,7 @@
 %define pkg DAS
 #Source0: git://github.com/dmwm/DAS?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
 # TODO: temporary repo
-Source0: git://github.com/vidma/DAS?obj=kwd-early-prototype&export=%pkg&output=/%pkg.tar.gz
+Source0: git://github.com/vidma/DAS?obj=kwd-early-prototype-merge&export=%pkg&output=/%pkg.tar.gz
 Source1: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_das.tar.gz
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui
 Requires: mongo py2-pymongo py2-cjson py2-yaml py2-pystemmer py2-mongoengine py2-lxml py2-ply py2-yajl
