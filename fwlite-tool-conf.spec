@@ -45,6 +45,7 @@ Requires: uuid-toolfile
 Requires: xrootd-toolfile
 Requires: xz-toolfile
 Requires: zlib-toolfile
+Requires: git-toolfile
 
 %define skipreqtools jcompiler db4 expat fftw3 sqlite
 
