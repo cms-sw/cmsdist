@@ -121,7 +121,7 @@ Requires: google-perftools-toolfile
 Requires: igprof-toolfile
 %endif
 
-%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler sherpampi openmpi
 
 ## IMPORT scramv1-tool-conf
 
