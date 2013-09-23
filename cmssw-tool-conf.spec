@@ -5,6 +5,7 @@
 
 %define isslc %(case %cmsos in (slc*) echo true;; (*) echo false;; esac)
 
+Requires: autotools-toolfile
 Requires: alpgen-toolfile
 Requires: boost-toolfile
 Requires: bz2lib-toolfile
@@ -67,10 +68,8 @@ Requires: qt-toolfile
 Requires: roofit-toolfile
 Requires: root-toolfile
 Requires: sherpa-toolfile
-Requires: sherpampi-toolfile
 Requires: blackhat-toolfile
 Requires: qd-toolfile
-Requires: openmpi-toolfile
 Requires: sigcpp-toolfile
 Requires: sqlite-toolfile
 Requires: systemtools
@@ -119,7 +118,7 @@ Requires: google-perftools-toolfile
 Requires: igprof-toolfile
 %endif
 
-%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler sherpampi openmpi
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler
 
 ## IMPORT scramv1-tool-conf
 

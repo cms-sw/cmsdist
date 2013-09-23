@@ -107,9 +107,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa.xml
 <environment name="INCLUDE" default="$SHERPA_BASE/include/SHERPA-MC"/>
 </client>
 <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$SHERPA_BASE/include" type="path"/>
-<runtime name="SHERPA_SHARE_PATH" value="$SHERPA_BASE/share/SHERPA-MC" type="path"/>
-<runtime name="SHERPA_INCLUDE_PATH" value="$SHERPA_BASE/include/SHERPA-MC" type="path"/>
-<runtime name="SHERPA_LIBRARY_PATH" value="$SHERPA_BASE/lib/SHERPA-MC" type="path"/>
+<runtime name="SHERPA_SHARE_PATH" value="$SHERPA_BASE/share/SHERPA-MC"/>
+<runtime name="SHERPA_INCLUDE_PATH" value="$SHERPA_BASE/include/SHERPA-MC"/>
+<runtime name="SHERPA_LIBRARY_PATH" value="$SHERPA_BASE/lib/SHERPA-MC"/>
 <use name="HepMC"/>
 <use name="lhapdf"/>
 <use name="blackhat"/>
