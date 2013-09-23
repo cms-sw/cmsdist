@@ -20,10 +20,14 @@ Requires: onlinesystemtools
 %build
 %if "%mic" == "true"
 cmake . \
+  -DCMAKE_C_COMPILER="icc" \
+  -DCMAKE_C_FLAGS="-fPIC -mmic" \
   -DCMAKE_CXX_COMPILER="icpc" \
   -DCMAKE_CXX_FLAGS="-fPIC -mmic" \
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
   -DBUILD_SHARED_LIBS=YES \
+  -DZLIB_INCLUDE_DIR:PATH=${ZLIB_ROOT}/include \
+  -DZLIB_LIBRARY:FILEPATH=${ZLIB_ROOT}/lib/libz.so \
   -DZLIB_ROOT:PATH=${ZLIB_ROOT} \
   -DCMAKE_SKIP_RPATH=YES \
   -DSKIP_INSTALL_FILES=1

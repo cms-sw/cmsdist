@@ -59,8 +59,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
       <flags CXXFLAGS="-mmic"/>
       <flags LDFLAGS="-mmic"/>
     </architecture>
-    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$ICC_CXXCOMPILER_BASE/compiler/lib/intel64" type="path" handler="warn"/>
-    <runtime name="PATH" value="$ICC_CXXCOMPILER_BASE/bin/intel64" type="path" handler="warn"/>
+    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$ICC_CXXCOMPILER_BASE/lib/intel64" type="path" handler="warn"/>
+    <runtime name="PATH" value="$ICC_CXXCOMPILER_BASE/bin" type="path" handler="warn"/>
     <runtime name="COMPILER_RUNTIME_OBJECTS" value="@GCC_ROOT@" handler="warn"/>
     <runtime name="INTEL_LICENSE_FILE" value="28518@AT@lxlic01.cern.ch,28518@AT@lxlic02.cern.ch,28518@AT@lxlic03.cern.ch:$ICC_CXXCOMPILER_BASE/licenses:/opt/intel/licenses" handler="warn"/>
   </tool>

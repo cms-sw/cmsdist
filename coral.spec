@@ -27,7 +27,7 @@ Patch5: coral-CORAL_2_3_21-move-to-libuuid
 %define patchsrc3       perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
 %endif
 %if "%mic" == "true"
-%define patchsrc3       sed -i -e 's|</client>|<architecture name="_mic_"><flags DEFAULT_COMPILER="icc"/></architecture></client>|' config/Self.xml; rm -rf src/OracleAccess
+%define patchsrc3       rm -rf src/OracleAccess
 %endif
 
 %define patchsrc4       %patch5 -p0

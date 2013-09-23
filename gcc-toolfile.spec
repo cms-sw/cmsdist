@@ -152,7 +152,7 @@ esac
 
 
 case %cmsplatf in
-   *_amd64_gcc4[56789]* )
+   *_amd64_gcc4[56789]* | *_mic_* )
      COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++11 -msse3 -ftree-vectorize -Wno-strict-overflow"
    ;;
    *_armv7hl_* )

@@ -14,7 +14,6 @@ Requires: frontier_client-toolfile
 Requires: gsl-toolfile
 Requires: heppdt-toolfile
 Requires: libuuid-toolfile
-Requires: nss-toolfile
 Requires: openssl-toolfile
 Requires: pcre-toolfile
 Requires: python-toolfile
@@ -32,6 +31,7 @@ Requires: elementtree-toolfile
 Requires: gccxml-toolfile
 Requires: freetype-toolfile
 Requires: systemtools
+Requires: rootcint-mic-toolfile
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull 
 

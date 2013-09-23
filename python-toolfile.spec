@@ -1,4 +1,5 @@
 ### RPM external python-toolfile 1.0
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 Requires: python
 %prep
 
@@ -20,6 +21,16 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/python.xml
   <use name="sockets"/>
 </tool>
 EOF_TOOLFILE
+
+%if "%mic" == "true"
+cat << \EOF_TOOLFILE >%i/etc/scram.d/pythonhost.xml
+<tool name="pythonhost" version="@TOOL_VERSION@">
+  <client>
+    <environment name="PYTHONHOST_BASE" default="/usr"/>
+  </client>
+</tool>
+EOF_TOOLFILE
+%endif
 
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
