@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_7_0_0_pre4_MIC
+### RPM cms cmssw CMSSW_7_0_0_pre4_MIC1
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 Requires: python cms-git-tools
 %if "%mic" == "true"
@@ -65,7 +65,7 @@ Patch13: cmssw-debug
 %if "%mic" == "true"
 Patch14: cmssw-700pre4-mic
 %define toolconf        CMSSW_MIC_TOOL_CONF_ROOT
-%define source1         git://github.com/cms-sw/cmssw.git?protocol=https&obj=%{branch}/%(echo %{realversion} | sed -e "s|_MIC||")&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
+%define source1         git://github.com/cms-sw/cmssw.git?protocol=https&obj=%{branch}/%(echo %{realversion} | sed -e "s|_MIC.*||")&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 %define prebuildtarget  echo_CXX; rm -f ../external/%cmsplatf/bin/python ; ln -s /usr/bin/python ../external/%cmsplatf/bin/python
 %define preBuildCommand pushd .. ; patch -p0 <%_sourcedir/cmssw-700pre4-mic ; popd
 %undefine runGlimpse

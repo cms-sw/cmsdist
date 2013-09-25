@@ -902,3 +902,15 @@ diff -Naur src/FWCore/Utilities/test/soatuple_t.cppunit.cpp src/FWCore/Utilities
    CPPUNIT_ASSERT((16==edm::soahelper::SoATupleHelper<2,edm::AlignedVec<double>,edm::AlignedVec<double>>::max_alignment));
  
    edm::SoATuple<edm::AlignedVec<float>,edm::AlignedVec<float>,edm::AlignedVec<float>> vFloats;
+diff -Naur src/FWCore/Utilities/src/MallocOpts.cc src/FWCore/Utilities/src/MallocOpts.cc
+--- src/FWCore/Utilities/src/MallocOpts.cc      2013-09-24 12:21:20.000000000 +0200
++++ src/FWCore/Utilities/src/MallocOpts.cc       2013-09-24 16:38:58.000000000 +0200
+@@ -119,7 +119,7 @@
+   bool MallocOptionSetter::retrieveFromCpuType()
+   {
+     bool rc=true;
+-
++    return false;
+     switch(get_cpu_type())
+       {
+       case AMD_CPU:
