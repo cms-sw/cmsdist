@@ -32,6 +32,10 @@ Requires: gccxml-toolfile
 Requires: freetype-toolfile
 Requires: systemtools
 Requires: rootcint-mic-toolfile
+Requires: geant4-toolfile
+Requires: pythia8-toolfile
+Requires: hepmc-toolfile
+Requires: pythia6-toolfile
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull 
 

@@ -1,8 +1,14 @@
 ### RPM external hepmc 2.06.07
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+%endif
 Source: http://lcgapp.cern.ch/project/simu/HepMC/download/HepMC-%realversion.tar.gz
 Patch0: hepmc-2.03.06-reflex
 Patch1: hepmc-2.06.07-WeightContainer-fix-size_type
-Requires: autotools
+%if "%mic" != "true"
+RRequires: autotools
+%endif
 
 %define keep_archives true
 %define drop_files %i/share
@@ -24,6 +30,11 @@ Requires: gfortran-macosx
 %patch1 -p1
 
 case %cmsplatf in
+  *_mic_*) 
+    F77="`which ifort` -mmic"
+    CXX="`which icpc` -mmic"
+    PLATF_CONFIG_OPTS="--host=x86_64-k1om-linux"
+  ;;
   slc5_*_gcc4[01234]*) 
     F77="`which gfortran`"
     CXX="`which %cms_cxx`"

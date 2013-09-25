@@ -1,4 +1,8 @@
 ### RPM external pythia6 426
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+%endif
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 
 %define keep_archives true
@@ -12,6 +16,10 @@ Requires: gfortran-macosx
 #       dynamic libraries. from 4.5.1 (and on mac)
 #       we build archive ones.
 case %cmsplatf in
+  *_mic_*) 
+    PLATF_CONF_OPTS="--enable-shared"
+    F77="`which ifort` -mmic"
+  ;;
   slc5_*_gcc4[01234]*) 
     PLATF_CONF_OPTS="--enable-shared"
     F77="`which gfortran`"
@@ -43,6 +51,9 @@ case %cmsplatf in
     ./configure $PLATF_CONF_OPTS --with-hepevt=4000 F77="$F77" \
 		LD='`which gcc`' LDFLAGS='-Wl,-commons,use_dylibs -Wl,-flat_namespace' 
   ;;
+  *_mic_*)
+    CC="icc -mmic" CXX="icpc -mmic" ./configure --host=x86_64-k1om-linux  $PLATF_CONF_OPTS --with-hepevt=4000 F77="$F77" 
+  ;;
   *)
     ./configure $PLATF_CONF_OPTS --with-hepevt=4000 F77="$F77" 
   ;;
@@ -56,12 +67,13 @@ esac
 # error when building.
 # I couldn't find any better way to replace "CC" in the F77 section of libtool.
 case %cmsplatf in
+  *_mic_*) perl -p -i -e 's|^CC=.*$|CC="icc -fPIC"|' libtool ;;
   slc5_*_gcc4[01234]*) ;;
   *) perl -p -i -e 's|^CC=.*$|CC="gcc -fPIC"|' libtool ;;
 esac
 
 %build
-make 
+make %makeprocesses
 make install
 
 %install

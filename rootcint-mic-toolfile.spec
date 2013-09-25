@@ -9,8 +9,8 @@ Requires: rootcint-mic
 mkdir -p %i/etc/scram.d
 # root_interface toolfile
 # rootcint-mic toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/%{n}.xml
-<tool name="%{n}" version="@TOOL_VERSION@">
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcint-mic.xml
+<tool name="rootcint-mic" version="@TOOL_VERSION@">
   <client>
     <environment name="ROOTCINT_MIC_BASE" default="@TOOL_ROOT@"/>
   </client>

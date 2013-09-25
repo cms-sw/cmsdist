@@ -18,17 +18,16 @@ Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-
 export USRCXXFLAGS="%cms_cxxflags"
 export HEPMCLOCATION=${HEPMC_ROOT} 
 export HEPMCVERSION=${HEPMC_VERSION} 
-case %{cmsplatf} in
-   *_mic_* )
-     CXX="icc" CC="icc" USRLDFLAGSSHARED="-fPIC -mmic" USRCXXFLAGS="-fPIC -mmic $USRCXXFLAGS" ./configure --enable-shared --with-hepmc=${HEPMC_ROOT}
-     ;;
-   * )
-    ./configure --enable-shared --with-hepmc=${HEPMC_ROOT}
-     ;;
-esac
+%if "%mic" == "true"
+CXX="icpc" CC="icc" USRLDFLAGSSHARED="-fPIC -mmic" USRCXXFLAGS="-fPIC -mmic $USRCXXFLAGS" \
+%endif
+./configure --enable-shared --with-hepmc=${HEPMC_ROOT}
 
 %build
-make 
+%if "%mic" == "true"
+CXX="icpc" CC="icc" USRLDFLAGSSHARED="-fPIC -mmic" USRCXXFLAGS="-fPIC -mmic $USRCXXFLAGS" \
+%endif
+make %makeprocesses
 
 %install
 tar -c lib include xmldoc | tar -x -C %i
