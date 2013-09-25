@@ -23,7 +23,7 @@ Patch5: coral-CORAL_2_3_21-move-to-libuuid
 # Disable building tests, since they bring dependency on cppunit:
 %if %isdarwin
 %define patchsrc3       perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
-%define patchsrc1       %patch0 -p1 
+%define patchsrc        %patch0 -p1 
 %endif
 
 %define patchsrc4       %patch5 -p0
