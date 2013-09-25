@@ -89,6 +89,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-f77compiler.xml
     <architecture name="_mic_">
       <flags FFLAGS="-mmic"/>
     </architecture>
+    <lib name="ifcore"/>
   </tool>
 EOF_TOOLFILE
 

@@ -1,4 +1,5 @@
 ### RPM cms gcc-toolfile 12.0
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 
 # gcc has a separate spec file for the generating a 
 # toolfile because gcc.spec could be not build because of the 
@@ -77,8 +78,10 @@ EOF_TOOLFILE
 # libgfortran. 
 cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-f77compiler.xml
   <tool name="gcc-f77compiler" version="@GCC_VERSION@" type="compiler">
+%if "%mic" != "true"
     <lib name="gfortran"/>
     <lib name="m"/>
+%endif
     <client>
       <environment name="GCC_F77COMPILER_BASE" default="@G77_ROOT@"/>
       <environment name="FC" default="$GCC_F77COMPILER_BASE/bin/gfortran"/>
