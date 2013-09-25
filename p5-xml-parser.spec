@@ -1,5 +1,6 @@
 ### RPM external p5-xml-parser 2.41
 ## INITENV +PATH PERL5LIB %i/lib/perl5
+# Dummy comment: forcing the compiling for SLC6
 %define downloadn XML-Parser
 %define expatversion 2.0.0
 Source0: http://search.cpan.org/CPAN/authors/id/T/TO/TODDR/%{downloadn}-%{realversion}.tar.gz

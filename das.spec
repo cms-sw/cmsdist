@@ -1,4 +1,4 @@
-### RPM cms das 1.11.9-hg1310-rc1
+### RPM cms das 2.0.0
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver 0.8.3
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
@@ -49,6 +49,9 @@ do
     $cmd --notation-map=$amap >> $map_file
     $cmd --presentation-map=$amap >> $map_file
 done
+cat $map_file | grep -v "###" > $map_file.tmp
+rm -f $map_file
+mv $map_file.tmp $map_file
 rm -f $dir/*.yml
 rm -rf src/python/DAS/services/maps
 

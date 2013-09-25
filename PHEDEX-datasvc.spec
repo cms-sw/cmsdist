@@ -1,9 +1,15 @@
-### RPM cms PHEDEX-datasvc 2.3.15
+### RPM cms PHEDEX-datasvc 2.3.17
+# Dummy line to force a rebuild
 ## INITENV +PATH PERL5LIB %i/perl_lib
+
 %define downloadn %(echo %n | cut -f1 -d-)
-%define cvsversion DATASVC_%(echo %realversion | tr . _)
-%define cvsserver cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e
-Source: %cvsserver&strategy=export&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
+%define downloadp %(echo %n | cut -f2 -d- | tr '[a-z]' '[A-Z]')
+%define downloadt %(echo %realversion | tr '.' '_')
+%define setupdir  %{downloadn}-%{downloadp}_%{downloadt}
+Source: https://github.com/dmwm/PHEDEX/archive/%{downloadp}_%{downloadt}.tar.gz
+
+#%define gittag f4f8c2b470201dd47b31845e434e7756f64b8f32
+#Source: git://github.com/dmwm/PHEDEX?obj=PHEDEX-datasvc/%gittag&export=%n&output=/%n.tar.gz
 
 # For DB Access
 Requires: oracle oracle-env p5-dbi p5-dbd-oracle
@@ -27,7 +33,7 @@ Provides: perl(XML::LibXML)
 Provides: perl(URI::Escape)
 
 %prep
-%setup -n PHEDEX
+%setup -n %{setupdir}
 
 %build
 %install

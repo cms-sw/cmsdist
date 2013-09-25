@@ -1,18 +1,17 @@
-### RPM cms dbs3 3.1.4a
+### RPM cms dbs3 3.1.6a
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 ## INITENV SET DBS3_SERVER_ROOT %i/
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver DBS_3_1_4a
+%define wmcver 0.9.78
 %define cvstag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
 %define svnserver svn://svn.cern.ch/reps/CMSDMWM
 %define gitserver https://nodeload.github.com
-#Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore&output=/WMCore4%{n}.tar.gz
-Source0: git://github.com/yuyiguo/WMCore.git?obj=master/%{wmcver}&export=WMCore&output=/WMCore4%{n}.tar.gz
+Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore&output=/WMCore4%{n}.tar.gz
 Source1: %svnserver/DBS/tags/%cvstag?scheme=svn+ssh&strategy=export&module=DBS&output=/%{n}.tar.gz
 
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui
-Requires: py2-cjson py2-mysqldb py2-cx-oracle dbs3-pycurl-client rotatelogs
+Requires: py2-cjson py2-mysqldb py2-cx-oracle py2-docutils dbs3-pycurl-client rotatelogs
 BuildRequires: py2-sphinx
 
 %prep

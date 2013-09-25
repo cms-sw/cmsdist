@@ -1,8 +1,8 @@
-### RPM cms cmsfomon HG1305c
+### RPM cms cmsfomon HG1309a
 
 # This is a meta-package to group all cms ops services from comp repository
 Requires: crabhb happyface sreadiness
-Requires: rotatelogs pystack
+Requires: rotatelogs pystack mechanize
 
 %prep
 %build

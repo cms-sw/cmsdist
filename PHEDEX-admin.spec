@@ -1,8 +1,15 @@
-### RPM cms PHEDEX-admin PHEDEX_4_1_2
-
+### RPM cms PHEDEX-admin 4.1.3
+# Dummy line to force a rebuild
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
-Source: cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e&module=%{downloadn}&export=%{downloadn}&&tag=-r%{v}&output=/%{downloadn}-admin.tar.gz
+%define downloadp %(echo %n | cut -f2 -d- | tr '[a-z]' '[A-Z]')
+%define downloadt %(echo %realversion | tr '.' '_')
+%define setupdir  %{downloadn}-%{downloadp}_%{downloadt}
+Source: https://github.com/dmwm/PHEDEX/archive/%{downloadp}_%{downloadt}.tar.gz
+
+#%define gittag 7572e79f0925d593180e1b6a62e2ae1ae29c0f39
+#Source: git://github.com/dmwm/PHEDEX?obj=master/%gittag&export=%n&output=/%{downloadn}-admin.tar.gz
+
 # Oracle libs
 Requires: oracle oracle-env 
 # perl libs
@@ -10,6 +17,7 @@ Requires: p5-time-hires p5-text-glob p5-compress-zlib p5-dbi
 Requires: p5-dbd-oracle p5-xml-parser p5-poe p5-poe-component-child
 Requires: p5-log-log4perl p5-log-dispatch p5-log-dispatch-filerotate
 Requires: p5-params-validate p5-monalisa-apmon
+Requires: p5-clone p5-json-xs p5-mail-rfc822-address
 # Actually, it is p5-xml-parser that requires this, but it doesn't configure itself correctly
 # This is so it gets into our dependencies-setup.sh
 Requires: expat
@@ -24,8 +32,46 @@ Provides: perl(XML::LibXML)
 Provides: perl(Net::Twitter::Lite)
 
 %prep
-%setup -n %{downloadn}
+%setup -n %{setupdir}
+rm -rf Build
+rm -rf Contrib
+rm -rf Documentation/ACAT2008
+rm -rf Documentation/DC04PostMortem
+rm -rf Documentation/DC04Stats
+rm -rf Documentation/Grid2005
+rm -rf Documentation/Updates
+rm -rf Documentation/WebConfig
+rm -rf Documentation/WebSite
+rm -rf Documentation/WhitePapers
+rm -rf Migration
+rm -rf perl_lib/DMWMMON
+rm -f  perl_lib/PHEDEX/CLI/FakeAgent.pm
+rm -f  perl_lib/PHEDEX/CLI/SiteDataInfo.pm
+rm -rf perl_lib/PHEDEX/Testbed
+rm -rf perl_lib/PHEDEX/Web/API
+rm -rf perl_lib/PHEDEX/Web/{C,D,F,U}*
+rm -rf perl_lib/PHEDEX/Web/S{pooler,QLSpace}.pm
+rm -rf PhEDExWeb
+rm -f  Schema/GenPartitions.pl
+rm -f  Schema/Oracle{Init,}Spacemon.sql
+rm -f  Schema/Setup-Role-Access.pl
+rm -rf Testbed
 rm -rf Toolkit/DBS
+rm -rf Toolkit/Management
+rm -rf Toolkit/Peers
+rm -rf Toolkit/Test
+rm -f  Utilities/AuthMapper.pl
+rm -f  Utilities/CheckPhEDExContactUsercert.py
+rm -f  Utilities/GetNodeIds
+rm -f  Utilities/RequestAdministartion.pl
+rm -f  Utilities/RequestPhEDExContactUsercert.py
+rm -f  Utilities/RoleMap.txt
+rm -f  Utilities/RoleMapper.pl
+rm -f  Utilities/RouterControl
+rm -f  Utilities/spacecount
+rm -f  Utilities/stacc
+rm -rf Utilities/testSpace
+rm -f  Utilities/WebServiceWrite.pl
 
 %build
 

@@ -1,18 +1,18 @@
-### RPM cms cmsweb-analytics 2.1
+### RPM external mechanize 0.2.4
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-Source: git://github.com/dmwm/analytics?obj=master/%{realversion}&export=analytics&output=/analytics.tar.gz
-#Source: git:/build/lat/comp/analytics?obj=master/%{realversion}&export=analytics&output=/analytics.tar.gz
-Requires: python py2-adns py2-geoip py2-netaddr py2-yaml py2-cjson
+
+Source: http://wwwsearch.sourceforge.net/mechanize/src/mechanize-%realversion.tar.gz
+Requires: python
+BuildRequires: py2-setuptools
 
 %prep
-%setup -n analytics
-
+%setup -n mechanize-%realversion
 %build
 python setup.py build
-
 %install
-python setup.py install --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
+python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
+egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
+find %i -name '*.egg-info' -print0 | xargs -0 rm -rf
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d

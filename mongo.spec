@@ -1,4 +1,4 @@
-### RPM external mongo 2.4.3
+### RPM external mongo 2.4.4
 
 Patch: mongo2.4
 Source: http://downloads.mongodb.org/src/mongodb-src-r%{realversion}.tar.gz

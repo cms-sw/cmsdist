@@ -1,14 +1,12 @@
 ### RPM cms dls-client DLS_1_1_3
 ## INITENV +PATH PATH %{i}/Client/bin
 ## INITENV +PATH PYTHONPATH %{i}/Client/lib
-%define cvstag %realversion
-%define compProjectName DLS
-%define srctree DLS/Client
-Source: cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e&module=%{srctree}&export=%{compProjectName}&&tag=-r%{cvstag}&output=/DLS.tar.gz
+
+Source: git://github.com/geneguvo/dls-client?obj=master/%realversion&export=%n&output=/%n.tar.gz
 Requires: python dbs-client py2-pyxml
 
 %prep
-%setup -n DLS
+%setup -n %n
 perl -p -i -e "s|#!/usr/bin/python|#!/usr/bin/env python|" $(find .)
 %build
 %install

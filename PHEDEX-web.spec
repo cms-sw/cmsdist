@@ -1,9 +1,15 @@
-### RPM cms PHEDEX-web 4.2.8
+### RPM cms PHEDEX-web 4.2.9
+# Dummy line to force a rebuild
 ## INITENV +PATH PERL5LIB %i/perl_lib
+
 %define downloadn %(echo %n | cut -f1 -d-)
-%define cvsversion WEB_%(echo %realversion | tr . _)
-%define cvsserver cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e
-Source: %cvsserver&strategy=export&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
+%define downloadp %(echo %n | cut -f2 -d- | tr '[a-z]' '[A-Z]')
+%define downloadt %(echo %realversion | tr '.' '_')
+%define setupdir  %{downloadn}-%{downloadp}_%{downloadt}
+Source: https://github.com/dmwm/PHEDEX/archive/%{downloadp}_%{downloadt}.tar.gz
+
+#%define gittag 1cf6be60c2447feb33c8394e047b2b8a1285983a
+#Source: git://github.com/dmwm/PHEDEX?obj=PHEDEX-web/%gittag&export=%n&output=/%n.tar.gz
 
 # This allows me to not pull everything in here, which duplicates code
 Requires: PHEDEX-datasvc
@@ -30,7 +36,7 @@ Provides: perl(DB_File)
 Provides: perl(XML::LibXML)
 
 %prep
-%setup -n PHEDEX
+%setup -n %{setupdir}
 
 %build
 %install

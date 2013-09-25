@@ -1,16 +1,22 @@
-### RPM cms PHEDEX-micro PHEDEX_4_1_2
-
+### RPM cms PHEDEX-micro 4.1.3
 ## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
-Source: cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e&module=%{downloadn}&export=%{downloadn}&&tag=-r%{v}&output=/%{downloadn}-micro.tar.gz
+%define downloadp %(echo %n | cut -f2 -d- | tr '[a-z]' '[A-Z]')
+%define downloadt %(echo %realversion | tr '.' '_')
+%define setupdir  %{downloadn}-%{downloadp}_%{downloadt}
+Source: https://github.com/dmwm/PHEDEX/archive/%{downloadp}_%{downloadt}.tar.gz
+
+#%define gittag 7572e79f0925d593180e1b6a62e2ae1ae29c0f39
+#Source: git://github.com/dmwm/PHEDEX?obj=master/%gittag&export=%n&output=/%{downloadn}-micro.tar.gz
+
 # Oracle libs
 Requires: oracle oracle-env
 # perl libs
 Requires: p5-time-hires p5-text-glob p5-compress-zlib p5-dbi
 Requires: p5-dbd-oracle p5-xml-parser p5-poe p5-poe-component-child
 Requires: p5-log-log4perl p5-log-dispatch p5-log-dispatch-filerotate
-Requires: p5-params-validate p5-monalisa-apmon
+Requires: p5-params-validate p5-monalisa-apmon p5-json-xs
 # CMS COMP clients
 Requires: dbs-client
 # Etc.
@@ -30,30 +36,68 @@ Provides: perl(Net::Twitter::Lite)
 
 %prep
 
-%setup -n %{downloadn}
+%setup -n %{setupdir}
+rm -rf Build
+rm -rf Contrib
 rm -rf Custom/Template/*
 rm -rf Custom/DCache
 rm -rf Custom/Castor
 rm -rf Custom/SRM
+rm -rf Documentation/ACAT2008
+rm -rf Documentation/DC04PostMortem
+rm -rf Documentation/DC04Stats
+rm -rf Documentation/Grid2005
+rm -rf Documentation/Updates
+rm -rf Documentation/WebConfig
+rm -rf Documentation/WebSite
+rm -rf Documentation/WhitePapers
+rm -rf Migration
+rm -rf perl_lib/DMWMMON
+rm -f  perl_lib/PHEDEX/CLI/FakeAgent.pm
+rm -f  perl_lib/PHEDEX/CLI/SiteDataInfo.pm
+rm -f  perl_lib/PHEDEX/Core/Mail.pm
+rm -rf perl_lib/PHEDEX/Schema
+rm -rf perl_lib/PHEDEX/Testbed
+rm -rf perl_lib/PHEDEX/Web/API
+rm -rf perl_lib/PHEDEX/Web/{C,D,F,U}*
+rm -rf perl_lib/PHEDEX/Web/S{pooler,SLSpace}.pm
+rm -rf PhEDExWeb
 rm -rf Schema
+rm -rf Testbed
 rm -rf Toolkit/Infrastructure
+rm -rf Toolkit/Management
 rm -rf Toolkit/Monitoring
+rm -rf Toolkit/Peers
+rm -rf Toolkit/Test
 rm -rf Toolkit/Transfer
 rm -rf Toolkit/Workflow
 rm -rf Toolkit/Verify
 rm -rf Toolkit/DropBox
 rm -rf Utilities/AgentFactory.pl
 rm -rf Utilities/AgentMon.pl                                                
+rm -f  Utilities/AuthMap.txt
+rm -f  Utilities/AuthMapper.pl
+rm -f  Utilities/CheckPhEDExContactUsercert.py
 rm -rf Utilities/CMSSWMigrate
 rm -rf Utilities/DBDump
 rm -rf Utilities/DBLoad
 rm -rf Utilities/DropStatus
 rm -rf Utilities/FillNames
+rm -f  Utilities/GetNodeIds
 rm -rf Utilities/GrepSites
 rm -rf Utilities/ping-watchdog.pl
+rm -f  Utilities/RequestAdministartion.pl
+rm -f  Utilities/RequestPhEDExContactUsercert.py
+rm -f  Utilities/RoleMap.txt
+rm -f  Utilities/RoleMapper.pl
+rm -f  Utilities/RouterControl
+rm -f  Utilities/spacecount
+rm -f  Utilities/stacc
 rm -rf Utilities/stagercp
+rm -rf Utilities/testSpace
 rm -rf Utilities/WordMunger
 rm -rf Utilities/wrapper_rfcp
+rm -f  Utilities/WebServiceWrite.pl
 
 %build
 
