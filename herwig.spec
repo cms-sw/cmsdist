@@ -1,4 +1,8 @@
 ### RPM external herwig 6.521
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+%endif
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 Requires: lhapdf photos 
 Patch1: herwig-6.520-tauoladummy
@@ -9,6 +13,10 @@ Patch1: herwig-6.520-tauoladummy
 %prep
 %setup -q -n %n/%{realversion}
 case %cmsplatf in
+  *_mic_*)
+    F77="`which ifort` -mmic -fPIC"
+    PLATF_CONFIG_OPTS="--disable-shared --enable-static --host=x86_64-k1om-linux"
+  ;;
   slc5_*_gcc4[01234]*)
     F77="`which gfortran`"
     PLATF_CONFIG_OPTS="--enable-shared"

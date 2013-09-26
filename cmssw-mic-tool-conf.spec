@@ -1,4 +1,4 @@
-### RPM cms cmssw-mic-tool-conf 1.0
+### RPM cms cmssw-mic-tool-conf 2.0
 ## NOCOMPILER
 
 Requires: gcc-toolfile
@@ -38,6 +38,9 @@ Requires: hepmc-toolfile
 Requires: pythia6-toolfile
 Requires: photos-toolfile
 Requires: tauola-toolfile
+Requires: charybdis-toolfile
+Requires: lhapdf-toolfile
+Requires: herwig-toolfile
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull 
 

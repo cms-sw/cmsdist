@@ -1,4 +1,8 @@
 ### RPM external charybdis 1.003
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+%endif
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 Patch0: charybdis-1003-macosx
 Patch1: charybdis-1.003-archive-only
@@ -25,7 +29,13 @@ esac
 ./configure --lcgplatform=%cmsplatf --pythia_hadronization
 
 %build
-make FC="`which gfortran` -fPIC" PYTHIA6_ROOT=$PYTHIA6_ROOT LHAPDF_ROOT=$LHAPDF_ROOT ZLIB_ROOT=$ZLIB_ROOT
+%if "%mic" == "true"
+perl -p -i -e "s|FC = gfortran|FC = `which ifort` -mmic -fPIC|" config.mk
+CXX="icpc -mmic -fPIC" \
+%else
+perl -p -i -e "s|FC = gfortran|FC = `which gfortran` -fPIC|" config.mk
+%endif
+make PYTHIA6_ROOT=$PYTHIA6_ROOT LHAPDF_ROOT=$LHAPDF_ROOT ZLIB_ROOT=$ZLIB_ROOT
 
 %install
 tar -c lib include | tar -x -C %i
