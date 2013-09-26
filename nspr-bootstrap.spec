@@ -2,7 +2,9 @@
 Source: https://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v%{realversion}/src/nspr-%{realversion}.tar.gz
 %define strip_files %{i}/lib
 
-%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+%define isamd64 %(case %{cmsplatf} in (*amd64*|*_mic_*) echo 1 ;; (*) echo 0 ;; esac)
+%prep  
+%setup -n nspr-%{realversion}
 
 %build
 pushd mozilla/nsprpub

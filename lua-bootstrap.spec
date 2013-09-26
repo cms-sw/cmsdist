@@ -5,6 +5,9 @@ Source0: http://www.lua.org/ftp/lua-%{realversion}.tar.gz
 %define strip_files %{i}/{lib,bin}
 %define drop_files %{i}/{share,man}
 
+%prep  
+%setup -n lua-%{realversion}
+
 %build
 make -C src all MYLIBS="-ldl" MYCFLAGS="-fPIC -DLUA_USE_POSIX -DLUA_USE_DLOPEN"
 

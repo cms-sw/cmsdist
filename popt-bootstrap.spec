@@ -2,6 +2,9 @@
 Source: http://rpm5.org/files/popt/popt-%{realversion}.tar.gz
 %define drop_files %{i}/share
 
+%prep  
+%setup -n popt-%{realversion}
+
 %build
 ./configure --disable-static --disable-nls \
             --prefix %{i} --build="%{_build}" --host="%{_host}" \
