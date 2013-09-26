@@ -1,5 +1,8 @@
 ### RPM external photos 215.5
-
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+%endif
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 Patch0: photos-215.5-macosx
 %define keep_archives true
@@ -20,7 +23,13 @@ esac
 case %cmsplatf in
   osx*) perl -p -i -e "s|libphotos.so|libphotos.dylib|g" Makefile ;;
 esac
-make 
+%if "%mic" == "true"
+sed -i -e 's|= gfortran|= ifort -mmic|' config.mk
+%endif
+%if "%mic" == "true"
+CXX="icpc -mmic" \
+%endif
+make %makeprocesses
 
 %install
 tar -c lib include | tar -x -C %i

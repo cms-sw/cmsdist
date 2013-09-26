@@ -161,8 +161,8 @@ slc*)
         libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
         libXrender libXpm libcom_err"
 
-  slc6_mic_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype compat-readline5 ncurses-libs perl-libs perl-ExtUtils-Embed
-        fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
+  slc6_mic_platformSeeds="glibc coreutils bash tcsh zsh perl tcl readline openssl ncurses e2fsprogs krb5-libs freetype compat-readline5 ncurses-libs perl-libs perl-ExtUtils-Embed
+        fontconfig libidn libX11 libXmu libSM libICE libXcursor
         libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
         libXrender libXpm libcom_err"
 

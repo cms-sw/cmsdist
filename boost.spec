@@ -2,6 +2,10 @@
 %define boostver _%(echo %realversion | tr . _)
 Source: http://switch.dl.sourceforge.net/project/%{n}/%{n}/%{v}/%{n}%{boostver}.tar.gz
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+%endif
 
 %if "%{?cms_cxxflags:set}" != "set"
 %define cms_cxxflags -std=c++0x -O2
@@ -14,6 +18,8 @@ Requires: zlib
 Patch0: boost-1.47.0-fix-strict-overflow
 Patch1: boost-1.47.0-fix-unused
 Patch2: boost-1.49.0-explicit_stored_group
+Patch3: boost-1.51.0-fpclassify
+Patch4: boost-1.51.0-mic
 
 %prep
 %setup -n %{n}%{boostver}
@@ -21,11 +27,17 @@ Patch2: boost-1.49.0-explicit_stored_group
 %patch1 -p1
 %patch2 -p1
 
+%if "%mic" == "true"
+%patch3 -p1
+%patch4 -p1
+%endif
+
 perl -p -i -e 's/-no-cpp-precomp//' tools/build/v2/tools/darwin.jam \
                                     tools/build/v2/tools/darwin.py
 %build
 case %cmsos in 
   osx*) TOOLSET=darwin ;;
+  *_mic ) TOOLSET=intel ;;
   *) TOOLSET=gcc ;;
 esac
 
@@ -48,7 +60,11 @@ then
   ZLIBI="ZLIB_INCLUDE=$ZLIB_ROOT/include"
 fi
 
+%if "%mic" == "true"
+tools/build/v2/bjam toolset=intel --disable-icu --without-iostreams cflags="-mmic" cxxflags="%{cms_cxxflags} -mmic" linkflags="-mmic" %makeprocesses -d 2 -s$PR -s$PV -s$BZ2LIBR -s$BZ2LIBI ${ZLIBR+-s$ZLIBR} ${ZLIBI+-s$ZLIBI} stage
+%else
 tools/build/v2/bjam %makeprocesses cxxflags="%{cms_cxxflags}" -s$PR -s$PV -s$BZ2LIBR -s$BZ2LIBI ${ZLIBR+-s$ZLIBR} ${ZLIBI+-s$ZLIBI} toolset=$TOOLSET stage
+%endif
 
 %install
 case %cmsos in osx*) so=dylib ;; *) so=so ;; esac
@@ -68,7 +84,11 @@ do
 done
 
 pushd libs/python/pyste/install
+%if "%mic" == "true"
+  $PYTHON_ROOT/host/hostpython setup.py install --prefix=%i
+%else
   python setup.py install --prefix=%i
+%endif
 popd
 
 # Do all manipulation with files before creating symbolic links:

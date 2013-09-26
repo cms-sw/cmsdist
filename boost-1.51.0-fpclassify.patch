@@ -1,0 +1,11 @@
+--- a/boost/functional/hash/detail/hash_float.hpp 2012-05-04 00:05:21.000000000 +0200
++++ b/boost/functional/hash/detail/hash_float.hpp     2013-06-10 15:34:09.000000000 +0200
+@@ -62,7 +62,7 @@
+         inline std::size_t float_hash_value(T v)
+         {
+             using namespace std;
+-            switch (fpclassify(v)) {
++            switch (::fpclassify(v)) {
+             case FP_ZERO:
+                 return 0;
+             case FP_INFINITE:

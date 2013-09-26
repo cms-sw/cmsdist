@@ -1,5 +1,6 @@
 ### RPM cms coral-tool-conf 2.1
 ## NOCOMPILER
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 %define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 
@@ -11,6 +12,9 @@ Requires: frontier_client-toolfile
 Requires: gcc-toolfile
 Requires: openssl-toolfile
 
+%if "%mic" == "true"
+Requires: icc-gcc-toolfile
+%endif
 %if %isnotonline
 Requires: sqlite-toolfile
 Requires: libuuid-toolfile

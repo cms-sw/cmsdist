@@ -36,6 +36,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcint.xml
   <use name="sockets"/>
   <use name="pcre"/>
   <use name="zlib"/>
+  <use name="xz"/>
 </tool>
 EOF_TOOLFILE
 
@@ -92,6 +93,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcore.xml
   <lib name="Net"/>
   <use name="rootmathcore"/>
   <use name="rootthread"/>
+  <use name="openssl"/>
 </tool>
 EOF_TOOLFILE
 

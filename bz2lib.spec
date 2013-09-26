@@ -1,5 +1,11 @@
 ### RPM external bz2lib 1.0.5
 # Build system patches by Lassi A. Tuura <lat@iki.fi>
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%define make_opts %{nil}
+%if "%mic" == "true"
+Requires: icc
+%define make_opts CXX="icpc -fPIC -mmic"  CC="icc -fPIC -mmic"
+%endif
 Source: http://www.bzip.org/%{realversion}/bzip2-%{realversion}.tar.gz
 %define cpu %(echo "%{cmsplatf}" | cut -f2 -d_)
 Provides: libbz2.so.1
@@ -11,6 +17,12 @@ Provides: libbz2.so.1()(64bit)
 
 %prep
 %setup -n bzip2-%{realversion}
+case %{cmsplatf} in
+   *_mic_* )
+   sed -i -e 's|CC=.*|CC=icc -fPIC -mmic|' Makefile-libbz2_so
+   sed -i -e 's|CC=.*|CC=icc -fPIC -mmic|' Makefile
+   ;;
+esac
 sed -e 's/ -shared/ -dynamiclib/' \
     -e 's/ -Wl,-soname -Wl,[^ ]*//' \
     -e 's/libbz2\.so/libbz2.dylib/g' \
@@ -22,7 +34,7 @@ so=dylib
 %else
 so=so
 %endif
-make %{makeprocesses} -f Makefile-libbz2_$so
+%{make_opts} make %{makeprocesses} -f Makefile-libbz2_$so
 
 %install
 %if %isdarwin
@@ -30,7 +42,7 @@ so=dylib
 %else
 so=so
 %endif
-make install PREFIX=%{i}
+%{make_opts} make install PREFIX=%{i}
 # For bzip2 1.0.5, the library appears to retain the name libbz2.so.1.0.4
 # rather than libbz2.so.1.0.5 as one would expect, so use this "tmpversion"
 # instead of realversion

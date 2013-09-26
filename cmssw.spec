@@ -1,6 +1,11 @@
-### RPM cms cmssw CMSSW_7_0_0_pre0
-
-Requires: cmssw-tool-conf python cms-git-tools
+### RPM cms cmssw CMSSW_7_0_0_pre4_MIC2
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+Requires: python cms-git-tools
+%if "%mic" == "true"
+Requires: cmssw-mic-tool-conf
+%else
+Requires: cmssw-tool-conf
+%endif
 
 %define runGlimpse      yes
 %define useCmsTC        yes
@@ -55,6 +60,15 @@ Patch13: cmssw-debug
 %if "%(case %realversion in (*_ICC_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define cvstag		%(echo %realversion | sed -e 's|_ICC_X|_X|')
 %define preBuildCommand scram setup icc-cxxcompiler ; scram setup icc-f77compiler ; scram setup icc-ccompiler ; export COMPILER=icc
+%endif
+
+%if "%mic" == "true"
+Patch14: cmssw-700pre4-mic
+%define toolconf        CMSSW_MIC_TOOL_CONF_ROOT
+%define source1         git://github.com/cms-sw/cmssw.git?protocol=https&obj=%{branch}/%(echo %{realversion} | sed -e "s|_MIC.*||")&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
+%define prebuildtarget  echo_CXX; rm -f ../external/%cmsplatf/bin/python ; ln -s /usr/bin/python ../external/%cmsplatf/bin/python
+%define preBuildCommand pushd .. ; patch -p0 <%_sourcedir/cmssw-700pre4-mic ; popd
+%undefine runGlimpse
 %endif
 
 ## IMPORT scram-project-build

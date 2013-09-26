@@ -1,0 +1,23 @@
+--- nspr-4.8.9.orig/mozilla/nsprpub/config/rules.mk	2011-07-01 20:42:36.000000000 +0200
++++ nspr-4.8.9/mozilla/nsprpub/config/rules.mk	2013-06-11 14:50:33.000000000 +0200
+@@ -276,7 +276,9 @@
+ 
+ $(NFSPWD):
+ 	cd $(@D); $(MAKE) $(@F)
+-
++nsinstall: nsinstall.o
++	@$(MAKE_OBJDIR)
++	$(filter-out -mmic,$(CC)) -o $@ $(CFLAGS) $< $(LDFLAGS)
+ $(PROGRAM): $(OBJS)
+ 	@$(MAKE_OBJDIR)
+ ifeq ($(NS_USE_GCC)_$(OS_ARCH),_WINNT)
+@@ -453,6 +455,9 @@
+ WCCFLAGS1 = $(subst /,\\,$(CFLAGS))
+ WCCFLAGS2 = $(subst -I,-i=,$(WCCFLAGS1))
+ WCCFLAGS3 = $(subst -D,-d,$(WCCFLAGS2))
++$(OBJDIR)/nsinstall.$(OBJ_SUFFIX): nsinstall.c
++	@$(MAKE_OBJDIR)
++	$(filter-out -mmic,$(CC)) -o $@ -c $(CFLAGS) $<
+ $(OBJDIR)/%.$(OBJ_SUFFIX): %.c
+ 	@$(MAKE_OBJDIR)
+ ifeq ($(NS_USE_GCC)_$(OS_ARCH),_WINNT)

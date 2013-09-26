@@ -1,0 +1,12 @@
+--- gsl-1.10/configure	2013-06-13 17:24:25.850134645 +0200
++++ gsl-1.10/configure	2013-06-13 17:25:36.335134564 +0200
+@@ -12195,7 +12195,8 @@
+ See \`config.log' for more details." >&5
+ echo "$as_me: error: cannot run test program while cross compiling
+ See \`config.log' for more details." >&2;}
+-   { (exit 1); exit 1; }; }
++   #{ (exit 1); exit 1; }; }
++  }
+ else
+   cat >conftest.$ac_ext <<_ACEOF
+ /* confdefs.h.  */

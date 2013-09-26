@@ -35,7 +35,7 @@ Requires: SCRAMV1
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-01-03
+%define configtag       V05-01-04
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -62,7 +62,9 @@ Requires: SCRAMV1
 %define ucprojtype      %(echo %n | sed -e "s|-patch||" | tr 'a-z' 'A-Z')
 %endif
 %define lcprojtype      %(echo %ucprojtype | tr 'A-Z' 'a-z')
+%if "%{?toolconf:set}" != "set"
 %define toolconf        %(echo %n | sed "s|-|_|g" | tr 'a-z' 'A-Z')_TOOL_CONF_ROOT
+%endif
 
 #define source0 %{configrepo}&obj=master/%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
 %define source0 https://github.com/cms-sw/cmssw-config/archive/%{configtag}.tar.gz

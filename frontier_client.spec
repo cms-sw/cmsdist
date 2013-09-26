@@ -1,6 +1,10 @@
 ### RPM external frontier_client 2.8.8
 Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+%endif
 
 Requires: expat
 Requires: openssl
@@ -12,6 +16,7 @@ Requires: onlinesystemtools
 %endif
 
 Patch0: frontier_client-2.8.5-fix-gcc47
+Patch1: frontier_client.2.8.6.mic
 
 %if "%{?cms_cxxflags:set}" != "set"
 %define cms_cxxflags -std=c++0x -O2
@@ -27,11 +32,18 @@ Patch0: frontier_client-2.8.5-fix-gcc47
 %endif
 
 %patch0 -p1
+%if "%mic" == "true"
+%patch1 -p1
+%endif
 
 %build
 
 export MAKE_ARGS=%{makeargs}
-make $MAKE_ARGS CXXFLAGS="%cms_cxxflags -ldl"
+%if "%mic" == "true"
+CXX="icpc -fPIC -mmic"  CC="icc -fPIC -mmic" make $MAKE_ARGS CXXFLAGS="%cms_cxxflags -ldl"
+%else
+ make $MAKE_ARGS CXXFLAGS="%cms_cxxflags -ldl"
+%endif
 
 %install
 mkdir -p %i/lib

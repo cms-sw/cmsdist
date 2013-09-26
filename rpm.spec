@@ -7,9 +7,9 @@
 Source: http://rpm.org/releases/rpm-%(echo %realversion | cut -f1,2 -d.).x/rpm-%{realversion}.tar.bz2
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
-Requires: file nspr nss popt bz2lib db4 lua
+Requires: file-bootstrap nspr-bootstrap nss-bootstrap popt-bootstrap bz2lib-bootstrap db4-bootstrap lua-bootstrap
 %if "%online" != "true"
-Requires: zlib
+Requires: zlib-bootstrap
 %else
 Requires: onlinesystemtools
 %endif

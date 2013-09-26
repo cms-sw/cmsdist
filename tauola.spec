@@ -1,4 +1,8 @@
 ### RPM external tauola 27.121.5
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+%endif
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 Patch1: tauola-27.121.5-gfortran-taueta
 Patch2: tauola-27.121-gfortran-tauola-srs
@@ -27,6 +31,7 @@ perl -p -i -e 's|-fno-globals||g;s|-finit-local-zero||g;s|-fugly-logint||g;s|-fu
 %patch3 -p3
 # Build static library only on new platforms.
 case %cmsplatf in 
+  *_mic_*) FC="`which ifort` -mmic" ;;
   slc5_*_gcc4[01234]*) FC="`which gfortran`" ;;
   *) FC="`which gfortran` -fPIC" 
 %patch4 -p3
@@ -35,12 +40,19 @@ esac
 ./configure --lcgplatform=%cmsplatf --with-pythia6libs=$PYTHIA6_ROOT/lib FC="$FC"
 case %cmsplatf in
   slc5_*_gcc4[01234]*) ;;
+  *_mic_*)
+    # Make sure we compile with -fPIC also in the case of archive libraries.
+    perl -p -i -e "s|FC = gfortran|FC = `which ifort` -mmic -fPIC|;s|CC = gcc|CC = `which icc` -mmic -fPIC|" config.mk
+  ;;
   *)
     # Make sure we compile with -fPIC also in the case of archive libraries.
     perl -p -i -e "s|FC = gfortran|FC = `which gfortran` -fPIC|;s|CC = gcc|CC = `which gcc` -fPIC|" config.mk
   ;;
 esac
 %build
+%if "%mic" == "true"
+CXX="icpc -mmic" \
+%endif
 make PHOTOS_ROOT=$PHOTOS_ROOT
 
 %install

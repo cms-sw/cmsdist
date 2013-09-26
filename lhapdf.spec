@@ -1,12 +1,19 @@
 ### RPM external lhapdf 5.8.5
-
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+%endif
 %define realversion %(echo %{v} | cut -d- -f1)
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 Patch1: lhapdf-5.8.5-gzio
 Patch2: lhapdf-data-5.8.5-gzio
 Patch3: lhapdf-5.8.5-disable-examples-and-tests
+Patch4: lhapdf-mic-5.8.5
 
-Requires: zlib python
+Requires: zlib
+%if "%mic" != "true"
+Requires: python
+%endif
 BuildRequires: autotools swig
 
 %define keep_archives true
@@ -46,7 +53,7 @@ all: ${FILES}
 	gzip -9 $<
 EOF
 
-make -j %{makeprocesses} -f ../compress.mk all
+make %{makeprocesses} -f ../compress.mk all
 
 %build
 # We do everything in install because we need to do it twice.
@@ -57,16 +64,26 @@ aclocal -I m4
 autoconf
 automake --add-missing
 
+%if "%mic" == "true"
+FC="`which ifort` -mmic -fPIC"
+CXX="`which icpc` -mmic -fPIC"
+CC="`which icc` -mmic -fPIC"
+patch -p0 <%_sourcedir/lhapdf-mic-5.8.5
+%else
 FC="`which gfortran` -fPIC"
 CXX="`which %{cms_cxx}` -fPIC"
 CC="`which gcc` -fPIC"
-
+%endif
 # Configure first with low memory.
 ./configure --prefix=%{i} --enable-static --disable-shared --enable-pyext \
             --disable-octave --disable-doxygen --enable-low-memory \
             --with-max-num-pdfsets=1 \
-            FC="$FC" CXX="$CXX" CC="$CC" \
-            CPPFLAGS="-I ${ZLIB_ROOT}/include" CXXFLAGS="%cms_cxxflags" LDFLAGS="-L${ZLIB_ROOT}/lib -lz"
+            CPPFLAGS="-I ${ZLIB_ROOT}/include" CXXFLAGS="%cms_cxxflags" LDFLAGS="-L${ZLIB_ROOT}/lib -lz" \
+%if "%mic" == "true"
+            FC="$FC" CXX="$CXX" CC="$CC" --host=x86_64-k1om-linux --disable-pyext
+%else
+            FC="$FC" CXX="$CXX" CC="$CC"
+%endif
 make %{makeprocesses}
 make install
 
@@ -82,8 +99,12 @@ popd
 make distclean
 ./configure --prefix=%{i}/full --enable-static --disable-shared \
             --enable-pyext --disable-octave --disable-doxygen \
-            FC="$FC" CXX="$CXX" CC="$CC" \
-            CPPFLAGS="-I ${ZLIB_ROOT}/include" CXXFLAGS="%cms_cxxflags" LDFLAGS="-L${ZLIB_ROOT}/lib -lz"
+            CPPFLAGS="-I ${ZLIB_ROOT}/include" CXXFLAGS="%cms_cxxflags" LDFLAGS="-L${ZLIB_ROOT}/lib -lz" \
+%if "%mic" == "true"
+            FC="$FC" CXX="$CXX" CC="$CC" --host=x86_64-k1om-linux --disable-pyext
+%else
+            FC="$FC" CXX="$CXX" CC="$CC"
+%endif
 make %{makeprocesses}
 make install
 

@@ -1,0 +1,916 @@
+diff -Naur config/BuildFile.xml config/BuildFile.xml
+--- config/BuildFile.xml        2013-09-23 15:43:22.059918705 +0200
++++ config/BuildFile.xml 2013-09-24 09:24:04.000000000 +0200
+@@ -42,3 +42,6 @@
+ <architecture name="osx">
+    <flags MISSING_SYMBOL_FLAGS="-Wl,-undefined,error"/>
+ </architecture>
++<architecture name="_mic_">
++   <flags CXXFLAGS="-Doverride="/>
++</architecture>
+diff -Naur src/FWCore/Concurrency/interface/SerialTaskQueue.h src/FWCore/Concurrency/interface/SerialTaskQueue.h
+--- src/FWCore/Concurrency/interface/SerialTaskQueue.h	2013-09-15 00:59:03.000000000 +0200
++++ src/FWCore/Concurrency/interface/SerialTaskQueue.h	2013-09-23 17:18:44.000000000 +0200
+@@ -66,8 +66,8 @@
+    {
+    public:
+       SerialTaskQueue():
+-      m_taskChosen{ATOMIC_FLAG_INIT},
+-      m_pauseCount{0}
++      m_taskChosen(ATOMIC_FLAG_INIT),
++      m_pauseCount(0)
+       {  }
+       
+       // ---------- const member functions ---------------------
+@@ -182,7 +182,7 @@
+    
+    template<typename T>
+    void SerialTaskQueue::push(const T& iAction) {
+-      QueuedTask<T>* pTask{ new (tbb::task::allocate_root()) QueuedTask<T>{iAction} };
++      QueuedTask<T>* pTask{ new (tbb::task::allocate_root()) QueuedTask<T>(iAction) };
+       pTask->setQueue(this);
+       pushTask(pTask);
+    }
+@@ -191,14 +191,14 @@
+    void SerialTaskQueue::pushAndWait(const T& iAction) {
+       tbb::empty_task* waitTask = new (tbb::task::allocate_root()) tbb::empty_task;
+       waitTask->set_ref_count(2);
+-      QueuedTask<T>* pTask{ new (waitTask->allocate_child()) QueuedTask<T>{iAction} };
++      QueuedTask<T>* pTask{ new (waitTask->allocate_child()) QueuedTask<T>(iAction) };
+       pTask->setQueue(this);
+       pushAndWait(waitTask,pTask);
+    }
+    
+    template<typename T>
+    tbb::task* SerialTaskQueue::pushAndGetNextTaskToRun(const T& iAction) {
+-      QueuedTask<T>* pTask{ new (tbb::task::allocate_root()) QueuedTask<T>{iAction} };
++      QueuedTask<T>* pTask{ new (tbb::task::allocate_root()) QueuedTask<T>(iAction) };
+       pTask->setQueue(this);
+       return pushAndGetNextTask(pTask);
+    }
+diff -Naur src/FWCore/Concurrency/interface/WaitingTaskList.h src/FWCore/Concurrency/interface/WaitingTaskList.h
+--- src/FWCore/Concurrency/interface/WaitingTaskList.h	2013-09-15 00:59:03.000000000 +0200
++++ src/FWCore/Concurrency/interface/WaitingTaskList.h	2013-09-23 17:19:22.000000000 +0200
+@@ -127,7 +127,7 @@
+          tbb::task* m_task;
+          std::atomic<WaitNode*> m_next;
+          bool m_fromCache;
+-         
++         WaitNode(){}
+          void setNextNode(WaitNode* iNext){
+             m_next = iNext;
+          }
+diff -Naur src/FWCore/Concurrency/src/WaitingTaskList.cc src/FWCore/Concurrency/src/WaitingTaskList.cc
+--- src/FWCore/Concurrency/src/WaitingTaskList.cc	2013-09-15 00:59:03.000000000 +0200
++++ src/FWCore/Concurrency/src/WaitingTaskList.cc	2013-09-23 17:19:22.000000000 +0200
+@@ -33,11 +33,11 @@
+ // constructors and destructor
+ //
+ WaitingTaskList::WaitingTaskList(unsigned int iInitialSize):
+-m_head{0},
+-m_nodeCache{new WaitNode[iInitialSize]},
+-m_nodeCacheSize{iInitialSize},
+-m_lastAssignedCacheIndex{0},
+-m_waiting{true}
++m_head(0),
++m_nodeCache(new WaitNode[iInitialSize]),
++m_nodeCacheSize(iInitialSize),
++m_lastAssignedCacheIndex(0),
++m_waiting(true)
+ {
+   for(auto it = m_nodeCache, itEnd = m_nodeCache+m_nodeCacheSize; it!=itEnd; ++it) {
+     it->m_fromCache=true;
+diff -Naur src/FWCore/Concurrency/test/serialtaskqueue_t.cppunit.cpp src/FWCore/Concurrency/test/serialtaskqueue_t.cppunit.cpp
+--- src/FWCore/Concurrency/test/serialtaskqueue_t.cppunit.cpp	2013-09-15 00:59:03.000000000 +0200
++++ src/FWCore/Concurrency/test/serialtaskqueue_t.cppunit.cpp	2013-09-23 17:20:26.000000000 +0200
+@@ -41,7 +41,7 @@
+    
+    edm::SerialTaskQueue queue;
+    {
+-      boost::shared_ptr<tbb::task> waitTask{new (tbb::task::allocate_root()) tbb::empty_task{},
++      boost::shared_ptr<tbb::task> waitTask{new (tbb::task::allocate_root()) tbb::empty_task(),
+                                             [](tbb::task* iTask){tbb::task::destroy(*iTask);} };
+       waitTask->set_ref_count(1+3);
+       tbb::task* pWaitTask = waitTask.get();
+@@ -103,7 +103,7 @@
+    {
+       queue.pause();
+       {
+-         boost::shared_ptr<tbb::task> waitTask{new (tbb::task::allocate_root()) tbb::empty_task{},
++         boost::shared_ptr<tbb::task> waitTask{new (tbb::task::allocate_root()) tbb::empty_task(),
+                                              [](tbb::task* iTask){tbb::task::destroy(*iTask);} };
+          waitTask->set_ref_count(1+1);
+          tbb::task* pWaitTask = waitTask.get();
+@@ -120,7 +120,7 @@
+       }
+ 
+       {
+-         boost::shared_ptr<tbb::task> waitTask{new (tbb::task::allocate_root()) tbb::empty_task{},
++         boost::shared_ptr<tbb::task> waitTask{new (tbb::task::allocate_root()) tbb::empty_task(),
+                                              [](tbb::task* iTask){tbb::task::destroy(*iTask);} };
+          waitTask->set_ref_count(1+3);
+          tbb::task* pWaitTask = waitTask.get();
+@@ -157,12 +157,15 @@
+ 
+ void SerialTaskQueue_test::stressTest()
+ {
++#ifdef __INTEL_COMPILER
++
++#else
+    edm::SerialTaskQueue queue;
+    
+    unsigned int index = 100;
+    const unsigned int nTasks = 1000;
+    while(0 != --index) {
+-      boost::shared_ptr<tbb::task> waitTask{new (tbb::task::allocate_root()) tbb::empty_task{},
++      boost::shared_ptr<tbb::task> waitTask{new (tbb::task::allocate_root()) tbb::empty_task(),
+                                             [](tbb::task* iTask){tbb::task::destroy(*iTask);} };
+       waitTask->set_ref_count(3);
+       tbb::task* pWaitTask=waitTask.get();
+@@ -183,7 +186,7 @@
+          
+             pWaitTask->decrement_ref_count();
+             });
+-         
++
+          waitToStart=false;
+          for(unsigned int i=0; i<nTasks;++i) {
+             pWaitTask->increment_ref_count();
+@@ -199,6 +202,7 @@
+ 
+       CPPUNIT_ASSERT(2*nTasks==count);
+    }
++#endif
+ }
+ 
+ 
+diff -Naur src/FWCore/Concurrency/test/waitingtasklist_t.cppunit.cpp src/FWCore/Concurrency/test/waitingtasklist_t.cppunit.cpp
+--- src/FWCore/Concurrency/test/waitingtasklist_t.cppunit.cpp	2013-09-15 00:59:03.000000000 +0200
++++ src/FWCore/Concurrency/test/waitingtasklist_t.cppunit.cpp	2013-09-23 17:21:11.000000000 +0200
+@@ -69,11 +69,11 @@
+    
+    edm::WaitingTaskList waitList;
+    {
+-      boost::shared_ptr<tbb::task> waitTask{new (tbb::task::allocate_root()) tbb::empty_task{},
++      boost::shared_ptr<tbb::task> waitTask{new (tbb::task::allocate_root()) tbb::empty_task(),
+                                             [](tbb::task* iTask){tbb::task::destroy(*iTask);} };
+       waitTask->set_ref_count(2);
+       //NOTE: allocate_child does NOT increment the ref_count of waitTask!
+-      tbb::task* t = new (waitTask->allocate_child()) TestCalledTask{called};
++      tbb::task* t = new (waitTask->allocate_child()) TestCalledTask(called);
+    
+       waitList.add(t);
+ 
+@@ -91,11 +91,11 @@
+    called = false;
+    
+    {
+-      boost::shared_ptr<tbb::task> waitTask{new (tbb::task::allocate_root()) tbb::empty_task{},
++      boost::shared_ptr<tbb::task> waitTask{new (tbb::task::allocate_root()) tbb::empty_task(),
+                                             [](tbb::task* iTask){tbb::task::destroy(*iTask);} };
+       waitTask->set_ref_count(2);
+    
+-      tbb::task* t = new (waitTask->allocate_child()) TestCalledTask{called};
++      tbb::task* t = new (waitTask->allocate_child()) TestCalledTask(called);
+    
+       waitList.add(t);
+ 
+@@ -113,11 +113,11 @@
+    std::atomic<bool> called{false};
+    edm::WaitingTaskList waitList;
+    {
+-      boost::shared_ptr<tbb::task> waitTask{new (tbb::task::allocate_root()) tbb::empty_task{},
++      boost::shared_ptr<tbb::task> waitTask{new (tbb::task::allocate_root()) tbb::empty_task(),
+                                             [](tbb::task* iTask){tbb::task::destroy(*iTask);} };
+       waitTask->set_ref_count(2);
+    
+-      tbb::task* t = new (waitTask->allocate_child()) TestCalledTask{called};
++      tbb::task* t = new (waitTask->allocate_child()) TestCalledTask(called);
+ 
+       waitList.doneWaiting();
+    
+@@ -137,6 +137,9 @@
+ 
+ void WaitingTaskList_test::stressTest()
+ {
++#ifdef __INTEL_COMPILER
++
++#else
+ #if defined(CXX_THREAD_AVAILABLE)
+    std::atomic<bool> called{false};
+    edm::WaitingTaskList waitList;
+@@ -145,7 +148,7 @@
+    const unsigned int nTasks = 10000;
+    while(0 != --index) {
+       called = false;
+-      boost::shared_ptr<tbb::task> waitTask{new (tbb::task::allocate_root()) tbb::empty_task{},
++      boost::shared_ptr<tbb::task> waitTask{new (tbb::task::allocate_root()) tbb::empty_task(),
+                                             [](tbb::task* iTask){tbb::task::destroy(*iTask);} };
+       waitTask->set_ref_count(3);
+       tbb::task* pWaitTask=waitTask.get();
+@@ -153,7 +156,7 @@
+       {
+          std::thread makeTasksThread([&waitList,pWaitTask,&called]{
+             for(unsigned int i = 0; i<nTasks;++i) {
+-               auto t = new (tbb::task::allocate_additional_child_of(*pWaitTask)) TestCalledTask{called};
++               auto t = new (tbb::task::allocate_additional_child_of(*pWaitTask)) TestCalledTask(called);
+                waitList.add(t);
+             }
+          
+@@ -171,6 +174,7 @@
+       waitTask->wait_for_all();
+    }
+ #endif
++#endif
+ }
+ 
+ 
+diff -Naur src/FWCore/Framework/bin/cmsRun.cpp src/FWCore/Framework/bin/cmsRun.cpp
+--- src/FWCore/Framework/bin/cmsRun.cpp	2013-09-15 00:59:03.000000000 +0200
++++ src/FWCore/Framework/bin/cmsRun.cpp	2013-09-23 17:38:48.000000000 +0200
+@@ -102,9 +102,9 @@
+     oPtr.reset();
+     if(0==iNThreads) {
+       //Allow TBB to decide how many threads. This is normally the number of CPUs in the machine.
+-      oPtr = std::unique_ptr<tbb::task_scheduler_init>{new tbb::task_scheduler_init{}};
++      oPtr = std::unique_ptr<tbb::task_scheduler_init>(new tbb::task_scheduler_init());
+     } else {
+-      oPtr = std::unique_ptr<tbb::task_scheduler_init>{new tbb::task_scheduler_init{static_cast<int>(iNThreads)}};
++      oPtr = std::unique_ptr<tbb::task_scheduler_init>(new tbb::task_scheduler_init(static_cast<int>(iNThreads)));
+     }
+   }
+ }
+@@ -117,7 +117,7 @@
+   //Default to only use 1 thread. We define this early since plugin system or message logger
+   // may be using TBB.
+   bool setNThreadsOnCommandLine = false;
+-  std::unique_ptr<tbb::task_scheduler_init> tsiPtr{new tbb::task_scheduler_init{1}};
++  std::unique_ptr<tbb::task_scheduler_init> tsiPtr(new tbb::task_scheduler_init(1));
+   boost::shared_ptr<edm::Presence> theMessageServicePresence;
+   std::unique_ptr<std::ofstream> jobReportStreamPtr;
+   boost::shared_ptr<edm::serviceregistry::ServiceWrapper<edm::JobReport> > jobRep;
+diff -Naur src/FWCore/Framework/interface/EDConsumerBase.h src/FWCore/Framework/interface/EDConsumerBase.h
+--- src/FWCore/Framework/interface/EDConsumerBase.h	2013-09-15 00:59:03.000000000 +0200
++++ src/FWCore/Framework/interface/EDConsumerBase.h	2013-09-24 08:58:42.000000000 +0200
+@@ -80,22 +80,22 @@
+     template <typename ProductType, BranchType B=InEvent>
+     EDGetTokenT<ProductType> consumes(edm::InputTag const& tag) {
+       TypeToGet tid=TypeToGet::make<ProductType>();
+-      return EDGetTokenT<ProductType>{recordConsumes(B,tid, tag,true), tag.willSkipCurrentProcess()};
++      return EDGetTokenT<ProductType>(recordConsumes(B,tid, tag,true), tag.willSkipCurrentProcess());
+     }
+ 
+     EDGetToken consumes(const TypeToGet& id, edm::InputTag const& tag) {
+-      return EDGetToken{recordConsumes(InEvent,id,tag,true), tag.willSkipCurrentProcess()};
++      return EDGetToken(recordConsumes(InEvent,id,tag,true), tag.willSkipCurrentProcess());
+     }
+     
+     template <BranchType B>
+     EDGetToken consumes(TypeToGet const& id, edm::InputTag const& tag) {
+-      return EDGetToken{recordConsumes(B,id,tag,true), tag.willSkipCurrentProcess()};
++      return EDGetToken(recordConsumes(B,id,tag,true), tag.willSkipCurrentProcess());
+     }
+ 
+     template <typename ProductType, BranchType B=InEvent>
+     EDGetTokenT<ProductType> mayConsume(edm::InputTag const& tag) {
+       TypeToGet tid=TypeToGet::make<ProductType>();
+-      return EDGetTokenT<ProductType>{recordConsumes(B,tid, tag,false), tag.willSkipCurrentProcess()};
++      return EDGetTokenT<ProductType>(recordConsumes(B,tid, tag,false), tag.willSkipCurrentProcess());
+     }
+     
+     
+@@ -105,7 +105,7 @@
+     
+     template <BranchType B>
+     EDGetToken mayConsume(const TypeToGet& id, edm::InputTag const& tag) {
+-      return EDGetToken{recordConsumes(B,id,tag,false), tag.willSkipCurrentProcess()};
++      return EDGetToken(recordConsumes(B,id,tag,false), tag.willSkipCurrentProcess());
+     }
+ 
+     template <typename ProductType, BranchType B=InEvent>
+diff -Naur src/FWCore/Framework/interface/one/implementors.h src/FWCore/Framework/interface/one/implementors.h
+--- src/FWCore/Framework/interface/one/implementors.h	2013-09-15 00:59:03.000000000 +0200
++++ src/FWCore/Framework/interface/one/implementors.h	2013-09-24 08:59:59.000000000 +0200
+@@ -24,6 +24,10 @@
+ // user include files
+ #include "FWCore/Framework/interface/Frameworkfwd.h"
+ 
++#ifdef __INTEL_COMPILER
++#define final
++#endif
++
+ // forward declarations
+ 
+ namespace edm {
+@@ -131,5 +135,7 @@
+       }
+    }
+ }
+-
++#ifdef __INTEL_COMPILER
++#undef final
++#endif
+ #endif
+diff -Naur src/FWCore/Framework/test/dependentrecord_t.cppunit.cc src/FWCore/Framework/test/dependentrecord_t.cppunit.cc
+--- src/FWCore/Framework/test/dependentrecord_t.cppunit.cc	2013-09-15 00:59:03.000000000 +0200
++++ src/FWCore/Framework/test/dependentrecord_t.cppunit.cc	2013-09-24 09:01:06.000000000 +0200
+@@ -831,22 +831,22 @@
+ void testdependentrecord::extendIOVTest()
+ {
+    edm::eventsetup::EventSetupProvider provider;
+-   boost::shared_ptr<edm::eventsetup::DataProxyProvider> dummyProv{new DummyProxyProvider{}};
++   boost::shared_ptr<edm::eventsetup::DataProxyProvider> dummyProv(new DummyProxyProvider());
+    provider.add(dummyProv);
+    
+    boost::shared_ptr<DummyFinder> dummyFinder{new DummyFinder};
+    
+    edm::IOVSyncValue startSyncValue{edm::EventID{1, 1, 1}};
+-   dummyFinder->setInterval(edm::ValidityInterval{startSyncValue, 
+-                                                  edm::IOVSyncValue{edm::EventID{1, 1, 5}}});
+-   provider.add(boost::shared_ptr<edm::EventSetupRecordIntervalFinder>{dummyFinder});
++   dummyFinder->setInterval(edm::ValidityInterval(startSyncValue, 
++                                                  edm::IOVSyncValue(edm::EventID(1, 1, 5))));
++   provider.add(boost::shared_ptr<edm::EventSetupRecordIntervalFinder>(dummyFinder));
+    
+    boost::shared_ptr<edm::eventsetup::DataProxyProvider> depProv(new DepOn2RecordProxyProvider());
+    provider.add(depProv);
+    
+    boost::shared_ptr<Dummy2RecordFinder> dummy2Finder(new Dummy2RecordFinder);
+-   dummy2Finder->setInterval(edm::ValidityInterval{startSyncValue, 
+-                                                   edm::IOVSyncValue{edm::EventID{1, 1, 6}}});
++   dummy2Finder->setInterval(edm::ValidityInterval(startSyncValue, 
++                                                   edm::IOVSyncValue(edm::EventID(1, 1, 6))));
+    provider.add(boost::shared_ptr<edm::EventSetupRecordIntervalFinder>(dummy2Finder));
+    {
+       const edm::EventSetup& eventSetup1 = provider.eventSetupForInstance(edm::IOVSyncValue(edm::EventID(1, 1, 1), edm::Timestamp(1)));
+@@ -862,8 +862,8 @@
+          CPPUNIT_ASSERT(id1 == eventSetup.get<Dummy2Record>().cacheIdentifier());
+       }
+       //extend the IOV DummyRecord while Dummy2Record still covers this range
+-      dummyFinder->setInterval(edm::ValidityInterval{startSyncValue, 
+-                                                     edm::IOVSyncValue{edm::EventID{1, 1, 7}}});
++      dummyFinder->setInterval(edm::ValidityInterval(startSyncValue, 
++                                                     edm::IOVSyncValue(edm::EventID(1, 1, 7))));
+       {
+          const edm::EventSetup& eventSetup = provider.eventSetupForInstance(edm::IOVSyncValue(edm::EventID(1, 1, 6), edm::Timestamp(7)));
+          unsigned long long id = eventSetup.get<DepOn2Record>().cacheIdentifier();
+@@ -873,8 +873,8 @@
+       }
+       
+       //extend the IOV Dummy2Record while DummyRecord still covers this range
+-      dummy2Finder->setInterval(edm::ValidityInterval{startSyncValue, 
+-         edm::IOVSyncValue{edm::EventID{1, 1, 7}}});
++      dummy2Finder->setInterval(edm::ValidityInterval(startSyncValue, 
++         edm::IOVSyncValue(edm::EventID(1, 1, 7))));
+ 
+       {
+          const edm::EventSetup& eventSetup = provider.eventSetupForInstance(edm::IOVSyncValue(edm::EventID(1, 1, 7), edm::Timestamp(7)));
+@@ -884,11 +884,11 @@
+          CPPUNIT_ASSERT(id1 == eventSetup.get<Dummy2Record>().cacheIdentifier());
+       }
+       //extend the both IOVs
+-      dummy2Finder->setInterval(edm::ValidityInterval{startSyncValue, 
+-                                                      edm::IOVSyncValue{edm::EventID{1, 1, 8}}});
++      dummy2Finder->setInterval(edm::ValidityInterval(startSyncValue, 
++                                                      edm::IOVSyncValue(edm::EventID(1, 1, 8))));
+       
+-      dummyFinder->setInterval(edm::ValidityInterval{startSyncValue, 
+-         edm::IOVSyncValue{edm::EventID{1, 1, 8}}});
++      dummyFinder->setInterval(edm::ValidityInterval(startSyncValue, 
++         edm::IOVSyncValue(edm::EventID(1, 1, 8))));
+       {
+          const edm::EventSetup& eventSetup = provider.eventSetupForInstance(edm::IOVSyncValue(edm::EventID(1, 1, 8), edm::Timestamp(7)));
+          unsigned long long id = eventSetup.get<DepOn2Record>().cacheIdentifier();
+@@ -897,11 +897,11 @@
+          CPPUNIT_ASSERT(id1 == eventSetup.get<Dummy2Record>().cacheIdentifier());
+       }
+       //extend only one and create a new IOV for the other
+-      dummy2Finder->setInterval(edm::ValidityInterval{startSyncValue, 
+-                                                      edm::IOVSyncValue{edm::EventID{1, 1, 9}}});
++      dummy2Finder->setInterval(edm::ValidityInterval(startSyncValue, 
++                                                      edm::IOVSyncValue(edm::EventID(1, 1, 9))));
+       
+-      dummyFinder->setInterval(edm::ValidityInterval{edm::IOVSyncValue{edm::EventID{1, 1, 9}}, 
+-                                                     edm::IOVSyncValue{edm::EventID{1, 1, 9}}});
++      dummyFinder->setInterval(edm::ValidityInterval(edm::IOVSyncValue(edm::EventID(1, 1, 9)), 
++                                                     edm::IOVSyncValue(edm::EventID(1, 1, 9))));
+       {
+          const edm::EventSetup& eventSetup = provider.eventSetupForInstance(edm::IOVSyncValue(edm::EventID(1, 1, 9), edm::Timestamp(7)));
+          unsigned long long id = eventSetup.get<DepOn2Record>().cacheIdentifier();
+@@ -910,11 +910,11 @@
+          CPPUNIT_ASSERT(id1 == eventSetup.get<Dummy2Record>().cacheIdentifier());
+       }
+       //extend the otherone and create a new IOV for the other
+-      dummy2Finder->setInterval(edm::ValidityInterval{edm::IOVSyncValue{edm::EventID{1, 1, 10}}, 
+-                                                      edm::IOVSyncValue{edm::EventID{1, 1, 10}} });
++      dummy2Finder->setInterval(edm::ValidityInterval(edm::IOVSyncValue(edm::EventID(1, 1, 10)), 
++                                                      edm::IOVSyncValue(edm::EventID(1, 1, 10)) ));
+       
+-      dummyFinder->setInterval(edm::ValidityInterval{edm::IOVSyncValue{edm::EventID{1, 1, 9}}, 
+-                                                     edm::IOVSyncValue{edm::EventID{1, 1, 10}} });
++      dummyFinder->setInterval(edm::ValidityInterval(edm::IOVSyncValue(edm::EventID(1, 1, 9)), 
++                                                     edm::IOVSyncValue(edm::EventID(1, 1, 10)) ));
+       
+       {
+          const edm::EventSetup& eventSetup = provider.eventSetupForInstance(edm::IOVSyncValue(edm::EventID(1, 1, 10), edm::Timestamp(7)));
+diff -Naur src/FWCore/Framework/test/edconsumerbase_t.cppunit.cc src/FWCore/Framework/test/edconsumerbase_t.cppunit.cc
+--- src/FWCore/Framework/test/edconsumerbase_t.cppunit.cc	2013-09-15 00:59:03.000000000 +0200
++++ src/FWCore/Framework/test/edconsumerbase_t.cppunit.cc	2013-09-24 09:01:54.000000000 +0200
+@@ -30,8 +30,9 @@
+ #include "DataFormats/Provenance/interface/ProductID.h"
+ 
+ #include "DataFormats/Common/interface/View.h"
+-
+-
++#ifdef __INTEL_COMPILER
++#include <boost/assign/list_of.hpp>
++#endif
+ class TestEDConsumerBase : public CppUnit::TestFixture {
+ public:
+   CPPUNIT_TEST_SUITE(TestEDConsumerBase);
+@@ -162,7 +163,11 @@
+   const auto vint_blank = helper.index(edm::PRODUCT_TYPE, typeID_vint, "label", "instance", "process");
+   const auto vint_blank_no_proc = helper.index(edm::PRODUCT_TYPE, typeID_vint, "label", "instance",0);
+   {
++#ifdef __INTEL_COMPILER
++    std::vector<edm::InputTag> vTags=boost::assign::list_of(edm::InputTag("label","instance","process"))(edm::InputTag("labelC","instanceC","processC"));
++#else
+     std::vector<edm::InputTag> vTags={ {"label","instance","process"}, {"labelC","instanceC","processC"} };
++#endif
+     IntsConsumer intConsumer{vTags};
+     intConsumer.updateLookup(edm::InEvent,helper);
+   
+@@ -208,7 +213,12 @@
+     
+   }
+   {
++
++#ifdef __INTEL_COMPILER
++    std::vector<edm::InputTag> vTagsRev=boost::assign::list_of(edm::InputTag("labelC","instanceC","processC"))(edm::InputTag("label","instance","process"));
++#else
+     std::vector<edm::InputTag> vTagsRev={ {"labelC","instanceC","processC"},{"label","instance","process"} };
++#endif
+     IntsConsumer intConsumerRev{vTagsRev};
+     intConsumerRev.updateLookup(edm::InEvent,helper);
+ 
+@@ -253,7 +263,11 @@
+   }
+   {
+     //test default process
++#ifdef __INTEL_COMPILER
++    std::vector<edm::InputTag> vTags=boost::assign::list_of(edm::InputTag("label","instance"))(edm::InputTag("labelC","instanceC","@skipCurrentProcess"));
++#else
+     std::vector<edm::InputTag> vTags={ {"label","instance"}, {"labelC","instanceC","@skipCurrentProcess"} };
++#endif
+     IntsConsumer intConsumer{vTags};
+     intConsumer.updateLookup(edm::InEvent,helper);
+     
+@@ -279,7 +293,11 @@
+ }
+   {
+     //Ask for something that doesn't exist
++#ifdef __INTEL_COMPILER
++    std::vector<edm::InputTag> vTags=boost::assign::list_of(edm::InputTag("notHere"));
++#else
+     std::vector<edm::InputTag> vTags={ {"notHere"} };
++#endif
+     IntsConsumer intConsumer{vTags};
+     intConsumer.updateLookup(edm::InEvent,helper);
+     
+@@ -332,10 +350,16 @@
+   const auto v_simple_no_proc = helper.index(edm::ELEMENT_TYPE, typeID_Simple, "labelC", "instanceC");
+ 
+   {
++#ifdef __INTEL_COMPILER
++    std::vector<std::pair<edm::TypeToGet,edm::InputTag>> vT = boost::assign::list_of
++      (std::pair<edm::TypeToGet,edm::InputTag>(edm::TypeToGet::make<edm::View<int>>(),edm::InputTag("label",  "instance",  "process")))
++      (std::pair<edm::TypeToGet,edm::InputTag>(edm::TypeToGet::make<edm::View<edmtest::Simple>>(),edm::InputTag("labelC", "instanceC", "processC")));
++#else
+     std::vector<std::pair<edm::TypeToGet,edm::InputTag>> vT = {
+       {edm::TypeToGet::make<edm::View<int>>(),{"label",  "instance",  "process"}},
+       {edm::TypeToGet::make<edm::View<edmtest::Simple>>(),{"labelC", "instanceC", "processC"}}
+     };
++#endif
+     TypeToGetConsumer consumer{vT};
+     
+     consumer.updateLookup(edm::InEvent,helper);
+@@ -357,10 +381,16 @@
+   }
+ 
+   {
++#ifdef __INTEL_COMPILER
++    std::vector<std::pair<edm::TypeToGet,edm::InputTag>> vT = boost::assign::list_of
++      (std::pair<edm::TypeToGet,edm::InputTag>(edm::TypeToGet::make<edm::View<int>>(),edm::InputTag("label",  "instance")))
++      (std::pair<edm::TypeToGet,edm::InputTag>(edm::TypeToGet::make<edm::View<edmtest::Simple>>(),edm::InputTag("labelC", "instanceC","@skipCurrentProcess")));
++#else
+     std::vector<std::pair<edm::TypeToGet,edm::InputTag>> vT = {
+       {edm::TypeToGet::make<edm::View<int>>(),{"label",  "instance"}},
+       {edm::TypeToGet::make<edm::View<edmtest::Simple>>(),{"labelC", "instanceC","@skipCurrentProcess"}}
+     };
++#endif
+     TypeToGetConsumer consumer{vT};
+ 
+     CPPUNIT_ASSERT(!consumer.m_tokens[0].willSkipCurrentProcess());
+@@ -385,9 +415,14 @@
+ 
+   {
+     //Ask for something that doesn't exist
++#ifdef __INTEL_COMPILER
++    std::vector<std::pair<edm::TypeToGet,edm::InputTag>> vT = boost::assign::list_of
++      (std::pair<edm::TypeToGet,edm::InputTag>(edm::TypeToGet::make<edm::View<int>>(),edm::InputTag("notHere",  "")));
++#else
+     std::vector<std::pair<edm::TypeToGet,edm::InputTag>> vT = {
+       {edm::TypeToGet::make<edm::View<int>>(),{"notHere",  ""}}
+     };
++#endif
+     TypeToGetConsumer consumer{vT};
+     consumer.updateLookup(edm::InEvent,helper);
+     
+@@ -488,7 +523,11 @@
+   const auto vint_blank = helper.index(edm::PRODUCT_TYPE, typeID_vint, "label", "instance", "process");
+   const auto vint_blank_no_proc = helper.index(edm::PRODUCT_TYPE, typeID_vint, "label", "instance",0);
+   {
++#ifdef __INTEL_COMPILER
++    std::vector<edm::InputTag> vTags=boost::assign::list_of(edm::InputTag("label","instance","process"))(edm::InputTag("labelC","instanceC","processC"));
++#else
+     std::vector<edm::InputTag> vTags={ {"label","instance","process"}, {"labelC","instanceC","processC"} };
++#endif
+     std::vector<edm::InputTag> vMayTags={};
+     IntsMayConsumer consumer{vTags,vMayTags};
+     consumer.updateLookup(edm::InEvent,helper);
+@@ -514,7 +553,11 @@
+ 
+   {
+     std::vector<edm::InputTag> vTags={};
++#ifdef __INTEL_COMPILER
++    std::vector<edm::InputTag> vMayTags=boost::assign::list_of(edm::InputTag("label","instance","process"))(edm::InputTag("labelC","instanceC","processC"));
++#else
+     std::vector<edm::InputTag> vMayTags={ {"label","instance","process"}, {"labelC","instanceC","processC"} };
++#endif
+     IntsMayConsumer consumer{vTags,vMayTags};
+     consumer.updateLookup(edm::InEvent,helper);
+     
+@@ -538,8 +581,13 @@
+   }
+ 
+   {
++#ifdef __INTEL_COMPILER
++    std::vector<edm::InputTag> vTags=boost::assign::list_of(edm::InputTag("label","instance","process"));
++    std::vector<edm::InputTag> vMayTags=boost::assign::list_of(edm::InputTag("labelC","instanceC","processC"));
++#else
+     std::vector<edm::InputTag> vTags={ {"label","instance","process"} };
+     std::vector<edm::InputTag> vMayTags={{"labelC","instanceC","processC"} };
++#endif
+     IntsMayConsumer consumer{vTags,vMayTags};
+     consumer.updateLookup(edm::InEvent,helper);
+     
+@@ -564,7 +612,11 @@
+   }
+   {
+     std::vector<edm::InputTag> vTags={};
++#ifdef __INTEL_COMPILER
++    std::vector<edm::InputTag> vMayTags=boost::assign::list_of(edm::InputTag("label","instance",""))(edm::InputTag("labelC","instanceC","@skipCurrentProcess"));
++#else
+     std::vector<edm::InputTag> vMayTags={ {"label","instance",""}, {"labelC","instanceC","@skipCurrentProcess"} };
++#endif
+     IntsMayConsumer consumer{vTags,vMayTags};
+     consumer.updateLookup(edm::InEvent,helper);
+     
+diff -Naur src/FWCore/Framework/test/eventsetup_t.cppunit.cc src/FWCore/Framework/test/eventsetup_t.cppunit.cc
+--- src/FWCore/Framework/test/eventsetup_t.cppunit.cc	2013-09-15 00:59:03.000000000 +0200
++++ src/FWCore/Framework/test/eventsetup_t.cppunit.cc	2013-09-24 09:02:24.000000000 +0200
+@@ -710,27 +710,27 @@
+   provider.insert(dummyRecordProvider);
+   
+   const Timestamp time_2(2);
+-  finder->setInterval(ValidityInterval(IOVSyncValue{time_2}, IOVSyncValue{Timestamp{3}}));
++  finder->setInterval(ValidityInterval(IOVSyncValue(time_2), IOVSyncValue(Timestamp(3))));
+   {
+-    EventSetup const& eventSetup = provider.eventSetupForInstance(IOVSyncValue{time_2});
++    EventSetup const& eventSetup = provider.eventSetupForInstance(IOVSyncValue(time_2));
+     CPPUNIT_ASSERT(2==eventSetup.get<DummyRecord>().cacheIdentifier());
+   }
+   {
+-    EventSetup const& eventSetup = provider.eventSetupForInstance(IOVSyncValue{Timestamp{3}});
++    EventSetup const& eventSetup = provider.eventSetupForInstance(IOVSyncValue(Timestamp(3)));
+     eventSetup.get<DummyRecord>();
+     CPPUNIT_ASSERT(2==eventSetup.get<DummyRecord>().cacheIdentifier());
+   }
+   //extending the IOV should not cause the cache to be reset
+-  finder->setInterval(ValidityInterval(IOVSyncValue{time_2}, IOVSyncValue{Timestamp{4}}));
++  finder->setInterval(ValidityInterval(IOVSyncValue(time_2), IOVSyncValue(Timestamp(4))));
+   {
+-    EventSetup const& eventSetup = provider.eventSetupForInstance(IOVSyncValue{Timestamp{4}});
++    EventSetup const& eventSetup = provider.eventSetupForInstance(IOVSyncValue(Timestamp(4)));
+     CPPUNIT_ASSERT(2==eventSetup.get<DummyRecord>().cacheIdentifier());
+   }
+ 
+   //this is a new IOV so should get cache reset
+-  finder->setInterval(ValidityInterval(IOVSyncValue{Timestamp{5}}, IOVSyncValue{Timestamp{6}}));
++  finder->setInterval(ValidityInterval(IOVSyncValue(Timestamp(5)), IOVSyncValue(Timestamp(6))));
+   {
+-    EventSetup const& eventSetup = provider.eventSetupForInstance(IOVSyncValue{Timestamp{5}});
++    EventSetup const& eventSetup = provider.eventSetupForInstance(IOVSyncValue(Timestamp(5)));
+     CPPUNIT_ASSERT(3==eventSetup.get<DummyRecord>().cacheIdentifier());
+   }
+ 
+diff -Naur src/FWCore/Framework/test/Event_t.cpp src/FWCore/Framework/test/Event_t.cpp
+--- src/FWCore/Framework/test/Event_t.cpp	2013-09-15 00:59:03.000000000 +0200
++++ src/FWCore/Framework/test/Event_t.cpp	2013-09-24 09:00:28.000000000 +0200
+@@ -408,7 +408,7 @@
+ void testEvent::getByTokenFromEmpty() {
+   InputTag inputTag("moduleLabel", "instanceName");
+   
+-  IntConsumer consumer( std::vector<InputTag>{1,inputTag});
++  IntConsumer consumer( std::vector<InputTag>(1,inputTag));
+   consumer.updateLookup(InEvent, principal_->productLookup());
+   assert(1==consumer.m_tokens.size());
+   currentEvent_->setConsumer(&consumer);
+@@ -615,7 +615,19 @@
+   
+   CPPUNIT_ASSERT(currentEvent_->size() == 7);
+ 
+-  IntProductConsumer consumer(std::vector<InputTag> {
++#ifdef __INTEL_COMPILER
++  std::vector<InputTag> vectorInputTag;
++  vectorInputTag.push_back(InputTag("modMulti"));
++  vectorInputTag.push_back(InputTag("modMulti","int1"));
++  vectorInputTag.push_back(InputTag("modMulti", "nomatch"));
++  vectorInputTag.push_back(InputTag("modMulti", "int1", "EARLY"));
++  vectorInputTag.push_back(InputTag("modMulti", "int1", "LATE"));
++  vectorInputTag.push_back(InputTag("modMulti", "int1", "CURRENT"));
++  vectorInputTag.push_back(InputTag("modMulti", "int2", "EARLY"));
++  vectorInputTag.push_back(InputTag("modOne"));
++  IntProductConsumer consumer(vectorInputTag);
++#else
++  IntProductConsumer consumer(std::vector<InputTag> (
+     InputTag("modMulti"),
+     InputTag("modMulti","int1"),
+     InputTag("modMulti", "nomatch"),
+@@ -624,7 +636,9 @@
+     InputTag("modMulti", "int1", "CURRENT"),
+     InputTag("modMulti", "int2", "EARLY"),
+     InputTag("modOne")
+-  });
++  ));
++#endif
++
+   consumer.updateLookup(InEvent, principal_->productLookup());
+ 
+   currentEvent_->setConsumer(&consumer);
+diff -Naur src/FWCore/Utilities/interface/clone_ptr.h src/FWCore/Utilities/interface/clone_ptr.h
+--- src/FWCore/Utilities/interface/clone_ptr.h	2013-09-15 00:59:07.000000000 +0200
++++ src/FWCore/Utilities/interface/clone_ptr.h	2013-09-23 17:12:00.000000000 +0200
+@@ -14,6 +14,8 @@
+     template<typename... Args>
+     explicit clone_ptr(Args&& ... args)  noexcept : std::unique_ptr<T>(std::forward<Args>(args)...){}
+     
++    clone_ptr(){}
++
+     clone_ptr(clone_ptr const & rh) : std::unique_ptr<T>(rh? rh->clone() : nullptr){}
+     clone_ptr(clone_ptr && rh) noexcept : std::unique_ptr<T>(std::move(rh)) {}
+     
+diff -Naur src/FWCore/Utilities/interface/SoATuple.h src/FWCore/Utilities/interface/SoATuple.h
+--- src/FWCore/Utilities/interface/SoATuple.h	2013-09-15 00:59:07.000000000 +0200
++++ src/FWCore/Utilities/interface/SoATuple.h	2013-09-23 17:09:22.000000000 +0200
+@@ -92,6 +92,11 @@
+ #include "FWCore/Utilities/interface/SoATupleHelper.h"
+ #include "FWCore/Utilities/interface/GCCPrerequisite.h"
+ 
++#ifdef __INTEL_COMPILER
++#define ASSUME_ALIGNED(pointer, alignment) pointer
++#else // assume gcc
++#define ASSUME_ALIGNED(pointer, alignment) __builtin_assume_aligned(pointer, alignment)
++#endif
+ 
+ // forward declarations
+ 
+@@ -162,7 +167,7 @@
+       typedef soahelper::AlignmentHelper<typename std::tuple_element<I, std::tuple<Args...>>::type> Helper;
+       typedef typename Helper::Type ReturnType;
+ #if GCC_PREREQUISITE(4,7,0)
+-      return static_cast<ReturnType const*>(__builtin_assume_aligned(m_values[I],Helper::kAlignment));
++      return static_cast<ReturnType const*>(ASSUME_ALIGNED(m_values[I],Helper::kAlignment));
+ #else
+       return static_cast<ReturnType const*>(m_values[I]);
+ #endif
+@@ -221,7 +226,7 @@
+       typedef soahelper::AlignmentHelper<typename std::tuple_element<I, std::tuple<Args...>>::type> Helper;
+       typedef typename Helper::Type ReturnType;
+ #if GCC_PREREQUISITE(4,7,0)
+-      return static_cast<ReturnType*>(__builtin_assume_aligned(m_values[I],Helper::kAlignment));
++      return static_cast<ReturnType*>(ASSUME_ALIGNED(m_values[I],Helper::kAlignment));
+ #else
+       return static_cast<ReturnType*>(m_values[I]);
+ #endif
+diff -Naur src/FWCore/Utilities/interface/SoATupleHelper.h src/FWCore/Utilities/interface/SoATupleHelper.h
+--- src/FWCore/Utilities/interface/SoATupleHelper.h	2013-09-15 00:59:07.000000000 +0200
++++ src/FWCore/Utilities/interface/SoATupleHelper.h	2013-09-23 17:06:15.000000000 +0200
+@@ -21,7 +21,7 @@
+ // system include files
+ #include <tuple>
+ #include <algorithm>
+-
++#include <boost/type_traits/intrinsics.hpp>
+ // user include files
+ 
+ // forward declarations
+@@ -75,7 +75,7 @@
+      */
+     template<typename T>
+     struct AlignmentHelper {
+-      static const std::size_t kAlignment = alignof(T);
++      static const std::size_t kAlignment = BOOST_ALIGNMENT_OF(T);
+       typedef T Type;
+     };
+ 
+diff -Naur src/FWCore/Utilities/src/TypeWithDict.cc src/FWCore/Utilities/src/TypeWithDict.cc
+--- src/FWCore/Utilities/src/TypeWithDict.cc	2013-09-15 00:59:07.000000000 +0200
++++ src/FWCore/Utilities/src/TypeWithDict.cc	2013-09-23 17:05:19.000000000 +0200
+@@ -92,9 +92,23 @@
+       }
+   }
+ 
++#ifdef __INTEL_COMPILER
++  TypeWithDict::TypeWithDict(std::type_info const& t) :
++    typeInfo_(&t),
++    type_(Reflex::Type::ByTypeInfo(t), toReflex(0L)),
++    class_(nullptr),
++    dataType_(TDataType::GetDataType(TDataType::GetType(t))),
++    property_(0L) {
++      setProperty();
++      if(!isFundamental() && !isEnum()) {
++        class_ = TClass::GetClass(*typeInfo_);
++      }
++  }
++#else
+   TypeWithDict::TypeWithDict(std::type_info const& t) :
+     TypeWithDict{t, 0L} {
+   }
++#endif
+ 
+   TypeWithDict::TypeWithDict(std::type_info const& t, Long_t property) :
+     typeInfo_(&t),
+diff -Naur src/FWCore/Utilities/test/soatuple_t.cppunit.cpp src/FWCore/Utilities/test/soatuple_t.cppunit.cpp
+--- src/FWCore/Utilities/test/soatuple_t.cppunit.cpp	2013-09-15 00:59:07.000000000 +0200
++++ src/FWCore/Utilities/test/soatuple_t.cppunit.cpp	2013-09-23 17:08:16.000000000 +0200
+@@ -11,6 +11,8 @@
+ #include <string>
+ #include <cppunit/extensions/HelperMacros.h>
+ #include "FWCore/Utilities/interface/SoATuple.h"
++#include <boost/assign/list_of.hpp>
++#include <boost/type_traits/intrinsics.hpp>
+ 
+ class testSoATuple: public CppUnit::TestFixture
+ {
+@@ -52,32 +54,32 @@
+   s.reserve(3);
+   CPPUNIT_ASSERT(s.size() == 0);
+   
+-  s.push_back(std::make_tuple(int{1},float{3.2},false));
++  s.push_back(std::make_tuple(int(1),float(3.2),false));
+   //std::cout <<s.get<1>(0)<<std::endl;
+   CPPUNIT_ASSERT(s.size() == 1);
+   CPPUNIT_ASSERT(1==s.get<0>(0));
+-  CPPUNIT_ASSERT(float{3.2}==s.get<1>(0));
++  CPPUNIT_ASSERT(float(3.2)==s.get<1>(0));
+   CPPUNIT_ASSERT(false==s.get<2>(0));
+     
+-  s.push_back(std::make_tuple(int{2},float{3.1415},true));
++  s.push_back(std::make_tuple(int(2),float(3.1415),true));
+   CPPUNIT_ASSERT(s.size() == 2);
+   CPPUNIT_ASSERT(1==s.get<0>(0));
+-  CPPUNIT_ASSERT(float{3.2}==s.get<1>(0));
++  CPPUNIT_ASSERT(float(3.2)==s.get<1>(0));
+   CPPUNIT_ASSERT(false==s.get<2>(0));
+   CPPUNIT_ASSERT(2==s.get<0>(1));
+-  CPPUNIT_ASSERT(float{3.1415}==s.get<1>(1));
++  CPPUNIT_ASSERT(float(3.1415)==s.get<1>(1));
+   CPPUNIT_ASSERT(true==s.get<2>(1));
+   
+-  s.push_back(std::make_tuple(int{-1},float{58.6},true));
++  s.push_back(std::make_tuple(int(-1),float(58.6),true));
+   CPPUNIT_ASSERT(s.size() == 3);
+   CPPUNIT_ASSERT(1==s.get<0>(0));
+-  CPPUNIT_ASSERT(float{3.2}==s.get<1>(0));
++  CPPUNIT_ASSERT(float(3.2)==s.get<1>(0));
+   CPPUNIT_ASSERT(false==s.get<2>(0));
+   CPPUNIT_ASSERT(2==s.get<0>(1));
+-  CPPUNIT_ASSERT(float{3.1415}==s.get<1>(1));
++  CPPUNIT_ASSERT(float(3.1415)==s.get<1>(1));
+   CPPUNIT_ASSERT(true==s.get<2>(1));
+   CPPUNIT_ASSERT(-1==s.get<0>(2));
+-  CPPUNIT_ASSERT(float{58.6}==s.get<1>(2));
++  CPPUNIT_ASSERT(float(58.6)==s.get<1>(2));
+   CPPUNIT_ASSERT(true==s.get<2>(2));
+ }
+ 
+@@ -88,32 +90,32 @@
+   s.reserve(3);
+   CPPUNIT_ASSERT(s.size() == 0);
+   
+-  s.push_back(std::make_tuple(false,int{1},double{3.2}));
++  s.push_back(std::make_tuple(false,int(1),double(3.2)));
+   //std::cout <<s.get<1>(0)<<std::endl;
+   CPPUNIT_ASSERT(s.size() == 1);
+   CPPUNIT_ASSERT(1==s.get<1>(0));
+-  CPPUNIT_ASSERT(double{3.2}==s.get<2>(0));
++  CPPUNIT_ASSERT(double(3.2)==s.get<2>(0));
+   CPPUNIT_ASSERT(false==s.get<0>(0));
+   
+-  s.push_back(std::make_tuple(true,int{2},double{3.1415}));
++  s.push_back(std::make_tuple(true,int(2),double(3.1415)));
+   CPPUNIT_ASSERT(s.size() == 2);
+   CPPUNIT_ASSERT(1==s.get<1>(0));
+-  CPPUNIT_ASSERT(double{3.2}==s.get<2>(0));
++  CPPUNIT_ASSERT(double(3.2)==s.get<2>(0));
+   CPPUNIT_ASSERT(false==s.get<0>(0));
+   CPPUNIT_ASSERT(2==s.get<1>(1));
+-  CPPUNIT_ASSERT(double{3.1415}==s.get<2>(1));
++  CPPUNIT_ASSERT(double(3.1415)==s.get<2>(1));
+   CPPUNIT_ASSERT(true==s.get<0>(1));
+   
+-  s.push_back(std::make_tuple(true,int{-1},double{58.6}));
++  s.push_back(std::make_tuple(true,int(-1),double(58.6)));
+   CPPUNIT_ASSERT(s.size() == 3);
+   CPPUNIT_ASSERT(1==s.get<1>(0));
+-  CPPUNIT_ASSERT(double{3.2}==s.get<2>(0));
++  CPPUNIT_ASSERT(double(3.2)==s.get<2>(0));
+   CPPUNIT_ASSERT(false==s.get<0>(0));
+   CPPUNIT_ASSERT(2==s.get<1>(1));
+-  CPPUNIT_ASSERT(double{3.1415}==s.get<2>(1));
++  CPPUNIT_ASSERT(double(3.1415)==s.get<2>(1));
+   CPPUNIT_ASSERT(true==s.get<0>(1));
+   CPPUNIT_ASSERT(-1==s.get<1>(2));
+-  CPPUNIT_ASSERT(double{58.6}==s.get<2>(2));
++  CPPUNIT_ASSERT(double(58.6)==s.get<2>(2));
+   CPPUNIT_ASSERT(true==s.get<0>(2));
+ }
+ 
+@@ -246,7 +248,11 @@
+ 
+ void testSoATuple::assignmentTest()
+ {
++#ifdef __INTEL_COMPILER
++  const std::vector<std::string> sValues = boost::assign::list_of("foo")("fii")("fee");
++#else
+   const std::vector<std::string> sValues = {"foo","fii","fee"};
++#endif
+   edm::SoATuple<std::string, int> s;
+   s.reserve(sValues.size());
+   int i = 0;
+@@ -299,7 +305,11 @@
+ 
+ void testSoATuple::emplace_backTest()
+ {
++#ifdef __INTEL_COMPILER
++  const std::vector<std::string> sValues = boost::assign::list_of("foo")("fii")("fee");
++#else
+   const std::vector<std::string> sValues = {"foo","fii","fee"};
++#endif
+   edm::SoATuple<std::string, int> s;
+   s.reserve(sValues.size());
+   int i = 0;
+@@ -328,20 +338,20 @@
+ }
+ void testSoATuple::alignmentTest()
+ {
+-  CPPUNIT_ASSERT((alignof(double)==edm::soahelper::SoATupleHelper<2,double,bool>::max_alignment));
+-  CPPUNIT_ASSERT((alignof(double)==edm::soahelper::SoATupleHelper<2,bool,double>::max_alignment));
+-  CPPUNIT_ASSERT((alignof(float)==edm::soahelper::SoATupleHelper<2,float,bool>::max_alignment));
+-  CPPUNIT_ASSERT((alignof(float)==edm::soahelper::SoATupleHelper<2,bool,float>::max_alignment));
++  CPPUNIT_ASSERT((BOOST_ALIGNMENT_OF(double)==edm::soahelper::SoATupleHelper<2,double,bool>::max_alignment));
++  CPPUNIT_ASSERT((BOOST_ALIGNMENT_OF(double)==edm::soahelper::SoATupleHelper<2,bool,double>::max_alignment));
++  CPPUNIT_ASSERT((BOOST_ALIGNMENT_OF(float)==edm::soahelper::SoATupleHelper<2,float,bool>::max_alignment));
++  CPPUNIT_ASSERT((BOOST_ALIGNMENT_OF(float)==edm::soahelper::SoATupleHelper<2,bool,float>::max_alignment));
+   //std::cout <<"alignment of CharDummy "<<alignof(CharDummy)<<" alignment of char "<<alignof(char)<<std::endl;
+-  CPPUNIT_ASSERT((alignof(CharDummy)==edm::soahelper::SoATupleHelper<2,char,CharDummy>::max_alignment));
+-  CPPUNIT_ASSERT((alignof(CharDummy)==edm::soahelper::SoATupleHelper<2,CharDummy,char>::max_alignment));
+-  CPPUNIT_ASSERT((alignof(ComplexDummy)==edm::soahelper::SoATupleHelper<2,char,ComplexDummy>::max_alignment));
+-  CPPUNIT_ASSERT((alignof(ComplexDummy)==edm::soahelper::SoATupleHelper<2,ComplexDummy,char>::max_alignment));
++  CPPUNIT_ASSERT((BOOST_ALIGNMENT_OF(CharDummy)==edm::soahelper::SoATupleHelper<2,char,CharDummy>::max_alignment));
++  CPPUNIT_ASSERT((BOOST_ALIGNMENT_OF(CharDummy)==edm::soahelper::SoATupleHelper<2,CharDummy,char>::max_alignment));
++  CPPUNIT_ASSERT((BOOST_ALIGNMENT_OF(ComplexDummy)==edm::soahelper::SoATupleHelper<2,char,ComplexDummy>::max_alignment));
++  CPPUNIT_ASSERT((BOOST_ALIGNMENT_OF(ComplexDummy)==edm::soahelper::SoATupleHelper<2,ComplexDummy,char>::max_alignment));
+   
+-  CPPUNIT_ASSERT((alignof(float)==edm::soahelper::SoATupleHelper<2,float,float>::max_alignment));
++  CPPUNIT_ASSERT((BOOST_ALIGNMENT_OF(float)==edm::soahelper::SoATupleHelper<2,float,float>::max_alignment));
+   CPPUNIT_ASSERT((16==edm::soahelper::SoATupleHelper<2,edm::AlignedVec<float>,edm::AlignedVec<float>>::max_alignment));
+ 
+-  CPPUNIT_ASSERT((alignof(double)==edm::soahelper::SoATupleHelper<2,double,double>::max_alignment));
++  CPPUNIT_ASSERT((BOOST_ALIGNMENT_OF(double)==edm::soahelper::SoATupleHelper<2,double,double>::max_alignment));
+   CPPUNIT_ASSERT((16==edm::soahelper::SoATupleHelper<2,edm::AlignedVec<double>,edm::AlignedVec<double>>::max_alignment));
+ 
+   edm::SoATuple<edm::AlignedVec<float>,edm::AlignedVec<float>,edm::AlignedVec<float>> vFloats;
+diff -Naur src/FWCore/Utilities/src/MallocOpts.cc src/FWCore/Utilities/src/MallocOpts.cc
+--- src/FWCore/Utilities/src/MallocOpts.cc      2013-09-24 12:21:20.000000000 +0200
++++ src/FWCore/Utilities/src/MallocOpts.cc       2013-09-24 16:38:58.000000000 +0200
+@@ -119,7 +119,7 @@
+   bool MallocOptionSetter::retrieveFromCpuType()
+   {
+     bool rc=true;
+-
++    return false;
+     switch(get_cpu_type())
+       {
+       case AMD_CPU:
