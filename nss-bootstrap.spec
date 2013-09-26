@@ -6,7 +6,7 @@ Patch0: nss-3.14.3-add-SQLITE-LIBS-DIR
 Patch1: nss-3.14.3-add-ZLIB-LIBS-DIR-and-ZLIB-INCLUDE-DIR
 
 %define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
-%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+%define isamd64 %(case %{cmsplatf} in (*amd64*|*_mic_*) echo 1 ;; (*) echo 0 ;; esac)
 
 %if %isnotonline
 Requires: zlib-bootstrap
@@ -20,14 +20,14 @@ Requires: onlinesystemtools
 %patch1 -p1
 
 %build
-export NSPR_INCLUDE_DIR="${NSPR_ROOT}/include/nspr"
-export NSPR_LIB_DIR="${NSPR_ROOT}/lib"
+export NSPR_INCLUDE_DIR="${NSPR_BOOTSTRAP_ROOT}/include/nspr"
+export NSPR_LIB_DIR="${NSPR_BOOTSTRAP_ROOT}/lib"
 export USE_SYSTEM_ZLIB=1
-export ZLIB_INCLUDE_DIR="${ZLIB_ROOT}/include"
-export ZLIB_LIBS_DIR="${ZLIB_ROOT}/lib"
+export ZLIB_INCLUDE_DIR="${ZLIB_BOOTSTRAP_ROOT}/include"
+export ZLIB_LIBS_DIR="${ZLIB_BOOTSTRAP_ROOT}/lib"
 export NSS_USE_SYSTEM_SQLITE=1
-export SQLITE_INCLUDE_DIR="${SQLITE_ROOT}/include"
-export SQLITE_LIBS_DIR="${SQLITE_ROOT}/lib"
+export SQLITE_INCLUDE_DIR="${SQLITE_BOOTSTRAP_ROOT}/include"
+export SQLITE_LIBS_DIR="${SQLITE_BOOTSTRAP_ROOT}/lib"
 %if %isamd64
 export USE_64=1
 %endif

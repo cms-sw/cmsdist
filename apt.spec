@@ -61,11 +61,11 @@ perl -p -i -e 's|sqlite3|sqlite3disabled|' configure
                           --disable-rpath \
                           CXXFLAGS="-fPIC $USER_CXXFLAGS" \
                           CFLAGS="-fPIC $USER_CFLAGS" \
-                          CPPFLAGS="-DAPT_DISABLE_MULTIARCH -D_RPM_4_4_COMPAT -I$POPT_ROOT/include -I$DB4_ROOT/include -I$BZ2LIB_ROOT/include -I$LUA_ROOT/include -I$RPM_ROOT/include -I$ZLIB_ROOT/include -I$RPM_ROOT/include/rpm $USER_CPPFLAGS" \
-                          LDFLAGS="-L$BZ2LIB_ROOT/lib -L$DB4_ROOT/lib -L$LUA_ROOT/lib -L$RPM_ROOT/lib -L$ZLIB_ROOT/lib $USER_LDFLAGS" \
+                          CPPFLAGS="-DAPT_DISABLE_MULTIARCH -D_RPM_4_4_COMPAT -I$POPT_BOOTSTRAP_ROOT/include -I$DB4_BOOTSTRAP_ROOT/include -I$BZ2LIB_BOOTSTRAP_ROOT/include -I$LUA_BOOTSTRAP_ROOT/include -I$RPM_ROOT/include -I$ZLIB_BOOTSTRAP_ROOT/include -I$RPM_ROOT/include/rpm $USER_CPPFLAGS" \
+                          LDFLAGS="-L$BZ2LIB_BOOTSTRAP_ROOT/lib -L$DB4_BOOTSTRAP_ROOT/lib -L$LUA_BOOTSTRAP_ROOT/lib -L$RPM_ROOT/lib -L$ZLIB_BOOTSTRAP_ROOT/lib $USER_LDFLAGS" \
                           LIBS="-llua $USER_LIBS" \
-                          LIBXML2_CFLAGS="-I$LIBXML2_ROOT/include/libxml2 -I$DB4_ROOT/include -I$LUA_ROOT/include -I$ZLIB_ROOT/include -I$RPM_ROOT/include" \
-                          LIBXML2_LIBS="-lxml2 -L$DB4_ROOT/lib -L$LIBXML2_ROOT/lib -L$LUA_ROOT/lib -L$ZLIB_ROOT/lib -L$RPM_ROOT/lib" \
+                          LIBXML2_CFLAGS="-I$LIBXML2_BOOTSTRAP_ROOT/include/libxml2 -I$DB4_BOOTSTRAP_ROOT/include -I$LUA_BOOTSTRAP_ROOT/include -I$ZLIB_BOOTSTRAP_ROOT/include -I$RPM_ROOT/include" \
+                          LIBXML2_LIBS="-lxml2 -L$DB4_BOOTSTRAP_ROOT/lib -L$LIBXML2_BOOTSTRAP_ROOT/lib -L$LUA_BOOTSTRAP_ROOT/lib -L$ZLIB_BOOTSTRAP_ROOT/lib -L$RPM_ROOT/lib" \
                           RPM_LIBS="-L$RPM_ROOT/lib -lrpm -lrpmio -lrpmbuild"
 
 chmod +x buildlib/install-sh
@@ -90,10 +90,10 @@ mkdir -p %{i}/etc/profile.d
 
 (echo "#!/bin/sh"; \
  echo "source $RPM_ROOT/etc/profile.d/init.sh"; \
- echo "source $LIBXML2_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
+ echo "source $LIBXML2_BOOTSTRAP_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
 (echo "#!/bin/tcsh"; \
  echo "source $RPM_ROOT/etc/profile.d/init.csh"; \
- echo "source $LIBXML2_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
+ echo "source $LIBXML2_BOOTSTRAP_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 cp %_sourcedir/bootstrap %{i}/bin/bootstrap.sh
 pwd
