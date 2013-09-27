@@ -1,18 +1,16 @@
 ### RPM external rpm 4.8.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV SET RPM_CONFIGDIR %{i}/lib/rpm
+## NOCOMPILER
 
+%define isamd64 %(case %{cmsplatf} in (*amd64*|*_mic_*) echo 1 ;; (*) echo 0 ;; esac)
+%define ismac   %(case %{cmsplatf} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 # Warning! While rpm itself seems to work, at the time of writing it
 # does not seem to be possible to build apt-rpm with 
 Source: http://rpm.org/releases/rpm-%(echo %realversion | cut -f1,2 -d.).x/rpm-%{realversion}.tar.bz2
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
-Requires: file nspr nss popt bz2lib db4 lua
-%if "%online" != "true"
-Requires: zlib
-%else
-Requires: onlinesystemtools
-%endif
+Requires: bootstrap-bundle
+BuildRequires: gcc
 
 # The following two lines are a workaround for an issue seen with gcc4.1.2
 Provides: perl(Archive::Tar)
@@ -41,16 +39,7 @@ Patch14: rpm-4.8.0-disable-internal-dependency-generator-libtool
 Patch15: rpm-4.8.0-fix-arm
 
 # Defaults here
-%define libdir lib
-%define soname so
-
-%if "%(echo %{cmsos} | cut -d_ -f 2 | sed -e 's|.*64.*|64|')" == "64"
-%define libdir lib64 
-%endif
-
-# On macosx SONAME is dylib
-%if "%(echo %{cmsos} | cut -d_ -f 1 | sed -e 's|osx.*|osx|')" == "osx"
-%define soname dylib
+%if %ismac
 Provides: Kerberos
 %endif
 
@@ -76,7 +65,7 @@ rm -rf lib/rpmhash.*
 
 %build
 case %cmsplatf in
-  slc*|fc18*)
+  slc*|fc18*|*_mic_*)
     CFLAGS_PLATF="-fPIC"
     LIBS_PLATF="-ldl"
   ;;
@@ -114,18 +103,13 @@ perl -p -i -e's|-O2|-O0|' ./configure
     --with-external-db --disable-python --disable-nls \
     --disable-rpath --with-lua --localstatedir=%{i}/var \
     CXXFLAGS="$USER_CXXFLAGS $OS_CXXFLAGS" \
-    CFLAGS="$CFLAGS_PLATF $USER_CFLAGS -I$NSPR_ROOT/include/nspr \
-            -I$NSS_ROOT/include/nss3 -I$ZLIB_ROOT/include -I$BZ2LIB_ROOT/include \
-            -I$DB4_ROOT/include -I$FILE_ROOT/include -I$POPT_ROOT/include \
-            -I$LUA_ROOT/include $OS_CFLAGS" \
-    LDFLAGS="-L$NSPR_ROOT/lib -L$NSS_ROOT/lib -L$ZLIB_ROOT/lib -L$DB4_ROOT/lib \
-             -L$FILE_ROOT/lib -L$POPT_ROOT/lib -L$BZ2LIB_ROOT/lib -L$LUA_ROOT/lib \
-             $OS_LDFLAGS" \
-    CPPFLAGS="-I$NSPR_ROOT/include/nspr \
-              -I$ZLIB_ROOT/include -I$BZ2LIB_ROOT/include -I$DB4_ROOT/include \
-              -I$FILE_ROOT/include -I$POPT_ROOT/include \
-              $OS_CPPFLAGS \
-              -I$NSS_ROOT/include/nss3 -I$LUA_ROOT/include" \
+    CFLAGS="$CFLAGS_PLATF $USER_CFLAGS -I$BOOTSTRAP_BUNDLE_ROOT/include/nspr \
+            -I$BOOTSTRAP_BUNDLE_ROOT/include/nss3 -I$BOOTSTRAP_BUNDLE_ROOT/include \
+            $OS_CFLAGS" \
+    LDFLAGS="-L$BOOTSTRAP_BUNDLE_ROOT/lib $OS_LDFLAGS" \
+    CPPFLAGS="-I$BOOTSTRAP_BUNDLE_ROOT/include/nspr \
+              -I$BOOTSTRAP_BUNDLE_ROOT/include/nss3 -I$BOOTSTRAP_BUNDLE_ROOT/include \
+              $OS_CPPFLAGS" \
     LIBS="-lnspr4 -lnss3 -lnssutil3 -lplds4 -lbz2 -lplc4 -lz -lpopt \
           -ldb -llua $LIBS_PLATF"
 
