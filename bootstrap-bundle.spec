@@ -7,11 +7,17 @@ BuildRequires: bz2lib-bootstrap db4-bootstrap file-bootstrap libxml2-bootstrap l
 BuildRequires: openssl-bootstrap popt-bootstrap sqlite-bootstrap zlib-bootstrap
 
 %define keep_archives true
+%define isamd64 %(case %{cmsplatf} in (*amd64*|*_mic_*) echo 1 ;; (*) echo 0 ;; esac)
 %define ismac   %(case %{cmsplatf} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
+
+%define soname so
 %if %ismac
 %define soname dylib
-%else
-%define soname so
+%endif
+
+%define libdir lib
+%if %isamd64
+%define libdir lib64
 %endif
 
 %prep
@@ -33,7 +39,7 @@ rm -f %{i}/bin/xml2-config %{i}/lib/xml2Conf.sh
 %if %ismac
 cp -P $GCC_ROOT/lib/lib{stdc++,gcc_s}*.%{soname} %{i}/lib
 %else
-cp -P $GCC_ROOT/lib64/lib{stdc++,gcc_s}.%{soname}* %{i}/lib
+cp -P $GCC_ROOT/%{libdir}/lib{stdc++,gcc_s}.%{soname}* %{i}/lib
 cp -P $GCC_ROOT/lib/libelf.%{soname}* %{i}/lib
 cp -P $GCC_ROOT/lib/libelf-*.%{soname} %{i}/lib
 %endif

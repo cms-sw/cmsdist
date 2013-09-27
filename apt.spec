@@ -39,6 +39,9 @@ case %cmsplatf in
     export USER_LIBS="-pthread"
     export USER_RPM_LIBS="-ldl"
     ;;
+  fc*)
+    export USER_RPM_LIBS="-ldl"
+    ;;
   *) ;;
 esac
 
