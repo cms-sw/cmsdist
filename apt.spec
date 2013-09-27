@@ -2,6 +2,8 @@
 ## INITENV SET APT_CONFIG %{i}/etc/apt.conf
 ## INITENV CMD_SH  if [ -f %{instroot}/common/apt-site-env.sh  ]; then . %{instroot}/common/apt-site-env.sh;  fi
 ## INITENV CMD_CSH if ( -f %{instroot}/common/apt-site-env.csh )  source %{instroot}/common/apt-site-env.csh; endif
+## NOCOMPILER
+
 Source0: http://cmsrep.cern.ch/cmssw/apt-mirror/apt-rpm-%realversion.tar.gz
 # svn://svn.github.com/ktf/apt-rpm.git?scheme=http&revision=%{realversion}&module=apt-rpm&output=/apt-rpm.tar.gz
 Source1: bootstrap
@@ -12,6 +14,7 @@ Patch2: apt-429-less-dependencies
 Patch3: apt-429-add-support-osx108
 
 Requires: rpm
+BuildRequires: gcc
 
 %prep
 %setup -T -b 2 -n RPM-Header-PurePerl-1.0.2
@@ -34,6 +37,7 @@ case %cmsplatf in
     export USER_CXXFLAGS="-pthread"
     export USER_LDFLAGS="-pthread"
     export USER_LIBS="-pthread"
+    export USER_RPM_LIBS="-ldl"
     ;;
   *) ;;
 esac
@@ -58,7 +62,7 @@ perl -p -i -e 's|sqlite3|sqlite3disabled|' configure
                           libs="-llua $USER_LIBS" \
                           LIBXML2_CFLAGS="-I$BOOTSTRAP_BUNDLE_ROOT/include/libxml2 -I$BOOTSTRAP_BUNDLE_ROOT/include -I$RPM_ROOT/include" \
                           LIBXML2_LIBS="-lxml2 -L$BOOTSTRAP_BUNDLE_ROOT/lib -L$RPM_ROOT/lib" \
-                          RPM_LIBS="-L$RPM_ROOT/lib -lrpm -lrpmio -lrpmbuild"
+                          RPM_LIBS="-L$RPM_ROOT/lib -lrpm -lrpmio -lrpmbuild $USER_RPM_LIBS"
 
 chmod +x buildlib/install-sh
 make %{makeprocesses}
