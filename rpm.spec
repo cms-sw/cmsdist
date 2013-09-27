@@ -65,7 +65,7 @@ rm -rf lib/rpmhash.*
 
 %build
 case %cmsplatf in
-  slc*|fc18*|*_mic*)
+  slc*|fc18*|*_mic_*)
     CFLAGS_PLATF="-fPIC"
     LIBS_PLATF="-ldl"
   ;;
