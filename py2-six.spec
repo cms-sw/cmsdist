@@ -1,14 +1,17 @@
-### RPM external py2-jsonpath-rw 1.2.0
+### RPM external py2-six 1.4.1
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
-%global mod_name jsonpath-rw
+%global mod_name six
 
-Source0: https://pypi.python.org/packages/source/j/%{mod_name}/%{mod_name}-%{realversion}.tar.gz
+Source0: https://pypi.python.org/packages/source/s/%{mod_name}/%{mod_name}-%{realversion}.tar.gz
+Patch0: py2-six-%{realversion}-use-setuptools
 
-Requires: python py2-setuptools py2-six
+Requires: python py2-setuptools
 
 %prep
 %setup -n %{mod_name}-%{realversion}
+# we need to patch setup.py to use setuptools instead of distribute
+%patch0 -p1
 
 %build
 python setup.py build

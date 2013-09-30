@@ -1,4 +1,4 @@
-### RPM cms das 2.0.0-rc2a
+### RPM cms das 2.0.0-rc2c
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver 0.8.3
 %define webdoc_files %{installroot}/%{pkgrel}/doc/

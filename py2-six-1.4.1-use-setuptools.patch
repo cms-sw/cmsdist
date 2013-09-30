@@ -1,0 +1,9 @@
+diff -ru six-1.4.1-orig/setup.py six-1.4.1/setup.py
+--- six-1.4.1-orig/setup.py	2012-05-20 08:35:39.000000000 +0200
++++ six-1.4.1/setup.py	2013-09-30 14:02:36.000000000 +0200
+@@ -1,4 +1,4 @@
+-from distutils.core import setup
++from setuptools import setup
+ 
+ import six
+ 
