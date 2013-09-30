@@ -33,6 +33,8 @@ cmake . \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DPRELOAD:BOOL=ON \
   -DSSE:BOOL=ON 
+sed -i -e 's|CXX_FLAGS *=|CXX_FLAGS = -mmic|;s|-msse||'  lib/CMakeFiles/vdt.dir/flags.make
+sed -i -e 's|-msse|-mmic|' lib/CMakeFiles/vdt.dir/link.txt
 %else
 %if %isamd64
 cmake . \
