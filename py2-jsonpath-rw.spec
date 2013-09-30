@@ -17,7 +17,7 @@ python setup.py build
 mkdir -p %{i}/${PYTHON_LIB_SITE_PACKAGES}
 export PYTHONPATH=%{i}/${PYTHON_LIB_SITE_PACKAGES}:${PYTHONPATH}
 
-python setup.py install --skip-build --prefix=%{i} 
+python setup.py install --skip-build --prefix=%{i} --single-version-externally-managed --record=/dev/null 
 
 find %i -name '*.egg-info' -exec rm {} \;
 # get rid of /usr/bin/python
