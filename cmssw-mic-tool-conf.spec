@@ -1,4 +1,4 @@
-### RPM cms cmssw-mic-tool-conf 2.0
+### RPM cms cmssw-mic-tool-conf 2.1
 ## NOCOMPILER
 
 Requires: gcc-toolfile
@@ -41,6 +41,7 @@ Requires: tauola-toolfile
 Requires: charybdis-toolfile
 Requires: lhapdf-toolfile
 Requires: herwig-toolfile
+Requires: vdt-toolfile
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull 
 
