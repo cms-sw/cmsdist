@@ -10,7 +10,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4.xml
   <info url="http://geant4.web.cern.ch/geant4/"/>
   <use name="geant4core"/>
   <use name="geant4vis"/>
-  <use name="xerces-c"/>
 </tool>
 EOF_TOOLFILE
 
@@ -44,6 +43,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4core.xml
   </client>
   <flags cppdefines="GNU_GCC G4V9"/>
   <use name="clhep"/>
+  <use name="xerces-c"/>
+  <use name="expat"/>
 </tool>
 EOF_TOOLFILE
 
