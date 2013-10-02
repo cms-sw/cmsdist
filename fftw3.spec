@@ -14,6 +14,9 @@ CONFIG_ARGS="--with-pic --enable-shared --enable-threads --disable-fortran
              --prefix=%{i} --build=%{_build} --host=%{_host}"
 
 case "%{cmsplatf}" in
+  *_mic_*)
+    CONFIG_ARGS="${CONFIG_ARGS} --host=x86_64-k1om-linux"
+  ;;
   *amd64*|*_mic_*)
     CONFIG_ARGS="${CONFIG_ARGS} --enable-sse2 "
   ;;
@@ -22,6 +25,9 @@ case "%{cmsplatf}" in
 #  ;;
 esac
 
+%if "%mic" == "true"
+CXX="icpc -mmic" CC="icc -mmic" \
+%endif
 ./configure ${CONFIG_ARGS}
 
 make %{makeprocesses}
