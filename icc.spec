@@ -20,6 +20,7 @@ Provides: libcilkrts.so.5()(64bit)
 Provides: ld-linux-k1om.so.2()(64bit)
 Provides: ld-linux-k1om.so.2(GLIBC_2.14)(64bit)
 Provides: librt.so.1(GLIBC_2.14)(64bit)
+Provides: libifcore.so.5()(64bit)
 %endif
 
 %prep
