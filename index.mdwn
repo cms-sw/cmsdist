@@ -111,8 +111,7 @@ repository, you'll need it to propose your changes.
       cd $TOPDIR
       git clone git@github.com:cms-sw/cmsdist.git CMSDIST
       pushd CMSDIST
-        git checkout IB/$CMSSW/stable config.map
-        eval $(cat config.map | grep $ARCH)
+        eval $(git show IB/$CMSSW/stable:config.map | grep $ARCH)
         git checkout $CMSDIST_TAG
       popd
       git clone -b $PKGTOOLS_TAG git@github.com:cms-sw/pkgtools.git PKGTOOLS
