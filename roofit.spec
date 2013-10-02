@@ -4,7 +4,6 @@
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 %if "%mic" == "true"
 Requires: icc
-BuildRequires: rootcint-mic
 %endif
 Source0: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Source1: roofit-5.34.07-build.sh
@@ -46,9 +45,9 @@ chmod +x build.sh
 perl -p -i -e 's|-m64||' build.sh
 perl -p -i -e "s|CXXFLAGS='|CXXFLAGS='%cms_cxxflags |" build.sh
 %if "%mic" == "true"
-export ROOTCINT_MIC_ROOT
 perl -p -i -e 's|g\+\+|icpc -mmic |g' build.sh
 perl -p -i -e 's|histfactory/bin/MakeModelAndMeasurements.cxx||' build.sh
+export ROOTCINT=${ROOTSYS}/rootcint
 %endif
 case %cmsplatf in
   osx10[0-9]_* )

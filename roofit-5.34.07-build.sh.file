@@ -104,7 +104,7 @@ done
 
 # Generate dictionaries
 echo "generating cint dictionaries for $dirname"
-if [ "$ROOTCINT_MIC_ROOT" = "" ] ; then
+if [ "x$ROOTCINT" = "x" -o "x$ROOTCINT" = "x$ROOTSYS" ] ; then
   for file in $LDLIST
   do
    NUMBER=`basename $file | gawk '{sub("LinkDef","") ; sub("[.]h","") ; print $1}'`
@@ -118,7 +118,7 @@ else
   do
    NUMBER=`basename $file | gawk '{sub("LinkDef","") ; sub("[.]h","") ; print $1}'`
    TMPFILE=G__${pkgname}${NUMBER}.cxx
-   ( cd $basebuilddir/build/inc ; export ROOTSYS=${ROOTCINT_MIC_ROOT}; LD_PRELOAD=${ROOTCINT_MIC_ROOT}/lib/libCint.so ${ROOTCINT_MIC_ROOT}/bin/rootcint -cint -f $basebuilddir/build/tmp/$TMPFILE -c -I$basebuilddir/build/inc -I$ROOT_INC `ls -1 ${pkginc}*.h` $basebuilddir/$file )
+   ( cd $basebuilddir/build/inc ; export ROOTSYS=${ROOTCINT}; LD_PRELOAD=${ROOTCINT}/lib/libCint.so ${ROOTCINT}/bin/rootcint -cint -f $basebuilddir/build/tmp/$TMPFILE -c -I$basebuilddir/build/inc -I$ROOT_INC `ls -1 ${pkginc}*.h` $basebuilddir/$file )
    CCLIST="$CCLIST build/tmp/$TMPFILE"
   done
 fi
