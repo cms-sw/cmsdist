@@ -16,7 +16,7 @@ cat << \EOF_TOOLFILE > %i/etc/scram.d/classlib.xml
       <flags CPPDEFINES="__STDC_LIMIT_MACROS"/>
       <flags CPPDEFINES="__STDC_FORMAT_MACROS"/>
       <lib name="classlib"/>
-
+      <use name="xz"/>
       <use name="zlib"/>
       <use name="bz2lib"/>
       <use name="pcre"/>
