@@ -7,7 +7,6 @@
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 %if "%mic" == "true"
 Requires: icc
-BuildRequires: rootcint-mic
 %endif
 Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
@@ -25,7 +24,8 @@ Patch4: root-5.30.02-fix-gcc46
 Patch5: root-5.30.02-fix-isnan-again
 Patch6: root-5.34.05-cintex-armv7a-port
 Patch7: root-5.34.09-ROOT-5437
-Patch8: root-5.34.07-mic
+Patch8: root-5.34.09-mic
+Patch9: root-5.34.09-mic-postconfig
 
 Requires: gccxml gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl
 
@@ -60,14 +60,14 @@ Requires: freetype
 %if %isarmv7
 %patch6 -p1
 %endif
-%if "%mic" == "true"
-%patch8 -p0
-%endif
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
 %if %islinux
 %patch2 -p1
+%endif
+%if "%mic" == "true"
+%patch8 -p1
 %endif
 
 # Delete these (irrelevant) files as the fits appear to confuse rpm on OSX
@@ -83,7 +83,6 @@ mkdir -p %i
 export LIBJPG_ROOT
 export ROOTSYS=%_builddir/root
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
-
 %if "%online" == "true"
 # Also skip xrootd and odbc for online case:
 
@@ -94,13 +93,14 @@ export LIBPNG_ROOT ZLIB_ROOT LIBTIFF_ROOT LIBUNGIF_ROOT
 %if "%mic" != "true"
 EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}"
 %else
+export OPENSSL_ROOT FREETYPE_ROOT PCRE_ROOT
 export ROOTCINT_MIC_ROOT
 %endif
 %endif
 LZMA=${XZ_ROOT}
 export LZMA
 %if "%mic" == "true"
-CONFIG_ARGS="--enable-table 
+CONFIG_ARGS="--enable-table --enable-genvector --enable-tmva
              --disable-builtin-pcre
              --disable-builtin-freetype
              --disable-builtin-zlib
@@ -181,7 +181,7 @@ sed -ibak 's/\-std=c++11/-std=c++0x/g' \
   config/Makefile.linux \
   config/root-config.in \
   config/Makefile.linuxx8664gcc \
-  config/Makefile.linuxx8664icc
+  config/Makefile.linuxx8664k1omicc
 
 %if %isarmv7
 cp ./cint/iosenum/iosenum.linux3 ./cint/iosenum/iosenum.linuxarm3
@@ -210,18 +210,18 @@ TARGET_PLATF=
   TARGET_PLATF=linuxarm
 %endif
 %if "%mic" == "true"
-TARGET_PLATF=linuxx8664icc
-EXTRA_OPTS=""
-CXX="icc -fPIC -mmic"  CC="icc -fPIC -mmic" ./configure ${TARGET_PLATF} ${CONFIG_ARGS} ${EXTRA_OPTS}
-sed -i -e 's|^EXTRA_LDFLAGS *:=.*|EXTRA_LDFLAGS:=-mmic|' config/Makefile.config
-sed -i -e 's|$(LD) $(LDFLAGS) -o $@ $(RMKDEPO)|$(LD) $(filter-out -mmic,$(LDFLAGS)) -o $@ $(RMKDEPO)|' build/Module.mk
+TARGET_PLATF=linuxx8664k1omicc
+EXTRA_OPTS="--with-thread-libdir=`pwd`/thrd"
+mkdir thrd; ln -s /lib64/libpthread.so.0 thrd/libpthread.so
+./configure ${TARGET_PLATF} ${CONFIG_ARGS} ${EXTRA_OPTS}
+cat %_sourcedir/root-5.34.09-mic-postconfig | patch -s -p1 --fuzz=0
 %else
 ./configure ${TARGET_PLATF} ${CONFIG_ARGS} ${EXTRA_OPTS}
 %endif
 
 %if "%mic" == "true"
-make -k %makeprocesses F77="ifort -fPIC -mmic" CXX="icc -fPIC -mmic -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL= -I${FREETYPE_ROOT}/include -I${ZLIB_ROOT}/include" \
-  CC="icc -fPIC -mmic -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL= -I${ZLIB_ROOT}/include" || true
+F77OPT="-mmic" make -k %makeprocesses || true
+F77OPT="-mmic" make %makeprocesses
 %else
 make %makeprocesses CXX="g++ -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL=" CC="gcc -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL="
 %endif
@@ -239,19 +239,19 @@ else
 fi
 
 export ROOTSYS=%i
-%if "%mic" == "true"
-mkdir -p %i/cint/cint %i/build
-$cp cint/cint/{include,lib,stl}  %i/cint/cint/
-$cp bin  etc  icons  LICENSE  man  test fonts  include  lib  macros  README  %i/
-$cp build/misc %i/build
-%else
 make INSTALL="$cp" INSTALLDATA="$cp" install
-%endif
 mkdir -p $ROOTSYS/lib/python
 cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
 # This file confuses rpm's find-requires because it starts with
 # a """ and it thinks is the shebang.
 rm -f %i/tutorials/pyroot/mrt.py %i/cint/test/testall.cxx
+%if "%mic" == "true"
+mkdir -p $ROOTSYS/rootcint/bin $ROOTSYS/rootcint/lib
+cp buildtools/bin/rlibmap $ROOTSYS/bin/
+cp buildtools/bin/rootcint $ROOTSYS/rootcint/bin/
+cp buildtools/lib/libCint.so $ROOTSYS/rootcint/lib/
+cp -r buildtools/cint $ROOTSYS/rootcint/
+%endif
 
 %post
 %{relocateConfig}bin/root-config

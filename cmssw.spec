@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_7_0_0_pre4_MIC2
+### RPM cms cmssw CMSSW_7_0_0_pre4_MIC3
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 Requires: python cms-git-tools
 %if "%mic" == "true"

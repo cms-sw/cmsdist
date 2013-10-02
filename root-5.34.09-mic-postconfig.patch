@@ -1,0 +1,64 @@
+--- b/Makefile       2013-10-01 17:58:35.115997321 +0200
++++ a/Makefile    2013-07-22 16:30:53.000000000 +0200
+@@ -316,7 +316,7 @@
+ RPATH        := -L$(LPATH)
+ CINTLIBS     := -lCint
+ NEWLIBS      := -lNew
+-BOOTLIBS     := -lCore -lCint
++BOOTLIBS     := -lCore -lCint -lz -llzma -lpcre
+ ifneq ($(ROOTDICTTYPE),cint)
+ BOOTLIBS     += -lCintex -lReflex
+ endif
+@@ -324,12 +324,12 @@
+ BOOTLIBS     += -lCling
+ endif
+ ROOTLIBS     := -lRIO -lHist -lGraf -lGraf3d -lGpad -lTree \
+-                -lMatrix -lNet -lThread -lMathCore $(BOOTLIBS)
++                -lMatrix -lNet -lThread -lMathCore $(BOOTLIBS) -L$(OPENSSL_ROOT)/lib -lssl -lcrypto -lfreetype
+ RINTLIBS     := -lRint
+ else
+ CINTLIBS     := $(LPATH)/libCint.lib
+ NEWLIBS      := $(LPATH)/libNew.lib
+-BOOTLIBS     := $(LPATH)/libCore.lib $(LPATH)/libCint.lib
++BOOTLIBS     := $(LPATH)/libCore.lib $(LPATH)/libCint.lib -lz -llzma -lpcre
+ ifneq ($(ROOTDICTTYPE),cint)
+ BOOTLIBS     += $(LPATH)/libCintex.lib $(LPATH)/libReflex.lib
+ endif
+
+--- b/main/Module.mk 2013-10-01 17:47:36.643362671 +0200
++++ a/main/Module.mk      2013-07-22 16:30:52.000000000 +0200
+@@ -55,7 +55,7 @@
+ ifeq ($(PROOFLIB),)
+ XPDTESTEXE :=
+ endif
+-XPDTESTLIBS := -lProof -lTree -lHist -lRIO -lNet -lThread -lMatrix -lMathCore 
++XPDTESTLIBS := -lProof -lTree -lHist -lRIO -L$(OPENSSL_ROOT)/lib -lNet -lssl -lcrypto  -lThread -lMatrix -lMathCore 
+ XPDTESTLIBSDEP = $(IOLIB) $(TREELIB) $(NETLIB) $(HISTLIB) $(PROOFLIB) \
+                  $(THREADLIB) $(MATRIXLIB) $(MATHCORELIB)
+ 
+--- b/proof/pq2/Module.mk    2013-10-01 17:47:36.643362671 +0200
++++ a/proof/pq2/Module.mk 2013-07-22 16:30:52.000000000 +0200
+@@ -21,7 +21,7 @@
+ 
+ ##### Libraries needed #######
+ PQ2LIBS      := -lProof -lHist -lMatrix -lTree \
+-                -lRIO -lNet -lThread -lMathCore $(BOOTLIBS) 
++                -lRIO -lNet -lThread -lMathCore $(BOOTLIBS) -L$(OPENSSL_ROOT)/lib -lssl -lcrypto
+ PQ2LIBSDEP    = $(BOOTLIBSDEP) $(IOLIB) $(NETLIB) $(HISTLIB) $(TREELIB) \
+                 $(MATRIXLIB) $(MATHCORELIB) $(PROOFLIB) $(THREADLIB)
+ 
+--- b/config/Makefile.config     2013-10-01 18:12:36.737198418 +0200
++++ a/config/Makefile.config     2013-10-01 18:13:34.697692520 +0200
+@@ -25,9 +25,9 @@
+ USECONFIG      := FALSE
+ MKLIBOPTIONS   := -x 
+ 
+-EXTRA_CFLAGS   := -Iinclude 
+-EXTRA_CXXFLAGS := -Iinclude 
+-EXTRA_LDFLAGS  := 
++EXTRA_CFLAGS   := -Iinclude  -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL= -I$(FREETYPE_ROOT)/include -I$(ZLIB_ROOT)/include -I$(PCRE_ROOT)/include -I$(LZMA)/include
++EXTRA_CXXFLAGS := -Iinclude  -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL= -I$(FREETYPE_ROOT)/include -I$(ZLIB_ROOT)/include -I$(PCRE_ROOT)/include -I$(LZMA)/include
++EXTRA_LDFLAGS  :=  -L$(FREETYPE_ROOT)/lib -L$(ZLIB_ROOT)/lib -L$(PCRE_ROOT)/lib -L$(LZMA)/lib 
+ WINRTDEBUG     := no
+ 
+ GLBPATCHFLAGS  := 

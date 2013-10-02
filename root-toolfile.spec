@@ -1,4 +1,5 @@
 ### RPM lcg root-toolfile 2.0
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 Requires: root
 %prep
 
@@ -140,6 +141,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootgpad.xml
   <lib name="Gpad"/>
   <lib name="Graf"/>
   <use name="roothistmatrix"/>
+%if "%mic" == "true"
+  <use name="freetype"/>
+%endif
 </tool>
 EOF_TOOLFILE
 

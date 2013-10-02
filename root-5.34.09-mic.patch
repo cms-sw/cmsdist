@@ -1,0 +1,20 @@
+--- b/configure   2013-10-01 14:13:39.858516833 +0200
++++ a/configure      2013-10-01 14:12:59.265169900 +0200
+@@ -2607,7 +2607,7 @@
+    test "x$enable_builtin_freetype" = "xno" ; then
+ 
+    checking_msg "freetype-config"
+-   if `$cwhich freetype-config > /dev/null 2>&1` && test "x$host" = "x" ; then
++   if `$cwhich freetype-config > /dev/null 2>&1` ; then
+       if test "x$macosx108" = "xyes" && (file -h `$cwhich freetype-config` | grep 'xstub' > /dev/null 2>&1 || test "x$enable_cocoa" = "xyes"); then
+          enable_builtin_freetype="yes"
+          if file -h `$cwhich freetype-config` | grep 'xstub' > /dev/null 2>&1 ; then
+@@ -2650,7 +2650,7 @@
+    test "x$enable_builtin_pcre" = "xno" ; then
+ 
+    checking_msg "pcre-config"
+-   if `$cwhich pcre-config > /dev/null 2>&1` && test "x$host" = "x" ; then
++   if `$cwhich pcre-config > /dev/null 2>&1` ; then
+       $cwhich pcre-config
+ 
+       message "Checking for libpcre version >= 3.9"
