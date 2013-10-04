@@ -1,4 +1,4 @@
-### RPM external doxygen 1.8.4
+### RPM external doxygen 1.8.5
 
 Source: http://ftp.stack.nl/pub/users/dimitri/%{n}-%{realversion}.src.tar.gz
 
