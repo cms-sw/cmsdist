@@ -101,6 +101,7 @@ LZMA=${XZ_ROOT}
 export LZMA
 %if "%mic" == "true"
 CONFIG_ARGS="--enable-table --enable-genvector --enable-tmva
+             --enable-xml  --with-xml-incdir=${LIBXML2_ROOT}/include/libxml2 --with-xml-libdir=${LIBXML2_ROOT}/lib
              --disable-builtin-pcre
              --disable-builtin-freetype
              --disable-builtin-zlib
