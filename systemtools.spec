@@ -1,8 +1,8 @@
-### RPM external systemtools 19
+### RPM external systemtools 20
 ## NOCOMPILER
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 %if "%mic" == "true"
-Requires: icc
+Requires: icc-scram
 Provides: libtbb.so.2()(64bit)
 %endif
 Source: none
@@ -99,11 +99,11 @@ EOF_TOOLFILE
 # TBB
 %if "%mic" == "true"
 cat << \EOF_TOOLFILE >%i/etc/scram.d/tbb.xml
-  <tool name="tbb" version="1.0">
+  <tool name="tbb" version="1.1">
     <info url="http://threadingbuildingblocks.org"/>
     <lib name="tbb"/>
     <client>
-      <environment name="TBB_BASE" default="@ICC_ROOT@/installation/tbb"/>
+      <environment name="TBB_BASE" default="@ICC_SCRAM_ROOT@/installation/tbb"/>
       <environment name="LIBDIR" default="$TBB_BASE/lib/mic"/>
       <environment name="INCLUDE" default="$TBB_BASE/include"/>
     </client>
@@ -113,7 +113,7 @@ EOF_TOOLFILE
 
 
 export ORACLE_ENV_ROOT
-export ICC_ROOT
+export ICC_SCRAM_ROOT
 perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*.xml
 
 %post
