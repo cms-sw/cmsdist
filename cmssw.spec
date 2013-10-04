@@ -1,6 +1,6 @@
-### RPM cms cmssw CMSSW_7_0_0_pre5_MIC
+### RPM cms cmssw CMSSW_7_0_0_pre5
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
-Requires: python cms-git-tools
+Requires: cms-git-tools
 %if "%mic" == "true"
 Requires: cmssw-mic-tool-conf
 %else
