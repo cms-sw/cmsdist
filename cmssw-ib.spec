@@ -18,12 +18,12 @@ mkdir -p %cmsroot/WEB/build-logs/%cmsplatf/$CMSSW_VERSION
 du -sh $CMSSW_ROOT/lib/%cmsplatf > %cmsroot/WEB/build-logs/%cmsplatf/$CMSSW_VERSION/library_size.txt
 case %cmsplatf in
   *_mic_*)
-DOW=`$PYTHON_ROOT/bin/python -c "import os;from datetime import datetime;print datetime.strptime(os.environ['CMSSW_VERSION'].rsplit('_X_')[1], '%Y-%m-%d-%H00').strftime('%a').lower()"`
-HOUR=`$PYTHON_ROOT/bin/python -c "import os;from datetime import datetime;print datetime.strptime(os.environ['CMSSW_VERSION'].rsplit('_X_')[1], '%Y-%m-%d-%H00').strftime('%H').lower()"`
-  ;;
-  *)
 DOW=`/usr/bin/python -c "import os;from datetime import datetime;print datetime.strptime(os.environ['CMSSW_VERSION'].rsplit('_X_')[1], '%Y-%m-%d-%H00').strftime('%a').lower()"`
 HOUR=`/usr/bin/python -c "import os;from datetime import datetime;print datetime.strptime(os.environ['CMSSW_VERSION'].rsplit('_X_')[1], '%Y-%m-%d-%H00').strftime('%H').lower()"`
+  ;;
+  *)
+DOW=`$PYTHON_ROOT/bin/python -c "import os;from datetime import datetime;print datetime.strptime(os.environ['CMSSW_VERSION'].rsplit('_X_')[1], '%Y-%m-%d-%H00').strftime('%a').lower()"`
+HOUR=`$PYTHON_ROOT/bin/python -c "import os;from datetime import datetime;print datetime.strptime(os.environ['CMSSW_VERSION'].rsplit('_X_')[1], '%Y-%m-%d-%H00').strftime('%H').lower()"`
   ;;
 esac
 eval `%scram runtime -sh`
