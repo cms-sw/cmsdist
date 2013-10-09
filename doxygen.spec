@@ -1,8 +1,7 @@
-### RPM external doxygen 1.8.4
+### RPM external doxygen 1.8.5
 
 Source: http://ftp.stack.nl/pub/users/dimitri/%{n}-%{realversion}.src.tar.gz
-
-BuildRequires: flex bison graphviz
+BuildRequires: flex bison graphviz autotools
 
 %define drop_files %{i}/man
 
@@ -18,6 +17,7 @@ BuildRequires: flex bison graphviz
 %setup -n %{n}-%{realversion}
 
 %build
+export M4=`which m4`
 
 ./configure \
   --prefix %{i} \
