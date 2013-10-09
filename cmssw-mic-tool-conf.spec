@@ -42,6 +42,8 @@ Requires: lhapdf-toolfile
 Requires: herwig-toolfile
 Requires: vdt-toolfile
 Requires: meschach-toolfile
+Requires: hector-toolfile
+Requires: fftjet-toolfile
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull 
 
