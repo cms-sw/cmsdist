@@ -1,14 +1,14 @@
 ### RPM external xz 5.0.3__5.1.2alpha
 %define generic_version 5.0.3
-%define fc18arm_version 5.1.2alpha
+%define fcarm_version 5.1.2alpha
 Source0: http://tukaani.org/%{n}/%{n}-%{generic_version}.tar.gz
-Source1: http://tukaani.org/%{n}/%{n}-%{fc18arm_version}.tar.gz
+Source1: http://tukaani.org/%{n}/%{n}-%{fcarm_version}.tar.gz
 
-%define isfc18arm %(case %{cmsplatf} in (fc18_arm*) echo 1 ;; (*) echo 0 ;; esac)
+%define isfcarm %(case %{cmsplatf} in (fc*_arm*) echo 1 ;; (*) echo 0 ;; esac)
 
 %prep
-%if %isfc18arm
-%setup -b 1 -n %{n}-%{fc18arm_version}
+%if %isfcarm
+%setup -b 1 -n %{n}-%{fcarm_version}
 %else
 %setup -b 0 -n %{n}-%{generic_version}
 %endif
