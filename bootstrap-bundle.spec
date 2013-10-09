@@ -4,7 +4,7 @@
 
 BuildRequires: gcc
 BuildRequires: bz2lib-bootstrap db4-bootstrap file-bootstrap libxml2-bootstrap lua-bootstrap nspr-bootstrap nss-bootstrap
-BuildRequires: openssl-bootstrap popt-bootstrap sqlite-bootstrap zlib-bootstrap
+BuildRequires: openssl-bootstrap popt-bootstrap sqlite-bootstrap zlib-bootstrap xz-bootstrap
 
 %define keep_archives true
 %define isamd64 %(case %{cmsplatf} in (*amd64*|*_mic_*) echo 1 ;; (*) echo 0 ;; esac)
