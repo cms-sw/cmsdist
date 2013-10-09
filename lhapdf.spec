@@ -78,7 +78,7 @@ CC="`which gcc` -fPIC"
 ./configure --prefix=%{i} --enable-static --disable-shared --enable-pyext \
             --disable-octave --disable-doxygen --enable-low-memory \
             --with-max-num-pdfsets=1 \
-            CPPFLAGS="-I ${ZLIB_ROOT}/include" CXXFLAGS="%cms_cxxflags" LDFLAGS="-L${ZLIB_ROOT}/lib -lz" \
+            CPPFLAGS="-I${ZLIB_ROOT}/include" CXXFLAGS="%cms_cxxflags" LDFLAGS="-L${ZLIB_ROOT}/lib -lz"  \
 %if "%mic" == "true"
             FC="$FC" CXX="$CXX" CC="$CC" --host=x86_64-k1om-linux --disable-pyext
 %else
