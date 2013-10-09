@@ -1,5 +1,9 @@
 ### RPM external hector 1_3_4
 
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+%endif
 %define rname Hector
 %define realversion %(echo %v | cut -d- -f1 )
 Requires: root
@@ -29,13 +33,20 @@ perl -p -i -e "s|^.*[@]strip.*\n||" Makefile
 # Correct link path for root.
 perl -p -i -e "s|^ROOTLIBS.*$|ROOTLIBS=-L$ROOT_ROOT/lib -lCore -lRint -lMatrix -lPhysics -lCint -lMathCore -pthread -lm -ldl -rdynamic|" Makefile
 case %cmsplatf in
+  *_mic_*)
+    perl -p -i -e 's| -lm | -mmic -fPIC |g' Makefile
+  ;;
   osx*) perl -p -i -e 's|-rdynamic||g' Makefile ;;
 esac
 
 # Add CXX and CXXFLAGS to Makefile and increase output versbose level
 sed -ibak "s/@g++/\$(CXX) \$(CXXFLAGS)/g" Makefile
 
-make CXX="%cms_cxx" CXXFLAGS="%cms_cxxflags"
+%if "%mic" == "true"
+sed -i -e "s/g++/icc /g" Makefile
+%define cms_cxx icc
+%endif
+make %{makeprocesses} CXX="%cms_cxx" CXXFLAGS="%cms_cxxflags"
 
 %install
 tar -c . | tar -x -C %i
