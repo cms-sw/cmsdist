@@ -1,4 +1,8 @@
 ### RPM external meschach 1.2.pCMS1
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+%endif
 Source: http://www.math.uiowa.edu/~dstewart/meschach/mesch12b.tar.gz
 Patch: meschach-1.2-slc4
 Patch1: meschach-1.2b-fPIC
@@ -17,7 +21,10 @@ Patch1: meschach-1.2b-fPIC
 %if %isdarwin
 perl -p -i -e "s|define HAVE_MALLOC_H 1|undef MALLOCDECL|g" machine.h
 %endif
-make
+%if "%mic" == "true"
+sed -i -e 's|CC =.*|CC=icc -mmic|' makefile
+%endif
+make %{makeprocesses}
 %install
 mkdir -p %i/include
 mkdir -p %i/lib

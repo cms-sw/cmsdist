@@ -41,6 +41,7 @@ Requires: charybdis-toolfile
 Requires: lhapdf-toolfile
 Requires: herwig-toolfile
 Requires: vdt-toolfile
+Requires: meschach-toolfile
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull 
 
