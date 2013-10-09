@@ -51,7 +51,6 @@ Requires: libungif-toolfile
 Requires: libxml2-toolfile
 Requires: mcdb-toolfile
 Requires: meschach-toolfile
-Requires: mimetic-toolfile
 Requires: openssl-toolfile
 Requires: oracle-env
 Requires: pcre-toolfile
