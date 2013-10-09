@@ -143,7 +143,7 @@ Requires: igprof-toolfile
 %endif
 %endif
 
-%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler boost_serialization boost_iostreams
 
 ## IMPORT scramv1-tool-conf
 
