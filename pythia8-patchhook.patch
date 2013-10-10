@@ -57,6 +57,66 @@ diff -Naur 153/include/UserHooks.h 153M/include/UserHooks.h
  
  protected:
  
+diff -Naur 153/Makefile 153M/Makefile
+--- 153/Makefile	2011-08-08 10:29:27.000000000 +0200
++++ 153M/Makefile	2013-10-10 13:14:33.000000000 +0200
+@@ -37,9 +37,9 @@
+ # Location of libraries to be built.
+ ifeq ($(SHAREDLIBS),yes)
+   targets=$(LIBDIRARCH)/libpythia8.a
+-  targets+=$(LIBDIR)/libpythia8.$(SHAREDSUFFIX)
++  targets+=$(LIBDIR)/libpythia8_153.$(SHAREDSUFFIX)
+   targets+=$(LIBDIRARCH)/liblhapdfdummy.a
+-  targets+=$(LIBDIR)/liblhapdfdummy.$(SHAREDSUFFIX)
++  targets+=$(LIBDIR)/liblhapdfdummy_153.$(SHAREDSUFFIX)
+ else
+   targets=$(LIBDIRARCH)/libpythia8.a
+   targets+=$(LIBDIRARCH)/liblhapdfdummy.a
+@@ -48,7 +48,7 @@
+ ifneq (x$(HEPMCLOCATION),x)
+  targets+=$(LIBDIRARCH)/libhepmcinterface.a
+  ifeq ($(SHAREDLIBS),yes)
+-  targets+=$(LIBDIR)/libhepmcinterface.$(SHAREDSUFFIX)
++  targets+=$(LIBDIR)/libhepmcinterface_153.$(SHAREDSUFFIX)
+  endif
+ endif
+ 
+@@ -104,7 +104,7 @@
+ objects := $(patsubst $(SRCDIR)/%.cc,$(TMPDIR)/%.o,$(wildcard $(SRCDIR)/*.cc))
+ objectsarch := $(patsubst $(SRCDIR)/%.cc,$(TMPDIR)/archive/%.o,$(wildcard $(SRCDIR)/*.cc))
+ 
+-$(LIBDIR)/libpythia8.$(SHAREDSUFFIX): $(objects)
++$(LIBDIR)/libpythia8_153.$(SHAREDSUFFIX): $(objects)
+ 	@mkdir -p $(LIBDIR)
+ 	$(CXX) $(LDFLAGSSHARED) -o $@ $(objects) $(LDFLAGLIBNAME),$(notdir $@)
+ 
+@@ -115,7 +115,7 @@
+ objdum := $(patsubst lhapdfdummy/%.cc,$(TMPDIR)/%.o,$(wildcard lhapdfdummy/*.cc))
+ objdumarch := $(patsubst lhapdfdummy/%.cc,$(TMPDIR)/archive/%.o,$(wildcard lhapdfdummy/*.cc))
+ 
+-$(LIBDIR)/liblhapdfdummy.$(SHAREDSUFFIX): $(objdum)
++$(LIBDIR)/liblhapdfdummy_153.$(SHAREDSUFFIX): $(objdum)
+ 	@mkdir -p $(LIBDIR)
+ 	$(CXX) $(LDFLAGSSHARED) -o $@ $(objdum) $(LDFLAGLIBNAME),$(notdir $@)
+ 
+@@ -169,7 +169,7 @@
+    objectsI := $(patsubst hepmcinterface/%.cc,$(TMPDIR)/%.o,$(wildcard hepmcinterface/*.cc))
+    objectsIarch := $(patsubst hepmcinterface/%.cc,$(TMPDIR)/archive/%.o,$(wildcard hepmcinterface/*.cc))
+ 
+-   $(LIBDIR)/libhepmcinterface.$(SHAREDSUFFIX) : $(objectsI)
++   $(LIBDIR)/libhepmcinterface_153.$(SHAREDSUFFIX) : $(objectsI)
+ 	@mkdir -p $(LIBDIR)
+ 	$(CXX) $(LDFLAGSSHARED) $(objectsI) -o $@ $(LDFLAGLIBNAME),$(notdir $@)
+ 
+@@ -187,7 +187,7 @@
+ 
+  else
+ 
+-   $(LIBDIRARCH)/libhepmcinterface.a $(LIBDIR)/libhepmcinterface.$(SHAREDSUFFIX) :
++   $(LIBDIRARCH)/libhepmcinterface.a $(LIBDIR)/libhepmcinterface_153.$(SHAREDSUFFIX) :
+ 	@echo $(HEPMCERROR)
+ 
+ 
 diff -Naur 153/src/PartonLevel.cc 153M/src/PartonLevel.cc
 --- 153/src/PartonLevel.cc	2011-08-08 10:29:31.000000000 +0200
 +++ 153M/src/PartonLevel.cc	2013-09-18 12:24:49.000000000 +0200
