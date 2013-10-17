@@ -35,7 +35,7 @@ case %cmsplatf in
   ;;
 esac
 %if "%mic" == "true"
-./configure --prefix=%{i} --with-hepmc=$HEPMC_ROOT --with-pythia8libs=$PYTHIA_ROOT --with-lhapdf=$LHAPDF_ROOT --host=x86_64-k1om-linux CXX="icpcc -mmic" CXXFLAGS="%cms_cxxflags" F77="ifort -mmic -extend-source 132"
+./configure --prefix=%{i} --with-hepmc=$HEPMC_ROOT --with-pythia8libs=$PYTHIA_ROOT --with-lhapdf=$LHAPDF_ROOT --host=x86_64-k1om-linux CXX="icpc -mmic" CXXFLAGS="%cms_cxxflags" F77="ifort -mmic -extend-source 132"
 %else
 ./configure --prefix=%{i} --with-hepmc=$HEPMC_ROOT --with-pythia8libs=$PYTHIA_ROOT --with-lhapdf=$LHAPDF_ROOT CXX="%cms_cxx" CXXFLAGS="%cms_cxxflags"
 %endif
