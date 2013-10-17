@@ -5,6 +5,7 @@ Source0: http://www.openssl.org/source/%{n}-%{generic_version}.tar.gz
 Source1: http://cmsrep.cern.ch/cmssw/openssl-sources/%{n}-fips-%{slc_version}-usa.tar.bz2
 Patch0: openssl-0.9.8e-rh-0.9.8e-12.el5_4.6
 Patch1: openssl-x86-64-gcc420
+Patch2: openssl-1.0.1-disable-install_docs
 
 %define ismac %(case %{cmsplatf} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isfc %(case %{cmsplatf} in (fc*) echo 1 ;; (*) echo 0 ;; esac)
@@ -13,9 +14,11 @@ Patch1: openssl-x86-64-gcc420
 %prep
 %if %ismac
 %setup -b 0 -n %{n}-%{generic_version}
+%patch2 -p1
 %endif
 %if %isfc
 %setup -b 0 -n %{n}-%{generic_version}
+%patch2 -p1
 %endif
 %if %isslc
 %setup -b 1 -n %{n}-fips-%{slc_version}
