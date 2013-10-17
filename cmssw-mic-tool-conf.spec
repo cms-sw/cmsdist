@@ -44,6 +44,11 @@ Requires: vdt-toolfile
 Requires: meschach-toolfile
 Requires: hector-toolfile
 Requires: fftjet-toolfile
+Requires: dcap-toolfile
+Requires: xrootd-toolfile
+Requires: curl-toolfile
+Requires: tauolapp-toolfile
+Requires: ktjet-toolfile
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull 
 

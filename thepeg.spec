@@ -4,6 +4,7 @@
 #Source: http://www.thep.lu.se/~leif/ThePEG/ThePEG-%{realversion}.tgz
 #Source: http://projects.hepforge.org/herwig/files/ThePEG-%{realversion}.tar.gz
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 Patch0: thepeg-1.7.0-break-termcap-dependence
 Patch1: thepeg-1.7.0-use-dylibs-macosx
 Patch2: thepeg-1.6.1-lhapdf-env
@@ -13,6 +14,10 @@ Patch5: thepeg-1.7.0-gcc46
 Patch6: thepeg-1.7.0-fix-bogus-ZLIB-HOME
 Patch7: thepeg-1.7.0-fix-gcc47-cxx11
 Patch8: thepeg-1.7.0-zlib-void-to-gzFile-ptr
+Patch9: thepeg-1.7.0-configure-mic
+%if "%mic" == "true"
+Requires: icc
+%endif
 Requires: lhapdf
 Requires: gsl
 Requires: hepmc
@@ -46,7 +51,9 @@ esac
 %patch6 -p2
 %patch7 -p1
 %patch8 -p2
-
+%if "%mic" == "true"
+%patch9 -p1
+%endif
 # Trick make not to re-run aclocal, autoconf, automake, autoscan, etc.
 find . -exec touch -m -t 201201010000 {} \;
 
@@ -58,6 +65,12 @@ case %cmsplatf in
     CC="`which gcc`"    
     PLATF_CONF_OPTS="--enable-shared --disable-static"
     LIBGFORTRAN=`gfortran --print-file-name=libgfortran.so` 
+  ;;
+  *_mic_*) perl -p -i -e 's|libLHAPDF[.]so|libLHAPDF.a|g' configure 
+    CXX="icpc -fPIC -mmic"
+    CC="icc -fPIC -mmic"
+    PLATF_CONF_OPTS="--enable-shared --disable-static --host=x86_64-k1om-linux"
+    LIBGFORTRAN="-lifcore -lifport"
   ;;
   *) perl -p -i -e 's|libLHAPDF[.]so|libLHAPDF.a|g' configure 
     CXX="`which %cms_cxx` -fPIC"
@@ -83,7 +96,7 @@ esac
             --with-gsl=$GSL_ROOT --with-zlib=$ZLIB_ROOT \
             --without-javagui --prefix=%i \
             --disable-readline CXX="$CXX" CC="$CC" CXXFLAGS="%cms_cxxflags" \
-            LIBS="-L$LHAPDF_ROOT/lib -lLHAPDF $LIBGFORTRAN -lz $LIBQUADMATH"
+            LIBS="-L$LHAPDF_ROOT/lib -lLHAPDF $LIBGFORTRAN -L$ZLIB_ROOT/lib -lz $LIBQUADMATH"
 make
 
 %install

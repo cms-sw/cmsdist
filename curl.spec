@@ -1,4 +1,8 @@
 ### RPM external curl 7.28.0
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+%endif
 Source: http://curl.haxx.se/download/%n-%realversion.tar.gz
 Provides: libcurl.so.3()(64bit) 
 Requires: openssl
@@ -15,7 +19,14 @@ case %cmsplatf in
   slc5*) KERBEROS_ROOT=/usr/kerberos ;;
   osx*) KERBEROS_ROOT=/usr/heimdal ;;
 esac
+%if "%mic" == "true"
+CXX="icpc -fPIC -mmic" CC="icc -fPIC -mmic" \
+./configure --prefix=%i --disable-static --without-libidn --disable-ldap --with-ssl=${OPENSSL_ROOT} --with-zlib=${ZLIB_ROOT} --with-gssapi=$KERBEROS_ROOT \
+--host=x86_64-k1om-linux
+%else
 ./configure --prefix=%i --disable-static --without-libidn --disable-ldap --with-ssl=${OPENSSL_ROOT} --with-zlib=${ZLIB_ROOT} --with-gssapi=$KERBEROS_ROOT
+%endif
+
 # This should change link from "-lz" to "-lrt -lz", needed by gold linker
 # This is a fairly ugly way to do it, however.
 perl -p -i -e "s!\(LIBS\)!(LIBCURL_LIBS)!" src/Makefile
