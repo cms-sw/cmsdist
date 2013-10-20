@@ -61,6 +61,7 @@ Requires: pcre-toolfile
 Requires: photos-toolfile
 Requires: pythia6-toolfile
 Requires: pythia8-toolfile
+Requires: pythia8-175-toolfile
 Requires: python-toolfile
 Requires: py2-cx-oracle-toolfile
 Requires: qt-toolfile
