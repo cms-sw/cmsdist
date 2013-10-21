@@ -1,10 +1,10 @@
-### RPM external pythia8-175 1.0
+### RPM external pythia8-175 175
 
 Requires: hepmc
 
-Source: http://cern.ch/service-spi/external/MCGenerators/distribution/pythia8/pythia8-175-src.tgz
+Source: http://cern.ch/service-spi/external/MCGenerators/distribution/pythia8/pythia8-%{realversion}-src.tgz
 %prep
-%setup -q -n pythia8/175
+%setup -q -n pythia8/%{realversion}
 
 export HEPMCLOCATION=${HEPMC_ROOT} 
 export HEPMCVERSION=${HEPMC_VERSION} 

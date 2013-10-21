@@ -1,5 +1,5 @@
 ### RPM external pythia8-153-toolfile 1.0
-Requires: pythia8
+Requires: pythia8-153
 %prep
 
 %build
@@ -12,12 +12,11 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pythia8.xml
   <lib name="pythia8_153"/>
   <lib name="hepmcinterface_153"/>
   <client>
-    <environment name="PYTHIA8_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$PYTHIA8_BASE/lib"/>
-    <environment name="INCLUDE" default="$PYTHIA8_BASE/include"/>
+    <environment name="PYTHIA8_153_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$PYTHIA8_153_BASE/lib"/>
+    <environment name="INCLUDE" default="$PYTHIA8_153_BASE/include"/>
   </client>
-  <runtime name="PYTHIA8153DATA" value="$PYTHIA8_BASE/xmldoc"/>
-  <use name="cxxcompiler"/>
+  <runtime name="PYTHIA8153DATA" value="$PYTHIA8_153_BASE/xmldoc"/>
   <use name="hepmc"/>
   <use name="pythia6"/>
   <use name="clhep"/>

@@ -12,12 +12,11 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pythia8-175.xml
   <lib name="pythia8"/>
   <lib name="hepmcinterface"/>
   <client>
-    <environment name="PYTHIA8_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$PYTHIA8_BASE/lib"/>
-    <environment name="INCLUDE" default="$PYTHIA8_BASE/include"/>
+    <environment name="PYTHIA8_175_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$PYTHIA8_175_BASE/lib"/>
+    <environment name="INCLUDE" default="$PYTHIA8_175_BASE/include"/>
   </client>
-  <runtime name="PYTHIA8175DATA" value="$PYTHIA8_BASE/xmldoc"/>
-  <use name="cxxcompiler"/>
+  <runtime name="PYTHIA8175DATA" value="$PYTHIA8_175_BASE/xmldoc"/>
   <use name="hepmc"/>
   <use name="pythia6"/>
   <use name="clhep"/>
