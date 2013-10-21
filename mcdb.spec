@@ -1,4 +1,8 @@
 ### RPM external mcdb 1.0.2
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+%endif
 Source: http://mcdb.cern.ch/distribution/api/%{n}-api-%{realversion}.tar.gz
 Requires: xerces-c
 Patch0: mcdb-1.0.2-gcc45
@@ -23,6 +27,16 @@ esac
 rm config.mk
 touch config.mk
 case %{cmsplatf} in
+  *_mic_* ) 
+    echo "PLATFORM = %cmsplatf" >> config.mk
+    echo "CC       = icc" >> config.mk
+    echo "CXX      = icpc" >> config.mk
+    echo "CFLAGS   = -mmic -O2 -pipe -Wall -W -fPIC" >> config.mk
+    echo "CXXFLAGS = -mmic %cms_cxxflags -pipe -Wall -W -fPIC" >> config.mk
+    echo "LINK     = icpc" >> config.mk
+    echo "LFLAGS   = -mmic -shared -Wl,-soname,libmcdb.so" >> config.mk
+    echo "XERCESC  = $XERCES_C_ROOT" >> config.mk
+    ;;
   osx*) 
     echo "PLATFORM = %cmsplatf" >> config.mk
     echo "CC       = gcc" >> config.mk

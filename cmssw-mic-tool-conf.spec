@@ -51,6 +51,9 @@ Requires: tauolapp-toolfile
 Requires: ktjet-toolfile
 Requires: jimmy-toolfile
 Requires: rivet-toolfile
+Requires: libhepml-toolfile
+Requires: mcdb-toolfile
+Requires: evtgenlhc-toolfile
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull 
 

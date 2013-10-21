@@ -1,4 +1,8 @@
 ### RPM external libhepml 0.2.1
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+%endif
 Source: http://mcdb.cern.ch/distribution/api/%{n}-%{realversion}.tar.gz
 Patch0: libhepml-0.2.1-gcc43
 Patch1: libhepml-0.2.1-leopard
@@ -23,7 +27,12 @@ esac
 %build
 cd src
 
+%if "%mic" == "true"
+sed -ibak "s/\(^CC *= \)\(.*\)/\1icc/g;s/\(^CXX *= \)\(.*\)/\1icpc/g;s/\(^CXXFLAGS *= \)\(.*\)/\1\2 %cms_cxxflags -mmic/g;s/\(^CFLAGS *= \)\(.*\)/\1\2 -mmic/g" Makefile
+sed -ibak "s/\(^LINK *= \)\(.*\)/\1icpc/g;s/\(^LFLAGS *= \)\(.*\)/\1\2 -mmic/g" Makefile
+%else
 sed -ibak "s/\(^CXX *= \)\(.*\)/\1%cms_cxx/g;s/\(^CXXFLAGS *= \)\(.*\)/\1\2 %cms_cxxflags/g" Makefile
+%endif
 
 make
 mv *.so ../lib/.
