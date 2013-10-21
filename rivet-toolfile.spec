@@ -10,13 +10,14 @@ mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rivet.xml
 <tool name="rivet" version="@TOOL_VERSION@">
 <lib name="Rivet"/>
+<lib name="yaml-cpp"/>
 <client>
 <environment name="RIVET_BASE" default="@TOOL_ROOT@"/>
 <environment name="LIBDIR" default="$RIVET_BASE/lib"/>
 <environment name="INCLUDE" default="$RIVET_BASE/include"/>
 </client>
 <runtime name="PATH" value="$RIVET_BASE/bin" type="path"/>
-<runtime name="PYTHONPATH" value="$RIVET_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
+<runtime name="PYTHONPATH" value="$RIVET_BASE/lib/python@PYTHONV@/site-packages" type="path" handler="warn"/>
 <runtime name="RIVET_ANALYSIS_PATH" value="$RIVET_BASE/lib" type="path"/>
 <runtime name="PDFPATH" default="$RIVET_BASE/share" type="path"/>
 </tool>
