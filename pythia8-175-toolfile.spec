@@ -1,5 +1,5 @@
-### RPM external pythia8-toolfile 1.0
-Requires: pythia8
+### RPM external pythia8-175-toolfile 1.0
+Requires: pythia8-175
 %prep
 
 %build
@@ -7,16 +7,16 @@ Requires: pythia8
 %install
 
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/pythia8.xml
-<tool name="pythia8" version="@TOOL_VERSION@">
-  <lib name="pythia8_153"/>
-  <lib name="hepmcinterface_153"/>
+cat << \EOF_TOOLFILE >%i/etc/scram.d/pythia8-175.xml
+<tool name="pythia8-175" version="@TOOL_VERSION@">
+  <lib name="pythia8"/>
+  <lib name="hepmcinterface"/>
   <client>
     <environment name="PYTHIA8_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$PYTHIA8_BASE/lib"/>
     <environment name="INCLUDE" default="$PYTHIA8_BASE/include"/>
   </client>
-  <runtime name="PYTHIA8DATA" value="$PYTHIA8_BASE/xmldoc"/>
+  <runtime name="PYTHIA8175DATA" value="$PYTHIA8_BASE/xmldoc"/>
   <use name="cxxcompiler"/>
   <use name="hepmc"/>
   <use name="pythia6"/>
