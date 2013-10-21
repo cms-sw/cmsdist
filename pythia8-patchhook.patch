@@ -1,0 +1,186 @@
+diff -Naur 153/include/PartonLevel.h 153M/include/PartonLevel.h
+--- 153/include/PartonLevel.h	2011-08-08 10:29:30.000000000 +0200
++++ 153M/include/PartonLevel.h	2013-09-18 12:26:38.000000000 +0200
+@@ -76,13 +76,13 @@
+   bool   doMinBias, doDiffraction, doMI, doMIMB, doMISDA, doMISDB, doMIinit, 
+          doISR, doFSRduringProcess, doFSRafterProcess,  doFSRinResonances, 
+          doRemnants, doSecondHard, hasLeptonBeams, hasPointLeptons, 
+-         canVetoPT, canVetoStep, canVetoMIStep, canSetScale, allowRH;
++         canVetoPT, canVetoStep, canVetoMPIStep, canSetScale, allowRH;
+   double mMinDiff, mWidthDiff;
+ 
+   // Event generation strategy. Number of steps. Maximum pT scales.
+   bool   doVeto;
+   int    nMI, nISR, nFSRinProc, nFSRinRes, nISRhard, nFSRhard, 
+-         typeLatest, nVetoStep, typeVetoStep, nVetoMIStep, iSysNow;
++         typeLatest, nVetoStep, typeVetoStep, nVetoMPIStep, iSysNow;
+   double pTsaveMI, pTsaveISR, pTsaveFSR, pTvetoPT;
+ 
+   // Current event properties.
+diff -Naur 153/include/UserHooks.h 153M/include/UserHooks.h
+--- 153/include/UserHooks.h	2011-08-08 10:29:30.000000000 +0200
++++ 153M/include/UserHooks.h	2013-09-18 12:27:40.000000000 +0200
+@@ -99,14 +99,14 @@
+ 
+   // Possibility to veto MI + ISR + FSR evolution and kill event, 
+   // making decision after fixed number of MI steps.
+-  virtual bool canVetoMIStep() {return false;}
++  virtual bool canVetoMPIStep() {return false;}
+ 
+   // Up to how many MI steps should be checked.
+-  virtual int numberVetoMIStep() {return 1;}
++  virtual int numberVetoMPIStep() {return 1;}
+ 
+   // Decide whether to veto current event or not, based on event record.
+-  // Usage: doVetoMIStep( nMI, event), where nMI is number of MI's so far.
+-  virtual bool doVetoMIStep( int , const Event& ) {return false;} 
++  // Usage: doVetoMPIStep( nMI, event), where nMI is number of MI's so far.
++  virtual bool doVetoMPIStep( int , const Event& ) {return false;} 
+    
+   // Possibility to veto event after parton-level selection.
+   virtual bool canVetoPartonLevel() {return false;}
+@@ -129,7 +129,7 @@
+   // Decide whether to veto current emission or not, based on event record.
+   // Usage: doVetoISREmission( sizeOld, event) where sizeOld is size
+   // of event record before current emission-to-be-scrutinized was added. 
+-  virtual bool doVetoISREmission( const int, const Event& ) {return false;} 
++  virtual bool doVetoISREmission( const int, const Event&, int) {return false;} 
+ 
+   // Possibility to veto an emission in the FSR machinery.
+   virtual bool canVetoFSREmission() {return false;}
+@@ -137,7 +137,7 @@
+   // Decide whether to veto current emission or not, based on event record.
+   // Usage: doVetoFSREmission( sizeOld, event) where sizeOld is size
+   // of event record before current emission-to-be-scrutinized was added. 
+-  virtual bool doVetoFSREmission( const int, const Event& ) {return false;} 
++  virtual bool doVetoFSREmission( const int, const Event&, int, bool=false ) {return false;} 
+ 
+ protected:
+ 
+diff -Naur 153/Makefile 153M/Makefile
+--- 153/Makefile	2011-08-08 10:29:27.000000000 +0200
++++ 153M/Makefile	2013-10-10 13:14:33.000000000 +0200
+@@ -37,9 +37,9 @@
+ # Location of libraries to be built.
+ ifeq ($(SHAREDLIBS),yes)
+   targets=$(LIBDIRARCH)/libpythia8.a
+-  targets+=$(LIBDIR)/libpythia8.$(SHAREDSUFFIX)
++  targets+=$(LIBDIR)/libpythia8_153.$(SHAREDSUFFIX)
+   targets+=$(LIBDIRARCH)/liblhapdfdummy.a
+-  targets+=$(LIBDIR)/liblhapdfdummy.$(SHAREDSUFFIX)
++  targets+=$(LIBDIR)/liblhapdfdummy_153.$(SHAREDSUFFIX)
+ else
+   targets=$(LIBDIRARCH)/libpythia8.a
+   targets+=$(LIBDIRARCH)/liblhapdfdummy.a
+@@ -48,7 +48,7 @@
+ ifneq (x$(HEPMCLOCATION),x)
+  targets+=$(LIBDIRARCH)/libhepmcinterface.a
+  ifeq ($(SHAREDLIBS),yes)
+-  targets+=$(LIBDIR)/libhepmcinterface.$(SHAREDSUFFIX)
++  targets+=$(LIBDIR)/libhepmcinterface_153.$(SHAREDSUFFIX)
+  endif
+ endif
+ 
+@@ -104,7 +104,7 @@
+ objects := $(patsubst $(SRCDIR)/%.cc,$(TMPDIR)/%.o,$(wildcard $(SRCDIR)/*.cc))
+ objectsarch := $(patsubst $(SRCDIR)/%.cc,$(TMPDIR)/archive/%.o,$(wildcard $(SRCDIR)/*.cc))
+ 
+-$(LIBDIR)/libpythia8.$(SHAREDSUFFIX): $(objects)
++$(LIBDIR)/libpythia8_153.$(SHAREDSUFFIX): $(objects)
+ 	@mkdir -p $(LIBDIR)
+ 	$(CXX) $(LDFLAGSSHARED) -o $@ $(objects) $(LDFLAGLIBNAME),$(notdir $@)
+ 
+@@ -115,7 +115,7 @@
+ objdum := $(patsubst lhapdfdummy/%.cc,$(TMPDIR)/%.o,$(wildcard lhapdfdummy/*.cc))
+ objdumarch := $(patsubst lhapdfdummy/%.cc,$(TMPDIR)/archive/%.o,$(wildcard lhapdfdummy/*.cc))
+ 
+-$(LIBDIR)/liblhapdfdummy.$(SHAREDSUFFIX): $(objdum)
++$(LIBDIR)/liblhapdfdummy_153.$(SHAREDSUFFIX): $(objdum)
+ 	@mkdir -p $(LIBDIR)
+ 	$(CXX) $(LDFLAGSSHARED) -o $@ $(objdum) $(LDFLAGLIBNAME),$(notdir $@)
+ 
+@@ -169,7 +169,7 @@
+    objectsI := $(patsubst hepmcinterface/%.cc,$(TMPDIR)/%.o,$(wildcard hepmcinterface/*.cc))
+    objectsIarch := $(patsubst hepmcinterface/%.cc,$(TMPDIR)/archive/%.o,$(wildcard hepmcinterface/*.cc))
+ 
+-   $(LIBDIR)/libhepmcinterface.$(SHAREDSUFFIX) : $(objectsI)
++   $(LIBDIR)/libhepmcinterface_153.$(SHAREDSUFFIX) : $(objectsI)
+ 	@mkdir -p $(LIBDIR)
+ 	$(CXX) $(LDFLAGSSHARED) $(objectsI) -o $@ $(LDFLAGLIBNAME),$(notdir $@)
+ 
+@@ -187,7 +187,7 @@
+ 
+  else
+ 
+-   $(LIBDIRARCH)/libhepmcinterface.a $(LIBDIR)/libhepmcinterface.$(SHAREDSUFFIX) :
++   $(LIBDIRARCH)/libhepmcinterface.a $(LIBDIR)/libhepmcinterface_153.$(SHAREDSUFFIX) :
+ 	@echo $(HEPMCERROR)
+ 
+ 
+diff -Naur 153/src/PartonLevel.cc 153M/src/PartonLevel.cc
+--- 153/src/PartonLevel.cc	2011-08-08 10:29:31.000000000 +0200
++++ 153M/src/PartonLevel.cc	2013-09-18 12:24:49.000000000 +0200
+@@ -110,8 +110,8 @@
+   pTvetoPT      = (canVetoPT)        ? userHooksPtr->scaleVetoPT() : -1.;
+   canVetoStep   = (userHooksPtr > 0) ? userHooksPtr->canVetoStep() : false;
+   nVetoStep     = (canVetoStep)   ? userHooksPtr->numberVetoStep() : -1;
+-  canVetoMIStep = (userHooksPtr > 0) ? userHooksPtr->canVetoMIStep() : false;
+-  nVetoMIStep   = (canVetoStep)   ? userHooksPtr->numberVetoMIStep() : -1;
++  canVetoMPIStep = (userHooksPtr > 0) ? userHooksPtr->canVetoMPIStep() : false;
++  nVetoMPIStep   = (canVetoStep)   ? userHooksPtr->numberVetoMPIStep() : -1;
+ 
+   // Possibility to set maximal shower scale in resonance decays.
+   canSetScale = (userHooksPtr > 0) ? userHooksPtr->canSetResonanceScale() 
+@@ -227,8 +227,8 @@
+     setupHardSys( iHardLoop, process, event);
+ 
+     // Optionally check for a veto after the hardest interaction.
+-    if (canVetoMIStep) {
+-      doVeto = userHooksPtr->doVetoMIStep( 1, event);
++    if (canVetoMPIStep) {
++      doVeto = userHooksPtr->doVetoMPIStep( 1, event);
+       // Abort event if vetoed.
+       if (doVeto) {
+         if (isDiff) leaveResolvedDiff( iHardLoop, event);
+@@ -308,7 +308,7 @@
+         multiPtr->scatter( event);  
+         typeLatest = 1;
+         ++nMI;
+-        if (canVetoMIStep && nMI <= nVetoMIStep) typeVetoStep = 1;
++        if (canVetoMPIStep && nMI <= nVetoMPIStep) typeVetoStep = 1;
+  
+         // Update ISR and FSR dipoles.
+         if (doISR)              spacePtr->prepare( nMI - 1, event);
+@@ -377,7 +377,7 @@
+       // Optionally check for a veto after the first few interactions,
+       // or after the first few emissions, ISR or FSR, in the hardest system.
+       if (typeVetoStep == 1) {
+-        doVeto = userHooksPtr->doVetoMIStep( nMI, event);
++        doVeto = userHooksPtr->doVetoMPIStep( nMI, event);
+       } else if (typeVetoStep > 1) {
+         doVeto = userHooksPtr->doVetoStep( typeVetoStep, nISRhard, 
+           nFSRhard, event);
+diff -Naur 153/src/SpaceShower.cc 153M/src/SpaceShower.cc
+--- 153/src/SpaceShower.cc	2011-08-08 10:29:31.000000000 +0200
++++ 153M/src/SpaceShower.cc	2013-08-24 22:54:57.000000000 +0200
+@@ -1441,7 +1441,7 @@
+ 
+   // Allow veto of branching. If so restore event record to before emission.
+   if ( canVetoEmission 
+-    && userHooksPtr->doVetoISREmission(eventSizeOld, event) ) {
++    && userHooksPtr->doVetoISREmission(eventSizeOld, event, iSysSel) ) {
+     event.popBack( event.size() - eventSizeOld); 
+     event[1].daughter1( ev1dau1V);
+     event[2].daughter1( ev2dau1V);
+diff -Naur 153/src/TimeShower.cc 153M/src/TimeShower.cc
+--- 153/src/TimeShower.cc	2011-08-08 10:29:31.000000000 +0200
++++ 153M/src/TimeShower.cc	2013-08-24 22:56:33.000000000 +0200
+@@ -1847,7 +1847,7 @@
+ 
+   // Allow veto of branching. If so restore event record to before emission.
+   if ( canVetoEmission 
+-    && userHooksPtr->doVetoFSREmission(eventSizeOld, event) ) {
++    && userHooksPtr->doVetoFSREmission(eventSizeOld, event, iSysSel) ) {
+     event.popBack( event.size() - eventSizeOld);
+     event[iRadBef].status( iRadStatusV);
+     event[iRadBef].daughters( iRadDau1V, iRadDau2V);
