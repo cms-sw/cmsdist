@@ -2,7 +2,8 @@
 
 Requires: hepmc
 
-Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{realversion}-src.tgz
+Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
+Patch0: pythia8-patchhook
 
 %if "%{?cms_cxxflags:set}" != "set"
 %define cms_cxxflags -std=c++0x
@@ -10,6 +11,7 @@ Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}-%{rea
 
 %prep
 %setup -q -n %{n}/%{realversion}
+%patch0 -p1
 
 export USRCXXFLAGS="%cms_cxxflags"
 export HEPMCLOCATION=${HEPMC_ROOT} 
