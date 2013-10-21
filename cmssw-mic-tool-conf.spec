@@ -49,6 +49,8 @@ Requires: xrootd-toolfile
 Requires: curl-toolfile
 Requires: tauolapp-toolfile
 Requires: ktjet-toolfile
+Requires: jimmy-toolfile
+Requires: rivet-toolfile
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull 
 

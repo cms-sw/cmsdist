@@ -1,5 +1,8 @@
 ### RPM external jimmy 4.2
-
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
+%if "%mic" == "true"
+Requires: icc
+%endif
 Requires: herwig
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 Patch0: jimmy-4.2-gfortran
@@ -27,6 +30,10 @@ case %cmsos in
   *) BUILD_PRODUCT=lib_archive ;;
 esac
 ./configure $PLATF_CONFIG_OPTS --with-herwig=$HERWIG_ROOT
+
+%if "%mic" == "true"
+sed -i -e 's|F77 *=.*|F77 = ifort -mmic|' config.mk
+%endif
 # Looks like ./configure does not do all it should do to have our
 # version of herwig picked up at link time.
 # Workaround until they fix the GENESER makefiles is to define
