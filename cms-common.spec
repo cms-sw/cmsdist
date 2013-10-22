@@ -115,6 +115,10 @@ fi
 alias cmsenv='eval `scramv1 runtime -sh`'
 alias cmsrel='scramv1 project CMSSW'
 
+# bash completion
+function _cmsrel() { COMPREPLY=(`scram list -ac CMSSW $2 | awk '{ print $2 }' | sort -u`); }
+complete -F _cmsrel cmsrel
+
 if [ -f $CMS_PATH/SITECONF/local/JobConfig/cmsset_local.sh ]; then
         . $CMS_PATH/SITECONF/local/JobConfig/cmsset_local.sh
 fi
