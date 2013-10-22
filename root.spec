@@ -1,4 +1,4 @@
-### RPM lcg root 5.34.09
+### RPM lcg root 5.34.10
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i  
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
@@ -19,7 +19,12 @@ Patch3: root-5.32.00-detect-arch
 Patch4: root-5.30.02-fix-gcc46
 Patch5: root-5.30.02-fix-isnan-again
 Patch6: root-5.34.05-cintex-armv7a-port
-Patch7: root-5.34.09-ROOT-5437
+Patch7: 0001-Use-meta-data-mutex-for-the-proxy-initialization
+Patch8: 0002-Fix-thread-safety-of-TThread-TThread-Long_t-id
+Patch9: 0003-Reduce-lifetime-of-lock-in-TFile-TFile-to-avoid-lock
+Patch10: 0004-Reduce-lock-lifetime-in-TCollection-GarbageCollect
+Patch11: 0005-Remove-unnecessary-global-variable-and-lock
+Patch12: 0006-Fix-thread-safety-of-TGenCollectionProxy-s-iterator-
 
 Requires: gccxml gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl
 
@@ -44,11 +49,17 @@ Requires: freetype
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch7 -p1
 
 %if %isarmv7
 %patch6 -p1
 %endif
+
+%patch7 -p1
+%patch8 -p1
+%patch9 -p1
+%patch10 -p1
+%patch11 -p1
+%patch12 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
