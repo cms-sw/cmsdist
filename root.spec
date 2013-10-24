@@ -52,6 +52,9 @@ export LIBJPEG=${LIBJPEG_ROOT}
 export LIBPNG=${LIBPNG_ROOT}
 export LIBTIFF=${LIBTIFF_ROOT}
 
+# Enable debug symbols in ROOT LLVM
+export LLVMDEV=1
+
 CONFIG_ARGS="--enable-table 
              --disable-builtin-pcre
              --disable-builtin-freetype
@@ -74,6 +77,7 @@ CONFIG_ARGS="--enable-table
              --disable-pgsql
              --disable-mysql
              --enable-c++11
+             --build=debug
              --with-cxx=${GCC_ROOT}/bin/g++
              --with-cc=${GCC_ROOT}/bin/gcc
              --with-ld=${GCC_ROOT}/bin/g++
@@ -112,8 +116,8 @@ TARGET_PLATF=
 %endif
 
 cat <<\EOF >> MyConfig.mk
-CFLAGS+=-O0 -g -D__ROOFIT_NOBANNER
-CXXFLAGS+=-O0 -g -D__ROOFIT_NOBANNER
+CFLAGS+=-D__ROOFIT_NOBANNER
+CXXFLAGS+=-D__ROOFIT_NOBANNER
 EOF
 
 ./configure ${TARGET_PLATF} ${CONFIG_ARGS} ${EXTRA_OPTS}

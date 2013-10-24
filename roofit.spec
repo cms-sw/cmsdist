@@ -54,10 +54,14 @@ export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 #export LIBPNG=${LIBPNG_ROOT}
 #export LIBTIFF=${LIBTIFF_ROOT}
 
+# Enable debug symbols in ROOT LLVM
+export LLVMDEV=1
+
 CONFIG_ARGS="--minimal
              --enable-roofit
              --enable-xml
              --enable-c++11
+             --build=debug
              --disable-rpath
              --with-cxx=${GCC_ROOT}/bin/g++
              --with-cc=${GCC_ROOT}/bin/gcc
@@ -80,8 +84,8 @@ TARGET_PLATF=
 %endif
 
 cat <<\EOF >> MyConfig.mk
-CFLAGS+=-O0 -g -D__ROOFIT_NOBANNER
-CXXFLAGS+=-O0 -g -D__ROOFIT_NOBANNER
+CFLAGS+=-D__ROOFIT_NOBANNER
+CXXFLAGS+=-D__ROOFIT_NOBANNER
 EOF
 
 ./configure ${TARGET_PLATF} ${CONFIG_ARGS}
