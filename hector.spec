@@ -13,7 +13,7 @@ Patch2: hector-1.3.4-fix-narrowing-conversion
 %endif
 
 %if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x
+%define cms_cxxflags -std=c++11
 %endif
 
 %prep
@@ -27,7 +27,7 @@ Patch2: hector-1.3.4-fix-narrowing-conversion
 # We simply ignore the stripping.
 perl -p -i -e "s|^.*[@]strip.*\n||" Makefile
 # Correct link path for root.
-perl -p -i -e "s|^ROOTLIBS.*$|ROOTLIBS=-L$ROOT_ROOT/lib -lCore -lRint -lMatrix -lPhysics -lCint -lMathCore -pthread -lm -ldl -rdynamic|" Makefile
+#perl -p -i -e "s|^ROOTLIBS.*$|ROOTLIBS=-L$ROOT_ROOT/lib -lCore -lRint -lMatrix -lPhysics -lCling -lMathCore -pthread -lm -ldl -rdynamic|" Makefile
 case %cmsplatf in
   osx*) perl -p -i -e 's|-rdynamic||g' Makefile ;;
 esac
