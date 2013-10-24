@@ -1,4 +1,4 @@
-### RPM external db4-bootstrap 4.4.20
+### RPM external db4-bootstrap 4.8.30
 Source: http://download.oracle.com/berkeley-db/db-%{realversion}.NC.tar.gz
 %define drop_files %i/docs
 %define strip_files %i/lib
