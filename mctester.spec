@@ -2,6 +2,8 @@
 
 Source:  http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 
+Patch0: mctester-cling
+
 Requires: hepmc
 Requires: root
 
@@ -21,6 +23,7 @@ BuildRequires: autotools
 
 %prep
 %setup -q -n %{n}/%{realversion}
+%patch0 -p2
 
 ./configure \
   --with-HepMC=${HEPMC_ROOT} \
