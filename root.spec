@@ -1,39 +1,26 @@
-### RPM lcg root 5.34.10
-## INITENV +PATH PYTHONPATH %i/lib/python
-## INITENV SET ROOTSYS %i  
-#Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
-%define tag %(echo v%{realversion} | tr . -)
-%define branch %(echo %{realversion} | sed 's/\\.[0-9]*$/.00/;s/^/v/;s/$/-patches/g;s/\\./-/g')
+### RPM lcg root 5.99.04
+## INITENV +PATH PYTHONPATH %{i}/lib
+## INITENV SET ROOTSYS %{i}
+%define tag a098127973bc003c21667c466e2be10d1d0e0486
+%define branch master
 Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
-%define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
-%define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
 
-Patch0: root-5.34.02-externals
-Patch1: root-5.28-00d-roofit-silence-static-printout
-Patch2: root-5.34.00-linker-gnu-hash-style
-Patch3: root-5.32.00-detect-arch
-Patch4: root-5.30.02-fix-gcc46
-Patch5: root-5.30.02-fix-isnan-again
-Patch6: root-5.34.05-cintex-armv7a-port
-Patch7: 0001-Use-meta-data-mutex-for-the-proxy-initialization
-Patch8: 0002-Fix-thread-safety-of-TThread-TThread-Long_t-id
-Patch9: 0003-Reduce-lifetime-of-lock-in-TFile-TFile-to-avoid-lock
-Patch10: 0004-Reduce-lock-lifetime-in-TCollection-GarbageCollect
-Patch11: 0005-Remove-unnecessary-global-variable-and-lock
-Patch12: 0006-Fix-thread-safety-of-TGenCollectionProxy-s-iterator-
+#Patch0: root-5.34.02-externals                            in master
+#Patch1: root-5.28-00d-roofit-silence-static-printout      can be done via C macro, in rootfit
+#Patch2: root-5.34.00-linker-gnu-hash-style
+#Patch3: root-5.32.00-detect-arch                          in master
+#Patch4: root-5.30.02-fix-gcc46
+#Patch5: root-5.30.02-fix-isnan-again
+#Patch6: root-5.34.05-cintex-armv7a-port                   not needed anymore
 
-Requires: gccxml gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl
+Requires: gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl zlib
 
 %if %islinux
 Requires: castor dcap
-%endif
-
-%if %isnotonline
-Requires: zlib
 %endif
 
 %if %isdarwin
@@ -44,64 +31,34 @@ Requires: freetype
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
-%patch1 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-
-%if %isarmv7
-%patch6 -p1
-%endif
-
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-
-# The following patch can only be applied on SLC5 or later (extra linker
-# options only available with the SLC5 binutils)
-%if %islinux
-%patch2 -p1
-%endif
 
 # Delete these (irrelevant) files as the fits appear to confuse rpm on OSX
 # (It tries to run install_name_tool on them.)
-rm -fR tutorials/fitsio
+#rm -fR tutorials/fitsio
 
-# Block use of /opt/local, /usr/local.
-perl -p -i -e 's{/(usr|opt)/local}{/no-no-no/local}g' configure
+sed -ibak -e 's/\/usr\/local/\/no-no-no\/local/g' \
+          -e 's/\/opt\/local/\/no-no-no\/local/g' \
+          ./configure
 
 %build
 
-mkdir -p %i
-export LIBJPG_ROOT
+mkdir -p %{i}
 export ROOTSYS=%_builddir/root
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
-%if "%online" == "true"
-# Also skip xrootd and odbc for online case:
+export LZMA=${XZ_ROOT}
+export ZLIB=${ZLIB_ROOT}
+export LIBJPEG=${LIBJPEG_ROOT}
+export LIBPNG=${LIBPNG_ROOT}
+export LIBTIFF=${LIBTIFF_ROOT}
 
-EXTRA_CONFIG_ARGS="--with-f77=/usr
-             --disable-odbc --disable-astiff"
-%else
-export LIBPNG_ROOT ZLIB_ROOT LIBTIFF_ROOT LIBUNGIF_ROOT
-EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}"
-%endif
-LZMA=${XZ_ROOT}
-export LZMA
 CONFIG_ARGS="--enable-table 
              --disable-builtin-pcre
              --disable-builtin-freetype
              --disable-builtin-zlib
-             --with-gccxml=${GCCXML_ROOT} 
              --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include/python${PYTHONV}
              --enable-explicitlink 
              --enable-mathmore
-             --enable-reflex  
-             --enable-cintex 
              --enable-minuit2
              --disable-builtin-lzma
              --enable-fftw3
@@ -117,29 +74,19 @@ CONFIG_ARGS="--enable-table
              --disable-pgsql
              --disable-mysql
              --enable-c++11
-             --with-cxx=g++
-             --with-cc=gcc
-             --with-ld=g++
-             --disable-qt --disable-qtgsi
-             --with-cint-maxstruct=36000
-             --with-cint-maxtypedef=36000
-             --with-cint-longline=4096
+             --with-cxx=${GCC_ROOT}/bin/g++
+             --with-cc=${GCC_ROOT}/bin/gcc
+             --with-ld=${GCC_ROOT}/bin/g++
+             --with-f77=${GCC_ROOT}/bin/gfortran
+             --with-gcc-toolchain=${GCC_ROOT}
+             --disable-qt
+             --disable-qtgsi
              --disable-hdfs
              --disable-oracle ${EXTRA_CONFIG_ARGS}"
 
-# Add support for GCC 4.6
-sed -ibak 's/\-std=c++11/-std=c++0x/g' \
-  configure \
-  Makefile \
-  config/Makefile.macosx64 \
-  config/Makefile.macosx \
-  config/Makefile.linux \
-  config/root-config.in \
-  config/Makefile.linuxx8664gcc 
-
-%if %isarmv7
-cp ./cint/iosenum/iosenum.linux3 ./cint/iosenum/iosenum.linuxarm3
-%endif
+#if #isarmv7
+#cp ./cint/iosenum/iosenum.linux3 ./cint/iosenum/iosenum.linuxarm3
+#endif
 
 EXTRA_OPTS=
 TARGET_PLATF=
@@ -164,9 +111,14 @@ TARGET_PLATF=
   TARGET_PLATF=linuxarm
 %endif
 
+cat <<\EOF >> MyConfig.mk
+CFLAGS+=-O0 -g3 -D__ROOFIT_NOBANNER
+CXXFLAGS+=-O0 -g3 -D__ROOFIT_NOBANNER
+EOF
+
 ./configure ${TARGET_PLATF} ${CONFIG_ARGS} ${EXTRA_OPTS}
 
-make %makeprocesses CXX="g++ -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL=" CC="gcc -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL="
+make %makeprocesses
 
 %install
 # Override installers if we are using GNU fileutils cp.  On OS X
@@ -182,17 +134,10 @@ fi
 
 export ROOTSYS=%i
 make INSTALL="$cp" INSTALLDATA="$cp" install
-mkdir -p $ROOTSYS/lib/python
-cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
-# This file confuses rpm's find-requires because it starts with
+#mkdir -p $ROOTSYS/lib/python
+#cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
 # a """ and it thinks is the shebang.
-rm -f %i/tutorials/pyroot/mrt.py
+#rm -f %i/tutorials/pyroot/mrt.py
 
-%post
-%{relocateConfig}bin/root-config
-%{relocateConfig}include/RConfigOptions.h
-%{relocateConfig}include/compiledata.h
-%{relocateConfig}cint/cint/lib/G__c_ipc.d
-%{relocateConfig}cint/cint/lib/G__c_stdfunc.d
-%{relocateConfig}cint/cint/lib/G__c_posix.d
-%{relocateConfig}lib/python/genreflex/gccxmlpath.py
+find %{i} -type f -name '*.py' | xargs chmod -x
+grep -R -l '#!.*python' %{i} | xargs chmod +x
