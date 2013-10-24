@@ -1,0 +1,12 @@
+diff --git a/setup.py b/setup.py
+index 24acf99..2cb4595 100644
+--- a/setup.py
++++ b/setup.py
+@@ -23,6 +23,6 @@ setup(name="pyMinuit2",
+                              [os.path.join("minuit2.cpp")],
+                              library_dirs=[libdir],
+                              
+-libraries=["Core","Cint","RIO","Net","Hist","Graf","Rint","Matrix","MathCore","Minuit2"],
++libraries=["Core","Cling","RIO","Net","Hist","Graf","Rint","Matrix","MathCore","Minuit2"],
+                              include_dirs=[incdir]
+                              )])
