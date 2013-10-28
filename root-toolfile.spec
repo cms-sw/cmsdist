@@ -27,7 +27,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/root_interface.xml
   <runtime name="PATH"               value="$ROOT_INTERFACE_BASE/bin" type="path"/>
   <runtime name="PYTHONPATH"         value="$ROOT_INTERFACE_BASE/lib" type="path"/>
   <runtime name="ROOT_GCC_TOOLCHAIN" value="@GCC_ROOT@" type="path"/>
-  <runtime name="ROOT_INCLUDE_PATH"  value="@GCC_ROOT@/include/c++/4.8.1:@GCC_ROOT@/include/c++/4.8.1/@TARGET_TRIPLET@:@GCC_ROOT@/include/c++/4.8.1/backward:@GCC_ROOT@/lib/gcc/@TARGET_TRIPLET@/4.8.1/include:@GCC_ROOT@/lib/gcc/@TARGET_TRIPLET@/4.8.1/include-fixed:/usr/local/include:@GCC_ROOT@/include:/usr/include"/>
+  <runtime name="ROOT_INCLUDE_PATH"  value="$INCLUDE:@GCC_ROOT@/include/c++/4.8.1:@GCC_ROOT@/include/c++/4.8.1/@TARGET_TRIPLET@:@GCC_ROOT@/include/c++/4.8.1/backward:/usr/local/include:$ROOT_INTERFACE_BASE/etc/cling/lib/clang/3.4/include:/usr/include"/>
   <runtime name="ROOTSYS"            value="$ROOT_INTERFACE_BASE/"/>
 </tool>
 EOF_TOOLFILE
