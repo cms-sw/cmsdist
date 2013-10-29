@@ -5,7 +5,7 @@ Source: http://archive.apache.org/dist/httpd/httpd-%realversion.tar.gz
 %setup -n httpd-%realversion
 
 %build
-./configure --prefix=%i --disable-shared
+./configure --prefix=%i --disable-shared --with-included-apr 
 perl -p -i -e 's/-l(expat|uuid)//g' \
   build/config_vars.mk \
   srclib/*/build/*.mk \
