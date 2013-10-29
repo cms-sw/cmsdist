@@ -31,6 +31,6 @@ Requires: onlinesystemtools
 %define onlinesystemtoolsroot ${ONLINESYSTEMTOOLS_ROOT}
 %endif
 
-%define skipreqtools jcompiler boost_python
+%define skipreqtools jcompiler
 
 ## IMPORT scramv1-tool-conf
