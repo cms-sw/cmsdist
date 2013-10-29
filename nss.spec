@@ -16,6 +16,7 @@ export NSPR_LIB_DIR=$NSPR_ROOT/lib
 export USE_SYSTEM_ZLIB=1
 export ZLIB_LIBS_DIR="-L$ZLIB_ROOT/lib"
 export NSS_USE_SYSTEM_SQLITE=1
+export SQLITE_INCLUDE_DIR="$SQLITE_ROOT/include"
 export SQLITE_LIBS_DIR="-L$SQLITE_ROOT/lib"
 export USE_64=1
 
