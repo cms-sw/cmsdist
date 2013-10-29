@@ -1,9 +1,24 @@
 ### FILE scramv1-tool-conf
-
+## NOCOMPILER
+## BUILDREQUIRE-TOOLFILE
 Requires: gmake-toolfile
 BuildRequires: SCRAMV1
 Source: none
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
+%define CheckScramTools \
+  uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'` \
+  toolbase=`eval echo \\\\$${uctool}_ROOT` \
+  [ -d $toolbase/etc/scram.d ] || continue
+
+%define CopyScramTools \
+  echo ">> Copying tool files from: $tool" \
+  for xml in `find $toolbase/etc/scram.d -type f` ; do \
+    bxml=`basename $xml` \
+    [ -f %i/tools/selected/$bxml ] && continue \
+    [ -f %i/tools/available/$bxml ] && continue \
+    cp $xml %i/tools/selected \
+    echo "  Copied $bxml" \
+  done
 
 %prep
 %build
@@ -29,23 +44,29 @@ mkdir -p %i/tools/selected %i/tools/available
 
 DoneTools=" "
 SkipTools=
-for tool in %requiredtools %systemtools ${PKGTOOLS_SYSTEM_TOOLS} ; do
-  wot=`echo $tool | sed 's|-toolfile$||'`
-  [ "X$tool" == "X$wot" ] && SkipTools="${SkipTools}${tool} " && continue
+for tool in %requiredtools; do
+  wot=`echo $tool | sed 's|-tool-conf$||'`
+  [ "X$tool" == "X$wot" ] && continue
   uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`
   toolbase=`eval echo \\$${uctool}_ROOT`
-  [ -d $toolbase/etc/scram.d ] || continue
-  DoneTools="$DoneTools $wot "
+  [ -d $toolbase/tools/selected ] || continue
+  [ -d $toolbase/tools/available ] || continue
+  DoneTools="$DoneTools $tool "
   echo ">> Copying tool files from: $tool"
-  find $toolbase/etc/scram.d -type f -exec cp {} %i/tools/selected \;
+  find $toolbase/tools/selected -type f -exec cp {} %i/tools/selected \;
+  find $toolbase/tools/available -type f -exec cp {} %i/tools/available \;
+done
+for tool in %requiredtools %buildrequiredtools %systemtools ${PKGTOOLS_SYSTEM_TOOLS} ; do
+  wot=`echo $tool | sed 's|-toolfile$||'`
+  [ "X$tool" == "X$wot" ] && SkipTools="${SkipTools}${tool} " && continue
+  %{CheckScramTools}
+  DoneTools="$DoneTools $wot "
+  %{CopyScramTools}
 done
 for tool in $SkipTools ; do
   [ "X`echo $DoneTools | tr ' ' '\n' | grep ^$tool$`" == "X" ] || continue
-  uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`
-  toolbase=`eval echo \\$${uctool}_ROOT`
-  [ -d $toolbase/etc/scram.d ] || continue
-  echo ">> Copying tool files from: $tool"
-  find $toolbase/etc/scram.d -type f -exec cp {} %i/tools/selected \;
+  %{CheckScramTools}
+  %{CopyScramTools}
 done
 
 # Fixes logic in above loop in case of online release:
@@ -59,10 +80,9 @@ done
 # For now copy all systemtools files. If needed, this can be done more selectively.
 %endif
 
-for tool in `find %i/tools/selected -name "*.xml" -type f`
-do
-    toolname=`basename $tool .xml`
-    echo %skipreqtools | tr ' ' '\n' | grep "^$toolname\$" 2>&1 >/dev/null && mv $tool %i/tools/available
+for stool in %skipreqtools ; do
+  [ -f %i/tools/selected/${stool}.xml ] || continue
+  mv %i/tools/selected/${stool}.xml %i/tools/available
 done
 
 if [ -e $SCRAMV1_ROOT/bin/chktool ] ; then
