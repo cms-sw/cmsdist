@@ -38,14 +38,14 @@ Source7: http://ftp.gnu.org/gnu/binutils/binutils-%binutilsv.tar.bz2
 # libelf does not work on Macosx however this is not a problem until
 # we use the system compiler there.
 %define isslc %(echo %cmsos | sed -e 's|slc.*|true|')
-%define elfutilsVersion 0.152
+%define elfutilsVersion 0.153
 %if "%isslc" == "true"
 Source8: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
 %endif
 Patch0: gcc-4.6.1-ignore-arch-flags-macosx
 # See http://gcc.gnu.org/bugzilla/show_bug.cgi?id=49540
 Patch1: gcc-4.6.1-fix-gfortran-regression
-Patch2: gcc-4.6.1-elfutils-portability
+Patch2: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-portability.patch
 
 %prep
 echo "use_custom_binutils: %use_custom_binutils"
