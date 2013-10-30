@@ -1,10 +1,9 @@
-### RPM external dmtcp 2.0
+### RPM external dmtcp 2.0-2208
 
 %define pkg_version %(echo "%{realversion}" | cut -d- -f 1)
 %define pkg_revision %(echo "%{realversion}" | cut -d- -f 2)
 
-#Source: svn://svn.code.sf.net/p/dmtcp/code/trunk?scheme=svn&revision=%{pkg_revision}&module=%{n}&output=/%{n}.tar.gz
-Source: http://kent.dl.sourceforge.net/project/%{n}/%{n}-2.x/%{realversion}/%{n}-%{realversion}.tar.gz
+Source: svn://svn.code.sf.net/p/dmtcp/code/trunk?scheme=svn&revision=%{pkg_revision}&module=%{n}&output=/%{n}.tar.gz
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -17,7 +16,7 @@ Source: http://kent.dl.sourceforge.net/project/%{n}/%{n}-2.x/%{realversion}/%{n}
 %define drop_files %{i}/share
 
 %prep
-%setup -n %{n}-%{realversion}
+%setup -n %{n}
 
 %build
 ./configure \
