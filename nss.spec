@@ -58,6 +58,7 @@ case %{cmsplatf} in
 esac
 rm -rf %{i}/lib/libsoftokn3*
 rm -rf %{i}/lib/libsql*
+rm -rf %{i}/lib/libfreebl3*
 
 install -d %{i}/include/nss3
 install -d %{i}/lib

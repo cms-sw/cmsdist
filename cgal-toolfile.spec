@@ -7,11 +7,12 @@ Requires: cgal
 %install
 
 mkdir -p %{i}/etc/scram.d
+
+# CGAL Core
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cgal.xml
 <tool name="cgal" version="@TOOL_VERSION@">
   <info url="http://www.cgal.org/"/>
   <lib name="CGAL_Core"/>
-  <lib name="CGAL_ImageIO"/>
   <lib name="CGAL"/>
   <client>
     <environment name="CGAL_BASE" default="@TOOL_ROOT@"/>
@@ -20,6 +21,17 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cgal.xml
   </client>
   <use name="zlib"/>
   <use name="boost_system"/>
+</tool>
+EOF_TOOLFILE
+
+# CGAL ImageIO (brings libSM from X11)
+cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cgalimageio.xml
+<tool name="cgalimageio" version="@TOOL_VERSION@">
+  <info url="http://www.cgal.org/"/>
+  <lib name="CGAL_ImageIO"/>
+  <use name="zlib"/>
+  <use name="boost_system"/>
+  <use name="cgal"/>
 </tool>
 EOF_TOOLFILE
 

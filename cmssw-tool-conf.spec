@@ -111,8 +111,6 @@ Requires: millepede-toolfile
 Requires: cvs2git-toolfile
 Requires: pacparser-toolfile
 Requires: git-toolfile
-Requires: nspr-toolfile
-Requires: nss-toolfile
 Requires: cgal-toolfile
 Requires: doxygen-toolfile
 Requires: py2-python-dateutil-toolfile

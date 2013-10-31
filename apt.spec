@@ -1,17 +1,13 @@
-### RPM external apt 429
+### RPM external apt 0.5.16
 ## INITENV SET APT_CONFIG %{i}/etc/apt.conf
 ## INITENV CMD_SH  if [ -f %{instroot}/common/apt-site-env.sh  ]; then . %{instroot}/common/apt-site-env.sh;  fi
 ## INITENV CMD_CSH if ( -f %{instroot}/common/apt-site-env.csh )  source %{instroot}/common/apt-site-env.csh; endif
 ## NOCOMPILER
 
-Source0: http://cmsrep.cern.ch/cmssw/apt-mirror/apt-rpm-%realversion.tar.gz
+Source0: git://github.com/cms-sw/apt-rpm.git?obj=master/%{realversion}&export=apt-rpm-%{realversion}&output=/apt-rpm-%{realversion}.tgz
 # svn://svn.github.com/ktf/apt-rpm.git?scheme=http&revision=%{realversion}&module=apt-rpm&output=/apt-rpm.tar.gz
 Source1: bootstrap
 Source2: http://search.cpan.org/CPAN/authors/id/T/TL/TLBDK/RPM-Header-PurePerl-1.0.2.tar.gz
-Patch0: apt-429-fix-gcc-461
-Patch1: apt-429-fix-gcc-47
-Patch2: apt-429-less-dependencies
-Patch3: apt-429-add-support-osx108
 
 Requires: rpm
 BuildRequires: gcc
@@ -19,16 +15,7 @@ BuildRequires: gcc
 %prep
 %setup -T -b 2 -n RPM-Header-PurePerl-1.0.2
 cd ..
-%setup -n apt-rpm-%realversion
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-
-case %cmsplatf in
-  osx108_*)
-%patch3 -p1
-  ;;
-esac
+%setup -n apt-rpm-%{realversion}
 
 %build
 case %cmsplatf in

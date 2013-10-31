@@ -65,7 +65,7 @@ rm -rf lib/rpmhash.*
 
 %build
 case %cmsplatf in
-  slc*|fc18*|*_mic_*)
+  slc*|fc*|*_mic_*)
     CFLAGS_PLATF="-fPIC"
     LIBS_PLATF="-ldl"
   ;;
@@ -110,7 +110,7 @@ perl -p -i -e's|-O2|-O0|' ./configure
     CPPFLAGS="-I$BOOTSTRAP_BUNDLE_ROOT/include/nspr \
               -I$BOOTSTRAP_BUNDLE_ROOT/include/nss3 -I$BOOTSTRAP_BUNDLE_ROOT/include \
               $OS_CPPFLAGS" \
-    LIBS="-lnspr4 -lnss3 -lnssutil3 -lplds4 -lbz2 -lplc4 -lz -lpopt \
+    LIBS="-lnspr4 -lnss3 -lnssutil3 -lplds4 -lbz2 -lplc4 -lz -lpopt -llzma \
           -ldb -llua $LIBS_PLATF"
 
 #FIXME: this does not seem to work and we still get /usr/bin/python in some of the files.

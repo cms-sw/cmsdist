@@ -1,4 +1,4 @@
-### RPM external dmtcp 2.0
+### RPM external dmtcp 2.0-2208
 
 %define pkg_version %(echo "%{realversion}" | cut -d- -f 1)
 %define pkg_revision %(echo "%{realversion}" | cut -d- -f 2)
