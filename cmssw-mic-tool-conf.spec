@@ -24,7 +24,6 @@ Requires: xerces-c-toolfile
 Requires: xz-toolfile
 Requires: zlib-toolfile
 Requires: libxml2-toolfile
-Requires: nspr-toolfile
 Requires: libjpg-toolfile
 Requires: libpng-toolfile
 Requires: elementtree-toolfile
