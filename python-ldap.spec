@@ -8,9 +8,9 @@ Requires: python openssl openldap
 %setup -q -n %n-%{realversion}
 
 %build
-sed -i'' "s:\(library_dirs =\)\(.*\):\1 ${OPENSSL_ROOT}\/lib ${PYTHON_ROOT}\/lib ${OPENLDAP_ROOT}\/lib:g" setup.cfg
-sed -i'' "s:\(include_dirs =\)\(.*\):\1 ${OPENSSL_ROOT}\/include ${PYTHON_ROOT}\/include ${OPENLDAP_ROOT}\/include:g" setup.cfg
-sed -i'' "s:\(defines = \)\(.*\):\1 HAVE_TLS HAVE_LIBLDAP_R:g" setup.cfg
+perl -p -i -e "s:(library_dirs =)(.*):\1 ${OPENSSL_ROOT}/lib ${PYTHON_ROOT}/lib ${OPENLDAP_ROOT}/lib:g" setup.cfg
+perl -p -i -e "s:(include_dirs =)(.*):\1 ${OPENSSL_ROOT}/include ${PYTHON_ROOT}/include ${OPENLDAP_ROOT}/include:g" setup.cfg
+perl -p -i -e "s:(defines = )(.*):\1 HAVE_TLS HAVE_LIBLDAP_R:g" setup.cfg
 python setup.py build
 
 %install
