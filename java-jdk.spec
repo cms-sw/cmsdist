@@ -1,10 +1,7 @@
 ### RPM external java-jdk 1.5.0_15
 # Linux only; OS X ships java on system which we use instead
 
-%ifos darwin
-Source: none
-
-%else
+%ifnos darwin
 Provides: libasound.so.2
 Provides: libasound.so.2(ALSA_0.9)
 Provides: libjava_crw_demo_g.so
