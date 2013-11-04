@@ -16,6 +16,7 @@ Source: %source
 # Let's fake the fact that we have perl (DBI) so that rpm does not complain.
 Provides: perl(DBI)
 Requires: zlib
+BuildRequires: autotools
 
 %prep
 %setup -n %n-%realversion

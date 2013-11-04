@@ -17,6 +17,7 @@ Patch8: couchdb-compaction-timeout
 # Although there is no technical software dependency,
 # couchapp was included because all CMS applications will need it.
 Requires: curl spidermonkey openssl icu4c erlang couchapp
+BuildRequires: autotools
 
 %prep
 %setup -n couchdb 
