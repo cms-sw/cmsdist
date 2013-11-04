@@ -1,50 +1,65 @@
-### RPM external castor 2.1.9.8
+### RPM external castor 2.1.13.9
 # Override default realversion since they have a "-" in the realversion
-%define realversion 2.1.9-8
+%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
+%define realversion 2.1.13-6
 %define downloadv v%(echo %realversion | tr - _ | tr . _)
 %define baseVersion %(echo %realversion | cut -d- -f1)
 %define patchLevel %(echo %realversion | cut -d- -f2)
-%define cpu %(echo %cmsplatf | cut -d_ -f2)
-%if "%cpu" != "amd64"
-%define libsuffix %nil
-%else
+
+%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+%define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
+%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
+
+%if %isamd64
 %define libsuffix ()(64bit)
+%else
+%define libsuffix %nil
 %endif
 
-#Source: http://cern.ch/castor/DIST/CERN/savannah/CASTOR.pkg/%realversion/castor-%downloadv.tar.gz
-#Source: cvs://:pserver:cvs@root.cern.ch:2401/user/cvs?passwd=Ah<Z&tag=-rv%(echo %realversion | tr . -)&module=root&output=/%{n}_v%{v}.source.tar.gz
-#Source: cvs://:pserver:anonymous@isscvs.cern.ch:/local/reps/castor?passwd=Ah<Z&tag=-r%{downloadv}&module=CASTOR2&output=/%{n}-%{realversion}.source.tar.gz
 Source:  http://castorold.web.cern.ch/castorold/DIST/CERN/savannah/CASTOR.pkg/%{baseVersion}-*/%{realversion}/castor-%{realversion}.tar.gz
-Patch0: castor-2.1.9.8-macosx
-Patch1: castor-2.1.9.8-fix-gcc47
+
+Patch0: castor-2.1.13.6-fix-pthreads-darwin
+Patch1: castor-2.1.13.6-fix-memset-in-showqueues
+Patch2: castor-2.1.13.9-fix-arm-m32-option
+Patch3: castor-2.1.13.9-fix-arm-type-limits
+Patch4: castor-2.1.13.9-fix-link-libuuid
+
+%if %isonline
+Requires: onlinesystemtools
+%else
+Requires: libuuid
+%endif
 
 # Ugly kludge : forces libshift.x.y to be in the provides (rpm only puts libshift.so.x)
 # root rpm require .x.y
 Provides: libshift.so.%(echo %realversion |cut -d. -f1,2)%{libsuffix}
 
+%if "%{?cms_cxxflags:set}" != "set"
+%define cms_cxxflags -std=c++0x
+%endif
+
 %prep
 %setup -n castor-%{baseVersion}
-# The macosx patch is really to get things compiling one way or another. Since
-# I'm not sure this actually works / does not have regressions on linux, I
-# simply do not apply it on stable platforms. 
-# Hopefully at some point castor people will come up with a macosx supported
-# version.
-case %cmsplatf in 
-  osx*)
-%patch0 -p2
-  ;;
-esac
+%if %isdarwin
+%patch0 -p1
+%endif
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 case %cmsplatf in
   *_gcc4[012345]*) ;;
   *)
     perl -pi -e "s|-Werror|-Werror -Wno-error=unused-but-set-variable|" config/Imake.tmpl
     perl -pi -e "s|--no-undefined||" config/Imake.rules
-    perl -pi -e 's|^(\s+)(\$\(MAKE\) depend)|$1#$2|' Makefile.ini
+#    perl -pi -e 's|^(\s+)(\$\(MAKE\) depend)|$1#$2|' Makefile.ini
   ;;
 esac
+
+# Add CMS CXXFLAGS
+#sed -ibak "s/\(^CXX.*=.*\)/\1 %cms_cxxflags/g" config/Imake.tmpl
 
 %build
 
@@ -54,7 +69,6 @@ perl -pi -e "s/\ \ __MAJORVERSION__/%(echo %realversion | cut -d. -f1)/" h/patch
 perl -pi -e "s/\ \ __MINORVERSION__/%(echo %realversion | cut -d. -f2)/" h/patchlevel.h
 perl -pi -e "s/\ \ __MAJORRELEASE__/%(echo %realversion | cut -d. -f3 | cut -d- -f 1 )/" h/patchlevel.h
 perl -pi -e "s/\ \ __MINORRELEASE__/%(echo %realversion | cut -d- -f2)/" h/patchlevel.h
-
 perl -p -i -e "s!__PATCHLEVEL__!%patchLevel!;s!__BASEVERSION__!\"%baseVersion\"!;s!__TIMESTAMP__!%(date +%%s)!" h/patchlevel.h
 
 mkdir -p %i/bin %i/lib %i/etc/sysconfig
@@ -62,18 +76,14 @@ mkdir -p %i/bin %i/lib %i/etc/sysconfig
 find . -type f -exec touch {} \;
 
 CASTOR_NOSTK=yes; export CASTOR_NOSTK
-
-make -f Makefile.ini Makefiles
-make %{makeprocesses} client MAJOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f1-2) \
-                             MINOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f3-4 | tr '-' '.' ) \
-			     LDFLAGS=-ldl
-
+./configure
+LDFLAGS="-L${LIBUUID_ROOT}/lib64" CXXFLAGS="-I${LIBUUID_ROOT}/include" make %{makeprocesses} client
 %install
 make installclient \
                 MAJOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f1-2) \
                 MINOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f3-4 | tr '-' '.' ) \
                 EXPORTLIB=/ \
-                DESTDIR=%i/ \
+                DESTDIR=%i \
                 PREFIX= \
                 CONFIGDIR=etc \
                 FILMANDIR=usr/share/man/man4 \
@@ -85,6 +95,9 @@ make installclient \
                 BIN=bin \
                 DESTDIRCASTOR=include/shift \
                 TOPINCLUDE=include 
+
+rm -rf %i/bin
+mv %i/usr/bin %i/bin
 
 # Strip libraries, we are not going to debug them.
 %define strip_files %i/lib
