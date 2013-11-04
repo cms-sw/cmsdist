@@ -1,11 +1,11 @@
-### RPM external py2-matplotlib 1.0.1
+### RPM external py2-matplotlib 1.3.1
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 Source: http://sourceforge.net/projects/matplotlib/files/matplotlib/matplotlib-%{realversion}/matplotlib-%{realversion}.tar.gz
 Requires: py2-pytz py2-numpy py2-python-dateutil zlib libpng freetype
+BuildRequires: py2-setuptools
 
 %prep
 %setup -n matplotlib-%{realversion}
-perl -p -i -e '/^import sys/ && print "for v in basedir.values(): v[:] = []\n"' setupext.py
 
 cat >> setup.cfg <<- EOF
 [build_ext]
@@ -20,24 +20,11 @@ wxagg = False
 macosx = False
 EOF
 
-mkdir no-pkg-config
-(echo '#!/bin/sh'; echo 'exit 1') > no-pkg-config/pkg-config
-chmod +x no-pkg-config/pkg-config
-
 %build
-export MPLCONFIGDIR=$PWD/no-pkg-config
-PATH=$PWD/no-pkg-config:$PATH \
-python setup.py build 
+python setup.py build
 
 %install
-python -c 'import numpy'
-PATH=$PWD/no-pkg-config:$PATH \
-# Notice that the install procedure will try to write in $HOME/.matplotlib by
-# default!!! This should work around the problem and have it write config
-# in a scratch area.
-export MPLCONFIGDIR=$PWD/no-pkg-config
-
-python setup.py install --prefix=%i
+python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
 find %i -name '*.egg-info' -exec rm {} \;
 
 # No need for test files
