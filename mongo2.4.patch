@@ -1,5 +1,5 @@
---- SConstruct.orig	2013-04-11 11:28:13.000000000 -0400
-+++ SConstruct	2013-04-11 11:28:49.000000000 -0400
+--- SConstruct.orig     2013-10-30 14:41:53.000000000 +0100
++++ SConstruct  2013-10-30 14:43:52.000000000 +0100
 @@ -308,7 +308,8 @@
 
                     PCRE_VERSION='8.30',
@@ -10,3 +10,14 @@
                     )
 
  env['_LIBDEPS'] = '$_LIBDEPS_OBJS'
+@@ -691,8 +692,9 @@
+                          "-Wno-unknown-pragmas",
+                          "-Winvalid-pch"] )
+     # env.Append( " -Wconversion" ) TODO: this doesn't really work yet
++
++    env.Append( CCFLAGS=["-Werror", "-pipe", "-Wno-unused-local-typedefs"] )
+     if linux:
+-        env.Append( CCFLAGS=["-Werror", "-pipe"] )
+         if not has_option('clang'):
+             env.Append( CCFLAGS=["-fno-builtin-memcmp"] ) # glibc's memcmp is faster than gcc's
+
