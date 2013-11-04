@@ -7,6 +7,7 @@ cmsos()
     i*86) cpuarch=ia32;;
     x86_64) cpuarch=amd64;;
     *EMT*) cpuarch=amd64;;
+    armv7l) cpuarch=armv7hl;; # The kernel is armv7l, but we assume system as armv7hl (hard floats)
     *) cpuarch=`uname -p`;;
   esac
  
@@ -21,9 +22,11 @@ cmsos()
       echo ydl5_ppc
     elif [ -f /etc/SuSE-release ]; then
       echo suse`grep -i '^version' < /etc/SuSE-release | tr -dc '[0-9]'`
+    elif [ -f /etc/fedora-release ]; then
+      echo fc`sed 's/[^0-9]//g' /etc/fedora-release`_${cpuarch}
     elif egrep -q "Red Hat Enterprise|Scientific|CentOS" /etc/redhat-release 2>/dev/null; then
       slc_version=`egrep "Red Hat Enterprise|Scientific|CentOS" /etc/redhat-release | \
-		   sed 's/.*[rR]elease \([0-9]*\)\..*/\1/'`
+		   sed 's/.*[rR]elease \([0-9]*\).*/\1/'`
       if [ "X`uname -i`" = Xi386 ]; then
         echo slc${slc_version}_ia32
       else
