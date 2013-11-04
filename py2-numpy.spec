@@ -1,20 +1,14 @@
-### RPM external py2-numpy 1.6.1
+### RPM external py2-numpy 1.8.0
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 Source: http://downloads.sourceforge.net/project/numpy/NumPy/%realversion/numpy-%realversion.tar.gz
-Patch0: py2-numpy-%realversion-fix-macosx-build
+Requires: python zlib lapack
 
-Requires: python
-Requires: zlib
-Requires: lapack
 %prep
 %setup -n numpy-%realversion
-%ifos darwin
-%patch0 -p1
-%endif
 
 %build
 %install
-case %cmsos in 
+case %cmsos in
   osx*) SONAME=dylib ;;
   *) SONAME=so ;;
 esac
