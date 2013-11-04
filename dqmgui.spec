@@ -9,15 +9,15 @@
 %define cvs cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 %define flavors '' 128 
 
-Source0: git+https://github.com/rovere/dqmgui.git?obj=master/6.6.0&export=Monitoring&output=/Monitoring.tar.gz
+Source0: git+https://github.com/rovere/dqmgui.git?obj=master/3dc2cdca7c601d045b66d0d076365d9deb939bce&export=Monitoring&output=/Monitoring.tar.gz
 #Source0: git+:///build1/rovere/GUIDevelopment/GHM?obj=RovereDevelopment&export=Monitoring&output=/Monitoring.tar.gz
 #Source0: %{svn}?scheme=svn+ssh&strategy=export&module=Monitoring&output=/src.tar.gz
 # For documentation, please refer to http://cms-sw.github.io/pkgtools/fetching-sources.html
-Source1: git+https://github.com/cms-sw/cmssw.git?obj=CMSSW_7_0_X/CMSSW_7_0_0_pre1&export=./&filter=*DQMServices/Core*&output=/DQMCore.tar.gz
+Source1: git+https://github.com/cms-sw/cmssw.git?obj=CMSSW_7_0_X/CMSSW_7_0_0_pre6&export=./&output=/DQMCore.tar.gz
 #Source1: %{cvs}&strategy=export&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-15-19&output=/DQMCore.tar.gz
 Source2: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=image&revision=10&scheme=http&output=/rtgu.tar.gz
 Source3: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
-Source4: git+https://github.com/rovere/dqmgui.git?obj=index128/7.4.2&export=Monitoring&output=/Monitoring128.tar.gz
+Source4: git+https://github.com/rovere/dqmgui.git?obj=index128/945ccdfada9f110356a5cb4a7afbe36b2e4e9a18&export=Monitoring&output=/Monitoring128.tar.gz
 #Source4: git+:///build1/rovere/GUIDevelopment/GHM?obj=Develop128&export=Monitoring&output=/Monitoring128.tar.gz
 Patch0: dqmgui-rtgu
 
@@ -84,8 +84,10 @@ for flavor in %{flavors}; do
   cat > etc/makefile.ext <<- EOF
 	  INCLUDE_DIRS = $incs
 	  LIBRARY_DIRS = $libs
+          CXXFLAGS=-Wno-error=unused-parameter -Wno-error=unused-function -Wno-error=unused-local-typedefs -Wno-error=ignored-qualifiers
 EOF
-
+  # do not overwrite CXXFLAGS we've defined
+  perl -p -i -e 's,(CXXFLAGS[ \t]*)=,\1+=,g' etc/makefile
 done
 
 # Build
