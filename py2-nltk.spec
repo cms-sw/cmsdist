@@ -3,6 +3,7 @@
 
 Source0: https://pypi.python.org/packages/source/n/nltk/nltk-%{realversion}.tar.gz#md5=b17aad070ae9a094538e4b481409db09
 Requires: python py2-yaml py2-numpy
+BuildRequires: py2-setuptools
 
 %prep
 %setup -n nltk-%{realversion}
@@ -11,14 +12,14 @@ Requires: python py2-yaml py2-numpy
 python setup.py build
 
 %install
-# install nltk
-mkdir -p %{i}/${PYTHON_LIB_SITE_PACKAGES}
-export PYTHONPATH=%{i}/${PYTHON_LIB_SITE_PACKAGES}:${PYTHONPATH}
-python setup.py install --skip-build --prefix=%{i} 
+python setup.py install --skip-build --prefix=%{i} --single-version-externally-managed --record=/dev/null
 
-# download and install nltk data
-cd %i/$PYTHON_LIB_SITE_PACKAGES/nltk-%{realversion}-py2.6.egg/nltk/
+# Use the downloader script to install nltk data.
+# This is terrible for the configuration management, but nltk
+# does not distribute the data files in a single, versioned, tarball.
+cd %i/$PYTHON_LIB_SITE_PACKAGES/nltk/
 mkdir -p %{i}/nltk_data
+export PYTHONPATH=%{i}/${PYTHON_LIB_SITE_PACKAGES}:${PYTHONPATH}
 python downloader.py -d %{i}/nltk_data words wordnet stopwords
 
 find %i -name '*.egg-info' -exec rm {} \;
@@ -29,7 +30,3 @@ egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/
 # add NLTK_DATA into init so it would be available afterwards
 echo "export NLTK_DATA='${CMS_INSTALL_PREFIX}/%{pkgrel}/nltk_data'" >> ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d/init.sh
 echo "setenv NLTK_DATA '${CMS_INSTALL_PREFIX}/%{pkgrel}/nltk_data'" >> ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d/init.csh
-
-%files
-%{installroot}/%{pkgrel}/
-
