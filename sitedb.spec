@@ -16,7 +16,7 @@ Source3: git://github.com/geneguvo/webtools?obj=master/V01-03-47&export=WEBTOOLS
 Requires: cherrypy yui3 d3 xregexp py2-cx-oracle py2-cjson py2-pycurl python-ldap rotatelogs
 Requires: yui py2-cheetah py2-pysqlite py2-formencode py2-pycrypto beautifulsoup py2-sqlalchemy oracle-env py2-pyopenssl
 # ^ = line for legacy SiteDB support, remove when migrating fully to sitedb 2.x
-BuildRequires: wmcore-devtools
+BuildRequires: wmcore-devtools java-jdk
 
 %prep
 %setup -T -b 0 -n wmcore_%n
