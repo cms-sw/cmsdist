@@ -1,7 +1,7 @@
 ### RPM lcg roofit 5.99.04
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag a6bd227841cf25e599c6fd5b8d90751d910d5fda
+%define tag a7f72e7b1991b413862b2669b3b2814661223ecd
 %define branch master
 Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
