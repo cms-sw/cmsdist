@@ -9,8 +9,8 @@
 +                   ENV = os.environ
                     )
 
- env['_LIBDEPS'] = '$_LIBDEPS_OBJS'
-@@ -691,8 +692,9 @@
+ # This could be 'if solaris', but unfortuantely that variable hasn't been set yet.
+@@ -709,8 +710,9 @@ if nix:
                           "-Wno-unknown-pragmas",
                           "-Winvalid-pch"] )
      # env.Append( " -Wconversion" ) TODO: this doesn't really work yet
