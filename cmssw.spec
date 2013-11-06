@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_7_0_0_pre8
+### RPM cms cmssw CMSSW_7_0_0_pre8_jemalloc341
 
 Requires: cmssw-tool-conf python cms-git-tools
 
