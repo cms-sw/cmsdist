@@ -1,0 +1,12 @@
+--- SConstruct.orig     2013-11-06 16:42:13.000000000 +0100
++++ SConstruct  2013-11-06 16:43:05.000000000 +0100
+@@ -308,7 +308,8 @@
+
+                    PCRE_VERSION='8.30',
+                    CONFIGUREDIR = '#' + scons_data_dir + '/sconf_temp',
+-                   CONFIGURELOG = '#' + scons_data_dir + '/config.log'
++                   CONFIGURELOG = '#' + scons_data_dir + '/config.log',
++                   ENV = os.environ
+                    )
+
+ # This could be 'if solaris', but unfortuantely that variable hasn't been set yet.
