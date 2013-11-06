@@ -126,6 +126,7 @@ Requires: opencl-cpp-toolfile
 Requires: qd-toolfile
 Requires: blackhat-toolfile
 Requires: sherpa2-toolfile
+Requires: geant4-parfullcms-toolfile
 
 # Only for Linux platform.
 %if %islinux
