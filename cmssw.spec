@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_7_0_0_pre7
+### RPM cms cmssw CMSSW_7_0_0_pre8_g4.96ref10
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 Requires: cms-git-tools
 %if "%mic" == "true"
@@ -43,6 +43,7 @@ Requires: cmssw-tool-conf
 %define toolconf        CMSSW_MIC_TOOL_CONF_ROOT
 %define prebuildtarget  echo_CXX; rm -f ../external/%cmsplatf/bin/python ; ln -s /usr/bin/python ../external/%cmsplatf/bin/python
 %undefine runGlimpse
+%define realversion     CMSSW_7_0_0_pre8
 %endif
 
 %define source1         git://github.com/cms-sw/cmssw.git?protocol=https&obj=%{branch}/%{realversion}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
