@@ -1,7 +1,7 @@
 ### RPM lcg root 5.99.04
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag a7f72e7b1991b413862b2669b3b2814661223ecd
+%define tag 2805d76faf640ee6111fc349d3aa907fcfaf3f4b
 %define branch master
 Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
