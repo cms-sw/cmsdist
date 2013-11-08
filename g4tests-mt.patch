@@ -1,0 +1,20 @@
+--- ParmainApplication.cc	2013-11-06 15:35:44.537583594 +0100
++++ ParmainApplication.cc	2013-11-06 15:44:15.235516252 +0100
+@@ -41,16 +41,12 @@
+          << " Initial seed = " << seed << G4endl 
+ 	 << " ===================================================== " << G4endl 
+ 	 << G4endl; 
+-#ifdef G4MULTITHREADED
+   G4MTRunManager* runManager = new G4MTRunManager; // = new G4RunManager; 
+   //G4int nt = 2;
+   // GF: note argv[1] : input file in batch
+   //              [2] : physics lists to use - optional
+   //if ( argc > 1 ) nt = atoi( argv[1] ); 
+-  runManager->SetNumberOfThreads( 2 );
+-#else
+-  G4RunManager* runManager = new G4RunManager;
+-#endif
++  runManager->SetNumberOfThreads( atoi(argv[3])  );
+   //01.25.2009 Xin Dong: The master thread and worker threads have different behavior
+   //in the phase of initialization.
+   //if (threadRank == 0)

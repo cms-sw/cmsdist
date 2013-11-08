@@ -1,9 +1,11 @@
-### RPM external geant4 9.6.p02
+### RPM external geant4 9.6ref10
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 %if "%mic" == "true"
 Requires: icc
 %endif
-Source0: http://geant4.cern.ch/support/source/%{n}.%{realversion}.tar.gz
+
+#Source0: http://geant4.cern.ch/support/source/%{n}.%{realversion}.tar.gz
+Source0: http://cern.ch/vnivanch/%{n}.%{realversion}.tar.gz
 
 %if "%mic" != "true"
 BuildRequires: cmake
@@ -13,7 +15,7 @@ Requires: clhep
 Requires: expat
 Requires: xerces-c
 
-Patch0: geant4.9.5.p01-no-banner
+Patch0: geant4-10.0-no-banner
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -24,7 +26,7 @@ Patch0: geant4.9.5.p01-no-banner
 %endif
 
 %prep
-%setup -n %{n}.%{realversion}
+%setup -n %{n}
 
 %patch0 -p1
 
@@ -38,12 +40,17 @@ rm -rf ../build
 mkdir ../build
 cd ../build
 
-cmake ../%{n}.%{realversion} \
+cmake ../%{n} \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_INSTALL_LIBDIR="lib" \
   -DCMAKE_BUILD_TYPE=Release \
   -DGEANT4_USE_SYSTEM_CLHEP=ON \
   -DGEANT4_USE_GDML=ON \
+  -DGEANT4_BUILD_MULTITHREADED=ON \
+  -DBUILD_SHARED_LIBS=ON \
+  -DBUILD_STATIC_LIBS=OFF \
+  -DGEANT4_INSTALL_EXAMPLES=OFF \
+  -DGEANT4_ENABLE_TESTING=OFF \
   -DXERCESC_ROOT_DIR:PATH="${XERCES_C_ROOT}" \
   -DCLHEP_ROOT_DIR:PATH="$CLHEP_ROOT" \
   -DEXPAT_INCLUDE_DIR:PATH="$EXPAT_ROOT/include" \
@@ -65,6 +72,5 @@ make %makeprocesses VERBOSE=1
 cd ../build
 make install
 
-# Move headers from ../include/Geant4 to ../include
-tar -C %i/include/Geant4 -cf - . | tar -C %i/include -xf -
-rm -rf %i/include/Geant4
+%post
+%{relocateConfig}lib/Geant4-*/Geant4Config.cmake
