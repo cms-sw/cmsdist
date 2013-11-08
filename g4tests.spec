@@ -3,9 +3,16 @@
 %if "%mic" == "true"
 Requires: icc
 %endif
-
-Source0: http://cern.ch/vnivanch/ParFullCMS.tar.gz 
-Patch0: g4tests-mt
+%define GDMLSchema http://service-spi.web.cern.ch/service-spi/app/releases/GDML/GDML_2_8_0/src/GDMLSchema
+Source0: http://cern.ch/vnivanch/ParFullCMS.tar.gz
+Source1: %{GDMLSchema}/gdml.xsd
+Source2: %{GDMLSchema}/gdml_core.xsd
+Source3: %{GDMLSchema}/gdml_define.xsd
+Source4: %{GDMLSchema}/gdml_extensions.xsd
+Source5: %{GDMLSchema}/gdml_materials.xsd
+Source6: %{GDMLSchema}/gdml_parameterised.xsd
+Source7: %{GDMLSchema}/gdml_replicas.xsd
+Source8: %{GDMLSchema}/gdml_solids.xsd
 
 %if "%mic" != "true"
 BuildRequires: cmake
@@ -22,8 +29,9 @@ Requires: geant4
 %endif
 
 %prep
+
 %setup -n ParFullCMS
-%patch0 -p0
+perl -p -i -e "s|%{GDMLSchema}/|file:%i/GDMLSchema/|" cms.gdml
 
 %build
 
@@ -43,6 +51,12 @@ cmake ../ParFullCMS -DCMAKE_INSTALL_PREFIX:PATH="%i" -DGeant4_DIR=$GEANT4_ROOT/l
 make %makeprocesses VERBOSE=1
 
 %install
+mkdir %i/GDMLSchema
+cp cms.gdml  %i/
+cp %_sourcedir/*.xsd %i/GDMLSchema
 
 cd ../build
 make install
+
+%post
+%{relocateConfig}cms.gdml
