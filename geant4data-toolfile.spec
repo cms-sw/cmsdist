@@ -7,7 +7,7 @@ Requires: geant4data
 
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4data.xml
-<tool name="geant4data" version="@TOOL_VERSION@">
+<tool name="geant4data" version="1.0">
   <client>
     <environment name="GEANT4DATA_BASE" default="%{instroot}/%{cmsplatf}/%{pkgcategory}"/>
   </client>
