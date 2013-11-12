@@ -52,3 +52,6 @@ make %makeprocesses VERBOSE=1
 
 cd ../build
 make install
+
+%post
+%{relocateConfig}lib/Geant4-*/Geant4Config.cmake
