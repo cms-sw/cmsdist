@@ -1,9 +1,10 @@
-### RPM external valgrind 3.9.0-13418
+### RPM external valgrind 3.9.0
 ## INITENV SET VALGRIND_LIB %{i}/lib/valgrind
 %define rev %(echo %{realversion} | cut -d- -f2)
-Source: svn://svn.valgrind.org/valgrind/trunk?revision=%{rev}&module=%{n}-%{realversion}&output=/%{n}-%{realversion}.tar.gz
-Patch1: valgrind-3.7.0-change-FN_NAME_LEN-global-buffer-size
-Patch2: valgrind-3.7.0-change-VG_N_SEGMENTS-VG_N_SEGNAMES-VG_MAX_SEGNAMELEN
+#Source: svn://svn.valgrind.org/valgrind/trunk?revision=%{rev}&module=%{n}-%{realversion}&output=/%{n}-%{realversion}.tar.gz
+Source: http://valgrind.org/downloads/%{n}-%{realversion}.tar.bz2
+Patch1: valgrind-3.9.0-change-FN_NAME_LEN-global-buffer-size
+Patch2: valgrind-3.9.0-change-VG_MAX_SEGNAMELEN
 
 BuildRequires: autotools
 

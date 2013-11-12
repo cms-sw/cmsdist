@@ -63,7 +63,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_python.xml
     <environment name="LIBDIR" default="$BOOST_PYTHON_BASE/lib"/>
     <environment name="INCLUDE" default="$BOOST_PYTHON_BASE/include"/>
   </client>
-  <use name="elementtree"/>
   <use name="gccxml"/>
   <use name="python"/>
 </tool>

@@ -4,8 +4,8 @@ Source: none
 
 %define BaseTool %(echo %n | tr '[a-z-]' '[A-Z_]')
 
-%define closingbrace )
-%define online %(case %cmsplatf in *onl_*_*%closingbrace echo true;; *%closingbrace echo false;; esac)
+%define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
+%define isnotarmv7 %(case %{cmsplatf} in (*armv7*) echo 0 ;; (*) echo 1 ;; esac)
 
 Requires: data-DetectorDescription-Schema
 Requires: data-MagneticField-Interpolation
@@ -39,10 +39,12 @@ Requires: data-RecoMuon-MuonIdentification
 Requires: data-RecoEgamma-ElectronIdentification
 Requires: data-CalibTracker-SiPixelESProducers
 
-%if "%online" != "true"
+%if %isnotonline
 # extra data dependencies for standard builds
 Requires: data-FastSimulation-MaterialEffects
+%if %isnotarmv7
 Requires: data-FastSimulation-PileUpProducer
+%endif
 Requires: data-SimG4CMS-Calo
 Requires: data-SimG4CMS-Forward
 Requires: data-Validation-Geometry
