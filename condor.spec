@@ -37,6 +37,7 @@ cmake \
   -DBoost_THREAD_LIBRARY:FILEPATH=$BOOST_ROOT/lib/libboost_thread.so \
   -DBoost_THREAD_LIBRARY_DEBUG:FILEPATH=$BOOST_ROOT/lib/libboost_thread.so \
   -DBoost_THREAD_LIBRARY_RELEASE:FILEPATH=$BOOST_ROOT/lib/libboost_thread.so \
+  -DBoost_PYTHON_LIBRARY:FILEPATH=$BOOST_ROOT/$PYTHON_LIB_SITE_PACKAGES \
   -DUW_BUILD:BOOL=ON \
   -DWITH_GLOBUS:BOOL=ON \
   -DWITH_CREAM:BOOL=OFF \
@@ -69,8 +70,12 @@ make %makeprocesses VERBOSE=1
 %install
 make install
 
+# Move the python-bindings to the correct place
+mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
+mv %i/lib/python/* %i/$PYTHON_LIB_SITE_PACKAGES
 # Get rid of hardcoded /usr/bin/python
 egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
+
 # Strip libraries, we are not going to debug them.
 %define strip_files %i/lib
 
@@ -78,7 +83,7 @@ egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/
 # remove condor_gather_info since it brings a dependency on Date::Manip
 rm -rf %i/{README,etc/{examples,init.d,sysconfig},examples} \
        %i/{include,sbin,libexec,src,condor*,bosco*}         \
-       %i/bin/{condor_gather_info,bosco*} \
+       %i/bin/{condor_gather_info,bosco*} %i/lib/python     \
        %i/lib/condor/{libcom*,libcrypto*,libk*,libl*,libp*} \
        %i/lib/condor/{libssl*,libgssapi_krb5*,libexpat*1}
 
