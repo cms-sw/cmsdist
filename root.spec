@@ -1,7 +1,7 @@
 ### RPM lcg root 5.99.04
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 92f15da5b9f6823aef6603a2fc1457780da108bf
+%define tag 18c9b126d9cd6b01cb33c9def77c48392f05f06f
 %define branch master
 Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
@@ -17,6 +17,8 @@ Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{
 #Patch5: root-5.30.02-fix-isnan-again
 #Patch6: root-5.34.05-cintex-armv7a-port                   not needed anymore
 
+Patch0: root6_patch_for_bill_1
+
 Requires: gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl zlib
 
 %if %islinux
@@ -31,6 +33,7 @@ Requires: freetype
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p0
 
 # Delete these (irrelevant) files as the fits appear to confuse rpm on OSX
 # (It tries to run install_name_tool on them.)

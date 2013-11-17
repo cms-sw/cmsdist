@@ -1,7 +1,7 @@
 ### RPM lcg roofit 5.99.04
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 92f15da5b9f6823aef6603a2fc1457780da108bf
+%define tag 18c9b126d9cd6b01cb33c9def77c48392f05f06f
 %define branch master
 Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
@@ -11,6 +11,8 @@ Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{
 
 #atch0: root6-externals
 #atch1: root6-cling-opts
+
+Patch0: root6_patch_for_bill_1
 
 #Patch0: root-5.34.02-externals
 #Patch1: root-5.28-00d-roofit-silence-static-printout
@@ -36,6 +38,7 @@ Requires: root
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 #patch0 -p1
 #patch1 -p1
 
