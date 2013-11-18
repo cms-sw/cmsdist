@@ -1,11 +1,11 @@
-### RPM cms crabserver 3.3.0.pre30
+### RPM cms crabserver 3.3.0.rc1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 0.9.83
+%define wmcver 0.9.84
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
 Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
@@ -20,10 +20,11 @@ BuildRequires: py2-sphinx
 #%patch0 -p0
 
 %build
-
 cd ../WMCore-%{wmcver}
 python setup.py build_system -s crabserver
 PYTHONPATH=$PWD/build/lib:$PYTHONPATH
+touch $PWD/build/condor_config
+export CONDOR_CONFIG=$PWD/build/condor_config
 
 cd ../CRABServer-%{realversion}
 perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/crabserver/conf.py
