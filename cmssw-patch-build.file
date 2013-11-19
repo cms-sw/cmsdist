@@ -57,11 +57,6 @@
      esac  ;\
   done
 
-%if "%{?runGlimpse:set}" == "set"
-%undefine runGlimpse
-%define RunPatchReleaseGlimpse %scramcmd b --verbose -f gindices
-%endif
-
 %define PatchReleasePythonSymlinks \
   CWD=`/bin/pwd`; cd %i; %scramcmd b --verbose -f tmp/common/cache/python_symlinks </dev/null; DIR=python; %{PatchReleaseLink} ; cd $CWD;
  
@@ -94,3 +89,10 @@
   done;
 %endif
 
+%if "%{?runGlimpse:set}" == "set"
+%undefine runGlimpse
+%define PatchReleaseGlimpse \
+  CWD=`/bin/pwd`; \
+  cd %i ; %scramcmd b --verbose -f gindices; \
+  cd $CWD
+%endif

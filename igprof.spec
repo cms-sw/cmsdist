@@ -1,19 +1,31 @@
-### RPM external igprof 5.9.7
+### RPM external igprof 5.9.5
+Source0: http://www.hpl.hp.com/research/linux/atomic_ops/download/libatomic_ops-7.2alpha4.tar.gz
+Source1: http://download.savannah.gnu.org/releases/libunwind/libunwind-1.0.1.tar.gz
+Source2: git://github.com/ktf/igprof.git?obj=master/v%{realversion}&export=igprof-%{realversion}&output=/igprof-%{realversion}.tgz
+BuildRequires: cmake
 
-Source0: git://github.com/ktf/igprof.git?obj=master/v%{realversion}&export=igprof-%{realversion}&output=/igprof-%{realversion}.tgz
-#Source0: git:%(pwd)/../igprof?obj=master/HEAD&export=igprof-%{realversion}&date=%(date +%s)&output=/igprof-HEAD.tgz
-Requires: pcre
-BuildRequires: cmake libunwind libatomic_ops
 %prep
-%setup -T -b 0 -n igprof-%{realversion}
+%setup -T -b 0 -n libatomic_ops-7.2alpha4
+%setup -D -T -b 1 -n libunwind-1.0.1
+%setup -D -T -b 2 -n igprof-%{realversion}
+
 %build
-mkdir -p %i
-rsync -av $LIBUNWIND_ROOT/ %i/
-rsync -av $LIBATOMIC_OPS_ROOT/ %i/
-cmake -DCMAKE_INSTALL_PREFIX=%i -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="-I%i/include -I$PCRE_ROOT/include -g -O3" .
+%ifnos darwin
+cd ../libatomic_ops*
+./configure --prefix=%i
+make %makeprocesses install
+
+cd ../libunwind*
+./configure CFLAGS="-g -O3" CPPFLAGS="-I%i/include" --prefix=%i --disable-block-signals
+make %makeprocesses install
+
+cd ../igprof*
+cmake -DCMAKE_INSTALL_PREFIX=%i -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="-I%i/include -g -O3" .
 make %makeprocesses
+%endif
 
 %install
+%ifnos darwin
 make %makeprocesses install
 %define drop_files %i/share/man
-
+%endif

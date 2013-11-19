@@ -3,13 +3,17 @@
 %define realname %(echo %n | cut -d- -f2,3 | tr '-' '/' )
 %define realsub %(echo %n | cut -d- -f2) 
 %define BaseTool %(echo %n | tr '[a-z-]' '[A-Z_]')
-%define cvsrepo         cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
+%define cvsrepo cvs://:pserver:anonymous@cmscvs.cern.ch:2401/local/reps/CMSSW?passwd=AA_:yZZ3e
 
 %if "%{?dataDir:set}" != "set" 
 %define dataDir data
 %endif
 
 Source0: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir/download.url&export=%realsub&output=/src0.tar.gz
+
+%if "%{?dataDir1:set}" == "set"
+Source1: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir1/download.url&export=%{realsub}&output=/src1.tar.gz
+%endif
 
 %if "%{?dataDir2:set}" == "set"
 Source2: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir2/download.url&export=%{realsub}&output=/src2.tar.gz
@@ -107,8 +111,191 @@ Source24: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir24/download
 Source25: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir25/download.url&export=%{realsub}&output=/src25.tar.gz
 %endif
 
+%if "%{?dataDir26:set}" == "set"
+Source26: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir26/download.url&export=%{realsub}&output=/src26.tar.gz
+%endif
+
+%if "%{?dataDir27:set}" == "set"
+Source27: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir27/download.url&export=%{realsub}&output=/src27.tar.gz
+%endif
+
+%if "%{?dataDir28:set}" == "set"
+Source28: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir28/download.url&export=%{realsub}&output=/src28.tar.gz
+%endif
+
+%if "%{?dataDir29:set}" == "set"
+Source29: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir29/download.url&export=%{realsub}&output=/src29.tar.gz
+%endif
+
+%if "%{?dataDir30:set}" == "set"
+Source30: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir30/download.url&export=%{realsub}&output=/src30.tar.gz
+%endif
+
+%if "%{?dataDir31:set}" == "set"
+Source31: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir31/download.url&export=%{realsub}&output=/src31.tar.gz
+%endif
+
+%if "%{?dataDir32:set}" == "set"
+Source32: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir32/download.url&export=%{realsub}&output=/src32.tar.gz
+%endif
+
+%if "%{?dataDir33:set}" == "set"
+Source33: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir33/download.url&export=%{realsub}&output=/src33.tar.gz
+%endif
+
+%if "%{?dataDir34:set}" == "set"
+Source34: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir34/download.url&export=%{realsub}&output=/src34.tar.gz
+%endif
+
+%if "%{?dataDir35:set}" == "set"
+Source35: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir35/download.url&export=%{realsub}&output=/src35.tar.gz
+%endif
+
+%if "%{?dataDir36:set}" == "set"
+Source36: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir36/download.url&export=%{realsub}&output=/src36.tar.gz
+%endif
+
+%if "%{?dataDir37:set}" == "set"
+Source37: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir37/download.url&export=%{realsub}&output=/src37.tar.gz
+%endif
+
+%if "%{?dataDir38:set}" == "set"
+Source38: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir38/download.url&export=%{realsub}&output=/src38.tar.gz
+%endif
+
+%if "%{?dataDir39:set}" == "set"
+Source39: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir39/download.url&export=%{realsub}&output=/src39.tar.gz
+%endif
+
+%if "%{?dataDir40:set}" == "set"
+Source40: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir40/download.url&export=%{realsub}&output=/src40.tar.gz
+%endif
+
+%if "%{?dataDir41:set}" == "set"
+Source41: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir41/download.url&export=%{realsub}&output=/src41.tar.gz
+%endif
+
+%if "%{?dataDir42:set}" == "set"
+Source42: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir42/download.url&export=%{realsub}&output=/src42.tar.gz
+%endif
+
+%if "%{?dataDir43:set}" == "set"
+Source43: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir43/download.url&export=%{realsub}&output=/src43.tar.gz
+%endif
+
+%if "%{?dataDir44:set}" == "set"
+Source44: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir44/download.url&export=%{realsub}&output=/src44.tar.gz
+%endif
+
+%if "%{?dataDir45:set}" == "set"
+Source45: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir45/download.url&export=%{realsub}&output=/src45.tar.gz
+%endif
+
+%if "%{?dataDir46:set}" == "set"
+Source46: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir46/download.url&export=%{realsub}&output=/src46.tar.gz
+%endif
+
+%if "%{?dataDir47:set}" == "set"
+Source47: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir47/download.url&export=%{realsub}&output=/src47.tar.gz
+%endif
+
+%if "%{?dataDir48:set}" == "set"
+Source48: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir48/download.url&export=%{realsub}&output=/src48.tar.gz
+%endif
+
+%if "%{?dataDir49:set}" == "set"
+Source49: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir49/download.url&export=%{realsub}&output=/src49.tar.gz
+%endif
+
+%if "%{?dataDir50:set}" == "set"
+Source50: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir50/download.url&export=%{realsub}&output=/src50.tar.gz
+%endif
+
+%if "%{?dataDir51:set}" == "set"
+Source51: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir51/download.url&export=%{realsub}&output=/src51.tar.gz
+%endif
+
+%if "%{?dataDir52:set}" == "set"
+Source52: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir52/download.url&export=%{realsub}&output=/src52.tar.gz
+%endif
+
+%if "%{?dataDir53:set}" == "set"
+Source53: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir53/download.url&export=%{realsub}&output=/src53.tar.gz
+%endif
+
+%if "%{?dataDir54:set}" == "set"
+Source54: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir54/download.url&export=%{realsub}&output=/src54.tar.gz
+%endif
+
+%if "%{?dataDir55:set}" == "set"
+Source55: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir55/download.url&export=%{realsub}&output=/src55.tar.gz
+%endif
+
+%if "%{?dataDir56:set}" == "set"
+Source56: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir56/download.url&export=%{realsub}&output=/src56.tar.gz
+%endif
+
+%if "%{?dataDir57:set}" == "set"
+Source57: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir57/download.url&export=%{realsub}&output=/src57.tar.gz
+%endif
+
+%if "%{?dataDir58:set}" == "set"
+Source58: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir58/download.url&export=%{realsub}&output=/src58.tar.gz
+%endif
+
+%if "%{?dataDir59:set}" == "set"
+Source59: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir59/download.url&export=%{realsub}&output=/src59.tar.gz
+%endif
+
+%if "%{?dataDir60:set}" == "set"
+Source60: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir60/download.url&export=%{realsub}&output=/src60.tar.gz
+%endif
+
+%if "%{?dataDir61:set}" == "set"
+Source61: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir61/download.url&export=%{realsub}&output=/src61.tar.gz
+%endif
+
+%if "%{?dataDir62:set}" == "set"
+Source62: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir62/download.url&export=%{realsub}&output=/src62.tar.gz
+%endif
+
+%if "%{?dataDir63:set}" == "set"
+Source63: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir63/download.url&export=%{realsub}&output=/src63.tar.gz
+%endif
+
+%if "%{?dataDir64:set}" == "set"
+Source64: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir64/download.url&export=%{realsub}&output=/src64.tar.gz
+%endif
+
+%if "%{?dataDir65:set}" == "set"
+Source65: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir65/download.url&export=%{realsub}&output=/src65.tar.gz
+%endif
+
+%if "%{?dataDir66:set}" == "set"
+Source66: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir66/download.url&export=%{realsub}&output=/src66.tar.gz
+%endif
+
+%if "%{?dataDir67:set}" == "set"
+Source67: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir67/download.url&export=%{realsub}&output=/src67.tar.gz
+%endif
+
+%if "%{?dataDir68:set}" == "set"
+Source68: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir68/download.url&export=%{realsub}&output=/src68.tar.gz
+%endif
+
+%if "%{?dataDir69:set}" == "set"
+Source69: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir69/download.url&export=%{realsub}&output=/src69.tar.gz
+%endif
+
+%if "%{?dataDir70:set}" == "set"
+Source70: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir70/download.url&export=%{realsub}&output=/src70.tar.gz
+%endif
+
 %prep
 %setup -b 0 -n %realsub
+%if "%{?dataDir1:set}" == "set"
+%setup -b 1 -D -n %realsub
+%endif
 %if "%{?dataDir2:set}" == "set"
 %setup -b 2 -D -n %realsub
 %endif
@@ -181,6 +368,141 @@ Source25: %{cvsrepo}&tag=-r%{realversion}&module=%{realname}/%dataDir25/download
 %if "%{?dataDir25:set}" == "set"
 %setup -b 25 -D -n %realsub
 %endif
+%if "%{?dataDir26:set}" == "set"
+%setup -b 26 -D -n %realsub
+%endif
+%if "%{?dataDir27:set}" == "set"
+%setup -b 27 -D -n %realsub
+%endif
+%if "%{?dataDir28:set}" == "set"
+%setup -b 28 -D -n %realsub
+%endif
+%if "%{?dataDir29:set}" == "set"
+%setup -b 29 -D -n %realsub
+%endif
+%if "%{?dataDir30:set}" == "set"
+%setup -b 30 -D -n %realsub
+%endif
+%if "%{?dataDir31:set}" == "set"
+%setup -b 31 -D -n %realsub
+%endif
+%if "%{?dataDir32:set}" == "set"
+%setup -b 32 -D -n %realsub
+%endif
+%if "%{?dataDir33:set}" == "set"
+%setup -b 33 -D -n %realsub
+%endif
+%if "%{?dataDir34:set}" == "set"
+%setup -b 34 -D -n %realsub
+%endif
+%if "%{?dataDir35:set}" == "set"
+%setup -b 35 -D -n %realsub
+%endif
+%if "%{?dataDir36:set}" == "set"
+%setup -b 36 -D -n %realsub
+%endif
+%if "%{?dataDir37:set}" == "set"
+%setup -b 37 -D -n %realsub
+%endif
+%if "%{?dataDir38:set}" == "set"
+%setup -b 38 -D -n %realsub
+%endif
+%if "%{?dataDir39:set}" == "set"
+%setup -b 39 -D -n %realsub
+%endif
+%if "%{?dataDir40:set}" == "set"
+%setup -b 40 -D -n %realsub
+%endif
+%if "%{?dataDir41:set}" == "set"
+%setup -b 41 -D -n %realsub
+%endif
+%if "%{?dataDir42:set}" == "set"
+%setup -b 42 -D -n %realsub
+%endif
+%if "%{?dataDir43:set}" == "set"
+%setup -b 43 -D -n %realsub
+%endif
+%if "%{?dataDir44:set}" == "set"
+%setup -b 44 -D -n %realsub
+%endif
+%if "%{?dataDir45:set}" == "set"
+%setup -b 45 -D -n %realsub
+%endif
+%if "%{?dataDir46:set}" == "set"
+%setup -b 46 -D -n %realsub
+%endif
+%if "%{?dataDir47:set}" == "set"
+%setup -b 47 -D -n %realsub
+%endif
+%if "%{?dataDir48:set}" == "set"
+%setup -b 48 -D -n %realsub
+%endif
+%if "%{?dataDir49:set}" == "set"
+%setup -b 49 -D -n %realsub
+%endif
+%if "%{?dataDir50:set}" == "set"
+%setup -b 50 -D -n %realsub
+%endif
+%if "%{?dataDir51:set}" == "set"
+%setup -b 51 -D -n %realsub
+%endif
+%if "%{?dataDir52:set}" == "set"
+%setup -b 52 -D -n %realsub
+%endif
+%if "%{?dataDir53:set}" == "set"
+%setup -b 53 -D -n %realsub
+%endif
+%if "%{?dataDir54:set}" == "set"
+%setup -b 54 -D -n %realsub
+%endif
+%if "%{?dataDir55:set}" == "set"
+%setup -b 55 -D -n %realsub
+%endif
+%if "%{?dataDir56:set}" == "set"
+%setup -b 56 -D -n %realsub
+%endif
+%if "%{?dataDir57:set}" == "set"
+%setup -b 57 -D -n %realsub
+%endif
+%if "%{?dataDir58:set}" == "set"
+%setup -b 58 -D -n %realsub
+%endif
+%if "%{?dataDir59:set}" == "set"
+%setup -b 59 -D -n %realsub
+%endif
+%if "%{?dataDir60:set}" == "set"
+%setup -b 60 -D -n %realsub
+%endif
+%if "%{?dataDir61:set}" == "set"
+%setup -b 61 -D -n %realsub
+%endif
+%if "%{?dataDir62:set}" == "set"
+%setup -b 62 -D -n %realsub
+%endif
+%if "%{?dataDir63:set}" == "set"
+%setup -b 63 -D -n %realsub
+%endif
+%if "%{?dataDir64:set}" == "set"
+%setup -b 64 -D -n %realsub
+%endif
+%if "%{?dataDir65:set}" == "set"
+%setup -b 65 -D -n %realsub
+%endif
+%if "%{?dataDir66:set}" == "set"
+%setup -b 66 -D -n %realsub
+%endif
+%if "%{?dataDir67:set}" == "set"
+%setup -b 67 -D -n %realsub
+%endif
+%if "%{?dataDir68:set}" == "set"
+%setup -b 68 -D -n %realsub
+%endif
+%if "%{?dataDir69:set}" == "set"
+%setup -b 69 -D -n %realsub
+%endif
+%if "%{?dataDir70:set}" == "set"
+%setup -b 70 -D -n %realsub
+%endif
  
 %build
 download_cmd=`which wget 2> /dev/null || echo ""`
@@ -198,6 +520,13 @@ currdir=`pwd`
 cd ../%realname/%dataDir
 cat download.url | xargs -I "{}" $download_cmd
 rm download.url
+
+%if "%{?dataDir1:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir1
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
 
 %if "%{?dataDir2:set}" == "set"
 cd $currdir
@@ -363,6 +692,321 @@ rm download.url
 %if "%{?dataDir25:set}" == "set"
 cd $currdir
 cd ../%realname/%dataDir25
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir26:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir26
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir27:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir27
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir28:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir28
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir29:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir29
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir30:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir30
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir31:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir31
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir32:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir32
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir33:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir33
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir34:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir34
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir35:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir35
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir36:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir36
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir37:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir37
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir38:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir38
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir39:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir39
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir40:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir40
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir41:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir41
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir42:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir42
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir43:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir43
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir44:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir44
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir45:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir45
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir46:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir46
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir47:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir47
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir48:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir48
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir49:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir49
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir50:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir50
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir51:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir51
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir52:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir52
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir53:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir53
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir54:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir54
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir55:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir55
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir56:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir56
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir57:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir57
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir58:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir58
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir59:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir59
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir60:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir60
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir61:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir61
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir62:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir62
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir63:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir63
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir64:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir64
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir65:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir65
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir66:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir66
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir67:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir67
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir68:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir68
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir69:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir69
+cat download.url | xargs -I "{}" $download_cmd
+rm download.url
+%endif
+
+%if "%{?dataDir70:set}" == "set"
+cd $currdir
+cd ../%realname/%dataDir70
 cat download.url | xargs -I "{}" $download_cmd
 rm download.url
 %endif

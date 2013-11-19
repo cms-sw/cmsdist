@@ -26,7 +26,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/castor.xml
     <environment name="CASTOR_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$CASTOR_BASE/lib"/>
   </client>
-  <runtime name="PATH" value="$CASTOR_BASE/bin" type="path"/>
   <use name="castor_header"/>
   <use name="uuid"/>
 </tool>
