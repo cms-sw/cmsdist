@@ -3,11 +3,14 @@
 %endif
 
 %define isPatch               yes
-%define baserelqueue          %(echo %realversion | sed -e "s|_[[:alnum:]]*patch.*||")
 %define baserelver            %(echo %realversion | sed -e "s|_[[:alnum:]]*patch[[:digit:]][[:digit:]]*||")%{baserel_postfix}
 %define baserelname           %(echo %n | sed -e "s|-patch||")
 %define parent_release_fpath  %{cmsroot}/%{cmsplatf}/%{pkgcategory}/%{baserelname}/%{baserelver}
 %define must_have_packages    FWCore/Version
+
+%if "%{?baserelqueue:set}" != "set"
+%define baserelqueue	      %(echo %realversion | sed -e "s|_[[:alnum:]]*patch.*||")
+%endif
 
 %if "%{?cvstag:set}" != "set"
 %define cvstag		      %realversion
@@ -25,10 +28,6 @@
     echo "ERROR: Please define valid baserel_postfix e.g. -cms, which was added by cmsBuild for %baserelname base release, in %n.spec file.";\
     false ;\
   fi
-
-%if "%{?PartialBootstrapPatch:set}" == "set"
-%define                       PartialBootstrapPatch   %{nil}
-%endif
 
 %define PatchReleaseLink \
   for SUBSYS in `ls -d %{parent_release_fpath}/$DIR/*`; do \
@@ -57,11 +56,16 @@
      esac  ;\
   done
 
+%if "%{?runGlimpse:set}" == "set"
+%undefine runGlimpse
+%define RunPatchReleaseGlimpse %scramcmd b --verbose -f gindices
+%endif
+
 %define PatchReleasePythonSymlinks \
   CWD=`/bin/pwd`; cd %i; %scramcmd b --verbose -f tmp/common/cache/python_symlinks </dev/null; DIR=python; %{PatchReleaseLink} ; cd $CWD;
  
 %define PatchReleaseSourceSymlinks \
-  CWD=`/bin/pwd`; cd %i; DIR=%{srctree}; %{PatchReleaseLink}; %{RelocateReleaseLinks}; DIR=cfipython/%{cmsplatf}; %{PatchReleaseLink}; %{RelocateReleaseLinks}; DIR=python; %{RelocateReleaseLinks}; cd $CWD; 
+  CWD=`/bin/pwd`; cd %i; DIR=%{srctree}; %{PatchReleaseLink}; %{RunPatchReleaseGlimpse}; %{RelocateReleaseLinks}; DIR=cfipython/%{cmsplatf}; %{PatchReleaseLink}; %{RelocateReleaseLinks}; DIR=python; %{RelocateReleaseLinks}; cd $CWD; 
 
 %define PatchReleaseFilesRelocate \
   if [ -e %{srctree}/.glimpse_filenames ] ; then \
@@ -87,12 +91,4 @@
       fi;\
     fi;\
   done;
-%endif
-
-%if "%{?runGlimpse:set}" == "set"
-%undefine runGlimpse
-%define PatchReleaseGlimpse \
-  CWD=`/bin/pwd`; \
-  cd %i ; %scramcmd b --verbose -f gindices; \
-  cd $CWD
 %endif
