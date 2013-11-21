@@ -1,6 +1,6 @@
-### RPM external geant4 10.0
+### RPM external geant4 10.0.cand00a
 
-Source0: http://cern.ch/vnivanch/geant4.9.6ref10.tar.gz
+Source0: http://cern.ch/vnivanch/geant4.10.0cand00a.tar.gz
 
 BuildRequires: cmake
 
