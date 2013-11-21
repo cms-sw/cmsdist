@@ -1,7 +1,28 @@
-diff --git config/Makefile.linuxx8664gcc config/Makefile.linuxx8664gcc
+From e6268c9d4aab2b09710efe96bc8caf52ffc934ac Mon Sep 17 00:00:00 2001
+From: David Abdurachmanov <David.Abdurachmanov@cern.ch>
+Date: Thu, 21 Nov 2013 14:48:39 +0100
+Subject: [PATCH] ROOT6 CMS Reflex replacement (not official)
+
+Signed-off-by: David Abdurachmanov <David.Abdurachmanov@cern.ch>
+---
+ config/Makefile.linuxx8664gcc      |    2 +-
+ core/meta/inc/TDictionary.h        |    3 +-
+ core/meta/inc/TEnum.h              |    5 +-
+ core/meta/inc/TFunction.h          |    1 +
+ core/meta/inc/TInterpreter.h       |   50 +++
+ core/meta/src/TCling.cxx           |  809 +++++++++++++++++++++++++++++++++++-
+ core/meta/src/TCling.h             |   40 ++-
+ core/meta/src/TClingCallFunc.cxx   |   25 ++
+ core/meta/src/TClingCallFunc.h     |    6 +
+ core/meta/src/TClingMethodInfo.cxx |    6 +-
+ core/meta/src/TEnum.cxx            |   10 +-
+ core/meta/src/TFunction.cxx        |   11 +
+ 12 files changed, 953 insertions(+), 15 deletions(-)
+
+diff --git a/config/Makefile.linuxx8664gcc b/config/Makefile.linuxx8664gcc
 index 7a87d62..b8c8d35 100644
---- config/Makefile.linuxx8664gcc
-+++ config/Makefile.linuxx8664gcc
+--- a/config/Makefile.linuxx8664gcc
++++ b/config/Makefile.linuxx8664gcc
 @@ -4,7 +4,7 @@
  
  PLATFORM      = linux
@@ -11,11 +32,11 @@ index 7a87d62..b8c8d35 100644
  #DEBUGFLAGS    = -gstabs
  OPTFLAGS      = -O2
  # Optional compiler options for gcc >= 3.4.0
-diff --git core/meta/inc/TDictionary.h core/meta/inc/TDictionary.h
-index 5e3a091..c888c07 100644
---- core/meta/inc/TDictionary.h
-+++ core/meta/inc/TDictionary.h
-@@ -118,7 +118,8 @@ enum EFunctionProperty {
+diff --git a/core/meta/inc/TDictionary.h b/core/meta/inc/TDictionary.h
+index a02ddae..9b10794 100644
+--- a/core/meta/inc/TDictionary.h
++++ b/core/meta/inc/TDictionary.h
+@@ -122,7 +122,8 @@ enum EFunctionProperty {
  */
     kIsConstructor = 0x00000001,
     kIsConversion  = 0x00000002,
@@ -25,10 +46,10 @@ index 5e3a091..c888c07 100644
  };
  
  enum EClassProperty {
-diff --git core/meta/inc/TEnum.h core/meta/inc/TEnum.h
+diff --git a/core/meta/inc/TEnum.h b/core/meta/inc/TEnum.h
 index 160bc1b..4124599 100644
---- core/meta/inc/TEnum.h
-+++ core/meta/inc/TEnum.h
+--- a/core/meta/inc/TEnum.h
++++ b/core/meta/inc/TEnum.h
 @@ -30,6 +30,7 @@
  #include "TString.h"
  #endif
@@ -55,10 +76,10 @@ index 160bc1b..4124599 100644
     const TSeqCollection* GetConstants() const { return &fConstantList; }
     const TEnumConstant* GetConstant(const char* name) const {
        return (TEnumConstant*) fConstantList.FindObject(name);
-diff --git core/meta/inc/TFunction.h core/meta/inc/TFunction.h
+diff --git a/core/meta/inc/TFunction.h b/core/meta/inc/TFunction.h
 index 7e83739..2e4261c 100644
---- core/meta/inc/TFunction.h
-+++ core/meta/inc/TFunction.h
+--- a/core/meta/inc/TFunction.h
++++ b/core/meta/inc/TFunction.h
 @@ -47,6 +47,7 @@ public:
     virtual            ~TFunction();
     virtual TObject    *Clone(const char *newname="") const;
@@ -67,10 +88,10 @@ index 7e83739..2e4261c 100644
     virtual const char *GetPrototype() const;
     const char         *GetSignature();
     const char         *GetReturnTypeName() const;
-diff --git core/meta/inc/TInterpreter.h core/meta/inc/TInterpreter.h
-index e647ff1..93dbbd7 100644
---- core/meta/inc/TInterpreter.h
-+++ core/meta/inc/TInterpreter.h
+diff --git a/core/meta/inc/TInterpreter.h b/core/meta/inc/TInterpreter.h
+index 579a44c..67d59f6 100644
+--- a/core/meta/inc/TInterpreter.h
++++ b/core/meta/inc/TInterpreter.h
 @@ -32,6 +32,8 @@
  #include "TMethodCall.h"
  #endif
@@ -105,9 +126,9 @@ index e647ff1..93dbbd7 100644
 +   virtual void    *SetAutoLoadCallBack(void* /*cb*/) { return 0; }
 +   virtual void    *GetAutoLoadCallBack() const { return 0; }
     virtual Int_t    AutoLoad(const char *classname) = 0;
+    virtual Int_t    AutoLoad(const type_info& typeinfo) = 0;
     virtual void     ClearFileBusy() = 0;
-    virtual void     ClearStack() = 0; // Delete existing temporary values
-@@ -162,6 +176,7 @@ public:
+@@ -163,6 +177,7 @@ public:
     virtual void     Execute(const char *function, const char *params, int *error = 0) = 0;
     virtual void     Execute(TObject *obj, TClass *cl, const char *method, const char *params, int *error = 0) = 0;
     virtual void     Execute(TObject *obj, TClass *cl, TMethod *method, TObjArray *params, int *error = 0) = 0;
@@ -115,7 +136,7 @@ index e647ff1..93dbbd7 100644
     virtual Long_t   ExecuteMacro(const char *filename, EErrorCode *error = 0) = 0;
     virtual Bool_t   IsErrorMessagesEnabled() const = 0;
     virtual Bool_t   SetErrorMessages(Bool_t enable = kTRUE) = 0;
-@@ -218,6 +233,7 @@ public:
+@@ -223,6 +238,7 @@ public:
     virtual void   CallFunc_Exec(CallFunc_t * /* func */, void * /* address */) const {;}
     virtual void   CallFunc_Exec(CallFunc_t * /* func */, void * /* address */, TInterpreterValue& /* val */) const {;}
     virtual void   CallFunc_ExecWithReturn(CallFunc_t * /* func */, void * /* address */, void * /* ret */) const {;}
@@ -123,7 +144,7 @@ index e647ff1..93dbbd7 100644
     virtual Long_t    CallFunc_ExecInt(CallFunc_t * /* func */, void * /* address */) const {return 0;}
     virtual Long64_t  CallFunc_ExecInt64(CallFunc_t * /* func */, void * /* address */) const {return 0;}
     virtual Double_t  CallFunc_ExecDouble(CallFunc_t * /* func */, void * /* address */) const {return 0;}
-@@ -390,6 +406,40 @@ public:
+@@ -396,6 +412,40 @@ public:
     virtual const char *TypedefInfo_Name(TypedefInfo_t * /* tinfo */) const {return 0;}
     virtual const char *TypedefInfo_Title(TypedefInfo_t * /* tinfo */) const {return 0;}
  
@@ -164,11 +185,11 @@ index e647ff1..93dbbd7 100644
     static TInterpreter *Instance();
  
     ClassDef(TInterpreter,0)  //ABC defining interface to generic interpreter
-diff --git core/meta/src/TCling.cxx core/meta/src/TCling.cxx
-index 941f1b1..ce28f8a 100644
---- core/meta/src/TCling.cxx
-+++ core/meta/src/TCling.cxx
-@@ -101,9 +101,11 @@
+diff --git a/core/meta/src/TCling.cxx b/core/meta/src/TCling.cxx
+index 9165e53..1423d1a 100644
+--- a/core/meta/src/TCling.cxx
++++ b/core/meta/src/TCling.cxx
+@@ -106,9 +106,11 @@
  #include <stdint.h>
  #include <fstream>
  #include <string>
@@ -180,7 +201,7 @@ index 941f1b1..ce28f8a 100644
  #include <cxxabi.h>
  #include <limits.h>
  #include <stdio.h>
-@@ -152,6 +154,8 @@ using namespace ROOT;
+@@ -157,6 +159,8 @@ using namespace ROOT;
  
  R__EXTERN int optind;
  
@@ -189,7 +210,7 @@ index 941f1b1..ce28f8a 100644
  // The functions are used to bridge cling/clang/llvm compiled with no-rtti and
  // ROOT (which uses rtti)
  
-@@ -237,7 +241,7 @@ void TCling::HandleEnumDecl(const clang::Decl* D, bool isGlobal, TClass *cl) con
+@@ -242,7 +246,7 @@ void TCling::HandleEnumDecl(const clang::Decl* D, bool isGlobal, TClass *cl) con
     const char* name = buf.c_str();
  
     // Create the enum type.
@@ -198,7 +219,7 @@ index 941f1b1..ce28f8a 100644
     // Check TEnum is created.
     if (!enumType) {
        Error ("HandleEnumDecl", "The enum type %s was not created.", name);
-@@ -499,10 +503,29 @@ extern "C" void DestroyInterpreter(TInterpreter *interp)
+@@ -503,10 +507,29 @@ extern "C" void DestroyInterpreter(TInterpreter *interp)
     delete interp;
  }
  
@@ -228,7 +249,7 @@ index 941f1b1..ce28f8a 100644
     return ((TCling*)gCling)->AutoLoad(className);
  }
  
-@@ -916,6 +939,12 @@ TCling::TCling(const char *name, const char *title)
+@@ -949,6 +972,12 @@ TCling::TCling(const char *name, const char *title)
  
  
  //______________________________________________________________________________
@@ -241,7 +262,7 @@ index 941f1b1..ce28f8a 100644
  TCling::~TCling()
  {
     // Destroy the interpreter interface.
-@@ -3098,19 +3127,33 @@ void TCling::Execute(TObject* obj, TClass* cl, TMethod* method,
+@@ -3243,19 +3272,33 @@ void TCling::Execute(TObject* obj, TClass* cl, TMethod* method,
     // 'obj' is unlikely to be the start of the object (as described by IsA()),
     // hence gInterpreter->Execute will improperly correct the offset.
     void* addr = cl->DynamicCast(TObject::Class(), obj, kFALSE);
@@ -279,7 +300,7 @@ index 941f1b1..ce28f8a 100644
  Long_t TCling::ExecuteMacro(const char* filename, EErrorCode* error)
  {
     // Execute a cling macro.
-@@ -4394,6 +4437,16 @@ void TCling::CallFunc_ExecWithReturn(CallFunc_t* func, void* address, void* ret)
+@@ -4561,6 +4604,16 @@ void TCling::CallFunc_ExecWithReturn(CallFunc_t* func, void* address, void* ret)
  }
  
  //______________________________________________________________________________
@@ -296,7 +317,7 @@ index 941f1b1..ce28f8a 100644
  Long_t TCling::CallFunc_ExecInt(CallFunc_t* func, void* address) const
  {
     TClingCallFunc* f = (TClingCallFunc*) func;
-@@ -5705,3 +5758,749 @@ const char* TCling::TypedefInfo_Title(TypedefInfo_t* tinfo) const
+@@ -5884,3 +5937,749 @@ const char* TCling::TypedefInfo_Title(TypedefInfo_t* tinfo) const
     TClingTypedefInfo* TClinginfo = (TClingTypedefInfo*) tinfo;
     return TClinginfo->Title();
  }
@@ -1046,11 +1067,11 @@ index 941f1b1..ce28f8a 100644
 +   return p->TypeInfo();
 +}
 +
-diff --git core/meta/src/TCling.h core/meta/src/TCling.h
-index 093ab2f..c80f9b7 100644
---- core/meta/src/TCling.h
-+++ core/meta/src/TCling.h
-@@ -57,6 +57,7 @@ class THashTable;
+diff --git a/core/meta/src/TCling.h b/core/meta/src/TCling.h
+index ed322a1..8e9a410 100644
+--- a/core/meta/src/TCling.h
++++ b/core/meta/src/TCling.h
+@@ -61,6 +61,7 @@ class THashTable;
  class TInterpreterValue;
  class TMethod;
  class TObjArray;
@@ -1058,7 +1079,7 @@ index 093ab2f..c80f9b7 100644
  
  namespace ROOT {
     namespace TMetaUtils {
-@@ -119,9 +120,12 @@ public: // Public Interface
+@@ -125,9 +126,12 @@ public: // Public Interface
     virtual ~TCling();
     TCling(const char* name, const char* title);
  
@@ -1070,9 +1091,9 @@ index 093ab2f..c80f9b7 100644
 +   void   *SetAutoLoadCallBack(void* cb);
 +   void   *GetAutoLoadCallBack() const;
     Int_t   AutoLoad(const char* cls);
+    Int_t   AutoLoad(const type_info& typeinfo);
     Bool_t  IsAutoLoadNamespaceCandidate(const char* name);
-    void    ClearFileBusy();
-@@ -205,6 +209,7 @@ public: // Public Interface
+@@ -215,6 +219,7 @@ public: // Public Interface
     void    Execute(TObject* obj, TClass* cl, const char* method, const char* params, int* error = 0);
     void    Execute(TObject* obj, TClass* cl, const char* method, const char* params, Bool_t objectIsConst, int* error = 0);
     void    Execute(TObject* obj, TClass* cl, TMethod* method, TObjArray* params, int* error = 0);
@@ -1080,7 +1101,7 @@ index 093ab2f..c80f9b7 100644
     Long_t  ExecuteMacro(const char* filename, EErrorCode* error = 0);
     void    RecursiveRemove(TObject* obj);
     Bool_t  IsErrorMessagesEnabled() const;
-@@ -261,6 +266,7 @@ public: // Public Interface
+@@ -271,6 +276,7 @@ public: // Public Interface
     virtual void   CallFunc_Exec(CallFunc_t* func, void* address) const;
     virtual void   CallFunc_Exec(CallFunc_t* func, void* address, TInterpreterValue& val) const;
     virtual void   CallFunc_ExecWithReturn(CallFunc_t* func, void* address, void* ret) const;
@@ -1088,7 +1109,7 @@ index 093ab2f..c80f9b7 100644
     virtual Long_t    CallFunc_ExecInt(CallFunc_t* func, void* address) const;
     virtual Long64_t  CallFunc_ExecInt64(CallFunc_t* func, void* address) const;
     virtual Double_t  CallFunc_ExecDouble(CallFunc_t* func, void* address) const;
-@@ -432,6 +438,38 @@ public: // Public Interface
+@@ -444,6 +450,38 @@ public: // Public Interface
     virtual const char* TypedefInfo_Name(TypedefInfo_t* tinfo) const;
     virtual const char* TypedefInfo_Title(TypedefInfo_t* tinfo) const;
  
@@ -1127,11 +1148,11 @@ index 093ab2f..c80f9b7 100644
     std::set<TClass*>& GetModTClasses() { return fModTClasses; }
  
     void HandleNewDecl(const void* DV, bool isDeserialized, std::set<TClass*>& modifiedClasses);
-diff --git core/meta/src/TClingCallFunc.cxx core/meta/src/TClingCallFunc.cxx
-index 293847d..87797e7 100644
---- core/meta/src/TClingCallFunc.cxx
-+++ core/meta/src/TClingCallFunc.cxx
-@@ -2727,6 +2727,17 @@ TClingCallFunc::exec_with_valref_return(void* address, cling::StoredValueRef* re
+diff --git a/core/meta/src/TClingCallFunc.cxx b/core/meta/src/TClingCallFunc.cxx
+index 225da67..8fac459 100644
+--- a/core/meta/src/TClingCallFunc.cxx
++++ b/core/meta/src/TClingCallFunc.cxx
+@@ -2808,6 +2808,17 @@ TClingCallFunc::exec_with_valref_return(void* address, cling::StoredValueRef* re
  }
  
  void
@@ -1149,7 +1170,7 @@ index 293847d..87797e7 100644
  TClingCallFunc::EvaluateArgList(const string& ArgList)
  {
     SmallVector<Expr*, 4> exprs;
-@@ -2826,6 +2837,20 @@ TClingCallFunc::ExecDouble(void* address)
+@@ -2907,6 +2918,20 @@ TClingCallFunc::ExecDouble(void* address)
  }
  
  void
@@ -1170,10 +1191,10 @@ index 293847d..87797e7 100644
  TClingCallFunc::ExecWithReturn(void* address, void* ret/*= 0*/)
  {
     IFacePtr();
-diff --git core/meta/src/TClingCallFunc.h core/meta/src/TClingCallFunc.h
+diff --git a/core/meta/src/TClingCallFunc.h b/core/meta/src/TClingCallFunc.h
 index 0a5c033..1d29a11 100644
---- core/meta/src/TClingCallFunc.h
-+++ core/meta/src/TClingCallFunc.h
+--- a/core/meta/src/TClingCallFunc.h
++++ b/core/meta/src/TClingCallFunc.h
 @@ -107,6 +107,9 @@ private:
     void exec(void* address, void* ret) const;
     void exec_with_valref_return(void* address,
@@ -1194,10 +1215,10 @@ index 0a5c033..1d29a11 100644
     void Exec(void* address, TInterpreterValue* interpVal = 0);
     long ExecInt(void* address);
     long long ExecInt64(void* address);
-diff --git core/meta/src/TClingMethodInfo.cxx core/meta/src/TClingMethodInfo.cxx
+diff --git a/core/meta/src/TClingMethodInfo.cxx b/core/meta/src/TClingMethodInfo.cxx
 index a8a6b28..2b97634 100644
---- core/meta/src/TClingMethodInfo.cxx
-+++ core/meta/src/TClingMethodInfo.cxx
+--- a/core/meta/src/TClingMethodInfo.cxx
++++ b/core/meta/src/TClingMethodInfo.cxx
 @@ -412,8 +412,10 @@ long TClingMethodInfo::ExtraProperty() const
     }
     long property = 0;
@@ -1211,10 +1232,10 @@ index a8a6b28..2b97634 100644
        property |= kIsConversion;
     } else if (llvm::isa<clang::CXXConstructorDecl>(fd)) {
        property |= kIsConstructor;
-diff --git core/meta/src/TEnum.cxx core/meta/src/TEnum.cxx
+diff --git a/core/meta/src/TEnum.cxx b/core/meta/src/TEnum.cxx
 index 63da79c..de1f145 100644
---- core/meta/src/TEnum.cxx
-+++ core/meta/src/TEnum.cxx
+--- a/core/meta/src/TEnum.cxx
++++ b/core/meta/src/TEnum.cxx
 @@ -18,19 +18,21 @@
  #include "TEnum.h"
  #include "TEnumConstant.h"
@@ -1241,10 +1262,10 @@ index 63da79c..de1f145 100644
  }
  
  //______________________________________________________________________________
-diff --git core/meta/src/TFunction.cxx core/meta/src/TFunction.cxx
+diff --git a/core/meta/src/TFunction.cxx b/core/meta/src/TFunction.cxx
 index a3f3c78..6f48c4e 100644
---- core/meta/src/TFunction.cxx
-+++ core/meta/src/TFunction.cxx
+--- a/core/meta/src/TFunction.cxx
++++ b/core/meta/src/TFunction.cxx
 @@ -222,6 +222,17 @@ const char *TFunction::GetMangledName() const
  }
  
@@ -1263,3 +1284,6 @@ index a3f3c78..6f48c4e 100644
  const char *TFunction::GetPrototype() const
  {
     // Returns the prototype of a function as defined by CINT, or 0 in
+-- 
+1.7.4.1
+
