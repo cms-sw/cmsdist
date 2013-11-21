@@ -1,0 +1,11 @@
+--- a/cint/reflex/python/genreflex/genreflex.py	2013-10-31 09:54:28.000000000 +0100
++++ a/cint/reflex/python/genreflex/genreflex.py	2013-11-21 15:25:53.917171645 +0100
+@@ -190,7 +190,7 @@
+       if o in ('-I', '-U', '-D', '-P', '-C') :
+         # escape quotes; we need to use " because of windows cmd
+         poseq = a.find('=')
+-        if poseq > 0 and a[poseq + 1] == '"' and a[-1] == '"' :
++        if poseq > 0 and (poseq+1>len(a)) and a[poseq + 1] == '"' and a[-1] == '"' :
+           a = a[0:poseq + 1] + '\\' + a[poseq+1:-1] + '\\"'
+         self.cppopt += '"' + o + a + '" '
+ #----------------------------------------------------------------------------------

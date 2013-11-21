@@ -31,7 +31,7 @@ Patch11: 0005-Remove-unnecessary-global-variable-and-lock
 Patch12: 0006-Fix-thread-safety-of-TGenCollectionProxy-s-iterator-
 Patch13: root-5.34.09-mic
 Patch14: root-5.34.09-mic-postconfig
-
+Patch15: root-5-genreflex
 
 Requires: gccxml gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl
 
@@ -80,6 +80,7 @@ Requires: freetype
 %endif
 %if "%mic" == "true"
 %patch13 -p1
+%patch15 -p1
 %endif
 
 # Delete these (irrelevant) files as the fits appear to confuse rpm on OSX
