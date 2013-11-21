@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 27.0
+### RPM cms cmssw-tool-conf 28.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -21,7 +21,6 @@ Requires: das-client-toolfile
 Requires: db4-toolfile
 Requires: dbs-client-toolfile
 Requires: dpm-toolfile
-Requires: elementtree-toolfile
 Requires: evtgenlhc-toolfile
 Requires: expat-toolfile
 Requires: fakesystem

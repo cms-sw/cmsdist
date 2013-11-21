@@ -11,6 +11,7 @@ Requires: cmssw-tool-conf
 %define useCmsTC        yes
 %define saveDeps        yes
 %define branch          CMSSW_7_0_X
+%define gitcommit       %{realversion}
 
 %if "%(case %realversion in (*_COVERAGE_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define branch		%(echo %realversion | sed -e 's|_COVERAGE_X.*|_X|')
@@ -45,6 +46,6 @@ Requires: cmssw-tool-conf
 %undefine runGlimpse
 %endif
 
-%define source1         git://github.com/cms-sw/cmssw.git?protocol=https&obj=%{branch}/%{realversion}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
+%define source1         git://github.com/cms-sw/cmssw.git?protocol=https&obj=%{branch}/%{gitcommit}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 
 ## IMPORT scram-project-build

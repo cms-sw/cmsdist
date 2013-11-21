@@ -1,8 +1,8 @@
 diff --git a/callgrind/global.h b/callgrind/global.h
-index 19065da..bd7d9e0 100644
+index d764e16..b71d15c 100644
 --- a/callgrind/global.h
 +++ b/callgrind/global.h
-@@ -116,7 +116,7 @@ struct _CommandLineOptions {
+@@ -113,7 +113,7 @@ struct _CommandLineOptions {
  
  /* Size of various buffers used for storing strings */
  #define FILENAME_LEN                    VKI_PATH_MAX

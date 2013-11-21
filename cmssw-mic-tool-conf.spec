@@ -26,7 +26,6 @@ Requires: zlib-toolfile
 Requires: libxml2-toolfile
 Requires: libjpg-toolfile
 Requires: libpng-toolfile
-Requires: elementtree-toolfile
 Requires: gccxml-toolfile
 Requires: freetype-toolfile
 Requires: systemtools
