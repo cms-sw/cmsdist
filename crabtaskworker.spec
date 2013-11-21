@@ -1,14 +1,13 @@
-### RPM cms crabtaskworker 3.3.0.pre7
+### RPM cms crabtaskworker 3.3.0.rc5
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define wmcver 0.9.82
-%define crabservertag 3.3.0.pre7
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
-Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{crabservertag}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
+Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
 
 Requires: python  dbs-client dls-client dbs3-client py2-pycurl py2-httplib2  condor
 BuildRequires: py2-sphinx
@@ -18,7 +17,8 @@ BuildRequires: py2-sphinx
 %setup -T -b 0 -n WMCore-%{wmcver}
 
 %build
-pwd
+touch $PWD/condor_config
+export CONDOR_CONFIG=$PWD/condor_config
 cd ../WMCore-%{wmcver}
 python setup.py build_system -s crabtaskworker
 PYTHONPATH=$PWD/build/lib:$PYTHONPATH
@@ -29,6 +29,8 @@ python setup.py build_system -s TaskWorker
 
 %install
 mkdir -p %i/etc/profile.d %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
+touch $PWD/condor_config
+export CONDOR_CONFIG=$PWD/condor_config
 cd ../WMCore-%{wmcver}
 python setup.py install_system -s  crabtaskworker --prefix=%i
 cd ../CRABServer-%{realversion}
