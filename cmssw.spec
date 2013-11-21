@@ -42,6 +42,7 @@ Requires: cmssw-tool-conf
 
 %if "%mic" == "true"
 %define toolconf        CMSSW_MIC_TOOL_CONF_ROOT
+%define preBuildCommand sed -i -e 's|__thread||' ../config/BuildFile.xml 
 %define prebuildtarget  echo_CXX; rm -f ../external/%cmsplatf/bin/python ; ln -s /usr/bin/python ../external/%cmsplatf/bin/python
 %undefine runGlimpse
 %endif
