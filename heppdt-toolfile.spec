@@ -17,6 +17,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/heppdt.xml
     <environment name="INCLUDE" default="$HEPPDT_BASE/include"/>
   </client>
   <runtime name="HEPPDT_PARAM_PATH" value="$HEPPDT_BASE"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 

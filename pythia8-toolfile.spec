@@ -17,6 +17,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pythia8.xml
     <environment name="INCLUDE" default="$PYTHIA8_BASE/include"/>
   </client>
   <runtime name="PYTHIA8DATA" value="$PYTHIA8_BASE/xmldoc"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="cxxcompiler"/>
   <use name="hepmc"/>
   <use name="pythia6"/>

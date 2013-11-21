@@ -19,6 +19,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rivet.xml
 <runtime name="PYTHONPATH" value="$RIVET_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
 <runtime name="RIVET_ANALYSIS_PATH" value="$RIVET_BASE/lib" type="path"/>
 <runtime name="PDFPATH" default="$RIVET_BASE/share" type="path"/>
+<runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+<use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 

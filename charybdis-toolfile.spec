@@ -16,6 +16,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/charybdis.xml
     <environment name="LIBDIR" default="$CHARYBDIS_BASE/lib"/>
     <environment name="INCLUDE" default="$CHARYBDIS_BASE/include"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="f77compiler"/>
   <use name="herwig"/>
   <use name="pythia6"/>

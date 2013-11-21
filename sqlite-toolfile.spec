@@ -17,6 +17,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sqlite.xml
     <environment name="INCLUDE" default="$SQLITE_BASE/include"/>
   </client>
   <runtime name="PATH" value="$BINDIR" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 

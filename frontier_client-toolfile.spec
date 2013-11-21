@@ -16,6 +16,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/frontier_client.xml
     <environment name="LIBDIR" default="$FRONTIER_CLIENT_BASE/lib"/>
   </client>
   <runtime name="FRONTIER_CLIENT" value="$FRONTIER_CLIENT_BASE/"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="zlib"/>
   <use name="openssl"/>
   <use name="expat"/>
