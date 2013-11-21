@@ -53,6 +53,7 @@ Requires: rivet-toolfile
 Requires: libhepml-toolfile
 Requires: mcdb-toolfile
 Requires: evtgenlhc-toolfile
+Requires: geant4data-toolfile
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull 
 

@@ -1,7 +1,7 @@
 ### RPM external icc composer_xe_2013
 ## NOCOMPILER
 ## INITENV CMD_SH  source /oplashare/sw/linux/intel_licence.sh
-## INITENV CMD_SH  source /oplashare/sw/linux/x86_64/intel/xe2013/composer_xe_2013/bin/compilervars.sh intel64
+## INITENV CMD_SH  source /oplashare/sw/linux/x86_64/intel/xe2013/composer_xe_2013_sp1.1.106/bin/compilervars.sh intel64
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 
 Source: none
