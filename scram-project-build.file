@@ -35,7 +35,7 @@ Requires: SCRAMV1
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-01-10
+%define configtag       V05-01-12
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -119,7 +119,12 @@ cd ..; mv cmssw-config-%(echo %{configtag} | sed 's/^.//') config
 
 cd %_builddir
 echo %{configtag} > %_builddir/config/config_tag
-%_builddir/config/updateConfig.pl -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} -a %cmsplatf
+%_builddir/config/updateConfig.pl -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} -a %cmsplatf \
+%if "%{?gitcommit:set}" == "set"
+  --keys PROJECT_GIT_HASH=%{gitcommit}
+%else
+  --keys PROJECT_GIT_HASH=%{realversion}
+%endif
 
 %{?PartialBootstrapPatch:%PartialBootstrapPatch}
 %{?patchsrc:%patchsrc}
