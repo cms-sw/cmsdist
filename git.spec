@@ -4,6 +4,7 @@
 ## INITENV SET GIT_TEMPLATE_DIR %{i}/share/git-core/templates
 ## INITENV SET GIT_SSL_CAINFO %{i}/share/ssl/certs/ca-bundle.crt
 
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 %define isDarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 Source0: https://github.com/git/git/archive/v%{realversion}.tar.gz
@@ -12,7 +13,12 @@ Patch1: git-1.8.3.1-no-symlink
 %define curl_tag curl-7_31_0
 Source1: https://raw.github.com/bagder/curl/%{curl_tag}/lib/mk-ca-bundle.pl
 
+
+%if "%mic" == "true"
+Requires: curl-host expat-host openssl-bootstrap zlib-bootstrap pcre-host
+%else
 Requires: curl expat openssl zlib pcre
+%endif
 
 # Fake provides for git add --interactive
 # The following are not avaialble on SLC and Darwin platforms by default
@@ -35,6 +41,13 @@ Provides: perl(Time::HiRes)
 %patch1 -p1
 
 %build
+%if "%mic" == "true"
+CURL_ROOT=$CURL_HOST_ROOT
+EXPAT_ROOT=$EXPAT_HOST_ROOT
+PCRE_ROOT=$PCRE_HOST_ROOT
+OPENSSL_ROOT=$OPENSSL_BOOTSTRAP_ROOT
+ZLIB_ROOT=$ZLIB_BOOTSTRAP_ROOT
+%endif
 make prefix=%{i} \
 %if %isDarwin
      NO_DARWIN_PORTS=1 \
@@ -62,6 +75,13 @@ chmod +x ./mk-ca-bundle.pl
 popd
 
 %install
+%if "%mic" == "true"
+CURL_ROOT=$CURL_HOST_ROOT
+EXPAT_ROOT=$EXPAT_HOST_ROOT
+PCRE_ROOT=$PCRE_HOST_ROOT
+OPENSSL_ROOT=$OPENSSL_BOOTSTRAP_ROOT
+ZLIB_ROOT=$ZLIB_BOOTSTRAP_ROOT
+%endif
 make prefix=%{i} \
 %if %isDarwin
      NO_DARWIN_PORTS=1 \
