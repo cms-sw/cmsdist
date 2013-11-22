@@ -53,6 +53,7 @@ Requires: libhepml-toolfile
 Requires: mcdb-toolfile
 Requires: evtgenlhc-toolfile
 Requires: geant4data-toolfile
+Requires: git-toolfile
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull 
 
