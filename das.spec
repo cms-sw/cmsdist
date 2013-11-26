@@ -36,24 +36,45 @@ mv -f init.tmp src/python/DAS/__init__.py
 python setup.py build
 
 # build DAS JSON maps out of DAS YML files
-cmd="python src/python/DAS/tools/das_drop_maps.py"
-dir="src/python/DAS/services/cms_maps/"
-map_file="$dir/das_maps.js"
-testbed_map_file="$dir/das_testbed_maps.js"
-rm -f $map_file
-export PYTHONPATH=$PYTHONPATH:$PWD/src/python
-for amap in `ls $dir/*.yml`
-do
-    $cmd --uri-map=$amap >> $map_file
-    $cmd --notation-map=$amap >> $map_file
-    $cmd --presentation-map=$amap >> $map_file
-done
-cat $map_file | grep -v "###" > $map_file.tmp
-rm -f $map_file
-mv $map_file.tmp $map_file
-rm -f $testbed_map_file
-cat $map_file | sed "s/cmsweb.cern.ch/cmsweb-testbed.cern.ch/g" > $testbed_map_file
-rm -f $dir/*.yml
+das_maps()
+{
+    cmd="python src/python/DAS/tools/das_drop_maps.py"
+    dir="src/python/DAS/services/cms_maps/"
+    tdir=/tmp/dasmaps
+    rm -rf $tdir
+    mkdir -p $tdir
+    cp $dir/*.yml $tdir
+    if [ "$1" == "production" ]; then
+        map_file="$dir/das_maps.js"
+    else
+        for amap in `ls $tdir/*.yml`
+        do
+            /bin/cat $amap | sed "s/cmsweb.cern.ch/cmsweb-testbed.cern.ch/g" > $amap.tmp
+            rm -f $amap
+            mv $amap.tmp $amap
+        done
+        map_file="$dir/das_testbed_maps.js"
+    fi
+    rm -f $map_file
+    export PYTHONPATH=$PYTHONPATH:$PWD/src/python
+    for amap in `ls $tdir/*.yml`
+    do
+        $cmd --uri-map=$amap >> $map_file
+        $cmd --notation-map=$amap >> $map_file
+        $cmd --presentation-map=$amap >> $map_file
+    done
+    /bin/cat $map_file | grep -v "###" > $map_file.tmp
+    rm -f $map_file
+    mv $map_file.tmp $map_file
+    rm -rf $tdir
+}
+
+# generate production DAS maps
+das_maps "production"
+# generate pre-production DAS maps
+das_maps "pre-production"
+# clean-up DAS YML files
+rm -f src/python/DAS/services/cms_maps/*.yml
 rm -rf src/python/DAS/services/maps
 
 # build DAS sphinx documentation
