@@ -54,6 +54,9 @@ Requires: mcdb-toolfile
 Requires: evtgenlhc-toolfile
 Requires: geant4data-toolfile
 Requires: git-toolfile
+Requires: cascade-toolfile
+Requires: sherpa-toolfile
+Requires: fftw3-toolfile
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull 
 
