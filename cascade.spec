@@ -1,5 +1,5 @@
 ### RPM external cascade 2.2.04
-
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 Patch0: cascade-2.2.0-nomanual
 Patch1: cascade-2.2.04-getenv
@@ -7,6 +7,9 @@ Patch1: cascade-2.2.04-getenv
 # executable, since it would use the wrong symbol in anycase.
 Patch2: cascade-2.2.04-drop-dcasrn
 Requires: lhapdf pythia6
+%if "%mic" == "true"
+Requires: icc
+%endif
 
 %define keep_archives true
 
@@ -27,6 +30,12 @@ case %cmsplatf in
   slc5_*_gcc4[0123]*)
     F77="`which gfortran`"
     PLATF_CONFIG_OPTS="--enable-shared"
+  ;;
+  *_mic_*)
+    F77="ifort -fPIC -mmic"
+    PLATF_CONFIG_OPTS="--enable-static --disable-shared --host=x86_64-k1om-linux"
+    LIBS="-lifcore -lifport"
+    sed -i -e 's|-ffixed-line-length||g' configure.ac
   ;;
   *)
     F77="`which gfortran` -fPIC"
