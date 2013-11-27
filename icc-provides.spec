@@ -4,6 +4,7 @@
 Source: none
 %if "%mic" == "true"
 Provides: libifport.so.5()(64bit)
+Provides: libirc.so()(64bit)
 %endif
 
 %prep
