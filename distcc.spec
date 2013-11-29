@@ -19,3 +19,5 @@ ln -sf distcc %i/bin/c++
 ln -sf distcc %i/bin/cc
 ln -sf distcc %i/bin/gcc
 ln -sf distcc %i/bin/gfortran
+%post
+%{relocateConfig}bin/pump
