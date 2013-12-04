@@ -54,6 +54,5 @@ make %makeprocesses VERBOSE=1
 cd ../build
 make install
 
-# Move headers from ../include/Geant4 to ../include
-tar -C %i/include/Geant4 -cf - . | tar -C %i/include -xf -
-rm -rf %i/include/Geant4
+%post
+%{relocateConfig}lib/Geant4-*/Geant4Config.cmake

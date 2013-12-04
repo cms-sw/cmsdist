@@ -41,7 +41,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4core.xml
     <environment name="GEANT4CORE_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$GEANT4CORE_BASE/lib"/>
     <environment name="G4LIB" value="$LIBDIR"/>
-    <environment name="INCLUDE" default="$GEANT4CORE_BASE/include"/>
+    <environment name="INCLUDE" default="$GEANT4CORE_BASE/include/Geant4"/>
   </client>
   <flags cppdefines="GNU_GCC G4V9"/>
   <use name="clhep"/>

@@ -1,4 +1,4 @@
-### RPM cms fwlite-tool-conf 8.3
+### RPM cms fwlite-tool-conf 9.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -14,7 +14,6 @@ Requires: castor-toolfile
 Requires: clhep-toolfile
 Requires: db4-toolfile
 Requires: dcap-toolfile
-Requires: elementtree-toolfile
 Requires: expat-toolfile
 Requires: fakesystem
 Requires: fftw3-toolfile
