@@ -24,7 +24,7 @@ find . -name configure | xargs perl -p -i -e 's/-no-cpp-precomp//'
 
 ./configure CPPFLAGS=-I$ZLIB_ROOT/include LDFLAGS=-L$ZLIB_ROOT/lib \
   --prefix=%i %flavour --without-javac --enable-shared-zlib \
-  --with-ssl=$OPENSSL_ROOT --enable-dynamic-ssl-lib
+  --with-ssl=$OPENSSL_ROOT --enable-dynamic-ssl-lib --without-termcap
 make
 
 %install
