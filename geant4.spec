@@ -9,6 +9,7 @@ Requires: expat
 Requires: xerces-c
 
 Patch0: geant4-10.0-no-banner
+Patch1: geant4-10.0-dynamic-TLS
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -18,6 +19,7 @@ Patch0: geant4-10.0-no-banner
 %setup -n %{n}
 
 %patch0 -p1
+%patch1 -p1
 
 %build
 
