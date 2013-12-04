@@ -1,0 +1,23 @@
+--- SConstruct.orig     2013-10-30 14:41:53.000000000 +0100
++++ SConstruct  2013-10-30 14:43:52.000000000 +0100
+@@ -308,7 +308,8 @@
+
+                    PCRE_VERSION='8.30',
+                    CONFIGUREDIR = '#' + scons_data_dir + '/sconf_temp',
+-                   CONFIGURELOG = '#' + scons_data_dir + '/config.log'
++                   CONFIGURELOG = '#' + scons_data_dir + '/config.log',
++                   ENV = os.environ
+                    )
+
+ # This could be 'if solaris', but unfortuantely that variable hasn't been set yet.
+@@ -709,8 +710,9 @@ if nix:
+                          "-Wno-unknown-pragmas",
+                          "-Winvalid-pch"] )
+     # env.Append( " -Wconversion" ) TODO: this doesn't really work yet
++
++    env.Append( CCFLAGS=["-Werror", "-pipe", "-Wno-unused-local-typedefs"] )
+     if linux:
+-        env.Append( CCFLAGS=["-Werror", "-pipe"] )
+         if not has_option('clang'):
+             env.Append( CCFLAGS=["-fno-builtin-memcmp"] ) # glibc's memcmp is faster than gcc's
+
