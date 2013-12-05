@@ -1,13 +1,12 @@
-### RPM cms dbs3-client 3.1.7c
+### RPM cms dbs3-client 3.1.8
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 ## INITENV SET DBS3_CLIENT_ROOT %i/
 ## INITENV ALIAS dbs python $DBS3_CLIENT_ROOT/bin/dbs.py
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define cvstag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
-%define svnserver svn://svn.cern.ch/reps/CMSDMWM
-Source0: %svnserver/DBS/tags/%cvstag?scheme=svn+ssh&strategy=export&module=DBS&output=/%{n}.tar.gz
+%define tag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
+Source0: git://github.com/dmwm/DBS.git?obj=master/%{tag}&export=DBS&output=/%{n}.tar.gz
 Requires: python py2-cjson dbs3-pycurl-client
 BuildRequires: py2-sphinx
 
