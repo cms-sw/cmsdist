@@ -1,107 +1,8 @@
-From e6268c9d4aab2b09710efe96bc8caf52ffc934ac Mon Sep 17 00:00:00 2001
-From: David Abdurachmanov <David.Abdurachmanov@cern.ch>
-Date: Thu, 21 Nov 2013 14:48:39 +0100
-Subject: [PATCH] ROOT6 CMS Reflex replacement (not official)
-
-Signed-off-by: David Abdurachmanov <David.Abdurachmanov@cern.ch>
----
- config/Makefile.linuxx8664gcc      |    2 +-
- core/meta/inc/TDictionary.h        |    3 +-
- core/meta/inc/TEnum.h              |    5 +-
- core/meta/inc/TFunction.h          |    1 +
- core/meta/inc/TInterpreter.h       |   50 +++
- core/meta/src/TCling.cxx           |  809 +++++++++++++++++++++++++++++++++++-
- core/meta/src/TCling.h             |   40 ++-
- core/meta/src/TClingCallFunc.cxx   |   25 ++
- core/meta/src/TClingCallFunc.h     |    6 +
- core/meta/src/TClingMethodInfo.cxx |    6 +-
- core/meta/src/TEnum.cxx            |   10 +-
- core/meta/src/TFunction.cxx        |   11 +
- 12 files changed, 953 insertions(+), 15 deletions(-)
-
-diff --git a/config/Makefile.linuxx8664gcc b/config/Makefile.linuxx8664gcc
-index 7a87d62..b8c8d35 100644
---- a/config/Makefile.linuxx8664gcc
-+++ b/config/Makefile.linuxx8664gcc
-@@ -4,7 +4,7 @@
- 
- PLATFORM      = linux
- 
--DEBUGFLAGS    = -g
-+DEBUGFLAGS    = -g -gdwarf-2 -O0
- #DEBUGFLAGS    = -gstabs
- OPTFLAGS      = -O2
- # Optional compiler options for gcc >= 3.4.0
-diff --git a/core/meta/inc/TDictionary.h b/core/meta/inc/TDictionary.h
-index a02ddae..9b10794 100644
---- a/core/meta/inc/TDictionary.h
-+++ b/core/meta/inc/TDictionary.h
-@@ -122,7 +122,8 @@ enum EFunctionProperty {
- */
-    kIsConstructor = 0x00000001,
-    kIsConversion  = 0x00000002,
--   kIsDestructor  = 0x00000004
-+   kIsDestructor  = 0x00000004,
-+   kIsOperator    = 0x00000008
- };
- 
- enum EClassProperty {
-diff --git a/core/meta/inc/TEnum.h b/core/meta/inc/TEnum.h
-index 160bc1b..4124599 100644
---- a/core/meta/inc/TEnum.h
-+++ b/core/meta/inc/TEnum.h
-@@ -30,6 +30,7 @@
- #include "TString.h"
- #endif
- 
-+class TClass;
- class TEnumConstant;
- 
- class TEnum : public TNamed {
-@@ -37,14 +38,16 @@ class TEnum : public TNamed {
- private:
-    THashList fConstantList;     //list of constants the enum type
-    void*     fInfo;             //interpreter implementation provided declaration
-+   TClass*   fClass;            //owning class
- 
- public:
- 
-    TEnum(): fInfo(0) {}
--   TEnum(const char* name, bool isGlobal, void* info);
-+   TEnum(const char* name, bool isGlobal, void* info, TClass* cls);
-    virtual ~TEnum();
- 
-    void AddConstant(TEnumConstant* constant);
-+   TClass* GetClass() const { return fClass; }
-    const TSeqCollection* GetConstants() const { return &fConstantList; }
-    const TEnumConstant* GetConstant(const char* name) const {
-       return (TEnumConstant*) fConstantList.FindObject(name);
-diff --git a/core/meta/inc/TFunction.h b/core/meta/inc/TFunction.h
-index 7e83739..2e4261c 100644
---- a/core/meta/inc/TFunction.h
-+++ b/core/meta/inc/TFunction.h
-@@ -47,6 +47,7 @@ public:
-    virtual            ~TFunction();
-    virtual TObject    *Clone(const char *newname="") const;
-    virtual const char *GetMangledName() const;
-+   virtual const char *GetName() const;
-    virtual const char *GetPrototype() const;
-    const char         *GetSignature();
-    const char         *GetReturnTypeName() const;
-diff --git a/core/meta/inc/TInterpreter.h b/core/meta/inc/TInterpreter.h
-index 579a44c..67d59f6 100644
---- a/core/meta/inc/TInterpreter.h
-+++ b/core/meta/inc/TInterpreter.h
-@@ -32,6 +32,8 @@
- #include "TMethodCall.h"
- #endif
- 
-+#include <vector>
-+
- class TClass;
- class TEnv;
- class TFunction;
-@@ -39,6 +41,13 @@ class TInterpreterValue;
+diff --git core/meta/inc/TInterpreter.h core/meta/inc/TInterpreter.h
+index da22af6..1d3741c 100644
+--- core/meta/inc/TInterpreter.h
++++ core/meta/inc/TInterpreter.h
+@@ -42,6 +42,13 @@ class TInterpreterValue;
  class TMethod;
  class TObjArray;
  class TVirtualMutex;
@@ -115,7 +16,7 @@ index 579a44c..67d59f6 100644
  
  R__EXTERN TVirtualMutex *gInterpreterMutex;
  
-@@ -89,7 +98,12 @@ public:
+@@ -94,6 +101,9 @@ public:
     TInterpreter(const char *name, const char *title = "Generic Interpreter");
     virtual ~TInterpreter() { }
  
@@ -123,28 +24,9 @@ index 579a44c..67d59f6 100644
 +   ROOT::TMetaUtils::TNormalizedCtxt *GetNormalizedCtxt() const { return 0; }
 +
     virtual void     AddIncludePath(const char *path) = 0;
-+   virtual void    *SetAutoLoadCallBack(void* /*cb*/) { return 0; }
-+   virtual void    *GetAutoLoadCallBack() const { return 0; }
-    virtual Int_t    AutoLoad(const char *classname) = 0;
-    virtual Int_t    AutoLoad(const type_info& typeinfo) = 0;
-    virtual void     ClearFileBusy() = 0;
-@@ -163,6 +177,7 @@ public:
-    virtual void     Execute(const char *function, const char *params, int *error = 0) = 0;
-    virtual void     Execute(TObject *obj, TClass *cl, const char *method, const char *params, int *error = 0) = 0;
-    virtual void     Execute(TObject *obj, TClass *cl, TMethod *method, TObjArray *params, int *error = 0) = 0;
-+   virtual void     ExecuteWithArgsAndReturn(TMethod *method, void* address, const std::vector<void*>& args = std::vector<void*>(), void* ret= 0) const = 0;
-    virtual Long_t   ExecuteMacro(const char *filename, EErrorCode *error = 0) = 0;
-    virtual Bool_t   IsErrorMessagesEnabled() const = 0;
-    virtual Bool_t   SetErrorMessages(Bool_t enable = kTRUE) = 0;
-@@ -223,6 +238,7 @@ public:
-    virtual void   CallFunc_Exec(CallFunc_t * /* func */, void * /* address */) const {;}
-    virtual void   CallFunc_Exec(CallFunc_t * /* func */, void * /* address */, TInterpreterValue& /* val */) const {;}
-    virtual void   CallFunc_ExecWithReturn(CallFunc_t * /* func */, void * /* address */, void * /* ret */) const {;}
-+   virtual void   CallFunc_ExecWithArgsAndReturn(CallFunc_t * /* func */, void * /* address */, const std::vector<void*>& /* args */ = std::vector<void*>(), void * /* ret */ = 0) const {}
-    virtual Long_t    CallFunc_ExecInt(CallFunc_t * /* func */, void * /* address */) const {return 0;}
-    virtual Long64_t  CallFunc_ExecInt64(CallFunc_t * /* func */, void * /* address */) const {return 0;}
-    virtual Double_t  CallFunc_ExecDouble(CallFunc_t * /* func */, void * /* address */) const {return 0;}
-@@ -396,6 +412,40 @@ public:
+    virtual void    *SetAutoLoadCallBack(void* /*cb*/) { return 0; }
+    virtual void    *GetAutoLoadCallBack() const { return 0; }
+@@ -405,6 +415,42 @@ public:
     virtual const char *TypedefInfo_Name(TypedefInfo_t * /* tinfo */) const {return 0;}
     virtual const char *TypedefInfo_Title(TypedefInfo_t * /* tinfo */) const {return 0;}
  
@@ -164,6 +46,7 @@ index 579a44c..67d59f6 100644
 +   virtual void Type_Init(void* /*obj*/, const std::type_info& /*ti*/) const {}
 +   virtual void Type_InitWithTypeInfoName(void* /*obj*/, const char* /*name*/) const {}
 +   virtual bool Type_IsAbstract(void* /*obj*/) const { return false; }
++   virtual bool Type_IsArray(void* /*obj*/) const { return false; }
 +   virtual bool Type_IsClass(void* /*obj*/) const { return false; }
 +   virtual bool Type_IsConst(void* /*obj*/) const { return false; }
 +   virtual bool Type_IsDynamicClass(void* /*obj*/) const { return false; }
@@ -179,77 +62,34 @@ index 579a44c..67d59f6 100644
 +   virtual bool Type_IsVirtual(void* /*obj*/) const { return false; }
 +   virtual std::string Type_QualifiedName(void* /*obj*/) const { return ""; }
 +   virtual unsigned long Type_Size(void* /*obj*/) const { return 0UL; }
++   virtual unsigned long Type_ArraySize(void* /*obj*/) const { return 0UL; }
 +   virtual TType* Type_ToType(void* /*obj*/) const { return 0; }
 +   virtual const std::type_info* Type_TypeInfo(void* /*obj*/) const { return 0; }
 +
     static TInterpreter *Instance();
  
     ClassDef(TInterpreter,0)  //ABC defining interface to generic interpreter
-diff --git a/core/meta/src/TCling.cxx b/core/meta/src/TCling.cxx
-index 9165e53..1423d1a 100644
---- a/core/meta/src/TCling.cxx
-+++ b/core/meta/src/TCling.cxx
-@@ -106,9 +106,11 @@
+diff --git core/meta/src/TCling.cxx core/meta/src/TCling.cxx
+index fa922f7..209cf97 100644
+--- core/meta/src/TCling.cxx
++++ core/meta/src/TCling.cxx
+@@ -65,6 +65,7 @@
+ 
+ #include "clang/AST/ASTContext.h"
+ #include "clang/AST/Decl.h"
++#include "clang/AST/DeclCXX.h"
+ #include "clang/AST/DeclarationName.h"
+ #include "clang/AST/GlobalDecl.h"
+ #include "clang/AST/RecordLayout.h"
+@@ -105,6 +106,7 @@
+ #include <stdexcept>
  #include <stdint.h>
  #include <fstream>
++#include <sstream>
  #include <string>
-+#include <typeinfo>
+ #include <typeinfo>
  #include <utility>
- #include <vector>
- 
-+
- #include <cxxabi.h>
- #include <limits.h>
- #include <stdio.h>
-@@ -157,6 +159,8 @@ using namespace ROOT;
- 
- R__EXTERN int optind;
- 
-+static void* fgAutoLoadCallBack = 0;
-+
- // The functions are used to bridge cling/clang/llvm compiled with no-rtti and
- // ROOT (which uses rtti)
- 
-@@ -242,7 +246,7 @@ void TCling::HandleEnumDecl(const clang::Decl* D, bool isGlobal, TClass *cl) con
-    const char* name = buf.c_str();
- 
-    // Create the enum type.
--   TEnum* enumType = new TEnum(name, false /*!global*/, &D);
-+   TEnum* enumType = new TEnum(name, false /*!global*/, &D, cl);
-    // Check TEnum is created.
-    if (!enumType) {
-       Error ("HandleEnumDecl", "The enum type %s was not created.", name);
-@@ -503,10 +507,29 @@ extern "C" void DestroyInterpreter(TInterpreter *interp)
-    delete interp;
- }
- 
-+void* TCling::SetAutoLoadCallBack(void* cb)
-+{
-+   void* prev = fgAutoLoadCallBack;
-+   fgAutoLoadCallBack = cb;
-+   return prev;
-+}
-+
-+void* TCling::GetAutoLoadCallBack() const
-+{
-+   return fgAutoLoadCallBack;
-+}
-+
- // Load library containing specified class. Returns 0 in case of error
- // and 1 in case if success.
- extern "C" int TCling__AutoLoadCallback(const char* className)
- {
-+   if (fgAutoLoadCallBack) {
-+      typedef int (*AutoLoadCallBack_t)(const char*);
-+      int success = (*(AutoLoadCallBack_t)fgAutoLoadCallBack)(className);
-+      if (success) {
-+         return success;
-+      }
-+   }
-    return ((TCling*)gCling)->AutoLoad(className);
- }
- 
-@@ -949,6 +972,12 @@ TCling::TCling(const char *name, const char *title)
+@@ -949,6 +951,12 @@ TCling::TCling(const char *name, const char *title)
  
  
  //______________________________________________________________________________
@@ -262,62 +102,7 @@ index 9165e53..1423d1a 100644
  TCling::~TCling()
  {
     // Destroy the interpreter interface.
-@@ -3243,19 +3272,33 @@ void TCling::Execute(TObject* obj, TClass* cl, TMethod* method,
-    // 'obj' is unlikely to be the start of the object (as described by IsA()),
-    // hence gInterpreter->Execute will improperly correct the offset.
-    void* addr = cl->DynamicCast(TObject::Class(), obj, kFALSE);
-+   Long_t offset = 0L;
-    TClingCallFunc func(fInterpreter);
-    TClingMethodInfo *minfo = (TClingMethodInfo*)method->fInfo;
-    func.Init(minfo);
-    func.SetArgs(listpar);
--   // Now calculate the 'this' pointer offset for the method
--   // when starting from the class described by cl.
--   const CXXMethodDecl * mdecl = dyn_cast<CXXMethodDecl>(minfo->GetMethodDecl());
--   Long_t offset = ((TClingClassInfo*)cl->GetClassInfo())->GetOffset(mdecl);
-    void* address = (void*)((Long_t)addr + offset);
-    func.Exec(address);
- }
- 
- //______________________________________________________________________________
-+void TCling::ExecuteWithArgsAndReturn(TMethod* method, void* address,
-+                                      const std::vector<void*>& args
-+                                      /*= std::vector()*/,
-+                                      void* ret/*= 0*/) const
-+{
-+   if (!method) {
-+      Error("ExecuteWithArgsAndReturn", "No method was defined");
-+      return;
-+   }
-+   R__LOCKGUARD2(gInterpreterMutex);
-+   TClingCallFunc func(fInterpreter);
-+   TClingMethodInfo* minfo = (TClingMethodInfo*) method->fInfo;
-+   func.Init(minfo);
-+   func.ExecWithArgsAndReturn(address, args, ret);
-+}
-+
-+//______________________________________________________________________________
- Long_t TCling::ExecuteMacro(const char* filename, EErrorCode* error)
- {
-    // Execute a cling macro.
-@@ -4561,6 +4604,16 @@ void TCling::CallFunc_ExecWithReturn(CallFunc_t* func, void* address, void* ret)
- }
- 
- //______________________________________________________________________________
-+void TCling::CallFunc_ExecWithArgsAndReturn(CallFunc_t* func, void* address,
-+                                            const std::vector<void*>& args
-+                                            /*=std::vector<void*>()*/,
-+                                            void* ret/*=0*/) const
-+{
-+   TClingCallFunc* f = (TClingCallFunc*) func;
-+   f->ExecWithArgsAndReturn(address, args, ret);
-+}
-+
-+//______________________________________________________________________________
- Long_t TCling::CallFunc_ExecInt(CallFunc_t* func, void* address) const
- {
-    TClingCallFunc* f = (TClingCallFunc*) func;
-@@ -5884,3 +5937,749 @@ const char* TCling::TypedefInfo_Title(TypedefInfo_t* tinfo) const
+@@ -5926,3 +5934,943 @@ const char* TCling::TypedefInfo_Title(TypedefInfo_t* tinfo) const
     TClingTypedefInfo* TClinginfo = (TClingTypedefInfo*) tinfo;
     return TClinginfo->Title();
  }
@@ -364,6 +149,9 @@ index 9165e53..1423d1a 100644
 +   cling::Interpreter* fInterp;
 +   const std::type_info* fTypeInfo;
 +   clang::QualType fType;
++private:
++   void* compile_wrapper(const std::string& wrapper_name,
++                         const std::string& wrapper) const;
 +public:
 +   virtual ~TType();
 +   TType();
@@ -383,6 +171,7 @@ index 9165e53..1423d1a 100644
 +   void Init(const std::type_info& ti);
 +   void InitWithTypeInfoName(const char* name);
 +   bool IsAbstract() const;
++   bool IsArray() const;
 +   bool IsClass() const;
 +   bool IsConst() const;
 +   bool IsDynamicClass() const;
@@ -398,6 +187,7 @@ index 9165e53..1423d1a 100644
 +   bool IsVirtual() const;
 +   std::string QualifiedName() const;
 +   unsigned long Size() const;
++   unsigned long ArraySize() const;
 +   TType* ToType() const;
 +   const std::type_info* TypeInfo() const;
 +};
@@ -456,6 +246,102 @@ index 9165e53..1423d1a 100644
 +TType::operator bool() const
 +{
 +  return fInterp && !fType.isNull();
++}
++
++void*
++TType::compile_wrapper(const string& wrapper_name,
++                       const string& wrapper) const
++{
++  const FunctionDecl* WFD = 0;
++  {
++    LangOptions& LO = const_cast<LangOptions&>(
++                        fInterp->getCI()->getLangOpts());
++    bool savedAccessControl = LO.AccessControl;
++    LO.AccessControl = 0;
++    cling::Transaction* T = 0;
++    cling::Interpreter::CompilationResult CR = fInterp->declare(wrapper, &T);
++    LO.AccessControl = savedAccessControl;
++    if (CR != cling::Interpreter::kSuccess) {
++      Error("TType::CompileWrapper", "Wrapper compile failed!");
++      return 0;
++    }
++    for (cling::Transaction::const_iterator I = T->decls_begin(),
++         E = T->decls_end(); I != E; ++I) {
++      if (I->m_Call != cling::Transaction::kCCIHandleTopLevelDecl) {
++        continue;
++      }
++      const FunctionDecl* D = dyn_cast<FunctionDecl>(*I->m_DGR.begin());
++      if (!isa<TranslationUnitDecl>(D->getDeclContext())) {
++        continue;
++      }
++      DeclarationName N = D->getDeclName();
++      const IdentifierInfo* II = N.getAsIdentifierInfo();
++      if (!II) {
++        continue;
++      }
++      if (II->getName() == wrapper_name) {
++        WFD = D;
++        break;
++      }
++    }
++    if (!WFD) {
++      Error("TType::compile_wrapper",
++            "Wrapper compile did not return a function decl!");
++      return 0;
++    }
++  }
++  //
++  //  Lookup the new wrapper declaration.
++  //
++  string MN;
++  GlobalDecl GD;
++  if (const CXXConstructorDecl* Ctor =
++      llvm::dyn_cast<CXXConstructorDecl>(WFD)) {
++    GD = GlobalDecl(Ctor, Ctor_Complete);
++  }
++  else if (const CXXDestructorDecl* Dtor =
++      llvm::dyn_cast<CXXDestructorDecl>(WFD)) {
++    GD = GlobalDecl(Dtor, Dtor_Deleting);
++  }
++  else {
++    GD = GlobalDecl(WFD);
++  }
++  cling::utils::Analyze::maybeMangleDeclName(GD, MN);
++  const NamedDecl* WND = llvm::dyn_cast<NamedDecl>(WFD);
++  if (!WND) {
++    Error("TType::make_wrapper", "Wrapper named decl is null!");
++    return 0;
++  }
++  {
++    //WND->dump();
++    //fInterp->getModule()->dump();
++    //gROOT->ProcessLine(".printIR");
++  }
++  //
++  //  Get the wrapper function pointer
++  //  from the ExecutionEngine (the JIT).
++  //
++  const llvm::GlobalValue* GV = fInterp->getModule()->getNamedValue(MN);
++  if (!GV) {
++    Error("TType::make_wrapper",
++          "Wrapper function name not found in Module!");
++    return 0;
++  }
++  llvm::ExecutionEngine* EE = fInterp->getExecutionEngine();
++  void* F = EE->getPointerToGlobalIfAvailable(GV);
++  if (!F) {
++    //
++    //  Wrapper function not yet codegened by the JIT,
++    //  force this to happen now.
++    //
++    F = EE->getPointerToGlobal(GV);
++    if (!F) {
++      Error("TType::make_wrapper", "Wrapper function has no "
++            "mapping in Module after forced codegen!");
++      return 0;
++    }
++  }
++  return F;
 +}
 +
 +bool
@@ -614,6 +500,8 @@ index 9165e53..1423d1a 100644
 +   return 0;
 +}
 +
++static unsigned long long ttype_wrap_cnt = 0;
++
 +void
 +TType::Init(QualType QT)
 +{
@@ -623,9 +511,27 @@ index 9165e53..1423d1a 100644
 +   PrintingPolicy Policy(Context.getPrintingPolicy());
 +   string name;
 +   QT.getAsStringInternal(name, Policy);
-+   string typeid_expr("&typeid(");
-+   typeid_expr += name;
-+   typeid_expr += ");";
++   string typeid_wrap_name("_ttype_wrap_");
++   {
++      ostringstream buf;
++      buf << ttype_wrap_cnt;
++      ++ttype_wrap_cnt;
++      typeid_wrap_name += buf.str();
++   }
++   string typeid_wrapper("void*\n");
++   typeid_wrapper += typeid_wrap_name;
++   typeid_wrapper += "() {\n";
++   typeid_wrapper += "  return (void*) &typeid(";
++   typeid_wrapper += name;
++   typeid_wrapper += ");\n}\n";
++   void* f = compile_wrapper(typeid_wrap_name, typeid_wrapper);
++   if (!f) {
++      Error("TType::Init(QualType)", "Unable to compile wrapper!\n%s",
++            typeid_wrapper.c_str());
++   }
++   typedef void* (*F)(void);
++   fTypeInfo = (const std::type_info*) (*(F)f)();
++#if 0
 +   cling::StoredValueRef valRef;
 +   cling::Interpreter::CompilationResult cr = fInterp->evaluate(typeid_expr, valRef);
 +   if (cr != cling::Interpreter::kSuccess) {
@@ -638,6 +544,8 @@ index 9165e53..1423d1a 100644
 +      return;
 +   }
 +   fTypeInfo = (const std::type_info*) valRef.get().simplisticCastAs<unsigned long>();
++#endif // 0
++   //--
 +}
 +
 +void
@@ -655,6 +563,27 @@ index 9165e53..1423d1a 100644
 +      if (gDebug > 0) {
 +      }
 +   }
++   string typeid_wrap_name("_ttype_wrap_");
++   {
++      ostringstream buf;
++      buf << ttype_wrap_cnt;
++      ++ttype_wrap_cnt;
++      typeid_wrap_name += buf.str();
++   }
++   string typeid_wrapper("void*\n");
++   typeid_wrapper += typeid_wrap_name;
++   typeid_wrapper += "() {\n";
++   typeid_wrapper += "  return (void*) &typeid(";
++   typeid_wrapper += name;
++   typeid_wrapper += ");\n}\n";
++   void* f = compile_wrapper(typeid_wrap_name, typeid_wrapper);
++   if (!f) {
++      Error("TType::Init(QualType)", "Unable to compile wrapper!\n%s",
++            typeid_wrapper.c_str());
++   }
++   typedef void* (*F)(void);
++   fTypeInfo = (const std::type_info*) (*(F)f)();
++#if 0
 +   string typeid_expr("&typeid(");
 +   typeid_expr += name;
 +   typeid_expr += ");";
@@ -670,6 +599,8 @@ index 9165e53..1423d1a 100644
 +      return;
 +   }
 +   fTypeInfo = (const std::type_info*) valRef.get().simplisticCastAs<unsigned long>();
++#endif // 0
++   //--
 +}
 +
 +void
@@ -708,6 +639,18 @@ index 9165e53..1423d1a 100644
 +         Ty->getAs<InjectedClassNameType>()) {
 +      const CXXRecordDecl* CRD = ICNTy->getDecl();
 +      return CRD->isAbstract();
++   }
++   return false;
++}
++
++bool
++TType::IsArray() const
++{
++   // Note: Only c++03 array types for now.
++   ASTContext& Context = fInterp->getCI()->getASTContext();
++   const Type* Ty = Context.getAsArrayType(fType.getCanonicalType());
++   if (Ty) {
++      return true;
 +   }
 +   return false;
 +}
@@ -848,6 +791,30 @@ index 9165e53..1423d1a 100644
 +   return ret;
 +}
 +
++unsigned long
++TType::ArraySize() const
++{
++   // For now we support only ConstantArrayType, and not
++   // VariableArrayType (c++11 only).
++   if (!IsValid()) {
++      return 0;
++   }
++   ASTContext& Context = fInterp->getCI()->getASTContext();
++   const Type* Ty = Context.getAsArrayType(fType.getCanonicalType());
++   if (!Ty) {
++      // Not an array.
++      return 0;
++   }
++   const ConstantArrayType* CAryTy =
++      Context.getAsConstantArrayType(fType.getCanonicalType());
++   if (!CAryTy) {
++      // Not a constant array.
++      return 0;
++   }
++   unsigned long ret = Context.getConstantArrayElementCount(CAryTy);
++   return ret;
++}
++
 +TType*
 +TType::ToType() const
 +{
@@ -965,6 +932,12 @@ index 9165e53..1423d1a 100644
 +   return p->IsAbstract();
 +}
 +
++bool TCling::Type_IsArray(void* obj) const
++{
++   TType* p = (TType*) obj;
++   return p->IsArray();
++}
++
 +bool TCling::Type_IsClass(void* obj) const
 +{
 +   TType* p = (TType*) obj;
@@ -1055,6 +1028,12 @@ index 9165e53..1423d1a 100644
 +   return p->Size();
 +}
 +
++unsigned long TCling::Type_ArraySize(void* obj) const
++{
++   TType* p = (TType*) obj;
++   return p->ArraySize();
++}
++
 +TType* TCling::Type_ToType(void* obj) const
 +{
 +   TType* p = (TType*) obj;
@@ -1067,11 +1046,11 @@ index 9165e53..1423d1a 100644
 +   return p->TypeInfo();
 +}
 +
-diff --git a/core/meta/src/TCling.h b/core/meta/src/TCling.h
-index ed322a1..8e9a410 100644
---- a/core/meta/src/TCling.h
-+++ b/core/meta/src/TCling.h
-@@ -61,6 +61,7 @@ class THashTable;
+diff --git core/meta/src/TCling.h core/meta/src/TCling.h
+index 4fbad21..6d71a16 100644
+--- core/meta/src/TCling.h
++++ core/meta/src/TCling.h
+@@ -62,6 +62,7 @@ class THashTable;
  class TInterpreterValue;
  class TMethod;
  class TObjArray;
@@ -1079,7 +1058,7 @@ index ed322a1..8e9a410 100644
  
  namespace ROOT {
     namespace TMetaUtils {
-@@ -125,9 +126,12 @@ public: // Public Interface
+@@ -127,7 +128,8 @@ public: // Public Interface
     virtual ~TCling();
     TCling(const char* name, const char* title);
  
@@ -1088,28 +1067,8 @@ index ed322a1..8e9a410 100644
 +   ROOT::TMetaUtils::TNormalizedCtxt *GetNormalizedCtxt() const { return fNormalizedCtxt; }
  
     void    AddIncludePath(const char* path);
-+   void   *SetAutoLoadCallBack(void* cb);
-+   void   *GetAutoLoadCallBack() const;
-    Int_t   AutoLoad(const char* cls);
-    Int_t   AutoLoad(const type_info& typeinfo);
-    Bool_t  IsAutoLoadNamespaceCandidate(const char* name);
-@@ -215,6 +219,7 @@ public: // Public Interface
-    void    Execute(TObject* obj, TClass* cl, const char* method, const char* params, int* error = 0);
-    void    Execute(TObject* obj, TClass* cl, const char* method, const char* params, Bool_t objectIsConst, int* error = 0);
-    void    Execute(TObject* obj, TClass* cl, TMethod* method, TObjArray* params, int* error = 0);
-+   void    ExecuteWithArgsAndReturn(TMethod* method, void* address, const std::vector<void*>& args = std::vector<void*>(), void* ret= 0) const;
-    Long_t  ExecuteMacro(const char* filename, EErrorCode* error = 0);
-    void    RecursiveRemove(TObject* obj);
-    Bool_t  IsErrorMessagesEnabled() const;
-@@ -271,6 +276,7 @@ public: // Public Interface
-    virtual void   CallFunc_Exec(CallFunc_t* func, void* address) const;
-    virtual void   CallFunc_Exec(CallFunc_t* func, void* address, TInterpreterValue& val) const;
-    virtual void   CallFunc_ExecWithReturn(CallFunc_t* func, void* address, void* ret) const;
-+   virtual void   CallFunc_ExecWithArgsAndReturn(CallFunc_t* func, void* address, const std::vector<void*>& args = std::vector<void*>(), void* ret = 0) const;
-    virtual Long_t    CallFunc_ExecInt(CallFunc_t* func, void* address) const;
-    virtual Long64_t  CallFunc_ExecInt64(CallFunc_t* func, void* address) const;
-    virtual Double_t  CallFunc_ExecDouble(CallFunc_t* func, void* address) const;
-@@ -444,6 +450,38 @@ public: // Public Interface
+    void   *GetAutoLoadCallBack() const { return fAutoLoadCallBack; }
+@@ -449,6 +451,40 @@ public: // Public Interface
     virtual const char* TypedefInfo_Name(TypedefInfo_t* tinfo) const;
     virtual const char* TypedefInfo_Title(TypedefInfo_t* tinfo) const;
  
@@ -1127,6 +1086,7 @@ index ed322a1..8e9a410 100644
 +   virtual void Type_Init(void* obj, const std::type_info& ti) const;
 +   virtual void Type_InitWithTypeInfoName(void* obj, const char* name) const;
 +   virtual bool Type_IsAbstract(void* obj) const;
++   virtual bool Type_IsArray(void* obj) const;
 +   virtual bool Type_IsClass(void* obj) const;
 +   virtual bool Type_IsConst(void* obj) const;
 +   virtual bool Type_IsDynamicClass(void* obj) const;
@@ -1142,148 +1102,11 @@ index ed322a1..8e9a410 100644
 +   virtual bool Type_IsVirtual(void* obj) const;
 +   virtual std::string Type_QualifiedName(void* obj) const;
 +   virtual unsigned long Type_Size(void* obj) const;
++   virtual unsigned long Type_ArraySize(void* obj) const;
 +   virtual TType* Type_ToType(void* obj) const;
 +   virtual const std::type_info* Type_TypeInfo(void* obj) const;
 +
     std::set<TClass*>& GetModTClasses() { return fModTClasses; }
  
     void HandleNewDecl(const void* DV, bool isDeserialized, std::set<TClass*>& modifiedClasses);
-diff --git a/core/meta/src/TClingCallFunc.cxx b/core/meta/src/TClingCallFunc.cxx
-index 225da67..8fac459 100644
---- a/core/meta/src/TClingCallFunc.cxx
-+++ b/core/meta/src/TClingCallFunc.cxx
-@@ -2808,6 +2808,17 @@ TClingCallFunc::exec_with_valref_return(void* address, cling::StoredValueRef* re
- }
- 
- void
-+TClingCallFunc::exec_with_args_and_return(void* address,
-+                                          const vector<void*>& args,
-+                                          void* ret) const
-+{
-+   //const FunctionDecl* FD = fMethod->GetMethodDecl();
-+   //unsigned num_params = FD->getNumParams();
-+   unsigned num_args = args.size();
-+   (*fWrapper)(address, (int)num_args, const_cast<void**>(args.data()), ret);
-+}
-+
-+void
- TClingCallFunc::EvaluateArgList(const string& ArgList)
- {
-    SmallVector<Expr*, 4> exprs;
-@@ -2907,6 +2918,20 @@ TClingCallFunc::ExecDouble(void* address)
- }
- 
- void
-+TClingCallFunc::ExecWithArgsAndReturn(void* address, const vector<void*>& args
-+                                      /*= vector<void*>()*/, void* ret/*= 0*/)
-+{
-+   IFacePtr();
-+   if (!fWrapper) {
-+      Error("TClingCallFunc::ExecWithArgsAndReturn(address, args, ret)",
-+            "Called with no wrapper, not implemented!");
-+      return;
-+   }
-+   exec_with_args_and_return(address, args, ret);
-+   return;
-+}
-+
-+void
- TClingCallFunc::ExecWithReturn(void* address, void* ret/*= 0*/)
- {
-    IFacePtr();
-diff --git a/core/meta/src/TClingCallFunc.h b/core/meta/src/TClingCallFunc.h
-index 0a5c033..1d29a11 100644
---- a/core/meta/src/TClingCallFunc.h
-+++ b/core/meta/src/TClingCallFunc.h
-@@ -107,6 +107,9 @@ private:
-    void exec(void* address, void* ret) const;
-    void exec_with_valref_return(void* address,
-                                 cling::StoredValueRef* ret) const;
-+   void exec_with_args_and_return(void* address,
-+                                  const std::vector<void*>& args,
-+                                  void* ret) const;
- 
-    void EvaluateArgList(const std::string& ArgList);
- 
-@@ -147,6 +150,9 @@ public:
-    void ExecDestructor(const TClingClassInfo* info, void* address = 0,
-                        unsigned long nary = 0UL, bool withFree = true);
-    void ExecWithReturn(void* address, void* ret = 0);
-+   void ExecWithArgsAndReturn(void* address,
-+                              const std::vector<void*>& args = std::vector<void*>(),
-+                              void* ret = 0);
-    void Exec(void* address, TInterpreterValue* interpVal = 0);
-    long ExecInt(void* address);
-    long long ExecInt64(void* address);
-diff --git a/core/meta/src/TClingMethodInfo.cxx b/core/meta/src/TClingMethodInfo.cxx
-index a8a6b28..2b97634 100644
---- a/core/meta/src/TClingMethodInfo.cxx
-+++ b/core/meta/src/TClingMethodInfo.cxx
-@@ -412,8 +412,10 @@ long TClingMethodInfo::ExtraProperty() const
-    }
-    long property = 0;
-    const clang::FunctionDecl *fd = GetMethodDecl();
--   
--   if (llvm::isa<clang::CXXConversionDecl>(fd)) {
-+   if (fd->isOverloadedOperator()) {
-+      property |= kIsOperator;
-+   }
-+   else if (llvm::isa<clang::CXXConversionDecl>(fd)) {
-       property |= kIsConversion;
-    } else if (llvm::isa<clang::CXXConstructorDecl>(fd)) {
-       property |= kIsConstructor;
-diff --git a/core/meta/src/TEnum.cxx b/core/meta/src/TEnum.cxx
-index 63da79c..de1f145 100644
---- a/core/meta/src/TEnum.cxx
-+++ b/core/meta/src/TEnum.cxx
-@@ -18,19 +18,21 @@
- #include "TEnum.h"
- #include "TEnumConstant.h"
- 
--
- ClassImp(TEnum)
-+
- //______________________________________________________________________________
--TEnum::TEnum(const char* name, bool isGlobal, void* info)
--: TNamed(name, "An enum type"), fInfo(info) {
-+TEnum::TEnum(const char* name, bool isGlobal, void* info, TClass* cls)
-+   : TNamed(name, "An enum type"), fInfo(info), fClass(cls)
-+{
-    //Constructor for TEnum class.
-    //It take the name of the TEnum type, specification if it is global
-    //and interpreter info.
-    //Constant List is owner if enum not on global scope (thus constants not
-    //in TROOT::GetListOfGlobals).
- 
--   if (!isGlobal)
-+   if (!isGlobal) {
-       fConstantList.SetOwner(kTRUE);
-+   }
- }
- 
- //______________________________________________________________________________
-diff --git a/core/meta/src/TFunction.cxx b/core/meta/src/TFunction.cxx
-index a3f3c78..6f48c4e 100644
---- a/core/meta/src/TFunction.cxx
-+++ b/core/meta/src/TFunction.cxx
-@@ -222,6 +222,17 @@ const char *TFunction::GetMangledName() const
- }
- 
- //______________________________________________________________________________
-+const char *TFunction::GetName() const
-+{
-+   // Returns the unqualified function name, or 0 in case of error.
-+   // Note: The caller must immediately make a copy of this value.
-+   if (!fInfo) {
-+      return 0;
-+   }
-+   return gInterpreter->MethodInfo_Name(fInfo);
-+}
-+
-+//______________________________________________________________________________
- const char *TFunction::GetPrototype() const
- {
-    // Returns the prototype of a function as defined by CINT, or 0 in
--- 
-1.7.4.1
 
