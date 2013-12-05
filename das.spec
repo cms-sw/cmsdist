@@ -1,4 +1,4 @@
-### RPM cms das 2.2.5
+### RPM cms das 2.3.1
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver 0.8.3
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
@@ -39,6 +39,7 @@ python setup.py build
 cmd="python src/python/DAS/tools/das_drop_maps.py"
 dir="src/python/DAS/services/cms_maps/"
 map_file="$dir/das_maps.js"
+testbed_map_file="$dir/das_testbed_maps.js"
 rm -f $map_file
 export PYTHONPATH=$PYTHONPATH:$PWD/src/python
 for amap in `ls $dir/*.yml`
@@ -50,6 +51,8 @@ done
 cat $map_file | grep -v "###" > $map_file.tmp
 rm -f $map_file
 mv $map_file.tmp $map_file
+rm -f $testbed_map_file
+cat $map_file | sed "s/cmsweb.cern.ch/cmsweb-testbed.cern.ch/g" > $testbed_map_file
 rm -f $dir/*.yml
 rm -rf src/python/DAS/services/maps
 
