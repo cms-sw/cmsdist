@@ -27,7 +27,10 @@ ln -sf $P5_ARCHIVE_TAR_ROOT/lib/perl5/Archive       build/bld_external/globus-5.
 ln -sf $P5_IO_ZLIB_ROOT/lib/perl5/IO                build/bld_external/globus-5.2.1-p1/install/lib/perl
 ln -sf $P5_PACKAGE_CONSTANTS_ROOT/lib/perl5/Package build/bld_external/globus-5.2.1-p1/install/lib/perl
 
-CMAKE_LIBRARY_PATH=${OPENSSL_ROOT}/lib:${LIBTOOL_ROOT}/lib:$ZLIB_ROOT/lib:$PCRE_ROOT/lib:$BOOST_ROOT/lib:$EXPAT_ROOT/lib:$CURL_ROOT/lib:$LIBXML2_ROOT/lib \
+export CMAKE_INCLUDE_PATH=${OPENSSL_ROOT}/include:${LIBTOOL_ROOT}/include:${ZLIB_ROOT}/include:${PCRE_ROOT}/include:${BOOST_ROOT}/include:${EXPAT_ROOT}/include:${CURL_ROOT}/include:${LIBXML2_ROOT}/include
+export CMAKE_LIBRARY_PATH=${OPENSSL_ROOT}/lib:${LIBTOOL_ROOT}/lib:${ZLIB_ROOT}/lib:${PCRE_ROOT}/lib:${BOOST_ROOT}/lib:${EXPAT_ROOT}/lib:${CURL_ROOT}/lib:${LIBXML2_ROOT}/lib
+export CXXFLAGS="-I${OPENSSL_ROOT}/include -I${LIBTOOL_ROOT}/include -I$ZLIB_ROOT/include -I$PCRE_ROOT/include -I$BOOST_ROOT/include -I$EXPAT_ROOT/include -I$CURL_ROOT/include -I$LIBXML2_ROOT/include"
+export LDFLAGS="-L${OPENSSL_ROOT}/lib -L${LIBTOOL_ROOT}/lib -L$ZLIB_ROOT/lib -L$PCRE_ROOT/lib -L$BOOST_ROOT/lib -L$EXPAT_ROOT/lib -L$CURL_ROOT/lib -L$LIBXML2_ROOT/lib"
 cmake \
   -DCMAKE_INSTALL_PREFIX=%i \
   -DPROPER:BOOL=OFF \
