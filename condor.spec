@@ -5,6 +5,7 @@
 
 Source: git://github.com/htcondor/htcondor.git?obj=master/%{condortag}&export=condor-%{realversion}&output=/condor-%{realversion}.tar.gz
 Patch0: cms-htcondor-build
+Patch1: htcondor-python-event-reader
 
 Requires: openssl zlib expat pcre libtool python boost p5-archive-tar curl libxml2
 BuildRequires: cmake gcc
@@ -12,6 +13,7 @@ BuildRequires: cmake gcc
 %prep
 %setup -n %n-%{realversion}
 %patch0 -p1
+%patch1 -p1
 sed -i "s,P5_ARCHIVE_TAR_ROOT,$P5_ARCHIVE_TAR_ROOT," externals/bundles/globus/5.2.1/CMakeLists.txt
 sed -i "s,P5_IO_ZLIB_ROOT,$P5_IO_ZLIB_ROOT," externals/bundles/globus/5.2.1/CMakeLists.txt
 sed -i "s,P5_PACKAGE_CONSTANTS_ROOT,$P5_PACKAGE_CONSTANTS_ROOT," externals/bundles/globus/5.2.1/CMakeLists.txt
