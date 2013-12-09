@@ -17,6 +17,7 @@ Source1: svn://llvm.org/svn/llvm-project/cfe/branches/release_%llvmBranch/?schem
 Patch0: llvm-3.1-fix-requires
 Patch1: llvm-3.2-getGCCToolchainDir
 Patch2: llvm-3.3-add-triplet-x86_64-redhat-linux-gnu
+Patch3: llvm-3.3-cms-custom-cxx11-attrs
 %define keep_archives true
 
 %prep
@@ -27,6 +28,7 @@ cd clang
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 %setup -T -D -n llvm-%realversion-%llvmRevision
 
 %build
