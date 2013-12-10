@@ -56,4 +56,8 @@ Patch13: cmssw-debug
 %define preBuildCommand scram setup icc-cxxcompiler ; scram setup icc-f77compiler ; scram setup icc-ccompiler ; export COMPILER=icc
 %endif
 
+%if "%(case %realversion in (*_SLHC*) echo true ;; (*) echo false ;; esac)" == "true"
+%define branch                %(echo %realversion | sed -e 's|_SLHC.*|_SLHC|')
+%endif
+
 ## IMPORT scram-project-build
