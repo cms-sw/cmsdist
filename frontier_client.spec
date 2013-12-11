@@ -1,4 +1,6 @@
 ### RPM external frontier_client 2.8.8
+## INITENV +PATH PYTHONPATH %{i}/python/lib
+
 Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
@@ -9,6 +11,7 @@ Requires: icc
 Requires: expat
 Requires: openssl
 Requires: pacparser
+Requires: python
 %if "%online" != "true"
 Requires: zlib
 %else
@@ -16,7 +19,8 @@ Requires: onlinesystemtools
 %endif
 
 Patch0: frontier_client-2.8.5-fix-gcc47
-Patch1: frontier_client.2.8.6.mic
+Patch1: frontier_client-2.8.8-add-python-dbapi
+Patch2: frontier_client.2.8.6.mic
 
 %if "%{?cms_cxxflags:set}" != "set"
 %define cms_cxxflags -std=c++0x -O2
@@ -32,8 +36,9 @@ Patch1: frontier_client.2.8.6.mic
 %endif
 
 %patch0 -p1
-%if "%mic" == "true"
 %patch1 -p1
+%if "%mic" == "true"
+%patch2 -p1
 %endif
 
 %build
@@ -63,3 +68,6 @@ case $(uname) in
     ln -sf libfrontier_client.$so.%{realversion} %i/lib/libfrontier_client.$so.%(echo %v | sed -e "s/\([0-9]*\)\..*/\1/")
     ;; 
 esac
+
+cp -r python %i
+
