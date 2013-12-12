@@ -38,11 +38,11 @@ popd
             --topURL "http://cern.ch/cms-sdt/rc/%cmsplatf/www/$DOW/$CMSSW_MAJOR_MINOR-$DOW-$HOUR/new/"
 
 cd %cmsroot/WEB/build-logs/%cmsplatf/$CMSSW_VERSION/logs/html
-tar czf ../html-logs.tgz ./
+zip -r ../html-logs.zip ./
 cd ..
 rm -rf src html
 mkdir -p html
-mv html-logs.tgz html
+mv html-logs.zip html
 
 rm -rf %i/*
 %install
