@@ -1,11 +1,8 @@
-### RPM external rivet 1.8.2
-Source: http://www.hepforge.org/archive/rivet/Rivet-%{realversion}.tar.gz
+### RPM external rivet 1.9.0
+Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 
-Requires: hepmc boost fastjet swig gsl
+Requires: hepmc boost fastjet swig gsl yamlcpp
 Requires: python
-Patch0: rivet-1.4.0
-Patch1: rivet-1.8.2-fix-isnan
-Patch2: rivet-1.8.2-fix-duplicate-symbols
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -16,13 +13,13 @@ Patch2: rivet-1.8.2-fix-duplicate-symbols
 %endif
 
 %prep
-%setup -n Rivet-%{realversion}
-%patch0 -p0
-%patch1 -p1
-%patch2 -p1
+%setup -n rivet/%{realversion}
+
 ./configure --disable-silent-rules --prefix=%i --with-boost=${BOOST_ROOT} --with-hepmc=$HEPMC_ROOT \
-            --with-fastjet=$FASTJET_ROOT --with-gsl=$GSL_ROOT --disable-doxygen --disable-pdfmanual --with-pic \
+            --with-fastjet=$FASTJET_ROOT --with-gsl=$GSL_ROOT --with-yaml-cpp=${YAMLCPP_ROOT} \
+            --disable-doxygen --disable-pdfmanual --with-pic \
             CXX="$(which %cms_cxx)" CXXFLAGS="%cms_cxxflags"
+
 # The following hack insures that the bins with the library linked explicitly
 # rather than indirectly, as required by the gold linker
 perl -p -i -e "s|LIBS = $|LIBS = -lHepMC|g" bin/Makefile
