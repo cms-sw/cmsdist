@@ -29,9 +29,10 @@ Patch9: 0003-Reduce-lifetime-of-lock-in-TFile-TFile-to-avoid-lock
 Patch10: 0004-Reduce-lock-lifetime-in-TCollection-GarbageCollect
 Patch11: 0005-Remove-unnecessary-global-variable-and-lock
 Patch12: 0006-Fix-thread-safety-of-TGenCollectionProxy-s-iterator-
-Patch13: root-5.34.09-mic
-Patch14: root-5.34.09-mic-postconfig
-Patch15: root-5-genreflex
+Patch13: root-5.34.13-ExpandMaxTypedef_02
+Patch14: root-5.34.09-mic
+Patch15: root-5.34.09-mic-postconfig
+Patch16: root-5-genreflex
 
 Requires: gccxml gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl
 
@@ -72,6 +73,7 @@ Requires: freetype
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
+%patch13 -p0
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
@@ -79,8 +81,8 @@ Requires: freetype
 %patch2 -p1
 %endif
 %if "%mic" == "true"
-%patch13 -p1
-%patch15 -p1
+%patch14 -p1
+%patch16 -p1
 %endif
 
 # Delete these (irrelevant) files as the fits appear to confuse rpm on OSX
