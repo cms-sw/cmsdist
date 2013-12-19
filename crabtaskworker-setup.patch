@@ -1,40 +1,23 @@
---- setup_dependencies.py
-+++ setup_dependencies.py
-@@ -114,27 +114,33 @@ 
-                         'statics': ['src/couchapps/Agent+'],
+--- setup_dependencies.py.orig	2013-12-19 22:33:38.000000000 +0100
++++ setup_dependencies.py	2013-12-19 23:14:45.000000000 +0100
+@@ -28,7 +28,7 @@
+                         'systems':['wmc-base']
                          },
-                 'crabserver':{
--                        'packages': ['WMCore.WMSpec', 'WMCore.ACDC',
-+                        'packages':['WMCore.WMSpec', 'WMCore.ACDC',
-                                      'WMCore.Storage+', 'WMCore.HTTPFrontEnd.RequestManager+',
-                                      'WMCore.RequestManager+', 'WMComponent.DBSUpload',
-                                      'WMCore.ProcessPool'],
-                         'systems': ['wmc-web'],
+                 'wmc-runtime':{
+-                        'packages': ['WMCore.WMRuntime', 'WMCore.WMSpec+', 'PSetTweaks', 'WMCore.FwkJobReport', 'WMCore.Storage+'],
++                        'packages': ['WMCore.WMRuntime+', 'WMCore.WMSpec+', 'PSetTweaks', 'WMCore.FwkJobReport', 'WMCore.Storage+'],
+                         'modules' : ['WMCore.Algorithms.ParseXMLFile'],
+                         'systems':['wmc-base']
                          },
-                 'crabclient':{
--                        'packages': ['WMCore.Wrappers+', 'WMCore.Credential', 'PSetTweaks',
-+                        'packages':['WMCore.Wrappers+', 'WMCore.Credential', 'PSetTweaks',
-                                      'WMCore.Services.UserFileCache'],
-                         'systems': ['wmc-base'],
-                         'modules': ['WMCore.FwkJobReport.FileInfo', 'WMCore.Services.Requests',
-                                     'WMCore.Services.Service', 'WMCore.Services.pycurl_manager'],
+@@ -130,9 +130,9 @@
                          },
-+                'crabtaskworker':{
-+                        'packages':['WMCore..WorkQueue', 'WMCore.Credential', 'WMCore.Algorithms+',
-+                                     'WMCore.JobSplitting', 'WMCore.Services.SiteDB+', 'WMCore.Services.DBS+'],
-+                        'modules': ['WMCore.WMBS.File', 'WMCore.WMBS.WMBSBase', 'WMCore.WMBS.__init__'],
-+                        'systems': ['wmc-database'],
-+                        },
+                 'crabtaskworker':{
+                         'packages':['WMCore..WorkQueue', 'WMCore.Credential', 'WMCore.Algorithms+', 'WMCore.WMSpec+',
+-                                     'WMCore.JobSplitting', 'WMCore.Services.SiteDB+', 'WMCore.Services.DBS+', 'WMCore.Services.UserFileCache+'],
++                                     'WMCore.JobSplitting', 'WMCore.Services.SiteDB+', 'WMCore.Services.DBS+', 'WMCore.Services.UserFileCache+', 'WMCore.Services.PhEDEx+'],
+                         'modules': ['WMCore.WMBS.File', 'WMCore.WMBS.WMBSBase', 'WMCore.WMBS.__init__'],
+-                        'systems': ['wmc-database'],
++                        'systems': ['wmc-database', 'wmc-runtime'],
+                         },
                  'wmclient':{
                          'systems': ['wmc-runtime', 'wmc-database']
-                         },
-                 'reqmon':{
--                        'statics': ['src/couchapps/WMStats+', 
-+                        'statics': ['src/couchapps/WMStats+',
-                                     'src/couchapps/WorkloadSummary+'],
-                         },
--                'alertscollector': 
-+                'alertscollector':
-                 {
-                         'statics': ['src/couchapps/AlertsCollector+'],
-                 },
