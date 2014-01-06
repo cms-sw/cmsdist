@@ -26,7 +26,8 @@ Patch10: 0004-Reduce-lock-lifetime-in-TCollection-GarbageCollect
 Patch11: 0005-Remove-unnecessary-global-variable-and-lock
 Patch12: 0006-Fix-thread-safety-of-TGenCollectionProxy-s-iterator-
 Patch13: root-5.34.13-ExpandMaxTypedef_02
-
+Patch14: https://github.com/Dr15Jones/root/commit/ef89a7b9b3adb1ed0ed6537d275e0b82c41cfd8f.patch
+Patch15: https://github.com/Dr15Jones/root/commit/09c60258046129d312ced6824c094f0043d2e041.patch
 Requires: gccxml gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl
 
 %if %islinux
@@ -62,6 +63,8 @@ Requires: freetype
 %patch11 -p1
 %patch12 -p1
 %patch13 -p0
+%patch14 -p1
+%patch15 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
