@@ -126,6 +126,7 @@ repository, you'll need it to propose your changes.
 
 3) Once you are satisfied with the above push your changes to your repository:
 
+      cd CMSDIST
       git remote add $USER <your-cmsdist-fork>
       git push $USER $CMSDIST_TAG
 
