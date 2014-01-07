@@ -1,7 +1,6 @@
-### RPM external clhep 2.1.3.1
-Source: http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/distributions/%n-%realversion.tgz
-Patch0: clhep-2.1.1.0-no-virtual-inline
-Patch1: clhep-2.1.3.1-diagnostic-ignore-unused-variable
+### RPM external clhep 2.1.4.1
+Source: http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/tarFiles/%{n}-%{realversion}.tgz
+Patch1: clhep-2.1.4.1-diagnostic-ignore-unused-variable
 
 BuildRequires: cmake ninja
 
@@ -14,13 +13,7 @@ BuildRequires: cmake ninja
 %endif
 
 %prep
-%setup -n %realversion/CLHEP
-
-case %cmsplatf in
-  osx*|*gcc4[789]*)
-%patch0 -p2
-  ;;
-esac
+%setup -n %{realversion}/CLHEP
 
 %patch1 -p2
 
