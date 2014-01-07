@@ -1,6 +1,6 @@
-### RPM external geant4 10.0.cand00a
+### RPM external geant4 10.00
 
-Source0: http://cern.ch/vnivanch/geant4.10.0cand00a.tar.gz
+Source0: http://geant4.cern.ch/support/source/%{n}.%{realversion}.tar.gz
 
 BuildRequires: cmake
 
@@ -16,7 +16,7 @@ Patch1: geant4-10.0-dynamic-TLS
 %endif
 
 %prep
-%setup -n %{n}
+%setup -n %{n}.%{realversion}
 
 %patch0 -p1
 %patch1 -p1
@@ -31,7 +31,7 @@ fi
 mkdir ../build
 cd ../build
 
-cmake ../%{n} \
+cmake ../%{n}.%{realversion} \
   -DCMAKE_CXX_COMPILER="%cms_cxx" \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_INSTALL_LIBDIR="lib" \
