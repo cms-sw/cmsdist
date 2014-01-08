@@ -81,10 +81,10 @@ CONFIG_ARGS="--enable-table
              --disable-mysql
              --enable-c++11
              --build=debug
-             --with-cxx=${GCC_ROOT}/bin/g++
-             --with-cc=${GCC_ROOT}/bin/gcc
-             --with-ld=${GCC_ROOT}/bin/g++
-             --with-f77=${GCC_ROOT}/bin/gfortran
+             --with-cxx=g++
+             --with-cc=gcc
+             --with-ld=g++
+             --with-f77=gfortran
              --with-gcc-toolchain=${GCC_ROOT}
              --disable-qt
              --disable-qtgsi
