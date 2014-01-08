@@ -37,6 +37,7 @@ Requires: data-RecoParticleFlow-PFTracking
 Requires: data-RecoParticleFlow-PFProducer
 Requires: data-RecoMuon-MuonIdentification
 Requires: data-RecoEgamma-ElectronIdentification
+Requires: data-RecoJets-JetProducers
 Requires: data-CalibTracker-SiPixelESProducers
 
 %if %isnotonline
