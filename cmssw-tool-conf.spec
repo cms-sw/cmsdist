@@ -95,6 +95,7 @@ Requires: py2-cjson-toolfile
 Requires: py2-pycurl-toolfile
 
 Requires: rivet-toolfile
+Requires: yamlcpp-toolfile
 Requires: cascade-toolfile
 Requires: fftw3-toolfile
 Requires: fftjet-toolfile
