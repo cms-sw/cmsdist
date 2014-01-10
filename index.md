@@ -27,12 +27,16 @@ This branch is the one used for the production architecture of such a release.
 For example the `CMSSW_6_2_X` release on `slc5_amd64_gcc472` would use such a
 branch.
 
-Such a branch will contain a file called `config.map` which consist of the
-mapping between architectures and the `PKGTOOLS` and `CMSDIST` tags for that
-release on the given architecture. The file consists of one or more lines with
-the following format.
+## Mapping release series to a given branch
 
-    SCRAM_ARCH=<architecture>;PKGTOOLS_TAG=<pkgtools-ref>;CMSDIST_TAG=<cmsdist-ref>
+The default branch of CMSDIST (i.e. the one which you get when you do git clone
+without any argument) contains a file called `config.map` which consist of the
+mapping between architectures, release queues and the `PKGTOOLS` and `CMSDIST`
+tags for that release queue on the given architecture. 
+
+The file consists of one or more lines with the following format.
+
+    SCRAM_ARCH=<architecture>;PKGTOOLS_TAG=<pkgtools-ref>;CMSDIST_TAG=<cmsdist-ref>;RELEASE_QUEUE=<queue-name>;
 
 where:
 
@@ -43,19 +47,11 @@ where:
   architecture.
 * `<pkgtools-ref>` is a reference to the CMSDIST branch to be used for building
   the release associated with the given branch on the specified architecture.
+* `<queue-name>` is the generic name of the release queue, e.g. `CMSSW_7_0_X`.
 
-an example of such a file is:
+You can find an example of such a file by looking at:
 
-    SCRAM_ARCH=slc5_amd64_gcc472;PKGTOOLS_TAG=V00-21-XX;CMSDIST_TAG=IB/CMSSW_6_2_X/stable
-    SCRAM_ARCH=slc6_amd64_gcc472;PKGTOOLS_TAG=V00-22-XX;CMSDIST_TAG=IB/CMSSW_6_2_X/devel-gcc472
-    SCRAM_ARCH=slc6_amd64_gcc480;PKGTOOLS_TAG=V00-22-XX;CMSDIST_TAG=IB/CMSSW_6_2_X/slc6_amd64_gcc480
-    SCRAM_ARCH=fc18_armv7hl_gcc480;PKGTOOLS_TAG=V00-21-XX;CMSDIST_TAG=IB/CMSSW_6_2_X/fc18_armv7hl_gcc480
-    SCRAM_ARCH=osx108_amd64_gcc472;PKGTOOLS_TAG=V00-21-XX;CMSDIST_TAG=IB/CMSSW_6_2_X/devel-gcc472
-    SCRAM_ARCH=osx107_amd64_gcc472;PKGTOOLS_TAG=V00-21-XX;CMSDIST_TAG=IB/CMSSW_6_2_X/devel-gcc472
-
-in this particular case you see that `slc6_amd64_gcc472`,
-`osx108_amd64_gcc472`, `osx107_amd64_gcc472` share the same ref for the CMSDIST
-tag.
+https://github.com/cms-sw/cmsdist/blob/IB/CMSSW_7_0_X/stable/config.map
 
 **While adding special branches for development architectures is allowed, this
   should not be abused and the goal should be to minimize the number of
@@ -111,7 +107,7 @@ repository, you'll need it to propose your changes.
       cd $TOPDIR
       git clone git@github.com:cms-sw/cmsdist.git CMSDIST
       pushd CMSDIST
-        eval $(git show IB/$CMSSW/stable:config.map | grep $ARCH)
+        eval $(cat config.map | grep "SCRAM_ARCH=$ARCH;" | grep "RELEASE_QUEUE=$CMSSW;")
         git checkout $CMSDIST_TAG
       popd
       git clone -b $PKGTOOLS_TAG git@github.com:cms-sw/pkgtools.git PKGTOOLS
@@ -137,6 +133,8 @@ will be reviewed in the following ORP meeting and possibly approved.
 
 ## Build externals for a given release:
 
+Building externals is anologous to requesting an addition.
+
 Let's assume you want to build externals for the a given release series:
 
     CMSSW=<release-queue>
@@ -144,12 +142,6 @@ Let's assume you want to build externals for the a given release series:
     # CMSSW=CMSSW_5_3_X
     # CMSSW=CMSSW_6_1_X
     # CMSSW=CMSSW_6_2_X
-
-You can find the list of all the required architecture by doing:
-
-    curl https://raw.github.com/cms-sw/cmsdist/IB/$CMSSW/stable/config.map
-    
-For every architecture mentioned there you'll have to repeat the following:
 
 0) Prepare the environment:
 
@@ -186,7 +178,11 @@ For every architecture mentioned there you'll have to repeat the following:
       TOPDIR=${HERE}/ext/${CMSSW}/${DATETIME}
       mkdir -p $TOPDIR
       cd $TOPDIR
-      git clone -b $CMSDIST_TAG git@github.com:cms-sw/cmsdist.git CMSDIST
+      git clone git@github.com:cms-sw/cmsdist.git CMSDIST
+      pushd CMSDIST
+        eval $(cat config.map | grep "SCRAM_ARCH=$ARCH;" | grep "RELEASE_QUEUE=$CMSSW;")
+        git checkout $CMSDIST_TAG
+      popd
       git clone -b $PKGTOOLS_TAG git@github.com:cms-sw/pkgtools.git PKGTOOLS
 
 2) Build the externals:
