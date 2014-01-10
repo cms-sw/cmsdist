@@ -9,6 +9,7 @@ Requires: expat
 Requires: xerces-c
 
 Patch0: geant4.9.5.p01-no-banner
+Patch1: geant4-9.6p02-cms01
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -22,6 +23,7 @@ Patch0: geant4.9.5.p01-no-banner
 %setup -n %{n}.%{realversion}
 
 %patch0 -p1
+%patch1 -p1
 
 %build
 
