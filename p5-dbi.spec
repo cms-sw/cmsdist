@@ -1,5 +1,6 @@
 ### RPM external p5-dbi 1.609
 ## INITENV +PATH PERL5LIB %i/lib/perl5
+# Dummy comment: forcing the compiling for SLC6
 %define downloadn DBI
 ## Let's fake the provides of windows stuff for the time being.
 Provides: perl(RPC::PlClient)

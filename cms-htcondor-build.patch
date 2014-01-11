@@ -1,0 +1,182 @@
+diff --git a/build/cmake/CondorConfigure.cmake b/build/cmake/CondorConfigure.cmake
+index 99b0584..4f2a45f 100644
+--- a/build/cmake/CondorConfigure.cmake
++++ b/build/cmake/CondorConfigure.cmake
+@@ -469,7 +469,7 @@ endif()
+ #####################################
+ # RPATH option
+ if (LINUX)
+-	option(CMAKE_SKIP_RPATH "Skip RPATH on executables" OFF)
++	option(CMAKE_SKIP_RPATH "Skip RPATH on executables" ON)
+ else()
+ 	option(CMAKE_SKIP_RPATH "Skip RPATH on executables" ON)
+ endif()
+@@ -839,7 +839,7 @@ else(MSVC)
+ 	endif()
+ 
+ 	if (LINUX)
+-		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--warn-once -Wl,--warn-common")
++		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--warn-common")
+ 		if ( "${CONDOR_PLATFORM}" STREQUAL "x86_64_Ubuntu12")
+ 			set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-as-needed")
+ 		endif()
+--- a/build/cmake/CondorPackageConfig.cmake.orig	2013-11-07 23:54:26.000000000 +0100
++++ b/build/cmake/CondorPackageConfig.cmake	2013-11-08 00:14:17.000000000 +0100
+@@ -158,8 +158,8 @@
+ 			set( EXTERNALS_RPATH "$ORIGIN/../lib:/lib:/usr/lib:$ORIGIN/../lib/condor:/usr/lib/condor" )
+ 		endif()
+ 	else()
+-		set( CONDOR_RPATH "$ORIGIN/../lib:/lib64:/usr/lib64:$ORIGIN/../lib/condor" )
+-		set( EXTERNALS_RPATH "$ORIGIN/../lib:/lib64:/usr/lib64:$ORIGIN/../lib/condor:/usr/lib64/condor" )
++		#set( CONDOR_RPATH "$ORIGIN/../lib:/lib64:/usr/lib64:$ORIGIN/../lib/condor" )
++		#set( EXTERNALS_RPATH "$$ORIGIN/../lib:/lib64:/usr/lib64:$$ORIGIN/../lib/condor:/usr/lib64/condor" )
+ 	endif()
+ elseif( ${OS_NAME} STREQUAL "DARWIN" )
+ 	set( EXTERNALS_LIB "${C_LIB}/condor" )
+diff --git a/build/cmake/macros/CondorSetLinkLibs.cmake b/build/cmake/macros/CondorSetLinkLibs.cmake
+index b21f93c..d7a1e95 100644
+--- a/build/cmake/macros/CondorSetLinkLibs.cmake
++++ b/build/cmake/macros/CondorSetLinkLibs.cmake
+@@ -32,7 +32,8 @@ if (${_CNDR_TARGET}LinkLibs)
+ 		if (DARWIN OR AIX OR SOLARIS)
+ 			target_link_libraries( ${_CNDR_TARGET} ${${_CNDR_TARGET}LinkLibs} ${${_CNDR_TARGET}LinkLibs}  )
+ 		else()
+-	 		target_link_libraries( ${_CNDR_TARGET} -Wl,--start-group ${${_CNDR_TARGET}LinkLibs} -Wl,--end-group -Wl,--enable-new-dtags )
++	 		#target_link_libraries( ${_CNDR_TARGET} -Wl,--start-group ${${_CNDR_TARGET}LinkLibs} -Wl,--end-group -Wl,--enable-new-dtags )
++	 		target_link_libraries( ${_CNDR_TARGET} ${${_CNDR_TARGET}LinkLibs} ${${_CNDR_TARGET}LinkLibs} )
+ 		endif()
+ 	 else()
+ 	 	target_link_libraries( ${_CNDR_TARGET} ${${_CNDR_TARGET}LinkLibs};${CONDOR_WIN_LIBS} )
+--- a/externals/bundles/glibc/CMakeLists.txt.orig	2013-11-07 23:54:24.000000000 +0100
++++ b/externals/bundles/glibc/CMakeLists.txt	2013-11-08 00:14:17.000000000 +0100
+@@ -31,7 +31,7 @@
+ 	# check only the major and minor bits of gcc version.
+ 	string(SUBSTRING ${CMAKE_C_COMPILER_VERSION} 0 2 GCC_VER_CHECK)
+ 	# corner off glibc b/c it effect  
+-	set(GLIBC_DETECTED ON)
++	#set(GLIBC_DETECTED ON)
+         set(GLIBC_BUILD_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/glibc-prefix/src/glibc)
+ 
+ 	# By default, we don't need to set any flag environment variables
+--- a/externals/bundles/voms/2.0.6/CMakeLists.txt.orig	2013-10-24 14:55:58.000000000 +0200
++++ b/externals/bundles/voms/2.0.6/CMakeLists.txt	2013-10-24 14:56:05.000000000 +0200
+@@ -49,8 +49,8 @@
+ 				touch -r src/utils/vomsfake.y src/utils/vomsparser.h &&
+ 				touch -r src/utils/vomsfake.y src/utils/vomsparser.c &&
+ 				touch -r src/utils/vomsfake.y src/utils/lex.yy.c &&
+-				patch -N -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/globus_thread_h.patch &&
+-				./autogen.sh )
++				patch -N -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/globus_thread_h.patch
++				)
+ 			set ( VOMS_GLOBUS_FLAG --with-globus-prefix=${GLOBUS_INSTALL_LOC} )
+ 		ENDIF()
+ 
+diff --git a/externals/bundles/globus/5.2.1/CMakeLists.txt b/externals/bundles/globus/5.2.1/CMakeLists.txt
+index d621994..cafbb09 100644
+--- a/externals/bundles/globus/5.2.1/CMakeLists.txt
++++ b/externals/bundles/globus/5.2.1/CMakeLists.txt
+@@ -76,7 +76,7 @@
+ 			set( GLOBUS_FLAGS CPPFLAGS=-I${GLOBUS_INSTALL_LOC}/include LDFLAGS=-L${GLOBUS_INSTALL_LOC}/lib )
+ 		else()
+ 			set( GLOBUS_DEPENDS "" )
+-			set( GLOBUS_FLAGS "" )
++			set( GLOBUS_FLAGS "CPPFLAGS=-ILIBTOOL_ROOT/include -IOPENSSL_ROOT/include" "LDFLAGS=-LLIBTOOL_ROOT/lib -LOPENSSL_ROOT/lib" )
+ 		endif()
+ 
+ 
+@@ -82,6 +82,7 @@
+ 
+ 		set (GLOBUS_PATCH patch -N -i ${CMAKE_CURRENT_SOURCE_DIR}/xio-plugins.patch -p1 &&
+ 						patch -N -i ${CMAKE_CURRENT_SOURCE_DIR}/mac_openssl.patch -p1 &&
++						patch -N -i ${CMAKE_CURRENT_SOURCE_DIR}/dont_touch_ld_library_path.patch -p1 && patch -N -i ${CMAKE_CURRENT_SOURCE_DIR}/dont_touch_ld_library_path_2.patch &&
+ 						cd source-trees/xio/src/builtins &&
+ 						mkdir -p gsi popen &&
+ 						cp ../../drivers/gsi/globus_i_xio_gsi.h gsi/globus_i_xio_gsi.h &&
+@@ -115,7 +116,7 @@
+ 							#--Patch step ----------
+ 							PATCH_COMMAND ${GLOBUS_PATCH}
+ 							#--Configure step ----------
+-							CONFIGURE_COMMAND ln -s lib ${GLOBUS_INSTALL_LOC}/lib64 &&
++							CONFIGURE_COMMAND mkdir -p ${GLOBUS_INSTALL_LOC}/lib/perl && ln -sf P5_ARCHIVE_TAR_ROOT/lib/perl5/Archive ${GLOBUS_INSTALL_LOC}/lib/perl && ln -sf P5_IO_ZLIB_ROOT/lib/perl5/IO ${GLOBUS_INSTALL_LOC}/lib/perl && ln -sf P5_PACKAGE_CONSTANTS_ROOT/lib/perl5/Package ${GLOBUS_INSTALL_LOC}/lib/perl && ln -sf lib ${GLOBUS_INSTALL_LOC}/lib64 && LD_LIBRARY_PATH=ENVLD_LIBRARY_PATH 
+ 							./configure --prefix=${GLOBUS_INSTALL_LOC} --with-flavor=${GLOBUS_FLAVOR}pthr
+ 							#--Build Step ----------
+ 							BUILD_COMMAND ${GLOBUS_FLAGS} make gpt globus_gssapi_error globus-resource-management-sdk globus-data-management-sdk &&
+--- a/externals/bundles/globus/5.2.1/CMakeLists.txt.orig	2013-10-24 17:19:56.000000000 +0200
++++ b/externals/bundles/globus/5.2.1/CMakeLists.txt	2013-10-24 17:20:08.000000000 +0200
+@@ -119,7 +119,7 @@
+ 							CONFIGURE_COMMAND mkdir -p ${GLOBUS_INSTALL_LOC}/lib/perl && ln -sf P5_ARCHIVE_TAR_ROOT/lib/perl5/Archive ${GLOBUS_INSTALL_LOC}/lib/perl && ln -sf P5_IO_ZLIB_ROOT/lib/perl5/IO ${GLOBUS_INSTALL_LOC}/lib/perl && ln -sf P5_PACKAGE_CONSTANTS_ROOT/lib/perl5/Package ${GLOBUS_INSTALL_LOC}/lib/perl && ln -sf lib ${GLOBUS_INSTALL_LOC}/lib64 && LD_LIBRARY_PATH=ENVLD_LIBRARY_PATH 
+ 							./configure --prefix=${GLOBUS_INSTALL_LOC} --with-flavor=${GLOBUS_FLAVOR}pthr
+ 							#--Build Step ----------
+-							BUILD_COMMAND ${GLOBUS_FLAGS} make gpt globus_gssapi_error globus-resource-management-sdk globus-data-management-sdk &&
++							BUILD_COMMAND export ${GLOBUS_FLAGS} && make gpt globus_gssapi_error globus-resource-management-sdk globus-data-management-sdk &&
+ 								cd ${GLOBUS_INSTALL_LOC}/include/globus/ && ln -sf ${GLOBUS_FLAVOR}pthr/globus_config.h .
+ 							BUILD_IN_SOURCE 1
+ 							#--install Step ----------
+diff --git a/externals/bundles/globus/5.2.1/dont_touch_ld_library_path.patch b/externals/bundles/globus/5.2.1/dont_touch_ld_library_path.patch
+new file mode 100644
+index 0000000..108f0a2
+--- /dev/null
++++ b/externals/bundles/globus/5.2.1/dont_touch_ld_library_path.patch
+@@ -0,0 +1,22 @@
++--- gt5.2.1-all-source-installer/source-trees/common/source/library/globus_extension.c.orig	2013-04-24 18:16:49.253475211 -0500
+++++ gt5.2.1-all-source-installer/source-trees/common/source/library/globus_extension.c	2013-04-24 18:17:15.792478663 -0500
++@@ -378,8 +378,8 @@
++             save_path = globus_libc_strdup(save_path);
++         }
++     
++-        lt_dlsetsearchpath(
++-            search_path ? search_path : globus_l_globus_location);
+++        //lt_dlsetsearchpath(
+++        //    search_path ? search_path : globus_l_globus_location);
++     }
++     
++     snprintf(library, 1024, "lib%s", name);
++@@ -445,7 +445,7 @@
++     
++     if(search_path || globus_l_globus_location)
++     {
++-        lt_dlsetsearchpath(save_path);
+++        //lt_dlsetsearchpath(save_path);
++         if(save_path)
++         {
++             globus_free(save_path);
+--- /dev/null	2013-06-10 10:23:16.488609438 +0200
++++ b/externals/bundles/globus/5.2.1/dont_touch_ld_library_path_2.patch	2013-10-24 04:22:03.000000000 +0200
+@@ -0,0 +1,11 @@
++--- Makefile.in.orig	2013-10-24 04:19:53.000000000 +0200
+++++ Makefile.in	2013-10-24 04:20:42.000000000 +0200
++@@ -2,7 +2,7 @@
++ srcdir=@srcdir@
++ prefix=@prefix@
++ exec_prefix=@exec_prefix@
++-libdir=@libdir@
+++libdir="@libdir@:${LD_LIBRARY_PATH}"
++ LIBPATH_VARIABLE=@LIBPATH_VARIABLE@
++ 
++ CONFIG_SITE=@INSTALLER_ROOT@/config.site
+--- a/externals/bundles/voms/2.0.6/CMakeLists.txt.orig	2013-10-25 03:45:07.000000000 +0200
++++ b/externals/bundles/voms/2.0.6/CMakeLists.txt	2013-10-25 04:27:45.000000000 +0200
+@@ -62,9 +62,9 @@
+ 			string(REPLACE "-std=c++11" "" VOMS_LDFLAGS "${CMAKE_SHARED_LINKER_FLAGS}")
+ 			set ( VOMS_CXX_COMPILER  "clang++" )
+                 else()
+-			set ( VOMS_CXX_FLAGS ${CMAKE_CXX_FLAGS} )
+-			set ( VOMS_C_FLAGS ${CMAKE_C_FLAGS} )
+-			set ( VOMS_LDFLAGS ${CMAKE_SHARED_LINKER_FLAGS} )
++			set ( VOMS_CXX_FLAGS "${CMAKE_CXX_FLAGS} -IEXPAT_ROOT/include" )
++			set ( VOMS_C_FLAGS "${CMAKE_C_FLAGS} -IEXPAT_ROOT/include" )
++			set ( VOMS_LDFLAGS "${CMAKE_SHARED_LINKER_FLAGS} -LEXPAT_ROOT/lib" )
+ 			set ( VOMS_CXX_COMPILER ${CMAKE_CXX_COMPILER} )
+ 		endif()
+ 
+--- a/externals/bundles/boost/1.49.0/CMakeLists.txt.orig	2013-11-07 16:10:42.000000000 +0100
++++ b/externals/bundles/boost/1.49.0/CMakeLists.txt	2013-11-07 16:11:15.000000000 +0100
+@@ -73,7 +73,7 @@
+ 
+ 
+ # we only use our version of boost if the system is not good enough
+-if (NOT PROPER) # AND (NOT Boost_FOUND OR SYSTEM_NOT_UP_TO_SNUFF) )
++if ( (NOT PROPER) AND (NOT Boost_FOUND OR SYSTEM_NOT_UP_TO_SNUFF) )
+ 
+ 	if (WINDOWS)
+ 	  # need to expand the configure and

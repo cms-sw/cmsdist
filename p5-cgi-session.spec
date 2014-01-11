@@ -8,6 +8,7 @@ Requires: p5-extutils-makemaker p5-cgi
 Provides:  perl(DBD::Pg)
 Provides:  perl(DBI)
 Provides:  perl(FreezeThaw)
+Provides:  perl(Test::More)
 
 %prep
 %setup -n %downloadn-%{realversion}

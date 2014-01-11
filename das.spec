@@ -1,4 +1,4 @@
-### RPM cms das 1.12.1
+### RPM cms das 2.3.3
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver 0.8.3
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
@@ -9,6 +9,8 @@ Source1: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui
 Requires: mongo py2-pymongo py2-cjson py2-yaml py2-pystemmer py2-mongoengine py2-lxml py2-ply py2-yajl
 Requires: py2-pycurl rotatelogs
+# keyword search dependencies below
+Requires: py2-jsonpath-rw py2-nltk py2-whoosh
 BuildRequires: py2-sphinx
 
 # RPM macros documentation
@@ -34,18 +36,45 @@ mv -f init.tmp src/python/DAS/__init__.py
 python setup.py build
 
 # build DAS JSON maps out of DAS YML files
-cmd="python src/python/DAS/tools/das_drop_maps.py"
-dir="src/python/DAS/services/cms_maps/"
-map_file="$dir/das_maps.js"
-rm -f $map_file
-export PYTHONPATH=$PYTHONPATH:$PWD/src/python
-for amap in `ls $dir/*.yml`
-do
-    $cmd --uri-map=$amap >> $map_file
-    $cmd --notation-map=$amap >> $map_file
-    $cmd --presentation-map=$amap >> $map_file
-done
-rm -f $dir/*.yml
+das_maps()
+{
+    cmd="python src/python/DAS/tools/das_drop_maps.py"
+    dir="src/python/DAS/services/cms_maps/"
+    tdir=/tmp/dasmaps
+    rm -rf $tdir
+    mkdir -p $tdir
+    cp $dir/*.yml $tdir
+    if [ "$1" == "production" ]; then
+        map_file="$dir/das_maps.js"
+    else
+        for amap in `ls $tdir/*.yml`
+        do
+            /bin/cat $amap | sed "s/cmsweb.cern.ch/cmsweb-testbed.cern.ch/g" > $amap.tmp
+            rm -f $amap
+            mv $amap.tmp $amap
+        done
+        map_file="$dir/das_testbed_maps.js"
+    fi
+    rm -f $map_file
+    export PYTHONPATH=$PYTHONPATH:$PWD/src/python
+    for amap in `ls $tdir/*.yml`
+    do
+        $cmd --uri-map=$amap >> $map_file
+        $cmd --notation-map=$amap >> $map_file
+        $cmd --presentation-map=$amap >> $map_file
+    done
+    /bin/cat $map_file | grep -v "###" > $map_file.tmp
+    rm -f $map_file
+    mv $map_file.tmp $map_file
+    rm -rf $tdir
+}
+
+# generate production DAS maps
+das_maps "production"
+# generate pre-production DAS maps
+das_maps "pre-production"
+# clean-up DAS YML files
+rm -f src/python/DAS/services/cms_maps/*.yml
 rm -rf src/python/DAS/services/maps
 
 # build DAS sphinx documentation

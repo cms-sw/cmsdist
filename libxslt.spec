@@ -1,4 +1,4 @@
-### RPM external libxslt 1.1.26
+### RPM external libxslt 1.1.28
 
 # 64-bit version
 Provides: libgcrypt.so.11()(64bit)

@@ -1,23 +1,35 @@
 ### RPM external classlib 3.1.3
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
-Source: http://lat.web.cern.ch/lat/exports/%n-%realversion.tar.bz2
+Source: http://cmsrep.cern.ch/cmssw/cms/SOURCES/slc5_amd64_gcc472/external/classlib/3.1.3/classlib-3.1.3.tar.bz2
 Patch0: classlib-3.1.3-gcc46
 Patch1: classlib-3.1.3-sl6
+Patch2: classlib-3.1.3-fix-gcc47-cxx11
+Patch3: classlib-3.1.3-fix-unwind-x86_64
 
 Requires: bz2lib 
 Requires: pcre 
 Requires: xz
-%if "%online" != "true"
 Requires: openssl
+%if "%online" != "true"
 Requires: zlib 
 %else
 Requires: onlinesystemtools
+%endif
+
+%if "%{?cms_cxx:set}" != "set"
+%define cms_cxx g++
+%endif
+
+%if "%{?cms_cxxflags:set}" != "set"
+%define cms_cxxflags -std=c++0x -O2
 %endif
 
 %prep
 %setup -n %n-%realversion
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 ./configure --prefix=%i                         \
@@ -30,14 +42,14 @@ Requires: onlinesystemtools
   --with-openssl-includes=$OPENSSL_ROOT/include \
   --with-openssl-libraries=$OPENSSL_ROOT/lib	\
   --with-lzma-includes=$XZ_ROOT/include         \
-  --with-lzma-libraries=$XZ_ROOT/lib	
+  --with-lzma-libraries=$XZ_ROOT/lib
 
 perl -p -i -e '
   s{-llzo2}{}g;
   !/^\S+: / && s{\S+LZO((C|Dec)ompressor|Constants|Error)\S+}{}g' \
  Makefile
 
-make %makeprocesses
+make %makeprocesses CXX="%cms_cxx" CXXFLAGS="-Wno-error=extra -ansi -pedantic -W -Wall -Wno-long-long -Werror %cms_cxxflags"
 
 %install
 make %makeprocesses install

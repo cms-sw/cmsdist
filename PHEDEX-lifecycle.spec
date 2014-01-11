@@ -1,14 +1,19 @@
-### RPM cms PHEDEX-lifecycle 1.1.0
+### RPM cms PHEDEX-lifecycle 1.2.1
+# Dummy line to force a rebuild
 ## INITENV +PATH PERL5LIB %i/perl_lib
 ## INITENV +PATH PERL5LIB %i/T0/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
-#%define cvsversion LIFECYCLE_%(echo %realversion | tr . _)
-#%define cvsserver cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e
-#Source0: %cvsserver&strategy=export&module=%{downloadn}&export=%{downloadn}&&tag=-r%{cvsversion}&output=/%{n}.tar.gz
-Source1: %cvsserver&strategy=export&module=T0&export=T0&&tag=-rPHEDEX_LIFECYCLE_1_0_0&output=/T0.tar.gz
+%define downloadp %(echo %n | cut -f2 -d- | tr '[a-z]' '[A-Z]')
+%define downloadt %(echo %realversion | tr '.' '_')
+%define setupdir  %{downloadn}-%{downloadp}_%{downloadt}
+Source: https://github.com/dmwm/PHEDEX/archive/%{downloadp}_%{downloadt}.tar.gz
 
-%define realversion LIFECYCLE_1_2_0
-Source0: git://github.com/dmwm/PHEDEX?obj=PHEDEX-LifeCycle/%realversion&export=%n&output=/%n.tar.gz
+#%define gittag 58f3eed1c98b8edaae10f6befe9d0343c0abc38b
+#Source0: git://github.com/dmwm/PHEDEX?obj=PHEDEX-LifeCycle/%gittag&export=%n&output=/%n.tar.gz
+
+# TODO Need to get this from somewhere else...
+%define cvsserver cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e
+Source1: %cvsserver&strategy=export&module=T0&export=T0&&tag=-rPHEDEX_LIFECYCLE_1_0_0&output=/T0.tar.gz
 
 Requires: p5-poe p5-poe-component-child p5-clone p5-time-hires p5-text-glob
 Requires: p5-compress-zlib p5-log-log4perl p5-json-xs p5-xml-parser p5-monalisa-apmon
@@ -31,8 +36,9 @@ Provides: perl(T0::Util)
 #Requires:  expat
 
 %prep
-%setup -n PHEDEX-lifecycle
+%setup -n %{setupdir}
 tar zxf %_sourcedir/T0.tar.gz
+rm Testbed/AutomatedTesting/check_API.pl
 
 %build
 %install
