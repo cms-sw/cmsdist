@@ -87,6 +87,8 @@ Requires: py2-pycurl-toolfile
 Requires: py2-sqlalchemy-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
+Requires: cython-toolfile
+Requires: yoda-toolfile
 Requires: fftw3-toolfile
 Requires: fftjet-toolfile
 Requires: lapack-toolfile
