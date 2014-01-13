@@ -113,6 +113,7 @@ Requires: git-toolfile
 Requires: cgal-toolfile
 Requires: doxygen-toolfile
 Requires: py2-python-dateutil-toolfile
+Requires: yaml-cpp-toolfile
 
 # Only for Linux platform.
 %if %islinux
