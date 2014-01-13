@@ -3,9 +3,11 @@
 Source: http://pyminuit2.googlecode.com/files/%{n}-%{realversion}.tar.gz
 Requires: root 
 
+Patch0: pyminuit2-cling
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 %install

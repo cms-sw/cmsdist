@@ -16,6 +16,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdf.xml
     <environment name="INCLUDE" default="$LHAPDF_BASE/include"/>
   </client>
   <runtime name="LHAPATH" value="$LHAPDF_BASE/share/lhapdf/PDFsets"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="f77compiler"/>
 </tool>
 EOF_TOOLFILE
@@ -36,6 +38,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdffull.xml
     <environment name="INCLUDE" default="$LHAPDFFULL_BASE/include"/>
   </client>
   <runtime name="LHAPATH" value="$LHAPDFFULL_BASE/share/lhapdf/PDFsets"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="f77compiler"/>
 </tool>
 EOF_TOOLFILE

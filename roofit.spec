@@ -1,73 +1,102 @@
-### RPM lcg roofit 5.34.09
-%define tag %(echo v%{realversion} | tr . -)
-%define branch %(echo %{realversion} | sed 's/\\.[0-9]*$/.00/;s/^/v/;s/$/-patches/g;s/\\./-/g')
-Source0: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-Source1: roofit-5.28.00-build.sh
+### RPM lcg roofit 5.99.05
+## INITENV +PATH PYTHONPATH %{i}/lib
+## INITENV SET ROOTSYS %{i}
+%define tag 6b0b92e906b997e0c41d4ea1cc51bcf5aca8ec88
+%define branch master
+Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
-Patch0: root-5.28-00d-roofit-silence-static-printout
-Patch1: roofit-5.24-00-RooFactoryWSTool-include
-Patch2: roofit-5.30.00-remove-tmath-infinity
+%define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
+%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
+%define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
 
-Requires: root 
+#atch0: root6-externals
+#atch1: root6-cling-opts
 
+Patch0: root_patch_cms_v03
 
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x
-%endif
+#Patch0: root-5.34.02-externals
+#Patch1: root-5.28-00d-roofit-silence-static-printout
+#Patch2: root-5.34.00-linker-gnu-hash-style
+#Patch3: root-5.32.00-detect-arch
+#Patch4: root-5.30.02-fix-gcc46
+#Patch5: root-5.30.02-fix-isnan-again
+#Patch6: root-5.34.05-cintex-armv7a-port
+
+Requires: root
+
+#equires: gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl zlib
+
+#if %islinux
+#equires: castor dcap
+#endif
+
+#if %isdarwin
+#equires: freetype
+#endif
+
+%define keep_archives true
 
 %prep
-%setup -b0 -n %{n}-%{realversion}
-%patch0 -p1
-%patch1 -p0
-%patch2 -p1
- 
+%setup -n %{n}-%{realversion}
+%patch0 -p0
+#patch0 -p1
+#patch1 -p1
+
+sed -ibak -e 's/\/usr\/local/\/no-no-no\/local/g' \
+          -e 's/\/opt\/local/\/no-no-no\/local/g' \
+          ./configure
+
 %build
-#Copy over the tutorials
-mkdir -p %{i}/tutorials/
-pushd ./tutorials
-cp -R roofit %{i}/tutorials/
-cp -R roostats %{i}/tutorials/
-cp -R histfactory %{i}/tutorials/
-popd
+mkdir -p %{i}
+export ROOTSYS=%_builddir/root
+export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
-cd ./roofit
-mkdir -p %{i}/bin
-cp roostats/inc/RooStats/*.h roostats/inc/
-cp histfactory/inc/RooStats/HistFactory/*.h histfactory/inc/
-cp histfactory/config/prepareHistFactory %i/bin/
-cp %{SOURCE1} build.sh
-chmod +x build.sh
-# Remove an extra -m64 from Wouter's build script (in CXXFLAGS and LDFLAGS)
-perl -p -i -e 's|-m64||' build.sh
-perl -p -i -e "s|CXXFLAGS='|CXXFLAGS='%cms_cxxflags |" build.sh
-case %cmsplatf in
-  osx10[0-9]_* )
-# Change gawk to awk
-perl -p -i -e 's|gawk|awk|' build.sh
-# -soname not on osx
-perl -p -i -e 's|-Wl,-soname,\S*\.so|-dynamiclib|' build.sh
-  ;;
-esac
+#export LZMA=${XZ_ROOT}
+#export ZLIB=${ZLIB_ROOT}
+#export LIBJPEG=${LIBJPEG_ROOT}
+#export LIBPNG=${LIBPNG_ROOT}
+#export LIBTIFF=${LIBTIFF_ROOT}
 
-./build.sh
-mv build/lib %i/
-mkdir %i/include
-cp -r build/inc/* %i/include
-# Change name of one binary by hand
-mv build/bin/MakeModelAndMeasurements %i/bin/hist2workspace
-# On macosx we cannot simply rename libraries and executables.
-case %cmsos in 
-  osx*)
-	install_name_tool -change MakeModelAndMeasurements hist2workspace -id hist2workspace %i/bin/hist2workspace
-	find %i/lib -name "*.so" -exec install_name_tool -change build/lib/libRooStats.so libRooStats.so {} \;
-	find %i/lib -name "*.so" -exec install_name_tool -change build/lib/libRooFitCore.so libRooFitCore.so  {} \; 
-	find %i/lib -name "*.so" -exec install_name_tool -change build/lib/libRooFit.so libRooFit.so  {} \; 
-	find %i/lib -name "*.so" -exec install_name_tool -change build/lib/libHistFactory.so libHistFactory.so {} \; 
-        find %i/bin -type f -exec install_name_tool -change build/lib/libRooStats.so libRooStats.so {} \;
-        find %i/bin -type f -exec install_name_tool -change build/lib/libRooFitCore.so libRooFitCore.so  {} \;
-        find %i/bin -type f -exec install_name_tool -change build/lib/libRooFit.so libRooFit.so  {} \;
-        find %i/bin -type f -exec install_name_tool -change build/lib/libHistFactory.so libHistFactory.so {} \;
-  ;;
-esac
+# Enable debug symbols in ROOT LLVM
+export LLVMDEV=1
+
+CONFIG_ARGS="--minimal
+             --enable-roofit
+             --enable-xml
+             --enable-c++11
+             --build=debug
+             --disable-rpath
+             --with-cxx=g++
+             --with-cc=gcc
+             --with-ld=g++
+             --with-f77=gfortran
+             --with-gcc-toolchain=${GCC_ROOT}"
+
+TARGET_PLATF=
+
+%if %islinux
+  TARGET_PLATF=linuxx8664gcc
+%endif
+
+%if %isdarwin
+  TARGET_PLATF=macosx64
+%endif
+
+%if %isarmv7
+  TARGET_PLATF=linuxarm
+%endif
+
+cat <<\EOF >> MyConfig.mk
+CFLAGS+=-D__ROOFIT_NOBANNER
+CXXFLAGS+=-D__ROOFIT_NOBANNER
+EOF
+
+./configure ${TARGET_PLATF} ${CONFIG_ARGS}
+
+make %{makeprocesses}
 
 %install
+mkdir -p %{i}/{lib,bin,include,tutorials}
+cp ./lib/{libHistFactory*,libRooFitCore*,libRooFit*,libRooStats*} %{i}/lib
+cp ./bin/{prepareHistFactory,hist2workspace} %{i}/bin
+rsync -av --exclude='*LinkDef*.h' ./roofit/{roofit,roofitcore,roostats,histfactory}/inc/ %{i}/include/
