@@ -1,4 +1,4 @@
-### RPM external jemalloc 2.2.2 
+### RPM external jemalloc 3.4.1
 Source: http://www.canonware.com/download/jemalloc/jemalloc-%realversion.tar.bz2 
 
 %prep
@@ -6,6 +6,6 @@ Source: http://www.canonware.com/download/jemalloc/jemalloc-%realversion.tar.bz2
 
 %build
 perl -p -i -e 's|-no-cpp-precomp||' configure
-./configure --prefix %i
+./configure --disable-stats --prefix %i
 
 %define drop_files %i/share
