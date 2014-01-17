@@ -1,24 +1,20 @@
-### RPM external yaml-cpp 0.5.1
-Source: http://yaml-cpp.googlecode.com/files/%{n}-%{realversion}.tar.gz
+### RPM external yaml-cpp 0.3.0
+Source: http://cern.ch/service-spi/external/MCGenerators/distribution/yamlcpp/yamlcpp-%{realversion}-src.tgz
 
 BuildRequires: cmake
 
 Requires: boost
 
+%if "%{?cms_cxxflags:set}" != "set"
+%define cms_cxxflags -std=c++0x -O2
+%endif
+
 %prep
-%setup -n %{n}-%{realversion}
+%setup -q -n yamlcpp/%{realversion}
  
 %build
-cmake . \
-  -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
-  -DBUILD_SHARED_LIBS=YES \
-  -DBOOST_ROOT:PATH=${BOOST_ROOT} \
-  -DCMAKE_SKIP_RPATH=YES \
-  -DSKIP_INSTALL_FILES=1
-
+cmake -DBOOST_ROOT=${BOOST_ROOT} -DCMAKE_INSTALL_PREFIX=%i -DBUILD_SHARED_LIBS=ON -DCMAKE_CXX_FLAGS="%{cms_cxxflags}"
 make %{makeprocesses} VERBOSE=1
 
 %install
 make install
-
-%post
