@@ -110,6 +110,7 @@ Requires: cvs2git-toolfile
 Requires: cgal-toolfile
 Requires: pacparser-toolfile
 Requires: git-toolfile
+Requires: yaml-cpp-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
