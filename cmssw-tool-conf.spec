@@ -86,6 +86,7 @@ Requires: py2-cjson-toolfile
 Requires: py2-pycurl-toolfile
 Requires: py2-sqlalchemy-toolfile
 Requires: rivet-toolfile
+Requires: yamlcpp-toolfile
 Requires: cascade-toolfile
 Requires: fftw3-toolfile
 Requires: fftjet-toolfile
