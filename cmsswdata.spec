@@ -39,6 +39,8 @@ Requires: data-RecoMuon-MuonIdentification
 Requires: data-RecoEgamma-ElectronIdentification
 Requires: data-RecoJets-JetProducers
 Requires: data-CalibTracker-SiPixelESProducers
+Requires: data-CalibCalorimetry-CaloMiscalibTools
+Requires: data-Configuration-Generator
 
 %if %isnotonline
 # extra data dependencies for standard builds
