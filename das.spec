@@ -40,7 +40,7 @@ PYTHONPATH=$PWD/src/python:$PYTHONPATH
 
 # build DAS JSON maps out of DAS YML files, they will be created in
 # DAS/services/cms_maps area as das_maps/das_testbed_maps.js files
-bin/create_das_js src/python/DAS/services/cms_maps
+bin/das_create_json_maps src/python/DAS/services/cms_maps
 # clean-up DAS YML files
 rm -f src/python/DAS/services/cms_maps/*.yml
 rm -rf src/python/DAS/services/maps
