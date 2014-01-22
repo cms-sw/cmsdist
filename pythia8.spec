@@ -15,7 +15,7 @@ export USRCXXFLAGS="%cms_cxxflags"
 ./configure --prefix=%i --enable-shared --with-hepmc=${HEPMC_ROOT}
 
 %build
-make 
+make %makeprocesses
 
 %install
 make install
