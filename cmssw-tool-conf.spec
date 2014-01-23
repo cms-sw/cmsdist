@@ -10,6 +10,7 @@ Provides: libboost_thread-gcc-mt.so
 %define isslc %(case %cmsos in slc*%closingbrace echo true;; *%closingbrace echo false;; esac)
 %define is64bit %(case %cmsos in slc*_amd64%closingbrace echo true;; *%closingbrace echo false;; esac)
 
+Requires: das-client-toolfile
 Requires: alpgen-toolfile
 Requires: boost-toolfile
 Requires: bz2lib-toolfile
