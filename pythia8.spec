@@ -12,6 +12,8 @@ Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-
 %setup -q -n %{n}/%{realversion}
 
 export USRCXXFLAGS="%cms_cxxflags"
+export HEPMCLOCATION=${HEPMC_ROOT} 
+export HEPMCVERSION=${HEPMC_VERSION} 
 ./configure --prefix=%i --enable-shared --with-hepmc=${HEPMC_ROOT}
 
 %build
