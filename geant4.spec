@@ -11,6 +11,8 @@ Requires: xerces-c
 Patch0: geant4-10.0-no-banner
 Patch1: geant4-10.0-dynamic-TLS
 
+%define keep_archives true
+
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
 %endif
@@ -28,6 +30,7 @@ if [ $(uname) = Darwin ]; then
   SOEXT=dylib
 fi
 
+rm -rf ../build
 mkdir ../build
 cd ../build
 
@@ -48,6 +51,7 @@ cmake ../%{n}.%{realversion} \
   -DCLHEP_ROOT_DIR:PATH="$CLHEP_ROOT" \
   -DEXPAT_INCLUDE_DIR:PATH="$EXPAT_ROOT/include" \
   -DEXPAT_LIBRARY:FILEPATH="$EXPAT_ROOT/lib/libexpat.$SOEXT" \
+  -DBUILD_STATIC_LIBS=ON
 
 make %makeprocesses VERBOSE=1
 
