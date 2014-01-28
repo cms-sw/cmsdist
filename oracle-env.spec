@@ -3,9 +3,9 @@
 ## INITENV +PATH SQLPATH %i/etc
 ## INITENV SET TNS_ADMIN %i/etc
 
-Source0: http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/*checkout*/COMP/PHEDEX/Schema/login.sql?rev=1.2&cvsroot=CMSSW
-Source1: http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/*checkout*/COMP/PHEDEX/Schema/tnsnames.ora?rev=1.45&cvsroot=CMSSW
-Source2: http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/*checkout*/COMP/PHEDEX/Schema/sqlnet.ora?rev=1.1&cvsroot=CMSSW
+Source0: http://cvs.web.cern.ch/cvs/cgi-bin/viewcvs.cgi/COMP/PHEDEX/Schema/login.sql?revision=1.2
+Source1: http://cvs.web.cern.ch/cvs/cgi-bin/viewcvs.cgi/COMP/PHEDEX/Schema/tnsnames.ora?revision=1.45
+Source2: http://cvs.web.cern.ch/cvs/cgi-bin/viewcvs.cgi/COMP/PHEDEX/Schema/sqlnet.ora?revision=1.1
 Patch0: oracle-env-online
 %prep
 %build
