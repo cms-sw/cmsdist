@@ -13,7 +13,7 @@ Patch0: yoda-1.0.4-fixisnan
 %setup -q -n %{n}/%{realversion}
 %patch0 -p2
 
-configure --prefix=%i --with-boost=${BOOST_ROOT} CXX="$(which %cms_cxx)" CXXFLAGS="%cms_cxxflags"
+./configure --prefix=%i --with-boost=${BOOST_ROOT} CXX="$(which %cms_cxx)" CXXFLAGS="%cms_cxxflags"
 
 %build
 make all
