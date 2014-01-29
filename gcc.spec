@@ -129,7 +129,7 @@ CC="$CC -fPIC"
 CXX="$CXX -fPIC"
 
 mkdir -p %{i}/tmp/sw
-export PATH=%{i}/tmp/sw:$PATH
+export PATH=%{i}/tmp/sw/bin:$PATH
 
 # Build zlib (required for compressed debug information)
 cd ../zlib-%{zlibVersion}
@@ -160,6 +160,7 @@ make install
               CC="$CC"
   make %{makeprocesses}
   make install
+  hash -r
 
   # Build Flex
   cd ../flex-%{flexVersion}
@@ -168,11 +169,12 @@ make install
               CC="$CC" CXX="$CXX"
   make %{makeprocesses}
   make install
+  hash -r
 
   # Build elfutils
   cd ../elfutils-%{elfutilsVersion}
   ./configure --disable-static --with-zlib --without-bzlib --without-lzma \
-              --build=%{_build} --host=%{_host} \
+              --build=%{_build} --host=%{_host} --program-prefix='eu-'\
               --prefix=%{i} CC="$CC" CPP="$CPP" \
               CFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
   make %{makeprocesses}
