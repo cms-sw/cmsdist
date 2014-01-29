@@ -1,0 +1,13 @@
+--- orig.root/core/unix/src/TUnixSystem.cxx	2008-12-18 09:56:31.000000000 +0100
++++ root/core/unix/src/TUnixSystem.cxx	2009-01-15 00:04:14.000000000 +0100
+@@ -383,7 +383,9 @@
+ #ifndef ROOTPREFIX
+    void *addr = (void *)SetRootSys;
+    Dl_info info;
+-   if (dladdr(addr, &info) && info.dli_fname && info.dli_fname[0]) {
++   TString rootenvvar = gSystem->Getenv("ROOTSYS");
++   if ((rootenvvar.IsNull()) &&
++       dladdr(addr, &info) && info.dli_fname && info.dli_fname[0]) {
+       TString rs = gSystem->DirName(info.dli_fname);
+       gSystem->Setenv("ROOTSYS", gSystem->DirName(rs));
+    }

@@ -1,0 +1,12 @@
+Index: PDF/LHAPDF.cc
+===================================================================
+--- PDF/LHAPDF.cc       (CMSSW version)
++++ PDF/LHAPDF.cc       (working copy)
+@@ -198,6 +198,7 @@
+
+ bool LHAPDF::openLHAIndex(ifstream & is) {
+   is.close();
++  is.clear();
+   is.open(getIndexPath().c_str());
+   if ( is ) return true;
+   is.clear();

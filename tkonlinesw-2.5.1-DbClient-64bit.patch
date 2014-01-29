@@ -1,0 +1,11 @@
+--- orig.trackerDAQ-2.5.1/FecSoftwareV3_0/generic/src/common/DbClient.cc	2008-06-02 16:43:13.000000000 +0200
++++ trackerDAQ-2.5.1/FecSoftwareV3_0/generic/src/common/DbClient.cc	2009-05-04 23:50:31.000000000 +0200
+@@ -319,7 +319,7 @@
+ void DbClient::splitInVector(std::string ENV,vector<string> &v)
+     {
+       int idx1=0,idx2;
+-      unsigned int pos;
++      size_t pos;
+       do 
+ 	{
+ 	  pos = ENV.find(":",idx1);

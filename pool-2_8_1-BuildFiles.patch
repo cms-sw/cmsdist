@@ -1,0 +1,1381 @@
+diff -Naur orig.src/AttributeList/BuildFile src/AttributeList/BuildFile
+--- orig.src/AttributeList/BuildFile    2003-09-03 14:23:37.000000000 +0200
++++ src/AttributeList/BuildFile 2008-11-24 14:54:17.000000000 +0100
+@@ -1,7 +1,8 @@
+-<include_path path=.></include_path>
+-<export autoexport=true>
+-  <lib name=lcg_AttributeList>
++<export>
++ <lib name=lcg_AttributeList>
++ <use name=CoralBase>
++ <use name=POOLCore>
+ </export>
+ 
+ <use name=POOLCore></use>
+-
++<use name=CoralBase></use>
+diff -Naur orig.src/Collection/BuildFile src/Collection/BuildFile
+--- orig.src/Collection/BuildFile       2005-07-28 11:30:03.000000000 +0200
++++ src/Collection/BuildFile    2008-11-24 14:55:51.000000000 +0100
+@@ -1,6 +1,7 @@
+-<include_path path=.></include_path>
+-<export autoexport=true>
+-  <lib name=lcg_Collection>
++<export>
++ <lib name=lcg_Collection>
++ <use name=DataSvc>
++ <use name=CollectionBase>
+ </export>
+ 
+ # Dependencies
+diff -Naur src.orig/CollectionBase/BuildFile src/CollectionBase/BuildFile
+--- src.orig/CollectionBase/BuildFile	2004-08-11 11:05:38.000000000 +0200
++++ src/CollectionBase/BuildFile	2007-06-19 18:36:32.000000000 +0200
+@@ -1,11 +1,9 @@
+-<include_path path=.></include_path>
+-<export autoexport=true>
+-  <lib name=lcg_CollectionBase>
++<Flags SealPlugin=1>
++<export>
++ <lib name=lcg_CollectionBase>
++ <use name=PersistencySvc>
++ <use name=CoralCommon>
+ </export>
+ 
+-# Dependencies
+-<use name=PersistencySvc></use>
+-<use name=FileCatalog></use>
+-
+-# This provides at least one plugin
+-PLUGIN_MODULE := CollectionBase
++<use name=PersistencySvc>
++<use name=CoralCommon>
+diff -Naur src.orig/DataSvc/BuildFile src/DataSvc/BuildFile
+--- src.orig/DataSvc/BuildFile	2003-05-26 13:46:12.000000000 +0200
++++ src/DataSvc/BuildFile	2007-06-19 18:36:32.000000000 +0200
+@@ -1,10 +1,7 @@
+-<include_path path=.></include_path>
+-<export autoexport=true>
+-  <lib name=lcg_DataSvc>
++<Flags SealPlugin=1>
++<export>
++ <lib name=lcg_DataSvc>
++ <use name=PersistencySvc>
+ </export>
+ 
+-# Dependency on PersistencySvc
+-<use name=PersistencySvc></use>
+-
+-# This provides at least one plugin
+-PLUGIN_MODULE := DataSvc
++<use name=PersistencySvc>
+diff -Naur src.orig/DataSvc/tests/RetrieveTest/BuildFile src/DataSvc/tests/RetrieveTest/BuildFile
+--- src.orig/DataSvc/tests/RetrieveTest/BuildFile	2003-10-31 11:46:24.000000000 +0100
++++ src/DataSvc/tests/RetrieveTest/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-# Dependency on CppUnit
+-<External ref=cppunit></External>
+diff -Naur src.orig/FileCatalog/BuildFile src/FileCatalog/BuildFile
+--- orig.src/FileCatalog/BuildFile      2008-02-19 18:16:09.000000000 +0100
++++ src/FileCatalog/BuildFile   2008-11-04 01:55:31.000000000 +0100
+@@ -1,11 +1,8 @@
+-<include_path path=.></include_path>
+-<export autoexport=true>
+-  <lib name=lcg_FileCatalog>
++<export>
++ <lib name=lcg_FileCatalog>
++ <use name=AttributeList>
++ <use name=rootrflx>
+ </export>
+ 
+-# Dependency on POOL Components
+-<use name=AttributeList></use>
+-
+-# Dependencies on other packages 
+-<External ref=SEAL use=Foundation/PluginManager></External>
+-
++<use name=AttributeList>
++<use name=rootrflx>
+diff -Naur orig.src/ImplicitCollection/BuildFile src/ImplicitCollection/BuildFile
+--- orig.src/ImplicitCollection/BuildFile	2003-10-16 20:44:36.000000000 +0200
++++ src/ImplicitCollection/BuildFile	2008-11-19 14:03:10.000000000 +0100
+@@ -1,8 +1,7 @@
+-# The library name
+-<lib name=lcg_ImplicitCollection>
+-
+ # Dependencies
+ <use name=CollectionBase></use>
+-
+-# This provides at least one plugin
+-PLUGIN_MODULE := ImplicitCollection
++<flags ROOTMAP=1>
++# The library name
++<export>	
++  <lib name=lcg_ImplicitCollection>		
++</export>
+diff -Naur src.orig/LFCCatalog/BuildFile src/LFCCatalog/BuildFile
+--- src.orig/LFCCatalog/BuildFile	2005-05-11 18:08:58.000000000 +0200
++++ src/LFCCatalog/BuildFile	2007-06-19 18:36:32.000000000 +0200
+@@ -1,11 +1,9 @@
+-<include_path path=.></include_path>
+-<export autoexport=true>
+-  <lib name=lcg_LFCCatalog>
++<export>
++ <lib name=lcg_LFCCatalog>
++ <use name=FileCatalog>
++ <use name=lfc>
+ </export>
+ 
+-<use name=FileCatalog></use>
+-
+-# Dependency on lfc
+-<External ref=lfc></External>
+-
+-PLUGIN_MODULE := LFCCatalog
++<use name=FileCatalog>
++<use name=lfc>
++<Flags SealPlugin=1>
+diff -Naur orig.src/POOLCore/BuildFile src/POOLCore/BuildFile 
+--- orig.src/POOLCore/BuildFile 2004-01-30 16:39:09.000000000 +0100
++++ src/POOLCore/BuildFile      2008-11-04 01:45:38.000000000 +0100
+@@ -1,12 +1,10 @@
+-<include_path path=.></<include_path>
+-<export autoexport=true>
+-  <lib name=lcg_POOLCore>
++<export>
++ <lib name=lcg_POOLCore>
++ <use name=RelationalAccess>
++ <use name=rootcore>
++ <use name=uuid>
+ </export>
+ 
+-# Dependency on SealKernel
+-<External ref=SEAL use=Framework/SealKernel></External>
+-
+-# SEAL is not declaring that !!!
+-<architecture name=win32_vc71>
+- <external ref=rx>
+-</architecture>
++<use name=RelationalAccess>
++<use name=rootcore>
++<use name=uuid>
+diff -Naur src.orig/POOLCore/utilities/BuildFile src/POOLCore/utilities/BuildFile
+--- src.orig/POOLCore/utilities/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/POOLCore/utilities/BuildFile	2007-06-19 18:36:32.000000000 +0200
+@@ -0,0 +1,2 @@
++<use name=POOLCore>
++<bin file=pool_gen_uuid.cpp></bin>
+diff -Naur src.orig/RelationalCollection/BuildFile src/RelationalCollection/BuildFile
+--- src.orig/RelationalCollection/BuildFile	2005-11-29 18:08:37.000000000 +0100
++++ src/RelationalCollection/BuildFile	2007-06-19 18:36:32.000000000 +0200
+@@ -1,9 +1,10 @@
+-# The library name
+-<lib name=lcg_RelationalCollection>
++<Flags SealPlugin=1>
+ 
+-# Dependencies
+-<use name=CollectionBase></use>
+-<External ref=CORAL use=RelationalAccess></External>
++<export>
++ <lib name=lcg_RelationalCollection>
++ <use name=CollectionBase>
++ <use name=RelationalAccess>
++</export>
+ 
+-# This provides at least one plugin
+-PLUGIN_MODULE := RelationalCollection
++<use name=CollectionBase>
++<use name=RelationalAccess>
+diff -Naur src.orig/RelationalFileCatalog/BuildFile src/RelationalFileCatalog/BuildFile
+--- src.orig/RelationalFileCatalog/BuildFile	2006-01-11 12:03:33.000000000 +0100
++++ src/RelationalFileCatalog/BuildFile	2007-06-19 18:36:32.000000000 +0200
+@@ -1,3 +1,9 @@
+-<use name=FileCatalog></use>
+-<External ref=CORAL use=RelationalAccess></External>
+-PLUGIN_MODULE := RelationalFileCatalog
++<Flags SealPlugin=1>
++<export>
++ <lib name=lcg_RelationalFileCatalog>
++ <use name=RelationalAccess>
++ <use name=FileCatalog>
++</export>
++
++<use name=RelationalAccess>
++<use name=FileCatalog>
+diff -Naur src.orig/RelationalFileCatalog/tests/BuildFile src/RelationalFileCatalog/tests/BuildFile
+--- src.orig/RelationalFileCatalog/tests/BuildFile	2006-01-11 14:29:17.000000000 +0100
++++ src/RelationalFileCatalog/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-<include_path path=../src></include_path>
+-<lib name=lcg_RelationalFileCatalog></lib>
+diff -Naur src.orig/Tests/Collection_BackNavigate/BuildFile src/Tests/Collection_BackNavigate/BuildFile
+--- src.orig/Tests/Collection_BackNavigate/BuildFile	2004-06-15 18:28:58.000000000 +0200
++++ src/Tests/Collection_BackNavigate/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-<include_path path=.></include_path>
+-
+-# Dependencies
+-<use name=Collection></use>
+-<use name=Tests/Libraries/TestDictionary></use>
+\ No newline at end of file
+diff -Naur src.orig/Tests/Collection_Cataloging/BuildFile src/Tests/Collection_Cataloging/BuildFile
+--- src.orig/Tests/Collection_Cataloging/BuildFile	2004-08-17 09:35:47.000000000 +0200
++++ src/Tests/Collection_Cataloging/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-<use name=Collection>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+diff -Naur src.orig/Tests/Collection_Cataloging/dict/BuildFile src/Tests/Collection_Cataloging/dict/BuildFile
+--- src.orig/Tests/Collection_Cataloging/dict/BuildFile	2004-08-17 09:35:47.000000000 +0200
++++ src/Tests/Collection_Cataloging/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,4 +0,0 @@
+-DICT_FILES = $(LOCALTOP)/$(THISDIR)/../src/Event.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+-
+-
+diff -Naur src.orig/Tests/Collection_ExplicitReadPerformance/BuildFile src/Tests/Collection_ExplicitReadPerformance/BuildFile
+--- src.orig/Tests/Collection_ExplicitReadPerformance/BuildFile	2003-12-18 03:21:18.000000000 +0100
++++ src/Tests/Collection_ExplicitReadPerformance/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,6 +0,0 @@
+-<include_path path=.></include_path>
+-
+-# Dependencies
+-<use name=Collection></use>
+-<use name=Tests/Libraries/TestDictionary></use>
+-<use name=Tests/Libraries/PoolBench></use>
+diff -Naur src.orig/Tests/Collection_ExplicitWritePerformance/BuildFile src/Tests/Collection_ExplicitWritePerformance/BuildFile
+--- src.orig/Tests/Collection_ExplicitWritePerformance/BuildFile	2003-10-16 01:18:14.000000000 +0200
++++ src/Tests/Collection_ExplicitWritePerformance/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,6 +0,0 @@
+-<include_path path=.></include_path>
+-
+-# Dependencies
+-<use name=Collection></use>
+-<use name=Tests/Libraries/TestDictionary></use>
+-<use name=Tests/Libraries/PoolBench></use>
+\ No newline at end of file
+diff -Naur src.orig/Tests/Collection_FileInfoRetrieve/BuildFile src/Tests/Collection_FileInfoRetrieve/BuildFile
+--- src.orig/Tests/Collection_FileInfoRetrieve/BuildFile	2003-07-04 00:01:48.000000000 +0200
++++ src/Tests/Collection_FileInfoRetrieve/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-<include_path path=.></include_path>
+-
+-# Dependencies
+-<use name=Collection></use>
+-<use name=Tests/Libraries/TestDictionary></use>
+\ No newline at end of file
+diff -Naur src.orig/Tests/Collection_MultiFileUpdate/BuildFile src/Tests/Collection_MultiFileUpdate/BuildFile
+--- src.orig/Tests/Collection_MultiFileUpdate/BuildFile	2003-06-20 19:40:09.000000000 +0200
++++ src/Tests/Collection_MultiFileUpdate/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-<include_path path=.></include_path>
+-
+-# Dependencies
+-<use name=Collection></use>
+-<use name=Tests/Libraries/TestDictionary></use>
+\ No newline at end of file
+diff -Naur src.orig/Tests/Collection_MultiFileWrite/BuildFile src/Tests/Collection_MultiFileWrite/BuildFile
+--- src.orig/Tests/Collection_MultiFileWrite/BuildFile	2003-06-20 19:32:39.000000000 +0200
++++ src/Tests/Collection_MultiFileWrite/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-<include_path path=.></include_path>
+-
+-# Dependencies
+-<use name=Collection></use>
+-<use name=Tests/Libraries/TestDictionary></use>
+\ No newline at end of file
+diff -Naur src.orig/Tests/Collection_Read/BuildFile src/Tests/Collection_Read/BuildFile
+--- src.orig/Tests/Collection_Read/BuildFile	2003-06-14 02:02:09.000000000 +0200
++++ src/Tests/Collection_Read/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-<include_path path=.></include_path>
+-
+-# Dependencies
+-<use name=Collection></use>
+-<use name=Tests/Libraries/TestDictionary></use>
+\ No newline at end of file
+diff -Naur src.orig/Tests/Collection_Update/BuildFile src/Tests/Collection_Update/BuildFile
+--- src.orig/Tests/Collection_Update/BuildFile	2003-06-14 02:09:16.000000000 +0200
++++ src/Tests/Collection_Update/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-<include_path path=.></include_path>
+-
+-# Dependencies
+-<use name=Collection></use>
+-<use name=Tests/Libraries/TestDictionary></use>
+\ No newline at end of file
+diff -Naur src.orig/Tests/Collection_Write/BuildFile src/Tests/Collection_Write/BuildFile
+--- src.orig/Tests/Collection_Write/BuildFile	2003-06-11 08:59:20.000000000 +0200
++++ src/Tests/Collection_Write/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-<include_path path=.></include_path>
+-
+-# Dependencies
+-<use name=Collection></use>
+-<use name=Tests/Libraries/TestDictionary></use>
+\ No newline at end of file
+diff -Naur src.orig/Tests/DataRegression_DataSvc_CMSClasses/BuildFile src/Tests/DataRegression_DataSvc_CMSClasses/BuildFile
+--- src.orig/Tests/DataRegression_DataSvc_CMSClasses/BuildFile	2005-03-10 15:41:26.000000000 +0100
++++ src/Tests/DataRegression_DataSvc_CMSClasses/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,8 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/TestBase>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+-<include_path path=.></include_path>
+-
+diff -Naur src.orig/Tests/DataRegression_DataSvc_CMSClasses/dict/BuildFile src/Tests/DataRegression_DataSvc_CMSClasses/dict/BuildFile
+--- src.orig/Tests/DataRegression_DataSvc_CMSClasses/dict/BuildFile	2005-03-10 15:41:26.000000000 +0100
++++ src/Tests/DataRegression_DataSvc_CMSClasses/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-DICT_FILES = $(LOCALTOP)/$(THISDIR)/../src/classes.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+diff -Naur src.orig/Tests/DataRegression_DataSvc_CMSCollDataModel/BuildFile src/Tests/DataRegression_DataSvc_CMSCollDataModel/BuildFile
+--- src.orig/Tests/DataRegression_DataSvc_CMSCollDataModel/BuildFile	2003-11-24 17:31:54.000000000 +0100
++++ src/Tests/DataRegression_DataSvc_CMSCollDataModel/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,8 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/TestBase>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+-<include_path path=.></include_path>
+-
+diff -Naur src.orig/Tests/DataRegression_DataSvc_CMSCollDataModel/dict/BuildFile src/Tests/DataRegression_DataSvc_CMSCollDataModel/dict/BuildFile
+--- src.orig/Tests/DataRegression_DataSvc_CMSCollDataModel/dict/BuildFile	2003-11-24 17:31:54.000000000 +0100
++++ src/Tests/DataRegression_DataSvc_CMSCollDataModel/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-DICT_FILES = $(LOCALTOP)/$(THISDIR)/../src/classes.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+diff -Naur src.orig/Tests/DataRegression_DataSvc_SimpleEmbeddedRefs/BuildFile src/Tests/DataRegression_DataSvc_SimpleEmbeddedRefs/BuildFile
+--- src.orig/Tests/DataRegression_DataSvc_SimpleEmbeddedRefs/BuildFile	2003-11-24 17:31:55.000000000 +0100
++++ src/Tests/DataRegression_DataSvc_SimpleEmbeddedRefs/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,8 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/TestBase>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+-<include_path path=.></include_path>
+-
+diff -Naur src.orig/Tests/DataRegression_DataSvc_SimpleEmbeddedRefs/dict/BuildFile src/Tests/DataRegression_DataSvc_SimpleEmbeddedRefs/dict/BuildFile
+--- src.orig/Tests/DataRegression_DataSvc_SimpleEmbeddedRefs/dict/BuildFile	2003-11-24 17:31:56.000000000 +0100
++++ src/Tests/DataRegression_DataSvc_SimpleEmbeddedRefs/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-DICT_FILES = $(LOCALTOP)/$(THISDIR)/../src/classes.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+diff -Naur src.orig/Tests/DataRegression_RootCollection_BasicTest/BuildFile src/Tests/DataRegression_RootCollection_BasicTest/BuildFile
+--- src.orig/Tests/DataRegression_RootCollection_BasicTest/BuildFile	2003-12-02 12:56:28.000000000 +0100
++++ src/Tests/DataRegression_RootCollection_BasicTest/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,8 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/DataRegression_CollectionBase>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+-<include_path path=.></include_path>
+-
+diff -Naur src.orig/Tests/DataSvc_AppendRead/BuildFile src/Tests/DataSvc_AppendRead/BuildFile
+--- src.orig/Tests/DataSvc_AppendRead/BuildFile	2003-05-20 12:18:59.000000000 +0200
++++ src/Tests/DataSvc_AppendRead/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,9 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/ObjectStorageTest>
+-
+-<include_path path=.></include_path>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+-LDLIBS += -ldl
+diff -Naur src.orig/Tests/DataSvc_AppendWrite/BuildFile src/Tests/DataSvc_AppendWrite/BuildFile
+--- src.orig/Tests/DataSvc_AppendWrite/BuildFile	2003-07-17 09:34:30.000000000 +0200
++++ src/Tests/DataSvc_AppendWrite/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,11 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/ObjectStorageTest>
+-# Dependency on Collection
+-<use name=Collection>
+-
+-<include_path path=.></include_path>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+-LDLIBS += -ldl
+diff -Naur src.orig/Tests/DataSvc_CastDynamic/BuildFile src/Tests/DataSvc_CastDynamic/BuildFile
+--- src.orig/Tests/DataSvc_CastDynamic/BuildFile	2003-09-01 16:37:53.000000000 +0200
++++ src/Tests/DataSvc_CastDynamic/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,10 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/TestBase>
+-# Dependency on TestRefClasses
+-<use name=Tests/Libraries/TestRefClasses>
+-# Dependency on DataSvc
+-<use name=DataSvc></use>
+-
+-<include_path path=.></include_path>
+-
+-LDLIBS += -ldl
+diff -Naur src.orig/Tests/DataSvc_CastDynamic/dict/BuildFile src/Tests/DataSvc_CastDynamic/dict/BuildFile
+--- src.orig/Tests/DataSvc_CastDynamic/dict/BuildFile	2003-07-24 20:40:44.000000000 +0200
++++ src/Tests/DataSvc_CastDynamic/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-DICT_FILES = $(LOCALTOP)/$(THISDIR)/../src/all.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+diff -Naur src.orig/Tests/DataSvc_CircularRef/BuildFile src/Tests/DataSvc_CircularRef/BuildFile
+--- src.orig/Tests/DataSvc_CircularRef/BuildFile	2003-09-01 16:37:53.000000000 +0200
++++ src/Tests/DataSvc_CircularRef/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,8 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/TestBase>
+-# Dependency on DataSvc
+-<use name=DataSvc></use>
+-
+-<include_path path=.></include_path>
+-
+-LDLIBS += -ldl
+diff -Naur src.orig/Tests/DataSvc_CircularRef/dict/BuildFile src/Tests/DataSvc_CircularRef/dict/BuildFile
+--- src.orig/Tests/DataSvc_CircularRef/dict/BuildFile	2003-08-06 16:33:25.000000000 +0200
++++ src/Tests/DataSvc_CircularRef/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-DICT_FILES := $(LOCALTOP)/$(THISDIR)/allHeaders.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+diff -Naur src.orig/Tests/DataSvc_CMSMultiCache/BuildFile src/Tests/DataSvc_CMSMultiCache/BuildFile
+--- src.orig/Tests/DataSvc_CMSMultiCache/BuildFile	2003-11-04 09:24:26.000000000 +0100
++++ src/Tests/DataSvc_CMSMultiCache/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,10 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/TestBase>
+-# Dependency on TestRefClasses
+-<use name=Tests/Libraries/TestRefClasses>
+-# Dependency on DataSvc
+-<use name=DataSvc></use>
+-
+-<include_path path=.></include_path>
+-
+-LDLIBS += -ldl
+diff -Naur src.orig/Tests/DataSvc_CMSMultiCache/dict/BuildFile src/Tests/DataSvc_CMSMultiCache/dict/BuildFile
+--- src.orig/Tests/DataSvc_CMSMultiCache/dict/BuildFile	2003-11-04 09:24:26.000000000 +0100
++++ src/Tests/DataSvc_CMSMultiCache/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-DICT_FILES = $(LOCALTOP)/$(THISDIR)/../src/ABC.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+diff -Naur src.orig/Tests/DataSvc_ConstRef/BuildFile src/Tests/DataSvc_ConstRef/BuildFile
+--- src.orig/Tests/DataSvc_ConstRef/BuildFile	2003-07-10 15:30:22.000000000 +0200
++++ src/Tests/DataSvc_ConstRef/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,8 +0,0 @@
+-<use name=Tests/Libraries/StressTestBase>
+-
+-<include_path path=.></include_path>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+-
+diff -Naur src.orig/Tests/DataSvc_ConstRef/dict/BuildFile src/Tests/DataSvc_ConstRef/dict/BuildFile
+--- src.orig/Tests/DataSvc_ConstRef/dict/BuildFile	2003-07-10 15:30:23.000000000 +0200
++++ src/Tests/DataSvc_ConstRef/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-DICT_FILES = $(LOCALTOP)/$(THISDIR)/../src/RefTestClass.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+diff -Naur src.orig/Tests/DataSvc_CrossReference/BuildFile src/Tests/DataSvc_CrossReference/BuildFile
+--- src.orig/Tests/DataSvc_CrossReference/BuildFile	2003-09-01 16:37:54.000000000 +0200
++++ src/Tests/DataSvc_CrossReference/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,8 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/TestBase>
+-# Dependency on DataSvc
+-<use name=DataSvc></use>
+-
+-<include_path path=.></include_path>
+-
+-LDLIBS += -ldl
+diff -Naur src.orig/Tests/DataSvc_CrossReference/dict/BuildFile src/Tests/DataSvc_CrossReference/dict/BuildFile
+--- src.orig/Tests/DataSvc_CrossReference/dict/BuildFile	2003-04-14 16:23:06.000000000 +0200
++++ src/Tests/DataSvc_CrossReference/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-DICT_FILES := $(LOCALTOP)/$(THISDIR)/allHeaders.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+diff -Naur src.orig/Tests/DataSvc_GeneralRef/BuildFile src/Tests/DataSvc_GeneralRef/BuildFile
+--- src.orig/Tests/DataSvc_GeneralRef/BuildFile	2003-07-10 15:12:32.000000000 +0200
++++ src/Tests/DataSvc_GeneralRef/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,7 +0,0 @@
+-<use name=Tests/Libraries/StressTestBase>
+-
+-<include_path path=.></include_path>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+diff -Naur src.orig/Tests/DataSvc_GeneralRef/dict/BuildFile src/Tests/DataSvc_GeneralRef/dict/BuildFile
+--- src.orig/Tests/DataSvc_GeneralRef/dict/BuildFile	2003-07-10 15:12:32.000000000 +0200
++++ src/Tests/DataSvc_GeneralRef/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-DICT_FILES = $(LOCALTOP)/$(THISDIR)/../src/RefTestClass.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+diff -Naur src.orig/Tests/DataSvc_Inheritance/BuildFile src/Tests/DataSvc_Inheritance/BuildFile
+--- src.orig/Tests/DataSvc_Inheritance/BuildFile	2003-05-20 12:06:27.000000000 +0200
++++ src/Tests/DataSvc_Inheritance/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,13 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/TestBase>
+-# Dependency on TestRefClasses
+-<use name=Tests/Libraries/TestRefClasses>
+-# Dependency on DataSvc
+-<use name=DataSvc></use>
+-
+-<include_path path=.></include_path>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+-LDLIBS += -ldl
+diff -Naur src.orig/Tests/DataSvc_MultiCache/BuildFile src/Tests/DataSvc_MultiCache/BuildFile
+--- src.orig/Tests/DataSvc_MultiCache/BuildFile	2003-10-07 14:34:36.000000000 +0200
++++ src/Tests/DataSvc_MultiCache/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,10 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/TestBase>
+-# Dependency on TestRefClasses
+-<use name=Tests/Libraries/TestRefClasses>
+-# Dependency on DataSvc
+-<use name=DataSvc></use>
+-
+-<include_path path=.></include_path>
+-
+-LDLIBS += -ldl
+diff -Naur src.orig/Tests/DataSvc_MultiCache/dict/BuildFile src/Tests/DataSvc_MultiCache/dict/BuildFile
+--- src.orig/Tests/DataSvc_MultiCache/dict/BuildFile	2003-10-07 14:34:37.000000000 +0200
++++ src/Tests/DataSvc_MultiCache/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-DICT_FILES = $(LOCALTOP)/$(THISDIR)/../src/ABC.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+diff -Naur src.orig/Tests/DataSvc_MultiWrite/BuildFile src/Tests/DataSvc_MultiWrite/BuildFile
+--- src.orig/Tests/DataSvc_MultiWrite/BuildFile	2003-07-17 09:34:32.000000000 +0200
++++ src/Tests/DataSvc_MultiWrite/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,13 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/TestBase>
+-# Dependency on TestRefClasses
+-<use name=Tests/Libraries/TestRefClasses>
+-# Dependency on DataSvc
+-<use name=DataSvc></use>
+-
+-<include_path path=.></include_path>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+-LDLIBS += -ldl
+diff -Naur src.orig/Tests/DataSvc_NoPtrOwnership/BuildFile src/Tests/DataSvc_NoPtrOwnership/BuildFile
+--- src.orig/Tests/DataSvc_NoPtrOwnership/BuildFile	2003-07-17 09:34:33.000000000 +0200
++++ src/Tests/DataSvc_NoPtrOwnership/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,13 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/TestBase>
+-# Dependency on TestRefClasses
+-<use name=Tests/Libraries/TestRefClasses>
+-# Dependency on DataSvc
+-<use name=DataSvc></use>
+-
+-<include_path path=.></include_path>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+-LDLIBS += -ldl
+diff -Naur src.orig/Tests/DataSvc_ObjectTree/BuildFile src/Tests/DataSvc_ObjectTree/BuildFile
+--- src.orig/Tests/DataSvc_ObjectTree/BuildFile	2003-04-24 16:25:58.000000000 +0200
++++ src/Tests/DataSvc_ObjectTree/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,9 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/TestBase>
+-
+-<include_path path=.></include_path>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+-LDLIBS += -ldl
+diff -Naur src.orig/Tests/DataSvc_ObjectTree/dict/BuildFile src/Tests/DataSvc_ObjectTree/dict/BuildFile
+--- src.orig/Tests/DataSvc_ObjectTree/dict/BuildFile	2003-04-24 16:25:58.000000000 +0200
++++ src/Tests/DataSvc_ObjectTree/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-DICT_FILES = $(LOCALTOP)/$(THISDIR)/../src/TreeClass.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+diff -Naur src.orig/Tests/DataSvc_PtrMember/BuildFile src/Tests/DataSvc_PtrMember/BuildFile
+--- src.orig/Tests/DataSvc_PtrMember/BuildFile	2003-05-23 15:27:29.000000000 +0200
++++ src/Tests/DataSvc_PtrMember/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,9 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/TestBase>
+-
+-<include_path path=.></include_path>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+-LDLIBS += -ldl
+diff -Naur src.orig/Tests/DataSvc_PtrMember/dict/BuildFile src/Tests/DataSvc_PtrMember/dict/BuildFile
+--- src.orig/Tests/DataSvc_PtrMember/dict/BuildFile	2003-05-23 15:28:47.000000000 +0200
++++ src/Tests/DataSvc_PtrMember/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-DICT_FILES := $(LOCALTOP)/$(THISDIR)/dict_all.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+diff -Naur src.orig/Tests/DataSvc_PtrOwnership/BuildFile src/Tests/DataSvc_PtrOwnership/BuildFile
+--- src.orig/Tests/DataSvc_PtrOwnership/BuildFile	2003-05-20 12:06:27.000000000 +0200
++++ src/Tests/DataSvc_PtrOwnership/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,13 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/TestBase>
+-# Dependency on TestRefClasses
+-<use name=Tests/Libraries/TestRefClasses>
+-# Dependency on DataSvc
+-<use name=DataSvc></use>
+-
+-<include_path path=.></include_path>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+-LDLIBS += -ldl
+diff -Naur src.orig/Tests/DataSvc_ReadUpdate/BuildFile src/Tests/DataSvc_ReadUpdate/BuildFile
+--- src.orig/Tests/DataSvc_ReadUpdate/BuildFile	2003-06-19 15:02:00.000000000 +0200
++++ src/Tests/DataSvc_ReadUpdate/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,9 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/ObjectStorageTest>
+-
+-<include_path path=.></include_path>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+-LDLIBS += -ldl
+diff -Naur src.orig/Tests/DataSvc_ReadWrite/BuildFile src/Tests/DataSvc_ReadWrite/BuildFile
+--- src.orig/Tests/DataSvc_ReadWrite/BuildFile	2003-08-29 17:40:19.000000000 +0200
++++ src/Tests/DataSvc_ReadWrite/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-# Dependencies
+-<use name=Tests/Libraries/ObjectStorageTest>
+diff -Naur src.orig/Tests/DataSvc_RefAssignment/BuildFile src/Tests/DataSvc_RefAssignment/BuildFile
+--- src.orig/Tests/DataSvc_RefAssignment/BuildFile	2003-09-01 19:48:55.000000000 +0200
++++ src/Tests/DataSvc_RefAssignment/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,4 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/TestBase>
+-# Dependency on TestRefClasses
+-<use name=Tests/Libraries/TestRefClasses>
+diff -Naur src.orig/Tests/DataSvc_ResetObject/BuildFile src/Tests/DataSvc_ResetObject/BuildFile
+--- src.orig/Tests/DataSvc_ResetObject/BuildFile	2003-09-12 16:14:50.000000000 +0200
++++ src/Tests/DataSvc_ResetObject/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,4 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/TestBase>
+-# Dependency on TestRefClasses
+-<use name=Tests/Libraries/TestRefClasses>
+diff -Naur src.orig/Tests/DataSvc_SimpleAppend/BuildFile src/Tests/DataSvc_SimpleAppend/BuildFile
+--- src.orig/Tests/DataSvc_SimpleAppend/BuildFile	2003-05-20 12:06:28.000000000 +0200
++++ src/Tests/DataSvc_SimpleAppend/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,12 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/TestBase>
+-
+-# Dependency on TestRefClasses
+-<use name=Tests/Libraries/TestRefClasses>
+-
+-<include_path path=.></include_path>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+-LDLIBS += -ldl
+diff -Naur src.orig/Tests/DataSvc_SimpleDelete/BuildFile src/Tests/DataSvc_SimpleDelete/BuildFile
+--- src.orig/Tests/DataSvc_SimpleDelete/BuildFile	2003-09-01 19:45:23.000000000 +0200
++++ src/Tests/DataSvc_SimpleDelete/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,4 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/TestBase>
+-# Dependency on TestRefClasses
+-<use name=Tests/Libraries/TestRefClasses>
+diff -Naur src.orig/Tests/DataSvc_SimpleMultiBackends/BuildFile src/Tests/DataSvc_SimpleMultiBackends/BuildFile
+--- src.orig/Tests/DataSvc_SimpleMultiBackends/BuildFile	2005-03-11 18:06:00.000000000 +0100
++++ src/Tests/DataSvc_SimpleMultiBackends/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,9 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/ObjectStorageTest>
+-
+-<include_path path=.></include_path>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+-LDLIBS += -ldl
+diff -Naur src.orig/Tests/DataSvc_SimpleMultiWrite/BuildFile src/Tests/DataSvc_SimpleMultiWrite/BuildFile
+--- src.orig/Tests/DataSvc_SimpleMultiWrite/BuildFile	2003-09-01 19:47:05.000000000 +0200
++++ src/Tests/DataSvc_SimpleMultiWrite/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,4 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/TestBase>
+-# Dependency on TestRefClasses
+-<use name=Tests/Libraries/TestRefClasses>
+diff -Naur src.orig/Tests/DataSvc_StaticRef/BuildFile src/Tests/DataSvc_StaticRef/BuildFile
+--- src.orig/Tests/DataSvc_StaticRef/BuildFile	2003-07-10 15:39:41.000000000 +0200
++++ src/Tests/DataSvc_StaticRef/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,10 +0,0 @@
+-<use name=Tests/Libraries/StressTestBase>
+-
+-<include_path path=.></include_path>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+-
+-LDLIBS += -ldl
+-
+diff -Naur src.orig/Tests/DataSvc_StaticRef/dict/BuildFile src/Tests/DataSvc_StaticRef/dict/BuildFile
+--- src.orig/Tests/DataSvc_StaticRef/dict/BuildFile	2003-07-10 15:39:42.000000000 +0200
++++ src/Tests/DataSvc_StaticRef/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-DICT_FILES = $(LOCALTOP)/$(THISDIR)/../src/RefTestClass.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+diff -Naur src.orig/Tests/DataSvc_TypeChecking/BuildFile src/Tests/DataSvc_TypeChecking/BuildFile
+--- src.orig/Tests/DataSvc_TypeChecking/BuildFile	2003-05-20 12:06:29.000000000 +0200
++++ src/Tests/DataSvc_TypeChecking/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,13 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/TestBase>
+-# Dependency on TestRefClasses
+-<use name=Tests/Libraries/TestRefClasses>
+-# Dependency on DataSvc
+-<use name=DataSvc></use>
+-
+-<include_path path=.></include_path>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+-LDLIBS += -ldl
+diff -Naur src.orig/Tests/DataSvc_WriteCommitLoop/BuildFile src/Tests/DataSvc_WriteCommitLoop/BuildFile
+--- src.orig/Tests/DataSvc_WriteCommitLoop/BuildFile	2003-08-12 14:07:02.000000000 +0200
++++ src/Tests/DataSvc_WriteCommitLoop/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-# Dependency on the DataSbc
+-<use name=DataSvc>
+-<use name=Tests/Libraries/TestDictionary>
+diff -Naur src.orig/Tests/DataSvc_WriteDelete/BuildFile src/Tests/DataSvc_WriteDelete/BuildFile
+--- src.orig/Tests/DataSvc_WriteDelete/BuildFile	2003-06-19 22:51:08.000000000 +0200
++++ src/Tests/DataSvc_WriteDelete/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,9 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/ObjectStorageTest>
+-
+-<include_path path=.></include_path>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+-LDLIBS += -ldl
+diff -Naur src.orig/Tests/DataSvc_WriteTwice/BuildFile src/Tests/DataSvc_WriteTwice/BuildFile
+--- src.orig/Tests/DataSvc_WriteTwice/BuildFile	2003-05-20 12:06:29.000000000 +0200
++++ src/Tests/DataSvc_WriteTwice/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,9 +0,0 @@
+-# Dependency on TestBase
+-<use name=Tests/Libraries/ObjectStorageTest>
+-
+-<include_path path=.></include_path>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+-LDLIBS += -ldl
+diff -Naur src.orig/Tests/ExplicitCollection_Functionality/BuildFile src/Tests/ExplicitCollection_Functionality/BuildFile
+--- src.orig/Tests/ExplicitCollection_Functionality/BuildFile	2003-06-13 10:47:44.000000000 +0200
++++ src/Tests/ExplicitCollection_Functionality/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,4 +0,0 @@
+-<use name=Collection>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+diff -Naur src.orig/Tests/ExplicitCollection_Functionality/dict/BuildFile src/Tests/ExplicitCollection_Functionality/dict/BuildFile
+--- src.orig/Tests/ExplicitCollection_Functionality/dict/BuildFile	2003-05-08 14:46:08.000000000 +0200
++++ src/Tests/ExplicitCollection_Functionality/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-DICT_FILES = $(LOCALTOP)/$(THISDIR)/../src/ExampleClass.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+diff -Naur src.orig/Tests/FileCatalog_CMSFileManager/BuildFile src/Tests/FileCatalog_CMSFileManager/BuildFile
+--- src.orig/Tests/FileCatalog_CMSFileManager/BuildFile	2003-09-01 10:26:26.000000000 +0200
++++ src/Tests/FileCatalog_CMSFileManager/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-<use name=Tests/Libraries/CMSFileManagerBase></use>	
+-<use name=FileCatalog></use>
+diff -Naur src.orig/Tests/FileCatalog_Functionality/BuildFile src/Tests/FileCatalog_Functionality/BuildFile
+--- src.orig/Tests/FileCatalog_Functionality/BuildFile	2003-05-06 09:54:44.000000000 +0200
++++ src/Tests/FileCatalog_Functionality/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-<use name=FileCatalog></use>
+-<external ref=cppunit></external>
+diff -Naur src.orig/Tests/ImplicitCollection_EmbeddedRefs/BuildFile src/Tests/ImplicitCollection_EmbeddedRefs/BuildFile
+--- src.orig/Tests/ImplicitCollection_EmbeddedRefs/BuildFile	2003-09-01 10:09:07.000000000 +0200
++++ src/Tests/ImplicitCollection_EmbeddedRefs/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-# Dependencies
+-<use name=Collection></use>
+diff -Naur src.orig/Tests/ImplicitCollection_EmbeddedRefs/dict/BuildFile src/Tests/ImplicitCollection_EmbeddedRefs/dict/BuildFile
+--- src.orig/Tests/ImplicitCollection_EmbeddedRefs/dict/BuildFile	2003-07-24 14:30:30.000000000 +0200
++++ src/Tests/ImplicitCollection_EmbeddedRefs/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-DICT_FILES = $(LOCALTOP)/$(THISDIR)/../src/MyTestClasses.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+diff -Naur src.orig/Tests/ImplicitCollection_Functionality/BuildFile src/Tests/ImplicitCollection_Functionality/BuildFile
+--- src.orig/Tests/ImplicitCollection_Functionality/BuildFile	2003-08-29 17:32:09.000000000 +0200
++++ src/Tests/ImplicitCollection_Functionality/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-# Dependencies
+-<use name=Tests/Libraries/TestDictionary></use>
+-<use name=Collection></use>
+diff -Naur src.orig/Tests/ImplicitCollection_MixedContainer/BuildFile src/Tests/ImplicitCollection_MixedContainer/BuildFile
+--- src.orig/Tests/ImplicitCollection_MixedContainer/BuildFile	2003-09-01 09:50:11.000000000 +0200
++++ src/Tests/ImplicitCollection_MixedContainer/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-# Dependencies
+-<use name=Collection></use>
+diff -Naur src.orig/Tests/ImplicitCollection_MixedContainer/dict/BuildFile src/Tests/ImplicitCollection_MixedContainer/dict/BuildFile
+--- src.orig/Tests/ImplicitCollection_MixedContainer/dict/BuildFile	2003-07-22 22:22:41.000000000 +0200
++++ src/Tests/ImplicitCollection_MixedContainer/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-DICT_FILES = $(LOCALTOP)/$(THISDIR)/../src/MyTestClasses.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+-
+diff -Naur src.orig/Tests/ImplicitCollection_Untyped/BuildFile src/Tests/ImplicitCollection_Untyped/BuildFile
+--- src.orig/Tests/ImplicitCollection_Untyped/BuildFile	2003-09-01 10:14:02.000000000 +0200
++++ src/Tests/ImplicitCollection_Untyped/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-# Dependencies
+-<use name=Collection></use>
+diff -Naur src.orig/Tests/ImplicitCollection_Untyped/dict/BuildFile src/Tests/ImplicitCollection_Untyped/dict/BuildFile
+--- src.orig/Tests/ImplicitCollection_Untyped/dict/BuildFile	2003-08-01 14:30:48.000000000 +0200
++++ src/Tests/ImplicitCollection_Untyped/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-DICT_FILES = $(LOCALTOP)/$(THISDIR)/../src/MyTestClasses.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+-
+diff -Naur src.orig/Tests/Libraries/CMSFileManagerBase/BuildFile src/Tests/Libraries/CMSFileManagerBase/BuildFile
+--- src.orig/Tests/Libraries/CMSFileManagerBase/BuildFile	2003-06-26 20:31:16.000000000 +0200
++++ src/Tests/Libraries/CMSFileManagerBase/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,7 +0,0 @@
+-<include_path path=.></include_path>
+-<export autoexport=true>
+-  <lib name=CMSFileManagerBase>
+-</export>
+-
+-# Dependencies on other packages 
+-<use name=FileCatalog></use>
+diff -Naur src.orig/Tests/Libraries/DataRegression_CollectionBase/BuildFile src/Tests/Libraries/DataRegression_CollectionBase/BuildFile
+--- src.orig/Tests/Libraries/DataRegression_CollectionBase/BuildFile	2003-12-02 12:47:03.000000000 +0100
++++ src/Tests/Libraries/DataRegression_CollectionBase/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,8 +0,0 @@
+-<include_path path=.></include_path>
+-<export autoexport=true>
+-  <lib name=DataRegression_CollectionBase>
+-</export>
+-
+-# Dependencies on other packages 
+-<use name=CollectionBase></use>
+-<use name=Tests/Libraries/TestBase></use>
+diff -Naur src.orig/Tests/Libraries/FCPerformanceTestBase/BuildFile src/Tests/Libraries/FCPerformanceTestBase/BuildFile
+--- src.orig/Tests/Libraries/FCPerformanceTestBase/BuildFile	2003-05-27 14:49:26.000000000 +0200
++++ src/Tests/Libraries/FCPerformanceTestBase/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,9 +0,0 @@
+-<include_path path=.></include_path>
+-<export autoexport=true>
+-  <lib name=FCPerformanceTestBase>
+-</export>
+-
+-# Dependencies on other packages
+-<use name=FileCatalog></use>
+-
+-LDFLAGS += -lpthread
+diff -Naur src.orig/Tests/Libraries/ObjectStorageTest/BuildFile src/Tests/Libraries/ObjectStorageTest/BuildFile
+--- src.orig/Tests/Libraries/ObjectStorageTest/BuildFile	2003-08-29 15:13:55.000000000 +0200
++++ src/Tests/Libraries/ObjectStorageTest/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,10 +0,0 @@
+-<include_path path=.></include_path>
+-<export autoexport=true>
+-  <lib name=ObjectStorageTest>
+-</export>
+-
+-# Dependency on TestBase
+-<use name=Tests/Libraries/TestBase>
+-
+-# Dependency on TestRefClasses
+-<use name=Tests/Libraries/TestRefClasses>
+diff -Naur src.orig/Tests/Libraries/PerformanceStudy/BuildFile src/Tests/Libraries/PerformanceStudy/BuildFile
+--- src.orig/Tests/Libraries/PerformanceStudy/BuildFile	2003-10-09 16:51:40.000000000 +0200
++++ src/Tests/Libraries/PerformanceStudy/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,9 +0,0 @@
+-<include_path path=.></include_path>
+-<export autoexport=true>
+-  <lib name=PerformanceStudy>
+-</export>
+-
+-# Dependencies on other packages 
+-<use name=Tests/Libraries/PoolBench></use>
+-<use name=DataSvc></use>
+-<External ref=root>
+diff -Naur src.orig/Tests/Libraries/PoolBench/BuildFile src/Tests/Libraries/PoolBench/BuildFile
+--- src.orig/Tests/Libraries/PoolBench/BuildFile	2003-10-09 09:37:52.000000000 +0200
++++ src/Tests/Libraries/PoolBench/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,8 +0,0 @@
+-<include_path path=.></<include_path>
+-<export autoexport=true>
+-  <lib name=PoolBench>
+-</export>
+-
+-# Dependency on SealKernel
+-<External ref=SEAL use=Foundation/SealBase></External>
+-
+diff -Naur src.orig/Tests/Libraries/StressTestBase/BuildFile src/Tests/Libraries/StressTestBase/BuildFile
+--- src.orig/Tests/Libraries/StressTestBase/BuildFile	2003-05-07 16:29:47.000000000 +0200
++++ src/Tests/Libraries/StressTestBase/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,8 +0,0 @@
+-<include_path path=.></include_path>
+-<export autoexport=true>
+-  <lib name=StressTestBase>
+-</export>
+-
+-# Dependencies on other packages 
+-<use name=DataSvc></use>
+-
+diff -Naur src.orig/Tests/Libraries/TestBase/BuildFile src/Tests/Libraries/TestBase/BuildFile
+--- src.orig/Tests/Libraries/TestBase/BuildFile	2003-04-02 10:28:30.000000000 +0200
++++ src/Tests/Libraries/TestBase/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,7 +0,0 @@
+-<include_path path=.></include_path>
+-<export autoexport=true>
+-  <lib name=TestBase>
+-</export>
+-
+-# Dependencies on other packages 
+-<use name=DataSvc></use>
+diff -Naur src.orig/Tests/Libraries/TestDictionary/BuildFile src/Tests/Libraries/TestDictionary/BuildFile
+--- src.orig/Tests/Libraries/TestDictionary/BuildFile	2006-01-24 11:43:44.000000000 +0100
++++ src/Tests/Libraries/TestDictionary/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-<include_path path=.></include_path>
+-
+-# Dependencies on other packages 
+-<use name=POOLCore></use>
+-<External ref=ROOT></External>
+diff -Naur src.orig/Tests/Libraries/TestDictionary/dict/BuildFile src/Tests/Libraries/TestDictionary/dict/BuildFile
+--- src.orig/Tests/Libraries/TestDictionary/dict/BuildFile	2007-02-20 10:43:17.000000000 +0100
++++ src/Tests/Libraries/TestDictionary/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-DICT_FILES := $(LOCALTOP)/$(THISDIR)/../TestDictionary/dict_all.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+diff -Naur src.orig/Tests/Libraries/TestRefClasses/BuildFile src/Tests/Libraries/TestRefClasses/BuildFile
+--- src.orig/Tests/Libraries/TestRefClasses/BuildFile	2003-08-29 15:10:47.000000000 +0200
++++ src/Tests/Libraries/TestRefClasses/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,10 +0,0 @@
+-# Dependency on TestBase
+-<use name=DataSvc>
+-
+-<include_path path=.></include_path>
+-<export autoexport=true>
+-  <lib name=TestRefClasses>
+-</export>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+diff -Naur src.orig/Tests/Libraries/TestRefClasses/dict/BuildFile src/Tests/Libraries/TestRefClasses/dict/BuildFile
+--- src.orig/Tests/Libraries/TestRefClasses/dict/BuildFile	2003-05-19 17:12:28.000000000 +0200
++++ src/Tests/Libraries/TestRefClasses/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-DICT_FILES := $(LOCALTOP)/$(THISDIR)/dict_all.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+diff -Naur src.orig/Tests/MultiCollection_BasicFunctionality/BuildFile src/Tests/MultiCollection_BasicFunctionality/BuildFile
+--- src.orig/Tests/MultiCollection_BasicFunctionality/BuildFile	2003-07-10 13:20:36.000000000 +0200
++++ src/Tests/MultiCollection_BasicFunctionality/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,6 +0,0 @@
+-<use name=Collection>
+-<use name=MultiCollection>
+-
+-# Dependency on ROOT
+-<External ref=root></External>
+-
+diff -Naur src.orig/Tests/MultiCollection_BasicFunctionality/dict/BuildFile src/Tests/MultiCollection_BasicFunctionality/dict/BuildFile
+--- src.orig/Tests/MultiCollection_BasicFunctionality/dict/BuildFile	2003-07-10 13:20:36.000000000 +0200
++++ src/Tests/MultiCollection_BasicFunctionality/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,4 +0,0 @@
+-DICT_FILES = $(LOCALTOP)/$(THISDIR)/../src/Event.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+-
+-
+diff -Naur src.orig/Tests/PersistencySvc_CustomReference/BuildFile src/Tests/PersistencySvc_CustomReference/BuildFile
+--- src.orig/Tests/PersistencySvc_CustomReference/BuildFile	2003-09-15 16:20:54.000000000 +0200
++++ src/Tests/PersistencySvc_CustomReference/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-# Dependencies
+-<use name=PersistencySvc></use>
+diff -Naur src.orig/Tests/PersistencySvc_CustomReference/dict/BuildFile src/Tests/PersistencySvc_CustomReference/dict/BuildFile
+--- src.orig/Tests/PersistencySvc_CustomReference/dict/BuildFile	2003-09-15 16:20:55.000000000 +0200
++++ src/Tests/PersistencySvc_CustomReference/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-DICT_FILES = $(LOCALTOP)/$(THISDIR)/MyTestClasses.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+diff -Naur src.orig/Tests/PersistencySvc_CustomReferenceAndStreamer/BuildFile src/Tests/PersistencySvc_CustomReferenceAndStreamer/BuildFile
+--- src.orig/Tests/PersistencySvc_CustomReferenceAndStreamer/BuildFile	2003-09-09 15:29:30.000000000 +0200
++++ src/Tests/PersistencySvc_CustomReferenceAndStreamer/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-# Dependencies
+-<use name=PersistencySvc></use>
+diff -Naur src.orig/Tests/PersistencySvc_CustomReferenceAndStreamer/dict/BuildFile src/Tests/PersistencySvc_CustomReferenceAndStreamer/dict/BuildFile
+--- src.orig/Tests/PersistencySvc_CustomReferenceAndStreamer/dict/BuildFile	2003-09-09 15:29:30.000000000 +0200
++++ src/Tests/PersistencySvc_CustomReferenceAndStreamer/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-DICT_FILES = $(LOCALTOP)/$(THISDIR)/MyTestClasses.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+diff -Naur src.orig/Tests/PersistencySvc_CustomStreamers/BuildFile src/Tests/PersistencySvc_CustomStreamers/BuildFile
+--- src.orig/Tests/PersistencySvc_CustomStreamers/BuildFile	2003-08-29 14:42:41.000000000 +0200
++++ src/Tests/PersistencySvc_CustomStreamers/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-# Dependencies
+-<use name=PersistencySvc></use>
+diff -Naur src.orig/Tests/PersistencySvc_CustomStreamers/dict/BuildFile src/Tests/PersistencySvc_CustomStreamers/dict/BuildFile
+--- src.orig/Tests/PersistencySvc_CustomStreamers/dict/BuildFile	2003-08-19 17:02:40.000000000 +0200
++++ src/Tests/PersistencySvc_CustomStreamers/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-DICT_FILES = $(LOCALTOP)/$(THISDIR)/../src/MyTestClasses.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+diff -Naur src.orig/Tests/PersistencySvc_FileCatalogOperations/BuildFile src/Tests/PersistencySvc_FileCatalogOperations/BuildFile
+--- src.orig/Tests/PersistencySvc_FileCatalogOperations/BuildFile	2003-08-29 12:21:30.000000000 +0200
++++ src/Tests/PersistencySvc_FileCatalogOperations/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-# Dependencies
+-<use name=Tests/Libraries/TestDictionary></use>
+-<use name=PersistencySvc></use>
+diff -Naur src.orig/Tests/PersistencySvc_FileOpenWithoutCatalog/BuildFile src/Tests/PersistencySvc_FileOpenWithoutCatalog/BuildFile
+--- src.orig/Tests/PersistencySvc_FileOpenWithoutCatalog/BuildFile	2004-04-13 12:01:21.000000000 +0200
++++ src/Tests/PersistencySvc_FileOpenWithoutCatalog/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-# Dependencies
+-<use name=Tests/Libraries/TestDictionary></use>
+-<use name=PersistencySvc></use>
+diff -Naur src.orig/Tests/PersistencySvc_Functionality/BuildFile src/Tests/PersistencySvc_Functionality/BuildFile
+--- src.orig/Tests/PersistencySvc_Functionality/BuildFile	2003-08-29 14:32:30.000000000 +0200
++++ src/Tests/PersistencySvc_Functionality/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-# Dependencies
+-<use name=Tests/Libraries/TestDictionary></use>
+-<use name=PersistencySvc></use>
+diff -Naur src.orig/Tests/PersistencySvc_NoClassID/BuildFile src/Tests/PersistencySvc_NoClassID/BuildFile
+--- src.orig/Tests/PersistencySvc_NoClassID/BuildFile	2004-03-11 23:21:34.000000000 +0100
++++ src/Tests/PersistencySvc_NoClassID/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-# Dependencies
+-<use name=PersistencySvc></use>
+diff -Naur src.orig/Tests/PersistencySvc_NoClassID/dict/BuildFile src/Tests/PersistencySvc_NoClassID/dict/BuildFile
+--- src.orig/Tests/PersistencySvc_NoClassID/dict/BuildFile	2004-03-11 23:21:34.000000000 +0100
++++ src/Tests/PersistencySvc_NoClassID/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-DICT_FILES = $(LOCALTOP)/$(THISDIR)/../src/MyTestClass.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+-
+diff -Naur src.orig/Tests/PersistencySvc_Parameters/BuildFile src/Tests/PersistencySvc_Parameters/BuildFile
+--- src.orig/Tests/PersistencySvc_Parameters/BuildFile	2004-02-18 14:34:21.000000000 +0100
++++ src/Tests/PersistencySvc_Parameters/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-# Dependencies
+-<use name=PersistencySvc></use>
+diff -Naur src.orig/Tests/StorageSvc_BasicFunctionality/BuildFile src/Tests/StorageSvc_BasicFunctionality/BuildFile
+--- src.orig/Tests/StorageSvc_BasicFunctionality/BuildFile	2006-01-24 11:18:43.000000000 +0100
++++ src/Tests/StorageSvc_BasicFunctionality/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,4 +0,0 @@
+-# Dependencies
+-<External ref=ROOT></External>
+-<use name=Tests/Libraries/TestDictionary></use>
+-<use name=StorageSvc></use>
+diff -Naur src.orig/Tests/StorageSvc_MultipleIterators/BuildFile src/Tests/StorageSvc_MultipleIterators/BuildFile
+--- src.orig/Tests/StorageSvc_MultipleIterators/BuildFile	2003-08-29 14:31:09.000000000 +0200
++++ src/Tests/StorageSvc_MultipleIterators/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-# Dependencies
+-<use name=Tests/Libraries/TestDictionary></use>
+-<use name=StorageSvc></use>
+diff -Naur src.orig/Tests/StorageSvc_ParallelReadWrite/BuildFile src/Tests/StorageSvc_ParallelReadWrite/BuildFile
+--- src.orig/Tests/StorageSvc_ParallelReadWrite/BuildFile	2003-09-03 10:30:25.000000000 +0200
++++ src/Tests/StorageSvc_ParallelReadWrite/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-# Dependencies
+-<use name=Tests/Libraries/TestDictionary></use>
+-<use name=StorageSvc></use>
+diff -Naur src.orig/Tests/StorageSvc_TransientMembers/BuildFile src/Tests/StorageSvc_TransientMembers/BuildFile
+--- src.orig/Tests/StorageSvc_TransientMembers/BuildFile	2003-09-16 15:21:41.000000000 +0200
++++ src/Tests/StorageSvc_TransientMembers/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-# Dependencies
+-<use name=StorageSvc></use>
+diff -Naur src.orig/Tests/StorageSvc_TransientMembers/dict/BuildFile src/Tests/StorageSvc_TransientMembers/dict/BuildFile
+--- src.orig/Tests/StorageSvc_TransientMembers/dict/BuildFile	2003-09-16 15:56:39.000000000 +0200
++++ src/Tests/StorageSvc_TransientMembers/dict/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,2 +0,0 @@
+-DICT_FILES := $(LOCALTOP)/$(THISDIR)/../src/TestClassWithTransients.h
+-SELECTION_FILE = $(LOCALTOP)/$(THISDIR)/classes.xml
+diff -Naur src.orig/Utilities/Collection/BuildFile src/Utilities/Collection/BuildFile
+--- src.orig/Utilities/Collection/BuildFile	2005-09-13 22:06:22.000000000 +0200
++++ src/Utilities/Collection/BuildFile	2007-06-19 18:36:32.000000000 +0200
+@@ -1,5 +1,8 @@
+-<include_path path=.></include_path>
+-
+-# Dependencies
+-<use name=Collection></use>
++<use name=Collection>
+ 
++<bin file=CollAppend.cpp></bin>
++<bin file=CollCopy.cpp></bin>
++<bin file=CollListAttrib.cpp></bin>
++<bin file=CollListFileGUID.cpp></bin>
++<bin file=CollListPFN.cpp></bin>
++<bin file=CollListToken.cpp></bin>
+diff -Naur src.orig/Utilities/FileCatalog/BuildFile src/Utilities/FileCatalog/BuildFile
+--- src.orig/Utilities/FileCatalog/BuildFile	2003-04-29 17:21:47.000000000 +0200
++++ src/Utilities/FileCatalog/BuildFile	2007-06-19 18:36:32.000000000 +0200
+@@ -1 +1,19 @@
+-<use name=FileCatalog></use>
++<use name=FileCatalog>
++<bin file=FCaddMetaData.cpp></bin>
++<bin file=FCaddReplica.cpp></bin>
++<bin file=FCcreateMetaDataSpec.cpp></bin>
++<bin file=FCdeleteEntry.cpp></bin>
++<bin file=FCdeleteLFN.cpp></bin>
++<bin file=FCdeleteMetaData.cpp></bin>
++<bin file=FCdeletePFN.cpp></bin>
++<bin file=FCdescribeMetaData.cpp></bin>
++<bin file=FCdropMetaData.cpp></bin>
++<bin file=FClistGUID.cpp></bin>
++<bin file=FClistLFN.cpp></bin>
++<bin file=FClistMetaData.cpp></bin>
++<bin file=FClistPFN.cpp></bin>
++<bin file=FCpublish.cpp></bin>
++<bin file=FCregisterLFN.cpp></bin>
++<bin file=FCregisterPFN.cpp></bin>
++<bin file=FCrenamePFN.cpp></bin>
++<bin file=FCupdateMetaDataSpec.cpp></bin>
+diff -Naur orig.src/XMLCatalog/BuildFile src/XMLCatalog/BuildFile
+--- orig.src/XMLCatalog/BuildFile	2008-02-20 10:01:23.000000000 +0100
++++ src/XMLCatalog/BuildFile	2008-11-19 14:02:40.000000000 +0100
+@@ -1,22 +1,10 @@
+-<include_path path=.></include_path>
+-<export autoexport=true>
+-  <lib name=lcg_XMLCatalog>
+-</export>
+-
+ # Dependency on FileCatalog
+ <use name=FileCatalog></use>
+-
++<flags ROOTMAP=1>
+ # Dependency on xerces-c
+-<External ref=xerces-c></External>
+-
+-<architecture name=win32_vc71>
+-<lib name=xerces-depdom_2>
+-</architecture>
+-
+-<architecture name=win32_vc71_dbg>
+-<lib name=xerces-depdom_2>
+-</architecture>
++<use name=xerces-c></use>
+ 
++<export>
++  <lib name=lcg_XMLCatalog>
++</export>
+ 
+-CXXFLAGS += -w
+-PLUGIN_MODULE := XMLCatalog
+diff -Naur src.orig/XMLCatalog/tests/BuildFile src/XMLCatalog/tests/BuildFile
+--- src.orig/XMLCatalog/tests/BuildFile	2003-10-31 11:39:33.000000000 +0100
++++ src/XMLCatalog/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1 +0,0 @@
+-<External ref=cppunit></External>
+diff -Naur src.orig/RootStorageSvc/BuildFile src/RootStorageSvc/BuildFile
+--- src.orig/RootStorageSvc/BuildFile	2006-09-29 14:43:04.000000000 +0200
++++ src/RootStorageSvc/BuildFile	2007-06-19 18:36:32.000000000 +0200
+@@ -1,49 +1,12 @@
+-<include_path path=.></include_path>
+-<export autoexport=true>
+-  <lib name=lcg_RootStorageSvc>
++<Flags SealPlugin=1>
++<export>
++ <lib name=lcg_RootStorageSvc>
++ <use name=StorageSvc>
++ <use name=rootcore>
++ <use name=rootrflx>
+ </export>
+ 
+-# Dependency on StorageSvc
+-<use name=StorageSvc></use>
+-
+-# Dependency on ROOT
+-<architecture name=slc3_ia32_gcc323>
+-<lib name=Cintex>
+-</architecture>
+-
+-<architecture name=slc3_ia32_gcc323_dbg>
+-<lib name=Cintex>
+-</architecture>
+-
+-<architecture name=slc3_ia32_gcc323_gcov>
+-<lib name=Cintex>
+-</architecture>
+-
+-<architecture name=slc4_ia32_gcc34>
+-<lib name=Cintex>
+-</architecture>
+-
+-<architecture name=slc4_ia32_gcc34_dbg>
++<use name=StorageSvc>
++<use name=rootcore>
++<use name=rootrflx>
+ <lib name=Cintex>
+-</architecture>
+-
+-<architecture name=slc4_amd64_gcc34>
+-<lib name=Cintex>
+-</architecture>
+-
+-<architecture name=slc4_amd64_gcc34_dbg>
+-<lib name=Cintex>
+-</architecture>
+-
+-<architecture name=win32_vc71>
+-<lib name=libCintex>
+-</architecture>
+-
+-<architecture name=win32_vc71_dbg>
+-<lib name=libCintex>
+-</architecture>
+-
+-
+-# This provides at least one plugin
+-PLUGIN_MODULE := RootStorageSvc
+-
+diff -Naur src.orig/StorageSvc/BuildFile src/StorageSvc/BuildFile
+--- src.orig/StorageSvc/BuildFile	2006-09-27 17:49:27.000000000 +0200
++++ src/StorageSvc/BuildFile	2007-06-19 18:36:32.000000000 +0200
+@@ -1,61 +1,9 @@
+-<include_path path=.></include_path>
+-<export autoexport=true>
+-  <lib name=lcg_StorageSvc>
++<Flags SealPlugin=1>
++<export>
++ <lib name=lcg_StorageSvc>
++ <use name=POOLCore>
++ <use name=ROOTRflx>
+ </export>
+ 
+-# Dependency on POOLCore
+-<use name=POOLCore></use>
+-
+-# Dependency on SEAL
+-<External ref=SEAL use=Foundation/PluginManager></External>
+-
+-# Dependency on Root (Reflex)
+-<External ref=ROOT></External>
+-
+-<architecture name=slc3_ia32_gcc323>
+-<lib name=Reflex>
+-</architecture>
+-
+-<architecture name=slc3_ia32_gcc323_dbg>
+-<lib name=Reflex>
+-</architecture>
+-
+-<architecture name=slc3_ia32_gcc323_gcov>
+-<lib name=Reflex>
+-</architecture>
+-
+-<architecture name=slc4_ia32_gcc34>
+-<lib name=Reflex>
+-</architecture>
+-
+-<architecture name=slc4_ia32_gcc34_dbg>
+-<lib name=Reflex>
+-</architecture>
+-
+-<architecture name=slc4_ia32_gcc34_gcov>
+-<lib name=Reflex>
+-</architecture>
+-
+-<architecture name=slc4_amd64_gcc34>
+-<lib name=Reflex>
+-</architecture>
+-
+-<architecture name=slc4_amd64_gcc34_dbg>
+-<lib name=Reflex>
+-</architecture>
+-
+-<architecture name=slc4_amd64_gcc34_gcov>
+-<lib name=Reflex>
+-</architecture>
+-
+-
+-<architecture name=win32_vc71>
+-<lib name=libReflex>
+-</architecture>
+-
+-<architecture name=win32_vc71_dbg>
+-<lib name=libReflex>
+-</architecture>
+-
+-# This provides at least one plugin
+-PLUGIN_MODULE := StorageSvc
++<use name=POOLCore>
++<use name=ROOTRflx>
+--- src.orig/PersistencySvc/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/PersistencySvc/BuildFile	2008-01-19 01:27:19.000000000 +0100
+@@ -0,0 +1,9 @@
++<Flags SealPlugin=1>
++<export>
++ <lib name=lcg_PersistencySvc>
++ <use name=StorageSvc>
++ <use name=FileCatalog>
++</export>
++
++<use name=StorageSvc>
++<use name=FileCatalog>
+diff -Naur orig.src/RelationalStorageService/BuildFile src/RelationalStorageService/BuildFile
+--- orig.src/RelationalStorageService/BuildFile	2008-01-29 15:09:52.000000000 +0100
++++ src/RelationalStorageService/BuildFile	2008-11-19 14:03:34.000000000 +0100
+@@ -1,10 +1,6 @@
+-<Flags SealPlugin=1>
+-
++<use name=StorageSvc>
++<use name=ObjectRelationalAccess>
++<flags ROOTMAP=1>
+ <export>
+  <lib name=lcg_RelationalStorageService>
+- <use name=StorageSvc>
+- <use name=ObjectRelationalAccess>
+ </export>
+-
+-<use name=StorageSvc>
+-<use name=ObjectRelationalAccess>
+diff -Naur src.orig/RelationalStorageService/utilities/BuildFile src/RelationalStorageService/utilities/BuildFile
+--- src.orig/RelationalStorageService/utilities/BuildFile	2005-12-15 15:29:07.000000000 +0100
++++ src/RelationalStorageService/utilities/BuildFile	2007-06-19 18:36:32.000000000 +0200
+@@ -1 +1,6 @@
+-<lib name=lcg_RelationalStorageService>
++<use name=RelationalStorageService>
++<bin file=pool_query_database.cpp></bin>
++<bin file=pool_setup_database.cpp></bin>
++<bin file=pool_update_database.cpp></bin>
++<bin file=pool_drop_container.cpp></bin>
++<bin file=pool_upgrade_pool_schema.cpp></bin>

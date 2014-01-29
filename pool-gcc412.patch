@@ -1,0 +1,111 @@
+diff -Naur orig.src/AttributeList/AttributeList/Attribute.inl src/AttributeList/AttributeList/Attribute.inl
+--- orig.src/AttributeList/AttributeList/Attribute.inl	2005-09-23 09:13:13.000000000 +0200
++++ src/AttributeList/AttributeList/Attribute.inl	2007-05-19 23:45:39.000000000 +0200
+@@ -125,13 +125,14 @@
+   return os.str();
+ }
+ 
++namespace pool {
+ template<>
+ inline
+-std::string pool::AttributeTValue<std::string>::getValueAsString() const
++std::string AttributeTValue<std::string>::getValueAsString() const
+ {
+   return m_data;
+ }
+-
++}
+ 
+ template<class T>
+ inline
+@@ -142,12 +143,15 @@
+   is >> m_data;
+ }
+ 
++
++namespace pool {
+ template<>
+ inline
+-void pool::AttributeTValue<std::string>::setValueAsString(std::string s)
++void AttributeTValue<std::string>::setValueAsString(std::string s)
+ {
+   m_data = s;
+ }
++}
+ 
+ template<class T>
+ bool pool::AttributeTValue<T>::isEqual(const AttributeBaseValue& rhs) const
+diff -Naur orig.src/AttributeList/src/AttributePredefinedTypes.cpp src/AttributeList/src/AttributePredefinedTypes.cpp
+--- orig.src/AttributeList/src/AttributePredefinedTypes.cpp	2006-01-24 09:59:57.000000000 +0100
++++ src/AttributeList/src/AttributePredefinedTypes.cpp	2007-05-20 00:04:03.000000000 +0200
+@@ -3,52 +3,54 @@
+ 
+ /// --------- GENERIC TYPE NAMES --------------
+ 
++namespace pool{
+ template<>
+-pool::typename_string_t pool::AttributeStaticTypeInfo<bool>::type_name() { return "bool"; }
++pool::typename_string_t AttributeStaticTypeInfo<bool>::type_name() { return "bool"; }
+ 
+ template<>
+-pool::typename_string_t pool::AttributeStaticTypeInfo<char>::type_name() { return "char"; }
++pool::typename_string_t AttributeStaticTypeInfo<char>::type_name() { return "char"; }
+ 
+ template<>
+-pool::typename_string_t pool::AttributeStaticTypeInfo<unsigned char>::type_name() { return "unsigned char"; }
++pool::typename_string_t AttributeStaticTypeInfo<unsigned char>::type_name() { return "unsigned char"; }
+ 
+ template<>
+-pool::typename_string_t pool::AttributeStaticTypeInfo<short>::type_name() { return "short"; }
++pool::typename_string_t AttributeStaticTypeInfo<short>::type_name() { return "short"; }
+ template<>
+-pool::typename_string_t pool::AttributeStaticTypeInfo<unsigned short>::type_name() { return "unsigned short"; }
++pool::typename_string_t AttributeStaticTypeInfo<unsigned short>::type_name() { return "unsigned short"; }
+ 
+ template<>
+-pool::typename_string_t pool::AttributeStaticTypeInfo<int>::type_name() { return "int"; }
++pool::typename_string_t AttributeStaticTypeInfo<int>::type_name() { return "int"; }
+ template<>
+-pool::typename_string_t pool::AttributeStaticTypeInfo<unsigned int>::type_name() { return "unsigned int"; }
++pool::typename_string_t AttributeStaticTypeInfo<unsigned int>::type_name() { return "unsigned int"; }
+ 
+ #ifndef __x86_64__
+ template<>
+-pool::typename_string_t pool::AttributeStaticTypeInfo<long>::type_name() { return "long"; }
++pool::typename_string_t AttributeStaticTypeInfo<long>::type_name() { return "long"; }
+ template<>
+-pool::typename_string_t pool::AttributeStaticTypeInfo<unsigned long>::type_name() { return "unsigned long"; }
++pool::typename_string_t AttributeStaticTypeInfo<unsigned long>::type_name() { return "unsigned long"; }
+ #endif
+ 
+ template<>
+-pool::typename_string_t pool::AttributeStaticTypeInfo<seal::IntBits<64>::SLeast>::type_name() { return "long long"; }
++pool::typename_string_t AttributeStaticTypeInfo<seal::IntBits<64>::SLeast>::type_name() { return "long long"; }
+ template<>
+-pool::typename_string_t pool::AttributeStaticTypeInfo<seal::IntBits<64>::ULeast>::type_name() { return "unsigned long long"; }
++pool::typename_string_t AttributeStaticTypeInfo<seal::IntBits<64>::ULeast>::type_name() { return "unsigned long long"; }
+ 
+ 
+ template<>
+-pool::typename_string_t pool::AttributeStaticTypeInfo<float>::type_name() { return "float"; }
++pool::typename_string_t AttributeStaticTypeInfo<float>::type_name() { return "float"; }
+ 
+ template<>
+-pool::typename_string_t pool::AttributeStaticTypeInfo<double>::type_name() { return "double"; }
++pool::typename_string_t AttributeStaticTypeInfo<double>::type_name() { return "double"; }
+ template<>
+-pool::typename_string_t pool::AttributeStaticTypeInfo<long double>::type_name() { return "long double"; }
++pool::typename_string_t AttributeStaticTypeInfo<long double>::type_name() { return "long double"; }
+ 
+ template<>
+-pool::typename_string_t pool::AttributeStaticTypeInfo<std::string>::type_name() { return "string"; }
++pool::typename_string_t AttributeStaticTypeInfo<std::string>::type_name() { return "string"; }
+ 
+ template<>
+-pool::typename_string_t pool::AttributeStaticTypeInfo<pool::Token>::type_name() { return "Token"; }
++pool::typename_string_t AttributeStaticTypeInfo<pool::Token>::type_name() { return "Token"; }
+ 
++}
+ 
+ static pool::TypedAttributeFactory<bool> bool_attr_factory;
+ 

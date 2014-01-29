@@ -1,0 +1,253 @@
+diff -Naur orig.src/CollectionBase/src/CollectionFactory.cpp src/CollectionBase/src/CollectionFactory.cpp
+--- orig.src/CollectionBase/src/CollectionFactory.cpp	2008-06-24 11:25:29.000000000 +0200
++++ src/CollectionBase/src/CollectionFactory.cpp	2008-11-24 22:50:50.000000000 +0100
+@@ -17,6 +17,7 @@
+ #include "CoralBase/MessageStream.h"
+ 
+ #include "boost/tokenizer.hpp"
++#include <cstring>
+ 
+ #include "RVersion.h"
+ #if ROOT_VERSION_CODE < ROOT_VERSION(5,19,0)
+diff -Naur orig.src/CollectionBase/src/CollectionService.cpp src/CollectionBase/src/CollectionService.cpp
+--- orig.src/CollectionBase/src/CollectionService.cpp	2008-03-17 17:35:43.000000000 +0100
++++ src/CollectionBase/src/CollectionService.cpp	2008-11-24 22:47:15.000000000 +0100
+@@ -11,7 +11,7 @@
+ #include "POOLCore/Exception.h"
+ 
+ #include "boost/tokenizer.hpp"
+-
++#include <cstring>
+ 
+ // DEFINE_SEAL_COMPONENT ( pool::CollectionService, "POOL/Services/CollectionService" )
+ 
+diff -Naur orig.src/DataSvc/src/Hmap_k_table.h src/DataSvc/src/Hmap_k_table.h
+--- orig.src/DataSvc/src/Hmap_k_table.h	2005-09-22 13:32:37.000000000 +0200
++++ src/DataSvc/src/Hmap_k_table.h	2008-11-24 22:42:43.000000000 +0100
+@@ -119,7 +119,7 @@
+   Value aVal(aK,anObj);
+   typedef typename KTable::iterator iterator_type;
+   std::pair<iterator_type,bool> p = theTable.insert(aVal);
+-  Result res(false,0);
++  Result res(false,(T)0);
+   bool inserted = p.second;
+   if(!inserted){
+     T oldObj = (*(p.first)).second;
+@@ -134,7 +134,7 @@
+ // method to get the Value instance stored for a specified key.
+ template <class K,class T> const typename pool::Hmap_k_table<K,T>::Result 
+                                           pool::Hmap_k_table<K,T>::get(const K& aK) {
+-  Result res(false,0);
++  Result res(false,(T)0);
+   typename KTable::iterator item = theTable.find(aK);
+   if(item != theTable.end()){
+     res.first = true;
+@@ -146,7 +146,7 @@
+ // method to delete from the table  an Entry corresponding to a specified pointer key
+ template <class K,class T> const typename pool::Hmap_k_table<K,T>::Result 
+                                           pool::Hmap_k_table<K,T>::del(const K& aK) {
+-  Result res(false,0);
++  Result res(false,(T)0);
+   typename KTable::iterator item = theTable.find(aK);
+   if(item != theTable.end()){
+     res.first = true;
+diff -Naur orig.src/FileCatalog/src/FCSystemTools.cpp src/FileCatalog/src/FCSystemTools.cpp
+--- orig.src/FileCatalog/src/FCSystemTools.cpp	2008-03-10 18:22:02.000000000 +0100
++++ src/FileCatalog/src/FCSystemTools.cpp	2008-11-24 19:16:40.000000000 +0100
+@@ -4,6 +4,7 @@
+ #include "FileCatalog/URIParser.h"
+ #endif
+ #include <sstream>
++#include <cstdlib>
+ 
+ namespace pool{
+   const char* FCSystemTools::GetEnv(const char* key){
+diff -Naur orig.src/FileCatalog/src/URIParser.cpp src/FileCatalog/src/URIParser.cpp
+--- orig.src/FileCatalog/src/URIParser.cpp	2008-02-19 18:16:18.000000000 +0100
++++ src/FileCatalog/src/URIParser.cpp	2008-11-24 19:18:54.000000000 +0100
+@@ -2,6 +2,7 @@
+ #include "FileCatalog/URIParser.h"
+ #endif
+ #include <iostream>
++#include <cstdlib>
+ 
+ namespace pool{
+   
+diff -Naur orig.src/ObjectRelationalAccess/src/MappingBuilder.cpp src/ObjectRelationalAccess/src/MappingBuilder.cpp
+--- orig.src/ObjectRelationalAccess/src/MappingBuilder.cpp	2008-05-13 16:39:23.000000000 +0200
++++ src/ObjectRelationalAccess/src/MappingBuilder.cpp	2008-11-24 18:55:59.000000000 +0100
+@@ -15,6 +15,7 @@
+ #include "Reflex/Type.h"
+ #include "CoralBase/Exception.h"
+ #include "CoralBase/MessageStream.h"
++#include <memory>
+   
+ #include "RVersion.h"
+ 
+diff -Naur orig.src/ObjectRelationalAccess/src/MappingMaterialization.cpp src/ObjectRelationalAccess/src/MappingMaterialization.cpp
+--- orig.src/ObjectRelationalAccess/src/MappingMaterialization.cpp	2008-10-30 10:26:46.000000000 +0100
++++ src/ObjectRelationalAccess/src/MappingMaterialization.cpp	2008-11-24 18:27:42.000000000 +0100
+@@ -21,6 +21,7 @@
+ #include "ObjectRelationalAccess/ObjectRelationalMapping.h"
+ #include <algorithm>
+ #include <sstream>
++#include <memory>
+ 
+ pool::ObjectRelationalAccess::MappingMaterialization::MappingMaterialization( coral::ISchema& schema ):
+   m_schema( schema ),
+diff -Naur orig.src/ObjectRelationalAccess/src/ObjectRelationalMappingUtilities.cpp src/ObjectRelationalAccess/src/ObjectRelationalMappingUtilities.cpp
+--- orig.src/ObjectRelationalAccess/src/ObjectRelationalMappingUtilities.cpp	2008-10-30 10:26:46.000000000 +0100
++++ src/ObjectRelationalAccess/src/ObjectRelationalMappingUtilities.cpp	2008-11-24 19:00:46.000000000 +0100
+@@ -7,6 +7,7 @@
+ #include "RelationalAccess/ITransaction.h"
+ #include <ostream>
+ #include <iomanip>
++#include <memory>
+ 
+ pool::ObjectRelationalMappingUtilities::ObjectRelationalMappingUtilities() : ObjectRelationalUtilities(){}
+ 
+diff -Naur orig.src/ObjectRelationalAccess/src/XMLDatabaseManagerDriver.cpp src/ObjectRelationalAccess/src/XMLDatabaseManagerDriver.cpp
+--- orig.src/ObjectRelationalAccess/src/XMLDatabaseManagerDriver.cpp	2008-10-31 15:42:06.000000000 +0100
++++ src/ObjectRelationalAccess/src/XMLDatabaseManagerDriver.cpp	2008-11-24 19:03:29.000000000 +0100
+@@ -13,6 +13,7 @@
+ #include <xercesc/validators/DTD/DTDValidator.hpp>
+ #include <string>
+ #include <ostream>
++#include <memory>
+ 
+ using namespace xercesc;
+ 
+diff -Naur orig.src/PersistencySvc/src/DatabaseHandler.cpp src/PersistencySvc/src/DatabaseHandler.cpp
+--- orig.src/PersistencySvc/src/DatabaseHandler.cpp	2008-02-20 11:10:28.000000000 +0100
++++ src/PersistencySvc/src/DatabaseHandler.cpp	2008-11-24 22:30:55.000000000 +0100
+@@ -10,6 +10,7 @@
+ #include "StorageSvc/DbOption.h"
+ #include "POOLCore/Token.h"
+ #include "StorageSvc/DbTypeInfo.h"
++#include <memory>
+ 
+ static const Reflex::Type emptyType = Reflex::Type();
+ 
+@@ -254,7 +255,7 @@
+                                                    const pool::Token& token,
+                                                    pool::DataHandler* handler )
+ {
+-  std::pair< void*, Reflex::Type > result( 0, 0 );
++  std::pair< void*, Reflex::Type > result( (void*)0, (Reflex::Type)0 );
+   if ( ! m_transaction ) return result;
+ 
+   // Get the persistent shape
+@@ -286,7 +287,7 @@
+                                                    const pool::Token& token,
+                                                    pool::DataHandler* handler )
+ {
+-  std::pair< void*, Reflex::Type > result( 0, 0 );
++  std::pair< void*, Reflex::Type > result( (void*)0, (Reflex::Type)0 );
+   if ( ! m_transaction ) return result;
+ 
+   // Get the persistent shape
+@@ -317,7 +318,7 @@
+                                                    const pool::Token& token,
+                                                    pool::DataHandler* handler )
+ {
+-  std::pair< void*, Reflex::Type > result( 0, 0 );
++  std::pair< void*, Reflex::Type > result( (void*)0, (Reflex::Type)0 );
+   if ( ! m_transaction ) return result;
+ 
+   // Get the persistent shape
+diff -Naur orig.src/PersistencySvc/src/PersistencySvc.cpp src/PersistencySvc/src/PersistencySvc.cpp
+--- orig.src/PersistencySvc/src/PersistencySvc.cpp	2008-03-06 18:42:32.000000000 +0100
++++ src/PersistencySvc/src/PersistencySvc.cpp	2008-11-24 22:35:06.000000000 +0100
+@@ -67,7 +67,7 @@
+                                                   const pool::Token& token,
+                                                   pool::DataHandler* handler )
+ {
+-  std::pair< void*, Reflex::Type > result( 0, 0 );
++  std::pair< void*, Reflex::Type > result( (void*)0, (Reflex::Type)0 );
+   if ( m_session->transaction().isActive() ) {
+     pool::Token* pToken = m_session->configuration().tokenValidator().validate( token );
+     UserDatabase db( m_session->technologyDispatcher(),
+@@ -94,7 +94,7 @@
+                                                   const pool::Token& token,
+                                                   pool::DataHandler* handler )
+ {
+-  std::pair< void*, Reflex::Type > result( 0, 0 );
++  std::pair< void*, Reflex::Type > result( (void*)0, (Reflex::Type)0 );
+   if ( m_session->transaction().isActive() ) {
+     pool::Token* pToken = m_session->configuration().tokenValidator().validate( token );
+     UserDatabase db( m_session->technologyDispatcher(),
+@@ -120,7 +120,7 @@
+ pool::PersistencySvc::PersistencySvc::readObject( const pool::Token& token,
+                                                   pool::DataHandler* handler )
+ {
+-  std::pair< void*, Reflex::Type > result( 0, 0 );
++  std::pair< void*, Reflex::Type > result( (void*)0, (Reflex::Type)0 );
+   if ( m_session->transaction().isActive() ) {
+     pool::Token* pToken = m_session->configuration().tokenValidator().validate( token );
+     UserDatabase db( m_session->technologyDispatcher(),
+diff -Naur orig.src/RelationalCollection/src/RelationalCollection.cpp src/RelationalCollection/src/RelationalCollection.cpp
+--- orig.src/RelationalCollection/src/RelationalCollection.cpp	2008-10-30 16:10:41.000000000 +0100
++++ src/RelationalCollection/src/RelationalCollection.cpp	2008-11-24 22:57:37.000000000 +0100
+@@ -38,6 +38,7 @@
+ #include "CoralBase/AttributeSpecification.h"
+ #include "RelationalAccess/ITableDataEditor.h"
+ 
++#include <memory>
+ //#include <iostream>
+ using namespace std;
+ 
+diff -Naur orig.src/RelationalCollection/src/RelationalCollectionDataEditor.cpp src/RelationalCollection/src/RelationalCollectionDataEditor.cpp
+--- orig.src/RelationalCollection/src/RelationalCollectionDataEditor.cpp	2008-06-19 17:36:53.000000000 +0200
++++ src/RelationalCollection/src/RelationalCollectionDataEditor.cpp	2008-11-24 22:54:04.000000000 +0100
+@@ -31,6 +31,7 @@
+ 
+ #include <sstream>
+ #include <iostream>
++#include <memory>
+ using namespace std;
+ 
+ 
+diff -Naur orig.src/RelationalCollection/src/RelationalCollectionMetadata.cpp src/RelationalCollection/src/RelationalCollectionMetadata.cpp
+--- orig.src/RelationalCollection/src/RelationalCollectionMetadata.cpp	2008-08-07 13:34:01.000000000 +0200
++++ src/RelationalCollection/src/RelationalCollectionMetadata.cpp	2008-11-24 23:09:59.000000000 +0100
+@@ -18,6 +18,7 @@
+ 
+ #include "CoralBase/MessageStream.h"
+ 
++#include <memory>
+ //#include <iostream>
+ //using namespace std;
+ 
+diff -Naur orig.src/RelationalStorageService/src/MappingManager.cpp src/RelationalStorageService/src/MappingManager.cpp
+--- orig.src/RelationalStorageService/src/MappingManager.cpp	2008-05-13 16:39:30.000000000 +0200
++++ src/RelationalStorageService/src/MappingManager.cpp	2008-11-24 19:23:42.000000000 +0100
+@@ -14,6 +14,7 @@
+ #include "RelationalAccess/ICursor.h"
+ #include "CoralBase/MessageStream.h"
+ #include "RVersion.h"
++#include <memory>
+ 
+ #if ROOT_VERSION_CODE < ROOT_VERSION(5,19,0)
+ using namespace ROOT;
+diff -Naur orig.src/RelationalStorageService/src/PoolDatabaseManager.cpp src/RelationalStorageService/src/PoolDatabaseManager.cpp
+--- orig.src/RelationalStorageService/src/PoolDatabaseManager.cpp	2008-05-13 16:39:30.000000000 +0200
++++ src/RelationalStorageService/src/PoolDatabaseManager.cpp	2008-11-24 19:27:33.000000000 +0100
+@@ -29,6 +29,7 @@
+ #include "StorageSvc/DbColumn.h"
+ #include "POOLCore/Token.h"
+ #include <sstream>
++#include <memory>
+ 
+ #include "RVersion.h"
+ 
+diff -Naur orig.src/RelationalStorageService/src/RelationalPoolDatabaseUtilities.cpp src/RelationalStorageService/src/RelationalPoolDatabaseUtilities.cpp
+--- orig.src/RelationalStorageService/src/RelationalPoolDatabaseUtilities.cpp	2008-05-13 16:39:30.000000000 +0200
++++ src/RelationalStorageService/src/RelationalPoolDatabaseUtilities.cpp	2008-11-24 19:43:47.000000000 +0100
+@@ -32,6 +32,7 @@
+ #include "PoolDatabaseManager.h"
+ #include <typeinfo>
+ #include <vector>
++#include <memory>
+ 
+ #include "RVersion.h"
+ #if ROOT_VERSION_CODE < ROOT_VERSION(5,19,0)

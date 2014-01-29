@@ -1,0 +1,13 @@
+diff --git a/apt-pkg/rpm/rpmlistparser.cc b/apt-pkg/rpm/rpmlistparser.cc
+index 75bc353..bf88b79 100644
+--- a/apt-pkg/rpm/rpmlistparser.cc
++++ b/apt-pkg/rpm/rpmlistparser.cc
+@@ -422,8 +422,6 @@ bool rpmListParser::Step()
+       if (Handler->IsDatabase() == true || archOk == true)
+ 	 return true;
+ #else
+-      if (Handler->IsDatabase() == true ||
+-	  RpmData->ArchScore(Architecture().c_str()) > 0)
+ 	 return true;
+ #endif
+    }

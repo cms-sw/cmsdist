@@ -1,0 +1,30 @@
+diff --git a/daq/extern/slp/slptool.patch b/daq/extern/slp/slptool.patch
+index ccefc11..8a34356 100755
+--- a/daq/extern/slp/slptool.patch
++++ b/daq/extern/slp/slptool.patch
+@@ -26,3 +26,25 @@ diff -rup orig/slptool/slptool.c openslp-2.0.0.sf1512548/slptool/slptool.c
+  }
+  
+  void GetProperty(SLPToolCommandLine * cmdline)
++diff --git a/common/slp_net.c b/common/slp_net.c
++index f0ca5f2..718c74e 100644
++--- a/common/slp_net.c
+++++ b/common/slp_net.c
++@@ -546,7 +546,7 @@ int SLPNetSetAddr(void * addr, int family,
++       memset(v4, 0, sizeof(struct sockaddr_in));
++       v4->sin_family = (short)family;
++ #ifdef HAVE_SOCKADDR_STORAGE_SS_LEN
++-      addr->ss_len = sizeof(struct sockaddr_in);
+++      v4->sin_len = sizeof(struct sockaddr_in);
++ #endif
++       v4->sin_port = htons(port);
++       if (address == 0)
++@@ -560,7 +560,7 @@ int SLPNetSetAddr(void * addr, int family,
++       memset(v6, 0, sizeof(struct sockaddr_in6));
++       v6->sin6_family = (short)family;
++ #ifdef HAVE_SOCKADDR_STORAGE_SS_LEN
++-      addr->ss_len = sizeof(struct sockaddr_in6);
+++      v6->sin6_len = sizeof(struct sockaddr_in6);
++ #endif
++       v6->sin6_flowinfo = 0;
++       v6->sin6_port = htons(port);

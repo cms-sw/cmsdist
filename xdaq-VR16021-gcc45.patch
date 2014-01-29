@@ -1,0 +1,69 @@
+diff -Naur orig.xdaq/daq/toolbox/src/common/mem/MemoryPartition.cc xdaq/daq/toolbox/src/common/mem/MemoryPartition.cc
+--- orig.xdaq/daq/toolbox/src/common/mem/MemoryPartition.cc	2009-08-26 14:44:38.000000000 +0200
++++ xdaq/daq/toolbox/src/common/mem/MemoryPartition.cc	2010-04-09 21:13:54.000000000 +0200
+@@ -814,7 +814,7 @@
+ {
+ }
+ 
+-toolbox::mem::MemoryPartition::MemoryPartition & toolbox::mem::MemoryPartition::operator = (const toolbox::mem::MemoryPartition & aMemPart)
++toolbox::mem::MemoryPartition & toolbox::mem::MemoryPartition::operator = (const toolbox::mem::MemoryPartition & aMemPart)
+ {
+ 	return *this;
+ }
+diff -Naur orig.xdaq/daq/ws/eventing/src/common/GetStatusRequest.cc xdaq/daq/ws/eventing/src/common/GetStatusRequest.cc
+--- orig.xdaq/daq/ws/eventing/src/common/GetStatusRequest.cc	2008-07-18 17:28:54.000000000 +0200
++++ xdaq/daq/ws/eventing/src/common/GetStatusRequest.cc	2010-04-10 00:57:05.000000000 +0200
+@@ -75,7 +75,7 @@
+ 	}
+ }
+ 
+-ws::eventing::GetStatusRequest::GetStatusRequest& ws::eventing::GetStatusRequest::operator= (const ws::eventing::GetStatusRequest & request)
++ws::eventing::GetStatusRequest& ws::eventing::GetStatusRequest::operator= (const ws::eventing::GetStatusRequest & request)
+ {
+ 
+ 	aheaders_ = request.aheaders_;
+diff -Naur orig.xdaq/daq/ws/eventing/src/common/RenewRequest.cc xdaq/daq/ws/eventing/src/common/RenewRequest.cc
+--- orig.xdaq/daq/ws/eventing/src/common/RenewRequest.cc	2008-07-18 17:28:54.000000000 +0200
++++ xdaq/daq/ws/eventing/src/common/RenewRequest.cc	2010-04-10 00:31:52.000000000 +0200
+@@ -90,7 +90,7 @@
+ 	}
+ }
+ 
+-ws::eventing::RenewRequest::RenewRequest(const ws::eventing::RenewRequest::RenewRequest & request)
++ws::eventing::RenewRequest::RenewRequest(const ws::eventing::RenewRequest & request)
+ {
+ 	this->operator=(request);
+ }
+@@ -114,7 +114,7 @@
+ 	}
+ }
+ 
+-ws::eventing::RenewRequest::RenewRequest& ws::eventing::RenewRequest::operator= (const ws::eventing::RenewRequest & request)
++ws::eventing::RenewRequest& ws::eventing::RenewRequest::operator= (const ws::eventing::RenewRequest & request)
+ {
+ 	this->identifier_ = request.identifier_;
+ 	
+diff -Naur orig.xdaq/daq/xdata/src/common/Mime.cc xdaq/daq/xdata/src/common/Mime.cc
+--- orig.xdaq/daq/xdata/src/common/Mime.cc	2008-07-18 17:28:54.000000000 +0200
++++ xdaq/daq/xdata/src/common/Mime.cc	2010-04-09 23:01:35.000000000 +0200
+@@ -81,7 +81,7 @@
+ 
+ void xdata::Mime::setValue(const xdata::Serializable & s) throw (xdata::exception::Exception)
+ {
+-	this->operator=(dynamic_cast<const xdata::Mime::Mime&>(s));
++	this->operator=(dynamic_cast<const xdata::Mime&>(s));
+ }
+ 
+ 
+diff -Naur orig.xdaq/daq/xdata/src/common/Table.cc xdaq/daq/xdata/src/common/Table.cc
+--- orig.xdaq/daq/xdata/src/common/Table.cc	2009-10-12 17:06:58.000000000 +0200
++++ xdaq/daq/xdata/src/common/Table.cc	2010-04-09 23:37:13.000000000 +0200
+@@ -309,7 +309,7 @@
+ {
+ 	try
+ 	{
+-		this->operator=(dynamic_cast<const xdata::Table::Table&>(s));
++		this->operator=(dynamic_cast<const xdata::Table&>(s));
+ 	}
+ 	catch (xdata::exception::Exception& e)
+ 	{

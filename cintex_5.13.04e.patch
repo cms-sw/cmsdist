@@ -1,0 +1,76 @@
+Index: cintex/src/CINTFunctional.cxx
+===================================================================
+RCS file: /user/cvs/root/cintex/src/CINTFunctional.cxx,v
+retrieving revision 1.17
+retrieving revision 1.17.4.2
+diff -u -r1.17 -r1.17.4.2
+--- cintex/src/CINTFunctional.cxx	3 Jul 2006 10:22:13 -0000	1.17
++++ cintex/src/CINTFunctional.cxx	30 Nov 2006 08:57:57 -0000	1.17.4.2
+@@ -44,6 +44,20 @@
+    {
+       // Push back a context.
+       StubContexts::Instance().push_back(this);
++
++      fFunction = mem.TypeOf();
++      fNpar    = fFunction.FunctionParameterSize();
++      fStub    = mem.Stubfunction();
++      fStubctx = mem.Stubcontext();
++      
++      // for constructor or destructor locate newdelfunctions pointers
++      if ( mem.IsConstructor() || mem.IsDestructor() ) {
++         Member getnewdelfuncs = fClass.MemberByName("__getNewDelFunctions");
++         if( getnewdelfuncs ) {
++            fNewdelfuncs = (NewDelFunctions_t*)( getnewdelfuncs.Invoke().Address() );
++         }
++      }
++
+    }
+ 
+    StubContext_t::~StubContext_t() {
+@@ -53,10 +67,6 @@
+ 
+    void StubContext_t::Initialize() {
+       // Initialise a context.
+-      fFunction = fMember.TypeOf();
+-      fNpar    = fFunction.FunctionParameterSize();
+-      fStub    = fMember.Stubfunction();
+-      fStubctx = fMember.Stubcontext();
+       fParam.resize(fNpar);
+       fParcnv.resize(fNpar);
+       fTreat.resize(fNpar);
+@@ -64,17 +74,16 @@
+       for (int i = 0; i < fNpar; i++ ) {
+          Type pt = fFunction.FunctionParameterAt(i);
+          while ( pt.IsTypedef() ) pt = pt.ToType();
+-         if ( pt.IsFundamental() || pt.IsEnum() )
++         if ( pt.IsReference() )
++            if( pt.IsPointer() ) fTreat[i] = '*';
++            else                 fTreat[i] = '&';
++         else if ( pt.IsFundamental() || pt.IsEnum() )
+             if      ( pt.TypeInfo() == typeid(float) )       fTreat[i] = 'f';
+             else if ( pt.TypeInfo() == typeid(double) )      fTreat[i] = 'd';
+             else if ( pt.TypeInfo() == typeid(long double) ) fTreat[i] = 'q';
+             else if ( pt.TypeInfo() == typeid(long long) )   fTreat[i] = 'n';
+             else if ( pt.TypeInfo() == typeid(unsigned long long) ) fTreat[i] = 'm';
+             else                                             fTreat[i] = 'i';
+-         else if ( pt.IsReference() )
+-            if( pt.IsPointer() ) fTreat[i] = '*';
+-            else                 fTreat[i] = '&';
+-         //fTreat[i] = '&';
+          else fTreat[i] = 'u';
+       }
+ 
+@@ -91,13 +100,6 @@
+       // for constructor the result block is the class itself
+       if( fClass) fClass_tag = CintTag( CintType(fClass).second );
+       else         fClass_tag = 0;
+-      // for constructor or destructor locate newdelfunctions pointers
+-      if ( fMember.IsConstructor() || fMember.IsDestructor() ) {
+-         Member getnewdelfuncs = fClass.MemberByName("__getNewDelFunctions");
+-         if( getnewdelfuncs ) {
+-            fNewdelfuncs = (NewDelFunctions_t*)( getnewdelfuncs.Invoke().Address() );
+-         }
+-      }
+       // Set initialized flag
+       fInitialized = true;
+    }

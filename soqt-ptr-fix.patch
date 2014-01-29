@@ -1,0 +1,13 @@
+diff --git a/SoQt-1.4.1/src/Inventor/Qt/SoQtComponent.cpp b/SoQt-1.4.1/src/Inventor/Qt/SoQtComponent.cpp
+index 8e4c31e..d4f717e 100644
+--- a/SoQt-1.4.1/src/Inventor/Qt/SoQtComponent.cpp
++++ b/SoQt-1.4.1/src/Inventor/Qt/SoQtComponent.cpp
+@@ -100,7 +100,7 @@ SoQtComponentP::cleanupQtReferences(void)
+   this->parent->removeEventFilter(this);
+ }
+ 
+-static void delete_dict_value(unsigned long key, void * value)
++static void delete_dict_value(uintptr_t key, void * value)
+ {
+   delete (QCursor *)value;
+ }

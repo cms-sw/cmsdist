@@ -1,0 +1,22 @@
+Index: ATOOLS/Math/Makefile.am
+===================================================================
+--- ATOOLS/Math/Makefile.am	(revision 14100)
++++ ATOOLS/Math/Makefile.am	(revision 14232)
+@@ -40,7 +40,6 @@
+ 			Variable.H \
+ 			Scaling.H \
+ 			Axis.H \
+-			Histogram.H \
+ 			Histogram_2D.H \
+ 			Permutation.H \
+ 			PermStore.H \
+Index: AMEGIC++/Amplitude/Makefile.am
+===================================================================
+--- AMEGIC++/Amplitude/Makefile.am	(revision 14100)
++++ AMEGIC++/Amplitude/Makefile.am	(revision 14232)
+@@ -19,4 +19,4 @@
+ 		 Amplitude_Group.H \
+ 		 Color_Group.H Super_Amplitude.H Single_Amplitude_Base.H \
+ 		 FullAmplitude_MHV_Base.H \
+-		 Super_Amplitude.H Amplitude_Output.H
++		 Amplitude_Output.H

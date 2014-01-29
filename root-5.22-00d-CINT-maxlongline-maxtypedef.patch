@@ -1,0 +1,30 @@
+commit e43aa163907090bf8b77adb72a18aa683340367e
+Author: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date:   Sat Oct 9 11:15:39 2010 +0200
+
+    ../CMSDIST/root-5.22-00d-CINT-maxlongline-maxtypedef.patch
+
+diff --git a/cint/cint/inc/G__ci.h b/cint/cint/inc/G__ci.h
+index 0c3d44b..80171a3 100644
+--- a/cint/cint/inc/G__ci.h
++++ b/cint/cint/inc/G__ci.h
+@@ -787,7 +787,7 @@ typedef int (*G__IgnoreInclude)();
+ #define G__ONELINEDICT    8  /* Length of subexpression,parameter,argument */
+ #define G__MAXNAME     4096  /* Variable name */
+ #else
+-#define G__LONGLINE    1024  /* Length of expression */
++#define G__LONGLINE    4096  /* Length of expression */
+ #define G__ONELINE      512  /* Length of subexpression,parameter,argument */
+ #define G__MAXNAME      256  /* Variable name */
+ #define G__ONELINEDICT    8  /* Length of subexpression,parameter,argument */
+@@ -812,8 +812,8 @@ typedef int (*G__IgnoreInclude)();
+ #define G__MAXTYPEDEF  8000  /* typedef table */
+ #endif
+ #else
+-#define G__MAXSTRUCT  24000  /* struct table */
+-#define G__MAXTYPEDEF 24000  /* typedef table */
++#define G__MAXSTRUCT  36000  /* struct table */
++#define G__MAXTYPEDEF 36000  /* typedef table */
+ #endif
+ 
+ /* G__MAXIFUNC and G__MEMDEPTH are not real limit

@@ -1,0 +1,1086 @@
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Examples/IgVisEx/src/GenericEvent.cpp src/Ig_Examples/IgVisEx/src/GenericEvent.cpp
+--- orig/Ig_Examples/IgVisEx/src/GenericEvent.cpp	2003-12-19 21:34:09.000000000 +0100
++++ src/Ig_Examples/IgVisEx/src/GenericEvent.cpp	2006-06-06 14:14:21.000000000 +0200
+@@ -30,7 +30,7 @@
+     double d1 = double (std::rand ());
+     double d2 = double (RAND_MAX);
+     return d1/d2;
+-};
++}
+ 
+ class GaussianDeviates 
+ {
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Examples/IgVisEx/src/TestScene.cpp src/Ig_Examples/IgVisEx/src/TestScene.cpp
+--- orig/Ig_Examples/IgVisEx/src/TestScene.cpp	2003-09-24 12:05:46.000000000 +0200
++++ src/Ig_Examples/IgVisEx/src/TestScene.cpp	2006-06-06 14:15:46.000000000 +0200
+@@ -37,11 +37,11 @@
+ }
+ 
+ TestTwig::TestTwig( IgQtTwig* parent, SbString name, bool visibility, bool cascade ) :
+-    IgQtLiveTwig< TestObject >( parent, name, visibility, cascade ){};
++    IgQtLiveTwig< TestObject >( parent, name, visibility, cascade ){}
+ 
+ //! alternate c-tor
+ TestTwig::TestTwig( SbString name, bool visibility, bool cascade ):
+-    IgQtLiveTwig< TestObject >( name, visibility, cascade ){};
++    IgQtLiveTwig< TestObject >( name, visibility, cascade ){}
+ 
+ //! d-tor
+ TestTwig::~TestTwig(){}
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Extensions/IgOpenInventor/src/IgSo2DArrow.cc src/Ig_Extensions/IgOpenInventor/src/IgSo2DArrow.cc
+--- orig/Ig_Extensions/IgOpenInventor/src/IgSo2DArrow.cc	2003-10-10 12:27:40.000000000 +0200
++++ src/Ig_Extensions/IgOpenInventor/src/IgSo2DArrow.cc	2006-05-26 12:43:09.000000000 +0200
+@@ -11,7 +11,6 @@
+ //<<<<<< PRIVATE VARIABLE DEFINITIONS                                   >>>>>>
+ //<<<<<< PUBLIC VARIABLE DEFINITIONS                                    >>>>>>
+ //<<<<<< CLASS STRUCTURE INITIALIZATION                                 >>>>>>
+-
+ SO_KIT_SOURCE (IgSo2DArrow);
+ 
+ //<<<<<< PRIVATE FUNCTION DEFINITIONS                                   >>>>>>
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Imports/gl2ps/BuildFile src/Ig_Imports/gl2ps/BuildFile
+--- orig/Ig_Imports/gl2ps/BuildFile	2005-03-08 17:54:30.000000000 +0100
++++ src/Ig_Imports/gl2ps/BuildFile	2006-05-24 18:33:03.000000000 +0200
+@@ -1,5 +1,5 @@
+ <Use name=OpenGL>
+-
++<use name=ccompiler>
+ <Export>
+   <include_path path=$(LOCALTOP)/$(SCRAM_SOURCEDIR)/Ig_Imports/gl2ps/src>
+   <Use name=OpenGL>
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/Ig3DMaterialEditor/interface/IgMatEdMainWidget.h src/Ig_Modules/Ig3DMaterialEditor/interface/IgMatEdMainWidget.h
+--- orig/Ig_Modules/Ig3DMaterialEditor/interface/IgMatEdMainWidget.h	2003-10-27 15:57:28.000000000 +0100
++++ src/Ig_Modules/Ig3DMaterialEditor/interface/IgMatEdMainWidget.h	2006-06-06 12:06:24.000000000 +0200
+@@ -33,7 +33,7 @@
+ class IG3DMATERIAL_EDITOR_API IgMatEdMainWidget : public QWidget
+ {
+ private:    
+-    Q_OBJECT;    
++    Q_OBJECT   
+     QWidget 		*m_parent;
+ public:
+     IgMatEdMainWidget (QWidget *parent, IgMatEdMainMenu *menu);
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/Ig3DMaterialEditor/src/IgMatEdMainMenu.h src/Ig_Modules/Ig3DMaterialEditor/src/IgMatEdMainMenu.h
+--- orig/Ig_Modules/Ig3DMaterialEditor/src/IgMatEdMainMenu.h	2003-08-27 12:04:07.000000000 +0200
++++ src/Ig_Modules/Ig3DMaterialEditor/src/IgMatEdMainMenu.h	2006-06-06 12:05:56.000000000 +0200
+@@ -18,7 +18,7 @@
+ 
+ class IG3DMATERIAL_EDITOR_API IgMatEdMainMenu : public QMenuBar
+ {
+-    Q_OBJECT;    
++    Q_OBJECT
+     QWidget *m_parent;
+ public:
+     enum {
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/Ig3DMaterialEditor/src/IgMatEdModificationAction.cc src/Ig_Modules/Ig3DMaterialEditor/src/IgMatEdModificationAction.cc
+--- orig/Ig_Modules/Ig3DMaterialEditor/src/IgMatEdModificationAction.cc	2003-09-15 12:28:05.000000000 +0200
++++ src/Ig_Modules/Ig3DMaterialEditor/src/IgMatEdModificationAction.cc	2006-06-06 12:07:23.000000000 +0200
+@@ -17,7 +17,7 @@
+ //<<<<<< PUBLIC FUNCTION DEFINITIONS                                    >>>>>>
+ //<<<<<< MEMBER FUNCTION DEFINITIONS                                    >>>>>>
+ 
+-SO_ACTION_SOURCE(IgMatEdModificationAction);
++SO_ACTION_SOURCE(IgMatEdModificationAction)
+ 
+ 
+ IgMatEdModificationAction::IgMatEdModificationAction (void)
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/Ig3DMaterialEditor/src/IgMatEdSlider.h src/Ig_Modules/Ig3DMaterialEditor/src/IgMatEdSlider.h
+--- orig/Ig_Modules/Ig3DMaterialEditor/src/IgMatEdSlider.h	2003-08-27 12:04:07.000000000 +0200
++++ src/Ig_Modules/Ig3DMaterialEditor/src/IgMatEdSlider.h	2006-06-06 12:05:20.000000000 +0200
+@@ -22,7 +22,7 @@
+ 
+ class IG3DMATERIAL_EDITOR_API IgMatEdSlider : public QHBox
+ {
+-    Q_OBJECT;    
++    Q_OBJECT
+ public:
+     IgMatEdSlider (QWidget *parent, const char *name, float *target, IgMatEdMainWidget *mainWidget);
+     void setValue (int value);    
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgCommonData/python/PyWrapper.orig src/Ig_Modules/IgCommonData/python/PyWrapper.orig
+--- orig/Ig_Modules/IgCommonData/python/PyWrapper.orig	2005-03-03 13:58:35.000000000 +0100
++++ src/Ig_Modules/IgCommonData/python/PyWrapper.orig	2006-06-06 17:23:22.000000000 +0200
+@@ -14,4 +14,4 @@
+ 
+ extern "C" void initPyIgCommonData () {
+ boost::python::detail::init_module("PyIgCommonData", init_module_PyIgCommonData);
+-};
++}
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgControlCentre/interface/IgQtRangeControlImp.h src/Ig_Modules/IgControlCentre/interface/IgQtRangeControlImp.h
+--- orig/Ig_Modules/IgControlCentre/interface/IgQtRangeControlImp.h	2004-10-18 14:26:27.000000000 +0200
++++ src/Ig_Modules/IgControlCentre/interface/IgQtRangeControlImp.h	2006-06-02 18:43:43.000000000 +0200
+@@ -67,7 +67,7 @@
+     virtual void	setValue (T newval);
+ 
+     void		revMin (void)
+-    { setValue (minValue ()); }
++    { setValue (inherited::minValue ()); }
+ 
+     void		revLong (void)
+     { moveValue (m_longStep,  MoveREV); }
+@@ -82,20 +82,20 @@
+     { moveValue (m_longStep,  MoveFWD); }
+ 
+     void		fwdMax (void)
+-    { setValue (maxValue ()); }
++    { setValue (inherited::maxValue ()); }
+ 
+     void		setDirty (bool dirty);
+ 
+     void		sliderChanged (int value)
+-    { setValue ((value * m_smallStep) + minValue ()); }
++    { setValue ((value * m_smallStep) + inherited::minValue ()); }
+     
+     void	editSettings (void)
+     {
+       IgQtRangeSetting* setting = new IgQtRangeSetting (widget (), "setting");
+       setting->setPrecision ("");
+-      setting->setValue (QString::number (value ()));
+-      setting->setMin (QString::number (minValue ()));
+-      setting->setMax (QString::number (maxValue ()));
++      setting->setValue (QString::number (inherited::value ()));
++      setting->setMin (QString::number (inherited::minValue ()));
++      setting->setMax (QString::number (inherited::maxValue ()));
+       setting->setSmall (QString::number (getSmallStep ()));
+       setting->setLong (QString::number (getLongStep ()));
+       setting->enableValue (isValueEditable ());
+@@ -132,8 +132,8 @@
+     QString	getSettingString (void) const
+     {
+       QString setting ("");
+-      addSettingItem (QString::number(minValue ()), setting);
+-      addSettingItem (QString::number(maxValue ()), setting);
++      addSettingItem (QString::number(inherited::minValue ()), setting);
++      addSettingItem (QString::number(inherited::maxValue ()), setting);
+       addSettingItem (QString::number(getSmallStep ()), setting);
+       addSettingItem (QString::number(getLongStep ()), setting);
+       return setting;
+@@ -150,7 +150,7 @@
+         if (!setting.isEmpty ())
+           setRange (min , stringToNumber (getSettingItem (setting)));
+         else
+-          setRange (min , maxValue ());
++          setRange (min , inherited::maxValue ());
+       }
+       
+       if (!setting.isEmpty ())
+@@ -173,9 +173,9 @@
+       {
+ 	disconnect (m_slider, SIGNAL (valueChanged (int)),
+ 		    this,     SLOT (sliderChanged (int)));
+-	m_slider->setRange (0, int (round ((maxValue()-minValue()) / m_smallStep)));
++	m_slider->setRange (0, int (round ((inherited::maxValue()-inherited::minValue()) / m_smallStep)));
+ 	m_slider->setPageStep (int (round (m_longStep / m_smallStep)));
+-        m_slider->setValue (int (round ((value () - minValue ()) / m_smallStep)));
++        m_slider->setValue (int (round ((inherited::value () - inherited::minValue ()) / m_smallStep)));
+ 	connect (m_slider, SIGNAL (valueChanged (int)),
+ 		 this,     SLOT (sliderChanged (int)));
+       }
+@@ -185,13 +185,13 @@
+     
+     void		fwdEnable (bool enable)
+     {
+-      if (!(!enable && boundaryHandling () == MODULATE))
++      if (!(!enable && inherited::boundaryHandling () == inherited::MODULATE))
+ 	IgQtRangeControl::fwdEnable (enable);
+     }
+     
+     void		revEnable (bool enable)
+     {
+-      if (!(!enable && boundaryHandling () == MODULATE))
++      if (!(!enable && inherited::boundaryHandling () == inherited::MODULATE))
+ 	IgQtRangeControl::revEnable (enable);
+     }
+ 
+@@ -215,10 +215,10 @@
+ IgQtRangeControlImp<T>::initialize (int /* parts */)
+ {
+     // Pretend to step into the value to get it properly bounded
+-    T oldValue = value ();
+-    forceValue (value () + m_smallStep);
++    T oldValue = inherited::value ();
++    inherited::forceValue (inherited::value () + m_smallStep);
+     setValue (oldValue);
+-    forceValueChanged (0);
++    inherited::forceValueChanged (0);
+     precisionEditable (false);
+ }
+ 
+@@ -228,19 +228,19 @@
+     // First let the base class handle it.  If the value doesn't
+     // actually change, we have nothing further to do.
+     //If tracking was not on then keep the accumulate the change value
+-    T prevChangedValue = valueChange ();
++    T prevChangedValue = inherited::valueChange ();
+     IgQtRangeValue<T>::setValue (newval);
+-    if (! valueChange ())
++    if (! inherited::valueChange ())
+     {
+-	forceValueChanged (prevChangedValue);
++        inherited::forceValueChanged (prevChangedValue);
+ 	return;
+     }
+-    forceValueChanged (prevChangedValue + valueChange ());
++    inherited::forceValueChanged (prevChangedValue + inherited::valueChange ());
+ 
+     // Adjust the various display.
+     if (m_text)
+     {	
+-	m_text->setText (QString::number (value ()));
++	m_text->setText (QString::number (inherited::value ()));
+ 	m_text->setChanged (false);
+     }
+ 
+@@ -249,7 +249,7 @@
+ 	disconnect (m_slider, SIGNAL (valueChanged (int)),
+ 		    this, SLOT (sliderChanged (int)));
+ 
+-	m_slider->setValue (int (round ((value () - minValue ()) / m_smallStep)));
++	m_slider->setValue (int (round ((inherited::value () - inherited::minValue ()) / m_smallStep)));
+ 
+ 	connect (m_slider, SIGNAL (valueChanged (int)),
+ 		 this, SLOT (sliderChanged (int)));
+@@ -257,8 +257,8 @@
+ 
+     // Indicate where we are for various buttons and then set myself
+     // dirty so they'll get updated.
+-    fwdEnable (maxValue () - value () >= m_smallStep);
+-    revEnable (value () - minValue () >= m_smallStep);
++    fwdEnable (inherited::maxValue () - inherited::value () >= m_smallStep);
++    revEnable (inherited::value () - inherited::minValue () >= m_smallStep);
+     setDirty ();
+ }
+ 
+@@ -270,11 +270,11 @@
+ 	emitSignals ();
+ 	IgQtRangeControl::setDirty (dirty);
+ 	if (m_resetChangedValue)
+-	  forceValueChanged (0);
++	  inherited::forceValueChanged (0);
+     }
+     else
+     {
+-	forceValueChanged (0);
++        inherited::forceValueChanged (0);
+ 	IgQtRangeControl::setDirty (dirty);
+     }
+ }
+@@ -282,7 +282,7 @@
+ template<class T> void
+ IgQtRangeControlImp<T>::moveValue (T delta, MoveDirection direction)
+ {
+-    T oldValue = value ();
++    T oldValue = inherited::value ();
+     switch (m_stepType)
+     {
+     case ADD:
+@@ -290,21 +290,21 @@
+       {
+ 	T newValue = oldValue - delta;
+ 	if (newValue < oldValue)
+-	  setValue (newValue < minValue () ? minValue (): newValue);
++	  setValue (newValue < inherited::minValue () ? inherited::minValue (): newValue);
+ 	else
+-	  setValue (minValue ());
++	  setValue (inherited::minValue ());
+       }
+       else
+       {
+ 	T newValue = oldValue + delta;
+ 	if (newValue > oldValue)
+-	  setValue (newValue > maxValue () ? maxValue (): newValue);
++	  setValue (newValue > inherited::maxValue () ? inherited::maxValue (): newValue);
+ 	else
+-	  setValue (maxValue ());
++	  setValue (inherited::maxValue ());
+       }
+       break;
+     case MULTIPLE:
+-      setValue (value () * (direction == MoveREV ? 1/delta : delta));
++      setValue (inherited::value () * (direction == MoveREV ? 1/delta : delta));
+       break;
+     }
+ }
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgControlCentre/interface/IgQtRangeMControlImp.h src/Ig_Modules/IgControlCentre/interface/IgQtRangeMControlImp.h
+--- orig/Ig_Modules/IgControlCentre/interface/IgQtRangeMControlImp.h	2004-10-18 14:26:27.000000000 +0200
++++ src/Ig_Modules/IgControlCentre/interface/IgQtRangeMControlImp.h	2006-06-06 11:59:50.000000000 +0200
+@@ -9,6 +9,7 @@
+ # include "Ig_Extensions/IgQt/interface/IgQtLineEdit.h"
+ # include <qslider.h>
+ # include <qcombobox.h>
++# include <math.h>
+ 
+ //<<<<<< PUBLIC DEFINES                                                 >>>>>>
+ //<<<<<< PUBLIC CONSTANTS                                               >>>>>>
+@@ -90,7 +91,7 @@
+     virtual void	setValue (unsigned int index, T newval)
+     {
+       IgQtRangeMValue<T>::setValue (index, newval);
+-      if (isValueChanged (index)){
++      if (inherited::isValueChanged (index)){
+         if (int(index) == currentIndex ())
+           updateTextValue ();
+         setDirty ();
+@@ -100,9 +101,9 @@
+     virtual void	setValue (unsigned int size, const T* newvals)
+     {
+       IgQtRangeMValue<T>::setValue (size, newvals);
+-      if (isValueChanged ()){
++      if (inherited::isValueChanged ()){
+         unsigned int index = (unsigned int)(currentIndex ());        
+-        if (isValueChanged (index))
++        if (inherited::isValueChanged (index))
+           updateTextValue ();
+         setDirty ();
+       }
+@@ -112,7 +113,7 @@
+     { setValue (newvals.size (), &newvals[0]); }
+ 
+     void		revMin (void)
+-    { setValue (minValue ()); }
++    { setValue (inherited::minValue ()); }
+ 
+     void		revLong (void)
+     { moveValue (m_longStep,  MoveREV); }
+@@ -127,23 +128,23 @@
+     { moveValue (m_longStep,  MoveFWD); }
+ 
+     void		fwdMax (void)
+-    { setValue (maxValue ()); }
++    { setValue (inherited::maxValue ()); }
+ 
+     void		setDirty (bool dirty);
+ 
+     void		sliderChanged (int value)
+-    { setValue ((value * m_smallStep) + minValue ()); }
++    { setValue ((value * m_smallStep) + inherited::minValue ()); }
+ 
+     void	editSettings (void)
+     {
+       IgQtRangeSetting* setting = new IgQtRangeSetting (widget (), "setting");
+       setting->setPrecision ("");
+-      setting->setValue (QString::number (value (currentIndex ())));
+-      setting->setMin (QString::number (minValue ()));
+-      setting->setMax (QString::number (maxValue ()));
++      setting->setValue (QString::number (inherited::value (currentIndex ())));
++      setting->setMin (QString::number (inherited::minValue ()));
++      setting->setMax (QString::number (inherited::maxValue ()));
+       setting->setSmall (QString::number (getSmallStep ()));
+       setting->setLong (QString::number (getLongStep ()));
+-      setting->enableValue (isValueEditable ());
++      setting->enableValue (inherited::isValueEditable ());
+       setting->enableStep (isStepEditable ());
+       setting->enableRange (isRangeEditable ());
+       setting->enablePrecision (isPrecisionEditable ());
+@@ -177,8 +178,8 @@
+     QString	getSettingString (void) const
+     {
+       QString setting ("");
+-      addSettingItem (QString::number(minValue ()), setting);
+-      addSettingItem (QString::number(maxValue ()), setting);
++      addSettingItem (QString::number(inherited::minValue ()), setting);
++      addSettingItem (QString::number(inherited::maxValue ()), setting);
+       addSettingItem (QString::number(getSmallStep ()), setting);
+       addSettingItem (QString::number(getLongStep ()), setting);
+       return setting;
+@@ -195,7 +196,7 @@
+         if (!setting.isEmpty ())
+           setRange (min , stringToNumber (getSettingItem (setting)));
+         else
+-          setRange (min , maxValue ());
++          setRange (min , inherited::maxValue ());
+       }
+       
+       if (!setting.isEmpty ())
+@@ -216,12 +217,12 @@
+     {
+       if (m_slider)
+       {
+-	disconnect (m_slider, SIGNAL (valueChanged (int)),
++	disconnect (m_slider, SIGNAL (inherited::valueChanged (int)),
+ 		    this,     SLOT (sliderChanged (int)));
+-	m_slider->setRange (0, int (round ((maxValue()-minValue()) / m_smallStep)));
+-	m_slider->setPageStep (int (round (m_longStep / m_smallStep)));
+-        m_slider->setValue (int (round ((value (currentIndex ()) - minValue ()) / m_smallStep)));
+-	connect (m_slider, SIGNAL (valueChanged (int)),
++	m_slider->setRange (0, int (::round ((inherited::maxValue()-inherited::minValue()) / m_smallStep)));
++	m_slider->setPageStep (int (::round (m_longStep / m_smallStep)));
++        m_slider->setValue (int (::round ((inherited::value (currentIndex ()) - inherited::minValue ()) / m_smallStep)));
++	connect (m_slider, SIGNAL (inherited::valueChanged (int)),
+ 	         this,     SLOT (sliderChanged (int)));
+       }
+     }
+@@ -230,13 +231,13 @@
+     
+     void		fwdEnable (bool enable)
+     {
+-      if (!(!enable && boundaryHandling () == MODULATE))
++      if (!(!enable && inherited::boundaryHandling () == inherited::MODULATE))
+ 	IgQtRangeMControl::fwdEnable (enable);
+     }
+     
+     void		revEnable (bool enable)
+     {
+-      if (!(!enable && boundaryHandling () == MODULATE))
++      if (!(!enable && inherited::boundaryHandling () == inherited::MODULATE))
+ 	IgQtRangeMControl::revEnable (enable);
+     }
+ 
+@@ -285,10 +286,10 @@
+ IgQtRangeMControlImp<T>::initialize (int /* parts */)
+ {
+     // Pretend to step into the value to get it properly bounded
+-    T oldValue = value (0);
+-    forceValue (0, value (0) + m_smallStep);
++    T oldValue = inherited::value (0);
++    forceValue (0, inherited::value (0) + m_smallStep);
+     setValue (0, oldValue);
+-    forceValueChanged (0, (T)(0));
++    inherited::forceValueChanged (0, (T)(0));
+     precisionEditable (false);
+ }
+ 
+@@ -301,11 +302,11 @@
+ 	emitSignals ();
+ 	IgQtRangeMControl::setDirty (dirty);
+ 	if (m_resetChangedValue)
+-	  forceValueChanged (0);
++	  inherited::forceValueChanged (0);
+     }
+     else
+     {
+-	forceValueChanged (0);
++        inherited::forceValueChanged (0);
+ 	IgQtRangeMControl::setDirty (dirty);
+     }
+ }
+@@ -314,7 +315,7 @@
+ IgQtRangeMControlImp<T>::moveValue (T delta, MoveDirection direction)
+ {
+     unsigned int index = (unsigned int)(m_index->currentItem());
+-    T oldValue = value (index);
++    T oldValue = inherited::value (index);
+     switch (m_stepType)
+     {
+     case ADD:
+@@ -322,21 +323,21 @@
+       {
+ 	T newValue = oldValue - delta;
+ 	if (newValue < oldValue)
+-	  setValue (index, newValue < minValue () ? minValue (): newValue);
++	  setValue (index, newValue < inherited::minValue () ? inherited::minValue (): newValue);
+ 	else
+-	  setValue (index, minValue ());
++	  setValue (index, inherited::minValue ());
+       }
+       else
+       {
+ 	T newValue = oldValue + delta;
+ 	if (newValue > oldValue)
+-	  setValue (index, newValue > maxValue () ? maxValue (): newValue);
++	  setValue (index, newValue > inherited::maxValue () ? inherited::maxValue (): newValue);
+ 	else
+-	  setValue (index, maxValue ());
++	  setValue (index, inherited::maxValue ());
+       }
+       break;
+     case MULTIPLE:
+-      setValue (index, value (index) * (direction == MoveREV ? 1/delta : delta));
++      setValue (index, inherited::value (index) * (direction == MoveREV ? 1/delta : delta));
+       break;
+     }
+ }
+@@ -345,7 +346,7 @@
+ IgQtRangeMControlImp<T>::updateTextValue (void)
+ {
+     // Adjust the various display.
+-    T newval = value (m_index->currentItem());
++    T newval = inherited::value (m_index->currentItem());
+     
+     if (m_text)
+     {	
+@@ -355,19 +356,19 @@
+ 
+     if (m_slider)
+     {
+-	disconnect (m_slider, SIGNAL (valueChanged (int)),
++	disconnect (m_slider, SIGNAL (inherited::valueChanged (int)),
+ 		    this, SLOT (sliderChanged (int)));
+ 
+-	m_slider->setValue (int (round ((newval - minValue ()) / m_smallStep)));
++	m_slider->setValue (int (round ((newval - inherited::minValue ()) / m_smallStep)));
+ 
+-	connect (m_slider, SIGNAL (valueChanged (int)),
++	connect (m_slider, SIGNAL (inherited::valueChanged (int)),
+ 		 this, SLOT (sliderChanged (int)));
+     }
+ 
+     // Indicate where we are for various buttons and then set myself
+     // dirty so they'll get updated.
+-    fwdEnable (maxValue () - newval >= m_smallStep);
+-    revEnable (newval - minValue () >= m_smallStep);
++    fwdEnable (inherited::maxValue () - newval >= m_smallStep);
++    revEnable (newval - inherited::minValue () >= m_smallStep);
+ }
+ 
+ //<<<<<< INLINE PUBLIC FUNCTIONS                                        >>>>>>
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgControlCentre/src/IgQtRangeMControlFloat.cc src/Ig_Modules/IgControlCentre/src/IgQtRangeMControlFloat.cc
+--- orig/Ig_Modules/IgControlCentre/src/IgQtRangeMControlFloat.cc	2004-10-18 14:26:28.000000000 +0200
++++ src/Ig_Modules/IgControlCentre/src/IgQtRangeMControlFloat.cc	2006-06-06 11:54:51.000000000 +0200
+@@ -5,6 +5,7 @@
+ #include "Ig_Extensions/IgQt/interface/IgQtLineEdit.h"
+ #include <qslider.h>
+ #include <qcombobox.h>
++#include <math.h>
+ 
+ //<<<<<< PRIVATE DEFINES                                                >>>>>>
+ //<<<<<< PRIVATE CONSTANTS                                              >>>>>>
+@@ -49,11 +50,11 @@
+ {
+     // Pretend to step into the value to get it properly bounded
+     setPrecision (.01);
+-    float oldValue = value (0);
++    float oldValue = inherited::value (0);
+     setRange (SHRT_MIN, SHRT_MAX);
+-    forceValue (0, value (0) + m_smallStep);
++    forceValue (0, inherited::value (0) + m_smallStep);
+     setValue (0, oldValue);
+-    forceValueChanged (0, 0.);
++    inherited::forceValueChanged (0, 0.);
+ }
+ //////////////////////////////////////////////////////////////////////
+ //////////////////////////////////////////////////////////////////////
+@@ -102,7 +103,7 @@
+ void
+ IgQtRangeMControlFloat::setLongStep (float value)
+ {
+-    m_longStep = fabs (value);
++    m_longStep = ::fabs (value);
+     if (m_smallStep > m_longStep)
+     {
+ 	IgQtRangeValuePrecision::setPrecision (m_longStep);
+@@ -139,7 +140,7 @@
+ 		    this,     SLOT (sliderChanged (int)));
+ 	m_slider->setRange (0, int (round ((maxValue()-minValue()) / m_smallStep)));
+ 	m_slider->setPageStep (int (round (m_longStep / m_smallStep)));
+-        m_slider->setValue (int (round ((value (currentIndex ()) - minValue ()) / m_smallStep)));
++        m_slider->setValue (int (round ((inherited::value (currentIndex ()) - minValue ()) / m_smallStep)));
+ 	connect (m_slider, SIGNAL (valueChanged (int)),
+ 	         this,     SLOT (sliderChanged (int)));
+     }
+@@ -180,7 +181,7 @@
+ void
+ IgQtRangeMControlFloat::emitSignals (void)
+ {
+-    emit newValue (value ());
++    emit newValue (inherited::value ());
+     emit valueChanged (valueChange ());
+ }
+ 
+@@ -231,11 +232,11 @@
+     switch (m_stepType)
+     {
+     case ADD:
+-	setValue (index, value (index) + (direction == MoveREV ? -delta : delta));
++	setValue (index, inherited::value (index) + (direction == MoveREV ? -delta : delta));
+ 	break;
+ 
+     case MULTIPLE:
+-	setValue (index, value (index) * (direction == MoveREV ? 1/delta : delta));
++	setValue (index, inherited::value (index) * (direction == MoveREV ? 1/delta : delta));
+ 	break;
+     }
+ 
+@@ -250,11 +251,11 @@
+ IgQtRangeMControlFloat::updateTextValue (void)
+ {
+     // Adjust the various display.
+-    float newval = value (currentIndex());
++    float newval = inherited::value (currentIndex());
+ 
+     if (m_text)
+     {	
+-	int prec = precision () ? int (fabs (log10 (precision ())) + .5) : 6;
++	int prec = precision () ? int (::fabs (::log10 (precision ())) + .5) : 6;
+ 	m_text->setText (QString::number (newval, 'f', prec));
+ 	m_text->setChanged (false);
+     }
+@@ -264,9 +265,9 @@
+ 	disconnect (m_slider, SIGNAL (valueChanged (int)),
+ 		    this, SLOT (sliderChanged (int)));
+ 
+-	m_slider->setValue (int (round ((newval - minValue ()) / m_smallStep)));
++	m_slider->setValue (int (::round ((newval - minValue ()) / m_smallStep)));
+ 
+-	connect (m_slider, SIGNAL (valueChanged (int)),
++	connect (m_slider, SIGNAL (inherited::valueChanged (int)),
+ 		 this, SLOT (sliderChanged (int)));
+     }
+ 
+@@ -284,11 +285,11 @@
+ 	emitSignals ();
+ 	IgQtRangeMControl::setDirty (dirty);
+ 	if (m_resetChangedValue)
+-	  forceValueChanged (0);
++	  inherited::forceValueChanged (0);
+     }
+     else
+     {
+-	forceValueChanged (0);
++        inherited::forceValueChanged (0);
+ 	IgQtRangeMControl::setDirty (dirty);
+     }
+ }
+@@ -317,10 +318,10 @@
+ IgQtRangeMControlFloat::editSettings (void)
+ {
+     IgQtRangeSetting* setting = new IgQtRangeSetting (widget (), "setting");
+-    setting->setValue (QString::number (value (currentIndex ())));
++    setting->setValue (QString::number (inherited::value (currentIndex ())));
+     setting->setPrecision (QString::number (precision ()));
+-    setting->setMin (QString::number (minValue ()));
+-    setting->setMax (QString::number (maxValue ()));
++    setting->setMin (QString::number (inherited::minValue ()));
++    setting->setMax (QString::number (inherited::maxValue ()));
+     setting->setSmall (QString::number (getSmallStep ()));
+     setting->setLong (QString::number (getLongStep ()));
+     setting->enableValue (isValueEditable ());
+@@ -363,8 +364,8 @@
+ IgQtRangeMControlFloat::getSettingString (void) const
+ {
+     QString setting ("");
+-    addSettingItem (QString::number(minValue ()), setting);
+-    addSettingItem (QString::number(maxValue ()), setting);
++    addSettingItem (QString::number(inherited::minValue ()), setting);
++    addSettingItem (QString::number(inherited::maxValue ()), setting);
+     addSettingItem (QString::number(getSmallStep ()), setting);
+     addSettingItem (QString::number(getLongStep ()), setting);
+     addSettingItem (QString::number(precision ()), setting);
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgHistoBrowser/interface/IgHistoBrowser.h src/Ig_Modules/IgHistoBrowser/interface/IgHistoBrowser.h
+--- orig/Ig_Modules/IgHistoBrowser/interface/IgHistoBrowser.h	2005-11-25 15:37:03.000000000 +0100
++++ src/Ig_Modules/IgHistoBrowser/interface/IgHistoBrowser.h	2006-06-06 17:57:03.000000000 +0200
+@@ -19,7 +19,7 @@
+ class IgHistoModelEvent;
+ namespace hippodraw {
+   class PlotterBase;
+-};
++}
+ 
+ //<<<<<< PUBLIC VARIABLES                                               >>>>>>
+ //<<<<<< PUBLIC FUNCTIONS                                               >>>>>>
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgHistoModel/interface/IgHistoModel.h src/Ig_Modules/IgHistoModel/interface/IgHistoModel.h
+--- orig/Ig_Modules/IgHistoModel/interface/IgHistoModel.h	2005-11-25 15:16:35.000000000 +0100
++++ src/Ig_Modules/IgHistoModel/interface/IgHistoModel.h	2006-06-06 17:56:05.000000000 +0200
+@@ -20,7 +20,7 @@
+ class IgHistoModelEvent;
+ namespace hippodraw {
+   class PlotterBase;
+-};
++}
+ class IgNTupleModel;
+ 
+ //<<<<<< PUBLIC VARIABLES                                               >>>>>>
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgHistoModel/interface/IgHistoRep.h src/Ig_Modules/IgHistoModel/interface/IgHistoRep.h
+--- orig/Ig_Modules/IgHistoModel/interface/IgHistoRep.h	2005-11-25 15:16:35.000000000 +0100
++++ src/Ig_Modules/IgHistoModel/interface/IgHistoRep.h	2006-06-06 17:56:21.000000000 +0200
+@@ -15,7 +15,7 @@
+ class IgDataSourceProxy;
+ namespace hippodraw {
+     class DataRep;
+-};
++}
+ 
+ class IgRepContext;
+ class IgModel;
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgOIVBrowser/src/IgOIVBrowser.cc src/Ig_Modules/IgOIVBrowser/src/IgOIVBrowser.cc
+--- orig/Ig_Modules/IgOIVBrowser/src/IgOIVBrowser.cc	2006-04-03 13:04:40.000000000 +0200
++++ src/Ig_Modules/IgOIVBrowser/src/IgOIVBrowser.cc	2006-05-29 23:38:22.000000000 +0200
+@@ -260,7 +260,7 @@
+   }
+ 
+   this->m_storedCamera 
+-      = dynamic_cast <SoNode *> ((SoNode *) (t.createInstance ()));
++      = dynamic_cast <SoCamera *> (static_cast<SoNode *>(t.createInstance ()));
+   this->m_storedCamera->ref ();
+   this->m_storedCamera->copyContents(this->m_camera, false);
+ }
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgPython/BuildFile src/Ig_Modules/IgPython/BuildFile
+--- orig/Ig_Modules/IgPython/BuildFile	2005-08-23 17:49:52.000000000 +0200
++++ src/Ig_Modules/IgPython/BuildFile	2006-05-24 17:39:32.000000000 +0200
+@@ -1,5 +1,8 @@
+ <Use name=boost_python>
+ <Use name=Ig_Framework/IgObjectBrowser>
++<architecture name=sl>
++<lib name=util>
++</architecture>
+ 
+ <Export>
+   <Use name=Ig_Framework/IgObjectBrowser>
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgPython/interface/IgPythonFactory.h src/Ig_Modules/IgPython/interface/IgPythonFactory.h
+--- orig/Ig_Modules/IgPython/interface/IgPythonFactory.h	2004-05-17 14:56:39.000000000 +0200
++++ src/Ig_Modules/IgPython/interface/IgPythonFactory.h	2006-05-24 18:04:54.000000000 +0200
+@@ -108,7 +108,7 @@
+     :m_interpreter(interpreter),
+      m_className("")
+ {
+-};
++}
+ 
+ template <class T>
+ inline void IgPythonFactory<T>::loadScript(const char *scriptName)
+@@ -121,21 +121,21 @@
+     }else
+     {
+ 	std::cerr << "Cannot load module:" << scriptName << ".py" << std::endl;	
+-    };    
+-};
++    }    
++}
+ 
+ template <class T>
+ inline void IgPythonFactory<T>::setScript(const char *script)
+ {
+     m_interpreter->interpret(script);
+-};
++}
+ 
+ //FIXME: not thread safe!
+ template <class T>
+ inline void IgPythonFactory<T>::set(const char *className)
+ {
+     m_className = className;
+-};
++}
+ 
+ template <class T>
+ inline T &IgPythonFactory<T>::create(const std::string &args /* ="" */)
+@@ -146,6 +146,6 @@
+     return extract<T&>(m_interpreter->getGlobalNamespace()["__newDerived__"])();
+     //    object *obj = m_interpreter->eval((m_className+"()").c_str());    
+     //return extract<T&>(*obj);    
+-};
++}
+ 
+ #endif // IG_PYTHON_IG_PYTHON_FACTORY_H
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgPython/src/IgPythonCompleter.cc src/Ig_Modules/IgPython/src/IgPythonCompleter.cc
+--- orig/Ig_Modules/IgPython/src/IgPythonCompleter.cc	2003-04-24 09:20:29.000000000 +0200
++++ src/Ig_Modules/IgPython/src/IgPythonCompleter.cc	2006-05-24 17:47:58.000000000 +0200
+@@ -19,10 +19,10 @@
+ bool IgPythonCompleter::isValid(const char */*name*/)
+ {
+     return false;
+-};
++}
+ 
+ std::string IgPythonCompleter::completeName(const char *objName)
+ {
+     return std::string(objName);    
+-};
++}
+ 
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgPython/src/IgPythonInterpreter.cc src/Ig_Modules/IgPython/src/IgPythonInterpreter.cc
+--- orig/Ig_Modules/IgPython/src/IgPythonInterpreter.cc	2004-07-14 15:09:37.000000000 +0200
++++ src/Ig_Modules/IgPython/src/IgPythonInterpreter.cc	2006-05-24 17:51:09.000000000 +0200
+@@ -140,7 +140,7 @@
+ 	= ((*(new class_<IgPythonOStreamError>("IgPythonOStreamError"))).def ("write", &IgPythonOStreamError::write)) ();
+     IgPythonOStreamError &igStream = extract<IgPythonOStreamError &> ((getGlobalNamespace ()["sys"]).attr ("stderr")) ();
+     igStream.stream() = &stream;
+-};
++}
+ 
+ void
+ IgPythonInterpreter::redirectOutput (std::ostream &stream)
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgPython/src/IgPythonOStream.cc src/Ig_Modules/IgPython/src/IgPythonOStream.cc
+--- orig/Ig_Modules/IgPython/src/IgPythonOStream.cc	2003-04-28 17:27:53.000000000 +0200
++++ src/Ig_Modules/IgPython/src/IgPythonOStream.cc	2006-05-24 18:05:42.000000000 +0200
+@@ -16,44 +16,44 @@
+ IgPythonOStreamOutput::IgPythonOStreamOutput (void)
+     :m_ostream(&std::cout)
+ {
+-};
++}
+ 
+ 
+ IgPythonOStreamOutput::IgPythonOStreamOutput (std::ostream &stream)
+     :m_ostream(&stream)
+ {
+-};
++}
+ 
+ void IgPythonOStreamOutput::write(const char *text)
+ {
+     *m_ostream << text;
+     m_ostream->flush();
+-};
++}
+ 
+ std::ostream *&IgPythonOStreamOutput::stream(void)
+ {
+     return m_ostream;
+-};
++}
+ 
+ IgPythonOStreamError::IgPythonOStreamError (void)
+     :m_ostream(&std::cerr)
+ {
+-};
++}
+ 
+ 
+ IgPythonOStreamError::IgPythonOStreamError (std::ostream &stream)
+     :m_ostream(&stream)
+ {
+-};
++}
+ 
+ void IgPythonOStreamError::write(const char *text)
+ {
+     *m_ostream << text;
+     m_ostream->flush();
+-};
++}
+ 
+ std::ostream *&IgPythonOStreamError::stream(void)
+ {
+     return m_ostream;
+-};
++}
+ 
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgPython/src/IgPythonStream.cc src/Ig_Modules/IgPython/src/IgPythonStream.cc
+--- orig/Ig_Modules/IgPython/src/IgPythonStream.cc	2003-05-12 15:39:24.000000000 +0200
++++ src/Ig_Modules/IgPython/src/IgPythonStream.cc	2006-05-24 18:06:29.000000000 +0200
+@@ -20,7 +20,7 @@
+ IgPythonStreambuf::IgPythonStreambuf (void)
+     :m_pythonInterpreter(new IgPythonInterpreter())
+ {
+-};
++}
+ 
+ int IgPythonStreambuf::sync(void)
+ {
+@@ -28,46 +28,46 @@
+     str(std::string(""));
+     
+     return 0;
+-};
++}
+ 
+ void IgPythonStreambuf::redirectError(std::ostream &stream)
+ {
+     m_pythonInterpreter->redirectError(stream);
+-};
++}
+ 
+ void IgPythonStreambuf::redirectOutput(std::ostream &stream)
+ {
+     m_pythonInterpreter->redirectOutput(stream);
+-};
++}
+ 
+ std::string IgPythonStreambuf::completeName(const char *objName)
+ {
+     return m_pythonInterpreter->completeName(objName);    
+-};
++}
+ 
+ IgPythonStream::IgPythonStream(void)
+     :std::ostream(&m_streambuf),m_currentObjectName("")
+ {
+-};
++}
+ 
+ IgPythonStream &IgPythonStream::operator[](const char *objectName)
+ {
+     m_currentObjectName = objectName;
+     return *this;
+-};
++}
+ 
+ void IgPythonStream::redirectError(std::ostream &stream)
+ {
+     m_streambuf.redirectError(stream);
+-};
++}
+ 
+ void IgPythonStream::redirectOutput(std::ostream &stream)
+ {
+     m_streambuf.redirectOutput(stream);
+-};
++}
+ 
+ std::string IgPythonStream::completeName(const char *objName)
+ {
+     return m_streambuf.completeName(objName);    
+-};
++}
+ 
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgPython/test/test_PythonStream.cc src/Ig_Modules/IgPython/test/test_PythonStream.cc
+--- orig/Ig_Modules/IgPython/test/test_PythonStream.cc	2005-03-16 10:38:55.000000000 +0100
++++ src/Ig_Modules/IgPython/test/test_PythonStream.cc	2006-06-06 18:01:02.000000000 +0200
+@@ -34,4 +34,4 @@
+     }
+     
+     return 0;
+-};
++}
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgPython/test/test_SimpleCommunication.cc src/Ig_Modules/IgPython/test/test_SimpleCommunication.cc
+--- orig/Ig_Modules/IgPython/test/test_SimpleCommunication.cc	2003-05-03 00:06:12.000000000 +0200
++++ src/Ig_Modules/IgPython/test/test_SimpleCommunication.cc	2006-06-06 18:01:30.000000000 +0200
+@@ -17,4 +17,4 @@
+     std::string CString = extract<std::string>(PyString)();
+ 
+     assert(CString=="test");
+-};
++}
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgPython/test/test_SimpleScript.cc src/Ig_Modules/IgPython/test/test_SimpleScript.cc
+--- orig/Ig_Modules/IgPython/test/test_SimpleScript.cc	2003-05-03 00:06:12.000000000 +0200
++++ src/Ig_Modules/IgPython/test/test_SimpleScript.cc	2006-06-06 18:01:56.000000000 +0200
+@@ -12,6 +12,5 @@
+     assert( tPy->completeName("sys.stde") == "sys.stderr");
+     assert( tPy->completeName("sys.stdo") == "sys.stdout");
+     assert( tPy->completeName("IgPy") == "IgPythonCompleter");
+-};
+-
++}
+ 
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgQtBrowser/python/PyWrapper.orig src/Ig_Modules/IgQtBrowser/python/PyWrapper.orig
+--- orig/Ig_Modules/IgQtBrowser/python/PyWrapper.orig	2005-03-09 12:21:47.000000000 +0100
++++ src/Ig_Modules/IgQtBrowser/python/PyWrapper.orig	2006-06-06 18:03:08.000000000 +0200
+@@ -12,4 +12,4 @@
+ 
+ extern "C" void initPyIgQtBrowser () {
+ boost::python::detail::init_module("PyIgQtBrowser", init_module_PyIgQtBrowser);
+-};
++}
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgQtPython/src/IgQtTextEditStream.cc src/Ig_Modules/IgQtPython/src/IgQtTextEditStream.cc
+--- orig/Ig_Modules/IgQtPython/src/IgQtTextEditStream.cc	2003-04-30 18:34:07.000000000 +0200
++++ src/Ig_Modules/IgQtPython/src/IgQtTextEditStream.cc	2006-06-06 18:06:30.000000000 +0200
+@@ -19,10 +19,10 @@
+      m_streamBuf(this,subStyle,waitToFlush),
+      m_waitToFlush(waitToFlush)
+ {
+-};
++}
+ 
+ void IgQtTextEditStream::realFlush(void)
+ {
+     m_streamBuf.realSync();
+-};
++}
+ 
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgQtPython/test/test_PythonShell.cc src/Ig_Modules/IgQtPython/test/test_PythonShell.cc
+--- orig/Ig_Modules/IgQtPython/test/test_PythonShell.cc	2004-08-04 17:38:47.000000000 +0200
++++ src/Ig_Modules/IgQtPython/test/test_PythonShell.cc	2006-06-06 18:07:31.000000000 +0200
+@@ -38,4 +38,4 @@
+     myApp->exec();
+     
+     delete myShell;
+-};
++}
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgSocketDriver/interface/IgServerSocket.h src/Ig_Modules/IgSocketDriver/interface/IgServerSocket.h
+--- orig/Ig_Modules/IgSocketDriver/interface/IgServerSocket.h	2006-04-05 18:38:42.000000000 +0200
++++ src/Ig_Modules/IgSocketDriver/interface/IgServerSocket.h	2006-05-26 17:32:17.000000000 +0200
+@@ -22,7 +22,7 @@
+ 					    public IgStateElement
+ {
+     IG_DECLARE_STATE_ELEMENT (IgServerSocket);
+-    Q_OBJECT;
++    Q_OBJECT
+ public:
+     IgServerSocket (IgState *state, bool mainPort = true);
+     virtual void newConnection (int port);
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgSocketDriver/interface/IgSocket.h src/Ig_Modules/IgSocketDriver/interface/IgSocket.h
+--- orig/Ig_Modules/IgSocketDriver/interface/IgSocket.h	2006-04-04 19:40:18.000000000 +0200
++++ src/Ig_Modules/IgSocketDriver/interface/IgSocket.h	2006-05-26 17:32:56.000000000 +0200
+@@ -17,7 +17,7 @@
+ 
+ class IG_SOCKET_DRIVER_API IgSocket : public QSocket
+ {
+-    Q_OBJECT;    
++    Q_OBJECT    
+ public:
+     IgSocket (IgState *state);
+ 
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgSocketDriver/interface/IgWebServiceDB.h src/Ig_Modules/IgSocketDriver/interface/IgWebServiceDB.h
+--- orig/Ig_Modules/IgSocketDriver/interface/IgWebServiceDB.h	2005-08-16 17:17:37.000000000 +0200
++++ src/Ig_Modules/IgSocketDriver/interface/IgWebServiceDB.h	2006-05-26 18:14:04.000000000 +0200
+@@ -4,6 +4,7 @@
+ //<<<<<< INCLUDES                                                       >>>>>>
+ #include "Ig_Modules/IgSocketDriver/interface/config.h"
+ #include <PluginManager/PluginFactory.h>
++
+ //<<<<<< PUBLIC DEFINES                                                 >>>>>>
+ //<<<<<< PUBLIC CONSTANTS                                               >>>>>>
+ //<<<<<< PUBLIC TYPES                                                   >>>>>>
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgSocketDriver/interface/IgWebServiceProxy.h src/Ig_Modules/IgSocketDriver/interface/IgWebServiceProxy.h
+--- orig/Ig_Modules/IgSocketDriver/interface/IgWebServiceProxy.h	2005-09-07 10:47:46.000000000 +0200
++++ src/Ig_Modules/IgSocketDriver/interface/IgWebServiceProxy.h	2006-05-26 18:13:05.000000000 +0200
+@@ -17,7 +17,7 @@
+ class IG_SOCKET_DRIVER_API IgWebServiceProxy 
+ {
+ public:
+-    typedef IgWebServiceDB::Map::data_type PluginInfo;    
++    typedef IgWebServiceDB::Map::mapped_type PluginInfo;    
+     IgWebServiceProxy (IgState *state, PluginInfo pluginInfo);
+     // implicit copy constructor
+     // implicit assignment operator
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgSocketDriver/src/IgServerSocket.cc src/Ig_Modules/IgSocketDriver/src/IgServerSocket.cc
+--- orig/Ig_Modules/IgSocketDriver/src/IgServerSocket.cc	2006-04-12 13:13:26.000000000 +0200
++++ src/Ig_Modules/IgSocketDriver/src/IgServerSocket.cc	2006-05-26 17:35:13.000000000 +0200
+@@ -25,7 +25,7 @@
+ class IgFreeServerSocket : public QServerSocket
+ {
+ public:
+-    IgFreeServerSocket() : QServerSocket(0, 1, 0, 0)
++    IgFreeServerSocket() : QServerSocket(0, 1, (QObject *) 0, 0)
+     {}
+     virtual void newConnection (int){}
+ };
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgStudio/src/IgModelManager.cc src/Ig_Modules/IgStudio/src/IgModelManager.cc
+--- orig/Ig_Modules/IgStudio/src/IgModelManager.cc	2004-12-13 19:04:15.000000000 +0100
++++ src/Ig_Modules/IgStudio/src/IgModelManager.cc	2006-06-06 12:10:56.000000000 +0200
+@@ -47,7 +47,7 @@
+ }
+ 
+ void
+-IgModelManager::add (IgState *state, IgModel* model, std::string name = "")
++IgModelManager::add (IgState *state, IgModel* model, std::string name /*= ""*/)
+ {
+     ASSERT (model);
+     
+diff -Naur --exclude=.admin --exclude=CVS orig/Ig_Modules/IgWebStudio/html/.cvsignore src/Ig_Modules/IgWebStudio/html/.cvsignore
+--- orig/Ig_Modules/IgWebStudio/html/.cvsignore	2006-02-07 12:06:17.000000000 +0100
++++ src/Ig_Modules/IgWebStudio/html/.cvsignore	1970-01-01 01:00:00.000000000 +0100
+@@ -1 +0,0 @@
+-._*
+diff -Naur --exclude=.admin --exclude=CVS orig/VisGeant4/VisG4Transients/src/VisSoG4Trajectories.cc src/VisGeant4/VisG4Transients/src/VisSoG4Trajectories.cc
+--- orig/VisGeant4/VisG4Transients/src/VisSoG4Trajectories.cc	2003-09-26 12:49:09.000000000 +0200
++++ src/VisGeant4/VisG4Transients/src/VisSoG4Trajectories.cc	2006-06-06 12:04:03.000000000 +0200
+@@ -36,7 +36,7 @@
+ //<<<<<< PUBLIC VARIABLE DEFINITIONS                                    >>>>>>
+ //<<<<<< CLASS STRUCTURE INITIALIZATION                                 >>>>>>
+ 
+-SO_NODE_SOURCE (VisSoG4Trajectories)
++SO_NODE_SOURCE (VisSoG4Trajectories);
+ 
+ //<<<<<< PRIVATE FUNCTION DEFINITIONS                                   >>>>>>
+ //<<<<<< PUBLIC FUNCTION DEFINITIONS                                    >>>>>>
+diff -Naur --exclude=.admin --exclude=CVS orig/VisGeant4/VisG4Volumes/src/VisG4Details.cc src/VisGeant4/VisG4Volumes/src/VisG4Details.cc
+--- orig/VisGeant4/VisG4Volumes/src/VisG4Details.cc	2003-12-16 11:02:54.000000000 +0100
++++ src/VisGeant4/VisG4Volumes/src/VisG4Details.cc	2006-06-06 12:08:14.000000000 +0200
+@@ -42,14 +42,14 @@
+ {
+     less comparison;
+     return !(comparison (*this, t) || comparison (t, *this));    
+-};
++}
+ 
+ bool 
+ VisG4RepDetails::operator< (const VisG4RepDetails &t) const
+ {
+     less comparison;
+     return comparison (*this, t);    
+-};
++}
+ 
+ 
+ ///////////////////////////////////////////////////////////////////////////////

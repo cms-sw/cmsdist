@@ -1,0 +1,10 @@
+--- orig.ThePEG-1.3.0/PDF/LHAPDF.cc	2008-06-18 14:16:25.000000000 +0200
++++ ThePEG-1.3.0/PDF/LHAPDF.cc	2008-07-23 17:00:28.000000000 +0200
+@@ -194,6 +194,7 @@
+ 
+ bool LHAPDF::openLHAIndex(ifstream & is) {
+   if(is.is_open()) is.close();
++  is.clear();
+   is.open(getIndexPath().c_str());
+   if ( is ) return true;
+   is.clear();

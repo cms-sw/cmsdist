@@ -1,0 +1,13 @@
+diff --git a/config/Makefile.rules b/config/Makefile.rules
+index 4ac57a6..186d427 100755
+--- a/config/Makefile.rules
++++ b/config/Makefile.rules
+@@ -414,7 +414,7 @@ _installall: _buildall
+ ifndef Packages
+ 	$(Install) -d $(LibInstallDir) $(BinInstallDir) $(IncludeInstallDir)
+ ifeq ($(XDAQ_OS),macosx)
+-	cd include; find . \( -name "*.[hi]" -o -name "*.hpp" -o -name "*.hh" -o -name "*.hxx" \) -exec mkdir -p $(IncludeInstallDir)/{} \;
++	cd include; find . \( -name "*.[hi]" -o -name "*.hpp" -o -name "*.hh" -o -name "*.hxx" \) -exec dirname $(IncludeInstallDir)/{} \; | xargs -n1 mkdir -p
+ 	cd include; find . \( -name "*.[hi]" -o -name "*.hpp" -o -name "*.hh" -o -name "*.hxx" \) -exec cp {} $(IncludeInstallDir)/{} \;
+ else
+ 	cd include; find ./ \( -name "*.[hi]" -o -name "*.hpp" -o -name "*.hh" -o -name "*.hxx" \) -exec install -p -D {} $(IncludeInstallDir)/{} \;

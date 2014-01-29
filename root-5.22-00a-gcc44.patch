@@ -1,0 +1,21 @@
+commit d58b0ee10c70a8c38ce3fe7336fca5de618c76bc
+Author: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date:   Sat Oct 9 11:15:43 2010 +0200
+
+    ../CMSDIST/root-5.22-00a-gcc44.patch
+
+diff --git a/io/io/Module.mk b/io/io/Module.mk
+index 2534d97..4cb8afe 100644
+--- a/io/io/Module.mk
++++ b/io/io/Module.mk
+@@ -64,3 +64,10 @@ distclean-$(MODNAME): clean-$(MODNAME)
+ 		@rm -f $(IODEP) $(IODS) $(IODH) $(IOLIB) $(IOMAP)
+ 
+ distclean::     distclean-$(MODNAME)
++
++##### extra rules ######
++ifeq ($(GCC_VERS),gcc-4.4)
++ifneq ($(filter -O%,$(OPT)),)
++   $(IODIRS)/TStreamerInfoReadBuffer.o: OPT = -O
++endif
++endif

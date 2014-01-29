@@ -1,0 +1,40 @@
+--- orig.root/tmva/src/MethodANNBase.cxx	2010-01-21 17:20:53.000000000 +0100
++++ root/tmva/src/MethodANNBase.cxx	2010-01-21 18:05:42.000000000 +0100
+@@ -254,7 +254,7 @@
+    // build network given a layout (number of neurons in each layer)
+    // and optional weights array
+ 
+-   Log() << kINFO << "Building Network" << Endl;
++   // Log() << kINFO << "Building Network" << Endl;
+ 
+    DeleteNetwork();
+    InitANNBase();
+@@ -389,7 +389,7 @@
+ void TMVA::MethodANNBase::InitWeights()
+ {
+    // initialize the synapse weights randomly
+-   PrintMessage("initializing weights");
++   // PrintMessage("initializing weights");
+    
+    // init synapse weights
+    Int_t numSynapses = fSynapses->GetEntriesFast();
+@@ -404,7 +404,7 @@
+ void TMVA::MethodANNBase::ForceWeights(vector<Double_t>* weights)
+ {
+    // force the synapse weights
+-   PrintMessage("forcing weights");
++   // PrintMessage("forcing weights");
+ 
+    Int_t numSynapses = fSynapses->GetEntriesFast();
+    TSynapse* synapse;
+--- orig.root/tmva/src/MethodBDT.cxx	2010-01-21 17:20:53.000000000 +0100
++++ root/tmva/src/MethodBDT.cxx	2010-01-21 18:05:31.000000000 +0100
+@@ -1119,7 +1119,7 @@
+    Int_t analysisType(0);
+ 
+    istr >> dummy >> fNTrees;
+-   Log() << kINFO << "Read " << fNTrees << " Decision trees" << Endl;
++   // Log() << kINFO << "Read " << fNTrees << " Decision trees" << Endl;
+ 
+    for (UInt_t i=0;i<fForest.size();i++) delete fForest[i];
+    fForest.clear();

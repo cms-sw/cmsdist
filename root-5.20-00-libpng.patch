@@ -1,0 +1,20 @@
+--- root.orig/configure	2008-01-17 08:38:46.000000000 +0100
++++ root/configure	2008-01-18 21:53:29.000000000 +0100
+@@ -2733,7 +2733,7 @@
+           /usr/local/include /usr/include /opt/include
+        asjpegincdir=$found_dir
+        check_header "png.h" "" $ASIMAGE $ASIMAGE/include $ASPNG/include \
+-          /usr/local/include /usr/include /usr/local/include/libpng \
++          $LIBPNG_ROOT/include /usr/local/include /usr/include /usr/local/include/libpng \
+           /opt/include
+        aspngincdir=$found_dir
+        if test ! "x$enable_astiff" = "xno" ; then
+@@ -2762,7 +2762,7 @@
+        fi
+        for k in $aslibs ; do
+            check_library $k "$enable_shared" "" \
+-             $ASIMAGE $ASIMAGE/lib $ASPNG/lib /usr/local/lib /usr/lib /opt/lib
++             $ASIMAGE $ASIMAGE/lib $ASPNG/lib $LIBPNG_ROOT/lib /usr/local/lib /usr/lib /opt/lib
+            if test "x$k" = "xlibz" ; then
+                found_libz=$found_lib
+                found_dirz=$found_dir

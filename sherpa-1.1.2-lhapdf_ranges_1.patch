@@ -1,0 +1,43 @@
+Index: PDF/Main/Structure_Function.C
+===================================================================
+--- PDF/Main/Structure_Function.C	(revision 11790)
++++ PDF/Main/Structure_Function.C	(working copy)
+@@ -15,8 +15,8 @@
+ bool Structure_Function::CalculateWeight(double x,double z,double kp2,double q2) 
+ {
+   if ( (x  > p_pdf->XMax()) || (x<= p_pdf->XMin()) ) {
+-    msg_Error()<<"SF::CalculateWeight : x out of bounds "<<x<<" at "<<q2<<", "
+-	       <<"xrange = "<<p_pdf->XMin()<<" ... "<<p_pdf->XMax()<<std::endl;
++    msg_Tracking()<<"SF::CalculateWeight : x out of bounds "<<x<<" at "<<q2<<", "
++		  <<"xrange = "<<p_pdf->XMin()<<" ... "<<p_pdf->XMax()<<std::endl;
+     return 0; 
+   }
+   if ( (q2 >= p_pdf->Q2Max()) || (q2<= p_pdf->Q2Min()) ) { 
+Index: PDF/LHAPDF/LHAPDF_Fortran_Interface.C
+===================================================================
+--- PDF/LHAPDF/LHAPDF_Fortran_Interface.C	(revision 11790)
++++ PDF/LHAPDF/LHAPDF_Fortran_Interface.C	(working copy)
+@@ -31,6 +31,12 @@
+   m_q2min=1.;
+   m_q2max=1.e12;
+   m_type="LHA["+m_set+"]";
++#ifndef LHAPDF__NATIVE__WRAPPER
++  if (m_set.find("cteq6")!=std::string::npos) {
++    m_q2min=sqr(1.3);
++    m_xmin=1.0e-6;
++  }
++#endif
+ 
+   m_bunch = _bunch; 
+   if (m_bunch==Flavour(kf_p_plus).Bar()) m_anti=-1;
+@@ -38,6 +44,10 @@
+     initlhapdf = true;
+ #ifdef LHAPDF__NATIVE__WRAPPER
+     LHAPDF::initPDFByName(m_set, m_member);
++    m_xmin=LHAPDF::getXmin(m_member);
++    m_xmax=LHAPDF::getXmax(m_member);
++    m_q2min=LHAPDF::getQ2min(m_member);
++    m_q2max=LHAPDF::getQ2max(m_member);
+ #else
+     std::string full = m_set;
+     const char * help;

@@ -1,0 +1,66 @@
+--- SCRAM/src/BuildSystem/BuildSetup.pm	2003-10-02 15:14:41.000000000 +0200
++++ SCRAM/src/BuildSystem/BuildSetup.pm.new	2006-06-14 15:23:40.000000000 +0200
+@@ -279,8 +279,20 @@
+    # Do a datestamp check so that make will build files that have changed 
+    # rather than just those which are older than their dependencies
+    # The main build here
+-
+-   $rv=system("gmake","--no-print-directory","-r","-k","-f","$ENV{DefaultMakefile}","-I$ENV{TOOL_HOME}",datestamp_config);
++   my $gmake="";
++   open (WHICH, "which gmake|");
++   $gmake=<WHICH>;
++   chomp($gmake);
++   close (WHICH);
++   $noGMake="no gmake";
++   if (substr ($gmake, 0, length($noGMake)) eq $noGMake)
++   {
++   	open (WHICH, "which make|");
++   	$gmake=<WHICH>;
++   	chomp($gmake);
++   	close(WHICH);
++   };
++   $rv=system($gmake,"--no-print-directory","-r","-k","-f","$ENV{DefaultMakefile}","-I$ENV{TOOL_HOME}",datestamp_config);
+ 
+    # Be verbose:
+    $self->verbose(">> Going to use ".$ENV{DefaultMakefile}." as the default makefile");
+@@ -289,7 +301,7 @@
+    # Temporarily hard-code ncpu as 1:
+    my $ncpu = 1;
+ 
+-   $rv=system("gmake","--no-print-directory","$gmakejobsflag","$ncpu","-r","-k","-f","$ENV{DefaultMakefile}","-I$ENV{TOOL_HOME}",datestamp, @Targets);
++   $rv=system($gmake,"--no-print-directory","$gmakejobsflag","$ncpu","-r","-k","-f","$ENV{DefaultMakefile}","-I$ENV{TOOL_HOME}",datestamp, @Targets);
+ 
+    return $rv/256; # return the exit status of gmake
+    }
+@@ -470,8 +482,20 @@
+    # Do a datestamp check so that make will build files that have changed 
+    # rather than just those which are older than their dependencies
+    # The main build here
+-
+-   $rv=system("gmake","--no-print-directory","-r","-k","-f","$ENV{DefaultMakefile}","-I$ENV{TOOL_HOME}",datestamp_config);
++   my $gmake="";
++   open (WHICH, "which gmake|");
++   $gmake=<WHICH>;
++   chomp($gmake);
++   close (WHICH);
++   $noGMake="no gmake";
++   if (substr ($gmake, 0, length($noGMake)) eq $noGMake)
++   {
++   	open (WHICH, "which make|");
++   	$gmake=<WHICH>;
++   	chomp($gmake);
++   	close(WHICH);
++   };
++   $rv=system($gmake,"--no-print-directory","-r","-k","-f","$ENV{DefaultMakefile}","-I$ENV{TOOL_HOME}",datestamp_config);
+ 
+    # Be verbose:
+    $self->verbose(">> Going to use ".$ENV{DefaultMakefile}." as the default makefile");
+@@ -480,7 +504,7 @@
+    # Temporarily hard-code ncpu as 1:
+    my $ncpu = 1;
+ 
+-   $rv=system("gmake","--no-print-directory","$gmakejobsflag","$ncpu","-r","-k","-f","$ENV{DefaultMakefile}","-I$ENV{TOOL_HOME}",datestamp, @Targets);
++   $rv=system($gmake,"--no-print-directory","$gmakejobsflag","$ncpu","-r","-k","-f","$ENV{DefaultMakefile}","-I$ENV{TOOL_HOME}",datestamp, @Targets);
+ 
+    return $rv/256; # return the exit status of gmake
+    }

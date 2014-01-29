@@ -1,0 +1,127 @@
+diff -Naur orig.root/cint/reflex/inc/Reflex/Builder/ClassBuilder.h root/cint/reflex/inc/Reflex/Builder/ClassBuilder.h
+--- orig.root/cint/reflex/inc/Reflex/Builder/ClassBuilder.h	2010-11-05 15:46:26.000000000 +0100
++++ root/cint/reflex/inc/Reflex/Builder/ClassBuilder.h	2011-03-04 19:52:28.000000000 +0100
+@@ -23,6 +23,34 @@
+ namespace Cint { namespace Internal {} }
+ 
+ namespace Reflex {
++
++/* Helper class to avoid compiler warning about casting function pointer
++** to void pointer.
++*/
++class BuilderFunc2Void {
++   typedef void (*funcptr_t)();
++
++   union funcptr_and_voidptr {
++      typedef void (*funcptr_t)();
++
++      funcptr_and_voidptr(void *val) : _read(val) {}
++
++      void *_read;
++      funcptr_t _write;
++   };
++
++   funcptr_and_voidptr _tmp;
++public:
++   template <typename T>
++   BuilderFunc2Void( T vfp ) : _tmp(0) {
++      _tmp._write = ( funcptr_t )vfp;
++   }
++
++   operator void*() const {
++      return _tmp._read;
++   }
++};
++
+ // forward declarations
+ class Class;
+ class ClassBuilder;
+diff -Naur orig.root/cint/reflex/python/genreflex/gendict.py root/cint/reflex/python/genreflex/gendict.py
+--- orig.root/cint/reflex/python/genreflex/gendict.py	2010-11-05 15:46:26.000000000 +0100
++++ root/cint/reflex/python/genreflex/gendict.py	2011-03-04 19:52:31.000000000 +0100
+@@ -576,6 +576,11 @@
+     #------------------------------------------------------------------------------
+     classDefImpl = ClassDefImplementation(selclasses, self)
+ 
++    #------------------------------------------------------------------------------
++    # Process Class_Version implementation before writing: sets 'extra' properties
++    #------------------------------------------------------------------------------
++    Class_VersionImplementation(selclasses,self)
++
+     f_buffer = ''
+     # Need to specialize templated class's functions (e.g. A<T>::Class())
+     # before first instantiation (stubs), so classDefImpl before stubs.
+@@ -895,7 +900,7 @@
+         sc += '  rule->fSource      = "%s";\n' % (attrs['source'],)
+         
+       if rule.has_key( 'funcname' ):
+-        sc += '  rule->fFunctionPtr = (void *)%s;\n' % (rule['funcname'],)
++        sc += '  rule->fFunctionPtr = Reflex::BuilderFunc2Void(%s);\n' % (rule['funcname'],)
+         sc += '  rule->fCode        = "%s";\n' % (rule['code'].replace( '\n', '\\n' ), )
+ 
+       if attrs.has_key( 'version' ):
+@@ -975,6 +980,7 @@
+       # Initialize the structure - to  be changed later
+       #---------------------------------------------------------------------------
+       for member in source:
++        if member[0] == '': continue;
+         sc += '  static Long_t offset_Onfile_' + mappedName
+         sc += '_' + member[1] + ' = oldObj->GetClass()->GetDataMemberOffset("'
+         sc += member[1] +'");\n';
+@@ -1034,7 +1040,9 @@
+         sc += 'void %s( char *target, TVirtualObject *oldObj )\n' % (funcname,)
+         sc += '{\n'
+         sc += self.processIOAutoVariables( cl, clt, sourceMembersSpl, targetMembers, memTypes )
+-        sc += '  %s* newObj = (%s*)target;\n' % (cl, cl)
++        #to avoid compiler warnings about unused variables only declare newObj if user actually uses it
++        if -1 != rule['code'].find('newObj'):
++           sc += '  %s* newObj = (%s*)target;\n' % (cl, cl)
+         sc += '  //--- User\'s code ---\n'
+         sc += rule['code'].strip('\n')
+         sc += '\n}\n\n'
+@@ -2124,7 +2132,12 @@
+     if sys.platform != 'win32':
+         static = 'static '
+         dtorscope = '::' + cl + '::'
+-    return '%svoid destructor%s(void*, void * o, const std::vector<void*>&, void *) {\n  (((::%s*)o)->%s~%s)();\n}' % ( static, attrs['id'], cl, dtorscope, attrs['name'] )
++    dtorimpl = '%svoid destructor%s(void*, void * o, const std::vector<void*>&, void *) {\n' % ( static, attrs['id'])
++    if (attrs['name'][0] != '.'):
++      return dtorimpl + '(((::%s*)o)->%s~%s)();\n}' % ( cl, dtorscope, attrs['name'] )
++    else:
++      # unnamed; can't call.
++      return dtorimpl + '  // unnamed, cannot call destructor\n}'
+ #----------------------------------------------------------------------------------
+   def genDestructorBuild(self, attrs, childs):
+     if self.isUnnamedType(self.xref[attrs['context']]['attrs'].get('demangled')) or \
+@@ -2756,3 +2769,31 @@
+   if haveClassDef == 1 :
+     return "} // unnamed namespace\n\n" + returnValue + "\nnamespace {\n"
+   return ""
++
++#--------------------------------------------------------------------------------------
++# If Class_Version is a member function of the class, use it to set ClassVersion
++def Class_VersionImplementation(selclasses, self):
++  for attrs in selclasses :
++    #if ClassVersion was already set, do not change
++    if attrs.has_key('extra') and 'ClassVersion' in attrs['extra']:
++        continue
++    
++    members = attrs.get('members','')
++    membersList = members.split()
++
++    hasClass_Version = False
++    for ml in membersList:
++      memAttrs = self.xref[ml]['attrs']
++      if ml[1].isdigit() and memAttrs.has_key('name') and memAttrs['name'] == "Class_Version":
++        if memAttrs.get('access') not in ('protected', 'private') and 'static' in memAttrs:         
++            hasClass_Version = True
++        else:
++            print "--->> genreflex: ERROR: class %s's method Class_Version() must be both 'static' and 'public'." % attrs['fullname']
++        break
++
++    if hasClass_Version:
++      clname = '::' + attrs['fullname']
++      if attrs.has_key('extra'):
++        attrs['extra']['ClassVersion'] = '!RAW!' + clname + '::Class_Version()'
++      else:
++        attrs['extra']={'ClassVersion' : '!RAW!' + clname + '::Class_Version()'}

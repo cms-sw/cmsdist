@@ -1,0 +1,243 @@
+diff -Naur src.orig/config/scram/BuildFile src/config/scram/BuildFile
+--- src.orig/config/scram/BuildFile	2007-01-19 17:00:17.000000000 +0100
++++ src/config/scram/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,82 +0,0 @@
+-# IP 02/12/2005
+-# 
+-# Top-level project BuildFile for the CORAL project
+-#
+-# This file is parsed by SCRAM before any other BuildFile.
+-#
+-
+-<Architecture name=slc3_ia32_gcc323>
+- <External ref=gcc3>
+-</Architecture>
+-
+-<Architecture name=slc3_ia32_gcc323_dbg>
+- <External ref=gcc3>
+-</Architecture>
+-
+-<Architecture name=slc3_ia32_gcc323_gcov>
+- <External ref=gcc3>
+-</Architecture>
+-
+-<Architecture name=slc4_ia32_gcc34>
+- <External ref=gcc3>
+-</Architecture>
+-
+-<Architecture name=slc4_ia32_gcc34_dbg>
+- <External ref=gcc3>
+-</Architecture>
+-
+-<Architecture name=slc4_ia32_gcc34_gcov>
+- <External ref=gcc3>
+-</Architecture>
+-
+-<Architecture name=slc4_amd64_gcc34>
+- <External ref=gcc3>
+-</Architecture>
+-
+-<Architecture name=slc4_amd64_gcc34_dbg>
+- <External ref=gcc3>
+-</Architecture>
+-
+-<Architecture name=slc4_amd64_gcc34_gcov>
+- <External ref=gcc3>
+-</Architecture>
+-
+-
+-
+-# Common options
+-INCLUDEDIRS = $(shell echo `$(PYTHONEXE) $(LOCALTOP)/$(projconfigdir)/filter_dirs.py $(INCLUDE)` )
+-LIBDIRS = $(shell echo `$(PYTHONEXE) $(LOCALTOP)/$(projconfigdir)/filter_dirs.py $(LIBDIR)` )
+-LIBS = $(shell echo `$(PYTHONEXE) $(LOCALTOP)/$(projconfigdir)/filter_dirs.py $(lib)` )
+-
+-# Platform specific makefile fragments
+-include $(LOCALTOP)/$(projconfigdir)/$(SCRAM_ARCH).mk
+-
+-# Set export behaviour. We don't automatically make libraries built within the
+-# project available to the whoile project, i.e. any libraries required must be 
+-# explicitly demanded in the BuildFile at the required level:
+-scram_autoexport=false
+-
+-# ---- The ClassPath: describe what should be done and where ---- #
+-#
+-
+-# This builds the library of a package
+-<ClassPath path=+Project/+Package/src+library>
+-
+-# This builds all the unit tests of a package
+-<ClassPath path=+Project/+Package/tests+SubSystem/+PackageTest>
+-
+-# This builds all the utilities of a package
+-<ClassPath path=+Project/+Package/utilities+Utility>
+-
+-# This copies the python scripts of a package into the python directory
+-<ClassPath path=+Project/+Package/python+Python>
+-
+-# This copies the scripts of a package into the bin directory
+-<ClassPath path=+Project/+Package/scripts+Scripts>
+-
+-# Integration/system test applications and libraries
+-<ClassPath path=+Project/Tests+SubSystem/+Package/src+Test>
+-<ClassPath path=+Project/Tests+SubSystem/Libraries+SubSystem/+Package/src+TestLib>
+-
+-# This builds a utility
+-<ClassPath path=+Project/Utilities+SubSystem/+Utility>
+diff -Naur src.orig/ConnectionService/tests/BuildFile src/ConnectionService/tests/BuildFile
+--- src.orig/ConnectionService/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/ConnectionService/tests/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -0,0 +1,2 @@
++<use name=ConnectionService>
++<bin name=unitTest_ConnectionService_src file=src/*.cpp></bin>
+diff -Naur src.orig/CoralCommon/tests/BuildFile src/CoralCommon/tests/BuildFile
+--- src.orig/CoralCommon/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/CoralCommon/tests/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -0,0 +1,3 @@
++<use name=CoralCommon>
++<bin name=unitTest_CoralCommon_MonitoringEvent file=MonitoringEvent/*.cpp></bin>
++<bin name=unitTest_CoralCommon_URIParser file=URIParser/*.cpp></bin>
+diff -Naur src.orig/EnvironmentAuthenticationService/tests/BuildFile src/EnvironmentAuthenticationService/tests/BuildFile
+--- src.orig/EnvironmentAuthenticationService/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/EnvironmentAuthenticationService/tests/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -0,0 +1,2 @@
++<use name=EnvironmentAuthenticationService>
++<bin name=unitTest_EnvironmentAuthenticationService_LoadService file=LoadService/*.cpp></bin>
+diff -Naur src.orig/FrontierAccess/tests/BuildFile src/FrontierAccess/tests/BuildFile
+--- src.orig/FrontierAccess/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/FrontierAccess/tests/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -0,0 +1,25 @@
++<use name=FrontierAccess>
++<include_path path=$(LOCALTOP)/$(SCRAM_SOURCEDIR)/FrontierAccess/tests/Common>
++<Flags LDFLAGS="-L$(LOCALTOP)/$(SCRAMSTORENAME_TESTS_LIB)">
++<library name=test_TestFrontierAccessCommon file=Common/*.cpp></library>
++<bin name=unitTest_FrontierAccess_CmsNewFrontier file=CmsNewFrontier/*.cpp>
++  <lib name=test_TestFrontierAccessCommon>
++</bin>
++<bin name=unitTest_FrontierAccess_Connection file=Connection/*.cpp>
++  <lib name=test_TestFrontierAccessCommon>
++</bin>
++<bin name=unitTest_FrontierAccess_MultipleSchemas file=MultipleSchemas/*.cpp>
++  <lib name=test_TestFrontierAccessCommon>
++</bin>
++<bin name=unitTest_FrontierAccess_Schema file=Schema/*.cpp>
++  <lib name=test_TestFrontierAccessCommon>
++</bin>
++<bin name=unitTest_FrontierAccess_SegFault file=SegFault/*.cpp>
++  <lib name=test_TestFrontierAccessCommon>
++</bin>
++<bin name=unitTest_FrontierAccess_SimpleQueries file=SimpleQueries/*.cpp>
++  <lib name=test_TestFrontierAccessCommon>
++</bin>
++<bin name=unitTest_FrontierAccess_TestAlias file=TestAlias/*.cpp>
++  <lib name=test_TestFrontierAccessCommon>
++</bin>
+diff -Naur src.orig/MonitoringService/tests/BuildFile src/MonitoringService/tests/BuildFile
+--- src.orig/MonitoringService/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/MonitoringService/tests/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -0,0 +1,2 @@
++<use name=MonitoringService>
++<bin name=unitTest_MonitoringService_Report file=Report/*.cpp></bin>
+diff -Naur src.orig/OracleAccess/tests/BuildFile src/OracleAccess/tests/BuildFile
+--- src.orig/OracleAccess/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/OracleAccess/tests/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -0,0 +1,32 @@
++<use name=OracleAccess>
++<use name=Framework/SealKernel>
++<include_path path=$(LOCALTOP)/$(SCRAM_SOURCEDIR)/OracleAccess/tests/Common>
++<Flags LDFLAGS="-L$(LOCALTOP)/$(SCRAMSTORENAME_TESTS_LIB)">
++<library name=test_TestOracleAccessCommon file=Common/*.cpp></library>
++<bin name=unitTest_OracleAccess_BulkInserts file=BulkInserts/*.cpp>
++  <lib name=test_TestOracleAccessCommon>
++</bin>
++<bin name=unitTest_OracleAccess_Connection file=Connection/*.cpp>
++  <lib name=test_TestOracleAccessCommon>
++</bin>
++<bin name=unitTest_OracleAccess_DataEditor file=DataEditor/*.cpp>
++  <lib name=test_TestOracleAccessCommon>
++</bin>
++<bin name=unitTest_OracleAccess_DateAndTime file=DateAndTime/*.cpp>
++  <lib name=test_TestOracleAccessCommon>
++</bin>
++<bin name=unitTest_OracleAccess_Dual file=Dual/*.cpp>
++  <lib name=test_TestOracleAccessCommon>
++</bin>
++<bin name=unitTest_OracleAccess_MultipleSchemas file=MultipleSchemas/*.cpp>
++  <lib name=test_TestOracleAccessCommon>
++</bin>
++<bin name=unitTest_OracleAccess_Schema file=Schema/*.cpp>
++  <lib name=test_TestOracleAccessCommon>
++</bin>
++<bin name=unitTest_OracleAccess_SimpleQueries file=SimpleQueries/*.cpp>
++  <lib name=test_TestOracleAccessCommon>
++</bin>
++<bin name=unitTest_OracleAccess_Views file=Views/*.cpp>
++  <lib name=test_TestOracleAccessCommon>
++</bin>
+diff -Naur src.orig/PyCoral/python/BuildFile src/PyCoral/python/BuildFile
+--- src.orig/PyCoral/python/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/PyCoral/python/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -0,0 +1 @@
++<Flags PythonProduct="coral.py">
+diff -Naur src.orig/RelationalAccess/tests/BuildFile src/RelationalAccess/tests/BuildFile
+--- src.orig/RelationalAccess/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/RelationalAccess/tests/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -0,0 +1,2 @@
++<use name=RelationalAccess>
++<bin name=unitTest_RelationalAccess_TableDescription file=TableDescription/*.cpp></bin>
+diff -Naur src.orig/RelationalService/tests/BuildFile src/RelationalService/tests/BuildFile
+--- src.orig/RelationalService/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/RelationalService/tests/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -0,0 +1,2 @@
++<use name=RelationalService>
++<bin name=unitTest_RelationalService_LoadService file=LoadService/*.cpp></bin>
+diff -Naur src.orig/SQLiteAccess/tests/BulkOperations/BuildFile src/SQLiteAccess/tests/BulkOperations/BuildFile
+--- src.orig/SQLiteAccess/tests/BulkOperations/BuildFile	2006-01-13 14:55:45.000000000 +0100
++++ src/SQLiteAccess/tests/BulkOperations/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-<include_path path=../../></include_path>
+-lib += lcg_coral_SQLiteAccess
+-<External ref=cppunit></External>
+diff -Naur src.orig/SQLiteAccess/tests/CreateListDrop/BuildFile src/SQLiteAccess/tests/CreateListDrop/BuildFile
+--- src.orig/SQLiteAccess/tests/CreateListDrop/BuildFile	2006-01-13 14:55:45.000000000 +0100
++++ src/SQLiteAccess/tests/CreateListDrop/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-<include_path path=../../></include_path>
+-lib += lcg_coral_SQLiteAccess
+-<External ref=cppunit></External>
+diff -Naur src.orig/SQLiteAccess/tests/ExpressionParser/BuildFile src/SQLiteAccess/tests/ExpressionParser/BuildFile
+--- src.orig/SQLiteAccess/tests/ExpressionParser/BuildFile	2006-01-13 14:55:45.000000000 +0100
++++ src/SQLiteAccess/tests/ExpressionParser/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-<include_path path=../../></include_path>
+-lib += lcg_coral_SQLiteAccess
+-<External ref=cppunit></External>
+diff -Naur orig.src/XMLAuthenticationService/tests/BuildFile src/XMLAuthenticationService/tests/BuildFile
+--- orig.src/XMLAuthenticationService/tests/BuildFile   1970-01-01 01:00:00.000000000 +0100
++++ src/XMLAuthenticationService/tests/BuildFile        2008-10-23 18:15:48.000000000 +0200
+@@ -0,0 +1,3 @@
++<use name=XMLAuthenticationService>
++<use name=cppunit>
++<bin name=unitTest_XMLAuthenticationService_LoadService file=LoadService/*.cpp></bin>
+diff -Naur orig.src/XMLLookupService/tests/BuildFile src/XMLLookupService/tests/BuildFile
+--- orig.src/XMLLookupService/tests/BuildFile   1970-01-01 01:00:00.000000000 +0100
++++ src/XMLLookupService/tests/BuildFile        2008-10-23 18:02:43.000000000 +0200
+@@ -0,0 +1,3 @@
++<use name=XMLLookupService>
++<use name=cppunit>
++<bin name=unitTest_XMLLookupService_LoadService file=LoadService/*.cpp></bin>
+diff -Naur orig.src/ConnectionService/BuildFile src/ConnectionService/BuildFile
+--- orig.src/ConnectionService/BuildFile        2007-10-02 16:03:15.000000000 +0200
++++ src/ConnectionService/BuildFile     2008-10-23 18:26:41.000000000 +0200
+@@ -2,9 +2,10 @@
+ <use name=CoralCommon>
+ <use name=RelationalAccess>
+ <use name=boost>
++<use name=uuid>
+ <export>
+   <use name=CoralCommon>
+   <use name=RelationalAccess>
+-  <use name=boost>
++  <use name=uuid>
+   <lib name=lcg_ConnectionService>
+ </export>

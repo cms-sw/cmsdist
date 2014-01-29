@@ -1,0 +1,19 @@
+--- orig/configure	2009-05-14 11:25:13.000000000 +0200
++++ Herwig++-2.3.2/configure	2009-05-14 11:00:43.000000000 +0200
+@@ -19441,11 +19441,11 @@
+ enable_looptools=yes
+ 
+ if test "x$GCC" = "xyes"; then
+-   case "${host}" in
+-      x86_64-*)
+-	AM_FCFLAGS="$AM_FCFLAGS -fdefault-integer-8"
+-      	;;
+-   esac
++#   case "${host}" in
++#      x86_64-*)
++#	AM_FCFLAGS="$AM_FCFLAGS -fdefault-integer-8"
++#      	;;
++#   esac
+ 
+    ac_ext=${ac_fc_srcext-f}
+ ac_compile='$FC -c $FCFLAGS $ac_fcflags_srcext conftest.$ac_ext >&5'

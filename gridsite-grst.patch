@@ -1,0 +1,58 @@
+--- lib/grst_x509.c.orig	2006-04-26 12:07:07.000000000 -0700
++++ lib/grst_x509.c	2006-04-26 13:16:31.000000000 -0700
+@@ -266,20 +266,20 @@
+                 if (prevIsLimited) /* we reject proxies of limited proxies! */
+                                 return X509_V_ERR_INVALID_CA;
+               
+-                /* User not allowed to sign shortened DN */
+-                if (len2 > len) return X509_V_ERR_INVALID_CA;                           
++                /* User not allowed to sign shortened DN 
++                if (len2 > len) return X509_V_ERR_INVALID_CA;*/
+                   
+-                /* Proxy subject must begin with issuer. */
++                /* Proxy subject must begin with issuer. 
+                 if (strncmp(cert_DN, issuer_DN, len2) != 0) 
+-                              return X509_V_ERR_INVALID_CA;
++                              return X509_V_ERR_INVALID_CA;*/
+ 
+                 /* Set pointer to end of base DN in cert_DN */
+                 proxy_part_DN = &cert_DN[len2];
+ 
+                 /* First attempt at support for Old and New style GSI
+-                   proxies: /CN=anything is ok for now */
++                   proxies: /CN=anything is ok for now 
+                 if (strncmp(proxy_part_DN, "/CN=", 4) != 0)
+-                                         return X509_V_ERR_INVALID_CA;
++                                         return X509_V_ERR_INVALID_CA;*/
+                                          
+                 if ((strncmp(proxy_part_DN, "/CN=limited proxy", 17) == 0) &&
+                     (i > 0)) prevIsLimited = 1; /* ready for next cert ... */
+@@ -306,12 +306,12 @@
+  
+            /* issuer didn't have CA status, check for bad proxy extension */
+ 
+-           if (len2 > len) return X509_V_ERR_INVALID_CA;
+-             /* User not allowed to sign shortened DN */
++           /*if (len2 > len) return X509_V_ERR_INVALID_CA;
++              User not allowed to sign shortened DN */
+ 
+-           if (strncmp(cert_DN, issuer_DN, len2) != 0) 
++           /*if (strncmp(cert_DN, issuer_DN, len2) != 0) 
+                            return X509_V_ERR_INVALID_CA;
+-             /* Proxy subject must begin with issuer. */
++              Proxy subject must begin with issuer. */
+ 
+            proxy_part_DN = &cert_DN[len2];                         
+              /* Set pointer to end of DN base in cert_DN */
+@@ -320,9 +320,9 @@
+               "/CN=limited proxy" (or /CN=XYZ for New style GSI) */
+               
+            /* First attempt at support for Old and New style GSI
+-              proxies: /CN=anything is ok for now. */
++              proxies: /CN=anything is ok for now. 
+            if (strncmp(proxy_part_DN, "/CN=", 4) != 0)
+-                                   return X509_V_ERR_INVALID_CA;
++                                   return X509_V_ERR_INVALID_CA;*/
+          }
+      }
+  

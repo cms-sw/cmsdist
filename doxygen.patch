@@ -1,0 +1,12 @@
+--- doxygen-1.4.1.orig/configure	2005-01-03 20:23:19.000000000 +0100
++++ doxygen-1.4.1/configure	2006-06-05 18:53:47.000000000 +0200
+@@ -145,6 +145,9 @@
+       ;;
+     Darwin:*)
+       f_platform=macosx-c++
++      if test "$f_insttool" = NO; then
++        f_insttool=/usr/bin/install
++      fi
+       ;;
+     FreeBSD:*)
+       f_platform=freebsd-g++

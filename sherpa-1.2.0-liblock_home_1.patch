@@ -1,0 +1,20 @@
+Index: ATOOLS/Org/Library_Loader.C
+===================================================================
+--- ATOOLS/Org/Library_Loader.C	(revision 12172)
++++ ATOOLS/Org/Library_Loader.C	(working copy)
+@@ -75,11 +75,11 @@
+     std::string lockname(m_paths[i]+"/lib"+name+
+ 			 std::string(LIB_SUFFIX)+".lock");
+     if (!CreateLockFile(lockname)) return NULL;
+-    if (!CreateLockFile(rpa.gen.Variable("HOME")+
+- 			"/.sherpa/.liblock")) return NULL;
++//     if (!CreateLockFile(rpa.gen.Variable("HOME")+
++//  			"/.sherpa/.liblock")) return NULL;
+     void *module(dlopen(libname.c_str(),RTLD_LAZY|RTLD_GLOBAL));
+-    if (!RemoveLockFile(rpa.gen.Variable("HOME")+
+- 			"/.sherpa/.liblock")) return NULL;
++//     if (!RemoveLockFile(rpa.gen.Variable("HOME")+
++//  			"/.sherpa/.liblock")) return NULL;
+     if (!RemoveLockFile(lockname)) return NULL;
+     if (module!=NULL) {
+       msg_Debugging()<<"} found in '"<<m_paths[i]<<"'"<<std::endl;

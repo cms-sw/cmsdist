@@ -1,0 +1,11 @@
+--- orig.root/cint/cint/inc/G__ci.h	2010-01-21 17:20:01.000000000 +0100
++++ root/cint/cint/inc/G__ci.h	2010-01-21 18:22:21.000000000 +0100
+@@ -785,7 +785,7 @@
+ #define G__ONELINEDICT    8  /* Length of subexpression,parameter,argument */
+ #define G__MAXNAME     4096  /* Variable name */
+ #else
+-#define G__LONGLINE    2048  /* Length of expression */
++#define G__LONGLINE    4096  /* Length of expression */
+ #define G__ONELINE     1024  /* Length of subexpression,parameter,argument */
+ #define G__MAXNAME      512  /* Variable name */
+ #define G__ONELINEDICT    8  /* Length of subexpression,parameter,argument */

@@ -1,0 +1,19 @@
+commit 834a326ee6779f4d3b44369d3257207f1067cb2d
+Author: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date:   Sat Oct 9 11:15:44 2010 +0200
+
+    ../CMSDIST/root-5.22-00a-gcc43-array-bounds-dictionary-workaround.patch
+
+diff --git a/cint/reflex/python/genreflex/gendict.py b/cint/reflex/python/genreflex/gendict.py
+index 243df52..4bfbc94 100644
+--- a/cint/reflex/python/genreflex/gendict.py
++++ b/cint/reflex/python/genreflex/gendict.py
+@@ -808,6 +808,8 @@ class genDictionary(object) :
+     c += '#ifdef _WIN32\n'
+     c += '#pragma warning ( disable : 4786 )\n'
+     c += '#pragma warning ( disable : 4345 )\n'
++    c += '#elif defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ == 3\n'
++    c += '# pragma GCC diagnostic ignored "-Warray-bounds"\n'
+     c += '#endif\n'
+     # to silence conversion warnings woth -pedantic, see Savannah #49792
+     c += '#ifdef __GNUC__\n'

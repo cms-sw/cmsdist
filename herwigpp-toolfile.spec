@@ -19,3 +19,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/herwigpp.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+

@@ -1,0 +1,31 @@
+diff -Naur 0.3-CMS8/trackerDAQ-0.3/TrackerOnline/2005/TrackerCommon/ICUtils/Makevars new03/trackerDAQ-0.3/TrackerOnline/2005/TrackerCommon/ICUtils/Makevars
+--- 0.3-CMS8/trackerDAQ-0.3/TrackerOnline/2005/TrackerCommon/ICUtils/Makevars	2007-02-23 23:18:53.000000000 +0100
++++ new03/trackerDAQ-0.3/TrackerOnline/2005/TrackerCommon/ICUtils/Makevars	2007-09-11 10:41:28.000000000 +0200
+@@ -25,7 +25,7 @@
+ 
+ CFLAGS = -ansi -pedantic -Wall -W -O2 $(CPPFLAGS)
+ CXFLAGS = $(CFLAGS)
+-CCFLAGS = -ansi -pedantic -Wall -W -O2 $(CPPFLAGS)
++CCFLAGS = -ansi -pedantic -Wall -W -O2 -fPIC $(CPPFLAGS)
+ CXXFLAGS = $(CCFLAGS)
+ LDFLAGS = -L$(HOME)/lib
+ ARFLAGS = rcvs
+--- 0.3-CMS8/trackerDAQ-0.3/TrackerOnline/Fed9U/Fed9USoftware/Makevars	2007-09-11 11:43:56.000000000 +0200
++++ new03/trackerDAQ-0.3/TrackerOnline/Fed9U/Fed9USoftware/Makevars	2007-09-11 11:30:34.000000000 +0200
+@@ -89,14 +89,14 @@
+ 	-DSOAP__    $(ENV_CMS_TK_FED9U_DATABASE_C++FLAGS) #-DINLINE  $(ENV_CMS_TK_FED9U_HAL_C++FLAGS) 
+ # -Dtoolbox don't know what this did... so removed it... was breaking the compile for the diag
+ 
+-NONSTDFLAGS += -pipe -W -O2
++NONSTDFLAGS += -pipe -W -O2 -fPIC
+ ifeq ($(ENV_CMS_TK_FED9U_RELEASE),1)
+ NONSTDFLAGS += -DNDEBUG
+ else
+ NONSTDFLAGS += -g -DDEBUGMSGERROR
+ endif
+ 
+-CCFLAGS += -ansi -pedantic -Wall -Wno-long-long $(NONSTDFLAGS)
++CCFLAGS += -ansi -pedantic -Wall -Wno-long-long -fPIC $(NONSTDFLAGS)
+ CXXFLAGS += $(CCFLAGS) $(CPPFLAGS)
+ ARFLAGS += cr
+ SOFLAGS += -shared

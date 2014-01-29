@@ -1,0 +1,20 @@
+--- orig.root/meta/src/TClass.cxx	2008-02-21 17:38:45.000000000 +0100
++++ root/meta/src/TClass.cxx	2009-01-01 13:38:46.000000000 +0100
+@@ -4367,9 +4367,16 @@
+ //    if (k==1||k==-1) { delete str; return; }
+ 
+    if (fStreamer) delete fStreamer;
+-   fStreamer = str;
+    if (str) {
+       fStreamerType = kExternal | ( fStreamerType&kEmulated );
++      fStreamer = str;
++   } else if (fStreamer) {
++      // Case where there was a custom streamer and it is hereby removed,
++      // we need to reset fStreamerType
++      fStreamer = str;
++      fStreamerType = kNone;
++      fProperty = -1;
++      Property();
+    }
+ }
+ 

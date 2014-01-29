@@ -1,0 +1,19 @@
+diff -Naur orig.root/tmva/src/MethodANNBase.cxx root/tmva/src/MethodANNBase.cxx
+--- orig.root/tmva/src/MethodANNBase.cxx	2010-11-05 15:46:51.000000000 +0100
++++ root/tmva/src/MethodANNBase.cxx	2011-03-17 10:31:26.000000000 +0100
+@@ -71,6 +71,7 @@
+    : TMVA::MethodBase( jobName, methodType, methodTitle, theData, theOption, theTargetDir )
+    , fEstimator(kMSE)
+    , fUseRegulator(kFALSE)
++   , fRandomSeed(0)
+ {
+    // standard constructor
+    // Note: Right now it is an option to choose the neuron input function,
+@@ -89,6 +90,7 @@
+    : TMVA::MethodBase( methodType, theData, theWeightFile, theTargetDir ) 
+    , fEstimator(kMSE)
+    , fUseRegulator(kFALSE)
++   , fRandomSeed(0)
+ {
+    // construct the Method from the weight file 
+    InitANNBase();

@@ -1,0 +1,608 @@
+diff -Naur orig.root/cint/cint/inc/Api.h root/cint/cint/inc/Api.h
+--- orig.root/cint/cint/inc/Api.h	2008-11-26 08:22:13.000000000 +0100
++++ root/cint/cint/inc/Api.h	2008-12-16 10:28:41.000000000 +0100
+@@ -52,6 +52,13 @@
+ struct G__includepath;
+ #endif
+ 
++extern "C" {
++#ifndef __CINT__
++G__EXPORT
++#endif
++int G__Lsizeof(const char *typenamein);
++}
++
+ namespace Cint {
+ 
+ /*********************************************************************
+@@ -121,7 +128,6 @@
+ #endif
+ void G__delete_interpreted_object(void* p);
+ 
+-
+ /*********************************************************************
+ * Generate dictionary.
+ *********************************************************************/
+diff -Naur orig.root/cint/cint/inc/G__ci.h root/cint/cint/inc/G__ci.h
+--- orig.root/cint/cint/inc/G__ci.h	2008-11-26 08:22:13.000000000 +0100
++++ root/cint/cint/inc/G__ci.h	2008-12-16 10:28:42.000000000 +0100
+@@ -1707,6 +1707,7 @@
+ extern G__EXPORT void G__set_ioctortype_handler G__P((int (*p2f) G__P((const char*))));
+ extern G__EXPORT void G__SetCatchException G__P((int mode));
+ extern G__EXPORT int G__GetCatchException G__P((void));
++extern G__EXPORT int G__Lsizeof G__P((const char *typenamein));
+ 
+ #ifdef G__ASM_WHOLEFUNC
+ /**************************************************************************
+diff -Naur orig.root/cint/cint/src/fproto.h root/cint/cint/src/fproto.h
+--- orig.root/cint/cint/src/fproto.h	2008-11-26 08:22:13.000000000 +0100
++++ root/cint/cint/src/fproto.h	2008-12-16 10:28:41.000000000 +0100
+@@ -414,7 +414,6 @@
+ char *G__search_func(const char *funcname,G__value *buf);
+ char *G__search_next_member(const char *text,int state);
+ int G__Loffsetof(const char *tagname,const char *memname);
+-int G__Lsizeof(const char *typenamein);
+ long *G__typeid(const char *typenamein);
+ void G__getcomment(char *buf,struct G__comment_info *pcomment,int tagnum);
+ void G__getcommenttypedef(char *buf,struct G__comment_info *pcomment,int typenum);
+diff -Naur orig.root/cint/cint/src/scrupto.cxx root/cint/cint/src/scrupto.cxx
+--- orig.root/cint/cint/src/scrupto.cxx	2008-11-26 08:22:13.000000000 +0100
++++ root/cint/cint/src/scrupto.cxx	2008-12-16 10:28:41.000000000 +0100
+@@ -164,10 +164,11 @@
+       // reset autoload struct entries
+       for (int itag = 0; itag < pos->tagnum; ++itag) {
+          if (G__struct.filenum[itag] == G__nfile) {
+-            // -- Keep name, libname; reset everything else.
++            // -- Keep name, libname, parent; reset everything else.
+             char* name = G__struct.name[itag];
+             int hash = G__struct.hash[itag];
+             char* libname = G__struct.libname[itag];
++            int parent_tagnum = G__struct.parent_tagnum[itag];
+             G__struct.name[itag] = 0; // autoload entry - must not delete it, just set it to 0
+             G__struct.libname[itag] = 0; // same here
+             int alltag = G__struct.alltag;
+@@ -210,7 +211,7 @@
+             G__struct.protectedaccess[itag] = 0;
+             G__struct.line_number[itag] = -1;
+             G__struct.filenum[itag] = -1;
+-            G__struct.parent_tagnum[itag] = -1;
++            G__struct.parent_tagnum[itag] = parent_tagnum;
+             G__struct.funcs[itag] = 0;
+             G__struct.istypedefed[itag] = 0;
+             G__struct.istrace[itag] = 0;
+diff -Naur orig.root/cint/cint/src/sizeof.cxx root/cint/cint/src/sizeof.cxx
+--- orig.root/cint/cint/src/sizeof.cxx	2008-11-26 08:22:13.000000000 +0100
++++ root/cint/cint/src/sizeof.cxx	2008-12-16 10:28:41.000000000 +0100
+@@ -129,6 +129,7 @@
+ *
+ * Called by
+ *   G__special_func()
++*   and cintex
+ *
+ ******************************************************************/
+ int G__Lsizeof(const char *type_name)
+diff -Naur orig.root/cint/cint/src/struct.cxx root/cint/cint/src/struct.cxx
+--- orig.root/cint/cint/src/struct.cxx	2008-11-26 08:22:13.000000000 +0100
++++ root/cint/cint/src/struct.cxx	2008-12-16 10:28:41.000000000 +0100
+@@ -491,7 +491,8 @@
+          G__def_tagnum = store_def_tagnum;
+          G__tagdefining = store_tagdefining;
+          if (G__struct.type[tagnum] == G__CLASS_AUTOLOAD) {
+-            if (strstr(G__struct.name[tagnum],"<") != 0) {
++            // if (1 || strstr(G__struct.name[tagnum],"<") != 0) 
++            {
+                // Kill this entry.
+                store_def_tagnum = G__def_tagnum;
+                store_tagdefining = G__tagdefining;
+@@ -500,9 +501,10 @@
+                // another version of the same class, e.g. because of vector<Long64_t>
+                // being requested but vector<long long> being loaded:
+                std::string origName(G__struct.name[tagnum]);
++               std::string fullName(G__fulltagname(tagnum,0));
+                if (G__struct.name[tagnum][0])
+                   G__struct.name[tagnum][0] = '@';
+-               int found_tagnum = G__defined_tagname(origName.c_str(),3);
++               int found_tagnum = G__defined_tagname(fullName.c_str(),3);
+                if (G__struct.name[tagnum][0])
+                   G__struct.name[tagnum][0] = origName[0];
+                G__def_tagnum = store_def_tagnum;
+diff -Naur orig.root/cint/cint/src/value.cxx root/cint/cint/src/value.cxx
+--- orig.root/cint/cint/src/value.cxx	2008-11-26 08:22:13.000000000 +0100
++++ root/cint/cint/src/value.cxx	2008-12-16 10:28:41.000000000 +0100
+@@ -18,6 +18,8 @@
+ 
+ extern "C" {
+ 
++int G__Lsizeof(const char *typenamein);
++
+ /****************************************************************
+ * G__letdouble(G__value buf,char type,double value)
+ *   macro in G__ci.h
+diff -Naur orig.root/cint/cintex/src/CINTFunctional.cxx root/cint/cintex/src/CINTFunctional.cxx
+--- orig.root/cint/cintex/src/CINTFunctional.cxx	2008-11-26 08:22:11.000000000 +0100
++++ root/cint/cintex/src/CINTFunctional.cxx	2008-12-16 03:51:25.000000000 +0100
+@@ -19,11 +19,10 @@
+ #include <sys/mman.h>
+ #endif
+ 
++
+ using namespace ROOT::Reflex;
+ using namespace std;
+ 
+-extern "C" int G__GetCatchException();
+-
+ namespace ROOT { namespace Cintex {
+ 
+    class StubContexts : public vector<StubContext_t*>  {
+@@ -56,8 +55,8 @@
+       if ( mem.IsConstructor() || mem.IsDestructor() ) {
+          Member getnewdelfuncs = fClass.MemberByName("__getNewDelFunctions");
+          if( getnewdelfuncs ) {
+-            static Type tNewdelfuncs = Type::ByTypeInfo(typeid(&fNewdelfuncs));
+-            Object ret = tNewdelfuncs.Construct();
++            static Type tNewdelfuncs = Type::ByTypeInfo(typeid(fNewdelfuncs));
++            Object ret( tNewdelfuncs, (void*)&fNewdelfuncs);
+             getnewdelfuncs.Invoke(&ret);
+          }
+       }
+@@ -93,13 +92,29 @@
+ 
+       // pre-process result block
+       Type rt = fFunction.ReturnType();
++      fRet_Sizeof = rt.SizeOf();
++      if (fRet_Sizeof==0) {
++         // Humm a type with sizeof 0 ... more likely to be a type unknown to reflex ...
++         fRet_Sizeof = G__Lsizeof( rt.Name( Reflex::SCOPED ).c_str() );
++      }
+       fRet_byref   = rt.IsReference();
+       while ( rt.IsTypedef() ) rt = rt.ToType();
+       fRet_desc = CintType( rt );
+       fRet_tag  = CintTag( fRet_desc.second );
+       fRet_byvalue = !fRet_byref && !rt.IsFundamental() && !rt.IsPointer() &&
+          !rt.IsArray() && !rt.IsEnum(); 
+-      if ( rt.IsPointer() ) fRet_desc.first = (fRet_desc.first - ('a'-'A'));
++      int plevel = 0;
++      Type frt = rt.FinalType();
++      while (frt.IsPointer()) {
++         // Note: almost right (does not handle array or reference in between)
++         ++plevel;
++         frt = frt.ToType();
++      }
++      if ( rt.IsPointer() ) {
++         fRet_desc.first = (fRet_desc.first - ('a'-'A'));
++         --plevel;
++      }
++      fRet_plevel = plevel;
+ 
+       // for constructor the result block is the class itself
+       if( fClass) fClass_tag = CintTag( CintType(fClass).second );
+@@ -129,8 +144,10 @@
+    void* StubContext_t::GetReturnAddress(G__value* result) const {
+       // Extract the memory location of the return value given the return type of fMethod
+       Type ret = fMember.TypeOf().ReturnType().FinalType();
+-      if (ret.IsPointer() || ret.IsReference())
++      if (ret.IsPointer())
+          return &result->obj.i;
++      if (ret.IsReference())
++         return &result->ref;
+       switch (Tools::FundamentalType(ret)) {
+       case kFLOAT:
+       case kDOUBLE: return &result->obj.d;
+@@ -143,58 +160,69 @@
+       return &result->obj.i;
+    }
+ 
+-   void StubContext_t::ProcessResult(G__value* result, void* obj) { 
++   void StubContext_t::ProcessResult(G__value* result, void* objaddr) { 
+       // Process ctx result.
++      
+       char t = fRet_desc.first;
+-      if ( t == 'u' )
+-         t = 'U';
+       result->type = t;
++      void *obj = objaddr;
+       if ( fRet_byref ) { 
+-         result->ref = (long)obj;
++         result->ref = (long) *(void**)objaddr;
++         obj = *(void**)objaddr;
++         result->tagnum = fRet_tag;
+       } else {
+          result->ref = 0;
+       }
+       switch( t ) {
+       case 'y': G__setnull(result); break;
+-      case 'Y': Converter<long>::toCint          (result, obj); break;
+       case 'g': Converter<bool>::toCint          (result, obj); break;
+-      case 'G': Converter<int>::toCint           (result, obj); break;
+       case 'c': Converter<char>::toCint          (result, obj); break;
+-      case 'C': Converter<int>::toCint           (result, obj); break;
++
++      case 'Y': Converter<long>::toCint           (result, *(void**)obj); break;
++      case 'G': Converter<long>::toCint           (result, *(void**)obj); break;
++      case 'C': Converter<long>::toCint           (result, *(void**)obj); break;
++      case 'B': Converter<long>::toCint           (result, *(void**)obj); break;
++      case 'R': Converter<long>::toCint           (result, *(void**)obj); break;
++      case 'I': Converter<long>::toCint           (result, *(void**)obj); break;
++      case 'H': Converter<long>::toCint           (result, *(void**)obj); break;
++      case 'K': Converter<long>::toCint           (result, *(void**)obj); break;
++      case 'M': Converter<long>::toCint           (result, *(void**)obj); break;
++      case 'N': Converter<long>::toCint           (result, *(void**)obj); break;
++      case 'S': Converter<long>::toCint           (result, *(void**)obj); break;
++      case 'F': Converter<long>::toCint           (result, *(void**)obj); break;
++      case 'D': Converter<long>::toCint           (result, *(void**)obj); break;
++      case 'L': Converter<long>::toCint           (result, *(void**)obj); break;
++
+       case 'b': Converter<unsigned char>::toCint (result, obj); break;
+-      case 'B': Converter<int>::toCint           (result, obj); break;
+       case 's': Converter<short>::toCint         (result, obj); break;
+-      case 'S': Converter<int>::toCint           (result, obj); break;
+       case 'r': Converter<unsigned short>::toCint(result, obj); break;
+-      case 'R': Converter<int>::toCint           (result, obj); break;
+       case 'i': Converter<int>::toCint           (result, obj); break;
+-      case 'I': Converter<int>::toCint           (result, obj); break;
+       case 'h': Converter<unsigned int>::toCint  (result, obj); break;
+-      case 'H': Converter<int>::toCint           (result, obj); break;
+       case 'l': Converter<long>::toCint          (result, obj); break;
+-      case 'L': Converter<int>::toCint           (result, obj); break;
+       case 'k': Converter<unsigned long>::toCint (result, obj); break;
+-      case 'K': Converter<int>::toCint           (result, obj); break;
+       case 'n': Converter<long long>::toCint     (result, obj); break;
+-      case 'N': Converter<int>::toCint           (result, obj); break;
+       case 'm': Converter<unsigned long long>::toCint (result, obj); break;
+-      case 'M': Converter<int>::toCint           (result, obj); break;
+       case 'f': Converter<float>::toCint         (result, obj); break;
+-      case 'F': Converter<int>::toCint           (result, obj); break;
+       case 'd': Converter<double>::toCint        (result, obj); break;
+-      case 'D': Converter<int>::toCint           (result, obj); break;
+       case 'q': Converter<long double>::toCint   (result, obj); break;
+       case 'Q': Converter<int>::toCint           (result, obj); break;
+-      case 'u': Converter<long>::toCint          (result, obj);
+-         result->ref = (long)obj;
++      case 'u': 
++         Converter<long>::toCint(result, obj);
++         if ( !fRet_byref ) {
++            // Cint stores the address of the object in .ref even if
++            // the value is not a reference.
++            result->ref = (long)obj;
++         }
+          result->tagnum = fRet_tag;
+          break;
+       case 'U': 
+-         if ( fRet_byref ) Converter<long>::toCint(result, *(void**)obj);
+-         else              Converter<long>::toCint(result, obj);
++         Converter<long>::toCint(result, *(void**)obj);
+          result->tagnum = fRet_tag;
+          break;
+       }
++      if (isupper(t) && fRet_plevel) {
++         result->obj.reftype.reftype = fRet_plevel;
++      }
+    }
+ 
+    //------------------Stub adpater functions--------------------------------------------------------
+@@ -212,9 +240,12 @@
+ 
+          // Stub Calling
+          void* retaddr = 0;
+-         if ( context->fRet_byvalue )
+-            retaddr = context->fMember.TypeOf().ReturnType().Construct().Address();
+-         else
++         if ( context->fRet_byvalue ) {
++            // Intentionally use operator new here, we do NOT need to run
++            // the constructor since the function itself will run 
++            // a new with placement.
++            retaddr = ::operator new( context->fRet_Sizeof );
++         } else
+             retaddr = context->GetReturnAddress(result);
+          (*context->fStub)(retaddr, (void*)G__getstructoffset(), context->fParam, context->fStubctx);
+          context->ProcessResult(result, retaddr);
+@@ -228,9 +259,12 @@
+       // does not transmit the exception 
+       try {
+          void* retaddr = 0;
+-         if ( context->fRet_byvalue )
+-            retaddr = context->fMember.TypeOf().ReturnType().Construct().Address();
+-         else
++         if ( context->fRet_byvalue ) {
++            // Intentionally use operator new here, we do NOT need to run
++            // the constructor since the function itself will run 
++            // a new with placement.
++            retaddr = ::operator new( context->fRet_Sizeof );
++         } else
+             retaddr = context->GetReturnAddress(result);
+          (*context->fStub)(retaddr, (void*)G__getstructoffset(), context->fParam, context->fStubctx);
+          context->ProcessResult(result, retaddr);
+@@ -273,7 +307,7 @@
+                obj = context->fNewdelfuncs->fNewArray(nary, 0);
+             }
+             else {
+-               obj = new char[size];
++               obj = new char[size * nary];
+                long p = (long)obj; 
+                for( long i = 0; i < nary; ++i, p += size )
+                   (*context->fStub)(0, (void*)p, context->fParam, 0);
+diff -Naur orig.root/cint/cintex/src/CINTFunctional.h root/cint/cintex/src/CINTFunctional.h
+--- orig.root/cint/cintex/src/CINTFunctional.h	2008-11-26 08:22:11.000000000 +0100
++++ root/cint/cintex/src/CINTFunctional.h	2008-12-16 03:51:25.000000000 +0100
+@@ -61,7 +61,9 @@
+          int            fRet_tag;          ///< Return TypeNth tag number
+          bool           fRet_byvalue;      ///< Return by value flag
+          bool           fRet_byref;        ///< Return by reference flag
++         int            fRet_plevel;       ///< Pointer/Reference level
+          int            fClass_tag;        ///< Class TypeNth tag number
++         size_t         fRet_Sizeof;       ///< Sizeof returned by value type
+          ROOT::Reflex::Member fMember;     ///< Reflex FunctionMember 
+          ROOT::Reflex::Type   fClass;      ///< Declaring Reflex class
+          ROOT::Reflex::Type   fFunction;   ///< Reflex Function TypeNth
+diff -Naur orig.root/cint/cintex/src/CINTUtils.cxx root/cint/cintex/src/CINTUtils.cxx
+--- orig.root/cint/cintex/src/CINTUtils.cxx	2008-11-26 08:22:11.000000000 +0100
++++ root/cint/cintex/src/CINTUtils.cxx	2008-12-16 03:51:25.000000000 +0100
+@@ -241,11 +241,20 @@
+          while ( (occ=s.find(", ")) != std::string::npos )    {
+             s.replace(occ, 2, ",");
+          }
++         /// remove optional spaces to be conformant with CINT
++         while ( (occ=s.find("* const")) != std::string::npos )    {
++            if (!isalnum(s[occ + 7]))
++               s.replace(occ, 7, "*const");
++         }
++         /// remove optional spaces to be conformant with CINT
++         while ( (occ=s.find("& const")) != std::string::npos )    {
++            if (!isalnum(s[occ + 7]))
++               s.replace(occ, 7, "&const");
++         }
+ 
+          //
+          // Perform naming normalization for primitives
+-         // since GCC-XML, this pile of shit just generates
+-         // anything.
++         // since GCC-XML just generates anything.
+          //
+          // Let's hope this will not kick us back sometimes.
+          //
+diff -Naur orig.root/cint/cintex/src/ROOTClassEnhancer.cxx root/cint/cintex/src/ROOTClassEnhancer.cxx
+--- orig.root/cint/cintex/src/ROOTClassEnhancer.cxx	2008-11-26 08:22:11.000000000 +0100
++++ root/cint/cintex/src/ROOTClassEnhancer.cxx	2008-12-16 03:51:25.000000000 +0100
+@@ -86,10 +86,10 @@
+                         ROOT::Reflex::StubFunction stubFP, void*  stubCtx, int );
+       TClass* IsA(const void* obj);
+       static void* Stub_IsA2(void* ctxt, void* obj);
+-      static void Stub_IsA(void*, void* ret, const std::vector<void*>&, void*);
++      static void Stub_IsA(void* ret, void*, const std::vector<void*>&, void*);
+       static void Stub_Streamer(void*, void*, const std::vector<void*>&, void*);
+       static void Stub_StreamerNVirtual(void*, void*, const std::vector<void*>&, void*);
+-      static void Stub_Dictionary(void*, void* ret, const std::vector<void*>&, void*);
++      static void Stub_Dictionary(void* ret, void*, const std::vector<void*>&, void*);
+       static void Stub_ShowMembers(void*, void*, const std::vector<void*>&, void*);
+       static void Stub_ShowMembers(TClass*, const ROOT::Reflex::Type&, void*, TMemberInspector&, char*);
+       static void Stub_Dictionary( void* ctx );
+@@ -318,7 +318,7 @@
+    }
+ 
+ 
+-   void ROOTClassEnhancerInfo::Stub_IsA(void* obj, void* ret, const vector<void*>&, void* ctx) {
++   void ROOTClassEnhancerInfo::Stub_IsA(void* ret, void* obj, const vector<void*>&, void* ctx) {
+       // Root IsA.
+       *((TClass**)ret) = context(ctx).IsA(obj);
+    }
+@@ -464,7 +464,7 @@
+    }
+ 
+ 
+-   void ROOTClassEnhancerInfo::Stub_Streamer(void* obj, void*, const vector<void*>& args, void* ctx) {
++   void ROOTClassEnhancerInfo::Stub_Streamer(void*, void* obj, const vector<void*>& args, void* ctx) {
+       //  Create streamer info.
+       TBuffer& b = *(TBuffer*)args[0];
+       TClass* cl = context(ctx).Tclass();
+@@ -482,7 +482,7 @@
+       }
+    }
+ 
+-   void ROOTClassEnhancerInfo::Stub_StreamerNVirtual(void* obj, void*, const vector<void*>& args, void* ctx) {
++   void ROOTClassEnhancerInfo::Stub_StreamerNVirtual(void*, void* obj, const vector<void*>& args, void* ctx) {
+       // Create streamer info.
+       TBuffer& b = *(TBuffer*)args[0];
+       TClass* cl = context(ctx).Tclass();
+@@ -500,7 +500,7 @@
+       }
+    }
+ 
+-   void ROOTClassEnhancerInfo::Stub_ShowMembers(void* obj, void*, const vector<void*>& args, void* ctx) {
++   void ROOTClassEnhancerInfo::Stub_ShowMembers(void*, void* obj, const vector<void*>& args, void* ctx) {
+       // Create show members.
+       Type typ = context(ctx).TypeGet();
+       TClass* tcl = context(ctx).Tclass();
+diff -Naur orig.root/cint/cintex/test/dict/CintexTest.h root/cint/cintex/test/dict/CintexTest.h
+--- orig.root/cint/cintex/test/dict/CintexTest.h	2008-11-26 08:22:11.000000000 +0100
++++ root/cint/cintex/test/dict/CintexTest.h	2008-12-16 03:51:25.000000000 +0100
+@@ -120,14 +120,46 @@
+   void setMagic(int v) { m_magic = v; }
+   static int instances() { return s_instances; }
+   Answer answer() { return m_answer; }
+-  void setAnswer(Answer a) { m_answer = a; } 
++  void setAnswer(Answer a) { m_answer = a; }
++   
+ private:
+   Answer m_answer;
+   int m_magic;
+ };
+ 
+ int MyClass::s_instances = 0;
++int s_public_instances = 0;
+ 
++   typedef long long                 Int64;
++   typedef unsigned long long        UInt64;   
++   typedef UInt64                    UInt63;
++   typedef UInt63 ValidityKey;
++#ifdef WIN32 
++   const Int64  Int64Min  = 0x8000000000000000ll;       // -9223372036854775808
++   const Int64  Int64Max  = 0x7fffffffffffffffll;       // +9223372036854775807
++   const UInt64 UInt64Min = 0;
++   const UInt64 UInt64Max = 0xffffffffffffffffll;       // +18446744073709551615
++#else 
++#  if defined LONG_LONG_MAX
++   // Supported platforms: slc3_ia32, slc4_ia32, slc4_amd64
++   const Int64  Int64Min  = LONG_LONG_MIN;              // -9223372036854775808
++   const Int64  Int64Max  = LONG_LONG_MAX;              // +9223372036854775807
++   const UInt64 UInt64Min = 0;
++   const UInt64 UInt64Max = ULONG_LONG_MAX;             // +18446744073709551615
++#  else
++   // Supported platforms: osx104_ppc (why is LONG_LONG_MAX not defined?...)
++   // See /usr/lib/gcc/powerpc-apple-darwin8/4.0.1/include/limits.h
++   const Int64  Int64Min  = -__LONG_LONG_MAX__-1LL;     // -9223372036854775808
++   const Int64  Int64Max  = __LONG_LONG_MAX__;          // +9223372036854775807
++   const UInt64 UInt64Min = 0;
++   const UInt64 UInt64Max = __LONG_LONG_MAX__*2ULL+1ULL;// +18446744073709551615
++#  endif
++#endif
++   const UInt63 UInt63Min = UInt64Min;
++   const UInt63 UInt63Max = Int64Max;
++   const ValidityKey ValidityKeyMin = UInt63Min; // 0
++   const ValidityKey ValidityKeyMax = UInt63Max; // +9223372036854775807
++   
+ struct Abstract {
+   virtual double vf() = 0;
+   virtual ~Abstract() {}
+@@ -190,15 +222,21 @@
+ };
+ 
+ MyClass::MyClass() : m_magic( 987654321 ){
++  //fprintf(stderr,"Default construct %p %d\n",this,m_magic);
+   s_instances++;
++  s_public_instances++;
+ }
+ 
+ MyClass::MyClass(const MyClass& c) {
++  // fprintf(stderr,"Copy construct from %p to %p from %d to %d \n",&c,this,c.m_magic,m_magic);
+   m_magic = c.m_magic;
+   s_instances++;
++  s_public_instances++;
+ }
+ MyClass::~MyClass() {
++  // fprintf(stderr,"Destruct %p %d\n",this,m_magic);
+   s_instances--;
++  s_public_instances--;
+ }
+ MyClass& MyClass::operator=(const MyClass& c) {
+   m_magic = c.m_magic;
+diff -Naur orig.root/cint/cintex/test/dict/selection.xml root/cint/cintex/test/dict/selection.xml
+--- orig.root/cint/cintex/test/dict/selection.xml	2008-11-26 08:22:11.000000000 +0100
++++ root/cint/cintex/test/dict/selection.xml	2008-12-16 03:51:25.000000000 +0100
+@@ -62,6 +62,8 @@
+ 
+   <variable name="gMyInt"/>
+   <variable pattern="A::g*"/>
++  <variable name="A::B::C::s_public_instances"/>
++  <variable name="A::B::C::ValidityKeyMin"/>
+ 
+   <class pattern="*MyA*"/>
+   <class pattern="SpecialET<*>"/>
+diff -Naur orig.root/cint/cintex/test/test_Cintex.C root/cint/cintex/test/test_Cintex.C
+--- orig.root/cint/cintex/test/test_Cintex.C	2008-11-26 08:22:11.000000000 +0100
++++ root/cint/cintex/test/test_Cintex.C	2008-12-16 03:51:25.000000000 +0100
+@@ -1,4 +1,10 @@
+ #include <stdio.h>
++#ifndef __CINT__
++#include "dict/CintexTest.h"
++#include "TSystem.h"
++#include "Cintex/Cintex.h"
++#endif
++
+ template <class T1, class T2> 
+ void failUnlessEqual( T1 r, T2 e, const char* c = "") { 
+   if( r != e ) {
+@@ -97,7 +103,7 @@
+   //---Returning unknown types
+   void* rp = calling.retUnkownTypePointer();
+   failUnless( rp );
+-  void* rr = calling.retUnkownTypeReference();
++  void* rr = (void*)&(calling.retUnkownTypeReference());
+   failUnless( rr );
+   //---Passing unknown types
+   failUnlessEqual( calling.setByUnknownTypePointer(rp), 0x12345678);
+@@ -129,7 +135,8 @@
+   failUnlessEqual( calling.retByPointer()->magic(), 44445555 , "CallingModes: fail set by reference");
+   failUnlessEqual( myobj.magic(),  44445555 , "CallingModes: fail set by reference");
+   myobj.setMagic(55555555);
+-  calling.setByRefPointer(&myobj);
++  A::B::C::MyClass *p = &myobj;
++  calling.setByRefPointer(p);
+   failUnlessEqual( calling.retByPointer()->magic(), 55555555 , "CallingModes: fail set by reference pointer");
+   failUnlessEqual( myobj.magic(), 999999 , "CallingModes: fail set by reference pointer");
+   failUnlessEqual( calling.retStrByValue(), "value" );
+@@ -137,8 +144,9 @@
+   failUnlessEqual( calling.retStrByConstRef(), "const reference" );
+   failUnless( strcmp(calling.retConstCStr(), "const pointer") == 0, "CallingModes: fail return C string");
+   failUnless( strcmp(calling.retCStr(), "pointer") == 0 );
+-  //  del myobj, calling
++  // del myobj, calling
+   failUnlessEqual( A::B::C::MyClass::instances(), 2,  "CallingModes: MyClass instances not deleted");
++  failUnlessEqual( A::B::C::s_public_instances, 2,  "CallingModes: MyClass s_public_instances not correctly read");
+   return true;
+ }
+ 
+@@ -212,8 +220,9 @@
+   return true;
+ }
+ 
++using namespace A::B::C;
++
+ bool test_MethodOperators() {
+-  using namespace A::B::C;
+   failUnlessEqual(Number(20) + Number(10), Number(30) );
+   failUnlessEqual(Number(20) - Number(10), Number(10) );
+   failUnlessEqual(Number(20) / Number(10), Number(2) );
+@@ -264,6 +273,7 @@
+   Diamond real;
+   Diamond* d = &real;
+   Virtual* v = &real;
++ 
+   failUnless(strcmp(d->IsA()->GetName(), "A::B::C::Diamond")==0);
+   failUnless(strcmp(v->IsA()->GetName(), "A::B::C::Diamond")==0);
+   
+@@ -302,7 +312,7 @@
+ bool test_ObjectArrays() {
+   int instances = A::B::C::MyClass::instances();
+   failUnlessEqual( A::B::C::MyClass::instances(), instances,  "ObjectArrays: MyClass instances not zero");
+-  A::B::C::MyClass* myarray = new MyClass[10];
++  A::B::C::MyClass* myarray = new A::B::C::MyClass[10];
+   failUnlessEqual( A::B::C::MyClass::instances(), instances+10,  "ObjectArrays: MyClass instances not 10");
+   delete [] myarray;
+   failUnlessEqual( A::B::C::MyClass::instances(), instances,  "ObjectArrays: MyClass instances not clean");
+@@ -319,7 +329,7 @@
+ 
+ bool test_Variables() {
+   failUnlessEqual( gMyInt, 123,  "Variables: global int");
+-  failUnlessEqual( A::gMyPointer, 0,  "Variables: namespace pointer");
++  failUnlessEqual( A::gMyPointer, (void*)0,  "Variables: namespace pointer");
+   return true;
+ }
+ 
+@@ -350,6 +360,7 @@
+   cout << "ShowMembers: "        << (test_ShowMembers()        ? "OK" : "FAIL") << endl;
+   cout << "NestedClasses: "      << (test_NestedClasses()      ? "OK" : "FAIL") << endl;
+   cout << "FunctionPointer: "    << (test_FunctionPointer()    ? "OK" : "FAIL") << endl;
++
+   cout << "ObjectArrays: "       << (test_ObjectArrays()       ? "OK" : "FAIL") << endl;
+   cout << "Enums: "              << (test_Enums()              ? "OK" : "FAIL") << endl;
+   cout << "Variables: "          << (test_Variables()          ? "OK" : "FAIL") << endl;
+diff -Naur orig.root/cint/cintex/test/test_PyCintex_basics.py root/cint/cintex/test/test_PyCintex_basics.py
+--- orig.root/cint/cintex/test/test_PyCintex_basics.py	2008-11-26 08:22:11.000000000 +0100
++++ root/cint/cintex/test/test_PyCintex_basics.py	2008-12-16 03:51:25.000000000 +0100
+@@ -27,6 +27,8 @@
+     result = object.doSomething('Hello World')
+     self.failUnless( result == len('Hello World'),
+                      'incorrect return value from doSomething')
++    self.failUnlessEqual( self.A.B.C.ValidityKeyMin, 0)  
++    
+   
+   def test02PrimitiveArgTypes(self):
+     p = self.A.B.C.Primitives()
+@@ -124,6 +126,7 @@
+ 
+   def test06CallingModes(self):
+     self.failUnlessEqual( self.A.B.C.MyClass.instances(), 0)  
++    self.failUnlessEqual( self.A.B.C.s_public_instances, 0)  
+     myobj = self.A.B.C.MyClass()
+     calling = self.A.B.C.Calling()
+     myobj.setMagic(22222222)

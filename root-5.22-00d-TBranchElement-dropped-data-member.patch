@@ -1,0 +1,23 @@
+commit f97cc440a262c9786deb2cd1041b6c1b250715b8
+Author: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date:   Sat Oct 9 11:15:47 2010 +0200
+
+    ../CMSDIST/root-5.22-00d-TBranchElement-dropped-data-member.patch
+
+diff --git a/tree/tree/src/TBranchElement.cxx b/tree/tree/src/TBranchElement.cxx
+index 3662fd5..fd077cc 100644
+--- a/tree/tree/src/TBranchElement.cxx
++++ b/tree/tree/src/TBranchElement.cxx
+@@ -1825,6 +1825,12 @@ Int_t TBranchElement::GetEntry(Long64_t entry, Int_t getall)
+       SetAddress(fAddress);
+    }
+    SetupAddresses();
++   if (fObject == 0) 
++   {
++      // We have nowhere to copy the data (probably because the data member was
++      // 'dropped' from the current schema) so let's no copy it in a random place.
++      return 0;
++   }
+ 
+    Int_t nbranches = fBranches.GetEntriesFast();
+    if (nbranches) {

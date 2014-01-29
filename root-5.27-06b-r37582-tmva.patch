@@ -1,0 +1,315 @@
+diff -Naur orig.root/tmva/inc/Event.h root/tmva/inc/Event.h
+--- orig.root/tmva/inc/Event.h	2010-11-05 15:46:51.000000000 +0100
++++ root/tmva/inc/Event.h	2010-12-14 09:46:11.000000000 +0100
+@@ -111,7 +111,7 @@
+    private:
+ 
+       mutable std::vector<Float_t>   fValues;               // the event values
+-      static  std::vector<Float_t*>* fgValuesDynamic;       // the event values
++      mutable std::vector<Float_t*>* fValuesDynamic;       // the event values
+       mutable std::vector<Float_t>   fTargets;              // target values for regression
+       mutable std::vector<Float_t>   fSpectators;           // "visisting" variables which are never used for any calculation
+       mutable std::vector<UInt_t>*   fVariableArrangement;  // needed for MethodCategories, where we can train on other than the main variables
+@@ -120,8 +120,6 @@
+       Float_t                        fWeight;          // event weight (product of global and individual weights)
+       Float_t                        fBoostWeight;     // internal weight to be set by boosting algorithm
+       Bool_t                         fDynamic;         // is set when the dynamic values are taken
+-      
+-      static Int_t                   fgCount;          // count instances of Event
+    };
+ }
+ 
+diff -Naur orig.root/tmva/src/Event.cxx root/tmva/src/Event.cxx
+--- orig.root/tmva/src/Event.cxx	2010-11-05 15:46:50.000000000 +0100
++++ root/tmva/src/Event.cxx	2010-12-14 09:46:14.000000000 +0100
+@@ -34,13 +34,11 @@
+ #include <iomanip>
+ #include <cassert>
+ #include "TCut.h"
+- 
+-Int_t TMVA::Event::fgCount = 0;
+-std::vector<Float_t*>* TMVA::Event::fgValuesDynamic = 0;
+ 
+ //____________________________________________________________
+ TMVA::Event::Event() 
+    : fValues(),
++     fValuesDynamic(0),
+      fTargets(),
+      fSpectators(),
+      fVariableArrangement(0),
+@@ -50,7 +48,6 @@
+      fDynamic(kFALSE)
+ {
+    // copy constructor
+-   fgCount++; 
+ }
+ 
+ //____________________________________________________________
+@@ -60,6 +57,7 @@
+                     Float_t weight,
+                     Float_t boostweight )
+    : fValues(ev),
++     fValuesDynamic(0),
+      fTargets(tg),
+      fSpectators(0),
+      fVariableArrangement(0),
+@@ -69,7 +67,6 @@
+      fDynamic(kFALSE)
+ {
+    // constructor
+-   fgCount++;
+ }
+ 
+ //____________________________________________________________
+@@ -80,6 +77,7 @@
+                     Float_t weight,
+                     Float_t boostweight )
+    : fValues(ev),
++     fValuesDynamic(0),
+      fTargets(tg),
+      fSpectators(vi),
+      fVariableArrangement(0),
+@@ -89,7 +87,6 @@
+      fDynamic(kFALSE)
+ {
+    // constructor
+-   fgCount++;
+ }
+ 
+ //____________________________________________________________
+@@ -98,6 +95,7 @@
+                     Float_t weight,
+                     Float_t boostweight )
+    : fValues(ev),
++     fValuesDynamic(0),
+      fTargets(0),
+      fSpectators(0),
+      fVariableArrangement(0),
+@@ -107,12 +105,12 @@
+      fDynamic(kFALSE)
+ {
+    // constructor
+-   fgCount++;
+ }
+ 
+ //____________________________________________________________
+ TMVA::Event::Event( const std::vector<Float_t*>*& evdyn, UInt_t nvar )
+    : fValues(nvar),
++     fValuesDynamic( (std::vector<Float_t*>*) evdyn ),
+      fTargets(0),
+      fSpectators(evdyn->size()-nvar),
+      fVariableArrangement(0),
+@@ -122,8 +120,7 @@
+      fDynamic(true)
+ {
+    // constructor for single events
+-   fgValuesDynamic = (std::vector<Float_t*>*) evdyn;
+-   fgCount++;
++   fValuesDynamic = (std::vector<Float_t*>*) evdyn;
+ }
+ 
+ //____________________________________________________________
+@@ -138,26 +135,23 @@
+      fDynamic(event.fDynamic)
+ {
+    // copy constructor
+-   fgCount++; 
+ }
+ 
+ //____________________________________________________________
+ TMVA::Event::~Event() 
+ {
+    // Event destructor
+-   fgCount--;;
+-   if (fDynamic && fgCount==0) TMVA::Event::ClearDynamicVariables();
+ }
+  
+ //____________________________________________________________
+ void TMVA::Event::ClearDynamicVariables() 
+ { 
+    // clear global variable
+-   if (fgValuesDynamic != 0) { 
+-      fgValuesDynamic->clear();
+-      delete fgValuesDynamic;
+-      fgValuesDynamic = 0;
+-   }
++//    if (fValuesDynamic != 0) { 
++//       fValuesDynamic->clear();
++//       delete fValuesDynamic;
++//       fValuesDynamic = 0;
++//    }
+ }
+ 
+ //____________________________________________________________
+@@ -188,12 +182,12 @@
+    // return value of i'th variable
+    Float_t retval;
+    if (fVariableArrangement==0) {
+-      retval = fDynamic ?( *(*fgValuesDynamic)[ivar] ) : fValues[ivar]; 
++      retval = fDynamic ?( *(*fValuesDynamic)[ivar] ) : fValues[ivar]; 
+    } 
+    else {
+       UInt_t mapIdx = (*fVariableArrangement)[ivar];
+       if (fDynamic) {
+-         retval = *(*fgValuesDynamic)[mapIdx];
++         retval = *(*fValuesDynamic)[mapIdx];
+       } 
+       else {
+          retval = ( mapIdx<fValues.size() ) ? fValues[mapIdx] : fSpectators[mapIdx-fValues.size()];
+@@ -206,7 +200,7 @@
+ Float_t TMVA::Event::GetSpectator( UInt_t ivar) const 
+ {
+    // return spectator content
+-   if (fDynamic) return *(fgValuesDynamic->at(GetNVariables()+ivar));
++   if (fDynamic) return *(fValuesDynamic->at(GetNVariables()+ivar));
+    else          return fSpectators.at(ivar);
+ }
+ 
+@@ -218,13 +212,13 @@
+       assert(0);
+    }
+    if (fDynamic) {
+-//       if (fgValuesDynamic->size()-GetNSpectators() != fValues.size()) {
++//       if (fValuesDynamic->size()-GetNSpectators() != fValues.size()) {
+ //          std::cout << "ERROR Event::GetValues() is trying to change the size of the variable vector, exiting ..." << std::endl;
+ //          assert(0);
+ //       }
+       fValues.clear();
+-      for (std::vector<Float_t*>::const_iterator it = fgValuesDynamic->begin(); 
+-           it != fgValuesDynamic->end()-GetNSpectators(); it++) { 
++      for (std::vector<Float_t*>::const_iterator it = fValuesDynamic->begin(); 
++           it != fValuesDynamic->end()-GetNSpectators(); it++) { 
+          Float_t val = *(*it); 
+          fValues.push_back( val ); 
+       }
+@@ -268,10 +262,10 @@
+ void TMVA::Event::SetVal( UInt_t ivar, Float_t val ) 
+ {
+    // set variable ivar to val
+-   if ((fDynamic ?( (*fgValuesDynamic).size() ) : fValues.size())<=ivar)
+-      (fDynamic ?( (*fgValuesDynamic).resize(ivar+1) ) : fValues.resize(ivar+1));
++   if ((fDynamic ?( (*fValuesDynamic).size() ) : fValues.size())<=ivar)
++      (fDynamic ?( (*fValuesDynamic).resize(ivar+1) ) : fValues.resize(ivar+1));
+ 
+-   (fDynamic ?( *(*fgValuesDynamic)[ivar] ) : fValues[ivar])=val;
++   (fDynamic ?( *(*fValuesDynamic)[ivar] ) : fValues[ivar])=val;
+ }
+ 
+ //____________________________________________________________
+diff -Naur orig.root/tmva/src/Reader.cxx root/tmva/src/Reader.cxx
+--- orig.root/tmva/src/Reader.cxx	2010-11-05 15:46:50.000000000 +0100
++++ root/tmva/src/Reader.cxx	2010-12-14 09:46:16.000000000 +0100
+@@ -129,15 +129,9 @@
+      fLogger ( 0 )
+ {
+    // constructor
+-
+-   fLogger = new MsgLogger(this);
+-
+-//    DataSetManager::CreateInstance(fDataInputHandler); // DSMTEST removed
+-//    DataSetManager::Instance().AddDataSetInfo(fDataSetInfo); // DSMTEST removed
+-   fDataSetManager = new DataSetManager( fDataInputHandler ); // DSMTEST 
++   fDataSetManager = new DataSetManager( fDataInputHandler ); // DSMTEST
+    fDataSetManager->AddDataSetInfo(fDataSetInfo); // DSMTEST
+-   
+-
++   fLogger = new MsgLogger(this);
+ 
+    SetConfigName( GetName() );
+    DeclareOptions();
+@@ -158,6 +152,9 @@
+      fLogger ( 0 )
+ {
+    // constructor
++   fDataSetManager = new DataSetManager( fDataInputHandler );
++   fDataSetManager->AddDataSetInfo(fDataSetInfo);
++
+    fLogger = new MsgLogger(this);
+    SetConfigName( GetName() );
+    DeclareOptions();
+@@ -184,8 +181,10 @@
+      fLogger ( 0 )
+ {
+    // constructor
++   fDataSetManager = new DataSetManager( fDataInputHandler );
++   fDataSetManager->AddDataSetInfo(fDataSetInfo);
+    fLogger = new MsgLogger(this);
+-   SetConfigName( GetName() );   
++   SetConfigName( GetName() );
+    DeclareOptions();
+    ParseOptions();
+ 
+@@ -210,6 +209,8 @@
+      fLogger ( 0 )
+ {
+    // constructor
++   fDataSetManager = new DataSetManager( fDataInputHandler );
++   fDataSetManager->AddDataSetInfo(fDataSetInfo);
+    fLogger = new MsgLogger(this);
+    SetConfigName( GetName() );
+    DeclareOptions();
+@@ -233,6 +234,8 @@
+      fLogger ( 0 )
+ {
+    // constructor
++   fDataSetManager = new DataSetManager( fDataInputHandler );
++   fDataSetManager->AddDataSetInfo(fDataSetInfo);
+    fLogger = new MsgLogger(this);
+    SetConfigName( GetName() );
+    DeclareOptions();
+@@ -252,7 +255,7 @@
+ 
+    DeclareOptionRef( fVerbose, "V",      "Verbose flag" );
+    DeclareOptionRef( fColor,   "Color",  "Color flag (default True)" );
+-   DeclareOptionRef( fSilent,  "Silent", "Boolean silent flag (default False)" );   
++   DeclareOptionRef( fSilent,  "Silent", "Boolean silent flag (default False)" );
+ }
+ 
+ //_______________________________________________________________________
+@@ -353,11 +356,11 @@
+ 
+    MethodBase* method = dynamic_cast<MethodBase*>(this->BookMVA( Types::Instance().GetMethodType(methodType),
+                                                                  weightfile ) );
+-   if( method->GetMethodType() == Types::kCategory ){ 
+-      MethodCategory *methCat = (dynamic_cast<MethodCategory*>(method)); 
+-      if( !methCat ) 
+-	 Log() << kERROR << "Method with type kCategory cannot be casted to MethodCategory. /Reader" << Endl; 
+-      methCat->fDataSetManager = fDataSetManager; 
++   if( method->GetMethodType() == Types::kCategory ){
++      MethodCategory *methCat = (dynamic_cast<MethodCategory*>(method));
++      if( !methCat )
++         Log() << kERROR << "Method with type kCategory cannot be casted to MethodCategory. /Reader" << Endl;
++      methCat->fDataSetManager = fDataSetManager;
+    }
+ 
+    return fMethodMap[methodTag] = method;
+@@ -374,11 +377,11 @@
+ 
+    if (method==0) return im;
+ 
+-   if( method->GetMethodType() == Types::kCategory ){ 
+-      MethodCategory *methCat = (dynamic_cast<MethodCategory*>(method)); 
+-      if( !methCat ) 
+-         Log() << kERROR << "Method with type kCategory cannot be casted to MethodCategory. /Reader" << Endl; 
+-      methCat->fDataSetManager = fDataSetManager; 
++   if( method->GetMethodType() == Types::kCategory ){
++      MethodCategory *methCat = (dynamic_cast<MethodCategory*>(method));
++      if( !methCat )
++         Log() << kERROR << "Method with type kCategory cannot be casted to MethodCategory. /Reader" << Endl;
++      methCat->fDataSetManager = fDataSetManager;
+    }
+ 
+    method->SetupMethod();
+diff -Naur orig.root/tmva/test/setup.sh root/tmva/test/setup.sh
+--- orig.root/tmva/test/setup.sh	2010-11-05 15:46:50.000000000 +0100
++++ root/tmva/test/setup.sh	2010-12-14 09:46:18.000000000 +0100
+@@ -27,6 +27,9 @@
+     return 1
+ fi
+ 
++export TMVASYS=$PWD
++
++
+ # On MacOS X $DYLD_LIBRARY_PATH has to be modified, so:
+ if [[ `root-config --platform` == "macosx" ]]; then
+ 

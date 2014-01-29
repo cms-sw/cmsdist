@@ -1,0 +1,14 @@
+Index: meta/src/TClass.cxx
+===================================================================
+--- meta/src/TClass.cxx	(revision 22600)
++++ meta/src/TClass.cxx	(working copy)
+@@ -3877,6 +3877,9 @@
+          kl->fStreamerType  = kForeign;
+ 
+       } else if ( kl->fStreamerType == kNone ) {
++         if (strcmp( fClassInfo->FileName(),"{CINTEX dictionary translator}")==0) {
++            kl->SetBit(kIsForeign);
++         }
+          kl->fStreamerType  = kInstrumented;
+       }
+ 

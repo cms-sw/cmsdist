@@ -1,0 +1,12 @@
+diff -Naur orig.qt-x11-free-3.3.6/mkspecs/linux-g++/qmake.conf qt-x11-free-3.3.6/mkspecs/linux-g++/qmake.conf
+--- orig.qt-x11-free-3.3.6/mkspecs/linux-g++/qmake.conf	2006-03-08 17:48:20.000000000 +0100
++++ qt-x11-free-3.3.6/mkspecs/linux-g++/qmake.conf	2007-05-23 00:34:21.000000000 +0200
+@@ -58,7 +58,7 @@
+ QMAKE_LFLAGS_THREAD	=
+ QMAKE_RPATH		= -Wl,-rpath,
+ 
+-QMAKE_LIBS		=
++QMAKE_LIBS		= -L$(QTDIR)/lib
+ QMAKE_LIBS_DYNLOAD	= -ldl
+ QMAKE_LIBS_X11		= -lXext -lX11 -lm
+ QMAKE_LIBS_X11SM	= -lSM -lICE

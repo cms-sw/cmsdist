@@ -1,0 +1,60 @@
+Index: AMISIC++/Model/Simple_Chain.C
+===================================================================
+--- AMISIC++/Model/Simple_Chain.C	(Revision 13874)
++++ AMISIC++/Model/Simple_Chain.C	(Revision 13878)
+@@ -189,6 +189,7 @@
+   pi.m_oqcd=2;
+   pi.m_scale="MPI";
+   pi.m_kfactor="QCD";
++  pi.m_mpiprocess=true;
+   p_processes = new Semihard_QCD();
+   p_processes->Init(pi,p_beam,p_isr);
+   msg_Info()<<METHOD<<"(): Init processes ";
+Index: PHASIC++/Process/Process_Info.H
+===================================================================
+--- PHASIC++/Process/Process_Info.H	(Revision 13874)
++++ PHASIC++/Process/Process_Info.H	(Revision 13878)
+@@ -25,6 +25,8 @@
+     std::string m_loopgenerator;
+ 
+     std::string m_selectorfile;
++
++    bool m_mpiprocess;
+     
+     ME_Generators* p_gens;
+ 
+@@ -37,7 +39,7 @@
+       m_nmaxq(99), m_psmc(0),
+       m_ckkw(0), m_nmax(0), m_nlomode(0), m_amegicmhv(1),
+       m_scale("VAR"), m_kfactor("NO"), m_loopgenerator("Internal"),
+-      m_selectorfile(""), p_gens(NULL) {}
++      m_selectorfile(""), m_mpiprocess(false), p_gens(NULL) {}
+ 
+     ATOOLS::Flavour_Vector ExtractFlavours() const;
+ 
+Index: PHASIC++/Process/Process_Info.C
+===================================================================
+--- PHASIC++/Process/Process_Info.C	(Revision 13874)
++++ PHASIC++/Process/Process_Info.C	(Revision 13878)
+@@ -16,7 +16,7 @@
+     ostr<<"  scale = '"<<info.m_scale<<"', kfactor = '"<<info.m_kfactor<<"'\n";
+     ostr<<"  gpath = '"<<info.m_gpath<<"'\n";
+     ostr<<"  loopgenerator = '"<<info.m_loopgenerator<<"', selectorfile = '"
+-        <<info.m_selectorfile<<"'\n";
++        <<info.m_selectorfile<<"', mpi process = "<<info.m_mpiprocess<<"\n";
+     info.m_ii.Print(ostr,2);
+     info.m_fi.Print(ostr,2);
+   }
+Index: EXTRA_XS/Main/Single_Process.C
+===================================================================
+--- EXTRA_XS/Main/Single_Process.C	(Revision 13874)
++++ EXTRA_XS/Main/Single_Process.C	(Revision 13878)
+@@ -48,7 +48,7 @@
+   }
+   
+   // can't do any BSM
+-  if (MODEL::s_model->Name()!="SM") {
++  if (m_pinfo.m_mpiprocess==false && MODEL::s_model->Name()!="SM") {
+     DEBUG_INFO("Requested BSM, Internal can't cope, it's too dumb...");
+     return false;
+   }

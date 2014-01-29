@@ -1,0 +1,13 @@
+diff -Naur orig.root/math/mathmore/inc/Math/Chebyshev.h root/math/mathmore/inc/Math/Chebyshev.h
+--- orig.root/math/mathmore/inc/Math/Chebyshev.h	2010-11-05 15:46:23.000000000 +0100
++++ root/math/mathmore/inc/Math/Chebyshev.h	2011-03-05 15:35:57.000000000 +0100
+@@ -53,8 +53,7 @@
+ #endif
+ 
+ #include <memory>
+-
+-
++#include <stddef.h>
+ 
+ namespace ROOT {
+ namespace Math {

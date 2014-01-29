@@ -1,0 +1,79 @@
+--- orig.root/math/mathcore/src/SMatrix.cxx	1970-01-01 01:00:00.000000000 +0100
++++ root/math/mathcore/src/SMatrix.cxx	2010-01-21 18:27:56.000000000 +0100
+@@ -0,0 +1,15 @@
++#include "Math/MatrixRepresentationsStatic.h"
++
++void ROOT::Math::RowOffsetsBase::init(int *v, int *offsets, unsigned int D)
++{
++   v[0]=0;
++   for (unsigned int i=1; i<D; ++i)
++      v[i]=v[i-1]+i;
++      for (unsigned int i=0; i<D; ++i) {
++         for (unsigned int j=0; j<=i; ++j)
++            offsets[i*D+j] = v[i]+j;
++         for (unsigned int j=i+1; j<D; ++j)
++            offsets[i*D+j] = v[j]+i ;
++  }
++}
++
+--- orig.root/math/smatrix/inc/Math/MatrixRepresentationsStatic.h	2010-01-21 17:19:37.000000000 +0100
++++ root/math/smatrix/inc/Math/MatrixRepresentationsStatic.h	2010-01-21 18:35:02.000000000 +0100
+@@ -123,25 +123,34 @@
+       symmetric matrix
+    */
+ 
++   struct RowOffsetsBase 
++   {
++     protected:
++       static void init(int *v, int *offsets, unsigned int D);
++   };
++
+    template<unsigned int D>
+-   struct RowOffsets {
++   struct RowOffsets : RowOffsetsBase {
+       inline RowOffsets() {
+          int v[D];
+-         v[0]=0;
+-         for (unsigned int i=1; i<D; ++i)
+-            v[i]=v[i-1]+i;
+-         for (unsigned int i=0; i<D; ++i) { 
+-            for (unsigned int j=0; j<=i; ++j)
+-               fOff[i*D+j] = v[i]+j; 
+-            for (unsigned int j=i+1; j<D; ++j)
+-               fOff[i*D+j] = v[j]+i ;
+-         }
++         this->init(v, fOff, D);
+       }
+       inline int operator()(unsigned int i, unsigned int j) const { return fOff[i*D+j]; }
+       inline int apply(unsigned int i) const { return fOff[i]; }
+       int fOff[D*D];
+    };
+ 
++   template <unsigned int D> struct SymMatrixOffsets
++   {
++    protected:
++      static RowOffsets<D> offsets;
++   };
++
++   template <unsigned int D>
++   RowOffsets<D>
++   SymMatrixOffsets<D>::offsets;
++
++
+ // Make the lookup tables available at compile time:
+ // Add them to a namespace?
+ static const int fOff1x1[] = {0};
+@@ -253,11 +262,11 @@
+       @ingroup MatRep 
+    */
+    template <class T, unsigned int D>
+-   class MatRepSym {
++   class MatRepSym : SymMatrixOffsets<D> {
+ 
+    public: 
+ 
+-      MatRepSym() :fOff(0) { CreateOffsets(); } 
++      MatRepSym() :fOff(&SymMatrixOffsets<D>::offsets) { } 
+ 
+       typedef T  value_type;
+ 

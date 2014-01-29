@@ -1,0 +1,57 @@
+Index: MODEL/Interaction_Models/Vertex.C
+===================================================================
+--- MODEL/Interaction_Models/Vertex.C	(revision 14232)
++++ MODEL/Interaction_Models/Vertex.C	(working copy)
+@@ -90,9 +90,8 @@
+     int hit = 1;
+     if (hit) {
+       //required by Interaction_Model_ADD due to small couplings
+-      if (m_v4[i].Coupling(0)==Complex(0.,0.) && m_v4[i].Coupling(1)==Complex(0.,0.))
+-	m_v4[i].on = 0;
+-      else { 
++      m_v4[i].on = m_v4[i].CheckCoupling();
++      if (m_v4[i].on) { 
+ 	if(m_v4[i].nleg==4) {
+ 	  for (short int k=1;k<5;k++) {
+ 	    for (short int l=1;l<5;l++) {
+@@ -129,8 +128,7 @@
+     int hit = 1;
+     if (hit) {
+       //required by Interaction_Model_ADD due to small couplings
+-      if (m_v[i].Coupling(0)==Complex(0.,0.) && m_v[i].Coupling(1)==Complex(0.,0.))
+-	m_v[i].on = 0;
++      m_v[i].on = m_v[i].CheckCoupling();
+       if (m_v[i].nleg==3) {  
+ 	for (short int k=1;k<4;k++) {
+ 	  for (short int l=1;l<4;l++) {
+Index: MODEL/Interaction_Models/Single_Vertex.C
+===================================================================
+--- MODEL/Interaction_Models/Single_Vertex.C	(revision 14232)
++++ MODEL/Interaction_Models/Single_Vertex.C	(working copy)
+@@ -30,6 +30,14 @@
+   return cpl[i].Value();
+ }
+  
++int Single_Vertex::CheckCoupling() const
++{
++  for (size_t i(0);i<cpl.size();++i) 
++    if (cpl[i].Value()!=Complex(0.,0.)) return 1;
++  return 0;
++}
++
++
+ // Operators
+ Single_Vertex& Single_Vertex::operator=(const Single_Vertex& v) 
+ {
+Index: MODEL/Interaction_Models/Single_Vertex.H
+===================================================================
+--- MODEL/Interaction_Models/Single_Vertex.H	(revision 14232)
++++ MODEL/Interaction_Models/Single_Vertex.H	(working copy)
+@@ -28,6 +28,7 @@
+     ~Single_Vertex(); 
+     
+     Complex Coupling(size_t i) const;
++    int CheckCoupling() const;
+     // operators
+     Single_Vertex&       operator= (const Single_Vertex&);
+     const bool           operator==(const Single_Vertex&);

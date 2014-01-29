@@ -1,0 +1,3061 @@
+commit e72ddcd2bac4d66baacabb21e2c1f48dc32e5f10
+Author: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date:   Sat Oct 9 11:15:42 2010 +0200
+
+    ../CMSDIST/root-5.22-00a-fireworks1.patch
+
+diff --git a/graf3d/eve/inc/TEveCalo.h b/graf3d/eve/inc/TEveCalo.h
+index 7614941..487bbaf 100644
+--- a/graf3d/eve/inc/TEveCalo.h
++++ b/graf3d/eve/inc/TEveCalo.h
+@@ -194,7 +194,7 @@ protected:
+ 
+ public:
+    TEveCalo2D(const char* n="TEveCalo2D", const char* t="");
+-   virtual ~TEveCalo2D(){}
++   virtual ~TEveCalo2D();
+ 
+    virtual void SetProjection(TEveProjectionManager* proj, TEveProjectable* model);
+    virtual void UpdateProjection();
+diff --git a/graf3d/eve/inc/TEveJetCone.h b/graf3d/eve/inc/TEveJetCone.h
+index 20d0e2e..b88d96c 100644
+--- a/graf3d/eve/inc/TEveJetCone.h
++++ b/graf3d/eve/inc/TEveJetCone.h
+@@ -46,7 +46,8 @@ public:
+    void SetCylinder( const Float_t& r, const Float_t& z ) {
+       fCylinderBorder.Set( r, 0.f, z ); fThetaC = fCylinderBorder.Theta(); } // Set border cylinder
+ 
+-   Int_t AddCone( const Float_t& eta, const Float_t& phi, const Float_t& coneRadius, const Float_t& height = -1. );
++   Int_t AddCone(Float_t eta, Float_t phi, Float_t coneRadius, Float_t height=-1);
++   Int_t AddEllipticCone(Float_t eta, Float_t phi, Float_t reta, Float_t rphi, Float_t height=-1);
+ 
+    virtual Bool_t  CanEditMainTransparency() const { return kTRUE; }
+ 
+diff --git a/graf3d/eve/inc/TEvePolygonSetProjectedGL.h b/graf3d/eve/inc/TEvePolygonSetProjectedGL.h
+index 9932073..f2f68dd 100644
+--- a/graf3d/eve/inc/TEvePolygonSetProjectedGL.h
++++ b/graf3d/eve/inc/TEvePolygonSetProjectedGL.h
+@@ -22,6 +22,7 @@ public:
+ 
+    virtual Bool_t SetModel(TObject* obj, const Option_t* opt=0);
+    virtual void   SetBBox();
++   virtual void   Draw(TGLRnrCtx& rnrCtx) const;
+    virtual void   DirectDraw(TGLRnrCtx & rnrCtx) const;
+ 
+    virtual Bool_t IgnoreSizeForOfInterest() const { return kTRUE; }
+diff --git a/graf3d/eve/inc/TEveProjectionAxesGL.h b/graf3d/eve/inc/TEveProjectionAxesGL.h
+index e6d969d..8b3dd79 100644
+--- a/graf3d/eve/inc/TEveProjectionAxesGL.h
++++ b/graf3d/eve/inc/TEveProjectionAxesGL.h
+@@ -40,11 +40,10 @@ public:
+ 
+    virtual Bool_t  SetModel(TObject* obj, const Option_t* opt = 0);
+    virtual void    SetBBox();
++   virtual void    Draw(TGLRnrCtx& rnrCtx) const;
+    virtual void    DirectDraw(TGLRnrCtx & rnrCtx) const;
+ 
+-   Bool_t IgnoreSizeForOfInterest() const {
+-      return kTRUE;
+-   }
++   Bool_t IgnoreSizeForOfInterest() const { return kTRUE; }
+ 
+    ClassDef(TEveProjectionAxesGL, 0); // GL renderer class for TEveProjectionAxes.
+ };
+diff --git a/graf3d/eve/src/TEveCalo.cxx b/graf3d/eve/src/TEveCalo.cxx
+index 2c6cc5f..cee1309 100644
+--- a/graf3d/eve/src/TEveCalo.cxx
++++ b/graf3d/eve/src/TEveCalo.cxx
+@@ -439,6 +439,19 @@ TEveCalo2D::TEveCalo2D(const char* n, const char* t):
+ }
+ 
+ //______________________________________________________________________________
++TEveCalo2D::~TEveCalo2D()
++{
++   // Destructor.
++
++   for(UInt_t vi = 0; vi < fCellLists.size(); ++vi)
++   {
++      TEveCaloData::vCellId_t* cids = fCellLists[vi];
++      cids->clear();
++      delete cids;
++   }
++}
++
++//______________________________________________________________________________
+ void TEveCalo2D::UpdateProjection()
+ {
+    // This is virtual method from base-class TEveProjected.
+diff --git a/graf3d/eve/src/TEveJetCone.cxx b/graf3d/eve/src/TEveJetCone.cxx
+index 1c0c446..43e4849 100644
+--- a/graf3d/eve/src/TEveJetCone.cxx
++++ b/graf3d/eve/src/TEveJetCone.cxx
+@@ -96,7 +96,7 @@ void TEveJetCone::Paint(Option_t*)
+ }
+ 
+ //______________________________________________________________________________
+-Int_t TEveJetCone::AddCone( const Float_t& eta, const Float_t& phi, const Float_t& coneRadius, const Float_t& height )
++Int_t TEveJetCone::AddCone(Float_t eta, Float_t phi, Float_t coneRadius, Float_t height )
+ {
+    // Add jet cone
+    // parameters are :
+@@ -146,6 +146,56 @@ Int_t TEveJetCone::AddCone( const Float_t& eta, const Float_t& phi, const Float_
+ }
+ 
+ //______________________________________________________________________________
++Int_t TEveJetCone::AddEllipticCone(Float_t eta, Float_t phi, Float_t reta, Float_t rphi, Float_t height)
++{
++   // Add jet cone
++   // parameters are :
++   // * (eta,phi)    : of the center/leading particle
++   // * (reta, rphi) : radius of cone in eta-phi space
++   // * height       : height of the cone
++   //                  * if cylinder is set and length is adapted to cylinder.
++   //                    - if height is given, it will be used as scalar factor
++   //                  * if cylinder is not set, height is used as height of the cone
++   // Return 0 on sucess
++
++   if ( fCylinderBorder.fZ == -1. && fCylinderBorder.fX == -1. && height == -1 )
++      return -1;
++
++   TEveVector coneAxis;
++   FillTEveVectorFromEtaPhi( coneAxis, eta, phi );
++
++   Float_t angleRad = 0.;
++   for ( Float_t angle = 0.; angle < 360. ; angle+=5. , angleRad=angle*TMath::Pi()/180 ) {
++
++      // -- Get Contour point
++      TEveVector contourPoint;
++      FillTEveVectorFromEtaPhi( contourPoint,
++                                eta + reta * TMath::Cos(angleRad),
++                                phi + rphi * TMath::Sin(angleRad) );
++
++      // -- Set length of the contourPoint
++      if ( fCylinderBorder.fZ != -1. && fCylinderBorder.fX != -1. ) {
++         if ( contourPoint.Theta() < fThetaC )
++            contourPoint *= fCylinderBorder.fZ / TMath::Cos( contourPoint.Theta() ) ;
++         else if ( contourPoint.Theta() > ( TMath::Pi() - fThetaC ) )
++            contourPoint *= fCylinderBorder.fZ / TMath::Cos( contourPoint.Theta() - TMath::Pi() ) ;
++         else
++            contourPoint *= fCylinderBorder.fX / TMath::Sin( contourPoint.Theta() ) ;
++
++         if ( height != -1 ) contourPoint *= height;
++      }
++      else {
++         contourPoint *= height / GetArcCosConeOpeningAngle( coneAxis, contourPoint );
++      }
++
++      // -- Add contourPoint
++      fBasePoints.push_back( contourPoint );
++   }
++
++   return 0;
++}
++
++//______________________________________________________________________________
+ void TEveJetCone::FillTEveVectorFromEtaPhi( TEveVector &vec, const Float_t& eta, const Float_t& phi )
+ {
+    // Fill TEveVector with eta and phi, with magnitude 1.
+diff --git a/graf3d/eve/src/TEvePolygonSetProjectedGL.cxx b/graf3d/eve/src/TEvePolygonSetProjectedGL.cxx
+index 4b7ad63..edd3aaf 100644
+--- a/graf3d/eve/src/TEvePolygonSetProjectedGL.cxx
++++ b/graf3d/eve/src/TEvePolygonSetProjectedGL.cxx
+@@ -57,6 +57,18 @@ void TEvePolygonSetProjectedGL::SetBBox()
+ /******************************************************************************/
+ 
+ //______________________________________________________________________________
++void TEvePolygonSetProjectedGL::Draw(TGLRnrCtx& rnrCtx) const
++{
++   // Draw function for TEvePolygonSetProjectedGL.
++   // Skips line-pass of outline mode.
++
++   if (rnrCtx.IsDrawPassOutlineLine())
++      return;
++
++   TGLObject::Draw(rnrCtx);
++}
++
++//______________________________________________________________________________
+ void TEvePolygonSetProjectedGL::DirectDraw(TGLRnrCtx & /*rnrCtx*/) const
+ {
+    // Do GL rendering.
+diff --git a/graf3d/eve/src/TEveProjectionAxesGL.cxx b/graf3d/eve/src/TEveProjectionAxesGL.cxx
+index 2a49107..203c480 100644
+--- a/graf3d/eve/src/TEveProjectionAxesGL.cxx
++++ b/graf3d/eve/src/TEveProjectionAxesGL.cxx
+@@ -289,6 +289,17 @@ void TEveProjectionAxesGL::GetRange(Int_t ax, Float_t frustMin, Float_t frustMax
+ }
+ 
+ //______________________________________________________________________________
++void TEveProjectionAxesGL::Draw(TGLRnrCtx& rnrCtx) const
++{
++   // Draw function for TEveProjectionAxesGL. Skips line-pass of outline mode.
++
++   if (rnrCtx.IsDrawPassOutlineLine())
++      return;
++
++   TGLObject::Draw(rnrCtx);
++}
++
++//______________________________________________________________________________
+ void TEveProjectionAxesGL::DirectDraw(TGLRnrCtx& rnrCtx) const
+ {
+    // Actual rendering code.
+@@ -296,10 +307,18 @@ void TEveProjectionAxesGL::DirectDraw(TGLRnrCtx& rnrCtx) const
+ 
+    if (rnrCtx.Selection() || rnrCtx.Highlight()) return;
+ 
++   glPushAttrib(GL_ENABLE_BIT | GL_POLYGON_BIT);
++
++   glDisable(GL_LIGHTING);
++   glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
++   glEnable(GL_COLOR_MATERIAL);
++   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
++   glDisable(GL_CULL_FACE);
++
+    // Draw on front-clipping plane.
+    Float_t old_depth_range[2];
+    glGetFloatv(GL_DEPTH_RANGE, old_depth_range);
+-   glDepthRange(0, 0);
++   glDepthRange(0, 0.001);
+ 
+    // Frustum size.
+    TGLCamera &camera = rnrCtx.RefCamera();
+@@ -338,7 +357,7 @@ void TEveProjectionAxesGL::DirectDraw(TGLRnrCtx& rnrCtx) const
+    }
+ 
+    //
+-   // Axses.
++   // Axes.
+    {
+       using namespace TMath;
+       GLint   vp[4];
+@@ -405,4 +424,6 @@ void TEveProjectionAxesGL::DirectDraw(TGLRnrCtx& rnrCtx) const
+       }
+    }
+    glDepthRange(old_depth_range[0], old_depth_range[1]);
++
++   glPopAttrib();
+ }
+diff --git a/graf3d/eve/src/TEveUtil.cxx b/graf3d/eve/src/TEveUtil.cxx
+index bf93a8c..2e795a0 100644
+--- a/graf3d/eve/src/TEveUtil.cxx
++++ b/graf3d/eve/src/TEveUtil.cxx
+@@ -200,19 +200,21 @@ void TEveUtil::ColorFromIdx(Color_t ci, UChar_t col[4], Bool_t alpha)
+    // is true, set alpha component of col to 255.
+    // ROOT's indexed color palette does not support transparency.
+ 
+-   if (ci < 0) {
+-      // Set to magenta.
+-      col[0] = 255; col[1] = 0; col[2] = 255;
+-      if (alpha) col[3] = 255;
+-      return;
+-   }
+    TColor* c = gROOT->GetColor(ci);
+-   if (c) {
++   if (c)
++   {
+       col[0] = (UChar_t)(255*c->GetRed());
+       col[1] = (UChar_t)(255*c->GetGreen());
+       col[2] = (UChar_t)(255*c->GetBlue());
+       if (alpha) col[3] = 255;
+    }
++   else
++   {
++      // Set to magenta.
++      col[0] = 255; col[1] = 0; col[2] = 255;
++      if (alpha) col[3] = 255;
++      return;
++   }
+ }
+ 
+ //______________________________________________________________________________
+@@ -222,18 +224,21 @@ void TEveUtil::ColorFromIdx(Color_t ci, UChar_t col[4], UChar_t transparency)
+    // ROOT's indexed color palette does not support transparency.
+ 
+    UChar_t alpha = (255*(100 - transparency))/100;
+-   if (ci < 0) {
+-      // Set to magenta.
+-      col[0] = 255; col[1] = 0; col[2] = 255; col[3] = alpha;
+-      return;
+-   }
+-   TColor* c = gROOT->GetColor(ci);
+-   if (c) {
++
++   TColor* c = gROOT->GetColor(ci);   
++   if (c)
++   {
+       col[0] = (UChar_t)(255*c->GetRed());
+       col[1] = (UChar_t)(255*c->GetGreen());
+       col[2] = (UChar_t)(255*c->GetBlue());
+       col[3] = alpha;
+    }
++   else
++   {
++      // Set to magenta.
++      col[0] = 255; col[1] = 0; col[2] = 255; col[3] = alpha;
++      return;
++   }
+ }
+ 
+ //______________________________________________________________________________
+diff --git a/graf3d/eve/src/TEveWindow.cxx b/graf3d/eve/src/TEveWindow.cxx
+index 8fc093e..71fa931 100644
+--- a/graf3d/eve/src/TEveWindow.cxx
++++ b/graf3d/eve/src/TEveWindow.cxx
+@@ -404,10 +404,18 @@ TEveCompositeFrameInMainFrame::~TEveCompositeFrameInMainFrame()
+    // Destructor.
+ 
+    if (gDebug > 0)
+-      Info("TEveCompositeFrameInMainFrame::~TEveCompositeFrameInMainFrame",
+-           "Destructor.");
++      Info("~TEveCompositeFrameInMainFrame", "Destructor.");
+ 
+-   gEve->GetWindowManager()->Disconnect("WindowDeleted(TEveWindow*)", this, "SomeWindowClosed(TEveWindow*)");
++   // MainFrames get deleted with a time-out. So, during EVE manager
++   // shutdown, it might happen that this gets called when gEve is null.
++   if (gEve && gEve->GetWindowManager())
++   {
++      gEve->GetWindowManager()->Disconnect("WindowDeleted(TEveWindow*)", this, "SomeWindowClosed(TEveWindow*)");
++   }
++   else
++   {
++      Info("~TEveCompositeFrameInMainFrame", "gEve null - OK if it was terminated.");
++   }
+ }
+ 
+ //______________________________________________________________________________
+diff --git a/graf3d/gl/inc/LinkDef.h b/graf3d/gl/inc/LinkDef.h
+index 6112597..79a7459 100644
+--- a/graf3d/gl/inc/LinkDef.h
++++ b/graf3d/gl/inc/LinkDef.h
+@@ -20,6 +20,8 @@
+ #pragma link C++ class TGLRect;
+ #pragma link C++ class TGLPlane;
+ #pragma link C++ class TGLMatrix;
++#pragma link C++ class TGLColor;
++#pragma link C++ class TGLColorSet;
+ #pragma link C++ class TGLUtil;
+ #pragma link C++ class TGLUtil::TColorLocker;
+ #pragma link C++ class TGLUtil::TDrawQualityModifier;
+@@ -55,6 +57,7 @@
+ #pragma link C++ class TGLOrthoCamera;
+ #pragma link C++ class TGLPerspectiveCamera;
+ #pragma link C++ class TGLCameraOverlay;
++#pragma link C++ class TGLPlotCamera+;
+ 
+ #pragma link C++ class TGLSceneBase+;
+ #pragma link C++ class TGLScene+;
+diff --git a/graf3d/gl/inc/TGLBoxPainter.h b/graf3d/gl/inc/TGLBoxPainter.h
+index b312c5e..32a5ea9 100644
+--- a/graf3d/gl/inc/TGLBoxPainter.h
++++ b/graf3d/gl/inc/TGLBoxPainter.h
+@@ -14,7 +14,7 @@
+ #include "TGLUtil.h"
+ #endif
+ 
+-class TGLOrthoCamera;
++class TGLPlotCamera;
+ class TAxis;
+ class TH1;
+ 
+@@ -40,7 +40,7 @@ private:
+    TGLBoxPainter &operator = (const TGLBoxPainter &);
+ 
+ public:
+-   TGLBoxPainter(TH1 *hist, TGLOrthoCamera *camera, TGLPlotCoordinates *coord, TGLPaintDevice *dev = 0);
++   TGLBoxPainter(TH1 *hist, TGLPlotCamera *camera, TGLPlotCoordinates *coord, TGLPaintDevice *dev = 0);
+ 
+    char   *GetPlotInfo(Int_t px, Int_t py);
+    Bool_t  InitGeometry();
+diff --git a/graf3d/gl/inc/TGLCamera.h b/graf3d/gl/inc/TGLCamera.h
+index df7554f..84ad2eb 100644
+--- a/graf3d/gl/inc/TGLCamera.h
++++ b/graf3d/gl/inc/TGLCamera.h
+@@ -12,15 +12,9 @@
+ #ifndef ROOT_TGLCamera
+ #define ROOT_TGLCamera
+ 
+-#ifndef ROOT_TGLUtil
+ #include "TGLUtil.h"
+-#endif
+-#ifndef ROOT_TGLBoundingBox
+ #include "TGLBoundingBox.h"
+-#endif
+-#ifndef ROOT_TPoint
+ #include "TPoint.h"
+-#endif
+ 
+ #include <cassert>
+ #include <cmath>
+diff --git a/graf3d/gl/inc/TGLHistPainter.h b/graf3d/gl/inc/TGLHistPainter.h
+index edc5392..1b03163 100644
+--- a/graf3d/gl/inc/TGLHistPainter.h
++++ b/graf3d/gl/inc/TGLHistPainter.h
+@@ -9,8 +9,8 @@
+ #ifndef ROOT_TGLPlotPainter
+ #include "TGLPlotPainter.h"
+ #endif
+-#ifndef ROOT_TGLOrthoCamera
+-#include "TGLOrthoCamera.h"
++#ifndef ROOT_TGLPlotCamera
++#include "TGLPlotCamera.h"
+ #endif
+ #ifndef ROOT_TGLAdapter
+ #include "TGLAdapter.h"
+@@ -46,7 +46,7 @@ private:
+    TF3                   *fF3;
+    TList                 *fStack;
+    EGLPlotType            fPlotType;
+-   TGLOrthoCamera         fCamera;
++   TGLPlotCamera          fCamera;
+    TGLPlotCoordinates     fCoord;
+ 
+    TGLAdapter             fGLDevice;
+diff --git a/graf3d/gl/inc/TGLLegoPainter.h b/graf3d/gl/inc/TGLLegoPainter.h
+index bdb8d99..52b5540 100644
+--- a/graf3d/gl/inc/TGLLegoPainter.h
++++ b/graf3d/gl/inc/TGLLegoPainter.h
+@@ -25,7 +25,7 @@
+ #include "TString.h"
+ #endif
+ 
+-class TGLOrthoCamera;
++class TGLPlotCamera;
+ class TAxis;
+ class TH1;
+ 
+@@ -63,7 +63,7 @@ private:
+    TGLLegoPainter &operator = (const TGLLegoPainter &);
+ 
+ public:
+-   TGLLegoPainter(TH1 *hist, TGLOrthoCamera *camera, TGLPlotCoordinates *coord, TGLPaintDevice *dev = 0);
++   TGLLegoPainter(TH1 *hist, TGLPlotCamera *camera, TGLPlotCoordinates *coord, TGLPaintDevice *dev = 0);
+ 
+    //TGLPlotPainter's final-overriders
+    char        *GetPlotInfo(Int_t px, Int_t py);
+diff --git a/graf3d/gl/inc/TGLLightSet.h b/graf3d/gl/inc/TGLLightSet.h
+index f50c8e3..9a248ac 100644
+--- a/graf3d/gl/inc/TGLLightSet.h
++++ b/graf3d/gl/inc/TGLLightSet.h
+@@ -36,6 +36,10 @@ protected:
+    UInt_t        fLightState;   //! light states (on/off) mask
+    Bool_t        fUseSpecular;  //!
+ 
++   Float_t       fFrontPower;    //! power of the front lamp
++   Float_t       fSidePower;     //! power of the side lamps
++   Float_t       fSpecularPower; //! power of specular lamp
++
+ public:
+    TGLLightSet();
+    virtual ~TGLLightSet() {}
+@@ -47,6 +51,13 @@ public:
+    Bool_t GetUseSpecular() const   { return fUseSpecular; }
+    void   SetUseSpecular(Bool_t s) { fUseSpecular = s; }
+ 
++   Float_t GetFrontPower()     const { return fFrontPower; }
++   Float_t GetSidePower()      const { return fSidePower; }
++   Float_t GetSpecularPower()  const { return fSpecularPower; }
++   void SetFrontPower(Float_t  p)    { fFrontPower = p; }
++   void SetSidePower(Float_t  p)     { fSidePower  = p; }
++   void SetSpecularPower(Float_t  p) { fSpecularPower = p; }
++
+    void StdSetupLights(const TGLBoundingBox& bbox, const TGLCamera& camera,
+                        Bool_t debug=kFALSE);
+ 
+diff --git a/graf3d/gl/inc/TGLOrthoCamera.h b/graf3d/gl/inc/TGLOrthoCamera.h
+index 6279a8c..f58eef3 100644
+--- a/graf3d/gl/inc/TGLOrthoCamera.h
++++ b/graf3d/gl/inc/TGLOrthoCamera.h
+@@ -12,13 +12,8 @@
+ #ifndef ROOT_TGLOrthoCamera
+ #define ROOT_TGLOrthoCamera
+ 
+-#ifndef ROOT_TGLCamera
+ #include "TGLCamera.h"
+-#endif
+ 
+-#ifndef ROOT_TArcBall
+-#include "TArcBall.h"
+-#endif
+ 
+ //////////////////////////////////////////////////////////////////////////
+ //                                                                      //
+@@ -37,7 +32,8 @@
+ 
+ class TGLPaintDevice;
+ 
+-class TGLOrthoCamera : public TGLCamera {
++class TGLOrthoCamera : public TGLCamera
++{
+ public:
+    enum EType { kZOY,  kXOZ,  kXOY,    // Pair of world axes aligned to h/v screen.
+                 kZnOY, kXnOZ, kXnOY }; // 'n' means preceeding axis is negated.
+@@ -57,21 +53,9 @@ private:
+    Double_t       fDefXSize, fDefYSize; //! x, y size of scene from camera view
+    Double_t       fZoom;                //! current zoom
+ 
+-   //Stuff for TGLPlotPainter. MT: This *must* go to a special subclass.
+-   Double_t       fShift;
+-   Double_t       fOrthoBox[4];
+-   TGLVertex3     fCenter;
+-   TGLVector3     fTruck;
+-   TArcBall       fArcBall;
+-   TPoint         fMousePos;
+-   Bool_t         fVpChanged;
++   static UInt_t  fgZoomDeltaSens;
+ 
+-   // Methods
+-   void Init();
+-
+-   static   UInt_t   fgZoomDeltaSens;
+ public:
+-   TGLOrthoCamera();
+    TGLOrthoCamera(EType type, const TGLVector3 & hAxis, const TGLVector3 & vAxis);
+    virtual ~TGLOrthoCamera();
+ 
+@@ -104,23 +88,6 @@ public:
+    void     SetDollyToZoom(Bool_t x) { fDollyToZoom = x; }
+    Bool_t   GetDollyToZoom()   const { return fDollyToZoom; }
+ 
+-   // Stuff for TGLPlotPainter.
+-   void   SetViewport(TGLPaintDevice *dev);
+-   void   SetViewVolume(const TGLVertex3 *box);
+-   void   StartRotation(Int_t px, Int_t py);
+-   void   RotateCamera(Int_t px, Int_t py);
+-   void   StartPan(Int_t px, Int_t py);
+-   void   Pan(Int_t px, Int_t py);
+-   void   ZoomIn();
+-   void   ZoomOut();
+-   void   SetCamera()const;
+-   void   Apply(Double_t phi, Double_t theta)const;
+-   Bool_t ViewportChanged()const{return fVpChanged;}
+-   Int_t  GetX()const;
+-   Int_t  GetY()const;
+-   Int_t  GetWidth()const;
+-   Int_t  GetHeight()const;
+-
+    ClassDef(TGLOrthoCamera,0) // Camera for orthographic view.
+ };
+ 
+diff --git a/graf3d/gl/inc/TGLPShapeObjEditor.h b/graf3d/gl/inc/TGLPShapeObjEditor.h
+index f726277..c728ffd 100644
+--- a/graf3d/gl/inc/TGLPShapeObjEditor.h
++++ b/graf3d/gl/inc/TGLPShapeObjEditor.h
+@@ -36,7 +36,7 @@ class TGLPShapeObjEditor : public TGedFrame,
+ {
+ 
+ private:
+-   enum ELightMode   { kDiffuse, kAmbient, kSpecular, kEmission, kLTot };
++   enum ELightMode   { kDiffuse, kAmbient, kSpecular, kEmission };
+    ELightMode        fLMode;
+ 
+    TGLayoutHints     fLb;  //button layout
+@@ -64,7 +64,6 @@ private:
+ 
+    TGButton         *fColorApplyButton;  //apply to selected
+    TGButton         *fColorApplyFamily;  //apply to selected and family
+-   Bool_t            fIsLight;           //does object emit light
+    Float_t           fRGBA[17];          //color multiplet
+ 
+    Window_t          fGLWin;             //GL window with sphere
+@@ -109,7 +108,7 @@ public:
+    void DoColorSlider(Int_t val);
+    void DoColorButton();
+ 
+-   ClassDef(TGLPShapeObjEditor, 0) //GUI for editing TGLViewer attributes
++   ClassDef(TGLPShapeObjEditor, 0); //GUI for editing attributes of a physical-shape.
+ };
+ 
+ #endif
+diff --git a/graf3d/gl/inc/TGLParametric.h b/graf3d/gl/inc/TGLParametric.h
+index 666f22e..4566406 100644
+--- a/graf3d/gl/inc/TGLParametric.h
++++ b/graf3d/gl/inc/TGLParametric.h
+@@ -109,7 +109,7 @@ private:
+    TGLParametricEquation *fEquation;
+ 
+ public:
+-   TGLParametricPlot(TGLParametricEquation *equation, TGLOrthoCamera *camera, TGLPaintDevice *dev = 0);
++   TGLParametricPlot(TGLParametricEquation *equation, TGLPlotCamera *camera, TGLPaintDevice *dev = 0);
+ 
+    Bool_t   InitGeometry();
+    void     StartPan(Int_t px, Int_t py);
+diff --git a/graf3d/gl/inc/TGLPerspectiveCamera.h b/graf3d/gl/inc/TGLPerspectiveCamera.h
+index 7a8ed8e..ee19330 100644
+--- a/graf3d/gl/inc/TGLPerspectiveCamera.h
++++ b/graf3d/gl/inc/TGLPerspectiveCamera.h
+@@ -12,9 +12,7 @@
+ #ifndef ROOT_TGLPerspectiveCamera
+ #define ROOT_TGLPerspectiveCamera
+ 
+-#ifndef ROOT_TGLCamera
+ #include "TGLCamera.h"
+-#endif
+ 
+ //////////////////////////////////////////////////////////////////////////
+ //                                                                      //
+diff --git a/graf3d/gl/inc/TGLPlotCamera.h b/graf3d/gl/inc/TGLPlotCamera.h
+new file mode 100644
+index 0000000..0da3ac3
+--- /dev/null
++++ b/graf3d/gl/inc/TGLPlotCamera.h
+@@ -0,0 +1,61 @@
++
++// Author: Timur Pocheptsov
++
++/*************************************************************************
++ * Copyright (C) 1995-2007, Rene Brun and Fons Rademakers.               *
++ * All rights reserved.                                                  *
++ *                                                                       *
++ * For the licensing terms see $ROOTSYS/LICENSE.                         *
++ * For the list of contributors see $ROOTSYS/README/CREDITS.             *
++ *************************************************************************/
++
++#ifndef ROOT_TGLPlotCamera
++#define ROOT_TGLPlotCamera
++
++#include "TGLUtil.h"
++#include "TArcBall.h"
++#include "TPoint.h"
++
++class TGLPaintDevice;
++
++class TGLPlotCamera
++{
++private:
++   TGLPlotCamera(const TGLPlotCamera&);            // Not implemented
++   TGLPlotCamera& operator=(const TGLPlotCamera&); // Not implemented
++
++protected:
++   TGLRect        fViewport;
++   Double_t       fZoom;
++   Double_t       fShift;
++   Double_t       fOrthoBox[4];
++   TGLVertex3     fCenter;
++   TGLVector3     fTruck;
++   TArcBall       fArcBall;
++   TPoint         fMousePos;
++   Bool_t         fVpChanged;
++
++public:
++   TGLPlotCamera();
++   virtual ~TGLPlotCamera() {}
++
++   void   SetViewport(TGLPaintDevice *dev);
++   void   SetViewVolume(const TGLVertex3 *box);
++   void   StartRotation(Int_t px, Int_t py);
++   void   RotateCamera(Int_t px, Int_t py);
++   void   StartPan(Int_t px, Int_t py);
++   void   Pan(Int_t px, Int_t py);
++   void   ZoomIn();
++   void   ZoomOut();
++   void   SetCamera()const;
++   void   Apply(Double_t phi, Double_t theta)const;
++   Bool_t ViewportChanged()const{return fVpChanged;}
++   Int_t  GetX()const;
++   Int_t  GetY()const;
++   Int_t  GetWidth()const;
++   Int_t  GetHeight()const;
++
++   ClassDef(TGLPlotCamera, 0); // Camera for plot-painters.
++};
++
++#endif
+diff --git a/graf3d/gl/inc/TGLPlotPainter.h b/graf3d/gl/inc/TGLPlotPainter.h
+index 32cb479..67b349a 100644
+--- a/graf3d/gl/inc/TGLPlotPainter.h
++++ b/graf3d/gl/inc/TGLPlotPainter.h
+@@ -31,7 +31,7 @@
+ #endif
+ 
+ class TGLPlotCoordinates;
+-class TGLOrthoCamera;
++class TGLPlotCamera;
+ class TString;
+ class TColor;
+ class TAxis;
+@@ -172,7 +172,7 @@ protected:
+    TAxis                *fZAxis;
+ 
+    TGLPlotCoordinates   *fCoord;
+-   TGLOrthoCamera       *fCamera;
++   TGLPlotCamera        *fCamera;
+    TGLSelectionBuffer    fSelection;
+    Bool_t                fUpdateSelection;
+    Bool_t                fSelectionPass;
+@@ -196,12 +196,12 @@ protected:
+    mutable Bool_t        fDrawPalette;
+ 
+ public:
+-/*   TGLPlotPainter(TH1 *hist, TGLOrthoCamera *camera, TGLPlotCoordinates *coord, Int_t context,
++/*   TGLPlotPainter(TH1 *hist, TGLPlotCamera *camera, TGLPlotCoordinates *coord, Int_t context,
+                   Bool_t xoySelectable, Bool_t xozSelectable, Bool_t yozSelectable);
+-   TGLPlotPainter(TGLOrthoCamera *camera, Int_t context);*/
+-   TGLPlotPainter(TH1 *hist, TGLOrthoCamera *camera, TGLPlotCoordinates *coord, TGLPaintDevice *dev,
++   TGLPlotPainter(TGLPlotCamera *camera, Int_t context);*/
++   TGLPlotPainter(TH1 *hist, TGLPlotCamera *camera, TGLPlotCoordinates *coord, TGLPaintDevice *dev,
+                   Bool_t xoySelectable, Bool_t xozSelectable, Bool_t yozSelectable);
+-   TGLPlotPainter(TGLOrthoCamera *camera, TGLPaintDevice *dev);
++   TGLPlotPainter(TGLPlotCamera *camera, TGLPaintDevice *dev);
+ 
+    const TGLPlotBox& RefBackBox() const { return fBackBox; }
+ 
+@@ -360,8 +360,8 @@ class TGLLevelPalette;
+ 
+ namespace Rgl {
+ 
+-   void DrawPalette(const TGLOrthoCamera * camera, const TGLLevelPalette & palette);
+-   void DrawPaletteAxis(const TGLOrthoCamera * camera, const Range_t & minMax, Bool_t logZ);
++   void DrawPalette(const TGLPlotCamera * camera, const TGLLevelPalette & palette);
++   void DrawPaletteAxis(const TGLPlotCamera * camera, const Range_t & minMax, Bool_t logZ);
+ 
+ }
+ 
+diff --git a/graf3d/gl/inc/TGLRnrCtx.h b/graf3d/gl/inc/TGLRnrCtx.h
+index 38998dd..87785e1 100644
+--- a/graf3d/gl/inc/TGLRnrCtx.h
++++ b/graf3d/gl/inc/TGLRnrCtx.h
+@@ -12,7 +12,7 @@
+ #ifndef ROOT_TGLRnrCtx
+ #define ROOT_TGLRnrCtx
+ 
+-#include <Rtypes.h>
++#include "Rtypes.h"
+ #include "TGLStopwatch.h"
+ 
+ class TGLViewerBase;
+@@ -20,6 +20,7 @@ class TGLCamera;
+ class TGLSceneBase;
+ class TGLSceneInfo;
+ 
++class TGLColorSet;
+ class TGLFont;
+ class TGLContextIdentity;
+ 
+@@ -112,7 +113,7 @@ protected:
+    TGLRect        *fPickRectangle;
+    TGLSelectBuffer*fSelectBuffer;
+ 
+-   UChar_t         fSSLColor[5][4];    // Colors for shape-selection-levels
++   void           *fColorSetStack;
+ 
+    UInt_t          fEventKeySym;
+ 
+@@ -202,9 +203,11 @@ public:
+    void      BeginSelection(Int_t x, Int_t y, Int_t r=3);
+    void      EndSelection  (Int_t glResult);
+ 
+-   UChar_t* GetSSLColor(Int_t level) { return fSSLColor[level]; }
+-   void SetSSLColor(Int_t level, UChar_t r, UChar_t g, UChar_t b, UChar_t a=1);
+-   void SetSSLColor(Int_t level, UChar_t rgba[4]);
++   void         PushColorSet();
++   TGLColorSet& ColorSet();
++   void         PopColorSet();
++   TGLColorSet* ChangeBaseColorSet(TGLColorSet* set);
++   TGLColorSet* GetBaseColorSet();
+ 
+    UInt_t GetEventKeySym()   const { return fEventKeySym; }
+    void   SetEventKeySym(UInt_t k) { fEventKeySym = k; }
+diff --git a/graf3d/gl/inc/TGLSurfacePainter.h b/graf3d/gl/inc/TGLSurfacePainter.h
+index 12a630e..fe3719b 100644
+--- a/graf3d/gl/inc/TGLSurfacePainter.h
++++ b/graf3d/gl/inc/TGLSurfacePainter.h
+@@ -54,7 +54,7 @@ private:
+    mutable Bool_t                  fUpdateTexMap;
+ 
+ public:
+-   TGLSurfacePainter(TH1 *hist, TGLOrthoCamera *camera, TGLPlotCoordinates *coord,
++   TGLSurfacePainter(TH1 *hist, TGLPlotCamera *camera, TGLPlotCoordinates *coord,
+                      TGLPaintDevice *dev = 0);
+ 
+    //TGLPlotPainter's final-overriders.
+diff --git a/graf3d/gl/inc/TGLTF3Painter.h b/graf3d/gl/inc/TGLTF3Painter.h
+index 3a603de..35ca6d0 100644
+--- a/graf3d/gl/inc/TGLTF3Painter.h
++++ b/graf3d/gl/inc/TGLTF3Painter.h
+@@ -14,7 +14,7 @@
+ #include "TGLUtil.h"
+ #endif
+ 
+-class TGLOrthoCamera;
++class TGLPlotCamera;
+ class TF3;
+ 
+ /*
+@@ -40,7 +40,7 @@ private:
+    TGLTH3Slice fXOYSlice;
+ 
+ public:
+-   TGLTF3Painter(TF3 *fun, TH1 *hist, TGLOrthoCamera *camera, TGLPlotCoordinates *coord,
++   TGLTF3Painter(TF3 *fun, TH1 *hist, TGLPlotCamera *camera, TGLPlotCoordinates *coord,
+                  TGLPaintDevice *dev = 0);
+ 
+    char   *GetPlotInfo(Int_t px, Int_t py);
+@@ -104,7 +104,7 @@ private:
+    Bool_t                fInit;
+ 
+ public:
+-   TGLIsoPainter(TH1 *hist, TGLOrthoCamera *camera, TGLPlotCoordinates *coord,
++   TGLIsoPainter(TH1 *hist, TGLPlotCamera *camera, TGLPlotCoordinates *coord,
+                  TGLPaintDevice *dev = 0);
+    //TGLPlotPainter final-overriders.
+    char    *GetPlotInfo(Int_t px, Int_t py);
+diff --git a/graf3d/gl/inc/TGLUtil.h b/graf3d/gl/inc/TGLUtil.h
+index c96826b..4a1a7c5 100644
+--- a/graf3d/gl/inc/TGLUtil.h
++++ b/graf3d/gl/inc/TGLUtil.h
+@@ -12,12 +12,8 @@
+ #ifndef ROOT_TGLUtil
+ #define ROOT_TGLUtil
+ 
+-#ifndef ROOT_Rtypes
+ #include "Rtypes.h"
+-#endif
+-#ifndef ROOT_TError
+ #include "TError.h"
+-#endif
+ 
+ class TString;
+ class TGLBoundingBox;
+@@ -28,8 +24,8 @@ class TAttLine;
+ 
+ class GLUtesselator;
+ 
+-#include <cmath>
+ #include <vector>
++#include <cmath>
+ #include <cassert>
+ 
+ // TODO:Find a better place for these enums - TGLEnum.h?
+@@ -897,6 +893,97 @@ inline void TGLMatrix::GetBaseVec(Int_t b, Double_t* x) const
+ 
+ 
+ //////////////////////////////////////////////////////////////////////////
++//
++// TGLColor
++//
++// Encapsulate color in preferred GL format - UChar_t RGBA array.
++//
++//////////////////////////////////////////////////////////////////////////
++
++class TGLColor
++{
++protected:
++   UChar_t fRGBA[4];
++
++public:
++   TGLColor();
++   TGLColor(Int_t r, Int_t g, Int_t b, Int_t a=255);
++   TGLColor(Float_t r, Float_t g, Float_t b, Float_t a=1);
++   TGLColor(Color_t color_index, Char_t transparency=0);
++   virtual ~TGLColor();
++
++   TGLColor& operator=(const TGLColor& c);
++
++   UChar_t*        Arr()       { return fRGBA; }
++   const UChar_t* CArr() const { return fRGBA; }
++
++   UChar_t GetRed()   const { return fRGBA[0]; }
++   UChar_t GetGreen() const { return fRGBA[1]; }
++   UChar_t GetBlue()  const { return fRGBA[2]; }
++   UChar_t GetAlpha() const { return fRGBA[3]; }
++
++   Color_t GetColorIndex()   const;
++   Char_t  GetTransparency() const;
++
++   void SetRed(Int_t v)   { fRGBA[0] = v; }
++   void SetGreen(Int_t v) { fRGBA[1] = v; }
++   void SetBlue(Int_t v)  { fRGBA[2] = v; }
++   void SetAlpha(Int_t v) { fRGBA[3] = v; }
++
++   void SetColor(Int_t r, Int_t g, Int_t b, Int_t a=255);
++   void SetColor(Float_t r, Float_t g, Float_t b, Float_t a=1);
++   void SetColor(Color_t color_index);
++   void SetColor(Color_t color_index, Char_t transparency);
++   void SetTransparency(Char_t transparency);
++
++   TString AsString() const;
++
++   ClassDef(TGLColor, 0); // Color in preferred GL format - RGBA.
++};
++
++
++//////////////////////////////////////////////////////////////////////////
++//
++// TGLColorSet
++//
++// A collection of colors used for OpenGL rendering.
++//
++//////////////////////////////////////////////////////////////////////////
++
++class TGLColorSet
++{
++protected:
++   TGLColor        fBackground;
++   TGLColor        fForeground;
++   TGLColor        fOutline;
++   TGLColor        fMarkup;
++   TGLColor        fSelection[5];   // Colors for shape-selection-levels
++
++public:
++   TGLColorSet();
++   virtual ~TGLColorSet();
++
++   TGLColorSet& operator=(const TGLColorSet& s);
++
++   TGLColor& Background()       { return fBackground; }
++   TGLColor& Foreground()       { return fForeground; }
++   TGLColor& Outline()          { return fOutline; }
++   TGLColor& Markup()           { return fMarkup;  }
++   TGLColor& Selection(Int_t i) { return fSelection[i]; }
++
++   const TGLColor& Background()       const { return fBackground; }
++   const TGLColor& Foreground()       const { return fForeground; }
++   const TGLColor& Outline()          const { return fOutline; }
++   const TGLColor& Markup()           const { return fMarkup;  }
++   const TGLColor& Selection(Int_t i) const { return fSelection[i]; }
++
++   void StdDarkBackground();
++   void StdLightBackground();
++
++   ClassDef(TGLColorSet, 0); // Collection of colors used for GL rendering.
++};
++
++//////////////////////////////////////////////////////////////////////////
+ //                                                                      //
+ // TGLUtil                                                              //
+ //                                                                      //
+@@ -978,8 +1065,11 @@ public:
+    static UInt_t UnlockColor();
+    static Bool_t IsColorLocked();
+ 
++   static void Color(const TGLColor& color);
++   static void Color(const TGLColor& color, UChar_t alpha);
++   static void Color(const TGLColor& color, Float_t alpha);
+    static void Color(Color_t color_index, Float_t alpha=1);
+-   static void ColorTransparency(Color_t color_index, UChar_t transparency=0);
++   static void ColorTransparency(Color_t color_index, Char_t transparency=0);
+    static void Color3ub(UChar_t r, UChar_t g, UChar_t b);
+    static void Color4ub(UChar_t r, UChar_t g, UChar_t b, UChar_t a);
+    static void Color3ubv(const UChar_t* rgb);
+diff --git a/graf3d/gl/inc/TGLViewer.h b/graf3d/gl/inc/TGLViewer.h
+index 14e1187..9ee562c 100644
+--- a/graf3d/gl/inc/TGLViewer.h
++++ b/graf3d/gl/inc/TGLViewer.h
+@@ -117,8 +117,8 @@ protected:
+    Float_t              fMaxSceneDrawTimeLQ; //! max time for scene rendering at high LOD (in ms)
+ 
+    TGLRect        fViewport;       //! viewport - drawn area
+-   Color_t        fClearColor;     //! clear-color
+-   Float_t        fClearColorRGB[3]; //! clear-color cache
++   TGLColorSet    fDarkColorSet;   //! color-set with dark background
++   TGLColorSet    fLightColorSet;  //! color-set with dark background
+    Int_t          fAxesType;       //! axes type
+    Bool_t         fAxesDepthTest;  //! remove guides hidden-lines
+    Bool_t         fReferenceOn;    //! reference marker on?
+@@ -135,6 +135,10 @@ protected:
+    TString        fPictureFileName;      //! default file-name for SavePicture()
+    Float_t        fFader;                //! fade the view (0 - no fade/default, 1 - full fade/no rendering done)
+ 
++   static TGLColorSet fgDefaultColorSet;                 //! a shared, default color-set
++   static Bool_t      fgUseDefaultColorSetForNewViewers; //! name says it all
++
++
+    ///////////////////////////////////////////////////////////////////////
+    // Methods
+    ///////////////////////////////////////////////////////////////////////
+@@ -200,11 +204,25 @@ public:
+    virtual void  DestroyGLWidget() {}
+ 
+    Int_t   GetDev()          const           { return fGLDevice; }
+-   Color_t GetClearColor()   const           { return fClearColor; }
+-   void    SetClearColor(Color_t col)        { fClearColor = col; }
+    Bool_t  GetSmartRefresh() const           { return fSmartRefresh; }
+    void    SetSmartRefresh(Bool_t smart_ref) { fSmartRefresh = smart_ref; }
+ 
++   TGLColorSet& RefDarkColorSet()  { return fDarkColorSet;  }
++   TGLColorSet& RefLightColorSet() { return fLightColorSet; }
++   TGLColorSet& ColorSet()         { return * fRnrCtx->GetBaseColorSet(); }
++   void         UseDarkColorSet();
++   void         UseLightColorSet();
++   void         SwitchColorSet();
++
++   void         UseDefaultColorSet(Bool_t x);
++   Bool_t       IsUsingDefaultColorSet() const;
++
++   void         SetClearColor(Color_t col);
++
++   static TGLColorSet& GetDefaultColorSet();
++   static void         UseDefaultColorSetForNewViewers(Bool_t x);
++   static Bool_t       IsUsingDefaultColorSetForNewViewers();
++
+    TGLLightSet* GetLightSet() const { return fLightSet; }
+    TGLClipSet * GetClipSet()  const { return fClipSet; }
+ 
+diff --git a/graf3d/gl/inc/TGLViewerBase.h b/graf3d/gl/inc/TGLViewerBase.h
+index 00077ac..9e5f015 100644
+--- a/graf3d/gl/inc/TGLViewerBase.h
++++ b/graf3d/gl/inc/TGLViewerBase.h
+@@ -136,7 +136,8 @@ public:
+    // Demangle overlay select buffer
+    Bool_t FindClosestOverlayRecord(TGLOvlSelectRecord& rec, Int_t& recIdx);
+ 
+-   TGLRnrCtx* GetRnrCtx() const { return fRnrCtx;}
++   TGLRnrCtx* GetRnrCtx() const { return  fRnrCtx; }
++   TGLRnrCtx& RnrCtx() const    { return *fRnrCtx; }
+ 
+    ClassDef(TGLViewerBase, 0); // GL Viewer base-class.
+ };
+diff --git a/graf3d/gl/src/TGLAxisPainter.cxx b/graf3d/gl/src/TGLAxisPainter.cxx
+index 683ce0e..3e5280b 100644
+--- a/graf3d/gl/src/TGLAxisPainter.cxx
++++ b/graf3d/gl/src/TGLAxisPainter.cxx
+@@ -245,10 +245,9 @@ void TGLAxisPainter::SetLabelFont(TGLRnrCtx &rnrCtx, const char* fontName, Int_t
+ 
+    fLabelPixelFontSize = TGLFontManager::GetFontSize(fontSize, 10, 128);
+    fLabel3DFontSize = size3d;
+-
+    if (fLabelFont.GetMode() == TGLFont::kUndef)
+    {
+-      rnrCtx.RegisterFont(fontSize, fontName, fFontMode, fLabelFont);
++      rnrCtx.RegisterFont(fLabelPixelFontSize, fontName, fFontMode, fLabelFont);
+    }
+    else if (fLabelFont.GetSize() != fontSize|| fLabelFont.GetFile() != fAttAxis->GetLabelFont() || fLabelFont.GetMode() != fFontMode )
+    {
+diff --git a/graf3d/gl/src/TGLBoxPainter.cxx b/graf3d/gl/src/TGLBoxPainter.cxx
+index bd0a8e6..189fe95 100644
+--- a/graf3d/gl/src/TGLBoxPainter.cxx
++++ b/graf3d/gl/src/TGLBoxPainter.cxx
+@@ -10,7 +10,7 @@
+ #include "TStyle.h"
+ #include "TH3.h"
+ 
+-#include "TGLOrthoCamera.h"
++#include "TGLPlotCamera.h"
+ #include "TGLBoxPainter.h"
+ #include "TGLIncludes.h"
+ 
+@@ -22,7 +22,7 @@
+ ClassImp(TGLBoxPainter)
+ 
+ //______________________________________________________________________________
+-TGLBoxPainter::TGLBoxPainter(TH1 *hist, TGLOrthoCamera *cam, TGLPlotCoordinates *coord, TGLPaintDevice *dev)
++TGLBoxPainter::TGLBoxPainter(TH1 *hist, TGLPlotCamera *cam, TGLPlotCoordinates *coord, TGLPaintDevice *dev)
+                   : TGLPlotPainter(hist, cam, coord, dev, kTRUE, kTRUE, kTRUE),
+                     fXOZSlice("XOZ", (TH3 *)hist, coord, &fBackBox, TGLTH3Slice::kXOZ),
+                     fYOZSlice("YOZ", (TH3 *)hist, coord, &fBackBox, TGLTH3Slice::kYOZ),
+diff --git a/graf3d/gl/src/TGLCameraOverlay.cxx b/graf3d/gl/src/TGLCameraOverlay.cxx
+index 35cb5bd..09844b6 100644
+--- a/graf3d/gl/src/TGLCameraOverlay.cxx
++++ b/graf3d/gl/src/TGLCameraOverlay.cxx
+@@ -48,12 +48,13 @@ TGLCameraOverlay::TGLCameraOverlay(Bool_t showOrtho, Bool_t showPersp) :
+ 
+    fAxis = new TAxis();
+    fAxis->SetNdivisions(710);
++   fAxis->SetLabelSize(0.018);
+    fAxis->SetLabelOffset(0.01);
+    fAxis->SetAxisColor(kGray+1);
+    fAxis->SetLabelColor(kGray+1);
+ 
+    fAxisPainter = new TGLAxisPainter();
+-   fAxisPainter->SetFontMode(TGLFont::kTexture);
++   fAxisPainter->SetFontMode(TGLFont::kBitmap);
+ }
+ 
+ //______________________________________________________________________________
+@@ -68,7 +69,7 @@ TGLCameraOverlay::~TGLCameraOverlay()
+ //______________________________________________________________________________
+ TAttAxis* TGLCameraOverlay::GetAttAxis()
+ {
+-   return (TAttAxis*) fAxis;
++   return dynamic_cast<TAttAxis*>(fAxis);
+ }
+ 
+ //______________________________________________________________________________
+@@ -148,34 +149,38 @@ void TGLCameraOverlay::RenderAxis(TGLRnrCtx& rnrCtx)
+    fAxisPainter->SetAttAxis(fAxis);
+    GLint   vp[4]; glGetIntegerv(GL_VIEWPORT, vp);
+    Float_t rl = 0.5 *((vp[2]-vp[0]) + (vp[3]-vp[1]));
+-   Float_t als = 0.025;
+-   Float_t sizeX = als*rl/(vp[2]-vp[0]);
+-   Float_t sizeY = als*rl/(vp[3]-vp[1]);
++   Int_t fsize = (Int_t)(fAxis->GetLabelSize()*rl);
+    Float_t tlY = 0.015*rl/(vp[2]-vp[0]);
+    Float_t tlX = 0.015*rl/(vp[3]-vp[1]);
+ 
+ 
++   TGLVector3 xdir = rnrCtx.RefCamera().GetCamBase().GetBaseVec(2); // left
++   TGLVector3 ydir = rnrCtx.RefCamera().GetCamBase().GetBaseVec(3); // up
++   xdir.Normalise();
++   ydir.Normalise();
++   Float_t tms = 0;
+    // horizontal X
+    //
+    {
+-      fAxis->SetLabelSize(sizeX);
++      fAxisPainter->SetLabelPixelFontSize(fsize);
+       fAxis->SetTickLength(tlX);
+-      fAxisPainter->RefDir().Set(1, 0, 0);
++      fAxisPainter->RefDir() = xdir;
+       Float_t axisXOff = (fFrustum[2] - fFrustum[0]) * (1 - fAxisExtend);
+       fAxis->SetLimits(fFrustum[0] + axisXOff, fFrustum[2] - axisXOff);
+       fAxis->SetRangeUser(fFrustum[0] + axisXOff, fFrustum[2] - axisXOff);
+-      // bottom
++      tms = fFrustum[3] - fFrustum[1];
++      fAxisPainter->RefTMOff(0) = ydir*tms;
+ 
++      // bottom
+       glPushMatrix();
+-      glTranslatef(0, fFrustum[1], 0);
++      glTranslated(ydir.X()*fFrustum[1], ydir.Y()*fFrustum[1], ydir.Z()*fFrustum[1]);
+       fAxisPainter->SetLabelAlign(TGLFont::kCenterDown);
+-      fAxisPainter->RefTMOff(0).Set(0, fFrustum[3] - fFrustum[1],  0);
+       fAxisPainter->PaintAxis(rnrCtx, fAxis);
+       glPopMatrix();
+ 
+       // top
+       glPushMatrix();
+-      glTranslatef(0, fFrustum[3], 0);
++      glTranslated(ydir.X()*fFrustum[3], ydir.Y()*fFrustum[3], ydir.Z()*fFrustum[3]);
+       fAxisPainter->SetLabelAlign(TGLFont::kCenterUp);
+       fAxisPainter->RefTMOff(0).Negate();
+       fAxisPainter->RnrLabels();
+@@ -186,22 +191,22 @@ void TGLCameraOverlay::RenderAxis(TGLRnrCtx& rnrCtx)
+    //
+    // vertical Y
+    {
+-      fAxis->SetLabelSize(sizeY);
+       fAxis->SetTickLength(tlY);
+-      fAxisPainter->RefDir().Set(0, 1, 0);
++      fAxisPainter->RefDir() = ydir;
+       Float_t axisYOff = (fFrustum[3] - fFrustum[1]) * (1 - fAxisExtend);
+       fAxis->SetLimits(fFrustum[1] + axisYOff, fFrustum[3] - axisYOff);
+-      // left
++      tms = fFrustum[2] - fFrustum[0];
++      fAxisPainter->RefTMOff(0) = xdir*tms;
+ 
++      // left
+       glPushMatrix();
+-      glTranslated(fFrustum[0], 0, 0);
+-      fAxisPainter->RefTMOff(0).Set(fFrustum[2] - fFrustum[0], 0, 0);
++      glTranslated(xdir.X()*fFrustum[0], xdir.Y()*fFrustum[0], xdir.Z()*fFrustum[0]);
+       fAxisPainter->SetLabelAlign(TGLFont::kLeft);
+       fAxisPainter->PaintAxis(rnrCtx, fAxis);
+       glPopMatrix();
+       // right
+       glPushMatrix();
+-      glTranslatef(fFrustum[2], 0, 0);
++      glTranslated(xdir.X()*fFrustum[2], xdir.Y()*fFrustum[2], xdir.Z()*fFrustum[2]);
+       fAxisPainter->SetLabelAlign(TGLFont::kRight);
+       fAxisPainter->RefTMOff(0).Negate();
+       fAxisPainter->RnrLabels();
+@@ -233,7 +238,14 @@ void TGLCameraOverlay::RenderBar(TGLRnrCtx&  rnrCtx)
+       red = TMath::Power(10, exp);
+    }
+ 
+-   TGLUtil::Color(kWhite);
++   TGLVector3 v;
++   TGLVector3 xdir = rnrCtx.RefCamera().GetCamBase().GetBaseVec(2); // left
++   TGLVector3 ydir = rnrCtx.RefCamera().GetCamBase().GetBaseVec(3); // up
++   xdir.Normalise();
++   ydir.Normalise();
++
++   TGLUtil::Color(rnrCtx.ColorSet().Foreground());
++
+    const char* txt = Form("%.*f", (exp < 0) ? -exp : 0, red);
+    Float_t bb[6];
+    TGLFont font;
+@@ -242,7 +254,8 @@ void TGLCameraOverlay::RenderBar(TGLRnrCtx&  rnrCtx)
+    TGLRect &vp = rnrCtx.GetCamera()->RefViewport();
+    Double_t mH = (fFrustum[3]-fFrustum[1])*bb[4]/vp.Height();
+    glPushMatrix();
+-   glTranslatef(fFrustum[2] -barsize, fFrustum[3] - (mH*1.5), 0);
++   v = xdir*(fFrustum[2]-barsize) + ydir*(fFrustum[3] - mH*1.5);
++   glTranslated(v.X(), v.Y(), v.Z());
+    glRasterPos2i(0,0);
+    TGLUtil::Color(kGray);
+    font.Render(txt);
+@@ -251,24 +264,37 @@ void TGLCameraOverlay::RenderBar(TGLRnrCtx&  rnrCtx)
+    glPushAttrib(GL_ENABLE_BIT | GL_LINE_BIT);
+    glLineWidth(2.);
+    glPushMatrix();
+-   glTranslatef (fFrustum[2] - 1.1*barsize,  fFrustum[3] - 2.1*mH, 0);
++   Float_t xt = fFrustum[2] - 1.1*barsize;
++   Float_t yt = fFrustum[3] - 2.1*mH;
++   v = xdir*xt + ydir*yt;
++   glTranslated(v.X(), v.Y(), v.Z());
++
+    glBegin(GL_LINES);
+    // horizontal static
+-   glVertex3d(red, 0.,0.);
+-   glVertex3d(barsize, 0., 0.);
+-   // corner bars
+-   glVertex3d(barsize,  mH, 0.);
+-   glVertex3d(barsize, -mH, 0.);
+-   // marker cormer bar
++   v = red*xdir;
++   glVertex3dv(v.Arr());
++   v = barsize*xdir;
++   glVertex3dv(v.Arr());
++   // corner bars end
++   v = xdir*barsize + ydir*mH;
++   glVertex3dv(v.Arr());
++   v = xdir*barsize - ydir*mH;
++   glVertex3dv(v.Arr());
++   // corner bar start
+    TGLUtil::Color(kRed);
+-   glVertex3d(0.,  mH, 0.);
+-   glVertex3d(0., -mH, 0.);
++   v = ydir*mH;
++   glVertex3dv(v.Arr());
++   v.Negate();
++   glVertex3dv(v.Arr());
+    // marker pointer
+-   glVertex3d(red, 0., 0.);
+-   glVertex3d(red, mH, 0.);
++   v = red*ydir;
++   glVertex3dv(v.Arr());
++   v += ydir*mH;
++   glVertex3dv(v.Arr());
+    //marker line
+-   glVertex3d(0, 0.,0.);
+-   glVertex3d(red, 0., 0.);
++   glVertex3d(0, 0., 0.);
++   v = red*xdir;
++   glVertex3dv(v.Arr());
+    glEnd();
+    glPopAttrib();
+    glPopMatrix();
+@@ -286,14 +312,13 @@ void TGLCameraOverlay::Render(TGLRnrCtx& rnrCtx)
+ 
+    TGLCapabilitySwitch lights_off(GL_LIGHTING, kFALSE);
+ 
+-   const GLdouble *pm = rnrCtx.RefCamera().RefLastNoPickProjM().CArr();
+-   GLdouble mm[16];
+-   GLint    vp[4];
+-   glGetDoublev(GL_MODELVIEW_MATRIX,  mm);
+-   glGetIntegerv(GL_VIEWPORT, vp);
+-   GLdouble l, r, t, b, z;
+-   gluUnProject(vp[0]+0.5, vp[1]+0.5, 0,  mm, pm, vp, &l, &b, &z);
+-   gluUnProject(vp[0]+vp[2]-0.5, vp[1]+vp[3]-0.5, 0,  mm, pm, vp, &r, &t, &z);
++   // Frustum size.
++   TGLCamera &camera = rnrCtx.RefCamera();
++   Float_t l = -camera.FrustumPlane(TGLCamera::kLeft).D();
++   Float_t r =  camera.FrustumPlane(TGLCamera::kRight).D();
++   Float_t t =  camera.FrustumPlane(TGLCamera::kTop).D();
++   Float_t b = -camera.FrustumPlane(TGLCamera::kBottom).D();
++
+    fFrustum[0]=l;
+    fFrustum[1]=b;
+    fFrustum[2]=r;
+diff --git a/graf3d/gl/src/TGLEventHandler.cxx b/graf3d/gl/src/TGLEventHandler.cxx
+index e0dfbfb..916be7d 100644
+--- a/graf3d/gl/src/TGLEventHandler.cxx
++++ b/graf3d/gl/src/TGLEventHandler.cxx
+@@ -269,6 +269,11 @@ Bool_t TGLEventHandler::HandleCrossing(Event_t *event)
+    // Handle generic Event_t type 'event' - provided to catch focus changes
+    // and terminate any interaction in viewer.
+ 
++   // Ignore grab and ungrab events.
++   if (event->fCode != 0) {
++      return kTRUE;
++   }
++
+    fGLViewer->MouseIdle(0, 0, 0);
+    if (event->fType == kEnterNotify) {
+       if (fGLViewer->fDragAction != TGLViewer::kDragNone) {
+@@ -624,28 +629,21 @@ Bool_t TGLEventHandler::HandleKey(Event_t *event)
+          case kKey_R:
+          case kKey_r:
+             fGLViewer->SetStyle(TGLRnrCtx::kFill);
+-            if (fGLViewer->fClearColor == 0) {
+-               fGLViewer->fClearColor = 1; // Black
+-               fGLViewer->RefreshPadEditor(this);
+-            }
++            redraw = kTRUE;
++            break;
++         case kKey_E:
++         case kKey_e:
++            fGLViewer->SwitchColorSet();
+             redraw = kTRUE;
+             break;
+          case kKey_W:
+          case kKey_w:
+             fGLViewer->SetStyle(TGLRnrCtx::kWireFrame);
+-            if (fGLViewer->fClearColor == 0) {
+-               fGLViewer->fClearColor = 1; // Black
+-               fGLViewer->RefreshPadEditor(this);
+-            }
+             redraw = kTRUE;
+             break;
+          case kKey_T:
+          case kKey_t:
+             fGLViewer->SetStyle(TGLRnrCtx::kOutline);
+-            if (fGLViewer->fClearColor == 1) {
+-               fGLViewer->fClearColor = 0; // White
+-               fGLViewer->RefreshPadEditor(this);
+-            }
+             redraw = kTRUE;
+             break;
+ 
+diff --git a/graf3d/gl/src/TGLLegoPainter.cxx b/graf3d/gl/src/TGLLegoPainter.cxx
+index f9a6c67..7ebfb64 100644
+--- a/graf3d/gl/src/TGLLegoPainter.cxx
++++ b/graf3d/gl/src/TGLLegoPainter.cxx
+@@ -24,7 +24,7 @@
+ #include "TH1.h"
+ 
+ #include "TGLLegoPainter.h"
+-#include "TGLOrthoCamera.h"
++#include "TGLPlotCamera.h"
+ #include "TGLIncludes.h"
+ 
+ //______________________________________________________________________________
+@@ -35,7 +35,7 @@
+ ClassImp(TGLLegoPainter)
+ 
+ //______________________________________________________________________________
+-TGLLegoPainter::TGLLegoPainter(TH1 *hist, TGLOrthoCamera *cam, TGLPlotCoordinates *coord, TGLPaintDevice *dev)
++TGLLegoPainter::TGLLegoPainter(TH1 *hist, TGLPlotCamera *cam, TGLPlotCoordinates *coord, TGLPaintDevice *dev)
+                   : TGLPlotPainter(hist, cam, coord, dev, kFALSE, kTRUE, kTRUE),
+                     fLegoType(kColorSimple),
+                     fMinZ(0.),
+diff --git a/graf3d/gl/src/TGLLightSet.cxx b/graf3d/gl/src/TGLLightSet.cxx
+index 7bc4c3d..d63ab9a 100644
+--- a/graf3d/gl/src/TGLLightSet.cxx
++++ b/graf3d/gl/src/TGLLightSet.cxx
+@@ -28,7 +28,9 @@ TGLLightSet::TGLLightSet() :
+    TObject(),
+ 
+    fLightState(kLightMask), // All on
+-   fUseSpecular(kTRUE)
++   fUseSpecular(kTRUE),
++
++   fFrontPower(0.4), fSidePower(0.7), fSpecularPower(0.8)
+ {
+    // Constructor.
+ }
+@@ -114,14 +116,14 @@ void TGLLightSet::StdSetupLights(const TGLBoundingBox& bbox,
+       Float_t pos3[] = { center.X() - lightRadius, center.Y(), sideLightsZ, 1.0 };
+       Float_t pos4[] = { center.X() + lightRadius, center.Y(), sideLightsZ, 1.0 };
+ 
+-      const Float_t frontLightColor[] = { 0.4, 0.4, 0.4, 1.0 };
+-      const Float_t sideLightColor[]  = { 0.7, 0.7, 0.7, 1.0 };
+-      const Float_t whiteSpec[]       = { 0.8, 0.8, 0.8, 1.0 };
+-      const Float_t nullSpec[]        = { 0.0, 0.0, 0.0, 1.0 };
++      Float_t specular = fUseSpecular ? fSpecularPower : 0.0f;
++      const Float_t frontLightColor[] = { fFrontPower, fFrontPower, fFrontPower, 1.0f };
++      const Float_t sideLightColor[]  = { fSidePower,  fSidePower,  fSidePower,  1.0f };
++      const Float_t specLightColor[]  = { specular,    specular,    specular,    1.0f };
+ 
+       glLightfv(GL_LIGHT0, GL_POSITION, pos0);
+-      glLightfv(GL_LIGHT0, GL_DIFFUSE, frontLightColor);
+-      glLightfv(GL_LIGHT0, GL_SPECULAR, fUseSpecular ? whiteSpec : nullSpec);
++      glLightfv(GL_LIGHT0, GL_DIFFUSE,  frontLightColor);
++      glLightfv(GL_LIGHT0, GL_SPECULAR, specLightColor);
+ 
+       glLightfv(GL_LIGHT1, GL_POSITION, pos1);
+       glLightfv(GL_LIGHT1, GL_DIFFUSE,  sideLightColor);
+diff --git a/graf3d/gl/src/TGLManipSet.cxx b/graf3d/gl/src/TGLManipSet.cxx
+index 96fc554..2a3be4a 100644
+--- a/graf3d/gl/src/TGLManipSet.cxx
++++ b/graf3d/gl/src/TGLManipSet.cxx
+@@ -168,15 +168,7 @@ void TGLManipSet::Render(TGLRnrCtx& rnrCtx)
+       // TODO: This must be replaced by some color in rnrCtx,
+       // like def-overlay-color, background-color, foreground-color
+       // Or at least bkgcol ... i can then find high contrast.
+-      if (rnrCtx.SceneStyle() == TGLRnrCtx::kFill       ||
+-          rnrCtx.SceneStyle() == TGLRnrCtx::kWireFrame)
+-      {
+-         // White for wireframe and fill style,
+-         glColor3d(1.0, 1.0, 1.0);
+-      } else {
+-         // Red for outlines
+-         glColor3d(1.0, 0.0, 0.0);
+-      }
++      TGLUtil::Color(rnrCtx.ColorSet().Markup());
+       glDisable(GL_LIGHTING);
+       fPShape->BoundingBox().Draw();
+       glEnable(GL_LIGHTING);
+diff --git a/graf3d/gl/src/TGLOrthoCamera.cxx b/graf3d/gl/src/TGLOrthoCamera.cxx
+index 898b995..1a1e514 100644
+--- a/graf3d/gl/src/TGLOrthoCamera.cxx
++++ b/graf3d/gl/src/TGLOrthoCamera.cxx
+@@ -9,7 +9,6 @@
+  * For the list of contributors see $ROOTSYS/README/CREDITS.             *
+  *************************************************************************/
+ 
+-#include "TVirtualGL.h"
+ #include "TMath.h"
+ 
+ #include "TGLOrthoCamera.h"
+@@ -280,7 +279,6 @@ void TGLOrthoCamera::Apply(const TGLBoundingBox & /*box*/,
+    if (fCacheDirty) UpdateCache();
+ }
+ 
+-
+ //______________________________________________________________________________
+ void TGLOrthoCamera::Configure(Double_t zoom, Double_t dolly, Double_t center[3],
+                                      Double_t hRotate, Double_t vRotate)
+@@ -294,175 +292,3 @@ void TGLOrthoCamera::Configure(Double_t zoom, Double_t dolly, Double_t center[3]
+ 
+    IncTimeStamp();
+ }
+-
+-//////////////////////////////////////////////////////////////////////////////
+-//
+-//   TGLPlotPainter
+-//
+-/////////////////////////////////////////////////////////////////////////////
+-
+-//______________________________________________________________________________
+-TGLOrthoCamera::TGLOrthoCamera() :
+-   fZoomMin(0.01), fZoomDefault(0.78), fZoomMax(1000.0),
+-   fVolume(TGLVertex3(-100.0, -100.0, -100.0), TGLVertex3(100.0, 100.0, 100.0)),
+-   fZoom(1.0), fShift(0.), fCenter(),
+-   fVpChanged(kFALSE)
+-{
+-   // Construct orthographic camera.
+-   fOrthoBox[0] = 1.;
+-   fOrthoBox[1] = 1.;
+-   fOrthoBox[2] = -1.;
+-   fOrthoBox[3] = 1.;
+-}
+-
+-//______________________________________________________________________________
+-void TGLOrthoCamera::SetViewport(TGLPaintDevice *dev)
+-//void TGLOrthoCamera::SetViewport(Int_t context)
+-{
+-   //Setup viewport, if it was changed, plus reset arcball.
+-   Int_t vp[4] = {0};
+-//   gGLManager->ExtractViewport(context, vp);
+-   dev->ExtractViewport(vp);
+-   if (vp[2] != Int_t(fViewport.Width()) || vp[3] != Int_t(fViewport.Height()) ||
+-       vp[0] != fViewport.X() || vp[1] != fViewport.Y())
+-   {
+-      fVpChanged = kTRUE;
+-      fArcBall.SetBounds(vp[2], vp[3]);
+-      fViewport.Set(vp[0], vp[1], vp[2], vp[3]);
+-   } else
+-      fVpChanged = kFALSE;
+-}
+-
+-//______________________________________________________________________________
+-void TGLOrthoCamera::SetViewVolume(const TGLVertex3 *box)
+-{
+-   //'box' is the TGLPlotPainter's back box's coordinates.
+-   fCenter[0] = (box[0].X() + box[1].X()) / 2;
+-   fCenter[1] = (box[0].Y() + box[2].Y()) / 2;
+-   fCenter[2] = (box[0].Z() + box[4].Z()) / 2;
+-   const Double_t maxDim = box[1].X() - box[0].X();
+-   fOrthoBox[0] = maxDim;
+-   fOrthoBox[1] = maxDim;
+-   fOrthoBox[2] = -100 * maxDim;//100?
+-   fOrthoBox[3] = 100 * maxDim;
+-   fShift = maxDim * 1.5;
+-}
+-
+-//______________________________________________________________________________
+-void TGLOrthoCamera::StartRotation(Int_t px, Int_t py)
+-{
+-   //User clicks somewhere (px, py).
+-   fArcBall.Click(TPoint(px, py));
+-}
+-
+-//______________________________________________________________________________
+-void TGLOrthoCamera::RotateCamera(Int_t px, Int_t py)
+-{
+-   //Mouse movement.
+-   fArcBall.Drag(TPoint(px, py));
+-}
+-
+-//______________________________________________________________________________
+-void TGLOrthoCamera::StartPan(Int_t px, Int_t py)
+-{
+-   //User clicks somewhere (px, py).
+-   fMousePos.fX = px;
+-   fMousePos.fY = fViewport.Height() - py;
+-}
+-
+-//______________________________________________________________________________
+-void TGLOrthoCamera::Pan(Int_t px, Int_t py)
+-{
+-   //Pan camera.
+-   py = fViewport.Height() - py;
+-   //Extract gl matrices.
+-   Double_t mv[16] = {0.};
+-   glGetDoublev(GL_MODELVIEW_MATRIX, mv);
+-   Double_t pr[16] = {0.};
+-   glGetDoublev(GL_PROJECTION_MATRIX, pr);
+-   Int_t vp[] = {0, 0, fViewport.Width(), fViewport.Height()};
+-   //Adjust pan vector.
+-   TGLVertex3 start, end;
+-   gluUnProject(fMousePos.fX, fMousePos.fY, 1., mv, pr, vp, &start.X(), &start.Y(), &start.Z());
+-   gluUnProject(px, py, 1., mv, pr, vp, &end.X(), &end.Y(), &end.Z());
+-   fTruck += (start - end) /= 2.;
+-   fMousePos.fX = px;
+-   fMousePos.fY = py;
+-}
+-
+-//______________________________________________________________________________
+-void TGLOrthoCamera::SetCamera()const
+-{
+-   //Viewport and projection.
+-   glViewport(0, 0, fViewport.Width(), fViewport.Height());
+-
+-   glMatrixMode(GL_PROJECTION);
+-   glLoadIdentity();
+-   glOrtho(
+-           -fOrthoBox[0] * fZoom,
+-            fOrthoBox[0] * fZoom,
+-           -fOrthoBox[1] * fZoom,
+-            fOrthoBox[1] * fZoom,
+-            fOrthoBox[2],
+-            fOrthoBox[3]
+-          );
+-
+-   glMatrixMode(GL_MODELVIEW);
+-   glLoadIdentity();
+-}
+-
+-//______________________________________________________________________________
+-void TGLOrthoCamera::Apply(Double_t phi, Double_t theta)const
+-{
+-   //Applies rotations and translations before drawing
+-   glTranslated(0., 0., -fShift);
+-   glMultMatrixd(fArcBall.GetRotMatrix());
+-   glRotated(theta - 90., 1., 0., 0.);
+-   glRotated(phi, 0., 0., 1.);
+-   glTranslated(-fTruck[0], -fTruck[1], -fTruck[2]);
+-   glTranslated(-fCenter[0], -fCenter[1], -fCenter[2]);
+-}
+-
+-//______________________________________________________________________________
+-Int_t TGLOrthoCamera::GetX()const
+-{
+-   //viewport[0]
+-   return fViewport.X();
+-}
+-
+-//______________________________________________________________________________
+-Int_t TGLOrthoCamera::GetY()const
+-{
+-   //viewport[1]
+-   return fViewport.Y();
+-}
+-
+-
+-//______________________________________________________________________________
+-Int_t TGLOrthoCamera::GetWidth()const
+-{
+-   //viewport[2]
+-   return Int_t(fViewport.Width());
+-}
+-
+-//______________________________________________________________________________
+-Int_t TGLOrthoCamera::GetHeight()const
+-{
+-   //viewport[3]
+-   return Int_t(fViewport.Height());
+-}
+-
+-//______________________________________________________________________________
+-void TGLOrthoCamera::ZoomIn()
+-{
+-   //Zoom in.
+-   fZoom /= 1.2;
+-}
+-
+-//______________________________________________________________________________
+-void TGLOrthoCamera::ZoomOut()
+-{
+-   //Zoom out.
+-   fZoom *= 1.2;
+-}
+-
+diff --git a/graf3d/gl/src/TGLPShapeObjEditor.cxx b/graf3d/gl/src/TGLPShapeObjEditor.cxx
+index 758f240..f8e3c8a 100644
+--- a/graf3d/gl/src/TGLPShapeObjEditor.cxx
++++ b/graf3d/gl/src/TGLPShapeObjEditor.cxx
+@@ -34,7 +34,7 @@
+ //
+ // GUI editor for TGLPShapeObj.
+ 
+-ClassImp(TGLPShapeObjEditor)
++ClassImp(TGLPShapeObjEditor);
+ 
+ enum EGeometry {
+       kCenterX,
+@@ -52,11 +52,6 @@ enum EApplyButtonIds {
+       kTBda,
+       kTBa,
+       kTBaf,
+-      kTBTop,
+-      kTBRight,
+-      kTBBottom,
+-      kTBLeft,
+-      kTBFront,
+       kTBEndOfList
+ };
+ 
+@@ -82,13 +77,14 @@ TGLPShapeObjEditor::TGLPShapeObjEditor(const TGWindow *p,  Int_t width, Int_t he
+      fColorFrame(0),
+      fRedSlider(0), fGreenSlider(0), fBlueSlider(0), fAlphaSlider(0), fShineSlider(0),
+      fColorApplyButton(0), fColorApplyFamily(0),
+-     fIsLight(kFALSE), fRGBA(),
++     fRGBA(),
+      fPShapeObj(0)
+ {
+    // Constructor of TGLPhysicalShape editor GUI.
+ 
+-   fRGBA[12] = 0.f, fRGBA[13] = 0.f, fRGBA[14] = 0.f;
+-   fRGBA[15] = 1.f, fRGBA[16] = 60.f;
++   fRGBA[12] = fRGBA[13] = fRGBA[14] = 0.0f;
++   fRGBA[15] = 1.0f;
++   fRGBA[16] = 60.0f;
+ 
+    CreateColorControls();
+    CreateGeoControls();
+@@ -294,24 +290,10 @@ void TGLPShapeObjEditor::SetRGBA(const Float_t *rgba)
+ 
+    for (Int_t i = 0; i < 17; ++i) fRGBA[i] = rgba[i];
+ 
+-   if (rgba[16] < 0.f) {//this conditional part is obsolete now, we cannot edit ligts more
+-      if (fLMode == kEmission) {
+-         fLMode = kDiffuse;
+-         fLightTypes[kDiffuse]->SetState(kButtonDown);
+-         fLightTypes[kEmission]->SetState(kButtonUp);
+-      }
+-      fLightTypes[kEmission]->SetState(kButtonDisabled);
+-      fIsLight = kTRUE;
+-   } else {
+-      fIsLight = kFALSE;
+-      fLightTypes[kEmission]->SetState(kButtonUp);
+-      //fAlphaSlider->SetPosition(Int_t(fRGBA[3] * 100));
+-      fShineSlider->SetPosition(Int_t(fRGBA[16]));
+-   }
+-
+    fRedSlider->SetPosition(Int_t(fRGBA[fLMode * 4] * 100));
+    fGreenSlider->SetPosition(Int_t(fRGBA[fLMode * 4 + 1] * 100));
+    fBlueSlider->SetPosition(Int_t(fRGBA[fLMode * 4 + 2] * 100));
++   fShineSlider->SetPosition(Int_t(fRGBA[16]));
+ 
+    DrawSphere();
+ }
+@@ -337,18 +319,16 @@ void TGLPShapeObjEditor::DoColorSlider(Int_t val)
+          fRGBA[fLMode * 4 + 2] = val / 100.f;
+          break;
+       case kHSa:
+-         if (!fIsLight) fRGBA[fLMode * 4 + 3] = val / 100.f;
++         fRGBA[fLMode * 4 + 3] = val / 100.f;
+          break;
+       case kHSs:
+-         if (!fIsLight) fRGBA[16] = val;
++         fRGBA[16] = val;
+          break;
+       }
+ 
+-      if (!fIsLight || (wid != kHSa && wid != kHSs)) {
+-         fColorApplyButton->SetState(kButtonUp);
+-         if (!fIsLight) fColorApplyFamily->SetState(kButtonUp);
+-         DrawSphere();
+-      }
++      fColorApplyButton->SetState(kButtonUp);
++      fColorApplyFamily->SetState(kButtonUp);
++      DrawSphere();
+    }
+ }
+ 
+diff --git a/graf3d/gl/src/TGLParametric.cxx b/graf3d/gl/src/TGLParametric.cxx
+index faebd51..10501ec 100644
+--- a/graf3d/gl/src/TGLParametric.cxx
++++ b/graf3d/gl/src/TGLParametric.cxx
+@@ -20,7 +20,7 @@
+ #include "TString.h"
+ #include "TROOT.h"
+ 
+-#include "TGLOrthoCamera.h"
++#include "TGLPlotCamera.h"
+ #include "TGLParametric.h"
+ #include "TGLIncludes.h"
+ #include "TVirtualPad.h"
+@@ -268,7 +268,7 @@ ClassImp(TGLParametricPlot)
+ 
+ //______________________________________________________________________________
+ TGLParametricPlot::TGLParametricPlot(TGLParametricEquation *eq,
+-                                     TGLOrthoCamera *camera, TGLPaintDevice *dev)
++                                     TGLPlotCamera *camera, TGLPaintDevice *dev)
+                       : TGLPlotPainter(camera, dev),
+                         fMeshSize(90),
+                         fShowMesh(kFALSE),
+diff --git a/graf3d/gl/src/TGLPhysicalShape.cxx b/graf3d/gl/src/TGLPhysicalShape.cxx
+index 6631409..6149835 100644
+--- a/graf3d/gl/src/TGLPhysicalShape.cxx
++++ b/graf3d/gl/src/TGLPhysicalShape.cxx
+@@ -320,7 +320,7 @@ void TGLPhysicalShape::SetupGLColors(TGLRnrCtx & rnrCtx, const Float_t* color) c
+       {
+          // Outline also needs grey wireframe but respecting
+          // transparency of main diffuse color.
+-         glColor4f(0.1, 0.1, 0.1, color[3]/2.0);
++         TGLUtil::Color(rnrCtx.ColorSet().Outline(), 0.5f*color[3]);
+          break;
+       }
+       default:
+@@ -388,7 +388,7 @@ void TGLPhysicalShape::Draw(TGLRnrCtx & rnrCtx) const
+       for (int i = first_outer; i < 8; ++i)
+       {
+          glViewport(vp.X() + outer[i][0], vp.Y() + outer[i][1], vp.Width(), vp.Height());
+-         glColor4ubv(rnrCtx.GetSSLColor(fSelected));
++         glColor4ubv(rnrCtx.ColorSet().Selection(fSelected).CArr());
+          fLogicalShape->Draw(rnrCtx);
+       }
+       TGLUtil::UnlockColor();
+diff --git a/graf3d/gl/src/TGLPlotCamera.cxx b/graf3d/gl/src/TGLPlotCamera.cxx
+new file mode 100644
+index 0000000..56614a2
+--- /dev/null
++++ b/graf3d/gl/src/TGLPlotCamera.cxx
+@@ -0,0 +1,181 @@
++// Author: Timur Pocheptsov
++
++
++/*************************************************************************
++ * Copyright (C) 1995-2007, Rene Brun and Fons Rademakers.               *
++ * All rights reserved.                                                  *
++ *                                                                       *
++ * For the licensing terms see $ROOTSYS/LICENSE.                         *
++ * For the list of contributors see $ROOTSYS/README/CREDITS.             *
++ *************************************************************************/
++
++#include "TGLPlotCamera.h"
++#include "TGLIncludes.h"
++#include "TVirtualGL.h"
++
++//______________________________________________________________________________
++//
++// Camera for TGLPlotPainter and sub-classes.
++
++ClassImp(TGLPlotCamera);
++
++//______________________________________________________________________________
++TGLPlotCamera::TGLPlotCamera() :
++   fZoom(1.), fShift(0.), fCenter(),
++   fVpChanged(kFALSE)
++{
++   //Construct camera for plot painters.
++   fOrthoBox[0] = 1.;
++   fOrthoBox[1] = 1.;
++   fOrthoBox[2] = -1.;
++   fOrthoBox[3] = 1.;
++}
++
++//______________________________________________________________________________
++void TGLPlotCamera::SetViewport(TGLPaintDevice *dev)
++{
++   //Setup viewport, if it was changed, plus reset arcball.
++   Int_t vp[4] = {0};
++   // gGLManager->ExtractViewport(context, vp);
++   dev->ExtractViewport(vp);
++   if (vp[2] != Int_t(fViewport.Width()) || vp[3] != Int_t(fViewport.Height()) ||
++       vp[0] != fViewport.X() || vp[1] != fViewport.Y())
++   {
++      fVpChanged = kTRUE;
++      fArcBall.SetBounds(vp[2], vp[3]);
++      fViewport.Set(vp[0], vp[1], vp[2], vp[3]);
++   } else
++      fVpChanged = kFALSE;
++}
++
++//______________________________________________________________________________
++void TGLPlotCamera::SetViewVolume(const TGLVertex3 *box)
++{
++   //'box' is the TGLPlotPainter's back box's coordinates.
++   fCenter[0] = (box[0].X() + box[1].X()) / 2;
++   fCenter[1] = (box[0].Y() + box[2].Y()) / 2;
++   fCenter[2] = (box[0].Z() + box[4].Z()) / 2;
++   const Double_t maxDim = box[1].X() - box[0].X();
++   fOrthoBox[0] = maxDim;
++   fOrthoBox[1] = maxDim;
++   fOrthoBox[2] = -100 * maxDim;//100?
++   fOrthoBox[3] = 100 * maxDim;
++   fShift = maxDim * 1.5;
++}
++
++//______________________________________________________________________________
++void TGLPlotCamera::StartRotation(Int_t px, Int_t py)
++{
++   //User clicks somewhere (px, py).
++   fArcBall.Click(TPoint(px, py));
++}
++
++//______________________________________________________________________________
++void TGLPlotCamera::RotateCamera(Int_t px, Int_t py)
++{
++   //Mouse movement.
++   fArcBall.Drag(TPoint(px, py));
++}
++
++//______________________________________________________________________________
++void TGLPlotCamera::StartPan(Int_t px, Int_t py)
++{
++   //User clicks somewhere (px, py).
++   fMousePos.fX = px;
++   fMousePos.fY = fViewport.Height() - py;
++}
++
++//______________________________________________________________________________
++void TGLPlotCamera::Pan(Int_t px, Int_t py)
++{
++   //Pan camera.
++   py = fViewport.Height() - py;
++   //Extract gl matrices.
++   Double_t mv[16] = {0.};
++   glGetDoublev(GL_MODELVIEW_MATRIX, mv);
++   Double_t pr[16] = {0.};
++   glGetDoublev(GL_PROJECTION_MATRIX, pr);
++   Int_t vp[] = {0, 0, fViewport.Width(), fViewport.Height()};
++   //Adjust pan vector.
++   TGLVertex3 start, end;
++   gluUnProject(fMousePos.fX, fMousePos.fY, 1., mv, pr, vp, &start.X(), &start.Y(), &start.Z());
++   gluUnProject(px, py, 1., mv, pr, vp, &end.X(), &end.Y(), &end.Z());
++   fTruck += (start - end) /= 2.;
++   fMousePos.fX = px;
++   fMousePos.fY = py;
++}
++
++//______________________________________________________________________________
++void TGLPlotCamera::SetCamera()const
++{
++   //Viewport and projection.
++   glViewport(0, 0, fViewport.Width(), fViewport.Height());
++
++   glMatrixMode(GL_PROJECTION);
++   glLoadIdentity();
++   glOrtho(
++           -fOrthoBox[0] * fZoom,
++            fOrthoBox[0] * fZoom,
++           -fOrthoBox[1] * fZoom,
++            fOrthoBox[1] * fZoom,
++            fOrthoBox[2],
++            fOrthoBox[3]
++          );
++
++   glMatrixMode(GL_MODELVIEW);
++   glLoadIdentity();
++}
++
++//______________________________________________________________________________
++void TGLPlotCamera::Apply(Double_t phi, Double_t theta)const
++{
++   //Applies rotations and translations before drawing
++   glTranslated(0., 0., -fShift);
++   glMultMatrixd(fArcBall.GetRotMatrix());
++   glRotated(theta - 90., 1., 0., 0.);
++   glRotated(phi, 0., 0., 1.);
++   glTranslated(-fTruck[0], -fTruck[1], -fTruck[2]);
++   glTranslated(-fCenter[0], -fCenter[1], -fCenter[2]);
++}
++
++//______________________________________________________________________________
++Int_t TGLPlotCamera::GetX()const
++{
++   //viewport[0]
++   return fViewport.X();
++}
++
++//______________________________________________________________________________
++Int_t TGLPlotCamera::GetY()const
++{
++   //viewport[1]
++   return fViewport.Y();
++}
++
++//______________________________________________________________________________
++Int_t TGLPlotCamera::GetWidth()const
++{
++   //viewport[2]
++   return Int_t(fViewport.Width());
++}
++
++//______________________________________________________________________________
++Int_t TGLPlotCamera::GetHeight()const
++{
++   //viewport[3]
++   return Int_t(fViewport.Height());
++}
++
++//______________________________________________________________________________
++void TGLPlotCamera::ZoomIn()
++{
++   //Zoom in.
++   fZoom /= 1.2;
++}
++
++//______________________________________________________________________________
++void TGLPlotCamera::ZoomOut()
++{
++   //Zoom out.
++   fZoom *= 1.2;
++}
+diff --git a/graf3d/gl/src/TGLPlotPainter.cxx b/graf3d/gl/src/TGLPlotPainter.cxx
+index 67631ea..28fd73c 100644
+--- a/graf3d/gl/src/TGLPlotPainter.cxx
++++ b/graf3d/gl/src/TGLPlotPainter.cxx
+@@ -24,7 +24,7 @@
+ #include "TF3.h"
+ 
+ #include "TGLPlotPainter.h"
+-#include "TGLOrthoCamera.h"
++#include "TGLPlotCamera.h"
+ #include "TGLIncludes.h"
+ #include "TGLAdapter.h"
+ #include "TGLOutput.h"
+@@ -38,7 +38,7 @@
+ ClassImp(TGLPlotPainter)
+ 
+ //______________________________________________________________________________
+-TGLPlotPainter::TGLPlotPainter(TH1 *hist, TGLOrthoCamera *camera, TGLPlotCoordinates *coord,
++TGLPlotPainter::TGLPlotPainter(TH1 *hist, TGLPlotCamera *camera, TGLPlotCoordinates *coord,
+                                TGLPaintDevice *dev, Bool_t xoy, Bool_t xoz, Bool_t yoz)
+                   : //fGLContext(context),
+                     fGLDevice(dev),
+@@ -73,7 +73,7 @@ TGLPlotPainter::TGLPlotPainter(TH1 *hist, TGLOrthoCamera *camera, TGLPlotCoordin
+ }
+ 
+ //______________________________________________________________________________
+-TGLPlotPainter::TGLPlotPainter(TGLOrthoCamera *camera, TGLPaintDevice *dev)
++TGLPlotPainter::TGLPlotPainter(TGLPlotCamera *camera, TGLPaintDevice *dev)
+                   : //fGLContext(context),
+                     fGLDevice(dev),
+                     fPadColor(0),
+@@ -1748,7 +1748,7 @@ namespace Rgl {
+    }
+ 
+    //______________________________________________________________________________
+-   void DrawPalette(const TGLOrthoCamera * camera, const TGLLevelPalette & palette)
++   void DrawPalette(const TGLPlotCamera * camera, const TGLLevelPalette & palette)
+    {
+       //Draw. Palette.
+       const TGLDisableGuard light(GL_LIGHTING);
+@@ -1795,7 +1795,7 @@ namespace Rgl {
+ 
+    }
+ 
+-   void DrawPaletteAxis(const TGLOrthoCamera * camera, const Range_t & minMax, Bool_t logZ)
++   void DrawPaletteAxis(const TGLPlotCamera * camera, const Range_t & minMax, Bool_t logZ)
+    {
+       const Double_t x = gPad->AbsPixeltoX(Int_t(gPad->GetXlowNDC() * gPad->GetWw() + rr * camera->GetWidth()));
+       const Double_t yMin = gPad->AbsPixeltoY(Int_t(camera->GetHeight() - camera->GetHeight() * 0.1
+diff --git a/graf3d/gl/src/TGLRnrCtx.cxx b/graf3d/gl/src/TGLRnrCtx.cxx
+index 95efccf..1a9557a 100644
+--- a/graf3d/gl/src/TGLRnrCtx.cxx
++++ b/graf3d/gl/src/TGLRnrCtx.cxx
+@@ -21,14 +21,18 @@
+ #include "TGLFontManager.h"
+ #include "TGLContext.h"
+ 
+-#include <TError.h>
+-#include <TMathBase.h>
++#include "TError.h"
++#include "TMathBase.h"
+ 
++#include <list>
+ #include <algorithm>
+-#include <assert.h>
++#include <cassert>
++
++typedef std::list<TGLColorSet*>           lpTGLColorSet_t;
++typedef std::list<TGLColorSet*>::iterator lpTGLColorSet_i;
++
+ 
+ //______________________________________________________________________
+-// TGLRnrCtx
+ //
+ // The TGLRnrCtx class aggregates data for a given redering context as
+ // needed by various parts of the ROOT's OpenGL infractructure. It
+@@ -48,7 +52,7 @@
+ // scenes can assume they're ok.
+ 
+ 
+-ClassImp(TGLRnrCtx)
++ClassImp(TGLRnrCtx);
+ 
+ //______________________________________________________________________
+ TGLRnrCtx::TGLRnrCtx(TGLViewerBase* viewer) :
+@@ -80,6 +84,8 @@ TGLRnrCtx::TGLRnrCtx(TGLViewerBase* viewer) :
+    fPickRectangle(0),
+    fSelectBuffer (0),
+ 
++   fColorSetStack(0),
++
+    fDLCaptureOpen (kFALSE),
+    fGLCtxIdentity (0),
+    fQuadric       (0),
+@@ -89,6 +95,10 @@ TGLRnrCtx::TGLRnrCtx(TGLViewerBase* viewer) :
+ {
+    // Constructor.
+ 
++   
++   fColorSetStack = new lpTGLColorSet_t;
++   static_cast<lpTGLColorSet_t*>(fColorSetStack)->push_back(0);
++
+    fSelectBuffer = new TGLSelectBuffer;
+    fQuadric = gluNewQuadric();
+    gluQuadricOrientation(fQuadric, (GLenum)GLU_OUTSIDE);
+@@ -101,13 +111,6 @@ TGLRnrCtx::TGLRnrCtx(TGLViewerBase* viewer) :
+       fViewerStyle = fSceneStyle = kFill;
+       fDrawPass = kPassFill;
+    }
+-
+-   // Colors for different shape-selection-levels.
+-   fSSLColor[0][0] =   0; fSSLColor[0][1] =   0; fSSLColor[0][2] =   0; fSSLColor[0][3] =   0;
+-   fSSLColor[1][0] = 255; fSSLColor[1][1] = 255; fSSLColor[1][2] = 255; fSSLColor[1][3] = 255;
+-   fSSLColor[2][0] = 255; fSSLColor[2][1] = 255; fSSLColor[2][2] = 255; fSSLColor[2][3] = 255;
+-   fSSLColor[3][0] = 200; fSSLColor[3][1] = 200; fSSLColor[3][2] = 255; fSSLColor[3][3] = 255;
+-   fSSLColor[4][0] = 200; fSSLColor[4][1] = 200; fSSLColor[4][2] = 255; fSSLColor[4][3] = 255;
+ }
+ 
+ //______________________________________________________________________
+@@ -118,6 +121,7 @@ TGLRnrCtx::~TGLRnrCtx()
+    gluDeleteQuadric(fQuadric);
+    delete fPickRectangle;
+    delete fSelectBuffer;
++   delete static_cast<lpTGLColorSet_t*>(fColorSetStack);
+ }
+ 
+ //______________________________________________________________________
+@@ -251,28 +255,62 @@ Int_t TGLRnrCtx::GetPickRadius()
+ }
+ 
+ 
++/**************************************************************************/
++// ColorSet access & management
+ /******************************************************************************/
+-// Colors for Shape-Selection-Level
+-/******************************************************************************/
+ 
+-void TGLRnrCtx::SetSSLColor(Int_t level, UChar_t r, UChar_t g, UChar_t b, UChar_t a)
++//______________________________________________________________________________
++void TGLRnrCtx::PushColorSet()
++{
++   // Create copy of current color-set on the top of the stack.
++
++   lpTGLColorSet_t& css = * static_cast<lpTGLColorSet_t*>(fColorSetStack);
++   css.push_back(new TGLColorSet(*css.back()));
++}
++
++//______________________________________________________________________________
++TGLColorSet& TGLRnrCtx::ColorSet()
++{
++   return * static_cast<lpTGLColorSet_t*>(fColorSetStack)->back();
++}
++
++//______________________________________________________________________________
++void TGLRnrCtx::PopColorSet()
++{
++   // Pops the top-most color-set.
++   // If only one entry is available, error is printed and the entry remains.
++
++   lpTGLColorSet_t& css = * static_cast<lpTGLColorSet_t*>(fColorSetStack);
++
++   if (css.size() >= 2)
++   {
++      delete css.back();
++      css.pop_back();
++   }
++   else
++   {
++      Error("PopColorSet()", "Attempting to remove the last entry.");
++   }
++}
++
++//______________________________________________________________________________
++TGLColorSet* TGLRnrCtx::ChangeBaseColorSet(TGLColorSet* set)
+ {
+-   // Set highlight color for shape-selection-level level.
++   // Change the default/bottom color-set.
++   // Returns the previous color-set.
+ 
+-   fSSLColor[level][0] = r;
+-   fSSLColor[level][1] = g;
+-   fSSLColor[level][2] = b;
+-   fSSLColor[level][3] = a;
++   lpTGLColorSet_t& css = * static_cast<lpTGLColorSet_t*>(fColorSetStack);
++   TGLColorSet* old = css.front();
++   css.front() = set;
++   return old;
+ }
+ 
+-void TGLRnrCtx::SetSSLColor(Int_t level, UChar_t rgba[4])
++//______________________________________________________________________________
++TGLColorSet* TGLRnrCtx::GetBaseColorSet()
+ {
+-   // Set highlight color for shape-selection-level level.
++   // Returns the current base color-set.
+ 
+-   fSSLColor[level][0] = rgba[0];
+-   fSSLColor[level][1] = rgba[1];
+-   fSSLColor[level][2] = rgba[2];
+-   fSSLColor[level][3] = rgba[3];
++   return static_cast<lpTGLColorSet_t*>(fColorSetStack)->front();
+ }
+ 
+ 
+diff --git a/graf3d/gl/src/TGLSAViewer.cxx b/graf3d/gl/src/TGLSAViewer.cxx
+index 36238e0..6c47308 100644
+--- a/graf3d/gl/src/TGLSAViewer.cxx
++++ b/graf3d/gl/src/TGLSAViewer.cxx
+@@ -55,6 +55,7 @@ const char * TGLSAViewer::fgHelpText1 = "\
+ DIRECT SCENE INTERACTIONS\n\n\
+    Press:\n\
+    \tw          --- wireframe mode\n\
++   \te          --- switch between dark / light color-set\n\
+    \tr          --- filled polygons mode\n\
+    \tt          --- outline mode\n\
+    \tj          --- ZOOM in\n\
+diff --git a/graf3d/gl/src/TGLScene.cxx b/graf3d/gl/src/TGLScene.cxx
+index acf99b1..de114c3 100644
+--- a/graf3d/gl/src/TGLScene.cxx
++++ b/graf3d/gl/src/TGLScene.cxx
+@@ -712,7 +712,7 @@ void TGLScene::RenderAllPasses(TGLRnrCtx&           rnrCtx,
+       {
+          // First pass - filled polygons
+          glEnable(GL_POLYGON_OFFSET_FILL);
+-         glPolygonOffset(1.f, 1.f);
++         glPolygonOffset(0.5f, 0.5f);
+       }
+       else if (pass == TGLRnrCtx::kPassOutlineLine)
+       {
+diff --git a/graf3d/gl/src/TGLSurfacePainter.cxx b/graf3d/gl/src/TGLSurfacePainter.cxx
+index 196873d..6c05ce1 100644
+--- a/graf3d/gl/src/TGLSurfacePainter.cxx
++++ b/graf3d/gl/src/TGLSurfacePainter.cxx
+@@ -18,7 +18,7 @@
+ #include "TH1.h"
+ 
+ #include "TGLSurfacePainter.h"
+-#include "TGLOrthoCamera.h"
++#include "TGLPlotCamera.h"
+ #include "TGLIncludes.h"
+ 
+ //______________________________________________________________________________
+@@ -37,7 +37,7 @@ void TGLSurfacePainter::Projection_t::Swap(Projection_t &rhs)
+ }
+ 
+ //______________________________________________________________________________
+-TGLSurfacePainter::TGLSurfacePainter(TH1 *hist, TGLOrthoCamera *camera, TGLPlotCoordinates *coord, TGLPaintDevice *dev)
++TGLSurfacePainter::TGLSurfacePainter(TH1 *hist, TGLPlotCamera *camera, TGLPlotCoordinates *coord, TGLPaintDevice *dev)
+                                      : TGLPlotPainter(hist, camera, coord, dev, kTRUE, kTRUE, kTRUE),
+                                        fType(kSurf),
+                                        fSectionPass(kFALSE),
+diff --git a/graf3d/gl/src/TGLTF3Painter.cxx b/graf3d/gl/src/TGLTF3Painter.cxx
+index 07aea3d..612d226 100644
+--- a/graf3d/gl/src/TGLTF3Painter.cxx
++++ b/graf3d/gl/src/TGLTF3Painter.cxx
+@@ -12,7 +12,7 @@
+ #include "TF3.h"
+ 
+ #include "TGLMarchingCubes.h"
+-#include "TGLOrthoCamera.h"
++#include "TGLPlotCamera.h"
+ #include "TGLTF3Painter.h"
+ #include "TGLIncludes.h"
+ 
+@@ -193,7 +193,7 @@ void DrawMapleMesh(const std::vector<Double_t> &vs, const std::vector<Double_t>
+ ClassImp(TGLTF3Painter)
+ 
+ //______________________________________________________________________________
+-TGLTF3Painter::TGLTF3Painter(TF3 *fun, TH1 *hist, TGLOrthoCamera *camera,
++TGLTF3Painter::TGLTF3Painter(TF3 *fun, TH1 *hist, TGLPlotCamera *camera,
+                              TGLPlotCoordinates *coord, TGLPaintDevice *dev) :
+    TGLPlotPainter(hist, camera, coord, dev, kFALSE, kFALSE, kFALSE),
+    fStyle(kDefault),
+@@ -506,7 +506,7 @@ void TGLTF3Painter::DrawSectionXOY() const
+ ClassImp(TGLIsoPainter)
+ 
+ //______________________________________________________________________________
+-TGLIsoPainter::TGLIsoPainter(TH1 *hist, TGLOrthoCamera *camera, TGLPlotCoordinates *coord, TGLPaintDevice *dev)
++TGLIsoPainter::TGLIsoPainter(TH1 *hist, TGLPlotCamera *camera, TGLPlotCoordinates *coord, TGLPaintDevice *dev)
+                   : TGLPlotPainter(hist, camera, coord, dev, kFALSE, kFALSE, kFALSE),
+                     fXOZSlice("XOZ", (TH3 *)hist, coord, &fBackBox, TGLTH3Slice::kXOZ),
+                     fYOZSlice("YOZ", (TH3 *)hist, coord, &fBackBox, TGLTH3Slice::kYOZ),
+diff --git a/graf3d/gl/src/TGLText.cxx b/graf3d/gl/src/TGLText.cxx
+index 87bb53a..e5100d7 100644
+--- a/graf3d/gl/src/TGLText.cxx
++++ b/graf3d/gl/src/TGLText.cxx
+@@ -14,6 +14,7 @@
+ #include "TError.h"
+ 
+ #include "TGLText.h"
++#include "TGLUtil.h"
+ #include "TColor.h"
+ #include "TSystem.h"
+ #include "TEnv.h"
+@@ -96,14 +97,7 @@ void TGLText::PaintGLText(Double_t x, Double_t y, Double_t z, const char *text)
+    glPushMatrix();
+    glTranslatef(x, y, z);
+ 
+-   // Set Text color.
+-   TColor *col;
+-   Float_t red, green, blue;
+-   col = gROOT->GetColor(GetTextColor());
+-   col->GetRGB(red, green, blue);
+-   glColor3d(red, green, blue);
+-
+-   // Text size
++   TGLUtil::Color(GetTextColor());
+    Double_t s = GetTextSize();
+    glScalef(s,s,s);
+ 
+diff --git a/graf3d/gl/src/TGLUtil.cxx b/graf3d/gl/src/TGLUtil.cxx
+index dca3213..eaaaa3e 100644
+--- a/graf3d/gl/src/TGLUtil.cxx
++++ b/graf3d/gl/src/TGLUtil.cxx
+@@ -969,6 +969,248 @@ void TGLMatrix::Dump() const
+ 
+ 
+ //==============================================================================
++// TGLColor
++//==============================================================================
++
++//______________________________________________________________________________
++//
++// Class encapsulating color information in preferred GL format - an
++// array of four unsigned bytes.
++//
++
++ClassImp(TGLColor);
++
++//______________________________________________________________________________
++TGLColor::TGLColor()
++{
++   // Default constructor. Color is initialized to black.
++
++   fRGBA[0] = fRGBA[1] = fRGBA[2] = 0;
++   fRGBA[3] = 255;
++}
++
++//______________________________________________________________________________
++TGLColor::TGLColor(Int_t r, Int_t g, Int_t b, Int_t a)
++{
++   // Constructor from Int_t values.
++
++   SetColor(r, g, b, a);
++}
++
++//______________________________________________________________________________
++TGLColor::TGLColor(Float_t r, Float_t g, Float_t b, Float_t a)
++{
++   // Constructor from Float_t values.
++
++   SetColor(r, g, b, a);
++}
++
++//______________________________________________________________________________
++TGLColor::TGLColor(Color_t color_index, Char_t transparency)
++{
++   // Constructor from color-index and transparency.
++
++   SetColor(color_index, transparency);
++}
++
++//______________________________________________________________________________
++TGLColor::~TGLColor()
++{
++   // Dectructor.
++}
++
++//______________________________________________________________________________
++TGLColor& TGLColor::operator=(const TGLColor& c)
++{
++   // Assignment operator.
++
++   fRGBA[0] = c.fRGBA[0];
++   fRGBA[1] = c.fRGBA[1];
++   fRGBA[2] = c.fRGBA[2];
++   fRGBA[3] = c.fRGBA[3];
++   return *this;
++}
++
++//______________________________________________________________________________
++Color_t TGLColor::GetColorIndex() const
++{
++   // Returns color-index representing the color.
++
++   return TColor::GetColor(fRGBA[0], fRGBA[1], fRGBA[2]);
++}
++
++//______________________________________________________________________________
++Char_t TGLColor::GetTransparency() const
++{
++   // Returns transparecy value.
++
++   return TMath::Nint(100.0*(1.0 - fRGBA[3]/255.0));
++}
++
++//______________________________________________________________________________
++void TGLColor::SetColor(Int_t r, Int_t g, Int_t b, Int_t a)
++{
++   // Set color with Int_t values.
++
++   fRGBA[0] = r;
++   fRGBA[1] = g;
++   fRGBA[2] = b;
++   fRGBA[3] = a;
++}
++
++//______________________________________________________________________________
++void TGLColor::SetColor(Float_t r, Float_t g, Float_t b, Float_t a)
++{
++   // Set color with Float_t values.
++
++   fRGBA[0] = (UChar_t)(255*r);
++   fRGBA[1] = (UChar_t)(255*g);
++   fRGBA[2] = (UChar_t)(255*b);
++   fRGBA[3] = (UChar_t)(255*a);
++}
++
++//______________________________________________________________________________
++void TGLColor::SetColor(Color_t color_index)
++{
++   // Set color by color-index. Alpha is not changed.
++   // If color_index is not valid, color is set to magenta.
++
++   TColor* c = gROOT->GetColor(color_index);
++   if (c)
++   {
++      fRGBA[0] = (UChar_t)(255*c->GetRed());
++      fRGBA[1] = (UChar_t)(255*c->GetGreen());
++      fRGBA[2] = (UChar_t)(255*c->GetBlue());
++   }
++   else
++   {
++      // Set to magenta.
++      fRGBA[0] = 255;
++      fRGBA[1] = 0;
++      fRGBA[2] = 255;
++   }
++}
++
++//______________________________________________________________________________
++void TGLColor::SetColor(Color_t color_index, Char_t transparency)
++{
++   // Set color by color-index and alpha from the transparency.
++   // If color_index is not valid, color is set to magenta.
++
++   UChar_t alpha = (255*(100 - transparency))/100;
++   
++   TColor* c = gROOT->GetColor(color_index);
++   if (c)
++   {
++      fRGBA[0] = (UChar_t)(255*c->GetRed());
++      fRGBA[1] = (UChar_t)(255*c->GetGreen());
++      fRGBA[2] = (UChar_t)(255*c->GetBlue());
++      fRGBA[3] = alpha;
++   }
++   else
++   {
++      // Set to magenta.
++      fRGBA[0] = 255;
++      fRGBA[1] = 0;
++      fRGBA[2] = 255;
++      fRGBA[3] = alpha;
++      return;
++   }
++}
++
++//______________________________________________________________________________
++void TGLColor::SetTransparency(Char_t transparency)
++{
++   // Set alpha from the transparency.
++
++   fRGBA[3] = (255*(100 - transparency))/100;
++}
++
++//______________________________________________________________________________
++TString TGLColor::AsString() const
++{
++   // Return string describing the color.
++
++   return TString::Format("rgba:%02hhx/%02hhx/%02hhx/%02hhx",
++                          fRGBA[0], fRGBA[1], fRGBA[2], fRGBA[3]);
++}
++
++
++//==============================================================================
++// TGLColorSet
++//==============================================================================
++
++//______________________________________________________________________________
++//
++// Class encapsulating a set of colors used throughout standard rendering.
++//
++
++ClassImp(TGLColorSet);
++
++//______________________________________________________________________________
++TGLColorSet::TGLColorSet()
++{
++   // Constructor. Sets default for dark background.
++
++   StdDarkBackground();
++}
++
++//______________________________________________________________________________
++TGLColorSet::~TGLColorSet()
++{
++   // Destructor.
++}
++
++//______________________________________________________________________________
++TGLColorSet& TGLColorSet::operator=(const TGLColorSet& s)
++{
++   // Assignment operator.
++
++   fBackground = s.fBackground;
++   fForeground = s.fForeground;
++   fOutline    = s.fOutline;
++   fMarkup     = s.fMarkup;
++   for (Int_t i = 0; i < 5; ++i)
++      fSelection[i] = s.fSelection[i];
++   return *this;
++}
++
++//______________________________________________________________________________
++void TGLColorSet::StdDarkBackground()
++{
++   // Set defaults for dark (black) background.
++
++   fBackground .SetColor(0,   0,   0);
++   fForeground .SetColor(255, 255, 255);
++   fOutline    .SetColor(240, 255, 240);
++   fMarkup     .SetColor(200, 200, 200);
++
++   fSelection[0].SetColor(  0,   0,   0);
++   fSelection[1].SetColor(255, 220, 220);
++   fSelection[2].SetColor(255, 220, 220);
++   fSelection[3].SetColor(200, 200, 255);
++   fSelection[4].SetColor(200, 200, 255);
++}
++
++//______________________________________________________________________________
++void TGLColorSet::StdLightBackground()
++{
++   // Set defaults for light (white) background.
++
++   fBackground .SetColor(255, 255, 255);
++   fForeground .SetColor(0,   0,   0);
++   fOutline    .SetColor(0,   0,   0);
++   fMarkup     .SetColor(100, 100, 100);
++
++   fSelection[0].SetColor(0,   0,   0);
++   fSelection[1].SetColor(200, 100, 100);
++   fSelection[2].SetColor(200, 100, 100);
++   fSelection[3].SetColor(100, 100, 200);
++   fSelection[4].SetColor(100, 100, 200);
++}
++
++
++//==============================================================================
+ // TGLUtil
+ //==============================================================================
+ 
+@@ -1150,11 +1392,42 @@ UInt_t TGLUtil::UnlockColor()
+ //______________________________________________________________________________
+ Bool_t TGLUtil::IsColorLocked()
+ {
+-   //static: return true if color lockcount is greater than 0
++   // Returns true if color lockcount is greater than 0.
++
+    return fgColorLockCount > 0;
+ }
+ 
+ //______________________________________________________________________________
++void TGLUtil::Color(const TGLColor& color)
++{
++   // Set color from TGLColor.
++
++   if (fgColorLockCount == 0) glColor4ubv(color.CArr());
++}
++
++//______________________________________________________________________________
++void TGLUtil::Color(const TGLColor& color, UChar_t alpha)
++{
++   // Set color from TGLColor and alpha value.
++
++   if (fgColorLockCount == 0)
++   {
++      glColor4ub(color.GetRed(), color.GetGreen(), color.GetBlue(), alpha);
++   }
++}
++
++//______________________________________________________________________________
++void TGLUtil::Color(const TGLColor& color, Float_t alpha)
++{
++   // Set color from TGLColor and alpha value.
++
++   if (fgColorLockCount == 0)
++   {
++      glColor4ub(color.GetRed(), color.GetGreen(), color.GetBlue(), (UChar_t)(255*alpha));
++   }
++}
++
++//______________________________________________________________________________
+ void TGLUtil::Color(Color_t color_index, Float_t alpha)
+ {
+    // Set color from color_index and GL-style alpha (default 1).
+@@ -1169,7 +1442,7 @@ void TGLUtil::Color(Color_t color_index, Float_t alpha)
+ }
+ 
+ //______________________________________________________________________________
+-void TGLUtil::ColorTransparency(Color_t color_index, UChar_t transparency)
++void TGLUtil::ColorTransparency(Color_t color_index, Char_t transparency)
+ {
+    // Set color from color_index and ROOT-style transparency (default 0).
+ 
+diff --git a/graf3d/gl/src/TGLViewer.cxx b/graf3d/gl/src/TGLViewer.cxx
+index e6cca4c..3f4149a 100644
+--- a/graf3d/gl/src/TGLViewer.cxx
++++ b/graf3d/gl/src/TGLViewer.cxx
+@@ -89,6 +89,9 @@
+ 
+ ClassImp(TGLViewer);
+ 
++TGLColorSet TGLViewer::fgDefaultColorSet;
++Bool_t      TGLViewer::fgUseDefaultColorSetForNewViewers = kFALSE;
++
+ //______________________________________________________________________________
+ TGLViewer::TGLViewer(TVirtualPad * pad, Int_t x, Int_t y,
+                      Int_t width, Int_t height) :
+@@ -115,7 +118,6 @@ TGLViewer::TGLViewer(TVirtualPad * pad, Int_t x, Int_t y,
+    fRedrawTimer(0),
+    fMaxSceneDrawTimeHQ(5000),
+    fMaxSceneDrawTimeLQ(100),
+-   fClearColor(1),
+    fAxesType(TGLUtil::kAxesNone),
+    fAxesDepthTest(kTRUE),
+    fReferenceOn(kFALSE),
+@@ -171,7 +173,6 @@ TGLViewer::TGLViewer(TVirtualPad * pad) :
+    fRedrawTimer(0),
+    fMaxSceneDrawTimeHQ(5000),
+    fMaxSceneDrawTimeLQ(100),
+-   fClearColor(1),
+    fAxesType(TGLUtil::kAxesNone),
+    fAxesDepthTest(kTRUE),
+    fReferenceOn(kFALSE),
+@@ -221,6 +222,12 @@ void TGLViewer::InitSecondaryObjects()
+    fSelectedPShapeRef = new TGLManipSet; fOverlay.push_back(fSelectedPShapeRef);
+    fSelectedPShapeRef->SetDrawBBox(kTRUE);
+ 
++   fLightColorSet.StdLightBackground();
++   if (fgUseDefaultColorSetForNewViewers)
++      fRnrCtx->ChangeBaseColorSet(&fgDefaultColorSet);
++   else
++      fRnrCtx->ChangeBaseColorSet(&fDarkColorSet);
++
+    fCameraOverlay = new TGLCameraOverlay(kFALSE, kFALSE);
+    AddOverlayElement(fCameraOverlay);
+ 
+@@ -687,14 +694,17 @@ void TGLViewer::PreDraw()
+    }
+ 
+    // For embedded gl clear color must be pad's background color.
+-   Color_t ci = (fGLDevice != -1) ? gPad->GetFillColor() : fClearColor;
+-   TColor *color = gROOT->GetColor(ci);
+-   if (color)
+-      color->GetRGB(fClearColorRGB[0], fClearColorRGB[1], fClearColorRGB[2]);
+-   else
+-      fClearColorRGB[0] = fClearColorRGB[1] = fClearColorRGB[2] = 1.0f;
++   {
++      Color_t ci = (fGLDevice != -1) ? gPad->GetFillColor() : fRnrCtx->ColorSet().Background().GetColorIndex();
++      TColor *color = gROOT->GetColor(ci);
++      Float_t rgb[3];
++      if (color)
++         color->GetRGB(rgb[0], rgb[1], rgb[2]);
++      else
++         rgb[0] = rgb[1] = rgb[2] = 0.0f;
+ 
+-   glClearColor(fClearColorRGB[0], fClearColorRGB[1], fClearColorRGB[2], 1.0f);
++      glClearColor(rgb[0], rgb[1], rgb[2], 1.0f);
++   }
+ 
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+ 
+@@ -736,7 +746,7 @@ void TGLViewer::FadeView(Float_t alpha)
+       TGLCapabilitySwitch blend(GL_BLEND,    kTRUE);
+       TGLCapabilitySwitch light(GL_LIGHTING, kFALSE);
+       glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+-      glColor4f(fClearColorRGB[0], fClearColorRGB[1], fClearColorRGB[2], alpha);
++      TGLUtil::Color(fRnrCtx->ColorSet().Background(), alpha);
+       glBegin(GL_QUADS);
+       glVertex3f(-1, -1, z);  glVertex3f( 1, -1, z);
+       glVertex3f( 1,  1, z);  glVertex3f(-1,  1, z);
+@@ -1046,6 +1056,101 @@ void TGLViewer::AutoFade(Float_t fade, Float_t time, Int_t steps)
+    fh->MakeFadeStep();
+ }
+ 
++//______________________________________________________________________________
++void TGLViewer::UseDarkColorSet()
++{
++   // Use the dark color-set.
++
++   fRnrCtx->ChangeBaseColorSet(&fDarkColorSet);
++   RefreshPadEditor(this);
++}
++
++//______________________________________________________________________________
++void TGLViewer::UseLightColorSet()
++{
++   // Use the light color-set.
++
++   fRnrCtx->ChangeBaseColorSet(&fLightColorSet);
++   RefreshPadEditor(this);
++}
++
++//______________________________________________________________________________
++void TGLViewer::SwitchColorSet()
++{
++   // Swtich between dark and light colorsets.
++
++   if (IsUsingDefaultColorSet())
++   {
++      Info("SwitchColorSet()", "Global color-set is in use, switch not supported.");
++      return;
++   }
++
++   if (fRnrCtx->GetBaseColorSet() == &fLightColorSet)
++      UseDarkColorSet();
++   else
++      UseLightColorSet();
++}
++
++//______________________________________________________________________________
++void TGLViewer::UseDefaultColorSet(Bool_t x)
++{
++   // Set usage of the default color set.
++
++   if (x)
++      fRnrCtx->ChangeBaseColorSet(&fgDefaultColorSet);
++   else
++      fRnrCtx->ChangeBaseColorSet(&fDarkColorSet);
++   RefreshPadEditor(this);
++}
++
++//______________________________________________________________________________
++Bool_t TGLViewer::IsUsingDefaultColorSet() const
++{
++   // Check if the viewer is using the default color set.
++   // If yes, some operations might be disabled.
++
++   return fRnrCtx->GetBaseColorSet() == &fgDefaultColorSet;
++}
++
++//______________________________________________________________________________
++void TGLViewer::SetClearColor(Color_t col)
++{
++   // Set background method.
++   // Deprecated method - set background color in the color-set.
++
++   fRnrCtx->GetBaseColorSet()->Background().SetColor(col);
++}
++
++//______________________________________________________________________________
++TGLColorSet& TGLViewer::GetDefaultColorSet()
++{
++   // Returns reference to the default color-set.
++   // Static function.
++
++   return fgDefaultColorSet;
++}
++
++//______________________________________________________________________________
++void TGLViewer::UseDefaultColorSetForNewViewers(Bool_t x)
++{
++   // Sets static flag that determines if new viewers should use the
++   // default color-set.
++   // This is false at startup.
++
++   fgUseDefaultColorSetForNewViewers = x;
++}
++
++//______________________________________________________________________________
++Bool_t TGLViewer::IsUsingDefaultColorSetForNewViewers()
++{
++   // Returns the value of the static flag that determines if new
++   // viewers should use the default color-set.
++   // This is false at startup.
++
++   return fgUseDefaultColorSetForNewViewers;
++}
++
++
+ /**************************************************************************/
+ // Viewport
+ /**************************************************************************/
+diff --git a/graf3d/gl/src/TGLViewerEditor.cxx b/graf3d/gl/src/TGLViewerEditor.cxx
+index 97c26a8..b256c81 100644
+--- a/graf3d/gl/src/TGLViewerEditor.cxx
++++ b/graf3d/gl/src/TGLViewerEditor.cxx
+@@ -142,7 +142,8 @@ void TGLViewerEditor::SetModel(TObject* obj)
+    fClipSet->SetModel(fViewer->GetClipSet());
+ 
+    // style tab
+-   fClearColor->SetColor(TColor::Number2Pixel(fViewer->GetClearColor()), kFALSE);
++   fClearColor->SetColor(TColor::Number2Pixel(fViewer->RnrCtx().ColorSet().Background().GetColorIndex()), kFALSE);
++   fClearColor->Enable(!fViewer->IsUsingDefaultColorSet());
+    fIgnoreSizesOnUpdate->SetState(fViewer->GetIgnoreSizesOnUpdate() ? kButtonDown : kButtonUp);
+    fResetCamerasOnUpdate->SetState(fViewer->GetResetCamerasOnUpdate() ? kButtonDown : kButtonUp);
+    fResetCameraOnDoubleClick->SetState(fViewer->GetResetCameraOnDoubleClick() ? kButtonDown : kButtonUp);
+@@ -170,7 +171,7 @@ void TGLViewerEditor::DoClearColor(Pixel_t color)
+ {
+    // Clear-color was changed.
+ 
+-   fViewer->SetClearColor(Color_t(TColor::GetColor(color)));
++   fViewer->RnrCtx().ColorSet().Background().SetColor(Color_t(TColor::GetColor(color)));
+    ViewerRedraw();
+ }
+ 
+@@ -342,7 +343,7 @@ TGNumberEntry* TGLViewerEditor::MakeLabeledNEntry(TGCompositeFrame* p, const cha
+    rfr->AddFrame(labfr, new TGLayoutHints(kLHintsLeft | kLHintsBottom, 0, 0, 0));
+ 
+    TGNumberEntry* ne = new TGNumberEntry(rfr, 0.0f, nd, -1, (TGNumberFormat::EStyle)style);
+-   rfr->AddFrame( ne, new TGLayoutHints(kLHintsLeft | kLHintsExpandX | kLHintsBottom, 2, 0, 0));
++   rfr->AddFrame(ne, new TGLayoutHints(kLHintsLeft | kLHintsExpandX | kLHintsBottom, 2, 0, 0));
+ 
+    p->AddFrame(rfr, new TGLayoutHints(kLHintsLeft, 0, 0, 1, 0));
+    return ne;
+diff --git a/tutorials/eve/cms_calo.C b/tutorials/eve/cms_calo.C
+index 50d28e9..402d66b 100644
+--- a/tutorials/eve/cms_calo.C
++++ b/tutorials/eve/cms_calo.C
+@@ -73,7 +73,7 @@ void MakeCalo2D(TEveCalo3D* calo3d)
+    TGLViewer* v = v1->GetGLViewer();
+    v->SetCurrentCamera(TGLViewer::kCameraOrthoXOY);
+    v->SetGuideState(TGLUtil::kAxesOrigin, kTRUE, kFALSE, 0);
+-   v->SetClearColor(kBlue + 4);
++   v->ColorSet().Background().SetColor(kBlue + 4);
+ 
+    // projected calorimeter
+    TEveProjectionManager* mng = new TEveProjectionManager();
+diff --git a/tutorials/eve/cms_calo_detail.C b/tutorials/eve/cms_calo_detail.C
+index 7b011e0..42c60cf 100644
+--- a/tutorials/eve/cms_calo_detail.C
++++ b/tutorials/eve/cms_calo_detail.C
+@@ -31,8 +31,6 @@
+ #pragma comment(lib, "OpenGL32.lib")
+ #endif
+ 
+-#include <GL/gl.h>
+-
+ 
+ class ButtFaker : public TGLOverlayButton
+ {
+@@ -40,54 +38,31 @@ class ButtFaker : public TGLOverlayButton
+    ButtFaker& operator=(const ButtFaker&); // Not implemented
+ 
+ public:
+-   Bool_t fShowLegend;
++   TEveCaloLego* fLego;
+ 
+    ButtFaker(TGLViewerBase *parent) :
+-      TGLOverlayButton(parent, "Legend", 10, 200, 50, 16),
+-      fShowLegend(kTRUE)
+-   {}
+-
+-   virtual ~ButtFaker() {}
+-
+-   virtual void Clicked(TGLViewerBase *viewer)
++      TGLOverlayButton(parent, "FlipColors", 10, 200, 80, 16),
++      fLego(0)
+    {
+-      fShowLegend = !fShowLegend;
+-      TGLOverlayButton::Clicked(viewer);
+    }
+ 
+-   virtual void Render(TGLRnrCtx& rnrCtx)
+-   {
+-      TGLOverlayButton::Render(rnrCtx);
++   virtual ~ButtFaker() {}
+ 
+-      if (fShowLegend)
++   virtual void Clicked(TGLViewerBase*)
++   {
++      TEveCaloData* data = fLego->GetData();
++      if (data->GetSliceColor(0) == kRed)
+       {
+-         // Render other stuff here, see TGLOverlayButton.
+-         // I guess you might want to move to pixel coordinates.
+-
+-         glMatrixMode(GL_PROJECTION);
+-         glPushMatrix();
+-         glLoadIdentity();
+-         const TGLRect& vp = rnrCtx.RefCamera().RefViewport();
+-         glOrtho(vp.X(), vp.Width(), vp.Y(), vp.Height(), 0, 1);
+-         glMatrixMode(GL_MODELVIEW);
+-         glPushMatrix();
+-         glLoadIdentity();
+-
+-         glColor4f(1, 0, 0, 1);
+-         fFont.PreRender(kFALSE);
+-         glPushMatrix();
+-         glTranslatef(20, vp.Height()-30, 0);
+-         glRasterPos2i(0, 0);
+-         fFont.Render("Ooogladoogla");
+-         glPopMatrix();
+-         fFont.PostRender();
+-
+-         glMatrixMode(GL_PROJECTION);
+-         glPopMatrix();
+-         glMatrixMode(GL_MODELVIEW);
+-         glPopMatrix();
++         fLego->SetDataSliceColor(1, kRed);
++         fLego->SetDataSliceColor(0, kYellow);
+       }
+-   }
++      else
++      {
++         fLego->SetDataSliceColor(0, kRed);
++         fLego->SetDataSliceColor(1, kYellow);
++      }
++      gEve->Redraw3D();
++   } 
+ 
+    ClassDef(ButtFaker,0);
+ };
+@@ -98,8 +73,10 @@ void cms_calo_detail()
+    TEveManager::Create();
+ 
+    TGLViewer* v = gEve->GetDefaultGLViewer(); // Default
+-   v->SetCurrentCamera(TGLViewer::kCameraPerspXOY);
+-   v->SetEventHandler(new TEveLegoEventHandler("Lego", (TGWindow*)v->GetGLWidget(), (TObject*)v));
++   v->SetCurrentCamera(TGLViewer::kCameraOrthoXOY);
++   TEveLegoEventHandler* eh = new TEveLegoEventHandler("Lego", (TGWindow*)v->GetGLWidget(), (TObject*)v);
++   eh->fMode = TEveLegoEventHandler::kLocked;
++   v->SetEventHandler(eh);
+ 
+    // data
+ 
+@@ -154,16 +131,15 @@ void cms_calo_detail()
+    ls->SetLineColor(kBlue);
+    gEve->AddElement(ls);
+ 
+-
+    // overlay lego
+    TEveCaloLegoOverlay* overlay = new TEveCaloLegoOverlay();
+    overlay->SetCaloLego(lego);
+    v->AddOverlayElement(overlay);
+    gEve->AddElement(overlay);
+ 
+-   // overlay legend
+-
++   // button overlay
+    ButtFaker* legend = new ButtFaker(v);
++   legend->fLego = lego;
+    v->AddOverlayElement(legend);
+ 
+    gEve->Redraw3D(kTRUE);
+diff --git a/tutorials/eve/geom_cms.C b/tutorials/eve/geom_cms.C
+index e3e4fd5..f5f7ea7 100644
+--- a/tutorials/eve/geom_cms.C
++++ b/tutorials/eve/geom_cms.C
+@@ -30,7 +30,7 @@ void geom_cms()
+    // 0 - no clip, 1 - clip plane, 2 - clip box
+    TGLViewer *v = gEve->GetDefaultGLViewer();
+    v->GetClipSet()->SetClipType(1);
+-   v->SetClearColor(kMagenta+4);
++   v->ColorSet().Background().SetColor(kMagenta+4);
+    v->SetGuideState(TGLUtil::kAxesEdge, kTRUE, kFALSE, 0);
+    v->RefreshPadEditor(v);
+ 
+diff --git a/tutorials/eve/test_windows.C b/tutorials/eve/test_windows.C
+index ade1217..ca035df 100644
+--- a/tutorials/eve/test_windows.C
++++ b/tutorials/eve/test_windows.C
+@@ -18,20 +18,27 @@ void test_windows()
+ 
+    TEveUtil::Macro("pointset_test.C");
+ 
++   PackTest();
++   DetailTest();
++   TabsTest();
++
++   gEve->GetBrowser()->GetTabRight()->SetTab(1);
++   gDebug = 1;
++}
++
++void PackTest()
++{
+    TEveWindowSlot  *slot  = 0;
+    TEveWindowFrame *frame = 0;
+-
+    TEveViewer *v = 0;
+ 
+-   // ----------------------------------------------------------------
+-
+    slot = TEveWindow::CreateWindowInTab(gEve->GetBrowser()->GetTabRight());
+-
+    TEveWindowPack* pack1 = slot->MakePack();
++   pack1->SetShowTitleBar(kFALSE);
+    pack1->SetHorizontal();
+ 
+-   slot = pack1->NewSlot();
+    // Embedded viewer.
++   slot = pack1->NewSlot();
+    v = new TEveViewer("BarViewer");
+    v->SpawnGLEmbeddedViewer();
+    slot->ReplaceWindow(v);
+@@ -42,39 +49,141 @@ void test_windows()
+ 
+    slot = pack1->NewSlot();   
+    TEveWindowPack* pack2 = slot->MakePack();
++   pack2->SetShowTitleBar(kFALSE);
+ 
+    slot = pack2->NewSlot();
+    slot->StartEmbedding();
+-   new TCanvas("Root Canvas");
++   TCanvas* can = new TCanvas("Root Canvas");
++   can->ToggleEditor();
+    slot->StopEmbedding();
+ 
+-   slot = pack2->NewSlot();
+    // SA viewer.
++   slot = pack2->NewSlot();
+    v = new TEveViewer("FooViewer");
+    v->SpawnGLViewer(gEve->GetEditor());
+    slot->ReplaceWindow(v);
+-
+    gEve->GetViewers()->AddElement(v);
+    v->AddScene(gEve->GetEventScene());   
++}
+ 
+-   // ----------------------------------------------------------------
++
++void DetailTest()
++{
++   TEveWindowSlot  *slot  = 0;
++   TEveWindowFrame *frame = 0;
++   TEveViewer *v = 0;
+ 
+    slot = TEveWindow::CreateWindowInTab(gEve->GetBrowser()->GetTabRight());
++   TEveWindowPack* pack1 = slot->MakePack();
++   pack1->SetShowTitleBar(kFALSE);
++   pack1->SetElementName("Detail");
++   pack1->SetHorizontal();
+ 
++   //
++   slot = pack1->NewSlot();
++   frame = slot->MakeFrame();
++   frame->SetElementName("Latex Frame");
++   frame->SetShowTitleBar(kFALSE);
++   TGCompositeFrame* cf = frame->GetGUICompositeFrame();
++
++   TGHorizontalFrame* hf = new TGHorizontalFrame(cf);
++   cf->AddFrame(hf, new TGLayoutHints(kLHintsExpandX | kLHintsExpandY));
++
++   {
++      TRootEmbeddedCanvas* ec = new TRootEmbeddedCanvas("Embeddedcanvas", hf, 220);
++      hf->AddFrame(ec, new TGLayoutHints(kLHintsExpandY));
++      double fontsize = 0.07;
++      double x = 0.02;
++      double y = 1 -1*fontsize;
++      TLatex* latex = new TLatex(x, y, "Legend:");
++      latex->SetTextSize(fontsize);
++      latex->Draw();
++      y -= 2*fontsize;
++      // legend
++      latex->DrawLatex(x, y, "greek letter #Delta#eta_{out}");
++      y -= fontsize;
++      latex->DrawLatex(x, y, "#color[5]{+} marker");
++      y -= fontsize;
++      latex->DrawLatex(x, y, "#color[5]{+} marker");
++      y -= fontsize;
++      latex->DrawLatex(x, y, "#color[4]{+} marker");
++      y -= fontsize;
++      latex->DrawLatex(x, y, "#color[5]{#bullet} marker");
++      y -= fontsize;
++      latex->DrawLatex(x, y, "#color[4]{#bullet} marker some text");
++      y -= fontsize;
++      latex->DrawLatex(x, y, "#color[2]{#Box} square");
++      y -= fontsize;
++      latex->DrawLatex(x, y, "#color[5]{#Box} color");
++   }
++
++   // viwer
++   TGLEmbeddedViewer* ev = new TGLEmbeddedViewer(hf, 0, 0);
++   TEveViewer *v = new TEveViewer();
++   v->SetGLViewer(ev,ev->GetFrame());
++   gEve->GetViewers()->AddElement(v);
++   v->AddScene(gEve->GetEventScene());
++   hf->AddFrame(ev->GetFrame(), new TGLayoutHints(kLHintsExpandX | kLHintsExpandY|kLHintsTop));
++
++   if (0) {
++      TGTextButton *b = new TGTextButton(hf, "BigButton");
++      hf->AddFrame(b, new TGLayoutHints(kLHintsExpandX | kLHintsExpandY));
++   }
++
++   cf->MapSubwindows();
++   cf->Layout();
++   cf->MapWindow();
++}
++
++void TabsTest()
++{
++   TEveWindowSlot  *slot  = 0;
++   TEveWindowFrame *frame = 0;
++   TEveViewer *v = 0;
++
++   slot = TEveWindow::CreateWindowInTab(gEve->GetBrowser()->GetTabRight());
+    TEveWindowTab* tab1 = slot->MakeTab();
++   tab1->SetElementName("Tabs");
++   tab1->SetShowTitleBar(kFALSE);
++
++   // horizontal text views
++   slot = tab1->NewSlot();
++   TEveWindowPack* pack1 = slot->MakePack();
++   pack1->SetShowTitleBar(kFALSE);
++   for(int i = 0; i<4;++i)
++   {
++      slot = pack1->NewSlot();
++      frame = slot->MakeFrame();
++      TGCompositeFrame* cf = frame->GetGUICompositeFrame();
++      TGTextView* text_view =  new TGTextView(cf, 200, 400);
++      cf->AddFrame(text_view,  new TGLayoutHints(kLHintsLeft|kLHintsExpandX|kLHintsExpandY));
++
++      for(Int_t l =0; l<3; l++)
++      {
++         text_view->AddLine(Form("slot[%d] add line %d here ", i, l));
++      }
++      text_view->Update();
++      text_view->SetWidth(text_view->ReturnLongestLineWidth()+20);
++      text_view->Layout();
++     
++      cf->MapSubwindows();
++      cf->Layout();
++      cf->MapWindow();
++   }
++
++   // canvas tab
+    slot = tab1->NewSlot();
+    frame = slot->MakeFrame(new TRootEmbeddedCanvas());
+    frame->SetElementName("Embedded Canvas");
+ 
++   // neseted 2nd leveltabs
+    slot = tab1->NewSlot();
+-
++   slot->SetShowTitleBar(kFALSE);
+    TEveWindowTab* tab2 = slot->MakeTab();
+-   tab2->NewSlot();
+-   tab2->NewSlot();
+-
+-   // ----------------------------------------------------------------
+-
+-   gEve->GetBrowser()->GetTabRight()->SetTab(1);
+-
+-   gDebug = 1;
++   tab2->SetElementName("Nested");
++   tab2->SetShowTitleBar(kFALSE);
++   slot =  tab2->NewSlot();
++   slot->SetShowTitleBar(kFALSE);
++   slot =    tab2->NewSlot();
++   slot->SetShowTitleBar(kFALSE);
+ }

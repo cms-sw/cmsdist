@@ -1,0 +1,11 @@
+--- sherpa-orig/acinclude.m4	2008-08-15 13:33:16.000000000 +0200
++++ SHERPA-MC-1.1.1/acinclude.m4	2008-08-15 13:33:53.000000000 +0200
+@@ -15,7 +15,7 @@
+       AC_DEFINE([LD_PATH_NAME], "DYLD_LIBRARY_PATH", [ld path name set to DYLD_LIBRARY_PATH]) ;;
+     *linux*:*:*)
+       echo "checking for architecture...  Linux"
+-      ldflags="-rdynamic"
++      ldflags="-rdynamic -pthread -ldl -lc"
+       AC_DEFINE([ARCH_LINUX], "1", [Architecture identified as Linux])
+       AC_DEFINE([LIB_SUFFIX], ".so", [library suffix set to .so]) 
+       AC_DEFINE([LD_PATH_NAME], "LD_LIBRARY_PATH", [ld path name set to LD_LIBRARY_PATH]) ;;

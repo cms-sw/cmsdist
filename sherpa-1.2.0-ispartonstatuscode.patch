@@ -1,0 +1,21 @@
+Index: SHERPA/SoftPhysics/Beam_Remnant_Handler.C
+===================================================================
+--- SHERPA/SoftPhysics/Beam_Remnant_Handler.C	(Revision 13939)
++++ SHERPA/SoftPhysics/Beam_Remnant_Handler.C	(Arbeitskopie)
+@@ -144,6 +144,16 @@
+       return Return_Value::Retry_Event; 
+     }
+   }
++  // set status for all partons entering the shower to decayed
++  for (short unsigned int i=0;i<2;++i) {
++    for (int j=0;j<p_beamblob[i]->NOutP();++j) {
++      if (p_beamblob[i]->OutParticle(j)->DecayBlob()) {
++	if (p_beamblob[i]->OutParticle(j)->DecayBlob()->Type() == btp::Shower) {
++	  p_beamblob[i]->OutParticle(j)->SetStatus(part_status::decayed);
++	}
++      }
++    }
++  }
+   if (bloblist->FourMomentumConservation() && bloblist->ColorConservation()) {
+     for (Blob_List::iterator bit=bloblist->begin();
+ 	 bit!=bloblist->end();++bit) {

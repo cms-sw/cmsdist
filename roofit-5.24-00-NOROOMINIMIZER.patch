@@ -1,0 +1,124 @@
+diff -Naur orig.roofit/roofitcore/inc/LinkDef3.h roofit/roofitcore/inc/LinkDef3.h
+--- orig.roofit/roofitcore/inc/LinkDef3.h	2009-09-23 23:00:28.000000000 +0200
++++ roofit/roofitcore/inc/LinkDef3.h	2009-09-24 10:44:39.000000000 +0200
+@@ -96,8 +96,10 @@
+ #pragma link C++ class RooAbsDataStore+ ;
+ #pragma link C++ class RooTreeDataStore+ ;
+ #pragma link C++ class RooTreeData+ ;
+-#pragma link C++ class RooMinimizer+ ;
+-#pragma link C++ class RooMinimizerFcn+ ;
++//#ifndef __ROOFIT_NOROOMINIMIZER
++//#pragma link C++ class RooMinimizer+ ;
++//#pragma link C++ class RooMinimizerFcn+ ;
++//#endif
+ #pragma link C++ namespace RooCintUtils+ ;
+ #pragma link off class RooErrorHandler+ ;
+ #pragma link off class RooNag+ ;
+diff -Naur orig.roofit/roofitcore/inc/RooMinimizerFcn.h roofit/roofitcore/inc/RooMinimizerFcn.h
+--- orig.roofit/roofitcore/inc/RooMinimizerFcn.h	2009-09-23 23:00:28.000000000 +0200
++++ roofit/roofitcore/inc/RooMinimizerFcn.h	2009-09-24 10:29:05.000000000 +0200
+@@ -11,6 +11,8 @@
+  * listed in LICENSE (http://roofit.sourceforge.net/license.txt)             *
+  *****************************************************************************/
+ 
++#ifndef __ROOFIT_NOROOMINIMIZER
++
+ #ifndef ROO_MINIMIZER_FCN
+ #define ROO_MINIMIZER_FCN
+ 
+@@ -93,3 +95,6 @@
+ };
+ 
+ #endif
++
++#endif
++
+diff -Naur orig.roofit/roofitcore/inc/RooMinimizer.h roofit/roofitcore/inc/RooMinimizer.h
+--- orig.roofit/roofitcore/inc/RooMinimizer.h	2009-09-23 23:00:28.000000000 +0200
++++ roofit/roofitcore/inc/RooMinimizer.h	2009-09-24 10:24:05.000000000 +0200
+@@ -12,6 +12,9 @@
+  * with or without modification, are permitted according to the terms        *
+  * listed in LICENSE (http://roofit.sourceforge.net/license.txt)             *
+  *****************************************************************************/
++
++#ifndef __ROOFIT_NOROOMINIMIZER
++
+ #ifndef ROO_MINIMIZER
+ #define ROO_MINIMIZER
+ 
+@@ -112,3 +115,8 @@
+ 
+ #endif
+ 
++#else
++
++class RooMinimizer;
++
++#endif
+diff -Naur orig.roofit/roofitcore/src/RooAbsPdf.cxx roofit/roofitcore/src/RooAbsPdf.cxx
+--- orig.roofit/roofitcore/src/RooAbsPdf.cxx	2009-09-23 23:00:28.000000000 +0200
++++ roofit/roofitcore/src/RooAbsPdf.cxx	2009-09-24 09:58:56.000000000 +0200
+@@ -972,8 +972,12 @@
+   Int_t doWarn   = pc.getInt("doWarn") ;
+   Int_t doSumW2  = pc.getInt("doSumW2") ;
+   const RooArgSet* minosSet = static_cast<RooArgSet*>(pc.getObject("minosSet")) ;
++#ifdef __ROOFIT_NOROOMINIMIZER
++  const char* minType =0 ;
++#else
+   const char* minType = pc.getString("mintype","",kTRUE) ;
+   const char* minAlg = pc.getString("minalg","",kTRUE) ;
++#endif
+ 
+   // Determine if the dataset has weights  
+   Bool_t weightedData = data.isNonPoissonWeighted() ;
+@@ -1006,6 +1010,7 @@
+   // Instantiate MINUIT
+   if (minType) {
+ 
++#ifndef __ROOFIT_NOROOMINIMIZER
+     RooMinimizer m(*nll) ;
+ 
+     m.setMinimizerType(minType) ;
+@@ -1147,6 +1152,7 @@
+       
+     }
+     
++#endif
+ 
+   } else {
+ 
+diff -Naur orig.roofit/roofitcore/src/RooMinimizer.cxx roofit/roofitcore/src/RooMinimizer.cxx
+--- orig.roofit/roofitcore/src/RooMinimizer.cxx	2009-09-23 23:00:28.000000000 +0200
++++ roofit/roofitcore/src/RooMinimizer.cxx	2009-09-24 09:56:21.000000000 +0200
+@@ -39,6 +39,8 @@
+ // END_HTML
+ //
+ 
++#ifndef __ROOFIT_NOROOMINIMIZER
++
+ #include "RooFit.h"
+ #include "Riostream.h"
+ 
+@@ -842,4 +844,5 @@
+ 
+ }
+ 
++#endif
+ 
+diff -Naur orig.roofit/roofitcore/src/RooMinimizerFcn.cxx roofit/roofitcore/src/RooMinimizerFcn.cxx
+--- orig.roofit/roofitcore/src/RooMinimizerFcn.cxx	2009-09-23 23:00:28.000000000 +0200
++++ roofit/roofitcore/src/RooMinimizerFcn.cxx	2009-09-24 10:29:30.000000000 +0200
+@@ -16,6 +16,7 @@
+ // RooMinimizerFcn is am interface class to the ROOT::Math function 
+ // for minization.
+ //                                                                                   
++#ifndef __ROOFIT_NOROOMINIMIZER
+ 
+ #include <iostream>
+ 
+@@ -510,4 +511,4 @@
+   return fvalue;
+ }
+ 
+-
++#endif

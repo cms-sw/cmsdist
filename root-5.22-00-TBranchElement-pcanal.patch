@@ -1,0 +1,11 @@
+--- orig.root/tree/tree/src/TBranchElement.cxx	2008-12-18 09:56:42.000000000 +0100
++++ root/tree/tree/src/TBranchElement.cxx	2009-01-22 21:10:53.000000000 +0100
+@@ -1593,7 +1593,7 @@
+    // FIXME:  What if the class code was unloaded/reloaded since we were cached?
+ 
+    if (fInfo) {
+-      if (!fInfo->GetOffsets()) {
++      if (!fInfo->GetOffsets() || (GetID()>-1 && !TestBit(TVirtualStreamerInfo::kCannotOptimize)) ) {
+          // Streamer info has not yet been compiled.
+          //
+          // Optimizing does not work with splitting.

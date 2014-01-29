@@ -1,0 +1,44 @@
+commit 2242b04642dacac885fcb698626f34e8bb3cfe48
+Author: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date:   Sat Oct 9 11:15:45 2010 +0200
+
+    ../CMSDIST/root-5.22-00d-genreflex_python26_popen3.patch
+
+diff --git a/cint/reflex/python/genreflex/genreflex.py b/cint/reflex/python/genreflex/genreflex.py
+index 4965386..f6ce15c 100644
+--- a/cint/reflex/python/genreflex/genreflex.py
++++ b/cint/reflex/python/genreflex/genreflex.py
+@@ -6,7 +6,7 @@
+ #
+ # This software is provided "as is" without express or implied warranty.
+ 
+-import sys, os, gendict, selclass, gencapa, genrootmap, string, getopt
++import sys, os, gendict, selclass, gencapa, genrootmap, string, getopt, subprocess
+ 
+ class genreflex:
+ #----------------------------------------------------------------------------------
+@@ -244,7 +244,11 @@ class genreflex:
+ #----------------------------------------------------------------------------------
+   def genGccxmlInfo(self):
+     s = ''
+-    (inp,out,err) = os.popen3('"' + self.gccxml + '" --print')
++    p = subprocess.Popen('"' + self.gccxml + '" --print', shell=True,
++                         bufsize=-1, stdin=subprocess.PIPE,
++                         stdout=subprocess.PIPE,
++                         stderr=subprocess.PIPE, close_fds=True)
++    (inp, out, err) = (p.stdin, p.stdout, p.stderr)
+     sout = out.read()
+     serr = err.read()
+     if serr :
+@@ -275,7 +279,10 @@ class genreflex:
+     else :
+       print '--->> genreflex: WARNING: While trying to retrieve compiler version, found unknown compiler %s' % compiler
+       return s
+-    (inp,out,err) = os.popen3('"%s" %s'%(compiler,vopt))
++    p = subprocess.Popen('"%s" %s'%(compiler,vopt), shell=True, bufsize=-1,
++                         stdin=subprocess.PIPE, stdout=subprocess.PIPE,
++                         stderr=subprocess.PIPE, close_fds=True)
++    (inp,out,err) = (p.stdin, p.stdout, p.stderr)
+     serr = err.read()
+     # cl puts its version into cerr!
+     if serr:

@@ -1,0 +1,48 @@
+Index: tree/tree/src/TTreeCloner.cxx
+===================================================================
+--- tree/tree/src/TTreeCloner.cxx	(revision 37919)
++++ tree/tree/src/TTreeCloner.cxx	(revision 37921)
+@@ -316,12 +316,24 @@
+            fi = 0;
+          }
+       } else {
+-         fWarningMsg.Form("One of the export branches (%s) is not present in the import TTree.",
+-                          tb->GetName());
+-         if (!(fOptions & kNoWarnings)) {
+-            Error("TTreeCloner::CollectBranches", "%s", fWarningMsg.Data());
++         if (tb->GetMother()==tb) {
++            // Top level branch.
++            if (!(fOptions & kIgnoreMissingTopLevel)) {
++               fWarningMsg.Form("One of the export top level branches (%s) is not present in the import TTree.",
++                                tb->GetName());
++               if (!(fOptions & kNoWarnings)) {
++                  Error("TTreeCloner::CollectBranches", "%s", fWarningMsg.Data());
++               }
++               fIsValid = kFALSE;
++            }
++         } else {
++            fWarningMsg.Form("One of the export sub-branches (%s) is not present in the import TTree.",
++                             tb->GetName());
++            if (!(fOptions & kNoWarnings)) {
++               Error("TTreeCloner::CollectBranches", "%s", fWarningMsg.Data());
++            }
++            fIsValid = kFALSE;
+          }
+-         fIsValid = kFALSE;
+       }
+       ++ti;
+    }
+Index: tree/tree/inc/TTreeCloner.h
+===================================================================
+--- tree/tree/inc/TTreeCloner.h	(revision 37919)
++++ tree/tree/inc/TTreeCloner.h	(revision 37921)
+@@ -88,7 +88,8 @@
+ public:
+    enum EClonerOptions {
+       kNone       = 0,
+-      kNoWarnings = BIT(1)
++      kNoWarnings = BIT(1),
++      kIgnoreMissingTopLevel = BIT(2)
+    };
+ 
+    TTreeCloner(TTree *from, TTree *to, Option_t *method, UInt_t options = kNone);

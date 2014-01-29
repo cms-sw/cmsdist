@@ -1,0 +1,10 @@
+--- orig.root/tmva/src/Config.cxx	2008-02-21 17:38:31.000000000 +0100
++++ root/tmva/src/Config.cxx	2008-12-14 22:04:34.000000000 +0100
+@@ -45,6 +45,7 @@
+ //_______________________________________________________________________
+ TMVA::Config::Config() :
+    fUseColoredConsole( kTRUE ),
++   fSilent( kTRUE ),
+    fLogger( "Config" )
+ {
+    // constructor - set defaults

@@ -1,0 +1,55 @@
+Index: ATOOLS/Math/Algebra_Interpreter.H
+===================================================================
+--- ATOOLS/Math/Algebra_Interpreter.H	(revision 11165)
++++ ATOOLS/Math/Algebra_Interpreter.H	(revision 11166)
+@@ -183,42 +183,42 @@
+ }// end of namespace ATOOLS
+ 
+ #define DEFINE_FUNCTION(NAME,TAG)					\
+-  class NAME: public Function {						\
++  namespace ATOOLS { class NAME: public Function {                      \
+   public:								\
+     NAME();								\
+     std::string Evaluate(const std::vector<std::string> &args) const;	\
+     Term        *Evaluate(const std::vector<Term*> &args) const;	\
+-  };									\
++  }; }									\
+   NAME::NAME(): Function(TAG) {}					\
+   std::string NAME::Evaluate(const std::vector<std::string> &args) const
+ 
+ #define DEFINE_UNARY_OPERATOR(NAME,TAG,PRIORITY)			\
+-  class NAME: public Operator {						\
++  namespace ATOOLS { class NAME: public Operator {			\
+   public:								\
+     NAME();								\
+     std::string Evaluate(const std::vector<std::string> &args) const;	\
+     Term        *Evaluate(const std::vector<Term*> &args) const;	\
+-  };									\
++  }; }									\
+   NAME::NAME(): Operator(TAG,PRIORITY,false) {}				\
+   std::string NAME::Evaluate(const std::vector<std::string> &args) const
+ 
+ #define DEFINE_BINARY_OPERATOR(NAME,TAG,PRIORITY)			\
+-  class NAME: public Operator {						\
++  namespace ATOOLS { class NAME: public Operator {			\
+   public:								\
+     NAME();								\
+     std::string  Evaluate(const std::vector<std::string> &args) const;	\
+     Term        *Evaluate(const std::vector<Term*> &args) const;	\
+-  };									\
++  }; }									\
+   NAME::NAME(): Operator(TAG,PRIORITY,true) {}				\
+   std::string NAME::Evaluate(const std::vector<std::string> &args) const
+ 
+ #define DEFINE_INTERPRETER_FUNCTION(NAME)				\
+-  class NAME: public Interpreter_Function {				\
++  namespace ATOOLS { class NAME: public Interpreter_Function {		\
+   public:								\
+     inline NAME(Algebra_Interpreter *interpreter):			\
+       Interpreter_Function(interpreter) {}				\
+     std::string Interprete(const std::string &expr);			\
+-  };									\
++  }; }									\
+   std::string NAME::Interprete(const std::string &expr)
+ 
+ #endif

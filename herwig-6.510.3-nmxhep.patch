@@ -1,0 +1,30 @@
+--- orig.herwig/6.510.3/include/herwig6510.inc	2010-02-11 09:59:53.000000000 +0100
++++ herwig/6.510.3/include/herwig6510.inc	2010-02-11 10:00:47.000000000 +0100
+@@ -127,7 +127,7 @@
+      & TXNAME
+ C
+ C New standard event common
+-      PARAMETER (NMXHEP=10000)
++      PARAMETER (NMXHEP=4000)
+       COMMON/HEPEVT/NEVHEP,NHEP,ISTHEP(NMXHEP),IDHEP(NMXHEP),
+      & JMOHEP(2,NMXHEP),JDAHEP(2,NMXHEP),PHEP(5,NMXHEP),VHEP(4,NMXHEP)
+ C
+--- orig.herwig/6.510.3/configure	2010-02-11 09:59:53.000000000 +0100
++++ herwig/6.510.3/configure	2010-02-11 10:37:41.000000000 +0100
+@@ -8,11 +8,11 @@
+ # User-changeable part -------------------------------
+ #
+ 
+-if [ x$MCGENERATORS = x ]; then
+-  echo MCGENERATORS variable is not defined !
+-  echo You should define it or start ./lcg_configure instead of ./configure.
+-  exit 1
+-fi
++# if [ x$MCGENERATORS = x ]; then
++#  echo MCGENERATORS variable is not defined !
++#  echo You should define it or start ./lcg_configure instead of ./configure.
++#  exit 1
++# fi
+  
+ export SHAREDLIBS=no
+ 

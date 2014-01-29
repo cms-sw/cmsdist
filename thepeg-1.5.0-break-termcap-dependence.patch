@@ -1,0 +1,11 @@
+--- orig.ThePEG-1.5.0/configure	2009-09-01 14:03:44.000000000 +0200
++++ ThePEG-1.5.0/configure	2009-11-03 22:36:31.000000000 +0100
+@@ -15213,7 +15213,7 @@
+ 
+     ORIG_LIBS="$LIBS"
+     for readline_lib in readline edit editline; do
+-      for termcap_lib in "" termcap curses ncurses; do
++      for termcap_lib in "" xxxtermcap xxxcurses xxxxncurses; do
+         if test -z "$termcap_lib"; then
+           TRY_LIB="-l$readline_lib"
+         else

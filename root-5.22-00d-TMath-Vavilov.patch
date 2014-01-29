@@ -1,0 +1,19 @@
+commit 6e7419fd74bba38fff32a0de841dff031e208aa0
+Author: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date:   Sat Oct 9 11:15:47 2010 +0200
+
+    ../CMSDIST/root-5.22-00d-TMath-Vavilov.patch
+
+diff --git a/math/mathcore/src/TMath.cxx b/math/mathcore/src/TMath.cxx
+index 0101151..109f1f3 100644
+--- a/math/mathcore/src/TMath.cxx
++++ b/math/mathcore/src/TMath.cxx
+@@ -2683,7 +2683,7 @@ Double_t TMath::VavilovI(Double_t x, Double_t kappa, Double_t beta2)
+ 
+    Double_t *ac = new Double_t[14];
+    Double_t *hc = new Double_t[9];
+-   Double_t *wcm = new Double_t[200];
++   Double_t *wcm = new Double_t[201];
+    Int_t itype;
+    Int_t npt;
+    Int_t k;

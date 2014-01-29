@@ -1,0 +1,518 @@
+diff --git a/Makefile b/Makefile
+index c9ee4ca..0bf0bf4 100644
+--- a/Makefile
++++ b/Makefile
+@@ -37,6 +37,9 @@ all $(TARGET):
+ 		CYGWIN*) \
+ 			$(MAKE) -f Makefile.w32 $@ ;\
+ 			;; \
++		Darwin) \
++			$(MAKE) -f Makefile.darwin $@ ;\
++			;; \
+ 		*) \
+ 			echo "Don't know your machine type" \
+ 			echo "Have a look in Porting file" \
+diff --git a/dc_hack.h b/dc_hack.h
+index f1e95d4..547d5a3 100644
+--- a/dc_hack.h
++++ b/dc_hack.h
+@@ -40,6 +40,17 @@
+ #define access     dc_access
+ #define unlink     dc_unlink
+ 
++#ifdef __APPLE__
++#define lseek    dc_lseek64
++#define stat     dc_stat64
++#define lstat    dc_lstat64
++#define fstat    dc_fstat64
++#define readdir  dc_readdir64
++#define ftello   dc_ftello64
++#define fseeko   dc_fseeko64
++#define pread    dc_pread64
++#define pwrite   dc_pwrite64
++#else
+ #define lseek64    dc_lseek64
+ #define stat64     dc_stat64
+ #define lstat64    dc_lstat64
+@@ -49,7 +60,7 @@
+ #define fseeko64   dc_fseeko64
+ #define pread64    dc_pread64
+ #define pwrite64   dc_pwrite64
+-
++#endif
+ #define lseek      dc_lseek
+ #define stat       dc_stat
+ #define lstat      dc_lstat
+diff --git a/dcap_dirent.c b/dcap_dirent.c
+index 5055f92..bcc35d5 100644
+--- a/dcap_dirent.c
++++ b/dcap_dirent.c
+@@ -18,18 +18,23 @@
+ 
+ #include "dcap_shared.h"
+ #include <sys/types.h>
++#ifdef __APPLE__
++#include <sys/dir.h>
++#endif
+ #include <dirent.h>
+ 
+ #define RD_SEPARATOR ':'
+ 
++#ifdef __APPLE__
++#define dirent64 dirent
++#endif
++
+ ssize_t dc_real_read( struct vsp_node *node, void *buff, size_t buflen);
+ struct dirent64 *dc_readdir64( DIR *dir);
+ int char2dirent64(const char *, struct dirent64 *);
+ int char2dirent(const char *, struct dirent *);
+ 
+-
+ #ifdef linux
+-
+ struct __dirstream   {
+     int fd;         /* File descriptor.  */
+                                                                                 
+@@ -54,6 +59,11 @@ struct __dirstream   {
+ 
+ #endif
+ 
++#ifdef __APPLE__
++#define DIRENT_FD(x) x->__dd_fd
++#define DIRENT_DATA(x) x->__dd_buf
++#endif
++
+ 
+ DIR * dc_opendir(const char *path)
+ {
+@@ -134,7 +144,10 @@ DIR * dc_opendir(const char *path)
+ 
+ struct dirent *dc_readdir( DIR *dir)
+ {
+-
++#ifdef __APPLE__
++	abort();
++	return 0;
++#else
+ 	static struct dirent ent;
+ 	struct dirent64 *ep;
+ 	
+@@ -145,16 +158,14 @@ struct dirent *dc_readdir( DIR *dir)
+ 	}
+ 			
+ 	memcpy(ent.d_name, ep->d_name, 256);
+-#ifdef linux	
++#ifdef linux 
+ 	ent.d_type = ep->d_type;
+ #endif
+ 	ent.d_reclen = ep->d_reclen;
+-	ent.d_off = (off_t)ep->d_off;
+ 	ent.d_ino = (ino_t)ep->d_ino;
+ 	
+ 	return &ent;	
+-	
+-
++#endif
+ }
+ 
+ struct dirent64 *dc_readdir64( DIR *dir)
+diff --git a/dcap_open.c b/dcap_open.c
+index 93bbe9e..1fb363e 100644
+--- a/dcap_open.c
++++ b/dcap_open.c
+@@ -16,6 +16,7 @@
+  */
+ 
+ #include "dcap_shared.h"
++#include <stdio.h>
+ 
+ 
+ #define DC_STAGE (O_RDONLY | O_NONBLOCK)
+@@ -47,6 +48,8 @@ dc_open(const char *fname, int flags,...)
+ 	int tmpIndex;
+ #ifdef WIN32
+ 	struct _stati64 sbuf;
++#elif defined(__APPLE__)
++	struct stat sbuf;
+ #else
+ 	struct stat64 sbuf;
+ #endif
+@@ -68,7 +71,7 @@ dc_open(const char *fname, int flags,...)
+ 		
+ 	if (flags & O_CREAT) {
+ 		va_start(args, flags);
+-		mode = va_arg(args, mode_t);
++		mode = va_arg(args, int);
+ 		va_end(args);
+ 		isTrunc = ( (flags & O_TRUNC) == O_TRUNC );
+ 	}
+@@ -103,7 +106,9 @@ dc_open(const char *fname, int flags,...)
+ 								 * with Disk Cache */
+ 				free(path);				 
+ 				dc_debug(DC_INFO, "Using system native open for %s.", fname);		
++#ifndef __APPLE__
+ 			    flags |= O_LARGEFILE ;
++#endif
+ 				return system_open(fname, flags, mode);
+ 		}
+ 	
+@@ -190,7 +195,10 @@ dc_open(const char *fname, int flags,...)
+ 	 * dCache always has LARGE FILE SUPPORT,
+ 	 * remove extra flag, while it makes trouble in ascii open
+ 	 */
+-	node->flags =  flags & ~O_LARGEFILE;
++	node->flags =  flags;
++#ifndef __APPLE__
++	node->flags &= ~O_LARGEFILE;
++#endif
+ 	node->mode = mode;
+ 	
+ 	if(url == NULL) {
+diff --git a/dcap_poll.c b/dcap_poll.c
+index e2148cf..7bdc04f 100644
+--- a/dcap_poll.c
++++ b/dcap_poll.c
+@@ -21,7 +21,9 @@
+ #include <sys/types.h>
+ #ifndef WIN32
+ #    ifndef __CYGWIN__
++#    ifndef __APPLE__
+ #         include <stropts.h>
++#    endif
+ #    endif /* __CYGWIN__ */
+ #    include <poll.h>
+ #    include <unistd.h>
+diff --git a/dcap_signal.c b/dcap_signal.c
+index e2f517c..266e3ec 100644
+--- a/dcap_signal.c
++++ b/dcap_signal.c
+@@ -18,7 +18,7 @@
+ #include <signal.h>
+ #include <stdlib.h>
+ #include <unistd.h>
+-#ifndef __CYGWIN__
++#if !defined(__CYGWIN__) && !defined(__APPLE__)
+ #    include <stropts.h>
+ #endif /* __CYGWIN__ */
+ 
+diff --git a/dcap_stat.c b/dcap_stat.c
+index 3cc0a19..e63b808 100644
+--- a/dcap_stat.c
++++ b/dcap_stat.c
+@@ -18,6 +18,9 @@
+ #include <stdio.h>
+ #include "dcap_shared.h"
+ 
++#ifdef __APPLE__
++#define stat64 stat
++#endif
+ off64_t dc_real_lseek(struct vsp_node *node, off64_t offset, int whence);
+ #ifdef WIN32
+ int dc_stat64(const char *path, struct _stati64 *buf);
+diff --git a/dcap_stream.c b/dcap_stream.c
+index 60dcb78..32f1d21 100644
+--- a/dcap_stream.c
++++ b/dcap_stream.c
+@@ -79,7 +79,7 @@ int dc_feof(FILE *fp)
+ 		return system_feof(fp);
+ 	}
+ 	
+-#if defined(linux) || defined(__CYGWIN__)
++#if defined(linux) || defined(__CYGWIN__) || defined(__APPLE__)
+ 	if ( ((FILE *)fp)->_flags & _IO_EOF_SEEN ) {
+ #else
+ 	if ( ((FILE *)fp)->_flag & _IOEOF ) {
+@@ -130,12 +130,14 @@ FILE   *dc_fopen64(const char *file, const char *mode)
+ 		}
+ 
+ 		/* break FILE chain */
+-	#ifdef linux
++	#if defined(linux)
+ 		fp->_chain = NULL;
+ 		fp->_IO_write_ptr = NULL;
+ 		fp->_IO_write_base = NULL;
+ 		fp->_lock = NULL;
+ 		fp->_flags = 0;
++	#elif defined(__APPLE__)
++		fp->_flags = 0;
+ 	#else
+ 		fp->_flag = 0;
+ 	#endif
+@@ -178,6 +180,8 @@ FILE   *dc_fdopen(int fd, const char *mode)
+ 	fp->_IO_write_ptr = NULL;
+ 	fp->_IO_write_base = NULL;
+ 	fp->_flags = 0;
++#elif defined(__APPLE__)
++	fp->_flags;
+ #else
+ 	fp->_flag = 0;
+ #endif
+@@ -203,7 +207,7 @@ size_t dc_fread(void *ptr, size_t size, size_t items, FILE *fp)
+ 	switch(rc) {
+ 		case -1:
+ 		case 0:
+-#if defined(linux) || defined(__CYGWIN__)
++#if defined(linux) || defined(__CYGWIN__) || defined(__APPLE__)
+ 			((FILE *)fp)->_flags |= _IO_EOF_SEEN;
+ #else
+ 			((FILE *)fp)->_flag |= _IOEOF;
+@@ -304,7 +308,7 @@ size_t dc_fwrite(const void *ptr, size_t size, size_t items, FILE *fp)
+ 
+ 	switch(rc) {
+ 		case -1:
+-#if defined(linux) || defined(__CYGWIN__)
++#if defined(linux) || defined(__CYGWIN__) || defined(__APPLE__)
+ 			((FILE *)fp)->_flags |= _IO_ERR_SEEN ;
+ #else
+ 			((FILE *)fp)->_flag |= _IOERR ;
+@@ -312,7 +316,7 @@ size_t dc_fwrite(const void *ptr, size_t size, size_t items, FILE *fp)
+ 			rc= 0 ; 
+ 			break ; 
+ 		case 0:
+-#if defined(linux) || defined(__CYGWIN__)
++#if defined(linux) || defined(__CYGWIN__) || defined(__APPLE__)
+ 			((FILE *)fp)->_flags |= _IO_EOF_SEEN ; 
+ #else
+ 			((FILE *)fp)->_flag |= _IOEOF ; 
+diff --git a/dcap_types.h b/dcap_types.h
+index e860173..dbaed16 100644
+--- a/dcap_types.h
++++ b/dcap_types.h
+@@ -64,6 +64,10 @@ typedef struct {
+ #endif /* NOT_THREAD_SAFE */
+ } messageQueue;
+ 
++#ifdef __APPLE__
++typedef off_t off64_t;
++#endif
++
+ typedef struct {
+ 	char *buffer;
+ 	off64_t base;
+diff --git a/system_io.c b/system_io.c
+index 48d8480..8f91894 100644
+--- a/system_io.c
++++ b/system_io.c
+@@ -214,7 +214,11 @@ static int initIfNeeded()
+ 	s_rename = (int (*)(const char *, const char *))dlsym(handle, RENAME_SYM);
+ 		
+ 	s_fopen = (FILE * (*)(const char * , const char *))dlsym(handle, "fopen");
++#ifdef __APPLE__
++	s_fopen64 = s_fopen;
++#else
+ 	s_fopen64 = (FILE * (*)(const char * , const char *))dlsym(handle, "fopen64");
++#endif
+ 	s_fdopen = (FILE * (*)(int , const char *))dlsym(handle, "fdopen");
+ 	s_fread = (size_t (*)(void *, size_t, size_t, FILE * ))dlsym(handle, "fread");
+ 	s_fwrite = (size_t (*)(const void *, size_t, size_t, FILE * ))dlsym(handle, "fwrite");
+diff --git a/system_io.h b/system_io.h
+index 54347a4..0b665a8 100644
+--- a/system_io.h
++++ b/system_io.h
+@@ -27,6 +27,7 @@
+ #ifdef LIBC_SYSCALLS
+ 
+ #include <stdio.h>
++#include <unistd.h>
+ 
+ extern int system_open(const char *, int, mode_t);
+ extern int system_read(int, void *, size_t);
+@@ -79,6 +80,7 @@ extern int system_fgetc( FILE *);
+ 
+ #ifndef WIN32
+ #    include <unistd.h>
++#    define system_access(a,b) access(a,b)
+ #    define system_open(a,b,c) open(a,b,c)
+ #    define system_read(a,b,c) read(a,b,c)
+ #    ifdef DCAP_NO_PREAD
+@@ -102,16 +104,27 @@ extern int system_fgetc( FILE *);
+ #    define system_lseek(a,b,c) lseek(a,b,c)
+ #    define system_stat(a,b) stat(a,b)
+ #    define system_lstat(a,b) lstat(a,b)
++/* MACOSX is 64 bit clean */
++#ifdef __APPLE__
++#    define system_stat64(a,b) stat(a,b)
++#    define system_lstat64(a,b) lstat(a,b)
++#    define system_fstat64(a,b) fstat(a,b)
++#else
+ #    define system_stat64(a,b) stat64(a,b)
+ #    define system_lstat64(a,b) lstat64(a,b)
++#    define system_fstat64(a,b) fstat64(a,b)
++#endif
+ #    define system_stat(a,b) stat(a,b)
+ #    define system_fstat(a,b) fstat(a,b)
+-#    define system_fstat64(a,b) fstat64(a,b)
+ #    define system_fsync(a) fsync(a)
+ #    define system_dup(a) dup(a)
+ #    define system_opendir(a) opendir(a)
+ #    define system_readdir(a) readdir(a)
++#if __APPLE__
++#    define system_readdir64(a) readdir(a)
++#else
+ #    define system_readdir64(a) readdir64(a)
++#endif
+ #    define system_closedir(a) closedir(a)
+ #    define system_telldir(a) telldir(a)
+ #    define system_seekdir(a,b) seekdir(a,b)
+commit a53bdf775d70e61e2c0eb6f5ebc5f461505aeca3
+Author: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date:   Thu Sep 9 17:39:57 2010 +0200
+
+    Macosx makefile.
+
+diff --git a/Makefile.darwin b/Makefile.darwin
+new file mode 100644
+index 0000000..40bc8ea
+--- /dev/null
++++ b/Makefile.darwin
+@@ -0,0 +1,49 @@
++#
++# $Id: dcap-macosx-workarounds.patch,v 1.1 2010/09/09 16:56:58 eulisse Exp $
++#
++
++#
++# Makefile for Linux
++#
++
++CC = gcc
++
++#
++# libc dynamic symbols for simple IO operations
++#
++IO_SYM = -DOPEN_SYM=\"open\" -DCLOSE_SYM=\"close\" \
++	-DREAD_SYM=\"read\" -DWRITE_SYM=\"write\" \
++	-DLSEEK_SYM=\"lseek\" -DLSEEK64_SYM=\"lseek\" \
++	-DPREAD_SYM=\"pread\" -DPREAD64_SYM=\"pread\" \
++	-DPWRITE_SYM=\"pwrite\" -DPWRITE64_SYM=\"pwrite\" -DSTAT_SYM=\"__xstat\" \
++	-DSTAT64_SYM=\"__xstat64\" -DFSTAT64_SYM=\"__fxstat\" \
++	-DLSTAT_SYM=\"__lxstat\" -DLSTAT64_SYM=\"__lxstat\" \
++	-DFSTAT_SYM=\"__fxstat\" -DFSYNC_SYM=\"fsync\" \
++	-DDUP_SYM=\"dup\" \
++	-DOPENDIR_SYM=\"opendir\" -DCLOSEDIR_SYM=\"closedir\" \
++	-DREADDIR_SYM=\"readdir\" -DREADDIR64_SYM=\"readdir\" \
++	-DTELLDIR_SYM=\"telldir\" -DSEEKDIR_SYM=\"seekdir\" \
++	-DUNLINK_SYM=\"unlink\" -DRMDIR_SYM=\"rmdir\" -DMKDIR_SYM=\"mkdir\" \
++	-DCHMOD_SYM=\"chmod\" -DACCESS_SYM=\"access\" -DRENAME_SYM=\"rename\" \
++	-DCHOWN_SYM=\"chown\" -DWRITEV_SYM=\"writev\" -DREADV_SYM=\"readv\"
++
++CFLAGS = -g -I. -fPIC -Wall -pedantic -pipe -D_REENTRANT -DLIBC_SYSCALLS $(IO_SYM) -D_GNU_SOURCE 
++
++CPP = cpp
++
++
++SO_EXT = .dylib
++A_EXT = .a
++EXE_EXT =
++
++
++RANLIB = ranlib
++ARFLAGS = rv
++
++MAKEDEP = $(CC) -M -I.
++#MAP = --version-script=mapfile
++LIBS = -ldl -lpthread -lc
++LDFLAGS = -shared
++
++include Makefile.inc
++
+diff --git a/system_io.c b/system_io.c
+index 8f91894..a2cda2e 100644
+--- a/system_io.c
++++ b/system_io.c
+@@ -31,6 +31,10 @@
+ #include "sysdep.h"
+ #include <signal.h>
+ 
++#ifdef __APPLE__
++#define off64_t off_t
++#endif
++
+ static MUTEX(gLock);
+ static void *handle;
+ 
+diff --git a/dcap/system_io.h b/dcap/system_io.h
+index 0b665a8..ff9129e 100644
+--- a/system_io.h
++++ b/system_io.h
+@@ -29,6 +29,11 @@
+ #include <stdio.h>
+ #include <unistd.h>
+ 
++#ifdef __APPLE__
++#define off64_t off_t
++#endif
++
++
+ extern int system_open(const char *, int, mode_t);
+ extern int system_read(int, void *, size_t);
+ extern int system_readv(int, const struct iovec *vector, int count);
+diff --git a/dcap/dcap.h.in b/dcap/dcap.h.in
+index 11f9e06..edeea3f 100644
+--- a/dcap.h.in
++++ b/dcap.h.in
+@@ -33,6 +33,9 @@
+ #endif /* WIN32 */
+ #include <dcap_errno.h>
+ 
++#ifdef __APPLE__
++#define off64_t off_t
++#endif
+ 
+ #ifdef  __cplusplus
+ extern "C" {
+diff --git a/dcap/dcap_preload.c b/dcap/dcap_preload.c
+index 6df8d0c..a0ef075 100644
+--- a/dcap_preload.c
++++ b/dcap_preload.c
+@@ -26,6 +26,9 @@
+ #include <dcap_debug.h>
+ #include <sys/mman.h>
+ 
++#ifdef __APPLE__
++#define off64_t off_t
++#endif
+ 
+ /* 
+  * some applications do not close the file, which they have opned
+diff --git a/Makefile b/Makefile
+index 0bf0bf4..a3fab7b 100644
+--- a/Makefile
++++ b/Makefile
+@@ -11,6 +11,7 @@ CP    = cp
+ RM    = rm -f
+ LINK  = ln -s
+ MV    = mv
++SONAME = so
+ 
+ TARGET = libdcap libpdcap dccp dcap_test depend mapfile wdccp cflags
+ 
+@@ -72,14 +73,14 @@ release:
+ 
+ install: rebuild dirs
+ 	@VER=`./version.sh`; \
+-	$(MV) libdcap.so libdcap$$VER.so; \
+-	$(RM) $(BIN_PATH)/lib/libdcap.so; \
+-	$(LINK) libdcap$$VER.so $(BIN_PATH)/lib/libdcap.so; \
+-	$(CP) libdcap$$VER.so $(BIN_PATH)/lib/; \
+-	$(MV) libpdcap.so libpdcap$$VER.so; \
+-	$(RM) $(BIN_PATH)/lib/libpdcap.so; \
+-	$(LINK) libpdcap$$VER.so $(BIN_PATH)/lib/libpdcap.so; \
+-	$(CP) libpdcap$$VER.so $(BIN_PATH)/lib/; \
++	$(MV) libdcap.$(SONAME) libdcap$$VER.$(SONAME); \
++	$(RM) $(BIN_PATH)/lib/libdcap.$(SONAME); \
++	$(LINK) libdcap$$VER.$(SONAME) $(BIN_PATH)/lib/libdcap.$(SONAME); \
++	$(CP) libdcap$$VER.$(SONAME) $(BIN_PATH)/lib/; \
++	$(MV) libpdcap.$(SONAME) libpdcap$$VER.$(SONAME); \
++	$(RM) $(BIN_PATH)/lib/libpdcap.$(SONAME); \
++	$(LINK) libpdcap$$VER.$(SONAME) $(BIN_PATH)/lib/libpdcap.$(SONAME); \
++	$(CP) libpdcap$$VER.$(SONAME) $(BIN_PATH)/lib/; \
+ 	$(CP) dccp $(BIN_PATH)/bin/; \
+ 	$(CP) dcap.h $(BIN_PATH)/include/; \
+ 	$(CP) dcap_errno.h $(BIN_PATH)/include/; \
+@@ -110,5 +111,5 @@ clean:
+ 	@rm -f *.o *.BAK core
+ 
+ cleanall: clean	
+-	@rm -f $(TARGET) libdcap*.so libdcap*.a libpdcap*.so dcap.h \
++	@rm -f $(TARGET) libdcap*.$(SONAME) libdcap*.a libpdcap*.$(SONAME) dcap.h \
+ 	.depend debug_map.h  debug_level.h mapfile

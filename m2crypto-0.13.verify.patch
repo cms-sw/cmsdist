@@ -1,0 +1,28 @@
+--- SWIG/_x509.i.orig	Sun Mar 21 04:37:46 2004
++++ SWIG/_x509.i	Tue Dec 28 08:10:25 2004
+@@ -27,7 +27,8 @@
+ %name(x509_set_issuer_name) extern int X509_set_issuer_name(X509 *, X509_NAME *);
+ %name(x509_set_subject_name) extern int X509_set_subject_name(X509 *, X509_NAME *);
+ 
+-%name(x509_get_verify_error) extern const char *X509_verify_cert_error_string(long);
++%name(x509_verify) extern int X509_verify(X509 *a, EVP_PKEY *r);
++%name(x509_verify_error_string) extern const char *X509_verify_cert_error_string(long);
+ 
+ %name(x509_name_new) extern X509_NAME *X509_NAME_new( void );
+ %name(x509_name_free) extern void X509_NAME_free(X509_NAME *);
+--- M2Crypto/X509.py.orig	Tue Mar 23 21:46:38 2004
++++ M2Crypto/X509.py	Wed Dec 29 14:07:28 2004
+@@ -244,6 +244,13 @@
+ 		m2.x509_print( buf.bio_ptr(), self.x509 )
+ 		return buf.read_all()
+ 
++	def verify(self):
++		assert m2.x509_type_check(self.x509), "'x509' type error"
++		return m2.x509_verify(self.x509, m2.x509_get_pubkey(self.x509))
++
++	def verify_error_string(self,errnum):
++		assert m2.x509_type_check(self.x509), "'x509' type error"
++		return m2.x509_verify_error_string(errnum)
+ 
+ 
+ 

@@ -1,0 +1,11 @@
+--- orig.root/config/Makefile.linuxx8664gcc	2009-07-27 17:16:56.000000000 +0200
++++ root/config/Makefile.linuxx8664gcc	2010-12-09 16:03:54.000000000 +0100
+@@ -20,7 +20,7 @@
+ # Compiler:
+ CXX           = g++
+ CC            = gcc
+-CXXFLAGS      = -pipe -m64 -Wall -W -Woverloaded-virtual \
++CXXFLAGS      = -pipe -m64 -Wall -W -Woverloaded-virtual -fvisibility-inlines-hidden \
+                 -fPIC $(EXTRA_CXXFLAGS)
+ CFLAGS        = -pipe -m64 -Wall -W -fPIC $(EXTRA_CFLAGS)
+ CINTCXXFLAGS  = -pipe -m64 -Wall -W -Woverloaded-virtual \

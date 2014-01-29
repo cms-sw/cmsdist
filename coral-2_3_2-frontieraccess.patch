@@ -1,0 +1,436 @@
+diff -Naur orig.src/FrontierAccess/src/QueryDefinition.cpp src/FrontierAccess/src/QueryDefinition.cpp
+--- orig.src/FrontierAccess/src/QueryDefinition.cpp	2008-12-11 16:17:16.000000000 +0100
++++ src/FrontierAccess/src/QueryDefinition.cpp	2010-01-12 10:47:22.000000000 +0100
+@@ -2,6 +2,7 @@
+ #include "ISessionProperties.h"
+ #include "DomainProperties.h"
+ #include "View.h"
++#include "Schema.h"
+ 
+ #include "RelationalAccess/SchemaException.h"
+ #include "RelationalAccess/ISchema.h"
+@@ -244,7 +245,7 @@
+       expressionParser.addToTableList( iTableQ->first, iTableQ->second.outputVariables() );
+     }
+     else if ( m_properties.schema().existsTable( tableName ) )
+-      expressionParser.addToTableList( m_properties.schema().tableHandle( tableName ).description() );
++      expressionParser.addToTableList( tableName, *( dynamic_cast< coral::FrontierAccess::Schema& >( m_properties.schema() ).tableColumns( tableName ) ) );
+     else if ( m_properties.schema().existsView( tableName ) )
+       expressionParser.addToTableList( dynamic_cast< const::coral::FrontierAccess::View& >( m_properties.schema().viewHandle( tableName ) ).description() );
+   }
+@@ -283,10 +284,9 @@
+ 
+     if ( m_singleTable || m_properties.schema().existsTable( tableName ) ) // Check if it is a table
+     {
+-      const coral::ITableDescription& description = m_properties.schema().tableHandle( tableName ).description();
+-      int numberOfColumns = description.numberOfColumns();
+-      for ( int i = 0; i < numberOfColumns; ++i )
+-        m_output.push_back( description.columnDescription(i).name() );
++      const std::vector< std::string >* columns = dynamic_cast< coral::FrontierAccess::Schema& >( m_properties.schema() ).tableColumns( tableName );
++      for ( std::vector< std::string >::const_iterator iColumns = columns->begin(); iColumns != columns->end(); ++iColumns )
++        m_output.push_back( *iColumns );
+     }
+     else if ( m_properties.schema().existsView( tableName ) ) // Check if it is a query
+     {
+diff -Naur orig.src/FrontierAccess/src/Schema.cpp src/FrontierAccess/src/Schema.cpp
+--- orig.src/FrontierAccess/src/Schema.cpp	2008-04-03 23:42:02.000000000 +0200
++++ src/FrontierAccess/src/Schema.cpp	2010-01-12 10:47:22.000000000 +0100
+@@ -25,13 +25,31 @@
+ #include "CoralKernel/Service.h"
+ 
+ coral::FrontierAccess::Schema::Schema( const coral::FrontierAccess::ISessionProperties& sessionProperties )
+-  : m_sessionProperties( sessionProperties ), m_tables(), m_tablesReadFromDataDictionary( false ), m_views(), m_viewsReadFromDataDictionary( false )
++  : m_sessionProperties( sessionProperties ), m_tables(), m_views(), m_viewsReadFromDataDictionary( false )
+ {
+ }
+ 
+ coral::FrontierAccess::Schema::~Schema()
+ {
+-  this->reactOnEndOfTransaction();
++  for ( std::map< std::string, coral::FrontierAccess::Table* >::iterator iTable = m_tables.begin(); iTable != m_tables.end(); ++iTable )
++    if ( iTable->second )
++      delete iTable->second;
++
++  m_tables.clear();
++
++  for ( std::map< std::string, coral::FrontierAccess::View* >::iterator iView = m_views.begin(); iView != m_views.end(); ++iView )
++    if ( iView->second )
++      delete iView->second;
++
++  m_views.clear();
++
++  m_viewsReadFromDataDictionary = false;
++
++  for ( std::map< std::string, std::vector< std::string >* >::iterator iTableColumns = m_tableColumns.begin(); iTableColumns != m_tableColumns.end(); ++iTableColumns )
++    if ( iTableColumns->second )
++      delete iTableColumns->second;
++
++  m_tableColumns.clear();
+ }
+ 
+ std::string coral::FrontierAccess::Schema::schemaName() const
+@@ -39,6 +57,47 @@
+   return m_sessionProperties.schemaName();
+ }
+ 
++void coral::FrontierAccess::Schema::readTableColumns(const std::string& tableName ) const
++{
++  std::string columnSql =
++    "SELECT TABLE_NAME, COLUMN_NAME FROM ALL_TAB_COLUMNS WHERE OWNER=:\"schema\"";
++  if ( tableName != "" )
++    columnSql += " AND TABLE_NAME=:\"table\"";
++  columnSql += " ORDER BY TABLE_NAME, COLUMN_ID";
++
++  coral::FrontierAccess::Statement statement( m_sessionProperties, columnSql );
++  statement.setNumberOfPrefetchedRows( 100 );
++  coral::AttributeList bindData;
++  bindData.extend<std::string>( "schema" );
++  bindData["schema"].data<std::string>() = schemaName();
++  if ( tableName != "" )
++  {
++    bindData.extend<std::string>( "table" );
++    bindData["table"].data<std::string>() = tableName;
++  }
++  statement.execute( bindData, false );
++  coral::AttributeList outputData;
++  outputData.extend<std::string>("TABLE_NAME");
++  const std::string& tName = outputData["TABLE_NAME"].data<std::string>();
++  outputData.extend<std::string>("COLUMN_NAME");
++  const std::string& cName = outputData["COLUMN_NAME"].data<std::string>();
++  statement.defineOutput( outputData );
++  while( statement.fetchNext() )
++  {
++    std::map< std::string, std::vector< std::string>* >::iterator iTableColumns = m_tableColumns.find( tName );
++    std::vector< std::string>* columnNames;
++    if ( iTableColumns == m_tableColumns.end() )
++    {
++      // the mapping doesn't yet exist
++      columnNames = new std::vector< std::string>;
++      m_tableColumns.insert( std::make_pair( tName, columnNames ) );
++    }
++    else
++      columnNames = iTableColumns->second;
++    columnNames->push_back( cName );
++  }
++}
++
+ std::set<std::string> coral::FrontierAccess::Schema::listTables() const
+ {
+   if ( ! m_sessionProperties.isTransactionActive() )
+@@ -46,12 +105,12 @@
+   
+   std::set<std::string> result;
+ 
+-  if ( ! m_tablesReadFromDataDictionary )
+-    this->readTablesFromDataDictionary();
++  if ( m_tableColumns.size() == 0 )
++    readTableColumns( "" );
+ 
+-  for ( std::map< std::string, coral::FrontierAccess::Table*>::const_iterator iTable = m_tables.begin(); iTable != m_tables.end(); ++iTable )
++  for ( std::map< std::string, std::vector< std::string>* >::const_iterator iTableColumns = m_tableColumns.begin(); iTableColumns != m_tableColumns.end(); ++iTableColumns )
+   {
+-    result.insert( iTable->first );
++    result.insert( iTableColumns->first );
+   }
+ 
+   return result;
+@@ -62,55 +121,28 @@
+   if ( ! m_sessionProperties.isTransactionActive() )
+     throw coral::TransactionNotActiveException( m_sessionProperties.domainProperties().service()->name(), "ISchema::existsTable" );
+ 
+-  // Check if the table is already in the local cache.
+-  if ( m_tables.find( tableName ) == m_tables.end() )
+-  {
+-    // Check if the data dictionary was read
+-    if ( m_tablesReadFromDataDictionary )
+-    {
+-      return false;
+-    }
+-    else
+-    {
+-      // Check inside the database.
+-      bool status = false;
++  if ( m_tableColumns.size() == 0 )
++    // read entire list of tables and columns to reduce total number of queries
++    readTableColumns( "" );
+ 
+-      coral::FrontierAccess::Statement statement( m_sessionProperties, "SELECT TABLE_NAME FROM ALL_TABLES WHERE OWNER=:\"owner\" AND TABLE_NAME=:\"table\"" );
+-      
+-      statement.setNumberOfPrefetchedRows( 100 );
+-      coral::AttributeList bindData;
+-      bindData.extend<std::string>( "owner" );
+-      bindData.extend<std::string>( "table" );
+-      bindData["owner"].data<std::string>() = m_sessionProperties.schemaName();
+-      bindData["table"].data<std::string>() = tableName;
+-      statement.execute( bindData, true /*force reload*/ );
+-      coral::AttributeList output;
+-      output.extend<std::string>( "TABLE_NAME" );
+-      const std::string& tName = output.begin()->data<std::string>();
+-      statement.defineOutput( output );
+-      while( statement.fetchNext() )
+-      {
+-        if( tName == tableName )
+-        {
+-          status = true;
+-          break;
+-        }
+-      }
++  if ( m_tableColumns.find( tableName ) != m_tableColumns.end() )
++    return true;
+ 
+-      if ( status == false )
+-      {
+-        return false;
+-      }
+-      else {
+-        // The table exists. Create the table object and insert it into the map
+-        coral::FrontierAccess::Table* table = new coral::FrontierAccess::Table( m_sessionProperties, tableName );
+-        m_tables.insert( std::make_pair( tableName, table ) );
+-        return true;
+-      }
+-    }
+-  }
++  // try looking specifically for this table in case it has appeared since
++  //   the last time the more generic query was cached
++  readTableColumns( tableName );
++  if ( m_tableColumns.find( tableName ) != m_tableColumns.end() )
++    return true;
+ 
+-  return true;
++  return false;
++}
++
++const std::vector< std::string >* coral::FrontierAccess::Schema::tableColumns( const std::string& tableName )
++{
++  if( ! existsTable( tableName ) )
++    throw coral::TableNotExistingException( m_sessionProperties.domainProperties().service()->name(), schemaName() + ".\"" + tableName + "\"" );
++
++  return m_tableColumns.find( tableName )->second;
+ }
+ 
+ void coral::FrontierAccess::Schema::dropTable( const std::string& /*tableName*/ )
+@@ -144,20 +176,26 @@
+   if( ! this->existsTable( tableName ) )
+     throw coral::TableNotExistingException( m_sessionProperties.domainProperties().service()->name(), fullTableName );
+   
+-  // The table exists and is in the cache
++  // The table exists
+   std::map< std::string, Table* >::iterator iTable = m_tables.find( tableName );
+-  
+-  // Paranoia check
+-  if( iTable == m_tables.end() )
+-    throw coral::TableNotExistingException( m_sessionProperties.domainProperties().service()->name(), fullTableName );
+ 
+-  if( iTable->second == 0 )
++  coral::FrontierAccess::Table* table;
++  if( iTable == m_tables.end() )
+   {
+-    coral::FrontierAccess::Table* table = new coral::FrontierAccess::Table( m_sessionProperties, tableName );
++    // Create the table object and insert it into the map
++    table = new coral::FrontierAccess::Table( m_sessionProperties, tableName );
++    m_tables.insert( std::make_pair( tableName, table ) );
++  }
++  else if( iTable->second == 0 )
++  {
++    // The map entry exists but not the Table object yet; create it
++    table = new coral::FrontierAccess::Table( m_sessionProperties, tableName );
+     iTable->second = table;
+   }
+-    
+-  return *( iTable->second );
++  else
++    table = iTable->second;
++
++  return *table;
+ }
+     
+ void coral::FrontierAccess::Schema::truncateTable( const std::string& )
+@@ -217,7 +255,7 @@
+       bindData.extend<std::string>( "view" );
+       bindData["owner"].data<std::string>() = m_sessionProperties.schemaName();
+       bindData["view"].data<std::string>() = viewName;
+-      statement.execute( bindData, true /*force reload*/ );
++      statement.execute( bindData, false );
+       coral::AttributeList output;
+       output.extend<std::string>( "OBJECT_NAME" );
+       const std::string& vName = output.begin()->data<std::string>();
+@@ -307,43 +345,8 @@
+ 
+ void coral::FrontierAccess::Schema::reactOnEndOfTransaction()
+ {
+-  for ( std::map< std::string, coral::FrontierAccess::Table* >::iterator iTable = m_tables.begin(); iTable != m_tables.end(); ++iTable )
+-    if ( iTable->second )
+-      delete iTable->second;
+-
+-  m_tables.clear();
+-
+-  m_tablesReadFromDataDictionary = false;
+-
+-  for ( std::map< std::string, coral::FrontierAccess::View* >::iterator iView = m_views.begin(); iView != m_views.end(); ++iView )
+-    if ( iView->second )
+-      delete iView->second;
+-
+-  m_views.clear();
+-
+-  m_viewsReadFromDataDictionary = false;
+-}
+-
+-void coral::FrontierAccess::Schema::readTablesFromDataDictionary() const
+-{
+-  coral::FrontierAccess::Statement statement( m_sessionProperties, "SELECT TABLE_NAME FROM ALL_TABLES WHERE OWNER=:\"owner\"" );
+-  statement.setNumberOfPrefetchedRows( 100 );
+-  coral::AttributeList bindData;
+-  bindData.extend<std::string>( "owner" );
+-  bindData.begin()->data<std::string>() = m_sessionProperties.schemaName();
+-  statement.execute( bindData, true /*force reload*/ );
+-  coral::AttributeList output;
+-  output.extend<std::string>( "TABLE_NAME" );
+-  const std::string& tableName = output.begin()->data<std::string>();
+-  statement.defineOutput( output );
+-  while( statement.fetchNext() )
+-  {
+-    if ( m_tables.find( tableName ) == m_tables.end() )
+-    {
+-      m_tables[tableName] = 0;
+-    }
+-  }
+-  m_tablesReadFromDataDictionary = true;
++  // since Frontier is read-only, nothing needs to be cleaned up
++  //  at the end of a transaction
+ }
+ 
+ void coral::FrontierAccess::Schema::readViewsFromDataDictionary() const
+@@ -353,7 +356,7 @@
+   coral::AttributeList bindData;
+   bindData.extend<std::string>( "owner" );
+   bindData.begin()->data<std::string>() = m_sessionProperties.schemaName();
+-  statement.execute( bindData, true /*force reload*/ );
++  statement.execute( bindData, false );
+   coral::AttributeList output;
+   output.extend<std::string>( "VIEW_NAME" );
+   const std::string& viewName = output.begin()->data<std::string>();
+diff -Naur orig.src/FrontierAccess/src/Schema.h src/FrontierAccess/src/Schema.h
+--- orig.src/FrontierAccess/src/Schema.h	2007-07-02 16:59:11.000000000 +0200
++++ src/FrontierAccess/src/Schema.h	2010-01-12 10:47:22.000000000 +0100
+@@ -6,6 +6,7 @@
+ #include "RelationalAccess/ISchema.h"
+ #include "ITransactionObserver.h"
+ #include <map>
++#include <vector>
+ 
+ namespace coral
+ {
+@@ -117,12 +118,19 @@
+          */
+         coral::IView& viewHandle( const std::string& viewName );
+ 
++        /**
++	 * Returns vector of column names for the table with the specified name.
++         * In case no table with such a name exists, a TableNotExistingException is thrown.
++	 */
++	const std::vector< std::string >* tableColumns( const std::string& tableName );
++
+         /// Reacts on an End-Of-Transaction signal
+         void reactOnEndOfTransaction();
+ 
+       private:
+-        /// Reads the full table list from the data dictionary
+-        void readTablesFromDataDictionary() const;
++	/// Reads the column names for table with the specified name, or all
++	///   tables if the name is the empty string
++	void readTableColumns(const std::string& tableName ) const;
+ 
+         /// Reads the full view list from the data dictionary
+         void readViewsFromDataDictionary() const;
+@@ -134,8 +142,8 @@
+         /// The map of existing tables
+         mutable std::map< std::string, Table* > m_tables;
+ 
+-        /// Flag indicating whether the table list has been read from the data dictionary
+-        mutable bool                            m_tablesReadFromDataDictionary;
++	/// Map of table names to vector of column names
++	mutable std::map< std::string, std::vector< std::string >* > m_tableColumns;
+ 
+         /// The map of existing views
+         mutable std::map< std::string, View* >  m_views;
+diff -Naur orig.src/FrontierAccess/src/Session.cpp src/FrontierAccess/src/Session.cpp
+--- orig.src/FrontierAccess/src/Session.cpp	2008-04-03 23:42:02.000000000 +0200
++++ src/FrontierAccess/src/Session.cpp	2010-01-12 10:47:22.000000000 +0100
+@@ -163,7 +163,7 @@
+   
+   coral::FrontierAccess::Statement query( *m_properties, "SELECT USERNAME FROM ALL_USERS WHERE USERNAME=:\"user\"" );
+   
+-  if( ! query.execute( inBuffer, true /*force reload*/ ) )
++  if( ! query.execute( inBuffer, false ) )
+   {
+     // FIXME - error reporting
+     ;
+diff -Naur orig.src/FrontierAccess/src/TableDescriptionProxy.cpp src/FrontierAccess/src/TableDescriptionProxy.cpp
+--- orig.src/FrontierAccess/src/TableDescriptionProxy.cpp	2008-04-03 23:42:02.000000000 +0200
++++ src/FrontierAccess/src/TableDescriptionProxy.cpp	2010-01-12 10:47:22.000000000 +0100
+@@ -80,7 +80,7 @@
+   outputData.extend<int>        ( "CHAR_LENGTH"      ); //const int&         columnLength    = outputData["CHAR_LENGTH"   ].data<int>();
+   outputData.extend<int>        ( "DATA_SCALE"       ); const int&         columnScale     = outputData["DATA_SCALE"    ].data<int>();
+ 
+-  if ( ! statement.execute( inputData, true /*force reload*/ ) )
++  if ( ! statement.execute( inputData, false ) )
+   {
+     // FIXME - error reporting
+     ;
+@@ -220,7 +220,7 @@
+   (*bindData)[0].data<std::string>() = m_sessionProperties.schemaName();
+   (*bindData)[1].data<std::string>() = m_description->name();
+   
+-  if ( ! statement.execute( *bindData, true /*force reload*/ ) )
++  if ( ! statement.execute( *bindData, false ) )
+   {
+     throw coral::SchemaException( m_sessionProperties.domainProperties().service()->name(), "Could not retrieve the unique constraints defined in a table", "TableDescriptionProxy::refreshConstraints" );
+   }
+@@ -291,7 +291,7 @@
+   (*bindData)[0].data<std::string>() = m_sessionProperties.schemaName();
+   (*bindData)[1].data<std::string>() = m_description->name();
+   
+-  if ( ! statement.execute( *bindData, true /*force reload*/ ) )
++  if ( ! statement.execute( *bindData, false ) )
+   {
+     throw coral::SchemaException( m_sessionProperties.domainProperties().service()->name(), "Could not retrieve the primary key information defined in a table", "TableDescriptionProxy::refreshPrimaryKeyInfo" );
+   }
+@@ -377,7 +377,7 @@
+   output.extend<std::string>( "TABLESPACE_NAME" ); const std::string& tableSpaceName = output["TABLESPACE_NAME"].data<std::string>();
+   output.extend<std::string>( "COLUMN_NAME" )    ; const std::string& columnName     = output["COLUMN_NAME"    ].data<std::string>();
+ 
+-  if ( ! statement.execute( bindData, true /*force reload*/ ) )
++  if ( ! statement.execute( bindData, false ) )
+     throw coral::SchemaException( m_sessionProperties.domainProperties().service()->name(), "Could not retrieve the index information defined in a table", "TableDescriptionProxy::refreshPrimaryKeyInfo" );
+ 
+   statement.defineOutput( output );
+@@ -457,7 +457,7 @@
+   output.extend<std::string>( "FK_COL"    ); const std::string& foreignKeyColumnName = output["FK_COL"   ].data<std::string>();
+   output.extend<std::string>( "REF_COL"   ); const std::string& referencedColumnName = output["REF_COL"  ].data<std::string>();
+ 
+-  if ( ! statement.execute( bindData, true /*force reload*/ ) )
++  if ( ! statement.execute( bindData, false ) )
+   {
+     throw coral::SchemaException( m_sessionProperties.domainProperties().service()->name(), "Could not retrieve the foreign key information defined in a table", "TableDescriptionProxy::refreshForeignKeyInfo" );
+   }  
+@@ -498,7 +498,7 @@
+     bindData[0].data<std::string>() = m_sessionProperties.schemaName();
+     bindData[1].data<std::string>() = m_description->name();
+ 
+-    if ( ! statement.execute( bindData, true /*force reload*/ ) )
++    if ( ! statement.execute( bindData, false ) )
+     {
+       throw coral::SchemaException( m_sessionProperties.domainProperties().service()->name(), "Could not retrieve the tablespace for a table", "ITableDescription::tableSpaceName" );
+     }
+diff -Naur orig.src/FrontierAccess/src/View.cpp src/FrontierAccess/src/View.cpp
+--- orig.src/FrontierAccess/src/View.cpp	2008-04-03 23:42:02.000000000 +0200
++++ src/FrontierAccess/src/View.cpp	2010-01-12 10:47:22.000000000 +0100
+@@ -94,7 +94,7 @@
+   
+   coral::FrontierAccess::Statement statement( m_sessionProperties, os.str() );
+   
+-  if ( ! statement.execute( coral::AttributeList(), true /*force reload*/ ) )
++  if ( ! statement.execute( coral::AttributeList(), false ) )
+     throw coral::SchemaException( m_sessionProperties.domainProperties().service()->name(), "Could not read the definition of a view", "View::refreshDefinition" );
+ 
+   coral::AttributeList* output = new coral::AttributeList;

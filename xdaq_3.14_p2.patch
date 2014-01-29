@@ -1,0 +1,40 @@
+--- TriDAS.orig/daq/extern/xalan/Makefile	2007-10-21 11:55:35.000000000 +0200
++++ TriDAS/daq/extern/xalan/Makefile	2007-10-21 11:58:00.000000000 +0200
+@@ -44,7 +44,8 @@
+ Authors=The Apache Software Foundation
+ Link=http://xml.apache.org/xalan-c/
+ 
+-export XERCESCROOT=$(BUILD_HOME)/daq/extern/xerces/xerces-c-src_2_7_0
++#danger -this requires XERCES_PREFIX to always be set. True in CMSDIST. Maybe true always..
++export XERCESCROOT=$(XERCES_PREFIX)
+ export XALANCROOT=$(BUILD_HOME)/daq/extern/xalan/xml-xalan/c
+ 
+ # Check if we are on 64 bits or 32 bits platform
+--- TriDAS.orig/build/mfSet.extern_coretools	2008-02-20 11:36:23.000000000 +0100
++++ TriDAS/build/mfSet.extern_coretools	2008-02-20 11:37:44.000000000 +0100
+@@ -16,6 +16,4 @@
+ 	extern/xerces \
+ 	extern/xalan \
+ 	extern/log4cplus \
+-	extern/cgicc \
+-	extern/mimetic \
+-	extern/tinyproxy
++	extern/cgicc
+--- TriDAS/daq/extern/slp/Makefile	2008-02-20 12:28:40.000000000 +0100
++++ TriDAS/daq/extern/slp/Makefile.fix	2008-02-20 12:27:25.000000000 +0100
+@@ -66,6 +66,7 @@
+ 	cd ./openslp-2.0.0.svn20070726; \
+ 	./configure --with-pic --prefix $(BUILD_HOME)/$(Project)/$(Package)/$(XDAQ_PLATFORM); \
+ 	make;  make install
++	mkdir -p $(BUILD_HOME)/$(Project)/$(Package)/$(XDAQ_PLATFORM)/etc
+ 	cp slp.conf $(BUILD_HOME)/$(Project)/$(Package)/$(XDAQ_PLATFORM)/etc
+ 
+ _installall: install
+@@ -74,6 +75,7 @@
+ 	cd openslp-2.0.0.svn20070726; \
+ 	./configure --with-pic --prefix $(INSTALL_PREFIX)/$(XDAQ_PLATFORM); \
+ 	make; make install
++	mkdir -p $(BUILD_HOME)/$(Project)/$(Package)/$(XDAQ_PLATFORM)/etc
+ 	cp slp.conf $(BUILD_HOME)/$(Project)/$(Package)/$(XDAQ_PLATFORM)/etc
+ 
+ _cleanall: clean

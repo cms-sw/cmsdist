@@ -1,0 +1,21 @@
+commit 94c6a9a01d733bc383953fee8d42b3911145ac78
+Author: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date:   Sat Oct 9 11:15:42 2010 +0200
+
+    ../CMSDIST/root-5.22-00a-th1.patch
+
+diff --git a/hist/hist/src/TH1.cxx b/hist/hist/src/TH1.cxx
+index 77cca8e..3888dc0 100644
+--- a/hist/hist/src/TH1.cxx
++++ b/hist/hist/src/TH1.cxx
+@@ -2058,7 +2058,10 @@ void TH1::Copy(TObject &obj) const
+ 
+    TArray* a = dynamic_cast<TArray*>(&obj);
+    if (a) a->Set(fNcells);
++   Int_t canRebin = ((TH1&)obj).TestBit(kCanRebin);
++   ((TH1&)obj).ResetBit(kCanRebin);  //we want to avoid the call to LabelsInflate
+    for (i=0;i<fNcells;i++) ((TH1&)obj).SetBinContent(i,this->GetBinContent(i));
++   if (canRebin) ((TH1&)obj).SetBit(kCanRebin);
+    ((TH1&)obj).fEntries   = fEntries;
+ 
+    ((TH1&)obj).fTsumw     = fTsumw;

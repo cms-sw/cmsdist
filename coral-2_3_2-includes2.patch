@@ -1,0 +1,35 @@
+diff -Naur orig.src/OracleAccess/src/Connection.cpp src/OracleAccess/src/Connection.cpp
+--- orig.src/OracleAccess/src/Connection.cpp	2009-05-26 14:33:53.000000000 +0200
++++ src/OracleAccess/src/Connection.cpp	2009-11-03 18:29:26.000000000 +0100
+@@ -16,6 +16,7 @@
+ 
+ #include "oci.h"
+ #include <sstream>
++#include <cstring>
+ #ifdef linux
+ #include "boost/thread/xtime.hpp"
+ #include <boost/thread.hpp>
+diff -Naur orig.src/OracleAccess/src/Schema.cpp src/OracleAccess/src/Schema.cpp
+--- orig.src/OracleAccess/src/Schema.cpp	2009-04-27 17:01:49.000000000 +0200
++++ src/OracleAccess/src/Schema.cpp	2009-11-03 19:12:06.000000000 +0100
+@@ -24,7 +24,7 @@
+ #include "CoralKernel/Service.h"
+ 
+ #include "oci.h"
+-
++#include <cstring>
+ #include <sstream>
+ 
+ coral::OracleAccess::Schema::Schema( const coral::OracleAccess::ISessionProperties& sessionProperties ):
+diff -Naur orig.src/OracleAccess/src/Session.cpp src/OracleAccess/src/Session.cpp
+--- orig.src/OracleAccess/src/Session.cpp	2009-05-05 14:45:03.000000000 +0200
++++ src/OracleAccess/src/Session.cpp	2009-11-03 19:11:40.000000000 +0100
+@@ -27,7 +27,7 @@
+ #include "CoralKernel/Context.h"
+ 
+ #include "oci.h"
+-
++#include <cstring>
+ #include <locale>
+ 
+ coral::OracleAccess::Session::Session(  coral::IDevConnection& connection,

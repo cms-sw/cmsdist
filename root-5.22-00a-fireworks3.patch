@@ -1,0 +1,19 @@
+commit 98f4015b3901984668dda52b141e222f2806ef9c
+Author: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date:   Sat Oct 9 11:15:43 2010 +0200
+
+    ../CMSDIST/root-5.22-00a-fireworks3.patch
+
+diff --git a/graf3d/eve/src/TEveJetConeGL.cxx b/graf3d/eve/src/TEveJetConeGL.cxx
+index f6b7b3e..4e92d71 100644
+--- a/graf3d/eve/src/TEveJetConeGL.cxx
++++ b/graf3d/eve/src/TEveJetConeGL.cxx
+@@ -29,7 +29,7 @@ TEveJetConeGL::TEveJetConeGL() :
+ {
+    // Constructor.
+ 
+-   // fDLCache = kFALSE; // Disable display list.
++   fDLCache = kFALSE; // Disable display list.
+ }
+ 
+ /******************************************************************************/

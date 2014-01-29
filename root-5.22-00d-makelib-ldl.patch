@@ -1,0 +1,35 @@
+commit a0222b3f9bc319f436f75630c46d5745e9dd4d4a
+Author: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date:   Sat Oct 9 11:15:42 2010 +0200
+
+    ../CMSDIST/root-5.22-00d-makelib-ldl.patch
+
+diff --git a/build/unix/makelib.sh b/build/unix/makelib.sh
+index fc09467..76c7dad 100755
+--- a/build/unix/makelib.sh
++++ b/build/unix/makelib.sh
+@@ -65,6 +65,13 @@ if [ "x$EXPLICIT" = "xyes" ]; then
+          EXPLLNKCORE="-Llib -lCint"
+       fi
+    fi
++   if [ $PLATFORM = "linux" ]; then
++      if [ -z "$EXPLLNKCORE" ]; then
++         EXPLLNKCORE=" -ldl"
++      else
++         EXPLLNKCORE=${EXPLLNKCORE}" -ldl"
++      fi
++   fi
+ fi
+ 
+ if [ $PLATFORM = "aix" ] || [ $PLATFORM = "aix5" ]; then
+@@ -159,10 +166,6 @@ elif [ $PLATFORM = "macosx" ]; then
+        echo $cmd
+        $cmd
+    fi
+-elif [ $LD = "KCC" ]; then
+-   cmd="$LD $LDFLAGS -o $LIB $OBJS $EXTRA $EXPLLNKCORE"
+-   echo $cmd
+-   $cmd
+ elif [ $LD = "build/unix/wingcc_ld.sh" ]; then
+    EXPLLNKCORE=
+    if [ $SONAME != "libCint.dll" ] \

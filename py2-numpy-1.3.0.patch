@@ -1,0 +1,10 @@
+--- numpy/distutils/system_info.py	2009-06-23 18:52:09.000000000 +0200
++++ numpy/distutils/system_info.py	2009-06-23 18:52:45.000000000 +0200
+@@ -204,6 +204,7 @@
+ default_src_dirs = filter(os.path.isdir, default_src_dirs)
+ 
+ so_ext = distutils.sysconfig.get_config_vars('SO')[0] or ''
++default_lib_dirs = []
+ 
+ def get_standard_file(fname):
+     """Returns a list of files named 'fname' from

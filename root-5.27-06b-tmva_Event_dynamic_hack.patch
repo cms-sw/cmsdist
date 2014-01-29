@@ -1,0 +1,16 @@
+diff -Naur root_2706b.orig/tmva/src/Event.cxx root_2706b/tmva/src/Event.cxx
+--- root_2706b.orig/tmva/src/Event.cxx	2010-12-03 00:34:32.000000000 +0100
++++ root_2706b/tmva/src/Event.cxx	2010-12-03 00:35:54.000000000 +0100
+@@ -119,10 +119,10 @@
+      fClass(0),
+      fWeight(0),
+      fBoostWeight(0),
+-     fDynamic(true)
++     fDynamic(kFALSE)
+ {
+    // constructor for single events
+-   fgValuesDynamic = (std::vector<Float_t*>*) evdyn;
++   //wtf - assumes that there is one tree it seems.. fgValuesDynamic = (std::vector<Float_t*>*) evdyn;
+    fgCount++;
+ }
+ 

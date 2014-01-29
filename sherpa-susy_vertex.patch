@@ -1,0 +1,13 @@
+Index: MODEL/Interaction_Models/Vertex.C
+===================================================================
+--- MODEL/Interaction_Models/Vertex.C	(revision 11391)
++++ MODEL/Interaction_Models/Vertex.C	(working copy)
+@@ -227,7 +227,7 @@
+ 	if (probe.in[1].IsChargino()) hit=1;
+       }
+       if (!probe.in[1].IsAnti() && !probe.in[2].IsAnti()) { 
+-      if (probe.in[2].IsChargino()) hit=1;
++      if (probe.in[1].IsChargino()) hit=1;
+       }
+     }
+   }

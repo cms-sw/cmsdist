@@ -1,0 +1,91 @@
+--- tree/tree/src/TBranchElement.cxx	(revision 28610)
++++ tree/tree/src/TBranchElement.cxx	(revision 28611)
+@@ -1767,12 +1767,17 @@
+    TString newType;
+    if (!dm) {
+       // Either the class is not loaded or the data member is gone
+-      if (! motherCl->IsLoaded()) {
++      if (!motherCl->IsLoaded()) {
+          TVirtualStreamerInfo* newInfo = motherCl->GetStreamerInfo();
+          if (newInfo != brInfo) {
+             TStreamerElement* newElems = (TStreamerElement*) newInfo->GetElements()->FindObject(currentStreamerElement->GetName());
+-            newType = newElems->GetClassPointer()->GetName();
++            if (newElems) {
++               newType = newElems->GetClassPointer()->GetName();
++            }
+          }
++         if (newType.Length()==0) {
++            newType = currentStreamerElement->GetClassPointer()->GetName();
++         }
+       }
+    } else {
+       newType = dm->GetTypeName();
+@@ -2213,7 +2218,6 @@
+          localOffset = branchElem->GetOffset();
+          branchClass = branchElem->GetClassPointer();
+          if (localOffset == TStreamerInfo::kMissing) {
+-            localOffset = 0;
+             fObject = 0;
+          }
+       }
+@@ -2254,7 +2258,6 @@
+ 
+          localOffset = subBranchElement->GetOffset();
+          if (localOffset == TStreamerInfo::kMissing) {
+-            localOffset = 0;
+             subBranch->fObject = 0;
+          }
+ 
+@@ -2568,7 +2571,11 @@
+          } else {
+             // -- Set fBranchOffset for sub-branch.
+             Int_t numOfSubSubBranches = subBranch->GetListOfBranches()->GetEntriesFast();
+-            if (numOfSubSubBranches) {
++            if (subBranch->fObject == 0 && localOffset == TStreamerInfo::kMissing) {
++               // The branch is missing
++               fBranchOffset[subBranchIdx] = TStreamerInfo::kMissing;
++            
++            } else if (numOfSubSubBranches) {
+                if (isBaseSubBranch) {
+                   // We are split, so we need to add in our local offset
+                   // to get our absolute address for our children.
+@@ -3859,7 +3866,14 @@
+    for (Int_t i = 0; i < nbranches; ++i) {
+       TBranch* abranch = (TBranch*) fBranches[i];
+       // FIXME: This is a tail recursion!
+-      abranch->SetAddress(fObject + fBranchOffset[i]);
++      if (fBranchOffset[i] != TStreamerInfo::kMissing) {
++         abranch->SetAddress(fObject + fBranchOffset[i]);
++      } else {
++         // When the member is missing, just leave the address alone
++         // (since setting explicitly to 0 would trigger error/warning
++         // messages).
++         // abranch->SetAddress(0);
++      }
+    }
+ }
+ 
+--- io/io/src/TStreamerInfo.cxx	(revision 28610)
++++ io/io/src/TStreamerInfo.cxx	(revision 28611)
+@@ -1230,7 +1230,7 @@
+          if (element->GetType() != newType) {
+             element->SetNewType(newType);
+             if (gDebug > 0) {
+-               Warning("BuildOld", "element: %s::%s %s has new type: %s/%d", GetName(), element->GetTypeName(), element->GetName(), dm->GetFullTypeName(), newType);
++               Info("BuildOld", "element: %s %s::%s has new type: %s/%d", element->GetTypeName(), GetName(), element->GetName(), dm ? dm->GetFullTypeName() : TDataType::GetTypeName((EDataType)newType), newType);
+             }
+          }
+       } else if (newClass.GetClass()) {
+@@ -1334,10 +1334,11 @@
+          }
+       } else {
+          element->SetNewType(-1);
++         offset = kMissing;
+          element->SetOffset(kMissing);
+       }
+ 
+-      if (fClass->GetDeclFileLine() < 0) {
++      if (offset != kMissing && fClass->GetDeclFileLine() < 0) {
+          // Note the initilization in this case are
+          // delayed until __after__ the schema evolution
+          // section, just in case the info has changed.

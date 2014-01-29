@@ -1,0 +1,131 @@
+Index: PHASIC++/Scales/METS_Scale_Setter.C
+===================================================================
+--- PHASIC++/Scales/METS_Scale_Setter.C	(revision 15957)
++++ PHASIC++/Scales/METS_Scale_Setter.C	(working copy)
+@@ -13,6 +13,7 @@
+ #include "MODEL/Main/Running_AlphaS.H"
+ #include "MODEL/Main/Running_AlphaQED.H"
+ #include "PDF/Main/Shower_Base.H"
++#include "PDF/Main/ISR_Handler.H"
+ #include "MODEL/Interaction_Models/Interaction_Model_Base.H"
+ #include "MODEL/Main/Model_Base.H"
+ #include "ATOOLS/Org/Run_Parameter.H"
+@@ -204,11 +205,11 @@
+ 
+ double METS_Scale_Setter::CalculateStrict(const Vec4D_Vector &momenta)
+ {
+-  p_proc->Integrator()->SetMomenta(momenta);
+-  p_proc->Generator()->SetClusterDefinitions
+-    (p_proc->Shower()->GetClusterDefinitions());
++  p_caller->Integrator()->SetMomenta(momenta);
++  p_caller->Generator()->SetClusterDefinitions
++    (p_caller->Shower()->GetClusterDefinitions());
+   Cluster_Amplitude *ampl
+-    (p_proc->Generator()->ClusterConfiguration(p_proc));
++    (p_caller->Generator()->ClusterConfiguration(p_caller));
+   if (ampl==NULL) {
+     ++m_rej;
+     double frac(m_rej/(double)m_cnt);
+@@ -234,11 +235,11 @@
+ 
+ double METS_Scale_Setter::CalculateScale2(const Vec4D_Vector &momenta) 
+ {
+-  if (m_mode==2 || (m_mode==1 && !p_proc->LookUp())) {
+-    p_proc->Integrator()->SetMomenta(momenta);
+-    p_proc->Integrator()->SwapInOrder();
+-    double muf2(CalculateScale(p_proc->Integrator()->Momenta()));
+-    p_proc->Integrator()->RestoreInOrder();
++  if (m_mode==2 || (m_mode==1 && !p_caller->LookUp())) {
++    p_caller->Integrator()->SetMomenta(momenta);
++    p_caller->Integrator()->SwapInOrder();
++    double muf2(CalculateScale(p_caller->Integrator()->Momenta()));
++    p_caller->Integrator()->RestoreInOrder();
+     return muf2;
+   }
+   p_cpls->Calculate();
+@@ -251,8 +252,10 @@
+   m_p=momenta;
+   p_ci=p_proc->Integrator()->ColorIntegrator();
+   for (size_t i(0);i<p_proc->NIn();++i) m_p[i]=-m_p[i];
+-  if (m_mode==2 || (m_mode==1 && !p_proc->LookUp()))
++  if (m_mode==2 || (m_mode==1 && !p_caller->LookUp())) {
++    m_scale2=p_proc->Integrator()->ISR()->On() && m_f[0]!=m_f[1];
+     return CalculateStrict(momenta);
++  }
+   DEBUG_FUNC(p_proc->Name());
+   Cluster_Amplitude *ampl(Cluster_Amplitude::New());
+   ampl->SetNIn(p_proc->NIn());
+Index: PHASIC++/Scales/Scale_Setter_Base.C
+===================================================================
+--- PHASIC++/Scales/Scale_Setter_Base.C	(revision 15957)
++++ PHASIC++/Scales/Scale_Setter_Base.C	(working copy)
+@@ -29,7 +29,8 @@
+ 
+ Scale_Setter_Base::Scale_Setter_Base
+ (const Scale_Setter_Arguments &args,const bool scale2):
+-  p_proc(args.p_proc), p_model(args.p_model), p_cpls(args.p_cpls),
++  p_proc(args.p_proc), p_caller(p_proc),
++  p_model(args.p_model), p_cpls(args.p_cpls),
+   m_scale(stp::size), m_coupling(args.m_coupling),
+   m_scale2(scale2), p_jf(NULL)
+ {
+@@ -99,10 +100,10 @@
+ 
+ double Scale_Setter_Base::YCut() const
+ {
+-  if (p_proc->LookUp() && p_proc->IsMapped())
+-    return p_proc->MapProc()->ScaleSetter()->YCut();
+-  if (p_jf!=NULL) return p_jf->Ycut();
+-  p_jf=(Jet_Finder*)p_proc->Selector()->GetSelector("Jetfinder");
++  Process_Base *proc(p_caller);
++  if (proc->IsMapped() && proc->LookUp() &&
++      proc->MapProc()->LookUp()) proc=proc->MapProc();
++  p_jf=(Jet_Finder*)proc->Selector()->GetSelector("Jetfinder");
+   if (p_jf==NULL) THROW(critical_error,"Jet finder not found");
+   return p_jf->Ycut();
+ }
+Index: PHASIC++/Scales/Scale_Setter_Base.H
+===================================================================
+--- PHASIC++/Scales/Scale_Setter_Base.H	(revision 15957)
++++ PHASIC++/Scales/Scale_Setter_Base.H	(working copy)
+@@ -46,7 +46,7 @@
+ 
+   protected:
+ 
+-    Process_Base *p_proc;
++    Process_Base *p_proc, *p_caller;
+ 
+     MODEL::Model_Base   *p_model;
+     MODEL::Coupling_Map *p_cpls;
+@@ -76,6 +76,8 @@
+     virtual double HT() const;
+     virtual double YCut() const;
+ 
++    inline void SetCaller(Process_Base *const proc) { p_caller=proc; }
++
+     inline double Scale(const stp::id type) { return m_scale[type]; }
+ 
+     inline const std::vector<double> &Scales() const { return m_scale; }
+Index: PHASIC++/Process/Single_Process.C
+===================================================================
+--- PHASIC++/Process/Single_Process.C	(revision 15957)
++++ PHASIC++/Process/Single_Process.C	(working copy)
+@@ -125,6 +125,7 @@
+       p_mapproc->Integrator()->SetMomenta(p);
+       scs=p_mapproc->ScaleSetter();
+     }
++    scs->SetCaller(this);
+     if (Partonic(p)==0.0) return 0.0;
+     if (m_wgtinfo.m_nx==0) m_wgtinfo.m_w0 = m_lastxs;
+     m_wgtinfo.m_renscale = scs->Scale(stp::ren);
+@@ -146,6 +147,7 @@
+   if (GetSubevtList()==NULL) {
+     if (m_lastxs==0.0) return 0.0;
+     Scale_Setter_Base *scs((IsMapped()?p_mapproc:this)->ScaleSetter());
++    scs->SetCaller(this);
+     double tmp=Partonic2();
+     if (tmp!=0.0) m_last+=tmp*=BeamISRWeight(scs->Scale(stp::fac),1);
+     return tmp;
+Index: Manual/Sherpa.info
+===================================================================
+Binary files Manual/Sherpa.info	(revision 15957) and Manual/Sherpa.info	(working copy) differ

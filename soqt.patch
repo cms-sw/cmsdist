@@ -1,0 +1,18 @@
+--- src/Inventor/Qt/common/viewers/SoGuiViewer.cpp.in-orig	2005-11-25 09:32:30.000000000 +0100
++++ src/Inventor/Qt/common/viewers/SoGuiViewer.cpp.in	2005-11-25 09:34:09.000000000 +0100
+@@ -1055,11 +1055,11 @@
+     farval = nearfar[1]; 
+   }
+ 
+-  if (nearval != this->camera->nearDistance.getValue()) {
+-    this->camera->nearDistance = nearval;
++  if (fabs (this->camera->nearDistance.getValue () - nearval * (1.0f - SLACK)) < 0.00001) {
++    this->camera->nearDistance = nearval * (1.0f - SLACK);
+   }
+-  if (farval != this->camera->farDistance.getValue()) {
+-    this->camera->farDistance = farval;
++  if (fabs (this->camera->farDistance.getValue () - farval * (1.0f + SLACK)) < 0.00001) {
++    this->camera->farDistance = farval * (1.0f + SLACK);
+   }
+ 
+   // FIXME: there's a possible optimization to take advantage of here,

@@ -1,0 +1,76 @@
+Index: Examples/NLO_W/Run.dat
+===================================================================
+--- Examples/NLO_W/Run.dat	(revision 0)
++++ Examples/NLO_W/Run.dat	(revision 13457)
+@@ -0,0 +1,59 @@
++(run){
++  EVENTS 1000000; ANALYSIS_WRITEOUT_INTERVAL 0.1;
++  ANALYSIS Internal;
++  BATCH_MODE 0; OUTPUT 2;
++}(run);
++(processes){
++  Process 93 93 -> 11 -12;
++  NLO_QCD_Part BIV;
++  Loop_Generator Internal;
++  Order_EW 2;
++  End process;
++  %
++  Process 93 93 -> 11 -12;
++  NLO_QCD_Part RS;
++  Order_EW 2;
++  Enhance_Factor 10;
++  End process;
++}(processes);
++(selector){
++}(selector)
++(me){
++  ME_SIGNAL_GENERATOR Amegic;
++  EVENT_GENERATION_MODE Weighted;
++  NLO_Mode 1;
++  SCALES NLO{sqr(80.419)};
++}(me);
++(model){
++  ORDER_ALPHAS 1; ALPHAS(MZ) 0.118;
++}(model);
++(beam){
++  BEAM_1  2212; BEAM_ENERGY_1 980;
++  BEAM_2  -2212; BEAM_ENERGY_2 980;
++  K_PERP_MEAN_1 0.; K_PERP_SIGMA_1 0.;
++  K_PERP_MEAN_2 0.; K_PERP_SIGMA_2 0.;
++}(beam);
++(isr){
++  PDF_LIBRARY = CTEQ6Sherpa
++  PDF_SET = cteq6m
++}(isr);
++(integration){
++  INTEGRATOR 7; ERROR 0.1;
++  FINISH_OPTIMIZATION On;
++}(integration);
++(shower){
++  SHOWER_GENERATOR None;
++  FSR_SHOWER 0; ISR_SHOWER 0;
++}(shower);
++(fragmentation){
++  FRAGMENTATION Off;
++}(fragmentation);
++(analysis){
++    BEGIN_ANALYSIS {
++        LEVEL MENLO
++                
++        PT        11  0. 500. 100   LinErr FinalState
++        PT        -12  0. 500. 100  LinErr FinalState
++        Y2        11 -12 -5. 5. 50  LinErr FinalState
++    } END_ANALYSIS;
++}(analysis)
+Index: Examples/Makefile.am
+===================================================================
+--- Examples/Makefile.am	(revision 13615)
++++ Examples/Makefile.am	(revision 13616)
+@@ -10,6 +10,7 @@
+ 			LHC_SUSY/LesHouches_SPS1A.dat \
+ 			LHC_TTH/Run.dat \
+ 			LHC_ZJets/Run.dat \
++			NLO_W/Run.dat \
+ 			PEPII_BaBar/Run.dat \
+ 			Tevatron_DiBoson/Run.dat \
+ 			Tevatron_QCD/Run.dat \

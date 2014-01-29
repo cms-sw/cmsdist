@@ -1,0 +1,13 @@
+  <tool name="POOL" version="@PROJECT_VERSION@" type="scram">
+    <client>
+      <environment name="POOL_BASE" default="@PROJECT_ROOT@"/>
+      <environment name="LIBDIR" default="$POOL_BASE/$SCRAM_ARCH/lib"/>
+      <environment name="POOL_BINDIR" default="$POOL_BASE/$SCRAM_ARCH/bin"/>
+      <environment name="INCLUDE" default="$POOL_BASE/include"/>
+    </client>
+    <runtime name="PATH" value="$POOL_BINDIR" type="path"/>
+    <runtime name="PYTHONPATH" value="$POOL_BINDIR" type="path"/>
+    <runtime name="PYTHONPATH" value="$LIBDIR" type="path"/>
+    <runtime name="POOL_OUTMSG_LEVEL" value="4"/>
+    <runtime name="POOL_STORAGESVC_DB_AGE_LIMIT" value="10"/>
+  </tool>

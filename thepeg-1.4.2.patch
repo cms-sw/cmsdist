@@ -1,0 +1,216 @@
+--- orig.ThePEG-1.4.2/Handlers/StandardEventHandler.cc	2009-09-11 12:17:39.000000000 +0200
++++ ThePEG-1.4.2/Handlers/StandardEventHandler.cc	2009-09-11 12:19:06.000000000 +0200
+@@ -253,7 +253,7 @@
+   return sum;
+ }
+ 
+-tStdXCombPtr StandardEventHandler::select(int bin, double weight) {
++tStdXCombPtr StandardEventHandler::select(int bin, double & weight) {
+ 
+   int i = upper_bound(xSecs().begin(), xSecs().end(), rnd()*xSecs().back())
+       - xSecs().begin();
+@@ -275,9 +275,11 @@
+   // clean up the old XComb object before switching to a new one
+   if ( theLastXComb && theLastXComb != lastXC ) theLastXComb->clean();
+   theLastXComb = lastXC;
++  lastXC->matrixElement()->setXComb(lastXC);
++  weight /= lastXC->matrixElement()->preWeight();
+   lastXC->select(weight);
+   lastXC->accept();
+-  lastXC->matrixElement()->setXComb(lastXC);
++//  lastXC->matrixElement()->setXComb(lastXC);
+   return lastXC;
+ }
+ 
+@@ -291,19 +293,24 @@
+ }
+ 
+ struct Stat {
+-
++//  Stat(long att, long acc, double w, double w2, CrossSection x, double sumw)
++    
+   Stat() : attempted(0), accepted(0), sumw(0.0), sumw2(),
+ 	   maxXSec(CrossSection()), totsum(0.0) {}
+-  Stat(long att, long acc, double w, double w2, CrossSection x, double sumw)
++  Stat(long att, long acc, double w, double w2, CrossSection x,
++       double sumw, double genrerr)
+     : attempted(att), accepted(acc), sumw(w), sumw2(w2), maxXSec(x),
+-      totsum(sumw) {}
++      totsum(sumw), totrerr(genrerr) {}
+ 
+   inline CrossSection xSec() const {
+     return totsum >0.0? maxXSec*sumw/totsum: maxXSec;
+   }
+ 
+   inline CrossSection xSecErr() const {
+-    return totsum >0.0? maxXSec*sqrt(sumw2)/totsum: maxXSec;
++      if ( totsum <= 0.0 ) return maxXSec;
++      if ( sumw <= 0.0 ) return xSec();
++      return xSec()*sqrt(sqr(totrerr) + sumw2/sqr(sumw));
++      //return totsum >0.0? maxXSec*sqrt(sumw2)/totsum: maxXSec;
+   }
+ 
+   long attempted;
+@@ -312,6 +319,7 @@
+   double sumw2;
+   CrossSection maxXSec;
+   double totsum;
++  double totrerr;
+ 
+   const Stat & operator+= (const Stat & s) {
+     attempted += s.attempted;
+@@ -323,6 +331,7 @@
+       maxXSec = max(maxXSec, s.maxXSec);
+     else
+       maxXSec += s.maxXSec;
++    totrerr = s.totrerr;
+     return *this;
+   }
+ };
+@@ -333,13 +342,17 @@
+   map<MEPtr, Stat> meMap;
+   map<PExtrPtr, Stat> extractMap;
+   Stat tot;
++  double genrerr = sampler()->integratedXSecErr()/sampler()->integratedXSec();
+ 
+   for ( int i = 0, N = xCombs().size(); i < N; ++i ) {
+     const StandardXComb & x = *xCombs()[i];
+-    Stat s;
+-    s = Stat(x.stats().attempts(), x.stats().accepted(),
+-	     x.stats().sumWeights(), x.stats().sumWeights2(),
+-	     sampler()->integratedXSec(), sampler()->sumWeights());
++    Stat s(x.stats().attempts(), x.stats().accepted(),
++	   x.stats().sumWeights(), x.stats().sumWeights2(),
++	   sampler()->integratedXSec(), sampler()->sumWeights(), genrerr);
++//    Stat s;
++//    s = Stat(x.stats().attempts(), x.stats().accepted(),
++//	     x.stats().sumWeights(), x.stats().sumWeights2(),
++//	     sampler()->integratedXSec(), sampler()->sumWeights());
+     partonMap[x.partons()] += s;
+     meMap[x.matrixElement()] += s;
+     extractMap[x.pExtractor()] += s;
+@@ -361,14 +374,17 @@
+      << "                                       "
+      << "   events     attempts             (nb)\n";
+ 
+-  CrossSection errtot = sampler()->integratedXSec()*
+-    sqrt(sqr(sampler()->integratedXSecErr()/sampler()->integratedXSec()) + 
+-	 tot.sumw2/sqr(tot.sumw) - 1.0/tot.attempted);
++//  CrossSection errtot = sampler()->integratedXSec()*
++//    sqrt(sqr(sampler()->integratedXSecErr()/sampler()->integratedXSec()) + 
++//	 tot.sumw2/sqr(tot.sumw) - 1.0/tot.attempted);
+ 
+   os << line << "Total:" << setw(42) << tot.accepted << setw(13)
+-     << tot.attempted << setw(17) << ouniterr(tot.xSec(), errtot, nanobarn)
++     << tot.attempted << setw(17)
++     << ouniterr(tot.xSec(),tot.xSecErr() , nanobarn)  
+      << endl << line;
+ 
++//   << tot.attempted << setw(17) << ouniterr(tot.xSec(), errtot, nanobarn)
++
+   if ( statLevel() == 1 ) return;
+ 
+   os << "Per matrix element breakdown:\n";
+@@ -439,7 +455,7 @@
+     Stat s;
+     s = Stat(x.stats().attempts(), x.stats().accepted(),
+ 	     x.stats().sumWeights(), x.stats().sumWeights2(),
+-	     sampler()->integratedXSec(), sampler()->sumWeights());
++	     sampler()->integratedXSec(), sampler()->sumWeights(), 1.0);
+     tot += s;
+   }
+ 
+@@ -451,12 +467,13 @@
+     return sampler()->maxXSec();
+ 
+   Stat tot;
++  double genrerr = sampler()->integratedXSecErr()/sampler()->integratedXSec();
+   for ( int i = 0, N = xCombs().size(); i < N; ++i ) {
+     const StandardXComb & x = *xCombs()[i];
+     Stat s;
+     s = Stat(x.stats().attempts(), x.stats().accepted(),
+ 	     x.stats().sumWeights(), x.stats().sumWeights2(),
+-	     sampler()->integratedXSec(), sampler()->sumWeights());
++	     sampler()->integratedXSec(), sampler()->sumWeights(), genrerr);
+     tot += s;
+   }
+ 
+@@ -493,7 +510,7 @@
+     double weight = sampler()->generate();
+ 
+     tStdXCombPtr lastXC = select(sampler()->lastBin(), weight);
+-    weight /= lastXC->matrixElement()->preWeight();
++//    weight /= lastXC->matrixElement()->preWeight();
+ 
+     try {
+ 
+--- orig.ThePEG-1.4.2/Handlers/StandardEventHandler.h	2009-09-11 12:17:39.000000000 +0200
++++ ThePEG-1.4.2/Handlers/StandardEventHandler.h	2009-09-11 12:19:06.000000000 +0200
+@@ -192,7 +192,7 @@
+    * StandardXComb objects pick one to generate the corresponding
+    * sub-process with the given \a weight.
+    */
+-  tStdXCombPtr select(int bin, double weight);
++  tStdXCombPtr select(int bin, double & weight);
+ 
+   /**
+    * Create and add <code>StandardXComb</code> objects.
+
+--- orig.ThePEG-1.4.2/Handlers/StandardXComb.cc	2009-09-11 12:17:39.000000000 +0200
++++ ThePEG-1.4.2/Handlers/StandardXComb.cc	2009-09-11 12:22:40.000000000 +0200
+@@ -185,7 +185,13 @@
+ 					matrixElement()->maxMultCKKW());
+   }
+ 
+-  return xsec * matrixElement()->reWeight() * matrixElement()->preWeight();
++  if ( matrixElement()->reweighted() ) {
++      newSubProcess();
++      xsec *= matrixElement()->reWeight() * matrixElement()->preWeight();
++  }
++  
++  return xsec;
++//  return xsec * matrixElement()->reWeight() * matrixElement()->preWeight();
+ }
+ 
+ void StandardXComb::newSubProcess() {
+
+--- orig.ThePEG-1.4.2/MatrixElement/MEBase.cc	2009-09-11 12:17:39.000000000 +0200
++++ ThePEG-1.4.2/MatrixElement/MEBase.cc	2009-09-11 12:18:13.000000000 +0200
+@@ -131,13 +131,16 @@
+ }
+ 
+ double MEBase::preWeight() const {
+-  double w = 1.0;
++    lastPreweight = 1.0;
++//  double w = 1.0;
+   for ( int i = 0, N = preweights.size(); i < N; ++i ) {
+     preweights[i]->setXComb(lastXCombPtr());
+-    w *= preweights[i]->weight();
++    lastPreweight *= preweights[i]->weight();
++//    w *= preweights[i]->weight();
+   }
+-  return w;
++  return lastPreweight;
++//  return w;
+ }
+ 
+ void MEBase::generateSubCollision(SubProcess &) {}
+
+--- orig.ThePEG-1.4.2/MatrixElement/MEBase.h	2009-09-11 12:17:39.000000000 +0200
++++ ThePEG-1.4.2/MatrixElement/MEBase.h	2009-09-11 12:18:07.000000000 +0200
+@@ -219,6 +219,14 @@
+   selectColourGeometry(tcDiagPtr diag) const;
+ 
+   /**
++   * Return true if this matrix element has associated (p)reWeight
++   * objects assigned.
++   */
++    inline bool reweighted() const {
++	return reweights.size() > 0 || preweights.size() > 0;
++    }
++
++  /**
+    * With the information previously supplied with the
+    * setKinematics(...) method, a derived class may optionally
+    * override this method to weight the given diagrams with their
+

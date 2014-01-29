@@ -1,0 +1,1351 @@
+diff --git a/include/dwarf.h b/include/dwarf.h
+index 82d1f9f..334aaad 100644
+--- a/include/dwarf.h
++++ b/include/dwarf.h
+@@ -296,6 +296,7 @@ typedef struct dwarf_cursor
+ 
+     dwarf_loc_t loc[DWARF_NUM_PRESERVED_REGS];
+ 
++    unsigned int stash_frames :1; /* stash frames for fast lookup */
+     unsigned int use_prev_instr :1; /* use previous (= call) or current (= signal) instruction? */
+     unsigned int pi_valid :1;	/* is proc_info valid? */
+     unsigned int pi_is_dynamic :1; /* proc_info found via dynamic proc info? */
+diff --git a/include/libunwind-x86_64.h b/include/libunwind-x86_64.h
+index 53789cc..07b8b2a 100644
+--- a/include/libunwind-x86_64.h
++++ b/include/libunwind-x86_64.h
+@@ -104,15 +104,44 @@ typedef struct
+   }
+ unw_tdep_proc_info_t;
+ 
++typedef enum
++  {
++    UNW_X86_64_FRAME_STANDARD = -2,     /* regular rbp, rsp +/- offset */
++    UNW_X86_64_FRAME_SIGRETURN = -1,    /* special sigreturn frame */
++    UNW_X86_64_FRAME_OTHER = 0,         /* not cacheable (special or unrecognised) */
++    UNW_X86_64_FRAME_GUESSED = 1        /* guessed it was regular, but not known */
++  }
++unw_tdep_frame_type_t;
++
++typedef struct
++  {
++    uint64_t virtual_address;
++    int64_t frame_type     : 2;  /* unw_tdep_frame_type_t classification */
++    int64_t last_frame     : 1;  /* non-zero if last frame in chain */
++    int64_t cfa_reg_rsp    : 1;  /* cfa dwarf base register is rsp vs. rbp */
++    int64_t cfa_reg_offset : 20; /* cfa is at this offset from base register value */
++    int64_t rbp_cfa_offset : 20; /* rbp saved at this offset from cfa (-1 = not saved) */
++    int64_t rsp_cfa_offset : 20; /* rsp saved at this offset from cfa (-1 = not saved) */
++  }
++unw_tdep_frame_t;
++
+ #include "libunwind-dynamic.h"
+ #include "libunwind-common.h"
+ 
+ #define unw_tdep_getcontext		UNW_ARCH_OBJ(getcontext)
+-extern int unw_tdep_getcontext (unw_tdep_context_t *);
+-
+ #define unw_tdep_is_fpreg		UNW_ARCH_OBJ(is_fpreg)
++#define unw_tdep_make_frame_cache	UNW_OBJ(make_frame_cache)
++#define unw_tdep_free_frame_cache	UNW_OBJ(free_frame_cache)
++#define unw_tdep_trace			UNW_OBJ(trace)
++
++extern int unw_tdep_getcontext (unw_tdep_context_t *);
+ extern int unw_tdep_is_fpreg (int);
+ 
++extern unw_tdep_frame_t *unw_tdep_make_frame_cache (size_t n);
++extern int unw_tdep_free_frame_cache (unw_tdep_frame_t *p);
++extern int unw_tdep_trace (unw_cursor_t *cursor, void **addresses,
++			   int *n, unw_tdep_frame_t *cache);
++
+ #if defined(__cplusplus) || defined(c_plusplus)
+ }
+ #endif
+diff --git a/include/tdep-arm/libunwind_i.h b/include/tdep-arm/libunwind_i.h
+index bae9c4d..b5b6fc6 100644
+--- a/include/tdep-arm/libunwind_i.h
++++ b/include/tdep-arm/libunwind_i.h
+@@ -220,6 +220,7 @@ dwarf_put (struct dwarf_cursor *c, dwarf_loc_t loc, unw_word_t val)
+ #define tdep_fetch_frame(c,ip,n)	do {} while(0)
+ #define tdep_cache_frame(c,rs)		do {} while(0)
+ #define tdep_reuse_frame(c,rs)		do {} while(0)
++#define tdep_stash_frame(c,rs)		do {} while(0)
+ 
+ #ifdef UNW_LOCAL_ONLY
+ # define tdep_find_proc_info(c,ip,n)				\
+diff --git a/include/tdep-hppa/libunwind_i.h b/include/tdep-hppa/libunwind_i.h
+index 50d1aab..4e6c1c3 100644
+--- a/include/tdep-hppa/libunwind_i.h
++++ b/include/tdep-hppa/libunwind_i.h
+@@ -227,6 +227,7 @@ dwarf_put (struct dwarf_cursor *c, dwarf_loc_t loc, unw_word_t val)
+ #define tdep_fetch_frame(c,ip,n)	do {} while(0)
+ #define tdep_cache_frame(c,rs)		do {} while(0)
+ #define tdep_reuse_frame(c,rs)		do {} while(0)
++#define tdep_stash_frame(c,rs)		do {} while(0)
+ 
+ #ifdef UNW_LOCAL_ONLY
+ # define tdep_find_proc_info(c,ip,n)				\
+diff --git a/include/tdep-ia64/libunwind_i.h b/include/tdep-ia64/libunwind_i.h
+index 75cc220..3193a64 100644
+--- a/include/tdep-ia64/libunwind_i.h
++++ b/include/tdep-ia64/libunwind_i.h
+@@ -223,6 +223,7 @@ struct ia64_global_unwind_state
+ #define tdep_fetch_frame(c,ip,n)	do {} while(0)
+ #define tdep_cache_frame(c,rs)		do {} while(0)
+ #define tdep_reuse_frame(c,rs)		do {} while(0)
++#define tdep_stash_frame(c,rs)		do {} while(0)
+ #define tdep_get_as(c)			((c)->as)
+ #define tdep_get_as_arg(c)		((c)->as_arg)
+ #define tdep_get_ip(c)			((c)->ip)
+diff --git a/include/tdep-mips/libunwind_i.h b/include/tdep-mips/libunwind_i.h
+index 160a637..2e6fc4f 100644
+--- a/include/tdep-mips/libunwind_i.h
++++ b/include/tdep-mips/libunwind_i.h
+@@ -282,6 +282,7 @@ dwarf_put (struct dwarf_cursor *c, dwarf_loc_t loc, unw_word_t val)
+ #define tdep_fetch_frame(c,ip,n)	do {} while(0)
+ #define tdep_cache_frame(c,rs)		do {} while(0)
+ #define tdep_reuse_frame(c,rs)		do {} while(0)
++#define tdep_stash_frame(c,rs)		do {} while(0)
+ 
+ #ifdef UNW_LOCAL_ONLY
+ # define tdep_find_proc_info(c,ip,n)				\
+diff --git a/include/tdep-ppc32/libunwind_i.h b/include/tdep-ppc32/libunwind_i.h
+index e775dd6..7db2b39 100644
+--- a/include/tdep-ppc32/libunwind_i.h
++++ b/include/tdep-ppc32/libunwind_i.h
+@@ -245,8 +245,6 @@ dwarf_put (struct dwarf_cursor *c, dwarf_loc_t loc, unw_word_t val)
+ 				     1, c->as_arg);
+ }
+ 
+-
+-
+ #define tdep_needs_initialization	UNW_OBJ(needs_initialization)
+ #define tdep_init			UNW_OBJ(init)
+ /* Platforms that support UNW_INFO_FORMAT_TABLE need to define
+@@ -259,6 +257,7 @@ dwarf_put (struct dwarf_cursor *c, dwarf_loc_t loc, unw_word_t val)
+ #define tdep_fetch_frame(c,ip,n)	do {} while(0)
+ #define tdep_cache_frame(c,rs)		do {} while(0)
+ #define tdep_reuse_frame(c,rs)		do {} while(0)
++#define tdep_stash_frame(c,rs)		do {} while(0)
+ #define tdep_get_func_addr		UNW_OBJ(get_func_addr)
+ 
+ #ifdef UNW_LOCAL_ONLY
+diff --git a/include/tdep-ppc64/libunwind_i.h b/include/tdep-ppc64/libunwind_i.h
+index bb6c977..6c46e1a 100644
+--- a/include/tdep-ppc64/libunwind_i.h
++++ b/include/tdep-ppc64/libunwind_i.h
+@@ -245,8 +245,6 @@ dwarf_put (struct dwarf_cursor *c, dwarf_loc_t loc, unw_word_t val)
+ 				     1, c->as_arg);
+ }
+ 
+-
+-
+ #define tdep_needs_initialization	UNW_OBJ(needs_initialization)
+ #define tdep_init			UNW_OBJ(init)
+ /* Platforms that support UNW_INFO_FORMAT_TABLE need to define
+@@ -259,6 +257,7 @@ dwarf_put (struct dwarf_cursor *c, dwarf_loc_t loc, unw_word_t val)
+ #define tdep_fetch_frame(c,ip,n)	do {} while(0)
+ #define tdep_cache_frame(c,rs)		do {} while(0)
+ #define tdep_reuse_frame(c,rs)		do {} while(0)
++#define tdep_stash_frame(c,rs)		do {} while(0)
+ #define tdep_get_func_addr		UNW_OBJ(get_func_addr)
+ 
+ #ifdef UNW_LOCAL_ONLY
+diff --git a/include/tdep-x86/libunwind_i.h b/include/tdep-x86/libunwind_i.h
+index bc381e9..88ab246 100644
+--- a/include/tdep-x86/libunwind_i.h
++++ b/include/tdep-x86/libunwind_i.h
+@@ -243,6 +243,7 @@ dwarf_put (struct dwarf_cursor *c, dwarf_loc_t loc, unw_word_t val)
+ #define tdep_fetch_frame(c,ip,n)	do {} while(0)
+ #define tdep_cache_frame(c,rs)		do {} while(0)
+ #define tdep_reuse_frame(c,rs)		do {} while(0)
++#define tdep_stash_frame(c,rs)		do {} while(0)
+ 
+ #ifdef UNW_LOCAL_ONLY
+ # define tdep_find_proc_info(c,ip,n)				\
+diff --git a/include/tdep-x86_64/libunwind_i.h b/include/tdep-x86_64/libunwind_i.h
+index ea502ec..c6ea324 100644
+--- a/include/tdep-x86_64/libunwind_i.h
++++ b/include/tdep-x86_64/libunwind_i.h
+@@ -57,6 +57,8 @@ struct cursor
+   {
+     struct dwarf_cursor dwarf;		/* must be first */
+ 
++    unw_tdep_frame_t frame_info;	/* quick tracing assist info */
++
+     /* Format of sigcontext structure and address at which it is
+        stored: */
+     enum
+@@ -172,6 +174,7 @@ dwarf_put (struct dwarf_cursor *c, dwarf_loc_t loc, unw_word_t val)
+ # define tdep_cache_frame(c,rs)		do {} while(0)
+ # define tdep_reuse_frame(c,rs)		do {} while(0)
+ #endif
++#define tdep_stash_frame		UNW_OBJ(stash_frame)
+ 
+ #ifdef UNW_LOCAL_ONLY
+ # define tdep_find_proc_info(c,ip,n)				\
+@@ -213,7 +216,8 @@ extern void tdep_cache_frame (struct dwarf_cursor *c,
+ 			      struct dwarf_reg_state *rs);
+ extern void tdep_reuse_frame (struct dwarf_cursor *c,
+ 			      struct dwarf_reg_state *rs);
++extern void tdep_stash_frame (struct dwarf_cursor *c,
++			      struct dwarf_reg_state *rs);
+ #endif
+ 
+-
+ #endif /* X86_64_LIBUNWIND_I_H */
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 3107b00..1b89225 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -259,8 +259,8 @@ libunwind_la_SOURCES_x86_64 = $(libunwind_la_SOURCES_x86_64_common)	    \
+ 	x86_64/setcontext.S						    \
+ 	x86_64/Lcreate_addr_space.c x86_64/Lget_save_loc.c x86_64/Lglobal.c \
+ 	x86_64/Linit.c x86_64/Linit_local.c x86_64/Linit_remote.c	    \
+-	x86_64/Lget_proc_info.c x86_64/Lregs.c    			    \
+-	x86_64/Lresume.c x86_64/Lstep.c x86_64/getcontext.S
++	x86_64/Lget_proc_info.c x86_64/Lregs.c x86_64/Lresume.c		    \
++	x86_64/Lstash_frame.c x86_64/Lstep.c x86_64/Ltrace.c x86_64/getcontext.S
+ 
+ # The list of files that go into libunwind-x86_64:
+ libunwind_x86_64_la_SOURCES_x86_64 = $(libunwind_la_SOURCES_x86_64_common)  \
+@@ -270,8 +270,8 @@ libunwind_x86_64_la_SOURCES_x86_64 = $(libunwind_la_SOURCES_x86_64_common)  \
+ 	dwarf/Gfind_proc_info-lsb.c					    \
+ 	x86_64/Gcreate_addr_space.c x86_64/Gget_save_loc.c x86_64/Gglobal.c \
+ 	x86_64/Ginit.c x86_64/Ginit_local.c x86_64/Ginit_remote.c	    \
+-	x86_64/Gget_proc_info.c x86_64/Gregs.c    			    \
+-	x86_64/Gresume.c x86_64/Gstep.c
++	x86_64/Gget_proc_info.c x86_64/Gregs.c x86_64/Gresume.c		    \
++	x86_64/Gstash_frame.c x86_64/Gstep.c x86_64/Gtrace.c
+ 
+ # The list of local files that go to Power 64 and 32:
+ libunwind_la_SOURCES_ppc = ppc/Lcreate_addr_space.c 			\
+diff --git a/src/arm/init.h b/src/arm/init.h
+index a302569..1f8d7c1 100644
+--- a/src/arm/init.h
++++ b/src/arm/init.h
+@@ -62,6 +62,7 @@ common_init (struct cursor *c, unsigned use_prev_instr)
+ 
+   c->dwarf.args_size = 0;
+   c->dwarf.ret_addr_column = 0;
++  c->dwarf.stash_frames = 0;
+   c->dwarf.use_prev_instr = use_prev_instr;
+   c->dwarf.pi_valid = 0;
+   c->dwarf.pi_is_dynamic = 0;
+diff --git a/src/dwarf/Gparser.c b/src/dwarf/Gparser.c
+index 13bd9a2..1db1546 100644
+--- a/src/dwarf/Gparser.c
++++ b/src/dwarf/Gparser.c
+@@ -803,6 +803,10 @@ apply_reg_state (struct dwarf_cursor *c, struct dwarf_reg_state *rs)
+ 	       __FUNCTION__, (long) c->ip);
+       return -UNW_EBADFRAME;
+     }
++
++  if (c->stash_frames)
++    tdep_stash_frame (c, rs);
++
+   return 0;
+ }
+ 
+diff --git a/src/hppa/init.h b/src/hppa/init.h
+index d14354f..6fabb15 100644
+--- a/src/hppa/init.h
++++ b/src/hppa/init.h
+@@ -41,6 +41,7 @@ common_init (struct cursor *c, unsigned use_prev_instr)
+   if (ret < 0)
+     return ret;
+ 
++  c->dwarf.stash_frames = 0;
+   c->dwarf.use_prev_instr = use_prev_instr;
+   return 0;
+ }
+diff --git a/src/mips/init.h b/src/mips/init.h
+index e32e3c9..3a4bb00 100644
+--- a/src/mips/init.h
++++ b/src/mips/init.h
+@@ -47,6 +47,7 @@ common_init (struct cursor *c, unsigned use_prev_instr)
+ 
+   c->dwarf.args_size = 0;
+   c->dwarf.ret_addr_column = 0;
++  c->dwarf.stash_frames = 0;
+   c->dwarf.use_prev_instr = use_prev_instr;
+   c->dwarf.pi_valid = 0;
+   c->dwarf.pi_is_dynamic = 0;
+diff --git a/src/ppc32/init.h b/src/ppc32/init.h
+index c2208ad..4cb9192 100644
+--- a/src/ppc32/init.h
++++ b/src/ppc32/init.h
+@@ -62,6 +62,7 @@ common_init_ppc32 (struct cursor *c, unsigned use_prev_instr)
+ 
+   c->dwarf.args_size = 0;
+   c->dwarf.ret_addr_column = 0;
++  c->dwarf.stash_frames = 0;
+   c->dwarf.use_prev_instr = use_prev_instr;
+   c->dwarf.pi_valid = 0;
+   c->dwarf.pi_is_dynamic = 0;
+diff --git a/src/ppc64/init.h b/src/ppc64/init.h
+index 64847b8..7503a7c 100644
+--- a/src/ppc64/init.h
++++ b/src/ppc64/init.h
+@@ -72,6 +72,7 @@ common_init_ppc64 (struct cursor *c, unsigned use_prev_instr)
+ 
+   c->dwarf.args_size = 0;
+   c->dwarf.ret_addr_column = 0;
++  c->dwarf.stash_frames = 0;
+   c->dwarf.use_prev_instr = use_prev_instr;
+   c->dwarf.pi_valid = 0;
+   c->dwarf.pi_is_dynamic = 0;
+diff --git a/src/x86/init.h b/src/x86/init.h
+index b59ad84..f35387d 100644
+--- a/src/x86/init.h
++++ b/src/x86/init.h
+@@ -59,6 +59,7 @@ common_init (struct cursor *c, unsigned use_prev_instr)
+ 
+   c->dwarf.args_size = 0;
+   c->dwarf.ret_addr_column = 0;
++  c->dwarf.stash_frames = 0;
+   c->dwarf.use_prev_instr = use_prev_instr;
+   c->dwarf.pi_valid = 0;
+   c->dwarf.pi_is_dynamic = 0;
+diff --git a/src/x86_64/Ginit_local.c b/src/x86_64/Ginit_local.c
+index 18b3d98..70bef3e 100644
+--- a/src/x86_64/Ginit_local.c
++++ b/src/x86_64/Ginit_local.c
+@@ -51,11 +51,7 @@ unw_init_local (unw_cursor_t *cursor, ucontext_t *uc)
+   c->dwarf.as = unw_local_addr_space;
+   c->dwarf.as_arg = c;
+   c->uc = uc;
+-#if CONSERVATIVE_CHECKS
+-  c->validate = 1;
+-#else
+   c->validate = 0;
+-#endif
+   return common_init (c, 1);
+ }
+ 
+diff --git a/src/x86_64/Gos-linux.c b/src/x86_64/Gos-linux.c
+index b7f832c..c027888 100644
+--- a/src/x86_64/Gos-linux.c
++++ b/src/x86_64/Gos-linux.c
+@@ -39,18 +39,12 @@ tdep_fetch_frame (struct dwarf_cursor *dw, unw_word_t ip, int need_unwind_info)
+   if (dw->pi_valid
+       && dw->pi.unwind_info
+       && ((struct dwarf_cie_info *) dw->pi.unwind_info)->signal_frame)
+-  {
+     c->sigcontext_format = X86_64_SCF_LINUX_RT_SIGFRAME;
+-    c->sigcontext_addr = dw->cfa;
+-  }
+   else
+-  {
+     c->sigcontext_format = X86_64_SCF_NONE;
+-    c->sigcontext_addr = 0;
+-  }
+ 
+-  Debug(15, "fetch frame ip=0x%lx cfa=0x%lx format=%d addr=0x%lx\n",
+-        dw->ip, dw->cfa, c->sigcontext_format, c->sigcontext_addr);
++  Debug(5, "fetch frame ip=0x%lx cfa=0x%lx format=%d\n",
++        dw->ip, dw->cfa, c->sigcontext_format);
+ }
+ 
+ HIDDEN void
+@@ -59,8 +53,8 @@ tdep_cache_frame (struct dwarf_cursor *dw, struct dwarf_reg_state *rs)
+   struct cursor *c = (struct cursor *) dw;
+   rs->signal_frame = c->sigcontext_format;
+ 
+-  Debug(15, "cache frame ip=0x%lx cfa=0x%lx format=%d addr=0x%lx\n",
+-        dw->ip, dw->cfa, c->sigcontext_format, c->sigcontext_addr);
++  Debug(5, "cache frame ip=0x%lx cfa=0x%lx format=%d\n",
++        dw->ip, dw->cfa, c->sigcontext_format);
+ }
+ 
+ HIDDEN void
+@@ -69,12 +63,20 @@ tdep_reuse_frame (struct dwarf_cursor *dw, struct dwarf_reg_state *rs)
+   struct cursor *c = (struct cursor *) dw;
+   c->sigcontext_format = rs->signal_frame;
+   if (c->sigcontext_format == X86_64_SCF_LINUX_RT_SIGFRAME)
++  {
++    /* Rest will be filled by tdep_stash_frame(), save what it needs. */
++    c->frame_info.frame_type = UNW_X86_64_FRAME_SIGRETURN;
++    c->frame_info.cfa_reg_offset = -1;
++    c->frame_info.cfa_reg_rsp = -1;
+     c->sigcontext_addr = dw->cfa;
++  }
+   else
+     c->sigcontext_addr = 0;
+ 
+-  Debug(15, "reuse frame ip=0x%lx cfa=0x%lx format=%d addr=0x%lx\n",
+-        dw->ip, dw->cfa, c->sigcontext_format, c->sigcontext_addr);
++  Debug(5, "reuse frame ip=0x%lx cfa=0x%lx format=%d addr=0x%lx offset=%+d\n",
++        dw->ip, dw->cfa, c->sigcontext_format, c->sigcontext_addr,
++	(c->sigcontext_format == X86_64_SCF_LINUX_RT_SIGFRAME
++	 ? c->frame_info.cfa_reg_offset : 0));
+ }
+ 
+ PROTECTED int
+@@ -90,17 +92,14 @@ unw_handle_signal_frame (unw_cursor_t *cursor)
+ #if UNW_DEBUG /* To silence compiler warnings */
+   /* Should not get here because we now use kernel-provided dwarf
+      information for the signal trampoline and dwarf_step() works.
+-     Hence dwarf_step() should never call this function. Maybe
++     Hence unw_step() should never call this function. Maybe
+      restore old non-dwarf signal handling here, but then the
+      gating on unw_is_signal_frame() needs to be removed. */
+   struct cursor *c = (struct cursor *) cursor;
+   Debug(1, "old format signal frame? format=%d addr=0x%lx cfa=0x%lx\n",
+ 	c->sigcontext_format, c->sigcontext_addr, c->dwarf.cfa);
+-  assert(c->sigcontext_format == X86_64_SCF_LINUX_RT_SIGFRAME);
+-  assert(c->sigcontext_addr == c->dwarf.cfa);
+-  assert(0);
+ #endif
+-  return 1;
++  return -UNW_EBADFRAME;
+ }
+ 
+ #ifndef UNW_REMOTE_ONLY
+diff --git a/src/x86_64/Gstash_frame.c b/src/x86_64/Gstash_frame.c
+new file mode 100644
+index 0000000..fd4a59b
+--- /dev/null
++++ b/src/x86_64/Gstash_frame.c
+@@ -0,0 +1,92 @@
++/* libunwind - a platform-independent unwind library
++   Copyright (C) 2010 by Lassi Tuura <lat@iki.fi>
++
++This file is part of libunwind.
++
++Permission is hereby granted, free of charge, to any person obtaining
++a copy of this software and associated documentation files (the
++"Software"), to deal in the Software without restriction, including
++without limitation the rights to use, copy, modify, merge, publish,
++distribute, sublicense, and/or sell copies of the Software, and to
++permit persons to whom the Software is furnished to do so, subject to
++the following conditions:
++
++The above copyright notice and this permission notice shall be
++included in all copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
++LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
++OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
++WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
++
++#include "unwind_i.h"
++#include "ucontext_i.h"
++
++HIDDEN void
++tdep_stash_frame (struct dwarf_cursor *d, struct dwarf_reg_state *rs)
++{
++  struct cursor *c = (struct cursor *) dwarf_to_cursor (d);
++  unw_tdep_frame_t *f = &c->frame_info;
++
++  Debug (4, "ip=0x%lx cfa=0x%lx type %d cfa [where=%d val=%ld] cfaoff=%ld"
++	 " ra=0x%lx rbp [where=%d val=%ld] rsp [where=%d val=%ld]\n",
++	 d->ip, d->cfa, f->frame_type,
++	 rs->reg[DWARF_CFA_REG_COLUMN].where,
++	 rs->reg[DWARF_CFA_REG_COLUMN].val,
++	 rs->reg[DWARF_CFA_OFF_COLUMN].val,
++	 DWARF_GET_LOC(d->loc[d->ret_addr_column]),
++	 rs->reg[RBP].where, rs->reg[RBP].val,
++	 rs->reg[RSP].where, rs->reg[RSP].val);
++
++  /* A standard frame is defined as:
++      - CFA is register-relative offset off RBP or RSP;
++      - Return address is saved at CFA-8;
++      - RBP is unsaved or saved at CFA+offset, offset != -1;
++      - RSP is unsaved or saved at CFA+offset, offset != -1.  */
++  if (f->frame_type == UNW_X86_64_FRAME_OTHER
++      && (rs->reg[DWARF_CFA_REG_COLUMN].where == DWARF_WHERE_REG)
++      && (rs->reg[DWARF_CFA_REG_COLUMN].val == RBP
++	  || rs->reg[DWARF_CFA_REG_COLUMN].val == RSP)
++      && labs(rs->reg[DWARF_CFA_OFF_COLUMN].val) < (1 << 20)
++      && DWARF_GET_LOC(d->loc[d->ret_addr_column]) == d->cfa-8
++      && (rs->reg[RBP].where == DWARF_WHERE_UNDEF
++	  || rs->reg[RBP].where == DWARF_WHERE_SAME
++	  || (rs->reg[RBP].where == DWARF_WHERE_CFAREL
++	      && labs(rs->reg[RBP].val) < (1 << 20)
++	      && rs->reg[RBP].val+1 != 0))
++      && (rs->reg[RSP].where == DWARF_WHERE_UNDEF
++	  || rs->reg[RSP].where == DWARF_WHERE_SAME
++	  || (rs->reg[RSP].where == DWARF_WHERE_CFAREL
++	      && labs(rs->reg[RSP].val) < (1 << 20)
++	      && rs->reg[RSP].val+1 != 0)))
++  {
++    /* Save information for a standard frame. */
++    f->frame_type = UNW_X86_64_FRAME_STANDARD;
++    f->cfa_reg_rsp = (rs->reg[DWARF_CFA_REG_COLUMN].val == RSP);
++    f->cfa_reg_offset = rs->reg[DWARF_CFA_OFF_COLUMN].val;
++    if (rs->reg[RBP].where == DWARF_WHERE_CFAREL)
++      f->rbp_cfa_offset = rs->reg[RBP].val;
++    if (rs->reg[RSP].where == DWARF_WHERE_CFAREL)
++      f->rsp_cfa_offset = rs->reg[RSP].val;
++    Debug (4, " standard frame\n");
++  }
++
++  /* Signal frame was detected via augmentation in tdep_fetch_frame()
++     and partially filled in tdep_reuse_frame().  Now that we have
++     the delta between inner and outer CFAs available to use, fill in
++     the offsets for CFA and stored registers.  We don't have space
++     for RIP, it's location is calculated relative to RBP location. */
++  else if (f->frame_type == UNW_X86_64_FRAME_SIGRETURN)
++  {
++    assert (f->cfa_reg_offset == -1);
++    f->cfa_reg_offset = d->cfa - c->sigcontext_addr;
++    f->rbp_cfa_offset = DWARF_GET_LOC(d->loc[RBP]) - d->cfa;
++    f->rsp_cfa_offset = DWARF_GET_LOC(d->loc[RSP]) - d->cfa;
++    Debug (4, " sigreturn frame\n");
++  }
++
++  /* PLT and guessed RBP-walked frames are handled in unw_step(). */
++}
+diff --git a/src/x86_64/Gstep.c b/src/x86_64/Gstep.c
+index 85e3989..0d2eef8 100644
+--- a/src/x86_64/Gstep.c
++++ b/src/x86_64/Gstep.c
+@@ -58,6 +58,11 @@ unw_step (unw_cursor_t *cursor)
+   struct cursor *c = (struct cursor *) cursor;
+   int ret, i;
+ 
++#if CONSERVATIVE_CHECKS
++  int val = c->validate;
++  c->validate = 1;
++#endif
++
+   Debug (1, "(cursor=%p, ip=0x%016lx, cfa=0x%016lx)\n",
+ 	 c, c->dwarf.ip, c->dwarf.cfa);
+ 
+@@ -65,6 +70,10 @@ unw_step (unw_cursor_t *cursor)
+   c->sigcontext_format = X86_64_SCF_NONE;
+   ret = dwarf_step (&c->dwarf);
+ 
++#if CONSERVATIVE_CHECKS
++  c->validate = val;
++#endif
++
+   if (ret < 0 && ret != -UNW_ENOINFO)
+     {
+       Debug (2, "returning %d\n", ret);
+@@ -112,7 +121,11 @@ unw_step (unw_cursor_t *cursor)
+ 	}
+       else if (is_plt_entry (&c->dwarf))
+ 	{
++          /* Like regular frame, CFA = RSP+8, RA = [CFA-8], no regs saved. */
+ 	  Debug (2, "found plt entry\n");
++          c->frame_info.cfa_reg_offset = 8;
++          c->frame_info.cfa_reg_rsp = -1;
++          c->frame_info.frame_type = UNW_X86_64_FRAME_STANDARD;
+           c->dwarf.loc[RIP] = DWARF_LOC (c->dwarf.cfa, 0);
+           c->dwarf.cfa += 8;
+ 	}
+@@ -142,19 +155,32 @@ unw_step (unw_cursor_t *cursor)
+ 	    }
+ 	  else
+ 	    {
+-	      unw_word_t rbp1;
+-	      Debug (1, "[RBP=0x%Lx] = 0x%Lx (cfa = 0x%Lx)\n",
+-		     (unsigned long long) DWARF_GET_LOC (c->dwarf.loc[RBP]),
+-		     (unsigned long long) rbp,
+-		     (unsigned long long) c->dwarf.cfa);
+-
++	      unw_word_t rbp1 = 0;
+ 	      rbp_loc = DWARF_LOC(rbp, 0);
+ 	      rsp_loc = DWARF_NULL_LOC;
+ 	      rip_loc = DWARF_LOC (rbp + 8, 0);
+-              /* Heuristic to recognize a bogus frame pointer */
+ 	      ret = dwarf_get (&c->dwarf, rbp_loc, &rbp1);
+-              if (ret || ((rbp1 - rbp) > 0x4000))
+-                rbp_loc = DWARF_NULL_LOC;
++	      Debug (1, "[RBP=0x%lx] = 0x%lx (cfa = 0x%lx) -> 0x%lx\n",
++		     (unsigned long) DWARF_GET_LOC (c->dwarf.loc[RBP]),
++		     rbp, c->dwarf.cfa, rbp1);
++
++	      /* Heuristic to determine incorrect guess.  For RBP to be a
++	         valid frame it needs to be above current CFA, but don't
++		 let it go more than a little.  Note that we can't deduce
++		 anything about new RBP (rbp1) since it may not be a frame
++		 pointer in the frame above.  Just check we get the value. */
++              if (ret < 0
++		  || rbp <= c->dwarf.cfa
++		  || (rbp - c->dwarf.cfa) > 0x4000)
++	        {
++                  rip_loc = DWARF_NULL_LOC;
++                  rbp_loc = DWARF_NULL_LOC;
++		}
++
++              c->frame_info.frame_type = UNW_X86_64_FRAME_GUESSED;
++              c->frame_info.cfa_reg_rsp = 0;
++              c->frame_info.cfa_reg_offset = 16;
++              c->frame_info.rbp_cfa_offset = -16;
+ 	      c->dwarf.cfa += 16;
+ 	    }
+ 
+diff --git a/src/x86_64/Gtrace.c b/src/x86_64/Gtrace.c
+new file mode 100644
+index 0000000..b67a780
+--- /dev/null
++++ b/src/x86_64/Gtrace.c
+@@ -0,0 +1,401 @@
++/* libunwind - a platform-independent unwind library
++   Copyright (C) 2010 by Lassi Tuura <lat@iki.fi>
++
++This file is part of libunwind.
++
++Permission is hereby granted, free of charge, to any person obtaining
++a copy of this software and associated documentation files (the
++"Software"), to deal in the Software without restriction, including
++without limitation the rights to use, copy, modify, merge, publish,
++distribute, sublicense, and/or sell copies of the Software, and to
++permit persons to whom the Software is furnished to do so, subject to
++the following conditions:
++
++The above copyright notice and this permission notice shall be
++included in all copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
++LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
++OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
++WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
++
++#include "unwind_i.h"
++#include "ucontext_i.h"
++#include <signal.h>
++
++/* Utility for timing in debug mode.  You'll probably want to
++   comment out all unnecessary debugging in this file if you
++   use this, otherwise the timings printed will not make sense. */
++#if UNW_DEBUG
++#define rdtsc(v)				 		\
++  do { unsigned lo, hi;						\
++    __asm__ volatile ("rdtsc" : "=a" (lo), "=d" (hi));		\
++    (v) = ((unsigned long) lo) | ((unsigned long) hi << 32);	\
++  } while (0)
++#endif
++
++/* There's not enough space to store RIP's location in a signal
++   frame, but we can calculate it relative to RBP's (or RSP's)
++   position in mcontext structure.  Note we don't want to use
++   the UC_MCONTEXT_GREGS_* directly since we rely on DWARF info. */
++#define dRIP (UC_MCONTEXT_GREGS_RIP - UC_MCONTEXT_GREGS_RBP)
++
++/* Allocate and initialise hash table for frame cache lookups.
++   Client requests size N, which should be 5 to 10 more than expected
++   number of unique addresses to trace.  Minimum size of 10000 is
++   forced.  Returns the cache, or NULL if there was a memory
++   allocation problem. */
++unw_tdep_frame_t *
++unw_tdep_make_frame_cache (size_t n)
++{
++  size_t i;
++  unw_tdep_frame_t *cache;
++
++  if (n < 10000)
++    n = 10000;
++
++  if (! (cache = malloc((n+1) * sizeof(unw_tdep_frame_t))))
++    return 0;
++
++  unw_tdep_frame_t empty = { 0, UNW_X86_64_FRAME_OTHER, -1, -1, 0, -1, -1 };
++  for (i = 0; i < n; ++i)
++    cache[i] = empty;
++
++  cache[0].virtual_address = n;
++  return cache+1;
++}
++
++/* Free the address cache allocated by unw_tdep_make_frame_cache().
++   Returns 0 on success, or -UNW_EINVAL if cache was NULL. */
++int
++unw_tdep_free_frame_cache (unw_tdep_frame_t *cache)
++{
++  if (! cache)
++    return -UNW_EINVAL;
++
++  free(cache-1);
++  return 0;
++}
++
++/* Initialise frame properties for address cache slot F at address
++   RIP using current CFA, RBP and RSP values.  Modifies CURSOR to
++   that location, performs one unw_step(), and fills F with what
++   was discovered about the location.  Returns F.
++
++   FIXME: This probably should tell DWARF handling to never evaluate
++   or use registers other than RBP, RSP and RIP in case there is
++   highly unusual unwind info which uses these creatively. */
++static unw_tdep_frame_t *
++trace_init_addr (unw_tdep_frame_t *f,
++		 unw_cursor_t *cursor,
++		 unw_word_t cfa,
++		 unw_word_t rip,
++		 unw_word_t rbp,
++		 unw_word_t rsp)
++{
++  struct cursor *c = (struct cursor *) cursor;
++  struct dwarf_cursor *d = &c->dwarf;
++  int ret = -UNW_EINVAL;
++
++  /* Initialise frame properties: unknown, not last. */
++  f->virtual_address = rip;
++  f->frame_type = UNW_X86_64_FRAME_OTHER;
++  f->last_frame = 0;
++  f->cfa_reg_rsp = -1;
++  f->cfa_reg_offset = 0;
++  f->rbp_cfa_offset = -1;
++  f->rsp_cfa_offset = -1;
++  
++  /* Reinitialise cursor to this instruction - but undo next/prev RIP
++     adjustment because unw_step will redo it - and force RIP, RBP
++     RSP into register locations (=~ ucontext we keep), then set
++     their desired values. Then perform the step. */
++  d->ip = rip + d->use_prev_instr;
++  d->cfa = cfa;
++  d->loc[UNW_X86_64_RIP] = DWARF_REG_LOC (d, UNW_X86_64_RIP);
++  d->loc[UNW_X86_64_RBP] = DWARF_REG_LOC (d, UNW_X86_64_RBP);
++  d->loc[UNW_X86_64_RSP] = DWARF_REG_LOC (d, UNW_X86_64_RSP);
++  c->frame_info = *f;
++
++  if (dwarf_put (d, d->loc[UNW_X86_64_RIP], rip) >= 0
++      && dwarf_put (d, d->loc[UNW_X86_64_RBP], rbp) >= 0
++      && dwarf_put (d, d->loc[UNW_X86_64_RSP], rsp) >= 0
++      && (ret = unw_step (cursor)) >= 0)
++    *f = c->frame_info;
++
++  /* If unw_step() stopped voluntarily, remember that, even if it
++     otherwise could not determine anything useful.  This avoids
++     failing trace if we hit frames without unwind info, which is
++     common for the outermost frame (CRT stuff) on many systems.
++     This avoids failing trace in very common circumstances; failing
++     to unw_step() loop wouldn't produce any better result. */
++  if (ret == 0)
++    f->last_frame = -1;
++
++  Debug (3, "frame va %lx type %d last %d cfa %s+%d rbp @ cfa%+d rsp @ cfa%+d\n",
++ 	 f->virtual_address, f->frame_type, f->last_frame,
++ 	 f->cfa_reg_rsp ? "rsp" : "rbp", f->cfa_reg_offset,
++ 	 f->rbp_cfa_offset, f->rsp_cfa_offset);
++
++  return f;
++}
++
++/* Look up and if necessary fill in frame attributes for address RIP
++   in CACHE using current CFA, RBP and RSP values.  Uses CURSOR to
++   perform any unwind steps necessary to fill the cache.  Returns the
++   frame cache slot which describes RIP. */
++static unw_tdep_frame_t *
++trace_lookup (unw_cursor_t *cursor,
++	      unw_tdep_frame_t *cache,
++	      unw_word_t cfa,
++	      unw_word_t rip,
++	      unw_word_t rbp,
++	      unw_word_t rsp)
++{
++  /* First look up for previously cached information using cache as
++     linear probing hash table with probe step of 1.  Majority of
++     lookups should be completed within few steps, but it is very
++     important the hash table does not fill up, or performance falls
++     off the cliff. */
++  uint64_t cache_size = cache[-1].virtual_address;
++  uint64_t probe_steps = (cache_size >> 5);
++  uint64_t slot = ((rip * 0x9e3779b97f4a7c16) >> 43) % cache_size;
++  uint64_t i;
++
++  for (i = 0; i < probe_steps; ++i)
++  {
++    uint64_t addr = cache[slot].virtual_address;
++
++    /* Return if we found the address. */
++    if (addr == rip)
++    {
++      Debug (4, "found address after %ld steps\n", i);
++      return &cache[slot];
++    }
++
++    /* If slot is empty, reuse it. */
++    if (! addr)
++      break;
++
++    /* Linear probe to next slot candidate, step = 1. */
++    if (++slot > cache_size)
++      slot -= cache_size;
++  }
++
++  /* Fill this slot, whether it's free or hash collision. */
++  Debug (4, "updating slot after %ld steps\n", i);
++  return trace_init_addr (&cache[slot], cursor, cfa, rip, rbp, rsp);
++}
++
++/* Fast stack backtrace for x86-64.
++
++   Intended for use when the application makes frequent queries to the
++   current call stack without any desire to unwind.  Somewhat like the
++   GLIBC backtrace() function: fills BUFFER with the call tree from
++   CURSOR upwards, and SIZE with the number of stack levels so found.
++   When called, SIZE should tell the maximum number of entries that
++   can be stored in BUFFER.  CACHE is used to accelerate the stack
++   queries; no other thread may use the same cache concurrently.
++
++   The caller should fall back to a unw_step() loop if this function
++   fails by returning -UNW_ESTOPUNWIND, meaning the routine hit a
++   stack frame that is too complex to be traced in the fast path.
++
++   This function is tuned for clients which only need to walk the
++   stack to get the call tree as fast as possible but without any
++   other details, for example profilers sampling the stack thousands
++   to millions of times per second.  The routine handles the most
++   common x86-64 ABI stack layouts: CFA is RBP or RSP plus/minus
++   constant offset, return address is at CFA-8, and RBP and RSP are
++   either unchanged or saved on stack at constant offset from the CFA;
++   the signal return frame; and frames without unwind info provided
++   they are at the outermost (final) frame or can conservatively be
++   assumed to be frame-pointer based.
++
++   Any other stack layout will cause the routine to give up.  There
++   are only a handful of relatively rarely used functions which do
++   not have a stack in the standard form: vfork, longjmp, setcontext
++   and _dl_runtime_profile on common linux systems for example.
++
++   On success BUFFER and *SIZE reflect the trace progress up to *SIZE
++   stack levels or the outermost frame, which ever is less.  It may
++   stop short of outermost frame if unw_step() loop would also do so,
++   e.g. if there is no more unwind information; this is not reported
++   as an error.
++
++   The function returns a negative value for errors, -UNW_ESTOPUNWIND
++   if tracing stopped because of an unusual frame unwind info.  The
++   BUFFER and *SIZE reflect tracing progress up to the error frame.
++
++   Callers of this function would normally look like this:
++
++     unw_cursor_t     cur;
++     unw_context_t    ctx, saved;
++     unw_tdep_frame_t *cache = ...;
++     void             addrs[128];
++     int              depth = 128;
++     int              ret;
++
++     unw_getcontext(&ctx);
++     memcpy(&saved, &ctx, sizeof(ctx));
++
++     unw_init_local(&cur, &ctx);
++     if (! cache || (ret = unw_tdep_trace(&cur, addrs, &depth, cache)) < 0)
++     {
++       depth = 0;
++       unw_init_local(&cur, &saved);
++       while (depth < 128)
++       {
++         unw_word_t ip;
++         unw_get_reg(&cur, UNW_REG_IP, &ip);
++         addresses[depth++] = (void *) ip;
++         if ((ret = unw_step(&cur)) <= 0)
++           break;
++       }
++     }
++*/
++int
++unw_tdep_trace (unw_cursor_t *cursor,
++		void **buffer,
++		int *size,
++		unw_tdep_frame_t *cache)
++{
++  struct cursor *c = (struct cursor *) cursor;
++  struct dwarf_cursor *d = &c->dwarf;
++  unw_word_t rbp, rsp, rip, cfa;
++  int maxdepth = 0;
++  int depth = 0;
++  int ret;
++#if UNW_DEBUG
++  unsigned long start, end;
++  rdtsc(start);
++#endif
++
++  /* Check input parametres. */
++  if (! cursor || ! buffer || ! size || ! cache || (maxdepth = *size) <= 0)
++    return -UNW_EINVAL;
++
++  Debug (1, "begin ip 0x%lx cfa 0x%lx\n", d->ip, d->cfa);
++
++  /* Tell core dwarf routines to call back to us. */
++  d->stash_frames = 1;
++
++  /* Determine initial register values. */
++  rip = d->ip;
++  rsp = cfa = d->cfa;
++  if ((ret = dwarf_get (d, d->loc[UNW_X86_64_RBP], &rbp)) < 0)
++  {
++    *size = 0;
++    return ret;
++  }
++
++  /* Trace the stack upwards, starting from current RIP.  Adjust
++     the RIP address for previous/next instruction as the main
++     unwinding logic would also do.  We undo this before calling
++     back into unw_step(). */
++  while (depth < maxdepth)
++  {
++    rip -= d->use_prev_instr;
++    Debug (2, "depth %d cfa 0x%lx rip 0x%lx rsp 0x%lx rbp 0x%lx\n",
++	   depth, cfa, rip, rsp, rbp);
++
++    /* See if we have this address cached.  If not, evaluate enough of
++       the dwarf unwind information to fill the cache line data, or to
++       decide this frame cannot be handled in fast trace mode.  We
++       cache negative results too to prevent unnecessary dwarf parsing
++       for common failures. */
++    unw_tdep_frame_t *f = trace_lookup (cursor, cache, cfa, rip, rbp, rsp);
++
++    /* Record this address in stack trace. */
++    buffer[depth++] = (void *) rip;
++
++    /* If we don't have information for this frame, give up. */
++    if (! f)
++    {
++      ret = -UNW_ENOINFO;
++      break;
++    }
++
++    Debug (3, "frame va %lx type %d last %d cfa %s+%d rbp @ cfa%+d rsp @ cfa%+d\n",
++           f->virtual_address, f->frame_type, f->last_frame,
++           f->cfa_reg_rsp ? "rsp" : "rbp", f->cfa_reg_offset,
++           f->rbp_cfa_offset, f->rsp_cfa_offset);
++
++    assert (f->virtual_address == rip);
++
++    /* Stop if this was the last frame.  In particular don't evaluate
++       new register values as it may not be safe - we don't normally
++       run with full validation on, and do not want to - and there's
++       enough bad unwind info floating around that we need to trust
++       what unw_step() previously said, in potentially bogus frames. */
++    if (f->last_frame)
++      break;
++
++    /* Evaluate CFA and registers for the next frame. */
++    switch (f->frame_type)
++    {
++    case UNW_X86_64_FRAME_GUESSED:
++      /* Fall thru to standard processing after forcing validation. */
++      c->validate = 1;
++
++    case UNW_X86_64_FRAME_STANDARD:
++      /* Advance standard traceable frame. */
++      cfa = (f->cfa_reg_rsp ? rsp : rbp) + f->cfa_reg_offset;
++      ret = dwarf_get (d, DWARF_MEM_LOC (d, cfa - 8), &rip);
++      if (ret >= 0 && f->rbp_cfa_offset != -1)
++	ret = dwarf_get (d, DWARF_MEM_LOC (d, cfa + f->rbp_cfa_offset), &rbp);
++
++      /* Don't bother reading RSP from DWARF, CFA becomes new RSP. */
++      rsp = cfa;
++
++      /* Next frame needs to back up for unwind info lookup. */
++      d->use_prev_instr = 1;
++      break;
++      
++    case UNW_X86_64_FRAME_SIGRETURN:
++      /* Advance standard signal frame, whose CFA points above saved
++         registers (ucontext) among other things.  We know the info
++	 is stored at some unknown constant offset off inner frame's
++	 CFA.  We determine the actual offset from DWARF unwind info. */
++      d->use_prev_instr = 0;
++      cfa = cfa + f->cfa_reg_offset;
++      ret = dwarf_get (d, DWARF_MEM_LOC (d, cfa + f->rbp_cfa_offset + dRIP), &rip);
++      if (ret >= 0)
++	ret = dwarf_get (d, DWARF_MEM_LOC (d, cfa + f->rbp_cfa_offset), &rbp);
++      if (ret >= 0)
++	ret = dwarf_get (d, DWARF_MEM_LOC (d, cfa + f->rsp_cfa_offset), &rsp);
++
++      /* Resume stack at signal restoration point. The stack is not
++         necessarily continuous here, especially with sigaltstack(). */
++      cfa = rsp;
++
++      /* Next frame should not back up. */
++      d->use_prev_instr = 0;
++      break;
++
++    default:
++      /* We cannot trace through this frame, give up and tell the
++	 caller we had to stop.  Data collected so far may still be
++	 useful to the caller, so let it know how far we got.  */
++      ret = -UNW_ESTOPUNWIND;
++      break;
++    }
++
++    Debug (4, "new cfa 0x%lx rip 0x%lx rsp 0x%lx rbp 0x%lx\n",
++	   cfa, rip, rsp, rbp);
++
++    /* If we failed on ended up somewhere bogus, stop. */
++    if (ret < 0 || rip < 0x4000)
++      break;
++  }
++
++#if UNW_DEBUG
++  rdtsc(end);
++  Debug (1, "returning %d depth %d, dt=%ld\n", ret, depth, end - start);
++#endif
++  *size = depth;
++  return ret;
++}
+diff --git a/src/x86_64/Lstash_frame.c b/src/x86_64/Lstash_frame.c
+new file mode 100644
+index 0000000..7758780
+--- /dev/null
++++ b/src/x86_64/Lstash_frame.c
+@@ -0,0 +1,5 @@
++#define UNW_LOCAL_ONLY
++#include <libunwind.h>
++#if defined(UNW_LOCAL_ONLY) && !defined(UNW_REMOTE_ONLY)
++#include "Gstash_frame.c"
++#endif
+diff --git a/src/x86_64/Ltrace.c b/src/x86_64/Ltrace.c
+new file mode 100644
+index 0000000..fcd3f23
+--- /dev/null
++++ b/src/x86_64/Ltrace.c
+@@ -0,0 +1,5 @@
++#define UNW_LOCAL_ONLY
++#include <libunwind.h>
++#if defined(UNW_LOCAL_ONLY) && !defined(UNW_REMOTE_ONLY)
++#include "Gtrace.c"
++#endif
+diff --git a/src/x86_64/init.h b/src/x86_64/init.h
+index dcd4aea..f04ecda 100644
+--- a/src/x86_64/init.h
++++ b/src/x86_64/init.h
+@@ -64,6 +64,7 @@ common_init (struct cursor *c, unsigned use_prev_instr)
+ 
+   c->dwarf.args_size = 0;
+   c->dwarf.ret_addr_column = RIP;
++  c->dwarf.stash_frames = 0;
+   c->dwarf.use_prev_instr = use_prev_instr;
+   c->dwarf.pi_valid = 0;
+   c->dwarf.pi_is_dynamic = 0;
+diff --git a/tests/Gtest-trace.c b/tests/Gtest-trace.c
+new file mode 100644
+index 0000000..90452be
+--- /dev/null
++++ b/tests/Gtest-trace.c
+@@ -0,0 +1,265 @@
++/* libunwind - a platform-independent unwind library
++   Copyright (C) 2010 by Lassi Tuura <lat@iki.fi>
++
++Permission is hereby granted, free of charge, to any person obtaining
++a copy of this software and associated documentation files (the
++"Software"), to deal in the Software without restriction, including
++without limitation the rights to use, copy, modify, merge, publish,
++distribute, sublicense, and/or sell copies of the Software, and to
++permit persons to whom the Software is furnished to do so, subject to
++the following conditions:
++
++The above copyright notice and this permission notice shall be
++included in all copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
++LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
++OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
++WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
++
++#ifdef HAVE_CONFIG_H
++# include "config.h"
++#endif
++
++#include <errno.h>
++#if HAVE_EXECINFO_H
++# include <execinfo.h>
++#else
++  extern int backtrace (void **, int);
++#endif
++#include <signal.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++#include <libunwind.h>
++
++#define panic(args...)				\
++	{ fprintf (stderr, args); exit (-1); }
++
++#ifndef HAVE_SIGHANDLER_T
++typedef RETSIGTYPE (*sighandler_t) (int);
++#endif
++
++int verbose;
++int num_errors;
++
++/* These variables are global because they
++ * cause the signal stack to overflow */
++char buf[512], name[256];
++void *addresses[2][128];
++unw_cursor_t cursor;
++ucontext_t uc;
++#if UNW_TARGET_X86_64
++unw_tdep_frame_t *cache;
++#endif
++
++static void
++do_backtrace (void)
++{
++  unw_word_t ip;
++  int ret = -UNW_ENOINFO;
++  int depth = 128;
++  int i, n;
++
++  if (verbose)
++    printf ("\tfast backtrace:\n");
++
++  unw_getcontext (&uc);
++  if (unw_init_local (&cursor, &uc) < 0)
++    panic ("unw_init_local failed!\n");
++
++#if UNW_TARGET_X86_64
++  if ((ret = unw_tdep_trace (&cursor, addresses[0], &depth, cache)) < 0)
++    {
++      unw_get_reg (&cursor, UNW_REG_IP, &ip);
++      printf ("FAILURE: unw_tdep_trace() returned %d for ip=%lx\n", ret, (long) ip);
++      ++num_errors;
++    }
++#endif
++
++  if (ret < 0)
++    {
++      i = 0;
++      do
++        {
++	  unw_get_reg (&cursor, UNW_REG_IP, &ip);
++	  addresses[0][i] = (void *) ip;
++        }
++      while ((ret = unw_step (&cursor)) >= 0 && ++i < 128);
++
++      if (ret < 0)
++        {
++	  unw_get_reg (&cursor, UNW_REG_IP, &ip);
++          printf ("FAILURE: unw_step() returned %d for ip=%lx\n", ret, (long) ip);
++          ++num_errors;
++	}
++    }
++
++  if (verbose)
++    for (i = 0; i < depth; ++i)
++      printf ("\t #%-3d ip=%p\n", i, addresses[0][i]);
++
++  if (verbose)
++    printf ("\n\tvia backtrace():\n");
++
++  n = backtrace (addresses[1], 128);
++
++  if (verbose)
++    for (i = 0; i < n; ++i)
++	printf ("\t #%-3d ip=%p\n", i, addresses[1][i]);
++
++  if (n != depth)
++    {
++      printf ("FAILURE: unw_tdep_trace() and backtrace() depths differ: %d vs. %d\n", depth, n);
++      ++num_errors;
++    }
++  else
++    for (i = 1; i < depth; ++i)
++      /* Allow one in difference in comparison, trace returns adjusted addresses. */
++      if (labs((unw_word_t) addresses[0][i] - (unw_word_t) addresses[1][i]) > 1)
++	{
++          printf ("FAILURE: unw_tdep_trace() and backtrace() addresses differ at %d: %p vs. %p\n",
++		  i, addresses[0][n], addresses[1][n]);
++          ++num_errors;
++	}
++}
++
++void
++foo (long val)
++{
++  do_backtrace ();
++}
++
++void
++bar (long v)
++{
++  extern long f (long);
++  int arr[v];
++
++  /* This is a vain attempt to use up lots of registers to force
++     the frame-chain info to be saved on the memory stack on ia64.
++     It happens to work with gcc v3.3.4 and gcc v3.4.1 but perhaps
++     not with any other compiler.  */
++  foo (f (arr[0]) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v)
++       + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v)
++       + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v)
++       + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v)
++       + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v)
++       + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v)
++       + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v)
++       + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v)
++       + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v)
++       + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v)
++       + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v)
++       + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v)
++       + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v)
++       + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v)
++       + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v)
++       + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v)
++       + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + (f (v) + f (v))
++       ))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
++       )))))))))))))))))))))))))))))))))))))))))))))))))))))));
++}
++
++void
++sighandler (int signal, void *siginfo, void *context)
++{
++  ucontext_t *uc = context;
++  int sp;
++
++  if (verbose)
++    {
++      printf ("sighandler: got signal %d, sp=%p", signal, &sp);
++#if UNW_TARGET_IA64
++# if defined(__linux__)
++      printf (" @ %lx", uc->uc_mcontext.sc_ip);
++# else
++      {
++	uint16_t reason;
++	uint64_t ip;
++
++	__uc_get_reason (uc, &reason);
++	__uc_get_ip (uc, &ip);
++	printf (" @ %lx (reason=%d)", ip, reason);
++      }
++# endif
++#elif UNW_TARGET_X86
++#if defined __linux__
++      printf (" @ %lx", (unsigned long) uc->uc_mcontext.gregs[REG_EIP]);
++#elif defined __FreeBSD__
++      printf (" @ %lx", (unsigned long) uc->uc_mcontext.mc_eip);
++#endif
++#elif UNW_TARGET_X86_64
++#if defined __linux__
++      printf (" @ %lx", (unsigned long) uc->uc_mcontext.gregs[REG_RIP]);
++#elif defined __FreeBSD__
++      printf (" @ %lx", (unsigned long) uc->uc_mcontext.mc_rip);
++#endif
++#endif
++      printf ("\n");
++    }
++  do_backtrace();
++}
++
++int
++main (int argc, char **argv)
++{
++  struct sigaction act;
++  stack_t stk;
++
++#if UNW_TARGET_X86_64
++  cache = unw_tdep_make_frame_cache (0);
++#endif
++
++  verbose = (argc > 1);
++
++  if (verbose)
++    printf ("Normal backtrace:\n");
++
++  bar (1);
++
++  memset (&act, 0, sizeof (act));
++  act.sa_handler = (void (*)(int)) sighandler;
++  act.sa_flags = SA_SIGINFO;
++  if (sigaction (SIGTERM, &act, NULL) < 0)
++    panic ("sigaction: %s\n", strerror (errno));
++
++  if (verbose)
++    printf ("\nBacktrace across signal handler:\n");
++  kill (getpid (), SIGTERM);
++
++  if (verbose)
++    printf ("\nBacktrace across signal handler on alternate stack:\n");
++  stk.ss_sp = malloc (SIGSTKSZ);
++  if (!stk.ss_sp)
++    panic ("failed to allocate SIGSTKSZ (%u) bytes\n", SIGSTKSZ);
++  stk.ss_size = SIGSTKSZ;
++  stk.ss_flags = 0;
++  if (sigaltstack (&stk, NULL) < 0)
++    panic ("sigaltstack: %s\n", strerror (errno));
++
++  memset (&act, 0, sizeof (act));
++  act.sa_handler = (void (*)(int)) sighandler;
++  act.sa_flags = SA_ONSTACK | SA_SIGINFO;
++  if (sigaction (SIGTERM, &act, NULL) < 0)
++    panic ("sigaction: %s\n", strerror (errno));
++  kill (getpid (), SIGTERM);
++
++  if (num_errors > 0)
++    {
++      fprintf (stderr, "FAILURE: detected %d errors\n", num_errors);
++      exit (-1);
++    }
++
++#if UNW_TARGET_X86_64
++  unw_tdep_free_frame_cache (cache);
++#endif
++
++  if (verbose)
++    printf ("SUCCESS.\n");
++  return 0;
++}
+diff --git a/tests/Ltest-trace.c b/tests/Ltest-trace.c
+new file mode 100644
+index 0000000..fb0e9c1
+--- /dev/null
++++ b/tests/Ltest-trace.c
+@@ -0,0 +1,5 @@
++#define UNW_LOCAL_ONLY
++#include <libunwind.h>
++#if !defined(UNW_REMOTE_ONLY)
++#include "Gtest-trace.c"
++#endif
+diff --git a/tests/Makefile.am b/tests/Makefile.am
+index 794f33f..05d9477 100644
+--- a/tests/Makefile.am
++++ b/tests/Makefile.am
+@@ -39,6 +39,7 @@ endif #ARCH_IA64
+ 			Gtest-concurrent Ltest-concurrent		 \
+ 			Gtest-resume-sig Ltest-resume-sig		 \
+ 			Gtest-dyn1 Ltest-dyn1				 \
++			Gtest-trace Ltest-trace				 \
+ 			test-async-sig test-flush-cache test-init-remote \
+ 			test-mem test-setjmp test-ptrace		 \
+ 			Ltest-nomalloc rs-race
+@@ -95,6 +96,8 @@ forker_LDFLAGS = -static
+ Gtest_bt_SOURCES = Gtest-bt.c ident.c
+ Ltest_bt_SOURCES = Ltest-bt.c ident.c
+ test_ptrace_misc_SOURCES = test-ptrace-misc.c ident.c
++Gtest_trace_SOURCES = Gtest-trace.c ident.c
++Ltest_trace_SOURCES = Ltest-trace.c ident.c
+ 
+ LIBUNWIND = ../src/libunwind-$(arch).la $(LIBUNWIND_local)
+ LDADD = $(LIBUNWIND)
+diff --git a/tests/check-namespace.sh.in b/tests/check-namespace.sh.in
+index 9c6b12d..9d9fb97 100644
+--- a/tests/check-namespace.sh.in
++++ b/tests/check-namespace.sh.in
+@@ -123,6 +123,9 @@ check_local_unw_abi () {
+ 	    match _U${plat}_is_fpreg
+ 	    match _UL${plat}_dwarf_search_unwind_table
+ 	    match _U${plat}_setcontext
++            match _UL${plat}_free_frame_cache
++            match _UL${plat}_make_frame_cache
++            match _UL${plat}_trace
+ 	    ;;
+ 	*)
+ 	    match _U${plat}_is_fpreg
+@@ -186,6 +189,9 @@ check_generic_unw_abi () {
+ 	    match _U${plat}_get_elf_image
+ 	    match _U${plat}_is_fpreg
+ 	    match _U${plat}_dwarf_search_unwind_table
++            match _U${plat}_free_frame_cache
++            match _U${plat}_make_frame_cache
++            match _U${plat}_trace
+ 	    ;;
+ 	*)
+ 	    match _U${plat}_is_fpreg

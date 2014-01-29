@@ -1,0 +1,101 @@
+--- src/rpcServer.c.orig	Fri Aug  2 10:21:28 2002
++++ src/rpcServer.c	Fri Aug  2 12:08:49 2002
+@@ -593,6 +593,7 @@
+ 		Py_DECREF(tuple);
+ 		return NULL;
+ 	}
++	rpcSourceSetInfo(srcp, addInfo);
+ 	*keepAlive = doKeepAliveFromDict(addInfo);
+ 	pyuri = PyDict_GetItemString(addInfo, "URI");
+ 	assert(pyuri != NULL);
+--- src/rpcSource.h.orig	Fri Aug  2 10:22:52 2002
++++ src/rpcSource.h	Fri Aug  2 11:57:27 2002
+@@ -54,6 +54,7 @@
+ 	char		onErrType;	/* is the handler in c or python? */
+ 	void		*onErr;		/* error handler */
+ 	bool		doClose;	/* should we close the fd when done? */
++	PyObject	*Info;	/* parameters for callback */
+ } rpcSource;
+ 
+ 
+@@ -62,6 +63,6 @@
+ void		rpcSourceDealloc(rpcSource *sp);
+ void		rpcSourceSetParams(rpcSource *sp, PyObject *params);
+ void		rpcSourceSetOnErr(rpcSource *sp, int funcType, void *func);
+-
++void 		rpcSourceSetInfo(rpcSource *sp, PyObject *info);
+ 
+ #endif /* _RPCSOURCE_H_ */
+--- src/rpcSource.c.orig	Fri Aug  2 10:26:11 2002
++++ src/rpcSource.c	Fri Aug  2 11:35:04 2002
+@@ -41,7 +41,7 @@
+ 	sp->onErrType = ONERR_TYPE_DEF;
+ 	sp->onErr = NULL;
+ 	sp->doClose = false;
+-
++	sp->Info = NULL;
+ 	return sp;
+ }
+ 
+@@ -58,6 +58,9 @@
+ 	if (srcp->params) {
+ 		Py_DECREF(srcp->params);
+ 	}
++	if (srcp->Info) {
++		Py_DECREF(srcp->params);	
++	}
+ 	if (srcp->onErr and srcp->onErrType == ONERR_TYPE_PY) {
+ 		Py_DECREF((PyObject *)srcp->onErr);
+ 	}
+@@ -75,6 +78,16 @@
+ 	Py_INCREF(params);
+ }
+ 
++void
++rpcSourceSetInfo(rpcSource *sp, PyObject *info)
++{
++	if (sp->Info) {
++		Py_DECREF(info);
++	}
++	sp->Info = info;
++	Py_INCREF(info);
++}
++
+ 
+ void
+ rpcSourceSetOnErr(rpcSource *srcp, int funcType, void *func)
+@@ -171,6 +184,26 @@
+ 	return Py_None;
+ }
+ 
++/*
++ * Get the Info associated with the source
++ */
++static PyObject *
++pyRpcSourceGetInfo(PyObject *self, PyObject *args)
++{
++	rpcSource	*srcp;
++
++	srcp = (rpcSource *)self;
++	unless (PyArg_ParseTuple(args, ""))
++		return NULL;
++
++	if (srcp->Info)
++		return srcp->Info;
++
++	Py_INCREF(Py_None);
++	return Py_None;
++}
++
++
+ 
+ /*
+  * Set the callback for a specific object
+@@ -244,6 +277,7 @@
+ 	{ "getDesc",	(PyCFunction)pyRpcSourceGetDesc,	1,	0 },
+ 	{ "setDesc",	(PyCFunction)pyRpcSourceSetDesc,	1,	0 },
+ 	{ "setCallback",(PyCFunction)pySetCallback,		1,	0 },
++	{ "getInfo",	(PyCFunction)pyRpcSourceGetInfo,	1,	0 },
+ 	{ NULL,		NULL},
+ };
+ 

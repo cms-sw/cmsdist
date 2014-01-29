@@ -1,0 +1,31 @@
+--- ./TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9ULogTemplate.cc	2007-01-30 04:15:11.000000000 -0600
++++ ./TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9ULogTemplate.cc.fixKH	2007-05-24 14:25:58.000000000 -0500
+@@ -1,10 +1,11 @@
+ #include "Fed9ULogTemplate.hh"
+ #include "Fed9ULog.hh"
+ 
+ #include <sstream>
+ #include <string>
++#include <errno.h>
+ 
+ namespace Fed9U {
+ 
+ 
+   Fed9UStream::Fed9UStream(std::ostream* const os)
+@@ -359,13 +360,13 @@
+     *(dynamic_cast<std::ostream*>(this)) << pf;
+     return *this;
+   }//operator<<(std::ios_base& (*pf)(std::ios_base&))
+ 
+   //Initialise the debug, error and log level.
+-  Fed9UDebugLevel Fed9U::Fed9UMessage<Fed9UDebugLevel>::smLevel( FED9U_DEBUG_LEVEL_MINIMAL );
+-  Fed9UErrorLevel Fed9U::Fed9UMessage<Fed9UErrorLevel>::smLevel( FED9U_ERROR_LEVEL_WARNING );
+-  Fed9ULogLevel Fed9U::Fed9UMessage<Fed9ULogLevel>::smLevel( FED9U_LOG_LEVEL_NONE );
++  template<> Fed9UDebugLevel Fed9U::Fed9UMessage<Fed9UDebugLevel>::smLevel( FED9U_DEBUG_LEVEL_MINIMAL );
++  template<> Fed9UErrorLevel Fed9U::Fed9UMessage<Fed9UErrorLevel>::smLevel( FED9U_ERROR_LEVEL_WARNING );
++  template<> Fed9ULogLevel Fed9U::Fed9UMessage<Fed9ULogLevel>::smLevel( FED9U_LOG_LEVEL_NONE );
+ 
+   //<GJR date=26/11/2006>
+   //Don't need this any more as we create the log file on the fly, when it is needed.
+ //   //Create the log.
+ //    Fed9ULog log("Fed9U.log");

@@ -1,0 +1,98 @@
+diff --git a/herwig/6.510.3/Makeshared.subdir b/herwig/6.510.3/Makeshared.subdir
+index f167145..e2c3c97 100644
+--- a/herwig/6.510.3/Makeshared.subdir
++++ b/herwig/6.510.3/Makeshared.subdir
+@@ -42,7 +42,12 @@ objects += $(patsubst $(DIRNAME)/%.c,$(TMPDIR)/%.o,$(wildcard $(DIRNAME)/*.c))
+ $(LIBNAME): $(objects)
+ 	@mkdir -p $(LIBDIR)
+ 	@echo creating the shared library $@
+-	$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@)
++	case ${ARCH} in \
++		Linux*) \
++			$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@) ;; \
++		Darwin*) \
++			$(FC) $(LDFLAGSSHARED) $(objects) -L$(TAUOLA_ROOT)/lib -ltauola -L$(LHAPDF_ROOT)/lib -lLHAPDF -L$(PHOTOS_ROOT)/lib -lphotos ${FLIBS} -o $@ -shared -dynamic -Wl,-commons -Wl,use_dylibs;; \
++	esac
+ 
+ deps := $(patsubst $(DIRNAME)/%.F,$(TMPDIR)/%.d,$(wildcard $(DIRNAME)/*.F))
+ 
+diff --git a/herwig/6.510.3/configure b/herwig/6.510.3/configure
+index 27398a9..b804835 100755
+--- a/herwig/6.510.3/configure
++++ b/herwig/6.510.3/configure
+@@ -137,23 +137,25 @@ if [ $ARCH = Linux ]; then
+   fi
+ fi
+ # Linux platform with gcc4: new Fortran90 compiler.
+-if [ $ARCH = Linux-gcc4 ]; then
+-  export FC=gfortran
+-  export FFLAGS="${FFLAGS_OPT}"
+-  export CFLAGS="${CFLAGS_OPT}"
+-  export CXXFLAGS="${CXXFLAGS_OPT}"
+-  export FLIBS="-lgfortran -lgfortranbegin"
+-  if [ ${COMPMODE} = OPT ]; then
+-    export FFLAGS="${FFLAGS_OPT}"
+-    export CFLAGS="${CFLAGS_OPT}"
+-    export CXXFLAGS="${CXXFLAGS_OPT}"
+-  fi
+-  if [ ${COMPMODE} = DBG ]; then
+-    export FFLAGS="${FFLAGS_DBG}"
+-    export CFLAGS="${CFLAGS_DBG}"
+-    export CXXFLAGS="${CXXFLAGS_DBG}"
+-  fi
+-fi
++case $ARCH in 
++  *-gcc4)
++     export FC=gfortran
++     export FFLAGS="${FFLAGS_OPT}"
++     export CFLAGS="${CFLAGS_OPT}"
++     export CXXFLAGS="${CXXFLAGS_OPT}"
++     export FLIBS="-lgfortran -lgfortranbegin"
++     if [ ${COMPMODE} = OPT ]; then
++       export FFLAGS="${FFLAGS_OPT}"
++       export CFLAGS="${CFLAGS_OPT}"
++       export CXXFLAGS="${CXXFLAGS_OPT}"
++     fi
++     if [ ${COMPMODE} = DBG ]; then
++       export FFLAGS="${FFLAGS_DBG}"
++       export CFLAGS="${CFLAGS_DBG}"
++       export CXXFLAGS="${CXXFLAGS_DBG}"
++     fi
++  ;;
++esac
+ 
+ #Platform & opt/dbg - independent flags and variables:
+ # this is for due to request of ATLAS
+diff --git a/herwig/6.510.3/dummy/hwaend.f b/herwig/6.510.3/dummy/hwaend.f
+index e69de29..1d9f659 100644
+--- a/herwig/6.510.3/dummy/hwaend.f
++++ b/herwig/6.510.3/dummy/hwaend.f
+@@ -0,0 +1,11 @@
++CDECK  ID>, HWAEND.
++C-----------------------------------------------------------------------
++      SUBROUTINE HWAEND 
++C-----------------------------------------------------------------------
++C     DUMMY SUBROUTINE. 
++C-----------------------------------------------------------------------
++      IMPLICIT NONE
++      WRITE (6,10)
++   10 FORMAT(/10X,'HWAEND CALLED BUT NOT LINKED')
++      STOP
++      END
+diff --git a/herwig/6.510.3/dummy/hwaend.f b/herwig/6.510.3/dummy/hwaend.f
+index e69de29..1d9f659 100644
+--- a/herwig/6.510.3/dummy/hwwarn.f
++++ b/herwig/6.510.3/dummy/hwwarn.f
+@@ -0,0 +1,11 @@
++CDECK  ID>, HWWARN.
++C-----------------------------------------------------------------------
++      SUBROUTINE HWWARN
++C-----------------------------------------------------------------------
++C     DUMMY SUBROUTINE.
++C-----------------------------------------------------------------------
++      IMPLICIT NONE
++      WRITE (6,10)
++   10 FORMAT(/10X,'HWWARN CALLED BUT NOT LINKED')
++      STOP
++      END
+

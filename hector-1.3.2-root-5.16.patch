@@ -1,0 +1,34 @@
+diff -Naur orig.Hector/include/H_RecRPObject.h Hector/include/H_RecRPObject.h
+--- orig.Hector/include/H_RecRPObject.h	2007-04-12 15:31:30.000000000 +0200
++++ Hector/include/H_RecRPObject.h	2008-01-04 01:35:37.000000000 +0100
+@@ -18,6 +18,7 @@
+ // local #includes
+ #include "H_Parameters.h"
+ #include "H_AbstractBeamLine.h"
++#include <math.h>
+ using namespace std;
+ 
+ #define NOT_YET_COMPUTED -666
+diff -Naur orig.Hector/src/H_AbstractBeamLine.cc Hector/src/H_AbstractBeamLine.cc
+--- orig.Hector/src/H_AbstractBeamLine.cc	2007-04-12 15:31:30.000000000 +0200
++++ Hector/src/H_AbstractBeamLine.cc	2008-01-04 01:08:15.000000000 +0100
+@@ -25,6 +25,7 @@
+ #include "TGaxis.h"
+ #include "TLegend.h"
+ #include "TF1.h"
++#include "TROOT.h"
+ 
+ // local #includes
+ #include "H_Parameters.h"
+diff -Naur orig.Hector/src/H_BeamParticle.cc Hector/src/H_BeamParticle.cc
+--- orig.Hector/src/H_BeamParticle.cc	2007-05-11 22:51:24.000000000 +0200
++++ Hector/src/H_BeamParticle.cc	2008-01-04 01:25:47.000000000 +0100
+@@ -484,7 +484,7 @@
+ 
+         float coi[3] = {beam->getLength()*(-1000),-10000,-5000};
+         float cof[3] = {beam->getLength()*1000,10000,5000};
+-        TView *view = new TView(11);
++        TView *view = TView::CreateView(11);
+         view->SetRange(coi[0],coi[1],coi[2],cof[0],cof[1],cof[2]);
+         TPolyLine3D* ppath = new TPolyLine3D(N,s,graphx,graphy);
+ 	ppath->SetLineColor(mycolor);

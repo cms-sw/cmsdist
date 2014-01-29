@@ -1,0 +1,26 @@
+diff -Naur orig.sqlite-3.3.5/configure sqlite-3.3.5/configure
+--- orig.sqlite-3.3.5/configure	2006-04-03 22:16:01.000000000 +0200
++++ sqlite-3.3.5/configure	2007-06-25 14:56:34.000000000 +0200
+@@ -20079,7 +20079,9 @@
+   echo "$as_me: failed program was:" >&5
+ sed 's/^/| /' conftest.$ac_ext >&5
+ 
+-ac_cv_lib_readline_readline=no
++echo "Hack test so that it always thinks readline is there, to work around"
++echo "missing 32-bit compatibility softlink on 64-bit machines"
++ac_cv_lib_readline_readline=yes
+ fi
+ rm -f conftest.err conftest.$ac_objext \
+       conftest$ac_exeext conftest.$ac_ext
+diff -Naur orig.sqlite-3.3.5/Makefile.in sqlite-3.3.5/Makefile.in
+--- orig.sqlite-3.3.5/Makefile.in	2006-03-14 22:53:57.000000000 +0100
++++ sqlite-3.3.5/Makefile.in	2007-06-25 15:17:25.000000000 +0200
+@@ -257,7 +257,7 @@
+ 
+ sqlite3$(TEXE):	$(TOP)/src/shell.c libsqlite3.la sqlite3.h
+ 	$(LTLINK) $(READLINE_FLAGS) $(LIBPTHREAD) \
+-		-o sqlite3 $(TOP)/src/shell.c libsqlite3.la \
++		-o sqlite3 $(TOP)/src/shell.c -L$(TOP)/.libs libsqlite3.la \
+ 		$(LIBREADLINE) $(TLIBS)
+ 
+ # This target creates a directory named "tsrc" and fills it with

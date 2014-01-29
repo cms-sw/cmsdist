@@ -1,0 +1,16 @@
+--- root/xml/src/TBufferXML.cxx	2008-02-21 17:39:02.000000000 +0100
++++ root/xml/src/TBufferXML.cxx	2008-03-04 22:12:20.000000000 +0100
+@@ -852,9 +852,10 @@
+          stack = PushStack(classnode);
+       }
+ 
+-      if (fVersionBuf>=0) {
+-         fXML->NewIntAttr(classnode, xmlio::ClassVersion, fVersionBuf);
+-         fVersionBuf = -111;
++      if (fVersionBuf>=-1) {
++	if (fVersionBuf == -1) fVersionBuf = 1;
++	fXML->NewIntAttr(classnode, xmlio::ClassVersion, fVersionBuf);
++	fVersionBuf = -111;
+       }
+ 
+       if (IsUseNamespaces() && (GetXmlLayout()!=kGeneralized))

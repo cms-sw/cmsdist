@@ -1,0 +1,15 @@
+--- orig.trackerDAQ-2.5.1/FecSoftwareV3_0/generic/src/common/TShare.cc	2008-04-01 14:55:05.000000000 +0200
++++ trackerDAQ-2.5.1/FecSoftwareV3_0/generic/src/common/TShare.cc	2009-05-04 23:43:48.000000000 +0200
+@@ -191,10 +191,10 @@
+ {
+   
+   void* Shared = shmat(fShmid, 0, 0);
+-  int ss = (int) Shared;
++  void* sserror = (void*)-1;
+   //printf("Attach %x \n",Shared);
+   std::cout << "Attach " << std::hex << Shared << std::dec << std::endl ;
+-  if(ss == -1){
++  if(sserror == Shared){
+     throw std::string("TShare: shmat problem");
+   }
+   return Shared;

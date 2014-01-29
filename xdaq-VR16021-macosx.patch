@@ -1,0 +1,738 @@
+diff --git a/daq/extern/log4cplus/gcc43.patch b/daq/extern/log4cplus/gcc43.patch
+index 8d44077..8ccbfd0 100644
+--- a/daq/extern/log4cplus/gcc43.patch
++++ b/daq/extern/log4cplus/gcc43.patch
+@@ -55,3 +55,15 @@ diff -rup log4cplus-1.0.2/src/socket-unix.cxx log4cplus-1.0.2.new/src/socket-uni
+  #include <log4cplus/helpers/socket.h>
+  #include <log4cplus/helpers/loglog.h>
+  #include <log4cplus/spi/loggingevent.h>
++diff --git a/include/log4cplus/config-macosx.h b/include/log4cplus/config-macosx.h
++index c1ff336..210d4ac 100644
++--- log4cplus-1.0.2/include/log4cplus/config-macosx.h
+++++ log4cplus-1.0.2/include/log4cplus/config-macosx.h
++@@ -20,7 +20,6 @@
++ 
++ #define HAVE_SSTREAM 1
++ #define HAVE_GETTIMEOFDAY 1
++-#define socklen_t int
++ 
++ #endif // MACOSX
++ #endif // LOG4CPLUS_CONFIG_MACOSX_HEADER_
+diff --git a/config/Makefile.rules b/config/Makefile.rules
+index 18e8454..4dd838e 100755
+--- a/config/Makefile.rules
++++ b/config/Makefile.rules
+@@ -409,7 +409,13 @@ install : $(PackageListLoop)
+ _installall: _buildall
+ ifndef Packages
+ 	$(Install) -d $(LibInstallDir) $(BinInstallDir) $(IncludeInstallDir)
+-	cd include; find ./ \( -name "*.[hi]" -o -name "*.hpp" -o -name "*.hh" -o -name "*.hxx" \) -exec install -D {} $(IncludeInstallDir)/{} \;
++	pwd ; cd include
++	for x in `find ./ \( -name "*.[hi]" -o -name "*.hpp" -o -name "*.hh" -o -name "*.hxx" \)` ; \
++	do \
++	  d=`dirname $(IncludeInstallDir)/$$x` ; \
++	  mkdir -p $$d ; \
++	  install $$x $$d ; \
++	done
+ ifdef StaticLibraryName
+ 	$(Print) Installing static library.
+ 	$(Install) -p $(StaticLibraryName) $(LibInstallDir)/
+diff --git a/config/Makefile.rules b/config/Makefile.rules
+index 6c6e713..cefc7e9 100755
+--- a/config/Makefile.rules
++++ b/config/Makefile.rules
+@@ -118,7 +118,7 @@ DocsDir			= $(BUILD_HOME)/$(Project)/$(Package)/doc
+ # look in installation dirs if libraries are not found in development dirs.
+ #LibraryDirs += $(LibInstallDir)
+ 
+-Copy			= cp -pd
++Copy			= cp -p
+ CopyDir 		= cp -rp
+ Move			= mv
+ MakeDir 		= mkdir -p
+diff --git a/daq/extern/log4cplus/gcc43.patch b/daq/extern/log4cplus/gcc43.patch
+index 8ccbfd0..37b4ca6 100644
+--- a/daq/extern/log4cplus/gcc43.patch
++++ b/daq/extern/log4cplus/gcc43.patch
+@@ -67,3 +67,15 @@ index c1ff336..210d4ac 100644
+  
+  #endif // MACOSX
+  #endif // LOG4CPLUS_CONFIG_MACOSX_HEADER_
++diff --git a/src/Makefile.in b/src/Makefile.in
++index 353c0f8..14b01f2 100644
++--- log4cplus-1.0.2/src/Makefile.in
+++++ log4cplus-1.0.2/src/Makefile.in
++@@ -146,6 +146,7 @@ INCLUDES = -I../include
++ 
++ nobase_include_HEADERS = ../include/log4cplus/appender.h \
++ 			 ../include/log4cplus/config.h \
+++			 ../include/log4cplus/config-macosx.h \
++ 			 ../include/log4cplus/configurator.h \
++ 			 ../include/log4cplus/consoleappender.h \
++ 			 ../include/log4cplus/fileappender.h \
+diff --git a/daq/toolbox/Makefile b/daq/toolbox/Makefile
+index 1bd299a..0ac03a4 100755
+--- a/daq/toolbox/Makefile
++++ b/daq/toolbox/Makefile
+@@ -93,6 +93,8 @@ Sources= \
+ 	GaugeFactory.cc \
+ 	ThresholdCrossedEvent.cc \
+ 	net/UUID.cc
++else
++Sources = dummy.cc
+ endif
+ 
+ 
+diff --git a/daq/toolbox/src/common/dummy.cc b/daq/toolbox/src/common/dummy.cc
+index e69de29..dc2385b 100644
+--- a/daq/toolbox/src/common/dummy.cc
++++ b/daq/toolbox/src/common/dummy.cc
+@@ -0,0 +1,3 @@
++void
++dontCallMe()
++{}
+\ No newline at end of file
+diff --git a/daq/toolbox/include/macosx/archBSem.i b/daq/toolbox/include/macosx/archBSem.i
+index d3c2257..b29fd40 100755
+--- a/daq/toolbox/include/macosx/archBSem.i
++++ b/daq/toolbox/include/macosx/archBSem.i
+@@ -1,33 +1,33 @@
+ #ifndef _archBSem_i_
+ #define _archBSem_i_
+ 
+-inline BSem::BSem (BSem::State state = BSem::FULL)
++inline toolbox::BSem::BSem (BSem::State state = BSem::FULL)
+ {
+ 	pthread_mutex_init(&mutex_, 0);
+ 	if (state == BSem::EMPTY) take();
+ }
+ 
+-inline BSem::~BSem ()
++inline toolbox::BSem::~BSem ()
+ {
+ 	pthread_mutex_destroy(&mutex_);
+ }
+ 
+ 
+ 
+-inline int BSem::give ()
++inline int toolbox::BSem::give ()
+ {
+ 	return pthread_mutex_unlock(&mutex_);
+ }
+ 
+ 
+ 
+-inline int BSem::take ()
++inline int toolbox::BSem::take ()
+ {
+ 	return pthread_mutex_lock(&mutex_);
+ }
+ 
+ 
+-inline int BSem::take (struct timeval * t)
++inline int toolbox::BSem::take (struct timeval * t)
+ {
+ 	//
+ 	// Not implemented on Linux, Solaris
+@@ -37,7 +37,7 @@ inline int BSem::take (struct timeval * t)
+ 
+ 
+ 
+-inline int BSem::value ()
++inline int toolbox::BSem::value ()
+ {
+   if (pthread_mutex_trylock(&mutex_) == 0)
+     return BSem::EMPTY;
+diff --git a/daq/xdata/include/xdata/Double.i b/daq/xdata/include/xdata/Double.i
+index a2db982..939d4de 100755
+--- a/daq/xdata/include/xdata/Double.i
++++ b/daq/xdata/include/xdata/Double.i
+@@ -14,11 +14,11 @@
+ 
+ template<class T> xdata::DoubleType<T>::DoubleType(T value):xdata::SimpleType<T>(value)
+ {
+-	if ( isinf(value) != 0 )
++	if ( std::isinf(value) != 0 )
+ 	{
+ 		this->limits_.set(xdata::Infinity);
+ 	}
+-	else if ( isnan(value) != 0 )
++	else if ( std::isnan(value) != 0 )
+ 	{
+ 		this->limits_.set(xdata::NaN);
+ 	}
+diff --git a/daq/xdata/include/xdata/Float.i b/daq/xdata/include/xdata/Float.i
+index 0d9d55f..1a001fb 100755
+--- a/daq/xdata/include/xdata/Float.i
++++ b/daq/xdata/include/xdata/Float.i
+@@ -15,11 +15,11 @@
+ //! Constructor from float value
+ template<class T> xdata::FloatType<T>::FloatType(T value):xdata::SimpleType<T>(value)
+ {
+-	if ( isinf(value) != 0 )
++	if ( std::isinf(value) != 0 )
+ 	{
+ 		this->limits_.set(xdata::Infinity);
+ 	}
+-	else if ( isnan(value) != 0 )
++	else if ( std::isnan(value) != 0 )
+ 	{
+ 		this->limits_.set(xdata::NaN);
+ 	}
+diff --git a/daq/xdata/include/xdata/exdr/StreamBuffer.h b/daq/xdata/include/xdata/exdr/StreamBuffer.h
+index bee6359..bf21687 100755
+--- a/daq/xdata/include/xdata/exdr/StreamBuffer.h
++++ b/daq/xdata/include/xdata/exdr/StreamBuffer.h
+@@ -80,7 +80,7 @@ namespace xdata
+ 			void encode(char* c, unsigned int len) throw (xdata::exception::Exception);
+ 
+ 			//! Return current position of stream pointer
+-			virtual u_int tellp();
++			virtual unsigned int tellp();
+ 
+ 			protected:
+ 
+diff --git a/daq/xdata/src/common/exdr/StreamBuffer.cc b/daq/xdata/src/common/exdr/StreamBuffer.cc
+index d0f901c..d6eb827 100755
+--- a/daq/xdata/src/common/exdr/StreamBuffer.cc
++++ b/daq/xdata/src/common/exdr/StreamBuffer.cc
+@@ -18,7 +18,7 @@
+ 
+ void xdata::exdr::StreamBuffer::encodeInt8(const  int8_t & i) throw (xdata::exception::Exception)
+ {	
+-	u_int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
++	unsigned int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
+ 	while ( ! xdr_int8_t(&xdr_, (int8_t*)&i) ) 
+ 	{
+ 		// buffer is too small, rewind to last known good positition before taking action
+@@ -44,7 +44,7 @@ void xdata::exdr::StreamBuffer::decodeInt8( int8_t & i) throw (xdata::exception:
+ 
+ void xdata::exdr::StreamBuffer::encodeInt16(const  int16_t & i) throw (xdata::exception::Exception)
+ {	
+-	u_int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
++	unsigned int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
+ 	while ( ! xdr_int16_t(&xdr_, (int16_t*)&i) ) 
+ 	{
+ 		// buffer is too small, rewind to last known good positition before taking action
+@@ -70,7 +70,7 @@ void xdata::exdr::StreamBuffer::decodeInt16( int16_t & i) throw (xdata::exceptio
+ 
+ void xdata::exdr::StreamBuffer::encodeInt32(const  int32_t & i) throw (xdata::exception::Exception)
+ {	
+-	u_int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
++	unsigned int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
+ 	while ( ! xdr_int32_t(&xdr_, (int32_t*)&i) ) 
+ 	{
+ 		// buffer is too small, rewind to last known good positition before taking action
+@@ -96,7 +96,7 @@ void xdata::exdr::StreamBuffer::decodeInt32( int32_t & i) throw (xdata::exceptio
+ 
+ void xdata::exdr::StreamBuffer::encodeInt64(const  int64_t & i) throw (xdata::exception::Exception)
+ {	
+-	u_int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
++	unsigned int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
+ 	while ( ! xdr_int64_t(&xdr_, (int64_t*)&i) ) 
+ 	{
+ 		// buffer is too small, rewind to last known good positition before taking action
+@@ -124,7 +124,7 @@ void xdata::exdr::StreamBuffer::decodeInt64( int64_t & i) throw (xdata::exceptio
+ 
+ void xdata::exdr::StreamBuffer::encodeUInt8(const  uint8_t & i) throw (xdata::exception::Exception)
+ {	
+-	u_int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
++	unsigned int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
+ 	while ( ! xdr_uint8_t(&xdr_, (uint8_t*)&i) ) 
+ 	{
+ 		// buffer is too small, rewind to last known good positition before taking action
+@@ -150,7 +150,7 @@ void xdata::exdr::StreamBuffer::decodeUInt8( uint8_t & i) throw (xdata::exceptio
+ 
+ void xdata::exdr::StreamBuffer::encodeUInt16(const  uint16_t & i) throw (xdata::exception::Exception)
+ {	
+-	u_int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
++	unsigned int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
+ 	while ( ! xdr_uint16_t(&xdr_, (uint16_t*)&i) ) 
+ 	{
+ 		// buffer is too small, rewind to last known good positition before taking action
+@@ -176,7 +176,7 @@ void xdata::exdr::StreamBuffer::decodeUInt16( uint16_t & i) throw (xdata::except
+ 
+ void xdata::exdr::StreamBuffer::encodeUInt32(const  uint32_t & i) throw (xdata::exception::Exception)
+ {	
+-	u_int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
++	unsigned int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
+ 	while ( ! xdr_uint32_t(&xdr_, (uint32_t*)&i) ) 
+ 	{
+ 		// buffer is too small, rewind to last known good positition before taking action
+@@ -202,7 +202,7 @@ void xdata::exdr::StreamBuffer::decodeUInt32( uint32_t & i) throw (xdata::except
+ 
+ void xdata::exdr::StreamBuffer::encodeUInt64(const  uint64_t & i) throw (xdata::exception::Exception)
+ {	
+-	u_int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
++	unsigned int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
+ 	while ( ! xdr_uint64_t(&xdr_, (uint64_t*)&i) ) 
+ 	{
+ 		// buffer is too small, rewind to last known good positition before taking action
+@@ -229,7 +229,7 @@ void xdata::exdr::StreamBuffer::decodeUInt64( uint64_t & i) throw (xdata::except
+ //
+ void xdata::exdr::StreamBuffer::encode(const float & i) throw (xdata::exception::Exception)
+ {
+-	u_int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
++	unsigned int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
+ 
+ 	while ( ! xdr_float(&xdr_, (float *)&i) ) 
+ 	{
+@@ -256,7 +256,7 @@ void xdata::exdr::StreamBuffer::decode(float & i) throw (xdata::exception::Excep
+ 
+ void xdata::exdr::StreamBuffer::encode(const double & i) throw (xdata::exception::Exception)
+ {
+-	u_int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
++	unsigned int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
+ 
+ 	while ( ! xdr_double(&xdr_, (double*)&i) ) 
+ 	{
+@@ -317,7 +317,7 @@ void xdata::exdr::StreamBuffer::encode(const std::string & s) throw (xdata::exce
+ 	}
+ 
+ 	char * tmp = (char*)s.c_str();
+-	u_int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
++	unsigned int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
+ 	while ( ! xdr_string(&xdr_,&tmp, UINT_MAX) ) 
+ 	{
+ 		// buffer is too small, rewind to last known good positition before taking action
+@@ -334,7 +334,7 @@ void xdata::exdr::StreamBuffer::encode(const std::string & s) throw (xdata::exce
+ 
+ void xdata::exdr::StreamBuffer::encode(const bool & i) throw (xdata::exception::Exception)
+ {
+-	u_int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
++	unsigned int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
+ 
+ 	bool_t tmp = (i?1:0);
+ 	while ( ! xdr_bool(&xdr_, &tmp) ) 
+@@ -375,7 +375,7 @@ void xdata::exdr::StreamBuffer::decode(char* c, unsigned int len) throw (xdata::
+ 
+ void xdata::exdr::StreamBuffer::encode(char* c, unsigned int len) throw (xdata::exception::Exception)
+ {
+-	u_int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
++	unsigned int pos = xdr_getpos(&xdr_); // remember last valid position for rewind
+ 
+ 	while ( ! xdr_opaque(&xdr_,c, len) ) 
+ 	{
+@@ -392,7 +392,7 @@ void xdata::exdr::StreamBuffer::encode(char* c, unsigned int len) throw (xdata::
+ 	
+ }
+ 
+-u_int xdata::exdr::StreamBuffer::tellp() 
++unsigned int xdata::exdr::StreamBuffer::tellp() 
+ {
+ 	return xdr_getpos(&xdr_);
+ }
+diff --git a/daq/xdata/include/xdata/exdr/StreamBuffer.h b/daq/xdata/include/xdata/exdr/StreamBuffer.h
+index bf21687..c39459d 100755
+--- a/daq/xdata/include/xdata/exdr/StreamBuffer.h
++++ b/daq/xdata/include/xdata/exdr/StreamBuffer.h
+@@ -13,7 +13,7 @@
+ #ifndef _xdata_exdr_StreamBuffer_h_
+ #define _xdata_exdr_StreamBuffer_h_
+ 
+-#include <rpc/xdr.h>
++#include <rpc/rpc.h>
+ 
+ #include "xdata/exception/Exception.h"
+ 
+diff --git a/daq/xdata/include/xdata/exdr/Serializer.h b/daq/xdata/include/xdata/exdr/Serializer.h
+index c48278d..68b38cf 100755
+--- a/daq/xdata/include/xdata/exdr/Serializer.h
++++ b/daq/xdata/include/xdata/exdr/Serializer.h
+@@ -14,7 +14,7 @@
+ #define _xdata_exdr_Serializer_h_
+ 
+ #include <bitset>
+-#include <rpc/xdr.h>
++#include <rpc/rpc.h>
+ 
+ #include "xdata/exception/Exception.h"
+ #include "xdata/Serializer.h"
+diff --git a/Makefile b/Makefile
+index ab9bada..cd43a9b 100755
+--- a/daq/extern/cgicc/Makefile
++++ b/daq/extern/cgicc/Makefile
+@@ -63,11 +63,11 @@ cgicc-3.2.3/configure:
+ 	tar -zxf cgicc-3.2.3-2004-11-06.tgz;
+ 	cd ./cgicc-3.2.3; \
+ 	patch -p1 < ../gcc43.patch; \
+-	./autogen
++	glibtoolize --force --copy; autoupdate; aclocal -Im4; autoheader; autoconf; automake --add-missing 
+ 
+ all: cgicc-3.2.3/configure
+ 	cd ./cgicc-3.2.3; \
+-	./configure --prefix $(BUILD_HOME)/$(Project)/$(Package)/$(XDAQ_PLATFORM) --disable-static --enable-shared; \
++	./configure --prefix $(BUILD_HOME)/$(Project)/$(Package)/$(XDAQ_PLATFORM) --disable-demos --disable-static --enable-shared; \
+ 	make all ; make install
+ 
+ _installall: install
+diff --git a/gcc43.patch b/gcc43.patch
+index 1101099..3044c86 100644
+--- a/daq/extern/cgicc/gcc43.patch
++++ b/daq/extern/cgicc/gcc43.patch
+@@ -21,3 +21,36 @@ diff -rup cgicc-3.2.3/demo/dns.cpp cgicc-3.2.3.new/demo/dns.cpp
+  #include <cstdlib>
+  #include <new>
+  #include <vector>
++diff --git a/Makefile.am b/Makefile.am
++index 1175a63..54ec03c 100644
++--- cgicc-3.2.3/Makefile.am
+++++ cgicc-3.2.3/Makefile.am
++@@ -1,6 +1,7 @@
++ ## $Id: xdaq-VR16021-macosx.patch,v 1.1 2010/09/27 12:04:25 eulisse Exp $
++ 
++ AUTOMAKE_OPTIONS = check-news dist-bzip2
+++ACLOCAL_AMFLAGS = -I m4
++ 
++ if DEMOS
++ DEMO = demo contrib
++@@ -8,7 +9,7 @@ else
++ DEMO =
++ endif
++ 
++-SUBDIRS = cgicc doc support $(DEMO)
+++SUBDIRS = cgicc support $(DEMO)
++ 
++ CLEANFILES = *~
++ 
++diff --git a/configure.ac b/configure.ac
++index 548ce59..5751c29 100644
++--- cgicc-3.2.3/configure.ac
+++++ cgicc-3.2.3/configure.ac
++@@ -3,6 +3,7 @@ dnl $Id: xdaq-VR16021-macosx.patch,v 1.1 2010/09/27 12:04:25 eulisse Exp $
++ 
++ dnl Process this file with autoconf to produce a configure script.
++ AC_INIT(cgicc, 3.2.4, bug-cgicc@gnu.org)
+++AC_CONFIG_MACRO_DIR([m4])
++ AC_CONFIG_SRCDIR(cgicc/Cgicc.cpp)
++ AC_REVISION([$Revision: 1.1 $])
++ AC_CONFIG_AUX_DIR(support)
+diff --git a/daq/xdaq/Makefile b/daq/xdaq/Makefile
+index afc4482..d7dea89 100755
+--- a/daq/xdaq/Makefile
++++ b/daq/xdaq/Makefile
+@@ -108,8 +108,7 @@ UserExecutableLinkFlags =
+ # These libraries can be platform specific and
+ # potentially need conditional processing
+ #
+-Libraries = crypt \
+-	config \
++Libraries = config \
+ 	peer \
+ 	toolbox \
+ 	asyncresolv \
+diff --git a/daq/pt/http/src/common/ClientChannel.cc b/daq/pt/http/src/common/ClientChannel.cc
+index 584e8fa..1674adc 100755
+--- a/daq/pt/http/src/common/ClientChannel.cc
++++ b/daq/pt/http/src/common/ClientChannel.cc
+@@ -23,7 +23,9 @@
+ #include <arpa/inet.h>
+ #include <netinet/tcp.h>
+ #include <netdb.h>
++#ifdef linux
+ #include "linux/version.h"
++#endif
+ #include "config/PackageInfo.h"
+ 
+ /* Amount of seconds to wait after an HTTP request has be sent until a response byte is received */
+diff --git a/daq/toolbox/include/macosx/toolbox/HostInfoImpl.h b/daq/toolbox/include/macosx/toolbox/HostInfoImpl.h
+index e69de29..75d85a6 100644
+--- a/daq/toolbox/include/macosx/toolbox/HostInfoImpl.h
++++ b/daq/toolbox/include/macosx/toolbox/HostInfoImpl.h
+@@ -0,0 +1,96 @@
++// $Id: xdaq-VR16021-macosx.patch,v 1.1 2010/09/27 12:04:25 eulisse Exp $
++
++/*************************************************************************
++ * XDAQ Components for Distributed Data Acquisition                      *
++ * Copyright (C) 2000-2009, CERN.			                 *
++ * All rights reserved.                                                  *
++ * Authors: J. Gutleber and L. Orsini					 *
++ *                                                                       *
++ * For the licensing terms see LICENSE.		                         *
++ * For the list of contributors see CREDITS.   			         *
++ *************************************************************************/
++
++#ifndef _toolbox_HostInfoImpl_
++#define _toolbox_HostInfoImpl_
++
++//
++// Implementation of the Process interface for Linux
++//
++//#include <string>
++//#include <fstream>
++//#include <unistd.h> // needed for pid_t
++//#include <sys/types.h>
++
++#include "toolbox/HostInfo.h"
++#include "toolbox/exception/Exception.h"
++
++// JIFFIES is Linux way to calculate process time
++// in 'normal' Linux (x86) a Jiffie is 1/100 of a second
++// the value varies in different implementations.
++// TODO: get Jiffie value from kernel. See procps package
++//
++//#define JIFFIES 100
++
++/**
++ * This class reads infos about the cpu utilisation of a thread from proc
++ */
++namespace toolbox {
++
++typedef struct
++{
++	unsigned long long user_;
++	unsigned long long nice_;
++	unsigned long long system_;
++	unsigned long long idle_;
++	unsigned long long iowait_;
++	unsigned long long irqwait_;
++	unsigned long long softirqwait_;
++	unsigned long long all_;
++}cpuinfo_t;
++
++class HostInfoImpl: public toolbox::HostInfo
++{
++	std::ifstream* host_info;
++
++public:
++
++	//! Constructor opens /proc/stat file
++	HostInfoImpl () throw (toolbox::exception::Exception);
++    
++    	//! Destructor closes /proc/stat file
++    	~HostInfoImpl();
++    
++    	//! Take a new sample of process information values
++	void sample();
++	
++	//! Return las sample duration in seconds and fractions of a second
++	double sampleDuration();
++    
++    	//! Dump samled values to standard output
++	void show();
++
++	//! \returns Returns the cpuusage in percent
++	double getCpuUsage();
++
++    protected:
++	//! Number of jiffies per second
++	long jiffies_;
++	size_t ncpu_;
++ 
++    	// values than can be retrieved from /proc/stat
++	std::vector<cpuinfo_t> old_;
++	std::vector<cpuinfo_t> new_;
++
++	// Temporary storage for sampled data
++	// used for statistics, e.g. CPU%
++	std::vector<double> cpuUsage_;
++
++	double last_sample_time_; // a time stamp (in seconds since 1970)
++	time_t last_process_time_; // last processes CPU usage time in seconds
++	double last_sample_duration_; // last sample duration in seconds and fractions of a second
++};
++
++}
++
++#endif
++
+diff --git a/daq/executive/src/common/Application.cc b/daq/executive/src/common/Application.cc
+index bc4d79d..c1ebdb7 100755
+--- a/daq/executive/src/common/Application.cc
++++ b/daq/executive/src/common/Application.cc
+@@ -161,9 +161,12 @@ executive::Application::Application
+ 	this->processInfo_ = toolbox::getRuntime()->getProcessInfo(toolbox::getRuntime()->getPid());
+ 
+ 	// Create a host object for monitoring the host-specific resource usage
++#ifdef __APPLE__
++        abort();
++#else
+ 	toolbox::HostInfoImpl *p = new toolbox::HostInfoImpl();
+ 	this->hostInfo_ = toolbox::HostInfo::Reference(p);
+-	
++#endif
+ 	// Perform an initial sample of the process information so that subsequent requests yield non-zero averages
+ 	this->processInfo_->sample();
+ 	this->hostInfo_->sample();
+diff --git a/daq/executive/src/common/Application.cc b/daq/executive/src/common/Application.cc
+index c1ebdb7..e170c40 100755
+--- a/daq/executive/src/common/Application.cc
++++ b/daq/executive/src/common/Application.cc
+@@ -38,7 +38,9 @@
+ #include "toolbox/net/URL.h"
+ #include "toolbox/exception/Handler.h"
+ #include "toolbox/exception/Processor.h"
++#ifdef linux
+ #include "toolbox/HostInfoImpl.h"
++#endif
+ 
+ #include "xdaq/InstantiateApplicationEvent.h"
+ #include "xdaq/EndpointAvailableEvent.h"
+diff --git a/daq/pt/tcp/src/common/PeerTransportReceiver.cc b/daq/pt/tcp/src/common/PeerTransportReceiver.cc
+index 1c2e0be..11bd0ce 100755
+--- a/daq/pt/tcp/src/common/PeerTransportReceiver.cc
++++ b/daq/pt/tcp/src/common/PeerTransportReceiver.cc
+@@ -10,7 +10,6 @@
+  * For the list of contributors see CREDITS.   			         *
+  *************************************************************************/
+ 
+-#include <stropts.h>
+ #include <sys/ioctl.h> 
+ #include <sys/types.h>
+ #include <time.h>
+diff --git a/daq/toolbox/Makefile b/daq/toolbox/Makefile
+index 473d740..954d1b7 100755
+--- a/daq/toolbox/Makefile
++++ b/daq/toolbox/Makefile
+@@ -94,7 +94,58 @@ Sources= \
+ 	ThresholdCrossedEvent.cc \
+ 	net/UUID.cc
+ else
+-Sources = dummy.cc
++Sources = hexdump.cc \
++	TimeVal.cc \
++	TimeInterval.cc \
++	task/Timer.cc \
++	Properties.cc \
++	PerformanceMeter.cc \
++	stacktrace.cc \
++	Event.cc \
++	EventDispatcher.cc \
++	task/AsynchronousEventDispatcher.cc \
++	string.cc \
++	net/URL.cc\
++	net/URN.cc\
++	net/Utils.cc \
++	Chrono.cc \
++	TaskAttributes.cc \
++	mem/MemoryPartition.cc \
++	mem/HeapAllocator.cc \
++	mem/CommittedHeapAllocator.cc \
++	mem/Event.cc \
++	mem/BufPoolEntry.cc \
++	mem/Reference.cc \
++	mem/ReferencePool.cc \
++	mem/SmartBufPool.cc \
++	mem/SmartGCBufPool.cc \
++	mem/MemoryPoolFactory.cc \
++	mem/Buffer.cc \
++	mem/HeapBuffer.cc \
++	mem/CommittedHeapBuffer.cc \
++	mem/UsageImpl.cc \
++	version.cc \
++	exception/Processor.cc \
++	exception/Dispatcher.cc \
++	lang/Class.cc \
++	task/WorkLoop.cc \
++	task/PollingWorkLoop.cc \
++	task/WaitingWorkLoop.cc \
++	task/WorkLoopFactory.cc  \
++	task/TimerFactory.cc  \
++	fsm/FiniteStateMachine.cc \
++	fsm/AsynchronousFiniteStateMachine.cc \
++	fsm/FailedEvent.cc \
++	fsm/InvalidInputEvent.cc \
++	math/random.cc \
++	lang/RTTI.cc \
++	utils.cc \
++	regex.cc \
++	Gauge.cc \
++	GaugeEvent.cc \
++	GaugeFactory.cc \
++	ThresholdCrossedEvent.cc \
++	net/UUID.cc
+ endif
+ 
+ 
+diff --git a/daq/psx/sapi/src/common/ApplicationService.cc b/daq/psx/sapi/src/common/ApplicationService.cc
+index 46c799d..40c0165 100755
+--- a/daq/psx/sapi/src/common/ApplicationService.cc
++++ b/daq/psx/sapi/src/common/ApplicationService.cc
+@@ -48,7 +48,7 @@
+ #include <ErrClass.hxx>               
+ #include <signal.h>
+ #include <DpIdentificationResultType.hxx>
+-
++#include <sched.h>
+   
+ PVSSboolean psx::sapi::ApplicationService::doExit = PVSS_FALSE;
+ int psx::sapi::ApplicationService::our_argc_ = 0; 
+@@ -676,11 +676,11 @@ void psx::sapi::ApplicationService::run()
+ 		// Wait 100 ms
+ 		sec = 0;
+ 		usec = 10000;
+-		pthread_yield();
++		sched_yield();
+ 		pthread_mutex_lock( &(this->mutex_));
+ 		dispatch(sec, usec);
+ 		pthread_mutex_unlock( &(this->mutex_));
+-		pthread_yield();
++		sched_yield();
+ 	}
+ }
+ 
+diff --git a/daq/toolbox/src/common/task/Timer.cc b/daq/toolbox/src/common/task/Timer.cc
+index 12cbcfb..f520ca6 100755
+--- a/daq/toolbox/src/common/task/Timer.cc
++++ b/daq/toolbox/src/common/task/Timer.cc
+@@ -14,6 +14,7 @@
+ #include "toolbox/string.h"
+ #include "toolbox/utils.h"
+ #include <pthread.h>
++#include <sched.h>
+ 
+ toolbox::task::Timer::Timer(const std::string & name): toolbox::Task((char*)name.c_str())
+ {		
+@@ -73,7 +74,7 @@ void toolbox::task::Timer::start()  throw (toolbox::task::exception::Exception)
+ 	pthread_mutex_unlock( &conditionMutex_ );
+ 		
+ 	this->activate();
+-	while (! active_ ) { pthread_yield();}
++	while (! active_ ) { sched_yield();}
+ }
+ 
+ int toolbox::task::Timer::svc()
+diff --git a/daq/toolbox/src/common/task/WorkLoop.cc b/daq/toolbox/src/common/task/WorkLoop.cc
+index 4400ac8..a659ebe 100755
+--- a/daq/toolbox/src/common/task/WorkLoop.cc
++++ b/daq/toolbox/src/common/task/WorkLoop.cc
+@@ -15,6 +15,7 @@
+ #include <stdlib.h>
+ #include <errno.h>
+ #include <string.h>
++#include <sched.h>
+ #include "toolbox/string.h"
+ 
+ #include <iostream>
+@@ -111,7 +112,7 @@ void toolbox::task::WorkLoop::activate() throw (toolbox::task::exception::Except
+ 			XCEPT_RAISE (toolbox::task::exception::Exception, strerror(errno));
+ 		}
+ 		// the workloop  will become active within the run() method(in the new created thread)
+-		 while (! active_ ) { pthread_yield();}
++		 while (! active_ ) { sched_yield();}
+ 		//active_ = true;
+ 	}
+ 
+diff --git a/daq/benchmark/roundtrip/src/common/Application.cc b/daq/benchmark/roundtrip/src/common/Application.cc
+index b3ff34a..af75feb 100755
+--- a/daq/benchmark/roundtrip/src/common/Application.cc
++++ b/daq/benchmark/roundtrip/src/common/Application.cc
+@@ -188,7 +188,7 @@ void roundtrip::Application::token(  toolbox::mem::Reference * ref)  throw (i2o:
+ 		}
+ 
+ 		// Add the counter to the transaction context
+-		frame->PvtMessageFrame.TransactionContext = counter_;
++		frame->PvtMessageFrame.TransactionContext = *reinterpret_cast<_U64*>(&counter_);
+ 
+ 		// swap source and destination and send
+ 		int destinationTID = frame->PvtMessageFrame.StdMessageFrame.InitiatorAddress;
+@@ -338,7 +338,7 @@ void roundtrip::Application::EnableAction(toolbox::Event::Reference e) throw (to
+ 			PI2O_TOKEN_MESSAGE_FRAME frame = (PI2O_TOKEN_MESSAGE_FRAME) ref->getDataLocation(); 
+ 			
+ 			// Add the counter to the transaction context
+-			frame->PvtMessageFrame.TransactionContext = counter_;  
++			frame->PvtMessageFrame.TransactionContext = *reinterpret_cast<_U64*>(&counter_);  
+ 
+ 			frame->PvtMessageFrame.StdMessageFrame.MsgFlags         = 0;
+ 			frame->PvtMessageFrame.StdMessageFrame.VersionOffset    = 0;

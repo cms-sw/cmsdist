@@ -1,0 +1,9 @@
+--- orig.trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9USpyEvent.cc	2008-07-03 13:40:31.000000000 +0200
++++ trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9USpyEvent.cc	2009-05-07 02:30:46.000000000 +0200
+@@ -1,5 +1,6 @@
+ #include "Fed9USpyEvent.hh"
+ #include <iomanip>
++#include <stdint.h>
+ 
+ namespace Fed9U {
+   

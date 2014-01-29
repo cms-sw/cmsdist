@@ -1,0 +1,37 @@
+commit d946897b59ac75de013bd31db4a8346de7e69cd2
+Author: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date:   Sat Oct 9 11:15:41 2010 +0200
+
+    ../CMSDIST/root-5.22-00a-TMVA-just-shut-the-hell-up.patch
+
+diff --git a/tmva/src/MethodANNBase.cxx b/tmva/src/MethodANNBase.cxx
+index bdbdcda..33b84b6 100644
+--- a/tmva/src/MethodANNBase.cxx
++++ b/tmva/src/MethodANNBase.cxx
+@@ -229,7 +229,7 @@ void TMVA::MethodANNBase::BuildNetwork(vector<Int_t>* layout, vector<Double_t>*
+    // build network given a layout (number of neurons in each layer)
+    // and optional weights array
+ 
+-   fLogger << kINFO << "Building Network" << Endl;
++   // Shut up! fLogger << kINFO << "Building Network" << Endl;
+ 
+    DeleteNetwork();
+    InitANNBase();
+@@ -351,7 +351,7 @@ void TMVA::MethodANNBase::AddPreLinks(TNeuron* neuron, TObjArray* prevLayer)
+ void TMVA::MethodANNBase::InitWeights()
+ {
+    // initialize the synapse weights randomly
+-   PrintMessage("Initializing weights");
++// Shut up!   PrintMessage("Initializing weights");
+    
+    // init synapse weights
+    Int_t numSynapses = fSynapses->GetEntriesFast();
+@@ -366,7 +366,7 @@ void TMVA::MethodANNBase::InitWeights()
+ void TMVA::MethodANNBase::ForceWeights(vector<Double_t>* weights)
+ {
+    // force the synapse weights
+-   PrintMessage("Forcing weights");
++   // Shut up! PrintMessage("Forcing weights");
+ 
+    Int_t numSynapses = fSynapses->GetEntriesFast();
+    TSynapse* synapse;

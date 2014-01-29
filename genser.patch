@@ -1,0 +1,10 @@
+--- config/BootStrapFile	2006-04-02 01:51:38.000000000 +0200
++++ config/BootStrapFile.new	2006-04-02 01:51:25.000000000 +0200
+@@ -13,6 +13,7 @@
+ <Config dir=config>
+ <base url="cvs://simu.cvs.cern.ch/cvs/simu?auth=pserver&user=anonymous&version=GENSER_1_3_0">
+ <download url="cvs:?module=simu/GENSER/config/scram" name="config">
++<download url="cvs:?module=src" name="src"> 
+ <RequirementsDoc name=config/RequirementsDoc>
+ </base>
+ </project>

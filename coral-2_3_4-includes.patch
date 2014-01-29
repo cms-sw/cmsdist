@@ -1,0 +1,67 @@
+diff -Naur orig.src/CoralBase/src/MessageStream.cpp src/CoralBase/src/MessageStream.cpp
+--- orig.src/CoralBase/src/MessageStream.cpp	2009-10-14 17:01:18.000000000 +0200
++++ src/CoralBase/src/MessageStream.cpp	2009-11-13 00:24:50.000000000 +0100
+@@ -11,6 +11,7 @@
+ //====================================================================
+ #include <iostream>
+ #include <memory>
++#include <cstring>
+ #include <boost/thread/mutex.hpp>
+ #include "CoralBase/MessageStream.h"
+ #include "MsgReporter2.h"
+diff -Naur orig.src/CoralBase/src/MsgReporter2.cpp src/CoralBase/src/MsgReporter2.cpp
+--- orig.src/CoralBase/src/MsgReporter2.cpp	2009-09-25 14:20:02.000000000 +0200
++++ src/CoralBase/src/MsgReporter2.cpp	2009-11-13 00:25:04.000000000 +0100
+@@ -1,4 +1,6 @@
+ #include "MsgReporter2.h"
++#include <iostream>
++#include <cstring>
+ 
+ /// Default constructor
+ coral::CoralBase::MsgReporter2::MsgReporter2()
+diff -Naur orig.src/OracleAccess/src/Connection.cpp src/OracleAccess/src/Connection.cpp
+--- orig.src/OracleAccess/src/Connection.cpp	2009-10-23 17:13:57.000000000 +0200
++++ src/OracleAccess/src/Connection.cpp	2009-11-13 00:24:06.000000000 +0100
+@@ -16,6 +16,7 @@
+ 
+ #include "oci.h"
+ #include <sstream>
++#include <cstring>
+ #ifdef linux
+ #include "boost/thread/xtime.hpp"
+ #include <boost/thread.hpp>
+diff -Naur orig.src/OracleAccess/src/Schema.cpp src/OracleAccess/src/Schema.cpp
+--- orig.src/OracleAccess/src/Schema.cpp	2009-08-20 18:14:39.000000000 +0200
++++ src/OracleAccess/src/Schema.cpp	2009-11-13 00:24:06.000000000 +0100
+@@ -24,7 +24,7 @@
+ #include "CoralKernel/Service.h"
+ 
+ #include "oci.h"
+-
++#include <cstring>
+ #include <memory>
+ #include <sstream>
+ 
+diff -Naur orig.src/OracleAccess/src/Session.cpp src/OracleAccess/src/Session.cpp
+--- orig.src/OracleAccess/src/Session.cpp	2009-09-28 15:24:44.000000000 +0200
++++ src/OracleAccess/src/Session.cpp	2009-11-13 00:24:06.000000000 +0100
+@@ -27,7 +27,7 @@
+ #include "CoralKernel/Context.h"
+ 
+ #include "oci.h"
+-
++#include <cstring>
+ #include <locale>
+ 
+ coral::OracleAccess::Session::Session(  coral::IDevConnection& connection,
+diff -Naur orig.src/SQLiteAccess/tests/BulkInserts/bulkInserts.cpp src/SQLiteAccess/tests/BulkInserts/bulkInserts.cpp
+--- orig.src/SQLiteAccess/tests/BulkInserts/bulkInserts.cpp	2008-12-04 16:07:50.000000000 +0100
++++ src/SQLiteAccess/tests/BulkInserts/bulkInserts.cpp	2009-11-13 00:24:00.000000000 +0100
+@@ -25,6 +25,7 @@
+ #include <memory>
+ #include <sstream>
+ #include <float.h>
++#include <limits.h>
+ 
+ #undef max  //solve windows compilation
+ #undef min

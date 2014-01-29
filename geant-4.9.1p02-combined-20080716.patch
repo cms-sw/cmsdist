@@ -1,0 +1,758 @@
+diff -Naur orig.geant4.9.1.p02/source/geometry/management/include/G4LogicalVolume.hh geant4.9.1.p02/source/geometry/management/include/G4LogicalVolume.hh
+--- orig.geant4.9.1.p02/source/geometry/management/include/G4LogicalVolume.hh	2006-06-29 20:30:55.000000000 +0200
++++ geant4.9.1.p02/source/geometry/management/include/G4LogicalVolume.hh	2008-07-12 12:27:25.000000000 +0200
+@@ -286,6 +286,9 @@
+       // persistency for clients requiring preallocation of memory for
+       // persistifiable objects.
+ 
++    inline void Lock();
++      // Set lock identifier for final deletion of entity.
++
+   private:
+ 
+     G4LogicalVolume(const G4LogicalVolume&);
+@@ -316,6 +319,8 @@
+       // Flag to identify if optimisation should be applied or not.
+     G4bool fRootRegion;
+       // Flag to identify if the logical volume is a root region.
++    G4bool fLock;
++      // Flag to identify if entity is locked for final deletion.
+     G4double fSmartless;
+       // Quality for optimisation, average number of voxels to be spent
+       // per content.
+diff -Naur orig.geant4.9.1.p02/source/geometry/management/include/G4LogicalVolume.icc geant4.9.1.p02/source/geometry/management/include/G4LogicalVolume.icc
+--- orig.geant4.9.1.p02/source/geometry/management/include/G4LogicalVolume.icc	2006-06-29 20:30:57.000000000 +0200
++++ geant4.9.1.p02/source/geometry/management/include/G4LogicalVolume.icc	2008-07-12 12:27:25.000000000 +0200
+@@ -436,6 +436,16 @@
+ }
+ 
+ // ********************************************************************
++// Lock
++// ********************************************************************
++//
++inline
++void G4LogicalVolume::Lock()
++{
++  fLock = true;
++}
++
++// ********************************************************************
+ // Operator ==
+ // ********************************************************************
+ //
+diff -Naur orig.geant4.9.1.p02/source/geometry/management/include/G4PhysicalVolumeStore.hh geant4.9.1.p02/source/geometry/management/include/G4PhysicalVolumeStore.hh
+--- orig.geant4.9.1.p02/source/geometry/management/include/G4PhysicalVolumeStore.hh	2007-04-10 12:13:50.000000000 +0200
++++ geant4.9.1.p02/source/geometry/management/include/G4PhysicalVolumeStore.hh	2008-07-12 12:27:25.000000000 +0200
+@@ -72,11 +72,9 @@
+       // Get a ptr to the unique G4PhysicalVolumeStore, creating it if necessary.
+     static void SetNotifier(G4VStoreNotifier* pNotifier);
+       // Assign a notifier for allocation/deallocation of the physical volumes.
+-    static void Clean(G4bool notifyLV=false);
+-      // Delete all volumes from the store. The flag 'notifyLV' must be set to
+-      // true when the whole geometry tree is cleared at run-time through this
+-      // store; the flag will guarantee that physical volumes to be deregistered
+-      // from LV's list of daughters.
++    static void Clean();
++      // Delete all physical volumes from the store. Mother logical volumes
++      // are automatically notified and have their daughters de-registered.
+ 
+     G4VPhysicalVolume* GetVolume(const G4String& name,
+                                  G4bool verbose=true) const;
+diff -Naur orig.geant4.9.1.p02/source/geometry/management/include/G4Region.hh geant4.9.1.p02/source/geometry/management/include/G4Region.hh
+--- orig.geant4.9.1.p02/source/geometry/management/include/G4Region.hh	2007-04-28 03:48:29.000000000 +0200
++++ geant4.9.1.p02/source/geometry/management/include/G4Region.hh	2008-07-12 12:27:25.000000000 +0200
+@@ -74,7 +74,7 @@
+       // Equality defined by address only.
+ 
+     void AddRootLogicalVolume(G4LogicalVolume* lv);
+-    void RemoveRootLogicalVolume(G4LogicalVolume* lv);
++    void RemoveRootLogicalVolume(G4LogicalVolume* lv, G4bool scan=true);
+       // Add/remove root logical volumes and set/reset their
+       // daughters flags as regions. They also recompute the
+       // materials list for the region.
+diff -Naur orig.geant4.9.1.p02/source/geometry/management/src/G4LogicalVolume.cc geant4.9.1.p02/source/geometry/management/src/G4LogicalVolume.cc
+--- orig.geant4.9.1.p02/source/geometry/management/src/G4LogicalVolume.cc	2006-11-30 11:39:28.000000000 +0100
++++ geant4.9.1.p02/source/geometry/management/src/G4LogicalVolume.cc	2008-07-12 12:27:26.000000000 +0200
+@@ -62,8 +62,8 @@
+                                   G4UserLimits* pULimits,
+                                   G4bool optimise )
+  : fDaughters(0,(G4VPhysicalVolume*)0), fFieldManager(pFieldMgr),
+-   fVoxel(0), fOptimise(optimise), fRootRegion(false), fSmartless(2.),
+-   fMass(0.), fVisAttributes(0), fRegion(0), fCutsCouple(0)
++   fVoxel(0), fOptimise(optimise), fRootRegion(false), fLock(false),
++   fSmartless(2.), fMass(0.), fVisAttributes(0), fRegion(0), fCutsCouple(0)
+ {
+   SetSolid(pSolid);
+   SetMaterial(pMaterial);
+@@ -84,7 +84,7 @@
+ G4LogicalVolume::G4LogicalVolume( __void__& )
+  : fDaughters(0,(G4VPhysicalVolume*)0), fFieldManager(0),
+    fMaterial(0), fName(""), fSensitiveDetector(0), fSolid(0), fUserLimits(0),
+-   fVoxel(0), fOptimise(true), fRootRegion(false), fSmartless(2.),
++   fVoxel(0), fOptimise(true), fRootRegion(false), fLock(false), fSmartless(2.),
+    fMass(0.), fVisAttributes(0), fRegion(0), fCutsCouple(0), fBiasWeight(0.)
+ {
+   // Add to store
+@@ -99,11 +99,10 @@
+ //
+ G4LogicalVolume::~G4LogicalVolume()
+ {
+-  // Avoid de-registration of root region if treating the first world volume
+-  //
+-  if( (fRootRegion) && (this != (*G4LogicalVolumeStore::GetInstance())[0]) )
+-    { fRegion->RemoveRootLogicalVolume(this); }
+-
++  if (!fLock && fRootRegion)  // De-register root region first if not locked
++  {                           // and flagged as root logical-volume
++    fRegion->RemoveRootLogicalVolume(this, true);
++  }
+   G4LogicalVolumeStore::DeRegister(this);
+ }
+ 
+diff -Naur orig.geant4.9.1.p02/source/geometry/management/src/G4LogicalVolumeStore.cc geant4.9.1.p02/source/geometry/management/src/G4LogicalVolumeStore.cc
+--- orig.geant4.9.1.p02/source/geometry/management/src/G4LogicalVolumeStore.cc	2007-04-10 12:13:50.625185400 +0200
++++ geant4.9.1.p02/source/geometry/management/src/G4LogicalVolumeStore.cc	2008-07-12 12:27:26.000000000 +0200
+@@ -97,7 +97,7 @@
+   for(iterator pos=store->begin(); pos!=store->end(); pos++)
+   {
+     if (fgNotifier) { fgNotifier->NotifyDeRegistration(); }
+-    if (*pos) { delete *pos; }
++    if (*pos) { (*pos)->Lock(); delete *pos; }
+     i++;
+   }
+ 
+diff -Naur orig.geant4.9.1.p02/source/geometry/management/src/G4PhysicalVolumeStore.cc geant4.9.1.p02/source/geometry/management/src/G4PhysicalVolumeStore.cc
+--- orig.geant4.9.1.p02/source/geometry/management/src/G4PhysicalVolumeStore.cc	2007-04-10 12:13:50.000000000 +0200
++++ geant4.9.1.p02/source/geometry/management/src/G4PhysicalVolumeStore.cc	2008-07-12 12:27:26.000000000 +0200
+@@ -72,7 +72,7 @@
+ // Delete all elements from the store
+ // ***************************************************************************
+ //
+-void G4PhysicalVolumeStore::Clean(G4bool notifyLV)
++void G4PhysicalVolumeStore::Clean()
+ {
+   // Do nothing if geometry is closed
+   //
+@@ -97,14 +97,6 @@
+   G4cout << "Deleting Physical Volumes ... ";
+ #endif
+ 
+-  if (notifyLV)
+-  {
+-    for(pos=store->begin(); pos!=store->end(); pos++)
+-    {
+-      if (*pos) { (*pos)->GetLogicalVolume()->ClearDaughters(); }
+-    }
+-  }
+-
+   for(pos=store->begin(); pos!=store->end(); pos++)
+   {
+     if (fgNotifier) { fgNotifier->NotifyDeRegistration(); }
+diff -Naur orig.geant4.9.1.p02/source/geometry/management/src/G4Region.cc geant4.9.1.p02/source/geometry/management/src/G4Region.cc
+--- orig.geant4.9.1.p02/source/geometry/management/src/G4Region.cc	2007-04-26 23:20:53.000000000 +0200
++++ geant4.9.1.p02/source/geometry/management/src/G4Region.cc	2008-07-12 12:27:26.000000000 +0200
+@@ -139,7 +139,7 @@
+     //
+     G4VPVParameterisation* pParam = daughterPVol->GetParameterisation();
+ 
+-    if (pParam->IsNested())
++    if (pParam->GetMaterialScanner())
+     {
+       size_t matNo = pParam->GetMaterialScanner()->GetNumberOfMaterials();
+       for (register size_t mat=0; mat<matNo; mat++)
+@@ -231,7 +231,7 @@
+ //    regions. It also recomputes the materials list for the region.
+ // *******************************************************************
+ //
+-void G4Region::RemoveRootLogicalVolume(G4LogicalVolume* lv)
++void G4Region::RemoveRootLogicalVolume(G4LogicalVolume* lv, G4bool scan)
+ {
+   // Find and remove logical volume from the list
+   //
+@@ -239,20 +239,14 @@
+   pos = std::find(fRootVolumes.begin(),fRootVolumes.end(),lv);
+   if (pos != fRootVolumes.end())
+   {
+-    if (fRootVolumes.size() != 1)  // Avoid resetting flag for world since
+-    {                              // volume may be already deleted !
+-      lv->SetRegionRootFlag(false);
+-    }
++    lv->SetRegionRootFlag(false);
+     fRootVolumes.erase(pos);
+   }
+ 
+-  // Scan recursively the tree of daugther volumes and reset regions
+-  //
+-  //ScanVolumeTree(lv, false);
+-
+-  // Update the materials list
+-  //
+-  //UpdateMaterialList();
++  if (scan)  // Update the materials list
++  {
++    UpdateMaterialList();
++  }
+ 
+   // Set region as modified
+   //
+diff -Naur orig.geant4.9.1.p02/source/geometry/management/src/G4RegionStore.cc geant4.9.1.p02/source/geometry/management/src/G4RegionStore.cc
+--- orig.geant4.9.1.p02/source/geometry/management/src/G4RegionStore.cc	2007-04-10 12:13:50.000000000 +0200
++++ geant4.9.1.p02/source/geometry/management/src/G4RegionStore.cc	2008-07-12 12:27:26.000000000 +0200
+@@ -98,8 +98,6 @@
+   G4cout << "Deleting Regions ... ";
+ #endif
+ 
+-  // Do NOT delete world region !
+-  //
+   for(iterator pos=store->begin(); pos!=store->end(); ++pos)
+   {
+     if (fgNotifier) { fgNotifier->NotifyDeRegistration(); }
+diff -Naur orig.geant4.9.1.p02/source/geometry/solids/CSG/src/G4Tubs.cc geant4.9.1.p02/source/geometry/solids/CSG/src/G4Tubs.cc
+--- orig.geant4.9.1.p02/source/geometry/solids/CSG/src/G4Tubs.cc	2007-11-23 10:07:43.000000000 +0100
++++ geant4.9.1.p02/source/geometry/solids/CSG/src/G4Tubs.cc	2008-07-12 12:27:30.000000000 +0200
+@@ -982,14 +982,69 @@
+           inum   = p.x()*cosCPhi + p.y()*sinCPhi ;
+           iden   = std::sqrt(t3) ;
+           cosPsi = inum/iden ;
+-          if (cosPsi >= cosHDPhiIT)  { return 0.0; }
++          if (cosPsi >= cosHDPhiIT)
++          {
++            // In the old version, the small negative tangent for the point
++            // on surface was not taken in account, and returning 0.0 ...
++            // New version: check the tangent for the point on surface and 
++            // if no intersection, return kInfinity, if intersection instead
++            // return s.
++            //
++            c = t3-fRMax*fRMax; 
++            if ( c<=0.0 )
++            {
++              return 0.0;
++            }
++            else
++            {
++              c = c/t1 ;
++              d = b*b-c;
++              if ( d>=0.0 )
++              {
++                snxt = c/(-b+std::sqrt(d)); // using safe solution
++                                            // for quadratic equation 
++                if ( snxt<kCarTolerance*0.5 ) { snxt=0; }
++                return snxt ;
++              }      
++              else
++              {
++                return kInfinity;
++              }
++            }
++          } 
+         }
+         else
+-        {
+-          return 0.0 ;
+-        }
+-      }
+-    }      
++        {   
++          // In the old version, the small negative tangent for the point
++          // on surface was not taken in account, and returning 0.0 ...
++          // New version: check the tangent for the point on surface and 
++          // if no intersection, return kInfinity, if intersection instead
++          // return s.
++          //
++          c = t3 - fRMax*fRMax; 
++          if ( c<=0.0 )
++          {
++            return 0.0;
++          }
++          else
++          {
++            c = c/t1 ;
++            d = b*b-c;
++            if ( d>=0.0 )
++            {
++              snxt= c/(-b+std::sqrt(d)); // using safe solution
++                                         // for quadratic equation 
++              if ( snxt<kCarTolerance*0.5 ) { snxt=0; }
++              return snxt ;
++            }      
++            else
++            {
++              return kInfinity;
++            }
++          }
++        } // end if   (seg)
++      }   // end if   (t3>tolIRMin2)
++    }     // end if   (Inside Outer Radius) 
+     if ( fRMin )    // Try inner cylinder intersection
+     {
+       c = (t3 - fRMin*fRMin)/t1 ;
+@@ -1458,7 +1513,7 @@
+               // (if not -> no intersect)
+               //
+               if((std::abs(xi)<=kCarTolerance)&&(std::abs(yi)<=kCarTolerance))
+-		{ sidephi = kSPhi;
++                { sidephi = kSPhi;
+                 if (((fSPhi-0.5*kAngTolerance)<=vphi)
+                    &&((ePhi+0.5*kAngTolerance)>=vphi))
+                 {
+diff -Naur orig.geant4.9.1.p02/source/processes/hadronic/models/high_energy/src/G4HEInelastic.cc geant4.9.1.p02/source/processes/hadronic/models/high_energy/src/G4HEInelastic.cc
+--- orig.geant4.9.1.p02/source/processes/hadronic/models/high_energy/src/G4HEInelastic.cc	2007-11-19 20:19:25.000000000 +0100
++++ geant4.9.1.p02/source/processes/hadronic/models/high_energy/src/G4HEInelastic.cc	2008-07-12 12:28:36.000000000 +0200
+@@ -1781,42 +1781,41 @@
+  }
+ 
+ void
+-G4HEInelastic::TuningOfHighEnergyCascading( G4HEVector pv[],
+-                                            G4int &vecLen,
+-                                            G4HEVector incidentParticle,
+-                                            G4HEVector targetParticle,
+-                                            G4double atomicWeight,
+-                                            G4double atomicNumber)
+- {
+-   G4int i,j;
+-   G4double incidentKineticEnergy   = incidentParticle.getKineticEnergy();
+-   G4double incidentTotalMomentum   = incidentParticle.getTotalMomentum();
+-   G4double incidentCharge          = incidentParticle.getCharge(); 
+-   G4double incidentMass            = incidentParticle.getMass();
+-   G4double targetMass              = targetParticle.getMass();
+-   G4int    pionPlusCode            = PionPlus.getCode();
+-   G4int    pionMinusCode           = PionMinus.getCode();
+-   G4int    pionZeroCode            = PionZero.getCode();  
+-   G4int    protonCode              = Proton.getCode();
+-   G4int    neutronCode             = Neutron.getCode();
+-   G4HEVector *pvmx   = new G4HEVector [10];
+-   G4double   *reddec = new G4double [7];
++G4HEInelastic::TuningOfHighEnergyCascading(G4HEVector pv[],
++                                           G4int &vecLen,
++                                           G4HEVector incidentParticle,
++                                           G4HEVector targetParticle,
++                                           G4double atomicWeight,
++                                           G4double atomicNumber)
++{
++  G4int i,j;
++  G4double incidentKineticEnergy   = incidentParticle.getKineticEnergy();
++  G4double incidentTotalMomentum   = incidentParticle.getTotalMomentum();
++  G4double incidentCharge          = incidentParticle.getCharge(); 
++  G4double incidentMass            = incidentParticle.getMass();
++  G4double targetMass              = targetParticle.getMass();
++  G4int    pionPlusCode            = PionPlus.getCode();
++  G4int    pionMinusCode           = PionMinus.getCode();
++  G4int    pionZeroCode            = PionZero.getCode();  
++  G4int    protonCode              = Proton.getCode();
++  G4int    neutronCode             = Neutron.getCode();
++  G4HEVector *pvmx   = new G4HEVector [10];
++  G4double   *reddec = new G4double [7];
+ 
+-   if ( incidentKineticEnergy > (25.+G4UniformRand()*75.) )
+-     {
+-       G4double reden = -0.7 + 0.29*std::log10(incidentKineticEnergy);
++  if (incidentKineticEnergy > (25.+G4UniformRand()*75.) ) {
++    G4double reden = -0.7 + 0.29*std::log10(incidentKineticEnergy);
+ //       G4double redat =  1.0 - 0.40*std::log10(atomicWeight);
+ //       G4double redat = 0.5 - 0.18*std::log10(atomicWeight);
+-       G4double redat = 0.722 - 0.278*std::log10(atomicWeight);
+-       G4double pmax   = -200.;
+-       G4double pmapim = -200.;
+-       G4double pmapi0 = -200.;
+-       G4double pmapip = -200.;
+-       G4int ipmax  = 0;
+-       G4int maxpim = 0;
+-       G4int maxpi0 = 0;
+-       G4int maxpip = 0;
+-       G4int iphmf; 
++    G4double redat = 0.722 - 0.278*std::log10(atomicWeight);
++    G4double pmax   = -200.;
++    G4double pmapim = -200.;
++    G4double pmapi0 = -200.;
++    G4double pmapip = -200.;
++    G4int ipmax  = 0;
++    G4int maxpim = 0;
++    G4int maxpi0 = 0;
++    G4int maxpip = 0;
++    G4int iphmf; 
+        if (   (G4UniformRand() > (atomicWeight/100.-0.28)) 
+            && (std::fabs(incidentCharge) > 0.) )
+          { 
+@@ -1933,130 +1932,145 @@
+              }
+          }
+        vecLen = j;     
+-     }
+-
+-   pvmx[0] = incidentParticle;
+-   pvmx[1] = targetParticle;
+-   pvmx[8].setZero();
+-   pvmx[2].Add(pvmx[0], pvmx[1]);
+-   pvmx[3].Lor(pvmx[0], pvmx[2]);
+-   pvmx[4].Lor(pvmx[1], pvmx[2]);
+-   
+-   if(verboseLevel > 1)
+-     {
+-       pvmx[0].Print(0);
+-       incidentParticle.Print(0);
+-       pvmx[1].Print(1);
+-       targetParticle.Print(1);
+-       pvmx[2].Print(2);
+-       pvmx[3].Print(3);
+-       pvmx[4].Print(4);
+-     }
+- 
+-   G4int ledpar = -1;
+-   G4double redpar = 0.;
+-   G4double gespar = 0.;
+-   G4int incidentS = incidentParticle.getStrangenessNumber();
+-   if(incidentParticle.getName() == "KaonZeroShort" || incidentParticle.getName() == "KaonZeroLong")
+-     {
+-       if(G4UniformRand() < 0.5) { incidentS = 1;}
+-       else                      { incidentS = -1;}
+-     }
+-   G4int incidentB =   incidentParticle.getBaryonNumber();   
++  }
+ 
+-   if(verboseLevel > 1)
+-     {
+-       G4cout << " incidentS, incidentB " << incidentS << " " << incidentB << G4endl;
+-     }
++  pvmx[0] = incidentParticle;
++  pvmx[1] = targetParticle;
++  pvmx[8].setZero();
++  pvmx[2].Add(pvmx[0], pvmx[1]);
++  pvmx[3].Lor(pvmx[0], pvmx[2]);
++  pvmx[4].Lor(pvmx[1], pvmx[2]);
++   
++  if (verboseLevel > 1) {
++    pvmx[0].Print(0);
++    incidentParticle.Print(0);
++    pvmx[1].Print(1);
++    targetParticle.Print(1);
++    pvmx[2].Print(2);
++    pvmx[3].Print(3);
++    pvmx[4].Print(4);
++  }
+ 
+-   for (i=0; i<vecLen; i++)
+-     { G4int iphmf = pv[i].getCode();
+-       G4double ppp   = pv[i].Length();
+-       if (ppp > 1.e-3)
+-         { 
+-           pvmx[5].Lor( pv[i], pvmx[2] );
+-           G4double cost = pvmx[3].CosAng( pvmx[5] );
+-           G4int particleS =   pv[i].getStrangenessNumber();
+-           if(pv[i].getName() == "KaonZeroShort" || pv[i].getName() == "KaonZeroLong")
+-             {
+-               if(G4UniformRand() < 0.5) { particleS = 1;}
+-               else                      { particleS = -1;}
+-             } 
+-           G4int particleB =   pv[i].getBaryonNumber();
+-           G4double hfmass;
+-           if (cost > 0.)
+-             { 
+-               reddec[0] = std::fabs( incidentMass - pv[i].getMass() );
+-               reddec[1] = std::fabs( incidentCharge - pv[i].getCharge());
+-               reddec[2] = std::fabs( G4double(incidentS - particleS) ); // cast for aCC
+-               reddec[3] = std::fabs( G4double(incidentB - particleB) ); // cast for aCC
+-               hfmass = incidentMass;  
+-             }
+-           else
+-             { 
+-               reddec[0] = std::fabs( targetMass - pv[i].getMass() );
+-               reddec[1] = std::fabs( atomicNumber/atomicWeight - pv[i].getCharge());
+-               reddec[2] = std::fabs( G4double(particleS) ); // cast for aCC
+-               reddec[3] = std::fabs( 1. - particleB );
+-               hfmass = targetMass;  
+-             } 
+-           reddec[5] = reddec[0]+reddec[1]+reddec[2]+reddec[3];
+-           G4double sbqwgt = reddec[5];
+-           if ( hfmass < 0.2)
+-             { 
+-               sbqwgt = (sbqwgt-2.5)*0.10;
+-               if(pv[i].getCode() == pionZeroCode) sbqwgt = 0.15; 
+-             } 
+-           else if (hfmass < 0.6)
+-               sbqwgt = (sbqwgt-3.0)*0.10;
+-           else 
+-             { 
+-               sbqwgt = (sbqwgt-2.0)*0.10;
+-               if(pv[i].getCode() == pionZeroCode) sbqwgt = 0.15;  
+-             }
+-           ppp = pvmx[5].Length();
+-           if ( (sbqwgt>0.) && (ppp>1.e-6) )
+-             { 
+-               G4double pthmf = ppp*std::sqrt(1.-cost*cost);
+-               G4double plhmf = ppp*cost*(1.-sbqwgt);
+-               pvmx[7].Cross( pvmx[3], pvmx[5] );
+-               pvmx[7].Cross( pvmx[7], pvmx[3] );
+-               if(pvmx[3].Length() > 0.)
+-                 pvmx[6].SmulAndUpdate( pvmx[3], plhmf/pvmx[3].Length() );
+-               else if(verboseLevel > 1)
+-                 G4cout << "NaNQ in Tuning of High Energy Hadronic Interactions" << G4endl;
+-               if(pvmx[7].Length() > 0.)    
+-                 pvmx[7].SmulAndUpdate( pvmx[7], pthmf/pvmx[7].Length() );
+-               else if(verboseLevel > 1)
+-                 G4cout << "NaNQ in Tuning of High Energy Hadronic Interactions" << G4endl;
+-               pvmx[5].Add3(pvmx[6], pvmx[7] );
+-               pvmx[5].setEnergy( std::sqrt(sqr(pvmx[5].Length()) + sqr(pv[i].getMass())));
+-               pv[i].Lor( pvmx[5], pvmx[4] );
+-               if(verboseLevel > 1) 
+-                 {
+-                   G4cout << " Particle Momentum changed to: " << G4endl;
+-                   pv[i].Print(i); 
+-		 }
+-             }    
++  // Calculate leading particle effect in which a single final state 
++  // particle carries away nearly the maximum allowed momentum, while
++  // all other secondaries have reduced momentum.  A secondary is 
++  // proportionately less likely to be a leading particle as the 
++  // difference of its quantum numbers with the primary increases.
++ 
++  G4int ledpar = -1;
++  G4double redpar = 0.;
++  G4int incidentS = incidentParticle.getStrangenessNumber();
++  if (incidentParticle.getName() == "KaonZeroShort" || 
++      incidentParticle.getName() == "KaonZeroLong") {
++    if(G4UniformRand() < 0.5) { 
++      incidentS = 1;
++    } else { 
++      incidentS = -1;
++    }
++  }
+ 
+-	   // Neither pi0s, backward nucleons from intra-nuclear cascade,
+-	   // nor evaporation fragments can be leading particles
++  G4int incidentB =   incidentParticle.getBaryonNumber();   
+ 
+-           if (iphmf != pionZeroCode && pv[i].getSide() > -3)
+-             { 
+-               pvmx[7].Sub3( incidentParticle, pv[i] );
+-               reddec[4] = pvmx[7].Length()/incidentTotalMomentum;
+-               reddec[6] = reddec[4]*2./3. + reddec[5]/12.;
+-               reddec[6] = Amax(0., 1. - reddec[6]);
+-               gespar   += reddec[6];
+-               if ( (reddec[5] <= 3.75) && (reddec[6] > redpar) )
+-                 { ledpar = i;
+-                   redpar = reddec[6]; 
+-                 }   
+-             } 
+-         }
+-       pvmx[8].Add3(pvmx[8], pv[i] );
+-     } 
++  for (i=0; i<vecLen; i++) { 
++    G4int iphmf = pv[i].getCode();
++    G4double ppp = pv[i].Length();
++
++    if (ppp > 1.e-3) { 
++      pvmx[5].Lor( pv[i], pvmx[2] );  // secondary in CM frame
++      G4double cost = pvmx[3].CosAng( pvmx[5] );
++
++      // For each secondary, find the sum of the differences of its 
++      // quantum numbers with that of the incident particle 
++      // (dM + dQ + dS + dB)
++
++      G4int particleS = pv[i].getStrangenessNumber();
++
++      if (pv[i].getName() == "KaonZeroShort" || 
++          pv[i].getName() == "KaonZeroLong") {
++        if (G4UniformRand() < 0.5) { 
++          particleS = 1;
++        } else { 
++          particleS = -1;
++        }
++      } 
++      G4int particleB = pv[i].getBaryonNumber();
++      G4double hfmass;
++      if (cost > 0.) { 
++        reddec[0] = std::fabs( incidentMass - pv[i].getMass() );
++        reddec[1] = std::fabs( incidentCharge - pv[i].getCharge());
++        reddec[2] = std::fabs( G4double(incidentS - particleS) ); // cast for aCC
++        reddec[3] = std::fabs( G4double(incidentB - particleB) ); // cast for aCC
++        hfmass = incidentMass;
++
++      } else { 
++        reddec[0] = std::fabs( targetMass - pv[i].getMass() );
++        reddec[1] = std::fabs( atomicNumber/atomicWeight - pv[i].getCharge());
++        reddec[2] = std::fabs( G4double(particleS) ); // cast for aCC
++        reddec[3] = std::fabs( 1. - particleB );
++        hfmass = targetMass;  
++      }
++
++      reddec[5] = reddec[0]+reddec[1]+reddec[2]+reddec[3];
++      G4double sbqwgt = reddec[5];
++      if (hfmass < 0.2) { 
++        sbqwgt = (sbqwgt-2.5)*0.10;
++        if(pv[i].getCode() == pionZeroCode) sbqwgt = 0.15; 
++      } else if (hfmass < 0.6) {
++        sbqwgt = (sbqwgt-3.0)*0.10;
++      } else { 
++        sbqwgt = (sbqwgt-2.0)*0.10;
++        if(pv[i].getCode() == pionZeroCode) sbqwgt = 0.15;
++      }
++           
++      ppp = pvmx[5].Length();
++
++      // Reduce the longitudinal momentum of the secondary by a factor 
++      // which is a function of the sum of the differences
++
++      if (sbqwgt > 0. && ppp > 1.e-6) { 
++        G4double pthmf = ppp*std::sqrt(1.-cost*cost);
++        G4double plhmf = ppp*cost*(1.-sbqwgt);
++        pvmx[7].Cross( pvmx[3], pvmx[5] );
++        pvmx[7].Cross( pvmx[7], pvmx[3] );
++
++        if (pvmx[3].Length() > 0.)
++          pvmx[6].SmulAndUpdate( pvmx[3], plhmf/pvmx[3].Length() );
++        else if(verboseLevel > 1)
++          G4cout << "NaNQ in Tuning of High Energy Hadronic Interactions" << G4endl;
++
++        if (pvmx[7].Length() > 0.)    
++          pvmx[7].SmulAndUpdate( pvmx[7], pthmf/pvmx[7].Length() );
++        else if(verboseLevel > 1)
++          G4cout << "NaNQ in Tuning of High Energy Hadronic Interactions" << G4endl;
++
++        pvmx[5].Add3(pvmx[6], pvmx[7] );
++        pvmx[5].setEnergy( std::sqrt(sqr(pvmx[5].Length()) + sqr(pv[i].getMass())));
++        pv[i].Lor( pvmx[5], pvmx[4] );
++        if (verboseLevel > 1) {
++          G4cout << " Particle Momentum changed to: " << G4endl;
++          pv[i].Print(i); 
++	}
++      }
++
++      // Choose leading particle
++      // Neither pi0s, backward nucleons from intra-nuclear cascade,
++      // nor evaporation fragments can be leading particles
++
++      G4int ss = -3;
++      if (incidentS != 0) ss = 0;
++      if (iphmf != pionZeroCode && pv[i].getSide() > ss) { 
++        pvmx[7].Sub3( incidentParticle, pv[i] );
++        reddec[4] = pvmx[7].Length()/incidentTotalMomentum;
++        reddec[6] = reddec[4]*2./3. + reddec[5]/12.;
++        reddec[6] = Amax(0., 1. - reddec[6]);
++        if ( (reddec[5] <= 3.75) && (reddec[6] > redpar) ) { 
++          ledpar = i;
++          redpar = reddec[6]; 
++        }   
++      } 
++    }
++    pvmx[8].Add3(pvmx[8], pv[i] );
++  }
+ 
+   if(false) if (ledpar >= 0)
+      { 
+@@ -2078,30 +2092,33 @@
+            pv[ledpar].Print(ledpar);
+        }  
+      }
+-  if(conserveEnergy)
+-  {
++
++  if (conserveEnergy) {
+     G4double ekinhf = 0.;
+-    for(i=0; i<vecLen; i++)
+-    {
++    for (i=0; i<vecLen; i++) {
+       ekinhf += pv[i].getKineticEnergy();
+       if(pv[i].getMass() < 0.7) ekinhf += pv[i].getMass();
+     }
+     if(incidentParticle.getMass() < 0.7) ekinhf -= incidentParticle.getMass();
+-    if(ledpar < 0)
+-    {
++
++    if(ledpar < 0) {   // no leading particle chosen
+       ekinhf = incidentParticle.getKineticEnergy()/ekinhf;
+-      for(i=0; i<vecLen; i++) pv[i].setKineticEnergyAndUpdate(ekinhf*pv[i].getKineticEnergy());
+-    }
+-    else
+-    {
++      for (i=0; i<vecLen; i++) 
++        pv[i].setKineticEnergyAndUpdate(ekinhf*pv[i].getKineticEnergy());
++
++    } else {   
++      // take the energy removed from non-leading particles and
++      // give it to the leading particle
+       ekinhf = incidentParticle.getKineticEnergy() - ekinhf;
+       ekinhf += pv[ledpar].getKineticEnergy();
+       if(ekinhf < 0.) ekinhf = 0.;
+       pv[ledpar].setKineticEnergyAndUpdate(ekinhf);
+     }
+-  }  
++  }
++
+   delete [] reddec;
+   delete [] pvmx;
++
+   return;
+  }     
+ 
+@@ -5495,10 +5512,13 @@
+       totalMass += mass[i];
+       sm[i] = totalMass;
+     }
++
+     if( totalMass >= totalEnergy ) {
+-      G4cerr << "*** Error in G4HEInelastic::GenerateNBodyEvent" << G4endl;
+-      G4cerr << "    total mass (" << totalMass << ") >= total energy ("
+-           << totalEnergy << ")" << G4endl;
++      if (verboseLevel > 1) {
++        G4cout << "*** Error in G4HEInelastic::GenerateNBodyEvent" << G4endl;
++        G4cout << "    total mass (" << totalMass << ") >= total energy ("
++               << totalEnergy << ")" << G4endl;
++      }
+       delete [] mass;
+       delete [] energy;
+       for( i=0; i<3; ++i )delete [] pcm[i];
+@@ -5506,6 +5526,7 @@
+       delete [] sm;
+       return -1.0;
+     }
++
+     G4double kineticEnergy = totalEnergy - totalMass;
+     G4double* emm = new G4double [vecLen];
+     emm[0] = mass[0];
+diff -Naur orig.geant4.9.1.p02/source/run/src/G4RunManagerKernel.cc geant4.9.1.p02/source/run/src/G4RunManagerKernel.cc
+--- orig.geant4.9.1.p02/source/run/src/G4RunManagerKernel.cc	2007-05-30 02:42:09.000000000 +0200
++++ geant4.9.1.p02/source/run/src/G4RunManagerKernel.cc	2008-07-12 12:29:06.000000000 +0200
+@@ -84,7 +84,7 @@
+ 
+   // construction of Geant4 kernel classes
+   eventManager = new G4EventManager();
+-  defaultRegion = new G4Region("DefaultRegionForTheWorld");
++  defaultRegion = new G4Region("DefaultRegionForTheWorld"); // deleted by store
+   defaultRegion->SetProductionCuts(
+     G4ProductionCutsTable::GetProductionCutsTable()->GetDefaultProductionCuts());
+ 
+@@ -129,8 +129,6 @@
+   }
+   delete eventManager;
+   if(verboseLevel>1) G4cout << "EventManager deleted." << G4endl;
+-  delete defaultRegion;
+-  if(verboseLevel>1) G4cout << "Default detector region deleted." << G4endl;
+   G4UImanager* pUImanager = G4UImanager::GetUIpointer();
+   {
+     if(pUImanager) delete pUImanager;
+@@ -188,7 +186,7 @@
+     }
+     std::vector<G4LogicalVolume*>::iterator lvItr
+      = defaultRegion->GetRootLogicalVolumeIterator();
+-    defaultRegion->RemoveRootLogicalVolume(*lvItr);
++    defaultRegion->RemoveRootLogicalVolume(*lvItr,false);
+     if(verboseLevel>1) G4cout 
+      << "Obsolete world logical volume is removed from the default region." << G4endl;
+   }
+@@ -305,11 +303,11 @@
+     return false;
+   }
+ 
+-  if(numberOfParallelWorld>0)
+-  { // Confirm G4CoupledTransportation is used 
+-    if(!ConfirmCoupledTransportation())
+-    { G4Exception("G4CoupledTransportation must be used for parallel world."); }
+-  }
++  //if(numberOfParallelWorld>0)
++  //{ // Confirm G4CoupledTransportation is used 
++  //  if(!ConfirmCoupledTransportation())
++  //  { G4Exception("G4CoupledTransportation must be used for parallel world."); }
++  //}
+     
+   UpdateRegion();
+   BuildPhysicsTables();

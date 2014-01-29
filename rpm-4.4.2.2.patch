@@ -1,0 +1,254 @@
+diff --git a/lib/fsm.c b/lib/fsm.c
+index 435bf71..7fd9403 100644
+--- a/lib/fsm.c
++++ b/lib/fsm.c
+@@ -2179,16 +2179,8 @@ if (!(fsm->mapFlags & CPIO_ALL_HARDLINKS)) break;
+ 	    }
+ 	break;
+     case FSM_LSETFCON:
+-	if (fsm->fcontext == NULL || *fsm->fcontext == '\0'
+-	 || !strcmp(fsm->fcontext, "<<none>>"))
+-	    break;
+-	rc = lsetfilecon(fsm->path, (security_context_t)fsm->fcontext);
+-	if (_fsm_debug && (stage & FSM_SYSCALL))
+-	    rpmMessage(RPMMESS_DEBUG, " %8s (%s, %s) %s\n", cur,
+-		fsm->path, fsm->fcontext,
+-		(rc < 0 ? strerror(errno) : ""));
+-	if (rc < 0) rc = (errno == EOPNOTSUPP ? 0 : CPIOERR_LSETFCON_FAILED);
+-	break;
++	rc = 0;
++    break;
+     case FSM_CHOWN:
+ 	rc = chown(fsm->path, st->st_uid, st->st_gid);
+ 	if (_fsm_debug && (stage & FSM_SYSCALL))
+diff --git a/lib/poptALL.c b/lib/poptALL.c
+index e1c6e43..45cf4b2 100644
+--- a/lib/poptALL.c
++++ b/lib/poptALL.c
+@@ -6,6 +6,7 @@
+ #include "system.h"
+ const char *__progname;
+ 
++#include <stdlib.h>
+ #include <rpmcli.h>
+ #include <fts.h>
+ 
+@@ -426,9 +427,17 @@ rpmcliInit(int argc, char *const argv[], struct poptOption * optionsTable)
+ /*@-nullpass -temptrans@*/
+     optCon = poptGetContext(__progname, argc, (const char **)argv, optionsTable, 0);
+ /*@=nullpass =temptrans@*/
+-    (void) poptReadConfigFile(optCon, LIBRPMALIAS_FILENAME);
++    if (getenv ("LIBRPMALIAS_FILENAME")) {
++        (void) poptReadConfigFile(optCon, getenv ("LIBRPMALIAS_FILENAME"));
++    } else {
++        (void) poptReadConfigFile(optCon, LIBRPMALIAS_FILENAME);
++    }
+     (void) poptReadDefaultConfig(optCon, 1);
+-    poptSetExecPath(optCon, RPMCONFIGDIR, 1);
++    if (getenv ("RPMCONFIGDIR")) {
++        poptSetExecPath(optCon, getenv ("RPMCONFIGDIR"), 1);
++    } else {
++        poptSetExecPath(optCon, RPMCONFIGDIR, 1);
++    }
+ 
+     /* Process all options, whine if unknown. */
+     while ((rc = poptGetNextOpt(optCon)) > 0) {
+diff --git a/lib/rpmrc.c b/lib/rpmrc.c
+index 00afa9d..6f86d9a 100644
+--- a/lib/rpmrc.c
++++ b/lib/rpmrc.c
+@@ -1774,6 +1774,10 @@ static int rpmReadRC(/*@null@*/ const char * rcfiles)
+     if (rcfiles == NULL)
+ 	rcfiles = defrcfiles;
+ 
++    if (getenv ("LIBRPMRC_FILENAME")) {
++        rcfiles = getenv ("LIBRPMRC_FILENAME");
++    }
++   
+     /* Read each file in rcfiles. */
+     rc = 0;
+     for (r = myrcfiles = xstrdup(rcfiles); r && *r != '\0'; r = re) {
+diff --git a/lua/local/userconfig.c b/lua/local/userconfig.c
+index 31369da..f77af38 100644
+--- a/lua/local/userconfig.c
++++ b/lua/local/userconfig.c
+@@ -52,7 +52,18 @@ static void mysaveline (lua_State *L, const char *s) {
+ static int luapath(lua_State *L)
+ {
+ 	lua_pushstring(L, "LUA_PATH");
+-	lua_pushstring(L, RPMCONFIGDIR "/lua/?.lua;?.lua");
++
++    if (getenv ("RPMCONFIGDIR"))
++        char *configdir = getenv ("RPMCONFIGDIR");
++    else
++        char *configdir = RPMCONFIGDIR;
++
++    int dotLuaPathStringSize = strlen (configdir) + strlen ("/lua/?.luai;?.lua") + 1;
++    char * dotLuaPathString = malloc (dotLuaPathStringSize);
++    strcpy (dotLuaPathString, configdir);
++    strcat (dotLuaPathString, "/lua/?.lua");
++
++	lua_pushstring(L, dotLuaPathString);
+ 	lua_rawset(L, LUA_GLOBALSINDEX);
+ 	return 0;
+ }
+diff --git a/rpmio/macro.c b/rpmio/macro.c
+index cf79c9c..bb53309 100644
+--- a/rpmio/macro.c
++++ b/rpmio/macro.c
+@@ -1981,7 +1981,10 @@ void
+ rpmInitMacros(MacroContext mc, const char * macrofiles)
+ {
+     char *mfiles, *m, *me;
+-
++    if (getenv ("RPM_MACROFILES")) {
++        macrofiles = getenv ("RPM_MACROFILES");
++    }
++    
+     if (macrofiles == NULL)
+ 	return;
+ #ifdef	DYING
+diff --git a/rpmio/rpmlua.c b/rpmio/rpmlua.c
+index 363216e..5e493ea 100644
+--- a/rpmio/rpmlua.c
++++ b/rpmio/rpmlua.c
+@@ -78,14 +78,31 @@ rpmlua rpmluaNew()
+ 	lua_settop(L, 0);
+     }
+     lua_pushliteral(L, "LUA_PATH");
+-    lua_pushstring(L, RPMCONFIGDIR "/lua/?.lua");
++    char *configdir = 0; 
++    if (getenv ("RPMCONFIGDIR"))
++        char *configdir = getenv ("RPMCONFIGDIR");
++    else
++        char *configdir = RPMCONFIGDIR;
++
++    int dotLuaStringSize = strlen (configdir) + strlen ("/lua/?.lua") + 1;
++    char * dotLuaString = malloc (dotLuaStringSize);
++    strcpy (dotLuaString, configdir);
++    strcat (dotLuaString, "/lua/?.lua");
++
++    lua_pushstring(L, dotLuaString);
+     lua_rawset(L, LUA_GLOBALSINDEX);
+     lua_pushliteral(L, "print");
+     lua_pushcfunction(L, rpm_print);
+     lua_rawset(L, LUA_GLOBALSINDEX);
+     rpmluaSetData(lua, "lua", lua);
+-    if (stat(RPMCONFIGDIR "/init.lua", &st) != -1)
+-	(void)rpmluaRunScriptFile(lua, RPMCONFIGDIR "/init.lua");
++    
++    int initLuaStringSize = strlen (configdir) + strlen ("/init.lua") + 1;
++    char * initLuaString = malloc (initLuaStringSize);
++    strcpy (initLuaString, configdir);
++    strcat (initLuaString, "/init.lua");
++
++    if (stat(initLuaString, &st) != -1)
++	(void)rpmluaRunScriptFile(lua, initLuaString);
+     return lua;
+ }
+ 
+diff --git a/rpmqv.c b/rpmqv.c
+index 070cbc9..48685f6 100644
+--- a/rpmqv.c
++++ b/rpmqv.c
+@@ -13,6 +13,7 @@ const char *__progname;
+ 
+ #include <rpmcli.h>
+ #include <rpmbuild.h>
++#include <stdlib.h>
+ 
+ #include "rpmdb.h"
+ #include "rpmps.h"
+@@ -292,9 +293,17 @@ int main(int argc, const char ** argv)
+     /*@-nullpass -temptrans@*/
+     optCon = poptGetContext(__progname, argc, argv, optionsTable, 0);
+     /*@=nullpass =temptrans@*/
+-    (void) poptReadConfigFile(optCon, LIBRPMALIAS_FILENAME);
++    if (getenv ("LIBRPMALIAS_FILENAME")) {
++        (void) poptReadConfigFile(optCon, getenv ("LIBRPMALIAS_FILENAME"));
++    } else {
++        (void) poptReadConfigFile(optCon, LIBRPMALIAS_FILENAME);
++    }
+     (void) poptReadDefaultConfig(optCon, 1);
+-    poptSetExecPath(optCon, RPMCONFIGDIR, 1);
++    if (getenv ("RPMCONFIGDIR")) {
++        poptSetExecPath(optCon, getenv ("RPMCONFIGDIR"), 1);
++    } else {
++        poptSetExecPath(optCon, RPMCONFIGDIR, 1);
++    }
+ 
+     while ((arg = poptGetNextOpt(optCon)) > 0) {
+ 	optArg = poptGetOptArg(optCon);
+commit 7116622cb0b30abe81ed0581cc197ea4be9fc00f
+Author: Giulio Eulisse <eulisse@iguana3.cern.ch>
+Date:   Thu Nov 22 00:45:47 2007 +0100
+
+    u_int changed to unsigned int
+
+diff --git a/file/src/readelf.c b/file/src/readelf.c
+index 6ca3ed9..62b1e47 100644
+--- a/file/src/readelf.c
++++ b/file/src/readelf.c
+@@ -392,10 +392,10 @@ donote(struct magic_set *ms, unsigned char *nbuf, size_t offset, size_t size,
+ 		 * p = patchlevel
+ 		 */
+ 		if (desc > 100000000U) {
+-			u_int ver_patch = (desc / 100) % 100;
+-			u_int ver_rel = (desc / 10000) % 100;
+-			u_int ver_min = (desc / 1000000) % 100;
+-			u_int ver_maj = desc / 100000000;
++			unsigned int ver_patch = (desc / 100) % 100;
++			unsigned int ver_rel = (desc / 10000) % 100;
++			unsigned int ver_min = (desc / 1000000) % 100;
++			unsigned int ver_maj = desc / 100000000;
+ 
+ 			if (file_printf(ms, " %u.%u", ver_maj, ver_min) == -1)
+ 				return size;
+commit 9201094954021e8ee4e74515500b86d5d39d8e4b
+Author: Giulio Eulisse <eulisse@iguana3.cern.ch>
+Date:   Thu Nov 22 02:49:53 2007 +0100
+
+    magic file picked up from env
+
+diff --git a/build/rpmfc.c b/build/rpmfc.c
+index 8ed27bc..f514d2e 100644
+--- a/build/rpmfc.c
++++ b/build/rpmfc.c
+@@ -1209,6 +1209,10 @@ int rpmfcClassify(rpmfc fc, ARGV_t argv, int_16 * fmode)
+     int xx;
+ /*@observer@*/
+     static const char * magicfile = "/usr/lib/rpm/magic";
++    if (getenv ("RPMMAGIC"))
++    {
++        magicfile = getenv ("RPMMAGIC");
++    }
+     int msflags = MAGIC_CHECK;	/* XXX MAGIC_COMPRESS flag? */
+     magic_t ms = NULL;
+ 
+commit 443765014fecdec97324f88cb0a2426d40c3894d
+Author: Giulio Eulisse <eulisse@iguana3.cern.ch>
+Date:   Thu Dec 6 00:36:14 2007 +0100
+
+    Skip conflict checking for extremely recurring basenames.
+    * For the moment skips BuildFile, __init__.py, Root, Repository.
+
+diff --git a/rpmdb/rpmdb.c b/rpmdb/rpmdb.c
+index 5ab5e56..b34c5bf 100644
+--- a/rpmdb/rpmdb.c
++++ b/rpmdb/rpmdb.c
+@@ -3446,6 +3446,15 @@ if (key->size == 0) key->size++;	/* XXX "/" fixup. */
+ 	if (skipDir(fpList[i].entry->dirName))
+ 	    continue;
+ 
++    if (!strcmp (fpList[i].baseName, "BuildFile"))
++        continue;
++    if (!strcmp (fpList[i].baseName, "__init__.py"))
++        continue;
++    if (!strcmp (fpList[i].baseName, "Root"))
++        continue;
++    if (!strcmp (fpList[i].baseName, "Repository"))
++        continue;
++
+ 	xx = rpmdbGrowIterator(mi, i);
+ 
+     }

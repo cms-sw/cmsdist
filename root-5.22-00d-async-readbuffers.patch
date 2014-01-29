@@ -1,0 +1,21 @@
+--- root/io/io/src/TFile.cxx	2010-11-21 23:01:42.000000000 +0100
++++ root/io/io/src/TFile.cxx	2010-11-21 22:50:04.000000000 +0100
+@@ -1342,6 +1342,18 @@
+    // This function is overloaded by TNetFile, TWebFile, etc.
+    // Returns kTRUE in case of failure.
+ 
++   // BUGFIX backported from trunk; handle case where buf=0
++   // called with buf=0, from TFileCacheRead to pass list of readahead buffers
++
++   if (!buf) {
++      for (Int_t j = 0; j < nbuf; j++) {
++         if (ReadBufferAsync(pos[j], len[j])) {
++             return kTRUE;
++         }
++      }
++      return kFALSE;
++   }
++
+    Int_t k = 0;
+    Bool_t result = kTRUE;
+    TFileCacheRead *old = fCacheRead;

@@ -1,0 +1,115 @@
+Index: SHERPA/Main/Makefile.am
+===================================================================
+--- SHERPA/Main/Makefile.am	(revision 11129)
++++ SHERPA/Main/Makefile.am	(revision 11130)
+@@ -4,7 +4,7 @@
+ 
+ pkginclude_HEADERS        =	Sherpa.H 
+ 
+-SYSLIBS	      =	$(FLIBS) -lm -ldl $(CONDITIONAL_THREADLIBS)
++SYSLIBS	      =	$(FCLIBS) -lm -ldl $(CONDITIONAL_THREADLIBS)
+ 
+ if LHAPDF_SUPPORT
+ PDFEXTRALIBS   = @CONDITIONAL_LHAPDFLIBS@
+Index: SHERPA/Run/Main.C
+===================================================================
+--- SHERPA/Run/Main.C	(revision 11129)
++++ SHERPA/Run/Main.C	(revision 11130)
+@@ -13,11 +13,11 @@
+ 
+ using namespace SHERPA;
+ 
+-#ifdef F77_MAIN
+-extern "C" int F77_MAIN(int argc,char* argv[]) 
+-#else
+-int main(int argc,char* argv[]) 
++#ifdef FC_DUMMY_MAIN
++extern "C" int FC_DUMMY_MAIN() { return 1; }
+ #endif
++
++int main(int argc,char* argv[])
+ {
+   ATOOLS::exh->Init();
+ #ifdef USING__ROOT
+Index: HADRONS++/Run/Makefile.am
+===================================================================
+--- HADRONS++/Run/Makefile.am	(revision 11129)
++++ HADRONS++/Run/Makefile.am	(revision 11130)
+@@ -5,7 +5,7 @@
+ 	HadronFullDecayInclusiveAnalysis \
+ 	PhotonAnalysis
+ 
+-FULL_LDADD = $(FLIBS) -lm -ldl -L$(pkglibdir) -lSherpaMain \
++FULL_LDADD = $(FCLIBS) -lm -ldl -L$(pkglibdir) -lSherpaMain \
+   @CONDITIONAL_ROOTLIBS@ @CONDITIONAL_LHAPDFLIBS@ @CONDITIONAL_HEPMC2LIBS@
+ 
+ SingleDecay_SOURCES = Main_SingleDecay.C
+Index: configure.in
+===================================================================
+--- configure.in	(revision 11129)
++++ configure.in	(revision 11130)
+@@ -14,8 +14,19 @@
+ AC_PROG_MAKE_SET
+ AC_PROG_CXX
+ AC_PROG_CC
+-AC_PROG_F77
+-AC_F77_LIBRARY_LDFLAGS
++
++AC_PROG_FC(g77 gfortran g95)
++AC_FC_LIBRARY_LDFLAGS
++AC_FC_WRAPPERS
++## Hack to make libtool use the FC Fortran compiler via F77, since
++## libtool < 2.x doesn't understand --tag=FC
++F77=$FC
++AM_FFLAGS=$AM_FCFLAGS
++AC_SUBST(F77)
++AC_SUBST(AM_FFLAGS)
++FORTRANLIBADD="$FCLIBS"
++AC_SUBST(FORTRANLIBADD)
++
+ AM_PROG_LIBTOOL
+ dnl Checks for header files.
+ AC_HEADER_STDC
+Index: ATOOLS/Org/CXXFLAGS.H.in
+===================================================================
+--- ATOOLS/Org/CXXFLAGS.H.in	(revision 11129)
++++ ATOOLS/Org/CXXFLAGS.H.in	(revision 11130)
+@@ -7,8 +7,12 @@
+ /* Architecture identified as Unix */
+ #undef ARCH_UNIX
+ 
+-/* alternate entry point */
+-#undef F77_MAIN
++/* Define to dummy `main' function (if any) required to link to the Fortran
++   libraries. */
++#undef FC_DUMMY_MAIN
++
++/* Define if F77 and FC dummy `main' functions are identical. */
++#undef FC_DUMMY_MAIN_EQ_F77
+ 
+ /* multithread support */
+ #undef USING__Threading
+Index: TOOLS/makeinstall
+===================================================================
+--- TOOLS/makeinstall-orig	2008-09-26 14:34:34.000000000 +0200
++++ TOOLS/makeinstall	2008-09-26 14:34:52.000000000 +0200
+@@ -221,12 +221,19 @@
+   exit 0;
+ fi
+ 
++sed -i -e 's/g77 //' configure.in
++
+ if test "$TOTAL" = "TRUE" ; then
+   rebuild_current
+ fi
+ if test "$CONFIGURE" = "TRUE" ; then
+   configure_current
+ fi 
++
++#-ap: remove deps on lib64 which cause problems when building for 32 bit arch:
++find . -name Makefile -exec sed -i -e 's|/usr/lib64/lib.*a||g' {} \;
++#-ap end
++
+ for I in $DIRS;
+ do
+   if test -d $I; then

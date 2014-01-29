@@ -1,0 +1,23 @@
+diff -Naur orig.sqlite-3.4.0/configure sqlite-3.4.0/configure
+--- sqlite-3.4.0/Makefile.in	2007-06-26 16:54:07.000000000 +0200
++++ sqlite-3.4.0/Makefile.in.new	2007-06-26 16:55:19.000000000 +0200
+@@ -294,7 +294,7 @@
+ 
+ sqlite3$(TEXE):	$(TOP)/src/shell.c libsqlite3.la sqlite3.h
+ 	$(LTLINK) $(READLINE_FLAGS) $(LIBPTHREAD) \
+-		-o $@ $(TOP)/src/shell.c libsqlite3.la \
++		-o $@ $(TOP)/src/shell.c -L$(TOP)/.libs  libsqlite3.la \
+ 		$(LIBREADLINE) $(TLIBS)
+ 
+ # This target creates a directory named "tsrc" and fills it with
+--- sqlite-3.4.0/configure  2007-06-12 14:18:00.000000000 +0200
++++ sqlite-3.4.0/configure.new	2007-06-26 17:12:16.000000000 +0200
+@@ -19528,7 +19528,7 @@
+   echo "$as_me: failed program was:" >&5
+ sed 's/^/| /' conftest.$ac_ext >&5
+ 
+-	ac_cv_lib_readline_readline=no
++	ac_cv_lib_readline_readline=yes
+ fi
+ 
+ rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \

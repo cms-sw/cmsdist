@@ -1,0 +1,34 @@
+diff -Naur orig.geant4.9.2.p01/source/digits_hits/utils/src/G4ScoreLogColorMap.cc geant4.9.2.p01/source/digits_hits/utils/src/G4ScoreLogColorMap.cc
+--- orig.geant4.9.2.p01/source/digits_hits/utils/src/G4ScoreLogColorMap.cc	2009-03-16 15:05:42.000000000 +0100
++++ geant4.9.2.p01/source/digits_hits/utils/src/G4ScoreLogColorMap.cc	2009-05-07 19:18:41.000000000 +0200
+@@ -30,7 +30,7 @@
+ 
+ #include "G4ScoreLogColorMap.hh"
+ #include <cmath>
+-
++#include <cstdio>
+ 
+ #include "G4VVisManager.hh"
+ #include "G4VisAttributes.hh"
+diff -Naur orig.geant4.9.2.p01/source/digits_hits/utils/src/G4VScoreColorMap.cc geant4.9.2.p01/source/digits_hits/utils/src/G4VScoreColorMap.cc
+--- orig.geant4.9.2.p01/source/digits_hits/utils/src/G4VScoreColorMap.cc	2009-03-16 15:05:42.000000000 +0100
++++ geant4.9.2.p01/source/digits_hits/utils/src/G4VScoreColorMap.cc	2009-05-07 20:30:25.000000000 +0200
+@@ -36,6 +36,7 @@
+ #include "G4Circle.hh"
+ #include "G4Polyline.hh"
+ #include "G4Colour.hh"
++#include <cstdio>
+ 
+ G4VScoreColorMap::G4VScoreColorMap(G4String mName)
+ :fName(mName),ifFloat(true),fMinVal(0.),fMaxVal(DBL_MAX)
+diff -Naur orig.geant4.9.2.p01/source/visualization/HepRep/include/cheprep/DeflateOutputStreamBuffer.h geant4.9.2.p01/source/visualization/HepRep/include/cheprep/DeflateOutputStreamBuffer.h
+--- orig.geant4.9.2.p01/source/visualization/HepRep/include/cheprep/DeflateOutputStreamBuffer.h	2009-03-16 15:06:51.000000000 +0100
++++ geant4.9.2.p01/source/visualization/HepRep/include/cheprep/DeflateOutputStreamBuffer.h	2009-05-07 19:18:50.000000000 +0200
+@@ -5,6 +5,7 @@
+ #include <vector>
+ #include <iostream>
+ #include <string>
++#include <cstdio>
+ 
+ #ifndef CHEPREP_NO_ZLIB
+ #include <zlib.h>

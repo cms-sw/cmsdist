@@ -1,0 +1,516 @@
+--- xmlrpc.py.orig	Wed Apr 30 14:30:03 2003
++++ xmlrpc.py	Wed Apr 30 14:29:50 2003
+@@ -291,6 +291,14 @@
+ def buildRequest(uri, method, params, addInfo={}):
+ 	return _xmlrpc.buildRequest(uri, method, params, addInfo)
+ 
++# build a string representing a xmlrpc request with no headers
++# method must be a string which is the name of the remote function
++# params must be a sequence of some sort
++# addInfo is a dictionary of additional header information
++#
++def buildRequestXML(method, params):
++	return _xmlrpc.buildRequestXML(method, params)
++
+ 
+ # build a string representing a xmlrpc response
+ # result is the result object to be returned to the client
+@@ -299,6 +307,12 @@
+ def buildResponse(result, addInfo={}):
+ 	return _xmlrpc.buildResponse(result, addInfo)
+ 
++# build a string representing a xmlrpc response with no headers
++# result is the result object to be returned to the client
++# addInfo is a dictionary of additional header information
++#
++def buildResponseXML(result):
++	return _xmlrpc.buildResponseXML(result)
+ 
+ # build a string representing a xmlrpc fault
+ # errCode is an integer representing the error
+@@ -308,6 +322,14 @@
+ def buildFault(errCode, errStr, addInfo={}):
+ 	return _xmlrpc.buildFault(errCode, errStr, addInfo)
+ 
++# build a string representing a xmlrpc fault
++# errCode is an integer representing the error
++# errStr is a string representing the error
++# No headers are generated
++def buildFaultXML(errCode, errStr, addInfo={}):
++	return _xmlrpc.buildFaultXML(errCode, errStr)
++
++
+ 
+ # parse a string representing a xmlrpc response
+ # a tuple of the result and any additional header info are included
+@@ -316,9 +338,22 @@
+ def parseResponse(response):
+ 	return _xmlrpc.parseResponse(response)
+ 
++# parse a string representing a xmlrpc response excluding headers
++# a tuple of the result is returned
++# if a fault page is parsed, a corresponding exception is raised
++#
++def parseResponseXML(response):
++	return _xmlrpc.parseResponseXML(response)
++
+ 
+ # parse a string representing a xmlrpc request
+ # a tuple of the method name, params, and additional header info are included
+ #
+ def parseRequest(request):
+ 	return _xmlrpc.parseRequest(request)
++
++# parse a string representing a xmlrpc request, without http headers
++# a tuple of the method name and params are included
++#
++def parseRequestXML(request):
++	return _xmlrpc.parseRequestXML(request)
+--- src/rpcUtils.c.orig	Wed Apr 30 14:37:27 2003
++++ src/rpcUtils.c	Wed Apr 30 14:51:34 2003
+@@ -999,6 +999,58 @@
+ 	return res;
+ }
+ 
++/*
++ * build a request for a remote procedure call without headers
++ */
++PyObject *
++buildRequestXML(char *method, PyObject *params)
++{
++	PyObject	*res,
++			*elem;
++	strBuff		*body;
++	int		i;
++
++	assert(PySequence_Check(params));
++	body = newBuff();
++	if ((body == NULL)
++	or  (buffConcat(body, "<?xml version=\"1.0\"?>") == NULL)
++	or  (buffConcat(body, EOL) == NULL)
++	or  (buffConcat(body, "<methodCall>") == NULL)
++	or  (buffConcat(body, EOL) == NULL)
++	or  (buffConcat(body, "\t<methodName>") == NULL)
++	or  (buffConcat(body, method) == NULL)
++	or  (buffConcat(body, "</methodName>") == NULL)
++	or  (buffConcat(body, EOL) == NULL))
++		return NULL;
++	if ((buffConcat(body, "\t<params>") == NULL)
++	or  (buffConcat(body, EOL) == NULL))
++		return NULL;
++	for (i = 0; i < PyObject_Length(params); ++i) {
++		elem = PySequence_GetItem(params, i);
++		if (elem == NULL)
++			return NULL;
++		if ((buffConcat(body, "\t\t<param>") == NULL)
++		or  (buffConcat(body, EOL) == NULL)
++		or  (buffConcat(body, "\t\t\t") == NULL)
++		or  (encodeValue(body, elem, 3) == NULL)
++		or  (buffConcat(body, EOL) == NULL)
++		or  (buffConcat(body, "\t\t</param>") == NULL)
++		or  (buffConcat(body, EOL) == NULL))
++			return NULL;
++		Py_DECREF(elem);
++	}
++	if ((buffConcat(body, "\t</params>") == NULL)
++	or  (buffConcat(body, EOL) == NULL))
++		return NULL;
++	if (buffConcat(body, "</methodCall>") == NULL)
++		return NULL;
++
++	res = PyString_FromStringAndSize(body->beg, body->len);
++	freeBuff(body);
++
++	return res;
++}
++
+ 
+ /*
+  * build a response to a remote procedure call
+@@ -1042,6 +1094,42 @@
+ 	return res;
+ }
+ 
++/*
++ * build a response to a remote procedure call without headers
++ */
++PyObject *
++buildResponseXML(PyObject *result)
++{
++	PyObject	*res;
++	strBuff		*body;
++
++	body = newBuff();
++	if ((body == NULL)
++	or  (buffConcat(body, "<?xml version=\"1.0\"?>") == NULL)
++	or  (buffConcat(body, EOL) == NULL)
++	or  (buffConcat(body, "<methodResponse>") == NULL)
++	or  (buffConcat(body, EOL) == NULL)
++	or  (buffConcat(body, "\t<params>") == NULL)
++	or  (buffConcat(body, EOL) == NULL)
++	or  (buffConcat(body, "\t\t<param>") == NULL)
++	or  (buffConcat(body, EOL) == NULL)
++	or  (buffConcat(body, "\t\t\t") == NULL)
++	or  (encodeValue(body, result, 3) == NULL)
++	or  (buffConcat(body, EOL) == NULL)
++	or  (buffConcat(body, "\t\t</param>") == NULL)
++	or  (buffConcat(body, EOL) == NULL)
++	or  (buffConcat(body, "\t</params>") == NULL)
++	or  (buffConcat(body, EOL) == NULL)
++	or  (buffConcat(body, "</methodResponse>") == NULL)
++	or  (buffConcat(body, EOL) == NULL))
++		return NULL;
++
++	res = PyString_FromStringAndSize(body->beg, body->len);
++	freeBuff(body);
++
++	return res;
++}
++
+ 
+ /*
+  * build a fault response
+@@ -1087,6 +1175,43 @@
+ 	return res;
+ }
+ 
++/*
++ * build a fault response without headers
++ */
++PyObject *
++buildFaultXML(int errCode, char *errStr)
++{
++	PyObject	*error,
++			*res;
++	strBuff		*body;
++
++	error = Py_BuildValue("{s: i, s: s}",
++			"faultCode", errCode,
++			"faultString", errStr);
++	if (error == NULL)
++		return NULL;
++	body = newBuff();
++	if ((body == NULL)
++	or  (buffConcat(body, "<?xml version=\"1.0\"?>") == NULL)
++	or  (buffConcat(body, EOL) == NULL)
++	or  (buffConcat(body, "<methodResponse>") == NULL)
++	or  (buffConcat(body, EOL) == NULL)
++	or  (buffConcat(body, "\t<fault>") == NULL)
++	or  (buffConcat(body, EOL) == NULL)
++	or  (buffConcat(body, "\t\t") == NULL)
++	or  (encodeValue(body, error, 2) == NULL)
++	or  (buffConcat(body, EOL) == NULL)
++	or  (buffConcat(body, "\t</fault>") == NULL)
++	or  (buffConcat(body, EOL) == NULL)
++	or  (buffConcat(body, "</methodResponse>") == NULL))
++		return NULL;
++	Py_DECREF(error);
++
++	res = PyString_FromStringAndSize(body->beg, body->len);
++	freeBuff(body);
++
++	return res;
++}
+ 
+ 
+ static strBuff *
+@@ -1234,6 +1359,71 @@
+ 	return tuple;
+ }
+ 
++PyObject *
++parseRequestXML(PyObject *request)
++{
++	PyObject	*method,
++			*params,
++			*tuple;
++	ulong		lines;
++	char		*cp,
++			*ep,
++			*tp;
++	lines = 1;
++	cp = PyString_AS_STRING(request);
++	ep = cp + PyObject_Length(request);
++	unless ((findXmlVersion(&cp, ep, &lines))
++	and     (findTag("<methodCall>", &cp, ep, &lines, true))
++	and     (findTag("<methodName>", &cp, ep, &lines, false))) {
++		return NULL;
++	}
++	tp = cp;
++	for (; cp < ep; ++cp)
++		if (*cp == '\n')
++			lines++;
++		else if (strncmp("</methodName>", cp, 13) == 0)
++			break;
++	if (cp >= ep) {
++		return eosErr();
++	}
++	method = PyString_FromStringAndSize(tp, cp - tp);
++	if (method == NULL) {
++		return NULL;
++	}
++	unless (findTag("</methodName>", &cp, ep, &lines, true)) {
++		Py_DECREF(method);
++		return NULL;
++	}
++	params = PyList_New(0);
++	if (params == NULL) {
++		Py_DECREF(method);
++		return NULL;
++	}
++	if ((strncmp("<params>", cp, 8) == 0)
++	and (not parseParams(&cp, ep, &lines, params))) {
++		Py_DECREF(method);
++		Py_DECREF(params);
++		return NULL;
++	}
++	unless (findTag("</methodCall>", &cp, ep, &lines, false)) {
++		Py_DECREF(method);
++		Py_DECREF(params);
++		return NULL;
++	}
++	chompStr(&cp, ep, &lines);
++	if (cp != ep) {
++		Py_DECREF(method);
++		Py_DECREF(params);
++		return setPyErr("unused data when parsing response");
++	}
++
++	tuple = Py_BuildValue("(O, O)", method, params);
++	Py_DECREF(method);
++	Py_DECREF(params);
++
++	return tuple;
++}
++
+ 
+ bool
+ parseParams(char **cpp, char *ep, ulong *linep, PyObject *params)
+@@ -1554,6 +1744,50 @@
+ 	return tuple;
+ }
+ 
++PyObject *
++parseResponseXML(PyObject *request)
++{
++	PyObject	*tuple,
++			*addInfo,
++			*result;
++	ulong		lines;
++	char		*cp,
++			*ep;
++
++	lines = 1;
++	cp = PyString_AS_STRING(request);
++	ep = cp + PyObject_Length(request);
++	unless ((findXmlVersion(&cp, ep, &lines))
++	and     (findTag("<methodResponse>", &cp, ep, &lines, true))) {
++		return NULL;
++	}
++	if (strncmp("<fault>", cp, 7) == 0) {
++		return parseFault(cp, ep, lines);
++	}
++	unless ((findTag("<params>", &cp, ep, &lines, true))
++	and     (findTag("<param>", &cp, ep, &lines, true))) {
++		return NULL;
++	}
++	result = decodeValue(&cp, ep, &lines);
++	if (result == NULL) {
++		return NULL;
++	}
++	unless ((findTag("</param>", &cp, ep, &lines, true))
++	and     (findTag("</params>", &cp, ep, &lines, true))
++	and     (findTag("</methodResponse>", &cp, ep, &lines, false))) {
++		Py_DECREF(result);
++		return NULL;
++	}
++	chompStr(&cp, ep, &lines);
++	if (cp != ep) {
++		Py_DECREF(result);
++		return setPyErr("unused data when parsing response");
++	}
++
++	return result;
++}
++
++
+ 
+ static PyObject *
+ parseFault(char *cp, char *ep, long lines)
+--- src/rpcUtils.h.orig	Wed Apr 30 14:37:34 2003
++++ src/rpcUtils.h	Wed Apr 30 14:37:59 2003
+@@ -26,14 +26,25 @@
+ 			PyObject *params,
+ 			PyObject *addInfo
+ 		);
++PyObject	*buildRequestXML(
++			char *method,
++			PyObject *params
++		);
+ PyObject	*buildFault(
+ 			int errCode,
+ 			char *errStr,
+ 			PyObject *addInfo
+ 		);
++PyObject	*buildFaultXML(
++			int errCode,
++			char *errStr
++		);		
+ PyObject	*buildResponse(PyObject *result, PyObject *addInfo);
++PyObject	*buildResponseXML(PyObject *result);
+ PyObject	*parseRequest(PyObject *request);
++PyObject	*parseRequestXML(PyObject *request);
+ PyObject	*parseResponse(PyObject *request);
++PyObject	*parseResponseXML(PyObject *request);
+ bool		doKeepAlive(PyObject *header, int reqType);
+ bool		doKeepAliveFromDict(PyObject *addInfo);
+ 
+--- src/xmlrpcmodule.c.orig	Wed Apr 30 14:32:18 2003
++++ src/xmlrpcmodule.c	Wed Apr 30 14:47:36 2003
+@@ -63,10 +63,15 @@
+ static PyObject		*rpcEncode(PyObject *self, PyObject *args);
+ static PyObject		*rpcDecode(PyObject *self, PyObject *args);
+ static PyObject		*rpcBuildRequest(PyObject *self, PyObject *args);
++static PyObject		*rpcBuildRequestXML(PyObject *self, PyObject *args);
+ static PyObject		*rpcBuildResponse(PyObject *self, PyObject *args);
++static PyObject		*rpcBuildResponseXML(PyObject *self, PyObject *args);
+ static PyObject		*rpcBuildFault(PyObject *self, PyObject *args);
++static PyObject		*rpcBuildFaultXML(PyObject *self, PyObject *args);
+ static PyObject		*rpcParseResponse(PyObject *self, PyObject *args);
++static PyObject		*rpcParseResponseXML(PyObject *self, PyObject *args);
+ static PyObject		*rpcParseRequest(PyObject *self, PyObject *args);
++static PyObject		*rpcParseRequestXML(PyObject *self, PyObject *args);
+ static void		*setPyErr(char *error);
+ static int		insint(PyObject *d, char *name, int value);
+ static int		insstr(PyObject *d, char *name, char *value);
+@@ -86,10 +91,15 @@
+ 	{ "encode",		(PyCFunction)rpcEncode,			1, },
+ 	{ "decode",		(PyCFunction)rpcDecode,			1, },
+ 	{ "buildRequest",	(PyCFunction)rpcBuildRequest,		1, },
++	{ "buildRequestXML",	(PyCFunction)rpcBuildRequestXML,		1, },
+ 	{ "buildResponse",	(PyCFunction)rpcBuildResponse,		1, },
++	{ "buildResponseXML",	(PyCFunction)rpcBuildResponseXML,		1, },
+ 	{ "buildFault",		(PyCFunction)rpcBuildFault,		1, },
++	{ "buildFaultXML",	(PyCFunction)rpcBuildFaultXML,		1, },
+ 	{ "parseResponse",	(PyCFunction)rpcParseResponse,		1, },
++	{ "parseResponseXML",	(PyCFunction)rpcParseResponseXML,		1, },
+ 	{ "parseRequest",	(PyCFunction)rpcParseRequest,		1, },
++	{ "parseRequestXML",	(PyCFunction)rpcParseRequestXML,	1, },	
+ 	{ "setLogLevel",	(PyCFunction)pySetLogLevel,		1, },
+ 	{ "getDateFormat",	(PyCFunction)getDateFormat,		1, },
+ 	{ "setDateFormat",	(PyCFunction)setDateFormat,		1, },
+@@ -324,6 +334,24 @@
+ 
+ 
+ /*
++ * module procedure: encode an object in xml without headers
++ */
++static PyObject *
++rpcBuildRequestXML(PyObject *self, PyObject *args)
++{
++	char		*method;
++	PyObject	*params;
++
++	unless (PyArg_ParseTuple(args, "sO",
++				&method, &params))
++		return NULL;
++	unless (PySequence_Check(params))
++		return setPyErr("build request params must be a sequence");
++	return buildRequestXML(method, params);
++}
++
++
++/*
+  * module procedure: encode an object in xml
+  */
+ static PyObject *
+@@ -340,6 +368,20 @@
+ 	return buildResponse(result, addInfo);
+ }
+ 
++/*
++ * module procedure: encode an object in xml without headers
++ */
++static PyObject *
++rpcBuildResponseXML(PyObject *self, PyObject *args)
++{
++	PyObject	*result;
++
++	unless (PyArg_ParseTuple(args, "O", &result))
++		return NULL;
++
++	return buildResponseXML(result);
++}
++
+ 
+ /*
+  * module procedure: encode an object in xml
+@@ -359,6 +401,21 @@
+ 	return buildFault(errCode, errStr, addInfo);
+ }
+ 
++/*
++ * module procedure: build a fault object in xml, no headers
++ */
++static PyObject *
++rpcBuildFaultXML(PyObject *self, PyObject *args)
++{
++	int		errCode;
++	char		*errStr;
++
++	unless (PyArg_ParseTuple(args, "is", &errCode, &errStr))
++		return NULL;
++
++	return buildFaultXML(errCode, errStr);
++}
++
+ 
+ /*
+  * module procedure: encode an object in xml
+@@ -376,6 +433,22 @@
+ 	return parseResponse(response);
+ }
+ 
++/*
++ * module procedure: encode an object in xml
++ */
++static PyObject *
++rpcParseResponseXML(PyObject *self, PyObject *args)
++{
++	PyObject	*response;
++
++	unless (PyArg_ParseTuple(args, "O", &response))
++		return NULL;
++	unless (PyString_Check(response))
++		return setPyErr("response must be a string");
++
++	return parseResponseXML(response);
++}
++
+ 
+ /*
+  * module procedure: encode an object in xml
+@@ -394,6 +467,23 @@
+ }
+ 
+ /*
++ * module procedure: encode an object in xml
++ */
++static PyObject *
++rpcParseRequestXML(PyObject *self, PyObject *args)
++{
++	PyObject	*request;
++
++	unless (PyArg_ParseTuple(args, "O", &request))
++		return NULL;
++	unless (PyString_Check(request))
++		return setPyErr("request must be a string");
++
++	return parseRequestXML(request);
++}
++
++
++/*
+  * module initialization done at load time
+  */
+ void

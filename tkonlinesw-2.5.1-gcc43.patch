@@ -1,0 +1,65 @@
+diff -Naur orig.trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/include/Fed9UDescription.hh trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/include/Fed9UDescription.hh
+--- orig.trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/include/Fed9UDescription.hh	2008-04-24 17:26:48.000000000 +0200
++++ trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/include/Fed9UDescription.hh	2008-11-25 14:44:24.000000000 +0100
+@@ -29,6 +29,7 @@
+ #include <string>
+ #include <vector>
+ #include <iosfwd>
++#include <cstring>
+ 
+ // This version number must be incremented whenever
+ // a change is made to the description strage format:
+diff -Naur orig.trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9UAddress.cc trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9UAddress.cc
+--- orig.trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9UAddress.cc	2007-04-24 15:53:37.000000000 +0200
++++ trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9UAddress.cc	2008-11-25 14:37:44.000000000 +0100
+@@ -3,6 +3,7 @@
+ #include "ICAssert.hh"
+ #include <iostream>
+ #include <cmath>
++#include <cstdlib>
+ 
+ namespace Fed9U {
+ 
+diff -Naur orig.trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9UBufferGenerator.cc trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9UBufferGenerator.cc
+--- orig.trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9UBufferGenerator.cc	2008-01-24 18:03:33.000000000 +0100
++++ trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9UBufferGenerator.cc	2008-11-25 14:42:35.000000000 +0100
+@@ -1,5 +1,6 @@
+ #include "Fed9UBufferGenerator.hh"
+ #include "Fed9UBufferCreator.hh"
++#include <cstring>
+ 
+ namespace Fed9U {
+ 
+diff -Naur orig.trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9UDescription.cc trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9UDescription.cc
+--- orig.trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9UDescription.cc	2008-04-24 17:26:48.000000000 +0200
++++ trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9UDescription.cc	2008-11-25 14:46:16.000000000 +0100
+@@ -7,6 +7,7 @@
+ // </NAC>
+ 
+ #include <iostream>
++#include <cstdlib>
+ 
+ // This version number must be incremented whenever
+ // a change is made to the description storage format:
+diff -Naur orig.trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9UDescriptionCreator.cc trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9UDescriptionCreator.cc
+--- orig.trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9UDescriptionCreator.cc	2006-08-31 13:29:01.000000000 +0200
++++ trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9UDescriptionCreator.cc	2008-11-25 14:48:14.000000000 +0100
+@@ -2,6 +2,7 @@
+ #include <string>
+ #include "TypeDefs.hh"
+ #include "ICExImpl.hh"
++#include <cstdlib>
+ 
+ //using namespace std;
+ 
+diff -Naur orig.trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9ULog.cc trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9ULog.cc
+--- orig.trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9ULog.cc	2006-12-20 18:22:04.000000000 +0100
++++ trackerDAQ-2.5.1/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/src/Fed9ULog.cc	2008-11-25 14:51:09.000000000 +0100
+@@ -8,6 +8,7 @@
+ #include <sys/time.h>
+ #include <exception>
+ #include <iostream>
++#include <cstdlib>
+ 
+ namespace Fed9U {
+   

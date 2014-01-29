@@ -1,0 +1,10 @@
+--- orig.trackerDAQ-2.5.1/FecSoftwareV3_0/generic/include/keyType.h	2007-08-16 18:38:50.000000000 +0200
++++ trackerDAQ-2.5.1/FecSoftwareV3_0/generic/include/keyType.h	2010-01-27 07:26:16.000000000 +0100
+@@ -20,6 +20,7 @@
+ #ifndef KEYTYPE_H
+ #define KEYTYPE_H
+ 
++#include <cstdio>
+ #include <asm/types.h>
+ 
+ /* This file define the key to define a unique device, channel, ...   */

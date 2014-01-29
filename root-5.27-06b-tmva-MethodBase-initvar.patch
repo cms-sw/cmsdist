@@ -1,0 +1,11 @@
+diff -Naur orig.root/tmva/src/MethodBase.cxx root/tmva/src/MethodBase.cxx
+--- orig.root/tmva/src/MethodBase.cxx	2010-11-05 15:46:50.000000000 +0100
++++ root/tmva/src/MethodBase.cxx	2010-12-02 14:43:14.000000000 +0100
+@@ -188,6 +188,7 @@
+    IMethod(),
+    Configurable(""),
+    fTmpEvent                  ( 0 ),
++   fAnalysisType              ( Types::kNoAnalysisType ),
+    fDataSetInfo               ( dsi ),
+    fSignalReferenceCut        ( 0.5 ),
+    fVariableTransformType     ( Types::kSignal ),

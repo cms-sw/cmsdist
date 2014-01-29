@@ -1,0 +1,13 @@
+--- setup.py	2005-06-14 03:20:22.000000000 +0200
++++ setup.py.new	2007-02-01 11:55:58.000000000 +0100
+@@ -116,8 +116,8 @@
+         build_ext.build_extensions(self)
+ 
+     def detect_modules (self):
+-        lib_dirs = self.compiler.library_dirs + ['/lib', '/usr/lib']
+-        inc_dirs = self.compiler.include_dirs + ['/usr/include']
++        lib_dirs = self.compiler.library_dirs + ['@GMP_LIBDIR@']
++        inc_dirs = self.compiler.include_dirs + ['@GMP_INCLUDEDIR@']
+         exts = []
+         if (self.compiler.find_library_file(lib_dirs, 'gmp')):
+             exts.append(Extension("Crypto.PublicKey._fastmath",

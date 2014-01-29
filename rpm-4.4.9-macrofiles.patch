@@ -1,0 +1,65 @@
+--- rpmio/macro.c	2007-05-19 21:13:03.000000000 +0200
++++ rpmio/macro.c.new	2007-06-21 12:03:36.000000000 +0200
+@@ -2445,7 +2445,11 @@
+ 	exit(1);
+     }
+ 
+-    rpmInitMacros(NULL, rpmMacrofiles);
++    if (getenv ("RPM_MACROFILES")) {
++        rpmInitMacros(NULL, getenv ("RPM_MACROFILES"));
++    } else {
++        rpmInitMacros(NULL, rpmMacrofiles);
++    }
+     for ( ; optind < argc; optind++) {
+ 	const char *val;
+ 
+@@ -2471,7 +2475,12 @@
+     FILE *fp;
+     int x;
+ 
+-    rpmInitMacros(NULL, rpmMacrofiles);
++    if (getenv ("RPM_MACROFILES")) {
++        rpmInitMacros(NULL, getenv ("RPM_MACROFILES"));
++    } else {
++        rpmInitMacros(NULL, rpmMacrofiles);
++    }
++    
+     rpmDumpMacroTable(NULL, NULL);
+ 
+     if ((fp = fopen(testfile, "r")) != NULL) {
+--- lib/rpmrc.c	2007-06-21 12:07:01.000000000 +0200
++++ lib/rpmrc.c.new	2007-06-21 12:11:59.000000000 +0200
+@@ -16,6 +16,7 @@
+ #include <rpmmacro.h>
+ #include <rpmlua.h>
+ #include <rpmds.h>
++#include <stdlib.h>
+ 
+ #define _MIRE_INTERNAL
+ #include <mire.h>
+@@ -1955,7 +1956,11 @@
+     {	const char *mfpath = rpmGetVarArch(RPMVAR_MACROFILES, NULL);
+ 
+ 	if (mfpath == NULL)
+-	    mfpath = rpmExpand(rpmMacrofiles, NULL);
++        if (getenv ("RPM_MACROFILES")) {
++	        mfpath = rpmExpand(getenv ("RPM_MACROFILES"), NULL);
++        } else {
++	        mfpath = rpmExpand(rpmMacrofiles, NULL);
++        }
+ 	else
+ 	    mfpath = xstrdup(mfpath);
+ 	    
+@@ -2071,7 +2076,11 @@
+ 	fprintf(fp, "%-21s : %s\n", "optflags", ((s && *s) ? s : "(not set)"));
+ 	s = _free(s);
+ /*@-globs@*/
+-	s = rpmExpand(rpmMacrofiles, NULL);
++    if (getenv ("RPM_MACROFILES")) {
++        s = rpmExpand(getenv ("RPM_MACROFILES"), NULL);
++    } else {
++        s = rpmExpand(rpmMacrofiles, NULL);
++    }
+ /*@=globs@*/
+ 	fprintf(fp, "\nMACRO DEFINITIONS:\n");
+ 	fprintf(fp, "%-21s : %s\n", "macrofiles", ((s && *s) ? s : "(not set)"));

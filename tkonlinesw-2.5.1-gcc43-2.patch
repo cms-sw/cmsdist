@@ -1,0 +1,35 @@
+diff -Naur orig.trackerDAQ-2.5.1/FecSoftwareV3_0/generic/include/FecExceptionHandler.h trackerDAQ-2.5.1/FecSoftwareV3_0/generic/include/FecExceptionHandler.h
+--- orig.trackerDAQ-2.5.1/FecSoftwareV3_0/generic/include/FecExceptionHandler.h	2008-06-02 16:43:13.000000000 +0200
++++ trackerDAQ-2.5.1/FecSoftwareV3_0/generic/include/FecExceptionHandler.h	2009-09-11 23:52:15.000000000 +0200
+@@ -27,7 +27,7 @@
+ 
+ #include <cstdio>  // snprintf
+ #include <cstdlib>
+-//#include <string.h> // strcpy
++#include <cstring> // memset
+ //#include <time.h>   // time
+ 
+ #include "keyType.h"
+diff -Naur orig.trackerDAQ-2.5.1/FecSoftwareV3_0/generic/include/FecRingRegisters.h trackerDAQ-2.5.1/FecSoftwareV3_0/generic/include/FecRingRegisters.h
+--- orig.trackerDAQ-2.5.1/FecSoftwareV3_0/generic/include/FecRingRegisters.h	2008-05-09 14:48:32.000000000 +0200
++++ trackerDAQ-2.5.1/FecSoftwareV3_0/generic/include/FecRingRegisters.h	2009-09-11 23:51:16.000000000 +0200
+@@ -22,7 +22,7 @@
+ 
+ #include <iostream>
+ #include <string>
+-
++#include <cstring>
+ 
+ #include "keyType.h"
+ #include "tscTypes.h"
+diff -Naur orig.trackerDAQ-2.5.1/FecSoftwareV3_0/generic/include/hashMapDefinition.h trackerDAQ-2.5.1/FecSoftwareV3_0/generic/include/hashMapDefinition.h
+--- orig.trackerDAQ-2.5.1/FecSoftwareV3_0/generic/include/hashMapDefinition.h	2007-08-23 17:02:02.000000000 +0200
++++ trackerDAQ-2.5.1/FecSoftwareV3_0/generic/include/hashMapDefinition.h	2009-09-11 23:45:11.000000000 +0200
+@@ -37,6 +37,7 @@
+ #else      // ...  there are other compilers, right?
+ namespace Sgi = std;
+ #endif
++#include <cstring>
+ 
+ // To have hash_map hash_map<const char *, ...>
+ // Please remarks that hash_map<std::string, ...> does not work at all. 

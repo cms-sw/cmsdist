@@ -1,0 +1,11 @@
+--- orig.thepeg/1.6.1/Vectors/HepMCTraits.h	2009-11-13 13:49:29.000000000 +0100
++++ thepeg/1.6.1/Vectors/HepMCTraits.h	2010-03-10 14:17:26.000000000 +0100
+@@ -120,7 +120,7 @@
+    */
+   static Length lengthUnit(const EventT & e) {
+ #ifdef HEPMC_HAS_UNITS   
+-    return e.momentum_unit() == HepMC::Units::CM? centimeter: millimeter;
++    return e.length_unit() == HepMC::Units::CM? centimeter: millimeter;
+ #else
+     return millimeter;
+ #endif

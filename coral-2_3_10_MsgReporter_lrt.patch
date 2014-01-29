@@ -1,0 +1,11 @@
+--- orig.src/CoralBase/src/MsgReporter.cpp	2010-02-15 14:47:52.000000000 +0100
++++ src/CoralBase/src/MsgReporter.cpp	2010-08-27 10:42:59.000000000 +0200
+@@ -149,7 +149,7 @@
+ #else
+     timespec tspec;
+ 
+-    clock_gettime(CLOCK_MONOTONIC, &tspec);
++    //clock_gettime(CLOCK_MONOTONIC, &tspec);
+ 
+     time_t t01 = time(0);
+     //transform the time to human readable

@@ -1,0 +1,11 @@
+--- orig.doxygen-1.4.1/qtools/qvaluestack.h	2003-12-14 23:00:57.000000000 +0100
++++ doxygen-1.4.1/qtools/qvaluestack.h	2007-06-28 12:28:04.000000000 +0200
+@@ -54,7 +54,7 @@
+     {
+ 	T elem( this->last() );
+ 	if ( !this->isEmpty() )
+-	    remove( this->fromLast() );
++	    this->remove( this->fromLast() );
+ 	return elem;
+     }
+     T& top() { return this->last(); }

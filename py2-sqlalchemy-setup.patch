@@ -1,0 +1,23 @@
+diff --git a/setup.py b/setup.py
+index 092d0d5..a2ab53c 100644
+--- a/setup.py
++++ b/setup.py
+@@ -1,6 +1,15 @@
+-from ez_setup import use_setuptools
+-use_setuptools()
+-from setuptools import setup, find_packages
++from distutils.core import setup
++is_setuptools = False
++from commands import getstatusoutput
++import sys
++
++def find_packages (directory):
++    error, output = getstatusoutput (("""
++find %(directory)s/sqlalchemy -name __init__.py | sed -e 's|%(directory)s/||;s|/|.|g;s|.__init__.py||'
++""" % locals ()).strip ('\n'))
++    if error:
++        sys.exit (1)
++    return output.split ("\n")
+ 
+ setup(name = "SQLAlchemy",
+     version = "0.3.11",

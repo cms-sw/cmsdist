@@ -1,0 +1,195 @@
+--- SWIG/Makefile.orig	2003-04-24 13:50:16.000000000 -0700
++++ SWIG/Makefile	2003-04-24 13:52:48.000000000 -0700
+@@ -1,12 +1,12 @@
+ # $Id: m2crypto-swig-1.3.19-rh9.patch,v 1.1 2006/04/03 21:53:19 steen Exp $
+ 
+ CFLAGS	   = -DTHREADING -g
+-INCLUDE	   = -I/usr/local/include -I.
+-LIBS       = -L/usr/local/lib -lssl -lcrypto
++INCLUDE	   = -I/usr/include -I. -I/usr/kerberos/include
++LIBS       = -L/usr/lib -lssl -lcrypto
+ PYVER      = 2.2
+-PYINCLUDE  = -DHAVE_CONFIG_H -I/usr/local/include/python$(PYVER) \
+-	-I/usr/local/lib/python$(PYVER)/config
+-PYLIB      = /usr/local/lib/python$(PYVER)/config
++PYINCLUDE  = -DHAVE_CONFIG_H -I/usr/include/python$(PYVER) \
++	-I/usr/lib/python$(PYVER)/config
++PYLIB      = /usr/lib/python$(PYVER)/config
+ 
+ all:	_m2crypto
+ 
+--- SWIG/_dh.i.orig	2003-04-24 14:05:16.000000000 -0700
++++ SWIG/_dh.i	2003-04-24 14:07:16.000000000 -0700
+@@ -13,9 +13,9 @@
+ 
+ %name(dh_new) extern DH *DH_new(void);
+ %name(dh_free) extern void DH_free(DH *);
+-%name(dh_size) extern int DH_size(DH *);
++%name(dh_size) extern int DH_size(const DH *);
+ %name(dh_generate_key) extern int DH_generate_key(DH *);
+-%name(dhparams_print) extern int DHparams_print(BIO *, DH *);
++%name(dhparams_print) extern int DHparams_print(BIO *, const DH *);
+ 
+ %constant int dh_check_ok             = 0;
+ %constant int dh_check_p_not_prime    = DH_CHECK_P_NOT_PRIME;
+--- SWIG/_dsa.i.orig	2003-04-24 14:11:11.000000000 -0700
++++ SWIG/_dsa.i	2003-04-24 14:11:54.000000000 -0700
+@@ -20,7 +20,7 @@
+ 
+ %name(dsa_new) extern DSA *DSA_new(void);
+ %name(dsa_free) extern void DSA_free(DSA *);
+-%name(dsa_size) extern int DSA_size(DSA *); /* assert(dsa->q); */
++%name(dsa_size) extern int DSA_size(const DSA *); /* assert(dsa->q); */
+ %name(dsa_gen_key) extern int DSA_generate_key(DSA *);
+ 
+ %inline %{
+--- SWIG/_evp.i.orig	2003-04-24 13:59:26.000000000 -0700
++++ SWIG/_evp.i	2003-04-24 14:04:49.000000000 -0700
+@@ -15,47 +15,47 @@
+ %apply Pointer NONNULL { EVP_CIPHER_CTX * };
+ %apply Pointer NONNULL { EVP_CIPHER * };
+ 
+-%name(md5) extern EVP_MD *EVP_md5(void);
+-%name(sha1) extern EVP_MD *EVP_sha1(void);
+-%name(ripemd160) extern EVP_MD *EVP_ripemd160(void);
+-%name(digest_init) extern void EVP_DigestInit(EVP_MD_CTX *, const EVP_MD *);
+-
+-%name(des_ecb) extern EVP_CIPHER *EVP_des_ecb(void);
+-%name(des_ede_ecb) extern EVP_CIPHER *EVP_des_ede(void);
+-%name(des_ede3_ecb) extern EVP_CIPHER *EVP_des_ede3(void);
+-%name(des_cbc) extern EVP_CIPHER *EVP_des_cbc(void);
+-%name(des_ede_cbc) extern EVP_CIPHER *EVP_des_ede_cbc(void);
+-%name(des_ede3_cbc) extern EVP_CIPHER *EVP_des_ede3_cbc(void);
+-%name(des_cfb) extern EVP_CIPHER *EVP_des_cfb(void);
+-%name(des_ede_cfb) extern EVP_CIPHER *EVP_des_ede_cfb(void);
+-%name(des_ede3_cfb) extern EVP_CIPHER *EVP_des_ede3_cfb(void);
+-%name(des_ofb) extern EVP_CIPHER *EVP_des_ofb(void);
+-%name(des_ede_ofb) extern EVP_CIPHER *EVP_des_ede_ofb(void);
+-%name(des_ede3_ofb) extern EVP_CIPHER *EVP_des_ede3_ofb(void);
+-%name(bf_ecb) extern EVP_CIPHER *EVP_bf_ecb(void);
+-%name(bf_cbc) extern EVP_CIPHER *EVP_bf_cbc(void);
+-%name(bf_cfb) extern EVP_CIPHER *EVP_bf_cfb(void);
+-%name(bf_ofb) extern EVP_CIPHER *EVP_bf_ofb(void);
+-/*
+-%name(idea_ecb) extern EVP_CIPHER *EVP_idea_ecb(void);
+-%name(idea_cbc) extern EVP_CIPHER *EVP_idea_cbc(void);
+-%name(idea_cfb) extern EVP_CIPHER *EVP_idea_cfb(void);
+-%name(idea_ofb) extern EVP_CIPHER *EVP_idea_ofb(void);
+-*/
+-%name(cast5_ecb) extern EVP_CIPHER *EVP_cast5_ecb(void);
+-%name(cast5_cbc) extern EVP_CIPHER *EVP_cast5_cbc(void);
+-%name(cast5_cfb) extern EVP_CIPHER *EVP_cast5_cfb(void);
+-%name(cast5_ofb) extern EVP_CIPHER *EVP_cast5_ofb(void);
+-%name(rc5_ecb) extern EVP_CIPHER *EVP_rc5_32_12_16_ecb(void);
+-%name(rc5_cbc) extern EVP_CIPHER *EVP_rc5_32_12_16_cbc(void);
+-%name(rc5_cfb) extern EVP_CIPHER *EVP_rc5_32_12_16_cfb(void);
+-%name(rc5_ofb) extern EVP_CIPHER *EVP_rc5_32_12_16_ofb(void);
+-%name(rc4) extern EVP_CIPHER *EVP_rc4(void);
+-%name(rc2_40_cbc) extern EVP_CIPHER *EVP_rc2_40_cbc(void);
++%name(md5) extern const EVP_MD *EVP_md5(void);
++%name(sha1) extern const EVP_MD *EVP_sha1(void);
++%name(ripemd160) extern const EVP_MD *EVP_ripemd160(void);
++%name(digest_init) extern int EVP_DigestInit(EVP_MD_CTX *, const EVP_MD *);
++
++%name(des_ecb) extern const EVP_CIPHER *EVP_des_ecb(void);
++%name(des_ede_ecb) extern const EVP_CIPHER *EVP_des_ede(void);
++%name(des_ede3_ecb) extern const EVP_CIPHER *EVP_des_ede3(void);
++%name(des_cbc) extern const EVP_CIPHER *EVP_des_cbc(void);
++%name(des_ede_cbc) extern const EVP_CIPHER *EVP_des_ede_cbc(void);
++%name(des_ede3_cbc) extern const EVP_CIPHER *EVP_des_ede3_cbc(void);
++%name(des_cfb) extern const EVP_CIPHER *EVP_des_cfb(void);
++%name(des_ede_cfb) extern const EVP_CIPHER *EVP_des_ede_cfb(void);
++%name(des_ede3_cfb) extern const EVP_CIPHER *EVP_des_ede3_cfb(void);
++%name(des_ofb) extern const EVP_CIPHER *EVP_des_ofb(void);
++%name(des_ede_ofb) extern const EVP_CIPHER *EVP_des_ede_ofb(void);
++%name(des_ede3_ofb) extern const EVP_CIPHER *EVP_des_ede3_ofb(void);
++%name(bf_ecb) extern const EVP_CIPHER *EVP_bf_ecb(void);
++%name(bf_cbc) extern const EVP_CIPHER *EVP_bf_cbc(void);
++%name(bf_cfb) extern const EVP_CIPHER *EVP_bf_cfb(void);
++%name(bf_ofb) extern const EVP_CIPHER *EVP_bf_ofb(void);
++/*
++%name(idea_ecb) extern const EVP_CIPHER *EVP_idea_ecb(void);
++%name(idea_cbc) extern const EVP_CIPHER *EVP_idea_cbc(void);
++%name(idea_cfb) extern const EVP_CIPHER *EVP_idea_cfb(void);
++%name(idea_ofb) extern const EVP_CIPHER *EVP_idea_ofb(void);
++*/
++%name(cast5_ecb) extern const EVP_CIPHER *EVP_cast5_ecb(void);
++%name(cast5_cbc) extern const EVP_CIPHER *EVP_cast5_cbc(void);
++%name(cast5_cfb) extern const EVP_CIPHER *EVP_cast5_cfb(void);
++%name(cast5_ofb) extern const EVP_CIPHER *EVP_cast5_ofb(void);
++%name(rc5_ecb) extern const EVP_CIPHER *EVP_rc5_32_12_16_ecb(void);
++%name(rc5_cbc) extern const EVP_CIPHER *EVP_rc5_32_12_16_cbc(void);
++%name(rc5_cfb) extern const EVP_CIPHER *EVP_rc5_32_12_16_cfb(void);
++%name(rc5_ofb) extern const EVP_CIPHER *EVP_rc5_32_12_16_ofb(void);
++%name(rc4) extern const EVP_CIPHER *EVP_rc4(void);
++%name(rc2_40_cbc) extern const EVP_CIPHER *EVP_rc2_40_cbc(void);
+ 
+ %name(pkey_new) extern EVP_PKEY *EVP_PKEY_new(void);
+ %name(pkey_free) extern void EVP_PKEY_free(EVP_PKEY *);
+-%name(sign_init) extern void EVP_SignInit(EVP_MD_CTX *, const EVP_MD *);
++%name(sign_init) extern int EVP_SignInit(EVP_MD_CTX *, const EVP_MD *);
+ 
+ %inline %{
+ #define PKCS5_SALT_LEN  8
+--- SWIG/_lib.i.orig	2003-04-24 13:54:18.000000000 -0700
++++ SWIG/_lib.i	2003-04-24 13:56:36.000000000 -0700
+@@ -4,7 +4,6 @@
+ %{
+ #include <openssl/err.h>
+ #include <openssl/evp.h>
+-#include <openssl/e_os.h>
+ #include <openssl/ssl.h>
+ #include <ceval.h>
+ 
+@@ -76,7 +75,7 @@
+ /* C callbacks invoked by OpenSSL; these in turn call back into 
+ Python. */
+ 
+-int MS_CALLBACK ssl_verify_callback(int ok, X509_STORE_CTX *ctx) {
++int ssl_verify_callback(int ok, X509_STORE_CTX *ctx) {
+     PyObject *argv, *ret, *_x509, *_ssl_ctx;
+     X509 *x509;
+     SSL *ssl;
+@@ -115,7 +114,7 @@
+     return cret;
+ }
+ 
+-void MS_CALLBACK ssl_info_callback(SSL *s, int where, int ret) {
++void ssl_info_callback(SSL *s, int where, int ret) {
+     PyObject *argv, *retval, *_SSL;
+     PyThreadState *_save;
+ 
+--- SWIG/_ssl.i.orig	2003-04-24 14:12:24.000000000 -0700
++++ SWIG/_ssl.i	2003-04-24 14:26:26.000000000 -0700
+@@ -17,12 +17,12 @@
+ %apply Pointer NONNULL { PyObject *pyfunc };
+ 
+ %name(ssl_get_error) extern int SSL_get_error(SSL *, int);
+-%name(ssl_get_state) extern char *SSL_state_string(SSL *);
+-%name(ssl_get_state_v) extern char *SSL_state_string_long(SSL *);
+-%name(ssl_get_alert_type) extern char *SSL_alert_type_string(int);
+-%name(ssl_get_alert_type_v) extern char *SSL_alert_type_string_long(int);
+-%name(ssl_get_alert_desc) extern char *SSL_alert_desc_string(int);
+-%name(ssl_get_alert_desc_v) extern char *SSL_alert_desc_string_long(int);
++%name(ssl_get_state) extern const char *SSL_state_string(const SSL *);
++%name(ssl_get_state_v) extern const char *SSL_state_string_long(const SSL *);
++%name(ssl_get_alert_type) extern const char *SSL_alert_type_string(int);
++%name(ssl_get_alert_type_v) extern const char *SSL_alert_type_string_long(int);
++%name(ssl_get_alert_desc) extern const char *SSL_alert_desc_string(int);
++%name(ssl_get_alert_desc_v) extern const char *SSL_alert_desc_string_long(int);
+ 
+ %name(sslv2_method) extern SSL_METHOD *SSLv2_method(void);
+ %name(sslv3_method) extern SSL_METHOD *SSLv3_method(void);
+--- SWIG/_rsa.i.orig	2003-04-24 14:30:14.000000000 -0700
++++ SWIG/_rsa.i	2003-04-24 14:32:07.000000000 -0700
+@@ -15,8 +15,8 @@
+ 
+ %name(rsa_new) extern RSA *RSA_new(void);
+ %name(rsa_free) extern void RSA_free(RSA *);
+-%name(rsa_size) extern int RSA_size(RSA *);
+-%name(rsa_check_key) extern int RSA_check_key(RSA *);
++%name(rsa_size) extern int RSA_size(const RSA *);
++%name(rsa_check_key) extern int RSA_check_key(const RSA *);
+ %name(rsa_from_pkey) extern RSA *EVP_PKEY_get1_RSA(EVP_PKEY *);
+ 
+ %constant int no_padding        = RSA_NO_PADDING;

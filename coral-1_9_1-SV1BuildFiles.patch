@@ -1,0 +1,605 @@
+diff -Naur src.orig/config/scram/BuildFile src/config/scram/BuildFile
+--- src.orig/config/scram/BuildFile	2007-01-19 17:00:17.000000000 +0100
++++ src/config/scram/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,82 +0,0 @@
+-# IP 02/12/2005
+-# 
+-# Top-level project BuildFile for the CORAL project
+-#
+-# This file is parsed by SCRAM before any other BuildFile.
+-#
+-
+-<Architecture name=slc3_ia32_gcc323>
+- <External ref=gcc3>
+-</Architecture>
+-
+-<Architecture name=slc3_ia32_gcc323_dbg>
+- <External ref=gcc3>
+-</Architecture>
+-
+-<Architecture name=slc3_ia32_gcc323_gcov>
+- <External ref=gcc3>
+-</Architecture>
+-
+-<Architecture name=slc4_ia32_gcc34>
+- <External ref=gcc3>
+-</Architecture>
+-
+-<Architecture name=slc4_ia32_gcc34_dbg>
+- <External ref=gcc3>
+-</Architecture>
+-
+-<Architecture name=slc4_ia32_gcc34_gcov>
+- <External ref=gcc3>
+-</Architecture>
+-
+-<Architecture name=slc4_amd64_gcc34>
+- <External ref=gcc3>
+-</Architecture>
+-
+-<Architecture name=slc4_amd64_gcc34_dbg>
+- <External ref=gcc3>
+-</Architecture>
+-
+-<Architecture name=slc4_amd64_gcc34_gcov>
+- <External ref=gcc3>
+-</Architecture>
+-
+-
+-
+-# Common options
+-INCLUDEDIRS = $(shell echo `$(PYTHONEXE) $(LOCALTOP)/$(projconfigdir)/filter_dirs.py $(INCLUDE)` )
+-LIBDIRS = $(shell echo `$(PYTHONEXE) $(LOCALTOP)/$(projconfigdir)/filter_dirs.py $(LIBDIR)` )
+-LIBS = $(shell echo `$(PYTHONEXE) $(LOCALTOP)/$(projconfigdir)/filter_dirs.py $(lib)` )
+-
+-# Platform specific makefile fragments
+-include $(LOCALTOP)/$(projconfigdir)/$(SCRAM_ARCH).mk
+-
+-# Set export behaviour. We don't automatically make libraries built within the
+-# project available to the whoile project, i.e. any libraries required must be 
+-# explicitly demanded in the BuildFile at the required level:
+-scram_autoexport=false
+-
+-# ---- The ClassPath: describe what should be done and where ---- #
+-#
+-
+-# This builds the library of a package
+-<ClassPath path=+Project/+Package/src+library>
+-
+-# This builds all the unit tests of a package
+-<ClassPath path=+Project/+Package/tests+SubSystem/+PackageTest>
+-
+-# This builds all the utilities of a package
+-<ClassPath path=+Project/+Package/utilities+Utility>
+-
+-# This copies the python scripts of a package into the python directory
+-<ClassPath path=+Project/+Package/python+Python>
+-
+-# This copies the scripts of a package into the bin directory
+-<ClassPath path=+Project/+Package/scripts+Scripts>
+-
+-# Integration/system test applications and libraries
+-<ClassPath path=+Project/Tests+SubSystem/+Package/src+Test>
+-<ClassPath path=+Project/Tests+SubSystem/Libraries+SubSystem/+Package/src+TestLib>
+-
+-# This builds a utility
+-<ClassPath path=+Project/Utilities+SubSystem/+Utility>
+diff -Naur src.orig/ConnectionService/BuildFile src/ConnectionService/BuildFile
+--- src.orig/ConnectionService/BuildFile	2006-07-10 17:24:40.000000000 +0200
++++ src/ConnectionService/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,13 +1,10 @@
+-<use name=CoralCommon></use>
+-<use name=RelationalAccess></use>
+-<external ref=boost>
+-
+-ifneq (,$(findstring win32, $(SCRAM_ARCH)))
+-	lib += boost_thread-vc71-mt
+-endif
+-ifneq (,$(findstring gcc, $(SCRAM_ARCH)))
+-	lib += boost_thread-gcc-mt
+-endif
+-
+-
+-PLUGIN_MODULE := ConnectionService
++<Flags SealPlugin=1>
++<use name=CoralCommon>
++<use name=RelationalAccess>
++<use name=boost>
++<export>
++  <use name=CoralCommon>
++  <use name=RelationalAccess>
++  <use name=boost>
++  <lib name=lcg_ConnectionService>
++</export>
+diff -Naur src.orig/ConnectionService/tests/BuildFile src/ConnectionService/tests/BuildFile
+--- src.orig/ConnectionService/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/ConnectionService/tests/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -0,0 +1,2 @@
++<use name=ConnectionService>
++<bin name=unitTest_ConnectionService_src file=src/*.cpp></bin>
+diff -Naur src.orig/CoralBase/BuildFile src/CoralBase/BuildFile
+--- src.orig/CoralBase/BuildFile	2007-01-19 17:01:09.000000000 +0100
++++ src/CoralBase/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,12 +1,5 @@
+-<include_path path=.></<include_path>
+-<export autoexport=true>
++<use name=Framework/SealKernel>
++<export>
+   <lib name=lcg_CoralBase>
++  <use name=Framework/SealKernel>
+ </export>
+-
+-# Dependency on SealKernel
+-<External ref=SEAL use=Framework/SealKernel></External>
+-
+-# SEAL is not declaring that !!!
+-<architecture name=win32_vc71>
+- <external ref=rx>
+-</architecture>
+diff -Naur src.orig/CoralBase/tests/BuildFile src/CoralBase/tests/BuildFile
+--- src.orig/CoralBase/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/CoralBase/tests/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -0,0 +1,8 @@
++<use name=CoralBase>
++<bin name=unitTest_CoralBase_BlobReadWrite file=BlobReadWrite/*.cpp></bin>
++<bin name=unitTest_CoralBase_AtLiFunctionality file=AtLiFunctionality/*.cpp></bin>
++<bin name=unitTest_CoralBase_AtLiSpecFunctionality file=AtLiSpecFunctionality/*.cpp></bin>
++<bin name=unitTest_CoralBase_AttributeReadWrite file=AttributeReadWrite/*.cpp></bin>
++<bin name=unitTest_CoralBase_DataTypeBug file=DataTypeBug/*.cpp></bin>
++<bin name=unitTest_CoralBase_Date file=Date/*.cpp></bin>
++<bin name=unitTest_CoralBase_TimeStamp file=TimeStamp/*.cpp></bin>
+diff -Naur src.orig/CoralCommon/BuildFile src/CoralCommon/BuildFile
+--- src.orig/CoralCommon/BuildFile	2007-01-19 17:12:34.000000000 +0100
++++ src/CoralCommon/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,6 +1,5 @@
+-<include_path path=.></<include_path>
+-<export autoexport=true>
++<use name=RelationalAccess>
++<export>
+   <lib name=lcg_CoralCommon>
++  <use name=RelationalAccess>
+ </export>
+-
+-<use name=RelationalAccess></use>
+diff -Naur src.orig/CoralCommon/tests/BuildFile src/CoralCommon/tests/BuildFile
+--- src.orig/CoralCommon/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/CoralCommon/tests/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -0,0 +1,3 @@
++<use name=CoralCommon>
++<bin name=unitTest_CoralCommon_MonitoringEvent file=MonitoringEvent/*.cpp></bin>
++<bin name=unitTest_CoralCommon_URIParser file=URIParser/*.cpp></bin>
+diff -Naur src.orig/EnvironmentAuthenticationService/BuildFile src/EnvironmentAuthenticationService/BuildFile
+--- src.orig/EnvironmentAuthenticationService/BuildFile	2005-07-06 16:04:46.000000000 +0200
++++ src/EnvironmentAuthenticationService/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,3 +1,6 @@
+-<use name=CoralCommon></use>
+-
+-PLUGIN_MODULE := EnvironmentAuthenticationService
++<Flags SealPlugin=1>
++<use name=CoralCommon>
++<export>
++  <use name=CoralCommon>
++  <lib name=lcg_EnvironmentAuthenticationService>
++</export>
+diff -Naur src.orig/EnvironmentAuthenticationService/tests/BuildFile src/EnvironmentAuthenticationService/tests/BuildFile
+--- src.orig/EnvironmentAuthenticationService/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/EnvironmentAuthenticationService/tests/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -0,0 +1,2 @@
++<use name=EnvironmentAuthenticationService>
++<bin name=unitTest_EnvironmentAuthenticationService_LoadService file=LoadService/*.cpp></bin>
+diff -Naur src.orig/FrontierAccess/BuildFile src/FrontierAccess/BuildFile
+--- src.orig/FrontierAccess/BuildFile	2005-12-07 18:43:46.000000000 +0100
++++ src/FrontierAccess/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,8 +1,11 @@
+-<external ref=expat></external>
+-<external ref=frontier_client></external>
++<Flags SealPlugin=1>
++<use name=frontier_client>
++<use name=openssl>
++<use name=CoralCommon>
++<export>
++  <use name=frontier_client>
++  <use name=openssl>
++  <use name=CoralCommon>
++  <lib name=lcg_FrontierAccess>
++</export>
+ 
+-<use name=CoralCommon></use>
+-
+-<lib name=z></lib>
+-
+-PLUGIN_MODULE := FrontierAccess
+diff -Naur src.orig/FrontierAccess/tests/BuildFile src/FrontierAccess/tests/BuildFile
+--- src.orig/FrontierAccess/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/FrontierAccess/tests/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -0,0 +1,25 @@
++<use name=FrontierAccess>
++<include_path path=$(LOCALTOP)/$(SCRAM_SOURCEDIR)/FrontierAccess/tests/Common>
++<Flags LDFLAGS="-L$(LOCALTOP)/$(SCRAMSTORENAME_TESTS_LIB)">
++<library name=test_TestFrontierAccessCommon file=Common/*.cpp></library>
++<bin name=unitTest_FrontierAccess_CmsNewFrontier file=CmsNewFrontier/*.cpp>
++  <lib name=test_TestFrontierAccessCommon>
++</bin>
++<bin name=unitTest_FrontierAccess_Connection file=Connection/*.cpp>
++  <lib name=test_TestFrontierAccessCommon>
++</bin>
++<bin name=unitTest_FrontierAccess_MultipleSchemas file=MultipleSchemas/*.cpp>
++  <lib name=test_TestFrontierAccessCommon>
++</bin>
++<bin name=unitTest_FrontierAccess_Schema file=Schema/*.cpp>
++  <lib name=test_TestFrontierAccessCommon>
++</bin>
++<bin name=unitTest_FrontierAccess_SegFault file=SegFault/*.cpp>
++  <lib name=test_TestFrontierAccessCommon>
++</bin>
++<bin name=unitTest_FrontierAccess_SimpleQueries file=SimpleQueries/*.cpp>
++  <lib name=test_TestFrontierAccessCommon>
++</bin>
++<bin name=unitTest_FrontierAccess_TestAlias file=TestAlias/*.cpp>
++  <lib name=test_TestFrontierAccessCommon>
++</bin>
+diff -Naur src.orig/MonitoringService/BuildFile src/MonitoringService/BuildFile
+--- src.orig/MonitoringService/BuildFile	2005-08-09 12:15:44.000000000 +0200
++++ src/MonitoringService/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,4 +1,6 @@
+-<use name=CoralCommon></use>
+-
+-PLUGIN_MODULE := MonitoringService
+-
++<Flags SealPlugin=1>
++<use name=CoralCommon>
++<export>
++  <use name=CoralCommon>
++  <lib name=lcg_MonitoringService>
++</export>
+diff -Naur src.orig/MonitoringService/tests/BuildFile src/MonitoringService/tests/BuildFile
+--- src.orig/MonitoringService/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/MonitoringService/tests/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -0,0 +1,2 @@
++<use name=MonitoringService>
++<bin name=unitTest_MonitoringService_Report file=Report/*.cpp></bin>
+diff -Naur src.orig/OracleAccess/BuildFile src/OracleAccess/BuildFile
+--- src.orig/OracleAccess/BuildFile	2005-07-07 10:01:11.000000000 +0200
++++ src/OracleAccess/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,4 +1,8 @@
+-<use name=CoralCommon></use>
+-<external ref=oracle></external>
+-
+-PLUGIN_MODULE := OracleAccess
++<Flags SealPlugin=1>
++<use name=CoralCommon>
++<use name=oracle>
++<export>
++  <use name=CoralCommon>
++  <use name=oracle>
++  <lib name=lcg_OracleAccess>
++</export>
+diff -Naur src.orig/OracleAccess/tests/BuildFile src/OracleAccess/tests/BuildFile
+--- src.orig/OracleAccess/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/OracleAccess/tests/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -0,0 +1,32 @@
++<use name=OracleAccess>
++<use name=Framework/SealKernel>
++<include_path path=$(LOCALTOP)/$(SCRAM_SOURCEDIR)/OracleAccess/tests/Common>
++<Flags LDFLAGS="-L$(LOCALTOP)/$(SCRAMSTORENAME_TESTS_LIB)">
++<library name=test_TestOracleAccessCommon file=Common/*.cpp></library>
++<bin name=unitTest_OracleAccess_BulkInserts file=BulkInserts/*.cpp>
++  <lib name=test_TestOracleAccessCommon>
++</bin>
++<bin name=unitTest_OracleAccess_Connection file=Connection/*.cpp>
++  <lib name=test_TestOracleAccessCommon>
++</bin>
++<bin name=unitTest_OracleAccess_DataEditor file=DataEditor/*.cpp>
++  <lib name=test_TestOracleAccessCommon>
++</bin>
++<bin name=unitTest_OracleAccess_DateAndTime file=DateAndTime/*.cpp>
++  <lib name=test_TestOracleAccessCommon>
++</bin>
++<bin name=unitTest_OracleAccess_Dual file=Dual/*.cpp>
++  <lib name=test_TestOracleAccessCommon>
++</bin>
++<bin name=unitTest_OracleAccess_MultipleSchemas file=MultipleSchemas/*.cpp>
++  <lib name=test_TestOracleAccessCommon>
++</bin>
++<bin name=unitTest_OracleAccess_Schema file=Schema/*.cpp>
++  <lib name=test_TestOracleAccessCommon>
++</bin>
++<bin name=unitTest_OracleAccess_SimpleQueries file=SimpleQueries/*.cpp>
++  <lib name=test_TestOracleAccessCommon>
++</bin>
++<bin name=unitTest_OracleAccess_Views file=Views/*.cpp>
++  <lib name=test_TestOracleAccessCommon>
++</bin>
+diff -Naur src.orig/PyCoral/BuildFile src/PyCoral/BuildFile
+--- src.orig/PyCoral/BuildFile	2007-01-19 17:13:50.000000000 +0100
++++ src/PyCoral/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,7 +1,7 @@
+-<include_path path=.></<include_path>
+-<export autoexport=true>
++<use name=RelationalAccess>
++<use name=python>
++<export>
++  <use name=RelationalAccess>
++  <use name=python>
+   <lib name=lcg_PyCoral>
+-</export>
+-
+-<use name=RelationalAccess></use>
+-<external ref=python></external>
++<export>
+diff -Naur src.orig/PyCoral/python/BuildFile src/PyCoral/python/BuildFile
+--- src.orig/PyCoral/python/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/PyCoral/python/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -0,0 +1 @@
++<Flags PythonProduct="coral.py">
+diff -Naur src.orig/RelationalAccess/BuildFile src/RelationalAccess/BuildFile
+--- src.orig/RelationalAccess/BuildFile	2007-01-19 17:11:19.000000000 +0100
++++ src/RelationalAccess/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,6 +1,5 @@
+-<include_path path=.></<include_path>
+-<export autoexport=true>
+-  <lib name=lcg_RelationalAccess>
++<use name=CoralBase>
++<export>
++ <lib name=lcg_RelationalAccess>
++ <use name=CoralBase>
+ </export>
+-
+-<use name=CoralBase></use>
+diff -Naur src.orig/RelationalAccess/tests/BuildFile src/RelationalAccess/tests/BuildFile
+--- src.orig/RelationalAccess/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/RelationalAccess/tests/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -0,0 +1,2 @@
++<use name=RelationalAccess>
++<bin name=unitTest_RelationalAccess_TableDescription file=TableDescription/*.cpp></bin>
+diff -Naur src.orig/RelationalService/BuildFile src/RelationalService/BuildFile
+--- src.orig/RelationalService/BuildFile	2006-11-03 14:00:34.000000000 +0100
++++ src/RelationalService/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,11 +1,7 @@
+-<use name=CoralCommon></use>
+-<external ref=boost>
++<Flags SealPlugin=1>
++<use name=CoralCommon>
++<export>
++  <use name=CoralCommon>
++  <lib name=lcg_RelationalService>
++</export>
+ 
+-ifneq (,$(findstring win32, $(SCRAM_ARCH)))
+-	lib += boost_thread-vc71-mt
+-endif
+-ifneq (,$(findstring gcc, $(SCRAM_ARCH)))
+-	lib += boost_thread-gcc-mt
+-endif
+-
+-PLUGIN_MODULE := RelationalService
+diff -Naur src.orig/RelationalService/tests/BuildFile src/RelationalService/tests/BuildFile
+--- src.orig/RelationalService/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/RelationalService/tests/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -0,0 +1,2 @@
++<use name=RelationalService>
++<bin name=unitTest_RelationalService_LoadService file=LoadService/*.cpp></bin>
+diff -Naur src.orig/SQLiteAccess/tests/BulkOperations/BuildFile src/SQLiteAccess/tests/BulkOperations/BuildFile
+--- src.orig/SQLiteAccess/tests/BulkOperations/BuildFile	2006-01-13 14:55:45.000000000 +0100
++++ src/SQLiteAccess/tests/BulkOperations/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-<include_path path=../../></include_path>
+-lib += lcg_coral_SQLiteAccess
+-<External ref=cppunit></External>
+diff -Naur src.orig/SQLiteAccess/tests/CreateListDrop/BuildFile src/SQLiteAccess/tests/CreateListDrop/BuildFile
+--- src.orig/SQLiteAccess/tests/CreateListDrop/BuildFile	2006-01-13 14:55:45.000000000 +0100
++++ src/SQLiteAccess/tests/CreateListDrop/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-<include_path path=../../></include_path>
+-lib += lcg_coral_SQLiteAccess
+-<External ref=cppunit></External>
+diff -Naur src.orig/SQLiteAccess/tests/ExpressionParser/BuildFile src/SQLiteAccess/tests/ExpressionParser/BuildFile
+--- src.orig/SQLiteAccess/tests/ExpressionParser/BuildFile	2006-01-13 14:55:45.000000000 +0100
++++ src/SQLiteAccess/tests/ExpressionParser/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-<include_path path=../../></include_path>
+-lib += lcg_coral_SQLiteAccess
+-<External ref=cppunit></External>
+diff -Naur src.orig/Tests/Integration_Basic/BuildFile src/Tests/Integration_Basic/BuildFile
+--- src.orig/Tests/Integration_Basic/BuildFile	2005-07-28 15:10:34.000000000 +0200
++++ src/Tests/Integration_Basic/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1 +1,4 @@
+-<use name=RelationalAccess></use>
++<bin name=test_Integration_Basic file=src/*.cpp>
++  <use name=RelationalAccess>
++  <use name=CoralCommon>
++</bin>
+diff -Naur src.orig/Tests/Integration_ConnectionService/BuildFile src/Tests/Integration_ConnectionService/BuildFile
+--- src.orig/Tests/Integration_ConnectionService/BuildFile	2005-09-13 17:57:31.000000000 +0200
++++ src/Tests/Integration_ConnectionService/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,5 +1,4 @@
+-
+-<use name=RelationalAccess></use>
+-<use name=CoralCommon></use>
+-
+-
++<bin name=test_Integration_ConnectionService file=src/*.cpp>
++  <use name=RelationalAccess>
++  <use name=CoralCommon>
++</bin>
+diff -Naur src.orig/Tests/Integration_ConnectionService_CleanUpPool/BuildFile src/Tests/Integration_ConnectionService_CleanUpPool/BuildFile
+--- src.orig/Tests/Integration_ConnectionService_CleanUpPool/BuildFile	2006-10-17 11:31:53.000000000 +0200
++++ src/Tests/Integration_ConnectionService_CleanUpPool/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,3 +1,4 @@
+-<use name=RelationalAccess></use>
+-<use name=ConnectionService></use>
+-<lib name=lcg_coral_ConnectionService></lib>
+\ No newline at end of file
++<bin name=test_Integration_ConnectionService_CleanUpPool file=src/*.cpp>
++  <use name=RelationalAccess>
++  <use name=ConnectionService>
++</bin>
+diff -Naur src.orig/Tests/Integration_ConnectionService_ConnectionPool/BuildFile src/Tests/Integration_ConnectionService_ConnectionPool/BuildFile
+--- src.orig/Tests/Integration_ConnectionService_ConnectionPool/BuildFile	2006-03-03 18:07:34.000000000 +0100
++++ src/Tests/Integration_ConnectionService_ConnectionPool/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,3 +1,4 @@
+-<use name=RelationalAccess></use>
+-<use name=ConnectionService></use>
+-<lib name=lcg_coral_ConnectionService></lib>
+\ No newline at end of file
++<bin name=test_Integration_ConnectionService_ConnectionPool file=src/*.cpp>
++  <use name=RelationalAccess>
++  <use name=ConnectionService>
++</bin>
+diff -Naur src.orig/Tests/Integration_ConnectionService_ReplicaHandling/BuildFile src/Tests/Integration_ConnectionService_ReplicaHandling/BuildFile
+--- src.orig/Tests/Integration_ConnectionService_ReplicaHandling/BuildFile	2006-06-19 17:54:55.000000000 +0200
++++ src/Tests/Integration_ConnectionService_ReplicaHandling/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,3 +1,4 @@
+-<use name=RelationalAccess></use>
+-<use name=ConnectionService></use>
+-<lib name=lcg_coral_ConnectionService></lib>
+\ No newline at end of file
++<bin name=test_Integration_ConnectionService_ReplicaHandling file=src/*.cpp>
++  <use name=RelationalAccess>
++  <use name=ConnectionService>
++</bin>
+diff -Naur src.orig/Tests/Integration_ConnectionService_SessionSharing/BuildFile src/Tests/Integration_ConnectionService_SessionSharing/BuildFile
+--- src.orig/Tests/Integration_ConnectionService_SessionSharing/BuildFile	2006-06-19 17:56:21.000000000 +0200
++++ src/Tests/Integration_ConnectionService_SessionSharing/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,3 +1,4 @@
+-<use name=RelationalAccess></use>
+-<use name=ConnectionService></use>
+-<lib name=lcg_coral_ConnectionService></lib>
+\ No newline at end of file
++<bin name=test_Integration_ConnectionService_SessionSharing file=src/*.cpp>
++  <use name=RelationalAccess>
++  <use name=ConnectionService>
++</bin>
+diff -Naur src.orig/Tests/Integration_ConnectionService_SQLiteConnection/BuildFile src/Tests/Integration_ConnectionService_SQLiteConnection/BuildFile
+--- src.orig/Tests/Integration_ConnectionService_SQLiteConnection/BuildFile	2007-02-23 14:36:02.000000000 +0100
++++ src/Tests/Integration_ConnectionService_SQLiteConnection/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-<use name=RelationalAccess></use>
+-<use name=ConnectionService></use>
+-<lib name=lcg_coral_ConnectionService></lib>
+diff -Naur src.orig/Tests/Integration_ConnectionService_SQLiteFailover/BuildFile src/Tests/Integration_ConnectionService_SQLiteFailover/BuildFile
+--- src.orig/Tests/Integration_ConnectionService_SQLiteFailover/BuildFile	2006-07-17 15:40:05.000000000 +0200
++++ src/Tests/Integration_ConnectionService_SQLiteFailover/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,3 +1,4 @@
+-<use name=RelationalAccess></use>
+-<use name=ConnectionService></use>
+-<lib name=lcg_coral_ConnectionService></lib>
+\ No newline at end of file
++<bin name=test_Integration_ConnectionService_SQLiteFailover file=src/*.cpp>
++  <use name=RelationalAccess>
++  <use name=ConnectionService>
++</bin>
+diff -Naur src.orig/Tests/Integration_ConnectionService_SwitchSchema/BuildFile src/Tests/Integration_ConnectionService_SwitchSchema/BuildFile
+--- src.orig/Tests/Integration_ConnectionService_SwitchSchema/BuildFile	2006-06-19 18:00:16.000000000 +0200
++++ src/Tests/Integration_ConnectionService_SwitchSchema/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,3 +1,4 @@
+-<use name=RelationalAccess></use>
+-<use name=ConnectionService></use>
+-<lib name=lcg_coral_ConnectionService></lib>
+\ No newline at end of file
++<bin name=test_Integration_ConnectionService_SwitchSchema file=src/*.cpp>
++  <use name=RelationalAccess>
++  <use name=ConnectionService>
++</bin>
+diff -Naur src.orig/Tests/Integration_ConnectionService_TimerBasic/BuildFile src/Tests/Integration_ConnectionService_TimerBasic/BuildFile
+--- src.orig/Tests/Integration_ConnectionService_TimerBasic/BuildFile	2006-07-07 17:13:48.000000000 +0200
++++ src/Tests/Integration_ConnectionService_TimerBasic/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,3 +1,4 @@
+-<use name=RelationalAccess></use>
+-<use name=ConnectionService></use>
+-<lib name=lcg_coral_ConnectionService></lib>
+\ No newline at end of file
++<bin name=test_Integration_ConnectionService_TimerBasic file=src/*.cpp>
++  <use name=RelationalAccess>
++  <use name=ConnectionService>
++</bin>
+diff -Naur src.orig/Tests/Integration_InputOutput/BuildFile src/Tests/Integration_InputOutput/BuildFile
+--- src.orig/Tests/Integration_InputOutput/BuildFile	2006-01-12 11:17:37.000000000 +0100
++++ src/Tests/Integration_InputOutput/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1 +1,3 @@
+-<use name=RelationalAccess></use>
++<bin name=test_Integration_InputOutput file=src/*.cpp>
++  <use name=RelationalAccess>
++</bin>
+diff -Naur src.orig/Tests/Integration_Monitoring/BuildFile src/Tests/Integration_Monitoring/BuildFile
+--- src.orig/Tests/Integration_Monitoring/BuildFile	2005-08-10 11:18:32.000000000 +0200
++++ src/Tests/Integration_Monitoring/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1 +1,4 @@
+-<use name=RelationalAccess></use>
++<bin name=test_Integration_Monitoring file=src/*.cpp>
++  <use name=RelationalAccess>
++  <use name=CoralCommon>
++</bin>
+diff -Naur src.orig/Tests/Integration_MonitoringService/BuildFile src/Tests/Integration_MonitoringService/BuildFile
+--- src.orig/Tests/Integration_MonitoringService/BuildFile	2006-10-27 00:09:23.000000000 +0200
++++ src/Tests/Integration_MonitoringService/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,2 +1,4 @@
+-<use name=CoralCommon></use>
+-<use name=RelationalAccess></use>
++<bin name=test_Integration_MonitoringService file=src/*.cpp>
++  <use name=RelationalAccess>
++  <use name=CoralCommon>
++</bin>
+diff -Naur src.orig/Tests/Libraries/Connectivity/BuildFile src/Tests/Libraries/Connectivity/BuildFile
+--- src.orig/Tests/Libraries/Connectivity/BuildFile	2006-05-26 16:02:49.000000000 +0200
++++ src/Tests/Libraries/Connectivity/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,6 +1,6 @@
+-<include_path path=.></<include_path>
+-<use name=RelationalAccess></use>
+-<export autoexport=true>
++<use name=RelationalAccess>
++<library name=Connectivity file=src/*.cpp></library>
++<export>
++  <use name=RelationalAccess>
+   <lib name=Connectivity>
+ </export>
+-
+diff -Naur src.orig/Tests/System_SessionsInMultipleThreads/BuildFile src/Tests/System_SessionsInMultipleThreads/BuildFile
+--- src.orig/Tests/System_SessionsInMultipleThreads/BuildFile	2006-12-20 15:50:48.000000000 +0100
++++ src/Tests/System_SessionsInMultipleThreads/BuildFile	1970-01-01 01:00:00.000000000 +0100
+@@ -1 +0,0 @@
+-<use name=RelationalAccess></use>
+diff -Naur src.orig/XMLAuthenticationService/BuildFile src/XMLAuthenticationService/BuildFile
+--- src.orig/XMLAuthenticationService/BuildFile	2005-07-06 14:46:03.000000000 +0200
++++ src/XMLAuthenticationService/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,4 +1,9 @@
+-<use name=CoralCommon></use>
+-<external ref=xerces-c ></external>
++<Flags SealPlugin=1>
++<use name=CoralCommon>
++<use name=xerces-c>
++<export>
++  <use name=CoralCommon>
++  <use name=xerces-c>
++  <lib name=lcg_XMLAuthenticationService>
++</export>
+ 
+-PLUGIN_MODULE := XMLAuthenticationService
+diff -Naur src.orig/XMLAuthenticationService/tests/BuildFile src/XMLAuthenticationService/tests/BuildFile
+--- src.orig/XMLAuthenticationService/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/XMLAuthenticationService/tests/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -0,0 +1,2 @@
++<use name=XMLAuthenticationService>
++<bin name=unitTest_XMLAuthenticationService_LoadService file=LoadService/*.cpp></bin>
+diff -Naur src.orig/XMLLookupService/BuildFile src/XMLLookupService/BuildFile
+--- src.orig/XMLLookupService/BuildFile	2005-08-05 10:27:04.000000000 +0200
++++ src/XMLLookupService/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -1,4 +1,9 @@
+-<use name=CoralCommon></use>
+-<external ref=xerces-c ></external>
++<Flags SealPlugin=1>
++<use name=CoralCommon>
++<use name=xerces-c>
++<export>
++  <use name=CoralCommon>
++  <use name=xerces-c>
++  <lib name=lcg_XMLLookupService>
++</export>
+ 
+-PLUGIN_MODULE := XMLLookupService
+diff -Naur src.orig/XMLLookupService/tests/BuildFile src/XMLLookupService/tests/BuildFile
+--- src.orig/XMLLookupService/tests/BuildFile	1970-01-01 01:00:00.000000000 +0100
++++ src/XMLLookupService/tests/BuildFile	2007-06-19 18:23:27.000000000 +0200
+@@ -0,0 +1,2 @@
++<use name=XMLLookupService>
++<bin name=unitTest_XMLLookupService_LoadService file=LoadService/*.cpp></bin>

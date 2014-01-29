@@ -1,0 +1,159 @@
+--- scram/compilers.mk	2005-05-31 14:35:43.000000000 +0200
++++ scram/compilers.mk.new	2006-06-13 16:43:05.000000000 +0200
+@@ -101,6 +101,22 @@
+ endif
+ 
+ #----------------------------------------------
++# gcc 4.x Mac OS X
++#----------------------------------------------
++ifeq ($(CCcompiler),Darwin-gcc4)
++FFLAGS += -fno-common
++CXXFLAGS += -pipe -ansi -pedantic -W -Wall \
++	-Wno-non-virtual-dtor -Wno-long-long -Wno-long-double \
++	-Wwrite-strings -Wpointer-arith \
++	-Woverloaded-virtual -ftemplate-depth-512 \
++	-fmessage-length=0 -g
++ifeq ($(findstring dbg,$(SCRAM_ARCH)),)
++# CXXFLAGS += -O2 # -fomit-frame-pointer
++endif
++endif
++
++
++#----------------------------------------------
+ # MSVC++ 7.x Windows 2000+ (Cygwin)
+ #----------------------------------------------
+ ifeq ($(CCcompiler),Cygwin-msvc7)
+--- scram/BuildFile	2006-06-13 16:39:18.000000000 +0200
++++ scram/BuildFile.new	2006-06-13 16:46:21.000000000 +0200
+@@ -26,6 +26,26 @@
+  CCcompiler := Darwin-gcc3
+ </Architecture>
+ 
++<Architecture name=osx104_ia32_gcc400>
++ <External ref=OSXgcc>
++ CCcompiler := Darwin-gcc4
++</Architecture>
++
++<Architecture name=osx104_ia32_gcc400_dbg>
++ <External ref=OSXgcc>
++ CCcompiler := Darwin-gcc4
++</Architecture>
++
++<Architecture name=osx104_ppc32_gcc400>
++ <External ref=OSXgcc>
++ CCcompiler := Darwin-gcc4
++</Architecture>
++
++<Architecture name=osx104_ppc32_gcc400_dbg>
++ <External ref=OSXgcc>
++ CCcompiler := Darwin-gcc4
++</Architecture>
++
+ <Architecture name=slc3_ia32_gcc323>
+  <External ref=gcc3>
+  CCcompiler := Linux-gcc3
+--- scram/RequirementsDoc	2006-06-13 16:50:40.000000000 +0200
++++ scram/RequirementsDoc.new	2006-06-13 16:55:51.000000000 +0200
+@@ -21,11 +21,27 @@
+ <select name=OSXg77gcc version=3.3>
+ </architecture>
+ 
+-<architecture name=osx104_gcc40>
++<architecture name=osx104_ia32_gcc400>
+ <select name=OSXgcc    version=4.0>
+ <select name=OSXg77gcc version=4.0>
+ </architecture>
+ 
++<architecture name=osx104_ia32_gcc400_dbg>
++<select name=OSXgcc    version=4.0>
++<select name=OSXg77gcc version=4.0>
++</architecture>
++
++<architecture name=osx104_ppc32_gcc400>
++<select name=OSXgcc    version=4.0>
++<select name=OSXg77gcc version=4.0>
++</architecture>
++
++<architecture name=osx104_ppc32_gcc400_dbg>
++<select name=OSXgcc    version=4.0>
++<select name=OSXg77gcc version=4.0>
++</architecture>
++
++
+ <architecture name=slc3_ia32_gcc323>
+ <select name=gcc3    >
+ <select name=g77gcc3 >
+--- SCRAMToolBox/Compilers/CXX/OSXgcc	2006-06-13 17:08:01.000000000 +0200
++++ SCRAMToolBox/Compilers/CXX/OSXgcc.new	2006-06-13 17:23:35.000000000 +0200
+@@ -67,3 +67,71 @@
+         
+             </makefile>
+ </tool>
++<tool name=OSXgcc version=4.0 >
++<client>
++<environment name=GCC_BASE>
++The top of the gcc distribution.
++</environment>
++<environment name=CXX default="$GCC_BASE/bin/g++" type=bin>
++The gcc 3.2 C++ compiler executable
++</environment>
++<environment name=CC default="$GCC_BASE/bin/gcc" type=bin>
++The gcc 3.2 C compiler executable
++</environment>
++<environment name=CCcompiler value="gcc">
++Compiler ID
++</environment>
++</client>
++<makefile>
++
++# Set the extension for object files and executables:
++objext := o
++exeext :=
++
++# -- interface with SCRAM hardcoded rules
++# Make insists on chaining together variable defs using "+=".
++# This means that the C compiler variable CC is incorrect because CC
++# is already defined. So remove first CC def:
++CC := $(wordlist 2,$(words $(CC)),$(CC))
++BFARCH:=Linux24-gcc
++
++# Beginning of C var defs: 
++CDebugFlag = -g
++
++SClinkCmd=$(CC) $(CFLAGS) $(COptimised) $(LDFLAGS) $< -o $@
++SClinkCmd_d=$(CC) $(CFLAGS) $(CDebugFlag) $(LDFLAGS) $< -o $@
++ClinkCmd=$(SClinkCmd) $(LDLIBS)
++ClinkCmdDebug=$(SClinkCmd_d) $(LDLIBS_D)
++ClinkCmdDebugLocal=$(SClinkCmd_d) $(LDLIBS_D_L)
++ClinkCmdInsure=$(Insure) $(CFLAGS) $(CDebugFlag) $(LDFLAGS) $< -o $@ $(LDLIBS_Insure)
++InsureSharedCTool = $(DebugSharedCTool)
++DependencyCTool = $(CC) -M $(CPPFLAGS) $(DependIncludes) $^ > $@
++PreProcessorCTool = $(CC) -E $(CPPFLAGS) $^ -o $@
++
++SharedCObjectFlags = -fPIC
++SharedCTool = $(CC) $(CSharedFlags) $^ -o $@ -dynamiclib -single_module $(CSharedLink)
++DebugSharedCTool = $(CC) $(CSharedFlags) $(CDebugFlag) $^ -o $@ -dynamiclib -single_module $(CSharedLink)
++
++# Beginning of C++ var defs:
++CXXDebugFlag=-g
++
++SCClinkCmd=$(CXX) $(CXXFLAGS) $(CXXOptimised) $(LDFLAGS) $< -o $@
++SCClinkCmd_d=$(CXX) $(CXXFLAGS) $(CXXDebugFlag) $(LDFLAGS) $< -o $@
++CClinkCmd=$(SCClinkCmd) $(LDLIBS)
++CClinkCmdDebug=$(SCClinkCmd_d) $(LDLIBS_D)
++CClinkCmdDebugLocal=$(SCClinkCmd_d) $(LDLIBS_D_L)
++CClinkCmdInsure=$(Insure) $(CXXFLAGS) $(CXXDebugFlag) $(LDFLAGS) $< -o $@ $(LDLIBS_Insure)
++InsureSharedCCTool = $(DebugSharedCCTool)
++DependencyCCTool = $(CXX) -MM $(CPPFLAGS) $(DependIncludes) $^ > $@
++
++SharedCCObjectFlags = -fPIC
++SharedSuffix =dylib
++SharedCCTool = $(CXX) $(CXXSharedFlags) $^ -o $@ -dynamiclib -single_module $(CXXSharedLink)
++DebugSharedCCTool = $(CXX) $(CXXSharedFlags) $(CXXDebugFlag) $^ -o $@ -dynamiclib -single_module $(CXXSharedLink)
++PreProcessorCCTool = $(CXX) -E $(CPPFLAGS) $^ -o $@
++ifdef g77
++extralib+=g2c m
++endif
++        
++            </makefile>
++</tool>

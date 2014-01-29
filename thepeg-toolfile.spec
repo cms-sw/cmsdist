@@ -1,4 +1,4 @@
-### RPM external thepeg-toolfile 1.0
+### RPM external thepeg-toolfile 2.0
 Requires: thepeg
 %prep
 
@@ -10,6 +10,7 @@ mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/thepeg.xml
 <tool name="thepeg" version="@TOOL_VERSION@">
   <lib name="ThePEG"/>
+  <lib name="LesHouches"/>
   <client>
     <environment name="THEPEG_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$THEPEG_BASE/lib/ThePEG"/>
@@ -21,3 +22,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/thepeg.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+

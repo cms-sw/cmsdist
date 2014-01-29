@@ -1,0 +1,30 @@
+diff --git a/root/config/Makefile.macosx b/root/config/Makefile.macosx
+index 95f3c32..eab381b 100644
+--- a/root/config/Makefile.macosx
++++ b/root/config/Makefile.macosx
+@@ -106,8 +106,8 @@ ifeq ($(F77),)
+ # only needed to get default compiler in ./configure
+ F77           = gfortran
+ endif
+-F77LIBS      := $(shell $(F77) -print-file-name=libgfortran.dylib)
+-F77LIBS      += $(shell $(F77) -print-file-name=libgfortranbegin.a)
++F77LIBS      := $(shell $(F77) -print-file-name=libgfortran.dylib | grep /)
++F77LIBS      += $(shell $(F77) -print-file-name=libgfortranbegin.a | grep /)
+ endif
+ 
+ ifneq ($(findstring g77, $(F77)),)
+diff --git a/root/config/Makefile.macosx64 b/root/config/Makefile.macosx64
+index c968af4..6d27f7d 100644
+--- a/root/config/Makefile.macosx64
++++ b/root/config/Makefile.macosx64
+@@ -92,8 +92,8 @@ ifeq ($(F77),)
+ F77           = gfortran
+ endif
+ F77FLAGS      = -m64 -std=legacy
+-F77LIBS      := $(shell $(F77) -m64 -print-file-name=libgfortran.dylib)
+-F77LIBS      += $(shell $(F77) -m64 -print-file-name=libgfortranbegin.a)
++F77LIBS      := $(shell $(F77) -m64 -print-file-name=libgfortran.dylib | grep /)
++F77LIBS      += $(shell $(F77) -m64 -print-file-name=libgfortranbegin.a | grep /)
+ endif
+ 
+ ifneq ($(findstring g77, $(F77)),)

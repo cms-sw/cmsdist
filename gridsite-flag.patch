@@ -1,0 +1,11 @@
+--- mod/mod_gridsite.c.orig	2005-10-18 16:11:58.000000000 -0700
++++ mod/mod_gridsite.c	2005-10-18 16:12:11.000000000 -0700
+@@ -1612,7 +1612,7 @@
+                            X509_get_subject_name(x)) != 0)) return 1;
+  
+     /* If we haven't asked for issuer errors don't set ctx */
+-    if (!(ctx->flags & X509_V_FLAG_CB_ISSUER_CHECK)) return 0;
++    /*if (!(ctx->flags & X509_V_FLAG_CB_ISSUER_CHECK)) return 0;*/
+   
+     ctx->error = ret;
+     ctx->current_cert = x;

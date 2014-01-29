@@ -1,0 +1,12 @@
+diff -Naur orig.Hector/Makefile Hector/Makefile
+--- orig.Hector/Makefile	2007-05-11 22:51:37.000000000 +0200
++++ Hector/Makefile	2007-10-22 11:41:35.000000000 +0200
+@@ -49,7 +49,7 @@
+ # LIBFULLNAME  Returns the full name of the library (e.g. libHector.so)
+ LIBFULLNAME = $(addprefix lib,$(addsuffix $(LEXT),$(LIBRARY))) 
+ # ROOTCFLAGS & ROOTLIBS  flags needed from ROOT for the compilation command
+-ROOTCFLAGS= $(shell root-config --cflags) 
++ROOTCFLAGS= -fPIC $(shell root-config --cflags) 
+ ROOTLIBS= $(shell root-config --libs --glibs)
+ # HEADERS  List of .h files, without path
+ HEADERS= $(notdir $(wildcard $(INC)*h))

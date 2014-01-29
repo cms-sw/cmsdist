@@ -1,0 +1,151 @@
+Index: AHADIC++/Tools/Soft_Cluster_Handler.C
+===================================================================
+--- AHADIC++/Tools/Soft_Cluster_Handler.C	(Revision 13608)
++++ AHADIC++/Tools/Soft_Cluster_Handler.C	(Revision 13609)
+@@ -24,32 +24,32 @@
+ {
+   switch (int(hadpars.Get(std::string("Selection_C->H")))) {
+   case 3:
+-    m_tweightmode = TransWeight::waveonly;
++    m_tweightmode = Trans_Weight::waveonly;
+     break;
+   case 2:
+-    m_tweightmode = TransWeight::nonrelativistic;
++    m_tweightmode = Trans_Weight::nonrelativistic;
+     break;
+   case 1:
+   default:
+-    m_tweightmode = TransWeight::relativistic;
++    m_tweightmode = Trans_Weight::relativistic;
+     break;
+   }
+   switch (int(hadpars.Get(std::string("Selection_C->HH")))) {
+   case 14:
+-    m_dweightmode = DecayWeight::waves;
++    m_dweightmode = Decay_Weight::waves;
+     break;
+   case 3:
+-    m_dweightmode = DecayWeight::phasespace_masses_waves;
++    m_dweightmode = Decay_Weight::phasespace_masses_waves;
+     break;
+   case 2:
+-    m_dweightmode = DecayWeight::phasespace_waves;
++    m_dweightmode = Decay_Weight::phasespace_waves;
+     break;
+   case 1:
+-    m_dweightmode = DecayWeight::phasespace;
++    m_dweightmode = Decay_Weight::phasespace;
+     break;
+   case 0:
+   default:
+-    m_dweightmode = DecayWeight::off;
++    m_dweightmode = Decay_Weight::off;
+   }
+ 
+   if (m_ana) {
+@@ -649,14 +649,14 @@
+   double mass(flav.HadMass()),mass2(mass*mass);
+   double width(Max(flav.Width(),1.e-20)), width2(width*width);
+   switch (m_tweightmode) {
+-  case TransWeight::waveonly:
++  case Trans_Weight::waveonly:
+     break;
+-  case TransWeight::nonrelativistic:
++  case Trans_Weight::nonrelativistic:
+     if (!enforce && dabs(MC-mass)>20.*width) return 0.;
+     weight *= pow(mass2/(sqr(MC-mass) + width2/4.),m_kappa);
+     weight *= pow(width2/mass2,m_lambda);
+     break;
+-  case TransWeight::relativistic:
++  case Trans_Weight::relativistic:
+   default:
+     if (!enforce && dabs(MC-mass)>20.*width) return 0.;
+     weight *= pow(sqr(mass2)/(sqr(MC*MC-mass2) + mass2*width2),m_kappa);
+@@ -669,7 +669,7 @@
+ double Soft_Cluster_Handler::DecayWeight(Cluster * cluster,Flavour & had1,Flavour & had2,
+ 					 const bool & enforce)
+ {
+-  if (m_dweightmode==DecayWeight::off && !enforce) return 0.;
++  if (m_dweightmode==Decay_Weight::off && !enforce) return 0.;
+   Flavour_Pair flpair;
+   flpair.first  = cluster->GetTrip()->m_flav;
+   flpair.second = cluster->GetAnti()->m_flav;
+@@ -722,15 +722,15 @@
+     m2  = decit->first.second.HadMass();
+     if (m1+m2<MC) {
+       wt  = 1.;
+-      if (m_dweightmode==DecayWeight::phasespace ||
+-	  m_dweightmode==DecayWeight::phasespace_waves ||
+-	  m_dweightmode==DecayWeight::phasespace_masses_waves)
++      if (m_dweightmode==Decay_Weight::phasespace ||
++	  m_dweightmode==Decay_Weight::phasespace_waves ||
++	  m_dweightmode==Decay_Weight::phasespace_masses_waves)
+ 	wt *= sqrt((MC2-sqr(m1+m2))*(MC2-sqr(m1-m2)));
+-      if (m_dweightmode==DecayWeight::phasespace_masses_waves)
++      if (m_dweightmode==Decay_Weight::phasespace_masses_waves)
+ 	wt *= pow((4.*m1*m2)/MC2,m_chi);
+-      if (m_dweightmode==DecayWeight::phasespace_masses_waves ||
+-	  m_dweightmode==DecayWeight::phasespace_waves ||
+-	  m_dweightmode==DecayWeight::waves)
++      if (m_dweightmode==Decay_Weight::phasespace_masses_waves ||
++	  m_dweightmode==Decay_Weight::phasespace_waves ||
++	  m_dweightmode==Decay_Weight::waves)
+ 	wt *= wfweight = decit->second;
+       if (wfweight>wfmax) {
+ 	max1  = decit->first.first;
+@@ -757,15 +757,15 @@
+     m2    = decit->first.second.HadMass();
+     if (m1+m2<MC) {
+       wt  = 1.;
+-      if (m_dweightmode==DecayWeight::phasespace ||
+-	  m_dweightmode==DecayWeight::phasespace_waves ||
+-	  m_dweightmode==DecayWeight::phasespace_masses_waves)
++      if (m_dweightmode==Decay_Weight::phasespace ||
++	  m_dweightmode==Decay_Weight::phasespace_waves ||
++	  m_dweightmode==Decay_Weight::phasespace_masses_waves)
+ 	wt *= sqrt((MC2-sqr(m1+m2))*(MC2-sqr(m1-m2)));
+-      if (m_dweightmode==DecayWeight::phasespace_masses_waves)
++      if (m_dweightmode==Decay_Weight::phasespace_masses_waves)
+ 	wt *= pow((4.*m1*m2)/MC2,m_chi);
+-      if (m_dweightmode==DecayWeight::phasespace_masses_waves ||
+-	  m_dweightmode==DecayWeight::phasespace_waves ||
+-	  m_dweightmode==DecayWeight::waves)
++      if (m_dweightmode==Decay_Weight::phasespace_masses_waves ||
++	  m_dweightmode==Decay_Weight::phasespace_waves ||
++	  m_dweightmode==Decay_Weight::waves)
+ 	wt *= wfweight = decit->second;
+       disc -= wt;
+       if (disc<0.) {
+Index: AHADIC++/Tools/Soft_Cluster_Handler.H
+===================================================================
+--- AHADIC++/Tools/Soft_Cluster_Handler.H	(Revision 13608)
++++ AHADIC++/Tools/Soft_Cluster_Handler.H	(Revision 13609)
+@@ -10,7 +10,7 @@
+ #include <map>
+ 
+ namespace AHADIC {
+-  struct TransWeight {
++  struct Trans_Weight {
+     enum code {
+       waveonly         = 3,
+       nonrelativistic  = 2,
+@@ -18,7 +18,7 @@
+     };
+   };
+ 
+-  struct DecayWeight {
++  struct Decay_Weight {
+     enum code {
+       waves                   = 4,
+       phasespace_masses_waves = 3,
+@@ -35,8 +35,8 @@
+     Single_Transitions * p_singletransitions;
+     Double_Transitions * p_doubletransitions;
+     
+-    TransWeight::code    m_tweightmode;
+-    DecayWeight::code    m_dweightmode;
++    Trans_Weight::code   m_tweightmode;
++    Decay_Weight::code   m_dweightmode;
+     double               m_transitionoffset,m_decayoffset,m_kappa,m_lambda,m_chi;
+     double               m_pt2min,m_pt2max,m_pt2maxfac;
+     Cluster_List *       m_clin;

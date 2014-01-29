@@ -1,0 +1,34 @@
+diff -Naur TriDAS/build/mfSet.extern_powerpack TriDAS.hack/build/mfSet.extern_powerpack
+--- TriDAS/build/mfSet.extern_powerpack	2007-07-10 15:37:01.000000000 +0200
++++ TriDAS.hack/build/mfSet.extern_powerpack	2007-10-10 21:58:21.000000000 +0200
+@@ -13,5 +13,5 @@
+ Packages=\
+ 	extern/slp \
+ 	extern/appweb \
+-	extern/pstreams \
+-	extern/ssh
++	extern/pstreams 
++
+diff -Naur TriDAS/build/mfSet.powerpack TriDAS.hack/build/mfSet.powerpack
+--- TriDAS/build/mfSet.powerpack	2007-07-10 15:37:01.000000000 +0200
++++ TriDAS.hack/build/mfSet.powerpack	2007-10-10 21:59:01.000000000 +0200
+@@ -34,5 +34,4 @@
+ 	benchmark/roundtrip \
+ 	benchmark/mstreamio \
+ 	xmem \
+-	xaccess \
+-	xact
++	xaccess 
+--- TriDAS/daq/xdaq/Makefile	2007-04-12 14:41:55.000000000 +0200
++++ TriDAS.hack/daq/xdaq/Makefile	2007-10-10 22:01:09.000000000 +0200
+@@ -94,7 +94,9 @@
+ 	$(PT_LIB_PREFIX) \
+ 	$(XDAQ_LIB_PREFIX) \
+ 	$(I2O_LIB_PREFIX) \
+-	$(XI2O_LIB_PREFIX)
++	$(XI2O_LIB_PREFIX) \
++	$(UUID_LIB_PREFIX)
++
+ 
+ UserSourcePath = 
+ UserCFlags =

@@ -1,0 +1,37 @@
+commit a62d84863d46d4cb26ba46848dfd6dd8a29c7c41
+Author: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date:   Sat Oct 9 11:15:49 2010 +0200
+
+    ../CMSDIST/root-5.22-00d-TString-Clear.patch
+
+diff --git a/core/base/inc/TString.h b/core/base/inc/TString.h
+index acebe53..7823b8a 100644
+--- a/core/base/inc/TString.h
++++ b/core/base/inc/TString.h
+@@ -305,6 +305,7 @@ public:
+    Ssiz_t       Capacity() const         { return Pref()->Capacity(); }
+    Ssiz_t       Capacity(Ssiz_t n);
+    TString     &Chop();
++   void         Clear();
+    int          CompareTo(const char *cs,    ECaseCompare cmp = kExact) const;
+    int          CompareTo(const TString &st, ECaseCompare cmp = kExact) const;
+    Bool_t       Contains(const char *pat,    ECaseCompare cmp = kExact) const;
+diff --git a/core/base/src/TString.cxx b/core/base/src/TString.cxx
+index 87c970c..bd968c2 100644
+--- a/core/base/src/TString.cxx
++++ b/core/base/src/TString.cxx
+@@ -895,6 +895,14 @@ Ssiz_t TString::AdjustCapacity(Ssiz_t nc)
+ }
+ 
+ //______________________________________________________________________________
++void TString::Clear()
++{
++   // Clear string without changing its capacity.
++
++   Clobber(Capacity());
++}
++
++//______________________________________________________________________________
+ void TString::Clobber(Ssiz_t nc)
+ {
+    // Clear string and make sure it has a capacity of nc.

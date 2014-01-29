@@ -1,0 +1,55 @@
+diff -Naur orig.fastjet-2.4.0/example/fastjet_example.cc fastjet-2.4.0/example/fastjet_example.cc
+--- orig.fastjet-2.4.0/example/fastjet_example.cc	2007-11-28 21:49:18.000000000 +0100
++++ fastjet-2.4.0/example/fastjet_example.cc	2009-05-06 03:43:10.000000000 +0200
+@@ -44,6 +44,7 @@
+ #include<iostream> // needed for io
+ #include<sstream>  // needed for internal io
+ #include<vector> 
++#include <cstdio>
+ 
+ using namespace std;
+ 
+diff -Naur orig.fastjet-2.4.0/example/fastjet_subjets.cc fastjet-2.4.0/example/fastjet_subjets.cc
+--- orig.fastjet-2.4.0/example/fastjet_subjets.cc	2008-10-09 21:26:46.000000000 +0200
++++ fastjet-2.4.0/example/fastjet_subjets.cc	2009-05-06 03:51:11.000000000 +0200
+@@ -44,6 +44,7 @@
+ #include<iostream> // needed for io
+ #include<sstream>  // needed for internal io
+ #include<vector> 
++#include <cstdio>
+ 
+ using namespace std;
+ 
+diff -Naur orig.fastjet-2.4.0/example/fastjet_timing.cc fastjet-2.4.0/example/fastjet_timing.cc
+--- orig.fastjet-2.4.0/example/fastjet_timing.cc	2007-11-28 21:49:18.000000000 +0100
++++ fastjet-2.4.0/example/fastjet_timing.cc	2009-05-06 03:47:39.000000000 +0200
+@@ -85,6 +85,7 @@
+ #include <cstdlib>
+ #include<cstddef> // for size_t
+ #include "CmdLine.hh"
++#include <cstdio>
+ 
+ using namespace std;
+ 
+diff -Naur orig.fastjet-2.4.0/include/fastjet/ClusterSequenceActiveAreaExplicitGhosts.hh fastjet-2.4.0/include/fastjet/ClusterSequenceActiveAreaExplicitGhosts.hh
+--- orig.fastjet-2.4.0/include/fastjet/ClusterSequenceActiveAreaExplicitGhosts.hh	2008-10-29 17:42:10.000000000 +0100
++++ fastjet-2.4.0/include/fastjet/ClusterSequenceActiveAreaExplicitGhosts.hh	2009-05-06 03:31:14.000000000 +0200
+@@ -37,6 +37,7 @@
+ #include "fastjet/internal/LimitedWarning.hh"
+ #include<iostream>
+ #include<vector>
++#include <cstdio>
+ 
+ FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
+ 
+diff -Naur orig.fastjet-2.4.0/plugins/usage_examples/run_jet_finder.cc fastjet-2.4.0/plugins/usage_examples/run_jet_finder.cc
+--- orig.fastjet-2.4.0/plugins/usage_examples/run_jet_finder.cc	2007-01-23 13:13:00.000000000 +0100
++++ fastjet-2.4.0/plugins/usage_examples/run_jet_finder.cc	2009-05-06 03:36:20.000000000 +0200
+@@ -33,6 +33,7 @@
+ #include<iostream> // needed for io
+ #include<sstream>  // needed for internal io
+ #include<vector> 
++#include <cstdio>
+ 
+ using namespace std;
+ 

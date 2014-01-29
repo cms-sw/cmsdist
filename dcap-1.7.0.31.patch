@@ -1,0 +1,120 @@
+diff -Naur dCacheBuild/modules/dcap/Makefile.inc dCacheBuild.mod/modules/dcap/Makefile.inc
+--- dCacheBuild/modules/dcap/Makefile.inc	2006-07-17 18:14:47.000000000 +0200
++++ dCacheBuild.mod/modules/dcap/Makefile.inc	2008-04-07 18:44:32.000000000 +0200
+@@ -1,5 +1,5 @@
+ #
+-#  $Id: dcap-1.7.0.31.patch,v 1.1 2008/04/08 04:58:34 dlange Exp $
++#  $Id: dcap-1.7.0.31.patch,v 1.1 2008/04/08 04:58:34 dlange Exp $
+ #
+ 
+ 
+@@ -34,6 +34,8 @@
+ 	dcap_reconnect.c \
+ 	tunnelManager.c \
+ 	lineparser.c \
++	passive.c \
++	str2errno.c \
+ 	dcap_protocol.c \
+ 	string2stat.c \
+ 	dcap_read.c \
+@@ -54,9 +56,18 @@
+ 	dcap_mkdir.c \
+ 	dcap_chmod.c \
+ 	dcap_rename.c \
++	currentThread.c \
++	dcap.c \
+ 	dcap_chown.c \
+-	str2errno.c \
+-	passive.c
++#	dcap_preload.c \
++#	dccp_linux_directio.c \
++#	dc_job_hack.c \
++	dispatcher.c \
++	fnal_thread.c \
++	getopt.c \
++	gettrace.c \
++	linux_trace.c \
++	thread_test.c 
+ 
+ 
+ ifdef TRACEBACK
+@@ -71,7 +82,8 @@
+ 
+ STORE_FLAGS :=  $(shell echo $(CFLAGS) | sed -e 's/\"//g')
+ 
+-all: libdcap libpdcap $(BIN_EXEC)
++all: libdcap libpdcap 
++#$(BIN_EXEC)
+ 
+ $(OBJS): Makefile.inc
+ 
+diff -Naur dCacheBuild/modules/dcap/Makefile.linux dCacheBuild.mod/modules/dcap/Makefile.linux
+--- dCacheBuild/modules/dcap/Makefile.linux	2006-10-11 10:46:36.000000000 +0200
++++ dCacheBuild.mod/modules/dcap/Makefile.linux	2008-04-02 16:31:46.000000000 +0200
+@@ -1,5 +1,5 @@
+ #
+-# $Id: dcap-1.7.0.31.patch,v 1.1 2008/04/08 04:58:34 dlange Exp $
++# $Id: dcap-1.7.0.31.patch,v 1.1 2008/04/08 04:58:34 dlange Exp $
+ #
+ 
+ #
+@@ -25,7 +25,7 @@
+ 	-DTELLDIR_SYM=\"telldir\" -DSEEKDIR_SYM=\"seekdir\" \
+ 	-DUNLINK_SYM=\"unlink\" -DRMDIR_SYM=\"rmdir\" -DMKDIR_SYM=\"mkdir\" \
+ 	-DCHMOD_SYM=\"chmod\" -DACCESS_SYM=\"access\" -DRENAME_SYM=\"rename\" \
+-	-DCHOWN_SYM=\"chown\" -DWRITEV_SYM=\"writev\" -DREADV_SYM=\"readv\"
++	-DREADV_SYM=\"readv\" -DWRITEV_SYM=\"writev\" -DCHOWN_SYM=\"chown\" \
+ 
+ CFLAGS = -g -I. -fPIC -Wall -pedantic -pipe -D_REENTRANT -DLIBC_SYSCALLS  $(IO_SYM) -D_GNU_SOURCE
+ 
+diff -Naur dCacheBuild/modules/dcap/ofiles dCacheBuild.mod/modules/dcap/ofiles
+--- dCacheBuild/modules/dcap/ofiles	1970-01-01 01:00:00.000000000 +0100
++++ dCacheBuild.mod/modules/dcap/ofiles	2008-04-02 16:38:40.000000000 +0200
+@@ -0,0 +1,47 @@
++adler32
++array
++char2crc
++dcap_accept
++dcap_access
++dcap_ahead
++dcap_checksum
++dcap_chmod
++dcap_close
++dcap_command
++dcap_debug
++dcap_dirent
++dcap_dup
++dcap_error
++dcap_fsync
++dcap_interpreter
++dcap_lseek
++dcap_mkdir
++dcap_mqueue
++dcap
++dcap_open
++dcap_poll
++dcap_protocol
++dcap_read
++dcap_reconnect
++dcap_rename
++dcap_signal
++dcap_stat
++dcap_stream
++dcap_unlink
++dcap_url
++dcap_version
++dcap_write
++dud
++input_parser
++io
++lineparser
++links
++node_plays
++parser
++pnfs
++socket_nio
++str2errno
++string2stat
++system_io
++tunnelManager
++xutil

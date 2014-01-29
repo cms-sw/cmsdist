@@ -1,0 +1,28 @@
+diff -Naur orig.root/math/matrix/inc/TDecompSVD.h root/math/matrix/inc/TDecompSVD.h
+--- orig.root/math/matrix/inc/TDecompSVD.h	2009-07-27 17:16:23.000000000 +0200
++++ root/math/matrix/inc/TDecompSVD.h	2010-12-12 20:37:11.000000000 +0100
+@@ -52,8 +52,8 @@
+    virtual ~TDecompSVD() {}
+ 
+            const TMatrixD  GetMatrix ();
+-   virtual       Int_t     GetNrows  () const { return fU.GetNrows(); }
+-   virtual       Int_t     GetNcols  () const { return fV.GetNcols(); }
++   virtual       Int_t     GetNrows  () const;
++   virtual       Int_t     GetNcols  () const;
+            const TMatrixD &GetU      ()       { if ( !TestBit(kDecomposed) ) Decompose();
+                                                  return fU; }
+            const TMatrixD &GetV      ()       { if ( !TestBit(kDecomposed) ) Decompose();
+diff -Naur orig.root/math/matrix/src/TDecompSVD.cxx root/math/matrix/src/TDecompSVD.cxx
+--- orig.root/math/matrix/src/TDecompSVD.cxx	2009-07-27 17:16:23.000000000 +0200
++++ root/math/matrix/src/TDecompSVD.cxx	2010-12-12 20:37:10.000000000 +0100
+@@ -546,6 +546,10 @@
+ }
+ 
+ //______________________________________________________________________________
++Int_t TDecompSVD::GetNrows() const { return fU.GetNrows(); }
++Int_t TDecompSVD::GetNcols() const { return fV.GetNcols(); }
++
++//______________________________________________________________________________
+ const TMatrixD TDecompSVD::GetMatrix()
+ {
+ // Reconstruct the original matrix using the decomposition parts

@@ -1,0 +1,19 @@
+commit 7a4ff5e2591533d6e751f2f06d043fd9a61150db
+Author: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date:   Sat Oct 9 11:15:40 2010 +0200
+
+    ../CMSDIST/root-5.22-00a-TMVA-shut-the-hell-up-again.patch
+
+diff --git a/tmva/src/MethodBDT.cxx b/tmva/src/MethodBDT.cxx
+index 0b5e213..33e680c 100644
+--- a/tmva/src/MethodBDT.cxx
++++ b/tmva/src/MethodBDT.cxx
+@@ -714,7 +714,7 @@ void  TMVA::MethodBDT::ReadWeightsFromStream( istream& istr )
+ 
+    // and read the Weights (BDT coefficients)  
+    istr >> dummy >> fNTrees;
+-   fLogger << kINFO << "Read " << fNTrees << " Decision trees" << Endl;
++   //fLogger << kINFO << "Read " << fNTrees << " Decision trees" << Endl;
+   
+    for (UInt_t i=0;i<fForest.size();i++) delete fForest[i];
+    fForest.clear();

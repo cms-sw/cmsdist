@@ -1,0 +1,27 @@
+commit f7d93c92d180931b901c46e6fe080d3c0c7572ac
+Author: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date:   Sat Oct 9 11:15:49 2010 +0200
+
+    ../CMSDIST/root-5.22-00d-RootsysOnMac.patch
+
+diff --git a/core/unix/src/TUnixSystem.cxx b/core/unix/src/TUnixSystem.cxx
+index c141931..6b0b4b5 100644
+--- a/core/unix/src/TUnixSystem.cxx
++++ b/core/unix/src/TUnixSystem.cxx
+@@ -419,8 +419,14 @@ static void DylibAdded(const struct mach_header *mh, intptr_t /* vmaddr_slide */
+ 
+ #ifndef ROOTPREFIX
+    if (lib.EndsWith("libCore.dylib") || lib.EndsWith("libCore.so")) {
+-      TString rs = gSystem->DirName(lib);
+-      gSystem->Setenv("ROOTSYS", gSystem->DirName(rs));
++      char respath[kMAXPATHLEN];
++      if (!realpath(lib, respath)) {
++         if (!gSystem->Getenv("ROOTSYS"))
++            ::SysError("TUnixSystem::DylibAdded", "error getting realpath of libCore, please set ROOTSYS in the shell");
++      } else {
++         TString rs = gSystem->DirName(respath);
++         gSystem->Setenv("ROOTSYS", gSystem->DirName(rs));
++      }
+    }
+ #endif
+ 

@@ -1,0 +1,39 @@
+commit afadc8b3d9a222b59fd7891194490de06275a47b
+Author: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date:   Thu Nov 6 18:52:36 2008 +0100
+
+    Fixes for gcc 4.3.
+
+diff --git a/HepMC/ParticleData.h b/HepMC/ParticleData.h
+index e704594..8fd2a33 100644
+--- a/HepMC/ParticleData.h
++++ b/HepMC/ParticleData.h
+@@ -49,6 +49,7 @@
+ #include <iostream>
+ #include <string>
+ #include <cmath>
++#include <cstdlib>
+ 
+ namespace HepMC {
+ 
+diff --git a/src/IO_PDG_ParticleDataTable.cc b/src/IO_PDG_ParticleDataTable.cc
+index 968e17a..512ede8 100644
+--- a/src/IO_PDG_ParticleDataTable.cc
++++ b/src/IO_PDG_ParticleDataTable.cc
+@@ -10,6 +10,7 @@
+ #include <string>
+ #include <vector>
+ #include <cstdlib>      // needed for abort()
++#include <cstring>
+ #include "HepMC/IO_PDG_ParticleDataTable.h"
+ 
+ namespace HepMC {
+@@ -218,7 +219,7 @@ namespace HepMC {
+             if ( c[0] == key[index] ) { 
+                 ++index;
+             } else { index = 0; }
+-            if ( index == strlen(key) ) return 1;
++            if ( index == std::strlen(key) ) return 1;
+         }
+         return 0;
+     }

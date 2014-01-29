@@ -1,0 +1,71 @@
+commit 9b99b0a72c0863d7033b7e145bd86cc5179790f0
+Author: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date:   Sat Oct 9 11:15:39 2010 +0200
+
+    ../CMSDIST/root-5.22-00d-externals.patch
+
+diff --git a/configure b/configure
+index 599346b..b081cd5 100755
+--- a/configure
++++ b/configure
+@@ -1845,7 +1845,7 @@ result "$enable_builtin_pcre"
+ ### echo %%% Use included ZLib or use systems
+ #
+ if test "x$enable_builtin_zlib" = "xno" ; then
+-    check_header "zlib.h" "/usr/include"  $ZLIB $ZLIB/include \
++    check_header "zlib.h" $ZLIB_ROOT/include /usr/include \
+ 	/usr/local/include /usr/include/zlib /usr/local/include/zlib \
+ 	/opt/zlib/include
+     if test "x$found_dir" = "x" ; then
+@@ -1855,8 +1855,8 @@ if test "x$enable_builtin_zlib" = "xno" ; then
+         zlibincdir=$found_dir
+     fi
+ 
+-    check_library "libz" "$enable_shared" "" "/usr/lib" \
+-	$ZLIB $ZLIB/lib /usr/local/zlib/lib /usr/local/lib \
++    check_library "libz" "$enable_shared" "" $ZLIB_ROOT/lib /usr/lib \
++	    /usr/local/zlib/lib /usr/local/lib \
+             /usr/lib/zlib /usr/local/lib/zlib /usr/zlib/lib /usr/lib \
+             /usr/zlib /usr/local/zlilb /opt/zlib /opt/zlib/lib
+     if test "x$found_lib" = "x" ; then
+@@ -2842,21 +2842,21 @@ if test ! "x$enable_asimage" = "xno" ; then
+     # If we didn't find the system libAfterImage, or the user didn't ask
+     # for a system library, then see if we have various headers needed.
+     if test "x$enable_builtin_afterimage" = "xyes" ; then
+-       check_header "jpeglib.h" "" $ASIMAGE $ASIMAGE/include \
++       check_header "jpeglib.h" "" $LIBJPG_ROOT/include $ASIMAGE $ASIMAGE/include \
+           /usr/local/include /usr/include /opt/include
+        asjpegincdir=$found_dir
+-       check_header "png.h" "" $ASIMAGE $ASIMAGE/include $ASPNG/include \
++       check_header "png.h" "" $LIBPNG_ROOT/include $ASIMAGE $ASIMAGE/include $ASPNG/include \
+           /usr/local/include /usr/include /usr/local/include/libpng \
+           /opt/include
+        aspngincdir=$found_dir
+        if test ! "x$enable_astiff" = "xno" ; then
+-           check_header "tiffio.h" "" $ASIMAGE $ASIMAGE/include \
++           check_header "tiffio.h" "" $LIBTIFF_ROOT/include $ASIMAGE $ASIMAGE/include \
+                /usr/local/include /usr/include /opt/include
+            astiffincdir=$found_dir
+        else
+            astiffincdir="--with-tiff=no"
+        fi
+-       check_header "gif_lib.h" "" $ASIMAGE $ASIMAGE/include \
++       check_header "gif_lib.h" "" $LIBUNGIF_ROOT/include $ASIMAGE $ASIMAGE/include \
+           /usr/local/include /usr/include /opt/include
+        asgifincdir=$found_dir
+ 
+@@ -2870,11 +2870,14 @@ if test ! "x$enable_asimage" = "xno" ; then
+        # libAfterImage contains embedded libungif source if needed
+        if test ! "x$enable_astiff" = "xno" ; then
+            aslibs="libjpeg libtiff libungif libz libpng"
++           extra_libtiff_path=$LIBTIFF_ROOT/lib 
+        else
+            aslibs="libjpeg libungif libz libpng"
++           extra_libtiff_path=
+        fi
+        for k in $aslibs ; do
+            check_library $k "$enable_shared" "" \
++              $extra_libtiff_path $LIBJPG_ROOT/lib $LIBPNG_ROOT/lib $LIBUNGIF_ROOT/lib $ZLIB_ROOT/lib \
+              $ASIMAGE $ASIMAGE/lib $ASPNG/lib /usr/local/lib /usr/lib /opt/lib
+            if test "x$k" = "xlibz" ; then
+                found_libz=$found_lib

@@ -1,0 +1,23 @@
+commit 041fefcf59b760cfb663b8c08bd65e33ef126242
+Author: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date:   Sat Oct 9 11:15:40 2010 +0200
+
+    ../CMSDIST/root-5.22-00-TMVA-shut-the-hell-up-for-once.patch
+
+diff --git a/tmva/inc/MsgLogger.h b/tmva/inc/MsgLogger.h
+index 0a9ee9d..b74d10a 100644
+--- a/tmva/inc/MsgLogger.h
++++ b/tmva/inc/MsgLogger.h
+@@ -63,9 +63,9 @@ namespace TMVA {
+ 
+    public:
+ 
+-      MsgLogger( const TObject* source, EMsgType minType = kINFO );
+-      MsgLogger( const std::string& source, EMsgType minType = kINFO );
+-      MsgLogger( EMsgType minType = kINFO );
++      MsgLogger( const TObject* source, EMsgType minType = kSILENT );
++      MsgLogger( const std::string& source, EMsgType minType = kSILENT );
++      MsgLogger( EMsgType minType = kSILENT );
+       MsgLogger( const MsgLogger& parent );
+       ~MsgLogger();
+ 

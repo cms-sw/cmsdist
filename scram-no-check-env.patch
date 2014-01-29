@@ -1,0 +1,28 @@
+Index: SCRAM/src/BuildSystem/ToolDoc.pm
+===================================================================
+RCS file: /cvs/SPITOOLS/SCRAM/src/BuildSystem/ToolDoc.pm,v
+retrieving revision 1.3
+diff -u -r1.3 ToolDoc.pm
+--- SCRAM/src/BuildSystem/ToolDoc.pm	8 Apr 2003 15:54:51 -0000	1.3
++++ SCRAM/src/BuildSystem/ToolDoc.pm	15 Jun 2006 22:48:29 -0000
+@@ -700,13 +700,13 @@
+ 		}
+ 	    }
+ 	 # -- check the environment
+-	 if ( defined $ENV{$$hashref{'name'}} )
+-	    {
+-	    if ( !grep { $_ eq $ENV{$$hashref{'name'}}} @menulist )
+-	       { 
+-	       unshift @menulist, $ENV{$$hashref{'name'}};
+-	       }
+-	    }
++	 #if ( defined $ENV{$$hashref{'name'}} )
++	 #   {
++	 #   if ( !grep { $_ eq $ENV{$$hashref{'name'}}} @menulist )
++	 #      { 
++	 #      unshift @menulist, $ENV{$$hashref{'name'}};
++	 #      }
++	 #   }
+ 	 # -- check the tools-{SITE}.conf file
+          my $lookupdb = $main::lookupobject;
+          my $value_from_conf_file=$lookupdb->lookupTag(${$self->{tool}}{name},$$hashref{'name'});

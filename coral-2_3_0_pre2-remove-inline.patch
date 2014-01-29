@@ -1,0 +1,56 @@
+--- orig.src/RelationalAccess/src/ConnectionService.cpp	2008-04-11 13:49:50.000000000 +0200
++++ src/RelationalAccess/src/ConnectionService.cpp	2009-07-03 00:40:51.000000000 +0200
+@@ -58,7 +58,7 @@
+ 
+ // INLINE METHODS
+ 
+-inline coral::ISessionProxy*
++coral::ISessionProxy*
+ coral::ConnectionService::connect( const std::string& connectionName,
+                                    coral::AccessMode accessMode )
+ {
+@@ -68,7 +68,7 @@
+ }
+ 
+ 
+-inline coral::ISessionProxy*
++coral::ISessionProxy*
+ coral::ConnectionService::connect( const std::string& connectionName,
+                                    const std::string& asRole,
+                                    coral::AccessMode accessMode )
+@@ -80,7 +80,7 @@
+ }
+ 
+ 
+-inline coral::IConnectionServiceConfiguration&
++coral::IConnectionServiceConfiguration&
+ coral::ConnectionService::configuration()
+ {
+   if( ! this->m_connectionService->svc.isValid() )
+@@ -89,7 +89,7 @@
+ }
+ 
+ 
+-inline void
++void
+ coral::ConnectionService::purgeConnectionPool()
+ {
+   if( ! this->m_connectionService->svc.isValid() )
+@@ -98,7 +98,7 @@
+ }
+ 
+ 
+-inline const coral::IMonitoringReporter&
++const coral::IMonitoringReporter&
+ coral::ConnectionService::monitoringReporter() const
+ {
+   if( ! this->m_connectionService->svc.isValid() )
+@@ -107,7 +107,7 @@
+ }
+ 
+ 
+-inline coral::IWebCacheControl&
++coral::IWebCacheControl&
+ coral::ConnectionService::webCacheControl()
+ {
+   if( ! this->m_connectionService->svc.isValid() )

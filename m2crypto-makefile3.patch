@@ -1,0 +1,13 @@
+--- SWIG/Makefile.orig	2006-08-24 10:44:41.000000000 -0700
++++ SWIG/Makefile	2006-08-24 10:45:24.000000000 -0700
+@@ -18,7 +18,9 @@
+ all:	_m2crypto
+ 
+ _m2crypto: 	_m2crypto.i
+-	swig -python -shadow _m2crypto.i
++	swig -I${SWIG_ROOT}/share/swig/1.3.29/python \
++	-I${SWIG_ROOT}/share/swig/1.3.29 \
++	-python -shadow _m2crypto.i
+ 	cc -c -fpic $(CFLAGS) $(INCLUDE) $(PYINCLUDE) _m2crypto_wrap.c
+ 	ld -Bshareable -o __m2crypto.so _m2crypto_wrap.o $(LIBS) 
+ 	cp _m2crypto.py __m2crypto.so ../M2Crypto

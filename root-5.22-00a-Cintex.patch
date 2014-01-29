@@ -1,0 +1,117 @@
+--- cint/cintex/src/CINTClassBuilder.cxx	(revision 28047)
++++ cint/cintex/src/CINTClassBuilder.cxx	(working copy)
+@@ -178,14 +178,22 @@
+ 
+    void CINTClassBuilder::Setup_memfunc() {
+       // Setup a CINT member function.
+-      for ( size_t i = 0; i < fClass.FunctionMemberSize(); i++ ) 
+-         CINTScopeBuilder::Setup(fClass.FunctionMemberAt(i).TypeOf());
++      for ( size_t i = 0; i < fClass.FunctionMemberSize(); i++ ) {
++         Member method = fClass.FunctionMemberAt(i);
++         if (method.DeclaringScope() == fClass) {
++            // against a possible UpdateMembers() call
++            CINTScopeBuilder::Setup(method.TypeOf());
++         }
++      }
+ 
+       G__tag_memfunc_setup(fTaginfo->tagnum);
+       for ( size_t i = 0; i < fClass.FunctionMemberSize(); i++ ) {
+          Member method = fClass.FunctionMemberAt(i); 
+-         std::string n = method.Name();
+-         CINTFunctionBuilder::Setup(method);
++         if (method.DeclaringScope() == fClass) {
++            // against a possible UpdateMembers() call
++            std::string n = method.Name();
++            CINTFunctionBuilder::Setup(method);
++         }
+       }
+       ::G__tag_memfunc_reset();
+ 
+@@ -193,8 +201,13 @@
+ 
+    void CINTClassBuilder::Setup_memvar() {
+       // Setup a CINT data member.
+-      for ( size_t i = 0; i < fClass.DataMemberSize(); i++ ) 
+-         CINTScopeBuilder::Setup(fClass.DataMemberAt(i).TypeOf());
++      for ( size_t i = 0; i < fClass.DataMemberSize(); i++ ) {
++         Member dm = fClass.DataMemberAt(i);
++         if (dm.DeclaringScope() == fClass) {
++            // against a possible UpdateMembers() call
++            CINTScopeBuilder::Setup(dm.TypeOf());
++         }
++      }
+ 
+       G__tag_memvar_setup(fTaginfo->tagnum);
+ 
+@@ -207,7 +220,10 @@
+          for ( size_t i = 0; i < fClass.DataMemberSize(); i++ ) {
+ 
+             Member dm = fClass.DataMemberAt(i);
+-            CINTVariableBuilder::Setup(dm);
++            if (dm.DeclaringScope() == fClass) {
++               // against a possible UpdateMembers() call
++               CINTVariableBuilder::Setup(dm);
++            }
+          }
+       }
+       G__tag_memvar_reset();
+@@ -218,8 +234,9 @@
+       // Get base class info.
+       if ( fBases ) return fBases;
+       Member getbases = fClass.MemberByName("__getBasesTable");
+-      if ( !getbases ) getbases = fClass.MemberByName("getBasesTable");
+-      if( getbases ) {
++      if ( !getbases || getbases.DeclaringScope() != fClass )
++         getbases = fClass.MemberByName("getBasesTable");
++      if( getbases && getbases.DeclaringScope() == fClass ) {
+          static Type tBases = Type::ByTypeInfo(typeid(Bases));
+          Object ret(tBases, &fBases);
+          getbases.Invoke(&ret);
+@@ -242,9 +259,12 @@
+             if ( !fClass.IsAbstract() )  {
+                Member ctor, dtor;
+                for ( size_t i = 0; i < fClass.FunctionMemberSize(); i++ ) {
+-                  Member method = fClass.FunctionMemberAt(i); 
+-                  if( method.IsConstructor() && method.FunctionParameterSize() == 0 )  ctor = method;
+-                  else if ( method.IsDestructor() )  dtor = method;
++                  Member method = fClass.FunctionMemberAt(i);
++                  if (method.DeclaringScope() == fClass) {
++                     // against a possible UpdateMembers() call
++                     if( method.IsConstructor() && method.FunctionParameterSize() == 0 )  ctor = method;
++                     else if ( method.IsDestructor() )  dtor = method;
++                  }
+                }
+                if ( ctor )  {
+                   Object obj = fClass.Construct();
+
+--- cint/cintex/src/ROOTClassEnhancer.cxx	(revision 28047)
++++ cint/cintex/src/ROOTClassEnhancer.cxx	(working copy)
+@@ -252,7 +252,7 @@
+       info->SetImplFile("", 1);
+       //----Fill the New and Deletete functions
+       Member getfuncs = TypeGet().MemberByName("__getNewDelFunctions");
+-      if( getfuncs ) {
++      if( getfuncs && getfuncs.DeclaringScope() == TypeGet()) {
+          NewDelFunctions_t* newdelfunc = 0;
+          ValueObject voNewDelFunc = ValueObject::Create(newdelfunc);
+          getfuncs.Invoke(&voNewDelFunc);
+@@ -411,7 +411,7 @@
+          case TClassEdit::kMultiSet:
+             {
+                Member method = typ.MemberByName("createCollFuncTable");
+-               if ( !method )   {
++               if ( !method  || method.DeclaringScope() != typ )   {
+                   if ( Cintex::Debug() )  {
+                      cout << "Cintex: " << Name << "' Setup failed to create this class! "
+                           << "The function createCollFuncTable is not availible."
+@@ -522,6 +522,10 @@
+       if ( IsSTL(cl.Name(SCOPED)) || cl.IsArray() ) return;
+       for ( size_t m = 0; m < cl.DataMemberSize(); m++) {
+          Member mem = cl.DataMemberAt(m);
++         if (mem.DeclaringScope() != cl) {
++            // against a possible UpdateMembers() call
++            continue;
++         }
+          if ( ! mem.IsTransient() ) {
+             Type typ = mem.TypeOf();
+             string nam = mem.Properties().HasProperty("ioname") ?

@@ -1,0 +1,134 @@
+? SCRAMToolBox/CompilerTools/C/.ccompiler.swp
+Index: SCRAMToolBox/CompilerTools/C/ccompiler
+===================================================================
+RCS file: /cvs_server/repositories/SCRAMToolBox/SCRAMToolBox/CompilerTools/C/ccompiler,v
+retrieving revision 1.7
+diff -u -r1.7 ccompiler
+--- SCRAMToolBox/CompilerTools/C/ccompiler	7 Apr 2006 09:15:01 -0000	1.7
++++ SCRAMToolBox/CompilerTools/C/ccompiler	24 May 2006 10:15:29 -0000
+@@ -42,7 +42,7 @@
+ </Architecture>
+ 
+ # SLC3 on AMD64, gcc344:
+-<Architecture name=slc3_amd64_gcc344>
++<Architecture name=slc3_amd64>
+  <client>
+  <Environment name=GCC_BASE>
+  </Environment>
+@@ -57,7 +57,7 @@
+  <Flags CFLAGS="-O2">
+  <Flags LDFLAGS="-Wl,-E">
+  <Flags CSHAREDFLAGS="-Wl,-E">
+- <Flags SCRAM_COMPILER_NAME="gcc323">
++ <Flags SCRAM_COMPILER_NAME="gcc">
+  <Runtime name=GCC_EXEC_PREFIX default="$GCC_BASE/lib/gcc-lib/">
+ </Architecture>
+ # Language support:
+Index: SCRAMToolBox/CompilerTools/CXX/cxxcompiler
+===================================================================
+RCS file: /cvs_server/repositories/SCRAMToolBox/SCRAMToolBox/CompilerTools/CXX/cxxcompiler,v
+retrieving revision 1.10
+diff -u -r1.10 cxxcompiler
+--- SCRAMToolBox/CompilerTools/CXX/cxxcompiler	7 Apr 2006 09:15:02 -0000	1.10
++++ SCRAMToolBox/CompilerTools/CXX/cxxcompiler	24 May 2006 10:15:29 -0000
+@@ -57,7 +57,7 @@
+ </Architecture>
+ 
+ # SLC3 on AMD64, gcc344:
+-<Architecture name=slc3_amd64_gcc344>
++<Architecture name=slc3_amd64>
+  <client>
+  <Environment name=GCC_BASE>
+  </Environment>
+@@ -66,7 +66,7 @@
+  <Environment name=CXX value="$GCCBINDIR/c++">
+  </Environment>
+  </client>
+- <Flags SCRAM_COMPILER_NAME="gcc344">
++ <Flags SCRAM_COMPILER_NAME="gcc">
+  <Flags CCcompiler="gcc3">
+  <Flags BFARCH="Linux24-gcc3">
+  <Flags MODULEFLAGS="-shared">
+Index: SCRAMToolBox/CompilerTools/Fortran/f77compiler
+===================================================================
+RCS file: /cvs_server/repositories/SCRAMToolBox/SCRAMToolBox/CompilerTools/Fortran/f77compiler,v
+retrieving revision 1.4
+diff -u -r1.4 f77compiler
+--- SCRAMToolBox/CompilerTools/Fortran/f77compiler	26 Jul 2005 12:54:47 -0000	1.4
++++ SCRAMToolBox/CompilerTools/Fortran/f77compiler	24 May 2006 10:15:29 -0000
+@@ -19,7 +19,7 @@
+  <Flags FCSHAREDFCOBJECTFLAGS="-fPIC">
+ </architecture>
+ # SLC on AMD64:
+-<architecture name=slc3_amd64_gcc323>
++<architecture name=slc3_amd64>
+  <lib name=g2c>
+  <lib name=m>
+  <client>
+Index: SCRAMToolBox/System/Sockets
+===================================================================
+RCS file: /cvs_server/repositories/SCRAMToolBox/SCRAMToolBox/System/Sockets,v
+retrieving revision 1.9
+diff -u -r1.9 Sockets
+--- SCRAMToolBox/System/Sockets	31 Jan 2005 09:58:43 -0000	1.9
++++ SCRAMToolBox/System/Sockets	24 May 2006 10:15:29 -0000
+@@ -13,6 +13,12 @@
+  <lib name=dl>
+ </Architecture>
+ 
++<Architecture name=slc3_amd64>
++ <lib name=nsl>
++ <lib name=crypt>
++ <lib name=dl>
++</Architecture>
++
+ <Architecture name=osx103_gcc33>
+  <lib name=dl>
+ </Architecture>
+Index: SCRAMToolBox/System/X11
+===================================================================
+RCS file: /cvs_server/repositories/SCRAMToolBox/SCRAMToolBox/System/X11,v
+retrieving revision 1.7
+diff -u -r1.7 X11
+--- SCRAMToolBox/System/X11	31 Jan 2005 09:58:43 -0000	1.7
++++ SCRAMToolBox/System/X11	24 May 2006 10:15:29 -0000
+@@ -30,6 +30,20 @@
+  <lib name=ICE>
+  <lib name=SM>
+ </Architecture>
+-
++<Architecture name=slc3_amd64>
++ <Environment name=INCLUDE value="/usr/X11R6/include">
++ </Environment>
++ <Environment name=LIBDIR value="/usr/X11R6/lib64">
++ </Environment>
++ <lib name=Xt>
++ <lib name=Xpm>
++ <lib name=X11>
++ <lib name=Xi>
++ <lib name=Xext>
++ <lib name=Xmu>
++ <lib name=ICE>
++ <lib name=SM>
++</Architecture>
++            
+ <use name=sockets>
+-</Tool>
+\ No newline at end of file
++</Tool>
+Index: SCRAMToolBox/TestingTools/OVAL
+===================================================================
+RCS file: /cvs_server/repositories/SCRAMToolBox/SCRAMToolBox/TestingTools/OVAL,v
+retrieving revision 1.12
+diff -u -r1.12 OVAL
+--- SCRAMToolBox/TestingTools/OVAL	29 Jun 2005 13:31:17 -0000	1.12
++++ SCRAMToolBox/TestingTools/OVAL	24 May 2006 10:15:29 -0000
+@@ -10,7 +10,7 @@
+  <Runtime name=OVAL_FLAVOR value="Linux">
+ </Architecture>
+ 
+-<Architecture name=slc3_amd64_gcc323>
++<Architecture name=slc3_amd64>
+  <Runtime name=OVAL_FLAVOR value="Linux">
+ </Architecture>
+ 

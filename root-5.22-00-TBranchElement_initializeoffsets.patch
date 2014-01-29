@@ -1,0 +1,21 @@
+Index: tree/tree/src/TBranchElement.cxx
+===================================================================
+--- tree/tree/src/TBranchElement.cxx	(revision 27173)
++++ tree/tree/src/TBranchElement.cxx	(working copy)
+@@ -2230,14 +2230,14 @@
+             fInitOffsets = kTRUE;
+             return;
+          }
+-         ULong_t* subBranchElems = sinfo->GetElems();
++         TObjArray* subBranchElems = sinfo->GetElements();
+          if (!subBranchElems) {
+             Warning("InitializeOffsets", "No elements array for branch: %s subbranch: %s", GetName(), subBranch->GetName());
+             fInitOffsets = kTRUE;
+             return;
+          }
+          // FIXME: Make sure subBranch->fID is in range.
+-         TStreamerElement* subBranchElement = (TStreamerElement*) subBranchElems[subBranch->fID];
++         TStreamerElement* subBranchElement = (TStreamerElement*) subBranchElems->At(subBranch->fID);
+          if (!subBranchElement) {
+             Warning("InitializeOffsets", "No streamer element for branch: %s subbranch: %s", GetName(), subBranch->GetName());
+             fInitOffsets = kTRUE;

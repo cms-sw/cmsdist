@@ -1,0 +1,31 @@
+--- src/Core/AnalysisLoader.cc.orig	2010-11-19 13:58:18.758910872 +0100
++++ src/Core/AnalysisLoader.cc	2010-11-19 13:59:53.697855969 +0100
+@@ -79,16 +79,18 @@
+       while (dir) {
+         string filename = dir.next();
+         // Require that name *starts* with 'Rivet' with new loader
+-        if (filename.find("Rivet") != 0) continue;
+-        size_t posn = filename.find(libsuffix);
+-        if (posn == string::npos || posn != filename.length()-libsuffix.length()) continue;
+-        /// @todo Make sure this is an abs path
+-        /// @todo Sys-dependent path separator instead of "/"
+-        const string path = d + "/" + filename;
+-        // Ensure no duplicate paths
+-        if (find(pluginfiles.begin(), pluginfiles.end(), path) == pluginfiles.end()) {
+-          pluginfiles += path;
+-        }
++        // patched by CMS to accept also libraries starting with pluginRivet
++        if (filename.find("Rivet") == 0 || filename.find("pluginRivet") == 0){ 
++          size_t posn = filename.find(libsuffix);
++          if (posn == string::npos || posn != filename.length()-libsuffix.length()) continue;
++          /// @todo Make sure this is an abs path
++          /// @todo Sys-dependent path separator instead of "/"
++          const string path = d + "/" + filename;
++          // Ensure no duplicate paths
++          if (find(pluginfiles.begin(), pluginfiles.end(), path) == pluginfiles.end()) {
++            pluginfiles += path;
++          }
++        }			
+       }
+     }
+ 
