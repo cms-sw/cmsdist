@@ -1,5 +1,12 @@
 ### FILE rpm-preamble
 
+#When build with non-empty buildroot rpm runs some post scripts
+#to strip the binary. Following two definition avoid running those
+#scripts. These scripts were not doing anything in past as we always
+#built with empty buildroot.
+%define __os_install_post   %{nil}
+%define __spec_install_post %{nil}
+
 # Preliminarily define where things go.  These are the places we
 # know even without knowing the architecture yet.  In particular
 # we need %_specdir to find "cmsos" to determine the architecture.
@@ -25,6 +32,22 @@
 %define instroot	/cms
 %endif
 
+%if "%{?cmsroot:set}" != "set"
+%define cmsroot        %instroot
+%endif
+
+%if "%{?tempprefix:set}" != "set"
+%define tempprefix        tmp
+%endif
+
+%if "%{?allpkgreqs:set}" != "set"
+%define allpkgreqs       %{pkgreqs}
+%endif
+
+%if "%{?builddirectpkgreqs:set}" != "set"
+%define builddirectpkgreqs       %{nil}
+%endif
+
 # We define cmsbuildApiVersion to be 0 in the case we are not using 
 # a recent enough version of cmsBuild/install.sh, which does not
 # set cmsbuildApiVersion.
@@ -48,22 +71,22 @@
 
 %define pkginstroot	%{instroot}/%{pkgrel}
 
-#define _rpmdbdir	%{instroot}/RPMDB
-%define _sourcedir	%{instroot}/SOURCES/%{pkgdir}
-%define _builddir	%{instroot}/BUILD/%{cmsplatf}/%{pkgdir}
-%define _specdir	%{instroot}/SPECS/%{pkgdir}
+#define _rpmdbdir	%{cmsroot}/RPMDB
+%define _sourcedir	%{cmsroot}/SOURCES/%{pkgdir}
+%define _builddir	%{cmsroot}/BUILD/%{cmsplatf}/%{pkgdir}
+%define _specdir	%{cmsroot}/SPECS/%{pkgdir}
 # The new cmsBuild script puts packages in a directory structure that
 # includes the package checksum. This way it is possible to decide
 # what spec was used to build a given package.
 %if "%cmsbuildApiVersion" == "0"
-%define _rpmdir     %{instroot}/RPMS
-%define _srcrpmdir  %{instroot}/SRPMS
+%define _rpmdir     %{cmsroot}/RPMS
+%define _srcrpmdir  %{cmsroot}/SRPMS
 %else
-%define _rpmdir     %{instroot}/RPMS/cache/%{specchecksum}
-%define _srcrpmdir  %{instroot}/SRPMS/cache/%{specchecksum}
+%define _rpmdir     %{cmsroot}/RPMS/cache/%{specchecksum}
+%define _srcrpmdir  %{cmsroot}/SRPMS/cache/%{specchecksum}
 %endif
-%define _tmppath	%{instroot}/tmp
-%define _topdir		%{instroot}
+%define _tmppath	%{cmsroot}/%{tempprefix}
+%define _topdir		%{cmsroot}
 
 %define _rpmfilename	%{cmsplatf}/%%{name}-%%{version}-%%{release}.%{cmsplatf}.rpm
 %define _srpmfilename	%%{name}-%%{version}-%%{release}.src.rpm
@@ -74,7 +97,11 @@
 # then make sure the right compiler gets picked up in the environment
 # by setting $PATH and $LD_LIBRARY_PATH correctly.
 %ifos darwin
-%define use_system_gcc	yes
+%define is_darwin true
+%endif
+
+%if "%{?is_darwin:set}-%gccver" == "set-4.2.1"
+%define use_system_gcc true
 %endif
 
 # Old version of install.sh/cmsBuild.sh did not set the cmscompiler variable,
@@ -85,6 +112,8 @@
 %define cmscompiler	gcc
 %endif
 
+#set cmscompilerv only if not already set by cmsBuild
+%if "%{?cmscompilerv:set}" != "set"
 # Guess compiler version.  "gccver" is defined by install.sh when
 # producing the spec file from the version of the gcc spec.
 %if "%cmscompiler" == "gcc"
@@ -98,6 +127,7 @@
 %if "%cmscompiler" != "gcc"
 %{expand:%%define cmscompilerv %(echo %compilerRealVersion | cut -d. -f1,2 | tr -d .)}
 %endif
+%endif
 
 # Define compiler platform version strings.  We use an external
 # script to determine platform name as RPM doesn't support multi-
@@ -105,6 +135,8 @@
 %define debugsuffix %{?debug_build:_dbg}
 %define cmscomp	    	%{cmscompiler}%{cmscompilerv}
 
+#set cmsos only if cmsBuild does not set it
+%if "%{?cmsos:set}" != "set"
 # Old versions of cmsBuild/install.sh used to keep cmsos script in
 # _specdir rather than in _sourcedir. This makes sure that
 # rpm-preamble works for boths.
@@ -113,8 +145,16 @@
 %else
 %{expand:%%define cmsos	%(sh %_sourcedir/cmsos)}
 %endif
+%endif
 
 %define cmsplatf    	%{cmsos}_%{cmscomp}%{debugsuffix}
+
+# Define the variable name for dynamic linker search path.
+%ifos darwin
+%define dynamic_path_var DYLD_FALLBACK_LIBRARY_PATH
+%else
+%define dynamic_path_var LD_LIBRARY_PATH
+%endif
 
 # We are now done with locations.  Move to other things.
 
@@ -156,11 +196,11 @@
 # building.  See above how we determine the list by parsing the spec
 # itself.
 %if "%archfirst" == "yes"
-%define initenv_all	for x in %{pkgreqs} .      ; do i=%{instroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
-%define initenv_direct	for x in %{directpkgreqs} .; do i=%{instroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_all	for x in %{allpkgreqs}                          .; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_direct	for x in %{directpkgreqs} %{builddirectpkgreqs} .; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %else
-%define initenv_all	for x in %{pkgreqs} .      ; do i=%{instroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
-%define initenv_direct	for x in %{directpkgreqs} .; do i=%{instroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_all	for x in %{allpkgreqs}                          .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_direct	for x in %{directpkgreqs} %{builddirectpkgreqs} .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %endif
 %define initenv		%initenv_all
 
@@ -177,10 +217,17 @@
 %endif
 
 # Define a macro for relocating configuration files in %%post section.
-%define relocateCmsFiles	perl -p -i -e "s|%{instroot}|$CMS_INSTALL_PREFIX|g" 
-%define relocateRpmFiles	perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" 
-%define reRelocateRpmFiles	perl -p -i -e "s|$CMS_INSTALL_PREFIX|$RPM_INSTALL_PREFIX|g" 
-%define reRelocateRpmPkg	perl -p -i -e "s|$CMS_INSTALL_PREFIX|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
-%define relocateRpmPkg		perl -p -i -e "s|%{instroot}|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
-%define relocateCmsPkg		perl -p -i -e "s|%{instroot}|$CMS_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
+%define relocateCmsFiles	perl -p -i -e "s|\\Q%{instroot}\\E|%{cmsroot}|g;s|\\Q%{cmsroot}\\E|$CMS_INSTALL_PREFIX|g"
+%define relocateRpmFiles	perl -p -i -e "s|\\Q%{instroot}\\E|%{cmsroot}|g;s|\\Q%{cmsroot}\\E|$RPM_INSTALL_PREFIX|g"
+%define reRelocateRpmFiles	perl -p -i -e "s|\\Q$CMS_INSTALL_PREFIX\\E|$RPM_INSTALL_PREFIX|g"
+%define reRelocateRpmPkg	perl -p -i -e "s|\\Q$CMS_INSTALL_PREFIX\\E|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
+%define relocateRpmPkg		perl -p -i -e "s|\\Q%{instroot}\\E|%{cmsroot}|g;s|\\Q%{cmsroot}\\E|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
+%define relocateCmsPkg		perl -p -i -e "s|\\Q%{instroot}\\E|%{cmsroot}|g;s|\\Q%{cmsroot}\\E|$CMS_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
 %define relocateConfig		%relocateCmsPkg
+
+# On macosx one needs to use the -x option, to avoid excessive stripping.
+%ifos darwin
+%define strip strip -x
+%else
+%define strip strip
+%endif
