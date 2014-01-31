@@ -1,11 +1,11 @@
-### RPM cms crabclient 3.3.1.pre2
+### RPM cms crabclient 3.3.3.pre2
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
-%define wmcver 0.9.86
+%define wmcver 0.9.89
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define crabserver 3.3.1.pre14
+%define crabserver 3.3.3.pre7
 
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
@@ -50,6 +50,9 @@ python setup.py install_system -s CRABClient --prefix=%i
 popd
 pushd ../CRABClient-%{realversion}
 python setup.py install --prefix=%i
+mkdir -p %i/etc
+mv %i/$PYTHON_LIB_SITE_PACKAGES/etc/* %i/etc
+rmdir %i/$PYTHON_LIB_SITE_PACKAGES/etc
 
 cp -rp src/python/* %i/$PYTHON_LIB_SITE_PACKAGES/
 python -m compileall %i/$PYTHON_LIB_SITE_PACKAGES || true
