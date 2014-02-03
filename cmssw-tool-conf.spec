@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 29.0
+### RPM cms cmssw-tool-conf 30.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -86,6 +86,7 @@ Requires: py2-cjson-toolfile
 Requires: py2-pycurl-toolfile
 Requires: py2-sqlalchemy-toolfile
 Requires: py2-pygithub-toolfile
+Requires: py2-networkx-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
 Requires: cython-toolfile
