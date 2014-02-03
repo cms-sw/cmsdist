@@ -1,8 +1,7 @@
-### RPM external curl 7.28.0
+### RPM external curl 7.35.0
 Source: http://curl.haxx.se/download/%n-%realversion.tar.gz
 Provides: libcurl.so.3()(64bit) 
-Requires: openssl
-Requires: zlib
+Requires: openssl zlib c-ares
    
 %prep
 %setup -n %n-%{realversion}
@@ -10,7 +9,7 @@ Requires: zlib
 %build
 export OPENSSL_ROOT
 export ZLIB_ROOT
-./configure --prefix=%i --disable-static --without-libidn --disable-ldap --with-ssl=${OPENSSL_ROOT} --with-zlib=${ZLIB_ROOT}
+./configure --prefix=%i --disable-static --without-libidn --disable-ldap --with-ssl=${OPENSSL_ROOT} --with-zlib=${ZLIB_ROOT} --enable-ares=${C_ARES_ROOT}
 # This should change link from "-lz" to "-lrt -lz", needed by gold linker
 # This is a fairly ugly way to do it, however.
 perl -p -i -e "s!\(LIBS\)!(LIBCURL_LIBS)!" src/Makefile
