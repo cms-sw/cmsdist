@@ -1,4 +1,4 @@
-### RPM cms das-client 1.9.5
+### RPM cms das-client 1.11.7
 ## INITENV +PATH PYTHONPATH %i/bin/
 ## NOCOMPILER
 
