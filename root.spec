@@ -55,9 +55,6 @@ export LIBJPEG=${LIBJPG_ROOT}
 export LIBPNG=${LIBPNG_ROOT}
 export LIBTIFF=${LIBTIFF_ROOT}
 
-# Enable debug symbols in ROOT LLVM
-export LLVMDEV=1
-
 CONFIG_ARGS="--enable-table 
              --disable-builtin-pcre
              --disable-builtin-freetype

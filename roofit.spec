@@ -57,9 +57,6 @@ export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 #export LIBPNG=${LIBPNG_ROOT}
 #export LIBTIFF=${LIBTIFF_ROOT}
 
-# Enable debug symbols in ROOT LLVM
-export LLVMDEV=1
-
 CONFIG_ARGS="--minimal
              --enable-roofit
              --enable-xml
