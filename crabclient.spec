@@ -1,11 +1,11 @@
-### RPM cms crabclient 3.3.3.pre2
+### RPM cms crabclient 3.3.3.rc2
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
-%define wmcver 0.9.89
+%define wmcver 0.9.90
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define crabserver 3.3.3.pre7
+%define crabserver 3.3.3.rc2
 
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
@@ -13,11 +13,13 @@ Source1: git://github.com/dmwm/CRABClient.git?obj=htcondor_poc/%{realversion}&ex
 Source2: git://github.com/dmwm/CRABServer.git?obj=htcondor_poc/%{crabserver}&export=CRABServer-%{crabserver}&output=/CRABServer-%{crabserver}.tar.gz
 
 Requires: python py2-httplib2 py2-sphinx py2-pycurl
+Patch0: crabserver3-setup
 
 %prep
 %setup -D -T -b 1 -n CRABClient-%{realversion}
 %setup -T -b 2 -n CRABServer-%{crabserver}
 %setup -T -b 0 -n WMCore-%{wmcver}
+%patch0 -p0
 
 %build
 pushd ../WMCore-%{wmcver}
