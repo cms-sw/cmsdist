@@ -1,9 +1,9 @@
-### RPM cms data-RecoParticleFlow-PFTracking V12-03-03
+### RPM cms data-RecoParticleFlow-PFTracking V12-03-03-01
 
 %prep
 
 # Base URL, where to find the files
-%define base_url "http://cmsdoc.cern.ch/cms/data/CMSSW"
+%define base_url "http://davidlt.web.cern.ch/davidlt/vault/cmsdata"
 
 cat << CMS_EOF >> ./sources
 RecoParticleFlow/PFTracking/data/BDT_weights_21.txt
