@@ -1,32 +1,30 @@
 ### RPM cms cmssw-validation 1.0.0
-Requires: cmssw SCRAMV1
-BuildRequires: local-cern-siteconf
-Source: none
+BuildRequires: cmssw SCRAMV1 local-cern-siteconf
+%define initenv	        %initenv_direct
+#%define name1 1937
+#%define moduleName LogParser
+#%define url HTMLFiles/
+#Source: svn://svn.cern.ch/reps/CMSIntBld/tags/LogParser/parser?scheme=svn+ssh&revision=%{name1}&module=%{moduleName}&output=/%{moduleName}.tar.gz
+Source: svn://svn.cern.ch/reps/CMSIntBld/trunk/IntBuild?date=%realversion&scheme=svn+ssh&revision=HEAD&module=IntBuild&output=/IntBuild.tar.gz
+Source1: fwlite_application_set
+Source2: fwlite_build_set
+Source3: online_application_set
+Source4: online_build_set
 
 %define scram $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
 
 %prep
-%scram project CMSSW $CMSSW_VERSION
-cd $CMSSW_VERSION
-%scram build clean
-eval `%scram runtime -sh`
-#rsync -av $CMSSW_RELEASE_BASE/src/ src/
-
+%setup -n IntBuild
+cd ..
+cp -r %_sourcedir/fwlite_application_set %_builddir/fwlite_application_set.file
+cp -r %_sourcedir/fwlite_build_set       %_builddir/fwlite_build_set.file
+cp -r %_sourcedir/online_application_set %_builddir/online_application_set.file
+cp -r %_sourcedir/online_build_set       %_builddir/online_build_set.file
 %build
-cd $CMSSW_VERSION
+cd $CMSSW_ROOT
 eval `%scram runtime -sh`
-rm -rf %i/test-addontests %i/test-runTheMatrix
-mkdir -p %i/test-addontests %i/test-runTheMatrix
-pushd %i/test-addontests
-  time addOnTests.py -j %compiling_processes &> result.log
-popd
-
-# Do runTheMatrix.py (let's start with -s)
-pushd %i/test-runTheMatrix
-  time runTheMatrix.py -s -j %compiling_processes &> result.log
-popd
-
-# TODO: Add logs to the package or send them directly to the DB.
+%_builddir/IntBuild/IB/runTests.py --appset %_builddir
+rm -rf %i/*
 %install
 # NOP
 

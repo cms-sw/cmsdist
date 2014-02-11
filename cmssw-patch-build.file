@@ -3,12 +3,14 @@
 %endif
 
 %define isPatch               yes
-%define baserelqueue          %(echo %realversion | sed -e "s|_patch.*||" -e "s|_...patch.*||")
-%define baserelver            %(echo %realversion | sed -e "s|_patch[0-9][0-9]*||" -e "s|_...patch.||")%{baserel_postfix}
+%define baserelver            %(echo %realversion | sed -e "s|_[[:alnum:]]*patch[[:digit:]][[:digit:]]*||")%{baserel_postfix}
 %define baserelname           %(echo %n | sed -e "s|-patch||")
-%define parent_release_rpath  ../../%{baserelname}/%baserelver
-%define parent_release_fpath  %{instroot}/%{cmsplatf}/%{pkgcategory}/%{baserelname}/%{baserelver}
+%define parent_release_fpath  %{cmsroot}/%{cmsplatf}/%{pkgcategory}/%{baserelname}/%{baserelver}
 %define must_have_packages    FWCore/Version
+
+%if "%{?baserelqueue:set}" != "set"
+%define baserelqueue	      %(echo %realversion | sed -e "s|_[[:alnum:]]*patch.*||")
+%endif
 
 %if "%{?cvstag:set}" != "set"
 %define cvstag		      %realversion
@@ -31,35 +33,43 @@
 %define                       PartialBootstrapPatch   %{nil}
 %endif
 
-%define PatchReleasePythonSymlinks \
-  CWD=`/bin/pwd`; cd %i; %scramcmd b --verbose -f tmp/common/cache/python_symlinks </dev/null; cd %i/python;\
-  for SUBSYS in `ls -d ../%{parent_release_rpath}/python/*`; do \
+%define PatchReleaseLink \
+  for SUBSYS in `ls -d %{parent_release_fpath}/$DIR/*`; do \
     if [ -d $SUBSYS ] ; then \
       S=`basename $SUBSYS`; \
-      if [ -d $S ] ; then \
-        for PKG in `ls -d ../%{parent_release_rpath}/python/$S/[A-Za-z]*`; do \
+      if [ -d $DIR/$S ] ; then \
+        for PKG in `ls -d $SUBSYS/[A-Za-z]*`; do \
           P=`basename $PKG`;\
-         if [ ! -d $S/$P ] ; then ln -s ../$PKG $S/. ; fi;\
+          if [ ! -e $DIR/$S/$P ] ; then ln -s $SUBSYS/$P $DIR/$S/. ; fi;\
         done;\
-      else ln -s $SUBSYS . ;\
+      else ln -s $SUBSYS $DIR/. ;\
       fi;\
-    fi;\
-  done; cd $CWD
+    fi; \
+  done
+
+%define RelocateReleaseLinks \
+  for L in `find $DIR -type l`; do \
+    lnk=`readlink -n $L 2>&1` ;\
+    case $lnk in \
+      %{cmsroot}/%{cmsplatf}/*) \
+         rl=`echo $L | sed -e 's|[^/]*/|../|g;' | xargs dirname` ;\
+         al=`echo $lnk | sed -e "s|^%{cmsroot}/%{cmsplatf}/|../../../$rl/|"`  ;\
+         rm -f $L  ;\
+         ln -sf  $al $L ;\
+         ;;  \
+     esac  ;\
+  done
+
+%if "%{?runGlimpse:set}" == "set"
+%undefine runGlimpse
+%define RunPatchReleaseGlimpse %scramcmd b --verbose -f gindices
+%endif
+
+%define PatchReleasePythonSymlinks \
+  CWD=`/bin/pwd`; cd %i; %scramcmd b --verbose -f tmp/common/cache/python_symlinks </dev/null; DIR=python; %{PatchReleaseLink} ; cd $CWD;
  
 %define PatchReleaseSourceSymlinks \
-  CWD=`/bin/pwd`; cd %i/%{srctree};\
-  for SUBSYS in `ls -d ../%{parent_release_rpath}/%{srctree}/*`; do \
-    if [ -d $SUBSYS ] ; then \
-      S=`basename $SUBSYS`;\
-      if [ -d $S ] ; then \
-        for PKG in `ls -d ../%{parent_release_rpath}/%srctree/$S/*`; do \
-          P=`basename $PKG`;\
-          if [ ! -d $S/$P ] ; then ln -s ../$PKG $S/. ; fi;\
-        done ;\
-      else ln -s $SUBSYS . ;\
-      fi ;\
-    fi ;\
-  done; cd $CWD
+  CWD=`/bin/pwd`; cd %i; DIR=%{srctree}; %{PatchReleaseLink}; %{RunPatchReleaseGlimpse}; %{RelocateReleaseLinks}; DIR=cfipython/%{cmsplatf}; %{PatchReleaseLink}; %{RelocateReleaseLinks}; DIR=python; %{RelocateReleaseLinks}; cd $CWD; 
 
 %define PatchReleaseFilesRelocate \
   if [ -e %{srctree}/.glimpse_filenames ] ; then \
@@ -85,12 +95,4 @@
       fi;\
     fi;\
   done;
-%endif
-
-%if "%{?runGlimpse:set}" == "set"
-%undefine runGlimpse
-%define PatchReleaseGlimpse \
-  CWD=`/bin/pwd`; \
-  cd %i ; %scramcmd b --verbose -f gindices; \
-  cd $CWD
 %endif
