@@ -1,29 +1,41 @@
 ### FILE scram-project-build
 # FIXME: support building all platforms together like scram does?
 # FIXME: automatic sub-packages for "doc" etc?
-
+## NOCOMPILER
 Requires: SCRAMV1
 
 %define initenv	        %initenv_direct
 %define scramcmd        $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
-%define cmsrepo         cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
+%define cmsrepo         cvs://:pserver:anonymous@cmscvs.cern.ch:2401/local/reps/CMSSW?passwd=AA_:yZZ3e
 %define srctree		src
 
-#config stuff
+#config stuff moved to github!
 %define cvsconfig	config
 %define configtar	config.tar.gz
-%define configrepo	%cmsrepo
+%define configrepo	git://github.com/cms-sw/cmssw-config.git?protocol=https
+%if "%{?buildtarget:set}" != "set"
 %define buildtarget	release-build
+%endif
+
+%if "%{?cvstag:set}" != "set"
+%define cvstag          %realversion
+%endif
+
+%if "%{?usercxxflags:set}" == "set"
+%define extraOptions USER_CXXFLAGS='"%{usercxxflags}"'
+%else
+%define extraOptions %{nil}
+%endif
 %define bootstrapfile   config/bootsrc.xml
 
 %if "%{?subpackageDebug:set}" == "set"
-%define debugOptions    USER_CXXFLAGS="-g"
-%else
-%define debugOptions    %{nil}
+# note: do not change the order of the -fdebug-prefix-map options, they seem to be use in reverse order
+# note: the single quotes are needed to protect the double quotes, otherwise scram will pass separate arguments to make
+%define extraOptions USER_CXXFLAGS='"-fdebug-prefix-map=%{cmsroot}=%{installroot} -fdebug-prefix-map=%{instroot}=%{installroot} -g"'
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V03-42-01
+%define configtag       V03-42-01-00
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -38,21 +50,24 @@ Requires: SCRAMV1
 %define cvssrc		%(echo %n | sed -e "s|-patch||"| tr 'a-z' 'A-Z')
 %endif
 
-%if "%{?cvstag:set}" != "set"
-%define cvstag		%realversion
+%if "%{?buildarch:set}" != "set"
+%define buildarch	:
 %endif
 
-%if "%{buildarch:set}" != "set"
-%define buildarch	:
+%if "%{?cmsroot:set}" != "set"
+%define cmsroot       %instroot
 %endif
 
 %if "%{?ucprojtype:set}" != "set"
 %define ucprojtype      %(echo %n | sed -e "s|-patch||" | tr 'a-z' 'A-Z')
 %endif
 %define lcprojtype      %(echo %ucprojtype | tr 'A-Z' 'a-z')
+%if "%{?toolconf:set}" != "set"
 %define toolconf        %(echo %n | sed "s|-|_|g" | tr 'a-z' 'A-Z')_TOOL_CONF_ROOT
+%endif
 
-%define source0 %{configrepo}&tag=-r%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
+#define source0 %{configrepo}&obj=master/%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
+%define source0 https://github.com/cms-sw/cmssw-config/archive/%{configtag}.tar.gz
 
 %if "%{?source1:set}" != "set"
 %if  "%{cvsrepo}" != "cmstc"
@@ -87,7 +102,9 @@ Source4: findDependencies.pl
 rm -rf config
 rm -rf %{srctree}
 
-%setup -T -b 0 -n config
+%setup -T -b 0 -n cmssw-config-%(echo %{configtag} | sed 's/^.//')
+# The following is a temporary hack until we move to 4.8.1
+cd ..; mv cmssw-config-%(echo %{configtag} | sed 's/^.//') config
 %setup -D -T -b 1 -n %{srctree}
 
 %if "%{?additionalSrc0:set}" == "set"
@@ -101,7 +118,13 @@ rm -rf %{srctree}
 %{?PatchReleaseAdditionalPackages:%PatchReleaseAdditionalPackages}
 
 cd %_builddir
-%_builddir/config/updateConfig.pl -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} -a %cmsplatf
+echo %{configtag} > %_builddir/config/config_tag
+%_builddir/config/updateConfig.pl -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} -a %cmsplatf \
+%if "%{?gitcommit:set}" == "set"
+  --keys PROJECT_GIT_HASH=%{gitcommit}
+%else
+  --keys PROJECT_GIT_HASH=%{realversion}
+%endif
 
 %{?PartialBootstrapPatch:%PartialBootstrapPatch}
 %{?patchsrc:%patchsrc}
@@ -132,6 +155,9 @@ cd %i/%{srctree}
 export BUILD_LOG=yes
 export SCRAM_NOPLUGINREFRESH=yes
 
+# We clean everything before doing anything else.
+%scramcmd b clean
+
 if [ $(uname) = Darwin ]; then
   # %scramcmd doesn't know the rpath variable on darwin...
   %scramcmd b echo_null # ensure lib, bin exist
@@ -158,11 +184,7 @@ export SCRAM_NOSYMCHECK=true
 %scramcmd b --verbose -f %{prebuildtarget} </dev/null
 %endif
 
-# Notice that on make we continue and create a package even if the build
-# failed.  This is because we are still in a porting phase for the mac and we
-# still have hundreds of errors. This behavior should be changed when the have
-# a fully working mac release, aligned with the linux one.
-%scramcmd b --verbose -f %{compileOptions} %{debugOptions} %{makeprocesses} %{buildtarget} </dev/null || { %scramcmd b -f outputlog && case %cmsos in osx*) true;; *) false;; esac; }
+%scramcmd b --verbose -f %{compileOptions} %{extraOptions} %{makeprocesses} %{buildtarget} </dev/null || { %scramcmd b -f outputlog && [ "%{?ignore_compile_errors:set}" == "set" ]; }
 
 %if "%{?additionalBuildTarget0:set}" == "set"
 %scramcmd b --verbose -f %{additionalBuildTarget0} < /dev/null
@@ -173,20 +195,26 @@ export SCRAM_NOSYMCHECK=true
 %endif
 
 # Move the debug logs into the builddir, so that they do not get packaged.
-rm -rf %_builddir/logs; mv %i/tmp/%cmsplatf/cache/log %_builddir/logs
+LOG_WEB_DIR=%cmsroot/WEB/build-logs/%{cmsplatf}/%{v}
+rm -rf ${LOG_WEB_DIR}
+mkdir -p ${LOG_WEB_DIR}/logs/src
+pushd %{i}/tmp/%{cmsplatf}/cache/log/src
+  tar czf ${LOG_WEB_DIR}/logs/src/src-logs.tgz ./
+popd
 
 # split the debug symbols out of tha main binaries, into separate files
 %if "%{?subpackageDebug:set}" == "set"
 rm -f %_builddir/files.debug %_builddir/files
 touch %_builddir/files.debug %_builddir/files
-echo "%exclude %i/debug.tar.gz" >> %_builddir/files
+echo "%exclude %{installroot}/%{pkgrel}/debug.tar.gz" >> %_builddir/files
 BINDIR=$(%scramcmd tool info Self | grep "^PATH\|LD_LIBRARY_PATH=" | cut -d= -f2 | tr ":" "\n" | grep -v external)
 for DIR in $BINDIR; do
   mkdir -p $DIR/.debug
   # FIXME - work around the 2GB limit in RPM 4.4.2
   #echo "%dir $DIR/.debug"     >> %_builddir/files.debug
-  echo "%exclude $DIR/.debug" >> %_builddir/files
-  echo "$DIR/.debug" | sed 's#%{pkginstroot}/##' >> %_builddir/files.debug
+  DIR=`echo $DIR | sed 's|^%i/||'`
+  echo "%exclude %{installroot}/%{pkgrel}/$DIR/.debug" >> %_builddir/files
+  echo "$DIR/.debug" >> %_builddir/files.debug
 done
 for FILE in $(find $BINDIR -type f | xargs file | grep "ELF" | cut -d: -f1); do
   NAME=$(basename $FILE)
@@ -211,7 +239,7 @@ gzip -f %i/etc/dependencies/*.out
 
 rm -f %i/lib/%cmsplatf/.edmplugincache
 eval `%scramcmd run -sh`
-for cmd in EdmPluginRefresh ; do
+for cmd in edmPluginRefresh ; do
   cmdpath=`which $cmd 2> /dev/null || echo ""`
   if [ "X$cmdpath" != X ] ; then
     $cmd || true
@@ -228,7 +256,6 @@ cd %i
 
 %scramcmd install -f
 (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/%{srctree}; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.pl --arch %cmsplatf) || true
-ls -al external/%cmsplatf/lib/
 
 %{?PartialReleasePackageList:%PartialReleasePackageList}
 %{?PatchReleaseSourceSymlinks:%PatchReleaseSourceSymlinks}
@@ -242,6 +269,22 @@ rm -fR %{srctree} tmp
 tar czf debug.tar.gz --files-from %_builddir/files.debug --no-recursion --remove-files
 %endif
 
+######################################################
+#Do the symlink relocation as a last step in install
+for L in `find external/%cmsplatf -type l`; do
+  lnk=`readlink -n $L 2>&1`
+  case $lnk in
+     %{cmsroot}/%{cmsplatf}/*)
+       rl=`echo $L | sed -e 's|[^/]*/|../|g;' | xargs dirname`
+       al=`echo $lnk | sed -e "s|^%{cmsroot}/%{cmsplatf}/|../../../$rl/|"`
+       rm -f $L
+       ln -sf  $al $L
+       ;;
+   esac
+done
+find external/%cmsplatf -type l | xargs ls -l
+%{?PatchReleaseSymlinkRelocate:%PatchReleaseSymlinkRelocate}
+
 %post
 export SCRAM_ARCH=%cmsplatf
 cd $RPM_INSTALL_PREFIX/%pkgrel
@@ -249,25 +292,20 @@ if [ -e %{srctree}.tar.gz ] ; then
   tar xzf %{srctree}.tar.gz
   rm -fR  %{srctree}.tar.gz
 fi
-%{relocateCmsFiles} `find config -type f`
 scramver=`cat config/scram_version`
 SCRAMV1_ROOT=$RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver
 if [ -d python ]; then %{relocateCmsFiles} $(find python -maxdepth 1 -type f); fi
 (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename.pl %{instroot} $CMS_INSTALL_PREFIX  %cmsplatf )
+(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename.pl %{cmsroot}  $CMS_INSTALL_PREFIX  %cmsplatf )
 %{?buildarch:%buildarch}
-for L in `find external/%cmsplatf -type l`; do
-   mv $L $L-old.$$; ln -s `readlink -n $L-old.$$ 2>&1 | sed -e "s|%{instroot}|$CMS_INSTALL_PREFIX|g" ` $L ; rm $L-old.$$;
-done
 if [ -f lib/${SCRAM_ARCH}/.edmplugincache ] ; then
   find lib/${SCRAM_ARCH} -name "*.edmplugin" -type f -exec touch {} \;
   touch lib/${SCRAM_ARCH}/.edmplugincache
 fi
-%scramcmd install -f -d $CMS_INSTALL_PREFIX/%pkgrel
 
 %{?PatchReleaseFilesRelocate:%PatchReleaseFilesRelocate}
 %{?PartialReleaseFilesRelocate:%PartialReleaseFilesRelocate}
+[ -f $RPM_INSTALL_PREFIX/etc/scramrc/%{pkgname}.map ] || (mkdir -p $RPM_INSTALL_PREFIX/etc/scramrc && echo '%{ucprojtype}=$SCRAM_ARCH/%{pkgcategory}/%{pkgname}/%{ucprojtype}_*' > $RPM_INSTALL_PREFIX/etc/scramrc/%{pkgname}.map)
 
 %postun
-if [ -e $RPM_INSTALL_PREFIX/%pkgrel ] ; then
-  rm -fR $RPM_INSTALL_PREFIX/%pkgrel/%{srctree} $RPM_INSTALL_PREFIX/%pkgrel/.SCRAM
-fi
+rm -fR $RPM_INSTALL_PREFIX/%pkgrel

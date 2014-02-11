@@ -1,14 +1,16 @@
-### RPM cms das-client 1.2.0
+### RPM cms das-client 1.11.7
 ## INITENV +PATH PYTHONPATH %i/bin/
 ## NOCOMPILER
-%define svnserver svn://svn.cern.ch/reps/CMSDMWM
-Source0: %svnserver/DAS/tags/%{realversion}/src/python/DAS/tools/?scheme=svn+ssh&strategy=export&module=DAS&output=/das-client.tar.gz
+
+Source0: https://raw.github.com/dmwm/DAS/%{realversion}/src/python/DAS/tools/das_client.py
+
 Requires: python
 
 %prep
-%setup -D -T -b 0 -n DAS
 
 %build
+
 %install
 mkdir -p %{i}/bin
-cp das_client.py %{i}/bin/
+cp %{SOURCE0} %{i}/bin
+chmod 0755 %{i}/bin/das_client.py

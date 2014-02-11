@@ -34,6 +34,7 @@ Requires: geant4data-toolfile
 Requires: glimpse-toolfile
 Requires: gmake-toolfile
 Requires: gsl-toolfile
+Requires: git-toolfile
 Requires: hector-toolfile
 Requires: hepmc-toolfile
 Requires: heppdt-toolfile
