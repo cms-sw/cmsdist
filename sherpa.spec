@@ -1,9 +1,7 @@
-### RPM external sherpa 1.4.2
-
+### RPM external sherpa 2.0.0
 Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
-Requires: hepmc lhapdf
-BuildRequires: autotools
-Patch0: sherpa-1.4.0-lhapdf
+Requires: hepmc lhapdf blackhat 
+Patch0: sherpa-2.0.beta2-lhapdf
 Patch1: sherpa-1.4.2-fix-gcc47-cxx11
 Patch2: sherpa-1.4.0-add-support-osx108
 
@@ -27,11 +25,14 @@ case %cmsplatf in
   ;;
 esac
 
+
+
 if [[ %cmsplatf == osx108_* ]]; then
 %patch2 -p1
 fi
 
 autoreconf -i --force
+
 
 # Force architecture based on %%cmsplatf
 case %cmsplatf in
@@ -48,9 +49,9 @@ case %cmsplatf in
 esac
 
 ./configure --prefix=%i --enable-analysis --disable-silent-rules \
-            --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT \
-            --enable-multithread CXX="%cms_cxx" CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF %cms_cxxflags" LDFLAGS="-ldl"
-
+            --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT --enable-blackhat=$BLACKHAT_ROOT \
+            CXX="%cms_cxx" CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF %cms_cxxflags -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include" LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib -L$LHAPDF_ROOT/lib -lLHAPDF"
+#            CXX="%cms_cxx" CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF %cms_cxxflags -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include" LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib"
 %build
 # Fix up a configuration mistake coming from a test being confused
 # by the "skipping incompatible" linking messages when linking 32bit on 64bit
@@ -60,4 +61,3 @@ make %{makeprocesses}
 
 %install
 make install
-

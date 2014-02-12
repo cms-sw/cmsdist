@@ -60,6 +60,8 @@ Requires: python-toolfile
 Requires: qt-toolfile
 Requires: roofit-toolfile
 Requires: root-toolfile
+Requires: qd-toolfile
+Requires: blackhat-toolfile
 Requires: sherpa-toolfile
 Requires: sigcpp-toolfile
 Requires: sqlite-toolfile
