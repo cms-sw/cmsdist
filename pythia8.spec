@@ -1,4 +1,4 @@
-### RPM external pythia8 180
+### RPM external pythia8 183
 
 Requires: hepmc
 
