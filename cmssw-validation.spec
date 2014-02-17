@@ -10,6 +10,7 @@ Source1: fwlite_application_set
 Source2: fwlite_build_set
 Source3: online_application_set
 Source4: online_build_set
+Source5: das-cache
 
 %define scram $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
 
@@ -20,6 +21,7 @@ cp -r %_sourcedir/fwlite_application_set %_builddir/fwlite_application_set.file
 cp -r %_sourcedir/fwlite_build_set       %_builddir/fwlite_build_set.file
 cp -r %_sourcedir/online_application_set %_builddir/online_application_set.file
 cp -r %_sourcedir/online_build_set       %_builddir/online_build_set.file
+cp -r %_sourcedir/das-cache              %_builddir/das-cache.file
 %build
 cd $CMSSW_ROOT
 eval `%scram runtime -sh`
