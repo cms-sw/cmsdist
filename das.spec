@@ -1,4 +1,4 @@
-### RPM cms das 2.4.5
+### RPM cms das 2.5.1
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver 0.8.3
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
@@ -40,7 +40,10 @@ PYTHONPATH=$PWD/src/python:$PYTHONPATH
 
 # build DAS JSON maps out of DAS YML files, they will be created in
 # DAS/services/cms_maps area as das_maps/das_testbed_maps.js files
-bin/create_das_js src/python/DAS/services/cms_maps
+# 2.4.X series
+# bin/create_das_js src/python/DAS/services/cms_maps
+# 2.5.X series
+bin/das_create_json_maps src/python/DAS/services/cms_maps
 # clean-up DAS YML files
 rm -f src/python/DAS/services/cms_maps/*.yml
 rm -rf src/python/DAS/services/maps
