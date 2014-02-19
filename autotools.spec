@@ -3,19 +3,17 @@
 %define autoconf_version 2.68
 %define automake_version 1.11.4
 %define libtool_version 2.4.2
-%define m4_version 1.4.16
+%define m4_version 1.4.17
 Source0: http://ftpmirror.gnu.org/autoconf/autoconf-%autoconf_version.tar.gz
 Source1: http://ftpmirror.gnu.org/automake/automake-%automake_version.tar.gz
 Source2: http://ftpmirror.gnu.org/libtool/libtool-%libtool_version.tar.gz
 Source3: http://ftp.gnu.org/gnu/m4/m4-%m4_version.tar.bz2
-Patch0: m4-1.4.16-fix-gets
 
 %prep
 %setup -D -T -b 0 -n autoconf-%{autoconf_version}
 %setup -D -T -b 1 -n automake-%{automake_version}
 %setup -D -T -b 2 -n libtool-%{libtool_version}
 %setup -D -T -b 3 -n m4-%{m4_version}
-%patch0 -p1
 
 %build
 export PATH=%i/bin:$PATH

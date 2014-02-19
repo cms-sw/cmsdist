@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 28.0
+### RPM cms cmssw-tool-conf 30.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -60,6 +60,8 @@ Requires: python-toolfile
 Requires: qt-toolfile
 Requires: roofit-toolfile
 Requires: root-toolfile
+Requires: qd-toolfile
+Requires: blackhat-toolfile
 Requires: sherpa-toolfile
 Requires: sigcpp-toolfile
 Requires: sqlite-toolfile
@@ -85,6 +87,8 @@ Requires: cmsswdata-toolfile
 Requires: py2-cjson-toolfile
 Requires: py2-pycurl-toolfile
 Requires: py2-sqlalchemy-toolfile
+Requires: py2-pygithub-toolfile
+Requires: py2-networkx-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
 Requires: cython-toolfile
@@ -116,6 +120,7 @@ Requires: cgal-toolfile
 Requires: doxygen-toolfile
 Requires: py2-python-dateutil-toolfile
 Requires: yaml-cpp-toolfile
+Requires: fastjet-contrib-toolfile
 
 # Only for Linux platform.
 %if %islinux
