@@ -5,7 +5,7 @@ Requires: cmssw-tool-conf python cms-git-tools
 %define runGlimpse      yes
 %define useCmsTC        yes
 %define saveDeps        yes
-%define branch          CMSSW_7_0_X
+%define branch          CMSSW_7_0_XROOTD_X
 %define gitcommit       %{realversion}
 
 %if "%(case %realversion in (*_COVERAGE_X*) echo true ;; (*) echo false ;; esac)" == "true"
