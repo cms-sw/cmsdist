@@ -119,6 +119,7 @@ Requires: doxygen-toolfile
 Requires: py2-python-dateutil-toolfile
 Requires: yaml-cpp-toolfile
 Requires: fastjet-contrib-toolfile
+Requires: cuda-toolfile
 
 # Only for Linux platform.
 %if %islinux
@@ -146,7 +147,7 @@ Requires: igprof-toolfile
 %endif
 %endif
 
-%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler boost_serialization boost_iostreams
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler boost_serialization boost_iostreams cuda
 
 ## IMPORT scramv1-tool-conf
 
