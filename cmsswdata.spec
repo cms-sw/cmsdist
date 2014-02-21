@@ -40,6 +40,7 @@ Requires: data-RecoEgamma-ElectronIdentification
 Requires: data-RecoTracker-RingESSource
 Requires: data-RecoTracker-RoadMapESSource
 Requires: data-CalibTracker-SiPixelESProducers
+Requires: data-RecoHI-HiJetAlgos
 
 %if "%online" != "true"
 # extra data dependencies for standard builds
