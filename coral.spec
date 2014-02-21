@@ -5,6 +5,7 @@ Patch2: coral-CORAL_2_3_20-boost150-fix
 Patch3: coral-CORAL_2_3_20-hide-strict-aliasing
 Patch4: coral-CORAL_2_3_20-remove-lost-dependencies
 Patch5: coral-CORAL_2_3_21-move-to-libuuid
+Patch6: coral-CORAL_2_3_21-forever-ttl
 
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 %define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
@@ -34,6 +35,7 @@ Patch5: coral-CORAL_2_3_21-move-to-libuuid
 %define patchsrc5       %patch2 -p0
 %define patchsrc6       %patch3 -p0
 %define patchsrc7       %patch4 -p0
+%define patchsrc9	%patch6 -p0
 
 # Drop Oracle interface on ARM machines. 
 # Oracle does not provide Instant Client for ARMv7/v8.

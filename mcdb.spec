@@ -17,12 +17,7 @@ Patch0: mcdb-1.0.2-gcc45
 
 %prep
 %setup -q -n %{n}-api-%{realversion}
-
-case %gccver in
-  4.[5678].*)
 %patch0 -p1
-  ;;
-esac
 
 rm config.mk
 touch config.mk

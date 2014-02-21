@@ -1,7 +1,7 @@
-diff --git a/CLHEP/Matrix/Matrix/DiagMatrix.icc b/CLHEP/Matrix/Matrix/DiagMatrix.icc
-index 4173cfa..963a3fe 100755
---- a/CLHEP/Matrix/Matrix/DiagMatrix.icc
-+++ b/CLHEP/Matrix/Matrix/DiagMatrix.icc
+diff --git a/2.1.4.1/CLHEP/Matrix/Matrix/DiagMatrix.icc b/2.1.4.1/CLHEP/Matrix/Matrix/DiagMatrix.icc
+index 4d466c4..79cbef2 100755
+--- a/2.1.4.1/CLHEP/Matrix/Matrix/DiagMatrix.icc
++++ b/2.1.4.1/CLHEP/Matrix/Matrix/DiagMatrix.icc
 @@ -12,10 +12,6 @@ inline HepDiagMatrix::HepDiagMatrix()
     : m(0), nrow(0)
  {}
@@ -27,13 +27,13 @@ index 4173cfa..963a3fe 100755
 -   return fast(col,row);
 -}
 -
- inline void HepDiagMatrix::assign(const HepDiagMatrix &m2) {(*this)=m2;}
+ inline void HepDiagMatrix::assign(const HepDiagMatrix &hm2) {(*this)=hm2;}
  
  inline HepDiagMatrix HepDiagMatrix::T() const {return HepDiagMatrix(*this);}
-diff --git a/CLHEP/Matrix/Matrix/GenMatrix.h b/CLHEP/Matrix/Matrix/GenMatrix.h
+diff --git a/2.1.4.1/CLHEP/Matrix/Matrix/GenMatrix.h b/2.1.4.1/CLHEP/Matrix/Matrix/GenMatrix.h
 index 247d8f6..cf846e3 100755
---- a/CLHEP/Matrix/Matrix/GenMatrix.h
-+++ b/CLHEP/Matrix/Matrix/GenMatrix.h
+--- a/2.1.4.1/CLHEP/Matrix/Matrix/GenMatrix.h
++++ b/2.1.4.1/CLHEP/Matrix/Matrix/GenMatrix.h
 @@ -36,7 +36,7 @@ class HepGenMatrix;
  class HepGenMatrix {
   
@@ -43,10 +43,10 @@ index 247d8f6..cf846e3 100755
  
  
  #ifdef DISABLE_ALLOC   // disable this non-compliant allocator
-diff --git a/CLHEP/Matrix/Matrix/SymMatrix.h b/CLHEP/Matrix/Matrix/SymMatrix.h
-index 7ef8b00..72a8c87 100755
---- a/CLHEP/Matrix/Matrix/SymMatrix.h
-+++ b/CLHEP/Matrix/Matrix/SymMatrix.h
+diff --git a/2.1.4.1/CLHEP/Matrix/Matrix/SymMatrix.h b/2.1.4.1/CLHEP/Matrix/Matrix/SymMatrix.h
+index b8408d3..ece7669 100755
+--- a/2.1.4.1/CLHEP/Matrix/Matrix/SymMatrix.h
++++ b/2.1.4.1/CLHEP/Matrix/Matrix/SymMatrix.h
 @@ -109,8 +109,8 @@ public:
     virtual ~HepSymMatrix();
     // Destructor.
@@ -58,10 +58,10 @@ index 7ef8b00..72a8c87 100755
     // Returns number of rows/columns.
  
     const double & operator()(int row, int col) const; 
-diff --git a/CLHEP/Matrix/Matrix/SymMatrix.icc b/CLHEP/Matrix/Matrix/SymMatrix.icc
-index ae748e1..0935072 100755
---- a/CLHEP/Matrix/Matrix/SymMatrix.icc
-+++ b/CLHEP/Matrix/Matrix/SymMatrix.icc
+diff --git a/2.1.4.1/CLHEP/Matrix/Matrix/SymMatrix.icc b/2.1.4.1/CLHEP/Matrix/Matrix/SymMatrix.icc
+index 6ac3113..415320b 100755
+--- a/2.1.4.1/CLHEP/Matrix/Matrix/SymMatrix.icc
++++ b/2.1.4.1/CLHEP/Matrix/Matrix/SymMatrix.icc
 @@ -13,10 +13,6 @@ inline HepSymMatrix::HepSymMatrix()
    : m(0), nrow(0), size_(0)
  {}
@@ -82,13 +82,13 @@ index ae748e1..0935072 100755
 -inline const double & HepSymMatrix::operator()(int row, int col) const 
 -    {return (row>=col? fast(row,col) : fast(col,row));}
 -
- inline void HepSymMatrix::assign(const HepSymMatrix &m2) 
-   {(*this)=m2;}
+ inline void HepSymMatrix::assign(const HepSymMatrix &hm2) 
+   {(*this)=hm2;}
  
-diff --git a/CLHEP/Matrix/src/DiagMatrix.cc b/CLHEP/Matrix/src/DiagMatrix.cc
-index 196e645..745d983 100755
---- a/CLHEP/Matrix/src/DiagMatrix.cc
-+++ b/CLHEP/Matrix/src/DiagMatrix.cc
+diff --git a/2.1.4.1/CLHEP/Matrix/src/DiagMatrix.cc b/2.1.4.1/CLHEP/Matrix/src/DiagMatrix.cc
+index f1a844c..09c7218 100755
+--- a/2.1.4.1/CLHEP/Matrix/src/DiagMatrix.cc
++++ b/2.1.4.1/CLHEP/Matrix/src/DiagMatrix.cc
 @@ -24,6 +24,20 @@
  
  namespace CLHEP {
@@ -102,19 +102,19 @@ index 196e645..745d983 100755
 +   return fast(col,row);
 +}
 +
-+const double & HepDiagMatrix::operator()(int row, int col) const 
-+{ 
++const double & HepDiagMatrix::operator()(int row, int col) const
++{
 +   return fast(col,row);
 +}
 +
  // Simple operation for all elements
  
  #define SIMPLE_UOP(OPER)          \
-diff --git a/CLHEP/Matrix/src/GenMatrix.cc b/CLHEP/Matrix/src/GenMatrix.cc
-index 5902f0c..6390e86 100755
---- a/CLHEP/Matrix/src/GenMatrix.cc
-+++ b/CLHEP/Matrix/src/GenMatrix.cc
-@@ -25,6 +25,9 @@
+diff --git a/2.1.4.1/CLHEP/Matrix/src/GenMatrix.cc b/2.1.4.1/CLHEP/Matrix/src/GenMatrix.cc
+index f58f4b9..7030546 100755
+--- a/2.1.4.1/CLHEP/Matrix/src/GenMatrix.cc
++++ b/2.1.4.1/CLHEP/Matrix/src/GenMatrix.cc
+@@ -24,6 +24,9 @@
  
  namespace CLHEP {
  
@@ -122,12 +122,12 @@ index 5902f0c..6390e86 100755
 +{}
 +
  #ifdef HEP_THIS_FUNCTION_IS_NOT_NEEDED
- static void delete_array(double *m)
+ static void delete_array(double *hm)
  {
-diff --git a/CLHEP/Matrix/src/SymMatrix.cc b/CLHEP/Matrix/src/SymMatrix.cc
-index 8dd79ec..2629d0e 100755
---- a/CLHEP/Matrix/src/SymMatrix.cc
-+++ b/CLHEP/Matrix/src/SymMatrix.cc
+diff --git a/2.1.4.1/CLHEP/Matrix/src/SymMatrix.cc b/2.1.4.1/CLHEP/Matrix/src/SymMatrix.cc
+index b5c6fac..dfd2b0e 100755
+--- a/2.1.4.1/CLHEP/Matrix/src/SymMatrix.cc
++++ b/2.1.4.1/CLHEP/Matrix/src/SymMatrix.cc
 @@ -24,6 +24,15 @@
  
  namespace CLHEP {
@@ -138,7 +138,7 @@ index 8dd79ec..2629d0e 100755
 +
 +double & HepSymMatrix::operator()(int row, int col)
 +    {return (row>=col? fast(row,col) : fast(col,row));}
-+const double & HepSymMatrix::operator()(int row, int col) const 
++const double & HepSymMatrix::operator()(int row, int col) const
 +    {return (row>=col? fast(row,col) : fast(col,row));}
 +
  // Simple operation for all elements

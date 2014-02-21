@@ -74,6 +74,10 @@ Requires: freetype
 %patch11 -p1
 %patch12 -p1
 %patch13 -p0
+%patch14 -p1
+%patch15 -p1
+%patch16 -p1
+%patch17 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)

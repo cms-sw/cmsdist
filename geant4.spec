@@ -16,6 +16,8 @@ Requires: xerces-c
 Patch0: geant4.9.5.p01-no-banner
 Patch1: geant4-9.6p02-cms01
 
+%define keep_archives true
+
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
 %endif

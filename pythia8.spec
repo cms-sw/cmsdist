@@ -30,4 +30,4 @@ CXX="icpc" CC="icc" USRLDFLAGSSHARED="-fPIC -mmic" USRCXXFLAGS="-fPIC -mmic $USR
 make %makeprocesses
 
 %install
-tar -c lib include xmldoc | tar -x -C %i
+make install

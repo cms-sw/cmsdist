@@ -20,14 +20,12 @@ BuildRequires: cmake ninja
 %endif
 
 %prep
-%setup -n %realversion/CLHEP
-
+%setup -n %{realversion}/CLHEP
 case %cmsplatf in
   osx*|*gcc4[789]*)
-%patch0 -p2
+%patch0 -p3
   ;;
 esac
-
 %patch1 -p2
 
 %build
