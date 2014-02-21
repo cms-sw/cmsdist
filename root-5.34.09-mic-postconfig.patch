@@ -56,8 +56,8 @@
 -EXTRA_CFLAGS   := -Iinclude 
 -EXTRA_CXXFLAGS := -Iinclude 
 -EXTRA_LDFLAGS  := 
-+EXTRA_CFLAGS   := -Iinclude  -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL= -I$(FREETYPE_ROOT)/include -I$(ZLIB_ROOT)/include -I$(PCRE_ROOT)/include -I$(LZMA)/include
-+EXTRA_CXXFLAGS := -Iinclude  -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL= -I$(FREETYPE_ROOT)/include -I$(ZLIB_ROOT)/include -I$(PCRE_ROOT)/include -I$(LZMA)/include
++EXTRA_CFLAGS   := -Iinclude  -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL= -Dthread_local= -I$(FREETYPE_ROOT)/include -I$(ZLIB_ROOT)/include -I$(PCRE_ROOT)/include -I$(LZMA)/include
++EXTRA_CXXFLAGS := -Iinclude  -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL= -Dthread_local= -I$(FREETYPE_ROOT)/include -I$(ZLIB_ROOT)/include -I$(PCRE_ROOT)/include -I$(LZMA)/include
 +EXTRA_LDFLAGS  :=  -L$(FREETYPE_ROOT)/lib -L$(ZLIB_ROOT)/lib -L$(PCRE_ROOT)/lib -L$(LZMA)/lib 
  WINRTDEBUG     := no
  

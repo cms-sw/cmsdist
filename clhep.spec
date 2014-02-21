@@ -1,11 +1,11 @@
-### RPM external clhep 2.1.3.1
+### RPM external clhep 2.1.4.1
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 %if "%mic" == "true"
 Requires: icc
 %endif
-Source: http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/distributions/%n-%realversion.tgz
-Patch0: clhep-2.1.1.0-no-virtual-inline
-Patch1: clhep-2.1.3.1-diagnostic-ignore-unused-variable
+Source: http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/tarFiles/%{n}-%{realversion}.tgz
+Patch0: clhep-2.1.4.1-no-virtual-inline
+Patch1: clhep-2.1.4.1-diagnostic-ignore-unused-variable
 
 %if "%mic" != "true"
 BuildRequires: cmake ninja
@@ -47,6 +47,7 @@ cmake ../CLHEP \
   -DCMAKE_CXX_FLAGS="%{cms_cxxflags}" \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_BUILD_TYPE=RelWithDebInfo
+
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
 %endif
 

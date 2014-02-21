@@ -30,9 +30,13 @@ Patch10: 0004-Reduce-lock-lifetime-in-TCollection-GarbageCollect
 Patch11: 0005-Remove-unnecessary-global-variable-and-lock
 Patch12: 0006-Fix-thread-safety-of-TGenCollectionProxy-s-iterator-
 Patch13: root-5.34.13-ExpandMaxTypedef_02
-Patch14: root-5.34.09-mic
-Patch15: root-5.34.09-mic-postconfig
-Patch16: root-5-genreflex
+Patch14: https://github.com/Dr15Jones/root/commit/97b24fb57166a105d3912ee0ac0c3bc27af54afa.patch
+Patch15: https://github.com/Dr15Jones/root/commit/e04ab19e95c14665a2b5e464f30c54d226b490e0.patch
+Patch16: https://github.com/Dr15Jones/root/commit/386c35244cd8901c243bbc8dd10ac1643e44b589.patch
+Patch17: https://github.com/Dr15Jones/root/commit/285552177b57fa931d4e2f6e67ea3cb0414c736b.patch
+Patch90: root-5.34.09-mic
+Patch91: root-5-genreflex
+Patch92: root-5.34.09-mic-postconfig
 
 Requires: gccxml gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl
 
@@ -85,8 +89,8 @@ Requires: freetype
 %patch2 -p1
 %endif
 %if "%mic" == "true"
-%patch14 -p1
-%patch16 -p1
+%patch90 -p1
+%patch91 -p1
 %endif
 
 # Delete these (irrelevant) files as the fits appear to confuse rpm on OSX
@@ -102,6 +106,7 @@ mkdir -p %i
 export LIBJPG_ROOT
 export ROOTSYS=%_builddir/root
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
+
 %if "%online" == "true"
 # Also skip xrootd and odbc for online case:
 
@@ -192,6 +197,7 @@ CONFIG_ARGS="--enable-table
              --disable-hdfs
              --disable-oracle ${EXTRA_CONFIG_ARGS}"
 %endif
+
 # Add support for GCC 4.6
 sed -ibak 's/\-std=c++11/-std=c++0x/g' \
   configure \
@@ -229,6 +235,7 @@ TARGET_PLATF=
 %if %isarmv7
   TARGET_PLATF=linuxarm
 %endif
+
 %if "%mic" == "true"
 TARGET_PLATF=linuxx8664k1omicc
 EXTRA_OPTS="--with-thread-libdir=`pwd`/thrd"
@@ -240,8 +247,8 @@ cat %_sourcedir/root-5.34.09-mic-postconfig | patch -s -p1 --fuzz=0
 %endif
 
 %if "%mic" == "true"
-F77OPT="-mmic" make -k %makeprocesses || true
-F77OPT="-mmic" make %makeprocesses
+F77OPT="-mmic" CFLAGS="-Dthread_local=" make -k %makeprocesses  || true
+F77OPT="-mmic" CFLAGS="-Dthread_local=" make %makeprocesses
 %else
 make %makeprocesses CXX="g++ -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL=" CC="gcc -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL="
 %endif

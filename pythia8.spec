@@ -1,4 +1,4 @@
-### RPM external pythia8 175 
+### RPM external pythia8 183
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 %if "%mic" == "true"
 Requires: icc
@@ -21,7 +21,7 @@ export HEPMCVERSION=${HEPMC_VERSION}
 %if "%mic" == "true"
 CXX="icpc" CC="icc" USRLDFLAGSSHARED="-fPIC -mmic" USRCXXFLAGS="-fPIC -mmic $USRCXXFLAGS" \
 %endif
-./configure --enable-shared --with-hepmc=${HEPMC_ROOT}
+./configure --prefix=%i --enable-shared --with-hepmc=${HEPMC_ROOT}
 
 %build
 %if "%mic" == "true"

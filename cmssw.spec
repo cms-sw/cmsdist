@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_7_0_0_pre11
+### RPM cms cmssw CMSSW_7_1_0_pre2
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 Requires: cms-git-tools
 %if "%mic" == "true"
@@ -10,7 +10,7 @@ Requires: cmssw-tool-conf
 %define runGlimpse      yes
 %define useCmsTC        yes
 %define saveDeps        yes
-%define branch          CMSSW_7_0_X
+%define branch          CMSSW_7_1_X
 %define gitcommit       %{realversion}
 
 %if "%(case %realversion in (*_COVERAGE_X*) echo true ;; (*) echo false ;; esac)" == "true"
@@ -41,7 +41,9 @@ Requires: cmssw-tool-conf
 %endif
 
 %if "%mic" == "true"
-%define toolconf        CMSSW_MIC_TOOL_CONF_ROOT
+Patch9: cmssw-src-mic
+%define patchsrc9    cd src; cat %_sourcedir/cmssw-src-mic | patch -s -p1 --fuzz=0 ; cd ..
+%define toolconf     CMSSW_MIC_TOOL_CONF_ROOT
 %define gitcommit    %(echo %realversion | sed -e 's|_MIC[0-9]*||')
 %undefine runGlimpse
 %endif
