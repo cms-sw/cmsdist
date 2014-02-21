@@ -1,7 +1,20 @@
-diff --git core/meta/inc/TInterpreter.h core/meta/inc/TInterpreter.h
-index da22af6..8c72880 100644
---- core/meta/inc/TInterpreter.h
-+++ core/meta/inc/TInterpreter.h
+diff --git a/config/Makefile.linuxx8664gcc b/config/Makefile.linuxx8664gcc
+index 9ae190d..8cc604b 100644
+--- a/config/Makefile.linuxx8664gcc
++++ b/config/Makefile.linuxx8664gcc
+@@ -4,7 +4,7 @@
+ 
+ PLATFORM      = linux
+ 
+-DEBUGFLAGS    = -g
++DEBUGFLAGS    = -g -gdwarf-2
+ #DEBUGFLAGS    = -gstabs
+ OPTFLAGS      = -O2
+ # Optional compiler options for gcc >= 3.4.0
+diff --git a/core/meta/inc/TInterpreter.h b/core/meta/inc/TInterpreter.h
+index 83e4ac9..065a438 100644
+--- a/core/meta/inc/TInterpreter.h
++++ b/core/meta/inc/TInterpreter.h
 @@ -42,6 +42,13 @@ class TInterpreterValue;
  class TMethod;
  class TObjArray;
@@ -26,7 +39,7 @@ index da22af6..8c72880 100644
     virtual void     AddIncludePath(const char *path) = 0;
     virtual void    *SetAutoLoadCallBack(void* /*cb*/) { return 0; }
     virtual void    *GetAutoLoadCallBack() const { return 0; }
-@@ -405,6 +415,43 @@ public:
+@@ -412,6 +422,43 @@ public:
     virtual const char *TypedefInfo_Name(TypedefInfo_t * /* tinfo */) const {return 0;}
     virtual const char *TypedefInfo_Title(TypedefInfo_t * /* tinfo */) const {return 0;}
  
@@ -70,10 +83,10 @@ index da22af6..8c72880 100644
     static TInterpreter *Instance();
  
     ClassDef(TInterpreter,0)  //ABC defining interface to generic interpreter
-diff --git core/meta/src/TCling.cxx core/meta/src/TCling.cxx
-index fa922f7..ac49f77 100644
---- core/meta/src/TCling.cxx
-+++ core/meta/src/TCling.cxx
+diff --git a/core/meta/src/TCling.cxx b/core/meta/src/TCling.cxx
+index afcc74e..77627ba 100644
+--- a/core/meta/src/TCling.cxx
++++ b/core/meta/src/TCling.cxx
 @@ -65,6 +65,7 @@
  
  #include "clang/AST/ASTContext.h"
@@ -82,7 +95,7 @@ index fa922f7..ac49f77 100644
  #include "clang/AST/DeclarationName.h"
  #include "clang/AST/GlobalDecl.h"
  #include "clang/AST/RecordLayout.h"
-@@ -105,6 +106,7 @@
+@@ -106,6 +107,7 @@
  #include <stdexcept>
  #include <stdint.h>
  #include <fstream>
@@ -90,7 +103,7 @@ index fa922f7..ac49f77 100644
  #include <string>
  #include <typeinfo>
  #include <utility>
-@@ -949,6 +951,12 @@ TCling::TCling(const char *name, const char *title)
+@@ -941,6 +943,12 @@ TCling::TCling(const char *name, const char *title)
  
  
  //______________________________________________________________________________
@@ -103,7 +116,7 @@ index fa922f7..ac49f77 100644
  TCling::~TCling()
  {
     // Destroy the interpreter interface.
-@@ -5926,3 +5934,962 @@ const char* TCling::TypedefInfo_Title(TypedefInfo_t* tinfo) const
+@@ -6237,3 +6245,965 @@ const char* TCling::TypedefInfo_Title(TypedefInfo_t* tinfo) const
     TClingTypedefInfo* TClinginfo = (TClingTypedefInfo*) tinfo;
     return TClinginfo->Title();
  }
@@ -180,6 +193,7 @@ index fa922f7..ac49f77 100644
 +   bool IsDynamicClass() const;
 +   bool IsEnum() const;
 +   bool IsFundamental() const;
++   bool IsParentANamespace() const;
 +   bool IsPointer() const;
 +   bool IsReference() const;
 +   bool IsStruct() const;
@@ -206,8 +220,10 @@ index fa922f7..ac49f77 100644
 +}
 +
 +TType::TType(const TType& rhs)
-+   : fInterp(rhs.fInterp), fTypeInfo(rhs.fTypeInfo), fType(rhs.fType)
 +{
++   fInterp = rhs.fInterp;
++   fTypeInfo = rhs.fTypeInfo;
++   fType = rhs.fType;
 +}
 +
 +TType&
@@ -591,7 +607,7 @@ index fa922f7..ac49f77 100644
 +{
 +   fTypeInfo = 0;
 +   const cling::LookupHelper& LH = fInterp->getLookupHelper();
-+   fType = LH.findType(name);
++   fType = LH.findType(name, cling::LookupHelper::NoDiagnostics);
 +   if (fType.isNull()) {
 +      if (gDebug > 0) {
 +      }
@@ -1066,11 +1082,11 @@ index fa922f7..ac49f77 100644
 +   return p->TypeInfo();
 +}
 +
-diff --git core/meta/src/TCling.h core/meta/src/TCling.h
-index 4fbad21..d116604 100644
---- core/meta/src/TCling.h
-+++ core/meta/src/TCling.h
-@@ -62,6 +62,7 @@ class THashTable;
+diff --git a/core/meta/src/TCling.h b/core/meta/src/TCling.h
+index ac2f4e6..d21600d 100644
+--- a/core/meta/src/TCling.h
++++ b/core/meta/src/TCling.h
+@@ -63,6 +63,7 @@ class THashTable;
  class TInterpreterValue;
  class TMethod;
  class TObjArray;
@@ -1078,7 +1094,7 @@ index 4fbad21..d116604 100644
  
  namespace ROOT {
     namespace TMetaUtils {
-@@ -127,7 +128,8 @@ public: // Public Interface
+@@ -132,7 +133,8 @@ public: // Public Interface
     virtual ~TCling();
     TCling(const char* name, const char* title);
  
@@ -1088,7 +1104,7 @@ index 4fbad21..d116604 100644
  
     void    AddIncludePath(const char* path);
     void   *GetAutoLoadCallBack() const { return fAutoLoadCallBack; }
-@@ -449,6 +451,41 @@ public: // Public Interface
+@@ -465,6 +467,41 @@ public: // Public Interface
     virtual const char* TypedefInfo_Name(TypedefInfo_t* tinfo) const;
     virtual const char* TypedefInfo_Title(TypedefInfo_t* tinfo) const;
  
@@ -1130,3 +1146,37 @@ index 4fbad21..d116604 100644
     std::set<TClass*>& GetModTClasses() { return fModTClasses; }
  
     void HandleNewDecl(const void* DV, bool isDeserialized, std::set<TClass*>& modifiedClasses);
+diff --git a/interpreter/llvm/Module.mk b/interpreter/llvm/Module.mk
+index caaaa3b..b1a312c 100644
+--- a/interpreter/llvm/Module.mk
++++ b/interpreter/llvm/Module.mk
+@@ -179,6 +179,8 @@ $(LLVMDEPO): $(LLVMDEPS)
+ 		$$LLVM_BUILD_CC $$LLVM_BUILD_CXX \
+ 		CFLAGS="$$LLVM_CFLAGS" CXXFLAGS="$$LLVM_CFLAGS" )
+ 
++#--enable-debug-runtime --enable-debug-symbols --enable-keep-symbols
++
+ all-$(MODNAME): $(LLVMLIB)
+ 
+ clean-llvm:
+diff --git a/io/io/src/TBufferFile.cxx b/io/io/src/TBufferFile.cxx
+index 42fc3b2..07943a0 100644
+--- a/io/io/src/TBufferFile.cxx
++++ b/io/io/src/TBufferFile.cxx
+@@ -2826,6 +2826,8 @@ Version_t TBufferFile::ReadVersion(UInt_t *startpos, UInt_t *bcnt, const TClass
+                   if (checksum==cl->GetCheckSum() || checksum==cl->GetCheckSum(1)) {
+                      version = cl->GetClassVersion();
+                   } else {
++                     version = cl->GetClassVersion();
++/*
+                      if (fParent) {
+                         Error("ReadVersion", "Could not find the StreamerInfo with a checksum of 0x%x for the class \"%s\" in %s.",
+                               checksum, cl->GetName(), ((TFile*)fParent)->GetName());
+@@ -2834,6 +2836,7 @@ Version_t TBufferFile::ReadVersion(UInt_t *startpos, UInt_t *bcnt, const TClass
+                               checksum, cl->GetName());
+                      }
+                      return 0;
++*/
+                   }
+                }
+             }

@@ -1,7 +1,7 @@
 ### RPM lcg roofit 5.99.06
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 9ae1c032ed776ff4fd7992c5b402aa0d0231c295
+%define tag fcbff75adee4d709b251c0e57e63bc08e37e65ce
 %define branch master
 Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
@@ -12,7 +12,7 @@ Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{
 #atch0: root6-externals
 #atch1: root6-cling-opts
 
-Patch0: root_patch_cms_v03
+Patch0: root_patch_cms_v04
 
 #Patch0: root-5.34.02-externals
 #Patch1: root-5.28-00d-roofit-silence-static-printout
@@ -38,7 +38,7 @@ Requires: root
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p0
+%patch0 -p1
 #patch0 -p1
 #patch1 -p1
 
@@ -56,6 +56,14 @@ export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 #export LIBJPEG=${LIBJPEG_ROOT}
 #export LIBPNG=${LIBPNG_ROOT}
 #export LIBTIFF=${LIBTIFF_ROOT}
+
+# Required for generated dictionaries during ROOT6 compile/install
+ROOT_INCLUDE_PATH=
+for DEP in %requiredtools; do
+  ROOT_INCLUDE_PATH=$(eval echo $(printf "\${%%s_ROOT}/include" $(echo $DEP | tr "[a-z]-" "[A-Z]_"))):$ROOT_INCLUDE_PATH
+done
+
+export ROOT_INCLUDE_PATH
 
 CONFIG_ARGS="--minimal
              --enable-roofit

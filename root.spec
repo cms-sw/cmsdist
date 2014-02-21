@@ -1,7 +1,7 @@
 ### RPM lcg root 5.99.06
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 9ae1c032ed776ff4fd7992c5b402aa0d0231c295
+%define tag fcbff75adee4d709b251c0e57e63bc08e37e65ce
 %define branch master
 Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
@@ -17,7 +17,7 @@ Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{
 #Patch5: root-5.30.02-fix-isnan-again
 #Patch6: root-5.34.05-cintex-armv7a-port                   not needed anymore
 
-Patch0: root_patch_cms_v03
+Patch0: root_patch_cms_v04
 
 Requires: gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl zlib
 
@@ -33,7 +33,7 @@ Requires: freetype
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p0
+%patch0 -p1
 
 # Delete these (irrelevant) files as the fits appear to confuse rpm on OSX
 # (It tries to run install_name_tool on them.)
@@ -54,6 +54,14 @@ export ZLIB=${ZLIB_ROOT}
 export LIBJPEG=${LIBJPG_ROOT}
 export LIBPNG=${LIBPNG_ROOT}
 export LIBTIFF=${LIBTIFF_ROOT}
+
+# Required for generated dictionaries during ROOT6 compile/install
+ROOT_INCLUDE_PATH=
+for DEP in %requiredtools; do
+  ROOT_INCLUDE_PATH=$(eval echo $(printf "\${%%s_ROOT}/include" $(echo $DEP | tr "[a-z]-" "[A-Z]_"))):$ROOT_INCLUDE_PATH
+done
+
+export ROOT_INCLUDE_PATH
 
 CONFIG_ARGS="--enable-table 
              --disable-builtin-pcre
@@ -135,6 +143,14 @@ if (cp --help | grep -e '-P.*--parents') >/dev/null 2>&1; then
 else
   cp="cp -pPR"
 fi
+
+# Required for generated dictionaries during ROOT6 compile/install
+ROOT_INCLUDE_PATH=
+for DEP in %requiredtools; do
+  ROOT_INCLUDE_PATH=$(eval echo $(printf "\${%%s_ROOT}/include" $(echo $DEP | tr "[a-z]-" "[A-Z]_"))):$ROOT_INCLUDE_PATH
+done
+
+export ROOT_INCLUDE_PATH
 
 export ROOTSYS=%i
 make INSTALL="$cp" INSTALLDATA="$cp" install
