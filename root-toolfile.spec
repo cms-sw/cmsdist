@@ -8,6 +8,7 @@ Requires: gcc
 %install
 
 export GCC_ROOT
+export GCC_VERSION
 
 TARGET_TRIPLET=$(gcc -dumpmachine)
 export TARGET_TRIPLET
@@ -35,11 +36,11 @@ EOF_TOOLFILE
 cat << \EOF_TOOLFILE > %{i}/etc/scram.d/root_cxxdefaults.xml
 <tool name="root_cxxdefaults" version="@TOOL_VERSION@">
   <runtime name="ROOT_GCC_TOOLCHAIN" value="@GCC_ROOT@" type="path"/>
-  <runtime name="ROOT_INCLUDE_PATH" value="@GCC_ROOT@/include/c++/4.8.1" type="path"/>
-  <runtime name="ROOT_INCLUDE_PATH" value="@GCC_ROOT@/include/c++/4.8.1/@TARGET_TRIPLET@" type="path"/>
-  <runtime name="ROOT_INCLUDE_PATH" value="@GCC_ROOT@/include/c++/4.8.1/backward" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="@GCC_ROOT@/include/c++/@GCC_VERSION@" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="@GCC_ROOT@/include/c++/@GCC_VERSION@/@TARGET_TRIPLET@" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="@GCC_ROOT@/include/c++/@GCC_VERSION@/backward" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="/usr/local/include" type="path"/>
-  <runtime name="ROOT_INCLUDE_PATH" value="@TOOL_ROOT@/etc/cling/lib/clang/3.4/include" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="@TOOL_ROOT@/etc/cling/lib/clang/3.5/include" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="/usr/include" type="path"/>
 </tool>
 EOF_TOOLFILE
