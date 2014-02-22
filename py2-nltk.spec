@@ -2,8 +2,8 @@
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 Source0: https://pypi.python.org/packages/source/n/nltk/nltk-%{realversion}.tar.gz#md5=b17aad070ae9a094538e4b481409db09
-Requires: python py2-yaml py2-numpy py2-setuptools
-#BuildRequires: py2-setuptools
+Requires: python py2-yaml py2-numpy
+BuildRequires: py2-setuptools
 
 %prep
 %setup -n nltk-%{realversion}
@@ -39,6 +39,7 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
 done
 
 %post
+%{relocateConfig}etc/profile.d/dependencies-setup.*sh
 # add NLTK_DATA into init so it would be available afterwards
 echo "export NLTK_DATA='${CMS_INSTALL_PREFIX}/%{pkgrel}/nltk_data'" >> ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d/init.sh
 echo "setenv NLTK_DATA '${CMS_INSTALL_PREFIX}/%{pkgrel}/nltk_data'" >> ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d/init.csh
