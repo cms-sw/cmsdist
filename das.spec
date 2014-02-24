@@ -1,4 +1,4 @@
-### RPM cms das 2.3.3
+### RPM cms das 2.4.5
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 %define wmcver 0.8.3
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
@@ -35,51 +35,20 @@ mv -f init.tmp src/python/DAS/__init__.py
 # do DAS build
 python setup.py build
 
-# build DAS JSON maps out of DAS YML files
-das_maps()
-{
-    cmd="python src/python/DAS/tools/das_drop_maps.py"
-    dir="src/python/DAS/services/cms_maps/"
-    tdir=/tmp/dasmaps
-    rm -rf $tdir
-    mkdir -p $tdir
-    cp $dir/*.yml $tdir
-    if [ "$1" == "production" ]; then
-        map_file="$dir/das_maps.js"
-    else
-        for amap in `ls $tdir/*.yml`
-        do
-            /bin/cat $amap | sed "s/cmsweb.cern.ch/cmsweb-testbed.cern.ch/g" > $amap.tmp
-            rm -f $amap
-            mv $amap.tmp $amap
-        done
-        map_file="$dir/das_testbed_maps.js"
-    fi
-    rm -f $map_file
-    export PYTHONPATH=$PYTHONPATH:$PWD/src/python
-    for amap in `ls $tdir/*.yml`
-    do
-        $cmd --uri-map=$amap >> $map_file
-        $cmd --notation-map=$amap >> $map_file
-        $cmd --presentation-map=$amap >> $map_file
-    done
-    /bin/cat $map_file | grep -v "###" > $map_file.tmp
-    rm -f $map_file
-    mv $map_file.tmp $map_file
-    rm -rf $tdir
-}
+# set PYTHONPATH since it is used by DAS tools
+PYTHONPATH=$PWD/src/python:$PYTHONPATH
 
-# generate production DAS maps
-das_maps "production"
-# generate pre-production DAS maps
-das_maps "pre-production"
+# build DAS JSON maps out of DAS YML files, they will be created in
+# DAS/services/cms_maps area as das_maps/das_testbed_maps.js files
+bin/create_das_js src/python/DAS/services/cms_maps
 # clean-up DAS YML files
 rm -f src/python/DAS/services/cms_maps/*.yml
 rm -rf src/python/DAS/services/maps
 
 # build DAS sphinx documentation
-PYTHONPATH=$PWD/src/python:$PYTHONPATH
+export DAS_CONFIG=$PWD/etc/das.cfg
 cd doc
+mkdir -p sphinx/_static
 cat sphinx/conf.py | sed "s,development,%{realversion},g" > sphinx/conf.py.tmp
 mv sphinx/conf.py.tmp sphinx/conf.py
 mkdir -p build
