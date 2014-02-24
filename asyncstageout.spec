@@ -1,20 +1,18 @@
-### RPM cms asyncstageout 1.0.1pre1
+### RPM cms asyncstageout 1.0.1pre5
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 0.9.84
+%define wmcver 0.9.92
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{wmcver}.tar.gz
-Source1: git://github.com/HassenRiahi/AsyncStageout.git?obj=master/%{realversion}&export=AsyncStageout-%{realversion}&output=/AsyncStageout-%{realversion}.tar.gz
-Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 rotatelogs pystack py2-sphinx dbs-client couchdb py2-pycurl couchskel py2-stomp
-Patch0: asyncstageout-setup
+Source1: git://github.com/dmwm/AsyncStageout.git?obj=master/%{realversion}&export=AsyncStageout-%{realversion}&output=/AsyncStageout-%{realversion}.tar.gz
+Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 rotatelogs pystack py2-sphinx dbs-client couchdb py2-pycurl couchskel py2-stomp dbs3-client
 
 %prep
 %setup -D -T -b 1 -n AsyncStageout-%{realversion}
 %setup -T -b 0 -n WMCore-%{wmcver}
-%patch0 -p0
 
 %build
 cd ../WMCore-%{wmcver}
