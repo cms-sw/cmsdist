@@ -14,7 +14,7 @@ make gitweb
 %install
 make gitwebdir=%i/htdocs/gitweb install-gitweb
 find %i/htdocs/gitweb -type f | xargs perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|" 
-perl -p -i -e 's|\$GIT = ".*?";|\$GIT = "git";|g' %i/htdocs/gitweb/gitweb.cgi
+perl -p -i -e 's,\$GIT = ".*?";,\$GIT = \$ENV{"SERVER_GIT"} || "git";,g' %i/htdocs/gitweb/gitweb.cgi
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d

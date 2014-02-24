@@ -1,0 +1,11 @@
+--- setup_dependencies.py.ori	2014-01-13 16:16:10.000000000 +0100
++++ setup_dependencies.py	2014-01-13 16:18:56.000000000 +0100
+@@ -110,7 +110,7 @@
+                         'packages': ['WMCore.Agent+', 'WMCore.Storage+', 'WMComponent.DBSUpload',
+                                      'WMCore.Credential', 'WMCore.WorkerThreads',
+                                      'WMCore.Services.PhEDEx+', 'WMCore.ACDC', 'WMCore.Alerts+',
+-                                     'WMCore.Services.UserFileCache'],
++                                     'WMCore.Services.UserFileCache','WMCore.Services.SiteDB+'],
+                         'modules': ['WMQuality.TestInitCouchApp', 'WMCore.Services.Service',
+                                     'WMCore.Services.pycurl_manager', 'WMComponent.__init__'],
+                         'systems': ['wmc-database'],
