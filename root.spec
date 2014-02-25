@@ -30,6 +30,7 @@ Patch14: https://github.com/Dr15Jones/root/commit/97b24fb57166a105d3912ee0ac0c3b
 Patch15: https://github.com/Dr15Jones/root/commit/e04ab19e95c14665a2b5e464f30c54d226b490e0.patch
 Patch16: https://github.com/Dr15Jones/root/commit/386c35244cd8901c243bbc8dd10ac1643e44b589.patch
 Patch17: https://github.com/Dr15Jones/root/commit/285552177b57fa931d4e2f6e67ea3cb0414c736b.patch
+Patch18: root-5.34.17-linuxarm-cxx11
 
 Requires: gccxml gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl
 
@@ -70,6 +71,7 @@ Requires: freetype
 %patch15 -p1
 %patch16 -p1
 %patch17 -p1
+%patch18 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)
@@ -136,16 +138,6 @@ CONFIG_ARGS="--enable-table
              --with-cint-longline=4096
              --disable-hdfs
              --disable-oracle ${EXTRA_CONFIG_ARGS}"
-
-# Add support for GCC 4.6
-sed -ibak 's/\-std=c++11/-std=c++0x/g' \
-  configure \
-  Makefile \
-  config/Makefile.macosx64 \
-  config/Makefile.macosx \
-  config/Makefile.linux \
-  config/root-config.in \
-  config/Makefile.linuxx8664gcc 
 
 %if %isarmv7
 cp ./cint/iosenum/iosenum.linux3 ./cint/iosenum/iosenum.linuxarm3
