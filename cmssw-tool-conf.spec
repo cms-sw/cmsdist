@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 31.0
+### RPM cms cmssw-tool-conf 30.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -120,7 +120,6 @@ Requires: py2-python-dateutil-toolfile
 Requires: yaml-cpp-toolfile
 Requires: fastjet-contrib-toolfile
 Requires: cuda-toolfile
-Requires: rivet2-toolfile
 
 # Only for Linux platform.
 %if %islinux
@@ -148,7 +147,7 @@ Requires: igprof-toolfile
 %endif
 %endif
 
-%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler boost_serialization boost_iostreams cuda rivet2
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler boost_serialization boost_iostreams cuda
 
 ## IMPORT scramv1-tool-conf
 
