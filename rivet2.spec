@@ -20,7 +20,7 @@ Requires: python cython
             --with-yaml-cpp=${YAML_CPP_ROOT} \
             --disable-doxygen --disable-pdfmanual --with-pic \
             PYTHONPATH=${CYTHON_ROOT}/lib/python@PYTHONV@/site-packages \
-            CXX="$(which %cms_cxx)" CXXFLAGS="%cms_cxxflags"
+            CXX="$(which %cms_cxx)" CXXFLAGS="%cms_cxxflags" CPPFLAGS="-I${BOOST_ROOT}/include"
 
 # The following hack insures that the bins with the library linked explicitly
 # rather than indirectly, as required by the gold linker
