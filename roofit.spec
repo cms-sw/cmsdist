@@ -1,7 +1,7 @@
 ### RPM lcg roofit 5.99.06
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag fcbff75adee4d709b251c0e57e63bc08e37e65ce
+%define tag 06fc44d30dc053595a30342021b326f8d2711199
 %define branch master
 Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
@@ -69,7 +69,6 @@ CONFIG_ARGS="--minimal
              --enable-roofit
              --enable-xml
              --enable-c++11
-             --build=debug
              --disable-rpath
              --with-cxx=g++
              --with-cc=gcc
