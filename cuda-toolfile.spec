@@ -30,7 +30,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda.xml
     <environment name="LIBDIR" default="$CUDA_BASE/lib64"/>
     <environment name="INCLUDE" default="$CUDA_BASE/include"/>
   </client>
-  <flags CUDA_FLAGS="-fPIC"/>
+  <flags CUDA_CFLAGS="-fPIC"/>
   <runtime name="PATH" value="$CUDA_BASE/bin" type="path"/>
 </tool>
 EOF_TOOLFILE
