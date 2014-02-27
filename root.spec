@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
-%define tag 7f9948fb82c8be3b4c7cb8367d18415302fe4707
+%define tag 705062d948f512824d13944b18b2e419d5091ffc
 %define branch cms/v5-34-17
 Source: git+https://github.com/cms-sw/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
