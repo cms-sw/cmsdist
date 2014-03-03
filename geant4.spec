@@ -1,4 +1,4 @@
-### RPM external geant4 10.00
+### RPM external geant4 10.00.p01
 
 Source0: http://geant4.cern.ch/support/source/%{n}.%{realversion}.tar.gz
 
@@ -9,7 +9,6 @@ Requires: expat
 Requires: xerces-c
 
 Patch0: geant4-10.0-no-banner
-Patch1: geant4-10.0-dynamic-TLS
 
 %define keep_archives true
 
@@ -21,7 +20,6 @@ Patch1: geant4-10.0-dynamic-TLS
 %setup -n %{n}.%{realversion}
 
 %patch0 -p1
-%patch1 -p1
 
 %build
 
