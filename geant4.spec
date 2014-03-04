@@ -9,6 +9,7 @@ Requires: expat
 Requires: xerces-c
 
 Patch0: geant4-10.0-no-banner
+Patch1: geant4-10.0.p01-dynamic-tls
 
 %define keep_archives true
 
@@ -20,6 +21,7 @@ Patch0: geant4-10.0-no-banner
 %setup -n %{n}.%{realversion}
 
 %patch0 -p1
+%patch1 -p1
 
 %build
 
