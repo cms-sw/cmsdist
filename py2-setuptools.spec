@@ -1,17 +1,16 @@
-### RPM external py2-setuptools 0.6c9
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+### RPM external py2-setuptools 2.1
+## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
 
-Source: http://pypi.python.org/packages/source/s/setuptools/setuptools-%realversion.tar.gz
+Source: https://pypi.python.org/packages/source/s/setuptools/setuptools-%{realversion}.tar.gz
 Requires: python
 
 %prep
-%setup -n setuptools-%realversion
+%setup -n setuptools-%{realversion}
 
 %build
 python setup.py build
 
 %install
-python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
-find %i -name '*.egg-info' -exec rm {} \;
-rm -f %i/$PYTHON_LIB_SITE_PACKAGES/setuptools/*.exe
-for f in %i/bin/easy_install*; do perl -p -i -e 's{.*}{#!/usr/bin/env python} if $. == 1 && m{#!.*/bin/python}' $f; done
+python setup.py install --single-version-externally-managed --record=/dev/null --skip-build --prefix=%{i}
+sed -ideleteme 's|#!.*/bin/python|#!/usr/bin/env python|' %{i}/bin/easy_install*
+rm -f %{i}/bin/*deleteme
