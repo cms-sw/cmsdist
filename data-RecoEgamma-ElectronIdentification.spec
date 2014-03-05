@@ -7,8 +7,8 @@
 
 cat << CMS_EOF >> ./sources
 RecoEgamma/ElectronIdentification/data/TMVA_BDTSimpleCat_17Feb2011.weights.xml
-RecoEgamma/ElectronIdentification/data/TMVA_BDTSoftElectrons_9Dec2013.weights.xml
-RecoEgamma/ElectronIdentification/data/TMVA_BDTSoftElectrons_27Jan2014.weights.xml
+RecoEgamma/ElectronIdentification/data/TMVA_BDTSoftElectrons_7Feb2013.weights.xml
+RecoEgamma/ElectronIdentification/data/TMVA_BDTSoftElectrons_7Feb2014.weights.xml
 CMS_EOF
 
 ## IMPORT data-package-build
