@@ -181,16 +181,19 @@ index 0750408..551a52c 100644
              virtual void endLuminosityBlockProduce(edm::LuminosityBlock&, edm::EventSetup const&) = 0;
           };
 diff --git a/FWCore/Framework/interface/stream/ProducingModuleAdaptor.h b/FWCore/Framework/interface/stream/ProducingModuleAdaptor.h
-index 253144b..c9854b7 100644
+index fc50583..ce641e3 100644
 --- a/FWCore/Framework/interface/stream/ProducingModuleAdaptor.h
 +++ b/FWCore/Framework/interface/stream/ProducingModuleAdaptor.h
-@@ -91,37 +91,37 @@ namespace edm {
+@@ -91,7 +91,7 @@ namespace edm {
        typedef CallBeginLuminosityBlockProduce<T> MyBeginLuminosityBlockProduce;
        typedef CallEndLuminosityBlockProduce<T> MyEndLuminosityBlockProduce;
        
 -      void setupStreamModules() override final {
 +      virtual void setupStreamModules() override final {
-         this->createStreamModules([this] () -> M* {return impl::makeStreamModule<T>(*m_pset,m_global.get());});
+         this->createStreamModules([this] () -> M* {
+           auto tmp = impl::makeStreamModule<T>(*m_pset,m_global.get());
+           MyGlobal::set(tmp,m_global.get());
+@@ -100,31 +100,31 @@ namespace edm {
          m_pset= nullptr;
        }
  
@@ -200,7 +203,6 @@ index 253144b..c9854b7 100644
        }
 -      void setupRun(M* iProd, RunIndex iIndex) override final {
 +      virtual void setupRun(M* iProd, RunIndex iIndex) override final {
-         MyGlobal::set(iProd,m_global.get());
          MyGlobalRun::set(iProd, m_runs[iIndex].get());
        }
 -      void streamEndRunSummary(M* iProd,
@@ -229,7 +231,7 @@ index 253144b..c9854b7 100644
                        EventSetup const& c,
                        ModuleCallingContext const* mcc) override final {
          if(T::HasAbility::kRunCache or T::HasAbility::kRunSummaryCache or T::HasAbility::kBeginRunProducer) {
-@@ -138,7 +138,7 @@ namespace edm {
+@@ -141,7 +141,7 @@ namespace edm {
            }
          }
        }
@@ -238,7 +240,7 @@ index 253144b..c9854b7 100644
                      EventSetup const& c,
                      ModuleCallingContext const* mcc) override final
        {
-@@ -158,7 +158,7 @@ namespace edm {
+@@ -161,7 +161,7 @@ namespace edm {
          }
        }
  
@@ -247,7 +249,7 @@ index 253144b..c9854b7 100644
                                    ModuleCallingContext const* mcc) override final
        {
          if(T::HasAbility::kLuminosityBlockCache or T::HasAbility::kLuminosityBlockSummaryCache or T::HasAbility::kBeginLuminosityBlockProducer) {
-@@ -178,7 +178,7 @@ namespace edm {
+@@ -181,7 +181,7 @@ namespace edm {
          }
          
        }
