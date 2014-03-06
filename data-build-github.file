@@ -15,7 +15,7 @@ case "${DOWNLOAD_TOOL}" in
    curl)
       # cURL does not download empty files, touch file before downloading
       touch ${DOWNLOAD_FILE}
-      curl -L -O $GIT_URL
+      curl -L -O -k $GIT_URL
       ;;
    wget)
       wget --no-check-certificate --no-verbose $GIT_URL
