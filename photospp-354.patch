@@ -1,0 +1,12 @@
+diff -uprN 3.54/src/photosFortranInterfaces/PH_HEPEVT_Interface.cxx 3.54/src/photosFortranInterfaces/PH_HEPEVT_Interface.cxx
+--- 3.54/src/photosFortranInterfaces/PH_HEPEVT_Interface.cxx   2013-07-21 10:47:53.000000000 +0200
++++ 3.54/src/photosFortranInterfaces/PH_HEPEVT_Interface.cxx  2014-03-05 16:35:04.000000000 +0100
+@@ -57,7 +57,8 @@ void PH_HEPEVT_Interface::add_particle(i
+
+   //now set the element of PH_HEPEVT
+   hep.nevhep=0; //dummy
+-  hep.nhep=hep.nhep++;
++  hep.nhep = hep.nhep + 1; // 1.II.2014: fix for gcc 4.8.1. Previously it was:
++                           // hep.nhep = hep.nhep++; which technically is an undefined operation
+   hep.isthep[i]=particle->getStatus();
+   hep.idhep[i]=particle->getPdgID();
