@@ -224,6 +224,9 @@ unsupportedSeeds="$unsupportedSeeds libX11 libXmu libSM libICE libXcursor
         libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama
         libXft libXrender libXpm ncurses-libs libc6-i686 compat-readline5"
 
+# PU-IAS
+unsupportedSeeds="$unsupportedSeeds libcom_err"
+
 # Case statement for additional provides.
 case %cmsplatf in
     slc5onl* )

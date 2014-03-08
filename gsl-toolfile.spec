@@ -17,6 +17,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gsl.xml
     <environment name="LIBDIR" default="$GSL_BASE/lib"/>
     <environment name="INCLUDE" default="$GSL_BASE/include"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 

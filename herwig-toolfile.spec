@@ -16,6 +16,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/herwig.xml
     <environment name="LIBDIR" default="$HERWIG_BASE/lib"/>
     <environment name="INCLUDE" default="$HERWIG_BASE/include"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="f77compiler"/>
   <use name="lhapdf"/>
   <use name="photos"/>

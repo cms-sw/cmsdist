@@ -17,6 +17,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/libxml2.xml
     <environment name="INCLUDE" default="$LIBXML2_BASE/include/libxml2"/>
   </client>
   <runtime name="PATH" value="$LIBXML2_BASE/bin" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 

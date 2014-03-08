@@ -15,6 +15,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/libuuid.xml
     <environment name="LIBDIR" default="$LIBUUID_BASE/lib64"/>
     <environment name="INCLUDE" default="$LIBUUID_BASE/include"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="sockets"/>
 </tool>
 EOF_TOOLFILE

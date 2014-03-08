@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_7_0_0_pre0
+### RPM cms cmssw CMSSW_7_1_0_pre1
 
 Requires: cmssw-tool-conf python cms-git-tools
 
@@ -32,6 +32,10 @@ Requires: cmssw-tool-conf python cms-git-tools
 %endif
 
 %if "%(case %realversion in (*_THREADED_X*) echo true ;; (*) echo false ;; esac)" == "true"
+%define branch		%(echo %realversion | sed -e 's|_X.*|_X|')
+%endif
+
+%if "%(case %realversion in (*_ROOT6_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define branch		%(echo %realversion | sed -e 's|_X.*|_X|')
 %endif
 

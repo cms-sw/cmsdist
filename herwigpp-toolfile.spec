@@ -15,6 +15,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/herwigpp.xml
     <environment name="INCLUDE" default="$HERWIGPP_BASE/include"/>
   </client>
   <runtime name="HERWIGPATH" value="$HERWIGPP_BASE/share/Herwig++"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 

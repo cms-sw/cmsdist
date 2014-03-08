@@ -22,6 +22,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/oracle.xml
   </client>
   <runtime name="PATH" value="$BINDIR" type="path"/>
   <runtime name="TNS_ADMIN" default="$ORACLE_ADMINDIR"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="sockets"/>
 </tool>
 EOF_TOOLFILE

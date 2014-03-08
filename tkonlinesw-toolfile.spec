@@ -17,6 +17,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/tkonlinesw.xml
     <environment name="LIBDIR" value="$TKONLINESW_BASE/lib"/>
     <environment name="INCLUDE" value="$TKONLINESW_BASE/include"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="xerces-c"/>
 </tool>
 EOF_TOOLFILE

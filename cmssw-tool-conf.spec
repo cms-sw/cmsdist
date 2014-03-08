@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 29.0
+### RPM cms cmssw-tool-conf 30.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -86,6 +86,7 @@ Requires: py2-cjson-toolfile
 Requires: py2-pycurl-toolfile
 Requires: py2-sqlalchemy-toolfile
 Requires: py2-pygithub-toolfile
+Requires: py2-networkx-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
 Requires: cython-toolfile
@@ -117,6 +118,9 @@ Requires: cgal-toolfile
 Requires: doxygen-toolfile
 Requires: py2-python-dateutil-toolfile
 Requires: yaml-cpp-toolfile
+Requires: fastjet-contrib-toolfile
+Requires: cuda-toolfile
+Requires: rivet2-toolfile
 
 # Only for Linux platform.
 %if %islinux
@@ -144,7 +148,7 @@ Requires: igprof-toolfile
 %endif
 %endif
 
-%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler boost_serialization boost_iostreams
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler boost_serialization boost_iostreams cuda rivet2
 
 ## IMPORT scramv1-tool-conf
 

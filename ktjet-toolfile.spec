@@ -17,6 +17,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/ktjet.xml
     <environment name="INCLUDE" default="$KTJET_BASE/include"/>
   </client>
   <flags cppdefines="KTDOUBLEPRECISION"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 
