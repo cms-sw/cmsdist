@@ -47,6 +47,11 @@ make %makeprocesses
 %install
 cd objs
 make install
+
+BINDINGS_PATH=%i/lib/python$(echo $PYTHON_VERSION | cut -d. -f 1,2)/site-packages
+mkdir -p $BINDINGS_PATH
+cp -r ../tools/clang/bindings/python/clang $BINDINGS_PATH
+
 rm -f ../tools/clang/tools/scan-build/set-xcode*
 find ../tools/clang/tools/scan-build -exec install {} %i/bin \;
 find ../tools/clang/tools/scan-view -type f -exec install {} %i/bin \;
