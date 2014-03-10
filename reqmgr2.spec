@@ -1,12 +1,12 @@
-### RPM cms reqmgr2 0.9.79b
+### RPM cms reqmgr2 0.9.94a
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
-#Source: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
+Source: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
 
 #from private repository
-Source: git://github.com/ticoann/WMCore?obj=reqmgr2_dashboard_dep/%realversion&export=%n&output=/%n.tar.gz
+#Source: git://github.com/ticoann/WMCore?obj=reqmgr2_dashboard_dep/%realversion&export=%n&output=/%n.tar.gz
 
 Requires: py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah rotatelogs couchdb py2-cjson py2-sphinx py2-pycurl
 
