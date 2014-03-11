@@ -123,9 +123,6 @@ Requires: cuda-toolfile
 Requires: rivet2-toolfile
 Requires: opencl-toolfile
 Requires: opencl-cpp-toolfile
-Requires: qd-toolfile
-Requires: blackhat-toolfile
-Requires: sherpa2-toolfile
 
 # Only for Linux platform.
 %if %islinux
@@ -153,7 +150,7 @@ Requires: igprof-toolfile
 %endif
 %endif
 
-%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler boost_serialization boost_iostreams cuda rivet2 opencl opencl-cpp sherpa2
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler boost_serialization boost_iostreams cuda rivet2 opencl opencl-cpp
 
 ## IMPORT scramv1-tool-conf
 
