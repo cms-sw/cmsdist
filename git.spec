@@ -3,6 +3,7 @@
 ## INITENV +PATH PATH %{i}/libexec/git-core
 ## INITENV SET GIT_TEMPLATE_DIR %{i}/share/git-core/templates
 ## INITENV SET GIT_SSL_CAINFO %{i}/share/ssl/certs/ca-bundle.crt
+## INITENV SET GIT_EXEC_PATH %{i}/libexec/git-core
 
 %define isDarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
