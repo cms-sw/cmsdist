@@ -1,4 +1,4 @@
-### RPM cms comp HG1403b
+### RPM cms comp HG1403c
 
 # This is a meta-package to group all cms comp services
 # CMSWEB
@@ -14,7 +14,7 @@ Requires: crabhb happyface sreadiness mechanize
 Requires: rotatelogs pystack py2-psutil wmcore-devtools
 # Other
 Requires: wmagent-dev condor crabtaskworker
-Requires: PHEDEX-combined-agents PHEDEX-lifecycle
+Requires: PHEDEX-combined-agents PHEDEX-lifecycle lifecycle-das
 
 %prep
 %build
