@@ -24,8 +24,13 @@ cp -r %_sourcedir/online_build_set       %_builddir/online_build_set.file
 cp -r %_sourcedir/das-cache              %_builddir/das-cache.file
 %build
 cd $CMSSW_ROOT
+# On systems which support it, abort builds after 11.5h
+case %cmsplatf in 
+  osx*) TIMEOUT= ;;
+  *) TIMEOUT="timeout 39630" ;;
+esac
 eval `%scram runtime -sh`
-%_builddir/IntBuild/IB/runTests.py --appset %_builddir
+$TIMEOUT %_builddir/IntBuild/IB/runTests.py --appset %_builddir || true
 rm -rf %i/*
 %install
 # NOP
