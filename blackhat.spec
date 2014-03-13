@@ -9,7 +9,7 @@ Requires: qd python openssl
 
 %patch0 -p1
 
-./configure --prefix=%i --with-QDpath=$QD_ROOT CXXFLAGS="-Wno-deprecated -I$OPENSSL_ROOT/include" LDFLAGS="-ldl -L$OPENSSL_ROOT/lib"
+./configure --prefix=%i --with-QDpath=$QD_ROOT CXXFLAGS="-Wno-deprecated -I$OPENSSL_ROOT/include" LDFLAGS="-L$OPENSSL_ROOT/lib"
 # The following hack insures that the bins with the library linked explicitly
 # rather than indirectly, as required by the gold linker
 %build
