@@ -1,7 +1,7 @@
-diff --git a/config/Makefile.linuxx8664gcc b/config/Makefile.linuxx8664gcc
+diff --git config/Makefile.linuxx8664gcc config/Makefile.linuxx8664gcc
 index 9ae190d..8cc604b 100644
---- a/config/Makefile.linuxx8664gcc
-+++ b/config/Makefile.linuxx8664gcc
+--- config/Makefile.linuxx8664gcc
++++ config/Makefile.linuxx8664gcc
 @@ -4,7 +4,7 @@
  
  PLATFORM      = linux
@@ -11,14 +11,14 @@ index 9ae190d..8cc604b 100644
  #DEBUGFLAGS    = -gstabs
  OPTFLAGS      = -O2
  # Optional compiler options for gcc >= 3.4.0
-diff --git a/core/meta/inc/TInterpreter.h b/core/meta/inc/TInterpreter.h
-index 83e4ac9..065a438 100644
---- a/core/meta/inc/TInterpreter.h
-+++ b/core/meta/inc/TInterpreter.h
-@@ -42,6 +42,13 @@ class TInterpreterValue;
- class TMethod;
+diff --git core/meta/inc/TInterpreter.h core/meta/inc/TInterpreter.h
+index 57a3499..ba376cb 100644
+--- core/meta/inc/TInterpreter.h
++++ core/meta/inc/TInterpreter.h
+@@ -43,6 +43,13 @@ class TMethod;
  class TObjArray;
  class TVirtualMutex;
+ class TEnum;
 +class TType;
 +
 +namespace ROOT {
@@ -29,7 +29,7 @@ index 83e4ac9..065a438 100644
  
  R__EXTERN TVirtualMutex *gInterpreterMutex;
  
-@@ -94,6 +101,9 @@ public:
+@@ -95,6 +102,9 @@ public:
     TInterpreter(const char *name, const char *title = "Generic Interpreter");
     virtual ~TInterpreter() { }
  
@@ -39,13 +39,12 @@ index 83e4ac9..065a438 100644
     virtual void     AddIncludePath(const char *path) = 0;
     virtual void    *SetAutoLoadCallBack(void* /*cb*/) { return 0; }
     virtual void    *GetAutoLoadCallBack() const { return 0; }
-@@ -412,6 +422,43 @@ public:
+@@ -416,6 +426,45 @@ public:
     virtual const char *TypedefInfo_Name(TypedefInfo_t * /* tinfo */) const {return 0;}
     virtual const char *TypedefInfo_Title(TypedefInfo_t * /* tinfo */) const {return 0;}
  
 +
 +   // Type interface
-+   virtual unsigned long Type_ArraySize(void* /*obj*/) const { return 0UL; }
 +   virtual bool Type_Bool(void* /*obj*/) const { return false; }
 +   virtual bool Type_CheckType(void* /*obj*/, bool /*noComponents*/ = false) const { return false; }
 +   virtual void Type_Delete(void* /*obj*/) const {}
@@ -54,7 +53,6 @@ index 83e4ac9..065a438 100644
 +   virtual TType* Type_Factory(const char* /*name*/) const { return 0; }
 +   virtual TType* Type_Factory(const std::string& /*name*/) const { return 0; }
 +   virtual TType* Type_Factory(const std::type_info& /*ti*/) const { return 0; }
-+   virtual TType* Type_FinalType(void* /*obj*/) const { return 0; }
 +   virtual TType* Type_GetParent(void* /*obj*/) const { return 0; };
 +   virtual void Type_Init(void* /*obj*/, const char* /*name*/) const {}
 +   virtual void Type_Init(void* /*obj*/, const std::string& /*name*/) const {}
@@ -77,17 +75,21 @@ index 83e4ac9..065a438 100644
 +   virtual bool Type_IsVirtual(void* /*obj*/) const { return false; }
 +   virtual std::string Type_QualifiedName(void* /*obj*/) const { return ""; }
 +   virtual unsigned long Type_Size(void* /*obj*/) const { return 0UL; }
++   virtual unsigned long Type_ArraySize(void* /*obj*/) const { return 0UL; }
++   virtual TType* Type_FinalType(void* /*obj*/) const { return 0; }
 +   virtual TType* Type_ToType(void* /*obj*/) const { return 0; }
 +   virtual const std::type_info* Type_TypeInfo(void* /*obj*/) const { return 0; }
++   virtual unsigned long Type_ArrayDim(void* /*obj*/) const { return 0UL; }
++   virtual unsigned long Type_MaxIndex(void* /*obj*/, unsigned long /*dim*/) const { return 0UL; }
 +
     static TInterpreter *Instance();
  
     ClassDef(TInterpreter,0)  //ABC defining interface to generic interpreter
-diff --git a/core/meta/src/TCling.cxx b/core/meta/src/TCling.cxx
-index afcc74e..77627ba 100644
---- a/core/meta/src/TCling.cxx
-+++ b/core/meta/src/TCling.cxx
-@@ -65,6 +65,7 @@
+diff --git core/meta/src/TCling.cxx core/meta/src/TCling.cxx
+index fd8d78b..c61be24 100644
+--- core/meta/src/TCling.cxx
++++ core/meta/src/TCling.cxx
+@@ -66,6 +66,7 @@
  
  #include "clang/AST/ASTContext.h"
  #include "clang/AST/Decl.h"
@@ -95,7 +97,7 @@ index afcc74e..77627ba 100644
  #include "clang/AST/DeclarationName.h"
  #include "clang/AST/GlobalDecl.h"
  #include "clang/AST/RecordLayout.h"
-@@ -106,6 +107,7 @@
+@@ -112,6 +113,7 @@
  #include <stdexcept>
  #include <stdint.h>
  #include <fstream>
@@ -116,7 +118,7 @@ index afcc74e..77627ba 100644
  TCling::~TCling()
  {
     // Destroy the interpreter interface.
-@@ -6237,3 +6245,965 @@ const char* TCling::TypedefInfo_Title(TypedefInfo_t* tinfo) const
+@@ -6265,3 +6273,1078 @@ const char* TCling::TypedefInfo_Title(TypedefInfo_t* tinfo) const
     TClingTypedefInfo* TClinginfo = (TClingTypedefInfo*) tinfo;
     return TClinginfo->Title();
  }
@@ -176,6 +178,7 @@ index afcc74e..77627ba 100644
 +   TType(const std::string& name);
 +public:
 +   operator bool() const;
++   unsigned long ArrayDim() const;
 +   unsigned long ArraySize() const;
 +   bool CheckType(bool noComponents = false) const;
 +   void Dump() const;
@@ -202,6 +205,7 @@ index afcc74e..77627ba 100644
 +   bool IsUnion() const;
 +   bool IsValid() const;
 +   bool IsVirtual() const;
++   unsigned long MaxIndex(unsigned long dim) const;
 +   std::string QualifiedName() const;
 +   unsigned long Size() const;
 +   TType* ToType() const;
@@ -339,7 +343,7 @@ index afcc74e..77627ba 100644
 +  //  Get the wrapper function pointer
 +  //  from the ExecutionEngine (the JIT).
 +  //
-+  const llvm::GlobalValue* GV = fInterp->getModule()->getNamedValue(MN);
++  const llvm::GlobalValue* GV = fInterp->getCodeGenerator()->GetModule()->getNamedValue(MN);
 +  if (!GV) {
 +    Error("TType::make_wrapper",
 +          "Wrapper function name not found in Module!");
@@ -360,6 +364,53 @@ index afcc74e..77627ba 100644
 +    }
 +  }
 +  return F;
++}
++
++unsigned long
++TType::ArrayDim() const
++{
++   // For now we support only ConstantArrayType, and not
++   // VariableArrayType (c++11 only).
++   if (!IsValid()) {
++      return 0;
++   }
++   ASTContext& Context = fInterp->getCI()->getASTContext();
++   const Type* Ty = Context.getAsArrayType(fType.getCanonicalType());
++   if (!Ty) {
++      // Not an array.
++      return 0;
++   }
++   const ConstantArrayType* CAryTy =
++      Context.getAsConstantArrayType(fType.getCanonicalType());
++   if (!CAryTy) {
++      // Not a constant array.
++      return 0;
++   }
++   // To get this information we must count the number
++   // of array type nodes in the canonical type chain.
++   QualType QT = fType.getCanonicalType();
++   unsigned long cnt = 0UL;
++   while (1) {
++      if (QT->isArrayType()) {
++         ++cnt;
++         QT = llvm::cast<clang::ArrayType>(QT)->getElementType();
++         continue;
++      }
++      else if (QT->isReferenceType()) {
++         QT = llvm::cast<clang::ReferenceType>(QT)->getPointeeType();
++         continue;
++      }
++      else if (QT->isPointerType()) {
++         QT = llvm::cast<clang::PointerType>(QT)->getPointeeType();
++         continue;
++      }
++      else if (QT->isMemberPointerType()) {
++         QT = llvm::cast<clang::MemberPointerType>(QT)->getPointeeType();
++         continue;
++      }
++      break;
++   }
++   return cnt;
 +}
 +
 +unsigned long
@@ -823,6 +874,58 @@ index afcc74e..77627ba 100644
 +   return false;
 +}
 +
++unsigned long
++TType::MaxIndex(unsigned long dim) const
++{
++   if (!IsValid()) {
++      return 0;
++   }
++   // To get this information we must count the number
++   // of arry type nodes in the canonical type chain.
++   QualType QT = fType.getCanonicalType();
++   unsigned long num_dim = ArrayDim();
++   if ((dim == 0) || (dim >= num_dim)) {
++      // Passed dimension is out of bounds.
++      return 0;
++   }
++   unsigned long cnt = dim;
++   unsigned long max = 0UL;
++   while (1) {
++      if (QT->isArrayType()) {
++         if (cnt == 0) {
++            if (const ConstantArrayType* CAT =
++                  llvm::dyn_cast<ConstantArrayType>(QT)) {
++               max = static_cast<unsigned long>(CAT->getSize().getZExtValue());
++            }
++            else if (llvm::dyn_cast<IncompleteArrayType>(QT)) {
++               max = ULONG_MAX;
++            }
++            else {
++               max = 0UL;
++            }
++            break;
++         }
++         --cnt;
++         QT = llvm::cast<clang::ArrayType>(QT)->getElementType();
++         continue;
++      }
++      else if (QT->isReferenceType()) {
++         QT = llvm::cast<clang::ReferenceType>(QT)->getPointeeType();
++         continue;
++      }
++      else if (QT->isPointerType()) {
++         QT = llvm::cast<clang::PointerType>(QT)->getPointeeType();
++         continue;
++      }
++      else if (QT->isMemberPointerType()) {
++         QT = llvm::cast<clang::MemberPointerType>(QT)->getPointeeType();
++         continue;
++      }
++      break;
++   }
++   return max;
++}
++
 +string
 +TType::QualifiedName() const
 +{
@@ -880,6 +983,12 @@ index afcc74e..77627ba 100644
 +TType::TypeInfo() const
 +{
 +   return fTypeInfo;
++}
++
++unsigned long TCling::Type_ArrayDim(void* obj) const
++{
++   TType* p = (TType*) obj;
++   return p->ArrayDim();
 +}
 +
 +unsigned long TCling::Type_ArraySize(void* obj) const
@@ -1058,6 +1167,12 @@ index afcc74e..77627ba 100644
 +   return p->IsVirtual();
 +}
 +
++unsigned long TCling::Type_MaxIndex(void* obj, unsigned long dim) const
++{
++   TType* p = (TType*) obj;
++   return p->MaxIndex(dim);
++}
++
 +std::string TCling::Type_QualifiedName(void* obj) const
 +{
 +   TType* p = (TType*) obj;
@@ -1082,10 +1197,10 @@ index afcc74e..77627ba 100644
 +   return p->TypeInfo();
 +}
 +
-diff --git a/core/meta/src/TCling.h b/core/meta/src/TCling.h
-index ac2f4e6..d21600d 100644
---- a/core/meta/src/TCling.h
-+++ b/core/meta/src/TCling.h
+diff --git core/meta/src/TCling.h core/meta/src/TCling.h
+index ec76d3f..cfb86c1 100644
+--- core/meta/src/TCling.h
++++ core/meta/src/TCling.h
 @@ -63,6 +63,7 @@ class THashTable;
  class TInterpreterValue;
  class TMethod;
@@ -1104,7 +1219,7 @@ index ac2f4e6..d21600d 100644
  
     void    AddIncludePath(const char* path);
     void   *GetAutoLoadCallBack() const { return fAutoLoadCallBack; }
-@@ -465,6 +467,41 @@ public: // Public Interface
+@@ -467,6 +469,43 @@ public: // Public Interface
     virtual const char* TypedefInfo_Name(TypedefInfo_t* tinfo) const;
     virtual const char* TypedefInfo_Title(TypedefInfo_t* tinfo) const;
  
@@ -1142,14 +1257,16 @@ index ac2f4e6..d21600d 100644
 +   virtual TType* Type_FinalType(void* obj) const;
 +   virtual TType* Type_ToType(void* obj) const;
 +   virtual const std::type_info* Type_TypeInfo(void* obj) const;
++   virtual unsigned long Type_ArrayDim(void* obj) const;
++   virtual unsigned long Type_MaxIndex(void* obj, unsigned long dim) const;
 +
     std::set<TClass*>& GetModTClasses() { return fModTClasses; }
  
     void HandleNewDecl(const void* DV, bool isDeserialized, std::set<TClass*>& modifiedClasses);
-diff --git a/interpreter/llvm/Module.mk b/interpreter/llvm/Module.mk
+diff --git interpreter/llvm/Module.mk interpreter/llvm/Module.mk
 index caaaa3b..b1a312c 100644
---- a/interpreter/llvm/Module.mk
-+++ b/interpreter/llvm/Module.mk
+--- interpreter/llvm/Module.mk
++++ interpreter/llvm/Module.mk
 @@ -179,6 +179,8 @@ $(LLVMDEPO): $(LLVMDEPS)
  		$$LLVM_BUILD_CC $$LLVM_BUILD_CXX \
  		CFLAGS="$$LLVM_CFLAGS" CXXFLAGS="$$LLVM_CFLAGS" )
@@ -1159,24 +1276,3 @@ index caaaa3b..b1a312c 100644
  all-$(MODNAME): $(LLVMLIB)
  
  clean-llvm:
-diff --git a/io/io/src/TBufferFile.cxx b/io/io/src/TBufferFile.cxx
-index 42fc3b2..07943a0 100644
---- a/io/io/src/TBufferFile.cxx
-+++ b/io/io/src/TBufferFile.cxx
-@@ -2826,6 +2826,8 @@ Version_t TBufferFile::ReadVersion(UInt_t *startpos, UInt_t *bcnt, const TClass
-                   if (checksum==cl->GetCheckSum() || checksum==cl->GetCheckSum(1)) {
-                      version = cl->GetClassVersion();
-                   } else {
-+                     version = cl->GetClassVersion();
-+/*
-                      if (fParent) {
-                         Error("ReadVersion", "Could not find the StreamerInfo with a checksum of 0x%x for the class \"%s\" in %s.",
-                               checksum, cl->GetName(), ((TFile*)fParent)->GetName());
-@@ -2834,6 +2836,7 @@ Version_t TBufferFile::ReadVersion(UInt_t *startpos, UInt_t *bcnt, const TClass
-                               checksum, cl->GetName());
-                      }
-                      return 0;
-+*/
-                   }
-                }
-             }
