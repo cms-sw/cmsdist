@@ -119,6 +119,7 @@ Requires: sloccount-toolfile
 Requires: cvs2git-toolfile
 Requires: pacparser-toolfile
 Requires: git-toolfile
+Requires: py2-pygithub-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
