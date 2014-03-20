@@ -1,10 +1,4 @@
 ### RPM external bigcouch 0.4.2b
-
-# For what it's worth, I'm completely embarrased by this script
-# I'm sure it breaks all kinds of RPM best practices, but this is
-# my first RPM script, and it took a lot of work to get here. If someone
-# wants to take a stab at cleaning it up, be my guest
-
 Source0: https://github.com/cloudant/bigcouch/archive/bigcouch-%realversion.zip
 Source1: bigcouch_cms_auth.erl
 Patch0: bigcouch-fix-sconscript
@@ -18,7 +12,6 @@ Requires: curl spidermonkey openssl icu4c erlang couchapp python
 BuildRequires: expat gcc zlib curl spidermonkey openssl icu4c erlang couchapp python
 
 %prep
-ls -lah
 %setup -n bigcouch-bigcouch-%realversion
 %patch0 -p0
 %patch3 -p0
@@ -92,7 +85,7 @@ sed -i "s#python scons/scons.py#python scons/scons.py spiderLib=${SPIDERMONKEY_R
 cp bigcouch-add-cmsauth-to-chttpd deps/chttpd/src
 cp bigcouch_cms_auth.erl deps/chttpd/src/couch_cms_auth.erl
 cd deps/chttpd/src
-patch -p2 < bigcouch-add-cmsauth-to-chttpd
+patch -p1 < bigcouch-add-cmsauth-to-chttpd
 )
 
 make %makeprocesses
@@ -114,10 +107,11 @@ chmod +x git-wrapper/git
 export PATH=`pwd`/git-wrapper:$PATH
 make %makeprocesses install
 
-# copy release related files
-cp -r rel %i
+# get rid of hardcoded configuration paths, we need to make things relocatable
+perl -p -i -e 's,\$ROOTDIR\/etc\/vm.args,vm.args,g' %i/bin/bigcouch
 
-%define drop_files %i/{man,share/doc}
+# drop things we don't need or don't want on the RPM
+%define drop_files %i/{man,share/doc,etc/{default,local}.ini,etc/vm.args,var}
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
@@ -131,21 +125,5 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   fi
 done
 
-# Add default authentication stuff to local.ini
-# otherwise things don't work at all
-cat << EOF >> %i/etc/local.ini
-[couch_cms_auth]
-allow_backend_passthrough = true
-allowed_hosts = {127.0.0.1, _admin, _admin},{localhost, _admin, _admin}
-
-EOF
-
 %post
-
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
-%{relocateConfig}etc/profile.d/init.*sh
-%{relocateConfig}etc/default.ini
-#%{relocateConfig}lib/couch/ebin/couch.app
-#%{relocateConfig}bin/bigcouch
-#%{relocateConfig}bin/couchjs
-#%{relocateConfig}releases/*/*
