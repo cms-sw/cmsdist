@@ -1,7 +1,7 @@
 ### RPM lcg root 5.99.06
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 30abeeeedaf4be894a535d650d7c627db56fba53
+%define tag 3242db6b833b6e1a70d79f0838b19d55d9b5dd59
 %define branch master
 Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
@@ -17,7 +17,7 @@ Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{
 #Patch5: root-5.30.02-fix-isnan-again
 #Patch6: root-5.34.05-cintex-armv7a-port                   not needed anymore
 
-Patch0: root_patch_cms_v05
+Patch0: root_patch_cms_v06
 
 Requires: gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl zlib
 

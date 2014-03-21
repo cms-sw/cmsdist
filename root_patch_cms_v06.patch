@@ -1,24 +1,14 @@
-diff --git config/Makefile.linuxx8664gcc config/Makefile.linuxx8664gcc
-index 9ae190d..8cc604b 100644
---- config/Makefile.linuxx8664gcc
-+++ config/Makefile.linuxx8664gcc
-@@ -4,7 +4,7 @@
- 
- PLATFORM      = linux
- 
--DEBUGFLAGS    = -g
-+DEBUGFLAGS    = -g -gdwarf-2
- #DEBUGFLAGS    = -gstabs
- OPTFLAGS      = -O2
- # Optional compiler options for gcc >= 3.4.0
 diff --git core/meta/inc/TInterpreter.h core/meta/inc/TInterpreter.h
-index 57a3499..ba376cb 100644
+index 7154aad..ae4f287 100644
 --- core/meta/inc/TInterpreter.h
 +++ core/meta/inc/TInterpreter.h
-@@ -43,6 +43,13 @@ class TMethod;
- class TObjArray;
+@@ -44,6 +44,20 @@ class TObjArray;
  class TVirtualMutex;
  class TEnum;
+ 
++
++
++
 +class TType;
 +
 +namespace ROOT {
@@ -26,10 +16,14 @@ index 57a3499..ba376cb 100644
 +class TNormalizedCtxt;
 +} // namespace TMetaUtils
 +} // namespace ROOT
- 
++
++
++
++
  R__EXTERN TVirtualMutex *gInterpreterMutex;
  
-@@ -95,6 +102,9 @@ public:
+ class TInterpreter : public TNamed {
+@@ -96,6 +110,9 @@ public:
     TInterpreter(const char *name, const char *title = "Generic Interpreter");
     virtual ~TInterpreter() { }
  
@@ -39,7 +33,7 @@ index 57a3499..ba376cb 100644
     virtual void     AddIncludePath(const char *path) = 0;
     virtual void    *SetAutoLoadCallBack(void* /*cb*/) { return 0; }
     virtual void    *GetAutoLoadCallBack() const { return 0; }
-@@ -416,6 +426,45 @@ public:
+@@ -420,6 +437,45 @@ public:
     virtual const char *TypedefInfo_Name(TypedefInfo_t * /* tinfo */) const {return 0;}
     virtual const char *TypedefInfo_Title(TypedefInfo_t * /* tinfo */) const {return 0;}
  
@@ -86,10 +80,10 @@ index 57a3499..ba376cb 100644
  
     ClassDef(TInterpreter,0)  //ABC defining interface to generic interpreter
 diff --git core/meta/src/TCling.cxx core/meta/src/TCling.cxx
-index fd8d78b..c61be24 100644
+index 77ad94c..aa382d5 100644
 --- core/meta/src/TCling.cxx
 +++ core/meta/src/TCling.cxx
-@@ -66,6 +66,7 @@
+@@ -69,6 +69,7 @@
  
  #include "clang/AST/ASTContext.h"
  #include "clang/AST/Decl.h"
@@ -97,15 +91,15 @@ index fd8d78b..c61be24 100644
  #include "clang/AST/DeclarationName.h"
  #include "clang/AST/GlobalDecl.h"
  #include "clang/AST/RecordLayout.h"
-@@ -112,6 +113,7 @@
+@@ -111,6 +112,7 @@
  #include <stdexcept>
  #include <stdint.h>
  #include <fstream>
 +#include <sstream>
  #include <string>
  #include <typeinfo>
- #include <utility>
-@@ -941,6 +943,12 @@ TCling::TCling(const char *name, const char *title)
+ #include <unordered_map>
+@@ -848,6 +850,12 @@ TCling::TCling(const char *name, const char *title)
  
  
  //______________________________________________________________________________
@@ -118,7 +112,7 @@ index fd8d78b..c61be24 100644
  TCling::~TCling()
  {
     // Destroy the interpreter interface.
-@@ -6265,3 +6273,1078 @@ const char* TCling::TypedefInfo_Title(TypedefInfo_t* tinfo) const
+@@ -6405,3 +6413,1078 @@ const char* TCling::TypedefInfo_Title(TypedefInfo_t* tinfo) const
     TClingTypedefInfo* TClinginfo = (TClingTypedefInfo*) tinfo;
     return TClinginfo->Title();
  }
@@ -884,7 +878,7 @@ index fd8d78b..c61be24 100644
 +   // of arry type nodes in the canonical type chain.
 +   QualType QT = fType.getCanonicalType();
 +   unsigned long num_dim = ArrayDim();
-+   if ((dim == 0) || (dim >= num_dim)) {
++   if (dim >= num_dim) {
 +      // Passed dimension is out of bounds.
 +      return 0;
 +   }
@@ -1198,7 +1192,7 @@ index fd8d78b..c61be24 100644
 +}
 +
 diff --git core/meta/src/TCling.h core/meta/src/TCling.h
-index ec76d3f..cfb86c1 100644
+index c964c19..f6dbf1b 100644
 --- core/meta/src/TCling.h
 +++ core/meta/src/TCling.h
 @@ -63,6 +63,7 @@ class THashTable;
@@ -1209,7 +1203,7 @@ index ec76d3f..cfb86c1 100644
  
  namespace ROOT {
     namespace TMetaUtils {
-@@ -132,7 +133,8 @@ public: // Public Interface
+@@ -133,7 +134,8 @@ public: // Public Interface
     virtual ~TCling();
     TCling(const char* name, const char* title);
  
@@ -1219,7 +1213,7 @@ index ec76d3f..cfb86c1 100644
  
     void    AddIncludePath(const char* path);
     void   *GetAutoLoadCallBack() const { return fAutoLoadCallBack; }
-@@ -467,6 +469,43 @@ public: // Public Interface
+@@ -471,6 +473,43 @@ public: // Public Interface
     virtual const char* TypedefInfo_Name(TypedefInfo_t* tinfo) const;
     virtual const char* TypedefInfo_Title(TypedefInfo_t* tinfo) const;
  
@@ -1263,16 +1257,3 @@ index ec76d3f..cfb86c1 100644
     std::set<TClass*>& GetModTClasses() { return fModTClasses; }
  
     void HandleNewDecl(const void* DV, bool isDeserialized, std::set<TClass*>& modifiedClasses);
-diff --git interpreter/llvm/Module.mk interpreter/llvm/Module.mk
-index caaaa3b..b1a312c 100644
---- interpreter/llvm/Module.mk
-+++ interpreter/llvm/Module.mk
-@@ -179,6 +179,8 @@ $(LLVMDEPO): $(LLVMDEPS)
- 		$$LLVM_BUILD_CC $$LLVM_BUILD_CXX \
- 		CFLAGS="$$LLVM_CFLAGS" CXXFLAGS="$$LLVM_CFLAGS" )
- 
-+#--enable-debug-runtime --enable-debug-symbols --enable-keep-symbols
-+
- all-$(MODNAME): $(LLVMLIB)
- 
- clean-llvm:
