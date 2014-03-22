@@ -50,7 +50,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcling.xml
 <tool name="rootcling" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <lib name="Core"/>
-  <lib name="Cling"/>
   <client>
     <environment name="ROOTCLING_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE"        default="$ROOTCLING_BASE/include"/>
