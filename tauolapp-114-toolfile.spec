@@ -8,7 +8,7 @@ Requires: tauolapp-114
 
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/tauolapp.xml
-<tool name="tauolapp-144" version="@TOOL_VERSION@">
+<tool name="tauolapp114" version="@TOOL_VERSION@">
   <lib name="TauolaCxxInterface_114"/>
   <lib name="TauolaFortran_114"/>
   <lib name="TauolaTauSpinner_114"/>
