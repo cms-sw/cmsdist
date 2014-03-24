@@ -3,7 +3,6 @@ Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
 Requires: hepmc lhapdf blackhat 
 Patch0: sherpa-2.0.beta2-lhapdf
 Patch1: sherpa-1.4.2-fix-gcc47-cxx11
-Patch2: sherpa-1.4.0-add-support-osx108
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -25,11 +24,6 @@ case %cmsplatf in
   ;;
 esac
 
-
-
-if [[ %cmsplatf == osx108_* ]]; then
-%patch2 -p1
-fi
 
 autoreconf -i --force
 
