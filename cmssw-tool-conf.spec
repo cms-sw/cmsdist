@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 25.8
+### RPM cms cmssw-tool-conf 26.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -63,7 +63,6 @@ Requires: pcre-toolfile
 Requires: photos-toolfile
 Requires: pythia6-toolfile
 Requires: pythia8-toolfile
-Requires: pythia8-175-toolfile
 Requires: python-toolfile
 Requires: py2-cx-oracle-toolfile
 Requires: qt-toolfile
@@ -95,7 +94,7 @@ Requires: py2-scipy-toolfile
 Requires: cmsswdata-toolfile
 Requires: py2-cjson-toolfile
 Requires: py2-pycurl-toolfile
-
+Requires: py2-pygithub-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
 Requires: fftw3-toolfile
