@@ -11,6 +11,8 @@ Requires: xerces-c
 Patch0: geant4-10.0-no-banner
 Patch1: geant4-10.0.p01-dynamic-tls
 
+%define keep_archives true
+
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
 %endif
