@@ -4,7 +4,7 @@ Requires: cmssw-patch-tool-conf cms-git-tools
 %define useCmsTC        yes
 %define saveDeps        yes
 
-#Set it to -cmsX added by cmsBuild (if any) to the base release
+#Set it to -cmsX added by cmsBuild (if any) to the base release 
 %define baserel_postfix %{nil}
 
 ## IMPORT cmssw-patch-build
