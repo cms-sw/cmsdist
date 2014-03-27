@@ -12,7 +12,7 @@ Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{
 #atch0: root6-externals
 #atch1: root6-cling-opts
 
-Patch0: root_patch_cms_v06
+Patch0: root_patch_cms_v07
 
 #Patch0: root-5.34.02-externals
 #Patch1: root-5.28-00d-roofit-silence-static-printout
