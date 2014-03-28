@@ -4,7 +4,7 @@ diff -arupN config.orig/BuildFile.xml config/BuildFile.xml
 @@ -10,7 +10,7 @@
  <use name="self"/>
  
- <architecture name="slc">
+ <architecture name="slc|fc">
 -   <flags MISSING_SYMBOL_FLAGS="-Wl,-z,defs"/>
 +   <flags MISSING_SYMBOL_FLAGS="-Wl,-z,defs -lrt -ldl"/>
  </architecture>
