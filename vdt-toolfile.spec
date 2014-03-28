@@ -11,7 +11,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/vdt_headers.xml
 <tool name="vdt_headers" version="@TOOL_VERSION@">
   <client>
     <environment name="VDT_HEADERS_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE" default="$VDT_BASE/include"/>
+    <environment name="INCLUDE" default="$VDT_HEADERS_BASE/include"/>
   </client>
 </tool>
 EOF_TOOLFILE
