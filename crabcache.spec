@@ -1,38 +1,41 @@
-### RPM cms crabcache 3.1.1pre1
+### RPM cms crabcache 3.3.5.rc2
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
-#
+
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 0.8.28
-%define svnserver svn://svn.cern.ch/reps/CMSDMWM
-Source0: https://github.com/lat/WMCore/zipball/f2fccdc7727e1a4acfdaf4df648e67ee184e0911#/wmcore_sitedb-1.zip
-Source1: %svnserver/CRABServer/tags/%{realversion}?scheme=svn+ssh&strategy=export&module=CRABServer&output=/CRABCache.tar.gz
-#Source1: %svnserver/CRABServer/trunk?scheme=svn+ssh&strategy=export&module=CRABServer&output=/CRABCache.tar.gz
+%define wmcver 0.9.94d
+
+Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
+Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
+
 Requires: python cherrypy py2-cjson rotatelogs py2-pycurl py2-httplib2 py2-sqlalchemy py2-cx-oracle
 BuildRequires: py2-sphinx
-Patch0: crabcache-setup
+Patch0: crabserver3-setup
+Patch1: crabcache-setup
 
 %prep
-%setup -D -T -b 1 -n CRABServer
-%setup -T -b 0 -n lat-WMCore-f2fccdc
-%patch0 -p0
+%setup -D -T -b 1 -n CRABServer-%{realversion}
+%patch0 -p1
+%setup -T -b 0 -n WMCore-%{wmcver}
+%patch1 -p0
 
 %build
-cd ../lat-WMCore*
+cd ../WMCore-%{wmcver}
 python setup.py build_system -s crabcache
-cd ../CRABServer
+
+cd ../CRABServer-%{realversion}
 perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/crabserver/conf.py
+echo "__version__ = \"%{realversion}\"#Automatically added during RPM build process" >> src/python/UserFileCache/__init__.py
 python setup.py build_system -s UserFileCache
 
 %install
 mkdir -p %i/etc/profile.d %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
-cd ../lat-WMCore*
+cd ../WMCore-%{wmcver}
 python setup.py install_system -s crabcache --prefix=%i
-cd ../CRABServer
+cd ../CRABServer-%{realversion}
 python setup.py install_system -s UserFileCache --prefix=%i
-
 find %i -name '*.egg-info' -exec rm {} \;
 
 # Generate .pyc files.
