@@ -1,4 +1,4 @@
-### RPM cms sitedb 2.5.5
+### RPM cms sitedb 2.5.6
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
@@ -8,8 +8,8 @@
 %define wmcver 0.9.79
 
 Source0: git://github.com/dmwm/WMCore?obj=master/%wmcver&export=wmcore_%n&output=/wmcore_%n.tar.gz
-#Source1: git://github.com/dmwm/sitedb?obj=master/%realversion&export=%n&output=/%n.tar.gz
-Source1: git://github.com/juztas/sitedb?obj=master/%realversion&export=%n&output=/%n.tar.gz
+Source1: git://github.com/dmwm/sitedb?obj=master/%realversion&export=%n&output=/%n.tar.gz
+#Source1: git://github.com/juztas/sitedb?obj=master/%realversion&export=%n&output=/%n.tar.gz
 #Source1: https://cern.ch/lat/temp/sitedb5.tar.gz
 Source2: git://github.com/geneguvo/webtools?obj=SiteDBv1/SiteDBv1-slc5-v3&export=WEBTOOLS&output=/old-sitedb.tar.gz
 Source3: git://github.com/geneguvo/webtools?obj=master/V01-03-47&export=WEBTOOLS&output=/old-webtools.tar.gz
