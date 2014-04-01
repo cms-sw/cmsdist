@@ -1,4 +1,5 @@
 ### RPM cms cmssw-patch CMSSW_5_3_16_patch1
+#Force build IB:1
 Requires: cmssw-patch-tool-conf cms-git-tools
 %define runGlimpse      yes
 %define useCmsTC        yes
