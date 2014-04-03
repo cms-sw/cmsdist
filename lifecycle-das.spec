@@ -1,4 +1,4 @@
-### RPM cms lifecycle-das 1.0.8
+### RPM cms lifecycle-das 1.0.12
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 Source0: https://github.com/dmwm/LifeCycle/archive/%{realversion}.tar.gz
 Requires: python PHEDEX-lifecycle
@@ -9,9 +9,8 @@ Requires: python PHEDEX-lifecycle
 %build
 
 %install
-cd DAS
+cd LifeCycleDAS
 mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES/LifeCycleDAS
-touch %i/$PYTHON_LIB_SITE_PACKAGES/LifeCycleDAS/__init__.py
 cp -r *.py utils %i/$PYTHON_LIB_SITE_PACKAGES/LifeCycleDAS
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
