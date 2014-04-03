@@ -24,6 +24,8 @@ Requires: lifecycle-dataprovider
 Requires: dbs3-client
 # The lifecycle doesn't require Oracle itself, but setting up a DB will!
 Requires: oracle oracle-env p5-dbi p5-dbd-oracle
+# add PHEDEX to fix perl dependency problem
+Requires: PHEDEX
 
 #Provides: perl(XML::LibXML)
 Provides: perl(XML::Twig)
