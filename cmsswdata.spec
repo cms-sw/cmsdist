@@ -41,6 +41,7 @@ Requires: data-RecoJets-JetProducers
 Requires: data-CalibTracker-SiPixelESProducers
 Requires: data-CalibCalorimetry-CaloMiscalibTools
 Requires: data-Configuration-Generator
+Requires: data-DQM-PhysicsHWW
 
 %if %isnotonline
 # extra data dependencies for standard builds
