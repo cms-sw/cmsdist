@@ -67,12 +67,6 @@
 %define PatchReleaseSourceSymlinks \
   CWD=`/bin/pwd`; cd %i; DIR=%{srctree}; %{PatchReleaseLink}; %{RunPatchReleaseGlimpse}; %{RelocateReleaseLinks}; DIR=cfipython/%{cmsplatf}; %{PatchReleaseLink}; %{RelocateReleaseLinks}; DIR=python; %{RelocateReleaseLinks}; cd $CWD; 
 
-%define PatchReleaseFilesRelocate \
-  if [ -e %{srctree}/.glimpse_filenames ] ; then \
-    perl -p -i -e "s|.*/%{baserelver}/%{srctree}/||g" %{srctree}/.glimpse_filenames; \
-    perl -p -i -e "s|.*/%{baserelver}/%{srctree}/||g" %{srctree}/.glimpse_full/.glimpse_filenames ;\
-  fi
-
 %define PatchReleaseDependencyInfo \
   gunzip -c %{parent_release_fpath}/etc/dependencies/usedby.out.gz   > %i/etc/dependencies/usedbyAll.out ;\
   gunzip -c %{parent_release_fpath}/etc/dependencies/pyusedby.out.gz > %i/etc/dependencies/pyusedbyAll.out ;\
