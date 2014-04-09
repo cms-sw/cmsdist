@@ -13,17 +13,13 @@ Requires: clhep
 Requires: expat
 Requires: xerces-c
 
-Patch0: geant4.9.5.p01-no-banner
-Patch1: geant4-9.6p02-cms01
+Patch0: geant4-10.0-no-banner
+Patch1: geant4-10.0.p01-dynamic-tls
 
 %define keep_archives true
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x
 %endif
 
 %prep
@@ -46,8 +42,10 @@ cmake ../%{n}.%{realversion} \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_INSTALL_LIBDIR="lib" \
   -DCMAKE_BUILD_TYPE=Release \
-  -DGEANT4_USE_SYSTEM_CLHEP=ON \
   -DGEANT4_USE_GDML=ON \
+  -DGEANT4_BUILD_CXXSTD:STRING="c++11" \
+  -DGEANT4_ENABLE_TESTING=OFF \
+  -DBUILD_SHARED_LIBS=ON \
   -DXERCESC_ROOT_DIR:PATH="${XERCES_C_ROOT}" \
   -DCLHEP_ROOT_DIR:PATH="$CLHEP_ROOT" \
   -DEXPAT_INCLUDE_DIR:PATH="$EXPAT_ROOT/include" \

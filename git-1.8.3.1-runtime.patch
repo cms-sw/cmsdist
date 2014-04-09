@@ -1,0 +1,104 @@
+diff --git a/exec_cmd.c b/exec_cmd.c
+index 125fa6f..4bb5787 100644
+--- a/exec_cmd.c
++++ b/exec_cmd.c
+@@ -4,12 +4,12 @@
+ #define MAX_ARGS	32
+ 
+ static const char *argv_exec_path;
+-static const char *argv0_path;
++static const char *argv0_path = NULL;
+ 
+ const char *system_path(const char *path)
+ {
+ #ifdef RUNTIME_PREFIX
+-	static const char *prefix;
++	static const char *prefix = NULL;
+ #else
+ 	static const char *prefix = PREFIX;
+ #endif
+@@ -19,13 +19,12 @@ const char *system_path(const char *path)
+ 		return path;
+ 
+ #ifdef RUNTIME_PREFIX
+-	assert(argv0_path);
+-	assert(is_absolute_path(argv0_path));
+-
+-	if (!prefix &&
+-	    !(prefix = strip_path_suffix(argv0_path, GIT_EXEC_PATH)) &&
+-	    !(prefix = strip_path_suffix(argv0_path, BINDIR)) &&
+-	    !(prefix = strip_path_suffix(argv0_path, "git"))) {
++	if (!argv0_path ||
++	    !is_absolute_path(argv0_path) ||
++	    (!prefix &&
++	     !(prefix = strip_path_suffix(argv0_path, GIT_EXEC_PATH)) &&
++	     !(prefix = strip_path_suffix(argv0_path, BINDIR)) &&
++	     !(prefix = strip_path_suffix(argv0_path, "git")))) {
+ 		prefix = PREFIX;
+ 		trace_printf("RUNTIME_PREFIX requested, "
+ 				"but prefix computation failed.  "
+@@ -41,20 +40,63 @@ const char *system_path(const char *path)
+ const char *git_extract_argv0_path(const char *argv0)
+ {
+ 	const char *slash;
++	char *abs_argv0 = NULL;
+ 
+ 	if (!argv0 || !*argv0)
+ 		return NULL;
+ 	slash = argv0 + strlen(argv0);
+ 
++	/* walk to the first slash from the end */ 
+ 	while (argv0 <= slash && !is_dir_sep(*slash))
+ 		slash--;
+ 
++	/* if there was a slash ... */ 
+ 	if (slash >= argv0) {
++	    /* ... it's either an absolute path */
++	    if (is_absolute_path(argv0)) {
++		/* FIXME: memory leak here */
+ 		argv0_path = xstrndup(argv0, slash - argv0);
+ 		return slash + 1;
++	    }
++	    /* ... or a relative path, in which case we have to make it
++	     * absolute first and do the whole thing again */
++	    abs_argv0 = xstrdup(real_path(argv0));
++	} else {
++	    /* argv0 is no path at all, just a name. Resolve it into a
++	     * path. Unfortunately, this gets system specific. */
++#if defined(__linux__)
++	    struct stat st;
++	    if (!stat("/proc/self/exe", &st)) {
++		abs_argv0 = xstrdup(real_path("/proc/self/exe"));
++	    }
++#elif defined(__APPLE__)
++	    /* Mac OS X has realpath, which incidentally allocates its own
++	     * memory, which in turn is why we do all the xstrdup's in the
++	     * other cases. */
++	     abs_argv0 = realpath(argv0, NULL);
++#endif
++
++	    /* if abs_argv0 is still NULL here, something failed above or
++	     * we are on an unsupported system. system_path() will warn
++	     * and fall back to the static prefix */
++	    if (!abs_argv0) {
++		argv0_path = NULL;
++		return argv0;
++ 	    }
+ 	}
+ 
+-	return argv0;
++	/* abs_argv0 is an absolute path now for which memory was allocated
++	* with malloc */
++
++	slash = abs_argv0 + strlen(abs_argv0);
++	while (abs_argv0 <= slash && !is_dir_sep(*slash))
++	    slash--;
++
++	/* FIXME: memory leaks here */
++	argv0_path = xstrndup(abs_argv0, slash - abs_argv0);
++	slash = xstrdup(slash + 1);
++	free(abs_argv0);
++	return slash; 
+ }
+ 
+ void git_set_argv_exec_path(const char *exec_path)
