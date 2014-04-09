@@ -7,16 +7,24 @@ Requires: vdt
 %install
 
 mkdir -p %i/etc/scram.d
+cat << \EOF_TOOLFILE >%i/etc/scram.d/vdt_headers.xml
+<tool name="vdt_headers" version="@TOOL_VERSION@">
+  <client>
+    <environment name="VDT_HEADERS_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$VDT_HEADERS_BASE/include"/>
+  </client>
+</tool>
+EOF_TOOLFILE
+
 cat << \EOF_TOOLFILE >%i/etc/scram.d/vdt.xml
 <tool name="vdt" version="@TOOL_VERSION@">
   <lib name="vdt"/>
+  <use name="vdt_headers"/>
   <client>
     <environment name="VDT_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$VDT_BASE/lib"/>
-    <environment name="INCLUDE" default="$VDT_BASE/include"/>
   </client>
 </tool>
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
-
