@@ -3,7 +3,7 @@
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
-%define gccRevision 206686
+%define gccRevision 209275
 %define gccBranch trunk
 Source0: svn://gcc.gnu.org/svn/gcc/trunk?module=gcc-%{gccBranch}-%{gccRevision}&revision=%{gccRevision}&output=/gcc-%{gccBranch}-%{gccRevision}.tar.gz
 
@@ -15,10 +15,10 @@ Source0: svn://gcc.gnu.org/svn/gcc/trunk?module=gcc-%{gccBranch}-%{gccRevision}&
 
 %define keep_archives true
 
-%define gmpVersion 5.1.3
+%define gmpVersion 6.0.0a
 %define mpfrVersion 3.1.2
 %define mpcVersion 1.0.2
-%define islVersion 0.11.1
+%define islVersion 0.12.2
 %define cloogVersion 0.18.1
 %define zlibVersion 1.2.8
 Source1: ftp://ftp.gnu.org/gnu/gmp/gmp-%{gmpVersion}.tar.bz2
@@ -93,7 +93,7 @@ cat << \EOF_CMS_H > gcc/config/general-cms.h
 EOF_CMS_H
 
 # GCC prerequisites
-%setup -D -T -b 1 -n gmp-%{gmpVersion}
+%setup -D -T -b 1 -n gmp-6.0.0
 %setup -D -T -b 2 -n mpfr-%{mpfrVersion}
 %setup -D -T -b 3 -n mpc-%{mpcVersion}
 %setup -D -T -b 4 -n isl-%{islVersion}
@@ -171,6 +171,14 @@ make install
   make install
   hash -r
 
+  # Build Bison
+  cd ../bison-%{bisonVersion}
+  ./configure --build=%{_build} --host=%{_host} \
+              --prefix=%{i}/tmp/sw CC="$CC"
+  make %{makeprocesses}
+  make install
+  hash -r
+
   # Build elfutils
   cd ../elfutils-%{elfutilsVersion}
   ./configure --disable-static --with-zlib --without-bzlib --without-lzma \
@@ -179,14 +187,6 @@ make install
               CFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
   make %{makeprocesses}
   make install
-
-  # Build Bison
-  cd ../bison-%{bisonVersion}
-  ./configure --build=%{_build} --host=%{_host} \
-              --prefix=%{i}/tmp/bison CC="$CC"
-  make %{makeprocesses}
-  make install
-  export PATH=%{i}/tmp/bison/bin:$PATH
 
   # Build binutils
   cd ../binutils-%{binutilsVersion}
@@ -200,7 +200,7 @@ make install
 %endif
 
 # Build GMP
-cd ../gmp-%{gmpVersion}
+cd ../gmp-6.0.0
 ./configure --disable-static --prefix=%{i} --enable-shared --disable-static --enable-cxx \
             --build=%{_build} --host=%{_host} \
             CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
@@ -277,7 +277,7 @@ export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
              --with-mpc=%{i} --with-isl=%{i} --with-cloog=%{i} --enable-checking=release \
              --build=%{_build} --host=%{_host} --enable-libstdcxx-time=rt $CONF_GCC_ARCH_SPEC \
              --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
-             CFLAGS="-I%{i}/tmp/sw/include" CXXFLAGS="%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
+             CFLAGS="-I%{i}/tmp/sw/include" CXXFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
 
 %if %isamd64
 make %{makeprocesses} profiledbootstrap
