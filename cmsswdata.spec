@@ -42,6 +42,8 @@ Requires: data-CalibTracker-SiPixelESProducers
 Requires: data-CalibCalorimetry-CaloMiscalibTools
 Requires: data-Configuration-Generator
 Requires: data-DQM-PhysicsHWW
+Requires: data-CondFormats-JetMETObjects
+Requires: data-RecoLocalCalo-EcalDeadChannelRecoveryAlgos
 
 %if %isnotonline
 # extra data dependencies for standard builds
