@@ -37,6 +37,7 @@ Patch17: https://github.com/Dr15Jones/root/commit/285552177b57fa931d4e2f6e67ea3c
 Patch90: root-5.34.09-mic
 Patch91: root-5-genreflex
 Patch92: root-5.34.09-mic-postconfig
+Patch18: root-5.34.17-linuxarm-cxx11
 
 Requires: gccxml gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl
 
