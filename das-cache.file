@@ -1,0 +1,944 @@
+{
+    "file block=/DoubleElectron/Run2012B-ZElectron-13Jul2012-v1/RAW-RECO#0c5092cc-d554-11e1-bb62-00221959e69e run=194533": [
+        "/store/data/Run2012B/DoubleElectron/RAW-RECO/ZElectron-13Jul2012-v1/00000/0032FB57-B7D5-E111-9418-001A92971B9A.root",
+        "/store/data/Run2012B/DoubleElectron/RAW-RECO/ZElectron-13Jul2012-v1/00000/263ADAED-C3D5-E111-9F15-0026189438F8.root"
+    ],
+    "file block=/DoubleElectron/Run2012B-ZElectron-13Jul2012-v1/RAW-RECO#0c5092cc-d554-11e1-bb62-00221959e69e run=194912": [],
+    "file block=/DoubleElectron/Run2012B-ZElectron-13Jul2012-v1/RAW-RECO#0c5092cc-d554-11e1-bb62-00221959e69e run=195016": [],
+    "file block=/Jet/Run2011A-HighMET-08Nov2011-v1/RAW-RECO#3c764584-0b59-11e1-b62c-00221959e69e run=165121": [],
+    "file block=/Jet/Run2011A-HighMET-08Nov2011-v1/RAW-RECO#3c764584-0b59-11e1-b62c-00221959e69e run=172802": [
+        "/store/data/Run2011A/Jet/RAW-RECO/HighMET-08Nov2011-v1/0000/7069975F-5F0B-E111-B0DB-0015178C4BE8.root",
+        "/store/data/Run2011A/Jet/RAW-RECO/HighMET-08Nov2011-v1/0000/A831F356-520B-E111-ABB9-001D0967DAAD.root"
+    ],
+    "file block=/MinimumBias/Run2011A-ValSkim-08Nov2011-v1/RAW-RECO#239c497e-0fae-11e1-a8b1-00221959e72f run=165121": [],
+    "file block=/MinimumBias/Run2011A-ValSkim-08Nov2011-v1/RAW-RECO#239c497e-0fae-11e1-a8b1-00221959e72f run=172802": [
+        "/store/data/Run2011A/MinimumBias/RAW-RECO/ValSkim-08Nov2011-v1/0000/065CC727-800F-E111-B1A6-002618943986.root",
+        "/store/data/Run2011A/MinimumBias/RAW-RECO/ValSkim-08Nov2011-v1/0000/203B0788-730F-E111-A952-001A92971BDC.root"
+    ],
+    "file block=/SingleElectron/Run2011A-WElectron-08Nov2011-v1/RAW-RECO#9c48c4ea-0db2-11e1-b62c-00221959e69e run=165121": [],
+    "file block=/SingleElectron/Run2011A-WElectron-08Nov2011-v1/RAW-RECO#9c48c4ea-0db2-11e1-b62c-00221959e69e run=172802": [
+        "/store/data/Run2011A/SingleElectron/RAW-RECO/WElectron-08Nov2011-v1/0000/006185E9-A80D-E111-9BF2-0030487F3EA7.root",
+        "/store/data/Run2011A/SingleElectron/RAW-RECO/WElectron-08Nov2011-v1/0000/36D8480B-A80D-E111-975A-0030487F1C57.root"
+    ],
+    "file block=/SingleElectron/Run2011B-WElectron-19Nov2011-v1/RAW-RECO#d75771a4-1b3f-11e1-aef4-003048f02c8a run=175874": [
+        "/store/data/Run2011B/SingleElectron/RAW-RECO/WElectron-19Nov2011-v1/0001/0C448AE6-4F1B-E111-AEBB-0030487F0EDD.root",
+        "/store/data/Run2011B/SingleElectron/RAW-RECO/WElectron-19Nov2011-v1/0001/16338FBF-641B-E111-952B-002481E0D2E8.root"
+    ],
+    "file block=/SingleElectron/Run2011B-WElectron-19Nov2011-v1/RAW-RECO#d75771a4-1b3f-11e1-aef4-003048f02c8a run=177096": [],
+    "file block=/SingleElectron/Run2011B-WElectron-19Nov2011-v1/RAW-RECO#d75771a4-1b3f-11e1-aef4-003048f02c8a run=177719": [
+        "/store/data/Run2011B/SingleElectron/RAW-RECO/WElectron-19Nov2011-v1/0001/0C448AE6-4F1B-E111-AEBB-0030487F0EDD.root",
+        "/store/data/Run2011B/SingleElectron/RAW-RECO/WElectron-19Nov2011-v1/0001/12B48E17-451B-E111-8B7F-0030487CF3F7.root"
+    ],
+    "file block=/SingleElectron/Run2011B-WElectron-19Nov2011-v1/RAW-RECO#d75771a4-1b3f-11e1-aef4-003048f02c8a run=177790": [
+        "/store/data/Run2011B/SingleElectron/RAW-RECO/WElectron-19Nov2011-v1/0000/02DB8323-191B-E111-A9C5-003048D4390A.root",
+        "/store/data/Run2011B/SingleElectron/RAW-RECO/WElectron-19Nov2011-v1/0000/3096D727-191B-E111-986C-003048C693F2.root"
+    ],
+    "file block=/SingleMu/Run2011A-WMu-08Nov2011-v1/RAW-RECO#388c2990-0de6-11e1-bb7e-00221959e72f run=165121": [],
+    "file block=/SingleMu/Run2011A-WMu-08Nov2011-v1/RAW-RECO#388c2990-0de6-11e1-bb7e-00221959e72f run=172802": [
+        "/store/data/Run2011A/SingleMu/RAW-RECO/WMu-08Nov2011-v1/0001/E2E5EAC0-0E0E-E111-A580-1CC1DE040FA0.root",
+        "/store/data/Run2011A/SingleMu/RAW-RECO/WMu-08Nov2011-v1/0001/F2DB9A3A-0C0E-E111-AC69-1CC1DE051038.root"
+    ],
+    "file block=/SingleMu/Run2011B-WMu-19Nov2011-v1/RAW-RECO#19110c74-1b66-11e1-a98b-003048f02c8a run=175874": [
+        "/store/data/Run2011B/SingleMu/RAW-RECO/WMu-19Nov2011-v1/0002/103D50FC-D01B-E111-963D-001F29C4616E.root",
+        "/store/data/Run2011B/SingleMu/RAW-RECO/WMu-19Nov2011-v1/0002/12FC1BDD-DB1B-E111-9E17-0017A4771828.root"
+    ],
+    "file block=/SingleMu/Run2011B-WMu-19Nov2011-v1/RAW-RECO#19110c74-1b66-11e1-a98b-003048f02c8a run=177096": [],
+    "file block=/SingleMu/Run2011B-WMu-19Nov2011-v1/RAW-RECO#19110c74-1b66-11e1-a98b-003048f02c8a run=177719": [],
+    "file block=/SingleMu/Run2011B-WMu-19Nov2011-v1/RAW-RECO#19110c74-1b66-11e1-a98b-003048f02c8a run=177790": [],
+    "file block=/SinglePhoton/Run2012B-v1/RAW#28d7fcc8-a2a0-11e1-86c7-003048caaace run=194533": [
+        "/store/data/Run2012B/SinglePhoton/RAW/v1/000/194/533/1084D9DA-AEA2-E111-B3AB-001D09F24DA8.root",
+        "/store/data/Run2012B/SinglePhoton/RAW/v1/000/194/533/1627C1F5-BCA2-E111-88F7-001D09F24FEC.root"
+    ],
+    "file dataset=/Cosmics/Run2010A-v1/RAW run=142089": [
+        "/store/data/Run2010A/Cosmics/RAW/v1/000/142/089/005C47BD-579D-DF11-874E-001D09F251BD.root",
+        "/store/data/Run2010A/Cosmics/RAW/v1/000/142/089/04009D7B-5A9D-DF11-B9B1-001D09F251D1.root"
+    ],
+    "file dataset=/Cosmics/Run2011A-v1/RAW run=160960": [
+        "/store/data/Run2011A/Cosmics/RAW/v1/000/160/960/049F6443-8E53-E011-A943-003048F117EA.root",
+        "/store/data/Run2011A/Cosmics/RAW/v1/000/160/960/062C43C2-8353-E011-BC2B-001617C3B76E.root"
+    ],
+    "file dataset=/DoubleElectron/Run2011A-ZElectron-08Nov2011-v1/RAW-RECO run=165121": [
+        "/store/data/Run2011A/DoubleElectron/RAW-RECO/ZElectron-08Nov2011-v1/0000/0663D01B-F71B-E111-99F4-002618943958.root",
+        "/store/data/Run2011A/DoubleElectron/RAW-RECO/ZElectron-08Nov2011-v1/0000/4273660F-F41B-E111-ADE2-00261894383C.root"
+    ],
+    "file dataset=/DoubleElectron/Run2011A-ZElectron-08Nov2011-v1/RAW-RECO run=172802": [
+        "/store/data/Run2011A/DoubleElectron/RAW-RECO/ZElectron-08Nov2011-v1/0000/1425A841-0B1C-E111-BB92-003048678B14.root",
+        "/store/data/Run2011A/DoubleElectron/RAW-RECO/ZElectron-08Nov2011-v1/0000/14702F4B-201C-E111-83DE-003048FF9AC6.root"
+    ],
+    "file dataset=/DoubleElectron/Run2011B-ZElectron-19Nov2011-v1/RAW-RECO run=175874": [
+        "/store/data/Run2011B/DoubleElectron/RAW-RECO/ZElectron-19Nov2011-v1/0000/024C7E59-961A-E111-9C71-00266CF9B90C.root",
+        "/store/data/Run2011B/DoubleElectron/RAW-RECO/ZElectron-19Nov2011-v1/0000/36E32F51-9F1A-E111-A6F8-00266CF9C22C.root"
+    ],
+    "file dataset=/DoubleElectron/Run2011B-ZElectron-19Nov2011-v1/RAW-RECO run=177096": [
+        "/store/data/Run2011B/DoubleElectron/RAW-RECO/ZElectron-19Nov2011-v1/0000/36733C9F-A51A-E111-87BB-00A0D1EE8E78.root",
+        "/store/data/Run2011B/DoubleElectron/RAW-RECO/ZElectron-19Nov2011-v1/0000/62CA8ADA-931A-E111-AE3A-0024E8769999.root"
+    ],
+    "file dataset=/DoubleElectron/Run2011B-ZElectron-19Nov2011-v1/RAW-RECO run=177719": [
+        "/store/data/Run2011B/DoubleElectron/RAW-RECO/ZElectron-19Nov2011-v1/0000/0894C4D1-9D1A-E111-BED5-0015178C486C.root",
+        "/store/data/Run2011B/DoubleElectron/RAW-RECO/ZElectron-19Nov2011-v1/0000/0C642D9C-A51A-E111-97B9-001D0967CE50.root"
+    ],
+    "file dataset=/DoubleElectron/Run2011B-ZElectron-19Nov2011-v1/RAW-RECO run=177790": [
+        "/store/data/Run2011B/DoubleElectron/RAW-RECO/ZElectron-19Nov2011-v1/0000/08CBDA9A-A51A-E111-859C-00151796D708.root",
+        "/store/data/Run2011B/DoubleElectron/RAW-RECO/ZElectron-19Nov2011-v1/0000/1059C79A-A51A-E111-83EB-001D0967DAE9.root"
+    ],
+    "file dataset=/DoubleElectron/Run2012A-ZElectron-13Jul2012-v1/RAW-RECO run=191226": [
+        "/store/data/Run2012A/DoubleElectron/RAW-RECO/ZElectron-13Jul2012-v1/00000/00663DF3-28DA-E111-966A-848F69FD4508.root",
+        "/store/data/Run2012A/DoubleElectron/RAW-RECO/ZElectron-13Jul2012-v1/00000/024545F7-04DA-E111-8986-00A0D1EE8EE0.root"
+    ],
+    "file dataset=/DoubleElectron/Run2012C-ZElectron-PromptSkim-v3/RAW-RECO run=199812": [
+        "/store/data/Run2012C/DoubleElectron/RAW-RECO/ZElectron-PromptSkim-v3/000/199/812/00000/0A9BAF3F-34DB-E111-97D1-0026189438DB.root",
+        "/store/data/Run2012C/DoubleElectron/RAW-RECO/ZElectron-PromptSkim-v3/000/199/812/00000/10E9765B-34DB-E111-9C96-003048679164.root"
+    ],
+    "file dataset=/DoubleElectron/Run2012C-ZElectron-PromptSkim-v3/RAW-RECO run=203002": [
+        "/store/data/Run2012C/DoubleElectron/RAW-RECO/ZElectron-PromptSkim-v3/000/203/002/00000/00A3E332-A904-E211-A41C-003048678F9C.root",
+        "/store/data/Run2012C/DoubleElectron/RAW-RECO/ZElectron-PromptSkim-v3/000/203/002/00000/00BB4950-A904-E211-9BF9-00248C0BE016.root"
+    ],
+    "file dataset=/DoubleElectron/Run2012D-ZElectron-PromptSkim-v1/RAW-RECO run=207454": [
+        "/store/data/Run2012D/DoubleElectron/RAW-RECO/ZElectron-PromptSkim-v1/000/207/454/00000/08AB2AA5-9C33-E211-8EFE-00261894392F.root",
+        "/store/data/Run2012D/DoubleElectron/RAW-RECO/ZElectron-PromptSkim-v1/000/207/454/00000/08B8D682-9C33-E211-BCBC-003048FFCBB0.root"
+    ],
+    "file dataset=/DoubleElectron/Run2012D-ZElectron-PromptSkim-v1/RAW-RECO run=208307": [
+        "/store/data/Run2012D/DoubleElectron/RAW-RECO/ZElectron-PromptSkim-v1/000/208/307/00000/0603DDF8-903D-E211-A48C-001A92971B8C.root",
+        "/store/data/Run2012D/DoubleElectron/RAW-RECO/ZElectron-PromptSkim-v1/000/208/307/00000/1092BB91-8F3D-E211-A2DC-0025905964C2.root"
+    ],
+    "file dataset=/DoubleMu/Run2011A-ZMu-08Nov2011-v1/RAW-RECO run=165121": [
+        "/store/data/Run2011A/DoubleMu/RAW-RECO/ZMu-08Nov2011-v1/0000/02A3D56D-2D1B-E111-AF24-003048678AC8.root",
+        "/store/data/Run2011A/DoubleMu/RAW-RECO/ZMu-08Nov2011-v1/0000/108DB044-2E1B-E111-88EE-003048D3C010.root"
+    ],
+    "file dataset=/DoubleMu/Run2011A-ZMu-08Nov2011-v1/RAW-RECO run=172802": [
+        "/store/data/Run2011A/DoubleMu/RAW-RECO/ZMu-08Nov2011-v1/0000/000D85E7-191B-E111-BD5F-003048679168.root",
+        "/store/data/Run2011A/DoubleMu/RAW-RECO/ZMu-08Nov2011-v1/0000/0206FAFF-2C1B-E111-9BF1-00261894394D.root"
+    ],
+    "file dataset=/DoubleMu/Run2011B-ZMu-19Nov2011-v1/RAW-RECO run=175874": [
+        "/store/data/Run2011B/DoubleMu/RAW-RECO/ZMu-19Nov2011-v1/0000/0A4C36D5-151E-E111-995D-002618943904.root",
+        "/store/data/Run2011B/DoubleMu/RAW-RECO/ZMu-19Nov2011-v1/0000/380750C1-0D1E-E111-A0B0-001A92971B0C.root"
+    ],
+    "file dataset=/DoubleMu/Run2011B-ZMu-19Nov2011-v1/RAW-RECO run=177096": [
+        "/store/data/Run2011B/DoubleMu/RAW-RECO/ZMu-19Nov2011-v1/0000/0A4C36D5-151E-E111-995D-002618943904.root",
+        "/store/data/Run2011B/DoubleMu/RAW-RECO/ZMu-19Nov2011-v1/0000/2C42CEBF-1B1E-E111-8F5A-002618943947.root"
+    ],
+    "file dataset=/DoubleMu/Run2011B-ZMu-19Nov2011-v1/RAW-RECO run=177719": [
+        "/store/data/Run2011B/DoubleMu/RAW-RECO/ZMu-19Nov2011-v1/0000/0A21984F-281E-E111-A042-0026189438B8.root",
+        "/store/data/Run2011B/DoubleMu/RAW-RECO/ZMu-19Nov2011-v1/0000/0A4C36D5-151E-E111-995D-002618943904.root"
+    ],
+    "file dataset=/DoubleMu/Run2011B-ZMu-19Nov2011-v1/RAW-RECO run=177790": [
+        "/store/data/Run2011B/DoubleMu/RAW-RECO/ZMu-19Nov2011-v1/0000/002D1B33-1A1E-E111-87B7-003048678B14.root",
+        "/store/data/Run2011B/DoubleMu/RAW-RECO/ZMu-19Nov2011-v1/0000/04649043-FA1D-E111-AB1D-001A92810AD8.root"
+    ],
+    "file dataset=/EG/Run2010A-WZEG-Nov4Skim_v1/RAW-RECO run=138923": [
+        "/store/data/Run2010A/EG/RAW-RECO/WZEG-Nov4Skim_v1/0042/4229A727-42ED-DF11-B1AA-003048C693F0.root"
+    ],
+    "file dataset=/EG/Run2010A-WZEG-Nov4Skim_v1/RAW-RECO run=138924": [
+        "/store/data/Run2010A/EG/RAW-RECO/WZEG-Nov4Skim_v1/0042/A6FBC1F4-3CED-DF11-98D9-0030488A1184.root"
+    ],
+    "file dataset=/EG/Run2010A-WZEG-Nov4Skim_v1/RAW-RECO run=138934": [
+        "/store/data/Run2010A/EG/RAW-RECO/WZEG-Nov4Skim_v1/0042/FE745D19-42ED-DF11-A80F-002481E0D12C.root"
+    ],
+    "file dataset=/EG/Run2010A-WZEG-Nov4Skim_v1/RAW-RECO run=138937": [
+        "/store/data/Run2010A/EG/RAW-RECO/WZEG-Nov4Skim_v1/0042/D656574D-41ED-DF11-90EF-002481E946EE.root"
+    ],
+    "file dataset=/EG/Run2010A-WZEG-Nov4Skim_v1/RAW-RECO run=139787": [
+        "/store/data/Run2010A/EG/RAW-RECO/WZEG-Nov4Skim_v1/0042/F0228EFC-33ED-DF11-AAD7-0030487D5DA5.root"
+    ],
+    "file dataset=/EG/Run2010A-WZEG-Nov4Skim_v1/RAW-RECO run=139788": [
+        "/store/data/Run2010A/EG/RAW-RECO/WZEG-Nov4Skim_v1/0042/32A2FDEE-33ED-DF11-B3E5-0030488A128E.root"
+    ],
+    "file dataset=/EG/Run2010A-WZEG-Nov4Skim_v1/RAW-RECO run=139789": [
+        "/store/data/Run2010A/EG/RAW-RECO/WZEG-Nov4Skim_v1/0042/F81D86ED-33ED-DF11-80AA-003048C6929A.root"
+    ],
+    "file dataset=/EG/Run2010A-WZEG-Nov4Skim_v1/RAW-RECO run=139790": [
+        "/store/data/Run2010A/EG/RAW-RECO/WZEG-Nov4Skim_v1/0042/2A03E4F8-35ED-DF11-843F-003048C693FC.root"
+    ],
+    "file dataset=/EG/Run2010A-WZEG-Nov4Skim_v1/RAW-RECO run=144011": [
+        "/store/data/Run2010A/EG/RAW-RECO/WZEG-Nov4Skim_v1/0042/809E7B92-36ED-DF11-93D4-003048D47976.root"
+    ],
+    "file dataset=/EG/Run2010A-WZEG-Nov4Skim_v1/RAW-RECO run=144083": [
+        "/store/data/Run2010A/EG/RAW-RECO/WZEG-Nov4Skim_v1/0042/005AFF8B-37ED-DF11-9F0D-002481E0DA4E.root"
+    ],
+    "file dataset=/EG/Run2010A-WZEG-Nov4Skim_v1/RAW-RECO run=144084": [
+        "/store/data/Run2010A/EG/RAW-RECO/WZEG-Nov4Skim_v1/0042/402D0592-36ED-DF11-97ED-0030487D5EA7.root"
+    ],
+    "file dataset=/EG/Run2010A-WZEG-Nov4Skim_v1/RAW-RECO run=144085": [
+        "/store/data/Run2010A/EG/RAW-RECO/WZEG-Nov4Skim_v1/0042/98A0F391-36ED-DF11-A4ED-00237DE0BED6.root"
+    ],
+    "file dataset=/EG/Run2010A-WZEG-Nov4Skim_v1/RAW-RECO run=144086": [
+        "/store/data/Run2010A/EG/RAW-RECO/WZEG-Nov4Skim_v1/0042/1C94BB8E-36ED-DF11-A861-0030487D43E1.root"
+    ],
+    "file dataset=/Electron/Run2010B-RelValRawSkim-v1/RAW run=149011": [
+        "/store/data/Run2010B/Electron/RAW/RelValRawSkim-v1/0000/022273B0-9C6B-E011-A4B5-001A92971B8C.root",
+        "/store/data/Run2010B/Electron/RAW/RelValRawSkim-v1/0000/44C5E103-9B6B-E011-BEE2-001A92971B0E.root"
+    ],
+    "file dataset=/Electron/Run2010B-WZEG-Nov4Skim_v1/RAW-RECO run=146644": [
+        "/store/data/Run2010B/Electron/RAW-RECO/WZEG-Nov4Skim_v1/0157/46F39DF1-8EEE-DF11-A475-003048678F6C.root",
+        "/store/data/Run2010B/Electron/RAW-RECO/WZEG-Nov4Skim_v1/0157/EEADD1E8-8DEE-DF11-835D-002618943983.root"
+    ],
+    "file dataset=/Electron/Run2010B-WZEG-Nov4Skim_v1/RAW-RECO run=147115": [
+        "/store/data/Run2010B/Electron/RAW-RECO/WZEG-Nov4Skim_v1/0158/92934601-90EE-DF11-9EF7-00248C55CC3C.root",
+        "/store/data/Run2010B/Electron/RAW-RECO/WZEG-Nov4Skim_v1/0158/D0AE90E9-95EE-DF11-9F6D-002618943954.root"
+    ],
+    "file dataset=/Electron/Run2010B-WZEG-Nov4Skim_v1/RAW-RECO run=147929": [
+        "/store/data/Run2010B/Electron/RAW-RECO/WZEG-Nov4Skim_v1/0158/2AC31BFB-8FEE-DF11-993F-001A928116FE.root",
+        "/store/data/Run2010B/Electron/RAW-RECO/WZEG-Nov4Skim_v1/0158/B6970FAD-93EE-DF11-AC31-003048679180.root"
+    ],
+    "file dataset=/Electron/Run2010B-WZEG-Nov4Skim_v1/RAW-RECO run=148822": [
+        "/store/data/Run2010B/Electron/RAW-RECO/WZEG-Nov4Skim_v1/0163/EE65F56B-D4EE-DF11-9313-003048678D6C.root",
+        "/store/data/Run2010B/Electron/RAW-RECO/WZEG-Nov4Skim_v1/0167/0A2FA194-42EF-DF11-8089-0018F3D0970C.root"
+    ],
+    "file dataset=/Electron/Run2010B-WZEG-Nov4Skim_v1/RAW-RECO run=149011": [
+        "/store/data/Run2010B/Electron/RAW-RECO/WZEG-Nov4Skim_v1/0163/8ED6D9EF-D3EE-DF11-BCA4-001A92971BCA.root"
+    ],
+    "file dataset=/Electron/Run2010B-WZEG-Nov4Skim_v1/RAW-RECO run=149181": [
+        "/store/data/Run2010B/Electron/RAW-RECO/WZEG-Nov4Skim_v1/0163/50DC6172-D4EE-DF11-80EF-001A92971BD6.root",
+        "/store/data/Run2010B/Electron/RAW-RECO/WZEG-Nov4Skim_v1/0164/0E9944FB-FCEE-DF11-BE18-003048678B0E.root"
+    ],
+    "file dataset=/Electron/Run2010B-WZEG-Nov4Skim_v1/RAW-RECO run=149182": [
+        "/store/data/Run2010B/Electron/RAW-RECO/WZEG-Nov4Skim_v1/0163/0852B66D-D4EE-DF11-BF20-0018F3D0965E.root",
+        "/store/data/Run2010B/Electron/RAW-RECO/WZEG-Nov4Skim_v1/0164/3EDC80F6-FCEE-DF11-A5D9-0030486792A8.root"
+    ],
+    "file dataset=/Electron/Run2010B-WZEG-Nov4Skim_v1/RAW-RECO run=149291": [
+        "/store/data/Run2010B/Electron/RAW-RECO/WZEG-Nov4Skim_v1/0163/F853D548-D4EE-DF11-8D34-001A9281173E.root",
+        "/store/data/Run2010B/Electron/RAW-RECO/WZEG-Nov4Skim_v1/0164/8880C1E0-FCEE-DF11-825E-003048D3FC94.root"
+    ],
+    "file dataset=/Electron/Run2010B-WZEG-Nov4Skim_v1/RAW-RECO run=149294": [
+        "/store/data/Run2010B/Electron/RAW-RECO/WZEG-Nov4Skim_v1/0163/8EE3096C-D4EE-DF11-A3CB-0018F3D095FE.root",
+        "/store/data/Run2010B/Electron/RAW-RECO/WZEG-Nov4Skim_v1/0167/EABB5979-42EF-DF11-A4DC-001A92971B7E.root"
+    ],
+    "file dataset=/Electron/Run2010B-WZEG-Nov4Skim_v1/RAW-RECO run=149442": [
+        "/store/data/Run2010B/Electron/RAW-RECO/WZEG-Nov4Skim_v1/0163/045F9A71-D4EE-DF11-BB8B-001A92971BB8.root",
+        "/store/data/Run2010B/Electron/RAW-RECO/WZEG-Nov4Skim_v1/0167/1467F684-42EF-DF11-AFA9-001A92971ADC.root"
+    ],
+    "file dataset=/HIAllPhysics/HIRun2010-v1/RAW run=152698": [
+        "/store/hidata/HIRun2010/HIAllPhysics/RAW/v1/000/152/698/00EF189B-CAFB-DF11-B3E7-003048F024FE.root",
+        "/store/hidata/HIRun2010/HIAllPhysics/RAW/v1/000/152/698/064CAC73-C9FB-DF11-8D63-003048F118D4.root"
+    ],
+    "file dataset=/HIMinBiasUPC/HIRun2011-v1/RAW run=181913": [
+        "/store/hidata/HIRun2011/HIMinBiasUPC/RAW/v1/000/181/913/000D6EE0-C910-E111-97FB-001D09F242EF.root",
+        "/store/hidata/HIRun2011/HIMinBiasUPC/RAW/v1/000/181/913/0023E9CE-C710-E111-9E07-003048F118C6.root"
+    ],
+    "file dataset=/HT/Run2012A-HighMET-13Jul2012-v1/RAW-RECO run=191226": [
+        "/store/data/Run2012A/HT/RAW-RECO/HighMET-13Jul2012-v1/00000/542B9E56-47F2-E111-A207-00248C55CC4D.root",
+        "/store/data/Run2012A/HT/RAW-RECO/HighMET-13Jul2012-v1/00000/567BA59D-47F2-E111-892C-00304867BFC6.root"
+    ],
+    "file dataset=/Jet/Run2010B-RelValRawSkim-v1/RAW run=149011": [
+        "/store/data/Run2010B/Jet/RAW/RelValRawSkim-v1/0000/048D8BB2-9C6B-E011-A811-003048679080.root",
+        "/store/data/Run2010B/Jet/RAW/RelValRawSkim-v1/0000/20D435CE-9B6B-E011-9A2C-002618943916.root"
+    ],
+    "file dataset=/Jet/Run2011A-v1/RAW run=165121": [
+        "/store/data/Run2011A/Jet/RAW/v1/000/165/121/16DC1831-D07F-E011-B19F-003048F1C832.root",
+        "/store/data/Run2011A/Jet/RAW/v1/000/165/121/2029B186-BD7F-E011-8F44-003048F1C58C.root"
+    ],
+    "file dataset=/Jet/Run2011B-HighMET-19Nov2011-v1/RAW-RECO run=175874": [
+        "/store/data/Run2011B/Jet/RAW-RECO/HighMET-19Nov2011-v1/0000/40944D21-0016-E111-90DB-0015178C6A34.root",
+        "/store/data/Run2011B/Jet/RAW-RECO/HighMET-19Nov2011-v1/0000/64E13CC7-7C15-E111-925D-001D0967C1DF.root"
+    ],
+    "file dataset=/Jet/Run2011B-HighMET-19Nov2011-v1/RAW-RECO run=177096": [
+        "/store/data/Run2011B/Jet/RAW-RECO/HighMET-19Nov2011-v1/0000/12C45E66-EA14-E111-8B18-001D0967DEEF.root",
+        "/store/data/Run2011B/Jet/RAW-RECO/HighMET-19Nov2011-v1/0000/22FAD83E-FC14-E111-9C1B-00266CF20468.root"
+    ],
+    "file dataset=/Jet/Run2011B-HighMET-19Nov2011-v1/RAW-RECO run=177719": [
+        "/store/data/Run2011B/Jet/RAW-RECO/HighMET-19Nov2011-v1/0000/2AD3993B-C714-E111-A88A-001D0967CF9F.root",
+        "/store/data/Run2011B/Jet/RAW-RECO/HighMET-19Nov2011-v1/0000/58614B56-C114-E111-904B-001D0967DB7F.root"
+    ],
+    "file dataset=/Jet/Run2011B-HighMET-19Nov2011-v1/RAW-RECO run=177790": [
+        "/store/data/Run2011B/Jet/RAW-RECO/HighMET-19Nov2011-v1/0000/12C45E66-EA14-E111-8B18-001D0967DEEF.root",
+        "/store/data/Run2011B/Jet/RAW-RECO/HighMET-19Nov2011-v1/0000/22FAD83E-FC14-E111-9C1B-00266CF20468.root"
+    ],
+    "file dataset=/Jet/Run2011B-v1/RAW run=177719": [
+        "/store/data/Run2011B/Jet/RAW/v1/000/177/719/042D1E64-D7EC-E011-8031-BCAEC5364C4B.root",
+        "/store/data/Run2011B/Jet/RAW/v1/000/177/719/0E0D6D18-CCEC-E011-A794-BCAEC532970A.root"
+    ],
+    "file dataset=/Jet/Run2012A-v1/RAW run=191226": [
+        "/store/data/Run2012A/Jet/RAW/v1/000/191/226/001B8B6C-0B86-E111-9E49-002481E0D7EC.root",
+        "/store/data/Run2012A/Jet/RAW/v1/000/191/226/006A58A3-0886-E111-B4BD-003048D2BE08.root"
+    ],
+    "file dataset=/JetHT/Run2012B-v1/RAW run=194533": [
+        "/store/data/Run2012B/JetHT/RAW/v1/000/194/533/0EE52A7A-B4A2-E111-858A-0025B32036D2.root",
+        "/store/data/Run2012B/JetHT/RAW/v1/000/194/533/10C03F3A-C1A2-E111-B0C1-003048D2C01E.root"
+    ],
+    "file dataset=/JetHT/Run2012C-v1/RAW run=199812": [
+        "/store/data/Run2012C/JetHT/RAW/v1/000/199/812/0C450FA0-6BD8-E111-BB28-BCAEC5329727.root",
+        "/store/data/Run2012C/JetHT/RAW/v1/000/199/812/0E6C6654-73D8-E111-BD0D-003048D3750A.root"
+    ],
+    "file dataset=/JetHT/Run2012D-v1/RAW run=208307": [
+        "/store/data/Run2012D/JetHT/RAW/v1/000/208/307/04EB1882-CF3A-E211-B575-0030486780EC.root",
+        "/store/data/Run2012D/JetHT/RAW/v1/000/208/307/0C3E8A07-E23A-E211-95F2-003048D374CA.root"
+    ],
+    "file dataset=/MET/Run2012A-v1/RAW run=191226": [
+        "/store/data/Run2012A/MET/RAW/v1/000/191/226/0CA2B2A0-0886-E111-9523-BCAEC518FF62.root",
+        "/store/data/Run2012A/MET/RAW/v1/000/191/226/1859BA1D-DA85-E111-ABB7-003048F118DE.root"
+    ],
+    "file dataset=/MinimumBias/Run2010A-valskim-v6/RAW-RECO run=138923": [
+        "/store/data/Run2010A/MinimumBias/RAW-RECO/v6/000/138/923/142C82F8-4285-DF11-B26D-00E081791865.root"
+    ],
+    "file dataset=/MinimumBias/Run2010A-valskim-v6/RAW-RECO run=138924": [
+        "/store/data/Run2010A/MinimumBias/RAW-RECO/v6/000/138/924/D87FB9A7-4485-DF11-88B8-0025B3E05DFE.root"
+    ],
+    "file dataset=/MinimumBias/Run2010A-valskim-v6/RAW-RECO run=138934": [
+        "/store/data/Run2010A/MinimumBias/RAW-RECO/v6/000/138/934/8EF645F4-4385-DF11-B48F-00E08179172F.root"
+    ],
+    "file dataset=/MinimumBias/Run2010A-valskim-v6/RAW-RECO run=138937": [
+        "/store/data/Run2010A/MinimumBias/RAW-RECO/v6/000/138/937/EEFDB418-4485-DF11-8ED9-001A64789DD4.root"
+    ],
+    "file dataset=/MinimumBias/Run2010A-valskim-v6/RAW-RECO run=139787": [
+        "/store/data/Run2010A/MinimumBias/RAW-RECO/v6/000/139/787/8466B1CE-468B-DF11-B1DE-00E08178C113.root"
+    ],
+    "file dataset=/MinimumBias/Run2010A-valskim-v6/RAW-RECO run=139788": [
+        "/store/data/Run2010A/MinimumBias/RAW-RECO/v6/000/139/788/C80BFF97-7D8B-DF11-B869-00E0817917A3.root"
+    ],
+    "file dataset=/MinimumBias/Run2010A-valskim-v6/RAW-RECO run=139789": [
+        "/store/data/Run2010A/MinimumBias/RAW-RECO/v6/000/139/789/40A25F74-C38B-DF11-9607-0025B3E05C74.root"
+    ],
+    "file dataset=/MinimumBias/Run2010A-valskim-v6/RAW-RECO run=139790": [
+        "/store/data/Run2010A/MinimumBias/RAW-RECO/v6/000/139/790/D48AE4D7-868B-DF11-9388-0015170AC780.root"
+    ],
+    "file dataset=/MinimumBias/Run2010A-valskim-v6/RAW-RECO run=144011": [
+        "/store/data/Run2010A/MinimumBias/RAW-RECO/v6/000/144/011/4E4BF45F-3DB2-DF11-93D5-001A64789454.root",
+        "/store/data/Run2010A/MinimumBias/RAW-RECO/v6/000/144/011/AEC03471-39B2-DF11-8805-003048673EFE.root"
+    ],
+    "file dataset=/MinimumBias/Run2010A-valskim-v6/RAW-RECO run=144083": [
+        "/store/data/Run2010A/MinimumBias/RAW-RECO/v6/000/144/083/0A7263DD-82BB-DF11-86CC-0015170AE344.root"
+    ],
+    "file dataset=/MinimumBias/Run2010A-valskim-v6/RAW-RECO run=144084": [
+        "/store/data/Run2010A/MinimumBias/RAW-RECO/v6/000/144/084/188AEF62-82BB-DF11-8532-00E08179183B.root"
+    ],
+    "file dataset=/MinimumBias/Run2010A-valskim-v6/RAW-RECO run=144085": [
+        "/store/data/Run2010A/MinimumBias/RAW-RECO/v6/000/144/085/42B019DE-82BB-DF11-A6D5-0015170AAF6C.root"
+    ],
+    "file dataset=/MinimumBias/Run2010A-valskim-v6/RAW-RECO run=144086": [
+        "/store/data/Run2010A/MinimumBias/RAW-RECO/v6/000/144/086/780E9917-5EBB-DF11-ACA6-002481E15008.root"
+    ],
+    "file dataset=/MinimumBias/Run2010B-RelValRawSkim-v1/RAW run=149011": [
+        "/store/data/Run2010B/MinimumBias/RAW/RelValRawSkim-v1/0000/00D2743E-9B6B-E011-9203-003048678E8A.root",
+        "/store/data/Run2010B/MinimumBias/RAW/RelValRawSkim-v1/0000/0460A6F6-9C6B-E011-AB35-0018F3D0962A.root"
+    ],
+    "file dataset=/MinimumBias/Run2010B-valskim-v2/RAW-RECO run=146644": [
+        "/store/data/Run2010B/MinimumBias/RAW-RECO/v2/000/146/644/1C7276BA-11CB-DF11-A0C3-0026189438E3.root",
+        "/store/data/Run2010B/MinimumBias/RAW-RECO/v2/000/146/644/1CFC19BF-11CB-DF11-A7C5-0030486790A0.root"
+    ],
+    "file dataset=/MinimumBias/Run2010B-valskim-v2/RAW-RECO run=147115": [
+        "/store/data/Run2010B/MinimumBias/RAW-RECO/v2/000/147/115/402DC350-2CD0-DF11-AE56-0026189438A9.root",
+        "/store/data/Run2010B/MinimumBias/RAW-RECO/v2/000/147/115/78A01742-31D0-DF11-95EE-003048679188.root"
+    ],
+    "file dataset=/MinimumBias/Run2010B-valskim-v2/RAW-RECO run=147929": [
+        "/store/data/Run2010B/MinimumBias/RAW-RECO/v2/000/147/929/CA7C50B5-D8DA-DF11-B715-00304867BEC0.root"
+    ],
+    "file dataset=/MinimumBias/Run2010B-valskim-v2/RAW-RECO run=148822": [
+        "/store/data/Run2010B/MinimumBias/RAW-RECO/v2/000/148/822/028F4010-CAE0-DF11-B342-0026189437E8.root",
+        "/store/data/Run2010B/MinimumBias/RAW-RECO/v2/000/148/822/CC46B8AB-D0E0-DF11-8334-001A9281170A.root"
+    ],
+    "file dataset=/MinimumBias/Run2010B-valskim-v2/RAW-RECO run=149011": [
+        "/store/data/Run2010B/MinimumBias/RAW-RECO/v2/000/149/011/3CDA561B-63E2-DF11-A011-002618943921.root",
+        "/store/data/Run2010B/MinimumBias/RAW-RECO/v2/000/149/011/40853FBA-63E2-DF11-9DDA-0018F3D096F6.root"
+    ],
+    "file dataset=/MinimumBias/Run2010B-valskim-v2/RAW-RECO run=149181": [
+        "/store/data/Run2010B/MinimumBias/RAW-RECO/v2/000/149/181/00A72FAD-5BE4-DF11-86D0-002618FDA287.root",
+        "/store/data/Run2010B/MinimumBias/RAW-RECO/v2/000/149/181/16A8A753-62E4-DF11-9C50-001A92971B12.root"
+    ],
+    "file dataset=/MinimumBias/Run2010B-valskim-v2/RAW-RECO run=149182": [
+        "/store/data/Run2010B/MinimumBias/RAW-RECO/v2/000/149/182/28850995-84E4-DF11-BD94-001A92810ACE.root",
+        "/store/data/Run2010B/MinimumBias/RAW-RECO/v2/000/149/182/C2DA31EA-85E4-DF11-ABF0-001A92810ACA.root"
+    ],
+    "file dataset=/MinimumBias/Run2010B-valskim-v2/RAW-RECO run=149291": [
+        "/store/data/Run2010B/MinimumBias/RAW-RECO/v2/000/149/291/5038F77C-23E5-DF11-8F58-003048678BE6.root",
+        "/store/data/Run2010B/MinimumBias/RAW-RECO/v2/000/149/291/7212142E-31E5-DF11-85A4-001A92811724.root"
+    ],
+    "file dataset=/MinimumBias/Run2010B-valskim-v2/RAW-RECO run=149294": [
+        "/store/data/Run2010B/MinimumBias/RAW-RECO/v2/000/149/294/4A346FA0-32E5-DF11-815E-001A92811724.root"
+    ],
+    "file dataset=/MinimumBias/Run2010B-valskim-v2/RAW-RECO run=149442": [
+        "/store/data/Run2010B/MinimumBias/RAW-RECO/v2/000/149/442/045FE70F-19E7-DF11-B3DA-001A92971B64.root",
+        "/store/data/Run2010B/MinimumBias/RAW-RECO/v2/000/149/442/06C56761-0CE7-DF11-9409-00261894393F.root"
+    ],
+    "file dataset=/MinimumBias/Run2011A-v1/RAW run=165121": [
+        "/store/data/Run2011A/MinimumBias/RAW/v1/000/165/121/0699429A-B37F-E011-A57A-0019B9F72D71.root",
+        "/store/data/Run2011A/MinimumBias/RAW/v1/000/165/121/18E0AF9F-BA7F-E011-AC1C-001D09F24259.root"
+    ],
+    "file dataset=/MinimumBias/Run2011B-ValSkim-19Nov2011-v1/RAW-RECO run=175874": [
+        "/store/data/Run2011B/MinimumBias/RAW-RECO/ValSkim-19Nov2011-v1/0000/56B775C2-2421-E111-89D1-00304867D836.root",
+        "/store/data/Run2011B/MinimumBias/RAW-RECO/ValSkim-19Nov2011-v1/0000/5C73C83A-F720-E111-B618-002618943939.root"
+    ],
+    "file dataset=/MinimumBias/Run2011B-ValSkim-19Nov2011-v1/RAW-RECO run=177096": [
+        "/store/data/Run2011B/MinimumBias/RAW-RECO/ValSkim-19Nov2011-v1/0000/00F44289-EB20-E111-A005-001A92811728.root",
+        "/store/data/Run2011B/MinimumBias/RAW-RECO/ValSkim-19Nov2011-v1/0000/1235BE24-1821-E111-9C07-001A92810AA4.root"
+    ],
+    "file dataset=/MinimumBias/Run2011B-ValSkim-19Nov2011-v1/RAW-RECO run=177719": [
+        "/store/data/Run2011B/MinimumBias/RAW-RECO/ValSkim-19Nov2011-v1/0000/00F44289-EB20-E111-A005-001A92811728.root",
+        "/store/data/Run2011B/MinimumBias/RAW-RECO/ValSkim-19Nov2011-v1/0000/02E54ABC-E520-E111-AC76-0026189438E9.root"
+    ],
+    "file dataset=/MinimumBias/Run2011B-ValSkim-19Nov2011-v1/RAW-RECO run=177790": [
+        "/store/data/Run2011B/MinimumBias/RAW-RECO/ValSkim-19Nov2011-v1/0000/1235BE24-1821-E111-9C07-001A92810AA4.root",
+        "/store/data/Run2011B/MinimumBias/RAW-RECO/ValSkim-19Nov2011-v1/0000/16E37AFE-0B21-E111-B91A-003048678B1A.root"
+    ],
+    "file dataset=/MinimumBias/Run2011B-v1/RAW run=177719": [
+        "/store/data/Run2011B/MinimumBias/RAW/v1/000/177/719/065F5CDD-E6EC-E011-ACBF-001D09F26509.root",
+        "/store/data/Run2011B/MinimumBias/RAW/v1/000/177/719/1869D0BA-DDEC-E011-9BD1-003048F024FE.root"
+    ],
+    "file dataset=/MinimumBias/Run2012A-v1/RAW run=191226": [
+        "/store/data/Run2012A/MinimumBias/RAW/v1/000/191/226/02F7EB61-0986-E111-A66F-5404A63886B4.root",
+        "/store/data/Run2012A/MinimumBias/RAW/v1/000/191/226/0CF113A2-2E86-E111-B8A1-BCAEC5329700.root"
+    ],
+    "file dataset=/MinimumBias/Run2012B-v1/RAW run=194533": [
+        "/store/data/Run2012B/MinimumBias/RAW/v1/000/194/533/0C1BB1C7-ACA2-E111-A831-003048D3750A.root",
+        "/store/data/Run2012B/MinimumBias/RAW/v1/000/194/533/105A8128-A2A2-E111-BC10-001D09F29533.root"
+    ],
+    "file dataset=/MinimumBias/Run2012C-v1/RAW run=199812": [
+        "/store/data/Run2012C/MinimumBias/RAW/v1/000/199/812/007E76FB-9ED8-E111-8986-003048D2BE12.root",
+        "/store/data/Run2012C/MinimumBias/RAW/v1/000/199/812/041D0336-71D8-E111-B502-001D09F23A20.root"
+    ],
+    "file dataset=/MinimumBias/Run2012D-v1/RAW run=208307": [
+        "/store/data/Run2012D/MinimumBias/RAW/v1/000/208/307/020716B4-CC3A-E211-B309-5404A63886B6.root",
+        "/store/data/Run2012D/MinimumBias/RAW/v1/000/208/307/0492EC15-9E3A-E211-AF09-BCAEC5364C4C.root"
+    ],
+    "file dataset=/Mu/Run2010A-WZMu-Nov4Skim_v1/RAW-RECO run=138923": [
+        "/store/data/Run2010A/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0004/F8336C0C-22EE-DF11-9842-0017A4770000.root"
+    ],
+    "file dataset=/Mu/Run2010A-WZMu-Nov4Skim_v1/RAW-RECO run=138924": [
+        "/store/data/Run2010A/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0004/669969F6-07EE-DF11-8556-0017A477041C.root"
+    ],
+    "file dataset=/Mu/Run2010A-WZMu-Nov4Skim_v1/RAW-RECO run=138934": [
+        "/store/data/Run2010A/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0004/34BA4A7C-07EE-DF11-95DE-0017A4770034.root"
+    ],
+    "file dataset=/Mu/Run2010A-WZMu-Nov4Skim_v1/RAW-RECO run=138937": [
+        "/store/data/Run2010A/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0004/52A82074-D8ED-DF11-9EC9-0017A4770800.root"
+    ],
+    "file dataset=/Mu/Run2010A-WZMu-Nov4Skim_v1/RAW-RECO run=139787": [
+        "/store/data/Run2010A/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0004/722922CF-EEED-DF11-BCE5-001CC4C10E02.root"
+    ],
+    "file dataset=/Mu/Run2010A-WZMu-Nov4Skim_v1/RAW-RECO run=139788": [
+        "/store/data/Run2010A/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0004/8EF5BC02-10EE-DF11-84A8-0017A4770038.root"
+    ],
+    "file dataset=/Mu/Run2010A-WZMu-Nov4Skim_v1/RAW-RECO run=139789": [
+        "/store/data/Run2010A/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0004/22F6A44B-2CEE-DF11-8E24-001E0B48A1C4.root",
+        "/store/data/Run2010A/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0006/2030935D-30EE-DF11-8AEC-001E0B5F27BC.root"
+    ],
+    "file dataset=/Mu/Run2010A-WZMu-Nov4Skim_v1/RAW-RECO run=139790": [
+        "/store/data/Run2010A/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0004/7087231B-09EE-DF11-8D95-001B78E1096E.root"
+    ],
+    "file dataset=/Mu/Run2010A-WZMu-Nov4Skim_v1/RAW-RECO run=144011": [
+        "/store/data/Run2010A/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0004/0859553F-D1ED-DF11-897E-1CC1DE051038.root",
+        "/store/data/Run2010A/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0004/90C4A94C-08EE-DF11-A228-1CC1DE040FA0.root"
+    ],
+    "file dataset=/Mu/Run2010A-WZMu-Nov4Skim_v1/RAW-RECO run=144083": [
+        "/store/data/Run2010A/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0004/10CD3A38-D1ED-DF11-B77A-001F29C49354.root"
+    ],
+    "file dataset=/Mu/Run2010A-WZMu-Nov4Skim_v1/RAW-RECO run=144084": [
+        "/store/data/Run2010A/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0004/7C3AA99B-CBED-DF11-9238-0018FE29503A.root"
+    ],
+    "file dataset=/Mu/Run2010A-WZMu-Nov4Skim_v1/RAW-RECO run=144085": [
+        "/store/data/Run2010A/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0004/7646350C-D8ED-DF11-816C-0017A4770C00.root"
+    ],
+    "file dataset=/Mu/Run2010A-WZMu-Nov4Skim_v1/RAW-RECO run=144086": [
+        "/store/data/Run2010A/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0004/4E7F1372-D8ED-DF11-A678-00237DA1DDE4.root",
+        "/store/data/Run2010A/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0006/10347E2E-0DEE-DF11-AA10-00237DA14F86.root"
+    ],
+    "file dataset=/Mu/Run2010B-RelValRawSkim-v1/RAW run=149011": [
+        "/store/data/Run2010B/Mu/RAW/RelValRawSkim-v1/0000/341409AD-9A6B-E011-8B52-0030486791DC.root",
+        "/store/data/Run2010B/Mu/RAW/RelValRawSkim-v1/0000/763B90E6-9D6B-E011-8CEC-001A928116E2.root"
+    ],
+    "file dataset=/Mu/Run2010B-WZMu-Nov4Skim_v1/RAW-RECO run=146644": [
+        "/store/data/Run2010B/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0000/2AA2E9EC-79ED-DF11-BE08-E0CB4E29C4FF.root",
+        "/store/data/Run2010B/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0000/B6D47E73-95ED-DF11-8040-90E6BA0D09E2.root"
+    ],
+    "file dataset=/Mu/Run2010B-WZMu-Nov4Skim_v1/RAW-RECO run=147115": [
+        "/store/data/Run2010B/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0000/D6E1CC02-95ED-DF11-8C6A-00261834B559.root",
+        "/store/data/Run2010B/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0009/725641F1-4F05-E011-83A4-E0CB4E19F99E.root"
+    ],
+    "file dataset=/Mu/Run2010B-WZMu-Nov4Skim_v1/RAW-RECO run=147929": [
+        "/store/data/Run2010B/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0000/5861C503-95ED-DF11-B1D6-E0CB4E553661.root",
+        "/store/data/Run2010B/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0000/925137C4-7EED-DF11-8CDB-E0CB4E1A1181.root"
+    ],
+    "file dataset=/Mu/Run2010B-WZMu-Nov4Skim_v1/RAW-RECO run=148822": [
+        "/store/data/Run2010B/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0000/B27C189E-96ED-DF11-B5CA-90E6BA442F0B.root",
+        "/store/data/Run2010B/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0005/ACC2C03D-C8ED-DF11-B455-485B39800BED.root"
+    ],
+    "file dataset=/Mu/Run2010B-WZMu-Nov4Skim_v1/RAW-RECO run=149011": [
+        "/store/data/Run2010B/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0000/028BF233-96ED-DF11-81F5-E0CB4E29C518.root",
+        "/store/data/Run2010B/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0000/3046560D-70ED-DF11-BBD2-90E6BA442F10.root"
+    ],
+    "file dataset=/Mu/Run2010B-WZMu-Nov4Skim_v1/RAW-RECO run=149181": [
+        "/store/data/Run2010B/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0000/0EEC7D0C-70ED-DF11-B857-485B39800C07.root",
+        "/store/data/Run2010B/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0000/2C205077-95ED-DF11-844C-485B39800C05.root"
+    ],
+    "file dataset=/Mu/Run2010B-WZMu-Nov4Skim_v1/RAW-RECO run=149182": [
+        "/store/data/Run2010B/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0000/10DCAC75-95ED-DF11-A04D-E0CB4EA0A8E8.root",
+        "/store/data/Run2010B/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0005/EC8818C2-C7ED-DF11-9763-90E6BA442F31.root"
+    ],
+    "file dataset=/Mu/Run2010B-WZMu-Nov4Skim_v1/RAW-RECO run=149291": [
+        "/store/data/Run2010B/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0000/00D6A73C-94ED-DF11-B188-00261834B51D.root",
+        "/store/data/Run2010B/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0000/222173AD-6DED-DF11-8AEE-E0CB4E29C4BA.root"
+    ],
+    "file dataset=/Mu/Run2010B-WZMu-Nov4Skim_v1/RAW-RECO run=149294": [
+        "/store/data/Run2010B/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0000/086CBCBF-95ED-DF11-BB4D-90E6BA442F05.root"
+    ],
+    "file dataset=/Mu/Run2010B-WZMu-Nov4Skim_v1/RAW-RECO run=149442": [
+        "/store/data/Run2010B/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0000/6E318C74-95ED-DF11-A2F1-90E6BA442F07.root",
+        "/store/data/Run2010B/Mu/RAW-RECO/WZMu-Nov4Skim_v1/0009/3C64F5B5-4F05-E011-95F8-485B39800C1C.root"
+    ],
+    "file dataset=/Photon/Run2010B-RelValRawSkim-v1/RAW run=149011": [
+        "/store/data/Run2010B/Photon/RAW/RelValRawSkim-v1/0000/1AE71200-9E6B-E011-8FC3-0018F3D09688.root",
+        "/store/data/Run2010B/Photon/RAW/RelValRawSkim-v1/0000/2845EAD5-9D6B-E011-BEB8-0018F3D09650.root"
+    ],
+    "file dataset=/Photon/Run2011A-v1/RAW run=165121": [
+        "/store/data/Run2011A/Photon/RAW/v1/000/165/121/4A78D0C2-C57F-E011-83C8-000423D9A212.root",
+        "/store/data/Run2011A/Photon/RAW/v1/000/165/121/5CA4A288-B87F-E011-AFFE-003048F117B6.root"
+    ],
+    "file dataset=/Photon/Run2011B-v1/RAW run=177719": [
+        "/store/data/Run2011B/Photon/RAW/v1/000/177/719/1CFFD424-DAEC-E011-8986-001D09F241B9.root",
+        "/store/data/Run2011B/Photon/RAW/v1/000/177/719/1E72A0F5-DCEC-E011-B20B-003048D2BEA8.root"
+    ],
+    "file dataset=/RelValADDMonoJet_d3MD3/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValADDMonoJet_d3MD3/GEN-SIM/PRE_ST62_V8-v1/00000/0EEB5C17-A0E0-E211-B913-02163E009443.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValADDMonoJet_d3MD3/GEN-SIM/PRE_ST62_V8-v1/00000/4A688D89-A8E0-E211-B440-003048CF4986.root"
+    ],
+    "file dataset=/RelValADDMonoJet_d3MD3_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValADDMonoJet_d3MD3_13/GEN-SIM/POSTLS170_V1-v1/00000/1CF71C64-0086-E311-BDB1-003048FE4C2E.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValADDMonoJet_d3MD3_13/GEN-SIM/POSTLS170_V1-v1/00000/2CA9DF56-1086-E311-A6A0-02163E00E760.root"
+    ],
+    "file dataset=/RelValAMPT_PPb_5020GeV_MinimumBias/CMSSW_6_2_0_pre8-PRE_ST62_V8-v3/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValAMPT_PPb_5020GeV_MinimumBias/GEN-SIM/PRE_ST62_V8-v3/00000/3A775CB8-ADE3-E211-8B75-002590596498.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValAMPT_PPb_5020GeV_MinimumBias/GEN-SIM/PRE_ST62_V8-v3/00000/6EA0A9F0-C1E2-E211-8315-002618943971.root"
+    ],
+    "file dataset=/RelValBeamHalo/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValBeamHalo/GEN-SIM/PRE_ST62_V8-v1/00000/8A47B4D7-B9E0-E211-A86E-D8D385FF61BA.root"
+    ],
+    "file dataset=/RelValBeamHalo_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValBeamHalo_13/GEN-SIM/POSTLS170_V1-v1/00000/DEC08FBA-F685-E311-AE45-02163E00EB46.root"
+    ],
+    "file dataset=/RelValCosmics/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValCosmics/GEN-SIM/PRE_ST62_V8-v1/00000/846AB99F-D9E0-E211-8C42-001D09F24038.root"
+    ],
+    "file dataset=/RelValH130GGgluonfusion/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValH130GGgluonfusion/GEN-SIM/PRE_ST62_V8-v1/00000/3CA1023D-D7E0-E211-AD6A-003048F2374A.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValH130GGgluonfusion/GEN-SIM/PRE_ST62_V8-v1/00000/84AA2949-D5E0-E211-8A77-02163E00939D.root"
+    ],
+    "file dataset=/RelValH130GGgluonfusion_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValH130GGgluonfusion_13/GEN-SIM/POSTLS170_V1-v1/00000/467EBD58-2886-E311-9A6F-0025901AF5DA.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValH130GGgluonfusion_13/GEN-SIM/POSTLS170_V1-v1/00000/68FA49C8-2E86-E311-93AD-18A9055806C0.root"
+    ],
+    "file dataset=/RelValHiggs200ChargedTaus/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValHiggs200ChargedTaus/GEN-SIM/PRE_ST62_V8-v1/00000/10F3E755-E0E0-E211-9DBF-002481E94BC6.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValHiggs200ChargedTaus/GEN-SIM/PRE_ST62_V8-v1/00000/686D1129-D0E0-E211-8D7D-003048D375CE.root"
+    ],
+    "file dataset=/RelValHiggs200ChargedTaus_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValHiggs200ChargedTaus_13/GEN-SIM/POSTLS170_V1-v1/00000/0E20B5DF-FE85-E311-8DE3-002481E0E14E.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValHiggs200ChargedTaus_13/GEN-SIM/POSTLS170_V1-v1/00000/120599AF-0286-E311-A0BF-02163E008CD6.root"
+    ],
+    "file dataset=/RelValHydjetQ_B0_2760GeV/CMSSW_6_1_0_pre6-STARTHI61_V6-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_1_0_pre6-STARTHI61_V6/RelValHydjetQ_B0_2760GeV/GEN-SIM/v1/00000/740B5858-AE33-E211-9C43-003048FFD7C2.root",
+        "/store/relval/CMSSW_6_1_0_pre6-STARTHI61_V6/RelValHydjetQ_B0_2760GeV/GEN-SIM/v1/00000/A66BBD27-BA33-E211-BEE2-003048D15DB6.root"
+    ],
+    "file dataset=/RelValHydjetQ_B3_2760GeV/CMSSW_6_2_0_pre8-PRE_SH62_V15-v2/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValHydjetQ_B3_2760GeV/GEN-SIM/PRE_SH62_V15-v2/00000/A22AA8E8-61ED-E211-AF03-003048F0107C.root"
+    ],
+    "file dataset=/RelValHydjetQ_B8_2760GeV/CMSSW_6_2_0_pre8-PRE_SH62_V15-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValHydjetQ_B8_2760GeV/GEN-SIM/PRE_SH62_V15-v1/00000/4A0A893E-F6E0-E211-A0A1-003048D3767A.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValHydjetQ_B8_2760GeV/GEN-SIM/PRE_SH62_V15-v1/00000/548C644B-E6E0-E211-95A0-003048FEC0E4.root"
+    ],
+    "file dataset=/RelValHydjetQ_MinBias_2760GeV/CMSSW_7_1_0_pre1-STARTHI70_V5-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValHydjetQ_MinBias_2760GeV/GEN-SIM/STARTHI70_V5-v1/00000/246AD223-E885-E311-82A6-0025904B2C5C.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValHydjetQ_MinBias_2760GeV/GEN-SIM/STARTHI70_V5-v1/00000/329C1708-1F86-E311-AC62-0025B3203714.root"
+    ],
+    "file dataset=/RelValJpsiMM/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValJpsiMM/GEN-SIM/PRE_ST62_V8-v1/00000/92B65892-DEE0-E211-99BB-003048F00B9C.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValJpsiMM/GEN-SIM/PRE_ST62_V8-v1/00000/CCC4487C-DAE0-E211-BF2A-003048F01172.root"
+    ],
+    "file dataset=/RelValJpsiMM_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValJpsiMM_13/GEN-SIM/POSTLS170_V1-v1/00000/68EC8902-1D86-E311-BFA9-02163E00EA62.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValJpsiMM_13/GEN-SIM/POSTLS170_V1-v1/00000/7E2ADABB-1E86-E311-B8C3-003048FEADBC.root"
+    ],
+    "file dataset=/RelValLM1_sfts/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValLM1_sfts/GEN-SIM/PRE_ST62_V8-v1/00000/125F5EE3-E6E0-E211-89AC-003048F1C9B8.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValLM1_sfts/GEN-SIM/PRE_ST62_V8-v1/00000/2637169A-F5E0-E211-B6D1-003048FEAF14.root"
+    ],
+    "file dataset=/RelValLM1_sfts_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValLM1_sfts_13/GEN-SIM/POSTLS170_V1-v1/00000/28584979-2E86-E311-BC75-02163E00E811.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValLM1_sfts_13/GEN-SIM/POSTLS170_V1-v1/00000/30EB497B-4F86-E311-9E80-003048D3C91C.root"
+    ],
+    "file dataset=/RelValMinBias/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValMinBias/GEN-SIM/PRE_ST62_V8-v1/00000/7A58AD6E-BFE0-E211-BA29-003048D375AE.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValMinBias/GEN-SIM/PRE_ST62_V8-v1/00000/B853ADC9-C1E0-E211-82F8-003048F00940.root"
+    ],
+    "file dataset=/RelValMinBiasHS_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [],
+    "file dataset=/RelValMinBias_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValMinBias_13/GEN-SIM/POSTLS170_V1-v1/00000/0C2DD921-1586-E311-9EA9-02163E00EA98.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValMinBias_13/GEN-SIM/POSTLS170_V1-v1/00000/42450CEB-1086-E311-B439-02163E00EB7E.root"
+    ],
+    "file dataset=/RelValPhotonJets_Pt_10/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValPhotonJets_Pt_10/GEN-SIM/PRE_ST62_V8-v1/00000/08D7B2C0-A6E0-E211-A761-00304896B908.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValPhotonJets_Pt_10/GEN-SIM/PRE_ST62_V8-v1/00000/48B01111-ACE0-E211-846E-003048C9AC56.root"
+    ],
+    "file dataset=/RelValPhotonJets_Pt_10_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValPhotonJets_Pt_10_13/GEN-SIM/POSTLS170_V1-v1/00000/880B147E-3286-E311-B90D-02163E00E7BD.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValPhotonJets_Pt_10_13/GEN-SIM/POSTLS170_V1-v1/00000/9E94DC6D-2686-E311-A0E0-02163E00E6CC.root"
+    ],
+    "file dataset=/RelValProdTTbar/CMSSW_5_0_0_pre6-START50_V5-v1/GEN-SIM-RECO site=T2_CH_CERN": [],
+    "file dataset=/RelValQCD_FlatPt_15_3000/CMSSW_5_2_2-PU_START52_V4_special_120326-v1/GEN-SIM-DIGI-RAW-HLTDEBUG site=T2_CH_CERN": [],
+    "file dataset=/RelValQCD_FlatPt_15_3000/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValQCD_FlatPt_15_3000/GEN-SIM/PRE_ST62_V8-v1/00000/021074FD-C0E0-E211-8465-003048947138.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValQCD_FlatPt_15_3000/GEN-SIM/PRE_ST62_V8-v1/00000/2EB01D16-C4E0-E211-9D95-0025B3244194.root"
+    ],
+    "file dataset=/RelValQCD_FlatPt_15_3000HS/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValQCD_FlatPt_15_3000HS/GEN-SIM/PRE_ST62_V8-v1/00000/00A81A3A-4F0B-E311-B7F9-0026189438B3.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValQCD_FlatPt_15_3000HS/GEN-SIM/PRE_ST62_V8-v1/00000/0A74AB84-4D0B-E311-AD5E-002618FDA216.root"
+    ],
+    "file dataset=/RelValQCD_FlatPt_15_3000HS_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValQCD_FlatPt_15_3000HS_13/GEN-SIM/POSTLS170_V1-v1/00000/04019E41-3786-E311-8311-003048FE4C1E.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValQCD_FlatPt_15_3000HS_13/GEN-SIM/POSTLS170_V1-v1/00000/041BBE1C-2C86-E311-BF23-02163E00E7BE.root"
+    ],
+    "file dataset=/RelValQCD_FlatPt_15_3000_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [],
+    "file dataset=/RelValQCD_Pt_3000_3500/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValQCD_Pt_3000_3500/GEN-SIM/PRE_ST62_V8-v1/00000/2A1D882C-BCE0-E211-B774-003048F23A28.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValQCD_Pt_3000_3500/GEN-SIM/PRE_ST62_V8-v1/00000/309A198C-C0E0-E211-9AEB-02163E008BB1.root"
+    ],
+    "file dataset=/RelValQCD_Pt_3000_3500_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValQCD_Pt_3000_3500_13/GEN-SIM/POSTLS170_V1-v1/00000/12E97C1F-0786-E311-9F60-BCAEC518FF67.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValQCD_Pt_3000_3500_13/GEN-SIM/POSTLS170_V1-v1/00000/261E4015-1486-E311-9FAD-02163E00E5E4.root"
+    ],
+    "file dataset=/RelValQCD_Pt_600_800/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValQCD_Pt_600_800/GEN-SIM/PRE_ST62_V8-v1/00000/444F674D-DEE0-E211-BDCC-0030489473DC.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValQCD_Pt_600_800/GEN-SIM/PRE_ST62_V8-v1/00000/5067C70B-E2E0-E211-9146-003048D374BC.root"
+    ],
+    "file dataset=/RelValQCD_Pt_600_800_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValQCD_Pt_600_800_13/GEN-SIM/POSTLS170_V1-v1/00000/0A0C9484-2486-E311-A122-002590494D9E.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValQCD_Pt_600_800_13/GEN-SIM/POSTLS170_V1-v1/00000/2CEB366D-1F86-E311-BB27-02163E00E983.root"
+    ],
+    "file dataset=/RelValQCD_Pt_80_120/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValQCD_Pt_80_120/GEN-SIM/PRE_ST62_V8-v1/00000/866C2F67-D4E0-E211-935F-02163E007940.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValQCD_Pt_80_120/GEN-SIM/PRE_ST62_V8-v1/00000/8E20267A-D2E0-E211-8707-003048D3742A.root"
+    ],
+    "file dataset=/RelValQCD_Pt_80_120_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValQCD_Pt_80_120_13/GEN-SIM/POSTLS170_V1-v1/00000/0C9DD31D-2C86-E311-819C-02163E00A0E1.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValQCD_Pt_80_120_13/GEN-SIM/POSTLS170_V1-v1/00000/0CEE531F-3686-E311-B36F-02163E00E88A.root"
+    ],
+    "file dataset=/RelValQQH1352T_Tauola/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValQQH1352T_Tauola/GEN-SIM/PRE_ST62_V8-v1/00000/24469065-DAE0-E211-9E27-001E6739806B.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValQQH1352T_Tauola/GEN-SIM/PRE_ST62_V8-v1/00000/5053C368-D4E0-E211-8275-003048F23682.root"
+    ],
+    "file dataset=/RelValQQH1352T_Tauola_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValQQH1352T_Tauola_13/GEN-SIM/POSTLS170_V1-v1/00000/641D40AF-2886-E311-AB7F-5404A63886C6.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValQQH1352T_Tauola_13/GEN-SIM/POSTLS170_V1-v1/00000/8E1BCF77-2186-E311-8BF9-002590494FB0.root"
+    ],
+    "file dataset=/RelValRelValPythia6_BuJpsiK_TuneZ2star_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [],
+    "file dataset=/RelValRelValRSKKGluon_m3000GeV_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValRelValRSKKGluon_m3000GeV_13/GEN-SIM/POSTLS170_V1-v1/00000/462FBB7A-2F86-E311-8BEF-02163E007ADA.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValRelValRSKKGluon_m3000GeV_13/GEN-SIM/POSTLS170_V1-v1/00000/703B44CC-3286-E311-923D-002481E94B30.root"
+    ],
+    "file dataset=/RelValSingleElectronFlatPt1To100_UP15/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [],
+    "file dataset=/RelValSingleElectronPt10/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValSingleElectronPt10/GEN-SIM/PRE_ST62_V8-v1/00000/C250AEF6-E1E0-E211-81BA-001E67398C46.root"
+    ],
+    "file dataset=/RelValSingleElectronPt1000/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValSingleElectronPt1000/GEN-SIM/PRE_ST62_V8-v1/00000/06F7F66D-D8E0-E211-9F97-003048D3C992.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValSingleElectronPt1000/GEN-SIM/PRE_ST62_V8-v1/00000/2CE8F28B-DEE0-E211-B399-003048CFA94A.root"
+    ],
+    "file dataset=/RelValSingleElectronPt1000_UP15/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValSingleElectronPt1000_UP15/GEN-SIM/POSTLS170_V1-v1/00000/8CAC867E-3886-E311-886E-02163E00EB17.root"
+    ],
+    "file dataset=/RelValSingleElectronPt10_UP15/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValSingleElectronPt10_UP15/GEN-SIM/POSTLS170_V1-v1/00000/C4FEABC2-1C86-E311-AC4F-02163E00EB69.root"
+    ],
+    "file dataset=/RelValSingleElectronPt35/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValSingleElectronPt35/GEN-SIM/PRE_ST62_V8-v1/00000/76770900-9EE0-E211-B9D7-02163E00939D.root"
+    ],
+    "file dataset=/RelValSingleElectronPt35_UP15/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValSingleElectronPt35_UP15/GEN-SIM/POSTLS170_V1-v1/00000/9C11CCD1-1B86-E311-942A-02163E00E608.root"
+    ],
+    "file dataset=/RelValSingleGammaPt10/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValSingleGammaPt10/GEN-SIM/PRE_ST62_V8-v1/00000/8A4B2519-CCE0-E211-9EC8-003048C9C060.root"
+    ],
+    "file dataset=/RelValSingleGammaPt10_UP15/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValSingleGammaPt10_UP15/GEN-SIM/POSTLS170_V1-v1/00000/A0305D60-2486-E311-A14B-02163E009D5A.root"
+    ],
+    "file dataset=/RelValSingleGammaPt35/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValSingleGammaPt35/GEN-SIM/PRE_ST62_V8-v1/00000/7A8B327B-BEE0-E211-B841-BCAEC53296F8.root"
+    ],
+    "file dataset=/RelValSingleGammaPt35_UP15/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValSingleGammaPt35_UP15/GEN-SIM/POSTLS170_V1-v1/00000/D2BD9CAF-2186-E311-9CFA-003048FEAF14.root"
+    ],
+    "file dataset=/RelValSingleMuPt1/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValSingleMuPt1/GEN-SIM/PRE_ST62_V8-v1/00000/02AF8FD6-C3E0-E211-8A09-003048F23D74.root"
+    ],
+    "file dataset=/RelValSingleMuPt10/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValSingleMuPt10/GEN-SIM/PRE_ST62_V8-v1/00000/DCCBD365-C2E0-E211-A409-003048F1B862.root"
+    ],
+    "file dataset=/RelValSingleMuPt10/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM-DIGI-RAW-HLTDEBUG site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValSingleMuPt10/GEN-SIM-DIGI-RAW-HLTDEBUG/PRE_ST62_V8-v1/00000/06B5F324-E9E0-E211-A7E5-02163E008D7B.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValSingleMuPt10/GEN-SIM-DIGI-RAW-HLTDEBUG/PRE_ST62_V8-v1/00000/4E98DBCA-E9E0-E211-8FDA-001D09F24353.root"
+    ],
+    "file dataset=/RelValSingleMuPt10/CMSSW_6_2_0_pre8-PRE_ST62_V8_FastSim-v1/GEN-SIM-DIGI-RECO site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValSingleMuPt10/GEN-SIM-DIGI-RECO/PRE_ST62_V8_FastSim-v1/00000/70623A94-DAE0-E211-8AE6-003048F1C7D2.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValSingleMuPt10/GEN-SIM-DIGI-RECO/PRE_ST62_V8_FastSim-v1/00000/74C2A876-DFE0-E211-BAFA-BCAEC5329703.root"
+    ],
+    "file dataset=/RelValSingleMuPt100/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValSingleMuPt100/GEN-SIM/PRE_ST62_V8-v1/00000/4A5CACDE-D1E0-E211-8561-001E4F3DC26C.root"
+    ],
+    "file dataset=/RelValSingleMuPt1000/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValSingleMuPt1000/GEN-SIM/PRE_ST62_V8-v1/00000/70D5F19B-C6E0-E211-A3C4-003048F1DB7C.root"
+    ],
+    "file dataset=/RelValSingleMuPt1000_UP15/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValSingleMuPt1000_UP15/GEN-SIM/POSTLS170_V1-v1/00000/A0355198-1186-E311-A872-02163E00E5E6.root"
+    ],
+    "file dataset=/RelValSingleMuPt100_UP15/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValSingleMuPt100_UP15/GEN-SIM/POSTLS170_V1-v1/00000/06953901-0F86-E311-85B3-003048D2BC0A.root"
+    ],
+    "file dataset=/RelValSingleMuPt10_UP15/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValSingleMuPt10_UP15/GEN-SIM/POSTLS170_V1-v1/00000/BA2C0C1A-1486-E311-878D-02163E00E5C7.root"
+    ],
+    "file dataset=/RelValSingleMuPt1_UP15/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValSingleMuPt1_UP15/GEN-SIM/POSTLS170_V1-v1/00000/4804ED13-1A86-E311-AD12-02163E009E82.root"
+    ],
+    "file dataset=/RelValTTbar/CMSSW_4_4_2-START44_V7-v1/GEN-SIM-DIGI-RAW-HLTDEBUG site=T2_CH_CERN": [],
+    "file dataset=/RelValTTbar/CMSSW_5_2_2-PU_START52_V4_special_120326-v1/GEN-SIM-DIGI-RAW-HLTDEBUG site=T2_CH_CERN": [],
+    "file dataset=/RelValTTbar/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValTTbar/GEN-SIM/PRE_ST62_V8-v1/00000/62C0F11A-C5E0-E211-9B73-003048D3C91C.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValTTbar/GEN-SIM/PRE_ST62_V8-v1/00000/6601ABCC-C9E0-E211-A6E7-0030489473F6.root"
+    ],
+    "file dataset=/RelValTTbar/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM-DIGI-RAW-HLTDEBUG site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValTTbar/GEN-SIM-DIGI-RAW-HLTDEBUG/PRE_ST62_V8-v1/00000/48D4C698-D2E0-E211-AB9F-003048F1C766.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValTTbar/GEN-SIM-DIGI-RAW-HLTDEBUG/PRE_ST62_V8-v1/00000/6A658C32-D9E0-E211-AB5F-003048FEACA4.root"
+    ],
+    "file dataset=/RelValTTbar/CMSSW_6_2_0_pre8-PRE_ST62_V8_FastSim-v1/GEN-SIM-DIGI-RECO site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValTTbar/GEN-SIM-DIGI-RECO/PRE_ST62_V8_FastSim-v1/00000/02A81B98-DCE0-E211-8824-003048946F74.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValTTbar/GEN-SIM-DIGI-RECO/PRE_ST62_V8_FastSim-v1/00000/0453718F-DDE0-E211-A19B-003048F1DB82.root"
+    ],
+    "file dataset=/RelValTTbarLepton/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValTTbarLepton/GEN-SIM/PRE_ST62_V8-v1/00000/08F6EA67-D0E0-E211-B76F-003048FEADCC.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValTTbarLepton/GEN-SIM/PRE_ST62_V8-v1/00000/3251E5AE-D2E0-E211-91FE-003048F00B16.root"
+    ],
+    "file dataset=/RelValTTbarLepton_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValTTbarLepton_13/GEN-SIM/POSTLS170_V1-v1/00000/1AA5AB73-1F86-E311-A91A-003048FEB8A6.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValTTbarLepton_13/GEN-SIM/POSTLS170_V1-v1/00000/48419245-1A86-E311-B654-003048FE9D54.root"
+    ],
+    "file dataset=/RelValTTbar_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValTTbar_13/GEN-SIM/POSTLS170_V1-v1/00000/04492FED-1B86-E311-8B7A-003048945434.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValTTbar_13/GEN-SIM/POSTLS170_V1-v1/00000/12520E49-1A86-E311-ABD8-002590494FE6.root"
+    ],
+    "file dataset=/RelValWE/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValWE/GEN-SIM/PRE_ST62_V8-v1/00000/009A5162-CEE0-E211-A08D-003048F01164.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValWE/GEN-SIM/PRE_ST62_V8-v1/00000/3AE9DBBB-D4E0-E211-8C60-001D09F24EC0.root"
+    ],
+    "file dataset=/RelValWE_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValWE_13/GEN-SIM/POSTLS170_V1-v1/00000/06A66F60-1886-E311-A4F6-5404A6388699.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValWE_13/GEN-SIM/POSTLS170_V1-v1/00000/38D30DE3-1A86-E311-8AE6-BCAEC532970F.root"
+    ],
+    "file dataset=/RelValWM/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValWM/GEN-SIM/PRE_ST62_V8-v1/00000/6E99D27C-D4E0-E211-9A4E-003048F1BEBC.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValWM/GEN-SIM/PRE_ST62_V8-v1/00000/80396F1E-DAE0-E211-BFA9-003048F1C46C.root"
+    ],
+    "file dataset=/RelValWM_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValWM_13/GEN-SIM/POSTLS170_V1-v1/00000/16917371-2186-E311-91BD-02163E009D69.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValWM_13/GEN-SIM/POSTLS170_V1-v1/00000/66DB02D3-3686-E311-B6CF-02163E00A109.root"
+    ],
+    "file dataset=/RelValWjet_Pt_3000_3500/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValWjet_Pt_3000_3500/GEN-SIM/PRE_ST62_V8-v1/00000/184C8F5A-DDE0-E211-B40C-001E4F3DC26C.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValWjet_Pt_3000_3500/GEN-SIM/PRE_ST62_V8-v1/00000/2A190EC2-E5E0-E211-BB2A-0030489453EA.root"
+    ],
+    "file dataset=/RelValWjet_Pt_3000_3500_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValWjet_Pt_3000_3500_13/GEN-SIM/POSTLS170_V1-v1/00000/0890D3E2-3186-E311-8DBA-0025B3203796.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValWjet_Pt_3000_3500_13/GEN-SIM/POSTLS170_V1-v1/00000/1299B837-2B86-E311-A8AA-02163E00E965.root"
+    ],
+    "file dataset=/RelValWjet_Pt_80_120/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValWjet_Pt_80_120/GEN-SIM/PRE_ST62_V8-v1/00000/381604D6-CBE0-E211-AEBA-00304896B93E.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValWjet_Pt_80_120/GEN-SIM/PRE_ST62_V8-v1/00000/747E63AD-D2E0-E211-83CD-003048D2C16A.root"
+    ],
+    "file dataset=/RelValWjet_Pt_80_120_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValWjet_Pt_80_120_13/GEN-SIM/POSTLS170_V1-v1/00000/0E43301E-1D86-E311-8AB6-02163E00E9A4.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValWjet_Pt_80_120_13/GEN-SIM/POSTLS170_V1-v1/00000/82C1D4B9-2686-E311-ACDF-003048D2BEAA.root"
+    ],
+    "file dataset=/RelValWpM/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValWpM/GEN-SIM/PRE_ST62_V8-v1/00000/1A93A2C3-A9E0-E211-8CF0-BCAEC518FF40.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValWpM/GEN-SIM/PRE_ST62_V8-v1/00000/26929F4C-A5E0-E211-8C4E-0025901D5DFA.root"
+    ],
+    "file dataset=/RelValWpM_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValWpM_13/GEN-SIM/POSTLS170_V1-v1/00000/2AEA2BF8-1586-E311-9484-003048FEB8AE.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValWpM_13/GEN-SIM/POSTLS170_V1-v1/00000/6EB2AAA1-1D86-E311-A1D1-485B3962633D.root"
+    ],
+    "file dataset=/RelValZEE/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValZEE/GEN-SIM/PRE_ST62_V8-v1/00000/CA0C2D00-C3E0-E211-B972-003048CF9A02.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValZEE/GEN-SIM/PRE_ST62_V8-v1/00000/CC6E9D8C-CBE0-E211-803E-003048F02588.root"
+    ],
+    "file dataset=/RelValZEE_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValZEE_13/GEN-SIM/POSTLS170_V1-v1/00000/0C2CB2E8-3486-E311-8C3F-BCAEC5364C93.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValZEE_13/GEN-SIM/POSTLS170_V1-v1/00000/6628FE2F-2386-E311-ACDF-003048FEB9EE.root"
+    ],
+    "file dataset=/RelValZMM/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValZMM/GEN-SIM/PRE_ST62_V8-v1/00000/20111D0F-DDE0-E211-9F13-001D09F295FB.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValZMM/GEN-SIM/PRE_ST62_V8-v1/00000/24804504-D9E0-E211-A4FE-003048F1C9B4.root"
+    ],
+    "file dataset=/RelValZMM_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValZMM_13/GEN-SIM/POSTLS170_V1-v1/00000/10C070C7-2786-E311-9490-0025901AF5DA.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValZMM_13/GEN-SIM/POSTLS170_V1-v1/00000/16EC09F0-2986-E311-9ECC-02163E00E8C6.root"
+    ],
+    "file dataset=/RelValZTT/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValZTT/GEN-SIM/PRE_ST62_V8-v1/00000/222FBE3F-DCE0-E211-9D59-003048F23D68.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValZTT/GEN-SIM/PRE_ST62_V8-v1/00000/90802BB9-E5E0-E211-BEE3-BCAEC5329703.root"
+    ],
+    "file dataset=/RelValZTT_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValZTT_13/GEN-SIM/POSTLS170_V1-v1/00000/1AB98448-3586-E311-A08E-BCAEC5364C93.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValZTT_13/GEN-SIM/POSTLS170_V1-v1/00000/46CA002B-2B86-E311-B2E7-02163E00EB53.root"
+    ],
+    "file dataset=/RelValZmumuJets_Pt_20_300/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValZmumuJets_Pt_20_300/GEN-SIM/PRE_ST62_V8-v1/00000/20469687-D0E4-E211-AFFC-003048D374E8.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValZmumuJets_Pt_20_300/GEN-SIM/PRE_ST62_V8-v1/00000/2A6E75B5-E1E4-E211-9135-003048FEB916.root"
+    ],
+    "file dataset=/RelValZmumuJets_Pt_20_300_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValZmumuJets_Pt_20_300_13/GEN-SIM/POSTLS170_V1-v1/00000/2468164D-5E8B-E311-96C5-BCAEC518FF52.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValZmumuJets_Pt_20_300_13/GEN-SIM/POSTLS170_V1-v1/00000/46A9BFC1-5F8B-E311-A18A-02163E009E19.root"
+    ],
+    "file dataset=/RelValZpEE_2250_13TeV_Tauola/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValZpEE_2250_13TeV_Tauola/GEN-SIM/POSTLS170_V1-v1/00000/280D08D8-3D86-E311-B7FC-BCAEC518FF7A.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValZpEE_2250_13TeV_Tauola/GEN-SIM/POSTLS170_V1-v1/00000/626229CB-3586-E311-8D56-003048FEAF14.root"
+    ],
+    "file dataset=/RelValZpEE_2250_8TeV_Tauola/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValZpEE_2250_8TeV_Tauola/GEN-SIM/PRE_ST62_V8-v1/00000/2C3D8B0D-BBE0-E211-AF17-003048F00B9E.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValZpEE_2250_8TeV_Tauola/GEN-SIM/PRE_ST62_V8-v1/00000/82217EA3-B6E0-E211-ADDD-0025901D5DB0.root"
+    ],
+    "file dataset=/RelValZpMM/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValZpMM/GEN-SIM/PRE_ST62_V8-v1/00000/2ABA32A5-DDE0-E211-9D70-003048D37670.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValZpMM/GEN-SIM/PRE_ST62_V8-v1/00000/DE51CC6B-D2E0-E211-B979-001D09F2538E.root"
+    ],
+    "file dataset=/RelValZpMM_13/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValZpMM_13/GEN-SIM/POSTLS170_V1-v1/00000/02B10318-0286-E311-B667-003048FE9D54.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValZpMM_13/GEN-SIM/POSTLS170_V1-v1/00000/54F72962-1786-E311-830C-0030489474D6.root"
+    ],
+    "file dataset=/RelValZpMM_2250_13TeV_Tauola/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValZpMM_2250_13TeV_Tauola/GEN-SIM/POSTLS170_V1-v1/00000/40574881-2486-E311-9AE7-02163E00E99A.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValZpMM_2250_13TeV_Tauola/GEN-SIM/POSTLS170_V1-v1/00000/80D25F32-2386-E311-829F-002590495240.root"
+    ],
+    "file dataset=/RelValZpMM_2250_8TeV_Tauola/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValZpMM_2250_8TeV_Tauola/GEN-SIM/PRE_ST62_V8-v1/00000/3E577AD7-D5E0-E211-B926-001E67398674.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValZpMM_2250_8TeV_Tauola/GEN-SIM/PRE_ST62_V8-v1/00000/C80FE943-E0E0-E211-95D6-3C4A9279BB16.root"
+    ],
+    "file dataset=/RelValZpTT_1500_13TeV_Tauola/CMSSW_7_1_0_pre1-POSTLS170_V1-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_7_1_0_pre1/RelValZpTT_1500_13TeV_Tauola/GEN-SIM/POSTLS170_V1-v1/00000/303249C3-2A86-E311-BDC9-02163E008D9E.root",
+        "/store/relval/CMSSW_7_1_0_pre1/RelValZpTT_1500_13TeV_Tauola/GEN-SIM/POSTLS170_V1-v1/00000/32E9C6A8-2C86-E311-9E31-0025904B201E.root"
+    ],
+    "file dataset=/RelValZpTT_1500_8TeV_Tauola/CMSSW_6_2_0_pre8-PRE_ST62_V8-v1/GEN-SIM site=T2_CH_CERN": [
+        "/store/relval/CMSSW_6_2_0_pre8/RelValZpTT_1500_8TeV_Tauola/GEN-SIM/PRE_ST62_V8-v1/00000/8AB5D261-D0E0-E211-A342-003048F1C56C.root",
+        "/store/relval/CMSSW_6_2_0_pre8/RelValZpTT_1500_8TeV_Tauola/GEN-SIM/PRE_ST62_V8-v1/00000/96ACEFC2-DBE0-E211-9065-0025901D6286.root"
+    ],
+    "file dataset=/SingleElectron/Run2011A-v1/RAW run=165121": [
+        "/store/data/Run2011A/SingleElectron/RAW/v1/000/165/121/2CB1DE76-D47F-E011-98B2-00304879BAB2.root",
+        "/store/data/Run2011A/SingleElectron/RAW/v1/000/165/121/A2BB5091-C27F-E011-AA6D-003048D2C174.root"
+    ],
+    "file dataset=/SingleElectron/Run2011B-v1/RAW run=177719": [
+        "/store/data/Run2011B/SingleElectron/RAW/v1/000/177/719/225D1E33-D8EC-E011-973A-BCAEC5364C93.root",
+        "/store/data/Run2011B/SingleElectron/RAW/v1/000/177/719/5897F08B-E7EC-E011-9A03-001D09F29114.root"
+    ],
+    "file dataset=/SingleElectron/Run2012A-WElectron-13Jul2012-v1/USER run=191226": [
+        "/store/data/Run2012A/SingleElectron/USER/WElectron-13Jul2012-v1/0000/06D1D1B1-31D6-E111-BD93-00248C55CC3C.root",
+        "/store/data/Run2012A/SingleElectron/USER/WElectron-13Jul2012-v1/0000/06DE9917-38D6-E111-9CA8-001A928116F0.root"
+    ],
+    "file dataset=/SingleElectron/Run2012A-v1/RAW run=191226": [
+        "/store/data/Run2012A/SingleElectron/RAW/v1/000/191/226/008F013E-0E86-E111-97D3-BCAEC5364C93.root",
+        "/store/data/Run2012A/SingleElectron/RAW/v1/000/191/226/04860FE7-1586-E111-ACCB-001D09F2B30B.root"
+    ],
+    "file dataset=/SingleElectron/Run2012B-WElectron-13Jul2012-v1/USER run=194533": [
+        "/store/data/Run2012B/SingleElectron/USER/WElectron-13Jul2012-v1/0000/00CDDBA5-E0D8-E111-9B04-002618943935.root",
+        "/store/data/Run2012B/SingleElectron/USER/WElectron-13Jul2012-v1/0000/042ED0A7-16D9-E111-A8C8-002618943882.root"
+    ],
+    "file dataset=/SingleElectron/Run2012B-WElectron-13Jul2012-v1/USER run=194912": [
+        "/store/data/Run2012B/SingleElectron/USER/WElectron-13Jul2012-v1/0000/00631726-CCD7-E111-BD80-00261894398C.root",
+        "/store/data/Run2012B/SingleElectron/USER/WElectron-13Jul2012-v1/0000/020741C8-F5D7-E111-81C6-003048679182.root"
+    ],
+    "file dataset=/SingleElectron/Run2012B-WElectron-13Jul2012-v1/USER run=195016": [
+        "/store/data/Run2012B/SingleElectron/USER/WElectron-13Jul2012-v1/0000/06042AB5-0FD8-E111-B9B2-0026189438ED.root",
+        "/store/data/Run2012B/SingleElectron/USER/WElectron-13Jul2012-v1/0000/06FB94B1-CAD7-E111-8015-002618943976.root"
+    ],
+    "file dataset=/SingleElectron/Run2012B-v1/RAW run=194533": [
+        "/store/data/Run2012B/SingleElectron/RAW/v1/000/194/533/00753D67-A6A2-E111-ADB5-001D09F290BF.root",
+        "/store/data/Run2012B/SingleElectron/RAW/v1/000/194/533/086DE759-C3A2-E111-8B66-001D09F291D7.root"
+    ],
+    "file dataset=/SingleElectron/Run2012C-WElectron-PromptSkim-v3/USER run=199812": [
+        "/store/data/Run2012C/SingleElectron/USER/WElectron-PromptSkim-v3/000/199/812/00000/0286E6B0-35DB-E111-AF30-001A92810AA8.root",
+        "/store/data/Run2012C/SingleElectron/USER/WElectron-PromptSkim-v3/000/199/812/00000/02C39D57-36DB-E111-A635-001A92811718.root"
+    ],
+    "file dataset=/SingleElectron/Run2012C-WElectron-PromptSkim-v3/USER run=203002": [
+        "/store/data/Run2012C/SingleElectron/USER/WElectron-PromptSkim-v3/000/203/002/00000/0027BA9C-2104-E211-BDC9-002618943870.root",
+        "/store/data/Run2012C/SingleElectron/USER/WElectron-PromptSkim-v3/000/203/002/00000/004CF91C-9204-E211-9394-0026189438AC.root"
+    ],
+    "file dataset=/SingleElectron/Run2012C-v1/RAW run=199812": [
+        "/store/data/Run2012C/SingleElectron/RAW/v1/000/199/812/02879045-71D8-E111-8C28-BCAEC5364C93.root",
+        "/store/data/Run2012C/SingleElectron/RAW/v1/000/199/812/02B3E417-74D8-E111-A8B9-00237DDC5BBC.root"
+    ],
+    "file dataset=/SingleElectron/Run2012D-WElectron-PromptSkim-v1/USER run=207454": [
+        "/store/data/Run2012D/SingleElectron/USER/WElectron-PromptSkim-v1/000/207/454/00000/0041A09F-1C33-E211-B2E8-00261894383B.root",
+        "/store/data/Run2012D/SingleElectron/USER/WElectron-PromptSkim-v1/000/207/454/00000/0060B070-1C33-E211-85FB-00261894387D.root"
+    ],
+    "file dataset=/SingleElectron/Run2012D-WElectron-PromptSkim-v1/USER run=208307": [
+        "/store/data/Run2012D/SingleElectron/USER/WElectron-PromptSkim-v1/000/208/307/00000/0225725E-913D-E211-BF16-003048FFCBA4.root",
+        "/store/data/Run2012D/SingleElectron/USER/WElectron-PromptSkim-v1/000/208/307/00000/02E684FD-913D-E211-BCA0-003048FFD770.root"
+    ],
+    "file dataset=/SingleElectron/Run2012D-v1/RAW run=208307": [
+        "/store/data/Run2012D/SingleElectron/RAW/v1/000/208/307/0085A34B-BD3A-E211-B6E9-003048D2BC4C.root",
+        "/store/data/Run2012D/SingleElectron/RAW/v1/000/208/307/009D9B90-D63A-E211-99E4-5404A63886BE.root"
+    ],
+    "file dataset=/SingleMu/Run2011A-v1/RAW run=165121": [
+        "/store/data/Run2011A/SingleMu/RAW/v1/000/165/121/060FB2F7-C07F-E011-B8AD-001D09F23944.root",
+        "/store/data/Run2011A/SingleMu/RAW/v1/000/165/121/0AA04333-BE7F-E011-B328-0030486780B4.root"
+    ],
+    "file dataset=/SingleMu/Run2011B-v1/RAW run=177719": [
+        "/store/data/Run2011B/SingleMu/RAW/v1/000/177/719/02BA0913-DFEC-E011-A8F1-E0CB4E55367F.root",
+        "/store/data/Run2011B/SingleMu/RAW/v1/000/177/719/12DEFA77-D2EC-E011-8CEE-001D09F2AD4D.root"
+    ],
+    "file dataset=/SingleMu/Run2012A-ZMu-13Jul2012-v1/RAW-RECO run=191226": [
+        "/store/data/Run2012A/SingleMu/RAW-RECO/ZMu-13Jul2012-v1/00000/00F95A55-9AD3-E111-A621-0017A4770838.root",
+        "/store/data/Run2012A/SingleMu/RAW-RECO/ZMu-13Jul2012-v1/00000/18416E6E-7CD3-E111-B2B4-0017A477103C.root"
+    ],
+    "file dataset=/SingleMu/Run2012A-v1/RAW run=191226": [
+        "/store/data/Run2012A/SingleMu/RAW/v1/000/191/226/06565B5C-2386-E111-B3F1-001D09F23D1D.root",
+        "/store/data/Run2012A/SingleMu/RAW/v1/000/191/226/06C60A3E-0E86-E111-BC22-BCAEC518FF89.root"
+    ],
+    "file dataset=/SingleMu/Run2012B-ZMu-13Jul2012-v1/RAW-RECO run=194533": [
+        "/store/data/Run2012B/SingleMu/RAW-RECO/ZMu-13Jul2012-v1/0000/02406D2C-23D7-E111-8436-001EC9D7F65B.root",
+        "/store/data/Run2012B/SingleMu/RAW-RECO/ZMu-13Jul2012-v1/0000/0476D326-58D7-E111-B75D-20CF305B0582.root"
+    ],
+    "file dataset=/SingleMu/Run2012B-ZMu-13Jul2012-v1/RAW-RECO run=194912": [
+        "/store/data/Run2012B/SingleMu/RAW-RECO/ZMu-13Jul2012-v1/0000/02F573B8-A7D3-E111-8ED2-E0CB4E553663.root",
+        "/store/data/Run2012B/SingleMu/RAW-RECO/ZMu-13Jul2012-v1/0000/06BB2E5D-E2D3-E111-8D34-90E6BA19A241.root"
+    ],
+    "file dataset=/SingleMu/Run2012B-ZMu-13Jul2012-v1/RAW-RECO run=195016": [
+        "/store/data/Run2012B/SingleMu/RAW-RECO/ZMu-13Jul2012-v1/0000/00792886-EBD6-E111-9698-20CF3027A578.root",
+        "/store/data/Run2012B/SingleMu/RAW-RECO/ZMu-13Jul2012-v1/0000/02406D2C-23D7-E111-8436-001EC9D7F65B.root"
+    ],
+    "file dataset=/SingleMu/Run2012B-v1/RAW run=194533": [
+        "/store/data/Run2012B/SingleMu/RAW/v1/000/194/533/000B1519-A0A2-E111-8704-BCAEC518FF41.root",
+        "/store/data/Run2012B/SingleMu/RAW/v1/000/194/533/00BFC0CD-B3A2-E111-A7FB-002481E0D73C.root"
+    ],
+    "file dataset=/SingleMu/Run2012C-ZMu-PromptSkim-v3/RAW-RECO run=199812": [
+        "/store/data/Run2012C/SingleMu/RAW-RECO/ZMu-PromptSkim-v3/000/199/812/00000/0AB5C7C1-CCDE-E111-9C24-00259073E536.root",
+        "/store/data/Run2012C/SingleMu/RAW-RECO/ZMu-PromptSkim-v3/000/199/812/00000/0E42C1A3-CEDE-E111-9496-E0CB4E19F96B.root"
+    ],
+    "file dataset=/SingleMu/Run2012C-ZMu-PromptSkim-v3/RAW-RECO run=203002": [
+        "/store/data/Run2012C/SingleMu/RAW-RECO/ZMu-PromptSkim-v3/000/203/002/00000/003D611D-8404-E211-A85B-00259073E4CC.root",
+        "/store/data/Run2012C/SingleMu/RAW-RECO/ZMu-PromptSkim-v3/000/203/002/00000/02A05C8F-7F04-E211-8BBD-00259074AE54.root"
+    ],
+    "file dataset=/SingleMu/Run2012C-v1/RAW run=199812": [
+        "/store/data/Run2012C/SingleMu/RAW/v1/000/199/812/004DDFFD-78D8-E111-820E-5404A63886C1.root",
+        "/store/data/Run2012C/SingleMu/RAW/v1/000/199/812/00D69700-85D8-E111-B06C-003048D2C1C4.root"
+    ],
+    "file dataset=/SingleMu/Run2012D-ZMu-PromptSkim-v1/RAW-RECO run=207454": [
+        "/store/data/Run2012D/SingleMu/RAW-RECO/ZMu-PromptSkim-v1/000/207/454/00000/0246D2DC-4633-E211-B222-00261834B559.root",
+        "/store/data/Run2012D/SingleMu/RAW-RECO/ZMu-PromptSkim-v1/000/207/454/00000/02ECD026-1C33-E211-8F36-20CF305B0534.root"
+    ],
+    "file dataset=/SingleMu/Run2012D-ZMu-PromptSkim-v1/RAW-RECO run=208307": [
+        "/store/data/Run2012D/SingleMu/RAW-RECO/ZMu-PromptSkim-v1/000/208/307/00000/00362FE6-1A3D-E211-BBE0-20CF305B050B.root",
+        "/store/data/Run2012D/SingleMu/RAW-RECO/ZMu-PromptSkim-v1/000/208/307/00000/02D879C9-1B3D-E211-ADC7-E0CB4E19F9B5.root"
+    ],
+    "file dataset=/SingleMu/Run2012D-v1/RAW run=208307": [
+        "/store/data/Run2012D/SingleMu/RAW/v1/000/208/307/005458DB-BD3A-E211-B11D-5404A63886AB.root",
+        "/store/data/Run2012D/SingleMu/RAW/v1/000/208/307/00899C9C-DD3A-E211-B98E-003048D3C932.root"
+    ],
+    "file dataset=/SinglePhoton/Run2012C-v1/RAW run=199812": [
+        "/store/data/Run2012C/SinglePhoton/RAW/v1/000/199/812/0EB0C76B-75D8-E111-86E6-BCAEC518FF7A.root",
+        "/store/data/Run2012C/SinglePhoton/RAW/v1/000/199/812/18F47834-71D8-E111-928D-001D09F2932B.root"
+    ],
+    "file dataset=/SinglePhoton/Run2012D-v1/RAW run=208307": [
+        "/store/data/Run2012D/SinglePhoton/RAW/v1/000/208/307/00CEDBEF-BF3A-E211-96F9-5404A63886E6.root",
+        "/store/data/Run2012D/SinglePhoton/RAW/v1/000/208/307/02954837-AC3A-E211-B415-001D09F24682.root"
+    ],
+    "file dataset=/Tau/Run2012A-v1/RAW run=191226": [
+        "/store/data/Run2012A/Tau/RAW/v1/000/191/226/226A5C54-0986-E111-8990-BCAEC5329705.root",
+        "/store/data/Run2012A/Tau/RAW/v1/000/191/226/2CFF5A13-0C86-E111-B701-003048CFB40C.root"
+    ]
+}
