@@ -1,10 +1,10 @@
-### RPM cms cmssw CMSSW_6_2_2
+### RPM cms cmssw CMSSW_6_2_0_SLHC4
 Requires: cmssw-tool-conf python cms-git-tools
 
 %define runGlimpse      yes
 %define useCmsTC        yes
 %define saveDeps        yes
-%define branch          CMSSW_6_2_X
+%define branch          CMSSW_6_2_X%(case %realversion in (*SLHC*) echo _SLHC ;; esac)
 %define source1         git://github.com/cms-sw/cmssw.git?protocol=https&obj=%{branch}/%{realversion}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 
 # Build with clang if _CLANG_X is in the name of the package.
