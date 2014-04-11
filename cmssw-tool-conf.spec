@@ -55,6 +55,7 @@ Requires: openssl-toolfile
 Requires: oracle-env
 Requires: pcre-toolfile
 Requires: photos-toolfile
+Requires: photospp-toolfile
 Requires: pythia6-toolfile
 Requires: pythia8-toolfile
 Requires: python-toolfile
