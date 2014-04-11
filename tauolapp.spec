@@ -1,4 +1,4 @@
-### RPM external tauolapp 1.1.4
+### RPM external tauolapp 1.1.3
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/tauola++/tauola++-%{realversion}-src.tgz
 Requires: hepmc
 Requires: pythia8
