@@ -1,4 +1,5 @@
 ### RPM external geant4 9.6.p02
+
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 %if "%mic" == "true"
 Requires: icc
@@ -13,13 +14,17 @@ Requires: clhep
 Requires: expat
 Requires: xerces-c
 
-Patch0: geant4-10.0-no-banner
-Patch1: geant4-10.0.p01-dynamic-tls
+Patch0: geant4.9.5.p01-no-banner
+Patch1: geant4-9.6p02-cms01
 
 %define keep_archives true
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
+%endif
+
+%if "%{?cms_cxxflags:set}" != "set"
+%define cms_cxxflags -std=c++0x
 %endif
 
 %prep
@@ -38,26 +43,36 @@ rm -rf ../build
 mkdir ../build
 cd ../build
 
+%if "%mic" == "true"
 cmake ../%{n}.%{realversion} \
+  -DCMAKE_CXX_COMPILER="icpc" \
+  -DCMAKE_CXX_FLAGS="-mmic" \
+  -DCMAKE_C_COMPILER="icc" \
+  -DCMAKE_C_FLAGS="-mmic" \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_INSTALL_LIBDIR="lib" \
   -DCMAKE_BUILD_TYPE=Release \
+  -DGEANT4_USE_SYSTEM_CLHEP=ON \
   -DGEANT4_USE_GDML=ON \
-  -DGEANT4_BUILD_CXXSTD:STRING="c++11" \
-  -DGEANT4_ENABLE_TESTING=OFF \
-  -DBUILD_SHARED_LIBS=ON \
   -DXERCESC_ROOT_DIR:PATH="${XERCES_C_ROOT}" \
   -DCLHEP_ROOT_DIR:PATH="$CLHEP_ROOT" \
   -DEXPAT_INCLUDE_DIR:PATH="$EXPAT_ROOT/include" \
   -DEXPAT_LIBRARY:FILEPATH="$EXPAT_ROOT/lib/libexpat.$SOEXT" \
-%if "%mic" == "true"
-  -DCMAKE_CXX_COMPILER="icpc" \
-  -DCMAKE_CXX_FLAGS="-mmic" \
-  -DCMAKE_C_COMPILER="icc" \
-  -DCMAKE_C_FLAGS="-mmic"
+  -DBUILD_SHARED_LIBS=ON
 %else
+cmake ../%{n}.%{realversion} \
   -DCMAKE_CXX_COMPILER="%cms_cxx" \
-  -DCMAKE_CXX_FLAGS="%cms_cxxflags"
+  -DCMAKE_CXX_FLAGS="%cms_cxxflags" \
+  -DCMAKE_INSTALL_PREFIX:PATH="%i" \
+  -DCMAKE_INSTALL_LIBDIR="lib" \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DGEANT4_USE_SYSTEM_CLHEP=ON \
+  -DGEANT4_USE_GDML=ON \
+  -DXERCESC_ROOT_DIR:PATH="${XERCES_C_ROOT}" \
+  -DCLHEP_ROOT_DIR:PATH="$CLHEP_ROOT" \
+  -DEXPAT_INCLUDE_DIR:PATH="$EXPAT_ROOT/include" \
+  -DEXPAT_LIBRARY:FILEPATH="$EXPAT_ROOT/lib/libexpat.$SOEXT" \
+  -DBUILD_STATIC_LIBS=ON
 %endif
 
 make %makeprocesses VERBOSE=1
