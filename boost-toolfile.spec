@@ -20,6 +20,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost.xml
     <environment name="INCLUDE" default="$BOOST_BASE/include"/>
   </client>
   <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$BOOST_BASE/include" type="path"/>
+  <flags CPPDEFINES="BOOST_SPIRIT_THREADSAFE PHOENIX_THREADSAFE"/>
   <use name="sockets"/>
 </tool>
 EOF_TOOLFILE
