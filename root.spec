@@ -1,6 +1,6 @@
-### RPM lcg root 5.34.10
+### RPM lcg root 5.34.17
 ## INITENV +PATH PYTHONPATH %i/lib/python
-## INITENV SET ROOTSYS %i  
+## INITENV SET ROOTSYS %i
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 %define tag %(echo v%{realversion} | tr . -)
 %define branch %(echo %{realversion} | sed 's/\\.[0-9]*$/.00/;s/^/v/;s/$/-patches/g;s/\\./-/g')

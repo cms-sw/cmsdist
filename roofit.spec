@@ -1,4 +1,4 @@
-### RPM lcg roofit 5.34.09
+### RPM lcg roofit 5.34.17
 %define tag %(echo v%{realversion} | tr . -)
 %define branch %(echo %{realversion} | sed 's/\\.[0-9]*$/.00/;s/^/v/;s/$/-patches/g;s/\\./-/g')
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
