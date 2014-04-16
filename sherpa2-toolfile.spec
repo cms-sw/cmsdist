@@ -30,6 +30,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa2.xml
 <lib name="CSShowers"/>
 <lib name="CSTools"/>
 <lib name="CT10Sherpa"/>
+<lib name="CT12Sherpa"/>
 <lib name="CTEQ6Sherpa"/>
 <lib name="DipoleSubtraction"/>
 <lib name="ExtraXS1_2"/>
@@ -49,6 +50,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa2.xml
 <lib name="MCatNLOMain"/>
 <lib name="MCatNLOShowers"/>
 <lib name="MCatNLOTools"/>
+<lib name="MEProcess"/>
 <lib name="METoolsColors"/>
 <lib name="METoolsCurrents"/>
 <lib name="METoolsExplicit"/>
@@ -82,9 +84,11 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa2.xml
 <lib name="SherpaAnalysisTrigger"/>
 <lib name="SherpaBlackHat"/>
 <lib name="SherpaHepMCOutput"/>
+<lib name="SherpaHiggs"/>
 <lib name="SherpaInitialization"/>
 <lib name="SherpaMain"/>
 <lib name="SherpaObservables"/>
+<lib name="SherpaPythia"/>
 <lib name="SherpaPerturbativePhysics"/>
 <lib name="SherpaSingleEvents"/>
 <lib name="SherpaSoftPhysics"/>
@@ -113,6 +117,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa2.xml
 <use name="lhapdf"/>
 <use name="qd"/>
 <use name="blackhat"/>
+<use name="fastjet"/>
 </tool>
 EOF_TOOLFILE
 
