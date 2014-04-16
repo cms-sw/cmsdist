@@ -1,4 +1,4 @@
-### RPM external openssl-bootstrap 1.0.1e
+### RPM external openssl-bootstrap 1.0.1g
 Source: http://www.openssl.org/source/openssl-%realversion.tar.gz
 
 %prep
