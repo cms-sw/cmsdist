@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
-%define tag 1729524d137ea64642b76e16e2ccf58af3cfd9a4
+%define tag e7e6a5c65696988bf7d4b39f1d954cd099ed8b90
 %define branch cms/v5-34-17
 Source: git+https://github.com/cms-sw/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
@@ -91,10 +91,6 @@ CONFIG_ARGS="--enable-table
              --disable-hdfs
              --disable-oracle ${EXTRA_CONFIG_ARGS}"
 
-%if %isarmv7
-cp ./cint/iosenum/iosenum.linux3 ./cint/iosenum/iosenum.linuxarm3
-%endif
-
 EXTRA_OPTS=
 TARGET_PLATF=
 
@@ -120,7 +116,7 @@ TARGET_PLATF=
 
 ./configure ${TARGET_PLATF} ${CONFIG_ARGS} ${EXTRA_OPTS}
 
-make %makeprocesses CXX="g++ -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL=" CC="gcc -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL="
+make %{makeprocesses}
 
 %install
 # Override installers if we are using GNU fileutils cp.  On OS X
