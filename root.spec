@@ -211,10 +211,6 @@ sed -ibak 's/\-std=c++11/-std=c++0x/g' \
   config/Makefile.linuxx8664gcc \
   config/Makefile.linuxx8664k1omicc
 
-%if %isarmv7
-cp ./cint/iosenum/iosenum.linux3 ./cint/iosenum/iosenum.linuxarm3
-%endif
-
 EXTRA_OPTS=
 TARGET_PLATF=
 
