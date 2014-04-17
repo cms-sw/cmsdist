@@ -134,7 +134,9 @@ TARGET_PLATF=
 %if %isdarwin
   TARGET_PLATF=macosx64
   EXTRA_OPTS="${EXTRA_OPTS} --disable-rfio
-                            --disable-builtin_afterimage"
+                            --disable-builtin_afterimage
+                            --disable-cocoa
+                            --enable-x11"
 %endif
 
 %if %isarmv7
