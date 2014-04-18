@@ -1,7 +1,22 @@
-diff --git core/meta/inc/TInterpreter.h core/meta/inc/TInterpreter.h
+diff --git a/core/base/inc/RConfig.h b/core/base/inc/RConfig.h
+index 382eef4..8af538f 100644
+--- a/core/base/inc/RConfig.h
++++ b/core/base/inc/RConfig.h
+@@ -32,6 +32,10 @@
+ #define R__ANSISTREAM      /* ANSI C++ Standard Library conformant */
+ #define R__SSTREAM         /* use sstream or strstream header */
+ 
++/* Do not #define nullptr if the code is compiled in c++11 mode. */
++#if __cplusplus > 199711L
++#define R__NULLPTR
++#endif
+ 
+ /*---- machines --------------------------------------------------------------*/
+ 
+diff --git a/core/meta/inc/TInterpreter.h b/core/meta/inc/TInterpreter.h
 index 7154aad..ae4f287 100644
---- core/meta/inc/TInterpreter.h
-+++ core/meta/inc/TInterpreter.h
+--- a/core/meta/inc/TInterpreter.h
++++ b/core/meta/inc/TInterpreter.h
 @@ -44,6 +44,20 @@ class TObjArray;
  class TVirtualMutex;
  class TEnum;
@@ -79,10 +94,55 @@ index 7154aad..ae4f287 100644
     static TInterpreter *Instance();
  
     ClassDef(TInterpreter,0)  //ABC defining interface to generic interpreter
-diff --git core/meta/src/TCling.cxx core/meta/src/TCling.cxx
-index 77ad94c..aa382d5 100644
---- core/meta/src/TCling.cxx
-+++ core/meta/src/TCling.cxx
+diff --git a/core/meta/src/TClass.cxx b/core/meta/src/TClass.cxx
+index 82d2efd..872003b 100644
+--- a/core/meta/src/TClass.cxx
++++ b/core/meta/src/TClass.cxx
+@@ -2022,7 +2022,8 @@ Bool_t TClass::CanSplit() const
+ 
+       TClass *valueClass = GetCollectionProxy()->GetValueClass();
+       if (valueClass == 0) return kFALSE;
+-      if (valueClass==TString::Class() || valueClass==TClass::GetClass("string"))
++      static TClassRef stdStringClass("std::string");
++      if (valueClass==TString::Class() || valueClass==stdStringClass)
+          return kFALSE;
+       if (!valueClass->CanSplit()) return kFALSE;
+       if (valueClass->GetCollectionProxy() != 0) return kFALSE;
+@@ -2034,6 +2035,8 @@ Bool_t TClass::CanSplit() const
+          return kFALSE;
+       }
+ 
++      return kTRUE;
++
+    } else if ((GetShowMembersWrapper()==0 && fClassInfo==0) && GetStreamer()!=0) {
+ 
+       // We do NOT have a collection.  The class is true opaque.
+@@ -2050,9 +2053,8 @@ Bool_t TClass::CanSplit() const
+    TIter nextb(ncThis->GetListOfBases());
+    TBaseClass *base;
+    while((base = (TBaseClass*)nextb())) {
+-      if (!TClass::GetClass(base->GetName())) return kFALSE;
++      if (!base->GetClassPointer()) return kFALSE;
+    }
+-
+    return kTRUE;
+ }
+ 
+@@ -2600,6 +2602,10 @@ TClass *TClass::GetClass(const char *name, Bool_t load, Bool_t silent)
+ 
+    TClass *cl = (TClass*)gROOT->GetListOfClasses()->FindObject(name);
+ 
++   // Early return to release the lock without having to execute the
++   // long-ish TSplitType
++   if (cl && cl->IsLoaded()) return cl;
++
+    TClassEdit::TSplitType splitname( name, TClassEdit::kLong64 );
+ 
+    if (!cl) {
+diff --git a/core/meta/src/TCling.cxx b/core/meta/src/TCling.cxx
+index 2d19460..ed126fe 100644
+--- a/core/meta/src/TCling.cxx
++++ b/core/meta/src/TCling.cxx
 @@ -69,6 +69,7 @@
  
  #include "clang/AST/ASTContext.h"
@@ -99,7 +159,7 @@ index 77ad94c..aa382d5 100644
  #include <string>
  #include <typeinfo>
  #include <unordered_map>
-@@ -848,6 +850,12 @@ TCling::TCling(const char *name, const char *title)
+@@ -846,6 +848,12 @@ TCling::TCling(const char *name, const char *title)
  
  
  //______________________________________________________________________________
@@ -112,7 +172,7 @@ index 77ad94c..aa382d5 100644
  TCling::~TCling()
  {
     // Destroy the interpreter interface.
-@@ -6405,3 +6413,1078 @@ const char* TCling::TypedefInfo_Title(TypedefInfo_t* tinfo) const
+@@ -6416,3 +6424,1090 @@ const char* TCling::TypedefInfo_Title(TypedefInfo_t* tinfo) const
     TClingTypedefInfo* TClinginfo = (TClingTypedefInfo*) tinfo;
     return TClinginfo->Title();
  }
@@ -711,10 +771,22 @@ index 77ad94c..aa382d5 100644
 +void
 +TType::Init(const std::type_info& ti)
 +{
-+   //fTypeInfo = &ti;
++   // Note: We may have to cache the result of LH.findType()
++   //       here, it may be too slow to live with.
++   fTypeInfo = &ti;
 +   int err = 0;
 +   std::string demangled_name = demangle(ti.name(), &err);
-+   Init(demangled_name);
++   const cling::LookupHelper& LH = fInterp->getLookupHelper();
++   fType = LH.findType(demangled_name, cling::LookupHelper::NoDiagnostics);
++   if (fType.isNull()) {
++      if (gDebug > 0) {
++      }
++      return;
++   }
++   else {
++      if (gDebug > 0) {
++      }
++   }
 +}
 +
 +void
@@ -1191,11 +1263,11 @@ index 77ad94c..aa382d5 100644
 +   return p->TypeInfo();
 +}
 +
-diff --git core/meta/src/TCling.h core/meta/src/TCling.h
-index c964c19..f6dbf1b 100644
---- core/meta/src/TCling.h
-+++ core/meta/src/TCling.h
-@@ -63,6 +63,7 @@ class THashTable;
+diff --git a/core/meta/src/TCling.h b/core/meta/src/TCling.h
+index f5f2e02..f479dd8 100644
+--- a/core/meta/src/TCling.h
++++ b/core/meta/src/TCling.h
+@@ -64,6 +64,7 @@ class THashTable;
  class TInterpreterValue;
  class TMethod;
  class TObjArray;
@@ -1203,7 +1275,7 @@ index c964c19..f6dbf1b 100644
  
  namespace ROOT {
     namespace TMetaUtils {
-@@ -133,7 +134,8 @@ public: // Public Interface
+@@ -135,7 +136,8 @@ public: // Public Interface
     virtual ~TCling();
     TCling(const char* name, const char* title);
  
@@ -1213,7 +1285,7 @@ index c964c19..f6dbf1b 100644
  
     void    AddIncludePath(const char* path);
     void   *GetAutoLoadCallBack() const { return fAutoLoadCallBack; }
-@@ -471,6 +473,43 @@ public: // Public Interface
+@@ -473,6 +475,43 @@ public: // Public Interface
     virtual const char* TypedefInfo_Name(TypedefInfo_t* tinfo) const;
     virtual const char* TypedefInfo_Title(TypedefInfo_t* tinfo) const;
  
