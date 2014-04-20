@@ -1,24 +1,17 @@
-### RPM cms dbs3-client 3.2.3b
+### RPM cms lifecycle-das 1.0.12
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
-## INITENV SET DBS3_CLIENT_ROOT %i/
-## INITENV ALIAS dbs python $DBS3_CLIENT_ROOT/bin/dbs.py
-
-%define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define tag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
-Source0: git://github.com/dmwm/DBS.git?obj=master/%{tag}&export=DBS&output=/%{n}.tar.gz
-Requires: python py2-cjson dbs3-pycurl-client
-BuildRequires: py2-sphinx
+Source0: https://github.com/dmwm/LifeCycle/archive/%{realversion}.tar.gz
+Requires: python PHEDEX-lifecycle
 
 %prep
-%setup -D -T -b 0 -n DBS
+%setup -D -T -b 0 -n LifeCycle-%{realversion}
 
 %build
-python setup.py build_system -s dbs-client
+
 %install
-mkdir -p %i/etc/profile.d %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
-python setup.py install_system -s dbs-client --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
+cd LifeCycleDAS
+mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES/LifeCycleDAS
+cp -r *.py utils %i/$PYTHON_LIB_SITE_PACKAGES/LifeCycleDAS
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
@@ -37,5 +30,3 @@ done
 
 %files
 %{installroot}/%{pkgrel}/
-%exclude %{installroot}/%{pkgrel}/doc
-## SUBPACKAGE webdoc

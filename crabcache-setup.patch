@@ -1,6 +1,6 @@
 --- setup_dependencies.py
 +++ setup_dependencies.py
-@@ -97,6 +97,9 @@ dependencies = {
+@@ -116,6 +116,9 @@ dependencies = {
                          'systems': ['wmc-database'],
                          'statics': ['src/couchapps/Agent+'],
                          },
@@ -8,5 +8,5 @@
 +                        'systems': ['wmc-rest'],
 +                        },
                  'crabserver':{
-                         'packages': ['WMCore.WMSpec', 'WMCore.ACDC',
-                                      'WMCore.Storage+', 'WMCore.HTTPFrontEnd.RequestManager+',
+                         'packages': ['WMCore.Credential', 'WMCore.Services+', 'WMCore.RequestManager+',
+                                      'WMCore.WMSpec+', 'WMCore.HTTPFrontEnd+', 'WMCore.ACDC'],

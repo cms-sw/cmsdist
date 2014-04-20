@@ -1,11 +1,11 @@
-### RPM cms crabserver 3.3.4.rc3
+### RPM cms crabserver 3.3.5.rc3
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 0.9.92
+%define wmcver 0.9.94d
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
 Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
@@ -28,6 +28,7 @@ PYTHONPATH=$PWD/build/lib:$PYTHONPATH
 
 cd ../CRABServer-%{realversion}
 perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/crabserver/conf.py
+echo "__version__ = \"%{realversion}\"#Automatically added during RPM build process" >> src/python/CRABInterface/__init__.py
 python setup.py build_system -s CRABInterface
 
 %install
