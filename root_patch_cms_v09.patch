@@ -1,20 +1,5 @@
-diff --git a/core/base/inc/RConfig.h b/core/base/inc/RConfig.h
-index 382eef4..8af538f 100644
---- a/core/base/inc/RConfig.h
-+++ b/core/base/inc/RConfig.h
-@@ -32,6 +32,10 @@
- #define R__ANSISTREAM      /* ANSI C++ Standard Library conformant */
- #define R__SSTREAM         /* use sstream or strstream header */
- 
-+/* Do not #define nullptr if the code is compiled in c++11 mode. */
-+#if __cplusplus > 199711L
-+#define R__NULLPTR
-+#endif
- 
- /*---- machines --------------------------------------------------------------*/
- 
 diff --git a/core/meta/inc/TInterpreter.h b/core/meta/inc/TInterpreter.h
-index 7154aad..ae4f287 100644
+index 656cc0f..c584855 100644
 --- a/core/meta/inc/TInterpreter.h
 +++ b/core/meta/inc/TInterpreter.h
 @@ -44,6 +44,20 @@ class TObjArray;
@@ -48,7 +33,7 @@ index 7154aad..ae4f287 100644
     virtual void     AddIncludePath(const char *path) = 0;
     virtual void    *SetAutoLoadCallBack(void* /*cb*/) { return 0; }
     virtual void    *GetAutoLoadCallBack() const { return 0; }
-@@ -420,6 +437,45 @@ public:
+@@ -421,6 +438,45 @@ public:
     virtual const char *TypedefInfo_Name(TypedefInfo_t * /* tinfo */) const {return 0;}
     virtual const char *TypedefInfo_Title(TypedefInfo_t * /* tinfo */) const {return 0;}
  
@@ -94,56 +79,11 @@ index 7154aad..ae4f287 100644
     static TInterpreter *Instance();
  
     ClassDef(TInterpreter,0)  //ABC defining interface to generic interpreter
-diff --git a/core/meta/src/TClass.cxx b/core/meta/src/TClass.cxx
-index 82d2efd..872003b 100644
---- a/core/meta/src/TClass.cxx
-+++ b/core/meta/src/TClass.cxx
-@@ -2022,7 +2022,8 @@ Bool_t TClass::CanSplit() const
- 
-       TClass *valueClass = GetCollectionProxy()->GetValueClass();
-       if (valueClass == 0) return kFALSE;
--      if (valueClass==TString::Class() || valueClass==TClass::GetClass("string"))
-+      static TClassRef stdStringClass("std::string");
-+      if (valueClass==TString::Class() || valueClass==stdStringClass)
-          return kFALSE;
-       if (!valueClass->CanSplit()) return kFALSE;
-       if (valueClass->GetCollectionProxy() != 0) return kFALSE;
-@@ -2034,6 +2035,8 @@ Bool_t TClass::CanSplit() const
-          return kFALSE;
-       }
- 
-+      return kTRUE;
-+
-    } else if ((GetShowMembersWrapper()==0 && fClassInfo==0) && GetStreamer()!=0) {
- 
-       // We do NOT have a collection.  The class is true opaque.
-@@ -2050,9 +2053,8 @@ Bool_t TClass::CanSplit() const
-    TIter nextb(ncThis->GetListOfBases());
-    TBaseClass *base;
-    while((base = (TBaseClass*)nextb())) {
--      if (!TClass::GetClass(base->GetName())) return kFALSE;
-+      if (!base->GetClassPointer()) return kFALSE;
-    }
--
-    return kTRUE;
- }
- 
-@@ -2600,6 +2602,10 @@ TClass *TClass::GetClass(const char *name, Bool_t load, Bool_t silent)
- 
-    TClass *cl = (TClass*)gROOT->GetListOfClasses()->FindObject(name);
- 
-+   // Early return to release the lock without having to execute the
-+   // long-ish TSplitType
-+   if (cl && cl->IsLoaded()) return cl;
-+
-    TClassEdit::TSplitType splitname( name, TClassEdit::kLong64 );
- 
-    if (!cl) {
 diff --git a/core/meta/src/TCling.cxx b/core/meta/src/TCling.cxx
-index 2d19460..ed126fe 100644
+index 91b9ba4..5555b74 100644
 --- a/core/meta/src/TCling.cxx
 +++ b/core/meta/src/TCling.cxx
-@@ -69,6 +69,7 @@
+@@ -70,6 +70,7 @@
  
  #include "clang/AST/ASTContext.h"
  #include "clang/AST/Decl.h"
@@ -151,7 +91,7 @@ index 2d19460..ed126fe 100644
  #include "clang/AST/DeclarationName.h"
  #include "clang/AST/GlobalDecl.h"
  #include "clang/AST/RecordLayout.h"
-@@ -111,6 +112,7 @@
+@@ -112,6 +113,7 @@
  #include <stdexcept>
  #include <stdint.h>
  #include <fstream>
@@ -159,7 +99,7 @@ index 2d19460..ed126fe 100644
  #include <string>
  #include <typeinfo>
  #include <unordered_map>
-@@ -846,6 +848,12 @@ TCling::TCling(const char *name, const char *title)
+@@ -878,6 +880,12 @@ TCling::TCling(const char *name, const char *title)
  
  
  //______________________________________________________________________________
@@ -172,7 +112,7 @@ index 2d19460..ed126fe 100644
  TCling::~TCling()
  {
     // Destroy the interpreter interface.
-@@ -6416,3 +6424,1090 @@ const char* TCling::TypedefInfo_Title(TypedefInfo_t* tinfo) const
+@@ -6656,3 +6664,1083 @@ const char* TCling::TypedefInfo_Title(TypedefInfo_t* tinfo) const
     TClingTypedefInfo* TClinginfo = (TClingTypedefInfo*) tinfo;
     return TClinginfo->Title();
  }
@@ -220,8 +160,7 @@ index 2d19460..ed126fe 100644
 +   const std::type_info* fTypeInfo;
 +   clang::QualType fType;
 +private:
-+   void* compile_wrapper(const std::string& wrapper_name,
-+                         const std::string& wrapper) const;
++   void* compile_wrapper(const char* type_name) const;
 +public:
 +   virtual ~TType();
 +   TType();
@@ -324,100 +263,122 @@ index 2d19460..ed126fe 100644
 +  return fInterp && !fType.isNull();
 +}
 +
++static unsigned long long ttype_wrap_cnt = 0;
++
 +void*
-+TType::compile_wrapper(const string& wrapper_name,
-+                       const string& wrapper) const
++TType::compile_wrapper(const char* type_name) const
 +{
-+  const FunctionDecl* WFD = 0;
-+  {
-+    LangOptions& LO = const_cast<LangOptions&>(
-+                        fInterp->getCI()->getLangOpts());
-+    bool savedAccessControl = LO.AccessControl;
-+    LO.AccessControl = 0;
-+    cling::Transaction* T = 0;
-+    cling::Interpreter::CompilationResult CR = fInterp->declare(wrapper, &T);
-+    LO.AccessControl = savedAccessControl;
-+    if (CR != cling::Interpreter::kSuccess) {
-+      Error("TType::CompileWrapper", "Wrapper compile failed!");
++   static map<string, void*> wrapper_cache;
++   auto val_iter = wrapper_cache.find(type_name);
++   if (val_iter != wrapper_cache.end()) {
++      return val_iter->second;
++   }
++   string typeid_wrap_name("_ttype_wrap_");
++   {
++      ostringstream buf;
++      buf << ttype_wrap_cnt;
++      ++ttype_wrap_cnt;
++      typeid_wrap_name += buf.str();
++   }
++   string typeid_wrapper("void*\n");
++   typeid_wrapper += typeid_wrap_name;
++   typeid_wrapper += "() {\n";
++   typeid_wrapper += "  return (void*) &typeid(";
++   typeid_wrapper += type_name;
++   typeid_wrapper += ");\n}\n";
++   const FunctionDecl* WFD = 0;
++   {
++      LangOptions& LO = const_cast<LangOptions&>(
++         fInterp->getCI()->getLangOpts());
++      bool savedAccessControl = LO.AccessControl;
++      LO.AccessControl = 0;
++      cling::Transaction* T = 0;
++      cling::Interpreter::CompilationResult CR =
++         fInterp->declare(typeid_wrapper, &T);
++      LO.AccessControl = savedAccessControl;
++      if (CR != cling::Interpreter::kSuccess) {
++         Error("TType::CompileWrapper", "Wrapper compile failed!");
++         return 0;
++      }
++      for (cling::Transaction::const_iterator I = T->decls_begin(),
++            E = T->decls_end(); I != E; ++I) {
++         if (I->m_Call != cling::Transaction::kCCIHandleTopLevelDecl) {
++            continue;
++         }
++         const FunctionDecl* D = dyn_cast<FunctionDecl>(*I->m_DGR.begin());
++         if (!isa<TranslationUnitDecl>(D->getDeclContext())) {
++            continue;
++         }
++         DeclarationName N = D->getDeclName();
++         const IdentifierInfo* II = N.getAsIdentifierInfo();
++         if (!II) {
++            continue;
++         }
++         if (II->getName() == typeid_wrap_name) {
++            WFD = D;
++            break;
++         }
++      }
++      if (!WFD) {
++         Error("TType::compile_wrapper",
++               "Wrapper compile did not return a function decl!");
++         return 0;
++      }
++   }
++   //
++   //  Lookup the new wrapper declaration.
++   //
++   string MN;
++   GlobalDecl GD;
++   if (const CXXConstructorDecl* Ctor =
++         llvm::dyn_cast<CXXConstructorDecl>(WFD)) {
++      GD = GlobalDecl(Ctor, Ctor_Complete);
++   }
++   else if (const CXXDestructorDecl* Dtor =
++         llvm::dyn_cast<CXXDestructorDecl>(WFD)) {
++      GD = GlobalDecl(Dtor, Dtor_Deleting);
++   }
++   else {
++      GD = GlobalDecl(WFD);
++   }
++   cling::utils::Analyze::maybeMangleDeclName(GD, MN);
++   const NamedDecl* WND = llvm::dyn_cast<NamedDecl>(WFD);
++   if (!WND) {
++      Error("TType::make_wrapper", "Wrapper named decl is null!");
 +      return 0;
-+    }
-+    for (cling::Transaction::const_iterator I = T->decls_begin(),
-+         E = T->decls_end(); I != E; ++I) {
-+      if (I->m_Call != cling::Transaction::kCCIHandleTopLevelDecl) {
-+        continue;
-+      }
-+      const FunctionDecl* D = dyn_cast<FunctionDecl>(*I->m_DGR.begin());
-+      if (!isa<TranslationUnitDecl>(D->getDeclContext())) {
-+        continue;
-+      }
-+      DeclarationName N = D->getDeclName();
-+      const IdentifierInfo* II = N.getAsIdentifierInfo();
-+      if (!II) {
-+        continue;
-+      }
-+      if (II->getName() == wrapper_name) {
-+        WFD = D;
-+        break;
-+      }
-+    }
-+    if (!WFD) {
-+      Error("TType::compile_wrapper",
-+            "Wrapper compile did not return a function decl!");
++   }
++   {
++      //WND->dump();
++      //fInterp->getModule()->dump();
++      //gROOT->ProcessLine(".printIR");
++   }
++   //
++   //  Get the wrapper function pointer
++   //  from the ExecutionEngine (the JIT).
++   //
++   const llvm::GlobalValue* GV =
++      fInterp->getCodeGenerator()->GetModule()->getNamedValue(MN);
++   if (!GV) {
++      Error("TType::make_wrapper",
++            "Wrapper function name not found in Module!");
 +      return 0;
-+    }
-+  }
-+  //
-+  //  Lookup the new wrapper declaration.
-+  //
-+  string MN;
-+  GlobalDecl GD;
-+  if (const CXXConstructorDecl* Ctor =
-+      llvm::dyn_cast<CXXConstructorDecl>(WFD)) {
-+    GD = GlobalDecl(Ctor, Ctor_Complete);
-+  }
-+  else if (const CXXDestructorDecl* Dtor =
-+      llvm::dyn_cast<CXXDestructorDecl>(WFD)) {
-+    GD = GlobalDecl(Dtor, Dtor_Deleting);
-+  }
-+  else {
-+    GD = GlobalDecl(WFD);
-+  }
-+  cling::utils::Analyze::maybeMangleDeclName(GD, MN);
-+  const NamedDecl* WND = llvm::dyn_cast<NamedDecl>(WFD);
-+  if (!WND) {
-+    Error("TType::make_wrapper", "Wrapper named decl is null!");
-+    return 0;
-+  }
-+  {
-+    //WND->dump();
-+    //fInterp->getModule()->dump();
-+    //gROOT->ProcessLine(".printIR");
-+  }
-+  //
-+  //  Get the wrapper function pointer
-+  //  from the ExecutionEngine (the JIT).
-+  //
-+  const llvm::GlobalValue* GV = fInterp->getCodeGenerator()->GetModule()->getNamedValue(MN);
-+  if (!GV) {
-+    Error("TType::make_wrapper",
-+          "Wrapper function name not found in Module!");
-+    return 0;
-+  }
-+  llvm::ExecutionEngine* EE = fInterp->getExecutionEngine();
-+  void* F = EE->getPointerToGlobalIfAvailable(GV);
-+  if (!F) {
-+    //
-+    //  Wrapper function not yet codegened by the JIT,
-+    //  force this to happen now.
-+    //
-+    F = EE->getPointerToGlobal(GV);
-+    if (!F) {
-+      Error("TType::make_wrapper", "Wrapper function has no "
-+            "mapping in Module after forced codegen!");
-+      return 0;
-+    }
-+  }
-+  return F;
++   }
++   llvm::ExecutionEngine* EE = fInterp->getExecutionEngine();
++   void* F = EE->getPointerToGlobalIfAvailable(GV);
++   if (!F) {
++      //
++      //  Wrapper function not yet codegened by the JIT,
++      //  force this to happen now.
++      //
++      F = EE->getPointerToGlobal(GV);
++      if (!F) {
++         Error("TType::make_wrapper", "Wrapper function has no "
++               "mapping in Module after forced codegen!");
++         return 0;
++      }
++   }
++   wrapper_cache.insert({type_name, F});
++   return F;
 +}
 +
 +unsigned long
@@ -659,8 +620,6 @@ index 2d19460..ed126fe 100644
 +   return 0;
 +}
 +
-+static unsigned long long ttype_wrap_cnt = 0;
-+
 +void
 +TType::Init(QualType QT)
 +{
@@ -670,23 +629,10 @@ index 2d19460..ed126fe 100644
 +   PrintingPolicy Policy(Context.getPrintingPolicy());
 +   string name;
 +   QT.getAsStringInternal(name, Policy);
-+   string typeid_wrap_name("_ttype_wrap_");
-+   {
-+      ostringstream buf;
-+      buf << ttype_wrap_cnt;
-+      ++ttype_wrap_cnt;
-+      typeid_wrap_name += buf.str();
-+   }
-+   string typeid_wrapper("void*\n");
-+   typeid_wrapper += typeid_wrap_name;
-+   typeid_wrapper += "() {\n";
-+   typeid_wrapper += "  return (void*) &typeid(";
-+   typeid_wrapper += name;
-+   typeid_wrapper += ");\n}\n";
-+   void* f = compile_wrapper(typeid_wrap_name, typeid_wrapper);
++   void* f = compile_wrapper(name.c_str());
 +   if (!f) {
 +      Error("TType::Init(QualType)", "Unable to compile wrapper!\n%s",
-+            typeid_wrapper.c_str());
++            name.c_str());
 +   }
 +   typedef void* (*F)(void);
 +   fTypeInfo = (const std::type_info*) (*(F)f)();
@@ -722,23 +668,10 @@ index 2d19460..ed126fe 100644
 +      if (gDebug > 0) {
 +      }
 +   }
-+   string typeid_wrap_name("_ttype_wrap_");
-+   {
-+      ostringstream buf;
-+      buf << ttype_wrap_cnt;
-+      ++ttype_wrap_cnt;
-+      typeid_wrap_name += buf.str();
-+   }
-+   string typeid_wrapper("void*\n");
-+   typeid_wrapper += typeid_wrap_name;
-+   typeid_wrapper += "() {\n";
-+   typeid_wrapper += "  return (void*) &typeid(";
-+   typeid_wrapper += name;
-+   typeid_wrapper += ");\n}\n";
-+   void* f = compile_wrapper(typeid_wrap_name, typeid_wrapper);
++   void* f = compile_wrapper(name);
 +   if (!f) {
 +      Error("TType::Init(QualType)", "Unable to compile wrapper!\n%s",
-+            typeid_wrapper.c_str());
++            name);
 +   }
 +   typedef void* (*F)(void);
 +   fTypeInfo = (const std::type_info*) (*(F)f)();
@@ -1264,10 +1197,10 @@ index 2d19460..ed126fe 100644
 +}
 +
 diff --git a/core/meta/src/TCling.h b/core/meta/src/TCling.h
-index f5f2e02..f479dd8 100644
+index d13418f..14e45b5 100644
 --- a/core/meta/src/TCling.h
 +++ b/core/meta/src/TCling.h
-@@ -64,6 +64,7 @@ class THashTable;
+@@ -65,6 +65,7 @@ class THashTable;
  class TInterpreterValue;
  class TMethod;
  class TObjArray;
@@ -1275,7 +1208,7 @@ index f5f2e02..f479dd8 100644
  
  namespace ROOT {
     namespace TMetaUtils {
-@@ -135,7 +136,8 @@ public: // Public Interface
+@@ -143,7 +144,8 @@ public: // Public Interface
     virtual ~TCling();
     TCling(const char* name, const char* title);
  
@@ -1285,7 +1218,7 @@ index f5f2e02..f479dd8 100644
  
     void    AddIncludePath(const char* path);
     void   *GetAutoLoadCallBack() const { return fAutoLoadCallBack; }
-@@ -473,6 +475,43 @@ public: // Public Interface
+@@ -482,6 +484,43 @@ public: // Public Interface
     virtual const char* TypedefInfo_Name(TypedefInfo_t* tinfo) const;
     virtual const char* TypedefInfo_Title(TypedefInfo_t* tinfo) const;
  
