@@ -1,7 +1,7 @@
-### RPM external autotools 1.0
+### RPM external autotools 1.1
 # We keep all of them together to simplify the "requires" statements.
-%define autoconf_version 2.68
-%define automake_version 1.11.4
+%define autoconf_version 2.69
+%define automake_version 1.14
 %define libtool_version 2.4.2
 %define m4_version 1.4.17
 Source0: http://ftpmirror.gnu.org/autoconf/autoconf-%autoconf_version.tar.gz
@@ -30,6 +30,11 @@ pushd %_builddir/automake-%{automake_version}
   make %makeprocesses && make install
 popd
 pushd %_builddir/libtool-%{libtool_version} 
+  # Update for AArch64 support
+  rm -f ./libltdl/config/config.{sub,guess}
+  curl -L -k -s -o ./libltdl/config/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+  curl -L -k -s -o ./libltdl/config/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+  chmod +x ./libltdl/config/config.{sub,guess}
   ./configure --disable-dependency-tracking --prefix %i --enable-ltdl-install
   make %makeprocesses && make install
 popd
@@ -44,16 +49,16 @@ find %{i} -name '*deleteme' -delete
 echo "Foo"
 %post
 %{relocateConfig}bin/aclocal
-%{relocateConfig}bin/aclocal-1.11
+%{relocateConfig}bin/aclocal-1.14
 %{relocateConfig}bin/autoconf
 %{relocateConfig}bin/autoheader
 %{relocateConfig}bin/autom4te
 %{relocateConfig}bin/automake
-%{relocateConfig}bin/automake-1.11
+%{relocateConfig}bin/automake-1.14
 %{relocateConfig}bin/autoreconf
 %{relocateConfig}bin/autoscan
 %{relocateConfig}bin/autoupdate
 %{relocateConfig}bin/ifnames
 %{relocateConfig}bin/libtoolize
 %{relocateConfig}share/autoconf/autom4te.cfg
-%{relocateConfig}share/automake-1.11/Automake/Config.pm
+%{relocateConfig}share/automake-1.14/Automake/Config.pm
