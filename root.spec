@@ -2,9 +2,10 @@
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
-%define tag e7e6a5c65696988bf7d4b39f1d954cd099ed8b90
-%define branch cms/v5-34-17
-Source: git+https://github.com/cms-sw/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+%define tag f46c93f
+%define branch smatrix-constexpr
+%define github_user ktf
+Source: git+https://github.com/%github_user/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
