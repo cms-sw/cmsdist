@@ -68,7 +68,6 @@ Requires: py2-cx-oracle-toolfile
 Requires: qt-toolfile
 Requires: roofit-toolfile
 Requires: root-toolfile
-Requires: sherpa-toolfile
 Requires: sigcpp-toolfile
 Requires: sqlite-toolfile
 Requires: systemtools
@@ -119,6 +118,9 @@ Requires: sloccount-toolfile
 Requires: cvs2git-toolfile
 Requires: pacparser-toolfile
 Requires: git-toolfile
+Requires: qd-toolfile
+Requires: blackhat-toolfile
+Requires: sherpa-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
@@ -134,7 +136,7 @@ Requires: nss-toolfile
 Requires: cyrus-sasl-toolfile
 %endif
 
-%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler 
 
 ## IMPORT scramv1-tool-conf
 
