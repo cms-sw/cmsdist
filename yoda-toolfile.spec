@@ -17,7 +17,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/yoda.xml
   </client>
   <use name="cxxcompiler"/>
   <use name="boost"/>
+  <runtime name="PYTHONPATH" value="$YODA_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
 </tool>
 EOF_TOOLFILE
 
+export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 ## IMPORT scram-tools-post
