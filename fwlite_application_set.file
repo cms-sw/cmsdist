@@ -14,6 +14,8 @@ DataFormats/EgammaReco
 DataFormats/EgammaTrackReco
 DataFormats/FEDRawData
 DataFormats/FWLite
+DataFormats/GEMDigi
+DataFormats/GEMRecHit
 DataFormats/GeometryVector
 DataFormats/HLTReco
 DataFormats/HcalDigi

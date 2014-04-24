@@ -8,6 +8,7 @@ Provides: libboost_regex-gcc-mt.so
 Provides: libboost_signals-gcc-mt.so 
 Provides: libboost_thread-gcc-mt.so
 
+Requires: tbb-toolfile
 Requires: boost-toolfile
 Requires: bz2lib-toolfile
 Requires: castor-toolfile
