@@ -22,19 +22,7 @@ Patch2: sherpa-1.4.0-add-support-osx108
 
 %prep
 %setup -q -n SHERPA-MC-%{realversion}
-%patch0 -p0
-
-# Apply C++11 / gcc 4.7.x fixes only if using a 47x architecture.
-# See http://gcc.gnu.org/gcc-4.7/porting_to.html
-case %cmsplatf in
-  *gcc4[6789]*)
-%patch1 -p1
-  ;;
-esac
-
-if [[ %cmsplatf == osx108_* ]]; then
-%patch2 -p1
-fi
+%patch0 -p1
 
 autoreconf -i --force
 
@@ -65,8 +53,7 @@ esac
 # by the "skipping incompatible" linking messages when linking 32bit on 64bit
 find . -name Makefile -exec perl -p -i -e 's|/usr/lib64/libm.a||g;s|/usr/lib64/libc.a||g;' {} \;
 
-make %{makeprocesses} 
+make %{makeprocesses}
 
 %install
 make install
-
