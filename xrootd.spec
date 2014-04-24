@@ -6,6 +6,7 @@ Source: http://xrootd.org/download/v%{realversion}/%{n}-%{realversion}.tar.gz
 Patch0: xrootd-3.1.0-fixed-library-location-all-os
 Patch1: xrootd-3.1.0-client-send-moninfo
 Patch2: xrootd-3.3.3-rc1-add-GetHandle-XrdClientAbs-header
+Patch3: xrootd-4.0.0-rc1-msghandler-header
 
 BuildRequires: cmake
 %if "%online" != "true"
@@ -24,6 +25,7 @@ Requires: gcc openssl
 %patch0 -p0
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 # need to fix these from xrootd git
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
