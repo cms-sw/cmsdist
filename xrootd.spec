@@ -1,15 +1,11 @@
-### RPM external xrootd 3.3.3
+### RPM external xrootd 4.0.0-rc1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
 Source: http://xrootd.org/download/v%{realversion}/%{n}-%{realversion}.tar.gz
-Patch1: xrootd-5.30.00-fix-gcc46
-Patch2: xrootd-3.1.0-fixed-library-location-all-os
-Patch3: xrootd-3.1.0-client-send-moninfo
-Patch4: xrootd-3.3.3-rc1-add-GetHandle-XrdClientAbs-header
-Patch5: xrootd-3.1.0-narrowing-conversion
-Patch6: xrootd-3.3.3-rc1-rename-macos-to-apple
-Patch7: xrootd-3.3.3-rc1-gcc47
+Patch0: xrootd-3.1.0-fixed-library-location-all-os
+Patch1: xrootd-3.1.0-client-send-moninfo
+Patch2: xrootd-3.3.3-rc1-add-GetHandle-XrdClientAbs-header
 
 BuildRequires: cmake
 %if "%online" != "true"
@@ -23,15 +19,11 @@ Requires: gcc openssl
 %define cms_cxxflags -std=c++0x -O2
 %endif
 
-%prep 
+%prep
 %setup -n %n-%{realversion}
+%patch0 -p0
 %patch1 -p1
-%patch2 -p0
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
+%patch2 -p1
 
 # need to fix these from xrootd git
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
