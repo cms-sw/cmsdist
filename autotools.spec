@@ -4,16 +4,19 @@
 %define automake_version 1.14
 %define libtool_version 2.4.2
 %define m4_version 1.4.17
-Source0: http://ftpmirror.gnu.org/autoconf/autoconf-%autoconf_version.tar.gz
-Source1: http://ftpmirror.gnu.org/automake/automake-%automake_version.tar.gz
-Source2: http://ftpmirror.gnu.org/libtool/libtool-%libtool_version.tar.gz
-Source3: http://ftp.gnu.org/gnu/m4/m4-%m4_version.tar.bz2
+%define gettext_version 0.18.3.2
+Source0: http://ftpmirror.gnu.org/autoconf/autoconf-%{autoconf_version}.tar.gz
+Source1: http://ftpmirror.gnu.org/automake/automake-%{automake_version}.tar.gz
+Source2: http://ftpmirror.gnu.org/libtool/libtool-%{libtool_version}.tar.gz
+Source3: http://ftp.gnu.org/gnu/m4/m4-%{m4_version}.tar.bz2
+Source4: http://ftp.gnu.org/pub/gnu/gettext/gettext-%{gettext_version}.tar.gz
 
 %prep
 %setup -D -T -b 0 -n autoconf-%{autoconf_version}
 %setup -D -T -b 1 -n automake-%{automake_version}
 %setup -D -T -b 2 -n libtool-%{libtool_version}
 %setup -D -T -b 3 -n m4-%{m4_version}
+%setup -D -T -b 4 -n gettext-%{gettext_version}
 
 %build
 export PATH=%i/bin:$PATH
@@ -36,6 +39,21 @@ pushd %_builddir/libtool-%{libtool_version}
   curl -L -k -s -o ./libltdl/config/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
   chmod +x ./libltdl/config/config.{sub,guess}
   ./configure --disable-dependency-tracking --prefix %i --enable-ltdl-install
+  make %makeprocesses && make install
+popd
+pushd %_builddir/gettext-%{gettext_version}
+  ./configure --prefix %i \
+              --without-xz \
+              --without-bzip2 \
+              --disable-curses \
+              --disable-openmp \
+              --enable-relocatable \
+              --disable-rpath \
+              --disable-nls \
+              --disable-native-java \
+              --disable-java \
+              --disable-dependency-tracking \
+              --disable-silent-rules
   make %makeprocesses && make install
 popd
 
