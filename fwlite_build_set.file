@@ -23,6 +23,8 @@ DataFormats/EgammaReco
 DataFormats/EgammaTrackReco
 DataFormats/FEDRawData
 DataFormats/FWLite
+DataFormats/GEMDigi
+DataFormats/GEMRecHit
 DataFormats/GeometryCommonDetAlgo
 DataFormats/GeometrySurface
 DataFormats/GeometryVector
@@ -72,6 +74,7 @@ DataFormats/TrajectoryState
 DataFormats/VertexReco
 DataFormats/WrappedStdDictionaries
 FWCore/Common
+FWCore/Concurrency
 FWCore/FWLite
 FWCore/MessageLogger
 FWCore/ParameterSet

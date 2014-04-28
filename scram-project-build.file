@@ -35,7 +35,7 @@ Requires: SCRAMV1
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-01-18
+%define configtag       V05-01-22
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -184,7 +184,7 @@ export SCRAM_NOSYMCHECK=true
 %scramcmd b --verbose -f %{prebuildtarget} </dev/null
 %endif
 
-%scramcmd b --verbose -f %{compileOptions} %{extraOptions} %{makeprocesses} %{buildtarget} </dev/null || { %scramcmd b -f outputlog && [ "%{?ignore_compile_errors:set}" == "set" ]; }
+%scramcmd b --verbose -f %{compileOptions} %{extraOptions} %{makeprocesses} %{buildtarget} </dev/null || { touch ../build-errors && %scramcmd b -f outputlog && [ "%{?ignore_compile_errors:set}" == "set" ]; }
 
 %if "%{?additionalBuildTarget0:set}" == "set"
 %scramcmd b --verbose -f %{additionalBuildTarget0} < /dev/null
