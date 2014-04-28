@@ -5,7 +5,7 @@ Requires: cmssw-tool-conf python cms-git-tools
 %define runGlimpse      yes
 %define useCmsTC        yes
 %define saveDeps        yes
-%define branch          CMSSW_7_1_X
+%define branch          CMSSW_7_0_X
 %define gitcommit       %{realversion}
 
 %if "%(case %realversion in (*_COVERAGE_X*) echo true ;; (*) echo false ;; esac)" == "true"
@@ -37,11 +37,6 @@ Requires: cmssw-tool-conf python cms-git-tools
 
 %if "%(case %realversion in (*_THREADED_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define branch		%(echo %realversion | sed -e 's|_X.*|_X|')
-%endif
-
-# A branch to build the next version of CMSDIST.
-%if "%(case %realversion in (*_NEXT_X*) echo true ;; (*) echo false ;; esac)" == "true"
-%define branch		%(echo %realversion | sed -e 's|_NEXT_X.*|_X|')
 %endif
 
 %define source1         git://github.com/cms-sw/cmssw.git?protocol=https&obj=%{branch}/%{gitcommit}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
