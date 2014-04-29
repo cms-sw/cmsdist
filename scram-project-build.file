@@ -1,13 +1,13 @@
 ### FILE scram-project-build
 # FIXME: support building all platforms together like scram does?
 # FIXME: automatic sub-packages for "doc" etc?
-## NOCOMPILER
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 %define cmssw_libs biglib/%{cmsplatf} lib/%{cmsplatf}
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 
 Requires: SCRAMV1
+BuildRequires: dwz gcc file
 
 %if %islinux
 %if %isamd64
@@ -301,6 +301,52 @@ rm -fR %{srctree} tmp
 %if "%{?subpackageDebug:set}" == "set"
 tar czf debug.tar.gz --files-from %_builddir/files.debug --no-recursion --remove-files
 %endif
+
+# Begin debug
+
+mkdir -p %i/%cmsplatf/lib/.debug %i/%cmsplatf/bin/.debug %i/%cmsplatf/tests/bin/.debug
+
+BASE_LIB_PATH=%i/lib/%cmsplatf
+BASE_BIN_PATH=%i/bin/%cmsplatf
+BASE_TEST_PATH=%i/test/%cmsplatf
+if [ "%{n}" == "coral" ]; then
+  BASE_LIB_PATH=%i/%cmsplatf/lib
+  BASE_BIN_PATH=%i/%cmsplatf/bin
+  BASE_TEST_PATH=%i/%cmsplatf/tests/bin
+fi
+
+pushd $BASE_LIB_PATH
+  dwz -m lib-common.so.debug -r *.so
+  find . -type f -name '*.so' -exec objcopy --compress-debug-sections {} \;
+  find . -type f -name '*.so' -print0 | xargs -0 -I% -n1 sh -c 'eu-strip -f %.debug %'
+  find . -type f -name '*.so.debug' -exec mv {} %i/%cmsplatf/lib/.debug \;
+popd
+
+pushd $BASE_BIN_PATH
+  # ELF binaries
+  ELF_BINS=$(find . -type f -exec file {} \; | grep -i elf | cut -d':' -f1)
+  if [ ! -z "$ELF_BINS" ]; then
+    dwz -m bin-common.debug -r $ELF_BINS
+    find . -type f -exec file {} \; | grep -i elf | cut -d':' -f1 | xargs -I% -n1 sh -c 'objcopy --compress-debug-sections %'
+    find . -type f -exec file {} \; | grep -i elf | cut -d':' -f1 | xargs -I% -n1 sh -c 'eu-strip -f %.debug %'
+    find . -type f -name '*.debug' -exec mv {} %i/%cmsplatf/bin/.debug \;
+  fi
+popd
+
+pushd $BASE_TEST_PATH
+  # ELF binaries
+  ELF_BINS=$(find . -type f -exec file {} \; | grep -i elf | cut -d':' -f1)
+  if [ ! -z "$ELF_BINS" ]; then
+    dwz -m tests-common.debug -r $ELF_BINS
+    # find . -type f -exec file {} \; | grep -i elf | cut -d':' -f1 | grep -v tests-common.debug | xargs -I% -n1 sh -c 'objcopy --compress-debug-sections %'
+    echo "$ELF_BINS" | xargs -I% -n1 sh -c 'echo %; objcopy --compress-debug-sections %'
+    # find . -type f -exec file {} \; | grep -i elf | cut -d':' -f1 | grep -v tests-common.debug | xargs -I% -n1 sh -c 'eu-strip -f %.debug %'
+    echo "$ELF_BINS" | xargs -I% -n1 sh -c 'eu-strip -f %.debug %'
+    find . -type f -name '*.debug' -exec mv {} %i/%cmsplatf/tests/bin/.debug \;
+  fi
+popd
+
+# End debug
 
 ######################################################
 #Do the symlink relocation as a last step in install
