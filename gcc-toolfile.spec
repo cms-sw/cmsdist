@@ -183,7 +183,7 @@ esac
 # See: https://hypernews.cern.ch/HyperNews/CMS/get/edmFramework/2955.html
 case %cmsplatf in
   *_gcc4[789]*)
-    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fno-math-errno --param vect-max-version-for-alias-checks=50 -fipa-pta"
+    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fno-math-errno --param vect-max-version-for-alias-checks=50"
   ;;
 esac
 
