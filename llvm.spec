@@ -1,35 +1,28 @@
-### RPM external llvm 3.3
+### RPM external llvm 3.4
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
 BuildRequires: python
 
 Requires: gcc
 
-%define llvmRevision 183501
-%define clangRevision 183502
-%define llvmBranch %(echo %realversion | sed -e 's|[.]||')
+%define llvmCommit 6800b6d2afc
+%define clangCommit f9b47b4
+%define branch cms/v%realversion
 # s/#/S/ to use the official version.
-Source0: svn://llvm.org/svn/llvm-project/llvm/branches/release_%llvmBranch/?scheme=http&revision=%llvmRevision&module=llvm-%realversion-%llvmRevision&output=/llvm-%realversion-%llvmRevision.tgz
-Source1: svn://llvm.org/svn/llvm-project/cfe/branches/release_%llvmBranch/?scheme=http&revision=%clangRevision&module=clang-%realversion-%clangRevision&output=/clang-%realversion-%clangRevision.tgz
-# SVN builds. Comment out to use the official version.
-#Source0: svn://llvm.org/svn/llvm-project/llvm/trunk/?scheme=http&revision=%llvmRevision&module=llvm-%realversion-%llvmRevision&output=/llvm-%realversion-%llvmRevision.tgz
-#Source1: svn://llvm.org/svn/llvm-project/cfe/trunk/?scheme=http&revision=%clangRevision&module=clang-%realversion-%clangRevision&output=/clang-%realversion-%clangRevision.tgz
-Patch0: llvm-3.1-fix-requires
-Patch1: llvm-3.2-getGCCToolchainDir
-Patch2: llvm-3.3-add-triplet-x86_64-redhat-linux-gnu
-Patch3: llvm-3.3-cms-custom-cxx11-attrs
+
+Source0: git+https://github.com/cms-externals/llvm.git?obj=%{branch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%realversion-%llvmCommit&output=/llvm-%{realversion}-%{llvmCommit}.tgz
+Source1: git+https://github.com/cms-externals/clang.git?obj=%{branch}/%{clangCommit}&export=clang-%{realversion}-%{clangCommit}&module=clang-%realversion-%clangCommit&output=/clang-%{realversion}-%{clangCommit}.tgz
+
+# Still need forward porting.
+#Patch3: llvm-3.3-cms-custom-cxx11-attrs
 %define keep_archives true
 
 %prep
-%setup -T -b0 -n llvm-%realversion-%llvmRevision
-%setup -T -D -a1 -c -n llvm-%realversion-%llvmRevision/tools
-mv clang-%realversion-%clangRevision clang
-cd clang
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%setup -T -D -n llvm-%realversion-%llvmRevision
+%setup -T -b0 -n llvm-%realversion-%llvmCommit
+%setup -T -D -a1 -c -n llvm-%realversion-%llvmCommit/tools
+mv clang-%realversion-%clangCommit clang
+#patch3 -p1
+%setup -T -D -n llvm-%realversion-%llvmCommit
 
 %build
 
