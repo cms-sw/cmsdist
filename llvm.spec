@@ -1,12 +1,12 @@
-### RPM external llvm 3.3
+### RPM external llvm 3.4
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
 BuildRequires: python
 
 Requires: gcc
 
-%define llvmRevision 183501
-%define clangRevision 183502
+%define llvmRevision 197955
+%define clangRevision 197956
 %define llvmBranch %(echo %realversion | sed -e 's|[.]||')
 # s/#/S/ to use the official version.
 Source0: svn://llvm.org/svn/llvm-project/llvm/branches/release_%llvmBranch/?scheme=http&revision=%llvmRevision&module=llvm-%realversion-%llvmRevision&output=/llvm-%realversion-%llvmRevision.tgz
@@ -18,6 +18,7 @@ Patch0: llvm-3.1-fix-requires
 Patch1: llvm-3.2-getGCCToolchainDir
 Patch2: llvm-3.3-add-triplet-x86_64-redhat-linux-gnu
 Patch3: llvm-3.3-cms-custom-cxx11-attrs
+Patch4: llvm-3.4-cms-custom-cxx11-attrs
 %define keep_archives true
 
 %prep
@@ -27,8 +28,7 @@ mv clang-%realversion-%clangRevision clang
 cd clang
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
+%patch4 -p1
 %setup -T -D -n llvm-%realversion-%llvmRevision
 
 %build

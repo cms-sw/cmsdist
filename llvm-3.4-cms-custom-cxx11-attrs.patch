@@ -1,0 +1,99 @@
+diff --git a/include/clang/Basic/Attr.td b/include/clang/Basic/Attr.td
+index 8c3bdba..f7502bc 100644
+--- a/include/clang/Basic/Attr.td
++++ b/include/clang/Basic/Attr.td
+@@ -169,6 +169,16 @@ class IgnoredAttr : Attr {
+ // Attributes begin here
+ //
+ 
++def CMSThreadSafe : InheritableAttr {
++  let Spellings = [ CXX11<"cms","thread_safe"> ];
++  let Subjects = [Function];
++}
++
++def CMSThreadGuard : InheritableAttr {
++  let Spellings = [ CXX11<"cms","thread_guard"> ];
++  let Subjects = [Var];
++}
++
+ def AddressSpace : TypeAttr {
+   let Spellings = [GNU<"address_space">];
+   let Args = [IntArgument<"AddressSpace">];
+diff --git a/lib/Parse/ParseDeclCXX.cpp b/lib/Parse/ParseDeclCXX.cpp
+index dd29f99..b313f9d 100644
+--- a/lib/Parse/ParseDeclCXX.cpp
++++ b/lib/Parse/ParseDeclCXX.cpp
+@@ -3289,10 +3289,16 @@ void Parser::ParseCXX11AttributeSpecifier(ParsedAttributes &attrs,
+ 
+     // Parse attribute arguments
+     if (Tok.is(tok::l_paren)) {
+-      if (ScopeName && ScopeName->getName() == "gnu") {
+-        ParseGNUAttributeArgs(AttrName, AttrLoc, attrs, endLoc,
+-                              ScopeName, ScopeLoc, AttributeList::AS_CXX11);
+-        AttrParsed = true;
++      if (ScopeName) {
++	if ( ScopeName->getName() == "gnu") {
++          ParseGNUAttributeArgs(AttrName, AttrLoc, attrs, endLoc,
++                                ScopeName, ScopeLoc, AttributeList::AS_CXX11);
++          AttrParsed = true;
++          }
++	if ( ScopeName->getName() == "cms") {
++          SeenAttrs.insert(std::make_pair(AttrName, AttrLoc)).second;
++          AttrParsed = true;
++          }
+       } else {
+         if (StandardAttr)
+           Diag(Tok.getLocation(), diag::err_cxx11_attribute_forbids_arguments)
+diff --git a/lib/Sema/SemaDeclAttr.cpp b/lib/Sema/SemaDeclAttr.cpp
+index 3e58386..ee7fc73 100644
+--- a/lib/Sema/SemaDeclAttr.cpp
++++ b/lib/Sema/SemaDeclAttr.cpp
+@@ -4595,6 +4595,35 @@ static bool handleCommonAttributeFeatures(Sema &S, Scope *scope, Decl *D,
+   return false;
+ }
+ 
++
++static void handleCMSThreadSafeAttr(Sema &S, Decl *D, const AttributeList &Attr) {
++
++    assert(!Attr.isInvalid());
++
++    if (!(isa<FunctionDecl>(D)) ) {
++      S.Diag(Attr.getLoc(), diag::warn_attribute_wrong_decl_type)
++        << Attr.getName() << ExpectedFunction;
++      return;
++    }
++
++    D->addAttr( ::new (S.Context) CMSThreadSafeAttr(Attr.getRange(),
++						S.Context));
++}
++
++static void handleCMSThreadGuardAttr(Sema &S, Decl *D, const AttributeList &Attr) {
++
++    assert(!Attr.isInvalid());
++
++    if (!(isa<VarDecl>(D) ))  {
++      S.Diag(Attr.getLoc(), diag::warn_attribute_wrong_decl_type)
++        << Attr.getName() << ExpectedVariable;
++      return;
++    }
++
++    D->addAttr( ::new (S.Context) CMSThreadSafeAttr(Attr.getRange(),
++						S.Context));
++}
++
+ //===----------------------------------------------------------------------===//
+ // Top Level Sema Entry Points
+ //===----------------------------------------------------------------------===//
+@@ -4929,6 +4958,12 @@ static void ProcessDeclAttribute(Sema &S, Scope *scope, Decl *D,
+   case AttributeList::AT_TypeTagForDatatype:
+     handleTypeTagForDatatypeAttr(S, D, Attr);
+     break;
++  case AttributeList::AT_CMSThreadSafe: 
++    handleCMSThreadSafeAttr(S, D, Attr); 
++    break;
++  case AttributeList::AT_CMSThreadGuard: 
++    handleCMSThreadGuardAttr(S, D, Attr); 
++    break;
+ 
+   default:
+     // Ask target about the attribute.
