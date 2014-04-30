@@ -1,12 +1,8 @@
-### RPM external herwigpp 2.5.0
+### RPM external herwigpp 2.7.0a
 #
 # Careful to change or get rid of the next line when the version changes
 #
-%define srcTag 2.5.0
-#Source: http://projects.hepforge.org/herwig/files/Herwig++-%{srcTag}.tar.gz
-Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/herwig++/herwig++-%{srcTag}-src.tgz
-Patch0: herwigpp-2.5.0-fix-gcc47-cxx11
-Patch1: herwigpp-2.5.0-fix-BaryonFactorizedDecayer-findModes
+Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/herwig++/herwig++-%{realversion}-src.tgz
 Requires: thepeg
 Requires: gsl
 Requires: hepmc
@@ -21,9 +17,6 @@ Requires: hepmc
 
 %prep
 %setup -q -n herwig++/%{realversion}
-
-%patch0 -p1
-%patch1 -p2
 
 %build
 ./configure \
@@ -43,7 +36,6 @@ make %makeprocesses
 %install
 #tar -c -h lib include | tar -x -C %i
 make install
-rm %i/share/Herwig++/Doc/fixinterfaces.pl
 
 %post
 %{relocateConfig}share/Herwig++/HerwigDefaults.rpo
