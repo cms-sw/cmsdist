@@ -1,8 +1,6 @@
-### RPM external thepeg 1.7.0
+### RPM external thepeg 1.9.0a
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/ThePEG
 ## INITENV +PATH DYLD_LIBRARY_PATH %i/lib/ThePEG
-#Source: http://www.thep.lu.se/~leif/ThePEG/ThePEG-%{realversion}.tgz
-#Source: http://projects.hepforge.org/herwig/files/ThePEG-%{realversion}.tar.gz
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 Patch0: thepeg-1.7.0-break-termcap-dependence
@@ -39,9 +37,10 @@ Requires: gfortran-macosx
 %prep
 %setup -q -n %{n}/%{realversion}
 %patch0 -p2
+#The patch for mac below is disabled, it does not work. If it is still needed, it is to be redone.
 case %cmsos in 
   osx*)
-%patch1 -p1
+#%patch1 -p1
   ;;
 esac
 %patch2 -p2
@@ -102,7 +101,6 @@ make
 %install
 
 make install
-rm %i/share/ThePEG/Doc/fixinterfaces.pl
 cd %i/lib/ThePEG
 for item in LesHouches.so ; do
   [ -e lib$item ] || ln -s $item lib$item
