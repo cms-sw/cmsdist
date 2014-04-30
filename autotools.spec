@@ -51,6 +51,7 @@ pushd %_builddir/gettext-%{gettext_version}
               --disable-rpath \
               --disable-nls \
               --disable-native-java \
+              --disable-acl \
               --disable-java \
               --disable-dependency-tracking \
               --disable-silent-rules
