@@ -36,6 +36,10 @@ Requires: cmssw-tool-conf python cms-git-tools
 %define preBuildCommand scram setup llvm-cxxcompiler ; scram setup llvm-f77compiler ; scram setup llvm-ccompiler ; perl -p -i -e 's|<client>|<client><flags DEFAULT_COMPILER="llvm"/>|' %i/config/Self.xml ; export COMPILER=llvm ;
 %endif
 
+%if "%(case %realversion in (*_DEBUG_X*) echo true ;; (*) echo false ;; esac)" == "true"
+%define branch		%(echo %realversion | sed -e 's|_DEBUG_X.*|_X|')
+%endif
+
 %if "%(case %realversion in (*_BOOSTIO_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define branch		%(echo %realversion | sed -e 's|_X.*|_X|')
 %define preBuildCommand scram setup boost_serialization; scram setup boost_iostreams
