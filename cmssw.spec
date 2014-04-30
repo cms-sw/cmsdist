@@ -13,6 +13,10 @@ Requires: cmssw-tool-conf python cms-git-tools
 %define usercxxflags    -fprofile-arcs -ftest-coverage
 %endif
 
+%if "%(case %realversion in (*_DEBUG_X*) echo true ;; (*) echo false ;; esac)" == "true"
+%define branch		%(echo %realversion | sed -e 's|_DEBUG_X.*|_X|')
+%endif
+
 %if "%(case %realversion in (*_EXPERIMENTAL_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define branch		%(echo %realversion | sed -e 's|_EXPERIMENTAL_X.*|_X|')
 %define usercxxflags    -O3 -ffast-math -freciprocal-math -fipa-pta
