@@ -6,7 +6,7 @@ BuildRequires: python
 Requires: gcc
 
 %define llvmCommit 6800b6d2afc
-%define clangCommit f9b47b4
+%define clangCommit 3cde6a26a29
 %define branch cms/v%realversion
 # s/#/S/ to use the official version.
 
