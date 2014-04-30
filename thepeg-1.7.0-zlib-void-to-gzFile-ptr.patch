@@ -1,7 +1,7 @@
 diff --git a/1.7.0/Utilities/CFile.cc b/1.7.0/Utilities/CFile.cc
 index af47aa4..8746285 100644
---- a/1.7.0/Utilities/CFile.cc
-+++ b/1.7.0/Utilities/CFile.cc
+--- a/Utilities/CFile.cc
++++ b/Utilities/CFile.cc
 @@ -110,7 +110,7 @@ void CFile::close() {
      break;
  #ifdef HAVE_LIBZ
