@@ -20,6 +20,7 @@ Requires: cmssw-tool-conf
 
 %if "%(case %realversion in (*_DEBUG_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define branch		%(echo %realversion | sed -e 's|_DEBUG_X.*|_X|')
+%define gitcommit       %(echo %realversion | sed -e 's|_DEBUG||')
 %endif
 
 %if "%(case %realversion in (*_EXPERIMENTAL_X*) echo true ;; (*) echo false ;; esac)" == "true"
