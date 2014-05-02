@@ -23,6 +23,7 @@ Patch2: sherpa-1.4.0-add-support-osx108
 %prep
 %setup -q -n SHERPA-MC-%{realversion}
 %patch0 -p1
+%patch1 -p1
 
 autoreconf -i --force
 
