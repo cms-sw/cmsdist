@@ -35,7 +35,7 @@ BuildRequires: dwz gcc file
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-01-22
+%define configtag       V05-01-23
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
