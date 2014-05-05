@@ -17,7 +17,7 @@ Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{
 #Patch5: root-5.30.02-fix-isnan-again
 #Patch6: root-5.34.05-cintex-armv7a-port                   not needed anymore
 
-Patch0: root_patch_cms_v09
+Patch0: root6_patch_v1_for_v5-99-06-380-g509b29c
 
 Requires: gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl zlib
 
