@@ -87,7 +87,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-f77compiler.xml
   <tool name="icc-f77compiler" version="@ICC_VERSION@" type="compiler">
     <use name="gcc-f77compiler"/>    
     <client>
-      <environment name="ICC_FCOMPILER_BASE" default="@ICC_ROOT@/installation" handler="warn"/>
+      <environment name="ICC_FCOMPILER_BASE" default="@ICC_ROOT@/ifort" handler="warn"/>
       <environment name="FC" default="$ICC_FCOMPILER_BASE/%{iccbin_dir}/ifort" handler="warn"/>
     </client>
     <architecture name="_mic_">
