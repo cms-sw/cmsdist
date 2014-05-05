@@ -1,16 +1,14 @@
-### RPM external sherpa 1.4.2
+### RPM external sherpa 2.1.0
+Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
+Requires: hepmc lhapdf blackhat sqlite fastjet openssl
+Patch0: sherpa-2.1.0-lhapdf
+Patch1: sherpa-2.1.0-disable-examples-manual
+
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 %if "%mic" == "true"
 Requires: icc
 Requires: icc icc-provides
 %endif
-
-Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
-Requires: hepmc lhapdf zlib
-BuildRequires: autotools
-Patch0: sherpa-1.4.0-lhapdf
-Patch1: sherpa-1.4.2-fix-gcc47-cxx11
-Patch2: sherpa-1.4.0-add-support-osx108
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -29,7 +27,7 @@ autoreconf -i --force
 
 # Force architecture based on %%cmsplatf
 case %cmsplatf in
-  *_amd64_gcc*|*_mic_*) ARCH_CMSPLATF="-m64" ;;
+  *_amd64_gcc*) ARCH_CMSPLATF="-m64" ;;
   *_ia32_gcc*) ARCH_CMSPLATF="-m32" ;;
 esac
 
@@ -41,13 +39,21 @@ case %cmsplatf in
   ;;
 esac
 
-./configure --prefix=%i --enable-analysis --disable-silent-rules \
-            --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT \
-            --enable-multithread LDFLAGS="-ldl" \
 %if "%mic" == "true"
-           --host=x86_64-k1om-linux FC="ifort -mmic" CC="icc -mmic" CXX="icpc -mmic " CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF %cms_cxxflags -I${ZLIB_ROOT}/include" LDFLAGS="-L${ZLIB_ROOT}/lib"
+./configure --prefix=%i --enable-analysis --disable-silent-rules --enable-fastjet=$FASTJET_ROOT \
+            --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT --enable-blackhat=$BLACKHAT_ROOT --with-sqlite3=$SQLITE_ROOT \
+            CXX="icpc -mmic " \
+            CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF %cms_cxxflags -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$OPENSSL_ROOT/include -I${ZLIB_ROOT}/include" \
+            LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib -L$OPENSSL_ROOT/lib -L${ZLIB_ROOT}/lib" \
+            CC="icc -mmic" \
+            FC="ifort -mmic" \
+            --host=x86_64-k1om-linux
 %else
-           CXX="%cms_cxx" CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF %cms_cxxflags"
+./configure --prefix=%i --enable-analysis --disable-silent-rules --enable-fastjet=$FASTJET_ROOT \
+            --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT --enable-blackhat=$BLACKHAT_ROOT --with-sqlite3=$SQLITE_ROOT \
+            CXX="%cms_cxx" \
+            CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF %cms_cxxflags -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$OPENSSL_ROOT/include" \
+            LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib -L$OPENSSL_ROOT/lib"
 %endif
 %build
 # Fix up a configuration mistake coming from a test being confused
@@ -58,3 +64,11 @@ make %{makeprocesses}
 
 %install
 make install
+
+
+
+./configure --prefix=%i --enable-analysis --disable-silent-rules \
+            --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT \
+            --enable-multithread LDFLAGS="-ldl" \
+%if "%mic" == "true"
+           --host=x86_64-k1om-linux FC="ifort -mmic" CC="icc -mmic" CXX="icpc -mmic " CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF %cms_cxxflags -I${ZLIB_ROOT}/include" LDFLAGS="-L${ZLIB_ROOT}/lib"
