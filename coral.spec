@@ -38,4 +38,6 @@ Patch5: coral-CORAL_2_3_21-move-to-libuuid
 %endif
 
 ## IMPORT scram-project-build
-## SUBPACKAGE debug IF %subpackageDebug
+# For now disable SUBPACKAGE as it is causing problem calculating checksum
+# Looks like sub package support in V00-22/21 is not working
+# SUBPACKAGE debug IF %subpackageDebug
