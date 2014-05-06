@@ -34,6 +34,12 @@ pushd %_builddir/libtool-%{libtool_version}
   make %makeprocesses && make install
 popd
 
+# Fix perl location, required on /usr/bin/perl
+grep -l -R '/bin/perl' %{i} | xargs -n1 sed -ideleteme -e 's;^#!.*perl;#!/usr/bin/env perl;'
+find %{i} -name '*deleteme' -delete
+grep -l -R '/bin/perl' %{i} | xargs -n1 sed -ideleteme -e 's;exec [^ ]*/perl;exec /usr/bin/perl;g'
+find %{i} -name '*deleteme' -delete
+
 %install
 echo "Foo"
 %post
