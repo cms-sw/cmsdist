@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V2_2_5_pre4
+### RPM lcg SCRAMV1 V2_2_5_pre7
 ## NOCOMPILER
 %define GitHubVersion %(echo SCRAM-%realversion | sed 's|-V|-|')
 
