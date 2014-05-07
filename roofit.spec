@@ -9,18 +9,7 @@ Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
 
-#atch0: root6-externals
-#atch1: root6-cling-opts
-
-Patch0: root_patch_cms_v09
-
-#Patch0: root-5.34.02-externals
-#Patch1: root-5.28-00d-roofit-silence-static-printout
-#Patch2: root-5.34.00-linker-gnu-hash-style
-#Patch3: root-5.32.00-detect-arch
-#Patch4: root-5.30.02-fix-gcc46
-#Patch5: root-5.30.02-fix-isnan-again
-#Patch6: root-5.34.05-cintex-armv7a-port
+Patch0: root6_patch_v1_for_v5-99-06-380-g509b29c
 
 Requires: root
 
