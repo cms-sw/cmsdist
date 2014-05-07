@@ -1,5 +1,8 @@
-### RPM lcg SCRAMV1 V2_2_5_pre7
+### RPM lcg SCRAMV1 V2_2_5_pre8
 ## NOCOMPILER
+Provides: perl(BuildSystem::Template::Plugins::PluginCore)
+Provides: perl(BuildSystem::TemplateStash)
+Provides: perl(Cache::CacheUtilities)
 %define GitHubVersion %(echo SCRAM-%realversion | sed 's|-V|-|')
 
 Source0: https://github.com/cms-sw/SCRAM/archive/%{realversion}.tar.gz
