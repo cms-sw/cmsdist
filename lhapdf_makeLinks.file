@@ -1,0 +1,29 @@
+#!/bin/bash
+
+export cvmfspath=/cvmfs/cms.cern.ch/lhapdf/pdfsets/5.9.1
+export homedir=`pwd`
+
+if [ -d "${cvmfspath}" ] ; then
+
+  cd ${cvmfspath}
+  export pdflist=`ls`
+  cd ${homedir}
+
+  for pdf in ${pdflist} ; do
+    if [ ! -s "${pdf}" ] ; then
+      echo missing pdf: ${pdf} ---
+      echo making soft link to cvmfs
+      ln -fs ${cvmfspath}/${pdf} ${pdf}
+    fi
+  done
+
+else
+
+  echo
+  echo No cvmfs directory with PDF sets found
+  echo Directory does not exist: ${cvmfspath}
+  echo Only local PDF sets will be available
+  echo exiting
+  echo
+
+fi
