@@ -5,8 +5,6 @@ Requires: icc
 %endif
 Source: http://www.hepforge.org/archive/fftjet/%n-%realversion.tar.gz
 Requires: fftw3
-Patch0: fftjet-1.3.1-fix-clang
-Patch1: fftjet-1.3.1-fix-gcc46
 
 %define keep_archives true
 %if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
@@ -23,8 +21,6 @@ Requires: gfortran-macosx
 
 %prep
 %setup -n %n-%realversion
-%patch0 -p1 
-%patch1 -p1
 
 %build
 # On old architectures we build dynamic libraries, on new ones,
