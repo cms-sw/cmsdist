@@ -13,23 +13,11 @@ Patch0: root6_patch_v1_for_v5-99-06-380-g509b29c
 
 Requires: root
 
-#equires: gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl zlib
-
-#if %islinux
-#equires: castor dcap
-#endif
-
-#if %isdarwin
-#equires: freetype
-#endif
-
 %define keep_archives true
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
-#patch0 -p1
-#patch1 -p1
+%patch0 -p0
 
 sed -ibak -e 's/\/usr\/local/\/no-no-no\/local/g' \
           -e 's/\/opt\/local/\/no-no-no\/local/g' \
@@ -40,11 +28,6 @@ mkdir -p %{i}
 export ROOTSYS=%_builddir/root
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
-#export LZMA=${XZ_ROOT}
-#export ZLIB=${ZLIB_ROOT}
-#export LIBJPEG=${LIBJPEG_ROOT}
-#export LIBPNG=${LIBPNG_ROOT}
-#export LIBTIFF=${LIBTIFF_ROOT}
 
 # Required for generated dictionaries during ROOT6 compile/install
 ROOT_INCLUDE_PATH=
