@@ -2,26 +2,21 @@
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
 BuildRequires: python
-
 Requires: gcc
 
 %define llvmCommit 6800b6d2afc
-%define clangCommit 3cde6a26a29
+%define clangCommit 5f467a633a0
 %define branch cms/v%realversion
-# s/#/S/ to use the official version.
-
 Source0: git+https://github.com/cms-externals/llvm.git?obj=%{branch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%realversion-%llvmCommit&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/cms-externals/clang.git?obj=%{branch}/%{clangCommit}&export=clang-%{realversion}-%{clangCommit}&module=clang-%realversion-%clangCommit&output=/clang-%{realversion}-%{clangCommit}.tgz
 
 # Still need forward porting.
-#Patch3: llvm-3.3-cms-custom-cxx11-attrs
 %define keep_archives true
 
 %prep
 %setup -T -b0 -n llvm-%realversion-%llvmCommit
 %setup -T -D -a1 -c -n llvm-%realversion-%llvmCommit/tools
 mv clang-%realversion-%clangCommit clang
-#patch3 -p1
 %setup -T -D -n llvm-%realversion-%llvmCommit
 
 %build
