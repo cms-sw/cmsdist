@@ -39,7 +39,6 @@ Requires: cmssw-tool-conf python cms-git-tools
 
 %if "%(case %realversion in (*_BOOSTIO_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define branch		%(echo %realversion | sed -e 's|_X.*|_X|')
-%define preBuildCommand scram setup boost_serialization; scram setup boost_iostreams
 %endif
 
 %if "%(case %realversion in (*_THREADED_X*) echo true ;; (*) echo false ;; esac)" == "true"
