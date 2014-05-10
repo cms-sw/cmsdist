@@ -44,17 +44,17 @@ Requires: file
 %endif
 %endif
 
-%if "%{?usercxxflags:set}" == "set"
-%define extraOptions USER_CXXFLAGS='"%{usercxxflags}"'
-%else
-%define extraOptions %{nil}
-%endif
 %define bootstrapfile   config/bootsrc.xml
 
 %if "%{?subpackageDebug:set}" == "set"
 # note: do not change the order of the -fdebug-prefix-map options, they seem to be use in reverse order
-# note: the single quotes are needed to protect the double quotes, otherwise scram will pass separate arguments to make
-%define extraOptions USER_CXXFLAGS='"-fdebug-prefix-map=%{cmsroot}=%{installroot} -fdebug-prefix-map=%{instroot}=%{installroot} -g"'
+%define extraOptions USER_CXXFLAGS='-fdebug-prefix-map=%{cmsroot}=%{installroot} -fdebug-prefix-map=%{instroot}=%{installroot} -g %{?usercxxflags}'
+%else
+%if "%{?usercxxflags:set}" == "set"
+%define extraOptions USER_CXXFLAGS='%{usercxxflags}'
+%else
+%define extraOptions %{nil}
+%endif
 %endif
 
 %if "%{?configtag:set}" != "set"
@@ -231,32 +231,6 @@ if [ -d %{i}/tmp/%{cmsplatf}/cache/log/src ]; then
   popd
 fi
 
-# split the debug symbols out of tha main binaries, into separate files
-%if "%{?subpackageDebug:set}" == "set"
-rm -f %_builddir/files.debug %_builddir/files
-touch %_builddir/files.debug %_builddir/files
-echo "%exclude %{installroot}/%{pkgrel}/debug.tar.gz" >> %_builddir/files
-BINDIR=$(%scramcmd tool info Self | grep "^PATH\|LD_LIBRARY_PATH=" | cut -d= -f2 | tr ":" "\n" | grep -v external)
-for DIR in $BINDIR; do
-  mkdir -p $DIR/.debug
-  # FIXME - work around the 2GB limit in RPM 4.4.2
-  #echo "%dir $DIR/.debug"     >> %_builddir/files.debug
-  DIR=`echo $DIR | sed 's|^%i/||'`
-  echo "%exclude %{installroot}/%{pkgrel}/$DIR/.debug" >> %_builddir/files
-  echo "$DIR/.debug" >> %_builddir/files.debug
-done
-for FILE in $(find $BINDIR -type f | xargs file | grep "ELF" | cut -d: -f1); do
-  NAME=$(basename $FILE)
-  DIR=$(dirname $FILE)
-  DEBUG="$DIR/.debug/$NAME.debug"
-  eu-strip "$FILE" -f "$DEBUG"
-  # FIXME - work around the 2GB limit in RPM 4.4.2
-  #echo "$DEBUG"          >> %_builddir/files.debug
-  #echo "%exclude $DEBUG" >> %_builddir/files
-  echo "$DEBUG" | sed 's#%{pkginstroot}/##' >> %_builddir/files.debug
-done
-%endif
-
 %if "%{?saveDeps:set}" == "set"
 mkdir -p %i/etc/dependencies
 perl %{_sourcedir}/findDependencies.pl -rel %i -arch %cmsplatf -scramroot $SCRAMV1_ROOT
@@ -297,56 +271,42 @@ cd %i
 tar czf %{srctree}.tar.gz %{srctree}
 rm -fR %{srctree} tmp
 
-# FIXME - work around the 2GB limit in RPM 4.4.2
-%if "%{?subpackageDebug:set}" == "set"
-tar czf debug.tar.gz --files-from %_builddir/files.debug --no-recursion --remove-files
-%endif
-
-# Begin debug
-
-mkdir -p %i/%cmsplatf/lib/.debug %i/%cmsplatf/bin/.debug %i/%cmsplatf/tests/bin/.debug
-
-BASE_LIB_PATH=%i/lib/%cmsplatf
-BASE_BIN_PATH=%i/bin/%cmsplatf
-BASE_TEST_PATH=%i/test/%cmsplatf
+# handle debug symbols
 if [ "%{n}" == "coral" ]; then
   BASE_LIB_PATH=%i/%cmsplatf/lib
-  BASE_BIN_PATH=%i/%cmsplatf/bin
+  BASE_BIN_PATH=
   BASE_TEST_PATH=%i/%cmsplatf/tests/bin
+else
+  BASE_LIB_PATH=%i/lib/%cmsplatf
+  BASE_BIN_PATH=%i/bin/%cmsplatf
+  BASE_TEST_PATH=%i/test/%cmsplatf
 fi
 
-pushd $BASE_LIB_PATH
-  dwz -m lib-common.so.debug -r *.so
-  find . -type f -name '*.so' -exec objcopy --compress-debug-sections {} \;
-  find . -type f -name '*.so' -print0 | xargs -0 -I% -n1 sh -c 'eu-strip -f %.debug %'
-  find . -type f -name '*.so.debug' -exec mv {} %i/%cmsplatf/lib/.debug \;
-popd
-
-pushd $BASE_BIN_PATH
+# optimise the debug symbols, compress them, and split them into separate file
+for DIR in $BASE_LIB_PATH $BASE_BIN_PATH $BASE_TEST_PATH; do
+  pushd $DIR
+  mkdir -p .debug
   # ELF binaries
-  ELF_BINS=$(find . -type f -exec file {} \; | grep -i elf | cut -d':' -f1)
+  ELF_BINS=$(file * | grep ELF | cut -d':' -f1)
   if [ ! -z "$ELF_BINS" ]; then
-    dwz -m bin-common.debug -r $ELF_BINS
-    find . -type f -exec file {} \; | grep -i elf | cut -d':' -f1 | xargs -I% -n1 sh -c 'objcopy --compress-debug-sections %'
-    find . -type f -exec file {} \; | grep -i elf | cut -d':' -f1 | xargs -I% -n1 sh -c 'eu-strip -f %.debug %'
-    find . -type f -name '*.debug' -exec mv {} %i/%cmsplatf/bin/.debug \;
+    %if "%{?isPatch:set}" != "set"
+    dwz -m .debug/common-symbols.debug -M common-symbols.debug $ELF_BINS
+    %endif
+    echo "$ELF_BINS" | xargs -t -n1 -P%{compiling_processes} -I% sh -c 'objcopy --compress-debug-sections --only-keep-debug % .debug/%.debug; objcopy --strip-debug --add-gnu-debuglink=.debug/%.debug %'
   fi
-popd
+  popd
+done
 
-pushd $BASE_TEST_PATH
-  # ELF binaries
-  ELF_BINS=$(find . -type f -exec file {} \; | grep -i elf | cut -d':' -f1)
-  if [ ! -z "$ELF_BINS" ]; then
-    dwz -m tests-common.debug -r $ELF_BINS
-    # find . -type f -exec file {} \; | grep -i elf | cut -d':' -f1 | grep -v tests-common.debug | xargs -I% -n1 sh -c 'objcopy --compress-debug-sections %'
-    echo "$ELF_BINS" | xargs -I% -n1 sh -c 'echo %; objcopy --compress-debug-sections %'
-    # find . -type f -exec file {} \; | grep -i elf | cut -d':' -f1 | grep -v tests-common.debug | xargs -I% -n1 sh -c 'eu-strip -f %.debug %'
-    echo "$ELF_BINS" | xargs -I% -n1 sh -c 'eu-strip -f %.debug %'
-    find . -type f -name '*.debug' -exec mv {} %i/%cmsplatf/tests/bin/.debug \;
-  fi
-popd
-
-# End debug
+# split the debug symbols out of the main binaries, into separate files
+%if "%{?subpackageDebug:set}" == "set"
+rm -f %_builddir/files.debug %_builddir/files
+touch %_builddir/files.debug %_builddir/files
+for DIR in $BASE_LIB_PATH $BASE_BIN_PATH $BASE_TEST_PATH; do
+  DIR=`echo $DIR | sed 's|^%i/|%{installroot}/%{pkgrel}/|'`
+  echo "%exclude $DIR/.debug"   >> %_builddir/files
+  echo "$DIR/.debug"            >> %_builddir/files.debug
+done
+%endif
 
 ######################################################
 #Do the symlink relocation as a last step in install
