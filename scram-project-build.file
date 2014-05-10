@@ -28,11 +28,9 @@ BuildRequires: dwz gcc file
 %endif
 %define bootstrapfile   config/bootsrc.xml
 
-%if "%{?subpackageDebug:set}" == "set"
 # note: do not change the order of the -fdebug-prefix-map options, they seem to be use in reverse order
 # note: the single quotes are needed to protect the double quotes, otherwise scram will pass separate arguments to make
 %define extraOptions USER_CXXFLAGS='"-fdebug-prefix-map=%{cmsroot}=%{installroot} -fdebug-prefix-map=%{instroot}=%{installroot} -g"'
-%endif
 
 %if "%{?configtag:set}" != "set"
 %define configtag       V05-01-24
@@ -271,8 +269,6 @@ tar czf debug.tar.gz --files-from %_builddir/files.debug --no-recursion --remove
 
 # Begin debug
 
-mkdir -p %i/%cmsplatf/lib/.debug %i/%cmsplatf/bin/.debug %i/%cmsplatf/tests/bin/.debug
-
 BASE_LIB_PATH=%i/lib/%cmsplatf
 BASE_BIN_PATH=%i/bin/%cmsplatf
 BASE_TEST_PATH=%i/test/%cmsplatf
@@ -283,33 +279,32 @@ if [ "%{n}" == "coral" ]; then
 fi
 
 pushd $BASE_LIB_PATH
-  dwz -m lib-common.so.debug -r *.so
-  find . -type f -name '*.so' -exec objcopy --compress-debug-sections {} \;
-  find . -type f -name '*.so' -print0 | xargs -0 -I% -n1 sh -c 'eu-strip -f %.debug %'
-  find . -type f -name '*.so.debug' -exec mv {} %i/%cmsplatf/lib/.debug \;
+  mkdir -p .debug
+  # ELF binaries
+  ELF_BINS=$(ls | xargs -I% file % | grep ELF | cut -d':' -f1)
+  if [ ! -z "$ELF_BINS" ]; then
+    dwz -m .debug/lib-common.so.debug -r *.so
+    echo "$ELF_BINS" | xargs -I% sh -c 'objcopy --compress-debug-sections --only-keep-debug % .debug/%.debug %; objcopy --strip-debug --add-gnu-debuglink=.debug/%.debug % %'
+  fi
 popd
 
 pushd $BASE_BIN_PATH
+  mkdir -p .debug
   # ELF binaries
-  ELF_BINS=$(find . -type f -exec file {} \; | grep -i elf | cut -d':' -f1)
+  ELF_BINS=$(ls | xargs -I% file % | grep ELF | cut -d':' -f1)
   if [ ! -z "$ELF_BINS" ]; then
-    dwz -m bin-common.debug -r $ELF_BINS
-    find . -type f -exec file {} \; | grep -i elf | cut -d':' -f1 | xargs -I% -n1 sh -c 'objcopy --compress-debug-sections %'
-    find . -type f -exec file {} \; | grep -i elf | cut -d':' -f1 | xargs -I% -n1 sh -c 'eu-strip -f %.debug %'
-    find . -type f -name '*.debug' -exec mv {} %i/%cmsplatf/bin/.debug \;
+    dwz -m .debug/bin-common.debug -r $ELF_BINS
+    echo "$ELF_BINS" | xargs -I% sh -c 'objcopy --compress-debug-sections --only-keep-debug % .debug/%.debug %; objcopy --strip-debug --add-gnu-debuglink=.debug/%.debug % %'
   fi
 popd
 
 pushd $BASE_TEST_PATH
+  mkdir -p .debug
   # ELF binaries
-  ELF_BINS=$(find . -type f -exec file {} \; | grep -i elf | cut -d':' -f1)
+  ELF_BINS=$(ls | xargs -I% file % | grep ELF | cut -d':' -f1)
   if [ ! -z "$ELF_BINS" ]; then
-    dwz -m tests-common.debug -r $ELF_BINS
-    # find . -type f -exec file {} \; | grep -i elf | cut -d':' -f1 | grep -v tests-common.debug | xargs -I% -n1 sh -c 'objcopy --compress-debug-sections %'
-    echo "$ELF_BINS" | xargs -I% -n1 sh -c 'echo %; objcopy --compress-debug-sections %'
-    # find . -type f -exec file {} \; | grep -i elf | cut -d':' -f1 | grep -v tests-common.debug | xargs -I% -n1 sh -c 'eu-strip -f %.debug %'
-    echo "$ELF_BINS" | xargs -I% -n1 sh -c 'eu-strip -f %.debug %'
-    find . -type f -name '*.debug' -exec mv {} %i/%cmsplatf/tests/bin/.debug \;
+    dwz -m .debug/tests-common.debug -r $ELF_BINS
+    echo "$ELF_BINS" | xargs -I% sh -c 'objcopy --compress-debug-sections --only-keep-debug % .debug/%.debug %; objcopy --strip-debug --add-gnu-debuglink=.debug/%.debug % %'
   fi
 popd
 
