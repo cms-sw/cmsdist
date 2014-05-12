@@ -12,7 +12,16 @@ Requires: SCRAMV1
 #config stuff moved to github!
 %define cvsconfig	config
 %define configtar	config.tar.gz
-%define configrepo	git://github.com/cms-sw/cmssw-config.git?protocol=https
+
+%if "%{?configuser:set}" != "set"
+%define configuser       cms-sw
+%endif
+
+%if "%{?configbranch:set}" != "set"
+%define configbranch master
+%endif
+
+%define configrepo	git://github.com/%{configuser}/cmssw-config.git?protocol=https
 %if "%{?buildtarget:set}" != "set"
 %define buildtarget	release-build
 %endif
@@ -33,6 +42,7 @@ Requires: SCRAMV1
 # note: the single quotes are needed to protect the double quotes, otherwise scram will pass separate arguments to make
 %define extraOptions USER_CXXFLAGS='"-fdebug-prefix-map=%{cmsroot}=%{installroot} -fdebug-prefix-map=%{instroot}=%{installroot} -g"'
 %endif
+
 
 %if "%{?configtag:set}" != "set"
 %define configtag       V05-01-25
@@ -66,8 +76,7 @@ Requires: SCRAMV1
 %define toolconf        %(echo %n | sed "s|-|_|g" | tr 'a-z' 'A-Z')_TOOL_CONF_ROOT
 %endif
 
-#define source0 %{configrepo}&obj=master/%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
-%define source0 https://github.com/cms-sw/cmssw-config/archive/%{configtag}.tar.gz
+%define source0 %{configrepo}&obj=%{configbranch}/%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
 
 %if "%{?source1:set}" != "set"
 %if  "%{cvsrepo}" != "cmstc"
