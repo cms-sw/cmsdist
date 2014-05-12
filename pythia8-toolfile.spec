@@ -17,7 +17,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pythia8.xml
     <environment name="INCLUDE" default="$PYTHIA8_BASE/include"/>
   </client>
   <runtime name="PYTHIA8DATA" value="$PYTHIA8_BASE/xmldoc"/>
-  <use name="cxxcompiler"/>
   <use name="hepmc"/>
   <use name="lhapdf"/>
 </tool>
