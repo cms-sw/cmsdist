@@ -2,6 +2,7 @@
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
 Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
+Patch0: reqmon-erl-views
 
 #from private repository
 #Source: git://github.com/ticoann/WMCore?obj=wmstats_task_summary/%realversion&export=%n&output=/%n.tar.gz
@@ -11,6 +12,7 @@ BuildRequires: py2-setuptools py2-sphinx couchskel
 
 %prep
 %setup -b 0 -n %n
+%patch0 -p0
 
 %build
 python setup.py build_system -s reqmon
@@ -18,6 +20,9 @@ python setup.py build_system -s reqmon
 %install
 python setup.py install_system -s reqmon --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
+#%define drop_files %i/data/couchapps/WMStats/views/{requestByCampaignAndDate,\
+#requestByDate,requestByInputDataset,agentInfo,tier0Requests,\
+#requestByOutputDataset,requestByPrepID,requestHistory}
 
 # Pick external dependencies from couchskel
 mkdir %i/data/couchapps/WMStats/vendor/
