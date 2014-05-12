@@ -4,6 +4,7 @@
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
 Source: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
+Source2: https://github.com/dmwm/WMCore/pull/5108.diff
 #from WMCore github branch 
 #Source: git://github.com/dmwm/WMCore?obj=size-per-evt-fix/%realversion&export=%n&output=/%n.tar.gz
 #Source: https://maxa.home.cern.ch/maxa/reqmgr-WMCore-0.9.59-rc1.tgz
@@ -12,6 +13,7 @@ Requires: py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah py2-cx
 
 %prep
 %setup -b 0 -n %n 
+patch -p1 < %{_sourcedir}/5108.diff
 
 %build
 python setup.py build_system -s reqmgr
