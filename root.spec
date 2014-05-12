@@ -1,23 +1,14 @@
 ### RPM lcg root 5.99.07
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 86d37a2c5978890d910c2e902952c5ab749f19e6
-%define branch master
-Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+%define tag 7d4a2037de5d03424761015cfe1d4a52625053a2
+%define branch cms/master
+%define github_user cms-sw
+Source: git+https://github.com/%github_user/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
-
-#Patch0: root-5.34.02-externals                            in master
-#Patch1: root-5.28-00d-roofit-silence-static-printout      can be done via C macro, in rootfit
-#Patch2: root-5.34.00-linker-gnu-hash-style
-#Patch3: root-5.32.00-detect-arch                          in master
-#Patch4: root-5.30.02-fix-gcc46
-#Patch5: root-5.30.02-fix-isnan-again
-#Patch6: root-5.34.05-cintex-armv7a-port                   not needed anymore
-
-Patch0: root6_patch_v1_for_v5-99-06-380-g509b29c
 
 Requires: gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl zlib
 
@@ -33,7 +24,6 @@ Requires: freetype
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p0
 
 # Delete these (irrelevant) files as the fits appear to confuse rpm on OSX
 # (It tries to run install_name_tool on them.)
