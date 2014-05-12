@@ -1,0 +1,172 @@
+--- src/couchapps/WMStats/rewrites.json.orig	2014-05-09 11:46:30.000000000 +0200
++++ src/couchapps/WMStats/rewrites.json	2014-05-09 11:47:09.000000000 +0200
+@@ -44,6 +44,46 @@
+   },
+ 
+   {
++    "from": "_view/requestByCampaignAndDate",
++    "to": "../WMStatsErl/_view/requestByCampaignAndDate"
++  },
++
++  {
++    "from": "_view/requestByDate",
++    "to": "../WMStatsErl/_view/requestByDate"
++  },
++
++  {
++    "from": "_view/requestByInputDataset",
++    "to": "../WMStatsErl/_view/requestByInputDataset"
++  },
++
++  {
++    "from": "_view/agentInfo",
++    "to": "../WMStatsErl/_view/agentInfo"
++  },
++
++  {
++    "from": "_view/tier0Requests",
++    "to": "../WMStatsErl/_view/tier0Requests"
++  },
++
++  {
++    "from": "_view/requestByOutputDataset",
++    "to": "../WMStatsErl/_view/requestByOutputDataset"
++  },
++
++  {
++    "from": "_view/requestByPrepID",
++    "to": "../WMStatsErl/_view/requestByPrepID"
++  },
++
++  {
++    "from": "_view/requestHistory",
++    "to": "../WMStatsErl/_view/requestHistory"
++  },
++
++  {
+     "from": "_view/*",
+     "to": "_view/*"
+   },
+--- /dev/null	1970-01-01 01:00:00.000000000 +0100
++++ src/couchapps/WMStatsErl/language	2014-05-09 11:51:03.000000000 +0200
+@@ -0,0 +1 @@
++erlang
+--- /dev/null	1970-01-01 01:00:00.000000000 +0100
++++ src/couchapps/WMStatsErl/views/requestByCampaignAndDate/map.erl	2014-05-09 12:00:40.000000000 +0200
+@@ -0,0 +1,11 @@
++fun({Doc}) ->
++  DocType = couch_util:get_value(<<"type">>, Doc),
++  case DocType of
++    undefined -> ok;
++    <<"reqmgr_request">> ->
++      Campaign = couch_util:get_value(<<"campaign">>, Doc),
++      ReqDate = couch_util:get_value(<<"request_date">>, Doc),
++      Emit([Campaign, ReqDate], null);
++    _ -> ok
++  end
++end.
+--- /dev/null   1970-01-01 01:00:00.000000000 +0100
++++ src/couchapps/WMStatsErl/views/requestByDate/map.erl     2014-05-09 12:00:40.000000000 +0200
+@@ -0,0 +1,9 @@
++fun({Doc}) ->
++  DocDate = couch_util:get_value(<<"request_date">>, Doc),
++  case DocDate of
++    undefined -> ok;
++    [H|T] ->
++      Emit(DocDate, null);
++    _ -> ok
++  end
++end.
+--- /dev/null   1970-01-01 01:00:00.000000000 +0100
++++ src/couchapps/WMStatsErl/views/requestByInputDataset/map.erl     2014-05-09 12:00:40.000000000 +0200
+@@ -0,0 +1,8 @@
++fun({Doc}) ->
++  DocInput = couch_util:get_value(<<"inputdataset">>, Doc),
++  case DocInput of
++    undefined -> ok;
++    <<"">> -> ok;
++    _ -> Emit(DocInput, null)
++  end
++end.
+--- /dev/null   1970-01-01 01:00:00.000000000 +0100
++++ src/couchapps/WMStatsErl/views/agentInfo/map.erl     2014-05-09 12:00:40.000000000 +0200
+@@ -0,0 +1,10 @@
++fun({Doc}) ->
++  DocType = couch_util:get_value(<<"type">>, Doc),
++  case DocType of
++    undefined -> ok;
++    <<"agent_info">> ->
++      AgentUrl = couch_util:get_value(<<"agent_url">>, Doc),
++      Emit(AgentUrl, {Doc});
++    _ -> ok
++  end
++end.
+--- /dev/null   1970-01-01 01:00:00.000000000 +0100
++++ src/couchapps/WMStatsErl/views/tier0Requests/map.erl     2014-05-09 12:00:40.000000000 +0200
+@@ -0,0 +1,10 @@
++fun({Doc}) ->
++  DocType = couch_util:get_value(<<"type">>, Doc),
++  case DocType of
++    undefined -> ok;
++    <<"tier0_request">> ->
++      Workflow = couch_util:get_value(<<"workflow">>, Doc),
++      Emit(Workflow, null);
++    _ -> ok
++  end
++end.
+--- /dev/null   1970-01-01 01:00:00.000000000 +0100
++++ src/couchapps/WMStatsErl/views/requestByOutputDataset/map.erl     2014-05-09 12:00:40.000000000 +0200
+@@ -0,0 +1,8 @@
++fun({Doc}) ->
++  OutDataSets = couch_util:get_value(<<"outputdatasets">>, Doc),
++  case OutDataSets of
++    undefined -> ok;
++    _ ->
++      lists:foreach(fun(DatasetName) -> Emit(DatasetName, null) end, OutDataSets)
++    end
++end.
+--- /dev/null   1970-01-01 01:00:00.000000000 +0100
++++ src/couchapps/WMStatsErl/views/requestByPrepID/map.erl     2014-05-09 12:00:40.000000000 +0200
+@@ -0,0 +1,9 @@
++fun({Doc}) ->
++  PrepID= couch_util:get_value(<<"prep_id">>, Doc),
++  case PrepID of
++    undefined -> ok;
++    <<"">> -> ok;
++    null -> ok;
++    _ -> Emit(PrepID, null)
++  end
++end.
+--- /dev/null   1970-01-01 01:00:00.000000000 +0100
++++ src/couchapps/WMStatsErl/views/requestHistory/map.erl     2014-05-09 12:00:40.000000000 +0200
+@@ -0,0 +1,11 @@
++fun({Doc}) ->
++  DocType = couch_util:get_value(<<"type">>, Doc),
++  case DocType of
++    undefined -> ok;
++    <<"agent_request">> ->
++      Timestamp = couch_util:get_value(<<"timestamp">>, Doc),
++      Workflow = couch_util:get_value(<<"workflow">>, Doc),
++      Emit([Timestamp, Workflow], null);
++    _ -> ok
++  end
++end.
+--- /dev/null   1970-01-01 01:00:00.000000000 +0100
++++ src/couchapps/WMStatsErl/views/requestHistory/reduce.erl     2014-05-09 12:00:40.000000000 +0200
+@@ -0,0 +1,6 @@
++fun(Keys, Values, ReReduce) ->
++  case ReReduce of
++    true -> lists:sum(Values);
++    _ -> length(Values)
++  end
++end.
+--- setup_dependencies.py.orig	2014-05-09 12:17:46.000000000 +0200
++++ setup_dependencies.py	2014-05-09 12:18:47.000000000 +0200
+@@ -142,6 +142,7 @@
+                         },
+                 'reqmon':{
+                         'statics': ['src/couchapps/WMStats+',
++                                    'src/couchapps/WMStatsErl+',
+                                     'src/couchapps/WorkloadSummary+'],
+                         },
+                 'alertscollector':
