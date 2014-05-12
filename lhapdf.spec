@@ -21,7 +21,6 @@ BuildRequires: autotools swig
 Requires: gfortran-macosx
 %endif
 
-
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx c++
 %endif
@@ -33,8 +32,6 @@ Requires: gfortran-macosx
 %prep
 %setup -q -n %{n}/%{realversion}
 %patch3 -p2
-
-touch src/gzio.inc ; touch src/gzio.F ; touch src/ftn_gzio.c 
 
 # Remove wrapper generated w/ SWIG 1.3* version. Makefile will
 # regenerate it w/ our SWIG version.
@@ -87,14 +84,6 @@ CC="`which gcc` -fPIC"
 make %{makeprocesses}
 make install
 
-mkdir %{i}/share/lhapdf/PDFsets
-mv share/lhapdf/PDFsets/*gz %{i}/share/lhapdf/PDFsets
-pushd %{i}/share/lhapdf/PDFsets
-  for x in `ls *.gz`; do
-    ln -sf $x `echo $x | sed -e's|\.gz$||'`
-  done
-popd
-
 # do another install-round for full libs
 make distclean
 ./configure --prefix=%{i}/full --enable-static --disable-shared \
@@ -107,6 +96,14 @@ make distclean
 %endif
 make %{makeprocesses}
 make install
+
+
+mkdir -p %{i}/share/lhapdf/PDFsets
+%{i}/bin/lhapdf-getdata --force --repo=http://www.hepforge.org/archive/lhapdf/pdfsets/%{realversion} --dest=%{i}/share/lhapdf/PDFsets cteq6l ct10 MSTW2008nlo68cl
+cd %{i}/share/lhapdf/PDFsets
+chmod a+x %{_sourcedir}/lhapdf_makeLinks
+%{_sourcedir}/lhapdf_makeLinks
+
 
 # Remove all libtool archives
 find %{i} -name '*.la' -exec rm -f {} \;
