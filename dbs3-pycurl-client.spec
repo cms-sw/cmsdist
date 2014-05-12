@@ -1,4 +1,4 @@
-### RPM cms dbs3-pycurl-client 3.2.3b
+### RPM cms dbs3-pycurl-client 3.2.4
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
 
