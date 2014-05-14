@@ -1,7 +1,7 @@
 ### FILE scram-project-build
 # FIXME: support building all platforms together like scram does?
 # FIXME: automatic sub-packages for "doc" etc?
-
+## NOCOMPILER
 Requires: SCRAMV1
 
 %define initenv	        %initenv_direct
@@ -35,7 +35,7 @@ Requires: SCRAMV1
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-01-27-00
+%define configtag       V05-01-28-01
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -62,7 +62,9 @@ Requires: SCRAMV1
 %define ucprojtype      %(echo %n | sed -e "s|-patch||" | tr 'a-z' 'A-Z')
 %endif
 %define lcprojtype      %(echo %ucprojtype | tr 'A-Z' 'a-z')
+%if "%{?toolconf:set}" != "set"
 %define toolconf        %(echo %n | sed "s|-|_|g" | tr 'a-z' 'A-Z')_TOOL_CONF_ROOT
+%endif
 
 #define source0 %{configrepo}&obj=master/%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
 %define source0 https://github.com/cms-sw/cmssw-config/archive/%{configtag}.tar.gz
@@ -99,6 +101,7 @@ Source4: findDependencies.pl
 %prep
 rm -rf config
 rm -rf %{srctree}
+rm -rf poison
 
 %setup -T -b 0 -n cmssw-config-%(echo %{configtag} | sed 's/^.//')
 # The following is a temporary hack until we move to 4.8.1
@@ -117,7 +120,12 @@ cd ..; mv cmssw-config-%(echo %{configtag} | sed 's/^.//') config
 
 cd %_builddir
 echo %{configtag} > %_builddir/config/config_tag
-%_builddir/config/updateConfig.pl -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} -a %cmsplatf
+%_builddir/config/updateConfig.pl -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} -a %cmsplatf \
+%if "%{?gitcommit:set}" == "set"
+  --keys PROJECT_GIT_HASH=%{gitcommit}
+%else
+  --keys PROJECT_GIT_HASH=%{realversion}
+%endif
 
 %{?PartialBootstrapPatch:%PartialBootstrapPatch}
 %{?patchsrc:%patchsrc}
@@ -147,6 +155,9 @@ cd %i/%{srctree}
 
 export BUILD_LOG=yes
 export SCRAM_NOPLUGINREFRESH=yes
+
+# We clean everything before doing anything else.
+%scramcmd b clean
 
 if [ $(uname) = Darwin ]; then
   # %scramcmd doesn't know the rpath variable on darwin...
