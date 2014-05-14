@@ -67,6 +67,8 @@ mkdir -p %{i}/share/lhapdf/PDFsets
 cd %{i}/share/lhapdf/PDFsets
 chmod a+x %{_sourcedir}/lhapdf_makeLinks
 %{_sourcedir}/lhapdf_makeLinks
+cd %{i}/full/share/lhapdf
+ln -fs ../../../share/lhapdf/PDFsets PDFsets
 
 
 # Remove all libtool archives
