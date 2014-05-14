@@ -8,9 +8,6 @@ Requires: cmssw-tool-conf python cms-git-tools
 %define branch          CMSSW_7_0_X
 %define gitcommit       %{realversion}
 
-%define configuser      ktf
-%define configbranch    enable-visibility-hidden
-%define configtag       97fc2a356681a6bb27531938e272070e718a3d2c
 
 %if "%(case %realversion in (*_COVERAGE_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define branch		%(echo %realversion | sed -e 's|_COVERAGE_X.*|_X|')
