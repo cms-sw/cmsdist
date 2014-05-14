@@ -1,0 +1,13 @@
+--- src/couch_replicator/src/couch_replicator_utils.erl	2014-04-28 19:57:01.000000000 +0200
++++ src/couch_replicator/src/couch_replicator_utils.erl	2014-04-28 20:04:11.000000000 +0200
+@@ -321,8 +321,9 @@
+         VerifyCerts = couch_config:get("replicator", "verify_ssl_certificates"),
+         CertFile = couch_config:get("replicator", "cert_file", nil),
+         KeyFile = couch_config:get("replicator", "key_file", nil),
++        CaCertFile=couch_config:get("replicator", "cacert_file", nil),
+         Password = couch_config:get("replicator", "password", nil),
+-        SslOpts = [{depth, Depth} | ssl_verify_options(VerifyCerts =:= "true")],
++        SslOpts = [{certfile, CertFile}, {keyfile, KeyFile}, {cacertfile, CaCertFile}, {depth, Depth} | ssl_verify_options(VerifyCerts =:= "true")],
+         SslOpts1 = case CertFile /= nil andalso KeyFile /= nil of
+             true ->
+                 case Password of
