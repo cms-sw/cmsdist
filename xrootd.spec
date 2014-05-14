@@ -11,6 +11,7 @@ Patch5: xrootd-3.1.0-gcc-470-literals-whitespace
 Patch6: xrootd-3.1.0-add-GetHandle-XrdClientAbs-header
 Patch7: xrootd-3.1.0-narrowing-conversion
 Patch8: xrootd-3.2.3-rename-macos-to-apple
+Patch9: xrootd-3.2.4-xrdclient
 
 BuildRequires: cmake
 %if "%online" != "true"
@@ -34,6 +35,7 @@ Requires: gcc openssl
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 # need to fix these from xrootd git
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
