@@ -43,10 +43,9 @@ Requires: SCRAMV1
 %define extraOptions USER_CXXFLAGS='"-fdebug-prefix-map=%{cmsroot}=%{installroot} -fdebug-prefix-map=%{instroot}=%{installroot} -g"'
 %endif
 
-
-%if "%{?configtag:set}" != "set"
-%define configtag       V05-01-28
-%endif
+%define configuser      ktf
+%define configbranch    enable-visibility-hidden
+%define configtag       97fc2a356681a6bb27531938e272070e718a3d2c
 
 %if "%{?useCmsTC:set}" != "set"
 %if "%{?cvsrepo:set}" != "set"
