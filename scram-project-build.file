@@ -45,7 +45,7 @@ Requires: SCRAMV1
 
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-01-27
+%define configtag       V05-01-28
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -110,6 +110,7 @@ Source4: findDependencies.pl
 %prep
 rm -rf config
 rm -rf %{srctree}
+rm -rf poison
 
 %setup -T -b 0 -n config
 %setup -D -T -b 1 -n %{srctree}
