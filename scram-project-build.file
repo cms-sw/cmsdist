@@ -35,7 +35,7 @@ Requires: SCRAMV1
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-01-27
+%define configtag       V05-01-28
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -101,6 +101,7 @@ Source4: findDependencies.pl
 %prep
 rm -rf config
 rm -rf %{srctree}
+rm -rf poison
 
 %setup -T -b 0 -n cmssw-config-%(echo %{configtag} | sed 's/^.//')
 # The following is a temporary hack until we move to 4.8.1
