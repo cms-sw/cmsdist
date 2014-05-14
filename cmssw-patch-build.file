@@ -65,8 +65,11 @@
 %define RunPatchReleaseGlimpse %scramcmd b --verbose -f gindices
 %endif
 
+%define CopyPoisonDirectory \
+  if [ -d %{_builddir}/poison ] ; then cp -r %{_builddir}/poison %i ; fi
+
 %define PatchReleasePythonSymlinks \
-  CWD=`/bin/pwd`; cd %i; %scramcmd b --verbose -f tmp/common/cache/python_symlinks </dev/null; DIR=python; %{PatchReleaseLink} ; cd $CWD;
+  %{CopyPoisonDirectory}; CWD=`/bin/pwd`; cd %i; %scramcmd b --verbose -f tmp/common/cache/python_symlinks </dev/null; DIR=python; %{PatchReleaseLink} ; cd $CWD;
  
 %define PatchReleaseSourceSymlinks \
   CWD=`/bin/pwd`; cd %i; DIR=%{srctree}; %{PatchReleaseLink}; %{RunPatchReleaseGlimpse}; %{RelocateReleaseLinks}; DIR=cfipython/%{cmsplatf}; %{PatchReleaseLink}; %{RelocateReleaseLinks}; DIR=python; %{RelocateReleaseLinks}; cd $CWD; 
