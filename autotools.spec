@@ -1,6 +1,6 @@
 ### RPM external autotools 1.0
 # We keep all of them together to simplify the "requires" statements.
-%define autoconf_version 2.68
+%define autoconf_version 2.69
 %define automake_version 1.11.4
 %define libtool_version 2.4.2
 %define m4_version 1.4.16
