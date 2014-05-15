@@ -97,6 +97,7 @@ export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 %if "%online" == "true"
 # Also skip xrootd and odbc for online case:
 
+EXTRA_CXXFLAGS_ARGS=""
 EXTRA_CONFIG_ARGS="--with-f77=/usr
              --disable-odbc --disable-astiff"
 %else
@@ -104,6 +105,7 @@ export LIBPNG_ROOT ZLIB_ROOT LIBTIFF_ROOT LIBUNGIF_ROOT
 EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}
              --with-ssl-incdir=${OPENSSL_ROOT}/include
              --with-ssl-libdir=${OPENSSL_ROOT}/lib"
+EXTRA_CXXFLAGS_ARGS="-I${OPENSSL_ROOT}/include"
 %endif
 LZMA=${XZ_ROOT}
 export LZMA
@@ -153,7 +155,7 @@ case %cmsos in
     ./configure linux $CONFIG_ARGS --disable-rfio;;
 esac
 
-make %makeprocesses CXX="g++ -DDLL_DECL=" CC="gcc -DDLL_DECL="
+make %makeprocesses CXX="g++ -DDLL_DECL=" CC="gcc -DDLL_DECL=" EXTRA_CXXFLAGS="-Iinclude ${EXTRA_CXXFLAGS_ARGS}"
 
 %install
 # Override installers if we are using GNU fileutils cp.  On OS X
