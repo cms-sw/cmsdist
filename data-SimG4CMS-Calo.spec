@@ -7,6 +7,7 @@
 
 cat << CMS_EOF >> ./sources
 SimG4CMS/Calo/data/hfshowerlibrary_lhep_140_edm.root
+SimG4CMS/Calo/data/HFShowerLibrary_npmt_eta4_16en.root
 CMS_EOF
 
 ## IMPORT data-package-build
