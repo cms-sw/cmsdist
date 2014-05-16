@@ -39,6 +39,9 @@ export CURL_ROOT SPIDERMONKEY_ROOT OPENSSL_ROOT ICU4C_ROOT ERLANG_ROOT
 ./configure --prefix=%i --with-js-lib=$SPIDERMONKEY_ROOT/lib --with-js-include=$SPIDERMONKEY_ROOT/include --with-erlang=$ERLANG_ROOT/lib/erlang/usr/include --with-icu4c=$ICU4C_ROOT
 make %makeprocesses
 
+# Increase the heartbeat timeout to avoid couchdb killing itself from high load
+perl -p -i -e 's{HEART_BEAT_TIMEOUT=11}{HEART_BEAT_TIMEOUT=60}g' bin/couchdb 
+
 %install
 make %makeprocesses install
 %define drop_files %i/{man,share/doc}
