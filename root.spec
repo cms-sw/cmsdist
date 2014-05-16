@@ -3,7 +3,7 @@
 ## INITENV SET ROOTSYS %i
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 %define tag 4f40be5036
-%define branch cms/%realversion
+%define branch cms/v%realversion
 %define github_user cms-sw
 Source: git+https://github.com/%github_user/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
