@@ -8,7 +8,6 @@ Requires: cmssw-tool-conf python cms-git-tools
 %define branch          CMSSW_7_0_X
 %define gitcommit       %{realversion}
 
-
 %if "%(case %realversion in (*_COVERAGE_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define branch		%(echo %realversion | sed -e 's|_COVERAGE_X.*|_X|')
 %define usercxxflags    -fprofile-arcs -ftest-coverage
