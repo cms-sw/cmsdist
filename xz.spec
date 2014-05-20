@@ -10,6 +10,7 @@
 Source0: git+https://github.com/%github_user/xz.git?obj=%{branch}/%{tag}&export=%{n}-%{generic_version}&output=/%{n}-%{generic_version}.tgz
 Source1: git+https://github.com/%github_user/xz.git?obj=%{armbranch}/%{armtag}&export=%{n}-%{fcarm_version}&output=/%{n}-%{fcarm_version}.tgz
 
+BuildRequires: autotools
 
 %prep
 %if %isfcarm
@@ -19,6 +20,7 @@ Source1: git+https://github.com/%github_user/xz.git?obj=%{armbranch}/%{armtag}&e
 %endif
 
 %build
+./autogen.sh
 ./configure CFLAGS='-fPIC -Ofast' --prefix=%{i} --disable-static
 make %{makeprocesses}
 
