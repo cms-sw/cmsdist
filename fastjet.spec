@@ -1,20 +1,11 @@
 ### RPM external fastjet 3.0.3
-Source: http://www.lpthe.jussieu.fr/~salam/fastjet/repo/%n-%realversion.tar.gz
-Patch1: fastjet-3.0.3-nobanner
-Patch2: fastjet-3.0.1-siscone-banner
-Patch3: fastjet-3.0.1-noemptyareawarning
-Patch4: fastjet-3.0.1-nodegeneracywarning
-Patch5: fastjet-3.0.1-cluster-sequence-banner
-Patch6: fastjet-3.0.1-silence-warnings
+%define tag fe68d452c6839dcf9d8f8a2691bfd414cd071295
+%define branch cms/v%realversion
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/fastjet.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 %prep
 %setup -n %n-%realversion
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
 
 case %cmsplatf in
     *_gcc4[01234]* ) ;;
