@@ -1,4 +1,4 @@
-### RPM external python 2.7.3
+### RPM external python 2.7.6
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 ## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib/python%{python_major_version}/site-packages
@@ -6,39 +6,24 @@
 # OS X patches and build fudging stolen from fink
 %{expand:%%define python_major_version %(echo %realversion | cut -d. -f1,2)}
 
-%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
-%define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
-
 Requires: expat bz2lib db4 gdbm openssl
 
-%if %isnotonline
 Requires: zlib sqlite readline
-%endif
 
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, tk/tcl, x11
-
-Source0: http://www.python.org/ftp/%n/%realversion/Python-%realversion.tgz
-Patch0: python-2.7.3-dont-detect-dbm
-Patch1: python-fix-macosx-relocation
-Patch2: python-2.7.3-fix-pyport
-Patch3: python-2.7.3-ssl-fragment
+%define tag 75d55971dbfa8a23c15cd0900c03655c692be767
+%define branch cms/v%realversion
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 %prep
-%setup -n Python-%realversion
+%setup -n python-%realversion
 find . -type f | while read f; do
   if head -n1 $f | grep -q /usr/local; then
     perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" $f
   else :; fi
 done
-%patch0 -p1
-%patch1 -p0
-
-%if %isdarwin
-%patch2 -p1
-%endif
-
-%patch3 -p1
 
 %build
 # Python is awkward about passing other include or library directories
@@ -55,11 +40,7 @@ done
 #mkdir -p %i/include %i/lib
 mkdir -p %i/include %i/lib %i/bin
 
-%if %isnotonline
 %define extradirs ${ZLIB_ROOT} ${SQLITE_ROOT} ${READLINE_ROOT}
-%else
-%define extradirs %{nil}
-%endif
 
 dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB4_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} %{extradirs}" 
 
@@ -193,4 +174,5 @@ done
 
 %post
 %{relocateConfig}lib/python2.7/config/Makefile
+%{relocateConfig}lib/python2.7/_sysconfigdata.py
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
