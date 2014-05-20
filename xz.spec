@@ -6,8 +6,8 @@
 %define github_user cms-externals
 %define armtag 5cc6656
 %define armbranch cms/v%fcarm_version
-Source0: git+https://github.com/%github_user/xz.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-Source1: git+https://github.com/%github_user/xz.git?obj=%{armbranch}/%{armtag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source0: git+https://github.com/%github_user/xz.git?obj=%{branch}/%{tag}&export=%{n}-%{generic_version}&output=/%{n}-%{generic_version}.tgz
+Source1: git+https://github.com/%github_user/xz.git?obj=%{armbranch}/%{armtag}&export=%{n}-%{fcarm_version}&output=/%{n}-%{fcarm_version}.tgz
 
 %prep
 %if %isfcarm
