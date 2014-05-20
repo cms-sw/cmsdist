@@ -2,10 +2,10 @@
 %define generic_version 5.0.3
 %define fcarm_version 5.1.2alpha
 %define tag 931d2d5
-%define branch cms/v%realversion
+%define branch cms/v%generic_version
 %define github_user cms-externals
 %define armtag 5cc6656
-%define armbranch cms/v%realversion
+%define armbranch cms/v%fcarm_version
 Source0: git+https://github.com/%github_user/xz.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Source1: git+https://github.com/%github_user/xz.git?obj=%{armbranch}/%{armtag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
