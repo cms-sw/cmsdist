@@ -1,10 +1,13 @@
 ### RPM external xz 5.0.3__5.1.2alpha
 %define generic_version 5.0.3
 %define fcarm_version 5.1.2alpha
-Source0: http://tukaani.org/%{n}/%{n}-%{generic_version}.tar.gz
-Source1: http://tukaani.org/%{n}/%{n}-%{fcarm_version}.tar.gz
-
-%define isfcarm %(case %{cmsplatf} in (fc*_arm*) echo 1 ;; (*) echo 0 ;; esac)
+%define tag 931d2d5
+%define branch cms/v%realversion
+%define github_user cms-externals
+%define armtag 5cc6656
+%define armbranch cms/v%realversion
+Source0: git+https://github.com/%github_user/xz.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source1: git+https://github.com/%github_user/xz.git?obj=%{armbranch}/%{armtag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 %prep
 %if %isfcarm
