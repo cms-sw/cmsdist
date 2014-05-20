@@ -12,16 +12,7 @@ Requires: SCRAMV1
 #config stuff moved to github!
 %define cvsconfig	config
 %define configtar	config.tar.gz
-
-%if "%{?configuser:set}" != "set"
-%define configuser       cms-sw
-%endif
-
-%if "%{?configbranch:set}" != "set"
-%define configbranch master
-%endif
-
-%define configrepo	git://github.com/%{configuser}/cmssw-config.git?protocol=https
+%define configrepo	git://github.com/cms-sw/cmssw-config.git?protocol=https
 %if "%{?buildtarget:set}" != "set"
 %define buildtarget	release-build
 %endif
@@ -43,9 +34,9 @@ Requires: SCRAMV1
 %define extraOptions USER_CXXFLAGS='"-fdebug-prefix-map=%{cmsroot}=%{installroot} -fdebug-prefix-map=%{instroot}=%{installroot} -g"'
 %endif
 
-%define configuser      ktf
-%define configbranch    enable-visibility-hidden
-%define configtag       97fc2a356681a6bb27531938e272070e718a3d2c
+%if "%{?configtag:set}" != "set"
+%define configtag       V05-01-28
+%endif
 
 %if "%{?useCmsTC:set}" != "set"
 %if "%{?cvsrepo:set}" != "set"
@@ -75,7 +66,8 @@ Requires: SCRAMV1
 %define toolconf        %(echo %n | sed "s|-|_|g" | tr 'a-z' 'A-Z')_TOOL_CONF_ROOT
 %endif
 
-%define source0 %{configrepo}&obj=%{configbranch}/%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
+#define source0 %{configrepo}&obj=master/%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
+%define source0 https://github.com/cms-sw/cmssw-config/archive/%{configtag}.tar.gz
 
 %if "%{?source1:set}" != "set"
 %if  "%{cvsrepo}" != "cmstc"
@@ -111,7 +103,9 @@ rm -rf config
 rm -rf %{srctree}
 rm -rf poison
 
-%setup -T -b 0 -n config
+%setup -T -b 0 -n cmssw-config-%(echo %{configtag} | sed 's/^.//')
+# The following is a temporary hack until we move to 4.8.1
+cd ..; mv cmssw-config-%(echo %{configtag} | sed 's/^.//') config
 %setup -D -T -b 1 -n %{srctree}
 
 %if "%{?additionalSrc0:set}" == "set"
