@@ -13,12 +13,6 @@ Patch6: fastjet-3.0.1-silence-warnings
 
 %prep
 %setup -n %n-%realversion
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
 
 case %cmsplatf in
     *_gcc4[01234]* ) ;;
