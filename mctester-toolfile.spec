@@ -17,6 +17,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/mctester.xml
     <environment name="LIBDIR" default="$MCTESTER_BASE/lib"/>
     <environment name="INCLUDE" default="$MCTESTER_BASE/include"/>
   </client>
+  <runtime name="MCTESTERLOCATION" value="$MCTESTER_BASE/lib/"/>
   <use name="root"/>
   <use name="HepMC"/>
 </tool>
