@@ -202,32 +202,6 @@ pushd %{i}/tmp/%{cmsplatf}/cache/log/src
   tar czf ${LOG_WEB_DIR}/logs/src/src-logs.tgz ./
 popd
 
-# split the debug symbols out of tha main binaries, into separate files
-%if "%{?subpackageDebug:set}" == "set"
-rm -f %_builddir/files.debug %_builddir/files
-touch %_builddir/files.debug %_builddir/files
-echo "%exclude %{installroot}/%{pkgrel}/debug.tar.gz" >> %_builddir/files
-BINDIR=$(%scramcmd tool info Self | grep "^PATH\|LD_LIBRARY_PATH=" | cut -d= -f2 | tr ":" "\n" | grep -v external)
-for DIR in $BINDIR; do
-  mkdir -p $DIR/.debug
-  # FIXME - work around the 2GB limit in RPM 4.4.2
-  #echo "%dir $DIR/.debug"     >> %_builddir/files.debug
-  DIR=`echo $DIR | sed 's|^%i/||'`
-  echo "%exclude %{installroot}/%{pkgrel}/$DIR/.debug" >> %_builddir/files
-  echo "$DIR/.debug" >> %_builddir/files.debug
-done
-for FILE in $(find $BINDIR -type f | xargs file | grep "ELF" | cut -d: -f1); do
-  NAME=$(basename $FILE)
-  DIR=$(dirname $FILE)
-  DEBUG="$DIR/.debug/$NAME.debug"
-  eu-strip "$FILE" -f "$DEBUG"
-  # FIXME - work around the 2GB limit in RPM 4.4.2
-  #echo "$DEBUG"          >> %_builddir/files.debug
-  #echo "%exclude $DEBUG" >> %_builddir/files
-  echo "$DEBUG" | sed 's#%{pkginstroot}/##' >> %_builddir/files.debug
-done
-%endif
-
 %if "%{?saveDeps:set}" == "set"
 mkdir -p %i/etc/dependencies
 perl %{_sourcedir}/findDependencies.pl -rel %i -arch %cmsplatf -scramroot $SCRAMV1_ROOT
@@ -263,11 +237,6 @@ cd %i
 
 tar czf %{srctree}.tar.gz %{srctree}
 rm -fR %{srctree} tmp
-
-# FIXME - work around the 2GB limit in RPM 4.4.2
-%if "%{?subpackageDebug:set}" == "set"
-tar czf debug.tar.gz --files-from %_builddir/files.debug --no-recursion --remove-files
-%endif
 
 # Begin debug
 
@@ -315,6 +284,17 @@ if [ -d "$BASE_TEST_PATH" ]; then
   fi
   popd
 fi
+
+# split the debug symbols out of the main binaries, into separate files
+%if "%{?subpackageDebug:set}" == "set"
+rm -f %_builddir/files.debug %_builddir/files
+touch %_builddir/files.debug %_builddir/files
+for DIR in $BASE_LIB_PATH $BASE_BIN_PATH $BASE_TEST_PATH; do
+  DIR=`echo $DIR | sed 's|^%i/|%{installroot}/%{pkgrel}/|'`
+  echo "%exclude $DIR/.debug"   >> %_builddir/files
+  echo "$DIR/.debug"            >> %_builddir/files.debug
+done
+%endif
 
 # End debug
 
