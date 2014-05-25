@@ -28,9 +28,10 @@ BuildRequires: dwz gcc file
 %endif
 %define bootstrapfile   config/bootsrc.xml
 
-# note: do not change the order of the -fdebug-prefix-map options, they seem to be use in reverse order
-# note: the single quotes are needed to protect the double quotes, otherwise scram will pass separate arguments to make
-%define extraOptions USER_CXXFLAGS='"-fdebug-prefix-map=%{cmsroot}=%{installroot} -fdebug-prefix-map=%{instroot}=%{installroot} -g"'
+# note: do not change the order of the -fdebug-prefix-map options, they seem to be used in reverse order
+%define extraOptions USER_CXXFLAGS+="-g"
+%define extraOptions USER_CXXFLAGS+="-fdebug-prefix-map=%{cmsroot}=%{installroot}"
+%define extraOptions USER_CXXFLAGS+="-fdebug-prefix-map=%{instroot}=%{installroot}"
 
 %if "%{?configtag:set}" != "set"
 %define configtag       V05-01-28
@@ -285,7 +286,7 @@ if [ -d "$BASE_LIB_PATH" ]; then
   # ELF binaries
   ELF_BINS=$(ls | xargs -I% file % | grep ELF | cut -d':' -f1)
   if [ ! -z "$ELF_BINS" ]; then
-    dwz -m .debug/lib-common.so.debug -r *.so
+    dwz -m .debug/lib-common.so.debug -M lib-common.so.debug $ELF_BINS
     echo "$ELF_BINS" | xargs -I% sh -c 'objcopy --compress-debug-sections --only-keep-debug % .debug/%.debug; objcopy --strip-debug --add-gnu-debuglink=.debug/%.debug %'
   fi
   popd
@@ -297,7 +298,7 @@ if [ -d "BASE_BIN_PATH" ]; then
   # ELF binaries
   ELF_BINS=$(ls | xargs -I% file % | grep ELF | cut -d':' -f1)
   if [ ! -z "$ELF_BINS" ]; then
-    dwz -m .debug/bin-common.debug -r $ELF_BINS
+    dwz -m .debug/bin-common.debug -M bin-common.debug $ELF_BINS
     echo "$ELF_BINS" | xargs -I% sh -c 'objcopy --compress-debug-sections --only-keep-debug % .debug/%.debug; objcopy --strip-debug --add-gnu-debuglink=.debug/%.debug %'
   fi
   popd
@@ -309,7 +310,7 @@ if [ -d "$BASE_TEST_PATH" ]; then
   # ELF binaries
   ELF_BINS=$(ls | xargs -I% file % | grep ELF | cut -d':' -f1)
   if [ ! -z "$ELF_BINS" ]; then
-    dwz -m .debug/tests-common.debug -r $ELF_BINS
+    dwz -m .debug/tests-common.debug -M tests-common.debug $ELF_BINS
     echo "$ELF_BINS" | xargs -I% sh -c 'objcopy --compress-debug-sections --only-keep-debug % .debug/%.debug; objcopy --strip-debug --add-gnu-debuglink=.debug/%.debug %'
   fi
   popd
