@@ -1,5 +1,5 @@
 ### RPM cms webtools 1.3.47
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PERL5LIB %i/lib/perl
 
 %define gittag V01-03-47
@@ -34,7 +34,7 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
   if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
     echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-    echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+    echo "test X\$?$root = X1 || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
   fi
 done
 

@@ -1,5 +1,5 @@
 ### RPM external py2-httplib2 0.7.1
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source: http://httplib2.googlecode.com/files/httplib2-%realversion.zip
 Requires: python 

@@ -1,5 +1,5 @@
 ### RPM external py2-shapefile 1.1.4
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 Source: svn://pyshp.googlecode.com/svn/trunk@78?scheme=http&strategy=export&module=pyshp&output=/pyshp.tar.gz
 Requires: python
 

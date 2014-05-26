@@ -1,5 +1,5 @@
 ### RPM external py2-cheetah 2.4.0
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 Source: http://pypi.python.org/packages/source/C/Cheetah/Cheetah-%realversion.tar.gz
 Requires: python
 

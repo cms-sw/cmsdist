@@ -1,5 +1,5 @@
 ### RPM external py2-zsi 2.0
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source: http://switch.dl.sourceforge.net/sourceforge/pywebsvcs/ZSI-%{realversion}.tar.gz
 Requires: python py2-pyxml

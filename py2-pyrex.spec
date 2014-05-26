@@ -1,5 +1,5 @@
 ### RPM external py2-pyrex 0.9.9
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source: http://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex/Pyrex-%realversion.tar.gz
 Requires: python

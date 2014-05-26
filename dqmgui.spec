@@ -1,8 +1,8 @@
 ### RPM cms dqmgui 7.4.2
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH %{dynamic_path_var} %i/xlib
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-## INITENV +PATH PYTHONPATH %i/x$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH $ROOT_ROOT/lib
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc
@@ -117,7 +117,7 @@ for flavor in %{flavors}; do
     root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
     if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
       echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/$flavor/etc/profile.d/dependencies-setup.sh
-      echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/$flavor/etc/profile.d/dependencies-setup.csh
+      echo "test X\$?$root = X1 || source $r/etc/profile.d/init.csh" >> %i/$flavor/etc/profile.d/dependencies-setup.csh
     fi
   done
 

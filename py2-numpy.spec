@@ -1,5 +1,5 @@
 ### RPM external py2-numpy 1.6.1
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 Source: http://downloads.sourceforge.net/project/numpy/NumPy/%realversion/numpy-%realversion.tar.gz
 Patch0: py2-numpy-%realversion-fix-macosx-build
 

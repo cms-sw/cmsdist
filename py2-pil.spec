@@ -1,6 +1,6 @@
 ### RPM external py2-pil 1.1.6
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES/PIL
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}/PIL
 %define downloadn Imaging
 Source: http://effbot.org/downloads/%downloadn-%realversion.tar.gz
 Requires: python

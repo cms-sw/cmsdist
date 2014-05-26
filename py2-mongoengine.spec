@@ -1,5 +1,5 @@
 ### RPM external py2-mongoengine 0.3
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source: http://github.com/hmarr/mongoengine/tarball/v0.3
 Requires: python
