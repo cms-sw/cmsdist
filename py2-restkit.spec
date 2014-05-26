@@ -1,5 +1,5 @@
 ### RPM external py2-restkit 2.2.1
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source: http://pypi.python.org/packages/source/r/restkit/restkit-2.2.1.tar.gz#md5=ec79eee99e2128763b9b0493a6aa6d9b 
 Requires: python py2-setuptools

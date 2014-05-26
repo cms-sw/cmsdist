@@ -1,5 +1,5 @@
 ### RPM external py2-pystemmer 1.0.1
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source: http://snowball.tartarus.org/wrappers/PyStemmer-%{realversion}.tar.gz
 Requires: python 

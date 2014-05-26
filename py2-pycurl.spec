@@ -1,5 +1,5 @@
 ### RPM external py2-pycurl 7.19.3
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 Source: http://pycurl.sourceforge.net/download/pycurl-%realversion.tar.gz
 Requires: python curl
 
