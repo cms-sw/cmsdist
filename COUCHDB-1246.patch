@@ -1,0 +1,214 @@
+diff --git a/src/couchdb/couch_os_process.erl b/src/couchdb/couch_os_process.erl
+index bd740e3..39f9139 100644
+--- a/src/couchdb/couch_os_process.erl
++++ b/src/couchdb/couch_os_process.erl
+@@ -133,7 +133,6 @@ pick_command1(_) ->
+ 
+ % gen_server API
+ init([Command, Options, PortOptions]) ->
+-    process_flag(trap_exit, true),
+     PrivDir = couch_util:priv_dir(),
+     Spawnkiller = filename:join(PrivDir, "couchspawnkillable"),
+     BaseProc = #os_proc{
+diff --git a/src/couchdb/couch_query_servers.erl b/src/couchdb/couch_query_servers.erl
+index 081806e..9446bc7 100644
+--- a/src/couchdb/couch_query_servers.erl
++++ b/src/couchdb/couch_query_servers.erl
+@@ -23,6 +23,9 @@
+ 
+ -export([with_ddoc_proc/2, proc_prompt/2, ddoc_prompt/3, ddoc_proc_prompt/3, json_doc/1]).
+ 
++% For 210-proc-pool.t
++-export([get_os_process/1, ret_os_process/1]).
++
+ % -export([test/0]).
+ 
+ -include("couch_db.hrl").
+@@ -339,7 +342,6 @@ handle_call({get_proc, Lang}, From, Server) ->
+         {reply, Error, Server}
+     end;
+ handle_call({unlink_proc, Pid}, _From, #qserver{pid_procs=PidProcs}=Server) ->
+-    rem_value(PidProcs, Pid),
+     unlink(Pid),
+     {reply, ok, Server};
+ handle_call({ret_proc, Proc}, _From, #qserver{
+@@ -347,15 +349,22 @@ handle_call({ret_proc, Proc}, _From, #qserver{
+         lang_procs=LangProcs}=Server) ->
+     % Along with max process limit, here we should check
+     % if we're over the limit and discard when we are.
+-    add_value(PidProcs, Proc#proc.pid, Proc),
+-    add_to_list(LangProcs, Proc#proc.lang, Proc),
+-    link(Proc#proc.pid),
++    case is_process_alive(Proc#proc.pid) of
++        true ->
++            add_value(PidProcs, Proc#proc.pid, Proc),
++            add_to_list(LangProcs, Proc#proc.lang, Proc),
++            link(Proc#proc.pid);
++        false ->
++            ok
++    end,
+     {reply, true, service_waitlist(Server)}.
+ 
+ handle_cast(_Whatever, Server) ->
+     {noreply, Server}.
+ 
+-handle_info({'EXIT', Pid, Status}, #qserver{
++handle_info({'EXIT', _, _}, Server) ->
++    {noreply, Server};
++handle_info({'DOWN', _, process, Pid, Status}, #qserver{
+         pid_procs=PidProcs,
+         lang_procs=LangProcs,
+         lang_limits=LangLimits}=Server) ->
+@@ -466,6 +475,7 @@ new_process(Langs, LangLimits, Lang) ->
+         case ets:lookup(Langs, Lang) of
+         [{Lang, Mod, Func, Arg}] ->
+             {ok, Pid} = apply(Mod, Func, Arg),
++            erlang:monitor(process, Pid),
+             true = ets:insert(LangLimits, {Lang, Lim, Current+1}),
+             {ok, #proc{lang=Lang,
+                        pid=Pid,
+diff --git a/test/etap/210-os-proc-pool.t b/test/etap/210-os-proc-pool.t
+new file mode 100755
+index 0000000..6741ea7
+--- /dev/null
++++ b/test/etap/210-os-proc-pool.t
+@@ -0,0 +1,128 @@
++#!/usr/bin/env escript
++%% -*- erlang -*-
++% Licensed under the Apache License, Version 2.0 (the "License"); you may not
++% use this file except in compliance with the License. You may obtain a copy of
++% the License at
++%
++%   http://www.apache.org/licenses/LICENSE-2.0
++%
++% Unless required by applicable law or agreed to in writing, software
++% distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
++% WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
++% License for the specific language governing permissions and limitations under
++% the License.
++
++main(_) ->
++    test_util:init_code_path(),
++
++    etap:plan(11),
++    case (catch test()) of
++        ok ->
++            etap:end_tests();
++        Other ->
++            etap:diag(io_lib:format("Test died abnormally: ~p", [Other])),
++            etap:bail(Other)
++    end,
++    ok.
++
++
++test() ->
++    couch_server_sup:start_link(test_util:config_files()),
++    couch_config:set("query_server_config", "os_process_limit", "3", false),
++
++    test_pool_full(),
++    test_client_unexpected_exit(),
++
++    couch_server_sup:stop(),
++    ok.
++
++
++test_pool_full() ->
++    Client1 = spawn_client(),
++    Client2 = spawn_client(),
++    Client3 = spawn_client(),
++    
++    etap:diag("Check that we can spawn the max number of processes."),
++    etap:is(ping_client(Client1), ok, "Client 1 started ok."),
++    etap:is(ping_client(Client2), ok, "Client 2 started ok."),
++    etap:is(ping_client(Client3), ok, "Client 3 started ok."),
++
++    etap:diag("Check that client N+1 blocks waiting for a process."),
++    Client4 = spawn_client(),
++    etap:is(ping_client(Client4), timeout, "Client 4 blocked while waiting."),
++
++    etap:diag("Check that stopping a client gives up its process."),
++    etap:is(stop_client(Client1), ok, "First client stopped."),
++
++    etap:diag("And check that our blocked process has been unblocked."),
++    etap:is(ping_client(Client4), ok, "Client was unblocked."),
++    
++    lists:map(fun(C) -> ok = stop_client(C) end, [Client2, Client3, Client4]).
++
++
++test_client_unexpected_exit() ->
++    Client1 = spawn_client(),
++    Client2 = spawn_client(),
++    Client3 = spawn_client(),
++    
++    etap:diag("Check that up to os_process_limit clients started."),
++    etap:is(ping_client(Client1), ok, "Client 1 started ok."),
++    etap:is(ping_client(Client2), ok, "Client 2 started ok."),
++    etap:is(ping_client(Client3), ok, "Client 3 started ok."),
++    
++    etap:diag("Check that killing a client frees an os_process."),
++    etap:is(kill_client(Client1), ok, "Client 1 died all right."),
++    
++    etap:diag("Check that a new client is not blocked on boot."),
++    Client4 = spawn_client(),
++    etap:is(ping_client(Client4), ok, "New client booted without blocking."),
++
++    lists:map(fun(C) -> ok = stop_client(C) end, [Client2, Client3, Client4]).
++
++
++spawn_client() ->
++    Self = self(),
++    Ref = make_ref(),
++    Pid = spawn(fun() ->
++        Proc = couch_query_servers:get_os_process(<<"javascript">>),
++        loop(Self, Ref, Proc)
++    end),
++    {Pid, Ref}.
++
++
++ping_client({Pid, Ref}) ->
++    Pid ! ping,
++    receive
++        {pong, Ref} -> ok
++        after 3000 -> timeout
++    end.
++
++
++stop_client({Pid, Ref}) ->
++    Pid ! stop,
++    receive
++        {stop, Ref} -> ok
++        after 3000 -> timeout
++    end.
++
++
++kill_client({Pid, Ref}) ->
++    Pid ! die,
++    receive
++        {die, Ref} -> ok
++        after 3000 -> timeout
++    end.
++
++
++loop(Parent, Ref, Proc) ->
++    receive
++        ping ->
++            Parent ! {pong, Ref},
++            loop(Parent, Ref, Proc);
++        stop ->
++            couch_query_servers:ret_os_process(Proc),
++            Parent ! {stop, Ref};
++        die ->
++            Parent ! {die, Ref},
++            exit(some_error)
++    end.
+diff --git a/test/etap/Makefile.am b/test/etap/Makefile.am
+index f1f3628..e321501 100644
+--- a/test/etap/Makefile.am
++++ b/test/etap/Makefile.am
+@@ -86,4 +86,5 @@
+ 	180-http-proxy.ini \
+ 	180-http-proxy.t \
+   190-oauth.t \
+-	200-view-group-no-db-leaks.t
++    200-view-group-no-db-leaks.t \
++    210-os-proc-pool.t
