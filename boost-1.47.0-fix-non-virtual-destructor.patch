@@ -1,0 +1,10 @@
+--- boost/boost/exception/detail/error_info_impl.hpp	2010-03-08 09:18:25.000000000 +0100
++++ boost/boost/exception/detail/error_info_impl.hpp	2012-06-21 04:15:24.000000000 +0200
+@@ -30,6 +30,7 @@
+ 
+             protected:
+ 
++            virtual
+             ~error_info_base() throw()
+                 {
+                 }
