@@ -1,8 +1,8 @@
 ### RPM external sherpa 2.1.0
-%define tag 0992cdb
+%define tag 0992cdbb8dcf20159ab9ae261837b568276eff64
 %define branch cms/v%realversion
-%define github_user cms-sw
-Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Requires: hepmc lhapdf blackhat sqlite fastjet openssl
 
 %if "%{?cms_cxx:set}" != "set"
