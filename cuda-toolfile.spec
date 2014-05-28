@@ -32,7 +32,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda.xml
     <environment name="INCLUDE"   default="$CUDA_BASE/include"/>
   </client>
   <flags CUDA_CFLAGS="-fPIC"/>
-  <flags CUDA_FLAGS=""/>
+  <flags CUDA_FLAGS="-gencode arch=compute_35,code=sm_35"/>
   <runtime name="PATH" value="$CUDA_BASE/bin" type="path"/>
 </tool>
 EOF_TOOLFILE
