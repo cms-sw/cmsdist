@@ -1,14 +1,14 @@
-### RPM cms cms-git-tools 131105.0
+### RPM cms cms-git-tools 140602.0
 ## NOCOMPILER
 
 # ***Do not change minor number of the above version.***
 
-%define commit v0.12.0
+%define commit 1c668a0774
 %define branch master
 # We do not use a revision explicitly, because revisioned packages do not get
 # updated automatically when they are dependencies.
 %define fakerevision %(echo %realversion | cut -d. -f1)
-Source0: git://github.com/cms-sw/cms-git-tools.git?obj=%{branch}/%{commit}&export=cms-git-tools&output=/cms-git-tools.tgz
+Source0: git://github.com/cms-sw/cms-git-tools.git?obj=%{branch}/%{commit}&export=cms-git-tools&output=/cms-git-tools-%{commit}.tgz
 
 %prep
 %setup -n %{n}
