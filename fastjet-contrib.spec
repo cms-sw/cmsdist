@@ -1,11 +1,14 @@
 ### RPM external fastjet-contrib 1.009
-Source: http://fastjet.hepforge.org/contrib/downloads/fjcontrib-%{realversion}.tar.gz
+%define tag b5882a8
+%define branch cms/v%realversion
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&foo=1&output=/%{n}-%{realversion}.tgz
 Requires: fastjet
 %define keep_archives true
 
 %prep
-%setup -n fjcontrib-%{realversion}
-./configure --prefix=%i --fastjet-config=$FASTJET_ROOT/bin/fastjet-config CXXFLAGS="-I$FASTJET_ROOT/include"
+%setup -n %{n}-%{realversion}
+./configure --prefix=%i --fastjet-config=$FASTJET_ROOT/bin/fastjet-config CXXFLAGS="-std=c++11 -I$FASTJET_ROOT/include"
 
 %build
 make

@@ -1,7 +1,8 @@
-### RPM lcg roofit 5.34.17
-%define tag %(echo v%{realversion} | tr . -)
-%define branch %(echo %{realversion} | sed 's/\\.[0-9]*$/.00/;s/^/v/;s/$/-patches/g;s/\\./-/g')
-Source0: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+### RPM lcg roofit 5.34.18
+%define tag 614cb4ec3d0
+%define branch cms/v5-34-18
+%define github_user cms-sw
+Source: git+https://github.com/%github_user/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Source1: roofit-5.28.00-build.sh
 
 Patch0: root-5.28-00d-roofit-silence-static-printout
@@ -17,7 +18,7 @@ Requires: root
 
 %prep
 %setup -b0 -n %{n}-%{realversion}
-%patch0 -p1
+#patch0 -p1
 %patch1 -p0
 %patch2 -p1
  
