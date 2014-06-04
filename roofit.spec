@@ -21,7 +21,7 @@ Requires: root
 
 %prep
 %setup -b0 -n %{n}-%{realversion}
-%patch0 -p1
+#patch0 -p1
 %patch1 -p0
 %patch2 -p1
  

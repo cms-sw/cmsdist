@@ -1,8 +1,9 @@
 ### RPM external sherpa 2.1.0
-Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
+%define tag 0992cdbb8dcf20159ab9ae261837b568276eff64
+%define branch cms/v%realversion
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Requires: hepmc lhapdf blackhat sqlite fastjet openssl
-Patch0: sherpa-2.1.0-lhapdf
-Patch1: sherpa-2.1.0-disable-examples-manual
 
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 %if "%mic" == "true"
@@ -19,16 +20,13 @@ Requires: icc icc-provides
 %endif
 
 %prep
-%setup -q -n SHERPA-MC-%{realversion}
-%patch0 -p1
-%patch1 -p1
+%setup -q -n %{n}-%{realversion}
 
 autoreconf -i --force
 
 # Force architecture based on %%cmsplatf
 case %cmsplatf in
   *_amd64_gcc*) ARCH_CMSPLATF="-m64" ;;
-  *_ia32_gcc*) ARCH_CMSPLATF="-m32" ;;
 esac
 
 case %cmsplatf in
