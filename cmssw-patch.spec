@@ -7,6 +7,5 @@ Requires: cmssw-patch-tool-conf
 
 #Set it to -cmsX added by cmsBuild (if any) to the base release
 %define baserel_postfix %{nil}
-
 ## IMPORT cmssw-patch-build
 ## IMPORT scram-project-build
