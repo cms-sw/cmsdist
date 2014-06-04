@@ -2,6 +2,7 @@
 Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
 Requires: hepmc lhapdf blackhat sqlite fastjet openssl
 Patch0: sherpa-2.1.0-lhapdf
+Patch1: sherpa-2.1.0-disable-examples-manual
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -14,6 +15,7 @@ Patch0: sherpa-2.1.0-lhapdf
 %prep
 %setup -q -n SHERPA-MC-%{realversion}
 %patch0 -p1
+%patch1 -p1
 
 autoreconf -i --force
 
