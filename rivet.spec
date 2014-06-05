@@ -1,12 +1,11 @@
-### RPM external rivet 1.8.2
-Source: http://www.hepforge.org/archive/rivet/Rivet-%{realversion}.tar.gz
+### RPM external rivet 2.0.0
+Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
 
-Requires: hepmc boost fastjet swig gsl
-Requires: python
+Requires: hepmc boost fastjet gsl yaml-cpp yoda
+Requires: python cython
+
 Patch0: rivet-1.4.0
-Patch1: rivet-1.8.2-fix-isnan
-Patch2: rivet-1.8.2-fix-duplicate-symbols
-Patch3: rivet-1.8.2-disable-doc
+Patch1: rivet-1.8.2-disable-doc
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -17,18 +16,21 @@ Patch3: rivet-1.8.2-disable-doc
 %endif
 
 %prep
-%setup -n Rivet-%{realversion}
+%setup -n rivet/%{realversion}
 %patch0 -p0
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
+
 ./configure --disable-silent-rules --prefix=%i --with-boost=${BOOST_ROOT} --with-hepmc=$HEPMC_ROOT \
-            --with-fastjet=$FASTJET_ROOT --with-gsl=$GSL_ROOT --disable-doxygen --disable-pdfmanual --with-pic \
-            CXX="$(which %cms_cxx)" CXXFLAGS="%cms_cxxflags"
+            --with-fastjet=$FASTJET_ROOT --with-gsl=$GSL_ROOT --with-yoda=${YODA_ROOT} \
+            --with-yaml-cpp=${YAML_CPP_ROOT} \
+            --disable-doxygen --disable-pdfmanual --with-pic \
+            PYTHONPATH=${CYTHON_ROOT}/lib/python@PYTHONV@/site-packages \
+            CXX="$(which %cms_cxx)" CXXFLAGS="%cms_cxxflags" CPPFLAGS="-I${BOOST_ROOT}/include"
+
 # The following hack insures that the bins with the library linked explicitly
 # rather than indirectly, as required by the gold linker
 perl -p -i -e "s|LIBS = $|LIBS = -lHepMC|g" bin/Makefile
 %build
-make %makeprocesses
+make %makeprocesses all PYTHONPATH=${CYTHON_ROOT}/lib/python@PYTHONV@/site-packages
 %install
-make install
+make install PYTHONPATH=${CYTHON_ROOT}/lib/python@PYTHONV@/site-packages
