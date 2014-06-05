@@ -7,7 +7,7 @@ Requires: rivet
 
 %install
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rivet2.xml
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rivet.xml
 <tool name="rivet" version="@TOOL_VERSION@">
 <lib name="Rivet"/>
 <client>
