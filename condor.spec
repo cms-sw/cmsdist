@@ -1,12 +1,10 @@
-### RPM external condor 8.0.4
+### RPM external condor 8.1.6
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/condor
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define condortag %(echo V%realversion | tr "." "_")
 
 Source: git://github.com/htcondor/htcondor.git?obj=master/%{condortag}&export=condor-%{realversion}&output=/condor-%{realversion}.tar.gz
 Patch0: cms-htcondor-build
-Patch1: htcondor-python-event-reader
-Patch2: htcondor-python-renew-proxy
 
 Requires: openssl zlib expat pcre libtool python boost p5-archive-tar curl libxml2
 BuildRequires: cmake gcc
@@ -14,22 +12,20 @@ BuildRequires: cmake gcc
 %prep 
 %setup -n %n-%{realversion}
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
-sed -i "s,P5_ARCHIVE_TAR_ROOT,$P5_ARCHIVE_TAR_ROOT," externals/bundles/globus/5.2.1/CMakeLists.txt
-sed -i "s,P5_IO_ZLIB_ROOT,$P5_IO_ZLIB_ROOT," externals/bundles/globus/5.2.1/CMakeLists.txt
-sed -i "s,P5_PACKAGE_CONSTANTS_ROOT,$P5_PACKAGE_CONSTANTS_ROOT," externals/bundles/globus/5.2.1/CMakeLists.txt
-sed -i "s,ENVLD_LIBRARY_PATH,$LD_LIBRARY_PATH," externals/bundles/globus/5.2.1/CMakeLists.txt
-sed -i "s,LIBTOOL_ROOT,$LIBTOOL_ROOT,g" externals/bundles/globus/5.2.1/CMakeLists.txt
-sed -i "s,OPENSSL_ROOT,$OPENSSL_ROOT,g" externals/bundles/globus/5.2.1/CMakeLists.txt
+sed -i "s,P5_ARCHIVE_TAR_ROOT,$P5_ARCHIVE_TAR_ROOT," externals/bundles/globus/5.2.5/CMakeLists.txt
+sed -i "s,P5_IO_ZLIB_ROOT,$P5_IO_ZLIB_ROOT," externals/bundles/globus/5.2.5/CMakeLists.txt
+sed -i "s,P5_PACKAGE_CONSTANTS_ROOT,$P5_PACKAGE_CONSTANTS_ROOT," externals/bundles/globus/5.2.5/CMakeLists.txt
+sed -i "s,ENVLD_LIBRARY_PATH,$LD_LIBRARY_PATH," externals/bundles/globus/5.2.5/CMakeLists.txt
+sed -i "s,LIBTOOL_ROOT,$LIBTOOL_ROOT,g" externals/bundles/globus/5.2.5/CMakeLists.txt
+sed -i "s,OPENSSL_ROOT,$OPENSSL_ROOT,g" externals/bundles/globus/5.2.5/CMakeLists.txt
 sed -i "s,EXPAT_ROOT,$EXPAT_ROOT,g" externals/bundles/voms/2.0.6/CMakeLists.txt
 
 %build
 # Fix perl libraries for globus which doesn't search PERL%LIB
-mkdir -p build/bld_external/globus-5.2.1-p1/install/lib/perl
-ln -sf $P5_ARCHIVE_TAR_ROOT/lib/perl5/Archive       build/bld_external/globus-5.2.1-p1/install/lib/perl
-ln -sf $P5_IO_ZLIB_ROOT/lib/perl5/IO                build/bld_external/globus-5.2.1-p1/install/lib/perl
-ln -sf $P5_PACKAGE_CONSTANTS_ROOT/lib/perl5/Package build/bld_external/globus-5.2.1-p1/install/lib/perl
+mkdir -p build/bld_external/globus-5.2.5/install/lib/perl
+ln -sf $P5_ARCHIVE_TAR_ROOT/lib/perl5/Archive       build/bld_external/globus-5.2.5/install/lib/perl
+ln -sf $P5_IO_ZLIB_ROOT/lib/perl5/IO                build/bld_external/globus-5.2.5/install/lib/perl
+ln -sf $P5_PACKAGE_CONSTANTS_ROOT/lib/perl5/Package build/bld_external/globus-5.2.5/install/lib/perl
 
 export CMAKE_INCLUDE_PATH=${OPENSSL_ROOT}/include:${LIBTOOL_ROOT}/include:${ZLIB_ROOT}/include:${PCRE_ROOT}/include:${BOOST_ROOT}/include:${EXPAT_ROOT}/include:${CURL_ROOT}/include:${LIBXML2_ROOT}/include
 export CMAKE_LIBRARY_PATH=${OPENSSL_ROOT}/lib:${LIBTOOL_ROOT}/lib:${ZLIB_ROOT}/lib:${PCRE_ROOT}/lib:${BOOST_ROOT}/lib:${EXPAT_ROOT}/lib:${CURL_ROOT}/lib:${LIBXML2_ROOT}/lib
@@ -67,7 +63,8 @@ cmake \
   -DPYTHON_INCLUDE_DIR:PATH=${PYTHON_ROOT}/include/python2.6 \
   -DPYTHON_LIBRARY:FILEPATH=${PYTHON_ROOT}/lib/libpython2.6.so \
   -DEXPAT_FOUND_SEARCH_expat:FILEPATH=${EXPAT_ROOT}/lib/libexpat.so \
-  -DCLIPPED:BOOL=ON
+  -DCLIPPED:BOOL=ON \
+  -DWITH_BOINC:BOOL=OFF
 
 # Use makeprocess macro, it uses compiling_processes defined by
 # build configuration file or build argument
