@@ -1,19 +1,14 @@
-### RPM external couchdb 1.1.0
+### RPM external couchdb 1.1.1
 
 # Using the svn url instead of the default release on because we need the 
 # bootstrap script after patching the Makefile.am
-Source0: svn://svn.apache.org/repos/asf/couchdb/tags/%realversion?scheme=https&module=couchdb&output=/apache-%n-%realversion.tgz
+Source0: git://github.com/apache/couchdb?obj=master/%realversion&export=%n&output=/apache-%n-%realversion.tgz
 Source1: couch_cms_auth.erl
 Patch0: couchdb-cmsauth-Makefile
 Patch1: couchdb-ssl-client-cert
-Patch2: couchdb-replication-timeout
-Patch3: couchdb-replication-id
-Patch4: couchdb-changes-timeout
 Patch5: couchdb-changes-heartbeat
-Patch6: couchdb-994-db-open-logic-11x
 Patch7: couchdb-changes-retry
 Patch8: couchdb-compaction-timeout
-Patch9: COUCHDB-1246
 
 # Although there is no technical software dependency,
 # couchapp was included because all CMS applications will need it.
@@ -24,14 +19,9 @@ BuildRequires: autotools
 %setup -n couchdb 
 %patch0 -p0
 %patch1 -p0
-%patch2 -p0
-%patch3 -p0
-%patch4 -p0
 %patch5 -p0
-%patch6 -p0
 %patch7 -p0
 %patch8 -p0
-%patch9 -p1
 cp %_sourcedir/couch_cms_auth.erl %_builddir/couchdb/src/couchdb
 perl -p -i -e 's{\s*-L/(opt|usr)/local/lib}{}g; s{-I/(opt|usr)/local/include}{-I/no-no-no/include}g' configure.ac
 
@@ -46,6 +36,7 @@ perl -p -i -e 's{HEART_BEAT_TIMEOUT=11}{HEART_BEAT_TIMEOUT=60}g' bin/couchdb
 
 %install
 make %makeprocesses install
+ln -sf ../lib/couchdb/bin/couchjs %i/bin/couchjs
 %define drop_files %i/{man,share/doc}
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.

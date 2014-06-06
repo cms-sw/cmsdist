@@ -44,8 +44,8 @@ Index: src/couchdb/couch_changes.erl
 -send_changes(Args, Callback, UserAcc, Db, StartSeq, Prepend) ->
 +send_changes(Args, Callback, UserAcc, Db, StartSeq, Prepend, Timeout, TimeoutFun) ->
      #changes_args{
-         style = Style,
          include_docs = IncludeDocs,
+         conflicts = Conflicts,
 @@ -212,7 +223,7 @@
          fun changes_enumerator/2,
          [{dir, Dir}],
