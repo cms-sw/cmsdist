@@ -120,7 +120,6 @@ Requires: py2-python-dateutil-toolfile
 Requires: yaml-cpp-toolfile
 Requires: fastjet-contrib-toolfile
 Requires: cuda-toolfile
-Requires: rivet2-toolfile
 Requires: opencl-toolfile
 Requires: opencl-cpp-toolfile
 Requires: qd-toolfile
