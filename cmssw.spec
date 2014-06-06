@@ -16,6 +16,7 @@ Requires: cmssw-tool-conf python cms-git-tools
 %if "%(case %realversion in (*_DEBUG_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define branch		%(echo %realversion | sed -e 's|_DEBUG_X.*|_X|')
 %define gitcommit       %(echo %realversion | sed -e 's|_DEBUG||')
+%define subpackageDebug yes
 %endif
 
 %if "%(case %realversion in (*_EXPERIMENTAL_X*) echo true ;; (*) echo false ;; esac)" == "true"
@@ -48,3 +49,4 @@ Requires: cmssw-tool-conf python cms-git-tools
 %define source1         git://github.com/cms-sw/cmssw.git?protocol=https&obj=%{branch}/%{gitcommit}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 
 ## IMPORT scram-project-build
+## SUBPACKAGE debug IF %subpackageDebug

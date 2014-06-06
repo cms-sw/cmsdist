@@ -238,52 +238,29 @@ cd %i
 tar czf %{srctree}.tar.gz %{srctree}
 rm -fR %{srctree} tmp
 
-# Begin debug
-
-if [ "%{n}" == "cmssw" ]; then
+# handle debug symbols
+if [ "%{n}" == "coral" ]; then
+  BASE_LIB_PATH=%i/%cmsplatf/lib
+  BASE_BIN_PATH=
+  BASE_TEST_PATH=%i/%cmsplatf/tests/bin
+else
   BASE_LIB_PATH=%i/lib/%cmsplatf
   BASE_BIN_PATH=%i/bin/%cmsplatf
   BASE_TEST_PATH=%i/test/%cmsplatf
-elif [ "%{n}" == "coral" ]; then
-  BASE_LIB_PATH=%i/%cmsplatf/lib
-  BASE_TEST_PATH=%i/%cmsplatf/tests/bin
 fi
 
-if [ -d "$BASE_LIB_PATH" ]; then
-  pushd $BASE_LIB_PATH
+# optimise the debug symbols, compress them, and split them into separate file
+for DIR in $BASE_LIB_PATH $BASE_BIN_PATH $BASE_TEST_PATH; do
+  pushd $DIR
   mkdir -p .debug
   # ELF binaries
-  ELF_BINS=$(ls | xargs -I% file % | grep ELF | cut -d':' -f1)
+  ELF_BINS=$(file * | grep ELF | cut -d':' -f1)
   if [ ! -z "$ELF_BINS" ]; then
-    dwz -m .debug/lib-common.so.debug -M lib-common.so.debug $ELF_BINS
-    echo "$ELF_BINS" | xargs -I% sh -c 'objcopy --compress-debug-sections --only-keep-debug % .debug/%.debug; objcopy --strip-debug --add-gnu-debuglink=.debug/%.debug %'
+    dwz -m .debug/common-symbols.debug -M common-symbols.debug $ELF_BINS
+    echo "$ELF_BINS" | xargs -t -n1 -P%{compiling_processes} -I% sh -c 'objcopy --compress-debug-sections --only-keep-debug % .debug/%.debug; objcopy --strip-debug --add-gnu-debuglink=.debug/%.debug %'
   fi
   popd
-fi
-
-if [ -d "BASE_BIN_PATH" ]; then
-  pushd $BASE_BIN_PATH
-  mkdir -p .debug
-  # ELF binaries
-  ELF_BINS=$(ls | xargs -I% file % | grep ELF | cut -d':' -f1)
-  if [ ! -z "$ELF_BINS" ]; then
-    dwz -m .debug/bin-common.debug -M bin-common.debug $ELF_BINS
-    echo "$ELF_BINS" | xargs -I% sh -c 'objcopy --compress-debug-sections --only-keep-debug % .debug/%.debug; objcopy --strip-debug --add-gnu-debuglink=.debug/%.debug %'
-  fi
-  popd
-fi
-
-if [ -d "$BASE_TEST_PATH" ]; then
-  pushd $BASE_TEST_PATH
-  mkdir -p .debug
-  # ELF binaries
-  ELF_BINS=$(ls | xargs -I% file % | grep ELF | cut -d':' -f1)
-  if [ ! -z "$ELF_BINS" ]; then
-    dwz -m .debug/tests-common.debug -M tests-common.debug $ELF_BINS
-    echo "$ELF_BINS" | xargs -I% sh -c 'objcopy --compress-debug-sections --only-keep-debug % .debug/%.debug; objcopy --strip-debug --add-gnu-debuglink=.debug/%.debug %'
-  fi
-  popd
-fi
+done
 
 # split the debug symbols out of the main binaries, into separate files
 %if "%{?subpackageDebug:set}" == "set"
@@ -295,8 +272,6 @@ for DIR in $BASE_LIB_PATH $BASE_BIN_PATH $BASE_TEST_PATH; do
   echo "$DIR/.debug"            >> %_builddir/files.debug
 done
 %endif
-
-# End debug
 
 ######################################################
 #Do the symlink relocation as a last step in install
