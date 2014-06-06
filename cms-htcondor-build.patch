@@ -20,16 +20,18 @@ index 99b0584..4f2a45f 100644
  		if ( "${CONDOR_PLATFORM}" STREQUAL "x86_64_Ubuntu12")
  			set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-as-needed")
  		endif()
---- a/build/cmake/CondorPackageConfig.cmake.orig	2013-11-07 23:54:26.000000000 +0100
-+++ b/build/cmake/CondorPackageConfig.cmake	2013-11-08 00:14:17.000000000 +0100
-@@ -158,8 +158,8 @@
- 			set( EXTERNALS_RPATH "$ORIGIN/../lib:/lib:/usr/lib:$ORIGIN/../lib/condor:/usr/lib/condor" )
+--- a/build/cmake/CondorPackageConfig.cmake.orig	2014-06-06 18:10:56.000000000 +0200
++++ b/build/cmake/CondorPackageConfig.cmake	2014-06-06 18:12:53.000000000 +0200
+@@ -160,9 +160,9 @@
+			set( PYTHON_RPATH "$ORIGIN/../:/lib:/usr/lib:$ORIGIN/../condor" )
  		endif()
  	else()
 -		set( CONDOR_RPATH "$ORIGIN/../lib:/lib64:/usr/lib64:$ORIGIN/../lib/condor" )
 -		set( EXTERNALS_RPATH "$ORIGIN/../lib:/lib64:/usr/lib64:$ORIGIN/../lib/condor:/usr/lib64/condor" )
+-		set( PYTHON_RPATH "$ORIGIN/../:/lib64:/usr/lib64:$ORIGIN/../condor" )
 +		#set( CONDOR_RPATH "$ORIGIN/../lib:/lib64:/usr/lib64:$ORIGIN/../lib/condor" )
-+		#set( EXTERNALS_RPATH "$$ORIGIN/../lib:/lib64:/usr/lib64:$$ORIGIN/../lib/condor:/usr/lib64/condor" )
++		#set( EXTERNALS_RPATH "$ORIGIN/../lib:/lib64:/usr/lib64:$ORIGIN/../lib/condor:/usr/lib64/condor" )
++		#set( PYTHON_RPATH "$ORIGIN/../:/lib64:/usr/lib64:$ORIGIN/../condor" )
  	endif()
  elseif( ${OS_NAME} STREQUAL "DARWIN" )
  	set( EXTERNALS_LIB "${C_LIB}/condor" )
@@ -71,10 +73,10 @@ index b21f93c..d7a1e95 100644
  			set ( VOMS_GLOBUS_FLAG --with-globus-prefix=${GLOBUS_INSTALL_LOC} )
  		ENDIF()
  
-diff --git a/externals/bundles/globus/5.2.1/CMakeLists.txt b/externals/bundles/globus/5.2.1/CMakeLists.txt
+diff --git a/externals/bundles/globus/5.2.5/CMakeLists.txt b/externals/bundles/globus/5.2.5/CMakeLists.txt
 index d621994..cafbb09 100644
---- a/externals/bundles/globus/5.2.1/CMakeLists.txt
-+++ b/externals/bundles/globus/5.2.1/CMakeLists.txt
+--- a/externals/bundles/globus/5.2.5/CMakeLists.txt
++++ b/externals/bundles/globus/5.2.5/CMakeLists.txt
 @@ -76,7 +76,7 @@
  			set( GLOBUS_FLAGS CPPFLAGS=-I${GLOBUS_INSTALL_LOC}/include LDFLAGS=-L${GLOBUS_INSTALL_LOC}/lib )
  		else()
@@ -101,8 +103,8 @@ index d621994..cafbb09 100644
  							./configure --prefix=${GLOBUS_INSTALL_LOC} --with-flavor=${GLOBUS_FLAVOR}pthr
  							#--Build Step ----------
  							BUILD_COMMAND ${GLOBUS_FLAGS} make gpt globus_gssapi_error globus-resource-management-sdk globus-data-management-sdk &&
---- a/externals/bundles/globus/5.2.1/CMakeLists.txt.orig	2013-10-24 17:19:56.000000000 +0200
-+++ b/externals/bundles/globus/5.2.1/CMakeLists.txt	2013-10-24 17:20:08.000000000 +0200
+--- a/externals/bundles/globus/5.2.5/CMakeLists.txt.orig	2013-10-24 17:19:56.000000000 +0200
++++ b/externals/bundles/globus/5.2.5/CMakeLists.txt	2013-10-24 17:20:08.000000000 +0200
 @@ -119,7 +119,7 @@
  							CONFIGURE_COMMAND mkdir -p ${GLOBUS_INSTALL_LOC}/lib/perl && ln -sf P5_ARCHIVE_TAR_ROOT/lib/perl5/Archive ${GLOBUS_INSTALL_LOC}/lib/perl && ln -sf P5_IO_ZLIB_ROOT/lib/perl5/IO ${GLOBUS_INSTALL_LOC}/lib/perl && ln -sf P5_PACKAGE_CONSTANTS_ROOT/lib/perl5/Package ${GLOBUS_INSTALL_LOC}/lib/perl && ln -sf lib ${GLOBUS_INSTALL_LOC}/lib64 && LD_LIBRARY_PATH=ENVLD_LIBRARY_PATH 
  							./configure --prefix=${GLOBUS_INSTALL_LOC} --with-flavor=${GLOBUS_FLAVOR}pthr
@@ -112,11 +114,11 @@ index d621994..cafbb09 100644
  								cd ${GLOBUS_INSTALL_LOC}/include/globus/ && ln -sf ${GLOBUS_FLAVOR}pthr/globus_config.h .
  							BUILD_IN_SOURCE 1
  							#--install Step ----------
-diff --git a/externals/bundles/globus/5.2.1/dont_touch_ld_library_path.patch b/externals/bundles/globus/5.2.1/dont_touch_ld_library_path.patch
+diff --git a/externals/bundles/globus/5.2.5/dont_touch_ld_library_path.patch b/externals/bundles/globus/5.2.5/dont_touch_ld_library_path.patch
 new file mode 100644
 index 0000000..108f0a2
 --- /dev/null
-+++ b/externals/bundles/globus/5.2.1/dont_touch_ld_library_path.patch
++++ b/externals/bundles/globus/5.2.5/dont_touch_ld_library_path.patch
 @@ -0,0 +1,22 @@
 +--- gt5.2.1-all-source-installer/source-trees/common/source/library/globus_extension.c.orig	2013-04-24 18:16:49.253475211 -0500
 ++++ gt5.2.1-all-source-installer/source-trees/common/source/library/globus_extension.c	2013-04-24 18:17:15.792478663 -0500
@@ -141,7 +143,7 @@ index 0000000..108f0a2
 +         {
 +             globus_free(save_path);
 --- /dev/null	2013-06-10 10:23:16.488609438 +0200
-+++ b/externals/bundles/globus/5.2.1/dont_touch_ld_library_path_2.patch	2013-10-24 04:22:03.000000000 +0200
++++ b/externals/bundles/globus/5.2.5/dont_touch_ld_library_path_2.patch	2013-10-24 04:22:03.000000000 +0200
 @@ -0,0 +1,11 @@
 +--- Makefile.in.orig	2013-10-24 04:19:53.000000000 +0200
 ++++ Makefile.in	2013-10-24 04:20:42.000000000 +0200
