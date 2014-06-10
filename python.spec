@@ -8,7 +8,7 @@
 
 Requires: expat bz2lib db4 gdbm openssl
 
-Requires: zlib sqlite readline
+Requires: zlib sqlite readline ncurses
 
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, tk/tcl, x11
@@ -40,7 +40,7 @@ done
 #mkdir -p %i/include %i/lib
 mkdir -p %i/include %i/lib %i/bin
 
-%define extradirs ${ZLIB_ROOT} ${SQLITE_ROOT} ${READLINE_ROOT}
+%define extradirs ${ZLIB_ROOT} ${SQLITE_ROOT}
 
 dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB4_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} %{extradirs}" 
 
@@ -53,9 +53,12 @@ echo $dirs
 LDFLAGS=""
 CPPFLAGS=""
 for d in $dirs; do
-  LDFLAGS="$LDFLAGS -L $d/lib"
-  CPPFLAGS="$CPPFLAGS -I $d/include"
+  LDFLAGS="$LDFLAGS -L$d/lib"
 done
+for d in $dirs $READLINE_ROOT $NCURSES_ROOT; do
+  CPPFLAGS="$CPPFLAGS -I$d/include"
+done
+LDFLAGS="$LDFLAGS $NCURSES_ROOT/lib/libncurses.a $READLINE_ROOT/lib/libreadline.a"
 export LDFLAGS
 export CPPFLAGS
 
