@@ -1,12 +1,14 @@
-### RPM cms cmssw CMSSW_7_1_X_2014-04-29-0200
+### RPM cms cmssw CMSSW_7_1_DEBUG_X_2014-06-10-0200
 
 Requires: cmssw-tool-conf python cms-git-tools
 
 %define runGlimpse      yes
 %define useCmsTC        yes
 %define saveDeps        yes
-%define branch          CMSSW_7_0_X
+%define branch          CMSSW_7_1_X
 %define gitcommit       %{realversion}
+# build with debug symbols, and package them in a separate rpm
+%define subpackageDebug yes
 
 %if "%(case %realversion in (*_COVERAGE_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define branch		%(echo %realversion | sed -e 's|_COVERAGE_X.*|_X|')
@@ -16,7 +18,6 @@ Requires: cmssw-tool-conf python cms-git-tools
 %if "%(case %realversion in (*_DEBUG_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define branch		%(echo %realversion | sed -e 's|_DEBUG_X.*|_X|')
 %define gitcommit       %(echo %realversion | sed -e 's|_DEBUG||')
-%define subpackageDebug yes
 %endif
 
 %if "%(case %realversion in (*_EXPERIMENTAL_X*) echo true ;; (*) echo false ;; esac)" == "true"
