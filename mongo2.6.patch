@@ -1,0 +1,12 @@
+--- SConstruct.orig     2014-06-11 17:56:28.000000000 +0200
++++ SConstruct  2014-06-11 18:41:36.000000000 +0200
+@@ -467,7 +467,8 @@
+
+                    PCRE_VERSION='8.30',
+                    CONFIGUREDIR = '#' + scons_data_dir + '/sconf_temp',
+-                   CONFIGURELOG = '#' + scons_data_dir + '/config.log'
++                   CONFIGURELOG = '#' + scons_data_dir + '/config.log',
++                   ENV = os.environ
+                    )
+
+ if has_option("cache"):
