@@ -1,4 +1,4 @@
-### RPM cms reqmgr 0.9.95
+### RPM cms reqmgr 0.9.95.reqmgr_patch1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
