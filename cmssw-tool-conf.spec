@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 26.0
+### RPM cms cmssw-tool-conf 26.1
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -124,7 +124,6 @@ Requires: igprof-toolfile
 %if "%isslc6" == "true"
 Requires: nspr-toolfile
 Requires: nss-toolfile
-Requires: cyrus-sasl-toolfile
 %endif
 
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler
