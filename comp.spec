@@ -13,7 +13,7 @@ Requires: crabhb happyface sreadiness mechanize
 # Common
 Requires: rotatelogs pystack py2-psutil wmcore-devtools
 # Other
-Requires: wmagent-dev condor crabtaskworker
+Requires: wmagent-dev condor crabtaskworker t0
 Requires: PHEDEX-combined-agents PHEDEX-lifecycle lifecycle-das
 
 %prep
