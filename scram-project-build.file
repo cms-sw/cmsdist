@@ -21,17 +21,10 @@ BuildRequires: dwz gcc file
 %define cvstag          %realversion
 %endif
 
-%if "%{?usercxxflags:set}" == "set"
-%define extraOptions USER_CXXFLAGS='"%{usercxxflags}"'
-%else
-%define extraOptions %{nil}
-%endif
 %define bootstrapfile   config/bootsrc.xml
 
 # note: do not change the order of the -fdebug-prefix-map options, they seem to be used in reverse order
-%define extraOptions USER_CXXFLAGS+="-g"
-%define extraOptions USER_CXXFLAGS+="-fdebug-prefix-map=%{cmsroot}=%{installroot}"
-%define extraOptions USER_CXXFLAGS+="-fdebug-prefix-map=%{instroot}=%{installroot}"
+%define extraOptions    USER_CXXFLAGS='%{?usercxxflags} -g -fdebug-prefix-map=%{cmsroot}=%{installroot} -fdebug-prefix-map=%{instroot}=%{installroot}'
 
 %if "%{?configtag:set}" != "set"
 %define configtag       V05-01-28
