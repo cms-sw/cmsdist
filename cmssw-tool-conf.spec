@@ -121,11 +121,6 @@ Requires: google-perftools-toolfile
 Requires: igprof-toolfile
 %endif
 
-%if "%isslc6" == "true"
-Requires: nspr-toolfile
-Requires: nss-toolfile
-%endif
-
 %define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler
 
 ## IMPORT scramv1-tool-conf
