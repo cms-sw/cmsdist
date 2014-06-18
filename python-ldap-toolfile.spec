@@ -1,4 +1,4 @@
-### RPM external python-ldap-toolfile 1.0
+### RPM external python-ldap-toolfile 2.0
 Requires: python-ldap
 %prep
 
@@ -18,9 +18,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/python-ldap.xml
   <use name="openssl"/>
   <use name="openldap"/>
   <use name="python"/>
-  <architecture name="slc6_*">
-    <use name="cyrus-sasl"/>
-  </architecture>
 </tool>
 EOF_TOOLFILE
 
