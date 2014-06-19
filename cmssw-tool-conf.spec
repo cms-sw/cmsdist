@@ -112,6 +112,8 @@ Requires: cgal-toolfile
 Requires: pacparser-toolfile
 Requires: git-toolfile
 Requires: yaml-cpp-toolfile
+Requires: gmp-static-toolfile
+Requires: mpfr-static-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
@@ -121,7 +123,7 @@ Requires: google-perftools-toolfile
 Requires: igprof-toolfile
 %endif
 
-%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler gmp mpfr
 
 ## IMPORT scramv1-tool-conf
 
