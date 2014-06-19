@@ -1,0 +1,26 @@
+diff --git a/boost/functional/hash/detail/hash_float.hpp b/boost/functional/hash/detail/hash_float.hpp
+index ea1bc25..93526bc 100644
+--- a/boost/functional/hash/detail/hash_float.hpp
++++ b/boost/functional/hash/detail/hash_float.hpp
+@@ -62,7 +62,7 @@ namespace boost
+         inline std::size_t float_hash_value(T v)
+         {
+             using namespace std;
+-            switch (fpclassify(v)) {
++            switch (std::fpclassify(v)) {
+             case FP_ZERO:
+                 return 0;
+             case FP_INFINITE:
+diff --git a/boost/mpl/aux_/config/gcc.hpp b/boost/mpl/aux_/config/gcc.hpp
+index 3380d61..8a962d3 100644
+--- a/boost/mpl/aux_/config/gcc.hpp
++++ b/boost/mpl/aux_/config/gcc.hpp
+@@ -14,7 +14,7 @@
+ // $Date: 2008-10-11 02:19:02 -0400 (Sat, 11 Oct 2008) $
+ // $Revision: 49267 $
+ 
+-#if defined(__GNUC__) && !defined(__EDG_VERSION__)
++#if defined(__GNUC__) && !defined(__EDG_VERSION__) || defined(__INTEL_COMPILER)
+ #   define BOOST_MPL_CFG_GCC ((__GNUC__ << 8) | __GNUC_MINOR__)
+ #else
+ #   define BOOST_MPL_CFG_GCC 0
