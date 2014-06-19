@@ -5,6 +5,7 @@
 
 Source: git://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=WMCore-%{realversion}&output=/WMCore-%{realversion}.tar.gz
 
+Requires: libuuid
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 py2-pycurl
 Requires: py2-mysqldb py2-cx-oracle couchdb
 Requires: cherrypy py2-cheetah yui
