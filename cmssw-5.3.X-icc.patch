@@ -1,0 +1,195 @@
+--- src/Alignment/MillePedeAlignmentAlgorithm/src/PedeLabelerBase.cc
++++ src/Alignment/MillePedeAlignmentAlgorithm/src/PedeLabelerBase.cc
+@@ -21,8 +21,8 @@
+ 
+ PedeLabelerBase::PedeLabelerBase(const TopLevelAlignables &alignables,
+ 				 const edm::ParameterSet &config)
+-  :theOpenRunRange(std::make_pair<RunNumber,RunNumber>(cond::timeTypeSpecs[cond::runnumber].beginValue,
+-						       cond::timeTypeSpecs[cond::runnumber].endValue))
++  :theOpenRunRange(std::make_pair<RunNumber,RunNumber>((RunNumber)cond::timeTypeSpecs[cond::runnumber].beginValue,
++						        (RunNumber)cond::timeTypeSpecs[cond::runnumber].endValue))
+ {
+   
+ }
+--- src/Alignment/MuonAlignmentAlgorithms/src/SegmentToTrackAssociator.cc
++++ src/Alignment/MuonAlignmentAlgorithms/src/SegmentToTrackAssociator.cc
+@@ -44,10 +44,6 @@
+     
+ }
+ 
+-
+-SegmentToTrackAssociator::~SegmentToTrackAssociator();
+-
+-
+ void SegmentToTrackAssociator::clear()
+ {
+   indexCollectionDT.clear();
+--- src/DQM/SiStripCommissioningSummary/src/SummaryHistogramFactory.cc
++++ src/DQM/SiStripCommissioningSummary/src/SummaryHistogramFactory.cc
+@@ -17,15 +17,15 @@
+   gran_(sistrip::UNKNOWN_GRAN),
+   generator_(0) 
+ {
+-  LogTrace(mlSummaryPlots_) 
+-    << "[SummaryHistogramFactory::" << __func__ << "]";
++  //LogTrace(mlSummaryPlots_) 
++    //<< "[SummaryHistogramFactory::" << __func__ << "]";
+ } 
+
+ // -----------------------------------------------------------------------------
+ //
+ template<class T> 
+ SummaryHistogramFactory<T>::~SummaryHistogramFactory() {
+-  LogTrace(mlSummaryPlots_) << "[SummaryHistogramFactory::" << __func__ << "]";
++  //LogTrace(mlSummaryPlots_) << "[SummaryHistogramFactory::" << __func__ << "]";
+   if ( generator_ ) { delete generator_; }
+ }
+ 
+@@ -37,7 +37,7 @@
+ 				       const sistrip::View& view, 
+ 				       const std::string& top_level_dir, 
+ 				       const sistrip::Granularity& gran ) {
+-  LogTrace(mlSummaryPlots_) << "[SummaryHistogramFactory::" << __func__ << "]";
++  //LogTrace(mlSummaryPlots_) << "[SummaryHistogramFactory::" << __func__ << "]";
+   mon_ = mon;
+   pres_ = pres;
+   view_ = view;
+@@ -57,19 +57,19 @@
+ //
+ template<class T> 
+ uint32_t SummaryHistogramFactory<T>::extract( const std::map<uint32_t,T>& data ) {
+-  LogTrace(mlSummaryPlots_) << "[SummaryHistogramFactory::" << __func__ << "]";
++  //LogTrace(mlSummaryPlots_) << "[SummaryHistogramFactory::" << __func__ << "]";
+   
+   // Check if data are present
+   if ( data.empty() ) { 
+-    edm::LogWarning(mlSummaryPlots_) << "[SummaryHistogramFactory::" << __func__ << "]" 
+-				     << " No data in monitorables std::map!";
++    //edm::LogWarning(mlSummaryPlots_) << "[SummaryHistogramFactory::" << __func__ << "]" 
++//				     << " No data in monitorables std::map!";
+     return 0; 
+   }
+   
+   // Check if instance of generator class exists
+   if ( !generator_ ) { 
+-    edm::LogWarning(mlSummaryPlots_) << "[SummaryHistogramFactory::" << __func__ << "]" 
+-	 << " NULL pointer to SummaryGenerator object!";
++  //  edm::LogWarning(mlSummaryPlots_) << "[SummaryHistogramFactory::" << __func__ << "]" 
++//	 << " NULL pointer to SummaryGenerator object!";
+     return 0;
+   }
+   
+@@ -90,26 +90,26 @@
+ //
+ template<class T> 
+ void SummaryHistogramFactory<T>::fill( TH1& summary_histo ) {
+-  LogTrace(mlSummaryPlots_) << "[SummaryHistogramFactory::" << __func__ << "]";
++  //LogTrace(mlSummaryPlots_) << "[SummaryHistogramFactory::" << __func__ << "]";
+   
+   // Check if instance of generator class exists
+   if ( !generator_ ) { 
+-    edm::LogWarning(mlSummaryPlots_) << "[SummaryHistogramFactory::" << __func__ << "]" 
+-	 << " NULL pointer to SummaryGenerator object!";
++    //edm::LogWarning(mlSummaryPlots_) << "[SummaryHistogramFactory::" << __func__ << "]" 
++//	 << " NULL pointer to SummaryGenerator object!";
+     return;
+   }
+ 
+   // Check if instance of generator class exists
+   if ( !(&summary_histo) ) { 
+-    edm::LogWarning(mlSummaryPlots_) << "[SummaryHistogramFactory::" << __func__ << "]" 
+-	 << " NULL pointer to SummaryGenerator object!";
++  //  edm::LogWarning(mlSummaryPlots_) << "[SummaryHistogramFactory::" << __func__ << "]" 
++//	 << " NULL pointer to SummaryGenerator object!";
+     return;
+   }
+ 
+   // Check if std::map is filled
+   if ( !generator_->size() ) { 
+-    edm::LogWarning(mlSummaryPlots_) << "[SummaryHistogramFactory::" << __func__ << "]" 
+-	 << " No data in the monitorables std::map!";
++  //  edm::LogWarning(mlSummaryPlots_) << "[SummaryHistogramFactory::" << __func__ << "]" 
++//	 << " No data in the monitorables std::map!";
+     return; 
+   } 
+   
+--- src/HLTrigger/Egamma/src/HLTEgammaDoubleLegCombFilter.cc
++++ src/HLTrigger/Egamma/src/HLTEgammaDoubleLegCombFilter.cc
+@@ -96,7 +96,7 @@
+   
+   for(size_t secondLegNr=0;secondLegNr<secondLegP3s.size();secondLegNr++){
+     if(!std::binary_search(matched2ndLegs.begin(),matched2ndLegs.end(),secondLegNr)){ //wasnt matched already
+-      matchedCands.push_back(std::make_pair<int,int>(-1,secondLegNr));
++      matchedCands.push_back(std::make_pair<int,int>(-1,(int)secondLegNr));
+     }
+   }
+ }
+--- src/TrackingTools/AnalyticalJacobians/src/AnalyticalCurvilinearJacobianSSE.icc
++++ src/TrackingTools/AnalyticalJacobians/src/AnalyticalCurvilinearJacobianSSE.icc
+@@ -53,7 +53,13 @@ AnalyticalCurvilinearJacobian::computeFullJacobian
+ 
+   Vec4D t(t1.xy(),t2.xy());
+   Vec4D tt = t*t;
++#if defined(__INTEL_COMPILER)
++  tt.vec[0] = _mm_hadd_pd(tt.vec[0],tt.vec[0]);
++  tt.vec[1] = _mm_hadd_pd(tt.vec[1],tt.vec[1]);
++  tt = mathSSE::sqrt(tt);
++#else
+   tt = mathSSE::sqrt(hadd(tt,tt));
++#endif
+ 
+ 
+ #ifdef  CMS_USE_AVX
+--- src/GeneratorInterface/GenExtensions/bin/BCVEGPY/bcvegpy.f
++++ src/GeneratorInterface/GenExtensions/bin/BCVEGPY/bcvegpy.f
+@@ -157,8 +157,8 @@
+ c**************The unweighting scheme**************** 
+ c******the ratio of xwgtup and the xwgtup_max setted at the beginning******
+       xwt_r=xwgtup/MAXWGT
+-
+-      x_r = ran(0)
++      MRan=0
++      x_r = ran(MRan)
+ 
+       if (x_r.le.xwt_r.and.xwt_r.le.1) then
+ c         write(*,*) "random number ",x_r," ratio ",xwt_r 
+@@ -171,7 +171,7 @@
+          call bcvegpy_write_lhe
+          end do
+          sxwt=xwt_r-int(xwt_r)
+-         x_r = ran(0)
++         x_r = ran(MRan)
+          if (x_r.le.sxwt) then
+          call bcvegpy_write_lhe
+          end if
+--- src/PhysicsTools/MVAComputer/src/ProcMLP.cc
++++ src/PhysicsTools/MVAComputer/src/ProcMLP.cc
+@@ -97,7 +97,7 @@ ProcMLP::ProcMLP(const char *name,
+ 	std::copy(calib->layers.begin(), calib->layers.end(),
+ 	          std::back_inserter(layers));
+ 
+-	for(unsigned int i = 0; i < layers.size(); i++) {
++	for(size_t i = 0; i < layers.size(); i++) {
+ 		maxTmp = std::max<unsigned int>(maxTmp, layers[i].neurons);
+ 		if (i > 0 && layers[i - 1].neurons != layers[i].inputs)
+ 			throw cms::Exception("ProcMLPInput")
+--- config/SCRAM/GMake/Makefile.rules
++++ config/SCRAM/GMake/Makefile.rules
+@@ -495,7 +495,7 @@ define compile_c_common
+   $(call run_compile_command,$1,$2,$3,$4,$5,$(CC)  -c $(3) $(COPTIMISEDFLAGS) $(CSHAREDOBJECTFLAGS),$(C_MMD) $(C_MF) $(basename $@).d,$(C_MM))
+ endef
+ define compile_fortran_common
+-  $(call run_compile_command,$1,$2,$3,$4,$5,$(FC)  -c $(3) $(FOPTIMISEDFLAGS) $(FSHAREDOBJECTFLAGS),$(F77_MMD) $(F77_MF) $(basename $@).d,$(F77_MM))
++  $(call run_compile_command,$1,$2,$3,$4,$5,$(FC)  -c $(3) $(FOPTIMISEDFLAGS) $(FSHAREDOBJECTFLAGS),,$(F77_MM))
+ endef
+ define compile_cude_common
+   $(call run_compile_command,$1,$2,$3,$4,$5,$(NVCC) -c $(3) --compiler-options "$(CUDA_CFLAGS)" $(CUDA_FLAGS),)
+--- config/Self.xml
++++ config/Self.xml
+@@ -1,5 +1,6 @@
+ <tool name="SELF" version="SELF">
+  <client>
++  <flags DEFAULT_COMPILER="icc"/>
+   <environment name="LIBDIR"        value="$LOCALTOP/lib/$SCRAM_ARCH"/>
+   <environment name="LIBDIR"        value="$LOCALTOP/external/$SCRAM_ARCH/lib" handler="warn"/>
+   <environment name="INCLUDE"       value="$LOCALTOP/src"/>

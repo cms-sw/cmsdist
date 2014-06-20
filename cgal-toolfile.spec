@@ -1,4 +1,4 @@
-### RPM external cgal-toolfile 1.0
+### RPM external cgal-toolfile 2.0
 Requires: cgal
 %prep
 
@@ -21,6 +21,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cgal.xml
   </client>
   <use name="zlib"/>
   <use name="boost_system"/>
+  <use name="gmp"/>
 </tool>
 EOF_TOOLFILE
 
