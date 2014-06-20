@@ -10,7 +10,8 @@ Requires: cmssw-tool-conf python cms-git-tools
 %if "%(case %realversion in (*_ICC_X*) echo true ;; (*) echo false ;; esac)" == "true"
 Patch99: cmssw-5.3.X-icc
 %define gitcommit %(echo %realversion | sed -e 's|_ICC_X|_X|')
-%define preBuildCommand scram setup mpfr; scram setup gmp; scram setup icc-cxxcompiler ; scram setup icc-f77compiler ; scram setup icc-ccompiler
+%define scram_compiler icc
+%define extra_tools mpfr gmp icc-cxxcompiler icc-f77compiler icc-ccompiler
 %define patchsrc9       cat %_sourcedir/cmssw-5.3.X-icc | patch -s -p0 --fuzz=0
 %endif
 

@@ -173,23 +173,3 @@
  		maxTmp = std::max<unsigned int>(maxTmp, layers[i].neurons);
  		if (i > 0 && layers[i - 1].neurons != layers[i].inputs)
  			throw cms::Exception("ProcMLPInput")
---- config/SCRAM/GMake/Makefile.rules
-+++ config/SCRAM/GMake/Makefile.rules
-@@ -495,7 +495,7 @@ define compile_c_common
-   $(call run_compile_command,$1,$2,$3,$4,$5,$(CC)  -c $(3) $(COPTIMISEDFLAGS) $(CSHAREDOBJECTFLAGS),$(C_MMD) $(C_MF) $(basename $@).d,$(C_MM))
- endef
- define compile_fortran_common
--  $(call run_compile_command,$1,$2,$3,$4,$5,$(FC)  -c $(3) $(FOPTIMISEDFLAGS) $(FSHAREDOBJECTFLAGS),$(F77_MMD) $(F77_MF) $(basename $@).d,$(F77_MM))
-+  $(call run_compile_command,$1,$2,$3,$4,$5,$(FC)  -c $(3) $(FOPTIMISEDFLAGS) $(FSHAREDOBJECTFLAGS),,$(F77_MM))
- endef
- define compile_cude_common
-   $(call run_compile_command,$1,$2,$3,$4,$5,$(NVCC) -c $(3) --compiler-options "$(CUDA_CFLAGS)" $(CUDA_FLAGS),)
---- config/Self.xml
-+++ config/Self.xml
-@@ -1,5 +1,6 @@
- <tool name="SELF" version="SELF">
-  <client>
-+  <flags DEFAULT_COMPILER="icc"/>
-   <environment name="LIBDIR"        value="$LOCALTOP/lib/$SCRAM_ARCH"/>
-   <environment name="LIBDIR"        value="$LOCALTOP/external/$SCRAM_ARCH/lib" handler="warn"/>
-   <environment name="INCLUDE"       value="$LOCALTOP/src"/>
