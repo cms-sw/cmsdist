@@ -1,5 +1,6 @@
 ### RPM cms icc-scram 15.0.0
 ## NOCOMPILER
+Requires: icc-provides
 %prep
 %build
 %install
