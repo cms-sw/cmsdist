@@ -8,10 +8,6 @@ Requires: icc
 Source0: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Source1: roofit-5.34.07-build.sh
 
-Patch0: root-5.28-00d-roofit-silence-static-printout
-Patch1: roofit-5.24-00-RooFactoryWSTool-include
-Patch2: roofit-5.30.00-remove-tmath-infinity
-
 Requires: root 
 
 
@@ -21,9 +17,6 @@ Requires: root
 
 %prep
 %setup -b0 -n %{n}-%{realversion}
-#patch0 -p1
-%patch1 -p0
-%patch2 -p1
  
 %build
 #Copy over the tutorials
