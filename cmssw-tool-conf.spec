@@ -42,6 +42,7 @@ Requires: jemalloc-toolfile
 Requires: jimmy-toolfile
 Requires: ktjet-toolfile
 Requires: lhapdf-toolfile
+Requires: lhapdf6-toolfile
 Requires: libhepml-toolfile
 Requires: libjpg-toolfile
 Requires: libpng-toolfile
@@ -54,6 +55,7 @@ Requires: openssl-toolfile
 Requires: oracle-env
 Requires: pcre-toolfile
 Requires: photos-toolfile
+Requires: photospp-toolfile
 Requires: pythia6-toolfile
 Requires: pythia8-toolfile
 Requires: python-toolfile
