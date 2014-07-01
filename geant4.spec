@@ -32,6 +32,7 @@ cd ../build
 
 cmake ../%{n}.%{realversion} \
   -DCMAKE_CXX_COMPILER="%cms_cxx" \
+  -DCMAKE_CXX_FLAGS="-fPIC" \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_INSTALL_LIBDIR="lib" \
   -DCMAKE_BUILD_TYPE=Release \
@@ -47,13 +48,21 @@ cmake ../%{n}.%{realversion} \
   -DGEANT4_INSTALL_EXAMPLES=OFF \
   -DGEANT4_USE_SYSTEM_CLHEP=ON \
   -DGEANT4_BUILD_MULTITHREADED=OFF \
+  -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="-fPIC" \
+  -DCMAKE_STATIC_LIBRARY_C_FLAGS="-fPIC"
 
-make %makeprocesses VERBOSE=1
+make %makeprocesses
 
 %install
 
 cd ../build
 make install
+
+mkdir -p %i/lib/archive
+cd %i/lib/archive
+find %i/lib -name "*.a" -exec ar x {} \;
+ar rcs libgeant4-static.a *.o
+find . -name "*.o" -delete
 
 %post
 %{relocateConfig}lib/Geant4-*/Geant4Config.cmake
