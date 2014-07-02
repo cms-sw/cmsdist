@@ -2,7 +2,8 @@
 
 %define realversion %(echo %{v} | cut -d- -f1)
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
-Patch3: lhapdf-5.9.0-disable-examples-and-tests
+Patch0: lhapdf-5.9.0-disable-examples-and-tests
+Patch1: lhapdf-5.9.1-tests-no-srcdir
 
 Source1: lhapdf_makeLinks
 
@@ -24,7 +25,8 @@ Requires: gfortran-macosx
 
 %prep
 %setup -q -n %{n}/%{realversion}
-%patch3 -p2
+%patch0 -p2
+%patch1 -p2
 
 # Remove wrapper generated w/ SWIG 1.3* version. Makefile will
 # regenerate it w/ our SWIG version.
@@ -33,11 +35,7 @@ rm ./pyext/lhapdf_wrap.cc
 %build
 # We do everything in install because we need to do it twice.
 %install
-libtoolize --force --copy
-autoupdate
-aclocal -I m4
-autoconf
-automake --add-missing
+autoreconf -fiv
 
 FC="`which gfortran` -fPIC"
 CXX="`which %{cms_cxx}` -fPIC"
