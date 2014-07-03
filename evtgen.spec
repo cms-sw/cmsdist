@@ -41,7 +41,7 @@ perl -p -i -e "s|-shared|-dynamiclib -undefined dynamic_lookup|" make.inc
 esac
 
 %build
-make %makeprocesses
+make
 
 %install
 make install
