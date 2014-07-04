@@ -1,4 +1,4 @@
-### RPM external geant4 10.00.p01
+### RPM external geant4 10.00.p02
 
 Source0: http://geant4.cern.ch/support/source/%{n}.%{realversion}.tar.gz
 
@@ -9,7 +9,6 @@ Requires: expat
 Requires: xerces-c
 
 Patch0: geant4-10.0-no-banner
-Patch1: geant4-10.0.p01-dynamic-tls
 
 %define keep_archives true
 
@@ -21,7 +20,6 @@ Patch1: geant4-10.0.p01-dynamic-tls
 %setup -n %{n}.%{realversion}
 
 %patch0 -p1
-%patch1 -p1
 
 %build
 
@@ -42,6 +40,7 @@ cmake ../%{n}.%{realversion} \
   -DCMAKE_BUILD_TYPE=Release \
   -DGEANT4_USE_GDML=ON \
   -DGEANT4_BUILD_CXXSTD:STRING="c++11" \
+  -DGEANT4_BUILD_TLS_MODEL:STRING="global-dynamic" \
   -DGEANT4_ENABLE_TESTING=OFF \
   -DBUILD_SHARED_LIBS=ON \
   -DXERCESC_ROOT_DIR:PATH="${XERCES_C_ROOT}" \
