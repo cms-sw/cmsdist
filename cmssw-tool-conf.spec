@@ -118,6 +118,9 @@ Requires: sloccount-toolfile
 Requires: cvs2git-toolfile
 Requires: pacparser-toolfile
 Requires: git-toolfile
+Requires: cuda-toolfile
+Requires: opencl-toolfile
+Requires: opencl-cpp-toolfile
 Requires: qd-toolfile
 Requires: blackhat-toolfile
 Requires: sherpa-toolfile
