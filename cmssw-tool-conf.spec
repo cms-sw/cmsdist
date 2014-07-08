@@ -131,6 +131,7 @@ Requires: file-toolfile
 
 # Only for Linux platform.
 %if %islinux
+Requires: glibc-toolfile
 Requires: openldap-toolfile
 Requires: python-ldap-toolfile
 Requires: gdb-toolfile
