@@ -47,6 +47,8 @@ rm -f MSTW2008nlo68cl.tar.gz
 chmod a+x %{_sourcedir}/lhapdf6_makeLinks
 %{_sourcedir}/lhapdf6_makeLinks
 cd -
+mv %i/lib/libLHAPDF.a %i/lib/libLHAPDF6.a
+mv %i/lib/python2.7/site-packages/lhapdf.so %i/lib/python2.7/site-packages/lhapdf6.so
 
 %post
 %{relocateConfig}bin/lhapdf-config
