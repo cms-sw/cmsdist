@@ -23,5 +23,6 @@ CXX="icpc -fPIC -mmic"  CC="icc -fPIC -mmic" \
 esac
 make %{makeprocesses} CFLAGS="-O2 -fPIC"
 
+
 %install
 make install

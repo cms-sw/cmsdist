@@ -1,4 +1,4 @@
-### RPM external python 2.7.3
+### RPM external python 2.7.6
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 ## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib/python%{python_major_version}/site-packages
@@ -18,9 +18,7 @@ Requires: icc
 
 Requires: expat bz2lib db4 gdbm openssl
 
-%if %isnotonline
-Requires: zlib sqlite readline
-%endif
+Requires: zlib sqlite readline ncurses
 
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, tk/tcl, x11
@@ -43,14 +41,6 @@ find . -type f | while read f; do
     perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" $f
   else :; fi
 done
-%patch0 -p1
-%patch1 -p0
-
-%if %isdarwin
-%patch2 -p1
-%endif
-
-%patch3 -p1
 
 %build
 # Python is awkward about passing other include or library directories
@@ -67,11 +57,7 @@ done
 #mkdir -p %i/include %i/lib
 mkdir -p %i/include %i/lib %i/bin
 
-%if %isnotonline
-%define extradirs ${ZLIB_ROOT} ${SQLITE_ROOT} ${READLINE_ROOT}
-%else
-%define extradirs %{nil}
-%endif
+%define extradirs ${ZLIB_ROOT} ${SQLITE_ROOT}
 
 dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB4_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} %{extradirs}" 
 
@@ -84,9 +70,12 @@ echo $dirs
 LDFLAGS=""
 CPPFLAGS=""
 for d in $dirs; do
-  LDFLAGS="$LDFLAGS -L $d/lib"
-  CPPFLAGS="$CPPFLAGS -I $d/include"
+  LDFLAGS="$LDFLAGS -L$d/lib"
 done
+for d in $dirs $READLINE_ROOT $NCURSES_ROOT; do
+  CPPFLAGS="$CPPFLAGS -I$d/include"
+done
+LDFLAGS="$LDFLAGS $NCURSES_ROOT/lib/libncurses.a $READLINE_ROOT/lib/libreadline.a"
 export LDFLAGS
 export CPPFLAGS
 
