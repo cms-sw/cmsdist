@@ -48,6 +48,7 @@ chmod a+x %{_sourcedir}/lhapdf6_makeLinks
 %{_sourcedir}/lhapdf6_makeLinks
 cd -
 mv %i/lib/libLHAPDF.a %i/lib/libLHAPDF6.a
+mv %i/lib/libLHAPDF.so %i/lib/libLHAPDF6.so
 mv %i/lib/python2.7/site-packages/lhapdf.so %i/lib/python2.7/site-packages/lhapdf6.so
 
 %post
