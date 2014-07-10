@@ -35,7 +35,7 @@ Requires: SCRAMV1
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-03-08
+%define configtag       V05-03-09
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
