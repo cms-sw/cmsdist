@@ -22,20 +22,17 @@ Requires: zlib sqlite readline ncurses
 
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, tk/tcl, x11
-
-Source0: http://www.python.org/ftp/%n/%realversion/Python-%realversion.tgz
+%define tag 75d55971dbfa8a23c15cd0900c03655c692be767
+%define branch cms/v%realversion
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Source1: python-2.7.3-xcompile
-Patch0: python-2.7.3-dont-detect-dbm
-Patch1: python-fix-macosx-relocation
-Patch2: python-2.7.3-fix-pyport
-Patch3: python-2.7.3-ssl-fragment
 
 %prep
+%setup -n python-%realversion
 %if "%mic" == "true"
 rm -rf %{hostpython_dir}
 %endif
-
-%setup -n Python-%realversion
 find . -type f | while read f; do
   if head -n1 $f | grep -q /usr/local; then
     perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" $f
@@ -212,7 +209,8 @@ chmod +x %i/host/hostpython
 %endif
 
 %post
-%{relocateConfig}lib/python%{python_major_version}/config/Makefile
+%{relocateConfig}lib/python2.7/config/Makefile
+%{relocateConfig}lib/python2.7/_sysconfigdata.py
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
 %if "%mic" == "true"
 %{relocateConfig}host/hostpython
