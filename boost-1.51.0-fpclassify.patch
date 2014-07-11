@@ -5,7 +5,7 @@
          {
              using namespace std;
 -            switch (fpclassify(v)) {
-+            switch (::fpclassify(v)) {
++            switch (std::fpclassify(v)) {
              case FP_ZERO:
                  return 0;
              case FP_INFINITE:

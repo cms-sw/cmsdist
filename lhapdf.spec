@@ -1,14 +1,15 @@
-### RPM external lhapdf 5.8.5
+### RPM external lhapdf 5.9.1
+
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 %if "%mic" == "true"
 Requires: icc
 %endif
 %define realversion %(echo %{v} | cut -d- -f1)
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
-Patch1: lhapdf-5.8.5-gzio
-Patch2: lhapdf-data-5.8.5-gzio
-Patch3: lhapdf-5.8.5-disable-examples-and-tests
-Patch4: lhapdf-mic-5.8.5
+Patch3: lhapdf-5.9.0-disable-examples-and-tests
+
+Source1: lhapdf_makeLinks
+Patch1: lhapdf-mic-5.8.5
 
 Requires: zlib
 %if "%mic" != "true"
@@ -36,21 +37,6 @@ Requires: gfortran-macosx
 # Remove wrapper generated w/ SWIG 1.3* version. Makefile will
 # regenerate it w/ our SWIG version.
 rm ./pyext/lhapdf_wrap.cc
-
-%patch1 -p2
-
-cd share/lhapdf/PDFsets
-%patch2 -p5
-
-rm -f *gz NNPDF*1000*
-cat <<\EOF > ../compress.mk
-FILES=$(addsuffix .gz,$(wildcard *))
-all: ${FILES}
-%.gz: %
-	gzip -9 $<
-EOF
-
-make %{makeprocesses} -f ../compress.mk all
 
 %build
 # We do everything in install because we need to do it twice.

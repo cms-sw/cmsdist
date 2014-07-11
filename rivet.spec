@@ -29,7 +29,7 @@ Patch3: rivet-1.8.2-disable-doc
 ./configure --disable-silent-rules --prefix=%i --with-boost=${BOOST_ROOT} --with-hepmc=$HEPMC_ROOT \
             --with-fastjet=$FASTJET_ROOT --with-gsl=$GSL_ROOT --disable-doxygen --disable-pdfmanual --with-pic \
 %if "%mic" == "true"
-            --disable-pyext --host=x86_64-k1om-linux CXX="icpc" CXXFLAGS="-mmic %cms_cxxflags" CC="icc -mmic"
+            --disable-pyext --host=x86_64-k1om-linux CXX="icpc" CXXFLAGS="-mmic %cms_cxxflags -Dthread_local=" CC="icc -mmic"
 %else
             CXX="$(which %cms_cxx)" CXXFLAGS="%cms_cxxflags"
 %endif

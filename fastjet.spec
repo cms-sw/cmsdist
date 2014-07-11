@@ -14,7 +14,7 @@ Requires: icc
 case %cmsplatf in
     *_gcc4[01234]* ) ;;
     *_armv7hl_* ) CXXFLAGS="-O3 -Wall -ffast-math -std=c++0x -ftree-vectorize" ;;
-    *_mic_* ) CXXFLAGS="-O3 -Wall -ffast-math -std=c++0x -ftree-vectorize" ;;
+    *_mic_* ) CXXFLAGS="-O3 -Wall -ffast-math -std=c++0x -ftree-vectorize -Dthread_local=" ;;
     * ) CXXFLAGS="-O3 -Wall -ffast-math -std=c++0x -msse3 -ftree-vectorize" ;;
 esac
 

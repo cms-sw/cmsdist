@@ -18,8 +18,7 @@ Requires: zlib
 Patch0: boost-1.47.0-fix-strict-overflow
 Patch1: boost-1.47.0-fix-unused
 Patch2: boost-1.49.0-explicit_stored_group
-Patch3: boost-1.51.0-fpclassify
-Patch4: boost-1.51.0-mic
+Patch3: boost-1.51.0-mic
 
 %prep
 %setup -n %{n}%{boostver}
@@ -29,7 +28,6 @@ Patch4: boost-1.51.0-mic
 
 %if "%mic" == "true"
 %patch3 -p1
-%patch4 -p1
 %endif
 
 perl -p -i -e 's/-no-cpp-precomp//' tools/build/v2/tools/darwin.jam \

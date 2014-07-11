@@ -2,8 +2,6 @@
 
 Requires: gcc-toolfile
 Requires: icc-scram
-%define   iccbin_dir  bin/intel64
-%define   icclib_dir  compiler/lib/intel64
 %if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
 Requires: gfortran-macosx
 %endif
@@ -36,8 +34,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
   <tool name="icc-cxxcompiler" version="@ICC_VERSION@" type="compiler">
     <use name="gcc-cxxcompiler"/>
     <client>
-      <environment name="ICC_CXXCOMPILER_BASE" default="@ICC_ROOT@/installation" handler="warn"/>
-      <environment name="CXX" value="$ICC_CXXCOMPILER_BASE/%{iccbin_dir}/icpc" handler="warn"/>
+      <environment name="ICC_CXXCOMPILER_BASE" default="@ICC_ROOT@/icc" handler="warn"/>
+      <environment name="CXX" value="$ICC_CXXCOMPILER_BASE/bin/icpc" handler="warn"/>
     </client>
     # drop flags not supported by llvm
     # -Wno-non-template-friend removed since it's not supported, yet, by llvm.
@@ -61,11 +59,11 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
       <flags CXXFLAGS="-mmic"/>
       <flags LDFLAGS="-mmic"/>
     </architecture>
-    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$ICC_CXXCOMPILER_BASE/%{icclib_dir}" type="path" handler="warn"/>
-    <runtime name="PATH" value="$ICC_CXXCOMPILER_BASE/%{iccbin_dir}" type="path" handler="warn"/>
+    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$ICC_CXXCOMPILER_BASE/lib/intel64" type="path" handler="warn"/>
+    <runtime name="PATH" value="$ICC_CXXCOMPILER_BASE/bin" type="path" handler="warn"/>
     <runtime name="COMPILER_RUNTIME_OBJECTS" value="@GCC_ROOT@" handler="warn"/>
-    <runtime name="INTEL_LICENSE_FILE" value="28518@AT@lxlic01.cern.ch,28518@AT@lxlic02.cern.ch,28518@AT@lxlic03.cern.ch" type="path" handler="warn"/>
-    <runtime name="INTEL_LICENSE_FILE" value="$ICC_CXXCOMPILER_BASE/licenses" type="path" handler="warn"/>
+    <runtime name="INTEL_LICENSE_FILE" value="28518@lxlic01.cern.ch,28518@lxlic02.cern.ch,28518@lxlic03.cern.ch" type="path" handler="warn"/>
+    <runtime name="INTEL_LICENSE_FILE" value="$ICC_CXXCOMPILER_BASE/composer_xe_2015.0.064/licenses" type="path" handler="warn"/>
     <runtime name="INTEL_LICENSE_FILE" value="/opt/intel/licenses" type="path" handler="warn"/>
   </tool>
 EOF_TOOLFILE
@@ -74,8 +72,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-ccompiler.xml
   <tool name="icc-ccompiler" version="@ICC_VERSION@" type="compiler">
     <use name="gcc-ccompiler"/>
     <client>
-      <environment name="ICC_CCOMPILER_BASE" default="@ICC_ROOT@/installation" handler="warn"/>
-      <environment name="CC" value="$ICC_CCOMPILER_BASE/%{iccbin_dir}/icc" handler="warn"/>
+      <environment name="ICC_CCOMPILER_BASE" default="@ICC_ROOT@/icc" handler="warn"/>
+      <environment name="CC" value="$ICC_CCOMPILER_BASE/bin/icc" handler="warn"/>
     </client>
     <architecture name="_mic_">
       <flags CFLAGS="-mmic"/>
@@ -88,11 +86,13 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-f77compiler.xml
     <use name="gcc-f77compiler"/>    
     <client>
       <environment name="ICC_FCOMPILER_BASE" default="@ICC_ROOT@/ifort" handler="warn"/>
-      <environment name="FC" default="$ICC_FCOMPILER_BASE/%{iccbin_dir}/ifort" handler="warn"/>
+      <environment name="FC" default="$ICC_FCOMPILER_BASE/bin/ifort" handler="warn"/>
+      <environment name="LIBDIR" default="$ICC_FCOMPILER_BASE/lib/intel64" handler="warn"/>
     </client>
     <architecture name="_mic_">
       <flags FFLAGS="-mmic"/>
     </architecture>
+    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$ICC_FCOMPILER_BASE/lib/intel64" type="path" handler="warn"/>
     <lib name="ifcore"/>
     <lib name="ifport"/>
   </tool>

@@ -103,14 +103,13 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/tbb.xml
     <info url="http://threadingbuildingblocks.org"/>
     <lib name="tbb"/>
     <client>
-      <environment name="TBB_BASE" default="@ICC_SCRAM_ROOT@/installation/tbb"/>
+      <environment name="TBB_BASE" default="@ICC_SCRAM_ROOT@/icc/tbb"/>
       <environment name="LIBDIR" default="$TBB_BASE/lib/mic"/>
       <environment name="INCLUDE" default="$TBB_BASE/include"/>
     </client>
   </tool>
 EOF_TOOLFILE
 %endif
-
 
 export ORACLE_ENV_ROOT
 export ICC_SCRAM_ROOT

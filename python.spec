@@ -1,5 +1,5 @@
-### RPM external python 2.7.6
-## INITENV +PATH PATH %i/bin 
+### RPM external python 2.7.3
+## INITENV +PATH PATH %i/bin
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 ## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib/python%{python_major_version}/site-packages
 ## INITENV SETV PYTHONHASHSEED random
@@ -18,45 +18,62 @@ Requires: icc
 
 Requires: expat bz2lib db4 gdbm openssl
 
-Requires: zlib sqlite readline ncurses
+%if %isnotonline
+Requires: zlib sqlite readline
+%endif
 
-# FIXME: readline, crypt 
+# FIXME: readline, crypt
 # FIXME: gmp, panel, tk/tcl, x11
-%define tag 75d55971dbfa8a23c15cd0900c03655c692be767
-%define branch cms/v%realversion
-%define github_user cms-externals
-Source: git+https://github.com/%github_user/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+
+Source0: http://www.python.org/ftp/%n/%realversion/Python-%realversion.tgz
 Source1: python-2.7.3-xcompile
+Patch0: python-2.7.3-dont-detect-dbm
+Patch1: python-fix-macosx-relocation
+Patch2: python-2.7.3-fix-pyport
+Patch3: python-2.7.3-ssl-fragment
 
 %prep
-%setup -n python-%realversion
 %if "%mic" == "true"
 rm -rf %{hostpython_dir}
 %endif
+
+%setup -n Python-%realversion
 find . -type f | while read f; do
   if head -n1 $f | grep -q /usr/local; then
     perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" $f
   else :; fi
 done
+%patch0 -p1
+%patch1 -p0
+
+%if %isdarwin
+%patch2 -p1
+%endif
+
+%patch3 -p1
 
 %build
 # Python is awkward about passing other include or library directories
-# to it.  Basically there is no way to pass anything from configure to
-# make, or down to python itself.  To get python detect the extensions
+# to it. Basically there is no way to pass anything from configure to
+# make, or down to python itself. To get python detect the extensions
 # we want to enable, we simply have to link the contents into python's
-# own include/lib directories.  Ugh.
+# own include/lib directories. Ugh.
 #
 # NB: It would sort-of make sense to link more stuff from /sw on OS X,
-# but we simply cannot link the whole world.  If you need something,
+# but we simply cannot link the whole world. If you need something,
 # see above for the commented-out list of packages that could be
 # linked specifically, or could be built by ourselves, depending on
 # whether we like to pick up system libraries or want total control.
 #mkdir -p %i/include %i/lib
 mkdir -p %i/include %i/lib %i/bin
 
-%define extradirs ${ZLIB_ROOT} ${SQLITE_ROOT}
+%if %isnotonline
+%define extradirs ${ZLIB_ROOT} ${SQLITE_ROOT} ${READLINE_ROOT}
+%else
+%define extradirs %{nil}
+%endif
 
-dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB4_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} %{extradirs}" 
+dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB4_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} %{extradirs}"
 
 # We need to export it because setup.py now uses it to determine the actual
 # location of DB4, this was needed to avoid having it picked up from the system.
@@ -67,12 +84,9 @@ echo $dirs
 LDFLAGS=""
 CPPFLAGS=""
 for d in $dirs; do
-  LDFLAGS="$LDFLAGS -L$d/lib"
+  LDFLAGS="$LDFLAGS -L $d/lib"
+  CPPFLAGS="$CPPFLAGS -I $d/include"
 done
-for d in $dirs $READLINE_ROOT $NCURSES_ROOT; do
-  CPPFLAGS="$CPPFLAGS -I$d/include"
-done
-LDFLAGS="$LDFLAGS $NCURSES_ROOT/lib/libncurses.a $READLINE_ROOT/lib/libreadline.a"
 export LDFLAGS
 export CPPFLAGS
 
@@ -88,7 +102,7 @@ make %makeprocesses
 cp -r %{_builddir}/Python-%{realversion} %{hostpython_dir}
 make distclean
 patch -p1 < %{_sourcedir}/python-2.7.3-xcompile
-./configure --prefix=%i $additionalConfigureOptions --enable-shared CC="icc -mmic"  CXX="%{cxx}" --host=x86_64 --without-gcc
+./configure --prefix=%i $additionalConfigureOptions --enable-shared CC="icc -mmic" CXX="%{cxx}" --host=x86_64 --without-gcc
 %endif
 
 # Modify pyconfig.h to match macros from GLIBC features.h on Linux machines.
@@ -135,7 +149,7 @@ make install %{hostpython}
 
 case %cmsplatf in
   osx*)
-   make install prefix=%i 
+   make install prefix=%i
    (cd Misc; /bin/rm -rf RPM)
    mkdir -p %i/share/doc/%n
    cp -R Demo Doc %i/share/doc/%n
@@ -174,7 +188,7 @@ done
 # remove tkinter that brings dependency on libtk:
 find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
 
-# Remove documentation, examples and test files. 
+# Remove documentation, examples and test files.
 %define drop_files { %i/share %{i}/lib/python%{pythonv}/test \
                    %{i}/lib/python%{pythonv}/distutils/tests \
                    %{i}/lib/python%{pythonv}/json/tests \
@@ -209,8 +223,7 @@ chmod +x %i/host/hostpython
 %endif
 
 %post
-%{relocateConfig}lib/python2.7/config/Makefile
-%{relocateConfig}lib/python2.7/_sysconfigdata.py
+%{relocateConfig}lib/python%{python_major_version}/config/Makefile
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
 %if "%mic" == "true"
 %{relocateConfig}host/hostpython
