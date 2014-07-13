@@ -10,7 +10,6 @@ Source3: http://www.hepforge.org/archive/lhapdf/pdfsets/6.1/CT10.tar.gz
 Source4: http://www.hepforge.org/archive/lhapdf/pdfsets/6.1/MSTW2008nlo68cl.tar.gz
 
 Requires: boost yaml-cpp python cython
-BuildRequires: autotools
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx c++
