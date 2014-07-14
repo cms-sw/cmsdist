@@ -320,7 +320,7 @@ case %cmsplatf in
     PATCHELF_PATH=$RPM_INSTALL_PREFIX/%cmsplatf/$PATCHELF_PKG
     . $PATCHELF_PATH/etc/profile.d/init.sh
     . $FILE_PATH/etc/profile.d/init.sh
-    CMSSW_BIN_PATH=$RPM_INSTALL_PREFIX/%pkgrel/{bin,test}/%cmsplatf
+    CMSSW_BIN_PATH=$RPM_INSTALL_PREFIX/%pkgrel/bin/%cmsplatf
     CMSSW_ELF_BIN=$(find $CMSSW_BIN_PATH -type f -exec file {} \; | grep ELF | cut -d':' -f1)
     GLIBC_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/glibc/')
     GLIBC_PATH=$CMS_INSTALL_PREFIX/%cmsplatf/$GLIBC_PKG
