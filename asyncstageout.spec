@@ -1,7 +1,8 @@
-### RPM cms asyncstageout 1.0.2pre3
+### RPM cms asyncstageout 1.0.2pre5
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PERL5LIB %i/Monitor/perl_lib
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define wmcver 0.9.95e
@@ -9,6 +10,7 @@
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{wmcver}.tar.gz
 Source1: git://github.com/dmwm/AsyncStageout.git?obj=master/%{realversion}&export=AsyncStageout-%{realversion}&output=/AsyncStageout-%{realversion}.tar.gz
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 rotatelogs pystack py2-sphinx dbs-client couchdb py2-pycurl couchskel py2-stomp dbs3-client
+Requires: PHEDEX-micro PHEDEX-lifecycle
 
 %prep
 %setup -D -T -b 1 -n AsyncStageout-%{realversion}
@@ -39,6 +41,7 @@ cp -pr ../AsyncStageout-%{realversion}/src/python/AsyncStageOut %i/$PYTHON_LIB_S
 cp -pr ../AsyncStageout-%{realversion}/src/couchapp %i/
 cp -pr ../AsyncStageout-%{realversion}/bin %i/
 cp -pr ../AsyncStageout-%{realversion}/configuration %i/
+cp -pr ../AsyncStageout-%{realversion}/src/Monitor %i/
 find %i -name '*.egg-info' -exec rm {} \;
 
 # Pick external dependencies from couchskel
