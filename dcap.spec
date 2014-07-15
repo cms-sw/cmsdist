@@ -1,21 +1,13 @@
-### RPM external dcap 2.47.5.0
-#get dcap from dcache svn repo now...
-Source: http://cmsrep.cern.ch/cmssw/download/dcap/dcap.tgz
-#Source: svn://svn.dcache.org/dCache/tags/dcap-%realversion?scheme=http&module=dcap&output=/dcap.tgz
+### RPM external dcap 2.47.8
+Source0: git://github.com/dCache/dcap.git?obj=master/%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Patch0: dcap-2.47.5.0-macosx
 Patch1: dcap-2.47.5.0-fork-safety
 
-%define isonline %(case "%{cmsplatf}" in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
-%if %{isonline}
-Requires: onlinesystemtools
-%else
-Requires: zlib
-%endif
-
 BuildRequires: autotools
+Requires: zlib
 
 %prep
-%setup -n dcap
+%setup -n %{n}-%{realversion}
 # THIS PATCH IS COMPLETELY UNTESTED AND HAS THE SOLE PURPOSE OF BUILDING STUFF
 # ON MAC, REGARDLESS WHETHER IT WORKS OR NOT. It is however safe to include,
 # since every change is ifdeffed with __APPLE__.
@@ -24,6 +16,8 @@ BuildRequires: autotools
 %patch1 -p0
 
 %build
+unset MAGIC
+
 # Since we are using the checked out code, we need to regenerate the auto-tools
 # crap.
 # There is also a problem with the way they define library_includedir which I could fix only like this.
