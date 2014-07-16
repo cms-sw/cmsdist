@@ -1,29 +1,18 @@
-### RPM external dcap 2.47.5.0
-#get dcap from dcache svn repo now...
-Source: http://cmsrep.cern.ch/cmssw/download/dcap/dcap.tgz
-#Source: svn://svn.dcache.org/dCache/tags/dcap-%realversion?scheme=http&module=dcap&output=/dcap.tgz
-Patch0: dcap-2.47.5.0-macosx
-Patch1: dcap-2.47.5.0-fork-safety
-
-%define isonline %(case "%{cmsplatf}" in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
-%if %{isonline}
-Requires: onlinesystemtools
-%else
-Requires: zlib
-%endif
+### RPM external dcap 2.47.8
+%define tag 43223fda3a042
+%define branch cms/%{realversion}
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 BuildRequires: autotools
+Requires: zlib
 
 %prep
-%setup -n dcap
-# THIS PATCH IS COMPLETELY UNTESTED AND HAS THE SOLE PURPOSE OF BUILDING STUFF
-# ON MAC, REGARDLESS WHETHER IT WORKS OR NOT. It is however safe to include,
-# since every change is ifdeffed with __APPLE__.
-%patch0 -p1
-# Apply fork safety patch from Brian Bockelman
-%patch1 -p0
+%setup -n %{n}-%{realversion}
 
 %build
+unset MAGIC
+
 # Since we are using the checked out code, we need to regenerate the auto-tools
 # crap.
 # There is also a problem with the way they define library_includedir which I could fix only like this.
