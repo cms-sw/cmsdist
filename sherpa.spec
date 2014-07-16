@@ -3,7 +3,7 @@
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-Requires: hepmc lhapdf blackhat sqlite fastjet openssl
+Requires: autotools hepmc lhapdf blackhat sqlite fastjet openssl
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
