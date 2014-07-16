@@ -4,13 +4,17 @@
 # toolfile because gcc.spec could be not build because of the 
 # "--use-system-compiler" option.
 
-Requires: glibc
-
 Source: none
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+
+%if %islinux
+%if %isamd64
+Requires: glibc
+%endif # isamd64
+%endif # islinux
 
 %prep
 %build
