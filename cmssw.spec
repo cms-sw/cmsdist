@@ -1,10 +1,11 @@
-### RPM cms cmssw CMSSW_7_1_0_pre1
+### RPM cms cmssw CMSSW_7_2_DEVEL_X_2014-07-08-0900
 
 Requires: cmssw-tool-conf python cms-git-tools
 
 %define runGlimpse      yes
 %define useCmsTC        yes
 %define saveDeps        yes
+%define changeDynLoader yes
 %define branch          CMSSW_7_0_X
 %define gitcommit       %{realversion}
 
