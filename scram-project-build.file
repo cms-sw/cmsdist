@@ -333,7 +333,7 @@ case %cmsplatf in
     CMSSW_ELF_BIN=$(find $CMSSW_BIN_PATH -type f -exec file {} \; | grep ELF | cut -d':' -f1)
     GLIBC_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/glibc/')
     GLIBC_PATH=$CMS_INSTALL_PREFIX/%cmsplatf/$GLIBC_PKG
-    echo "$CMSSW_ELF_BIN" | xargs -t -n 1 -I% -P $(getconf _NPROCESSORS_ONLN) sh -c "patchelf --set-interpreter $GLIBC_PATH/lib64/ld.so %"
+    echo "$CMSSW_ELF_BIN" | xargs -t -n 1 -I% -P $(getconf _NPROCESSORS_ONLN) sh -c "strings % 2>&1 | grep '%{cmsplatf}/external/glibc' 2>&1 >/dev/null && patchelf --set-interpreter $GLIBC_PATH/lib64/ld.so %"
   esac
 %endif
 
