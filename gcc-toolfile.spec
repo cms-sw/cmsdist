@@ -8,13 +8,6 @@ Source: none
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
-%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
-
-%if %islinux
-%if %isamd64
-Requires: glibc
-%endif # isamd64
-%endif # islinux
 
 %prep
 %build
@@ -34,8 +27,6 @@ else
     export GCC_VERSION
     export G77_ROOT=$GCC_ROOT
 fi
-
-export GLIBC_ROOT
 
 case %cmsplatf in
   slc*_*_gcc4[012345]*) ;;
