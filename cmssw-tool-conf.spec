@@ -133,7 +133,6 @@ Requires: glibc-toolfile
 
 # Only for Linux platform.
 %if %islinux
-Requires: glibc-toolfile
 Requires: openldap-toolfile
 Requires: python-ldap-toolfile
 Requires: gdb-toolfile
@@ -155,10 +154,11 @@ Requires: oracle-toolfile
 # Only for Linux platform.
 %if %islinux
 Requires: igprof-toolfile
+Requires: glibc-toolfile
 %endif
 %endif
 
-%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler cuda rivet2 opencl opencl-cpp
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler cuda rivet2 opencl opencl-cpp lhapdf6
 
 ## IMPORT scramv1-tool-conf
 

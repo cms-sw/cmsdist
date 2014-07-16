@@ -9,7 +9,7 @@ Requires: lhapdf6
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdf6.xml
 <tool name="lhapdf6" version="@TOOL_VERSION@">
-  <lib name="LHAPDF6"/>
+  <lib name="LHAPDF"/>
   <client>
     <environment name="LHAPDF6_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$LHAPDF6_BASE/lib"/>

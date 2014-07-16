@@ -2,10 +2,22 @@
 # FIXME: support building all platforms together like scram does?
 # FIXME: automatic sub-packages for "doc" etc?
 ## NOCOMPILER
+
+%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+%define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
+
 Requires: SCRAMV1
 Requires: patchelf
 Requires: glibc
 Requires: file
+
+%if %islinux
+%if %isamd64
+Requires: patchelf
+Requires: glibc
+Requires: file
+%endif # isamd64
+%endif # islinux
 
 %define initenv	        %initenv_direct
 %define scramcmd        $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
