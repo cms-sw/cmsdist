@@ -1,15 +1,14 @@
-### RPM external geant4 10.00.p01
-
-Source0: http://geant4.cern.ch/support/source/%{n}.%{realversion}.tar.gz
+### RPM external geant4 10.00.p02
+%define tag 122f5b1be5
+%define branch cms/4.%{realversion}
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
 
 BuildRequires: cmake
 
 Requires: clhep
 Requires: expat
 Requires: xerces-c
-
-Patch0: geant4-10.0-no-banner
-Patch1: geant4-10.0.p01-dynamic-tls
 
 %define keep_archives true
 
@@ -19,9 +18,6 @@ Patch1: geant4-10.0.p01-dynamic-tls
 
 %prep
 %setup -n %{n}.%{realversion}
-
-%patch0 -p1
-%patch1 -p1
 
 %build
 
