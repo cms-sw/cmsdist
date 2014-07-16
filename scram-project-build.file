@@ -2,7 +2,19 @@
 # FIXME: support building all platforms together like scram does?
 # FIXME: automatic sub-packages for "doc" etc?
 ## NOCOMPILER
+
+%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+%define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
+
 Requires: SCRAMV1
+
+%if %islinux
+%if %isamd64
+Requires: patchelf
+Requires: glibc
+Requires: file
+%endif # isamd64
+%endif # islinux
 
 %define initenv	        %initenv_direct
 %define scramcmd        $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
@@ -307,6 +319,21 @@ fi
 %{?PatchReleaseFilesRelocate:%PatchReleaseFilesRelocate}
 %{?PartialReleaseFilesRelocate:%PartialReleaseFilesRelocate}
 [ -f $RPM_INSTALL_PREFIX/etc/scramrc/%{pkgname}.map ] || (mkdir -p $RPM_INSTALL_PREFIX/etc/scramrc && echo '%{ucprojtype}=$SCRAM_ARCH/%{pkgcategory}/%{pkgname}/%{ucprojtype}_*' > $RPM_INSTALL_PREFIX/etc/scramrc/%{pkgname}.map)
+
+case %cmsplatf in
+  slc6_amd64_*)
+    FILE_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/file/')
+    FILE_PATH=$RPM_INSTALL_PREFIX/%cmsplatf/$FILE_PKG
+    PATCHELF_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/patchelf/')
+    PATCHELF_PATH=$RPM_INSTALL_PREFIX/%cmsplatf/$PATCHELF_PKG
+    . $PATCHELF_PATH/etc/profile.d/init.sh
+    . $FILE_PATH/etc/profile.d/init.sh
+    CMSSW_BIN_PATH="$RPM_INSTALL_PREFIX/%pkgrel/bin/%cmsplatf $RPM_INSTALL_PREFIX/%pkgrel/test/%cmsplatf"
+    CMSSW_ELF_BIN=$(find $CMSSW_BIN_PATH -type f -exec file {} \; | grep ELF | cut -d':' -f1)
+    GLIBC_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/glibc/')
+    GLIBC_PATH=$CMS_INSTALL_PREFIX/%cmsplatf/$GLIBC_PKG
+    echo "$CMSSW_ELF_BIN" | xargs -t -n 1 -I% -P $(getconf _NPROCESSORS_ONLN) sh -c "strings % 2>&1 | grep '%{cmsplatf}/external/glibc' 2>&1 >/dev/null && patchelf --set-interpreter $GLIBC_PATH/lib64/ld.so %"
+  esac
 
 %postun
 rm -fR $RPM_INSTALL_PREFIX/%pkgrel

@@ -10,7 +10,6 @@ Source3: http://www.hepforge.org/archive/lhapdf/pdfsets/6.1/CT10.tar.gz
 Source4: http://www.hepforge.org/archive/lhapdf/pdfsets/6.1/MSTW2008nlo68cl.tar.gz
 
 Requires: boost yaml-cpp python cython
-BuildRequires: autotools
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx c++
@@ -47,9 +46,6 @@ rm -f MSTW2008nlo68cl.tar.gz
 chmod a+x %{_sourcedir}/lhapdf6_makeLinks
 %{_sourcedir}/lhapdf6_makeLinks
 cd -
-mv %i/lib/libLHAPDF.a %i/lib/libLHAPDF6.a
-mv %i/lib/libLHAPDF.so %i/lib/libLHAPDF6.so
-mv %i/lib/python2.7/site-packages/lhapdf.so %i/lib/python2.7/site-packages/lhapdf6.so
 
 %post
 %{relocateConfig}bin/lhapdf-config
