@@ -129,7 +129,6 @@ Requires: qd-toolfile
 Requires: blackhat-toolfile
 Requires: sherpa-toolfile
 Requires: geant4-parfullcms-toolfile
-Requires: glibc-toolfile
 
 # Only for Linux platform.
 %if %islinux
@@ -155,6 +154,7 @@ Requires: oracle-toolfile
 # Only for Linux platform.
 %if %islinux
 Requires: igprof-toolfile
+Requires: glibc-toolfile
 %endif
 %endif
 
