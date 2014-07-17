@@ -321,7 +321,7 @@ for lib in %{cmssw_libs} ; do
     find  $lib -name "*.edmplugin" -type f -exec touch {} \;
     touch $lib/.edmplugincache
   fi
-fi
+done
 
 %{?PatchReleaseFilesRelocate:%PatchReleaseFilesRelocate}
 %{?PartialReleaseFilesRelocate:%PartialReleaseFilesRelocate}
