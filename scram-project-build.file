@@ -2,7 +2,7 @@
 # FIXME: support building all platforms together like scram does?
 # FIXME: automatic sub-packages for "doc" etc?
 ## NOCOMPILER
-
+%define cmssw_libs biglib/%{cmsplatf} lib/%{cmsplatf}
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 
@@ -253,12 +253,16 @@ gzip -f %i/etc/dependencies/*.out
 
 (eval `%scramcmd run -sh` ; echo $PYTHONPATH | sed -e "s/:/','/g" | awk '{print "#!/usr/bin/env python \n\ncmsswPythonPaths=['"'"'"$1"'"'"']"}' > %i/python/cmsswPaths.py) || true
 
-rm -f %i/lib/%cmsplatf/.edmplugincache
 eval `%scramcmd run -sh`
 for cmd in edmPluginRefresh ; do
   cmdpath=`which $cmd 2> /dev/null || echo ""`
   if [ "X$cmdpath" != X ] ; then
-    $cmd || true
+    for lib in %{cmssw_libs} ; do
+      if [ -d %i/$lib ] ; then
+        rm -f %i/$lib/.edmplugincache
+        $cmd %i/$lib || true
+      fi
+    done
   fi
 done
 
@@ -314,10 +318,13 @@ if [ -d python ]; then %{relocateCmsFiles} $(find python -maxdepth 1 -type f); f
 (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename.pl %{instroot} $CMS_INSTALL_PREFIX  %cmsplatf )
 (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename.pl %{cmsroot}  $CMS_INSTALL_PREFIX  %cmsplatf )
 %{?buildarch:%buildarch}
-if [ -f lib/${SCRAM_ARCH}/.edmplugincache ] ; then
-  find lib/${SCRAM_ARCH} -name "*.edmplugin" -type f -exec touch {} \;
-  touch lib/${SCRAM_ARCH}/.edmplugincache
-fi
+
+for lib in %{cmssw_libs} ; do
+  if [ -f $lib/.edmplugincache ] ; then
+    find  $lib -name "*.edmplugin" -type f -exec touch {} \;
+    touch $lib/.edmplugincache
+  fi
+done
 
 %{?PatchReleaseFilesRelocate:%PatchReleaseFilesRelocate}
 %{?PartialReleaseFilesRelocate:%PartialReleaseFilesRelocate}
