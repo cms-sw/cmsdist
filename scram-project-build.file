@@ -250,6 +250,7 @@ gzip -f %i/etc/dependencies/*.out
 
 (eval `%scramcmd run -sh` ; echo $PYTHONPATH | sed -e "s/:/','/g" | awk '{print "#!/usr/bin/env python \n\ncmsswPythonPaths=['"'"'"$1"'"'"']"}' > %i/python/cmsswPaths.py) || true
 
+eval `%scramcmd run -sh`
 for cmd in edmPluginRefresh ; do
   cmdpath=`which $cmd 2> /dev/null || echo ""`
   if [ "X$cmdpath" != X ] ; then
