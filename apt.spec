@@ -1,26 +1,21 @@
-### RPM external apt 0.5.16.1
+### RPM external apt 0.5.16
 ## INITENV SET APT_CONFIG %{i}/etc/apt.conf
 ## INITENV CMD_SH  if [ -f %{instroot}/common/apt-site-env.sh  ]; then . %{instroot}/common/apt-site-env.sh;  fi
 ## INITENV CMD_CSH if ( -f %{instroot}/common/apt-site-env.csh )  source %{instroot}/common/apt-site-env.csh; endif
+## NOCOMPILER
+
 Source0: git://github.com/cms-sw/apt-rpm.git?obj=master/%{realversion}&export=apt-rpm-%{realversion}&output=/apt-rpm-%{realversion}.tgz
 # svn://svn.github.com/ktf/apt-rpm.git?scheme=http&revision=%{realversion}&module=apt-rpm&output=/apt-rpm.tar.gz
 Source1: bootstrap
 Source2: http://search.cpan.org/CPAN/authors/id/T/TL/TLBDK/RPM-Header-PurePerl-1.0.2.tar.gz
 
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
-
-Requires: libxml2 rpm db4 openssl bz2lib
-
-%if "%online" != "true"
-Requires: zlib
-%else
-Requires: onlinesystemtools
-%endif
+Requires: rpm
+BuildRequires: gcc
 
 %prep
 %setup -T -b 2 -n RPM-Header-PurePerl-1.0.2
 cd ..
-%setup -n apt-rpm-%realversion
+%setup -n apt-rpm-%{realversion}
 
 %build
 case %cmsplatf in
@@ -29,6 +24,10 @@ case %cmsplatf in
     export USER_CXXFLAGS="-pthread"
     export USER_LDFLAGS="-pthread"
     export USER_LIBS="-pthread"
+    export USER_RPM_LIBS="-ldl"
+    ;;
+  fc*)
+    export USER_RPM_LIBS="-ldl"
     ;;
   *) ;;
 esac
@@ -37,6 +36,8 @@ chmod +x buildlib/install-sh
 # Avoid picking up sqlite3 from the system.
 perl -p -i -e 's|sqlite3|sqlite3disabled|' configure
 ./configure --prefix=%{i} --exec-prefix=%{i} \
+                          --build="%{_build}" \
+                          --host="%{_host}" \
                           --disable-static \
                           --disable-nls \
                           --disable-dependency-tracking \
@@ -46,15 +47,15 @@ perl -p -i -e 's|sqlite3|sqlite3disabled|' configure
                           --disable-rpath \
                           CXXFLAGS="-fPIC $USER_CXXFLAGS" \
                           CFLAGS="-fPIC $USER_CFLAGS" \
-                          CPPFLAGS="-DAPT_DISABLE_MULTIARCH -D_RPM_4_4_COMPAT -I$POPT_ROOT/include -I$DB4_ROOT/include -I$BZ2LIB_ROOT/include -I$LUA_ROOT/include -I$RPM_ROOT/include -I$ZLIB_ROOT/include -I$RPM_ROOT/include/rpm $USER_CPPFLAGS" \
-                          LDFLAGS="-L$BZ2LIB_ROOT/lib -L$DB4_ROOT/lib -L$LUA_ROOT/lib -L$RPM_ROOT/lib -L$ZLIB_ROOT/lib $USER_LDFLAGS" \
-                          LIBS="-llua $USER_LIBS" \
-                          LIBXML2_CFLAGS="-I$LIBXML2_ROOT/include/libxml2 -I$DB4_ROOT/include -I$LUA_ROOT/include -I$ZLIB_ROOT/include -I$RPM_ROOT/include" \
-                          LIBXML2_LIBS="-lxml2 -L$DB4_ROOT/lib -L$LIBXML2_ROOT/lib -L$LUA_ROOT/lib -L$ZLIB_ROOT/lib -L$RPM_ROOT/lib" \
-                          RPM_LIBS="-L$RPM_ROOT/lib -lrpm -lrpmio -lrpmbuild"
+                          CPPFLAGS="-DAPT_DISABLE_MULTIARCH -D_RPM_4_4_COMPAT -I$BOOTSTRAP_BUNDLE_ROOT/include -I$RPM_ROOT/include -I$RPM_ROOT/include/rpm $USER_CPPFLAGS" \
+                          LDFLAGS="-L$BOOTSTRAP_BUNDLE_ROOT/lib -L$RPM_ROOT/lib $USER_LDFLAGS" \
+                          libs="-llua $USER_LIBS" \
+                          LIBXML2_CFLAGS="-I$BOOTSTRAP_BUNDLE_ROOT/include/libxml2 -I$BOOTSTRAP_BUNDLE_ROOT/include -I$RPM_ROOT/include" \
+                          LIBXML2_LIBS="-lxml2 -L$BOOTSTRAP_BUNDLE_ROOT/lib -L$RPM_ROOT/lib" \
+                          RPM_LIBS="-L$RPM_ROOT/lib -lrpm -lrpmio -lrpmbuild $USER_RPM_LIBS"
 
 chmod +x buildlib/install-sh
-make %makeprocesses
+make %{makeprocesses}
 
 
 %install
@@ -74,14 +75,11 @@ rm -rf %i/lib/pkgconfig
 mkdir -p %{i}/etc/profile.d
 
 (echo "#!/bin/sh"; \
- echo "source $RPM_ROOT/etc/profile.d/init.sh"; \
- echo "source $LIBXML2_ROOT/etc/profile.d/init.sh" ) > %{i}/etc/profile.d/dependencies-setup.sh
+ echo "source $RPM_ROOT/etc/profile.d/init.sh"  ) > %{i}/etc/profile.d/dependencies-setup.sh
 (echo "#!/bin/tcsh"; \
- echo "source $RPM_ROOT/etc/profile.d/init.csh"; \
- echo "source $LIBXML2_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
+ echo "source $RPM_ROOT/etc/profile.d/init.csh" ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 cp %_sourcedir/bootstrap %{i}/bin/bootstrap.sh
-pwd
 perl -p -i -e 'my $s = `cat ../RPM-Header-PurePerl-1.0.2/lib/RPM/Header/PurePerl.pm`;\
                s|\@RPM_HEADER_PUREPERL_PM\@|$s|' %{i}/bin/bootstrap.sh
 perl -p -i -e 'my $s = `cat ../RPM-Header-PurePerl-1.0.2/lib/RPM/Header/PurePerl/Tagtable.pm`;\
@@ -143,8 +141,7 @@ RPM
 APT::Cache-Limit 33554432;
 APT::http::Max-Age 0;
 
-Acquire::Retry=3;
-
+Acquire::Retries 5;
 EOF_APT_CONF
 
 
