@@ -10,7 +10,7 @@ Requires: SCRAMV1
 
 %if %islinux
 %if %isamd64
-%if "%{?n}" == "cmssw"
+%if "%{?n}" != "coral"
 Requires: patchelf
 Requires: glibc
 Requires: file
@@ -329,7 +329,7 @@ done
 %{?PartialReleaseFilesRelocate:%PartialReleaseFilesRelocate}
 [ -f $RPM_INSTALL_PREFIX/etc/scramrc/%{pkgname}.map ] || (mkdir -p $RPM_INSTALL_PREFIX/etc/scramrc && echo '%{ucprojtype}=$SCRAM_ARCH/%{pkgcategory}/%{pkgname}/%{ucprojtype}_*' > $RPM_INSTALL_PREFIX/etc/scramrc/%{pkgname}.map)
 
-%if "%{?n}" == "cmssw"
+%if "%{?n}" != "coral"
 case %cmsplatf in
   slc6_amd64_*)
     FILE_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/file/')
