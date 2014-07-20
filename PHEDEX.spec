@@ -9,6 +9,7 @@ Source: https://github.com/dmwm/PHEDEX/archive/%{downloadp}_%{downloadt}.tar.gz
 
 #%define gittag 7572e79f0925d593180e1b6a62e2ae1ae29c0f39
 #Source: git://github.com/dmwm/PHEDEX?obj=master/%gittag&export=%n&output=/%n.tar.gz
+# Alan's test
 
 # Oracle libs
 Requires: oracle oracle-env
