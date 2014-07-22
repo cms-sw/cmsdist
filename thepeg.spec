@@ -1,18 +1,11 @@
-### RPM external thepeg 1.7.0
+### RPM external thepeg 1.9.2
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/ThePEG
 ## INITENV +PATH DYLD_LIBRARY_PATH %i/lib/ThePEG
-#Source: http://www.thep.lu.se/~leif/ThePEG/ThePEG-%{realversion}.tgz
 #Source: http://projects.hepforge.org/herwig/files/ThePEG-%{realversion}.tar.gz
-Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/thepeg-%{realversion}-src.tgz
+Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 Patch0: thepeg-1.7.0-break-termcap-dependence
 Patch1: thepeg-1.7.0-use-dylibs-macosx
-Patch2: thepeg-1.6.1-lhapdf-env
-Patch3: thepeg-1.6.1-gcc46
-Patch4: thepeg-1.7.0-configure
-Patch5: thepeg-1.7.0-gcc46
-Patch6: thepeg-1.7.0-fix-bogus-ZLIB-HOME
-Patch7: thepeg-1.7.0-fix-gcc47-cxx11
-Patch8: thepeg-1.7.0-zlib-void-to-gzFile-ptr
+Patch6: thepeg-1.9.2-fix-bogus-ZLIB-HOME
 Requires: lhapdf
 Requires: gsl
 Requires: hepmc
@@ -34,21 +27,13 @@ Requires: gfortran-macosx
 %prep
 %setup -q -n %{n}/%{realversion}
 %patch0 -p2
+#The patch for mac below is disabled, it does not work. If it is still needed, it is to be redone.
 case %cmsos in 
   osx*)
-%patch1 -p1
+#%patch1 -p1
   ;;
 esac
-%patch2 -p2
-%patch3 -p2
-%patch4 -p1
-%patch5 -p1
-%patch6 -p2
-%patch7 -p1
-%patch8 -p2
-
-# Trick make not to re-run aclocal, autoconf, automake, autoscan, etc.
-find . -exec touch -m -t 201201010000 {} \;
+%patch6 -p1
 
 %build
 # Build as static only on new architectures.
@@ -83,13 +68,12 @@ esac
             --with-gsl=$GSL_ROOT --with-zlib=$ZLIB_ROOT \
             --without-javagui --prefix=%i \
             --disable-readline CXX="$CXX" CC="$CC" CXXFLAGS="%cms_cxxflags" \
-            LIBS="-L$LHAPDF_ROOT/lib -lLHAPDF $LIBGFORTRAN -lz $LIBQUADMATH"
+            LIBS="$LIBGFORTRAN -lz $LIBQUADMATH"
 make
 
 %install
 
 make install
-rm %i/share/ThePEG/Doc/fixinterfaces.pl
 cd %i/lib/ThePEG
 for item in LesHouches.so ; do
   [ -e lib$item ] || ln -s $item lib$item
