@@ -1,4 +1,4 @@
-### RPM cms comp HG1407e
+### RPM cms comp HG1408a
 
 # This is a meta-package to group all cms comp services
 # CMSWEB
