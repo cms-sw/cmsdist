@@ -1,4 +1,4 @@
-### RPM cms cmsweb-analytics 2.2
+### RPM cms cmsweb-analytics 2.3
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 Source: git://github.com/dmwm/analytics?obj=master/%{realversion}&export=analytics&output=/analytics.tar.gz
 #Source: git:/build/lat/comp/analytics?obj=master/%{realversion}&export=analytics&output=/analytics.tar.gz
