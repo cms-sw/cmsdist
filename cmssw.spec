@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_7_0_0_pre0
+### RPM cms cmssw CMSSW_7_1_0_pre1
 
 Requires: cmssw-tool-conf python cms-git-tools
 
@@ -13,6 +13,11 @@ Requires: cmssw-tool-conf python cms-git-tools
 %define usercxxflags    -fprofile-arcs -ftest-coverage
 %endif
 
+%if "%(case %realversion in (*_DEBUG_X*) echo true ;; (*) echo false ;; esac)" == "true"
+%define branch		%(echo %realversion | sed -e 's|_DEBUG_X.*|_X|')
+%define gitcommit       %(echo %realversion | sed -e 's|_DEBUG||')
+%endif
+
 %if "%(case %realversion in (*_EXPERIMENTAL_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define branch		%(echo %realversion | sed -e 's|_EXPERIMENTAL_X.*|_X|')
 %define usercxxflags    -O3 -ffast-math -freciprocal-math -fipa-pta
@@ -23,12 +28,17 @@ Requires: cmssw-tool-conf python cms-git-tools
 %endif
 
 %if "%(case %realversion in (*_ICC_X*) echo true ;; (*) echo false ;; esac)" == "true"
-%define preBuildCommand scram setup icc-cxxcompiler ; scram setup icc-f77compiler ; scram setup icc-ccompiler ; export COMPILER=icc
+%define branch		%(echo %realversion | sed -e 's|_ICC_X.*|_X|')
+%define preBuildCommand scram setup icc-cxxcompiler ; scram setup icc-f77compiler ; scram setup icc-ccompiler ; perl -p -i -e 's|<client>|<client><flags DEFAULT_COMPILER="icc"/>|' %i/config/Self.xml; export COMPILER=icc ;
+%endif
+
+%if "%(case %realversion in (*_CLANG_X*) echo true ;; (*) echo false ;; esac)" == "true"
+%define branch		%(echo %realversion | sed -e 's|_CLANG_X.*|_X|')
+%define preBuildCommand scram setup llvm-cxxcompiler ; scram setup llvm-f77compiler ; scram setup llvm-ccompiler ; perl -p -i -e 's|<client>|<client><flags DEFAULT_COMPILER="llvm"/>|' %i/config/Self.xml ; export COMPILER=llvm ;
 %endif
 
 %if "%(case %realversion in (*_BOOSTIO_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define branch		%(echo %realversion | sed -e 's|_X.*|_X|')
-%define preBuildCommand scram setup boost_serialization; scram setup boost_iostreams
 %endif
 
 %if "%(case %realversion in (*_THREADED_X*) echo true ;; (*) echo false ;; esac)" == "true"

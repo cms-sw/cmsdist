@@ -1,12 +1,9 @@
-### RPM lcg roofit 5.34.09
-%define tag %(echo v%{realversion} | tr . -)
-%define branch %(echo %{realversion} | sed 's/\\.[0-9]*$/.00/;s/^/v/;s/$/-patches/g;s/\\./-/g')
-Source0: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+### RPM lcg roofit 5.34.18
+%define tag eece97f310d8fa66539229e099634b1d845f3cca
+%define branch cms/v5-34-18
+%define github_user cms-sw
+Source: git+https://github.com/%github_user/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Source1: roofit-5.28.00-build.sh
-
-Patch0: root-5.28-00d-roofit-silence-static-printout
-Patch1: roofit-5.24-00-RooFactoryWSTool-include
-Patch2: roofit-5.30.00-remove-tmath-infinity
 
 Requires: root 
 
@@ -17,9 +14,6 @@ Requires: root
 
 %prep
 %setup -b0 -n %{n}-%{realversion}
-%patch0 -p1
-%patch1 -p0
-%patch2 -p1
  
 %build
 #Copy over the tutorials

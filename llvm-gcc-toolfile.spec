@@ -1,6 +1,7 @@
 ### RPM cms llvm-gcc-toolfile 13.0
 
 Requires: llvm
+BuildRequires: python
 %if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
 Requires: gfortran-macosx
 %endif
@@ -47,6 +48,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm-cxxcompiler.xml
     <flags REM_CXXFLAGS="-Werror=maybe-uninitialized"/>
     <flags REM_CXXFLAGS="-Werror=unused-but-set-variable"/>
     <flags REM_CXXFLAGS="-Wno-unused-local-typedefs"/>
+    <flags REM_CXXFLAGS="-fipa-pta"/>
     <flags CXXFLAGS="-Wno-c99-extensions"/>
     <flags CXXFLAGS="-Wno-c++11-narrowing"/>
     <flags CXXFLAGS="-D__STRICT_ANSI__"/>
@@ -116,6 +118,17 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm.xml
     <flags CXXFLAGS="-Wno-strict-aliasing -fno-rtti"/>
   </tool>
 EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/pyclang.xml
+<tool name="pyclang" version="@LLVM_VERSION@">
+  <client>
+    <environment name="PYCLANG_BASE" default="@LLVM_ROOT@"/>
+  </client>
+  <runtime name="PYTHONPATH" value="$PYCLANG_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
+  <use name="python"/>
+</tool>
+EOF_TOOLFILE
+export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
 # NON-empty defaults
 # First of all handle OS specific options.

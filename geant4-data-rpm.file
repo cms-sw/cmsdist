@@ -24,7 +24,9 @@ tar -C %i/data -zxvf %_sourcedir/%{G4DataTool}.%{realversion}.tar.gz
 %post
 if [ "X$CMS_INSTALL_PREFIX" = "X" ] ; then CMS_INSTALL_PREFIX=$RPM_INSTALL_PREFIX; export CMS_INSTALL_PREFIX; fi
 echo "%{BaseTool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
-echo "%{BaseTool}_RUNTIME='%G4RunTime'"                >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+echo "%{BaseTool}_RUNTIME='%G4RunTime'" >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+echo "%{G4RunTime}='$CMS_INSTALL_PREFIX/%{pkgrel}/data/%{G4DataTool}%{realversion}'" >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 
 echo "set %{BaseTool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
-echo "set %{BaseTool}_RUNTIME='%G4RunTime'"                >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
+echo "set %{BaseTool}_RUNTIME='%G4RunTime'" >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
+echo "set %{G4RunTime}='$CMS_INSTALL_PREFIX/%{pkgrel}/data/%{G4DataTool}%{realversion}'" >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
