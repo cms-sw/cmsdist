@@ -11,7 +11,6 @@ cat << \EOF_TOOLFILE > %{i}/etc/scram.d/glibc.xml
     <client>
       <environment name="GLIBC_BASE" default="@TOOL_ROOT@"/>
     </client>
-    <runtime name="GLIBC_ROOT" value="$GLIBC_BASE" type="path"/>
   </tool>
 EOF_TOOLFILE
 ## IMPORT scram-tools-post
