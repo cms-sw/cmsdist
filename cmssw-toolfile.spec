@@ -15,6 +15,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cmssw.xml
     <environment name="CMSSW_BINDIR" default="$CMSSW_BASE/bin/$SCRAM_ARCH"/>
     <environment name="INCLUDE" default="$CMSSW_BASE/src"/>
   </client>
+  <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$CMSSW_BASE/biglib/$SCRAM_ARCH" type="path"/>
   <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$CMSSW_BASE/lib/$SCRAM_ARCH" type="path"/>
   <runtime name="PATH"       value="$CMSSW_BINDIR" type="path"/>
   <runtime name="PYTHONPATH" value="$CMSSW_BINDIR" type="path"/>
