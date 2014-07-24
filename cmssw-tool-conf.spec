@@ -131,7 +131,6 @@ Requires: file-toolfile
 
 # Only for Linux platform.
 %if %islinux
-Requires: glibc-toolfile
 Requires: openldap-toolfile
 Requires: python-ldap-toolfile
 Requires: gdb-toolfile
@@ -153,6 +152,7 @@ Requires: oracle-toolfile
 # Only for Linux platform.
 %if %islinux
 Requires: igprof-toolfile
+Requires: glibc-toolfile
 %endif
 %endif
 
