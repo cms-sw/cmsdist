@@ -4,8 +4,6 @@
 # toolfile because gcc.spec could be not build because of the 
 # "--use-system-compiler" option.
 
-Requires: glibc
-
 Source: none
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
@@ -29,8 +27,6 @@ else
     export GCC_VERSION
     export G77_ROOT=$GCC_ROOT
 fi
-
-export GLIBC_ROOT
 
 case %cmsplatf in
   slc*_*_gcc4[012345]*) ;;
@@ -69,7 +65,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-cxxcompiler.xml
     <flags CXXFLAGS="-Werror=switch -fdiagnostics-show-option"/>
     <flags CXXFLAGS="-Wno-unused-local-typedefs -Wno-attributes"/>
     <flags LDFLAGS="@OS_LDFLAGS@ @ARCH_LDFLAGS@ @COMPILER_LDFLAGS@"/>
-    <flags LDFLAGS="-Wl,-dynamic-linker,@GLIBC_ROOT@/lib64/ld.so"/>
     <flags CXXSHAREDFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@ @COMPILER_SHAREDFLAGS@"/>
     <flags LD_UNIT="@OS_LD_UNIT@ @ARCH_LD_UNIT@ @COMPILER_LD_UNIT@"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@" type="path"/>
@@ -86,7 +81,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-ccompiler.xml
     </client>
     <flags CSHAREDOBJECTFLAGS="-fPIC @OS_CSHAREDOBJECTFLAGS@ @ARCH_CSHAREDOBJECTFLAGS@ @COMPILER_CSHAREDOBJECTFLAGS@"/>
     <flags CFLAGS="-O2 -pthread @OS_CFLAGS@ @ARCH_CFLAGS@ @COMPILER_CFLAGS@"/>
-    <flags LDFLAGS="-Wl,-dynamic-linker,@GLIBC_ROOT@/lib64/ld.so"/>
   </tool>
 EOF_TOOLFILE
 
