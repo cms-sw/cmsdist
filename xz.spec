@@ -21,7 +21,7 @@ BuildRequires: autotools
 
 %build
 ./autogen.sh
-./configure CFLAGS='-fPIC -Ofast' --prefix=%{i} --disable-static
+./configure CFLAGS='-fPIC -Ofast' --prefix=%{i} --disable-static --disable-nls --disable-rpath --disable-dependency-tracking --disable-doc
 make %{makeprocesses}
 
 %install
