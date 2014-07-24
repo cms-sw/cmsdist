@@ -48,7 +48,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm-cxxcompiler.xml
     <flags REM_CXXFLAGS="-Werror=maybe-uninitialized"/>
     <flags REM_CXXFLAGS="-Werror=unused-but-set-variable"/>
     <flags REM_CXXFLAGS="-Wno-unused-local-typedefs"/>
+    <flags REM_CXXFLAGS="-Werror=return-local-addr"/>
     <flags REM_CXXFLAGS="-fipa-pta"/>
+    <flags REM_CXXFLAGS="-mrecip"/>
     <flags CXXFLAGS="-Wno-c99-extensions"/>
     <flags CXXFLAGS="-Wno-c++11-narrowing"/>
     <flags CXXFLAGS="-D__STRICT_ANSI__"/>
