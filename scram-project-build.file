@@ -2,7 +2,21 @@
 # FIXME: support building all platforms together like scram does?
 # FIXME: automatic sub-packages for "doc" etc?
 ## NOCOMPILER
+%define cmssw_libs biglib/%{cmsplatf} lib/%{cmsplatf}
+%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+%define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
+
 Requires: SCRAMV1
+
+%if %islinux
+%if %isamd64
+%if "%{?pkgname}" != "coral"
+Requires: patchelf
+Requires: glibc
+Requires: file
+%endif # coral
+%endif # isamd64
+%endif # islinux
 
 %define initenv	        %initenv_direct
 %define scramcmd        $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
@@ -35,7 +49,7 @@ Requires: SCRAMV1
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-01-28
+%define configtag       V05-03-13
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -238,12 +252,16 @@ gzip -f %i/etc/dependencies/*.out
 
 (eval `%scramcmd run -sh` ; echo $PYTHONPATH | sed -e "s/:/','/g" | awk '{print "#!/usr/bin/env python \n\ncmsswPythonPaths=['"'"'"$1"'"'"']"}' > %i/python/cmsswPaths.py) || true
 
-rm -f %i/lib/%cmsplatf/.edmplugincache
 eval `%scramcmd run -sh`
 for cmd in edmPluginRefresh ; do
   cmdpath=`which $cmd 2> /dev/null || echo ""`
   if [ "X$cmdpath" != X ] ; then
-    $cmd || true
+    for lib in %{cmssw_libs} ; do
+      if [ -d %i/$lib ] ; then
+        rm -f %i/$lib/.edmplugincache
+        $cmd %i/$lib || true
+      fi
+    done
   fi
 done
 
@@ -299,14 +317,32 @@ if [ -d python ]; then %{relocateCmsFiles} $(find python -maxdepth 1 -type f); f
 (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename.pl %{instroot} $CMS_INSTALL_PREFIX  %cmsplatf )
 (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename.pl %{cmsroot}  $CMS_INSTALL_PREFIX  %cmsplatf )
 %{?buildarch:%buildarch}
-if [ -f lib/${SCRAM_ARCH}/.edmplugincache ] ; then
-  find lib/${SCRAM_ARCH} -name "*.edmplugin" -type f -exec touch {} \;
-  touch lib/${SCRAM_ARCH}/.edmplugincache
-fi
+
+for lib in %{cmssw_libs} ; do
+  if [ -f $lib/.edmplugincache ] ; then
+    find  $lib -name "*.edmplugin" -type f -exec touch {} \;
+    touch $lib/.edmplugincache
+  fi
+done
 
 %{?PatchReleaseFilesRelocate:%PatchReleaseFilesRelocate}
 %{?PartialReleaseFilesRelocate:%PartialReleaseFilesRelocate}
 [ -f $RPM_INSTALL_PREFIX/etc/scramrc/%{pkgname}.map ] || (mkdir -p $RPM_INSTALL_PREFIX/etc/scramrc && echo '%{ucprojtype}=$SCRAM_ARCH/%{pkgcategory}/%{pkgname}/%{ucprojtype}_*' > $RPM_INSTALL_PREFIX/etc/scramrc/%{pkgname}.map)
+
+%if "%{?pkgname}" != "coral"
+case %cmsplatf in
+  slc6_amd64_*)
+    FILE_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/file/')
+    FILE_PATH=$RPM_INSTALL_PREFIX/%cmsplatf/$FILE_PKG
+    PATCHELF_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/patchelf/')
+    PATCHELF_PATH=$RPM_INSTALL_PREFIX/%cmsplatf/$PATCHELF_PKG
+    CMSSW_BIN_PATH="$RPM_INSTALL_PREFIX/%pkgrel/bin/%cmsplatf $RPM_INSTALL_PREFIX/%pkgrel/test/%cmsplatf"
+    CMSSW_ELF_BIN=$(find $CMSSW_BIN_PATH -type f -exec $FILE_PATH/bin/file {} \; | grep ELF | cut -d':' -f1)
+    GLIBC_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/glibc/')
+    GLIBC_PATH=$CMS_INSTALL_PREFIX/%cmsplatf/$GLIBC_PKG
+    echo "$CMSSW_ELF_BIN" | xargs -t -n 1 -I% -P $(getconf _NPROCESSORS_ONLN) sh -c "strings % 2>&1 | grep '%{cmsplatf}/external/glibc' 2>&1 >/dev/null && $PATCHELF_PATH/bin/patchelf --set-interpreter $GLIBC_PATH/lib64/ld.so % || true"
+esac
+%endif # coral
 
 %postun
 rm -fR $RPM_INSTALL_PREFIX/%pkgrel
