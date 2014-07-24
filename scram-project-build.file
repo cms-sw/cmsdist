@@ -7,9 +7,6 @@
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 
 Requires: SCRAMV1
-Requires: patchelf
-Requires: glibc
-Requires: file
 
 %if %islinux
 %if %isamd64
@@ -332,7 +329,7 @@ done
 %{?PartialReleaseFilesRelocate:%PartialReleaseFilesRelocate}
 [ -f $RPM_INSTALL_PREFIX/etc/scramrc/%{pkgname}.map ] || (mkdir -p $RPM_INSTALL_PREFIX/etc/scramrc && echo '%{ucprojtype}=$SCRAM_ARCH/%{pkgcategory}/%{pkgname}/%{ucprojtype}_*' > $RPM_INSTALL_PREFIX/etc/scramrc/%{pkgname}.map)
 
-%if "%{?changeDynLoader:set}" == "set"
+%if "%{?pkgname}" != "coral"
 case %cmsplatf in
   slc6_amd64_*)
     FILE_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/file/')
@@ -343,9 +340,9 @@ case %cmsplatf in
     CMSSW_ELF_BIN=$(find $CMSSW_BIN_PATH -type f -exec $FILE_PATH/bin/file {} \; | grep ELF | cut -d':' -f1)
     GLIBC_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/glibc/')
     GLIBC_PATH=$CMS_INSTALL_PREFIX/%cmsplatf/$GLIBC_PKG
-    echo "$CMSSW_ELF_BIN" | xargs -t -n 1 -I% -P $(getconf _NPROCESSORS_ONLN) sh -c "patchelf --set-interpreter $GLIBC_PATH/lib64/ld.so %"
-  esac
-%endif
+    echo "$CMSSW_ELF_BIN" | xargs -t -n 1 -I% -P $(getconf _NPROCESSORS_ONLN) sh -c "strings % 2>&1 | grep '%{cmsplatf}/external/glibc' 2>&1 >/dev/null && $PATCHELF_PATH/bin/patchelf --set-interpreter $GLIBC_PATH/lib64/ld.so % || true"
+esac
+%endif # coral
 
 %postun
 rm -fR $RPM_INSTALL_PREFIX/%pkgrel
