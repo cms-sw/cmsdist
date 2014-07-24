@@ -37,3 +37,6 @@ g++ -O2 -o %i/bin/fastHadd ROOTFilePB.pb.cc ./fastHadd.cc \
  ) > %{i}/etc/profile.d/dependencies-setup.csh
 
 %install
+%post
+%{relocateConfig}etc/profile.d/dependencies-setup.sh
+%{relocateConfig}etc/profile.d/dependencies-setup.csh
