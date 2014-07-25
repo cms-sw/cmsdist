@@ -37,7 +37,7 @@ Requires: file
 %define extraOptions    USER_CXXFLAGS='%{?usercxxflags} -g -fdebug-prefix-map=%{cmsroot}=%{installroot} -fdebug-prefix-map=%{instroot}=%{installroot}'
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-03-13
+%define configtag       V05-03-14
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
