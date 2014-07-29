@@ -44,7 +44,6 @@ Requires: data-Configuration-Generator
 Requires: data-DQM-PhysicsHWW
 Requires: data-CondFormats-JetMETObjects
 Requires: data-RecoLocalCalo-EcalDeadChannelRecoveryAlgos
-Requires: data-FWCore-Framework
 
 %if %isnotonline
 # extra data dependencies for standard builds
