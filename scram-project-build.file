@@ -49,7 +49,7 @@ Requires: file
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-02-00
+%define configtag       V05-03-14
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
