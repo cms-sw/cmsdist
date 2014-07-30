@@ -1,0 +1,23 @@
+--- gitweb/gitweb.perl	2014-07-30 12:06:56.000000000 +0200
++++ gitweb/gitweb.perl	2014-07-30 12:12:56.000000000 +0200
+@@ -3730,17 +3730,10 @@
+ ## ----------------------------------------------------------------------
+ ## filesystem-related functions
+ 
++# If not configured on the repository, don't try to (wrongly) guess its owner.
++# Besides, getpwuid try to read /etc/shadow, which is not welcomed.
+ sub get_file_owner {
+-	my $path = shift;
+-
+-	my ($dev, $ino, $mode, $nlink, $st_uid, $st_gid, $rdev, $size) = stat($path);
+-	my ($name, $passwd, $uid, $gid, $quota, $comment, $gcos, $dir, $shell) = getpwuid($st_uid);
+-	if (!defined $gcos) {
+-		return undef;
+-	}
+-	my $owner = $gcos;
+-	$owner =~ s/[,;].*$//;
+-	return to_utf8($owner);
++	return to_utf8("CMS Computing Operations");
+ }
+ 
+ # assume that file exists
