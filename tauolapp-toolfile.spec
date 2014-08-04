@@ -1,4 +1,4 @@
-### RPM external tauolapp-toolfile 1.0
+### RPM external tauolapp-toolfile 1.1.4
 Requires: tauolapp
 %prep
 
@@ -16,14 +16,12 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/tauolapp.xml
     <environment name="TAUOLAPP_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$TAUOLAPP_BASE/lib"/>
     <environment name="INCLUDE" default="$TAUOLAPP_BASE/include"/>
-    <environment name="INCLUDE" default="$TAUOLAPP_BASE/include/TauSpinner"/>
-    <environment name="INCLUDE" default="$TAUOLAPP_BASE/include/Tauola"/>
   </client>
   <use name="hepmc"/>
   <use name="f77compiler"/>
+  <use name="pythia8"/>
+  <use name="lhapdf"/>
 </tool>
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
-
-
