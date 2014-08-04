@@ -1,0 +1,884 @@
+diff -uprN 1.1.4/documentation/latex_documentation/Tauola_interface_design.tex 1.1.4/documentation/latex_documentation/Tauola_interface_design.tex
+--- 1.1.4/documentation/latex_documentation/Tauola_interface_design.tex	2013-12-09 13:21:34.000000000 +0100
++++ 1.1.4/documentation/latex_documentation/Tauola_interface_design.tex	2014-02-26 15:05:44.000000000 +0100
+@@ -2004,8 +2004,8 @@ When LCG configurations scripts are used
+ straightforward than the method described in {\tt README-RChL-currents} residing
+ in main directory. Nonetheless, if user still would need  to use variant of 
+ RChL currents,
+-the resulting library can be swapped with the default {\tt libTauolaFortran}.
+-This is true both for {\tt libTauolaFortran.so} or {\tt libTauolaFortran.a}
++the resulting library can be swapped with the default {\tt libTauolaFortran_114}.
++This is true both for {\tt libTauolaFortran_114.so} or {\tt libTauolaFortran_114.a}
+ created by following directives in {\tt README-RChL-currents},
+ and for {\tt glib.a} obtained from standalone version of {\tt TAUOLA-FORTRAN}
+ with RChL currents Ref.~\cite{Nugent:2013hxa} (of
+@@ -2016,7 +2016,7 @@ the remaining libraries are left intact.
+ his linking procedure as: \\
+ \\
+ {\tt -L\$(TAUOLALOCATION)/lib -lTauolaCxxInterface -lTauolaTauSpinner \\
+-\$(RCHL)/lib/libTauolaFortran.so } \\
++\$(RCHL)/lib/libTauolaFortran_114.so } \\
+ \\
+ where {\tt \$(TAUOLALOCATION)} denotes installation directory of the interface
+ while {\tt \$(RCHL)} denotes installation directory of the library with RChL
+@@ -2141,8 +2141,8 @@ constructed. To use {\tt TAUOLA FORTRAN}
+ compilation directives are required. For the static libraries:
+ \begin{itemize}
+   \item add {\tt -I<TauolaLocation>/include} at the compilation step,
+-  \item add {\tt <TauolaLocation>/lib/libTauolaCxxInterface.a} and \\ {\tt <TauolaLocation>/lib/libTauolaFortran.a} at the linking step.
+-  \item add {\tt <TauolaLocation>/lib/libTauolaTauSpinner.a} if {\tt TauSpinner} library has been compiled and will be used in user project.
++  \item add {\tt <TauolaLocation>/lib/libTauolaCxxInterface_114.a} and \\ {\tt <TauolaLocation>/lib/libTauolaFortran_114.a} at the linking step.
++  \item add {\tt <TauolaLocation>/lib/libTauolaTauSpinner_114.a} if {\tt TauSpinner} library has been compiled and will be used in user project.
+ \end{itemize}
+ For the shared objects:
+ \begin{itemize}
+@@ -2194,7 +2194,7 @@ older versions of
+ {\tt HepMC}  and to prevent name clashes with the old {\tt TAUOLA FORTRAN
+ Interface} in environments where both interfaces are loaded concurrently.
+  On the other 
+-hand, there is no problem with the library {\tt /lib/libTauolaFortran.a}, the 
++hand, there is no problem with the library {\tt /lib/libTauolaFortran_114.a}, the 
+ main part of the {\tt TAUOLA FORTRAN} code itself. The version used by {\tt Athena} can be loaded 
+ instead of ours. In 
+ {\tt Athena}, the {\tt binp} variant of the {\tt cleo} initialization is used for
+diff -uprN 1.1.4/examples/Makefile.am 1.1.4/examples/Makefile.am
+--- 1.1.4/examples/Makefile.am	2013-12-12 22:42:49.000000000 +0100
++++ 1.1.4/examples/Makefile.am	2014-02-26 15:05:41.000000000 +0100
+@@ -11,8 +11,8 @@ AM_LDFLAGS = -R $(prefix)/lib
+ 
+ LDADD =                          \
+ $(FLIBS)                         \
+-$(prefix)/lib/libTauolaCxxInterface.so  \
+-$(prefix)/lib/libTauolaFortran.so
++$(prefix)/lib/libTauolaCxxInterface_114.so  \
++$(prefix)/lib/libTauolaFortran_114.so
+ 
+ ### All other examples require HepMC ###
+ if HAS_HEPMC
+diff -uprN 1.1.4/examples/Makefile.in 1.1.4/examples/Makefile.in
+--- 1.1.4/examples/Makefile.in	2013-12-12 22:43:03.000000000 +0100
++++ 1.1.4/examples/Makefile.in	2014-02-26 15:05:41.000000000 +0100
+@@ -80,8 +80,8 @@ single_tau_gun_example_exe_LDADD = $(LDA
+ am__DEPENDENCIES_1 =
+ @HAS_HEPMC_TRUE@@HAS_MCTESTER_TRUE@@HAS_PYTHIA8_TRUE@am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1)
+ single_tau_gun_example_exe_DEPENDENCIES =  \
+-	$(prefix)/lib/libTauolaCxxInterface.so \
+-	$(prefix)/lib/libTauolaFortran.so $(am__DEPENDENCIES_1) \
++	$(prefix)/lib/libTauolaCxxInterface_114.so \
++	$(prefix)/lib/libTauolaFortran_114.so $(am__DEPENDENCIES_1) \
+ 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2)
+ am_taumain_hepevt_example_exe_OBJECTS =  \
+ 	taumain_hepevt_example.$(OBJEXT)
+@@ -89,8 +89,8 @@ taumain_hepevt_example_exe_OBJECTS =  \
+ 	$(am_taumain_hepevt_example_exe_OBJECTS)
+ taumain_hepevt_example_exe_LDADD = $(LDADD)
+ taumain_hepevt_example_exe_DEPENDENCIES =  \
+-	$(prefix)/lib/libTauolaCxxInterface.so \
+-	$(prefix)/lib/libTauolaFortran.so $(am__DEPENDENCIES_1) \
++	$(prefix)/lib/libTauolaCxxInterface_114.so \
++	$(prefix)/lib/libTauolaFortran_114.so $(am__DEPENDENCIES_1) \
+ 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2)
+ am__taumain_pythia_example_exe_SOURCES_DIST =  \
+ 	taumain_pythia_example.cxx
+@@ -99,8 +99,8 @@ taumain_pythia_example_exe_OBJECTS =  \
+ 	$(am_taumain_pythia_example_exe_OBJECTS)
+ taumain_pythia_example_exe_LDADD = $(LDADD)
+ taumain_pythia_example_exe_DEPENDENCIES =  \
+-	$(prefix)/lib/libTauolaCxxInterface.so \
+-	$(prefix)/lib/libTauolaFortran.so $(am__DEPENDENCIES_1) \
++	$(prefix)/lib/libTauolaCxxInterface_114.so \
++	$(prefix)/lib/libTauolaFortran_114.so $(am__DEPENDENCIES_1) \
+ 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2)
+ am__taumain_stand_alone_example_exe_SOURCES_DIST =  \
+ 	taumain_stand_alone_example.cxx
+@@ -110,8 +110,8 @@ taumain_stand_alone_example_exe_OBJECTS 
+ 	$(am_taumain_stand_alone_example_exe_OBJECTS)
+ taumain_stand_alone_example_exe_LDADD = $(LDADD)
+ taumain_stand_alone_example_exe_DEPENDENCIES =  \
+-	$(prefix)/lib/libTauolaCxxInterface.so \
+-	$(prefix)/lib/libTauolaFortran.so $(am__DEPENDENCIES_1) \
++	$(prefix)/lib/libTauolaCxxInterface_114.so \
++	$(prefix)/lib/libTauolaFortran_114.so $(am__DEPENDENCIES_1) \
+ 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2)
+ am__taummk_pythia_example_exe_SOURCES_DIST =  \
+ 	taummk_pythia_example.cxx
+@@ -120,8 +120,8 @@ taummk_pythia_example_exe_OBJECTS =  \
+ 	$(am_taummk_pythia_example_exe_OBJECTS)
+ taummk_pythia_example_exe_LDADD = $(LDADD)
+ taummk_pythia_example_exe_DEPENDENCIES =  \
+-	$(prefix)/lib/libTauolaCxxInterface.so \
+-	$(prefix)/lib/libTauolaFortran.so $(am__DEPENDENCIES_1) \
++	$(prefix)/lib/libTauolaCxxInterface_114.so \
++	$(prefix)/lib/libTauolaFortran_114.so $(am__DEPENDENCIES_1) \
+ 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2)
+ DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/config
+ depcomp = $(SHELL) $(top_srcdir)/config/depcomp
+@@ -279,8 +279,8 @@ INCLUDES = -I$(prefix)/include $(am__app
+ 	$(am__append_10)
+ AM_LDFLAGS = -R $(prefix)/lib $(am__append_1) $(am__append_5) \
+ 	$(am__append_9)
+-LDADD = $(FLIBS) $(prefix)/lib/libTauolaCxxInterface.so \
+-	$(prefix)/lib/libTauolaFortran.so $(am__append_3) \
++LDADD = $(FLIBS) $(prefix)/lib/libTauolaCxxInterface_114.so \
++	$(prefix)/lib/libTauolaFortran_114.so $(am__append_3) \
+ 	$(am__append_7) $(am__append_11)
+ @HAS_HEPMC_TRUE@taumain_stand_alone_example_exe_SOURCES = taumain_stand_alone_example.cxx
+ @HAS_HEPMC_TRUE@@HAS_PYTHIA8_TRUE@single_tau_gun_example_exe_SOURCES = single_tau_gun_example.cxx
+diff -uprN 1.1.4/platform/LCGCONFIG/examples/Makefile.am 1.1.4/platform/LCGCONFIG/examples/Makefile.am
+--- 1.1.4/platform/LCGCONFIG/examples/Makefile.am	2011-11-27 12:32:20.000000000 +0100
++++ 1.1.4/platform/LCGCONFIG/examples/Makefile.am	2014-02-26 15:05:47.000000000 +0100
+@@ -11,8 +11,8 @@ AM_LDFLAGS = -R $(prefix)/lib
+ 
+ LDADD =                          \
+ $(FLIBS)                         \
+-$(prefix)/lib/libTauolaCxxInterface.so  \
+-$(prefix)/lib/libTauolaFortran.so
++$(prefix)/lib/libTauolaCxxInterface_114.so  \
++$(prefix)/lib/libTauolaFortran_114.so
+ 
+ ### All other examples require HepMC ###
+ if HAS_HEPMC
+diff -uprN 1.1.4/platform/LCGCONFIG/src/Makefile.am 1.1.4/platform/LCGCONFIG/src/Makefile.am
+--- 1.1.4/platform/LCGCONFIG/src/Makefile.am	2012-11-27 12:32:17.000000000 +0100
++++ 1.1.4/platform/LCGCONFIG/src/Makefile.am	2014-02-26 15:05:47.000000000 +0100
+@@ -1,7 +1,7 @@
+ includedir=$(prefix)/include/Tauola
+-lib_LTLIBRARIES = libTauolaCxxInterface.la
++lib_LTLIBRARIES = libTauolaCxxInterface_114.la
+ 
+-libTauolaCxxInterface_la_SOURCES =            \
++libTauolaCxxInterface_114_la_SOURCES =            \
+ eventRecordInterfaces/TauolaHEPEVTEvent.cxx    \
+ eventRecordInterfaces/TauolaHEPEVTParticle.cxx \
+ tauolaCInterfaces/Tauola.cxx                  \
+@@ -16,7 +16,7 @@ tauolaFortranInterfaces/tauola_extras.f 
+ utilities/Log.cxx                             \
+ utilities/Plots.cxx
+ 
+-libTauolaCxxInterface_la_LIBADD = ../tauola-fortran/libTauolaFortran.la
++libTauolaCxxInterface_114_la_LIBADD = ../tauola-fortran/libTauolaFortran_114.la
+ 
+ include_HEADERS =                            \
+ eventRecordInterfaces/TauolaHEPEVTParticle.h  \
+@@ -34,7 +34,7 @@ utilities/Log.h                         
+ utilities/Plots.h
+ 
+ if HAS_HEPMC
+-  libTauolaCxxInterface_la_SOURCES += \
++  libTauolaCxxInterface_114_la_SOURCES += \
+   eventRecordInterfaces/TauolaHepMCEvent.cxx    \
+   eventRecordInterfaces/TauolaHepMCParticle.cxx
+ 
+@@ -49,4 +49,4 @@ INCLUDES = -I$(top_srcdir)/src/tauolaFor
+            -I$(top_srcdir)/src/utilities \
+            -I$(HEPMC_DIR)/include
+ 
+-libTauolaCxxInterface_la_FFLAGS = -O2 -fPIC -fno-automatic -fno-backslash -ffixed-line-length-132
++libTauolaCxxInterface_114_la_FFLAGS = -O2 -fPIC -fno-automatic -fno-backslash -ffixed-line-length-132
+diff -uprN 1.1.4/platform/LCGCONFIG/tauola-fortran/Makefile.am 1.1.4/platform/LCGCONFIG/tauola-fortran/Makefile.am
+--- 1.1.4/platform/LCGCONFIG/tauola-fortran/Makefile.am	2013-12-11 21:56:39.000000000 +0100
++++ 1.1.4/platform/LCGCONFIG/tauola-fortran/Makefile.am	2014-02-26 15:05:47.000000000 +0100
+@@ -1,13 +1,13 @@
+-lib_LTLIBRARIES = libTauolaFortran.la
++lib_LTLIBRARIES = libTauolaFortran_114.la
+ 
+-#libTauolaFortran_la_SOURCES = \
++#libTauolaFortran_114_la_SOURCES = \
+ #tauola/curr_cleo.f \
+ #tauola/formf.f \
+ #tauola/tauola.f \
+ #tauola/f3pi.f \
+ #tauola/pkorb.f
+ 
+-libTauolaFortran_la_SOURCES = \
++libTauolaFortran_114_la_SOURCES = \
+ tauola-modified/curr_cleo.f \
+ tauola-modified/formf.f \
+ tauola-modified/tauola.f \
+@@ -27,4 +27,4 @@ tauola-modified/new-currents/RChL-curren
+ tauola-modified/new-currents/RChL-currents/rcht_common/wid_a1_fit.f \
+ tauola-modified/new-currents/RChL-currents/rcht_common/wid_a1_fitKKpi.f
+ 
+-libTauolaFortran_la_FFLAGS = -fno-automatic -fno-backslash -ffixed-line-length-132
++libTauolaFortran_114_la_FFLAGS = -fno-automatic -fno-backslash -ffixed-line-length-132
+diff -uprN 1.1.4/platform/LCGCONFIG/TauSpinner/examples/Makefile.am 1.1.4/platform/LCGCONFIG/TauSpinner/examples/Makefile.am
+--- 1.1.4/platform/LCGCONFIG/TauSpinner/examples/Makefile.am	2013-12-11 21:56:39.000000000 +0100
++++ 1.1.4/platform/LCGCONFIG/TauSpinner/examples/Makefile.am	2014-02-26 15:05:55.000000000 +0100
+@@ -20,9 +20,9 @@ AM_LDFLAGS = -R $(prefix)/lib -R $(with_
+ 
+ LDADD =                          \
+ $(FLIBS)                         \
+-$(prefix)/lib/libTauolaTauSpinner.so \
+-$(prefix)/lib/libTauolaCxxInterface.so \
+-$(prefix)/lib/libTauolaFortran.so      \
++$(prefix)/lib/libTauolaTauSpinner_114.so \
++$(prefix)/lib/libTauolaCxxInterface_114.so \
++$(prefix)/lib/libTauolaFortran_114.so      \
+ -L$(with_lhapdf)/lib -lLHAPDF
+ 
+ AM_LDFLAGS += -R $(HEPMC_DIR)/lib
+diff -uprN 1.1.4/platform/LCGCONFIG/TauSpinner/examples/tauspinner-validation/Makefile.am 1.1.4/platform/LCGCONFIG/TauSpinner/examples/tauspinner-validation/Makefile.am
+--- 1.1.4/platform/LCGCONFIG/TauSpinner/examples/tauspinner-validation/Makefile.am	2013-12-11 21:56:39.000000000 +0100
++++ 1.1.4/platform/LCGCONFIG/TauSpinner/examples/tauspinner-validation/Makefile.am	2014-02-26 15:05:56.000000000 +0100
+@@ -10,9 +10,9 @@ AM_LDFLAGS = -R $(prefix)/lib -R $(with_
+ 
+ LDADD =                          \
+ $(FLIBS)                         \
+-$(prefix)/lib/libTauolaTauSpinner.so \
+-$(prefix)/lib/libTauolaCxxInterface.so \
+-$(prefix)/lib/libTauolaFortran.so      \
++$(prefix)/lib/libTauolaTauSpinner_114.so \
++$(prefix)/lib/libTauolaCxxInterface_114.so \
++$(prefix)/lib/libTauolaFortran_114.so      \
+ -L$(with_lhapdf)/lib -lLHAPDF
+ 
+ if HAS_HEPMC
+diff -uprN 1.1.4/platform/LCGCONFIG/TauSpinner/Makefile.am 1.1.4/platform/LCGCONFIG/TauSpinner/Makefile.am
+--- 1.1.4/platform/LCGCONFIG/TauSpinner/Makefile.am	2013-05-28 16:38:07.000000000 +0200
++++ 1.1.4/platform/LCGCONFIG/TauSpinner/Makefile.am	2014-02-26 15:05:48.000000000 +0100
+@@ -1,13 +1,13 @@
+ includedir=$(prefix)/include/TauSpinner
+ 
+-lib_LTLIBRARIES = libTauolaTauSpinner.la
++lib_LTLIBRARIES = libTauolaTauSpinner_114.la
+ 
+-libTauolaTauSpinner_la_SOURCES =            \
++libTauolaTauSpinner_114_la_SOURCES =            \
+ src/tau_reweight_lib.cxx                    \
+ src/nonSM.cxx                               \
+ src/disth.f
+ 
+-libTauolaTauSpinner_la_LIBADD = ../tauola-fortran/libTauolaFortran.la ../src/libTauolaCxxInterface.la
++libTauolaTauSpinner_114_la_LIBADD = ../tauola-fortran/libTauolaFortran_114.la ../src/libTauolaCxxInterface_114.la
+ 
+ include_HEADERS =                     \
+ include/TauSpinner/Particle.h         \
+diff -uprN 1.1.4/platform/to-Athena.dependencies.list 1.1.4/platform/to-Athena.dependencies.list
+--- 1.1.4/platform/to-Athena.dependencies.list	2010-01-14 00:49:56.000000000 +0100
++++ 1.1.4/platform/to-Athena.dependencies.list	2014-02-26 15:05:41.000000000 +0100
+@@ -1,13 +1,13 @@
+-undefined symbol: taurad_	(lib/libTauolaCxxInterface.so)
+-undefined symbol: idfc_	(lib/libTauolaCxxInterface.so)
+-undefined symbol: jaki_	(lib/libTauolaCxxInterface.so)
+-undefined symbol: pkorb_	(lib/libTauolaCxxInterface.so)
+-undefined symbol: spherd_	(lib/libTauolaCxxInterface.so)
+-undefined symbol: ranmar_	(lib/libTauolaCxxInterface.so)
+-undefined symbol: dekay_	(lib/libTauolaCxxInterface.so)
+-undefined symbol: choice_	(lib/libTauolaFortran.so)
+-undefined symbol: tralo4_	(lib/libTauolaFortran.so)
+-undefined symbol: taurdf_	(lib/libTauolaFortran.so)
+-undefined symbol: dcdmas_	(lib/libTauolaFortran.so)
+-undefined symbol: filhep_	(lib/libTauolaFortran.so)
+-undefined symbol: lunpik_	(lib/libTauolaFortran.so)
++undefined symbol: taurad_	(lib/libTauolaCxxInterface_114.so)
++undefined symbol: idfc_	(lib/libTauolaCxxInterface_114.so)
++undefined symbol: jaki_	(lib/libTauolaCxxInterface_114.so)
++undefined symbol: pkorb_	(lib/libTauolaCxxInterface_114.so)
++undefined symbol: spherd_	(lib/libTauolaCxxInterface_114.so)
++undefined symbol: ranmar_	(lib/libTauolaCxxInterface_114.so)
++undefined symbol: dekay_	(lib/libTauolaCxxInterface_114.so)
++undefined symbol: choice_	(lib/libTauolaFortran_114.so)
++undefined symbol: tralo4_	(lib/libTauolaFortran_114.so)
++undefined symbol: taurdf_	(lib/libTauolaFortran_114.so)
++undefined symbol: dcdmas_	(lib/libTauolaFortran_114.so)
++undefined symbol: filhep_	(lib/libTauolaFortran_114.so)
++undefined symbol: lunpik_	(lib/libTauolaFortran_114.so)
+diff -uprN 1.1.4/platform/to-Athena.sh 1.1.4/platform/to-Athena.sh
+--- 1.1.4/platform/to-Athena.sh	2010-01-14 00:49:56.000000000 +0100
++++ 1.1.4/platform/to-Athena.sh	2014-02-26 15:05:41.000000000 +0100
+@@ -24,7 +24,7 @@ swap()
+ # If someone already compiled the interface
+ # We can use up-to-date fortran routine list
+ # Used by our interface.
+-if [ -e lib/libTauolaCxxInterface.so ]
++if [ -e lib/libTauolaCxxInterface_114.so ]
+ then
+ 	echo "INFO: Updating dependencies list..."
+ 	ldd -r lib/*.so 2>&1 | grep -e "^undefined symbol: [^_].*_" > $DEPENDENCIES
+diff -uprN 1.1.4/src/Makefile.am 1.1.4/src/Makefile.am
+--- 1.1.4/src/Makefile.am	2013-12-12 22:42:49.000000000 +0100
++++ 1.1.4/src/Makefile.am	2014-02-26 15:05:41.000000000 +0100
+@@ -1,7 +1,7 @@
+ includedir=$(prefix)/include/Tauola
+-lib_LTLIBRARIES = libTauolaCxxInterface.la
++lib_LTLIBRARIES = libTauolaCxxInterface_114.la
+ 
+-libTauolaCxxInterface_la_SOURCES =            \
++libTauolaCxxInterface_114_la_SOURCES =            \
+ eventRecordInterfaces/TauolaHEPEVTEvent.cxx    \
+ eventRecordInterfaces/TauolaHEPEVTParticle.cxx \
+ tauolaCInterfaces/Tauola.cxx                  \
+@@ -16,7 +16,7 @@ tauolaFortranInterfaces/tauola_extras.f 
+ utilities/Log.cxx                             \
+ utilities/Plots.cxx
+ 
+-libTauolaCxxInterface_la_LIBADD = ../tauola-fortran/libTauolaFortran.la
++libTauolaCxxInterface_114_la_LIBADD = ../tauola-fortran/libTauolaFortran_114.la
+ 
+ include_HEADERS =                            \
+ eventRecordInterfaces/TauolaHEPEVTParticle.h  \
+@@ -34,7 +34,7 @@ utilities/Log.h                         
+ utilities/Plots.h
+ 
+ if HAS_HEPMC
+-  libTauolaCxxInterface_la_SOURCES += \
++  libTauolaCxxInterface_114_la_SOURCES += \
+   eventRecordInterfaces/TauolaHepMCEvent.cxx    \
+   eventRecordInterfaces/TauolaHepMCParticle.cxx
+ 
+@@ -49,4 +49,4 @@ INCLUDES = -I$(top_srcdir)/src/tauolaFor
+            -I$(top_srcdir)/src/utilities \
+            -I$(HEPMC_DIR)/include
+ 
+-libTauolaCxxInterface_la_FFLAGS = -O2 -fPIC -fno-automatic -fno-backslash -ffixed-line-length-132
++libTauolaCxxInterface_114_la_FFLAGS = -O2 -fPIC -fno-automatic -fno-backslash -ffixed-line-length-132
+diff -uprN 1.1.4/src/Makefile.in 1.1.4/src/Makefile.in
+--- 1.1.4/src/Makefile.in	2013-12-12 22:43:03.000000000 +0100
++++ 1.1.4/src/Makefile.in	2014-02-26 15:05:41.000000000 +0100
+@@ -77,9 +77,9 @@ am__base_list = \
+   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
+ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"
+ LTLIBRARIES = $(lib_LTLIBRARIES)
+-libTauolaCxxInterface_la_DEPENDENCIES =  \
+-	../tauola-fortran/libTauolaFortran.la
+-am__libTauolaCxxInterface_la_SOURCES_DIST =  \
++libTauolaCxxInterface_114_la_DEPENDENCIES =  \
++	../tauola-fortran/libTauolaFortran_114.la
++am__libTauolaCxxInterface_114_la_SOURCES_DIST =  \
+ 	eventRecordInterfaces/TauolaHEPEVTEvent.cxx \
+ 	eventRecordInterfaces/TauolaHEPEVTParticle.cxx \
+ 	tauolaCInterfaces/Tauola.cxx \
+@@ -95,13 +95,13 @@ am__libTauolaCxxInterface_la_SOURCES_DIS
+ 	eventRecordInterfaces/TauolaHepMCParticle.cxx
+ @HAS_HEPMC_TRUE@am__objects_1 = TauolaHepMCEvent.lo \
+ @HAS_HEPMC_TRUE@	TauolaHepMCParticle.lo
+-am_libTauolaCxxInterface_la_OBJECTS = TauolaHEPEVTEvent.lo \
++am_libTauolaCxxInterface_114_la_OBJECTS = TauolaHEPEVTEvent.lo \
+ 	TauolaHEPEVTParticle.lo Tauola.lo TauolaParticle.lo \
+ 	TauolaParticlePair.lo TauolaEvent.lo DecayList.lo f_FilHep.lo \
+-	f_Init.lo f_Decay.lo libTauolaCxxInterface_la-tauola_extras.lo \
++	f_Init.lo f_Decay.lo libTauolaCxxInterface_114_la-tauola_extras.lo \
+ 	Log.lo Plots.lo $(am__objects_1)
+-libTauolaCxxInterface_la_OBJECTS =  \
+-	$(am_libTauolaCxxInterface_la_OBJECTS)
++libTauolaCxxInterface_114_la_OBJECTS =  \
++	$(am_libTauolaCxxInterface_114_la_OBJECTS)
+ DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/config
+ depcomp = $(SHELL) $(top_srcdir)/config/depcomp
+ am__depfiles_maybe = depfiles
+@@ -122,8 +122,8 @@ F77LD = $(F77)
+ F77LINK = $(LIBTOOL) --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+ 	--mode=link $(F77LD) $(AM_FFLAGS) $(FFLAGS) $(AM_LDFLAGS) \
+ 	$(LDFLAGS) -o $@
+-SOURCES = $(libTauolaCxxInterface_la_SOURCES)
+-DIST_SOURCES = $(am__libTauolaCxxInterface_la_SOURCES_DIST)
++SOURCES = $(libTauolaCxxInterface_114_la_SOURCES)
++DIST_SOURCES = $(am__libTauolaCxxInterface_114_la_SOURCES_DIST)
+ am__include_HEADERS_DIST =  \
+ 	eventRecordInterfaces/TauolaHEPEVTParticle.h \
+ 	eventRecordInterfaces/TauolaHEPEVTEvent.h \
+@@ -264,8 +264,8 @@ top_build_prefix = @top_build_prefix@
+ top_builddir = @top_builddir@
+ top_srcdir = @top_srcdir@
+ with_lhapdf = @with_lhapdf@
+-lib_LTLIBRARIES = libTauolaCxxInterface.la
+-libTauolaCxxInterface_la_SOURCES =  \
++lib_LTLIBRARIES = libTauolaCxxInterface_114.la
++libTauolaCxxInterface_114_la_SOURCES =  \
+ 	eventRecordInterfaces/TauolaHEPEVTEvent.cxx \
+ 	eventRecordInterfaces/TauolaHEPEVTParticle.cxx \
+ 	tauolaCInterfaces/Tauola.cxx \
+@@ -278,7 +278,7 @@ libTauolaCxxInterface_la_SOURCES =  \
+ 	tauolaFortranInterfaces/f_Decay.cxx \
+ 	tauolaFortranInterfaces/tauola_extras.f utilities/Log.cxx \
+ 	utilities/Plots.cxx $(am__append_1)
+-libTauolaCxxInterface_la_LIBADD = ../tauola-fortran/libTauolaFortran.la
++libTauolaCxxInterface_114_la_LIBADD = ../tauola-fortran/libTauolaFortran_114.la
+ include_HEADERS = eventRecordInterfaces/TauolaHEPEVTParticle.h \
+ 	eventRecordInterfaces/TauolaHEPEVTEvent.h \
+ 	tauolaCInterfaces/Tauola.h tauolaCInterfaces/TauolaParticle.h \
+@@ -294,7 +294,7 @@ INCLUDES = -I$(top_srcdir)/src/tauolaFor
+            -I$(top_srcdir)/src/utilities \
+            -I$(HEPMC_DIR)/include
+ 
+-libTauolaCxxInterface_la_FFLAGS = -O2 -fPIC -fno-automatic -fno-backslash -ffixed-line-length-132
++libTauolaCxxInterface_114_la_FFLAGS = -O2 -fPIC -fno-automatic -fno-backslash -ffixed-line-length-132
+ all: all-am
+ 
+ .SUFFIXES:
+@@ -360,8 +360,8 @@ clean-libLTLIBRARIES:
+ 	  echo "rm -f \"$${dir}/so_locations\""; \
+ 	  rm -f "$${dir}/so_locations"; \
+ 	done
+-libTauolaCxxInterface.la: $(libTauolaCxxInterface_la_OBJECTS) $(libTauolaCxxInterface_la_DEPENDENCIES) 
+-	$(CXXLINK) -rpath $(libdir) $(libTauolaCxxInterface_la_OBJECTS) $(libTauolaCxxInterface_la_LIBADD) $(LIBS)
++libTauolaCxxInterface_114.la: $(libTauolaCxxInterface_114_la_OBJECTS) $(libTauolaCxxInterface_114_la_DEPENDENCIES) 
++	$(CXXLINK) -rpath $(libdir) $(libTauolaCxxInterface_114_la_OBJECTS) $(libTauolaCxxInterface_114_la_LIBADD) $(LIBS)
+ 
+ mostlyclean-compile:
+ 	-rm -f *.$(OBJEXT)
+@@ -512,8 +512,8 @@ TauolaHepMCParticle.lo: eventRecordInter
+ .f.lo:
+ 	$(LTF77COMPILE) -c -o $@ $<
+ 
+-libTauolaCxxInterface_la-tauola_extras.lo: tauolaFortranInterfaces/tauola_extras.f
+-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaCxxInterface_la_FFLAGS) $(FFLAGS) -c -o libTauolaCxxInterface_la-tauola_extras.lo `test -f 'tauolaFortranInterfaces/tauola_extras.f' || echo '$(srcdir)/'`tauolaFortranInterfaces/tauola_extras.f
++libTauolaCxxInterface_114_la-tauola_extras.lo: tauolaFortranInterfaces/tauola_extras.f
++	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaCxxInterface_114_la_FFLAGS) $(FFLAGS) -c -o libTauolaCxxInterface_114_la-tauola_extras.lo `test -f 'tauolaFortranInterfaces/tauola_extras.f' || echo '$(srcdir)/'`tauolaFortranInterfaces/tauola_extras.f
+ 
+ mostlyclean-libtool:
+ 	-rm -f *.lo
+diff -uprN 1.1.4/tauola-fortran/Makefile.am 1.1.4/tauola-fortran/Makefile.am
+--- 1.1.4/tauola-fortran/Makefile.am	2013-12-12 22:42:49.000000000 +0100
++++ 1.1.4/tauola-fortran/Makefile.am	2014-02-26 15:05:41.000000000 +0100
+@@ -1,13 +1,13 @@
+-lib_LTLIBRARIES = libTauolaFortran.la
++lib_LTLIBRARIES = libTauolaFortran_114.la
+ 
+-#libTauolaFortran_la_SOURCES = \
++#libTauolaFortran_114_la_SOURCES = \
+ #tauola/curr_cleo.f \
+ #tauola/formf.f \
+ #tauola/tauola.f \
+ #tauola/f3pi.f \
+ #tauola/pkorb.f
+ 
+-libTauolaFortran_la_SOURCES = \
++libTauolaFortran_114_la_SOURCES = \
+ tauola-modified/curr_cleo.f \
+ tauola-modified/formf.f \
+ tauola-modified/tauola.f \
+@@ -27,4 +27,4 @@ tauola-modified/new-currents/RChL-curren
+ tauola-modified/new-currents/RChL-currents/rcht_common/wid_a1_fit.f \
+ tauola-modified/new-currents/RChL-currents/rcht_common/wid_a1_fitKKpi.f
+ 
+-libTauolaFortran_la_FFLAGS = -fno-automatic -fno-backslash -ffixed-line-length-132
++libTauolaFortran_114_la_FFLAGS = -fno-automatic -fno-backslash -ffixed-line-length-132
+diff -uprN 1.1.4/tauola-fortran/Makefile.in 1.1.4/tauola-fortran/Makefile.in
+--- 1.1.4/tauola-fortran/Makefile.in	2013-12-12 22:43:04.000000000 +0100
++++ 1.1.4/tauola-fortran/Makefile.in	2014-02-26 15:05:41.000000000 +0100
+@@ -67,25 +67,25 @@ am__base_list = \
+   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
+ am__installdirs = "$(DESTDIR)$(libdir)"
+ LTLIBRARIES = $(lib_LTLIBRARIES)
+-libTauolaFortran_la_LIBADD =
+-am_libTauolaFortran_la_OBJECTS = libTauolaFortran_la-curr_cleo.lo \
+-	libTauolaFortran_la-formf.lo libTauolaFortran_la-tauola.lo \
+-	libTauolaFortran_la-f3pi.lo libTauolaFortran_la-pkorb.lo \
+-	libTauolaFortran_la-frho_pi_belle.lo \
+-	libTauolaFortran_la-f3pi_rcht.lo \
+-	libTauolaFortran_la-funct_3pi.lo \
+-	libTauolaFortran_la-FA1RCHL.lo libTauolaFortran_la-ffwid3pi.lo \
+-	libTauolaFortran_la-funct_rpt.lo \
+-	libTauolaFortran_la-gaus_integr.lo \
+-	libTauolaFortran_la-gfact.lo libTauolaFortran_la-initA1Tab.lo \
+-	libTauolaFortran_la-initA1TabKKpi.lo \
+-	libTauolaFortran_la-value_parameter.lo \
+-	libTauolaFortran_la-wid_a1_fit.lo \
+-	libTauolaFortran_la-wid_a1_fitKKpi.lo
+-libTauolaFortran_la_OBJECTS = $(am_libTauolaFortran_la_OBJECTS)
+-libTauolaFortran_la_LINK = $(LIBTOOL) --tag=F77 $(AM_LIBTOOLFLAGS) \
++libTauolaFortran_114_la_LIBADD =
++am_libTauolaFortran_114_la_OBJECTS = libTauolaFortran_114_la-curr_cleo.lo \
++	libTauolaFortran_114_la-formf.lo libTauolaFortran_114_la-tauola.lo \
++	libTauolaFortran_114_la-f3pi.lo libTauolaFortran_114_la-pkorb.lo \
++	libTauolaFortran_114_la-frho_pi_belle.lo \
++	libTauolaFortran_114_la-f3pi_rcht.lo \
++	libTauolaFortran_114_la-funct_3pi.lo \
++	libTauolaFortran_114_la-FA1RCHL.lo libTauolaFortran_114_la-ffwid3pi.lo \
++	libTauolaFortran_114_la-funct_rpt.lo \
++	libTauolaFortran_114_la-gaus_integr.lo \
++	libTauolaFortran_114_la-gfact.lo libTauolaFortran_114_la-initA1Tab.lo \
++	libTauolaFortran_114_la-initA1TabKKpi.lo \
++	libTauolaFortran_114_la-value_parameter.lo \
++	libTauolaFortran_114_la-wid_a1_fit.lo \
++	libTauolaFortran_114_la-wid_a1_fitKKpi.lo
++libTauolaFortran_114_la_OBJECTS = $(am_libTauolaFortran_114_la_OBJECTS)
++libTauolaFortran_114_la_LINK = $(LIBTOOL) --tag=F77 $(AM_LIBTOOLFLAGS) \
+ 	$(LIBTOOLFLAGS) --mode=link $(F77LD) \
+-	$(libTauolaFortran_la_FFLAGS) $(FFLAGS) $(AM_LDFLAGS) \
++	$(libTauolaFortran_114_la_FFLAGS) $(FFLAGS) $(AM_LDFLAGS) \
+ 	$(LDFLAGS) -o $@
+ DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/config
+ F77COMPILE = $(F77) $(AM_FFLAGS) $(FFLAGS)
+@@ -95,8 +95,8 @@ F77LD = $(F77)
+ F77LINK = $(LIBTOOL) --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+ 	--mode=link $(F77LD) $(AM_FFLAGS) $(FFLAGS) $(AM_LDFLAGS) \
+ 	$(LDFLAGS) -o $@
+-SOURCES = $(libTauolaFortran_la_SOURCES)
+-DIST_SOURCES = $(libTauolaFortran_la_SOURCES)
++SOURCES = $(libTauolaFortran_114_la_SOURCES)
++DIST_SOURCES = $(libTauolaFortran_114_la_SOURCES)
+ ETAGS = etags
+ CTAGS = ctags
+ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+@@ -224,15 +224,15 @@ top_build_prefix = @top_build_prefix@
+ top_builddir = @top_builddir@
+ top_srcdir = @top_srcdir@
+ with_lhapdf = @with_lhapdf@
+-lib_LTLIBRARIES = libTauolaFortran.la
++lib_LTLIBRARIES = libTauolaFortran_114.la
+ 
+-#libTauolaFortran_la_SOURCES = \
++#libTauolaFortran_114_la_SOURCES = \
+ #tauola/curr_cleo.f \
+ #tauola/formf.f \
+ #tauola/tauola.f \
+ #tauola/f3pi.f \
+ #tauola/pkorb.f
+-libTauolaFortran_la_SOURCES = \
++libTauolaFortran_114_la_SOURCES = \
+ tauola-modified/curr_cleo.f \
+ tauola-modified/formf.f \
+ tauola-modified/tauola.f \
+@@ -252,7 +252,7 @@ tauola-modified/new-currents/RChL-curren
+ tauola-modified/new-currents/RChL-currents/rcht_common/wid_a1_fit.f \
+ tauola-modified/new-currents/RChL-currents/rcht_common/wid_a1_fitKKpi.f
+ 
+-libTauolaFortran_la_FFLAGS = -fno-automatic -fno-backslash -ffixed-line-length-132
++libTauolaFortran_114_la_FFLAGS = -fno-automatic -fno-backslash -ffixed-line-length-132
+ all: all-am
+ 
+ .SUFFIXES:
+@@ -318,8 +318,8 @@ clean-libLTLIBRARIES:
+ 	  echo "rm -f \"$${dir}/so_locations\""; \
+ 	  rm -f "$${dir}/so_locations"; \
+ 	done
+-libTauolaFortran.la: $(libTauolaFortran_la_OBJECTS) $(libTauolaFortran_la_DEPENDENCIES) 
+-	$(libTauolaFortran_la_LINK) -rpath $(libdir) $(libTauolaFortran_la_OBJECTS) $(libTauolaFortran_la_LIBADD) $(LIBS)
++libTauolaFortran_114.la: $(libTauolaFortran_114_la_OBJECTS) $(libTauolaFortran_114_la_DEPENDENCIES) 
++	$(libTauolaFortran_114_la_LINK) -rpath $(libdir) $(libTauolaFortran_114_la_OBJECTS) $(libTauolaFortran_114_la_LIBADD) $(LIBS)
+ 
+ mostlyclean-compile:
+ 	-rm -f *.$(OBJEXT)
+@@ -336,59 +336,59 @@ distclean-compile:
+ .f.lo:
+ 	$(LTF77COMPILE) -c -o $@ $<
+ 
+-libTauolaFortran_la-curr_cleo.lo: tauola-modified/curr_cleo.f
+-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_la-curr_cleo.lo `test -f 'tauola-modified/curr_cleo.f' || echo '$(srcdir)/'`tauola-modified/curr_cleo.f
++libTauolaFortran_114_la-curr_cleo.lo: tauola-modified/curr_cleo.f
++	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_114_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_114_la-curr_cleo.lo `test -f 'tauola-modified/curr_cleo.f' || echo '$(srcdir)/'`tauola-modified/curr_cleo.f
+ 
+-libTauolaFortran_la-formf.lo: tauola-modified/formf.f
+-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_la-formf.lo `test -f 'tauola-modified/formf.f' || echo '$(srcdir)/'`tauola-modified/formf.f
++libTauolaFortran_114_la-formf.lo: tauola-modified/formf.f
++	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_114_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_114_la-formf.lo `test -f 'tauola-modified/formf.f' || echo '$(srcdir)/'`tauola-modified/formf.f
+ 
+-libTauolaFortran_la-tauola.lo: tauola-modified/tauola.f
+-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_la-tauola.lo `test -f 'tauola-modified/tauola.f' || echo '$(srcdir)/'`tauola-modified/tauola.f
++libTauolaFortran_114_la-tauola.lo: tauola-modified/tauola.f
++	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_114_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_114_la-tauola.lo `test -f 'tauola-modified/tauola.f' || echo '$(srcdir)/'`tauola-modified/tauola.f
+ 
+-libTauolaFortran_la-f3pi.lo: tauola-modified/f3pi.f
+-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_la-f3pi.lo `test -f 'tauola-modified/f3pi.f' || echo '$(srcdir)/'`tauola-modified/f3pi.f
++libTauolaFortran_114_la-f3pi.lo: tauola-modified/f3pi.f
++	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_114_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_114_la-f3pi.lo `test -f 'tauola-modified/f3pi.f' || echo '$(srcdir)/'`tauola-modified/f3pi.f
+ 
+-libTauolaFortran_la-pkorb.lo: tauola-modified/pkorb.f
+-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_la-pkorb.lo `test -f 'tauola-modified/pkorb.f' || echo '$(srcdir)/'`tauola-modified/pkorb.f
++libTauolaFortran_114_la-pkorb.lo: tauola-modified/pkorb.f
++	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_114_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_114_la-pkorb.lo `test -f 'tauola-modified/pkorb.f' || echo '$(srcdir)/'`tauola-modified/pkorb.f
+ 
+-libTauolaFortran_la-frho_pi_belle.lo: tauola-modified/new-currents/other-currents/frho_pi_belle.f
+-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_la-frho_pi_belle.lo `test -f 'tauola-modified/new-currents/other-currents/frho_pi_belle.f' || echo '$(srcdir)/'`tauola-modified/new-currents/other-currents/frho_pi_belle.f
++libTauolaFortran_114_la-frho_pi_belle.lo: tauola-modified/new-currents/other-currents/frho_pi_belle.f
++	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_114_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_114_la-frho_pi_belle.lo `test -f 'tauola-modified/new-currents/other-currents/frho_pi_belle.f' || echo '$(srcdir)/'`tauola-modified/new-currents/other-currents/frho_pi_belle.f
+ 
+-libTauolaFortran_la-f3pi_rcht.lo: tauola-modified/new-currents/RChL-currents/rcht_3pi/f3pi_rcht.f
+-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_la-f3pi_rcht.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_3pi/f3pi_rcht.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_3pi/f3pi_rcht.f
++libTauolaFortran_114_la-f3pi_rcht.lo: tauola-modified/new-currents/RChL-currents/rcht_3pi/f3pi_rcht.f
++	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_114_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_114_la-f3pi_rcht.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_3pi/f3pi_rcht.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_3pi/f3pi_rcht.f
+ 
+-libTauolaFortran_la-funct_3pi.lo: tauola-modified/new-currents/RChL-currents/rcht_3pi/funct_3pi.f
+-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_la-funct_3pi.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_3pi/funct_3pi.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_3pi/funct_3pi.f
++libTauolaFortran_114_la-funct_3pi.lo: tauola-modified/new-currents/RChL-currents/rcht_3pi/funct_3pi.f
++	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_114_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_114_la-funct_3pi.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_3pi/funct_3pi.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_3pi/funct_3pi.f
+ 
+-libTauolaFortran_la-FA1RCHL.lo: tauola-modified/new-currents/RChL-currents/rcht_common/FA1RCHL.f
+-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_la-FA1RCHL.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_common/FA1RCHL.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_common/FA1RCHL.f
++libTauolaFortran_114_la-FA1RCHL.lo: tauola-modified/new-currents/RChL-currents/rcht_common/FA1RCHL.f
++	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_114_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_114_la-FA1RCHL.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_common/FA1RCHL.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_common/FA1RCHL.f
+ 
+-libTauolaFortran_la-ffwid3pi.lo: tauola-modified/new-currents/RChL-currents/rcht_common/ffwid3pi.f
+-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_la-ffwid3pi.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_common/ffwid3pi.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_common/ffwid3pi.f
++libTauolaFortran_114_la-ffwid3pi.lo: tauola-modified/new-currents/RChL-currents/rcht_common/ffwid3pi.f
++	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_114_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_114_la-ffwid3pi.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_common/ffwid3pi.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_common/ffwid3pi.f
+ 
+-libTauolaFortran_la-funct_rpt.lo: tauola-modified/new-currents/RChL-currents/rcht_common/funct_rpt.f
+-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_la-funct_rpt.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_common/funct_rpt.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_common/funct_rpt.f
++libTauolaFortran_114_la-funct_rpt.lo: tauola-modified/new-currents/RChL-currents/rcht_common/funct_rpt.f
++	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_114_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_114_la-funct_rpt.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_common/funct_rpt.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_common/funct_rpt.f
+ 
+-libTauolaFortran_la-gaus_integr.lo: tauola-modified/new-currents/RChL-currents/rcht_common/gaus_integr.f
+-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_la-gaus_integr.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_common/gaus_integr.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_common/gaus_integr.f
++libTauolaFortran_114_la-gaus_integr.lo: tauola-modified/new-currents/RChL-currents/rcht_common/gaus_integr.f
++	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_114_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_114_la-gaus_integr.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_common/gaus_integr.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_common/gaus_integr.f
+ 
+-libTauolaFortran_la-gfact.lo: tauola-modified/new-currents/RChL-currents/rcht_common/gfact.f
+-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_la-gfact.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_common/gfact.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_common/gfact.f
++libTauolaFortran_114_la-gfact.lo: tauola-modified/new-currents/RChL-currents/rcht_common/gfact.f
++	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_114_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_114_la-gfact.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_common/gfact.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_common/gfact.f
+ 
+-libTauolaFortran_la-initA1Tab.lo: tauola-modified/new-currents/RChL-currents/rcht_common/initA1Tab.f
+-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_la-initA1Tab.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_common/initA1Tab.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_common/initA1Tab.f
++libTauolaFortran_114_la-initA1Tab.lo: tauola-modified/new-currents/RChL-currents/rcht_common/initA1Tab.f
++	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_114_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_114_la-initA1Tab.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_common/initA1Tab.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_common/initA1Tab.f
+ 
+-libTauolaFortran_la-initA1TabKKpi.lo: tauola-modified/new-currents/RChL-currents/rcht_common/initA1TabKKpi.f
+-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_la-initA1TabKKpi.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_common/initA1TabKKpi.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_common/initA1TabKKpi.f
++libTauolaFortran_114_la-initA1TabKKpi.lo: tauola-modified/new-currents/RChL-currents/rcht_common/initA1TabKKpi.f
++	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_114_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_114_la-initA1TabKKpi.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_common/initA1TabKKpi.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_common/initA1TabKKpi.f
+ 
+-libTauolaFortran_la-value_parameter.lo: tauola-modified/new-currents/RChL-currents/rcht_common/value_parameter.f
+-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_la-value_parameter.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_common/value_parameter.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_common/value_parameter.f
++libTauolaFortran_114_la-value_parameter.lo: tauola-modified/new-currents/RChL-currents/rcht_common/value_parameter.f
++	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_114_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_114_la-value_parameter.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_common/value_parameter.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_common/value_parameter.f
+ 
+-libTauolaFortran_la-wid_a1_fit.lo: tauola-modified/new-currents/RChL-currents/rcht_common/wid_a1_fit.f
+-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_la-wid_a1_fit.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_common/wid_a1_fit.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_common/wid_a1_fit.f
++libTauolaFortran_114_la-wid_a1_fit.lo: tauola-modified/new-currents/RChL-currents/rcht_common/wid_a1_fit.f
++	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_114_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_114_la-wid_a1_fit.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_common/wid_a1_fit.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_common/wid_a1_fit.f
+ 
+-libTauolaFortran_la-wid_a1_fitKKpi.lo: tauola-modified/new-currents/RChL-currents/rcht_common/wid_a1_fitKKpi.f
+-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_la-wid_a1_fitKKpi.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_common/wid_a1_fitKKpi.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_common/wid_a1_fitKKpi.f
++libTauolaFortran_114_la-wid_a1_fitKKpi.lo: tauola-modified/new-currents/RChL-currents/rcht_common/wid_a1_fitKKpi.f
++	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(libTauolaFortran_114_la_FFLAGS) $(FFLAGS) -c -o libTauolaFortran_114_la-wid_a1_fitKKpi.lo `test -f 'tauola-modified/new-currents/RChL-currents/rcht_common/wid_a1_fitKKpi.f' || echo '$(srcdir)/'`tauola-modified/new-currents/RChL-currents/rcht_common/wid_a1_fitKKpi.f
+ 
+ mostlyclean-libtool:
+ 	-rm -f *.lo
+diff -uprN 1.1.4/TauSpinner/examples/Makefile.am 1.1.4/TauSpinner/examples/Makefile.am
+--- 1.1.4/TauSpinner/examples/Makefile.am	2013-12-12 22:42:49.000000000 +0100
++++ 1.1.4/TauSpinner/examples/Makefile.am	2014-02-26 15:05:45.000000000 +0100
+@@ -20,9 +20,9 @@ AM_LDFLAGS = -R $(prefix)/lib -R $(with_
+ 
+ LDADD =                          \
+ $(FLIBS)                         \
+-$(prefix)/lib/libTauolaTauSpinner.so \
+-$(prefix)/lib/libTauolaCxxInterface.so \
+-$(prefix)/lib/libTauolaFortran.so      \
++$(prefix)/lib/libTauolaTauSpinner_114.so \
++$(prefix)/lib/libTauolaCxxInterface_114.so \
++$(prefix)/lib/libTauolaFortran_114.so      \
+ -L$(with_lhapdf)/lib -lLHAPDF
+ 
+ AM_LDFLAGS += -R $(HEPMC_DIR)/lib
+diff -uprN 1.1.4/TauSpinner/examples/Makefile.in 1.1.4/TauSpinner/examples/Makefile.in
+--- 1.1.4/TauSpinner/examples/Makefile.in	2013-12-12 22:43:03.000000000 +0100
++++ 1.1.4/TauSpinner/examples/Makefile.in	2014-02-26 15:05:45.000000000 +0100
+@@ -58,9 +58,9 @@ tau_reweight_CLEO_to_RCHL_exe_OBJECTS = 
+ 	$(am_tau_reweight_CLEO_to_RCHL_exe_OBJECTS)
+ tau_reweight_CLEO_to_RCHL_exe_LDADD = $(LDADD)
+ @HAS_HEPMC_TRUE@tau_reweight_CLEO_to_RCHL_exe_DEPENDENCIES =  \
+-@HAS_HEPMC_TRUE@	$(prefix)/lib/libTauolaTauSpinner.so \
+-@HAS_HEPMC_TRUE@	$(prefix)/lib/libTauolaCxxInterface.so \
+-@HAS_HEPMC_TRUE@	$(prefix)/lib/libTauolaFortran.so
++@HAS_HEPMC_TRUE@	$(prefix)/lib/libTauolaTauSpinner_114.so \
++@HAS_HEPMC_TRUE@	$(prefix)/lib/libTauolaCxxInterface_114.so \
++@HAS_HEPMC_TRUE@	$(prefix)/lib/libTauolaFortran_114.so
+ am__tau_reweight_test_exe_SOURCES_DIST = tau-reweight-test.cxx distr.f \
+ 	../src/read_particles_from_TAUOLA.cxx
+ @HAS_HEPMC_TRUE@am_tau_reweight_test_exe_OBJECTS =  \
+@@ -69,9 +69,9 @@ am__tau_reweight_test_exe_SOURCES_DIST =
+ tau_reweight_test_exe_OBJECTS = $(am_tau_reweight_test_exe_OBJECTS)
+ tau_reweight_test_exe_LDADD = $(LDADD)
+ @HAS_HEPMC_TRUE@tau_reweight_test_exe_DEPENDENCIES =  \
+-@HAS_HEPMC_TRUE@	$(prefix)/lib/libTauolaTauSpinner.so \
+-@HAS_HEPMC_TRUE@	$(prefix)/lib/libTauolaCxxInterface.so \
+-@HAS_HEPMC_TRUE@	$(prefix)/lib/libTauolaFortran.so
++@HAS_HEPMC_TRUE@	$(prefix)/lib/libTauolaTauSpinner_114.so \
++@HAS_HEPMC_TRUE@	$(prefix)/lib/libTauolaCxxInterface_114.so \
++@HAS_HEPMC_TRUE@	$(prefix)/lib/libTauolaFortran_114.so
+ DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/config
+ depcomp = $(SHELL) $(top_srcdir)/config/depcomp
+ am__depfiles_maybe = depfiles
+@@ -237,9 +237,9 @@ exampledir = $(top_srcdir)/TauSpinner/ex
+ @HAS_HEPMC_TRUE@	-I$(HEPMC_DIR)/include
+ @HAS_HEPMC_TRUE@AM_LDFLAGS = -R $(prefix)/lib -R $(with_lhapdf)/lib -R \
+ @HAS_HEPMC_TRUE@	$(HEPMC_DIR)/lib
+-@HAS_HEPMC_TRUE@LDADD = $(FLIBS) $(prefix)/lib/libTauolaTauSpinner.so \
+-@HAS_HEPMC_TRUE@	$(prefix)/lib/libTauolaCxxInterface.so \
+-@HAS_HEPMC_TRUE@	$(prefix)/lib/libTauolaFortran.so \
++@HAS_HEPMC_TRUE@LDADD = $(FLIBS) $(prefix)/lib/libTauolaTauSpinner_114.so \
++@HAS_HEPMC_TRUE@	$(prefix)/lib/libTauolaCxxInterface_114.so \
++@HAS_HEPMC_TRUE@	$(prefix)/lib/libTauolaFortran_114.so \
+ @HAS_HEPMC_TRUE@	-L$(with_lhapdf)/lib -lLHAPDF \
+ @HAS_HEPMC_TRUE@	-L$(HEPMC_DIR)/lib -lHepMC
+ all: all-am
+diff -uprN 1.1.4/TauSpinner/examples/tauspinner-validation/Makefile.am 1.1.4/TauSpinner/examples/tauspinner-validation/Makefile.am
+--- 1.1.4/TauSpinner/examples/tauspinner-validation/Makefile.am	2013-12-12 22:42:49.000000000 +0100
++++ 1.1.4/TauSpinner/examples/tauspinner-validation/Makefile.am	2014-02-26 15:05:51.000000000 +0100
+@@ -10,9 +10,9 @@ AM_LDFLAGS = -R $(prefix)/lib -R $(with_
+ 
+ LDADD =                          \
+ $(FLIBS)                         \
+-$(prefix)/lib/libTauolaTauSpinner.so \
+-$(prefix)/lib/libTauolaCxxInterface.so \
+-$(prefix)/lib/libTauolaFortran.so      \
++$(prefix)/lib/libTauolaTauSpinner_114.so \
++$(prefix)/lib/libTauolaCxxInterface_114.so \
++$(prefix)/lib/libTauolaFortran_114.so      \
+ -L$(with_lhapdf)/lib -lLHAPDF
+ 
+ if HAS_HEPMC
+diff -uprN 1.1.4/TauSpinner/examples/tauspinner-validation/Makefile.in 1.1.4/TauSpinner/examples/tauspinner-validation/Makefile.in
+--- 1.1.4/TauSpinner/examples/tauspinner-validation/Makefile.in	2013-12-12 22:43:03.000000000 +0100
++++ 1.1.4/TauSpinner/examples/tauspinner-validation/Makefile.in	2014-02-26 15:05:51.000000000 +0100
+@@ -75,9 +75,9 @@ am__DEPENDENCIES_1 =
+ @HAS_HEPMC_TRUE@@HAS_MCTESTER_TRUE@am__DEPENDENCIES_2 =  \
+ @HAS_HEPMC_TRUE@@HAS_MCTESTER_TRUE@	$(am__DEPENDENCIES_1)
+ hepmc_tauola_redecay_exe_DEPENDENCIES =  \
+-	$(prefix)/lib/libTauolaTauSpinner.so \
+-	$(prefix)/lib/libTauolaCxxInterface.so \
+-	$(prefix)/lib/libTauolaFortran.so $(am__DEPENDENCIES_1) \
++	$(prefix)/lib/libTauolaTauSpinner_114.so \
++	$(prefix)/lib/libTauolaCxxInterface_114.so \
++	$(prefix)/lib/libTauolaFortran_114.so $(am__DEPENDENCIES_1) \
+ 	$(am__DEPENDENCIES_2)
+ am__tauspinner_validation_comparison_exe_SOURCES_DIST =  \
+ 	tauspinner-validation-comparison.cxx \
+@@ -88,9 +88,9 @@ tauspinner_validation_comparison_exe_OBJ
+ 	$(am_tauspinner_validation_comparison_exe_OBJECTS)
+ tauspinner_validation_comparison_exe_LDADD = $(LDADD)
+ tauspinner_validation_comparison_exe_DEPENDENCIES =  \
+-	$(prefix)/lib/libTauolaTauSpinner.so \
+-	$(prefix)/lib/libTauolaCxxInterface.so \
+-	$(prefix)/lib/libTauolaFortran.so $(am__DEPENDENCIES_1) \
++	$(prefix)/lib/libTauolaTauSpinner_114.so \
++	$(prefix)/lib/libTauolaCxxInterface_114.so \
++	$(prefix)/lib/libTauolaFortran_114.so $(am__DEPENDENCIES_1) \
+ 	$(am__DEPENDENCIES_2)
+ am__tauspinner_validation_plots_exe_SOURCES_DIST =  \
+ 	tauspinner-validation-plots.cxx \
+@@ -101,9 +101,9 @@ tauspinner_validation_plots_exe_OBJECTS 
+ 	$(am_tauspinner_validation_plots_exe_OBJECTS)
+ tauspinner_validation_plots_exe_LDADD = $(LDADD)
+ tauspinner_validation_plots_exe_DEPENDENCIES =  \
+-	$(prefix)/lib/libTauolaTauSpinner.so \
+-	$(prefix)/lib/libTauolaCxxInterface.so \
+-	$(prefix)/lib/libTauolaFortran.so $(am__DEPENDENCIES_1) \
++	$(prefix)/lib/libTauolaTauSpinner_114.so \
++	$(prefix)/lib/libTauolaCxxInterface_114.so \
++	$(prefix)/lib/libTauolaFortran_114.so $(am__DEPENDENCIES_1) \
+ 	$(am__DEPENDENCIES_2)
+ am__test_bornAFB_bornAFB_test_exe_SOURCES_DIST =  \
+ 	test-bornAFB/bornAFB-test.cxx \
+@@ -115,9 +115,9 @@ test_bornAFB_bornAFB_test_exe_OBJECTS = 
+ 	$(am_test_bornAFB_bornAFB_test_exe_OBJECTS)
+ test_bornAFB_bornAFB_test_exe_LDADD = $(LDADD)
+ test_bornAFB_bornAFB_test_exe_DEPENDENCIES =  \
+-	$(prefix)/lib/libTauolaTauSpinner.so \
+-	$(prefix)/lib/libTauolaCxxInterface.so \
+-	$(prefix)/lib/libTauolaFortran.so $(am__DEPENDENCIES_1) \
++	$(prefix)/lib/libTauolaTauSpinner_114.so \
++	$(prefix)/lib/libTauolaCxxInterface_114.so \
++	$(prefix)/lib/libTauolaFortran_114.so $(am__DEPENDENCIES_1) \
+ 	$(am__DEPENDENCIES_2)
+ am__dirstamp = $(am__leading_dot)dirstamp
+ am__test_ipol_test_ipol_exe_SOURCES_DIST = test-ipol/test-ipol.cxx \
+@@ -129,9 +129,9 @@ test_ipol_test_ipol_exe_OBJECTS =  \
+ 	$(am_test_ipol_test_ipol_exe_OBJECTS)
+ test_ipol_test_ipol_exe_LDADD = $(LDADD)
+ test_ipol_test_ipol_exe_DEPENDENCIES =  \
+-	$(prefix)/lib/libTauolaTauSpinner.so \
+-	$(prefix)/lib/libTauolaCxxInterface.so \
+-	$(prefix)/lib/libTauolaFortran.so $(am__DEPENDENCIES_1) \
++	$(prefix)/lib/libTauolaTauSpinner_114.so \
++	$(prefix)/lib/libTauolaCxxInterface_114.so \
++	$(prefix)/lib/libTauolaFortran_114.so $(am__DEPENDENCIES_1) \
+ 	$(am__DEPENDENCIES_2)
+ DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/config
+ depcomp = $(SHELL) $(top_srcdir)/config/depcomp
+@@ -289,9 +289,9 @@ INCLUDES = -I$(prefix)/include -I$(prefi
+ 	$(am__append_6)
+ AM_LDFLAGS = -R $(prefix)/lib -R $(with_lhapdf)/lib $(am__append_1) \
+ 	$(am__append_4)
+-LDADD = $(FLIBS) $(prefix)/lib/libTauolaTauSpinner.so \
+-	$(prefix)/lib/libTauolaCxxInterface.so \
+-	$(prefix)/lib/libTauolaFortran.so -L$(with_lhapdf)/lib \
++LDADD = $(FLIBS) $(prefix)/lib/libTauolaTauSpinner_114.so \
++	$(prefix)/lib/libTauolaCxxInterface_114.so \
++	$(prefix)/lib/libTauolaFortran_114.so -L$(with_lhapdf)/lib \
+ 	-lLHAPDF $(am__append_3) $(am__append_7)
+ @HAS_HEPMC_TRUE@@HAS_MCTESTER_TRUE@hepmc_tauola_redecay_exe_SOURCES = hepmc-tauola-redecay.cxx \
+ @HAS_HEPMC_TRUE@@HAS_MCTESTER_TRUE@                                   ../../src/read_particles_from_TAUOLA.cxx
+diff -uprN 1.1.4/TauSpinner/Makefile.am 1.1.4/TauSpinner/Makefile.am
+--- 1.1.4/TauSpinner/Makefile.am	2013-12-12 22:42:49.000000000 +0100
++++ 1.1.4/TauSpinner/Makefile.am	2014-02-26 15:05:42.000000000 +0100
+@@ -1,13 +1,13 @@
+ includedir=$(prefix)/include/TauSpinner
+ 
+-lib_LTLIBRARIES = libTauolaTauSpinner.la
++lib_LTLIBRARIES = libTauolaTauSpinner_114.la
+ 
+-libTauolaTauSpinner_la_SOURCES =            \
++libTauolaTauSpinner_114_la_SOURCES =            \
+ src/tau_reweight_lib.cxx                    \
+ src/nonSM.cxx                               \
+ src/disth.f
+ 
+-libTauolaTauSpinner_la_LIBADD = ../tauola-fortran/libTauolaFortran.la ../src/libTauolaCxxInterface.la
++libTauolaTauSpinner_114_la_LIBADD = ../tauola-fortran/libTauolaFortran_114.la ../src/libTauolaCxxInterface_114.la
+ 
+ include_HEADERS =                     \
+ include/TauSpinner/Particle.h         \
+diff -uprN 1.1.4/TauSpinner/Makefile.in 1.1.4/TauSpinner/Makefile.in
+--- 1.1.4/TauSpinner/Makefile.in	2013-12-12 22:43:03.000000000 +0100
++++ 1.1.4/TauSpinner/Makefile.in	2014-02-26 15:05:42.000000000 +0100
+@@ -69,12 +69,12 @@ am__base_list = \
+   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
+ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"
+ LTLIBRARIES = $(lib_LTLIBRARIES)
+-libTauolaTauSpinner_la_DEPENDENCIES =  \
+-	../tauola-fortran/libTauolaFortran.la \
+-	../src/libTauolaCxxInterface.la
+-am_libTauolaTauSpinner_la_OBJECTS = tau_reweight_lib.lo nonSM.lo \
++libTauolaTauSpinner_114_la_DEPENDENCIES =  \
++	../tauola-fortran/libTauolaFortran_114.la \
++	../src/libTauolaCxxInterface_114.la
++am_libTauolaTauSpinner_114_la_OBJECTS = tau_reweight_lib.lo nonSM.lo \
+ 	disth.lo
+-libTauolaTauSpinner_la_OBJECTS = $(am_libTauolaTauSpinner_la_OBJECTS)
++libTauolaTauSpinner_114_la_OBJECTS = $(am_libTauolaTauSpinner_114_la_OBJECTS)
+ DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/config
+ depcomp = $(SHELL) $(top_srcdir)/config/depcomp
+ am__depfiles_maybe = depfiles
+@@ -95,8 +95,8 @@ F77LD = $(F77)
+ F77LINK = $(LIBTOOL) --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+ 	--mode=link $(F77LD) $(AM_FFLAGS) $(FFLAGS) $(AM_LDFLAGS) \
+ 	$(LDFLAGS) -o $@
+-SOURCES = $(libTauolaTauSpinner_la_SOURCES)
+-DIST_SOURCES = $(libTauolaTauSpinner_la_SOURCES)
++SOURCES = $(libTauolaTauSpinner_114_la_SOURCES)
++DIST_SOURCES = $(libTauolaTauSpinner_114_la_SOURCES)
+ HEADERS = $(include_HEADERS)
+ ETAGS = etags
+ CTAGS = ctags
+@@ -225,13 +225,13 @@ top_build_prefix = @top_build_prefix@
+ top_builddir = @top_builddir@
+ top_srcdir = @top_srcdir@
+ with_lhapdf = @with_lhapdf@
+-lib_LTLIBRARIES = libTauolaTauSpinner.la
+-libTauolaTauSpinner_la_SOURCES = \
++lib_LTLIBRARIES = libTauolaTauSpinner_114.la
++libTauolaTauSpinner_114_la_SOURCES = \
+ src/tau_reweight_lib.cxx                    \
+ src/nonSM.cxx                               \
+ src/disth.f
+ 
+-libTauolaTauSpinner_la_LIBADD = ../tauola-fortran/libTauolaFortran.la ../src/libTauolaCxxInterface.la
++libTauolaTauSpinner_114_la_LIBADD = ../tauola-fortran/libTauolaFortran_114.la ../src/libTauolaCxxInterface_114.la
+ include_HEADERS = \
+ include/TauSpinner/Particle.h         \
+ include/TauSpinner/SimpleParticle.h   \
+@@ -308,8 +308,8 @@ clean-libLTLIBRARIES:
+ 	  echo "rm -f \"$${dir}/so_locations\""; \
+ 	  rm -f "$${dir}/so_locations"; \
+ 	done
+-libTauolaTauSpinner.la: $(libTauolaTauSpinner_la_OBJECTS) $(libTauolaTauSpinner_la_DEPENDENCIES) 
+-	$(CXXLINK) -rpath $(libdir) $(libTauolaTauSpinner_la_OBJECTS) $(libTauolaTauSpinner_la_LIBADD) $(LIBS)
++libTauolaTauSpinner_114.la: $(libTauolaTauSpinner_114_la_OBJECTS) $(libTauolaTauSpinner_114_la_DEPENDENCIES) 
++	$(CXXLINK) -rpath $(libdir) $(libTauolaTauSpinner_114_la_OBJECTS) $(libTauolaTauSpinner_114_la_LIBADD) $(LIBS)
+ 
+ mostlyclean-compile:
+ 	-rm -f *.$(OBJEXT)
