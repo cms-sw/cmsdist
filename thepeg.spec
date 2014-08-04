@@ -1,10 +1,10 @@
-### RPM external thepeg 1.9.0a
+### RPM external thepeg 1.9.2
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/ThePEG
 ## INITENV +PATH DYLD_LIBRARY_PATH %i/lib/ThePEG
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 Patch0: thepeg-1.7.0-break-termcap-dependence
 Patch1: thepeg-1.7.0-use-dylibs-macosx
-Patch6: thepeg-1.9.0a-fix-bogus-ZLIB-HOME
+Patch6: thepeg-1.9.2-fix-bogus-ZLIB-HOME
 Requires: lhapdf
 Requires: gsl
 Requires: hepmc
@@ -70,7 +70,7 @@ esac
             --with-gsl=$GSL_ROOT --with-zlib=$ZLIB_ROOT \
             --without-javagui --prefix=%i \
             --disable-readline CXX="$CXX" CC="$CC" CXXFLAGS="%cms_cxxflags" \
-            LIBS="-L$LHAPDF_ROOT/lib -lLHAPDF $LIBGFORTRAN -lz $LIBQUADMATH"
+            LIBS="$LIBGFORTRAN -lz $LIBQUADMATH"
 make
 
 %install
