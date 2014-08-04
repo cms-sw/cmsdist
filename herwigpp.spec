@@ -1,7 +1,4 @@
-### RPM external herwigpp 2.7.0a
-#
-# Careful to change or get rid of the next line when the version changes
-#
+### RPM external herwigpp 2.7.1
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/herwig++/herwig++-%{realversion}-src.tgz
 Requires: boost thepeg gsl hepmc
 
@@ -36,4 +33,3 @@ make install
 
 %post
 %{relocateConfig}share/Herwig++/HerwigDefaults.rpo
-
