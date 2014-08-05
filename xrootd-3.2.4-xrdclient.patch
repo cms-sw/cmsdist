@@ -1,0 +1,59 @@
+--- a/src/XrdClient/XrdClient.cc
++++ b/src/XrdClient/XrdClient.cc
+@@ -216,24 +216,10 @@
+ 
+     fConnModule->SetOpTimeLimit(EnvGetLong(NAME_TRANSACTIONTIMEOUT));
+ 
+-    // Construction of the url set coming from the resolution of the hosts given
+-    XrdClientUrlSet urlArray(fInitialUrl);
+-    if (!urlArray.IsValid()) {
+-	Error("Open", "The URL provided is incorrect.");
+-	return FALSE;
+-    }
+-
+-    XrdClientUrlInfo unfo(fInitialUrl);
+-    if (unfo.File == "") {
+-      Error("Open", "The URL provided is incorrect.");
+-      return FALSE;
+-    }
+-    
+-
+     //
+     // Now start the connection phase, picking randomly from UrlArray
+     //
+-    urlArray.Rewind();
++    unsigned int seed = static_cast<unsigned int>(getpid() ^ getppid()); // Once!
+     locallogid = -1;
+     int urlstried = 0;
+     for (int connectTry = 0;
+@@ -241,6 +227,11 @@
+ 	 connectTry++) {
+ 
+         XrdClientUrlSet urlArray(fInitialUrl);
++        if (!urlArray.IsValid()) {
++           Error("Open", "The URL provided is incorrect.");
++           return FALSE;
++        }
++        int urlCount = urlArray.Size();
+         urlArray.Rewind();
+ 
+ 	XrdClientUrlInfo *thisUrl = 0;
+@@ -254,9 +245,7 @@
+         }
+ 
+ 	bool nogoodurl = TRUE;
+-	while (urlArray.Size() > 0) {
+-
+-	  unsigned int seed = XrdOucCRC::CRC32((const unsigned char*)unfo.File.c_str(), unfo.File.length());
++	while (urlCount--) {
+ 
+ 	    // Get an url from the available set
+ 	    if ((thisUrl = urlArray.GetARandomUrl(seed))) {
+@@ -270,6 +259,7 @@
+ 		    locallogid = fConnModule->Connect(*thisUrl, this);
+ 		    // To find out if we have tried the whole URLs set
+ 		    urlstried++;
++                    if (!(fConnModule->IsConnected())) continue;
+ 		    break;
+ 		} else {
+ 		    // Invalid domain: drop the url and move to next, if any

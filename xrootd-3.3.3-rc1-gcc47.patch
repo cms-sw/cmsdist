@@ -1,0 +1,68 @@
+diff --git a/src/XrdApps/XrdCpy.cc b/src/XrdApps/XrdCpy.cc
+index 131b6d5..9cc1e73 100644
+--- a/src/XrdApps/XrdCpy.cc
++++ b/src/XrdApps/XrdCpy.cc
+@@ -157,7 +157,7 @@ struct XrdCpInfo {
+ 
+ #define XRDCP_BLOCKSIZE          (8*1024*1024)
+ #define XRDCP_XRDRASIZE          (30*XRDCP_BLOCKSIZE)
+-#define XRDCP_VERSION            "(C) 2004-2011 by the XRootD collaboration. Version: "XrdVSTRING
++#define XRDCP_VERSION            "(C) 2004-2011 by the XRootD collaboration. Version: " XrdVSTRING
+ 
+ ///////////////////////////////////////////////////////////////////////
+ // Coming from parameters on the cmd line
+diff --git a/src/XrdCl/XrdClFileStateHandler.cc b/src/XrdCl/XrdClFileStateHandler.cc
+index c05a080..9bd1ec4 100644
+--- a/src/XrdCl/XrdClFileStateHandler.cc
++++ b/src/XrdCl/XrdClFileStateHandler.cc
+@@ -186,8 +186,8 @@ namespace
+                                             XrdCl::HostList     *hostList )
+       {
+         using namespace XrdCl;
+-        std::auto_ptr<XRootDStatus>    statusPtr( status );
+-        std::auto_ptr<AnyObject>       responsePtr( response );
++        std::unique_ptr<XRootDStatus>    statusPtr( status );
++        std::unique_ptr<AnyObject>       responsePtr( response );
+         pSendParams.hostList = hostList;
+ 
+         //----------------------------------------------------------------------
+diff --git a/src/XrdCl/XrdClXRootDMsgHandler.cc b/src/XrdCl/XrdClXRootDMsgHandler.cc
+index 73150df..f37707e 100644
+--- a/src/XrdCl/XrdClXRootDMsgHandler.cc
++++ b/src/XrdCl/XrdClXRootDMsgHandler.cc
+@@ -313,7 +313,7 @@ namespace XrdCl
+       //------------------------------------------------------------------------
+       case kXR_redirect:
+       {
+-        std::auto_ptr<Message> msgPtr( pResponse );
++        std::unique_ptr<Message> msgPtr( pResponse );
+         pResponse = 0;
+ 
+         if( rsp->hdr.dlen < 4 )
+@@ -443,7 +443,7 @@ namespace XrdCl
+       //------------------------------------------------------------------------
+       case kXR_wait:
+       {
+-        std::auto_ptr<Message> msgPtr( pResponse );
++        std::unique_ptr<Message> msgPtr( pResponse );
+         pResponse = 0;
+         uint32_t waitSeconds = 0;
+ 
+@@ -493,7 +493,7 @@ namespace XrdCl
+       //------------------------------------------------------------------------
+       case kXR_waitresp:
+       {
+-        std::auto_ptr<Message> msgPtr( pResponse );
++        std::unique_ptr<Message> msgPtr( pResponse );
+         pResponse = 0;
+ 
+         if( rsp->hdr.dlen < 4 )
+@@ -517,7 +517,7 @@ namespace XrdCl
+       //------------------------------------------------------------------------
+       default:
+       {
+-        std::auto_ptr<Message> msgPtr( pResponse );
++        std::unique_ptr<Message> msgPtr( pResponse );
+         pResponse = 0;
+         log->Dump( XRootDMsg, "[%s] Got unrecognized response %d to "
+                    "message %s", pUrl.GetHostId().c_str(),
