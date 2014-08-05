@@ -1,6 +1,6 @@
 ### RPM lcg root 5.34.07
 ## INITENV +PATH PYTHONPATH %i/lib/python
-## INITENV SET ROOTSYS %i  
+## INITENV SET ROOTSYS %i
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
 %define tag %(echo v%{realversion} | tr . -)
 %define branch %(echo %{realversion} | sed 's/\\.[0-9]*$/.00/;s/^/v/;s/$/-patches/g;s/\\./-/g')
@@ -15,6 +15,7 @@ Patch3: root-5.32.00-detect-arch
 Patch4: root-5.30.02-fix-gcc46
 Patch5: root-5.30.02-fix-isnan-again
 Patch6: root-5.34.07-fix-fatal-removal-in-branch-names
+Patch7: root-5.34.07-thread-local-storage
 
 %define cpu %(echo %cmsplatf | cut -d_ -f2)
 
@@ -45,6 +46,7 @@ Requires: freetype
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 # The following patch can only be applied on SLC5 or later (extra linker
 # options only available with the SLC5 binutils)

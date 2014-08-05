@@ -1,0 +1,25 @@
+From 4f40be50369f3bd00f96921e4dfce35ddd036ebc Mon Sep 17 00:00:00 2001
+From: Giulio Eulisse <giulio.eulisse@cern.ch>
+Date: Fri, 16 May 2014 12:15:05 +0200
+Subject: [PATCH] Use pthread on linux, as suggested by Matevz
+
+---
+ core/thread/inc/ThreadLocalStorage.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/thread/inc/ThreadLocalStorage.h b/core/thread/inc/ThreadLocalStorage.h
+index 392d5d0..721c4ae 100644
+--- a/core/thread/inc/ThreadLocalStorage.h
++++ b/core/thread/inc/ThreadLocalStorage.h
+@@ -51,7 +51,7 @@
+ #  endif
+ #endif
+ #if defined(R__LINUX) || defined(R__AIX)
+-#  define R__HAS___THREAD
++#    define R__HAS_PTHREAD
+ #endif
+ #if defined(R__SOLARIS)
+ #  define R__HAS_PTHREAD
+-- 
+2.0.3
+
