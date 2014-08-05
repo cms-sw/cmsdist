@@ -1,0 +1,21 @@
+From 4dd4cfa4340cc3ff61684f943392eeeff793c3a5 Mon Sep 17 00:00:00 2001
+From: Lukasz Janyst <ljanyst@cern.ch>
+Date: Thu, 05 Jul 2012 16:58:46 +0200
+Subject: Properly chceck the redirect counter
+
+---
+diff --git a/src/XrdClient/XrdClient.cc b/src/XrdClient/XrdClient.cc
+index aa504e1..e2fffbe 100644
+--- a/src/XrdClient/XrdClient.cc
++++ b/src/XrdClient/XrdClient.cc
+@@ -1017,7 +1017,7 @@ bool XrdClient::TryOpen(kXR_unt16 mode, kXR_unt16 options, bool doitparallel) {
+       while( fConnModule->LastServerError.errnum == kXR_NotAuthorized )
+       {
+ 
+-        if( fConnModule->GetRedirCnt() > fConnModule->GetMaxRedirCnt() )
++        if( fConnModule->GetRedirCnt() >= fConnModule->GetMaxRedirCnt() )
+           break;
+ 
+         //----------------------------------------------------------------------
+--
+cgit v0.9.0.3
