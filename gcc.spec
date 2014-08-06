@@ -1,11 +1,13 @@
-### RPM external gcc 4.9.0
+### RPM external gcc 4.9.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
-%define gccRevision 209275
-%define gccBranch trunk
-Source0: svn://gcc.gnu.org/svn/gcc/trunk?module=gcc-%{gccBranch}-%{gccRevision}&revision=%{gccRevision}&output=/gcc-%{gccBranch}-%{gccRevision}.tar.gz
+%define gccRevision 212975
+%define gccBranch tags/gcc_4_9_1_release
+
+%define moduleName gcc-%(echo %{gccBranch} | tr / _)-%{gccRevision}
+Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{gccRevision}&output=/%{moduleName}.tar.gz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
@@ -45,7 +47,7 @@ Source11: http://garr.dl.sourceforge.net/project/flex/flex-%{flexVersion}.tar.bz
 
 %prep
 
-%setup -T -b 0 -n gcc-%gccBranch-%gccRevision
+%setup -T -b 0 -n %{moduleName}
 
 # Filter out private stuff from RPM requires headers.
 cat << \EOF > %{name}-req
@@ -54,7 +56,7 @@ cat << \EOF > %{name}-req
 sed -e '/GLIBC_PRIVATE/d'
 EOF
 
-%global __find_requires %{_builddir}/gcc-%{gccBranch}-%{gccRevision}/%{name}-req
+%global __find_requires %{_builddir}/%{moduleName}/%{name}-req
 chmod +x %{__find_requires}
 
 %if %islinux
@@ -263,7 +265,7 @@ case %{cmsplatf} in
 esac
 
 # Build GCC
-cd ../gcc-%{gccBranch}-%{gccRevision}
+cd ../%{moduleName}
 rm gcc/DEV-PHASE
 touch gcc/DEV-PHASE
 mkdir -p obj
@@ -287,7 +289,7 @@ make %{makeprocesses} bootstrap
 make install
 
 %install
-cd %_builddir/gcc-%gccBranch-%gccRevision/obj && make install 
+cd %_builddir/%{moduleName}/obj && make install 
 
 ln -s gcc %i/bin/cc
 find %i/lib %i/lib64 -name '*.la' -exec rm -f {} \; || true
