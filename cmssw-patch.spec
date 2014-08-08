@@ -9,12 +9,16 @@ Requires: cmssw-patch-tool-conf
 %define baserel_postfix %{nil}
 %if "%(case %realversion in (*_ICC_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define branch		%(echo %realversion | sed -e 's|_ICC_X.*|_X|')
-%define preBuildCommand scram setup icc-cxxcompiler ; scram setup icc-f77compiler ; scram setup icc-ccompiler ; perl -p -i -e 's|<client>|<client><flags DEFAULT_COMPILER="icc"/>|' %i/config/Self.xml; export COMPILER=icc ;
+%define gitcommit       %(echo %realversion | sed -e 's|_ICC_X|_X|')
+%define scram_compiler  icc
+%define extra_tools     icc-cxxcompiler icc-f77compiler icc-ccompiler
 %endif
 
 %if "%(case %realversion in (*_CLANG_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define branch		%(echo %realversion | sed -e 's|_CLANG_X.*|_X|')
-%define preBuildCommand scram setup llvm-cxxcompiler ; scram setup llvm-f77compiler ; scram setup llvm-ccompiler ; perl -p -i -e 's|<client>|<client><flags DEFAULT_COMPILER="llvm"/>|' %i/config/Self.xml; export COMPILER=llvm ;
+%define gitcommit       %(echo %realversion | sed -e 's|_CLANG_X|_X|')
+%define scram_compiler  llvm
+%define extra_tools     llvm-cxxcompiler llvm-f77compiler llvm-ccompiler
 %endif
 
 ## IMPORT cmssw-patch-build
