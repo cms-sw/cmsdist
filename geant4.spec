@@ -10,6 +10,8 @@ Requires: clhep
 Requires: expat
 Requires: xerces-c
 
+Patch0: geant4-10.0p02-cms01
+
 %define keep_archives true
 
 %if "%{?cms_cxx:set}" != "set"
@@ -18,6 +20,7 @@ Requires: xerces-c
 
 %prep
 %setup -n %{n}.%{realversion}
+%patch0 -p1
 
 %build
 
