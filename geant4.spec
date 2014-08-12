@@ -1,5 +1,5 @@
 ### RPM external geant4 10.00.p02
-%define tag 122f5b1be5
+%define tag c27c8b4a5a3
 %define branch cms/4.%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
@@ -10,8 +10,6 @@ Requires: clhep
 Requires: expat
 Requires: xerces-c
 
-Patch0: geant4-10.0p02-cms01
-
 %define keep_archives true
 
 %if "%{?cms_cxx:set}" != "set"
@@ -20,7 +18,6 @@ Patch0: geant4-10.0p02-cms01
 
 %prep
 %setup -n %{n}.%{realversion}
-%patch0 -p1
 
 %build
 
