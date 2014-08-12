@@ -1,12 +1,14 @@
 ### RPM external gitweb 1.8.2.3
-Requires: apache-setup apache2 mod_perl2 
+Requires: apache-setup apache2 mod_perl2
 Source: git://git.kernel.org/pub/scm/git/git?obj=master/v%realversion&export=%n&output=/%n.tar.gz
-Patch: gitweb-do-not-guess-owner
+Patch0: gitweb-do-not-guess-owner
+Patch1: gitweb-fix-tab-title
 BuildRequires: autotools
 
 %prep
 %setup -n %n
-%patch -p0
+%patch0 -p0
+%patch1 -p0
 
 %build
 make configure
