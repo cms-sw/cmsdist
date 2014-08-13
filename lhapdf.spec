@@ -46,6 +46,7 @@ make install
 make distclean
 ./configure --prefix=%{i}/full --enable-static --disable-shared \
             --enable-pyext --disable-octave --disable-doxygen \
+            --with-max-num-pdfsets=5 \
             FC="$FC" CXX="$CXX" CC="$CC" \
             CXXFLAGS="%cms_cxxflags"
 make %{makeprocesses}
