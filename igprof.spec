@@ -2,7 +2,7 @@
 
 %define git_repo ktf
 %define git_branch master
-%define git_commit v%{realversion}
+%define git_commit d2392737fb612669458e2210564a87782f0dbbbd
 Source0: git://github.com/ktf/igprof.git?obj=%{git_branch}/%{git_commit}&export=igprof-%{git_commit}&output=/igprof-%{git_commit}.tgz
 #Source0: git:/build/eulisse/ext/CMSSW_7_0_X/20131011_1816/igprof/.git?obj=master/%{git_commit}&export=igprof-%{git_commit}&output=/igprof-%{git_commit}.tgz
 Requires: pcre
