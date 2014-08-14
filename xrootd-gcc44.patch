@@ -1,0 +1,55 @@
+diff -aur xrootd.orig/src/XrdBwm/XrdBwmHandle.cc xrootd/src/XrdBwm/XrdBwmHandle.cc
+--- xrootd.orig/src/XrdBwm/XrdBwmHandle.cc	2011-06-08 15:37:12.000000000 +0200
++++ xrootd/src/XrdBwm/XrdBwmHandle.cc	2011-06-08 15:39:02.000000000 +0200
+@@ -23,6 +23,7 @@
+ #include "XrdSys/XrdSysPlatform.hh"
+ 
+ #include "XProtocol/XProtocol.hh"
++#include <cstdio>
+ 
+ /******************************************************************************/
+ /*                        S t a t i c   O b j e c t s                         */
+diff -aur xrootd.orig/src/XrdCms/XrdCmsAdmin.cc xrootd/src/XrdCms/XrdCmsAdmin.cc
+--- xrootd.orig/src/XrdCms/XrdCmsAdmin.cc	2011-06-08 15:37:12.000000000 +0200
++++ xrootd/src/XrdCms/XrdCmsAdmin.cc	2011-06-08 15:39:02.000000000 +0200
+@@ -18,6 +18,7 @@
+ #include <limits.h>
+ #include <unistd.h>
+ #include <sys/types.h>
++#include <cstdio>
+ 
+ #include "XProtocol/YProtocol.hh"
+ 
+diff -aur xrootd.orig/src/XrdCms/XrdCmsCache.cc xrootd/src/XrdCms/XrdCmsCache.cc
+--- xrootd.orig/src/XrdCms/XrdCmsCache.cc	2011-06-08 15:37:12.000000000 +0200
++++ xrootd/src/XrdCms/XrdCmsCache.cc	2011-06-08 15:39:02.000000000 +0200
+@@ -25,6 +25,7 @@
+ 
+ #include "Xrd/XrdJob.hh"
+ #include "Xrd/XrdScheduler.hh"
++#include <cstdio>
+ 
+ namespace XrdCms
+ {
+diff -aur xrootd.orig/src/XrdCms/XrdCmsParser.cc xrootd/src/XrdCms/XrdCmsParser.cc
+--- xrootd.orig/src/XrdCms/XrdCmsParser.cc	2011-06-08 15:37:12.000000000 +0200
++++ xrootd/src/XrdCms/XrdCmsParser.cc	2011-06-08 15:39:02.000000000 +0200
+@@ -21,6 +21,7 @@
+ #include <string.h>
+ #include <netinet/in.h>
+ #include <sys/types.h>
++#include <cstdio>
+ 
+ #include "XrdCms/XrdCmsParser.hh"
+ #include "XrdCms/XrdCmsRRData.hh"
+diff -aur xrootd.orig/src/XrdCms/XrdCmsResp.cc xrootd/src/XrdCms/XrdCmsResp.cc
+--- xrootd.orig/src/XrdCms/XrdCmsResp.cc	2011-06-08 15:37:12.000000000 +0200
++++ xrootd/src/XrdCms/XrdCmsResp.cc	2011-06-08 15:39:02.000000000 +0200
+@@ -27,6 +27,7 @@
+ #include "XrdNet/XrdNetBuffer.hh"
+ #include "XrdSfs/XrdSfsInterface.hh"
+ #include "XrdSys/XrdSysError.hh"
++#include <cstdio>
+ 
+ using namespace XrdCms;
+  
