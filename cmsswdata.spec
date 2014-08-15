@@ -44,6 +44,7 @@ Requires: data-Configuration-Generator
 Requires: data-DQM-PhysicsHWW
 Requires: data-CondFormats-JetMETObjects
 Requires: data-RecoLocalCalo-EcalDeadChannelRecoveryAlgos
+Requires: data-RecoHI-HiJetAlgos
 
 %if %isnotonline
 # extra data dependencies for standard builds
