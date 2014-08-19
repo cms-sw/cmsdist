@@ -117,6 +117,7 @@ Requires: cgal-toolfile
 Requires: doxygen-toolfile
 Requires: py2-python-dateutil-toolfile
 Requires: yaml-cpp-toolfile
+Requires: fastjet-contrib-toolfile
 
 # Only for Linux platform.
 %if %islinux
