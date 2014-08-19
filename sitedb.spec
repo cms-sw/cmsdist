@@ -5,7 +5,7 @@
 ## INITENV SETV SITEDB_LEGACY_PYTHONPATH %i/legacy
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 0.9.79
+%define wmcver 0.9.97.pre6
 
 Source0: git://github.com/dmwm/WMCore?obj=master/%wmcver&export=wmcore_%n&output=/wmcore_%n.tar.gz
 Source1: git://github.com/dmwm/sitedb?obj=master/%realversion&export=%n&output=/%n.tar.gz
