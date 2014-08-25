@@ -16,12 +16,9 @@ Requires: hepmc
 %prep
 %setup -q -n herwig++/%{realversion}
 
-%patch0 -p1
-%patch1 -p2
-
 %build
 ./configure --disable-silent-rules  --with-gsl=$GSL_ROOT --with-thepeg=$THEPEG_ROOT --with-boost=${BOOST_ROOT} --prefix=%i \
-  CXXFLAGS="-O2 -fuse-cxa-atexit %cms_cxxflags" CXX="%cms_cxx"
+  CXXFLAGS="-fuse-cxa-atexit %cms_cxxflags" CXX="%cms_cxx"
 
 # Fix up a configuration mistake coming from a test being confused
 # by the "skipping incompatible" linking messages when linking 32bit on 64bit
