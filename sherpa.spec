@@ -32,8 +32,11 @@ case %cmsplatf in
 esac
 
 %build
-./configure --prefix=%i --enable-analysis --disable-silent-rules --enable-fastjet=$FASTJET_ROOT \
-            --enable-hepmc2=$HEPMC_ROOT --enable-lhapdf=$LHAPDF_ROOT --enable-blackhat=$BLACKHAT_ROOT --with-sqlite3=$SQLITE_ROOT \
+./configure --prefix=%i --enable-analysis --disable-silent-rules \
+            --enable-pythia \
+            --enable-fastjet=$FASTJET_ROOT --enable-hepmc2=$HEPMC_ROOT \
+            --enable-lhapdf=$LHAPDF_ROOT --enable-blackhat=$BLACKHAT_ROOT \
+            --with-sqlite3=$SQLITE_ROOT \
             CXX="%cms_cxx" \
             CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF %cms_cxxflags -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$OPENSSL_ROOT/include" \
             LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib -L$OPENSSL_ROOT/lib"
