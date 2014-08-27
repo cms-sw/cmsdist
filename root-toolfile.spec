@@ -40,7 +40,6 @@ cat << \EOF_TOOLFILE > %{i}/etc/scram.d/root_cxxdefaults.xml
   <runtime name="ROOT_INCLUDE_PATH" value="@GCC_ROOT@/include/c++/@GCC_VERSION@/@TARGET_TRIPLET@" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="@GCC_ROOT@/include/c++/@GCC_VERSION@/backward" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="/usr/local/include" type="path"/>
-  <runtime name="ROOT_INCLUDE_PATH" value="@TOOL_ROOT@/etc/cling/lib/clang/3.5/include" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="/usr/include" type="path"/>
 </tool>
 EOF_TOOLFILE
