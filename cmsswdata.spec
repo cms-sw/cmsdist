@@ -45,6 +45,7 @@ Requires: data-DQM-PhysicsHWW
 Requires: data-CondFormats-JetMETObjects
 Requires: data-RecoLocalCalo-EcalDeadChannelRecoveryAlgos
 Requires: data-RecoHI-HiJetAlgos
+Requires: data-GeneratorInterface-EvtGenInterface
 
 %if %isnotonline
 # extra data dependencies for standard builds
