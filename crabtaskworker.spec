@@ -11,6 +11,7 @@ Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=C
 
 #Patch0: crabtaskworker-setup
 
+Requires: p5-time-hires
 Requires: python  dbs-client dls-client dbs3-client py2-pycurl py2-httplib2 cherrypy condor
 BuildRequires: py2-sphinx
 
