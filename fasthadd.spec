@@ -1,8 +1,8 @@
 ### RPM external fasthadd 1.1
 
-%define tag e193ee35083c2c1583e186130891087d6a4c7ac1 #commit mapped to CMSSW_7_1_6
-Source0: https://raw.githubusercontent.com/cms-sw/cmssw/%tag/DQMServices/Components/bin/fastHadd.cc
-Source1: https://raw.githubusercontent.com/cms-sw/cmssw/%tag/DQMServices/Core/src/ROOTFilePB.proto
+%define commit e193ee35083c2c1583e186130891087d6a4c7ac1 #commit mapped to CMSSW_7_1_6
+Source0: https://raw.githubusercontent.com/cms-sw/cmssw/%commit/DQMServices/Components/bin/fastHadd.cc
+Source1: https://raw.githubusercontent.com/cms-sw/cmssw/%commit/DQMServices/Core/src/ROOTFilePB.proto
 Requires: protobuf root
 
 %prep
