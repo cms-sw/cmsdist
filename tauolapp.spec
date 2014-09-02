@@ -1,4 +1,4 @@
-### RPM external tauolapp 1.1.1a
+### RPM external tauolapp 1.1.4
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/tauola++/tauola++-%{realversion}-src.tgz
 Requires: hepmc
 Requires: pythia8
@@ -13,6 +13,7 @@ Requires: lhapdf
 %endif
 
 %define keep_archives true
+
 %if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: gfortran-macosx
 %endif
@@ -25,7 +26,7 @@ export HEPMCVERSION=${HEPMC_VERSION}
 export LHAPDF_LOCATION=${LHAPDF_ROOT}
 export PYTHIA8_LOCATION=${PYTHIA8_ROOT}
 
-case %cmsplatf in 
+case %cmsplatf in
   osx*)
 #%patch0 -p2
   ;;
