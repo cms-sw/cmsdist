@@ -1,4 +1,4 @@
-### RPM cms data-SimG4CMS-Calo V02-03-07
+### RPM cms data-SimG4CMS-Calo V03-00-00
 
 %prep
 
@@ -6,8 +6,8 @@
 %define base_url "http://cmsdoc.cern.ch/cms/data/CMSSW"
 
 cat << CMS_EOF >> ./sources
-SimG4CMS/Calo/data/hfshowerlibrary_lhep_140_edm.root
-SimG4CMS/Calo/data/HFShowerLibrary_npmt_eta4_16en.root
+SimG4CMS/Calo/data/HFShowerLibrary_npmt_noatt_eta4_16en.root
+SimG4CMS/Calo/data/HFShowerLibrary_oldpmt_noatt_eta4_16en.root
 CMS_EOF
 
 ## IMPORT data-package-build
