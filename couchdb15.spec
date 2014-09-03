@@ -1,4 +1,4 @@
-### RPM external couchdb 1.5.1
+### RPM external couchdb15 1.5.1
 
 # Using the svn url instead of the default release on because we need the
 # bootstrap script after patching the Makefile.am
@@ -33,7 +33,7 @@ export ACLOCAL=$AUTOTOOLS_ROOT/bin/aclocal
 export AUTOCONF=$AUTOTOOLS_ROOT/bin/autoconf
 export AUTOMAKE=$AUTOTOOLS_ROOT/bin/automake
 export AUTOHEADER=$AUTOTOOLS_ROOT/bin/autoheader
-./configure --prefix=%i --with-js-lib=$SPIDERMONKEY_ROOT/lib --with-js-include=$SPIDERMONKEY_ROOT/include --with-erlang=$ERLANG_ROOT/lib/erlang/usr/include --with-win32-icu-binaries=$ICU4C_ROOT
+./configure --prefix=%i --with-js-lib=$SPIDERMONKEY_ROOT/lib --with-js-include=$SPIDERMONKEY_ROOT/include/js --with-erlang=$ERLANG_ROOT/lib/erlang/usr/include --with-win32-icu-binaries=$ICU4C_ROOT
 make %makeprocesses
 
 %install
