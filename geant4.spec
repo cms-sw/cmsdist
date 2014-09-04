@@ -1,15 +1,14 @@
-### RPM external geant4 10.00.p01
-
-Source0: http://geant4.cern.ch/support/source/%{n}.%{realversion}.tar.gz
+### RPM external geant4 10.00.p02
+%define tag 122f5b1be5
+%define branch cms/4.%{realversion}
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
 
 BuildRequires: cmake
 
 Requires: clhep
 Requires: expat
 Requires: xerces-c
-
-Patch0: geant4-10.0-no-banner
-Patch1: geant4-10.0.p01-dynamic-tls
 
 %define keep_archives true
 
@@ -19,9 +18,6 @@ Patch1: geant4-10.0.p01-dynamic-tls
 
 %prep
 %setup -n %{n}.%{realversion}
-
-%patch0 -p1
-%patch1 -p1
 
 %build
 
@@ -36,6 +32,7 @@ cd ../build
 
 cmake ../%{n}.%{realversion} \
   -DCMAKE_CXX_COMPILER="%cms_cxx" \
+  -DCMAKE_CXX_FLAGS="-fPIC" \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_INSTALL_LIBDIR="lib" \
   -DCMAKE_BUILD_TYPE=Release \
@@ -51,13 +48,21 @@ cmake ../%{n}.%{realversion} \
   -DGEANT4_INSTALL_EXAMPLES=OFF \
   -DGEANT4_USE_SYSTEM_CLHEP=ON \
   -DGEANT4_BUILD_MULTITHREADED=OFF \
+  -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="-fPIC" \
+  -DCMAKE_STATIC_LIBRARY_C_FLAGS="-fPIC"
 
-make %makeprocesses VERBOSE=1
+make %makeprocesses
 
 %install
 
 cd ../build
 make install
+
+mkdir -p %i/lib/archive
+cd %i/lib/archive
+find %i/lib -name "*.a" -exec ar x {} \;
+ar rcs libgeant4-static.a *.o
+find . -name "*.o" -delete
 
 %post
 %{relocateConfig}lib/Geant4-*/Geant4Config.cmake
