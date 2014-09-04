@@ -1,7 +1,7 @@
 ### RPM external py2-matplotlib 1.3.1
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 Source: http://sourceforge.net/projects/matplotlib/files/matplotlib/matplotlib-%{realversion}/matplotlib-%{realversion}.tar.gz
-Requires: py2-pytz py2-numpy py2-python-dateutil zlib libpng freetype
+Requires: py2-pytz py2-numpy py2-python-dateutil zlib libpng freetype py2-pyparsing
 BuildRequires: py2-setuptools
 
 %prep
