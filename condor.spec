@@ -6,7 +6,7 @@
 Source: git://github.com/htcondor/htcondor.git?obj=master/%{condortag}&export=condor-%{realversion}&output=/condor-%{realversion}.tar.gz
 Patch0: cms-htcondor-build
 
-Requires: openssl zlib expat pcre libtool python boost p5-archive-tar curl libxml2
+Requires: openssl zlib expat pcre libtool python boost p5-archive-tar curl libxml2 p5-time-hires
 BuildRequires: cmake gcc
 
 %prep
