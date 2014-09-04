@@ -1,5 +1,5 @@
 ### RPM external gitweb 1.8.2.3
-Requires: apache-setup apache2 mod_perl2
+Requires: apache-setup apache2 mod_perl2 p5-time-hires 
 Source: git://git.kernel.org/pub/scm/git/git?obj=master/v%realversion&export=%n&output=/%n.tar.gz
 Patch0: gitweb-do-not-guess-owner
 Patch1: gitweb-fix-tab-title
