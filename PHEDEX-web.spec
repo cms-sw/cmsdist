@@ -59,7 +59,7 @@ cat > %i/Documentation/WebSite/PlotConfig/tools/phedex-web.py <<-EOF
 	from graphtool.base.xml_config import XmlConfig
 	import sys, cherrypy
 	xc = XmlConfig(file=sys.argv[1]) 
-	cherrypy.server.quickstart()
+	cherrypy.quickstart()
 	cherrypy.engine.start() 
 	xc.globals['web'].kill()
 EOF
