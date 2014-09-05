@@ -10,6 +10,7 @@
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
 Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
 
+Requires: p5-time-hires
 Requires: python cherrypy py2-cjson rotatelogs py2-pycurl py2-httplib2 py2-sqlalchemy py2-cx-oracle
 Requires: py2-pyopenssl condor mysql py2-mysqldb dbs3-pycurl-client dbs-client dbs3-client
 BuildRequires: py2-sphinx
