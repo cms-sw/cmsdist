@@ -124,6 +124,7 @@ Requires: yaml-cpp-toolfile
 Requires: fastjet-contrib-toolfile
 Requires: geant4-parfullcms-toolfile
 Requires: fasthadd
+Requires: eigen-toolfile
 
 # Only for Linux platform.
 %if %islinux
