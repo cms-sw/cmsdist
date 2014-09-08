@@ -1,4 +1,4 @@
-### RPM external tauolapp 1.1.4
+### RPM external tauolapp 1.1.5
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/tauola++/tauola++-%{realversion}-src.tgz
 Requires: hepmc
 Requires: pythia8
@@ -45,3 +45,12 @@ make
 
 %install
 make install
+
+ls
+ls 
+mkdir %{i}/share
+ls TauSpinner
+ls TauSpinner/examples
+ls TauSpinner/examples/CP-tests
+ls TauSpinner/examples/CP-tests/Z-pi
+cp TauSpinner/examples/CP-tests/Z-pi/*.txt %{i}/share/
