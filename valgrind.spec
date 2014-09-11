@@ -1,4 +1,4 @@
-### RPM external valgrind 3.9.0
+### RPM external valgrind 3.10.0
 ## INITENV SET VALGRIND_LIB %{i}/lib/valgrind
 %define rev %(echo %{realversion} | cut -d- -f2)
 #Source: svn://svn.valgrind.org/valgrind/trunk?revision=%{rev}&module=%{n}-%{realversion}&output=/%{n}-%{realversion}.tar.gz
@@ -18,7 +18,7 @@ case %{cmsplatf} in
   osx*) 
     CFLAGS="-D__private_extern__=extern" 
     ;;
-  *_amd64_*)
+  *_amd64_*|*_aarch64_*)
     CONF_OPTS="--enable-only64bit"
     ;;
 esac
