@@ -273,17 +273,13 @@ rm -fR %{srctree} tmp
 
 # handle debug symbols
 if [ "%{n}" == "coral" ]; then
-  BASE_LIB_PATH=%i/%cmsplatf/lib
-  BASE_BIN_PATH=
-  BASE_TEST_PATH=%i/%cmsplatf/tests/bin
+  ELF_DIRS="%i/%cmsplatf/lib %i/%cmsplatf/tests/bin"
 else
-  BASE_LIB_PATH=%i/lib/%cmsplatf
-  BASE_BIN_PATH=%i/bin/%cmsplatf
-  BASE_TEST_PATH=%i/test/%cmsplatf
+  ELF_DIRS="%i/lib/%cmsplatf %i/biglib/%cmsplatf %i/bin/%cmsplatf %i/test/%cmsplatf"
 fi
 
 # optimise the debug symbols, compress them, and split them into separate file
-for DIR in $BASE_LIB_PATH $BASE_BIN_PATH $BASE_TEST_PATH; do
+for DIR in $ELF_DIRS; do
   pushd $DIR
   mkdir -p .debug
   # ELF binaries
@@ -301,7 +297,7 @@ done
 %if "%{?subpackageDebug:set}" == "set"
 rm -f %_builddir/files.debug %_builddir/files
 touch %_builddir/files.debug %_builddir/files
-for DIR in $BASE_LIB_PATH $BASE_BIN_PATH $BASE_TEST_PATH; do
+for DIR in $ELF_DIRS; do
   DIR=`echo $DIR | sed 's|^%i/|%{installroot}/%{pkgrel}/|'`
   echo "%exclude $DIR/.debug"   >> %_builddir/files
   echo "$DIR/.debug"            >> %_builddir/files.debug
