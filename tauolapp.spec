@@ -46,11 +46,5 @@ make
 %install
 make install
 
-ls
-ls 
 mkdir %{i}/share
-ls TauSpinner
-ls TauSpinner/examples
-ls TauSpinner/examples/CP-tests
-ls TauSpinner/examples/CP-tests/Z-pi
 cp TauSpinner/examples/CP-tests/Z-pi/*.txt %{i}/share/
