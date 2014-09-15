@@ -1,5 +1,5 @@
 ### RPM lcg roofit 5.34.18
-%define tag 6685636b54f8cfc022a84f7a29240fb62bc1c746
+%define tag 67f4a75ab16f64c105fada126f1f3a9aaed6bf77
 %define branch cms/v5-34-18
 %define github_user cms-sw
 Source: git+https://github.com/%github_user/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
