@@ -110,8 +110,8 @@ CONFIG_ARGS="--enable-table
              --with-cc=gcc
              --with-ld=g++
              --disable-qt --disable-qtgsi
-	     --with-cint-maxstruct=36000
-	     --with-cint-maxtypedef=36000
+	     --with-cint-maxstruct=37000
+	     --with-cint-maxtypedef=37000
 	     --with-cint-longline=4096
              --disable-hdfs
              --disable-oracle ${EXTRA_CONFIG_ARGS}"
