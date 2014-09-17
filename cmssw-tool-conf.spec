@@ -128,6 +128,8 @@ Requires: blackhat-toolfile
 Requires: sherpa-toolfile
 Requires: geant4-parfullcms-toolfile
 Requires: fasthadd
+Requires: photospp-toolfile
+Requires: evtgen-toolfile
 
 # Only for Linux platform.
 %if %islinux
