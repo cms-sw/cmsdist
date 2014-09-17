@@ -116,6 +116,14 @@ TARGET_PLATF=
   TARGET_PLATF=linuxarm
 %endif
 
+cat <<\EOF >> MyConfig.mk
+CFLAGS+=-g -fsanitize=address -fno-omit-frame-pointer
+CXXFLAGS+=-g -fsanitize=address -fno-omit-frame-pointer
+LDFLAGS+=-g -fsanitize=address
+CINTCFLAGS+=-g -fsanitize=address -fno-omit-frame-pointer
+CINTCXXFLAGS+=-g -fsanitize=address -fno-omit-frame-pointer
+EOF
+
 ./configure ${TARGET_PLATF} ${CONFIG_ARGS} ${EXTRA_OPTS}
 
 make %{makeprocesses}
