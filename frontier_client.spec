@@ -1,4 +1,4 @@
-### RPM external frontier_client 2.8.10
+### RPM external frontier_client 2.8.11
 ## INITENV +PATH PYTHONPATH %{i}/python/lib
 
 Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
@@ -36,7 +36,7 @@ Patch1: frontier_client-2.8.8-add-python-dbapi
 %build
 
 export MAKE_ARGS=%{makeargs}
-make $MAKE_ARGS CXXFLAGS="%cms_cxxflags -ldl"
+make $MAKE_ARGS CXXFLAGS="%cms_cxxflags -ldl" CFLAGS="-I${OPENSSL_ROOT}/include"
 
 %install
 mkdir -p %i/lib
