@@ -28,6 +28,11 @@ Requires: cmssw-tool-conf python cms-git-tools
 %define usercxxflags    -fexceptions -fstack-protector-all --param=ssp-buffer-size=4
 %endif
 
+%if "%(case %realversion in (*_ASAN_X*) echo true ;; (*) echo false ;; esac)" == "true"
+%define branch %(echo %realversion | sed -e 's|_ASAN_X.*|_X|')
+%define usercxxflags -g -fno-omit-frame-pointer -fsanitize=address
+%endif
+
 %if "%(case %realversion in (*_ICC_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define branch		%(echo %realversion | sed -e 's|_ICC_X.*|_X|')
 %define gitcommit       %(echo %realversion | sed -e 's|_ICC_X|_X|')
