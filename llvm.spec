@@ -5,7 +5,7 @@ BuildRequires: python
 Requires: gcc
 
 %define llvmCommit f55c17bc339
-%define clangCommit 1a4f6626d3a
+%define clangCommit 656aa83af0b
 %define branch cms/v%realversion
 Source0: git+https://github.com/cms-externals/llvm.git?obj=%{branch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%realversion-%llvmCommit&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/cms-externals/clang.git?obj=%{branch}/%{clangCommit}&export=clang-%{realversion}-%{clangCommit}&module=clang-%realversion-%clangCommit&output=/clang-%{realversion}-%{clangCommit}.tgz
