@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-datasvc 2.3.18
+### RPM cms PHEDEX-datasvc 2.3.19
 ## INITENV +PATH PERL5LIB %i/perl_lib
 
 %define downloadn %(echo %n | cut -f1 -d-)
