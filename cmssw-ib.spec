@@ -1,11 +1,7 @@
 ### RPM cms cmssw-ib 1.0.0
 BuildRequires: cmssw SCRAMV1 local-cern-siteconf python
 %define initenv	        %initenv_direct
-#%define name1 1937
-#%define moduleName LogParser
-#%define url HTMLFiles/
-#Source: svn://svn.cern.ch/reps/CMSIntBld/tags/LogParser/parser?scheme=svn+ssh&revision=%{name1}&module=%{moduleName}&output=/%{moduleName}.tar.gz
-Source: svn://svn.cern.ch/reps/CMSIntBld/trunk/IntBuild?scheme=svn+ssh&revision=2829&module=IntBuild&output=/IntBuild.tar.gz
+Source: git://github.com/cms-sw/int-build.git?date=%(date +%%Y%%m%%d%%H%%M)&obj=master/HEAD&export=IntBuild&output=/int-build-%{realversion}.tgz
 %define scram $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
 
 %prep
