@@ -1,12 +1,14 @@
-### RPM cms cmssw CMSSW_7_2_DEVEL_X_2014-07-08-0900
+### RPM cms cmssw CMSSW_7_2_X_2014-08-23-1400
 
 Requires: cmssw-tool-conf python cms-git-tools
 
 %define runGlimpse      yes
 %define useCmsTC        yes
 %define saveDeps        yes
-%define branch          CMSSW_7_0_X
+%define branch          CMSSW_7_2_X
 %define gitcommit       %{realversion}
+# build with debug symbols, and package them in a separate rpm
+%define subpackageDebug yes
 
 %if "%(case %realversion in (*_COVERAGE_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define branch		%(echo %realversion | sed -e 's|_COVERAGE_X.*|_X|')
@@ -52,3 +54,4 @@ Requires: cmssw-tool-conf python cms-git-tools
 %define source1         git://github.com/cms-sw/cmssw.git?protocol=https&obj=%{branch}/%{gitcommit}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 
 ## IMPORT scram-project-build
+## SUBPACKAGE debug IF %subpackageDebug

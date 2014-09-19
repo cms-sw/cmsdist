@@ -63,7 +63,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-cxxcompiler.xml
     <flags CXXFLAGS="-Werror=unused-variable -Werror=conversion-null"/>
     <flags CXXFLAGS="-Werror=return-local-addr"/>
     <flags CXXFLAGS="-Werror=switch -fdiagnostics-show-option"/>
-    <flags CXXFLAGS="-Wno-unused-local-typedefs -Wno-attributes"/>
+    <flags CXXFLAGS="-Wno-unused-local-typedefs -Wno-attributes -Wno-psabi"/>
     <flags LDFLAGS="@OS_LDFLAGS@ @ARCH_LDFLAGS@ @COMPILER_LDFLAGS@"/>
     <flags CXXSHAREDFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@ @COMPILER_SHAREDFLAGS@"/>
     <flags LD_UNIT="@OS_LD_UNIT@ @ARCH_LD_UNIT@ @COMPILER_LD_UNIT@"/>
@@ -196,6 +196,13 @@ esac
 case %cmsplatf in
   *_gcc4[789]*)
     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fno-math-errno --param vect-max-version-for-alias-checks=50 -fipa-pta"
+  ;;
+esac
+
+# Compressed debug sections for linker
+case %cmsplatf in
+  *_gcc49*)
+    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Wa,--compress-debug-sections"
   ;;
 esac
 
