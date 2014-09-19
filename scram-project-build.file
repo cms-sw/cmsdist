@@ -197,6 +197,10 @@ export SCRAM_NOLOADCHECK=true
 export SCRAM_NOSYMCHECK=true
 %endif
 
+# For any builds, which adds '-g' flag LTO needs to be disabled, i.e.,
+# BigLibs needs to be disabled.
+%scramcmd b disable-biglib
+
 %{?preBuildCommand:%preBuildCommand}
 
 %scramcmd b -r echo_CXX </dev/null
