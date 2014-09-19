@@ -1,4 +1,4 @@
-### RPM cms DMWMMON-datasvc 1.0.1
+### RPM cms DMWMMON-datasvc 1.0.2
 ## INITENV +PATH PERL5LIB %i/perl_lib
 
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -34,7 +34,7 @@ rm -rf perl_lib/template
 rm -rf perl_lib/PHEDEX/{BlockActivate,BlockDelete,Debug.pm,Monalisa.pm,Testbed,BlockAllocator,BlockLatency,Error,Monitoring,Transfer,BlockArrive,BlockMonitor,File,BlockConsistency,Infrastructure,BlockDeactivate,LoadTest,Schema}
 rm perl_lib/PHEDEX/RequestAllocator/Agent.pm
 rm -rf perl_lib/PHEDEX/Core/{Agent,Config.pm,Agent.pm,JobManager.pm,RFIO.pm,Command.pm,Help.pm,SQLPLUS.pm,Config}
-rm -rf perl_lib/PHEDEX/Web/API/{Agent*,Block*,ComponentStatus.pm,D*,Error*,File*,Group*,Inject.pm,L*,M*,Node*,P*,Request*,SENames.pm,Shift,Subscri*,T*,U*}
+rm -rf perl_lib/PHEDEX/Web/API/{Agent*,Block*,ComponentStatus.pm,D*,Error*,File*,Group*,Inject.pm,L*,M*,NodeUsage*,P*,Request*,SENames.pm,Shift,Subscri*,T*,U*}
 
 %build
 mv %_builddir/%{setupdir}/PhEDExWeb/DataService/static/{phedex,dmwmmon}_pod.css
