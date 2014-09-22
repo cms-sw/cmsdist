@@ -1,4 +1,4 @@
-### RPM cms cmsswdata 27
+### RPM cms cmsswdata 28
 ## NOCOMPILER
 Source: none
 
@@ -9,28 +9,6 @@ Source: none
 
 Requires: data-DetectorDescription-Schema
 Requires: data-MagneticField-Interpolation
-Requires: data-Geometry-CMSCommonData
-Requires: data-Geometry-CSCGeometryBuilder
-Requires: data-Geometry-DTGeometryBuilder
-Requires: data-Geometry-EcalCommonData
-Requires: data-Geometry-EcalSimData
-Requires: data-Geometry-EcalTestBeam
-Requires: data-Geometry-FP420CommonData
-Requires: data-Geometry-FP420SimData
-Requires: data-Geometry-ForwardCommonData
-Requires: data-Geometry-ForwardSimData
-Requires: data-Geometry-HcalCommonData
-Requires: data-Geometry-HcalSimData
-Requires: data-Geometry-HcalTestBeamData
-Requires: data-Geometry-MTCCTrackerCommonData
-Requires: data-Geometry-MuonCommonData
-Requires: data-Geometry-MuonSimData
-Requires: data-Geometry-RPCGeometryBuilder
-Requires: data-Geometry-TrackerCommonData
-Requires: data-Geometry-TrackerRecoData
-Requires: data-Geometry-TrackerSimData
-Requires: data-Geometry-TwentyFivePercentTrackerCommonData
-Requires: data-Geometry-CaloEventSetup
 Requires: data-L1Trigger-RPCTrigger
 Requires: data-RecoParticleFlow-PFBlockProducer
 Requires: data-RecoParticleFlow-PFTracking
