@@ -90,6 +90,7 @@ Requires: py2-pycurl-toolfile
 Requires: py2-sqlalchemy-toolfile
 Requires: py2-pygithub-toolfile
 Requires: py2-networkx-toolfile
+Requires: py2-dablooms-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
 Requires: cython-toolfile
