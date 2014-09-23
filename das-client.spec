@@ -48,6 +48,10 @@ fi
 EOF
 chmod +x %i/bin/das-client
 
+# create web area
+mkdir -p %cmsroot/WEB/das-client
+cp -r %i/bin/* %cmsroot/WEB/das-client/
+
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
 : > %i/etc/profile.d/dependencies-setup.sh
