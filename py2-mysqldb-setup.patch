@@ -1,12 +1,23 @@
---- setup.py	2008-10-18 01:12:31.000000000 +0100
-+++ setup.py	2010-05-07 13:38:06.000000000 +0100
-@@ -2,7 +2,8 @@
- 
+--- setup.py	2012-10-08 18:02:23.000000000 +0200
++++ setup.py	2014-07-28 17:50:04.000000000 +0200
+@@ -3,9 +3,8 @@
  import os
  import sys
+
+-from distribute_setup import use_setuptools
+-use_setuptools()
 -from setuptools import setup, Extension
++import distutils.errors
 +from distutils.core import setup, Extension
-+is_setuptools = False
- 
- if sys.version_info < (2, 3):
-     raise Error("Python-2.3 or newer is required")
+
+ if not hasattr(sys, "hexversion") or sys.hexversion < 0x02040000:
+     raise Error("Python 2.4 or newer is required")
+@@ -16,6 +15,6 @@
+     from setup_windows import get_config
+
+ metadata, options = get_config()
+-metadata['ext_modules'] = [Extension(sources=['_mysql.c'], **options)]
++metadata['ext_modules'] = [distutils.core.Extension(sources=['_mysql.c'], **options)]
+ metadata['long_description'] = metadata['long_description'].replace(r'\n', '')
+-setup(**metadata)
++distutils.core.setup(**metadata)
