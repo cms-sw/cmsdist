@@ -1,8 +1,8 @@
 ### RPM lcg roofit 6.00.03-CMS
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 076737df957765d7c6fd2bca044b09bf630da5e5
-%define branch cms/ed656b8a
+%define tag 25c595b725bda20bf6211efe6eb61ddbd31524a4
+%define branch cms/7c8cba8
 %define github_user cms-sw
 Source: git+https://github.com/%github_user/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
