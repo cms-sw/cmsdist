@@ -1,4 +1,4 @@
-### RPM external pythia8 200pre1
+### RPM external pythia8 200pre2
 
 Requires: hepmc lhapdf
 
