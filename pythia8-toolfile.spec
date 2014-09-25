@@ -10,7 +10,6 @@ mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/pythia8.xml
 <tool name="pythia8" version="@TOOL_VERSION@">
   <lib name="pythia8"/>
-  <lib name="pythia8tohepmc"/>
   <client>
     <environment name="PYTHIA8_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$PYTHIA8_BASE/lib"/>
