@@ -90,6 +90,12 @@ Requires: py2-pycurl-toolfile
 Requires: py2-sqlalchemy-toolfile
 Requires: py2-pygithub-toolfile
 Requires: py2-networkx-toolfile
+Requires: py2-dxr-toolfile
+Requires: py2-futures-toolfile
+Requires: py2-jinja-toolfile
+Requires: py2-markupsafe-toolfile
+Requires: py2-ordereddict-toolfile
+Requires: py2-parsimonious-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
 Requires: cython-toolfile
