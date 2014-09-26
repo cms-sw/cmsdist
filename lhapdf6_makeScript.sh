@@ -6,8 +6,15 @@ rm -f lhapdf6_makeLinks.file
 echo "#!/bin/sh -e" > lhapdf6_makeLinks.file
 echo >> lhapdf6_makeLinks.file
 echo "#PDF sets list is made for:" >> lhapdf6_makeLinks.file
-echo "#lhapdf6Version = $1" >> lhapdf6_makeLinks.file
+echo "export lhapdf6Version=$1" >> lhapdf6_makeLinks.file
 echo >> lhapdf6_makeLinks.file
+echo "if [ x%1 != x%lhapdf6Version ]; then" >> lhapdf6_makeLinks.file
+echo "  echo lhapdf6_makeLinks: lhapdf6 versions do not coincide" >> lhapdf6_makeLinks.file
+echo "  echo please create this script by running hapdf6_makeScript.sh with correct version" >> lhapdf6_makeLinks.file
+echo "  exit 1" >> lhapdf6_makeLinks.file
+echo "fi" >> lhapdf6_makeLinks.file
+echo >> lhapdf6_makeLinks.file
+#
 echo "export cvmfspath=/cvmfs/cms.cern.ch/lhapdf/pdfsets/%1" >> lhapdf6_makeLinks.file
 export ss=`ls /cvmfs/cms.cern.ch/lhapdf/pdfsets/$1`
 echo export pdflist=@${ss}@ >> lhapdf6_makeLinks.file
