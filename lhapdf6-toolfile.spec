@@ -15,7 +15,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdf6.xml
     <environment name="LIBDIR" default="$LHAPDF6_BASE/lib"/>
     <environment name="INCLUDE" default="$LHAPDF6_BASE/include"/>
   </client>
-  <runtime name="LHAPDF_DATA_PATH" value="$LHAPDF6_BASE/share/LHAPDF/PDFsets"/>
+  <runtime name="LHAPDF_DATA_PATH" value="$LHAPDF6_BASE/share/LHAPDF"/>
   <use name="yaml-cpp"/>
 </tool>
 EOF_TOOLFILE
