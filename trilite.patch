@@ -1,0 +1,12 @@
+--- makefile.orig	2014-09-29 18:48:21.000000000 -0500
++++ makefile	2014-09-30 13:26:00.737812661 -0500
+@@ -9,7 +9,7 @@
+ release: LDFLAGS += -O3
+ release: re2/obj/libre2.a libtrilite.so
+ re2:
+-	hg clone https://re2.googlecode.com/hg re2
++	curl https://re2.googlecode.com/files/re2-20140304.tgz | tar xfz -
+ re2/obj/libre2.a: re2
+ 	$(MAKE) -C re2 CXXFLAGS='-Wall -O3 -pthread -fPIC'
+ %.o: %.cpp
+
