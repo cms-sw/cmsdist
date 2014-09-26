@@ -635,7 +635,7 @@ echo "Done."
 
 # Initialise the rpmdb using the new rpm.
 echo_n "Initializing local rpm database..."
-rpm --define "_rpmlock_path $rpmlock" -r $rootdir --dbpath $rootdir/$rpmdb --initdb || cleanup_and_exit 1 "Unable to initialize $rootdir/$rpmdb. Exiting."
+rpmdb --define "_rpmlock_path $rpmlock" -r $rootdir --dbpath $rootdir/$rpmdb --initdb || cleanup_and_exit 1 "Unable to initialize $rootdir/$rpmdb. Exiting."
 
 # Build the seed spec and install it, in order to seed the newly generated db.
 rpmOptions="-r $rootdir --dbpath $rootdir/$rpmdb --rcfile $DOWNLOAD_DIR/inst/$cmsplatf/external/rpm/$rpm_version/lib/rpm/rpmrc --nodeps --prefix $rootdir --ignoreos --ignorearch"

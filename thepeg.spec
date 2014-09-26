@@ -1,10 +1,11 @@
 ### RPM external thepeg 1.9.2
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/ThePEG
 ## INITENV +PATH DYLD_LIBRARY_PATH %i/lib/ThePEG
-Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
-Patch0: thepeg-1.7.0-break-termcap-dependence
-Patch1: thepeg-1.7.0-use-dylibs-macosx
-Patch6: thepeg-1.9.2-fix-bogus-ZLIB-HOME
+
+%define thepegCommit 6c5b5a01430
+%define branch cms/v%realversion
+
+Source: git+https://github.com/cms-externals/thepeg.git?obj=%{branch}/%{thepegCommit}&export=thepeg-%{realversion}-%{thepegCommit}&module=thepeg-%realversion-%thepegCommit&output=/thepeg-%{realversion}-%{thepegCommit}.tgz
 Requires: lhapdf
 Requires: gsl
 Requires: hepmc
@@ -24,15 +25,7 @@ Requires: gfortran-macosx
 %endif
 
 %prep
-%setup -q -n %{n}/%{realversion}
-%patch0 -p2
-#The patch for mac below is disabled, it does not work. If it is still needed, it is to be redone.
-case %cmsos in 
-  osx*)
-#%patch1 -p1
-  ;;
-esac
-%patch6 -p1
+%setup -q -n thepeg-%{realversion}-%{thepegCommit}
 
 # Trick make not to re-run aclocal, autoconf, automake, autoscan, etc.
 find . -exec touch -m -t 201201010000 {} \;

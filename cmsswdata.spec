@@ -36,6 +36,7 @@ Requires: data-RecoParticleFlow-PFBlockProducer
 Requires: data-RecoParticleFlow-PFTracking
 Requires: data-RecoParticleFlow-PFProducer
 Requires: data-RecoMuon-MuonIdentification
+Requires: data-RecoMET-METPUSubtraction
 Requires: data-RecoEgamma-ElectronIdentification
 Requires: data-RecoJets-JetProducers
 Requires: data-CalibTracker-SiPixelESProducers
@@ -44,6 +45,9 @@ Requires: data-Configuration-Generator
 Requires: data-DQM-PhysicsHWW
 Requires: data-CondFormats-JetMETObjects
 Requires: data-RecoLocalCalo-EcalDeadChannelRecoveryAlgos
+Requires: data-RecoHI-HiJetAlgos
+Requires: data-GeneratorInterface-EvtGenInterface
+Requires: data-MagneticField-Interpolation
 
 %if %isnotonline
 # extra data dependencies for standard builds

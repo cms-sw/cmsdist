@@ -4,7 +4,7 @@ Requires: hepmc
 Requires: pythia8
 Requires: tauolapp
 Requires: photospp
- 
+
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/evtgen/evtgen-1.3.0-src.tgz
 
 %if "%{?cms_cxx:set}" != "set"
@@ -32,7 +32,7 @@ export TAUOLAPP_LOCATION=${TAUOLAPP_ROOT}
 export PHOTOSPP_LOCATION=${PHOTOSPP_ROOT}
 
 
-./configure --prefix=%{i} --hepmcdir=$HEPMC_ROOT --pythiadir=$PYTHIA8_ROOT --tauoladir=$TAUOLAPP_ROOT --photosdir=$PHOTOSPP_ROOT CXXFLAGS="%cms_cxxflags"
+./configure --prefix=%{i} --hepmcdir=$HEPMC_ROOT --pythiadir=$PYTHIA8_ROOT --tauoladir=$TAUOLAPP_ROOT --photosdir=$PHOTOSPP_ROOT CXXFLAGS="%cms_cxxflags" 
 # One more fix-up for OSX (in addition to the patch above)
 case %cmsplatf in
   osx*)
