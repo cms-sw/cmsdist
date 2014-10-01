@@ -45,6 +45,7 @@ Requires: jemalloc-toolfile
 Requires: jimmy-toolfile
 Requires: ktjet-toolfile
 Requires: lhapdf-toolfile
+Requires: lhapdf6-toolfile
 Requires: libhepml-toolfile
 Requires: libjpg-toolfile
 Requires: libpng-toolfile
@@ -62,6 +63,7 @@ Requires: photos-toolfile
 Requires: pythia6-toolfile
 Requires: pythia8-toolfile
 Requires: python-toolfile
+Requires: cython-toolfile  
 Requires: py2-cx-oracle-toolfile
 Requires: qt-toolfile
 Requires: roofit-toolfile
@@ -119,7 +121,7 @@ Requires: google-perftools-toolfile
 Requires: igprof-toolfile
 %endif
 
-%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler lhapdf6
 
 ## IMPORT scramv1-tool-conf
 
