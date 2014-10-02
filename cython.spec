@@ -8,7 +8,9 @@ Requires: python
 %setup -q -n %{n}/%{realversion}
 
 %build
-${PYTHON_ROOT}/bin/python setup.py build
+python setup.py build
 
 %install
-${PYTHON_ROOT}/bin/python setup.py install --prefix %i
+python setup.py install --prefix %i
+perl -p -i -e "s|^#!%{cmsroot}/.*|#!/usr/bin/env python|" %{i}/bin/cython
+perl -p -i -e "s|^#!%{cmsroot}/.*|#!/usr/bin/env python|" %{i}/bin/cygdb
