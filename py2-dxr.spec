@@ -1,4 +1,4 @@
-### RPM external py2-dxr master
+### RPM external py2-dxr 1.0
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 BuildRequires: llvm sqlite
 Requires: python py2-setuptools py2-futures py2-jinja py2-markupsafe py2-ordereddict py2-parsimonious
@@ -7,33 +7,31 @@ Requires: python py2-setuptools py2-futures py2-jinja py2-markupsafe py2-ordered
 %define triliteCommit e64a2a1 
 %define re2Version 20140304
 %define branch master
-%define github_user mozilla
 
-Source0: git+https://github.com/%github_user/dxr.git?obj=%{branch}/%{dxrCommit}&export=dxr-%{realversion}-%{dxrCommit}&module=dxr-%realversion-%dxrCommit&output=/dxr-%{realversion}-%{dxrCommit}.tgz
-Source1: git+https://github.com/jonasfj/trilite.git?obj=%{branch}/%{triliteCommit}&export=trilite-%{realversion}-%{triliteCommit}&module=trilite-%realversion-%triliteCommit&output=/trilite-%{realversion}-%{triliteCommit}.tgz
+Source0: git+https://github.com/mozilla/dxr.git?obj=%{branch}/%{dxrCommit}&export=dxr-%{dxrCommit}&module=dxr-%dxrCommit&output=/dxr-%{dxrCommit}.tgz
+Source1: git+https://github.com/jonasfj/trilite.git?obj=%{branch}/%{triliteCommit}&export=trilite-%{triliteCommit}&module=trilite-%triliteCommit&output=/trilite-%{triliteCommit}.tgz
 Source2: https://re2.googlecode.com/files/re2-%re2Version.tgz
 Patch0: py2-dxr
 Patch1: trilite
 %define keep_archives true
 
 %prep
-%setup -T -b0 -n dxr-%realversion-%dxrCommit
-%setup -T -D -a1 -c -n dxr-%realversion-%dxrCommit
-%setup -T -D -a2 -n dxr-%realversion-%dxrCommit/trilite-%realversion-%triliteCommit
+%setup -T -b0 -n dxr-%dxrCommit
+%setup -T -D -a1 -c -n dxr-%dxrCommit
+%setup -T -D -a2 -n dxr-%dxrCommit/trilite-%triliteCommit
 %patch -P 1 -p0
 cd ..
 %patch -P 0 -p1
-mv trilite-%realversion-%triliteCommit/* trilite
-%setup -T -D -n dxr-%realversion-%dxrCommit
+mv trilite-%triliteCommit/* trilite
+%setup -T -D -n dxr-%dxrCommit
 
 
 %build
-make build-plugin-clang build-plugin-pygmentize;cd  trilite; make ; cd re2; make ; cd ../../; python setup.py build
+export SQLITE_ROOT; make build-plugin-clang build-plugin-pygmentize;cd  trilite; make release; cd re2; make ; cd ../../; python setup.py build
 
 
 %install
 mkdir %i/lib
 cp -p trilite/libtrilite.so %i/lib
-cp -p trilite/re2/obj/so/libre2.so.* %i/lib
 cp -p trilite/re2/obj/libre2.a %i/lib
 python setup.py install --prefix=%i  --single-version-externally-managed --record=/dev/null
