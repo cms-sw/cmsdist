@@ -4,7 +4,7 @@
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 0.9.95
+%define wmcver 1.0.0.pre3
 
 Source0: git://github.com/dmwm/WMCore?obj=master/%wmcver&export=wmcore_%n&output=/wmcore_%n.tar.gz
 Source1: git://github.com/dmwm/t0wmadatasvc?obj=master/%realversion&export=%n&output=/%n.tar.gz
