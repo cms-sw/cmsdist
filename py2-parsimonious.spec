@@ -1,11 +1,10 @@
-### RPM external py2-jinja 2.7.2
+### RPM external py2-parsimonious 0.6.1
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-
-Source: http://pypi.python.org/packages/source/J/Jinja2/Jinja2-%realversion.tar.gz
+Source: https://pypi.python.org/packages/source/p/parsimonious/parsimonious-%realversion.tar.gz
 Requires: python py2-setuptools
 
 %prep
-%setup -n Jinja2-%realversion
+%setup -n parsimonious-%realversion
 
 %build
 python setup.py build
