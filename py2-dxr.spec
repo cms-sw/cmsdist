@@ -35,3 +35,4 @@ mkdir %i/lib
 cp -p trilite/libtrilite.so %i/lib
 cp -p trilite/re2/obj/libre2.a %i/lib
 python setup.py install --prefix=%i  --single-version-externally-managed --record=/dev/null
+perl -p -i -e "s|^#!%{cmsroot}/.*|#!/usr/bin/env python|" %{i}/bin/*.py
