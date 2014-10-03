@@ -1,0 +1,3190 @@
+diff -arupN old/geant4/source/geometry/management/CMakeLists.txt geant4/source/geometry/management/CMakeLists.txt
+--- old/geant4/source/geometry/management/CMakeLists.txt	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/CMakeLists.txt	2014-08-08 11:38:55.000000000 +0200
+@@ -7,7 +7,7 @@
+ #
+ # Generated on : 24/9/2010
+ #
+-# $Id: CMakeLists.txt 66356 2012-12-18 09:02:32Z gcosmo $
++# $Id: CMakeLists.txt 66241 2012-12-13 18:34:42Z gunter $
+ #
+ #------------------------------------------------------------------------------
+ 
+diff -arupN old/geant4/source/geometry/management/GNUmakefile geant4/source/geometry/management/GNUmakefile
+--- old/geant4/source/geometry/management/GNUmakefile	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/GNUmakefile	2014-08-08 11:38:55.000000000 +0200
+@@ -1,4 +1,4 @@
+-# $Id: GNUmakefile 66356 2012-12-18 09:02:32Z gcosmo $
++# $Id: GNUmakefile 66241 2012-12-13 18:34:42Z gunter $
+ # -----------------------------------------------------------------------
+ # GNUmakefile for geometry/management library.  Gabriele Cosmo, 16/11/96.
+ # -----------------------------------------------------------------------
+diff -arupN old/geant4/source/geometry/management/History geant4/source/geometry/management/History
+--- old/geant4/source/geometry/management/History	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/History	2014-08-08 13:04:18.000000000 +0200
+@@ -1,4 +1,4 @@
+-$Id: History 81594 2014-06-03 14:05:18Z gcosmo $
++$Id: History 83190 2014-08-08 09:44:07Z vnivanch $
+ -------------------------------------------------------------------
+ 
+      =========================================================
+@@ -17,6 +17,10 @@ committal in the CVS repository !
+      * Reverse chronological order (last date on top), please *
+      ----------------------------------------------------------
+ 
++August 08, 2014 V.Ivanchenko               geommng-V09-06-19-cms
++July 11, 2014 A. Dotti                     
++- Solves possible data-race condition in G4GeaomSplitter
++
+ April 10, 2014 G.Cosmo                     geommng-V09-06-18
+ - Get rid of deprecated 'register' storage class specifier in source files.
+ 
+diff -arupN old/geant4/source/geometry/management/include/G4AffineTransform.hh geant4/source/geometry/management/include/G4AffineTransform.hh
+--- old/geant4/source/geometry/management/include/G4AffineTransform.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4AffineTransform.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4AffineTransform.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4AffineTransform.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // class G4AffineTransform
+diff -arupN old/geant4/source/geometry/management/include/G4AffineTransform.icc geant4/source/geometry/management/include/G4AffineTransform.icc
+--- old/geant4/source/geometry/management/include/G4AffineTransform.icc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4AffineTransform.icc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4AffineTransform.icc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4AffineTransform.icc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // G4AffineTransformation Inline implementation
+diff -arupN old/geant4/source/geometry/management/include/G4BlockingList.hh geant4/source/geometry/management/include/G4BlockingList.hh
+--- old/geant4/source/geometry/management/include/G4BlockingList.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4BlockingList.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4BlockingList.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4BlockingList.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // class G4BlockingList
+ //
+diff -arupN old/geant4/source/geometry/management/include/G4BlockingList.icc geant4/source/geometry/management/include/G4BlockingList.icc
+--- old/geant4/source/geometry/management/include/G4BlockingList.icc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4BlockingList.icc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4BlockingList.icc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4BlockingList.icc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // class G4BlockingList  Inlined Implementation
+diff -arupN old/geant4/source/geometry/management/include/G4ErrorCylSurfaceTarget.hh geant4/source/geometry/management/include/G4ErrorCylSurfaceTarget.hh
+--- old/geant4/source/geometry/management/include/G4ErrorCylSurfaceTarget.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4ErrorCylSurfaceTarget.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4ErrorCylSurfaceTarget.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4ErrorCylSurfaceTarget.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // --------------------------------------------------------------------
+diff -arupN old/geant4/source/geometry/management/include/G4ErrorPlaneSurfaceTarget.hh geant4/source/geometry/management/include/G4ErrorPlaneSurfaceTarget.hh
+--- old/geant4/source/geometry/management/include/G4ErrorPlaneSurfaceTarget.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4ErrorPlaneSurfaceTarget.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4ErrorPlaneSurfaceTarget.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4ErrorPlaneSurfaceTarget.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // --------------------------------------------------------------------
+diff -arupN old/geant4/source/geometry/management/include/G4ErrorSurfaceTarget.hh geant4/source/geometry/management/include/G4ErrorSurfaceTarget.hh
+--- old/geant4/source/geometry/management/include/G4ErrorSurfaceTarget.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4ErrorSurfaceTarget.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4ErrorSurfaceTarget.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4ErrorSurfaceTarget.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // --------------------------------------------------------------------
+diff -arupN old/geant4/source/geometry/management/include/G4ErrorTanPlaneTarget.hh geant4/source/geometry/management/include/G4ErrorTanPlaneTarget.hh
+--- old/geant4/source/geometry/management/include/G4ErrorTanPlaneTarget.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4ErrorTanPlaneTarget.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4ErrorTanPlaneTarget.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4ErrorTanPlaneTarget.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // ------------------------------------------------------------
+diff -arupN old/geant4/source/geometry/management/include/G4ErrorTarget.hh geant4/source/geometry/management/include/G4ErrorTarget.hh
+--- old/geant4/source/geometry/management/include/G4ErrorTarget.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4ErrorTarget.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4ErrorTarget.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4ErrorTarget.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // --------------------------------------------------------------------
+diff -arupN old/geant4/source/geometry/management/include/G4GeomSplitter.hh geant4/source/geometry/management/include/G4GeomSplitter.hh
+--- old/geant4/source/geometry/management/include/G4GeomSplitter.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4GeomSplitter.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -45,18 +45,22 @@
+ 
+ #include "globals.hh"
+ #include "geomwdefs.hh"
++#include "G4AutoLock.hh"
+ 
+ template <class T>  // T is the private data from the object to be split
+ class G4GeomSplitter
+ {
+   public:
+ 
+-    G4GeomSplitter() : totalobj(0), totalspace(0), sharedOffset(0) {}
++    G4GeomSplitter() : totalobj(0), totalspace(0), sharedOffset(0) {
++    	G4MUTEXINIT(mutex);
++    }
+ 
+     G4int CreateSubInstance()
+       // Invoked by the master or work thread to create a new subinstance
+       // whenever a new split class instance is created.
+     {
++      G4AutoLock l(&mutex);
+       totalobj++;
+       if (totalobj > totalspace)
+       {
+@@ -74,6 +78,7 @@ class G4GeomSplitter
+ 
+     void CopyMasterContents()
+     {
++      G4AutoLock l(&mutex);
+       memcpy(offset, sharedOffset, totalspace * sizeof(T));
+     }
+   
+@@ -81,6 +86,7 @@ class G4GeomSplitter
+       // Invoked by each worker thread to copy all the subinstance array
+       // from the master thread.
+     {
++      G4AutoLock l(&mutex);
+       if (offset)  { return; }
+       offset = (T *) realloc(offset, totalspace * sizeof(T));
+       if (offset == 0)
+@@ -88,6 +94,7 @@ class G4GeomSplitter
+         G4Exception("G4GeomSplitter::SlaveCopySubInstanceArray()",
+                     "OutOfMemory", FatalException, "Cannot malloc space!");
+       }
++      l.unlock();
+       CopyMasterContents();
+     }
+ 
+@@ -96,6 +103,7 @@ class G4GeomSplitter
+       // initialize each subinstance using a particular method defined by
+       // the subclass.
+     {
++      G4AutoLock l(&mutex);
+       if (offset)  { return; }
+       offset = (T *) realloc(offset, totalspace * sizeof(T));
+ 
+@@ -116,12 +124,14 @@ class G4GeomSplitter
+     //  to copy again all the subinstance array from the master thread.
+     // To cope with user's changes in Geometry - e.g. change of material in a volume
+     {
++      G4AutoLock l(&mutex);
+       if (!offset)  {
+         SlaveInitializeSubInstance();
+         G4Exception("G4GeomSPlitter::SlaveReCopySubInstance()",
+                     "MissingInitialisation", JustWarning,
+                     "Must be called after Initialisation or first Copy.");
+       }
++      l.unlock();
+       CopyMasterContents();
+     }
+   
+@@ -187,6 +197,7 @@ class G4GeomSplitter
+     G4int totalobj;
+     G4int totalspace;
+     T* sharedOffset;
++    G4Mutex mutex;
+ };
+ 
+ #endif
+diff -arupN old/geant4/source/geometry/management/include/G4GeometryManager.hh geant4/source/geometry/management/include/G4GeometryManager.hh
+--- old/geant4/source/geometry/management/include/G4GeometryManager.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4GeometryManager.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4GeometryManager.hh 66872 2013-01-15 01:25:57Z japost $
++// $Id: G4GeometryManager.hh 66885 2013-01-16 17:37:13Z gunter $
+ //
+ // class G4GeometryManager
+ //
+diff -arupN old/geant4/source/geometry/management/include/G4IdentityTrajectoryFilter.hh geant4/source/geometry/management/include/G4IdentityTrajectoryFilter.hh
+--- old/geant4/source/geometry/management/include/G4IdentityTrajectoryFilter.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4IdentityTrajectoryFilter.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4IdentityTrajectoryFilter.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4IdentityTrajectoryFilter.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // class GIdentityTrajectoryFilter
+diff -arupN old/geant4/source/geometry/management/include/G4LogicalSurface.hh geant4/source/geometry/management/include/G4LogicalSurface.hh
+--- old/geant4/source/geometry/management/include/G4LogicalSurface.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4LogicalSurface.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4LogicalSurface.hh 81594 2014-06-03 14:05:18Z gcosmo $
++// $Id: G4LogicalSurface.hh 80057 2014-03-31 13:23:43Z gcosmo $
+ //
+ ////////////////////////////////////////////////////////////////////////
+ // Class G4LogicalSurface
+diff -arupN old/geant4/source/geometry/management/include/G4LogicalSurface.icc geant4/source/geometry/management/include/G4LogicalSurface.icc
+--- old/geant4/source/geometry/management/include/G4LogicalSurface.icc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4LogicalSurface.icc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4LogicalSurface.icc 81594 2014-06-03 14:05:18Z gcosmo $
++// $Id: G4LogicalSurface.icc 80057 2014-03-31 13:23:43Z gcosmo $
+ //
+ ////////////////////////////////////////////////////////////////////////
+ // Surface Class Inline Methods
+diff -arupN old/geant4/source/geometry/management/include/G4LogicalVolume.hh geant4/source/geometry/management/include/G4LogicalVolume.hh
+--- old/geant4/source/geometry/management/include/G4LogicalVolume.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4LogicalVolume.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4LogicalVolume.hh 78050 2013-12-03 08:17:33Z gcosmo $
++// $Id: G4LogicalVolume.hh 78044 2013-12-03 03:20:43Z asaim $
+ //
+ // 
+ // class G4LogicalVolume
+diff -arupN old/geant4/source/geometry/management/include/G4LogicalVolume.icc geant4/source/geometry/management/include/G4LogicalVolume.icc
+--- old/geant4/source/geometry/management/include/G4LogicalVolume.icc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4LogicalVolume.icc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4LogicalVolume.icc 78050 2013-12-03 08:17:33Z gcosmo $
++// $Id: G4LogicalVolume.icc 78044 2013-12-03 03:20:43Z asaim $
+ //
+ // 
+ // class G4LogicalVolume Inline Implementation file
+diff -arupN old/geant4/source/geometry/management/include/G4LogicalVolumeStore.hh geant4/source/geometry/management/include/G4LogicalVolumeStore.hh
+--- old/geant4/source/geometry/management/include/G4LogicalVolumeStore.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4LogicalVolumeStore.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4LogicalVolumeStore.hh 66872 2013-01-15 01:25:57Z japost $
++// $Id: G4LogicalVolumeStore.hh 66885 2013-01-16 17:37:13Z gunter $
+ //
+ // class G4LogicalVolumeStore
+ //
+diff -arupN old/geant4/source/geometry/management/include/G4PhysicalVolumeStore.hh geant4/source/geometry/management/include/G4PhysicalVolumeStore.hh
+--- old/geant4/source/geometry/management/include/G4PhysicalVolumeStore.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4PhysicalVolumeStore.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4PhysicalVolumeStore.hh 66872 2013-01-15 01:25:57Z japost $
++// $Id: G4PhysicalVolumeStore.hh 66885 2013-01-16 17:37:13Z gunter $
+ //
+ // class G4PhysicalVolume
+ //
+diff -arupN old/geant4/source/geometry/management/include/G4ReflectedSolid.hh geant4/source/geometry/management/include/G4ReflectedSolid.hh
+--- old/geant4/source/geometry/management/include/G4ReflectedSolid.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4ReflectedSolid.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4ReflectedSolid.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4ReflectedSolid.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // class G4ReflectedSolid
+diff -arupN old/geant4/source/geometry/management/include/G4Region.hh geant4/source/geometry/management/include/G4Region.hh
+--- old/geant4/source/geometry/management/include/G4Region.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4Region.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4Region.hh 67975 2013-03-13 10:19:44Z gcosmo $
++// $Id: G4Region.hh 67884 2013-03-12 10:09:25Z gcosmo $
+ //
+ // class G4Region
+ //
+diff -arupN old/geant4/source/geometry/management/include/G4Region.icc geant4/source/geometry/management/include/G4Region.icc
+--- old/geant4/source/geometry/management/include/G4Region.icc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4Region.icc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4Region.icc 67975 2013-03-13 10:19:44Z gcosmo $
++// $Id: G4Region.icc 67884 2013-03-12 10:09:25Z gcosmo $
+ //
+ // 
+ // class G4Region Inline Implementation file
+diff -arupN old/geant4/source/geometry/management/include/G4RegionStore.hh geant4/source/geometry/management/include/G4RegionStore.hh
+--- old/geant4/source/geometry/management/include/G4RegionStore.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4RegionStore.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4RegionStore.hh 66872 2013-01-15 01:25:57Z japost $
++// $Id: G4RegionStore.hh 66885 2013-01-16 17:37:13Z gunter $
+ //
+ // class G4RegionStore
+ //
+diff -arupN old/geant4/source/geometry/management/include/G4SmartVoxelHeader.hh geant4/source/geometry/management/include/G4SmartVoxelHeader.hh
+--- old/geant4/source/geometry/management/include/G4SmartVoxelHeader.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4SmartVoxelHeader.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4SmartVoxelHeader.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4SmartVoxelHeader.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // class G4SmartVoxelHeader
+ //
+diff -arupN old/geant4/source/geometry/management/include/G4SmartVoxelHeader.icc geant4/source/geometry/management/include/G4SmartVoxelHeader.icc
+--- old/geant4/source/geometry/management/include/G4SmartVoxelHeader.icc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4SmartVoxelHeader.icc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4SmartVoxelHeader.icc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4SmartVoxelHeader.icc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // G4SmartVoxelHeader Inline implementation
+diff -arupN old/geant4/source/geometry/management/include/G4SmartVoxelNode.hh geant4/source/geometry/management/include/G4SmartVoxelNode.hh
+--- old/geant4/source/geometry/management/include/G4SmartVoxelNode.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4SmartVoxelNode.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4SmartVoxelNode.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4SmartVoxelNode.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // class G4SmartVoxelNode
+ //
+diff -arupN old/geant4/source/geometry/management/include/G4SmartVoxelNode.icc geant4/source/geometry/management/include/G4SmartVoxelNode.icc
+--- old/geant4/source/geometry/management/include/G4SmartVoxelNode.icc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4SmartVoxelNode.icc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4SmartVoxelNode.icc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4SmartVoxelNode.icc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // G4SmartVoxelNode Inline implementation
+diff -arupN old/geant4/source/geometry/management/include/G4SmartVoxelProxy.hh geant4/source/geometry/management/include/G4SmartVoxelProxy.hh
+--- old/geant4/source/geometry/management/include/G4SmartVoxelProxy.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4SmartVoxelProxy.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4SmartVoxelProxy.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4SmartVoxelProxy.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // class G4SmartVoxelProxy
+ //
+diff -arupN old/geant4/source/geometry/management/include/G4SmartVoxelProxy.icc geant4/source/geometry/management/include/G4SmartVoxelProxy.icc
+--- old/geant4/source/geometry/management/include/G4SmartVoxelProxy.icc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4SmartVoxelProxy.icc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4SmartVoxelProxy.icc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4SmartVoxelProxy.icc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // G4SmartVoxelProxy Inline implementation
+diff -arupN old/geant4/source/geometry/management/include/G4SmartVoxelStat.hh geant4/source/geometry/management/include/G4SmartVoxelStat.hh
+--- old/geant4/source/geometry/management/include/G4SmartVoxelStat.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4SmartVoxelStat.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4SmartVoxelStat.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4SmartVoxelStat.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // --------------------------------------------------------------------
+ // GEANT 4 class header file
+diff -arupN old/geant4/source/geometry/management/include/G4SolidStore.hh geant4/source/geometry/management/include/G4SolidStore.hh
+--- old/geant4/source/geometry/management/include/G4SolidStore.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4SolidStore.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4SolidStore.hh 66872 2013-01-15 01:25:57Z japost $
++// $Id: G4SolidStore.hh 66885 2013-01-16 17:37:13Z gunter $
+ //
+ // class G4SolidStore
+ //
+diff -arupN old/geant4/source/geometry/management/include/G4TouchableHandle.hh geant4/source/geometry/management/include/G4TouchableHandle.hh
+--- old/geant4/source/geometry/management/include/G4TouchableHandle.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4TouchableHandle.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4TouchableHandle.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4TouchableHandle.hh 66241 2012-12-13 18:34:42Z gunter $
+ // 
+ // Class G4TouchableHandle
+ //
+diff -arupN old/geant4/source/geometry/management/include/G4VCurvedTrajectoryFilter.hh geant4/source/geometry/management/include/G4VCurvedTrajectoryFilter.hh
+--- old/geant4/source/geometry/management/include/G4VCurvedTrajectoryFilter.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4VCurvedTrajectoryFilter.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VCurvedTrajectoryFilter.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4VCurvedTrajectoryFilter.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // class G4VCurevedTrajectoryFilter
+diff -arupN old/geant4/source/geometry/management/include/G4VNestedParameterisation.hh geant4/source/geometry/management/include/G4VNestedParameterisation.hh
+--- old/geant4/source/geometry/management/include/G4VNestedParameterisation.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4VNestedParameterisation.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VNestedParameterisation.hh 73434 2013-08-27 11:06:16Z gcosmo $
++// $Id: G4VNestedParameterisation.hh 73380 2013-08-27 08:02:04Z gcosmo $
+ //
+ // class G4VNestedParameterisation
+ //
+diff -arupN old/geant4/source/geometry/management/include/G4VPVDivisionFactory.hh geant4/source/geometry/management/include/G4VPVDivisionFactory.hh
+--- old/geant4/source/geometry/management/include/G4VPVDivisionFactory.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4VPVDivisionFactory.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VPVDivisionFactory.hh 66872 2013-01-15 01:25:57Z japost $
++// $Id: G4VPVDivisionFactory.hh 66885 2013-01-16 17:37:13Z gunter $
+ //
+ //
+ // class G4VPVDivisionFactory
+diff -arupN old/geant4/source/geometry/management/include/G4VPVParameterisation.hh geant4/source/geometry/management/include/G4VPVParameterisation.hh
+--- old/geant4/source/geometry/management/include/G4VPVParameterisation.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4VPVParameterisation.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VPVParameterisation.hh 73434 2013-08-27 11:06:16Z gcosmo $
++// $Id: G4VPVParameterisation.hh 73380 2013-08-27 08:02:04Z gcosmo $
+ //
+ // class G4VPVParamterisation
+ //
+diff -arupN old/geant4/source/geometry/management/include/G4VPhysicalVolume.hh geant4/source/geometry/management/include/G4VPhysicalVolume.hh
+--- old/geant4/source/geometry/management/include/G4VPhysicalVolume.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4VPhysicalVolume.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VPhysicalVolume.hh 78050 2013-12-03 08:17:33Z gcosmo $
++// $Id: G4VPhysicalVolume.hh 78048 2013-12-03 03:28:07Z adotti $
+ //
+ //
+ // class G4VPhysicalVolume
+diff -arupN old/geant4/source/geometry/management/include/G4VPhysicalVolume.icc geant4/source/geometry/management/include/G4VPhysicalVolume.icc
+--- old/geant4/source/geometry/management/include/G4VPhysicalVolume.icc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4VPhysicalVolume.icc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VPhysicalVolume.icc 74466 2013-10-07 15:36:32Z gcosmo $
++// $Id: G4VPhysicalVolume.icc 74133 2013-09-25 13:11:27Z japost $
+ //
+ //
+ // class G4VPhysicalVolume Inline Implementation
+diff -arupN old/geant4/source/geometry/management/include/G4VSolid.hh geant4/source/geometry/management/include/G4VSolid.hh
+--- old/geant4/source/geometry/management/include/G4VSolid.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4VSolid.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VSolid.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4VSolid.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // 
+ // class G4VSolid
+diff -arupN old/geant4/source/geometry/management/include/G4VSolid.icc geant4/source/geometry/management/include/G4VSolid.icc
+--- old/geant4/source/geometry/management/include/G4VSolid.icc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4VSolid.icc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VSolid.icc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4VSolid.icc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // 
+ // G4VSolid Inline implementation
+diff -arupN old/geant4/source/geometry/management/include/G4VStoreNotifier.hh geant4/source/geometry/management/include/G4VStoreNotifier.hh
+--- old/geant4/source/geometry/management/include/G4VStoreNotifier.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4VStoreNotifier.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VStoreNotifier.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4VStoreNotifier.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // class G4VStoreNotifier
+ //
+diff -arupN old/geant4/source/geometry/management/include/G4VTouchable.hh geant4/source/geometry/management/include/G4VTouchable.hh
+--- old/geant4/source/geometry/management/include/G4VTouchable.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4VTouchable.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VTouchable.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4VTouchable.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // 
+ // class G4VTouchable
+diff -arupN old/geant4/source/geometry/management/include/G4VTouchable.icc geant4/source/geometry/management/include/G4VTouchable.icc
+--- old/geant4/source/geometry/management/include/G4VTouchable.icc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4VTouchable.icc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VTouchable.icc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4VTouchable.icc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // 
+ // class G4VTouchable Inline implementation
+diff -arupN old/geant4/source/geometry/management/include/G4VUserRegionInformation.hh geant4/source/geometry/management/include/G4VUserRegionInformation.hh
+--- old/geant4/source/geometry/management/include/G4VUserRegionInformation.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4VUserRegionInformation.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VUserRegionInformation.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4VUserRegionInformation.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // --------------------------------------------------------------------
+diff -arupN old/geant4/source/geometry/management/include/G4VVolumeMaterialScanner.hh geant4/source/geometry/management/include/G4VVolumeMaterialScanner.hh
+--- old/geant4/source/geometry/management/include/G4VVolumeMaterialScanner.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4VVolumeMaterialScanner.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VVolumeMaterialScanner.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4VVolumeMaterialScanner.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // class G4VVolumeMaterialScanner
+ //
+diff -arupN old/geant4/source/geometry/management/include/G4VoxelLimits.hh geant4/source/geometry/management/include/G4VoxelLimits.hh
+--- old/geant4/source/geometry/management/include/G4VoxelLimits.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4VoxelLimits.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VoxelLimits.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4VoxelLimits.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // class G4VoxelLimits
+ //
+diff -arupN old/geant4/source/geometry/management/include/G4VoxelLimits.icc geant4/source/geometry/management/include/G4VoxelLimits.icc
+--- old/geant4/source/geometry/management/include/G4VoxelLimits.icc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/G4VoxelLimits.icc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VoxelLimits.icc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4VoxelLimits.icc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // 
+ // G4VoxelLimits Inline implementation
+diff -arupN old/geant4/source/geometry/management/include/meshdefs.hh geant4/source/geometry/management/include/meshdefs.hh
+--- old/geant4/source/geometry/management/include/meshdefs.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/meshdefs.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: meshdefs.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: meshdefs.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // Tube/Cone Meshing constants for extent calculations
+diff -arupN old/geant4/source/geometry/management/include/voxeldefs.hh geant4/source/geometry/management/include/voxeldefs.hh
+--- old/geant4/source/geometry/management/include/voxeldefs.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/include/voxeldefs.hh	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: voxeldefs.hh 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: voxeldefs.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ //
+diff -arupN old/geant4/source/geometry/management/sources.cmake geant4/source/geometry/management/sources.cmake
+--- old/geant4/source/geometry/management/sources.cmake	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/sources.cmake	2014-08-08 11:38:55.000000000 +0200
+@@ -11,7 +11,7 @@
+ #
+ # Generated on : 24/9/2010
+ #
+-# $Id: sources.cmake 67975 2013-03-13 10:19:44Z gcosmo $
++# $Id: sources.cmake 67775 2013-03-07 16:15:58Z gcosmo $
+ #
+ #------------------------------------------------------------------------------
+ 
+diff -arupN old/geant4/source/geometry/management/src/G4BlockingList.cc geant4/source/geometry/management/src/G4BlockingList.cc
+--- old/geant4/source/geometry/management/src/G4BlockingList.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4BlockingList.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4BlockingList.cc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4BlockingList.cc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // class G4BlockingList Implementation
+diff -arupN old/geant4/source/geometry/management/src/G4ErrorCylSurfaceTarget.cc geant4/source/geometry/management/src/G4ErrorCylSurfaceTarget.cc
+--- old/geant4/source/geometry/management/src/G4ErrorCylSurfaceTarget.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4ErrorCylSurfaceTarget.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4ErrorCylSurfaceTarget.cc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4ErrorCylSurfaceTarget.cc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // --------------------------------------------------------------------
+diff -arupN old/geant4/source/geometry/management/src/G4ErrorPlaneSurfaceTarget.cc geant4/source/geometry/management/src/G4ErrorPlaneSurfaceTarget.cc
+--- old/geant4/source/geometry/management/src/G4ErrorPlaneSurfaceTarget.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4ErrorPlaneSurfaceTarget.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4ErrorPlaneSurfaceTarget.cc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4ErrorPlaneSurfaceTarget.cc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // --------------------------------------------------------------------
+diff -arupN old/geant4/source/geometry/management/src/G4ErrorSurfaceTarget.cc geant4/source/geometry/management/src/G4ErrorSurfaceTarget.cc
+--- old/geant4/source/geometry/management/src/G4ErrorSurfaceTarget.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4ErrorSurfaceTarget.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4ErrorSurfaceTarget.cc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4ErrorSurfaceTarget.cc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // --------------------------------------------------------------------
+diff -arupN old/geant4/source/geometry/management/src/G4ErrorTanPlaneTarget.cc geant4/source/geometry/management/src/G4ErrorTanPlaneTarget.cc
+--- old/geant4/source/geometry/management/src/G4ErrorTanPlaneTarget.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4ErrorTanPlaneTarget.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4ErrorTanPlaneTarget.cc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4ErrorTanPlaneTarget.cc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // --------------------------------------------------------------------
+diff -arupN old/geant4/source/geometry/management/src/G4ErrorTarget.cc geant4/source/geometry/management/src/G4ErrorTarget.cc
+--- old/geant4/source/geometry/management/src/G4ErrorTarget.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4ErrorTarget.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4ErrorTarget.cc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4ErrorTarget.cc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // --------------------------------------------------------------------
+diff -arupN old/geant4/source/geometry/management/src/G4GeometryManager.cc geant4/source/geometry/management/src/G4GeometryManager.cc
+--- old/geant4/source/geometry/management/src/G4GeometryManager.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4GeometryManager.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4GeometryManager.cc 67975 2013-03-13 10:19:44Z gcosmo $
++// $Id: G4GeometryManager.cc 67775 2013-03-07 16:15:58Z gcosmo $
+ //
+ // class G4GeometryManager
+ //
+diff -arupN old/geant4/source/geometry/management/src/G4IdentityTrajectoryFilter.cc geant4/source/geometry/management/src/G4IdentityTrajectoryFilter.cc
+--- old/geant4/source/geometry/management/src/G4IdentityTrajectoryFilter.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4IdentityTrajectoryFilter.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4IdentityTrajectoryFilter.cc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4IdentityTrajectoryFilter.cc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // ------------------------------------------------------------------------
+ 
+diff -arupN old/geant4/source/geometry/management/src/G4LogicalSurface.cc geant4/source/geometry/management/src/G4LogicalSurface.cc
+--- old/geant4/source/geometry/management/src/G4LogicalSurface.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4LogicalSurface.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4LogicalSurface.cc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4LogicalSurface.cc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ ////////////////////////////////////////////////////////////////////////
+ // G4LogicalSurface Class Implementation
+diff -arupN old/geant4/source/geometry/management/src/G4LogicalVolume.cc geant4/source/geometry/management/src/G4LogicalVolume.cc
+--- old/geant4/source/geometry/management/src/G4LogicalVolume.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4LogicalVolume.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4LogicalVolume.cc 78050 2013-12-03 08:17:33Z gcosmo $
++// $Id: G4LogicalVolume.cc 78044 2013-12-03 03:20:43Z asaim $
+ //
+ // 
+ // class G4LogicalVolume Implementation
+diff -arupN old/geant4/source/geometry/management/src/G4LogicalVolumeStore.cc geant4/source/geometry/management/src/G4LogicalVolumeStore.cc
+--- old/geant4/source/geometry/management/src/G4LogicalVolumeStore.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4LogicalVolumeStore.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4LogicalVolumeStore.cc 66872 2013-01-15 01:25:57Z japost $
++// $Id: G4LogicalVolumeStore.cc 66885 2013-01-16 17:37:13Z gunter $
+ //
+ // G4LogicalVolumeStore
+ //
+diff -arupN old/geant4/source/geometry/management/src/G4PhysicalVolumeStore.cc geant4/source/geometry/management/src/G4PhysicalVolumeStore.cc
+--- old/geant4/source/geometry/management/src/G4PhysicalVolumeStore.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4PhysicalVolumeStore.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4PhysicalVolumeStore.cc 66872 2013-01-15 01:25:57Z japost $
++// $Id: G4PhysicalVolumeStore.cc 66885 2013-01-16 17:37:13Z gunter $
+ //
+ // G4PhysicalVolumeStore
+ //
+diff -arupN old/geant4/source/geometry/management/src/G4ReflectedSolid.cc geant4/source/geometry/management/src/G4ReflectedSolid.cc
+--- old/geant4/source/geometry/management/src/G4ReflectedSolid.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4ReflectedSolid.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4ReflectedSolid.cc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4ReflectedSolid.cc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ //
+ // Implementation for G4ReflectedSolid class for boolean 
+diff -arupN old/geant4/source/geometry/management/src/G4Region.cc geant4/source/geometry/management/src/G4Region.cc
+--- old/geant4/source/geometry/management/src/G4Region.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4Region.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4Region.cc 81594 2014-06-03 14:05:18Z gcosmo $
++// $Id: G4Region.cc 80279 2014-04-10 09:36:16Z gcosmo $
+ //
+ // 
+ // class G4Region Implementation
+diff -arupN old/geant4/source/geometry/management/src/G4RegionStore.cc geant4/source/geometry/management/src/G4RegionStore.cc
+--- old/geant4/source/geometry/management/src/G4RegionStore.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4RegionStore.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4RegionStore.cc 66872 2013-01-15 01:25:57Z japost $
++// $Id: G4RegionStore.cc 66885 2013-01-16 17:37:13Z gunter $
+ //
+ // G4RegionStore
+ //
+diff -arupN old/geant4/source/geometry/management/src/G4SmartVoxelHeader.cc geant4/source/geometry/management/src/G4SmartVoxelHeader.cc
+--- old/geant4/source/geometry/management/src/G4SmartVoxelHeader.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4SmartVoxelHeader.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4SmartVoxelHeader.cc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4SmartVoxelHeader.cc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // 
+ // class G4SmartVoxelHeader
+diff -arupN old/geant4/source/geometry/management/src/G4SmartVoxelNode.cc geant4/source/geometry/management/src/G4SmartVoxelNode.cc
+--- old/geant4/source/geometry/management/src/G4SmartVoxelNode.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4SmartVoxelNode.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4SmartVoxelNode.cc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4SmartVoxelNode.cc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // Class G4SmartVoxelNode
+ //
+diff -arupN old/geant4/source/geometry/management/src/G4SmartVoxelProxy.cc geant4/source/geometry/management/src/G4SmartVoxelProxy.cc
+--- old/geant4/source/geometry/management/src/G4SmartVoxelProxy.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4SmartVoxelProxy.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4SmartVoxelProxy.cc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4SmartVoxelProxy.cc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // Class G4SmartVoxelProxy
+ //
+diff -arupN old/geant4/source/geometry/management/src/G4SmartVoxelStat.cc geant4/source/geometry/management/src/G4SmartVoxelStat.cc
+--- old/geant4/source/geometry/management/src/G4SmartVoxelStat.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4SmartVoxelStat.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4SmartVoxelStat.cc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4SmartVoxelStat.cc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // --------------------------------------------------------------------
+ // GEANT 4 class source file
+diff -arupN old/geant4/source/geometry/management/src/G4SolidStore.cc geant4/source/geometry/management/src/G4SolidStore.cc
+--- old/geant4/source/geometry/management/src/G4SolidStore.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4SolidStore.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4SolidStore.cc 67975 2013-03-13 10:19:44Z gcosmo $
++// $Id: G4SolidStore.cc 67776 2013-03-07 16:21:59Z gcosmo $
+ //
+ // G4SolidStore
+ //
+diff -arupN old/geant4/source/geometry/management/src/G4VCurvedTrajectoryFilter.cc geant4/source/geometry/management/src/G4VCurvedTrajectoryFilter.cc
+--- old/geant4/source/geometry/management/src/G4VCurvedTrajectoryFilter.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4VCurvedTrajectoryFilter.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VCurvedTrajectoryFilter.cc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4VCurvedTrajectoryFilter.cc 66241 2012-12-13 18:34:42Z gunter $
+ // --------------------------------------------------------------------
+ 
+ #include "G4VCurvedTrajectoryFilter.hh"
+diff -arupN old/geant4/source/geometry/management/src/G4VNestedParameterisation.cc geant4/source/geometry/management/src/G4VNestedParameterisation.cc
+--- old/geant4/source/geometry/management/src/G4VNestedParameterisation.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4VNestedParameterisation.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VNestedParameterisation.cc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4VNestedParameterisation.cc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // class G4VNestedParameterisation implementation
+ //
+diff -arupN old/geant4/source/geometry/management/src/G4VPVDivisionFactory.cc geant4/source/geometry/management/src/G4VPVDivisionFactory.cc
+--- old/geant4/source/geometry/management/src/G4VPVDivisionFactory.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4VPVDivisionFactory.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VPVDivisionFactory.cc 66872 2013-01-15 01:25:57Z japost $
++// $Id: G4VPVDivisionFactory.cc 66885 2013-01-16 17:37:13Z gunter $
+ //
+ // class G4VPVDivisionFactory Implementation file
+ //
+diff -arupN old/geant4/source/geometry/management/src/G4VPVParameterisation.cc geant4/source/geometry/management/src/G4VPVParameterisation.cc
+--- old/geant4/source/geometry/management/src/G4VPVParameterisation.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4VPVParameterisation.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VPVParameterisation.cc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4VPVParameterisation.cc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // Default implementations for Parameterisations that do not
+ // parameterise solid and/or material.
+diff -arupN old/geant4/source/geometry/management/src/G4VPhysicalVolume.cc geant4/source/geometry/management/src/G4VPhysicalVolume.cc
+--- old/geant4/source/geometry/management/src/G4VPhysicalVolume.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4VPhysicalVolume.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VPhysicalVolume.cc 74466 2013-10-07 15:36:32Z gcosmo $
++// $Id: G4VPhysicalVolume.cc 74320 2013-10-03 10:37:21Z japost $
+ //
+ // 
+ // class G4VPhysicalVolume Implementation
+diff -arupN old/geant4/source/geometry/management/src/G4VSolid.cc geant4/source/geometry/management/src/G4VSolid.cc
+--- old/geant4/source/geometry/management/src/G4VSolid.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4VSolid.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VSolid.cc 72936 2013-08-14 13:17:11Z gcosmo $
++// $Id: G4VSolid.cc 72933 2013-08-14 09:55:29Z gcosmo $
+ //
+ // class G4VSolid
+ //
+diff -arupN old/geant4/source/geometry/management/src/G4VTouchable.cc geant4/source/geometry/management/src/G4VTouchable.cc
+--- old/geant4/source/geometry/management/src/G4VTouchable.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4VTouchable.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VTouchable.cc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4VTouchable.cc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // 
+ // class G4VTouchable implementation
+diff -arupN old/geant4/source/geometry/management/src/G4VoxelLimits.cc geant4/source/geometry/management/src/G4VoxelLimits.cc
+--- old/geant4/source/geometry/management/src/G4VoxelLimits.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/geometry/management/src/G4VoxelLimits.cc	2014-08-08 11:38:55.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4VoxelLimits.cc 66356 2012-12-18 09:02:32Z gcosmo $
++// $Id: G4VoxelLimits.cc 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // class G4VoxelLimits
+ // 
+diff -arupN old/geant4/source/particles/History geant4/source/particles/History
+--- old/geant4/source/particles/History	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/particles/History	2014-08-08 20:16:02.000000000 +0200
+@@ -1,4 +1,4 @@
+-$Id: History 79334 2014-02-24 10:53:32Z gcosmo $
++$Id: History 83214 2014-08-08 18:15:43Z vnivanch $
+ -------------------------------------------------------------------
+ 
+      =========================================================
+@@ -17,6 +17,15 @@ committal in the CVS repository !
+      * Reverse chronological order (last date on top), please *
+      ----------------------------------------------------------
+ 
++- 08. Aug. 2014  V.Ivanchenko (particles-V09-06-67-cms)
++- 11 Jul. 2014 Andrea Dotti 
++- Solve data-race condition in G4PDefSplitter
++
++- 07 Jul. 2014 Makoto Asai 
++- G4IonTable.cc - Fill decay channels when an ion is created on 
++  the fly to avoid race condition issue in multithreaded mode.
++  Addressing to bug report #1651.
++
+ - 22. Feb. 2014  Makoto Asai (particles-V09-06-66)
+ - Fixed properties for heavy anti-baryons G4AntiLambdab, G4AntiSigmabZero
+   and G4AntiLambdacPlus. Addressing problem report #1571.
+diff -arupN old/geant4/source/particles/management/include/G4PDefSplitter.hh geant4/source/particles/management/include/G4PDefSplitter.hh
+--- old/geant4/source/particles/management/include/G4PDefSplitter.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/particles/management/include/G4PDefSplitter.hh	2014-08-08 12:00:24.000000000 +0200
+@@ -47,21 +47,29 @@
+ 
+ #include "globals.hh"
+ #include "pwdefs.hh"
++#include "G4AutoLock.hh"
+ 
+ template <class T>  // T is the private data from the object to be split
+ class G4PDefSplitter
+ {
+   public:
+ 
+-    G4PDefSplitter() : totalobj(0) {}
++    G4PDefSplitter() : totalobj(0) {
++    	G4MUTEXINIT(mutex);
++    }
+ 
+     G4int CreateSubInstance()
+       // Invoked by the master or work thread to create a new subinstance
+       // whenever a new split class instance is created. For each worker
+       // thread, ions are created dynamically.
+     {
++      G4AutoLock l(&mutex);
+       totalobj++;
+-      if (totalobj > slavetotalspace)  { NewSubInstances(); }
++      if (totalobj > slavetotalspace)  {
++    	  l.unlock();
++    	  NewSubInstances();
++    	  l.lock();
++      }
+       return (totalobj - 1);
+     }
+ 
+@@ -70,6 +78,7 @@ class G4PDefSplitter
+       // initialize each new subinstance using a particular method defined
+       // by the subclass.
+     {
++      G4AutoLock l(&mutex);
+       if (slavetotalspace  >= totalobj)  { return; }
+       G4int originaltotalspace = slavetotalspace;
+       slavetotalspace = totalobj + 512;
+@@ -97,12 +106,13 @@ class G4PDefSplitter
+ 
+   public:
+ 
+-    G4PART_DLL static G4ThreadLocal G4int slavetotalspace;
+-    G4PART_DLL static G4ThreadLocal T* offset;
++    G4PART_DLL G4ThreadLocalStatic G4int slavetotalspace;
++    G4PART_DLL G4ThreadLocalStatic T* offset;
+ 
+   private:
+ 
+     G4int totalobj;
++    G4Mutex mutex;
+ };
+ 
+ #endif
+diff -arupN old/geant4/source/particles/management/src/G4IonTable.cc geant4/source/particles/management/src/G4IonTable.cc
+--- old/geant4/source/particles/management/src/G4IonTable.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/particles/management/src/G4IonTable.cc	2014-08-08 20:16:02.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4IonTable.cc 79333 2014-02-24 10:36:17Z gcosmo $
++// $Id: G4IonTable.cc 83214 2014-08-08 18:15:43Z vnivanch $
+ //
+ // 
+ // --------------------------------------------------------------
+@@ -327,6 +327,19 @@ G4ParticleDefinition* G4IonTable::Create
+   // Add process manager to the ion
+   AddProcessManager(ion);
+  
++#ifdef G4MULTITHREADED
++  // Fill decay channels if this method is invoked from worker
++  if(G4Threading::IsWorkerThread())
++  {
++    if(!stable && decayTable)
++    {
++      G4int nCh = decayTable->entries();
++      for(G4int iCh=0;iCh<nCh;iCh++)
++      { decayTable->GetDecayChannel(iCh)->GetDaughter(0); }
++    }
++  }
++#endif
++  
+   return ion;
+ }
+ 
+@@ -1722,18 +1735,20 @@ G4double G4IonTable::GetLifeTime(const G
+   if(!(particle->IsGeneralIon())) return particle->GetPDGLifeTime();
+ 
+   const G4Ions* ion = static_cast<const G4Ions*>(particle);
+-  G4double Z = ion->GetAtomicNumber();
+-  G4double A = ion->GetAtomicMass();
++  G4int Z = ion->GetAtomicNumber();
++  G4int A = ion->GetAtomicMass();
+   G4double E = ion->GetExcitationEnergy();
+ 
+   if(!pNuclideTable)
+   {
+    G4Exception("G4IonTable::GetLifeTime()","ParticleIon1001",FatalException,
+                "Method is invoked before G4IonTable is initialized.");
++   return 0.;
++  } else {
++   G4IsotopeProperty* isoP = pNuclideTable->GetIsotope(Z,A,E);
++    if(!isoP) return -1001.0;
++    return isoP->GetLifeTime();
+   }
+-  G4IsotopeProperty* isoP = pNuclideTable->GetIsotope(Z,A,E);
+-  if(!isoP) return -1001.0;
+-  return isoP->GetLifeTime();
+ }
+ 
+ 
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/CMakeLists.txt geant4/source/processes/electromagnetic/highenergy/CMakeLists.txt
+--- old/geant4/source/processes/electromagnetic/highenergy/CMakeLists.txt	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/CMakeLists.txt	2014-08-07 20:54:07.000000000 +0200
+@@ -7,7 +7,7 @@
+ #
+ # Generated on : 24/9/2010
+ #
+-# $Id: CMakeLists.txt 66816 2013-01-12 16:13:54Z gcosmo $
++# $Id: CMakeLists.txt 66241 2012-12-13 18:34:42Z gunter $
+ #
+ #------------------------------------------------------------------------------
+ 
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/GNUmakefile geant4/source/processes/electromagnetic/highenergy/GNUmakefile
+--- old/geant4/source/processes/electromagnetic/highenergy/GNUmakefile	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/GNUmakefile	2014-08-07 20:54:07.000000000 +0200
+@@ -1,4 +1,4 @@
+-# $Id: GNUmakefile 66816 2013-01-12 16:13:54Z gcosmo $
++# $Id: GNUmakefile 66241 2012-12-13 18:34:42Z gunter $
+ # --------------------------------------------------------------------
+ # GNUmakefile for electromagnetic sub-library.  John Allison, 25/6/98.
+ # Modified:
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/History geant4/source/processes/electromagnetic/highenergy/History
+--- old/geant4/source/processes/electromagnetic/highenergy/History	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/History	2014-08-08 20:16:02.000000000 +0200
+@@ -1,4 +1,4 @@
+-$Id: History 76600 2013-11-13 08:30:02Z gcosmo $
++$Id: History 83214 2014-08-08 18:15:43Z vnivanch $
+ -------------------------------------------------------------------
+ 
+      =========================================================
+@@ -17,6 +17,23 @@ committal in the CVS repository !
+      * Reverse chronological order (last date on top), please *
+      ----------------------------------------------------------
+ 
++08 August 2014: V.Ivant (emhighenergy-V09-06-10-cms)
++24 July 2014: V.Ivant (emhighenergy-V10-00-03)
++24 July 2014: V.Ivant (emhighenergy-V10-00-02)
++- G4Vee2hadrons - fixed build for gcc 4.1
++
++18 July 2014: V.Ivant (emhighenergy-V10-00-01)
++- G4eeTo3PiModel - fixed sampling algorithm 
++
++18 July 2014: V.Ivant (emhighenergy-V10-00-00)
++- Naruhiro Chikuma verified and updated positron annihilation
++    models: G4Vee2hadrons, G4ee2KChargedModel, G4ee2KNeutralModel,
++    G4eeTo3PiModel, G4eeToHadronsMultiModel, G4eeToPGammaModel,
++    G4eeToTwoPiModel, G4eeToHadronsModel; and process G4eeToHadrons
++    This includes adition on extra inline methods to convert from Lab 
++    to CM, to initilise models, more correct thresholds,
++    migration to updated PhysicsVector interfaces
++
+ 13 November 2013: V.Ivant (emhighenergy-V09-06-09)
+ - G4mplIonisationModel - fixed compillation problem of the previous tag
+ 
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/include/G4Vee2hadrons.hh geant4/source/processes/electromagnetic/highenergy/include/G4Vee2hadrons.hh
+--- old/geant4/source/processes/electromagnetic/highenergy/include/G4Vee2hadrons.hh	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/include/G4Vee2hadrons.hh	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4Vee2hadrons.hh 66241 2012-12-13 18:34:42Z gunter $
++// $Id: G4Vee2hadrons.hh 82999 2014-07-24 10:06:12Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+@@ -36,12 +36,13 @@
+ //
+ // Creation date: 12.08.2004
+ //
+-// Modifications:
++// Modifications: 14 July 2014 N. Chikuma revised interfaces  
+ //
+ 
+ //
+-// Class Description:
+-//
++// Class Description: base class to compute partial cross sections
++//                    of e+e- annihilation into hadrons and 
++//                    sample of final state in the centre mass frame
+ 
+ // -------------------------------------------------------------------
+ //
+@@ -53,6 +54,8 @@
+ 
+ #include "globals.hh"
+ #include "G4ThreeVector.hh"
++#include "G4eeCrossSections.hh"
++#include "G4PhysicsLinearVector.hh"
+ 
+ class G4DynamicParticle;
+ class G4PhysicsVector;
+@@ -62,37 +65,50 @@ class G4Vee2hadrons 
+ 
+ public:
+ 
+-  G4Vee2hadrons() : lowEnergy(0.0), highEnergy(1.1*CLHEP::GeV) {};
++  G4Vee2hadrons(G4eeCrossSections* cr,
++		G4double vlowEnergy,
++		G4double vhighEnergy,
++		G4double vdelta) : cross(cr)
++  {
++	lowEnergy  = vlowEnergy;
++	highEnergy = vhighEnergy;
++	delta      = vdelta;
++  };
+ 
+   virtual ~G4Vee2hadrons() {};
+ 
+-  virtual G4double ThresholdEnergy() const = 0;
+-
+   virtual G4double PeakEnergy() const = 0;
+ 
+   virtual G4double ComputeCrossSection(G4double) const = 0;
+ 
+-  virtual G4PhysicsVector* PhysicsVector(G4double, G4double) const = 0;
++  G4PhysicsVector* PhysicsVector() const
++  {
++    G4int nbins = std::max(3, G4int((highEnergy - lowEnergy)/delta) );
++    G4PhysicsVector* pp = new G4PhysicsLinearVector(lowEnergy,highEnergy,nbins);
++    return pp;
++  };
+ 
+   virtual void SampleSecondaries(std::vector<G4DynamicParticle*>*,
+ 				 G4double, const G4ThreeVector&) = 0;
+ 
+-  void SetLowEnergy(G4double val) {lowEnergy = val;};
+-
+   G4double LowEnergy() const {return lowEnergy;};
+ 
+-  void SetHighEnergy(G4double val) {highEnergy = val;};
+-
+   G4double HighEnergy() const {return highEnergy;};
+-
++  
+ private:
+ 
+   // hide assignment operator
+   G4Vee2hadrons & operator=(const  G4Vee2hadrons &right);
+   G4Vee2hadrons(const  G4Vee2hadrons&);
+ 
++  // parameters of the table
+   G4double lowEnergy;
+   G4double highEnergy;
++  G4double delta;       
++
++protected:
++
++   G4eeCrossSections* cross;  // class to compute cross section
+ 
+ };
+ 
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/include/G4ee2KChargedModel.hh geant4/source/processes/electromagnetic/highenergy/include/G4ee2KChargedModel.hh
+--- old/geant4/source/processes/electromagnetic/highenergy/include/G4ee2KChargedModel.hh	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/include/G4ee2KChargedModel.hh	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4ee2KChargedModel.hh 66241 2012-12-13 18:34:42Z gunter $
++// $Id: G4ee2KChargedModel.hh 82925 2014-07-18 17:52:15Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+@@ -61,18 +61,14 @@ class G4ee2KChargedModel : public G4Vee2
+ 
+ public:
+ 
+-  G4ee2KChargedModel(G4eeCrossSections*);
++  G4ee2KChargedModel(G4eeCrossSections*,G4double,G4double);
+ 
+   virtual ~G4ee2KChargedModel();
+ 
+-  virtual G4double ThresholdEnergy() const;
+-
+   virtual G4double PeakEnergy() const;
+ 
+   virtual G4double ComputeCrossSection(G4double) const;
+ 
+-  virtual G4PhysicsVector* PhysicsVector(G4double, G4double) const;
+-
+   virtual void SampleSecondaries(std::vector<G4DynamicParticle*>*,
+               G4double, const G4ThreeVector&);
+ 
+@@ -82,8 +78,6 @@ private:
+   G4ee2KChargedModel & operator=(const  G4ee2KChargedModel &right);
+   G4ee2KChargedModel(const  G4ee2KChargedModel&);
+ 
+-  G4eeCrossSections* cross;
+-
+   G4double massK;
+   G4double massPhi;
+ };
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/include/G4ee2KNeutralModel.hh geant4/source/processes/electromagnetic/highenergy/include/G4ee2KNeutralModel.hh
+--- old/geant4/source/processes/electromagnetic/highenergy/include/G4ee2KNeutralModel.hh	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/include/G4ee2KNeutralModel.hh	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4ee2KNeutralModel.hh 66241 2012-12-13 18:34:42Z gunter $
++// $Id: G4ee2KNeutralModel.hh 82925 2014-07-18 17:52:15Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+@@ -61,18 +61,14 @@ class G4ee2KNeutralModel : public G4Vee2
+ 
+ public:
+ 
+-  G4ee2KNeutralModel(G4eeCrossSections*);
++  G4ee2KNeutralModel(G4eeCrossSections*,G4double,G4double);
+ 
+   virtual ~G4ee2KNeutralModel();
+ 
+-  virtual G4double ThresholdEnergy() const;
+-
+   virtual G4double PeakEnergy() const;
+ 
+   virtual G4double ComputeCrossSection(G4double) const;
+ 
+-  virtual G4PhysicsVector* PhysicsVector(G4double, G4double) const;
+-
+   virtual void SampleSecondaries(std::vector<G4DynamicParticle*>*,
+               G4double, const G4ThreeVector&);
+ 
+@@ -82,8 +78,6 @@ private:
+   G4ee2KNeutralModel & operator=(const  G4ee2KNeutralModel &right);
+   G4ee2KNeutralModel(const  G4ee2KNeutralModel&);
+ 
+-  G4eeCrossSections* cross;
+-
+   G4double massK;
+   G4double massPhi;
+ };
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/include/G4eeTo3PiModel.hh geant4/source/processes/electromagnetic/highenergy/include/G4eeTo3PiModel.hh
+--- old/geant4/source/processes/electromagnetic/highenergy/include/G4eeTo3PiModel.hh	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/include/G4eeTo3PiModel.hh	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4eeTo3PiModel.hh 66241 2012-12-13 18:34:42Z gunter $
++// $Id: G4eeTo3PiModel.hh 82929 2014-07-18 18:39:26Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+@@ -61,18 +61,14 @@ class G4eeTo3PiModel : public G4Vee2hadr
+ 
+ public:
+ 
+-  G4eeTo3PiModel(G4eeCrossSections*);
++  G4eeTo3PiModel(G4eeCrossSections*,G4double,G4double);
+ 
+   virtual ~G4eeTo3PiModel();
+ 
+-  virtual G4double ThresholdEnergy() const;
+-
+   virtual G4double PeakEnergy() const;
+ 
+   virtual G4double ComputeCrossSection(G4double) const;
+ 
+-  virtual G4PhysicsVector* PhysicsVector(G4double, G4double) const;
+-
+   virtual void SampleSecondaries(std::vector<G4DynamicParticle*>*,
+               G4double, const G4ThreeVector&);
+ 
+@@ -82,13 +78,10 @@ private:
+   G4eeTo3PiModel & operator=(const  G4eeTo3PiModel &right);
+   G4eeTo3PiModel(const  G4eeTo3PiModel&);
+ 
+-  G4eeCrossSections* cross;
+-
+   G4double massPi;
+   G4double massPi0;
+   G4double massOm;
+   G4double massPhi;
+-  G4double gcash;
+   G4double gmax;
+ };
+ 
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/include/G4eeToHadronsMultiModel.hh geant4/source/processes/electromagnetic/highenergy/include/G4eeToHadronsMultiModel.hh
+--- old/geant4/source/processes/electromagnetic/highenergy/include/G4eeToHadronsMultiModel.hh	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/include/G4eeToHadronsMultiModel.hh	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4eeToHadronsMultiModel.hh 66241 2012-12-13 18:34:42Z gunter $
++// $Id: G4eeToHadronsMultiModel.hh 82926 2014-07-18 18:12:29Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+@@ -54,6 +54,8 @@
+ #include "G4ParticleChangeForGamma.hh"
+ #include "G4TrackStatus.hh"
+ #include "Randomize.hh"
++#include "CLHEP/Units/SystemOfUnits.h"
++#include "CLHEP/Units/PhysicalConstants.h"
+ #include <vector>
+ 
+ class G4eeCrossSections;
+@@ -102,7 +104,10 @@ public:
+ 
+ private:
+ 
+-  void AddEEModel(G4Vee2hadrons*);
++  void AddEEModel(G4Vee2hadrons*, const G4DataVector&);
++
++  //change incident e+ kinetic energy into CM total energy(sum of e+ and e-)  
++  inline G4double LabToCM(G4double);
+ 
+   // hide assignment operator
+   G4eeToHadronsMultiModel & operator=(const  G4eeToHadronsMultiModel &right);
+@@ -110,6 +115,7 @@ private:
+ 
+   G4eeCrossSections*               cross;
+   G4ParticleChangeForGamma*        fParticleChange;
++  G4double 			   delta;  
+ 
+   std::vector<G4eeToHadronsModel*> models;
+ 
+@@ -129,16 +135,31 @@ private:
+ 
+ //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+ 
++//change incident e+ kinetic energy into CM total energy(sum of e+ and e-)  
++inline G4double G4eeToHadronsMultiModel::LabToCM(G4double kinE_lab)
++{
++  G4double totE_CM = 0.0;
++  G4double mass = CLHEP::electron_mass_c2;
++  G4double totE_lab = kinE_lab + mass;
++  totE_CM = std::sqrt(2*mass*(mass+totE_lab));
++
++  return totE_CM;
++}
++
+ inline G4double G4eeToHadronsMultiModel::ComputeCrossSectionPerElectron(
+                                       const G4ParticleDefinition*,
+ 				      G4double kineticEnergy,
+ 				      G4double, G4double)
+ {
+   G4double res = 0.0;
+-  if (kineticEnergy > thKineticEnergy) {
++
++  G4double energy = LabToCM(kineticEnergy);
++
++  if (energy > thKineticEnergy) {
+     for(G4int i=0; i<nModels; i++) {
+-      if(kineticEnergy >= ekinMin[i] && kineticEnergy <= ekinMax[i])
+-        res += (models[i])->ComputeCrossSectionPerElectron(0,kineticEnergy);
++      if(energy >= ekinMin[i] && energy <= ekinMax[i]){
++        res += (models[i])->ComputeCrossSectionPerElectron(0,energy);
++      }
+       cumSum[i] = res;
+     }
+   }
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/include/G4eeToPGammaModel.hh geant4/source/processes/electromagnetic/highenergy/include/G4eeToPGammaModel.hh
+--- old/geant4/source/processes/electromagnetic/highenergy/include/G4eeToPGammaModel.hh	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/include/G4eeToPGammaModel.hh	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4eeToPGammaModel.hh 66241 2012-12-13 18:34:42Z gunter $
++// $Id: G4eeToPGammaModel.hh 82925 2014-07-18 17:52:15Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+@@ -62,18 +62,14 @@ class G4eeToPGammaModel : public G4Vee2h
+ 
+ public:
+ 
+-  G4eeToPGammaModel(G4eeCrossSections*, const G4String&);
++  G4eeToPGammaModel(G4eeCrossSections*, const G4String&,G4double,G4double);
+ 
+   virtual ~G4eeToPGammaModel();
+ 
+-  virtual G4double ThresholdEnergy() const;
+-
+   virtual G4double PeakEnergy() const;
+ 
+   virtual G4double ComputeCrossSection(G4double) const;
+ 
+-  virtual G4PhysicsVector* PhysicsVector(G4double, G4double) const;
+-
+   virtual void SampleSecondaries(std::vector<G4DynamicParticle*>*,
+               G4double, const G4ThreeVector&);
+ 
+@@ -83,8 +79,6 @@ private:
+   G4eeToPGammaModel & operator=(const  G4eeToPGammaModel &right);
+   G4eeToPGammaModel(const  G4eeToPGammaModel&);
+ 
+-  G4eeCrossSections* cross;
+-
+   G4ParticleDefinition* particle;
+   G4ParticleDefinition* pi0;
+ 
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/include/G4eeToTwoPiModel.hh geant4/source/processes/electromagnetic/highenergy/include/G4eeToTwoPiModel.hh
+--- old/geant4/source/processes/electromagnetic/highenergy/include/G4eeToTwoPiModel.hh	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/include/G4eeToTwoPiModel.hh	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4eeToTwoPiModel.hh 66241 2012-12-13 18:34:42Z gunter $
++// $Id: G4eeToTwoPiModel.hh 82925 2014-07-18 17:52:15Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+@@ -61,18 +61,14 @@ class G4eeToTwoPiModel : public G4Vee2ha
+ 
+ public:
+ 
+-  G4eeToTwoPiModel(G4eeCrossSections*);
++  G4eeToTwoPiModel(G4eeCrossSections*,G4double,G4double);
+ 
+   virtual ~G4eeToTwoPiModel();
+ 
+-  virtual G4double ThresholdEnergy() const;
+-
+   virtual G4double PeakEnergy() const;
+ 
+   virtual G4double ComputeCrossSection(G4double) const;
+ 
+-  virtual G4PhysicsVector* PhysicsVector(G4double, G4double) const;
+-
+   virtual void SampleSecondaries(std::vector<G4DynamicParticle*>*,
+               G4double, const G4ThreeVector&);
+ 
+@@ -82,8 +78,6 @@ private:
+   G4eeToTwoPiModel & operator=(const  G4eeToTwoPiModel &right);
+   G4eeToTwoPiModel(const  G4eeToTwoPiModel&);
+ 
+-  G4eeCrossSections* cross;
+-
+   G4double massPi;
+   G4double massRho;
+ 
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/include/G4hBremsstrahlung.hh geant4/source/processes/electromagnetic/highenergy/include/G4hBremsstrahlung.hh
+--- old/geant4/source/processes/electromagnetic/highenergy/include/G4hBremsstrahlung.hh	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/include/G4hBremsstrahlung.hh	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4hBremsstrahlung.hh 72943 2013-08-14 13:40:29Z gcosmo $
++// $Id: G4hBremsstrahlung.hh 72898 2013-08-09 11:39:00Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/include/G4hPairProduction.hh geant4/source/processes/electromagnetic/highenergy/include/G4hPairProduction.hh
+--- old/geant4/source/processes/electromagnetic/highenergy/include/G4hPairProduction.hh	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/include/G4hPairProduction.hh	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4hPairProduction.hh 72943 2013-08-14 13:40:29Z gcosmo $
++// $Id: G4hPairProduction.hh 72898 2013-08-09 11:39:00Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/include/G4mplIonisationModel.hh geant4/source/processes/electromagnetic/highenergy/include/G4mplIonisationModel.hh
+--- old/geant4/source/processes/electromagnetic/highenergy/include/G4mplIonisationModel.hh	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/include/G4mplIonisationModel.hh	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4mplIonisationModel.hh 76600 2013-11-13 08:30:02Z gcosmo $
++// $Id: G4mplIonisationModel.hh 76551 2013-11-12 18:50:09Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/include/G4mplIonisationWithDeltaModel.hh geant4/source/processes/electromagnetic/highenergy/include/G4mplIonisationWithDeltaModel.hh
+--- old/geant4/source/processes/electromagnetic/highenergy/include/G4mplIonisationWithDeltaModel.hh	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/include/G4mplIonisationWithDeltaModel.hh	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4mplIonisationWithDeltaModel.hh 76600 2013-11-13 08:30:02Z gcosmo $
++// $Id: G4mplIonisationWithDeltaModel.hh 76551 2013-11-12 18:50:09Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/sources.cmake geant4/source/processes/electromagnetic/highenergy/sources.cmake
+--- old/geant4/source/processes/electromagnetic/highenergy/sources.cmake	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/sources.cmake	2014-08-07 20:54:07.000000000 +0200
+@@ -11,7 +11,7 @@
+ #
+ # Generated on : 24/9/2010
+ #
+-# $Id: sources.cmake 66816 2013-01-12 16:13:54Z gcosmo $
++# $Id: sources.cmake 66241 2012-12-13 18:34:42Z gunter $
+ #
+ #------------------------------------------------------------------------------
+ 
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/src/G4GammaConversionToMuons.cc geant4/source/processes/electromagnetic/highenergy/src/G4GammaConversionToMuons.cc
+--- old/geant4/source/processes/electromagnetic/highenergy/src/G4GammaConversionToMuons.cc	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/src/G4GammaConversionToMuons.cc	2014-08-07 20:54:07.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4GammaConversionToMuons.cc 66872 2013-01-15 01:25:57Z japost $
++// $Id: G4GammaConversionToMuons.cc 66885 2013-01-16 17:37:13Z gunter $
+ //
+ //         ------------ G4GammaConversionToMuons physics process ------
+ //         by H.Burkhardt, S. Kelner and R. Kokoulin, April 2002
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/src/G4ee2KChargedModel.cc geant4/source/processes/electromagnetic/highenergy/src/G4ee2KChargedModel.cc
+--- old/geant4/source/processes/electromagnetic/highenergy/src/G4ee2KChargedModel.cc	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/src/G4ee2KChargedModel.cc	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4ee2KChargedModel.cc 66241 2012-12-13 18:34:42Z gunter $
++// $Id: G4ee2KChargedModel.cc 82925 2014-07-18 17:52:15Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+@@ -61,9 +61,16 @@
+ 
+ using namespace std;
+ 
+-G4ee2KChargedModel::G4ee2KChargedModel(G4eeCrossSections* cr):
+-  cross(cr)
++G4ee2KChargedModel::G4ee2KChargedModel(G4eeCrossSections* cr,
++				       G4double maxkinEnergy,
++				       G4double binWidth)
++:  G4Vee2hadrons(cr,				      
++		 2.0*G4KaonPlus::KaonPlus()->GetPDGMass(),
++		 maxkinEnergy,
++		 binWidth)
+ {
++  G4cout << "####G4ee2KChargedModel####" << G4endl;
++
+   massK = G4KaonPlus::KaonPlus()->GetPDGMass();
+   massPhi = 1019.46*MeV;
+ }
+@@ -75,13 +82,6 @@ G4ee2KChargedModel::~G4ee2KChargedModel(
+ 
+ //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+ 
+-G4double G4ee2KChargedModel::ThresholdEnergy() const
+-{
+-  return 2.0*massK;
+-}
+-
+-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+-
+ G4double G4ee2KChargedModel::PeakEnergy() const
+ {
+   return massPhi;
+@@ -91,21 +91,7 @@ G4double G4ee2KChargedModel::PeakEnergy(
+ 
+ G4double G4ee2KChargedModel::ComputeCrossSection(G4double e) const
+ {
+-  G4double ee = std::min(HighEnergy(),e);
+-  return cross->CrossSection2Kcharged(ee);
+-}
+-
+-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+-
+-G4PhysicsVector* G4ee2KChargedModel::PhysicsVector(G4double emin, 
+-						   G4double emax) const
+-{
+-  G4double tmin = std::max(emin, 2.0*massK);
+-  G4double tmax = std::max(tmin, emax);
+-  G4int nbins = (G4int)((tmax - tmin)/(1.*MeV));
+-  G4PhysicsVector* v = new G4PhysicsLinearVector(emin,emax,nbins);
+-  v->SetSpline(true);
+-  return v;
++  return cross->CrossSection2Kcharged(e); 
+ }
+ 
+ //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/src/G4ee2KNeutralModel.cc geant4/source/processes/electromagnetic/highenergy/src/G4ee2KNeutralModel.cc
+--- old/geant4/source/processes/electromagnetic/highenergy/src/G4ee2KNeutralModel.cc	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/src/G4ee2KNeutralModel.cc	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4ee2KNeutralModel.cc 66241 2012-12-13 18:34:42Z gunter $
++// $Id: G4ee2KNeutralModel.cc 82925 2014-07-18 17:52:15Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+@@ -61,9 +61,16 @@
+ 
+ using namespace std;
+ 
+-G4ee2KNeutralModel::G4ee2KNeutralModel(G4eeCrossSections* cr):
+-  cross(cr)
++G4ee2KNeutralModel::G4ee2KNeutralModel(G4eeCrossSections* cr,
++				       G4double maxkinEnergy,
++				       G4double binWidth)
++:  G4Vee2hadrons(cr,
++		 2.0*G4KaonZeroLong::KaonZeroLong()->GetPDGMass(),
++		 maxkinEnergy,
++		 binWidth)
+ {
++  G4cout << "####G4ee2KNeutralModel####" <<G4endl;
++
+   massK = G4KaonZeroLong::KaonZeroLong()->GetPDGMass();
+   massPhi = 1019.46*MeV;
+ }
+@@ -75,13 +82,6 @@ G4ee2KNeutralModel::~G4ee2KNeutralModel(
+ 
+ //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+ 
+-G4double G4ee2KNeutralModel::ThresholdEnergy() const
+-{
+-  return 2.0*massK;
+-}
+-
+-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+-
+ G4double G4ee2KNeutralModel::PeakEnergy() const
+ {
+   return massPhi;
+@@ -91,21 +91,7 @@ G4double G4ee2KNeutralModel::PeakEnergy(
+ 
+ G4double G4ee2KNeutralModel::ComputeCrossSection(G4double e) const
+ {
+-  G4double ee = std::min(HighEnergy(),e);
+-  return cross->CrossSection2Kneutral(ee);
+-}
+-
+-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+-
+-G4PhysicsVector* G4ee2KNeutralModel::PhysicsVector(G4double emin, 
+-						   G4double emax) const
+-{
+-  G4double tmin = std::max(emin, 2.0*massK);
+-  G4double tmax = std::max(tmin, emax);
+-  G4int nbins = (G4int)((tmax - tmin)/(1.0*MeV));
+-  G4PhysicsVector* v = new G4PhysicsLinearVector(emin,emax,nbins);
+-  v->SetSpline(true);
+-  return v;
++  return cross->CrossSection2Kneutral(e); 
+ }
+ 
+ //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/src/G4eeTo3PiModel.cc geant4/source/processes/electromagnetic/highenergy/src/G4eeTo3PiModel.cc
+--- old/geant4/source/processes/electromagnetic/highenergy/src/G4eeTo3PiModel.cc	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/src/G4eeTo3PiModel.cc	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4eeTo3PiModel.cc 66241 2012-12-13 18:34:42Z gunter $
++// $Id: G4eeTo3PiModel.cc 82929 2014-07-18 18:39:26Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+@@ -63,15 +63,21 @@
+ 
+ using namespace std;
+ 
+-G4eeTo3PiModel::G4eeTo3PiModel(G4eeCrossSections* cr):
+-  cross(cr)
++G4eeTo3PiModel::G4eeTo3PiModel(G4eeCrossSections* cr,
++			       G4double maxkinEnergy,
++			       G4double binWidth)
++:  G4Vee2hadrons(cr,
++	         0.41612*GeV,	 //threshold
++		 maxkinEnergy,
++		 binWidth)
+ {
++  G4cout << "####G4eeTo3PiModel####" << G4endl;
++
+   massPi  = G4PionPlus::PionPlus()->GetPDGMass();
+   massPi0 = G4PionZero::PionZero()->GetPDGMass();
+   massOm  = 782.62*MeV;
+   massPhi = 1019.46*MeV;
+-  gcash   = 0.0;
+-  gmax    = 1.0;
++  gmax    = 1.5e-8;
+ }
+ 
+ //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+@@ -81,17 +87,10 @@ G4eeTo3PiModel::~G4eeTo3PiModel()
+ 
+ //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+ 
+-G4double G4eeTo3PiModel::ThresholdEnergy() const
+-{
+-  return std::max(LowEnergy(),2.0*massPi + massPi0);
+-}
+-
+-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+-
+ G4double G4eeTo3PiModel::PeakEnergy() const
+ {
+   G4double e = massOm;
+-  if(HighEnergy() > massPhi) e = massPhi; 
++  if(HighEnergy() > massPhi) { e = massPhi; } 
+   return e;
+ }
+ 
+@@ -99,21 +98,7 @@ G4double G4eeTo3PiModel::PeakEnergy() co
+ 
+ G4double G4eeTo3PiModel::ComputeCrossSection(G4double e) const
+ {
+-  G4double ee = std::min(HighEnergy(),e);
+-  return cross->CrossSection3pi(ee);
+-}
+-
+-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+-
+-G4PhysicsVector* G4eeTo3PiModel::PhysicsVector(G4double emin, 
+-					       G4double emax) const
+-{
+-  G4double tmin = std::max(emin, ThresholdEnergy());
+-  G4double tmax = std::max(tmin, emax);
+-  G4int nbins = (G4int)((tmax - tmin)/(1.*MeV));
+-  G4PhysicsVector* v = new G4PhysicsLinearVector(emin,emax,nbins);
+-  v->SetSpline(true);
+-  return v;
++  return cross->CrossSection3pi(e);
+ }
+ 
+ //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+@@ -121,7 +106,6 @@ G4PhysicsVector* G4eeTo3PiModel::Physics
+ void G4eeTo3PiModel::SampleSecondaries(std::vector<G4DynamicParticle*>* newp,
+ 	    G4double e, const G4ThreeVector& direction) 
+ {
+-  if(e < ThresholdEnergy()) return;
+ 
+   G4double x0 = massPi0/e;
+   G4double x1 = massPi/e;
+@@ -133,10 +117,13 @@ void G4eeTo3PiModel::SampleSecondaries(s
+   // max pi0 energy
+   G4double edel  = 0.5*e*(1.0 + x0*x0 - 4.0*x1*x1) - massPi0;
+ 
++  const G4int nmax = 200;
++  G4int nn = 0;
+   do {
++    ++nn;
+     // pi0 sample
+     e0 = edel*G4UniformRand() + massPi0;
+-    p0 = sqrt(e0 - massPi0*massPi0);
++    p0 = sqrt(e0*e0 - massPi0*massPi0);
+     dir0 = G4RandomDirection();
+     w0 = G4LorentzVector(p0*dir0.x(),p0*dir0.y(),p0*dir0.z(),e0);
+ 
+@@ -149,13 +136,16 @@ void G4eeTo3PiModel::SampleSecondaries(s
+     p = sqrt(e2 - massPi*massPi);
+     dir1 = G4RandomDirection();
+     w2 = G4LorentzVector(p*dir1.x(),p*dir1.y(),p*dir1.z(),sqrt(e2));
+-    w2.boost(bst);
++    // pi- 
++    w1.set(-w2.px(), -w2.py(), -w2.pz(), w2.e());
++
++    w1.boost(-bst);
++    w2.boost(-bst);
++
+     G4double px2 = w2.x();
+     G4double py2 = w2.y();
+     G4double pz2 = w2.z();
+ 
+-    // pi- 
+-    w1 -= w2;
+     G4double px1 = w1.x();
+     G4double py1 = w1.y();
+     G4double pz1 = w1.z();
+@@ -171,13 +161,14 @@ void G4eeTo3PiModel::SampleSecondaries(s
+     gg = (px*px + py*py + pz*pz)*
+       norm( 1.0/cross->DpRho(m01) +  1.0/cross->DpRho(m02)
+ 	    + 1.0/cross->DpRho(m12) );
++
+     if(gg > gmax) {
+       G4cout << "G4eeTo3PiModel::SampleSecondaries WARNING matrix element g= "
+ 	     << gg << " > " << gmax << " (majoranta)" << G4endl;
++      gmax = gg;
+     }
+-    if(gg > gcash) gcash = gg;
+     
+-  } while( gmax*G4UniformRand() > gg );
++  } while( gmax*G4UniformRand() > gg || nn < nmax);
+ 
+   w0.rotateUz(direction);
+   w1.rotateUz(direction);
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/src/G4eeToHadrons.cc geant4/source/processes/electromagnetic/highenergy/src/G4eeToHadrons.cc
+--- old/geant4/source/processes/electromagnetic/highenergy/src/G4eeToHadrons.cc	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/src/G4eeToHadrons.cc	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4eeToHadrons.cc 66241 2012-12-13 18:34:42Z gunter $
++// $Id: G4eeToHadrons.cc 82925 2014-07-18 17:52:15Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+@@ -63,7 +63,7 @@ G4eeToHadrons::G4eeToHadrons(const G4Str
+     csFactor(1.0), 
+     isInitialised(false)
+ {
+-  SetVerboseLevel(1);
++  //SetVerboseLevel(2);
+   SetProcessSubType(fAnnihilationToHadrons);
+ }
+ 
+@@ -85,7 +85,8 @@ void G4eeToHadrons::InitialiseProcess(co
+ {
+   if(!isInitialised) {
+     isInitialised = true;
+-
++SetVerboseLevel(1);
++G4cout << "G4eeToHadrons::InitialiseProcess verbose= " << verboseLevel << G4endl;
+     SetBuildTableFlag(false);
+     SetIntegral(true);
+     SetMaxKinEnergy(10.0*TeV);
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/src/G4eeToHadronsModel.cc geant4/source/processes/electromagnetic/highenergy/src/G4eeToHadronsModel.cc
+--- old/geant4/source/processes/electromagnetic/highenergy/src/G4eeToHadronsModel.cc	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/src/G4eeToHadronsModel.cc	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4eeToHadronsModel.cc 66241 2012-12-13 18:34:42Z gunter $
++// $Id: G4eeToHadronsModel.cc 82925 2014-07-18 17:52:15Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+@@ -89,8 +89,6 @@ G4eeToHadronsModel::G4eeToHadronsModel(G
+ G4eeToHadronsModel::~G4eeToHadronsModel()
+ {
+   delete model;
+-  delete crossPerElectron;
+-  delete crossBornPerElectron;
+ }
+ 
+ //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+@@ -101,75 +99,41 @@ void G4eeToHadronsModel::Initialise(cons
+   if(isInitialised) { return; }
+   isInitialised  = true;
+ 
+-  // Lab system
+-  highKinEnergy = HighEnergyLimit();
+-  lowKinEnergy  = LowEnergyLimit();
+-
+   // CM system
+   emin  = model->LowEnergy();
+   emax  = model->HighEnergy();
+ 
+-  G4double emin0 = 
+-    2.0*electron_mass_c2*sqrt(1.0 + 0.5*lowKinEnergy/electron_mass_c2);
+-  G4double emax0 = 
+-    2.0*electron_mass_c2*sqrt(1.0 + 0.5*highKinEnergy/electron_mass_c2);
+-
+-  // recompute low energy
+-  if(emin0 > emax) {
+-    emin0 = emax;
+-    model->SetLowEnergy(emin0);
+-  }
+-  if(emin > emin0) {
+-    emin0 = emin;
+-    lowKinEnergy  = 0.5*emin*emin/electron_mass_c2 - 2.0*electron_mass_c2;
+-    SetLowEnergyLimit(lowKinEnergy);
+-  }
+-
+-  // recompute high energy
+-  if(emax < emax0) {
+-    emax0 = emax;
+-    highKinEnergy = 0.5*emax*emax/electron_mass_c2 - 2.0*electron_mass_c2;
+-    SetHighEnergyLimit(highKinEnergy);
+-  }
+-
+   // peak energy
+   epeak = std::min(model->PeakEnergy(), emax);
+-  peakKinEnergy  = 0.5*epeak*epeak/electron_mass_c2 - 2.0*electron_mass_c2;
+-
++  
+   if(verbose>0) {
+     G4cout << "G4eeToHadronsModel::Initialise: " << G4endl;
+-    G4cout << "LabSystem: emin(GeV)= " << lowKinEnergy/GeV
+-           << " epeak(GeV)= " << peakKinEnergy/GeV
+-           << " emax(GeV)= " << highKinEnergy/GeV
+-           << G4endl;
+-    G4cout << "SM System: emin(MeV)= " << emin/MeV
++    G4cout << "CM System: emin(MeV)= " << emin/MeV
+            << " epeak(MeV)= " << epeak/MeV
+            << " emax(MeV)= " << emax/MeV
+            << G4endl;
+   }
+ 
+-  if(lowKinEnergy < peakKinEnergy) {
+-    crossBornPerElectron = model->PhysicsVector(emin, emax);
+-    crossPerElectron     = model->PhysicsVector(emin, emax);
+-    nbins = crossPerElectron->GetVectorLength();
+-    for(G4int i=0; i<nbins; i++) {
+-      G4double e  = crossPerElectron->GetLowEdgeEnergy(i);
+-      G4double cs = model->ComputeCrossSection(e);
+-      crossBornPerElectron->PutValue(i, cs);
+-    }
+-    ComputeCMCrossSectionPerElectron();
++  crossBornPerElectron = model->PhysicsVector();
++  crossPerElectron     = model->PhysicsVector(); 
++  nbins = crossPerElectron->GetVectorLength();
++  for(G4int i=0; i<nbins; i++) {
++    G4double e  = crossPerElectron->Energy(i);
++    G4double cs = model->ComputeCrossSection(e);
++    crossBornPerElectron->PutValue(i, cs);
+   }
++  ComputeCMCrossSectionPerElectron();
++
+   if(verbose>1) {
+     G4cout << "G4eeToHadronsModel: Cross secsions per electron"
+            << " nbins= " << nbins
+            << " emin(MeV)= " << emin/MeV
+            << " emax(MeV)= " << emax/MeV
+            << G4endl;
+-    G4bool b;
+     for(G4int i=0; i<nbins; i++) {
+-      G4double e  = crossPerElectron->GetLowEdgeEnergy(i);
+-      G4double s1 = crossPerElectron->GetValue(e, b);
+-      G4double s2 = crossBornPerElectron->GetValue(e, b);
++      G4double e  = crossPerElectron->Energy(i);
++      G4double s1 = crossPerElectron->Value(e);
++      G4double s2 = crossBornPerElectron->Value(e);
+       G4cout << "E(MeV)= " << e/MeV
+              << "  cross(nb)= " << s1/nanobarn
+              << "  crossBorn(nb)= " << s2/nanobarn
+@@ -205,17 +169,13 @@ G4double G4eeToHadronsModel::ComputeCros
+ 
+ G4double G4eeToHadronsModel::ComputeCrossSectionPerElectron(
+                                           const G4ParticleDefinition*,
+-                                                G4double kineticEnergy,
++                                                G4double energy,
+                                                 G4double, G4double)
+ {
+   G4double cross = 0.0;
+   if(crossPerElectron) {
+-    G4bool b;
+-    G4double e = 2.0*electron_mass_c2*
+-                 sqrt(1.0 + 0.5*kineticEnergy/electron_mass_c2);
+-    cross = crossPerElectron->GetValue(e, b);
++    cross = crossPerElectron->Value(energy);
+   }
+-  //  G4cout << "e= " << kineticEnergy << " cross= " << cross << G4endl;
+   return cross;
+ }
+ 
+@@ -260,7 +220,6 @@ void G4eeToHadronsModel::SampleSecondari
+ 
+ void G4eeToHadronsModel::ComputeCMCrossSectionPerElectron()
+ {
+-  G4bool b;
+   for(G4int i=0; i<nbins; i++) {
+     G4double e  = crossPerElectron->GetLowEdgeEnergy(i);
+     G4double cs = 0.0;
+@@ -269,21 +228,21 @@ void G4eeToHadronsModel::ComputeCMCrossS
+       G4double bt  = 2.0*fine_structure_const*(L - 1.0)/pi;
+       G4double btm1= bt - 1.0;
+       G4double del = 1. + fine_structure_const*(1.5*L + pi*pi/3. -2.)/pi;
+-      G4double s1  = crossBornPerElectron->GetValue(e, b);
++      G4double s1  = crossBornPerElectron->Value(e);
+       G4double e1  = crossPerElectron->GetLowEdgeEnergy(i-1);
+       G4double x1  = 1. - e1/e;
+       cs += s1*(del*pow(x1,bt) - bt*(x1 - 0.25*x1*x1));
+       if(i > 1) {
+ 	G4double e2  = e1;
+ 	G4double x2  = x1;
+-	G4double s2  = crossBornPerElectron->GetValue(e2, b);
++	G4double s2  = crossBornPerElectron->Value(e2);
+ 	G4double w2  = bt*(del*pow(x2,btm1) - 1.0 + 0.5*x2);
+         G4double w1;      
+ 
+ 	for(G4int j=i-2; j>=0; j--) {
+ 	  e1  = crossPerElectron->GetLowEdgeEnergy(j);
+ 	  x1  = 1. - e1/e;
+-	  s1  = crossBornPerElectron->GetValue(e1, b);
++	  s1  = crossBornPerElectron->Value(e1);
+ 	  w1  = bt*(del*pow(x1,btm1) - 1.0 + 0.5*x1);
+ 	  cs += 0.5*(x1 - x2)*(w2*s2 + w1*s1);
+ 	  e2 = e1;
+@@ -294,7 +253,6 @@ void G4eeToHadronsModel::ComputeCMCrossS
+       }
+     }
+     crossPerElectron->PutValue(i, cs);
+-    //    G4cout << "e= " << e << "  cs= " << cs << G4endl;
+   }
+ }
+ 
+@@ -302,7 +260,6 @@ void G4eeToHadronsModel::ComputeCMCrossS
+ 
+ G4DynamicParticle* G4eeToHadronsModel::GenerateCMPhoton(G4double e)
+ {
+-  G4bool b;   
+   G4double x;
+   G4DynamicParticle* gamma = 0;
+   G4double L   = 2.0*log(e/electron_mass_c2);
+@@ -310,10 +267,10 @@ G4DynamicParticle* G4eeToHadronsModel::G
+   G4double btm1= bt - 1.0;
+   G4double del = 1. + fine_structure_const*(1.5*L + pi*pi/3. -2.)/pi;
+ 
+-  G4double s0 = crossBornPerElectron->GetValue(e, b);
++  G4double s0 = crossBornPerElectron->Value(e);
+   G4double de = (emax - emin)/(G4double)nbins;
+   G4double x0 = min(de,e - emin)/e;
+-  G4double ds = crossBornPerElectron->GetValue(e, b)
++  G4double ds = crossBornPerElectron->Value(e)
+               *(del*pow(x0,bt) - bt*(x0 - 0.25*x0*x0));
+   G4double e1 = e*(1. - x0);
+ 
+@@ -322,7 +279,7 @@ G4DynamicParticle* G4eeToHadronsModel::G
+   } else {    
+ 
+     x  = 1. - e1/e;
+-    G4double s1 = crossBornPerElectron->GetValue(e1, b);
++    G4double s1 = crossBornPerElectron->Value(e1);
+     G4double w1 = bt*(del*pow(x,btm1) - 1.0 + 0.5*x);
+     G4double grej = s1*w1;
+     G4double f;
+@@ -332,7 +289,7 @@ G4DynamicParticle* G4eeToHadronsModel::G
+     // Above emax cross section is 0
+     if(e1 > emax) {
+       x  = 1. - emax/e;
+-      G4double s2 = crossBornPerElectron->GetValue(emax, b);
++      G4double s2 = crossBornPerElectron->Value(emax);
+       G4double w2 = bt*(del*pow(x,btm1) - 1.0 + 0.5*x);
+       grej = s2*w2;
+       //  G4cout << "emax= " << emax << " s2= " << s2 << " w2= " << w2 
+@@ -341,7 +298,7 @@ G4DynamicParticle* G4eeToHadronsModel::G
+ 
+     if(e1 > epeak) {
+       x  = 1. - epeak/e;
+-      G4double s2 = crossBornPerElectron->GetValue(epeak, b);
++      G4double s2 = crossBornPerElectron->Value(epeak);
+       G4double w2 = bt*(del*pow(x,btm1) - 1.0 + 0.5*x);
+       grej = max(grej,s2*w2);
+       //G4cout << "epeak= " << epeak << " s2= " << s2 << " w2= " << w2 
+@@ -352,7 +309,7 @@ G4DynamicParticle* G4eeToHadronsModel::G
+     G4double xmax = 1. - emin/e;
+     do {
+       x = xmin + G4UniformRand()*(xmax - xmin);
+-      G4double s2 = crossBornPerElectron->GetValue((1.0 - x)*e, b);
++      G4double s2 = crossBornPerElectron->Value((1.0 - x)*e);
+       G4double w2 = bt*(del*pow(x,btm1) - 1.0 + 0.5*x);
+       //G4cout << "x= " << x << " xmin= " << xmin << " xmax= " << xmax
+       //     << " s2= " << s2 << " w2= " << w2 
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/src/G4eeToHadronsMultiModel.cc geant4/source/processes/electromagnetic/highenergy/src/G4eeToHadronsMultiModel.cc
+--- old/geant4/source/processes/electromagnetic/highenergy/src/G4eeToHadronsMultiModel.cc	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/src/G4eeToHadronsMultiModel.cc	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4eeToHadronsMultiModel.cc 66241 2012-12-13 18:34:42Z gunter $
++// $Id: G4eeToHadronsMultiModel.cc 82926 2014-07-18 18:12:29Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+@@ -57,77 +57,68 @@
+ #include "G4ee2KChargedModel.hh"
+ #include "G4eeCrossSections.hh"
+ #include "G4Vee2hadrons.hh"
++#include "G4Positron.hh"
+ 
+ //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+ 
+ using namespace std;
+ 
+-G4eeToHadronsMultiModel::G4eeToHadronsMultiModel(G4int ver, const G4String& mname)
+-  : G4VEmModel(mname),
++G4eeToHadronsMultiModel::G4eeToHadronsMultiModel(G4int ver, 
++  const G4String& mname) : G4VEmModel(mname),
+     csFactor(1.0),
+     nModels(0),
+     verbose(ver),
+     isInitialised(false)
+ {
+   thKineticEnergy  = DBL_MAX;
+-  maxKineticEnergy = 1.2*GeV;
++  maxKineticEnergy = 4.521*GeV;  //crresponding to 10TeV in lab
+   fParticleChange  = 0;
+   cross = 0;
++  delta = 1.0*MeV;  //for bin width
+ }
+ 
+ //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+ 
+ G4eeToHadronsMultiModel::~G4eeToHadronsMultiModel()
+ {
+-  G4int n = models.size();
+-  if(n>0) {
+-    for(G4int i=0; i<n; i++) {
+-      delete models[i];
+-    }
+-  }
+   delete cross;
+ }
+ 
+ //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+ 
+ void G4eeToHadronsMultiModel::Initialise(const G4ParticleDefinition*, 
+-					 const G4DataVector&)
++					 const G4DataVector& cuts) 
+ {
+   if(!isInitialised) {
+     isInitialised = true;
+ 
++    //G4cout<<"###Initialise in HadronMultiModel###"<<G4endl;
++
+     cross = new G4eeCrossSections();
+ 
+-    G4eeToTwoPiModel* m2pi = new G4eeToTwoPiModel(cross);
+-    m2pi->SetHighEnergy(maxKineticEnergy);
+-    AddEEModel(m2pi);
+-
+-    G4eeTo3PiModel* m3pi1 = new G4eeTo3PiModel(cross);
+-    m3pi1->SetHighEnergy(0.95*GeV);
+-    AddEEModel(m3pi1);
+-
+-    G4eeTo3PiModel* m3pi2 = new G4eeTo3PiModel(cross);
+-    m3pi2->SetLowEnergy(0.95*GeV);
+-    m3pi2->SetHighEnergy(maxKineticEnergy);
+-    AddEEModel(m3pi2);
+-
+-    G4ee2KChargedModel* m2kc = new G4ee2KChargedModel(cross);
+-    m2kc->SetHighEnergy(maxKineticEnergy);
+-    AddEEModel(m2kc);
+-
+-    G4ee2KNeutralModel* m2kn = new G4ee2KNeutralModel(cross);
+-    m2kn->SetHighEnergy(maxKineticEnergy);
+-    AddEEModel(m2kn);
+-
+-    G4eeToPGammaModel* mpg1 = new G4eeToPGammaModel(cross,"pi0");
+-    mpg1->SetLowEnergy(0.7*GeV);
+-    mpg1->SetHighEnergy(maxKineticEnergy);
+-    AddEEModel(mpg1);
+-
+-    G4eeToPGammaModel* mpg2 = new G4eeToPGammaModel(cross,"eta");
+-    mpg2->SetLowEnergy(0.7*GeV);
+-    mpg2->SetHighEnergy(maxKineticEnergy);
+-    AddEEModel(mpg2);
++    G4eeToTwoPiModel* m2pi = 
++      new G4eeToTwoPiModel(cross,maxKineticEnergy,delta);
++    AddEEModel(m2pi,cuts);
++
++    G4eeTo3PiModel* m3pi = 
++      new G4eeTo3PiModel(cross,maxKineticEnergy,delta);
++    AddEEModel(m3pi,cuts);
++
++    G4ee2KChargedModel* m2kc = 
++      new G4ee2KChargedModel(cross,maxKineticEnergy,delta);
++    AddEEModel(m2kc,cuts);
++
++    G4ee2KNeutralModel* m2kn = 
++      new G4ee2KNeutralModel(cross,maxKineticEnergy,delta);
++    AddEEModel(m2kn,cuts);
++
++    G4eeToPGammaModel* mpg1 = 
++      new G4eeToPGammaModel(cross,"pi0",maxKineticEnergy,delta);
++    AddEEModel(mpg1,cuts);
++
++    G4eeToPGammaModel* mpg2 = 
++      new G4eeToPGammaModel(cross,"eta",maxKineticEnergy,delta);
++    AddEEModel(mpg2,cuts);
+ 
+     nModels = models.size();
+ 
+@@ -137,18 +128,22 @@ void G4eeToHadronsMultiModel::Initialise
+ 
+ //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+ 
+-void G4eeToHadronsMultiModel::AddEEModel(G4Vee2hadrons* mod)
++
++
++void G4eeToHadronsMultiModel::AddEEModel(G4Vee2hadrons* mod,
++					 const G4DataVector& cuts)
+ {
+   G4eeToHadronsModel* model = new G4eeToHadronsModel(mod, verbose);
+-  model->SetLowEnergyLimit(LowEnergyLimit());
+-  model->SetHighEnergyLimit(HighEnergyLimit());
+   models.push_back(model);
+-  G4double elow = mod->ThresholdEnergy();
++  G4double elow = mod->LowEnergy();   
+   ekinMin.push_back(elow);
+-  if(thKineticEnergy > elow) thKineticEnergy = elow;
+-  ekinMax.push_back(mod->HighEnergy());
++  if(thKineticEnergy > elow) { thKineticEnergy = elow; }
++  ekinMax.push_back(mod->HighEnergy()); 
+   ekinPeak.push_back(mod->PeakEnergy());
+   cumSum.push_back(0.0);
++
++  const G4ParticleDefinition* positron = G4Positron::Positron();
++  model->Initialise(positron,cuts);
+ }
+ 
+ //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+@@ -177,18 +172,22 @@ G4double G4eeToHadronsMultiModel::Comput
+ 
+ //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+ 
+-void G4eeToHadronsMultiModel::SampleSecondaries(std::vector<G4DynamicParticle*>* newp,
+-						const G4MaterialCutsCouple* couple,
+-						const G4DynamicParticle* dp,
+-						G4double, G4double)
++void G4eeToHadronsMultiModel::SampleSecondaries(
++           std::vector<G4DynamicParticle*>* newp,
++	   const G4MaterialCutsCouple* couple,
++	   const G4DynamicParticle* dp,
++	   G4double, G4double)
+ {
+   G4double kinEnergy = dp->GetKineticEnergy();
+-  if (kinEnergy > thKineticEnergy) {
++  G4double energy = LabToCM(kinEnergy);
++  if (energy > thKineticEnergy) {
+     G4double q = cumSum[nModels-1]*G4UniformRand();
+     for(G4int i=0; i<nModels; i++) {
+       if(q <= cumSum[i]) {
+         (models[i])->SampleSecondaries(newp, couple,dp);
+-	if(newp->size() > 0) fParticleChange->ProposeTrackStatus(fStopAndKill);
++	if(newp->size() > 0) {
++	  fParticleChange->ProposeTrackStatus(fStopAndKill);
++	}
+ 	break;
+       }
+     }
+@@ -216,9 +215,11 @@ void G4eeToHadronsMultiModel::SetCrossSe
+ {
+   if(fac > 1.0) {
+     csFactor = fac;
+-    if(verbose > 0)
+-      G4cout << "### G4eeToHadronsMultiModel: The cross section for G4eeToHadronsMultiModel "
+-             << " is increased by the Factor= " << csFactor << G4endl;
++    if(verbose > 0) {
++      G4cout << "### G4eeToHadronsMultiModel: The cross section for "
++	     << "G4eeToHadronsMultiModel is increased by " 
++	     << csFactor << " times" << G4endl;
++    }
+   }
+ }
+ 
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/src/G4eeToPGammaModel.cc geant4/source/processes/electromagnetic/highenergy/src/G4eeToPGammaModel.cc
+--- old/geant4/source/processes/electromagnetic/highenergy/src/G4eeToPGammaModel.cc	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/src/G4eeToPGammaModel.cc	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4eeToPGammaModel.cc 66241 2012-12-13 18:34:42Z gunter $
++// $Id: G4eeToPGammaModel.cc 82925 2014-07-18 17:52:15Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+@@ -62,9 +62,18 @@
+ 
+ using namespace std;
+ 
+-G4eeToPGammaModel::G4eeToPGammaModel(G4eeCrossSections* cr, const G4String& npart):
+-  cross(cr)
++G4eeToPGammaModel::G4eeToPGammaModel(G4eeCrossSections* cr,
++	 			     const G4String& npart,
++				     G4double maxkinEnergy,
++				     G4double binWidth)
++: G4Vee2hadrons(cr,
++		npart=="pi0" ? 782.62*MeV:1019.46*MeV,	
++		maxkinEnergy,
++		binWidth)
+ {
++  G4cout << "####G4eeToPGammaModel & particle:" << npart 
++	 << "####" << G4endl; 
++
+   pi0 = G4PionZero::PionZero();
+   if(npart == "pi0") {
+     massR = 782.62*MeV;
+@@ -74,6 +83,7 @@ G4eeToPGammaModel::G4eeToPGammaModel(G4e
+     particle = G4Eta::Eta();
+   }
+   massP = particle->GetPDGMass();
++
+ }
+ 
+ //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+@@ -83,13 +93,6 @@ G4eeToPGammaModel::~G4eeToPGammaModel()
+ 
+ //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+ 
+-G4double G4eeToPGammaModel::ThresholdEnergy() const
+-{
+-  return LowEnergy();
+-}
+-
+-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+-
+ G4double G4eeToPGammaModel::PeakEnergy() const
+ {
+   return massR;
+@@ -99,28 +102,14 @@ G4double G4eeToPGammaModel::PeakEnergy()
+ 
+ G4double G4eeToPGammaModel::ComputeCrossSection(G4double e) const
+ {
+-  G4double ee = std::min(HighEnergy(),e);
+   G4double xs;
+-  if(particle == pi0) xs = cross->CrossSectionPi0G(ee);
+-  else                xs = cross->CrossSectionEtaG(ee);
++  if(particle == pi0) xs = cross->CrossSectionPi0G(e);
++  else                xs = cross->CrossSectionEtaG(e);
+   return xs;
+ }
+ 
+ //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+ 
+-G4PhysicsVector* G4eeToPGammaModel::PhysicsVector(G4double emin, 
+-						  G4double emax) const
+-{
+-  G4double tmin = std::max(emin, ThresholdEnergy());
+-  G4double tmax = std::max(tmin, emax);
+-  G4int nbins = (G4int)((tmax - tmin)/(5.*MeV));
+-  G4PhysicsVector* v = new G4PhysicsLinearVector(emin,emax,nbins);
+-  v->SetSpline(true);
+-  return v;
+-}
+-
+-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+-
+ void G4eeToPGammaModel::SampleSecondaries(std::vector<G4DynamicParticle*>* newp,
+ 	    G4double e, const G4ThreeVector& direction)
+ {
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/src/G4eeToTwoPiModel.cc geant4/source/processes/electromagnetic/highenergy/src/G4eeToTwoPiModel.cc
+--- old/geant4/source/processes/electromagnetic/highenergy/src/G4eeToTwoPiModel.cc	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/src/G4eeToTwoPiModel.cc	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4eeToTwoPiModel.cc 66241 2012-12-13 18:34:42Z gunter $
++// $Id: G4eeToTwoPiModel.cc 82925 2014-07-18 17:52:15Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+@@ -61,9 +61,16 @@
+ 
+ using namespace std;
+ 
+-G4eeToTwoPiModel::G4eeToTwoPiModel(G4eeCrossSections* cr):
+-  cross(cr)
++G4eeToTwoPiModel::G4eeToTwoPiModel(G4eeCrossSections* cr,
++				   G4double maxkinEnergy,
++				   G4double binWidth)
++:   G4Vee2hadrons(cr,
++		  2.0*G4PionPlus::PionPlus()->GetPDGMass(),
++                  maxkinEnergy,
++		  binWidth)
+ {
++  G4cout << "#####G4eeToTwoPiModel####" << G4endl;  
++
+   massPi = G4PionPlus::PionPlus()->GetPDGMass();
+   massRho = 775.5*MeV;
+ }
+@@ -75,13 +82,6 @@ G4eeToTwoPiModel::~G4eeToTwoPiModel()
+ 
+ //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+ 
+-G4double G4eeToTwoPiModel::ThresholdEnergy() const
+-{
+-  return 2.0*massPi;
+-}
+-
+-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+-
+ G4double G4eeToTwoPiModel::PeakEnergy() const
+ {
+   return massRho;
+@@ -91,21 +91,7 @@ G4double G4eeToTwoPiModel::PeakEnergy() 
+ 
+ G4double G4eeToTwoPiModel::ComputeCrossSection(G4double e) const
+ {
+-  G4double ee = std::min(HighEnergy(),e);
+-  return cross->CrossSection2pi(ee);
+-}
+-
+-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+-
+-G4PhysicsVector* G4eeToTwoPiModel::PhysicsVector(G4double emin, 
+-                                                 G4double emax) const
+-{
+-  G4double tmin = std::max(emin, 2.0*massPi);
+-  G4double tmax = std::max(tmin, emax);
+-  G4int nbins = (G4int)((tmax - tmin)/(5.*MeV));
+-  G4PhysicsVector* v = new G4PhysicsLinearVector(emin,emax,nbins);
+-  v->SetSpline(true);
+-  return v;
++  return cross->CrossSection2pi(e);
+ }
+ 
+ //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/src/G4hBremsstrahlung.cc geant4/source/processes/electromagnetic/highenergy/src/G4hBremsstrahlung.cc
+--- old/geant4/source/processes/electromagnetic/highenergy/src/G4hBremsstrahlung.cc	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/src/G4hBremsstrahlung.cc	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4hBremsstrahlung.cc 72943 2013-08-14 13:40:29Z gcosmo $
++// $Id: G4hBremsstrahlung.cc 72898 2013-08-09 11:39:00Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/src/G4hBremsstrahlungModel.cc geant4/source/processes/electromagnetic/highenergy/src/G4hBremsstrahlungModel.cc
+--- old/geant4/source/processes/electromagnetic/highenergy/src/G4hBremsstrahlungModel.cc	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/src/G4hBremsstrahlungModel.cc	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4hBremsstrahlungModel.cc 74020 2013-09-19 13:38:38Z gcosmo $
++// $Id: G4hBremsstrahlungModel.cc 74017 2013-09-19 10:13:46Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/src/G4hPairProduction.cc geant4/source/processes/electromagnetic/highenergy/src/G4hPairProduction.cc
+--- old/geant4/source/processes/electromagnetic/highenergy/src/G4hPairProduction.cc	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/src/G4hPairProduction.cc	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4hPairProduction.cc 72943 2013-08-14 13:40:29Z gcosmo $
++// $Id: G4hPairProduction.cc 72898 2013-08-09 11:39:00Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/src/G4hPairProductionModel.cc geant4/source/processes/electromagnetic/highenergy/src/G4hPairProductionModel.cc
+--- old/geant4/source/processes/electromagnetic/highenergy/src/G4hPairProductionModel.cc	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/src/G4hPairProductionModel.cc	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4hPairProductionModel.cc 74020 2013-09-19 13:38:38Z gcosmo $
++// $Id: G4hPairProductionModel.cc 74017 2013-09-19 10:13:46Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/src/G4mplIonisationModel.cc geant4/source/processes/electromagnetic/highenergy/src/G4mplIonisationModel.cc
+--- old/geant4/source/processes/electromagnetic/highenergy/src/G4mplIonisationModel.cc	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/src/G4mplIonisationModel.cc	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4mplIonisationModel.cc 76600 2013-11-13 08:30:02Z gcosmo $
++// $Id: G4mplIonisationModel.cc 76593 2013-11-13 06:28:24Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+diff -arupN old/geant4/source/processes/electromagnetic/highenergy/src/G4mplIonisationWithDeltaModel.cc geant4/source/processes/electromagnetic/highenergy/src/G4mplIonisationWithDeltaModel.cc
+--- old/geant4/source/processes/electromagnetic/highenergy/src/G4mplIonisationWithDeltaModel.cc	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/electromagnetic/highenergy/src/G4mplIonisationWithDeltaModel.cc	2014-08-07 20:54:07.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4mplIonisationWithDeltaModel.cc 76600 2013-11-13 08:30:02Z gcosmo $
++// $Id: G4mplIonisationWithDeltaModel.cc 76551 2013-11-12 18:50:09Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+diff -arupN old/geant4/source/processes/hadronic/models/im_r_matrix/CMakeLists.txt geant4/source/processes/hadronic/models/im_r_matrix/CMakeLists.txt
+--- old/geant4/source/processes/hadronic/models/im_r_matrix/CMakeLists.txt	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/processes/hadronic/models/im_r_matrix/CMakeLists.txt	2014-08-07 20:57:13.000000000 +0200
+@@ -7,7 +7,7 @@
+ #
+ # Generated on : 24/9/2010
+ #
+-# $Id: CMakeLists.txt 66892 2013-01-17 10:57:59Z gunter $
++# $Id: CMakeLists.txt 66241 2012-12-13 18:34:42Z gunter $
+ #
+ #------------------------------------------------------------------------------
+ 
+diff -arupN old/geant4/source/processes/hadronic/models/im_r_matrix/GNUmakefile geant4/source/processes/hadronic/models/im_r_matrix/GNUmakefile
+--- old/geant4/source/processes/hadronic/models/im_r_matrix/GNUmakefile	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/processes/hadronic/models/im_r_matrix/GNUmakefile	2014-08-07 20:57:13.000000000 +0200
+@@ -1,4 +1,4 @@
+-# $Id: GNUmakefile 66892 2013-01-17 10:57:59Z gunter $
++# $Id: GNUmakefile 66241 2012-12-13 18:34:42Z gunter $
+ # -----------------------------------------------------------
+ # GNUmakefile for hadronic library.  Gabriele Cosmo, 18/9/96.
+ # -----------------------------------------------------------
+diff -arupN old/geant4/source/processes/hadronic/models/im_r_matrix/History geant4/source/processes/hadronic/models/im_r_matrix/History
+--- old/geant4/source/processes/hadronic/models/im_r_matrix/History	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/processes/hadronic/models/im_r_matrix/History	2014-08-08 13:40:30.000000000 +0200
+@@ -13,6 +13,17 @@ code and to keep track of all tags.
+      ---------------------------------------------------------------
+      * Please list in reverse chronological order (last date on top)
+      ---------------------------------------------------------------
++
++08-July-2014 V.Ivanchenko               had-im_r-V09-06-11-cms
++18-July-2014 Andrea Dotti              
++- Fix data-race issue in G4CollisionComposite, when shared there 
++  are concurrent accesses to G4CollisionBuffer. The simplest solution
++  is to add a lock on a mutex. 
++
++10-June-2014 Gunter Folger             
++- Fix out of bound error in G4DetailedBalancePhaseSpaceIntegral, reported by
++  coverity.
++
+ 29-Jul-2013 Hisaya Kurashige            had-im_r-V09-06-05
+ - remove inclusion of G4ShortLivedTable.hh in G4ResonaceNames.cc
+ 
+diff -arupN old/geant4/source/processes/hadronic/models/im_r_matrix/include/G4CollisionComposite.hh geant4/source/processes/hadronic/models/im_r_matrix/include/G4CollisionComposite.hh
+--- old/geant4/source/processes/hadronic/models/im_r_matrix/include/G4CollisionComposite.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/processes/hadronic/models/im_r_matrix/include/G4CollisionComposite.hh	2014-08-08 13:41:46.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4CollisionComposite.hh 72269 2013-07-12 13:08:09Z gcosmo $
++// $Id: G4CollisionComposite.hh 83203 2014-08-08 11:40:57Z vnivanch $
+ // -------------------------------------------------------------------
+ //      GEANT4 Class file
+ //
+@@ -50,6 +50,7 @@
+ #include "G4CrossSectionBuffer.hh"
+ #include "G4Pair.hh"
+ #include "G4ParticleTable.hh"
++#include "G4Threading.hh"
+ 
+ class G4KineticTrack;
+ class G4VCrossSectionSource;
+@@ -123,6 +124,7 @@ private:
+   static const G4int nPoints;
+   static const G4double theT[];
+   
++  mutable G4Mutex bufferMutex; //Protects concurrent access to theBuffer in MT
+ };
+ 
+ #endif
+diff -arupN old/geant4/source/processes/hadronic/models/im_r_matrix/include/G4CollisionInitialState.hh geant4/source/processes/hadronic/models/im_r_matrix/include/G4CollisionInitialState.hh
+--- old/geant4/source/processes/hadronic/models/im_r_matrix/include/G4CollisionInitialState.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/processes/hadronic/models/im_r_matrix/include/G4CollisionInitialState.hh	2014-08-07 20:57:13.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4CollisionInitialState.hh 66892 2013-01-17 10:57:59Z gunter $
++// $Id: G4CollisionInitialState.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // $Id: G4CollisionInitialState.hh,v 1.0 1998/06/30
+ // -----------------------------------------------------------------------------
+diff -arupN old/geant4/source/processes/hadronic/models/im_r_matrix/include/G4ListOfCollisions.hh geant4/source/processes/hadronic/models/im_r_matrix/include/G4ListOfCollisions.hh
+--- old/geant4/source/processes/hadronic/models/im_r_matrix/include/G4ListOfCollisions.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/processes/hadronic/models/im_r_matrix/include/G4ListOfCollisions.hh	2014-08-07 20:57:13.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4ListOfCollisions.hh 66892 2013-01-17 10:57:59Z gunter $
++// $Id: G4ListOfCollisions.hh 66241 2012-12-13 18:34:42Z gunter $
+ //
+ // $Id: G4ListOfCollisions.hh,v 1.0 1998/06/30
+ // -----------------------------------------------------------------------------
+diff -arupN old/geant4/source/processes/hadronic/models/im_r_matrix/sources.cmake geant4/source/processes/hadronic/models/im_r_matrix/sources.cmake
+--- old/geant4/source/processes/hadronic/models/im_r_matrix/sources.cmake	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/processes/hadronic/models/im_r_matrix/sources.cmake	2014-08-07 20:57:13.000000000 +0200
+@@ -11,7 +11,7 @@
+ #
+ # Generated on : 24/9/2010
+ #
+-# $Id: sources.cmake 66892 2013-01-17 10:57:59Z gunter $
++# $Id: sources.cmake 66241 2012-12-13 18:34:42Z gunter $
+ #
+ #------------------------------------------------------------------------------
+ 
+diff -arupN old/geant4/source/processes/hadronic/models/im_r_matrix/src/G4CollisionComposite.cc geant4/source/processes/hadronic/models/im_r_matrix/src/G4CollisionComposite.cc
+--- old/geant4/source/processes/hadronic/models/im_r_matrix/src/G4CollisionComposite.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/processes/hadronic/models/im_r_matrix/src/G4CollisionComposite.cc	2014-08-08 13:35:38.000000000 +0200
+@@ -35,6 +35,7 @@
+ #include "G4KineticTrackVector.hh"
+ #include "G4VCrossSectionSource.hh"
+ #include "G4HadTmpUtil.hh"
++#include "G4AutoLock.hh"
+ 
+ const G4int G4CollisionComposite::nPoints = 32;
+ 
+@@ -43,6 +44,7 @@ const G4double G4CollisionComposite::the
+ 
+ G4CollisionComposite::G4CollisionComposite()
+ { 
++G4MUTEXINIT( bufferMutex );
+ }
+ 
+ 
+@@ -64,6 +66,7 @@ G4double G4CollisionComposite::CrossSect
+   }
+   else
+   {
++    G4AutoLock l(&bufferMutex);
+     // waiting for mutable to enable buffering.
+     const_cast<G4CollisionComposite *>(this)->BufferCrossSection(trk1.GetDefinition(), trk2.GetDefinition());
+ //    G4cerr << "Buffer filled, reying with sqrts = "<< (trk1.Get4Momentum()+trk2.Get4Momentum()).mag() <<G4endl;
+diff -arupN old/geant4/source/processes/hadronic/models/im_r_matrix/src/G4DetailedBalancePhaseSpaceIntegral.cc geant4/source/processes/hadronic/models/im_r_matrix/src/G4DetailedBalancePhaseSpaceIntegral.cc
+--- old/geant4/source/processes/hadronic/models/im_r_matrix/src/G4DetailedBalancePhaseSpaceIntegral.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/processes/hadronic/models/im_r_matrix/src/G4DetailedBalancePhaseSpaceIntegral.cc	2014-08-08 13:33:12.000000000 +0200
+@@ -147,7 +147,7 @@ GetPhaseSpaceIntegral(G4double sqs)
+ {
+   G4double result = 0;
+   G4int it=0;
+-  for(G4int ie=0; ie<120; ie++)
++  for(G4int ie=0; ie<119; ie++)
+   {
+     if(sqrts[ie]*GeV>sqs) break;
+     it = ie;
+diff -arupN old/geant4/source/processes/hadronic/models/pre_equilibrium/History geant4/source/processes/hadronic/models/pre_equilibrium/History
+--- old/geant4/source/processes/hadronic/models/pre_equilibrium/History	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/hadronic/models/pre_equilibrium/History	2014-08-08 11:01:27.000000000 +0200
+@@ -14,6 +14,13 @@ code and to keep track of all tags.
+      * Please list in reverse chronological order (last date on top)
+      ---------------------------------------------------------------
+ 
++08-August-2014 V.Ivanchenko  hadr-pre-V09-06-06-cms
++-------------------------------------------------
++- G4PreCompoundIon - cleanup transition probability computation
++- G4PreCompoundAlpha, G4PreCompoundHe3, G4PreCompoundTriton - fixed
++    FactorialFactor method - correct denominator
++- G4PreCompoundAlpha - fixed bug #1646 - integer overflow 
++
+ 23-October-2013 V.Ivanchenko  hadr-pre-V09-06-05
+ -------------------------------------------------
+ - G4PreCompoundModel, G4PreCompoundEmission, G4PreCompoundProton -
+diff -arupN old/geant4/source/processes/hadronic/models/pre_equilibrium/exciton_model/src/G4PreCompoundAlpha.cc geant4/source/processes/hadronic/models/pre_equilibrium/exciton_model/src/G4PreCompoundAlpha.cc
+--- old/geant4/source/processes/hadronic/models/pre_equilibrium/exciton_model/src/G4PreCompoundAlpha.cc	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/hadronic/models/pre_equilibrium/exciton_model/src/G4PreCompoundAlpha.cc	2014-08-08 10:59:35.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4PreCompoundAlpha.cc 68028 2013-03-13 13:48:15Z gcosmo $
++// $Id: G4PreCompoundAlpha.cc 83182 2014-08-08 08:58:37Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+@@ -38,6 +38,7 @@
+ // 21.08.2008 J. M. Quesada add choice of options  
+ // 20.08.2010 V.Ivanchenko added G4Pow and G4PreCompoundParameters pointers
+ //                         use int Z and A and cleanup
++// 05.07.2013 J.M. Quesada FactorialFactor fixed
+ //
+ 
+ #include "G4PreCompoundAlpha.hh"
+@@ -61,7 +62,7 @@ G4PreCompoundAlpha::~G4PreCompoundAlpha(
+ 
+ G4double G4PreCompoundAlpha::FactorialFactor(G4int N, G4int P)
+ {
+-  return G4double((N-4)*(P-3)*(N-3)*(P-2)*(N-2)*(P-1)*(N-1)*P)/12.0;
++  return G4double((N-4)*(P-3)*(N-3)*(P-2))*G4double((N-2)*(P-1)*(N-1)*P)/144.0;
+ }
+   
+ G4double G4PreCompoundAlpha::CoalescenceFactor(G4int A)
+diff -arupN old/geant4/source/processes/hadronic/models/pre_equilibrium/exciton_model/src/G4PreCompoundHe3.cc geant4/source/processes/hadronic/models/pre_equilibrium/exciton_model/src/G4PreCompoundHe3.cc
+--- old/geant4/source/processes/hadronic/models/pre_equilibrium/exciton_model/src/G4PreCompoundHe3.cc	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/hadronic/models/pre_equilibrium/exciton_model/src/G4PreCompoundHe3.cc	2014-08-08 10:59:35.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4PreCompoundHe3.cc 68028 2013-03-13 13:48:15Z gcosmo $
++// $Id: G4PreCompoundHe3.cc 83182 2014-08-08 08:58:37Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+@@ -38,6 +38,7 @@
+ // 21.08.2008 J. M. Quesada add choice of options  
+ // 20.08.2010 V.Ivanchenko added G4Pow and G4PreCompoundParameters pointers
+ //                         use int Z and A and cleanup
++// 05.07.2013 J.M. Quesada FactorialFactor fixed
+ //
+  
+ #include "G4PreCompoundHe3.hh"
+@@ -61,7 +62,7 @@ G4PreCompoundHe3::~G4PreCompoundHe3()
+ 
+ G4double G4PreCompoundHe3::FactorialFactor(G4int N, G4int P)
+ {
+-  return G4double((N-3)*(P-2)*(N-2)*(P-1)*(N-1)*P)/6.0; 
++  return G4double((N-3)*(P-2)*(N-2)*(P-1)*(N-1)*P)/12.0; 
+ }
+   
+ G4double G4PreCompoundHe3::CoalescenceFactor(G4int A)
+diff -arupN old/geant4/source/processes/hadronic/models/pre_equilibrium/exciton_model/src/G4PreCompoundIon.cc geant4/source/processes/hadronic/models/pre_equilibrium/exciton_model/src/G4PreCompoundIon.cc
+--- old/geant4/source/processes/hadronic/models/pre_equilibrium/exciton_model/src/G4PreCompoundIon.cc	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/hadronic/models/pre_equilibrium/exciton_model/src/G4PreCompoundIon.cc	2014-08-08 10:59:35.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4PreCompoundIon.cc 68028 2013-03-13 13:48:15Z gcosmo $
++// $Id: G4PreCompoundIon.cc 83182 2014-08-08 08:58:37Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+@@ -35,7 +35,7 @@
+ // Author:         V.Lara
+ //
+ // Modified:  
+-// 10.02.2009 J. M. Quesada fixed bug in density level of light fragments  
++// 10.02.2009 J. M. Quesada fixed bug in level density of light fragments  
+ // 20.08.2010 V.Ivanchenko added G4Pow and G4PreCompoundParameters pointers
+ //                         use int Z and A and cleanup
+ //
+@@ -61,7 +61,6 @@ ProbabilityDistributionFunction(G4double
+ {
+   if ( !IsItPossible(aFragment) ) { return 0.0; }
+   G4double efinal = eKin + GetBindingEnergy();
+-  //G4cout << "Efinal= " << efinal << " Ekin= " << eKin << G4endl;
+   if(efinal <= 0.0 ) { return 0.0; } 
+ 
+   G4double U = aFragment.GetExcitationEnergy();
+@@ -73,7 +72,6 @@ ProbabilityDistributionFunction(G4double
+   G4double g0 = (6.0/pi2)*aFragment.GetA_asInt()*theParameters->GetLevelDensity();
+   G4double g1 = (6.0/pi2)*GetRestA()*theParameters->GetLevelDensity();
+ 
+-  //JMQ 06/02/209  This is  THE BUG that was killing cluster emission
+   // G4double gj = (6.0/pi2)*GetA() *
+   //   G4PreCompoundParameters::GetAddress()->GetLevelDensity();
+ 
+@@ -83,7 +81,6 @@ ProbabilityDistributionFunction(G4double
+   G4double A1 = std::max(0.0,(A0*g0 + A*(A-2*P-1)*0.25)/g1); 
+ 
+   G4double E0 = U - A0;
+-  //G4cout << "E0= " << E0 << G4endl;
+   if (E0 <= 0.0) { return 0.0; }
+ 
+   G4double E1 = (std::max(0.0,GetMaximalKineticEnergy() - eKin - A1)); 
+@@ -93,22 +90,6 @@ ProbabilityDistributionFunction(G4double
+ 
+   G4double rj = GetRj(P, aFragment.GetNumberOfCharged());
+   G4double xs = CrossSection(eKin);
+-
+-  //G4cout << "rj= " << rj << " xs= " << xs << G4endl;
+-
+-  // JMQ 10/02/09 reshaping of the formula (unnecessary std::pow elimitated)
+-  /*
+-  G4double r0 = theParameters->Getr0();
+-  G4double pA = (3.0/4.0) * std::sqrt(std::max(0.0, 2.0/(GetReducedMass()*
+-  		(eKin+GetBindingEnergy()))))/(pi * r0 * r0 *r0* GetRestA())* 
+-                eKin*CrossSection(eKin)*millibarn* 
+-                CoalescenceFactor(aFragment.GetA_asInt()) * FactorialFactor(N,P)* 
+-       GetRj(aFragment.GetNumberOfParticles(), aFragment.GetNumberOfCharged());
+-
+-  G4double pB = std::pow((g1*E1)/(g0*E0),N-GetA()-1.0)*(g1/g0);
+-  G4double pC = std::pow((gj*Ej)/(g0*E0),GetA()-1.0)*(gj/g0)/E0; 
+-  pA *= pB * pC;
+-  */
+   
+   G4double pA = fact*eKin*xs*rj 
+     * CoalescenceFactor(aFragment.GetA_asInt()) * FactorialFactor(N,P)
+diff -arupN old/geant4/source/processes/hadronic/models/pre_equilibrium/exciton_model/src/G4PreCompoundTriton.cc geant4/source/processes/hadronic/models/pre_equilibrium/exciton_model/src/G4PreCompoundTriton.cc
+--- old/geant4/source/processes/hadronic/models/pre_equilibrium/exciton_model/src/G4PreCompoundTriton.cc	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/hadronic/models/pre_equilibrium/exciton_model/src/G4PreCompoundTriton.cc	2014-08-08 10:59:35.000000000 +0200
+@@ -23,7 +23,7 @@
+ // * acceptance of all terms of the Geant4 Software license.          *
+ // ********************************************************************
+ //
+-// $Id: G4PreCompoundTriton.cc 68028 2013-03-13 13:48:15Z gcosmo $
++// $Id: G4PreCompoundTriton.cc 83182 2014-08-08 08:58:37Z vnivanch $
+ //
+ // -------------------------------------------------------------------
+ //
+@@ -38,6 +38,7 @@
+ // 21.08.2008 J. M. Quesada add choice of options  
+ // 20.08.2010 V.Ivanchenko added G4Pow and G4PreCompoundParameters pointers
+ //                         use int Z and A and cleanup
++// 05.07.2013 J.M. Quesada FactorialFactor fixed
+ //
+  
+ #include "G4PreCompoundTriton.hh"
+@@ -61,7 +62,7 @@ G4PreCompoundTriton::~G4PreCompoundTrito
+ 
+ G4double G4PreCompoundTriton::FactorialFactor(G4int N, const G4int P)
+ {
+-  return G4double((N-3)*(P-2)*(N-2)*(P-1)*(N-1)*P)/6.0; 
++  return G4double((N-3)*(P-2)*(N-2)*(P-1)*(N-1)*P)/12.0; 
+ }
+   
+ G4double G4PreCompoundTriton::CoalescenceFactor(G4int A)
+diff -arupN old/geant4/source/processes/hadronic/models/quasi_elastic/History geant4/source/processes/hadronic/models/quasi_elastic/History
+--- old/geant4/source/processes/hadronic/models/quasi_elastic/History	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/hadronic/models/quasi_elastic/History	2014-08-08 10:54:53.000000000 +0200
+@@ -14,6 +14,10 @@ code and to keep track of all tags.
+      * Please list in reverse chronological order (last date on top)
+      ---------------------------------------------------------------
+ 
++08-August-2014, V.Ivanchenko hadr-qelastic-V09-06-02-cms
++07-July-2014, A.Dotti hadr-qelastic-V10-00-00
++- Remove potential data-race condition (bug #1652)
++
+ 19-March-2012, A.Ribon hadr-qelastic-V09-06-01
+ - Reverting back to the situation before the previous tag.
+ 
+diff -arupN old/geant4/source/processes/hadronic/models/quasi_elastic/src/G4QuasiElRatios.cc geant4/source/processes/hadronic/models/quasi_elastic/src/G4QuasiElRatios.cc
+--- old/geant4/source/processes/hadronic/models/quasi_elastic/src/G4QuasiElRatios.cc	2014-08-07 19:55:59.000000000 +0200
++++ geant4/source/processes/hadronic/models/quasi_elastic/src/G4QuasiElRatios.cc	2014-08-07 20:42:18.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4QuasiElRatios.cc 68711 2013-04-05 09:05:42Z gcosmo $
++// $Id: G4QuasiElRatios.cc 82758 2014-07-08 14:13:16Z gcosmo $
+ //
+ //
+ // G4 Physics class: G4QuasiElRatios for N+A elastic cross sections
+@@ -599,7 +599,7 @@ std::pair<G4double,G4double> G4QuasiElRa
+     static G4ThreadLocal G4double lastP=0.;              // The last momentum for which XS was calculated
+     static G4ThreadLocal G4int    lastH=0;               // The last projPDG for which XS was calculated
+     static G4ThreadLocal G4bool   lastF=true;            // The last nucleon for which XS was calculated
+-    static std::pair<G4double,G4double> lastR(0.,0.); // The last result
++    static std::pair<G4double,G4double>* G4MT_lastR=0; if (!G4MT_lastR) G4MT_lastR = new std::pair<G4double,G4double>(0.,0.); std::pair<G4double,G4double> &lastR=*G4MT_lastR; // The last result
+     // Local Associative Data Base:
+     static G4ThreadLocal std::vector<G4int>     *vI_G4MT_TLS_ = 0 ; if (!vI_G4MT_TLS_) vI_G4MT_TLS_ = new  std::vector<G4int>      ;  std::vector<G4int>     &vI = *vI_G4MT_TLS_;      // Vector of index for which XS was calculated
+     static G4ThreadLocal std::vector<G4double>  *vM_G4MT_TLS_ = 0 ; if (!vM_G4MT_TLS_) vM_G4MT_TLS_ = new  std::vector<G4double>   ;  std::vector<G4double>  &vM = *vM_G4MT_TLS_;      // Vector of rel max ln(p) initialized in LogTable
+diff -arupN old/geant4/source/run/History geant4/source/run/History
+--- old/geant4/source/run/History	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/run/History	2014-08-08 20:16:02.000000000 +0200
+@@ -1,4 +1,4 @@
+-$Id: History 79223 2014-02-20 15:01:29Z gcosmo $
++$Id: History 83214 2014-08-08 18:15:43Z vnivanch $
+ -------------------------------------------------------------------
+ 
+      =========================================================
+@@ -17,6 +17,26 @@ committal in the CVS repository !
+      * Reverse chronological order (last date on top), please *
+      ----------------------------------------------------------
+ 
++August 8th, 2014, V. Ivanchenko (run-V09-06-144-cms)
++August 8th, 2014, V. Ivanchenko (run-V09-06-143-cms)
++July 11th, 2014 A.Dotti       
++- Fixing race condition in G4VUPLSplitter class
++
++July 5th, 2014 A. Dotti       
++- Fixing data-race condition in G4RunManagerKernel 
++  when FPE is active
++
++July 5th, 2014 A. Dotti       
++- Fixing data-race condition when creating RNG for workers in MT:
++  G4UserWorkerThreadInitialization::SetupRNGEngine
++  (Lock moved beginning of function before default engine is created)
++
++July 1th, 2014, V. Ivanchenko 
++- G4PhysicsListHelper - minor fix in the default list of processeses:
++    positron annihilation in muons and hadrons cannot be AtRest -
++    these are rare high energy discrete processes. Equivalent fix was 
++    for OrderingParameterTable (problem report #1598)
++
+ Jan 21st, 2014, M. Asai (run-V09-06-142)
+ - Making sure worker threads re-build physics tables as well when the
+   master thread is requested to rebuild.
+diff -arupN old/geant4/source/run/include/G4VUPLSplitter.hh geant4/source/run/include/G4VUPLSplitter.hh
+--- old/geant4/source/run/include/G4VUPLSplitter.hh	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/run/include/G4VUPLSplitter.hh	2014-08-08 12:21:19.000000000 +0200
+@@ -47,7 +47,7 @@
+ 
+ #include "globals.hh"
+ #include "rundefs.hh"
+-
++#include "G4AutoLock.hh"
+ //
+ // This class implements the split-mechanism for shared objects.
+ // Let's see how it works.
+@@ -73,7 +73,9 @@ class G4VUPLSplitter
+ {
+   public:
+ 
+-    G4VUPLSplitter() : totalobj(0),totalspace(0),sharedOffset(0) {}
++    G4VUPLSplitter() : totalobj(0),totalspace(0),sharedOffset(0) {
++    	G4MUTEXINIT(mutex);
++    }
+ 
+     G4int CreateSubInstance()
+       // Invoked by the master thread to create a new subinstance
+@@ -81,11 +83,16 @@ class G4VUPLSplitter
+       // This is called by constructor of shared classes, thus only master thread
+       // calls this
+     {
++    	G4AutoLock l(&mutex);
+         //One more instance
+         totalobj++;
+         //If the number of objects is larger than the available spaces,
+         //a re-allocation is needed
+-        if (totalobj > slavetotalspace)  { NewSubInstances(); }
++        if (totalobj > slavetotalspace)  {
++        	l.unlock();
++        	NewSubInstances();
++        	l.lock();
++        }
+         //Since this is called by Master thread, we can remember this
+         totalspace = slavetotalspace;
+         sharedOffset = offset;
+@@ -97,7 +104,8 @@ class G4VUPLSplitter
+       // initialize each new subinstance using a particular method defined
+       // by the subclass.
+     {
+-        if (slavetotalspace  >= totalobj)  { return; }
++    	G4AutoLock l(&mutex);
++    	if (slavetotalspace  >= totalobj)  { return; }
+         //Remember current large size
+         G4int originaltotalspace = slavetotalspace;
+         //Increase its size by some value (purely arbitrary)
+@@ -133,6 +141,7 @@ class G4VUPLSplitter
+         //Since this is called by worker threds, totalspace is some valid number > 0
+         //Remember totalspace is the number of availabel slots from master.
+         //We are sure that it has valid data
++    	G4AutoLock l(&mutex);
+         offset = (T *)realloc(offset,totalspace * sizeof(T));
+         if (offset == 0)
+         {
+@@ -145,14 +154,14 @@ class G4VUPLSplitter
+     }
+   public:
+ 
+-    G4RUN_DLL static G4ThreadLocal G4int slavetotalspace; //Per-thread available number of slots
+-    G4RUN_DLL static G4ThreadLocal T* offset; //Pointer to first instance of an array
++    G4RUN_DLL G4ThreadLocalStatic G4int slavetotalspace; //Per-thread available number of slots
++    G4RUN_DLL G4ThreadLocalStatic T* offset; //Pointer to first instance of an array
+ 
+   private:
+-
+     G4int totalobj; //Total number of instances from master thread
+     G4int totalspace; // Available number of "slots"
+     T* sharedOffset;
++    G4Mutex mutex;
+ };
+ 
+ #endif
+diff -arupN old/geant4/source/run/src/G4PhysicsListHelper.cc geant4/source/run/src/G4PhysicsListHelper.cc
+--- old/geant4/source/run/src/G4PhysicsListHelper.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/run/src/G4PhysicsListHelper.cc	2014-08-08 20:16:02.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4PhysicsListHelper.cc 74308 2013-10-03 06:39:14Z gcosmo $
++// $Id: G4PhysicsListHelper.cc 83214 2014-08-08 18:15:43Z vnivanch $
+ //
+ // 
+ // ------------------------------------------------------------
+@@ -644,7 +644,7 @@ void G4PhysicsListHelper::ReadInDefaultO
+   tmp.processTypeName = "AnnihToMuMu";
+   tmp.processType     = 2;
+   tmp.processSubType  =  6;
+-  tmp.ordering[0]     =  6;
++  tmp.ordering[0]     = -1;
+   tmp.ordering[1]     = -1;
+   tmp.ordering[2]     =  6;
+   tmp.isDuplicable =  false;
+@@ -654,7 +654,7 @@ void G4PhysicsListHelper::ReadInDefaultO
+   tmp.processTypeName = "AnnihToHad";
+   tmp.processType     = 2;
+   tmp.processSubType  =  7;
+-  tmp.ordering[0]     =  7;
++  tmp.ordering[0]     = -1;
+   tmp.ordering[1]     = -1;
+   tmp.ordering[2]     =  7;
+   tmp.isDuplicable =  false;
+diff -arupN old/geant4/source/run/src/G4RunManagerKernel.cc geant4/source/run/src/G4RunManagerKernel.cc
+--- old/geant4/source/run/src/G4RunManagerKernel.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/run/src/G4RunManagerKernel.cc	2014-08-08 20:16:02.000000000 +0200
+@@ -24,7 +24,7 @@
+ // ********************************************************************
+ //
+ //
+-// $Id: G4RunManagerKernel.cc 79223 2014-02-20 15:01:29Z gcosmo $
++// $Id: G4RunManagerKernel.cc 83214 2014-08-08 18:15:43Z vnivanch $
+ //
+ //
+ 
+@@ -158,7 +158,10 @@ numberOfParallelWorld(0),geometryNeedsTo
+ #endif
+ 
+ #ifdef G4FPE_DEBUG
+-    InvalidOperationDetection();
++   static G4Mutex aLocalMutex = G4MUTEX_INITIALIZER;
++   G4AutoLock l(&aLocalMutex);
++   InvalidOperationDetection();
++   l.unlock();
+ #endif
+     
+     defaultExceptionHandler = new G4ExceptionHandler();
+@@ -277,6 +280,8 @@ G4RunManagerKernel::~G4RunManagerKernel(
+ 
+   G4UnitDefinition::ClearUnitsTable();
+   if(verboseLevel>1) G4cout << "Units table cleared." << G4endl;
++
++  // deletion of allocators
+   G4AllocatorList* allocList = G4AllocatorList::GetAllocatorListIfExist();
+   if(allocList)
+   {
+diff -arupN old/geant4/source/run/src/G4UserWorkerThreadInitialization.cc geant4/source/run/src/G4UserWorkerThreadInitialization.cc
+--- old/geant4/source/run/src/G4UserWorkerThreadInitialization.cc	2014-08-07 19:56:00.000000000 +0200
++++ geant4/source/run/src/G4UserWorkerThreadInitialization.cc	2014-08-08 12:23:08.000000000 +0200
+@@ -85,6 +85,7 @@ namespace {
+ 
+ void G4UserWorkerThreadInitialization::SetupRNGEngine(const CLHEP::HepRandomEngine* aNewRNG) const
+ {
++    G4AutoLock l(&rngCreateMutex);
+     //No default available, let's create the instance of random stuff
+     //A Call to this just forces the creation to defaults
+     G4Random::getTheEngine();
+@@ -92,7 +93,6 @@ void G4UserWorkerThreadInitialization::S
+     CLHEP::HepRandomEngine* retRNG= 0;
+ 
+     // Need to make these calls thread safe
+-    G4AutoLock l(&rngCreateMutex);
+     if ( dynamic_cast<const CLHEP::HepJamesRandom*>(aNewRNG) ) {
+        retRNG= new CLHEP::HepJamesRandom;
+     }
