@@ -11,11 +11,11 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-dxr.xml
 <tool name="py2-dxr" version="@TOOL_VERSION@">
   <info url="https://dxr.readthedocs.org/"/>
   <client>
-    <environment name="PY2_DXR" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$PY2_DXR/lib"/>
+   <environment name="PY2_DXR_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$PY2_DXR_BASE/lib"/>
   </client>
-    <runtime name="PYTHONPATH" value="$PY2_DXR/lib/python@PYTHONV@/site-packages" type="path"/>
-    <runtime name="PATH" value="$PY2_DXR/bin" type="path"/>
+    <runtime name="PYTHONPATH" value="$PY2_DXR_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
+    <runtime name="PATH" value="$PY2_DXR_BASE/bin" type="path"/>
     <use name="python"/>
     <use name="sqlite"/>
     <use name="py2-futures"/>
