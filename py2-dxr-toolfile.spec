@@ -23,6 +23,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-dxr.xml
     <use name="py2-markupsafe"/>
     <use name="py2-ordereddict"/>
     <use name="py2-parsimonious"/>
+    <use name="py2-pygments"/>
 </tool>
 EOF_TOOLFILE
 
