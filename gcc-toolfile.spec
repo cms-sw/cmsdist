@@ -112,15 +112,17 @@ case %cmsplatf in
     export ARCH_CXXFLAGS="-arch x86_64"
     export ARCH_SHAREDFLAGS="-arch x86_64"
     export ARCH_LIB64DIR="lib"
+    export ARCH_LD_UNIT="-r"
   ;;
   slc*)
     # For some reason on mac, some of the header do not compile if this is
     # defined.  Ignore for now.
     export ARCH_LIB64DIR="lib64"
-    export ARCH_LD_UNIT="-r -m elf_x86_64"
+    export ARCH_LD_UNIT="-r -m elf_x86_64 -z muldefs"
   ;;
   *_armv7hl_*)
     export ARCH_LIB64DIR="lib"
+    export ARCH_LD_UNIT="-r -z muldefs"
   ;;
   *) 
     echo "Unsupported."
