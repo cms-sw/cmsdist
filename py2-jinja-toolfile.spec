@@ -11,9 +11,9 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-jinja.xml
 <tool name="py2-jinja" version="@TOOL_VERSION@">
   <info url="https://pypi.python.org/pypi/jinja"/>
   <client>
-    <environment name="PY2_JINJA" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$PY2_JINJA/lib"/>
-    <runtime name="PYTHONPATH" value="$PY2_JINJA/lib/python@PYTHONV@/site-packages" type="path"/>
+    <environment name="PY2_JINJA_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$PY2_JINJA_BASE/lib"/>
+    <runtime name="PYTHONPATH" value="$PY2_JINJA_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   </client>
 </tool>
 EOF_TOOLFILE

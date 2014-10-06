@@ -11,9 +11,9 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-ordereddict.xml
 <tool name="py2-ordereddict" version="@TOOL_VERSION@">
   <info url="https://pypi.python.org/pypi/MarkupSafe"/>
   <client>
-    <environment name="PY2_ORDEREDDICT" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$PY2_ORDEREDDICT/lib"/>
-    <runtime name="PYTHONPATH" value="$PY2_ORDEREDDICT/lib/python@PYTHONV@/site-packages" type="path"/>
+    <environment name="PY2_ORDEREDDICT_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$PY2_ORDEREDDICT_BASE/lib"/>
+    <runtime name="PYTHONPATH" value="$PY2_ORDEREDDICT_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   </client>
 </tool>
 EOF_TOOLFILE

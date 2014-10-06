@@ -11,9 +11,9 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-parsimonious.xml
 <tool name="py2-parsimonious" version="@TOOL_VERSION@">
   <info url="https://pypi.python.org/pypi/MarkupSafe"/>
   <client>
-    <environment name="PY2_PARSIMONIOUS" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$PY2_PARSIMONIOUS/lib"/>
-    <runtime name="PYTHONPATH" value="$PY2_PARSIMONIOUS/lib/python@PYTHONV@/site-packages" type="path"/>
+    <environment name="PY2_PARSIMONIOUS_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$PY2_PARSIMONIOUS_BASE/lib"/>
+    <runtime name="PYTHONPATH" value="$PY2_PARSIMONIOUS_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   </client>
 </tool>
 EOF_TOOLFILE

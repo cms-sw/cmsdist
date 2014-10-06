@@ -11,9 +11,9 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-pygments.xml
 <tool name="py2-pygments" version="@TOOL_VERSION@">
   <info url="https://pypi.python.org/pypi/Pygments"/>
   <client>
-    <environment name="PY2_PYGMENTS" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$PY2_PYGMENTS/lib"/>
-    <runtime name="PYTHONPATH" value="$PY2_PYGMENTS/lib/python@PYTHONV@/site-packages" type="path"/>
+    <environment name="PY2_PYGMENTS_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$PY2_PYGMENTS_BASE/lib"/>
+    <runtime name="PYTHONPATH" value="$PY2_PYGMENTS_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   </client>
 </tool>
 EOF_TOOLFILE
