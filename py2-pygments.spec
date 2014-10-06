@@ -1,11 +1,11 @@
-### RPM external py2-jinja 2.7.2
+### RPM external py2-pygments 1.6
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 
-Source: http://pypi.python.org/packages/source/J/Jinja2/Jinja2-%realversion.tar.gz
+Source: http://pypi.python.org/packages/source/P/Pygments/Pygments-%realversion.tar.gz
 Requires: python py2-setuptools
 
 %prep
-%setup -n Jinja2-%realversion
+%setup -n Pygments-%realversion
 
 %build
 python setup.py build
