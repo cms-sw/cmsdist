@@ -32,7 +32,10 @@ export TAUOLAPP_LOCATION=${TAUOLAPP_ROOT}
 export PHOTOSPP_LOCATION=${PHOTOSPP_ROOT}
 
 
-./configure --prefix=%{i} --hepmcdir=$HEPMC_ROOT --pythiadir=$PYTHIA8_ROOT --tauoladir=$TAUOLAPP_ROOT --photosdir=$PHOTOSPP_ROOT CXXFLAGS="%cms_cxxflags"
+./configure --prefix=%{i} --hepmcdir=$HEPMC_ROOT --pythiadir=$PYTHIA8_ROOT --tauoladir=$TAUOLAPP_ROOT --photosdir=$PHOTOSPP_ROOT CXXFLAGS="%cms_cxxflags" 
+#remove obsolete pythia8 library
+sed -i 's/PYTHIALIBLIST = -lpythia8 -llhapdfdummy/PYTHIALIBLIST = -lpythia8/g' config.mk
+
 # One more fix-up for OSX (in addition to the patch above)
 case %cmsplatf in
   osx*)
