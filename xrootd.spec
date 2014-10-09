@@ -1,4 +1,4 @@
-### RPM external xrootd 4.0.2
+### RPM external xrootd 4.0.3
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
