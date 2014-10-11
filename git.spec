@@ -6,6 +6,7 @@
 ## INITENV SET GIT_EXEC_PATH %{i}/libexec/git-core
 
 %define isDarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
+%define isNotDarwin %(case %{cmsos} in (osx*) echo 0 ;; (*) echo 1 ;; esac)
 
 Source0: https://github.com/git/git/archive/v%{realversion}.tar.gz
 Patch1: git-1.8.3.1-no-symlink
@@ -42,6 +43,7 @@ make prefix=%{i} \
 %if %isDarwin
      NO_DARWIN_PORTS=1 \
      NO_FINK=1 \
+     NO_TCLTK=1 \
 %endif
      CURLDIR="${CURL_ROOT}" \
      OPENSSLDIR="${OPENSSL_ROOT}" \
@@ -70,6 +72,7 @@ make prefix=%{i} \
 %if %isDarwin
      NO_DARWIN_PORTS=1 \
      NO_FINK=1 \
+     NO_TCLTK=1 \
 %endif
      CURLDIR="${CURL_ROOT}" \
      OPENSSLDIR="${OPENSSL_ROOT}" \
@@ -104,8 +107,10 @@ cp ./ca-bundle/ca-bundle.crt %{i}/share/ssl/certs/ca-bundle.crt
 %{relocateConfig}libexec/git-core/git-relink
 %{relocateConfig}libexec/git-core/git-send-email
 %{relocateConfig}libexec/git-core/git-svn
-%{relocateCmsFiles} `find $RPM_INSTALL_PREFIX/%{pkgrel}/share -name "*" -type f`
-%{relocateCmsFiles} `find $RPM_INSTALL_PREFIX/%{pkgrel}/lib64/perl5 -name "*" -type f`
+%{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/share -type f)
+if [ -d $RPM_INSTALL_PREFIX/%{pkgrel}/lib64/perl5 ]; then
+  %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/lib64/perl5 -type f)
+fi
 if [ -d $RPM_INSTALL_PREFIX/%{pkgrel}/lib/perl5 ]; then 
-  %{relocateCmsFiles} `find $RPM_INSTALL_PREFIX/%{pkgrel}/lib/perl5 -name "*" -type f`
+  %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/lib/perl5 -type f)
 fi
