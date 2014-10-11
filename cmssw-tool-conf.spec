@@ -137,7 +137,6 @@ Requires: file-toolfile
 %if %islinux
 Requires: openldap-toolfile
 Requires: python-ldap-toolfile
-Requires: gdb-toolfile
 Requires: google-perftools-toolfile
 Requires: dmtcp-toolfile
 %endif
