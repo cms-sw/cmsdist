@@ -139,12 +139,12 @@ Requires: sherpa-toolfile
 Requires: geant4-parfullcms-toolfile
 Requires: fasthadd
 Requires: eigen-toolfile
+Requires: gdb-toolfile
 
 # Only for Linux platform.
 %if %islinux
 Requires: openldap-toolfile
 Requires: python-ldap-toolfile
-Requires: gdb-toolfile
 Requires: google-perftools-toolfile
 Requires: dmtcp-toolfile
 %endif
