@@ -1,18 +1,17 @@
-### RPM external pythia8 200pre2
+### RPM external pythia8 200
 
 Requires: hepmc lhapdf
 
-#Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
-Source: https://cms-project-generators.web.cern.ch/cms-project-generators/%{n}-%{realversion}-src.tgz
+Source: http://home.thep.lu.se/~torbjorn/pythia8/%{n}%{realversion}.tgz
 
-Patch0: pythia8-200pre2-fix-gcc-options
+Patch0: pythia8-200-fix-gcc-options
 
 %if "%{?cms_cxxflags:set}" != "set"
 %define cms_cxxflags -std=c++0x
 %endif
 
 %prep
-%setup -q -n %{n}/%{realversion}
+%setup -q -n %{n}%{realversion}
 %patch0 -p2
 
 export USRCXXFLAGS="%cms_cxxflags"
