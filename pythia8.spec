@@ -8,6 +8,7 @@ Patch0: pythia8-200-fix-gcc-options
 
 %prep
 %setup -q -n %{n}%{realversion}
+%patch0 -p2
 
 export HEPMCLOCATION=${HEPMC_ROOT}  
 export HEPMCVERSION=${HEPMC_VERSION}
