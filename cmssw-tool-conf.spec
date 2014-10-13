@@ -129,6 +129,8 @@ Requires: cgal-toolfile
 Requires: doxygen-toolfile
 Requires: py2-python-dateutil-toolfile
 Requires: yaml-cpp-toolfile
+Requires: gmp-static-toolfile
+Requires: mpfr-static-toolfile
 Requires: fastjet-contrib-toolfile
 Requires: cuda-toolfile
 Requires: opencl-toolfile
@@ -167,7 +169,7 @@ Requires: glibc-toolfile
 %endif
 %endif
 
-%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler cuda rivet2 opencl opencl-cpp lhapdf6
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler gmp mpfr cuda rivet2 opencl opencl-cpp lhapdf6
 
 ## IMPORT scramv1-tool-conf
 
