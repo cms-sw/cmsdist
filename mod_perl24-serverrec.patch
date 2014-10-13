@@ -1,0 +1,17 @@
+--- WrapXS/Apache2/ServerRec/ServerRec.xs.orig  2014-10-13 21:01:03.000000000 +0200
++++ WrapXS/Apache2/ServerRec/ServerRec.xs       2014-10-13 21:01:27.000000000 +0200
+@@ -157,12 +157,14 @@
+
+
+     CODE:
++    /*
+     RETVAL = (int) obj->loglevel;
+
+     if (items > 1) {
+          MP_CROAK_IF_THREADS_STARTED("setting loglevel");
+          obj->loglevel = (int) val;
+     }
++    */
+
+     OUTPUT:
+     RETVAL
