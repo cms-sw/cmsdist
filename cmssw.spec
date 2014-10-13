@@ -32,7 +32,7 @@ Requires: cmssw-tool-conf python cms-git-tools
 %define branch		%(echo %realversion | sed -e 's|_ICC_X.*|_X|')
 %define gitcommit       %(echo %realversion | sed -e 's|_ICC_X|_X|')
 %define scram_compiler  icc
-%define extra_tools     icc-cxxcompiler icc-f77compiler icc-ccompiler
+%define extra_tools     mpfr gmp icc-cxxcompiler icc-f77compiler icc-ccompiler
 %endif
 
 %if "%(case %realversion in (*_CLANG_X*) echo true ;; (*) echo false ;; esac)" == "true"
