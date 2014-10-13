@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 31.0
+### RPM cms cmssw-tool-conf 32.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -121,6 +121,8 @@ Requires: cgal-toolfile
 Requires: doxygen-toolfile
 Requires: py2-python-dateutil-toolfile
 Requires: yaml-cpp-toolfile
+Requires: gmp-static-toolfile
+Requires: mpfr-static-toolfile
 Requires: fastjet-contrib-toolfile
 Requires: geant4-parfullcms-toolfile
 Requires: fasthadd
@@ -153,7 +155,7 @@ Requires: glibc-toolfile
 %endif
 %endif
 
-%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler cuda rivet2 opencl opencl-cpp lhapdf6
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler gmp mpfr cuda rivet2 opencl opencl-cpp lhapdf6
 
 ## IMPORT scramv1-tool-conf
 
