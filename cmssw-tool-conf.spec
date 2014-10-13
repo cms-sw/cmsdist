@@ -119,6 +119,7 @@ Requires: sloccount-toolfile
 Requires: cvs2git-toolfile
 Requires: pacparser-toolfile
 Requires: git-toolfile
+Requires: eigen-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
