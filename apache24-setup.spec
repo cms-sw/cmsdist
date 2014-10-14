@@ -10,6 +10,7 @@ Requires: apache24
 %install
 mkdir -p %i/{bin,etc/env.d,etc/profile.d}
 mv mkserver %i/bin/
+sed -i -e "s,APACHE2_ROOT,APACHE24_ROOT,g" %i/bin/mkserver
 ln -sf ../profile.d/init.sh %i/etc/env.d/00-core-server.sh
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
