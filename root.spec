@@ -1,8 +1,8 @@
-### RPM lcg root 5.34.21
+### RPM lcg root 5.34.22
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
-%define tag 2ba48eb925f824b1eb8e86980b85ee72bb9dc7c5
-%define branch cms/v5-34-21
+%define tag a0f93b9ce10019a3a6fac5298d9423f8b2f052f3
+%define branch cms/v5-34-22
 %define github_user cms-sw
 Source: git+https://github.com/%github_user/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
