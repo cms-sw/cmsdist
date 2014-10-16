@@ -5,18 +5,17 @@ Source: http://www.hepforge.org/archive/openloops/OpenLoops-%{realversion}.tar.g
 
 %setup -n OpenLoops-%{realversion}
 
-touch openloops.cfg
-echo "[OpenLoops]" >> openloops.cfg
-echo "fortran_compiler = gfortran" >> openloops.cfg
-echo "gfortran_f90_flags = -ffixed-line-length-0 -ffree-line-length-0" >> openloops.cfg
-echo "openloops.cfg"
+cat \EOF >>  openloops.cfg
+[OpenLoops]
+fortran_compiler = gfortran
+gfortran_f90_flags = -ffixed-line-length-0 -ffree-line-length-0
+EOF
+
 cat openloops.cfg
 
 ./scons
 
-echo "test"
-
-./scons auto=all/ 
+./scons auto=lhc/ 
 
 %build
 
