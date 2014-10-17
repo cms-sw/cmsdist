@@ -1,20 +1,14 @@
 ### RPM external xrootd 4.0.3
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
-
-Source: http://xrootd.org/download/v%{realversion}/%{n}-%{realversion}.tar.gz
-Patch0: xrootd-3.1.0-fixed-library-location-all-os
-Patch1: xrootd-3.1.0-client-send-moninfo
-Patch2: xrootd-3.3.3-rc1-add-GetHandle-XrdClientAbs-header
-Patch3: xrootd-4.0.2-keep-client-headers
+%define tag 3e34e7273e5b1b5607bd17acf939ad07907a8b1e
+%define branch cms/v4.0.3
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake
-%if "%online" != "true"
 Requires: zlib
-%else
-Requires: onlinesystemtools
-%endif
-Requires: gcc openssl
+Requires: openssl
 
 %if "%{?cms_cxxflags:set}" != "set"
 %define cms_cxxflags -std=c++0x -O2
@@ -22,10 +16,6 @@ Requires: gcc openssl
 
 %prep
 %setup -n %n-%{realversion}
-%patch0 -p0
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
 
 # need to fix these from xrootd git
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
