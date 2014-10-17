@@ -5,15 +5,14 @@ Source: http://www.hepforge.org/archive/openloops/OpenLoops-%{realversion}.tar.g
 
 %setup -n OpenLoops-%{realversion}
 
-cat \EOF >>  openloops.cfg
+
+cat << \EOF >> openloops.cfg
 [OpenLoops]
 fortran_compiler = gfortran
 gfortran_f90_flags = -ffixed-line-length-0 -ffree-line-length-0
 EOF
 
 cat openloops.cfg
-
-./scons
 
 ./scons auto=lhc/ 
 
