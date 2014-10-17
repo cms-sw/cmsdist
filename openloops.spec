@@ -14,7 +14,7 @@ EOF
 
 cat openloops.cfg
 
-./scons auto=lhc/ 
+./scons auto=all/ 
 
 %build
 
