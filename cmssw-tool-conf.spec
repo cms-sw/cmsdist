@@ -142,6 +142,7 @@ Requires: geant4-parfullcms-toolfile
 Requires: fasthadd
 Requires: eigen-toolfile
 Requires: gdb-toolfile
+Requires: py2-pytz-toolfile
 
 # Only for Linux platform.
 %if %islinux
