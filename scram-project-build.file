@@ -12,8 +12,6 @@ Requires: SCRAMV1
 %if %islinux
 %if %isamd64
 %if "%{?pkgname}" != "coral"
-Requires: patchelf
-Requires: glibc
 Requires: file
 %endif # coral
 %endif # isamd64
