@@ -15,7 +15,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pythia8.xml
     <environment name="LIBDIR" default="$PYTHIA8_BASE/lib"/>
     <environment name="INCLUDE" default="$PYTHIA8_BASE/include"/>
   </client>
-  <runtime name="PYTHIA8DATA" value="$PYTHIA8_BASE/xmldoc"/>
+  <runtime name="PYTHIA8DATA" value="$PYTHIA8_BASE/share/Pythia8/xmldoc"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
   <use name="cxxcompiler"/>
