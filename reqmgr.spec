@@ -9,7 +9,7 @@ Source: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%
 #Source: https://maxa.home.cern.ch/maxa/reqmgr-WMCore-0.9.59-rc1.tgz
 Patch0: active_request_pr5423
 
-Requires: py2-simplejson py2-sqlalchemy052 py2-httplib2 cherrypy py2-cheetah dbs3-client
+Requires: py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah dbs3-client
 Requires: py2-cx-oracle yui rotatelogs couchdb py2-cjson py2-sphinx py2-pycurl
 
 %prep
