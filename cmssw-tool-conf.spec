@@ -116,6 +116,7 @@ Requires: git-toolfile
 Requires: yaml-cpp-toolfile
 Requires: gmp-static-toolfile
 Requires: mpfr-static-toolfile
+Requires: py2-pytz-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
