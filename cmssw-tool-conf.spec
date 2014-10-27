@@ -112,6 +112,7 @@ Requires: cgal-toolfile
 Requires: pacparser-toolfile
 Requires: git-toolfile
 Requires: yaml-cpp-toolfile
+Requires: py2-pytz-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
