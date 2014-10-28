@@ -26,7 +26,6 @@ Requires: data-RecoLocalCalo-EcalDeadChannelRecoveryAlgos
 Requires: data-RecoHI-HiJetAlgos
 Requires: data-GeneratorInterface-EvtGenInterface
 Requires: data-MagneticField-Interpolation
-Requires: data-FWCore-Framework
 
 %if %isnotonline
 # extra data dependencies for standard builds
