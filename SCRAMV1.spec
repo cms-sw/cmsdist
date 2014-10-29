@@ -1,5 +1,8 @@
 ### RPM lcg SCRAMV1 V2_2_6_pre2
 ## NOCOMPILER
+
+BuildRequires: gmake
+
 Provides: perl(BuildSystem::Template::Plugins::PluginCore)
 Provides: perl(BuildSystem::TemplateStash)
 Provides: perl(Cache::CacheUtilities)
