@@ -1,0 +1,226 @@
+diff --git a/src/python/WMCore/HTTPFrontEnd/RequestManager/Assign.py b/src/python/WMCore/HTTPFrontEnd/RequestManager/Assign.py
+index 59da628..8f4ae19 100644
+--- a/src/python/WMCore/HTTPFrontEnd/RequestManager/Assign.py
++++ b/src/python/WMCore/HTTPFrontEnd/RequestManager/Assign.py
+@@ -193,43 +193,43 @@ def index(self, all=0):
+         procString = ""
+         dashboardActivity = None
+         badRequestNames = []
+-        goodRequests = []
++        goodRequests = allRequests
+         reqMergedBase = None
+         reqUnmergedBase = None
+         blockCloseMaxWaitTime = 66400
+         blockCloseMaxFiles = 500
+         blockCloseMaxEvents = 250000000
+         blockCloseMaxSize = 5000000000000
+-        for request in allRequests:
+-            # make sure there's a workload attached
+-            try:
+-                helper = Utilities.loadWorkload(request)
+-            except Exception, ex:
+-                logging.error("Assign error: %s " % str(ex))
+-                badRequestNames.append(request["RequestName"])
+-            else:
+-                # get defaults from the first good one
+-                if not goodRequests:
+-                    # forget it if it fails.
+-                    try:
+-                        if helper.getAcquisitionEra() != None:
+-                            acqEra = helper.getAcquisitionEra()
+-                        if helper.getProcessingVersion() != None:
+-                            procVer = helper.getProcessingVersion()
+-                        if helper.getProcessingString() != None:
+-                            procString = helper.getProcessingString()
+-                        blockCloseMaxWaitTime = helper.getBlockCloseMaxWaitTime()
+-                        blockCloseMaxFiles = helper.getBlockCloseMaxFiles()
+-                        blockCloseMaxEvents = helper.getBlockCloseMaxEvents()
+-                        blockCloseMaxSize = helper.getBlockCloseMaxSize()
+-                        (reqMergedBase, reqUnmergedBase) = helper.getLFNBases()
+-                        dashboardActivity = helper.getDashboardActivity()
+-                        goodRequests.append(request)
+-                    except Exception, ex:
+-                        logging.error("Assign error: %s " % str(ex))
+-                        badRequestNames.append(request["RequestName"])
+-                else:
+-                    goodRequests.append(request)
++#         for request in allRequests:
++#             # make sure there's a workload attached
++#             try:
++#                 helper = Utilities.loadWorkload(request)
++#             except Exception, ex:
++#                 logging.error("Assign error: %s " % str(ex))
++#                 badRequestNames.append(request["RequestName"])
++#             else:
++#                 # get defaults from the first good one
++#                 if not goodRequests:
++#                     # forget it if it fails.
++#                     try:
++#                         if helper.getAcquisitionEra() != None:
++#                             acqEra = helper.getAcquisitionEra()
++#                         if helper.getProcessingVersion() != None:
++#                             procVer = helper.getProcessingVersion()
++#                         if helper.getProcessingString() != None:
++#                             procString = helper.getProcessingString()
++#                         blockCloseMaxWaitTime = helper.getBlockCloseMaxWaitTime()
++#                         blockCloseMaxFiles = helper.getBlockCloseMaxFiles()
++#                         blockCloseMaxEvents = helper.getBlockCloseMaxEvents()
++#                         blockCloseMaxSize = helper.getBlockCloseMaxSize()
++#                         (reqMergedBase, reqUnmergedBase) = helper.getLFNBases()
++#                         dashboardActivity = helper.getDashboardActivity()
++#                         goodRequests.append(request)
++#                     except Exception, ex:
++#                         logging.error("Assign error: %s " % str(ex))
++#                         badRequestNames.append(request["RequestName"])
++#                 else:
++#                     goodRequests.append(request)
+ 
+         return self.templatepage("Assign", all = all, requests = goodRequests, teams = teams,
+                                  assignments = [], sites = self.sites,
+diff --git a/src/python/WMCore/HTTPFrontEnd/RequestManager/ReqMgrBrowser.py b/src/python/WMCore/HTTPFrontEnd/RequestManager/ReqMgrBrowser.py
+index e723dc8..de805c4 100644
+--- a/src/python/WMCore/HTTPFrontEnd/RequestManager/ReqMgrBrowser.py
++++ b/src/python/WMCore/HTTPFrontEnd/RequestManager/ReqMgrBrowser.py
+@@ -43,7 +43,7 @@ def biggestUpdate(field, request):
+     return "%i%%" % biggest
+ 
+ class ReqMgrBrowser(WebAPI):
+-    """ For browsing and modifying requests """
++    """ For browsing and modifying requests: Disabled use WMStats instead """
+     def __init__(self, config):
+         WebAPI.__init__(self, config)
+         # Take a guess
+@@ -108,6 +108,7 @@ def search(self, value, field):
+     def index(self):
+         requests = GetRequest.getRequests()
+         tableBody = self.drawRequests(requests)
++        #tableBody = []
+         return self.templatepage("ReqMgrBrowser", yuiroot=self.yuiroot,
+                                  fields=self.fields, tableBody=tableBody)
+         
+diff --git a/src/python/WMCore/HTTPFrontEnd/RequestManager/ReqMgrWebTools.py b/src/python/WMCore/HTTPFrontEnd/RequestManager/ReqMgrWebTools.py
+index 608f6f0..3957a89 100644
+--- a/src/python/WMCore/HTTPFrontEnd/RequestManager/ReqMgrWebTools.py
++++ b/src/python/WMCore/HTTPFrontEnd/RequestManager/ReqMgrWebTools.py
+@@ -289,7 +289,7 @@ def prepareForTable(request):
+     return request
+ 
+ def requestsWithStatus(status):
+-    requestIds = theseIds = ListRequests.listRequestsByStatus(status).values()
++    requestIds = ListRequests.listRequestsByStatus(status).values()
+     requests = []
+     for requestId in requestIds:
+         request = GetRequest.getRequest(requestId)
+diff --git a/src/python/WMCore/ReqMgr/DataStructs/RequestStatus.py b/src/python/WMCore/ReqMgr/DataStructs/RequestStatus.py
+index f3456c0..6b77032 100644
+--- a/src/python/WMCore/ReqMgr/DataStructs/RequestStatus.py
++++ b/src/python/WMCore/ReqMgr/DataStructs/RequestStatus.py
+@@ -103,6 +103,22 @@
+     },
+ ]
+ 
++ACTIVE_STATUS = ["new",
++                 "assignment-approved",
++                 "assigned",
++                 "ops-hold",
++                 "negotiating",
++                 "acquired",
++                 "running",
++                 "running-open",
++                 "running-closed",
++                 "failed",
++                 "completed",
++                 "closed-out",
++                 "announced",
++                 "aborted",
++                 "rejected"]
++
+ # each item from STATUS_TRANSITION is a dictionary with 1 item, the key
+ # is name of the status
+ REQUEST_STATUS_LIST = [s.keys()[0] for s in REQUEST_STATUS_TRANSITION]
+\ No newline at end of file
+diff --git a/src/python/WMCore/RequestManager/RequestDB/MySQL/Progress/GetProgress.py b/src/python/WMCore/RequestManager/RequestDB/MySQL/Progress/GetProgress.py
+index ed7ad91..5f803ab 100644
+--- a/src/python/WMCore/RequestManager/RequestDB/MySQL/Progress/GetProgress.py
++++ b/src/python/WMCore/RequestManager/RequestDB/MySQL/Progress/GetProgress.py
+@@ -15,10 +15,11 @@ class GetProgress(DBFormatter):
+     Get a progress update for a request
+ 
+     """
++    sql = """SELECT * FROM reqmgr_progress_update 
++                  WHERE request_id=:request_id LIMIT 1"""
++        
+     def execute(self, requestId, conn = None, trans = False):
+ 
+-        self.sql = "SELECT * FROM reqmgr_progress_update "
+-        self.sql += "WHERE request_id=:request_id"
+         binds = {"request_id": requestId}
+         result = self.dbi.processData(self.sql, binds,
+                                       conn = conn, transaction = trans)
+diff --git a/src/python/WMCore/RequestManager/RequestDB/MySQL/Request/Find.py b/src/python/WMCore/RequestManager/RequestDB/MySQL/Request/Find.py
+index 85d1ff6..730640b 100644
+--- a/src/python/WMCore/RequestManager/RequestDB/MySQL/Request/Find.py
++++ b/src/python/WMCore/RequestManager/RequestDB/MySQL/Request/Find.py
+@@ -9,6 +9,7 @@
+ 
+ 
+ from WMCore.Database.DBFormatter import DBFormatter
++from WMCore.RequestManager.RequestDB.Settings import RequestStatus
+ 
+ class Find(DBFormatter):
+     """
+@@ -26,14 +27,18 @@ def execute(self, conn = None, trans = False):
+         returns a dictionay of { name: id, status }
+ 
+         """
++        
+         self.sql = """
+         SELECT req.request_name, req.request_id, stat.status_name
+           FROM reqmgr_request req
+             JOIN reqmgr_request_status stat
+                ON req.request_status = stat.status_id
++            WHERE stat.status_name = :status
+         """
+-
+-        result = self.dbi.processData(self.sql,
++        binds = {}
++        for status in RequestStatus.ACTIVE_STATUS:
++            binds['status'] = status
++        result = self.dbi.processData(self.sql, binds,
+                                       conn = conn, transaction = trans)
+ 
+         output = self.format(result)
+diff --git a/src/python/WMCore/RequestManager/RequestDB/Oracle/Progress/GetProgress.py b/src/python/WMCore/RequestManager/RequestDB/Oracle/Progress/GetProgress.py
+index 61feb0b..b62bfd1 100644
+--- a/src/python/WMCore/RequestManager/RequestDB/Oracle/Progress/GetProgress.py
++++ b/src/python/WMCore/RequestManager/RequestDB/Oracle/Progress/GetProgress.py
+@@ -1,4 +1,6 @@
+ from WMCore.RequestManager.RequestDB.MySQL.Progress.GetProgress import GetProgress as GetProgressMySQL
+ 
+ class GetProgress(GetProgressMySQL):
+-    pass
++    sql = """SELECT * FROM reqmgr_progress_update 
++                  WHERE ROWNUM <= 1 AND request_id=:request_id"""
++
+diff --git a/src/python/WMCore/RequestManager/RequestDB/Settings/RequestStatus.py b/src/python/WMCore/RequestManager/RequestDB/Settings/RequestStatus.py
+index ea27b56..2f990ea 100644
+--- a/src/python/WMCore/RequestManager/RequestDB/Settings/RequestStatus.py
++++ b/src/python/WMCore/RequestManager/RequestDB/Settings/RequestStatus.py
+@@ -60,4 +60,15 @@
+  "aborted-archived":[],
+  "rejected-archived":[]
+ }
+-  
+\ No newline at end of file
++
++ACTIVE_STATUS = ["assignment-approved",
++                 "assigned",
++                 "ops-hold",
++                 "negotiating",
++                 "acquired",
++                 "running",
++                 "running-open",
++                 "running-closed",
++                 "failed",
++                 "completed",
++                 "closed-out"]

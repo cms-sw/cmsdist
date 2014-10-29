@@ -1,0 +1,35 @@
+diff --git a/src/python/WMCore/Database/DBFormatter.py b/src/python/WMCore/Database/DBFormatter.py
+index 2084a18..8b7f8f0 100644
+--- a/src/python/WMCore/Database/DBFormatter.py
++++ b/src/python/WMCore/Database/DBFormatter.py
+@@ -10,6 +10,7 @@
+ 
+ import datetime
+ import time
++import types 
+ 
+ from WMCore.DataStructs.WMObject import WMObject
+ 
+@@ -108,9 +109,11 @@ def formatCursor(self, cursor, size=10):
+         Use fetchmany(size = default arraysize = 50)
+ 
+         """
+-        keys = [x.lower() for x in cursor.keys]
++	if type(cursor.keys) == types.MethodType:
++            keys = [x.lower() for x in cursor.keys()]
++        else:
++            keys = [x.lower() for x in cursor.keys]
+         result = []
+-        rapp = result.append
+         while True:
+             if not cursor.closed :
+                 rows = cursor.fetchmany(size=size)
+@@ -118,7 +121,7 @@ def formatCursor(self, cursor, size=10):
+                     cursor.close()
+                     break
+                 for r in rows:
+-                    rapp(dict(zip(keys, r)))
++                    result.append(dict(zip(keys, r)))
+             else: break
+         if not cursor.closed:
+             cursor.close()

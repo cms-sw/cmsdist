@@ -1,4 +1,4 @@
-### RPM cms apache-setup 3.4
+### RPM cms apache-setup 3.5
 Source: git://github.com/dmwm/apache-conf?obj=master/%{realversion}&export=%n&output=/%n.tar.gz
 Requires: apache2
 
