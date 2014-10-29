@@ -1,0 +1,20 @@
+diff --git a/dxr/plugins/clang/makefile b/dxr/plugins/clang/makefile
+index e75a5ad..b504c04 100644
+--- a/dxr/plugins/clang/makefile
++++ b/dxr/plugins/clang/makefile
+@@ -1,8 +1,13 @@
++CLANG_LIBS := -lclangFrontendTool -lclangFrontend -lclangDriver \
++              -lclangSerialization -lclangCodeGen -lclangParse \
++              -lclangSema -lclangRewriteFrontend -lclangRewrite \
++              -lclangAnalysis -lclangEdit -lclangAST -lclangLex \
++              -lclangBasic
+ LLVM_CONFIG ?= llvm-config
+-LLVM_LDFLAGS := $(shell ${LLVM_CONFIG} --ldflags)
++LLVM_LDFLAGS := $(shell ${LLVM_CONFIG} --ldflags --libs --system-libs) $(CLANG_LIBS)
+ CXXFLAGS := $(shell ${LLVM_CONFIG} --cxxflags) -Wall -Wno-strict-aliasing \
+ 	$(if $(DEBUG),-O0 -g)
+-LDFLAGS := -fPIC -g -Wl,-R -Wl,'$$ORIGIN' $(LLVM_LDFLAGS) -shared
++LDFLAGS := $(LDFLAGS) -fPIC -g $(LLVM_LDFLAGS) -shared
+ 
+ build: libclang-index-plugin.so
+ 
