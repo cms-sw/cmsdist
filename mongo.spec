@@ -1,4 +1,4 @@
-### RPM external mongo 2.6.1
+### RPM external mongo 2.6.5
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source: http://downloads.mongodb.org/src/mongodb-src-r%{realversion}.tar.gz
