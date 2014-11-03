@@ -1,8 +1,7 @@
-### RPM cms reqmon 1.0.0.pre3
+### RPM cms reqmon 1.0.1.pre4
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
-Patch0: reqmon-erl-views
 
 #from private repository
 #Source: git://github.com/ticoann/WMCore?obj=wmstats_task_summary/%realversion&export=%n&output=/%n.tar.gz
@@ -12,7 +11,6 @@ BuildRequires: py2-setuptools py2-sphinx couchskel
 
 %prep
 %setup -b 0 -n %n
-%patch0 -p0
 
 %build
 python setup.py build_system -s reqmon
