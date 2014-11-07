@@ -1,4 +1,4 @@
-### RPM external condor 8.1.6
+### RPM external condor 8.3.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/condor
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define condortag %(echo V%realversion | tr "." "_")

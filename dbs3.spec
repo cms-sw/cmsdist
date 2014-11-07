@@ -14,7 +14,6 @@ BuildRequires: py2-sphinx
 
 %prep
 %setup -T -b 0 -n WMCore
-%patch0 -p1
 %setup -D -T -b 1 -n DBS
 
 %build
