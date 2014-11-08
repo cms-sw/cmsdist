@@ -21,6 +21,8 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cgal.xml
   </client>
   <use name="zlib"/>
   <use name="boost_system"/>
+  <use name="gmp"/>
+  <use name="mpfr"/>
 </tool>
 EOF_TOOLFILE
 

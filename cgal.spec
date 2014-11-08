@@ -2,7 +2,8 @@
 
 Source: https://gforge.inria.fr/frs/download.php/32360/%{n}-%{realversion}.tar.bz2
 
-BuildRequires: cmake gmp-static mpfr-static
+BuildRequires: cmake
+Requires: gmp-static mpfr-static
 
 Requires: boost zlib
 
