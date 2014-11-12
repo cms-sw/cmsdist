@@ -95,6 +95,14 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_serialization.xml
 </tool>
 EOF_TOOLFILE
 
+cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_test.xml
+<tool name="boost_test" version="@TOOL_VERSION@">
+  <info url="http://www.boost.org"/>
+  <lib name="boost_unit_test_framework"/>
+  <use name="boost"/>
+</tool>
+EOF_TOOLFILE
+
 cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_iostreams.xml
 <tool name="boost_iostreams" version="@TOOL_VERSION@">
   <info url="http://www.boost.org"/>
