@@ -1,0 +1,172 @@
+#/*! \page config_rpmpopt Default configuration: /afs/cern.ch/work/a/arun/PCL_Check_v1/cmsdist/lib/rpm/rpmpopt-4.8.0
+# \verbatim
+#
+# This file *should not be modified*. Local customizations
+# belong in /etc/popt, not here. This file will be replaced
+# whenever a new version of RPM is installed.
+#
+# Note: Not all popt aliases are documented. This is a decision on my
+# part as to which are the more important aliases. Feel free to clip
+# a copy of the alias/exec here and place in /etc/popt or ~/.popt with
+# your own words added. It's easier than arguing about how many options
+# fit on the head of an executable :-)
+#
+
+rpm	alias --scripts --qf '\
+%|PRETRANS?{pretrans scriptlet\
+%|PRETRANSPROG?{ (using %{PRETRANSPROG})}|:\n%{PRETRANS}\n}:\
+{%|PRETRANSPROG?{pretrans program: %{PRETRANSPROG}\n}|}|\
+\
+%|PREIN?{preinstall scriptlet\
+%|PREINPROG?{ (using %{PREINPROG})}|:\n%{PREIN}\n}:\
+{%|PREINPROG?{preinstall program: %{PREINPROG}\n}|}|\
+\
+%|POSTIN?{postinstall scriptlet\
+%|POSTINPROG?{ (using %{POSTINPROG})}|:\n%{POSTIN}\n}:\
+{%|POSTINPROG?{postinstall program: %{POSTINPROG}\n}|}|\
+\
+%|PREUN?{preuninstall scriptlet\
+%|PREUNPROG?{ (using %{PREUNPROG})}|:\n%{PREUN}\n}:\
+{%|PREUNPROG?{preuninstall program: %{PREUNPROG}\n}|}|\
+\
+%|POSTUN?{postuninstall scriptlet\
+%|POSTUNPROG?{ (using %{POSTUNPROG})}|:\n%{POSTUN}\n}:\
+{%|POSTUNPROG?{postuninstall program: %{POSTUNPROG}\n}|}|\
+\
+%|POSTTRANS?{posttrans scriptlet\
+%|POSTTRANSPROG?{ (using %{POSTTRANSPROG})}|:\n%{POSTTRANS}\n}:\
+{%|POSTTRANSPROG?{posttrans program: %{POSTTRANSPROG}\n}|}|\
+\
+%|VERIFYSCRIPT?{verify scriptlet:\n%{VERIFYSCRIPT}\n}|\
+' \
+	--POPTdesc=$"list install/erase scriptlets from package(s)"
+
+rpm	alias --setperms -q --qf '[\[ -L %{FILENAMES:shescape} \] || chmod %7.7{FILEMODES:octal} %{FILENAMES:shescape}\n]' \
+		   --pipe "grep -v \(none\) | grep '^. -L ' | sed 's/chmod .../chmod /' | sh" \
+	--POPTdesc=$"set permissions of files in a package"
+
+rpm	alias --setugids -q --qf \
+        '[ch %{FILEUSERNAME:shescape} %{FILEGROUPNAME:shescape} %{FILENAMES:shescape}\n]' \
+        --pipe "(echo 'ch() { chown -h -- \"$1\" \"$3\";chgrp -h -- \"$2\" \"$3\"; }';grep '^ch '|grep -v \(none\))|sh" \
+	--POPTdesc=$"set user/group ownership of files in a package"
+
+rpm	alias --conflicts	--qf \
+  "[%|VERBOSE?{%{CONFLICTFLAGS:deptype}: }:{}|%{CONFLICTNAME} %{CONFLICTFLAGS:depflags} %{CONFLICTVERSION}\n]" \
+	--POPTdesc=$"list capabilities this package conflicts with"
+rpm	alias --obsoletes	--qf \
+  "[%|VERBOSE?{%{OBSOLETEFLAGS:deptype}: }:{}|%{OBSOLETENAME} %|OBSOLETEFLAGS?{%{OBSOLETEFLAGS:depflags} %{OBSOLETEVERSION}}:{}|\n]" \
+	--POPTdesc=$"list other packages removed by installing this package"
+rpm	alias --provides	--qf \
+  "[%|VERBOSE?{%{PROVIDEFLAGS:deptype}: }:{}|%{PROVIDENAME} %|PROVIDEFLAGS?{%{PROVIDEFLAGS:depflags} %{PROVIDEVERSION}}:{}|\n]" \
+	--POPTdesc=$"list capabilities that this package provides"
+
+rpm	alias --requires	--qf \
+  "[%|VERBOSE?{%{REQUIREFLAGS:deptype}: }:{}|%{REQUIRENAME} %{REQUIREFLAGS:depflags} %{REQUIREVERSION}\n]" \
+	--POPTdesc=$"list capabilities required by package(s)"
+rpm	alias -R --requires
+
+rpm	alias --info --qf 'Name        : %-27{NAME}  Relocations: %|PREFIXES?{[%{PREFIXES} ]}:{(not relocatable)}|\n\
+Version     : %-27{VERSION}       Vendor: %{VENDOR}\n\
+Release     : %-27{RELEASE}   Build Date: %{BUILDTIME:date}\n\
+Install Date: %|INSTALLTIME?{%-27{INSTALLTIME:date}}:{(not installed)         }|      Build Host: %{BUILDHOST}\n\
+Group       : %-27{GROUP}   Source RPM: %{SOURCERPM}\n\
+Size        : %-27{LONGSIZE}%|LICENSE?{      License: %{LICENSE}}|\n\
+Signature   : %|DSAHEADER?{%{DSAHEADER:pgpsig}}:{%|RSAHEADER?{%{RSAHEADER:pgpsig}}:{%|SIGGPG?{%{SIGGPG:pgpsig}}:{%|SIGPGP?{%{SIGPGP:pgpsig}}:{(none)}|}|}|}|\n\
+%|PACKAGER?{Packager    : %{PACKAGER}\n}|\
+%|URL?{URL         : %{URL}\n}|\
+Summary     : %{SUMMARY}\n\
+Description :\n%{DESCRIPTION}\n' \
+	--POPTdesc=$"list descriptive information from package(s)"
+
+rpm	alias --changelog --qf '[* %{CHANGELOGTIME:day} %{CHANGELOGNAME}\n%{CHANGELOGTEXT}\n\n]' \
+	--POPTdesc=$"list change logs for this package"
+
+rpm	alias --xml --qf '[%{*:xml}\n]' \
+	--POPTdesc=$"list metadata in xml"
+
+rpm	alias --triggerscripts --qf '\
+[trigger%{TRIGGERTYPE} scriptlet (using %{TRIGGERSCRIPTPROG}) -- %{TRIGGERCONDS}\n\
+%{TRIGGERSCRIPTS}\n]'
+rpm	alias --triggers --triggerscripts \
+	--POPTdesc=$"list trigger scriptlets from package(s)"
+
+rpm	alias --last --qf '%|INSTALLTIME?{%{INSTALLTIME}}:{000000000}| %{NAME}-%{VERSION}-%{RELEASE} %|INSTALLTIME?{%{INSTALLTIME:date}}:{(not installed)}|\n' \
+	--pipe "sort -r -n | sed 's,^[0-9]\+ ,,' | awk '{printf(\"%-45s %-s\n\", $1, substr($0,length($1)+2))}' " \
+	--POPTdesc=$"list package(s) by install time, most recent first"
+
+rpm	alias --dupes   --qf '%|SOURCERPM?{%{name}.%{arch}}:{%|ARCH?{%{name}}:{%{name}-%{version}}|}|\n' --pipe "sort | uniq -d" \
+	--POPTdesc=$"list duplicated packages"
+
+rpm	alias --filesbypkg --qf '[%-25{=NAME} %{FILENAMES}\n]' \
+	--POPTdesc=$"list all files from each package"
+
+rpm	alias --fileclass --qf '[%{FILENAMES}\t%{FILECLASS}\n]' \
+	--POPTdesc=$"list file names with classes"
+
+rpm	alias --filecolor --qf '[%{FILENAMES}\t%{FILECOLORS}\n]' \
+	--POPTdesc=$"list file names with colors"
+
+rpm     alias --fscontext --qf '[%{FILENAMES}\n]' \
+        --pipe "xargs ls --scontext | awk '{printf(\"%s %s\n\", $2, $1)}'" \
+        --POPTdesc=$"list file names with security context from file system"
+
+rpm	alias --fileprovide --qf '[%{FILENAMES}\t%{FILEPROVIDE}\n]' \
+	--POPTdesc=$"list file names with provides"
+
+rpm	alias --filerequire --qf '[%{FILENAMES}\t%{FILEREQUIRE}\n]' \
+	--POPTdesc=$"list file names with requires"
+
+rpm	alias --filecaps --qf '[%{FILENAMES}\t%|FILECAPS?{%{FILECAPS}}|\n]' \
+	--POPTdesc=$"list file names with POSIX1.e capabilities"
+
+# colon separated i18n domains to use as PO catalogue lookaside for
+# retrieving header group/description/summary.
+rpm alias --i18ndomains --define '_i18ndomains !#:+'
+
+# Choose db interface:
+#	0	same as 1
+#	1	native db1 interface (e.g. linux glibc libdb1 routines).
+#	2	native db2 interface.
+#	3	native db3 interface.
+#	-1	db3 -> db2 -> db1 (as available).
+#
+# There are two macros so that --rebuilddb can convert db1 -> db3
+rpm alias --dbapi		 --define '_dbapi !#:+'
+
+rpm alias --rebuilddbapi	 --define '_dbapi_rebuild !#:+'
+rpm alias --rebuilddbpath	 --define '_dbapath_rebuild !#:+'
+
+#==============================================================================
+#	[--dbpath DIRECTORY"	"use database in DIRECTORY"
+rpm	alias --dbpath		--define '_dbpath !#:+'
+#	[--ftpport <port>]	"port number of ftp server (or proxy)"
+rpm	alias --ftpport		--define '_httpport !#:+'
+#	[--ftpproxy <host>]	"hostname or IP of ftp proxy"
+rpm	alias --ftpproxy	--define '_httpproxy !#:+'
+#	[--httpport <port>]	"port number of http server (or proxy)"
+rpm	alias --httpport	--define '_httpport !#:+'
+#	[--httpproxy <host>]	"hostname or IP of http proxy"
+rpm	alias --httpproxy	--define '_httpproxy !#:+'
+
+#==============================================================================
+rpmbuild	alias --dbpath		--define '_dbpath !#:+' \
+	--POPTdesc=$"use database in DIRECTORY" \
+	--POPTargs=$"DIRECTORY"
+rpmbuild alias --ftpport		--define '_httpport !#:+'
+rpmbuild alias --ftpproxy	--define '_httpproxy !#:+'
+rpmbuild alias --httpport	--define '_httpport !#:+'
+rpmbuild alias --httpproxy	--define '_httpproxy !#:+'
+rpmbuild alias --timecheck	--define '_timecheck !#:+'
+rpmbuild alias --with		--define "_with_!#:+     --with-!#:+" \
+	--POPTdesc=$"enable configure <option> for build" \
+	--POPTargs=$"<option>"
+rpmbuild alias --without	--define "_without_!#:+  --without-!#:+" \
+	--POPTdesc=$"disable configure <option> for build" \
+	--POPTargs=$"<option>"
+# Build policies enabled from command line. Last policy applies.
+rpmbuild alias --buildpolicy --define '__os_install_post %{_rpmconfigdir}/brp-!#:+' \
+	--POPTdesc=$"set buildroot <policy> (e.g. compress man pages)" \
+	--POPTargs=$"<policy>"
+
+# \endverbatim
+#*/

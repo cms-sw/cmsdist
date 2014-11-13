@@ -1,0 +1,15 @@
+prefix=/afs/cern.ch/work/a/arun/PCL_Check_v1/cmsdist
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+rpmhome=/afs/cern.ch/work/a/arun/PCL_Check_v1/cmsdist/lib/rpm
+
+Name: RPM
+Description: RPM Package Manager
+Version: 4.8.0
+URL: http://rpm.org
+# Requires: 
+# Conflicts:
+Cflags: -I${includedir}
+Libs: -L${libdir} -lrpm -lrpmio
+Libs.private: -lpopt -lrt -lpthread   -ldb -lbz2 -lz -lnss3 
