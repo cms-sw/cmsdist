@@ -8,7 +8,7 @@ Requires: zlib
 %build
 make \
   ZLIB_INCLUDES_DIR="${ZLIB_ROOT}/include" \
-  ZLIB_LIBS_DIR="${ZLIB_ROOT}/lib" 
+  ZLIB_LIBS_DIR="${ZLIB_ROOT}/lib"
 
 %install
 make install PREFIX=%{i}
