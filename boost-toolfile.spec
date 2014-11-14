@@ -1,4 +1,4 @@
-### RPM external boost-toolfile 1.0
+### RPM external boost-toolfile 1.1
 Requires: boost
 %prep
 
@@ -60,11 +60,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_python.xml
   <lib name="@BOOST_PYTHON_LIB@"/>
   <client>
     <environment name="BOOST_PYTHON_BASE" default="@TOOL_ROOT@"/>
-    <environment name="PYSTE_EXEC" default="$BOOST_PYTHON_BASE/lib/python@PYTHONV@/site-packages/Pyste/pyste.py"/>
     <environment name="LIBDIR" default="$BOOST_PYTHON_BASE/lib"/>
     <environment name="INCLUDE" default="$BOOST_PYTHON_BASE/include"/>
   </client>
-  <use name="gccxml"/>
   <use name="python"/>
 </tool>
 EOF_TOOLFILE
