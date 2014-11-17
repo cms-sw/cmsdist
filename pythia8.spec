@@ -1,14 +1,16 @@
-### RPM external pythia8 200
+### RPM external pythia8 201
 
 Requires: hepmc lhapdf
 
-Source: http://home.thep.lu.se/~torbjorn/pythia8/%{n}%{realversion}.tgz
+Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 
-Patch0: pythia8-200-fix-gcc-options
+Patch0: pythia8-201-fix-gcc-options
+Patch1: pythia8-201-fix-init
 
 %prep
-%setup -q -n %{n}%{realversion}
+%setup -q -n %{n}/%{realversion}
 %patch0 -p2
+%patch1 -p2
 
 export HEPMCLOCATION=${HEPMC_ROOT}  
 export HEPMCVERSION=${HEPMC_VERSION}
