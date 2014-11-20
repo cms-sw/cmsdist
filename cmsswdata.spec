@@ -9,6 +9,7 @@ Source: none
 
 Requires: data-DetectorDescription-Schema
 Requires: data-MagneticField-Interpolation
+Requires: data-L1Trigger-L1TCalorimeter
 Requires: data-L1Trigger-RPCTrigger
 Requires: data-RecoParticleFlow-PFBlockProducer
 Requires: data-RecoParticleFlow-PFTracking
