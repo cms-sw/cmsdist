@@ -120,7 +120,7 @@ repository, you'll need it to propose your changes.
       popd
       screen -L time PKGTOOLS/cmsBuild -i a -a $ARCH --builders 4 -j $(($(getconf _NPROCESSORS_ONLN) * 2)) build cmssw-tool-conf
 
-3) Once you are satisfied with the above push your changes to your repository:
+3) Once you are satisfied with the above push your changes to your repository. If needed, squash your commits into one, so we can keep a bit of sanity in CMSDIST:
 
       cd CMSDIST
       git remote add $USER <your-cmsdist-fork>
