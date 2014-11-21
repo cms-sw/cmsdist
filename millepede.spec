@@ -1,4 +1,4 @@
-### RPM external millepede V04-00-02
+### RPM external millepede V04-02-02
 Source: svn://svnsrv.desy.de/public/MillepedeII/tags/%{realversion}/?scheme=http&module=%{realversion}&output=/%{n}-%{realversion}.tgz
 Requires: zlib
 
@@ -6,7 +6,7 @@ Requires: zlib
 %setup -n %{realversion}
 
 %build
-make %{makeprocesses} \
+make \
   ZLIB_INCLUDES_DIR="${ZLIB_ROOT}/include" \
   ZLIB_LIBS_DIR="${ZLIB_ROOT}/lib"
 
