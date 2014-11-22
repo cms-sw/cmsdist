@@ -1,7 +1,5 @@
 #!/bin/sh -e
 #
-#TODO: check that versions coincide
-
 rm -f lhapdf6_makeLinks.file
 echo "#!/bin/sh -e" > lhapdf6_makeLinks.file
 echo >> lhapdf6_makeLinks.file
