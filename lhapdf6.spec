@@ -1,6 +1,7 @@
 ### RPM external lhapdf6 6.1.4
+#%define setsversion %{realversion}
+%define setsversion 6.1.4a
 
-%define realversion %(echo %{v} | cut -d- -f1)
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 
 Source1: lhapdf6_makeLinks
@@ -43,7 +44,7 @@ rm -f cteq6l1.tar.gz
 rm -f CT10.tar.gz
 rm -f MSTW2008nlo68cl.tar.gz
 chmod a+x %{_sourcedir}/lhapdf6_makeLinks
-%{_sourcedir}/lhapdf6_makeLinks %{realversion}
+%{_sourcedir}/lhapdf6_makeLinks %{setsversion}
 cd -
 
 # Remove all libtool archives
