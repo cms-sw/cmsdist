@@ -1,0 +1,15 @@
+diff --git a/boost/config/user.hpp b/boost/config/user.hpp
+index 28e7476..fbe10bf 100644
+--- a/boost/config/user.hpp
++++ b/boost/config/user.hpp
+@@ -131,3 +131,10 @@
+ // to ensure the correct libraries are selected at link time.
+ // #define BOOST_LIB_BUILDID amd64
+ 
++// We use boost::shared_ptr in CMSSW and Reflex/GCCXML, yet std::shared_ptr is only
++// C++11. boost::shared_ptr in C++11 mode uses explicit bool() conversion starting
++// 1.53.0, but in C++03 it falls back to previous implementation causing mismatch
++// between signatures while generating dictionary (GCCXML, C++03) and compiling
++// dictionary (CMSSW, C++11). The following forces to use C++03 hack even if C++11 is
++// enabled.
++#define BOOST_NO_CXX11_EXPLICIT_CONVERSION_OPERATORS
