@@ -1,8 +1,8 @@
-### RPM lcg root 5.34.18
+### RPM lcg root 5.34.22
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
-%define tag adfd0da8883a15bf046cb034f741d2fa40c23704
-%define branch cms/v5-34-18
+%define tag 459da1ac81d51a108e851636754169a8494de6d7
+%define branch cms/v5-34-22
 %define github_user cms-sw
 Source: git+https://github.com/%github_user/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
@@ -51,12 +51,13 @@ export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 EXTRA_CONFIG_ARGS="--with-f77=/usr
              --disable-odbc --disable-astiff"
 %else
-export LIBPNG_ROOT ZLIB_ROOT LIBTIFF_ROOT LIBUNGIF_ROOT
+export LIBJPG_ROOT LIBPNG_ROOT ZLIB_ROOT LIBTIFF_ROOT
 EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}"
 %endif
 LZMA=${XZ_ROOT}
 export LZMA
-CONFIG_ARGS="--enable-table 
+CONFIG_ARGS="--enable-table
+             --enable-builtin-glew
              --disable-builtin-pcre
              --disable-builtin-freetype
              --disable-builtin-zlib
@@ -117,6 +118,14 @@ TARGET_PLATF=
 %endif
 
 ./configure ${TARGET_PLATF} ${CONFIG_ARGS} ${EXTRA_OPTS}
+
+# Make sure we compile/link against libs shipped with cmssw
+perl -pi -e '
+BEGIN: { @dirs = map {$a = "${_}_ROOT"; $ENV{$a}} qw(LIBJPG LIBPNG ZLIB LIBTIFF); }
+
+chomp, $_ = join (" ", $_, map {"-I$_/include"} @dirs) . "\n" if /^EXTRA_CFLAGS/ or /^EXTRA_CXXFLAGS/;
+chomp, $_ = join (" ", $_, map {"-L$_/lib"} @dirs) . "\n" if /^EXTRA_LDFLAGS/;
+' config/Makefile.config
 
 make %{makeprocesses}
 
