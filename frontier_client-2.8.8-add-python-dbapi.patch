@@ -1,0 +1,1173 @@
+diff --git a/python/bin/frontier_simple_client.py b/python/bin/frontier_simple_client.py
+new file mode 100755
+index 0000000..ee8c7c2
+--- /dev/null
++++ b/python/bin/frontier_simple_client.py
+@@ -0,0 +1,62 @@
++#!/usr/bin/env python
++'''Simple Frontier Client built on top of the Frontier Python DBAPI 2.0
++
++Usage example:
++
++    $ ./frontier_simple_client.py "select 'The ' || :message || ' is' as message, 1 + :two as result from dual where :three < 4" result 2 3
++    Total rows = 1
++    Columns description:
++       MESSAGE of type VARCHAR2
++       RESULT of type NUMBER
++    Rows:
++       ['The result is', 3]
++'''
++
++__author__ = 'Miguel Ojeda'
++__copyright__ = 'Copyright 2013, CERN'
++__credits__ = ['Miguel Ojeda']
++__license__ = 'Unknown'
++__maintainer__ = 'Miguel Ojeda'
++__email__ = 'mojedasa@cern.ch'
++
++
++import optparse
++import logging
++
++import frontier
++
++
++if __name__ == '__main__':
++    parser = optparse.OptionParser()
++    parser.add_option('-v', '--verbose', action='store_true', dest='verbose')
++    parser.add_option('-d', '--debug', action='store_true', dest='debug')
++    (options, args) = parser.parse_args()
++
++    logging.basicConfig(
++        format = '[%(asctime)s] %(levelname)s: %(message)s',
++        level = logging.DEBUG,
++    )
++
++    if options.verbose:
++        frontier.logger.setLevel(logging.INFO)
++    if options.debug:
++        frontier.logger.setLevel(logging.DEBUG)
++        frontier.frontier_client.logger.setLevel(logging.DEBUG)
++
++    conn = frontier.connect()
++    c = conn.cursor()
++    c.execute(args[0], args[1:])
++
++    print 'Total rows = %s' % c.rowcount
++
++    print 'Columns description:'
++    for (name, data_type, _, _, _, _, _) in c.description:
++        print '   %s of type %s' % (name, data_type)
++
++    print 'Rows:'
++    for row in c.fetchall():
++        print '   %s' % row
++
++    c.close()
++    conn.close()
++
+diff --git a/python/lib/frontier.py b/python/lib/frontier.py
+new file mode 100644
+index 0000000..b8ff547
+--- /dev/null
++++ b/python/lib/frontier.py
+@@ -0,0 +1,466 @@
++'''Frontier binding for Python.
++
++This module follows the Python Database API Specification v2.0, PEP 249 [1],
++and can be easily used as a replacement for cx_Oracle where applicable.
++
++Requires pytz if any query returns timezone-aware timestamps from Oracle.
++
++If you are already using SQLAlchemy, take a look at the SQLAlchemy dialect
++based on this module.
++
++[1] http://www.python.org/dev/peps/pep-0249/
++'''
++
++__author__ = 'Miguel Ojeda'
++__copyright__ = 'Copyright 2013, CERN'
++__credits__ = ['Miguel Ojeda']
++__license__ = 'Unknown'
++__maintainer__ = 'Miguel Ojeda'
++__email__ = 'mojedasa@cern.ch'
++
++
++import exceptions
++import datetime
++import time
++import re
++import collections
++import logging
++
++try:
++    import pytz
++except ImportError:
++    pytz = None
++
++import frontier_client
++
++
++logger = logging.getLogger(__name__)
++
++# Set initial level to WARN.  This so that log statements don't occur in
++# the absense of explicit logging being enabled.
++if logger.level == logging.NOTSET:
++    logger.setLevel(logging.WARN)
++
++
++def connect(server_url = None, proxy_url = None):
++    '''Returns a Connection object.
++
++    The connection will be configured according to:
++
++        1. The environment variables defined by Frontier.
++        2. The passed URLs.
++
++    Note that the server_url (and its environment variable counterpart) can be
++    a simple HTTP URL or a complex Frontier configuration URL that sets many
++    configuration values, e.g.
++
++        frontier://(k1=v1)...(kn=vn)/database
++
++    While this complex URLs are the most used ones, users normally do not
++    directly use them. Instead, they will use an experiment-provided
++    application or service that builds them given a shorthand name.
++    For instance, in CMS, a user could run:
++
++        cmsGetFnConnect frontier://FrontierPrep
++
++    Since this module should remain experiment-agnostic, users need to supply
++    the proper way to fetch the complex URLs.
++    '''
++
++    return Connection(server_url, proxy_url)
++
++
++apilevel = '2.0'
++threadsafety = 1
++paramstyle = 'named'
++
++_paramchar = '?'
++_separatorchar = ':'
++
++
++class Error(exceptions.StandardError):
++    pass
++
++class Warning(exceptions.StandardError):
++    pass
++
++class InterfaceError(Error):
++    pass
++
++class DatabaseError(Error):
++    pass
++
++class InternalError(DatabaseError):
++    pass
++
++class OperationalError(DatabaseError):
++    pass
++
++class ProgrammingError(DatabaseError):
++    pass
++
++class IntegrityError(DatabaseError):
++    pass
++
++class DataError(DatabaseError):
++    pass
++
++class NotSupportedError(DatabaseError):
++    pass
++
++
++class Connection(object):
++    def __init__(self, server_url=None, proxy_url=None):
++        self._server_url = server_url
++        self._proxy_url = proxy_url
++        self._closed = False
++        self._channel = frontier_client.frontier_createChannel(self._server_url, self._proxy_url)
++
++    def _check_closed(self):
++        if self._closed:
++            raise InterfaceError('The connection is already closed.')
++
++    def close(self):
++        self._check_closed()
++        self._closed = True
++        frontier_client.frontier_closeChannel(self._channel)
++
++    def commit(self):
++        self._check_closed()
++
++    def cursor(self):
++        self._check_closed()
++        return Cursor(self)
++
++
++def _stringify(parameter):
++    if parameter is None:
++        return 'NULL'
++
++    elif isinstance(parameter, bool):
++        if parameter:
++            return 'TRUE'
++        else:
++            return 'FALSE'
++
++    elif isinstance(parameter, str):
++        return parameter
++
++    elif isinstance(parameter, int) or isinstance(parameter, long) or isinstance(parameter, float):
++        return str(parameter)
++
++    raise ProgrammingError('Unsupported parameter type (%s).' % type(parameter))
++
++
++def _parse_timestamp(timestamp):
++    '''Most of the timestamps we have seen follow the first format.
++    However, we found an instance where a TIMESTAMP was lacking
++    the subsecond precision. Therefore, try both.
++
++    In addition, DATE uses the second format as far as we have seen.
++
++    This function should cover both cases.
++    '''
++
++    # XXX: We should enforce a protocol/format on times/dates.
++
++    # XXX: What about only DATES without subday precision?
++
++    try:
++        return datetime.datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S.%f')
++    except ValueError:
++        return datetime.datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S')
++
++
++class Cursor(object):
++    arraysize = 1
++
++    def __init__(self, connection):
++        self._connection = connection
++        self._closed = False
++        self._reset()
++
++    def _reset(self):
++        self._description = None
++        self._rowcount = -1
++        self._result = None
++        self._rowpos = None
++
++    def _check_closed(self):
++        if self._closed:
++            raise InterfaceError('The cursor is already closed.')
++
++        # Check as well that the connection of this cursor is not closed
++        self._connection._check_closed()
++
++    @property
++    def description(self):
++        # name, type, display_size, internal_size, precision, scale, null_ok
++        self._check_closed()
++        return self._description
++
++    @property
++    def rowcount(self):
++        self._check_closed()
++        return self._rowcount
++
++    def close(self):
++        self._check_closed()
++        self._closed = True
++
++    def execute(self, operation, parameters = None):
++        self._check_closed()
++
++        # Find the variables, e.g. [':name', ':1', ':ROWNUM_1']
++        # XXX: We would need a proper Oracle SQL parser here. At the moment,
++        # users are not be able to use the ':' character in a string literal
++        # if followed by letters/numbers/underscore. A workaround for them
++        # is to use "select ':' || 'abc'" instead of "select ':abc'".
++        variables = re.findall(':[a-zA-Z-0-9_]+', operation)
++        logger.debug('Variables = %s', variables)
++
++        # Build the SQL and parameter list as the Frontier server expects:
++        #
++        # ''' Support bind variables in queries, with a question mark where
++        #     each variable is to be inserted.  The values for the variables
++        #     must be appended to the query, separated by colons (:). '''
++        final_parameters = []
++
++        if parameters is None:
++            if len(variables) != 0:
++                raise ProgrammingError('Bind variables used, but parameters were not provided.')
++
++        elif isinstance(parameters, collections.Sequence):
++            if len(parameters) != len(variables):
++                raise ProgrammingError('Different length on parameters (%s) and bind variables list (%s) while using positional parameters.' % (len(parameters), len(variables)))
++
++            for i in range(len(variables)):
++                operation = operation.replace(variables[i], _paramchar, 1)
++
++            final_parameters = parameters
++
++        elif isinstance(parameters, collections.Mapping):
++            for variable in variables:
++                operation = operation.replace(variable, _paramchar, 1)
++                final_parameters.append(parameters[variable[1:]])
++
++        else:
++            raise ProgrammingError('Unsupported parameters type (%s).' % type(parameters))
++
++        final_parameters = [_stringify(x) for x in final_parameters]
++    
++        # XXX: Check there are no colons (:) in any value (it is not supported
++        # by the Frontier server yet -- there is no way to escape them)
++        for parameter in final_parameters:
++            if _separatorchar in parameter:
++                raise ProgrammingError("Unsupported character '%s' in parameter (%s)." % (_separatorchar, parameter))
++
++        logger.info('%s', operation)
++        logger.info('%s', final_parameters)
++
++        operation = _separatorchar.join([operation] + final_parameters)
++        logger.debug('Query to Frontier = %s', operation)
++
++        # Build the URI
++        uri = 'Frontier/type=frontier_request:1:DEFAULT&encoding=BLOBzip5&p1=%s' % frontier_client.fn_gzip_str2urlenc(operation)
++
++        try:
++            frontier_client.frontier_getRawData(self._connection._channel, uri)
++        except frontier_client.FrontierClientError as e:
++            self._reset()
++            raise ProgrammingError('Error while fetching data: %s' % e)
++
++        oldresult = self._result
++        self._result = frontier_client.frontierRSBlob_open(self._connection._channel, self._result, 1)
++        if oldresult:
++            frontier_client.frontierRSBlob_close(oldresult)
++
++        self._rowcount = frontier_client.frontierRSBlob_getRecNum(self._result)
++
++        # self.rowcount is correct; however, frontier returns one more record,
++        # the first one, with the description (name, type) of the columns
++        # for the real rows. This is what we will use to fill self.description
++        row = self._fetchone(parse = False)
++        self._description = []
++        for i in range(0, len(row), 2):
++            # name, type, display_size, internal_size, precision, scale, null_ok
++            self._description.append((row[i], row[i+1], None, None, None, None, None))
++
++        if logger.isEnabledFor(logging.DEBUG):
++            logger.debug('Col %s', [x[0] for x in self._description])
++
++        self._rowpos = 0
++
++    def executemany(self, operation, seq_of_parameters):
++        self._check_closed()
++        for parameters in seq_of_parameters:
++            self.execute(operation, parameters)
++
++    def _fetchone(self, parse):
++        row = []
++
++        i = -1
++        while True:
++            i += 1
++
++            data_type = frontier_client.frontierRSBlob_getByte(self._result)
++
++            # End
++            if data_type == frontier_client.BLOB_TYPE_EOR:
++                break
++
++            # NULL
++            if data_type & frontier_client.BLOB_TYPE_NONE:
++                row.append(None)
++                continue
++
++            # Normal value. For the moment, Frontier *always* uses
++            # frontier_client.BLOB_TYPE_ARRAY_BYTE (i.e. returns all values
++            # as strings) and the client needs to parse the first record
++            # (type information) to convert the value to the proper type.
++            if data_type != frontier_client.BLOB_TYPE_ARRAY_BYTE:
++                raise InternalError('Unexpected data type (%s).' % data_type)
++
++            value = frontier_client.frontierRSBlob_getByteArray(self._result)
++
++            if parse:
++                columnType = self._description[i][1]
++
++                # XXX: This is a bit hacky. Maybe this could be done in
++                # in a cleaner way in the frontier_client C library.
++
++                # startswith() is used since the type may be returned with
++                # the size, e.g. NUMBER(3).
++                if 'CHAR' in columnType or columnType == 'ROWID':
++                    pass
++
++                elif columnType.startswith('NUMBER'):
++                    value = float(value)
++                    if value.is_integer():
++                        value = int(value)
++
++                elif columnType.startswith('BINARY_FLOAT') or columnType.startswith('BINARY_DOUBLE'):
++                    # CPython's float is C's double, so should be fine for both
++                    # If not, should we use Python's decimal?
++                    value = float(value)
++
++                elif columnType in ('BLOB', 'CLOB'):
++                    value = Binary(value)
++
++                elif columnType == 'DATE':
++                    value = _parse_timestamp(value)
++
++                elif columnType.startswith('TIMESTAMP'):
++                    if 'WITH TIME ZONE' in columnType:
++                        if pytz is None:
++                            raise InterfaceError('Query returned a timezone-aware timestamp, but the pytz module is not available.')
++
++                        (timeString, timeZone) = value.rsplit(' ', 1)
++                        value = pytz.timezone(timeZone).localize(_parse_timestamp(timeString))
++                    elif 'WITH LOCAL TIMEZONE' in columnType:
++                        raise NotSupportedError('Unsupported type (%s).' % columnType)
++                    else:
++                        value = _parse_timestamp(value)
++
++                else:
++                    raise NotSupportedError('Unsupported type (%s).' % columnType)
++
++            row.append(value)
++
++        return row
++
++    def _check_result(self):
++        if self._result is None:
++            raise InterfaceError('Fetched from a cursor without executing a query first.')
++
++    def fetchone(self):
++        self._check_closed()
++        self._check_result()
++
++        if self._rowpos == self._rowcount:
++            return None
++        self._rowpos += 1
++
++        row = self._fetchone(parse = True)
++        if len(self._description) != len(row):
++            raise InternalError('Row description length (%s) does not match number of columns in row (%s)' % (len(self._description), len(row)))
++
++        logger.debug('Row %s', row)
++
++        return row
++
++    def fetchmany(self, size=arraysize):
++        self._check_closed()
++        self._check_result()
++
++        result = []
++        for n in range(size):
++            row = self.fetchone()
++            if row is None:
++                break
++            result.append(row)
++        return result
++
++    def fetchall(self):
++        self._check_closed()
++        self._check_result()
++
++        result = []
++        while True:
++            row = self.fetchone()
++            if row is None:
++                break
++            result.append(row)
++        return result
++
++    def setinputsizes(self, sizes):
++        self._check_closed()
++
++    def setoutputsize(self, size, column=None):
++        self._check_closed()
++
++    @property
++    def connection(self):
++        self._check_closed()
++        return self._connection
++
++# Not used. These objects are exposed in compliance to the DB API.
++# psycopg2 exposes them but are not used. cx_Oracle exposes proper types,
++# but fills cursor.description in a non-compliant way. sqlite3 does not even
++# expose the type objects (but keeps Date, Time, et. al.). Therefore,
++# we stick with the easiest and probably most useful way, which
++# is just returning the string given by Frontier as the type of a column,
++# e.g. 'VARCHAR2'.
++
++Date = datetime.date
++
++Time = datetime.time
++
++Timestamp = datetime.datetime
++
++def DateFromTicks(ticks):
++    return Date(*time.localtime(ticks)[:3])
++
++def TimeFromTicks(ticks):
++    return Time(*time.localtime(ticks)[3:6])
++
++def TimestampFromTicks(ticks):
++    return Timestamp(*time.localtime(ticks)[:6])
++
++Binary = buffer
++
++#class STRING(object):
++#    pass
++
++#class BINARY(object):
++#    pass
++
++#class NUMBER(object):
++#    pass
++
++#class DATETIME(object):
++#    pass
++
++#class ROWID(object):
++#    pass
++
+diff --git a/python/lib/frontier_client.py b/python/lib/frontier_client.py
+new file mode 100644
+index 0000000..1030967
+--- /dev/null
++++ b/python/lib/frontier_client.py
+@@ -0,0 +1,181 @@
++'''Frontier Client thin binding.
++
++Please do not use this module: this module is internal, intended to simplify
++the calls to the frontier_client C library made by the frontier module.
++This could be replaced with a compiled version for performance.
++'''
++
++__author__ = 'Miguel Ojeda'
++__copyright__ = 'Copyright 2013, CERN'
++__credits__ = ['Miguel Ojeda']
++__license__ = 'Unknown'
++__maintainer__ = 'Miguel Ojeda'
++__email__ = 'mojedasa@cern.ch'
++
++
++import ctypes
++import logging
++
++
++logger = logging.getLogger(__name__)
++
++# Set initial level to WARN.  This so that log statements don't occur in
++# the absense of explicit logging being enabled.
++if logger.level == logging.NOTSET:
++    logger.setLevel(logging.WARN)
++
++
++libfc = ctypes.cdll.LoadLibrary('libfrontier_client.so.2')
++libfc.frontier_getErrorMsg.restype = ctypes.c_char_p
++libfc.frontier_closeChannel.restype = None
++libfc.frontierRSBlob_open.restype = ctypes.c_void_p # not a NUL-terminated string
++libfc.frontierRSBlob_close.restype = None
++libfc.frontierRSBlob_payload_msg.restype = ctypes.c_char_p
++libfc.frontierRSBlob_getByte.restype = ctypes.c_byte # c_char
++libfc.frontierRSBlob_getInt.restype = ctypes.c_int32 # c_int
++libfc.frontierRSBlob_getLong.restype = ctypes.c_int64 # c_longlong
++libfc.frontierRSBlob_getDouble.restype = ctypes.c_double
++libfc.frontierRSBlob_getFloat.restype = ctypes.c_float
++libfc.frontierRSBlob_getByteArray.restype = ctypes.c_void_p # not a NUL-terminated string
++
++
++FRONTIER_OK              =  0
++FRONTIER_EIARG           = -1  # Invalid argument passed
++FRONTIER_EMEM            = -2  # mem_alloc failed
++FRONTIER_ECFG            = -3  # config error
++FRONTIER_ESYS            = -4  # system error
++FRONTIER_EUNKNOWN        = -5  # unknown error
++FRONTIER_ENETWORK        = -6  # error while communicating over network
++FRONTIER_EPROTO          = -7  # protocol level error (e.g. wrong response)
++FRONTIER_ESERVER         = -8  # server error (may be cached for short time)
++FRONTIER_ECONNECTTIMEOUT = -9  # connection timeout
++
++
++# The C library should expose all this somehow, e.g. getTypeByte("INT8")
++BLOB_BIT_NULL        = 1 << 7 # mask
++BLOB_TYPE_BYTE       = 0
++BLOB_TYPE_INT4       = 1
++BLOB_TYPE_INT8       = 2
++BLOB_TYPE_FLOAT      = 3
++BLOB_TYPE_DOUBLE     = 4
++BLOB_TYPE_TIME       = 5
++BLOB_TYPE_ARRAY_BYTE = 6
++BLOB_TYPE_EOR        = 7
++BLOB_TYPE_NONE       = BLOB_BIT_NULL # same as the mask
++
++
++class FrontierClientError(Exception):
++    def __init__(self, retcode, message):
++        self.args = (retcode, message)
++
++
++def frontier_mem_free(address):
++    '''frontier_free calls a custom allocator (and requires using frontier_malloc).
++    
++    This is what the C++ binding does instead.
++    '''
++
++    ctypes.CFUNCTYPE(None, ctypes.c_void_p)(ctypes.c_void_p.in_dll(libfc, 'frontier_mem_free').value)(address)
++
++
++def frontier_init():
++    logger.debug('frontier_client.frontier_init()')
++    retcode = libfc.frontier_init(None, None)
++    if retcode != FRONTIER_OK:
++        raise FrontierClientError(retcode, libfc.frontier_getErrorMsg())
++
++
++def frontier_createChannel(serverURL = None, proxyURL = None):
++    logger.debug('frontier_client.frontier_createChannel(serverURL = %s, proxyURL = %s)', repr(serverURL), repr(proxyURL))
++    retcode = ctypes.c_int(FRONTIER_OK)
++    channel = libfc.frontier_createChannel(serverURL, proxyURL, ctypes.byref(retcode))
++    retcode = retcode.value
++    if retcode != FRONTIER_OK:
++        raise FrontierClientError(retcode, libfc.frontier_getErrorMsg())
++    logger.debug('frontier_client.frontier_createChannel(serverURL = %s, proxyURL = %s) = %s', repr(serverURL), repr(proxyURL), channel)
++    return channel
++
++
++def frontier_closeChannel(channel):
++    logger.debug('frontier_client.frontier_closeChannel(channel = %s)', channel)
++    libfc.frontier_closeChannel(channel)
++
++
++def fn_gzip_str2urlenc(string):
++    logger.debug('frontier_client.fn_gzip_str2urlenc(string = %s)', repr(string))
++    buf = ctypes.c_void_p()
++    buflen = libfc.fn_gzip_str2urlenc(string, len(string), ctypes.byref(buf))
++    if buflen < 0:
++        raise FrontierClientError(None, 'Impossible to encode.')
++    s = ctypes.string_at(buf.value, buflen)
++    frontier_mem_free(buf.value)
++    return s
++
++
++def frontier_getRawData(channel, uri):
++    logger.debug('frontier_client.frontier_getRawData(channel = %s, uri = %s)', channel, repr(uri))
++    retcode = libfc.frontier_getRawData(channel, uri)
++    if retcode != FRONTIER_OK:
++        raise FrontierClientError(retcode, libfc.frontier_getErrorMsg())
++
++
++def frontierRSBlob_open(channel, oldrsb, n):
++    logger.debug('frontier_client.frontierRSBlob_open(channel = %s, oldrsb = %s, n = %s)', channel, oldrsb, n)
++    retcode = ctypes.c_int(FRONTIER_OK)
++    rsb = libfc.frontierRSBlob_open(channel, oldrsb, n, ctypes.byref(retcode))
++    retcode = retcode.value
++    if retcode != FRONTIER_OK:
++        raise FrontierClientError(retcode, libfc.frontier_getErrorMsg())
++    retcode = libfc.frontierRSBlob_payload_error(rsb)
++    if retcode != FRONTIER_OK:
++        raise FrontierClientError(retcode, libfc.frontierRSBlob_payload_msg(rsb))
++    return rsb
++
++
++def frontierRSBlob_close(rsb):
++    logger.debug('frontier_client.frontierRSBlob_close(rsb = %s)', rsb)
++    retcode = ctypes.c_int(FRONTIER_OK)
++    libfc.frontierRSBlob_close(rsb, ctypes.byref(retcode))
++    retcode = retcode.value
++    if retcode != FRONTIER_OK:
++        raise FrontierClientError(retcode, libfc.frontier_getErrorMsg())
++
++
++def frontierRSBlob_getRecNum(rsb):
++    logger.debug('frontier_client.frontierRSBlob_getRecNum(rsb = %s)', rsb)
++    return libfc.frontierRSBlob_getRecNum(rsb)
++
++
++def _build_frontierRSBlob_get(f):
++    def wrapper(rsb):
++        retcode = ctypes.c_int(FRONTIER_OK)
++        result = f(rsb, ctypes.byref(retcode))
++        retcode = retcode.value
++        if retcode != FRONTIER_OK:
++            raise FrontierClientError(retcode, libfc.frontier_getErrorMsg())
++        return result
++
++    return wrapper
++
++
++frontierRSBlob_getByte = _build_frontierRSBlob_get(libfc.frontierRSBlob_getByte)
++frontierRSBlob_checkByte = _build_frontierRSBlob_get(libfc.frontierRSBlob_checkByte)
++frontierRSBlob_getInt = _build_frontierRSBlob_get(libfc.frontierRSBlob_getInt)
++frontierRSBlob_getLong = _build_frontierRSBlob_get(libfc.frontierRSBlob_getLong)
++frontierRSBlob_getDouble = _build_frontierRSBlob_get(libfc.frontierRSBlob_getDouble)
++frontierRSBlob_getFloat = _build_frontierRSBlob_get(libfc.frontierRSBlob_getFloat)
++
++
++def frontierRSBlob_getByteArray(rsb):
++    buflen = frontierRSBlob_getInt(rsb)
++    retcode = ctypes.c_int(FRONTIER_OK)
++    buf = libfc.frontierRSBlob_getByteArray(rsb, buflen, ctypes.byref(retcode))
++    retcode = retcode.value
++    if retcode != FRONTIER_OK:
++        raise FrontierClientError(retcode, libfc.frontier_getErrorMsg())
++    s = ctypes.string_at(buf, buflen)
++    return s
++
++
++frontier_init()
++
+diff --git a/python/test/frontier_test.py b/python/test/frontier_test.py
+new file mode 100755
+index 0000000..bf56a75
+--- /dev/null
++++ b/python/test/frontier_test.py
+@@ -0,0 +1,440 @@
++#!/usr/bin/env python
++'''Frontier Python DBAPI 2.0 tests.
++'''
++
++__author__ = 'Miguel Ojeda'
++__copyright__ = 'Copyright 2013, CERN'
++__credits__ = ['Miguel Ojeda']
++__license__ = 'Unknown'
++__maintainer__ = 'Miguel Ojeda'
++__email__ = 'mojedasa@cern.ch'
++
++
++import unittest
++import datetime
++
++import pytz
++
++import frontier
++
++
++def connect():
++    return frontier.connect('http://cmsfrontier.cern.ch:8000/FrontierPrep')
++
++
++class TestFrontierConnections(unittest.TestCase):
++    '''Tests on connections/cursors, which need to be set up manually.
++    '''
++
++    def test_closed_connection(self):
++        connection = connect()
++        connection.close()
++        self.assertRaises(frontier.InterfaceError, connection.close)
++        self.assertRaises(frontier.InterfaceError, connection.commit)
++        self.assertRaises(frontier.InterfaceError, connection.cursor)
++
++    def _test_cursor(self, c):
++        self.assertRaises(frontier.InterfaceError, lambda: c.description)
++        self.assertRaises(frontier.InterfaceError, lambda: c.rowcount)
++        self.assertRaises(frontier.InterfaceError, c.close)
++        self.assertRaises(frontier.InterfaceError, c.execute, 'select 1 from dual')
++        self.assertRaises(frontier.InterfaceError, c.executemany, 'select 1 from dual', [1, 2, 3])
++        self.assertRaises(frontier.InterfaceError, c.fetchone)
++        self.assertRaises(frontier.InterfaceError, c.fetchmany)
++        self.assertRaises(frontier.InterfaceError, c.fetchall)
++        self.assertRaises(frontier.InterfaceError, c.setinputsizes, [1, 2, 3])
++        self.assertRaises(frontier.InterfaceError, c.setoutputsize, 1)
++        self.assertRaises(frontier.InterfaceError, lambda: c.connection)
++
++    def test_closed_cursor(self):
++        connection = connect()
++        c = connection.cursor()
++        c.close()
++        self._test_cursor(c)
++        connection.close()
++
++    def test_cursor_on_closed_connection(self):
++        connection = connect()
++        c = connection.cursor()
++        connection.close()
++        self._test_cursor(c)
++
++    def test_interleave_cursors(self):
++        '''Simulates simple interleaved calls to different cursors based on
++        the same connection, to test whether cursors are able to properly hold
++        several an independent result set.
++        '''
++
++        connection = connect()
++
++        c1 = connection.cursor()
++
++        # c1 executing query before c2, c3, c4 are created
++        c1.execute('select 1 from dual')
++        c2 = connection.cursor()
++        c3 = connection.cursor()
++        c4 = connection.cursor()
++
++        # c2 executing and fetching before c1 fetches result
++        c2.execute('select 2 from dual')
++        self.assertEqual(c1.fetchall()[0][0], 1)
++
++        # c3 executing query after c2
++        c3.execute('select 3 from dual')
++
++        # c4 executing wrong query after c2
++        self.assertRaises(frontier.ProgrammingError, c4.execute, 'badselect 4 from dual')
++
++        # c3 fetching results before c2
++        self.assertEqual(c3.fetchall()[0][0], 3)
++
++        # c5 created, executes and fetches in-between
++        c5 = connection.cursor()
++        c5.execute('select 5 from dual')
++        self.assertEqual(c5.fetchall()[0][0], 5)
++        c5.close()
++
++        # c4 (wrong one) closes
++        c4.close()
++
++        # c2 finally fetching results
++        self.assertEqual(c2.fetchall()[0][0], 2)
++
++        # cursors randomly close
++        c3.close()
++        c1.close()
++        c2.close()
++
++        connection.close()
++
++    def test_interleave_connections(self):
++        '''Simulates simple interleaved calls to different connections,
++        to test whether multiple connections work properly in parallel.
++
++        Similar to (superset of) test_interleave_cursors().
++        '''
++
++        connection1 = frontier.connect('http://cmsfrontier.cern.ch:8000/FrontierPrep')
++        c11 = connection1.cursor()
++        c12 = connection1.cursor()
++        connection2 = frontier.connect('http://cmsfrontier.cern.ch:8000/FrontierInt')
++        c21 = connection2.cursor()
++        c11.execute('select 1, 1 from dual')
++        c22 = connection2.cursor()
++        c21.execute('select 2, 1 from dual')
++        connection3 = frontier.connect('http://cmsfrontier3.cern.ch:8000/FrontierInt')
++        c31 = connection3.cursor()
++        c31.execute('select 3, 1 from dual')
++        c32 = connection3.cursor()
++        self.assertEqual(c11.fetchall()[0], [1, 1])
++        self.assertRaises(frontier.ProgrammingError, c32.execute, 'select * from CMS_COND_RUN_INFO.ORA_C_FILLINFO where rownum <= 3')
++        self.assertEqual(c21.fetchall()[0], [2, 1])
++        c11.close()
++        self.assertRaises(frontier.InterfaceError, c11.close)
++        c22.execute('select 2, 2 from dual')
++        connection1.close()
++        self.assertRaises(frontier.InterfaceError, c12.close)
++        c32.execute('select 3, 2 from dual')
++        self.assertEqual(c32.fetchall()[0], [3, 2])
++        self.assertEqual(c31.fetchall()[0], [3, 1])
++        c31.close()
++        c32.close()
++        c22.close()
++        connection3.close()
++        c21.close()
++        connection2.close()
++
++
++class TestFrontier(unittest.TestCase):
++    '''Normal tests -- one cursor assigned per test, on the same connection.
++    '''
++
++    # Connection kept for all tests, new cursor per test
++    connection = connect()
++
++    def setUp(self):
++        self.c = self.connection.cursor()
++
++    def tearDown(self):
++        self.c.close()
++
++    def assertDescriptionEqual(self, description):
++        self.assertEqual([(x[0], x[1]) for x in self.c.description], description)
++
++    def test_empty(self):
++        query = '''
++            select 1
++            from dual
++            where 1 = 0
++        '''
++
++        self.c.execute(query)
++        self.assertDescriptionEqual([
++            ('1', 'NUMBER'),
++        ])
++        self.assertEqual(self.c.fetchone(), None)
++
++        self.c.execute(query)
++        self.assertDescriptionEqual([
++            ('1', 'NUMBER'),
++        ])
++        self.assertEqual(self.c.fetchmany(0), [])
++        self.assertEqual(self.c.fetchmany(1), [])
++        self.assertEqual(self.c.fetchmany(2), [])
++
++        self.c.execute(query)
++        self.assertDescriptionEqual([
++            ('1', 'NUMBER'),
++        ])
++        self.assertEqual(self.c.fetchall(), [])
++
++    def test_types(self):
++        self.c.execute('''
++            select
++                NULL,
++                'foo', CHR(124),
++                124, 100*100*100*100*100, 1.1,
++                current_date, current_timestamp,
++                rowid, rownum
++            from dual
++        ''')
++
++        rows = self.c.fetchall()
++        self.assertEqual(len(rows), 1)
++        self.assertEqual(self.c.rowcount, 1)
++
++        self.assertDescriptionEqual([
++            ('NULL', 'VARCHAR2'),
++            ("'FOO'", 'CHAR'),
++            ('CHR(124)', 'VARCHAR2'),
++            ('124', 'NUMBER'),
++            ('100*100*100*100*100', 'NUMBER'),
++            ('1.1', 'NUMBER'),
++            ('CURRENT_DATE', 'DATE'),
++            ('CURRENT_TIMESTAMP', 'TIMESTAMP WITH TIME ZONE'),
++            ('ROWID', 'ROWID'),
++            ('ROWNUM', 'NUMBER'),
++        ])
++
++        (null, s, c, i, l, f, d, t, rowid, rownum) = rows[0]
++        self.assertEqual(null, None)
++        self.assertEqual(s, 'foo')
++        self.assertEqual(c, '|')
++        self.assertEqual(i, 124)
++        self.assertEqual(l, 100*100*100*100*100)
++        self.assertTrue(abs(f - 1.1) < 0.0001)
++        now = datetime.datetime.now()
++        self.assertTrue((now - d).seconds < 60 * 30) # difference less than 30 minutes
++        t = t.astimezone(pytz.utc).replace(tzinfo = None) # make naive timestamp based on UTC
++        now = datetime.datetime.utcnow()
++        self.assertTrue((now - t).seconds < 60 * 30) # difference less than 30 minutes
++        self.assertTrue(isinstance(rowid, str)) # Frontier returns them as strings
++        self.assertTrue(len(rowid) > 4) # looks like currently (11g) they are 18 bytes long
++        self.assertEqual(rownum, 1)
++
++    def test_basic_query(self):
++        self.c.execute('''
++            with m as (
++                select 1 a, 2 b, 3 c
++                from dual
++                union
++                select 4 a, 5 b, 6 c
++                from dual
++                union
++                select 7 a, 8 b, 9 c
++                from dual
++            )
++            select sum(a) + sum(b) + sum(c) result
++            from m
++        ''')
++        rows = self.c.fetchall()
++        self.assertEqual(len(rows), 1)
++        self.assertEqual(self.c.rowcount, 1)
++
++        self.assertDescriptionEqual([
++            ('RESULT', 'NUMBER'),
++        ])
++
++        self.assertTrue(rows[0][0], 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9)
++
++    def test_bind_variables(self):
++        # Repeated variable names, underscore in variable names.
++        query = '''
++            with m as (
++                select 1 a, 2 b, 3 c, 'hello' d
++                from dual
++                union
++                select 4 a, 5 b, 6 c, 'foo' d
++                from dual
++                union
++                select 7 a, 8 b, 9 c, 'bar' d
++                from dual
++                union
++                select 10 a, 11 b, 12 c, 'bye' d
++                from dual
++            )
++            select *
++            from m
++            where a > :a
++                and b <= :shared
++                and c <= :shared
++                and d like :aA_2
++        '''
++
++        # Parameters: Sequence (list)
++        self.c.execute(query, [1, 10, 10, 'f%'])
++
++        rows = self.c.fetchall()
++        self.assertEqual(len(rows), 1)
++        self.assertEqual(self.c.rowcount, 1)
++
++        self.assertDescriptionEqual([
++            ('A', 'NUMBER'),
++            ('B', 'NUMBER'),
++            ('C', 'NUMBER'),
++            ('D', 'VARCHAR2'),
++        ])
++
++        self.assertTrue(rows[0], (4, 5, 6, 'foo'))
++
++        # Parameters: Sequence (tuple)
++        self.c.execute(query, (1, 10, 10, 'f%'))
++
++        rows = self.c.fetchall()
++        self.assertEqual(len(rows), 1)
++        self.assertEqual(self.c.rowcount, 1)
++
++        self.assertDescriptionEqual([
++            ('A', 'NUMBER'),
++            ('B', 'NUMBER'),
++            ('C', 'NUMBER'),
++            ('D', 'VARCHAR2'),
++        ])
++
++        self.assertTrue(rows[0], (4, 5, 6, 'foo'))
++
++        # Parameters: Sequence with wrong length
++        self.assertRaises(frontier.ProgrammingError, self.c.execute, query, [])
++        self.assertRaises(frontier.ProgrammingError, self.c.execute, query, [1])
++        self.assertRaises(frontier.ProgrammingError, self.c.execute, query, [1, 2])
++        self.assertRaises(frontier.ProgrammingError, self.c.execute, query, [1, 2, 3]) # one less
++        self.assertRaises(frontier.ProgrammingError, self.c.execute, query, [1, 2, 3, 4, 5]) # one more
++        self.assertRaises(frontier.ProgrammingError, self.c.execute, query, ())
++        self.assertRaises(frontier.ProgrammingError, self.c.execute, query, (1))
++        self.assertRaises(frontier.ProgrammingError, self.c.execute, query, (1, 2))
++        self.assertRaises(frontier.ProgrammingError, self.c.execute, query, (1, 2, 3)) # one less
++        self.assertRaises(frontier.ProgrammingError, self.c.execute, query, (1, 2, 3, 4, 5)) # one more
++
++        # Parameters: Mapping (dict)
++        self.c.execute(query, {
++            'a': 1,
++            'aA_2': 'f%',
++            'shared': 10,
++        })
++
++        rows = self.c.fetchall()
++        self.assertEqual(len(rows), 1)
++        self.assertEqual(self.c.rowcount, 1)
++
++        self.assertDescriptionEqual([
++            ('A', 'NUMBER'),
++            ('B', 'NUMBER'),
++            ('C', 'NUMBER'),
++            ('D', 'VARCHAR2'),
++        ])
++
++        self.assertTrue(rows[0], (4, 5, 6, 'foo'))
++
++        # Parameters: Not provided
++        self.assertRaises(frontier.ProgrammingError, self.c.execute, query)
++
++        # Parameters: Unknown parameters type (i.e. not an instance of Sequence nor Mapping)
++        self.assertRaises(frontier.ProgrammingError, self.c.execute, query, set([1, 2, 3, 4]))
++
++        # Parameters: Unknown parameter type
++        self.assertRaises(frontier.ProgrammingError, self.c.execute, query, (set([1, 2, 3, 4]), ))
++
++        # Parameters: Colon in stringified parameter
++        self.assertRaises(frontier.ProgrammingError, self.c.execute, query, [1, 'foo:bar', 3, 4])
++
++    def test_real_query(self):
++        '''Requires a connection to CMS' Frontier.
++        '''
++
++        query = '''
++            select *
++            from CMS_COND_RUN_INFO.ORA_C_FILLINFO
++            where rownum <= 3
++        '''
++
++        self.c.execute(query)
++        self.assertTrue(self.c.fetchone() is not None)
++        self.assertTrue(self.c.fetchone() is not None)
++        self.assertTrue(self.c.fetchone() is not None)
++        self.assertTrue(self.c.fetchone() is None) # no more rows
++
++        self.c.execute(query)
++        self.assertEqual(len(self.c.fetchmany(1)), 1) # fetch 1
++        self.assertEqual(len(self.c.fetchmany(2)), 2) # fetch 2 more, total 3
++        self.assertEqual(len(self.c.fetchmany(1)), 0) # no more rows
++
++        self.c.execute(query)
++        rows = self.c.fetchall()
++        self.assertEqual(len(rows), 3)
++        for i in range(3):
++            self.assertEqual(type(rows[i][0]), int)
++            self.assertEqual(type(rows[i][1]), int)
++            self.assertEqual(type(rows[i][2]), float)
++            self.assertEqual(type(rows[i][3]), buffer)
++
++    def test_no_result(self):
++        self.assertRaises(frontier.InterfaceError, self.c.fetchone)
++        self.assertRaises(frontier.InterfaceError, self.c.fetchmany, 0)
++        self.assertRaises(frontier.InterfaceError, self.c.fetchmany, 1)
++        self.assertRaises(frontier.InterfaceError, self.c.fetchmany, 2)
++        self.assertRaises(frontier.InterfaceError, self.c.fetchall)
++
++    def test_syntax_error(self):
++        self.assertRaises(frontier.ProgrammingError, self.c.execute, '''
++            badsyntax 1
++            from dual
++        ''')
++
++    def test_missing_table(self):
++        self.assertRaises(frontier.ProgrammingError, self.c.execute, '''
++            select 1
++            from badtable
++        ''')
++
++    def test_properties(self):
++        # Before running a query, properties must be reset
++        self.assertEqual(self.c.description, None)
++        self.assertEqual(self.c.rowcount, -1)
++        self.assertRaises(frontier.InterfaceError, self.c.fetchall)
++
++        # Run a simple, correct query
++        self.c.execute('''
++            select 1 as a
++            from dual
++        ''')
++        self.assertEqual(self.c.fetchall()[0][0], 1)
++        self.assertDescriptionEqual([
++            ('A', 'NUMBER')
++        ])
++        self.assertEqual(self.c.rowcount, 1)
++
++        # Now run a wrong query
++        self.assertRaises(frontier.ProgrammingError, self.c.execute, '''
++            select 1
++            from badtable
++        ''')
++
++        # Properties should be reset
++        self.assertEqual(self.c.description, None)
++        self.assertEqual(self.c.rowcount, -1)
++        self.assertRaises(frontier.InterfaceError, self.c.fetchall)
++
++
++if __name__ == '__main__':
++    unittest.main()
++
