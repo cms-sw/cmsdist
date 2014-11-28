@@ -12,3 +12,6 @@ python setup.py build
 
 %install
 python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
+
+sed -ideleteme 's|#!.*/bin/python|#!/usr/bin/env python|' %{i}/bin/pygmentize
+rm -f %{i}/bin/*deleteme
