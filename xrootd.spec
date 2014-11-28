@@ -1,43 +1,21 @@
-### RPM external xrootd 3.2.4
+### RPM external xrootd 4.0.4
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
-
-Source: http://xrootd.cern.ch/cgi-bin/cgit.cgi/xrootd/snapshot/%n-%{realversion}.tar.gz
-Patch0: xrootd-gcc44
-Patch1: xrootd-5.30.00-fix-gcc46
-Patch3: xrootd-3.1.0-fixed-library-location-all-os
-Patch4: xrootd-3.1.0-client-send-moninfo
-Patch5: xrootd-3.1.0-gcc-470-literals-whitespace
-Patch6: xrootd-3.1.0-add-GetHandle-XrdClientAbs-header
-Patch7: xrootd-3.1.0-narrowing-conversion
-Patch8: xrootd-3.2.3-rename-macos-to-apple
-Patch9: xrootd-3.2.4-xrdclient
-Patch10: xrootd-3.2.4-dns-resolve
+%define tag 333bc986604f0e127ffd705be2abb491a1b443b7
+%define branch cms/v4.0.4
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake
-%if "%online" != "true"
 Requires: zlib
-%else
-Requires: onlinesystemtools
-%endif
-Requires: gcc openssl
+Requires: openssl
 
 %if "%{?cms_cxxflags:set}" != "set"
 %define cms_cxxflags -std=c++0x -O2
 %endif
 
-%prep 
+%prep
 %setup -n %n-%{realversion}
-%patch0 -p1
-%patch1 -p1
-%patch3 -p0
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
 
 # need to fix these from xrootd git
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
