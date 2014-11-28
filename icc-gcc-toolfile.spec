@@ -57,6 +57,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
     <flags REM_CXXFLAGS="-ftree-vectorize"/>
     <flags REM_CXXFLAGS="-Wno-unused-local-typedefs"/>
     <flags REM_CXXFLAGS="-msse3"/>
+    <flags REM_CXXFLAGS="-Wno-psabi"/>
     <flags REM_LDFLAGS="-Wl,--icf=all"/>
     <flags CXXFLAGS="-Wno-unknown-pragmas"/>
     <flags CXXFLAGS="-axSSE3"/>
