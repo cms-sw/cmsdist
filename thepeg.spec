@@ -1,10 +1,11 @@
-### RPM external thepeg 1.9.2
+### RPM external thepeg 1.9.2p1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/ThePEG
 ## INITENV +PATH DYLD_LIBRARY_PATH %i/lib/ThePEG
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 Patch0: thepeg-1.7.0-break-termcap-dependence
 Patch1: thepeg-1.7.0-use-dylibs-macosx
 Patch6: thepeg-1.9.2-fix-bogus-ZLIB-HOME
+Patch7: thepeg-1.9.2p1-fix-LHAPDF-get-index
 Requires: lhapdf
 Requires: gsl
 Requires: hepmc
@@ -33,6 +34,7 @@ case %cmsos in
   ;;
 esac
 %patch6 -p1
+%patch7 -p0
 
 # Trick make not to re-run aclocal, autoconf, automake, autoscan, etc.
 find . -exec touch -m -t 201201010000 {} \;
@@ -76,6 +78,7 @@ make
 %install
 
 make install
+
 cd %i/lib/ThePEG
 for item in LesHouches.so ; do
   [ -e lib$item ] || ln -s $item lib$item
@@ -84,4 +87,6 @@ find %i/lib -name '*.la' -exec rm -f {} \;
 
 %post
 %{relocateConfig}lib/ThePEG/Makefile.common
-%{relocateConfig}lib/ThePEG/libtool
+%{relocateConfig}lib/ThePEG/Makefile
+%{relocateConfig}lib/ThePEG/ThePEGDefaults.rpo
+%{relocateConfig}lib/ThePEG/ThePEGDefaults-1.9.2.rpo
