@@ -1,13 +1,13 @@
-### RPM external gcc 4.8.1
+### RPM external gcc 4.9.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
-%define gccRevision 199526
-%define gccBranch gcc-%(echo %{realversion} | cut -f1,2 -d. | tr . _)-branch
-Source0: svn://gcc.gnu.org/svn/gcc/branches/%{gccBranch}?module=gcc-%{gccBranch}-%{gccRevision}&revision=%{gccRevision}&output=/gcc-%{gccBranch}-%{gccRevision}.tar.gz
-Patch0: gcc-4.8.1-0000-pr-57748
-Patch1: gcc-4.8.1-0001-pr-58065
+%define gccRevision 212975
+%define gccBranch tags/gcc_4_9_1_release
+
+%define moduleName gcc-%(echo %{gccBranch} | tr / _)-%{gccRevision}
+Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{gccRevision}&output=/%{moduleName}.tar.gz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
@@ -40,16 +40,14 @@ Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
 Source8: http://ftp.gnu.org/gnu/binutils/binutils-%{binutilsVersion}.tar.bz2
 Source9: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
-Patch3: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-portability.patch
+Patch1: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-portability.patch
 Source10: http://ftp.gnu.org/gnu/m4/m4-%m4Version.tar.gz
 Source11: http://garr.dl.sourceforge.net/project/flex/flex-%{flexVersion}.tar.bz2
 %endif
 
 %prep
 
-%setup -T -b 0 -n gcc-%gccBranch-%gccRevision
-%patch0 -p1
-%patch1 -p1
+%setup -T -b 0 -n %{moduleName}
 
 # Filter out private stuff from RPM requires headers.
 cat << \EOF > %{name}-req
@@ -58,7 +56,7 @@ cat << \EOF > %{name}-req
 sed -e '/GLIBC_PRIVATE/d'
 EOF
 
-%global __find_requires %{_builddir}/gcc-%{gccBranch}-%{gccRevision}/%{name}-req
+%global __find_requires %{_builddir}/%{moduleName}/%{name}-req
 chmod +x %{__find_requires}
 
 %if %islinux
@@ -108,7 +106,7 @@ EOF_CMS_H
 %setup -D -T -b 7 -n bison-%{bisonVersion}
 %setup -D -T -b 8 -n binutils-%{binutilsVersion}
 %setup -D -T -b 9 -n elfutils-%{elfutilsVersion}
-%patch3 -p1
+%patch1 -p1
 %setup -D -T -b 10 -n m4-%{m4Version}
 %setup -D -T -b 11 -n flex-%{flexVersion}
 %endif
@@ -291,7 +289,7 @@ make %{makeprocesses} bootstrap
 make install
 
 %install
-cd %_builddir/gcc-%gccBranch-%gccRevision/obj && make install 
+cd %_builddir/%{moduleName}/obj && make install 
 
 ln -s gcc %i/bin/cc
 find %i/lib %i/lib64 -name '*.la' -exec rm -f {} \; || true
