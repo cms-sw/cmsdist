@@ -1,8 +1,8 @@
-### RPM external thepeg 1.9.2
+### RPM external thepeg 1.9.2p1
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib/ThePEG
 ## INITENV +PATH DYLD_LIBRARY_PATH %{i}/lib/ThePEG
 
-%define thepegCommit b03496397c12
+%define thepegCommit b6da237438a
 %define branch cms/v%realversion
 
 Source: git+https://github.com/cms-externals/thepeg.git?obj=%{branch}/%{thepegCommit}&export=thepeg-%{realversion}-%{thepegCommit}&module=thepeg-%realversion-%thepegCommit&output=/thepeg-%{realversion}-%{thepegCommit}.tgz
