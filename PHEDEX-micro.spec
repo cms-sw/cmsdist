@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-micro 4.1.3
+### RPM cms PHEDEX-micro 4.1.4
 ## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -56,6 +56,9 @@ rm -rf perl_lib/DMWMMON
 rm -f  perl_lib/PHEDEX/CLI/FakeAgent.pm
 rm -f  perl_lib/PHEDEX/CLI/SiteDataInfo.pm
 rm -f  perl_lib/PHEDEX/Core/Mail.pm
+rm -rf perl_lib/PHEDEX/Namespace/SpaceCountCommon.pm
+rm -rf perl_lib/PHEDEX/Namespace/*/spacecount.pm
+rm -rf perl_lib/PHEDEX/Namespace/dcache.pm
 rm -rf perl_lib/PHEDEX/Schema
 rm -rf perl_lib/PHEDEX/Testbed
 rm -rf perl_lib/PHEDEX/Web/API
