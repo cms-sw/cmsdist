@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-admin 4.1.3
+### RPM cms PHEDEX-admin 4.1.4
 # Dummy line to force a rebuild
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -6,9 +6,6 @@
 %define downloadt %(echo %realversion | tr '.' '_')
 %define setupdir  %{downloadn}-%{downloadp}_%{downloadt}
 Source: https://github.com/dmwm/PHEDEX/archive/%{downloadp}_%{downloadt}.tar.gz
-
-#%define gittag 7572e79f0925d593180e1b6a62e2ae1ae29c0f39
-#Source: git://github.com/dmwm/PHEDEX?obj=master/%gittag&export=%n&output=/%{downloadn}-admin.tar.gz
 
 # Oracle libs
 Requires: oracle oracle-env 
@@ -47,6 +44,9 @@ rm -rf Migration
 rm -rf perl_lib/DMWMMON
 rm -f  perl_lib/PHEDEX/CLI/FakeAgent.pm
 rm -f  perl_lib/PHEDEX/CLI/SiteDataInfo.pm
+rm -rf perl_lib/PHEDEX/Namespace/SpaceCountCommon.pm
+rm -rf perl_lib/PHEDEX/Namespace/*/spacecount.pm
+rm -rf perl_lib/PHEDEX/Namespace/dcache.pm
 rm -rf perl_lib/PHEDEX/Testbed
 rm -rf perl_lib/PHEDEX/Web/API
 rm -rf perl_lib/PHEDEX/Web/{C,D,F,U}*
