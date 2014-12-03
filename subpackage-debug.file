@@ -13,26 +13,10 @@ Separate debug symbol files for %{pkgcategory}+%{pkgname}+%{pkgversion}.
 %post -n %{pkgcategory}+%{pkgname}-debug+%{pkgversion}
 # nothing to do
 
-# FIXME - work around the 2GB limit in RPM 4.4.2
-%if "%{?subpackageDebug:set}" == "set"
-if [ -e $RPM_INSTALL_PREFIX/%pkgrel/debug.tar.gz ] ; then
-  tar xzf $RPM_INSTALL_PREFIX/%pkgrel/debug.tar.gz -C $RPM_INSTALL_PREFIX/%pkgrel/
-  rm -fR  $RPM_INSTALL_PREFIX/%pkgrel/debug.tar.gz
-fi
-%endif
-
 %preun -n %{pkgcategory}+%{pkgname}-debug+%{pkgversion}
-# FIXME - work around the 2GB limit in RPM 4.4.2
-%if "%{?subpackageDebug:set}" == "set"
-if [ -e $RPM_INSTALL_PREFIX/%pkgrel ] ; then
-  rm -fR $(find $RPM_INSTALL_PREFIX/%pkgrel/ -type d -name .debug)
-fi
-%endif
+# nothing to do
 
 %if "%{?subpackageDebug:set}" == "set"
-%files -n %{pkgcategory}+%{pkgname}-debug+%{pkgversion} 
-# FIXME - work around the 2GB limit in RPM 4.4.2
-#%files -n %{pkgcategory}+%{pkgname}-debug+%{pkgversion} -f %_builddir/files.debug
-%{pkginstroot}/debug.tar.gz
+%files -n %{pkgcategory}+%{pkgname}-debug+%{pkgversion} -f %_builddir/files.debug
 %defattr(-, root, root)
 %endif
