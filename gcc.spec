@@ -17,10 +17,10 @@ Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{
 
 %define keep_archives true
 
-%define gmpVersion 5.1.3
+%define gmpVersion 6.0.0a
 %define mpfrVersion 3.1.2
 %define mpcVersion 1.0.2
-%define islVersion 0.11.1
+%define islVersion 0.12.2
 %define cloogVersion 0.18.1
 %define zlibVersion 1.2.8
 Source1: ftp://ftp.gnu.org/gnu/gmp/gmp-%{gmpVersion}.tar.bz2
@@ -95,7 +95,7 @@ cat << \EOF_CMS_H > gcc/config/general-cms.h
 EOF_CMS_H
 
 # GCC prerequisites
-%setup -D -T -b 1 -n gmp-%{gmpVersion}
+%setup -D -T -b 1 -n gmp-6.0.0
 %setup -D -T -b 2 -n mpfr-%{mpfrVersion}
 %setup -D -T -b 3 -n mpc-%{mpcVersion}
 %setup -D -T -b 4 -n isl-%{islVersion}
@@ -202,7 +202,7 @@ make install
 %endif
 
 # Build GMP
-cd ../gmp-%{gmpVersion}
+cd ../gmp-6.0.0
 ./configure --disable-static --prefix=%{i} --enable-shared --disable-static --enable-cxx \
             --build=%{_build} --host=%{_host} \
             CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
@@ -265,7 +265,7 @@ case %{cmsplatf} in
 esac
 
 # Build GCC
-cd ../gcc-%{gccBranch}-%{gccRevision}
+cd ../%{moduleName}
 rm gcc/DEV-PHASE
 touch gcc/DEV-PHASE
 mkdir -p obj
