@@ -1,19 +1,18 @@
-### RPM cms sreadiness r178
+### RPM cms sreadiness v2.1
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
-%define svnrev %(echo %realversion|tr -d 'r')
-Source1: svn://svn.cern.ch/reps/cmsfomon/SiteReadiness/trunk@%svnrev?scheme=svn+ssh&strategy=export&module=SiteReadiness&output=/srsrc.tar.gz
+Source1: git://github.com/altundag/SiteReadiness?obj=test/%realversion&export=%n&output=/%n.tar.gz
 Requires: python py2-matplotlib py2-numpy py2-pyxml
 
 
 %prep
-%setup -T -b 1 -n SiteReadiness
+%setup -T -b 1 -n sreadiness 
 
 %build
 
 %install
 mkdir %i/bin
-cp -rp %_builddir/SiteReadiness/* %i/bin
+cp -rp %_builddir/sreadiness/{css,*py} %i/bin/
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
