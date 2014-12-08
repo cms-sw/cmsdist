@@ -201,6 +201,13 @@ case %cmsplatf in
   ;;
 esac
 
+# Compressed debug sections for linker
+case %cmsplatf in
+  *_gcc49*)
+    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Wa,--compress-debug-sections"
+  ;;
+esac
+
 export COMPILER_CXXFLAGS
 
 # General substitutions
