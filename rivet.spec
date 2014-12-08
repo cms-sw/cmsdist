@@ -1,4 +1,4 @@
-### RPM external rivet 2.1.2
+### RPM external rivet 2.2.0
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
 
 Requires: hepmc boost fastjet gsl yaml-cpp yoda
