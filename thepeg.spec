@@ -2,10 +2,10 @@
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib/ThePEG
 ## INITENV +PATH DYLD_LIBRARY_PATH %{i}/lib/ThePEG
 
-%define thepegCommit b6da237438a
+%define tag 41e9a26f5ca9659e30e9c27e4dc86e65ecd4a4bd
 %define branch cms/v%realversion
 
-Source: git+https://github.com/cms-externals/thepeg.git?obj=%{branch}/%{thepegCommit}&export=thepeg-%{realversion}-%{thepegCommit}&module=thepeg-%realversion-%thepegCommit&output=/thepeg-%{realversion}-%{thepegCommit}.tgz
+Source: git+https://github.com/cms-externals/thepeg.git?obj=%{branch}/%{tag}&export=thepeg-%{realversion}-%{tag}&module=thepeg-%realversion-%{tag}&output=/thepeg-%{realversion}-%{tag}.tgz
 Requires: lhapdf
 Requires: gsl
 Requires: hepmc
@@ -23,7 +23,7 @@ BuildRequires: autotools
 %endif
 
 %prep
-%setup -q -n thepeg-%{realversion}-%{thepegCommit}
+%setup -q -n thepeg-%{realversion}-%{tag}
 
 # Regenerate build scripts
 autoreconf -fiv
