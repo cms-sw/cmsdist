@@ -52,7 +52,6 @@ Requires: libungif-toolfile
 Requires: libxml2-toolfile
 Requires: mcdb-toolfile
 Requires: meschach-toolfile
-Requires: openloops-toolfile
 Requires: openssl-toolfile
 Requires: oracle-env
 Requires: pcre-toolfile
