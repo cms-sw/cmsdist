@@ -15,10 +15,10 @@ BuildRequires: python
 cat << \EOF >> openloops.cfg
 [OpenLoops]
 fortran_compiler = gfortran
-gfortran_f90_flags = -ffixed-line-length-0 -ffree-line-length-0 -Os
-loop_optimisation = -Os
-generic_optimisation = -Os
-born_optimisation = -Os
+gfortran_f90_flags = -ffixed-line-length-0 -ffree-line-length-0 -O0
+loop_optimisation = -O0
+generic_optimisation = -O0
+born_optimisation = -O0
 EOF
 
 ./scons auto=all/
