@@ -2,7 +2,7 @@
 %define tag d888f2705fbcd315d8cf5f290f73a524464698ed
 %define branch cms/v%{realversion}
 %define github_user cms-externals
-Source: git+https://github.com/%github_user/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+Source: git+https://github.com/%github_user/openloops.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 BuildRequires: python
 
