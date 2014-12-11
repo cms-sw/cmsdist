@@ -3,7 +3,7 @@
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-Requires: hepmc lhapdf blackhat sqlite fastjet openssl openloops
+Requires: hepmc lhapdf blackhat sqlite fastjet openssl
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -38,7 +38,6 @@ esac
             --enable-lhapdf=$LHAPDF_ROOT \
             --enable-blackhat=$BLACKHAT_ROOT \
             --with-sqlite3=$SQLITE_ROOT \
-            --enable-openloops=$OPENLOOPS_ROOT \
             CXX="%cms_cxx" \
             CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF %cms_cxxflags -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$OPENSSL_ROOT/include" \
             LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib -L$OPENSSL_ROOT/lib"
