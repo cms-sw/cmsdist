@@ -53,6 +53,7 @@ Requires: libxml2-toolfile
 Requires: mcdb-toolfile
 Requires: meschach-toolfile
 Requires: openssl-toolfile
+Requires: openloops-toolfile
 Requires: oracle-env
 Requires: pcre-toolfile
 Requires: photos-toolfile
