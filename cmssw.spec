@@ -7,6 +7,8 @@ Requires: cmssw-tool-conf python cms-git-tools
 %define saveDeps        yes
 %define branch          CMSSW_7_0_X
 %define gitcommit       %{realversion}
+# build with debug symbols, and package them in a separate rpm
+%define subpackageDebug yes
 
 %if "%(case %realversion in (*_COVERAGE_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define branch		%(echo %realversion | sed -e 's|_COVERAGE_X.*|_X|')
@@ -52,3 +54,4 @@ Requires: cmssw-tool-conf python cms-git-tools
 %define source1         git://github.com/cms-sw/cmssw.git?protocol=https&obj=%{branch}/%{gitcommit}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 
 ## IMPORT scram-project-build
+## SUBPACKAGE debug IF %subpackageDebug
