@@ -7,19 +7,14 @@ Patch4: coral-CORAL_2_3_20-remove-lost-dependencies
 Patch5: coral-CORAL_2_3_21-move-to-libuuid
 Patch6: coral-CORAL_2_3_21-forever-ttl
 
-%define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
 %define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 %define cvssrc          %{n}
 %define cvsrepo         cvs://:pserver:anonymous@%{n}.cvs.cern.ch/cvs/%{n}?passwd=Ah<Z&force=1
 
-%if %isonline
-# Disable building tests, since they bring dependency on cppunit:
-%define patchsrc2       perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
 # Build with debug symbols, and package them in a separate rpm:
 %define subpackageDebug yes
-%endif
 
 # Disable building tests, since they bring dependency on cppunit:
 %if %isdarwin
