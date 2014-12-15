@@ -52,7 +52,18 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-cxxcompiler.xml
     <flags CXXFLAGS="-O2 -pthread -pipe -Werror=main -Werror=pointer-arith"/>
     <flags CXXFLAGS="-Werror=overlength-strings -Wno-vla @OS_CXXFLAGS@ @ARCH_CXXFLAGS@ @COMPILER_CXXFLAGS@"/>
     <flags CXXFLAGS="-felide-constructors -fmessage-length=0 -ftemplate-depth-300"/>
-    <flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wreturn-type -Wunused -Wparentheses -Wno-deprecated -Werror=return-type -Werror=missing-braces -Werror=unused-value -Werror=address -Werror=format -Werror=sign-compare -Werror=write-strings -Werror=delete-non-virtual-dtor -Werror=maybe-uninitialized -Werror=strict-aliasing -Werror=narrowing -Werror=uninitialized -Werror=unused-but-set-variable -Werror=reorder -Werror=unused-variable -Werror=conversion-null -Werror=switch -fdiagnostics-show-option -Wno-unused-local-typedefs -Wno-attributes -Wno-psabi"/>
+    <flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wreturn-type"/>
+    <flags CXXFLAGS="-Wunused -Wparentheses -Wno-deprecated -Werror=return-type"/>
+    <flags CXXFLAGS="-Werror=missing-braces -Werror=unused-value"/>
+    <flags CXXFLAGS="-Werror=address -Werror=format -Werror=sign-compare"/>
+    <flags CXXFLAGS="-Werror=write-strings -Werror=delete-non-virtual-dtor"/>
+    <flags CXXFLAGS="-Werror=maybe-uninitialized -Werror=strict-aliasing"/>
+    <flags CXXFLAGS="-Werror=narrowing -Werror=uninitialized"/>
+    <flags CXXFLAGS="-Werror=unused-but-set-variable -Werror=reorder"/>
+    <flags CXXFLAGS="-Werror=unused-variable -Werror=conversion-null"/>
+    <flags CXXFLAGS="-Werror=return-local-addr"/>
+    <flags CXXFLAGS="-Werror=switch -fdiagnostics-show-option"/>
+    <flags CXXFLAGS="-Wno-unused-local-typedefs -Wno-attributes -Wno-psabi"/>
     <flags LDFLAGS="@OS_LDFLAGS@ @ARCH_LDFLAGS@ @COMPILER_LDFLAGS@"/>
     <flags CXXSHAREDFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@ @COMPILER_SHAREDFLAGS@"/>
     <flags LD_UNIT="@OS_LD_UNIT@ @ARCH_LD_UNIT@ @COMPILER_LD_UNIT@"/>
@@ -187,6 +198,13 @@ esac
 case %cmsplatf in
   *_gcc4[789]*)
     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fno-math-errno --param vect-max-version-for-alias-checks=50 -fipa-pta"
+  ;;
+esac
+
+# Compressed debug sections for linker
+case %cmsplatf in
+  *_gcc49*)
+    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Wa,--compress-debug-sections"
   ;;
 esac
 
