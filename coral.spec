@@ -35,6 +35,4 @@ Patch6: coral-CORAL_2_3_21-forever-ttl
 %endif
 
 ## IMPORT scram-project-build
-# For now disable SUBPACKAGE as it is causing problem calculating checksum
-# Looks like sub package support in V00-22/21 is not working
-# SUBPACKAGE debug IF %subpackageDebug
+## SUBPACKAGE debug IF %subpackageDebug
