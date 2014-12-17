@@ -1,7 +1,9 @@
 CommonTools/Statistics
 CommonTools/Utils
+CondFormats/External
 CondFormats/L1TObjects
 CondFormats/RPCObjects
+CondFormats/Serialization
 DataFormats/BTauReco
 DataFormats/BeamSpot
 DataFormats/CLHEP
@@ -84,6 +86,8 @@ FWCore/PythonUtilities
 FWCore/RootAutoLibraryLoader
 FWCore/ServiceRegistry
 FWCore/Utilities
+FWCore/Version
+FWCore/Framework
 FastSimDataFormats/External
 Fireworks/Calo
 Fireworks/Candidates
@@ -115,3 +119,10 @@ SimDataFormats/TrackingHit
 SimDataFormats/Vertex
 Utilities/General
 Utilities/ReleaseScripts
+Geometry/CommonDetUnit
+SimDataFormats/JetMatching/interface/JetFlavourInfo.h
+Geometry/CommonTopologies/interface/Topology.h
+DataFormats/TrackerCommon/interface/TrackerTopology.h
+Geometry/TrackerGeometryBuilder/interface/GluedGeomDet.h
+Geometry/TrackerGeometryBuilder/interface/GeomDetLess.h
+RecoLocalCalo/HcalRecAlgos/interface/HcalCaloFlagLabels.h
