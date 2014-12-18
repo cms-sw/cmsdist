@@ -1,5 +1,5 @@
-### RPM external geant4 10.00.p02
-%define tag 122f5b1be5
+### RPM external geant4 10.00.p03
+%define tag 4a83933019c94b39209619afbfb4d8c3f7ea435c
 %define branch cms/4.%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
@@ -38,6 +38,7 @@ cmake ../%{n}.%{realversion} \
   -DCMAKE_BUILD_TYPE=Release \
   -DGEANT4_USE_GDML=ON \
   -DGEANT4_BUILD_CXXSTD:STRING="c++11" \
+  -DGEANT4_BUILD_TLS_MODEL:STRING="global-dynamic" \
   -DGEANT4_ENABLE_TESTING=OFF \
   -DBUILD_SHARED_LIBS=ON \
   -DXERCESC_ROOT_DIR:PATH="${XERCES_C_ROOT}" \
