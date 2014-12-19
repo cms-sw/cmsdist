@@ -4,6 +4,10 @@
 # tool is added
 ## INITENV SET CMSSW_TOOL_CONF_ROOT $FWLITE_TOOL_CONF_ROOT
 
+%define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
+%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
+%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+
 Provides: libboost_regex-gcc-mt.so 
 Provides: libboost_signals-gcc-mt.so 
 Provides: libboost_thread-gcc-mt.so
@@ -18,10 +22,6 @@ Requires: dcap-toolfile
 Requires: expat-toolfile
 Requires: fakesystem
 Requires: fftw3-toolfile
-# Use our own freetype only on macosx.
-%if "%(case %cmsplatf in (osx*) echo true ;; (*) echo false ;; esac)" == "true"
-Requires: freetype-toolfile
-%endif
 Requires: fwlitedata-toolfile
 Requires: gcc-toolfile
 Requires: gccxml-toolfile
@@ -42,10 +42,23 @@ Requires: sigcpp-toolfile
 Requires: sqlite-toolfile
 Requires: systemtools
 Requires: libuuid-toolfile
+Requires: xerces-c-toolfile
 Requires: xrootd-toolfile
 Requires: xz-toolfile
 Requires: zlib-toolfile
 Requires: libxml2-toolfile
+Requires: llvm-gcc-toolfile
+
+%if %isamd64
+%if %islinux
+Requires: glibc-toolfile
+%endif
+%endif
+
+# Only for Darwin platform.
+%if %isdarwin
+Requires: freetype-toolfile
+%endif
 
 %define skipreqtools jcompiler db4 expat fftw3 sqlite
 
