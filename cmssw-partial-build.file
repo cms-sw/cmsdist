@@ -10,7 +10,6 @@
 # No need to use additional macros, since we do not need
 # to %setup them.
 Source5: %buildsetfile
-Source6: partial.py
 
 %define cvssrc          %ucprojtype
 %if "%{?cvstag:set}" != "set"
@@ -19,7 +18,3 @@ Source6: partial.py
 
 %define PartialBootstrapPatch \
   perl -p -i -e 'if (s/(<download.*)(file:%{srctree})(.*)(name="%{srctree})("\\/>)/#$1$2$3$4$5/){open $fh,"%{_sourcedir}/%{buildsetfile}" or die; while(readline $fh){chomp;print "$1$2/$_$3$4/$_$5\\n"}}' config/bootsrc.xml
-
-%define PartialReleasePackageList \
-  chmod +x %{_sourcedir}/partial.py;\
-  %{_sourcedir}/partial.py %{_sourcedir}/%buildsetfile %{_builddir}/%{srctree}/PackageList.cmssw %{srctree}/PackageList.cmssw
