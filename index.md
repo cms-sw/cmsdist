@@ -20,7 +20,7 @@ Each release series should have a branch called:
 
 where `<CMSSW_x_y_Z>` is some release queue, e.g.:
 
-    IB/CMSSW_6_2_X/stable 
+    IB/CMSSW_6_2_X/stable
 
 We will call this branch the "stable CMSDIST branch for the release queue".
 This branch is the one used for the production architecture of such a release.
@@ -32,7 +32,7 @@ branch.
 The default branch of CMSDIST (i.e. the one which you get when you do git clone
 without any argument) contains a file called `config.map` which consist of the
 mapping between architectures, release queues and the `PKGTOOLS` and `CMSDIST`
-tags for that release queue on the given architecture. 
+tags for that release queue on the given architecture.
 
 The file consists of one or more lines with the following format.
 
@@ -105,11 +105,9 @@ repository, you'll need it to propose your changes.
       TOPDIR=${HERE}/ext/${CMSSW}/${DATETIME}
       mkdir -p $TOPDIR
       cd $TOPDIR
-      git clone git@github.com:cms-sw/cmsdist.git CMSDIST
-      pushd CMSDIST
-        eval $(cat config.map | grep "SCRAM_ARCH=$ARCH;" | grep "RELEASE_QUEUE=$CMSSW;")
-        git checkout $CMSDIST_TAG
-      popd
+      URL=https://raw.githubusercontent.com/cms-sw/cms-bot/master/config.map
+      eval $(curl $URL  | grep "SCRAM_ARCH=$ARCH;" | grep "RELEASE_QUEUE=$CMSSW;")
+      git clone -b $CMSDIST_TAG git@github.com:cms-sw/cmsdist.git CMSDIST
       git clone -b $PKGTOOLS_TAG git@github.com:cms-sw/pkgtools.git PKGTOOLS
 
 2) Edit CMSDIST, build and test the external:
@@ -178,11 +176,9 @@ Let's assume you want to build externals for the a given release series:
       TOPDIR=${HERE}/ext/${CMSSW}/${DATETIME}
       mkdir -p $TOPDIR
       cd $TOPDIR
-      git clone git@github.com:cms-sw/cmsdist.git CMSDIST
-      pushd CMSDIST
-        eval $(cat config.map | grep "SCRAM_ARCH=$ARCH;" | grep "RELEASE_QUEUE=$CMSSW;")
-        git checkout $CMSDIST_TAG
-      popd
+      URL=https://raw.githubusercontent.com/cms-sw/cms-bot/master/config.map
+      eval $(curl $URL  | grep "SCRAM_ARCH=$ARCH;" | grep "RELEASE_QUEUE=$CMSSW;")
+      git clone -b $CMSDIST_TAG git@github.com:cms-sw/cmsdist.git CMSDIST
       git clone -b $PKGTOOLS_TAG git@github.com:cms-sw/pkgtools.git PKGTOOLS
 
 2) Build the externals:
@@ -195,7 +191,7 @@ checklist](troubleshooting-checklist.html).
 4) Upload the externals to the repository. Please make sure you use a tag later
    than V00-21-01 for doing the uploads. Uploads are done for each architecture
    (incl Mac OS X).
-   
+
       eval `ssh-agent`
       ssh-add
       screen -L time PKGTOOLS/cmsBuild -i a -a $ARCH --sync-back upload cmssw-tool-conf
