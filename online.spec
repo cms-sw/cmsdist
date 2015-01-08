@@ -7,6 +7,7 @@ Requires: online-tool-conf python
 
 %define patchsrc2       perl -p -i -e ' s!(<classpath.*/test\\+.*>)!!' config/BuildFile.xml
 
+
 ## IMPORT cmssw-partial-build
 ## IMPORT scram-project-build
 ## SUBPACKAGE debug
