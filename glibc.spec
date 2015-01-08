@@ -1,12 +1,12 @@
-### RPM external glibc 2.12-2
+### RPM external glibc 2.12-1.149.el6
 ## NOCOMPILER
 
 %global official_version %(echo "%{realversion}" | cut -d'-' -f1)
 
-%define tag 31f3c8e59749ef5f77853ec2d5c019e48bdcd645
-%define branch cms/%{n}-%{realversion}
-%define github_user davidlt
-Source: git+https://github.com/%{github_user}/glibc-2.12-slc6.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+%define tag 4bcf8ff366875ccd2ec8c45b63c0c482f07a24fb
+%define branch cms/2.12-1.149.el6
+%define github_user cms-externals
+Source: git+https://github.com/%{github_user}/glibc.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 %prep
 %setup -n %{n}-%{realversion}
