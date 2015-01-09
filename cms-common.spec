@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1119
+## REVISION 1120
 ## NOCOMPILER
 
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
@@ -10,6 +10,8 @@
 Source: cmsos
 Source1: migrate-cvsroot
 Source2: cmspm
+Source3: https://raw.githubusercontent.com/juztas/CRABClient/master/bin/crab-client
+Source4: https://raw.githubusercontent.com/juztas/CRABClient/master/bin/crab2to3-client
 
 %prep
 #Make sure that we always build cms-common with a different revision and 
@@ -28,6 +30,8 @@ Source2: cmspm
 mkdir -p %i/%{pkgrevision}/common
 cd %i/%{pkgrevision}
 
+cp %{SOURCE3} ./common/crab
+cp %{SOURCE4} ./common/crab2to3
 cp %_sourcedir/cmsos ./common/cmsos
 cp %_sourcedir/migrate-cvsroot ./common/migrate-cvsroot
 cp %_sourcedir/cmspm ./common/cmspm
