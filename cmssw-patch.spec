@@ -5,7 +5,7 @@ Requires: cmssw-patch-tool-conf
 %define useCmsTC        yes
 %define saveDeps        yes
 # build with debug symbols, and package them in a separate rpm
-%define subpackageDebug yes
+#subpackage debug disabledes
 
 #Set it to -cmsX added by cmsBuild (if any) to the base release
 %define baserel_postfix %{nil}
