@@ -1,25 +1,16 @@
-### RPM lcg root 5.34.09
+### RPM lcg root 5.34.22
 ## INITENV +PATH PYTHONPATH %i/lib/python
-## INITENV SET ROOTSYS %i  
-#Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
-%define tag %(echo v%{realversion} | tr . -)
-%define branch %(echo %{realversion} | sed 's/\\.[0-9]*$/.00/;s/^/v/;s/$/-patches/g;s/\\./-/g')
-Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+## INITENV SET ROOTSYS %i
+%define tag 459da1ac81d51a108e851636754169a8494de6d7
+%define branch cms/v5-34-22
+%define github_user cms-sw
+Source: git+https://github.com/%github_user/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
 %define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
-
-Patch0: root-5.34.02-externals
-Patch1: root-5.28-00d-roofit-silence-static-printout
-Patch2: root-5.34.00-linker-gnu-hash-style
-Patch3: root-5.32.00-detect-arch
-Patch4: root-5.30.02-fix-gcc46
-Patch5: root-5.30.02-fix-isnan-again
-Patch6: root-5.34.05-cintex-armv7a-port
-Patch7: root-5.34.09-ROOT-5437
 
 Requires: gccxml gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl
 
@@ -39,22 +30,6 @@ Requires: freetype
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
-%patch1 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch7 -p1
-
-%if %isarmv7
-%patch6 -p1
-%endif
-
-# The following patch can only be applied on SLC5 or later (extra linker
-# options only available with the SLC5 binutils)
-%if %islinux
-%patch2 -p1
-%endif
 
 # Delete these (irrelevant) files as the fits appear to confuse rpm on OSX
 # (It tries to run install_name_tool on them.)
@@ -76,12 +51,13 @@ export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 EXTRA_CONFIG_ARGS="--with-f77=/usr
              --disable-odbc --disable-astiff"
 %else
-export LIBPNG_ROOT ZLIB_ROOT LIBTIFF_ROOT LIBUNGIF_ROOT
+export LIBJPG_ROOT LIBPNG_ROOT ZLIB_ROOT LIBTIFF_ROOT
 EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}"
 %endif
 LZMA=${XZ_ROOT}
 export LZMA
-CONFIG_ARGS="--enable-table 
+CONFIG_ARGS="--enable-table
+             --enable-builtin-glew
              --disable-builtin-pcre
              --disable-builtin-freetype
              --disable-builtin-zlib
@@ -100,6 +76,7 @@ CONFIG_ARGS="--enable-table
              --with-ssl-libdir=${OPENSSL_ROOT}/lib
              --disable-ldap
              --disable-krb5
+             --disable-tmva
              --with-xrootd=${XROOTD_ROOT}
              --with-gsl-incdir=${GSL_ROOT}/include
              --with-gsl-libdir=${GSL_ROOT}/lib
@@ -124,11 +101,7 @@ sed -ibak 's/\-std=c++11/-std=c++0x/g' \
   config/Makefile.macosx \
   config/Makefile.linux \
   config/root-config.in \
-  config/Makefile.linuxx8664gcc 
-
-%if %isarmv7
-cp ./cint/iosenum/iosenum.linux3 ./cint/iosenum/iosenum.linuxarm3
-%endif
+  config/Makefile.linuxx8664gcc
 
 EXTRA_OPTS=
 TARGET_PLATF=
@@ -146,7 +119,9 @@ TARGET_PLATF=
 %if %isdarwin
   TARGET_PLATF=macosx64
   EXTRA_OPTS="${EXTRA_OPTS} --disable-rfio
-                            --disable-builtin_afterimage"
+                            --disable-builtin_afterimage
+                            --disable-cocoa
+                            --enable-x11"
 %endif
 
 %if %isarmv7
@@ -155,7 +130,15 @@ TARGET_PLATF=
 
 ./configure ${TARGET_PLATF} ${CONFIG_ARGS} ${EXTRA_OPTS}
 
-make %makeprocesses CXX="g++ -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL=" CC="gcc -DOS_OBJECT_USE_OBJC=0 -DDLL_DECL="
+# Make sure we compile/link against libs shipped with cmssw
+perl -pi -e '
+BEGIN: { @dirs = map {$a = "${_}_ROOT"; $ENV{$a}} qw(LIBJPG LIBPNG ZLIB LIBTIFF); }
+
+chomp, $_ = join (" ", $_, map {"-I$_/include"} @dirs) . "\n" if /^EXTRA_CFLAGS/ or /^EXTRA_CXXFLAGS/;
+chomp, $_ = join (" ", $_, map {"-L$_/lib"} @dirs) . "\n" if /^EXTRA_LDFLAGS/;
+' config/Makefile.config
+
+make %{makeprocesses}
 
 %install
 # Override installers if we are using GNU fileutils cp.  On OS X

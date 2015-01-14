@@ -1,4 +1,4 @@
-### RPM cms dqmgui 7.4.3
+### RPM cms dqmgui 7.4.3.1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH %{dynamic_path_var} %i/xlib
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
