@@ -14,7 +14,7 @@ Patch6: coral-CORAL_2_3_21-forever-ttl
 %define cvsrepo         cvs://:pserver:anonymous@%{n}.cvs.cern.ch/cvs/%{n}?passwd=Ah<Z&force=1
 
 # Build with debug symbols, and package them in a separate rpm:
-%define subpackageDebug yes
+#subpackage debug disabledes
 
 # Disable building tests, since they bring dependency on cppunit:
 %if %isdarwin
