@@ -53,12 +53,12 @@ done
 
 export ROOT_INCLUDE_PATH
 
-CONFIG_ARGS="--enable-table 
+CONFIG_ARGS="--enable-table
              --disable-builtin-pcre
              --disable-builtin-freetype
              --disable-builtin-zlib
              --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include/python${PYTHONV}
-             --enable-explicitlink 
+             --enable-explicitlink
              --enable-mathmore
              --enable-minuit2
              --disable-builtin-lzma
@@ -83,7 +83,8 @@ CONFIG_ARGS="--enable-table
              --disable-qt
              --disable-qtgsi
              --disable-hdfs
-             --disable-oracle ${EXTRA_CONFIG_ARGS}"
+             --disable-oracle ${EXTRA_CONFIG_ARGS}
+             --enable-roofit"
 
 #if #isarmv7
 #cp ./cint/iosenum/iosenum.linux3 ./cint/iosenum/iosenum.linuxarm3
@@ -94,7 +95,7 @@ TARGET_PLATF=
 
 %if %islinux
   TARGET_PLATF=linuxx8664gcc
-  EXTRA_OPTS="${EXTRA_OPTS} --with-rfio-libdir=${CASTOR_ROOT}/lib 
+  EXTRA_OPTS="${EXTRA_OPTS} --with-rfio-libdir=${CASTOR_ROOT}/lib
                             --with-rfio-incdir=${CASTOR_ROOT}/include/shift
                             --with-castor-libdir=${CASTOR_ROOT}/lib
                             --with-castor-incdir=${CASTOR_ROOT}/include/shift
