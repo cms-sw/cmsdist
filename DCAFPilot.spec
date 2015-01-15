@@ -1,7 +1,6 @@
 ### RPM cms DCAFPilot 0.0.4
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define pkg DCAFPilot
-#Source: git://github.com/dmwm/DMWMAnalytics.git?obj=master/%realversion&export=%pkg-%realversion&output=/%pkg-%{realversion}.tar.gz
 Source: git://github.com/dmwm/DMWMAnalytics.git?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
 Requires: python py2-numpy py2-scipy py2-scikit-learn
 BuildRequires: py2-sphinx
@@ -9,7 +8,6 @@ BuildRequires: py2-sphinx
 # RPM macros documentation
 # http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
 %prep
-#%setup -b 0 -n %pkg-%realversion
 %setup -b 0 -n %pkg
 
 %build
