@@ -1,4 +1,4 @@
-### RPM cms dqmgui 7.4.5
+### RPM cms dqmgui 7.4.6
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH %{dynamic_path_var} %i/xlib
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
@@ -17,7 +17,7 @@ Source1: git+https://github.com/cms-sw/cmssw.git?obj=CMSSW_7_0_X/CMSSW_7_0_0_pre
 #Source1: %{cvs}&strategy=export&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-15-19&output=/DQMCore.tar.gz
 Source2: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=image&revision=10&scheme=http&output=/rtgu.tar.gz
 Source3: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
-Source4: git+https://github.com/rovere/dqmgui.git?obj=index128/7.4.5&export=Monitoring&output=/Monitoring128.tar.gz
+Source4: git+https://github.com/rovere/dqmgui.git?obj=index128/7.4.6&export=Monitoring&output=/Monitoring128.tar.gz
 Patch0: dqmgui-rtgu
 
 Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root libpng libjpg classlib rotatelogs py2-pycurl py2-cjson libuuid d3 protobuf
