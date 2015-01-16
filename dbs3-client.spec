@@ -1,7 +1,8 @@
-### RPM cms dbs3-client 3.2.7b
+### RPM cms dbs3-client 3.2.8
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV SET DBS3_CLIENT_ROOT %i/
+## INITENV SET DBS3_CLIENT_VERSION %v
 ## INITENV ALIAS dbs python $DBS3_CLIENT_ROOT/bin/dbs.py
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
