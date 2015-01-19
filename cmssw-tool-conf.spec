@@ -53,7 +53,6 @@ Requires: libxml2-toolfile
 Requires: mcdb-toolfile
 Requires: meschach-toolfile
 Requires: openssl-toolfile
-Requires: openloops-toolfile
 Requires: oracle-env
 Requires: pcre-toolfile
 Requires: photos-toolfile
@@ -164,6 +163,7 @@ Requires: freetype-toolfile
 Requires: tkonlinesw-toolfile
 Requires: py2-cx-oracle-toolfile
 Requires: oracle-toolfile
+Requires: openloops-toolfile
 
 # Only for Linux platform.
 %if %islinux
