@@ -6,6 +6,7 @@
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+%define isslc %(case %{cmsplatf} in (slc*) echo 1 ;; (*) echo 0 ;; esac)
 
 Requires: alpgen-toolfile
 Requires: boost-toolfile
@@ -53,7 +54,6 @@ Requires: libxml2-toolfile
 Requires: mcdb-toolfile
 Requires: meschach-toolfile
 Requires: openssl-toolfile
-Requires: openloops-toolfile
 Requires: oracle-env
 Requires: pcre-toolfile
 Requires: photos-toolfile
@@ -164,6 +164,11 @@ Requires: freetype-toolfile
 Requires: tkonlinesw-toolfile
 Requires: py2-cx-oracle-toolfile
 Requires: oracle-toolfile
+
+# Only for slc platforms.
+%if %isslc
+Requires: openloops-toolfile
+%endif
 
 # Only for Linux platform.
 %if %islinux
