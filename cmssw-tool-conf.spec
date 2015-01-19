@@ -168,6 +168,7 @@ Requires: oracle-toolfile
 # Only for slc platforms.
 %if %isslc
 Requires: openloops-toolfile
+%endif
 
 # Only for Linux platform.
 %if %islinux
