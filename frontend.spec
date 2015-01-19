@@ -1,6 +1,6 @@
-### RPM cms frontend 4.3
+### RPM cms frontend 5.0
 Source: http://www.nikhef.nl/~janjust/proxy-verify/grid-proxy-verify.c
-Requires: apache-setup mod_perl2 p5-apache2-modssl p5-compress-zlib p5-json-xs
+Requires: apache24-setup mod_perl24 p5-apache24-modssl p5-compress-zlib p5-json-xs
 Requires: p5-digest-hmac py2-cx-oracle oracle-env sqlite
 
 %prep

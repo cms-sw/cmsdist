@@ -2,7 +2,7 @@
 
 # This is a meta-package to group all cms comp services
 # CMSWEB
-Requires: frontend frontend24 das dbs3 filemover sitedb couchdb bigcouch reqmon
+Requires: frontend das dbs3 filemover sitedb couchdb bigcouch reqmon
 Requires: PHEDEX-combined-web stagemanager reqmgr dqmgui overview workqueue
 Requires: dbs3-client stagemanager-agent crabserver crabclient crabcache
 Requires: DMWMMON-datasvc alertscollector acdcserver gitweb
