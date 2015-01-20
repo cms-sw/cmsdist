@@ -1,11 +1,11 @@
-### RPM cms crabclient 3.3.12.patch1
+### RPM cms crabclient 3.3.13.rc1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 %define wmcver 1.0.3.pre1
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define crabserver 3.3.12.rc1
+%define crabserver 3.3.13.rc1
 
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
