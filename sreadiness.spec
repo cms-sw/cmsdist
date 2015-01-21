@@ -1,7 +1,7 @@
 ### RPM cms sreadiness v2.2
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages 
 
-Source1: git://github.com/CMSCompOps/SiteReadiness?obj=test/%realversion&export=%n&output=/%n.tar.gz
+Source1: git://github.com/CMSCompOps/SiteReadiness?obj=master/%realversion&export=%n&output=/%n.tar.gz
 Requires: python py2-matplotlib py2-numpy py2-pyxml
 
 
