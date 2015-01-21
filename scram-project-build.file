@@ -119,7 +119,6 @@ Source2: %{additionalSrc0}&output=/src1.tar.gz
 %if "%{?additionalSrc1:set}" == "set"
 Source3: %{additionalSrc1}&output=/src2.tar.gz
 %endif
-Source4: findDependencies.pl
 
 %prep
 rm -rf config
@@ -259,7 +258,7 @@ done
 
 %if "%{?saveDeps:set}" == "set"
 mkdir -p %i/etc/dependencies
-perl %{_sourcedir}/findDependencies.pl -rel %i -arch %cmsplatf -scramroot $SCRAMV1_ROOT
+perl %i/config/SCRAM/findDependencies.pl -rel %i -arch %cmsplatf -scramroot $SCRAMV1_ROOT
 %{?PatchReleaseDependencyInfo:%PatchReleaseDependencyInfo}
 gzip -f %i/etc/dependencies/*.out
 %endif
