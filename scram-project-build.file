@@ -67,7 +67,7 @@ Requires: file
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-04-00
+%define configtag       V05-04-02
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -282,14 +282,17 @@ rm -fR %{srctree} tmp
 # Handle debug symbols. We always have a debug subpackage for debug symbols so
 # no point in complicating the standard builds with this.
 %if "%{?subpackageDebug:set}" == "set"
+touch %i/.SCRAM/%cmsplatf/subpackage-debug
 if [ "%{n}" == "coral" ]; then
   ELF_DIRS="%i/%cmsplatf/lib %i/%cmsplatf/tests/bin"
+  DROP_SYMBOLS_DIRS=""
 else
   ELF_DIRS="%i/lib/%cmsplatf %i/biglib/%cmsplatf %i/bin/%cmsplatf %i/test/%cmsplatf"
+  DROP_SYMBOLS_DIRS="%i/objs/%cmsplatf"
 fi
 
 # optimise the debug symbols, compress them, and split them into separate file
-for DIR in $ELF_DIRS; do
+for DIR in $ELF_DIRS $DROP_SYMBOLS_DIRS; do
   pushd $DIR
   mkdir -p .debug
   # ELF binaries
@@ -299,6 +302,10 @@ for DIR in $ELF_DIRS; do
     echo "$ELF_BINS" | xargs -t -n1 -P%{compiling_processes} -I% sh -c 'objcopy --compress-debug-sections --only-keep-debug % .debug/%.debug; objcopy --strip-debug --add-gnu-debuglink=.debug/%.debug %'
   fi
   popd
+done
+
+for DIR in $DROP_SYMBOLS_DIRS; do
+  rm -rf $DIR/.debug
 done
 
 # split the debug symbols out of the main binaries, into separate files
