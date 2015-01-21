@@ -18,7 +18,7 @@
 # FIXME: produce requirements from "scram tool info"?
 # FIXME: automatic sub-packages for "doc" etc?
 # FIXME: post-install stuff for modules etc?
-
+ 
 Requires: SCRAMV1
 %define initenv		%initenv_direct
 %define scram_xml   .xml
