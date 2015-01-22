@@ -1,4 +1,4 @@
-### RPM cms crabclient 3.3.13.rc2
+### RPM cms crabclient 3.3.13.rc4
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
@@ -78,6 +78,9 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
     echo "test X\$?$root = X1 || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
   fi
 done
+#Add the script for the bash completion to the dependencies-setup.sh script. Only for bash
+r=%i
+echo "test X\$CRAB3_BASH_COMPLETION != X || . %i/etc/crab-bash-completion.sh" >> %i/etc/profile.d/dependencies-setup.sh
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
