@@ -19,7 +19,7 @@ Patch1: pythia8-201-fix-init
 export USRCXXFLAGS="%cms_cxxflags"
 export HEPMCLOCATION=${HEPMC_ROOT}  
 export HEPMCVERSION=${HEPMC_VERSION}
-./configure --prefix=%i --enable-shared --with-hepmc2=${HEPMC_ROOT} --with-lhapdf5=${LHAPDF_ROOT}
+./configure --prefix=%i --enable-shared --with-hepmc2=${HEPMC_ROOT} --with-lhapdf6=${LHAPDF_ROOT}
 
 %build
 make %makeprocesses
