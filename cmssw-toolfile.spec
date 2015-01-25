@@ -1,4 +1,4 @@
-### RPM cms cmssw-toolfile 2.1
+### RPM cms cmssw-toolfile CMSSW_7_3_1
 Requires: cmssw
 %prep
 
