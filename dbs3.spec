@@ -9,7 +9,7 @@ Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore&out
 Source1: git://github.com/dmwm/DBS.git?obj=master/%{tag}&export=DBS&output=/%{n}.tar.gz
 
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy31 py2-cheetah yui
-Requires: py2-cjson py2-cx-oracle py2-docutils dbs3-pycurl-client rotatelogs
+Requires: py2-cjson py2-cx-oracle py2-docutils dbs3-pycurl-client rotatelogs pystack
 BuildRequires: py2-sphinx
 
 %prep

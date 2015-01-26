@@ -7,9 +7,8 @@
 %define tag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore&output=/WMCore4%{n}.tar.gz
 Source1: git://github.com/dmwm/DBS.git?obj=master/%{tag}&export=DBS&output=/%{n}.tar.gz
-
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy31 py2-cheetah yui
-Requires: py2-cjson py2-cx-oracle dbs3-pycurl-client rotatelogs
+Requires: py2-cjson py2-cx-oracle dbs3-pycurl-client rotatelogs pystack
 BuildRequires: py2-sphinx
 
 %prep
