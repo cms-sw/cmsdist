@@ -1,8 +1,8 @@
-### RPM external igprof 5.9.12
+### RPM external igprof 5.9.14
 
 %define git_repo igprof
 %define git_branch master
-%define git_commit 27fa22fe00391bb494b6c8012c5a8a664fecff74
+%define git_commit cbb14bd326
 Source0: git://github.com/%{git_repo}/igprof.git?obj=%{git_branch}/%{git_commit}&export=igprof-%{git_commit}&output=/igprof-%{git_commit}.tgz
 Requires: pcre
 BuildRequires: cmake libunwind libatomic_ops
