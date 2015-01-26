@@ -1,0 +1,51 @@
+--- modules/ssl/ssl_engine_kernel.c.orig	2014-10-14 18:11:13.000000000 +0200
++++ modules/ssl/ssl_engine_kernel.c	2014-10-14 18:18:55.000000000 +0200
+@@ -2145,15 +2145,39 @@
+      * If we already know it's not ok, log the real reason
+      */
+     if (!ok) {
+-        if (APLOGcinfo(conn)) {
+-            ssl_log_cxerror(SSLLOG_MARK, APLOG_INFO, 0, conn,
+-                            X509_STORE_CTX_get_current_cert(ctx), APLOGNO(02276)
+-                            "Certificate Verification: Error (%d): %s",
+-                            errnum, X509_verify_cert_error_string(errnum));
+-        } else {
+-            ap_log_cerror(APLOG_MARK, APLOG_ERR, 0, conn, APLOGNO(02039)
+-                          "Certificate Verification: Error (%d): %s",
+-                          errnum, X509_verify_cert_error_string(errnum));
++        X509 *cert = X509_STORE_CTX_get_current_cert(ctx);
++        BIO *bio = BIO_new(BIO_s_mem());
++        char buff[512]; /* should be plenty */
++        int n;
++
++        if (bio) {
++             BIO_printf(bio, "Certificate Verification: Error (%d): %s",
++                        errnum, X509_verify_cert_error_string(errnum));
++
++             BIO_printf(bio, "; subject: ");
++             X509_NAME_print(bio, X509_get_subject_name(cert), 0);
++
++             BIO_printf(bio, ", issuer: ");
++             X509_NAME_print(bio, X509_get_issuer_name(cert), 0);
++
++             BIO_printf(bio, ", notbefore: ");
++             ASN1_UTCTIME_print(bio, X509_get_notBefore(cert));
++
++             BIO_printf(bio, ", notafter: ");
++             ASN1_UTCTIME_print(bio, X509_get_notAfter(cert));
++
++             n = BIO_read(bio, buff, sizeof(buff) - 1);
++             buff[n] = '\0';
++             BIO_free(bio);
++
++             ap_log_cerror(APLOG_MARK, APLOG_ERR, 0, conn, "%s", buff);
++             if (APLOGcinfo(conn)) {
++                 ssl_log_cxerror(SSLLOG_MARK, APLOG_INFO, 0, conn, cert,
++                                 APLOGNO(02276) "%s", buff);
++             } else {
++                 ap_log_cerror(APLOG_MARK, APLOG_ERR, 0, conn,
++                               APLOGNO(02039) "%s", buff);
++             }
+         }
+ 
+         if (sslconn->client_cert) {

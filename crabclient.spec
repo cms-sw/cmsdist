@@ -1,11 +1,11 @@
-### RPM cms crabclient 3.3.12.patch1
+### RPM cms crabclient 3.3.13.rc4
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 %define wmcver 1.0.3.pre1
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define crabserver 3.3.12.rc1
+%define crabserver 3.3.13.rc1
 
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
@@ -78,6 +78,9 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
     echo "test X\$?$root = X1 || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
   fi
 done
+#Add the script for the bash completion to the dependencies-setup.sh script. Only for bash
+r=%i
+echo "test X\$CRAB3_BASH_COMPLETION != X || . %i/etc/crab-bash-completion.sh" >> %i/etc/profile.d/dependencies-setup.sh
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh

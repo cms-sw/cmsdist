@@ -1,28 +1,36 @@
-### RPM cms reqmgr2 1.0.3.pre11
-## INITENV +PATH PATH %i/xbin
+### RPM cms DCAFPilot 0.0.4
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
-## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
+%define pkg DCAFPilot
+Source: git://github.com/dmwm/DMWMAnalytics.git?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
+Requires: python py2-numpy py2-scipy py2-scikit-learn
+BuildRequires: py2-sphinx
 
-Source: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
-
-#from private repository
-#Source: git://github.com/ticoann/WMCore?obj=reqmgr2_dashboard_dep/%realversion&export=%n&output=/%n.tar.gz
-
-Requires: py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah rotatelogs couchdb py2-cjson py2-sphinx py2-pycurl dbs3-client
-
+# RPM macros documentation
+# http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
 %prep
-%setup -b 0 -n %n 
+%setup -b 0 -n %pkg
 
 %build
-python setup.py build_system -s reqmgr2
+cd Popularity/DCAFPilot
+python setup.py build
+
+# build sphinx documentation
+cd doc
+mkdir -p sphinx/_static
+cat sphinx/conf.py | sed "s,development,%{realversion},g" > sphinx/conf.py.tmp
+mv sphinx/conf.py.tmp sphinx/conf.py
+mkdir -p build
+make html
 
 %install
-mkdir -p %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
-python setup.py install_system -s reqmgr2 --prefix=%i
+pwd
+ls
+cd Popularity/DCAFPilot
+python setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
-mkdir -p %i/bin
-cp -pf %_builddir/%n/bin/[[:lower:]]* %i/bin
+mkdir -p %i/doc
+tar --exclude '.buildinfo' -C doc/build/html -cf - . | tar -C %i/doc -xvf -
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d

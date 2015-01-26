@@ -1,18 +1,17 @@
-### RPM cms frontend 5.0
-Source: http://www.nikhef.nl/~janjust/proxy-verify/grid-proxy-verify.c
-Requires: apache24-setup mod_perl24 p5-apache24-modssl p5-compress-zlib p5-json-xs
-Requires: p5-digest-hmac py2-cx-oracle oracle-env sqlite
+### RPM cms apache24-setup 3.6
+Source: git://github.com/dmwm/apache-conf?obj=master/%{realversion}&export=%n&output=/%n.tar.gz
+Requires: apache24
 
 %prep
+%setup -n %n 
 
 %build
-gcc -o %_builddir/grid-proxy-verify %_sourcedir/grid-proxy-verify.c \
-  -I$OPENSSL_ROOT/include -L$OPENSSL_ROOT/lib -lssl -lcrypto -ldl
 
 %install
 mkdir -p %i/{bin,etc/env.d,etc/profile.d}
-ln -sf ../profile.d/init.sh %i/etc/env.d/10-frontend.sh
-cp -p %_builddir/grid-proxy-verify %i/bin/
+mv mkserver %i/bin/
+sed -i -e "s,APACHE2_ROOT,APACHE24_ROOT,g" %i/bin/mkserver
+ln -sf ../profile.d/init.sh %i/etc/env.d/00-core-server.sh
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 : > %i/etc/profile.d/dependencies-setup.sh
@@ -24,11 +23,6 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
     echo "test X\$?$root = X1 || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
   fi
 done
-
-# Clean up unnecessary environment before starting the server.
-cat > %i/etc/env.d/99-env-cleanup.sh <<- \EOF
-        case $(uname) in Darwin ) unset LD_LIBRARY_PATH ;; * ) unset DYLD_FALLBACK_LIBRARY_PATH ;; esac
-EOF
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
