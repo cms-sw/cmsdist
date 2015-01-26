@@ -31,6 +31,8 @@ Requires: cmssw-tool-conf python cms-git-tools
 %endif
 
 %if "%(case %realversion in (*_ICC_X*) echo true ;; (*) echo false ;; esac)" == "true"
+Patch0: boost-1.57.0-icc
+%define patchsrc2	pushd %{cmsroot}/%{cmsplatf}/`echo %{allpkgreqs} | tr ' ' '\\n' | grep /boost/`; patch -p1 <%_sourcedir/boost-1.57.0-icc  ; popd
 %define branch		%(echo %realversion | sed -e 's|_ICC_X.*|_X|')
 %define gitcommit       %(echo %realversion | sed -e 's|_ICC_X|_X|')
 %define scram_compiler  icc
