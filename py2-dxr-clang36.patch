@@ -1,0 +1,24 @@
+diff --git a/dxr/plugins/clang/dxr-index.cpp b/dxr/plugins/clang/dxr-index.cpp
+index 7692809..e7cf597 100644
+--- a/dxr/plugins/clang/dxr-index.cpp
++++ b/dxr/plugins/clang/dxr-index.cpp
+@@ -158,7 +158,7 @@ public:
+       m_currentFunction(NULL) {
+     inner = ci.getDiagnostics().takeClient();
+     ci.getDiagnostics().setClient(this, false);
+-    ci.getPreprocessor().addPPCallbacks(new PreprocThunk(this));
++    ci.getPreprocessor().addPPCallbacks(llvm::make_unique<PreprocThunk>(this));
+   }
+ 
+   virtual DiagnosticConsumer *clone(DiagnosticsEngine &Diags) const {
+@@ -1150,8 +1150,8 @@ void PreprocThunk::InclusionDirective(  // same in 3.2 and 3.3
+ 
+ class DXRIndexAction : public PluginASTAction {
+ protected:
+-  ASTConsumer *CreateASTConsumer(CompilerInstance &CI, llvm::StringRef f) {
+-    return new IndexConsumer(CI);
++  std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &CI, llvm::StringRef f) {
++    return llvm::make_unique<IndexConsumer>(CI);
+   }
+ 
+   bool ParseArgs(const CompilerInstance &CI,
