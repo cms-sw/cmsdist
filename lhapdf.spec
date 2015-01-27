@@ -1,15 +1,15 @@
-### RPM external lhapdf 5.9.1
+### RPM external lhapdf 6.1.5
+%define setsversion 6.1.5
 
-%define tag 06440aa
-%define branch cms/v5.9.1
-%define github_user cms-externals
-Source: git+https://github.com/%github_user/lhapdf.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-%define realversion %(echo %{v} | cut -d- -f1)
+Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 
 Source1: lhapdf_makeLinks
 
-Requires: python
-BuildRequires: autotools swig
+Source2: http://www.hepforge.org/archive/lhapdf/pdfsets/6.1/cteq6l1.tar.gz
+Source3: http://www.hepforge.org/archive/lhapdf/pdfsets/6.1/CT10.tar.gz
+Source4: http://www.hepforge.org/archive/lhapdf/pdfsets/6.1/MSTW2008nlo68cl.tar.gz
+
+Requires: boost yaml-cpp python cython
 
 %define keep_archives true
 
@@ -22,52 +22,33 @@ BuildRequires: autotools swig
 %endif
 
 %prep
-%setup -n %{n}-%{realversion}
+%setup -q -n %{n}/%{realversion}
+
+./configure --prefix=%{i} --with-boost=${BOOST_ROOT} --with-yaml-cpp=${YAML-CPP_ROOT} PYTHON=${PYTHON_ROOT}/bin/python CYTHON=${CYTHON_ROOT}/bin/cython PYTHONPATH=${CYTHON_ROOT}/lib/python@PYTHONV@/site-packages
 
 %build
-# We do everything in install because we need to do it twice.
+make all %makeprocesses PYTHONPATH=${CYTHON_ROOT}/lib/python@PYTHONV@/site-packages
+
 %install
-autoreconf -fiv
-
-FC="`which gfortran` -fPIC"
-CXX="`which %{cms_cxx}` -fPIC"
-CC="`which gcc` -fPIC"
-
-# Configure first with low memory.
-./configure --prefix=%{i} --enable-static --disable-shared --enable-pyext \
-            --without-octave --disable-octave --disable-doxygen --enable-low-memory \
-            --with-max-num-pdfsets=1 \
-            FC="$FC" CXX="$CXX" CC="$CC" \
-            CXXFLAGS="%cms_cxxflags"
-make %{makeprocesses}
-make install
-
-# do another install-round for full libs
-make distclean
-./configure --prefix=%{i}/full --enable-static --disable-shared \
-            --enable-pyext --disable-octave --disable-doxygen \
-            --with-max-num-pdfsets=5 \
-            FC="$FC" CXX="$CXX" CC="$CC" \
-            CXXFLAGS="%cms_cxxflags"
-make %{makeprocesses}
-make install
-
-
-mkdir -p %{i}/share/lhapdf/PDFsets
-%{i}/bin/lhapdf-getdata --force --repo=http://www.hepforge.org/archive/lhapdf/pdfsets/%{realversion} --dest=%{i}/share/lhapdf/PDFsets cteq6l ct10 MSTW2008nlo68cl
-cd %{i}/share/lhapdf/PDFsets
+make install PYTHONPATH=${CYTHON_ROOT}/lib/python@PYTHONV@/site-packages
+mkdir -p %{i}/share/LHAPDF
+cd %{i}/share/LHAPDF
+cp %{_sourcedir}/cteq6l1.tar.gz .
+cp %{_sourcedir}/CT10.tar.gz .
+cp %{_sourcedir}/MSTW2008nlo68cl.tar.gz .
+tar xvfz cteq6l1.tar.gz
+tar xvfz CT10.tar.gz
+tar xvfz MSTW2008nlo68cl.tar.gz
+rm -f cteq6l1.tar.gz
+rm -f CT10.tar.gz
+rm -f MSTW2008nlo68cl.tar.gz
 chmod a+x %{_sourcedir}/lhapdf_makeLinks
-%{_sourcedir}/lhapdf_makeLinks
-cd %{i}/full/share/lhapdf
-ln -fs ../../../share/lhapdf/PDFsets PDFsets
-
+%{_sourcedir}/lhapdf_makeLinks %{setsversion}
+cd -
 
 # Remove all libtool archives
 find %{i} -name '*.la' -exec rm -f {} \;
 
-# Remove egg-info
-find %{i} -name '*.egg-info' -delete
-
 %post
 %{relocateConfig}bin/lhapdf-config
-%{relocateConfig}full/bin/lhapdf-config
+%{relocateConfig}bin/lhapdf
