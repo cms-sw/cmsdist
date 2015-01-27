@@ -1,14 +1,15 @@
-### RPM external llvm 3.5
+### RPM external llvm 3.6
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
 BuildRequires: python
 Requires: gcc
 
-%define llvmCommit f55c17bc339
-%define clangCommit 656aa83af0b
-%define branch cms/v%realversion
-Source0: git+https://github.com/cms-externals/llvm.git?obj=%{branch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%realversion-%llvmCommit&output=/llvm-%{realversion}-%{llvmCommit}.tgz
-Source1: git+https://github.com/cms-externals/clang.git?obj=%{branch}/%{clangCommit}&export=clang-%{realversion}-%{clangCommit}&module=clang-%realversion-%clangCommit&output=/clang-%{realversion}-%{clangCommit}.tgz
+%define llvmCommit f04ce0e65747b16e6f321c0fdd38b6e1dc3271a3
+%define llvmBranch cms/f04ce0e
+%define clangCommit ff59fc3b222f373bdd5bbebfad41ee6f2d950b43
+%define clangBranch cms/65d8b4c
+Source0: git+https://github.com/cms-externals/llvm.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%realversion-%llvmCommit&output=/llvm-%{realversion}-%{llvmCommit}.tgz
+Source1: git+https://github.com/cms-externals/clang.git?obj=%{clangBranch}/%{clangCommit}&export=clang-%{realversion}-%{clangCommit}&module=clang-%realversion-%clangCommit&output=/clang-%{realversion}-%{clangCommit}.tgz
 
 # Still need forward porting.
 %define keep_archives true
