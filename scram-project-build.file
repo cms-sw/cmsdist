@@ -9,7 +9,7 @@
 Requires: SCRAMV1
 BuildRequires: gcc
 
-# For non-linux archs disable subpackageDebug otherwise add dwz.file build dependencies
+# For non-linux archs disable subpackageDebug otherwise add dwz.file build dependencies.
 %if "%{?subpackageDebug:set}" == "set"
 %if %islinux
 BuildRequires: dwz file
