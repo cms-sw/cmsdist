@@ -1,4 +1,4 @@
-### RPM cms acdcserver 1.0.3.pre11
+### RPM cms acdcserver 1.0.3.pre12
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
