@@ -1,18 +1,19 @@
-### RPM cms oracle-env 29
+### RPM cms oracle-env 30
 ## NOCOMPILER
 ## INITENV +PATH SQLPATH %i/etc
 ## INITENV SET TNS_ADMIN %i/etc
 
-Source0: http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/*checkout*/COMP/PHEDEX/Schema/login.sql?rev=1.2&cvsroot=CMSSW
-Source1: http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/*checkout*/COMP/PHEDEX/Schema/tnsnames.ora?rev=1.45&cvsroot=CMSSW
-Source2: http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/*checkout*/COMP/PHEDEX/Schema/sqlnet.ora?rev=1.1&cvsroot=CMSSW
-Patch0: oracle-env-online
+Source0: https://raw.githubusercontent.com/dmwm/PHEDEX/83abd11c2b5e6a3da4f46714d95ce467f6098920/Schema/login.sql
+
+# The following tnsnames.ora amd sqlnet.ora files were taken
+# from their official, CERN provided copy in /afs/cern.ch/project/oracle/admin/
+Source1: oracle-tnsnames.ora
+Source2: oracle-sqlnet.ora
+
 %prep
 %build
 %install
 mkdir -p %i/etc
-cp %_sourcedir/sqlnet.ora* %i/etc/sqlnet.ora
-cp %_sourcedir/tnsnames.ora* %i/etc/tnsnames.ora
+cp %_sourcedir/oracle-sqlnet.ora* %i/etc/sqlnet.ora
+cp %_sourcedir/oracle-tnsnames.ora* %i/etc/tnsnames.ora
 cp %_sourcedir/login.sql* %i/etc/login.sql
-cd %i/etc
-patch -p0 <%_sourcedir/oracle-env-online
