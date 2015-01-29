@@ -1,7 +1,6 @@
-diff -ur orig/pythia8201/configure new/pythia8201/configure
---- orig/pythia8201/configure	2014-10-13 20:20:55.000000000 +0200
-+++ new/pythia8201/configure	2014-11-17 20:16:44.910305252 +0100
-@@ -207,7 +207,8 @@
+--- ../pythia8205/configure	2015-01-24 11:55:07.649516367 +0100
++++ pythia8205/configure	2015-01-24 11:54:46.626182422 +0100
+@@ -209,7 +209,8 @@
      if [ "$ARCH" = "LINUX" ];  then CXX_SHARED="-shared"; fi
      if [ "$ARCH" = "DARWIN" ]; then 
  	CXX_SHARED="-dynamiclib -flat_namespace"
