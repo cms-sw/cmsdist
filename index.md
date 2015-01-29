@@ -84,6 +84,7 @@ repository, you'll need it to propose your changes.
     # ARCH=slc5_amd64_gcc481
     # ARCH=slc6_amd64_gcc472
     # ARCH=slc6_amd64_gcc481
+    # ARCH=slc6_amd64_gcc491
     # ARCH=osx106_amd64_gcc462
     # ARCH=osx107_amd64_gcc462
     # ARCH=osx107_amd64_gcc472
