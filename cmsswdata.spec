@@ -28,6 +28,7 @@ Requires: data-RecoHI-HiJetAlgos
 Requires: data-GeneratorInterface-EvtGenInterface
 Requires: data-MagneticField-Interpolation
 Requires: data-RecoBTag-SoftLepton
+Requires: data-Calibration-Tools
 
 %if %isnotonline
 # extra data dependencies for standard builds
