@@ -7,12 +7,14 @@ Source: http://switch.dl.sourceforge.net/project/%{n}/%{n}/%{v}/%{n}%{boostver}.
 %define cms_cxxflags -std=c++0x -O2
 %endif
 
-Requires: python bz2lib zlib
-Patch0: boost-1.57.0-BOOST_NO_CXX11_EXPLICIT_CONVERSION_OPERATORS
-Patch1: boost-add-missing-header-serialization
-Patch2: boost-disable-int128-makecint
-Patch3: boost-unused-variable-silence
-Patch4: boost-1.57.0-define-BOOST_SP_USE_SPINLOCK
+Requires: python bz2lib
+%if "%online" != "true"
+Requires: zlib
+%endif
+Patch0: boost-1.47.0-fix-strict-overflow
+Patch1: boost-1.47.0-fix-unused
+Patch2: boost-1.49.0-explicit_stored_group
+Patch3: boost-1.51.0-define-BOOST_SP_USE_SPINLOCK
 
 %prep
 %setup -n %{n}%{boostver}
@@ -20,7 +22,6 @@ Patch4: boost-1.57.0-define-BOOST_SP_USE_SPINLOCK
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 
 perl -p -i -e 's/-no-cpp-precomp//' tools/build/v2/tools/darwin.jam \
                                     tools/build/v2/tools/darwin.py
