@@ -58,7 +58,7 @@ Requires: file
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-04-02
+%define configtag       V05-04-04
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -202,10 +202,6 @@ export SCRAM_NOSYMCHECK=true
 
 %{?PatchReleasePythonSymlinks:%PatchReleasePythonSymlinks}
 
-%if "%{?runGlimpse:set}" == "set"
-%scramcmd b --verbose -f gindices </dev/null
-%endif
-
 %if "%{?prebuildtarget:set}" == "set"
 %scramcmd b --verbose -f %{prebuildtarget} </dev/null
 %endif
@@ -291,7 +287,12 @@ cd %i
 
 %{?PartialReleasePackageList:%PartialReleasePackageList}
 %{?PatchReleaseSourceSymlinks:%PatchReleaseSourceSymlinks}
-%{?PatchReleaseGlimpse:%PatchReleaseGlimpse}
+
+%if "%{?runGlimpse:set}" == "set"
+%scramcmd b --verbose -f gindices </dev/null
+%endif
+
+%{?RelocatePatchReleaseSymlinks:%RelocatePatchReleaseSymlinks}
 
 tar czf %{srctree}.tar.gz %{srctree}
 rm -fR %{srctree} tmp
@@ -326,6 +327,7 @@ if [ -e %{srctree}.tar.gz ] ; then
 fi
 scramver=`cat config/scram_version`
 SCRAMV1_ROOT=$RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver
+
 if [ -d python ]; then %{relocateCmsFiles} $(find python -maxdepth 1 -type f); fi
 (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename.pl %{instroot} $CMS_INSTALL_PREFIX  %cmsplatf )
 (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename.pl %{cmsroot}  $CMS_INSTALL_PREFIX  %cmsplatf )
@@ -356,6 +358,10 @@ case %cmsplatf in
     echo "$CMSSW_ELF_BIN" | xargs -t -n 1 -I% -P $(getconf _NPROCESSORS_ONLN) sh -c "strings % 2>&1 | grep '%{cmsplatf}/external/glibc' 2>&1 >/dev/null && $PATCHELF_PATH/bin/patchelf --set-interpreter $GLIBC_PATH/lib64/ld.so % || true"
 esac
 %endif # coral
+
+%if "%{?runGlimpse:set}" == "set"
+  %{relocateConfig}.glimpse_full/.glimpse_filenames
+%endif
 
 %postun
 rm -fR $RPM_INSTALL_PREFIX/%pkgrel
