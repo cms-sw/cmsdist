@@ -1,4 +1,4 @@
-### RPM cms crabclient 3.3.13
+### RPM cms crabclient 3.3.13.patch1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
