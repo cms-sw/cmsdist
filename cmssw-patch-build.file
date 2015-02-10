@@ -60,11 +60,6 @@
      esac  ;\
   done
 
-%if "%{?runGlimpse:set}" == "set"
-%undefine runGlimpse
-%define RunPatchReleaseGlimpse %scramcmd b --verbose -f gindices
-%endif
-
 %define CopyPoisonDirectory \
   if [ -d %{_builddir}/poison ] ; then cp -r %{_builddir}/poison %i ; fi
 
@@ -72,7 +67,10 @@
   %{CopyPoisonDirectory}; CWD=`/bin/pwd`; cd %i; %scramcmd b --verbose -f tmp/common/cache/python_symlinks </dev/null; DIR=python; %{PatchReleaseLink} ; cd $CWD;
  
 %define PatchReleaseSourceSymlinks \
-  CWD=`/bin/pwd`; cd %i; DIR=%{srctree}; %{PatchReleaseLink}; %{RunPatchReleaseGlimpse}; %{RelocateReleaseLinks}; DIR=cfipython/%{cmsplatf}; %{PatchReleaseLink}; %{RelocateReleaseLinks}; DIR=python; %{RelocateReleaseLinks}; cd $CWD; 
+  CWD=`/bin/pwd`; cd %i; DIR=%{srctree}; %{PatchReleaseLink}; DIR=cfipython/%{cmsplatf}; %{PatchReleaseLink}; cd $CWD
+
+%define RelocatePatchReleaseSymlinks \
+  CWD=`/bin/pwd`; cd %i; DIR=%{srctree}; %{RelocateReleaseLinks}; DIR=cfipython/%{cmsplatf}; %{RelocateReleaseLinks}; DIR=python; %{RelocateReleaseLinks}; cd $CWD; 
 
 %define PatchReleaseDependencyInfo \
   gunzip -c %{parent_release_fpath}/etc/dependencies/usedby.out.gz   > %i/etc/dependencies/usedbyAll.out ;\
