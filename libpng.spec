@@ -1,5 +1,4 @@
 ### RPM external libpng 1.6.16
-Source: http://download.sourceforge.net/%{n}/%{n}-%{realversion}.tar.gz
 %define tag 88dd30b232362b65cca374dda39096888163dd6b
 %define branch cms/v1.6.16
 %define github_user cms-externals
@@ -9,7 +8,7 @@ BuildRequires: cmake
 Requires: zlib
 
 %prep
-%setup -n %{n}
+%setup -n %{n}-%{realversion}
  
 %build
 cmake . \
