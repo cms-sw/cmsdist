@@ -9,7 +9,7 @@ BuildRequires: cmake
 Requires: zlib
 
 %prep
-%setup -n %{n}-%{realversion}
+%setup -n %{n}
  
 %build
 cmake . \
