@@ -28,3 +28,5 @@ sed "s/%/$/g" < lhapdf6_makeLinks.file > lhapdf6_makeLinks.file_1
 sed "s/@/\"/g" < lhapdf6_makeLinks.file_1 > lhapdf6_makeLinks.file_2
 mv lhapdf6_makeLinks.file_2 lhapdf6_makeLinks.file
 rm -f lhapdf6_makeLinks.file_*
+
+cp -f /cvmfs/cms.cern.ch/lhapdf/pdfsets/$1/pdfsets.index lhapdf6_pdfsetsindex.file

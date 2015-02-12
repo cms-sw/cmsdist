@@ -9,6 +9,8 @@ Source2: http://www.hepforge.org/archive/lhapdf/pdfsets/6.1/cteq6l1.tar.gz
 Source3: http://www.hepforge.org/archive/lhapdf/pdfsets/6.1/CT10.tar.gz
 Source4: http://www.hepforge.org/archive/lhapdf/pdfsets/6.1/MSTW2008nlo68cl.tar.gz
 
+Source5: lhapdf6_pdfsetsindex
+
 Requires: boost yaml-cpp python cython
 
 %define keep_archives true
@@ -44,6 +46,7 @@ rm -f CT10.tar.gz
 rm -f MSTW2008nlo68cl.tar.gz
 chmod a+x %{_sourcedir}/lhapdf6_makeLinks
 %{_sourcedir}/lhapdf6_makeLinks %{setsversion}
+cp -f %{_sourcedir}/lhapdf6_pdfsetsindex pdfsets.index
 cd -
 
 # Remove all libtool archives
