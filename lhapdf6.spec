@@ -46,6 +46,7 @@ rm -f CT10.tar.gz
 rm -f MSTW2008nlo68cl.tar.gz
 chmod a+x %{_sourcedir}/lhapdf6_makeLinks
 %{_sourcedir}/lhapdf6_makeLinks %{setsversion}
+rm -f pdfsets.index
 cp -f %{_sourcedir}/lhapdf6_pdfsetsindex pdfsets.index
 cd -
 
