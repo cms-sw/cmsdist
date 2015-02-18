@@ -1,8 +1,8 @@
-### RPM cms DCAFPilot 0.0.4
+### RPM cms DCAFPilot 0.0.14
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define pkg DCAFPilot
 Source: git://github.com/dmwm/DMWMAnalytics.git?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
-Requires: python py2-numpy py2-scipy py2-scikit-learn
+Requires: python py2-numpy py2-scipy py2-scikit-learn py2-pymongo
 BuildRequires: py2-sphinx
 
 # RPM macros documentation
@@ -23,9 +23,9 @@ mkdir -p build
 make html
 
 %install
-pwd
-ls
 cd Popularity/DCAFPilot
+mkdir -p %i/etc
+cp -r etc/* %i/etc
 python setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
