@@ -95,25 +95,26 @@ cp ./ca-bundle/ca-bundle.crt %{i}/share/ssl/certs/ca-bundle.crt
 
 %post
 %if %isSlc
-  %{relocateConfig}bin/git-cvsserver
-  %{relocateConfig}libexec/git-core/git-sh-i18n
   %{relocateConfig}libexec/git-core/git-citool
   %{relocateConfig}libexec/git-core/git-gui
-  %{relocateConfig}libexec/git-core/git-add--interactive
-  %{relocateConfig}libexec/git-core/git-archimport
-  %{relocateConfig}libexec/git-core/git-cvsexportcommit
-  %{relocateConfig}libexec/git-core/git-cvsimport
-  %{relocateConfig}libexec/git-core/git-cvsserver
-  %{relocateConfig}libexec/git-core/git-difftool
-  %{relocateConfig}libexec/git-core/git-instaweb
-  %{relocateConfig}libexec/git-core/git-relink
-  %{relocateConfig}libexec/git-core/git-send-email
-  %{relocateConfig}libexec/git-core/git-svn
-  %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/share -type f)
-  if [ -d $RPM_INSTALL_PREFIX/%{pkgrel}/lib64/perl5 ]; then
-    %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/lib64/perl5 -type f)
-  fi
-  if [ -d $RPM_INSTALL_PREFIX/%{pkgrel}/lib/perl5 ]; then 
-    %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/lib/perl5 -type f)
-  fi
 %endif
+
+%{relocateConfig}bin/git-cvsserver
+%{relocateConfig}libexec/git-core/git-sh-i18n
+%{relocateConfig}libexec/git-core/git-add--interactive
+%{relocateConfig}libexec/git-core/git-archimport
+%{relocateConfig}libexec/git-core/git-cvsexportcommit
+%{relocateConfig}libexec/git-core/git-cvsimport
+%{relocateConfig}libexec/git-core/git-cvsserver
+%{relocateConfig}libexec/git-core/git-difftool
+%{relocateConfig}libexec/git-core/git-instaweb
+%{relocateConfig}libexec/git-core/git-relink
+%{relocateConfig}libexec/git-core/git-send-email
+%{relocateConfig}libexec/git-core/git-svn
+%{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/share -type f)
+if [ -d $RPM_INSTALL_PREFIX/%{pkgrel}/lib64/perl5 ]; then
+  %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/lib64/perl5 -type f)
+fi
+if [ -d $RPM_INSTALL_PREFIX/%{pkgrel}/lib/perl5 ]; then 
+  %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/lib/perl5 -type f)
+fi
