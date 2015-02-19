@@ -1,10 +1,14 @@
 ### RPM external gitweb 1.8.2.3
-Requires: apache-setup apache2 mod_perl2 
+Requires: apache-setup apache2 mod_perl2 p5-time-hires 
 Source: git://git.kernel.org/pub/scm/git/git?obj=master/v%realversion&export=%n&output=/%n.tar.gz
+Patch0: gitweb-do-not-guess-owner
+Patch1: gitweb-fix-tab-title
 BuildRequires: autotools
 
 %prep
 %setup -n %n
+%patch0 -p0
+%patch1 -p0
 
 %build
 make configure
@@ -24,7 +28,7 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
   if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
     echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-    echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+    echo "test X\$?$root = X1 || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
   fi
 done
 

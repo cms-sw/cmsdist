@@ -1,5 +1,4 @@
-### RPM cms PHEDEX-web 4.2.9
-# Dummy line to force a rebuild
+### RPM cms PHEDEX-web 4.2.10
 ## INITENV +PATH PERL5LIB %i/perl_lib
 
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -37,6 +36,15 @@ Provides: perl(XML::LibXML)
 
 %prep
 %setup -n %{setupdir}
+rm -rf Build Custom Testbed Utilities
+rm -rf Contrib Deployment Migration PhEDExWeb Schema Toolkit VERSION
+rm -rf Documentation/{ACAT2008,ChangeLog,cpan_min.css,DC04PostMortem,DC04Stats,Grid2005,MakePerlDocs.pl,Updates,WhitePapers}
+rm -rf perl_lib/{DMWMMON,template}
+rm -rf perl_lib/PHEDEX/{BlockActivate,BlockDelete,Debug.pm,Monalisa.pm,Testbed,BlockAllocator,BlockLatency,Error,Monitoring,Transfer,BlockArrive,BlockMonitor,File,Namespace,BlockConsistency,CLI,Infrastructure,BlockDeactivate,LoadTest,Schema}
+rm perl_lib/PHEDEX/RequestAllocator/Agent.pm
+rm -rf perl_lib/PHEDEX/Core/{Agent,Config.pm,Net.pm,Agent.pm,JobManager.pm,phedex_logger.conf,RFIO.pm,Command.pm,Help.pm,Logging.pm,SQLPLUS.pm,Config}
+rm -rf perl_lib/PHEDEX/Web/SQLSpace.pm
+rm -rf perl_lib/PHEDEX/Web/API/{Mongo.pm,RequestSetStateFake.pm,StorageInsert.pm,StorageUsage.pm}
 
 %build
 %install
@@ -51,7 +59,7 @@ cat > %i/Documentation/WebSite/PlotConfig/tools/phedex-web.py <<-EOF
 	from graphtool.base.xml_config import XmlConfig
 	import sys, cherrypy
 	xc = XmlConfig(file=sys.argv[1]) 
-	cherrypy.server.quickstart()
+	cherrypy.quickstart()
 	cherrypy.engine.start() 
 	xc.globals['web'].kill()
 EOF
@@ -66,7 +74,7 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
   if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
     echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-    echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+    echo "test X\$?$root = X1 || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
   fi
 done
 

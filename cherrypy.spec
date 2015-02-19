@@ -1,5 +1,5 @@
 ### RPM external cherrypy 3.2.2
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 Source: http://download.cherrypy.org/cherrypy/%v/CherryPy-%realversion.tar.gz
 Requires: python
 

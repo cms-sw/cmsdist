@@ -1,4 +1,4 @@
-### RPM cms comp HG1404d
+### RPM cms comp HG1503b
 
 # This is a meta-package to group all cms comp services
 # CMSWEB
@@ -13,7 +13,7 @@ Requires: crabhb happyface sreadiness mechanize
 # Common
 Requires: rotatelogs pystack py2-psutil wmcore-devtools
 # Other
-Requires: wmagent-dev condor crabtaskworker
+Requires: wmagent-dev condor crabtaskworker t0 couchdb15
 Requires: PHEDEX-combined-agents PHEDEX-lifecycle lifecycle-das
 
 %prep
@@ -27,7 +27,7 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
   if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
     echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-    echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+    echo "test X\$?$root = X1 || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
   fi
 done
 

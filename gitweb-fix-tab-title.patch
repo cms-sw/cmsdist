@@ -1,0 +1,12 @@
+--- gitweb/gitweb.perl.orig	2014-08-12 11:32:02.000000000 +0200
++++ gitweb/gitweb.perl	2014-08-12 11:31:21.000000000 +0200
+@@ -87,8 +87,7 @@
+ 
+ # name of your site or organization to appear in page titles
+ # replace this with something more descriptive for clearer bookmarks
+-our $site_name = "++GITWEB_SITENAME++"
+-                 || ($ENV{'SERVER_NAME'} || "Untitled") . " Git";
++our $site_name = "CMS Siteconf";
+ 
+ # html snippet to include in the <head> section of each page
+ our $site_html_head_string = "++GITWEB_SITE_HTML_HEAD_STRING++";

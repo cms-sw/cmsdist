@@ -1,5 +1,5 @@
 ### RPM external py2-pycrypto 2.0.1 
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 %define downloadn pycrypto
 Requires: python gmp

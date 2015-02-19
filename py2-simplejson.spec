@@ -1,5 +1,5 @@
 ### RPM external py2-simplejson 1.9.2
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source: http://pypi.python.org/packages/source/s/simplejson/simplejson-%{realversion}.tar.gz
 Requires: python

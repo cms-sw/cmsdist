@@ -1,5 +1,4 @@
-### RPM cms PHEDEX-datasvc 2.3.17
-# Dummy line to force a rebuild
+### RPM cms PHEDEX-datasvc 2.3.19
 ## INITENV +PATH PERL5LIB %i/perl_lib
 
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -7,9 +6,6 @@
 %define downloadt %(echo %realversion | tr '.' '_')
 %define setupdir  %{downloadn}-%{downloadp}_%{downloadt}
 Source: https://github.com/dmwm/PHEDEX/archive/%{downloadp}_%{downloadt}.tar.gz
-
-#%define gittag f4f8c2b470201dd47b31845e434e7756f64b8f32
-#Source: git://github.com/dmwm/PHEDEX?obj=PHEDEX-datasvc/%gittag&export=%n&output=/%n.tar.gz
 
 # For DB Access
 Requires: oracle oracle-env p5-dbi p5-dbd-oracle
@@ -34,6 +30,14 @@ Provides: perl(URI::Escape)
 
 %prep
 %setup -n %{setupdir}
+rm -rf Build Custom Documentation Testbed Utilities
+rm -rf Contrib Deployment Migration PhEDExWeb/ApplicationServer Schema Toolkit VERSION
+rm -rf perl_lib/{DMWMMON,template}
+rm -rf perl_lib/PHEDEX/{BlockActivate,BlockDelete,Debug.pm,Monalisa.pm,Testbed,BlockAllocator,BlockLatency,Error,Monitoring,Transfer,BlockArrive,BlockMonitor,File,Namespace,BlockConsistency,CLI,Infrastructure,BlockDeactivate,LoadTest,Schema}
+rm perl_lib/PHEDEX/RequestAllocator/Agent.pm
+rm -rf perl_lib/PHEDEX/Core/{Agent,Config.pm,Agent.pm,JobManager.pm,RFIO.pm,Command.pm,Help.pm,SQLPLUS.pm,Config}
+rm -rf perl_lib/PHEDEX/Web/SQLSpace.pm
+rm -rf perl_lib/PHEDEX/Web/API/{Mongo.pm,RequestSetStateFake.pm,StorageInsert.pm,StorageUsage.pm}
 
 %build
 %install
@@ -49,7 +53,7 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
   if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
     echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-    echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+    echo "test X\$?$root = X1 || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
   fi
 done
 

@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-webapp 1.3.14
+### RPM cms PHEDEX-webapp 1.3.15
 ## INITENV +PATH PERL5LIB %i/perl_lib
 
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -6,9 +6,6 @@
 %define downloadt %(echo %realversion | tr '.' '_')
 %define setupdir  %{downloadn}-%{downloadp}_%{downloadt}
 Source: https://github.com/dmwm/PHEDEX/archive/%{downloadp}_%{downloadt}.tar.gz
-
-#%define gittag 5c0b49edc0b9ec4285ac87f12bea39e4638aa9da
-#Source0: git://github.com/dmwm/PHEDEX?obj=PHEDEX-webapp/%gittag&export=%n&output=/%n.tar.gz
 
 %define yuicompressorversion 2.4.6
 Source1: http://yui.zenfs.com/releases/yuicompressor/yuicompressor-%{yuicompressorversion}.zip
@@ -18,6 +15,8 @@ BuildRequires: java-jdk
 %prep
 %setup -T -b 1 -n yuicompressor-%{yuicompressorversion}
 %setup -D -T -b 0 -n %{setupdir}
+rm -rf Build Custom Documentation perl_lib README.txt Testbed Utilities
+rm -rf Contrib Deployment Migration Schema Toolkit VERSION
 
 %build
 export YUICOMPRESSOR_PATH=%_builddir/yuicompressor-%{yuicompressorversion}/build/yuicompressor-%{yuicompressorversion}.jar
@@ -51,7 +50,7 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
   if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
     echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-    echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+    echo "test X\$?$root = X1 || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
   fi
 done
 

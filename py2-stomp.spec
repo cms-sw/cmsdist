@@ -1,5 +1,5 @@
 ### RPM external py2-stomp 3.1.3
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 Source: https://pypi.python.org/packages/source/s/stomp.py/stomp.py-%realversion.tar.gz
 Requires: python 
 

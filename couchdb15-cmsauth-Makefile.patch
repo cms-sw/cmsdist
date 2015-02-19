@@ -1,0 +1,36 @@
+--- src/couchdb/Makefile.am	2014-04-28 19:38:09.000000000 +0200
++++ src/couchdb/Makefile.am.new	2014-04-28 19:41:56.000000000 +0200
+@@ -32,6 +32,7 @@
+     couch_auth_cache.erl \
+     couch_btree.erl \
+     couch_changes.erl \
++    couch_cms_auth.erl \
+     couch_compaction_daemon.erl \
+     couch_compress.erl \
+     couch_config.erl \
+@@ -89,6 +90,7 @@
+     couch_auth_cache.beam \
+     couch_btree.beam \
+     couch_changes.beam \
++    couch_cms_auth.beam \
+     couch_compaction_daemon.beam \
+     couch_compress.beam \
+     couch_config.beam \
+--- src/couchdb/Makefile.in	2014-04-28 19:38:09.000000000 +0200
++++ src/couchdb/Makefile.in.new	2014-04-28 19:41:56.000000000 +0200
+@@ -343,6 +343,7 @@
+     couch_auth_cache.erl \
+     couch_btree.erl \
+     couch_changes.erl \
++    couch_cms_auth.erl \
+     couch_compaction_daemon.erl \
+     couch_compress.erl \
+     couch_config.erl \
+@@ -399,6 +400,7 @@
+     couch_auth_cache.beam \
+     couch_btree.beam \
+     couch_changes.beam \
++    couch_cms_auth.beam \
+     couch_compaction_daemon.beam \
+     couch_compress.beam \
+     couch_config.beam \

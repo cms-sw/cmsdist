@@ -1,5 +1,5 @@
 ### RPM external py2-coverage 3.5.1
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 Source: https://bitbucket.org/ned/coveragepy/get/coverage-%{realversion}.tar.gz
 Requires: python py2-setuptools
 

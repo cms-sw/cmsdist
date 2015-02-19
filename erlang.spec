@@ -1,7 +1,7 @@
-### RPM external erlang R14B03
-Source: http://erlang.org/download/otp_src_%{realversion}.tar.gz
+### RPM external erlang R14B04
+Source0: http://erlang.org/download/otp_src_%{realversion}.tar.gz
+Source1: git+https://github.com/erlang/otp.git?obj=master/OTP_R15B03-1&export=./&filter=*lib/*&output=/R15libs.tar.gz
 Patch0: erlang-ssl-connection
-Patch1: erlang-ssl-session-cache
 Requires: openssl zlib
 
 # 32-bit
@@ -10,12 +10,16 @@ Provides: libc.so.6(GLIBC_PRIVATE)
 Provides: libc.so.6(GLIBC_PRIVATE)(64bit)
 
 %prep
-%setup -n otp_src_%{realversion}
+%setup -T -b 1 -n lib
+%setup -D -T -b 0 -n otp_src_%{realversion}
 %patch0 -p0
-%patch1 -p0
 find . -name configure | xargs perl -p -i -e 's/-no-cpp-precomp//'
 
 %build
+# Update to the next crypto library version, which supports SHA2
+rm -rf lib/crypto lib/public_key
+mv ../lib/{crypto,public_key} ./lib/
+
 %ifos darwin
 %define flavour --enable-darwin-64bit
 %else
@@ -38,7 +42,7 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
   if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
     echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-    echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+    echo "test X\$?$root = X1 || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
   fi
 done
 

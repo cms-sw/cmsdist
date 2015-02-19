@@ -1,5 +1,5 @@
 ### RPM external yajl 1.0.9
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source: https://github.com/downloads/lloyd/yajl/yajl-%{realversion}.tar.gz
 Requires: cmake

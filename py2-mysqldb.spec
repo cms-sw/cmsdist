@@ -1,8 +1,9 @@
-### RPM external py2-mysqldb 1.2.3c1
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+### RPM external py2-mysqldb 1.2.4b4
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define downloadn MySQL-python
-Source: http://heanet.dl.sourceforge.net/sourceforge/mysql-python/%downloadn-%realversion.tar.gz
-Requires: python mysql 
+
+Source: https://pypi.python.org/packages/source/M/MySQL-python/%downloadn-%realversion.tar.gz
+Requires: python mariadb
 Patch0: py2-mysqldb-setup
 
 %prep

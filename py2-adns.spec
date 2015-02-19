@@ -1,5 +1,5 @@
 ### RPM external py2-adns 1.2.1
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define downloadn adns-python
 Source: http://adns-python.googlecode.com/files/%downloadn-%realversion.tar.gz
 Requires: python adns

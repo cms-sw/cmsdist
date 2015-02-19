@@ -1,0 +1,24 @@
+--- Makefile.in	2014-04-28 22:55:46.000000000 +0200
++++ Makefile.in.new	2014-04-28 22:59:26.000000000 +0200
+@@ -399,14 +399,14 @@
+	    cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe);; \
+	esac;
+
+-$(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
+-	$(SHELL) ./config.status --recheck
++# $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
++#     $(SHELL) ./config.status --recheck
+
+-$(top_srcdir)/configure:  $(am__configure_deps)
+-	$(am__cd) $(srcdir) && $(AUTOCONF)
+-$(ACLOCAL_M4):  $(am__aclocal_m4_deps)
+-	$(am__cd) $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
+-$(am__aclocal_m4_deps):
++# $(top_srcdir)/configure:  $(am__configure_deps)
++#     $(am__cd) $(srcdir) && $(AUTOCONF)
++# $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
++#     $(am__cd) $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
++# $(am__aclocal_m4_deps):
+
+ config.h: stamp-h1
+	@if test ! -f $@; then rm -f stamp-h1; else :; fi

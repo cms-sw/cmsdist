@@ -1,7 +1,8 @@
-### RPM external mongo 2.4.8
+### RPM external mongo 2.6.5
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source: http://downloads.mongodb.org/src/mongodb-src-r%{realversion}.tar.gz
-Patch: mongo2.4
+Patch: mongo2.6
 Requires: scons rotatelogs
 
 Provides: libpcap.so.0.8.3
@@ -12,6 +13,8 @@ Provides: libpcap.so.0.8.3()(64bit)
 perl -p -i -e 's/-rdynamic//' SConstruct
 perl -p -i -e 's/"-mt"/""/' SConstruct
 %patch
+# get rid of /usr/bin/python
+egrep -r -l '^#!.*python' . | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 
 %build
 
@@ -27,7 +30,7 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
   if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
     echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-    echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+    echo "test X\$?$root = X1 || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
   fi
 done
 

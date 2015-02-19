@@ -1,39 +1,26 @@
-### RPM external spidermonkey 1.8.0_rc1
-Source: http://ftp.mozilla.org/pub/mozilla.org/js/js-1.8.0-rc1.tar.gz
+### RPM external spidermonkey 1.8.5
+Source: http://ftp.mozilla.org/pub/mozilla.org/js/js185-1.0.0.tar.gz
 Patch: spidermonkey-osx-va-copy
+Requires: python
 
 %prep
-%setup -n js
-%patch -p1
+%setup -n js-%realversion
+%patch -p0
 
 %build
-cd src
-if [ `uname -m` != 'x86_64' ]; then
-    LDEMULATION=elf_i386 make -f Makefile.ref
-else
-    make LD='$(CC)' -f Makefile.ref
-fi
+cd js/src
+./configure --prefix=%i
+make %makeprocesses
 
 %install
-cd src
-mkdir -p %i/bin
-cp *_DBG.OBJ/{js,jscpucfg,jskwgen} %i/bin
-mkdir -p %i/lib
-cp *_DBG.OBJ/libjs* %i/lib
-mkdir -p %i/include/{editline,fdlibm,liveconnect}
-cp jsproto.tbl %i/include
-cp *.h %i/include
-cp *_DBG.OBJ/*.h %i/include
-cp editline/*.h %i/include/editline
-cp fdlibm/*.h %i/include/fdlibm
-cp liveconnect/*.h %i/include/liveconnect
-cd %i/lib
-ln -s libjs.a libjs_static.a
+cd js/src
+make install
+ln -sf libmozjs185.so.1.0.0 %i/lib/libmozjs185.so
+ln -sf libmozjs185.so.1.0.0 %i/lib/libmozjs185.so.1.0
+ln -sf libmozjs185.so.1.0.0 %i/lib/libmozjs185-1.0.so
 
+# Strip libraries, we are not going to debug them.
 %define strip_files %i/lib
 
 %post
-%{relocateConfig}/bin/js
-%{relocateConfig}/bin/jscpucfg
-%{relocateConfig}/bin/jskwgen
-
+%{relocateConfig}bin/js-config

@@ -1,5 +1,5 @@
 ### RPM external py2-jsonpath-rw 1.2.0
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source0: https://pypi.python.org/packages/source/j/jsonpath-rw/jsonpath-rw-%{realversion}.tar.gz
 Requires: python py2-six

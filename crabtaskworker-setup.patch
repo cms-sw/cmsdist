@@ -1,0 +1,13 @@
+diff --git a/src/python/WMCore/WMRuntime/Scripts/SetupCMSSWPset.py b/src/python/WMCore/WMRuntime/Scripts/SetupCMSSWPset.py
+index 8249eea..2a3fa14 100755
+--- a/src/python/WMCore/WMRuntime/Scripts/SetupCMSSWPset.py
++++ b/src/python/WMCore/WMRuntime/Scripts/SetupCMSSWPset.py
+@@ -601,7 +601,7 @@ class SetupCMSSWPset(ScriptInterface):
+         self.handleSeeding()
+ 
+         # make sure default parametersets for perf reports are installed
+-        self.handlePerformanceSettings()
++#        self.handlePerformanceSettings()
+ 
+         # check for event numbers in the producers
+         self.handleProducersNumberOfEvents()

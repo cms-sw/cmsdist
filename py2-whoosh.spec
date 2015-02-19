@@ -1,5 +1,5 @@
 ### RPM external py2-whoosh 2.4.1
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source0: https://pypi.python.org/packages/source/W/Whoosh/Whoosh-%{realversion}.tar.gz
 
