@@ -1,11 +1,11 @@
-### RPM cms asyncstageout 1.0.3pre1
+### RPM cms asyncstageout 1.0.3pre6
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PERL5LIB %i/Monitor/perl_lib
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 0.9.95e
+%define wmcver 1.0.3.pre12
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{wmcver}.tar.gz
 Source1: git://github.com/dmwm/AsyncStageout.git?obj=master/%{realversion}&export=AsyncStageout-%{realversion}&output=/AsyncStageout-%{realversion}.tar.gz
