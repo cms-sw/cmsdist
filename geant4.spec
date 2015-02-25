@@ -1,5 +1,5 @@
-### RPM external geant4 10.00.p02
-%define tag 122f5b1be5
+### RPM external geant4 10.00.p03
+%define tag 86c476e297a2f1e3461929714240b0c6709012e3
 %define branch cms/4.%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
@@ -38,6 +38,7 @@ cmake ../%{n}.%{realversion} \
   -DCMAKE_BUILD_TYPE=Release \
   -DGEANT4_USE_GDML=ON \
   -DGEANT4_BUILD_CXXSTD:STRING="c++11" \
+  -DGEANT4_BUILD_TLS_MODEL:STRING="global-dynamic" \
   -DGEANT4_ENABLE_TESTING=OFF \
   -DBUILD_SHARED_LIBS=ON \
   -DXERCESC_ROOT_DIR:PATH="${XERCES_C_ROOT}" \
@@ -47,7 +48,7 @@ cmake ../%{n}.%{realversion} \
   -DBUILD_STATIC_LIBS=ON \
   -DGEANT4_INSTALL_EXAMPLES=OFF \
   -DGEANT4_USE_SYSTEM_CLHEP=ON \
-  -DGEANT4_BUILD_MULTITHREADED=OFF \
+  -DGEANT4_BUILD_MULTITHREADED=ON \
   -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="-fPIC" \
   -DCMAKE_STATIC_LIBRARY_C_FLAGS="-fPIC"
 
