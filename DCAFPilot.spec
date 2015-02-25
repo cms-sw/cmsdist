@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define pkg DCAFPilot
 Source: git://github.com/dmwm/DMWMAnalytics.git?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
-Requires: python py2-numpy py2-scipy py2-scikit-learn py2-pymongo
+Requires: python py2-numpy py2-scipy py2-scikit-learn py2-pymongo mongo xgboost vw
 BuildRequires: py2-sphinx
 
 # RPM macros documentation
