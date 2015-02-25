@@ -1,4 +1,4 @@
-### RPM cms DCAFPilot 0.0.14
+### RPM cms DCAFPilot 0.0.27
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define pkg DCAFPilot
 Source: git://github.com/dmwm/DMWMAnalytics.git?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
@@ -28,6 +28,7 @@ mkdir -p %i/etc
 cp -r etc/* %i/etc
 python setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
+cp -r src/python/VW %i/lib/python*/site-packages
 
 mkdir -p %i/doc
 tar --exclude '.buildinfo' -C doc/build/html -cf - . | tar -C %i/doc -xvf -
