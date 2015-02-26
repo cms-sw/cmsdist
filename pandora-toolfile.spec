@@ -12,7 +12,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pandora.xml
   <info url="http://www.hep.phy.cam.ac.uk/twiki/bin/view/Main/PandoraPFANew"/>
   <lib name="LCContent"/>
   <lib name="PandoraSDK"/>
-  <lib name="PandoraMonitoring"/>
    <client>
     <environment name="PANDORA_BASE" default="@TOOL_ROOT@"/>
     <environment name="PANDORA_INTERFACE_BASE" default="@TOOL_ROOT@/include"/>
