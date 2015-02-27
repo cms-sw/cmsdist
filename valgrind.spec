@@ -1,22 +1,19 @@
-### RPM external valgrind 3.10.0
+### RPM external valgrind 3.10.1
 ## INITENV SET VALGRIND_LIB %{i}/lib/valgrind
-%define rev %(echo %{realversion} | cut -d- -f2)
-#Source: svn://svn.valgrind.org/valgrind/trunk?revision=%{rev}&module=%{n}-%{realversion}&output=/%{n}-%{realversion}.tar.gz
-Source: http://valgrind.org/downloads/%{n}-%{realversion}.tar.bz2
-Patch1: valgrind-3.9.0-change-FN_NAME_LEN-global-buffer-size
-Patch2: valgrind-3.9.0-change-VG_MAX_SEGNAMELEN
+%define tag 822f91346cb5996f681fcc79a6f0eeec94f4e17c
+%define branch cms/v3.10.1
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: autotools
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch1 -p1
-%patch2 -p1
 
 %build
 case %{cmsplatf} in
-  osx*) 
-    CFLAGS="-D__private_extern__=extern" 
+  osx*)
+    CFLAGS="-D__private_extern__=extern"
     ;;
   *_amd64_*|*_aarch64_*)
     CONF_OPTS="--enable-only64bit"
