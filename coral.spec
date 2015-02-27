@@ -14,11 +14,12 @@ Patch6: coral-CORAL_2_3_21-forever-ttl
 %define cvssrc          %{n}
 %define cvsrepo         cvs://:pserver:anonymous@%{n}.cvs.cern.ch/cvs/%{n}?passwd=Ah<Z&force=1
 
+# Build with debug symbols, and package them in a separate rpm:
+%define subpackageDebug yes
+
 %if %isonline
 # Disable building tests, since they bring dependency on cppunit:
 %define patchsrc2       perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
-# Build with debug symbols, and package them in a separate rpm:
-%define subpackageDebug yes
 %endif
 
 # Disable building tests, since they bring dependency on cppunit:
@@ -40,6 +41,4 @@ Patch6: coral-CORAL_2_3_21-forever-ttl
 %endif
 
 ## IMPORT scram-project-build
-# For now disable SUBPACKAGE as it is causing problem calculating checksum
-# Looks like sub package support in V00-22/21 is not working
-# SUBPACKAGE debug IF %subpackageDebug
+## SUBPACKAGE debug IF %subpackageDebug
