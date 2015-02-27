@@ -131,6 +131,7 @@ Requires: sherpa-toolfile
 Requires: geant4-parfullcms-toolfile
 Requires: fasthadd
 Requires: eigen-toolfile
+Requires: file-toolfile
 
 # Only for Linux platform.
 %if %islinux

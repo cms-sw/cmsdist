@@ -17,31 +17,31 @@ Patch1: gcc-4.8.1-0001-pr-58065
 
 %define keep_archives true
 
-%define gmpVersion 5.1.0a
-%define mpfrVersion 3.1.1 
-%define mpcVersion 1.0.1
+%define gmpVersion 5.1.3
+%define mpfrVersion 3.1.2
+%define mpcVersion 1.0.2
 %define islVersion 0.11.1
-%define cloogVersion 0.18.0
+%define cloogVersion 0.18.1
+%define zlibVersion 1.2.8
 Source1: ftp://ftp.gnu.org/gnu/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
 Source4: ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-%{islVersion}.tar.bz2
 Source5: https://llvm.org/svn/llvm-project/compiler-rt/trunk/lib/asan/scripts/asan_symbolize.py
-Source6: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
+Source6: http://www.bastoul.net/cloog/pages/download/cloog-%{cloogVersion}.tar.gz
+Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 
 %if %islinux
-%define bisonVersion 2.7
-%define binutilsVersion 2.23.2
-%define elfutilsVersion 0.156
-%define m4Version 1.4.16
+%define bisonVersion 3.0.2
+%define binutilsVersion 2.24
+%define elfutilsVersion 0.158
+%define m4Version 1.4.17
 %define flexVersion 2.5.37
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
 Source8: http://ftp.gnu.org/gnu/binutils/binutils-%{binutilsVersion}.tar.bz2
-Patch2: binutils-2.23.2-0000-PR-gas-14987-14887
 Source9: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
 Patch3: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-portability.patch
 Source10: http://ftp.gnu.org/gnu/m4/m4-%m4Version.tar.gz
-Patch4: m4-1.4.16-fix-gets
 Source11: http://garr.dl.sourceforge.net/project/flex/flex-%{flexVersion}.tar.bz2
 %endif
 
@@ -97,20 +97,19 @@ cat << \EOF_CMS_H > gcc/config/general-cms.h
 EOF_CMS_H
 
 # GCC prerequisites
-%setup -D -T -b 1 -n gmp-5.1.0
+%setup -D -T -b 1 -n gmp-%{gmpVersion}
 %setup -D -T -b 2 -n mpfr-%{mpfrVersion}
 %setup -D -T -b 3 -n mpc-%{mpcVersion}
 %setup -D -T -b 4 -n isl-%{islVersion}
 %setup -D -T -b 6 -n cloog-%{cloogVersion}
+%setup -D -T -b 12 -n zlib-%{zlibVersion}
 
 %if %islinux
 %setup -D -T -b 7 -n bison-%{bisonVersion}
 %setup -D -T -b 8 -n binutils-%{binutilsVersion}
-%patch2 -p1
 %setup -D -T -b 9 -n elfutils-%{elfutilsVersion}
 %patch3 -p1
 %setup -D -T -b 10 -n m4-%{m4Version}
-%patch4 -p1
 %setup -D -T -b 11 -n flex-%{flexVersion}
 %endif
 
@@ -133,57 +132,79 @@ EOF_CMS_H
 CC="$CC -fPIC"
 CXX="$CXX -fPIC"
 
+mkdir -p %{i}/tmp/sw
+export PATH=%{i}/tmp/sw/bin:$PATH
+
+# Build zlib (required for compressed debug information)
+cd ../zlib-%{zlibVersion}
+case %{cmsplatf} in
+  *_amd64_*)
+    CFLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1 -msse3" \
+    ./configure --static --prefix=%{i}/tmp/sw
+    ;;
+  *_armv7hl_*|*_aarch64_*)
+    CFLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1" \
+    ./configure --static --prefix=%{i}/tmp/sw
+    ;;
+  *)
+    ./configure --static --prefix=%{i}/tmp/sw
+    ;;
+esac
+make %{makeprocesses}
+make install
+
 %if %islinux
   CONF_BINUTILS_OPTS="--enable-gold=yes --enable-ld=default --enable-lto --enable-plugins --enable-threads"
   CONF_GCC_WITH_LTO="--enable-gold=yes --enable-ld=default --enable-lto" # --with-build-config=bootstrap-lto
 
   # Build M4
   cd ../m4-%{m4Version}
-  ./configure --prefix=%{i}/tmp/m4 \
+  ./configure --prefix=%{i}/tmp/sw \
               --build=%{_build} --host=%{_host} \
               CC="$CC"
   make %{makeprocesses}
   make install
-  export PATH=%{i}/tmp/m4/bin:$PATH
+  hash -r
 
   # Build Flex
   cd ../flex-%{flexVersion}
-  ./configure --disable-nls --prefix=%{i}/tmp/flex \
+  ./configure --disable-nls --prefix=%{i}/tmp/sw \
               --build=%{_build} --host=%{_host} \
               CC="$CC" CXX="$CXX"
   make %{makeprocesses}
   make install
-  export PATH=%{i}/tmp/flex/bin:$PATH
-
-  # Build elfutils
-  cd ../elfutils-%{elfutilsVersion}
-  ./configure --disable-static --without-zlib --without-bzlib --without-lzma \
-              --build=%{_build} --host=%{_host} \
-              --prefix=%{i} CC="$CC" CXX="$CXX -Wno-strict-aliasing" CPP="$CPP" CXXCPP="$CXXCPP"
-  make %{makeprocesses}
-  make install
+  hash -r
 
   # Build Bison
   cd ../bison-%{bisonVersion}
   ./configure --build=%{_build} --host=%{_host} \
-              --prefix=%{i}/tmp/bison CC="$CC"
+              --prefix=%{i}/tmp/sw CC="$CC"
   make %{makeprocesses}
   make install
-  export PATH=%{i}/tmp/bison/bin:$PATH
+  hash -r
+
+  # Build elfutils
+  cd ../elfutils-%{elfutilsVersion}
+  ./configure --disable-static --with-zlib --without-bzlib --without-lzma \
+              --build=%{_build} --host=%{_host} --program-prefix='eu-'\
+              --prefix=%{i} CC="$CC" CPP="$CPP" \
+              CFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
+  make %{makeprocesses}
+  make install
 
   # Build binutils
   cd ../binutils-%{binutilsVersion}
   ./configure --disable-static --prefix=%{i} ${CONF_BINUTILS_OPTS} --disable-werror \
-              --build=%{_build} --host=%{_host} --disable-nls --with-zlib=no --enable-targets=all \
-              CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" CFLAGS="-I%{i}/include" \
-              CXXFLAGS="-I%{i}/include" LDFLAGS="-L%{i}/lib"
+              --build=%{_build} --host=%{_host} --disable-nls --with-system-zlib --enable-targets=all \
+              CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" CFLAGS="-I%{i}/include -I%{i}/tmp/sw/include" \
+              CXXFLAGS="-I%{i}/include -I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/lib -L%{i}/tmp/sw/lib"
   make %{makeprocesses}
   find . -name Makefile -exec perl -p -i -e 's|LN = ln|LN = cp -p|;s|ln ([^-])|cp -p $1|g' {} \; 
   make install
 %endif
 
 # Build GMP
-cd ../gmp-5.1.0
+cd ../gmp-%{gmpVersion}
 ./configure --disable-static --prefix=%{i} --enable-shared --disable-static --enable-cxx \
             --build=%{_build} --host=%{_host} \
             CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
@@ -247,15 +268,20 @@ esac
 
 # Build GCC
 cd ../gcc-%{gccBranch}-%{gccRevision}
+rm gcc/DEV-PHASE
+touch gcc/DEV-PHASE
 mkdir -p obj
 cd obj
 export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
-../configure --prefix=%{i} --disable-multilib --disable-nls --with-zlib=no \
+../configure --prefix=%{i} --disable-multilib --disable-nls --with-system-zlib --disable-dssi \
              --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES \
+             --enable-__cxa_atexit --disable-libunwind-exceptions --enable-gnu-unique-object \
+             --enable-plugin --with-linker-hash-style=gnu --enable-linker-build-id \
              $CONF_GCC_OS_SPEC $CONF_GCC_WITH_LTO --with-gmp=%{i} --with-mpfr=%{i} \
              --with-mpc=%{i} --with-isl=%{i} --with-cloog=%{i} --enable-checking=release \
              --build=%{_build} --host=%{_host} --enable-libstdcxx-time=rt $CONF_GCC_ARCH_SPEC \
-             --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
+             --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
+             CFLAGS="-I%{i}/tmp/sw/include" CXXFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
 
 %if %isamd64
 make %{makeprocesses} profiledbootstrap
