@@ -1,16 +1,18 @@
-### RPM external igprof 5.9.7
+### RPM external igprof 5.9.14
 
-Source0: git://github.com/ktf/igprof.git?obj=master/v%{realversion}&export=igprof-%{realversion}&output=/igprof-%{realversion}.tgz
-#Source0: git:%(pwd)/../igprof?obj=master/HEAD&export=igprof-%{realversion}&date=%(date +%s)&output=/igprof-HEAD.tgz
+%define git_repo igprof
+%define git_branch master
+%define git_commit cbb14bd326
+Source0: git://github.com/%{git_repo}/igprof.git?obj=%{git_branch}/%{git_commit}&export=igprof-%{git_commit}&output=/igprof-%{git_commit}.tgz
 Requires: pcre
 BuildRequires: cmake libunwind libatomic_ops
 %prep
-%setup -T -b 0 -n igprof-%{realversion}
+%setup -T -b 0 -n igprof-%{git_commit}
 %build
 mkdir -p %i
 rsync -av $LIBUNWIND_ROOT/ %i/
 rsync -av $LIBATOMIC_OPS_ROOT/ %i/
-cmake -DCMAKE_INSTALL_PREFIX=%i -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="-I%i/include -I$PCRE_ROOT/include -g -O3" .
+cmake -DCMAKE_INSTALL_PREFIX=%i -DPCRE_INCLUDE_DIR=$PCRE_ROOT/include -DPCRE_LIBRARY=$PCRE_ROOT/lib/libpcre.so -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="-I%i/include -I$PCRE_ROOT/include -g -O3" .
 make %makeprocesses
 
 %install
