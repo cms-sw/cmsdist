@@ -11,7 +11,6 @@ Patch6: coral-CORAL_2_3_21-forever-ttl
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 %define cvssrc          %{n}
-%define cvsrepo         cvs://:pserver:anonymous@%{n}.cvs.cern.ch/cvs/%{n}?passwd=Ah<Z&force=1
 
 # Build with debug symbols, and package them in a separate rpm:
 %define subpackageDebug yes
@@ -33,6 +32,8 @@ Patch6: coral-CORAL_2_3_21-forever-ttl
 %if %isarmv7
 %define patchsrc8       rm -rf ./src/OracleAccess
 %endif
+
+%define source1 cvs://:pserver:anonymous@%{n}.cvs.cern.ch/cvs/%{n}?passwd=Ah<Z&force=1&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 
 ## IMPORT scram-project-build
 ## SUBPACKAGE debug IF %subpackageDebug
