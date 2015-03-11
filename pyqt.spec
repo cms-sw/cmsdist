@@ -1,22 +1,20 @@
 ### RPM external pyqt 4.8.1
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
-#Source: http://www.riverbankcomputing.co.uk/static/Downloads/PyQt4/PyQt-x11-gpl-%realversion.tar.gz
-Source: http://cmsrep.cern.ch/cmssw/pyqt-mirror/PyQt-x11-gpl-%realversion.tar.gz
-Patch0: pyqt-relocatable-build
-Patch1: pyqt-fix-qt-conf-relocation-on-macosx
+%define tag f909ea86706cd38b2d8b14d03205e896104b3c9b
+%define branch cms/v%{realversion}
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Requires: python
 Requires: qt
 Requires: sip
 
 %prep
-%setup -n PyQt-x11-gpl-%realversion
+%setup -n %{n}-%{realversion}
 # pyqt builds and uses an helper program "qtdirs" to determine where qt is installed.
 # We had to patch its sources so that it reads the configuration file qt.conf
 # like other qt applications, so that we get the correctly relocated information.
 # Notice that in the build section we copy qt.conf from the QT installation to 
 # get the correct location.
-%patch0 -p1
-%patch1 -p0
 
 %build
 # See above for explanation.
