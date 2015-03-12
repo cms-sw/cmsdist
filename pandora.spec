@@ -1,6 +1,6 @@
 ### RPM external pandora 0.1_cms1
 
-%define tag e4825cb52f9a6c8b04ec93b9506b12631e3a475f
+%define tag 41abc90c25109c5bc91896079546e53a8586c057
 %define branch master
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
