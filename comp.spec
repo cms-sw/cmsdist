@@ -1,4 +1,4 @@
-### RPM cms comp HG1503b
+### RPM cms comp HG1503d
 
 # This is a meta-package to group all cms comp services
 # CMSWEB
@@ -15,6 +15,7 @@ Requires: rotatelogs pystack py2-psutil wmcore-devtools
 # Other
 Requires: wmagent-dev condor crabtaskworker t0 couchdb15
 Requires: PHEDEX-combined-agents PHEDEX-lifecycle lifecycle-das
+Requires: DCAFPilot
 
 %prep
 %build
