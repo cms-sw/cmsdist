@@ -1,4 +1,4 @@
-### RPM external couchdb15 1.5.1
+### RPM external couchdb15 1.6.1
 
 # Using the svn url instead of the default release on because we need the
 # bootstrap script after patching the Makefile.am
@@ -8,6 +8,7 @@ Source1: couch_cms_auth.erl
 Patch0: couchdb15-cmsauth-Makefile
 Patch1: couchdb15-ssl-client-cert
 Patch2: couchdb15-makefile-in
+Patch3: couchdb15-fix-rep-streaming
 
 # Although there is no technical software dependency,
 # couchapp was included because all CMS applications will need it.
@@ -19,6 +20,7 @@ BuildRequires: autotools
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
+%patch3 -p0
 cp %_sourcedir/couch_cms_auth.erl %_builddir/apache-couchdb-%realversion/src/couchdb
 perl -p -i -e 's{\s*-L/(opt|usr)/local/lib}{}g; s{-I/(opt|usr)/local/include}{-I/no-no-no/include}g' configure.ac
 perl -p -i -e 's{-licuuc -licudt -licuin}{-licui18n -licuuc -licudata}g;' configure
