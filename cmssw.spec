@@ -3,7 +3,6 @@
 Requires: cmssw-tool-conf python cms-git-tools
 
 %define runGlimpse      yes
-%define useCmsTC        yes
 %define saveDeps        yes
 %define branch          CMSSW_7_0_X
 %define gitcommit       %{realversion}

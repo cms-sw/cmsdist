@@ -2,7 +2,6 @@
 
 Requires: fwlite-tool-conf python
 
-%define useCmsTC        yes
 %define saveDeps        yes
 %define branch          CMSSW_7_0_X
 %define gitcommit       %(echo %realversion | sed -e 's|_FWLITE||')

@@ -167,10 +167,10 @@ esac
 
 case %cmsplatf in
    *_amd64_gcc4[56789]* )
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++11 -msse3 -ftree-vectorize -Wno-strict-overflow"
+     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++14 -msse3 -ftree-vectorize -Wno-strict-overflow"
    ;;
    *_armv7hl_* )
-    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++11 -ftree-vectorize -Wno-strict-overflow -fsigned-char -fsigned-bitfields"
+    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++14 -ftree-vectorize -Wno-strict-overflow -fsigned-char -fsigned-bitfields"
    ;;
 esac
 

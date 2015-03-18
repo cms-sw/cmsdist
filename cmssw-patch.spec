@@ -2,7 +2,6 @@
 Requires: cmssw-patch-tool-conf 
 
 %define runGlimpse      yes
-%define useCmsTC        yes
 %define saveDeps        yes
 # build with debug symbols, and package them in a separate rpm
 %define subpackageDebug yes

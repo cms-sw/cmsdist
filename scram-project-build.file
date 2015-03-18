@@ -30,7 +30,6 @@ Requires: file
 
 %define initenv	        %initenv_direct
 %define scramcmd        $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
-%define cmsrepo         cvs://:pserver:anonymous@cmscvs.cern.ch:2401/local/reps/CMSSW?passwd=AA_:yZZ3e
 %define srctree		src
 
 #config stuff moved to github!
@@ -70,14 +69,6 @@ Requires: file
 %define configtag       V05-04-05
 %endif
 
-%if "%{?useCmsTC:set}" != "set"
-%if "%{?cvsrepo:set}" != "set"
-%define cvsrepo		%cmsrepo
-%endif
-%else
-%define cvsrepo cmstc
-%endif
-
 %if "%{?cvssrc:set}" != "set"
 %define cvssrc		%(echo %n | sed -e "s|-patch||"| tr 'a-z' 'A-Z')
 %endif
@@ -100,14 +91,6 @@ Requires: file
 
 #define source0 %{configrepo}&obj=master/%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
 %define source0 https://github.com/cms-sw/cmssw-config/archive/%{configtag}.tar.gz
-
-%if "%{?source1:set}" != "set"
-%if  "%{cvsrepo}" != "cmstc"
-%define source1 %{cvsrepo}&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
-%else
-%define source1 %{cvsrepo}://?tag=%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
-%endif
-%endif
 
 Source0: %source0
 Source1: %source1
