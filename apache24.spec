@@ -1,4 +1,4 @@
-### RPM external apache24 2.4.10gsi
+### RPM external apache24 2.4.12gsi
 %define apversion %(echo %realversion | sed 's/gsi.*$//')
 Requires: openssl zlib expat libuuid sqlite pcre
 
@@ -12,13 +12,16 @@ Patch2: apache24-gsi
 %setup -T -b 1 -n apr-1.5.1
 %setup -T -b 2 -n apr-util-1.5.4
 %setup -n httpd-%apversion
-perl -p -i -e 's/-no-cpp-precomp//' srclib/apr/configure
 %patch1 -p0
 %patch2 -p0
 
 %build
 cp -rp ../apr-1.5.1/ ./srclib/apr/
 cp -rp ../apr-util-1.5.4 ./srclib/apr-util/
+
+# INCLUDES is needed otherwise apache will use the system openssl
+# despite the with-ssl below.
+export INCLUDES="-I${OPENSSL_ROOT}/include"
 ./configure --prefix=%i --with-mpm=prefork \
                         --enable-mods-shared=all \
                         --enable-so \
