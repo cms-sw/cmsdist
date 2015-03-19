@@ -1,4 +1,4 @@
-### RPM cms asyncstageout 1.0.3pre6
+### RPM cms asyncstageout 1.0.3pre7
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
