@@ -21,6 +21,8 @@ cp -rp ../apr-util-1.5.4 ./srclib/apr-util/
 
 # INCLUDES is needed otherwise apache will use the system openssl
 # despite the with-ssl below.
+
+export LDFLAGS="-L${OPENSSL_ROOT}/lib"
 export INCLUDES="-I${OPENSSL_ROOT}/include"
 ./configure --prefix=%i --with-mpm=prefork \
                         --enable-mods-shared=all \
