@@ -41,6 +41,7 @@ Requires: data-RecoTracker-RingESSource
 Requires: data-RecoTracker-RoadMapESSource
 Requires: data-CalibTracker-SiPixelESProducers
 Requires: data-RecoHI-HiJetAlgos
+Requires: data-Configuration-Generator
 
 %if "%online" != "true"
 # extra data dependencies for standard builds
