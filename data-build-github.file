@@ -1,0 +1,41 @@
+### FILE data-build-github.file
+## NOCOMPILER
+
+%build
+
+DOWNLOAD_TOOL=$(basename $(which curl || which wget || echo "none"))
+DOWNLOAD_FILE=%{realversion}.tar.gz
+DEST_DIR=%{i}/$(echo "%{n}" | sed -e "s/data-//g;s/-/\//g")/data
+GIT_REPO=$(echo "%{n}" | sed -e "s/data-//g")
+GIT_URL=https://github.com/cms-data/${GIT_REPO}/archive/${DOWNLOAD_FILE}
+mkdir -p ${DEST_DIR}
+pushd ${DEST_DIR}
+
+case "${DOWNLOAD_TOOL}" in
+   curl)
+      # cURL does not download empty files, touch file before downloading
+      touch ${DOWNLOAD_FILE}
+      curl -L -O -k $GIT_URL
+      ;;
+   wget)
+      wget --no-check-certificate --no-verbose $GIT_URL
+      ;;
+   none)
+      echo "Unsupported download tool. Could not locate curl or wget. Contact package maintainer."
+      exit 1
+      ;;
+esac
+
+tar xzvf ${DOWNLOAD_FILE} --strip 1
+rm ${DOWNLOAD_FILE}
+popd
+
+find %{i} -type d -exec chmod 0755 {} \;
+find %{i} -type f -exec chmod 0644 {} \;
+
+%install
+
+%post
+%define base_tool %(echo "%{n}" | tr '[a-z-]' '[A-Z_]')
+echo "%{base_tool}_ROOT='${CMS_INSTALL_PREFIX}/%{pkgrel}'" > ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d/init.sh
+echo "set %{base_tool}_ROOT='${CMS_INSTALL_PREFIX}/%{pkgrel}'" > ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d/init.csh
