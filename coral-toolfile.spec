@@ -16,6 +16,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/coral.xml
   </client>
   <runtime name="PYTHONPATH" default="$CORAL_BASE/$SCRAM_ARCH/python" type="path"/>
   <runtime name="PYTHONPATH" default="$CORAL_BASE/$SCRAM_ARCH/lib" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 

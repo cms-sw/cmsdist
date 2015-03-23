@@ -39,6 +39,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cascade_headers.xml
     <environment name="CASCADE_HEADERS_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$CASCADE_HEADERS_BASE/include"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 

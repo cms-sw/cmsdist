@@ -15,6 +15,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/dpm.xml
     <environment name="INCLUDE" default="$DPM_BASE/include"/>
     <environment name="LIBDIR" default="$DPM_BASE/lib"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 

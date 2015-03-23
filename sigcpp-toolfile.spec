@@ -15,6 +15,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sigcpp.xml
     <environment name="LIBDIR" default="$SIGCPP_BASE/lib"/>
     <environment name="INCLUDE" default="$SIGCPP_BASE/include/sigc++-2.0"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 

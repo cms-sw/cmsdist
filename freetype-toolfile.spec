@@ -16,6 +16,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/freetype.xml
     <environment name="LIBDIR"       default="$FREETYPE_BASE/lib"/>
   </client>
   <runtime name="PATH" value="$FREETYPE_BASE/bin" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 

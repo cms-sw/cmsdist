@@ -14,6 +14,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/castor_header.xml
     <environment name="INCLUDE" default="$CASTOR_HEADER_BASE/include"/>
     <environment name="INCLUDE" default="$CASTOR_HEADER_BASE/include/shift"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$CASTOR_HEADER_BASE/include" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$CASTOR_HEADER_BASE/include/shift" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 cat << \EOF_TOOLFILE >%i/etc/scram.d/castor.xml
