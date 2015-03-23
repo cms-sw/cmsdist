@@ -15,6 +15,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/libhepml.xml
     <environment name="LIBDIR" default="$LIBHEPML_BASE/lib"/>
     <environment name="INCLUDE" default="$LIBHEPML_BASE/interface"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 

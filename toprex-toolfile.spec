@@ -25,6 +25,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/toprex_headers.xml
     <environment name="TOPREX_HEADERS_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$TOPREX_HEADERS_BASE/include"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 ## IMPORT scram-tools-post

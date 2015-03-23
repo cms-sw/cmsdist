@@ -17,7 +17,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/tauolapp.xml
     <environment name="LIBDIR" default="$TAUOLAPP_BASE/lib"/>
     <environment name="INCLUDE" default="$TAUOLAPP_BASE/include"/>
   </client>
-  <runtime name="TAUOLAPPDATA" value="$TAUOLAPP_BASE/share"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="hepmc"/>
   <use name="f77compiler"/>
   <use name="pythia8"/>

@@ -22,6 +22,8 @@ cat << \EOF_TOOLFILE > %i/etc/scram.d/classlib.xml
       <use name="pcre"/>
       <use name="openssl"/>
     </client>
+    <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+    <use name="root_cxxdefaults"/>
   </tool>
 EOF_TOOLFILE
 ## IMPORT scram-tools-post

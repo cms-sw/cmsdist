@@ -61,7 +61,6 @@ Requires: pythia6-toolfile
 Requires: pythia8-toolfile
 Requires: python-toolfile
 Requires: qt-toolfile
-Requires: roofit-toolfile
 Requires: root-toolfile
 Requires: sherpa-toolfile
 Requires: sigcpp-toolfile

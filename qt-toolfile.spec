@@ -25,6 +25,11 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/qtbase.xml
   <runtime name="QTDIR" value="$QTBASE_BASE" type="path"/>
   <runtime name="QTINC" value="$QTBASE_BASE/include" type="path"/>
   <runtime name="QTLIB" value="$QTBASE_BASE/lib" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$QTBASE_BASE/include" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$QTBASE_BASE/include/Qt" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$QTBASE_BASE/include/QtCore" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$QTBASE_BASE/include/QtXml" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="zlib"/>
 </tool>
 EOF_TOOLFILE
@@ -38,6 +43,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/qt3support.xml
     <environment name="INCLUDE" default="$QT3SUPPORT_BASE/include/Qt3Support"/>
   </client>
   <flags cppdefines="QT3_SUPPORT"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$QT3SUPPORT_BASE/include/Qt3Support" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="qtbase"/>
 </tool>
 EOF_TOOLFILE
@@ -52,6 +59,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/qt.xml
     <environment name="INCLUDE" default="$QT_BASE/include/QtOpenGL"/>
     <environment name="INCLUDE" default="$QT_BASE/include/QtGui"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$QT_BASE/include/QtOpenGL" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$QT_BASE/include/QtGui" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="qtbase"/>
   <use name="qt3support"/>
   <use name="X11"/>
@@ -67,6 +77,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/qtdesigner.xml
     <environment name="QTDESIGNER_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$QTDESIGNER_BASE/include/QtDesigner"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$QTDESIGNER_BASE/include/QtDesigner" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="qtbase"/>
   <use name="qt"/>
 </tool>
@@ -80,6 +92,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/qtextra.xml
     <environment name="QTEXTRA_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$QTEXTRA_BASE/include/QtScript"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$QTEXTRA_BASE/include/QtScript" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="qtbase"/>
 </tool>
 EOF_TOOLFILE

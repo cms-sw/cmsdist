@@ -17,6 +17,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdf.xml
   </client>
   <runtime name="LHAPDF_DATA_PATH" value="$LHAPDF_BASE/share/LHAPDF"/>
   <use name="yaml-cpp"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 

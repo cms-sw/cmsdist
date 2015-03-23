@@ -15,6 +15,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/valgrind.xml
   </client>
   <runtime name="PATH" value="$VALGRIND_BASE/bin" type="path"/>
   <runtime name="VALGRIND_LIB" value="$VALGRIND_BASE/lib/valgrind"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 
