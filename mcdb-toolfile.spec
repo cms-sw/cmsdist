@@ -15,6 +15,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/mcdb.xml
     <environment name="LIBDIR" default="$MCDB_BASE/lib"/>
     <environment name="INCLUDE" default="$MCDB_BASE/interface"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="xerces-c"/>
 </tool>
 EOF_TOOLFILE

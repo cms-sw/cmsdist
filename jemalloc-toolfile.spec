@@ -18,6 +18,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/jemalloc.xml
     <environment name="INCLUDE"        default="$JEMALLOC_BASE/include"/>
   </client>
   <runtime name="MALLOC_CONF" value="lg_chunk:18,lg_dirty_mult:4"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 

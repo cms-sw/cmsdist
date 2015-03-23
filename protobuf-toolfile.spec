@@ -17,6 +17,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/protobuf.xml
     <environment name="BINDIR" default="$PROTOBUF_BASE/bin"/>
   </client>
   <runtime name="PATH" value="$PROTOBUF_BASE/bin" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 

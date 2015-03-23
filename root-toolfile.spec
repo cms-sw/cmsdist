@@ -1,10 +1,20 @@
 ### RPM lcg root-toolfile 2.0
 Requires: root
+Requires: gcc
 %prep
 
 %build
 
 %install
+
+export GCC_ROOT
+export GCC_VERSION
+export GCC_REALVERSION=`echo $GCC_VERSION | sed 's|-[a-z][a-z]*[0-9]*$||'`
+
+TARGET_TRIPLET=$(gcc -dumpmachine)
+export TARGET_TRIPLET
+
+# TODO: All additional include paths must be added at the beginning of ROOT_INCLUDE_PATH
 
 mkdir -p %i/etc/scram.d
 # root_interface toolfile
@@ -16,21 +26,33 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/root_interface.xml
     <environment name="INCLUDE"             default="$ROOT_INTERFACE_BASE/include"/>
     <environment name="LIBDIR"              default="$ROOT_INTERFACE_BASE/lib"/>
   </client>
-  <runtime name="PATH"       value="$ROOT_INTERFACE_BASE/bin" type="path"/>
-  <runtime name="PYTHONPATH" value="$ROOT_INTERFACE_BASE/lib" type="path"/>
-  <runtime name="ROOTSYS"    value="$ROOT_INTERFACE_BASE/"/>
+  <runtime name="PATH"               value="$ROOT_INTERFACE_BASE/bin" type="path"/>
+  <runtime name="PYTHONPATH"         value="$ROOT_INTERFACE_BASE/lib" type="path"/>
+  <runtime name="ROOTSYS"            value="$ROOT_INTERFACE_BASE/"/>
+  <runtime name="ROOT_INCLUDE_PATH"  value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 
-# rootcint toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcint.xml
-<tool name="rootcint" version="@TOOL_VERSION@">
+cat << \EOF_TOOLFILE > %{i}/etc/scram.d/root_cxxdefaults.xml
+<tool name="root_cxxdefaults" version="@TOOL_VERSION@">
+  <runtime name="ROOT_GCC_TOOLCHAIN" value="@GCC_ROOT@" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="@GCC_ROOT@/include/c++/@GCC_REALVERSION@" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="@GCC_ROOT@/include/c++/@GCC_REALVERSION@/@TARGET_TRIPLET@" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="@GCC_ROOT@/include/c++/@GCC_REALVERSION@/backward" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="/usr/local/include" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="/usr/include" type="path"/>
+</tool>
+EOF_TOOLFILE
+
+# rootcling toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcling.xml
+<tool name="rootcling" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <lib name="Core"/>
-  <lib name="Cint"/>
   <client>
-    <environment name="ROOTCINT_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE"       default="$ROOTCINT_BASE/cint"/>
+    <environment name="ROOTCLING_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE"        default="$ROOTCLING_BASE/include"/>
   </client>
   <use name="root_interface"/>
   <use name="sockets"/>
@@ -44,7 +66,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootrint.xml
 <tool name="rootrint" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <lib name="Rint"/>
-  <use name="rootcint"/>
+  <use name="rootcling"/>
 </tool>
 EOF_TOOLFILE
 
@@ -53,7 +75,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootrio.xml
 <tool name="rootrio" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <lib name="RIO"/>
-  <use name="rootcint"/>
+  <use name="rootcling"/>
 </tool>
 EOF_TOOLFILE
 
@@ -80,7 +102,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootmathcore.xml
 <tool name="rootmathcore" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <lib name="MathCore"/>
-  <use name="rootcint"/>
+  <use name="rootcling"/>
 </tool>
 EOF_TOOLFILE
 
@@ -215,7 +237,6 @@ EOF_TOOLFILE
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootrflx.xml
 <tool name="rootrflx" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
-  <lib name="Reflex"/>
   <client>
     <environment name="ROOTRFLX_BASE" default="@TOOL_ROOT@"/>
   </client>
@@ -223,8 +244,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootrflx.xml
   <flags GENREFLEX_CPPFLAGS="-DCMS_DICT_IMPL -D_REENTRANT -DGNUSOURCE -D__STRICT_ANSI__"/>
   <flags GENREFLEX_ARGS="--deep"/>
   <runtime name="GENREFLEX" value="$ROOTRFLX_BASE/bin/genreflex"/>
-  <use name="gccxml"/>
   <use name="root_interface"/>
+  <use name="rootcling"/>
 </tool>
 EOF_TOOLFILE
 
@@ -272,16 +293,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootfoam.xml
   <info url="http://root.cern.ch/root/"/>
   <lib name="Foam"/>
   <use name="roothistmatrix"/>
-</tool>
-EOF_TOOLFILE
-
-# rootcintex toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcintex.xml
-<tool name="rootcintex" version="@TOOL_VERSION@">
-  <info url="http://root.cern.ch/root/"/>
-  <lib name="Cintex"/>
-  <use name="rootrflx"/>
-  <use name="rootcint"/>
 </tool>
 EOF_TOOLFILE
 
@@ -333,6 +344,69 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootguihtml.xml
   <use name="rootinteractive"/>
 </tool>
 EOF_TOOLFILE
+
+# roofitcore toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/roofitcore.xml
+<tool name="roofitcore" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="RooFitCore"/>
+  <client>
+    <environment name="ROOFIT_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$ROOFIT_BASE/lib"/>
+    <environment name="INCLUDE" default="$ROOFIT_BASE/include"/>
+  </client>
+  <runtime name="ROOFITSYS" value="$ROOFIT_BASE/"/>
+  <runtime name="PATH"      value="$ROOFIT_BASE/bin" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="rootcore"/>
+  <use name="roothistmatrix"/>
+  <use name="rootgpad"/>
+  <use name="rootminuit"/>
+  <use name="root_cxxdefaults"/>
+</tool>
+EOF_TOOLFILE
+
+# roofit toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/roofit.xml
+<tool name="roofit" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="RooFit"/>
+  <use name="roofitcore"/>
+  <use name="rootcore"/>
+  <use name="rootmath"/>
+  <use name="roothistmatrix"/>
+</tool>
+EOF_TOOLFILE
+
+# roostats toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/roostats.xml
+<tool name="roostats" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="RooStats"/>
+  <use name="roofitcore"/>
+  <use name="roofit"/>
+  <use name="rootcore"/>
+  <use name="roothistmatrix"/>
+  <use name="rootgpad"/>
+</tool>
+EOF_TOOLFILE
+
+# histfactory toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/histfactory.xml
+<tool name="histfactory" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="HistFactory"/>
+  <use name="roofitcore"/>
+  <use name="roofit"/>
+  <use name="roostats"/>
+  <use name="rootcore"/>
+  <use name="roothistmatrix"/>
+  <use name="rootgpad"/>
+  <use name="rootxml"/>
+  <use name="rootfoam"/>
+</tool>
+EOF_TOOLFILE
+
 
 case %cmsos in
   *_ia32)

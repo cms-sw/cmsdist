@@ -18,6 +18,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/clhep.xml
   </client>
   <runtime name="CLHEP_PARAM_PATH" value="$CLHEP_BASE"/>
   <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$CLHEP_BASE/include" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 
@@ -28,6 +30,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/clhepheader.xml
     <environment name="CLHEPHEADER_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE"    default="$CLHEPHEADER_BASE/include"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH"  value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 

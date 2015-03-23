@@ -15,6 +15,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cppunit.xml
     <environment name="LIBDIR" default="$CPPUNIT_BASE/lib"/>
     <environment name="INCLUDE" default="$CPPUNIT_BASE/include"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="sockets"/>
 </tool>
 EOF_TOOLFILE

@@ -16,6 +16,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/libjpg.xml
     <environment name="LIBDIR" default="$LIBJPEG_BASE/lib"/>
     <environment name="INCLUDE" default="$LIBJPEG_BASE/include"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 
