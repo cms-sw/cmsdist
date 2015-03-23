@@ -15,6 +15,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/zlib.xml
     <environment name="INCLUDE" default="$ZLIB_BASE/include"/>
     <environment name="LIBDIR" default="$ZLIB_BASE/lib"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 

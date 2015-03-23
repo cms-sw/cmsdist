@@ -16,6 +16,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/thepeg.xml
     <environment name="LIBDIR" default="$THEPEG_BASE/lib/ThePEG"/>
     <environment name="INCLUDE" default="$THEPEG_BASE/include"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="lhapdf"/>
   <use name="gsl"/>
 </tool>

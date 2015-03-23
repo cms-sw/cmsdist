@@ -17,6 +17,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/python.xml
     <environment name="PYTHON_COMPILE" default="$PYTHON_BASE/lib/python@PYTHONV@/compileall.py"/>
   </client>
   <runtime name="PATH" value="$PYTHON_BASE/bin" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="sockets"/>
 </tool>
 EOF_TOOLFILE

@@ -1,25 +1,19 @@
-### RPM lcg root 5.34.22
-## INITENV +PATH PYTHONPATH %i/lib/python
-## INITENV SET ROOTSYS %i
-%define tag 4949fbd8256fc2603b89316bc96955fca0d19992
-%define branch cms/v5-34-22
+### RPM lcg root 6.02.00
+## INITENV +PATH PYTHONPATH %{i}/lib
+## INITENV SET ROOTSYS %{i}
+%define tag 22b83ed
+%define branch cms/65b8324
 %define github_user cms-sw
-Source: git+https://github.com/%github_user/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source: git+https://github.com/%github_user/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
-%define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
-%define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
 
-Requires: gccxml gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl
+Requires: gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl zlib
 
 %if %islinux
 Requires: castor dcap
-%endif
-
-%if %isnotonline
-Requires: zlib
 %endif
 
 %if %isdarwin
@@ -33,40 +27,39 @@ Requires: freetype
 
 # Delete these (irrelevant) files as the fits appear to confuse rpm on OSX
 # (It tries to run install_name_tool on them.)
-rm -fR tutorials/fitsio
+#rm -fR tutorials/fitsio
 
-# Block use of /opt/local, /usr/local.
-perl -p -i -e 's{/(usr|opt)/local}{/no-no-no/local}g' configure
+sed -ibak -e 's/\/usr\/local/\/no-no-no\/local/g' \
+          -e 's/\/opt\/local/\/no-no-no\/local/g' \
+          ./configure
 
 %build
 
-mkdir -p %i
-export LIBJPG_ROOT
+mkdir -p %{i}
 export ROOTSYS=%_builddir/root
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
-%if "%online" == "true"
-# Also skip xrootd and odbc for online case:
+export LZMA=${XZ_ROOT}
+export ZLIB=${ZLIB_ROOT}
+export LIBJPEG=${LIBJPG_ROOT}
+export LIBPNG=${LIBPNG_ROOT}
+export LIBTIFF=${LIBTIFF_ROOT}
 
-EXTRA_CONFIG_ARGS="--with-f77=/usr
-             --disable-odbc --disable-astiff"
-%else
-export LIBJPG_ROOT LIBPNG_ROOT ZLIB_ROOT LIBTIFF_ROOT
-EXTRA_CONFIG_ARGS="--with-f77=${GCC_ROOT}"
-%endif
-LZMA=${XZ_ROOT}
-export LZMA
+# Required for generated dictionaries during ROOT6 compile/install
+ROOT_INCLUDE_PATH=
+for DEP in %requiredtools; do
+  ROOT_INCLUDE_PATH=$(eval echo $(printf "\${%%s_ROOT}/include" $(echo $DEP | tr "[a-z]-" "[A-Z]_"))):$ROOT_INCLUDE_PATH
+done
+
+export ROOT_INCLUDE_PATH
+
 CONFIG_ARGS="--enable-table
-             --enable-builtin-glew
              --disable-builtin-pcre
              --disable-builtin-freetype
              --disable-builtin-zlib
-             --with-gccxml=${GCCXML_ROOT} 
              --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include/python${PYTHONV}
-             --enable-explicitlink 
+             --enable-explicitlink
              --enable-mathmore
-             --enable-reflex  
-             --enable-cintex 
              --enable-minuit2
              --disable-builtin-lzma
              --enable-fftw3
@@ -85,19 +78,24 @@ CONFIG_ARGS="--enable-table
              --with-cxx=g++
              --with-cc=gcc
              --with-ld=g++
-             --disable-qt --disable-qtgsi
-             --with-cint-maxstruct=36000
-             --with-cint-maxtypedef=36000
-             --with-cint-longline=4096
+             --with-f77=gfortran
+             --with-gcc-toolchain=${GCC_ROOT}
+             --disable-qt
+             --disable-qtgsi
              --disable-hdfs
-             --disable-oracle ${EXTRA_CONFIG_ARGS}"
+             --disable-oracle ${EXTRA_CONFIG_ARGS}
+             --enable-roofit"
+
+#if #isarmv7
+#cp ./cint/iosenum/iosenum.linux3 ./cint/iosenum/iosenum.linuxarm3
+#endif
 
 EXTRA_OPTS=
 TARGET_PLATF=
 
 %if %islinux
   TARGET_PLATF=linuxx8664gcc
-  EXTRA_OPTS="${EXTRA_OPTS} --with-rfio-libdir=${CASTOR_ROOT}/lib 
+  EXTRA_OPTS="${EXTRA_OPTS} --with-rfio-libdir=${CASTOR_ROOT}/lib
                             --with-rfio-incdir=${CASTOR_ROOT}/include/shift
                             --with-castor-libdir=${CASTOR_ROOT}/lib
                             --with-castor-incdir=${CASTOR_ROOT}/include/shift
@@ -117,17 +115,14 @@ TARGET_PLATF=
   TARGET_PLATF=linuxarm
 %endif
 
+cat <<\EOF >> MyConfig.mk
+CFLAGS+=-D__ROOFIT_NOBANNER
+CXXFLAGS+=-D__ROOFIT_NOBANNER
+EOF
+
 ./configure ${TARGET_PLATF} ${CONFIG_ARGS} ${EXTRA_OPTS}
 
-# Make sure we compile/link against libs shipped with cmssw
-perl -pi -e '
-BEGIN: { @dirs = map {$a = "${_}_ROOT"; $ENV{$a}} qw(LIBJPG LIBPNG ZLIB LIBTIFF); }
-
-chomp, $_ = join (" ", $_, map {"-I$_/include"} @dirs) . "\n" if /^EXTRA_CFLAGS/ or /^EXTRA_CXXFLAGS/;
-chomp, $_ = join (" ", $_, map {"-L$_/lib"} @dirs) . "\n" if /^EXTRA_LDFLAGS/;
-' config/Makefile.config
-
-make %{makeprocesses}
+make %makeprocesses
 
 %install
 # Override installers if we are using GNU fileutils cp.  On OS X
@@ -141,19 +136,20 @@ else
   cp="cp -pPR"
 fi
 
+# Required for generated dictionaries during ROOT6 compile/install
+ROOT_INCLUDE_PATH=
+for DEP in %requiredtools; do
+  ROOT_INCLUDE_PATH=$(eval echo $(printf "\${%%s_ROOT}/include" $(echo $DEP | tr "[a-z]-" "[A-Z]_"))):$ROOT_INCLUDE_PATH
+done
+
+export ROOT_INCLUDE_PATH
+
 export ROOTSYS=%i
 make INSTALL="$cp" INSTALLDATA="$cp" install
-mkdir -p $ROOTSYS/lib/python
-cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
-# This file confuses rpm's find-requires because it starts with
+#mkdir -p $ROOTSYS/lib/python
+#cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
 # a """ and it thinks is the shebang.
-rm -f %i/tutorials/pyroot/mrt.py
+#rm -f %i/tutorials/pyroot/mrt.py
 
-%post
-%{relocateConfig}bin/root-config
-%{relocateConfig}include/RConfigOptions.h
-%{relocateConfig}include/compiledata.h
-%{relocateConfig}cint/cint/lib/G__c_ipc.d
-%{relocateConfig}cint/cint/lib/G__c_stdfunc.d
-%{relocateConfig}cint/cint/lib/G__c_posix.d
-%{relocateConfig}lib/python/genreflex/gccxmlpath.py
+find %{i} -type f -name '*.py' | xargs chmod -x
+grep -R -l '#!.*python' %{i} | xargs chmod +x

@@ -15,6 +15,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/evtgenlhc.xml
     <environment name="LIBDIR" default="$EVTGENLHC_BASE/lib"/>
     <environment name="INCLUDE" default="$EVTGENLHC_BASE"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="clhep"/>
 </tool>
 EOF_TOOLFILE
