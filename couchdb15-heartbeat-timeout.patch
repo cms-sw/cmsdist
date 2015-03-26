@@ -1,0 +1,11 @@
+--- bin/couchdb.tpl.in	2015-03-26 10:18:39.000000000 +0100
++++ bin/couchdb.tpl.in	2015-03-26 10:18:53.000000000 +0100
+@@ -21,7 +21,7 @@
+     disk_space_check_interval 1 \
+     disk_almost_full_threshold 1"
+ ERL_START_OPTIONS="$ERL_OS_MON_OPTIONS -sasl errlog_type error +K true +A 4"
+-HEART_BEAT_TIMEOUT=11
++HEART_BEAT_TIMEOUT=60
+ HEART_COMMAND="%bindir%/%couchdb_command_name% -k"
+ INTERACTIVE=false
+ KILL=false
