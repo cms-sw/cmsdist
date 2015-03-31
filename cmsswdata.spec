@@ -29,6 +29,7 @@ Requires: data-GeneratorInterface-EvtGenInterface
 Requires: data-MagneticField-Interpolation
 Requires: data-RecoBTag-SoftLepton
 Requires: data-Calibration-Tools
+Requires: data-CalibCalorimetry-HcalAlgos
 
 %if %isnotonline
 # extra data dependencies for standard builds
