@@ -1,7 +1,7 @@
-### RPM cms popdb 0.3.1
+### RPM cms popdb-web 0.3.2
 
 %define setupdir  DDM-%n-%realversion
-Source: https://github.com/rcaspart/DDM/archive/%n-%realversion.tar.gz
+Source: https://github.com/dmwm/DDM/archive/%n-%realversion.tar.gz
 Requires: python oracle oracle-env django py2-cx-oracle py2-pycurl
 Requires: apache-setup mod_wsgi mod_perl2 apache2 
 
