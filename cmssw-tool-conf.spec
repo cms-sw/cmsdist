@@ -125,6 +125,7 @@ Requires: qd-toolfile
 Requires: blackhat-toolfile
 Requires: sherpa-toolfile
 Requires: eigen-toolfile
+Requires: file-toolfile
 
 %if "%isslc" == "true"
 Requires: openldap-toolfile
