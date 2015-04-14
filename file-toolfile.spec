@@ -14,6 +14,7 @@ cat << \EOF_TOOLFILE > %{i}/etc/scram.d/file.xml
       <environment name="INCLUDE" default="$FILE_BASE/include"/>
     </client>
     <runtime name="PATH" value="$FILE_BASE/bin" type="path"/>
+    <runtime name="MAGIC" value="$FILE_BASE/share/misc/magic.mgc"/>
   </tool>
 EOF_TOOLFILE
 ## IMPORT scram-tools-post
