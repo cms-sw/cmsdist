@@ -48,10 +48,6 @@ Patch0: boost-1.57.0-icc
 %define branch		%(echo %realversion | sed -e 's|_X.*|_X|')
 %endif
 
-%if "%(case %realversion in (*_THREADED_X*) echo true ;; (*) echo false ;; esac)" == "true"
-%define branch		%(echo %realversion | sed -e 's|_X.*|_X|')
-%endif
-
 %if "%(case %realversion in (*_ROOT6_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define branch		%(echo %realversion | sed -e 's|_X.*|_X|')
 %endif
