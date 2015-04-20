@@ -348,7 +348,7 @@ done
 
 %if "%{?pkgname}" != "coral"
 case %cmsplatf in
-  slc6_amd64_*)
+  slc7_amd64_*|slc6_amd64_*)
     FILE_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/file/')
     FILE_PATH=$RPM_INSTALL_PREFIX/%cmsplatf/$FILE_PKG
     PATCHELF_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/patchelf/')

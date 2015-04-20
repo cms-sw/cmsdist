@@ -7,7 +7,7 @@ Requires: git
 %install
 
 case "%{cmsplatf}" in
-  slc6*|fc*)
+  slc7*|slc6*|fc*)
     PERL5LIB_PATH=/share/perl5
     ;;
   *)

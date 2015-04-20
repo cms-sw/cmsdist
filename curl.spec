@@ -11,7 +11,7 @@ Requires: zlib
 export OPENSSL_ROOT
 export ZLIB_ROOT
 case %cmsplatf in
-  slc6*) KERBEROS_ROOT=/usr ;;
+  slc7*|slc6*) KERBEROS_ROOT=/usr ;;
   slc5*) KERBEROS_ROOT=/usr/kerberos ;;
   osx*) KERBEROS_ROOT=/usr/heimdal ;;
 esac

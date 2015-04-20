@@ -1,13 +1,14 @@
-### RPM external xz 5.0.3__5.1.2alpha
-%define generic_version 5.0.3
+### RPM external xz 5.2.1__5.1.2alpha
+%define generic_version 5.2.1
 %define fcarm_version 5.1.2alpha
-%define tag 931d2d5
+%define tag dec11497a71518423b5ff0e759100cf8aadf6c7b
 %define branch cms/v%generic_version
-%define github_user cms-externals
+%define github_user degano
 %define armtag 5cc6656
 %define armbranch cms/v%fcarm_version
 %define isfcarm %(case %{cmsplatf} in (fc*_arm*) echo 1 ;; (*) echo 0 ;; esac)
-Source0: git+https://github.com/%github_user/xz.git?obj=%{branch}/%{tag}&export=%{n}-%{generic_version}&output=/%{n}-%{generic_version}.tgz
+#Source0: git+https://github.com/%github_user/xz.git?obj=%{branch}/%{tag}&export=%{n}-%{generic_version}&output=/%{n}-%{generic_version}.tgz
+Source0: http://tukaani.org/xz/xz-%{generic_version}.tar.gz
 Source1: git+https://github.com/%github_user/xz.git?obj=%{armbranch}/%{armtag}&export=%{n}-%{fcarm_version}&output=/%{n}-%{fcarm_version}.tgz
 
 BuildRequires: autotools
@@ -20,7 +21,6 @@ BuildRequires: autotools
 %endif
 
 %build
-./autogen.sh
 ./configure CFLAGS='-fPIC -Ofast' --prefix=%{i} --disable-static --disable-nls --disable-rpath --disable-dependency-tracking --disable-doc
 make %{makeprocesses}
 
