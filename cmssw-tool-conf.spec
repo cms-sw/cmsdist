@@ -1,6 +1,6 @@
 ### RPM cms cmssw-tool-conf 32.0
 ## NOCOMPILER
-# with cmsBuild, change the above version only when a new
+# With cmsBuild, change the above version only when a new
 # tool is added
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
