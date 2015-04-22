@@ -9,19 +9,10 @@ Source: git+https://github.com/%github_user/%n.git?obj=%{branch}/%{tag}&export=%
 %define cms_cxxflags -std=c++11 -O2
 %endif
 
-Requires: python bz2lib
-%if "%online" != "true"
-Requires: zlib
-%endif
-Patch0: boost-1.47.0-fix-strict-overflow
-Patch1: boost-1.47.0-fix-unused
-Patch2: boost-1.49.0-explicit_stored_group
+Requires: python bz2lib zlib
 
 %prep
-%setup -n %{n}%{boostver}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
+%setup -n %{n}-%{realversion}
 
 %build
 case %cmsos in 
