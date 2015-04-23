@@ -1,0 +1,11 @@
+--- src/couch_replicator/src/couch_replicator_api_wrap.erl	2015-03-17 15:37:29.000000000 +0100
++++ src/couch_replicator/src/couch_replicator_api_wrap.erl	2015-03-17 15:38:40.000000000 +0100
+@@ -189,7 +189,7 @@
+             Params = [
+                 {path, Path},
+                 {qs, QS},
+-                {ibrowse_options, [{stream_to, {self(), once}}]},
++                {ibrowse_options, [{stream_to, self()}]},
+                 {headers, [{"Accept", "multipart/mixed"}]}
+             ],
+             % We're setting retries to 0 here to avoid the case where the
