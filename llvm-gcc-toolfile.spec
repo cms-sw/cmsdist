@@ -52,12 +52,14 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm-cxxcompiler.xml
     <flags REM_CXXFLAGS="-fipa-pta"/>
     <flags REM_CXXFLAGS="-frounding-math"/>
     <flags REM_CXXFLAGS="-mrecip"/>
+    <flags REM_CXXFLAGS="-Wno-psabi"/>
     <flags CXXFLAGS="-Wno-c99-extensions"/>
     <flags CXXFLAGS="-Wno-c++11-narrowing"/>
     <flags CXXFLAGS="-D__STRICT_ANSI__"/>
     <flags CXXFLAGS="-Wno-unused-private-field"/>
     <flags CXXFLAGS="-Wno-unknown-pragmas"/>
     <flags CXXFLAGS="-Wno-unused-command-line-argument"/>
+    <flags CXXFLAGS="-ftemplate-depth=512"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$LLVM_CXXCOMPILER_BASE/lib" type="path"/>
     <runtime name="PATH" value="$LLVM_CXXCOMPILER_BASE/bin" type="path"/>
     <runtime name="COMPILER_RUNTIME_OBJECTS" value="@GCC_ROOT@"/>
