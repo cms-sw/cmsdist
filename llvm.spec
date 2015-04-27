@@ -8,8 +8,11 @@ Requires: gcc
 %define llvmBranch cms/f04ce0e
 %define clangCommit ff59fc3b222f373bdd5bbebfad41ee6f2d950b43
 %define clangBranch cms/65d8b4c
+%define clangToolsExtraCommit 13f3e9fac71230b24857613d683fa146ef0da7a8
+%define clangToolsExtraBranch cms/13f3e9f
 Source0: git+https://github.com/cms-externals/llvm.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%realversion-%llvmCommit&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/cms-externals/clang.git?obj=%{clangBranch}/%{clangCommit}&export=clang-%{realversion}-%{clangCommit}&module=clang-%realversion-%clangCommit&output=/clang-%{realversion}-%{clangCommit}.tgz
+Source2: git+https://github.com/cms-externals/clang-tools-extra.git?obj=%{clangToolsExtraBranch}/%{clangToolsExtraCommit}&export=clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}&module=clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}&output=/clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}.tgz
 
 # Still need forward porting.
 %define keep_archives true
@@ -18,6 +21,8 @@ Source1: git+https://github.com/cms-externals/clang.git?obj=%{clangBranch}/%{cla
 %setup -T -b0 -n llvm-%realversion-%llvmCommit
 %setup -T -D -a1 -c -n llvm-%realversion-%llvmCommit/tools
 mv clang-%realversion-%clangCommit clang
+%setup -T -D -a2 -c -n llvm-%{realversion}-%{llvmCommit}/tools/clang/tools
+mv clang-tools-extra-%{realversion}-%{clangToolsExtraCommit} extra
 %setup -T -D -n llvm-%realversion-%llvmCommit
 
 %build
