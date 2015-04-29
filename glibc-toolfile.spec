@@ -1,7 +1,6 @@
 ### RPM external glibc-toolfile 1.0
 Requires: glibc
 
-
 %prep
 %build
 %install

@@ -44,7 +44,7 @@ cd ../%{n}-build
   --host=x86_64-redhat-linux \
   --enable-multi-arch \
   --disable-profile \
-  --enable-experimental-malloc \
+  --enable-experimental-malloc
 
 make %{makeprocesses}
 
