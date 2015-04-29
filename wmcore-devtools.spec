@@ -1,4 +1,4 @@
-### RPM cms wmcore-devtools 1.1
+### RPM cms wmcore-devtools 1.2
 
 # This is a meta-package to group development tool dependencies
 Requires: yuicompressor py2-coverage py2-lint py2-nose py2-sphinx py2-mox
