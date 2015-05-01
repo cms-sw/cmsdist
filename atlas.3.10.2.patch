@@ -1,0 +1,15 @@
+diff -Naur ATLAS/makes/Make.lib ATLASn/makes/Make.lib
+--- ATLAS/makes/Make.lib	2014-07-10 18:22:01.000000001 +0200
++++ ATLASn/makes/Make.lib	2015-05-01 22:36:37.000000001 +0200
+@@ -33,6 +33,11 @@
+ 	rm -rf $(ARCH)
+ 	$(BZIP) --best $(tarnam).tar
+ 
++%.so : %.a
++	$(MAKE) TRYALL outso=$@ \
++                libas=$< \
++                LIBINSTdir="$(LIBINSTdir)"
++
+ # ===================================================================
+ # The following commands are to build dynamic/shared objects on Linux
+ # using the gnu gcc or ld
