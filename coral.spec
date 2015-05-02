@@ -13,7 +13,7 @@ Patch6: coral-CORAL_2_3_21-forever-ttl
 %define cvssrc          %{n}
 
 # Build with debug symbols, and package them in a separate rpm:
-%define subpackageDebug yes
+#subpackage debug disabledes
 
 # Disable building tests, since they bring dependency on cppunit:
 %if %isdarwin
