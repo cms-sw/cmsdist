@@ -3,22 +3,17 @@
 Source: http://downloads.sourceforge.net/project/numpy/NumPy/%{realversion}/numpy-%{realversion}.tar.gz
 Requires: python
 Requires: zlib
-Requires: atlas
+Requires: lapack
 %prep
 %setup -n numpy-%{realversion}
 
 %build
 %install
-case %{cmsos} in 
-  osx*) SONAME=dylib ;;
-  *) SONAME=so ;;
-esac
-
 cat > site.cfg <<EOF
-[atlas]
-libraries = lapack,f77blas,cblas,atlas
-include_dirs = $ATLAS_ROOT/include
-library_dirs = $ATLAS_ROOT/lib
+[DEFAULT]
+libraries = lapack,blas
+include_dirs = $LAPACK_ROOT/include
+library_dirs = $LAPACK_ROOT/lib
 EOF
 
 python setup.py build --fcompiler=gnu95
