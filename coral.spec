@@ -6,6 +6,7 @@ Patch3: coral-CORAL_2_3_20-hide-strict-aliasing
 Patch4: coral-CORAL_2_3_20-remove-lost-dependencies
 Patch5: coral-CORAL_2_3_21-move-to-libuuid
 Patch6: coral-CORAL_2_3_21-forever-ttl
+Patch7: coral-CORAL_2_3_21-fix-timestamp-format-sqlite
 
 %define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
@@ -26,6 +27,8 @@ Patch6: coral-CORAL_2_3_21-forever-ttl
 %define patchsrc6       %patch3 -p0
 %define patchsrc7       %patch4 -p0
 %define patchsrc9	%patch6 -p0
+%define patchsrc8	%patch7 -p1
+
 
 # Drop Oracle interface on ARM machines. 
 # Oracle does not provide Instant Client for ARMv7/v8.
