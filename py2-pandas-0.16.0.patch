@@ -1,0 +1,13 @@
+diff -Naur pandas-0.16.0-org/setup.py pandas-0.16.0/setup.py
+--- pandas-0.16.0-org/setup.py	2015-03-22 14:44:34.000000001 +0100
++++ pandas-0.16.0/setup.py	2015-05-02 14:14:14.000000001 +0200
+@@ -53,8 +53,7 @@
+     setuptools_kwargs = {
+         'install_requires': ['python-dateutil',
+                             'pytz >= 2011k',
+-                             'numpy >= %s' % min_numpy_ver],
+-        'setup_requires': ['numpy >= %s' % min_numpy_ver],
++                             ],
+         'zip_safe': False,
+     }
+ 
