@@ -25,4 +25,4 @@ python setup.py build
 
 python setup.py install --single-version-externally-managed --record=/dev/null --skip-build --prefix=%{i}
 
-find %{i}/${PYTHON_LIB_SITE_PACKAGES} -name '*.egg-info' -delete
+rm -rf %{i}/${PYTHON_LIB_SITE_PACKAGES}/*.egg-info
