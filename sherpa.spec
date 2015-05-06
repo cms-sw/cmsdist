@@ -6,7 +6,7 @@ Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export
 Requires: hepmc lhapdf blackhat sqlite fastjet openssl
 
 %if "%(case %cmsplatf in (slc*) echo true ;; (*) echo false ;; esac)" == "true"
-Requires: openloops
+#Requires: openloops
 %endif
 
 %if "%{?cms_cxx:set}" != "set"
