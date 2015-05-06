@@ -12,7 +12,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/py2-pandas.xml
   <client>
     <environment name="PY2_PANDAS_BASE" default="@TOOL_ROOT@"/>
   </client>
-  <runtime name="PATH" value="$PY2_PANDAS_BASE/bin" type="path"/>
   <runtime name="PYTHONPATH" value="$PY2_PANDAS_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   <use name="python"/>
   <use name="py2-numpy"/>
