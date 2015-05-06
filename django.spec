@@ -1,28 +1,23 @@
-### RPM cms t0_reqmon 1.0.6.pre7
+### RPM external django 1.4.13
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
-
-Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
-
-Requires: python rotatelogs
-BuildRequires: py2-setuptools py2-sphinx couchskel
+%define downloadn Django
+%define downloadd %(echo %realversion | awk -F. '{ print $1"."$2 }')
+Source: https://www.djangoproject.com/m/releases/%downloadd/%downloadn-%realversion.tar.gz
+Requires: python oracle oracle-env
 
 %prep
-%setup -b 0 -n %n
+%setup -n %downloadn-%realversion
 
 %build
-python setup.py build_system -s reqmon
+python setup.py build
 
 %install
-python setup.py install_system -s reqmon --prefix=%i
+python setup.py install --prefix=%i
+perl -p -i -e 's{.*}{#!/usr/bin/env python} if $. == 1 && m{#!.*/bin/python}' %i/bin/django-admin.py
 find %i -name '*.egg-info' -exec rm {} \;
 
-# Pick external dependencies from couchskel
-mkdir %i/data/couchapps/WMStats/vendor/
-cp -rp $COUCHSKEL_ROOT/data/couchapps/couchskel/vendor/{couchapp,jquery,datatables} \
-  %i/data/couchapps/WMStats/vendor/
-
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
-mkdir -p %i/etc/profile.d
+mkdir -p %i/etc/profile.d/
 : > %i/etc/profile.d/dependencies-setup.sh
 : > %i/etc/profile.d/dependencies-setup.csh
 for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
@@ -33,5 +28,5 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   fi
 done
 
-%post
-%{relocateConfig}etc/profile.d/dependencies-setup.*sh
+%files
+%{installroot}/%{pkgrel}/

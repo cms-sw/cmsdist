@@ -1,11 +1,10 @@
-### RPM external py2-nose 1.1.2
+### RPM external py2-nose 1.3.4
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
-Source: https://bitbucket.org/jpellerin/nose/get/af3d9e0d2299.tar.bz2
-#Source: http://pypi.python.org/packages/source/n/nose/nose-%{realversion}.tar.gz
+Source: http://pypi.python.org/packages/source/n/nose/nose-%{realversion}.tar.gz
 Requires: python
 
 %prep
-%setup -n jpellerin-nose-af3d9e0d2299
+%setup -n nose-%{realversion}
 
 %build
 python setup.py build
