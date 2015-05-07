@@ -74,7 +74,8 @@ export CPPFLAGS
 # Bugfix for dbm package. Use ndbm.h header and gdbm compatibility layer.
 sed -ibak "s/ndbm_libs = \[\]/ndbm_libs = ['gdbm', 'gdbm_compat']/" setup.py
 
-./configure --prefix=%i $additionalConfigureOptions --enable-shared
+./configure --prefix=%i --enable-shared \
+            --without-tkinter --disable-tkinter
 
 # Modify pyconfig.h to match macros from GLIBC features.h on Linux machines.
 # _POSIX_C_SOURCE and _XOPEN_SOURCE macros are not identical anymore
@@ -180,7 +181,7 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
   if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
     echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-    echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
+    echo "test X\$?$root = X1 || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
   fi
 done
 
