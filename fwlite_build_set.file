@@ -2,6 +2,7 @@ CommonTools/Statistics
 CommonTools/Utils
 CondFormats/L1TObjects
 CondFormats/RPCObjects
+CondFormats/Serialization
 DataFormats/BTauReco
 DataFormats/BeamSpot
 DataFormats/CLHEP
@@ -49,6 +50,7 @@ DataFormats/Math
 DataFormats/MuonData
 DataFormats/MuonDetId
 DataFormats/MuonReco
+DataFormats/MuonSeed
 DataFormats/ParticleFlowCandidate
 DataFormats/ParticleFlowReco
 DataFormats/PatCandidates
@@ -97,6 +99,7 @@ Fireworks/SimData
 Fireworks/TableWidget
 Fireworks/Tracks
 Fireworks/Vertices
+Geometry/CommonDetUnit
 PhysicsTools/FWLite
 PhysicsTools/SelectorUtils
 PhysicsTools/Utilities
