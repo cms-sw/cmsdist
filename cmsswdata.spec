@@ -17,6 +17,7 @@ Requires: data-RecoParticleFlow-PFProducer
 Requires: data-RecoMuon-MuonIdentification
 Requires: data-RecoMET-METPUSubtraction
 Requires: data-RecoEgamma-ElectronIdentification
+Requires: data-RecoEgamma-PhotonIdentification
 Requires: data-RecoJets-JetProducers
 Requires: data-CalibTracker-SiPixelESProducers
 Requires: data-CalibCalorimetry-CaloMiscalibTools
