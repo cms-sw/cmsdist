@@ -1,5 +1,5 @@
 diff --git a/lib/header.c b/lib/header.c
-index 77e2473..84e74e2 100644
+index 77e2473..5993660 100644
 --- a/lib/header.c
 +++ b/lib/header.c
 @@ -408,7 +408,7 @@ static int regionSwab(indexEntry entry, int il, int dl,
@@ -11,6 +11,15 @@ index 77e2473..84e74e2 100644
  	    }
  	}   break;
  	case RPM_INT32_TYPE:
+@@ -625,7 +625,7 @@ static void * doHeaderUnload(Header h,
+ 	    count = entry->info.count;
+ 	    src = entry->data;
+ 	    while (count--) {
+-		*((uint64_t *)te) = htonll(*((uint64_t *)src));
++		*((uint64_t *)te) = _htonll(*((uint64_t *)src));
+ 		te += sizeof(uint64_t);
+ 		src += sizeof(uint64_t);
+ 	    }
 diff --git a/lib/header_internal.c b/lib/header_internal.c
 index 382d898..a2fc130 100644
 --- a/lib/header_internal.c
