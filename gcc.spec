@@ -45,6 +45,11 @@ Source10: http://ftp.gnu.org/gnu/m4/m4-%m4Version.tar.gz
 Source11: http://garr.dl.sourceforge.net/project/flex/flex-%{flexVersion}.tar.bz2
 %endif
 
+%if %isdarwin
+Patch2: https://gmplib.org/repo/gmp/raw-rev/1fab0adc5ff7
+%endif
+
+
 %prep
 
 %setup -T -b 0 -n %{moduleName}
@@ -96,6 +101,9 @@ EOF_CMS_H
 
 # GCC prerequisites
 %setup -D -T -b 1 -n gmp-6.0.0
+%if %isdarwin 
+%patch2 -p1
+%endif
 %setup -D -T -b 2 -n mpfr-%{mpfrVersion}
 %setup -D -T -b 3 -n mpc-%{mpcVersion}
 %setup -D -T -b 4 -n isl-%{islVersion}
@@ -110,6 +118,7 @@ EOF_CMS_H
 %setup -D -T -b 10 -n m4-%{m4Version}
 %setup -D -T -b 11 -n flex-%{flexVersion}
 %endif
+
 
 %build
 %if %isdarwin
