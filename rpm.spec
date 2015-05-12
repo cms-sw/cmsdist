@@ -37,7 +37,7 @@ Patch12: rpm-4.8.0-fix-fontconfig-provides
 Patch13: rpm-4.8.0-fix-find-requires-limit
 Patch14: rpm-4.8.0-disable-internal-dependency-generator-libtool
 Patch15: rpm-4.8.0-fix-arm
-Patch16: rpm-4.8.0-htonll-fix.patch
+Patch16: rpm-4.8.0-htonll-fix
 
 # Defaults here
 %if %ismac
