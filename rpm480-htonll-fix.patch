@@ -1,0 +1,39 @@
+diff --git a/lib/header.c b/lib/header.c
+index 77e2473..84e74e2 100644
+--- a/lib/header.c
++++ b/lib/header.c
+@@ -408,7 +408,7 @@ static int regionSwab(indexEntry entry, int il, int dl,
+ 	    for (; ie.info.count > 0; ie.info.count--, it += 1) {
+ 		if (dataEnd && ((unsigned char *)it) >= dataEnd)
+ 		    return -1;
+-		*it = htonll(*it);
++		*it = _htonll(*it);
+ 	    }
+ 	}   break;
+ 	case RPM_INT32_TYPE:
+diff --git a/lib/header_internal.c b/lib/header_internal.c
+index 382d898..a2fc130 100644
+--- a/lib/header_internal.c
++++ b/lib/header_internal.c
+@@ -9,7 +9,7 @@
+ 
+ #include "debug.h"
+ 
+-uint64_t htonll( uint64_t n ) {
++uint64_t _htonll( uint64_t n ) {
+     uint32_t *i = (uint32_t*)&n;
+     uint32_t b = i[0];
+     i[0] = htonl(i[1]);
+diff --git a/lib/header_internal.h b/lib/header_internal.h
+index 8223e30..1133792 100644
+--- a/lib/header_internal.h
++++ b/lib/header_internal.h
+@@ -97,7 +97,7 @@ extern "C" {
+  * @return		number in network byte order
+  */
+ RPM_GNUC_INTERNAL
+-uint64_t htonll( uint64_t n );
++uint64_t _htonll( uint64_t n );
+ 
+ /** \ingroup header
+  * Set header instance (rpmdb record number)
