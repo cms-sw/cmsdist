@@ -101,7 +101,7 @@ EOF_CMS_H
 
 # GCC prerequisites
 %setup -D -T -b 1 -n gmp-6.0.0
-%if $isdarwin 
+%if %isdarwin 
 %patch2 -p1
 %endif
 %setup -D -T -b 2 -n mpfr-%{mpfrVersion}
