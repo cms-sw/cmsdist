@@ -83,6 +83,7 @@ CONFIG_ARGS="--enable-table
              --disable-qt
              --disable-qtgsi
              --disable-hdfs
+             --disable-vdt
              --disable-oracle ${EXTRA_CONFIG_ARGS}
              --enable-roofit"
 
