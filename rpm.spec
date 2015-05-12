@@ -37,6 +37,7 @@ Patch12: rpm-4.8.0-fix-fontconfig-provides
 Patch13: rpm-4.8.0-fix-find-requires-limit
 Patch14: rpm-4.8.0-disable-internal-dependency-generator-libtool
 Patch15: rpm-4.8.0-fix-arm
+Patch16: rpm-4.8.0-htonll-fix.patch
 
 # Defaults here
 %if %ismac
@@ -62,6 +63,7 @@ rm -rf lib/rpmhash.*
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
+%patch16 -p1
 
 %build
 case %cmsplatf in
@@ -70,6 +72,10 @@ case %cmsplatf in
     LIBS_PLATF="-ldl"
   ;;
   osx108_*_gcc4[789]*)
+    export CFLAGS_PLATF="-arch x86_64 -fPIC"
+    export LIBS_PLATF="-liconv"
+  ;;
+  osx110_amd64_gcc49*)
     export CFLAGS_PLATF="-arch x86_64 -fPIC"
     export LIBS_PLATF="-liconv"
   ;;
