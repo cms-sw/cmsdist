@@ -1,8 +1,8 @@
 ### RPM external xz-bootstrap 5.2.1
-Source0: http://tukaani.org/xz/xz-%{real_version}.tar.gz
+Source0: http://tukaani.org/xz/xz-%{realversion}.tar.gz
 
 %prep
-%setup -n xz-%{real_version}
+%setup -n xz-%{realversion}
 
 %build
 ./configure CFLAGS='-fPIC -Ofast' --prefix=%{i} --disable-static
