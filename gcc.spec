@@ -280,6 +280,19 @@ touch gcc/DEV-PHASE
 mkdir -p obj
 cd obj
 export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
+case %{cmsplatf} in 
+  osx1010*)
+../configure --prefix=%{i} --disable-multilib --disable-nls --with-system-zlib --disable-dssi \
+             --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES \
+             --enable-__cxa_atexit --disable-libunwind-exceptions --enable-gnu-unique-object \
+             --enable-plugin  --enable-linker-build-id \
+             $CONF_GCC_OS_SPEC $CONF_GCC_WITH_LTO --with-gmp=%{i} --with-mpfr=%{i} \
+             --with-mpc=%{i} --with-isl=%{i} --with-cloog=%{i} --enable-checking=release \
+             --build=%{_build} --host=%{_host} --enable-libstdcxx-time=rt $CONF_GCC_ARCH_SPEC \
+             --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
+             CFLAGS="-I%{i}/tmp/sw/include" CXXFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
+  ;;
+  *)
 ../configure --prefix=%{i} --disable-multilib --disable-nls --with-system-zlib --disable-dssi \
              --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES \
              --enable-__cxa_atexit --disable-libunwind-exceptions --enable-gnu-unique-object \
@@ -289,6 +302,8 @@ export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
              --build=%{_build} --host=%{_host} --enable-libstdcxx-time=rt $CONF_GCC_ARCH_SPEC \
              --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
              CFLAGS="-I%{i}/tmp/sw/include" CXXFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
+  ;;
+esac
 
 %if %isamd64
 make %{makeprocesses} profiledbootstrap
