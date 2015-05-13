@@ -1,8 +1,9 @@
-### RPM cms DCAFPilot 0.0.31
+### RPM cms DCAFPilot 0.1.9
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define pkg DCAFPilot
+#Source: git://github.com/dmwm/DMWMAnalytics.git?obj=master/%realversion&export=%pkg-%realversion&output=/%pkg-%{realversion}.tar.gz
 Source: git://github.com/dmwm/DMWMAnalytics.git?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
-Requires: python py2-numpy py2-scipy py2-scikit-learn py2-pymongo mongo xgboost vw
+Requires: python py2-numpy py2-pandas py2-scipy py2-scikit-learn py2-pymongo mongo xgboost vw cherrypy
 BuildRequires: py2-sphinx
 
 # RPM macros documentation
