@@ -144,6 +144,7 @@ Requires: eigen-toolfile
 Requires: gdb-toolfile
 Requires: py2-pytz-toolfile
 Requires: file-toolfile
+Requires: libxslt-toolfile
 
 # Only for Linux platform.
 %if %islinux
@@ -166,7 +167,7 @@ Requires: oracle-toolfile
 
 # Only for slc platforms.
 %if %isslc
-#Requires: openloops-toolfile
+Requires: openloops-toolfile
 %endif
 
 # Only for Linux platform.
