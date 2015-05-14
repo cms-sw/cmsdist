@@ -75,7 +75,7 @@ case %cmsplatf in
     export CFLAGS_PLATF="-arch x86_64 -fPIC"
     export LIBS_PLATF="-liconv"
   ;;
-  osx1010_amd64_gcc49*)
+  osx10A_amd64_gcc49*)
     export CFLAGS_PLATF="-arch x86_64 -fPIC"
     export LIBS_PLATF="-liconv"
   ;;
