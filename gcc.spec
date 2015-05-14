@@ -281,7 +281,7 @@ mkdir -p obj
 cd obj
 export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
 case %{cmsplatf} in 
-  osx1010*)
+  osx10*)
 ../configure --prefix=%{i} --disable-multilib --disable-nls --with-system-zlib --disable-dssi \
              --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES \
              --enable-__cxa_atexit --disable-libunwind-exceptions --enable-gnu-unique-object \
