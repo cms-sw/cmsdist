@@ -284,7 +284,7 @@ case %{cmsplatf} in
   osx10*)
 ../configure --prefix=%{i} --disable-libgcj --with-system-zlib\
              --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES \
-             --enable-__cxa_atexit --enable-threads=posix\
+             --enable-__cxa_atexit --enable-threads=posix --with-build-config=bootstrap-debug \
              --enable-plugin  --enable-stage1-checking \
              $CONF_GCC_OS_SPEC --enable-lto --with-gmp=%{i} --with-mpfr=%{i} \
              --with-mpc=%{i} --with-isl=%{i} --with-cloog=%{i} --enable-checking=release \
