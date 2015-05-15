@@ -45,6 +45,11 @@ Source10: http://ftp.gnu.org/gnu/m4/m4-%m4Version.tar.gz
 Source11: http://garr.dl.sourceforge.net/project/flex/flex-%{flexVersion}.tar.bz2
 %endif
 
+%if %isdarwin
+Patch2: https://gmplib.org/repo/gmp/raw-rev/1fab0adc5ff7
+%endif
+
+
 %prep
 
 %setup -T -b 0 -n %{moduleName}
@@ -96,6 +101,9 @@ EOF_CMS_H
 
 # GCC prerequisites
 %setup -D -T -b 1 -n gmp-6.0.0
+%if %isdarwin 
+%patch2 -p1
+%endif
 %setup -D -T -b 2 -n mpfr-%{mpfrVersion}
 %setup -D -T -b 3 -n mpc-%{mpcVersion}
 %setup -D -T -b 4 -n isl-%{islVersion}
@@ -110,6 +118,7 @@ EOF_CMS_H
 %setup -D -T -b 10 -n m4-%{m4Version}
 %setup -D -T -b 11 -n flex-%{flexVersion}
 %endif
+
 
 %build
 %if %isdarwin
@@ -271,6 +280,19 @@ touch gcc/DEV-PHASE
 mkdir -p obj
 cd obj
 export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
+case %{cmsplatf} in 
+  osx10*)
+../configure --prefix=%{i} --disable-multilib --disable-nls --with-system-zlib --disable-dssi \
+             --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES \
+             --enable-__cxa_atexit --disable-libunwind-exceptions --enable-gnu-unique-object \
+             --enable-plugin  --enable-linker-build-id \
+             $CONF_GCC_OS_SPEC $CONF_GCC_WITH_LTO --with-gmp=%{i} --with-mpfr=%{i} \
+             --with-mpc=%{i} --with-isl=%{i} --with-cloog=%{i} --enable-checking=release \
+             --build=%{_build} --host=%{_host} --enable-libstdcxx-time=rt $CONF_GCC_ARCH_SPEC \
+             --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
+             CFLAGS="-I%{i}/tmp/sw/include" CXXFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
+  ;;
+  *)
 ../configure --prefix=%{i} --disable-multilib --disable-nls --with-system-zlib --disable-dssi \
              --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES \
              --enable-__cxa_atexit --disable-libunwind-exceptions --enable-gnu-unique-object \
@@ -280,9 +302,15 @@ export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
              --build=%{_build} --host=%{_host} --enable-libstdcxx-time=rt $CONF_GCC_ARCH_SPEC \
              --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
              CFLAGS="-I%{i}/tmp/sw/include" CXXFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
+  ;;
+esac
 
 %if %isamd64
-make %{makeprocesses} profiledbootstrap
+  %if %isdarwin
+  make %{makeprocesses} bootstrap
+  %else
+  make %{makeprocesses} profiledbootstrap
+  %endif
 %else
 make %{makeprocesses} bootstrap
 %endif
