@@ -283,7 +283,7 @@ export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
 case %{cmsplatf} in 
   osx10*)
 ../configure --prefix=%{i} --disable-libgcj --with-system-zlib\
-             --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES \
+             --enable-languages=c,c++,fortran \
              --enable-__cxa_atexit --enable-threads=posix --with-build-config=bootstrap-debug \
              --enable-plugin  --enable-stage1-checking \
              $CONF_GCC_OS_SPEC --enable-lto --with-gmp=%{i} --with-mpfr=%{i} \
@@ -306,7 +306,7 @@ case %{cmsplatf} in
 esac
 
 %if %isamd64
-make %{makeprocesses} profiledbootstrap
+make %{makeprocesses} bootstrap
 %else
 make %{makeprocesses} bootstrap
 %endif
