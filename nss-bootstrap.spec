@@ -1,9 +1,10 @@
 ### RPM external nss-bootstrap 3.17.4
-%define release_version %(echo "%{realversion}" | tr . _)_RTM
-Source: https://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_%{release_version}/src/nss-%{realversion}.tar.gz
+%define tag 54d4a1c5f968f7d329c2d076bac2c54b6421ea71
+%define branch cms/v3.17.4
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/nss.git?obj=%{branch}/%{tag}&export=nss-%{realversion}&output=/nss-%{realversion}-%{tag}.tgz
+
 Requires: nspr-bootstrap sqlite-bootstrap
-Patch0: nss-3.17.4-sqlite
-Patch1: nss-3.17.4-zlib
 
 %define isamd64 %(case %{cmsplatf} in (*amd64*|*_mic_*) echo 1 ;; (*) echo 0 ;; esac)
 
@@ -11,8 +12,6 @@ Requires: zlib-bootstrap
 
 %prep
 %setup -n nss-%{realversion}
-%patch0 -p1
-%patch1 -p1
 
 %build
 export NSPR_INCLUDE_DIR="${NSPR_BOOTSTRAP_ROOT}/include/nspr"
