@@ -306,7 +306,11 @@ case %{cmsplatf} in
 esac
 
 %if %isamd64
-make %{makeprocesses} profiledbootstrap
+  %if %isdarwin
+  make %{makeprocesses} bootstrap
+  %else
+  make %{makeprocesses} profiledbootstrap
+  %endif
 %else
 make %{makeprocesses} bootstrap
 %endif
