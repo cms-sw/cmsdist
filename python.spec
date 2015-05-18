@@ -74,7 +74,8 @@ sed -ibak "s/ndbm_libs = \[\]/ndbm_libs = ['gdbm', 'gdbm_compat']/" setup.py
 # macros on Linux. The following problem does not exists on BSD machines as
 # cdefs.h does not define these macros.
 case %cmsplatf in
-  slc6*|fc*)
+  osx*) ;;
+  *)
     rm -f cms_configtest.cpp
     cat <<CMS_EOF > cms_configtest.cpp
 #include <features.h>

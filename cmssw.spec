@@ -1,10 +1,10 @@
-### RPM cms cmssw CMSSW_7_2_DEVEL_X_2014-07-08-0900
+### RPM cms cmssw CMSSW_7_5_X_2015-04-26-2300
 
 Requires: cmssw-tool-conf python cms-git-tools
 
 %define runGlimpse      yes
 %define saveDeps        yes
-%define branch          CMSSW_7_0_X
+%define branch          CMSSW_7_5_X
 %define gitcommit       %{realversion}
 # build with debug symbols, and package them in a separate rpm
 %define subpackageDebug yes
