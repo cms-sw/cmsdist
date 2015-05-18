@@ -7,10 +7,10 @@ Requires: git
 %install
 
 case "%{cmsplatf}" in
-  slc6*|fc*)
+  *)
     PERL5LIB_PATH=/share/perl5
     ;;
-  *)
+  osx*)
     PERL5LIB_PATH=/lib/perl5/site_perl
     ;;
 esac
