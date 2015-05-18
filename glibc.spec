@@ -1,10 +1,22 @@
-### RPM external glibc 2.12-1.149.el6
+### RPM external glibc 2.17-78.el7_2.12-1.149.el6
 ## NOCOMPILER
+
+%define isslc6 %(case %{cmsplatf} in (slc6*) echo 1 ;; (*) echo 0 ;; esac)
+%define isslc7 %(case %{cmsplatf} in (slc7*) echo 1 ;; (*) echo 0 ;; esac)
+
+%if %isslc7
+%define realversion 2.17-78.el7
+%define tag ffca09a735586cbe44d9e330dc4c94ce18fa6aa3
+%endif
+
+%if %isslc6
+%define realversion 2.12-1.149.el6
+%define tag 4bcf8ff366875ccd2ec8c45b63c0c482f07a24fb
+%endif
 
 %global official_version %(echo "%{realversion}" | cut -d'-' -f1)
 
-%define tag 4bcf8ff366875ccd2ec8c45b63c0c482f07a24fb
-%define branch cms/2.12-1.149.el6
+%define branch cms/%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/glibc.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
@@ -13,15 +25,15 @@ Source: git+https://github.com/%{github_user}/glibc.git?obj=%{branch}/%{tag}&exp
 
 %build
 
-rm -rf ../glibc-build
-mkdir ../glibc-build
-cd ../glibc-build
-../glibc-%{realversion}/configure \
+rm -rf ../%{n}-build
+mkdir ../%{n}-build
+cd ../%{n}-build
+../%{n}-%{realversion}/configure \
   CC=gcc \
   CXX=g++ \
   CFLAGS='-mtune=generic -fasynchronous-unwind-tables -DNDEBUG -g -O3' \
   --prefix=/usr \
-  --enable-add-ons=nptl,rtkaio,c_stubs,libidn \
+  --enable-add-ons=nptl,c_stubs,libidn \
   --without-cvs \
   --enable-kernel=2.6.18 \
   --with-headers=/usr/include \
@@ -37,7 +49,7 @@ cd ../glibc-build
 make %{makeprocesses}
 
 %install
-cd ../glibc-build
+cd ../%{n}-build
 make install install_root=%{i}
 
 # Remove everything except dynamic loader. All changes are contained
