@@ -1,4 +1,4 @@
-### RPM external tbb 43_20141023oss
+### RPM external tbb 43_20150316oss
 Source: https://www.threadingbuildingblocks.org/sites/default/files/software_releases/source/%{n}%{realversion}_src.tgz
 
 %if "%{?cms_cxx:set}" != "set"

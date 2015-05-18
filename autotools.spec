@@ -1,7 +1,8 @@
 ### RPM external autotools 1.1
 # We keep all of them together to simplify the "requires" statements.
-%define autoconf_version 2.68
-%define automake_version 1.11.4
+%define autoconf_version 2.69
+%define automake_version 1.12.2
+%define automake_maj %(echo %{automake_version} | cut -f1,2 -d.)
 %define libtool_version 2.4.2
 %define m4_version 1.4.17
 %define gettext_version 0.19.2
@@ -77,16 +78,16 @@ find %{i} -name '*deleteme' -delete
 echo "Foo"
 %post
 %{relocateConfig}bin/aclocal
-%{relocateConfig}bin/aclocal-1.11
+%{relocateConfig}bin/aclocal-%{automake_maj}
 %{relocateConfig}bin/autoconf
 %{relocateConfig}bin/autoheader
 %{relocateConfig}bin/autom4te
 %{relocateConfig}bin/automake
-%{relocateConfig}bin/automake-1.11
+%{relocateConfig}bin/automake-%{automake_maj}
 %{relocateConfig}bin/autoreconf
 %{relocateConfig}bin/autoscan
 %{relocateConfig}bin/autoupdate
 %{relocateConfig}bin/ifnames
 %{relocateConfig}bin/libtoolize
 %{relocateConfig}share/autoconf/autom4te.cfg
-%{relocateConfig}share/automake-1.11/Automake/Config.pm
+%{relocateConfig}share/automake-%{automake_maj}/Automake/Config.pm
