@@ -7,8 +7,7 @@
 %define ismac   %(case %{cmsplatf} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 # Warning! While rpm itself seems to work, at the time of writing it
 # does not seem to be possible to build apt-rpm with 
-Source: http://rpm.org/releases/rpm-%(echo %realversion | cut -f1,2 -d.).x/rpm-%{realversion}.tar.bz2
-
+Source:  https://github.com/cms-externals/rpm/archive/cms/v%{realversion}.tar.gz
 Requires: bootstrap-bundle
 BuildRequires: gcc
 
@@ -21,49 +20,13 @@ Provides: perl(Specfile)
 # In order to work around the problem, we add a fake Provides statement.
 Provides: perl(Module::ScanDeps::DataFeed)
 
-Patch0: rpm-4.8.0-case-insensitive-sources
-Patch1: rpm-4.8.0-add-missing-__fxstat64
-Patch2: rpm-4.8.0-fix-glob_pattern_p
-Patch3: rpm-4.8.0-remove-strndup
-Patch4: rpm-4.8.0-case-insensitive-fixes
-Patch5: rpm-4.8.0-allow-empty-buildroot
-Patch6: rpm-4.8.0-remove-chroot-check
-Patch7: rpm-4.8.0-fix-missing-libgen
-Patch8: rpm-4.8.0-fix-find-provides
-Patch9: rpm-4.8.0-increase-line-buffer
-Patch10: rpm-4.8.0-increase-macro-buffer
-Patch11: rpm-4.8.0-improve-file-deps-speed
-Patch12: rpm-4.8.0-fix-fontconfig-provides
-Patch13: rpm-4.8.0-fix-find-requires-limit
-Patch14: rpm-4.8.0-disable-internal-dependency-generator-libtool
-Patch15: rpm-4.8.0-fix-arm
-Patch16: rpm-4.8.0-htonll-fix
-
 # Defaults here
 %if %ismac
 Provides: Kerberos
 %endif
 
 %prep
-%setup -n %n-%realversion
-rm -rf lib/rpmhash.*
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
-%patch15 -p1
-%patch16 -p1
+%setup -n %n-cms-%realversion
 
 %build
 case %cmsplatf in
