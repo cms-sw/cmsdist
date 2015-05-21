@@ -38,10 +38,10 @@ case %cmsplatf in
       CMS_XCODE_ROOT="`xcode-select -print-path`"
     fi
     export PATH=$CMS_XCODE_ROOT/usr/bin:$PATH
-    export CXX="$CMS_XCODE_ROOT/usr/bin/llvm-g++-4.2"
-    export CC="$CMS_XCODE_ROOT/usr/bin/llvm-gcc-4.2"
-    export LD="$CMS_XCODE_ROOT/usr/bin/llvm-g++-4.2"
-    export LINK="$CMS_XCODE_ROOT/usr/bin/llvm-g++-4.2"
+    export CXX="/usr/bin/llvm-g++"
+    export CC="/usr/bin/llvm-gcc"
+    export LD="/usr/bin/llvm-g++"
+    export LINK="/usr/bin/llvm-g++"
   ;;
 esac
 
