@@ -26,7 +26,7 @@ Provides: Kerberos
 %endif
 
 %prep
-%setup -n %n-cms-%realversion
+%setup -n %n-cms-v%realversion
 
 %build
 case %cmsplatf in
