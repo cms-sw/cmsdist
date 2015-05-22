@@ -1,4 +1,4 @@
-### RPM external python 2.7.6
+### RPM external python 2.7.10
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 ## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib/python%{python_major_version}/site-packages
@@ -12,11 +12,12 @@ Requires: zlib sqlite readline ncurses
 
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, tk/tcl, x11
-%define tag 75d55971dbfa8a23c15cd0900c03655c692be767
-%define branch cms/v%realversion
+%define tag 623b5da98bfc6f0729e4b5da3273d736739e9147
+%define branch 2.7
 %define github_user cms-externals
-Source: git+https://github.com/%github_user/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-
+#Source: git+https://github.com/%github_user/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source: git+https://github.com/python/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+ 
 %prep
 %setup -n python-%realversion
 find . -type f | while read f; do
