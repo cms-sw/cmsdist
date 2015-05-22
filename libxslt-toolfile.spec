@@ -7,7 +7,7 @@ Requires: libxslt
 %install
 
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/libxml2.xml
+cat << \EOF_TOOLFILE >%i/etc/scram.d/libxslt.xml
 <tool name="libxslt" version="@TOOL_VERSION@">
   <info url="http://xmlsoft.org/libxslt"/>
   <lib name="xslt"/>
