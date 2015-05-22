@@ -19,7 +19,7 @@ done
 %install
 for d in ../logilab-common-* ../logilab-astng-* ../pylint-*; do
   cd $d
-  python setup.py install --prefix=%i
+  python setup.py install --single-version-externally-managed --record=/dev/null --prefix=%i
 done
 find %i -name '*.egg-info' -exec rm {} \;
 perl -p -i -e 's{^#!.*/python}{#!/usr/bin/env python}' %i/bin/*
