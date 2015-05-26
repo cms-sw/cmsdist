@@ -24,7 +24,6 @@ Requires: fakesystem
 Requires: fftw3-toolfile
 Requires: fwlitedata-toolfile
 Requires: gcc-toolfile
-Requires: gccxml-toolfile
 Requires: gdbm-toolfile
 Requires: gmake-toolfile
 Requires: gsl-toolfile
