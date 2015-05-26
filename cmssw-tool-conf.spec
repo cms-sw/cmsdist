@@ -28,7 +28,6 @@ Requires: expat-toolfile
 Requires: fakesystem
 Requires: fastjet-toolfile
 Requires: gcc-toolfile
-Requires: gccxml-toolfile
 Requires: gdbm-toolfile
 Requires: geant4-toolfile
 Requires: geant4data-toolfile
