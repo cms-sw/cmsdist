@@ -34,3 +34,7 @@ perl -p -i -e "s|LIBS = $|LIBS = -lHepMC|g" bin/Makefile
 make %makeprocesses all PYTHONPATH=${CYTHON_ROOT}/lib/python@PYTHONV@/site-packages
 %install
 make install PYTHONPATH=${CYTHON_ROOT}/lib/python@PYTHONV@/site-packages
+
+%post
+%{relocateConfig}bin/rivet-config
+%{relocateConfig}bin/rivet-buildplugin
