@@ -1,5 +1,5 @@
-### RPM external openloops 1.0.1
-%define tag d888f2705fbcd315d8cf5f290f73a524464698ed
+### RPM external openloops 1.1.1
+%define tag 8ed730c07acb10c8d26de6e93bc3fb30611e61e9
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/openloops.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -21,7 +21,7 @@ generic_optimisation = -O0
 born_optimisation = -O0
 EOF
 
-./scons auto=all/
+./openloops update --processes generator=0
 
 %install
 mkdir %i/{lib,proclib}
