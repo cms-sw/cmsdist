@@ -1,12 +1,12 @@
---- ../pythia8205/configure	2015-01-24 11:55:07.649516367 +0100
-+++ pythia8205/configure	2015-01-24 11:54:46.626182422 +0100
-@@ -209,7 +209,8 @@
+--- configure.old	2015-05-26 08:41:01.215854956 +0200
++++ configure	2015-05-26 08:46:18.751022652 +0200
+@@ -214,7 +214,8 @@
      if [ "$ARCH" = "LINUX" ];  then CXX_SHARED="-shared"; fi
-     if [ "$ARCH" = "DARWIN" ]; then 
+     if [ "$ARCH" = "DARWIN" ]; then
  	CXX_SHARED="-dynamiclib -flat_namespace"
 -	CXX_SHARED="$CXX_SHARED -undefined suppress -Qunused-arguments"; fi; fi
 +	CXX_SHARED="$CXX_SHARED -undefined suppress"
 +	if [[ "$(basename $CXX)" = *clang* ]]; then CXX_SHARED="$CXX_SHARED -Qunused-arguments"; fi; fi; fi
- if [ -z "$CXX_SONAME" ]; then 
+ if [ -z "$CXX_SONAME" ]; then
      if [ "$ARCH" = "LINUX" ];  then CXX_SONAME="-Wl,-soname"; fi
      if [ "$ARCH" = "DARWIN" ]; then CXX_SONAME="-Wl,-dylib_install_name"; fi; fi
