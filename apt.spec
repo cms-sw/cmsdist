@@ -4,8 +4,7 @@
 ## INITENV CMD_CSH if ( -f %{instroot}/common/apt-site-env.csh )  source %{instroot}/common/apt-site-env.csh; endif
 ## NOCOMPILER
 
-Source0: https://github.com/cms-sw/apt-rpm/archive/%{realversion}.tar.gz 
-#git://github.com/cms-sw/apt-rpm.git?obj=master/%{realversion}&export=apt-rpm-%{realversion}&output=/apt-rpm-%{realversion}.tgz
+Source0: git://github.com/cms-sw/apt-rpm.git?obj=master/%{realversion}&export=apt-rpm-%{realversion}&output=/apt-rpm-%{realversion}.tgz
 # svn://svn.github.com/ktf/apt-rpm.git?scheme=http&revision=%{realversion}&module=apt-rpm&output=/apt-rpm.tar.gz
 Source1: bootstrap
 Source2: http://search.cpan.org/CPAN/authors/id/T/TL/TLBDK/RPM-Header-PurePerl-1.0.2.tar.gz
