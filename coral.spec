@@ -9,7 +9,6 @@ Patch6: coral-CORAL_2_3_21-forever-ttl
 Patch7: coral-CORAL_2_3_21-fix-timestamp-format-sqlite
 Patch8: coral-CORAL_2_3_21-fix-timestamp-format-frontier-sqlite
 
-%define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 %define cvssrc          %{n}
@@ -19,24 +18,17 @@ Patch8: coral-CORAL_2_3_21-fix-timestamp-format-frontier-sqlite
 
 # Disable building tests, since they bring dependency on cppunit:
 %if %isdarwin
-%define patchsrc3       perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
-%define patchsrc        %patch0 -p1 
+%define patchsrc        perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
+%define patchsrc2       %patch0 -p1 
 %endif
 
-%define patchsrc4       %patch5 -p0
-%define patchsrc5       %patch2 -p0
-%define patchsrc6       %patch3 -p0
-%define patchsrc7       %patch4 -p0
-%define patchsrc9	%patch6 -p0
-%define patchsrc8	%patch7 -p1
-%define patchsrc9	%patch8 -p1
-
-
-# Drop Oracle interface on ARM machines. 
-# Oracle does not provide Instant Client for ARMv7/v8.
-%if %isarmv7
-%define patchsrc10       rm -rf ./src/OracleAccess
-%endif
+%define patchsrc3       %patch5 -p0
+%define patchsrc4       %patch2 -p0
+%define patchsrc5       %patch3 -p0
+%define patchsrc6       %patch4 -p0
+%define patchsrc7       %patch6 -p0
+%define patchsrc8       %patch7 -p1
+%define patchsrc9       %patch8 -p1
 
 %define source1 cvs://:pserver:anonymous@%{n}.cvs.cern.ch/cvs/%{n}?passwd=Ah<Z&force=1&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 
