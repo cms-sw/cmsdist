@@ -1,9 +1,10 @@
-### RPM lcg root 6.04.00
+### RPM lcg root 6.02.00
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag d19d6686be38452b1320d6821e481cfd9ca3ea80
-%define branch master
-Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+%define tag 444352723bba74e5b35162891d3904f06c7f6290
+%define branch cms/a79eb8a
+%define github_user cms-sw
+Source: git+https://github.com/%github_user/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
@@ -108,6 +109,7 @@ TARGET_PLATF=
   EXTRA_OPTS="${EXTRA_OPTS} --disable-rfio
                             --disable-builtin_afterimage
                             --disable-cocoa
+                            --disable-bonjour
                             --enable-x11"
 %endif
 
