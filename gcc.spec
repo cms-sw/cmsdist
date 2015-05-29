@@ -251,6 +251,22 @@ cd ../cloog-%{cloogVersion}
 make %{makeprocesses}
 make install
 
+# PG taken from http://git.sagemath.org/sage.git/tree/build/pkgs/gcc/spkg-install
+# which builds gcc 491 on OSX 10X
+# On OS X 10.9, g++ and the cdefs.h header are currently incompatible
+%if %isdarwin 
+    mkdir -p %{i}/tmp/sw/include/sys
+    sed 's+defined(__GNUC_STDC_INLINE__)+& \&\& !defined(__cplusplus)+' /usr/include/sys/cdefs.h > %{i}/tmp/sw/include/sys/cdefs.h
+    mkdir -p %{i}/include/sys
+    sed 's+defined(__GNUC_STDC_INLINE__)+& \&\& !defined(__cplusplus)+' /usr/include/sys/cdefs.h > %{i}/include/sys/cdefs.h
+
+# On OS X 10.10 there is random ObjC stuff in a C header
+    mkdir -p %{i}/tmp/sw/include/dispatch
+    sed 's+typedef void (\^dispatch_block_t)(void)+typedef void* dispatch_block_t+' /usr/include/dispatch/object.h > %{i}/tmp/sw/include/dispatch/object.h
+    mkdir -p %{i}/include/dispatch
+    sed 's+typedef void (\^dispatch_block_t)(void)+typedef void* dispatch_block_t+' /usr/include/dispatch/object.h > %{i}/include/dispatch/object.h
+%endif
+
 %if %isarmv7
 %if %iscpu_marvell
 %define armv7_fpu vfpv3
@@ -287,7 +303,7 @@ case %{cmsplatf} in
              --enable-__cxa_atexit --disable-libunwind-exceptions --enable-gnu-unique-object \
              --enable-plugin --enable-linker-build-id --with-build-config=bootstrap-debug \
              $CONF_GCC_OS_SPEC $CONF_GCC_WITH_LTO --with-gmp=%{i} --with-mpfr=%{i} \
-             --with-mpc=%{i} --with-isl=%{i} --with-cloog=%{i} --enable-checking=release \
+             --with-mpc=%{i} --with-isl=%{i} --with-cloog=%{i} --enable-checking=yes \
              --build=%{_build} --host=%{_host} --enable-libstdcxx-time=rt $CONF_GCC_ARCH_SPEC \
              --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
              CFLAGS="-I%{i}/tmp/sw/include" CXXFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
@@ -305,10 +321,10 @@ case %{cmsplatf} in
   ;;
 esac
 
-%if %isamd64
-make %{makeprocesses} bootstrap
+%if %isdarwin
+make %{makeprocesses} VERBOSE=1 
 %else
-make %{makeprocesses} bootstrap
+make %{makeprocesses} VERBOSE=1 bootstrap
 %endif
 make install
 

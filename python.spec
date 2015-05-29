@@ -1,10 +1,11 @@
-### RPM external python 2.7.10
+### RPM external python 2.7.6
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 ## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib/python%{python_major_version}/site-packages
 ## INITENV SETV PYTHONHASHSEED random
 # OS X patches and build fudging stolen from fink
 %{expand:%%define python_major_version %(echo %realversion | cut -d. -f1,2)}
+%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 Requires: expat bz2lib db4 gdbm openssl
 
@@ -12,12 +13,12 @@ Requires: zlib sqlite readline ncurses
 
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, tk/tcl, x11
-%define tag 623b5da98bfc6f0729e4b5da3273d736739e9147
-%define branch 2.7
+%define tag 75d55971dbfa8a23c15cd0900c03655c692be767
+%define branch cms/v%realversion
 %define github_user cms-externals
-#Source: git+https://github.com/%github_user/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-Source: git+https://github.com/python/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
- 
+Source: git+https://github.com/%github_user/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+#Source: git+https://github.com/python/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+
 %prep
 %setup -n python-%realversion
 find . -type f | while read f; do
@@ -66,7 +67,11 @@ export CPPFLAGS
 # Bugfix for dbm package. Use ndbm.h header and gdbm compatibility layer.
 sed -ibak "s/ndbm_libs = \[\]/ndbm_libs = ['gdbm', 'gdbm_compat']/" setup.py
 
-./configure --prefix=%i $additionalConfigureOptions --enable-shared
+%if %isdarwin
+%define extraConfigureOptions --disable-toolbox-glue 
+%endif
+
+./configure --prefix=%i $additionalConfigureOptions %extraConfigureOptions --enable-shared
 
 # Modify pyconfig.h to match macros from GLIBC features.h on Linux machines.
 # _POSIX_C_SOURCE and _XOPEN_SOURCE macros are not identical anymore
