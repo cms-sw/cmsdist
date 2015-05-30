@@ -1,4 +1,4 @@
-### RPM external pythia8 205
+### RPM external pythia8 209
 
 Requires: hepmc lhapdf
 
@@ -13,13 +13,11 @@ Patch1: pythia8-205-fix-matching
 
 %prep
 %setup -q -n %{n}%{realversion}
-%patch0 -p2
+%patch0 -p0
 %patch1 -p2
  
 export USRCXXFLAGS="%cms_cxxflags"
-export HEPMCLOCATION=${HEPMC_ROOT}  
-export HEPMCVERSION=${HEPMC_VERSION}
-./configure --prefix=%i --enable-shared --with-hepmc2=${HEPMC_ROOT} --with-lhapdf6=${LHAPDF_ROOT} --with-boost=${BOOST_ROOT}
+./configure --prefix=%i --enable-shared --with-hepmc2=${HEPMC_ROOT} --with-lhapdf6=${LHAPDF_ROOT}
 
 %build
 make %makeprocesses
