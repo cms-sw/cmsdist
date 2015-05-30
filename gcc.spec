@@ -322,9 +322,9 @@ case %{cmsplatf} in
 esac
 
 %if %isdarwin
-make %{makeprocesses} VERBOSE=1 
+make %{makeprocesses}  
 %else
-make %{makeprocesses} VERBOSE=1 bootstrap
+make %{makeprocesses} profiledbootstrap
 %endif
 make install
 
