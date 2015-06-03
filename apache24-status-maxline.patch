@@ -1,0 +1,22 @@
+--- modules/generators/mod_status.c.orig	2015-05-19 09:46:35.000000000 +0200
++++ modules/generators/mod_status.c	2015-05-19 09:47:10.000000000 +0200
+@@ -72,7 +72,7 @@
+ #include "apr_want.h"
+ #include "apr_strings.h"
+ 
+-#define STATUS_MAXLINE 64
++#define STATUS_MAXLINE 128
+ 
+ #define KBYTE 1024
+ #define MBYTE 1048576L
+--- include/scoreboard.h.orig	2015-05-19 12:40:45.000000000 +0200
++++ include/scoreboard.h	2015-05-19 12:41:00.000000000 +0200
+@@ -113,7 +113,7 @@
+     struct tms times;
+ #endif
+     char client[32];            /* Keep 'em small... */
+-    char request[64];           /* We just want an idea... */
++    char request[128];           /* We just want an idea... */
+     char vhost[32];             /* What virtual host is being accessed? */
+ };
+ 

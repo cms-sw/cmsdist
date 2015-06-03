@@ -1,4 +1,4 @@
-### RPM external yuicompressor 2.4.6
+### RPM external yuicompressor 2.4.7
 ## INITENV SET YUICOMPRESSOR %i/build/%n-%{realversion}.jar 
 ## NOCOMPILER
 

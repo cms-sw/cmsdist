@@ -1,23 +1,26 @@
-### RPM external py2-lint 0.25.1
+### RPM external py2-lint 1.3.1
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
-Source0: http://download.logilab.org/pub/common/logilab-common-0.57.1.tar.gz
-Source1: http://download.logilab.org/pub/astng/logilab-astng-0.23.1.tar.gz
-Source2: http://download.logilab.org/pub/pylint/pylint-%{realversion}.tar.gz
+Source0: https://pypi.python.org/packages/source/l/logilab-common/logilab-common-0.63.2.tar.gz
+Source1: https://bitbucket.org/logilab/astroid/get/astroid-1.2.1.tar.gz
+Source2: https://pypi.python.org/packages/source/p/pylint/pylint-%{realversion}.zip
 Requires: python
+BuildRequires: py2-setuptools
 
 %prep
-%setup -T -b 0 -n logilab-common-0.57.1
-%setup -D -T -b 1 -n logilab-astng-0.23.1
+%setup -T -b 0 -n logilab-common-0.63.2
+%setup -D -T -b 1 -n logilab-astroid-315668c10333
 %setup -D -T -b 2 -n pylint-%{realversion}
 
 %build
-for d in ../logilab-common-* ../logilab-astng-* ../pylint-*; do
+for d in ../logilab-common-* ../logilab-astroid-* ../pylint-*; do
   cd $d
   python setup.py build
 done
 
 %install
-for d in ../logilab-common-* ../logilab-astng-* ../pylint-*; do
+mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
+PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH
+for d in ../logilab-common-* ../logilab-astroid-* ../pylint-*; do
   cd $d
   python setup.py install --prefix=%i
 done
