@@ -283,7 +283,7 @@ for DIR in $ELF_DIRS $DROP_SYMBOLS_DIRS; do
   ELF_BINS=$(file * | grep ELF | cut -d':' -f1)
   if [ ! -z "$ELF_BINS" ]; then
     if [ $(echo $ELF_BINS | wc -w) -gt 1 ] ; then
-      dwz -m .debug/common-symbols.debug -M common-symbols.debug $ELF_BINS
+      dwz -m .debug/common-symbols.debug -M common-symbols.debug $ELF_BINS || true
     fi
     echo "$ELF_BINS" | xargs -t -n1 -P%{compiling_processes} -I% sh -c 'objcopy --compress-debug-sections --only-keep-debug % .debug/%.debug; objcopy --strip-debug --add-gnu-debuglink=.debug/%.debug %'
   fi
