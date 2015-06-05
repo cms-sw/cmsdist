@@ -1,4 +1,4 @@
-### RPM cms icc-gcc-toolfile 2.0
+### RPM cms icc-gcc-toolfile 3.0
 
 Requires: gcc-toolfile
 Requires: icc-scram
@@ -28,6 +28,7 @@ fi
 export ICC_ROOT=$ICC_SCRAM_ROOT
 export ICC_VERSION=ICC_SCRAM_VERSION
 export GCC_ROOT
+export INTEL_LICENSE_FILE
 
 mkdir -p %i/etc/scram.d
 # Generic template for the toolfiles. 
@@ -69,7 +70,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
     <runtime name="PATH" value="$ICC_CXXCOMPILER_BASE/%{iccbin_dir}" type="path" handler="warn"/>
     <runtime name="COMPILER_RUNTIME_OBJECTS" value="@GCC_ROOT@" handler="warn"/>
     <runtime name="INTEL_LICENSE_FILE" value="28518@AT@lxlic01.cern.ch,28518@AT@lxlic02.cern.ch,28518@AT@lxlic03.cern.ch" type="path" handler="warn"/>
-    <runtime name="INTEL_LICENSE_FILE" value="$ICC_CXXCOMPILER_BASE/licenses" type="path" handler="warn"/>
+    <runtime name="INTEL_LICENSE_FILE" value="@INTEL_LICENSE_FILE@" type="path" handler="warn"/>
     <runtime name="INTEL_LICENSE_FILE" value="/opt/intel/licenses" type="path" handler="warn"/>
   </tool>
 EOF_TOOLFILE
