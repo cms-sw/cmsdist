@@ -7,7 +7,6 @@
 %define isDarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 Source0: https://github.com/git/git/archive/v%{realversion}.tar.gz
-Patch1: git-1.8.3.1-no-symlink
 
 %define curl_tag curl-7_31_0
 Source1: https://raw.github.com/bagder/curl/%{curl_tag}/lib/mk-ca-bundle.pl
@@ -32,7 +31,6 @@ Provides: perl(Time::HiRes)
 
 %prep
 %setup -b 0 -n %{n}-%{realversion}
-%patch1 -p1
 
 %build
 make prefix=%{i} \
@@ -77,6 +75,8 @@ make prefix=%{i} \
      LIBPCREDIR="${PCRE_ROOT}" \
      NO_PYTHON=1 \
      V=1 \
+     NO_CROSS_DIRECTORY_HARDLINKS=1 \
+     NO_INSTALL_HARDLINKS=1 \
      %{makeprocesses} \
      install
 
