@@ -1,5 +1,5 @@
-### RPM external madgraph5_amcatnlo 2.2.3
-%define versiontag 2_2_3
+### RPM external madgraph5_amcatnlo 2.3.0.beta
+%define versiontag 2_3_0_beta
 Source: https://launchpad.net/mg5amcnlo/2.0/2.2.0/+download/MG5_aMC_v%{realversion}.tar.gz
 Patch0: madgraph5amcatnlo-config
 
