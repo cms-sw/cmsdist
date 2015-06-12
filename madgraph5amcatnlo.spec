@@ -5,11 +5,6 @@ Patch0: madgraph5amcatnlo-config
 
 Requires: python 
 Requires: hepmc
-# Further requirements are more or less optional, however, convenient
-Requires: pythia8
-Requires: herwigpp
-Requires: lhapdf
-Requires: fastjet
 %prep
 %setup -n MG5_aMC_v%{versiontag}
 
@@ -18,4 +13,4 @@ Requires: fastjet
 %build
 
 %install
-
+rsync -avh %{_builddir}/MG5_aMC_v%{versiontag}/ %{i}/
