@@ -13,6 +13,7 @@ BuildRequires: cmake ninja file
 Requires: gsl libjpg libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib
 
 Patch0: root-6.04.00-fix-cmake-opengl
+Patch1: root-6.04.00-fix-cmake-openssl
 
 %if %islinux
 Requires: castor dcap
@@ -32,6 +33,7 @@ Requires: freetype
 %prep
 %setup -n %{n}-%{realversion}
 %patch0 -p1
+%patch1 -p1
 
 %build
 rm -rf ../build
