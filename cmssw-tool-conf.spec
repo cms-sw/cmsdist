@@ -144,6 +144,7 @@ Requires: gdb-toolfile
 Requires: py2-pytz-toolfile
 Requires: file-toolfile
 Requires: libxslt-toolfile
+Requires: giflib-toolfile
 
 # Only for Linux platform.
 %if %islinux
