@@ -5,10 +5,12 @@ Source: https://pypi.python.org/packages/source/S/SQLAlchemy/SQLAlchemy-%{realve
 Requires: python 
 
 Patch0: py2-sqlalchemy-0.8.2-add-frontier-dialect
+Patch1: py2-sqlalchemy-0.8.2-fix-sqlite-dialect-timestamp
 
 %prep
 %setup -n SQLAlchemy-%{realversion}
 %patch0 -p1
+%patch1 -p1
 
 %build
 python setup.py build
