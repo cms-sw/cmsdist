@@ -29,6 +29,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/root_interface.xml
   <runtime name="PATH"               value="$ROOT_INTERFACE_BASE/bin" type="path"/>
   <runtime name="PYTHONPATH"         value="$ROOT_INTERFACE_BASE/lib" type="path"/>
   <runtime name="ROOTSYS"            value="$ROOT_INTERFACE_BASE/"/>
+  <runtime name="ROOT_TTREECACHE_SIZE" value="0"/>
+  <runtime name="ROOT_TTREECACHE_PREFILL" value="0"/>
   <runtime name="ROOT_INCLUDE_PATH"  value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
 </tool>
