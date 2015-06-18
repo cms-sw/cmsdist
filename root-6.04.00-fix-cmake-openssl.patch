@@ -1,0 +1,87 @@
+diff --git a/net/auth/CMakeLists.txt b/net/auth/CMakeLists.txt
+index 7dd06c7..9f58cf6 100644
+--- a/net/auth/CMakeLists.txt
++++ b/net/auth/CMakeLists.txt
+@@ -28,6 +28,10 @@ add_library(rsa STATIC ${CMAKE_CURRENT_SOURCE_DIR}/src/rsaaux.cxx
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/rsafun.cxx)
+ add_dependencies(rsa move_headers)
+ 
++if(OPENSSL_INCLUDE_DIR)
++include_directories(${OPENSSL_INCLUDE_DIR})
++endif()
++
+ ROOT_GENERATE_DICTIONARY(G__RootAuth ${headers} MODULE RootAuth LINKDEF LinkDefRoot.h)
+ ROOT_LINKER_LIBRARY(RootAuth ${sources} G__RootAuth.cxx LIBRARIES ${CRYPTLIBS} DEPENDENCIES Net RIO )
+ 
+diff --git a/net/globusauth/CMakeLists.txt b/net/globusauth/CMakeLists.txt
+index 9999378..41e408f 100644
+--- a/net/globusauth/CMakeLists.txt
++++ b/net/globusauth/CMakeLists.txt
+@@ -7,5 +7,9 @@ ROOT_USE_PACKAGE(net/auth)
+ 
+ include_directories(${GLOBUS_INCLUDE_DIRS})
+ 
++if(OPENSSL_INCLUDE_DIR)
++include_directories(${OPENSSL_INCLUDE_DIR})
++endif()
++
+ ROOT_LINKER_LIBRARY(GlobusAuth *.cxx  LIBRARIES Core ${GLOBUS_LIBRARIES} ${OPENSSL_LIBRARIES} DEPENDENCIES RootAuth Net)
+ ROOT_INSTALL_HEADERS()
+diff --git a/net/http/CMakeLists.txt b/net/http/CMakeLists.txt
+index a2580c2..4fcc8aa 100644
+--- a/net/http/CMakeLists.txt
++++ b/net/http/CMakeLists.txt
+@@ -37,13 +37,17 @@ if(FASTCGI_INCLUDE_DIR AND FASTCGI_LIBRARY)
+ include_directories(${FASTCGI_INCLUDE_DIR})
+ endif()
+ 
++if(OPENSSL_INCLUDE_DIR)
++include_directories(${OPENSSL_INCLUDE_DIR})
++endif()
++
+ if(NOT FASTCGI_INCLUDE_DIR OR NOT FASTCGI_LIBRARY)
+ set(FASTCGI_LIBRARY "")
+ add_definitions(-DHTTP_WITHOUT_FASTCGI)
+ endif()
+ 
+ ROOT_GENERATE_DICTIONARY(G__RHTTP ${headers} MODULE RHTTP LINKDEF LinkDef.h)
+-ROOT_LINKER_LIBRARY(RHTTP ${sources} G__RHTTP.cxx LIBRARIES ${SYSLIBS} ${ZLIB_LIBRARY} ${FASTCGI_LIBRARY} DEPENDENCIES Thread Tree Hist Gpad Graf RIO XMLIO)
++ROOT_LINKER_LIBRARY(RHTTP ${sources} G__RHTTP.cxx LIBRARIES ${SYSLIBS} ${ZLIB_LIBRARY} ${FASTCGI_LIBRARY} ${OPENSSL_LIBRARIES} DEPENDENCIES Thread Tree Hist Gpad Graf RIO XMLIO)
+ 
+ 
+ ROOT_INSTALL_HEADERS()
+diff --git a/net/net/CMakeLists.txt b/net/net/CMakeLists.txt
+index 9ef4c35..1bebab5 100644
+--- a/net/net/CMakeLists.txt
++++ b/net/net/CMakeLists.txt
+@@ -16,6 +16,9 @@ if(NOT ssl)
+ else()
+   set(ssllib ${OPENSSL_LIBRARIES})
+   add_definitions(-DR__SSL)
++  if(OPENSSL_INCLUDE_DIR)
++  include_directories(${OPENSSL_INCLUDE_DIR})
++  endif()
+ endif()
+ 
+ if(NOT ssl OR NOT CRYPTLIBS)
+diff --git a/net/rpdutils/CMakeLists.txt b/net/rpdutils/CMakeLists.txt
+index 2a84432..b13a4c3 100644
+--- a/net/rpdutils/CMakeLists.txt
++++ b/net/rpdutils/CMakeLists.txt
+@@ -28,6 +28,9 @@ if(shadowpw)
+   add_definitions(-DR__SHADOWPW)
+ endif()
+ 
++if(OPENSSL_INCLUDE_DIR)
++include_directories(${OPENSSL_INCLUDE_DIR})
++endif()
+ 
+ #---static library needed for rootd and proofd --------------------------------------------
+ add_library(rpdutil STATIC ${rpdutilsrcs})
+@@ -35,4 +38,4 @@ add_dependencies(rpdutil move_headers)
+ 
+ ROOT_LINKER_LIBRARY(SrvAuth rpdutils.cxx ssh.cxx LIBRARIES rpdutil rsa ${CRYPTLIBS} ${GLOBUS_LIBRARIES} ${OPENSSL_LIBRARIES} DEPENDENCIES Net)
+ 
+-ROOT_INSTALL_HEADERS()
+\ No newline at end of file
++ROOT_INSTALL_HEADERS()

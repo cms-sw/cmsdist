@@ -6,8 +6,8 @@ Patch3: coral-CORAL_2_3_20-hide-strict-aliasing
 Patch4: coral-CORAL_2_3_20-remove-lost-dependencies
 Patch5: coral-CORAL_2_3_21-move-to-libuuid
 Patch6: coral-CORAL_2_3_21-forever-ttl
-Patch7: coral-CORAL_2_3_21-fix-timestamp-format-sqlite
-Patch8: coral-CORAL_2_3_21-fix-timestamp-format-frontier-sqlite
+Patch7: coral-CORAL_2_3_21-fix-timestamp-sqlite
+Patch8: coral-CORAL_2_3_21-fix-timestamp-frontier
 
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
