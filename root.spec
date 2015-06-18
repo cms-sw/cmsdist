@@ -1,7 +1,7 @@
 ### RPM lcg root 6.04.01
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 4d4aacf23a53a058176518460b7f873c327e1f6e
+%define tag 18d2af2502e255a4bfa4545485eae8d9d1654be8
 %define branch v6-04-00-patches
 Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
