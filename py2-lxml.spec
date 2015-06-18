@@ -2,12 +2,13 @@
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source: http://codespeak.net/lxml/lxml-%{realversion}.tgz
-Requires: python libxml2 libxslt
+Requires: python libxml2 libxslt zlib
 
 %prep
 %setup -n lxml-%realversion
 
 %build
+export LDFLAGS="-L $ZLIB_ROOT/lib $LDFLAGS"
 python setup.py build
 
 %install

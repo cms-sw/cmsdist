@@ -9,7 +9,7 @@ Patch3: bigcouch-ssl-replication
 # Although there is no technical software dependency,
 # couchapp was included because all CMS applications will need it.
 Requires: curl spidermonkey openssl icu4c erlang couchapp python
-BuildRequires: autotools 
+BuildRequires: autotools gcc scons
 
 %prep
 %setup -n bigcouch-bigcouch-%realversion
@@ -73,12 +73,12 @@ export CFLAGS="-I ${ICU4C_ROOT}/include -I ${SPIDERMONKEY_ROOT}/include -I ${CUR
 export LDFLAGS="-L ${ICU4C_ROOT}/lib -L ${SPIDERMONKEY_ROOT}/lib -L ${CURL_ROOT}/lib $LDFLAGS"
 export CXXFLAGS=" -I ${ICU4C_ROOT}/include -I ${SPIDERMONKEY_ROOT}/include -I ${CURL_ROOT}/include -L ${ICU4C_ROOT}/lib -L ${SPIDERMONKEY_ROOT}/lib -L ${CURL_ROOT}/lib $CXXFLAGS"
 export CPPFLAGS=$CXXFLAGS
-#--with-js-lib=$SPIDERMONKEY_ROOT/lib --with-js-include=$SPIDERMONKEY_ROOT/include --with-erlang=$ERLANG_ROOT/lib/erlang/usr/include --with-icu4c=$ICU4C_ROOT
 
 # Couchjs is built with scons, change those parts too
 sed -i 's#@cat $(appfile) | sed s/%VSN%/`git describe --match 1.*`/ > $(appfile)#@sed -i s/%VSN%/BigCouchTarball/ $(appfile) ; cat $(appfile)#' Makefile
 sed -i 's#./rebar#./rebar verbose=1#g' Makefile
 sed -i "s#python scons/scons.py#python scons/scons.py spiderLib=${SPIDERMONKEY_ROOT}/lib spiderInclude=${SPIDERMONKEY_ROOT}/include curlLib=${CURL_ROOT}/lib curlInclude=${CURL_ROOT}/include#g" Makefile
+sed -i 's#env = Environment(#env = Environment(ENV = os.environ, #g' couchjs/c_src/SConscript
 
 (
 # We can't patch this earlier because ./configure downloads these deps
@@ -89,7 +89,6 @@ patch -p1 < bigcouch-add-cmsauth-to-chttpd
 )
 
 make %makeprocesses
-pwd
 (
 # create node for bigcouch
 cd rel

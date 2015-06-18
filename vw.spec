@@ -3,13 +3,13 @@
 
 %define pkg vw
 Source: git://github.com/JohnLangford/vowpal_wabbit?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
-Requires: boost autotools
+Requires: boost autotools zlib
 
 %prep
 %setup -n %pkg
 
 %build
-./configure --prefix=%i --with-boost=$BOOST_ROOT
+./configure --prefix=%i --with-boost=$BOOST_ROOT --with-zlib=$ZLIB_ROOT
 make
 
 %install
