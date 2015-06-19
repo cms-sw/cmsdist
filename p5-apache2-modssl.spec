@@ -10,6 +10,6 @@ Requires: mod_perl2 p5-extutils-makemaker
 %build
 export LC_ALL=C
 perl Makefile.PL INSTALL_BASE=%i
-make PASTHRU_INC=-I$MOD_PERL2_ROOT/include
+make %{makeprocesses} PASTHRU_INC=-I$MOD_PERL2_ROOT/include
 
 %define drop_files %i/man

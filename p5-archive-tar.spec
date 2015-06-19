@@ -10,6 +10,6 @@ Requires: p5-extutils-makemaker p5-io-zlib p5-package-constants
 %build
 LC_ALL=C; export LC_ALL
 perl Makefile.PL INSTALL_BASE=%i
-make
+make %{makeprocesses}
 
 %define drop_files %i/man

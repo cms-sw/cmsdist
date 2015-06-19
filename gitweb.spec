@@ -13,7 +13,7 @@ BuildRequires: autotools
 %build
 make configure
 ./configure --prefix=%i
-make gitweb
+make %{makeprocesses} gitweb
 
 %install
 make gitwebdir=%i/htdocs/gitweb install-gitweb

@@ -10,6 +10,6 @@ Requires: p5-extutils-makemaker p5-dbi p5-digest-sha1
 %build
 export LC_ALL=C
 perl Makefile.PL INSTALL_BASE=%i
-make
+make %{makeprocesses}
 
 %define drop_files %i/man

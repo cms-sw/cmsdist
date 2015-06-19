@@ -3,12 +3,16 @@
 %define downloadn MySQL-python
 
 Source: https://pypi.python.org/packages/source/M/MySQL-python/%downloadn-%realversion.tar.gz
-Requires: python mariadb
+Requires: python mariadb openssl
 Patch0: py2-mysqldb-setup
 
 %prep
 %setup -n %downloadn-%realversion
 %patch0 -p0
+cat >> setup.cfg <<- EOF
+include_dirs = $MARIADB_ROOT/include:$OPENSSL_ROOT/include
+library_dirs = $MARIADB_ROOT/lib:$OPENSSL_ROOT/lib
+EOF
 
 %build
 python setup.py build

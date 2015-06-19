@@ -8,7 +8,7 @@ Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&expo
 
 BuildRequires: cmake
 Requires: zlib
-Requires: openssl
+Requires: openssl libevent
 
 %if "%{?cms_cxxflags:set}" != "set"
 %define cms_cxxflags -std=c++0x -O2
@@ -34,13 +34,17 @@ cd build
 # libfuse and libperl are not produced by CMSDIST.
 cmake ../ \
   -DCMAKE_INSTALL_PREFIX=%{i} \
-  -DOPENSSL_ROOT_DIR:PATH=${OPENSSL_ROOT} \
-  -DZLIB_ROOT:PATH=${ZLIB_ROOT} \
-  -DENABLE_PERL=FALSE \
-  -DENABLE_FUSE=FALSE \
-  -DENABLE_KRB5=TRUE \
-  -DENABLE_READLINE=FALSE \
-  -DENABLE_CRYPTO=TRUE \
+  -DZLIB_LIBRARY=${ZLIB_ROOT}/lib/libz.so \
+  -DZLIB_INCLUDE_DIR=${ZLIB_ROOT}/include \
+  -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT} \
+  -DLIBEVENT_LIB=${LIBEVENT_ROOT}/lib/libevent.so \
+  -DLIBEVENT_INCLUDE_DIR=${LIBEVENT_ROOT}/include \
+  -DLIBEVENTPTHREADS_LIB=${LIBEVENT_ROOT}/lib/libevent_pthreads.so \
+  -DLIBEVENTPTHREADS_INCLUDE_DIR=${LIBEVENT_ROOT}/include \
+  -DENABLE_FUSE=0 \
+  -DENABLE_KRB5=1 \
+  -DENABLE_READLINE=0 \
+  -DENABLE_CRYPTO=1 \
   -DCMAKE_SKIP_RPATH=TRUE \
   -DCMAKE_CXX_FLAGS="%{cms_cxxflags}"
 

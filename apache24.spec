@@ -7,6 +7,7 @@ Source1: http://wwwftp.ciril.fr/pub/apache//apr/apr-1.5.1.tar.gz
 Source2: http://wwwftp.ciril.fr/pub/apache//apr/apr-util-1.5.4.tar.gz
 Patch1: apache24-ssl-report-cert
 Patch2: apache24-gsi
+Patch3: apache24-status-maxline
 
 %prep
 %setup -T -b 1 -n apr-1.5.1
@@ -14,6 +15,7 @@ Patch2: apache24-gsi
 %setup -n httpd-%apversion
 %patch1 -p0
 %patch2 -p0
+%patch3 -p0
 
 %build
 cp -rp ../apr-1.5.1/ ./srclib/apr/

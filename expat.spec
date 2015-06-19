@@ -9,7 +9,7 @@ Provides: libc.so.6(GLIBC_2.2.5)(64bit)
 
 %build
 ./configure --prefix=%{i} 
-make 
+make %{makeprocesses}
 make install
 
 %install

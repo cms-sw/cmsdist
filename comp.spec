@@ -1,4 +1,4 @@
-### RPM cms comp HG1505c
+### RPM cms comp HG1507a
 
 # This is a meta-package to group all cms comp services
 # CMSWEB
@@ -8,7 +8,7 @@ Requires: dbs3-client stagemanager-agent crabserver crabclient crabcache
 Requires: DMWMMON-datasvc alertscollector acdcserver gitweb
 Requires: asyncstageout t0wmadatasvc dbs3-migration t0_reqmon reqmgr2
 Requires: cmsweb-analytics py2-geoip py2-adns py2-netaddr valgrind igprof yui3
-Requires: popdbweb victorweb
+Requires: popdbweb victorweb confdb
 # CMSFOMON
 Requires: crabhb happyface sreadiness mechanize
 # Common
@@ -16,7 +16,8 @@ Requires: rotatelogs pystack py2-psutil wmcore-devtools
 # Other
 Requires: wmagent-dev condor crabtaskworker t0 couchdb15
 Requires: PHEDEX-combined-agents PHEDEX-lifecycle lifecycle-das
-Requires: DCAFPilot
+Requires: DCAFPilot py2-future
+
 
 %prep
 %build

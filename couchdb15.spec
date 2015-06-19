@@ -56,10 +56,6 @@ perl -p -i -e 's{-licuuc -licudt -licuin}{-licui18n -licuuc -licudata}g;' config
 # they used --with-win32-icu-binaries which mostly the same
 export CURL_ROOT SPIDERMONKEY_ROOT OPENSSL_ROOT ICU4C_ROOT ERLANG_ROOT AUTOTOOLS_ROOT
 export PATH=$ERLANG_ROOT/bin:$AUTOTOOLS_ROOT/bin:$PATH
-export ACLOCAL=$AUTOTOOLS_ROOT/bin/aclocal
-export AUTOCONF=$AUTOTOOLS_ROOT/bin/autoconf
-export AUTOMAKE=$AUTOTOOLS_ROOT/bin/automake
-export AUTOHEADER=$AUTOTOOLS_ROOT/bin/autoheader
 ./configure --prefix=%i --with-js-lib=$SPIDERMONKEY_ROOT/lib --with-js-include=$SPIDERMONKEY_ROOT/include/js --with-erlang=$ERLANG_ROOT/lib/erlang/usr/include --with-win32-icu-binaries=$ICU4C_ROOT
 make %makeprocesses
 

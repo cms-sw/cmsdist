@@ -1,11 +1,11 @@
-### RPM cms sitedb 2.6.1
+### RPM cms sitedb 2.6.2
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV SETV SITEDB_LEGACY_PYTHONPATH %i/legacy
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 1.0.0.pre3
+%define wmcver 1.0.7.pre6
 
 Source0: git://github.com/dmwm/WMCore?obj=master/%wmcver&export=wmcore_%n&output=/wmcore_%n.tar.gz
 Source1: git://github.com/dmwm/sitedb?obj=master/%realversion&export=%n&output=/%n.tar.gz

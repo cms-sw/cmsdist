@@ -9,7 +9,7 @@ CPPFLAGS="-I${BZ2LIB_ROOT}/include"
 LDFLAGS="-L${BZ2LIB_ROOT}/lib"
 ./configure --enable-unicode-properties --enable-pcregrep-libz --enable-pcregrep-libbz2 --prefix=%i \
   CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}"
-make
+make %{makeprocesses}
 
 %install
 make install

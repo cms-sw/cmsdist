@@ -1,4 +1,5 @@
 ### RPM external curl 7.35.0
+## INITENV +PATH LD_LIBRARY_PATH %i/lib
 Source: http://curl.haxx.se/download/%n-%realversion.tar.gz
 Provides: libcurl.so.3()(64bit) 
 Requires: openssl zlib c-ares

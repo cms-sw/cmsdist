@@ -9,7 +9,7 @@ Requires: openssl db4
 %build
 ./configure --prefix=%i --without-cyrus-sasl --with-tls --disable-static --disable-slapd --disable-slurpd
 make depend
-make
+make %{makeprocesses}
 
 %install
 make install

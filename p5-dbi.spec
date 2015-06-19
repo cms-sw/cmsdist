@@ -16,7 +16,7 @@ Requires: p5-extutils-makemaker
 
 %build
 perl Makefile.PL INSTALL_BASE=%i
-make
+make %{makeprocesses}
 P=$(which perl)
 perl -p -i -e 's|^#!.*perl|#!'"$P"'|' blib/script/dbiprof
 perl -p -i -e 's|^#!.*perl|#!'"$P"'|' blib/script/dbiproxy
