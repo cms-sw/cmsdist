@@ -36,9 +36,6 @@ Requires: data-HLTrigger-JetMET
 %if %isnotonline
 # extra data dependencies for standard builds
 Requires: data-FastSimulation-MaterialEffects
-%if %isnotarmv7
-Requires: data-FastSimulation-PileUpProducer
-%endif
 Requires: data-SimG4CMS-Calo
 Requires: data-SimG4CMS-Forward
 Requires: data-Validation-Geometry
