@@ -12,7 +12,7 @@ perl -p -i -e "s|#!/usr/bin/python|#!/usr/bin/env python|" $(find .)
 %install
 #
 cd Client
-make
+make %{makeprocesses}
 mkdir -p  %{i}/Client
 cp -r lib %{i}/Client/.
 cp -r bin %{i}/Client/.

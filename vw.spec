@@ -10,7 +10,7 @@ Requires: boost autotools zlib
 
 %build
 ./configure --prefix=%i --with-boost=$BOOST_ROOT --with-zlib=$ZLIB_ROOT
-make
+make %{makeprocesses}
 
 %install
 make install

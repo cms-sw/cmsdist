@@ -26,7 +26,7 @@ cmake .  -DCURSES_LIBRARY=${NCURSES_ROOT}/lib/libncurses.a \
          -DWITH_EXTRA_CHARSETS=complex \
          -DENABLED_LOCAL_INFILE=1
 
-make
+make %{makeprocesses}
 %install
 make install
 

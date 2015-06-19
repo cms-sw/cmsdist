@@ -5,7 +5,7 @@ Source: http://sourceforge.net/projects/levent/files/libevent/libevent-2.0/libev
 
 %build
 ./configure --prefix=%i
-make
+make %{makeprocesses}
 
 %install
 make install

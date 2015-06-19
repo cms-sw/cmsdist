@@ -16,7 +16,7 @@ for pkg in %{name_mm}-%{realversion} %{name_inst}-%{ver_inst}; do
   cd ../$pkg
   LC_ALL=C; export LC_ALL
   perl Makefile.PL INSTALL_BASE=%i
-  make
+  make %{makeprocesses}
   make install
 done
 
