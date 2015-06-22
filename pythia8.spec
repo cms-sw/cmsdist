@@ -19,10 +19,11 @@ Patch1: pythia8-205-fix-matching
 export USRCXXFLAGS="%cms_cxxflags"
 export HEPMCLOCATION=${HEPMC_ROOT}  
 export HEPMCVERSION=${HEPMC_VERSION}
-./configure --prefix=%i --enable-shared --with-hepmc2=${HEPMC_ROOT} --with-lhapdf5=${LHAPDF_ROOT}
+./configure --prefix=%i --enable-shared --with-hepmc2=${HEPMC_ROOT} --with-lhapdf6=${LHAPDF_ROOT} --with-boost=${BOOST_ROOT}
 
 %build
 make %makeprocesses
 
 %install
 make install
+test -f %i/lib/libpythia8lhapdf6.so || exit 1
