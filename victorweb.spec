@@ -1,4 +1,4 @@
-### RPM cms victorweb 0.3.2
+### RPM cms victorweb 0.3.4
 Source: https://github.com/dmwm/DDM/archive/victor-web-%realversion.tar.gz
 Requires: python oracle oracle-env py2-cx-oracle django
 Requires: apache-setup mod_wsgi mod_perl2 apache2 
