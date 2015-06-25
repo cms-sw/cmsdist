@@ -27,6 +27,11 @@ rm -rf models/hgg_plugin models/SMScalars
 
 chmod +x bin/compile.py
 ./bin/compile.py
+# Remove compile script after compilation
+rm bin/compile.py
+
+# Remove all downloaded tgz files before building the package
+find . -type f -name '*.tgz' -delete
 
 %install
 rsync -avh %{_builddir}/MG5_aMC_v%{versiontag}/ %{i}/
