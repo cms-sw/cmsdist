@@ -18,7 +18,7 @@ Source2: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=im
 Source3: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
 Patch0: dqmgui-rtgu
 
-Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root libpng libjpg classlib rotatelogs py2-pycurl py2-cjson libuuid d3 protobuf
+Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root libpng libjpg classlib rotatelogs py2-pycurl py2-cjson libuuid d3 protobuf py2-argparse
 BuildRequires: py2-sphinx
 
 %prep
