@@ -1,8 +1,8 @@
 ### RPM lcg root 6.04.01
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag e46bced2b4e5158e1f6845dd75a9fd24cd3c38a0
-%define branch cms/93174b4
+%define tag 70f6b349c8d876a18509cf057d278b16cfb1d00d
+%define branch cms/a2489a4
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
@@ -12,9 +12,6 @@ Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&expo
 BuildRequires: cmake ninja file
 
 Requires: gsl libjpg libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib
-
-Patch0: root-6.04.00-fix-cmake-opengl
-Patch1: root-6.04.00-fix-cmake-openssl
 
 %if %islinux
 Requires: castor dcap
@@ -33,8 +30,6 @@ Requires: freetype
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
-%patch1 -p1
 
 %build
 rm -rf ../build
