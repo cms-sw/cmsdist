@@ -1,4 +1,5 @@
-### RPM external millepede V04-02-02
+### RPM external millepede V04-03-00 
+
 Source: svn://svnsrv.desy.de/public/MillepedeII/tags/%{realversion}/?scheme=http&module=%{realversion}&output=/%{n}-%{realversion}.tgz
 Requires: zlib
 

@@ -7,7 +7,7 @@ Requires: py2-numpy py2-scipy pyminuit2 py2-matplotlib
 %setup -n professor-%{realversion}
 
 %build
-./setup.py build
+${PYTHON_ROOT}/bin/python setup.py build
 
 %install
-./setup.py install --prefix=%i
+${PYTHON_ROOT}/bin/python setup.py install --prefix=%i
