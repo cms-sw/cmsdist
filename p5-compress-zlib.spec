@@ -11,7 +11,7 @@ Requires: zlib p5-extutils-makemaker
 %build
 LC_ALL=C; export LC_ALL
 perl Makefile.PL INSTALL_BASE=%i INCLUDE=$ZLIB_ROOT/include
-make
+make %{makeprocesses}
 
 %define drop_files %i/man
 

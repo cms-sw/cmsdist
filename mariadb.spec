@@ -2,23 +2,31 @@
 ## INITENV +PATH %{dynamic_path_var} %i/lib/mysql
 ## INITENV +PATH PATH %i/scripts
 ## INITENV SET MYSQL_HOME $MYSQL_ROOT
-
 %define source http://mirrors.syringanetworks.net/mariadb/mariadb-%realversion/source/mariadb-%realversion.tar.gz
-
 Source: %source
+Requires: zlib openssl ncurses libxml2
+BuildRequires: cmake
 
-Requires: zlib
-BuildRequires:  cmake
 %prep
 %setup -n %n-%realversion
 
 %build
-
-cmake .  -DCMAKE_INSTALL_PREFIX=%i \
+cmake .  -DCURSES_LIBRARY=${NCURSES_ROOT}/lib/libncurses.a \
+         -DCURSES_INCLUDE_PATH=${NCURSES_ROOT}/include \
+         -DZLIB_LIBRARY=${ZLIB_ROOT}/lib/libz.so \
+         -DZLIB_INCLUDE_DIR=${ZLIB_ROOT}/include \
+         -DOPENSSL_LIBRARIES=${OPENSSL_ROOT}/lib/libssl.so \
+         -DOPENSSL_INCLUDE_DIR=${OPENSSL_ROOT}/include \
+         -DCRYPTO_LIBRARY=${OPENSSL_ROOT}/lib/libcrypto.so \
+         -DLIBXML2_LIBRARIES=${LIBXML2_ROOT}/lib/libxml2.so \
+         -DLIBXML2_INCLUDE_DIR=${LIBXML2_ROOT}/include/libxml2 \
+         -DHAVE_VIDATTR:INTERNAL=0 \
+         -DHAVE_SETUPTERM:INTERNAL=0 \
+         -DCMAKE_INSTALL_PREFIX=%i \
          -DWITH_EXTRA_CHARSETS=complex \
          -DENABLED_LOCAL_INFILE=1
 
-make
+make %{makeprocesses}
 %install
 make install
 

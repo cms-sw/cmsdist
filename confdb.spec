@@ -1,5 +1,5 @@
-### RPM cms confdb 0.0.1
-Source: git://github.com/geneguvo/web-confdb?obj=Server/ec4b924bd421f4f5b8870050482908837822d6b1&export=%n&output=/%n.tar.gz
+### RPM cms confdb 0.0.4
+Source: git://github.com/cms-sw/web-confdb?obj=Server/%realversion&export=%n&output=/%n.tar.gz
 Requires: python cherrypy oracle oracle-env py2-cx-oracle py2-sqlalchemy py2-marshmallow
 Requires: rotatelogs pystack
 
@@ -10,6 +10,7 @@ Requires: rotatelogs pystack
 
 %install
 cp -rp Server/Application_py266 %i/
+rm -rf %i/Application_py266/Config
 python -m compileall %i/Application_py266 || true
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.

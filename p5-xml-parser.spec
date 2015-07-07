@@ -24,12 +24,12 @@ cd ../expat-%expatversion
 mkdir -p %_builddir/tmp
 ./configure --prefix=%_builddir/tmp --disable-shared --enable-static --with-pic
 make clean
-make 
+make %{makeprocesses}
 make install
 
 cd ../%{downloadn}-%{realversion}
 perl Makefile.PL INSTALL_BASE=%i EXPATLIBPATH=%_builddir/tmp/lib EXPATINCPATH=%_builddir/tmp/include
-make
+make %{makeprocesses}
 
 %install
 make install

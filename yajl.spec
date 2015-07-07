@@ -11,7 +11,7 @@ Requires: cmake
 mkdir build
 cd build
 cmake ..
-make
+make %{makeprocesses}
 
 %install
 cp -r build/yajl-%{realversion}/* %i/
