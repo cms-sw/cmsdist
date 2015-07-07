@@ -8,7 +8,7 @@
 
 Requires: expat bz2lib db4 gdbm openssl
 
-Requires: zlib sqlite readline ncurses
+Requires: zlib sqlite readline ncurses 
 
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, tk/tcl, x11
