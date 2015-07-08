@@ -1,10 +1,10 @@
-### RPM external gcc 4.9.1
+### RPM external gcc 4.9.3
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
-%define gccRevision 212975
-%define gccBranch tags/gcc_4_9_1_release
+%define gccRevision 225535
+%define gccBranch tags/gcc_4_9_3_release
 
 %define moduleName gcc-%(echo %{gccBranch} | tr / _)-%{gccRevision}
 Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{gccRevision}&output=/%{moduleName}.tar.gz
