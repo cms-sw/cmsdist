@@ -1,7 +1,9 @@
-### RPM external clhep 2.1.4.1
-Source: http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/tarFiles/%{n}-%{realversion}.tgz
-Patch0: clhep-2.1.4.1-no-virtual-inline
-Patch1: clhep-2.1.4.1-diagnostic-ignore-unused-variable
+### RPM external clhep 2.2.0.4
+
+%define tag 0e355c07fbee0b1c680073cc8d77e530a7edc6a9
+%define branch cms/v%{realversion}
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake ninja
 
@@ -14,19 +16,13 @@ BuildRequires: cmake ninja
 %endif
 
 %prep
-%setup -n %{realversion}/CLHEP
-case %cmsplatf in
-  osx*|*gcc4[789]*)
-%patch0 -p3
-  ;;
-esac
-%patch1 -p2
+%setup -n %{n}-%{realversion}
 
 %build
 mkdir ../build
 cd ../build
 
-cmake ../CLHEP \
+cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCMAKE_CXX_COMPILER="%cms_cxx" \
   -DCMAKE_CXX_FLAGS="%{cms_cxxflags}" \
