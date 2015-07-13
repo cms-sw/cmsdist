@@ -1,13 +1,12 @@
-### RPM external sqlite 3.8.1
-Source: http://www.sqlite.org/2013/sqlite-autoconf-3080100.tar.gz
+### RPM external sqlite 3.8.10.2
+Source: https://www.sqlite.org/2015/sqlite-autoconf-3081002.tar.gz
 
 %prep
-%setup -n sqlite-autoconf-3080100
+%setup -n sqlite-autoconf-3081002
 
 %build
-./configure --build="%{_build}" --host="%{_host}" --prefix=%{i} \
-            --disable-tcl --disable-static
-make %{makeprocesses}
+./configure --build="%{_build}" --host="%{_host}" --prefix=%{i} --disable-static
+make
 
 %install
 make install

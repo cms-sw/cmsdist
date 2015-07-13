@@ -4,10 +4,11 @@ cmsos()
 {
   # Determine the cpu architecture string.
   case `uname -p` in
-    i*86) cpuarch=ia32;;
-    x86_64) cpuarch=amd64;;
-    *EMT*) cpuarch=amd64;;
-    armv7l) cpuarch=armv7hl;; # The kernel is armv7l, but we assume system as armv7hl (hard floats)
+    i*86) cpuarch=ia32 ;;
+    x86_64) cpuarch=amd64 ;;
+    *EMT*) cpuarch=amd64 ;;
+    armv7l) cpuarch=armv7hl ;; # The kernel is armv7l, but we assume system as armv7hl (hard floats)
+    aarch64) cpuarch=aarch64 ;;
     *) cpuarch=`uname -p`;;
   esac
  
