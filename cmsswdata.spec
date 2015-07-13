@@ -32,6 +32,7 @@ Requires: data-RecoBTag-SoftLepton
 Requires: data-Calibration-Tools
 Requires: data-RecoBTag-SecondaryVertex
 Requires: data-HLTrigger-JetMET
+Requires: data-EventFilter-L1TRawToDigi
 
 %if %isnotonline
 # extra data dependencies for standard builds
