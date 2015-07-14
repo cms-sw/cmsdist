@@ -1,15 +1,15 @@
---- setup.py	2012-04-17 12:17:14.000000000 +0200
-+++ setup.py	2012-04-17 12:20:05.000000000 +0200
-@@ -784,7 +784,7 @@
+--- setup.py	2015-03-18 10:15:05.000000000 +0200
++++ setup.py	2015-03-18 10:20:10.000000000 +0200
+@@ -887,7 +887,7 @@ class PyBuildExt(build_ext):
  
-         max_db_ver = (4, 7)
-         min_db_ver = (3, 3)
+         max_db_ver = (5, 3)
+         min_db_ver = (4, 3)
 -        db_setup_debug = False   # verbose debug prints from this script?
 +        db_setup_debug = True   # verbose debug prints from this script?
  
          def allow_db_ver(db_ver):
              """Returns a boolean if the given BerkeleyDB version is acceptable.
-@@ -815,55 +815,6 @@
+@@ -922,58 +922,6 @@ class PyBuildExt(build_ext):
              else:
                  raise ValueError("unknown major BerkeleyDB version", major)
  
@@ -44,6 +44,9 @@
 -            db_inc_paths.append('/pkg/db-3.%d/include' % x)
 -            db_inc_paths.append('/opt/db-3.%d/include' % x)
 -
+-        if cross_compiling:
+-            db_inc_paths = []
+-
 -        # Add some common subdirectories for Sleepycat DB to the list,
 -        # based on the standard include directories. This way DB3/4 gets
 -        # picked up when it is installed in a non-standard prefix and
@@ -64,22 +67,4 @@
 -
          db_ver_inc_map = {}
  
-         if sys.platform == 'darwin':
-@@ -873,7 +824,7 @@
-         try:
-             # See whether there is a Sleepycat header in the standard
-             # search path.
--            for d in inc_dirs + db_inc_paths:
-+            for d in [os.environ["DB4_ROOT"]]:
-                 f = os.path.join(d, "db.h")
- 
-                 if sys.platform == 'darwin' and is_macosx_sdk_path(d):
-@@ -982,7 +933,7 @@
-             missing.append('_bsddb')
- 
-         # The sqlite interface
--        sqlite_setup_debug = False   # verbose debug prints from this script?
-+        sqlite_setup_debug = True   # verbose debug prints from this script?
- 
-         # We hunt for #define SQLITE_VERSION "n.n.n"
-         # We need to find >= sqlite version 3.0.8
+         if host_platform == 'darwin':

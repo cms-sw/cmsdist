@@ -10,6 +10,7 @@ Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{w
 Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
 
 #Patch0: crabtaskworker-setup
+Patch1: crabpython2.7-setup
 
 Requires: p5-time-hires
 Requires: python  dbs-client dls-client dbs3-client py2-pycurl py2-httplib2 cherrypy condor
@@ -17,6 +18,7 @@ BuildRequires: py2-sphinx
 
 %prep
 %setup -D -T -b 1 -n CRABServer-%{realversion}
+%patch1 -p1
 %setup -T -b 0 -n WMCore-%{wmcver}
 #%patch0 -p1
 
