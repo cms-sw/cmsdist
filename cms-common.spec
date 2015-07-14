@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1115
+## REVISION 1119
 ## NOCOMPILER
 
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
@@ -9,7 +9,6 @@
 
 Source: cmsos
 Source1: migrate-cvsroot
-Source2: cmspm
 
 %prep
 #Make sure that we always build cms-common with a different revision and 
@@ -30,29 +29,29 @@ cd %i/%{pkgrevision}
 
 cp %_sourcedir/cmsos ./common/cmsos
 cp %_sourcedir/migrate-cvsroot ./common/migrate-cvsroot
-cp %_sourcedir/cmspm ./common/cmspm
 
 %if "%online" != "true"
 cat << \EOF_CMSARCH_SH > ./common/cmsarch
 #!/bin/sh
-osarch=`%instroot/common/cmsos`
-compilerv=gcc462
 # We need to assume 1 compiler per platform. 
 # There is no other way around this.
 if [ ! "$SCRAM_ARCH" ]
 then
+    osarch=`%instroot/common/cmsos`
+    compilerv=gcc462
     case $osarch in
-        osx104_ia32) compilerv=gcc401;;
-        osx104_ppc32) compilerv=gcc400;;
-        osx105_*) compilerv=gcc401;;
-        osx106_*) compilerv=gcc421;;
-        osx107_*) compilerv=gcc462;;
-        osx108_*) compilerv=gcc472;;
-        slc6_*) compilerv=gcc472; osarch=slc6_amd64;;
-        slc5_*) compilerv=gcc462; osarch=slc5_amd64;;
-        fc18_*) compilerv=gcc481; osarch=fc18_armv7hl;;
-        fc19_*) compilerv=gcc481; osarch=fc19_armv7hl;;
-        *) compilerv=gcc462; osarch=slc5_amd64;;
+        osx104_ia32) compilerv=gcc401 ;;
+        osx104_ppc32) compilerv=gcc400 ;;
+        osx105_*) compilerv=gcc401 ;;
+        osx106_*) compilerv=gcc421 ;;
+        osx107_*) compilerv=gcc462 ;;
+        osx108_*) compilerv=gcc472 ;;
+        slc6_*) compilerv=gcc472; osarch=slc6_amd64 ;;
+        slc5_*) compilerv=gcc462; osarch=slc5_amd64 ;;
+        fc18_*) compilerv=gcc481; osarch=fc18_armv7hl ;;
+        fc19_armv7hl) compilerv=gcc481; osarch=fc19_armv7hl ;;
+        fc19_aarch64) compilerv=gcc490; osarch=fc19_aarch64 ;;
+        *) compilerv=gcc481; osarch=slc6_amd64 ;;
     esac
     echo ${osarch}_${compilerv}
 else

@@ -1,4 +1,4 @@
-### RPM external nspr-bootstrap 4.10.1
+### RPM external nspr-bootstrap 4.10.8
 Source: https://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v%{realversion}/src/nspr-%{realversion}.tar.gz
 %define strip_files %{i}/lib
 

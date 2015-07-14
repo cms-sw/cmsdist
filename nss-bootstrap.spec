@@ -1,4 +1,4 @@
-### RPM external nss-bootstrap 3.15.2
+### RPM external nss-bootstrap 3.19.2
 %define release_version %(echo "%{realversion}" | tr . _)_RTM
 Source: https://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_%{release_version}/src/nss-%{realversion}.tar.gz
 Requires: nspr-bootstrap sqlite-bootstrap zlib-bootstrap

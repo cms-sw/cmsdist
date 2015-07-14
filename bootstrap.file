@@ -426,9 +426,16 @@ generateSeedSpec () {
       if which rpm 2>&1 >/dev/null && [ "$(rpm -qa 2>&1 | grep 'use alien')" = "" ]
       then
     	  [ "X$verbose" = Xtrue ] && echo && echo "...rpm found in $(which rpm), using it to seed the database." >&2
+          missingSeeds=""
           for p in $requiredSeeds; do 
-              rpm -q $p >/dev/null || { echo "Required package $p is missing." ; exit 1; }
+              rpm -q $p >/dev/null || missingSeeds="$missingSeeds $p"
           done
+          [ "$missingSeeds" ] && {
+                echo 1>&2
+                echo "Some required packages are missing:" 1>&2
+                for p in $missingSeeds; do echo $p; done 1>&2
+                exit 1
+          }
     	  for p in $seed; do
               rpm -q $p --provides | sed 's!<*=.*!!; s!^!Provides: !' || true
               rpm -q $p --list | fgrep .so | fgrep -v -e /lib/. -e /lib64/. | sed 's!^.*/!Provides: !' || true
@@ -610,10 +617,10 @@ do
     mkdir -p `dirname .$pkgInstRoot`
     ln -sf $PWD/inst .$pkgInstRoot
     $tempdir/bin/rpmHeader.pl $DOWNLOAD_DIR/$pkg PREIN | grep -v "^Unknown" | sed -e "s|[$]RPM_INSTALL_PREFIX|$PWD/inst|g" > $tempdir/scriptlets/$pkg.pre.sh
-    sh -ex $tempdir/scriptlets/$pkg.pre.sh
+    sh -e $tempdir/scriptlets/$pkg.pre.sh
     perl ./myrpm2cpio $DOWNLOAD_DIR/$pkg | cpio $cpio_opts -id || cleanup_and_exit 1 "Unable to unpack $DOWNLOAD_DIR/$pkg"
     $tempdir/bin/rpmHeader.pl $DOWNLOAD_DIR/$pkg POSTIN | grep -v "^Unknown" | sed -e "s|[$]RPM_INSTALL_PREFIX|$PWD/inst|g" > $tempdir/scriptlets/$pkg.post.sh
-    sh -ex $tempdir/scriptlets/$pkg.post.sh
+    sh -e $tempdir/scriptlets/$pkg.post.sh
 done
 echo "Done."
 
@@ -628,7 +635,7 @@ echo "Done."
 
 # Initialise the rpmdb using the new rpm.
 echo_n "Initializing local rpm database..."
-rpm --define "_rpmlock_path $rpmlock" -r $rootdir --dbpath $rootdir/$rpmdb --initdb || cleanup_and_exit 1 "Unable to initialize $rootdir/$rpmdb. Exiting."
+rpmdb --define "_rpmlock_path $rpmlock" -r $rootdir --dbpath $rootdir/$rpmdb --initdb || cleanup_and_exit 1 "Unable to initialize $rootdir/$rpmdb. Exiting."
 
 # Build the seed spec and install it, in order to seed the newly generated db.
 rpmOptions="-r $rootdir --dbpath $rootdir/$rpmdb --rcfile $DOWNLOAD_DIR/inst/$cmsplatf/external/rpm/$rpm_version/lib/rpm/rpmrc --nodeps --prefix $rootdir --ignoreos --ignorearch"
