@@ -31,6 +31,8 @@ Requires: onlinesystemtools
 Requires: libuuid
 %endif
 
+BuildRequires: gcc
+
 # Ugly kludge : forces libshift.x.y to be in the provides (rpm only puts libshift.so.x)
 # root rpm require .x.y
 Provides: libshift.so.%(echo %realversion |cut -d. -f1,2)%{libsuffix}
@@ -75,9 +77,10 @@ mkdir -p %i/bin %i/lib %i/etc/sysconfig
 
 find . -type f -exec touch {} \;
 
+export IMAKECPP=$(which cpp)
 CASTOR_NOSTK=yes; export CASTOR_NOSTK
 ./configure
-LDFLAGS="-L${LIBUUID_ROOT}/lib64" CXXFLAGS="-I${LIBUUID_ROOT}/include" make %{makeprocesses} client
+LDFLAGS="-L${LIBUUID_ROOT}/lib" CXXFLAGS="-I${LIBUUID_ROOT}/include" make %{makeprocesses} client
 %install
 make installclient \
                 MAJOR_CASTOR_VERSION=%(echo %realversion | cut -d. -f1-2) \

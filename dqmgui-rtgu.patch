@@ -35,9 +35,8 @@ diff -x .svn -ru rtgu/image/filter_weight_table.hpp /afs/cern.ch/user/l/lat/dev/
      // store contribution for current pixel
  
      _contribution_table[u].left    = sample_begin; 
-diff -x .svn -ru rtgu/image/rescale.hpp /afs/cern.ch/user/l/lat/dev/dqm/rtgu/image/rescale.hpp
---- rtgu/image/rescale.hpp	2009-10-31 12:14:10.000000000 +0100
-+++ /afs/cern.ch/user/l/lat/dev/dqm/rtgu/image/rescale.hpp	2009-10-26 15:35:30.000000000 +0100
+--- rtgu/image/rescale.hpp.orig	2015-07-14 11:26:44.439852050 +0200
++++ rtgu/image/rescale.hpp	2015-07-14 11:27:46.728867369 +0200
 @@ -4,6 +4,7 @@
  #include <boost/gil/extension/numeric/algorithm.hpp>
  #include <boost/gil/extension/numeric/pixel_numeric_operations.hpp>
@@ -46,6 +45,15 @@ diff -x .svn -ru rtgu/image/rescale.hpp /afs/cern.ch/user/l/lat/dev/dqm/rtgu/ima
  
  //----------------------------------------------------------------------------
  
+@@ -55,7 +56,7 @@
+ 
+     //----------------------------------------------------------------------------
+ 
+-    template <typename PixelType> struct create_accum_pixel_type : public create_accum_pixel_type<PixelType> {};
++    template <typename PixelType> struct create_accum_pixel_type {};
+ 
+     template <typename Layout>
+     struct create_accum_pixel_type<pixel<bits8,Layout> >
 @@ -153,7 +154,7 @@
  inline void boost::gil::rescale_cols(const SrcView& src, const DstView& dst, const Filter& filter)
  {
@@ -88,4 +96,3 @@ diff -x .svn -ru rtgu/image/rescale.hpp /afs/cern.ch/user/l/lat/dev/dqm/rtgu/ima
  
      detail::weight_table::const_iterator const vtable_begin = vertical_weights.begin() + y;
      detail::weight_table::const_iterator const vtable_end   = vtable_begin + 1;
-Only in rtgu: tests
