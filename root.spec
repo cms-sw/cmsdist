@@ -25,12 +25,12 @@ Requires: freetype
 %define subpackageDebug true
 
 %if "%{?subpackageDebug:set}" == "set"
-%define envOptions USER_CXXFLAGS="-fdebug-prefix-map=%{cmsroot}=%{installroot} -fdebug-prefix-map=%{instroot}=%{installroot} -g -gdwarf-2 -O0"
+%define envOptions USER_CXXFLAGS="-fdebug-prefix-map=%{cmsroot}=%{installroot} -fdebug-prefix-map=%{instroot}=%{installroot} -g"
 %endif
 # For non-linux archs disable subpackageDebug otherwise add dwz.file build dependencies.
 %if "%{?subpackageDebug:set}" == "set"
 %if %islinux
-BuildRequires: dwz file
+BuildRequires: file
 %else
 %undefine subpackageDebug
 %endif # islinux
