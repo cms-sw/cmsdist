@@ -6,7 +6,7 @@ Requires: gcc
 
 %define llvmCommit f04ce0e65747b16e6f321c0fdd38b6e1dc3271a3
 %define llvmBranch cms/f04ce0e
-%define clangCommit ff59fc3b222f373bdd5bbebfad41ee6f2d950b43
+%define clangCommit 610aefd0e11e2755e5dbb3b920e0a10c8772b718
 %define clangBranch cms/65d8b4c
 %define clangToolsExtraCommit 13f3e9fac71230b24857613d683fa146ef0da7a8
 %define clangToolsExtraBranch cms/13f3e9f
