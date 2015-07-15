@@ -4,6 +4,7 @@
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Requires: hepmc lhapdf blackhat sqlite fastjet openssl
+BuildRequires: mcfm
 
 %if "%(case %cmsplatf in (slc*) echo true ;; (*) echo false ;; esac)" == "true"
 #Requires: openloops
@@ -35,12 +36,10 @@ case %cmsplatf in
   ;;
 esac
 
-./AddOns/MCFM/install_mcfm.sh
-
 %build
 ./configure --prefix=%i --enable-analysis --disable-silent-rules \
             --enable-fastjet=$FASTJET_ROOT \
-            --enable-mcfm=$PWD/ \
+            --enable-mcfm=$MCFM_ROOT \
             --enable-hepmc2=$HEPMC_ROOT \
             --enable-lhapdf=$LHAPDF_ROOT \
             --enable-blackhat=$BLACKHAT_ROOT \
