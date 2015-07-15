@@ -30,7 +30,7 @@ Requires: freetype
 # For non-linux archs disable subpackageDebug otherwise add dwz.file build dependencies.
 %if "%{?subpackageDebug:set}" == "set"
 %if %islinux
-BuildRequires: file
+BuildRequires: dwz file
 %else
 %undefine subpackageDebug
 %endif # islinux
@@ -179,6 +179,9 @@ for DIR in $ELF_DIRS $DROP_SYMBOLS_DIRS; do
   # ELF binaries
   ELF_BINS=$(file * | grep ELF | cut -d':' -f1)
   if [ ! -z "$ELF_BINS" ]; then
+    if [ $(echo $ELF_BINS | wc -w) -gt 1 ] ; then
+        dwz -m .debug/common-symbols.debug -M common-symbols.debug $ELF_BINS || true
+    fi
     for bin in $ELF_BINS; do
       objcopy --compress-debug-sections --only-keep-debug ${bin} .debug/${bin}.debug; objcopy --strip-debug --add-gnu-debuglink=.debug/${bin}.debug ${bin}
     done
