@@ -1,26 +1,18 @@
 ### RPM external boost 1.57.0
-%define boostver _%(echo %realversion | tr . _)
-Source: http://switch.dl.sourceforge.net/project/%{n}/%{n}/%{v}/%{n}%{boostver}.tar.gz
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
+
+%define tag 040a06a
+%define branch cms/v%realversion
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/%n.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 %if "%{?cms_cxxflags:set}" != "set"
 %define cms_cxxflags -std=c++11 -O2
 %endif
 
 Requires: python bz2lib zlib
-Patch0: boost-1.57.0-BOOST_NO_CXX11_EXPLICIT_CONVERSION_OPERATORS
-Patch1: boost-add-missing-header-serialization
-Patch2: boost-disable-int128-makecint
-Patch3: boost-unused-variable-silence
-Patch4: boost-1.57.0-define-BOOST_SP_USE_SPINLOCK
 
 %prep
-%setup -n %{n}%{boostver}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
+%setup -n %{n}-%{realversion}
 
 %build
 case %cmsos in 

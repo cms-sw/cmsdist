@@ -1,9 +1,8 @@
-### RPM external mariadb 10.0.12
+### RPM external mariadb 10.0.20
 ## INITENV +PATH %{dynamic_path_var} %i/lib/mysql
 ## INITENV +PATH PATH %i/scripts
 ## INITENV SET MYSQL_HOME $MYSQL_ROOT
-%define source http://mirrors.syringanetworks.net/mariadb/mariadb-%realversion/source/mariadb-%realversion.tar.gz
-Source: %source
+Source: https://downloads.mariadb.org/f/mariadb-%realversion/source/mariadb-%realversion.tar.gz?serve
 Requires: zlib openssl ncurses libxml2
 BuildRequires: cmake
 

@@ -1,16 +1,16 @@
-### RPM external apache24 2.4.12gsi
+### RPM external apache24 2.4.16gsi
 %define apversion %(echo %realversion | sed 's/gsi.*$//')
 Requires: openssl zlib expat libuuid sqlite pcre
 
 Source0: http://archive.apache.org/dist/httpd/httpd-%apversion.tar.gz
-Source1: http://wwwftp.ciril.fr/pub/apache//apr/apr-1.5.1.tar.gz
-Source2: http://wwwftp.ciril.fr/pub/apache//apr/apr-util-1.5.4.tar.gz
+Source1: http://archive.apache.org/dist/apr/apr-1.5.2.tar.gz
+Source2: http://archive.apache.org/dist/apr/apr-util-1.5.4.tar.gz
 Patch1: apache24-ssl-report-cert
 Patch2: apache24-gsi
 Patch3: apache24-status-maxline
 
 %prep
-%setup -T -b 1 -n apr-1.5.1
+%setup -T -b 1 -n apr-1.5.2
 %setup -T -b 2 -n apr-util-1.5.4
 %setup -n httpd-%apversion
 %patch1 -p0
@@ -18,7 +18,7 @@ Patch3: apache24-status-maxline
 %patch3 -p0
 
 %build
-cp -rp ../apr-1.5.1/ ./srclib/apr/
+cp -rp ../apr-1.5.2/ ./srclib/apr/
 cp -rp ../apr-util-1.5.4 ./srclib/apr-util/
 
 # INCLUDES is needed otherwise apache will use the system openssl

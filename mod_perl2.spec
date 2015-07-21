@@ -1,7 +1,7 @@
-### RPM external mod_perl2 2.0.7
+### RPM external mod_perl2 2.0.9
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 # See http://perl.apache.org/docs/2.0/user/install/install.html
-Source0: http://perl.apache.org/dist/mod_perl-%realversion.tar.gz
+Source0: http://www.eu.apache.org/dist/perl/mod_perl-%realversion.tar.gz
 
 # Requires apache2
 # Requires p5-cgi -- system SLC4 system CGI.pm is broken for mod_perl2

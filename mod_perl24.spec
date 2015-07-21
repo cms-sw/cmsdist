@@ -1,10 +1,7 @@
-### RPM external mod_perl24 2.0.8
+### RPM external mod_perl24 2.0.9
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 # See http://perl.apache.org/docs/2.0/user/install/install.html
-#Source0: http://www.apache.org/dyn/closer.cgi/perl/mod_perl-%realversion.tar.gz
-Source0: http://mirror.switch.ch/mirror/apache/dist/perl/mod_perl-%realversion.tar.gz
-Patch0: mod_perl24-connection
-Patch1: mod_perl24-serverrec
+Source0: http://www.eu.apache.org/dist/perl/mod_perl-%realversion.tar.gz
 
 # Requires apache2
 # Requires p5-cgi -- system SLC4 system CGI.pm is broken for mod_perl2
@@ -24,8 +21,6 @@ Provides: perl(Module::Build)
 %prep
 %setup -n mod_perl-%realversion
 perl Makefile.PL INSTALL_BASE=%i MP_APXS=$APACHE24_ROOT/bin/apxs MP_APR_CONFIG=$APACHE24_ROOT/bin/apr-1-config MP_AP_DESTDIR=%i
-%patch0 -p0
-%patch1 -p0
 
 %build
 make %makeprocesses
