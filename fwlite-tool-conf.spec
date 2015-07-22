@@ -35,7 +35,6 @@ Requires: libungif-toolfile
 Requires: openssl-toolfile
 Requires: pcre-toolfile
 Requires: python-toolfile
-Requires: roofit-toolfile
 Requires: root-toolfile
 Requires: sigcpp-toolfile
 Requires: sqlite-toolfile
