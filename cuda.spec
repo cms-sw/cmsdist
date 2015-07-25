@@ -4,15 +4,18 @@
 Source: http://developer.download.nvidia.com/compute/cuda/7_0/Prod/local_installers/%{n}_%{realversion}_linux.run
 
 Provides: libc.so.6(GLIBC_2.0)
+Provides: libc.so.6(GLIBC_2.1)
 Provides: libc.so.6(GLIBC_2.1.3)
 Provides: libc.so.6(GLIBC_2.2)
 Provides: libc.so.6(GLIBC_2.3)
 Provides: libc.so.6(GLIBC_2.3.2)
 Provides: libc.so.6(GLIBC_2.3.3)
 Provides: libdl.so.2(GLIBC_2.0)
+Provides: libdl.so.2(GLIBC_2.1)
 Provides: libpthread.so.0(GLIBC_2.0)
+Provides: libpthread.so.0(GLIBC_2.1)
 Provides: libpthread.so.0(GLIBC_2.2)
-
+Provides: librt.so.1(GLIBC_2.2)
 %prep
 
 %build
