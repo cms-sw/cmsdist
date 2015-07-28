@@ -1,4 +1,4 @@
-### RPM cms asyncstageout 1.0.3pre7
+### RPM cms asyncstageout 1.0.3pre11
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
@@ -9,7 +9,7 @@
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{wmcver}.tar.gz
 Source1: git://github.com/dmwm/AsyncStageout.git?obj=master/%{realversion}&export=AsyncStageout-%{realversion}&output=/AsyncStageout-%{realversion}.tar.gz
-Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 rotatelogs pystack py2-sphinx dbs-client couchdb py2-pycurl couchskel py2-stomp dbs3-client
+Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 rotatelogs pystack py2-sphinx dbs-client couchdb15 py2-pycurl couchskel py2-stomp dbs3-client
 Requires: PHEDEX-micro PHEDEX-lifecycle
 
 %prep
