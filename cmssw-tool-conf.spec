@@ -148,6 +148,11 @@ Requires: tkonlinesw-toolfile
 Requires: py2-cx-oracle-toolfile
 Requires: oracle-toolfile
 
+# Only for slc platforms.
+%if %isslc
+Requires: openloops-toolfile
+%endif
+
 # Only for Linux platform.
 %if %islinux
 Requires: igprof-toolfile
