@@ -9,7 +9,7 @@ Requires: python
 %setup -q -n %{n}/%{realversion}
 
 %build
-${PYTHON_ROOT}/bin/python setup.py build
+${PYTHON_ROOT}/bin/python setup.py build -e "/usr/bin/env python"
 
 %install
 ${PYTHON_ROOT}/bin/python setup.py install --prefix %{i}
