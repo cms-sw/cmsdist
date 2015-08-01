@@ -1,6 +1,7 @@
 ### RPM external cgal 4.2
 
 Source: https://gforge.inria.fr/frs/download.php/32360/%{n}-%{realversion}.tar.bz2
+Patch0: cgal-4.2-cmake-string-replace
 
 BuildRequires: cmake
 Requires: gmp-static mpfr-static
@@ -19,6 +20,7 @@ Requires: boost zlib
 
 %prep
 %setup -n CGAL-%{realversion}
+%patch0 -p1
 
 %build
 
