@@ -34,6 +34,7 @@ Requires: data-RecoBTag-SecondaryVertex
 Requires: data-HLTrigger-JetMET
 Requires: data-EventFilter-L1TRawToDigi
 Requires: data-FastSimulation-TrackingRecHitProducer
+Requires: data-RecoBTag-Combined
 
 %if %isnotonline
 # extra data dependencies for standard builds
