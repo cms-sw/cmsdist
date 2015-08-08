@@ -1,5 +1,5 @@
-### RPM external geant4 10.01.p02
-%define tag ba06375bc3f709e90555746c17f2daae663e2924
+### RPM external geant4 10.00.p03
+%define tag 7edf9e74c7c714aefc9ba4da919b1dde1466a593
 %define branch cms/4.%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
