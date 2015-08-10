@@ -11,25 +11,24 @@ diff -u -r httpd-2.0.54.orig/modules/ssl/mod_ssl.h httpd-2.0.54/modules/ssl/mod_
  /**  Apache API hooks  */
  int          ssl_hook_Auth(request_rec *);
  int          ssl_hook_UserCheck(request_rec *);
---- modules/ssl/ssl_engine_init.c_ORIG  2010-04-28 16:13:13.000000000 -0500
-+++ modules/ssl/ssl_engine_init.c       2010-04-28 16:36:39.000000000 -0500
-@@ -501,9 +501,12 @@
+--- modules/ssl/ssl_engine_init.c.orig	2015-05-21 18:05:51.000000000 +0200
++++ modules/ssl/ssl_engine_init.c	2015-08-10 12:44:32.988848954 +0200
+@@ -504,8 +504,11 @@
                                     modssl_ctx_t *mctx)
  {
      SSL_CTX *ctx = mctx->ssl_ctx;
 +      char *blah;
  
-     SSL_CTX_set_tmp_rsa_callback(ctx, ssl_callback_TmpRSA);
      SSL_CTX_set_tmp_dh_callback(ctx,  ssl_callback_TmpDH);
 +    /*MJ*/
 +    SSL_CTX_set_cert_verify_callback(ctx,ssl_callback_GSI_verify,blah);
  
      SSL_CTX_set_info_callback(ctx, ssl_callback_Info);
  }
---- modules/ssl/ssl_engine_kernel.c	2013-02-15 16:50:37.000000000 +0100
-+++ modules/ssl/ssl_engine_kernel.c	2013-05-10 12:44:41.000000000 +0200
-@@ -1267,6 +1267,692 @@
-     return (DH *)mc->pTmpKeys[idx];
+--- modules/ssl/ssl_engine_kernel.c.orig	2015-08-10 12:20:54.909779289 +0200
++++ modules/ssl/ssl_engine_kernel.c	2015-08-10 12:38:34.632834540 +0200
+@@ -1230,6 +1230,692 @@
+     return ssl_dh_GetTmpParam(keylen);
  }
  
 +/****************************************************************************\
