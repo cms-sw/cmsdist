@@ -32,7 +32,6 @@ cd ../build
 
 cmake ../%{n}.%{realversion} \
   -DCMAKE_CXX_COMPILER="%cms_cxx" \
-  -DCMAKE_CXX_FLAGS="-fPIC" \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_INSTALL_LIBDIR="lib" \
   -DCMAKE_BUILD_TYPE=Release \
@@ -48,11 +47,9 @@ cmake ../%{n}.%{realversion} \
   -DBUILD_STATIC_LIBS=ON \
   -DGEANT4_INSTALL_EXAMPLES=OFF \
   -DGEANT4_USE_SYSTEM_CLHEP=ON \
-  -DGEANT4_BUILD_MULTITHREADED=ON \
-  -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="-fPIC" \
-  -DCMAKE_STATIC_LIBRARY_C_FLAGS="-fPIC"
+  -DGEANT4_BUILD_MULTITHREADED=ON
 
-make %makeprocesses
+make %makeprocesses VERBOSE=1
 
 %install
 
