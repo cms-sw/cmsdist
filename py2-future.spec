@@ -1,4 +1,4 @@
-### RPM external py2-future 0.14.3
+### RPM external py2-future 0.15.0
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 Source: https://pypi.python.org/packages/source/f/future/future-%realversion.tar.gz
 Requires: python
