@@ -1,15 +1,15 @@
-### RPM cms crabtaskworker 3.3.1509.rc5
+### RPM cms crabtaskworker 3.3.1509.rc7
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 1.0.8.pre6
+%define wmcver 1.0.9.pre4
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
 Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
 
-Patch0: crabtaskworker-setup
+#Patch0: crabtaskworker-setup
 
 Requires: p5-time-hires
 Requires: python  dbs-client dls-client dbs3-client py2-pycurl py2-httplib2 cherrypy condor
@@ -18,7 +18,7 @@ BuildRequires: py2-sphinx
 %prep
 %setup -D -T -b 1 -n CRABServer-%{realversion}
 %setup -T -b 0 -n WMCore-%{wmcver}
-%patch0 -p1
+#%patch0 -p1
 
 %build
 touch $PWD/condor_config
