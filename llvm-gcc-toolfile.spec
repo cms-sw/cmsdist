@@ -47,7 +47,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm-cxxcompiler.xml
     <flags REM_CXXFLAGS="-Werror=format-contains-nul"/>
     <flags REM_CXXFLAGS="-Werror=maybe-uninitialized"/>
     <flags REM_CXXFLAGS="-Werror=unused-but-set-variable"/>
-    <flags REM_CXXFLAGS="-Wno-unused-local-typedefs"/>
     <flags REM_CXXFLAGS="-Werror=return-local-addr"/>
     <flags REM_CXXFLAGS="-fipa-pta"/>
     <flags REM_CXXFLAGS="-frounding-math"/>
@@ -60,7 +59,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm-cxxcompiler.xml
     <flags CXXFLAGS="-Wno-unknown-pragmas"/>
     <flags CXXFLAGS="-Wno-unused-command-line-argument"/>
     <flags CXXFLAGS="-ftemplate-depth=512"/>
-    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$LLVM_CXXCOMPILER_BASE/lib" type="path"/>
+    <flags CXXFLAGS="-Wno-error=potentially-evaluated-expression"/>
+    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$LLVM_CXXCOMPILER_BASE/lib64" type="path"/>
     <runtime name="PATH" value="$LLVM_CXXCOMPILER_BASE/bin" type="path"/>
     <runtime name="COMPILER_RUNTIME_OBJECTS" value="@GCC_ROOT@"/>
   </tool>
@@ -113,7 +113,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm.xml
     <lib name="clang"/>
     <client>
       <environment name="LLVM_BASE" default="@LLVM_ROOT@"/>
-      <environment name="LIBDIR" default="$LLVM_BASE/lib"/>
+      <environment name="LIBDIR" default="$LLVM_BASE/lib64"/>
       <environment name="INCLUDE" default="$LLVM_BASE/include"/>
     </client>
     <flags LDFLAGS="-Wl,-undefined -Wl,suppress"/>
@@ -129,7 +129,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pyclang.xml
   <client>
     <environment name="PYCLANG_BASE" default="@LLVM_ROOT@"/>
   </client>
-  <runtime name="PYTHONPATH" value="$PYCLANG_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
+  <runtime name="PYTHONPATH" value="$PYCLANG_BASE/lib64/python@PYTHONV@/site-packages" type="path"/>
   <use name="python"/>
 </tool>
 EOF_TOOLFILE
