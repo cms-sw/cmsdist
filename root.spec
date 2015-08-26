@@ -1,8 +1,8 @@
 ### RPM lcg root 6.04.03
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 7bce95bf4a06c7e318cb2fa12d762348a1a59f4b
-%define branch cms/7198cc5
+%define tag 03b5b32768e8b2ce8ef35c9c394242dff6b6c6ad
+%define branch cms/3bbd935
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
