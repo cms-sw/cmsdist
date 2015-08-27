@@ -11,4 +11,5 @@ BuildRequires: py2-setuptools
 python setup.py build
 
 %install
-python setup.py install
+python setup.py install --prefix=%i
+find %i -name '*.egg-info' -exec rm {} \;
