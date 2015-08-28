@@ -1,9 +1,9 @@
-### RPM cms t0_reqmon 1.0.9.pre8
+### RPM cms t0_reqmon 1.0.9.pre9
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
 
-Requires: python rotatelogs py2-future
+Requires: python rotatelogs
 BuildRequires: py2-setuptools py2-sphinx couchskel
 
 %prep
