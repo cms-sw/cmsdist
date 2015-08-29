@@ -1,4 +1,4 @@
-### RPM external gdb 7.9.1
+### RPM external gdb 7.10
 Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 Patch0: gdb-7.6-fix-pythonhome
 Patch1: gdb-disable-makeinfo
