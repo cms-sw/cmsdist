@@ -98,6 +98,10 @@ Requires: py2-markupsafe-toolfile
 Requires: py2-ordereddict-toolfile
 Requires: py2-parsimonious-toolfile
 Requires: py2-pygments-toolfile
+Requires: py2-PyYAML-toolfile
+Requires: py2-docopt-toolfile
+Requires: py2-prettytable-toolfile
+Requires: py2-schema-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
 Requires: cython-toolfile
