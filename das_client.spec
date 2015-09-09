@@ -30,7 +30,7 @@ SHARED_ARCH=`%{instroot}/common/cmsos`
 LATEST_VERSION=`cd %{instroot}; ls ${SHARED_ARCH}_*/%{pkgcategory}/%{pkgname}/v*/etc/profile.d/init.sh | sed 's|.*/%{pkgcategory}/%{pkgname}/||' | sort | tail -1`
 DAS_ENV=`ls %{instroot}/${SHARED_ARCH}_*/%{pkgcategory}/%{pkgname}/${LATEST_VERSION} | sort | tail -1`
 source $DAS_ENV
-if [ $# == 0 ] || [ "$@" == "--help" ] || [ "$@" == "-help" ]
+if [ $# == 0 ] || [ "$1" == "--help" ] || [ "$1" == "-help" ]
 then
     $DAS_CLIENT_ROOT/bin/das_client.py --help | sed 's/das_client.py/das_client/'
 else
