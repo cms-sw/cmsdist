@@ -1,8 +1,8 @@
-### RPM external py2-psutil 0.6.1
+### RPM external py2-psutil 3.2.1
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
-Source: http://psutil.googlecode.com/files/psutil-%realversion.tar.gz
-Requires: python 
+Source: https://pypi.python.org/packages/source/p/psutil/psutil-%realversion.tar.gz
+Requires: python
 
 %prep
 %setup -n psutil-%realversion
