@@ -1,11 +1,10 @@
-### RPM external rivet 2.2.1
+### RPM external rivet 2.3.0
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
 
 Requires: hepmc boost fastjet gsl yaml-cpp yoda
 Requires: python cython
 
 Patch0: rivet-1.4.0
-Patch1: rivet-2.2.1
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -18,7 +17,6 @@ Patch1: rivet-2.2.1
 %prep
 %setup -n rivet/%{realversion}
 %patch0 -p0
-%patch1 -p0
 
 ./configure --disable-silent-rules --prefix=%i --with-boost=${BOOST_ROOT} --with-hepmc=$HEPMC_ROOT \
             --with-fastjet=$FASTJET_ROOT --with-gsl=$GSL_ROOT --with-yoda=${YODA_ROOT} \
