@@ -22,11 +22,9 @@ cat << \EOF > %i/etc/das_client
 #!/bin/sh
 # VERSION:%{cmsplatf}/%{v}
 # Clean-up CMSSW environment
-if [ -f %{instroot}/common/scram ]; then
-    eval `%{instroot}/common/scram unsetenv -sh`
-fi
+eval `scram unsetenv -sh 2>/dev/null`
 # Sourcing dasclient environment
-SHARED_ARCH=`%{instroot}/common/cmsos`
+SHARED_ARCH=`cmsos`
 LATEST_VERSION=`cd %{instroot}; ls ${SHARED_ARCH}_*/%{pkgcategory}/%{pkgname}/v*/etc/profile.d/init.sh | sed 's|.*/%{pkgcategory}/%{pkgname}/||' | sort | tail -1`
 DAS_ENV=`ls %{instroot}/${SHARED_ARCH}_*/%{pkgcategory}/%{pkgname}/${LATEST_VERSION} | sort | tail -1`
 source $DAS_ENV
