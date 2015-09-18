@@ -2,9 +2,11 @@
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 Source: http://download.cherrypy.org/cherrypy/%v/CherryPy-%realversion.tar.gz
 Requires: python
+Patch0: cherrypy-multipart-length
 
 %prep
 %setup -n CherryPy-%realversion
+%patch0 -p0
 perl -p -i -e 's/import profile/import cProfile as profile/' cherrypy/lib/profiler.py
 
 %build

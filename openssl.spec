@@ -1,4 +1,4 @@
-### RPM external openssl 1.0.1o
+### RPM external openssl 1.0.1p
 Source: http://www.openssl.org/source/openssl-%realversion.tar.gz
 
 %prep
