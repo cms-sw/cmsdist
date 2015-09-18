@@ -1,171 +1,86 @@
-diff --git a/src/python/WMCore/JobSplitting/EventAwareLumiBased.py b/src/python/WMCore/JobSplitting/EventAwareLumiBased.py
-index 4efe69c..6aaa3a4 100644
---- a/src/python/WMCore/JobSplitting/EventAwareLumiBased.py
-+++ b/src/python/WMCore/JobSplitting/EventAwareLumiBased.py
-@@ -41,6 +41,7 @@ class EventAwareLumiBased(JobFactory):
+From 5c5b76c24fe438979c448eff1ce961ae21658f9b Mon Sep 17 00:00:00 2001
+From: Andres Tanasijczuk <andres.jorge.tanasijczuk@cern.ch>
+Date: Wed, 8 Jul 2015 16:59:33 +0200
+Subject: [PATCH] When retrieving dataset file details, allow to get non-valid
+ files from dbs.
+
+---
+ src/python/WMCore/JobSplitting/JobFactory.py |  2 +-
+ src/python/WMCore/Services/DBS/DBS3Reader.py | 22 ++++++++++++----------
+ 2 files changed, 13 insertions(+), 11 deletions(-)
+
+diff --git a/src/python/WMCore/JobSplitting/JobFactory.py b/src/python/WMCore/JobSplitting/JobFactory.py
+index 12cf9c0..cd3dcd6 100644
+--- a/src/python/WMCore/JobSplitting/JobFactory.py
++++ b/src/python/WMCore/JobSplitting/JobFactory.py
+@@ -205,8 +205,8 @@ def sortByLocation(self):
+             fileset = self.loadFiles(size = self.limit)
+             logging.debug("Loaded %i files" % (len(fileset)))
+         else:
+-            fileset = self.subscription.availableFiles(limit = self.limit, doingJobSplitting = True)
+             logging.debug("About to load files by DAO")
++            fileset = self.subscription.availableFiles(limit = self.limit, doingJobSplitting = True)
  
-         avgEventsPerJob = int(kwargs.get('events_per_job', 5000))
-         eventLimit      = int(kwargs.get('max_events_per_lumi', 20000))
-+        totalEvents     = int(kwargs.get('total_events', 0))
-         splitOnFile     = bool(kwargs.get('halt_job_on_file_boundaries', True))
-         ignoreACDC      = bool(kwargs.get('ignore_acdc_except', False))
-         collectionName  = kwargs.get('collectionName', None)
-@@ -77,7 +78,7 @@ class EventAwareLumiBased(JobFactory):
-                 logging.info('Creating jobs for ACDC fileset %s' % filesetName)
-                 dcs = DataCollectionService(couchURL, couchDB)
-                 goodRunList = dcs.getLumiWhitelist(collectionName, filesetName, owner, group)
--            except Exception, ex:
-+            except Exception as ex:
-                 msg =  "Exception while trying to load goodRunList\n"
-                 if ignoreACDC:
-                     msg +=  "Ditching goodRunList\n"
-@@ -138,7 +139,9 @@ class EventAwareLumiBased(JobFactory):
-         firstLumi      = None
-         lastRun        = None
-         lumisInJob     = 0
-+        totalAvgEventCount = 0
-         currentJobAvgEventCount = 0
-+        stopTask = False
-         for location in locationDict:
- 
-             # For each location, we need a new jobGroup
-@@ -152,6 +155,7 @@ class EventAwareLumiBased(JobFactory):
-                         parent = File(lfn = lfn)
-                         f['parents'].add(parent)
- 
-+                lumisInJobInFile = 0
-                 updateSplitOnJobStop = False
-                 failNextJob          = False
-                 #If the number of events per lumi is higher than the limit
-@@ -252,6 +256,7 @@ class EventAwareLumiBased(JobFactory):
-                             failNextJob = False
-                             firstLumi = lumi
-                             lumisInJob = 0
-+                            lumisInJobInFile = 0
-                             currentJobAvgEventCount = 0
-                             totalJobs += 1
- 
-@@ -269,13 +274,20 @@ class EventAwareLumiBased(JobFactory):
-                                     lumisPerJob = f['lumiCount']
- 
-                         lumisInJob += 1
-+                        lumisInJobInFile += 1
-                         lastLumi = lumi
-                         stopJob = False
-                         lastRun = run.run
-+                        totalAvgEventCount += f['avgEvtsPerLumi']
- 
-                         if self.currentJob and not f in self.currentJob['input_files']:
-                             self.currentJob.addFile(f)
- 
-+                        # We stop here if there are more total events than requested.
-+                        if totalEvents > 0 and totalAvgEventCount >= totalEvents:
-+                            stopTask = True
-+                            break
-+
-                     if firstLumi != None and lastLumi != None:
-                         # Add this run to the mask
-                         self.currentJob['mask'].addRunAndLumis(run = run.run,
-@@ -287,7 +299,16 @@ class EventAwareLumiBased(JobFactory):
-                         firstLumi = None
-                         lastLumi = None
- 
-+                    if stopTask:
-+                        break
-+
-                 if not splitOnFile:
--                    currentJobAvgEventCount += f['avgEvtsPerLumi'] * min(lumisInJob, f['lumiCount'])
-+                    currentJobAvgEventCount += f['avgEvtsPerLumi'] * lumisInJobInFile
-+
-+                if stopTask:
-+                    break
-+
-+            if stopTask:
-+                break
- 
-         return
+         for file in fileset:
+             locSet = frozenset(file['locations'])
 diff --git a/src/python/WMCore/Services/DBS/DBS3Reader.py b/src/python/WMCore/Services/DBS/DBS3Reader.py
-index 6900101..42b5404 100644
+index 5bebe96..484925b 100644
 --- a/src/python/WMCore/Services/DBS/DBS3Reader.py
 +++ b/src/python/WMCore/Services/DBS/DBS3Reader.py
-@@ -26,7 +26,7 @@ def remapDBS3Keys(data, stringify = False, **others):
-                    'logical_file_name' : 'LogicalFileName',
-                    'adler32': 'Adler32', 'check_sum': 'Checksum', 'md5': 'Md5',
-                    'block_name': 'BlockName','run_num': 'RunNumber', 'lumi_section_num': 'LumiSectionNumber'}
--    
-+
-     mapping.update(others)
-     format = lambda x: str(x) if stringify and type(x) == unicode else x
-     for name, newname in mapping.iteritems():
-@@ -82,7 +82,7 @@ class DBS3Reader:
-             item['LumiSectionNumber'] = lumisItem['lumi_section_num']
-             lumiDict[lumisItem['logical_file_name']].append(item)
-         return lumiDict
--    
-+
-     def listPrimaryDatasets(self, match = '*'):
-         """
-         _listPrimaryDatasets_
-@@ -216,13 +216,13 @@ class DBS3Reader:
+@@ -221,7 +221,7 @@ def listDatasetFiles(self, datasetPath):
+         return [ x['logical_file_name'] for x in self.dbs.listFileArray(dataset = datasetPath)]
  
-         """
-         return [ x['logical_file_name'] for x in self.dbs.listFiles(dataset = datasetPath)]
--        
-+
  
-     def listDatasetFileDetails(self, datasetPath, getParents=False):
+-    def listDatasetFileDetails(self, datasetPath, getParents=False):
++    def listDatasetFileDetails(self, datasetPath, getParents=False, validFileOnly=1):
          """
          TODO: This is completely wrong need to be redone. or be removed - getting dataset altogether
--        might be to costly 
--        
-+        might be to costly
-+
-         _listDatasetFileDetails_
- 
-         Get list of lumis, events, and parents for each file in a dataset
-@@ -231,8 +231,8 @@ class DBS3Reader:
-               'BlockName': '/HighPileUp/Run2011A-v1/RAW#dd6e0796-cbcc-11e0-80a9-003048caaace',
-               'Lumis': {173658: [8, 12, 9, 14, 19, 109, 105]},
+         might be to costly
+@@ -236,36 +236,38 @@ def listDatasetFileDetails(self, datasetPath, getParents=False):
                'Parents': [],
--              'Checksum': '22218315', 
--              'Adler32': 'a41a1446', 
-+              'Checksum': '22218315',
-+              'Adler32': 'a41a1446',
-               'Md5': 'NOTSET',
-               'FileSize': 286021145
+               'Checksum': '22218315',
+               'Adler32': 'a41a1446',
+-              'FileSize': 286021145
++              'FileSize': 286021145,
++              'ValidFile': 1
              }
-@@ -242,7 +242,7 @@ class DBS3Reader:
+ 
+         """
+-        fileDetails = self.dbs.listFileArray(dataset = datasetPath, validFileOnly = 1, detail=True)
++        fileDetails = self.dbs.listFileArray(dataset = datasetPath, validFileOnly = validFileOnly, detail=True)
          blocks = set() #the set of blocks of the dataset
          #Iterate over the files and prepare the set of blocks and a dict where the keys are the files
          files = {}
--        for f in fileDetails:        
-+        for f in fileDetails:
+         for f in fileDetails:
              blocks.add(f['block_name'])
              files[f['logical_file_name']] = remapDBS3Keys(f, stringify = True)
++            files[f['logical_file_name']]['ValidFile'] = f['is_file_valid']
              files[f['logical_file_name']]['Lumis'] = {}
-@@ -255,7 +255,8 @@ class DBS3Reader:
+             files[f['logical_file_name']]['Parents'] = []
+ 
+         #Iterate over the blocks and get parents and lumis
+-        #TODO this part is completely wrong need to be redone
+         for blockName in blocks:
+             #get the parents
              if getParents:
                  parents = self.dbs.listFileParents(block_name=blockName)
                  for p in parents:
--                    files[p['logical_file_name']]['Parents'].extend(p['parent_logical_file_name'])
-+                    if p['logical_file_name'] in files: #invalid files are not there
-+                        files[p['logical_file_name']]['Parents'].extend(p['parent_logical_file_name'])
+-                    if p['logical_file_name'] in files: #invalid files are not there
++                    if p['logical_file_name'] in files: #invalid files are not there if validFileOnly=1
+                         files[p['logical_file_name']]['Parents'].extend(p['parent_logical_file_name'])
              #get the lumis
-             file_lumis = self.dbs.listFileLumis(block_name=blockName, validFileOnly = 1)
+-            file_lumis = self.dbs.listFileLumis(block_name=blockName, validFileOnly = 1)
++            file_lumis = self.dbs.listFileLumis(block_name=blockName)
              for f in file_lumis:
-@@ -504,12 +505,12 @@ class DBS3Reader:
-                     if lumis:
-                         dbsFile["LumiList"] = self._getLumiList(parentLFN)[parentLFN]
-                     parentList.append(dbsFile)
--                        
-+
-             parentsByLFN[f['logical_file_name']] = parentList
--            
-+
-         for fileInfo in fileDetails:
-             fileInfo["ParentList"] = parentsByLFN[fileInfo['logical_file_name']]
--             
-+
-         return fileDetails
+-                if f['run_num'] in files[f['logical_file_name']]['Lumis']:
+-                    files[f['logical_file_name']]['Lumis'][f['run_num']].extend(f['lumi_section_num'])
+-                else:
+-                    files[f['logical_file_name']]['Lumis'][f['run_num']] = f['lumi_section_num']
++                if f['logical_file_name'] in files: #invalid files are not there if validFileOnly=1
++                    if f['run_num'] in files[f['logical_file_name']]['Lumis']:
++                        files[f['logical_file_name']]['Lumis'][f['run_num']].extend(f['lumi_section_num'])
++                    else:
++                        files[f['logical_file_name']]['Lumis'][f['run_num']] = f['lumi_section_num']
  
-     def lfnsInBlock(self, fileBlockName):
+         return files
+ 

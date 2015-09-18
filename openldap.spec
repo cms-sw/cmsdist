@@ -7,7 +7,9 @@ Requires: openssl db4
 %setup -q -n %n-%{realversion}
 
 %build
-./configure --prefix=%i --without-cyrus-sasl --with-tls --disable-static --disable-slapd --disable-slurpd
+export CPPFLAGS="-I${OPENSSL_ROOT}/include"
+export LDFLAGS="-L${OPENSSL_ROOT}/lib"
+./configure --prefix=%i --without-cyrus-sasl --with-tls=openssl --disable-static --disable-slapd --disable-slurpd
 make depend
 make %{makeprocesses}
 
