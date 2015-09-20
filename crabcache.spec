@@ -1,11 +1,11 @@
-### RPM cms crabcache 3.3.11.rc7
+### RPM cms crabcache 3.3.1510.rc3
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 1.0.0.pre3
+%define wmcver 1.0.9.pre4
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
 Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
@@ -13,11 +13,12 @@ Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=C
 Requires: python cherrypy py2-cjson rotatelogs py2-pycurl py2-httplib2 py2-sqlalchemy py2-cx-oracle
 BuildRequires: py2-sphinx
 #Patch0: crabcache-setup
+Patch0: crabserver3-setup
 
 %prep
 %setup -D -T -b 1 -n CRABServer-%{realversion}
-#%patch0 -p1
 %setup -T -b 0 -n WMCore-%{wmcver}
+%patch0 -p1
 
 %build
 cd ../WMCore-%{wmcver}
