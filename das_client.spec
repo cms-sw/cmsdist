@@ -1,4 +1,4 @@
-### RPM cms das_client v02.15.06
+### RPM cms das_client v02.05.00
 %define pkg DAS
 
 Source0: git://github.com/dmwm/DAS?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
