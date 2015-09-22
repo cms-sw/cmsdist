@@ -150,6 +150,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/root.xml
 <tool name="root" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <use name="rootphysics"/>
+  <ifversion name="^[6-9]\.">
+    <flags NO_CAPABILITIES="yes"/>
+  </ifversion>
 </tool>
 EOF_TOOLFILE
 
