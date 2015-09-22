@@ -1,0 +1,376 @@
+diff --git a/src/python/WMCore/JobSplitting/EventAwareLumiBased.py b/src/python/WMCore/JobSplitting/EventAwareLumiBased.py
+index 097cc94..8170dd6 100644
+--- a/src/python/WMCore/JobSplitting/EventAwareLumiBased.py
++++ b/src/python/WMCore/JobSplitting/EventAwareLumiBased.py
+@@ -19,7 +19,7 @@ import math
+ 
+ from WMCore.DataStructs.Run         import Run
+ from WMCore.JobSplitting.JobFactory import JobFactory
+-from WMCore.JobSplitting.LumiBased  import isGoodLumi, isGoodRun
++from WMCore.JobSplitting.LumiBased  import isGoodLumi, isGoodRun, LumiChecker
+ from WMCore.WMBS.File               import File
+ from WMCore.WMSpec.WMTask           import buildLumiMask
+ 
+@@ -50,6 +50,8 @@ class EventAwareLumiBased(JobFactory):
+         runWhitelist    = kwargs.get('runWhitelist', [])
+         runs            = kwargs.get('runs', None)
+         lumis           = kwargs.get('lumis', None)
++        applyLumiCorrection = bool(kwargs.get('applyLumiCorrection', False))
++
+         timePerEvent, sizePerEvent, memoryRequirement = \
+                     self.getPerformanceParameters(kwargs.get('performance', {}))
+         capJobTime      = kwargs.get('capJobTime', None)
+@@ -144,6 +146,7 @@ class EventAwareLumiBased(JobFactory):
+         totalAvgEventCount = 0
+         currentJobAvgEventCount = 0
+         stopTask = False
++        self.lumiChecker = LumiChecker(applyLumiCorrection)
+         for location in locationDict:
+ 
+             # For each location, we need a new jobGroup
+@@ -204,7 +207,8 @@ class EventAwareLumiBased(JobFactory):
+ 
+                     # Now loop over the lumis
+                     for lumi in run:
+-                        if not isGoodLumi(goodRunList, run = run.run, lumi = lumi):
++                        if (not isGoodLumi(goodRunList, run = run.run, lumi = lumi) or
++                            self.lumiChecker.isSplitLumi(run.run, lumi, f)):
+                             # Kill the chain of good lumis
+                             # Skip this lumi
+                             if firstLumi != None and firstLumi != lumi:
+@@ -256,6 +260,7 @@ class EventAwareLumiBased(JobFactory):
+                                 msg = "File %s has too many events (%d) in %d lumi(s)" % (f['lfn'],
+                                                                                           f['events'],
+                                                                                           f['lumiCount'])
++                            self.lumiChecker.closeJob(self.currentJob)
+                             self.newJob(name = self.getJobName(), failedJob = failNextJob,
+                                         failedReason = msg)
+                             if deterministicPileup:
+@@ -321,4 +326,6 @@ class EventAwareLumiBased(JobFactory):
+             if stopTask:
+                 break
+ 
++        self.lumiChecker.closeJob(self.currentJob)
++        self.lumiChecker.fixInputFiles()
+         return
+diff --git a/src/python/WMCore/JobSplitting/LumiBased.py b/src/python/WMCore/JobSplitting/LumiBased.py
+index 2d605b6..bc7150d 100644
+--- a/src/python/WMCore/JobSplitting/LumiBased.py
++++ b/src/python/WMCore/JobSplitting/LumiBased.py
+@@ -124,6 +124,7 @@ class LumiChecker:
+         # Just a cosmetic "if": self.splitLumiFiles is empty when applyLumiCorrection is not enabled
+         if not self.applyLumiCorrection:
+             return
++
+         for (run, lumi), files in self.splitLumiFiles.iteritems():
+             for file_ in files:
+                 self.lumiJobs[(run, lumi)].addFile(file_)
+@@ -375,5 +376,6 @@ class LumiBased(JobFactory):
+             if stopTask:
+                 break
+ 
++        self.lumiChecker.closeJob(self.currentJob)
+         self.lumiChecker.fixInputFiles()
+         return
+diff --git a/src/python/WMCore/Services/UserFileCache/UserFileCache.py b/src/python/WMCore/Services/UserFileCache/UserFileCache.py
+index b2c887d..95e9083 100644
+--- a/src/python/WMCore/Services/UserFileCache/UserFileCache.py
++++ b/src/python/WMCore/Services/UserFileCache/UserFileCache.py
+@@ -6,14 +6,75 @@ API for UserFileCache service
+ """
+ 
+ import os
+-import hashlib
+ import json
+-import logging
++import shutil
++import hashlib
+ import tarfile
++import tempfile
+ 
+ from WMCore.Services.Service import Service
+ 
+ 
++def calculateChecksum(tarfile_, exclude=[]):
++    """
++    Calculate the checksum of the tar file in input.
++
++    The tarfile_ input parameter could be a string or a file object (anything compatible
++    with the fileobj parameter of tarfile.open).
++
++    The exclude parameter could be a list of strings, or a callable that takes as input
++    the output of  the list of tarfile.getmembers() and return a list of strings.
++    The exclude param is interpreted as a list of files that will not be taken into consideration
++    when calculating the checksum.
++
++    The output is the checksum of the tar input file.
++
++    The checksum is calculated taking into consideration the names of the objects
++    in the tarfile (files, directories etc) and the content of each file.
++
++    Each file is exctracted, read, and then deleted right after the input is passed
++    to the hasher object. The file is read in chuncks of 4096 bytes to avoid memory
++    issues.
++    """
++
++    hasher = hashlib.sha256()
++
++    ## "massage" out the input parameters
++    if isinstance(tarfile_, basestring):
++        tar = tarfile.open(tarfile_, mode='r')
++    else:
++        tar = tarfile.open(fileobj=tarfile_, mode='r')
++
++    if exclude and hasattr(exclude, '__call__'):
++        excludeList = exclude(tar.getmembers())
++    else:
++        excludeList = exclude
++
++
++    tmpDir = tempfile.mkdtemp()
++    try:
++        for tarmember in tar:
++            if tarmember.name in excludeList:
++                continue
++            hasher.update(tarmember.name)
++            if tarmember.isfile() and tarmember.name.split('.')[-1]!='pkl':
++                tar.extractall(path=tmpDir, members=[tarmember])
++                fn = os.path.join(tmpDir, tarmember.name)
++                with open(fn, 'rb') as fd:
++                    while True:
++                        buf = fd.read(4096)
++                        if not buf:
++                            break
++                        hasher.update(buf)
++                os.remove(fn)
++    finally:
++        #never leave tmddir around
++        shutil.rmtree(tmpDir)
++    checksum = hasher.hexdigest()
++
++    return checksum
++
++
+ class UserFileCache(Service):
+     """
+     API for UserFileCache service
+@@ -69,12 +130,12 @@ class UserFileCache(Service):
+         self['logger'].debug('Wrote %s' % fileName)
+         return fileName
+ 
+-    def upload(self, fileName):
++    def upload(self, fileName, excludeList = []):
+         """
+         Upload the tarfile fileName to the user file cache. Returns the hash of the content of the file
+         which can be used to retrieve the file later on.
+         """
+-        params = [('hashkey', self.checksum(fileName))]
++        params = [('hashkey', calculateChecksum(fileName, excludeList))]
+ 
+         resString = self["requests"].uploadFile(fileName=fileName, fieldName='inputfile',
+                                                 url=self['endpoint'] + 'file',
+@@ -82,16 +143,3 @@ class UserFileCache(Service):
+ 
+         return json.loads(resString)['result'][0]
+ 
+-    def checksum(self, fileName):
+-        """
+-        Calculate the checksum of the file. We don't just hash the contents because
+-        that includes the timestamp of when the tar was made, not just the timestamps
+-        of the constituent files
+-        """
+-
+-        tar = tarfile.open(fileName, mode='r')
+-        lsl = [(x.name, int(x.size), int(x.mtime), x.uname) for x in tar.getmembers()]
+-        hasher = hashlib.sha256(str(lsl))
+-        checksum = hasher.hexdigest()
+-
+-        return checksum
+diff --git a/src/python/WMCore/Services/pycurl_manager.py b/src/python/WMCore/Services/pycurl_manager.py
+index 385ca1f..be95e7e 100644
+--- a/src/python/WMCore/Services/pycurl_manager.py
++++ b/src/python/WMCore/Services/pycurl_manager.py
+@@ -138,7 +138,7 @@ class RequestHandler(object):
+                         % (str(exc), type(data))
+                 logging.warning(msg)
+                 return data
+-            return data
++            return res
+         else:
+             return data
+ 
+diff --git a/test/python/WMCore_t/JobSplitting_t/EventAwareLumiBased_t.py b/test/python/WMCore_t/JobSplitting_t/EventAwareLumiBased_t.py
+index 192a147..beed60a 100644
+--- a/test/python/WMCore_t/JobSplitting_t/EventAwareLumiBased_t.py
++++ b/test/python/WMCore_t/JobSplitting_t/EventAwareLumiBased_t.py
+@@ -626,6 +626,104 @@ class EventAwareLumiBasedTest(unittest.TestCase):
+         self.assertEqual(jobs[0]['mask'].getRunAndLumis(), {1: [[10, 14]], 2: [[20, 21]], 4: [[40, 40]]})
+         self.assertEqual(jobs[1]['mask'].getRunAndLumis(), {4: [[41, 41]]})
+ 
++    def testH_LumiCorrections(self):
++        """
++        _LumiCorrections_
++
++        Test the splitting algorithm can handle lumis which
++        cross multiple files.
++        """
++        splitter = SplitterFactory()
++        testSubscription = self.createSubscription(nFiles = 2, lumisPerFile = 2,
++                                                   twoSites = False, nEventsPerFile = 150)
++        files = testSubscription.getFileset().getFiles()
++        self.assertEqual(len(files), 2)
++        # at the moment we have two files with two lumis each:
++        #  file0 has run0 and lumis 0,1. 150 events
++        #  file1 has run1 and lumis 2,3. 150 evens
++        jobFactory = splitter(package = "WMCore.DataStructs",
++                              subscription = testSubscription)
++
++        jobGroups = jobFactory(events_per_job = 50,
++                               halt_job_on_file_boundaries = False,
++                               splitOnRun = False,
++                               performance = self.performanceParams,
++                               applyLumiCorrection = False
++                              )
++
++        # The splitting algorithm will assume 75 events per lumi.
++        # We will have one job per lumi
++        self.assertEqual(len(jobGroups), 1)
++        jobs = jobGroups[0].jobs
++        self.assertEqual(len(jobs), 4)
++
++        testSubscription = self.createSubscription(nFiles = 2, lumisPerFile = 2,
++                                           twoSites = False, nEventsPerFile = 150)
++        files = testSubscription.getFileset().getFiles()
++        # Now modifyng and adding duplicated lumis.
++        for runObj in files[0]['runs']:
++            if runObj.run != 0:
++                continue
++            runObj.lumis.append(42)
++        for runObj in files[1]['runs']:
++            if runObj.run != 1:
++                continue
++            runObj.run = 0
++            runObj.lumis.append(42)
++        files[1]['locations'] = set(['blenheim'])
++        jobFactory = splitter(package = "WMCore.DataStructs",
++                              subscription = testSubscription)
++        jobGroups = jobFactory(events_per_job = 50,
++                               halt_job_on_file_boundaries = True,
++                               performance = self.performanceParams,
++                               applyLumiCorrection = True)
++
++        # Now we will have:
++        #   file0: Run0 and lumis [0, 1, 42]
++        #   file1: Run0 and lumis [2, 3, 42]
++        # Splitting algorithm is assuming 50 events per lumi
++        # Three jobs (one per lumu) for the first file
++        # Two jobs for the second file (42 is duplicated)
++        self.assertEqual(len(jobGroups), 1)
++        jobs = jobGroups[0].jobs
++        self.assertEqual(len(jobs), 5)
++        self.assertEqual(len(jobs[0]['input_files']), 1)
++        self.assertEqual(len(jobs[1]['input_files']), 1)
++        self.assertEqual(len(jobs[2]['input_files']), 2)
++        self.assertEqual(len(jobs[3]['input_files']), 1)
++        self.assertEqual(len(jobs[4]['input_files']), 1)
++        self.assertEqual(jobs[0]['mask'].getRunAndLumis(), {0: [[0, 0]]})
++        self.assertEqual(jobs[1]['mask'].getRunAndLumis(), {0: [[1, 1]]})
++        self.assertEqual(jobs[2]['mask'].getRunAndLumis(), {0: [[42, 42]]})
++        self.assertEqual(jobs[3]['mask'].getRunAndLumis(), {0: [[2, 2]]})
++        self.assertEqual(jobs[4]['mask'].getRunAndLumis(), {0: [[3, 3]]})
++
++
++        #Check that if the last two jobs have the same duplicated lumi you do not get an error
++        testSubscription = self.createSubscription(nFiles = 2, lumisPerFile = 2,
++                                           twoSites = False, nEventsPerFile = 150)
++        files = testSubscription.getFileset().getFiles()
++        # Now modifying and adding the same duplicated lumis in the Nth and Nth-1 jobs
++        for runObj in files[0]['runs']:
++            if runObj.run != 0:
++                continue
++            runObj.lumis.append(42)
++        for runObj in files[1]['runs']:
++            runObj.run = 0
++            runObj.lumis = [42]
++        files[1]['locations'] = set(['blenheim'])
++        jobFactory = splitter(package = "WMCore.DataStructs",
++                              subscription = testSubscription)
++        jobGroups = jobFactory(events_per_job = 50,
++                               halt_job_on_file_boundaries = True,
++                               performance = self.performanceParams,
++                               applyLumiCorrection = True)
++
++        self.assertEqual(len(jobGroups), 1)
++        jobs = jobGroups[0].jobs
++        self.assertEqual(len(jobs), 3)
++
++
+ 
+ if __name__ == '__main__':
+     unittest.main()
+diff --git a/test/python/WMCore_t/JobSplitting_t/LumiBased_t.py b/test/python/WMCore_t/JobSplitting_t/LumiBased_t.py
+index 3266803..3b22569 100644
+--- a/test/python/WMCore_t/JobSplitting_t/LumiBased_t.py
++++ b/test/python/WMCore_t/JobSplitting_t/LumiBased_t.py
+@@ -277,5 +277,30 @@ class LumiBasedTest(unittest.TestCase):
+         self.assertEqual(jobs[1]['mask'].getRunAndLumis(), {2: [[200, 200]]})
+         self.assertEqual(jobs[2]['mask'].getRunAndLumis(), {3: [[300, 300]]})
+ 
++
++        #Check that if the last two jobs have the same duplicated lumi you do not get an error
++        testSubscription = self.createSubscription(nFiles = 2, lumisPerFile = 2,
++                                           twoSites = False)
++        files = testSubscription.getFileset().getFiles()
++        # Now modifying and adding the same duplicated lumis in the Nth and Nth-1 jobs
++        for runObj in files[0]['runs']:
++            if runObj.run != 0:
++                continue
++            runObj.lumis.append(42)
++        for runObj in files[1]['runs']:
++            runObj.run = 0
++            runObj.lumis = [42]
++        files[1]['locations'] = set(['blenheim'])
++        jobFactory = splitter(package = "WMCore.DataStructs",
++                              subscription = testSubscription)
++        jobGroups = jobFactory(events_per_job = 50,
++                               halt_job_on_file_boundaries = True,
++                               performance = self.performanceParams,
++                               applyLumiCorrection = True)
++
++        self.assertEqual(len(jobGroups), 1)
++        jobs = jobGroups[0].jobs
++        self.assertEqual(len(jobs), 3)
++
+ if __name__ == '__main__':
+     unittest.main()
+diff --git a/test/python/WMCore_t/Services_t/UserFileCache_t/UserFileCache_t.py b/test/python/WMCore_t/Services_t/UserFileCache_t/UserFileCache_t.py
+index 466c4ee..4b3f86d 100644
+--- a/test/python/WMCore_t/Services_t/UserFileCache_t/UserFileCache_t.py
++++ b/test/python/WMCore_t/Services_t/UserFileCache_t/UserFileCache_t.py
+@@ -8,7 +8,7 @@ import filecmp
+ import os
+ from os import path
+ 
+-from WMCore.Services.UserFileCache.UserFileCache import UserFileCache
++from WMCore.Services.UserFileCache.UserFileCache import UserFileCache, calculateChecksum
+ from WMCore.WMBase import getTestBase
+ 
+ class UserFileCacheTest(unittest.TestCase):
+@@ -21,14 +21,13 @@ class UserFileCacheTest(unittest.TestCase):
+         """
+         Tests checksum method
+         """
+-        self.ufc = UserFileCache()
+-        checksum1 = self.ufc.checksum(fileName=path.join(getTestBase(), 'WMCore_t/Services_t/UserFileCache_t/ewv_crab_EwvAnalysis_31_111229_140959_publish.tgz'))
+-        checksum2 = self.ufc.checksum(fileName=path.join(getTestBase(), 'WMCore_t/Services_t/UserFileCache_t/ewv_crab_EwvAnalysis_31_resubmit_111229_144319_publish.tgz'))
++        checksum1 = calculateChecksum(tarfile_=path.join(getTestBase(), 'WMCore_t/Services_t/UserFileCache_t/ewv_crab_EwvAnalysis_31_111229_140959_publish.tgz'))
++        checksum2 = calculateChecksum(tarfile_=path.join(getTestBase(), 'WMCore_t/Services_t/UserFileCache_t/ewv_crab_EwvAnalysis_31_resubmit_111229_144319_publish.tgz'))
+         self.assertTrue(checksum1)
+         self.assertTrue(checksum2)
+         self.assertFalse(checksum1 == checksum2)
+ 
+-        self.assertRaises(IOError, self.ufc.checksum, **{'fileName': 'does_not_exist'})
++        self.assertRaises(IOError, calculateChecksum, **{'tarfile_': 'does_not_exist'})
+         return
+ 
+     def testUploadDownload(self):
