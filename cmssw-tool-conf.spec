@@ -20,7 +20,7 @@ Requires: curl-toolfile
 %if "%(case %cmsplatf in (osx*) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: freetype-toolfile
 %endif
-Requires: das-client-toolfile
+Requires: das_client-toolfile
 Requires: db4-toolfile
 Requires: dbs-client-toolfile
 Requires: dpm-toolfile
