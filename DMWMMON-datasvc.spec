@@ -38,6 +38,8 @@ mv %_builddir/%{setupdir}/PhEDExWeb/DataService/static/{phedex,dmwmmon}_pod.css
 tar -c README.txt | tar -x -C %i
 tar -c perl_lib/PHEDEX/{Core,RequestAllocator} | tar -x -C %i
 tar -c PhEDExWeb/{DataService,README} | tar -x -C %i
+tar -c perl_lib/PHEDEX/Web --exclude="*/API/*" | tar -x -C %i
+
 # Add new data service APIs in this list as needed:
 tar -c perl_lib/PHEDEX/Web/API/{Auth.pm,Bounce.pm,Nodes.pm,StorageInsert.pm,StorageUsage.pm} | tar -x -C %i
 
