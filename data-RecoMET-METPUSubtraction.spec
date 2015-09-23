@@ -1,4 +1,4 @@
-### RPM cms data-RecoMET-METPUSubtraction V01-00-01
+### RPM cms data-RecoMET-METPUSubtraction V01-00-03
 
 %prep
 
