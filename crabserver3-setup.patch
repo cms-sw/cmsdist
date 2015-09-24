@@ -1,3 +1,28 @@
+diff --git a/setup_dependencies.py b/setup_dependencies.py
+index a4fb83b..5cf507d 100644
+--- a/setup_dependencies.py
++++ b/setup_dependencies.py
+@@ -117,7 +117,10 @@ dependencies = {'wmc-rest':{
+                         'statics': ['src/couchapps/Agent+'],
+                         },
+                 'crabcache':{
++                        'packages': ['WMCore.Wrappers+', 'WMCore.Services.UserFileCache+'],
+                         'systems': ['wmc-rest'],
++                        'modules': ['WMCore.Services.Requests', 'WMCore.Services.Service', 'WMCore.Services.pycurl_manager',
++                                    'WMCore.Services.EmulatorSwitch'],
+                         },
+                 'crabserver':{
+                         'packages': ['WMCore.Credential', 'WMCore.Services+', 'WMCore.RequestManager+',
+@@ -126,7 +129,8 @@ dependencies = {'wmc-rest':{
+                         'systems' : ['wmc-rest', 'wmc-database'],
+                         },
+                 'crabclient':{
+-                        'packages': ['WMCore.Wrappers+', 'WMCore.Credential', 'PSetTweaks', 'WMCore.Services.UserFileCache+', 'WMCore.Services.SiteDB+', 'WMCore.Services.PhEDEx+'],
++                        'packages': ['WMCore.Wrappers+', 'WMCore.Credential', 'PSetTweaks', 'WMCore.Services.UserFileCache+',
++                                     'WMCore.Services.SiteDB+', 'WMCore.Services.PhEDEx+'],
+                         'systems': ['wmc-base'],
+                         'modules': ['WMCore.FwkJobReport.FileInfo', 'WMCore.Services.Requests', 'WMCore.DataStructs.LumiList',
+                                     'WMCore.Services.Service', 'WMCore.Services.pycurl_manager', 'WMCore.Services.EmulatorSwitch'],
 diff --git a/src/python/WMCore/JobSplitting/EventAwareLumiBased.py b/src/python/WMCore/JobSplitting/EventAwareLumiBased.py
 index 097cc94..8170dd6 100644
 --- a/src/python/WMCore/JobSplitting/EventAwareLumiBased.py
@@ -73,7 +98,7 @@ index 2d605b6..bc7150d 100644
          self.lumiChecker.fixInputFiles()
          return
 diff --git a/src/python/WMCore/Services/UserFileCache/UserFileCache.py b/src/python/WMCore/Services/UserFileCache/UserFileCache.py
-index b2c887d..95e9083 100644
+index b2c887d..f0e425b 100644
 --- a/src/python/WMCore/Services/UserFileCache/UserFileCache.py
 +++ b/src/python/WMCore/Services/UserFileCache/UserFileCache.py
 @@ -6,14 +6,75 @@ API for UserFileCache service
@@ -154,7 +179,7 @@ index b2c887d..95e9083 100644
  class UserFileCache(Service):
      """
      API for UserFileCache service
-@@ -69,12 +130,12 @@ class UserFileCache(Service):
+@@ -69,12 +130,15 @@ class UserFileCache(Service):
          self['logger'].debug('Wrote %s' % fileName)
          return fileName
  
@@ -165,11 +190,14 @@ index b2c887d..95e9083 100644
          which can be used to retrieve the file later on.
          """
 -        params = [('hashkey', self.checksum(fileName))]
-+        params = [('hashkey', calculateChecksum(fileName, excludeList))]
++
++        #The parameter newchecksum tells the crabcace to use the new algorithm. It's there
++        #for guarantee backward compatibility
++        params = [('hashkey', calculateChecksum(fileName, excludeList)), ('newchecksum', '1')]
  
          resString = self["requests"].uploadFile(fileName=fileName, fieldName='inputfile',
                                                  url=self['endpoint'] + 'file',
-@@ -82,16 +143,3 @@ class UserFileCache(Service):
+@@ -82,16 +146,3 @@ class UserFileCache(Service):
  
          return json.loads(resString)['result'][0]
  

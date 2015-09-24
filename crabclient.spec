@@ -19,6 +19,8 @@ Requires: python py2-httplib2 py2-sphinx py2-pycurl dbs3-client py2-ipython
 #86b932c
 #5e91046
 #d5bfd23
+#eb4dd68
+#f6b4069
 #Patch0: crabclient-setup
 Patch0: crabserver3-setup
 
