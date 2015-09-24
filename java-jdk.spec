@@ -1,67 +1,41 @@
-### RPM external java-jdk 1.5.0_15
+### RPM external java-jdk 1.7.0_79
 # Linux only; OS X ships java on system which we use instead
-
 %ifnos darwin
-Provides: libasound.so.2
-Provides: libasound.so.2(ALSA_0.9)
-Provides: libjava_crw_demo_g.so
-Provides: libodbc.so
-Provides: libodbcinst.so
-# 64 bit versions
-Provides: libasound.so.2()(64bit)
-Provides: libasound.so.2(ALSA_0.9)(64bit)
-Provides: libjava_crw_demo_g.so()(64bit)
-Provides: libodbc.so()(64bit)
-Provides: libodbcinst.so()(64bit)
-Provides: libXp.so.6()(64bit)
-Provides: libXt.so.6()(64bit)
 Provides: libXtst.so.6()(64bit)
+Provides: libXxf86vm.so.1()(64bit)
+Provides: libasound.so.2()(64bit)
+Provides: libatk-1.0.so.0()(64bit)
+Provides: libavcodec.so.52()(64bit)
+Provides: libavcodec.so.53()(64bit)
+Provides: libavformat.so.52()(64bit)
+Provides: libavformat.so.53()(64bit)
+Provides: libcairo.so.2()(64bit)
+Provides: libgdk-x11-2.0.so.0()(64bit)
+Provides: libgdk_pixbuf-2.0.so.0()(64bit)
+Provides: libgio-2.0.so.0()(64bit)
+Provides: libglib-2.0.so.0()(64bit)
+Provides: libgmodule-2.0.so.0()(64bit)
+Provides: libgobject-2.0.so.0()(64bit)
+Provides: libgthread-2.0.so.0()(64bit)
+Provides: libgtk-x11-2.0.so.0()(64bit)
+Provides: libpango-1.0.so.0()(64bit)
+Provides: libpangocairo-1.0.so.0()(64bit)
+Provides: libpangoft2-1.0.so.0()(64bit)
+Provides: libxslt.so.1()(64bit)
 
-%define downloadv %(echo %realversion | tr '.p' '_0')
-
-%define tmpArch %(echo %cmsplatf | cut -d_ -f 1,2)
-
-%if "%{tmpArch}" == "slc3_ia32"
-%define downloadarch i586
-%endif
-
-# A hack? Probably won't work for slc4 but...
-%if "%{tmpArch}" == "slc4_ia32"
-%define downloadarch i586
-%endif
-
-%if "%{tmpArch}" == "slc3_amd64"
-%define downloadarch amd64
-%endif
-
-%if "%{tmpArch}" == "slc4_amd64"
-%define downloadarch amd64
-%endif
-
-%if "%{tmpArch}" == "slc5_amd64"
-%define downloadarch amd64
-%endif
-
-%if "%{tmpArch}" == "slc6_amd64"
-%define downloadarch amd64
-%endif
-
-Source0: http://cmsrep.cern.ch/cmssw/jdk-mirror/jdk-%downloadv-linux-i586.bin
-Source1: http://cmsrep.cern.ch/cmssw/jdk-mirror/jdk-%downloadv-linux-amd64.bin
+Source0: http://cmsrep.cern.ch/cmssw/oracle-mirror/20150922-jdk-7u79-linux-x64.tar.gz
 %endif
 
 %prep
 %ifnos darwin
-%define javadir jdk%(echo %realversion| sed -e "s/.p/_0/")
-rm -rf %javadir
-yes | sh %{_sourcedir}/jdk-%downloadv-linux-%downloadarch.bin
-cd %javadir
+%setup -T -b 0 -n jdk1.7.0_79
+%define javadir jdk1.7.0_79
 %endif
-
 %build
 
 %install
 %ifnos darwin
-cp -r %javadir/* %i
+ls -l
+cp -r * %i
 rm -rf %i/man
 %endif
