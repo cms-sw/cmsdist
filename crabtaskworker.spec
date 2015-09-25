@@ -1,4 +1,4 @@
-### RPM cms crabtaskworker 3.3.1509.rc8
+### RPM cms crabtaskworker 3.3.1510.rc6
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
@@ -10,6 +10,7 @@ Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{w
 Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
 
 #Patch0: crabtaskworker-setup
+Patch0: crabserver3-setup
 
 Requires: p5-time-hires
 Requires: python  dbs-client dls-client dbs3-client py2-pycurl py2-httplib2 cherrypy condor
@@ -18,7 +19,7 @@ BuildRequires: py2-sphinx
 %prep
 %setup -D -T -b 1 -n CRABServer-%{realversion}
 %setup -T -b 0 -n WMCore-%{wmcver}
-#%patch0 -p1
+%patch0 -p1
 
 %build
 touch $PWD/condor_config
@@ -29,6 +30,7 @@ PYTHONPATH=$PWD/build/lib:$PYTHONPATH
 
 cd ../CRABServer-%{realversion}
 perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/taskworker/conf.py
+echo "__version__ = \"%{realversion}\"#Automatically added during RPM build process" >> src/python/TaskWorker/__init__.py
 python setup.py build_system -s TaskWorker
 
 sed -i 's|CRAB3_VERSION=.*|CRAB3_VERSION=%{realversion}|' bin/htcondor_make_runtime.sh
