@@ -1,22 +1,15 @@
-### RPM cms confdb 1.2.0
-Source: git://github.com/cms-sw/web-confdb?obj=Server/%realversion&export=%n&output=/%n.tar.gz
-Requires: python cherrypy oracle oracle-env py2-cx-oracle py2-sqlalchemy py2-marshmallow
-Requires: rotatelogs pystack
+### RPM cms crab-devtools 1.0
+
+# This is a meta-package to group development tool dependencies and all the crab3 packages
+Requires: crabclient crabserver crabtaskworker crabcache yuicompressor py2-coverage py2-lint py2-nose py2-sphinx py2-mox py2-future
 
 %prep
-%setup -n %n
-
 %build
-
 %install
-cp -rp Server/Application_py266 %i/
-rm -rf %i/Application_py266/Config
-python -m compileall %i/Application_py266 || true
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
-mkdir -p %i/etc/profile.d/
-: > %i/etc/profile.d/dependencies-setup.sh
-: > %i/etc/profile.d/dependencies-setup.csh
+rm -rf %i/etc/profile.d
+mkdir -p %i/etc/profile.d
 for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
   if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
@@ -26,4 +19,5 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
 done
 
 %post
+# The relocation is also needed because of dependencies
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
