@@ -1,4 +1,4 @@
-### RPM cms dqmgui 8.2.4
+### RPM cms dqmgui 8.2.5
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH %{dynamic_path_var} %i/xlib
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
@@ -8,7 +8,7 @@
 %define webdoc_files %{installroot}/%{pkgrel}/128/doc
 %define cvs cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 
-Source0: git+https://github.com/rovere/dqmgui.git?obj=index128/8.2.4&export=Monitoring&output=/Monitoring.tar.gz
+Source0: git+https://github.com/rovere/dqmgui.git?obj=index128/8.2.5&export=Monitoring&output=/Monitoring.tar.gz
 #Source0: git+:///build1/rovere/GUIDevelopment/GHM?obj=RovereDevelopment&export=Monitoring&output=/Monitoring.tar.gz
 #Source0: %{svn}?scheme=svn+ssh&strategy=export&module=Monitoring&output=/src.tar.gz
 # For documentation, please refer to http://cms-sw.github.io/pkgtools/fetching-sources.html
