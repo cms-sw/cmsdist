@@ -1,4 +1,4 @@
-### RPM cms icc-scram 16.0beta
+### RPM cms icc-scram 2016.0.109
 ## INITENV SETV INTEL_LICENSE_FILE  /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2016/licenses
 ## NOCOMPILER
 Requires: icc-provides
@@ -6,5 +6,5 @@ Requires: icc-provides
 %build
 %install
 cd %i
-ln -s /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2016/compilers_and_libraries_2016.0.056/linux installation
-ln -s /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2016/compilers_and_libraries_2016.0.056/linux ifort
+ln -s /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2016/compilers_and_libraries_%{realversion}/linux installation
+ln -s /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2016/compilers_and_libraries_%{realversion}/linux ifort
