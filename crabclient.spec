@@ -1,4 +1,4 @@
-### RPM cms crabclient 3.3.1510.rc2
+### RPM cms crabclient 3.3.1510.rc3
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
@@ -21,6 +21,7 @@ Requires: python py2-httplib2 py2-sphinx py2-pycurl dbs3-client py2-ipython
 #d5bfd23
 #eb4dd68
 #f6b4069
+#aee9e6d
 #Patch0: crabclient-setup
 Patch0: crabserver3-setup
 
