@@ -1,7 +1,7 @@
 ### RPM external xrootd 4.2.3
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
-%define tag a76eccc1f21d83a9a0d0131c45bf1ef3cea703ea
+%define tag c6e2eea2d9a04c1d4d4f2518ad027ae6b44fe7dc
 %define branch cms/v4.2.3
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
