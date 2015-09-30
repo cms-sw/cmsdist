@@ -78,6 +78,210 @@ index 097cc94..8170dd6 100644
 +        self.lumiChecker.closeJob(self.currentJob)
 +        self.lumiChecker.fixInputFiles()
          return
+diff --git a/src/python/WMCore/JobSplitting/FileBased.py b/src/python/WMCore/JobSplitting/FileBased.py
+index df7abb8..177546d 100644
+--- a/src/python/WMCore/JobSplitting/FileBased.py
++++ b/src/python/WMCore/JobSplitting/FileBased.py
+@@ -8,6 +8,8 @@ a set of jobs based on file boundaries
+ 
+ from WMCore.JobSplitting.JobFactory import JobFactory
+ from WMCore.WMBS.File import File
++from WMCore.WMSpec.WMTask import buildLumiMask
++from WMCore.JobSplitting.LumiBased import isGoodRun, isGoodLumi
+ 
+ 
+ class FileBased(JobFactory):
+@@ -24,39 +26,79 @@ class FileBased(JobFactory):
+         filesPerJob   = int(kwargs.get("files_per_job", 10))
+         jobsPerGroup  = int(kwargs.get("jobs_per_group", 0))
+         totalFiles    = int(kwargs.get("total_files", 0))
++        runs          = kwargs.get('runs', None)
++        lumis         = kwargs.get('lumis', None)
+         runBoundaries = kwargs.get("respect_run_boundaries", False)
+         getParents    = kwargs.get("include_parents", False)
+         filesInJob    = 0
+-        listOfFiles   = []
+         timePerEvent, sizePerEvent, memoryRequirement = \
+                     self.getPerformanceParameters(kwargs.get('performance', {}))
+ 
++        goodRunList = {}
++        if runs and lumis:
++            goodRunList = buildLumiMask(runs, lumis)
++
+         #Get a dictionary of sites, files
+-        locationDict = self.sortByLocation()
++        lDict = self.sortByLocation()
++        locationDict = {}
++
++        for key in lDict:
++            newlist = []
++            for f in lDict[key]:
++                if runs and lumis:
++                    ## Skip this file is it has no runs.
++                    if len(f['runs']) == 0:
++                        continue
++                    f['lumiCount'] = 0
++                    f['runs'] = sorted(f['runs'])
++                    for run in f['runs']:
++                        run.lumis.sort()
++                        f['lumiCount'] += len(run.lumis)
++                    f['lowestRun'] = f['runs'][0]
++                    ## Skip this file is it has no lumis.
++                    if f['lumiCount'] == 0:
++                        continue
++                    ## Do average event per lumi calculation.
++                    f['avgEvtsPerLumi'] = round(float(f['events']) / f['lumiCount'])
++                newlist.append(f)
++                locationDict[key] = sorted(newlist, key = lambda f: f['lfn'])
+ 
+-        ## Make a list with all the files in the locationDict.
++        ## Make a list with all the files, sorting them by LFN. Remove from the list all
++        ## the files filtered out by the lumi-mask (if there is one).
+         files = []
+         for filesPerLocSet in locationDict.values():
+-            for file in filesPerLocSet:
+-                files.append(file)
+-        ## Here we can apply a lumi-mask and remove files 
+-        ## that are left with 0 lumis to process.
+-        ## Sort the list of files by LFN.
+-        if len(files) != 0:
++            for f in filesPerLocSet:
++                files.append(f)
++        if len(files):
+             files = sorted(files, key = lambda f: f['lfn'])
+-        ## Keep only the first totalFiles files and remove
+-        ## the other files from the locationDict.
++            if runs and lumis:
++                skippedFiles = []
++                for f in files:
++                    skipFile = True
++                    for run in f['runs']:
++                        if not isGoodRun(goodRunList, run.run):
++                            continue
++                        for lumi in run:
++                            if not isGoodLumi(goodRunList, run.run, lumi):
++                                continue
++                            skipFile = False
++                    if skipFile:
++                        skippedFiles.append(f)
++                for f in skippedFiles:
++                    files.remove(f)
++            
++        ## Keep only the first totalFiles files. Remove the other files from the locationDict.
+         if totalFiles > 0 and totalFiles < len(files):
+             removedFiles = files[totalFiles:]
+             files = files[:totalFiles]
+-            for file in removedFiles:
++            for f in removedFiles:
+                 for locSet in locationDict.keys():
+-                    if file in locationDict[locSet]:
+-                        locationDict[locSet].remove(file)
++                    if f in locationDict[locSet]:
++                        locationDict[locSet].remove(f)
+ 
+         for locSet in locationDict.keys():
+             #Now we have all the files in a certain location set
+-            fileList    = locationDict[locSet]
++            fileList = locationDict[locSet]
+             filesInJob  = 0
+             jobsInGroup = 0
+             self.newGroup()
+@@ -70,25 +112,76 @@ class FileBased(JobFactory):
+                         parent = File(lfn = lfn)
+                         f['parents'].add(parent)
+                 fileRun = f.get('minrun', None)
++                createNewJob = False
+                 if filesInJob == 0 or filesInJob == filesPerJob or (runBoundaries and fileRun != jobRun):
+-                    if jobsPerGroup:
+-                        if jobsInGroup > jobsPerGroup:
+-                            self.newGroup()
+-                            jobsInGroup = 0
+-
+-                    self.newJob(name = self.getJobName())
+-                    self.currentJob.addResourceEstimates(memory = memoryRequirement)
+-
+-                    filesInJob   = 0
+-                    jobsInGroup += 1
+-                    jobRun       = fileRun
+-
+-                self.currentJob.addFile(f)
+-                filesInJob += 1
+-                fileTime = f['events'] * timePerEvent
+-                fileSize = f['events'] * sizePerEvent
+-                self.currentJob.addResourceEstimates(jobTime = fileTime,
+-                                                     disk = fileSize)
+-                listOfFiles.append(f)
++                    createNewJob = True
++                if runs and lumis:
++                    for run in f['runs']:
++                        if not isGoodRun(goodRunList, run.run):
++                            continue
++                        firstLumi = None
++                        lastLumi = None
++                        for lumi in run:
++                            if not isGoodLumi(goodRunList, run.run, lumi): 
++                                if firstLumi != None and lastLumi != None:
++                                    self.currentJob['mask'].addRunAndLumis(run = run.run, lumis = [firstLumi, lastLumi])
++                                    addedEvents = ((lastLumi - firstLumi + 1) * f['avgEvtsPerLumi'])
++                                    runAddedTime = addedEvents * timePerEvent
++                                    runAddedSize = addedEvents * sizePerEvent
++                                    self.currentJob.addResourceEstimates(jobTime = runAddedTime, disk = runAddedSize)
++                                    firstLumi = None
++                                    lastLumi = None
++                                continue
++                            if lastLumi != None and lumi != lastLumi + 1:
++                                self.currentJob['mask'].addRunAndLumis(run = run.run, lumis = [firstLumi, lastLumi])
++                                addedEvents = ((lastLumi - firstLumi + 1) * f['avgEvtsPerLumi'])
++                                runAddedTime = addedEvents * timePerEvent
++                                runAddedSize = addedEvents * sizePerEvent
++                                self.currentJob.addResourceEstimates(jobTime = runAddedTime, disk = runAddedSize)
++                                firstLumi = None
++                                lastLumi = None
++                            if createNewJob:
++                                if jobsPerGroup:
++                                    if jobsInGroup > jobsPerGroup:
++                                        self.newGroup()
++                                        jobsInGroup = 0
++                                self.newJob(name = self.getJobName())
++                                self.currentJob.addResourceEstimates(memory = memoryRequirement)
++                                filesInJob = 0
++                                jobsInGroup += 1
++                                jobRun = fileRun
++                                createNewJob = False
++                                self.currentJob.addFile(f)
++                                filesInJob += 1
++                            if firstLumi == None:
++                                firstLumi = lumi
++                            lastLumi = lumi
++                            if self.currentJob and not f in self.currentJob['input_files']:
++                                self.currentJob.addFile(f)
++                                filesInJob += 1
++                        if firstLumi != None and lastLumi != None:
++                            self.currentJob['mask'].addRunAndLumis(run = run.run, lumis = [firstLumi, lastLumi])
++                            addedEvents = ((lastLumi - firstLumi + 1) * f['avgEvtsPerLumi'])
++                            runAddedTime = addedEvents * timePerEvent
++                            runAddedSize = addedEvents * sizePerEvent
++                            self.currentJob.addResourceEstimates(jobTime = runAddedTime, disk = runAddedSize)
++                            firstLumi = None
++                            lastLumi = None
++                else:
++                    if createNewJob:
++                        if jobsPerGroup:
++                            if jobsInGroup > jobsPerGroup:
++                                self.newGroup()
++                                jobsInGroup = 0
++                        self.newJob(name = self.getJobName())
++                        self.currentJob.addResourceEstimates(memory = memoryRequirement)
++                        filesInJob = 0
++                        jobsInGroup += 1
++                        jobRun = fileRun
++                    self.currentJob.addFile(f)
++                    filesInJob += 1
++                    fileTime = f['events'] * timePerEvent
++                    fileSize = f['events'] * sizePerEvent
++                    self.currentJob.addResourceEstimates(jobTime = fileTime, disk = fileSize)
+ 
+         return
 diff --git a/src/python/WMCore/JobSplitting/LumiBased.py b/src/python/WMCore/JobSplitting/LumiBased.py
 index 2d605b6..bc7150d 100644
 --- a/src/python/WMCore/JobSplitting/LumiBased.py
@@ -334,6 +538,75 @@ index 192a147..beed60a 100644
 +
 +
  
+ if __name__ == '__main__':
+     unittest.main()
+diff --git a/test/python/WMCore_t/JobSplitting_t/FileBased_t.py b/test/python/WMCore_t/JobSplitting_t/FileBased_t.py
+index 9d5451e..a8fec4e 100644
+--- a/test/python/WMCore_t/JobSplitting_t/FileBased_t.py
++++ b/test/python/WMCore_t/JobSplitting_t/FileBased_t.py
+@@ -15,6 +15,7 @@ from WMCore.DataStructs.Fileset import Fileset
+ from WMCore.DataStructs.Job import Job
+ from WMCore.DataStructs.Subscription import Subscription
+ from WMCore.DataStructs.Workflow import Workflow
++from WMCore.DataStructs.Run import Run
+ 
+ from WMCore.JobSplitting.SplitterFactory import SplitterFactory
+ from WMCore.Services.UUID import makeUUID
+@@ -39,11 +40,17 @@ class FileBasedTest(unittest.TestCase):
+             newFile = File(makeUUID(), size = 1000, events = 100)
+             newFile.setLocation('blenheim')
+             newFile.setLocation('malpaquet')
++            lumis = []
++            for lumi in range(20):
++                lumis.append((i * 100) + lumi)
++                newFile.addRun(Run(i, *lumis))
+             self.multipleFileFileset.addFile(newFile)
+ 
+         self.singleFileFileset = Fileset(name = "TestFileset2")
+         newFile = File("/some/file/name", size = 1000, events = 100)
+         newFile.setLocation('blenheim')
++        lumis = range(50,60) + range(70,80)
++        newFile.addRun(Run(13, *lumis))
+         self.singleFileFileset.addFile(newFile)
+ 
+         testWorkflow = Workflow()
+@@ -188,5 +195,38 @@ class FileBasedTest(unittest.TestCase):
+ 
+         return
+ 
++    def test4WithLumiMask(self):
++        """
++        _test4WithLumiMask_
++
++        Test file based job splitting when
++        """
++        splitter = SplitterFactory()
++        jobFactory = splitter(self.multipleFileSubscription)
++
++        jobGroups = jobFactory(files_per_job = 2,
++                               total_files = 3,
++                               runs = ['1', '2', '4', '5'],
++                               lumis = ['100,130', '203,204,207,221', '401,405', '500, 520'],
++                               performance = self.performanceParams)
++
++        self.assertEqual(len(jobGroups), 1)
++
++        self.assertEqual(len(jobGroups[0].jobs), 2)
++
++        fileList = []
++        for job in jobGroups[0].jobs:
++            assert len(job.getFiles(type = "list")) in [2, 1], \
++                   "ERROR: Job contains incorrect number of files."
++
++            for file in job.getFiles(type = "lfn"):
++                assert file not in fileList, \
++                       "ERROR: File duplicated!"
++                fileList.append(file)
++
++        self.assertEqual(len(fileList), 3)
++
++        return
++
  if __name__ == '__main__':
      unittest.main()
 diff --git a/test/python/WMCore_t/JobSplitting_t/LumiBased_t.py b/test/python/WMCore_t/JobSplitting_t/LumiBased_t.py
