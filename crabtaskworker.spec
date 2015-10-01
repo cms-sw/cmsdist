@@ -1,4 +1,4 @@
-### RPM cms crabtaskworker 3.3.1510.rc7
+### RPM cms crabtaskworker 3.3.1510.rc8
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
@@ -30,7 +30,7 @@ PYTHONPATH=$PWD/build/lib:$PYTHONPATH
 
 cd ../CRABServer-%{realversion}
 perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/taskworker/conf.py
-echo "__version__ = \"%{realversion}\"#Automatically added during RPM build process" >> src/python/TaskWorker/__init__.py
+echo -e "\n__version__ = \"%{realversion}\"#Automatically added during RPM build process" >> src/python/TaskWorker/__init__.py
 python setup.py build_system -s TaskWorker
 
 sed -i 's|CRAB3_VERSION=.*|CRAB3_VERSION=%{realversion}|' bin/htcondor_make_runtime.sh
