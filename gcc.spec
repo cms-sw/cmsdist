@@ -1,10 +1,10 @@
-### RPM external gcc 4.9.1
+### RPM external gcc 4.9.2
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
-%define gccRevision 212975
-%define gccBranch tags/gcc_4_9_1_release
+%define gccRevision 223195
+%define gccBranch tags/gcc_4_9_2_release
 
 %define moduleName gcc-%(echo %{gccBranch} | tr / _)-%{gccRevision}
 Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{gccRevision}&output=/%{moduleName}.tar.gz
@@ -44,6 +44,11 @@ Patch1: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfuti
 Source10: http://ftp.gnu.org/gnu/m4/m4-%m4Version.tar.gz
 Source11: http://garr.dl.sourceforge.net/project/flex/flex-%{flexVersion}.tar.bz2
 %endif
+
+%if %isdarwin
+Patch2: https://gmplib.org/repo/gmp/raw-rev/1fab0adc5ff7
+%endif
+
 
 %prep
 
@@ -96,6 +101,9 @@ EOF_CMS_H
 
 # GCC prerequisites
 %setup -D -T -b 1 -n gmp-6.0.0
+%if %isdarwin 
+%patch2 -p1
+%endif
 %setup -D -T -b 2 -n mpfr-%{mpfrVersion}
 %setup -D -T -b 3 -n mpc-%{mpcVersion}
 %setup -D -T -b 4 -n isl-%{islVersion}
@@ -110,6 +118,7 @@ EOF_CMS_H
 %setup -D -T -b 10 -n m4-%{m4Version}
 %setup -D -T -b 11 -n flex-%{flexVersion}
 %endif
+
 
 %build
 %if %isdarwin
@@ -242,6 +251,22 @@ cd ../cloog-%{cloogVersion}
 make %{makeprocesses}
 make install
 
+# PG taken from http://git.sagemath.org/sage.git/tree/build/pkgs/gcc/spkg-install
+# which builds gcc 491 on OSX 10X
+# On OS X 10.9, g++ and the cdefs.h header are currently incompatible
+%if %isdarwin 
+    mkdir -p %{i}/tmp/sw/include/sys
+    sed 's+defined(__GNUC_STDC_INLINE__)+& \&\& !defined(__cplusplus)+' /usr/include/sys/cdefs.h > %{i}/tmp/sw/include/sys/cdefs.h
+    mkdir -p %{i}/include/sys
+    sed 's+defined(__GNUC_STDC_INLINE__)+& \&\& !defined(__cplusplus)+' /usr/include/sys/cdefs.h > %{i}/include/sys/cdefs.h
+
+# On OS X 10.10 there is random ObjC stuff in a C header
+    mkdir -p %{i}/tmp/sw/include/dispatch
+    sed 's+typedef void (\^dispatch_block_t)(void)+typedef void* dispatch_block_t+' /usr/include/dispatch/object.h > %{i}/tmp/sw/include/dispatch/object.h
+    mkdir -p %{i}/include/dispatch
+    sed 's+typedef void (\^dispatch_block_t)(void)+typedef void* dispatch_block_t+' /usr/include/dispatch/object.h > %{i}/include/dispatch/object.h
+%endif
+
 %if %isarmv7
 %if %iscpu_marvell
 %define armv7_fpu vfpv3
@@ -271,6 +296,19 @@ touch gcc/DEV-PHASE
 mkdir -p obj
 cd obj
 export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
+case %{cmsplatf} in 
+  osx10*)
+../configure --prefix=%{i} --disable-multilib --disable-nls --with-system-zlib --disable-dssi \
+             --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES \
+             --enable-__cxa_atexit --disable-libunwind-exceptions --enable-gnu-unique-object \
+             --enable-plugin --enable-linker-build-id --with-build-config=bootstrap-debug \
+             $CONF_GCC_OS_SPEC $CONF_GCC_WITH_LTO --with-gmp=%{i} --with-mpfr=%{i} \
+             --with-mpc=%{i} --with-isl=%{i} --with-cloog=%{i} --enable-checking=yes \
+             --build=%{_build} --host=%{_host} --enable-libstdcxx-time=rt $CONF_GCC_ARCH_SPEC \
+             --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
+             CFLAGS="-I%{i}/tmp/sw/include" CXXFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
+  ;;
+  *)
 ../configure --prefix=%{i} --disable-multilib --disable-nls --with-system-zlib --disable-dssi \
              --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES \
              --enable-__cxa_atexit --disable-libunwind-exceptions --enable-gnu-unique-object \
@@ -280,11 +318,13 @@ export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
              --build=%{_build} --host=%{_host} --enable-libstdcxx-time=rt $CONF_GCC_ARCH_SPEC \
              --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
              CFLAGS="-I%{i}/tmp/sw/include" CXXFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
+  ;;
+esac
 
-%if %isamd64
-make %{makeprocesses} profiledbootstrap
+%if %isdarwin
+make %{makeprocesses}  
 %else
-make %{makeprocesses} bootstrap
+make %{makeprocesses} profiledbootstrap
 %endif
 make install
 
