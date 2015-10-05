@@ -1,7 +1,7 @@
 ### RPM external py2-dxr 1.0
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 BuildRequires: llvm sqlite
-Requires: python zlib py2-setuptools py2-futures py2-jinja py2-markupsafe py2-ordereddict py2-parsimonious
+Requires: python llvm sqlite zlib py2-setuptools py2-futures py2-jinja py2-markupsafe py2-ordereddict py2-parsimonious
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define dxrCommit 6ea764102a
 %define triliteCommit e64a2a1 
@@ -33,9 +33,7 @@ mv trilite-%triliteCommit/* trilite
 # GCC + libstdc++. The ABIs are different, thus correct
 # it accordingly.
 # https://code.google.com/p/re2/issues/detail?id=99
-%if %isdarwin
 sed -ibak 's;__ZlsRNSt3__113basic_ostreamIcNS_11char_traitsIcEEEERKN3re211StringPieceE;__ZlsRSoRKN3re211StringPieceE;' ./trilite/re2/libre2.symbols.darwin
-%endif
 
 %build
 export SQLITE_ROOT
