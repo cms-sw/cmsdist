@@ -22,7 +22,6 @@ Requires: das_client-toolfile
 Requires: db4-toolfile
 Requires: dbs-client-toolfile
 Requires: dpm-toolfile
-Requires: evtgenlhc-toolfile
 Requires: evtgen-toolfile
 Requires: expat-toolfile
 Requires: fakesystem
