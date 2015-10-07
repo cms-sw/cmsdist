@@ -24,7 +24,7 @@ Patch5: py2-dxr-sqlite38
 %setup -T -b0 -n dxr-%dxrCommit
 %setup -T -D -a1 -c -n dxr-%dxrCommit
 %setup -T -D -a2 -n dxr-%dxrCommit/trilite-%triliteCommit
-%patch1 -p0
+%patch1 -p1
 cd ..
 %patch0 -p1
 %patch2 -p1
