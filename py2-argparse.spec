@@ -13,4 +13,4 @@ python setup.py build
 
 %install
 python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
-find %i -name '*.egg-info' -type d -print0 | xargs -0 rm -r --
+#find %i -name '*.egg-info' -type d -print0 | xargs -0 rm -r --
