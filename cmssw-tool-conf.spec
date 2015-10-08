@@ -149,6 +149,7 @@ Requires: file-toolfile
 Requires: libxslt-toolfile
 Requires: py2-six-toolfile
 Requires: py2-pyparsing-toolfile
+Requires: py2-requests-toolfile
 
 # Only for Linux platform.
 %if %islinux
