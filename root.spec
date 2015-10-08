@@ -22,6 +22,21 @@ Requires: freetype
 
 %define keep_archives true
 
+%define subpackageDebug true
+
+%if "%{?subpackageDebug:set}" == "set"
+%define envOptions USER_CXXFLAGS="-fdebug-prefix-map=%{cmsroot}=%{installroot} -fdebug-prefix-map=%{instroot}=%{installroot} -g"
+%endif
+# For non-linux archs disable subpackageDebug otherwise add dwz.file build dependencies.
+%if "%{?subpackageDebug:set}" == "set"
+%if %islinux
+BuildRequires: dwz file
+%else
+%undefine subpackageDebug
+%endif # islinux
+%endif # subpackageDebug
+
+
 %prep
 %setup -n %{n}-%{realversion}
 
@@ -118,12 +133,14 @@ TARGET_PLATF=
 
 cat <<\EOF >> MyConfig.mk
 CFLAGS+=-D__ROOFIT_NOBANNER
+CFLAGS+=${USER_CXXFLAGS}
 CXXFLAGS+=-D__ROOFIT_NOBANNER
+CXXFLAGS+=${USER_CXXFLAGS}
 EOF
 
 ./configure ${TARGET_PLATF} ${CONFIG_ARGS} ${EXTRA_OPTS}
 
-make %makeprocesses
+%envOptions make %makeprocesses
 
 %install
 # Override installers if we are using GNU fileutils cp.  On OS X
@@ -146,7 +163,46 @@ done
 export ROOT_INCLUDE_PATH
 
 export ROOTSYS=%i
+
 make INSTALL="$cp" INSTALLDATA="$cp" install
+# Handle debug symbols. We always have a debug subpackage for debug symbols so
+# no point in complicating the standard builds with this.
+
+%if "%{?subpackageDebug:set}" == "set"
+  ELF_DIRS="%i/lib %i/bin"
+  DROP_SYMBOLS_DIRS=""
+
+# optimise the debug symbols, compress them, and split them into separate file
+for DIR in $ELF_DIRS $DROP_SYMBOLS_DIRS; do
+  pushd $DIR
+  mkdir -p .debug
+  # ELF binaries
+  ELF_BINS=$(file * | grep ELF | cut -d':' -f1)
+  if [ ! -z "$ELF_BINS" ]; then
+    if [ $(echo $ELF_BINS | wc -w) -gt 1 ] ; then
+        dwz -m .debug/common-symbols.debug -M common-symbols.debug $ELF_BINS || true
+    fi
+    for bin in $ELF_BINS; do
+      objcopy --compress-debug-sections --only-keep-debug ${bin} .debug/${bin}.debug; objcopy --strip-debug --add-gnu-debuglink=.debug/${bin}.debug ${bin}
+    done
+  fi
+  popd
+done
+
+for DIR in $DROP_SYMBOLS_DIRS; do
+  rm -rf $DIR/.debug
+done
+
+# split the debug symbols out of the main binaries, into separate files
+rm -f %_builddir/files.debug %_builddir/files
+touch %_builddir/files.debug %_builddir/files
+for DIR in $ELF_DIRS; do
+  DIR=`echo $DIR | sed 's|^%i/|%{installroot}/%{pkgrel}/|'`
+  echo "%exclude $DIR/.debug"   >> %_builddir/files
+  echo "$DIR/.debug"            >> %_builddir/files.debug
+done
+%endif
+
 #mkdir -p $ROOTSYS/lib/python
 #cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
 # a """ and it thinks is the shebang.
@@ -154,3 +210,5 @@ make INSTALL="$cp" INSTALLDATA="$cp" install
 
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -R -l '#!.*python' %{i} | xargs chmod +x
+
+## SUBPACKAGE debug IF %subpackageDebug
