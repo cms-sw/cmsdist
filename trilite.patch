@@ -19,15 +19,15 @@ index 7e746da..2405469 100644
  re2/obj/libre2.a: re2
  	$(MAKE) -C re2 CXXFLAGS='-Wall -O3 -pthread -fPIC'
  %.o: %.cpp
-diff --git a/trilite.c b/trilite.c
-index bac63fa..63a56e6 100644
---- a/trilite.c
-+++ b/trilite.c
-@@ -41,6 +41,7 @@ static const sqlite3_module triliteModule = {
- int sqlite3_extension_init(sqlite3 *db, char **pzErrMsg, const sqlite3_api_routines *pApi){
-   int rc = SQLITE_OK;
+diff --git a/trilite.h b/trilite.h
+index 684a5fd..193e657 100644
+--- a/trilite.h
++++ b/trilite.h
+@@ -5,6 +5,6 @@
  
-+  sqlite3_enable_load_extension(db , 1);
-   /* Initialize the extension API */
-   SQLITE_EXTENSION_INIT2(pApi);
+ int sqlite3_extension_init(sqlite3*, char**, const sqlite3_api_routines*);
  
+-void load_trigram_extension();
++void load_trilite_extension();
+ 
+ #endif /* TRILITE_TRILITE_H */
