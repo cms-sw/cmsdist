@@ -2,7 +2,6 @@
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 BuildRequires: llvm sqlite
 Requires: python zlib py2-setuptools py2-futures py2-jinja py2-markupsafe py2-ordereddict py2-parsimonious py2-pysqlite
-
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define dxrCommit 6ea764102a
 %define triliteCommit e64a2a1
