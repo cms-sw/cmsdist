@@ -1,0 +1,31 @@
+diff --git a/dxr/utils.py b/dxr/utils.py
+index c4dbc0e..489a08b 100644
+--- a/dxr/utils.py
++++ b/dxr/utils.py
+@@ -7,13 +7,14 @@ import ctypes
+ # different version, will fail to load. If you're having trouble getting
+ # trilite to load, make sure you're not importing sqlite3 beforehand. Afterward
+ # is fine.
+-ctypes.CDLL('libtrilite.so').load_trilite_extension()
++#ctypes.CDLL('libtrilite.so').load_trilite_extension()
+ 
+ import os
+ from os import dup
+ from os.path import join, dirname
+ import jinja2
+-import sqlite3
++#import sqlite3
++from pysqlite2 import dbapi2 as sqlite3
+ import string
+ from sys import stdout
+ from urllib import quote, quote_plus
+@@ -112,6 +113,9 @@ def connect_db(dir):
+ 
+     """
+     conn = sqlite3.connect(join(dir, ".dxr-xref.sqlite"))
++    conn.enable_load_extension(True)
++    conn.load_extension("libtrilite.so")
++    conn.enable_load_extension(False)
+     conn.text_factory = str
+     conn.execute("PRAGMA synchronous=off")
+     conn.execute("PRAGMA page_size=32768")
