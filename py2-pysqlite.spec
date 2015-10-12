@@ -1,16 +1,12 @@
-### RPM external py2-pysqlite 2.4.0
-%define pythonv %(echo $PYTHON_VERSION | cut -f1,2 -d.)
-%define distname pysqlite-%realversion
-%define distmaindir %(echo %realversion | cut -d. -f1,2)
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
-Source: http://initd.org/pub/software/pysqlite/releases/%distmaindir/%realversion/%{distname}.tar.gz
-Requires: python sqlite
+### RPM external py2-pysqlite 2.8.1
+## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+Source: https://pypi.python.org/packages/source/p/pysqlite/pysqlite-%realversion.tar.gz
+Requires: python sqlite py2-setuptools
 
 %prep
-%setup -n %{distname}
+%setup -n pysqlite-%realversion
 %build
-perl -p -i -e "s!include_dirs=.*!include_dirs=$SQLITE_ROOT/include!" setup.cfg
-perl -p -i -e "s!library_dirs=.*!library_dirs=$SQLITE_ROOT/lib!" setup.cfg
+echo "include_dirs=$SQLITE_ROOT/include" >> setup.cfg
 python setup.py build
 %install
 python setup.py install --prefix=%i
