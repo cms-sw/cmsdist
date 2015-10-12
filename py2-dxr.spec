@@ -21,7 +21,7 @@ Patch4: py2-dxr-clang37
 %setup -T -b0 -n dxr-%dxrCommit
 %setup -T -D -a1 -c -n dxr-%dxrCommit
 %setup -T -D -a2 -n dxr-%dxrCommit/trilite-%triliteCommit
-%patch1 -p1
+%patch1 -p0
 cd ..
 %patch0 -p1
 %patch2 -p1
@@ -34,9 +34,7 @@ mv trilite-%triliteCommit/* trilite
 # GCC + libstdc++. The ABIs are different, thus correct
 # it accordingly.
 # https://code.google.com/p/re2/issues/detail?id=99
-%if %isdarwin
 sed -ibak 's;__ZlsRNSt3__113basic_ostreamIcNS_11char_traitsIcEEEERKN3re211StringPieceE;__ZlsRSoRKN3re211StringPieceE;' ./trilite/re2/libre2.symbols.darwin
-%endif
 
 %build
 export SQLITE_ROOT
