@@ -24,6 +24,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-dxr.xml
     <use name="py2-ordereddict"/>
     <use name="py2-parsimonious"/>
     <use name="py2-pygments"/>
+    <use name="py2-pysqlite"/>
 </tool>
 EOF_TOOLFILE
 
