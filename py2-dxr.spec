@@ -16,11 +16,8 @@ Patch0: py2-dxr
 Patch1: trilite
 Patch2: py2-dxr-fix-clang-linker-flags
 Patch3: py2-dxr-clang36
-<<<<<<< HEAD
 Patch4: py2-dxr-clang37
-=======
-Patch4: py2-dxr-sqlite38
->>>>>>> ed9116b... Update py2-dxr to use pysqlite 2.8 to load extension in sqlite 3.8.
+Patch5: py2-dxr-sqlite38
 %define keep_archives true
 
 %prep
@@ -33,6 +30,7 @@ cd ..
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 mv trilite-%triliteCommit/* trilite
 %setup -T -D -n dxr-%dxrCommit
 
