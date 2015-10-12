@@ -1,9 +1,11 @@
 ### RPM external py2-dxr 1.0
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-Requires: python zlib py2-setuptools py2-futures py2-jinja py2-markupsafe py2-ordereddict py2-parsimonious llvm sqlite
+BuildRequires: llvm sqlite
+Requires: python zlib py2-setuptools py2-futures py2-jinja py2-markupsafe py2-ordereddict py2-parsimonious py2-pysqlite
 
+%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define dxrCommit 6ea764102a
-%define triliteCommit e64a2a1 
+%define triliteCommit e64a2a1
 %define re2Version 20140304
 %define branch master
 
@@ -15,6 +17,7 @@ Patch1: trilite
 Patch2: py2-dxr-fix-clang-linker-flags
 Patch3: py2-dxr-clang36
 Patch4: py2-dxr-clang37
+Patch5: py2-dxr-sqlite38
 %define keep_archives true
 
 %prep
@@ -27,6 +30,7 @@ cd ..
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 mv trilite-%triliteCommit/* trilite
 %setup -T -D -n dxr-%dxrCommit
 
