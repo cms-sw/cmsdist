@@ -1,5 +1,7 @@
---- makefile.orig	2014-10-02 10:34:09.000000000 -0500
-+++ makefile	2014-10-02 10:40:15.622458716 -0500
+diff --git a/makefile b/makefile
+index 7e746da..2405469 100644
+--- a/makefile
++++ b/makefile
 @@ -1,5 +1,5 @@
 -CFLAGS	:= -Ire2/ $(shell pkg-config --cflags sqlite3) -Wall -fPIC -ansi
 -LDFLAGS := -Lre2/obj -lre2 $(shell pkg-config --libs sqlite3) -shared
@@ -8,7 +10,7 @@
  SOURCES := kmp.c scanstr.c varint.c hash.c expr.c match.c regexp.cpp cursor.c vtable.c trilite.c
  OBJECTS := $(patsubst %.cpp,%.o,$(patsubst %.c,%.o,$(SOURCES))) 
  all: debug
-@@ -9,7 +9,7 @@
+@@ -9,7 +9,7 @@ release: CFLAGS += -DNDEBUG -O3
  release: LDFLAGS += -O3
  release: re2/obj/libre2.a libtrilite.so
  re2:
@@ -17,4 +19,15 @@
  re2/obj/libre2.a: re2
  	$(MAKE) -C re2 CXXFLAGS='-Wall -O3 -pthread -fPIC'
  %.o: %.cpp
-
+diff --git a/trilite.h b/trilite.h
+index 684a5fd..193e657 100644
+--- a/trilite.h
++++ b/trilite.h
+@@ -5,6 +5,6 @@
+ 
+ int sqlite3_extension_init(sqlite3*, char**, const sqlite3_api_routines*);
+ 
+-void load_trigram_extension();
++void load_trilite_extension();
+ 
+ #endif /* TRILITE_TRILITE_H */
