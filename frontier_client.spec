@@ -1,13 +1,11 @@
-### RPM external frontier_client 2.8.12
+### RPM external frontier_client 2.8.14
 ## INITENV +PATH PYTHONPATH %{i}/python/lib
 
 Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
-Requires: expat
-Requires: openssl
-Requires: pacparser
-Requires: python
+Requires: expat openssl pacparser python
+
 %if "%online" != "true"
 Requires: zlib
 %else
