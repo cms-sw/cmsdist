@@ -1,4 +1,4 @@
-### RPM cms data-RecoJets-JetProducers V05-10-14
+### RPM cms data-RecoJets-JetProducers V05-10-16
 
 %prep
 
