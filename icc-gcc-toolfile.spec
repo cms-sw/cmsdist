@@ -59,6 +59,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
     <flags REM_CXXFLAGS="-Wno-unused-local-typedefs"/>
     <flags REM_CXXFLAGS="-msse3"/>
     <flags REM_CXXFLAGS="-Wno-psabi"/>
+    <flags REM_CXXFLAGS="-ffast-math"/>
+    <flags REM_CXXFLAGS="-flto"/>
+    <flags REM_CXXFLAGS="-fno-lto"/>
     <flags REM_LDFLAGS="-Wl,--icf=all"/>
     <flags CXXFLAGS="-Wno-unknown-pragmas"/>
     <flags CXXFLAGS="-axSSE3"/>
@@ -96,6 +99,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-f77compiler.xml
       <environment name="FC" default="$ICC_FCOMPILER_BASE/%{f77bin_dir}/ifort" handler="warn"/>
       <environment name="LIBDIR" default="$ICC_FCOMPILER_BASE/%{f77lib_dir}" handler="warn"/>
     </client>
+    <flags REM_FFLAGS="-fno-second-underscore"/>
     <architecture name="_mic_">
       <flags FFLAGS="-mmic"/>
     </architecture>
