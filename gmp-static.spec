@@ -23,6 +23,8 @@ BuildRequires: autotools
 %build
 ./configure \
   --prefix=%{i} \
+  --build=%{_build} \
+  --host=%{_host} \
   --disable-shared \
   --enable-static \
   --enable-cxx \
