@@ -15,7 +15,7 @@
 ############## AUTOMATIC CUT HERE ########################################
 #This file was auto generated. DO NOT CHANGE IT!
 #Instead, change tab.xml and use convert script.
-#Generation date: Thu Jan 29 11:18:03 CET 2015
+#Generation date: Tue Aug 11 17:39:50 CEST 2015
 ####################################################################
 
 d3r=(
@@ -65,8 +65,7 @@ golden_gate=(
 
 test_service=(
 	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=d3r1-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=d3r2-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=d3r-s.cern.ch) (PORT=10121) )
 	(LOAD_BALANCE=on)
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
@@ -75,30 +74,36 @@ test_service=(
 	)
 )
 
-wcernd=(
+d3r_s=(
 	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=wcerndevdb.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=d3r-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
-		(SERVICE_NAME=wcern_service_dev.WORLD)
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=d3r_s.cern.ch)
 	)
 )
 
-wcern_service_dev=(
+d3r1_s=(
 	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=wcerndevdb.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=d3r-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
-		(SERVICE_NAME=wcern_service_dev.WORLD)
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=d3r1_s.cern.ch)
 	)
 )
 
-wcern_dev=(
+d3r2_s=(
 	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=wcerndevdb.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=d3r-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
-		(SERVICE_NAME=wcern_service_dev.WORLD)
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=d3r2_s.cern.ch)
 	)
 )
 
@@ -115,194 +120,6 @@ rpmractestdb=(
 			(TYPE=SELECT)
 			(METHOD=BASIC)
 		)
-	)
-)
-
-ATLDSC=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=atldsc1-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=atldsc2-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=atldsc.cern.ch)
-	)
-)
-
-ALIONR=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr1-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr2-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr3-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr4-v.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alionr.cern.ch)
-	)
-)
-
-ALIONR4=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr4-v.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alionr.cern.ch)
-		(INSTANCE_NAME=alionr4)
-	)
-)
-
-ALIONR3=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr3-v.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alionr.cern.ch)
-		(INSTANCE_NAME=alionr3)
-	)
-)
-
-ALIONR2=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr2-v.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alionr.cern.ch)
-		(INSTANCE_NAME=alionr2)
-	)
-)
-
-ALIONR1=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr1-v.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alionr.cern.ch)
-		(INSTANCE_NAME=alionr1)
-	)
-)
-
-alionr_nolb=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr1-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr2-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr3-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr4-v.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alionr_nolb.cern.ch)
-	)
-)
-
-alionr_lb=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr1-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr2-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr3-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr4-v.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alionr_lb.cern.ch)
-	)
-)
-
-alice_pvss=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr1-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr2-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr3-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr4-v.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alice_pvss.cern.ch)
-	)
-)
-
-alice_pvss_fw_config=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr1-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr2-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr3-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr4-v.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alice_pvss_fw_config.cern.ch)
-	)
-)
-
-alice_fero=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr1-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr2-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr3-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr4-v.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alice_fero.cern.ch)
-	)
-)
-
-alice_amanda=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr1-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr2-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr3-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=alionr4-v.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alice_amanda.cern.ch)
-	)
-)
-
-pdbr_rac11=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1109-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1119-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=pdbr_rac11.cern.ch)
-	)
-)
-
-pdbr2_rac11=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1119-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=pdbr_rac11.cern.ch)
-		(INSTANCE_NAME=pdbr2)
-	)
-)
-
-pdbr1_rac11=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1109-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=pdbr_rac11.cern.ch)
-		(INSTANCE_NAME=pdbr1)
 	)
 )
 
@@ -333,288 +150,6 @@ RDTEST2=(
 	(CONNECT_DATA=
 		(SERVER=DEDICATED)
 		(SERVICE_NAME=rdtest2.cern.ch)
-	)
-)
-
-old_hr_tcp=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=dbodprod01.cern.ch) (PORT=10010) )
-	(CONNECT_DATA=
-		(SID=PCERNI)
-	)
-)
-
-old_hr=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=dbodprod01.cern.ch) (PORT=10010) )
-	(CONNECT_DATA=
-		(SID=PCERNI)
-	)
-)
-
-old_hr_prod=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=dbodprod01.cern.ch) (PORT=10010) )
-	(CONNECT_DATA=
-		(SID=PCERNI)
-	)
-)
-
-hr_dev=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=dboddev01.cern.ch) (PORT=10710) )
-	(CONNECT_DATA=
-		(SID=DCERNI)
-	)
-)
-
-dod_copvss=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1201.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=COPVSS)
-	)
-)
-
-dod_cstest1=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1201.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=CSTEST1)
-	)
-)
-
-dbod_aistools_dev=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1201.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=AISTOOLD)
-	)
-)
-
-dbod_aistools_prod=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=dbvrtg4038.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=AISTOOLS)
-	)
-)
-
-dbod_fisheye=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=dbvrtg4032.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=FISHEYE)
-	)
-)
-
-em_service_prod=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=EMREPP1-S.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=EMREPP2-S.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=em_service_prod.cern.ch)
-	)
-)
-
-dbod_flexnerd=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=dbvrtg4024.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=FLEXNERD)
-	)
-)
-
-datest=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=dbsrvg3205.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=DATEST)
-	)
-)
-
-infracat=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=rmandb.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=INFRACAT)
-	)
-)
-
-rmandb=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=rmandb.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=INFRACAT)
-	)
-)
-
-PROD_rmandb=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=rmandb.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=INFRACAT)
-	)
-)
-
-edhp_dg_gen3=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=edhp-dg-1-s.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=edhp_dg_gen3.cern.ch)
-	)
-)
-
-zoradb-test=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=zora-test.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=ZORATST)
-	)
-)
-
-irisdb-test=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=zora-test.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=ZORATST)
-	)
-)
-
-zorapsdb-test=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=zora-test.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=ZORATST)
-	)
-)
-
-timdb-test=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=tim-test.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=TIMTST)
-	)
-)
-
-susidb-test=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=susi-test.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=SUSITST)
-	)
-)
-
-dbod_amanda=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1201.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=AMANDA)
-	)
-)
-
-dbod_ruben01=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=dodcdb1-scan.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=ruben01_service.cern.ch)
-		(SID=RUBEN01)
-	)
-)
-
-accint=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=accint12-scan.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=accint.cern.ch)
-		(FAILOVER_MODE=
-			(TYPE=SELECT)
-			(METHOD=BASIC)
-			(RETRIES=200)
-			(DELAY=15)
-		)
-	)
-)
-
-castrint=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=castrint-scan.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=castrint.cern.ch)
-	)
-)
-
-castorint=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1327-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1329-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=castorint.cern.ch)
-	)
-)
-
-dbod_ruben02=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=dodcdb1-scan.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=ruben02_service.cern.ch)
-		(SID=RUBEN02)
-	)
-)
-
-dbod_ruben03=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=dodcdb1-scan.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=ruben03_service.cern.ch)
-		(SID=RUBEN03)
-	)
-)
-
-aisdbp_dg_rac11=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1107-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1124-s.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=AISDBP_DG_RAC11.WORLD)
 	)
 )
 
@@ -1249,15 +784,6 @@ LHCBR_NOLB=(
 	)
 )
 
-em_service_test=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=emrept.cern.ch) (PORT=10121) )
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=em_service_test.cern.ch)
-	)
-)
-
 qpsr=(
 	DESCRIPTION=
 	(ADDRESS= (PROTOCOL=TCP) (HOST=qpsr-s.cern.ch) (PORT=10121) )
@@ -1358,42 +884,6 @@ laser=(
 		(SERVER=DEDICATED)
 		(SERVICE_NAME=laser.cern.ch)
 	)
-)
-
-cman_ais1=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=cman1.cern.ch) (PORT=10300) )
-	(ENABLE=BROKEN)
-)
-
-cman_ais2=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=cman2.cern.ch) (PORT=10300) )
-	(ENABLE=BROKEN)
-)
-
-cman_ais=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=cman1.cern.ch) (PORT=10300) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=cman2.cern.ch) (PORT=10300) )
-)
-
-cman_cs1=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=cman1.cern.ch) (PORT=10400) )
-	(ENABLE=BROKEN)
-)
-
-cman_cs2=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=cman2.cern.ch) (PORT=10400) )
-	(ENABLE=BROKEN)
-)
-
-cman_cs=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=cman1.cern.ch) (PORT=10400) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=cman2.cern.ch) (PORT=10400) )
 )
 
 itcore=(
@@ -1596,81 +1086,25 @@ itcore_dbod=(
 	)
 )
 
-CMSARC_NOLB=(
+rmandb=(
 	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsarc1-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsarc2-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=cmsarc_nolb.cern.ch)
-	)
-)
-
-CMSARC=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsarc-scan.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itcore2-v.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itcore1-v.cern.ch) (PORT=10121) )
 	(LOAD_BALANCE=on)
 	(CONNECT_DATA=
 		(SERVER=DEDICATED)
-		(SERVICE_NAME=cmsarc.cern.ch)
+		(SERVICE_NAME=itcore_s.cern.ch)
 	)
 )
 
-CMSARC_LB=(
+PROD_rmandb=(
 	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsarc1-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsarc2-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=cmsarc_lb.cern.ch)
-	)
-)
-
-CMSARC2=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsarc-scan.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itcore2-v.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itcore1-v.cern.ch) (PORT=10121) )
 	(LOAD_BALANCE=on)
 	(CONNECT_DATA=
 		(SERVER=DEDICATED)
-		(SERVICE_NAME=cmsarc.cern.ch)
-		(INSTANCE_NAME=cmsarc2)
-	)
-)
-
-CMSARC1=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsarc-scan.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=cmsarc.cern.ch)
-		(INSTANCE_NAME=cmsarc1)
-	)
-)
-
-dbod_ais12dev=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=dodcdb1-scan.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=ais12dev_service.cern.ch)
-		(SID=AIS12DEV)
-	)
-)
-
-dbod_cstest12=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=dodcdb1-scan.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=cstest12_service.cern.ch)
-		(SID=CSTEST12)
+		(SERVICE_NAME=itcore_s.cern.ch)
 	)
 )
 
@@ -1692,7 +1126,7 @@ c2repackdb=(
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
 		(SERVER=DEDICATED)
-		(SERVICE_NAME=REPACK_S.cern.ch)
+		(SERVICE_NAME=SYS$CASTOR_STAGER.TRANSFERREADYTOSCHEDULE.REPACKDB.WORLD)
 		(FAILOVER_MODE=
 			(TYPE=SELECT)
 			(METHOD=BASIC)
@@ -1708,7 +1142,7 @@ c2repackstgdb=(
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
 		(SERVER=DEDICATED)
-		(SERVICE_NAME=REPACK_S.cern.ch)
+		(SERVICE_NAME=SYS$CASTOR_STAGER.TRANSFERREADYTOSCHEDULE.REPACKDB.WORLD)
 		(FAILOVER_MODE=
 			(TYPE=SELECT)
 			(METHOD=BASIC)
@@ -1734,7 +1168,7 @@ c2publicstgdb=(
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
 		(SERVER=DEDICATED)
-		(SERVICE_NAME=PUBSTG_S.cern.ch)
+		(SERVICE_NAME=SYS$CASTOR_STAGER.TRANSFERREADYTOSCHEDULE.PUBSTG.CERN.CH)
 		(FAILOVER_MODE=
 			(TYPE=SELECT)
 			(METHOD=BASIC)
@@ -1798,7 +1232,7 @@ c2pubstgsrm=(
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
 		(SERVER=DEDICATED)
-		(SERVICE_NAME=PUBSTG_S.cern.ch)
+		(SERVICE_NAME=SYS$CASTOR_STAGER.TRANSFERREADYTOSCHEDULE.PUBSTG.CERN.CH)
 		(FAILOVER_MODE=
 			(TYPE=SELECT)
 			(METHOD=BASIC)
@@ -1910,7 +1344,7 @@ c2cmsstgdb=(
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
 		(SERVER=DEDICATED)
-		(SERVICE_NAME=CMSSTG_S.cern.ch)
+		(SERVICE_NAME=SYS$CASTOR_STAGER.TRANSFERREADYTOSCHEDULE.CMSSTG.CERN.CH)
 		(FAILOVER_MODE=
 			(TYPE=SELECT)
 			(METHOD=BASIC)
@@ -2031,7 +1465,7 @@ c2atlasstgdb=(
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
 		(SERVER=DEDICATED)
-		(SERVICE_NAME=ATLASSTG_S.cern.ch)
+		(SERVICE_NAME=SYS$CASTOR_STAGER.TRANSFERREADYTOSCHEDULE.ATLASSTG.CERN.CH)
 		(FAILOVER_MODE=
 			(TYPE=SELECT)
 			(METHOD=BASIC)
@@ -2111,7 +1545,7 @@ c2atlasstgsrm=(
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
 		(SERVER=DEDICATED)
-		(SERVICE_NAME=ATLASSTG_S.cern.ch)
+		(SERVICE_NAME=SYS$CASTOR_STAGER.TRANSFERREADYTOSCHEDULE.ATLASSTG.CERN.CH)
 		(FAILOVER_MODE=
 			(TYPE=SELECT)
 			(METHOD=BASIC)
@@ -2137,7 +1571,7 @@ c2alicestgdb=(
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
 		(SERVER=DEDICATED)
-		(SERVICE_NAME=ALICESTG_S.cern.ch)
+		(SERVICE_NAME=SYS$CASTOR_STAGER.TRANSFERREADYTOSCHEDULE.ALICESTG.CERN.CH)
 		(FAILOVER_MODE=
 			(TYPE=SELECT)
 			(METHOD=BASIC)
@@ -2185,7 +1619,7 @@ c2alicestgsrm=(
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
 		(SERVER=DEDICATED)
-		(SERVICE_NAME=ALICESTG_S.cern.ch)
+		(SERVICE_NAME=SYS$CASTOR_STAGER.TRANSFERREADYTOSCHEDULE.ALICESTG.CERN.CH)
 		(FAILOVER_MODE=
 			(TYPE=SELECT)
 			(METHOD=BASIC)
@@ -2274,7 +1708,7 @@ c2lhcbstgdb=(
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
 		(SERVER=DEDICATED)
-		(SERVICE_NAME=LHCBSTG_S.cern.ch)
+		(SERVICE_NAME=SYS$CASTOR_STAGER.TRANSFERREADYTOSCHEDULE.LHCBSTG.CERN.CH)
 		(FAILOVER_MODE=
 			(TYPE=SELECT)
 			(METHOD=BASIC)
@@ -2338,55 +1772,11 @@ c2lhcbstgsrm=(
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
 		(SERVER=DEDICATED)
-		(SERVICE_NAME=LHCBSTG_S.cern.ch)
+		(SERVICE_NAME=SYS$CASTOR_STAGER.TRANSFERREADYTOSCHEDULE.LHCBSTG.CERN.CH)
 		(FAILOVER_MODE=
 			(TYPE=SELECT)
 			(METHOD=BASIC)
 		)
-	)
-)
-
-c2castordevdb=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=C2CSTDEV-SCAN.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=c2castordevdb.cern.ch)
-	)
-)
-
-c2castorppsdb=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=c2ppsdb-scan.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=c2castorppsdb.cern.ch)
-	)
-)
-
-c2ppsstgdb=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=c2ppsdb-scan.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=c2castorppsdb.cern.ch)
-	)
-)
-
-srm-pps-db=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=c2ppsdb-scan.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=c2castorppsdb.cern.ch)
 	)
 )
 
@@ -2522,107 +1912,6 @@ phtest=(
 	(CONNECT_DATA=
 		(SERVER=DEDICATED)
 		(SERVICE_NAME=phtest.cern.ch)
-	)
-)
-
-compr_rac50=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac50055-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac50079-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=COMPR.cern.ch)
-	)
-)
-
-compr=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=COMPR.cern.ch)
-	)
-)
-
-comp_raw=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=comp_raw.cern.ch)
-	)
-)
-
-compr2=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=COMPR.cern.ch)
-		(INSTANCE_NAME=COMPR2)
-	)
-)
-
-compr1=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=COMPR.cern.ch)
-		(INSTANCE_NAME=COMPR1)
-	)
-)
-
-comp_dst=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=comp_dst.cern.ch)
-	)
-)
-
-compr_backup=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=compr_backup.cern.ch)
-	)
-)
-
-comp_pvss=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=comp_pvss.cern.ch)
-	)
-)
-
-comp_analysis=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=comp_analysis.cern.ch)
 	)
 )
 
@@ -2781,20 +2070,20 @@ LEMONRAC_R=(
 
 LEMONRAC1=(
 	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac50020.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=lemonrac-s.cern.ch) (PORT=10121) )
 	(CONNECT_DATA=
 		(SERVER=DEDICATED)
-		(SERVICE_NAME=LEMONRAC.cern.ch)
+		(SERVICE_NAME=LEMONRAC_RAC50.cern.ch)
 		(INSTANCE_NAME=LEMONRAC1)
 	)
 )
 
 LEMONRAC2=(
 	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac50072.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=lemonrac-s.cern.ch) (PORT=10121) )
 	(CONNECT_DATA=
 		(SERVER=DEDICATED)
-		(SERVICE_NAME=LEMONRAC.cern.ch)
+		(SERVICE_NAME=LEMONRAC_RAC50.cern.ch)
 		(INSTANCE_NAME=LEMONRAC2)
 	)
 )
@@ -2805,21 +2094,6 @@ dgtest_fdg=(
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
 		(SID=DGTEST)
-	)
-)
-
-pdb_rac11=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=pdb-dg-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=off)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=PDB_RAC11.cern.ch)
-		(FAILOVER_MODE=
-			(TYPE=SELECT)
-			(METHOD=BASIC)
-		)
 	)
 )
 
@@ -3179,11 +2453,6 @@ int2r_apex=(
 	)
 )
 
-dod_daemon_dev_con=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=db-13012.cern.ch) (PORT=-) )
-)
-
 payt_test=(
 	DESCRIPTION=
 	(ADDRESS= (PROTOCOL=TCP) (HOST=paytestdb.cern.ch) (PORT=10121) )
@@ -3492,11 +2761,6 @@ OUTREACH_SERVICE_DEV=(
 		(SERVER=DEDICATED)
 		(SERVICE_NAME=outreach_service_dev.WORLD)
 	)
-)
-
-dod_drupalt1_con=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=dbod-drupalt1.cern.ch) (PORT=5500) )
 )
 
 ertt=(
@@ -4565,23 +3829,6 @@ int8r_rucio=(
 	)
 )
 
-devdb12_firewall=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1265.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1266.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=devdb12-scan.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1265-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1266-v.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1265-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1266-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=off)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=used_only_by_firewall)
-	)
-)
-
 dod_drupals1_con=(
 	DESCRIPTION=
 	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac5151.cern.ch) (PORT=5502) )
@@ -4600,6 +3847,14 @@ oraclehr_test=(
 	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac5164.cern.ch) (PORT=10510) )
 	(CONNECT_DATA=
 		(SID=TCERNI)
+	)
+)
+
+hr_dev=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac5166) (PORT=10710) )
+	(CONNECT_DATA=
+		(SID=DCERNI)
 	)
 )
 
@@ -4641,11 +3896,6 @@ oraclehr_prod=(
 	(CONNECT_DATA=
 		(SID=PCERNI)
 	)
-)
-
-dod_daemon_prod_con=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=dbvrtg4004.cern.ch) (PORT=-) )
 )
 
 EDHP=(
@@ -5077,50 +4327,6 @@ int9r_nolb=(
 	)
 )
 
-lcgr_rac10=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=lcgr-rac10-scan.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=lcgr_rac10.cern.ch)
-	)
-)
-
-lcgr_rac10_1=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1004-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=lcgr_rac10.cern.ch)
-	)
-)
-
-lcgr_rac10_2=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1005-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=lcgr_rac10.cern.ch)
-	)
-)
-
-lcgr_rac10_3=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1014-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=lcgr_rac10.cern.ch)
-	)
-)
-
 castorns_rac50=(
 	DESCRIPTION=
 	(ADDRESS= (PROTOCOL=TCP) (HOST=CASTORNS-RAC50-SCAN.cern.ch) (PORT=10121) )
@@ -5266,72 +4472,6 @@ CMSINTR_NOLB=(
 	)
 )
 
-AISBIP=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac5127-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac5163-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=AISBIP.cern.ch)
-	)
-)
-
-AISBIP_SERVICE_PROD=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac5127-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac5163-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=aisbip_service_prod.cern.ch)
-	)
-)
-
-INTR_NLB=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=INTR-S.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=intr_nlb.cern.ch)
-	)
-)
-
-INTR=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=INTR-S.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=intr.cern.ch)
-	)
-)
-
-INTR2=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=INTR-S.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=intr.cern.ch)
-		(INSTANCE_NAME=intr2)
-	)
-)
-
-INTR1=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=INTR-S.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=intr.cern.ch)
-		(INSTANCE_NAME=intr1)
-	)
-)
-
 cmsr_drac10=(
 	DESCRIPTION=
 	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsr-drac10-scan.cern.ch) (PORT=10121) )
@@ -5402,15 +4542,6 @@ cmsr2_dg=(
 		(SERVER=DEDICATED)
 		(SERVICE_NAME=cmsr.cern.ch)
 		(INSTANCE_NAME=CMSR2)
-	)
-)
-
-gisdbr=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=gisdbr.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=GISDBR1)
 	)
 )
 
@@ -5635,6 +4766,24 @@ wcernd_rac13=(
 )
 
 wcern_service_test=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1330.cern.ch) (PORT=10121) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVICE_NAME=wcern_service_test.WORLD)
+	)
+)
+
+WCERNDEV=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1330.cern.ch) (PORT=10121) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVICE_NAME=wcern_service_test.WORLD)
+	)
+)
+
+WCERND=(
 	DESCRIPTION=
 	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1330.cern.ch) (PORT=10121) )
 	(ENABLE=BROKEN)
@@ -6493,51 +5642,6 @@ aisdbp4_rac51=(
 	)
 )
 
-edmsdb-test=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=edms-test.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=EDMSTST)
-	)
-)
-
-smartdb-test=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1328-v.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=EDMSTST)
-	)
-)
-
-edmsdbt=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=edms-test.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=EDMSTST)
-	)
-)
-
-edmsdb-training=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=edms-training.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=EDMSTRN)
-	)
-)
-
-edmsdb-train=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=edms-training.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=EDMSTRN)
-	)
-)
-
 baan12c=(
 	DESCRIPTION=
 	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1003) (PORT=10121) )
@@ -6835,79 +5939,6 @@ adcr4_adg=(
 		(SERVER=DEDICATED)
 		(SERVICE_NAME=ADCR.cern.ch)
 		(INSTANCE_NAME=ADCR4)
-	)
-)
-
-alionr_adg=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR1-ADG-S.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR2-ADG-S.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alionr.cern.ch)
-	)
-)
-
-alionr_rac51=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR-RAC51-SCAN.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alionr_rac51.cern.ch)
-	)
-)
-
-alionr1_rac51=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR-RAC51-SCAN.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alionr_rac51.cern.ch)
-		(INSTANCE_NAME=ALIONR1)
-	)
-)
-
-alionr2_rac51=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR-RAC51-SCAN.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alionr_rac51.cern.ch)
-		(INSTANCE_NAME=ALIONR2)
-	)
-)
-
-alionr1_adg=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR1-ADG-S.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR2-ADG-S.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alionr.cern.ch)
-		(INSTANCE_NAME=ALIONR1)
-	)
-)
-
-alionr2_adg=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR1-ADG-S.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR2-ADG-S.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alionr.cern.ch)
-		(INSTANCE_NAME=ALIONR2)
 	)
 )
 
@@ -7371,8 +6402,8 @@ cmsonr_adg_rac50=(
 
 cms_orcon_adg=(
 	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=CMSONRADG1-S.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=CMSONRADG2-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsonr1-adg1-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsonr2-adg1-s.cern.ch) (PORT=10121) )
 	(LOAD_BALANCE=on)
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
@@ -7383,8 +6414,8 @@ cms_orcon_adg=(
 
 cms_omds_adg=(
 	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=CMSONRADG1-S.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=CMSONRADG2-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsonr1-adg1-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsonr2-adg1-s.cern.ch) (PORT=10121) )
 	(LOAD_BALANCE=on)
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
@@ -7549,7 +6580,7 @@ lcgr_drac10=(
 
 lcgr1_drac10=(
 	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=LCGR-DG-DRAC10-SCAN.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=LCGR-DRAC10-SCAN.cern.ch) (PORT=10121) )
 	(LOAD_BALANCE=on)
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
@@ -7561,7 +6592,7 @@ lcgr1_drac10=(
 
 lcgr2_drac10=(
 	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=LCGR-DG-DRAC10-SCAN.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=LCGR-DRAC10-SCAN.cern.ch) (PORT=10121) )
 	(LOAD_BALANCE=on)
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
@@ -7573,7 +6604,7 @@ lcgr2_drac10=(
 
 lcgr3_drac10=(
 	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=LCGR-DG-DRAC10-SCAN.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=LCGR-DRAC10-SCAN.cern.ch) (PORT=10121) )
 	(LOAD_BALANCE=on)
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
@@ -7784,132 +6815,6 @@ lhcbonr2_dg=(
 		(SERVER=DEDICATED)
 		(SERVICE_NAME=lhcbonr.cern.ch)
 		(INSTANCE_NAME=LHCBONR2)
-	)
-)
-
-alionr_p21=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR-P21-SCAN.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alionr_p21.cern.ch)
-	)
-)
-
-alionr1_p21=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR-P21-SCAN.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alionr_p21.cern.ch)
-		(INSTANCE_NAME=ALIONR1)
-	)
-)
-
-alionr2_p21=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR-P21-SCAN.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alionr_p21.cern.ch)
-		(INSTANCE_NAME=ALIONR2)
-	)
-)
-
-alionr3_p21=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR-P21-SCAN.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alionr_p21.cern.ch)
-		(INSTANCE_NAME=ALIONR3)
-	)
-)
-
-alionr4_p21=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR-P21-SCAN.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=alionr_p21.cern.ch)
-		(INSTANCE_NAME=ALIONR4)
-	)
-)
-
-COMPR_ADG=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-adg-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-adg-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=COMPR.cern.ch)
-	)
-)
-
-compr1_adg=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-adg-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-adg-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=COMPR.cern.ch)
-		(INSTANCE_NAME=COMPR1)
-	)
-)
-
-compr2_adg=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-adg-s.cern.ch) (PORT=10121) )
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-adg-s.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=COMPR.cern.ch)
-		(INSTANCE_NAME=COMPR2)
-	)
-)
-
-compr_rac10=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr-rac10-scan.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=compr_rac10.cern.ch)
-	)
-)
-
-compr1_rac10=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr-rac10-scan.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=compr_rac10.cern.ch)
-		(INSTANCE_NAME=COMPR1)
-	)
-)
-
-compr2_rac10=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=compr-rac10-scan.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=compr_rac10.cern.ch)
-		(INSTANCE_NAME=COMPR2)
 	)
 )
 
@@ -8177,6 +7082,17 @@ ADCR4=(
 		(SERVER=DEDICATED)
 		(SERVICE_NAME=adcr.cern.ch)
 		(INSTANCE_NAME=adcr4)
+	)
+)
+
+adcr_rucio_2=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=adcr-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=adcr_rucio_2.cern.ch)
 	)
 )
 
@@ -9702,15 +8618,6 @@ PROD_pdbr=(
 	)
 )
 
-emrept_rac50=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=db-50114.cern.ch) (PORT=10121) )
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=EMREPT_RAC50.cern.ch)
-	)
-)
-
 cms_transfermgmt_test=(
 	DESCRIPTION=
 	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsr1-s.cern.ch) (PORT=10121) )
@@ -10345,65 +9252,6 @@ CMS_DMWM_MON=(
 	)
 )
 
-cmsonr_p51=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsonr-cmsrac-scan.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=CMSONR_P51.cern.ch)
-	)
-)
-
-cmsonr1_p51=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsonr-cmsrac-scan.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=CMSONR_P51.cern.ch)
-		(INSTANCE_NAME=CMSONR1)
-	)
-)
-
-cmsonr2_p51=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsonr-cmsrac-scan.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=CMSONR_P51.cern.ch)
-		(INSTANCE_NAME=CMSONR2)
-	)
-)
-
-cmsonr3_p51=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsonr-cmsrac-scan.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=CMSONR_P51.cern.ch)
-		(INSTANCE_NAME=CMSONR3)
-	)
-)
-
-cmsonr4_p51=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsonr-cmsrac-scan.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=CMSONR_P51.cern.ch)
-		(INSTANCE_NAME=CMSONR4)
-	)
-)
-
 CMSONR4=(
 	DESCRIPTION=
 	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsonr4-v.cern.ch) (PORT=10121) )
@@ -10623,6 +9471,65 @@ CMSONR_CMSRAC=(
 	(CONNECT_DATA=
 		(SERVER=DEDICATED)
 		(SERVICE_NAME=cmsonr.cern.ch)
+	)
+)
+
+cmsonr_p51=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsonr-cmsrac-scan.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=CMSONR_P51.cern.ch)
+	)
+)
+
+cmsonr1_p51=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsonr-cmsrac-scan.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=CMSONR_P51.cern.ch)
+		(INSTANCE_NAME=CMSONR1)
+	)
+)
+
+cmsonr2_p51=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsonr-cmsrac-scan.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=CMSONR_P51.cern.ch)
+		(INSTANCE_NAME=CMSONR2)
+	)
+)
+
+cmsonr3_p51=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsonr-cmsrac-scan.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=CMSONR_P51.cern.ch)
+		(INSTANCE_NAME=CMSONR3)
+	)
+)
+
+cmsonr4_p51=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsonr-cmsrac-scan.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=CMSONR_P51.cern.ch)
+		(INSTANCE_NAME=CMSONR4)
 	)
 )
 
@@ -10863,65 +9770,14 @@ pdb2_dg=(
 	)
 )
 
-dgtest_rac10=(
+dreco=(
 	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=dgtest-rac10-scan.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=dreco-s.cern.ch) (PORT=10121) )
 	(LOAD_BALANCE=on)
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
 		(SERVER=DEDICATED)
-		(SERVICE_NAME=dgtest_rac10.cern.ch)
-	)
-)
-
-dgtest1_rac10=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=dgtest-rac10-scan.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=dgtest_rac10.cern.ch)
-		(INSTANCE_NAME=DGTEST1)
-	)
-)
-
-dgtest2_rac10=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=dgtest-rac10-scan.cern.ch) (PORT=10121) )
-	(LOAD_BALANCE=on)
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVER=DEDICATED)
-		(SERVICE_NAME=dgtest_rac10.cern.ch)
-		(INSTANCE_NAME=DGTEST2)
-	)
-)
-
-dod_cstest1_rac51=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=dbsrvg407.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=CSTEST1)
-	)
-)
-
-dod_copvss_rac51=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=dbsrvg407.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=COPVSS)
-	)
-)
-
-gisdb=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=gisdb-s.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SERVICE_NAME=gisdb.cern.ch)
+		(SERVICE_NAME=dreco_s.cern.ch)
 	)
 )
 
@@ -11003,15 +9859,6 @@ devdb12_rac13_firewall=(
 	)
 )
 
-dod_oraclefi=(
-	DESCRIPTION=
-	(ADDRESS= (PROTOCOL=TCP) (HOST=dbvrts1015.cern.ch) (PORT=10121) )
-	(ENABLE=BROKEN)
-	(CONNECT_DATA=
-		(SID=ORACLEFI)
-	)
-)
-
 edmsdb-dev=(
 	DESCRIPTION=
 	(ADDRESS= (PROTOCOL=TCP) (HOST=devdb11-s.cern.ch) (PORT=10121) )
@@ -11044,7 +9891,7 @@ devdb11=(
 	(ADDRESS= (PROTOCOL=TCP) (HOST=devdb11-s.cern.ch) (PORT=10121) )
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
-		(SERVICE_NAME=devdb11.cern.ch)
+		(SERVICE_NAME=devdb11_s.cern.ch)
 	)
 )
 
@@ -11097,6 +9944,1159 @@ devdb11_rac13_firewall=(
 	(ENABLE=BROKEN)
 	(CONNECT_DATA=
 		(SERVICE_NAME=used_only_by_firewall)
+	)
+)
+
+dod_drupalt1_con=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=dbod-drupalt1_slv.cern.ch) (PORT=5504) )
+)
+
+CMSARC_NOLB=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsarc1-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsarc2-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=cmsarc_nolb.cern.ch)
+	)
+)
+
+CMSARC=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsarc-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=CMSARC.cern.ch)
+	)
+)
+
+CMSARC_LB=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsarc1-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsarc2-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=cmsarc_lb.cern.ch)
+	)
+)
+
+CMSARC2=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsarc-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=CMSARC.cern.ch)
+		(INSTANCE_NAME=CMSARC2)
+	)
+)
+
+CMSARC1=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsarc-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=CMSARC.cern.ch)
+		(INSTANCE_NAME=CMSARC1)
+	)
+)
+
+cmsarc2_rac50=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsarc-rac50-scan.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=CMSARC.cern.ch)
+		(INSTANCE_NAME=CMSARC2)
+	)
+)
+
+cmsarc1_rac50=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsarc-rac50-scan.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=CMSARC.cern.ch)
+		(INSTANCE_NAME=CMSARC1)
+	)
+)
+
+cmsarc_rac50=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cmsarc-rac50-scan.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=CMSARC.cern.ch)
+	)
+)
+
+em_service_prod=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=emrepp-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=em_service_prod.cern.ch)
+	)
+)
+
+gisdb=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=gisdb-s.cern.ch) (PORT=10121) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVICE_NAME=gisdb.cern.ch)
+	)
+)
+
+gisdbr=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=gisdbr.cern.ch) (PORT=10121) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=GISDBR1)
+	)
+)
+
+dbod_daemon_prod_con=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=db-50013.cern.ch) (PORT=-) )
+)
+
+dbod_cstest1=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac5175.cern.ch) (PORT=10121) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=CSTEST1)
+	)
+)
+
+dbod_amanda=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac5175.cern.ch) (PORT=10123) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=AMANDA)
+	)
+)
+
+dbod_aistools_dev=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac5175.cern.ch) (PORT=10124) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=AISTOOLD)
+	)
+)
+
+em_service_test=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=emrept-s.cern.ch) (PORT=10121) )
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=em_service_test.cern.ch)
+	)
+)
+
+emrept_rac50=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=db-50114.cern.ch) (PORT=10121) )
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=EMREPT_RAC50V.cern.ch)
+	)
+)
+
+dbod_copvss=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac5175.cern.ch) (PORT=10122) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=COPVSS)
+	)
+)
+
+dod_copvss=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac5175.cern.ch) (PORT=10122) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=COPVSS)
+	)
+)
+
+alionr_p21=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR-P21-SCAN.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=alionr_p21.cern.ch)
+	)
+)
+
+alionr1_p21=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR-P21-SCAN.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=alionr_p21.cern.ch)
+		(INSTANCE_NAME=ALIONR1)
+	)
+)
+
+alionr2_p21=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR-P21-SCAN.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=alionr_p21.cern.ch)
+		(INSTANCE_NAME=ALIONR2)
+	)
+)
+
+alionr3_p21=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR-P21-SCAN.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=alionr_p21.cern.ch)
+		(INSTANCE_NAME=ALIONR3)
+	)
+)
+
+alionr4_p21=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR-P21-SCAN.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=alionr_p21.cern.ch)
+		(INSTANCE_NAME=ALIONR4)
+	)
+)
+
+ALIONR=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR1-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR2-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR3-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR4-S.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=ALIONR.cern.ch)
+	)
+)
+
+ALIONR4=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR-S.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=ALIONR.cern.ch)
+		(INSTANCE_NAME=ALIONR4)
+	)
+)
+
+ALIONR3=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR-S.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=ALIONR.cern.ch)
+		(INSTANCE_NAME=ALIONR3)
+	)
+)
+
+ALIONR2=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR-S.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=ALIONR.cern.ch)
+		(INSTANCE_NAME=ALIONR2)
+	)
+)
+
+ALIONR1=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR-S.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=ALIONR.cern.ch)
+		(INSTANCE_NAME=ALIONR1)
+	)
+)
+
+alionr_nolb=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR1-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR2-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR3-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR4-S.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=alionr_nolb.cern.ch)
+	)
+)
+
+alionr_lb=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR1-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR2-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR3-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR4-S.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=alionr_lb.cern.ch)
+	)
+)
+
+alice_pvss=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR1-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR2-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR3-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR4-S.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=alice_pvss.cern.ch)
+	)
+)
+
+alice_pvss_fw_config=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR1-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR2-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR3-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR4-S.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=alice_pvss_fw_config.cern.ch)
+	)
+)
+
+alice_fero=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR1-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR2-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR3-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR4-S.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=alice_fero.cern.ch)
+	)
+)
+
+alice_amanda=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR1-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR2-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR3-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR4-S.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=alice_amanda.cern.ch)
+	)
+)
+
+dbod_flexnerd=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac5175.cern.ch) (PORT=10126) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=FLEXNERD)
+	)
+)
+
+dbod_fisheye=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac5175.cern.ch) (PORT=10127) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=FISHEYE)
+	)
+)
+
+dbod_aistools_prod=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac5175.cern.ch) (PORT=10125) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=AISTOOLS)
+	)
+)
+
+dbod_advrep_t=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac5175.cern.ch) (PORT=10128) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=ADVREP_T)
+	)
+)
+
+AISBIP=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=aisbip1-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=aisbip2-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=AISBIP.cern.ch)
+	)
+)
+
+AISBIP_SERVICE_PROD=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=aisbip1-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=aisbip2-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=aisbip_service_prod.cern.ch)
+	)
+)
+
+accint=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=accint12-scan.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=accint.cern.ch)
+		(FAILOVER_MODE=
+			(TYPE=SELECT)
+			(METHOD=BASIC)
+			(RETRIES=200)
+			(DELAY=15)
+		)
+	)
+)
+
+cman_ais1=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cman1.cern.ch) (PORT=10300) )
+	(ENABLE=BROKEN)
+)
+
+cman_ais2=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cman2.cern.ch) (PORT=10300) )
+	(ENABLE=BROKEN)
+)
+
+cman_ais=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cman1.cern.ch) (PORT=10300) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cman2.cern.ch) (PORT=10300) )
+)
+
+cman_cs1=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cman1.cern.ch) (PORT=10400) )
+	(ENABLE=BROKEN)
+)
+
+cman_cs2=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cman2.cern.ch) (PORT=10400) )
+	(ENABLE=BROKEN)
+)
+
+cman_cs=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cman1.cern.ch) (PORT=10400) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=cman2.cern.ch) (PORT=10400) )
+)
+
+castrint=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=CASTRINT-SCAN.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=SYS$CASTOR_STAGER.TRANSFERREADYTOSCHEDULE.CASTRINT.CERN.CH)
+	)
+)
+
+castorint=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1327-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1329-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=SYS$CASTOR_STAGER.TRANSFERREADYTOSCHEDULE.CASTRINT.CERN.CH)
+	)
+)
+
+dbod_oratest=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=db-51044.cern.ch) (PORT=10129) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=ORATEST)
+	)
+)
+
+zoradb-test=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=zora-test.cern.ch) (PORT=10121) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=ZORATST)
+	)
+)
+
+irisdb-test=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=zora-test.cern.ch) (PORT=10121) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=ZORATST)
+	)
+)
+
+zorapsdb-test=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=zora-test.cern.ch) (PORT=10121) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=ZORATST)
+	)
+)
+
+susidb-test=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=susi-test.cern.ch) (PORT=10121) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=SUSITST)
+	)
+)
+
+timdb-test=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=tim-test.cern.ch) (PORT=10121) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=TIMTST)
+	)
+)
+
+edmsdb-test=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=edms-test.cern.ch) (PORT=10121) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=EDMSTST)
+	)
+)
+
+smartdb-test=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1328-v.cern.ch) (PORT=10121) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=EDMSTST)
+	)
+)
+
+edmsdbt=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=edms-test.cern.ch) (PORT=10121) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=EDMSTST)
+	)
+)
+
+edmsdb-training=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=edms-training.cern.ch) (PORT=10121) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=EDMSTRN)
+	)
+)
+
+edmsdb-train=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=edms-training.cern.ch) (PORT=10121) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=EDMSTRN)
+	)
+)
+
+c2castordevdb=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=C2CSTDEV-SCAN.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=SYS$STAGER_DEV01.TRANSFERREADYTOSCHEDULE.C2CSTDEV.CERN.CH)
+	)
+)
+
+c2castorppsdb=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=c2ppsdb-scan.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=SYS$CASTOR_STAGER.TRANSFERREADYTOSCHEDULE.C2PPSDB.CERN.CH)
+	)
+)
+
+c2ppsstgdb=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=c2ppsdb-scan.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=SYS$CASTOR_STAGER.TRANSFERREADYTOSCHEDULE.C2PPSDB.CERN.CH)
+	)
+)
+
+srm-pps-db=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=c2ppsdb-scan.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=SYS$CASTOR_STAGER.TRANSFERREADYTOSCHEDULE.C2PPSDB.CERN.CH)
+	)
+)
+
+COMPR_ADG=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-adg-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-adg-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=COMPR.cern.ch)
+	)
+)
+
+compr1_adg=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-adg-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-adg-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=COMPR.cern.ch)
+		(INSTANCE_NAME=COMPR1)
+	)
+)
+
+compr2_adg=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-adg-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-adg-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=COMPR.cern.ch)
+		(INSTANCE_NAME=COMPR2)
+	)
+)
+
+compr_rac51=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr-rac51-scan.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=compr_rac51.cern.ch)
+	)
+)
+
+compr1_rac51=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr-rac51-scan.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=compr_rac51.cern.ch)
+		(INSTANCE_NAME=COMPR1)
+	)
+)
+
+compr2_rac51=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr-rac51-scan.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=compr_rac51.cern.ch)
+		(INSTANCE_NAME=COMPR2)
+	)
+)
+
+alionr_adg=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR1-ADG-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR2-ADG-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR3-ADG-S.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=alionr.cern.ch)
+	)
+)
+
+alionr_rac51=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR-RAC51-SCAN.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=alionr_rac51.cern.ch)
+	)
+)
+
+alionr1_rac51=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR-RAC51-SCAN.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=alionr_rac51.cern.ch)
+		(INSTANCE_NAME=ALIONR1)
+	)
+)
+
+alionr2_rac51=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR-RAC51-SCAN.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=alionr_rac51.cern.ch)
+		(INSTANCE_NAME=ALIONR2)
+	)
+)
+
+alionr3_rac51=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR-RAC51-SCAN.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=alionr_rac51.cern.ch)
+		(INSTANCE_NAME=ALIONR3)
+	)
+)
+
+alionr1_adg=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR1-ADG-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR2-ADG-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR3-ADG-S.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=alionr.cern.ch)
+		(INSTANCE_NAME=ALIONR1)
+	)
+)
+
+alionr2_adg=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR1-ADG-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR2-ADG-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR3-ADG-S.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=alionr.cern.ch)
+		(INSTANCE_NAME=ALIONR2)
+	)
+)
+
+alionr3_adg=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR1-ADG-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR2-ADG-S.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=ALIONR3-ADG-S.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=alionr.cern.ch)
+		(INSTANCE_NAME=ALIONR3)
+	)
+)
+
+compr_rac50=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac50055-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac50079-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=COMPR.cern.ch)
+	)
+)
+
+compr=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=COMPR.cern.ch)
+	)
+)
+
+comp_raw=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=comp_raw.cern.ch)
+	)
+)
+
+compr2=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=COMPR.cern.ch)
+		(INSTANCE_NAME=COMPR2)
+	)
+)
+
+compr1=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=COMPR.cern.ch)
+		(INSTANCE_NAME=COMPR1)
+	)
+)
+
+comp_dst=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=comp_dst.cern.ch)
+	)
+)
+
+compr_backup=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=compr_backup.cern.ch)
+	)
+)
+
+comp_pvss=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=comp_pvss.cern.ch)
+	)
+)
+
+comp_analysis=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr1-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=compr2-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=comp_analysis.cern.ch)
+	)
+)
+
+erts_rac4=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1004-v.cern.ch) (PORT=10121) )
+	(CONNECT_DATA=
+		(SID=ERTS)
+	)
+)
+
+erts_rac5=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1005-v.cern.ch) (PORT=10121) )
+	(CONNECT_DATA=
+		(SID=ERTS)
+	)
+)
+
+INTR_NLB=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=intr-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=intr_nlb.cern.ch)
+	)
+)
+
+INTR=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=intr-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=intr.cern.ch)
+	)
+)
+
+INTR2=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=intr-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=intr.cern.ch)
+		(INSTANCE_NAME=intr2)
+	)
+)
+
+INTR1=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=intr-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=intr.cern.ch)
+		(INSTANCE_NAME=intr1)
+	)
+)
+
+intr_rac13=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=int8r-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=intr_rac13.cern.ch)
+		(FAILOVER_MODE=
+			(TYPE=SELECT)
+			(METHOD=BASIC)
+		)
+	)
+)
+
+intr1_rac13=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1312-v.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1318-v.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=intr_rac13.cern.ch)
+		(INSTANCE_NAME=INTR1)
+		(FAILOVER_MODE=
+			(TYPE=SELECT)
+			(METHOD=BASIC)
+		)
+	)
+)
+
+intr2_rac13=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1312-v.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=itrac1318-v.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=intr_rac13.cern.ch)
+		(INSTANCE_NAME=INTR2)
+		(FAILOVER_MODE=
+			(TYPE=SELECT)
+			(METHOD=BASIC)
+		)
+	)
+)
+
+AISBIT=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=aisbit1-v.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=aisbit2-v.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=aisbit_rac11.cern.ch)
+	)
+)
+
+AISBIT_SERVICE_PROD=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=aisbit1-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=aisbit2-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=aisbi_service_test.cern.ch)
+	)
+)
+
+wcernp_drac10=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=drac1014-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=drac1030-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=wcernp_drac10.WORLD)
+	)
+)
+
+wcernp1_drac10=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=drac1014-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=drac1030-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=wcernp_drac10.WORLD)
+		(INSTANCE_NAME=WCERNP1)
+	)
+)
+
+wcernp2_drac10=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=drac1014-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=drac1030-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=wcernp_drac10.WORLD)
+		(INSTANCE_NAME=WCERNP2)
+	)
+)
+
+wcernp_dg=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=wcernp1-dg-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=wcernp2-dg-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=WCERNP.WORLD)
+	)
+)
+
+wcernp1_dg=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=wcernp1-dg-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=wcernp2-dg-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=WCERNP.WORLD)
+		(INSTANCE_NAME=WCERNP1)
+	)
+)
+
+wcernp2_dg=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=wcernp1-dg-s.cern.ch) (PORT=10121) )
+	(ADDRESS= (PROTOCOL=TCP) (HOST=wcernp2-dg-s.cern.ch) (PORT=10121) )
+	(LOAD_BALANCE=on)
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SERVER=DEDICATED)
+		(SERVICE_NAME=WCERNP.WORLD)
+		(INSTANCE_NAME=WCERNP2)
+	)
+)
+
+dbod_oratest1=(
+	DESCRIPTION=
+	(ADDRESS= (PROTOCOL=TCP) (HOST=db-51044.cern.ch) (PORT=10130) )
+	(ENABLE=BROKEN)
+	(CONNECT_DATA=
+		(SID=ORATEST)
 	)
 )
 

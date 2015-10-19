@@ -1,4 +1,4 @@
-### RPM cms wmagent 1.0.9.patch2
+### RPM cms wmagent 1.0.11.pre3
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
@@ -8,7 +8,7 @@ Source: git://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=WMCore
 Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 py2-pycurl
 Requires: py2-mysqldb py2-cx-oracle py2-cheetah py2-pyopenssl py2-cjson py2-pymongo
 Requires: cherrypy yui libuuid couchdb15 condor pystack
-Requires: dbs-client dls-client dbs3-client py2-zmq py2-psutil
+Requires: dbs-client dls-client dbs3-client py2-zmq py2-psutil py2-future
 
 BuildRequires: py2-sphinx couchskel
 

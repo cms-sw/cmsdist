@@ -1,4 +1,4 @@
-### RPM external oracle 11.2.0.3.0__10.2.0.4.0
+### RPM external oracle 11.2.0.4.0__10.2.0.4.0
 ## INITENV SET ORACLE_HOME %i
 ## INITENV +PATH SQLPATH %i/bin
 
@@ -8,7 +8,8 @@
 # Do not even think about commenting out one of the sources, simply because
 # it's not needed for your platform.
 # These are the original ZIP files from oracle. Do not use anything else.
-%define copydate        20120309
+%define copydatemac        20120309
+%define copydatelinux      20150918
 %define mirrordir       http://cmsrep.cern.ch/cmssw/oracle-mirror
 
 %define macdir          instantclient_10_2
@@ -17,24 +18,24 @@
 
 %define linuxdir        instantclient_11_2
 %define linuxarch       linux.x64
-%define linuxversion    11.2.0.3.0
+%define linuxversion    11.2.0.4.0
 
 # The ZIP files contain overlapping files, and by default 'unzip' wants to
 # ask about whether to overwrite files or not. This is really awkward if you
 # run the build in a terminal, so force overwrites always.
 %define __unzip         unzip -o
 
-Source0: %mirrordir/%copydate-instantclient-basic-%macversion-%macarch.zip
-Source1: %mirrordir/%copydate-instantclient-basiclite-%macversion-%macarch.zip
-Source2: %mirrordir/%copydate-instantclient-jdbc-%macversion-%macarch.zip
-Source3: %mirrordir/%copydate-instantclient-sdk-%macversion-%macarch.zip
-Source4: %mirrordir/%copydate-instantclient-sqlplus-%macversion-%macarch.zip
+Source0: %mirrordir/%copydatemac-instantclient-basic-%macversion-%macarch.zip
+Source1: %mirrordir/%copydatemac-instantclient-basiclite-%macversion-%macarch.zip
+Source2: %mirrordir/%copydatemac-instantclient-jdbc-%macversion-%macarch.zip
+Source3: %mirrordir/%copydatemac-instantclient-sdk-%macversion-%macarch.zip
+Source4: %mirrordir/%copydatemac-instantclient-sqlplus-%macversion-%macarch.zip
 
-Source5: %mirrordir/%copydate-instantclient-basic-%linuxarch-%linuxversion.zip
-Source6: %mirrordir/%copydate-instantclient-basiclite-%linuxarch-%linuxversion.zip
-Source7: %mirrordir/%copydate-instantclient-jdbc-%linuxarch-%linuxversion.zip
-Source8: %mirrordir/%copydate-instantclient-sdk-%linuxarch-%linuxversion.zip
-Source9: %mirrordir/%copydate-instantclient-sqlplus-%linuxarch-%linuxversion.zip
+Source5: %mirrordir/%copydatelinux-instantclient-basic-%linuxarch-%linuxversion.zip
+Source6: %mirrordir/%copydatelinux-instantclient-basiclite-%linuxarch-%linuxversion.zip
+Source7: %mirrordir/%copydatelinux-instantclient-jdbc-%linuxarch-%linuxversion.zip
+Source8: %mirrordir/%copydatelinux-instantclient-sdk-%linuxarch-%linuxversion.zip
+Source9: %mirrordir/%copydatelinux-instantclient-sqlplus-%linuxarch-%linuxversion.zip
 
 Source10: oracle-license
 Requires: fakesystem 
@@ -48,19 +49,19 @@ Requires: fakesystem
 # final directory to use as the one of the last %%setup happening.
 rm -fr instantclient_*
 %if %(case %cmsos in (osx*) echo true ;; (*) echo false ;; esac) == true
-%setup -D -T -b 0 -n %macdir %copydate-instantclient-basic-%macversion-%macarch.zip
-%setup -D -T -b 1 -n %macdir %copydate-instantclient-basiclite-%macversion-%macarch.zip
-%setup -D -T -b 2 -n %macdir %copydate-instantclient-jdbc-%macversion-%macarch.zip
-%setup -D -T -b 3 -n %macdir %copydate-instantclient-sdk-%macversion-%macarch.zip
-%setup -D -T -b 4 -n %macdir %copydate-instantclient-sqlplus-%macversion-%macarch.zip
+%setup -D -T -b 0 -n %macdir %copydatemac-instantclient-basic-%macversion-%macarch.zip
+%setup -D -T -b 1 -n %macdir %copydatemac-instantclient-basiclite-%macversion-%macarch.zip
+%setup -D -T -b 2 -n %macdir %copydatemac-instantclient-jdbc-%macversion-%macarch.zip
+%setup -D -T -b 3 -n %macdir %copydatemac-instantclient-sdk-%macversion-%macarch.zip
+%setup -D -T -b 4 -n %macdir %copydatemac-instantclient-sqlplus-%macversion-%macarch.zip
 %endif
 
 %if %(case %cmsos in (slc*) echo true ;; (*) echo false ;; esac) == true
-%setup -D -T -b 5 -n %linuxdir %copydate-instantclient-basic-%linuxarch-%linuxversion.zip
-%setup -D -T -b 6 -n %linuxdir %copydate-instantclient-basiclite-%linuxarch-%linuxversion.zip
-%setup -D -T -b 7 -n %linuxdir %copydate-instantclient-jdbc-%linuxarch-%linuxversion.zip
-%setup -D -T -b 8 -n %linuxdir %copydate-instantclient-sdk-%linuxarch-%linuxversion.zip
-%setup -D -T -b 9 -n %linuxdir %copydate-instantclient-sqlplus-%linuxarch-%linuxversion.zip
+%setup -D -T -b 5 -n %linuxdir %copydatelinux-instantclient-basic-%linuxarch-%linuxversion.zip
+%setup -D -T -b 6 -n %linuxdir %copydatelinux-instantclient-basiclite-%linuxarch-%linuxversion.zip
+%setup -D -T -b 7 -n %linuxdir %copydatelinux-instantclient-jdbc-%linuxarch-%linuxversion.zip
+%setup -D -T -b 8 -n %linuxdir %copydatelinux-instantclient-sdk-%linuxarch-%linuxversion.zip
+%setup -D -T -b 9 -n %linuxdir %copydatelinux-instantclient-sqlplus-%linuxarch-%linuxversion.zip
 %endif
 
 %build

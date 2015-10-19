@@ -1,4 +1,4 @@
-### RPM cms crabserver 3.3.1509.rc8
+### RPM cms crabserver 3.3.1510.rc8
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
@@ -13,12 +13,12 @@ Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=C
 Requires: python cherrypy py2-cjson rotatelogs py2-pycurl py2-httplib2 py2-sqlalchemy py2-cx-oracle
 Requires: py2-pyopenssl condor py2-mysqldb dbs3-pycurl-client dbs-client dbs3-client
 BuildRequires: py2-sphinx
-#Patch0: crabserver3-setup
+Patch0: crabserver3-setup
 
 %prep
 %setup -D -T -b 1 -n CRABServer-%{realversion}
 %setup -T -b 0 -n WMCore-%{wmcver}
-#%patch0 -p1
+%patch0 -p1
 
 %build
 touch $PWD/condor_config
@@ -29,7 +29,7 @@ PYTHONPATH=$PWD/build/lib:$PYTHONPATH
 
 cd ../CRABServer-%{realversion}
 perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/crabserver/conf.py
-echo "__version__ = \"%{realversion}\"#Automatically added during RPM build process" >> src/python/CRABInterface/__init__.py
+echo -e "\n__version__ = \"%{realversion}\"#Automatically added during RPM build process" >> src/python/CRABInterface/__init__.py
 python setup.py build_system -s CRABInterface
 
 %install
