@@ -301,6 +301,23 @@ index 2d605b6..bc7150d 100644
 +        self.lumiChecker.closeJob(self.currentJob)
          self.lumiChecker.fixInputFiles()
          return
+diff --git a/src/python/WMCore/Services/DBS/DBS3Reader.py b/src/python/WMCore/Services/DBS/DBS3Reader.py
+index 4270bd0..b4815c8 100644
+--- a/src/python/WMCore/Services/DBS/DBS3Reader.py
++++ b/src/python/WMCore/Services/DBS/DBS3Reader.py
+@@ -577,9 +577,9 @@ class DBS3Reader:
+                 msg += "%s\n" % str(ex)
+                 raise Exception(msg)
+ 
+-            if not blockInfo or len(blockInfo) != len(blockNames): #if we couldnt get data location from PhEDEx, try to look into origin site location from dbs
+-                dbsOnly = True
+-                blockNames = set(blockNames) - set(blockInfo) #get the blocks we did not find information in phedex
++#            if not blockInfo or len(blockInfo) != len(blockNames): #if we couldnt get data location from PhEDEx, try to look into origin site location from dbs
++                #dbsOnly = True
++#                blockNames = set(blockNames) - set(blockInfo) #get the blocks we did not find information in phedex
+ 
+         if dbsOnly:
+             try:
 diff --git a/src/python/WMCore/Services/UserFileCache/UserFileCache.py b/src/python/WMCore/Services/UserFileCache/UserFileCache.py
 index b2c887d..f0e425b 100644
 --- a/src/python/WMCore/Services/UserFileCache/UserFileCache.py
@@ -430,6 +447,35 @@ index 385ca1f..be95e7e 100644
 +            return res
          else:
              return data
+ 
+diff --git a/src/python/WMCore/Storage/SiteLocalConfig.py b/src/python/WMCore/Storage/SiteLocalConfig.py
+index 7e43d3b..8d7e3a2 100644
+--- a/src/python/WMCore/Storage/SiteLocalConfig.py
++++ b/src/python/WMCore/Storage/SiteLocalConfig.py
+@@ -274,6 +274,8 @@ def processLocalStageOut():
+                 localReport['option'] = subnode.attrs.get('value', None)
+             elif subnode.name == 'catalog':
+                 localReport['catalog'] = subnode.attrs.get('url', None)
++            elif subnode.name == 'phedex-node':
++                localReport['phedex-node'] = subnode.attrs.get('value', None)
+         report['localStageOut'] = localReport
+ 
+ @coroutine
+diff --git a/src/python/WMCore/WMRuntime/Scripts/SetupCMSSWPset.py b/src/python/WMCore/WMRuntime/Scripts/SetupCMSSWPset.py
+index e0cfdb2..64bc385 100755
+--- a/src/python/WMCore/WMRuntime/Scripts/SetupCMSSWPset.py
++++ b/src/python/WMCore/WMRuntime/Scripts/SetupCMSSWPset.py
+@@ -598,6 +598,11 @@ class SetupCMSSWPset(ScriptInterface):
+                 print traceback.format_exc()
+                 raise ex
+ 
++            self.process.add_(
++                cms.Service("CondorStatusService"
++                            )
++                )
++
+             if funcName == "repack":
+                 self.handleRepackSettings()
  
 diff --git a/test/python/WMCore_t/JobSplitting_t/EventAwareLumiBased_t.py b/test/python/WMCore_t/JobSplitting_t/EventAwareLumiBased_t.py
 index 192a147..beed60a 100644
@@ -675,3 +721,59 @@ index 466c4ee..4b3f86d 100644
          return
  
      def testUploadDownload(self):
+diff --git a/test/python/WMCore_t/Storage_t/SiteLocalConfig_t.py b/test/python/WMCore_t/Storage_t/SiteLocalConfig_t.py
+index 9c907f5..65aa6bd 100644
+--- a/test/python/WMCore_t/Storage_t/SiteLocalConfig_t.py
++++ b/test/python/WMCore_t/Storage_t/SiteLocalConfig_t.py
+@@ -11,8 +11,11 @@ import unittest
+ from WMQuality.TestInit import TestInit
+ from WMCore.WMBase import getTestBase
+ 
+-from WMCore.Storage.SiteLocalConfig import SiteLocalConfig
++from WMCore.Storage.SiteLocalConfig import SiteLocalConfig, SiteConfigError
+ from WMCore.Storage.SiteLocalConfig import loadSiteLocalConfig
++from WMCore.Services.PhEDEx.PhEDEx import PhEDEx
++
++from nose.plugins.attrib import attr
+ 
+ class SiteLocalConfigTest(unittest.TestCase):
+     def setUp(self):
+@@ -156,6 +159,38 @@ class SiteLocalConfigTest(unittest.TestCase):
+                          "Error: Wrong site name.")
+ 
+ 
++    @attr("integration")
++    def testSlcPhedexNodesEqualPhedexApiNodes(self):
++        """
++        For each site, verify that the stageout node specified in
++        site-local-config.xml is the same as the one returned by the PhEDEx api.
++        """
++        os.environ["CMS_PATH"] = "/cvmfs/cms.cern.ch"
++
++        phedex = PhEDEx()
++        nodes = phedex.getNodeMap()["phedex"]["node"]
++
++        # Make a dict for translating the se names into regular site names.
++        node_map = {}
++        for node in nodes:
++            node_map[str(node[u"se"])] = str(node[str(u"name")])
++        
++        for d in os.listdir("/cvmfs/cms.cern.ch/SITECONF/"):
++            # Only T0_, T1_... folders are needed
++            if d[0] == "T":
++                os.environ['WMAGENT_SITE_CONFIG_OVERRIDE'] ='/cvmfs/cms.cern.ch/SITECONF/%s/JobConfig/site-local-config.xml' % (d)
++                try:
++                    slc = loadSiteLocalConfig()
++                except SiteConfigError as e:
++                    print e.args[0]
++                phedexNode = slc.localStageOut.get("phedex-node")
++                # If slc is correct, perform check
++                if "se-name" in slc.localStageOut and slc.localStageOut["se-name"] in node_map and phedexNode != None:
++                    self.assertEqual(phedexNode, node_map[slc.localStageOut["se-name"]], \
++                            "Error: Node specified in SLC (%s) doesn't match node returned by PhEDEx api (%s)." \
++                            % (phedexNode, node_map[slc.localStageOut["se-name"]]))
++                    
++        return 
+ 
+ if __name__ == "__main__":
+     unittest.main()
