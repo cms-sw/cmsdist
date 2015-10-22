@@ -1,11 +1,11 @@
-### RPM cms crabclient 3.3.1510
+### RPM cms crabclient 3.3.1511.rc1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 %define wmcver 1.0.9.pre4
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define crabserver 3.3.1510.rc3
+%define crabserver 3.3.1511.rc1
 
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
@@ -13,16 +13,7 @@ Source1: git://github.com/dmwm/CRABClient.git?obj=master/%{realversion}&export=C
 Source2: git://github.com/dmwm/CRABServer.git?obj=master/%{crabserver}&export=CRABServer-%{crabserver}&output=/CRABServer-%{crabserver}.tar.gz
 
 Requires: python py2-httplib2 py2-sphinx py2-pycurl dbs3-client py2-ipython
-#WMCore patches cherry-picked on top of 1.0.9.pre4:
-#aa5c06828826c99cdf041f50ca6f95555608d912
-#4237f0b
-#86b932c
-#5e91046
-#d5bfd23
-#eb4dd68
-#f6b4069
-#aee9e6d
-#Patch0: crabclient-setup
+#WMCore patches cherry-picked on top of 1.0.9.pre4, see 3.3.1511 tag on mmascher github
 Patch0: crabserver3-setup
 
 %prep
