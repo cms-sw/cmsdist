@@ -1,8 +1,8 @@
-### RPM cms webtools 1.3.47
+### RPM cms webtools 1.3.48
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PERL5LIB %i/lib/perl
 
-%define gittag V01-03-47
+%define gittag V01-03-48
 Source: git://github.com/geneguvo/webtools?obj=master/%gittag&export=%n&output=/%n.tar.gz
 
 Requires: python cherrypy py2-cheetah yui sqlite zlib py2-pysqlite expat openssl bz2lib db4 gdbm py2-cx-oracle py2-formencode py2-pycrypto oracle beautifulsoup py2-sqlalchemy oracle-env py2-pyopenssl

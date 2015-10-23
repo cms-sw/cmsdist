@@ -1,4 +1,4 @@
-### RPM external py2-pil 1.1.6
+### RPM external py2-pil 1.1.7
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}/PIL
 %define downloadn Imaging

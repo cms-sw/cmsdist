@@ -1,4 +1,4 @@
-### RPM external py2-numpy 1.8.0
+### RPM external py2-numpy 1.10.0
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 Source: http://downloads.sourceforge.net/project/numpy/NumPy/%realversion/numpy-%realversion.tar.gz
 Requires: python zlib lapack
@@ -19,4 +19,4 @@ export BLAS=$LAPACK_ROOT/lib/libblas.$SONAME
 
 python setup.py build --fcompiler=gnu95
 python setup.py install --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
+#find %i -name '*.egg-info' -exec rm {} \;
