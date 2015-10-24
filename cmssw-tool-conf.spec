@@ -25,6 +25,7 @@ Requires: dbs-client-toolfile
 Requires: dpm-toolfile
 Requires: elementtree-toolfile
 Requires: evtgenlhc-toolfile
+Requires: evtgen-toolfile
 Requires: expat-toolfile
 Requires: fakesystem
 Requires: fastjet-toolfile
