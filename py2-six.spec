@@ -1,4 +1,4 @@
-### RPM external py2-six 1.4.1
+### RPM external py2-six 1.10.0
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source0: https://pypi.python.org/packages/source/s/six/six-%{realversion}.tar.gz
