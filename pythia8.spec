@@ -1,19 +1,15 @@
-### RPM external pythia8 201
+### RPM external pythia8 212
 
 Requires: hepmc lhapdf
 
-Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
-
-Patch0: pythia8-201-fix-gcc-options
-Patch1: pythia8-201-fix-init
+%define tag 2c5a4f204767dfd62849eb01c9b70b4ff16311a9
+%define branch cms/%{realversion}
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 %prep
-%setup -q -n %{n}/%{realversion}
-%patch0 -p2
-%patch1 -p2
+%setup -q -n %{n}-%{realversion}
 
-export HEPMCLOCATION=${HEPMC_ROOT}  
-export HEPMCVERSION=${HEPMC_VERSION}
 ./configure --prefix=%i --enable-shared --with-hepmc2=${HEPMC_ROOT} --with-lhapdf5=${LHAPDF_ROOT}
 
 %build
