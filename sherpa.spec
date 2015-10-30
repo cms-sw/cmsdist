@@ -7,7 +7,7 @@ Requires: hepmc lhapdf blackhat sqlite fastjet openssl
 BuildRequires: mcfm
 
 %if "%(case %cmsplatf in (slc*) echo true ;; (*) echo false ;; esac)" == "true"
-#Requires: openloops
+Requires: openloops
 %endif
 
 %if "%{?cms_cxx:set}" != "set"
