@@ -54,7 +54,6 @@ rm -f  perl_lib/PHEDEX/Core/Mail.pm
 rm -rf perl_lib/PHEDEX/Schema
 rm -rf perl_lib/PHEDEX/Namespace/SpaceCountCommon.pm
 rm -rf perl_lib/PHEDEX/Namespace/*/spacecount.pm
-rm -rf perl_lib/PHEDEX/Namespace/dcache.pm
 rm -rf perl_lib/PHEDEX/Testbed
 rm -rf perl_lib/PHEDEX/Web/API
 rm -rf perl_lib/PHEDEX/Web/{C,D,F,U}*

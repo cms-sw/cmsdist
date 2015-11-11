@@ -46,7 +46,6 @@ rm -f  perl_lib/PHEDEX/CLI/FakeAgent.pm
 rm -f  perl_lib/PHEDEX/CLI/SiteDataInfo.pm
 rm -rf perl_lib/PHEDEX/Namespace/SpaceCountCommon.pm
 rm -rf perl_lib/PHEDEX/Namespace/*/spacecount.pm
-rm -rf perl_lib/PHEDEX/Namespace/dcache.pm
 rm -rf perl_lib/PHEDEX/Testbed
 rm -rf perl_lib/PHEDEX/Web/API
 rm -rf perl_lib/PHEDEX/Web/{C,D,F,U}*
