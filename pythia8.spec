@@ -2,9 +2,9 @@
 
 Requires: hepmc lhapdf
 
-%define tag 2c5a4f204767dfd62849eb01c9b70b4ff16311a9
-%define branch cms/%{realversion}
-%define github_user cms-externals
+%define tag d694b62b8c2452859a62cdeea09029caf17fb5e7
+%define branch heavyothermatching
+%define github_user smrenna
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 %if "%{?cms_cxxflags:set}" != "set"
