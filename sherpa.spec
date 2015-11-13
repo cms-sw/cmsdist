@@ -1,7 +1,7 @@
-### RPM external sherpa 2.1.1
-%define tag ddb788ce152c8626876466d471eb7593ffd7ed9b
+### RPM external sherpa 2.2.0
+%define tag eab2c2235e84e015010c42f5c9692f5a21ec4386
 %define branch cms/v%realversion
-%define github_user cms-externals
+%define github_user pmillet
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Requires: hepmc lhapdf blackhat sqlite fastjet openssl
 BuildRequires: mcfm
