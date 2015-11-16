@@ -1,0 +1,54 @@
+diff --git a/Makefile b/Makefile
+index 39925f7..88192f6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -66,7 +66,8 @@ LINK_SO         =       c++ $(CXXFLAGS) -shared -o libfrontier_client.so.$(FN_VE
+ LINK_DYLIB	=	c++ $(CXXFLAGS) -dynamiclib -undefined dynamic_lookup  -compatibility_version $(FN_VER_MAJOR) -current_version $(FN_VER_MAJOR).$(FN_VER_MINOR) -o libfrontier_client.$(FN_VER_MAJOR).$(FN_VER_MINOR).dylib -single_module $(LIBS)
+ LINK		=	ar cr libfrontier_client.a
+ 
+-INC		=	${EXPAT_INC} ${OPENSSL_INC} ${PACPARSER_INC} ${ZLIB_INC} -I./include -I.
++export COMMON_INC      =       ${EXPAT_INC} ${OPENSSL_INC} ${PACPARSER_INC} ${ZLIB_INC}
++INC		=	${COMMON_INC} -I./include -I.
+ LIBDIR		=
+ # -ldl needed by Fedora 18
+ LIBS		= 	${EXPAT_LD_FLAGS} -lexpat ${OPENSSL_LD_FLAGS} -lssl -lcrypto -L. ${ZLIB_LD_FLAGS} -lz -ldl
+@@ -112,7 +113,7 @@ all-dist: clean src-dist dist
+ 
+ # Source distribution.
+ src-dist: clean $(tmpdir)
+-	(cd http && make clean)
++	(cd http && $(MAKE) clean)
+ 	tar cvf $(src_distfile) $(src_files)
+ 	mkdir -p $(tmpdir)/$(src_distdir)
+ 	(cd $(tmpdir)/$(src_distdir) && tar xvf $(src_distfile))
+@@ -158,7 +159,7 @@ endif
+ #####################################################
+ 
+ htclient:
+-	(cd http && CC=$(CC) COPT="$(COPT)" make all)
++	(cd http && CC=$(CC) COPT="$(COPT)" $(MAKE) all)
+ 
+ libfrontier_client.so: $(OBJ) http/.libs
+ 	rm -f libfrontier_client.so
+@@ -300,7 +301,7 @@ fn-fileget: fn-fileget.o
+ 
+ clean:
+ 	rm -f *.o *.core core libfrontier_client.* frontier main getcids request_each fn-any $(BINAPP) $(STATICBINAPP)
+-	(cd http && make clean)
++	(cd http && $(MAKE) clean)
+ 	rm -rf .libs
+ 	rm -rf $(tmpdir)
+ 	rm -rf $(distdir)
+diff --git a/http/Makefile b/http/Makefile
+index e633251..d4d5439 100644
+--- a/http/Makefile
++++ b/http/Makefile
+@@ -14,7 +14,7 @@
+ 
+ OBJ	=	fn-htclient.o fn-socket.o fn-urlparse.o
+ HDR	=	fn-htclient.h ../include/frontier_client/frontier.h ../fn-internal.h
+-INC	=	-I. -I.. -I../include
++INC	=	$(COMMON_INC) -I. -I.. -I../include
+ 
+ all: $(OBJ)
+ 	rm -rf .libs
