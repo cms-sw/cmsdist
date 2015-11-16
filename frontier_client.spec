@@ -14,6 +14,7 @@ Requires: onlinesystemtools
 
 Patch0: frontier_client-2.8.5-fix-gcc47
 Patch1: frontier_client-2.8.8-add-python-dbapi
+Patch2: frontier_client-2.8.14-include-fix
 
 %if "%{?cms_cxxflags:set}" != "set"
 %define cms_cxxflags -std=c++0x -O2
@@ -30,6 +31,7 @@ Patch1: frontier_client-2.8.8-add-python-dbapi
 
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 
