@@ -1,4 +1,4 @@
-### RPM external py2-setuptools 1.1.7
+### RPM external py2-setuptools 18.3.2
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source: http://pypi.python.org/packages/source/s/setuptools/setuptools-%realversion.tar.gz
