@@ -5,7 +5,7 @@ Requires: davix
 %build
 %install
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE > %i/etc/scram.d/xz.xml
+cat << \EOF_TOOLFILE > %i/etc/scram.d/davix.xml
   <tool name="davix" version="@TOOL_VERSION@">
     <info url="https://dmc.web.cern.ch/projects/davix/home"/>
     <lib name="davix"/>
