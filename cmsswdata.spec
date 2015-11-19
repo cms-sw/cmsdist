@@ -36,6 +36,7 @@ Requires: data-EventFilter-L1TRawToDigi
 Requires: data-FastSimulation-TrackingRecHitProducer
 Requires: data-RecoBTag-Combined
 Requires: data-RecoBTag-CTagging
+Requires: data-L1Trigger-L1TMuon
 
 %if %isnotonline
 # extra data dependencies for standard builds
