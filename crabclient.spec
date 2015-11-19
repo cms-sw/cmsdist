@@ -5,7 +5,7 @@
 
 %define wmcver 1.0.9.pre4
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define crabserver 3.3.1511.rc1
+%define crabserver 3.3.1512.rc1
 
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
