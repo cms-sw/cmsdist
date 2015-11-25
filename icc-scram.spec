@@ -1,4 +1,4 @@
-### RPM cms icc-scram 2016.1.150
+### RPM cms icc-scram 2016.0.109
 ## INITENV SETV INTEL_LICENSE_FILE  /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2016/licenses
 ## NOCOMPILER
 Requires: icc-provides
