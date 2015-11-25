@@ -1,4 +1,4 @@
-### RPM external icc 2016.1.150
+### RPM external icc composer_xe_2013.2.146
 ## NOCOMPILER
 Source: none
 Provides: libimf.so()(64bit)
@@ -10,5 +10,4 @@ Provides: libsvml.so()(64bit)
 %build
 %install
 %post
-ln -s /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2016/compilers_and_libraries_%{realversion}/linux $RPM_INSTALL_PREFIX/%{pkgrel}/installation
-ln -s /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2016/compilers_and_libraries_%{realversion}/linux $RPM_INSTALL_PREFIX/%{pkgrel}/ifort
+ln -s /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/%{realversion} $RPM_INSTALL_PREFIX/%{pkgrel}/installation
