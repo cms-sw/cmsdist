@@ -1,4 +1,4 @@
-### RPM external evtgen 1.4.0p1
+### RPM external evtgen 1.5.0
 
 Requires: hepmc
 Requires: pythia8

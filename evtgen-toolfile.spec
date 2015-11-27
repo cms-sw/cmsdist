@@ -1,4 +1,4 @@
-### RPM external evtgen-toolfile 1.3.0
+### RPM external evtgen-toolfile 1.0
 Requires: evtgen
 
 %prep
