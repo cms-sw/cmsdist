@@ -1,4 +1,4 @@
-### RPM cms DMWMMON-datasvc 1.0.3
+### RPM cms DMWMMON-datasvc 1.0.5
 ## INITENV +PATH PERL5LIB %i/perl_lib
 
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -41,7 +41,7 @@ tar -c PhEDExWeb/{DataService,README} | tar -x -C %i
 tar -c perl_lib/PHEDEX/Web --exclude="*/API/*" | tar -x -C %i
 
 # Add new data service APIs in this list as needed:
-tar -c perl_lib/PHEDEX/Web/API/{Auth.pm,Bounce.pm,Nodes.pm,StorageInsert.pm,StorageUsage.pm} | tar -x -C %i
+tar -c perl_lib/PHEDEX/Web/API/{Auth.pm,Bounce.pm,Nodes.pm,StorageInsert.pm,StorageUsage.pm,GetLastRecord.pm} | tar -x -C %i
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/{env,profile}.d
