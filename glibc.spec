@@ -1,4 +1,4 @@
-### RPM external glibc 2.17-78.el7_2.12-1.149.el6
+### RPM external glibc 2.17-78.el7_2.12-1.166.el6_7.3
 ## NOCOMPILER
 
 %define isslc6 %(case %{cmsplatf} in (slc6*) echo 1 ;; (*) echo 0 ;; esac)
@@ -10,8 +10,8 @@
 %endif
 
 %if %isslc6
-%define realversion 2.12-1.149.el6
-%define tag 4bcf8ff366875ccd2ec8c45b63c0c482f07a24fb
+%define realversion 2.12-1.166.el6_7.3
+%define tag 2c052e03acb1795ac2c47f803b252ae85918e5ea
 %endif
 
 %global official_version %(echo "%{realversion}" | cut -d'-' -f1)
