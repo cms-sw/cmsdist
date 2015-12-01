@@ -9,7 +9,7 @@ Requires: geant4
 Requires: geant4data
 
 %prep
-%setup -n %{realversion}
+%setup -n %{realname}-%{realversion}
 
 %build
 
