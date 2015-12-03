@@ -1,9 +1,9 @@
 ### RPM lcg root 6.02.12
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 08f78efbc3a2a0ea76bbcf6b275c6d99a1ef11e7
-%define branch cms/3836513
-%define github_user cms-sw
+%define tag 5ccdddc11a38ab5b3647f8f737f2d5115b956d21
+%define branch s3_session_key
+%define github_user holzman
 Source: git+https://github.com/%github_user/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
