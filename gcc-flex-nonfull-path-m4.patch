@@ -1,0 +1,13 @@
+diff --git a/configure b/configure
+index b92239d..bbd689d 100755
+--- a/configure
++++ b/configure
+@@ -18308,7 +18308,7 @@ fi
+ fi
+ { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_path_M4" >&5
+ $as_echo "$ac_cv_path_M4" >&6; }
+-M4=$ac_cv_path_M4
++M4=`basename $ac_cv_path_M4`
+ 
+ 
+ cat >>confdefs.h <<_ACEOF
