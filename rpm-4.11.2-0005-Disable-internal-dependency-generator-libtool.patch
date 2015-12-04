@@ -1,0 +1,26 @@
+From 1db98d3fb3f31afc034157a3f502c2d9340b7805 Mon Sep 17 00:00:00 2001
+From: David Abdurachmanov <davidlt@cern.ch>
+Date: Sat, 19 Oct 2013 17:26:58 +0200
+Subject: [PATCH 5/8] Disable internal dependency generator (libtool)
+
+Signed-off-by: David Abdurachmanov <davidlt@cern.ch>
+---
+ macros.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/macros.in b/macros.in
+index d9882d1..2b3857b 100644
+--- a/macros.in
++++ b/macros.in
+@@ -431,7 +431,7 @@ package or when debugging this package.\
+ 
+ #
+ # Use internal dependency generator rather than external helpers?
+-%_use_internal_dependency_generator	1
++%_use_internal_dependency_generator	0
+ 
+ #
+ # Filter GLIBC_PRIVATE Provides: and Requires:
+-- 
+1.8.0
+

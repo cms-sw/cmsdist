@@ -1,0 +1,40 @@
+From 4f5b5ccc50a3d90504eee77821bb9f05616f0bbe Mon Sep 17 00:00:00 2001
+From: David Abdurachmanov <davidlt@cern.ch>
+Date: Wed, 6 Nov 2013 01:13:23 +0100
+Subject: [PATCH] Remove chroot checks and chdir() calls
+
+Signed-off-by: David Abdurachmanov <davidlt@cern.ch>
+
+diff --git a/lib/rpmchroot.c b/lib/rpmchroot.c
+index 81bb5e5..b676a6e 100644
+--- a/lib/rpmchroot.c
++++ b/lib/rpmchroot.c
+@@ -64,12 +64,7 @@ int rpmChrootIn(void)
+     if (rootState.chrootDone > 0) {
+ 	rootState.chrootDone++;
+     } else if (rootState.chrootDone == 0) {
+-	if (chdir("/") == 0 && chroot(rootState.rootDir) == 0) {
+ 	    rootState.chrootDone = 1;
+-	} else {
+-	    rpmlog(RPMLOG_ERR, _("Unable to change root directory: %m\n"));
+-	    rc = -1;
+-	}
+     }
+     return rc;
+ }
+@@ -89,12 +84,7 @@ int rpmChrootOut(void)
+     if (rootState.chrootDone > 1) {
+ 	rootState.chrootDone--;
+     } else if (rootState.chrootDone == 1) {
+-	if (chroot(".") == 0 && fchdir(rootState.cwd) == 0) {
+ 	    rootState.chrootDone = 0;
+-	} else {
+-	    rpmlog(RPMLOG_ERR, _("Unable to restore root directory: %m\n"));
+-	    rc = -1;
+-	}
+     }
+     return rc;
+ }
+-- 
+1.8.0
+

@@ -1,0 +1,44 @@
+From a4c690d39d90e8e575f6f043167c518f9f6194ad Mon Sep 17 00:00:00 2001
+From: David Abdurachmanov <davidlt@cern.ch>
+Date: Sat, 19 Oct 2013 17:10:05 +0200
+Subject: [PATCH 2/8] Increase line buffer (20x)
+
+Signed-off-by: David Abdurachmanov <davidlt@cern.ch>
+---
+ build/parseSpec.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/build/parseSpec.c b/build/parseSpec.c
+index 9b0c542..7b6094f 100644
+--- a/build/parseSpec.c
++++ b/build/parseSpec.c
+@@ -28,7 +28,7 @@ typedef struct OpenFileInfo {
+     char * fileName;
+     FILE *fp;
+     int lineNum;
+-    char readBuf[BUFSIZ];
++    char readBuf[20 * BUFSIZ];
+     const char * readPtr;
+     struct OpenFileInfo * next;
+ } OFI_t;
+@@ -164,7 +164,7 @@ static int copyNextLineFromOFI(rpmSpec spec, OFI_t *ofi)
+ 	    spec->lbufOff++; from++;
+ 
+ 	    if (spec->lbufOff >= spec->lbufSize) {
+-		spec->lbufSize += BUFSIZ;
++		spec->lbufSize += 20 * BUFSIZ;
+ 		spec->lbuf = realloc(spec->lbuf, spec->lbufSize);
+ 	    }
+ 	}
+@@ -258,7 +258,7 @@ retry:
+ 
+     /* Make sure we have something in the read buffer */
+     if (!(ofi->readPtr && *(ofi->readPtr))) {
+-	if (!fgets(ofi->readBuf, BUFSIZ, ofi->fp)) {
++	if (!fgets(ofi->readBuf, 20 * BUFSIZ, ofi->fp)) {
+ 	    /* EOF, remove this file from the stack */
+ 	    ofi = popOFI(spec);
+ 
+-- 
+1.8.0
+
