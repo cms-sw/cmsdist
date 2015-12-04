@@ -1,4 +1,4 @@
-### RPM external file-bootstrap 5.13
+### RPM external file-bootstrap 5.18
 ## INITENV SET MAGIC %{i}/share/misc/magic.mgc
 
 Source: ftp://ftp.fu-berlin.de/unix/tools/file/file-%{realversion}.tar.gz
