@@ -168,6 +168,20 @@ slc*)
         libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
         libXrender libXpm libcom_err"
 
+  slc7_aarch64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl
+                              ncurses e2fsprogs krb5-libs freetype fontconfig libstdc++
+                              libidn libX11 libXmu libSM libICE libXcursor libXext libXrandr
+                              libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama
+                              libXrender libXpm gcc-c++ libcom_err libXpm-devel libXft-devel
+                              libX11-devel libXext-devel mesa-libGLU mesa-libGLU-devel libGLEW
+                              glew perl-Digest-MD5 perl-ExtUtils-MakeMaker patch perl-libwww-perl
+                              krb5-libs krb5-devel perl-Data-Dumper perl-WWW-Curl texinfo hostname
+                              time perl-Carp perl-Text-ParseWords perl-PathTools perl-ExtUtils-MakeMaker
+                              perl-Exporter perl-File-Path perl-Getopt-Long perl-constant perl-File-Temp
+                              perl-Socket perl-Time-Local perl-Storable glibc-headers perl-threads
+                              perl-Thread-Queue perl-Module-ScanDeps perl-Test-Harness perl-Env perl-Switch
+                              perl-ExtUtils-Embed ncurses-libs perl-libs"
+
   slc6_mic_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype compat-readline5 ncurses-libs perl-libs perl-ExtUtils-Embed
         fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
         libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft
@@ -190,7 +204,7 @@ fc*)
                               libXft libXrender libXpm gcc-c++ libcom_err libXpm-devel libXft-devel
                               libX11-devel libXext-devel mesa-libGLU mesa-libGLU-devel libGLEW
                               glew perl-Digest-MD5 perl-ExtUtils-MakeMaker patch perl-libwww-perl
-                              krb5-libs krb5-devel perl-Data-Dumper"
+                              krb5-libs krb5-devel perl-Data-Dumper perl-WWW-Curl"
 
   fc19_armv7hl_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl 
                               ncurses e2fsprogs krb5-libs freetype fontconfig libstdc++
@@ -200,6 +214,32 @@ fc*)
                               libX11-devel libXext-devel mesa-libGLU mesa-libGLU-devel libGLEW
                               glew perl-Digest-MD5 perl-ExtUtils-MakeMaker patch perl-libwww-perl
                               krb5-libs krb5-devel perl-Data-Dumper"
+
+  fc19_aarch64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl
+                              ncurses e2fsprogs krb5-libs freetype fontconfig libstdc++
+                              libidn libX11 libXmu libSM libICE libXcursor libXext libXrandr
+                              libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama
+                              libXrender libXpm gcc-c++ libcom_err libXpm-devel libXft-devel
+                              libX11-devel libXext-devel mesa-libGLU mesa-libGLU-devel libGLEW
+                              glew perl-Digest-MD5 perl-ExtUtils-MakeMaker patch perl-libwww-perl
+                              krb5-libs krb5-devel perl-Data-Dumper perl-WWW-Curl texinfo hostname
+                              time perl-Carp perl-Text-ParseWords perl-PathTools perl-ExtUtils-MakeMaker
+                              perl-Exporter perl-File-Path perl-Getopt-Long perl-constant perl-File-Temp
+                              perl-Socket perl-Time-Local perl-Storable"
+
+  fc22_ppc64le_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl
+                              ncurses e2fsprogs krb5-libs freetype fontconfig libstdc++
+                              libidn libX11 libXmu libSM libICE libXcursor libXext libXrandr
+                              libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama
+                              libXrender libXpm gcc-c++ libcom_err libXpm-devel libXft-devel
+                              libX11-devel libXext-devel mesa-libGLU mesa-libGLU-devel libGLEW
+                              glew perl-Digest-MD5 perl-ExtUtils-MakeMaker patch perl-libwww-perl
+                              krb5-libs krb5-devel perl-Data-Dumper perl-WWW-Curl texinfo hostname
+                              time perl-Carp perl-Text-ParseWords perl-PathTools perl-ExtUtils-MakeMaker
+                              perl-Exporter perl-File-Path perl-Getopt-Long perl-constant perl-File-Temp
+                              perl-Socket perl-Time-Local perl-Storable glibc-headers perl-threads
+                              perl-Thread-Queue perl-Module-ScanDeps perl-Test-Harness perl-Env perl-Switch
+                              perl-Term-ANSIColor perl-ExtUtils-Embed ncurses-libs perl-libs"
   ;;
 esac
 
@@ -267,9 +307,12 @@ mkdir -p %{i}/etc/profile.d
  echo "slc5_amd64_platformSeeds=\"$slc5_amd64_platformSeeds\""; \
  echo "fc18_armv7hl_platformSeeds=\"$fc18_armv7hl_platformSeeds\""; \
  echo "fc19_armv7hl_platformSeeds=\"$fc19_armv7hl_platformSeeds\""; \
+ echo "fc19_aarch64_platformSeeds=\"$fc19_aarch64_platformSeeds\""; \
  echo "slc5_corei7_platformSeeds=\"$slc5_corei7_platformSeeds\""; \
  echo "slc6_amd64_platformSeeds=\"$slc6_amd64_platformSeeds\""; \
  echo "slc7_amd64_platformSeeds=\"$slc7_amd64_platformSeeds\""; \
+ echo "slc7_aarch64_platformSeeds=\"$slc7_aarch64_platformSeeds\""; \
+ echo "fc22_ppc64le_platformSeeds=\"$fc22_ppc64le_platformSeeds\""; \
  echo "slc6_mic_platformSeeds=\"$slc6_mic_platformSeeds\""; \
  echo "slc5onl_ia32_platformSeeds=\"$slc5onl_ia32_platformSeeds\""; \
  echo "slc5onl_amd64_platformSeeds=\"$slc5onl_amd64_platformSeeds\""; \
@@ -292,9 +335,12 @@ mkdir -p %{i}/etc/profile.d
  echo "slc5_amd64_platformSeeds=\"$slc5_amd64_platformSeeds $slc5_compPackages\""; \
  echo "fc18_armv7hl_platformSeeds=\"$fc18_armv7hl_platformSeeds\""; \
  echo "fc19_armv7hl_platformSeeds=\"$fc19_armv7hl_platformSeeds\""; \
+ echo "fc19_aarch64_platformSeeds=\"$fc19_aarch64_platformSeeds\""; \
  echo "slc5_corei7_platformSeeds=\"$slc5_corei7_platformSeeds $slc5_compPackages\""; \
  echo "slc6_amd64_platformSeeds=\"$slc6_amd64_platformSeeds $slc6_compPackages\""; \
  echo "slc7_amd64_platformSeeds=\"$slc7_amd64_platformSeeds $slc7_compPackages\""; \
+ echo "slc7_aarch64_platformSeeds=\"$slc7_aarch64_platformSeeds $slc7_compPackages\""; \
+ echo "fc22_ppc64le_platformSeeds=\"$fc22_ppc64le_platformSeeds $slc7_compPackages\""; \
  echo "slc6_mic_platformSeeds=\"$slc6_mic_platformSeeds $slc6_compPackages\""; \
  echo "slc5onl_ia32_platformSeeds=\"$slc5onl_ia32_platformSeeds $slc5_compPackages\""; \
  echo "slc5onl_amd64_platformSeeds=\"$slc5onl_amd64_platformSeeds $slc5_compPackages\""; \
