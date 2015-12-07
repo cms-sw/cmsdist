@@ -1,10 +1,10 @@
-### RPM external gcc 5.2.0
+### RPM external gcc 5.3.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
-%define gccRevision 225865
-%define gccBranch tags/gcc_5_2_0_release
+%define gccRevision 231255
+%define gccBranch tags/gcc_5_3_0_release
 
 %define moduleName gcc-%(echo %{gccBranch} | tr / _)-%{gccRevision}
 Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{gccRevision}&output=/%{moduleName}.tar.gz
@@ -241,8 +241,13 @@ CONF_GCC_ARCH_SPEC=
 case %{cmsplatf} in
   *_aarch64_*)
     CONF_GCC_ARCH_SPEC="$CONF_GCC_ARCH_SPEC \
-                        --enable-bootstrap --enable-threads=posix --enable-initfini-array"
+                        --enable-threads=posix --enable-initfini-array --disable-libmpx"
     ;;
+  *_ppc64le_*)
+    CONF_GCC_ARCH_SPEC="$CONF_GCC_ARCH_SPEC \
+                        --enable-threads=posix --enable-initfini-array \
+                        --enable-targets=powerpcle-linux --enable-secureplt --with-long-double-128 \
+                        --with-cpu=power8 --with-tune=power8 --disable-libmpx"
 esac
 
 # Build GCC
@@ -253,13 +258,13 @@ mkdir -p obj
 cd obj
 export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
 ../configure --prefix=%{i} --disable-multilib --disable-nls --with-system-zlib --disable-dssi \
-             --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES \
+             --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES --enable-gnu-indirect-function \
              --enable-__cxa_atexit --disable-libunwind-exceptions --enable-gnu-unique-object \
              --enable-plugin --with-linker-hash-style=gnu --enable-linker-build-id \
-             $CONF_GCC_OS_SPEC $CONF_GCC_WITH_LTO --with-gmp=%{i} --with-mpfr=%{i} \
+             $CONF_GCC_OS_SPEC $CONF_GCC_WITH_LTO --with-gmp=%{i} --with-mpfr=%{i} --enable-bootstrap \
              --with-mpc=%{i} --with-isl=%{i} --with-default-libstdcxx-abi=gcc4-compatible --enable-checking=release \
              --build=%{_build} --host=%{_host} --enable-libstdcxx-time=rt $CONF_GCC_ARCH_SPEC \
-             --enable-shared CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
+             --enable-shared --disable-libgcj CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
              CFLAGS="-I%{i}/tmp/sw/include" CXXFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
 
 make %{makeprocesses} profiledbootstrap
