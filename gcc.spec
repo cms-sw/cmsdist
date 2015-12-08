@@ -20,7 +20,7 @@ Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{
 %define mpcVersion 1.0.3
 %define islVersion 0.14
 %define zlibVersion 1.2.8
-Source1: https://gmplib.org/download/gmp/gmp-%{gmpVersion}.tar.lz
+Source1: http://davidlt.web.cern.ch/davidlt/vault/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
 Source4: ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-%{islVersion}.tar.bz2
