@@ -194,10 +194,16 @@ make install
   make %{makeprocesses}
   make install
 
+case %{cmsplatf} in
+  *_ppc64le_*)
+    CONF_BINUTILS_OPTS="${CONF_BINUTILS_OPTS} --enable-targets=spu --enable-targets=powerpc-linux"
+    ;;
+esac
+
   # Build binutils
   cd ../binutils-%{binutilsVersion}
-  ./configure --disable-static --prefix=%{i} ${CONF_BINUTILS_OPTS} --disable-werror \
-              --build=%{_build} --host=%{_host} --disable-nls --with-system-zlib \
+  ./configure --disable-static --prefix=%{i} ${CONF_BINUTILS_OPTS} --disable-werror --enable-deterministic-archives \
+              --build=%{_build} --host=%{_host} --disable-nls --with-system-zlib --enable-64-bit-bfd \
               CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" CFLAGS="-I%{i}/include -I%{i}/tmp/sw/include" \
               CXXFLAGS="-I%{i}/include -I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/lib -L%{i}/tmp/sw/lib"
   make %{makeprocesses}
