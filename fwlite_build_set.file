@@ -83,7 +83,6 @@ FWCore/ParameterSet
 FWCore/PluginManager
 FWCore/PythonParameterSet
 FWCore/PythonUtilities
-FWCore/RootAutoLibraryLoader
 FWCore/ServiceRegistry
 FWCore/Utilities
 FWCore/Version
@@ -121,8 +120,8 @@ Utilities/General
 Utilities/ReleaseScripts
 Geometry/CommonDetUnit
 SimDataFormats/JetMatching/interface/JetFlavourInfo.h
-Geometry/CommonTopologies/interface/Topology.h
-DataFormats/TrackerCommon/interface/TrackerTopology.h
 Geometry/TrackerGeometryBuilder/interface/GluedGeomDet.h
 Geometry/TrackerGeometryBuilder/interface/GeomDetLess.h
-RecoLocalCalo/HcalRecAlgos/interface/HcalCaloFlagLabels.h
+DataFormats/TrackerCommon
+Geometry/CommonTopologies
+Geometry/GEMGeometry
