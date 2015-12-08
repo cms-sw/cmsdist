@@ -12,7 +12,7 @@ curl -L -k -s -o ./config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;
 curl -L -k -s -o ./config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
 chmod +x ./config.{sub,guess}
 
-./configure --disable-static --disable-nls \
+./configure --disable-static --enable-shared --disable-nls \
             --prefix %{i} --build="%{_build}" --host="%{_host}" \
             CFLAGS="-fPIC" \
             CXXFLAGS="-fPIC"  
