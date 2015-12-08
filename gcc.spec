@@ -263,7 +263,7 @@ touch gcc/DEV-PHASE
 mkdir -p obj
 cd obj
 export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
-../configure --prefix=%{i} --disable-multilib --disable-nls --with-system-zlib --disable-dssi \
+../configure --prefix=%{i} --disable-multilib --disable-nls --disable-dssi \
              --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES --enable-gnu-indirect-function \
              --enable-__cxa_atexit --disable-libunwind-exceptions --enable-gnu-unique-object \
              --enable-plugin --with-linker-hash-style=gnu --enable-linker-build-id \
