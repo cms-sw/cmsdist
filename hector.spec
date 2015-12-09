@@ -1,8 +1,9 @@
-### RPM external hector 1.3.4
-%define tag 365361cb7771593c2ff0ad91aa842858d44ded6d
+### RPM external hector 1.3.4_patch1
+%define tag 7498d56fe88d7c26f7c871c55bb9f5d2f0255004
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+
 Requires: root
 
 %if "%{?cms_cxx:set}" != "set"
@@ -18,9 +19,6 @@ Requires: root
 mkdir -p obj lib
 
 %build
-# On macosx strip -s means something different than on linux.
-# We simply ignore the stripping.
-perl -p -i -e "s|^.*[@]strip.*\n||" Makefile
 # Correct link path for root.
 #perl -p -i -e "s|^ROOTLIBS.*$|ROOTLIBS=-L$ROOT_ROOT/lib -lCore -lRint -lMatrix -lPhysics -lCling -lMathCore -pthread -lm -ldl -rdynamic|" Makefile
 case %cmsplatf in
