@@ -1,15 +1,15 @@
-### RPM external geant4-parfullcms 2014.01.27
+### RPM external geant4-parfullcms 2015.11.26
 
-%define realname ParFullCMS
-
-Source0: http://davidlt.web.cern.ch/davidlt/vault/%{realname}.%{realversion}.tar.bz2
+%define realname parfullcms
+%define github_user cms-externals
+Source: https://github.com/%{github_user}/%{realname}/archive/%{realversion}.tar.gz
 
 BuildRequires: cmake
 Requires: geant4
 Requires: geant4data
 
 %prep
-%setup -n %{realname}
+%setup -n %{realname}-%{realversion}
 
 %build
 
