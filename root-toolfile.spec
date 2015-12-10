@@ -9,7 +9,7 @@ Requires: gcc
 
 export GCC_ROOT
 export GCC_VERSION
-export GCC_REALVERSION=`echo $GCC_VERSION | sed 's|-[a-z][a-z]*[0-9]*$||'`
+export GCC_REALVERSION=$(gcc -dumpversion)
 
 TARGET_TRIPLET=$(gcc -dumpmachine)
 export TARGET_TRIPLET
