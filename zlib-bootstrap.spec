@@ -5,6 +5,11 @@ Source: http://zlib.net/zlib-%{realversion}.tar.gz
 %setup -n zlib-%{realversion}
 
 %build
+%if "%{cmscompiler}" == "icc"
+%define cfgopts CC="icc -fPIC"
+%else
+%define cfgopts %{nil}
+%endif
 
 case %{cmsplatf} in
    *_amd64_*|*_mic_*)
@@ -16,7 +21,7 @@ case %{cmsplatf} in
      ./configure --prefix=%{i}
      ;;
    *)
-     ./configure --prefix=%{i}
+     %{cfgopts} ./configure --prefix=%{i}
      ;;
 esac
 
