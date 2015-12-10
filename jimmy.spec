@@ -2,36 +2,21 @@
 
 Requires: herwig
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
-Patch0: jimmy-4.2-gfortran
-Patch1: jimmy-4.2-macosx
+Patch0: jimmy-4.2-configure-update
 
 %define keep_archives true
-%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
-Requires: gfortran-macosx
-%endif
 
 %prep
 %setup -q -n %{n}/%{realversion}
-case %gccver in
-  4.*)
-%patch0 -p0
-%patch1 -p3
-  ;;
-esac
-
+%patch0 -p2
 
 %build
-# NOTE: only in recent architectures we build static libraries. 
-case %cmsos in
-  slc5_*_gcc4[01234]*) ;;
-  *) BUILD_PRODUCT=lib_archive ;;
-esac
 ./configure $PLATF_CONFIG_OPTS --with-herwig=$HERWIG_ROOT
 # Looks like ./configure does not do all it should do to have our
 # version of herwig picked up at link time.
 # Workaround until they fix the GENESER makefiles is to define
 # the variable and use it directly inside "Makeshared".
-make HERWIG_ROOT=$HERWIG_ROOT $BUILD_PRODUCT
+make HERWIG_ROOT=$HERWIG_ROOT lib_archive
 
 %install
 tar -c lib include | tar -x -C %i
