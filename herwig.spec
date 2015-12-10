@@ -3,21 +3,12 @@ Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-
 Requires: lhapdf photos 
 Patch1: herwig-6.520-tauoladummy
 
-%define isDarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define keep_archives true
 
 %prep
 %setup -q -n %n/%{realversion}
-case %cmsplatf in
-  slc5_*_gcc4[01234]*)
-    F77="`which gfortran`"
-    PLATF_CONFIG_OPTS="--enable-shared"
-  ;;
-  *)
-    F77="`which gfortran` -fPIC"
-    PLATF_CONFIG_OPTS="--disable-shared --enable-static"
-  ;;
-esac
+F77="$(which gfortran) -fPIC"
+PLATF_CONFIG_OPTS="--disable-shared --enable-static"
 
 %patch1 -p2
 
@@ -34,7 +25,7 @@ make install
 # then hack include area as jimmy depends on missing header file..
 # but only on slc*. On macosx HERWIG65.INC == herwig65.inc
 # what is actually needed is a link to herwig6510.inc
-%if %isDarwin
+%ifos darwin
 ln -sf herwig6521.inc %{i}/include/herwig65.inc
 %else
 ln -sf HERWIG65.INC %{i}/include/herwig65.inc
