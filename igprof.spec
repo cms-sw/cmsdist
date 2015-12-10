@@ -2,7 +2,7 @@
 
 %define git_repo igprof
 %define git_branch master
-%define git_commit cbb14bd326
+%define git_commit 96debaf8c6221130417e0b66e7000a45a83bffd9
 Source0: git://github.com/%{git_repo}/igprof.git?obj=%{git_branch}/%{git_commit}&export=igprof-%{git_commit}&output=/igprof-%{git_commit}.tgz
 Requires: pcre
 BuildRequires: cmake libunwind libatomic_ops
