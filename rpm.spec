@@ -20,6 +20,7 @@ Patch3: rpm-4.11.2-0004-Improve-file-deps-speed
 Patch4: rpm-4.11.2-0005-Disable-internal-dependency-generator-libtool
 Patch5: rpm-4.11.2-0006-Remove-chroot-checks-and-chdir-calls
 Patch8: rpm-4.11.2-0009-Do-not-use-PKG_CHECK_MODULES-to-check-lua-availabili
+Patch9: rpm-4.11.2-0010-Drop-unused-bitrotten-dependency-generator-scripts
 
 # Defaults here
 %if %ismac
@@ -35,6 +36,7 @@ Provides: Kerberos
 %patch4 -p1
 %patch5 -p1
 %patch8 -p1
+%patch9 -p1
 
 %build
 
@@ -49,10 +51,6 @@ case %cmsplatf in
   slc*_aarch64_*|fc*)
     CFLAGS_PLATF="-fPIC"
     LIBS_PLATF="-ldl -lrt -pthread"
-  ;;
-  osx108_*_gcc4[789]*)
-    export CFLAGS_PLATF="-arch x86_64 -fPIC"
-    export LIBS_PLATF="-liconv"
   ;;
   osx*)
     export CFLAGS_PLATF="-arch x86_64 -fPIC -D_FORTIFY_SOURCE=0"
