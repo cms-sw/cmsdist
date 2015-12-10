@@ -1,0 +1,38 @@
+From 51b4b7dfc66d53cdb9ff7d8cbcfca516eee5977d Mon Sep 17 00:00:00 2001
+From: Michal Simon <michal.simon@cern.ch>
+Date: Wed, 9 Dec 2015 11:16:23 +0100
+Subject: [PATCH] [XrdClient] Changes to allow for Fedora rawhide c++11 compilation.
+
+---
+ src/XrdClient/XrdClientSock.cc |    8 +++++++-
+ 1 files changed, 7 insertions(+), 1 deletions(-)
+
+diff --git a/src/XrdClient/XrdClientSock.cc b/src/XrdClient/XrdClientSock.cc
+index 9aac778..8d8b290 100644
+--- a/src/XrdClient/XrdClientSock.cc
++++ b/src/XrdClient/XrdClientSock.cc
+@@ -61,6 +61,12 @@
+ #include <sys/types.h>
+ #endif
+ 
++#if __cplusplus >= 201103L
++#define XRDCL_SMART_PTR_T std::unique_ptr
++#else
++#define XRDCL_SMART_PTR_T std::auto_ptr
++#endif
++
+ //_____________________________________________________________________________
+ XrdClientSock::XrdClientSock(XrdClientUrlInfo Host, int windowsize, int fd)
+ {
+@@ -400,7 +406,7 @@ int XrdClientSock::TryConnect_low(bool isUnix, int altport, int windowsz)
+ 	Info(XrdClientDebug::kHIDEBUG, "ClientSock::TryConnect_low", "Trying SOCKS4 host " <<
+ 	     host << ":" << port);
+ 
+-    std::auto_ptr<XrdNetSocket> s(new XrdNetSocket());
++    XRDCL_SMART_PTR_T<XrdNetSocket> s(new XrdNetSocket());
+ 
+     // Log the attempt
+     //
+-- 
+1.7.1
+
