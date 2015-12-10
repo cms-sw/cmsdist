@@ -1,4 +1,4 @@
-### RPM cms gcc-toolfile 12.0
+### RPM cms gcc-toolfile 13.0
 
 # gcc has a separate spec file for the generating a 
 # toolfile because gcc.spec could be not build because of the 
@@ -6,20 +6,17 @@
 
 Source: none
 
-%define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
-%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
-
 %prep
 %build
 %install
-mkdir -p %i/etc/scram.d
+mkdir -p %{i}/etc/scram.d
 
 # Determine the GCC_ROOT if "use system compiler" is used.
 if [ "X$GCC_ROOT" = X ]
 then
-    export GCC_PATH=`which gcc` || exit 1
-    export GCC_ROOT=`echo $GCC_PATH | sed -e 's|/bin/gcc||'`
-    export GCC_VERSION=`gcc -dumpversion` || exit 1
+    export GCC_PATH=$(which gcc) || exit 1
+    export GCC_ROOT=$(echo $GCC_PATH | sed -e 's|/bin/gcc||')
+    export GCC_VERSION=$(gcc -dumpversion) || exit 1
     export G77_ROOT=$GCC_ROOT
 else
     export GCC_PATH
@@ -28,14 +25,13 @@ else
     export G77_ROOT=$GCC_ROOT
 fi
 
-case %cmsplatf in
-  slc*_*_gcc4[012345]*) ;;
-  *) export ARCH_FFLAGS="-cpp" ;;
-esac
+%ifos linux
+export ARCH_FFLAGS="-cpp"
+%endif
 
-export COMPILER_VERSION=`echo %cmsplatf | sed -e 's|.*gcc\([0-9]*\).*|\1|'`
-export COMPILER_VERSION_MAJOR=`echo %cmsplatf | sed -e 's|.*gcc\([0-9]\).*|\1|'`
-export COMPILER_VERSION_MINOR=`echo %cmsplatf | sed -e 's|.*gcc[0-9]\([0-9]\).*|\1|'`
+export COMPILER_VERSION=$(gcc -dumpversion)
+export COMPILER_VERSION_MAJOR=$(echo $COMPILER_VERSION | cut -d'.' -f1)
+export COMPILER_VERSION_MINOR=$(echo $COMPILER_VERSION | cut -d'.' -f2)
 
 # Generic template for the toolfiles. 
 # *** USE @VARIABLE@ plus associated environment variable to customize. ***
@@ -104,13 +100,13 @@ EOF_TOOLFILE
 
 # NON-empty defaults
 # First of all handle OS specific options.
-%if %islinux
+%ifos linux
   export OS_SHAREDFLAGS="-shared -Wl,-E"
   export OS_LDFLAGS="-Wl,-E -Wl,--hash-style=gnu"
   export OS_RUNTIME_LDPATH_NAME="LD_LIBRARY_PATH"
   export OS_CXXFLAGS="-Werror=overflow"
 %endif
-%if %isdarwin
+%ifos darwin
   export OS_SHAREDFLAGS="-shared -dynamic -single_module"
   export OS_LDFLAGS="-Wl,-commons -Wl,use_dylibs"
   export OS_RUNTIME_LDPATH_NAME="DYLD_LIBRARY_PATH"
@@ -118,100 +114,42 @@ EOF_TOOLFILE
 
 # Then handle OS + architecture specific options (maybe we should enable more
 # aggressive optimizations for amd64 as well??)
-case %cmsplatf in
-  osx*)
+%ifos darwin
     export ARCH_CXXFLAGS="-arch x86_64"
     export ARCH_SHAREDFLAGS="-arch x86_64"
     export ARCH_LIB64DIR="lib"
     export ARCH_LD_UNIT="-r"
-  ;;
-  slc*)
+%else
     # For some reason on mac, some of the header do not compile if this is
     # defined.  Ignore for now.
     export ARCH_LIB64DIR="lib64"
     export ARCH_LD_UNIT="-r -m elf_x86_64 -z muldefs"
-  ;;
-  *_armv7hl_*)
-    export ARCH_LIB64DIR="lib"
-    export ARCH_LD_UNIT="-r -z muldefs"
-  ;;
-  *) 
-    echo "Unsupported."
-    exit 1
-  ;;
-esac
+%endif
 
 # Then handle compiler specific options. E.g. enable
 # optimizations as they become available in gcc.
 COMPILER_CXXFLAGS=
 
-# Set the following for all gcc < 4.6. gcc46 claims it is no longer needed
-# This is perhaps the case also for the earlier versions, but leave it
-# there for now.
-case %cmsplatf in
-   *_gcc4[2345]* )
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Wimplicit"
+COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++14 -ftree-vectorize"
+COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Werror=strict-overflow"
+COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Werror=array-bounds -Werror=format-contains-nul -Werror=type-limits"
+COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fvisibility-inlines-hidden"
+COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fno-math-errno --param vect-max-version-for-alias-checks=50 -fipa-pta"
+COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Wa,--compress-debug-sections"
+
+case %{cmsplatf} in
+   *_amd64_*)
+     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -msse3"
    ;;
-esac
-
-# The following causes problems for gcc46 and boost 1.45.0 so downgrade it
-case %cmsplatf in
-   *_gcc4[2345]* )
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Werror=strict-overflow"
+   *_aarch64_*|*_ppc64le_*)
+    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fsigned-char -fsigned-bitfields"
    ;;
-   *_gcc4[6789]* )
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Wstrict-overflow"
-   ;;
-esac
-
-
-case %cmsplatf in
-   *_amd64_gcc4[56789]* )
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++14 -msse3 -ftree-vectorize -Wno-strict-overflow"
-   ;;
-   *_armv7hl_* )
-    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++14 -ftree-vectorize -Wno-strict-overflow -fsigned-char -fsigned-bitfields"
-   ;;
-esac
-
-case %cmsplatf in
-   *_gcc4[3456789]* )
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Werror=array-bounds -Werror=format-contains-nul -Werror=type-limits"
-   ;;
-esac
-
-# Enable visibility inlines hidden. Should drastically remove
-# the amount of symbols due to templates.
-# FIXME: not enabled on linux, yet, change the case statement
-#        to *_gcc4[23456789]* when stable.
-case %cmsplatf in
-  osx* )
-    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fvisibility-inlines-hidden"
-  ;;
-  *_gcc4[56789]* )
-    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fvisibility-inlines-hidden"
-  ;;
-esac
-
-# More customizations when using gcc 4.7.x
-# See: https://hypernews.cern.ch/HyperNews/CMS/get/edmFramework/2955.html
-case %cmsplatf in
-  *_gcc4[789]*)
-    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fno-math-errno --param vect-max-version-for-alias-checks=50 -fipa-pta"
-  ;;
-esac
-
-# Compressed debug sections for linker
-case %cmsplatf in
-  *_gcc49*)
-    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Wa,--compress-debug-sections"
-  ;;
 esac
 
 export COMPILER_CXXFLAGS
 
 # General substitutions
-perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*.xml
+perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %{i}/etc/scram.d/*.xml
 
 %post
 %{relocateConfig}etc/scram.d/*.xml
