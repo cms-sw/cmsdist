@@ -10,6 +10,8 @@ Source: git+https://github.com/%github_user/root.git?obj=%{branch}/%{tag}&export
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
 
+Patch0: root-6.02.12-llvm-72bffaafb
+
 Requires: gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl zlib
 
 %if %islinux
@@ -24,6 +26,7 @@ Requires: freetype
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 # Delete these (irrelevant) files as the fits appear to confuse rpm on OSX
 # (It tries to run install_name_tool on them.)
