@@ -32,7 +32,6 @@ esac
 # because the mainline compiler does not support a bunch of objective-c 2.0
 # features which are heavily used in Qt/Cocoa.
 case %cmsplatf in
-  osx*_*_gcc421) ;;
   osx*)
     if [ xcode-select -print-path ]; then
       CMS_XCODE_ROOT="`xcode-select -print-path`"
@@ -49,7 +48,8 @@ rm -rf demos examples doc
 echo yes | ./configure -prefix %i -opensource -stl -no-openssl -no-webkit -no-debug \
                        -L$LIBJPG_ROOT/lib -no-glib -no-libtiff -no-libpng -no-libmng \
                        -no-dwarf2 -no-phonon -no-multimedia -no-stl -no-exceptions \
-                       -no-separate-debug-info -no-multimedia -no-sql-sqlite -no-sql-odbc -no-sql-mysql $CONFIG_ARGS \
+                       -no-separate-debug-info -no-multimedia -no-sql-sqlite -no-sql-odbc \
+                       -no-sql-psql -no-sql-mysql $CONFIG_ARGS \
                        -make "libs tools"
 
 make %makeprocesses
