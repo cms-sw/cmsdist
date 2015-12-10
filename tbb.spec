@@ -1,4 +1,4 @@
-### RPM external tbb 43_20150316oss
+### RPM external tbb 44_20150728oss
 Source: https://www.threadingbuildingblocks.org/sites/default/files/software_releases/source/%{n}%{realversion}_src.tgz
 
 %if "%{?cms_cxx:set}" != "set"
@@ -20,7 +20,7 @@ CXX="%cms_cxx" CXXFLAGS="%cms_cxxflags" make %makeprocesses
 install -d %i/lib
 cp -r include %i/include
 case %cmsplatf in 
-  slc*) SONAME=so ;;
   osx*) SONAME=dylib ;;
+  *) SONAME=so ;;
 esac
 find build -name "*.$SONAME*" -exec cp {} %i/lib \; 
