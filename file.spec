@@ -1,4 +1,5 @@
 ### RPM external file 5.13
+## INITENV +PATH PATH %{i}/bin
 ## INITENV SET MAGIC %{i}/share/misc/magic.mgc
 
 Source: ftp://ftp.fu-berlin.de/unix/tools/%{n}/%{n}-%{realversion}.tar.gz

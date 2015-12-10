@@ -1,4 +1,5 @@
-### RPM external bootstrap-bundle 1.2
+### RPM external bootstrap-bundle 1.3
+## INITENV +PATH PATH %{i}/bin
 ## INITENV SET MAGIC %{i}/share/magic.mgc
 ## NOCOMPILER
 
