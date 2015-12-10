@@ -101,7 +101,10 @@ esac
 # Triggers an error if -Werror=format is used with GNU GCC 4.8.0+.
 sed -ibak "s/\(#define HAVE_ATTRIBUTE_FORMAT_PARSETUPLE .*\)/\/* \1 *\//g" pyconfig.h
 
-make %makeprocesses
+# Python does not support parallel builds because of bug:
+# https://bugs.python.org/issue22359
+# Note, the problem is solved upstream (3.5)
+make
 
 %install
 # We need to export it because setup.py now uses it to determine the actual
