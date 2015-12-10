@@ -75,7 +75,9 @@ pushd %_builddir/gettext-%{gettext_version}
               --disable-acl \
               --disable-java \
               --disable-dependency-tracking \
-              --disable-silent-rules
+              --disable-silent-rules \
+              --with-included-glib \
+              --with-included-libcroco
   make %makeprocesses && make install
 popd
 pushd %_builddir/pkg-config-%{pkgconfig_version}
@@ -101,7 +103,10 @@ grep -l -R '/bin/perl' %{i} | xargs -n1 sed -ideleteme -e 's;exec [^ ]*/perl;exe
 find %{i} -name '*deleteme' -delete
 
 %install
-echo "Foo"
+# NOP
+
+%define drop_files %{i}/share/{man,doc,info}
+
 %post
 %{relocateConfig}bin/aclocal
 %{relocateConfig}bin/aclocal-%{automake_maj}
