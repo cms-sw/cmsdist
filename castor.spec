@@ -49,17 +49,8 @@ Provides: libshift.so.%(echo %realversion |cut -d. -f1,2)%{libsuffix}
 %patch3 -p1
 %patch4 -p1
 
-case %cmsplatf in
-  *_gcc4[012345]*) ;;
-  *)
-    perl -pi -e "s|-Werror|-Werror -Wno-error=unused-but-set-variable|" config/Imake.tmpl
-    perl -pi -e "s|--no-undefined||" config/Imake.rules
-#    perl -pi -e 's|^(\s+)(\$\(MAKE\) depend)|$1#$2|' Makefile.ini
-  ;;
-esac
-
-# Add CMS CXXFLAGS
-#sed -ibak "s/\(^CXX.*=.*\)/\1 %cms_cxxflags/g" config/Imake.tmpl
+perl -pi -e "s|-Werror|-Werror -Wno-error=unused-but-set-variable|" config/Imake.tmpl
+perl -pi -e "s|--no-undefined||" config/Imake.rules
 
 %build
 
