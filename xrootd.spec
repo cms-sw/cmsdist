@@ -6,6 +6,8 @@
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
+Patch0: xrootd-4.0.4-0001-XrdClient-Changes-to-allow-for-Fedora-rawhide-c-11-c
+
 BuildRequires: cmake
 Requires: zlib
 Requires: openssl
@@ -16,6 +18,7 @@ Requires: openssl
 
 %prep
 %setup -n %n-%{realversion}
+%patch0 -p1
 
 # need to fix these from xrootd git
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
