@@ -8,11 +8,7 @@ Requires: expat
 Requires: openssl
 Requires: pacparser
 Requires: python
-%if "%online" != "true"
 Requires: zlib
-%else
-Requires: onlinesystemtools
-%endif
 
 Patch0: frontier_client-2.8.5-fix-gcc47
 Patch1: frontier_client-2.8.8-add-python-dbapi
@@ -24,11 +20,7 @@ Patch1: frontier_client-2.8.8-add-python-dbapi
 %prep
 %setup -n %{n}__%{realversion}__src
 
-%if "%online" != "true"
-%define makeargs "EXPAT_DIR=${EXPAT_ROOT} PACPARSER_DIR=${PACPARSER_ROOT} COMPILER_TAG=gcc_%{gccver} ZLIB_DIR=${ZLIB_ROOT}  OPENSSL_DIR=${OPENSSL_ROOT}"
-%else
-%define makeargs "EXPAT_DIR=${EXPAT_ROOT} PACPARSER_DIR=${PACPARSER_ROOT} COMPILER_TAG=gcc_%{gccver}"
-%endif
+%define makeargs "EXPAT_DIR=${EXPAT_ROOT} PACPARSER_DIR=${PACPARSER_ROOT} COMPILER_TAG=gcc_$(gcc -dumpversion) ZLIB_DIR=${ZLIB_ROOT}  OPENSSL_DIR=${OPENSSL_ROOT}"
 
 %patch0 -p1
 %patch1 -p1
