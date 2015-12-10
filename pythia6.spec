@@ -3,24 +3,9 @@ Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-
 
 %define keep_archives true
 
-%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
-Requires: gfortran-macosx
-%endif
-
 %prep
-# NOTE: Old gcc versions (up to 4.3.4) were building 
-#       dynamic libraries. from 4.5.1 (and on mac)
-#       we build archive ones.
-case %cmsplatf in
-  slc5_*_gcc4[01234]*) 
-    PLATF_CONF_OPTS="--enable-shared"
-    F77="`which gfortran`"
-  ;;
-  *) 
-    PLATF_CONF_OPTS="--disable-shared --enable-static"
-    F77="`which gfortran` -fPIC"
-  ;;
-esac
+PLATF_CONF_OPTS="--disable-shared --enable-static"
+F77="$(which gfortran) -fPIC"
 
 # Notice we need to define LDFLAGS like this to avoid dropping 
 # the dynamic linker options on slc5_amd64_gcc434
@@ -28,7 +13,7 @@ case %cmsplatf in
   osx*) 
     PLATF_LDFLAGS="LDFLAGS='-Wl,-commons,use_dylibs -Wl,-flat_namespace'"
     PLATF_LDFLAGS=""
-    PLATF_LD="LD='`which gcc`'" ;;
+    PLATF_LD="LD='$(which gcc)'" ;;
   *)
     PLATF_LD="" ;;
 esac
@@ -41,24 +26,14 @@ esac
 case %cmsplatf in
   osx*)
     ./configure $PLATF_CONF_OPTS --with-hepevt=4000 F77="$F77" \
-		LD='`which gcc`' LDFLAGS='-Wl,-commons,use_dylibs -Wl,-flat_namespace' 
+		LD='$(which gcc)' LDFLAGS='-Wl,-commons,use_dylibs -Wl,-flat_namespace'
   ;;
   *)
     ./configure $PLATF_CONF_OPTS --with-hepevt=4000 F77="$F77" 
   ;;
 esac
 
-# NOTE: force usage of gcc to link shared libraries in place of gfortran since
-# the latter causes a:
-#
-# ld: codegen problem, can't use rel32 to external symbol __gfortrani_compile_options in __gfortrani_init_compile_options
-#
-# error when building.
-# I couldn't find any better way to replace "CC" in the F77 section of libtool.
-case %cmsplatf in
-  slc5_*_gcc4[01234]*) ;;
-  *) perl -p -i -e 's|^CC=.*$|CC="gcc -fPIC"|' libtool ;;
-esac
+perl -p -i -e 's|^CC=.*$|CC="gcc -fPIC"|' libtool
 
 %build
 make 
