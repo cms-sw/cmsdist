@@ -23,6 +23,7 @@ Requires: zlib
             --with-zlib-include-dir=$ZLIB_ROOT/include \
             --with-jpeg-lib-dir=$LIBJPG_ROOT/lib \
             --with-jpeg-include-dir=$LIBJPG_ROOT/include \
+            --without-x \
             CXX="%cms_cxx" CXXFLAGS="%cms_cxxflags"
                           
 make %makeprocesses
