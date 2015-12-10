@@ -1,12 +1,20 @@
-### RPM external gnuplot 4.6.1
-Source: http://downloads.sourceforge.net/project/gnuplot/gnuplot/4.6.1/gnuplot-4.6.1.tar.gz
+### RPM external gnuplot 4.6.5
+Source: http://downloads.sourceforge.net/project/gnuplot/gnuplot/%{realversion}/gnuplot-%{realversion}.tar.gz
 
 %prep
-%setup -n %n-%realversion
+%setup -n %{n}-%{realversion}
 
 %build
-./configure --prefix %i --disable-wxt --without-cairo --without-tutorial --without-x
-make %makeprocesses
+./configure \
+  --prefix %{i} \
+  --disable-wxt \
+  --without-cairo \
+  --without-tutorial \
+  --without-readline \
+  --without-gd \
+  --without-x
+
+make %{makeprocesses}
 
 %install
 make install
