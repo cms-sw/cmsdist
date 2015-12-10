@@ -1,25 +1,19 @@
 ### RPM external photos 215.5
 
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
-Patch0: photos-215.5-macosx
+Patch0: photos-215.5-update-configure
 %define keep_archives true
-%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
-Requires: gfortran-macosx
-%endif
 
 %prep
 %setup -q -n %{n}/%{realversion}
-%patch0 -p3
+%patch0 -p2
 
 %build
-case %cmsplatf in
-  slc5_*_gcc4[01234]*) ;;
-  *) PLATF_CONFIG_OPTS="--enable-static --disable-shared" ;;
-esac
+PLATF_CONFIG_OPTS="--enable-static --disable-shared"
 ./configure --lcgplatform=%cmsplatf $PLATF_CONFIG_OPTS 
-case %cmsplatf in
-  osx*) perl -p -i -e "s|libphotos.so|libphotos.dylib|g" Makefile ;;
-esac
+%ifos darwin
+perl -p -i -e "s|libphotos.so|libphotos.dylib|g" Makefile ;;
+%endif
 make 
 
 %install
