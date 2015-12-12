@@ -1,3 +1,16 @@
+diff --git a/215.5/Makefile b/215.5/Makefile
+index 648424f..73b5dce 100644
+--- a/215.5/Makefile
++++ b/215.5/Makefile
+@@ -11,6 +11,8 @@ SHELL = /bin/sh
+ #
+ FFLAGSSHARED = -fPIC
+ CFLAGSSHARED = -fPIC
++FFLAGS = -fPIC
++CFLAGS = -fPIC
+ #
+ LDFLAGSSHARED = $(CXXFLAGS) -pthread -fPIC
+ 
 diff --git a/215.5/Makeshared.subdir b/215.5/Makeshared.subdir
 index f167145..0a8f232 100644
 --- a/215.5/Makeshared.subdir
