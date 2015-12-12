@@ -23,6 +23,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost.xml
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
   <flags CPPDEFINES="BOOST_SPIRIT_THREADSAFE PHOENIX_THREADSAFE"/>
+  <flags CXXFLAGS="-Wno-error=unused-variable"/>
   <use name="sockets"/>
 </tool>
 EOF_TOOLFILE
