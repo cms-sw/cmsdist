@@ -31,7 +31,8 @@ esac
 
 LAPACK=$LAPACK_ROOT/lib/liblapack.$SONAME
 BLAS=$LAPACK_ROOT/lib/libblas.$SONAME
+ATLAS=None
 
-LAPACK=$LAPACK BLAS=$BLAS python setup.py config_fc --fcompiler=gfortran config_cc install --prefix=%i 
+LAPACK=$LAPACK BLAS=$BLAS ATLAS=$ATLAS python setup.py config_fc --fcompiler=gfortran config_cc install --prefix=%{i}
 perl -p -i -e "s|^#!.*python(.*)|#!/usr/bin/env python$1|" `grep -r -e "#\!.*python" %i | cut -d: -f1`
 
