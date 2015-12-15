@@ -1,28 +1,37 @@
-### RPM external python 2.7.6
-## INITENV +PATH PATH %i/bin 
-## INITENV +PATH LD_LIBRARY_PATH %i/lib
+### RPM external python 2.7.11
+## INITENV +PATH PATH %{i}/bin
+## INITENV +PATH LD_LIBRARY_PATH %{i}/lib
 ## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib/python%{python_major_version}/site-packages
 ## INITENV SETV PYTHONHASHSEED random
 # OS X patches and build fudging stolen from fink
 %{expand:%%define python_major_version %(echo %realversion | cut -d. -f1,2)}
 
-Requires: expat bz2lib db4 gdbm openssl
-
+Requires: expat bz2lib db6 gdbm openssl libffi
 Requires: zlib sqlite readline ncurses 
 
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, tk/tcl, x11
-%define tag 75d55971dbfa8a23c15cd0900c03655c692be767
-%define branch cms/v%realversion
+%define tag 9cd0df98a9579245343d5f37084b192f03836ee5
+%define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 %prep
-%setup -n python-%realversion
+%setup -n python-%{realversion}
+
 find . -type f | while read f; do
   if head -n1 $f | grep -q /usr/local; then
     perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" $f
   else :; fi
+done
+
+rm -rf Modules/expat || exit 1
+rm -rf Modules/zlib || exit 1
+for SUBDIR in darwin libffi libffi_arm_wince libffi_msvc libffi_osx ; do
+  rm -rf Modules/_ctypes/$SUBDIR || exit 1 ;
+done
+for FILE in md5module.c md5.c shamodule.c sha256module.c sha512module.c ; do
+  rm -f Modules/$FILE || exit 1
 done
 
 %build
@@ -37,16 +46,17 @@ done
 # see above for the commented-out list of packages that could be
 # linked specifically, or could be built by ourselves, depending on
 # whether we like to pick up system libraries or want total control.
-#mkdir -p %i/include %i/lib
-mkdir -p %i/include %i/lib %i/bin
 
-%define extradirs ${ZLIB_ROOT} ${SQLITE_ROOT}
+mkdir -p %{i}/{include,lib,bin}
 
-dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB4_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} %{extradirs}" 
+dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB6_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} ${LIBFFI_ROOT} ${ZLIB_ROOT} ${SQLITE_ROOT} ${READLINE_ROOT} ${NCURSES_ROOT}"
 
 # We need to export it because setup.py now uses it to determine the actual
 # location of DB4, this was needed to avoid having it picked up from the system.
-export DB4_ROOT
+export DB6_ROOT
+export LIBFFI_ROOT
+export READLINE_ROOT
+export NCURSES_ROOT
 
 # Python's configure parses LDFLAGS and CPPFLAGS to look for aditional library and include directories
 echo $dirs
@@ -58,14 +68,20 @@ done
 for d in $dirs $READLINE_ROOT $NCURSES_ROOT; do
   CPPFLAGS="$CPPFLAGS -I$d/include"
 done
-LDFLAGS="$LDFLAGS $NCURSES_ROOT/lib/libncurses.a $READLINE_ROOT/lib/libreadline.a"
 export LDFLAGS
 export CPPFLAGS
 
 # Bugfix for dbm package. Use ndbm.h header and gdbm compatibility layer.
 sed -ibak "s/ndbm_libs = \[\]/ndbm_libs = ['gdbm', 'gdbm_compat']/" setup.py
 
-./configure --prefix=%i $additionalConfigureOptions --enable-shared
+sed -ibak "s|LIBFFI_INCLUDEDIR=.*|LIBFFI_INCLUDEDIR=\"${LIBFFI_ROOT}/include\"|g" configure
+
+./configure \
+  --prefix=%{i} \
+  --enable-shared \
+  --with-system-ffi \
+  --with-system-expat \
+  $additionalConfigureOptions
 
 # Modify pyconfig.h to match macros from GLIBC features.h on Linux machines.
 # _POSIX_C_SOURCE and _XOPEN_SOURCE macros are not identical anymore
@@ -109,7 +125,11 @@ make
 %install
 # We need to export it because setup.py now uses it to determine the actual
 # location of DB4, this was needed to avoid having it picked up from the system.
-export DB4_ROOT
+export DB6_ROOT
+export LIBFFI_ROOT
+export READLINE_ROOT
+export NCURSES_ROOT
+
 make install
 %define pythonv %(echo %realversion | cut -d. -f 1,2)
 
@@ -162,7 +182,8 @@ find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
                    %{i}/lib/python%{pythonv}/sqlite3/test \
                    %{i}/lib/python%{pythonv}/bsddb/test \
                    %{i}/lib/python%{pythonv}/email/test \
-                   %{i}/lib/python%{pythonv}/lib2to3/tests }
+                   %{i}/lib/python%{pythonv}/lib2to3/tests \
+                   %{i}/lib/pkgconfig }
 
 # Remove .pyo files
 find %i -name '*.pyo' -exec rm {} \;
