@@ -20,6 +20,12 @@ PLATF_CONF_OPTS="--enable-static --disable-shared"
 F77="$(which gfortran) -fPIC"
 CXX="$(which %{cms_cxx}) -fPIC"
 
+# Update to detect aarch64 and ppc64le
+rm -f ./config.{sub,guess}
+curl -L -k -s -o ./config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./config.{sub,guess}
+
 # Fake the existance of pkg-config on systems which dont have it.
 # This is required because it will still check for its existance even
 # if you provide DEPS_CFLAGS and DEPS_LIBS.
