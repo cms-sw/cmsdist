@@ -27,6 +27,12 @@ esac
 export XERCESCROOT=$PWD
 cd $PWD/src/xercesc
 
+# Update to detect aarch64 and ppc64le
+rm -f ./config.{sub,guess}
+curl -L -k -s -o ./config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./config.{sub,guess}
+
 export CXXFLAGS="%cms_cxxflags"
 export VERBOSE=1
 
@@ -39,12 +45,12 @@ case %cmsplatf in
 esac
 
 case %{cmsplatf} in
-  slc*)
+  slc*_amd64_*)
     ./runConfigure -P%{i} -plinux -cgcc -x%{cms_cxx} ;;
+  *_aarch64_*|*_ppc64le_*)
+    ./runConfigure -P%{i} -b 64 -plinux -cgcc -x%{cms_cxx} ;;
   osx*)
     ./runConfigure -P%{i} -b 64 -pmacosx -nnative -rnone -cgcc -x%{cms_cxx} ;;
-  *armv7*)
-    ./runConfigure -P%{i} -b 32 -plinux -cgcc -x%{cms_cxx} ;;
   *)
     echo "Unsupported configuration. Please modify SPEC file accordingly."
     exit 1
