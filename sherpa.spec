@@ -6,9 +6,16 @@ Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export
 Requires: hepmc lhapdf blackhat sqlite fastjet openssl
 BuildRequires: mcfm
 
-%if "%(case %cmsplatf in (slc*) echo true ;; (*) echo false ;; esac)" == "true"
+%define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
+%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+
+Patch0: sherpa-2.2.0-specify-char-signedness
+
+%if %islinux
+%if %isamd64
 Requires: openloops
-%endif
+%endif # isamd64
+%endif # islinux
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -20,6 +27,7 @@ Requires: openloops
 
 %prep
 %setup -q -n %{n}-%{realversion}
+%patch0 -p1
 
 autoreconf -i --force
 
