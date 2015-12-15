@@ -12,6 +12,12 @@ PLATF_CONFIG_OPTS="--disable-shared --enable-static"
 
 %patch1 -p2
 
+# Update to detect aarch64 and ppc64le
+rm -f ./config/config.{sub,guess}
+curl -L -k -s -o ./config/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./config/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./config/config.{sub,guess}
+
 ./configure $PLATF_CONFIG_OPTS --prefix=%i F77="$F77"
 
 %build
