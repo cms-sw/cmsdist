@@ -1,18 +1,21 @@
-### RPM external expat 2.0.1
+### RPM external expat 2.1.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
-Source: http://downloads.sourceforge.net/project/expat/%n/%realversion/expat-%realversion.tar.gz
-Provides: libc.so.6()(64bit)
-Provides: libc.so.6(GLIBC_2.2.5)(64bit)  
+Source: http://downloads.sourceforge.net/project/%{n}/%{n}/%{realversion}/%{n}-%{realversion}.tar.gz
+
+%define drop_files %{i}/share
 
 %prep
-%setup -n %n-%{realversion}
+%setup -n %{n}-%{realversion}
 
 %build
+# Update to detect aarch64 and ppc64le
+rm -f ./conftools/config.{sub,guess}
+curl -L -k -s -o ./conftools/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./conftools/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./conftools/config.{sub,guess}
+
 ./configure --prefix=%{i} 
-make 
-make install
+make %{makeprocesses}
 
 %install
-
-%post
-find $RPM_INSTALL_PREFIX/%{pkgrel}/lib* -name "*.la" -exec perl -p -i -e "s|%{instroot}|$CMS_INSTALL_PREFIX|g" {} \;
+make install
