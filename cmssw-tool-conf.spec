@@ -46,7 +46,7 @@ Requires: jimmy-toolfile
 Requires: ktjet-toolfile
 Requires: lhapdf-toolfile
 Requires: libhepml-toolfile
-Requires: libjpg-toolfile
+Requires: libjpeg-turbo-toolfile
 Requires: libpng-toolfile
 Requires: libtiff-toolfile
 Requires: libungif-toolfile

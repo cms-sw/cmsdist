@@ -2,7 +2,7 @@
 ## INITENV UNSET QMAKESPEC
 ## INITENV SET QTDIR %i
 
-Requires: libjpg 
+Requires: libjpeg-turbo
 Source0: ftp://ftp.qt.nokia.com/qt/source/%n-everywhere-opensource-src-%{realversion}.tar.gz
 Patch0: qt-4.8.0-fix-gcc47
 
@@ -46,7 +46,7 @@ esac
 
 rm -rf demos examples doc
 echo yes | ./configure -prefix %i -opensource -stl -no-openssl -no-webkit -no-debug \
-                       -L$LIBJPG_ROOT/lib -no-glib -no-libtiff -no-libpng -no-libmng \
+                       -L$LIBJPEG_TURBO_ROOT/lib -no-glib -no-libtiff -no-libpng -no-libmng \
                        -no-dwarf2 -no-phonon -no-multimedia -no-stl -no-exceptions \
                        -no-separate-debug-info -no-multimedia -no-sql-sqlite -no-sql-odbc \
                        -no-sql-psql -no-sql-mysql $CONFIG_ARGS \

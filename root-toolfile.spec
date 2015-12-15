@@ -202,7 +202,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootinteractive.xml
 <tool name="rootinteractive" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <lib name="Gui"/>
-  <use name="libjpg"/>
+  <use name="libjpeg-turbo"/>
   <use name="libpng"/>
   <use name="rootgpad"/>
   <use name="rootrint"/>

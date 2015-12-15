@@ -24,7 +24,7 @@ Requires: gdbm-toolfile
 Requires: gmake-toolfile
 Requires: gsl-toolfile
 Requires: hepmc-toolfile
-Requires: libjpg-toolfile
+Requires: libjpeg-turbo-toolfile
 Requires: libpng-toolfile
 Requires: libtiff-toolfile
 Requires: libungif-toolfile
