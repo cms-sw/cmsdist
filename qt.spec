@@ -21,7 +21,7 @@ export DYLD_LIBRARY_PATH=$QTDIR/lib:$DYLD_LIBRARY_PATH
 
 case %cmsplatf in
   slc*)
-    export CONFIG_ARGS="-platform linux-g++-64"
+    export CONFIG_ARGS="-platform linux-g++"
   ;;
   osx*)
     export CONFIG_ARGS="-no-framework -arch x86_64"
