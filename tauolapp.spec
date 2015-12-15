@@ -22,6 +22,12 @@ export HEPMCVERSION=${HEPMC_VERSION}
 export LHAPDF_LOCATION=${LHAPDF_ROOT}
 export PYTHIA8_LOCATION=${PYTHIA8_ROOT}
 
+# Update to detect aarch64 and ppc64le
+rm -f ./config/config.{sub,guess}
+curl -L -k -s -o ./config/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./config/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./config/config.{sub,guess}
+
 ./configure --prefix=%{i} --with-hepmc=$HEPMC_ROOT --with-pythia8=$PYTHIA8_ROOT --with-lhapdf=$LHAPDF_ROOT CXX="%cms_cxx" CPPFLAGS="%cms_cxxflags -I${BOOST_ROOT}/include"
 
 %ifos darwin
