@@ -1,19 +1,24 @@
 ### RPM external gdbm 1.10
-Source: http://ftp.gnu.org/gnu/gdbm/gdbm-%realversion.tar.gz
-
-%define thisuser %(id -u)
-%define thisgroup %(id -g)
+Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 
 %prep
-%setup -n %n-%{realversion}
+%setup -n %{n}-%{realversion}
 
 %build
-perl -p -i -e "s|BINOWN = bin|BINOWN = %{thisuser}|g" Makefile.in
-perl -p -i -e "s|BINGRP = bin|BINGRP = %{thisgroup}|g" Makefile.in
-./configure --enable-libgdbm-compat --prefix=%{i}
-make %makeprocesses
+# Update to detect aarch64 and ppc64le
+rm -f ./build-aux/config.{sub,guess}
+curl -L -k -s -o ./build-aux/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./build-aux/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./build-aux/config.{sub,guess}
 
-# Strip libraries, we are not going to debug them.
-%define strip_files %i/lib
-# Look up documentation online.
-%define drop_files %i/{info,man}
+./configure \
+  --enable-libgdbm-compat \
+  --prefix=%{i} \
+  --disable-dependency-tracking \
+  --disable-nls \
+  --disable-rpath
+
+make %{makeprocesses}
+
+%define strip_files %{i}/lib
+%define drop_files %{i}/share
