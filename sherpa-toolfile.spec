@@ -1,5 +1,9 @@
 ### RPM external sherpa-toolfile 1.0
 Requires: sherpa
+
+%define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
+%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+
 %prep
 
 %build
@@ -29,7 +33,11 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa.xml
 <use name="blackhat"/>
 <use name="fastjet"/>
 <use name="sqlite"/>
+%if %islinux
+%if %isamd64
 <use name="openloops"/>
+%endif # isamd64
+%endif # islinux
 </tool>
 EOF_TOOLFILE
 
