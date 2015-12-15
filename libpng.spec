@@ -4,27 +4,29 @@
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%n.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
-BuildRequires: cmake
+BuildRequires: autotools
 Requires: zlib
 
 %prep
 %setup -n %{n}-%{realversion}
- 
-%build
-cmake . \
-  -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
-  -DBUILD_SHARED_LIBS=YES \
-  -DZLIB_ROOT:PATH=${ZLIB_ROOT} \
-  -DCMAKE_SKIP_RPATH=YES \
-  -DSKIP_INSTALL_FILES=1
 
-make %{makeprocesses} VERBOSE=1
+%build
+./autogen.sh
+
+./configure \
+  --prefix=%{i} \
+  --disable-silent-rules \
+  CPPFLAGS="-I${ZLIB_ROOT}/include" \
+  LDFLAGS="-L${ZLIB_ROOT}/lib"
+
+make %{makeprocesses}
 
 %install
 make install
 
 # Strip libraries, we are not going to debug them.
 %define strip_files %i/lib
+%define drop_files %{i}/share
 
 %post
 %{relocateConfig}bin/libpng-config
