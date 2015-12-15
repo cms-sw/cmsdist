@@ -9,6 +9,14 @@ Patch6: coral-CORAL_2_3_21-forever-ttl
 Patch7: coral-CORAL_2_3_21-fix-timestamp-sqlite
 Patch8: coral-CORAL_2_3_21-fix-timestamp-frontier
 
+%if %(case %{cmsplatf} in (*_aarch64_*) echo 1 ;; (*) echo 0 ;; esac) == 1
+%define cmsplatf_aarch64 1
+%endif
+
+%if %(case %{cmsplatf} in (*_ppc64le_*) echo 1 ;; (*) echo 0 ;; esac) == 1
+%define cmsplatf_ppc64le 1
+%endif
+
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 %define cvssrc          %{n}
@@ -29,6 +37,12 @@ Patch8: coral-CORAL_2_3_21-fix-timestamp-frontier
 %define patchsrc7       %patch6 -p0
 %define patchsrc8       %patch7 -p1
 %define patchsrc9       %patch8 -p1
+
+# Drop Oracle interface on ARM machines and POWER machines.
+# Oracle does not provide Instant Client for ARMv8 or POWER8.
+%if 0%{?cmsplatf_aarch64}%{?cmsplatf_ppc64le}
+%define patchsrc2       rm -rf ./src/OracleAccess
+%endif
 
 %define source1 cvs://:pserver:anonymous@%{n}.cvs.cern.ch/cvs/%{n}?passwd=Ah<Z&force=1&tag=-r%{cvstag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 
