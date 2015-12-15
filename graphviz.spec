@@ -5,6 +5,23 @@ Requires: expat zlib libjpeg-turbo libpng
 %prep
 %setup -n %{n}-%{realversion}
 
+# Update config.{guess,sub} scripts to detect aarch64 and ppc64le
+rm -f %{_tmppath}/config.{sub,guess}
+curl -L -k -s -o %{_tmppath}/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+curl -L -k -s -o %{_tmppath}/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+for CONFIG_GUESS_FILE in $(find $RPM_BUILD_DIR -name 'config.guess')
+do
+  rm -f $CONFIG_GUESS_FILE
+  cp %{_tmppath}/config.guess $CONFIG_GUESS_FILE
+  chmod +x $CONFIG_GUESS_FILE
+done
+for CONFIG_SUB_FILE in $(find $RPM_BUILD_DIR -name 'config.sub')
+do
+  rm -f $CONFIG_SUB_FILE
+  cp %{_tmppath}/config.sub $CONFIG_SUB_FILE
+  chmod +x $CONFIG_SUB_FILE
+done
+
 %build
 case %cmsplatf in
     slc*|fc*)
@@ -15,7 +32,6 @@ case %cmsplatf in
     ;;
 esac
 ./configure \
-  --disable-silent-rules \
   --with-expatlibdir=$EXPAT_ROOT/lib \
   --with-expatincludedir=$EXPAT_ROOT/include \
   --with-zincludedir=$ZLIB_ROOT/include \
