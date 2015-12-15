@@ -4,7 +4,7 @@
 # tool is added
 ## INITENV SET CMSSW_TOOL_CONF_ROOT $FWLITE_TOOL_CONF_ROOT
 
-%define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
+%define isslc %(case %{cmsos} in (slc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 
@@ -13,7 +13,7 @@ Requires: boost-toolfile
 Requires: bz2lib-toolfile
 Requires: castor-toolfile
 Requires: clhep-toolfile
-Requires: db4-toolfile
+Requires: db6-toolfile
 Requires: dcap-toolfile
 Requires: expat-toolfile
 Requires: fakesystem
@@ -45,7 +45,7 @@ Requires: llvm-gcc-toolfile
 Requires: vdt-toolfile
 
 %if %isamd64
-%if %islinux
+%if %isslc
 Requires: glibc-toolfile
 %endif
 %endif
@@ -55,6 +55,6 @@ Requires: glibc-toolfile
 Requires: freetype-toolfile
 %endif
 
-%define skipreqtools jcompiler db4 expat fftw3 sqlite
+%define skipreqtools jcompiler db6 expat fftw3 sqlite
 
 ## IMPORT scramv1-tool-conf
