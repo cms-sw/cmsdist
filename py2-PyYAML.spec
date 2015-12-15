@@ -9,7 +9,7 @@ Requires: python
 %setup -n %{my_name}-%{realversion}
 
 %build
-python setup.py build
+python setup.py --without-libyaml build
 
 %install
 python setup.py install --skip-build --prefix=%{i}
