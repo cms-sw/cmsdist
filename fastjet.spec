@@ -7,6 +7,23 @@ Source: git+https://github.com/%{github_user}/fastjet.git?obj=%{branch}/%{tag}&e
 %prep
 %setup -n %{n}-%{realversion}
 
+# Update to detect aarch64 and ppc64le
+rm -f ./config.{sub,guess}
+curl -L -k -s -o ./config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./config.{sub,guess}
+
+rm -f ./plugins/SISCone/siscone/config.{sub,guess}
+curl -L -k -s -o ./plugins/SISCone/siscone/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./plugins/SISCone/siscone/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./plugins/SISCone/siscone/config.{sub,guess}
+
+CXXFLAGS="-O3 -Wall -ffast-math -std=c++11 -ftree-vectorize"
+
+case %{cmsplatf} in
+    *_amd64_*) CXXFLAGS="${CXXFLAGS} -msse3" ;;
+esac
+
 ./configure \
   --enable-shared \
   --enable-atlascone \
@@ -14,7 +31,7 @@ Source: git+https://github.com/%{github_user}/fastjet.git?obj=%{branch}/%{tag}&e
   --enable-siscone \
   --prefix=%{i} \
   --enable-allcxxplugins \
-  CXXFLAGS="-O3 -Wall -ffast-math -std=c++0x -msse3 -ftree-vectorize"
+  CXXFLAGS="$CXXFLAGS"
 
 %build
 make %{makeprocesses}
