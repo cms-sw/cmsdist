@@ -39,6 +39,9 @@ Source9: %mirrordir/%copydate-instantclient-sqlplus-%linuxarch-%linuxversion.zip
 Source10: oracle-license
 Requires: fakesystem 
 
+%define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
+%define isamd64 %(case %{cmsplatf} in (*_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
+
 %prep
 # We unpack only the sources for the architecture we are working on.  Do not
 # change this to unpack all the architectures.  Notice also that you cannot put
@@ -55,13 +58,15 @@ rm -fr instantclient_*
 %setup -D -T -b 4 -n %macdir %copydate-instantclient-sqlplus-%macversion-%macarch.zip
 %endif
 
-%if %(case %cmsos in (slc*) echo true ;; (*) echo false ;; esac) == true
+%if %islinux
+%if %isamd64
 %setup -D -T -b 5 -n %linuxdir %copydate-instantclient-basic-%linuxarch-%linuxversion.zip
 %setup -D -T -b 6 -n %linuxdir %copydate-instantclient-basiclite-%linuxarch-%linuxversion.zip
 %setup -D -T -b 7 -n %linuxdir %copydate-instantclient-jdbc-%linuxarch-%linuxversion.zip
 %setup -D -T -b 8 -n %linuxdir %copydate-instantclient-sdk-%linuxarch-%linuxversion.zip
 %setup -D -T -b 9 -n %linuxdir %copydate-instantclient-sqlplus-%linuxarch-%linuxversion.zip
-%endif
+%endif # isamd64
+%endif # islinux
 
 %build
 chmod a-x sdk/include/*.h *.sql
