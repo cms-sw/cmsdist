@@ -5,6 +5,7 @@ Patch1: classlib-3.1.3-sl6
 Patch2: classlib-3.1.3-fix-gcc47-cxx11
 Patch3: classlib-3.1.3-fix-unwind-x86_64
 Patch4: classlib-3.1.3-memset-fix
+Patch5: classlib-3.1.3-fix-obsolete-CLK_TCK
 
 Requires: bz2lib 
 Requires: pcre 
@@ -27,8 +28,15 @@ Requires: zlib
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
+# Update to get aarch64 and ppc64le
+rm -f ./cfg/config.{sub,guess}
+curl -L -k -s -o ./cfg/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./cfg/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./cfg/config.{sub,guess}
+
 ./configure --prefix=%i                         \
   --with-zlib-includes=$ZLIB_ROOT/include       \
   --with-zlib-libraries=$ZLIB_ROOT/lib          \
