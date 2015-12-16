@@ -1,4 +1,6 @@
 ### RPM external libffi 3.2.1
+## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
+
 Source: ftp://sourceware.org/pub/%{n}/%{n}-%{realversion}.tar.gz
 
 Patch0: libffi-3.2.1-fix-include-path
