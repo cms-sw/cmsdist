@@ -63,7 +63,7 @@ echo $dirs
 LDFLAGS=""
 CPPFLAGS=""
 for d in $dirs; do
-  LDFLAGS="$LDFLAGS -L$d/lib"
+  LDFLAGS="$LDFLAGS -L$d/lib -L$d/lib64"
 done
 for d in $dirs $READLINE_ROOT $NCURSES_ROOT; do
   CPPFLAGS="$CPPFLAGS -I$d/include"
