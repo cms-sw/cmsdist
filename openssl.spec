@@ -1,20 +1,26 @@
-### RPM external openssl 1.0.1e_1.0.2d
-%define generic_version 1.0.2d
-%define slc6_version 1.0.1e
+### RPM external openssl 1.0.2d
 Source0: http://davidlt.web.cern.ch/davidlt/vault/openssl-1.0.2d-5675d07a144aa1a6c85f488a95aeea7854e86059.tar.bz2
-Source1: http://davidlt.web.cern.ch/davidlt/vault/openssl-1.0.1e-42.el6.src.tar.bz2
 
-%define isslc6 %(case %{cmsplatf} in (slc6*) echo 1 ;; (*) echo 0 ;; esac)
+# https://rt.openssl.org/Ticket/Display.html?id=3979&user=guest&pass=guest
+Patch0: openssl-1.0.2d-pr3979
+# We want to pick CA certificates from /etc/pki/tls (openssldir), but we
+# cannot install to a standard system location
+Patch1: openssl-1.0.2d-disable-install-openssldir
 
 %prep
-%if %isslc6
-%setup -b 1 -n openssl-%{slc6_version}
-%else
-%setup -b 0 -n openssl-%{generic_version}
-%endif
+%setup -b 0 -n openssl-%{realversion}
+%patch0 -p1
+%patch1 -p1
 
 # Disable documenation
 sed -ibak 's/install: all install_docs install_sw/install: all install_sw/g' Makefile.org Makefile
+
+case "%{cmsplatf}" in
+  slc6*)
+    # https://sourceware.org/glibc/wiki/Tips_and_Tricks/secure_getenv
+    grep -H -R 'secure_getenv(' * | cut -d':' -f1 | sort -u | xargs -t -n 1 sed -ibak 's;secure_getenv;__secure_getenv;g'
+    ;;
+esac
 
 %build
 
@@ -42,7 +48,7 @@ case "%{cmsplatf}" in
     cfg_args="-DOPENSSL_USE_NEW_FUNCTIONS"
     ;;
     *)
-    cfg_args="--with-krb5-flavor=MIT --with-krb5-dir=/usr enable-krb5 no-zlib --openssldir=%{_sysconfdir}/pki/tls fips no-ec2m no-gost no-srp"
+    cfg_args="--with-krb5-flavor=MIT --with-krb5-dir=/usr enable-krb5 no-zlib --openssldir=/etc/pki/tls fips no-ec2m no-gost no-srp"
     ;;
 esac
 
