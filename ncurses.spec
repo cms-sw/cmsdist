@@ -11,6 +11,7 @@ Source: ftp://invisible-island.net/ncurses/current/ncurses-%{realversion}.tgz
             --build="%{_build}" \
             --host="%{_host}" \
             --disable-shared \
+            --enable-symlinks \
             --enable-static \
             --without-debug \
             --without-ada \
