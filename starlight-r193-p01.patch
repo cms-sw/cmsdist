@@ -1,0 +1,256 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index fd0afe1..7d560f0 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -179,6 +179,17 @@ else()
+ 		)
+ endif()
+ 
++# setup CLHEP
++option (ENABLE_CLHEP  "Enable compilation against " OFF)
++if(ENABLE_CLHEP)
++    find_package(CLHEP)
++    if(CLHEP_FOUND)
++      set(optionalLibs ${optionalLibs} ${CLHEP_LIBRARY})
++      option(ENABLE_CLHEP  "Compiling against CLHEP library" ON)
++    else()
++      option(ENABLE_CLHEP  "Compiling against CLHEP library" OFF)
++    endif()
++endif()
+ 
+ # setup Pythia 8
+ option (ENABLE_PYTHIA  "Enable compilation against pythia (necessary for certain processes)" OFF)
+
+diff --git a/cmake_modules/FindCLHEP.cmake b/cmake_modules/FindCLHEP.cmake
+@@ -0,0 +1,26 @@
++FIND_PATH(CLHEP_INCLUDE_DIR clhep.h /usr/include/ usr/local/include/ $ENV{CLHEPDIR}/include)
++
++FIND_LIBRARY(CLHEP_LIBRARY NAMES clhep PATHS /usr/lib /usr/lib/CLHEP /usr/local/lib $ENV{CLHEPDIR}/lib)
++
++IF (CLHEP_INCLUDE_DIR AND CLHEP_LIBRARY)
++     SET(CLHEP_FOUND TRUE)
++ENDIF (CLHEP_INCLUDE_DIR AND CLHEP_LIBRARY)
++
++
++IF (CLHEP_FOUND)
++     IF (NOT CLHEP_FIND_QUIETLY)
++        MESSAGE(STATUS "Found CLHEP: ${CLHEP_LIBRARY}")
++        MESSAGE(STATUS "Found CLHEP include: ${CLHEP_INCLUDE_DIR}")
++     ENDIF (NOT CLHEP_FIND_QUIETLY)
++ELSE (CLHEP_FOUND)
++     IF (CLHEP_FIND_REQUIRED)
++        MESSAGE(FATAL_ERROR "Could not find CLHEP. We search first in 
++the normal library paths, then in $CLHEPDIR")
++     ELSE(CLHEP_FIND_REQUIRED)
++        IF(NOT CLHEP_FIND_QUIETLY)
++           MESSAGE(STATUS "Could not find CLHEP.  We search first in 
++the normal library paths, then in $CLHEPDIR")
++        ENDIF(NOT CLHEP_FIND_QUIETLY)
++     ENDIF (CLHEP_FIND_REQUIRED)
++
++ENDIF (CLHEP_FOUND)
+
+diff --git a/include/CLHEPrandomgenerator.h b/include/CLHEPrandomgenerator.h
+@@ -0,0 +1,60 @@
++///////////////////////////////////////////////////////////////////////////
++//
++//    Copyright 2010
++//
++//    This file is part of starlight.
++//
++//    starlight is free software: you can redistribute it and/or modify
++//    it under the terms of the GNU General Public License as published by
++//    the Free Software Foundation, either version 3 of the License, or
++//    (at your option) any later version.
++//
++//    starlight is distributed in the hope that it will be useful,
++//    but WITHOUT ANY WARRANTY; without even the implied warranty of
++//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++//    GNU General Public License for more details.
++//
++//    You should have received a copy of the GNU General Public License
++//    along with starlight. If not, see <http://www.gnu.org/licenses/>.
++//
++///////////////////////////////////////////////////////////////////////////
++//
++// File and Version Information:
++// $Rev::                             $: revision of last commit
++// $Author::                          $: author of last commit
++// $Date::                            $: date of last commit
++//
++// Description:
++//
++//
++//
++///////////////////////////////////////////////////////////////////////////
++
++
++#ifndef CLHEPRANDOMGENERATOR_H
++#define CLHEPRANDOMGENERATOR_H
++#include "singleton.h"
++
++namespace CLHEP
++{
++	class HepRandomEngine;
++}
++
++class CLHEPrandomGenerator
++{
++	public:
++	void SetSeed(unsigned int seed);
++	double Rndom();
++	
++	private:
++	friend class Singleton<CLHEPrandomGenerator>;
++	
++	CLHEPrandomGenerator(){}
++	CLHEPrandomGenerator(const randomGenerator &);
++	
++};
++
++#define randyInstance Singleton<randomGenerator>::instance()
++
++#endif  // RANDOMGENERATOR_H
++	
+
+diff --git a/include/eventchannel.h b/include/eventchannel.h
+@@ -39,7 +39,7 @@
+ #include "starlightconstants.h"
+ #include "readinluminosity.h"
+ #include "beambeamsystem.h"
+-#include "randomgenerator.h"
++#include "CLHEPrandomgenerator.h"
+ #include "upcevent.h"
+ 
+ 
+diff --git a/include/gammaavm.h b/include/gammaavm.h
+@@ -40,7 +40,7 @@
+ #include "starlightconstants.h"
+ #include "readinluminosity.h"
+ #include "beambeamsystem.h"
+-#include "randomgenerator.h"
++#include "CLHEPrandomgenerator.h"
+ #include "eventchannel.h"
+ #include "upcevent.h"
+ #include "nBodyPhaseSpaceGen.h"
+
+diff --git a/include/gammagammaleptonpair.h b/include/gammagammaleptonpair.h
+@@ -64,7 +64,7 @@ class Gammagammaleptonpair : public eventChannel
+   double _remainwd;// "
+   int _ivalwd;     // "
+   double _dgammade[1000];
+-  double _tautolangle[100];
++  double _tautolangle[1000];
+   
+   double twoMuonCrossSection(double w);
+   void pickw(double &w);
+
+diff --git a/include/gammagammasingle.h b/include/gammagammasingle.h
+@@ -40,7 +40,7 @@
+ #include "starlightconstants.h"
+ #include "readinluminosity.h"
+ #include "beambeamsystem.h"
+-#include "randomgenerator.h"
++#include "CLHEPrandomgenerator.h"
+ #include "eventchannel.h"
+ #include "starlightconfig.h"
+ #ifdef ENABLE_PYTHIA
+
+diff --git a/include/nBodyPhaseSpaceGen.h b/include/nBodyPhaseSpaceGen.h
+@@ -75,7 +75,7 @@
+ 
+ #include "reportingUtils.h"
+ #include "lorentzvector.h"
+-#include "randomgenerator.h"
++#include "CLHEPrandomgenerator.h"
+ #include "starlightconstants.h"
+ 
+ 
+diff --git a/src/CLHEPrandomgenerator.cpp b/src/CLHEPrandomgenerator.cpp
+@@ -0,0 +1,53 @@
++///////////////////////////////////////////////////////////////////////////
++//
++//    Copyright 2010
++//
++//    This file is part of starlight.
++//
++//    starlight is free software: you can redistribute it and/or modify
++//    it under the terms of the GNU General Public License as published by
++//    the Free Software Foundation, either version 3 of the License, or
++//    (at your option) any later version.
++//
++//    starlight is distributed in the hope that it will be useful,
++//    but WITHOUT ANY WARRANTY; without even the implied warranty of
++//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++//    GNU General Public License for more details.
++//
++//    You should have received a copy of the GNU General Public License
++//    along with starlight. If not, see <http://www.gnu.org/licenses/>.
++//
++///////////////////////////////////////////////////////////////////////////
++//
++// File and Version Information:
++// $Rev::                             $: revision of last commit
++// $Author::                          $: author of last commit
++// $Date::                            $: date of last commit
++//
++// Description:
++//
++//
++//
++///////////////////////////////////////////////////////////////////////////
++
++
++#include <iostream>
++#include <fstream>
++#include <cmath>
++
++#include "CLHEPrandomgenerator.h"
++#include <CLHEP/Random/Randomize.h>
++
++using namespace std;
++using namespace CLHEP;
++
++void CLHEPrandomGenerator::SetSeed(unsigned int seed)
++{
++	CLHEP::HepRandom::createInstance(seed);
++	CLHEP::HepRandom::setTheSeed(seed);
++}
++
++double randomGenerator::Rndom()
++{
++  return CLHEP::RandFlat::shoot();
++}
+
+diff --git a/src/gammagammaleptonpair.cpp b/src/gammagammaleptonpair.cpp
+@@ -126,7 +126,7 @@ void Gammagammaleptonpair::twoLeptonCrossSection()
+      }
+ 
+      //normalize sgfint array
+-     _signormw=_sigfint[_ReadInputnumw-1];
++     if(_ReadInputnumw > 0)_signormw=_sigfint[_ReadInputnumw-1];
+      for(int i=0;i<_ReadInputnumw;i++)
+      {
+           _sigfint[i]=_sigfint[i]/_signormw;
+
+diff --git a/src/inputParameters.cpp b/src/inputParameters.cpp
+@@ -41,7 +41,7 @@
+ #include "starlightconfig.h"
+ #include <cmath>
+ #include <cstring>
+-#include "randomgenerator.h"
++#include "CLHEPrandomgenerator.h"
+ 
+ using namespace std;
+ using namespace starlightConstants;
+
+diff --git a/src/spectrum.cpp b/src/spectrum.cpp
+@@ -21,7 +21,7 @@ p    This program is free software: you can redistribute it and/or modify
+ #include "spectrum.h"
+ #include <cmath>
+ #include "beambeamsystem.h"
+-#include <randomgenerator.h>
++#include <CLHEPrandomgenerator.h>
+ #include <iostream>
+ 
+ spectrum::spectrum(beamBeamSystem *bbs) :
