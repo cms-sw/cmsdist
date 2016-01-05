@@ -1,4 +1,4 @@
-### RPM cms data-L1Trigger-L1TCalorimeter V01-00-06
+### RPM cms data-L1Trigger-L1TCalorimeter V01-00-07
 
 %prep
 
