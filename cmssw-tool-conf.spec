@@ -153,6 +153,7 @@ Requires: py2-six-toolfile
 Requires: py2-pyparsing-toolfile
 Requires: py2-requests-toolfile
 Requires: giflib-toolfile
+Requires: starlight-toolfile
 
 # Only for Linux platform.
 %if %islinux
