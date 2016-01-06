@@ -1,12 +1,11 @@
-### RPM cms cmssw-tool-conf 32.0
+### RPM cms cmssw-tool-conf 29.0
 ## NOCOMPILER
-# With cmsBuild, change the above version only when a new
+# with cmsBuild, change the above version only when a new
 # tool is added
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
-%define isslc %(case %{cmsplatf} in (slc*) echo 1 ;; (*) echo 0 ;; esac)
 
 Requires: alpgen-toolfile
 Requires: boost-toolfile
@@ -18,16 +17,16 @@ Requires: clhep-toolfile
 Requires: coral-toolfile
 Requires: cppunit-toolfile
 Requires: curl-toolfile
-Requires: das_client-toolfile
+Requires: das-client-toolfile
 Requires: db4-toolfile
 Requires: dbs-client-toolfile
 Requires: dpm-toolfile
-Requires: davix-toolfile
-Requires: evtgen-toolfile
+Requires: evtgenlhc-toolfile
 Requires: expat-toolfile
 Requires: fakesystem
 Requires: fastjet-toolfile
 Requires: gcc-toolfile
+Requires: gccxml-toolfile
 Requires: gdbm-toolfile
 Requires: geant4-toolfile
 Requires: geant4data-toolfile
@@ -55,11 +54,11 @@ Requires: openssl-toolfile
 Requires: oracle-env
 Requires: pcre-toolfile
 Requires: photos-toolfile
-Requires: photospp-toolfile
 Requires: pythia6-toolfile
 Requires: pythia8-toolfile
 Requires: python-toolfile
 Requires: qt-toolfile
+Requires: roofit-toolfile
 Requires: root-toolfile
 Requires: sherpa-toolfile
 Requires: sigcpp-toolfile
@@ -81,27 +80,12 @@ Requires: graphviz-toolfile
 Requires: valgrind-toolfile
 Requires: py2-matplotlib-toolfile
 Requires: py2-numpy-toolfile
-Requires: py2-pandas-toolfile
 Requires: py2-scipy-toolfile
 Requires: cmsswdata-toolfile
 Requires: py2-cjson-toolfile
 Requires: py2-pycurl-toolfile
 Requires: py2-sqlalchemy-toolfile
 Requires: py2-pygithub-toolfile
-Requires: py2-networkx-toolfile
-Requires: py2-dablooms-toolfile
-Requires: py2-dxr-toolfile
-Requires: py2-futures-toolfile
-Requires: py2-jinja-toolfile
-Requires: py2-markupsafe-toolfile
-Requires: py2-ordereddict-toolfile
-Requires: py2-parsimonious-toolfile
-Requires: py2-pygments-toolfile
-Requires: py2-pysqlite-toolfile
-Requires: py2-PyYAML-toolfile
-Requires: py2-docopt-toolfile
-Requires: py2-prettytable-toolfile
-Requires: py2-schema-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
 Requires: cython-toolfile
@@ -133,31 +117,15 @@ Requires: cgal-toolfile
 Requires: doxygen-toolfile
 Requires: py2-python-dateutil-toolfile
 Requires: yaml-cpp-toolfile
-Requires: gmp-static-toolfile
-Requires: mpfr-static-toolfile
 Requires: fastjet-contrib-toolfile
-Requires: cuda-toolfile
-Requires: opencl-toolfile
-Requires: opencl-cpp-toolfile
-Requires: qd-toolfile
-Requires: blackhat-toolfile
-Requires: sherpa-toolfile
-Requires: geant4-parfullcms-toolfile
-Requires: fasthadd
-Requires: eigen-toolfile
-Requires: gdb-toolfile
-Requires: py2-pytz-toolfile
 Requires: file-toolfile
-Requires: libxslt-toolfile
-Requires: py2-six-toolfile
-Requires: py2-pyparsing-toolfile
-Requires: py2-requests-toolfile
-Requires: giflib-toolfile
+Requires: starlight-toolfile
 
 # Only for Linux platform.
 %if %islinux
 Requires: openldap-toolfile
 Requires: python-ldap-toolfile
+Requires: gdb-toolfile
 Requires: google-perftools-toolfile
 Requires: dmtcp-toolfile
 %endif
@@ -173,19 +141,13 @@ Requires: tkonlinesw-toolfile
 Requires: py2-cx-oracle-toolfile
 Requires: oracle-toolfile
 
-# Only for slc platforms.
-%if %isslc
-Requires: openloops-toolfile
-%endif
-
 # Only for Linux platform.
 %if %islinux
 Requires: igprof-toolfile
-Requires: glibc-toolfile
 %endif
 %endif
 
-%define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler cuda rivet2 opencl opencl-cpp
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler boost_serialization boost_iostreams
 
 ## IMPORT scramv1-tool-conf
 
