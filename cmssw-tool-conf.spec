@@ -119,6 +119,7 @@ Requires: py2-python-dateutil-toolfile
 Requires: yaml-cpp-toolfile
 Requires: fastjet-contrib-toolfile
 Requires: file-toolfile
+Requires: starlight-toolfile
 
 # Only for Linux platform.
 %if %islinux
