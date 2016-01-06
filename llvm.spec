@@ -1,22 +1,25 @@
-### RPM external llvm 3.7.0
+### RPM external llvm 3.7.1
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHONPATH %{i}/lib64/python$(echo $PYTHON_VERSION | cut -d. -f 1,2)/site-packages
 
 BuildRequires: python cmake ninja
 Requires: gcc zlib
 
-%define llvmCommit f6573928d7f2d8b80c12d9c73ec2dbb33a472236
-%define llvmBranch cms/f657392
-%define clangCommit 9326c4e5dd194e21502a81e48dee7d27ed644706
-%define clangBranch cms/77eea28
-%define clangToolsExtraCommit 25af2d3ca20da8131f57717d26a10227e9050a4d
-%define clangToolsExtraBranch cms/25af2d3
-%define compilerRtCommit f9ef0f8339ee8831279edbe4901047999365b9b5
-%define compilerRtBranch cms/f9ef0f8
+%define llvmCommit 33c352b3eda89abc24e7511d9045fa2e499a42e3
+%define llvmBranch cms/33c352b
+%define clangCommit 86f9ed77080392c73d23c1c2c103c926ebb0e14a
+%define clangBranch cms/0dbefa1
+%define clangToolsExtraCommit 17700095a2b35fc7d7699afe5a6ba1961389fd59
+%define clangToolsExtraBranch cms/1770009
+%define compilerRtCommit b5214093d4c91ed5352d35ee9126665fabfa97fe
+%define compilerRtBranch cms/b521409
+%define openmpCommit bc10909fa897a985c5f346b47a88f65b920efba1
+%define openmpBranch cms/bc10909
 Source0: git+https://github.com/cms-externals/llvm.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%realversion-%llvmCommit&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/cms-externals/clang.git?obj=%{clangBranch}/%{clangCommit}&export=clang-%{realversion}-%{clangCommit}&module=clang-%realversion-%clangCommit&output=/clang-%{realversion}-%{clangCommit}.tgz
 Source2: git+https://github.com/cms-externals/clang-tools-extra.git?obj=%{clangToolsExtraBranch}/%{clangToolsExtraCommit}&export=clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}&module=clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}&output=/clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}.tgz
-Source3: git+https://github.com/cms-externals/compiler-rt.git?obj=%{compilerRtBranch}/%{compilerRtCommit}&export=compiler-rt-%{realversion}-%{compilerRtCommit}&module=compiler-rt-%{realversion}-%{compilerRtCommit}&output=/compiler-rt-%{realversion}-%{compilerrtCommit}.tgz
+Source3: git+https://github.com/cms-externals/compiler-rt.git?obj=%{compilerRtBranch}/%{compilerRtCommit}&export=compiler-rt-%{realversion}-%{compilerRtCommit}&module=compiler-rt-%{realversion}-%{compilerRtCommit}&output=/compiler-rt-%{realversion}-%{compilerRtCommit}.tgz
+Source4: git+https://github.com/cms-externals/openmp.git?obj=%{openmpBranch}/%{openmpCommit}&export=openmp-%{realversion}-%{openmpCommit}&module=openmp-%{realversion}-%{openmpCommit}&output=/openmp-%{realversion}-%{openmpCommit}.tgz
 
 # Still need forward porting.
 %define keep_archives true
@@ -29,6 +32,8 @@ mv clang-%realversion-%clangCommit clang
 mv clang-tools-extra-%{realversion}-%{clangToolsExtraCommit} extra
 %setup -T -D -a3 -c -n llvm-%{realversion}-%{llvmCommit}/projects
 mv compiler-rt-%{realversion}-%{compilerRtCommit} compiler-rt
+%setup -T -D -a4 -c -n llvm-%{realversion}-%{llvmCommit}/projects
+mv openmp-%{realversion}-%{openmpCommit} openmp
 %setup -T -D -n llvm-%realversion-%llvmCommit
 
 %build
