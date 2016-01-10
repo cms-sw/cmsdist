@@ -1,15 +1,15 @@
 ### RPM lcg root 6.06.00
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 1a485a69fd208d1570d4313c41840865ca51a89a
-%define branch cms/1f31574
+%define tag 57468ea678fc8528fd50c172a7919bb8d328c54e
+%define branch cms/1abe7a9
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
-BuildRequires: cmake ninja file
+BuildRequires: cmake file
 
 Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib
 
@@ -41,7 +41,6 @@ export CFLAGS=-D__ROOFIT_NOBANNER
 export CXXFLAGS=-D__ROOFIT_NOBANNER
 
 cmake ../%{n}-%{realversion} \
-  -G Ninja \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
@@ -149,7 +148,7 @@ done
 export ROOT_INCLUDE_PATH
 export ROOTSYS="%{i}"
 
-ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
+make %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
 
 %install
 cd ../build
@@ -163,7 +162,7 @@ done
 export ROOT_INCLUDE_PATH
 export ROOTSYS="%{i}"
 
-ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
+make %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
 
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -R -l '#!.*python' %{i} | xargs chmod +x
