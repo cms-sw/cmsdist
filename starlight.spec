@@ -1,4 +1,4 @@
-Release:	1%{?dist}
+### RPM external starlight r193
 Requires: clhep gfortran
 
 %define branch cms/%{realversion}
@@ -18,12 +18,9 @@ BuildRequires:	cmake
 %patch0 -p1
 
 %build
-%configure
-make %{?_smp_mflags}
-
 
 %install
-cmake <path-to-starlight-source> -DENABLE_DPMJET=on
+cmake ./
 make
 
 
