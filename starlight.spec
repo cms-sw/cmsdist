@@ -9,24 +9,11 @@ BuildRequires:	cmake
 
 %define keep_archives true
 
-%description
-
-
 %prep
 %setup -q -n %{n}/%{realversion}
-
-%patch0 -p1
 
 %build
 
 %install
 cmake ./
 make
-
-
-%files
-
-
-
-%changelog
-
