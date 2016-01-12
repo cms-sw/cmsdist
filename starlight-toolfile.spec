@@ -1,15 +1,9 @@
 ### RPM external starlight-toolfile 1.0
-Requires:	starlight
-
-%description
-
+Requires:starlight
 
 %prep
-%setup -q
 
-
-%build
-
+%setup
 
 %install
 mkdir -p %i/etc/scram.d
@@ -24,8 +18,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/starlight.xml
   <runtime name="STARLIGHTDATA" value="$STARLIGHT_BASE/share/Starlight/xmldoc"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
-  <use name="cxxcompiler"/>
-  <use name="gfortran"/>
   <use name="clhep"/>
 </tool>
 EOF_TOOLFILE
