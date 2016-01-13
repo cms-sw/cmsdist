@@ -3,7 +3,7 @@ Requires: clhep
 
 %define branch cms/%{realversion}
 %define github_user cms-externals
-Source0:git+http://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source:git+http://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 BuildRequires:	cmake
 
@@ -13,6 +13,7 @@ BuildRequires:	cmake
 %setup -n %{n}/%{realversion}
 
 %build
+cmake ./%{n}-%{realversion}
 make %{makeprocess}
 
 %install
