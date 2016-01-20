@@ -6,7 +6,7 @@
 %define wmcpkg WMCore
 Source0: git://github.com/dmwm/WMArchive?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
 Source1: git://github.com/dmwm/WMCore?obj=master/%wmcver&export=%wmcpkg&output=/%wmcpkg.tar.gz
-Requires: python py2-pydoop py2-avro py2-pymongo mongo py2-httplib2 rotatelogs
+Requires: python py2-pydoop py2-avro py2-pymongo mongo py2-httplib2 cherrypy rotatelogs
 BuildRequires: py2-sphinx
 
 # RPM macros documentation
