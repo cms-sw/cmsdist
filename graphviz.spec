@@ -1,6 +1,6 @@
 ### RPM external graphviz 2.38.0
 Source: http://www.graphviz.org/pub/%{n}/ARCHIVE/%{n}-%{realversion}.tar.gz  
-Requires: expat zlib libjpeg-turbo libpng
+Requires: expat zlib libjpg libpng
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -22,8 +22,8 @@ esac
   --with-zlibdir=$ZLIB_ROOT/lib \
   --with-pngincludedir=$LIBPNG_ROOT/include \
   --with-pnglibdir=$LIBPNG_ROOT/lib \
-  --with-jpegincludedir=$LIBJPEG_TURBO_ROOT/include \
-  --with-jpeglibdir=$LIBJPEG_TURBO_ROOT/lib \
+  --with-jpegincludedir=$LIBJPG_ROOT/include \
+  --with-jpeglibdir=$LIBJPG_ROOT/lib \
   --without-x \
   --without-tclsh \
   --without-tcl \
