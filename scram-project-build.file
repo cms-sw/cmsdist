@@ -4,7 +4,7 @@
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 %define cmssw_libs biglib/%{cmsplatf} lib/%{cmsplatf}
 %define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
-%define isslc_amd64 %(case %{cmsplatf} in (slc*_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
+%define isslc6_amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
 
 Requires: SCRAMV1
 BuildRequires: gcc
@@ -18,13 +18,13 @@ BuildRequires: dwz file
 %endif # islinux
 %endif # subpackageDebug
 
-%if %isslc_amd64
+%if %isslc6_amd64
 %if "%{?pkgname}" != "coral"
 Requires: patchelf
 Requires: glibc
 Requires: file
 %endif # coral
-%endif # isslc_amd64
+%endif # isslc6_amd64
 
 %define initenv	        %initenv_direct
 %define scramcmd        $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
@@ -64,7 +64,7 @@ Requires: file
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-05-04
+%define configtag       V05-05-06
 %endif
 
 %if "%{?cvssrc:set}" != "set"
@@ -346,7 +346,7 @@ done
 
 %if "%{?pkgname}" != "coral"
 case %cmsplatf in
-  slc*_amd64_*)
+  slc6_amd64_*)
     FILE_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/file/')
     FILE_PATH=$RPM_INSTALL_PREFIX/%cmsplatf/$FILE_PKG
     PATCHELF_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/patchelf/')
