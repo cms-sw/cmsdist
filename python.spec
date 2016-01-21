@@ -6,7 +6,7 @@
 # OS X patches and build fudging stolen from fink
 %{expand:%%define python_major_version %(echo %realversion | cut -d. -f1,2)}
 
-Requires: expat bz2lib db6 gdbm openssl libffi
+Requires: expat bz2lib db4 gdbm openssl libffi
 Requires: zlib sqlite readline ncurses 
 
 # FIXME: readline, crypt 
@@ -49,11 +49,11 @@ done
 
 mkdir -p %{i}/{include,lib,bin}
 
-dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB6_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} ${LIBFFI_ROOT} ${ZLIB_ROOT} ${SQLITE_ROOT} ${READLINE_ROOT} ${NCURSES_ROOT}"
+dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB4_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} ${LIBFFI_ROOT} ${ZLIB_ROOT} ${SQLITE_ROOT} ${READLINE_ROOT} ${NCURSES_ROOT}"
 
 # We need to export it because setup.py now uses it to determine the actual
 # location of DB4, this was needed to avoid having it picked up from the system.
-export DB6_ROOT
+export DB4_ROOT
 export LIBFFI_ROOT
 export READLINE_ROOT
 export NCURSES_ROOT
@@ -125,7 +125,7 @@ make
 %install
 # We need to export it because setup.py now uses it to determine the actual
 # location of DB4, this was needed to avoid having it picked up from the system.
-export DB6_ROOT
+export DB4_ROOT
 export LIBFFI_ROOT
 export READLINE_ROOT
 export NCURSES_ROOT
