@@ -26,7 +26,7 @@ BuildRequires: autotools
 %endif
 
 %prep
-%setup -q -n ThePEG-2.0.0
+%setup -q -n ThePEG-%{realversion}
 
 # Regenerate build scripts
 autoreconf -fiv
@@ -66,4 +66,4 @@ find %{i}/lib -name '*.la' -exec rm -f {} \;
 %{relocateConfig}lib/ThePEG/Makefile.common
 %{relocateConfig}lib/ThePEG/Makefile
 %{relocateConfig}lib/ThePEG/ThePEGDefaults.rpo
-%{relocateConfig}lib/ThePEG/ThePEGDefaults-2.0.0.rpo
+%{relocateConfig}lib/ThePEG/ThePEGDefaults-%{realversion}.rpo
