@@ -123,7 +123,7 @@ EOF_TOOLFILE
     # For some reason on mac, some of the header do not compile if this is
     # defined.  Ignore for now.
     export ARCH_LIB64DIR="lib64"
-    export ARCH_LD_UNIT="-r -m elf_x86_64 -z muldefs"
+    export ARCH_LD_UNIT="-r -z muldefs"
 %endif
 
 # Then handle compiler specific options. E.g. enable
