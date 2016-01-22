@@ -1,5 +1,5 @@
 ### RPM external herwigpp 7.0.0
-Source: https://www.hepforge.org/archive/herwig/Herwig-7.0.0.tar.bz2
+Source: https://www.hepforge.org/archive/herwig/Herwig-%{realversion}.tar.bz2
 Requires: boost 
 Requires: thepeg
 Requires: gsl 
@@ -22,7 +22,7 @@ BuildRequires: autotools
 %endif
 
 %prep
-%setup -q -n Herwig-7.0.0
+%setup -q -n Herwig-%{realversion}
 
 %patch0 -p1 
 
