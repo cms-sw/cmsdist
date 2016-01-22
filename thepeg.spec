@@ -3,7 +3,7 @@
 ## INITENV +PATH DYLD_LIBRARY_PATH %{i}/lib/ThePEG
 
 # Download from official webpage
-Source: http://www.hepforge.org/archive/thepeg/ThePEG-2.0.0.tar.gz
+Source: http://www.hepforge.org/archive/thepeg/ThePEG-%{realversion}.tar.gz
 
 Requires: lhapdf
 Requires: gsl
@@ -22,7 +22,7 @@ BuildRequires: autotools
 %endif
 
 %if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -O2 -std=c++11
+%define cms_cxxflags -O2 -std=c++14
 %endif
 
 %prep
