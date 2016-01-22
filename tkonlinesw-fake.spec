@@ -1,6 +1,6 @@
 ### RPM external tkonlinesw-fake 2.7.0
 
-Source: http://davidlt.web.cern.ch/davidlt/vault/final_fake/tkonlinesw-fake.tar.bz2
+Source: http://davidlt.web.cern.ch/davidlt/vault/tkonlinesw-fake-v2.tar.bz2
 %prep
 %setup -n tkonlinesw-fake
 
