@@ -1,4 +1,4 @@
-### RPM cms confdb 1.2.9.pre.1
+### RPM cms confdb 1.2.9.pre.2
 Source: git://github.com/cms-sw/web-confdb?obj=Server/%realversion&export=%n&output=/%n.tar.gz
 Requires: python cherrypy oracle oracle-env py2-cx-oracle py2-sqlalchemy py2-marshmallow
 Requires: rotatelogs pystack
@@ -10,7 +10,8 @@ Requires: rotatelogs pystack
 
 %install
 cp -rp Server/Application_py266 %i/
-rm -rf %i/Application_py266/Config
+rm %i/Application_py266/Config.py
+rm %i/Application_py266/ConfDBAuth.py
 python -m compileall %i/Application_py266 || true
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
