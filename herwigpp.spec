@@ -18,7 +18,7 @@ BuildRequires: autotools
 %endif
 
 %if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -O2 -std=c++11
+%define cms_cxxflags -O2 -std=c++14
 %endif
 
 %prep
