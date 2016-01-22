@@ -5,9 +5,9 @@
 
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 1.0.12_crab
+%define wmcver 1.0.12_crab_1
 
-Source0: git://github.com/dmwm/WMCore.git?obj=%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
+Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
 Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
 
 Requires: python cherrypy py2-cjson rotatelogs py2-pycurl py2-httplib2 py2-sqlalchemy py2-cx-oracle
