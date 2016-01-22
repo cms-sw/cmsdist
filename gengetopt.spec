@@ -1,5 +1,5 @@
 ### RPM external gengetopt 2.22.6
-Source: ftp://ftp.gnu.org/gnu/gengetopt/gengetopt-2.22.6.tar.gz
+Source: ftp://ftp.gnu.org/gnu/gengetopt/gengetopt-%{realversion}.tar.gz
 Patch0: gengetopt-parallelbuild
 
 BuildRequires: autotools
