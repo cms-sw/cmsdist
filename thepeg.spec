@@ -1,17 +1,20 @@
-### RPM external thepeg 1.9.2p1
+### RPM external thepeg 2.0.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib/ThePEG
 ## INITENV +PATH DYLD_LIBRARY_PATH %{i}/lib/ThePEG
 
-%define tag 41e9a26f5ca9659e30e9c27e4dc86e65ecd4a4bd
-%define branch cms/v%realversion
+# Download from official webpage
+Source: http://www.hepforge.org/archive/thepeg/ThePEG-2.0.0.tar.gz
 
-Source: git+https://github.com/cms-externals/thepeg.git?obj=%{branch}/%{tag}&export=thepeg-%{realversion}-%{tag}&module=thepeg-%realversion-%{tag}&output=/thepeg-%{realversion}-%{tag}.tgz
 Requires: lhapdf
 Requires: gsl
 Requires: hepmc
 Requires: zlib
+Requires: fastjet
+Requires: rivet
+
+
 BuildRequires: autotools
-# FIXME: rivet?
+
 %define keep_archives true
 
 %if "%{?cms_cxx:set}" != "set"
@@ -23,7 +26,7 @@ BuildRequires: autotools
 %endif
 
 %prep
-%setup -q -n thepeg-%{realversion}-%{tag}
+%setup -q -n ThePEG-2.0.0
 
 # Regenerate build scripts
 autoreconf -fiv
@@ -41,10 +44,15 @@ esac
 
 ./configure $PLATF_CONF_OPTS \
             --disable-silent-rules \
+	    --enable-unitchecks \
             --with-LHAPDF=$LHAPDF_ROOT \
             --with-hepmc=$HEPMC_ROOT \
-            --with-gsl=$GSL_ROOT --with-zlib=$ZLIB_ROOT \
-            --without-javagui --prefix=%{i} \
+            --with-gsl=$GSL_ROOT \
+            --with-zlib=$ZLIB_ROOT \
+            --with-fastjet=$FASTJET_ROOT \
+            --with-rivet=$RIVET_ROOT \
+            --without-javagui \
+            --prefix=%{i} \
             --disable-readline CXX="$CXX" CC="$CC" CXXFLAGS="%{cms_cxxflags}" \
             LIBS="-lz $LIBQUADMATH"
 
@@ -58,4 +66,4 @@ find %{i}/lib -name '*.la' -exec rm -f {} \;
 %{relocateConfig}lib/ThePEG/Makefile.common
 %{relocateConfig}lib/ThePEG/Makefile
 %{relocateConfig}lib/ThePEG/ThePEGDefaults.rpo
-%{relocateConfig}lib/ThePEG/ThePEGDefaults-1.9.2.rpo
+%{relocateConfig}lib/ThePEG/ThePEGDefaults-2.0.0.rpo
