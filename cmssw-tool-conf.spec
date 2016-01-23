@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 32.0
+### RPM cms cmssw-tool-conf 33.0
 ## NOCOMPILER
 # With cmsBuild, change the above version only when a new
 # tool is added
@@ -153,6 +153,7 @@ Requires: py2-six-toolfile
 Requires: py2-pyparsing-toolfile
 Requires: py2-requests-toolfile
 Requires: giflib-toolfile
+Requires: libffi-toolfile
 
 # Only for Linux platform.
 %if %islinux
