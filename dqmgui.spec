@@ -1,4 +1,4 @@
-### RPM cms dqmgui 8.2.7
+### RPM cms dqmgui 8.3.0
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH %{dynamic_path_var} %i/xlib
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
@@ -12,7 +12,7 @@ Source0: git+https://github.com/rovere/dqmgui.git?obj=index128/%realversion&expo
 #Source0: git+:///build1/rovere/GUIDevelopment/GHM?obj=RovereDevelopment&export=Monitoring&output=/Monitoring.tar.gz
 #Source0: %{svn}?scheme=svn+ssh&strategy=export&module=Monitoring&output=/src.tar.gz
 # For documentation, please refer to http://cms-sw.github.io/pkgtools/fetching-sources.html
-Source1: git+https://github.com/cms-sw/cmssw.git?obj=CMSSW_7_0_X/CMSSW_7_0_0_pre6&export=./&filter=*DQMServices*&output=/DQMCore.tar.gz
+Source1: git+https://github.com/cms-sw/cmssw.git?obj=CMSSW_7_6_X/CMSSW_7_6_0&export=./&filter=*DQMServices*&output=/DQMCore.tar.gz
 #Source1: %{cvs}&strategy=export&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-15-19&output=/DQMCore.tar.gz
 Source2: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=image&revision=10&scheme=http&output=/rtgu.tar.gz
 Source3: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
@@ -42,12 +42,14 @@ cp -pr %_builddir/stuff/{rtgu,boost} src/cpp
 for f in DQM{Store,Error,Net}.{h,cc} MonitorElement.{h,cc} \
          Q{Test,Report,StatisticalTests}.{h,cc} \
          Standalone.h DQM{Channel,Definitions}.h \
-         DQMCollector.cpp; do
+         DQMCollector.cpp ROOTFilePB.proto; do
   dest=src/cpp/DQM/$(basename $f | sed 's/\.cpp/.cc/')
   cp %_builddir/stuff/DQMServices/Core/*/$f $dest
   perl -p -i -e 's{DQMServices/Core/(interface|src)/}{DQM/}g' $dest
+  perl -p -i -e 's{#include "FWCore/ServiceRegistry/interface/SystemBounds.h"}{}g' $dest
   case $f in Standalone.h )
-    perl -p -i -e 's|(?=std::string getReleaseVersion)|inline |' $dest ;;
+    perl -p -i -e 's|(?=std::string getReleaseVersion)|inline |' $dest
+    perl -0777 -p -i -e 's|struct SystemBounds {\n(.*?)};|namespace service {\n   struct SystemBounds {\n$1};\n  }|gs' $dest ;;
   esac
   chmod 644 $dest
 done
