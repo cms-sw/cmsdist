@@ -17,8 +17,7 @@ Source1: git+https://github.com/cms-sw/cmssw.git?obj=CMSSW_7_6_X/CMSSW_7_6_0&exp
 Source2: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=image&revision=10&scheme=http&output=/rtgu.tar.gz
 Source3: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
 Patch0: dqmgui-rtgu
-Patch1: dqmguipython27
-Patch2: dqmgui-inspect
+Patch1: dqmgui-inspect
 
 Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root libpng libjpg classlib rotatelogs py2-pycurl py2-cjson libuuid d3 protobuf py2-argparse
 BuildRequires: py2-sphinx
@@ -34,7 +33,6 @@ chmod 644 $(find . -name *.hpp)
 
 %setup -T -b 0 -n Monitoring
 %patch1 -p1
-%patch2 -p1
 perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/*/conf.py
 
 # Adapt CMSSW sources to our build.
