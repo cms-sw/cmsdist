@@ -7,7 +7,7 @@ Requires:starlight
 mkdir -p %{i}/etc/scram.d
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/starlight.xml
 <tool name="starlight" version="@TOOL_VERSION@">
-  <lib name="starlib"/>
+  <lib name="Starlib"/>
   <client>
     <environment name="STARLIGHT_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$STARLIGHT_BASE/lib"/>
