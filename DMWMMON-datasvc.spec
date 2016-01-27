@@ -1,4 +1,4 @@
-### RPM cms DMWMMON-datasvc 1.0.2
+### RPM cms DMWMMON-datasvc 1.1.0
 ## INITENV +PATH PERL5LIB %i/perl_lib
 
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -26,24 +26,25 @@ Provides: perl(XML::LibXML)
 Provides: perl(URI::Escape)
 
 %prep
-#%setup -n DMWMMON
+
 %setup -n %{setupdir}
-rm -rf Build Custom Documentation Testbed Utilities
-rm -rf Contrib Deployment Migration PhEDExWeb/ApplicationServer Schema Toolkit VERSION
-rm -rf perl_lib/template
-rm -rf perl_lib/PHEDEX/{BlockActivate,BlockDelete,Debug.pm,Monalisa.pm,Testbed,BlockAllocator,BlockLatency,Error,Monitoring,Transfer,BlockArrive,BlockMonitor,File,BlockConsistency,Infrastructure,BlockDeactivate,LoadTest,Schema}
-rm perl_lib/PHEDEX/RequestAllocator/Agent.pm
-rm -rf perl_lib/PHEDEX/Core/{Agent,Config.pm,Agent.pm,JobManager.pm,RFIO.pm,Command.pm,Help.pm,SQLPLUS.pm,Config}
-rm -rf perl_lib/PHEDEX/Web/API/{Agent*,Block*,ComponentStatus.pm,D*,Error*,File*,Group*,Inject.pm,L*,M*,NodeUsage*,P*,Request*,SENames.pm,Shift,Subscri*,T*,U*}
 
 %build
+# We are reusing PhEDEx style sheets in DMWMMON: 
 mv %_builddir/%{setupdir}/PhEDExWeb/DataService/static/{phedex,dmwmmon}_pod.css
 
 %install
-mkdir -p %i/etc/{env,profile}.d
-tar -cf - * | (cd %i && tar -xf -)
+# Getting  all DMWMMON-datasvc required sources:
+tar -c README.txt | tar -x -C %i
+tar -c perl_lib/PHEDEX/{Core,RequestAllocator} | tar -x -C %i
+tar -c PhEDExWeb/{DataService,README} | tar -x -C %i
+tar -c perl_lib/PHEDEX/Web --exclude="*/API/*" | tar -x -C %i
+
+# Add new data service APIs in this list as needed:
+tar -c perl_lib/PHEDEX/Web/API/{Auth.pm,Bounce.pm,Nodes.pm,StorageInsert.pm,StorageUsage.pm,GetLastRecord.pm,DumpSpaceQuery.pm} | tar -x -C %i
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
+mkdir -p %i/etc/{env,profile}.d
 ln -sf ../profile.d/init.sh %i/etc/env.d/11-datasvc.sh
 : > %i/etc/profile.d/dependencies-setup.sh
 : > %i/etc/profile.d/dependencies-setup.csh
