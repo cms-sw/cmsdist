@@ -1,29 +1,51 @@
-### RPM external herwigpp 2.7.1
-Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/herwig++/herwig++-%{realversion}-src.tgz
-Requires: boost thepeg gsl hepmc
+### RPM external herwigpp 7.0.0
+Source: https://www.hepforge.org/archive/herwig/Herwig-%{realversion}.tar.bz2
+Requires: boost 
+Requires: thepeg
+Requires: gsl 
+Requires: hepmc
+Requires: fastjet
+Requires: gengetopt
+Requires: madgraph5amcatnlo
+Requires: openloops
+
+Patch0: herwigpp-missingBoostMTLib
+
+BuildRequires: autotools
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
 %endif
 
 %if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -O2 -std=c++0x
+%define cms_cxxflags -O2 -std=c++14
 %endif
 
 %prep
-%setup -q -n herwig++/%{realversion}
+%setup -q -n Herwig-%{realversion}
+
+%patch0 -p1 
+
+# Regenerate build scripts
+autoreconf -fiv
 
 %build
-./configure \
-  --disable-silent-rules --with-gsl=$GSL_ROOT --with-thepeg=$THEPEG_ROOT --with-boost=${BOOST_ROOT} --prefix=%i \
-  CXXFLAGS="-fuse-cxa-atexit %cms_cxxflags" CXX="%cms_cxx"
+CXX="$(which %{cms_cxx}) -fPIC"
+CC="$(which gcc) -fPIC"
+PLATF_CONF_OPTS="--enable-shared --disable-static"
 
-# Fix up a configuration mistake coming from a test being confused
-# by the "skipping incompatible" linking messages when linking 32bit on 64bit
-perl -p -i -e 's|/usr/lib64/libm.a /usr/lib64/libc.a||' Makefile
-perl -p -i -e 's|/usr/lib64/libm.a /usr/lib64/libc.a||' */Makefile
-perl -p -i -e 's|/usr/lib64/libm.a /usr/lib64/libc.a||' */*/Makefile
-perl -p -i -e 's|/usr/lib64/libm.a /usr/lib64/libc.a||' */*/*/Makefile
+
+./configure $PLATF_CONF_OPTS \
+            --disable-silent-rules \
+            --with-thepeg=$THEPEG_ROOT \
+            --with-fastjet=$FASTJET_ROOT \
+            --with-gsl=$GSL_ROOT \
+            --with-boost=$BOOST_ROOT \
+            --with-madgraph=$MADGRAPH5AMCATNLO_ROOT \
+            --with-openloops=$OPENLOOPS_ROOT \
+            --prefix=%i \
+            CXX="$CXX" CC="$CC" CXXFLAGS="%{cms_cxxflags}" \
+	    BOOST_ROOT="$BOOST_ROOT" LDFLAGS="$LDFLAGS -L$BOOST_ROOT/lib"
 
 make %makeprocesses
 
@@ -32,4 +54,4 @@ make %makeprocesses
 make install
 
 %post
-%{relocateConfig}share/Herwig++/HerwigDefaults.rpo
+%{relocateConfig}share/Herwig7/HerwigDefaults.rpo
