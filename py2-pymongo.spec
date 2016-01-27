@@ -1,4 +1,4 @@
-### RPM external py2-pymongo 3.0
+### RPM external py2-pymongo 2.7.2
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source: http://pypi.python.org/packages/source/p/pymongo/pymongo-%realversion.tar.gz

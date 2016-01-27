@@ -1,4 +1,4 @@
-### RPM cms PHEDEX 4.1.4
+### RPM cms PHEDEX 4.2.0pre2
 ## INITENV +PATH PATH %i/Utilities
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -48,21 +48,22 @@ rm -rf Documentation/WebSite
 rm -rf Documentation/WhitePapers
 rm -rf Migration
 rm -rf perl_lib/DMWMMON
+rm -f  perl_lib/PHEDEX/.project
 rm -f  perl_lib/PHEDEX/CLI/FakeAgent.pm
 rm -f  perl_lib/PHEDEX/CLI/SiteDataInfo.pm
 rm -f  perl_lib/PHEDEX/Core/Mail.pm
 rm -rf perl_lib/PHEDEX/Schema
 rm -rf perl_lib/PHEDEX/Namespace/SpaceCountCommon.pm
 rm -rf perl_lib/PHEDEX/Namespace/*/spacecount.pm
-rm -rf perl_lib/PHEDEX/Namespace/dcache.pm
 rm -rf perl_lib/PHEDEX/Testbed
+rm -rf perl_lib/PHEDEX/Tests
 rm -rf perl_lib/PHEDEX/Web/API
 rm -rf perl_lib/PHEDEX/Web/{C,D,F,U}*
 rm -rf perl_lib/PHEDEX/Web/S{pooler,QLSpace}.pm
 rm -rf PhEDExWeb
 rm -rf Schema
 rm -rf Testbed
-rm -rf Toolkit/DBS
+rm -rf Tests
 rm -rf Toolkit/Infrastructure
 rm -rf Toolkit/Management
 rm -rf Toolkit/Monitoring
@@ -75,7 +76,6 @@ rm -f  Utilities/CheckPhEDExContactUsercert.py
 rm -f  Utilities/CMSSWMigrate
 rm -f  Utilities/DBDump
 rm -f  Utilities/DBLoad
-rm -f  Utilities/DBSCheck
 rm -f  Utilities/GetNodeIds
 rm -f  Utilities/GrepSites
 rm -f  Utilities/FileDeleteTMDB
@@ -93,6 +93,9 @@ rm -f  Utilities/RoleMapper.pl
 rm -f  Utilities/RouterControl
 rm -f  Utilities/RunTest
 rm -f  Utilities/spacecount
+rm -f  Utilities/spacemon
+rm -f  Utilities/spacemon-read-from-datasvc
+rm -f  Utilities/spacemon-test
 rm -f  Utilities/stacc
 rm -rf Utilities/testSpace
 rm -f  Utilities/WordMunger

@@ -1,5 +1,5 @@
 diff --git a/bin/htcondor_make_runtime.sh b/bin/htcondor_make_runtime.sh
-index 92e932e..c68214a 100755
+index 3edc655..97e8c4c 100755
 --- a/bin/htcondor_make_runtime.sh
 +++ b/bin/htcondor_make_runtime.sh
 @@ -64,12 +64,12 @@ if [[ "x$RPM_RELEASE" != "x" ]]; then
@@ -18,16 +18,17 @@ index 92e932e..c68214a 100755
      popd
  
 diff --git a/scripts/cmscp.py b/scripts/cmscp.py
-index 2db87ce..338aeed 100755
+index c2b8499..a78b8fd 100755
 --- a/scripts/cmscp.py
 +++ b/scripts/cmscp.py
-@@ -1,4 +1,3 @@
+@@ -1,4 +1,4 @@
 -#!/usr/bin/env python2.6
++#!/usr/bin/env python2.7
+ from __future__ import print_function
  import warnings
  
- with warnings.catch_warnings():
 diff --git a/setup.py b/setup.py
-index 971cc9e..b2e98a0 100644
+index 4e474e1..c99ca4b 100644
 --- a/setup.py
 +++ b/setup.py
 @@ -1,4 +1,4 @@
@@ -36,4 +37,3 @@ index 971cc9e..b2e98a0 100644
  """
      NOTE: This is intended to run automagically. Keep the deps minimal
  """
-

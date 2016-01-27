@@ -1,5 +1,5 @@
-### RPM cms PHEDEX-micro 4.1.4
-## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DBS:%i/Toolkit/DropBox:%i/Toolkit/Request
+### RPM cms PHEDEX-micro 4.2.0pre2
+## INITENV +PATH PATH %i/Utilities:%i/Toolkit/DropBox:%i/Toolkit/Request
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
 %define downloadp %(echo %n | cut -f2 -d- | tr '[a-z]' '[A-Z]')
@@ -17,10 +17,6 @@ Requires: p5-time-hires p5-text-glob p5-compress-zlib p5-dbi
 Requires: p5-dbd-oracle p5-xml-parser p5-poe p5-poe-component-child
 Requires: p5-log-log4perl p5-log-dispatch p5-log-dispatch-filerotate
 Requires: p5-params-validate p5-monalisa-apmon p5-json-xs
-# CMS COMP clients
-Requires: dbs-client
-# Etc.
-Requires: python
 # Actually, it is p5-xml-parser that requires this, but it doesn't configure itself correctly
 # This is so it gets into our dependencies-setup.sh
 Requires: expat
@@ -53,20 +49,22 @@ rm -rf Documentation/WebSite
 rm -rf Documentation/WhitePapers
 rm -rf Migration
 rm -rf perl_lib/DMWMMON
+rm -rf perl_lib/PHEDEX/.project
 rm -f  perl_lib/PHEDEX/CLI/FakeAgent.pm
 rm -f  perl_lib/PHEDEX/CLI/SiteDataInfo.pm
 rm -f  perl_lib/PHEDEX/Core/Mail.pm
 rm -rf perl_lib/PHEDEX/Namespace/SpaceCountCommon.pm
 rm -rf perl_lib/PHEDEX/Namespace/*/spacecount.pm
-rm -rf perl_lib/PHEDEX/Namespace/dcache.pm
 rm -rf perl_lib/PHEDEX/Schema
 rm -rf perl_lib/PHEDEX/Testbed
+rm -rf perl_lib/PHEDEX/Tests
 rm -rf perl_lib/PHEDEX/Web/API
 rm -rf perl_lib/PHEDEX/Web/{C,D,F,U}*
 rm -rf perl_lib/PHEDEX/Web/S{pooler,SLSpace}.pm
 rm -rf PhEDExWeb
 rm -rf Schema
 rm -rf Testbed
+rm -rf Tests
 rm -rf Toolkit/Infrastructure
 rm -rf Toolkit/Management
 rm -rf Toolkit/Monitoring
@@ -95,6 +93,9 @@ rm -f  Utilities/RoleMap.txt
 rm -f  Utilities/RoleMapper.pl
 rm -f  Utilities/RouterControl
 rm -f  Utilities/spacecount
+rm -f  Utilities/spacemon
+rm -f  Utilities/spacemon-read-from-datasvc
+rm -f  Utilities/spacemon-test
 rm -f  Utilities/stacc
 rm -rf Utilities/stagercp
 rm -rf Utilities/testSpace
@@ -109,7 +110,6 @@ mkdir -p %i/etc
 tar -cf - * | (cd %i && tar -xf -)
 
 # Set permissions
-chmod 755 %i/Toolkit/DBS/*
 chmod 755 %i/Utilities/*
 
 # Copy dependencies to dependencies-setup.sh

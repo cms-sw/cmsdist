@@ -1,11 +1,11 @@
-### RPM cms crabserver 3.3.1507.rc5
+### RPM cms crabserver 3.3.1602.rc3
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 1.0.8.pre6
+%define wmcver 1.0.12_crab_1
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
 Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
@@ -13,12 +13,12 @@ Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=C
 Requires: python cherrypy py2-cjson rotatelogs py2-pycurl py2-httplib2 py2-sqlalchemy py2-cx-oracle
 Requires: py2-pyopenssl condor py2-mysqldb dbs3-pycurl-client dbs-client dbs3-client
 BuildRequires: py2-sphinx
-Patch0: crabpython2.7-setup
+#Patch1: crabserver3-setup
 
 %prep
 %setup -D -T -b 1 -n CRABServer-%{realversion}
-%patch0 -p1
 %setup -T -b 0 -n WMCore-%{wmcver}
+#%patch1 -p1
 
 %build
 touch $PWD/condor_config
@@ -29,7 +29,7 @@ PYTHONPATH=$PWD/build/lib:$PYTHONPATH
 
 cd ../CRABServer-%{realversion}
 perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/crabserver/conf.py
-echo "__version__ = \"%{realversion}\"#Automatically added during RPM build process" >> src/python/CRABInterface/__init__.py
+echo -e "\n__version__ = \"%{realversion}\"#Automatically added during RPM build process" >> src/python/CRABInterface/__init__.py
 python setup.py build_system -s CRABInterface
 
 %install

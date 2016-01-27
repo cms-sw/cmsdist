@@ -1,4 +1,4 @@
-### RPM cms dqmgui 8.1.0
+### RPM cms dqmgui 8.2.7
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH %{dynamic_path_var} %i/xlib
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
@@ -8,7 +8,7 @@
 %define webdoc_files %{installroot}/%{pkgrel}/128/doc
 %define cvs cvs://:pserver:anonymous@cmscvs.cern.ch:2401/cvs_server/repositories/CMSSW?passwd=AA_:yZZ3e
 
-Source0: git+https://github.com/rovere/dqmgui.git?obj=index128/8.1.0&export=Monitoring&output=/Monitoring.tar.gz
+Source0: git+https://github.com/rovere/dqmgui.git?obj=index128/%realversion&export=Monitoring&output=/Monitoring.tar.gz
 #Source0: git+:///build1/rovere/GUIDevelopment/GHM?obj=RovereDevelopment&export=Monitoring&output=/Monitoring.tar.gz
 #Source0: %{svn}?scheme=svn+ssh&strategy=export&module=Monitoring&output=/src.tar.gz
 # For documentation, please refer to http://cms-sw.github.io/pkgtools/fetching-sources.html
@@ -18,6 +18,7 @@ Source2: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=im
 Source3: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
 Patch0: dqmgui-rtgu
 Patch1: dqmguipython27
+Patch2: dqmgui-inspect
 
 Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root libpng libjpg classlib rotatelogs py2-pycurl py2-cjson libuuid d3 protobuf py2-argparse
 BuildRequires: py2-sphinx
@@ -33,6 +34,7 @@ chmod 644 $(find . -name *.hpp)
 
 %setup -T -b 0 -n Monitoring
 %patch1 -p1
+%patch2 -p1
 perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/*/conf.py
 
 # Adapt CMSSW sources to our build.
