@@ -28,12 +28,12 @@ PLATF_CONF_OPTS="--enable-shared --disable-static"
 # Only keep bin folder 
 ./configure $PLATF_CONF_OPTS \
             --disable-silent-rules \
-	    --prefix=/tmp \
-            --datarootdir=/tmp \
-            --bindir=%{i} \
+	    --prefix=%{i}\
             CXX="$CXX" CC="$CC" CXXFLAGS="%{cms_cxxflags}" 
 
 make %{makeprocesses}
+
+rm -rf %{i}/share
 
 %install
 make install
