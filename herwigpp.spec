@@ -12,6 +12,7 @@ Requires: openloops
 Patch0: herwigpp-missingBoostMTLib
 
 BuildRequires: autotools
+BuildRequires: gengetopt
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
