@@ -1,7 +1,9 @@
 ### RPM external starlight-toolfile 1.0
-Requires:starlight
+Requires: starlight
 
 %prep
+
+%build
 
 %install
 mkdir -p %{i}/etc/scram.d
