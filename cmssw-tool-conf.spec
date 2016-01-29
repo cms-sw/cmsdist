@@ -154,6 +154,7 @@ Requires: py2-pyparsing-toolfile
 Requires: py2-requests-toolfile
 Requires: giflib-toolfile
 Requires: libffi-toolfile
+Requires: utm-toolfile
 
 # Only for Linux platform.
 %if %islinux
