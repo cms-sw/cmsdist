@@ -4,14 +4,6 @@ Patch0: gengetopt-parallelbuild
 
 BuildRequires: autotools
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx c++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -O2 -std=c++14
-%endif
-
 %prep
 %setup -q -n gengetopt-%{realversion}
 
@@ -21,20 +13,13 @@ BuildRequires: autotools
 autoreconf -fiv
 
 %build
-CXX="$(which %{cms_cxx}) -fPIC"
-CC="$(which gcc) -fPIC"
-PLATF_CONF_OPTS="--enable-shared --disable-static"
-
 # Only keep bin folder 
-./configure $PLATF_CONF_OPTS \
-            --disable-silent-rules \
-	    --prefix=%{i}\
-            CXX="$CXX" CC="$CC" CXXFLAGS="%{cms_cxxflags}" 
+./configure --disable-silent-rules \
+	    --prefix=%{i}
 
 make %{makeprocesses}
-
-rm -rf %{i}/share
 
 %install
 make install
 
+rm -rf %{i}/share
