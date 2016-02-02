@@ -1,5 +1,5 @@
-### RPM external lhapdf 6.1.5
-%define setsversion 6.1.5f
+### RPM external lhapdf 6.1.6
+%define setsversion 6.1.6
 
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 
