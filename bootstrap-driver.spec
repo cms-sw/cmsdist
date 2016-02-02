@@ -169,7 +169,7 @@ slc*)
         libXrender libXpm libcom_err perl-Test-Harness perl-Carp perl-constant perl-PathTools
         perl-Data-Dumper perl-Digest-MD5 perl-Exporter perl-File-Path perl-File-Temp perl-Getopt-Long
         perl-Socket perl-Text-ParseWords perl-Time-Local libX11-devel libXpm-devel libXext-devel mesa-libGLU-devel
-        perl-Switch perl-Storable perl-Env"
+        perl-Switch perl-Storable perl-Env perl-Thread-Queue"
 
   slc7_aarch64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl
                               ncurses e2fsprogs krb5-libs freetype fontconfig libstdc++
