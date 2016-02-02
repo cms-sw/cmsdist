@@ -3,7 +3,7 @@ Requires: clhep
 
 %define branch cms/%{realversion}
 %define github_user cms-externals
-%define tag 3c3e91b8fe2c6a265f3ace4bc08fac4184d2490b
+%define tag 689c0da91bacd5591d85d71db0fc7cc6fec0b919
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake
