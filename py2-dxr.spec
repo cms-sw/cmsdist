@@ -15,8 +15,8 @@ Patch0: py2-dxr
 Patch1: trilite
 Patch2: py2-dxr-fix-clang-linker-flags
 Patch3: py2-dxr-clang36
-Patch4: py2-dxr-clang37
-Patch5: py2-dxr-sqlite38
+Patch4: py2-dxr-sqlite38
+Patch5: py2-dxr-clang37
 %define keep_archives true
 
 %prep
