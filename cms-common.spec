@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1121
+## REVISION 1122
 ## NOCOMPILER
 
 %if "%{?cmsroot:set}" != "set"
@@ -44,7 +44,6 @@ then
         osx106_*) compilerv=gcc421 ;;
         osx107_*) compilerv=gcc462 ;;
         osx108_*) compilerv=gcc472 ;;
-        slc7_*) compilerv=gcc493; osarch=slc7_amd64 ;;
         slc6_*) compilerv=gcc472; osarch=slc6_amd64 ;;
         slc5_*) compilerv=gcc462; osarch=slc5_amd64 ;;
         fc18_*) compilerv=gcc481; osarch=fc18_armv7hl ;;
@@ -52,6 +51,7 @@ then
         fc19_aarch64) compilerv=gcc490; osarch=fc19_aarch64 ;;
         fc22_ppc64le) compilerv=gcc530; osarch=fc22_ppc64le ;;
         slc7_aarch64) compilerv=gcc530; osarch=slc7_aarch64 ;;
+        slc7_*) compilerv=gcc493; osarch=slc7_amd64 ;;
         *) compilerv=gcc481; osarch=slc6_amd64 ;;
     esac
     echo ${osarch}_${compilerv}
