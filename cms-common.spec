@@ -1,8 +1,7 @@
 ### RPM cms cms-common 1.0
-## REVISION 1119
+## REVISION 1122
 ## NOCOMPILER
 
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 %if "%{?cmsroot:set}" != "set"
 %define cmsroot       %instroot
 %endif
@@ -30,7 +29,6 @@ cd %i/%{pkgrevision}
 cp %_sourcedir/cmsos ./common/cmsos
 cp %_sourcedir/migrate-cvsroot ./common/migrate-cvsroot
 
-%if "%online" != "true"
 cat << \EOF_CMSARCH_SH > ./common/cmsarch
 #!/bin/sh
 # We need to assume 1 compiler per platform. 
@@ -51,6 +49,9 @@ then
         fc18_*) compilerv=gcc481; osarch=fc18_armv7hl ;;
         fc19_armv7hl) compilerv=gcc481; osarch=fc19_armv7hl ;;
         fc19_aarch64) compilerv=gcc490; osarch=fc19_aarch64 ;;
+        fc22_ppc64le) compilerv=gcc530; osarch=fc22_ppc64le ;;
+        slc7_aarch64) compilerv=gcc530; osarch=slc7_aarch64 ;;
+        slc7_*) compilerv=gcc493; osarch=slc7_amd64 ;;
         *) compilerv=gcc481; osarch=slc6_amd64 ;;
     esac
     echo ${osarch}_${compilerv}
@@ -59,17 +60,6 @@ else
 fi
 
 EOF_CMSARCH_SH
-%else
-cat << \EOF_CMSARCH_SH > ./common/cmsarch
-#!/bin/sh
-if [ ! "$SCRAM_ARCH" ] ; then
-    echo %cmsplatf
-else
-    echo $SCRAM_ARCH
-fi
-
-EOF_CMSARCH_SH
-%endif
 
 ### BASH code
 
