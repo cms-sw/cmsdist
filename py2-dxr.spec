@@ -16,6 +16,7 @@ Patch1: trilite
 Patch2: py2-dxr-fix-clang-linker-flags
 Patch3: py2-dxr-clang36
 Patch4: py2-dxr-sqlite38
+Patch5: py2-dxr-clang37
 %define keep_archives true
 
 %prep
@@ -28,6 +29,7 @@ cd ..
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 mv trilite-%triliteCommit/* trilite
 %setup -T -D -n dxr-%dxrCommit
 

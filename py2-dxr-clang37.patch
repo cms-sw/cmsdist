@@ -1,0 +1,13 @@
+diff --git a/dxr/plugins/clang/dxr-index.cpp b/dxr/plugins/clang/dxr-index.cpp
+index e7cf597..460d373 100644
+--- a/dxr/plugins/clang/dxr-index.cpp
++++ b/dxr/plugins/clang/dxr-index.cpp
+@@ -128,7 +128,7 @@ private:
+   std::ostream *out;
+   std::map<std::string, FileInfo *> relmap;
+   LangOptions &features;
+-  DiagnosticConsumer *inner;
++  std::unique_ptr<clang::DiagnosticConsumer> inner;
+ 
+   FileInfo *getFileInfo(const std::string &filename) {
+     std::map<std::string, FileInfo *>::iterator it;
