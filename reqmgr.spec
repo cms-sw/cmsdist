@@ -1,4 +1,4 @@
-### RPM cms reqmgr 1.0.13.pre8
+### RPM cms reqmgr 1.0.14.pre2
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
@@ -9,7 +9,7 @@ Source: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%
 #Source: https://maxa.home.cern.ch/maxa/reqmgr-WMCore-0.9.59-rc1.tgz
 
 Requires: py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah dbs3-client
-Requires: py2-cx-oracle yui rotatelogs couchdb py2-cjson py2-sphinx py2-pycurl
+Requires: py2-cx-oracle yui rotatelogs couchdb py2-cjson py2-sphinx py2-pycurl py2-future py2-retry
 
 %prep
 %setup -b 0 -n %n
