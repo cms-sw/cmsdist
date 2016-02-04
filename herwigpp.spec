@@ -8,11 +8,13 @@ Requires: fastjet
 Requires: gengetopt
 Requires: madgraph5amcatnlo
 Requires: openloops
+Requires: lhapdf
 
 Patch0: herwigpp-missingBoostMTLib
 
 BuildRequires: autotools
 BuildRequires: gengetopt
+BuildRequires: lhapdf
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
