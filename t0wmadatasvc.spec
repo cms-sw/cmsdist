@@ -1,10 +1,10 @@
-### RPM cms t0wmadatasvc 0.0.3
+### RPM cms t0wmadatasvc 0.0.6
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 1.0.9.pre9
+%define wmcver 1.0.13
 
 Source0: git://github.com/dmwm/WMCore?obj=master/%wmcver&export=wmcore_%n&output=/wmcore_%n.tar.gz
 Source1: git://github.com/dmwm/t0wmadatasvc?obj=master/%realversion&export=%n&output=/%n.tar.gz
