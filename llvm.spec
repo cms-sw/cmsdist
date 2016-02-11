@@ -1,20 +1,20 @@
-### RPM external llvm 3.7.1
+### RPM external llvm 3.8.0rc2
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHONPATH %{i}/lib64/python$(echo $PYTHON_VERSION | cut -d. -f 1,2)/site-packages
 
 BuildRequires: python cmake ninja
 Requires: gcc zlib
 
-%define llvmCommit 33c352b3eda89abc24e7511d9045fa2e499a42e3
-%define llvmBranch cms/33c352b
-%define clangCommit 4e03a2ff1bd63b13c0ccc079ef4173e2e4ca41fc
-%define clangBranch cms/0dbefa1
-%define clangToolsExtraCommit 17700095a2b35fc7d7699afe5a6ba1961389fd59
-%define clangToolsExtraBranch cms/1770009
-%define compilerRtCommit b5214093d4c91ed5352d35ee9126665fabfa97fe
-%define compilerRtBranch cms/b521409
-%define openmpCommit bc10909fa897a985c5f346b47a88f65b920efba1
-%define openmpBranch cms/bc10909
+%define llvmCommit 6ca6b8a0c8560555aed16b880f1499a5a0b4deda
+%define llvmBranch cms/6ca6b8a
+%define clangCommit 4d52e2e024a21915e1ba07fb09a88879e24a5a1c
+%define clangBranch cms/2d49f0a
+%define clangToolsExtraCommit e85c67f94494dcf2072c959380b329454494708f
+%define clangToolsExtraBranch cms/e85c67f
+%define compilerRtCommit 37dc55daf6b6caa7ab7446383db0fdde9f1533a8
+%define compilerRtBranch cms/37dc55d
+%define openmpCommit ed91a0b16067682d791aa54730327620457f61a8
+%define openmpBranch cms/ed91a0b
 Source0: git+https://github.com/cms-externals/llvm.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%realversion-%llvmCommit&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/cms-externals/clang.git?obj=%{clangBranch}/%{clangCommit}&export=clang-%{realversion}-%{clangCommit}&module=clang-%realversion-%clangCommit&output=/clang-%{realversion}-%{clangCommit}.tgz
 Source2: git+https://github.com/cms-externals/clang-tools-extra.git?obj=%{clangToolsExtraBranch}/%{clangToolsExtraCommit}&export=clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}&module=clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}&output=/clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}.tgz
