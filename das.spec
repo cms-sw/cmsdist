@@ -11,6 +11,7 @@ Requires: mongo py2-pymongo py2-cjson py2-yaml py2-pystemmer py2-mongoengine py2
 Requires: py2-pycurl rotatelogs
 # keyword search dependencies below
 Requires: py2-jsonpath-rw py2-nltk py2-whoosh
+Requires: jemalloc
 BuildRequires: py2-sphinx
 
 # RPM macros documentation
