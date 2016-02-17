@@ -20,7 +20,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/utm.xml
     <environment name="INCLUDE" default="$UTM_BASE/include"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
-  <runtime name="UTM_XSD_DIR" value="$UTM_BASE/xsd-type"/>
+  <runtime name="UTM_XSD_DIR" value="$UTM_BASE"/>
   <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
