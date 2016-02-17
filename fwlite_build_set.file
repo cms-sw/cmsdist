@@ -25,12 +25,14 @@ DataFormats/EgammaReco
 DataFormats/EgammaTrackReco
 DataFormats/FEDRawData
 DataFormats/FWLite
+DataFormats/ForwardDetId
 DataFormats/GEMDigi
 DataFormats/GEMRecHit
 DataFormats/GeometryCommonDetAlgo
 DataFormats/GeometrySurface
 DataFormats/GeometryVector
 DataFormats/GsfTrackReco
+DataFormats/HGCRecHit
 DataFormats/HLTReco
 DataFormats/HcalDetId
 DataFormats/HcalDigi
