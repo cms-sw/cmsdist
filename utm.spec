@@ -1,4 +1,4 @@
-### RPM external utm r41757-xsd310-patch
+### RPM external utm r42528-xsd310-patch
 Source: git+https://gitlab.cern.ch/cms-l1t-utm/utm.git?obj=master/%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: gmake
 Requires: xerces-c
@@ -16,4 +16,5 @@ make %{makeprocesses} -f Makefile.standalone install
 %install
 cp -r lib %{i}/lib
 cp -r include %{i}/include
+cp -r xsd-type %{i}/xsd-type
 
