@@ -11,9 +11,9 @@ diff -u -r httpd-2.0.54.orig/modules/ssl/mod_ssl.h httpd-2.0.54/modules/ssl/mod_
  /**  Apache API hooks  */
  int          ssl_hook_Auth(request_rec *);
  int          ssl_hook_UserCheck(request_rec *);
---- modules/ssl/ssl_engine_init.c.orig	2014-10-10 21:41:50.000000000 +0200
-+++ modules/ssl/ssl_engine_init.c	2014-10-10 21:42:22.000000000 +0200
-@@ -609,9 +609,12 @@
+--- modules/ssl/ssl_engine_init.c.orig	2015-09-30 13:50:30.000000000 +0200
++++ modules/ssl/ssl_engine_init.c	2016-02-17 15:19:05.797573736 +0100
+@@ -628,9 +628,12 @@
                                     modssl_ctx_t *mctx)
  {
      SSL_CTX *ctx = mctx->ssl_ctx;
@@ -24,8 +24,8 @@ diff -u -r httpd-2.0.54.orig/modules/ssl/mod_ssl.h httpd-2.0.54/modules/ssl/mod_
 +    SSL_CTX_set_cert_verify_callback(ctx, ssl_callback_GSI_verify, blah);
 +
      SSL_CTX_set_info_callback(ctx, ssl_callback_Info);
- }
  
+ #ifdef HAVE_TLS_ALPN
 --- modules/ssl/ssl_engine_kernel.c.orig	2014-07-14 02:24:33.000000000 +0200
 +++ modules/ssl/ssl_engine_kernel.c	2014-10-10 21:19:37.000000000 +0200
 @@ -1349,6 +1349,692 @@
