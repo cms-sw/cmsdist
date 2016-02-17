@@ -1,4 +1,4 @@
-### RPM external utm-toolfile 1.0
+### RPM external utm-toolfile 1.1
 Requires: utm
 %prep
 
@@ -20,6 +20,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/utm.xml
     <environment name="INCLUDE" default="$UTM_BASE/include"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <runtime name="UTM_XSD_DIR" value="$UTM_BASE/xsd-type"/>
   <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
