@@ -1,4 +1,4 @@
-### RPM cms cmsswdata 28
+### RPM cms cmsswdata 29
 ## NOCOMPILER
 Source: none
 
@@ -37,6 +37,7 @@ Requires: data-FastSimulation-TrackingRecHitProducer
 Requires: data-RecoBTag-Combined
 Requires: data-RecoBTag-CTagging
 Requires: data-L1Trigger-L1TMuon
+Requires: data-L1Trigger-L1TGlobal
 
 %if %isnotonline
 # extra data dependencies for standard builds
