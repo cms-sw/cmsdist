@@ -2,7 +2,7 @@
 
 Requires: hepmc lhapdf
 
-%define tag 91ca04baf90e55f614db5bf1c585744e2fd0609a
+%define tag fb369df55af7e8431d6b8f984d09b906a030109a
 %define branch cms/%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
