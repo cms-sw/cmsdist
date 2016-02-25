@@ -1,4 +1,4 @@
-### RPM cms wmarchive v00.00.17
+### RPM cms wmarchive v00.00.18
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define wmcver 1.0.13.pre6
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
@@ -6,7 +6,7 @@
 %define wmcpkg WMCore
 Source0: git://github.com/dmwm/WMArchive?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
 Source1: git://github.com/dmwm/WMCore?obj=master/%wmcver&export=%wmcpkg&output=/%wmcpkg.tar.gz
-Requires: python py2-bz2file py2-pydoop py2-avro py2-pymongo mongo py2-httplib2 cherrypy py2-cjson rotatelogs
+Requires: python py2-bz2file py2-pydoop py2-avro py2-pymongo mongo py2-httplib2 cherrypy py2-cjson py2-py4j rotatelogs
 BuildRequires: py2-sphinx
 
 # RPM macros documentation
