@@ -1,4 +1,4 @@
-### RPM external herwigpp 7.0.0
+### RPM external herwigpp 7.0.1
 Source: https://www.hepforge.org/archive/herwig/Herwig-%{realversion}.tar.bz2
 Requires: boost 
 Requires: thepeg
@@ -11,6 +11,8 @@ Requires: openloops
 Requires: lhapdf
 
 Patch0: herwigpp-missingBoostMTLib
+Patch1: herwigpp-mainMakefileam
+Patch2: herwigpp-srcMakefileam
 
 BuildRequires: autotools
 BuildRequires: gengetopt
@@ -28,6 +30,8 @@ BuildRequires: lhapdf
 %setup -q -n Herwig-%{realversion}
 
 %patch0 -p1 
+%patch1 -p1
+%patch2 -p1
 
 # Regenerate build scripts
 autoreconf -fiv
