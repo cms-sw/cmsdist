@@ -1,0 +1,13 @@
+diff --git a/gdb/configure.ac b/gdb/configure.ac
+index 70452d3..a394451 100644
+--- a/gdb/configure.ac
++++ b/gdb/configure.ac
+@@ -952,7 +952,7 @@ else
+     if test -n "${python_prefix}"; then
+       AC_DEFINE_UNQUOTED(WITH_PYTHON_PATH, "${python_prefix}",
+                          [Define if --with-python provides a path, either directly or via python-config.py --exec-prefix.])
+-      GDB_AC_DEFINE_RELOCATABLE(PYTHON_PATH, python, ${python_prefix})
++      AC_DEFINE_UNQUOTED(PYTHON_PATH_RELOCATABLE, 1, [Define if the python directory should be relocated when GDB is moved.])
+     fi
+   fi
+ fi

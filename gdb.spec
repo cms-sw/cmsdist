@@ -1,6 +1,7 @@
 ### RPM external gdb 7.11
 Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 
+Patch0: gdb-7.11-define-PYTHON_PATH_RELOCATABLE
 Patch1: gdb-disable-makeinfo
 Patch2: gdb-7.10-tgetent-in-ncurses
 
@@ -10,6 +11,7 @@ BuildRequires: autotools
 
 %prep
 %setup -n %n-%realversion
+%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 
