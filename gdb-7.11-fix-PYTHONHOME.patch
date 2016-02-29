@@ -1,0 +1,52 @@
+diff --git a/gdb/python/python.c b/gdb/python/python.c
+index 7202105..8ee713e 100644
+--- a/gdb/python/python.c
++++ b/gdb/python/python.c
+@@ -1707,47 +1707,6 @@ message == an error message without a stack will be printed."),
+ 			&user_show_python_list);
+ 
+ #ifdef HAVE_PYTHON
+-#ifdef WITH_PYTHON_PATH
+-  /* Work around problem where python gets confused about where it is,
+-     and then can't find its libraries, etc.
+-     NOTE: Python assumes the following layout:
+-     /foo/bin/python
+-     /foo/lib/pythonX.Y/...
+-     This must be done before calling Py_Initialize.  */
+-  progname = concat (ldirname (python_libdir), SLASH_STRING, "bin",
+-		     SLASH_STRING, "python", NULL);
+-#ifdef IS_PY3K
+-  oldloc = setlocale (LC_ALL, NULL);
+-  setlocale (LC_ALL, "");
+-  progsize = strlen (progname);
+-  if (progsize == (size_t) -1)
+-    {
+-      fprintf (stderr, "Could not convert python path to string\n");
+-      return;
+-    }
+-  progname_copy = (wchar_t *) PyMem_Malloc ((progsize + 1) * sizeof (wchar_t));
+-  if (!progname_copy)
+-    {
+-      fprintf (stderr, "out of memory\n");
+-      return;
+-    }
+-  count = mbstowcs (progname_copy, progname, progsize + 1);
+-  if (count == (size_t) -1)
+-    {
+-      fprintf (stderr, "Could not convert python path to string\n");
+-      return;
+-    }
+-  setlocale (LC_ALL, oldloc);
+-
+-  /* Note that Py_SetProgramName expects the string it is passed to
+-     remain alive for the duration of the program's execution, so
+-     it is not freed after this call.  */
+-  Py_SetProgramName (progname_copy);
+-#else
+-  Py_SetProgramName (progname);
+-#endif
+-#endif
+-
+   Py_Initialize ();
+   PyEval_InitThreads ();
+ 
