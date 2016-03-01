@@ -1,14 +1,13 @@
-### RPM external graphviz 2.16.1
+### RPM external graphviz 2.38.0
 Source: http://www.graphviz.org/pub/%{n}/ARCHIVE/%{n}-%{realversion}.tar.gz  
-Requires: expat zlib libjpg libpng 
+Requires: expat zlib libjpg libpng
 
 %prep
 %setup -n %{n}-%{realversion}
 
 %build
-which gcc
 case %cmsplatf in
-    slc*)
+    slc*|fc*)
         ADDITIONAL_OPTIONS="--with-freetype2=no --disable-shared --enable-static --disable-ltdl"
     ;;
     osx*)
@@ -16,6 +15,7 @@ case %cmsplatf in
     ;;
 esac
 ./configure \
+  --disable-silent-rules \
   --with-expatlibdir=$EXPAT_ROOT/lib \
   --with-expatincludedir=$EXPAT_ROOT/include \
   --with-zincludedir=$ZLIB_ROOT/include \
@@ -37,6 +37,7 @@ esac
   --without-pangocairo \
   --without-fontconfig \
   --without-gdk-pixbuf \
+  --with-libgd=no \
   --disable-sharp \
   --disable-guile \
   --disable-java \
@@ -45,32 +46,23 @@ esac
   --disable-perl \
   --disable-php \
   --disable-python \
+  --with-qt=no \
   --prefix=%{i} \
   $ADDITIONAL_OPTIONS
 
-# Probably the configure should just be remade on Darwin, but it builds
-# as-is with this small cleanup
-#perl -p -i -e "s|-lexpat||g;s|-ljpeg||g" configure
-# make %makeprocesses
-make 
+make %{makeprocesses}
 
 %install
 make install
 %define drop_files %{i}/share
-# We remove pkg-config files for two reasons:
-# * it's actually not required (macosx does not even have it).
-# * rpm 4.8 adds a dependency on the system /usr/bin/pkg-config 
-#   on linux.
-# In the case at some point we build a package that can be build
-# only via pkg-config we have to think on how to ship our own
-# version.
-rm -rf %i/lib/pkgconfig
+
+rm -rf %{i}/lib/pkgconfig
 
 # To match configure options above
-case %cmsplatf in
-    slc*)
-        ln -s dot_static %i/bin/dot
+case %{cmsplatf} in
+    slc*|fc*)
+        ln -s dot_static %{i}/bin/dot
     ;;
 esac
 # Drop static libraries.
-rm -rf %i/lib/*.{l,}a
+rm -rf %{i}/lib/*.{l,}a
