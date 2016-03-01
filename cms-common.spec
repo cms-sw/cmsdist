@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1122
+## REVISION 1123
 ## NOCOMPILER
 
 %if "%{?cmsroot:set}" != "set"
