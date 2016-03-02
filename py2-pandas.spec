@@ -1,4 +1,4 @@
-### RPM external py2-pandas 0.16.0
+### RPM external py2-pandas 0.17.1
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
 Source: https://pypi.python.org/packages/source/p/pandas/pandas-%{realversion}.tar.gz
 Patch0: py2-pandas-0.16.0
