@@ -10,6 +10,7 @@
 %define isnotppc64le %(case %{cmsplatf} in (*_ppc64le_*) echo 0 ;; (*) echo 1 ;; esac)
 %define isnotaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 0 ;; (*) echo 1 ;; esac)
 
+Requires: starlight-toolfile
 Requires: alpgen-toolfile
 Requires: boost-toolfile
 Requires: bz2lib-toolfile
