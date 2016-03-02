@@ -162,6 +162,7 @@ Requires: py2-requests-toolfile
 Requires: giflib-toolfile
 Requires: freetype-toolfile
 Requires: utm-toolfile
+Requires: libffi-toolfile
 
 # Only for Linux platform.
 %if %islinux
