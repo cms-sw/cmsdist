@@ -12,8 +12,11 @@ case %{cmsplatf} in
   *) KERBEROS_ROOT=/usr ;;
 esac
 
+unset MAGIC
+
 ./configure \
   --prefix=%{i} \
+  --disable-silent-rules \
   --disable-static \
   --without-libidn \
   --disable-ldap \
