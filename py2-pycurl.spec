@@ -7,9 +7,9 @@ Requires: python curl openssl
 %setup -n pycurl-%{realversion}
 
 %build
-python setup.py --with-openssl build
+python setup.py --with-openssl --openssl-dir=${OPENSSL_ROOT} build
 
 %install
-python setup.py --with-openssl install --prefix=%{i}
+python setup.py --with-openssl --openssl-dir=${OPENSSL_ROOT} install --prefix=%{i}
 find %{i}/${PYTHON_LIB_SITE_PACKAGES} -name '*.egg-info' -print0 | xargs -0 rm -rf
 rm -rf %{i}/share
