@@ -1,12 +1,8 @@
 ### RPM cms cmssw-ib 1.0.0
 BuildRequires: cmssw SCRAMV1 local-cern-siteconf python
 %define initenv	        %initenv_direct
-#%define name1 1937
-#%define moduleName LogParser
-#%define url HTMLFiles/
-#Source: svn://svn.cern.ch/reps/CMSIntBld/tags/LogParser/parser?scheme=svn+ssh&revision=%{name1}&module=%{moduleName}&output=/%{moduleName}.tar.gz
-Source: svn://svn.cern.ch/reps/CMSIntBld/trunk/IntBuild?scheme=svn+ssh&revision=2829&module=IntBuild&output=/IntBuild.tar.gz
 %define scram $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
+Source: https://raw.githubusercontent.com/cms-sw/cms-bot/06e51060ee577aa9ee76eeac76539d246137561b/buildLogAnalyzer.py
 
 %prep
 %setup -n IntBuild
@@ -29,7 +25,7 @@ CMSSW_MAJOR_MINOR=`echo $CMSSW_VERSION | sed -e 's/CMSSW_\([0-9]*\)_\([0-9]*\).*
 pushd %cmsroot/WEB/build-logs/%cmsplatf/$CMSSW_VERSION/logs/src
   tar xzf src-logs.tgz
 popd
-$PYTHON_CMD %_builddir/IntBuild/IB/buildLogAnalyzer.py \
+$PYTHON_CMD %_sourcedir/buildLogAnalyzer.py \
             -r $CMSSW_VERSION \
             -p $CMSSW_ROOT/src/PackageList.cmssw \
             --logDir %cmsroot/WEB/build-logs/%cmsplatf/$CMSSW_VERSION/logs/src \
