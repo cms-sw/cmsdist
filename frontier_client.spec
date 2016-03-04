@@ -1,4 +1,4 @@
-### RPM external frontier_client 2.8.16
+### RPM external frontier_client 2.8.18
 ## INITENV +PATH PYTHONPATH %{i}/python/lib
 
 Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
