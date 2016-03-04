@@ -5,7 +5,6 @@ BuildRequires: cmssw SCRAMV1 local-cern-siteconf python
 Source: https://raw.githubusercontent.com/cms-sw/cms-bot/06e51060ee577aa9ee76eeac76539d246137561b/buildLogAnalyzer.py
 
 %prep
-%setup -n IntBuild
 cd ..
 %build
 cd $CMSSW_ROOT
