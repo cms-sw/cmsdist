@@ -1,5 +1,5 @@
-### RPM external protobuf 2.4.1
-Source: http://protobuf.googlecode.com/files/protobuf-%realversion.tar.bz2
+### RPM external protobuf 2.6.1
+Source: https://github.com/google/protobuf/releases/download/v%{realversion}/protobuf-%{realversion}.tar.gz
 Requires: zlib
 
 %prep
