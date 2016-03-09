@@ -66,6 +66,16 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm-cxxcompiler.xml
   </tool>
 EOF_TOOLFILE
 
+cat << \EOF_TOOLFILE >%{i}/etc/scram.d/iwyu-cxxcompiler.xml
+  <tool name="iwyu-cxxcompiler" version="@LLVM_VERSION@" type="compiler">
+    <use name="llvm-cxxcompiler"/>
+    <client>
+      <environment name="LLVM_CXXCOMPILER_BASE" default="@LLVM_ROOT@"/>
+      <environment name="CXX" value="$LLVM_CXXCOMPILER_BASE/bin/include-what-you-use"/>
+    </client>
+  </tool>
+EOF_TOOLFILE
+
 cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm-ccompiler.xml
   <tool name="llvm-ccompiler" version="@LLVM_VERSION@" type="compiler">
     <use name="gcc-ccompiler"/>
