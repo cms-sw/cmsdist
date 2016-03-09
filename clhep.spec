@@ -36,7 +36,7 @@ cd ../build
 ninja install
 
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
-rm %i/lib/libCLHEP-[A-Z]*-%realversion.$so
+rm -f %i/lib/libCLHEP-[A-Z]*-%realversion.$so
 
 %post
 %{relocateConfig}bin/Evaluator-config
