@@ -21,7 +21,8 @@ export CLHEP_PARAM_PATH=${CLHEP_ROOT}
 cmake ../%{n}-%{realversion} \
  -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
  -DCMAKE_BUILD_TYPE=Realease \
- -DENABLE_CLHEP=ON
+ -DENABLE_CLHEP=ON \
+ -DCPP11=ON
 
 make %{makeprocesses} VERBOSE=1
 
