@@ -1,0 +1,40 @@
+diff --git a/FecSoftwareV3_0/generic/include/hashMapDefinition.h b/FecSoftwareV3_0/generic/include/hashMapDefinition.h
+index 484b45d..d7eb424 100755
+--- a/FecSoftwareV3_0/generic/include/hashMapDefinition.h
++++ b/FecSoftwareV3_0/generic/include/hashMapDefinition.h
+@@ -22,7 +22,10 @@
+ #include <string.h>
+ // Compatibility with the G++ version 3.X
+ // Retreive from http://gcc.gnu.org/onlinedocs/libstdc++/faq/
+-#ifdef __GNUC__
++// __GNUC__ and other macros are defined by other compilers (Clang, ICC, etc)
++// to communicate feature compatibility level (e.g. 4.2.1). They cannot be
++// used alone to identify the current compiler.
++#if defined(__GNUC__) && !defined(__clang__) && !defined(__INTEL_COMPILER)
+ #define GNUCV  __GNUC__*10+__GNUC_MINOR__
+ //#if __GNUC__ < 
+ #if GNUCV < 30
+@@ -41,8 +44,13 @@ namespace Sgi = ::__gnu_cxx;       // GCC 3.1 and later
+ namespace Sgi = std;
+ #define hash_map unordered_map
+ #endif
+-#else      // ...  there are other compilers, right?
++#else // __GNUC__ && !defined(__clang__) && !defined(__INTEL_COMPILER)
++// The below setup are for non-GNU compiler
++#if defined(__clang__) || defined(__INTEL_COMPILER)
++#include <unordered_map>
+ namespace Sgi = std;
++#define hash_map unordered_map
++#endif // defined(__clang__) || defined(__INTEL_COMPILER)
+ #endif
+ 
+ // To have hash_map hash_map<const char *, ...>
+@@ -51,7 +59,7 @@ namespace Sgi = std;
+ // doesn't work with (notably the string template, which is pretty much standard across all STL implementations). 
+ // You need to supply some extra code yourself, for the hash function to work correctly with other parts of the STL, 
+ // which are standard across all implementations.
+-#if  GNUCV < 44
++#if defined(__GNUC__) && !defined(__clang__) && !defined(__INTEL_COMPILER) && GNUCV < 44
+ struct eqstr
+ {
+   bool operator()(const char* s1, const char* s2) const
