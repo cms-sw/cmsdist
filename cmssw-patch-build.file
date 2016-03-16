@@ -74,10 +74,13 @@
 
 %define PatchReleaseDependencyInfo \
   gunzip -c %{parent_release_fpath}/etc/dependencies/usedby.out.gz   > %i/etc/dependencies/usedbyAll.out ;\
+  gunzip -c %{parent_release_fpath}/etc/dependencies/bfusedby.out.gz > %i/etc/dependencies/bfusedbyAll.out ;\
   gunzip -c %{parent_release_fpath}/etc/dependencies/pyusedby.out.gz > %i/etc/dependencies/pyusedbyAll.out ;\
   cat %i/etc/dependencies/usedby.out     >> %i/etc/dependencies/usedbyAll.out ;\
+  cat %i/etc/dependencies/bfusedby.out   >> %i/etc/dependencies/bfusedbyAll.out ;\
   cat %i/etc/dependencies/pyusedby.out   >> %i/etc/dependencies/pyusedbyAll.out ;\
   mv -f %i/etc/dependencies/usedbyAll.out   %i/etc/dependencies/usedby.out ;\
+  mv -f %i/etc/dependencies/bfusedbyAll.out %i/etc/dependencies/bfusedby.out ;\
   mv -f %i/etc/dependencies/pyusedbyAll.out %i/etc/dependencies/pyusedby.out
   
 %if "%{?must_have_packages:set}" == "set"
