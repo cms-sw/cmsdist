@@ -1,10 +1,10 @@
-### RPM external tkonlinesw 2.7.0
+### RPM external tkonlinesw 4.0.0-1
 
 %define projectname trackerDAQ
-%define releasename %{projectname}-%{realversion}
-Source0: http://cms-trackerdaq-service.web.cern.ch/cms-trackerdaq-service/download/sources/trackerDAQ-2.7.0-10.tgz
+%define releasename %{projectname}-4.0-tkonline
+Source0: http://cms-trackerdaq-service.web.cern.ch/cms-trackerdaq-service/download/sources/trackerDAQ-%{realversion}.tgz
 Patch0: tkonlinesw-2.7.0-macosx
-Patch1: tkonlinesw-2.7.0-fix-gcc46
+Patch1: tkonlinesw-4.0-clang-hash_map
 
 # NOTE: given how broken the standard build system is
 #       on macosx, it's not worth fixing it.
@@ -20,15 +20,16 @@ Requires: oracle
 Requires: xerces-c
 Requires: gmake
 Requires: systemtools
+Requires: root
 
 %prep
 %setup -q -n %releasename
+%patch1 -p1
 case %cmsos in 
   osx*)
 %patch0 -p1
   ;;
 esac
-%patch1 -p1
 # Clean up some mysterious old build within the sources that screws
 # up the install by copying in an old libFed9UUtils.so 
 # (this is really needed) 
@@ -38,8 +39,6 @@ perl -p -i -e "s|-Werror||" FecSoftwareV3_0/generic/Makefile
 
 
 %build
-echo "pwd: $PWD"
-
 ###############################################################################
 # Tracker Specific Definitions for running, should just be this ...
 ################################################################################
@@ -69,7 +68,6 @@ export ENV_CMS_TK_LASTGBOARD=%{_builddir}/%releasename/LAS
 # We use an empty directory because the path neeeds to exist.
 mkdir -p %i/dummy/Linux/lib
 export ENV_CMS_TK_HAL_ROOT=%{i}/dummy/Linux
-export ROOTSYS=%{i}/dummy/Linux
 export ENV_CMS_TK_CAEN_ROOT=%{i}/dummy/Linux
 export ENV_CMS_TK_SBS_ROOT=%{i}/dummy/Linux
 export ENV_CMS_TK_TTC_ROOT=%{i}/dummy/Linux
@@ -143,6 +141,6 @@ esac
 case %cmsos in
   slc*)
     # Option --prefix in configure is not working yet, using tar:
-    tar -c -C  %{_builddir}/%{releasename}/opt/%{projectname} --exclude "libcppunit.so" include lib | tar -x -C %{i}
+    tar -c -C  %{_builddir}/%{releasename}/opt/%{projectname} include lib | tar -x -C %{i}
   ;;
 esac
