@@ -1,4 +1,4 @@
 ### RPM external geant4-G4ENSDFSTATE 1.2.2
-%define G4RunTime G4ENSDFSTATE
+%define G4RunTime G4ENSDFSTATEDATA
 
 ## IMPORT geant4-data-rpm
