@@ -1,4 +1,4 @@
-### RPM cms wmarchive v00.00.23
+### RPM cms wmarchive v00.00.25
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define wmcver 1.0.13.pre6
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
@@ -47,7 +47,7 @@ tar --exclude '.buildinfo' -C doc/build/html -cf - . | tar -C %i/doc -xvf -
 
 # install static files
 mkdir -p %i/data/storage
-cp -r src/{js,css,images,templates} %i/data
+cp -r src/{js,css,images,templates,maps} %i/data
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
