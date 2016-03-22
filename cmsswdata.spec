@@ -68,7 +68,7 @@ for DATA_PATH in %directpkgreqs; do
     mkdir -p $RPM_INSTALL_PREFIX/share/$DATA_PATH/$PKG_DATA
     rsync -a $SOURCE/$PKG_DATA/ $RPM_INSTALL_PREFIX/share/$DATA_PATH/$PKG_DATA/
     rm -rf $SOURCE/$PKG_DATA
-    ln -s $RPM_INSTALL_PREFIX/share/$DATA_PATH/$PKG_DATA/ $SOURCE/$PKG_DATA
+    ln -fs ../../../../share/$DATA_PATH/$PKG_DATA $SOURCE/$PKG_DATA
   fi
 done
 
