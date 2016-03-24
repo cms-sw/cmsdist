@@ -61,7 +61,6 @@ Requires: photos-toolfile
 Requires: photospp-toolfile
 Requires: pythia6-toolfile
 Requires: pythia8-toolfile
-Requires: libffi-toolfile
 Requires: python-toolfile
 %if %isnotaarch64
 Requires: qt-toolfile
