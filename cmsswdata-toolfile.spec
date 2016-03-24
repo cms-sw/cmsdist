@@ -20,14 +20,11 @@ cat << \EOF_TOOLFILE > %i/searchpath.xml
     <runtime name="CMSSW_DATA_PATH" value="$CMSSWDATA_BASE" type="path"/>
 EOF_TOOLFILE
 
-for tool in `echo %requiredtools | tr ' ' '\n' | grep 'data-'` ; do
-  uctool=`echo $tool | tr '-' '_' | tr '[a-z]' '[A-Z]'`
-  toolbase=`eval echo \\$${uctool}_ROOT`
-  if [ "X$toolbase" = X ] ; then exit 1 ; fi
-  toolver=`basename $toolbase | sed 's|-cms[0-9]*||'`
-  pack=`echo $tool | sed 's|data-||;s|-|/|'`
+for toolbase in `echo %pkgreqs | tr ' ' '\n' | grep 'cms/data-'` ; do
+  toolver=`basename $toolbase`
+  pack=`echo $toolbase | cut -d/ -f2 | sed 's|data-||;s|-|/|'`
   echo "      <flags CMSSW_DATA_PACKAGE=\"$pack=$toolver\"/>" >> %i/etc/scram.d/cmsswdata.xml
-  echo "    <runtime name=\"CMSSW_SEARCH_PATH\" default=\"$toolbase\" type=\"path\"/>" >> %i/searchpath.xml
+  echo "    <runtime name=\"CMSSW_SEARCH_PATH\" default=\"%cmsroot/share/$toolbase\" type=\"path\"/>" >> %i/searchpath.xml
 done
 
 cat %i/searchpath.xml >> %i/etc/scram.d/cmsswdata.xml

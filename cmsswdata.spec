@@ -59,3 +59,16 @@ Requires: data-GeneratorInterface-ReggeGribovPartonMCInterface
 %post
 echo "%{BaseTool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 echo "set %{BaseTool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
+
+for DATA_PATH in %directpkgreqs; do
+  SOURCE=$RPM_INSTALL_PREFIX/%{cmsplatf}/$DATA_PATH
+  PKG_DATA=$(ls $SOURCE | grep -v etc*)
+  if [ -d $SOURCE/$PKG_DATA ] ; then
+    echo "Moving $DATA_PATH in $SHARED"
+    mkdir -p $RPM_INSTALL_PREFIX/share/$DATA_PATH/$PKG_DATA
+    rsync -a $SOURCE/$PKG_DATA/ $RPM_INSTALL_PREFIX/share/$DATA_PATH/$PKG_DATA/
+    rm -rf $SOURCE/$PKG_DATA
+    ln -fs ../../../../share/$DATA_PATH/$PKG_DATA $SOURCE/$PKG_DATA
+  fi
+done
+
