@@ -1,4 +1,4 @@
-### RPM cms das v02.17.04
+### RPM cms das v02.19.01
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define wmcver 0.8.3
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
@@ -11,6 +11,7 @@ Requires: mongo py2-pymongo py2-cjson py2-yaml py2-pystemmer py2-mongoengine py2
 Requires: py2-pycurl rotatelogs
 # keyword search dependencies below
 Requires: py2-jsonpath-rw py2-nltk py2-whoosh
+Requires: jemalloc
 BuildRequires: py2-sphinx
 
 # RPM macros documentation

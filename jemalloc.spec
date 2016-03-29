@@ -1,21 +1,20 @@
-### RPM cms confdb 1.3.5
-Source: git://github.com/cms-sw/web-confdb?obj=Server/%realversion&export=%n&output=/%n.tar.gz
-Requires: python cherrypy oracle oracle-env py2-cx-oracle py2-sqlalchemy py2-marshmallow
-Requires: rotatelogs pystack
+### RPM external jemalloc 4.0.4
+Source: http://www.canonware.com/download/jemalloc/jemalloc-%realversion.tar.bz2
+Requires: gcc autotools
 
 %prep
-%setup -n %n
+%setup -n %n-%{realversion}
 
 %build
+perl -p -i -e 's|-no-cpp-precomp||' configure
+./configure --prefix %i
 
 %install
-cp -rp Server/Application_py266 %i/
-rm %i/Application_py266/Config.py
-rm %i/Application_py266/ConfDBAuth.py
-python -m compileall %i/Application_py266 || true
+make
+make install
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
-mkdir -p %i/etc/profile.d/
+mkdir -p %i/etc/profile.d
 : > %i/etc/profile.d/dependencies-setup.sh
 : > %i/etc/profile.d/dependencies-setup.csh
 for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
@@ -28,3 +27,6 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
+
+%files
+%{installroot}/%{pkgrel}/
