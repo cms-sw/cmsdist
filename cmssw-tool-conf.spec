@@ -156,6 +156,7 @@ Requires: py2-requests-toolfile
 Requires: giflib-toolfile
 Requires: utm-toolfile
 Requires: libffi-toolfile
+Requires: CSCTrackFinderEmulation-toolfile
 
 # Only for Linux platform.
 %if %islinux
