@@ -1,4 +1,4 @@
-### RPM external CSCTrackFinderEmulation-toolfile 1.0
+### RPM cms CSCTrackFinderEmulation-toolfile 1.0
 Requires: CSCTrackFinderEmulation
 %prep
 
