@@ -1,4 +1,4 @@
-### RPM external CSCTrackFinderEmulation 1.0
+### RPM cms CSCTrackFinderEmulation 1.0
    
 %define tag 2165a0914634bd792386cae47ef07183aaa975f4
 %define branch cms/CMSSW_8_1_X
