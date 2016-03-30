@@ -9,7 +9,7 @@ Requires: gcc zlib
 %define llvmBranch cms/ad57503
 %define clangCommit 9d882b05dd2dbb030eb167be4d04383b70eade5a
 %define clangBranch cms/ad2c56e
-%define clangToolsExtraCommit e85c67f94494dcf2072c959380b329454494708f
+%define clangToolsExtraCommit 7d6c30d59a9194c32490da554b00086f35c2d115
 %define clangToolsExtraBranch cms/e85c67f
 %define compilerRtCommit 37dc55daf6b6caa7ab7446383db0fdde9f1533a8
 %define compilerRtBranch cms/37dc55d
@@ -17,7 +17,7 @@ Requires: gcc zlib
 %define openmpBranch cms/ed91a0b
 %define iwyuCommit 067ca5007508c813ac250b2d839d22277b4b39a4
 %define iwyuBranch cms/067ca50
-%define lldCommit 02308fd461e93bc1ae8f9fb6e3ed34a1f95f77e4
+%define lldCommit 8c7332f06b3aa8a649b3bb92154b764b17e2ac48
 %define lldBranch cms/02308fd
 Source0: git+https://github.com/cms-externals/llvm.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%realversion-%llvmCommit&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/cms-externals/clang.git?obj=%{clangBranch}/%{clangCommit}&export=clang-%{realversion}-%{clangCommit}&module=clang-%realversion-%clangCommit&output=/clang-%{realversion}-%{clangCommit}.tgz
@@ -85,6 +85,9 @@ find %{_builddir}/llvm-%{realversion}-%{llvmCommit}/tools/clang/tools/scan-view 
 # DEFAULT_INSTALL_POSTAMBLE will fail. These are non-object files.
 # TODO: Improve DEFAULT_INSTALL_POSTAMBLE for OS X.
 rm -f %{i}/bin/FileRadar.scpt %{i}/bin/GetRadarVersion.scpt
+
+# Avoid dependency on /usr/bin/python, Darwin + Xcode specific
+rm -f %{i}/bin/set-xcode-analyzer
 
 %post
 %{relocateConfig}include/llvm/Config/llvm-config.h
