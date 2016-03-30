@@ -50,13 +50,13 @@ mkdir -p %i/include %i/lib %i/bin
 %define extradirs %{nil}
 %endif
 
-dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${NCURSES_ROOT} ${DB4_ROOT} ${GDBM_ROOT} %{extradirs}"
-
 # We need to export it because setup.py now uses it to determine the actual
 # location of DB4, this was needed to avoid having it picked up from the system.
 export DB4_ROOT
 export READLINE_ROOT
 export NCURSES_ROOT
+
+dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${NCURSES_ROOT} ${DB4_ROOT} ${GDBM_ROOT} ${READLINE_ROOT} %{extradirs}"
 
 # Python's configure parses LDFLAGS and CPPFLAGS to look for aditional library and include directories
 echo $dirs
