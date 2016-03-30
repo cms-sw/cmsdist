@@ -1,10 +1,10 @@
-### RPM external sqlite 3.8.11.1
-Source: https://www.sqlite.org/2015/sqlite-autoconf-3081101.tar.gz
+### RPM external sqlite 3.12.0
+Source: https://www.sqlite.org/2016/sqlite-autoconf-3120000.tar.gz
 
 Requires: readline ncurses
 
 %prep
-%setup -n sqlite-autoconf-3081101
+%setup -n sqlite-autoconf-3120000
 
 %build
 ./configure --build="%{_build}" --host="%{_host}" --prefix=%{i} \
