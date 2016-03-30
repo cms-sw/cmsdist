@@ -16,7 +16,7 @@ Requires: rotatelogs pystack py2-psutil wmcore-devtools
 # Other
 Requires: wmagent-dev condor crabtaskworker t0 couchdb15 crab-devtools
 Requires: PHEDEX-combined-agents PHEDEX-lifecycle lifecycle-das
-Requires: DCAFPilot py2-future compsec
+Requires: DCAFPilot py2-future compsec wmarchive
 
 
 %prep

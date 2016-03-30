@@ -5,7 +5,7 @@
 %define pkg WMArchive
 %define wmcpkg WMCore
 Source0: git://github.com/dmwm/WMArchive?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
-Source1: git://github.com/dmwm/WMCore?obj=master/%wmcver&export=%wmcpkg&output=/%wmcpkg.tar.gz
+Source1: git://github.com/dmwm/WMCore?obj=master/%wmcver&export=%{wmcpkg}_%n&output=/%{wmcpkg}_%n.tar.gz
 Requires: python py2-bz2file py2-pydoop py2-avro py2-pymongo mongo py2-httplib2 cherrypy py2-cjson py2-py4j java-jdk rotatelogs
 BuildRequires: py2-sphinx
 
@@ -16,7 +16,7 @@ BuildRequires: py2-sphinx
 %setup -T -D -a 1
 
 %build
-cd WMCore
+cd %{wmcpkg}_%n
 python setup.py build_system -s wmc-rest
 cd ../WMArchive
 
@@ -35,7 +35,7 @@ mkdir -p build
 make html
 
 %install
-cd WMCore
+cd %{wmcpkg}_%n
 python setup.py install_system -s wmc-rest --prefix=%i
 cd ../WMArchive
 
