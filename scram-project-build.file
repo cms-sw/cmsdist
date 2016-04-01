@@ -307,9 +307,9 @@ done
 for L in `find external/%cmsplatf -type l`; do
   lnk=`readlink -n $L 2>&1`
   case $lnk in
-     %{cmsroot}/%{cmsplatf}/*)
+     %{cmsroot}/*)
        rl=`echo $L | sed -e 's|[^/]*/|../|g;' | xargs dirname`
-       al=`echo $lnk | sed -e "s|^%{cmsroot}/%{cmsplatf}/|../../../$rl/|"`
+       al=`echo $lnk | sed -e "s|^%{cmsroot}/|../../../../$rl/|"`
        rm -f $L
        ln -sf  $al $L
        ;;
