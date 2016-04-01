@@ -1,5 +1,6 @@
 ### RPM external herwigpp 7.0.1
 Source: https://www.hepforge.org/archive/herwig/Herwig-%{realversion}.tar.bz2
+Requires: lhapdf
 Requires: boost 
 Requires: thepeg
 Requires: gsl 
@@ -8,11 +9,8 @@ Requires: fastjet
 Requires: gengetopt
 Requires: madgraph5amcatnlo
 Requires: openloops
-Requires: lhapdf
 
 Patch0: herwigpp-missingBoostMTLib
-Patch1: herwigpp-mainMakefileam
-Patch2: herwigpp-srcMakefileam
 
 BuildRequires: autotools
 BuildRequires: gengetopt
@@ -30,8 +28,7 @@ BuildRequires: lhapdf
 %setup -q -n Herwig-%{realversion}
 
 %patch0 -p1 
-%patch1 -p1
-%patch2 -p1
+
 
 # Regenerate build scripts
 autoreconf -fiv
@@ -41,6 +38,8 @@ CXX="$(which %{cms_cxx}) -fPIC"
 CC="$(which gcc) -fPIC"
 PLATF_CONF_OPTS="--enable-shared --disable-static"
 
+# Export LHAPDF_DATA_PATH since it is needed during make
+LHAPDF_DATA_PATH="$LHAPDF_ROOT/share/LHAPDF"
 
 ./configure $PLATF_CONF_OPTS \
             --disable-silent-rules \
@@ -52,7 +51,8 @@ PLATF_CONF_OPTS="--enable-shared --disable-static"
             --with-openloops=$OPENLOOPS_ROOT \
             --prefix=%i \
             CXX="$CXX" CC="$CC" CXXFLAGS="%{cms_cxxflags}" \
-	    BOOST_ROOT="$BOOST_ROOT" LDFLAGS="$LDFLAGS -L$BOOST_ROOT/lib"
+	    BOOST_ROOT="$BOOST_ROOT" LDFLAGS="$LDFLAGS -L$BOOST_ROOT/lib" \
+            LHAPDF_DATA_PATH="$LHAPDF_ROOT/share/LHAPDF"
 
 make %makeprocesses
 

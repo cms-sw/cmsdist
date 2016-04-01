@@ -17,7 +17,10 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/herwigpp.xml
   <runtime name="HERWIGPATH" value="$HERWIGPP_BASE/share/Herwig7"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
+  <use name="lhapdf"/>
   <use name="thepeg"/>
+  <use name="madgraph5amcatnlo"/>
+  <use name="openloops"/>
 </tool>
 EOF_TOOLFILE
 
