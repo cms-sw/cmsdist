@@ -162,6 +162,7 @@ Requires: giflib-toolfile
 Requires: freetype-toolfile
 Requires: utm-toolfile
 Requires: libffi-toolfile
+Requires: CSCTrackFinderEmulation-toolfile
 
 # Only for Linux platform.
 %if %islinux
