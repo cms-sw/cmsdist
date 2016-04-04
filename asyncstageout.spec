@@ -5,7 +5,7 @@
 ## INITENV +PATH PERL5LIB %i/Monitor/perl_lib
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 1.0.13.pre5
+%define wmcver 1.0.15.pre3
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{wmcver}.tar.gz
 Source1: git://github.com/dmwm/AsyncStageout.git?obj=master/%{realversion}&export=AsyncStageout-%{realversion}&output=/AsyncStageout-%{realversion}.tar.gz
