@@ -6,14 +6,6 @@ Requires: python cython
 
 Patch0: rivet-1.4.0
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx g++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -O2 -std=c++11
-%endif
-
 %prep
 %setup -n rivet/%{realversion}
 %patch0 -p0
@@ -40,7 +32,7 @@ done
             --with-yaml-cpp=${YAML_CPP_ROOT} \
             --disable-doxygen --disable-pdfmanual --with-pic \
             PYTHONPATH=${CYTHON_ROOT}/${PYTHON_LIB_SITE_PACKAGES} \
-            CXX="$(which %cms_cxx)" CXXFLAGS="%cms_cxxflags" CPPFLAGS="-I${BOOST_ROOT}/include"
+            CXX="$(which g++)" CPPFLAGS="-I${BOOST_ROOT}/include"
 
 # The following hack insures that the bins with the library linked explicitly
 # rather than indirectly, as required by the gold linker
