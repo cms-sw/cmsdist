@@ -1,33 +1,29 @@
-### RPM external doxygen 1.8.5
+### RPM external doxygen 1.8.11
 
 Source: http://ftp.stack.nl/pub/users/dimitri/%{n}-%{realversion}.src.tar.gz
-BuildRequires: flex bison graphviz autotools
+BuildRequires: flex bison graphviz autotools gmake cmake
 
-%define drop_files %{i}/man
-
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx g++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++11
-%endif
+#define drop_files %{i}/man
 
 %prep
 %setup -n %{n}-%{realversion}
 
 %build
-export M4=`which m4`
+rm -rf ../build
+mkdir -p ../build
+cd ../build
 
-./configure \
-  --prefix %{i} \
-  --release \
-  --english-only
+export M4=$(which m4)
 
-make %{makeprocesses} \
-  CXX="%{cms_cxx}" \
-  CXXFLAGS="-pipe -fno-exceptions -fno-rtti -D_LARGEFILE_SOURCE -DENGLISH_ONLY -DOS_OBJECT_USE_OBJC=0 -Wall -W -O2 %{cms_cxxflags}"
+cmake ../%{n}-%{realversion} \
+  -DCMAKE_INSTALL_PREFIX="%{i}" \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_VERBOSE_MAKEFILE=TRUE \
+  -Dbuild_doc=OFF \
+  -Denglish_only=ON
+
+make %{makeprocesses}
 
 %install
-
+cd ../build
 make install
