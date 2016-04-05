@@ -7,14 +7,6 @@ BuildRequires: autotools
 %define keep_archives true
 %define drop_files %{i}/share
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx g++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++11
-%endif
-
 %prep
 %setup -n gmp-%{realversion}
 
@@ -26,9 +18,7 @@ BuildRequires: autotools
   --disable-shared \
   --enable-static \
   --enable-cxx \
-  --with-pic \
-  CXX="%{cms_cxx}" \
-  CXXFLAGS="%{cms_cxxflags}"
+  --with-pic
 
 make %{makeprocesses}
 
