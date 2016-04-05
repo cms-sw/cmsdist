@@ -14,14 +14,6 @@ BuildRequires: autotools
 # FIXME: rivet?
 %define keep_archives true
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx c++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -O2 -std=c++11
-%endif
-
 %prep
 %setup -q -n thepeg-%{realversion}-%{tag}
 
@@ -29,7 +21,7 @@ BuildRequires: autotools
 autoreconf -fiv
 
 %build
-CXX="$(which %{cms_cxx}) -fPIC"
+CXX="$(which g++) -fPIC"
 CC="$(which gcc) -fPIC"
 PLATF_CONF_OPTS="--enable-shared --disable-static"
 
@@ -51,7 +43,7 @@ chmod +x ./Config/config.{sub,guess}
             --with-hepmc=$HEPMC_ROOT \
             --with-gsl=$GSL_ROOT --with-zlib=$ZLIB_ROOT \
             --without-javagui --prefix=%{i} \
-            --disable-readline CXX="$CXX" CC="$CC" CXXFLAGS="%{cms_cxxflags}" \
+            --disable-readline CXX="$CXX" CC="$CC" \
             LIBS="-lz $LIBQUADMATH"
 
 make %{makeprocesses}
