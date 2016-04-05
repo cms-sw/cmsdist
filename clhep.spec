@@ -7,14 +7,6 @@ Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export
 
 BuildRequires: cmake ninja
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx g++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x
-%endif
-
 %prep
 %setup -n %{n}-%{realversion}
 
@@ -25,8 +17,6 @@ cd ../build
 
 cmake ../%{n}-%{realversion} \
   -G Ninja \
-  -DCMAKE_CXX_COMPILER="%cms_cxx" \
-  -DCMAKE_CXX_FLAGS="%{cms_cxxflags}" \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_BUILD_TYPE=RelWithDebInfo
 
