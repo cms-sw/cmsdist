@@ -5,14 +5,6 @@
 
 Source: svn://svn.code.sf.net/p/dmtcp/code/trunk?scheme=svn&revision=%{pkg_revision}&module=%{n}&output=/%{n}.tar.gz
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx g++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++11
-%endif
-
 %define drop_files %{i}/share
 
 %prep
@@ -22,9 +14,7 @@ Source: svn://svn.code.sf.net/p/dmtcp/code/trunk?scheme=svn&revision=%{pkg_revis
 ./configure \
   --prefix=%{i} \
   --disable-test-suite \
-  --disable-dependency-tracking \
-  CXX="%{cms_cxx}" \
-  CXXFLAGS="%{cms_cxxflags}"
+  --disable-dependency-tracking
 
 make %{makeprocesses}
 
