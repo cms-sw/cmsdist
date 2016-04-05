@@ -1,10 +1,10 @@
-### RPM external gcc 5.3.0
+### RPM external gcc 6.0.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
-%define gccRevision 231255
-%define gccBranch tags/gcc_5_3_0_release
+%define gccRevision 234743
+%define gccBranch trunk
 
 %define moduleName gcc-%(echo %{gccBranch} | tr / _)-%{gccRevision}
 Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{gccRevision}&output=/%{moduleName}.tar.gz
@@ -18,7 +18,7 @@ Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{
 %define gmpVersion 6.1.0
 %define mpfrVersion 3.1.3
 %define mpcVersion 1.0.3
-%define islVersion 0.14
+%define islVersion 0.16.1
 %define zlibVersion 1.2.8
 Source1: http://davidlt.web.cern.ch/davidlt/vault/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
@@ -29,9 +29,9 @@ Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 %if %islinux
 %define bisonVersion 3.0.4
 %define binutilsVersion 2.25.1
-%define elfutilsVersion 0.164
+%define elfutilsVersion 0.166
 %define m4Version 1.4.17
-%define flexVersion 2.5.39
+%define flexVersion 2.6.0
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
 Source8: http://ftp.gnu.org/gnu/binutils/binutils-%{binutilsVersion}.tar.bz2
 Source9: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
