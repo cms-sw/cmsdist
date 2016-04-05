@@ -4,14 +4,6 @@ Requires: hepmc
 
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/photos++/photos++-%{realversion}-src.tgz
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx c++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++11 -g -O2
-%endif
-
 %define keep_archives true
 
 %prep
@@ -26,7 +18,7 @@ chmod +x ./config/config.{sub,guess}
 export HEPMCLOCATION=${HEPMC_ROOT}
 export HEPMCVERSION=${HEPMC_VERSION}
 
-./configure --prefix=%{i} --with-hepmc=${HEPMC_ROOT} CXXFLAGS="%cms_cxxflags"
+./configure --prefix=%{i} --with-hepmc=${HEPMC_ROOT}
 
 %ifos darwin
 perl -p -i -e "s|-shared|-dynamiclib -undefined dynamic_lookup|" make.inc
