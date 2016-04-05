@@ -4,13 +4,9 @@ Source: http://ftp.gnome.org/pub/GNOME/sources/libsigc++/%{majorv}/libsigc++-%{r
 
 BuildRequires: autotools
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx c++ -std=c++11
-%endif
-
 %prep
 %setup -q -n libsigc++-%{realversion}
-./configure --prefix=%{i} --disable-static CXX="%cms_cxx"
+./configure --prefix=%{i} --disable-static
 
 %build
 make %{makeprocesses}
