@@ -1,13 +1,9 @@
 ### RPM external boost 1.57.0
 
-%define tag 040a06a
+%define tag b9346cdd050cf4bf60b756a41594d44951050fae
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%n.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++11 -O2
-%endif
 
 Requires: python bz2lib zlib
 
@@ -50,7 +46,6 @@ b2 -q \
    link=shared \
    threading=multi \
    variant=release \
-   cxxflags="%{cms_cxxflags}" \
    -sBZIP2_INCLUDE=${BZ2LIB_ROOT}/include \
    -sBZIP2_LIBPATH=${BZ2LIB_ROOT}/lib \
    -sZLIB_INCLUDE=${ZLIB_ROOT}/include \
