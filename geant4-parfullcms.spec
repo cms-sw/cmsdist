@@ -18,7 +18,7 @@ cd build-ParFullCMS
 
 cmake .. \
   -DCMAKE_CXX_COMPILER="g++" \
-  -DCMAKE_CXX_FLAGS="-std=c++11" \
+  -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_INSTALL_LIBDIR="lib" \
   -DCMAKE_BUILD_TYPE=Release \
