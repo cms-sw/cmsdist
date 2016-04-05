@@ -10,14 +10,13 @@ Requires: clhep
 Requires: expat
 Requires: xerces-c
 
-%define keep_archives true
+Patch0: geant4.10.00.p03-add-cxx14-cxx1z-options
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx g++
-%endif
+%define keep_archives true
 
 %prep
 %setup -n %{n}.%{realversion}
+%patch0 -p1
 
 %build
 
@@ -31,13 +30,13 @@ mkdir ../build
 cd ../build
 
 cmake ../%{n}.%{realversion} \
-  -DCMAKE_CXX_COMPILER="%cms_cxx" \
+  -DCMAKE_CXX_COMPILER="g++" \
   -DCMAKE_CXX_FLAGS="-fPIC" \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_INSTALL_LIBDIR="lib" \
   -DCMAKE_BUILD_TYPE=Release \
   -DGEANT4_USE_GDML=ON \
-  -DGEANT4_BUILD_CXXSTD:STRING="c++11" \
+  -DGEANT4_BUILD_CXXSTD:STRING="c++14" \
   -DGEANT4_BUILD_TLS_MODEL:STRING="global-dynamic" \
   -DGEANT4_ENABLE_TESTING=OFF \
   -DBUILD_SHARED_LIBS=ON \

@@ -1,0 +1,13 @@
+diff --git a/cmake/Modules/Geant4MakeRules_cxx.cmake b/cmake/Modules/Geant4MakeRules_cxx.cmake
+index c48940e..a5b7cee 100644
+--- a/cmake/Modules/Geant4MakeRules_cxx.cmake
++++ b/cmake/Modules/Geant4MakeRules_cxx.cmake
+@@ -51,7 +51,7 @@ function(__configure_cxxstd_gnu)
+   elseif(_gnucxx_version VERSION_LESS 4.7)
+     set(_CXXSTDS "c++98" "c++0x")
+   else()
+-    set(_CXXSTDS "c++98" "c++0x" "c++11")
++    set(_CXXSTDS "c++98" "c++0x" "c++11" "c++14" "c++1z")
+   endif()
+ 
+   set(CXXSTD_IS_AVAILABLE ${_CXXSTDS} PARENT_SCOPE)
