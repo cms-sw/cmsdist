@@ -4,14 +4,6 @@ Source: http://archive.apache.org/dist/xml/xerces-c/sources/xerces-c-src_%xerces
 Patch0: xerces-c-2.8.0-osx106
 Patch1: xerces-c-2.8.0-fix-narrowing-conversion
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx g++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x
-%endif
-
 %prep
 %setup -n xerces-c-src_%xercesv
 
@@ -33,7 +25,6 @@ curl -L -k -s -o ./config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;
 curl -L -k -s -o ./config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
 chmod +x ./config.{sub,guess}
 
-export CXXFLAGS="%cms_cxxflags"
 export VERBOSE=1
 
 case %cmsplatf in
@@ -46,11 +37,11 @@ esac
 
 case %{cmsplatf} in
   slc*_amd64_*)
-    ./runConfigure -P%{i} -plinux -cgcc -x%{cms_cxx} ;;
+    ./runConfigure -P%{i} -plinux -cgcc -xg++ ;;
   *_aarch64_*|*_ppc64le_*)
-    ./runConfigure -P%{i} -b 64 -plinux -cgcc -x%{cms_cxx} ;;
+    ./runConfigure -P%{i} -b 64 -plinux -cgcc -xg++ ;;
   osx*)
-    ./runConfigure -P%{i} -b 64 -pmacosx -nnative -rnone -cgcc -x%{cms_cxx} ;;
+    ./runConfigure -P%{i} -b 64 -pmacosx -nnative -rnone -cgcc -xg++ ;;
   *)
     echo "Unsupported configuration. Please modify SPEC file accordingly."
     exit 1
