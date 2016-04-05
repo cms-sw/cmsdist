@@ -15,14 +15,6 @@ Requires: boost yaml-cpp python cython
 
 %define keep_archives true
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx c++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -O2 -std=c++0x
-%endif
-
 %prep
 %setup -q -n %{n}/%{realversion}
 
