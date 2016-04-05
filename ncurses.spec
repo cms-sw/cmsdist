@@ -18,7 +18,7 @@ Source: ftp://invisible-island.net/ncurses/current/ncurses-%{realversion}.tgz
             --without-manpages \
             --enable-termcap
 
-make %{makeprocesses} CFLAGS="-O2 -fPIC" CXXFLAGS="-O2 -fPIC -std=c++11"
+make %{makeprocesses} CFLAGS="-O2 -fPIC" CXXFLAGS="-O2 -fPIC"
 
 %install
 make install
