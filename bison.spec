@@ -1,4 +1,6 @@
 ### RPM external bison 3.0.4
+## INITENV SET BISON_PKGDATADIR %{i}/share/bison
+
 Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 
 BuildRequires: autotools
@@ -21,3 +23,6 @@ make %{makeprocesses}
 
 %install
 make install
+
+%post
+%{relocateConfig}bin/yacc
