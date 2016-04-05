@@ -6,6 +6,8 @@
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
+Patch0: root-6.06.00-fix-hex-float
+
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
@@ -30,6 +32,7 @@ Requires: freetype
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 rm -rf ../build
@@ -47,6 +50,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_CXX_COMPILER=g++ \
   -DCMAKE_F_COMPILER=gfortran \
   -DCMAKE_LINKER=ld \
+  -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -Dfail-on-missing=ON \
   -Dgnuinstall=OFF \
   -Droofit=ON \
@@ -74,7 +78,7 @@ cmake ../%{n}-%{realversion} \
   -Dbuiltin_lzma=OFF \
   -Dbuiltin_gsl=OFF \
   -DGSL_CONFIG_EXECUTABLE="$(which gsl-config)" \
-  -Dcxx11=ON \
+  -Dcxx14=ON \
   -Dssl=ON \
   -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
   -DOPENSSL_INCLUDE_DIR="${OPENSSL_ROOT}/include" \
