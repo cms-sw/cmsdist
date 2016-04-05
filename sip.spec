@@ -1,6 +1,6 @@
-### RPM external sip 4.11.2
+### RPM external sip 4.17
 ## INITENV +PATH PYTHONPATH %i/lib/python$(echo $PYTHON_VERSION |cut -d. -f 1,2)/site-packages
-%define tag 51f6c53b52d0330ba46ecfd772a0a03db18ec75f
+%define tag f5f49b1c14cd058c2736ade2fef0abb0765b8be4
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
