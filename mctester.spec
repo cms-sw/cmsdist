@@ -13,14 +13,6 @@ BuildRequires: autotools
 
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx g++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -O2 -std=c++0x
-%endif
-
 %prep
 %setup -q -n %{n}/%{realversion}
 %patch0 -p2
@@ -28,9 +20,7 @@ BuildRequires: autotools
 ./configure \
   --with-HepMC=${HEPMC_ROOT} \
   --with-root=${ROOT_ROOT} \
-  --prefix=%i \
-  CXX="%cms_cxx" \
-  CXXFLAGS="%cms_cxxflags"
+  --prefix=%i
 
 %build
 make
