@@ -18,7 +18,7 @@ curl -L -k -s -o ./plugins/SISCone/siscone/config.sub 'http://git.savannah.gnu.o
 curl -L -k -s -o ./plugins/SISCone/siscone/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
 chmod +x ./plugins/SISCone/siscone/config.{sub,guess}
 
-CXXFLAGS="-O3 -Wall -ffast-math -std=c++11 -ftree-vectorize"
+CXXFLAGS="-O3 -Wall -ffast-math -ftree-vectorize"
 
 case %{cmsplatf} in
     *_amd64_*) CXXFLAGS="${CXXFLAGS} -msse3" ;;
