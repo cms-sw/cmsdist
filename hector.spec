@@ -6,14 +6,6 @@ Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export
 
 Requires: root
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx g++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++11
-%endif
-
 %prep
 %setup -q -n %{n}-%{realversion}
 mkdir -p obj lib
@@ -28,7 +20,7 @@ esac
 # Add CXX and CXXFLAGS to Makefile and increase output versbose level
 sed -ibak "s/@g++/\$(CXX) \$(CXXFLAGS)/g" Makefile
 
-make CXX="%cms_cxx" CXXFLAGS="%cms_cxxflags"
+make
 
 %install
 tar -c . | tar -x -C %i
