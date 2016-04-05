@@ -13,14 +13,6 @@ Requires: xz
 Requires: openssl
 Requires: zlib 
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx g++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x -O2
-%endif
-
 %prep
 %setup -n %n-%realversion
 %patch0 -p1
@@ -54,7 +46,7 @@ perl -p -i -e '
   !/^\S+: / && s{\S+LZO((C|Dec)ompressor|Constants|Error)\S+}{}g' \
  Makefile
 
-make %makeprocesses CXX="%cms_cxx" CXXFLAGS="-Wno-error=extra -ansi -pedantic -W -Wall -Wno-long-long -Werror %cms_cxxflags"
+make %makeprocesses CXXFLAGS="-Wno-error=extra -ansi -pedantic -W -Wall -Wno-long-long -Werror"
 
 %install
 make %makeprocesses install
