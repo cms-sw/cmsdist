@@ -8,14 +8,6 @@ Requires: gmp-static mpfr-static
 
 Requires: boost zlib
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx g++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++11
-%endif
-
 %define drop_files %{i}/{share,bin} %{i}/lib/CGAL
 
 %prep
@@ -30,8 +22,6 @@ export GMP_LIB_DIR="${GMP_STATIC_ROOT}/lib"
 export GMP_INC_DIR="${GMP_STATIC_ROOT}/include"
 
 cmake . \
-  -DCMAKE_CXX_COMPILER:STRING="%{cms_cxx}" \
-  -DCMAKE_CXX_FLAGS:STRING="%{cms_cxxflags}" \
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
   -DCMAKE_SKIP_RPATH:BOOL=YES \
   -DWITH_BLAS:BOOL=OFF \
