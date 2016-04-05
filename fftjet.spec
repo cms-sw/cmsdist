@@ -4,21 +4,13 @@ Requires: fftw3
 
 %define keep_archives true
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx c++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x -O2
-%endif
-
 %prep
 %setup -n %n-%realversion
 
 %build
 PLATF_CONF_OPTS="--enable-static --disable-shared"
 F77="$(which gfortran) -fPIC"
-CXX="$(which %{cms_cxx}) -fPIC"
+CXX="$(which g++) -fPIC"
 
 # Update to detect aarch64 and ppc64le
 rm -f ./config.{sub,guess}
@@ -32,8 +24,7 @@ chmod +x ./config.{sub,guess}
 touch pkg-config ; chmod +x pkg-config
 ./configure $PLATF_CONF_OPTS --disable-dependency-tracking --enable-threads \
             --prefix=%i F77="$F77" CXX="$CXX" DEPS_CFLAGS=-I$FFTW3_ROOT/include \
-            DEPS_LIBS="-L$FFTW3_ROOT/lib -lfftw3" PKG_CONFIG=$PWD/pkg-config \
-            CXXFLAGS="%cms_cxxflags"
+            DEPS_LIBS="-L$FFTW3_ROOT/lib -lfftw3" PKG_CONFIG=$PWD/pkg-config
 make %makeprocesses
 
 %install
