@@ -4,14 +4,6 @@ Patch1: heppdt-2.03.00-nobanner
 Patch2: heppdt-3.03.00-silence-debug-output 
 %define keep_archives yes
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx g++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -O2 -std=c++0x
-%endif
-
 %prep
 %setup -q -n HepPDT-%{realversion}
 %patch1 -p1
@@ -23,7 +15,7 @@ curl -L -k -s -o ./config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;
 curl -L -k -s -o ./config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
 chmod +x ./config.{sub,guess}
 
-CXX="%cms_cxx" CXXFLAGS="%cms_cxxflags" ./configure  --prefix=%{i} 
+./configure  --prefix=%{i}
 
 %build
 make 
