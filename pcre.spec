@@ -3,10 +3,6 @@ Source0: http://downloads.sourceforge.net/%{n}/%{n}-%{realversion}.tar.bz2
 
 Requires: bz2lib zlib
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx c++ -std=c++11
-%endif
-
 %prep
 %setup -b 0 -n %{n}-%{realversion}
 
@@ -17,8 +13,7 @@ Requires: bz2lib zlib
   --enable-pcregrep-libbz2 \
   --prefix=%{i} \
   CPPFLAGS="-I${BZ2LIB_ROOT}/include -I${ZLIB_ROOT}/include" \
-  LDFLAGS="-L${BZ2LIB_ROOT}/lib -L${ZLIB_ROOT}/lib" \
-  CXX="%cms_cxx"
+  LDFLAGS="-L${BZ2LIB_ROOT}/lib -L${ZLIB_ROOT}/lib"
 make
 
 %install
