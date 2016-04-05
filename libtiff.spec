@@ -3,14 +3,6 @@ Source: http://download.osgeo.org/libtiff/tiff-%{realversion}.zip
 
 Requires: libjpeg-turbo zlib
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx g++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++11 -O2
-%endif
-
 %prep
 %setup -n tiff-%{realversion}
 
@@ -27,8 +19,7 @@ chmod +x ./config/config.{sub,guess}
             --with-jpeg-lib-dir=${LIBJPEG_TURBO_ROOT}/lib \
             --with-jpeg-include-dir=${LIBJPEG_TURBO_ROOT}/include \
             --disable-dependency-tracking \
-            --without-x \
-            CXX="%cms_cxx" CXXFLAGS="%cms_cxxflags"
+            --without-x
                           
 make %{makeprocesses}
 
