@@ -8,7 +8,7 @@ Requires: fastjet
 
 %prep
 %setup -n %{n}-%{realversion}
-./configure --prefix=%{i} --fastjet-config=${FASTJET_ROOT}/bin/fastjet-config CXXFLAGS="-std=c++11 -I${FASTJET_ROOT}/include"
+./configure --prefix=%{i} --fastjet-config=${FASTJET_ROOT}/bin/fastjet-config CXXFLAGS="-I${FASTJET_ROOT}/include"
 
 %build
 make
