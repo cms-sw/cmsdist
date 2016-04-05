@@ -9,14 +9,6 @@ Requires: autotools
 %define keep_archives true
 %define drop_files %i/share
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx c++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -O2 -std=c++0x
-%endif
-
 %prep
 %setup -q -n HepMC-%{realversion}
 %patch0 -p0
@@ -24,7 +16,7 @@ Requires: autotools
 %patch2 -p1
 
 F77="$(which gfortran) -fPIC"
-CXX="$(which %{cms_cxx}) -fPIC"
+CXX="$(which g++) -fPIC"
 PLATF_CONFIG_OPTS="--enable-static --disable-shared"
 
 perl -p -i -e 's|glibtoolize|libtoolize|g' ./bootstrap
@@ -32,7 +24,7 @@ perl -p -i -e 's|glibtoolize|libtoolize|g' ./bootstrap
 export HEPMC_NODOC=1
 
 ./bootstrap
-./configure $PLATF_CONFIG_OPTS --prefix=%{i} --with-momentum=GEV --with-length=MM F77="$F77" CXX="$CXX" CXXFLAGS="%cms_cxxflags"
+./configure $PLATF_CONFIG_OPTS --prefix=%{i} --with-momentum=GEV --with-length=MM F77="$F77" CXX="$CXX"
 
 %build
 make %makeprocesses
