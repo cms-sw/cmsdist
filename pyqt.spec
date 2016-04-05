@@ -1,6 +1,6 @@
-### RPM external pyqt 4.8.1
+### RPM external pyqt 4.11.4
 ## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
-%define tag f909ea86706cd38b2d8b14d03205e896104b3c9b
+%define tag 2d7924145efbdb1eafa9032646d828088c5950d5
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
