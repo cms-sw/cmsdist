@@ -2,14 +2,6 @@
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/herwig++/herwig++-%{realversion}-src.tgz
 Requires: boost thepeg gsl hepmc
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx g++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -O2 -std=c++0x
-%endif
-
 %prep
 %setup -q -n herwig++/%{realversion}
 
@@ -22,7 +14,7 @@ chmod +x ./Config/config.{sub,guess}
 
 ./configure \
   --disable-silent-rules --with-gsl=$GSL_ROOT --with-thepeg=$THEPEG_ROOT --with-boost=${BOOST_ROOT} --prefix=%i \
-  CXXFLAGS="-fuse-cxa-atexit %cms_cxxflags" CXX="%cms_cxx"
+  CXXFLAGS="-fuse-cxa-atexit"
 
 # Fix up a configuration mistake coming from a test being confused
 # by the "skipping incompatible" linking messages when linking 32bit on 64bit
