@@ -5,6 +5,7 @@ Patch0: blackhat-gcc48
 Patch1: blackhat-0.9.9-armv7hl
 Patch2: blackhat-no_warnings
 Patch3: blackhat-0.9.9-default-arg-at-first-decl
+Patch4: blackhat-0.9.9-gcc600
 
 Requires: qd python openssl
 %prep
@@ -14,6 +15,7 @@ Requires: qd python openssl
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 # Update to detect aarch64 and ppc64le
 rm -f ./config.{sub,guess}

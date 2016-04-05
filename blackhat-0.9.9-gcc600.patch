@@ -1,0 +1,90 @@
+diff --git a/src/Interface/OptionsHandler.hpp b/src/Interface/OptionsHandler.hpp
+index 869f7b3..3d751f5 100644
+--- a/src/Interface/OptionsHandler.hpp
++++ b/src/Interface/OptionsHandler.hpp
+@@ -154,23 +154,23 @@ template <class TargetType> bool SettingsTableOption<TargetType>::process(std::i
+ template <class TargetType> multipleValueOption<TargetType>::multipleValueOption(const std::string& name, TargetType& valueToSet,
+ 		const std::string& name1, const TargetType& value1,
+ 		const std::string& helpString): NamedOption(name,helpString), d_valueToSet(valueToSet) {
+-	d_nameMap.insert(std::make_pair<std::string,TargetType>(name1,value1));
++	d_nameMap.insert(std::make_pair(name1,value1));
+ }
+ template <class TargetType> multipleValueOption<TargetType>::multipleValueOption(const std::string& name, TargetType& valueToSet,
+ 		const std::string& name1, const TargetType& value1,
+ 		const std::string& name2, const TargetType& value2,
+ 		const std::string& helpString): NamedOption(name,helpString), d_valueToSet(valueToSet) {
+-	d_nameMap.insert(std::make_pair<std::string,TargetType>(name1,value1));
+-	d_nameMap.insert(std::make_pair<std::string,TargetType>(name2,value2));
++	d_nameMap.insert(std::make_pair(name1,value1));
++	d_nameMap.insert(std::make_pair(name2,value2));
+ }
+ template <class TargetType> multipleValueOption<TargetType>::multipleValueOption(const std::string& name, TargetType& valueToSet,
+ 		const std::string& name1, const TargetType& value1,
+ 		const std::string& name2, const TargetType& value2,
+ 		const std::string& name3, const TargetType& value3,
+ 		const std::string& helpString): NamedOption(name,helpString), d_valueToSet(valueToSet) {
+-	d_nameMap.insert(std::make_pair<std::string,TargetType>(name1,value1));
+-	d_nameMap.insert(std::make_pair<std::string,TargetType>(name2,value2));
+-	d_nameMap.insert(std::make_pair<std::string,TargetType>(name3,value3));
++	d_nameMap.insert(std::make_pair(name1,value1));
++	d_nameMap.insert(std::make_pair(name2,value2));
++	d_nameMap.insert(std::make_pair(name3,value3));
+ }
+ template <class TargetType> multipleValueOption<TargetType>::multipleValueOption(const std::string& name, TargetType& valueToSet,
+ 		const std::string& name1, const TargetType& value1,
+@@ -178,10 +178,10 @@ template <class TargetType> multipleValueOption<TargetType>::multipleValueOption
+ 		const std::string& name3, const TargetType& value3,
+ 		const std::string& name4, const TargetType& value4,
+ 		const std::string& helpString): NamedOption(name,helpString), d_valueToSet(valueToSet) {
+-	d_nameMap.insert(std::make_pair<std::string,TargetType>(name1,value1));
+-	d_nameMap.insert(std::make_pair<std::string,TargetType>(name2,value2));
+-	d_nameMap.insert(std::make_pair<std::string,TargetType>(name3,value3));
+-	d_nameMap.insert(std::make_pair<std::string,TargetType>(name4,value4));
++	d_nameMap.insert(std::make_pair(name1,value1));
++	d_nameMap.insert(std::make_pair(name2,value2));
++	d_nameMap.insert(std::make_pair(name3,value3));
++	d_nameMap.insert(std::make_pair(name4,value4));
+ }
+ template <class TargetType> multipleValueOption<TargetType>::multipleValueOption(const std::string& name, TargetType& valueToSet,
+ 		const std::string& name1, const TargetType& value1,
+@@ -190,11 +190,11 @@ template <class TargetType> multipleValueOption<TargetType>::multipleValueOption
+ 		const std::string& name4, const TargetType& value4,
+ 		const std::string& name5, const TargetType& value5,
+ 		const std::string& helpString): NamedOption(name,helpString), d_valueToSet(valueToSet) {
+-	d_nameMap.insert(std::make_pair<std::string,TargetType>(name1,value1));
+-	d_nameMap.insert(std::make_pair<std::string,TargetType>(name2,value2));
+-	d_nameMap.insert(std::make_pair<std::string,TargetType>(name3,value3));
+-	d_nameMap.insert(std::make_pair<std::string,TargetType>(name4,value4));
+-	d_nameMap.insert(std::make_pair<std::string,TargetType>(name5,value5));
++	d_nameMap.insert(std::make_pair(name1,value1));
++	d_nameMap.insert(std::make_pair(name2,value2));
++	d_nameMap.insert(std::make_pair(name3,value3));
++	d_nameMap.insert(std::make_pair(name4,value4));
++	d_nameMap.insert(std::make_pair(name5,value5));
+ }
+ 
+ 
+diff --git a/src/cut_Darren.h b/src/cut_Darren.h
+index 0b42769..e79eace 100644
+--- a/src/cut_Darren.h
++++ b/src/cut_Darren.h
+@@ -41,7 +41,7 @@ namespace BH {
+ #define JOIN( X, Y ) JOIN2(X,Y)
+ #define JOIN2( X, Y ) X##Y
+ 
+-namespace static_assert
++namespace static_assert_private
+ {
+     template <bool> struct STATIC_ASSERT_FAILURE;
+     template <> struct STATIC_ASSERT_FAILURE<true> { enum { value = 1 }; };
+@@ -50,8 +50,8 @@ namespace static_assert
+ }
+ 
+ #define COMPILE_ASSERT(x) \
+-    typedef ::static_assert::static_assert_test<\
+-        sizeof(::static_assert::STATIC_ASSERT_FAILURE< (bool)( x ) >)>\
++    typedef ::static_assert_private::static_assert_test<\
++        sizeof(::static_assert_private::STATIC_ASSERT_FAILURE< (bool)( x ) >)>\
+             JOIN(_static_assert_typedef, __LINE__)
+ 
+ #else // __cplusplus
