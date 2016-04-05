@@ -8,7 +8,6 @@
 %define patchLevel %(echo %realversion | cut -d- -f2)
 
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
-%define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 %if %isamd64
@@ -25,19 +24,11 @@ Patch2: castor-2.1.13.9-fix-arm-m32-option
 Patch3: castor-2.1.13.9-fix-arm-type-limits
 Patch4: castor-2.1.13.9-fix-link-libuuid
 
-%if %isonline
-Requires: onlinesystemtools
-%else
 Requires: libuuid
-%endif
 
 # Ugly kludge : forces libshift.x.y to be in the provides (rpm only puts libshift.so.x)
 # root rpm require .x.y
 Provides: libshift.so.%(echo %realversion |cut -d. -f1,2)%{libsuffix}
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x
-%endif
 
 %prep
 %setup -n castor-%{baseVersion}
