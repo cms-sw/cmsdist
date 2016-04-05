@@ -17,7 +17,7 @@ chmod +x ./config.{sub,guess}
   --without-gtk \
   --without-gnome \
   --without-avahi \
-  CFLAGS="-O2 -Wno-unused-but-set-variable -Wno-unused-local-typedefs -Wno-unused-parameter" \
+  CFLAGS="-O2 -Wno-unused-but-set-variable -Wno-unused-local-typedefs -Wno-unused-parameter -Wno-unused-const-variable" \
   CC="$(which gcc)" \
   PYTHON=${PYTHON_ROOT}/bin/python
 
