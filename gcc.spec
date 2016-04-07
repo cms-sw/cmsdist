@@ -3,7 +3,7 @@
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
-%define gccRevision 234743
+%define gccRevision 234771
 %define gccBranch trunk
 
 %define moduleName gcc-%(echo %{gccBranch} | tr / _)-%{gccRevision}
@@ -45,6 +45,16 @@ Patch1: gcc-flex-disable-doc
 %prep
 
 %setup -T -b 0 -n %{moduleName}
+
+# Filter out private stuff from RPM requires headers.
+cat << \EOF > %{name}-req
+#!/bin/sh
+%{__find_requires} $* | \
+sed -e '/GLIBC_PRIVATE/d'
+EOF
+
+%global __find_requires %{_builddir}/%{moduleName}/%{name}-req
+chmod +x %{__find_requires}
 
 %if %islinux
 %if %isamd64
@@ -142,7 +152,7 @@ make install
   CONF_BINUTILS_OPTS="--enable-gold=yes --enable-ld=default --enable-lto --enable-plugins --enable-threads"
   CONF_GCC_WITH_LTO="--enable-gold=yes --enable-ld=default --enable-lto" # --with-build-config=bootstrap-lto
 
-  # Build M4
+  # Build M4 (for building)
   cd ../m4-%{m4Version}
   ./configure --prefix=%{i}/tmp/sw \
               --build=%{_build} --host=%{_host} \
@@ -151,7 +161,15 @@ make install
   make install
   hash -r
 
-  # Build Flex
+  # Build Bison (for building)
+  cd ../bison-%{bisonVersion}
+  ./configure --build=%{_build} --host=%{_host} \
+              --prefix=%{i}/tmp/sw CC="$CC"
+  make %{makeprocesses}
+  make install
+  hash -r
+
+  # Build Flex (for building)
   cd ../flex-%{flexVersion}
   ./configure --disable-nls --prefix=%{i}/tmp/sw \
               --build=%{_build} --host=%{_host} \
@@ -160,25 +178,8 @@ make install
   make install
   hash -r
 
-  # Build Bison
-  cd ../bison-%{bisonVersion}
-  ./configure --build=%{_build} --host=%{_host} \
-              --prefix=%{i}/tmp/sw CC="$CC"
-  make %{makeprocesses}
-  make install
-  hash -r
-
   # Build Flex
   cd ../flex-%{flexVersion}
-  ./configure --disable-nls --prefix=%{i} \
-              --build=%{_build} --host=%{_host} \
-              CC="$CC" CXX="$CXX"
-  make %{makeprocesses}
-  make install
-
-  # Build Flex
-  cd ../flex-%{flexVersion}
-  make clean
   ./configure --disable-nls --prefix=%{i} \
               --build=%{_build} --host=%{_host} \
               CC="$CC" CXX="$CXX"
