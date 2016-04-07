@@ -4,7 +4,7 @@ Source: http://iweb.dl.sourceforge.net/project/flex/flex-%{realversion}.tar.bz2
 Patch0: gcc-flex-nonfull-path-m4
 Patch1: gcc-flex-disable-doc
 
-BuildRequires: autotools
+BuildRequires: autotools bison
 
 %prep
 %setup -q -n %{n}-%{realversion}
