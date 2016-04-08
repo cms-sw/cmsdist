@@ -1,4 +1,4 @@
-### RPM external py2-cx-oracle 5.2.1
+### RPM external py2-cx-oracle51 5.1.3
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define downloadn cx_Oracle
 

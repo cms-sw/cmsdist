@@ -1,17 +1,18 @@
-### RPM cms crabserver 3.3.1602.rc3
+### RPM cms crabserver 3.3.1604.rc1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 1.0.12_crab_1
+%define wmcver 1.0.14_crab_4
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
 Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
 
-Requires: python cherrypy py2-cjson rotatelogs py2-pycurl py2-httplib2 py2-sqlalchemy py2-cx-oracle
+Requires: python cherrypy py2-cjson rotatelogs py2-pycurl py2-httplib2 py2-sqlalchemy10 py2-cx-oracle51
 Requires: py2-pyopenssl condor py2-mysqldb dbs3-pycurl-client dbs-client dbs3-client
+Requires: jemalloc
 BuildRequires: py2-sphinx
 #Patch1: crabserver3-setup
 
