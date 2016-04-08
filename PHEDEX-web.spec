@@ -25,7 +25,7 @@ Requires: p5-json-xs p5-xml-parser
 Requires: p5-params-validate p5-clone p5-time-hires p5-text-glob p5-compress-zlib p5-sort-key p5-mail-rfc822-address
 Requires: p5-log-log4perl
 # For GraphTool component
-Requires: python cherrypy py2-pil py2-matplotlib py2-numpy libjpg py2-pytz py2-cx-oracle
+Requires: python jemalloc cherrypy py2-pil py2-matplotlib py2-numpy libjpg py2-pytz py2-cx-oracle
 
 # Actually, it is p5-xml-parser that requires this, but it doesn't configure itself correctly
 # This is so it gets into our dependencies-setup.sh
