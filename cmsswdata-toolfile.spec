@@ -1,4 +1,4 @@
-### RPM cms cmsswdata-toolfile 2.0
+### RPM cms cmsswdata-toolfile 3.0
 Requires: cmsswdata
 %prep
 
@@ -24,7 +24,7 @@ for toolbase in `echo %pkgreqs | tr ' ' '\n' | grep 'cms/data-'` ; do
   toolver=`basename $toolbase`
   pack=`echo $toolbase | cut -d/ -f2 | sed 's|data-||;s|-|/|'`
   echo "      <flags CMSSW_DATA_PACKAGE=\"$pack=$toolver\"/>" >> %i/etc/scram.d/cmsswdata.xml
-  echo "    <runtime name=\"CMSSW_SEARCH_PATH\" default=\"%cmsroot/share/$toolbase\" type=\"path\"/>" >> %i/searchpath.xml
+  echo "    <runtime name=\"CMSSW_SEARCH_PATH\" default=\"%{cmsroot}/%{cmsplatf}/$toolbase\" type=\"path\"/>" >> %i/searchpath.xml
 done
 
 cat %i/searchpath.xml >> %i/etc/scram.d/cmsswdata.xml
