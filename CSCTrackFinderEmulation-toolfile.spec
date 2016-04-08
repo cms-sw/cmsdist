@@ -1,4 +1,4 @@
-### RPM cms CSCTrackFinderEmulation-toolfile 1.0
+### RPM cms CSCTrackFinderEmulation-toolfile 2.0
 Requires: CSCTrackFinderEmulation
 %prep
 
@@ -15,6 +15,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/CSCTrackFinderEmulation.xml
     <environment name="LIBDIR" default="$CSCTRACKFINDEREMULATION_BASE/lib64"/>
     <environment name="INCLUDE" default="$CSCTRACKFINDEREMULATION_BASE/include"/>
   </client>
+  <runtime name="CSC_TRACK_FINDER_DATA_DIR" default="$CSCTRACKFINDEREMULATION_BASE/data"/>
   <runtime name="CMSSW_SEARCH_PATH" default="$CSCTRACKFINDEREMULATION_BASE/data" type="path"/>
 </tool>
 EOF_TOOLFILE
