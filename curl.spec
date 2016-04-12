@@ -1,4 +1,4 @@
-### RPM external curl 7.46.0
+### RPM external curl 7.47.1
 Source: http://curl.haxx.se/download/%{n}-%{realversion}.tar.gz
 Requires: openssl
 Requires: zlib
@@ -12,8 +12,11 @@ case %{cmsplatf} in
   *) KERBEROS_ROOT=/usr ;;
 esac
 
+unset MAGIC
+
 ./configure \
   --prefix=%{i} \
+  --disable-silent-rules \
   --disable-static \
   --without-libidn \
   --disable-ldap \
