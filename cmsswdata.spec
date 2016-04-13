@@ -40,6 +40,7 @@ Requires: data-L1Trigger-L1TMuon
 Requires: data-L1Trigger-L1TGlobal
 Requires: data-L1Trigger-L1THGCal
 Requires: data-SLHCUpgradeSimulations-Geometry
+Requires: data-CalibTracker-SiStripDCS
 
 %if %isnotonline
 # extra data dependencies for standard builds
