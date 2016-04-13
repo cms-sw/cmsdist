@@ -38,6 +38,7 @@ Requires: data-RecoBTag-Combined
 Requires: data-RecoBTag-CTagging
 Requires: data-L1Trigger-L1TMuon
 Requires: data-L1Trigger-L1TGlobal
+Requires: data-CalibTracker-SiStripDCS
 
 %if %isnotonline
 # extra data dependencies for standard builds
