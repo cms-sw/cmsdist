@@ -3,7 +3,7 @@
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
-%define gccRevision 234771
+%define gccRevision 234969
 %define gccBranch trunk
 
 %define moduleName gcc-%(echo %{gccBranch} | tr / _)-%{gccRevision}
@@ -28,7 +28,7 @@ Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 
 %if %islinux
 %define bisonVersion 3.0.4
-%define binutilsVersion 2.25.1
+%define binutilsVersion 2.26
 %define elfutilsVersion 0.166
 %define m4Version 1.4.17
 %define flexVersion 2.6.0
@@ -41,6 +41,7 @@ Source11: http://iweb.dl.sourceforge.net/project/flex/flex-%{flexVersion}.tar.bz
 
 Patch0: gcc-flex-nonfull-path-m4
 Patch1: gcc-flex-disable-doc
+Patch2: gcc-elfutils-0.166-fix-cmp
 
 %prep
 
@@ -102,6 +103,7 @@ EOF_CMS_H
 %setup -D -T -b 7 -n bison-%{bisonVersion}
 %setup -D -T -b 8 -n binutils-%{binutilsVersion}
 %setup -D -T -b 9 -n elfutils-%{elfutilsVersion}
+%patch2 -p1
 %setup -D -T -b 10 -n m4-%{m4Version}
 %setup -D -T -b 11 -n flex-%{flexVersion}
 %patch0 -p1
@@ -190,7 +192,7 @@ make install
   cd ../elfutils-%{elfutilsVersion}
   ./configure --disable-static --with-zlib --without-bzlib --without-lzma \
               --build=%{_build} --host=%{_host} --program-prefix='eu-' --disable-silent-rules \
-              --prefix=%{i} CC="gcc"
+              --prefix=%{i} CC="gcc" \
               CFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
   make %{makeprocesses}
   make install
