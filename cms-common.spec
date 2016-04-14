@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1123
+## REVISION 1124
 ## NOCOMPILER
 
 %if "%{?cmsroot:set}" != "set"
@@ -52,6 +52,7 @@ then
         fc22_ppc64le) compilerv=gcc530; osarch=fc22_ppc64le ;;
         slc7_aarch64) compilerv=gcc530; osarch=slc7_aarch64 ;;
         slc7_*) compilerv=gcc493; osarch=slc7_amd64 ;;
+        fc24_amd64) compilerv=gcc600; osarch=fc24_amd64 ;;
         *) compilerv=gcc481; osarch=slc6_amd64 ;;
     esac
     echo ${osarch}_${compilerv}
