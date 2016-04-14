@@ -29,6 +29,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa.xml
 <use name="blackhat"/>
 <use name="fastjet"/>
 <use name="sqlite"/>
+<use name="openloops"/>
 </tool>
 EOF_TOOLFILE
 
