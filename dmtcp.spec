@@ -1,14 +1,14 @@
-### RPM external dmtcp 2.0-2212
+### RPM external dmtcp 3.0.0-dev
 
-%define pkg_version %(echo "%{realversion}" | cut -d- -f 1)
-%define pkg_revision %(echo "%{realversion}" | cut -d- -f 2)
-
-Source: svn://svn.code.sf.net/p/dmtcp/code/trunk?scheme=svn&revision=%{pkg_revision}&module=%{n}&output=/%{n}.tar.gz
+%define git_repo dmtcp
+%define git_branch master
+%define git_commit 685e319e5fe2ede8daf3e24d8e5a838544c4984e
+Source: git://github.com/%{git_repo}/dmtcp.git?obj=%{git_branch}/%{git_commit}&export=dmtcp-%{git_commit}&output=/dmtcp-%{git_commit}.tgz
 
 %define drop_files %{i}/share
 
 %prep
-%setup -n %{n}
+%setup -n dmtcp-%{git_commit}
 
 %build
 ./configure \
