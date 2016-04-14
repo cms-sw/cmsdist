@@ -66,7 +66,7 @@ for DATA_PATH in %directpkgreqs; do
   if [ -d $SOURCE/$PKG_DATA ] ; then
     echo "Moving $DATA_PATH in $SHARED"
     mkdir -p $RPM_INSTALL_PREFIX/share/$DATA_PATH/$PKG_DATA
-    rsync -av --no-t --size-only $SOURCE/$PKG_DATA/ $RPM_INSTALL_PREFIX/share/$DATA_PATH/$PKG_DATA/ && rm -rf $SOURCE/$PKG_DATA && ln -fs ../../../../share/$DATA_PATH/$PKG_DATA $SOURCE/$PKG_DATA
+    rsync -a --no-t --size-only $SOURCE/$PKG_DATA/ $RPM_INSTALL_PREFIX/share/$DATA_PATH/$PKG_DATA/ && rm -rf $SOURCE/$PKG_DATA && ln -fs ../../../../share/$DATA_PATH/$PKG_DATA $SOURCE/$PKG_DATA
   fi
 done
 
