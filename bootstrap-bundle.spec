@@ -5,7 +5,7 @@
 
 BuildRequires: gcc
 BuildRequires: bz2lib-bootstrap db6-bootstrap file-bootstrap libxml2-bootstrap lua-bootstrap nspr-bootstrap nss-bootstrap
-BuildRequires: openssl-bootstrap popt-bootstrap zlib-bootstrap xz-bootstrap ncurses-bootstrap readline-bootstrap libarchive-bootstrap
+BuildRequires: openssl-bootstrap popt-bootstrap zlib-bootstrap xz-bootstrap readline-bootstrap libarchive-bootstrap
 
 %define keep_archives true
 %define is64bit %(case %{cmsplatf} in (*_amd64_*|*_mic_*|*_aarch64_*|*_ppc64le_*) echo 1 ;; (*) echo 0 ;; esac)
@@ -54,7 +54,7 @@ find %{i}/lib -type f ! -name '*.a' -writable -exec %{strip} {} \;
 # RPM requires it to generate requires/provides also (otherwise it ignores the files)
 find %{i}/lib -type f | xargs chmod 0755
 
-mv %{i}/lib/lib{lua,magic,form,menu,ncurses,ncurses++,panel,history,readline,archive}.a %{i}/tmp
+mv %{i}/lib/lib{lua,magic,history,readline,archive}.a %{i}/tmp
 rm -f %{i}/lib/*.{l,}a
 mv %{i}/tmp/lib* %{i}/lib/
 rm -rf %{i}/tmp

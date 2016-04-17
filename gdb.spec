@@ -3,9 +3,9 @@ Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 
 Patch0: gdb-7.11-fix-PYTHONHOME
 Patch1: gdb-disable-makeinfo
-Patch2: gdb-7.10-tgetent-in-ncurses
+Patch2: gdb-7.11-set-autoconf-version
 
-Requires: python ncurses zlib xz expat
+Requires: python zlib xz expat
 
 BuildRequires: autotools
 
@@ -31,8 +31,8 @@ popd
             --with-python=${PYTHON_ROOT} \
             --with-lzma=yes \
             --with-liblzma-prefix=${XZ_ROOT} \
-            LDFLAGS="-L${PYTHON_ROOT}/lib -L${NCURSES_ROOT}/lib -L${ZLIB_ROOT}/lib -L${EXPAT_ROOT}/lib -L${XZ_ROOT}/lib" \
-            CFLAGS="-Wno-error=strict-aliasing -I${PYTHON_ROOT}/include -I${NCURSES_ROOT}/include -I${ZLIB_ROOT}/include -I${EXPAT_ROOT}/include -I${XZ_ROOT}/include" \
+            LDFLAGS="-L${PYTHON_ROOT}/lib -L${ZLIB_ROOT}/lib -L${EXPAT_ROOT}/lib -L${XZ_ROOT}/lib" \
+            CFLAGS="-Wno-error=strict-aliasing -I${PYTHON_ROOT}/include -I${ZLIB_ROOT}/include -I${EXPAT_ROOT}/include -I${XZ_ROOT}/include" \
             MAKEINFO=true
 make %makeprocesses
 
