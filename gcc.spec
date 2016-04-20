@@ -3,7 +3,7 @@
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
-%define gccRevision 235069
+%define gccRevision 235229
 %define gccBranch branches/gcc-6-branch
 
 %define moduleName gcc-%(echo %{gccBranch} | tr / _)-%{gccRevision}
