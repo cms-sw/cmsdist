@@ -255,12 +255,13 @@ diff -Naur /dev/null MG5_aMC_v2_3_3/bin/compile.py
 +        misc.compile(cwd = os.path.join(iregi_path,'src'))        
 +
 +    def install_package(self):
-+        print "installing external package"
-+        self.cmd.exec_cmd('install pythia-pgs')
-+        self.cmd.exec_cmd('install Delphes')
-+        self.cmd.exec_cmd('install ExRootAnalysis')
-+        self.cmd.exec_cmd('install MadAnalysis')
-+        self.cmd.exec_cmd('install SysCalc')
++        ## do not install any external package
++        #print "installing external package"
++        #self.cmd.exec_cmd('install pythia-pgs')
++        #self.cmd.exec_cmd('install Delphes')
++        #self.cmd.exec_cmd('install ExRootAnalysis')
++        #self.cmd.exec_cmd('install MadAnalysis')
++        #self.cmd.exec_cmd('install SysCalc')
 +
 +if __name__ == '__main__':
 +    Compile_MG5()
