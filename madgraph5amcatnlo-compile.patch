@@ -1,6 +1,6 @@
-diff -Naur /dev/null mg5amcnlo231/bin/compile.py 
---- /dev/null	2015-06-10 15:12:24.269286014 +0100
-+++ mg5amcnlo231/bin/compile.py	2015-06-24 15:58:50.243871000 +0100
+diff -Naur /dev/null MG5_aMC_v2_3_3/bin/compile.py 
+--- /dev/null	2016-01-21 22:33:58.638300539 +0100
++++ MG5_aMC_v2_3_3/bin/compile.py	2016-01-21 22:33:58.638300539 +0100
 @@ -0,0 +1,262 @@
 +#! /usr/bin/env python
 +################################################################################
@@ -255,12 +255,13 @@ diff -Naur /dev/null mg5amcnlo231/bin/compile.py
 +        misc.compile(cwd = os.path.join(iregi_path,'src'))        
 +
 +    def install_package(self):
-+        print "installing external package"
-+        self.cmd.exec_cmd('install pythia-pgs')
-+        self.cmd.exec_cmd('install Delphes')
-+        self.cmd.exec_cmd('install ExRootAnalysis')
-+        self.cmd.exec_cmd('install MadAnalysis')
-+        self.cmd.exec_cmd('install SysCalc')
++        ## do not install any external package
++        #print "installing external package"
++        #self.cmd.exec_cmd('install pythia-pgs')
++        #self.cmd.exec_cmd('install Delphes')
++        #self.cmd.exec_cmd('install ExRootAnalysis')
++        #self.cmd.exec_cmd('install MadAnalysis')
++        #self.cmd.exec_cmd('install SysCalc')
 +
 +if __name__ == '__main__':
 +    Compile_MG5()
