@@ -19,9 +19,6 @@ BuildRequires: lhapdf
 %define cms_cxx g++
 %endif
 
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags 
-%endif
 
 %prep
 %setup -q -n Herwig-%{realversion}
@@ -47,7 +44,7 @@ LHAPDF_DATA_PATH="$LHAPDF_ROOT/share/LHAPDF"
             --with-madgraph=$MADGRAPH5AMCATNLO_ROOT \
             --with-openloops=$OPENLOOPS_ROOT \
             --prefix=%i \
-            CXX="$CXX" CC="$CC" CXXFLAGS="%{cms_cxxflags}" \
+            CXX="$CXX" CC="$CC" \
 	    BOOST_ROOT="$BOOST_ROOT" LDFLAGS="$LDFLAGS -L$BOOST_ROOT/lib" \
             LHAPDF_DATA_PATH="$LHAPDF_ROOT/share/LHAPDF"
 

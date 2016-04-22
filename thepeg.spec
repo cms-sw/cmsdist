@@ -21,9 +21,6 @@ BuildRequires: autotools
 %define cms_cxx c++
 %endif
 
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags 
-%endif
 
 %prep
 %setup -q -n ThePEG-%{realversion}
@@ -47,7 +44,7 @@ PLATF_CONF_OPTS="--enable-shared --disable-static"
             --with-rivet=$RIVET_ROOT \
             --without-javagui \
             --prefix=%{i} \
-            --disable-readline CXX="$CXX" CC="$CC" CXXFLAGS="%{cms_cxxflags}" 
+            --disable-readline CXX="$CXX" CC="$CC"  
 
 make %{makeprocesses}
 
