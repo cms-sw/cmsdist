@@ -22,7 +22,7 @@ BuildRequires: autotools
 %endif
 
 %if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -O2 -std=c++14
+%define cms_cxxflags 
 %endif
 
 %prep
@@ -36,16 +36,10 @@ CXX="$(which %{cms_cxx}) -fPIC"
 CC="$(which gcc) -fPIC"
 PLATF_CONF_OPTS="--enable-shared --disable-static"
 
-case %{cmsplatf} in
-  osx*)
-    LIBQUADMATH="-lquadmath"
-    ;;
-esac
 
 ./configure $PLATF_CONF_OPTS \
-            --disable-silent-rules \
-	    --enable-unitchecks \
-            --with-LHAPDF=$LHAPDF_ROOT \
+            --with-lhapdf=$LHAPDF_ROOT \
+            --with-boost=$BOOST_ROOT \
             --with-hepmc=$HEPMC_ROOT \
             --with-gsl=$GSL_ROOT \
             --with-zlib=$ZLIB_ROOT \
@@ -53,8 +47,7 @@ esac
             --with-rivet=$RIVET_ROOT \
             --without-javagui \
             --prefix=%{i} \
-            --disable-readline CXX="$CXX" CC="$CC" CXXFLAGS="%{cms_cxxflags}" \
-            LIBS="-lz $LIBQUADMATH"
+            --disable-readline CXX="$CXX" CC="$CC" CXXFLAGS="%{cms_cxxflags}" 
 
 make %{makeprocesses}
 

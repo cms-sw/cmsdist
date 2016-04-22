@@ -20,7 +20,7 @@ BuildRequires: lhapdf
 %endif
 
 %if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -O2 
+%define cms_cxxflags 
 %endif
 
 %prep
@@ -47,7 +47,7 @@ LHAPDF_DATA_PATH="$LHAPDF_ROOT/share/LHAPDF"
             --with-madgraph=$MADGRAPH5AMCATNLO_ROOT \
             --with-openloops=$OPENLOOPS_ROOT \
             --prefix=%i \
-            CXX="%{cms_cxx}" CC="$CC" CXXFLAGS="%{cms_cxxflags}" \
+            CXX="$CXX" CC="$CC" CXXFLAGS="%{cms_cxxflags}" \
 	    BOOST_ROOT="$BOOST_ROOT" LDFLAGS="$LDFLAGS -L$BOOST_ROOT/lib" \
             LHAPDF_DATA_PATH="$LHAPDF_ROOT/share/LHAPDF"
 
