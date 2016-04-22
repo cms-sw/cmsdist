@@ -49,7 +49,7 @@ PLATF_CONF_OPTS="--enable-shared --disable-static"
             --prefix=%i \
             CXX="$CXX" CC="$CC" \
 	    BOOST_ROOT="$BOOST_ROOT" LDFLAGS="$LDFLAGS -L$BOOST_ROOT/lib" \
-            LHAPDF_DATA_PATH="$LHAPDF_ROOT/share/LHAPDF"
+      	    LHAPDF_DATA_PATH=%{_sourcedir}:$LHAPDF_DATA_PATH:$LHAPDF_ROOT/share/LHAPDF
 
 
 # Extract needed PDFs since PDFs on cvmfs are not available during build
@@ -60,7 +60,12 @@ LHAPDF_DATA_PATH=%{_sourcedir}:$LHAPDF_DATA_PATH:$LHAPDF_ROOT/share/LHAPDF
 
 # Debug output
 echo "LHAPDF_DATA_PATH"
+echo
 echo $LHAPDF_DATA_PATH
+echo
+echo 'which lhapdf'
+echo
+echo 'lhapdf list --installed'
 
 make %makeprocesses
 
