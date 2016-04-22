@@ -53,10 +53,14 @@ PLATF_CONF_OPTS="--enable-shared --disable-static"
 
 
 # Extract needed PDFs since PDFs on cvmfs are not available during build
-tar xvfz %{_sourcedir}/MMHT2014lo68cl.tar.gz
-tar xvfz %{_sourcedir}/MMHT2014nlo68cl.tar.gz
+tar xvfz %{_sourcedir}/MMHT2014lo68cl.tar.gz  -C %{_sourcedir}
+tar xvfz %{_sourcedir}/MMHT2014nlo68cl.tar.gz -C %{_sourcedir}
 # Export LHAPDF_DATA_PATH since it is needed during make
 LHAPDF_DATA_PATH=%{_sourcedir}:$LHAPDF_DATA_PATH:$LHAPDF_ROOT/share/LHAPDF
+
+# Debug output
+echo "LHAPDF_DATA_PATH"
+echo $LHAPDF_DATA_PATH
 
 make %makeprocesses
 
