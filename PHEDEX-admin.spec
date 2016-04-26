@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-admin 4.1.7
+### RPM cms PHEDEX-admin 4.2.0pre2
 # Dummy line to force a rebuild
 ## INITENV +PATH PERL5LIB %i/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -42,11 +42,13 @@ rm -rf Documentation/WebSite
 rm -rf Documentation/WhitePapers
 rm -rf Migration
 rm -rf perl_lib/DMWMMON
+rm -f  perl_lib/PHEDEX/.project
 rm -f  perl_lib/PHEDEX/CLI/FakeAgent.pm
 rm -f  perl_lib/PHEDEX/CLI/SiteDataInfo.pm
 rm -rf perl_lib/PHEDEX/Namespace/SpaceCountCommon.pm
 rm -rf perl_lib/PHEDEX/Namespace/*/spacecount.pm
 rm -rf perl_lib/PHEDEX/Testbed
+rm -rf perl_lib/PHEDEX/Tests
 rm -rf perl_lib/PHEDEX/Web/API
 rm -rf perl_lib/PHEDEX/Web/{C,D,F,U}*
 rm -rf perl_lib/PHEDEX/Web/S{pooler,QLSpace}.pm
@@ -55,6 +57,7 @@ rm -f  Schema/GenPartitions.pl
 rm -f  Schema/Oracle{Init,}Spacemon.sql
 rm -f  Schema/Setup-Role-Access.pl
 rm -rf Testbed
+rm -rf Tests
 rm -rf Toolkit/Management
 rm -rf Toolkit/Peers
 rm -rf Toolkit/Test
