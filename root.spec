@@ -11,7 +11,7 @@ Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&expo
 
 BuildRequires: cmake file
 
-Requires: gsl libjpg libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib
+Requires: gsl libjpg libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib davix
 
 %if %islinux
 Requires: castor dcap
@@ -108,7 +108,7 @@ cmake ../%{n}-%{realversion} \
   -Dgfal=OFF \
   -Dchirp=OFF \
   -Dsrp=OFF \
-  -Ddavix=OFF \
+  -Ddavix=ON \
   -Dglite=OFF \
   -Dsapdb=OFF \
   -Dalien=OFF \
