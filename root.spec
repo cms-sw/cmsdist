@@ -13,7 +13,7 @@ Patch0: root-6.06.00-fix-hex-float
 
 BuildRequires: cmake file
 
-Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib
+Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib davix
 
 %if %islinux
 Requires: castor dcap
@@ -112,7 +112,7 @@ cmake ../%{n}-%{realversion} \
   -Dgfal=OFF \
   -Dchirp=OFF \
   -Dsrp=OFF \
-  -Ddavix=OFF \
+  -Ddavix=ON \
   -Dglite=OFF \
   -Dsapdb=OFF \
   -Dalien=OFF \
