@@ -1,4 +1,4 @@
-### RPM external bootstrap-driver 20.0
+### RPM external bootstrap-driver 22.0
 ## NOCOMPILER
 
 Source: bootstrap
@@ -161,7 +161,8 @@ slc*)
   slc6_amd64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype compat-readline5 ncurses-libs perl-libs perl-ExtUtils-Embed
         fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
         libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft-devel
-        libXrender libXpm libcom_err perl-Test-Harness libX11-devel libXpm-devel libXext-devel mesa-libGLU-devel"
+        libXrender libXpm libcom_err perl-Test-Harness libX11-devel libXpm-devel libXext-devel mesa-libGLU-devel
+        nspr nss nss-util file file-libs readline zlib popt bzip2 bzip2-libs"
 
   slc7_amd64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype ncurses-libs perl-libs perl-ExtUtils-Embed
         fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor

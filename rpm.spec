@@ -82,13 +82,11 @@ perl -p -i -e's|-O2|-O0|' ./configure
     --with-external-db --disable-python --disable-nls --with-archive \
     --disable-rpath --with-lua --localstatedir=%{i}/var \
     CXXFLAGS="$USER_CXXFLAGS $OS_CXXFLAGS" \
-    CFLAGS="$CFLAGS_PLATF $USER_CFLAGS -I$BOOTSTRAP_BUNDLE_ROOT/include/nspr \
-            -I$BOOTSTRAP_BUNDLE_ROOT/include/nss3 -I$BOOTSTRAP_BUNDLE_ROOT/include \
-            $OS_CFLAGS" \
+    CFLAGS="$CFLAGS_PLATF $USER_CFLAGS -I$BOOTSTRAP_BUNDLE_ROOT/include \
+            $OS_CFLAGS -I/usr/include/nspr4 -I/usr/include/nss3" \
     LDFLAGS="-L$BOOTSTRAP_BUNDLE_ROOT/lib $OS_LDFLAGS" \
-    CPPFLAGS="-I$BOOTSTRAP_BUNDLE_ROOT/include/nspr \
-              -I$BOOTSTRAP_BUNDLE_ROOT/include/nss3 -I$BOOTSTRAP_BUNDLE_ROOT/include \
-              $OS_CPPFLAGS" \
+    CPPFLAGS="-I$BOOTSTRAP_BUNDLE_ROOT/include \
+              $OS_CPPFLAGS -I/usr/include/nspr4 -I/usr/include/nss3" \
     LIBS="-lnspr4 -lnss3 -lnssutil3 -lplds4 -lbz2 -lplc4 -lz -lpopt -llzma \
           -ldb -llua -larchive $LIBS_PLATF"
 
