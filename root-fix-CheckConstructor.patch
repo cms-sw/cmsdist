@@ -1,0 +1,29 @@
+From 7dee477dbb4f6fb092674c826020ca47720f371e Mon Sep 17 00:00:00 2001
+From: Axel Naumann <Axel.Naumann@cern.ch>
+Date: Fri, 29 Apr 2016 23:38:38 +0200
+Subject: [PATCH] Remove wrong shortcut.
+
+A class without user declared constructor still might not have a default consructor.
+E.g. a class with a user provided move ctor. Or with a base or member with deleted default ctor.
+Just let clang do the right thing.
+---
+ core/metautils/src/TMetaUtils.cxx | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/core/metautils/src/TMetaUtils.cxx b/core/metautils/src/TMetaUtils.cxx
+index 50583a6..0ac60ff 100644
+--- a/core/metautils/src/TMetaUtils.cxx
++++ b/core/metautils/src/TMetaUtils.cxx
+@@ -968,9 +968,6 @@ ROOT::TMetaUtils::EIOCtorCategory ROOT::TMetaUtils::CheckConstructor(const clang
+                                                                      const cling::Interpreter& interpreter)
+ {
+    const char *arg = ioctortype.GetName();
+-   if ( (arg == 0 || arg[0] == '\0') && !cl->hasUserDeclaredConstructor() ) {
+-      return EIOCtorCategory::kDefault;
+-   }
+ 
+    if (ioctortype.GetType() ==0 && (arg == 0 || arg[0] == '\0')) {
+       // We are looking for a constructor with zero non-default arguments.
+-- 
+2.7.4
+

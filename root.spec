@@ -7,6 +7,9 @@
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 Patch0: root-6.06.00-fix-hex-float
+Patch1: root-fix-CheckConstructor-std-pair
+Patch2: root-fix-CheckConstructor
+Patch3: root-fix-CheckConstructor-template
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
@@ -33,6 +36,9 @@ Requires: freetype
 %prep
 %setup -n %{n}-%{realversion}
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 rm -rf ../build

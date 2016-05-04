@@ -1,0 +1,90 @@
+From c5a23910db1b39984d114141f9c9086744b82db6 Mon Sep 17 00:00:00 2001
+From: Axel Naumann <Axel.Naumann@cern.ch>
+Date: Fri, 29 Apr 2016 23:20:57 +0200
+Subject: [PATCH] Simply ask Sema for the default ctor (ROOT-8138).
+
+---
+ core/metautils/inc/TMetaUtils.h   |  2 +-
+ core/metautils/src/TMetaUtils.cxx | 29 ++++++++++-------------------
+ 2 files changed, 11 insertions(+), 20 deletions(-)
+
+diff --git a/core/metautils/inc/TMetaUtils.h b/core/metautils/inc/TMetaUtils.h
+index e5ff193..785fd85 100644
+--- a/core/metautils/inc/TMetaUtils.h
++++ b/core/metautils/inc/TMetaUtils.h
+@@ -341,7 +341,7 @@ std::string GetROOTIncludeDir(bool rootbuild);
+ enum class EIOCtorCategory : short {kAbsent, kDefault, kIOPtrType, kIORefType};
+ 
+ //______________________________________________________________________________
+-EIOCtorCategory CheckConstructor(const clang::CXXRecordDecl*, const RConstructorType&);
++EIOCtorCategory CheckConstructor(const clang::CXXRecordDecl*, const RConstructorType&, const cling::Interpreter& interp);
+ 
+ //______________________________________________________________________________
+ const clang::FunctionDecl* ClassInfo__HasMethod(const clang::DeclContext *cl, char const*, const cling::Interpreter& interp);
+diff --git a/core/metautils/src/TMetaUtils.cxx b/core/metautils/src/TMetaUtils.cxx
+index b1def1c..50583a6 100644
+--- a/core/metautils/src/TMetaUtils.cxx
++++ b/core/metautils/src/TMetaUtils.cxx
+@@ -964,7 +964,8 @@ int ROOT::TMetaUtils::ElementStreamer(std::ostream& finalString,
+ ////////////////////////////////////////////////////////////////////////////////
+ 
+ ROOT::TMetaUtils::EIOCtorCategory ROOT::TMetaUtils::CheckConstructor(const clang::CXXRecordDecl *cl,
+-                                                                     const RConstructorType &ioctortype)
++                                                                     const RConstructorType &ioctortype,
++                                                                     const cling::Interpreter& interpreter)
+ {
+    const char *arg = ioctortype.GetName();
+    if ( (arg == 0 || arg[0] == '\0') && !cl->hasUserDeclaredConstructor() ) {
+@@ -973,25 +974,16 @@ ROOT::TMetaUtils::EIOCtorCategory ROOT::TMetaUtils::CheckConstructor(const clang
+ 
+    if (ioctortype.GetType() ==0 && (arg == 0 || arg[0] == '\0')) {
+       // We are looking for a constructor with zero non-default arguments.
+-
+-      for(clang::CXXRecordDecl::ctor_iterator iter = cl->ctor_begin(), end = cl->ctor_end();
+-          iter != end;
+-          ++iter)
+-      {
+-         if (iter->getAccess() != clang::AS_public)
+-            continue;
+-         // We can reach this constructor.
+-
+-         if (iter->getNumParams() == 0) {
+-            return EIOCtorCategory::kDefault;
+-         }
+-         if ( (*iter->param_begin())->hasDefaultArg()) {
++      clang::CXXRecordDecl* ncCl = const_cast<clang::CXXRecordDecl*>(cl);
++      if (auto* Ctor = interpreter.getCI()->getSema().LookupDefaultConstructor(ncCl)) {
++         if (Ctor->getAccess() == clang::AS_public) {
+             return EIOCtorCategory::kDefault;
+          }
+-      } // For each constructor.
++      }
++      return EIOCtorCategory::kAbsent;
+    }
+-   else {
+-      for(clang::CXXRecordDecl::ctor_iterator iter = cl->ctor_begin(), end = cl->ctor_end();
++
++   for (clang::CXXRecordDecl::ctor_iterator iter = cl->ctor_begin(), end = cl->ctor_end();
+           iter != end;
+           ++iter)
+       {
+@@ -1030,7 +1022,6 @@ ROOT::TMetaUtils::EIOCtorCategory ROOT::TMetaUtils::CheckConstructor(const clang
+             }
+          } // has one argument.
+       } // for each constructor
+-   }
+ 
+    return EIOCtorCategory::kAbsent;
+ }
+@@ -1086,7 +1077,7 @@ bool ROOT::TMetaUtils::HasIOConstructor(const clang::CXXRecordDecl *cl,
+    for (RConstructorTypes::const_iterator ctorTypeIt = ctorTypes.begin();
+         ctorTypeIt!=ctorTypes.end(); ++ctorTypeIt) {
+ 
+-      auto ioCtorCat = ROOT::TMetaUtils::CheckConstructor(cl, *ctorTypeIt);
++      auto ioCtorCat = ROOT::TMetaUtils::CheckConstructor(cl, *ctorTypeIt, interp);
+ 
+       if (EIOCtorCategory::kAbsent == ioCtorCat)
+          continue;
+-- 
+2.7.4
+
