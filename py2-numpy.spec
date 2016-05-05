@@ -19,3 +19,11 @@ EOF
 python setup.py build --fcompiler=gnu95
 python setup.py install --prefix=%{i}
 find %{i} -name '*.egg-info' -exec rm {} \;
+
+sed -ideleteme 's|#!.*/bin/python|#!/usr/bin/env python|' \
+  %{i}/bin/f2py \
+  %{i}/${PYTHON_LIB_SITE_PACKAGES}/numpy/core/tests/test_arrayprint.py \
+  %{i}/${PYTHON_LIB_SITE_PACKAGES}/numpy/distutils/from_template.py \
+  %{i}/${PYTHON_LIB_SITE_PACKAGES}/numpy/distutils/conv_template.py
+
+find %{i} -name '*deleteme' -delete
