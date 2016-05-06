@@ -1,4 +1,4 @@
-### RPM external utm r44601-xsd310-patch
+### RPM external utm r45210-xsd310-patch
 Source: git+https://gitlab.cern.ch/cms-l1t-utm/utm.git?obj=master/%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: gmake
 Requires: xerces-c
