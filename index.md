@@ -18,9 +18,9 @@ Each release series should have a branch called:
 
     IB/<CMSSW_x_y_X>/stable
 
-where `<CMSSW_x_y_Z>` is some release queue, e.g.:
+where `<CMSSW_x_y_X>` is some release queue, e.g.:
 
-    IB/CMSSW_6_2_X/stable
+    IB/CMSSW_8_1_X/stable
 
 We will call this branch the "stable CMSDIST branch for the release queue".
 This branch is the one used for the production architecture of such a release.
@@ -29,7 +29,7 @@ branch.
 
 ## Mapping release series to a given branch
 
-The default branch of CMSDIST (i.e. the one which you get when you do git clone
+The default branch of CMS-BOT (i.e. the one which you get when you do git clone
 without any argument) contains a file called `config.map` which consist of the
 mapping between architectures, release queues and the `PKGTOOLS` and `CMSDIST`
 tags for that release queue on the given architecture.
@@ -51,7 +51,7 @@ where:
 
 You can find an example of such a file by looking at:
 
-https://github.com/cms-sw/cmsdist/blob/IB/CMSSW_7_0_X/stable/config.map
+https://raw.githubusercontent.com/cms-sw/cms-bot/master/config.map
 
 **While adding special branches for development architectures is allowed, this
   should not be abused and the goal should be to minimize the number of
@@ -70,34 +70,6 @@ repository, you'll need it to propose your changes.
 
 ### For every new feature / bug fix you want to propose.
 
-0) Setup initial parameters:
-
-    CMSSW=<RELEASE>
-    # CMSSW=CMSSW_5_2_X
-    # CMSSW=CMSSW_5_3_X
-    # CMSSW=CMSSW_6_1_X
-    # CMSSW=CMSSW_6_2_X
-    # CMSSW=CMSSW_7_0_X
-    ARCH=<ARCH>
-    # ARCH=slc5_amd64_gcc462
-    # ARCH=slc5_amd64_gcc472
-    # ARCH=slc5_amd64_gcc481
-    # ARCH=slc6_amd64_gcc472
-    # ARCH=slc6_amd64_gcc481
-    # ARCH=slc6_amd64_gcc491
-    # ARCH=osx106_amd64_gcc462
-    # ARCH=osx107_amd64_gcc462
-    # ARCH=osx107_amd64_gcc472
-    # ARCH=osx108_amd64_gcc472
-    # ARCH=osx108_amd64_gcc481
-
-    # Set the partition used for building.
-    # Partition depends on the machine (/build1 and /build might be available on Linux,
-    # and /build1 (/Volumes/build1) on Mac OS X)
-    case $ARCH in
-      slc*) BUILDDIR=/build ;;
-      osx*) BUILDDIR=/build1 ;;
-    esac
 
 1) Create build area and prepare CMSDIST and PKGTOOLS:
 
@@ -136,29 +108,16 @@ Building externals is anologous to requesting an addition.
 
 Let's assume you want to build externals for the a given release series:
 
-    CMSSW=<release-queue>
-    # CMSSW=CMSSW_5_2_X
-    # CMSSW=CMSSW_5_3_X
-    # CMSSW=CMSSW_6_1_X
-    # CMSSW=CMSSW_6_2_X
-
 0) Prepare the environment:
 
-    export CVSROOT=:gserver:cmssw.cvs.cern.ch:/local/reps/CMSSW
+    
     CMSSW=<RELEASE>
-    # CMSSW=CMSSW_5_2_X
-    # CMSSW=CMSSW_5_3_X
-    # CMSSW=CMSSW_6_1_X
-    # CMSSW=CMSSW_6_2_X
+    # CMSSW=CMSSW_8_1_X
     ARCH=<ARCH>
     # ARCH=slc5_amd64_gcc462
     # ARCH=slc5_amd64_gcc472
     # ARCH=slc6_amd64_gcc472
     # ARCH=slc6_amd64_gcc480
-    # ARCH=osx106_amd64_gcc462
-    # ARCH=osx107_amd64_gcc462
-    # ARCH=osx107_amd64_gcc472
-    # ARCH=osx108_amd64_gcc472
 
     # Set the partition used for building.
     # Partition depends on the machine (/build1 and /build might be available on Linux,
@@ -172,7 +131,7 @@ Let's assume you want to build externals for the a given release series:
 
       HERE=${BUILDDIR}/${USER}
       DATETIME=$(date +'%Y%m%d_%H%M')
-      URL="https://raw.github.com/cms-sw/cmsdist/IB/$CMSSW/stable/config.map"
+      URL="https://raw.githubusercontent.com/cms-sw/cms-bot/master/config.map"
       eval $(curl -s -k "${URL}" | grep $ARCH)
       TOPDIR=${HERE}/ext/${CMSSW}/${DATETIME}
       mkdir -p $TOPDIR
