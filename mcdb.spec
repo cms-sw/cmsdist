@@ -50,6 +50,16 @@ case %{cmsplatf} in
     echo "LFLAGS   = -shared -Wl,-soname,libmcdb.so" >> config.mk
     echo "XERCESC  = $XERCES_C_ROOT" >> config.mk
     ;;
+  *ppc64* )
+    echo "PLATFORM = %cmsplatf" >> config.mk
+    echo "CC       = gcc" >> config.mk
+    echo "CXX      = %cms_cxx" >> config.mk
+    echo "CFLAGS   = -O2 -pipe -Wall -W -fPIC" >> config.mk
+    echo "CXXFLAGS = %cms_cxxflags -pipe -Wall -W -fPIC" >> config.mk
+    echo "LINK     = %cms_cxx" >> config.mk
+    echo "LFLAGS   = -shared -Wl,-soname,libmcdb.so" >> config.mk
+    echo "XERCESC  = " >> config.mk
+    ;;
   *armv7hl* )
     echo "PLATFORM = %{cmsplatf}" >> config.mk
     echo "CC       = gcc" >> config.mk
