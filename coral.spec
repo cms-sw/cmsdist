@@ -17,6 +17,10 @@ Patch8: coral-CORAL_2_3_21-fix-timestamp-frontier
 %define cmsplatf_ppc64le 1
 %endif
 
+%if %(case %{cmsplatf} in (*_ppc64_*) echo 1 ;; (*) echo 0 ;; esac) == 1
+%define cmsplatf_ppc64 1
+%endif
+
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 %define cvssrc          %{n}
@@ -40,7 +44,7 @@ Patch8: coral-CORAL_2_3_21-fix-timestamp-frontier
 
 # Drop Oracle interface on ARM machines and POWER machines.
 # Oracle does not provide Instant Client for ARMv8 or POWER8.
-%if 0%{?cmsplatf_aarch64}%{?cmsplatf_ppc64le}
+%if 0%{?cmsplatf_aarch64}%{?cmsplatf_ppc64le}%{?cmsplatf_ppc64}
 %define patchsrc2       rm -rf ./src/OracleAccess
 %endif
 
