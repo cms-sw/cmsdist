@@ -8,6 +8,7 @@
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 %define isslc %(case %{cmsplatf} in (slc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isnotppc64le %(case %{cmsplatf} in (*_ppc64le_*) echo 0 ;; (*) echo 1 ;; esac)
+%define isnotppc64le_be %(case %{cmsplatf} in (*_ppc64*) echo 0 ;; (*) echo 1 ;; esac)
 %define isnotaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 0 ;; (*) echo 1 ;; esac)
 
 Requires: starlight-toolfile
@@ -170,7 +171,7 @@ Requires: openldap-toolfile
 Requires: python-ldap-toolfile
 Requires: google-perftools-toolfile
 
-%if %isnotppc64le
+%if %isnotppc64le_be
 Requires: igprof-toolfile
 %endif
 
