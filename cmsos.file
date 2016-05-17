@@ -10,6 +10,7 @@ cmsos()
     armv7l) cpuarch=armv7hl ;; # The kernel is armv7l, but we assume system as armv7hl (hard floats)
     aarch64) cpuarch=aarch64 ;;
     ppc64le) cpuarch=ppc64le ;;
+    ppc64) cpuarch=ppc64 ;;
     *) cpuarch=`uname -p`;;
   esac
  
@@ -19,9 +20,6 @@ cmsos()
     # hard code this, should be done better
       echo ydl5_ppc64
   elif [ "X`uname`" = XLinux ]; then
-    if [ "X`uname -i`" = Xppc ]; then
-    # hard code this, should be done better
-      echo ydl5_ppc
     elif [ -f /etc/SuSE-release ]; then
       echo suse`grep -i '^version' < /etc/SuSE-release | tr -dc '[0-9]'`
     elif [ -f /etc/fedora-release ]; then
