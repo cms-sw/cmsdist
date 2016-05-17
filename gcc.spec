@@ -140,7 +140,7 @@ case %{cmsplatf} in
     CFLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1 -msse3" \
     ./configure --static --prefix=%{i}/tmp/sw
     ;;
-  *_aarch64_*|*_ppc64le_*)
+  *_aarch64_*|*_ppc64le_*|*_ppc64_*)
     CFLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1" \
     ./configure --static --prefix=%{i}/tmp/sw
     ;;
@@ -152,8 +152,17 @@ make %{makeprocesses}
 make install
 
 %if %islinux
-  CONF_BINUTILS_OPTS="--enable-gold=yes --enable-ld=default --enable-lto --enable-plugins --enable-threads"
-  CONF_GCC_WITH_LTO="--enable-gold=yes --enable-ld=default --enable-lto" # --with-build-config=bootstrap-lto
+  CONF_BINUTILS_OPTS="--enable-ld=default --enable-lto --enable-plugins --enable-threads"
+  CONF_GCC_WITH_LTO="--enable-ld=default --enable-lto"
+
+case "%{cmsplatf}" in
+  *_ppc64_*)
+    ;;
+  *)
+    CONF_BINUTILS_OPTS="$CONF_BINUTILS_OPTS --enable-gold=yes"
+    CONF_GCC_WITH_LTO="$CONF_GCC_WITH_LTO --enable-gold=yes"
+    ;;
+esac
 
   # Build M4 (for building)
   cd ../m4-%{m4Version}
@@ -201,6 +210,9 @@ make install
 case %{cmsplatf} in
   *_ppc64le_*)
     CONF_BINUTILS_OPTS="${CONF_BINUTILS_OPTS} --enable-targets=spu --enable-targets=powerpc-linux"
+    ;;
+  *_ppc64_*)
+    CONF_BINUTILS_OPTS="${CONF_BINUTILS_OPTS} --enable-targets=spu"
     ;;
 esac
 
@@ -258,6 +270,13 @@ case %{cmsplatf} in
                         --enable-threads=posix --enable-initfini-array \
                         --enable-targets=powerpcle-linux --enable-secureplt --with-long-double-128 \
                         --with-cpu=power8 --with-tune=power8 --disable-libmpx"
+    ;;
+  *_ppc64_*)
+    CONF_GCC_ARCH_SPEC="$CONF_GCC_ARCH_SPEC \
+                        --enable-threads=posix --enable-initfini-array \
+                        --enable-secureplt --with-long-double-128 \
+                        --with-cpu=power7 --with-tune=power7 --disable-libmpx"
+    ;;
 esac
 
 # Build GCC
