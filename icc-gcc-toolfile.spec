@@ -57,14 +57,14 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
     <flags REM_CXXFLAGS="-Wunknown-pragmas"/>
     <flags REM_CXXFLAGS="-ftree-vectorize"/>
     <flags REM_CXXFLAGS="-Wno-unused-local-typedefs"/>
-    <flags REM_CXXFLAGS="-msse3"/>
     <flags REM_CXXFLAGS="-Wno-psabi"/>
     <flags REM_CXXFLAGS="-ffast-math"/>
     <flags REM_CXXFLAGS="-flto"/>
     <flags REM_CXXFLAGS="-fno-lto"/>
     <flags REM_LDFLAGS="-Wl,--icf=all"/>
     <flags CXXFLAGS="-Wno-unknown-pragmas"/>
-    <flags CXXFLAGS="-axSSE3"/>
+    <flags CXXFLAGS="-xSSE3"/>
+    <flags CXXFLAGS="-axSSE4.1,SSE4.2,AVX,CORE-AVX2"/>
     <flags CXXFLAGS="-wd869"/>
     <architecture name="_mic_">
       <flags CXXFLAGS="-mmic"/>
