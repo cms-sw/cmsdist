@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1124
+## REVISION 1125
 ## NOCOMPILER
 
 %if "%{?cmsroot:set}" != "set"
@@ -50,6 +50,9 @@ then
         fc19_armv7hl) compilerv=gcc481; osarch=fc19_armv7hl ;;
         fc19_aarch64) compilerv=gcc490; osarch=fc19_aarch64 ;;
         fc22_ppc64le) compilerv=gcc530; osarch=fc22_ppc64le ;;
+        fc24_ppc64le) compilerv=gcc530; osarch=fc24_ppc64le ;;
+        fc22_ppc64) compilerv=gcc600; osarch=fc22_ppc64 ;;
+        fc24_ppc64) compilerv=gcc600; osarch=fc24_ppc64 ;;
         slc7_aarch64) compilerv=gcc530; osarch=slc7_aarch64 ;;
         slc7_*) compilerv=gcc493; osarch=slc7_amd64 ;;
         fc24_amd64) compilerv=gcc600; osarch=fc24_amd64 ;;
