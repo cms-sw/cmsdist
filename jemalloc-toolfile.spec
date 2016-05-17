@@ -9,13 +9,17 @@ Requires: jemalloc
 %define cmsplatf_ppc64le 1
 %endif
 
+%if %(case %{cmsplatf} in (*_ppc64_*) echo 1 ;; (*) echo 0 ;; esac) == 1
+%define cmsplatf_ppc64 1
+%endif
+
 %prep
 
 %build
 
 %install
 
-%if 0%{?cmsplatf_aarch64}%{?cmsplatf_ppc64le}
+%if 0%{?cmsplatf_aarch64}%{?cmsplatf_ppc64le}%{?cmsplatf_ppc64}
 # 64K page systems
 %define jemalloc_config lg_chunk:23,lg_dirty_mult:8
 %else
