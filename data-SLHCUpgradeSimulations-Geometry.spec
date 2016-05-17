@@ -1,4 +1,4 @@
-### RPM cms data-SLHCUpgradeSimulations-Geometry V01-00-01
+### RPM cms data-SLHCUpgradeSimulations-Geometry V01-00-02
 
 %prep
 
