@@ -38,7 +38,7 @@ esac
 case %{cmsplatf} in
   slc*_amd64_*|fc*_amd64_*)
     ./runConfigure -P%{i} -plinux -cgcc -xg++ ;;
-  *_aarch64_*|*_ppc64le_*)
+  *_aarch64_*|*_ppc64le_*|*_ppc64_*)
     ./runConfigure -P%{i} -b 64 -plinux -cgcc -xg++ ;;
   osx*)
     ./runConfigure -P%{i} -b 64 -pmacosx -nnative -rnone -cgcc -xg++ ;;
