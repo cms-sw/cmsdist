@@ -10,6 +10,7 @@ Patch0: root-6.06.00-fix-hex-float
 Patch1: root-fix-CheckConstructor-std-pair
 Patch2: root-fix-CheckConstructor
 Patch3: root-fix-CheckConstructor-template
+Patch4: root6-ppc64-support
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
@@ -39,6 +40,7 @@ Requires: freetype
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 rm -rf ../build
