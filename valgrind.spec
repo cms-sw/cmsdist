@@ -15,7 +15,7 @@ case %{cmsplatf} in
   osx*)
     CFLAGS="-D__private_extern__=extern"
     ;;
-  *_amd64_*|*_aarch64_*|*_ppc64le_*)
+  *_amd64_*|*_aarch64_*|*_ppc64le_*|*_ppc64_*)
     CONF_OPTS="--enable-only64bit"
     ;;
 esac
