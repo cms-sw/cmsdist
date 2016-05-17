@@ -1,4 +1,4 @@
-### RPM external bootstrap-bundle 1.6
+### RPM external bootstrap-bundle 1.7
 ## INITENV +PATH PATH %{i}/bin
 ## NOCOMPILER
 
@@ -7,7 +7,7 @@ BuildRequires: db6-bootstrap libxml2-bootstrap lua-bootstrap
 BuildRequires: openssl-bootstrap xz-bootstrap libarchive-bootstrap
 
 %define keep_archives true
-%define is64bit %(case %{cmsplatf} in (*_amd64_*|*_mic_*|*_aarch64_*|*_ppc64le_*) echo 1 ;; (*) echo 0 ;; esac)
+%define is64bit %(case %{cmsplatf} in (*_amd64_*|*_mic_*|*_aarch64_*|*_ppc64le_*|*_ppc64_*) echo 1 ;; (*) echo 0 ;; esac)
 %define ismac   %(case %{cmsplatf} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 %define soname so
