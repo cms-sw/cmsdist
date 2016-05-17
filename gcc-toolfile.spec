@@ -141,7 +141,7 @@ case %{cmsplatf} in
    *_amd64_*)
      COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -msse3"
    ;;
-   *_aarch64_*|*_ppc64le_*)
+   *_aarch64_*|*_ppc64le_*|*_ppc64_*)
     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fsigned-char -fsigned-bitfields"
    ;;
 esac
