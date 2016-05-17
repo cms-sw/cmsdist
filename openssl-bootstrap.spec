@@ -39,6 +39,7 @@ case "%{cmsplatf}" in
   osx*)         target=darwin64-x86_64-cc ;;
   *_aarch64_*)  target=linux-aarch64 ;;
   *_ppc64le_*)  target=linux-ppc64le ;;
+  *_ppc64_*)    target=linux-ppc64 ;;
   *_amd64_*)    target=linux-x86_64 ;;
   *)            target=linux-generic64 ;;
 esac
