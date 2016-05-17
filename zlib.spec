@@ -16,7 +16,7 @@ case %{cmsplatf} in
      CFLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1 -msse3" \
      ./configure --prefix=%{i}
      ;;
-   *_armv7hl_*|*_aarch64_*|*_ppc64le_*)
+   *_armv7hl_*|*_aarch64_*|*_ppc64le_*|*_ppc64_*)
      CFLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1" \
      ./configure --prefix=%{i}
      ;;
