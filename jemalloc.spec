@@ -1,4 +1,4 @@
-### RPM external jemalloc 3.5.0
+### RPM external jemalloc 4.1.0
 Source: http://www.canonware.com/download/jemalloc/jemalloc-%realversion.tar.bz2 
 
 %prep
