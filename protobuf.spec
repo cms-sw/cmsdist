@@ -2,8 +2,11 @@
 Source: https://github.com/google/protobuf/releases/download/v%{realversion}/protobuf-%{realversion}.tar.gz
 Requires: zlib
 
+Patch0: protobuf-2.6.1-fix-sign
+
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 # Update to detect aarch64 and ppc64le
