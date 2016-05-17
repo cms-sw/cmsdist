@@ -20,7 +20,7 @@ cmsos()
     # hard code this, should be done better
       echo ydl5_ppc64
   elif [ "X`uname`" = XLinux ]; then
-    elif [ -f /etc/SuSE-release ]; then
+    if [ -f /etc/SuSE-release ]; then
       echo suse`grep -i '^version' < /etc/SuSE-release | tr -dc '[0-9]'`
     elif [ -f /etc/fedora-release ]; then
       echo fc`sed 's/[^0-9]//g' /etc/fedora-release`_${cpuarch}
