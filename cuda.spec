@@ -1,8 +1,6 @@
-### RPM external cuda 7.0.28
-## NOCOMPILER
+### RPM external cuda 7.5.18
 
-Source: http://developer.download.nvidia.com/compute/cuda/7_0/Prod/local_installers/%{n}_%{realversion}_linux.run
-
+Source: http://developer.download.nvidia.com/compute/cuda/7.5/Prod/local_installers/%{n}_%{realversion}_linux.run
 AutoReqProv: no
 
 %prep
