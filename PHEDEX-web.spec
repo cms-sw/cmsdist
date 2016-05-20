@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-web 4.2.16pre1
+### RPM cms PHEDEX-web 4.2.16
 ## INITENV +PATH PERL5LIB %i/perl_lib
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
@@ -48,7 +48,7 @@ rm -rf perl_lib/PHEDEX/{BlockActivate,BlockDelete,Debug.pm,Monalisa.pm,Testbed,B
 rm perl_lib/PHEDEX/RequestAllocator/Agent.pm
 rm -rf perl_lib/PHEDEX/Core/{Agent,Config.pm,Net.pm,Agent.pm,JobManager.pm,phedex_logger.conf,RFIO.pm,Command.pm,Help.pm,Logging.pm,SQLPLUS.pm,Config}
 rm -rf perl_lib/PHEDEX/Web/SQLSpace.pm
-rm -rf perl_lib/PHEDEX/Web/API/{GetLastRecord.pm,Mongo.pm,RequestSetStateFake.pm,StorageInsert.pm,StorageUsage.pm}
+rm -rf perl_lib/PHEDEX/Web/API/{DumpSpaceQuery.pm,GetLastRecord.pm,Mongo.pm,RequestSetStateFake.pm,StorageInsert.pm,StorageUsage.pm}
 
 %build
 %install

@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-datasvc 2.3.22pre1
+### RPM cms PHEDEX-datasvc 2.3.22
 ## INITENV +PATH PERL5LIB %i/perl_lib
 
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -38,7 +38,7 @@ rm -rf perl_lib/PHEDEX/{BlockActivate,BlockDelete,Debug.pm,Monalisa.pm,Testbed,B
 rm perl_lib/PHEDEX/RequestAllocator/Agent.pm
 rm -rf perl_lib/PHEDEX/Core/{Agent,Config.pm,Agent.pm,JobManager.pm,RFIO.pm,Command.pm,Help.pm,SQLPLUS.pm,Config}
 rm -rf perl_lib/PHEDEX/Web/SQLSpace.pm
-rm -rf perl_lib/PHEDEX/Web/API/{GetLastRecord.pm,Mongo.pm,RequestSetStateFake.pm,StorageInsert.pm,StorageUsage.pm}
+rm -rf perl_lib/PHEDEX/Web/API/{DumpSpaceQuery.pm,GetLastRecord.pm,Mongo.pm,RequestSetStateFake.pm,StorageInsert.pm,StorageUsage.pm}
 
 %build
 %install
