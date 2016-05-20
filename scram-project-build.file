@@ -12,7 +12,7 @@ BuildRequires: gcc
 # For non-linux archs disable subpackageDebug otherwise add dwz.file build dependencies.
 %if "%{?subpackageDebug:set}" == "set"
 %if %islinux
-BuildRequires: dwz file
+BuildRequires: dwz
 %else
 %undefine subpackageDebug
 %endif # islinux
@@ -22,7 +22,6 @@ BuildRequires: dwz file
 %if "%{?pkgname}" != "coral"
 Requires: patchelf
 Requires: glibc
-Requires: file
 %endif # coral
 %endif # isslc6_amd64
 
@@ -347,12 +346,10 @@ done
 %if "%{?pkgname}" != "coral"
 case %cmsplatf in
   slc6_amd64_*)
-    FILE_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/file/')
-    FILE_PATH=$RPM_INSTALL_PREFIX/%cmsplatf/$FILE_PKG
     PATCHELF_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/patchelf/')
     PATCHELF_PATH=$RPM_INSTALL_PREFIX/%cmsplatf/$PATCHELF_PKG
     CMSSW_BIN_PATH="$RPM_INSTALL_PREFIX/%pkgrel/bin/%cmsplatf $RPM_INSTALL_PREFIX/%pkgrel/test/%cmsplatf"
-    CMSSW_ELF_BIN=$(find $CMSSW_BIN_PATH -type f -exec $FILE_PATH/bin/file {} \; | grep ELF | cut -d':' -f1)
+    CMSSW_ELF_BIN=$(find $CMSSW_BIN_PATH -type f -exec file {} \; | grep ELF | cut -d':' -f1)
     GLIBC_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/glibc/')
     GLIBC_PATH=$CMS_INSTALL_PREFIX/%cmsplatf/$GLIBC_PKG
     echo "$CMSSW_ELF_BIN" | xargs -t -n 1 -I% -P $(getconf _NPROCESSORS_ONLN) sh -c "strings % 2>&1 | grep '%{cmsplatf}/external/glibc' 2>&1 >/dev/null && $PATCHELF_PATH/bin/patchelf --set-interpreter $GLIBC_PATH/lib64/ld.so % || true"

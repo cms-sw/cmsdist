@@ -11,8 +11,6 @@ Requires: zlib
 %setup -n %{n}-%{realversion}
 
 %build
-unset MAGIC
-
 # Since we are using the checked out code, we need to regenerate the auto-tools
 # crap.
 # There is also a problem with the way they define library_includedir which I could fix only like this.
