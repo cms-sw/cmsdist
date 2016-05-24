@@ -1,9 +1,9 @@
-### RPM external mongo 2.6.5
+### RPM external mongo 3.2.6
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source: http://downloads.mongodb.org/src/mongodb-src-r%{realversion}.tar.gz
-Patch: mongo2.6
-Requires: scons rotatelogs
+Patch: mongo3.2
+Requires: python scons rotatelogs
 
 Provides: libpcap.so.0.8.3
 Provides: libpcap.so.0.8.3()(64bit)
@@ -19,8 +19,7 @@ egrep -r -l '^#!.*python' . | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/e
 %build
 
 %install
-case "%{cmsplatf}" in osx*) X64= ;; *) X64=--64 ;; esac
-scons %makeprocesses $X64 --prefix=%i install
+scons %makeprocesses --variables-files=etc/scons/propagate_shell_environment.vars --prefix=%i install
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
