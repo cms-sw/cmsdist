@@ -16,9 +16,6 @@ cmsos()
  
   if [ "X$BUILD_ARCH" != X ]; then
       echo "$BUILD_ARCH"
-  elif [ "X`uname -p`" = Xppc64 ]; then
-    # hard code this, should be done better
-      echo ydl5_ppc64
   elif [ "X`uname`" = XLinux ]; then
     if [ -f /etc/SuSE-release ]; then
       echo suse`grep -i '^version' < /etc/SuSE-release | tr -dc '[0-9]'`
