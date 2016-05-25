@@ -1,9 +1,9 @@
---- cherrypy/_cpreqbody.py.original	2015-08-18 17:05:20.682906514 +0200
-+++ cherrypy/_cpreqbody.py	2015-08-18 16:50:58.027875021 +0200
-@@ -682,10 +682,27 @@
+--- cherrypy/_cpreqbody.py.original	2016-05-19 15:09:55.459759292 +0200
++++ cherrypy/_cpreqbody.py	2016-05-19 15:14:13.682473239 +0200
+@@ -715,6 +715,21 @@
              else:
                  self.file = result
-     
+ 
 +    def read_file_to_size(self, fp_out):
 +        chunk_size = (1<<18)
 +        bytes_read = 0
@@ -20,7 +20,10 @@
 +        return fp_out
 +
      def read_into_file(self, fp_out=None):
-         """Read the request body into fp_out (or make_file() if None). Return fp_out."""
+         """Read the request body into fp_out (or make_file() if None).
+ 
+@@ -722,6 +737,8 @@
+         """
          if fp_out is None:
              fp_out = self.make_file()
 +        if self.length:
@@ -28,4 +31,3 @@
          self.read_lines_to_boundary(fp_out=fp_out)
          return fp_out
  
-
