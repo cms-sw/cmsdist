@@ -12,3 +12,4 @@ python setup.py build
 %install
 python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
 find %i -name '*.egg-info' -exec rm {} \;
+perl -p -i -e 's{^#!.*/python}{#!/usr/bin/env python}' %i/bin/*
