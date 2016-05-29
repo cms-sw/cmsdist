@@ -19,6 +19,7 @@ BuildRequires: cmake ninja
 %setup -n %{n}-%{realversion}
 
 %build
+rm -rf ../build
 mkdir ../build
 cd ../build
 
