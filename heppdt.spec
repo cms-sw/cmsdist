@@ -1,8 +1,9 @@
 ### RPM external heppdt 3.03.00
-Source: http://lcgapp.cern.ch/project/simu/HepPDT/download/HepPDT-%{realversion}.tar.gz
-Patch1: heppdt-2.03.00-nobanner
-Patch2: heppdt-3.03.00-silence-debug-output 
-Patch3: heppdt-3.03.00-concurrency
+%define tag ad5bd2d96ca39491a5c0f729c9ebbec9a36b85bf
+%define branch cms/3.03.00
+%define github_user cms-externals
+Source: git+https://github.com/%{github_user}/heppdt.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+
 %define keep_archives yes
 
 Requires: tbb
@@ -16,10 +17,7 @@ Requires: tbb
 %endif
 
 %prep
-%setup -q -n HepPDT-%{realversion}
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
+%setup -q -n heppdt-%{realversion}
 
 # Update to detect aarch64 and ppc64le
 rm -f ./config.{sub,guess}
