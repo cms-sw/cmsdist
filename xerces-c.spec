@@ -1,4 +1,4 @@
-### RPM external xerces-c 3.1.0
+### RPM external xerces-c 3.1.3
 %define xercesv %(echo %{realversion} | tr . _)
 Source: http://archive.apache.org/dist/xml/xerces-c/Xerces-C_%{xercesv}/sources/xerces-c-%{realversion}.tar.gz 
 #Patch0: xerces-c-2.8.0-fix-narrowing-conversion
