@@ -22,7 +22,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa.xml
 <runtime name="SHERPA_SHARE_PATH" value="$SHERPA_BASE/share/SHERPA-MC" type="path"/>
 <runtime name="SHERPA_INCLUDE_PATH" value="$SHERPA_BASE/include/SHERPA-MC" type="path"/>
 <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
-<use name="root_cxxdefaults"/>
 <use name="HepMC"/>
 <use name="lhapdf"/>
 <use name="qd"/>
