@@ -1,4 +1,4 @@
-### RPM cms dqmgui 8.3.4
+### RPM cms dqmgui 8.3.5
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH %{dynamic_path_var} %i/xlib
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
@@ -18,7 +18,7 @@ Source2: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=im
 Source3: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
 Patch0: dqmgui-rtgu
 
-Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root libpng libjpg classlib rotatelogs py2-pycurl py2-cjson libuuid d3 protobuf py2-argparse
+Requires: cherrypy32 py2-cheetah yui extjs gmake pcre boost root libpng libjpg classlib rotatelogs py2-pycurl py2-cjson libuuid d3 protobuf py2-argparse py2-pytest py2-nose
 BuildRequires: py2-sphinx
 
 %prep
