@@ -1,5 +1,5 @@
 ### RPM external geant4 10.02.p01
-%define tag 4316b63fa6bc35373b7474ed6c91cec7907fef76 
+%define tag ebad8bd7001e30e566031c7c5aa8349c79cb3552 
 %define branch geant4.10.2.p01.cms1
 %define github_user civanch
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
