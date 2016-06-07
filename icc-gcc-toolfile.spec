@@ -63,7 +63,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
     <flags REM_CXXFLAGS="-fno-lto"/>
     <flags REM_LDFLAGS="-Wl,--icf=all"/>
     <flags CXXFLAGS="-Wno-unknown-pragmas"/>
-    <flags CXXFLAGS="-xSSE3"/>
     <flags CXXFLAGS="-axSSE4.1,SSE4.2,AVX,CORE-AVX2"/>
     <flags CXXFLAGS="-wd869"/>
     <architecture name="_mic_">
