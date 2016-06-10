@@ -1,8 +1,7 @@
-### RPM external xerces-c 2.8.0
-%define xercesv %(echo %realversion | tr . _)
-Source: http://archive.apache.org/dist/xml/xerces-c/sources/xerces-c-src_%xercesv.tar.gz 
-Patch0: xerces-c-2.8.0-osx106
-Patch1: xerces-c-2.8.0-fix-narrowing-conversion
+### RPM external xerces-c 3.1.0
+%define xercesv %(echo %{realversion} | tr . _)
+Source: http://archive.apache.org/dist/xml/xerces-c/Xerces-C_%{xercesv}/sources/xerces-c-%{realversion}.tar.gz 
+#Patch0: xerces-c-2.8.0-fix-narrowing-conversion
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -13,19 +12,13 @@ Patch1: xerces-c-2.8.0-fix-narrowing-conversion
 %endif
 
 %prep
-%setup -n xerces-c-src_%xercesv
+%setup -n xerces-c-%{realversion}
 
-case %cmsplatf in
-  osx*)
-%patch0 -p1
-  ;;
-esac
-
-%patch1 -p1
+#%patch0 -p1
 
 %build
 export XERCESCROOT=$PWD
-cd $PWD/src/xercesc
+cd $PWD/
 
 # Update to detect aarch64 and ppc64le
 rm -f ./config.{sub,guess}
@@ -35,7 +28,7 @@ chmod +x ./config.{sub,guess}
 
 export CXXFLAGS="%cms_cxxflags"
 export VERBOSE=1
-
+export CC=%{cms_cxx}
 case %cmsplatf in
   osx108_*)
     # For OS X ("Mountain Lion") do not use Objective-C in C and C++ code.
@@ -46,11 +39,11 @@ esac
 
 case %{cmsplatf} in
   slc*_amd64_*)
-    ./runConfigure -P%{i} -plinux -cgcc -x%{cms_cxx} ;;
+    ./configure --prefix=%{i};;
   *_aarch64_*|*_ppc64le_*)
-    ./runConfigure -P%{i} -b 64 -plinux -cgcc -x%{cms_cxx} ;;
-  osx*)
-    ./runConfigure -P%{i} -b 64 -pmacosx -nnative -rnone -cgcc -x%{cms_cxx} ;;
+    ./configure --prefix=%{i} --build=64;;
+ # osx*)
+ #   ./configure -P%{i} -b 64 -pmacosx -nnative -rnone -cgcc -x%{cms_cxx} ;;
   *)
     echo "Unsupported configuration. Please modify SPEC file accordingly."
     exit 1
@@ -60,5 +53,6 @@ make
 
 %install
 export XERCESCROOT=$PWD
-cd src/xercesc
+#cd src/xercesc
+
 make install
