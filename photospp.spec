@@ -1,4 +1,4 @@
-### RPM external photospp 3.56
+### RPM external photospp 3.61
 
 Requires: hepmc
 
@@ -9,7 +9,7 @@ Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distrib
 %endif
 
 %if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x -g -O2
+%define cms_cxxflags -std=c++0x -O2
 %endif
 
 %define keep_archives true
@@ -25,7 +25,7 @@ esac
 export HEPMCLOCATION=${HEPMC_ROOT}
 export HEPMCVERSION=${HEPMC_VERSION}
 
-./configure --prefix=%{i} --with-hepmc=$HEPMC_ROOT CXXFLAGS="%cms_cxxflags"
+./configure --prefix=%{i} --with-hepmc=$HEPMC_ROOT CPPFLAGS="%cms_cxxflags"
 # One more fix-up for OSX (in addition to the patch above)
 case %cmsplatf in
   osx*)
