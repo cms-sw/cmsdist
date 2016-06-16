@@ -1,12 +1,10 @@
 ### RPM external xerces-c 3.1.3
 %define xercesv %(echo %{realversion} | tr . _)
 Source: http://www-us.apache.org/dist//xerces/c/3/sources/xerces-c-%{realversion}.tar.gz 
-#Patch0: xerces-c-2.8.0-fix-narrowing-conversion
 
 %prep
 %setup -n xerces-c-%{realversion}
 
-#%patch0 -p1
 
 %build
 export XERCESCROOT=$PWD
@@ -33,6 +31,5 @@ make
 
 %install
 export XERCESCROOT=$PWD
-#cd src/xercesc
 
 make install
