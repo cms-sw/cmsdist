@@ -19,7 +19,6 @@ curl -L -k -s -o ./config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.gi
 chmod +x ./config.{sub,guess}
 
 export VERBOSE=1
-export CC=%{cms_cxx}
 case %cmsplatf in
   osx108_*)
     # For OS X ("Mountain Lion") do not use Objective-C in C and C++ code.
