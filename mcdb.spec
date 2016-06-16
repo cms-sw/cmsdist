@@ -1,7 +1,7 @@
-### RPM external mcdb 1.0.2
+### RPM external mcdb 1.0.3
 Source: http://mcdb.cern.ch/distribution/api/%{n}-api-%{realversion}.tar.gz
 Requires: xerces-c
-Patch0: mcdb-1.0.2-gcc45
+#Patch0: mcdb-1.0.2-gcc45
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -13,7 +13,7 @@ Patch0: mcdb-1.0.2-gcc45
 
 %prep
 %setup -q -n %{n}-api-%{realversion}
-%patch0 -p1
+#%patch0 -p1
 
 rm config.mk
 touch config.mk
