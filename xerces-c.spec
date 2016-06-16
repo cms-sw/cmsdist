@@ -1,7 +1,6 @@
 ### RPM external xerces-c 3.1.3
 %define xercesv %(echo %{realversion} | tr . _)
 Source: http://www-us.apache.org/dist//xerces/c/3/sources/xerces-c-%{realversion}.tar.gz 
-#Patch0: xerces-c-2.8.0-fix-narrowing-conversion
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -14,7 +13,6 @@ Source: http://www-us.apache.org/dist//xerces/c/3/sources/xerces-c-%{realversion
 %prep
 %setup -n xerces-c-%{realversion}
 
-#%patch0 -p1
 
 %build
 export XERCESCROOT=$PWD
@@ -37,22 +35,11 @@ case %cmsplatf in
   ;;
 esac
 
-case %{cmsplatf} in
-  slc*_amd64_*)
-    ./configure --prefix=%{i};;
-  *_aarch64_*|*_ppc64le_*)
-    ./configure --prefix=%{i} --build=64;;
- # osx*)
- #   ./configure -P%{i} -b 64 -pmacosx -nnative -rnone -cgcc -x%{cms_cxx} ;;
-  *)
-    echo "Unsupported configuration. Please modify SPEC file accordingly."
-    exit 1
-esac
+./configure --prefix=%{i}
 
 make
 
 %install
 export XERCESCROOT=$PWD
-#cd src/xercesc
 
 make install
