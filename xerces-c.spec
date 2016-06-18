@@ -35,9 +35,14 @@ case %cmsplatf in
   ;;
 esac
 
-./configure --prefix=%{i}
+./configure \
+  --prefix=%{i} \
+  --disable-dependency-tracking \
+  --disable-rpath \
+  --without-icu \
+  --without-curl
 
-make
+make %{makeprocesses}
 
 %install
 export XERCESCROOT=$PWD
