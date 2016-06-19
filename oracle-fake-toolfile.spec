@@ -1,6 +1,5 @@
 ### RPM external oracle-fake-toolfile 1.0
 Requires: oracle-fake
-Requires: oracle-env
 %prep
 
 %build
