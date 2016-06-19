@@ -1,7 +1,6 @@
 ### RPM external systemtools 19
 ## NOCOMPILER
 Source: none
-Requires: oracle-env
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
