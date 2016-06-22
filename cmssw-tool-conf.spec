@@ -161,6 +161,7 @@ Requires: freetype-toolfile
 Requires: utm-toolfile
 Requires: libffi-toolfile
 Requires: CSCTrackFinderEmulation-toolfile
+Requires: tinyxml-toolfile
 
 # Only for Linux platform.
 %if %islinux
