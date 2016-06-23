@@ -1,4 +1,4 @@
-### RPM external photospp-toolfile 2.0
+### RPM external photospp-toolfile 4.0
 Requires: photospp
 %prep
 
