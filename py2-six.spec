@@ -12,7 +12,6 @@ python setup.py build
 
 %install
 python setup.py install --skip-build --prefix=%{i}
-find %i -name '*.egg-info' -exec rm {} \;
 # get rid of /usr/bin/python
 egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 

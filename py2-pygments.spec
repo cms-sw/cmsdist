@@ -1,4 +1,4 @@
-### RPM external py2-pygments 1.3.1
+### RPM external py2-pygments 2.1.3
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source: http://pypi.python.org/packages/source/P/Pygments/Pygments-%realversion.tar.gz
