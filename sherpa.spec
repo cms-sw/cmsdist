@@ -3,8 +3,8 @@
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-Requires: hepmc lhapdf blackhat sqlite fastjet openssl scons swig
-BuildRequires: mcfm
+Requires: hepmc lhapdf blackhat sqlite fastjet openssl scons
+BuildRequires: mcfm swig
 
 %if "%(case %cmsplatf in (slc*) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: openloops
@@ -63,5 +63,3 @@ find %{i}/lib -name '*.la' -delete
 %{relocateConfig}bin/Sherpa-config
 %{relocateConfig}bin/Sherpa-generate-model
 %{relocateConfig}include/SHERPA-MC/ATOOLS/Org/CXXFLAGS.H
-
-

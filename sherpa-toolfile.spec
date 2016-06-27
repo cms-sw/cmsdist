@@ -31,7 +31,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa.xml
 <use name="sqlite"/>
 <use name="openloops"/>
 <use name="scons"/>
-<use name="swig"/>
 </tool>
 EOF_TOOLFILE
 
