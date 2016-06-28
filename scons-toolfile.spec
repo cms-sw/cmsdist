@@ -11,7 +11,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/scons.xml
    <lib name="scons"/>
   <client>
     <environment name="SCONS_BASE" default="@TOOL_ROOT@"/>
-    <environment name="SCONS_LIB_DIR" default="$SCONS_BASE/lib/scons-1.2.0"/>
+    <environment name="SCONS_LIB_DIR" default="$SCONS_BASE/lib"/>
     <environment name="BINDIR" default="$SCONS_BASE/bin"/>
   </client>  
 </tool>
