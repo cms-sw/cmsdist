@@ -30,7 +30,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa.xml
 <use name="fastjet"/>
 <use name="sqlite"/>
 <use name="openloops"/>
-<use name="scons"/>
 </tool>
 EOF_TOOLFILE
 
