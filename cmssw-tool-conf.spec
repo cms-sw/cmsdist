@@ -161,6 +161,7 @@ Requires: utm-toolfile
 Requires: libffi-toolfile
 Requires: CSCTrackFinderEmulation-toolfile
 Requires: tinyxml-toolfile
+Requires: scons-toolfile
 
 # Only for Linux platform.
 %if %islinux
