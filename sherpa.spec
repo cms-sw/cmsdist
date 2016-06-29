@@ -3,7 +3,7 @@
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-Requires: hepmc lhapdf blackhat sqlite fastjet openssl scons
+Requires: hepmc lhapdf blackhat sqlite fastjet openssl scons python
 BuildRequires: mcfm swig
 
 %define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
@@ -54,6 +54,7 @@ make %{makeprocesses}
 %install
 make install
 find %{i}/lib -name '*.la' -delete
+sed -i -e 's|^#!/.*|#!/usr/bin/env python|' %{i}/bin/Sherpa-generate-model
 
 %post
 %{relocateConfig}lib/python2.7/site-packages/ufo_interface/sconstruct_template
