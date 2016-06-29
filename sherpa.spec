@@ -3,7 +3,7 @@
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-Requires: hepmc lhapdf blackhat sqlite fastjet openssl scons
+Requires: hepmc lhapdf blackhat sqlite fastjet openssl scons python
 BuildRequires: mcfm swig
 
 %if "%(case %cmsplatf in (slc*) echo true ;; (*) echo false ;; esac)" == "true"
