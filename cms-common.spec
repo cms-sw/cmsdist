@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1127
+## REVISION 1128
 ## NOCOMPILER
 
 %if "%{?cmsroot:set}" != "set"
@@ -8,6 +8,7 @@
 
 Source: cmsos
 Source1: migrate-cvsroot
+Source2: https://raw.githubusercontent.com/cms-sw/cmspkg/f394cfa56e99c4761ffd2c2bf989d4c2e53791a8/client/cmspkg.py
 
 %prep
 #Make sure that we always build cms-common with a different revision and 
@@ -28,6 +29,7 @@ cd %i/%{pkgrevision}
 
 cp %_sourcedir/cmsos ./common/cmsos
 cp %_sourcedir/migrate-cvsroot ./common/migrate-cvsroot
+cp %_sourcedir/cmspkg.py ./cmspkg.py
 
 cat << \EOF_CMSARCH_SH > ./common/cmsarch
 #!/bin/sh
@@ -248,7 +250,13 @@ if [ -f $RPM_INSTALL_PREFIX/cmsset_default.csh ] && [ -f $RPM_INSTALL_PREFIX/etc
   fi
 fi
 
-for file in `find . -name "*" -type f`; do
+REPO_INFO=$(grep '^rpm http://' $RPM_INSTALL_PREFIX/%{cmsplatf}/external/apt/*/etc/sources.list | tail -1 | sed 's|.*http://||;s| cms/cpt/Software/download/| cmssw/|')
+REPO_SERVER=$(echo "${REPO_INFO}"  | cut -d' ' -f1)
+REPOSITORY=$(echo "${REPO_INFO}"   | cut -d' ' -f2 | sed 's|/apt/.*||;s|.*/||')
+SERVER_PATH=$(echo "${REPO_INFO}"  | cut -d' ' -f2 | sed 's|/apt/.*||;s|/[^/]*$||')
+$RPM_INSTALL_PREFIX/%{pkgrel}/%{pkgrevision}/cmspkg.py -y -a %{cmsplatf} -p $RPM_INSTALL_PREFIX -s $REPO_SERVER -S $SERVER_PATH -r $REPOSITORY setup
+
+for file in `find . -name "*" -type f | grep -v /cmspkg.py`; do
   rm -f $RPM_INSTALL_PREFIX/$file
   cp $file $RPM_INSTALL_PREFIX/$file
 done
