@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1128
+## REVISION 1129
 ## NOCOMPILER
 
 %if "%{?cmsroot:set}" != "set"
@@ -8,7 +8,7 @@
 
 Source: cmsos
 Source1: migrate-cvsroot
-Source2: https://raw.githubusercontent.com/cms-sw/cmspkg/f394cfa56e99c4761ffd2c2bf989d4c2e53791a8/client/cmspkg.py
+Source2: https://raw.githubusercontent.com/cms-sw/cmspkg/a02f5a58b33a257acb596b402116604dde2ed991/client/cmspkg.py
 
 %prep
 #Make sure that we always build cms-common with a different revision and 
