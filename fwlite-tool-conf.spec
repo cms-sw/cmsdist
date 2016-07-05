@@ -43,6 +43,7 @@ Requires: zlib-toolfile
 Requires: libxml2-toolfile
 Requires: llvm-gcc-toolfile
 Requires: vdt-toolfile
+Requires: tinyxml-toolfile
 
 %if %isamd64
 %if %isslc
