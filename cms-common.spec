@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1123
+## REVISION 1129
 ## NOCOMPILER
 
 %if "%{?cmsroot:set}" != "set"
@@ -8,6 +8,7 @@
 
 Source: cmsos
 Source1: migrate-cvsroot
+Source2: https://raw.githubusercontent.com/cms-sw/cmspkg/a02f5a58b33a257acb596b402116604dde2ed991/client/cmspkg.py
 
 %prep
 #Make sure that we always build cms-common with a different revision and 
@@ -28,6 +29,7 @@ cd %i/%{pkgrevision}
 
 cp %_sourcedir/cmsos ./common/cmsos
 cp %_sourcedir/migrate-cvsroot ./common/migrate-cvsroot
+cp %_sourcedir/cmspkg.py ./cmspkg.py
 
 cat << \EOF_CMSARCH_SH > ./common/cmsarch
 #!/bin/sh
@@ -50,8 +52,12 @@ then
         fc19_armv7hl) compilerv=gcc481; osarch=fc19_armv7hl ;;
         fc19_aarch64) compilerv=gcc490; osarch=fc19_aarch64 ;;
         fc22_ppc64le) compilerv=gcc530; osarch=fc22_ppc64le ;;
+        fc24_ppc64le) compilerv=gcc530; osarch=fc24_ppc64le ;;
+        fc22_ppc64) compilerv=gcc600; osarch=fc22_ppc64 ;;
+        fc24_ppc64) compilerv=gcc600; osarch=fc24_ppc64 ;;
         slc7_aarch64) compilerv=gcc530; osarch=slc7_aarch64 ;;
         slc7_*) compilerv=gcc493; osarch=slc7_amd64 ;;
+        fc24_amd64) compilerv=gcc600; osarch=fc24_amd64 ;;
         *) compilerv=gcc481; osarch=slc6_amd64 ;;
     esac
     echo ${osarch}_${compilerv}
@@ -244,7 +250,13 @@ if [ -f $RPM_INSTALL_PREFIX/cmsset_default.csh ] && [ -f $RPM_INSTALL_PREFIX/etc
   fi
 fi
 
-for file in `find . -name "*" -type f`; do
+REPO_INFO=$(grep '^rpm http://' $RPM_INSTALL_PREFIX/%{cmsplatf}/external/apt/*/etc/sources.list | tail -1 | sed 's|.*http://||;s| cms/cpt/Software/download/| cmssw/|')
+REPO_SERVER=$(echo "${REPO_INFO}"  | cut -d' ' -f1)
+REPOSITORY=$(echo "${REPO_INFO}"   | cut -d' ' -f2 | sed 's|/apt/.*||;s|.*/||')
+SERVER_PATH=$(echo "${REPO_INFO}"  | cut -d' ' -f2 | sed 's|/apt/.*||;s|/[^/]*$||')
+$RPM_INSTALL_PREFIX/%{pkgrel}/%{pkgrevision}/cmspkg.py -y -a %{cmsplatf} -p $RPM_INSTALL_PREFIX -s $REPO_SERVER -S $SERVER_PATH -r $REPOSITORY setup
+
+for file in `find . -name "*" -type f | grep -v /cmspkg.py`; do
   rm -f $RPM_INSTALL_PREFIX/$file
   cp $file $RPM_INSTALL_PREFIX/$file
 done
