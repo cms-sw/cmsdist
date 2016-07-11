@@ -163,6 +163,7 @@ Requires: libffi-toolfile
 Requires: CSCTrackFinderEmulation-toolfile
 Requires: tinyxml-toolfile
 Requires: scons-toolfile
+Requires: md5-toolfile
 
 # Only for Linux platform.
 %if %islinux
