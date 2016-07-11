@@ -44,6 +44,7 @@ Requires: libxml2-toolfile
 Requires: llvm-gcc-toolfile
 Requires: vdt-toolfile
 Requires: tinyxml-toolfile
+Requires: md5-toolfile
 
 %if %isamd64
 %if %islinux
