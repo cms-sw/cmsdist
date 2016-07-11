@@ -1,7 +1,7 @@
-### RPM external geant4 10.02.p02
-%define tag 2b6bdd322e04bdf2ced3c8f6ba70c8cbfc255d60
-%define branch cms/4.%{realversion}
-%define github_user cms-externals
+### RPM external geant4 fix-geant4-cpp-c_atomic
+%define tag 5b6d3ddaae51319dfb5c3aa6e2f555733df9d72b
+%define branch %{realversion}
+%define github_user davidlt
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
 
 BuildRequires: cmake
