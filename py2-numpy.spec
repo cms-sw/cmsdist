@@ -16,10 +16,9 @@ esac
 export LAPACK_ROOT
 export LAPACK=$LAPACK_ROOT/lib/liblapack.$SONAME
 export BLAS=$LAPACK_ROOT/lib/libblas.$SONAME
-mkdir -p %_builddir/$PYTHON_LIB_SITE_PACKAGES
 mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
 
-PYTHONPATH=%_builddir/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH python setup.py build --fcompiler=gnu95
+python setup.py build --fcompiler=gnu95
 PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH python setup.py install --prefix=%i
 #find %i -name '*.egg-info' -exec rm {} \;
 
