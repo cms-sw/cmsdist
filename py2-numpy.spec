@@ -1,7 +1,7 @@
-### RPM external py2-numpy 1.10.0
+### RPM external py2-numpy 1.11.1
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}                                                         [0/9245]
 Source: http://downloads.sourceforge.net/project/numpy/NumPy/%realversion/numpy-%realversion.tar.gz
-Requires: python zlib lapack
+Requires: python py2-setuptools zlib lapack
 
 %prep
 %setup -n numpy-%realversion
@@ -16,9 +16,11 @@ esac
 export LAPACK_ROOT
 export LAPACK=$LAPACK_ROOT/lib/liblapack.$SONAME
 export BLAS=$LAPACK_ROOT/lib/libblas.$SONAME
+mkdir -p %_builddir/$PYTHON_LIB_SITE_PACKAGES
+mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
 
-python setup.py build --fcompiler=gnu95
-python setup.py install --prefix=%i
+PYTHONPATH=%_builddir/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH python setup.py build --fcompiler=gnu95
+PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH python setup.py install --prefix=%i
 #find %i -name '*.egg-info' -exec rm {} \;
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.

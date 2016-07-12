@@ -1,7 +1,8 @@
-### RPM external py2-scipy 0.17.0
+### RPM external py2-scipy 0.17.1
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 #Source: http://downloads.sourceforge.net/project/scipy/scipy/%realversion/scipy-%realversion.tar.gz
-Source: https://pypi.python.org/packages/source/s/scipy/scipy-%realversion.tar.gz
+#Source: https://pypi.python.org/packages/source/s/scipy/scipy-%realversion.tar.gz
+Source: https://github.com/scipy/scipy/releases/download/v0.17.1/scipy-%realversion.tar.gz
 Requires: python py2-numpy zlib lapack
 
 %prep

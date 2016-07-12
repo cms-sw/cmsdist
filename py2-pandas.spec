@@ -1,7 +1,8 @@
-### RPM external py2-pandas 0.15.1
+### RPM external py2-pandas 0.18.1
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
-Source: https://pypi.python.org/packages/source/p/pandas/pandas-%realversion.tar.gz
-Requires: python py2-numpy py2-python-dateutil py2-setuptools
+#Source: https://pypi.python.org/packages/source/p/pandas/pandas-%realversion.tar.gz
+Source: https://pypi.python.org/packages/11/09/e66eb844daba8680ddff26335d5b4fead77f60f957678243549a8dd4830d/pandas-0.18.1.tar.gz
+Requires: python py2-numpy py2-python-dateutil py2-setuptools py2-pytz
 
 %prep
 %setup -n pandas-%realversion
