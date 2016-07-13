@@ -1,4 +1,4 @@
-### RPM cms cmsswdata 29
+### RPM cms cmsswdata 30
 ## NOCOMPILER
 Source: none
 
@@ -41,6 +41,7 @@ Requires: data-L1Trigger-L1TGlobal
 Requires: data-L1Trigger-L1THGCal
 Requires: data-SLHCUpgradeSimulations-Geometry
 Requires: data-CalibTracker-SiStripDCS
+Requires: data-SimTracker-SiStripDigitizer
 
 %if %isnotonline
 # extra data dependencies for standard builds
