@@ -1,5 +1,5 @@
 ### RPM external py2-numpy 1.11.1
-## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}                                                         [0/9245]
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 #Source: http://downloads.sourceforge.net/project/numpy/NumPy/%realversion/numpy-%realversion.tar.gz
 Source: https://pypi.python.org/packages/e0/4c/515d7c4ac424ff38cc919f7099bf293dd064ba9a600e1e3835b3edefdb18/numpy-1.11.1.tar.gz
 Requires: python py2-setuptools zlib lapack
