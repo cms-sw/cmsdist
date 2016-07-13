@@ -1,4 +1,4 @@
-### RPM external py2-matplotlib 1.2.1
+### RPM external py2-matplotlib 1.5.0
 ## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
 %define realname matplotlib
 Source: https://downloads.sourceforge.net/project/%{realname}/%{realname}/%{realname}-%{realversion}/%{realname}-%{realversion}.tar.gz
