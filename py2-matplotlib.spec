@@ -1,7 +1,7 @@
 ### RPM external py2-matplotlib 1.5.0
 ## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
 %define realname matplotlib
-Source: https://downloads.sourceforge.net/project/%{realname}/%{realname}/%{realname}-%{realversion}/%{realname}-%{realversion}.tar.gz
+Source: http://downloads.sourceforge.net/project/%{realname}/%{realname}/%{realname}-%{realversion}/%{realname}-%{realversion}.tar.gz
 Requires: py2-pytz py2-numpy py2-python-dateutil zlib libpng freetype
 
 
