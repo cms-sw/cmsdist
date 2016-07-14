@@ -1,20 +1,15 @@
-### RPM external py2-matplotlib 1.5.0
-## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
-%define realname matplotlib
-Source: http://downloads.sourceforge.net/project/%{realname}/%{realname}/%{realname}-%{realversion}/%{realname}-%{realversion}.tar.gz
-Requires: py2-pytz py2-numpy py2-python-dateutil zlib libpng freetype
-
+### RPM external py2-matplotlib 1.5.2
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
+Source: https://github.com/matplotlib/matplotlib/archive/v%{realversion}.tar.gz
+Requires: py2-pytz py2-numpy py2-python-dateutil zlib libpng freetype py2-pyparsing py2-six
+BuildRequires: py2-setuptools
 
 %prep
-%setup -n %{realname}-%{realversion}
+%setup -n matplotlib-%{realversion}
 
 cat >> setup.cfg <<- EOF
-[build_ext]
-include_dirs = ${FREETYPE_ROOT}/include/freetype2:${FREETYPE_ROOT}/include:${LIBPNG_ROOT}/include:${ZLIB_ROOT}/include:/usr/X11R6/include:/usr/X11R6/include/freetype2
-library_dirs = ${FREETYPE_ROOT}/lib:${LIBPNG_ROOT}/lib:${ZLIB_ROOT}/lib:/usr/X11R6/lib
-
 [directories]
-basedirlist  = ${FREETYPE_ROOT}:${FREETYPE_ROOT}:${LIBPNG_ROOT}:${ZLIB_ROOT}:/usr/X11R6
+basedirlist = ${FREETYPE_ROOT}:${LIBPNG_ROOT}:${ZLIB_ROOT}:${PY2_NUMPY_ROOT}:${PY2_PYTZ_ROOT}:${PY2_SIX}
 
 [gui_support]
 gtk = False
@@ -24,25 +19,13 @@ wxagg = False
 macosx = False
 EOF
 
-mkdir no-pkg-config
-(echo '#!/bin/sh'; echo 'exit 1') > no-pkg-config/pkg-config
-chmod +x no-pkg-config/pkg-config
-
 %build
-export MPLCONFIGDIR=$PWD/no-pkg-config
-PATH=$PWD/no-pkg-config:$PATH \
-python setup.py build 
+export CPLUS_INCLUDE_PATH=${FREETYPE_ROOT}/include/freetype2:{FREETYPE_ROOT}/include
+python setup.py build
 
 %install
-python -c 'import numpy'
-PATH=$PWD/no-pkg-config:$PATH \
-# Notice that the install procedure will try to write in $HOME/.matplotlib by
-# default!!! This should work around the problem and have it write config
-# in a scratch area.
-export MPLCONFIGDIR=$PWD/no-pkg-config
-
-python setup.py install --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
+export CPLUS_INCLUDE_PATH=${FREETYPE_ROOT}/include/freetype2:{FREETYPE_ROOT}/include
+python setup.py install --prefix=%i  --single-version-externally-managed --record=/dev/null
 
 # No need for test files
 rm -rf %i/$PYTHON_LIB_SITE_PACKAGES/matplotlib/tests
