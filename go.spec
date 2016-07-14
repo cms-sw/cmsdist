@@ -1,24 +1,15 @@
-### RPM external py2-scikit-learn 0.16.1
-## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
-Source: https://pypi.python.org/packages/source/s/scikit-learn/scikit-learn-%realversion.tar.gz
-Requires: python py2-numpy py2-scipy py2-matplotlib
+### RPM external go 1.6
+
+#Source: https://storage.googleapis.com/golang/go%{realversion}.src.tar.gz
+Source: https://storage.googleapis.com/golang/go%{realversion}.linux-amd64.tar.gz
 
 %prep
-%setup -n scikit-learn-%realversion
+%setup -n go
 
 %build
-%install
-case %cmsos in
-  osx*) SONAME=dylib ;;
-  *) SONAME=so ;;
-esac
 
-mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
-PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH \
-python setup.py install --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
-find %i/$PYTHON_LIB_SITE_PACKAGES -name '*.py' -exec chmod a-x {} \;
-perl -p -i -e 's{^#!.*/python}{#!/usr/bin/env python}' %i/bin/*
+%install
+cp -r * %i
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
