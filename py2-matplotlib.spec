@@ -19,8 +19,14 @@ wxagg = False
 macosx = False
 EOF
 
+mkdir no-pkg-config
+(echo '#!/bin/sh'; echo 'exit 1') > no-pkg-config/pkg-config
+chmod +x no-pkg-config/pkg-config
+
 %build
 export CPLUS_INCLUDE_PATH=${FREETYPE_ROOT}/include/freetype2:{FREETYPE_ROOT}/include
+export MPLCONFIGDIR=$PWD/no-pkg-config
+PATH=$PWD/no-pkg-config:$PATH \
 python setup.py build
 
 %install
