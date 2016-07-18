@@ -1,6 +1,6 @@
-### RPM external clhep 2.2.0.4
+### RPM external clhep 2.3.1.1
 
-%define tag 0e355c07fbee0b1c680073cc8d77e530a7edc6a9
+%define tag 87505534a473b0195037fae21575cbdbf53bfbbb
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
@@ -36,8 +36,8 @@ ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
 cd ../build
 ninja install
 
-case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
-rm %i/lib/libCLHEP-[A-Z]*-%realversion.$so
+#case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
+#rm %i/lib/libCLHEP-[A-Z]*-%realversion.$so
 
 %post
 %{relocateConfig}bin/Evaluator-config

@@ -1,7 +1,7 @@
-### RPM external geant4 10.00.p03
-%define tag 62cc56c3e1e5941a64b94ae155986549cc18295f
-%define branch cms/4.%{realversion}
-%define github_user cms-externals
+### RPM external geant4 ftfp_reconfiguration 
+%define tag f6e73d3b63947d45839445eae2dddd57445ec227
+%define branch %{realversion}
+%define github_user civanch
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
 
 BuildRequires: cmake
