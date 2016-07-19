@@ -1,4 +1,4 @@
-### RPM external scons-toolfile 1.0
+### RPM external scons-toolfile 2.0
 Requires: scons
 
 %prep
@@ -12,7 +12,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/scons.xml
     <environment name="SCONS_BASE" default="@TOOL_ROOT@"/>
     <environment name="BINDIR" default="$SCONS_BASE/bin"/>
   </client>
-  <runtime name="SCONS_LIB_DIR" value="$SCONS_BASE/lib"/>  
+  <runtime name="SCONS_LIB_DIR" value="$SCONS_BASE/lib"/>
+  <runtime name="PATH" value="$SCONS_BASE/bin" type="path"/>
 </tool>
 EOF_TOOLFILE
 
