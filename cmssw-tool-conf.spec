@@ -160,6 +160,7 @@ Requires: CSCTrackFinderEmulation-toolfile
 Requires: tinyxml-toolfile
 Requires: scons-toolfile
 Requires: md5-toolfile
+Requires: py2-setuptools-toolfile
 
 # Only for Linux platform.
 %if %islinux
