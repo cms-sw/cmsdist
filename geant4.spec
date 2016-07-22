@@ -10,13 +10,10 @@ Requires: clhep
 Requires: expat
 Requires: xerces-c
 
-Patch0: geant4.10.00.p03-add-cxx14-cxx1z-options
-
 %define keep_archives true
 
 %prep
 %setup -n %{n}.%{realversion}
-%patch0 -p1
 
 %build
 
