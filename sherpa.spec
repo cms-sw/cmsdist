@@ -1,5 +1,5 @@
-### RPM external sherpa 2.2.0
-%define tag d905c22cc12b11b635a2b62766cfbe0b51133ba2
+### RPM external sherpa 2.2.1
+%define tag bc0ccbfdf07f4df4f0368106aa9c793bb61e1def
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -9,7 +9,6 @@ BuildRequires: mcfm swig
 %define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 
-Patch0: sherpa-2.2.0-specify-char-signedness
 
 %if %islinux
 %if %isamd64
@@ -27,7 +26,6 @@ Requires: openloops
 
 %prep
 %setup -q -n %{n}-%{realversion}
-%patch0 -p1
 
 autoreconf -i --force
 
@@ -63,7 +61,7 @@ make %{makeprocesses}
 %install
 make install
 find %{i}/lib -name '*.la' -delete
-sed -i -e 's|^#!/.*|#!/usr/bin/env python|' %{i}/bin/Sherpa-generate-model
+##sed -i -e 's|^#!/.*|#!/usr/bin/env python|' %{i}/bin/Sherpa-generate-model
 
 %post
 %{relocateConfig}lib/python2.7/site-packages/ufo_interface/sconstruct_template
