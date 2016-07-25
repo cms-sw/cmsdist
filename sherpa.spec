@@ -44,6 +44,7 @@ esac
             --enable-lhapdf=$LHAPDF_ROOT \
             --enable-blackhat=$BLACKHAT_ROOT \
             --enable-pyext \
+            --enable-ufo \
             ${OPENLOOPS_ROOT+--enable-openloops=$OPENLOOPS_ROOT}\
             --with-sqlite3=$SQLITE_ROOT \
             CXX="%cms_cxx" \
