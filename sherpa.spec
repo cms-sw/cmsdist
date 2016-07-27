@@ -9,7 +9,6 @@ BuildRequires: mcfm swig
 %define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 
-Patch0: sherpa-2.2.0-specify-char-signedness
 
 %if %islinux
 %if %isamd64
@@ -27,7 +26,6 @@ Requires: openloops
 
 %prep
 %setup -q -n %{n}-%{realversion}
-%patch0 -p1
 
 autoreconf -i --force
 
