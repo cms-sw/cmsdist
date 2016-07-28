@@ -1,19 +1,26 @@
-### RPM cms confdb 1.4.0
-Source: git://github.com/cms-sw/web-confdb?obj=Server/%realversion&export=%n&output=/%n.tar.gz
-Requires: python cherrypy oracle oracle-env py2-cx-oracle py2-sqlalchemy10 py2-marshmallow py2-psycopg2
-Requires: rotatelogs pystack
+### RPM cms spacemon-client 1.0.1-pre5
+## INITENV +PATH PERL5LIB %i
+## INITENV +PATH PATH %i/DMWMMON/SpaceMon/Utilities
+
+%define downloadn %(echo %n | cut -f1 -d-)
+%define downloadm DMWMMON
+%define downloadt %(echo %realversion | tr '.' '_')
+%define setupdir  %{downloadm}-%{n}_%{downloadt}
+Source: https://github.com/dmwm/DMWMMON/archive/%{n}_%{downloadt}.tar.gz
 
 %prep
-%setup -n %n
 
+%setup -n %{setupdir}
+ 
 %build
 
 %install
-cp -rp Multiinstance/Application %i/
-python -m compileall %i/Application || true
+# Get all SpaceMon sources into DMWMMON, as module names expect it:
+mkdir -p %i/DMWMMON
+tar -c SpaceMon | tar -x -C %i/DMWMMON
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
-mkdir -p %i/etc/profile.d/
+mkdir -p %i/etc/profile.d
 : > %i/etc/profile.d/dependencies-setup.sh
 : > %i/etc/profile.d/dependencies-setup.csh
 for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
@@ -26,3 +33,4 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
+

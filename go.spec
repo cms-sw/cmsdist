@@ -1,19 +1,18 @@
-### RPM cms confdb 1.4.0
-Source: git://github.com/cms-sw/web-confdb?obj=Server/%realversion&export=%n&output=/%n.tar.gz
-Requires: python cherrypy oracle oracle-env py2-cx-oracle py2-sqlalchemy10 py2-marshmallow py2-psycopg2
-Requires: rotatelogs pystack
+### RPM external go 1.6
+
+#Source: https://storage.googleapis.com/golang/go%{realversion}.src.tar.gz
+Source: https://storage.googleapis.com/golang/go%{realversion}.linux-amd64.tar.gz
 
 %prep
-%setup -n %n
+%setup -n go
 
 %build
 
 %install
-cp -rp Multiinstance/Application %i/
-python -m compileall %i/Application || true
+cp -r * %i
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
-mkdir -p %i/etc/profile.d/
+mkdir -p %i/etc/profile.d
 : > %i/etc/profile.d/dependencies-setup.sh
 : > %i/etc/profile.d/dependencies-setup.csh
 for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
