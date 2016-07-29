@@ -1,4 +1,4 @@
-### RPM external evtgen 1.5.0
+### RPM external evtgen 1.6.0
 
 Requires: hepmc
 Requires: pythia8
@@ -12,7 +12,7 @@ Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distrib
 %endif
 
 %if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x -g -O2
+%define cms_cxxflags -std=c++0x -O2
 %endif
 
 %define keep_archives true
@@ -25,7 +25,7 @@ case %cmsplatf in
   ;;
 esac
 
-./configure --prefix=%{i} --hepmcdir=$HEPMC_ROOT --pythiadir=$PYTHIA8_ROOT --tauoladir=$TAUOLAPP_ROOT --photosdir=$PHOTOSPP_ROOT CXXFLAGS="%cms_cxxflags" 
+./configure --prefix=%{i} --hepmcdir=$HEPMC_ROOT --pythiadir=$PYTHIA8_ROOT --tauoladir=$TAUOLAPP_ROOT --photosdir=$PHOTOSPP_ROOT
 
 # One more fix-up for OSX (in addition to the patch above)
 case %cmsplatf in
