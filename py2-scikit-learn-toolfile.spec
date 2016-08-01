@@ -15,7 +15,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/py2-scikit-learn.xml
   <runtime name="PYTHONPATH" value="$PY2SCIKIT_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   <use name="python"/>
   <use name="py2-numpy"/>
-  <use name="lapack"/>
   <use name="py2-matplotlib"/>
   <use name="py2-scipy "/>
 </tool>
