@@ -60,3 +60,8 @@ if [ "`ls ${RPM_INSTALL_PREFIX}/*/%{pkgcategory}/%{pkgname}/v*/etc/profile.d/ini
   /bin/cp -f ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/das_client $RPM_INSTALL_PREFIX/common/das_client.tmp
   mv $RPM_INSTALL_PREFIX/common/das_client.tmp $RPM_INSTALL_PREFIX/common/das_client
 fi
+
+#Create overrides/bin directory (newly supported by SCRAM)
+#and make sure that das_client.py script points to das_cleint wrapper
+mkdir -p $RPM_INSTALL_PREFIX/share/overrides/bin
+[ -e $RPM_INSTALL_PREFIX/share/overrides/bin/das_client.py ] || ln -sf ../../../common/das_client $RPM_INSTALL_PREFIX/share/overrides/bin/das_client.py
