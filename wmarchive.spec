@@ -1,4 +1,4 @@
-### RPM cms wmarchive v00.00.70
+### RPM cms wmarchive v00.01.03
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define wmcver 1.0.13.pre6
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
@@ -6,7 +6,7 @@
 %define wmcpkg WMCore
 Source0: git://github.com/dmwm/WMArchive?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
 Source1: git://github.com/dmwm/WMCore?obj=master/%wmcver&export=%{wmcpkg}_%n&output=/%{wmcpkg}_%n.tar.gz
-Requires: python py2-bz2file py2-pydoop py2-avro py2-elasticsearch py2-pymongo mongo py2-httplib2 cherrypy py2-cjson py2-py4j java-jdk rotatelogs
+Requires: python py2-bz2file py2-pydoop py2-avro py2-elasticsearch py2-pymongo mongo32 py2-httplib2 cherrypy py2-cjson py2-py4j java-jdk rotatelogs
 BuildRequires: py2-sphinx
 
 # RPM macros documentation
@@ -47,7 +47,7 @@ tar --exclude '.buildinfo' -C doc/build/html -cf - . | tar -C %i/doc -xvf -
 
 # install static files
 mkdir -p %i/data/storage
-cp -r src/{js,css,images,templates,maps} %i/data
+cp -r src/{js,css,images,templates,maps,sass} %i/data
 
 # generate current schema
 mkdir -p %i/data/schemas
