@@ -1,0 +1,13 @@
+--- Makefile.orig	2016-08-13 22:08:14.000000000 -0500
++++ Makefile	2016-08-13 22:09:12.000000000 -0500
+@@ -33,8 +33,8 @@
+ DEBUG_CXXFLAGS   := ${DEBUG_CFLAGS} 
+ RELEASE_CXXFLAGS := ${RELEASE_CFLAGS}
+ 
+-DEBUG_LDFLAGS    := -g -shared -Wl,-E -Wl,-z,defs
+-RELEASE_LDFLAGS  := -shared -Wl,-E -Wl,-z,defs
++DEBUG_LDFLAGS    := -g -shared 
++RELEASE_LDFLAGS  := -shared 
+ 
+ ifeq (YES, ${DEBUG})
+    CFLAGS       := ${DEBUG_CFLAGS}

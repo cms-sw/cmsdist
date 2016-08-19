@@ -34,32 +34,34 @@ esac
 
 chmod +x buildlib/install-sh
 # Avoid picking up sqlite3 from the system.
-perl -p -i -e 's|sqlite3|sqlite3disabled|' configure
-./configure --prefix=%{i} --exec-prefix=%{i} \
-                          --build="%{_build}" \
-                          --host="%{_host}" \
-                          --disable-static \
-                          --disable-nls \
-                          --disable-dependency-tracking \
-                          --without-libintl-prefix \
-                          --disable-docs \
-                          --disable-selinux \
-                          --disable-rpath \
-                          CXXFLAGS="-fPIC $USER_CXXFLAGS" \
-                          CFLAGS="-fPIC $USER_CFLAGS" \
-                          CPPFLAGS="-DAPT_DISABLE_MULTIARCH -D_RPM_4_4_COMPAT -I$BOOTSTRAP_BUNDLE_ROOT/include -I$RPM_ROOT/include -I$RPM_ROOT/include/rpm $USER_CPPFLAGS" \
-                          LDFLAGS="-L$BOOTSTRAP_BUNDLE_ROOT/lib -L$RPM_ROOT/lib $USER_LDFLAGS" \
-                          libs="-llua $USER_LIBS" \
-                          LIBXML2_CFLAGS="-I$BOOTSTRAP_BUNDLE_ROOT/include/libxml2 -I$BOOTSTRAP_BUNDLE_ROOT/include -I$RPM_ROOT/include" \
-                          LIBXML2_LIBS="-lxml2 -L$BOOTSTRAP_BUNDLE_ROOT/lib -L$RPM_ROOT/lib" \
-                          RPM_LIBS="-L$RPM_ROOT/lib -lrpm -lrpmio -lrpmbuild $USER_RPM_LIBS"
-
-chmod +x buildlib/install-sh
-make %{makeprocesses}
+#perl -p -i -e 's|sqlite3|sqlite3disabled|' configure
+#./configure --prefix=%{i} --exec-prefix=%{i} \
+#                          --build="%{_build}" \
+#                          --host="%{_host}" \
+#                          --disable-static \
+#                          --disable-nls \
+#                          --disable-dependency-tracking \
+#                          --without-libintl-prefix \
+#                          --disable-docs \
+#                          --disable-selinux \
+#                          --disable-rpath \
+#                          CXXFLAGS="-fPIC $USER_CXXFLAGS" \
+#                          CFLAGS="-fPIC $USER_CFLAGS" \
+#                          CPPFLAGS="-DAPT_DISABLE_MULTIARCH -D_RPM_4_4_COMPAT -I$BOOTSTRAP_BUNDLE_ROOT/include -I$RPM_ROOT/include -I$RPM_ROOT/include/rpm $USER_CPPFLAGS" \
+#                          LDFLAGS="-L$BOOTSTRAP_BUNDLE_ROOT/lib -L$RPM_ROOT/lib $USER_LDFLAGS" \
+#                          libs="-llua $USER_LIBS" \
+#                          LIBXML2_CFLAGS="-I$BOOTSTRAP_BUNDLE_ROOT/include/libxml2 -I$BOOTSTRAP_BUNDLE_ROOT/include -I$RPM_ROOT/include" \
+#                          LIBXML2_LIBS="-lxml2 -L$BOOTSTRAP_BUNDLE_ROOT/lib -L$RPM_ROOT/lib" \
+#                          RPM_LIBS="-L$RPM_ROOT/lib -lrpm -lrpmio -lrpmbuild $USER_RPM_LIBS"
+#
+#chmod +x buildlib/install-sh
+#make %{makeprocesses}
 
 
 %install
-make install
+#make install
+mkdir -p %{i}/bin
+mkdir -p %{i}/lib
 case %cmsos in
   osx*) SONAME=dylib ;;
   *) SONAME=so ;;

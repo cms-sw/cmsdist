@@ -9,6 +9,10 @@ BuildRequires: cmake
 Requires: zlib
 Requires: openssl
 
+%if "%{?cms_cxxflags:set}" != "set"
+%define cms_cxxflags -std=c++0x -O2 -fno-strict-aliasing -Wno-maybe-uninitialized -Wno-deprecated-declarations -Wno-unused-but-set-variable -Wno-unused-variable
+%endif
+
 %prep
 %setup -n %n-%{realversion}
 
@@ -32,11 +36,16 @@ cmake ../ \
   -DOPENSSL_ROOT_DIR:PATH=${OPENSSL_ROOT} \
   -DZLIB_ROOT:PATH=${ZLIB_ROOT} \
   -DENABLE_PYTHON=FALSE \
+  -DENABLE_PERL=FALSE \
   -DENABLE_FUSE=FALSE \
   -DENABLE_KRB5=TRUE \
   -DENABLE_READLINE=FALSE \
   -DENABLE_CRYPTO=TRUE \
-  -DCMAKE_SKIP_RPATH=TRUE
+%ifos linux
+  -DCMAKE_SKIP_RPATH=TRUE 
+%else
+  -DCMAKE_CXX_FLAGS="%{cms_cxxflags}"
+%endif
 
 # Use makeprocess macro, it uses compiling_processes defined by
 # build configuration file or build argument

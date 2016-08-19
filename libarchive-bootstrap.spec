@@ -1,7 +1,7 @@
 ### RPM external libarchive-bootstrap 3.1.2
 Source0: http://www.libarchive.org/downloads/libarchive-%{realversion}.tar.gz
-
-Requires: xz-bootstrap
+BuildRequires: gcc
+Requires: zlib-bootstrap xz-bootstrap bz2lib-bootstrap
 
 %define keep_archives true
 %define strip_files %{i}/{lib,bin}
@@ -44,8 +44,8 @@ done
   --without-openssl \
   --without-xml2 \
   --without-expat \
-  CPPFLAGS="-I${XZ_BOOTSTRAP_ROOT}/include" \
-  LDFLAGS="-L${XZ_BOOTSTRAP_ROOT}/lib"
+  CPPFLAGS="-I${ZLIB_BOOTSTRAP_ROOT}/include -I${XZ_BOOTSTRAP_ROOT}/include -I${BZ2LIB_BOOTSTRAP_ROOT}/include" \
+  LDFLAGS="-L${ZLIB_BOOTSTRAP_ROOT}/lib -L${XZ_BOOTSTRAP_ROOT}/lib -L${BZ2LIB_BOOTSTRAP_ROOT}/lib"
 
 make %{makeprocesses}
 

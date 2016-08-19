@@ -8,7 +8,7 @@
 
 Source: cmsos
 Source1: migrate-cvsroot
-Source2: https://raw.githubusercontent.com/cms-sw/cmspkg/a02f5a58b33a257acb596b402116604dde2ed991/client/cmspkg.py
+Source2: https://raw.githubusercontent.com/cms-sw/cmspkg/77266d6993d6c820e7b70d7e8919889606b2835a/client/cmspkg.py
 
 %prep
 #Make sure that we always build cms-common with a different revision and 

@@ -1,13 +1,13 @@
-### RPM external bootstrap-bundle 1.7
-## INITENV +PATH PATH %{i}/bin
+### RPM external bootstrap-bundle 1.0
+## INITENV SET MAGIC %{i}/share/magic.mgc
 ## NOCOMPILER
 
 BuildRequires: gcc
-BuildRequires: db6-bootstrap libxml2-bootstrap lua-bootstrap
-BuildRequires: openssl-bootstrap xz-bootstrap libarchive-bootstrap
+BuildRequires: bz2lib-bootstrap db4-bootstrap file-bootstrap libxml2-bootstrap lua-bootstrap nspr-bootstrap nss-bootstrap
+BuildRequires: openssl-bootstrap popt-bootstrap sqlite-bootstrap zlib-bootstrap xz-bootstrap
 
 %define keep_archives true
-%define is64bit %(case %{cmsplatf} in (*_amd64_*|*_mic_*|*_aarch64_*|*_ppc64le_*|*_ppc64_*) echo 1 ;; (*) echo 0 ;; esac)
+%define isamd64 %(case %{cmsplatf} in (*amd64*|*_mic_*) echo 1 ;; (*) echo 0 ;; esac)
 %define ismac   %(case %{cmsplatf} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 %define soname so
@@ -16,7 +16,7 @@ BuildRequires: openssl-bootstrap xz-bootstrap libarchive-bootstrap
 %endif
 
 %define libdir lib
-%if %is64bit
+%if %isamd64
 %define libdir lib64
 %endif
 
@@ -32,6 +32,7 @@ for tool in `echo %{buildrequiredtools} | tr ' ' '\n' | grep '\-bootstrap$'`; do
     rsync -r --links --ignore-existing ${toolbase}/${sdir}/ %{i}/${sdir}/
   done
 done
+cp -r ${FILE_BOOTSTRAP_ROOT}/share/misc/magic.mgc %{i}/share
 rm -f %{i}/bin/xml2-config %{i}/lib/xml2Conf.sh
 
 #Bundle libstd and libgcc_s and libelf
@@ -43,16 +44,35 @@ cp -P $GCC_ROOT/lib/libelf.%{soname}* %{i}/lib
 cp -P $GCC_ROOT/lib/libelf-*.%{soname} %{i}/lib
 %endif
 
-find %{i}/bin -type f -writable -exec %{strip} {} \;
-# Do not strip archives, otherwise index of contents will be lost on newer binutils
-# and an extra step (ranlib) would be required
-find %{i}/lib -type f ! -name '*.a' -writable -exec %{strip} {} \;
+find %{i}/bin -type f -perm -a+x -exec %strip {} \;
+find %{i}/lib -type f -perm -a+x -exec %strip {} \;
 
-# All shared libraries on RH/Fedora are installed with 0755
-# RPM requires it to generate requires/provides also (otherwise it ignores the files)
-find %{i}/lib -type f | xargs chmod 0755
-
-mv %{i}/lib/lib{lua,archive}.a %{i}/tmp
+mv %{i}/lib/lib{lua,magic}.a %{i}/tmp
 rm -f %{i}/lib/*.{l,}a
 mv %{i}/tmp/lib* %{i}/lib/
 rm -rf %{i}/tmp
+
+%if %ismac
+for file in %{i}/lib/*.dylib*;do
+    chmod u+w $file
+    newinstallname="@rpath/"${file##%{cmsplatf}/}
+    install_name_tool -id $newinstallname $file
+    for dep in `otool -L $file | sed -e's|(.*||' | grep -v -e':$'`;do
+       if [ -z "${dep##@*path/*}" ]; then
+         newdep="@loader_path/"`basename $dep`
+         install_name_tool -change $dep $newdep $file
+       fi
+    done
+    chmod u-w $file
+done
+for file in %{i}/bin/*;do
+    chmod u+w $file
+    for dep in `otool -L $file | sed -e's|(.*||' | grep -v -e':$'`;do
+       if [ -z "${dep##@*path/*}" ]; then
+         newdep="@executable_path/../lib/"`basename $dep`
+         install_name_tool -change $dep $newdep $file
+       fi
+    done
+    chmod u-w $file
+done
+%endif

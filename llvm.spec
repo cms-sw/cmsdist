@@ -1,6 +1,7 @@
 ### RPM external llvm 3.8.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHONPATH %{i}/lib64/python$(echo $PYTHON_VERSION | cut -d. -f 1,2)/site-packages
+## NOCOMPILER
 
 BuildRequires: python cmake ninja
 Requires: gcc zlib
@@ -47,7 +48,12 @@ mv openmp-%{realversion}-%{openmpCommit} openmp
 
 # include-what-you-see is not LLVM project, we have to
 # add it explicitly.
+%ifos darwin
+sed -ibak '/add_clang_subdirectory(libclang)/a \
+add_subdirectory(include-what-you-use)' tools/clang/tools/CMakeLists.txt
+%else
 sed -ibak '/add_clang_subdirectory(libclang)/a add_subdirectory(include-what-you-use)' tools/clang/tools/CMakeLists.txt
+%endif
 
 %build
 rm -rf %{_builddir}/build
@@ -55,7 +61,6 @@ mkdir -p %{_builddir}/build
 cd %{_builddir}/build
 
 cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit} \
-  -G Ninja \
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
   -DCMAKE_BUILD_TYPE:STRING=Release \
   -DLLVM_LIBDIR_SUFFIX:STRING=64 \
@@ -66,7 +71,10 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit} \
   -DLLVM_ENABLE_RTTI:BOOL=ON \
   -DLLVM_TARGETS_TO_BUILD:STRING="X86;PowerPC;AArch64" \
   -DCMAKE_REQUIRED_INCLUDES="${ZLIB_ROOT}/include" \
-  -DCMAKE_PREFIX_PATH="${ZLIB_ROOT}"
+  -DCMAKE_PREFIX_PATH="${ZLIB_ROOT}"\
+  -G Ninja \
+  -DCMAKE_CXX_COMPILER=g++ \
+  -DCMAKE_C_COMPILER=gcc 
 
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
 

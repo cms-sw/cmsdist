@@ -3,12 +3,15 @@
 %define branch cms/2.5.3
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
-
+Patch0: tinyxml
 BuildRequires: gmake
 Requires: boost
 
 %prep
 %setup -n %{n}.%{realversion}
+%ifos darwin
+%patch0
+%endif
 
 %build
 export BOOST_ROOT

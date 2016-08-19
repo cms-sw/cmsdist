@@ -1,11 +1,11 @@
-### RPM external gcc 6.1.1
+### RPM external gcc 5.4.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-6-branch/?view=log
-%define gccRevision 236729
-%define gccBranch branches/gcc-6-branch
+%define gccRevision 237057
+%define gccBranch tags/gcc_5_4_0_release
 
 %define moduleName gcc-%(echo %{gccBranch} | tr / _)-%{gccRevision}
 Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{gccRevision}&output=/%{moduleName}.tar.gz
@@ -19,44 +19,33 @@ Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{
 %define gmpVersion 6.1.0
 %define mpfrVersion 3.1.3
 %define mpcVersion 1.0.3
-%define islVersion 0.16.1
-%define zlibVersion 1.2.8
-Source1: http://davidlt.web.cern.ch/davidlt/vault/gmp-%{gmpVersion}.tar.bz2
+%define islVersion 0.14
+Source1: http://home.fnal.gov/~gartung/spack_mirror/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
 Source4: ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-%{islVersion}.tar.bz2
-Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 
 %if %islinux
 %define bisonVersion 3.0.4
-%define binutilsVersion 2.26
-%define elfutilsVersion 0.166
+%define binutilsVersion 2.25.1
+%define elfutilsVersion 0.164
 %define m4Version 1.4.17
 %define flexVersion 2.6.0
+%define zlibVersion 1.2.8
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
 Source8: http://ftp.gnu.org/gnu/binutils/binutils-%{binutilsVersion}.tar.bz2
 Source9: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
 Source10: http://ftp.gnu.org/gnu/m4/m4-%m4Version.tar.gz
 Source11: http://iweb.dl.sourceforge.net/project/flex/flex-%{flexVersion}.tar.bz2
-%endif
+Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 
 Patch0: gcc-flex-nonfull-path-m4
 Patch1: gcc-flex-disable-doc
-Patch2: gcc-elfutils-0.166-fix-cmp
+%endif
 
 %prep
 
 %setup -T -b 0 -n %{moduleName}
-
-# Filter out private stuff from RPM requires headers.
-cat << \EOF > %{name}-req
-#!/bin/sh
-%{__find_requires} $* | \
-sed -e '/GLIBC_PRIVATE/d'
-EOF
-
-%global __find_requires %{_builddir}/%{moduleName}/%{name}-req
-chmod +x %{__find_requires}
 
 %if %islinux
 %if %isamd64
@@ -81,7 +70,8 @@ cat << \EOF_CMS_H > gcc/config/i386/cms.h
    %{static:-static}} -z common-page-size=4096 -z max-page-size=4096"
 EOF_CMS_H
 %endif
-%endif
+
+
 
 cat << \EOF_CONFIG_GCC >> gcc/config.gcc
 # CMS patch to include gcc/config/general-cms.h when building gcc
@@ -93,14 +83,23 @@ cat << \EOF_CMS_H > gcc/config/general-cms.h
 #define CC1PLUS_SPEC "-fabi-version=0"
 EOF_CMS_H
 
+%endif
+
 # GCC prerequisites
+
+%if %isdarwin
 %setup -D -T -b 1 -n gmp-%{gmpVersion}
 %setup -D -T -b 2 -n mpfr-%{mpfrVersion}
 %setup -D -T -b 3 -n mpc-%{mpcVersion}
 %setup -D -T -b 4 -n isl-%{islVersion}
-%setup -D -T -b 12 -n zlib-%{zlibVersion}
+%endif
 
 %if %islinux
+%setup -D -T -b 1 -n gmp-%{gmpVersion}
+%setup -D -T -b 2 -n mpfr-%{mpfrVersion}
+%setup -D -T -b 3 -n mpc-%{mpcVersion}
+%setup -D -T -b 4 -n isl-%{islVersion}
+#%setup -D -T -b 12 -n zlib-%{zlibVersion}
 %setup -D -T -b 7 -n bison-%{bisonVersion}
 %setup -D -T -b 8 -n binutils-%{binutilsVersion}
 %setup -D -T -b 9 -n elfutils-%{elfutilsVersion}
@@ -133,6 +132,7 @@ CXX="$CXX -fPIC"
 mkdir -p %{i}/tmp/sw
 export PATH=%{i}/tmp/sw/bin:$PATH
 
+%if %islinux
 # Build zlib (required for compressed debug information)
 cd ../zlib-%{zlibVersion}
 case %{cmsplatf} in
@@ -151,7 +151,6 @@ esac
 make %{makeprocesses}
 make install
 
-%if %islinux
   CONF_BINUTILS_OPTS="--enable-ld=default --enable-lto --enable-plugins --enable-threads"
   CONF_GCC_WITH_LTO="--enable-ld=default --enable-lto"
 
@@ -225,11 +224,11 @@ esac
   make %{makeprocesses}
   find . -name Makefile -exec perl -p -i -e 's|LN = ln|LN = cp -p|;s|ln ([^-])|cp -p $1|g' {} \; 
   make install
-%endif
 
+%endif
 # Build GMP
 cd ../gmp-%{gmpVersion}
-./configure --disable-static --prefix=%{i} --enable-shared --disable-static --enable-cxx \
+./configure --prefix=%{i} --enable-shared --enable-cxx --disable-static \
             --build=%{_build} --host=%{_host} \
             CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
 make %{makeprocesses}
@@ -237,7 +236,7 @@ make install
 
 # Build MPFR
 cd ../mpfr-%{mpfrVersion}
-./configure --disable-static --prefix=%{i} --with-gmp=%{i} \
+./configure --prefix=%{i} --with-gmp=%{i} --disable-static \
             --build=%{_build} --host=%{_host} \
             CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
 make %{makeprocesses}
@@ -245,7 +244,7 @@ make install
 
 # Build MPC
 cd ../mpc-%{mpcVersion}
-./configure --disable-static --prefix=%{i} --with-gmp=%{i} --with-mpfr=%{i} \
+./configure --prefix=%{i} --with-gmp=%{i} --with-mpfr=%{i} --disable-static \
             --build=%{_build} --host=%{_host} \
             CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
 make %{makeprocesses}
@@ -253,11 +252,13 @@ make install
 
 # Build ISL
 cd ../isl-%{islVersion}
-./configure --disable-static --with-gmp-prefix=%i --prefix=%{i} \
+./configure --with-gmp-prefix=%{i} --prefix=%{i} --disable-static \
             --build=%{_build} --host=%{_host} \
             CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
 make %{makeprocesses}
 make install
+
+
 
 CONF_GCC_ARCH_SPEC=
 case %{cmsplatf} in
@@ -285,6 +286,22 @@ rm gcc/DEV-PHASE
 touch gcc/DEV-PHASE
 mkdir -p obj
 cd obj
+
+%if %isdarwin
+export DYLD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$DYLD_LIBRARY_PATH
+../configure --prefix=%{i} --disable-multilib --disable-nls --disable-dssi --with-system-zlib \
+             --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES --enable-gnu-indirect-function \
+             --enable-__cxa_atexit --disable-libunwind-exceptions --enable-gnu-unique-object \
+             --enable-plugin --enable-linker-build-id \
+             $CONF_GCC_OS_SPEC $CONF_GCC_WITH_LTO --enable-bootstrap \
+             --with-gmp=%{i} --with-mpfr=%{i} --with-mpc=%{i} --with-isl=%{i} \
+             --with-default-libstdcxx-abi=gcc4-compatible --enable-checking=release \
+             --build=%{_build} --host=%{_host} --enable-libstdcxx-time=rt $CONF_GCC_ARCH_SPEC \
+             --enable-shared --disable-libgcj CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
+             CFLAGS="-I%{i}/tmp/sw/include" CXXFLAGS="-I%{i}/tmp/sw/include" \
+             LDFLAGS="-L%{i}/lib"
+make %{makeprocesses} bootstrap 
+%else
 export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
 ../configure --prefix=%{i} --disable-multilib --disable-nls --disable-dssi \
              --enable-languages=c,c++,fortran$ADDITIONAL_LANGUAGES --enable-gnu-indirect-function \
@@ -297,6 +314,7 @@ export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
              CFLAGS="-I%{i}/tmp/sw/include" CXXFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
 
 make %{makeprocesses} profiledbootstrap
+%endif
 
 %install
 cd %_builddir/%{moduleName}/obj && make install 
@@ -312,3 +330,17 @@ find %{i}/lib %{i}/lib64 -name '*.la' -exec rm -f {} \; || true
 %define keep_archives yes
 # This avoids having a dependency on the system pkg-config.
 rm -rf %{i}/lib/pkg-config
+
+%post
+
+%ifos darwin
+dirs=`find $CMS_INSTALL_PREFIX/%{pkgrel} -name libgcc.a | head -1 | xargs dirname `
+if [ -n "${dirs}" ]
+then
+$CMS_INSTALL_PREFIX/%{pkgrel}/bin/gcc -dumpspecs >${dirs}/specs
+perl -p -i -e 'use Env qw(CMS_INSTALL_PREFIX); s|\*link:|\*link: -rpath $CMS_INSTALL_PREFIX/%{cmsplatf} -headerpad_max_install_names \\|g' ${dirs}/specs
+fi
+echo "export CXXFLAGS=\"-Wl,-headerpad_max_install_names -Wl,-rpath -Wl,$CMS_INSTALL_PREFIX/%{cmsplatf} \"" >> $CMS_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+%{relocateConfig}etc/profile.d/init.sh
+%{relocateConfig}etc/profile.d/init.csh
+%endif

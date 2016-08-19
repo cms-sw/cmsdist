@@ -3,13 +3,18 @@ Source: https://www.threadingbuildingblocks.org/sites/default/files/software_rel
 
 Patch0: tbb-cpp11-rvalue-ref-present
 
+
 %prep
 %setup -n tbb%{realversion}
 %patch0 -p1
 
 %build
 
+%ifos darwin
+CXX=g++ CXXFLAGS=-std=c++14 make %makeprocesses
+%else
 make %makeprocesses
+%endif
 
 %install
 install -d %i/lib

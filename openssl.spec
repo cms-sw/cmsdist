@@ -1,15 +1,15 @@
-### RPM external openssl 1.0.2d
-Source0: http://davidlt.web.cern.ch/davidlt/vault/openssl-1.0.2d-5675d07a144aa1a6c85f488a95aeea7854e86059.tar.bz2
-
+### RPM external openssl 1.0.2g
+#Source0: http://davidlt.web.cern.ch/davidlt/vault/openssl-1.0.2d-5675d07a144aa1a6c85f488a95aeea7854e86059.tar.bz2
+Source0: https://www.openssl.org/source/openssl-1.0.2g.tar.gz 
 # https://rt.openssl.org/Ticket/Display.html?id=3979&user=guest&pass=guest
-Patch0: openssl-1.0.2d-pr3979
+#Patch0: openssl-1.0.2d-pr3979
 # We want to pick CA certificates from /etc/pki/tls (openssldir), but we
 # cannot install to a standard system location
 Patch1: openssl-1.0.2d-disable-install-openssldir
 
 %prep
 %setup -b 0 -n openssl-%{realversion}
-%patch0 -p1
+#%patch0 -p1
 %patch1 -p1
 
 # Disable documenation
