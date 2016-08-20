@@ -343,7 +343,7 @@ fi
 for x in `find $CMS_INSTALL_PREFIX/%{pkgrel}/ -type f | grep -v -e "[.]pyc"`; do 
     filestr=`file $x | cut -d: -f2 | tail -1`
     case ${filestr} in 
-       *Mach-O*(dynamically linked shared library|bundle|universal binary|executable)* )
+       *Mach-O*dynamically linked shared library|*Mach-O*bundle*|*Mach-O*universal binary|*Mach-O*executable* )
               chmod +w $x
               install_name_tool -add_rpath  $CMS_INSTALL_PREFIX/%{pkgrel}/ $x
               chmod -w $x
