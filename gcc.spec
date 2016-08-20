@@ -340,7 +340,16 @@ then
 $CMS_INSTALL_PREFIX/%{pkgrel}/bin/gcc -dumpspecs >${dirs}/specs
 perl -p -i -e 'use Env qw(CMS_INSTALL_PREFIX); s|\*link:|\*link: -rpath $CMS_INSTALL_PREFIX/%{cmsplatf} -headerpad_max_install_names \\|g' ${dirs}/specs
 fi
-echo "export CXXFLAGS=\"-Wl,-headerpad_max_install_names -Wl,-rpath -Wl,$CMS_INSTALL_PREFIX/%{cmsplatf} \"" >> $CMS_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
-%{relocateConfig}etc/profile.d/init.sh
-%{relocateConfig}etc/profile.d/init.csh
+for x in `find $CMS_INSTALL_PREFIX/%{pkgrel}/ -type f | grep -v -e "[.]pyc"`; do 
+    filestr=`file $x | cut -d: -f2 | tail -1`
+    case ${filestr} in 
+       *Mach-O*(dynamically linked shared library|bundle|universal binary|executable)* )
+              chmod +w $x
+              install_name_tool -add_rpath  $CMS_INSTALL_PREFIX/%{pkgrel}/ $x
+              chmod -w $x
+              ;;
+       * )
+              ;;
+    esac
+done
 %endif

@@ -119,6 +119,7 @@ cmake ../%{n}-%{realversion} \
   -Dalien=OFF \
   -Dmonalisa=OFF \
 %if %isdarwin
+  -Dcocoa=OFF \
   -Dbuiltin_afterimage=OFF \
   -Dx11=ON \
   -Dcastor=OFF \
