@@ -354,4 +354,9 @@ for x in `find $CMS_INSTALL_PREFIX/%{pkgrel}/ -type f | grep -v -e "[.]pyc" | gr
               ;;
     esac
 done
+
+for x in ` find $CMS_INSTALL_PREFIX/%{cmsplatf}/ -name libgcc_s.1.dylib`; do
+    install_name_tool -id @rpath/${x##*%{cmsplatf}/} $x
+done    
+
 %endif
