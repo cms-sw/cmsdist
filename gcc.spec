@@ -7,8 +7,10 @@
 %define gccRevision 237057
 %define gccBranch tags/gcc_5_4_0_release
 
-%define moduleName gcc-%(echo %{gccBranch} | tr / _)-%{gccRevision}
-Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{gccRevision}&output=/%{moduleName}.tar.gz
+#%define moduleName gcc-%(echo %{gccBranch} | tr / _)-%{gccRevision}
+#Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{gccRevision}&output=/%{moduleName}.tar.gz
+%define moduleName %{n}-%{realversion}
+Source0: ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/%{n}-%{realversion}/%{n}-%{realversion}.tar.gz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
@@ -343,9 +345,9 @@ fi
 for x in `find $CMS_INSTALL_PREFIX/%{pkgrel}/ -type f | grep -v -e "[.]pyc"`; do 
     filestr=`file $x | cut -d: -f2 | tail -1`
     case ${filestr} in 
-       *Mach-O*"dynamically linked shared library"*|*Mach-O*bundle*|*Mach-O*"universal binary"*|*Mach-O*executable* )
+       *Mach-O*dynamically*|*Mach-O*bundle*|*Mach-O*binary*|*Mach-O*executable* )
               chmod +w $x
-              install_name_tool -add_rpath  $CMS_INSTALL_PREFIX/%{pkgrel}/ $x
+              install_name_tool -add_rpath  $CMS_INSTALL_PREFIX/%{cmsplatf} $x
               chmod -w $x
               ;;
        * )
