@@ -347,7 +347,7 @@ for x in `find $CMS_INSTALL_PREFIX/%{pkgrel}/ -type f | grep -v -e "[.]pyc" | gr
     case ${filestr} in 
        *Mach-O*dynamically*|*Mach-O*bundle*|*Mach-O*binary*|*Mach-O*executable* )
               chmod +w $x
-              install_name_tool -add_rpath  $CMS_INSTALL_PREFIX/%{cmsplatf} $x
+              install_name_tool -add_rpath  $CMS_INSTALL_PREFIX/%{cmsplatf} $x || true
               chmod -w $x
               ;;
        * )
