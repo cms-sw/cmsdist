@@ -342,7 +342,7 @@ then
 $CMS_INSTALL_PREFIX/%{pkgrel}/bin/gcc -dumpspecs >${dirs}/specs
 perl -p -i -e 'use Env qw(CMS_INSTALL_PREFIX); s|\*link:|\*link: -rpath $CMS_INSTALL_PREFIX/%{cmsplatf} -headerpad_max_install_names \\|g' ${dirs}/specs
 fi
-for x in `find $CMS_INSTALL_PREFIX/%{pkgrel}/ -type f | grep -v -e "[.]pyc"`; do 
+for x in `find $CMS_INSTALL_PREFIX/%{pkgrel}/ -type f | grep -v -e "[.]pyc" | grep -v libgcc_ext.10 `; do 
     filestr=`file $x | cut -d: -f2 | tail -1`
     case ${filestr} in 
        *Mach-O*dynamically*|*Mach-O*bundle*|*Mach-O*binary*|*Mach-O*executable* )
