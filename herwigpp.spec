@@ -20,7 +20,6 @@ Patch0: herwigpp-missingBoostMTLib
 
 
 BuildRequires: autotools
-BuildRequires: lhapdf
 
 
 %if "%{?cms_cxx:set}" != "set"
