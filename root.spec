@@ -42,7 +42,7 @@ cd ../build
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 export CFLAGS=-D__ROOFIT_NOBANNER
 export CXXFLAGS=-D__ROOFIT_NOBANNER
-export MACOSX_DEPLOYMENT_TARGET=10.11
+export MACOSX_DEPLOYMENT_TARGET=10.10
 
 cmake ../%{n}-%{realversion} \
   -DCMAKE_BUILD_TYPE=Release \
@@ -119,6 +119,7 @@ cmake ../%{n}-%{realversion} \
   -Dalien=OFF \
   -Dmonalisa=OFF \
 %if %isdarwin
+  -Dgcctoolchain=$GCC_ROOT \
   -Dcocoa=OFF \
   -Dbuiltin_afterimage=OFF \
   -Dx11=ON \

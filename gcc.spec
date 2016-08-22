@@ -344,15 +344,11 @@ perl -p -i -e 'use Env qw(CMS_INSTALL_PREFIX); s|\*link:|\*link: -rpath $CMS_INS
 fi
 for x in `find $CMS_INSTALL_PREFIX/%{pkgrel}/ -type f | grep -v -e "[.]pyc" | grep -v libgcc_ext.10 `; do 
     filestr=`file $x | cut -d: -f2 | tail -1`
-    case ${filestr} in 
-       *Mach-O*dynamically*|*Mach-O*bundle*|*Mach-O*binary*|*Mach-O*executable* )
-              chmod +w $x
-              install_name_tool -add_rpath  $CMS_INSTALL_PREFIX/%{cmsplatf} $x || true
-              chmod -w $x
-              ;;
-       * )
-              ;;
-    esac
+    if [ -z "${filestr##*Mach-O*}" ];then
+      chmod +w $x
+      install_name_tool -add_rpath  $CMS_INSTALL_PREFIX/%{cmsplatf} $x || true
+      chmod -w $x
+    fi
 done
 
 for x in ` find $CMS_INSTALL_PREFIX/%{cmsplatf}/ -name libgcc_s.1.dylib`; do

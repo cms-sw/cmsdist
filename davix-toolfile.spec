@@ -11,7 +11,11 @@ cat << \EOF_TOOLFILE > %i/etc/scram.d/davix.xml
     <lib name="davix"/>
     <client>
       <environment name="DAVIX_BASE" default="@TOOL_ROOT@"/>
+%ifos darwin
+      <environment name="LIBDIR" default="$DAVIX_BASE/lib"/>
+%else
       <environment name="LIBDIR" default="$DAVIX_BASE/lib64"/>
+%endif
       <environment name="INCLUDE" default="$DAVIX_BASE/include/davix"/>
     </client>
     <runtime name="PATH" value="$DAVIX_BASE/bin" type="path"/>
