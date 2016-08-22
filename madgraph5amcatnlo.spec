@@ -1,7 +1,6 @@
-### RPM external madgraph5amcatnlo 2.3.3
-%define versiontag 2_3_3
-Source: http://service-spi.web.cern.ch/service-spi/external/tarFiles/MCGeneratorsTarFiles/MG5_aMC_v%{realversion}.tar.gz
-#Source: https://launchpad.net/mg5amcnlo/2.0/2.3.0/+download/MG5_aMC_v%{realversion}.tar.gz
+### RPM external madgraph5amcatnlo 2.4.3
+%define versiontag 2_4_3
+Source: https://launchpad.net/mg5amcnlo/2.0/2.4.x/+download/MG5_aMC_v%{realversion}.tar.gz
 Patch0: madgraph5amcatnlo-config
 # Compile and install internal and external packages
 Patch1: madgraph5amcatnlo-compile    
@@ -26,7 +25,7 @@ cp input/mg5_configuration.txt input/mg5_configuration_patched.txt
 
 # Compile in advance
 chmod +x bin/compile.py
-${PYTHON_ROOT}/bin/python ./bin/compile.py
+./bin/compile.py
 # Remove compile script after compilation
 rm bin/compile.py
 
