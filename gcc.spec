@@ -86,6 +86,9 @@ cat << \EOF_CMS_H > gcc/config/general-cms.h
 EOF_CMS_H
 
 %endif
+%ifos darwin
+sed -i.bak -e 's!\@shlib_slibdir\@!@rpath/%{pkgrel}/lib!g' libgcc/config/t-slibgcc-darwin
+%endif
 
 # GCC prerequisites
 
@@ -350,11 +353,5 @@ for x in `find $CMS_INSTALL_PREFIX/%{pkgrel}/ -type f | grep -v -e "[.]pyc" | gr
       chmod -w $x
     fi
 done
-
-for x in ` find $CMS_INSTALL_PREFIX/%{cmsplatf}/ -name libgcc_s.1.dylib`; do
-    chmod +w $x
-    install_name_tool -id @rpath/${x##*%{cmsplatf}/} $x
-    chmod -w $x
-done    
 
 %endif
