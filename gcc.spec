@@ -87,7 +87,7 @@ EOF_CMS_H
 
 %endif
 %ifos darwin
-sed -i.bak -e 's!\@shlib_slibdir\@!@rpath/%{pkgrel}/lib!g' libgcc/config/t-slibgcc-darwin
+sed -i.bak -e 's!\@shlib_slibdir\@!@rpath/%{pkgdir}/lib!g' libgcc/config/t-slibgcc-darwin
 %endif
 
 # GCC prerequisites
