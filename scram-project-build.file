@@ -148,6 +148,16 @@ echo %{configtag} > %_builddir/config/config_tag
 %{?patchsrc7:%patchsrc7}
 %{?patchsrc8:%patchsrc8}
 %{?patchsrc9:%patchsrc9}
+%{?patchsrc10:%patchsrc10}
+%{?patchsrc11:%patchsrc11}
+%{?patchsrc12:%patchsrc12}
+%{?patchsrc13:%patchsrc13}
+%{?patchsrc14:%patchsrc14}
+%{?patchsrc15:%patchsrc15}
+%{?patchsrc16:%patchsrc16}
+%{?patchsrc17:%patchsrc17}
+%{?patchsrc18:%patchsrc18}
+%{?patchsrc19:%patchsrc19}
 
 rm -rf %i
 mkdir -p $(dirname %i)
