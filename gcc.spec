@@ -1,11 +1,11 @@
-### RPM external gcc 6.1.1
+### RPM external gcc 6.2.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-6-branch/?view=log
-%define gccRevision 236729
-%define gccBranch branches/gcc-6-branch
+%define gccRevision 239652
+%define gccBranch tags/gcc_6_2_0_release
 
 %define moduleName gcc-%(echo %{gccBranch} | tr / _)-%{gccRevision}
 Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{gccRevision}&output=/%{moduleName}.tar.gz
@@ -29,7 +29,7 @@ Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 
 %if %islinux
 %define bisonVersion 3.0.4
-%define binutilsVersion 2.26
+%define binutilsVersion 2.27
 %define elfutilsVersion 0.166
 %define m4Version 1.4.17
 %define flexVersion 2.6.0
@@ -203,7 +203,7 @@ esac
   ./configure --disable-static --with-zlib --without-bzlib --without-lzma \
               --build=%{_build} --host=%{_host} --program-prefix='eu-' --disable-silent-rules \
               --prefix=%{i} CC="gcc" \
-              CFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
+              CPPFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
   make %{makeprocesses}
   make install
 
