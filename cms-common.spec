@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1129
+## REVISION 1130
 ## NOCOMPILER
 
 %if "%{?cmsroot:set}" != "set"
@@ -8,7 +8,7 @@
 
 Source: cmsos
 Source1: migrate-cvsroot
-Source2: https://raw.githubusercontent.com/cms-sw/cmspkg/a02f5a58b33a257acb596b402116604dde2ed991/client/cmspkg.py
+Source2: https://raw.githubusercontent.com/cms-sw/cmspkg/69ca7987caf25a87a6c1e4084395a919e37269ac/client/cmspkg.py
 
 %prep
 #Make sure that we always build cms-common with a different revision and 
@@ -250,11 +250,14 @@ if [ -f $RPM_INSTALL_PREFIX/cmsset_default.csh ] && [ -f $RPM_INSTALL_PREFIX/etc
   fi
 fi
 
-REPO_INFO=$(grep '^rpm http://' $RPM_INSTALL_PREFIX/%{cmsplatf}/external/apt/*/etc/sources.list | tail -1 | sed 's|.*http://||;s| cms/cpt/Software/download/| cmssw/|')
-REPO_SERVER=$(echo "${REPO_INFO}"  | cut -d' ' -f1)
-REPOSITORY=$(echo "${REPO_INFO}"   | cut -d' ' -f2 | sed 's|/apt/.*||;s|.*/||')
-SERVER_PATH=$(echo "${REPO_INFO}"  | cut -d' ' -f2 | sed 's|/apt/.*||;s|/[^/]*$||')
-$RPM_INSTALL_PREFIX/%{pkgrel}/%{pkgrevision}/cmspkg.py -y -a %{cmsplatf} -p $RPM_INSTALL_PREFIX -s $REPO_SERVER -S $SERVER_PATH -r $REPOSITORY setup
+#Only run cmspkg setup if apt is installed. Non-apt based arch should use latest cmssw/repos/bootstrap which will internally install cmspkg
+if [ -d "$RPM_INSTALL_PREFIX/%{cmsplatf}/external/apt" ] ; then
+  REPO_INFO=$(grep '^rpm http://' $RPM_INSTALL_PREFIX/%{cmsplatf}/external/apt/*/etc/sources.list | tail -1 | sed 's|.*http://||;s| cms/cpt/Software/download/| cmssw/|')
+  REPO_SERVER=$(echo "${REPO_INFO}"  | cut -d' ' -f1)
+  REPOSITORY=$(echo "${REPO_INFO}"   | cut -d' ' -f2 | sed 's|/apt/.*||;s|.*/||')
+  SERVER_PATH=$(echo "${REPO_INFO}"  | cut -d' ' -f2 | sed 's|/apt/.*||;s|/[^/]*$||')
+  $RPM_INSTALL_PREFIX/%{pkgrel}/%{pkgrevision}/cmspkg.py -y -a %{cmsplatf} -p $RPM_INSTALL_PREFIX -s $REPO_SERVER -S $SERVER_PATH -r $REPOSITORY setup
+fi
 
 for file in `find . -name "*" -type f | grep -v /cmspkg.py`; do
   rm -f $RPM_INSTALL_PREFIX/$file
