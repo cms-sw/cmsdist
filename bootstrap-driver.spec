@@ -1,9 +1,7 @@
 ### RPM external bootstrap-driver 23.0
 ## NOCOMPILER
 
-Source: bootstrap
-
-Requires: apt
+Requires: rpm
 
 #danger! cms-common version is now hardwired below (and in bootstrap.file)
 
@@ -170,7 +168,8 @@ slc*)
         libXrender libXpm libcom_err perl-Test-Harness perl-Carp perl-constant perl-PathTools
         perl-Data-Dumper perl-Digest-MD5 perl-Exporter perl-File-Path perl-File-Temp perl-Getopt-Long
         perl-Socket perl-Text-ParseWords perl-Time-Local libX11-devel libXpm-devel libXext-devel mesa-libGLU-devel
-        perl-Switch perl-Storable perl-Env perl-Thread-Queue"
+        perl-Switch perl-Storable perl-Env perl-Thread-Queue nspr nss nss-util file file-libs readline
+        zlib popt bzip2 bzip2-libs"
 
   slc7_aarch64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl
                               ncurses e2fsprogs krb5-libs freetype fontconfig libstdc++
@@ -184,7 +183,8 @@ slc*)
                               perl-Exporter perl-File-Path perl-Getopt-Long perl-constant perl-File-Temp
                               perl-Socket perl-Time-Local perl-Storable glibc-headers perl-threads
                               perl-Thread-Queue perl-Module-ScanDeps perl-Test-Harness perl-Env perl-Switch
-                              perl-ExtUtils-Embed ncurses-libs perl-libs"
+                              perl-ExtUtils-Embed ncurses-libs perl-libs nspr nss nss-util file file-libs
+                              readline zlib popt bzip2 bzip2-libs"
 
   slc6_mic_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype compat-readline5 ncurses-libs perl-libs perl-ExtUtils-Embed
         fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
@@ -272,7 +272,8 @@ fc*)
                             perl-Socket perl-Time-Local perl-Storable glibc-headers perl-threads
                             perl-Thread-Queue perl-Module-ScanDeps perl-Test-Harness perl-Env perl-Switch
                             perl-Term-ANSIColor perl-ExtUtils-Embed ncurses-libs perl-libs perl-Errno
-                            perl-IO perl-Memoize"
+                            perl-IO perl-Memoize nspr nss nss-util file file-libs readline zlib popt
+                            bzip2 bzip2-libs perl-LWP-Protocol-connect perl-Encode"
 
   fc24_ppc64le_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl
                               ncurses e2fsprogs krb5-libs freetype fontconfig libstdc++
@@ -287,7 +288,8 @@ fc*)
                               perl-Socket perl-Time-Local perl-Storable glibc-headers perl-threads
                               perl-Thread-Queue perl-Module-ScanDeps perl-Test-Harness perl-Env perl-Switch
                               perl-Term-ANSIColor perl-ExtUtils-Embed ncurses-libs perl-libs perl-Errno
-                              perl-IO perl-Memoize"
+                              perl-IO perl-Memoize nspr nss nss-util file file-libs readline zlib popt
+                              bzip2 bzip2-libs perl-LWP-Protocol-connect perl-Encode"
 
   fc24_ppc64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl
                             ncurses e2fsprogs krb5-libs freetype fontconfig libstdc++
@@ -302,7 +304,8 @@ fc*)
                             perl-Socket perl-Time-Local perl-Storable glibc-headers perl-threads
                             perl-Thread-Queue perl-Module-ScanDeps perl-Test-Harness perl-Env perl-Switch
                             perl-Term-ANSIColor perl-ExtUtils-Embed ncurses-libs perl-libs perl-Errno
-                            perl-IO perl-Memoize"
+                            perl-IO perl-Memoize nspr nss nss-util file file-libs readline zlib popt
+                            bzip2 bzip2-libs perl-LWP-Protocol-connect perl-Encode"
   ;;
 esac
 
@@ -352,7 +355,6 @@ defaultPkgs="cms+cms-common+1.0"
 
 mkdir -p %{i}/etc/profile.d
 (echo "rpm_version=$RPM_VERSION"; \
- echo "apt_version=$APT_VERSION"; \
  echo "platformSeeds=\"$platformSeeds\""; \
  echo "unsupportedSeeds=\"$unsupportedSeeds\""; \
  echo "slc4_amd64_platformSeeds=\"$slc4_amd64_platformSeeds\""; \
@@ -384,7 +386,6 @@ mkdir -p %{i}/etc/profile.d
 ) > %{i}/%{cmsplatf}-driver.txt
 
 (echo "rpm_version=$RPM_VERSION"; \
- echo "apt_version=$APT_VERSION"; \
  echo "platformSeeds=\"$platformSeeds $compPackages\""; \
  echo "unsupportedSeeds=\"$unsupportedSeeds\""; \
  echo "slc4_amd64_platformSeeds=\"$slc4_amd64_platformSeeds \""; \
