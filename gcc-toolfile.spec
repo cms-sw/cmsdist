@@ -108,7 +108,7 @@ EOF_TOOLFILE
 %endif
 %ifos darwin
   export OS_SHAREDFLAGS="-shared -dynamic -single_module"
-  export OS_LDFLAGS="-Wl,-commons -Wl,use_dylibs"
+  export OS_LDFLAGS="-Wl,-commons -Wl,use_dylibs -Wl,-rpath -Wl,$RPM_INSTALL_PREFIX -Wl,-headerpad_max_install_names"
   export OS_RUNTIME_LDPATH_NAME="DYLD_LIBRARY_PATH"
 %endif
 

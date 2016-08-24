@@ -32,7 +32,7 @@ Requires: glibc
 #config stuff moved to github!
 %define cvsconfig	config
 %define configtar	config.tar.gz
-%define configrepo	git://github.com/cms-sw/cmssw-config.git?protocol=https
+%define configrepo	git://github.com/gartung/cmssw-config.git?protocol=https
 %if "%{?buildtarget:set}" != "set"
 %define buildtarget	release-build
 %endif
@@ -63,7 +63,7 @@ Requires: glibc
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-05-09
+%define configtag       osx1011
 %endif
 
 %if "%{?cvssrc:set}" != "set"
@@ -87,7 +87,7 @@ Requires: glibc
 %endif
 
 #define source0 %{configrepo}&obj=master/%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
-%define source0 https://github.com/cms-sw/cmssw-config/archive/%{configtag}.tar.gz
+%define source0 https://github.com/gartung/cmssw-config/archive/%{configtag}.tar.gz
 
 Source0: %source0
 Source1: %source1

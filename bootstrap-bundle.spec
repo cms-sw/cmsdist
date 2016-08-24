@@ -58,12 +58,12 @@ for file in %{i}/lib/*.dylib*;do
     for dep in `otool -L $file | sed -e's|(.*||' | grep -v -e':$'`;do
        if [ -z "${dep##@*path/*}" ]; then
          newdep="@loader_path/"`basename $dep`
-         install_name_tool -change $dep $newdep $file
+         install_name_tool -change $dep $newdep $file || true
        fi
     done
     for RP in `otool -l $file | grep -A3 LC_RP | grep path | awk '{print $2}'`;do
        if [ -z "${RP##*/*}" ]; then
-         install_name_tool -delete_rpath $RP $file
+         install_name_tool -delete_rpath $RP $file || true
        fi
     done
     chmod u-w $file
@@ -73,12 +73,12 @@ for file in %{i}/bin/*;do
     for dep in `otool -L $file | sed -e's|(.*||' | grep -v -e':$'`;do
        if [ -z "${dep##@*path/*}" ]; then
          newdep="@executable_path/../lib/"`basename $dep`
-         install_name_tool -change $dep $newdep $file
+         install_name_tool -change $dep $newdep $file || true
        fi
     done
     for RP in `otool -l $file | grep -A3 LC_RP | grep path | awk '{print $2}'`;do
        if [ -z "${RP##@*/*}" ]; then
-         install_name_tool -delete_rpath $RP $file
+         install_name_tool -delete_rpath $RP $file || true
        fi
     done
     chmod u-w $file
