@@ -1,9 +1,17 @@
- diff -Naur autodeps/darwin.prov   autodeps/darwin.prov.new
 --- autodeps/darwin.prov	2015-05-17 03:13:19.000000000 -0500
-+++ autodeps/darwin.prov.new	2016-08-18 13:01:51.000000000 -0500
-@@ -8,14 +8,5 @@
- filelist=$(sed -n -e '/\.dll/p' -e '/\.dylib/p' -e '/\.iglet/p' -e '/\.so/p' -e '/\.bundle/p' | sort | uniq | xargs file -L 2>/dev/null | grep "Mach-O.*\(ppc\|i386\|x86_64\|64-bit\)" | cut -d: -f1)
- 
++++ autodeps/darwin.prov.new	2016-08-25 19:21:50.000000000 -0500
+@@ -1,21 +1,10 @@
+-#!/bin/bash
++#!/bin/bash -x
+ # ----------------------------------------------------------
+ #       find-provides for Darwin/MacOSX
+ # ----------------------------------------------------------
+ # This script reads filenames from STDIN and outputs any relevant provides
+ # information that needs to be included in the package.
+-
+-filelist=$(sed -n -e '/\.dll/p' -e '/\.dylib/p' -e '/\.iglet/p' -e '/\.so/p' -e '/\.bundle/p' | sort | uniq | xargs file -L 2>/dev/null | grep "Mach-O.*\(ppc\|i386\|x86_64\|64-bit\)" | cut -d: -f1)
+-
++filelist=$(sed -n -e '/\.dll/p' -e '/\.dylib/p' -e '/\.iglet/p' -e '/\.so/p' -e '/\.bundle/p' | sort | uniq | xargs file -L 2>/dev/null | grep "Mach-O.*\(ppc\|i386\|x86_64\|64-bit\)" | cut -d: -f1 | cut -d" " -f1)
  for f in $filelist; do
 -    libname=$(basename $f | sed -e 's;\..*;;')
 -    soname=$(otool -l $f | grep $libname | awk '/ name/ {print $2}')
@@ -13,7 +21,7 @@
 -	    basename $soname
 -	fi
 -    else
- 	echo ${f##*/}
+-	echo ${f##*/}
 -    fi
++        echo ${f##*/}
  done | sort -u
-

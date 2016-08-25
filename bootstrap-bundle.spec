@@ -1,5 +1,4 @@
 ### RPM external bootstrap-bundle 1.0
-## INITENV SET MAGIC %{i}/share/magic.mgc
 ## NOCOMPILER
 
 BuildRequires: gcc
@@ -32,7 +31,6 @@ for tool in `echo %{buildrequiredtools} | tr ' ' '\n' | grep '\-bootstrap$'`; do
     rsync -r --links --ignore-existing ${toolbase}/${sdir}/ %{i}/${sdir}/
   done
 done
-cp -r ${FILE_BOOTSTRAP_ROOT}/share/misc/magic.mgc %{i}/share
 rm -f %{i}/bin/xml2-config %{i}/lib/xml2Conf.sh
 
 #Bundle libstd and libgcc_s and libelf
@@ -51,6 +49,7 @@ mv %{i}/lib/lib{lua,magic}.a %{i}/tmp
 rm -f %{i}/lib/*.{l,}a
 mv %{i}/tmp/lib* %{i}/lib/
 rm -rf %{i}/tmp
+rm -rf %{i}/bin/file
 
 %if %ismac
 for file in %{i}/lib/*.dylib*;do
