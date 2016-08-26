@@ -1,6 +1,6 @@
 ### RPM external sigcpp 2.6.2
 %define majorv %(echo %{realversion} | cut -d. -f1,2)
-Source: http://ftp.gnome.org/pub/GNOME/sources/libsigc++/%{majorv}/libsigc++-%{realversion}.tar.xz
+Source: http://home.fnal.gov/~gartung/spack-mirror/libsigcpp/libsigc++-%{realversion}.tar.gz
 
 BuildRequires: autotools
 

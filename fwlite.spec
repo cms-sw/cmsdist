@@ -23,6 +23,7 @@ Requires: fwlite-tool-conf python
 %define patchsrc6 rm -rf  src/CondFormats/RPCObjects/test/* src/CondFormats/RPCObjects/src/*
 %define patchsrc7 rm -rf  src/CondFormats/L1TObjects/test/* src/CondFormats/L1TObjects/src/*
 %define patchsrc8 perl -p -i -e 's|<use   name="DataFormats/Candidate"/>|<use   name="DataFormats/Candidate"/> <use   name="DataFormats/HcalRecHit"/>|' src/DataFormats/CastorReco/BuildFile.xml
+%define patchsrc9 rm -rf src/Fireworks/Core/scripts/cmsShow
 %define patchsrc12 find src -name BuildFile.xml | xargs grep rootcore | cut -d: -f1 | uniq | grep -v "DataFormats/StdDictionaries" | xargs perl -p -i -e's|name="rootcore"/>|name="rootcore"/> <use name="DataFormats/StdDictionaries"/>|'  
 %define patchsrc13 find src -name BuildFile.xml | xargs grep rootinteractive | cut -d: -f1 | uniq | grep -v "DataFormats/StdDictionaries" | xargs perl -p -i -e's|name="rootinteractive"/>|name="rootinteractive"/> <use name="DataFormats/StdDictionaries"/>|'  
 %define patchsrc14 perl -p -i -e 's|<use   name="CondFormats/RPCObjects"/>||' src/DataFormats/RPCDigi/BuildFile.xml
