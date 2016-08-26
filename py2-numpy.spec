@@ -25,8 +25,8 @@ rm -rf %i/lib/python*/site-packages/numpy-*/EGG-INFO
 sed -ideleteme 's|#!.*/bin/python|#!/usr/bin/env python|' \
   %{i}/bin/f2py \
   %{i}/lib/python*/site-packages/numpy-*/numpy/core/tests/test_arrayprint.py \
-  %{i}/${PYTHON_LIB_SITE_PACKAGES}/numpy/distutils/from_template.py \
-  %{i}/${PYTHON_LIB_SITE_PACKAGES}/numpy/distutils/conv_template.py
+  %{i}/lib/python*/site-packages/numpy-*/numpy/distutils/from_template.py \
+  %{i}/lib/python*/site-packages/numpy-*/numpy/distutils/conv_template.py
   
 find %{i} -name '*deleteme' -delete
 
