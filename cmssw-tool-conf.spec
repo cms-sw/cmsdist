@@ -88,6 +88,7 @@ Requires: py2-matplotlib-toolfile
 Requires: py2-numpy-toolfile
 Requires: py2-pandas-toolfile
 Requires: py2-scipy-toolfile
+Requires: py2-scikit-learn-toolfile
 Requires: cmsswdata-toolfile
 Requires: py2-cjson-toolfile
 Requires: py2-pycurl-toolfile
