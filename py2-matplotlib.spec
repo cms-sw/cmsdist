@@ -24,13 +24,13 @@ mkdir no-pkg-config
 chmod +x no-pkg-config/pkg-config
 
 %build
-export CPLUS_INCLUDE_PATH=${FREETYPE_ROOT}/include/freetype2
+export CPLUS_INCLUDE_PATH=${FREETYPE_ROOT}/include/freetype2:${LIBPNG_ROOT}/include/libpng16
 export MPLCONFIGDIR=$PWD/no-pkg-config
 PATH=$PWD/no-pkg-config:$PATH \
 python setup.py build
 
 %install
-export CPLUS_INCLUDE_PATH=${FREETYPE_ROOT}/include/freetype2
+export CPLUS_INCLUDE_PATH=${FREETYPE_ROOT}/include/freetype2:${LIBPNG_ROOT}/include/libpng16
 python setup.py install --prefix=%i  --single-version-externally-managed --record=/dev/null
 
 # No need for test files
