@@ -28,8 +28,8 @@ Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 
 %if %islinux
 %define bisonVersion 3.0.4
-%define binutilsVersion 2.25.1
-%define elfutilsVersion 0.164
+%define binutilsVersion 2.27
+%define elfutilsVersion 0.167
 %define m4Version 1.4.17
 %define flexVersion 2.5.39
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
@@ -190,7 +190,7 @@ make install
   ./configure --disable-static --with-zlib --without-bzlib --without-lzma \
               --build=%{_build} --host=%{_host} --program-prefix='eu-' --disable-silent-rules \
               --prefix=%{i} CC="gcc"
-              CFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
+              CPPFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
   make %{makeprocesses}
   make install
 
