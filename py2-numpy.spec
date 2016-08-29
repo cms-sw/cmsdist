@@ -3,8 +3,12 @@
 Source: https://pypi.python.org/packages/e0/4c/515d7c4ac424ff38cc919f7099bf293dd064ba9a600e1e3835b3edefdb18/numpy-1.11.1.tar.gz
 Requires: python py2-setuptools zlib lapack
 
+# See: https://github.com/numpy/numpy/issues/7836
+Patch0: py2-numpy-1.11.1-ppc-fix-npy_math_complex
+
 %prep
 %setup -n numpy-%realversion
+%patch0 -p1
 
 %build
 %install
