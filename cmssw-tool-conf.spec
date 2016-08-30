@@ -156,6 +156,7 @@ Requires: libxslt-toolfile
 Requires: py2-six-toolfile
 Requires: py2-pyparsing-toolfile
 Requires: py2-requests-toolfile
+Requires: py2-cycler-toolfile
 Requires: giflib-toolfile
 Requires: freetype-toolfile
 Requires: utm-toolfile
