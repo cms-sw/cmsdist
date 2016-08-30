@@ -1,0 +1,12 @@
+diff --git a/1.25.0a/HEPEvent/THEPEvent.H b/1.25.0a/HEPEvent/THEPEvent.H
+index 3ccf0ec..f326bd7 100755
+--- a/1.25.0a/HEPEvent/THEPEvent.H
++++ b/1.25.0a/HEPEvent/THEPEvent.H
+@@ -108,6 +108,7 @@ extern THEPEvent *gHEPEvent;
+ 
+ 
+ #ifdef _USE_ROOT_
++#include <TBuffer.h>
+ TBuffer &operator<<(TBuffer &buf, THEPEvent *&obj);
+ TBuffer &operator>>(TBuffer &buf, THEPEvent *&obj);
+ #endif
