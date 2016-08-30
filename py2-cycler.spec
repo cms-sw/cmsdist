@@ -1,7 +1,7 @@
 ### RPM external py2-cycler 0.10.0
 ## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
 %define my_name %(echo %n | cut -f2 -d-)
-Source: https://github.com/matplotlib/cycler/%my_name/archive/v%{realversion}.tar.gz
+Source: https://github.com/matplotlib/%my_name/archive/v%{realversion}.tar.gz
 
 Requires: python
 BuildRequires: py2-setuptools
