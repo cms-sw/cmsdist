@@ -51,7 +51,7 @@ cp -r src/{js,css,images,templates,maps,sass} %i/data
 
 # generate current schema
 mkdir -p %i/data/schemas
-export PYTHONPATH=$PYTHONPATH:$PWD/src/python
+export PYTHONPATH=$PYTHONPATH:$PWD/src/python:$PWD/../WMCore_wmarchive/src/python
 bin/fwjrschema --fout=%i/data/schemas/fwjr_prod.json
 bin/json2avsc --fin=%i/data/schemas/fwjr_prod.json --fout=%i/data/schemas/fwjr_prod.avsc
 bin/wmexceptions --fout=%i/data/wmexceptions.json
