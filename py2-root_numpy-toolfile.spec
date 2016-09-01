@@ -12,7 +12,6 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-root_numpy.xml
   <info url="https://github.com/rootpy/root_numpy"/>
   <client>
     <environment name="PY2_ROOT_NUMPY" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$PY2_ROOT_NUMPY/lib"/>
     <runtime name="PYTHONPATH" value="$PY2_ROOT_NUMPY/lib/python@PYTHONV@/site-packages" type="path"/>
   </client>
 </tool>
