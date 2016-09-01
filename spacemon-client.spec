@@ -1,4 +1,5 @@
-### RPM cms spacemon-client 1.0.1-pre5
+### RPM cms spacemon-client 1.0.1
+## NOCOMPILER
 ## INITENV +PATH PERL5LIB %i
 ## INITENV +PATH PATH %i/DMWMMON/SpaceMon/Utilities
 
