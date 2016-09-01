@@ -1,4 +1,4 @@
-### RPM cms popdbweb 0.4.2
+### RPM cms popdbweb 0.5.0
 Source: https://github.com/dmwm/DDM/archive/popdb-web-%realversion.tar.gz
 Requires: python oracle oracle-env django py2-cx-oracle py2-pycurl
 Requires: apache-setup mod_wsgi mod_perl2 apache2 

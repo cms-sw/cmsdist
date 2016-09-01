@@ -1,11 +1,12 @@
-### RPM external py2-sqlalchemy052 0.5.2
+### RPM external py2-bz2file 0.98
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
-Source: http://downloads.sourceforge.net/sqlalchemy/SQLAlchemy-%realversion.tar.gz
+Source: https://pypi.python.org/packages/source/b/bz2file/bz2file-%realversion.tar.gz
 Requires: python
+BuildRequires: py2-setuptools
 
 %prep
-%setup -n SQLAlchemy-%realversion
+%setup -n bz2file-%realversion
 
 %build
 python setup.py build

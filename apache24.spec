@@ -1,4 +1,4 @@
-### RPM external apache24 2.4.16gsi
+### RPM external apache24 2.4.18gsi
 %define apversion %(echo %realversion | sed 's/gsi.*$//')
 Requires: openssl zlib expat libuuid sqlite pcre
 

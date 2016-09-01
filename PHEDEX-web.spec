@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-web 4.2.15
+### RPM cms PHEDEX-web 4.2.16
 ## INITENV +PATH PERL5LIB %i/perl_lib
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
@@ -25,7 +25,7 @@ Requires: p5-json-xs p5-xml-parser
 Requires: p5-params-validate p5-clone p5-time-hires p5-text-glob p5-compress-zlib p5-sort-key p5-mail-rfc822-address
 Requires: p5-log-log4perl
 # For GraphTool component
-Requires: python cherrypy py2-pil py2-matplotlib py2-numpy libjpg py2-pytz py2-cx-oracle
+Requires: python jemalloc cherrypy py2-pil py2-matplotlib py2-numpy libjpg py2-pytz py2-cx-oracle
 
 # Actually, it is p5-xml-parser that requires this, but it doesn't configure itself correctly
 # This is so it gets into our dependencies-setup.sh
@@ -48,7 +48,7 @@ rm -rf perl_lib/PHEDEX/{BlockActivate,BlockDelete,Debug.pm,Monalisa.pm,Testbed,B
 rm perl_lib/PHEDEX/RequestAllocator/Agent.pm
 rm -rf perl_lib/PHEDEX/Core/{Agent,Config.pm,Net.pm,Agent.pm,JobManager.pm,phedex_logger.conf,RFIO.pm,Command.pm,Help.pm,Logging.pm,SQLPLUS.pm,Config}
 rm -rf perl_lib/PHEDEX/Web/SQLSpace.pm
-rm -rf perl_lib/PHEDEX/Web/API/{GetLastRecord.pm,Mongo.pm,RequestSetStateFake.pm,StorageInsert.pm,StorageUsage.pm}
+rm -rf perl_lib/PHEDEX/Web/API/{DumpSpaceQuery.pm,GetLastRecord.pm,Mongo.pm,RequestSetStateFake.pm,StorageInsert.pm,StorageUsage.pm}
 
 %build
 %install

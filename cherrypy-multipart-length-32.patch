@@ -1,0 +1,31 @@
+--- cherrypy/_cpreqbody.py.original	2015-08-18 17:05:20.682906514 +0200
++++ cherrypy/_cpreqbody.py	2015-08-18 16:50:58.027875021 +0200
+@@ -682,10 +682,27 @@
+             else:
+                 self.file = result
+     
++    def read_file_to_size(self, fp_out):
++        chunk_size = (1<<18)
++        bytes_read = 0
++        while True:
++            remaining = self.length - bytes_read
++            chunk_size = (remaining if chunk_size >= remaining else chunk_size)
++            line = self.fp.read(chunk_size)
++            bytes_read += len(line)
++            if not line:
++                raise EOFError("Illegal end of multipart body.")
++            fp_out.write(line)
++            if bytes_read == self.length:
++                break
++        return fp_out
++
+     def read_into_file(self, fp_out=None):
+         """Read the request body into fp_out (or make_file() if None). Return fp_out."""
+         if fp_out is None:
+             fp_out = self.make_file()
++        if self.length:
++            fp_out = self.read_file_to_size(fp_out=fp_out)
+         self.read_lines_to_boundary(fp_out=fp_out)
+         return fp_out
+ 
+

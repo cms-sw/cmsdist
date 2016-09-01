@@ -1,4 +1,4 @@
-### RPM external python 2.7.6
+### RPM external python 2.7.11
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 ## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib/python%{python_major_version}/site-packages
@@ -15,20 +15,19 @@ Requires: zlib openssl sqlite readline ncurses
 
 # FIXME: crypt
 # FIXME: gmp, panel, tk/tcl, x11
-%define tag 75d55971dbfa8a23c15cd0900c03655c692be767
+%define tag 9cd0df98a9579245343d5f37084b192f03836ee5
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-Patch0: python-dont-detect-dbm
 
 %prep
 %setup -n python-%realversion
+
 find . -type f | while read f; do
   if head -n1 $f | grep -q /usr/local; then
     perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" $f
   else :; fi
 done
-%patch0 -p0
 
 %build
 # Python is awkward about passing other include or library directories
@@ -51,11 +50,13 @@ mkdir -p %i/include %i/lib %i/bin
 %define extradirs %{nil}
 %endif
 
-dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${NCURSES_ROOT} ${DB4_ROOT} ${GDBM_ROOT} %{extradirs}"
-
 # We need to export it because setup.py now uses it to determine the actual
 # location of DB4, this was needed to avoid having it picked up from the system.
 export DB4_ROOT
+export READLINE_ROOT
+export NCURSES_ROOT
+
+dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${NCURSES_ROOT} ${DB4_ROOT} ${GDBM_ROOT} ${READLINE_ROOT} %{extradirs}"
 
 # Python's configure parses LDFLAGS and CPPFLAGS to look for aditional library and include directories
 echo $dirs
@@ -116,6 +117,9 @@ make %makeprocesses
 # We need to export it because setup.py now uses it to determine the actual
 # location of DB4, this was needed to avoid having it picked up from the system.
 export DB4_ROOT
+export READLINE_ROOT
+export NCURSES_ROOT
+
 make install
 %define pythonv %(echo %realversion | cut -d. -f 1,2)
 

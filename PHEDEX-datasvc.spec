@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-datasvc 2.3.21
+### RPM cms PHEDEX-datasvc 2.3.22
 ## INITENV +PATH PERL5LIB %i/perl_lib
 
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -30,14 +30,15 @@ Provides: perl(URI::Escape)
 
 %prep
 %setup -n %{setupdir}
-rm -rf Build Custom Documentation Testbed Utilities
+rm -rf Build Custom Documentation Testbed Tests Utilities
 rm -rf Contrib Deployment Migration PhEDExWeb/ApplicationServer Schema Toolkit VERSION
 rm -rf perl_lib/{DMWMMON,template}
-rm -rf perl_lib/PHEDEX/{BlockActivate,BlockDelete,Debug.pm,Monalisa.pm,Testbed,BlockAllocator,BlockLatency,Error,Monitoring,Transfer,BlockArrive,BlockMonitor,File,Namespace,BlockConsistency,CLI,Infrastructure,BlockDeactivate,LoadTest,Schema}
+rm -rf perl_lib/PHEDEX/.project
+rm -rf perl_lib/PHEDEX/{BlockActivate,BlockDelete,Debug.pm,Monalisa.pm,Testbed,BlockAllocator,BlockLatency,Error,Monitoring,Transfer,BlockArrive,BlockMonitor,File,Namespace,BlockConsistency,CLI,Infrastructure,BlockDeactivate,LoadTest,Schema,Tests}
 rm perl_lib/PHEDEX/RequestAllocator/Agent.pm
 rm -rf perl_lib/PHEDEX/Core/{Agent,Config.pm,Agent.pm,JobManager.pm,RFIO.pm,Command.pm,Help.pm,SQLPLUS.pm,Config}
 rm -rf perl_lib/PHEDEX/Web/SQLSpace.pm
-rm -rf perl_lib/PHEDEX/Web/API/{Mongo.pm,RequestSetStateFake.pm,StorageInsert.pm,StorageUsage.pm}
+rm -rf perl_lib/PHEDEX/Web/API/{DumpSpaceQuery.pm,GetLastRecord.pm,Mongo.pm,RequestSetStateFake.pm,StorageInsert.pm,StorageUsage.pm}
 
 %build
 %install

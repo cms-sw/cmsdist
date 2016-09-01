@@ -1,4 +1,4 @@
-### RPM external py2-pytz 2007d 
+### RPM external py2-pytz 2016.3 
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source: http://cheeseshop.python.org/packages/source/p/pytz/pytz-%{realversion}.tar.bz2 
@@ -12,4 +12,3 @@ python setup.py build
 
 %install
 python setup.py install --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;

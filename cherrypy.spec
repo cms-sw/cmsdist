@@ -1,11 +1,11 @@
-### RPM external cherrypy 3.2.2
+### RPM external cherrypy 5.4.0
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
-Source: http://download.cherrypy.org/cherrypy/%v/CherryPy-%realversion.tar.gz
+Source: http://github.com/cherrypy/cherrypy/archive/v%realversion.tar.gz
 Requires: python
 Patch0: cherrypy-multipart-length
 
 %prep
-%setup -n CherryPy-%realversion
+%setup -n cherrypy-%realversion
 %patch0 -p0
 perl -p -i -e 's/import profile/import cProfile as profile/' cherrypy/lib/profiler.py
 
