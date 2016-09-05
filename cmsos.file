@@ -1,4 +1,4 @@
-### FILE cmsos
+#!/bin/sh
 
 cmsos()
 {

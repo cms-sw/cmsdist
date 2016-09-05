@@ -1,0 +1,41 @@
+diff --git a/configure b/configure
+index 10ad7ca..1f233fd 100755
+--- a/configure
++++ b/configure
+@@ -7734,7 +7734,7 @@ case "$XPLATFORM" in
+     *-g++*)
+ 	# Check gcc's version
+ 	case "$(${QMAKE_CONF_COMPILER} -dumpversion)" in
+-	    5*|4*|3.4*)
++	    6*|5*|4*|3.4*)
+ 		;;
+             3.3*)
+                 canBuildWebKit="no"
+diff --git a/src/plugins/accessible/widgets/itemviews.cpp b/src/plugins/accessible/widgets/itemviews.cpp
+index 14c9279..516f2e2 100644
+--- a/src/plugins/accessible/widgets/itemviews.cpp
++++ b/src/plugins/accessible/widgets/itemviews.cpp
+@@ -393,7 +393,7 @@ bool QAccessibleTable2::unselectColumn(int column)
+     QModelIndex index = view()->model()->index(0, column, view()->rootIndex());
+     if (!index.isValid() || view()->selectionMode() & QAbstractItemView::NoSelection)
+         return false;
+-    view()->selectionModel()->select(index, QItemSelectionModel::Columns & QItemSelectionModel::Deselect);
++    view()->selectionModel()->select(index, QItemSelectionModel::Columns | QItemSelectionModel::Deselect);
+     return true;
+ }
+ 
+diff --git a/src/xmlpatterns/api/qcoloroutput_p.h b/src/xmlpatterns/api/qcoloroutput_p.h
+index 7911e89..be284d1 100644
+--- a/src/xmlpatterns/api/qcoloroutput_p.h
++++ b/src/xmlpatterns/api/qcoloroutput_p.h
+@@ -70,8 +70,8 @@ namespace QPatternist
+             ForegroundShift = 10,
+             BackgroundShift = 20,
+             SpecialShift    = 20,
+-            ForegroundMask  = ((1 << ForegroundShift) - 1) << ForegroundShift,
+-            BackgroundMask  = ((1 << BackgroundShift) - 1) << BackgroundShift
++            ForegroundMask  = 0x1f << ForegroundShift,
++            BackgroundMask  = 0x7 << BackgroundShift
+         };
+ 
+     public:

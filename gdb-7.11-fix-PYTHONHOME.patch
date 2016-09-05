@@ -1,8 +1,8 @@
 diff --git a/gdb/python/python.c b/gdb/python/python.c
-index 67d06e5..07d2d6e 100644
+index 7202105..8ee713e 100644
 --- a/gdb/python/python.c
 +++ b/gdb/python/python.c
-@@ -1527,47 +1527,6 @@ message == an error message without a stack will be printed."),
+@@ -1707,47 +1707,6 @@ message == an error message without a stack will be printed."),
  			&user_show_python_list);
  
  #ifdef HAVE_PYTHON
@@ -24,7 +24,7 @@ index 67d06e5..07d2d6e 100644
 -      fprintf (stderr, "Could not convert python path to string\n");
 -      return;
 -    }
--  progname_copy = PyMem_Malloc ((progsize + 1) * sizeof (wchar_t));
+-  progname_copy = (wchar_t *) PyMem_Malloc ((progsize + 1) * sizeof (wchar_t));
 -  if (!progname_copy)
 -    {
 -      fprintf (stderr, "out of memory\n");

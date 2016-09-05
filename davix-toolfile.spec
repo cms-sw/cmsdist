@@ -1,4 +1,4 @@
-### RPM external davix-toolfile 1.0
+### RPM external davix-toolfile 1.1
 Requires: davix
 
 %prep
@@ -12,7 +12,7 @@ cat << \EOF_TOOLFILE > %i/etc/scram.d/davix.xml
     <client>
       <environment name="DAVIX_BASE" default="@TOOL_ROOT@"/>
       <environment name="LIBDIR" default="$DAVIX_BASE/lib64"/>
-      <environment name="INCLUDE" default="$DAVIX_BASE/include"/>
+      <environment name="INCLUDE" default="$DAVIX_BASE/include/davix"/>
     </client>
     <runtime name="PATH" value="$DAVIX_BASE/bin" type="path"/>
     <use name="boost_system"/>

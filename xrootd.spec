@@ -1,24 +1,16 @@
-### RPM external xrootd 4.0.4
+### RPM external xrootd 4.3.0
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
-%define tag fd6a46e92040ebb2c6897f60bc74c6490212c95a
-%define branch cms/v4.0.4
+%define tag 46c6d45b733c2f6b42d921e33ce4643f59d6d762
+%define branch cms/v4.3.0
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-
-Patch0: xrootd-4.0.4-0001-XrdClient-Changes-to-allow-for-Fedora-rawhide-c-11-c
 
 BuildRequires: cmake
 Requires: zlib
 Requires: openssl
 
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x -O2
-%endif
-
 %prep
 %setup -n %n-%{realversion}
-%patch0 -p1
 
 # need to fix these from xrootd git
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
@@ -39,13 +31,12 @@ cmake ../ \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DOPENSSL_ROOT_DIR:PATH=${OPENSSL_ROOT} \
   -DZLIB_ROOT:PATH=${ZLIB_ROOT} \
-  -DENABLE_PERL=FALSE \
+  -DENABLE_PYTHON=FALSE \
   -DENABLE_FUSE=FALSE \
   -DENABLE_KRB5=TRUE \
   -DENABLE_READLINE=FALSE \
   -DENABLE_CRYPTO=TRUE \
-  -DCMAKE_SKIP_RPATH=TRUE \
-  -DCMAKE_CXX_FLAGS="%{cms_cxxflags}"
+  -DCMAKE_SKIP_RPATH=TRUE
 
 # Use makeprocess macro, it uses compiling_processes defined by
 # build configuration file or build argument
