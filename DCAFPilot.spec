@@ -1,4 +1,4 @@
-### RPM cms DCAFPilot 0.1.24
+### RPM cms DCAFPilot 0.2.2
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define pkg DCAFPilot
 #Source: git://github.com/dmwm/DMWMAnalytics.git?obj=master/%realversion&export=%pkg-%realversion&output=/%pkg-%{realversion}.tar.gz

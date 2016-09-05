@@ -1,26 +1,24 @@
-### RPM cms t0_reqmon 1.0.20.pre4
+### RPM cms PhedexReplicaMonitoring v00.00.02
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
+%define pkg PhedexReplicaMonitoring
+Source: git://github.com/aurimasrep/PhedexReplicaMonitoring?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
+Requires: python py2-py4j java-jdk rotatelogs
+BuildRequires: py2-sphinx
 
-Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
-
-Requires: python rotatelogs py2-httplib2 cherrypy py2-cheetah py2-cjson py2-pycurl py2-future py2-retry
-Requires: jemalloc
-BuildRequires: py2-setuptools py2-sphinx couchskel
-
+# RPM macros documentation
+# http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
 %prep
-%setup -b 0 -n %n
+%setup -b 0 -n %pkg
 
 %build
-python setup.py build_system -s reqmon
+#cd %pkg
 
 %install
-python setup.py install_system -s reqmon --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
-
-# Pick external dependencies from couchskel
-mkdir %i/data/couchapps/WMStats/vendor/
-cp -rp $COUCHSKEL_ROOT/data/couchapps/couchskel/vendor/{couchapp,jquery,datatables} \
-  %i/data/couchapps/WMStats/vendor/
+mkdir -p %i/${PYTHON_LIB_SITE_PACKAGES}
+mkdir -p %i/bin
+cp -r src/python/* %i/${PYTHON_LIB_SITE_PACKAGES}
+cp src/scripts/*.sh %i/bin
+cp -r data %i/
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
