@@ -2,7 +2,7 @@
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib/ThePEG
 ## INITENV +PATH DYLD_LIBRARY_PATH %{i}/lib/ThePEG
 
-%define tag 41e9a26f5ca9659e30e9c27e4dc86e65ecd4a4bd
+%define tag 3a25c740233c54f9d03ece0cd5f941623f2480f0
 %define branch cms/v%realversion
 
 Source: git+https://github.com/cms-externals/thepeg.git?obj=%{branch}/%{tag}&export=thepeg-%{realversion}-%{tag}&module=thepeg-%realversion-%{tag}&output=/thepeg-%{realversion}-%{tag}.tgz
