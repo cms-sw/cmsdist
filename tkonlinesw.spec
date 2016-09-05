@@ -1,7 +1,7 @@
-### RPM external tkonlinesw 4.0.0-1
+### RPM external tkonlinesw 4.1.0-1
 
 %define projectname trackerDAQ
-%define releasename %{projectname}-4.0-tkonline
+%define releasename %{projectname}-4.1-tkonline
 Source0: http://cms-trackerdaq-service.web.cern.ch/cms-trackerdaq-service/download/sources/trackerDAQ-%{realversion}.tgz
 Patch0: tkonlinesw-2.7.0-macosx
 Patch1: tkonlinesw-4.0-clang-hash_map

@@ -1,4 +1,4 @@
-### RPM external photospp 3.56
+### RPM external photospp 3.61
 
 Requires: hepmc
 

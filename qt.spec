@@ -1,10 +1,10 @@
-### RPM external qt 4.8.1
+### RPM external qt 4.8.7
 ## INITENV UNSET QMAKESPEC
 ## INITENV SET QTDIR %i
 
 Requires: libjpeg-turbo
-Source0: ftp://ftp.qt.nokia.com/qt/source/%n-everywhere-opensource-src-%{realversion}.tar.gz
-Patch0: qt-4.8.0-fix-gcc47
+Source0: http://download.qt.io/official_releases/qt/4.8/%{realversion}/qt-everywhere-opensource-src-%{realversion}.tar.gz
+Patch0: qt-everywhere-opensource-src-4.8.7-gcc6
 
 %define strip_files %i/lib %i/bin
 
@@ -18,6 +18,7 @@ export QTDIR=$PWD
 export PATH=$QTDIR/bin:$PATH
 export LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
 export DYLD_LIBRARY_PATH=$QTDIR/lib:$DYLD_LIBRARY_PATH
+export MAKEFLAGS="%{makeprocesses}"
 
 case %cmsplatf in
   slc*)
@@ -49,6 +50,7 @@ echo yes | ./configure -prefix %i -opensource -stl -no-openssl -no-webkit -no-de
                        -L$LIBJPEG_TURBO_ROOT/lib -no-glib -no-libtiff -no-libpng -no-libmng \
                        -no-dwarf2 -no-phonon -no-multimedia -no-stl -no-exceptions \
                        -no-separate-debug-info -no-multimedia -no-sql-sqlite -no-sql-odbc \
+                       -no-javascript-jit -no-script -no-scripttools -no-avx -no-rpath \
                        -no-sql-psql -no-sql-mysql $CONFIG_ARGS \
                        -make "libs tools"
 

@@ -18,6 +18,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/py2-matplotlib.xml
   <use name="libpng"/>
   <use name="py2-numpy"/>
   <use name="py2-python-dateutil"/>
+  <use name="py2-cycler"/>
 </tool>
 EOF_TOOLFILE
 

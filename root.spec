@@ -1,8 +1,8 @@
-### RPM lcg root 6.06.00
+### RPM lcg root 6.06.07
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 5e8f6596a3ebf93b8aa5a69bd0a9ccec62a291f6
-%define branch cms/6286662
+%define tag ff6e455f977499ad8204e1ffa6b2c71f441eb375
+%define branch cms/63af0e7
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
@@ -11,7 +11,7 @@ Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&expo
 
 BuildRequires: cmake file
 
-Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib
+Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib davix
 
 %if %islinux
 Requires: castor dcap
@@ -108,7 +108,7 @@ cmake ../%{n}-%{realversion} \
   -Dgfal=OFF \
   -Dchirp=OFF \
   -Dsrp=OFF \
-  -Ddavix=OFF \
+  -Ddavix=ON \
   -Dglite=OFF \
   -Dsapdb=OFF \
   -Dalien=OFF \
