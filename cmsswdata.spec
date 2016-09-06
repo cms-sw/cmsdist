@@ -1,4 +1,4 @@
-### RPM cms cmsswdata 29
+### RPM cms cmsswdata 30
 ## NOCOMPILER
 Source: none
 
@@ -39,6 +39,7 @@ Requires: data-RecoBTag-CTagging
 Requires: data-L1Trigger-L1TMuon
 Requires: data-L1Trigger-L1TGlobal
 Requires: data-CalibTracker-SiStripDCS
+Requires: data-SimTracker-SiStripDigitizer
 
 %if %isnotonline
 # extra data dependencies for standard builds
@@ -59,3 +60,13 @@ Requires: data-GeneratorInterface-ReggeGribovPartonMCInterface
 %post
 echo "%{BaseTool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 echo "set %{BaseTool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
+
+for DATA_PATH in %directpkgreqs; do
+  SOURCE=$RPM_INSTALL_PREFIX/%{cmsplatf}/$DATA_PATH
+  PKG_DATA=$(ls $SOURCE | grep -v etc*)
+  if [ -d $SOURCE/$PKG_DATA ] ; then
+    mkdir -p $RPM_INSTALL_PREFIX/share/$DATA_PATH/$PKG_DATA
+    rsync -a --no-t --size-only $SOURCE/$PKG_DATA/ $RPM_INSTALL_PREFIX/share/$DATA_PATH/$PKG_DATA/ && rm -rf $SOURCE/$PKG_DATA && ln -fs ../../../../share/$DATA_PATH/$PKG_DATA $SOURCE/$PKG_DATA
+  fi
+done
+
