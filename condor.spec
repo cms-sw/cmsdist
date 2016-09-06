@@ -1,4 +1,4 @@
-### RPM external condor 8.5.4
+### RPM external condor 8.3.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/condor
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define condortag %(echo V%realversion | tr "." "_")
@@ -7,29 +7,31 @@ Source: git://github.com/htcondor/htcondor.git?obj=master/%{condortag}&export=co
 Patch0: cms-htcondor-build
 
 Requires: openssl zlib expat pcre libtool python boost p5-archive-tar curl libxml2 p5-time-hires libuuid
-BuildRequires: cmake gcc openssl
+BuildRequires: cmake gcc
 
 %prep
 %setup -n %n-%{realversion}
 %patch0 -p1
-mkdir ${OPENSSL_ROOT}/lib/pkgconfig
-echo "
-Name: OpenSSL
-Description: Secure Sockets Layer and cryptography libraries and tools
-Version: 1.0.1r
-Requires:
-Libs: -L${OPENSSL_ROOT}/lib -lssl -lcrypto
-Libs.private: -Wl,-z,relro -ldl -lz -L/usr/lib -lgssapi_krb5 -lkrb5 -lcom_err -lk5crypto
-Cflags: -I${OPENSSL_ROOT}/include -I/usr/include
-" > ${OPENSSL_ROOT}/lib/pkgconfig/openssl.pc
+sed -i "s,P5_ARCHIVE_TAR_ROOT,$P5_ARCHIVE_TAR_ROOT," externals/bundles/globus/5.2.5/CMakeLists.txt
+sed -i "s,P5_IO_ZLIB_ROOT,$P5_IO_ZLIB_ROOT," externals/bundles/globus/5.2.5/CMakeLists.txt
+sed -i "s,P5_PACKAGE_CONSTANTS_ROOT,$P5_PACKAGE_CONSTANTS_ROOT," externals/bundles/globus/5.2.5/CMakeLists.txt
+sed -i "s,ENVLD_LIBRARY_PATH,$LD_LIBRARY_PATH," externals/bundles/globus/5.2.5/CMakeLists.txt
+sed -i "s,LIBTOOL_ROOT,$LIBTOOL_ROOT,g" externals/bundles/globus/5.2.5/CMakeLists.txt
+sed -i "s,OPENSSL_ROOT,$OPENSSL_ROOT,g" externals/bundles/globus/5.2.5/CMakeLists.txt
+sed -i "s,EXPAT_ROOT,$EXPAT_ROOT,g" externals/bundles/voms/2.0.6/CMakeLists.txt
 
 %build
+# Fix perl libraries for globus which doesn't search PERL%LIB
+mkdir -p build/bld_external/globus-5.2.5/install/lib/perl
+ln -sf $P5_ARCHIVE_TAR_ROOT/lib/perl5/Archive       build/bld_external/globus-5.2.5/install/lib/perl
+ln -sf $P5_IO_ZLIB_ROOT/lib/perl5/IO                build/bld_external/globus-5.2.5/install/lib/perl
+ln -sf $P5_PACKAGE_CONSTANTS_ROOT/lib/perl5/Package build/bld_external/globus-5.2.5/install/lib/perl
+
 export CMAKE_INCLUDE_PATH=${OPENSSL_ROOT}/include:${LIBTOOL_ROOT}/include:${ZLIB_ROOT}/include:${PCRE_ROOT}/include:${BOOST_ROOT}/include:${EXPAT_ROOT}/include:${CURL_ROOT}/include:${LIBXML2_ROOT}/include:${LIBUUID_ROOT}/include
 export CMAKE_LIBRARY_PATH=${OPENSSL_ROOT}/lib:${LIBTOOL_ROOT}/lib:${ZLIB_ROOT}/lib:${PCRE_ROOT}/lib:${BOOST_ROOT}/lib:${EXPAT_ROOT}/lib:${CURL_ROOT}/lib:${LIBXML2_ROOT}/lib:${LIBUUID_ROOT}/lib
 export CXXFLAGS="-I${OPENSSL_ROOT}/include -I${LIBTOOL_ROOT}/include -I$ZLIB_ROOT/include -I$PCRE_ROOT/include -I$BOOST_ROOT/include -I$EXPAT_ROOT/include -I$CURL_ROOT/include -I$LIBXML2_ROOT/include -I${LIBUUID_ROOT}/include"
 export LDFLAGS="-L${OPENSSL_ROOT}/lib -L${LIBTOOL_ROOT}/lib -L$ZLIB_ROOT/lib -L$PCRE_ROOT/lib -L$BOOST_ROOT/lib -L$EXPAT_ROOT/lib -L$CURL_ROOT/lib -L$LIBXML2_ROOT/lib -L${LIBUUID_ROOT}/lib"
 export CFLAGS="$CXXFLAGS"
-export PKG_CONFIG_PATH=${OPENSSL_ROOT}/lib/pkgconfig
 cmake \
   -DCMAKE_INSTALL_PREFIX=%i \
   -DPROPER:BOOL=OFF \
@@ -101,9 +103,6 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
     echo "test X\$?$root = X1 || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
   fi
 done
-
-#Remove pkgconfig created only for build.
-rm -rf ${OPENSSL_ROOT}/lib/pkgconfig
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
