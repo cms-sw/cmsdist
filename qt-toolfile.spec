@@ -84,18 +84,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/qtdesigner.xml
 </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/qtextra.xml
-<tool name="qtextra" version="@TOOL_VERSION@">
-  <info url="http://qt-project.org"/>
-  <lib name="QtScript"/>
-  <client>
-    <environment name="QTEXTRA_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE" default="$QTEXTRA_BASE/include/QtScript"/>
-  </client>
-  <runtime name="ROOT_INCLUDE_PATH" value="$QTEXTRA_BASE/include/QtScript" type="path"/>
-  <use name="root_cxxdefaults"/>
-  <use name="qtbase"/>
-</tool>
-EOF_TOOLFILE
-
 ## IMPORT scram-tools-post
