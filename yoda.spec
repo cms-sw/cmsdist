@@ -1,4 +1,4 @@
-### RPM external yoda 1.5.5
+### RPM external yoda 1.6.3
 
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 
