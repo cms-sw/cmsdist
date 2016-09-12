@@ -166,6 +166,7 @@ Requires: tinyxml-toolfile
 Requires: scons-toolfile
 Requires: md5-toolfile
 Requires: py2-setuptools-toolfile
+Requires: madgraph5amcatnlo-toolfile
 
 # Only for Linux platform.
 %if %islinux
