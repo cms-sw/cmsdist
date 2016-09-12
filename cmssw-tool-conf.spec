@@ -55,6 +55,7 @@ Requires: libxml2-toolfile
 Requires: mcdb-toolfile
 Requires: meschach-toolfile
 Requires: openssl-toolfile
+Requires: oracle-env
 Requires: pcre-toolfile
 Requires: photos-toolfile
 Requires: photospp-toolfile
@@ -161,7 +162,6 @@ Requires: giflib-toolfile
 Requires: freetype-toolfile
 Requires: utm-toolfile
 Requires: libffi-toolfile
-Requires: CSCTrackFinderEmulation-toolfile
 Requires: tinyxml-toolfile
 Requires: scons-toolfile
 Requires: md5-toolfile

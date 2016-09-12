@@ -1,4 +1,4 @@
-### RPM cms data-FastSimulation-TrackingRecHitProducer V01-00-02
+### RPM cms data-FastSimulation-TrackingRecHitProducer V01-00-00
 
 %prep
 
