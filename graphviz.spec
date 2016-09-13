@@ -32,6 +32,7 @@ case %cmsplatf in
     ;;
 esac
 ./configure \
+  --disable-silent-rules \
   --with-expatlibdir=$EXPAT_ROOT/lib \
   --with-expatincludedir=$EXPAT_ROOT/include \
   --with-zincludedir=$ZLIB_ROOT/include \

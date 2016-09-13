@@ -10,6 +10,7 @@
 %define isnotppc64le %(case %{cmsplatf} in (*_ppc64le_*) echo 0 ;; (*) echo 1 ;; esac)
 %define isnotaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 0 ;; (*) echo 1 ;; esac)
 
+Requires: starlight-toolfile
 Requires: alpgen-toolfile
 Requires: boost-toolfile
 Requires: bz2lib-toolfile
@@ -60,11 +61,8 @@ Requires: photos-toolfile
 Requires: photospp-toolfile
 Requires: pythia6-toolfile
 Requires: pythia8-toolfile
-Requires: libffi-toolfile
 Requires: python-toolfile
-%if %isnotaarch64
 Requires: qt-toolfile
-%endif
 Requires: root-toolfile
 Requires: sherpa-toolfile
 Requires: sigcpp-toolfile
@@ -90,6 +88,7 @@ Requires: py2-matplotlib-toolfile
 Requires: py2-numpy-toolfile
 Requires: py2-pandas-toolfile
 Requires: py2-scipy-toolfile
+Requires: py2-scikit-learn-toolfile
 Requires: cmsswdata-toolfile
 Requires: py2-cjson-toolfile
 Requires: py2-pycurl-toolfile
@@ -158,9 +157,15 @@ Requires: libxslt-toolfile
 Requires: py2-six-toolfile
 Requires: py2-pyparsing-toolfile
 Requires: py2-requests-toolfile
+Requires: py2-cycler-toolfile
 Requires: giflib-toolfile
 Requires: freetype-toolfile
 Requires: utm-toolfile
+Requires: libffi-toolfile
+Requires: tinyxml-toolfile
+Requires: scons-toolfile
+Requires: md5-toolfile
+Requires: py2-setuptools-toolfile
 
 # Only for Linux platform.
 %if %islinux
