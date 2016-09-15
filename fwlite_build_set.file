@@ -56,6 +56,8 @@ DataFormats/MuonReco
 DataFormats/ParticleFlowCandidate
 DataFormats/ParticleFlowReco
 DataFormats/PatCandidates
+DataFormats/Phase2TrackerCluster
+DataFormats/Phase2TrackerDigi
 DataFormats/Provenance
 DataFormats/RPCDigi
 DataFormats/RPCRecHit
@@ -122,8 +124,7 @@ Utilities/General
 Utilities/ReleaseScripts
 Geometry/CommonDetUnit
 SimDataFormats/JetMatching/interface/JetFlavourInfo.h
-Geometry/TrackerGeometryBuilder/interface/GluedGeomDet.h
-Geometry/TrackerGeometryBuilder/interface/GeomDetLess.h
 DataFormats/TrackerCommon
 Geometry/CommonTopologies
 Geometry/GEMGeometry
+Geometry/CaloGeometry

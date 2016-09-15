@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V2_2_6_pre5
+### RPM lcg SCRAMV1 V2_2_6_pre8
 ## NOCOMPILER
 
 BuildRequires: gmake
@@ -88,6 +88,7 @@ VERSION_REGEXP="%{SCRAM_REL_MAJOR}_"   ; VERSION_FILE=default-scram/%{SCRAM_REL_
 if [ `cat $RPM_INSTALL_PREFIX/share/etc/default-scramv1-version` == '%v' ] ; then
   cp -f $RPM_INSTALL_PREFIX/%{pkgrel}/docs/man/man1/scram.1 ${RPM_INSTALL_PREFIX}/share/man/man1/scram.1
 fi
+
 #FIMEME: Remove it when cmsBuild has a fix
 #For some strange reason we need something after the last statement
 #otherwise RPM does not run it. rpm -q --scripts also confirm that above

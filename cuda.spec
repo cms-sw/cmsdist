@@ -16,7 +16,7 @@ mkdir -p %_builddir/tmp
 cp `find %_builddir/NVIDIA-Linux-x86_64-* -maxdepth 1 -type f -name "libcuda.so*"` %_builddir/lib64
 ln -sf `find %_builddir/lib64 -maxdepth 1 -type f -name "libcuda.so.*" | xargs basename` %_builddir/lib64/libcuda.so.1
 rm -rf %_builddir/lib64/*.a
-rm -rf %_builddir/lib64/libnppi.so* %_builddir/lib64/libcufft.so* %_builddir/lib64/libcurand.so* %_builddir/lib64/libcusparse.so* %_builddir/lib64/libcusolver.so* %_builddir/lib64/libcublas.so* %_builddir/lib64/libnvrtc-builtins.so* %_builddir/lib64/libnvrtc.so* %_builddir/lib64/libnpps.so* %_builddir/lib64/libcuinj64.so* %_builddir/lib64/libnvblas.so* %_builddir/lib64/libcufftw.so*
+rm -rf %_builddir/lib64/libnppi.so* %_builddir/lib64/libcufft.so* %_builddir/lib64/libcurand.so* %_builddir/lib64/libcusparse.so* %_builddir/lib64/libcusolver.so* %_builddir/lib64/libcublas.so* %_builddir/lib64/libnvrtc-builtins.so* %_builddir/lib64/libnvrtc.so* %_builddir/lib64/libnpps.so* %_builddir/lib64/libnvblas.so* %_builddir/lib64/libcufftw.so*
 rm -rf %_builddir/include/sobol_direction_vectors.h %_builddir/include/nppi* %_builddir/include/curand*
 cp -r %_builddir/bin %{i}
 cp -r %_builddir/include %{i}
