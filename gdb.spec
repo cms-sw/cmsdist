@@ -3,7 +3,7 @@ Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 
 Patch0: gdb-7.11-fix-PYTHONHOME
 Patch1: gdb-disable-makeinfo
-Requires: python ncurses zlib xz expat
+Patch2: gdb-7.10-tgetent-in-ncurses
 
 Requires: python ncurses zlib xz expat
 
