@@ -3,16 +3,7 @@
 
 Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
-
-Requires: expat
-Requires: openssl
-Requires: pacparser
-Requires: python
-%if "%online" != "true"
-Requires: zlib
-%else
-Requires: onlinesystemtools
-%endif
+Requires: expat openssl pacparser python zlib
 
 Patch0: frontier_client-2.8.5-fix-gcc47
 Patch1: frontier_client-2.8.8-add-python-dbapi

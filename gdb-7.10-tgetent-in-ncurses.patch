@@ -1,0 +1,26 @@
+diff --git a/config/override.m4 b/config/override.m4
+index 52bd1c3..8b954d3 100644
+--- a/config/override.m4
++++ b/config/override.m4
+@@ -29,7 +29,7 @@ m4_copy_force([_AC_PREREQ], [AC_PREREQ])
+ 
+ dnl Ensure exactly this Autoconf version is used
+ m4_ifndef([_GCC_AUTOCONF_VERSION],
+-  [m4_define([_GCC_AUTOCONF_VERSION], [2.64])])
++  [m4_define([_GCC_AUTOCONF_VERSION], [2.69])])
+ 
+ dnl Test for the exact version when AC_INIT is expanded.
+ dnl This allows to update the tree in steps (for testing)
+diff --git a/gdb/configure.ac b/gdb/configure.ac
+index a40860a..92bc139 100644
+--- a/gdb/configure.ac
++++ b/gdb/configure.ac
+@@ -620,7 +620,7 @@ case $host_os in
+ esac
+ 
+ # These are the libraries checked by Readline.
+-AC_SEARCH_LIBS(tgetent, [termcap tinfo curses ncurses])
++AC_SEARCH_LIBS(tgetent, [curses ncurses])
+ 
+ if test "$ac_cv_search_tgetent" = no; then
+   CONFIG_OBS="$CONFIG_OBS stub-termcap.o"

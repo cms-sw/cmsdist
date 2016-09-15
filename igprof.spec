@@ -1,4 +1,4 @@
-### RPM external igprof 5.9.14
+### RPM external igprof 5.9.16
 
 %define git_repo igprof
 %define git_branch master
