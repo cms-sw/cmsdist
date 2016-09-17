@@ -1,4 +1,4 @@
-### RPM cms data-L1Trigger-L1TMuon V01-00-04
+### RPM cms data-L1Trigger-L1TMuon V01-00-06
 
 %prep
 
