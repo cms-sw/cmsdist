@@ -1,28 +1,29 @@
-### RPM cms acdcserver 1.0.20.pre5
-## INITENV +PATH PATH %i/xbin
+### RPM cms PhedexReplicaMonitoring v00.00.02
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
-## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
+%define pkg PhedexReplicaMonitoring
+Source: git://github.com/aurimasrep/PhedexReplicaMonitoring?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
+Requires: python py2-py4j java-jdk rotatelogs
+BuildRequires: py2-sphinx
 
-Source: git://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=%n&output=/%n.tar.gz
-Requires: python py2-httplib2 rotatelogs couchdb py2-cjson py2-sphinx
-
+# RPM macros documentation
+# http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
 %prep
-%setup -b 0 -n %n
+%setup -b 0 -n %pkg
 
 %build
-python setup.py build_system -s acdcserver
+#cd %pkg
 
 %install
-mkdir -p %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
-python setup.py install_system -s acdcserver --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
-
+mkdir -p %i/${PYTHON_LIB_SITE_PACKAGES}
 mkdir -p %i/bin
-cp -pf %_builddir/%n/bin/acdcserver-tools %i/bin
+cp -r src/python/* %i/${PYTHON_LIB_SITE_PACKAGES}
+cp src/scripts/*.sh %i/bin
+cp -r data %i/
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
-rm -rf %i/etc/profile.d
 mkdir -p %i/etc/profile.d
+: > %i/etc/profile.d/dependencies-setup.sh
+: > %i/etc/profile.d/dependencies-setup.csh
 for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
   if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
