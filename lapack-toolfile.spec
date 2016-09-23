@@ -11,7 +11,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/lapack.xml
 <tool name="lapack" version="@TOOL_VERSION@">
   <client>
     <environment name="LAPACK_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$LAPACK_BASE/lib"/>
+    <environment name="LIBDIR" default="$LAPACK_BASE/lib64"/>
   </client>
 </tool>
 EOF_TOOLFILE
