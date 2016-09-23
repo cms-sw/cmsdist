@@ -12,11 +12,11 @@ Requires: lapack
 cat > site.cfg <<EOF
 [blas]
 include_dirs = $LAPACK_ROOT/include
-library_dirs = $LAPACK_ROOT/lib
+library_dirs = $LAPACK_ROOT/lib64
 blas_libs = blas
 [lapack]
 include_dirs = $LAPACK_ROOT/include
-library_dirs = $LAPACK_ROOT/lib
+library_dirs = $LAPACK_ROOT/lib64
 lapack_libs = lapack
 EOF
 
