@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 33.0
+### RPM cms cmssw-tool-conf 34.0
 ## NOCOMPILER
 # With cmsBuild, change the above version only when a new
 # tool is added
@@ -179,6 +179,7 @@ Requires: freetype-toolfile
 Requires: tkonlinesw-toolfile
 Requires: py2-cx-oracle-toolfile
 Requires: oracle-toolfile
+Requires: histogrammar
 
 # Only for slc platforms.
 %if %isslc
