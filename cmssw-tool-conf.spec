@@ -107,6 +107,8 @@ Requires: py2-PyYAML-toolfile
 Requires: py2-docopt-toolfile
 Requires: py2-prettytable-toolfile
 Requires: py2-schema-toolfile
+Requires: py2-h5py-toolfile
+Requires: hdf5-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
 Requires: cython-toolfile
