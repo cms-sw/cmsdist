@@ -9,7 +9,7 @@ BuildRequires: py2-setuptools hdf5
 %setup -n %{my_name}-%{realversion}
 
 %build
-export CPLUS_INCLUDE_PATH=${HDF5_ROOT}/include
+export HDF5_DIR=${HDF5_ROOT}
 python setup.py build
 
 %install
