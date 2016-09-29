@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 33.0
+### RPM cms cmssw-tool-conf 34.0
 ## NOCOMPILER
 # With cmsBuild, change the above version only when a new
 # tool is added
@@ -107,6 +107,9 @@ Requires: py2-PyYAML-toolfile
 Requires: py2-docopt-toolfile
 Requires: py2-prettytable-toolfile
 Requires: py2-schema-toolfile
+Requires: py2-h5py-toolfile
+Requires: hdf5-toolfile
+Requires: py2-root_numpy-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
 Requires: cython-toolfile
