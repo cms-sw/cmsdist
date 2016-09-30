@@ -1,11 +1,9 @@
-diff --git a/build/cmake/CondorConfigure.cmake b/build/cmake/CondorConfigure.cmake
-index 71eb3ea..ad151a2 100644
 --- a/build/cmake/CondorConfigure.cmake
 +++ b/build/cmake/CondorConfigure.cmake
 @@ -501,7 +501,7 @@ endif()
  #####################################
  # RPATH option
- if (LINUX)
+ if (LINUX AND NOT PROPER)
 -	option(CMAKE_SKIP_RPATH "Skip RPATH on executables" OFF)
 +	option(CMAKE_SKIP_RPATH "Skip RPATH on executables" ON)
  else()
@@ -20,8 +18,6 @@ index 71eb3ea..ad151a2 100644
  		if ( "${LINUX_NAME}" STREQUAL "Ubuntu" )
  			set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-as-needed")
  		endif()
-diff --git a/build/cmake/CondorPackageConfig.cmake b/build/cmake/CondorPackageConfig.cmake
-index 2cacb27..d6f6331 100644
 --- a/build/cmake/CondorPackageConfig.cmake
 +++ b/build/cmake/CondorPackageConfig.cmake
 @@ -160,9 +160,9 @@ if ( ${OS_NAME} STREQUAL "LINUX" )
@@ -37,8 +33,6 @@ index 2cacb27..d6f6331 100644
  	endif()
  elseif( ${OS_NAME} STREQUAL "DARWIN" )
  	set( EXTERNALS_LIB "${C_LIB}/condor" )
-diff --git a/build/cmake/macros/CondorSetLinkLibs.cmake b/build/cmake/macros/CondorSetLinkLibs.cmake
-index b21f93c..d7a1e95 100644
 --- a/build/cmake/macros/CondorSetLinkLibs.cmake
 +++ b/build/cmake/macros/CondorSetLinkLibs.cmake
 @@ -32,7 +32,8 @@ if (${_CNDR_TARGET}LinkLibs)
@@ -51,21 +45,6 @@ index b21f93c..d7a1e95 100644
  		endif()
  	 else()
  	 	target_link_libraries( ${_CNDR_TARGET} ${${_CNDR_TARGET}LinkLibs};${CONDOR_WIN_LIBS} )
-diff --git a/externals/bundles/boost/1.49.0/CMakeLists.txt b/externals/bundles/boost/1.49.0/CMakeLists.txt
-index 4da67d1..2daa1cf 100644
---- a/externals/bundles/boost/1.49.0/CMakeLists.txt
-+++ b/externals/bundles/boost/1.49.0/CMakeLists.txt
-@@ -73,7 +73,7 @@ endif( NOT WINDOWS )
- 
- 
- # we only use our version of boost if the system is not good enough
--if (NOT PROPER) # AND (NOT Boost_FOUND OR SYSTEM_NOT_UP_TO_SNUFF) )
-+if ( (NOT PROPER) AND (NOT Boost_FOUND OR SYSTEM_NOT_UP_TO_SNUFF) )
- 
- 	if (WINDOWS)
- 	  # need to expand the configure and
-diff --git a/externals/bundles/glibc/CMakeLists.txt b/externals/bundles/glibc/CMakeLists.txt
-index 83f6b21..49d114b 100644
 --- a/externals/bundles/glibc/CMakeLists.txt
 +++ b/externals/bundles/glibc/CMakeLists.txt
 @@ -31,7 +31,7 @@ if (NOT CLIPPED)
@@ -77,62 +56,6 @@ index 83f6b21..49d114b 100644
          set(GLIBC_BUILD_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/glibc-prefix/src/glibc)
  
  	# By default, we don't need to set any flag environment variables
-diff --git a/externals/bundles/globus/5.2.5/CMakeLists.txt b/externals/bundles/globus/5.2.5/CMakeLists.txt
-index e31c35f..af3b58e 100644
---- a/externals/bundles/globus/5.2.5/CMakeLists.txt
-+++ b/externals/bundles/globus/5.2.5/CMakeLists.txt
-@@ -74,7 +74,7 @@ if (WITH_GLOBUS)
- 			set( GLOBUS_FLAGS CPPFLAGS=-I${GLOBUS_INSTALL_LOC}/include LDFLAGS=-L${GLOBUS_INSTALL_LOC}/lib )
- 		else()
- 			set( GLOBUS_DEPENDS "" )
--			set( GLOBUS_FLAGS "" )
-+			set( GLOBUS_FLAGS "CPPFLAGS=-ILIBTOOL_ROOT/include -IOPENSSL_ROOT/include" "LDFLAGS=-LLIBTOOL_ROOT/lib -LOPENSSL_ROOT/lib" )
- 		endif()
- 
- 
-@@ -112,10 +112,10 @@ if (WITH_GLOBUS)
- 							#--Patch step ----------
- 							PATCH_COMMAND ${GLOBUS_PATCH}
- 							#--Configure step ----------
--							CONFIGURE_COMMAND ln -s lib ${GLOBUS_INSTALL_LOC}/lib64 &&
-+							CONFIGURE_COMMAND mkdir -p ${GLOBUS_INSTALL_LOC}/lib/perl && ln -sf P5_ARCHIVE_TAR_ROOT/lib/perl5/Archive ${GLOBUS_INSTALL_LOC}/lib/perl && ln -sf P5_IO_ZLIB_ROOT/lib/perl5/IO ${GLOBUS_INSTALL_LOC}/lib/perl && ln -sf P5_PACKAGE_CONSTANTS_ROOT/lib/perl5/Package ${GLOBUS_INSTALL_LOC}/lib/perl && ln -sf lib ${GLOBUS_INSTALL_LOC}/lib64 && LD_LIBRARY_PATH=ENVLD_LIBRARY_PATH 
- 							./configure --prefix=${GLOBUS_INSTALL_LOC} --with-flavor=${GLOBUS_FLAVOR}pthr
- 							#--Build Step ----------
--							BUILD_COMMAND ${GLOBUS_FLAGS} make gpt globus_gssapi_error globus-resource-management-sdk globus-data-management-sdk &&
-+							BUILD_COMMAND export ${GLOBUS_FLAGS} && make gpt globus_gssapi_error globus-resource-management-sdk globus-data-management-sdk &&
- 								cd ${GLOBUS_INSTALL_LOC}/include/globus/ && ln -sf ${GLOBUS_FLAVOR}pthr/globus_config.h .
- 							BUILD_IN_SOURCE 1
- 							#--install Step ----------
-diff --git a/externals/bundles/voms/2.0.6/CMakeLists.txt b/externals/bundles/voms/2.0.6/CMakeLists.txt
-index 235d6db..dd2ee6c 100644
---- a/externals/bundles/voms/2.0.6/CMakeLists.txt
-+++ b/externals/bundles/voms/2.0.6/CMakeLists.txt
-@@ -49,8 +49,8 @@ if ( WITH_VOMS )
- 				touch -r src/utils/vomsfake.y src/utils/vomsparser.h &&
- 				touch -r src/utils/vomsfake.y src/utils/vomsparser.c &&
- 				touch -r src/utils/vomsfake.y src/utils/lex.yy.c &&
--				patch -N -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/globus_thread_h.patch &&
--				./autogen.sh )
-+				patch -N -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/globus_thread_h.patch
-+				)
- 			set ( VOMS_GLOBUS_FLAG --with-globus-prefix=${GLOBUS_INSTALL_LOC} )
- 		ENDIF()
- 
-@@ -62,9 +62,9 @@ if ( WITH_VOMS )
- 			string(REPLACE "-std=c++11" "" VOMS_LDFLAGS "${CMAKE_SHARED_LINKER_FLAGS}")
- 			set ( VOMS_CXX_COMPILER  "clang++" )
-                 else()
--			set ( VOMS_CXX_FLAGS ${CMAKE_CXX_FLAGS} )
--			set ( VOMS_C_FLAGS ${CMAKE_C_FLAGS} )
--			set ( VOMS_LDFLAGS ${CMAKE_SHARED_LINKER_FLAGS} )
-+			set ( VOMS_CXX_FLAGS "${CMAKE_CXX_FLAGS} -IEXPAT_ROOT/include" )
-+			set ( VOMS_C_FLAGS "${CMAKE_C_FLAGS} -IEXPAT_ROOT/include" )
-+			set ( VOMS_LDFLAGS "${CMAKE_SHARED_LINKER_FLAGS} -LEXPAT_ROOT/lib" )
- 			set ( VOMS_CXX_COMPILER ${CMAKE_CXX_COMPILER} )
- 		endif()
- 
-diff --git a/src/nordugrid_gahp/CMakeLists.txt b/src/nordugrid_gahp/CMakeLists.txt
-index 1fda9cd..0f8c9f2 100644
 --- a/src/nordugrid_gahp/CMakeLists.txt
 +++ b/src/nordugrid_gahp/CMakeLists.txt
 @@ -16,12 +16,7 @@
@@ -157,23 +80,68 @@ index 1fda9cd..0f8c9f2 100644
 +    message( STATUS "NOTE: *nordugrid* targets will not be built HAVE_EXT_GLOBUS=${HAVE_EXT_GLOBUS} HAVE_LDAP_H=${HAVE_LDAP_H}" )
  
  endif ()
-diff --git a/src/python-bindings/schedd.cpp b/src/python-bindings/schedd.cpp
-index fc2aefc..11f7bec 100644
---- a/src/python-bindings/schedd.cpp
-+++ b/src/python-bindings/schedd.cpp
-@@ -330,10 +330,13 @@ struct query_process_helper
- void
- query_process_callback(void * data, classad_shared_ptr<ClassAd> ad)
- {
--    if (PyErr_Occurred()) return;
--
-     query_process_helper *helper = static_cast<query_process_helper *>(data);
-     helper->ml->release();
-+     if (PyErr_Occurred())
-+     {
-+       helper->ml->acquire();
-+       return;
-+     }
-     try
-     {
-         boost::shared_ptr<ClassAdWrapper> wrapper(new ClassAdWrapper());
+--- a/externals/bundles/boost/1.49.0/CMakeLists.txt
++++ b/externals/bundles/boost/1.49.0/CMakeLists.txt
+@@ -73,7 +73,7 @@ endif( NOT WINDOWS )
+ 
+ 
+ # we only use our version of boost if the system is not good enough
+-if (NOT PROPER) # AND (NOT Boost_FOUND OR SYSTEM_NOT_UP_TO_SNUFF) )
++if ( (NOT PROPER) AND (NOT Boost_FOUND OR SYSTEM_NOT_UP_TO_SNUFF) )
+ 
+ 	if (WINDOWS)
+ 	  # need to expand the configure and
+--- a/externals/bundles/voms/2.0.6/CMakeLists.txt
++++ b/externals/bundles/voms/2.0.6/CMakeLists.txt
+@@ -49,8 +49,8 @@
+ 				touch -r src/utils/vomsfake.y src/utils/vomsparser.h &&
+ 				touch -r src/utils/vomsfake.y src/utils/vomsparser.c &&
+ 				touch -r src/utils/vomsfake.y src/utils/lex.yy.c &&
+-				patch -N -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/globus_thread_h.patch &&
+-				./autogen.sh )
++				patch -N -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/globus_thread_h.patch
++				)
+ 			set ( VOMS_GLOBUS_FLAG --with-globus-prefix=${GLOBUS_INSTALL_LOC} )
+ 		ENDIF()
+ 
+--- a/src/condor_io/authentication.cpp
++++ b/src/condor_io/authentication.cpp
+@@ -986,7 +986,11 @@
+         dprintf (D_SECURITY, "HANDSHAKE: handshake() - i am the client\n");
+         mySock->encode();
+ 		int method_bitmask = SecMan::getAuthBitmask(my_methods.Value());
++#if defined(HAVE_EXT_KRB5)
+ 		if ( (method_bitmask & CAUTH_KERBEROS) && Condor_Auth_Kerberos::Initialize() == false ) {
++#else
++		if (method_bitmask & CAUTH_KERBEROS) {
++#endif
+ 			dprintf (D_SECURITY, "HANDSHAKE: excluding KERBEROS: %s\n", "Initialization failed");
+ 			method_bitmask &= ~CAUTH_KERBEROS;
+ 		}
+@@ -1036,7 +1040,11 @@
+ 	dprintf ( D_SECURITY, "HANDSHAKE: client sent (methods == %i)\n", client_methods);
+ 
+ 	shouldUseMethod = selectAuthenticationType( my_methods, client_methods );
++#if defined(HAVE_EXT_KRB5)
+ 	if ( (shouldUseMethod & CAUTH_KERBEROS) && Condor_Auth_Kerberos::Initialize() == false ) {
++#else
++	if (shouldUseMethod & CAUTH_KERBEROS) {
++#endif
+ 		dprintf (D_SECURITY, "HANDSHAKE: excluding KERBEROS: %s\n", "Initialization failed");
+ 		shouldUseMethod &= ~CAUTH_KERBEROS;
+ 	}
+--- a/src/condor_io/condor_auth_ssl.cpp
++++ b/src/condor_io/condor_auth_ssl.cpp
+@@ -94,8 +94,12 @@
+ 
+ 	dlerror();
+ 
++#if defined(HAVE_EXT_KRB5)
+ 	if ( Condor_Auth_Kerberos::Initialize() == false ||
+ 		 (dl_hdl = dlopen(LIBSSL_SO, RTLD_LAZY)) == NULL ||
++#else
++	if ( (dl_hdl = dlopen(LIBSSL_SO, RTLD_LAZY)) == NULL ||
++#endif
+ 		 !(SSL_CTX_ctrl_ptr = (long (*)(SSL_CTX *, int, long, void *))dlsym(dl_hdl, "SSL_CTX_ctrl")) ||
+ 		 !(SSL_CTX_free_ptr = (void (*)(SSL_CTX *))dlsym(dl_hdl, "SSL_CTX_free")) ||
+ 		 !(SSL_CTX_load_verify_locations_ptr = (int (*)(SSL_CTX *, const char *, const char *))dlsym(dl_hdl, "SSL_CTX_load_verify_locations")) ||
