@@ -7,11 +7,11 @@
 %{expand:%%define python_major_version %(echo %realversion | cut -d. -f1,2)}
 
 Requires: expat bz2lib db6 gdbm openssl libffi
-Requires: zlib sqlite readline ncurses 
+Requires: zlib sqlite readline
 
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, tk/tcl, x11
-%define tag 9cd0df98a9579245343d5f37084b192f03836ee5
+%define tag 8a163e2e9d3442f6e2239cbfa1b36dba7529256b
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
@@ -49,14 +49,13 @@ done
 
 mkdir -p %{i}/{include,lib,bin}
 
-dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB6_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} ${LIBFFI_ROOT} ${ZLIB_ROOT} ${SQLITE_ROOT} ${READLINE_ROOT} ${NCURSES_ROOT}"
+dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB6_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} ${LIBFFI_ROOT} ${ZLIB_ROOT} ${SQLITE_ROOT} ${READLINE_ROOT}"
 
 # We need to export it because setup.py now uses it to determine the actual
 # location of DB4, this was needed to avoid having it picked up from the system.
 export DB6_ROOT
 export LIBFFI_ROOT
 export READLINE_ROOT
-export NCURSES_ROOT
 
 # Python's configure parses LDFLAGS and CPPFLAGS to look for aditional library and include directories
 echo $dirs
@@ -65,7 +64,7 @@ CPPFLAGS=""
 for d in $dirs; do
   LDFLAGS="$LDFLAGS -L$d/lib -L$d/lib64"
 done
-for d in $dirs $READLINE_ROOT $NCURSES_ROOT; do
+for d in $dirs $READLINE_ROOT; do
   CPPFLAGS="$CPPFLAGS -I$d/include"
 done
 export LDFLAGS
@@ -128,7 +127,6 @@ make
 export DB6_ROOT
 export LIBFFI_ROOT
 export READLINE_ROOT
-export NCURSES_ROOT
 
 make install
 %define pythonv %(echo %realversion | cut -d. -f 1,2)
