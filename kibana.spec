@@ -1,26 +1,17 @@
-### RPM cms t0_reqmon 1.0.21.pre4
+### RPM external kibana 4.6.1
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
-Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
-
-Requires: python rotatelogs py2-httplib2 cherrypy py2-cheetah py2-cjson py2-pycurl py2-future py2-retry
-Requires: jemalloc
-BuildRequires: py2-setuptools py2-sphinx couchskel
+Source: https://download.elastic.co/kibana/kibana/kibana-%{realversion}-linux-x86_64.tar.gz
+Requires: elasticsearch
 
 %prep
-%setup -b 0 -n %n
+%setup -n kibana-%realversion-linux-x86_64
 
 %build
-python setup.py build_system -s reqmon
 
 %install
-python setup.py install_system -s reqmon --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
-
-# Pick external dependencies from couchskel
-mkdir %i/data/couchapps/WMStats/vendor/
-cp -rp $COUCHSKEL_ROOT/data/couchapps/couchskel/vendor/{couchapp,jquery,datatables} \
-  %i/data/couchapps/WMStats/vendor/
+echo $PWD
+cp -r * %i/
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d

@@ -1,21 +1,19 @@
-### RPM cms confdb 1.3.9
-Source: git://github.com/cms-sw/web-confdb?obj=Server/%realversion&export=%n&output=/%n.tar.gz
-Requires: python cherrypy oracle oracle-env py2-cx-oracle py2-sqlalchemy10 py2-marshmallow py2-psycopg2
-Requires: rotatelogs pystack
+### RPM external elasticsearch-hadoop 2.3.2
+
+Source: http://download.elastic.co/hadoop/elasticsearch-hadoop-%{realversion}.zip
+Requires: java-jdk
 
 %prep
-%setup -n %n
+%setup -n elasticsearch-hadoop-%realversion
 
 %build
 
 %install
-cp -rp Server/Application_py266 %i/
-rm %i/Application_py266/Config.py
-rm %i/Application_py266/ConfDBAuth.py
-python -m compileall %i/Application_py266 || true
+echo $PWD
+cp -r * %i/
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
-mkdir -p %i/etc/profile.d/
+mkdir -p %i/etc/profile.d
 : > %i/etc/profile.d/dependencies-setup.sh
 : > %i/etc/profile.d/dependencies-setup.csh
 for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
