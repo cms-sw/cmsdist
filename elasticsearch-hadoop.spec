@@ -1,25 +1,16 @@
-### RPM cms PhedexReplicaMonitoring v00.00.05
-## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
-%define pkg PhedexReplicaMonitoring
-Source: git://github.com/aurimasrep/PhedexReplicaMonitoring?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
-Requires: python py2-py4j java-jdk elasticsearch elasticsearch-hadoop kibana rotatelogs
-BuildRequires: py2-sphinx
+### RPM external elasticsearch-hadoop 2.3.2
 
-# RPM macros documentation
-# http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
+Source: http://download.elastic.co/hadoop/elasticsearch-hadoop-%{realversion}.zip
+Requires: java-jdk
+
 %prep
-%setup -b 0 -n %pkg
+%setup -n elasticsearch-hadoop-%realversion
 
 %build
-#cd %pkg
 
 %install
-mkdir -p %i/${PYTHON_LIB_SITE_PACKAGES}
-mkdir -p %i/bin
-cp -r src/python/* %i/${PYTHON_LIB_SITE_PACKAGES}
-cp src/scripts/*.sh %i/bin
-cp -r data %i/
-cp -r etc %i/
+echo $PWD
+cp -r * %i/
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
