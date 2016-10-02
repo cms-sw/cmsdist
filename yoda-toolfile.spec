@@ -17,6 +17,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/yoda.xml
   </client>
   <use name="python"/>
   <use name="cython"/>
+  <use name="root_cxxdefaults"/>
   <runtime name="PYTHONPATH" value="$YODA_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   <runtime name="PATH"       value="$YODA_BASE/bin" type="path"/>
 </tool>
