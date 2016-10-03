@@ -109,8 +109,7 @@ Requires: py2-prettytable-toolfile
 Requires: py2-schema-toolfile
 Requires: py2-h5py-toolfile
 Requires: hdf5-toolfile
-#Disable root numpy as it does not work with root master branch 6.07
-#Requires: py2-root_numpy-toolfile
+Requires: py2-root_numpy-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
 Requires: cython-toolfile
