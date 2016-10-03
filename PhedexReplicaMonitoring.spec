@@ -1,7 +1,7 @@
-### RPM cms PhedexReplicaMonitoring v00.00.05
+### RPM cms PhedexReplicaMonitoring v00.00.06
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define pkg PhedexReplicaMonitoring
-Source: git://github.com/aurimasrep/PhedexReplicaMonitoring?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
+Source: git://github.com/dmwm/PhedexReplicaMonitoring?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
 Requires: python py2-py4j java-jdk elasticsearch elasticsearch-hadoop kibana rotatelogs
 BuildRequires: py2-sphinx
 
