@@ -98,6 +98,16 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-f77compiler.xml
   </tool>
 EOF_TOOLFILE
 
+# GCC tool file for explicitly linking against libatomic
+cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-atomic.xml
+  <tool name="gcc-atomic" version="@GCC_VERSION@">
+    <lib name="atomic"/>
+    <client>
+      <environment name="GCC_ATOMIC_BASE" default="@GCC_ROOT@"/>
+    </client>
+  </tool>
+EOF_TOOLFILE
+
 # NON-empty defaults
 # First of all handle OS specific options.
 %ifos linux
