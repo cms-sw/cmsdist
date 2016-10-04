@@ -1,6 +1,6 @@
-### RPM external xrootd 4.4.0
+### RPM external xrootd 4.4.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-%define tag 3fc98e1bcb2fde1c94d6daf9dd5f7ed1e08eb794
+%define tag 11badbceef2ba6067075121b09c940130861b5f7
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
