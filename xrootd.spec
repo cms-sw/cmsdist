@@ -1,4 +1,4 @@
-### RPM external xrootd 4.4.0
+### RPM external xrootd 4.4.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 %define tag 3fc98e1bcb2fde1c94d6daf9dd5f7ed1e08eb794
 %define branch cms/v%{realversion}
