@@ -10,8 +10,10 @@ BuildRequires: py2-setuptools
 %setup -n %{my_name}-%{realversion}
 
 %build
+export NOTMVA=1
 python setup.py build
 
 %install
+export NOTMVA=1
 python setup.py install --single-version-externally-managed --record=/dev/null --skip-build --prefix=%{i}
 find %{i}/${PYTHON_LIB_SITE_PACKAGES} -name '*.egg-info' -print0 | xargs -0 rm -rf
