@@ -1,4 +1,4 @@
-### RPM external xrootd-toolfile 1.0
+### RPM external xrootd-toolfile 2.0
 Requires: xrootd
 %prep
 
