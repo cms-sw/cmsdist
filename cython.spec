@@ -21,5 +21,3 @@ sed -ideleteme 's|#!.*/bin/python|#!/usr/bin/env python|' \
   %{i}/${PYTHON_LIB_SITE_PACKAGES}/Cython/Debugger/libpython.py
 
 find %{i} -name '*deleteme' -delete
-
-find %{i}/${PYTHON_LIB_SITE_PACKAGES} -name '*.egg-info' -print0 | xargs -0 rm -f

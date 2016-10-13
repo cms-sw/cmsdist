@@ -2,8 +2,8 @@
 ## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
 %define my_name %(echo %n | cut -f2 -d-)
 Source: https://github.com/%{my_name}/%{my_name}/archive/%{realversion}.tar.gz
-Requires: python py2-numpy hdf5
-BuildRequires: py2-setuptools hdf5
+Requires: python py2-numpy hdf5 py2-six
+BuildRequires: py2-setuptools cython py2-pkgconfig
 
 %prep
 %setup -n %{my_name}-%{realversion}
