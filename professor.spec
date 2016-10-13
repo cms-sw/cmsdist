@@ -3,6 +3,7 @@
 Source: http://www.hepforge.org/archive/professor/professor-%{realversion}.tar.gz
 
 Requires: py2-numpy py2-scipy pyminuit2 py2-matplotlib
+BuildRequires: py2-setuptools
 %prep
 %setup -n professor-%{realversion}
 
@@ -10,7 +11,7 @@ Requires: py2-numpy py2-scipy pyminuit2 py2-matplotlib
 
 %install
 export MPLCONFIGDIR=$PWD
-./setup.py install
+./setup.py --distutils install
 mkdir %i/bin
 cp bin/* %i/bin
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
