@@ -3,7 +3,7 @@
 
 Source: https://pypi.python.org/packages/87/35/4af9634270c00e3411cf951b7e0ea796c262922357cfc7609a86d31f072b/pkgconfig-1.1.0.tar.gz
 BuildRequires: py2-setuptools
-Requires: python
+Requires: python py2-nose
 
 %prep
 %setup -n pkgconfig-%{realversion}
