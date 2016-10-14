@@ -1,5 +1,4 @@
-### RPM cms PHEDEX-lifecycle 1.2.1
-# Dummy line to force a rebuild
+### RPM cms PHEDEX-lifecycle 1.3.0pre1
 ## INITENV +PATH PERL5LIB %i/perl_lib
 ## INITENV +PATH PERL5LIB %i/T0/perl_lib
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -8,10 +7,8 @@
 %define setupdir  %{downloadn}-%{downloadp}_%{downloadt}
 Source: https://github.com/dmwm/PHEDEX/archive/%{downloadp}_%{downloadt}.tar.gz
 
-#%define gittag 58f3eed1c98b8edaae10f6befe9d0343c0abc38b
-#Source0: git://github.com/dmwm/PHEDEX?obj=PHEDEX-LifeCycle/%gittag&export=%n&output=/%n.tar.gz
-
 # TODO Need to get this from somewhere else...
+# TODO Check with Dirk if this is still needed (NR).
 %define cvsserver cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e
 Source1: %cvsserver&strategy=export&module=T0&export=T0&&tag=-rPHEDEX_LIFECYCLE_1_0_0&output=/T0.tar.gz
 
@@ -27,30 +24,23 @@ Requires: oracle oracle-env p5-dbi p5-dbd-oracle
 # add PHEDEX to fix perl dependency problem
 Requires: PHEDEX
 
-#Provides: perl(XML::LibXML)
 Provides: perl(XML::Twig)
 Provides: perl(T0::FileWatcher)
 Provides: perl(T0::Logger::Sender)
 Provides: perl(T0::Util)
 
-# Actually, it is p5-xml-parser that requires this, but it doesn't configure itself correctly
-# This is so it gets into our dependencies-setup.sh
-#Requires:  expat
-
 %prep
 %setup -n %{setupdir}
 tar zxf %_sourcedir/T0.tar.gz
-rm Testbed/AutomatedTesting/check_API.pl
 
 %build
 %install
 mkdir -p %i/etc/{env,profile}.d %i/bin
-tar -cf - * | (cd %i && tar -xf -)
-cp -p Testbed/LifeCycle/Lifecycle.pl %i/bin
-cp -p Testbed/LifeCycle/CheckProxy.pl %i/bin
-cp -p Testbed/LifeCycle/fake-delete.pl %i/bin
-cp -p Testbed/LifeCycle/fake-validate.pl %i/bin
-cp -p Testbed/FakeFTS.pl %i/bin
+# Instead of taking all sources unpack only what belongs to the lifecycle:
+# tar -cf - * | (cd %i && tar -xf -)
+
+tar -c perl_lib/PHEDEX{Core,Testbed} | tar -x -C %i 
+tar -c Testbed/{Integration,LifeCycle} | tar -x -C %i
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 : > %i/etc/profile.d/dependencies-setup.sh
