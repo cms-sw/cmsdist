@@ -17,7 +17,6 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-dxr.xml
     <runtime name="PYTHONPATH" value="$PY2_DXR_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
     <runtime name="PATH" value="$PY2_DXR_BASE/bin" type="path"/>
     <use name="python"/>
-    <use name="sqlite"/>
     <use name="py2-futures"/>
     <use name="py2-jinja"/>
     <use name="py2-markupsafe"/>
