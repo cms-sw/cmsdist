@@ -35,12 +35,13 @@ tar zxf %_sourcedir/T0.tar.gz
 
 %build
 %install
-mkdir -p %i/etc/{env,profile}.d %i/bin
+mkdir -p %i/etc/{env,profile}.d
 # Instead of taking all sources unpack only what belongs to the lifecycle:
 # tar -cf - * | (cd %i && tar -xf -)
 
-tar -c perl_lib/PHEDEX{Core,Testbed} | tar -x -C %i 
+tar -c perl_lib/PHEDEX/{Core,Testbed} | tar -x -C %i 
 tar -c Testbed/{Integration,LifeCycle} | tar -x -C %i
+tar -c T0 | tar -x -C %i
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 : > %i/etc/profile.d/dependencies-setup.sh
