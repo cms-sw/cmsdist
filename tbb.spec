@@ -1,8 +1,6 @@
 ### RPM external tbb 2017_20160916oss
 Source: https://www.threadingbuildingblocks.org/sites/default/files/software_releases/source/%{n}%{realversion}_src.tgz
 
-Requires: llvm
-
 %prep
 %setup -n tbb%{realversion}
 
