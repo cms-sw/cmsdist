@@ -12,6 +12,13 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/professor2.xml
 <client>
 <environment name="PROFESSOR2_BASE" default="@TOOL_ROOT@"/>
 </client>
+<use name="py2-numpy"/>
+<use name="py2-sympy"/>
+<use name="py2-matplotlib"/>
+<use name="root"/>
+<use name="cython"/>
+<use name="yoda"/>
+<use name="eigen"/>
 <runtime name="PATH" value="$PROFESSOR2_BASE/bin" type="path"/>
 <runtime name="PYTHONPATH" value="$PROFESSOR2_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
 </tool>
