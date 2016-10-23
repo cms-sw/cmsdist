@@ -1,7 +1,7 @@
-### RPM external valgrind 3.11.0
+### RPM external valgrind 3.12.0
 ## INITENV SET VALGRIND_LIB %{i}/lib/valgrind
-%define tag 6ac4b75e9142ef7fc7d7d9ffd161a4556a1b5874
-%define branch v3.11.0
+%define tag 19bc5aa976d728189c0eda5ca4bb2a50c63e1bf9
+%define branch v3.12.0
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
