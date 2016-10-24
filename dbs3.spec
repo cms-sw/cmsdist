@@ -1,14 +1,14 @@
-### RPM cms dbs3 3.3.144
+### RPM cms dbs3 3.3.145
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV SET DBS3_SERVER_ROOT %i/
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 1.0.17.pre6
+%define wmcver 1.0.22.pre1
 %define tag %(echo %{realversion} | sed 's/[.]/_/g; s/^/DBS_/')
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore&output=/WMCore4%{n}.tar.gz
 Source1: git://github.com/dmwm/DBS.git?obj=master/%{tag}&export=DBS&output=/%{n}.tar.gz
 
-Requires: python py2-simplejson py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah yui
+Requires: python py2-simplejson py2-sqlalchemy10 py2-httplib2 cherrypy py2-cheetah yui
 Requires: py2-cjson py2-cx-oracle py2-docutils dbs3-pycurl-client rotatelogs pystack
 Requires: jemalloc
 BuildRequires: py2-sphinx
