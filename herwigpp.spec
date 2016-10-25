@@ -70,4 +70,4 @@ make install LD_LIBRARY_PATH=$LHAPDF_ROOT/lib:$THEPEG_ROOT/lib/ThePEG:$GSL_ROOT/
 
 
 %post
-%{relocateConfig}share/Herwig7/HerwigDefaults.rpo
+%{relocateConfig}share/Herwig/HerwigDefaults.rpo
