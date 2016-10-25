@@ -169,9 +169,6 @@ find %i -name '*.py' -perm +0111 | while read f; do
   if head -n1 $f | grep -q '"'; then chmod -x $f; else :; fi
 done
 
-# remove tkinter that brings dependency on libtk:
-find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
-
 # Remove documentation, examples and test files. 
 %define drop_files { %i/share %{i}/lib/python%{pythonv}/test \
                    %{i}/lib/python%{pythonv}/distutils/tests \
