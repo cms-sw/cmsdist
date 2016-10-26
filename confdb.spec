@@ -9,10 +9,8 @@ Requires: rotatelogs pystack
 %build
 
 %install
-cp -rp Server/Application_py266 %i/
-rm %i/Application_py266/Config.py
-rm %i/Application_py266/ConfDBAuth.py
-python -m compileall %i/Application_py266 || true
+cp -rp Multiinstance/Application %i/
+python -m compileall %i/Application || true
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d/
