@@ -10,7 +10,7 @@ Requires: expat bz2lib db6 gdbm openssl libffi
 Requires: zlib sqlite readline
 
 # FIXME: readline, crypt 
-# FIXME: gmp, panel, tk/tcl, x11
+# FIXME: gmp, panel, x11
 %define tag 8a163e2e9d3442f6e2239cbfa1b36dba7529256b
 %define branch cms/v%{realversion}
 %define github_user cms-externals
