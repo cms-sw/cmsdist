@@ -10,7 +10,7 @@ Requires: expat bz2lib db6 gdbm openssl libffi
 Requires: zlib sqlite readline
 
 # FIXME: readline, crypt 
-# FIXME: gmp, panel, tk/tcl, x11
+# FIXME: gmp, panel, x11
 %define tag 8a163e2e9d3442f6e2239cbfa1b36dba7529256b
 %define branch cms/v%{realversion}
 %define github_user cms-externals
@@ -168,9 +168,6 @@ find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
 find %i -name '*.py' -perm +0111 | while read f; do
   if head -n1 $f | grep -q '"'; then chmod -x $f; else :; fi
 done
-
-# remove tkinter that brings dependency on libtk:
-find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
 
 # Remove documentation, examples and test files. 
 %define drop_files { %i/share %{i}/lib/python%{pythonv}/test \

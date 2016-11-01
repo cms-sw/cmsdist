@@ -14,7 +14,7 @@ basedirlist = ${FREETYPE_ROOT}:${LIBPNG_ROOT}:${ZLIB_ROOT}:${PY2_NUMPY_ROOT}:${P
 [gui_support]
 gtk = False
 gtkagg = False
-tkagg = False
+tkagg = True
 wxagg = False
 macosx = False
 EOF
