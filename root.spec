@@ -1,7 +1,7 @@
 ### RPM lcg root 6.08.00
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 8408e4d90cef6530c5a38870567b40959247c908
+%define tag 6907fbc877643af0fbcb1b5df7f253cd772124b9
 %define branch v6-08-00-patches
 %define github_user root-mirror
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
