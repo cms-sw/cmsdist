@@ -1,15 +1,12 @@
-### RPM external tbb 44_20160526oss
-Source: https://www.threadingbuildingblocks.org/sites/default/files/software_releases/source/tbb%{realversion}_src_0.tgz
-
-Patch0: tbb-cpp11-rvalue-ref-present
+### RPM external tbb 2017_20161004oss
+Source: https://www.threadingbuildingblocks.org/sites/default/files/software_releases/source/%{n}%{realversion}_src.tgz
 
 %prep
 %setup -n tbb%{realversion}
-%patch0 -p1
 
 %build
 
-make %{makeprocesses} stdver=c++14 CXXFLAGS='-flifetime-dse=1'
+make %{makeprocesses} stdver=c++14
 
 %install
 install -d %i/lib

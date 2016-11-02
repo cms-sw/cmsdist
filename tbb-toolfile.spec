@@ -18,7 +18,10 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/tbb.xml
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
+  <flags CPPDEFINES="TBB_USE_GLIBCXX_VERSION=@GCC_GLIBCXX_VERSION@"/>
 </tool>
 EOF_TOOLFILE
+
+export GCC_GLIBCXX_VERSION=$(gcc -dumpversion | tr '.' '0')
 
 ## IMPORT scram-tools-post
