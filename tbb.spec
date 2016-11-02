@@ -1,4 +1,4 @@
-### RPM external tbb 2017_20160916oss
+### RPM external tbb 2017_20161004oss
 Source: https://www.threadingbuildingblocks.org/sites/default/files/software_releases/source/%{n}%{realversion}_src.tgz
 
 %prep
