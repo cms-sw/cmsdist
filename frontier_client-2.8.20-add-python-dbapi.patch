@@ -1,5 +1,5 @@
 diff --git a/python/bin/frontier_simple_client.py b/python/bin/frontier_simple_client.py
-new file mode 100755
+new file mode 100644
 index 0000000..ee8c7c2
 --- /dev/null
 +++ b/python/bin/frontier_simple_client.py
@@ -68,10 +68,10 @@ index 0000000..ee8c7c2
 +
 diff --git a/python/lib/frontier.py b/python/lib/frontier.py
 new file mode 100644
-index 0000000..b8ff547
+index 0000000..c5824a1
 --- /dev/null
 +++ b/python/lib/frontier.py
-@@ -0,0 +1,466 @@
+@@ -0,0 +1,471 @@
 +'''Frontier binding for Python.
 +
 +This module follows the Python Database API Specification v2.0, PEP 249 [1],
@@ -222,6 +222,8 @@ index 0000000..b8ff547
 +
 +    elif isinstance(parameter, int) or isinstance(parameter, long) or isinstance(parameter, float):
 +        return str(parameter)
++    elif isinstance(parameter, datetime.datetime):
++        return "TO_TIMESTAMP('"+str(parameter.strftime("%Y-%m-%d %H %M %S"))+"','YYYY-MM-DD HH24 MI SS')"
 +
 +    raise ProgrammingError('Unsupported parameter type (%s).' % type(parameter))
 +
@@ -315,8 +317,11 @@ index 0000000..b8ff547
 +
 +        elif isinstance(parameters, collections.Mapping):
 +            for variable in variables:
-+                operation = operation.replace(variable, _paramchar, 1)
-+                final_parameters.append(parameters[variable[1:]])
++                if isinstance(parameters[variable[1:]],datetime.datetime):
++                    operation = operation.replace(variable,_stringify(parameters[variable[1:]]))
++                else:
++                    operation = operation.replace(variable, _paramchar, 1)
++                    final_parameters.append(parameters[variable[1:]])
 +
 +        else:
 +            raise ProgrammingError('Unsupported parameters type (%s).' % type(parameters))
@@ -726,7 +731,7 @@ index 0000000..1030967
 +frontier_init()
 +
 diff --git a/python/test/frontier_test.py b/python/test/frontier_test.py
-new file mode 100755
+new file mode 100644
 index 0000000..bf56a75
 --- /dev/null
 +++ b/python/test/frontier_test.py
