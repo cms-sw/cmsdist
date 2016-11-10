@@ -1,4 +1,4 @@
-### RPM external frontier_client 2.8.19
+### RPM external frontier_client 2.8.20
 ## INITENV +PATH PYTHONPATH %{i}/python/lib
 
 Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
@@ -6,7 +6,7 @@ Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
 Requires: expat openssl pacparser python zlib
 
 Patch0: frontier_client-2.8.5-fix-gcc47
-Patch1: frontier_client-2.8.8-add-python-dbapi
+Patch1: frontier_client-2.8.20-add-python-dbapi
 
 %if "%{?cms_cxxflags:set}" != "set"
 %define cms_cxxflags -std=c++0x -O2
