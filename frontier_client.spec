@@ -5,8 +5,7 @@ Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 Requires: expat openssl pacparser python zlib
 
-Patch0: frontier_client-2.8.5-fix-gcc47
-Patch1: frontier_client-2.8.20-add-python-dbapi
+Patch0: frontier_client-2.8.20-add-python-dbapi
 
 %if "%{?cms_cxxflags:set}" != "set"
 %define cms_cxxflags -std=c++0x -O2
@@ -18,7 +17,6 @@ Patch1: frontier_client-2.8.20-add-python-dbapi
 %define makeargs "EXPAT_DIR=${EXPAT_ROOT} PACPARSER_DIR=${PACPARSER_ROOT} COMPILER_TAG=gcc_$(gcc -dumpversion) ZLIB_DIR=${ZLIB_ROOT}  OPENSSL_DIR=${OPENSSL_ROOT}"
 
 %patch0 -p1
-%patch1 -p1
 
 %build
 
