@@ -1,10 +1,10 @@
-### RPM external sqlite 3.15.0
-Source: http://sqlite.org/2016/sqlite-autoconf-3150000.tar.gz
+### RPM external sqlite 3.15.1
+Source: http://sqlite.org/2016/sqlite-autoconf-3150100.tar.gz
 
 Requires: readline
 
 %prep
-%setup -n sqlite-autoconf-3150000
+%setup -n sqlite-autoconf-3150100
 
 %build
 ./configure --build="%{_build}" --host="%{_host}" --prefix=%{i} \
