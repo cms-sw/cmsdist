@@ -64,7 +64,7 @@ Requires: file
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-05-13
+%define configtag       V05-05-15
 %endif
 
 %if "%{?cvssrc:set}" != "set"
