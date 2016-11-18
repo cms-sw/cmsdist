@@ -23,6 +23,7 @@ cmake -DCMAKE_INSTALL_PREFIX="%{i}" \
  -DLIBXML2_LIBRARIES="${LIBXML2_ROOT}/lib/libxml2.%{soext}" \
  -DBoost_NO_SYSTEM_PATHS:BOOL=TRUE \
  -DBOOST_ROOT:PATH="${BOOST_ROOT}" \
+ -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
  ../
 
 make VERBOSE=1 %{makeprocesses}
