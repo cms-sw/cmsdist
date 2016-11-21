@@ -1,4 +1,4 @@
-### RPM cms das v03.01.07
+### RPM cms das v03.01.09
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define wmcver 0.8.3
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
@@ -8,7 +8,7 @@ Source0: git://github.com/dmwm/DAS?obj=master/%realversion&export=%pkg&output=/%
 Source1: %svnserver/WMCore/tags/%{wmcver}?scheme=svn+ssh&strategy=export&module=WMCore&output=/wmcore_das.tar.gz
 Requires: python py2-simplejson py2-sqlalchemy10 py2-httplib2 cherrypy py2-cheetah yui
 Requires: mongo py2-pymongo py2-cjson py2-yaml py2-pystemmer py2-mongoengine py2-lxml py2-ply py2-yajl
-Requires: py2-pycurl rotatelogs
+Requires: py2-pycurl py2-jinja rotatelogs
 # keyword search dependencies below
 Requires: py2-jsonpath-rw py2-nltk py2-whoosh
 Requires: jemalloc
