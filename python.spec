@@ -13,7 +13,7 @@ Requires: zlib sqlite
 # FIXME: gmp, panel, x11
 %define tag 4a9ef71da324c1591d857e35940276890618d50d
 %define branch cms/v%{realversion}
-%define github_user davidlt
+%define github_user cms-externals
 Source: git+https://github.com/%github_user/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 %prep
