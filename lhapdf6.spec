@@ -1,7 +1,7 @@
-### RPM external lhapdf6 6.1.5
-%define setsversion 6.1.5b
+### RPM external lhapdf6 6.1.6
+%define setsversion 6.1.6
 
-Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
+Source: http://cern.ch/service-spi/external/MCGenerators/distribution/lhapdf/lhapdf-%{realversion}-src.tgz
 
 Source1: lhapdf6_makeLinks
 
@@ -24,7 +24,7 @@ Requires: boost yaml-cpp python cython
 %endif
 
 %prep
-%setup -q -n %{n}/%{realversion}
+%setup -q -n lhapdf/%{realversion}
 
 ./configure --prefix=%{i} --with-boost=${BOOST_ROOT} --with-yaml-cpp=${YAML-CPP_ROOT} PYTHON=${PYTHON_ROOT}/bin/python CYTHON=${CYTHON_ROOT}/bin/cython PYTHONPATH=${CYTHON_ROOT}/lib/python@PYTHONV@/site-packages
 
