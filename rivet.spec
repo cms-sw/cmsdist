@@ -1,7 +1,7 @@
-### RPM external rivet 2.4.0
+### RPM external rivet 2.5.2
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
 
-Requires: hepmc boost fastjet gsl yaml-cpp yoda
+Requires: hepmc fastjet gsl yoda
 Requires: python cython
 
 Patch0: rivet-1.4.0
@@ -35,9 +35,8 @@ do
   chmod +x $CONFIG_SUB_FILE
 done
 
-./configure --disable-silent-rules --prefix=%{i} --with-boost=${BOOST_ROOT} --with-hepmc=${HEPMC_ROOT} \
+./configure --disable-silent-rules --prefix=%{i} --with-hepmc=${HEPMC_ROOT} \
             --with-fastjet=${FASTJET_ROOT} --with-gsl=$GSL_ROOT --with-yoda=${YODA_ROOT} \
-            --with-yaml-cpp=${YAML_CPP_ROOT} \
             --disable-doxygen --disable-pdfmanual --with-pic \
             PYTHONPATH=${CYTHON_ROOT}/${PYTHON_LIB_SITE_PACKAGES} \
             CXX="$(which %cms_cxx)" CXXFLAGS="%cms_cxxflags" CPPFLAGS="-I${BOOST_ROOT}/include"
