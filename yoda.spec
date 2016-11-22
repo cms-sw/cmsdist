@@ -11,7 +11,7 @@ Requires: python cython root
 %prep
 %setup -q -n %{n}/%{realversion}
 
-./configure --prefix=%i CXX="$(which %cms_cxx)" CXXFLAGS="%cms_cxxflags" --enable-root
+./configure --prefix=%i --enable-root
 
 %build
 make all
