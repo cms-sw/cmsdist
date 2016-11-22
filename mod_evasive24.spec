@@ -1,6 +1,7 @@
 ### RPM external mod_evasive24 1.10.1
 #Source: https://www.zdziarski.com/blog/wp-content/uploads/2010/02/mod_evasive_%realversion.tar.gz
 Source: https://fossies.org/linux/www/apache_httpd_modules/old/mod_evasive_%realversion.tar.gz
+Patch: mod_evasive_dn
 
 # See some docs at
 # https://mbrownnyc.wordpress.com/technology-solutions/create-a-secure-linux-web-server/install-and-configure-mod_evasive-for-apache-2-4-x/
@@ -11,7 +12,7 @@ Requires: apache24
 
 %prep
 %setup -n mod_evasive
-sed -i -e "s,remote_ip,client_ip,g" mod_evasive20.c
+%patch -p1
 
 %build
 $APACHE24_ROOT/bin/apxs -c mod_evasive20.c
