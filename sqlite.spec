@@ -1,16 +1,12 @@
 ### RPM external sqlite 3.15.1
 Source: http://sqlite.org/2016/sqlite-autoconf-3150100.tar.gz
 
-Requires: readline
-
 %prep
 %setup -n sqlite-autoconf-3150100
 
 %build
 ./configure --build="%{_build}" --host="%{_host}" --prefix=%{i} \
-            --disable-static --disable-dependency-tracking \
-            CPPFLAGS="-I${READLINE_ROOT}/include" \
-            CFLAGS="-L${READLINE_ROOT}/lib"
+            --disable-static --disable-dependency-tracking
 make %{makeprocesses}
 
 %install
