@@ -113,6 +113,7 @@ cmake ../%{n}-%{realversion} \
   -Dchirp=OFF \
   -Dsrp=OFF \
   -Ddavix=ON \
+  -DDAVIX_DIR=${DAVIX_ROOT} \
   -Dglite=OFF \
   -Dsapdb=OFF \
   -Dalien=OFF \
