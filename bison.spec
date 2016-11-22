@@ -2,6 +2,7 @@
 Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 
 BuildRequires: autotools
+Requires: autotools
 
 %define drop_files %{i}/share/{man,locale,info}
 
