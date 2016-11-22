@@ -18,11 +18,6 @@ BuildRequires: lhapdf
 
 %define keep_archives true
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx c++
-%endif
-
-
 %prep
 %setup -q -n ThePEG-%{realversion}
 
@@ -30,18 +25,13 @@ BuildRequires: lhapdf
 autoreconf -fiv
 
 %build
-CXX="$(which %{cms_cxx}) -fPIC"
-CC="$(which gcc) -fPIC"
-PLATF_CONF_OPTS="--enable-shared --disable-static"
-
 
 # Update to detect aarch64 and ppc64le
 rm -f ./Config/config.{sub,guess}
 curl -L -k -s -o ./Config/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
 curl -L -k -s -o ./Config/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
 chmod +x ./Config/config.{sub,guess}
-
-./configure $PLATF_CONF_OPTS \
+./configure --enable-shared --disable-static \
             --with-lhapdf=$LHAPDF_ROOT \
             --with-boost=$BOOST_ROOT \
             --with-hepmc=$HEPMC_ROOT \
@@ -51,9 +41,7 @@ chmod +x ./Config/config.{sub,guess}
             --with-rivet=$RIVET_ROOT \
             --without-javagui \
             --prefix=%{i} \
-            --disable-readline CXX="$CXX" CC="$CC"  
-
-
+            --disable-readline CXXFLAGS="-O2 -std=c++11" 
 
 make %{makeprocesses}
 
