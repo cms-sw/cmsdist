@@ -7,8 +7,8 @@ Requires: gcc zlib
 
 %define llvmCommit bef7c1ff252f0eb7720a04905a6a863a0be05e8a
 %define llvmBranch cms/bef7c1f
-%define clangCommit 46fe2a070d84837be355fb94bfb6b88619582a51
-%define clangBranch cms/7408b63
+%define clangCommit f8e9fab53961385bedcba4a08bff2743e22833be
+%define clangBranch cms/061ba06
 %define clangToolsExtraCommit e18d9c2e4ed1389113ebfdb0b13a57484e6e3a53
 %define clangToolsExtraBranch cms/e18d9c2
 %define compilerRtCommit db2e46daade3472b7ca16ae4eaabb26768a051a0
