@@ -170,6 +170,9 @@ Requires: scons-toolfile
 Requires: md5-toolfile
 Requires: py2-setuptools-toolfile
 Requires: madgraph5amcatnlo-toolfile
+Requires: histogrammar-toolfile
+Requires: py2-rootpy-toolfile
+Requires: py2-notebook
 
 # Only for Linux platform.
 %if %islinux
@@ -188,7 +191,6 @@ Requires: py2-cx-oracle-toolfile
 Requires: oracle-toolfile
 Requires: cuda-toolfile
 Requires: openloops-toolfile
-Requires: histogrammar-toolfile
 
 %if %isslc
 Requires: glibc-toolfile
