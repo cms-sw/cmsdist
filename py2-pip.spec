@@ -14,4 +14,5 @@ python setup.py build
 %install
 python setup.py install --single-version-externally-managed --record=/dev/null  --prefix=%{i}
 find %{i}/${PYTHON_LIB_SITE_PACKAGES} -name '*.egg-info' -print0 | xargs -0 rm -rf
+perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
 
