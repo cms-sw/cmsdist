@@ -5,10 +5,10 @@
 BuildRequires: python cmake ninja
 Requires: gcc zlib
 
-%define llvmCommit bef7c1ff252f0eb7720a04905a6a863a0be05e8a
-%define llvmBranch cms/bef7c1f
-%define clangCommit a2015051acdf0b28f8f9834d011d892baca93e07
-%define clangBranch cms/1bdc217
+%define llvmCommit c3bdfe57eb17a65d8b9ebd5003913e36ed4e3faa
+%define llvmBranch cms/c3bdfe5
+%define clangCommit 5fd88463ce8cb0d3ec580f9ea50f587657835a2e
+%define clangBranch cms/b84738c
 %define clangToolsExtraCommit 25e8e1682d1d2b76ee38eb23954e2c94513895d3
 %define clangToolsExtraBranch cms/25e8e16
 %define compilerRtCommit 311e7441fece63269ce3850133e2315a24a3b47d
