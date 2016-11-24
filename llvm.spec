@@ -7,18 +7,18 @@ Requires: gcc zlib
 
 %define llvmCommit bef7c1ff252f0eb7720a04905a6a863a0be05e8a
 %define llvmBranch cms/bef7c1f
-%define clangCommit f8e9fab53961385bedcba4a08bff2743e22833be
-%define clangBranch cms/061ba06
-%define clangToolsExtraCommit e18d9c2e4ed1389113ebfdb0b13a57484e6e3a53
-%define clangToolsExtraBranch cms/e18d9c2
-%define compilerRtCommit db2e46daade3472b7ca16ae4eaabb26768a051a0
-%define compilerRtBranch cms/db2e46d
-%define openmpCommit 550c02171584ecf0e8753cdaa5b20008bfc114f2
-%define openmpBranch cms/550c021
-%define iwyuCommit cf4d4963196a7b66b6ccf8f2eb37d7f71882eb5b
-%define iwyuBranch cms/cf4d496
-%define lldCommit ec7923d2e6aaf2636dc08c9461d59bc8593c6bc1
-%define lldBranch cms/ec7923d
+%define clangCommit a2015051acdf0b28f8f9834d011d892baca93e07
+%define clangBranch cms/1bdc217
+%define clangToolsExtraCommit 25e8e1682d1d2b76ee38eb23954e2c94513895d3
+%define clangToolsExtraBranch cms/25e8e16
+%define compilerRtCommit 311e7441fece63269ce3850133e2315a24a3b47d
+%define compilerRtBranch cms/311e744
+%define openmpCommit 7ca47d5c846d6d152b4c35589604f452ccd634e3
+%define openmpBranch cms/7ca47d5
+%define iwyuCommit eb7f5d1ef02836575aebfe5a95977f067064cee2
+%define iwyuBranch cms/eb7f5d1
+%define lldCommit 5313f87928d212b6cd216cb4c7c22448d335e33e
+%define lldBranch cms/5313f87
 Source0: git+https://github.com/cms-externals/llvm.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%realversion-%llvmCommit&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/cms-externals/clang.git?obj=%{clangBranch}/%{clangCommit}&export=clang-%{realversion}-%{clangCommit}&module=clang-%realversion-%clangCommit&output=/clang-%{realversion}-%{clangCommit}.tgz
 Source2: git+https://github.com/cms-externals/clang-tools-extra.git?obj=%{clangToolsExtraBranch}/%{clangToolsExtraCommit}&export=clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}&module=clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}&output=/clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}.tgz
