@@ -1,20 +1,20 @@
 %define my_name %(echo %n | cut -f2 -d-)
 Source: none
 
+Requires: python
 BuildRequires: py2-pip
 
 %prep
 
 %build
 
-%define pythonVersion %(python -V |& cut -f2 -d' ' | cut -f1-2 -d.)
-
-pip install -v -v -v -t %{i}/lib/python%{pythonVersion}/site-packages  %{my_name}==%{realversion}
+pip list
+pip install -t %{i}/$PYTHON_LIB_SITE_PACKAGES  %{my_name}==%{realversion}
 #see how many things got installed
-if [ `ls -d %{i}/lib/python%{pythonVersion}/site-packages/*info | wc -l` == "1" ] ; then
+if [ `ls -d %{i}/$PYTHON_LIB_SITE_PACKAGES/*info | wc -l` == "1" ] ; then
    echo "Pip installed just what you asked for"
 else
-   ls -d %{i}/lib/python%{pythonVersion}/site-packages/*info
+   ls -d %{i}/$PYTHON_LIB_SITE_PACKAGES/*info
    echo "Pip installed dependencies. Please install them separately first"
    exit 1
 fi
