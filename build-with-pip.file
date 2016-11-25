@@ -7,20 +7,19 @@ BuildRequires: py2-pip
 
 %build
 
-pip install -v -v -v --root %{i} %{my_name}==%{realversion}
+%define pythonVersion %(python -V |& cut -f2 -d' ' | cut -f1-2 -d.)
+
+pip install -v -v -v -t %{i}/lib/python%{pythonVersion}/site-packages  %{my_name}==%{realversion}
 #see how many things got installed
-if [ `ls -d %{i}/$PYTHON_ROOT/lib/python*/site-packages/*info | wc -l` == "1" ] ; then
+if [ `ls -d %{i}/lib/python%{pythonVersion}/site-packages/*info | wc -l` == "1" ] ; then
    echo "Pip installed just what you asked for"
 else
-   ls -d %{i}/$PYTHON_ROOT/lib/python*/site-packages/*info
+   ls -d %{i}/lib/python%{pythonVersion}/site-packages/*info
    echo "Pip installed dependencies. Please install them separately first"
    exit 1
 fi
  
 
 %install
-cd %i
-mv %{i}/$PYTHON_ROOT/lib . 
-rm -rf %{i}/build
 
 
