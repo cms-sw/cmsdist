@@ -9,7 +9,7 @@ BuildRequires: py2-pip
 %build
 
 pip list
-pip install -t %{i}/$PYTHON_LIB_SITE_PACKAGES  %{my_name}==%{realversion}
+pip install --no-deps -t %{i}/$PYTHON_LIB_SITE_PACKAGES  %{my_name}==%{realversion}
 #see how many things got installed
 if [ `ls -d %{i}/$PYTHON_LIB_SITE_PACKAGES/*info | wc -l` == "1" ] ; then
    echo "Pip installed just what you asked for"
