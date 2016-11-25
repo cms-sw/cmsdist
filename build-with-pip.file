@@ -1,0 +1,26 @@
+%define my_name %(echo %n | cut -f2 -d-)
+Source: none
+
+BuildRequires: py2-pip
+
+%prep
+
+%build
+
+pip install -v -v -v --root %{i} %{my_name}==%{realversion}
+#see how many things got installed
+if [ `ls -d %{i}/$PYTHON_ROOT/lib/python*/site-packages/*info | wc -l` == "1" ] ; then
+   echo "Pip installed just what you asked for"
+else
+   ls -d %{i}/$PYTHON_ROOT/lib/python*/site-packages/*info
+   echo "Pip installed dependencies. Please install them separately first"
+   exit 1
+fi
+ 
+
+%install
+cd %i
+mv %{i}/$PYTHON_ROOT/lib . 
+rm -rf %{i}/build
+
+
