@@ -191,6 +191,7 @@ Requires: tkonlinesw-toolfile
 Requires: py2-cx-oracle-toolfile
 Requires: oracle-toolfile
 Requires: cuda-toolfile
+Requires: intel-vtune
 Requires: openloops-toolfile
 
 %if %isslc
@@ -202,7 +203,7 @@ Requires: oracle-fake-toolfile
 %endif
 %endif
 
-%define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler cuda rivet2 opencl opencl-cpp
+%define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler cuda rivet2 opencl opencl-cpp intel-vtune
 
 ## IMPORT scramv1-tool-conf
 
