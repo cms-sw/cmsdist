@@ -5,20 +5,20 @@
 BuildRequires: python cmake ninja
 Requires: gcc zlib
 
-%define llvmCommit c3bdfe57eb17a65d8b9ebd5003913e36ed4e3faa
-%define llvmBranch cms/c3bdfe5
-%define clangCommit 5fd88463ce8cb0d3ec580f9ea50f587657835a2e
-%define clangBranch cms/b84738c
+%define llvmCommit 6f0da3f936d586b289d15eac1c72b6a0141aa461
+%define llvmBranch cms/6f0da3f
+%define clangCommit bd48c3989247f27f75ca5f68ea7a504daf43397e
+%define clangBranch cms/b3eb023
 %define clangToolsExtraCommit 25e8e1682d1d2b76ee38eb23954e2c94513895d3
 %define clangToolsExtraBranch cms/25e8e16
-%define compilerRtCommit 311e7441fece63269ce3850133e2315a24a3b47d
-%define compilerRtBranch cms/311e744
+%define compilerRtCommit 99cc7eae4446047c6c17f456f24e49dd65067d4e
+%define compilerRtBranch cms/99cc7ea
 %define openmpCommit 7ca47d5c846d6d152b4c35589604f452ccd634e3
 %define openmpBranch cms/7ca47d5
 %define iwyuCommit eb7f5d1ef02836575aebfe5a95977f067064cee2
 %define iwyuBranch cms/eb7f5d1
-%define lldCommit 5313f87928d212b6cd216cb4c7c22448d335e33e
-%define lldBranch cms/5313f87
+%define lldCommit bd6ea5cfe76b936f29b8a65d38ae47bb6ac02327
+%define lldBranch cms/bd6ea5c
 Source0: git+https://github.com/cms-externals/llvm.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%realversion-%llvmCommit&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/cms-externals/clang.git?obj=%{clangBranch}/%{clangCommit}&export=clang-%{realversion}-%{clangCommit}&module=clang-%realversion-%clangCommit&output=/clang-%{realversion}-%{clangCommit}.tgz
 Source2: git+https://github.com/cms-externals/clang-tools-extra.git?obj=%{clangToolsExtraBranch}/%{clangToolsExtraCommit}&export=clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}&module=clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}&output=/clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}.tgz
