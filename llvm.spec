@@ -5,20 +5,20 @@
 BuildRequires: python cmake ninja
 Requires: gcc zlib
 
-%define llvmCommit ad5750369cc5b19f36c149f7b13151c99c7be47a
-%define llvmBranch cms/ad57503
-%define clangCommit 9d882b05dd2dbb030eb167be4d04383b70eade5a
-%define clangBranch cms/ad2c56e
-%define clangToolsExtraCommit 7d6c30d59a9194c32490da554b00086f35c2d115
-%define clangToolsExtraBranch cms/e85c67f
-%define compilerRtCommit 37dc55daf6b6caa7ab7446383db0fdde9f1533a8
-%define compilerRtBranch cms/37dc55d
-%define openmpCommit ed91a0b16067682d791aa54730327620457f61a8
-%define openmpBranch cms/ed91a0b
-%define iwyuCommit 067ca5007508c813ac250b2d839d22277b4b39a4
-%define iwyuBranch cms/067ca50
-%define lldCommit 8c7332f06b3aa8a649b3bb92154b764b17e2ac48
-%define lldBranch cms/02308fd
+%define llvmCommit c3bdfe57eb17a65d8b9ebd5003913e36ed4e3faa
+%define llvmBranch cms/c3bdfe5
+%define clangCommit 5fd88463ce8cb0d3ec580f9ea50f587657835a2e
+%define clangBranch cms/b84738c
+%define clangToolsExtraCommit 25e8e1682d1d2b76ee38eb23954e2c94513895d3
+%define clangToolsExtraBranch cms/25e8e16
+%define compilerRtCommit 311e7441fece63269ce3850133e2315a24a3b47d
+%define compilerRtBranch cms/311e744
+%define openmpCommit 7ca47d5c846d6d152b4c35589604f452ccd634e3
+%define openmpBranch cms/7ca47d5
+%define iwyuCommit eb7f5d1ef02836575aebfe5a95977f067064cee2
+%define iwyuBranch cms/eb7f5d1
+%define lldCommit 5313f87928d212b6cd216cb4c7c22448d335e33e
+%define lldBranch cms/5313f87
 Source0: git+https://github.com/cms-externals/llvm.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%realversion-%llvmCommit&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/cms-externals/clang.git?obj=%{clangBranch}/%{clangCommit}&export=clang-%{realversion}-%{clangCommit}&module=clang-%realversion-%clangCommit&output=/clang-%{realversion}-%{clangCommit}.tgz
 Source2: git+https://github.com/cms-externals/clang-tools-extra.git?obj=%{clangToolsExtraBranch}/%{clangToolsExtraCommit}&export=clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}&module=clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}&output=/clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}.tgz
