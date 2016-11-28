@@ -1,5 +1,5 @@
 %define my_name %(echo %n | cut -f2 -d-)
-Source: none
+Source: pip://%{my_name}/%{realversion}/source.tar.gz
 
 Requires: python
 BuildRequires: py2-pip
@@ -8,17 +8,20 @@ BuildRequires: py2-pip
 
 %build
 
-pip list
-pip install --no-deps -t %{i}/$PYTHON_LIB_SITE_PACKAGES  %{my_name}==%{realversion}
-#see how many things got installed
-if [ `ls -d %{i}/$PYTHON_LIB_SITE_PACKAGES/*info | wc -l` == "1" ] ; then
-   echo "Pip installed just what you asked for"
+tar xfz %{_sourcedir}/source.tar.gz
+
+if [ `cat files.list | wc -l` == "1" ] ; then
+   export PIPFILE=`cat files.list`
+   echo ${PIPFILE}
+   export PYTHONUSERBASE=%i
+   pip list
+   pip install --no-deps --user  $PIPFILE
+#   pip install --no-deps --user  %{my_name}==%{realversion}
 else
-   ls -d %{i}/$PYTHON_LIB_SITE_PACKAGES/*info
-   echo "Pip installed dependencies. Please install them separately first"
+   echo "Sorry I don't know how to handle no/multiple install files yet"
+   cat %{_sourcedir}/files.txt
    exit 1
 fi
- 
 
 %install
 
