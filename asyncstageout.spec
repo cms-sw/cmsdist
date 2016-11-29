@@ -1,20 +1,27 @@
-### RPM cms asyncstageout 1.0.5pre2
+### RPM cms asyncstageout 1.0.6pre1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PERL5LIB %i/Monitor/perl_lib
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 1.0.16.pre1
+%define wmcver 1.0.21.crab5
+%define crabversion 3.3.1611.rc1
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{wmcver}.tar.gz
 Source1: git://github.com/dmwm/AsyncStageout.git?obj=master/%{realversion}&export=AsyncStageout-%{realversion}&output=/AsyncStageout-%{realversion}.tar.gz
 Requires: python py2-simplejson py2-sqlalchemy10 py2-httplib2 rotatelogs pystack py2-sphinx dbs-client couchdb15 py2-pycurl couchskel py2-stomp dbs3-client
 Requires: PHEDEX-micro PHEDEX-lifecycle
+Requires: python cherrypy py2-cjson rotatelogs py2-pycurl py2-httplib2 py2-sqlalchemy10 py2-cx-oracle51
+Requires: jemalloc
+BuildRequires: py2-sphinx
+Patch1: aso_splitviews
 
 %prep
 %setup -D -T -b 1 -n AsyncStageout-%{realversion}
+%patch1
 %setup -T -b 0 -n WMCore-%{wmcver}
+
 
 %build
 cd ../WMCore-%{wmcver}
@@ -30,11 +37,19 @@ mv asyncstageout/conf.py.tmp asyncstageout/conf.py
 mkdir -p build
 make html
 
+
 %install
 mkdir -p %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
 cd ../WMCore-%{wmcver}
 python setup.py install_system -s asyncstageout --prefix=%i
 PYTHONPATH=$PWD/build/lib:$PYTHONPATH
+
+git clone git://github.com/dmwm/CRABServer.git
+cd CRABServer
+git checkout %{crabversion}
+cd ..
+cp -pr CRABServer/src/python/* %i/$PYTHON_LIB_SITE_PACKAGES/
+
 cd ../AsyncStageout-%{realversion}
 python setup.py install --prefix=%i
 cp -pr ../AsyncStageout-%{realversion}/src/python/AsyncStageOut %i/$PYTHON_LIB_SITE_PACKAGES/
