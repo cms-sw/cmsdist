@@ -10,12 +10,14 @@ BuildRequires: py2-pip
 
 tar xfz %{_sourcedir}/source.tar.gz
 
+%{?PipPreBuild:%PipPreBuild}
+
 if [ `cat files.list | wc -l` == "1" ] ; then
    export PIPFILE=`cat files.list`
    echo ${PIPFILE}
    export PYTHONUSERBASE=%i
    pip list
-   pip install --no-deps --user  $PIPFILE
+   pip install --no-deps --user %{?PipBuildOptions:%PipBuildOptions} $PIPFILE
 #   pip install --no-deps --user  %{my_name}==%{realversion}
 else
    echo "Sorry I don't know how to handle no/multiple install files yet"
@@ -24,5 +26,7 @@ else
 fi
 
 %install
+
+%{?PipPostBuild:%PipPostBuild}
 
 
