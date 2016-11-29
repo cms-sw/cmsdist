@@ -72,7 +72,6 @@ if [ "$HERWIGPATH" != "" ] && [ -e "$HERWIGPATH/HerwigDefaults.rpo" ] ; then
   if [ $(echo " $@" | grep ' --repo' | wc -l) -eq 0 ] ; then REPO_OPT="--repo $HERWIGPATH/HerwigDefaults.rpo" ; fi
 fi
 $(dirname $0)/Herwig-cms $REPO_OPT "$@"
-%{cmsroot}
 HERWIG_WRAPPER
 chmod +x %{i}/bin/Herwig
 
