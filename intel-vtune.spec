@@ -12,12 +12,12 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/intel-vtune.xml
   <info url="https://software.intel.com/en-us/intel-vtune-amplifier-xe"/>
   <lib name="ittnotify"/>
   <client>
-    <environment name="INTEL_VTUNE_BASE" default="/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2017/vtune_amplifier_xe_%{realversion}"/>
-    <environment name="INCLUDE" default="$INTEL_VTUNE_BASE/include"/>
-    <environment name="LIBDIR" default="$INTEL_VTUNE_BASE/lib64"/>
-    <environment name="BINDIR" default="$INTEL_VTUNE_BASE/bin64"/>
+    <environment name="INTEL_VTUNE_BASE" default="/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2017/vtune_amplifier_xe_%{realversion}" handler="warn"/>
+    <environment name="INCLUDE" default="$INTEL_VTUNE_BASE/include" handler="warn"/>
+    <environment name="LIBDIR" default="$INTEL_VTUNE_BASE/lib64" handler="warn"/>
+    <environment name="BINDIR" default="$INTEL_VTUNE_BASE/bin64" handler="warn"/>
   </client>
-  <runtime name="PATH" value="$INTEL_VTUNE_BASE/bin64" type="path"/>
+  <runtime name="PATH" value="$INTEL_VTUNE_BASE/bin64" type="path" handler="warn"/>
   <runtime name="VTUNE_AMPLIFIER_XE_2017_DIR" value="$INTEL_VTUNE_BASE"/>
 </tool>
 EOF_TOOLFILE
