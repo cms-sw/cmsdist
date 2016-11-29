@@ -59,15 +59,31 @@ PLATF_CONF_OPTS="--enable-shared --disable-static"
             CXX="$CXX" CC="$CC" \
 	    BOOST_ROOT="$BOOST_ROOT" LDFLAGS="$LDFLAGS -L$BOOST_ROOT/lib" \
             LD_LIBRARY_PATH=$LHAPDF_ROOT/lib:$GSL_ROOT/lib:$LD_LIBRARY_PATH
-            
-
 
 make %makeprocesses all LD_LIBRARY_PATH=$LHAPDF_ROOT/lib:$THEPEG_ROOT/lib/ThePEG:$GSL_ROOT/lib:$FASTJET_ROOT/lib:$BOOST_ROOT/lib:$LD_LIBRARY_PATH LIBRARY_PATH=$FASTJET_ROOT/lib
 
 %install
 make install LD_LIBRARY_PATH=$LHAPDF_ROOT/lib:$THEPEG_ROOT/lib/ThePEG:$GSL_ROOT/lib:$FASTJET_ROOT/lib:$BOOST_ROOT/lib:$LD_LIBRARY_PATH LIBRARY_PATH=$FASTJET_ROOT/lib:$THEPEG_ROOT/lib/ThePEG:$LHAPDF_ROOT/lib LHAPDF_DATA_PATH=$LHAPDF_ROOT/share/LHAPDF
-
-
+mv %{i}/bin/Herwig  %{i}/bin/Herwig-cms
+cat << \HERWIG_WRAPPER > %{i}/bin/Herwig
+#!/bin/bash
+REPO_OPT=""
+if [ "$HERWIGPATH" != "" ] && [ -e "$HERWIGPATH/HerwigDefaults.rpo" ] ; then
+  if [ $(echo " $@" | grep ' --repo' | wc -l) -eq 0 ] ; then REPO_OPT="--repo $HERWIGPATH/HerwigDefaults.rpo" ; fi
+fi
+$(dirname $0)/Herwig-cms $REPO_OPT "$@"
+%{cmsroot}
+HERWIG_WRAPPER
+chmod +x %{i}/bin/Herwig
 
 %post
+%{relocateConfig}bin/herwig-config
+%{relocateConfig}bin/Herwig++
+%{relocateConfig}bin/ufo2herwig
+%{relocateConfig}lib/Herwig/*.la
+%{relocateConfig}lib/Herwig/python/Makefile-FR
+%{relocateConfig}share/Herwig/Makefile-UserModules
+%{relocateConfig}share/Herwig/defaults/PDF.in
 %{relocateConfig}share/Herwig/HerwigDefaults.rpo
+sed -i -e "s|^.*/BUILDROOT/[0-9a-f][0-9a-f]*%{installroot}/|$CMS_INSTALL_PREFIX/|g" $RPM_INSTALL_PREFIX/%{pkgrel}/share/Herwig/HerwigDefaults.rpo
+
