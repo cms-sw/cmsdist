@@ -1,4 +1,4 @@
-### RPM cms PhedexReplicaMonitoring v00.00.08
+### RPM cms PhedexReplicaMonitoring v00.00.09
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define pkg PhedexReplicaMonitoring
 Source: git://github.com/dmwm/PhedexReplicaMonitoring?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
