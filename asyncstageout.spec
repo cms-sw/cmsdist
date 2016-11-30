@@ -19,7 +19,7 @@ Patch1: aso_splitviews
 
 %prep
 %setup -D -T -b 1 -n AsyncStageout-%{realversion}
-%patch1
+%patch1 -E
 %setup -T -b 0 -n WMCore-%{wmcver}
 
 

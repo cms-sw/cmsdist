@@ -98,44 +98,6 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 +		emit(doc.last_update, {"lfn": doc.source_lfn, "location": doc.source});
 +	}
 +}
-Index: src/couchapp/Others/views/PublicationStateByWorkflow/map.js
-IDEA additional info:
-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
-<+>UTF-8
-===================================================================
---- src/couchapp/Others/views/PublicationStateByWorkflow/map.js	(revision )
-+++ src/couchapp/Others/views/PublicationStateByWorkflow/map.js	(revision )
-@@ -0,0 +1,5 @@
-+function(doc) {
-+	if(doc.publish == 1 && doc.type == 'output'){
-+		emit(doc.workflow, doc.publication_state);
-+	}
-+}
-Index: src/couchapp/Others/views/PublicationStateByWorkflow/reduce.js
-IDEA additional info:
-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
-<+>UTF-8
-===================================================================
---- src/couchapp/Others/views/PublicationStateByWorkflow/reduce.js	(revision )
-+++ src/couchapp/Others/views/PublicationStateByWorkflow/reduce.js	(revision )
-@@ -0,0 +1,17 @@
-+function (key, values, rereduce) {
-+	var output = {'not_published': 0 ,'publishing': 0 ,'publication_failed': 0, 'published': 0};
-+	if (rereduce) {
-+		for (var someValue in values) {
-+			output['not_published'] += values[someValue]['not_published'];
-+                        output['publishing'] += values[someValue]['publishing'];
-+			output['publication_failed'] += values[someValue]['publication_failed'];
-+			output['published'] += values[someValue]['published'];
-+		}
-+	}
-+	else {
-+		for (var someValue in values) {
-+			output[values[someValue]] += 1;
-+		}
-+	}
-+	return output;
-+}
 Index: src/couchapp/Others/views/TransfersByFailuresReasons/map.js
 IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
@@ -303,38 +265,6 @@ Index: src/couchapp/AsyncTransfer/views/get_acquired/reduce.js
 +++ src/couchapp/AsyncTransfer/views/get_acquired/reduce.js	(revision )
 @@ -1,1 +0,0 @@
 -_count
-Index: src/couchapp/AsyncTransfer/views/PublicationStateByWorkflow/map.js
-===================================================================
---- src/couchapp/AsyncTransfer/views/PublicationStateByWorkflow/map.js	(revision )
-+++ src/couchapp/AsyncTransfer/views/PublicationStateByWorkflow/map.js	(revision )
-@@ -1,5 +0,0 @@
--function(doc) {
--	if(doc.publish == 1 && doc.type == 'output'){
--		emit(doc.workflow, doc.publication_state);
--	}
--}
-Index: src/couchapp/AsyncTransfer/views/PublicationStateByWorkflow/reduce.js
-===================================================================
---- src/couchapp/AsyncTransfer/views/PublicationStateByWorkflow/reduce.js	(revision )
-+++ src/couchapp/AsyncTransfer/views/PublicationStateByWorkflow/reduce.js	(revision )
-@@ -1,17 +0,0 @@
--function (key, values, rereduce) {
--	var output = {'not_published': 0 ,'publishing': 0 ,'publication_failed': 0, 'published': 0};
--	if (rereduce) {
--		for (var someValue in values) {
--			output['not_published'] += values[someValue]['not_published'];
--                        output['publishing'] += values[someValue]['publishing'];
--			output['publication_failed'] += values[someValue]['publication_failed'];
--			output['published'] += values[someValue]['published'];
--		}
--	}
--	else {
--		for (var someValue in values) {
--			output[values[someValue]] += 1;
--		}
--	}
--	return output;
--}
 Index: src/couchapp/AsyncTransfer/views/TransfersByFailuresReasons/map.js
 ===================================================================
 --- src/couchapp/AsyncTransfer/views/TransfersByFailuresReasons/map.js	(revision )
