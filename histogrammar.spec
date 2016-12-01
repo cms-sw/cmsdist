@@ -1,13 +1,15 @@
-### RPM external histogrammar 1.0.3
+### RPM external histogrammar 1.0.5
 ## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-Source: https://pypi.python.org/packages/68/d5/a3b095f9513643832f8b767a1c1739c78751753e880317cbbe3488d69323/histogrammar-%{realversion}.tar.gz
+
+
+Source: https://github.com/histogrammar/histogrammar-python/archive/%{realversion}.tar.gz
 Requires: python
 Requires: py2-numpy
 Requires: py2-pandas
 Requires: root
 
 %prep
-%setup -n histogrammar-%{realversion}
+%setup -n histogrammar-python-%{realversion}
 
 %build
 %install
