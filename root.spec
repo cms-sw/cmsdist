@@ -74,7 +74,7 @@ cmake ../%{n}-%{realversion} \
   -Dbuiltin_lzma=OFF \
   -Dbuiltin_gsl=OFF \
   -DGSL_CONFIG_EXECUTABLE="$(which gsl-config)" \
-  -Dcxx11=ON \
+  -Dcxx14=ON \
   -Dssl=ON \
   -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
   -DOPENSSL_INCLUDE_DIR="${OPENSSL_ROOT}/include" \
