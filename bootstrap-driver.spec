@@ -168,7 +168,7 @@ slc*)
         libXrender libXpm libcom_err perl-Test-Harness perl-Carp perl-constant perl-PathTools
         perl-Data-Dumper perl-Digest-MD5 perl-Exporter perl-File-Path perl-File-Temp perl-Getopt-Long
         perl-Socket perl-Text-ParseWords perl-Time-Local libX11-devel libXpm-devel libXext-devel mesa-libGLU-devel
-        perl-Switch perl-Storable perl-Env perl-Thread-Queue nspr nss nss-util file file-libs readline
+        perl-Switch perl-Storable perl-Env perl-Thread-Queue perl-Encode nspr nss nss-util file file-libs readline
         zlib popt bzip2 bzip2-libs"
 
   slc7_aarch64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl
