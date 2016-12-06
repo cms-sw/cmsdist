@@ -10,7 +10,6 @@ BuildRequires: py2-setuptools
 %setup -n %{my_name}-%{realversion}
 
 %build
-export NOTMVA=1
 python setup.py build
 
 %install
