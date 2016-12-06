@@ -15,6 +15,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gosam.xml
     <environment name="LIBDIR" default="$GOSAM_BASE/lib"/>
     <environment name="INCLUDE" default="$GOSAM_BASE/include"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$GOSAM_BASE" type="path"/>
+  <runtime name="ROOT_PATH" value="$GOSAM_BASE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 
