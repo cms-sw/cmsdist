@@ -111,6 +111,7 @@ Requires: py2-prettytable-toolfile
 Requires: py2-schema-toolfile
 Requires: py2-root_numpy-toolfile
 Requires: py2-h5py-toolfile
+Requires: py2-psutil-toolfile
 Requires: hdf5-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
