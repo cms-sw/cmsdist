@@ -134,7 +134,7 @@ cmake ../%{n}-%{realversion} \
   -DZLIB_INCLUDE_DIR="${ZLIB_ROOT}/include" \
   -DLIBXML2_INCLUDE_DIR="${LIBXML2_ROOT}/include/libxml2" \
   -DLIBXML2_LIBRARIES="${LIBXML2_ROOT}/lib/libxml2.%{soext}" \
-  -DCMAKE_PREFIX_PATH="${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT}"
+  -DCMAKE_PREFIX_PATH="${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT}"
 
 # For CMake cache variables: http://www.cmake.org/cmake/help/v3.2/manual/cmake-language.7.html#lists
 # For environment variables it's OS specific: http://www.cmake.org/Wiki/CMake_Useful_Variables
