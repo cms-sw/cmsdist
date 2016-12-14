@@ -361,5 +361,10 @@ esac
   %{relocateConfig}.glimpse_full/.glimpse_filenames
 %endif
 
+#Relovate compile_commands.json if exists
+if [ -f compile_commands.json ] ; then
+  %{relocateConfig}compile_commands.json
+fi
+
 %postun
 rm -fR $RPM_INSTALL_PREFIX/%pkgrel
