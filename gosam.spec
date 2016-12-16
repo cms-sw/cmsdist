@@ -3,36 +3,33 @@
 ## INITENV +PATH DYLD_LIBRARY_PATH %{i}/lib
 
 # Download from official webpage
-Source: https://gosam.hepforge.org/gosam-contrib-%{realversion}-latest.tar.gz
+Source: http://gosam.hepforge.org/gosam_installer.py
 
+Requires: python cython
 
-%define keep_archives true
+%define keep_archives false
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx c++
 %endif
 
-
 %prep
-%setup -q -n gosam-contrib-%{realversion}
+%setup -T  -c -D
 
 
 %build
 CXX="$(which %{cms_cxx}) -fPIC"
 CC="$(which gcc) -fPIC"
 PLATF_CONF_OPTS="--enable-shared --disable-static"
+PYTHONPATH=${CYTHON_ROOT}/${PYTHON_LIB_SITE_PACKAGES}
 
 
-./configure $PLATF_CONF_OPTS \
-            --prefix=%{i} \
-            CXX="$CXX" CC="$CC"  
+wget http://gosam.hepforge.org/gosam_installer.py
+chmod 0755 ./gosam_installer.py
+./gosam_installer.py -b -v --prefix=%{i}
 
-
-
-make %{makeprocesses}
 
 %install
-make install
 find %{i}/lib -name '*.la' -exec rm -f {} \;
 
 %post
