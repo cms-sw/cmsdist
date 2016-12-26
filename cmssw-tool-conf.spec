@@ -141,7 +141,7 @@ Requires: cvs2git-toolfile
 Requires: pacparser-toolfile
 Requires: git-toolfile
 Requires: cgal-toolfile
-Requires: doxygen-toolfile
+#Requires: doxygen-toolfile
 Requires: py2-python-dateutil-toolfile
 Requires: yaml-cpp-toolfile
 Requires: gmp-static-toolfile
