@@ -26,6 +26,7 @@ DataFormats/EgammaTrackReco
 DataFormats/FEDRawData
 DataFormats/FWLite
 DataFormats/ForwardDetId
+DataFormats/FTLRecHit
 DataFormats/GEMDigi
 DataFormats/GEMRecHit
 DataFormats/GeometryCommonDetAlgo
