@@ -1,12 +1,10 @@
-### RPM lcg root 6.06.08
+### RPM lcg root 6.08.02
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag dffa28c3b38d825e1360eb829c289f1a75ebfa8a
-%define branch cms/7c45c0d
+%define tag 4a47ed139398cb6b536b958505d2320cadf3134c
+%define branch cms/dd4fcde
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-
-Patch0: root6-ppc64-support
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
@@ -32,7 +30,6 @@ Requires: freetype
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
 
 %build
 rm -rf ../build
@@ -50,7 +47,6 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_CXX_COMPILER=g++ \
   -DCMAKE_F_COMPILER=gfortran \
   -DCMAKE_LINKER=ld \
-  -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -Dfail-on-missing=ON \
   -Dgnuinstall=OFF \
   -Droofit=ON \
