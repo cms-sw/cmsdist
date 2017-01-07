@@ -9,6 +9,7 @@
 
 Requires: expat bz2lib db4 gdbm
 
+
 %if "%online" != "true"
 Requires: zlib openssl sqlite readline ncurses
 %endif
