@@ -1,4 +1,4 @@
-### RPM external psutil 5.0.1
+### RPM external py2-psutil 5.0.1
 ## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
 
 
