@@ -5,12 +5,21 @@
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/eigen.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
+BuildRequires: cmake
+
 %prep
 %setup -n %n-%{realversion}
 
 %build
-mkdir -p %i/include
+mkdir build
+cd build
+cmake -DCMAKE_INSTALL_PREFIX=%{i} ../
 
 %install
-cp -r Eigen %i/include
+cd build
+make install
+mkdir %i/bin
+cp eigen3.pc %i/bin
 
+%post
+%{relocateConfig}bin/eigen3.pc
