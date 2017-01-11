@@ -1,9 +1,10 @@
-### RPM external py2-sqlalchemy 0.8.2
+### RPM external py2-sqlalchemy 1.1.4
 ## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
 
 Source: https://pypi.python.org/packages/source/S/SQLAlchemy/SQLAlchemy-%{realversion}.tar.gz
 Requires: python 
 
+# re-use the patches for the previous version...
 Patch0: py2-sqlalchemy-0.8.2-add-frontier-dialect
 Patch1: py2-sqlalchemy-0.8.2-fix-sqlite-dialect-timestamp
 
