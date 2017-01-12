@@ -17,6 +17,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/lwtnn.xml
     <environment name="INCLUDE" default="$LWTNN_BASE/include"/>
   </client>
   <runtime name="PATH" value="$LWTNN_BASE/bin" type="path"/>
+  <use name="eigen"/>
 </tool>
 EOF_TOOLFILE
 
