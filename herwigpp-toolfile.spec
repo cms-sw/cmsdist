@@ -12,7 +12,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/herwigpp.xml
   <client>
     <environment name="HERWIGPP_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$HERWIGPP_BASE/lib/Herwig"/>
-    <environment name="INCLUDE" default="$HERWIGPP_BASE/include/Herwig"/>
+    <environment name="INCLUDE" default="$HERWIGPP_BASE/include"/>
     <environment name="BINDIR" default="$HERWIGPP_BASE/bin"/>
   </client>
   <runtime name="HERWIGPATH" value="$HERWIGPP_BASE/share/Herwig"/>
