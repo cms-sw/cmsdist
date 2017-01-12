@@ -18,8 +18,6 @@ cmake -DCMAKE_INSTALL_PREFIX=%{i} ../
 %install
 cd build
 make install
-mkdir %i/bin
-cp eigen3.pc %i/bin
 
 %post
-%{relocateConfig}bin/eigen3.pc
+%{relocateConfig}share/pkgconfig/eigen3.pc
