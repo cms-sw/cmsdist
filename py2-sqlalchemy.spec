@@ -4,9 +4,8 @@
 Source: https://pypi.python.org/packages/ca/ca/c2436fdb7bb75d772d9fa17ba60c4cfded6284eed053a7274b2beb96596a/SQLAlchemy-%{realversion}.tar.gz
 Requires: python 
 
-# re-use the patches for the previous version...
-Patch0: py2-sqlalchemy-0.8.2-add-frontier-dialect
-Patch1: py2-sqlalchemy-0.8.2-fix-sqlite-dialect-timestamp
+Patch0: py2-sqlalchemy-1.1.4-add-frontier-dialect
+Patch1: py2-sqlalchemy-1.1.4-fix-timestamp
 
 %prep
 %setup -n SQLAlchemy-%{realversion}
