@@ -18,7 +18,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/lwtnn.xml
   </client>
   <runtime name="PATH" value="$LWTNN_BASE/bin" type="path"/>
   <use name="eigen"/>
-  <use name="boost_system"/>  
 </tool>
 EOF_TOOLFILE
 
