@@ -1,4 +1,5 @@
 ### RPM external eigen 3.3.0
+## INITENV +PATH PKG_CONFIG_PATH %{i}/share/pkgconfig
 ## NOCOMPILER
 %define tag 70dcc5877552891d260d6e212cb81f36553c9514
 %define branch cms/%{realversion}
