@@ -2,7 +2,7 @@
 BuildRequires: cmssw SCRAMV1 local-cern-siteconf python
 %define initenv	        %initenv_direct
 %define scram $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
-Source: https://raw.githubusercontent.com/cms-sw/cms-bot/06e51060ee577aa9ee76eeac76539d246137561b/buildLogAnalyzer.py
+Source: https://raw.githubusercontent.com/cms-sw/cms-bot/e61098a2f705182ff7fb0638f7ad7c3b51c5685c/buildLogAnalyzer.py
 
 %prep
 cd ..
