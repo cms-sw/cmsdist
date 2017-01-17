@@ -5,6 +5,7 @@ Source: none
 BuildRequires: py2-rootpy
 BuildRequires: py2-configparser 
 BuildRequires: py2-entrypoints
+BuildRequires: py2-psutil
 
 %prep
 
