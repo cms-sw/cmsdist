@@ -1,4 +1,4 @@
-### RPM external frontier_client 2.8.19
+### RPM external frontier_client 2.8.20
 ## INITENV +PATH PYTHONPATH %{i}/python/lib
 
 Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
@@ -14,8 +14,7 @@ Requires: zlib
 Requires: onlinesystemtools
 %endif
 
-Patch0: frontier_client-2.8.5-fix-gcc47
-Patch1: frontier_client-2.8.8-add-python-dbapi
+Patch0: frontier_client-2.8.20-add-python-dbapi
 
 %if "%{?cms_cxxflags:set}" != "set"
 %define cms_cxxflags -std=c++0x -O2
@@ -31,7 +30,6 @@ Patch1: frontier_client-2.8.8-add-python-dbapi
 %endif
 
 %patch0 -p1
-%patch1 -p1
 
 %build
 
