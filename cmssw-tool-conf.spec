@@ -54,6 +54,7 @@ Requires: libpng-toolfile
 Requires: libtiff-toolfile
 Requires: libungif-toolfile
 Requires: libxml2-toolfile
+Requires: lwtnn-toolfile
 Requires: mcdb-toolfile
 Requires: meschach-toolfile
 Requires: openssl-toolfile
