@@ -17,6 +17,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/lwtnn.xml
     <environment name="INCLUDE" default="$LWTNN_BASE/include"/>
   </client>
   <runtime name="PATH" value="$LWTNN_BASE/bin" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="eigen"/>
   <use name="boost_system"/>  
 </tool>
