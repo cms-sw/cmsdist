@@ -1,11 +1,11 @@
-### RPM external gcc 6.2.0
+### RPM external gcc 7.0.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-6-branch/?view=log
-%define gccRevision 239652
-%define gccBranch tags/gcc_6_2_0_release
+%define gccRevision 244643
+%define gccBranch trunk
 
 %define moduleName gcc-%(echo %{gccBranch} | tr / _)-%{gccRevision}
 Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{gccRevision}&output=/%{moduleName}.tar.gz
@@ -16,12 +16,12 @@ Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{
 
 %define keep_archives true
 
-%define gmpVersion 6.1.0
-%define mpfrVersion 3.1.3
+%define gmpVersion 6.1.2
+%define mpfrVersion 3.1.5
 %define mpcVersion 1.0.3
 %define islVersion 0.16.1
-%define zlibVersion 1.2.8
-Source1: http://davidlt.web.cern.ch/davidlt/vault/gmp-%{gmpVersion}.tar.bz2
+%define zlibVersion 1.2.11
+Source1: https://gmplib.org/download/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
 Source4: ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-%{islVersion}.tar.bz2
@@ -30,19 +30,18 @@ Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 %if %islinux
 %define bisonVersion 3.0.4
 %define binutilsVersion 2.27
-%define elfutilsVersion 0.166
-%define m4Version 1.4.17
-%define flexVersion 2.6.0
+%define elfutilsVersion 0.168
+%define m4Version 1.4.18
+%define flexVersion 2.6.3
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
 Source8: http://ftp.gnu.org/gnu/binutils/binutils-%{binutilsVersion}.tar.bz2
 Source9: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
-Source10: http://ftp.gnu.org/gnu/m4/m4-%m4Version.tar.gz
-Source11: http://iweb.dl.sourceforge.net/project/flex/flex-%{flexVersion}.tar.bz2
+Source10: http://ftp.gnu.org/gnu/m4/m4-%{m4Version}.tar.gz
+Source11: https://github.com/westes/flex/releases/download/v%{flexVersion}/flex-%{flexVersion}.tar.gz
 %endif
 
 Patch0: gcc-flex-nonfull-path-m4
 Patch1: gcc-flex-disable-doc
-Patch2: gcc-elfutils-0.166-fix-cmp
 
 %prep
 
@@ -104,7 +103,6 @@ EOF_CMS_H
 %setup -D -T -b 7 -n bison-%{bisonVersion}
 %setup -D -T -b 8 -n binutils-%{binutilsVersion}
 %setup -D -T -b 9 -n elfutils-%{elfutilsVersion}
-%patch2 -p1
 %setup -D -T -b 10 -n m4-%{m4Version}
 %setup -D -T -b 11 -n flex-%{flexVersion}
 %patch0 -p1
