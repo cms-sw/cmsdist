@@ -14,7 +14,7 @@ BuildRequires: cmake
 Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib davix
 
 %if %islinux
-Requires: castor dcap
+Requires: dcap
 %endif
 
 %if %isdarwin
@@ -85,15 +85,8 @@ cmake ../%{n}-%{realversion} \
   -DXROOTD_INCLUDE_DIR="${XROOTD_ROOT}/include/xrootd" \
   -DXROOTD_ROOT_DIR="${XROOTD_ROOT}" \
 %if %islinux
-  -Drfio=ON \
-  -DCASTOR_INCLUDE_DIR="${CASTOR_ROOT}/include/shift" \
-  -DCASTOR_shift_LIBRARY="${CASTOR_ROOT}/lib/libshift.%{soext}" \
-  -DCASTOR_rfio_LIBRARY="${CASTOR_ROOT}/lib/libcastorrfio.%{soext}" \
-  -DCASTOR_client_LIBRARY="${CASTOR_ROOT}/lib/libcastorclient.%{soext}" \
-  -DCASTOR_common_LIBRARY="${CASTOR_ROOT}/lib/libcastorcommon.%{soext}" \
-  -DCASTOR_ns_LIBRARY="${CASTOR_ROOT}/lib/libcastorns.%{soext}" \
-  -DCASTOR_DIR="${CASTOR_ROOT}" \
-  -Dcastor=ON \
+  -Drfio=OFF \
+  -Dcastor=OFF \
   -Ddcache=ON \
   -DDCAP_INCLUDE_DIR="${DCAP_ROOT}/include" \
   -DDCAP_DIR="${DCAP_ROOT}" \
