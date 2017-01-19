@@ -64,7 +64,7 @@ Requires: file
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-05-19
+%define configtag       V05-05-21
 %endif
 
 %if "%{?cvssrc:set}" != "set"
@@ -196,6 +196,7 @@ export SCRAM_NOSYMCHECK=true
 %scramcmd b --verbose -f %{prebuildtarget} </dev/null
 %endif
 
+case %n in (cmssw|cmssw-patch) %scramcmd b -f -k %{makeprocesses} llvm-ccdb </dev/null || true ;; esac
 %scramcmd b --verbose -f %{compileOptions} %{extraOptions} %{makeprocesses} %{buildtarget} </dev/null || { touch ../build-errors && %scramcmd b -f outputlog && [ "%{?ignore_compile_errors:set}" == "set" ]; }
 
 %if "%{?additionalBuildTarget0:set}" == "set"
@@ -362,6 +363,11 @@ esac
 %if "%{?runGlimpse:set}" == "set"
   %{relocateConfig}.glimpse_full/.glimpse_filenames
 %endif
+
+#Relocate compile_commands.json if exists
+if [ -f compile_commands.json ] ; then
+  %{relocateConfig}compile_commands.json
+fi
 
 %postun
 rm -fR $RPM_INSTALL_PREFIX/%pkgrel

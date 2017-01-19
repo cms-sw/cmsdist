@@ -52,6 +52,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm-cxxcompiler.xml
     <flags REM_CXXFLAGS="-frounding-math"/>
     <flags REM_CXXFLAGS="-mrecip"/>
     <flags REM_CXXFLAGS="-Wno-psabi"/>
+    <flags REM_CXXFLAGS="-fno-crossjumping"/>
     <flags CXXFLAGS="-Wno-c99-extensions"/>
     <flags CXXFLAGS="-Wno-c++11-narrowing"/>
     <flags CXXFLAGS="-D__STRICT_ANSI__"/>
