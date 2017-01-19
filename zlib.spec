@@ -1,4 +1,4 @@
-### RPM external zlib 1.2.8
+### RPM external zlib 1.2.11
 Source: http://zlib.net/%{n}-%{realversion}.tar.gz
 
 %prep
