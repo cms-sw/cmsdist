@@ -6,10 +6,14 @@
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/eigen.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
+# Disable tests and benchmarks to avoid looking for Boost
+Patch0: eigen-disable-tests
+
 BuildRequires: cmake
 
 %prep
 %setup -n %n-%{realversion}
+%patch0 -p1
 
 %build
 mkdir build
