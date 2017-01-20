@@ -9,7 +9,7 @@ Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distrib
 
 # See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=40267
 # libgfortranbegin.a is finally removed and was obsolete since GCC 4.5
-Patch0: evtgen-1.5.0-configure-gcc6
+Patch0: evtgen-1.6.0-configure-new-gcc
 
 %define keep_archives true
 
