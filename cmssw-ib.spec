@@ -22,6 +22,7 @@ HOUR=`$PYTHON_CMD -c "import os;from datetime import datetime;print datetime.str
 eval `%scram runtime -sh`
 CMSSW_MAJOR_MINOR=`echo $CMSSW_VERSION | sed -e 's/CMSSW_\([0-9]*\)_\([0-9]*\).*/\1.\2/g'`
 pushd %cmsroot/WEB/build-logs/%cmsplatf/$CMSSW_VERSION/logs/src
+  cp -f src-logs.tgz $(echo $CMSSW_ROOT | sed 's|%cmsroot/|%cmsroot/BUILD/|')/src-logs.tgz
   tar xzf src-logs.tgz
 popd
 $PYTHON_CMD %_sourcedir/buildLogAnalyzer.py \
