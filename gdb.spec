@@ -4,6 +4,9 @@ Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 Patch0: gdb-7.12-fix-PYTHONHOME
 Patch1: gdb-disable-makeinfo
 Patch2: gdb-7.11-set-autoconf-version
+# PR breakpoints/20653
+# https://github.com/bminor/binutils-gdb/commit/e742d386c480efa5229bc8b1887a7718f840a457
+Patch3: gdb-gcc7
 
 Requires: python zlib xz expat
 
@@ -14,6 +17,7 @@ BuildRequires: autotools
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
