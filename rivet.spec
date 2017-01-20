@@ -5,10 +5,12 @@ Requires: hepmc fastjet gsl yoda
 Requires: python cython
 
 Patch0: rivet-1.4.0
+Patch1: rivet-gcc7
 
 %prep
 %setup -n rivet/%{realversion}
 %patch0 -p0
+%patch1 -p2
 
 # Update config.{guess,sub} to detect aarch64 and ppc64le
 rm -f %{_tmppath}/config.{sub,guess}
