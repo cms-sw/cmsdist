@@ -90,6 +90,27 @@ index 5140669..f5acfa5 100644
  #@uselibc++@ R__USE_LIBCXX    /**/
  #@hasstdstringview@ R__HAS_STD_STRING_VIEW   /**/
  #@hasstdexpstringview@ R__HAS_STD_EXPERIMENTAL_STRING_VIEW   /**/
+diff --git a/config/root-config.in b/config/root-config.in
+index 70aee6c..2a744dd 100755
+--- a/config/root-config.in
++++ b/config/root-config.in
+@@ -147,11 +147,11 @@ fi
+ 
+ ### machine dependent settings ###
+ 
+-if test "x$cxxversion" = "xcxx14" ; then
+-   cxxversionflag="-std=c++1y "
+-else
+-   cxxversionflag="-std=c++11 "
+-fi
++case "$cxxversion" in
++  cxx17) cxxversionflag="-std=c++17 " ;;
++  cxx14) cxxversionflag="-std=c++1y " ;;
++  *)     cxxversionflag="-std=c++11 " ;;
++esac
+ 
+ case $arch in
+ aix5)
 diff --git a/core/base/inc/ROOT/StringConv.hxx b/core/base/inc/ROOT/StringConv.hxx
 index 629fc18..b0352b2 100644
 --- a/core/base/inc/ROOT/StringConv.hxx
