@@ -167,3 +167,8 @@ grep -R -l '#!.*python' %{i} | xargs chmod +x
 
 %post
 %{relocateConfig}etc/cling/llvm/Config/llvm-config.h
+%{relocateConfig}bin/root-config
+%{relocateConfig}config/Makefile.config
+%{relocateConfig}etc/dictpch/allCppflags.txt
+%{relocateConfig}include/compiledata.h
+%{relocateConfig}include/RConfigOptions.h
