@@ -1,7 +1,8 @@
-### RPM external py2-pymongo 2.7.2
+### RPM external py2-pymongo 3.4.0
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
-Source: http://pypi.python.org/packages/source/p/pymongo/pymongo-%realversion.tar.gz
+#Source: http://pypi.python.org/packages/source/p/pymongo/pymongo-%realversion.tar.gz
+Source: https://pypi.python.org/packages/82/26/f45f95841de5164c48e2e03aff7f0702e22cef2336238d212d8f93e91ea8/pymongo-%realversion.tar.gz
 Requires: python elementtree
 BuildRequires: py2-setuptools
 
