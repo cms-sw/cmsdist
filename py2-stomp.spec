@@ -1,7 +1,9 @@
-### RPM external py2-stomp 3.1.3
+### RPM external py2-stomp 4.1.15
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
-Source: https://pypi.python.org/packages/source/s/stomp.py/stomp.py-%realversion.tar.gz
-Requires: python 
+#Source: https://pypi.python.org/packages/source/s/stomp.py/stomp.py-%realversion.tar.gz
+Source: https://pypi.python.org/packages/d4/ba/3b0248f1c493f5df8dbd67a052f4a6aae6040d39199d032fa9918dc33ebf/stomp.py-%realversion.tar.gz
+Requires: python
+BuildRequires: py2-setuptools
 
 %prep
 %setup -n stomp.py-%realversion
@@ -11,6 +13,8 @@ Requires: python
 python setup.py build
 
 %install
+mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
+PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH \
 python setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 # Remove documentation.
