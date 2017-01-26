@@ -1,4 +1,4 @@
-### RPM external py2-pippkgs 1.0
+### RPM external py2-pippkgs 2.0
 ## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
 Source: none
 
@@ -6,6 +6,7 @@ BuildRequires: py2-rootpy
 BuildRequires: py2-configparser 
 BuildRequires: py2-entrypoints
 BuildRequires: py2-psutil
+BuildRequires: py2-repoze.lru
 
 %prep
 
