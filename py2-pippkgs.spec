@@ -6,7 +6,7 @@ BuildRequires: py2-rootpy
 BuildRequires: py2-configparser 
 BuildRequires: py2-entrypoints
 BuildRequires: py2-psutil
-BuildRequires: py2-repoze.lru
+BuildRequires: py2-repoze--lru
 
 %prep
 
