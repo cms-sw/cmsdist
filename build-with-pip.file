@@ -1,6 +1,6 @@
 %define my_name %(echo %n | cut -f2 -d-)
 #assume that -- will never occur in a pip package name...
-%define pip_name %(echo %my_name | sed 's/--/./g'
+%define pip_name %(echo %my_name | sed 's/--/./g')
 Source: pip://%{pip_name}/%{realversion}/source.tar.gz
 
 Requires: python
