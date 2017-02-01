@@ -1,4 +1,10 @@
+
+%if 0%{?pip_name:1}
+%define my_name %{pip_name}
+%else
 %define my_name %(echo %n | cut -f2 -d-)
+%endif
+
 Source: pip://%{my_name}/%{realversion}/source.tar.gz
 
 Requires: python
