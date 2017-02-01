@@ -101,7 +101,6 @@ Requires: py2-dxr-toolfile
 Requires: py2-futures-toolfile
 Requires: py2-jinja-toolfile
 Requires: py2-markupsafe-toolfile
-Requires: py2-ordereddict-toolfile
 Requires: py2-parsimonious-toolfile
 Requires: py2-pygments-toolfile
 Requires: py2-pysqlite-toolfile
@@ -121,7 +120,6 @@ Requires: fftjet-toolfile
 Requires: lapack-toolfile
 Requires: pyminuit2-toolfile
 Requires: professor-toolfile
-Requires: py2-ipython-toolfile
 Requires: xz-toolfile
 Requires: protobuf-toolfile
 Requires: lcov-toolfile
