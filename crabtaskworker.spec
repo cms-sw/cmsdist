@@ -1,4 +1,4 @@
-### RPM cms crabtaskworker 3.3.1702.rc3
+### RPM cms crabtaskworker 3.3.1702.rc5
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
@@ -12,7 +12,7 @@ Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=C
 #Patch0: crabserver3-setup
 
 Requires: p5-time-hires
-Requires: python  dbs-client dls-client dbs3-client py2-pycurl py2-httplib2 cherrypy condor
+Requires: python  dbs-client dls-client dbs3-client py2-pycurl py2-httplib2 cherrypy condor python-ldap
 BuildRequires: py2-sphinx
 
 %prep
