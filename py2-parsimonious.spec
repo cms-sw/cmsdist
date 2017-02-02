@@ -1,13 +1,9 @@
-### RPM external py2-parsimonious 0.6.1
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-Source: https://pypi.python.org/packages/source/p/parsimonious/parsimonious-%realversion.tar.gz
-Requires: python py2-setuptools
+### RPM external py2-parsimonious 0.7.0
+## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
 
-%prep
-%setup -n parsimonious-%realversion
 
-%build
-python setup.py build
+%define pip_name parsimonious
+Requires: py2-six 
 
-%install
-python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
+## IMPORT build-with-pip
+

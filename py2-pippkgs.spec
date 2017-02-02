@@ -2,6 +2,8 @@
 ## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
 Source: none
 
+Requires: root curl python
+
 BuildRequires: py2-rootpy
 BuildRequires: py2-configparser 
 BuildRequires: py2-entrypoints
@@ -54,6 +56,18 @@ BuildRequires: py2-traitlets
 BuildRequires: py2-wcwidth
 BuildRequires: py2-webencodings
 BuildRequires: py2-widgetsnbextension
+BuildRequires: py2-cycler
+BuildRequires: py2-docopt
+BuildRequires: py2-futures
+BuildRequires: py2-networkx
+BuildRequires: py2-parsimonious
+BuildRequires: py2-prettytable
+BuildRequires: py2-pycurl
+BuildRequires: py2-pytz
+BuildRequires: py2-requests
+BuildRequires: py2-schema
+BuildRequires: py2-scikit-learn
+BuildRequires: py2-Jinja
 
 
 %prep
@@ -68,9 +82,9 @@ for pkg in %builddirectpkgreqs ; do
     echo "Checking for duplicates ...."
     for f in $(ls $SOURCE) ; do
       if [ -e %{i}/$PYTHON_LIB_SITE_PACKAGES/$f ] ; then 
-        # https://github.com/jupyter/jupyter_core/issues/55
+        # https://github.com/jupyter/jupyter_core/issues/55 - now I delete jupyter.py from one of the providers
         #backports is an example directory that can have multiple packages inside
-        if [ $f != "backports" && $f != "jupyter.py" ] ; then  
+        if [ $f != "backports" ] ; then  
            echo "  Duplicate file found: $f"
            exit 1
         fi

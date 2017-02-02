@@ -8,4 +8,4 @@ Requires: py2-ipython_genutils py2-six py2-decorator py2-traitlets
 ## IMPORT build-with-pip
 
 %define PipPostBuild \
-   perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/jupyter-migrate %{i}/bin/jupyter-troubleshoot %{i}/bin/jupyter
+   perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/jupyter-migrate %{i}/bin/jupyter-troubleshoot %{i}/bin/jupyter; rm %{i}/lib/*/site-packages/jupyter.py
