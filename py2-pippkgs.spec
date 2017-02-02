@@ -67,9 +67,14 @@ for pkg in %builddirectpkgreqs ; do
   if [ -d $SOURCE ] ; then
     echo "Checking for duplicates ...."
     for f in $(ls $SOURCE) ; do
-      if [ -e %{i}/$PYTHON_LIB_SITE_PACKAGES/$f ] ; then
-        echo "  Duplicate file found: $f"
-        exit 1
+      if [ -e %{i}/$PYTHON_LIB_SITE_PACKAGES/$f ] ; then 
+        # https://github.com/jupyter/jupyter_core/issues/55
+        #backports is an example directory that can have multiple packages inside
+        if [ $f != "backports" && $f != "jupyter.py" ] ; then  
+           echo "  Duplicate file found: $f"
+           exit 1
+        fi
+
       fi
     done
     echo "Copying $SOURCE in %{pkgrel}"
