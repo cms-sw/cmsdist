@@ -17,7 +17,6 @@ BuildRequires: py2-backportsssl_match_hostname
 BuildRequires: py2-bleach
 BuildRequires: py2-certifi
 BuildRequires: py2-decorator
-BuildRequires: py2-entrypoints
 BuildRequires: py2-html5lib
 BuildRequires: py2-ipykernel
 BuildRequires: py2-ipython
