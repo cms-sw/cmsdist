@@ -1,5 +1,5 @@
 ### RPM external couchdb15 1.6.1
-Source0: http://www.interior-dsgn.com/apache/couchdb/source/%realversion/apache-couchdb-%realversion.tar.gz
+Source0: http://www.pirbot.com/mirrors/apache/couchdb/source/%realversion/apache-couchdb-%realversion.tar.gz
 Source1: couch_cms_auth.erl
 Patch0: couchdb15-cmsauth-Makefile
 Patch1: couchdb15-ssl-client-cert
