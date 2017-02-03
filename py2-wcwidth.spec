@@ -1,9 +1,9 @@
-### RPM external py2-pycurl 7.43.0
+### RPM external py2-wcwidth 0.1.7
 ## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
 
 
-%define pip_name pycurl
-Requires: curl
+%define pip_name wcwidth
+
 
 ## IMPORT build-with-pip
 

@@ -1,10 +1,9 @@
-### RPM external py2-pytz 2014.7
-## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
-Source: https://pypi.python.org/packages/source/p/pytz/pytz-%{realversion}.tar.gz
-Requires: python
+### RPM external py2-pytz 2016.10
+## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
 
-%prep
-%setup -n pytz-%{realversion}
-%build
-%install
-python setup.py install --prefix=%{i}
+
+%define pip_name pytz
+
+
+## IMPORT build-with-pip
+
