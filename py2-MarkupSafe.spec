@@ -1,9 +1,9 @@
-### RPM external py2-pycurl 7.43.0
+### RPM external py2-MarkupSafe 0.23
 ## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
 
 
-%define pip_name pycurl
-Requires: curl
+%define pip_name MarkupSafe
+
 
 ## IMPORT build-with-pip
 
