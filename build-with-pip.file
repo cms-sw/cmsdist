@@ -1,5 +1,9 @@
-%define my_name %(echo %n | cut -f2 -d-)
-Source: pip://%{my_name}/%{realversion}/source.tar.gz
+
+%if "%{?pip_name:set}" != "set"
+%define pip_name %(echo %n | cut -f2-5 -d-)
+%endif
+
+Source: pip://%{pip_name}/%{realversion}/source.tar.gz
 
 Requires: python
 BuildRequires: py2-pip
@@ -18,7 +22,7 @@ if [ `cat files.list | wc -l` == "1" ] ; then
    export PYTHONUSERBASE=%i
    pip list
    pip install --no-deps --user %{?PipBuildOptions:%PipBuildOptions} $PIPFILE
-#   pip install --no-deps --user  %{my_name}==%{realversion}
+#   pip install --no-deps --user  %{pip_name}==%{realversion}
 else
    echo "Sorry I don't know how to handle no/multiple install files yet"
    cat %{_sourcedir}/files.txt
