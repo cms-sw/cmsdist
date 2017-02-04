@@ -1,9 +1,16 @@
+#File: with-with-pip
 
 %if "%{?pip_name:set}" != "set"
 %define pip_name %(echo %n | cut -f2-5 -d-)
 %endif
+%if "%{?PipDownloadOptions:set}" != "set"
+%define PipDownloadOptions --no-deps%%20--no-binary%%3D:all:
+%endif
+%if "%{?PipBuildOptions:set}" != "set"
+%define PipBuildOptions --no-deps
+%endif
 
-Source: pip://%{pip_name}/%{realversion}/source.tar.gz
+Source: pip://%{pip_name}/%{realversion}?pip_options=%{PipDownloadOptions}&output=/source.tar.gz
 
 Requires: python
 BuildRequires: py2-pip
@@ -21,8 +28,7 @@ if [ `cat files.list | wc -l` == "1" ] ; then
    echo ${PIPFILE}
    export PYTHONUSERBASE=%i
    pip list
-   pip install --no-deps --user %{?PipBuildOptions:%PipBuildOptions} $PIPFILE
-#   pip install --no-deps --user  %{pip_name}==%{realversion}
+   pip install --user %{PipBuildOptions} $PIPFILE
 else
    echo "Sorry I don't know how to handle no/multiple install files yet"
    cat %{_sourcedir}/files.txt
