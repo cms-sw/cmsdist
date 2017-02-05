@@ -68,7 +68,7 @@ BuildRequires: py2-requests
 BuildRequires: py2-schema
 BuildRequires: py2-scikit-learn
 BuildRequires: py2-Jinja
-
+BuildRequires: py2-python-dateutil
 
 %prep
 
