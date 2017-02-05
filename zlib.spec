@@ -1,8 +1,12 @@
 ### RPM external zlib 1.2.8
-Source: http://zlib.net/%{n}-%{realversion}.tar.gz
+
+%define git_repo davidlt
+%define git_branch gcc.amd64
+%define git_commit 93ae961c5ec627e85490a2abf7b3e82fb238034b
+Source0: git://github.com/%{git_repo}/%{n}.git?obj=%{git_branch}/%{git_commit}&export=%{n}-%{git_commit}&output=/%{n}-%{git_commit}.tgz
 
 %prep
-%setup -n %{n}-%{realversion}
+%setup -n %{n}-%{git_commit}
 
 %build
 %if "%{cmscompiler}" == "icc"
