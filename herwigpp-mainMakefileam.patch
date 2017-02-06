@@ -1,0 +1,20 @@
+--- Herwig-7.0.1/Makefile.am	2016-01-11 11:57:47.000000000 +0100
++++ Makefile-main.am	2016-02-28 10:57:05.044741995 +0100
+@@ -2,7 +2,7 @@
+ 	Utilities PDT Decay PDF Models \
+ 	Shower DipoleShower Hadronization MatrixElement \
+ 	UnderlyingEvent Analysis Looptools Sampling \
+-	lib src Doc Contrib Tests
++	lib src Doc Contrib
+ 
+ EXTRA_DIST = GUIDELINES
+ 
+@@ -17,8 +17,6 @@
+ 	cd lib && $(MAKE) $(AM_MAKEFLAGS) clean
+ 	cd src && $(MAKE) $(AM_MAKEFLAGS) clean
+ 
+-tests:
+-	cd Tests && $(MAKE) $(AM_MAKEFLAGS) tests
+ 
+ 
+ ## ThePEG registration

@@ -11,12 +11,13 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/herwigpp.xml
 <tool name="herwigpp" version="@TOOL_VERSION@">
   <client>
     <environment name="HERWIGPP_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$HERWIGPP_BASE/lib"/>
-    <environment name="INCLUDE" default="$HERWIGPP_BASE/include"/>
+    <environment name="LIBDIR" default="$HERWIGPP_BASE/lib/Herwig7"/>
+    <environment name="INCLUDE" default="$HERWIGPP_BASE/include/Herwig7"/>
   </client>
-  <runtime name="HERWIGPATH" value="$HERWIGPP_BASE/share/Herwig++"/>
+  <runtime name="HERWIGPATH" value="$HERWIGPP_BASE/share/Herwig7"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
+  <use name="thepeg"/>
 </tool>
 EOF_TOOLFILE
 
