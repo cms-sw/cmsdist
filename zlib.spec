@@ -1,5 +1,5 @@
 ### RPM external zlib 1.0
-%if "%{_arch}" == "x86_64"
+%ifarch x86_64
 Requires: zlib-x86_64
 %define ZLIB_PKG ZLIB_X86_64
 %else
