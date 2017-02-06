@@ -1,4 +1,4 @@
-### RPM cms data-RecoBTag-SecondaryVertex V02-00-02
+### RPM cms data-RecoBTag-SecondaryVertex V02-00-03
 
 %prep
 
