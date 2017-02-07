@@ -1,37 +1,16 @@
-### RPM external zlib 1.2.8
-
-%define git_repo davidlt
-%define git_branch gcc.amd64
-%define git_commit 9940c55156d21253f44acaa108614261753d2ead
-Source0: git://github.com/%{git_repo}/%{n}.git?obj=%{git_branch}/%{git_commit}&export=%{n}-%{git_commit}&output=/%{n}-%{git_commit}.tgz
-
-%prep
-%setup -n %{n}-%{git_commit}
-
-%build
-%if "%{cmscompiler}" == "icc"
-%define cfgopts CC="icc -fPIC"
+### RPM external zlib 1.0
+%ifarch x86_64
+Requires: zlib-x86_64
+%define ZLIB_PKG ZLIB_X86_64
 %else
-%define cfgopts %{nil}
+Requires: zlib-non-x86_64
+%define ZLIB_PKG ZLIB_NON_X86_64
 %endif
 
-case %{cmsplatf} in
-   *_amd64_*|*_mic_*)
-     CFLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1 -msse3" \
-     ./configure --prefix=%{i}
-     ;;
-   *_armv7hl_*|*_aarch64_*|*_ppc64le_*|*_ppc64_*)
-     CFLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1" \
-     ./configure --prefix=%{i}
-     ;;
-   *)
-     %{cfgopts} ./configure --prefix=%{i}
-     ;;
-esac
+%prep
+%build
+%install
+%post
+cp ${RPM_INSTALL_PREFIX}/%{cmsplatf}/$(echo %{directpkgreqs} | tr ' ' '\n' | grep /zlib-)/etc/profile.d/init.* ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d
+sed -i -e 's|%{ZLIB_PKG}_|ZLIB_|' ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d/init.*
 
-make %{makeprocesses}
-
-# Strip libraries, we are not going to debug them.
-%define strip_files %{i}/lib
-# Look up documentation online.
-%define drop_files %{i}/share
