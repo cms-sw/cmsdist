@@ -130,7 +130,7 @@ Requires: cvs2git-toolfile
 Requires: pacparser-toolfile
 Requires: git-toolfile
 Requires: cgal-toolfile
-#Requires: doxygen-toolfile
+Requires: doxygen-toolfile
 Requires: yaml-cpp-toolfile
 Requires: gmp-static-toolfile
 Requires: mpfr-static-toolfile
