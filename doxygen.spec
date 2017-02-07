@@ -1,7 +1,7 @@
 ### RPM external doxygen 1.8.11
 
 Source: http://ftp.stack.nl/pub/users/dimitri/%{n}-%{realversion}.src.tar.gz
-BuildRequires: flex bison graphviz autotools gmake cmake
+BuildRequires: flex bison graphviz autotools gmake cmake python
 
 #define drop_files %{i}/man
 
@@ -12,8 +12,6 @@ BuildRequires: flex bison graphviz autotools gmake cmake
 rm -rf ../build
 mkdir -p ../build
 cd ../build
-
-export M4=$(which m4)
 
 cmake ../%{n}-%{realversion} \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
