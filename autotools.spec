@@ -1,4 +1,5 @@
 ### RPM external autotools 1.2
+## INITENV SET M4 %{i}/bin/m4
 # We keep all of them together to simplify the "requires" statements.
 %define autoconf_version 2.69
 %define automake_version 1.14.1
