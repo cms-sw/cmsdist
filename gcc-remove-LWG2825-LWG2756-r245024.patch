@@ -1,0 +1,82 @@
+From be778bafc050a00ff3bb0d6a005334633c845d9c Mon Sep 17 00:00:00 2001
+From: David Abdurachmanov <David.Abdurachmanov@cern.ch>
+Date: Tue, 7 Feb 2017 13:26:18 +0100
+Subject: [PATCH] Remporarily remove LWG 2825 & LWG 2756 to keep Cling happy
+
+We have to remove LWG 2825 & LWG 2756 to keep Cling (Clang) happy in
+ROOT 6.08.04. Thus this reverts r245024 (svn) or
+cfae3c6f8189d4e77e65a956d35889ab5d68c4c7 (git).
+
+Signed-off-by: David Abdurachmanov <David.Abdurachmanov@cern.ch>
+---
+ libstdc++-v3/include/std/optional                  |    2 -
+ .../20_util/optional/cons/deduction_guide.cc       |   44 --------------------
+ 2 files changed, 0 insertions(+), 46 deletions(-)
+ delete mode 100644 libstdc++-v3/testsuite/20_util/optional/cons/deduction_guide.cc
+
+diff --git a/libstdc++-v3/include/std/optional b/libstdc++-v3/include/std/optional
+index 905bc0a..887bf9e 100644
+--- a/libstdc++-v3/include/std/optional
++++ b/libstdc++-v3/include/std/optional
+@@ -981,8 +981,6 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
+ 
+   /// @}
+ 
+-  template <typename _Tp> optional(_Tp) -> optional<_Tp>;
+-
+ _GLIBCXX_END_NAMESPACE_VERSION
+ } // namespace std
+ 
+diff --git a/libstdc++-v3/testsuite/20_util/optional/cons/deduction_guide.cc b/libstdc++-v3/testsuite/20_util/optional/cons/deduction_guide.cc
+deleted file mode 100644
+index 59698dc..0000000
+--- a/libstdc++-v3/testsuite/20_util/optional/cons/deduction_guide.cc
++++ /dev/null
+@@ -1,44 +0,0 @@
+-// { dg-options "-std=gnu++17" }
+-// { dg-do compile }
+-
+-// Copyright (C) 2017 Free Software Foundation, Inc.
+-//
+-// This file is part of the GNU ISO C++ Library.  This library is free
+-// software; you can redistribute it and/or modify it under the
+-// terms of the GNU General Public License as published by the
+-// Free Software Foundation; either version 3, or (at your option)
+-// any later version.
+-
+-// This library is distributed in the hope that it will be useful,
+-// but WITHOUT ANY WARRANTY; without even the implied warranty of
+-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-// GNU General Public License for more details.
+-
+-// You should have received a copy of the GNU General Public License along
+-// with this library; see the file COPYING3.  If not see
+-// <http://www.gnu.org/licenses/>.
+-
+-#include <optional>
+-#include <type_traits>
+-
+-struct MoveOnly
+-{
+-  MoveOnly() = default;
+-  MoveOnly(MoveOnly&&) {}
+-  MoveOnly& operator=(MoveOnly&&) {}
+-};
+-
+-int main()
+-{
+-    std::optional x = 5;
+-    static_assert(std::is_same_v<decltype(x), std::optional<int>>);
+-    int y = 42;
+-    std::optional x2 = y;
+-    static_assert(std::is_same_v<decltype(x2), std::optional<int>>);
+-    const int z = 666;
+-    std::optional x3 = z;
+-    static_assert(std::is_same_v<decltype(x3), std::optional<int>>);
+-    std::optional mo = MoveOnly();
+-    static_assert(std::is_same_v<decltype(mo), std::optional<MoveOnly>>);
+-    mo = MoveOnly();
+-}
+-- 
+1.7.1
+
