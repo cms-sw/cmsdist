@@ -96,3 +96,20 @@ for pkg in %builddirectpkgreqs ; do
   fi
 done
 
+#and for bin
+mkdir -p %{i}/bin
+for pkg in %builddirectpkgreqs ; do
+  SOURCE=%{cmsroot}/%{cmsplatf}/${pkg}/bin
+  if [ -d $SOURCE ] ; then
+    echo "Checking for duplicates ...."
+    for f in $(ls $SOURCE) ; do
+      if [ -e %{i}/bin/$f ] ; then 
+           echo "  Duplicate file found: $f"
+           exit 1
+      fi
+    done
+    echo "Copying $SOURCE in %{pkgrel}"
+    rsync -av $SOURCE/ %{i}/bin/
+  fi
+done
+
