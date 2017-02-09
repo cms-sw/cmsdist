@@ -5,19 +5,19 @@
 BuildRequires: python cmake ninja
 Requires: gcc zlib
 
-%define llvmCommit 7d61d2b0f7ee2e87bdaa0c2594f3e5465105cc1e
+%define llvmCommit 6af4d1ac2acfc8c22db959f2b7b11d68688b2425
 %define llvmBranch release_40
-%define clangCommit bf79d2204e26776d58d73e5b60c1ee870b7e23ae
-%define clangBranch cms/release_40
-%define clangToolsExtraCommit ca3f36981485758cda40bb8f1c23ee99a6f8d959
-%define clangToolsExtraBranch cms/release_40
-%define compilerRtCommit 850646edf7e605354c66693c16ab69193e04a078
+%define clangCommit c27c9bbb74ad7bcf8ed3c6e9d6234827c6d22a6b
+%define clangBranch cms/ee02028
+%define clangToolsExtraCommit 70bc9d1b740329279c9d7b2138e6acc31fa71862
+%define clangToolsExtraBranch release_40
+%define compilerRtCommit 855d4c102556800c64315ebf0f7e6339e58b6ccd
 %define compilerRtBranch release_40
-%define openmpCommit fc80b280f9b8c6f260f9d5c8913dd2d81937950d
+%define openmpCommit e62ab1ab8242fb70b31f627d78a1ca489b49ce01
 %define openmpBranch release_40
-%define iwyuCommit b217a90c66ef65724123a3485fe5b3f0dc9fb36d
+%define iwyuCommit 4a753782ce0992cf3085acc7a97deb9da1f36bb6
 %define iwyuBranch master
-%define lldCommit 83a83a52d143ff3d21ab86fbc884fb2caa211cbc
+%define lldCommit f18d7adf7ddc01571e31a52c15cab7b47f9e8c56
 %define lldBranch release_40
 Source0: git+https://github.com/cms-externals/llvm.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%realversion-%llvmCommit&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/cms-externals/clang.git?obj=%{clangBranch}/%{clangCommit}&export=clang-%{realversion}-%{clangCommit}&module=clang-%realversion-%clangCommit&output=/clang-%{realversion}-%{clangCommit}.tgz
@@ -33,8 +33,8 @@ Source6: git+https://github.com/cms-externals/lld.git?obj=%{lldBranch}/%{lldComm
 %setup -T -b0 -n llvm-%realversion-%llvmCommit
 %setup -T -D -a1 -c -n llvm-%realversion-%llvmCommit/tools
 mv clang-%realversion-%clangCommit clang
-#setup -T -D -a6 -c -n llvm-%{realversion}-%{llvmCommit}/tools
-#mv lld-%{realversion}-%{lldCommit} lld
+%setup -T -D -a6 -c -n llvm-%{realversion}-%{llvmCommit}/tools
+mv lld-%{realversion}-%{lldCommit} lld
 %setup -T -D -a2 -c -n llvm-%{realversion}-%{llvmCommit}/tools/clang/tools
 mv clang-tools-extra-%{realversion}-%{clangToolsExtraCommit} extra
 %setup -T -D -a5 -c -n llvm-%{realversion}-%{llvmCommit}/tools/clang/tools
