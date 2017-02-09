@@ -1,0 +1,26 @@
+diff --git a/Makefile.in b/Makefile.in
+index 47e459f..b330cf4 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -57,7 +57,7 @@ MANPAGES=dmtcp.1.gz dmtcp_coordinator.1.gz dmtcp_command.1.gz dmtcp_launch.1.gz
+ # Macros TEST and XTERM_E used on command line by check1, check2, ...:
+ #   make TEST=readline XTERM_E="xterm -e" check-readline
+ 
+-default: display-build-env add-git-hooks build
++default: display-build-env build
+ 
+ mkdirs:
+ 	$(MKDIR_P) $(targetdir)/bin
+@@ -102,12 +102,6 @@ display-config:
+ 	   fi
+ 
+ 
+-_hooksdir=.git/hooks
+-add-git-hooks: ${_hooksdir}/pre-commit ${_hooksdir}/post-rewrite
+-
+-${_hooksdir}/%: util/hooks/%
+-	cd ${_hooksdir} && ln -s ../../$< .
+-
+ # Remove any stray src/config.h files that may still exist.
+ # If the developer accidentally leaves an old src/config.h in place (e.g.,
+ #   after examining an old revision when this really existed), then some
