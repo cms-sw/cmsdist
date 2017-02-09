@@ -16,7 +16,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/py2-pandas.xml
   <use name="python"/>
   <use name="py2-numpy"/>
   <use name="py2-pippkgs"/>
-  <use name="py2-pytz"/>
 </tool>
 EOF_TOOLFILE
 
