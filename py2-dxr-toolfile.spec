@@ -1,5 +1,5 @@
 ### RPM external py2-dxr-toolfile 1.0
-Requires: py2-dxr py2-futures py2-jinja py2-markupsafe py2-ordereddict py2-parsimonious
+Requires: py2-dxr  py2-markupsafe py2-pippkgs py2-pysqlite py2-markupsafe
 %prep
 
 %build
@@ -18,13 +18,10 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-dxr.xml
     <runtime name="PATH" value="$PY2_DXR_BASE/bin" type="path"/>
     <use name="python"/>
     <use name="sqlite"/>
-    <use name="py2-futures"/>
-    <use name="py2-jinja"/>
     <use name="py2-markupsafe"/>
-    <use name="py2-ordereddict"/>
-    <use name="py2-parsimonious"/>
     <use name="py2-pygments"/>
     <use name="py2-pysqlite"/>
+    <use name="py2-pippkgs"/>
 </tool>
 EOF_TOOLFILE
 

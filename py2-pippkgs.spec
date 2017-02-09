@@ -69,6 +69,10 @@ BuildRequires: py2-schema
 BuildRequires: py2-scikit-learn
 BuildRequires: py2-Jinja
 BuildRequires: py2-python-dateutil
+BuildRequires: py2-cjson
+BuildRequires: py2-enum34
+BuildRequires: py2-shutil_get_terminal_size
+BuildRequires: py2-functools32
 
 %prep
 
