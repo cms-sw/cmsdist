@@ -15,8 +15,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/py2-pandas.xml
   <runtime name="PYTHONPATH" value="$PY2_PANDAS_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   <use name="python"/>
   <use name="py2-numpy"/>
-  <use name="py2-python-dateutil"/>
-  <use name="py2-pytz"/>
+  <use name="py2-pippkgs"/>
 </tool>
 EOF_TOOLFILE
 
