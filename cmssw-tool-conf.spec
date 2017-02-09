@@ -91,7 +91,6 @@ Requires: py2-numpy-toolfile
 Requires: py2-pandas-toolfile
 Requires: py2-scipy-toolfile
 Requires: cmsswdata-toolfile
-Requires: py2-cjson-toolfile
 Requires: py2-sqlalchemy-toolfile
 Requires: py2-pygithub-toolfile
 Requires: py2-dablooms-toolfile
