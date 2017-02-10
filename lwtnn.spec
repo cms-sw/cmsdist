@@ -9,7 +9,6 @@ Patch0: lwtnn-1.0-boost-fix
 
 %build
 
-export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$EIGEN_ROOT/share/pkgconfig
 export BOOST_ROOT
 make all
 
