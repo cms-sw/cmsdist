@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 35.0
+### RPM cms cmssw-tool-conf 36.0
 ## NOCOMPILER
 # With cmsBuild, change the above version only when a new
 # tool is added
@@ -157,6 +157,7 @@ Requires: py2-setuptools-toolfile
 Requires: madgraph5amcatnlo-toolfile
 Requires: histogrammar-toolfile
 Requires: py2-pippkgs-toolfile
+Requires: py2-pippkgs_depscipy-toolfile
 #still a work in progress Requires: py2-notebook
 
 # Only for Linux platform.
