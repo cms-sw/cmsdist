@@ -1,8 +1,8 @@
-### RPM external patchelf 0.8
+### RPM external patchelf 0.10
 ## INITENV +PATH PATH %{i}/bin
 
 %define git_branch master
-%define git_commit ec38df54a2cfd2c56b01dffdf11210a3d0805f9d
+%define git_commit 327d80443672c397970738f9e216a7e86cbf3ad7
 Source0: git://github.com/NixOS/patchelf.git?obj=%{git_branch}/%{git_commit}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: autotools
 
