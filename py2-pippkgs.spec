@@ -1,10 +1,9 @@
-### RPM external py2-pippkgs 2.0
+### RPM external py2-pippkgs 3.0
 ## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
 Source: none
 
 Requires: root curl python
 
-BuildRequires: py2-rootpy
 BuildRequires: py2-configparser 
 BuildRequires: py2-entrypoints
 BuildRequires: py2-psutil
@@ -66,13 +65,14 @@ BuildRequires: py2-pycurl
 BuildRequires: py2-pytz
 BuildRequires: py2-requests
 BuildRequires: py2-schema
-BuildRequires: py2-scikit-learn
 BuildRequires: py2-Jinja
 BuildRequires: py2-python-dateutil
 BuildRequires: py2-cjson
 BuildRequires: py2-enum34
 BuildRequires: py2-shutil_get_terminal_size
 BuildRequires: py2-functools32
+BuildRequires: py2-mock
+BuildRequires: py2-pbr
 
 %prep
 

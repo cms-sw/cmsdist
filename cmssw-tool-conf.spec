@@ -145,7 +145,6 @@ Requires: eigen-toolfile
 Requires: gdb-toolfile
 Requires: libxslt-toolfile
 Requires: py2-six-toolfile
-Requires: py2-pyparsing-toolfile
 Requires: giflib-toolfile
 Requires: freetype-toolfile
 Requires: utm-toolfile
