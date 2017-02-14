@@ -4,7 +4,7 @@ Source: none
 
 Requires: root curl python py2-scipy
 
-%define isslc7 %(case %{cmsplatf} in (slc7*) echo 1 ;; (*) echo 0 ;; esac)
+%define isslc7 %(case %{cmsplatf} in (slc7_amd64*) echo 1 ;; (*) echo 0 ;; esac)
 
 
 BuildRequires: py2-Keras
