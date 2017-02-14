@@ -7,7 +7,7 @@ Requires: py2-numpy py2-sympy py2-matplotlib root cython yoda eigen
 %setup -n Professor-%{realversion}
 
 %build
-make CPPFLAGS=-I${EIGEN_ROOT}/include
+make CPPFLAGS=-I${EIGEN_ROOT}/include/eigen3
 
 %install
 make install PREFIX=%{i}
