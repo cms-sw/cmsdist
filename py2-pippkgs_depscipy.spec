@@ -1,11 +1,21 @@
-### RPM external py2-pippkgs_depscipy 1.0
+### RPM external py2-pippkgs_depscipy 2.0
 ## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
 Source: none
 
 Requires: root curl python py2-scipy
 
+%define isslc7 %(case %{cmsplatf} in (slc7_amd64*) echo 1 ;; (*) echo 0 ;; esac)
+
+
 BuildRequires: py2-Keras
 BuildRequires: py2-Theano
+BuildRequires: py2-scikit-learn
+BuildRequires: py2-rootpy
+%if %isslc7
+BuildRequires: py2-tensorflow
+%endif
+BuildRequires: py2-protobuf
+
 
 %prep
 
