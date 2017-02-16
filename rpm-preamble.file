@@ -198,11 +198,16 @@
 %if "%archfirst" == "yes"
 %define initenv_all	for x in %{allpkgreqs}                          .; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %define initenv_direct	for x in %{directpkgreqs} %{builddirectpkgreqs} .; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define post_initenv unset %{dynamic_path_var}; for x in %{allpkgreqs} %{pkgdir} ; do i=$RPM_INSTALL_PREFIX/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %else
 %define initenv_all	for x in %{allpkgreqs}                          .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %define initenv_direct	for x in %{directpkgreqs} %{builddirectpkgreqs} .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define post_initenv unset %{dynamic_path_var}; for x in %{allpkgreqs} %{pkgdir} ; do i=$RPM_INSTALL_PREFIX/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %endif
 %define initenv		%initenv_all
+
+%define add_rpath (RPATH_ELF_BIN=$(find $RPM_INSTALL_PREFIX/%{pkgrel} -type f -exec file {} \\; | grep ' ELF ' | grep ' executable' | cut -d':' -f1) && \
+   echo "$RPATH_ELF_BIN" | xargs -n 1 -I{} -P $(getconf _NPROCESSORS_ONLN) sh -c "cp {} {}.post-tmp && chmod u+w {}.post-tmp && patchelf --set-rpath $%{dynamic_path_var} --force-rpath {}.post-tmp && chmod --reference={} {}.post-tmp && mv {}.post-tmp {}" )
 
 %if "%{?compiling_processes:set}" == "set"
 %define makeprocesses -j %compiling_processes 
