@@ -30,3 +30,8 @@ chmod +x ./config.{sub,guess}
 make %{makeprocesses}
 %install
 make install
+
+%post
+%{relocateConfig}lib/blackhat/lib*.la
+%{relocateConfig}bin/blackhat-config
+%{relocateConfig}bin/dataInstall
