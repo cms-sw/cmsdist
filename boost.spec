@@ -29,7 +29,6 @@ b2 -q \
    --build-dir=build-boost \
    --disable-icu \
    --without-atomic \
-   --without-chrono \
    --without-container \
    --without-context \
    --without-coroutine \
