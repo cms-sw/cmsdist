@@ -1,4 +1,4 @@
-### RPM external boost-toolfile 1.1
+### RPM external boost-toolfile 1.2
 Requires: boost
 %prep
 
@@ -25,6 +25,16 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost.xml
   <flags CPPDEFINES="BOOST_SPIRIT_THREADSAFE PHOENIX_THREADSAFE"/>
   <flags CXXFLAGS="-Wno-error=unused-variable"/>
   <use name="sockets"/>
+</tool>
+EOF_TOOLFILE
+
+# boost_chrono toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_chrono.xml
+<tool name="boost_chrono" version="@TOOL_VERSION@">
+  <info url="http://www.boost.org"/>
+  <lib name="@BOOST_CHRONO_LIB@"/>
+  <use name="boost_system"/>
+  <use name="boost"/>
 </tool>
 EOF_TOOLFILE
 
@@ -136,6 +146,7 @@ getLibName()
 
 export BOOST_THREAD_LIB=`getLibName thread`
 export BOOST_SIGNALS_LIB=`getLibName signals`
+export BOOST_CHRONO_LIB=`getLibName chrono`
 export BOOST_FILESYSTEM_LIB=`getLibName filesystem`
 export BOOST_DATE_TIME_LIB=`getLibName date_time`
 export BOOST_SYSTEM_LIB=`getLibName system`
