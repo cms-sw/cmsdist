@@ -31,6 +31,7 @@ Provides: perl(CGI)
 Provides: perl(CGI::Carp)
 Provides: perl(CGI::Util)
 Provides: perl(Time::HiRes)
+Provides: perl(Encode) 
 
 %define drop_files %{i}/share/man
 
