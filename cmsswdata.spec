@@ -42,6 +42,7 @@ Requires: data-L1Trigger-L1THGCal
 Requires: data-SLHCUpgradeSimulations-Geometry
 Requires: data-CalibTracker-SiStripDCS
 Requires: data-SimTracker-SiStripDigitizer
+Requires: data-CalibCalorimetry-EcalTrivialCondModules
 
 %if %isnotonline
 # extra data dependencies for standard builds
