@@ -1,4 +1,4 @@
-### RPM cms comp HG1702g
+### RPM cms comp HG1703a
 
 # This is a meta-package to group all cms comp services
 # CMSWEB
