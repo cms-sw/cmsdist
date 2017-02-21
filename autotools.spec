@@ -78,6 +78,7 @@ pushd %_builddir/gettext-%{gettext_version}
               --disable-dependency-tracking \
               --disable-silent-rules \
               --with-included-glib \
+              --with-included-libunistring \
               --with-included-libcroco
   make %makeprocesses && make install
 popd
