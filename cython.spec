@@ -17,6 +17,7 @@ ${PYTHON_ROOT}/bin/python setup.py install --prefix %{i}
 sed -ideleteme 's|#!.*/bin/python|#!/usr/bin/env python|' \
   %{i}/bin/cython \
   %{i}/bin/cygdb \
+  %{i}/bin/cythonize \
   %{i}/${PYTHON_LIB_SITE_PACKAGES}/Cython/Debugger/libpython.py
 
 find %{i} -name '*deleteme' -delete

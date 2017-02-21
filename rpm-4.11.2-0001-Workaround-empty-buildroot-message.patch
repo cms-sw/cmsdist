@@ -1,0 +1,42 @@
+From ff97e0285d4a410fcf48cf86b6fd203557b1a17b Mon Sep 17 00:00:00 2001
+From: David Abdurachmanov <davidlt@cern.ch>
+Date: Sat, 19 Oct 2013 17:00:43 +0200
+Subject: [PATCH 1/8] Workaround empty %{buildroot} message
+
+Signed-off-by: David Abdurachmanov <davidlt@cern.ch>
+---
+ build/parsePreamble.c | 4 ----
+ macros.in             | 2 +-
+ 2 files changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/build/parsePreamble.c b/build/parsePreamble.c
+index e4b1f94..5289303 100644
+--- a/build/parsePreamble.c
++++ b/build/parsePreamble.c
+@@ -1051,10 +1051,6 @@ int parsePreamble(rpmSpec spec, int initialPackage)
+      */
+     if (initialPackage) {
+ 	char *buildRoot = rpmGetPath(spec->buildRoot, NULL);
+-	if (*buildRoot == '\0') {
+-	    rpmlog(RPMLOG_ERR, _("%%{buildroot} couldn't be empty\n"));
+-	    goto exit;
+-	}
+ 	if (rstreq(buildRoot, "/")) {
+ 	    rpmlog(RPMLOG_ERR, _("%%{buildroot} can not be \"/\"\n"));
+ 	    goto exit;
+diff --git a/macros.in b/macros.in
+index a1d35af..d9882d1 100644
+--- a/macros.in
++++ b/macros.in
+@@ -232,7 +232,7 @@ package or when debugging this package.\
+ %_buildrootdir		%{_topdir}/BUILDROOT
+ 
+ #	Build root path, where %install installs the package during build.
+-%buildroot		%{_buildrootdir}/%{name}-%{version}-%{release}.%{_arch}
++%buildroot
+ 
+ #	Directory where temporaray files can be created.
+ %_tmppath		%{_var}/tmp
+-- 
+1.8.0
+

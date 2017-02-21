@@ -1,0 +1,109 @@
+diff --git a/27.121.5/Makefile b/27.121.5/Makefile
+index acb9e77..3f89fda 100644
+--- a/27.121.5/Makefile
++++ b/27.121.5/Makefile
+@@ -50,20 +50,12 @@ all: libs
+ libs:
+ 	@echo FFLAGS_tauola = $(FFLAGS_tauola)
+ 
+-	@LIBNAME=$(LIBDIR)/libtauola.so ; DIRNAME=src ; FFLAGS="$(FFLAGS_tauola)" ; \
+-	export LIBNAME ; export DIRNAME ; export FFLAGS; \
+-	$(MAKE) -f Makeshared.subdir
+-
+ 	@LIBNAME=$(LIBDIR)/archive/libtauola.a ; DIRNAME=src ; FFLAGS="$(FFLAGS_tauola)" ; \
+ 	export LIBNAME ; export DIRNAME ; export FFLAGS; \
+ 	$(MAKE) -f Makearchive.subdir
+ 
+ 	@echo FFLAGS_pretauola = $(FFLAGS_pretauola)
+ 
+-	@LIBNAME=$(LIBDIR)/libpretauola.so ; DIRNAME=pretauola ; FFLAGS="$(FFLAGS_pretauola)" ; \
+-	export LIBNAME ; export DIRNAME ; export FFLAGS; \
+-	$(MAKE) -f Makeshared.subdir
+-
+ 	@LIBNAME=$(LIBDIR)/archive/libpretauola.a ; DIRNAME=pretauola ; FFLAGS="$(FFLAGS_pretauola)" ; \
+ 	export LIBNAME ; export DIRNAME ; export FFLAGS; \
+ 	$(MAKE) -f Makearchive.subdir
+diff --git a/27.121.5/Makeshared.subdir b/27.121.5/Makeshared.subdir
+index cfb17bf..032c841 100644
+--- a/27.121.5/Makeshared.subdir
++++ b/27.121.5/Makeshared.subdir
+@@ -42,9 +42,9 @@ $(TMPDIR)/%.o : $(DIRNAME)/%.c
+ # Creating the dependency files *.d
+ 
+ $(TMPDIR)/%.d : $(DIRNAME)/%.F
+-	@echo Making dependency for file $<; \
++	echo Making dependency for file $<; \
+ 	mkdir -p $(TMPDIR); \
+-	$(CC) -M -I$(INCDIR) $< | \
++	$(FC) -M -I$(INCDIR) $< | \
+ 	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' | \
+ 	sed 's/$*.o/$(TMPDIR)\/$*.o/' > $@; \
+ 	[ -s $@ ] || rm -f $@
+@@ -57,12 +57,24 @@ ifeq ($(PYTHIA6FORSHAREDLIBS),)
+  $(LIBNAME): $(objects)
+ 	@mkdir -p $(LIBDIR)
+ 	@echo creating the shared library $@
+-	$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@)
++	case $ARCH in \
++	   Linux*) \
++	$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@) ;; \
++	   Darwin*) \
++	$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -dynamic ;; \
++	esac
+ else
+  $(LIBNAME): $(objects)
+ 	@mkdir -p $(LIBDIR)
+ 	@echo creating the shared library $@
+-	$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@) -L$(PYTHIA6FORSHAREDLIBS) -l$(PYTHIA6LIBNAMEFORSHAREDLIBS)
++	case ${ARCH} in \
++           Linux*) \
++	$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@) -L$(PYTHIA6FORSHAREDLIBS) -l$(PYTHIA6LIBNAMEFORSHAREDLIBS) \
++	   ;; \
++	   Darwin*) \
++	$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -dynamic -Wl,-commons,use_dylibs $(shell echo $@ | grep pretauola >/dev/null && echo lib/libtauola.dylib) -L$(PYTHIA6FORSHAREDLIBS) -l$(PYTHIA6LIBNAMEFORSHAREDLIBS) -L$(PHOTOS_ROOT)/lib -lphotos $(shell gfortran --print-file-name=libgfortran.a) \
++	   ;; \
++	esac
+ endif
+ 
+ deps := $(patsubst $(DIRNAME)/%.F,$(TMPDIR)/%.d,$(wildcard $(DIRNAME)/*.F))
+diff --git a/27.121.5/configure b/27.121.5/configure
+index 960e5e2..7223826 100755
+--- a/27.121.5/configure
++++ b/27.121.5/configure
+@@ -99,11 +99,6 @@ export CXXFLAGS_DBG="-g -ansi -pedantic -W -Wall"
+ # Find platform.
+ 
+ export ARCH="`uname`"
+-export theGcc1=`g++ --version | awk '{print$3}'`
+-export theGcc=`echo ${theGcc1} | awk -F . '{print $1}'`
+-if [ ${theGcc} = 4 ]; then
+-  export ARCH=${ARCH}-gcc4
+-fi
+ echo Platform is $ARCH
+ 
+ #default platform settings:
+@@ -124,24 +119,6 @@ if [ ${COMPMODE} = DBG ]; then
+   export CXXFLAGS="${CXXFLAGS_DBG}"
+ fi
+ if [ $ARCH = Linux ]; then
+-  export FC=g77
+-  export FFLAGS="${FFLAGS_OPT} -Wno-globals"
+-  export CFLAGS="${CFLAGS_OPT}"
+-  export CXXFLAGS="${CXXFLAGS_OPT}"
+-  export FLIBS="-lfrtbegin -lg2c"
+-  if [ ${COMPMODE} = OPT ]; then
+-    export FFLAGS="${FFLAGS_OPT}"
+-    export CFLAGS="${CFLAGS_OPT}"
+-    export CXXFLAGS="${CXXFLAGS_OPT}"
+-  fi
+-  if [ ${COMPMODE} = DBG ]; then
+-    export FFLAGS="${FFLAGS_DBG} -Wno-globals"
+-    export CFLAGS="${CFLAGS_DBG}"
+-    export CXXFLAGS="${CXXFLAGS_DBG}"
+-  fi
+-fi
+-# Linux platform with gcc4: new Fortran90 compiler.
+-if [ $ARCH = Linux-gcc4 ]; then
+   export FC=gfortran
+   export FFLAGS="${FFLAGS_OPT}"
+   export CFLAGS="${CFLAGS_OPT}"

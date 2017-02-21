@@ -1,0 +1,128 @@
+From 97bc7ca83ceb8c8d838c1ed8c2a62efbbc17bd1f Mon Sep 17 00:00:00 2001
+From: David Abdurachmanov <davidlt@cern.ch>
+Date: Sat, 19 Oct 2013 22:25:05 +0200
+Subject: [PATCH] Add support for non standard location zlib
+
+Signed-off-by: David Abdurachmanov <davidlt@cern.ch>
+---
+ nss/cmd/modutil/Makefile  | 4 ++++
+ nss/cmd/platlibs.mk       | 2 ++
+ nss/cmd/signtool/Makefile | 4 ++++
+ nss/coreconf/Linux.mk     | 2 ++
+ nss/coreconf/location.mk  | 6 ++++++
+ nss/lib/Makefile          | 2 ++
+ nss/lib/ssl/config.mk     | 4 ++++
+ 7 files changed, 24 insertions(+)
+
+diff --git a/nss/cmd/modutil/Makefile b/nss/cmd/modutil/Makefile
+index 1a64b47..97eac28 100644
+--- a/nss/cmd/modutil/Makefile
++++ b/nss/cmd/modutil/Makefile
+@@ -28,7 +28,11 @@ include ../platlibs.mk
+ ifdef USE_SYSTEM_ZLIB
+ OS_LIBS += $(ZLIB_LIBS)
+ else
++ifndef ZLIB_LIB_DIR
+ EXTRA_LIBS += $(ZLIB_LIBS)
++else
++EXTRA_SHARED_LIBS += -L$(ZLIB_LIB_DIR) $(ZLIB_LIBS)
++endif
+ endif
+ 
+ #######################################################################
+diff --git a/nss/cmd/platlibs.mk b/nss/cmd/platlibs.mk
+index 0f07910..5f609c4 100644
+--- a/nss/cmd/platlibs.mk
++++ b/nss/cmd/platlibs.mk
+@@ -218,7 +218,9 @@ endif
+ # ZLIB_LIBS to the linker command-line arguments for the system zlib
+ # (for example, -lz) in the platform's config file in coreconf.
+ ifndef USE_SYSTEM_ZLIB
++ifndef ZLIB_LIB_DIR
+ ZLIB_LIBS = $(DIST)/lib/$(LIB_PREFIX)zlib.$(LIB_SUFFIX)
+ endif
++endif
+ 
+ JAR_LIBS = $(DIST)/lib/$(LIB_PREFIX)jar.$(LIB_SUFFIX)
+diff --git a/nss/cmd/signtool/Makefile b/nss/cmd/signtool/Makefile
+index 20c45d6..6b39533 100644
+--- a/nss/cmd/signtool/Makefile
++++ b/nss/cmd/signtool/Makefile
+@@ -29,7 +29,11 @@ include ../platlibs.mk
+ ifdef USE_SYSTEM_ZLIB
+ OS_LIBS += $(ZLIB_LIBS)
+ else
++ifndef ZLIB_LIB_DIR
+ EXTRA_LIBS += $(ZLIB_LIBS)
++else
++EXTRA_SHARED_LIBS += -L$(ZLIB_LIB_DIR) $(ZLIB_LIBS)
++endif
+ endif
+ 
+ #######################################################################
+diff --git a/nss/coreconf/Linux.mk b/nss/coreconf/Linux.mk
+index a586e5e..2f343be 100644
+--- a/nss/coreconf/Linux.mk
++++ b/nss/coreconf/Linux.mk
+@@ -174,7 +174,9 @@ endif
+ endif
+ endif
+ 
++ifndef ZLIB_LIB_DIR
+ USE_SYSTEM_ZLIB = 1
++endif
+ ZLIB_LIBS = -lz
+ 
+ # The -rpath '$$ORIGIN' linker option instructs this library to search for its
+diff --git a/nss/coreconf/location.mk b/nss/coreconf/location.mk
+index 0eb9d91..5854297 100644
+--- a/nss/coreconf/location.mk
++++ b/nss/coreconf/location.mk
+@@ -35,6 +35,12 @@ endif
+ 
+ GARBAGE += $(DEPENDENCIES) core $(wildcard core.[0-9]*)
+ 
++ifndef USE_SYSTEM_ZLIB
++ifdef ZLIB_INCLUDE_DIR
++    INCLUDES += -I$(ZLIB_INCLUDE_DIR)
++endif
++endif
++
+ ifdef NSPR_INCLUDE_DIR
+     INCLUDES += -I$(NSPR_INCLUDE_DIR)
+ endif
+diff --git a/nss/lib/Makefile b/nss/lib/Makefile
+index a28bfd4..e79bafb 100644
+--- a/nss/lib/Makefile
++++ b/nss/lib/Makefile
+@@ -27,8 +27,10 @@ include $(CORE_DEPTH)/coreconf/config.mk
+ #######################################################################
+ 
+ ifndef USE_SYSTEM_ZLIB
++ifndef ZLIB_LIB_DIR
+ ZLIB_SRCDIR = zlib  # Add the zlib directory to DIRS.
+ endif
++endif
+ 
+ ifndef MOZILLA_CLIENT
+ ifndef NSS_USE_SYSTEM_SQLITE
+diff --git a/nss/lib/ssl/config.mk b/nss/lib/ssl/config.mk
+index da8b9ef..4f39628 100644
+--- a/nss/lib/ssl/config.mk
++++ b/nss/lib/ssl/config.mk
+@@ -81,8 +81,12 @@ DEFINES += -DNSS_ENABLE_ZLIB
+ ifdef USE_SYSTEM_ZLIB
+ OS_LIBS += $(ZLIB_LIBS)
+ else
++ifndef ZLIB_LIB_DIR
+ ZLIB_LIBS = $(DIST)/lib/$(LIB_PREFIX)zlib.$(LIB_SUFFIX)
+ EXTRA_LIBS += $(ZLIB_LIBS)
++else
++EXTRA_LIBS += -L$(ZLIB_LIB_DIR) $(ZLIB_LIBS)
++endif
+ endif
+ 
+ endif
+-- 
+1.8.0
+

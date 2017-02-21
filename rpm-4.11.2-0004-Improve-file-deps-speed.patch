@@ -1,0 +1,102 @@
+From 4419d3fd3ff29e1f709379006aa1ddccd0bc07fc Mon Sep 17 00:00:00 2001
+From: David Abdurachmanov <davidlt@cern.ch>
+Date: Sat, 19 Oct 2013 17:19:59 +0200
+Subject: [PATCH 4/8] Improve file deps speed
+
+Signed-off-by: David Abdurachmanov <davidlt@cern.ch>
+---
+ build/rpmfc.c |  5 +----
+ rpmio/argv.c  | 37 +++++++++++++++++++++++++++++++++++++
+ rpmio/argv.h  | 12 ++++++++++++
+ 3 files changed, 50 insertions(+), 4 deletions(-)
+
+diff --git a/build/rpmfc.c b/build/rpmfc.c
+index 2f0eac4..2f96ca1 100644
+--- a/build/rpmfc.c
++++ b/build/rpmfc.c
+@@ -388,10 +388,7 @@ exit:
+ 
+ static void argvAddUniq(ARGV_t * argvp, const char * key)
+ {
+-    if (argvSearch(*argvp, key, NULL) == NULL) {
+-	argvAdd(argvp, key);
+-	argvSort(*argvp, NULL);
+-    }
++    argvSortedInsert(argvp, key);
+ }
+ 
+ #define hasAttr(_a, _n) (argvSearch((_a), (_n), NULL) != NULL)
+diff --git a/rpmio/argv.c b/rpmio/argv.c
+index 3508a9f..d421870 100644
+--- a/rpmio/argv.c
++++ b/rpmio/argv.c
+@@ -96,6 +96,43 @@ int argvSort(ARGV_t argv, int (*compar)(const void *, const void *))
+     return 0;
+ }
+ 
++int argvSortedInsert(ARGV_t *argvp, const char *val)
++{
++    ARGV_t argv;
++    int argc;
++    int i;
++    int comp;
++    if (argvp == NULL)
++      return -1;
++    argc = argvCount(*argvp);
++    argv = *argvp;
++    for (i = 0; i != argc; ++i)
++    {
++      comp = strcmp(val, argv[i]);
++      // String already in the list. Do not add.
++      if (!comp)
++        return 0;
++      // String can be inserted at position i. Move items in
++      // range [i, argc) to range [i+1, argc + 1) and then exit
++      // the loop.
++      if (comp < 0)
++      {
++          *argvp = xrealloc(*argvp, (argc + 1 + 1) * sizeof(argvp));
++          argv = *argvp;
++          memmove(argv + i + 1, argv + i, sizeof(*argv) * (argc-i+1));
++          argv[i] = xstrdup(val);
++          return 0;
++      }
++    }
++
++    // String has to be inserted at the end.
++    *argvp = xrealloc(*argvp, (argc + 1 + 1) * sizeof(argvp));
++    argv = *argvp;
++    argv[argc] = xstrdup(val);
++    argv[argc + 1] = NULL;
++    return 0;
++}
++
+ ARGV_t argvSearch(ARGV_const_t argv, const char *val,
+ 		int (*compar)(const void *, const void *))
+ {
+diff --git a/rpmio/argv.h b/rpmio/argv.h
+index 7b59d34..0e962d3 100644
+--- a/rpmio/argv.h
++++ b/rpmio/argv.h
+@@ -123,6 +123,18 @@ int argiAdd(ARGI_t * argip, int ix, int val);
+  */
+ int argvAdd(ARGV_t * argvp, const char *val);
+ 
++/**\ingroup rpmargv
++ * If the string is not present in the argv array, add it so that ordering
++ * of array elements is still stricly growing.
++ * @retval *argvp       argv array
++ * @param val           string arg to insert
++ * @return              0 always
++ *
++ * FIXME: do a binary search to find the insertion point,
++ *        rather than a linear one.
++ */
++int argvSortedInsert(ARGV_t *argvp, const char *val);
++
+ /** \ingroup rpmargv
+  * Add a number to an argv array (converting to a string).
+  * @retval *argvp	argv array
+-- 
+1.8.0
+

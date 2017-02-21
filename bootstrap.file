@@ -168,8 +168,6 @@ while ( ($k,$v) = each %HDR) {
 }
 EOF_RPM_HEADER_PL
 
-source() { . ${1+"$@"}; }
-
 chmod u+x $rpmFindProvides $tempdir/bin/rpmHeader.pl
 
 server=cmsrep.cern.ch
@@ -613,9 +611,15 @@ mkdir $tempdir/scriptlets
 mkdir -p $PWD/inst
 for pkg in $packageList
 do
+    tmpInstDir=$tempdir/unpack_$pkg
     pkgInstRoot=`$tempdir/bin/rpmHeader.pl $DOWNLOAD_DIR/$pkg PREFIXES | tail -1`
-    mkdir -p `dirname .$pkgInstRoot`
-    ln -sf $PWD/inst .$pkgInstRoot
+    pkgFinalInstDir=$PWD/inst
+    (mkdir -p $tmpInstDir;                                                            \
+     cd $tmpInstDir                                                                   \
+       && perl $DOWNLOAD_DIR/myrpm2cpio $DOWNLOAD_DIR/$pkg | cpio $cpio_opts -id      \
+       && rsync -aqr ${tmpInstDir}${pkgInstRoot}/ $pkgFinalInstDir                     \
+       || cleanup_and_exit 1 "Unable to unpack $DOWNLOAD_DIR/$pkg";                   \
+     rm -rf $tmpInstDir)
     $tempdir/bin/rpmHeader.pl $DOWNLOAD_DIR/$pkg PREIN | grep -v "^Unknown" | sed -e "s|[$]RPM_INSTALL_PREFIX|$PWD/inst|g" > $tempdir/scriptlets/$pkg.pre.sh
     sh -e $tempdir/scriptlets/$pkg.pre.sh
     perl ./myrpm2cpio $DOWNLOAD_DIR/$pkg | cpio $cpio_opts -id || cleanup_and_exit 1 "Unable to unpack $DOWNLOAD_DIR/$pkg"

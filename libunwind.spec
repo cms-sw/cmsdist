@@ -6,8 +6,11 @@ Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export
 Requires: libatomic_ops
 BuildRequires: autotools
 
+Patch0: libunwind-fix-comma
+
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 autoreconf -fiv

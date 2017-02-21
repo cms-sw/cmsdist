@@ -12,6 +12,5 @@ BuildRequires: py2-setuptools
 python setup.py build
 
 %install
-python -c 'import setuptools; print(setuptools.__file__)'
 python setup.py install --skip-build --prefix=%{i}
 find %{i}/${PYTHON_LIB_SITE_PACKAGES} -name '*.egg-info' -type d -print0 | xargs -0 rm -rf

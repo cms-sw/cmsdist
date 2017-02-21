@@ -14,7 +14,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/openldap.xml
     <environment name="LIBDIR" default="$OPENLDAP_BASE/lib"/>
   </client>
   <use name="openssl"/>
-  <use name="db4"/>
+  <use name="db6"/>
 </tool>
 EOF_TOOLFILE
 

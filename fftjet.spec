@@ -3,9 +3,6 @@ Source: http://www.hepforge.org/archive/fftjet/%n-%realversion.tar.gz
 Requires: fftw3
 
 %define keep_archives true
-%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
-Requires: gfortran-macosx
-%endif
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx c++
@@ -19,20 +16,16 @@ Requires: gfortran-macosx
 %setup -n %n-%realversion
 
 %build
-# On old architectures we build dynamic libraries, on new ones,
-# archive ones.
-case %cmsplatf in 
-  slc5_*_gcc4[0123]*)
-    PLATF_CONF_OPTS="--enable-shared"
-    F77="`which gfortran`"
-    CXX="`which %cms_cxx`"
-  ;;
-  *)
-    PLATF_CONF_OPTS="--enable-static --disable-shared"
-    F77="`which gfortran` -fPIC"
-    CXX="`which %cms_cxx` -fPIC"
-  ;;
-esac
+PLATF_CONF_OPTS="--enable-static --disable-shared"
+F77="$(which gfortran) -fPIC"
+CXX="$(which %{cms_cxx}) -fPIC"
+
+# Update to detect aarch64 and ppc64le
+rm -f ./config.{sub,guess}
+curl -L -k -s -o ./config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./config.{sub,guess}
+
 # Fake the existance of pkg-config on systems which dont have it.
 # This is required because it will still check for its existance even
 # if you provide DEPS_CFLAGS and DEPS_LIBS.

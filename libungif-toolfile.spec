@@ -18,7 +18,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/libungif.xml
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
-  <use name="libjpg"/>
   <use name="zlib"/>
 </tool>
 EOF_TOOLFILE

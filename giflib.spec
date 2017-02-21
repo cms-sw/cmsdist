@@ -18,4 +18,7 @@ make %{makeprocesses}
 %install
 make install
 
+# This pulls in perl(getopts.pl) requirement from perl-Perl4-CoreLibs package
+rm -f %{i}/bin/gifburst
+
 %define strip_files %{i}/lib

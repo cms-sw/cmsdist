@@ -9,7 +9,7 @@ Requires: gcc
 
 export GCC_ROOT
 export GCC_VERSION
-export GCC_REALVERSION=`echo $GCC_VERSION | sed 's|-[a-z][a-z]*[0-9]*$||'`
+export GCC_REALVERSION=$(gcc -dumpversion)
 
 TARGET_TRIPLET=$(gcc -dumpmachine)
 export TARGET_TRIPLET
@@ -202,7 +202,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootinteractive.xml
 <tool name="rootinteractive" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <lib name="Gui"/>
-  <use name="libjpg"/>
+  <use name="libjpeg-turbo"/>
   <use name="libpng"/>
   <use name="rootgpad"/>
   <use name="rootrint"/>

@@ -1,4 +1,4 @@
-### RPM external apt 0.5.16
+### RPM external apt 0.5.19
 ## INITENV SET APT_CONFIG %{i}/etc/apt.conf
 ## INITENV CMD_SH  if [ -f %{instroot}/common/apt-site-env.sh  ]; then . %{instroot}/common/apt-site-env.sh;  fi
 ## INITENV CMD_CSH if ( -f %{instroot}/common/apt-site-env.csh )  source %{instroot}/common/apt-site-env.csh; endif
@@ -19,15 +19,15 @@ cd ..
 
 %build
 case %cmsplatf in
-  slc*)
+  slc*_amd64_*)
     export USER_CFLAGS="-pthread"
     export USER_CXXFLAGS="-pthread"
     export USER_LDFLAGS="-pthread"
     export USER_LIBS="-pthread"
     export USER_RPM_LIBS="-ldl"
     ;;
-  fc*)
-    export USER_RPM_LIBS="-ldl"
+  slc*_aarch64_*|fc*)
+    export USER_RPM_LIBS="-ldl -lrt -pthread"
     ;;
   *) ;;
 esac

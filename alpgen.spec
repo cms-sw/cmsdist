@@ -6,11 +6,6 @@ Source1: config.sub-amd64
 Patch0: alpgen-214
 Patch7: alpgen-214-Darwin-x86_84-gfortran
 
-%define keep_archives true
-%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
-Requires: gfortran-macosx
-%endif
-
 %prep
 %setup -c -n alpgen-%v
 %patch0 -p1 

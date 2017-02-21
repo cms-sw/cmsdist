@@ -1,0 +1,12 @@
+diff --git a/Makefile.in b/Makefile.in
+index 86e31c1..7df66da 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -477,7 +477,6 @@ BUILT_SOURCES = \
+ SUBDIRS = \
+ 	lib \
+ 	. \
+-	doc \
+ 	examples \
+ 	po \
+ 	tests

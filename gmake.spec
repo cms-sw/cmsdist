@@ -1,16 +1,13 @@
-### RPM external gmake 3.81
-# We will call it "gmake", but gnu calls it "make"
-Source: ftp://ftp.gnu.org/gnu/make/make-%realversion.tar.gz
-Patch0: gmake-3.81-expand
+### RPM external gmake 4.0
+Source: ftp://ftp.gnu.org/gnu/make/make-%{realversion}.tar.gz
 
 %prep
 %setup -n make-%{realversion}
-%patch0 -p1
 
 %build
-./configure --prefix=%i
+./configure --prefix=%{i}
 
-make %makeprocesses
+make %{makeprocesses}
 
 %install
 make install

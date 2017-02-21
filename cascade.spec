@@ -23,32 +23,27 @@ rm -rf %{n}
 # it to the library location so that it links correctly.
 PYTHIA="$PYTHIA6_ROOT"
 LHAPDF="$LHAPDF_ROOT"
-case %cmsplatf in 
-  slc5_*_gcc4[0123]*)
-    F77="`which gfortran`"
-    PLATF_CONFIG_OPTS="--enable-shared"
-  ;;
-  *)
-    F77="`which gfortran` -fPIC"
-    PLATF_CONFIG_OPTS="--enable-static --disable-shared"
-    LIBS='-lstdc++ -lz'
-  ;;
-esac
+F77="$(which gfortran) -fPIC"
+PLATF_CONFIG_OPTS="--enable-static --disable-shared"
+LIBS="-lstdc++ -lz"
+
+# Update to detect aarch64 and ppc64le
+rm -f ./config.{sub,guess}
+curl -L -k -s -o ./config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./config.{sub,guess}
+
 ./configure $PLATF_CONFIG_OPTS --with-pythia6=$PYTHIA  --with-lhapdf=$LHAPDF --prefix=%i F77="$F77" LIBS="$LIBS" 
 %build
 make %makeprocesses
 
 %install
 make install
+
 # In case we build archive libraries we need to merge all of them, because
 # otherwise that results some missing symbol due to a circular dependency among
 # them which cannot be solved by reshuffling the various -l statements.
-case %cmsplatf in
-    slc5_*_gcc4[0123]*) ;;
-    *)
-      cd %i/lib
-      find . -name "*.a" -exec ar -x {} \;
-      ar rcs libcascade_merged.a *.o
-      rm -rf *.o
-    ;;
-esac
+cd %{i}/lib
+find . -name '*.a' -exec ar -x {} \;
+ar rcs libcascade_merged.a *.o
+rm -rf *.o

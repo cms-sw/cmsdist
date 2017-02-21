@@ -16,7 +16,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/graphviz.xml
   <runtime name="PATH" value="$GRAPHVIZ_BASE/bin" type="path"/>
   <use name="expat"/>
   <use name="zlib"/>
-  <use name="libjpg"/>
+  <use name="libjpeg-turbo"/>
   <use name="libpng"/>
 </tool>
 EOF_TOOLFILE

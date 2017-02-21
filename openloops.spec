@@ -6,10 +6,13 @@ Source: git+https://github.com/%github_user/openloops.git?obj=%{branch}/%{tag}&e
 
 BuildRequires: python
 
+Patch0: openloops-1.2.3-cpp-use-undef
+
 %define keep_archives true
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 cat << \EOF >> openloops.cfg

@@ -3,10 +3,12 @@
 # With cmsBuild, change the above version only when a new
 # tool is added
 
-%define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
+%define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 %define isslc %(case %{cmsplatf} in (slc*) echo 1 ;; (*) echo 0 ;; esac)
+%define isnotppc64le %(case %{cmsplatf} in (*_ppc64le_*) echo 0 ;; (*) echo 1 ;; esac)
+%define isnotaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 0 ;; (*) echo 1 ;; esac)
 
 Requires: starlight-toolfile
 Requires: alpgen-toolfile
@@ -20,7 +22,7 @@ Requires: coral-toolfile
 Requires: cppunit-toolfile
 Requires: curl-toolfile
 Requires: das_client-toolfile
-Requires: db4-toolfile
+Requires: db6-toolfile
 Requires: dbs-client-toolfile
 Requires: dpm-toolfile
 Requires: davix-toolfile
@@ -45,7 +47,7 @@ Requires: jimmy-toolfile
 Requires: ktjet-toolfile
 Requires: lhapdf-toolfile
 Requires: libhepml-toolfile
-Requires: libjpg-toolfile
+Requires: libjpeg-turbo-toolfile
 Requires: libpng-toolfile
 Requires: libtiff-toolfile
 Requires: libungif-toolfile
@@ -75,7 +77,9 @@ Requires: zlib-toolfile
 Requires: dcap-toolfile
 Requires: frontier_client-toolfile
 Requires: xrootd-toolfile
+%if %isnotaarch64
 Requires: pyqt-toolfile
+%endif
 Requires: sip-toolfile
 Requires: graphviz-toolfile
 Requires: valgrind-toolfile
@@ -136,7 +140,6 @@ Requires: yaml-cpp-toolfile
 Requires: gmp-static-toolfile
 Requires: mpfr-static-toolfile
 Requires: fastjet-contrib-toolfile
-Requires: cuda-toolfile
 Requires: opencl-toolfile
 Requires: opencl-cpp-toolfile
 Requires: qd-toolfile
@@ -153,6 +156,7 @@ Requires: py2-six-toolfile
 Requires: py2-pyparsing-toolfile
 Requires: py2-requests-toolfile
 Requires: giflib-toolfile
+Requires: freetype-toolfile
 Requires: utm-toolfile
 Requires: libffi-toolfile
 Requires: CSCTrackFinderEmulation-toolfile
@@ -166,29 +170,25 @@ Requires: py2-setuptools-toolfile
 Requires: openldap-toolfile
 Requires: python-ldap-toolfile
 Requires: google-perftools-toolfile
-Requires: dmtcp-toolfile
+
+%if %isnotppc64le
+Requires: igprof-toolfile
 %endif
 
-# Only for Darwin platform.
-%if %isdarwin
-Requires: freetype-toolfile
-%endif
-
-# Only for INTEL/AMD platforms.
 %if %isamd64
+Requires: dmtcp-toolfile
 Requires: tkonlinesw-toolfile
 Requires: py2-cx-oracle-toolfile
 Requires: oracle-toolfile
-
-# Only for slc platforms.
-%if %isslc
+Requires: cuda-toolfile
 Requires: openloops-toolfile
-%endif
 
-# Only for Linux platform.
-%if %islinux
-Requires: igprof-toolfile
+%if %isslc
 Requires: glibc-toolfile
+%endif
+%else
+Requires: tkonlinesw-fake-toolfile
+Requires: oracle-fake-toolfile
 %endif
 %endif
 
