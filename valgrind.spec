@@ -7,8 +7,11 @@ Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&expo
 
 BuildRequires: autotools
 
+Patch0: valgrind-kde-gcc7
+
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 case %{cmsplatf} in
