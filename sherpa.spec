@@ -35,9 +35,12 @@ case %cmsplatf in
   ;;
 esac
 
+./AddOns/MCFM/install_mcfm.sh
+
 %build
 ./configure --prefix=%i --enable-analysis --disable-silent-rules \
             --enable-fastjet=$FASTJET_ROOT \
+            --enable-mcfm=$PWD/ \
             --enable-hepmc2=$HEPMC_ROOT \
             --enable-lhapdf=$LHAPDF_ROOT \
             --enable-blackhat=$BLACKHAT_ROOT \
