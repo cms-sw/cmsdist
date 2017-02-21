@@ -1,4 +1,4 @@
-### RPM cms reqmgr2 1.1.0_cmsweb.patch1
+### RPM cms reqmgr2 1.1.1.pre3
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
