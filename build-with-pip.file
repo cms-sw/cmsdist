@@ -18,6 +18,7 @@ BuildRequires: py2-pip
 %prep
 
 %build
+mkdir -p %{i}
 
 tar xfz %{_sourcedir}/source.tar.gz
 
