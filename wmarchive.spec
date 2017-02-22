@@ -1,6 +1,6 @@
-### RPM cms wmarchive v00.05.27
+### RPM cms wmarchive v00.05.29
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
-%define wmcver 1.0.13.pre6
+%define wmcver 1.1.1.pre4
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define pkg WMArchive
 %define wmcpkg WMCore
@@ -17,7 +17,7 @@ BuildRequires: py2-sphinx
 
 %build
 cd %{wmcpkg}_%n
-python setup.py build_system -s wmc-rest
+python setup.py build_system -s wmc-wmarchive
 cd ../WMArchive
 
 # change version to proper one
@@ -36,7 +36,7 @@ make html
 
 %install
 cd %{wmcpkg}_%n
-python setup.py install_system -s wmc-rest --prefix=%i
+python setup.py install_system -s wmc-wmarchive --prefix=%i
 cd ../WMArchive
 
 python setup.py install --prefix=%i
@@ -55,6 +55,7 @@ export PYTHONPATH=$PYTHONPATH:$PWD/src/python:$PWD/../WMCore_wmarchive/src/pytho
 bin/fwjrschema --fout=%i/data/schemas/fwjr_prod.json
 bin/json2avsc --fin=%i/data/schemas/fwjr_prod.json --fout=%i/data/schemas/fwjr_prod.avsc
 bin/wmexceptions --fout=%i/data/wmexceptions.json
+touch %i/${PYTHON_LIB_SITE_PACKAGES}/WMCore/Services/__init__.py
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
