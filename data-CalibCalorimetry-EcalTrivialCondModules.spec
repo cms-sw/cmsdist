@@ -1,4 +1,4 @@
-### RPM cms data-CalibCalorimetry-EcalTrivialCondModules V00-01-01
+### RPM cms data-CalibCalorimetry-EcalTrivialCondModules V00-01-00
 
 %prep
 
