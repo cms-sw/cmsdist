@@ -1,6 +1,8 @@
 ### RPM external form 4.1.033e
 Source: https://gosam.hepforge.org/gosam-installer/form-%{realversion}.tar.gz
 
+Requires: gmp
+
 
 
 %if "%{?cms_cxx:set}" != "set"
@@ -13,6 +15,11 @@ Source: https://gosam.hepforge.org/gosam-installer/form-%{realversion}.tar.gz
 
 
 %build
+
+export GMP_LIB_DIR="${GMP__ROOT}/lib"
+export GMP_INC_DIR="${GMP_ROOT}/include"
+
+
 CXX="$(which %{cms_cxx}) -fPIC"
 CC="$(which gcc) -fPIC"
 PLATF_CONF_OPTS="--enable-shared --disable-static"

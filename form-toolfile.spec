@@ -16,6 +16,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/form.xml
     <environment name="BINDIR" default="$FORM_BASE/bin"/>
   </client>
   <runtime name="PATH" default="$BINDIR" type="path"/>
+  <use name="gmp"/>
 </tool>
 EOF_TOOLFILE
 
