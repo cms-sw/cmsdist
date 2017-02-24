@@ -1,5 +1,5 @@
 ### RPM external form 4.1.033e
-Source: https://gosam.hepforge.org/gosam-installer/form--%{realversion}.tar.gz
+Source: https://gosam.hepforge.org/gosam-installer/form-%{realversion}.tar.gz
 
 
 

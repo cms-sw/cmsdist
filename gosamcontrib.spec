@@ -1,6 +1,8 @@
 ### RPM external gosamcontrib 2.0-20150803
 Source: http://www.hepforge.org/archive/gosam/gosam-contrib-%{realversion}.tar.gz
 
+Requires: qgraf
+Requires: form
 
 
 %if "%{?cms_cxx:set}" != "set"

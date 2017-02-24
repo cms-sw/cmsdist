@@ -1,6 +1,10 @@
 ### RPM external gosam 2.0.4-12f4de9
 Source: http://www.hepforge.org/archive/gosam/gosam-%{realversion}.tar.gz
 
+Requires: qgraf
+Requires: form
+Requires: gosamcontrib
+
 
 
 %if "%{?cms_cxx:set}" != "set"
