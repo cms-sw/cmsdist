@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 36.0
+### RPM cms cmssw-tool-conf 37.0
 ## NOCOMPILER
 # With cmsBuild, change the above version only when a new
 # tool is added
@@ -95,8 +95,6 @@ Requires: py2-sqlalchemy-toolfile
 Requires: py2-pygithub-toolfile
 Requires: py2-dablooms-toolfile
 Requires: py2-dxr-toolfile
-Requires: py2-markupsafe-toolfile
-Requires: py2-pygments-toolfile
 Requires: py2-pysqlite-toolfile
 Requires: py2-PyYAML-toolfile
 Requires: py2-root_numpy-toolfile
