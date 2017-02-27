@@ -1,4 +1,4 @@
-### RPM external py2-pippkgs 3.0
+### RPM external py2-pippkgs 4.0
 ## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
 Source: none
 
@@ -73,6 +73,8 @@ BuildRequires: py2-shutil_get_terminal_size
 BuildRequires: py2-functools32
 BuildRequires: py2-mock
 BuildRequires: py2-pbr
+BuildRequires: py2-mpmath
+BuildRequires: py2-sympy
 
 %prep
 

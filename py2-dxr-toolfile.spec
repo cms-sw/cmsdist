@@ -1,5 +1,5 @@
 ### RPM external py2-dxr-toolfile 1.0
-Requires: py2-dxr  py2-markupsafe py2-pippkgs py2-pysqlite py2-markupsafe
+Requires: py2-dxr  py2-pippkgs py2-pysqlite
 %prep
 
 %build
@@ -18,8 +18,6 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-dxr.xml
     <runtime name="PATH" value="$PY2_DXR_BASE/bin" type="path"/>
     <use name="python"/>
     <use name="sqlite"/>
-    <use name="py2-markupsafe"/>
-    <use name="py2-pygments"/>
     <use name="py2-pysqlite"/>
     <use name="py2-pippkgs"/>
 </tool>
