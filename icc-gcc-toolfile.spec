@@ -28,7 +28,6 @@ fi
 export ICC_ROOT=$ICC_SCRAM_ROOT
 export ICC_VERSION=ICC_SCRAM_VERSION
 export GCC_ROOT
-export INTEL_LICENSE_FILE
 
 mkdir -p %i/etc/scram.d
 # Generic template for the toolfiles. 
@@ -38,8 +37,6 @@ mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/intel-license.xml
   <tool name="intel-license" version="@ICC_VERSION@">
     <runtime name="INTEL_LICENSE_FILE" value="28518@AT@lxlicen01.cern.ch,28518@AT@lxlicen02.cern.ch,28518@AT@lxlicen03.cern.ch" type="path" handler="warn"/>
-    <runtime name="INTEL_LICENSE_FILE" value="@INTEL_LICENSE_FILE@" type="path" handler="warn"/>
-    <runtime name="INTEL_LICENSE_FILE" value="/opt/intel/licenses" type="path" handler="warn"/>
   </tool>
 EOF_TOOLFILE
 
