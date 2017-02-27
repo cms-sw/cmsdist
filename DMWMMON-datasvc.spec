@@ -24,6 +24,9 @@ Provides: perl(DB_File)
 Provides: perl(Date::Manip)
 Provides: perl(XML::LibXML)
 Provides: perl(URI::Escape)
+Provides: perl(List::Util)
+
+Provides: perl(PHEDEX::Monitoring::Process)
 
 %prep
 

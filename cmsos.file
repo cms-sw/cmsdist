@@ -1,4 +1,4 @@
-### FILE cmsos
+#!/bin/sh
 
 cmsos()
 {
@@ -9,19 +9,15 @@ cmsos()
     *EMT*) cpuarch=amd64 ;;
     armv7l) cpuarch=armv7hl ;; # The kernel is armv7l, but we assume system as armv7hl (hard floats)
     aarch64) cpuarch=aarch64 ;;
+    ppc64le) cpuarch=ppc64le ;;
+    ppc64) cpuarch=ppc64 ;;
     *) cpuarch=`uname -p`;;
   esac
  
   if [ "X$BUILD_ARCH" != X ]; then
       echo "$BUILD_ARCH"
-  elif [ "X`uname -p`" = Xppc64 ]; then
-    # hard code this, should be done better
-      echo ydl5_ppc64
   elif [ "X`uname`" = XLinux ]; then
-    if [ "X`uname -i`" = Xppc ]; then
-    # hard code this, should be done better
-      echo ydl5_ppc
-    elif [ -f /etc/SuSE-release ]; then
+    if [ -f /etc/SuSE-release ]; then
       echo suse`grep -i '^version' < /etc/SuSE-release | tr -dc '[0-9]'`
     elif [ -f /etc/fedora-release ]; then
       echo fc`sed 's/[^0-9]//g' /etc/fedora-release`_${cpuarch}
@@ -31,7 +27,7 @@ cmsos()
       if [ "X`uname -i`" = Xi386 ]; then
         echo slc${slc_version}_ia32
       else
-        echo slc${slc_version}_amd64
+        echo slc${slc_version}_${cpuarch}
       fi
     elif grep -q Scientific /etc/rocks-release 2>/dev/null; then
         slc_version=`grep DISTRIB_RELEASE rocks-release | sed 's/DISTRIB_RELEASE="\([0-9]*\).*/\1/'`

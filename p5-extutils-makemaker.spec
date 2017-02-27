@@ -5,6 +5,8 @@
 %define ver_inst 1.54
 Source0: http://search.cpan.org/CPAN/authors/id/M/MS/MSCHWERN/%{name_mm}-%{realversion}.tar.gz
 Source1: http://search.cpan.org/CPAN/authors/id/Y/YV/YVES/%{name_inst}-%{ver_inst}.tar.gz
+Provides: perl(Scalar::Util)
+Provides: perl(VMS::Filespec)
 
 %prep
 %setup -T -b 0 -n %{name_mm}-%{realversion}

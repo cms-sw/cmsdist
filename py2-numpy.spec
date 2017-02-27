@@ -35,5 +35,8 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   fi
 done
 
+perl -p -i -e 's{^#!.*/python}{#!/usr/bin/env python}' %i/bin/f2py \
+                                                       %i/lib/python*/site-packages/numpy-*/EGG-INFO/scripts/f2py
+
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh

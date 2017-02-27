@@ -37,4 +37,4 @@ for d in ../Sphinx-* ../sphinx_rtd_theme-* ../alabaster-* ../babel-* ../snowball
     python setup.py install --prefix=%i
   fi
 done
-for f in %i/bin/sphinx-*; do perl -p -i -e 's{.*}{#!/usr/bin/env python} if $. == 1 && m{#!.*/bin/python}' $f; done
+for f in %i/bin/sphinx-* %i/bin/pybabel; do perl -p -i -e 's{.*}{#!/usr/bin/env python} if $. == 1 && m{#!.*/bin/python}' $f; done

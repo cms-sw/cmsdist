@@ -6,6 +6,7 @@ Requires: p5-extutils-makemaker
 
 # Fake provides
 Provides:  perl(FCGI)
+Provides:  perl(DB_File)
 
 %prep
 %setup -n %downloadn-%{realversion}

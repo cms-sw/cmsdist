@@ -7,6 +7,7 @@ Requires: p5-extutils-makemaker p5-params-validate
 # Provided by system perl
 Provides:  perl(MIME::Lite)
 Provides:  perl(Mail::Send)
+Provides:  perl(Sys::Syslog)
 
 # Fake provides for (hopefully) unneeded optional backends
 Provides:  perl(Mail::Sender)

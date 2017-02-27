@@ -4,7 +4,7 @@
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 Source: git://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=%n&output=/%n.tar.gz
-Requires: python py2-httplib2 rotatelogs couchdb py2-sphinx
+Requires: python py2-httplib2 rotatelogs couchdb15 py2-sphinx
 
 %prep
 %setup -b 0 -n %n

@@ -1,19 +1,26 @@
-### RPM external openldap 2.4.33
+### RPM external openldap 2.4.34
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
-Source: ftp://ftp.openldap.org/pub/OpenLDAP/openldap-release/%n-%realversion.tgz
-Requires: openssl db4 
+Source: ftp://ftp.openldap.org/pub/OpenLDAP/%{n}-release/%{n}-%{realversion}.tgz
+Requires: openssl db4
 
 %prep
-%setup -q -n %n-%{realversion}
+%setup -q -n %{n}-%{realversion}
 
 %build
-export CPPFLAGS="-I${OPENSSL_ROOT}/include"
-export LDFLAGS="-L${OPENSSL_ROOT}/lib"
-./configure --prefix=%i --without-cyrus-sasl --with-tls=openssl --disable-static --disable-slapd --disable-slurpd
+# Update for AArch64 support
+rm -f ./build/config.{sub,guess}
+curl -L -k -s -o ./build/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./build/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./build/config.{sub,guess}
+
+./configure --prefix=%{i} --without-cyrus-sasl --with-tls --disable-static --disable-slapd --disable-slurpd
 make depend
-make %{makeprocesses}
+make
 
 %install
 make install
-# Read documentation online.
-rm -rf %i/man
+
+find %{i}/lib -type f | xargs chmod 0755
+
+# Remove man pages.
+rm -rf %{i}/man

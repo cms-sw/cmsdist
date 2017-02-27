@@ -35,6 +35,12 @@ Requires: expat
 Provides: perl(HTML::Entities)
 Provides: perl(DB_File)
 Provides: perl(XML::LibXML)
+Provides: perl(Web25::Activity::PlotPage)
+Provides: perl(Web25::Data::ExplorePage)
+Provides: perl(Web25::Page)
+Provides: perl(Web25::Request::Page)
+Provides: perl(Web25::TableSpool)
+Provides: perl(Web25::XML)
 
 %prep
 %setup -T -b 0 -n webtools_phedex

@@ -1,18 +1,13 @@
-### RPM external xrootd 4.0.4
+### RPM external xrootd 4.5.0
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
-%define tag 333bc986604f0e127ffd705be2abb491a1b443b7
-%define branch cms/v4.0.4
+%define tag af6aebbbbe7da7fd89f3698c1e485a79a5990037
+%define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake
 Requires: zlib
-Requires: openssl libevent
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x -O2
-%endif
+Requires: openssl
 
 %prep
 %setup -n %n-%{realversion}
@@ -34,19 +29,14 @@ cd build
 # libfuse and libperl are not produced by CMSDIST.
 cmake ../ \
   -DCMAKE_INSTALL_PREFIX=%{i} \
-  -DZLIB_LIBRARY=${ZLIB_ROOT}/lib/libz.so \
-  -DZLIB_INCLUDE_DIR=${ZLIB_ROOT}/include \
-  -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT} \
-  -DLIBEVENT_LIB=${LIBEVENT_ROOT}/lib/libevent.so \
-  -DLIBEVENT_INCLUDE_DIR=${LIBEVENT_ROOT}/include \
-  -DLIBEVENTPTHREADS_LIB=${LIBEVENT_ROOT}/lib/libevent_pthreads.so \
-  -DLIBEVENTPTHREADS_INCLUDE_DIR=${LIBEVENT_ROOT}/include \
-  -DENABLE_FUSE=0 \
-  -DENABLE_KRB5=1 \
-  -DENABLE_READLINE=0 \
-  -DENABLE_CRYPTO=1 \
-  -DCMAKE_SKIP_RPATH=TRUE \
-  -DCMAKE_CXX_FLAGS="%{cms_cxxflags}"
+  -DOPENSSL_ROOT_DIR:PATH=${OPENSSL_ROOT} \
+  -DZLIB_ROOT:PATH=${ZLIB_ROOT} \
+  -DENABLE_PYTHON=FALSE \
+  -DENABLE_FUSE=FALSE \
+  -DENABLE_KRB5=TRUE \
+  -DENABLE_READLINE=FALSE \
+  -DENABLE_CRYPTO=TRUE \
+  -DCMAKE_SKIP_RPATH=TRUE
 
 # Use makeprocess macro, it uses compiling_processes defined by
 # build configuration file or build argument

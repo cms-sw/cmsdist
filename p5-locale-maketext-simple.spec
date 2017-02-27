@@ -4,6 +4,8 @@
 Source: http://search.cpan.org/CPAN/authors/id/J/JE/JESSE/%{downloadn}-%{realversion}.tar.gz
 Requires: p5-extutils-makemaker
 
+Provides: perl(Locale::Maketext)
+
 %prep
 %setup -n %downloadn-%{realversion}
 

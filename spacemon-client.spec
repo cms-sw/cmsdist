@@ -8,6 +8,10 @@
 %define downloadt %(echo %realversion | tr '.' '_')
 %define setupdir  %{downloadm}-%{n}_%{downloadt}
 Source: https://github.com/dmwm/DMWMMON/archive/%{n}_%{downloadt}.tar.gz
+Provides: perl(Net::SSL)
+Provides: perl(LWP::UserAgent)
+Provides: perl(Scalar::Util)
+Provides: perl(Test::More)
 
 %prep
 

@@ -1,8 +1,8 @@
-### RPM lcg root 6.06.00
+### RPM lcg root 6.08.02
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 9c1380251784a31ac2ffee511c2765f9540ed796
-%define branch cms/6286662
+%define tag 4a47ed139398cb6b536b958505d2320cadf3134c
+%define branch cms/dd4fcde
 %define github_user cms-sw
 Source: git+https://github.com/%github_user/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
@@ -10,6 +10,7 @@ Source: git+https://github.com/%github_user/root.git?obj=%{branch}/%{tag}&export
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
 
+BuildRequires: cmake
 Requires: gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl zlib
 
 %if %islinux
@@ -150,6 +151,8 @@ make INSTALL="$cp" INSTALLDATA="$cp" install
 #cp -r cint/reflex/python/genreflex $ROOTSYS/lib/python
 # a """ and it thinks is the shebang.
 #rm -f %i/tutorials/pyroot/mrt.py
+
+perl -p -i -e 's{^#!.*/python}{#!/usr/bin/env python}' %i/bin/* %i/lib/cmdLineUtils.py
 
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -R -l '#!.*python' %{i} | xargs chmod +x
