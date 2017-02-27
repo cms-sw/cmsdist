@@ -1,4 +1,4 @@
-### RPM external intel-vtune 2017.0.2.478468
+### RPM external intel-vtune 2017.2.0.499904
 ## NOCOMPILER
 
 %prep
@@ -11,7 +11,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/intel-vtune.xml
 <tool name="intel-vtune" version="%{realversion}">
   <info url="https://software.intel.com/en-us/intel-vtune-amplifier-xe"/>
   <client>
-    <environment name="INTEL_VTUNE_BASE" default="/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2017/vtune_amplifier_xe_%{realversion}"/>
+    <environment name="INTEL_VTUNE_BASE" default="/cvmfs/projects.cern.ch/intelsw/psxe/linux/x86_64/2017/vtune_amplifier_xe_%{realversion}"/>
     <environment name="BINDIR" default="$INTEL_VTUNE_BASE/bin64"/>
   </client>
   <runtime name="PATH" value="$INTEL_VTUNE_BASE/bin64" type="path"/>
