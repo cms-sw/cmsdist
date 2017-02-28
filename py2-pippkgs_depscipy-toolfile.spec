@@ -18,6 +18,14 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-pippkgs_depscipy.xml
 </tool>
 EOF_TOOLFILE
 
+for pkg in $(grep '^[%]define  *builddirectpkgreqs  *external/' %{cmsroot}/SPECS/external/py2-pippkgs_depscipy/$PY2_PIPPKGS_DEPSCIPY_VERSION/spec | sed 's|.* builddirectpkgreqs *||' | tr ' ' '\n' | grep '/py2-')  ; do
+  pk_name=$(echo $pkg | cut -d/ -f2)
+  pk_ver=$(echo $pkg | cut -d/ -f3)
+  echo "<tool name=\"$pk_name\" version=\"$pk_ver\">" > %{i}/etc/scram.d/$pk_name.xml
+  echo "  <use name=\"py2-pippkgs_depscipy\"/>" >> %{i}/etc/scram.d/$pk_name.xml
+  echo "</tool>" >> %{i}/etc/scram.d/$pk_name.xml
+done
+
 export PYTHON_LIB_SITE_PACKAGES
 
 ## IMPORT scram-tools-post
