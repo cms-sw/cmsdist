@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 35.0
+### RPM cms cmssw-tool-conf 37.0
 ## NOCOMPILER
 # With cmsBuild, change the above version only when a new
 # tool is added
@@ -53,6 +53,7 @@ Requires: libpng-toolfile
 Requires: libtiff-toolfile
 Requires: libungif-toolfile
 Requires: libxml2-toolfile
+Requires: lwtnn-toolfile
 Requires: mcdb-toolfile
 Requires: meschach-toolfile
 Requires: openssl-toolfile
@@ -88,26 +89,13 @@ Requires: py2-matplotlib-toolfile
 Requires: py2-numpy-toolfile
 Requires: py2-pandas-toolfile
 Requires: py2-scipy-toolfile
-Requires: py2-scikit-learn-toolfile
 Requires: cmsswdata-toolfile
-Requires: py2-cjson-toolfile
-Requires: py2-pycurl-toolfile
 Requires: py2-sqlalchemy-toolfile
 Requires: py2-pygithub-toolfile
-Requires: py2-networkx-toolfile
 Requires: py2-dablooms-toolfile
 Requires: py2-dxr-toolfile
-Requires: py2-futures-toolfile
-Requires: py2-jinja-toolfile
-Requires: py2-markupsafe-toolfile
-Requires: py2-ordereddict-toolfile
-Requires: py2-parsimonious-toolfile
-Requires: py2-pygments-toolfile
 Requires: py2-pysqlite-toolfile
 Requires: py2-PyYAML-toolfile
-Requires: py2-docopt-toolfile
-Requires: py2-prettytable-toolfile
-Requires: py2-schema-toolfile
 Requires: py2-root_numpy-toolfile
 Requires: py2-h5py-toolfile
 Requires: hdf5-toolfile
@@ -120,7 +108,6 @@ Requires: fftjet-toolfile
 Requires: lapack-toolfile
 Requires: pyminuit2-toolfile
 Requires: professor-toolfile
-Requires: py2-ipython-toolfile
 Requires: xz-toolfile
 Requires: protobuf-toolfile
 Requires: lcov-toolfile
@@ -140,7 +127,6 @@ Requires: pacparser-toolfile
 Requires: git-toolfile
 Requires: cgal-toolfile
 Requires: doxygen-toolfile
-Requires: py2-python-dateutil-toolfile
 Requires: yaml-cpp-toolfile
 Requires: gmp-static-toolfile
 Requires: mpfr-static-toolfile
@@ -154,13 +140,9 @@ Requires: geant4-parfullcms-toolfile
 Requires: fasthadd
 Requires: eigen-toolfile
 Requires: gdb-toolfile
-Requires: py2-pytz-toolfile
 Requires: file-toolfile
 Requires: libxslt-toolfile
 Requires: py2-six-toolfile
-Requires: py2-pyparsing-toolfile
-Requires: py2-requests-toolfile
-Requires: py2-cycler-toolfile
 Requires: giflib-toolfile
 Requires: freetype-toolfile
 Requires: utm-toolfile
@@ -172,7 +154,8 @@ Requires: md5-toolfile
 Requires: py2-setuptools-toolfile
 Requires: madgraph5amcatnlo-toolfile
 Requires: histogrammar-toolfile
-Requires: py2-rootpy-toolfile
+Requires: py2-pippkgs-toolfile
+Requires: py2-pippkgs_depscipy-toolfile
 #still a work in progress Requires: py2-notebook
 
 # Only for Linux platform.

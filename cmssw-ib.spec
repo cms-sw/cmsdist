@@ -2,7 +2,7 @@
 BuildRequires: cmssw SCRAMV1 local-cern-siteconf python
 %define initenv	        %initenv_direct
 %define scram $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
-Source: https://raw.githubusercontent.com/cms-sw/cms-bot/06e51060ee577aa9ee76eeac76539d246137561b/buildLogAnalyzer.py
+Source: https://raw.githubusercontent.com/cms-sw/cms-bot/82b0567ee2a1fb7669ad53b8240a3c29d191dd47/buildLogAnalyzer.py
 
 %prep
 cd ..
@@ -22,6 +22,7 @@ HOUR=`$PYTHON_CMD -c "import os;from datetime import datetime;print datetime.str
 eval `%scram runtime -sh`
 CMSSW_MAJOR_MINOR=`echo $CMSSW_VERSION | sed -e 's/CMSSW_\([0-9]*\)_\([0-9]*\).*/\1.\2/g'`
 pushd %cmsroot/WEB/build-logs/%cmsplatf/$CMSSW_VERSION/logs/src
+  cp -f src-logs.tgz $(echo $CMSSW_ROOT | sed 's|%cmsroot/|%cmsroot/BUILD/|')/src-logs.tgz
   tar xzf src-logs.tgz
 popd
 $PYTHON_CMD %_sourcedir/buildLogAnalyzer.py \

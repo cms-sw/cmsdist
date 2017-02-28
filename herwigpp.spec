@@ -1,6 +1,6 @@
-### RPM external herwigpp 7.0.2
+### RPM external herwigpp 7.0.4
 Source: https://www.hepforge.org/archive/herwig/Herwig-%{realversion}.tar.bz2
-#Source: https://mharrend.web.cern.ch/mharrend/herwig7/Herwig-7.0.2.tar.bz2
+
 
 # Tried to comment out the parts which build HerwigDefaults.rpo during make install
 

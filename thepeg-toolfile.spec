@@ -14,7 +14,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/thepeg.xml
   <client>
     <environment name="THEPEG_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$THEPEG_BASE/lib/ThePEG"/>
-    <environment name="INCLUDE" default="$THEPEG_BASE/include/ThePEG"/>
+    <environment name="INCLUDE" default="$THEPEG_BASE/include"/>
   </client>
   <runtime name="THEPEGPATH" value="$THEPEG_BASE/share/ThePEG"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
