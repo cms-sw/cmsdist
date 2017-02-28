@@ -1,5 +1,5 @@
-### RPM external sherpa 2.2.1
-%define tag c1db0812ca91e08e98fcc1f079822f585eeab3a0
+### RPM external sherpa 2.2.2
+%define tag 337787e09a2cc4bb6a68fd165f3f87f80631e0a0
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
