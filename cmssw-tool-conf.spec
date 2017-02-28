@@ -141,7 +141,6 @@ Requires: fasthadd
 Requires: eigen-toolfile
 Requires: gdb-toolfile
 Requires: libxslt-toolfile
-Requires: py2-six-toolfile
 Requires: giflib-toolfile
 Requires: freetype-toolfile
 Requires: utm-toolfile
@@ -150,7 +149,6 @@ Requires: CSCTrackFinderEmulation-toolfile
 Requires: tinyxml-toolfile
 Requires: scons-toolfile
 Requires: md5-toolfile
-Requires: py2-setuptools-toolfile
 Requires: madgraph5amcatnlo-toolfile
 Requires: histogrammar-toolfile
 Requires: py2-pippkgs-toolfile
