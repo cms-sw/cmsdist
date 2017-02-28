@@ -16,7 +16,7 @@ Requires: gmp
 
 %build
 
-export GMP_LIB_DIR="${GMP__ROOT}/lib"
+export GMP_LIB_DIR="${GMP_ROOT}/lib"
 export GMP_INC_DIR="${GMP_ROOT}/include"
 
 
