@@ -5,6 +5,7 @@ Requires: gmp
 
 
 
+
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
 %endif
@@ -15,6 +16,7 @@ Requires: gmp
 
 
 %build
+
 
 export GMP_LIB_DIR="${GMP_ROOT}/lib"
 export GMP_INC_DIR="${GMP_ROOT}/include"
