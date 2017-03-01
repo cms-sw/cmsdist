@@ -30,5 +30,4 @@ make %makeprocesses
 %install
 make install 
 
-%post
 
