@@ -1,15 +1,10 @@
 ### RPM external py2-pycurl 7.43.0
 ## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
-Source: https://dl.bintray.com/pycurl/pycurl/pycurl-%{realversion}.tar.gz
-Requires: python curl openssl
 
-%prep
-%setup -n pycurl-%{realversion}
 
-%build
-python setup.py --with-openssl --openssl-dir=${OPENSSL_ROOT} build
+%define PipBuildOptions --global-option="--with-openssl" --global-option="--openssl-dir=${OPENSSL_ROOT}" 
+%define pip_name pycurl
+Requires: curl openssl
 
-%install
-python setup.py --with-openssl --openssl-dir=${OPENSSL_ROOT} install --prefix=%{i}
-find %{i}/${PYTHON_LIB_SITE_PACKAGES} -name '*.egg-info' -print0 | xargs -0 rm -rf
-rm -rf %{i}/share
+## IMPORT build-with-pip
+

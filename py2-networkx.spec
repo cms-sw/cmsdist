@@ -1,14 +1,9 @@
-### RPM external py2-networkx 1.8.1
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
-Source: https://pypi.python.org/packages/source/n/networkx/networkx-%realversion.tar.gz
-Requires: python 
-BuildRequires: py2-numpy py2-scipy py2-matplotlib
+### RPM external py2-networkx 1.11
+## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
 
-%prep
-%setup -n networkx-%realversion
 
-%build
-python setup.py build
+%define pip_name networkx
+Requires: py2-decorator 
 
-%install
-python setup.py install --prefix=%i 
+## IMPORT build-with-pip
+
