@@ -15,6 +15,3 @@ ${FC} qgraf*.f -o qgraf -O2
 %install
 mkdir %{i}/bin
 cp qgraf %{i}/bin
-
-
-%post
