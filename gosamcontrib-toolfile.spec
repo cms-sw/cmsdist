@@ -7,7 +7,7 @@ Requires: gosamcontrib
 %install
 
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/form.xml
+cat << \EOF_TOOLFILE >%i/etc/scram.d/gosamcontrib.xml
 <tool name="gosamcontrib" version="@TOOL_VERSION@">
   <client>
     <environment name="GOSAMCONTRIB_BASE" default="@TOOL_ROOT@"/>
