@@ -53,7 +53,7 @@ PLATF_CONF_OPTS="--enable-shared --disable-static"
             --with-fastjet=$FASTJET_ROOT \
             --with-gsl=$GSL_ROOT \
             --with-boost=$BOOST_ROOT \
-	    --with-madgraph=$MADGRAPH5AMCATNLO_ROOT \
+	          --with-madgraph=$MADGRAPH5AMCATNLO_ROOT \
             --with-gosam=$GOSAM_ROOT \
 %if %isamd64
             --with-openloops=$OPENLOOPS_ROOT \

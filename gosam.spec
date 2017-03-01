@@ -1,10 +1,11 @@
+
 ### RPM external gosam 2.0.4-12f4de9
 Source: http://www.hepforge.org/archive/gosam/gosam-%{realversion}.tar.gz
 
 Requires: qgraf
 Requires: form
 Requires: gosamcontrib
-
+Requires: python cython
 
 
 %if "%{?cms_cxx:set}" != "set"
@@ -14,6 +15,7 @@ Requires: gosamcontrib
 
 %prep
 %setup -q -n gosam
+
 
 
 %build
@@ -26,11 +28,9 @@ export PYTHONPATH=${CYTHON_ROOT}/${PYTHON_LIB_SITE_PACKAGES}
 
 python setup.py install --prefix=%{i}
 
-
 %install
 perl -p -i -e "s|^#!.*python|#!/usr/bin/env python$1|" $(grep -r -e "^#\!.*python.*" %i | cut -d: -f1)
 find %{i}/lib -name '*.la' -exec rm -f {} \;
-
 
 %post
 

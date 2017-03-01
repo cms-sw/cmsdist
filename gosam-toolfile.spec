@@ -22,5 +22,3 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gosam.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
-
-
