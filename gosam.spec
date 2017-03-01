@@ -8,10 +8,6 @@ Requires: gosamcontrib
 Requires: python cython
 
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx g++
-%endif
-
 
 %prep
 %setup -q -n gosam
@@ -32,5 +28,5 @@ python setup.py install --prefix=%{i}
 perl -p -i -e "s|^#!.*python|#!/usr/bin/env python$1|" $(grep -r -e "^#\!.*python.*" %i | cut -d: -f1)
 find %{i}/lib -name '*.la' -exec rm -f {} \;
 
-%post
+
 
