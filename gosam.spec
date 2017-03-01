@@ -24,8 +24,7 @@ PLATF_CONF_OPTS="--enable-shared --disable-static"
 export PYTHONPATH=${CYTHON_ROOT}/${PYTHON_LIB_SITE_PACKAGES}
 
 
-chmod 0755 ./gosam_installer.py
-./gosam_installer.py -b -v --prefix=%{i}
+python setup.py install --prefix=%{i}
 
 
 %install
