@@ -5,11 +5,6 @@ Requires: qgraf
 Requires: form
 
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx g++
-%endif
-
-
 %prep
 %setup -q -n gosam-contrib-2.0
 
