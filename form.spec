@@ -1,10 +1,6 @@
 ### RPM external form 4.1.033e
 Source: https://gosam.hepforge.org/gosam-installer/form-%{realversion}.tar.gz
 
-Requires: gmp
-
-
-
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -18,9 +14,6 @@ Requires: gmp
 %build
 
 
-export GMP_LIB_DIR="${GMP_ROOT}/lib"
-export GMP_INC_DIR="${GMP_ROOT}/include"
-
 
 CXX="$(which %{cms_cxx}) -fPIC"
 CC="$(which gcc) -fPIC"
@@ -29,6 +22,7 @@ PLATF_CONF_OPTS="--enable-shared --disable-static"
 ./configure $PLATF_CONF_OPTS \
             --prefix=%i \
             --bindir=%i/bin \
+            --without-gmp \
             CXX="$CXX" CC="$CC" CXXFLAGS=-fpermissive
 
 make %makeprocesses
