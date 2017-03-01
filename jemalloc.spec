@@ -1,4 +1,4 @@
-### RPM external jemalloc 4.3.1
+### RPM external jemalloc 4.5.0
 Source: https://github.com/jemalloc/jemalloc/releases/download/%{realversion}/jemalloc-%{realversion}.tar.bz2
 
 %prep
