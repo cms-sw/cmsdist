@@ -35,6 +35,18 @@ rm bin/compile.py
 # Save patched config
 mv input/mg5_configuration_patched.txt input/mg5_configuration.txt
 
+# Start small NLO event generation to make sure that all additional packages are compiled
+cat <<EOF > basiceventgeneration.txt
+generate p p > t t~ [QCD]
+output basiceventgeneration
+launch
+set nevents 100
+EOF
+./bin/mg5_aMC ./basiceventgeneration.txt
+
+# Remove folder of basic event generation
+rm -rf basiceventgeneration
+
 # Remove all downloaded tgz files before building the package
 find . -type f -name '*.tgz' -delete
 
