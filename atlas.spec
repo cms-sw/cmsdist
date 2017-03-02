@@ -1,6 +1,7 @@
 ### RPM external atlas 3.10.3
 #Source: https://sourceforge.net/projects/math-atlas/files/Stable/%realversion/atlas%realversion.tar.bz2
-Source: https://downloads.sourceforge.net/project/math-atlas/Stable/%realversion/atlas%realversion.tar.bz2
+#Source: https://downloads.sourceforge.net/project/math-atlas/Stable/%realversion/atlas%realversion.tar.bz2
+Source: Source: https://sourceforge.net/projects/math-atlas/files/Stable/%realversion/atlas%realversion.tar.bz2/download?use_mirror=superb-sea2
 Requires: lapack
 
 #BuildRequires: cmake
