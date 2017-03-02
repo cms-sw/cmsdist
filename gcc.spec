@@ -7,6 +7,8 @@
 %define gccRevision 245734
 %define gccBranch trunk
 
+# This is just testing and nothing more
+
 %define moduleName gcc-%(echo %{gccBranch} | tr / _)-%{gccRevision}
 Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{gccRevision}&output=/%{moduleName}.tar.gz
 
