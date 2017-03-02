@@ -4,6 +4,7 @@
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-6-branch/?view=log
+#OK looks good
 %define gccRevision 245734
 %define gccBranch trunk
 
