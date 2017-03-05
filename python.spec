@@ -1,4 +1,4 @@
-### RPM external python 2.7.11
+### RPM external python 2.7.13
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib
 ## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib/python%{python_major_version}/site-packages
@@ -11,8 +11,8 @@ Requires: zlib sqlite
 
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, x11
-%define tag 4a9ef71da324c1591d857e35940276890618d50d
-%define branch cms/v%{realversion}
+%define tag a91475f5a99e2d66065e85a4a99f8c1c2a769aa2
+%define branch cms/6120484
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
