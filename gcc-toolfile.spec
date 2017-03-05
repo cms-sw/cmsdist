@@ -53,7 +53,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-cxxcompiler.xml
     <flags CXXFLAGS="-Werror=missing-braces -Werror=unused-value"/>
     <flags CXXFLAGS="-Werror=address -Werror=format -Werror=sign-compare"/>
     <flags CXXFLAGS="-Werror=write-strings -Werror=delete-non-virtual-dtor"/>
-    <flags CXXFLAGS="-Werror=maybe-uninitialized -Werror=strict-aliasing"/>
+    <flags CXXFLAGS="-Werror=strict-aliasing"/>
     <flags CXXFLAGS="-Werror=narrowing -Werror=uninitialized"/>
     <flags CXXFLAGS="-Werror=unused-but-set-variable -Werror=reorder"/>
     <flags CXXFLAGS="-Werror=unused-variable -Werror=conversion-null"/>
