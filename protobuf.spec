@@ -1,5 +1,5 @@
-### RPM external protobuf 2.6.1
-Source: https://github.com/google/protobuf/releases/download/v%{realversion}/protobuf-%{realversion}.tar.gz
+### RPM external protobuf 3.2.0
+Source: https://github.com/google/protobuf/releases/download/v%{realversion}/protobuf-cpp-%{realversion}.tar.gz
 Requires: zlib
 
 Patch0: protobuf-2.6.1-fix-sign
@@ -15,10 +15,16 @@ curl -L -k -s -o ./config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;
 curl -L -k -s -o ./config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
 chmod +x ./config.{sub,guess}
 
-rm -f ./gtest/build-aux/config.{sub,guess}
-curl -L -k -s -o ./gtest/build-aux/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
-curl -L -k -s -o ./gtest/build-aux/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
-chmod +x ./gtest/build-aux/config.{sub,guess}
+
+rm -f ./gmock/gtest/build-aux/config.{sub,guess}
+curl -L -k -s -o ./gmock/gtest/build-aux/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./gmock/gtest/build-aux/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./gmock/gtest/build-aux/config.{sub,guess}
+
+rm -f ./gmock/build-aux/config.{sub,guess}
+curl -L -k -s -o ./gmock/build-aux/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./gmock/build-aux/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./gmock/build-aux/config.{sub,guess}
 
 ./configure --prefix %{i} \
     --disable-static \
