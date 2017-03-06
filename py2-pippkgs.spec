@@ -1,4 +1,4 @@
-### RPM external py2-pippkgs 4.0
+### RPM external py2-pippkgs 5.0
 ## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
 Source: none
 
@@ -75,6 +75,7 @@ BuildRequires: py2-mock
 BuildRequires: py2-pbr
 BuildRequires: py2-mpmath
 BuildRequires: py2-sympy
+BuildRequires: py2-tqdm
 
 %prep
 
