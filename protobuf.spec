@@ -2,7 +2,6 @@
 Source: https://github.com/google/protobuf/releases/download/v%{realversion}/protobuf-cpp-%{realversion}.tar.gz
 Requires: zlib
 
-Patch0: protobuf-2.6.1-fix-sign
 #
 # When changing the version of protobuf, remember to regenerate protobuf objects in CMSSW
 # current recipe for this is:
@@ -13,7 +12,6 @@ Patch0: protobuf-2.6.1-fix-sign
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
 
 %build
 # Update to detect aarch64 and ppc64le
