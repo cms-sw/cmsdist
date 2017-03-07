@@ -154,6 +154,7 @@ Requires: madgraph5amcatnlo-toolfile
 Requires: histogrammar-toolfile
 Requires: py2-pippkgs-toolfile
 Requires: py2-pippkgs_depscipy-toolfile
+Requires: dasgoclient
 #still a work in progress Requires: py2-notebook
 
 # Only for Linux platform.

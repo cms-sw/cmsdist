@@ -3,6 +3,13 @@ Source: https://github.com/google/protobuf/releases/download/v%{realversion}/pro
 Requires: zlib
 
 Patch0: protobuf-2.6.1-fix-sign
+#
+# When changing the version of protobuf, remember to regenerate protobuf objects in CMSSW
+# current recipe for this is:
+# cmsenv
+# git cms-addpkg DQMServices/Core
+# cd $CMSSW_BASE/src
+# protoc --cpp_out=. DQMServices/Core/src/ROOTFilePB.proto
 
 %prep
 %setup -n %{n}-%{realversion}
