@@ -108,6 +108,7 @@ Requires: fftjet-toolfile
 Requires: lapack-toolfile
 Requires: pyminuit2-toolfile
 Requires: professor-toolfile
+Requires: professor2-toolfile
 Requires: xz-toolfile
 Requires: protobuf-toolfile
 Requires: lcov-toolfile
