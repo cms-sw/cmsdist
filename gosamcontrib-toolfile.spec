@@ -13,7 +13,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gosamcontrib.xml
     <environment name="GOSAMCONTRIB_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$GOSAMCONTRIB_BASE/lib"/>
     <environment name="INCLUDE" default="$GOSAMCONTRIB_BASE/include"/>
-    <environment name="BINDIR" default="$GOSAMCONTRIB_BASE/bin"/>
   </client>
   <runtime name="PATH" default="$BINDIR" type="path"/>
 </tool>

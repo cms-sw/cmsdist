@@ -11,8 +11,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/form.xml
 <tool name="form" version="@TOOL_VERSION@">
   <client>
     <environment name="FORM_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$FORM_BASE/lib"/>
-    <environment name="INCLUDE" default="$FORM_BASE/include"/>
     <environment name="BINDIR" default="$FORM_BASE/bin"/>
   </client>
   <runtime name="PATH" default="$BINDIR" type="path"/>
