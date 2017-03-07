@@ -2,9 +2,7 @@
 Source: https://gosam.hepforge.org/gosam-installer/form-%{realversion}.tar.gz
 
 
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx g++
-%endif
+
 
 
 %prep
@@ -15,7 +13,7 @@ Source: https://gosam.hepforge.org/gosam-installer/form-%{realversion}.tar.gz
 
 
 
-CXX="$(which %{cms_cxx}) -fPIC"
+CXX="$(which g++) -fPIC"
 CC="$(which gcc) -fPIC"
 PLATF_CONF_OPTS="--enable-shared --disable-static"
 
