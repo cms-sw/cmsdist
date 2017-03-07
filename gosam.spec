@@ -15,7 +15,7 @@ Requires: python cython
 
 
 %build
-CXX="$(which %{cms_cxx}) -fPIC"
+CXX="$(which g++) -fPIC"
 CC="$(which gcc) -fPIC"
 FC="$(which gfortran)"
 PLATF_CONF_OPTS="--enable-shared --disable-static"
