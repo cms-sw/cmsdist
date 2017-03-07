@@ -28,7 +28,7 @@ case `uname -s` in
   Linux )
     case `uname -m` in
       aarch64 ) suffix="_arm64" ;;
-      ppc64* )  suffix="_power" ;;
+      ppc64* )  suffix="_power8" ;;
       * )       suffix="_linux" ;;
     esac
   ;;
