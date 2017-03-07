@@ -10,8 +10,7 @@ Source0: http://cmsrep.cern.ch/cgi-bin/repos/cms/%{dasgoclient_arch}/%{dasgoclie
 rpm2cpio %{_sourcedir}/%{dasgoclient_rpm} | cpio -idmv
 
 %install
-mkdir %{i}/etc
-cp -r ./opt/cmssw/%{dasgoclient_arch}/$(echo %{dasgoclient_pkg} | tr '+' '/')/bin %{i}/bin
+mkdir %{i}/etc %{i}/bin
 cat << \EOF > %{i}/etc/dasgoclient
 #!/bin/sh
 # VERSION:%{cmsplatf}/%{v}
@@ -21,24 +20,21 @@ if [ -f %{instroot}/common/scram ] ; then
 fi
 # Sourcing dasclient environment
 SHARED_ARCH=`%{instroot}/common/cmsos`
-LATEST_VERSION=`cd %{instroot}; ls ${SHARED_ARCH}_*/%{pkgcategory}/%{pkgname}/v*/etc/profile.d/init.sh | sed 's|.*/%{pkgcategory}/%{pkgname}/||' | sort | tail -1`
-DASGOCLIENT_ROOT=`ls %{instroot}/${SHARED_ARCH}_*/%{pkgcategory}/%{pkgname}/${LATEST_VERSION} | sort | tail -1 | sed 's|/etc/profile.d/init.sh$||'`
-suffix="_linux"
-case `uname -s` in
-  Linux )
-    case `uname -m` in
-      aarch64 ) suffix="_arm64" ;;
-      ppc64* )  suffix="_power8" ;;
-      * )       suffix="_linux" ;;
-    esac
-  ;;
-  Darwin )  suffix="_osx" ;;
-esac
-$DASGOCLIENT_ROOT/bin/dasgoclient${suffix} "$@"
+LATEST_VERSION=`cd %{instroot}; ls ${SHARED_ARCH}_*/%{pkgcategory}/%{pkgname}/v*/bin/dasgoclient | sed 's|.*/%{pkgcategory}/%{pkgname}/||' | sort | tail -1`
+DASGOCLIENT=`ls %{instroot}/${SHARED_ARCH}_*/%{pkgcategory}/%{pkgname}/${LATEST_VERSION} | sort | tail -1`
+$DASGOCLIENT "$@"
 EOF
 
 chmod +x %i/etc/dasgoclient
 
+suffix="_linux"
+case %{cmsos} in
+  *_aarch64 ) suffix="_arm64"  ;;
+  *_ppc64*  ) suffix="_power8" ;;
+  osx*      ) suffix="_osx"    ;;
+  *_amd64   ) suffix="_linux"  ;;
+esac
+cp -r ./opt/cmssw/%{dasgoclient_arch}/$(echo %{dasgoclient_pkg} | tr '+' '/')/bin/dasgoclient${suffix} %{i}/bin/dasgoclient
 %post
 %{relocateConfig}etc/dasgoclient
 
