@@ -25,14 +25,11 @@ Requires: openloops
 
 Patch0: herwigpp-missingBoostMTLib
 
-
 BuildRequires: autotools
-
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
 %endif
-
 
 %prep
 %setup -q -n Herwig-%{realversion}
@@ -89,4 +86,3 @@ chmod +x %{i}/bin/Herwig
 %{relocateConfig}share/Herwig/defaults/PDF.in
 %{relocateConfig}share/Herwig/HerwigDefaults.rpo
 sed -i -e "s|^.*/BUILDROOT/[0-9a-f][0-9a-f]*%{installroot}/|$CMS_INSTALL_PREFIX/|g" $RPM_INSTALL_PREFIX/%{pkgrel}/share/Herwig/HerwigDefaults.rpo
-

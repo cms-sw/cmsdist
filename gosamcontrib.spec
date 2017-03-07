@@ -4,10 +4,8 @@ Source: http://www.hepforge.org/archive/gosam/gosam-contrib-%{realversion}.tar.g
 Requires: qgraf
 Requires: form
 
-
 %prep
 %setup -q -n gosam-contrib-2.0
-
 
 %build
 CXX="$(which c++) -fPIC"
@@ -25,3 +23,6 @@ make %makeprocesses  all
 
 %install
 make install 
+
+%post
+%{relocateConfig}share/gosam-contrib/gosam.conf
