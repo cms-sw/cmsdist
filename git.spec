@@ -36,7 +36,7 @@ Provides: perl(Time::HiRes)
 %build
 make %{makeprocesses} configure
 ./configure prefix=%{i} \
-   --with-curl=${ZLIB_ROOT} \
+   --with-curl=${CURL_ROOT} \
    --with-openssl=${OPENSSL_ROOT} \
    --with-expat=${EXPAT_ROOT} \
    --with-libpcre=${PCRE_ROOT} \
