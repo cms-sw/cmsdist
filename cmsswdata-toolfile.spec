@@ -9,7 +9,7 @@ Requires: cmsswdata
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/cmsswdata.xml
-  <tool name="cmsswdata" version="@TOOL_VERSION@">
+  <tool name="cmsswdata" version="%v">
     <client>
       <environment name="CMSSWDATA_BASE" default="%{instroot}/%{cmsplatf}/%{pkgcategory}"/>
       <environment name="CMSSW_DATA_PATH" default="$CMSSWDATA_BASE"/>
