@@ -1,9 +1,9 @@
-### RPM lcg root 6.08.06
+### RPM lcg root 6.09.03
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 56825bfbb1504012f57234d8c00ff520439e4e4e
-%define branch cms/df3050e
-%define github_user cms-sw
+%define tag 05d67daf5ff3990d1c44c55a6a1f6caaa41ba3cb
+%define branch master
+%define github_user root-project
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
@@ -11,7 +11,7 @@ Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&expo
 
 BuildRequires: cmake file
 
-Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib davix
+Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib davix tbb
 
 %if %islinux
 Requires: castor dcap
@@ -62,12 +62,14 @@ cmake ../%{n}-%{realversion} \
   -Dkrb5=OFF \
   -Dftgl=OFF \
   -Dfftw3=ON \
+  -Dtbb=ON \
   -DFFTW_INCLUDE_DIR="${FFTW3_ROOT}/include" \
   -DFFTW_LIBRARY="${FFTW3_ROOT}/lib/libfftw3.%{soext}" \
   -Dminuit2=ON \
   -Dmathmore=ON \
   -Dexplicitlink=ON \
   -Dtable=ON \
+  -Dbuiltin_tbb=OFF \
   -Dbuiltin_pcre=OFF \
   -Dbuiltin_freetype=OFF \
   -Dbuiltin_zlib=OFF \
@@ -135,7 +137,7 @@ cmake ../%{n}-%{realversion} \
   -DZLIB_INCLUDE_DIR="${ZLIB_ROOT}/include" \
   -DLIBXML2_INCLUDE_DIR="${LIBXML2_ROOT}/include/libxml2" \
   -DLIBXML2_LIBRARIES="${LIBXML2_ROOT}/lib/libxml2.%{soext}" \
-  -DCMAKE_PREFIX_PATH="${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT}"
+  -DCMAKE_PREFIX_PATH="${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT}"
 
 # For CMake cache variables: http://www.cmake.org/cmake/help/v3.2/manual/cmake-language.7.html#lists
 # For environment variables it's OS specific: http://www.cmake.org/Wiki/CMake_Useful_Variables
