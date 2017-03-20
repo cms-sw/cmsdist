@@ -16,6 +16,7 @@ esac
 export LAPACK_ROOT
 export LAPACK=$LAPACK_ROOT/lib/liblapack.$SONAME
 export BLAS=$LAPACK_ROOT/lib/libblas.$SONAME
+export ATLAS=None
 mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
 
 python setup.py build --fcompiler=gnu95
