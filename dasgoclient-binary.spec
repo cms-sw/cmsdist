@@ -1,4 +1,4 @@
-### RPM cms dasgoclient-binary v00.00.05
+### RPM cms dasgoclient-binary v00.00.06
 Source0: git+https://github.com/vkuznet/dasgoclient?obj=master/%{realversion}&export=dasgoclient&output=/dasgoclient.tar.gz
 Source1: git+https://github.com/vkuznet/cmsauth?obj=master/e9fca92e3335252a5f71d8e6d09c64012f7d3c0c&export=github.com/vkuznet/cmsauth&output=/cmsauth.tar.gz
 Source2: git+https://github.com/vkuznet/x509proxy?obj=master/b4622388b3a347c8df75b6e944e9d2a580acee60&export=github.com/vkuznet/x509proxy&output=/x509proxy.tar.gz
