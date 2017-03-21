@@ -167,6 +167,7 @@ make %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
 
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -R -l '#!.*python' %{i} | xargs chmod +x
+perl -p -i -e "s|#!/bin/perl|#!/usr/bin/env perl|" %{i}/bin/memprobe
 
 %post
 %{relocateConfig}etc/cling/llvm/Config/llvm-config.h
