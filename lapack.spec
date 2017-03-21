@@ -1,4 +1,5 @@
 ### RPM external lapack 3.6.1
+## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 Source0: http://www.netlib.org/lapack/lapack-%realversion.tgz
 
 Requires: cmake
@@ -13,16 +14,9 @@ Requires: cmake
 # to not build correctly on the mac.
 rm -rf TESTING
 perl -p -i -e 's|add_subdirectory[(]TESTING[)]||' CMakeLists.txt
-cmake . -DBUILD_TESTING=NO -DBUILD_SHARED_LIBS=YES -DCMAKE_Fortran_COMPILER="`which gfortran`" -DCMAKE_INSTALL_PREFIX="%i"
+cmake . -DBUILD_TESTING=OFF -DCBLAS=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_Fortran_COMPILER="`which gfortran`" -DCMAKE_INSTALL_PREFIX="%i"
 make %{makeprocesses}
-
+make %{makeprocesses}
 %install
 make install
-# We remove pkg-config files for two reasons:
-# * it's actually not required (macosx does not even have it).
-# * rpm 4.8 adds a dependency on the system /usr/bin/pkg-config 
-#   on linux.
-# In the case at some point we build a package that can be build
-# only via pkg-config we have to think on how to ship our own
-# version.
-rm -rf %i/lib/pkgconfig
+rm -rf %i/lib64/pkgconfig
