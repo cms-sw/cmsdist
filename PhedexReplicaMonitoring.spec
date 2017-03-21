@@ -1,19 +1,29 @@
-### RPM cms PhedexReplicaMonitoring v00.00.06
+### RPM cms PhedexReplicaMonitoring v00.00.14
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
+%define wmcver 1.1.1.pre4
+%define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define pkg PhedexReplicaMonitoring
-Source: git://github.com/dmwm/PhedexReplicaMonitoring?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
+%define wmcpkg WMCore
+Source0: git://github.com/dmwm/PhedexReplicaMonitoring?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
+Source1: git://github.com/dmwm/WMCore?obj=master/%wmcver&export=%{wmcpkg}_%n&output=/%{wmcpkg}_%n.tar.gz
 Requires: python py2-py4j java-jdk elasticsearch elasticsearch-hadoop kibana rotatelogs
 BuildRequires: py2-sphinx
 
 # RPM macros documentation
 # http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
 %prep
-%setup -b 0 -n %pkg
+#%setup -b 0 -n %pkg
+%setup -c
+%setup -T -D -a 1
 
 %build
-#cd %pkg
+cd %{wmcpkg}_%n
+python setup.py build_system -s wmc-wmarchive
 
 %install
+cd %{wmcpkg}_%n
+python setup.py install_system -s wmc-wmarchive --prefix=%i
+cd ../%pkg
 mkdir -p %i/${PYTHON_LIB_SITE_PACKAGES}
 mkdir -p %i/bin
 cp -r src/python/* %i/${PYTHON_LIB_SITE_PACKAGES}

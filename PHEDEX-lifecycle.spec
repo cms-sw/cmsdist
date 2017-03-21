@@ -1,16 +1,11 @@
-### RPM cms PHEDEX-lifecycle 1.3.0pre1
+### RPM cms PHEDEX-lifecycle 1.3.0
 ## INITENV +PATH PERL5LIB %i/perl_lib
-## INITENV +PATH PERL5LIB %i/T0/perl_lib
+## INITENV +PATH PERL5LIB %i/Testbed/T0FeedTest/Perl_libs
 %define downloadn %(echo %n | cut -f1 -d-)
 %define downloadp %(echo %n | cut -f2 -d- | tr '[a-z]' '[A-Z]')
 %define downloadt %(echo %realversion | tr '.' '_')
 %define setupdir  %{downloadn}-%{downloadp}_%{downloadt}
 Source: https://github.com/dmwm/PHEDEX/archive/%{downloadp}_%{downloadt}.tar.gz
-
-# TODO Need to get this from somewhere else...
-# TODO Check with Dirk if this is still needed (NR).
-%define cvsserver cvs://:pserver:anonymous@cmssw.cvs.cern.ch:/local/reps/CMSSW?passwd=AA_:yZZ3e
-Source1: %cvsserver&strategy=export&module=T0&export=T0&&tag=-rPHEDEX_LIFECYCLE_1_0_0&output=/T0.tar.gz
 
 Requires: p5-poe p5-poe-component-child p5-clone p5-time-hires p5-text-glob
 Requires: p5-compress-zlib p5-log-log4perl p5-json-xs p5-xml-parser p5-monalisa-apmon
@@ -31,19 +26,16 @@ Provides: perl(T0::Util)
 
 %prep
 %setup -n %{setupdir}
-tar zxf %_sourcedir/T0.tar.gz
 
 %build
 %install
-mkdir -p %i/etc/{env,profile}.d
-# Instead of taking all sources unpack only what belongs to the lifecycle:
-# tar -cf - * | (cd %i && tar -xf -)
-
-tar -c perl_lib/PHEDEX/{Core,Testbed} | tar -x -C %i 
+# Install only what belongs to the lifecycle:
+tar -c perl_lib/PHEDEX/Testbed | tar -x -C %i 
 tar -c Testbed/{Integration,LifeCycle} | tar -x -C %i
-tar -c T0 | tar -x -C %i
+tar -c -C Testbed/T0FeedTest/Perl_libs T0/{Logger,Util.pm,FileWatcher.pm} | tar -x -C %i/perl_lib
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
+mkdir -p %i/etc/{env,profile}.d
 : > %i/etc/profile.d/dependencies-setup.sh
 : > %i/etc/profile.d/dependencies-setup.csh
 #echo export LIFECYCLE=%instroot/Testbed/LifeCycle >> %i/etc/profile.d/dependencies-setup.sh

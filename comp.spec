@@ -1,9 +1,9 @@
-### RPM cms comp HG1611i
+### RPM cms comp HG1703i
 
 # This is a meta-package to group all cms comp services
 # CMSWEB
 Requires: frontend das dbs3 filemover sitedb couchdb bigcouch reqmon
-Requires: PHEDEX-combined-web stagemanager reqmgr dqmgui overview workqueue
+Requires: PHEDEX-combined-web stagemanager dqmgui overview workqueue
 Requires: dbs3-client stagemanager-agent crabserver crabclient crabcache
 Requires: DMWMMON-datasvc alertscollector acdcserver gitweb
 Requires: asyncstageout t0wmadatasvc dbs3-migration t0_reqmon reqmgr2

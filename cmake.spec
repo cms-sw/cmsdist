@@ -1,9 +1,9 @@
-### RPM external cmake 2.8.5
+### RPM external cmake 3.7.0
 %define downloaddir %(echo %realversion | cut -d. -f1,2)
 Source: http://www.cmake.org/files/v%{downloaddir}/%n-%realversion.tar.gz
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 #Patch1: cmake
-Patch2: cmake-osx-nld
+#Patch2: cmake-osx-nld
 Requires: bz2lib curl expat
 
 #We are using system zlib for the online builds:
@@ -18,7 +18,7 @@ Requires: zlib
 # macosx compilers emit. Even if it matters only for macosx,
 # we apply it anyway to avoid discrepancies and to avoid that 
 # it's left behind if cmake version is changed. 
-%patch2 -p1
+#%patch2 -p1
 
 %build
 cat > build-flags.cmake <<- EOF 
