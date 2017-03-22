@@ -29,7 +29,7 @@ if [ `cat files.list | wc -l` == "1" ] ; then
    echo ${PIPFILE}
    export PYTHONUSERBASE=%i
    pip list
-   pip install --user %{PipBuildOptions} $PIPFILE
+   pip install --user -v %{PipBuildOptions} $PIPFILE
 else
    echo "Sorry I don't know how to handle no/multiple install files yet"
    cat %{_sourcedir}/files.txt
