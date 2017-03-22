@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-datasvc 2.3.22
+### RPM cms PHEDEX-datasvc 2.3.23
 ## INITENV +PATH PERL5LIB %i/perl_lib
 
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -29,24 +29,23 @@ Provides: perl(XML::LibXML)
 Provides: perl(URI::Escape)
 
 %prep
+
 %setup -n %{setupdir}
-rm -rf Build Custom Documentation Testbed Tests Utilities
-rm -rf Contrib Deployment Migration PhEDExWeb/ApplicationServer Schema Toolkit VERSION
-rm -rf perl_lib/{DMWMMON,template}
-rm -rf perl_lib/PHEDEX/.project
-rm -rf perl_lib/PHEDEX/{BlockActivate,BlockDelete,Debug.pm,Monalisa.pm,Testbed,BlockAllocator,BlockLatency,Error,Monitoring,Transfer,BlockArrive,BlockMonitor,File,Namespace,BlockConsistency,CLI,Infrastructure,BlockDeactivate,LoadTest,Schema,Tests}
+# Clean-up some unused packages from modules required by data service:
 rm perl_lib/PHEDEX/RequestAllocator/Agent.pm
 rm -rf perl_lib/PHEDEX/Core/{Agent,Config.pm,Agent.pm,JobManager.pm,RFIO.pm,Command.pm,Help.pm,SQLPLUS.pm,Config}
-rm -rf perl_lib/PHEDEX/Web/SQLSpace.pm
-rm -rf perl_lib/PHEDEX/Web/API/{DumpSpaceQuery.pm,GetLastRecord.pm,Mongo.pm,RequestSetStateFake.pm,StorageInsert.pm,StorageUsage.pm}
 
 %build
 %install
-mkdir -p %i/etc/{env,profile}.d
-tar -cf - * | (cd %i && tar -xf -)
-#rm -r %i/PhEDExWeb/DataService/conf
+# Getting  all PHEDEX-datasvc required sources:
+tar -c README.txt | tar -x -C %i
+tar -c perl_lib/PHEDEX/{Core,RequestAllocator} | tar -x -C %i
+tar -c perl_lib/PHEDEX/RequestAllocator/{Core,SQL}.pm | tar -x -C %i
+tar -c PhEDExWeb/{DataService,README} | tar -x -C %i
+tar -c perl_lib/PHEDEX/Web --exclude="*/API/tests" --exclude="*/API/SpaceMon" --exclude="*/SQLSpace.pm"| tar -x -C %i
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
+mkdir -p %i/etc/{env,profile}.d
 ln -sf ../profile.d/init.sh %i/etc/env.d/11-datasvc.sh
 : > %i/etc/profile.d/dependencies-setup.sh
 : > %i/etc/profile.d/dependencies-setup.csh
