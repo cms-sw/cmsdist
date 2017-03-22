@@ -76,6 +76,7 @@ BuildRequires: py2-pbr
 BuildRequires: py2-mpmath
 BuildRequires: py2-sympy
 BuildRequires: py2-tqdm
+BuildRequires: py2-funcsigs
 
 %prep
 
