@@ -77,6 +77,9 @@ BuildRequires: py2-mpmath
 BuildRequires: py2-sympy
 BuildRequires: py2-tqdm
 BuildRequires: py2-funcsigs
+BuildRequires: py2-nose
+BuildRequires: py2-pkgconfig
+BuildRequires: py2-pysqlite
 
 %prep
 

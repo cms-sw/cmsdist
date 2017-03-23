@@ -21,6 +21,7 @@ BuildRequires: py2-numexpr
 BuildRequires: py2-deepdish
 BuildRequires: py2-histogrammar
 BuildRequires: py2-pandas
+BuildRequires: py2-root_numpy
 
 %prep
 
