@@ -14,6 +14,7 @@ Source1: https://raw.github.com/bagder/curl/curl-7_53_1/lib/mk-ca-bundle.pl
 Patch1: git-2.12.0-runtime
 
 Requires: curl expat openssl zlib pcre
+BuildRequires: autotools
 
 # Fake provides for git add --interactive
 # The following are not avaialble on SLC and Darwin platforms by default
