@@ -1,7 +1,7 @@
-### RPM external py2-numpy 1.11.1
+### RPM external py2-numpy 1.12.1
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
-Source: https://pypi.python.org/packages/e0/4c/515d7c4ac424ff38cc919f7099bf293dd064ba9a600e1e3835b3edefdb18/numpy-1.11.1.tar.gz
-Requires: python py2-setuptools zlib lapack
+Source: https://github.com/numpy/numpy/releases/download/v%{realversion}/numpy-%{realversion}.tar.gz
+Requires: python py2-setuptools zlib OpenBLAS
 %prep
 %setup -n numpy-%realversion
 
@@ -13,18 +13,20 @@ case %cmsos in
 esac
 
 cat > site.cfg <<EOF
-[blas]
-include_dirs = $LAPACK_ROOT/include
-library_dirs = $LAPACK_ROOT/lib64
-blas_libs = blas
+[default]
+include_dirs = $OPENBLAS_ROOT/include
+library_dirs = $OPENBLAS_ROOT/lib
+[openblas]
+openblas_libs = openblas
+library_dirs = $OPENBLAS_ROOT/lib
 [lapack]
-include_dirs = $LAPACK_ROOT/include
-library_dirs = $LAPACK_ROOT/lib64
-lapack_libs = lapack
+lapack_libs = openblas
+library_dirs = $OPENBLAS_ROOT/lib
+[atlas]
+atlas_libs = openblas
+atlas_dirs = $OPENBLAS_ROOT/lib
 EOF
 
-export ATLAS=None
-export OPENBLAS=None
 mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
 
 python setup.py build  %{makeprocesses} --fcompiler=gnu95

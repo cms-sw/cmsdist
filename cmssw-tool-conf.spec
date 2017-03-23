@@ -87,8 +87,6 @@ Requires: graphviz-toolfile
 Requires: valgrind-toolfile
 Requires: py2-matplotlib-toolfile
 Requires: py2-numpy-toolfile
-Requires: py2-pandas-toolfile
-Requires: py2-scipy-toolfile
 Requires: cmsswdata-toolfile
 Requires: py2-sqlalchemy-toolfile
 Requires: py2-pygithub-toolfile
@@ -152,7 +150,6 @@ Requires: tinyxml-toolfile
 Requires: scons-toolfile
 Requires: md5-toolfile
 Requires: madgraph5amcatnlo-toolfile
-Requires: histogrammar-toolfile
 Requires: py2-pippkgs-toolfile
 Requires: py2-pippkgs_depscipy-toolfile
 Requires: dasgoclient

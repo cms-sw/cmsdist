@@ -6,7 +6,7 @@ Source: https://github.com/xianyi/OpenBLAS/archive/v%{realversion}.tar.gz
 
 %build
 
-make %{makeprocesses} FC=gfortran
+make %{makeprocesses} FC=gfortran BINARY=64 
 
 %install
 make install PREFIX=%i

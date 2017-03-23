@@ -2,11 +2,11 @@
 ## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
 Source: none
 
-Requires: root curl python py2-scipy py2-pippkgs
+Requires: root curl python py2-pippkgs
 
 %define isslc7 %(case %{cmsplatf} in (slc7_amd64*) echo 1 ;; (*) echo 0 ;; esac)
 
-
+BuildRequires: py2-scipy
 BuildRequires: py2-Keras
 BuildRequires: py2-Theano
 BuildRequires: py2-scikit-learn
@@ -19,6 +19,8 @@ BuildRequires: py2-protobuf
 BuildRequires: py2-tables
 BuildRequires: py2-numexpr
 BuildRequires: py2-deepdish
+BuildRequires: py2-histogrammar
+BuildRequires: py2-pandas
 
 %prep
 
