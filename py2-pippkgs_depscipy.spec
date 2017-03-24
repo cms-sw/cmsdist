@@ -1,8 +1,8 @@
 ### RPM external py2-pippkgs_depscipy 3.0
-## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 Source: none
 
-Requires: root curl python py2-pippkgs
+Requires: root curl python py2-pippkgs py2-numpy py2-matplotlib
 
 %define isslc7 %(case %{cmsplatf} in (slc7_amd64*) echo 1 ;; (*) echo 0 ;; esac)
 
@@ -28,13 +28,13 @@ BuildRequires: py2-root_numpy
 %build
  
 %install
-mkdir -p %{i}/$PYTHON_LIB_SITE_PACKAGES
+mkdir -p %{i}/${PYTHON_LIB_SITE_PACKAGES}
 for pkg in %builddirectpkgreqs ; do
-  SOURCE=%{cmsroot}/%{cmsplatf}/${pkg}/$PYTHON_LIB_SITE_PACKAGES
+  SOURCE=%{cmsroot}/%{cmsplatf}/${pkg}/${PYTHON_LIB_SITE_PACKAGES}
   if [ -d $SOURCE ] ; then
     echo "Checking for duplicates ...."
     for f in $(ls $SOURCE) ; do
-      if [ -e %{i}/$PYTHON_LIB_SITE_PACKAGES/$f ] ; then 
+      if [ -e %{i}/${PYTHON_LIB_SITE_PACKAGES}/$f ] ; then 
         # https://github.com/jupyter/jupyter_core/issues/55 - now I delete jupyter.py from one of the providers
         #backports is an example directory that can have multiple packages inside
         if [ $f != "backports" ] ; then  
@@ -45,7 +45,7 @@ for pkg in %builddirectpkgreqs ; do
       fi
     done
     echo "Copying $SOURCE in %{pkgrel}"
-    rsync -av $SOURCE/ %{i}/$PYTHON_LIB_SITE_PACKAGES/
+    rsync -av $SOURCE/ %{i}/${PYTHON_LIB_SITE_PACKAGES}/
   fi
 done
 

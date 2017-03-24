@@ -27,10 +27,10 @@ atlas_libs = openblas
 atlas_dirs = $OPENBLAS_ROOT/lib
 EOF
 
-mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
+mkdir -p %i/${PYTHON_LIB_SITE_PACKAGES}
 
 python setup.py build  %{makeprocesses} --fcompiler=gnu95
-PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH python setup.py install --prefix=%i
+PYTHONPATH=%i/${PYTHON_LIB_SITE_PACKAGES}:$PYTHONPATH python setup.py install --prefix=%i
 sed -ideleteme 's|#!.*/bin/python|#!/usr/bin/env python|' \
   %{i}/bin/f2py \
   %{i}/lib/python*/site-packages/numpy-*/EGG-INFO/scripts/f2py \

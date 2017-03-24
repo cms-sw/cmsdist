@@ -1,5 +1,5 @@
 ### RPM external py2-histogrammar 1.0.6
-## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 %define pip_name histogrammar
 
