@@ -1,5 +1,5 @@
 ### RPM external py2-ipykernel 4.5.2
-## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 
 %define pip_name ipykernel
