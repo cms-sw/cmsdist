@@ -1,5 +1,5 @@
 ### RPM external py2-widgetsnbextension 1.2.6
-## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 
 %define pip_name widgetsnbextension

@@ -1,5 +1,5 @@
 ### RPM external py2-tensorflow 1.0.0
-## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 # nothing on pypi is ok for tensorflow at this point
 %define tensorflowSource https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.0.0-cp27-none-linux_x86_64.whl
