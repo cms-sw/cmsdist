@@ -34,4 +34,4 @@ export CPLUS_INCLUDE_PATH=${FREETYPE_ROOT}/include/freetype2:${LIBPNG_ROOT}/incl
 python setup.py install --prefix=%i  --single-version-externally-managed --record=/dev/null
 
 # No need for test files
-rm -rf %i/$PYTHON_LIB_SITE_PACKAGES/matplotlib/tests
+rm -rf %i/${PYTHON_LIB_SITE_PACKAGES}/matplotlib/tests
