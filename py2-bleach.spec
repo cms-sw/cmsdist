@@ -1,5 +1,5 @@
 ### RPM external py2-bleach 1.5.0
-## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 
 %define pip_name bleach
