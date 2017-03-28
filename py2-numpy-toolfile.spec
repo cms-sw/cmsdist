@@ -17,6 +17,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/py2-numpy.xml
   <use name="python"/>
   <use name="zlib"/>
   <use name="lapack"/>
+  <use name="OpenBLAS"/>
 </tool>
 EOF_TOOLFILE
 
