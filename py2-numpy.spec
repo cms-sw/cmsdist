@@ -1,4 +1,4 @@
-### RPM external py2-numpy 1.11.1
+### RPM external py2-numpy 1.12.1
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 Source: https://github.com/numpy/numpy/releases/download/v%{realversion}/numpy-%{realversion}.tar.gz
 Requires: python py2-setuptools zlib OpenBLAS
