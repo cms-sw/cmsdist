@@ -34,6 +34,7 @@ Provides: perl(Pod::Checker)
 Provides: perl(SOAP::Lite)
 Provides: perl(List::Util)
 Provides: perl(Net::SSL)
+Provides: perl(HTTP::Request::Common)
 
 # Fake provide of twitter client; needs to be installed manually
 Provides: perl(Net::Twitter::Lite)

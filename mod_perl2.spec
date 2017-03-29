@@ -16,10 +16,12 @@ Provides: perl(Apache::TestConfigPerl)
 Provides: perl(BSD::Resource)
 Provides: perl(Data::Flow)
 Provides: perl(Module::Build)
- 
+
+Patch0: mod_perl-inline 
 
 %prep
 %setup -n mod_perl-%realversion
+%patch0 -p1
 
 %build
 perl Makefile.PL INSTALL_BASE=%i MP_APXS=$APACHE2_ROOT/bin/apxs MP_AP_DESTDIR=%i
