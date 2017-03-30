@@ -51,7 +51,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
   -DCMAKE_CXX_COMPILER=g++ \
-  -DCMAKE_F_COMPILER=gfortran \
+  -DCMAKE_Fortran_COMPILER=gfortran \
   -DCMAKE_LINKER=ld \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -Dfail-on-missing=ON \
