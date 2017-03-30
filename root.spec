@@ -45,7 +45,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
   -DCMAKE_CXX_COMPILER=g++ \
-  -DCMAKE_F_COMPILER=gfortran \
+  -DCMAKE_Fortran_COMPILER=gfortran \
   -DCMAKE_LINKER=ld \
   -Dfail-on-missing=ON \
   -Dgnuinstall=OFF \
