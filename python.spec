@@ -14,10 +14,11 @@ Requires: zlib sqlite
 %define tag a91475f5a99e2d66065e85a4a99f8c1c2a769aa2
 %define branch cms/6120484
 %define github_user cms-externals
-Source: git+https://github.com/%github_user/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source0: git+https://github.com/%github_user/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source1: valgrind-python.supp
 
 %prep
-%setup -n python-%{realversion}
+%setup -b 0 -n python-%{realversion}
 
 find . -type f | while read f; do
   if head -n1 $f | grep -q /usr/local; then
@@ -175,6 +176,9 @@ done
                    %{i}/lib/python%{pythonv}/email/test \
                    %{i}/lib/python%{pythonv}/lib2to3/tests \
                    %{i}/lib/pkgconfig }
+
+mkdir -p %{i}/share/valgrind
+cp %{SOURCE1} %{i}/share/valgrind/valgrind-python.supp
 
 # Remove .pyo files
 find %i -name '*.pyo' -exec rm {} \;

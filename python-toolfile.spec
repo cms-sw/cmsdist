@@ -18,6 +18,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/python.xml
   </client>
   <runtime name="PATH" value="$PYTHON_BASE/bin" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <runtime name="PYTHON_VALGRIND_SUPP" value="$PYTHON_BASE/share/valgrind/valgrind-python.supp" type="path"/>
   <use name="root_cxxdefaults"/>
   <use name="sockets"/>
 </tool>
