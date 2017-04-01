@@ -1,17 +1,14 @@
-### RPM external valgrind 3.12.0
+### RPM external valgrind 3.12.99
 ## INITENV SET VALGRIND_LIB %{i}/lib/valgrind
-%define tag 19bc5aa976d728189c0eda5ca4bb2a50c63e1bf9
-%define branch v3.12.0
-%define github_user cms-externals
-Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+
+# Exported from SVN at 16290 revision (1st April, 2017)
+%define revision 16290
+Source: http://davidlt.web.cern.ch/davidlt/vault/valgrind-%{revision}.tar.bz2
 
 BuildRequires: autotools
 
-Patch0: valgrind-kde-gcc7
-
 %prep
-%setup -n %{n}-%{realversion}
-%patch0 -p1
+%setup -n %{n}-%{revision}
 
 %build
 case %{cmsplatf} in
