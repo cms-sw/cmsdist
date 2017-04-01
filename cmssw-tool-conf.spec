@@ -157,7 +157,7 @@ Requires: OpenBLAS-toolfile
 %if %islinux
 Requires: openldap-toolfile
 Requires: python-ldap-toolfile
-Requires: google-perftools-toolfile
+Requires: gperftools-toolfile
 
 %if %isnotppc64le_be
 Requires: igprof-toolfile
