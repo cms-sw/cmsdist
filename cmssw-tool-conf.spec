@@ -44,6 +44,7 @@ Requires: herwig-toolfile
 Requires: herwigpp-toolfile
 Requires: ittnotify-toolfile
 Requires: jemalloc-toolfile
+Requires: jemalloc-debug-toolfile
 Requires: jimmy-toolfile
 Requires: ktjet-toolfile
 Requires: lhapdf-toolfile
@@ -181,7 +182,7 @@ Requires: oracle-fake-toolfile
 %endif
 %endif
 
-%define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler cuda rivet2 opencl opencl-cpp intel-vtune
+%define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler cuda rivet2 opencl opencl-cpp intel-vtune jemalloc-debug
 
 ## IMPORT scramv1-tool-conf
 
