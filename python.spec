@@ -167,7 +167,7 @@ find %i -name '*.py' -perm +0111 | while read f; do
 done
 
 # Remove documentation, examples and test files. 
-%define drop_files { %i/share %{i}/lib/python%{pythonv}/test \
+%define drop_files { %{i}/lib/python%{pythonv}/test \
                    %{i}/lib/python%{pythonv}/distutils/tests \
                    %{i}/lib/python%{pythonv}/json/tests \
                    %{i}/lib/python%{pythonv}/ctypes/test \
@@ -177,6 +177,7 @@ done
                    %{i}/lib/python%{pythonv}/lib2to3/tests \
                    %{i}/lib/pkgconfig }
 
+rm -rf %{i}/share
 mkdir -p %{i}/share/valgrind
 cp %{SOURCE1} %{i}/share/valgrind/valgrind-python.supp
 
