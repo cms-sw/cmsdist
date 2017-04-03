@@ -6,7 +6,8 @@ Source: https://github.com/xianyi/OpenBLAS/archive/v%{realversion}.tar.gz
 
 %build
 
-make %{makeprocesses} FC=gfortran BINARY=64 
+# PRESCOTT is a generic x86-64 target https://github.com/xianyi/OpenBLAS/issues/685 
+make %{makeprocesses} FC=gfortran BINARY=64 TARGET=PRESCOTT 
 
 %install
 make install PREFIX=%i
