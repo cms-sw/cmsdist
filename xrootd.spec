@@ -1,18 +1,13 @@
-### RPM external xrootd 4.0.4
+### RPM external xrootd 4.5.0
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
-%define tag fd6a46e92040ebb2c6897f60bc74c6490212c95a
-%define branch cms/v4.0.4
+%define tag af6aebbbbe7da7fd89f3698c1e485a79a5990037
+%define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake
 Requires: zlib
 Requires: openssl
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x -O2
-%endif
 
 %prep
 %setup -n %n-%{realversion}
@@ -36,13 +31,12 @@ cmake ../ \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DOPENSSL_ROOT_DIR:PATH=${OPENSSL_ROOT} \
   -DZLIB_ROOT:PATH=${ZLIB_ROOT} \
-  -DENABLE_PERL=FALSE \
+  -DENABLE_PYTHON=FALSE \
   -DENABLE_FUSE=FALSE \
   -DENABLE_KRB5=TRUE \
   -DENABLE_READLINE=FALSE \
   -DENABLE_CRYPTO=TRUE \
-  -DCMAKE_SKIP_RPATH=TRUE \
-  -DCMAKE_CXX_FLAGS="%{cms_cxxflags}"
+  -DCMAKE_SKIP_RPATH=TRUE
 
 # Use makeprocess macro, it uses compiling_processes defined by
 # build configuration file or build argument
@@ -55,4 +49,3 @@ cd ..
 
 %define strip_files %i/lib
 %define keep_archives true
-
