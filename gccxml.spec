@@ -1,9 +1,9 @@
-### RPM external gccxml 0.9.0-20140124-0
+### RPM external gccxml 0.9.0-20140124-4
 
 BuildRequires: cmake
 
-%define commit ab651a2aa866351bdd089a4bf1d57f6a9bec2a66
-Source: git+https://github.com/gccxml/gccxml.git?obj=master/%{commit}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tar.gz
+%define commit 367dd4f11ece19a48649e649f7ccbac16ca40db7
+Source: git+https://github.com/davidlange6/gccxml.git?obj=master/%{commit}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tar.gz
 
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
