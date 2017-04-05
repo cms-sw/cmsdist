@@ -28,7 +28,7 @@ else
     export G77_ROOT=$GCC_ROOT
 fi
 
-export ARCH_FFLAGS="-cpp" ;;
+export ARCH_FFLAGS="-cpp" 
 
 export COMPILER_VERSION=`echo %cmsplatf | sed -e 's|.*gcc\([0-9]*\).*|\1|'`
 export COMPILER_VERSION_MAJOR=`echo %cmsplatf | sed -e 's|.*gcc\([0-9]\).*|\1|'`
