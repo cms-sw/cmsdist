@@ -3,7 +3,8 @@
 %define downloadn cx_Oracle
 Source: http://switch.dl.sourceforge.net/sourceforge/cx-oracle/%downloadn-%realversion.tar.gz
 
-Requires: python oracle oracle-env
+Requires: python oracle 
+#oracle-env
 
 %prep
 %setup -n %downloadn-%realversion

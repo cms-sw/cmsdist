@@ -1,6 +1,6 @@
 ### RPM external oracle-toolfile 1.0
 Requires: oracle
-Requires: oracle-env
+#Requires: oracle-env
 %prep
 
 %build
