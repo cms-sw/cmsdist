@@ -1,4 +1,4 @@
-### RPM cms dqmgui 9.0.0
+### RPM cms dqmgui 9.0.1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH %{dynamic_path_var} %i/xlib
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
@@ -92,7 +92,7 @@ done
 
 # Generate an env.sh which sets a few things more than init.sh.
 (echo ". %i/etc/profile.d/init.sh;"
- echo "export YUI_ROOT EXTJS_ROOT D3_ROOT;"
+ echo "export YUI_ROOT EXTJS_ROOT D3_ROOT ROOTJS_ROOT;"
  echo "export DQMGUI_VERSION='%{realversion}';" # for visDQMUpload
  echo "export MONITOR_ROOT='%i';") > %i/128/etc/profile.d/env.sh
 
