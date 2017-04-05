@@ -28,10 +28,7 @@ else
     export G77_ROOT=$GCC_ROOT
 fi
 
-case %cmsplatf in
-  slc*_*_gcc4[012345]*) ;;
-  *) export ARCH_FFLAGS="-cpp" ;;
-esac
+export ARCH_FFLAGS="-cpp" ;;
 
 export COMPILER_VERSION=`echo %cmsplatf | sed -e 's|.*gcc\([0-9]*\).*|\1|'`
 export COMPILER_VERSION_MAJOR=`echo %cmsplatf | sed -e 's|.*gcc\([0-9]\).*|\1|'`
@@ -142,29 +139,14 @@ esac
 # Then handle compiler specific options. E.g. enable
 # optimizations as they become available in gcc.
 COMPILER_CXXFLAGS=
-
-# Set the following for all gcc < 4.6. gcc46 claims it is no longer needed
-# This is perhaps the case also for the earlier versions, but leave it
-# there for now.
-case %cmsplatf in
-   *_gcc4[2345]* )
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Wimplicit"
-   ;;
-esac
-
-# The following causes problems for gcc46 and boost 1.45.0 so downgrade it
-case %cmsplatf in
-   *_gcc4[2345]* )
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Werror=strict-overflow"
-   ;;
-   *_gcc4[6789]* )
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Wstrict-overflow"
-   ;;
-esac
+COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Wstrict-overflow"
 
 
 case %cmsplatf in
    *_amd64_gcc4[56789]* )
+     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++11 -msse3 -ftree-vectorize -Wno-strict-overflow"
+   ;;
+   *_amd64_gcc5* )
      COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++11 -msse3 -ftree-vectorize -Wno-strict-overflow"
    ;;
    *_armv7hl_* )
@@ -172,11 +154,7 @@ case %cmsplatf in
    ;;
 esac
 
-case %cmsplatf in
-   *_gcc4[3456789]* )
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Werror=array-bounds -Werror=format-contains-nul -Werror=type-limits"
-   ;;
-esac
+COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Werror=array-bounds -Werror=format-contains-nul -Werror=type-limits"
 
 # Enable visibility inlines hidden. Should drastically remove
 # the amount of symbols due to templates.
@@ -189,15 +167,14 @@ case %cmsplatf in
   *_gcc4[56789]* )
     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fvisibility-inlines-hidden"
   ;;
+  *_gcc5* )
+    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fvisibility-inlines-hidden"
+  ;;
 esac
 
 # More customizations when using gcc 4.7.x
 # See: https://hypernews.cern.ch/HyperNews/CMS/get/edmFramework/2955.html
-case %cmsplatf in
-  *_gcc4[789]*)
-    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fno-math-errno --param vect-max-version-for-alias-checks=50 -fipa-pta"
-  ;;
-esac
+COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fno-math-errno --param vect-max-version-for-alias-checks=50 -fipa-pta"
 
 export COMPILER_CXXFLAGS
 
