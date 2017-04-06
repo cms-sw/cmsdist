@@ -1,0 +1,21 @@
+From a6e9e0b94b87f149b993bfefe99737b5f711f298 Mon Sep 17 00:00:00 2001
+From: Martin Kroeker <martin@ruby.chemie.uni-freiburg.de>
+Date: Thu, 29 Sep 2016 23:43:28 +0200
+Subject: [PATCH] Remove explicit include of complex.h
+
+---
+ kernel/power/zdot.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/kernel/power/zdot.c b/kernel/power/zdot.c
+index 1205b34..bc1a95e 100644
+--- a/kernel/power/zdot.c
++++ b/kernel/power/zdot.c
+@@ -34,7 +34,6 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ **************************************************************************************/
+ 
+ #include "common.h"
+-#include <complex.h>
+ 
+ 
+ #if defined(POWER8) 
