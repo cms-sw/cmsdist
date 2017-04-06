@@ -1,4 +1,4 @@
-### RPM external python 2.7.11
+### RPM external python 2.7.13
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 ## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib/python%{python_major_version}/site-packages
@@ -76,7 +76,8 @@ export CPPFLAGS
 sed -ibak "s/ndbm_libs = \[\]/ndbm_libs = ['gdbm', 'gdbm_compat']/" setup.py
 
 ./configure --prefix=%i --enable-shared \
-            --without-tkinter --disable-tkinter
+            --without-tkinter --disable-tkinter \
+            --enable-unicode=ucs4 --enable-optimizations
 
 # Modify pyconfig.h to match macros from GLIBC features.h on Linux machines.
 # _POSIX_C_SOURCE and _XOPEN_SOURCE macros are not identical anymore
