@@ -18,7 +18,7 @@ Requires: libunwind
   --enable-libunwind \
   --disable-debugalloc \
   CPPFLAGS="-I${LIBUNWIND_ROOT}/include" \
-  LDFLAGS="-L${LIBUNWIND_ROOT}/lib"
+  LDFLAGS="-L${LIBUNWIND_ROOT}/lib -L${LIBUNWIND_ROOT}/lib64"
 
 make %{makeprocesses}
 
