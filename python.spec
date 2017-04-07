@@ -76,7 +76,7 @@ sed -ibak "s|LIBFFI_INCLUDEDIR=.*|LIBFFI_INCLUDEDIR=\"${LIBFFI_ROOT}/include\"|g
   --prefix=%{i} \
   --enable-shared \
   --with-system-ffi \
-  --with-system-expat \
+  --with-system-expat --enable-unicode=ucs4 \
   $additionalConfigureOptions
 
 # Modify pyconfig.h to match macros from GLIBC features.h on Linux machines.
