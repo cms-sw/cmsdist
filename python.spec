@@ -15,8 +15,12 @@ Requires: zlib openssl sqlite readline ncurses
 
 # FIXME: crypt
 # FIXME: gmp, panel, tk/tcl, x11
-%define tag 9cd0df98a9579245343d5f37084b192f03836ee5
-%define branch cms/v%realversion
+# python 2.7.11
+#%define tag 9cd0df98a9579245343d5f37084b192f03836ee5
+#%define branch cms/v%realversion
+# python 2.7.13+
+%define tag a91475f5a99e2d66065e85a4a99f8c1c2a769aa2
+%define branch cms/6120484
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
