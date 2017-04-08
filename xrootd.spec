@@ -1,6 +1,6 @@
 ### RPM external xrootd 4.6.0
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-%define tag 088b48e083c7a9e74d5509f735a88610207c2462
+%define tag 762973eb4cb7efc7ac6cc1eb00e4529af6d7c712
 %define branch stable-4.6.x
 %define github_user xrootd
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
