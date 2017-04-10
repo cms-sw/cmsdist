@@ -1,6 +1,6 @@
 ### RPM external jemalloc 4.5.99
 
-%define tag eeabdd246693fbf7c54e03ff8957889e63dc9a0c
+%define tag 701daa5298b3befe2aff05ce590533165abb9ba4
 %define branch dev
 %define github_user jemalloc
 Source: git+https://github.com/%{github_user}/jemalloc.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
