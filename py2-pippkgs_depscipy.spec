@@ -22,6 +22,10 @@ BuildRequires: py2-deepdish
 BuildRequires: py2-histogrammar
 BuildRequires: py2-pandas
 BuildRequires: py2-root_numpy
+BuildRequires: py2-bottleneck 
+BuildRequires: py2-downhill 
+BuildRequires: py2-theanets
+BuildRequires: py2-xgboost.spec
 
 %prep
 
