@@ -68,3 +68,4 @@ SimDataFormats/Track
 SimDataFormats/TrackerDigiSimLink
 SimDataFormats/Vertex
 Utilities/ReleaseScripts
+Utilities/DavixAdaptor
