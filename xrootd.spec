@@ -1,9 +1,11 @@
-### RPM external xrootd 4.5.0
+### RPM external xrootd 4.6.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-%define tag 6a5db61a4ef13d1e79da71af47fbb8a660cf8aac
-%define branch cms/v%{realversion}
-%define github_user cms-externals
+%define tag 762973eb4cb7efc7ac6cc1eb00e4529af6d7c712
+%define branch stable-4.6.x
+%define github_user xrootd
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+
+Patch1: xrootd-add-version
 
 BuildRequires: cmake
 Requires: zlib
@@ -11,6 +13,7 @@ Requires: openssl
 
 %prep
 %setup -n %n-%{realversion}
+%patch1 -p1
 
 # need to fix these from xrootd git
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
