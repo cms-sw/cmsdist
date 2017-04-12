@@ -123,6 +123,7 @@ SimDataFormats/TrackingHit
 SimDataFormats/Vertex
 Utilities/General
 Utilities/ReleaseScripts
+Utilities/DavixAdaptor
 Geometry/CommonDetUnit
 SimDataFormats/JetMatching/interface/JetFlavourInfo.h
 DataFormats/TrackerCommon
