@@ -3,6 +3,7 @@
 Source: none
 
 Requires: data-Fireworks-Geometry
+Requires: data-DataFormats-PatCandidates
 
 %prep
 %build
