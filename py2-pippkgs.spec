@@ -80,6 +80,7 @@ BuildRequires: py2-funcsigs
 BuildRequires: py2-nose
 BuildRequires: py2-pkgconfig
 BuildRequires: py2-pysqlite
+BuildRequires: py2-click
 
 %prep
 
