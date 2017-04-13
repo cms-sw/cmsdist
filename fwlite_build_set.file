@@ -124,6 +124,7 @@ SimDataFormats/Vertex
 Utilities/General
 Utilities/ReleaseScripts
 Utilities/DavixAdaptor
+Utilities/StorageFactory
 Geometry/CommonDetUnit
 SimDataFormats/JetMatching/interface/JetFlavourInfo.h
 DataFormats/TrackerCommon
