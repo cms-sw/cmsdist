@@ -80,7 +80,6 @@ DataFormats/TrajectorySeed
 DataFormats/TrajectoryState
 DataFormats/VertexReco
 DataFormats/WrappedStdDictionaries
-FWCore/Catalog
 FWCore/Common
 FWCore/Concurrency
 FWCore/FWLite
@@ -124,9 +123,7 @@ SimDataFormats/TrackingHit
 SimDataFormats/Vertex
 Utilities/General
 Utilities/ReleaseScripts
-Utilities/DavixAdaptor
 Utilities/StorageFactory
-Utilities/Xerces
 Geometry/CommonDetUnit
 SimDataFormats/JetMatching/interface/JetFlavourInfo.h
 DataFormats/TrackerCommon
