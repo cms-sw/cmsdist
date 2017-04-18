@@ -1,4 +1,4 @@
-### RPM external utm r47119-xsd330-patch
+### RPM external utm overlapRemoval-xsd330
 Source: git+https://gitlab.cern.ch/cms-l1t-utm/utm.git?obj=master/%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: gmake
 Requires: xerces-c
