@@ -44,6 +44,7 @@ Requires: data-CalibTracker-SiStripDCS
 Requires: data-SimTracker-SiStripDigitizer
 Requires: data-CalibCalorimetry-EcalTrivialCondModules
 Requires: data-DataFormats-PatCandidates
+Requires: SimTransport-CTPPSHectorProducer
 
 %if %isnotonline
 # extra data dependencies for standard builds
