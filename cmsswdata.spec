@@ -43,7 +43,7 @@ Requires: data-SLHCUpgradeSimulations-Geometry
 Requires: data-CalibTracker-SiStripDCS
 Requires: data-SimTracker-SiStripDigitizer
 Requires: data-CalibCalorimetry-EcalTrivialCondModules
-
+Requires: data-SimTransportCTPPSHectorProducer
 %if %isnotonline
 # extra data dependencies for standard builds
 Requires: data-FastSimulation-MaterialEffects
