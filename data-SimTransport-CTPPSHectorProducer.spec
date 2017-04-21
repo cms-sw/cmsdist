@@ -1,4 +1,4 @@
-### RPM cms data-SimTransportCTPPSHectorProducer V01-00-00
+### RPM cms data-SimTransport-CTPPSHectorProducer V01-00-00
 
 %prep
 
