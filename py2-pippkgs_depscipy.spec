@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 Source: none
 
-Requires: root curl python py2-pippkgs py2-numpy py2-matplotlib
+Requires: root curl python py2-pippkgs py2-numpy py2-matplotlib xrootd
 
 %define isslc7 %(case %{cmsplatf} in (slc7_amd64*) echo 1 ;; (*) echo 0 ;; esac)
 
@@ -26,6 +26,12 @@ BuildRequires: py2-bottleneck
 BuildRequires: py2-downhill 
 BuildRequires: py2-theanets
 BuildRequires: py2-xgboost
+BuildRequires: py2-llvmlite
+BuildRequires: py2-numba
+
+#this DOES NOT depend on numpy..
+BuildRequires: py2-xrootdpyfs
+
 
 %prep
 
