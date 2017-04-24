@@ -7,3 +7,4 @@ Requires: py2-funcsigs py2-enum34 py2-six py2-singledispatch py2-llvmlite py2-nu
 
 ## IMPORT build-with-pip
 
+%define PipPostBuild perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
