@@ -81,6 +81,7 @@ BuildRequires: py2-nose
 BuildRequires: py2-pkgconfig
 BuildRequires: py2-pysqlite
 BuildRequires: py2-click
+BuildRequires: py2-jsonpickle
 
 %prep
 
