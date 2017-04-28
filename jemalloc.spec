@@ -1,4 +1,4 @@
-### RPM external jemalloc 4.3.1
+### RPM external jemalloc 4.5.0
 Source: https://github.com/jemalloc/jemalloc/releases/download/%{realversion}/jemalloc-%{realversion}.tar.bz2
 
 %prep
@@ -6,6 +6,6 @@ Source: https://github.com/jemalloc/jemalloc/releases/download/%{realversion}/je
 
 %build
 perl -p -i -e 's|-no-cpp-precomp||' configure
-./configure --disable-stats --prefix %{i}
+./configure --enable-stats --prefix %{i}
 
 %define drop_files %{i}/share
