@@ -1,0 +1,47 @@
+--- coral/FrontierAccess/src/Connection.h	2017-04-28 09:43:29.945972505 -0500
++++ ../coral/src/FrontierAccess/src/Connection.h	2011-03-22 05:36:50.000000000 -0500
+@@ -91,7 +91,7 @@
+       /// The type converter
+       TypeConverter*                                   m_typeConverter;
+       /// The connection lock
+-      static boost::mutex s_lock;
++      mutable boost::mutex m_lock;
+     };
+   } // FrontierAccess namespace
+ } // coral namespace
+--- coral/FrontierAccess/src/Connection.cpp	2017-04-28 09:45:26.111480886 -0500
++++ ../coral/src/FrontierAccess/src/Connection.cpp	2011-03-22 05:36:50.000000000 -0500
+@@ -20,7 +20,6 @@
+ #include "ErrorHandler.h"
+ #include "Session.h"
+ #include "TypeConverter.h"
+-boost::mutex coral::FrontierAccess::Connection::s_lock{};
+ 
+ coral::FrontierAccess::Connection::Connection( const coral::FrontierAccess::DomainProperties& domainProperties, const std::string& connectionString )
+   : m_connection(0)
+@@ -29,6 +28,7 @@
+   , m_connected( false )
+   , m_serverVersion( "" )
+   , m_typeConverter( new coral::FrontierAccess::TypeConverter( m_domainProperties ) )
++  , m_lock()
+ {
+   if( this->m_typeConverter )
+     this->m_typeConverter->reset( 10 );
+@@ -103,7 +103,7 @@
+   log << coral::Verbose << "Connecting to Frontier server using URL: " << this->m_connectionString << coral::MessageStream::endmsg;
+ 
+   {
+-    boost::mutex::scoped_lock lock( s_lock );
++    boost::mutex::scoped_lock lock( m_lock );
+ 
+     // Attaching the server
+     m_connection = new frontier::Connection( m_connectionString );
+@@ -126,7 +126,7 @@
+                                         m_domainProperties,
+                                         m_connectionString,
+                                         *m_connection,
+-                                        s_lock,
++                                        m_lock,
+                                         schemaName,
+                                         *m_typeConverter );
+   return session;
