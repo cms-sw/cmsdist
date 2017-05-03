@@ -1,5 +1,5 @@
---- coral/FrontierAccess/src/Connection.h	2017-04-28 09:43:29.945972505 -0500
-+++ ../coral/src/FrontierAccess/src/Connection.h	2011-03-22 05:36:50.000000000 -0500
+--- a/src/FrontierAccess/src/Connection.h	2017-04-28 09:43:29.945972505 -0500
++++ b/src/FrontierAccess/src/Connection.h	2011-03-22 05:36:50.000000000 -0500
 @@ -91,7 +91,7 @@
        /// The type converter
        TypeConverter*                                   m_typeConverter;
@@ -9,8 +9,8 @@
      };
    } // FrontierAccess namespace
  } // coral namespace
---- coral/FrontierAccess/src/Connection.cpp	2017-04-28 09:45:26.111480886 -0500
-+++ ../coral/src/FrontierAccess/src/Connection.cpp	2011-03-22 05:36:50.000000000 -0500
+--- a/src/FrontierAccess/src/Connection.cpp	2017-04-28 09:45:26.111480886 -0500
++++ b/src/FrontierAccess/src/Connection.cpp	2011-03-22 05:36:50.000000000 -0500
 @@ -20,7 +20,6 @@
  #include "ErrorHandler.h"
  #include "Session.h"
