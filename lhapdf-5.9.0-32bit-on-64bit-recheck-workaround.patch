@@ -1,0 +1,11 @@
+--- orig.lhapdf/5.9.0/Makefile.in	2010-08-31 17:27:38.000000000 +0200
++++ lhapdf/5.9.0/Makefile.in	2010-08-31 17:30:46.000000000 +0200
+@@ -262,7 +262,7 @@
+ 	esac;
+ 
+ $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
+-	$(SHELL) ./config.status --recheck
++	#$(SHELL) ./config.status --recheck
+ 
+ $(top_srcdir)/configure:  $(am__configure_deps)
+ 	cd $(srcdir) && $(AUTOCONF)

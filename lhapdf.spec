@@ -1,10 +1,10 @@
-### RPM external lhapdf 5.8.5
+### RPM external lhapdf 5.9.0
 
 %define realversion %(echo %{v} | cut -d- -f1)
-Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
-Patch1: lhapdf-5.8.5-gzio
+Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src-sets.tgz
+Patch1: lhapdf-%{realversion}-gzio
 Patch2: lhapdf-data-5.8.5-gzio
-Patch3: lhapdf-5.8.5-disable-examples-and-tests
+Patch3: lhapdf-%{realversion}-disable-examples-and-tests
 
 Requires: zlib python
 BuildRequires: autotools swig
@@ -36,7 +36,6 @@ rm ./pyext/lhapdf_wrap.cc
 %patch1 -p2
 
 cd share/lhapdf/PDFsets
-%patch2 -p5
 
 rm -f *gz NNPDF*1000*
 cat <<\EOF > ../compress.mk
