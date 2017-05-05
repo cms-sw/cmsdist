@@ -21,6 +21,15 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/py2-numpy.xml
 </tool>
 EOF_TOOLFILE
 
-export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
+cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-numpy-c-api.xml
+<tool name="py2-numpy-c-api" version="@TOOL_VERSION@">
+  <client>
+    <environment name="PY2_NUMPY_C_API_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$PY2_NUMPY_C_API_BASE/c-api/core/include"/>
+  </client>
+  <use name="python"/>
+</tool>
+EOF_TOOLFILE
 
+export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 ## IMPORT scram-tools-post
