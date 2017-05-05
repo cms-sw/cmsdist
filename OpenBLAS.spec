@@ -8,9 +8,9 @@ Source: https://github.com/xianyi/OpenBLAS/archive/v%{realversion}.tar.gz
 
 # PRESCOTT is a generic x86-64 target https://github.com/xianyi/OpenBLAS/issues/685 
 %ifarch x86_64
-make %{makeprocesses} FC=gfortran BINARY=64 TARGET=PENRYN NUM_THREADS=256 DYNAMIC_ARCH=0
+make FC=gfortran BINARY=64 TARGET=PENRYN NUM_THREADS=256 DYNAMIC_ARCH=0
 %else
-make %{makeprocesses} FC=gfortran BINARY=64 NUM_THREADS=256 DYNAMIC_ARCH=0
+make FC=gfortran BINARY=64 NUM_THREADS=256 DYNAMIC_ARCH=0
 %endif
 
 %install
