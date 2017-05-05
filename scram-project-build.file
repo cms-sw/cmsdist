@@ -140,14 +140,7 @@ echo %{configtag} > %_builddir/config/config_tag
 
 %{?PartialBootstrapPatch:%PartialBootstrapPatch}
 %{?patchsrc:%patchsrc}
-%{?patchsrc2:%patchsrc2}
-%{?patchsrc3:%patchsrc3}
-%{?patchsrc4:%patchsrc4}
-%{?patchsrc5:%patchsrc5}
-%{?patchsrc6:%patchsrc6}
-%{?patchsrc7:%patchsrc7}
-%{?patchsrc8:%patchsrc8}
-%{?patchsrc9:%patchsrc9}
+%{expand:%(for i in {2..20..1} ; do echo %%{?patchsrc$i:%%patchsrc$i}; done)}
 
 rm -rf %i
 mkdir -p $(dirname %i)
