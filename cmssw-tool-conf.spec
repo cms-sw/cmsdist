@@ -50,6 +50,7 @@ Requires: libtiff-toolfile
 Requires: libungif-toolfile
 Requires: libxml2-toolfile
 Requires: mcdb-toolfile
+Requires: madgraph5amcatnlo-toolfile
 Requires: meschach-toolfile
 Requires: openssl-toolfile
 Requires: oracle-env
