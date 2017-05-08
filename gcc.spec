@@ -4,7 +4,7 @@
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-6-branch/?view=log
-%define gccRevision 247534
+%define gccRevision 247734
 %define gccBranch branches/gcc-7-branch
 
 %define moduleName gcc-%(echo %{gccBranch} | tr / _)-%{gccRevision}
@@ -30,7 +30,7 @@ Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 %if %islinux
 %define bisonVersion 3.0.4
 %define binutilsVersion 2.28
-%define elfutilsVersion 0.168
+%define elfutilsVersion 0.169
 %define m4Version 1.4.18
 %define flexVersion 2.6.3
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
