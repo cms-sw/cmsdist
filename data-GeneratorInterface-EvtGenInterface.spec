@@ -1,4 +1,4 @@
-### RPM cms data-GeneratorInterface-EvtGenInterface V02-00-06
+### RPM cms data-GeneratorInterface-EvtGenInterface V02-00-08
 
 %prep
 
