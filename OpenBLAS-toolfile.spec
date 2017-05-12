@@ -16,6 +16,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/OpenBLAS.xml
     <environment name="LIBDIR" default="$OPENBLAS_BASE/lib"/>
     <environment name="BINDIR" default="$OPENBLAS_BASE/bin"/>
   </client>
+  <runtime name="OPENBLAS_NUM_THREADS" value="1"/>
 </tool>
 EOF_TOOLFILE
 
