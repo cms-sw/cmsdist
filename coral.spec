@@ -40,7 +40,7 @@ Patch10: coral-CORAL_2_3_21-frontier-lock-coverage
 %define patchsrc8       %patch7 -p1
 %define patchsrc9       %patch8 -p1
 %define patchsrc10      %patch9 -p1
-%define patchsrc11      %patch10 -p1
+%define patchsrc11      %patch10 -p2
 
 # Drop Oracle interface on ARM machines and POWER machines.
 # Oracle does not provide Instant Client for ARMv8 or POWER8.
