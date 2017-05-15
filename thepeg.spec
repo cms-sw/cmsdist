@@ -61,9 +61,10 @@ make %{makeprocesses}
 make install
 find %{i}/lib -name '*.la' -exec rm -f {} \;
 
+
 %post
 %{relocateConfig}lib/ThePEG/Makefile.common
 %{relocateConfig}lib/ThePEG/Makefile
 %{relocateConfig}lib/ThePEG/ThePEGDefaults.rpo
 %{relocateConfig}lib/ThePEG/ThePEGDefaults-%{realversion}.rpo
-
+ln -s $RPM_INSTALL_PREFIX/%{pkgrel}/lib/ThePEG/LesHouches.so $RPM_INSTALL_PREFIX/%{pkgrel}/lib/ThePEG/libLesHouches.so
