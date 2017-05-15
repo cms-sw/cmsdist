@@ -66,3 +66,4 @@ find %{i}/lib -name '*.la' -exec rm -f {} \;
 %{relocateConfig}lib/ThePEG/Makefile
 %{relocateConfig}lib/ThePEG/ThePEGDefaults.rpo
 %{relocateConfig}lib/ThePEG/ThePEGDefaults-%{realversion}.rpo
+

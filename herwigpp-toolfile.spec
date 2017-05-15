@@ -9,6 +9,7 @@ Requires: herwigpp
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/herwigpp.xml
 <tool name="herwigpp" version="@TOOL_VERSION@">
+  <lib name="HerwigAPI"/>
   <client>
     <environment name="HERWIGPP_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$HERWIGPP_BASE/lib/Herwig"/>
