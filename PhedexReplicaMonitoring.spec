@@ -1,4 +1,4 @@
-### RPM cms PhedexReplicaMonitoring v00.00.14
+### RPM cms PhedexReplicaMonitoring v00.00.16
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define wmcver 1.1.1.pre4
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
@@ -6,7 +6,7 @@
 %define wmcpkg WMCore
 Source0: git://github.com/dmwm/PhedexReplicaMonitoring?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
 Source1: git://github.com/dmwm/WMCore?obj=master/%wmcver&export=%{wmcpkg}_%n&output=/%{wmcpkg}_%n.tar.gz
-Requires: python py2-py4j java-jdk elasticsearch elasticsearch-hadoop kibana rotatelogs
+Requires: python py2-py4j py2-stomp java-jdk elasticsearch elasticsearch-hadoop kibana rotatelogs
 BuildRequires: py2-sphinx
 
 # RPM macros documentation
@@ -30,6 +30,7 @@ cp -r src/python/* %i/${PYTHON_LIB_SITE_PACKAGES}
 cp src/scripts/*.sh %i/bin
 cp -r data %i/
 cp -r etc %i/
+touch %i/${PYTHON_LIB_SITE_PACKAGES}/WMCore/Services/__init__.py
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
