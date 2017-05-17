@@ -1,4 +1,4 @@
-### RPM lcg root-toolfile 2.0
+### RPM lcg root-toolfile 2.1
 Requires: root
 Requires: gcc
 %prep
@@ -60,6 +60,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcling.xml
   <use name="sockets"/>
   <use name="pcre"/>
   <use name="zlib"/>
+  <use name="xz"/>
 </tool>
 EOF_TOOLFILE
 
@@ -68,6 +69,15 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootrint.xml
 <tool name="rootrint" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <lib name="Rint"/>
+  <use name="rootcling"/>
+</tool>
+EOF_TOOLFILE
+
+# rootsmatrix toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootsmatrix.xml
+<tool name="rootsmatrix" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="Smatrix"/>
   <use name="rootcling"/>
 </tool>
 EOF_TOOLFILE
