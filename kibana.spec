@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source: https://download.elastic.co/kibana/kibana/kibana-%{realversion}-linux-x86_64.tar.gz
-Requires: elasticsearch
+Requires: elasticsearch fakesystem
 
 %prep
 %setup -n kibana-%realversion-linux-x86_64
