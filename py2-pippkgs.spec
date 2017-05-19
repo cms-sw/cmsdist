@@ -82,6 +82,7 @@ BuildRequires: py2-pkgconfig
 BuildRequires: py2-pysqlite
 BuildRequires: py2-click
 BuildRequires: py2-jsonpickle
+BuildRequires: py2-prwlock
 
 %prep
 
