@@ -1,4 +1,4 @@
-### RPM cms dbs3-combined 3.4.3
+### RPM cms dbs3-combined 3.4.4
 
 # This is a fake spec whose only job is to build and upload 
 # dbs3 and dbs3-client in one go
