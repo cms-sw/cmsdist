@@ -1,12 +1,12 @@
-### RPM lcg root 6.09.03
+### RPM lcg root 6.09.04
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag d81a596295eeb163cd517a0adddaf3f07ca78706
-%define branch cms/ad546b2
+%define tag fef453eeff331d67426de93413be3d6478297825
+%define branch cms/60820b3
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
-Patch0: root_master_cxx17
+Patch0: root_new_cxx17
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)

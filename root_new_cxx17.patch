@@ -1,0 +1,107 @@
+diff --git a/cmake/modules/RootConfiguration.cmake b/cmake/modules/RootConfiguration.cmake
+index e8c22cc..25b0368 100644
+--- a/cmake/modules/RootConfiguration.cmake
++++ b/cmake/modules/RootConfiguration.cmake
+@@ -531,7 +531,7 @@ else()
+ endif()
+ 
+ CHECK_CXX_SOURCE_COMPILES("#include <tuple>
+-int main() { std::tuple<int> tup;std::apply(tup, [](int){}); return 0;}" found_stdapply)
++int main() { std::apply([](int, int){}, std::make_tuple(1,2)); return 0;}" found_stdapply)
+ if(found_stdapply)
+   set(hasstdapply define)
+ else()
+diff --git a/core/base/v7/inc/ROOT/impl_tuple_apply.hxx b/core/base/v7/inc/ROOT/impl_tuple_apply.hxx
+index ee0f631..d9d3716 100644
+--- a/core/base/v7/inc/ROOT/impl_tuple_apply.hxx
++++ b/core/base/v7/inc/ROOT/impl_tuple_apply.hxx
+@@ -65,6 +65,7 @@ decltype(auto) invoke(F&& f, ArgTypes&&... args) {
+ }
+ #endif // ndef R__HAS_STD_INVOKE
+ 
++#ifndef R__HAS_STD_APPLY
+ // From http://en.cppreference.com/w/cpp/experimental/apply
+ namespace detail {
+ template<class F, class Tuple, std::size_t... I>
+@@ -82,6 +83,7 @@ constexpr decltype(auto) apply(F &&f, Tuple &&t) {
+                             std::make_index_sequence < std::tuple_size <
+                             std::decay_t < Tuple >> {} > {});
+ }
++#endif // ndef R__HAS_STD_APPLY
+ } // namespace __ROOT
+ } // namespace std
+ 
+diff --git a/hist/hist/v7/inc/ROOT/THistImpl.hxx b/hist/hist/v7/inc/ROOT/THistImpl.hxx
+index e49b673..2d888f4 100644
+--- a/hist/hist/v7/inc/ROOT/THistImpl.hxx
++++ b/hist/hist/v7/inc/ROOT/THistImpl.hxx
+@@ -16,6 +16,7 @@
+ #define ROOT7_THistImpl
+ 
+ #include <cctype>
++#include <functional>
+ #include "ROOT/RArrayView.hxx"
+ #include "ROOT/RTupleApply.hxx"
+ 
+diff --git a/interpreter/llvm/src/tools/clang/lib/Frontend/InitPreprocessor.cpp b/interpreter/llvm/src/tools/clang/lib/Frontend/InitPreprocessor.cpp
+index 6b93c69..bd9672b 100644
+--- a/interpreter/llvm/src/tools/clang/lib/Frontend/InitPreprocessor.cpp
++++ b/interpreter/llvm/src/tools/clang/lib/Frontend/InitPreprocessor.cpp
+@@ -377,9 +377,11 @@ static void InitializeStandardPredefinedMacros(const TargetInfo &TI,
+     else if (!LangOpts.GNUMode && LangOpts.Digraphs)
+       Builder.defineMacro("__STDC_VERSION__", "199409L");
+   } else {
+-    // FIXME: Use correct value for C++17.
++    // C++17 [cpp.predefined]p1:
++    //   The name __cplusplus is defined to the value 201703L when compiling a
++    //   C++ translation unit.
+     if (LangOpts.CPlusPlus1z)
+-      Builder.defineMacro("__cplusplus", "201406L");
++      Builder.defineMacro("__cplusplus", "201703L");
+     // C++1y [cpp.predefined]p1:
+     //   The name __cplusplus is defined to the value 201402L when compiling a
+     //   C++ translation unit.
+diff --git a/io/io/v7/inc/ROOT/TFile.hxx b/io/io/v7/inc/ROOT/TFile.hxx
+index dd62024..020ea83 100644
+--- a/io/io/v7/inc/ROOT/TFile.hxx
++++ b/io/io/v7/inc/ROOT/TFile.hxx
+@@ -160,7 +160,7 @@ public:
+ 
+   /// Write an object that is already lifetime managed by this TFileImplBase.
+   void Write(std::string_view name) {
+-    auto dep = Find(name.to_string());
++    auto dep = Find(std::string(name.data(), name.size()));
+     WriteMemoryWithType(name, dep.GetPointer().get(), dep.GetType());
+   }
+ 
+diff --git a/io/io/v7/src/TFile.cxx b/io/io/v7/src/TFile.cxx
+index 4d75333..a1912cb 100644
+--- a/io/io/v7/src/TFile.cxx
++++ b/io/io/v7/src/TFile.cxx
+@@ -97,7 +97,7 @@ public:
+   }
+ 
+   void WriteMemoryWithType(std::string_view name, const void* address, TClass* cl) final {
+-    fOldFile->WriteObjectAny(address, cl, name.to_string().c_str());
++    fOldFile->WriteObjectAny(address, cl, name.data());
+   }
+ };
+ }
+@@ -144,7 +144,7 @@ OpenV6TFile(std::string_view name, const char* mode,
+     }
+   } setCacheDirRAII(opts.fCachedRead);
+ 
+-  auto v6storage = std::make_unique<TV6Storage>(name.to_string(), GetV6TFileOpts(mode, opts));
++  auto v6storage = std::make_unique<TV6Storage>(std::string(name.data(), name.size()), GetV6TFileOpts(mode, opts));
+ 
+   using namespace ROOT::Experimental::Internal;
+   return std::unique_ptr<TFileStorageInterface>{std::move(v6storage)};
+@@ -191,7 +191,7 @@ std::string ROOT::Experimental::TFile::SetCacheDir(std::string_view path) {
+   std::lock_guard<std::mutex> lock(GetCacheDirMutex());
+ 
+   std::string ret = ::TFile::GetCacheFileDir();
+-  ::TFile::SetCacheFileDir(path.to_string().c_str());
++  ::TFile::SetCacheFileDir(path.data());
+   return ret;
+ }
+ 
