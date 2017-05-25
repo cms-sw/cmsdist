@@ -4,7 +4,7 @@
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-6-branch/?view=log
-%define gccRevision 247734
+%define gccRevision 248397
 %define gccBranch branches/gcc-7-branch
 
 %define moduleName gcc-%(echo %{gccBranch} | tr / _)-%{gccRevision}
@@ -43,11 +43,13 @@ Source11: https://github.com/westes/flex/releases/download/v%{flexVersion}/flex-
 Patch0: gcc-flex-nonfull-path-m4
 Patch1: gcc-flex-disable-doc
 Patch2: gcc-remove-LWG2825-LWG2756-r245024
+Patch3: 0001-Revert-r248245-breaks-ROOT
 
 %prep
 
 %setup -T -b 0 -n %{moduleName}
 %patch2 -p1
+%patch3 -p1
 
 # Filter out private stuff from RPM requires headers.
 cat << \EOF > %{name}-req
