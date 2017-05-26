@@ -1,9 +1,9 @@
-### RPM cms cms-git-tools 161206.0
+### RPM cms cms-git-tools 170516.0
 ## NOCOMPILER
 
 # ***Do not change minor number of the above version.***
 
-%define commit 3259428d551ca781aeed99ef4ec51cab838c584d
+%define commit 9e0f1feb6846e08db715962caa8feb454cd4192a
 %define branch master
 # We do not use a revision explicitly, because revisioned packages do not get
 # updated automatically when they are dependencies.
@@ -14,7 +14,7 @@ Source0: git://github.com/cms-sw/cms-git-tools.git?obj=%{branch}/%{commit}&expor
 %setup -n %{n}
 
 mkdir -p %{i}/common %{i}/share/man/man1
-cp git-cms-* %{i}/common
+cp -pR git-cms-* %{i}/common
 cp docs/man/man1/*.1 %{i}/share/man/man1
 find %{i}/common -name '*' -type f -exec chmod +x {} \;
 
@@ -40,6 +40,9 @@ fi
 
 for file in $(find . -name '*' -type f -path '*/common/*' -o -type f -path '*/share/*') ; do
   cp -f ${file} ${RPM_INSTALL_PREFIX}/${file}
+done
+for file in $(find . -name '*' -type l -path '*/common/*') ; do
+  cp -pRf ${file} ${RPM_INSTALL_PREFIX}/${file}
 done
 rm -f ${RPM_INSTALL_PREFIX}/common/git-addpkg
 rm -f ${RPM_INSTALL_PREFIX}/common/git-checkdeps
