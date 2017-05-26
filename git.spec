@@ -35,6 +35,7 @@ Provides: perl(Time::HiRes)
 %patch1 -p1
 
 %build
+export LDFLAGS="-L${OPENSSL_ROOT}/lib
 make %{makeprocesses} configure
 ./configure prefix=%{i} \
    --with-curl=${CURL_ROOT} \
