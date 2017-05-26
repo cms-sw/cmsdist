@@ -1,4 +1,4 @@
-### RPM external git 2.12.0
+### RPM external git 2.13.0
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH PATH %{i}/libexec/git-core
 ## INITENV SET GIT_TEMPLATE_DIR %{i}/share/git-core/templates
@@ -35,6 +35,7 @@ Provides: perl(Time::HiRes)
 %patch1 -p1
 
 %build
+export LDFLAGS="-L${OPENSSL_ROOT}/lib"
 make %{makeprocesses} configure
 ./configure prefix=%{i} \
    --with-curl=${CURL_ROOT} \
