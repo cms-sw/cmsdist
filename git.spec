@@ -1,4 +1,4 @@
-### RPM external git 2.12.0
+### RPM external git 2.13.0
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH PATH %{i}/libexec/git-core
 ## INITENV SET GIT_TEMPLATE_DIR %{i}/share/git-core/templates
