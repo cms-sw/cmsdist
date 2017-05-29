@@ -2,6 +2,7 @@
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 %define tag 10ba4d7adfc5c66f33bcc77cf38ca45f426cb041
 %define branch stable-4.6.x
+
 %define github_user xrootd
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
