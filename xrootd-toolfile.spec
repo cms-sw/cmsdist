@@ -18,6 +18,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/xrootd.xml
     <environment name="LIBDIR" default="$XROOTD_BASE/lib64"/>
   </client>
   <runtime name="PATH" value="$XROOTD_BASE/bin" type="path"/>
+  <runtime name="PYTHONPATH" value="$XROOTD_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
 </tool>
