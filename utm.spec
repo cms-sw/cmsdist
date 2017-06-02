@@ -3,9 +3,11 @@ Source: git+https://gitlab.cern.ch/cms-l1t-utm/utm.git?obj=master/%{realversion}
 BuildRequires: gmake
 Requires: xerces-c
 Requires: boost
+Patch0: utm-0.6.4-boost-and-transform-fix
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 export XERCES_C_BASE=${XERCES_C_ROOT}
