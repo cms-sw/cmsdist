@@ -11,8 +11,8 @@ Requires: zlib sqlite
 
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, x11
-%define tag a91475f5a99e2d66065e85a4a99f8c1c2a769aa2
-%define branch cms/6120484
+%define tag dfe547a19572852ca1de578f695ee5ba219f7da2
+%define branch cms/6a1b89d
 %define github_user cms-externals
 Source0: git+https://github.com/%github_user/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Source1: valgrind-python.supp
