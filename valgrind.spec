@@ -1,14 +1,15 @@
 ### RPM external valgrind 3.12.99
 ## INITENV SET VALGRIND_LIB %{i}/lib/valgrind
 
-# Exported from SVN at 16290 revision (1st April, 2017)
-%define revision 16290
-Source: http://davidlt.web.cern.ch/davidlt/vault/valgrind-%{revision}.tar.bz2
+# Exported from SVN at 16435 revision (4th June, 2017)
+%define valgrindRevision 16435
+%define valgrindBranch trunk
+Source: svn://svn.valgrind.org/valgrind/%{valgrindBranch}?module=%{n}-%{valgrindRevision}&revision=%{valgrindRevision}&output=/%{n}-%{valgrindRevision}.tar.gz
 
 BuildRequires: autotools
 
 %prep
-%setup -n %{n}-%{revision}
+%setup -n %{n}-%{valgrindRevision}
 
 %build
 case %{cmsplatf} in
