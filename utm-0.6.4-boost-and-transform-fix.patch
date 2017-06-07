@@ -1,0 +1,82 @@
+diff --git a/tmEventSetup/tmEventSetup.cc b/tmEventSetup/tmEventSetup.cc
+index 3910a28..a1ce3f9 100644
+--- a/tmEventSetup/tmEventSetup.cc
++++ b/tmEventSetup/tmEventSetup.cc
+@@ -4,15 +4,41 @@
+ #include "tmEventSetup/esTriggerMenuHandle.hh"
+ #include "tmEventSetup/tmEventSetup.hh"
+ 
+-// boost
+-#include <boost/lexical_cast.hpp>
+-
+ // stl
+ #include <algorithm>
+ #include <cmath>
+ 
+ namespace tmeventsetup
+ {
++void
++applySin(std::vector<double>& array, const size_t n)
++{
++  const size_t offset = std::min(n, array.size());
++  std::transform(array.begin(), array.begin() + offset, array.begin(), ::sin);
++}
++
++
++void
++applyCos(std::vector<double>& array, const size_t n)
++{
++  const size_t offset = std::min(n, array.size());
++  std::transform(array.begin(), array.begin() + offset, array.begin(), ::cos);
++}
++
++
++void
++applyCosh(std::vector<double>& array, const size_t n)
++{
++  const size_t offset = std::min(n, array.size());
++  std::transform(array.begin(), array.begin() + offset, array.begin(), ::cosh);
++}
++} //end of namespace tmeventsetup
++
++// boost
++#include <boost/lexical_cast.hpp>
++
++namespace tmeventsetup
++{
+ 
+ // TODO: better to define with tmGrammar?
+ const std::string GRAMMAR_VERSION = "0.6";
+@@ -529,30 +555,6 @@ getDeltaVector(std::vector<double>& array,
+   return n;
+ }
+ 
+-
+-void
+-applySin(std::vector<double>& array, const size_t n)
+-{
+-  const size_t offset = std::min(n, array.size());
+-  std::transform(array.begin(), array.begin() + offset, array.begin(), ::sin);
+-}
+-
+-
+-void
+-applyCos(std::vector<double>& array, const size_t n)
+-{
+-  const size_t offset = std::min(n, array.size());
+-  std::transform(array.begin(), array.begin() + offset, array.begin(), ::cos);
+-}
+-
+-
+-void
+-applyCosh(std::vector<double>& array, const size_t n)
+-{
+-  const size_t offset = std::min(n, array.size());
+-  std::transform(array.begin(), array.begin() + offset, array.begin(), ::cosh);
+-}
+-
+ } // namespace tmeventsetup
+ 
+-/* eof */
+\ No newline at end of file
++/* eof */
