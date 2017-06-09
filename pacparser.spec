@@ -1,6 +1,6 @@
 ### RPM external pacparser 1.3.5
 Source: https://github.com/%{n}/%{n}/releases/download/%{realversion}/%{n}-%{realversion}.tar.gz
-
+Provides: libpacparser.so.1()(64bit)
 %prep
 %setup -n %{n}-%{realversion}
 

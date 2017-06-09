@@ -11,6 +11,7 @@ Requires: lapack
 %setup -n %downloadn-%{realversion}
 %patch0 -p1
 
+
 cat > site.cfg <<EOF
 [blas]
 include_dirs = $LAPACK_ROOT/include
@@ -29,9 +30,12 @@ case %cmsos in
   *) SONAME=so ;;
 esac
 
-LAPACK=$LAPACK_ROOT/lib/liblapack.$SONAME
-BLAS=$LAPACK_ROOT/lib/libblas.$SONAME
+export ATLAS=None
+export OPENBLAS=None
 
-LAPACK=$LAPACK BLAS=$BLAS python setup.py config_fc --fcompiler=gfortran config_cc install --prefix=%i 
+mkdir -p %{i}/${PYTHON_LIB_SITE_PACKAGES}
+export PYTHONPATH=%{i}/${PYTHON_LIB_SITE_PACKAGES}:${PYTHONPATH}
+
+python setup.py config_fc --fcompiler=gfortran config_cc install --prefix=%i 
 perl -p -i -e "s|^#!.*python(.*)|#!/usr/bin/env python$1|" `grep -r -e "#\!.*python" %i | cut -d: -f1`
 

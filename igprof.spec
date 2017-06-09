@@ -1,10 +1,9 @@
-### RPM external igprof 5.9.10
+### RPM external igprof 5.9.16
 
-%define git_repo ktf
+%define git_repo igprof
 %define git_branch master
-%define git_commit v%{realversion}
-Source0: git://github.com/ktf/igprof.git?obj=%{git_branch}/%{git_commit}&export=igprof-%{git_commit}&output=/igprof-%{git_commit}.tgz
-#Source0: git:/build/eulisse/ext/CMSSW_7_0_X/20131011_1816/igprof/.git?obj=master/%{git_commit}&export=igprof-%{git_commit}&output=/igprof-%{git_commit}.tgz
+%define git_commit 96debaf8c6221130417e0b66e7000a45a83bffd9
+Source0: git://github.com/%{git_repo}/igprof.git?obj=%{git_branch}/%{git_commit}&export=igprof-%{git_commit}&output=/igprof-%{git_commit}.tgz
 Requires: pcre
 BuildRequires: cmake libunwind libatomic_ops
 %prep

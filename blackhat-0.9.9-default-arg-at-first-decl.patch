@@ -1,0 +1,136 @@
+diff --git a/src/Tree.h b/src/Tree.h
+index 31bc827..6de76c3 100644
+--- a/src/Tree.h
++++ b/src/Tree.h
+@@ -49,7 +49,7 @@ template<class T> std::complex<T>
+     const std::vector<int>& arg /* indices of arguments */,
+     const std::vector<particle_ID>& leg,
+     int start, int end /* indices into the vectors */,
+-    int offshellMass = -1,
++    int offshellMass = defaultMass,
+     const std::vector<int>& massValue = empty);
+ 
+ template<class T> std::complex<T>
+@@ -63,7 +63,7 @@ template<class T> std::complex<T>
+      const std::vector<int>& vectorK /* momenta */ = empty,
+      const std::vector<int>& polarization = empty,
+      const std::vector<int>& coupleTo /* quark flavor */ = empty,
+-     int offshellMass = -1,
++     int offshellMass = defaultMass,
+      const std::vector<int>& massValue = empty);
+ 
+ 
+diff --git a/src/tree1.cc b/src/tree1.cc
+index 2c25d6b..7359315 100644
+--- a/src/tree1.cc
++++ b/src/tree1.cc
+@@ -2044,8 +2044,8 @@ template<class T> complex<T>
+ #endif
+     const vector<ParticleID>& leg,
+     int start, int end /* indices into the vectors */,
+-    int offshellMass = defaultMass,
+-    const vector<int>& massValue = empty)
++    int offshellMass,
++    const vector<int>& massValue)
+ #if 0
+     const vector<int>& leptons = empty
+                      /* of leptons coupling via photon to the current,
+diff --git a/src/tree2.cc b/src/tree2.cc
+index 76de4aa..fd9744c 100644
+--- a/src/tree2.cc
++++ b/src/tree2.cc
+@@ -748,10 +748,10 @@ template<class T> complex<T>
+         const vector<int>& arg /* indices of arguments */,
+         const vector<particle_ID>& leg /* helicities and particle ids */,
+         // Vector bosons
+-        const vector<int>& vectorK /* momenta */ = empty,
+-        const vector<int>& polarization = empty,
+-        const vector<int>& coupleTo /* quark flavor */ = empty,
+-        const vector<int>& massValue = empty)
++        const vector<int>& vectorK /* momenta */,
++        const vector<int>& polarization,
++        const vector<int>& coupleTo /* quark flavor */,
++        const vector<int>& massValue)
+ { // until the right routine is available:
+  vector<int> helicity = Helicities(leg);
+  vector<int> idcode = ParticleCode(leg);
+diff --git a/src/tree3.cc b/src/tree3.cc
+index cfb4605..b77896d 100644
+--- a/src/tree3.cc
++++ b/src/tree3.cc
+@@ -881,11 +881,11 @@ template<class T> complex<T>
+                 of helicity L or R -- for helicity +/- the direction is
+                 deduced from the helicity */,
+     // Vector bosons
+-    const vector<int>& vectorK /* momenta */ = empty,
+-    const vector<int>& polarization = empty,
+-    const vector<int>& coupleTo /* quark flavor */ = empty,
+-    int offshellMass = defaultMass,
+-    const vector<int>& massValue = empty)
++    const vector<int>& vectorK /* momenta */,
++    const vector<int>& polarization,
++    const vector<int>& coupleTo /* quark flavor */,
++    int offshellMass,
++    const vector<int>& massValue)
+ { // Get reference momentum
+  size_t ref /* index of reference momentum */;
+  const string refKey(RefTag);
+diff --git a/src/treebase.cc b/src/treebase.cc
+index 7a49823..b0a8dd2 100644
+--- a/src/treebase.cc
++++ b/src/treebase.cc
+@@ -31,10 +31,10 @@ template<class T> complex<T> A(momentum_configuration<T>& k,
+                                const vector<particle_ID>& leg,
+                                int algorithm,
+                                // Electroweak vectors
+-                               const vector<int>& vectorK /* momenta */ = empty,
+-                               const vector<int>& polarization = empty,
+-                               const vector<int>& coupleTo /* quark flavor */ = empty,
+-                              const vector<int>& massValue = empty)
++                               const vector<int>& vectorK /* momenta */,
++                               const vector<int>& polarization,
++                               const vector<int>& coupleTo /* quark flavor */,
++                              const vector<int>& massValue)
+ {vector<int> arg(leg.size()); // "leg" determines the number of arguments
+  for (int i = 0;  i < arg.size();  i += 1) arg[i] = arg0[i];
+  // cout << "A: " << leg.size() << ": ";
+@@ -59,7 +59,7 @@ template<class T> complex<T> A(momentum_configuration<T>& k,
+                                //                               const vector<int>& vectorK /* momenta */ = empty,
+                                //                               const vector<int>& polarization = empty,
+                                //                               const vector<int>& coupleTo /* quark flavor */ = empty,
+-                               const vector<int>& massValue = empty)
++                               const vector<int>& massValue)
+ {vector<particle_ID> leg;
+   vector<int> vectorK(0), polarization(0), coupleTo(0);
+   // Assume leptons are paired sequentially, all couple to 1st quark flavor
+diff --git a/src/util.cc b/src/util.cc
+index 8af6b7c..5618c05 100644
+--- a/src/util.cc
++++ b/src/util.cc
+@@ -197,7 +197,7 @@ map<int,int> MassIndexCount(const vector<int>& massValue, int start, int end)
+ template<class T> int
+   MomentumSum(momentum_configuration<T>& k,
+               const vector<int>& v, int start, int end,
+-              const vector<int>& extraK = empty)
++              const vector<int>& extraK)
+ {/* For massless complex momenta, we must be careful to preserve the
+     separate lambda and lambda-tilde spinors, which will in general not
+     be identical to those produced by the "insert" below, even if k[sum]
+@@ -236,7 +236,7 @@ template<class T> int
+ template<class T> /* static */ int FlatSum(momentum_configuration<T>& k,
+             int ref /* index of reference momentum */,
+                                            const vector<int>& v, int start, int end,
+-                                           const vector<int>& extraK = empty)
++                                           const vector<int>& extraK)
+ {// cout << "In FS " << start << ", " << end << endl;
+  /* For massless complex momenta, we must be careful to preserve the
+     separate lambda and lambda-tilde spinors, which will in general not
+@@ -318,7 +318,7 @@ template<class T> int
+   NegativeFlatSum(momentum_configuration<T>& k,
+                   int ref /* index of reference momentum */,
+                   const vector<int>& v, int s1, int e1,
+-                  int ev, const vector<int>& extraK = empty)
++                  int ev, const vector<int>& extraK)
+ // With added vector momentum index "ev"
+ {// cout << "In NFS " << s1 << ", " << e1 << "; " << s2 << ", " << e2 << endl;
+ 

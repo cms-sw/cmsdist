@@ -21,10 +21,22 @@ case %{cmsos} in
   *) SONAME=so ;;
 esac
 
-export LAPACK_ROOT
-export LAPACK=$LAPACK_ROOT/lib/liblapack.$SONAME
-export BLAS=$LAPACK_ROOT/lib/libblas.$SONAME
+cat > site.cfg <<EOF
+[blas]
+include_dirs = $LAPACK_ROOT/include
+library_dirs = $LAPACK_ROOT/lib64
+blas_libs = blas
+[lapack]
+include_dirs = $LAPACK_ROOT/include
+library_dirs = $LAPACK_ROOT/lib64
+lapack_libs = lapack
+EOF
 
-python setup.py build --fcompiler=gnu95
-python setup.py install --prefix=%{i}
+export ATLAS=None
+export OPENBLAS=None
+
+
+python setup.py build  --fcompiler=gnu95
+PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH python setup.py install --prefix=%i
+
 find %{i} -name '*.egg-info' -exec rm {} \;

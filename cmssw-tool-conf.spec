@@ -22,7 +22,7 @@ Requires: das_client-toolfile
 Requires: db4-toolfile
 Requires: dbs-client-toolfile
 Requires: dpm-toolfile
-Requires: evtgenlhc-toolfile
+#Requires: evtgenlhc-toolfile
 Requires: expat-toolfile
 Requires: fakesystem
 Requires: fastjet-toolfile
@@ -52,7 +52,7 @@ Requires: libxml2-toolfile
 Requires: mcdb-toolfile
 Requires: meschach-toolfile
 Requires: openssl-toolfile
-Requires: oracle-env
+#Requires: oracle-env
 Requires: pcre-toolfile
 Requires: photos-toolfile
 Requires: pythia6-toolfile
@@ -108,7 +108,7 @@ Requires: mctester-toolfile
 Requires: vdt-toolfile
 Requires: icc-gcc-toolfile
 Requires: ccache-gcc-toolfile
-Requires: distcc-gcc-toolfile
+#Requires: distcc-gcc-toolfile
 Requires: gnuplot-toolfile
 Requires: sloccount-toolfile
 Requires: millepede-toolfile
@@ -134,8 +134,8 @@ Requires: evtgen-toolfile
 
 # Only for Linux platform.
 %if %islinux
-Requires: openldap-toolfile
-Requires: python-ldap-toolfile
+#Requires: openldap-toolfile
+#Requires: python-ldap-toolfile
 Requires: gdb-toolfile
 Requires: google-perftools-toolfile
 Requires: dmtcp-toolfile

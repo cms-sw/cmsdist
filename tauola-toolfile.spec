@@ -15,9 +15,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/tauola.xml
     <environment name="TAUOLA_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$TAUOLA_BASE/lib"/>
   </client>
-  <architecture name="slc5_amd64_gcc434">
-  <use name="pythia6"/>
-  </architecture>
   <use name="f77compiler"/>
   <use name="tauola_headers"/>
 </tool>

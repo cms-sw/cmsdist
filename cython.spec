@@ -12,3 +12,5 @@ ${PYTHON_ROOT}/bin/python setup.py build
 
 %install
 ${PYTHON_ROOT}/bin/python setup.py install --prefix %i
+perl -p -i -e "s|#\!.*python|#!/usr/bin/env python|" %i/bin/cygdb
+perl -p -i -e "s|#\!.*python|#!/usr/bin/env python|" %i/bin/cython
