@@ -1,7 +1,7 @@
-### RPM external jemalloc 4.5.99
+### RPM external jemalloc 5.0.0
 
-%define tag 530c07a45ba3ea744b280c9df5d94165839f7b09
-%define branch dev
+%define tag 5.0.0
+%define branch master
 %define github_user jemalloc
 Source: git+https://github.com/%{github_user}/jemalloc.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
@@ -16,7 +16,7 @@ sed -ibak 's/install: install_bin install_include install_lib install_doc/instal
 ./autogen.sh
 
 ./configure \
-  --disable-stats \
+  --enable-stats \
   --prefix %{i}
 
 %post
