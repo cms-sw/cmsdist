@@ -1,4 +1,4 @@
-### RPM external tbb 2017_U6
+### RPM external tbb 2017_U7
 
 %define tag 2017_U6
 %define branch tbb_2017
