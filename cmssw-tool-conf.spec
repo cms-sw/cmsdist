@@ -152,7 +152,7 @@ Requires: py2-pippkgs-toolfile
 Requires: py2-pippkgs_depscipy-toolfile
 Requires: dasgoclient
 Requires: OpenBLAS-toolfile
-
+Requires: py2-pip
 
 # Only for Linux platform.
 %if %islinux
