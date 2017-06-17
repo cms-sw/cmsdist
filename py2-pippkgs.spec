@@ -83,7 +83,7 @@ BuildRequires: py2-pysqlite
 BuildRequires: py2-click
 BuildRequires: py2-jsonpickle
 BuildRequires: py2-prwlock
-
+BuildRequires: py2-virtualenv
 %prep
 
 %build
