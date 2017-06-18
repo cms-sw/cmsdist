@@ -1,4 +1,4 @@
-### RPM external thepeg 2.0.4
+### RPM external thepeg 2.1.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib/ThePEG
 ## INITENV +PATH DYLD_LIBRARY_PATH %{i}/lib/ThePEG
 
@@ -67,4 +67,11 @@ find %{i}/lib -name '*.la' -exec rm -f {} \;
 %{relocateConfig}lib/ThePEG/Makefile
 %{relocateConfig}lib/ThePEG/ThePEGDefaults.rpo
 %{relocateConfig}lib/ThePEG/ThePEGDefaults-%{realversion}.rpo
-ln -s $RPM_INSTALL_PREFIX/%{pkgrel}/lib/ThePEG/LesHouches.so $RPM_INSTALL_PREFIX/%{pkgrel}/lib/ThePEG/libLesHouches.so
+
+#create link to LesHouches library
+
+cd $RPM_INSTALL_PREFIX/%{pkgrel}/lib/ThePEG/
+ln -s LesHouches.so libLesHouches.so
+cd -
+
+#ln -s $RPM_INSTALL_PREFIX/%{pkgrel}/lib/ThePEG/LesHouches.so $RPM_INSTALL_PREFIX/%{pkgrel}/lib/ThePEG/libLesHouches.so
