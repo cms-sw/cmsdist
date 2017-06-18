@@ -1,4 +1,4 @@
-### RPM external herwigpp 7.0.4
+### RPM external herwigpp 7.1.0
 Source: https://www.hepforge.org/archive/herwig/Herwig-%{realversion}.tar.bz2
 
 
@@ -13,6 +13,7 @@ Requires: gsl
 Requires: hepmc
 Requires: fastjet
 Requires: madgraph5amcatnlo
+Requires: rivet
 Requires: gosam gosamcontrib
 
 
@@ -50,7 +51,8 @@ PLATF_CONF_OPTS="--enable-shared --disable-static"
             --with-fastjet=$FASTJET_ROOT \
             --with-gsl=$GSL_ROOT \
             --with-boost=$BOOST_ROOT \
-	          --with-madgraph=$MADGRAPH5AMCATNLO_ROOT \
+	    --with-madgraph=$MADGRAPH5AMCATNLO_ROOT \
+	    --with-rivet=$RIVET_ROOT\
             --with-gosam=$GOSAM_ROOT \
             --with-gosam-contrib=$GOSAMCONTRIB_ROOT \
 %if %isamd64
