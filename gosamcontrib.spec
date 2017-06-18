@@ -1,4 +1,4 @@
-### RPM external gosamcontrib 2.0-20150803
+### RPM external gosamcontrib 2.0-20170614
 Source: http://www.hepforge.org/archive/gosam/gosam-contrib-%{realversion}.tar.gz
 
 Requires: qgraf
@@ -19,7 +19,7 @@ PLATF_CONF_OPTS="--enable-shared --disable-static"
             --libdir=%i/lib \
             CXX="$CXX" CC="$CC" FC="$FC" 
 
-make %makeprocesses  all
+make %makeprocesses all
 
 %install
 make install 
