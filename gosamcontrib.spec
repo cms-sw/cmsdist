@@ -1,4 +1,4 @@
-### RPM external gosamcontrib 2.0-20170614
+### RPM external gosamcontrib 2.0-20150803
 Source: http://www.hepforge.org/archive/gosam/gosam-contrib-%{realversion}.tar.gz
 
 Requires: qgraf
