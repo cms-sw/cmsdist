@@ -1,4 +1,4 @@
-### RPM external py2-tqdm 4.11.2
+### RPM external py2-tqdm 4.14.0
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 
