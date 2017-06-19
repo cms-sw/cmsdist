@@ -1,4 +1,4 @@
-### RPM external py2-MarkupSafe 0.23
+### RPM external py2-MarkupSafe 1.0
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

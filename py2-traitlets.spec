@@ -1,4 +1,4 @@
-### RPM external py2-traitlets 4.3.1
+### RPM external py2-traitlets 4.3.2
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

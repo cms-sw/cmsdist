@@ -1,4 +1,4 @@
-### RPM external py2-certifi 2017.1.23
+### RPM external py2-certifi 2017.4.17
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 
