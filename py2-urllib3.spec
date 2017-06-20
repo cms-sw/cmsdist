@@ -1,9 +1,8 @@
-### RPM external py2-requests 2.18.1
+### RPM external py2-urllib3 1.21.1
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
-Requires: py2-urllib3
 
-%define pip_name requests
+%define pip_name urllib3
 
 
 ## IMPORT build-with-pip

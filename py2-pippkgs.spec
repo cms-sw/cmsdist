@@ -85,6 +85,8 @@ BuildRequires: py2-jsonpickle
 BuildRequires: py2-prwlock
 BuildRequires: py2-virtualenv
 BuildRequires: py2-climate
+BuildRequires: py2-urllib3
+
 %prep
 
 %build
