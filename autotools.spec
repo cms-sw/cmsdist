@@ -2,7 +2,7 @@
 ## INITENV SET M4 %{i}/bin/m4
 # We keep all of them together to simplify the "requires" statements.
 %define autoconf_version 2.69
-%define automake_version 1.15
+%define automake_version 1.15.1
 %define automake_maj %(echo %{automake_version} | cut -f1,2 -d.)
 %define libtool_version 2.4.6
 %define m4_version 1.4.18
