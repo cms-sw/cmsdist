@@ -9,7 +9,7 @@ Requires: py2-pip
 mkdir -p %{i}/etc/scram.d
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-pip.xml
 <tool name="py2-pip" version="@TOOL_VERSION@">
-  <info url="https://pypi.python.org/pypi/pip">
+  <info url="https://pypi.python.org/pypi/pip"/>
   <client>
     <environment name="PY2_PIP" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$PY2_PIP/lib"/>
