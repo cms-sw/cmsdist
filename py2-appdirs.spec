@@ -1,4 +1,4 @@
-### RPM external py2-appdirs 1.4.0
+### RPM external py2-appdirs 1.4.3
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

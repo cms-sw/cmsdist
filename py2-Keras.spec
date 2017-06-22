@@ -1,4 +1,4 @@
-### RPM external py2-Keras 1.2.2
+### RPM external py2-Keras 2.0.5
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

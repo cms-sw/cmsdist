@@ -1,11 +1,11 @@
-### RPM external py2-tqdm 4.14.0
+### RPM external py2-chardet 3.0.4
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 
-%define pip_name tqdm
+%define pip_name chardet
+
 
 ## IMPORT build-with-pip
 
 %define PipPostBuild \
    perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
-
