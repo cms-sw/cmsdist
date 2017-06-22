@@ -1,4 +1,4 @@
-### RPM external py2-mistune 0.7.3
+### RPM external py2-mistune 0.7.4
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

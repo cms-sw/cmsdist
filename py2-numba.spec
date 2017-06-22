@@ -1,4 +1,4 @@
-### RPM external py2-numba 0.32.0
+### RPM external py2-numba 0.33.0
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

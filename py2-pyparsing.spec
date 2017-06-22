@@ -1,4 +1,4 @@
-### RPM external py2-pyparsing 2.1.10
+### RPM external py2-pyparsing 2.2.0
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

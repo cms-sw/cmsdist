@@ -1,4 +1,4 @@
-### RPM external py2-jsonschema 2.5.1
+### RPM external py2-jsonschema 2.6.0
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

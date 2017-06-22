@@ -1,4 +1,4 @@
-### RPM external py2-jupyter_client 4.4.0
+### RPM external py2-jupyter_client 5.0.1
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 
@@ -7,5 +7,5 @@ Requires: py2-jupyter_core py2-six py2-traitlets py2-decorator py2-ipython_genut
 
 ## IMPORT build-with-pip
 %define PipPostBuild \
-   perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/jupyter-kernelspec
+   perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
 
