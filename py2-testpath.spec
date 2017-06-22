@@ -1,4 +1,4 @@
-### RPM external py2-testpath 0.3
+### RPM external py2-testpath 0.3.1
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 %define PipDownloadOptions --no-deps%%20--no-binary%%3D:none:

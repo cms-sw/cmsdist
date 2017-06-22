@@ -1,6 +1,6 @@
-### RPM external py2-tables 3.3.0
+### RPM external py2-tables 3.4.2
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
-Patch0: py2-tables-fix-for-aarch64
+Patch0: py2-tables-fix-for-aarch64_v2
 %define pip_name tables
 Requires: py2-numexpr py2-six py2-numpy hdf5 bz2lib
 

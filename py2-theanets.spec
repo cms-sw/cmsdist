@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 %define pip_name theanets
-Requires: py2-numpy py2-Theano py2-downhill
+Requires: py2-numpy py2-Theano py2-downhill py2-climate
 
 ## IMPORT build-with-pip
 

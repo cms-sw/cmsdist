@@ -1,4 +1,4 @@
-### RPM external py2-nbformat 4.2.0
+### RPM external py2-nbformat 4.3.0
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 
