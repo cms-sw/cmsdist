@@ -6,10 +6,6 @@ Source: https://www.hepforge.org/archive/vincia/%{n}-%{realversion}.tgz
 
 %define keep_archives true
 
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x
-%endif
-
 %prep
 %setup -q -n %{n}-%{realversion}
 

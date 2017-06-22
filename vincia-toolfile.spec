@@ -18,7 +18,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/vincia.xml
   </client>
   <runtime name="VINCIADATA" value="$VINCIA_BASE/share/Vincia/xmldoc"/>
   <use name="root_cxxdefaults"/>
-  <use name="cxxcompiler"/>
   <use name="pythia8"/>
 </tool>
 EOF_TOOLFILE
