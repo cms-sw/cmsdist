@@ -62,6 +62,7 @@ Requires: photos-toolfile
 Requires: photospp-toolfile
 Requires: pythia6-toolfile
 Requires: pythia8-toolfile
+Requires: vincia-toolfile
 Requires: python-toolfile
 Requires: qt-toolfile
 Requires: root-toolfile
