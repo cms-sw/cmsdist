@@ -88,6 +88,7 @@ BuildRequires: py2-climate
 BuildRequires: py2-urllib3
 BuildRequires: py2-chardet
 BuildRequires: py2-idna
+BuildRequires: py2-hyperas
 
 %prep
 
