@@ -31,6 +31,9 @@ BuildRequires: py2-numba
 BuildRequires: py2-hep_ml
 BuildRequires: py2-rep
 BuildRequires: py2-uncertainties
+BuildRequires: py2-hyperas
+BuildRequires: py2-hyperopt
+
 
 #this DOES NOT depend on numpy..
 BuildRequires: py2-xrootdpyfs
