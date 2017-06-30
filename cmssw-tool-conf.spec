@@ -67,6 +67,7 @@ Requires: python-toolfile
 Requires: qt-toolfile
 Requires: root-toolfile
 Requires: sherpa-toolfile
+Requires: openmpi-toolfile
 Requires: sigcpp-toolfile
 Requires: sqlite-toolfile
 Requires: systemtools
