@@ -3,10 +3,10 @@
 
 Source: none
 
-Requires: tensorflow-sources
+BuildRequires: tensorflow-sources
 Requires: python
-BuildRequires: py2-pip
-Requires: py2-funcsigs py2-protobuf py2-pbr py2-six py2-packaging py2-appdirs py2-setuptools py2-pyparsing py2-numpy py2-mock
+BuildRequires: py2-pip 
+#Requires: py2-funcsigs py2-protobuf py2-pbr py2-six py2-packaging py2-appdirs py2-setuptools py2-pyparsing py2-numpy py2-mock
 
 %prep
 
