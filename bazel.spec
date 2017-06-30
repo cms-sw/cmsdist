@@ -1,6 +1,7 @@
 ### RPM external bazel 0.4.5
 
 Source: https://github.com/bazelbuild/bazel/releases/download/0.4.5/bazel-0.4.5-dist.zip
+BuildRequires: java-env
 
 %prep
 
@@ -13,7 +14,6 @@ bash ./compile.sh
 
 %install
 mkdir %{i}/bin
-ls
 cp output/bazel %{i}/bin/.
 
 
