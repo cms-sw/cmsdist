@@ -6,7 +6,7 @@ Source: none
 BuildRequires: tensorflow-sources
 Requires: python
 BuildRequires: py2-pip 
-#Requires: py2-funcsigs py2-protobuf py2-pbr py2-six py2-packaging py2-appdirs py2-setuptools py2-pyparsing py2-numpy py2-mock
+Requires: py2-funcsigs py2-protobuf py2-pbr py2-six py2-packaging py2-appdirs py2-setuptools py2-pyparsing py2-numpy py2-mock
 
 %prep
 
@@ -22,4 +22,6 @@ pip install --user -v ${TENSORFLOW_SOURCES_ROOT}/tensorflow-%{realversion}-%{ten
 
 %install
 
-perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/tensorboard
+perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
+
+#perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/tensorboard
