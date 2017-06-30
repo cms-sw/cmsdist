@@ -1,4 +1,4 @@
-### RPM external tensorflow-sources 1.2.1
+### RPM external tensorflow-sources 1.1.0
 Source: https://github.com/tensorflow/tensorflow/archive/v%{realversion}.tar.gz
 
 BuildRequires: bazel
@@ -17,6 +17,8 @@ export TF_NEED_GCP=0
 export TF_ENABLE_XLA=0
 export TF_NEED_OPENCL=0
 export TF_NEED_CUDA=0
+export TF_NEED_VERBS=0
+export TF_NEED_MKL=0
 export USE_DEFAULT_PYTHON_LIB_PATH=1
 
 #temp directory
