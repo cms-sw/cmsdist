@@ -1,22 +1,21 @@
 ### RPM external java-env 1.0
-## INITENV SET JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-2.b11.el7_3.x86_64
+## INITENV SET JAVA_HOME %{java_home}
+## INITENV +PATH PATH %{java_home}/bin
+## INITENV +PATH LD_LIBRARY_PATH %{java_home}/lib
+## NOCOMPILER
 
+%define java_home /usr/lib/jvm/java
 Source: none
 
 %prep
 
 %build
 
-
-
 %install
 
-echo $JAVA_HOME
-if [ ! -d "$JAVA_HOME" ]; then
-  echo "JAVA_HOME path is not available"
-  echo "$JAVA_HOME"
+if [ ! -e %{java_home}/bin/javac ] ; then
+  echo "%{java_home}/bin/javac path is not available"
   exit 1
 fi
-
-
-
+%{java_home}/bin/javac -version
+%{java_home}/bin/java -version
