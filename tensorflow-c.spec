@@ -2,7 +2,7 @@
 
 Source: none
 
-Requires: tensorflow-sources
+BuildRequires: tensorflow-sources
 
 %prep
 
