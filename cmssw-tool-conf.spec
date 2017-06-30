@@ -183,7 +183,7 @@ Requires: oracle-fake-toolfile
 %endif
 %endif
 
-%if isslc7
+%if %isslc7
 Requires: tensorflow-c-toolfile
 %endif
 
