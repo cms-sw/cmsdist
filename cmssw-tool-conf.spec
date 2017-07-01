@@ -10,6 +10,7 @@
 %define isnotppc64le %(case %{cmsplatf} in (*_ppc64le_*) echo 0 ;; (*) echo 1 ;; esac)
 %define isnotppc64le_be %(case %{cmsplatf} in (*_ppc64*) echo 0 ;; (*) echo 1 ;; esac)
 %define isnotaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 0 ;; (*) echo 1 ;; esac)
+%define isslc7 %(case %{cmsplatf} in (slc7_amd64*) echo 1 ;; (*) echo 0 ;; esac)
 
 Requires: starlight-toolfile
 Requires: alpgen-toolfile
@@ -67,6 +68,7 @@ Requires: python-toolfile
 Requires: qt-toolfile
 Requires: root-toolfile
 Requires: sherpa-toolfile
+Requires: openmpi-toolfile
 Requires: sigcpp-toolfile
 Requires: sqlite-toolfile
 Requires: systemtools
@@ -182,7 +184,11 @@ Requires: oracle-fake-toolfile
 %endif
 %endif
 
-%define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler cuda rivet2 opencl opencl-cpp intel-vtune jemalloc-debug
+%if %isslc7
+Requires: tensorflow-c-toolfile
+%endif
+
+%define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler cuda rivet2 opencl opencl-cpp intel-vtune
 
 ## IMPORT scramv1-tool-conf
 
