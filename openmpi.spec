@@ -5,10 +5,10 @@ BuildRequires: autotools
 %prep
 %setup -q -n %{n}-%{realversion}
 %patch1 -p1
-sed -i -e 's|#!/usr/bin/perl|#!/usr/bin/env/perl|' ./opal/asm/generate-asm.pl
-sed -i -e 's|#!/usr/bin/perl|#!/usr/bin/env/perl|' opal/asm/generate-all-asm.pl
-sed -i -e 's|/usr/bin/perl|/usr/bin/env/perl|' ./Doxyfile
-sed -i -e 's|/usr/bin/perl|/usr/bin/env/perl|' ./orte/Doxyfile
+sed -i -e 's|#!/usr/bin/perl|#!/usr/bin/env perl|' ./opal/asm/generate-asm.pl
+sed -i -e 's|#!/usr/bin/perl|#!/usr/bin/env perl|' opal/asm/generate-all-asm.pl
+sed -i -e 's|/usr/bin/perl|/usr/bin/env perl|' ./Doxyfile
+sed -i -e 's|/usr/bin/perl|/usr/bin/env perl|' ./orte/Doxyfile
 ./autogen.pl --force
 ./configure --prefix=%i --without-lsf
 
