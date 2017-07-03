@@ -184,7 +184,7 @@ Requires: oracle-fake-toolfile
 %endif
 %endif
 
-%if %isslc7
+%if %isamd64
 Requires: tensorflow-c-toolfile
 %endif
 
