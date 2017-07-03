@@ -5,13 +5,13 @@ Source: none
 Requires: root curl python py2-pippkgs py2-numpy py2-matplotlib xrootd
 
 %define isslc7 %(case %{cmsplatf} in (slc7_amd64*) echo 1 ;; (*) echo 0 ;; esac)
-
+%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 BuildRequires: py2-scipy
 BuildRequires: py2-Keras
 BuildRequires: py2-Theano
 BuildRequires: py2-scikit-learn
 BuildRequires: py2-rootpy
-%if %isslc7
+%if %isamd64
 BuildRequires: py2-tensorflow
 %endif
 BuildRequires: py2-protobuf
