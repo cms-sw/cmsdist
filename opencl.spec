@@ -1,4 +1,4 @@
-### RPM external opencl 1.1
+### RPM external opencl 2.2
 ## NOCOMPILER
 
 %prep
