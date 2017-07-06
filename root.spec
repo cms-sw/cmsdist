@@ -47,6 +47,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_CXX_COMPILER=g++ \
   -DCMAKE_Fortran_COMPILER=gfortran \
   -DCMAKE_LINKER=ld \
+  -Droot7=ON \
   -Dfail-on-missing=ON \
   -Dgnuinstall=OFF \
   -Droofit=ON \
