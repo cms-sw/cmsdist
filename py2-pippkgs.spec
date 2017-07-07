@@ -89,6 +89,8 @@ BuildRequires: py2-urllib3
 BuildRequires: py2-chardet
 BuildRequires: py2-idna
 BuildRequires: py2-werkzeug
+BuildRequires: py2-pytest
+
 %prep
 
 %build
