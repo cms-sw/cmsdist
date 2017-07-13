@@ -69,6 +69,7 @@ Requires: python-toolfile
 Requires: qt-toolfile
 Requires: root-toolfile
 Requires: sherpa-toolfile
+Requires: openmpi-toolfile
 Requires: sigcpp-toolfile
 Requires: sqlite-toolfile
 Requires: systemtools
@@ -174,7 +175,7 @@ Requires: oracle-toolfile
 Requires: cuda-toolfile
 Requires: intel-vtune
 Requires: openloops-toolfile
-Requires: openmpi-toolfile
+
 %if %isslc
 Requires: glibc-toolfile
 %endif
