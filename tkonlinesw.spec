@@ -5,6 +5,7 @@
 Source0: http://cms-trackerdaq-service.web.cern.ch/cms-trackerdaq-service/download/sources/trackerDAQ-%{realversion}.tgz
 Patch0: tkonlinesw-2.7.0-macosx
 Patch1: tkonlinesw-4.0-clang-hash_map
+Patch2: trackerDAQ-4.1-cleanup-gcc7
 
 # NOTE: given how broken the standard build system is
 #       on macosx, it's not worth fixing it.
@@ -25,6 +26,7 @@ Requires: root
 %prep
 %setup -q -n %releasename
 %patch1 -p1
+%patch2 -p1
 case %cmsos in 
   osx*)
 %patch0 -p1
@@ -144,9 +146,3 @@ case %cmsos in
     tar -c -C  %{_builddir}/%{releasename}/opt/%{projectname} include lib | tar -x -C %{i}
   ;;
 esac
-#PG the following line changes the headers so they can be used with clang flag -std=cxx1z
-for file in `grep -R -e"throw (.*)" %{i}/include | cut -d: -f1 | sort -u`;do
-    perl -p -i~ -e"s|throw \(.*\)|noexcept(false)|g" $file
-    perl -p -i~ -e"s|THROW\(ICUtils::ICException\("Bad channel number"\)\)|noexcept(false)|g" $file
-    perl -p -i~ -e"s|IC_STATIC_##levl(exce);|//IC_STATIC_##levl(exce);|g" $file
-done
