@@ -11,7 +11,6 @@
 Requires: tbb-toolfile
 Requires: boost-toolfile
 Requires: bz2lib-toolfile
-Requires: castor-toolfile
 Requires: clhep-toolfile
 Requires: db6-toolfile
 Requires: dcap-toolfile
