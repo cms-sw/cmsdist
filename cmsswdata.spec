@@ -23,6 +23,7 @@ Requires: data-CalibTracker-SiPixelESProducers
 Requires: data-CalibCalorimetry-CaloMiscalibTools
 Requires: data-Configuration-Generator
 Requires: data-DQM-PhysicsHWW
+Requires: data-DQM-SiStripMonitorClient
 Requires: data-CondFormats-JetMETObjects
 Requires: data-RecoLocalCalo-EcalDeadChannelRecoveryAlgos
 Requires: data-RecoHI-HiJetAlgos
