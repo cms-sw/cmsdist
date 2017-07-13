@@ -147,4 +147,6 @@ esac
 #PG the following line changes the headers so they can be used with clang flag -std=cxx1z
 for file in `grep -R -e"throw (.*)" %{i}/include | cut -d: -f1 | sort -u`;do
     perl -p -i~ -e"s|throw \(.*\)|noexcept(false)|g" $file
+    perl -p -i~ -e"s|THROW\(ICUtils::ICException\("Bad channel number"\)\)|noexcept(false)|g" $file
+    perl -p -i~ -e"s|IC_STATIC_##levl(exce);|//IC_STATIC_##levl(exce);|g" $file
 done
