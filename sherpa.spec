@@ -3,19 +3,11 @@
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-Requires: hepmc lhapdf blackhat sqlite fastjet openssl
+Requires: hepmc lhapdf blackhat sqlite fastjet openssl openmpi
 BuildRequires: mcfm
 
 %if "%(case %cmsplatf in (slc*) echo true ;; (*) echo false ;; esac)" == "true"
 Requires: openloops
-%endif
-
-%if "%{?cms_cxx:set}" != "set"
-%define cms_cxx g++
-%endif
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -O2 -std=c++0x
 %endif
 
 %prep
@@ -44,10 +36,12 @@ esac
             --enable-lhapdf=$LHAPDF_ROOT \
             --enable-blackhat=$BLACKHAT_ROOT \
             ${OPENLOOPS_ROOT+--enable-openloops=$OPENLOOPS_ROOT}\
+            --enable-mpi=$OPENMPI_ROOT \
             --with-sqlite3=$SQLITE_ROOT \
-            CXX="%cms_cxx" \
-            CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF %cms_cxxflags -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$OPENSSL_ROOT/include" \
-            LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib -L$OPENSSL_ROOT/lib"
+            CXX="g++" \
+            MPICXX="${OPENMPI_ROOT}/bin/mpic++" \
+            CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF -O2 -std=c++0x -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$OPENSSL_ROOT/include -I$OPENMPI_ROOT/include/" \
+            LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib -L$OPENSSL_ROOT/lib -L$OPENMPI_ROOT/lib/"
 
 make %{makeprocesses}
 
