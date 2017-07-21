@@ -1,31 +1,31 @@
-### RPM external llvm 4.0.0
+### RPM external llvm 4.0.1
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHONPATH %{i}/lib64/python$(echo $PYTHON_VERSION | cut -d. -f 1,2)/site-packages
 
 BuildRequires: python cmake ninja
 Requires: gcc zlib
 
-%define llvmCommit 6af4d1ac2acfc8c22db959f2b7b11d68688b2425
+%define llvmCommit c8fccc53ed66d505898f8850bcc690c977a7c9a7
 %define llvmBranch release_40
-%define clangCommit c27c9bbb74ad7bcf8ed3c6e9d6234827c6d22a6b
-%define clangBranch cms/ee02028
-%define clangToolsExtraCommit 70bc9d1b740329279c9d7b2138e6acc31fa71862
+%define clangCommit a4ff1c73147875d7f2356f4f664fcbe920db225f
+%define clangBranch cms/3c8961b
+%define clangToolsExtraCommit b957708c5fdeebef68d3c26ad7c7d28fef715d66
 %define clangToolsExtraBranch release_40
-%define compilerRtCommit 855d4c102556800c64315ebf0f7e6339e58b6ccd
+%define compilerRtCommit 76ab2e5c9b2a2e3d638e217cc21622f9be54f633
 %define compilerRtBranch release_40
 %define openmpCommit e62ab1ab8242fb70b31f627d78a1ca489b49ce01
 %define openmpBranch release_40
-%define iwyuCommit 4a753782ce0992cf3085acc7a97deb9da1f36bb6
-%define iwyuBranch master
-%define lldCommit f18d7adf7ddc01571e31a52c15cab7b47f9e8c56
+%define iwyuCommit c6c4520c0b0a0ad2ba22218ef2aa3f0b81ecbc6f
+%define iwyuBranch clang_4.0
+%define lldCommit 4439e42e1a3dcc6bf15fdb00114e4fc598b9d614
 %define lldBranch release_40
-Source0: git+https://github.com/cms-externals/llvm.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%realversion-%llvmCommit&output=/llvm-%{realversion}-%{llvmCommit}.tgz
+Source0: git+https://github.com/llvm-mirror/llvm.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%realversion-%llvmCommit&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/cms-externals/clang.git?obj=%{clangBranch}/%{clangCommit}&export=clang-%{realversion}-%{clangCommit}&module=clang-%realversion-%clangCommit&output=/clang-%{realversion}-%{clangCommit}.tgz
-Source2: git+https://github.com/cms-externals/clang-tools-extra.git?obj=%{clangToolsExtraBranch}/%{clangToolsExtraCommit}&export=clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}&module=clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}&output=/clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}.tgz
-Source3: git+https://github.com/cms-externals/compiler-rt.git?obj=%{compilerRtBranch}/%{compilerRtCommit}&export=compiler-rt-%{realversion}-%{compilerRtCommit}&module=compiler-rt-%{realversion}-%{compilerRtCommit}&output=/compiler-rt-%{realversion}-%{compilerRtCommit}.tgz
-Source4: git+https://github.com/cms-externals/openmp.git?obj=%{openmpBranch}/%{openmpCommit}&export=openmp-%{realversion}-%{openmpCommit}&module=openmp-%{realversion}-%{openmpCommit}&output=/openmp-%{realversion}-%{openmpCommit}.tgz
-Source5: git+https://github.com/cms-externals/include-what-you-use.git?obj=%{iwyuBranch}/%{iwyuCommit}&export=iwyu-%{realversion}-%{iwyuCommit}&module=iwyu-%{realversion}-%{iwyuCommit}&output=/iwyu-%{realversion}-%{iwyuCommit}.tgz
-Source6: git+https://github.com/cms-externals/lld.git?obj=%{lldBranch}/%{lldCommit}&export=lld-%{realversion}-%{lldCommit}&module=lld-%{realversion}-%{lldCommit}&output=/lld-%{realversion}-%{lldCommit}.tgz
+Source2: git+https://github.com/llvm-mirror/clang-tools-extra.git?obj=%{clangToolsExtraBranch}/%{clangToolsExtraCommit}&export=clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}&module=clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}&output=/clang-tools-extra-%{realversion}-%{clangToolsExtraCommit}.tgz
+Source3: git+https://github.com/llvm-mirror/compiler-rt.git?obj=%{compilerRtBranch}/%{compilerRtCommit}&export=compiler-rt-%{realversion}-%{compilerRtCommit}&module=compiler-rt-%{realversion}-%{compilerRtCommit}&output=/compiler-rt-%{realversion}-%{compilerRtCommit}.tgz
+Source4: git+https://github.com/llvm-mirror/openmp.git?obj=%{openmpBranch}/%{openmpCommit}&export=openmp-%{realversion}-%{openmpCommit}&module=openmp-%{realversion}-%{openmpCommit}&output=/openmp-%{realversion}-%{openmpCommit}.tgz
+Source5: git+https://github.com/include-what-you-use/include-what-you-use.git?obj=%{iwyuBranch}/%{iwyuCommit}&export=iwyu-%{realversion}-%{iwyuCommit}&module=iwyu-%{realversion}-%{iwyuCommit}&output=/iwyu-%{realversion}-%{iwyuCommit}.tgz
+Source6: git+https://github.com/llvm-mirror/lld.git?obj=%{lldBranch}/%{lldCommit}&export=lld-%{realversion}-%{lldCommit}&module=lld-%{realversion}-%{lldCommit}&output=/lld-%{realversion}-%{lldCommit}.tgz
 
 %define keep_archives true
 
