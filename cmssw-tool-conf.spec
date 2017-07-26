@@ -148,6 +148,7 @@ Requires: freetype-toolfile
 
 # Only for INTEL/AMD platforms.
 %if %isamd64
+Requires: openmpi-toolfile
 Requires: tkonlinesw-toolfile
 Requires: py2-cx-oracle-toolfile
 Requires: oracle-toolfile
