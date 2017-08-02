@@ -189,7 +189,7 @@ Requires: oracle-fake-toolfile
 Requires: tensorflow-c-toolfile
 %endif
 
-%define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler cuda rivet2 opencl opencl-cpp intel-vtune
+%define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler cuda rivet2 opencl opencl-cpp intel-vtune jemalloc-debug
 
 ## IMPORT scramv1-tool-conf
 
