@@ -1,4 +1,4 @@
-### RPM external thepeg 2.1.0
+### RPM external thepeg 2.1.1
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib/ThePEG
 ## INITENV +PATH DYLD_LIBRARY_PATH %{i}/lib/ThePEG
 
@@ -74,4 +74,4 @@ cd $RPM_INSTALL_PREFIX/%{pkgrel}/lib/ThePEG/
 ln -s LesHouches.so libLesHouches.so
 cd -
 
-#ln -s $RPM_INSTALL_PREFIX/%{pkgrel}/lib/ThePEG/LesHouches.so $RPM_INSTALL_PREFIX/%{pkgrel}/lib/ThePEG/libLesHouches.so
+
