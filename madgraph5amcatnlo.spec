@@ -1,8 +1,8 @@
-### RPM external madgraph5amcatnlo 2.4.3
-%define versiontag 2_4_3
+### RPM external madgraph5amcatnlo 2.5.5
+%define versiontag 2_5_5
 Provides: perl(Compress::Zlib)
 Provides: perl(List::Util)
-Source: https://launchpad.net/mg5amcnlo/2.0/2.4.x/+download/MG5_aMC_v%{realversion}.tar.gz
+Source: https://launchpad.net/mg5amcnlo/2.0/2.5.x/+download/MG5_aMC_v%{realversion}.tar.gz
 Patch0: madgraph5amcatnlo-config
 # Compile and install internal and external packages
 Patch1: madgraph5amcatnlo-compile    
@@ -13,6 +13,9 @@ Requires: hepmc
 Requires: root   
 # Needed for Syscalc package
 Requires: lhapdf
+Requires: gosamcontrib
+Requires: fastjet
+Requires: pythia8
                    
 %prep
 %setup -n MG5_aMC_v%{versiontag}
@@ -40,7 +43,7 @@ cat <<EOF > basiceventgeneration.txt
 generate p p > t t~ [QCD]
 output basiceventgeneration
 launch
-set nevents 100
+set nevents 10
 EOF
 ./bin/mg5_aMC ./basiceventgeneration.txt
 
