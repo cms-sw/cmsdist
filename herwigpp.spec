@@ -1,4 +1,4 @@
-### RPM external herwigpp 7.1.0
+### RPM external herwigpp 7.1.1
 Source: https://www.hepforge.org/archive/herwig/Herwig-%{realversion}.tar.bz2
 
 
