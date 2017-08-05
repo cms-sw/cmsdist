@@ -1,7 +1,7 @@
-### RPM external cuda 8.0.61
-%define driversversion 375.26
+### RPM external cuda 9.0.103
+%define driversversion 384.59
 
-Source: https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/%{n}_%{realversion}_%{driversversion}_linux-run
+Source: https://developer.nvidia.com/compute/cuda/9.0/rc/local_installers/%{n}_%{realversion}_%{driversversion}_linux-run
 AutoReqProv: no
 
 %prep
@@ -12,8 +12,8 @@ AutoReqProv: no
 cp %{SOURCE0} %_builddir
 mkdir -p %_builddir/tmp
 /bin/sh %_builddir/%{n}_%{realversion}_%{driversversion}_linux-run --silent --tmpdir %_builddir/tmp --extract %_builddir
-/bin/sh %_builddir/%{n}-linux64-rel-%{realversion}-*.run -noprompt -nosymlink -tmpdir %_builddir/tmp -prefix %_builddir
-/bin/sh %_builddir/NVIDIA-Linux-x86_64-*.run --accept-license --extract-only --target %_builddir/drivers
+/bin/sh %_builddir/%{n}-linux.%{realversion}-*.run -noprompt -nosymlink -tmpdir %_builddir/tmp -prefix %_builddir
+/bin/sh %_builddir/NVIDIA-Linux-x86_64-%{driversversion}.run --accept-license --extract-only --target %_builddir/drivers
 cp %_builddir/drivers/libcuda.so.* %_builddir/drivers/libnvidia-fatbinaryloader.so.* %_builddir/lib64
 ln -sf `basename %_builddir/lib64/libcuda.so.*` %_builddir/lib64/libcuda.so.1
 ln -sf libcuda.so.1 %_builddir/lib64/libcuda.so
