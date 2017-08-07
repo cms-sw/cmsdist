@@ -84,12 +84,14 @@ BuildRequires: py2-click
 BuildRequires: py2-jsonpickle
 BuildRequires: py2-prwlock
 BuildRequires: py2-virtualenv
+BuildRequires: py2-virtualenvwrapper
 BuildRequires: py2-climate
 BuildRequires: py2-urllib3
 BuildRequires: py2-chardet
 BuildRequires: py2-idna
 BuildRequires: py2-werkzeug
 BuildRequires: py2-pytest
+BuildRequires: py2-avro
 
 %prep
 
