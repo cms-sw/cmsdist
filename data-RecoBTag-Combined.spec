@@ -1,4 +1,4 @@
-### RPM cms data-RecoBTag-Combined V01-00-05
+### RPM cms data-RecoBTag-Combined V01-00-06
 
 %prep
 
