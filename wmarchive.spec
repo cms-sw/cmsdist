@@ -1,4 +1,4 @@
-### RPM cms wmarchive v00.05.29
+### RPM cms wmarchive v00.06.06
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define wmcver 1.1.1.pre4
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
