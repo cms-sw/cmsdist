@@ -97,7 +97,6 @@ Requires: py2-pygithub-toolfile
 Requires: py2-dablooms-toolfile
 Requires: py2-dxr-toolfile
 Requires: py2-PyYAML-toolfile
-Requires: py2-h5py-toolfile
 Requires: hdf5-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
