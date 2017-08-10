@@ -1,0 +1,39 @@
+--- a/externals/bundles/voms/2.0.6/CMakeLists.txt.orig	2017-07-31 21:33:51.885805299 +0200
++++ b/externals/bundles/voms/2.0.6/CMakeLists.txt	2017-08-03 10:44:03.164889054 +0200
+@@ -42,7 +42,6 @@
+ 				patch -N -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/new_cpp_linkage.patch &&
+ 				cp ${CMAKE_CURRENT_SOURCE_DIR}/dummy.c src/replib &&
+ 				patch -N -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/replib.patch )
+-			set ( VOMS_GLOBUS_FLAG "" )
+ 		ELSE()
+ 			set ( VOMS_PATCH patch -N -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/voms-gsoap.patch &&
+ 				rm src/server/stdsoap2.c src/server/stdsoap2.h src/server/soapC.c src/server/soapH.h src/server/soapStub.h src/server/soapdefs.h &&
+@@ -51,7 +50,6 @@
+ 				touch -r src/utils/vomsfake.y src/utils/lex.yy.c &&
+ 				patch -N -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/globus_thread_h.patch
+ 				)
+-			set ( VOMS_GLOBUS_FLAG --with-globus-prefix=${GLOBUS_INSTALL_LOC} )
+ 		ENDIF()
+ 
+ 		condor_pre_external( VOMS voms-2.0.6 "include;lib" "done")
+@@ -85,8 +83,10 @@
+ 				./configure
+ 					--prefix=${VOMS_INSTALL_LOC}
+ 					--with-api-only
+-					${VOMS_GLOBUS_FLAG}
+-					--disable-java --disable-docs
++					--enable-shared=no
++					--enable-static
++					--disable-java
++					--disable-docs
+ 					--disable-glite
+ 			#--Build Step ----------
+ 			BUILD_COMMAND make
+@@ -173,6 +173,7 @@
+ 	if (VOMS_FOUND)
+ 
+ 		message ( STATUS "external configured (VOMS_FOUND=${VOMS_FOUND})" )
++		message ( STATUS "external configured (VOMS_FOUND_STATIC=${VOMS_FOUND_STATIC})" )
+ 		set( HAVE_EXT_VOMS ON PARENT_SCOPE )
+ 		set( VOMS_FOUND ${VOMS_FOUND} PARENT_SCOPE )
+ 		set( VOMS_FOUND_STATIC ${VOMS_FOUND_STATIC} PARENT_SCOPE )
