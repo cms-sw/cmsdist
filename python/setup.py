@@ -14,7 +14,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 
 setup_args = dict(
-    name                = 'pyCMSSW'
+    name                = 'pyCMSSW',
     version             = '0.1',
     description         = "CMSSW metapackage. Install all the CMSSW python components in one go.",
     long_description    = """Install the CMSSW python system.""",
