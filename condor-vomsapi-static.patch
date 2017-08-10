@@ -1,0 +1,19 @@
+--- a/externals/bundles/voms/2.0.13/CMakeLists.txt.orig	2017-08-01 13:43:02.320807709 +0200
++++ b/externals/bundles/voms/2.0.13/CMakeLists.txt	2017-08-02 23:18:37.154162745 +0200
+@@ -55,6 +55,8 @@
+ 				./configure
+ 					--prefix=${VOMS_INSTALL_LOC}
+ 					--with-api-only
++					--enable-shared=no
++					--enable-static
+ 					--disable-docs
+ 			#--Build Step ----------
+ 			BUILD_COMMAND make
+@@ -141,6 +143,7 @@
+ 	if (VOMS_FOUND)
+ 
+ 		message ( STATUS "external configured (VOMS_FOUND=${VOMS_FOUND})" )
++		message ( STATUS "external configured (VOMS_FOUND_STATIC=${VOMS_FOUND_STATIC})" )
+ 		set( HAVE_EXT_VOMS ON PARENT_SCOPE )
+ 		set( VOMS_FOUND ${VOMS_FOUND} PARENT_SCOPE )
+ 		set( VOMS_FOUND_STATIC ${VOMS_FOUND_STATIC} PARENT_SCOPE )
