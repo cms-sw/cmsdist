@@ -92,6 +92,7 @@ BuildRequires: py2-idna
 BuildRequires: py2-werkzeug
 BuildRequires: py2-pytest
 BuildRequires: py2-avro
+BuildRequires: py2-fs
 
 %prep
 

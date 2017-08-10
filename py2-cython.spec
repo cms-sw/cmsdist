@@ -1,9 +1,8 @@
-### RPM external py2-thriftpy 0.3.9
+### RPM external py2-cython 0.26
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
-BuildRequires: py2-cython
 
-%define pip_name thriftpy
+%define pip_name cython
 
 ## IMPORT build-with-pip
 

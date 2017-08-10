@@ -1,7 +1,7 @@
 ### RPM external py2-h5py 2.7
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 Requires: python py2-numpy hdf5 py2-six
-BuildRequires: py2-setuptools cython py2-pkgconfig
+BuildRequires: py2-setuptools py2-cython py2-pkgconfig
 
 
 
