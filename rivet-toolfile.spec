@@ -21,8 +21,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rivet.xml
 <runtime name="PDFPATH" default="$RIVET_BASE/share" type="path"/>
 <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
 <runtime name="TEXMFHOME" value="$RIVET_BASE/share/Rivet/texmf" type="path"/>
-<use name="python"/>
-<use name="cython"/>
 <use name="hepmc"/>
 <use name="fastjet"/>
 <use name="gsl"/>

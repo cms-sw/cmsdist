@@ -16,7 +16,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/professor2.xml
 <use name="py2-sympy"/>
 <use name="py2-matplotlib"/>
 <use name="root"/>
-<use name="cython"/>
 <use name="yoda"/>
 <use name="eigen"/>
 <runtime name="PATH" value="$PROFESSOR2_BASE/bin" type="path"/>

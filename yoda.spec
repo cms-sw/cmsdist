@@ -2,8 +2,8 @@
 
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 
-Requires: python cython root
-
+Requires: python root
+BuildRequires: py2-cython
 %prep
 %setup -q -n %{n}/%{realversion}
 
