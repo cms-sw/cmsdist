@@ -2,7 +2,7 @@
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
 
 Requires: hepmc fastjet gsl yoda
-Requires: python cython
+BuildRequires: python py2-cython
 
 Patch0: rivet-1.4.0
 Patch1: rivet-gcc7

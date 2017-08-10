@@ -100,7 +100,6 @@ Requires: py2-PyYAML-toolfile
 Requires: hdf5-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
-Requires: cython-toolfile
 Requires: yoda-toolfile
 Requires: fftw3-toolfile
 Requires: fftjet-toolfile
