@@ -27,6 +27,7 @@ Requires: pythia8
 
 # Save patched config
 cp input/mg5_configuration.txt input/mg5_configuration_patched.txt
+cat input/mg5_configuration_patched.txt
 
 # Compile in advance
 chmod +x bin/compile.py

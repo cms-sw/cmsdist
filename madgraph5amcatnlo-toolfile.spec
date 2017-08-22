@@ -15,6 +15,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/madgraph5amcatnlo.xml
   <runtime name="ROOT_INCLUDE_PATH" value="$MADGRAPH5AMCATNLO_BASE" type="path"/>
   <runtime name="ROOT_PATH" value="$MADGRAPH5AMCATNLO_BASE" type="path"/>
   <use name="root_cxxdefaults"/>
+  <use name="gosamcontrib"/>
 </tool>
 EOF_TOOLFILE
 

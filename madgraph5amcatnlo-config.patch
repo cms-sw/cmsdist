@@ -117,7 +117,7 @@ diff  -Naur MG5_aMC_v2_5_5/input/mg5_configuration.txt mg5_configuration.txt
  #! if '' or None: disabling Golem95
  #! if golem=/PATH/TO/golem/lib: use that speficif installation path for Golem95
 -# golem = auto
-+golem = $GOSAMCONTRIB_ROOT/2.0-20150803/lib/
++golem = $GOSAMCONTRIB_ROOT/lib
  
  #! Set the samurai directory containing samurai's library
  #! It only supports version higher than 2.0.0
