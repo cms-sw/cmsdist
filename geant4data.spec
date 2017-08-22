@@ -1,4 +1,4 @@
-### RPM external geant4data 1.0
+### RPM external geant4data 2.0
 ## NOCOMPILER
 
 Requires: geant4-G4NDL

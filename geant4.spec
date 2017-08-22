@@ -64,3 +64,8 @@ find . -name "*.o" -delete
 
 %post
 %{relocateConfig}lib/Geant4-*/Geant4Config.cmake
+%{relocateConfig}bin/geant4-config
+%{relocateConfig}bin/geant4.*
+%{relocateConfig}share/Geant4-*/geant4-*
+%{relocateConfig}share/Geant4-*/geant4make/geant4make.*
+%{relocateConfig}lib/Geant4-*/Geant4LibraryDepends.cmake
