@@ -11,7 +11,7 @@ Requires: form
 CXX="$(which c++) -fPIC"
 CC="$(which gcc) -fPIC"
 FC="$(which gfortran)"
-PLATF_CONF_OPTS="--enable-shared --disable-static"
+PLATF_CONF_OPTS="--enable-shared --enable-static"
 
 ./configure $PLATF_CONF_OPTS \
             --prefix=%i \
@@ -26,3 +26,4 @@ make install
 
 %post
 %{relocateConfig}share/gosam-contrib/gosam.conf
+
