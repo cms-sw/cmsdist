@@ -24,7 +24,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/herwigpp.xml
   <use name="thepeg"/>
   <use name="madgraph5amcatnlo"/>
   <use name="openloops"/>
-  <use name="rivet"/>
 </tool>
 EOF_TOOLFILE
 
