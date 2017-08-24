@@ -12,7 +12,7 @@ Requires: py2-numpy python py2-wheel
 export PYTHON_BIN_PATH=`which python`
 export TF_NEED_JEMALLOC=0
 export TF_NEED_HDFS=0
-export CC_OPT_FLAGS="-march=prescott"
+export CC_OPT_FLAGS="-march=core2"
 export TF_NEED_GCP=0
 export TF_ENABLE_XLA=0
 export TF_NEED_OPENCL=0
