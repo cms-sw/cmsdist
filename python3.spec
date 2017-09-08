@@ -1,4 +1,4 @@
-### RPM external python3 3.6.0
+### RPM external python3 3.6.2
 ## INITENV +PATH PATH %i/bin 
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 ## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib/python%{python_major_version}/site-packages
@@ -71,6 +71,7 @@ export CPPFLAGS
 sed -ibak "s/ndbm_libs = \[\]/ndbm_libs = ['gdbm', 'gdbm_compat']/" setup.py
 
 ./configure --prefix=%i --enable-shared \
+            --enable-unicode=ucs4 --enable-optimizations \
             --without-tkinter --disable-tkinter
 
 # Modify pyconfig.h to match macros from GLIBC features.h on Linux machines.
@@ -149,12 +150,8 @@ esac
                      %{i}/bin/python%{pythonv}-config \
                      %{i}/bin/2to3-%{pythonv} \
                      %{i}/bin/python%{pythonv}-config \
-                     %{i}/bin/python%{pythonv}m-config
-
-echo "RPM_BUILD_ROOT=$RPM_BUILD_ROOT"
- sed -i -e "s|$RPM_BUILD_ROOT||" \
-                     %{i}/lib/python%{pythonv}/_sysconfigdata_m_linux_x86_64-linux-gnu.py
- sed -i -e "s|$RPM_BUILD_ROOT||" \
+                     %{i}/bin/python%{pythonv}m-config \
+                     %{i}/lib/python%{pythonv}/_sysconfigdata_m_linux_x86_64-linux-gnu.py \
                      %{i}/lib/python%{pythonv}/config-%{pythonv}m-x86_64-linux-gnu/python-config.py
 
 find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
