@@ -14,6 +14,9 @@ cat >> setup.cfg <<-EOF
 EOF
 
 %build
+export PYTHON3_ROOT
+export LDFLAGS="-L$PYTHON3_ROOT/lib $LDFLAGS"
+export LDFLAGS="-L $ZLIB_ROOT/lib $LDFLAGS"
 python3 setup.py build
 
 %install
