@@ -1,4 +1,4 @@
-### RPM external py3-cjson 1.0.5
+### RPM external py3-cjson 1.2.1
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source: http://pypi.python.org/packages/source/p/python-cjson/python-cjson-%{realversion}.tar.gz
