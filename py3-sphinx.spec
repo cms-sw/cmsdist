@@ -1,4 +1,4 @@
-### RPM external py3-sphinx 1.3.5
+### RPM external py3-sphinx 1.6.3
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 %define sphinx_rtd_theme_version 0.1.9
@@ -6,7 +6,8 @@
 %define babel_version 2.3.4
 %define snowballstemmer_version 1.2.1
 
-Source0: http://pypi.python.org/packages/source/S/Sphinx/Sphinx-%realversion.tar.gz
+#Source0: http://pypi.python.org/packages/source/S/Sphinx/Sphinx-%realversion.tar.gz
+Source0: https://pypi.python.org/packages/10/91/ceb2e0d763e0c626f7afd7e3272a5bb76dd06eed1f0b908270ea31984062/Sphinx-%realversion.tar.gz
 Source1: http://github.com/snide/sphinx_rtd_theme/archive/%sphinx_rtd_theme_version.tar.gz
 Source2: http://github.com/bitprophet/alabaster/archive/%alabaster_version.tar.gz
 Source3: http://github.com/python-babel/babel/archive/%babel_version.tar.gz
@@ -38,3 +39,4 @@ for d in ../Sphinx-* ../sphinx_rtd_theme-* ../alabaster-* ../babel-* ../snowball
   fi
 done
 for f in %i/bin/sphinx-*; do perl -p -i -e 's{.*}{#!/usr/bin/env python3} if $. == 1 && m{#!.*/bin/python}' $f; done
+for f in %i/bin/py*; do perl -p -i -e 's{.*}{#!/usr/bin/env python3} if $. == 1 && m{#!.*/bin/python}' $f; done
