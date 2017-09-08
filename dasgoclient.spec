@@ -1,6 +1,6 @@
-### RPM cms dasgoclient v01.00.06
+### RPM cms dasgoclient v01.00.08
 ## NOCOMPILER
-%define dasgoclient_arch     slc6_amd64_gcc530
+%define dasgoclient_arch     slc6_amd64_gcc630
 %define dasgoclient_pkg      cms+%{n}-binary+%{realversion}
 %define dasgoclient_rpm      %{dasgoclient_pkg}-1-1.%{dasgoclient_arch}.rpm
 Source0: https://cern.ch/valya/dasgoclient/%{dasgoclient_rpm}
