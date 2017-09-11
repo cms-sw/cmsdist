@@ -24,11 +24,15 @@ export ZLIB_ROOT
 export LAPACK_ROOT
 export LAPACK=$LAPACK_ROOT/lib/liblapack.$SONAME
 export BLAS=$LAPACK_ROOT/lib/libblas.$SONAME
-mkdir -p %i/$PYTHON3_LIB_SITE_PACKAGES
+mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
 export LD_LIBRARY_PATH=$PYTHON3_ROOT/lib:$LD_LIBRARY_PATH
 python3 setup.py build --fcompiler=gnu95
-PYTHONPATH=%i/$PYTHON3_LIB_SITE_PACKAGES:$PYTHONPATH python3 setup.py install --prefix=%i
+PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH python3 setup.py install --prefix=%i
 #find %i -name '*.egg-info' -exec rm {} \;
+
+# adjust python path
+f2py3=`find %i -name f2py3`
+perl -p -i -e "s|^#!.*python3|#!/usr/bin/env python3|" $f2py3
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
