@@ -21,7 +21,10 @@ cd buildDir
 export LAPACK_ROOT
 export LAPACK=$LAPACK_ROOT/lib/liblapack.$SONAME
 LDFLAGS="$LDFLAGS $LAPACK" \
-make %{makeprocesses} build
+
+# we must build using single core to avoid missing symbols
+make build
+#make %{makeprocesses} build
 #make check
 #make ptcheck
 #make time
