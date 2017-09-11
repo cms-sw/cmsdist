@@ -71,8 +71,8 @@ export CPPFLAGS
 sed -ibak "s/ndbm_libs = \[\]/ndbm_libs = ['gdbm', 'gdbm_compat']/" setup.py
 
 ./configure --prefix=%i --enable-shared \
-            --enable-unicode=ucs4 --enable-optimizations \
             --without-tkinter --disable-tkinter
+            #--enable-unicode=ucs4 --enable-optimizations \
 
 # Modify pyconfig.h to match macros from GLIBC features.h on Linux machines.
 # _POSIX_C_SOURCE and _XOPEN_SOURCE macros are not identical anymore
@@ -118,6 +118,7 @@ export NCURSES_ROOT
 
 make install
 %define pythonv %(echo %realversion | cut -d. -f 1,2)
+%define python_major %(echo %realversion | cut -d. -f 1)
 
 case %cmsplatf in
   osx*)
@@ -140,19 +141,33 @@ case %cmsplatf in
   ;;
 esac
 
- perl -p -i -e "s|^#!.*python3.6|#!/usr/bin/env python3|" \
-                     %{i}/bin/idle%{pythonv} \
-                     %{i}/bin/pydoc%{pythonv} \
-                     %{i}/bin/pip%{pythonv} \
-                     %{i}/bin/pip3 \
-                     %{i}/bin/easy_install-%{pythonv} \
-                     %{i}/bin/pyvenv-%{pythonv} \
-                     %{i}/bin/python%{pythonv}-config \
-                     %{i}/bin/2to3-%{pythonv} \
-                     %{i}/bin/python%{pythonv}-config \
-                     %{i}/bin/python%{pythonv}m-config \
-                     %{i}/lib/python%{pythonv}/_sysconfigdata_m_linux_x86_64-linux-gnu.py \
-                     %{i}/lib/python%{pythonv}/config-%{pythonv}m-x86_64-linux-gnu/python-config.py
+perl -p -i -e "s|^#!.*python3.6|#!/usr/bin/env python3|" \
+                    %{i}/bin/idle%{pythonv} \
+                    %{i}/bin/pydoc%{pythonv} \
+                    %{i}/bin/pip%{pythonv} \
+                    %{i}/bin/pip3 \
+                    %{i}/bin/easy_install-%{pythonv} \
+                    %{i}/bin/pyvenv-%{pythonv} \
+                    %{i}/bin/python%{pythonv}-config \
+                    %{i}/bin/2to3-%{pythonv} \
+                    %{i}/bin/python%{pythonv}-config \
+                    %{i}/bin/python%{pythonv}m-config \
+                    %{i}/lib/python%{pythonv}/_sysconfigdata_m_linux_x86_64-linux-gnu.py \
+                    %{i}/lib/python%{pythonv}/config-%{pythonv}m-x86_64-linux-gnu/python-config.py
+
+echo "RPM_BUILD_ROOT=$RPM_BUILD_ROOT"
+sed -i -e "s|$RPM_BUILD_ROOT||" \
+                    %{i}/lib/python%{pythonv}/_sysconfigdata_m_linux_x86_64-linux-gnu.py
+sed -i -e "s|$RPM_BUILD_ROOT||" \
+                    %{i}/bin/python%{python_major}-config
+sed -i -e "s|$RPM_BUILD_ROOT||" \
+                    %{i}/bin/python%{pythonv}-config
+sed -i -e "s|$RPM_BUILD_ROOT||" \
+                    %{i}/bin/python%{pythonv}m-config
+sed -i -e "s|$RPM_BUILD_ROOT||" \
+                    %{i}/lib/python%{pythonv}/config-%{pythonv}m-x86_64-linux-gnu/python-config.py
+sed -i -e "s|$RPM_BUILD_ROOT||" \
+                     %{i}/lib/python%{pythonv}/config-%{pythonv}m-x86_64-linux-gnu/Makefile
 
 find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
 find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
