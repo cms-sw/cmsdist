@@ -71,8 +71,8 @@ export CPPFLAGS
 sed -ibak "s/ndbm_libs = \[\]/ndbm_libs = ['gdbm', 'gdbm_compat']/" setup.py
 
 ./configure --prefix=%i --enable-shared \
+            --enable-unicode=ucs4 --enable-optimizations \
             --without-tkinter --disable-tkinter
-            #--enable-unicode=ucs4 --enable-optimizations \
 
 # Modify pyconfig.h to match macros from GLIBC features.h on Linux machines.
 # _POSIX_C_SOURCE and _XOPEN_SOURCE macros are not identical anymore
