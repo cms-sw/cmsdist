@@ -17,7 +17,7 @@ Requires: gfortran-macosx
 %build
 mkdir buildDir
 cd buildDir
-../configure -b 64 -D c -DPentiumCPS=2400 --prefix=%i
+../configure -b 64 -D c -DPentiumCPS=2400 --prefix=%i --shared
 export LAPACK_ROOT
 export LAPACK=$LAPACK_ROOT/lib/liblapack.$SONAME
 LDFLAGS="$LDFLAGS $LAPACK" \
