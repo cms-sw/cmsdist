@@ -42,13 +42,15 @@ esac
             --enable-blackhat=$BLACKHAT_ROOT \
             --enable-pyext \
             --enable-ufo \
-            ${OPENLOOPS_ROOT+--enable-openloops=$OPENLOOPS_ROOT}\
-            --enable-mpi=$OPENMPI_ROOT \
+            ${OPENLOOPS_ROOT+--enable-openloops=$OPENLOOPS_ROOT} \
+            --enable-mpi \
             --with-sqlite3=$SQLITE_ROOT \
-            CXX="g++" \
-            MPICXX="${OPENMPI_ROOT}/bin/mpic++" \
-            CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF -O2 -std=c++0x -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$OPENSSL_ROOT/include -I$OPENMPI_ROOT/include/" \
-            LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib -L$OPENSSL_ROOT/lib -L$OPENMPI_ROOT/lib/"
+            CC="mpicc" \
+            CXX="mpicxx" \
+            MPICXX="mpicxx" \
+            FC="mpifort" \
+            CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF -O2 -std=c++0x -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$OPENSSL_ROOT/include" \
+            LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib -L$OPENSSL_ROOT/lib"
 
 make %{makeprocesses}
 
