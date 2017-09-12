@@ -1,8 +1,12 @@
-### RPM external tbb 2017_20161004oss
-Source: https://www.threadingbuildingblocks.org/sites/default/files/software_releases/source/%{n}%{realversion}_src.tgz
+### RPM external tbb 2017_U6
+
+%define tag 2017_U6
+%define branch tbb_2017
+%define github_user 01org
+Source: git+https://github.com/%{github_user}/tbb.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 %prep
-%setup -n tbb%{realversion}
+%setup -n %{n}-%{realversion}
 
 %build
 

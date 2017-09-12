@@ -1,4 +1,4 @@
-### RPM external gdb 7.12
+### RPM external gdb 7.12.1
 Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 
 Patch0: gdb-7.12-fix-PYTHONHOME
