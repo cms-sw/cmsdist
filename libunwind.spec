@@ -1,8 +1,7 @@
-### RPM external libunwind 1.1
-%define tag 01caf2895fb52f241d1efb42752082aa8864492e
-%define branch cms/65ac867
-%define github_user cms-externals
-Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+### RPM external libunwind 1.2
+%define tag 5f354cb7b9c84dae006f0ebd8ad7a78d7e2aad0c
+%define branch v1.2-stable
+Source: git+https://git.savannah.gnu.org/r/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Requires: libatomic_ops
 BuildRequires: autotools
 
