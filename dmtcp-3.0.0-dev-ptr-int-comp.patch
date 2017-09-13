@@ -1,0 +1,13 @@
+diff --git a/src/dmtcp_launch.cpp b/src/dmtcp_launch.cpp
+index 96986ae..63fd8bb 100644
+--- a/src/dmtcp_launch.cpp
++++ b/src/dmtcp_launch.cpp
+@@ -391,7 +391,7 @@ processArgs(int *orig_argc,
+     }
+   }
+ #endif // if __aarch64__
+-  if ((portStr == NULL || portStr[0] == '\0') &&
++  if ((*portStr == NULL || (*portStr)[0] == '\0') &&
+       (getenv(ENV_VAR_NAME_PORT) == NULL ||
+        getenv(ENV_VAR_NAME_PORT)[0]== '\0') &&
+       allowedModes != COORD_NEW) {
