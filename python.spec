@@ -11,7 +11,7 @@ Requires: zlib sqlite
 
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, x11
-%define tag dfe547a19572852ca1de578f695ee5ba219f7da2
+%define tag b649c5daa17b30166bfe78e0077b3093acb29553
 %define branch cms/6a1b89d
 %define github_user cms-externals
 Source0: git+https://github.com/%github_user/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
