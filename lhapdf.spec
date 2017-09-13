@@ -1,7 +1,7 @@
-### RPM external lhapdf 6.1.6
-%define setsversion 6.1.6a
+### RPM external lhapdf 6.2.1
+%define setsversion 6.2
 
-Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
+Source: http://www.hepforge.org/archive/lhapdf/LHAPDF-6.2.1.tar.gz
 
 Source1: lhapdf_makeLinks
 
@@ -19,7 +19,7 @@ BuildRequires: cython
 %define keep_archives true
 
 %prep
-%setup -q -n %{n}/%{realversion}
+%setup -q -n LHAPDF-%{realversion}
 
 ./configure --prefix=%{i} --with-boost=${BOOST_ROOT} --with-yaml-cpp=${YAML-CPP_ROOT} PYTHON=${PYTHON_ROOT}/bin/python CYTHON=${CYTHON_ROOT}/bin/cython PYTHONPATH=${CYTHON_ROOT}/lib/python@PYTHONV@/site-packages
 
