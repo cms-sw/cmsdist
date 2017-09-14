@@ -1,7 +1,7 @@
 ### RPM external atlas 3.10.3
 #Source: https://sourceforge.net/projects/math-atlas/files/Stable/%realversion/atlas%realversion.tar.bz2
 #Source: https://downloads.sourceforge.net/project/math-atlas/Stable/%realversion/atlas%realversion.tar.bz2
-Source: Source: https://sourceforge.net/projects/math-atlas/files/Stable/%realversion/atlas%realversion.tar.bz2/download?use_mirror=superb-sea2
+Source: https://sourceforge.net/projects/math-atlas/files/Stable/%realversion/atlas%realversion.tar.bz2/download
 Requires: lapack
 
 #BuildRequires: cmake
@@ -17,11 +17,14 @@ Requires: gfortran-macosx
 %build
 mkdir buildDir
 cd buildDir
-../configure -b 64 -D c -DPentiumCPS=2400 --prefix=%i
+../configure -b 64 -D c -DPentiumCPS=2400 --prefix=%i --shared
 export LAPACK_ROOT
 export LAPACK=$LAPACK_ROOT/lib/liblapack.$SONAME
 LDFLAGS="$LDFLAGS $LAPACK" \
-make %{makeprocesses} build
+
+# we must build using single core to avoid missing symbols
+make build
+#make %{makeprocesses} build
 #make check
 #make ptcheck
 #make time
