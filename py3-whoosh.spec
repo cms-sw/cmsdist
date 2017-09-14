@@ -1,4 +1,4 @@
-### RPM external py3-whoosh 2.4.1
+### RPM external py3-whoosh 2.7.4
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source0: https://pypi.python.org/packages/source/W/Whoosh/Whoosh-%{realversion}.tar.gz
