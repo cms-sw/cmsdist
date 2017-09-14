@@ -17,4 +17,6 @@ mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
 PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH \
 python3 setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
-for f in %i/bin/cherryd; do perl -p -i -e 's{.*}{#!/usr/bin/env python3} if $. == 1 && m{#!.*/bin/python}' $f; done
+files=`find %i -name cherryd`
+for f in $files; do perl -p -i -e 's{.*}{#!/usr/bin/env python3} if $. == 1 && m{#!.*/bin/python}' $f; done
+#for f in %i/bin/cherryd; do perl -p -i -e 's{.*}{#!/usr/bin/env python3} if $. == 1 && m{#!.*/bin/python}' $f; done
