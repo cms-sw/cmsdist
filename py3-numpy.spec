@@ -28,11 +28,14 @@ mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
 export LD_LIBRARY_PATH=$PYTHON3_ROOT/lib:$LD_LIBRARY_PATH
 python3 setup.py build --fcompiler=gnu95
 PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH python3 setup.py install --prefix=%i
-#find %i -name '*.egg-info' -exec rm {} \;
+find %i -name '*.egg-info' -exec rm {} \;
 
-# adjust python path
-f2py3=`find %i -name f2py3`
-perl -p -i -e "s|^#!.*python3|#!/usr/bin/env python3|" $f2py3
+# replace all instances of #!/path/bin/python into proper format
+for f in `find %i -type f`; do
+    if [ -f $f ]; then
+        perl -p -i -e 's{.*}{#!/usr/bin/env python3} if $. == 1 && m{#!.*/bin/python.*}' $f
+    fi
+done
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d

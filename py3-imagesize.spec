@@ -1,22 +1,22 @@
-### RPM external py3-docutils 0.12
+### RPM external py3-imagesize 0.7.1
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
-Source0: svn://docutils.svn.sourceforge.net/svnroot/docutils/trunk/sandbox/rst2wiki@7467?scheme=https&strategy=export&module=sandbox&output=/rst2wiki.tar.gz
-Source1: http://downloads.sourceforge.net/docutils/docutils-%{realversion}.tar.gz
-Requires: python3
+Source: https://pypi.python.org/packages/53/72/6c6f1e787d9cab2cc733cf042f125abec07209a58308831c9f292504e826/imagesize-0.7.1.tar.gz
+Requires: python3 py3-certifi py3-urllib3 py3-idna py3-chardet
+BuildRequires: py3-setuptools
 
 %prep
-%setup -T -b 0 -n sandbox
-%setup -D -T -b 1 -n docutils-%realversion
+%setup -n imagesize-%realversion
 
 %build
+export PYTHON3_ROOT
 python3 setup.py build
 
 %install
-python3 setup.py install --prefix=%i
-cp ../sandbox/tools/rst2wiki.py %i/bin/
-cp ../sandbox/docutils/writers/wiki.py %i/$PYTHON_LIB_SITE_PACKAGES/docutils/writers/
-python3 -m compileall %i/$PYTHON_LIB_SITE_PACKAGES
+mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
+export LD_LIBRARY_PATH=$PYTHON3_ROOT/lib:$LD_LIBRARY_PATH
+PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH python3 setup.py install --prefix=%i
+find %i -name '*.egg-info' -exec rm {} \;
 # replace all instances of #!/path/bin/python into proper format
 for f in `find %i -type f`; do
     if [ -f $f ]; then
