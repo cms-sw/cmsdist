@@ -1,5 +1,5 @@
-### RPM external protobuf 3.2.0
-Source: https://github.com/google/protobuf/releases/download/v%{realversion}/protobuf-cpp-%{realversion}.tar.gz
+### RPM external protobuf 3.4.0
+Source: https://github.com/google/protobuf/archive/v%{realversion}.tar.gz
 Requires: zlib
 
 #
@@ -14,6 +14,7 @@ Requires: zlib
 %setup -n %{n}-%{realversion}
 
 %build
+./autogen.sh
 # Update to detect aarch64 and ppc64le
 rm -f ./config.{sub,guess}
 curl -L -k -s -o ./config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
@@ -30,7 +31,6 @@ rm -f ./gmock/build-aux/config.{sub,guess}
 curl -L -k -s -o ./gmock/build-aux/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
 curl -L -k -s -o ./gmock/build-aux/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
 chmod +x ./gmock/build-aux/config.{sub,guess}
-
 ./configure --prefix %{i} \
     --disable-static \
     --disable-dependency-tracking \
