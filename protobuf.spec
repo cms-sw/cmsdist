@@ -1,7 +1,7 @@
 ### RPM external protobuf 3.4.0
 Source: https://github.com/google/protobuf/archive/v%{realversion}.tar.gz
 Requires: zlib
-
+BuildRequires: autotools
 #
 # When changing the version of protobuf, remember to regenerate protobuf objects in CMSSW
 # current recipe for this is:
@@ -9,8 +9,6 @@ Requires: zlib
 # git cms-addpkg DQMServices/Core
 # cd $CMSSW_BASE/src
 # protoc --cpp_out=. DQMServices/Core/src/ROOTFilePB.proto
-
-BuildRequires: autotools
 
 %prep
 %setup -n %{n}-%{realversion}
