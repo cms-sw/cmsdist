@@ -10,6 +10,8 @@ Requires: zlib
 # cd $CMSSW_BASE/src
 # protoc --cpp_out=. DQMServices/Core/src/ROOTFilePB.proto
 
+BuildRequires: autotools
+
 %prep
 %setup -n %{n}-%{realversion}
 
