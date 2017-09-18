@@ -1,4 +1,4 @@
-### RPM external openmpi 2.1.1
+### RPM external openmpi 2.1.2rc4
 ## INITENV SET OPAL_PREFIX %{i}
 Source: http://www.open-mpi.org/software/ompi/v2.1/downloads/%{n}-%{realversion}.tar.gz 
 Patch1: openmpi-2.1.1-disable-lsf-support
