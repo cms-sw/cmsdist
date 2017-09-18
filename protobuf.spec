@@ -1,7 +1,7 @@
 ### RPM external protobuf 3.4.0
 Source: https://github.com/google/protobuf/archive/v%{realversion}.tar.gz
 Requires: zlib
-
+BuildRequires: autotools
 #
 # When changing the version of protobuf, remember to regenerate protobuf objects in CMSSW
 # current recipe for this is:
