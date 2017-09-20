@@ -46,6 +46,7 @@ Requires: data-SimTracker-SiStripDigitizer
 Requires: data-CalibCalorimetry-EcalTrivialCondModules
 Requires: data-DataFormats-PatCandidates
 Requires: data-SimTransport-HectorProducer
+Requires: data-PhysicsTools-NanoAOD
 
 %if %isnotonline
 # extra data dependencies for standard builds
