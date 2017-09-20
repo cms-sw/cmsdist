@@ -1,4 +1,4 @@
-### RPM external ninja 1.7.2
+### RPM external ninja 1.8.2
 Source0: git://github.com/ninja-build/ninja.git?obj=release/v%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: python re2c
