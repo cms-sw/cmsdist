@@ -1,4 +1,4 @@
-### RPM external py2-pippkgs 5.0
+### RPM external py2-pippkgs 6.0
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 Source: none
 
@@ -93,6 +93,7 @@ BuildRequires: py2-werkzeug
 BuildRequires: py2-pytest
 BuildRequires: py2-avro
 BuildRequires: py2-fs
+BuildRequires: py2-lizard
 
 %prep
 
