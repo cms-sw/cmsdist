@@ -1,7 +1,7 @@
-### RPM external tbb 2017_U7
+### RPM external tbb 2018
 
-%define tag 2017_U6
-%define branch tbb_2017
+%define tag %{realversion}
+%define branch tbb_2018
 %define github_user 01org
 Source: git+https://github.com/%{github_user}/tbb.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
