@@ -17,4 +17,12 @@ python3 setup.py install --prefix=%i
 cp ../sandbox/tools/rst2wiki.py %i/bin/
 cp ../sandbox/docutils/writers/wiki.py %i/$PYTHON_LIB_SITE_PACKAGES/docutils/writers/
 python3 -m compileall %i/$PYTHON_LIB_SITE_PACKAGES
-for f in %i/bin/rst*; do perl -p -i -e 's{.*}{#!/usr/bin/env python3} if $. == 1 && m{#!.*/bin/python}' $f; done
+
+# replace all instances of #!/path/bin/python into proper format
+%py3PathRelocation
+
+# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
+%addDependency
+
+%post
+%{relocateConfig}etc/profile.d/dependencies-setup.*sh

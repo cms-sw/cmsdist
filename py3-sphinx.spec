@@ -12,7 +12,7 @@ Source1: http://github.com/snide/sphinx_rtd_theme/archive/%sphinx_rtd_theme_vers
 Source2: http://github.com/bitprophet/alabaster/archive/%alabaster_version.tar.gz
 Source3: http://github.com/python-babel/babel/archive/%babel_version.tar.gz
 Source4: http://pypi.python.org/packages/source/s/snowballstemmer/snowballstemmer-%snowballstemmer_version.tar.gz
-Requires: python3 py3-docutils py3-jinja py3-pygments py3-setuptools py3-six py3-pytz
+Requires: python3 py3-docutils py3-jinja py3-pygments py3-setuptools py3-six py3-pytz py3-requests py3-imagesize
 
 %prep
 %setup -T -b 0 -n Sphinx-%realversion
@@ -38,5 +38,12 @@ for d in ../Sphinx-* ../sphinx_rtd_theme-* ../alabaster-* ../babel-* ../snowball
     python3 setup.py install --prefix=%i
   fi
 done
-for f in %i/bin/sphinx-*; do perl -p -i -e 's{.*}{#!/usr/bin/env python3} if $. == 1 && m{#!.*/bin/python}' $f; done
-for f in %i/bin/py*; do perl -p -i -e 's{.*}{#!/usr/bin/env python3} if $. == 1 && m{#!.*/bin/python}' $f; done
+
+# replace all instances of #!/path/bin/python into proper format
+%py3PathRelocation
+
+# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
+%addDependency
+
+%post
+%{relocateConfig}etc/profile.d/dependencies-setup.*sh

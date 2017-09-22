@@ -11,6 +11,14 @@ python3 setup.py build
 
 %install
 python3 setup.py install --prefix=%i
-egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
 find %i -name '*.egg-info' -exec rm {} \;
 %define drop_files %i/man
+
+# replace all instances of #!/path/bin/python into proper format
+%py3PathRelocation
+
+# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
+%addDependency
+
+%post
+%{relocateConfig}etc/profile.d/dependencies-setup.*sh

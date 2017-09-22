@@ -14,6 +14,12 @@ python3 setup.py build
 mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
 PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH \
 python3 setup.py install --skip-build --prefix=%{i}
-# get rid of /usr/bin/python
-egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python3}'
 
+# replace all instances of #!/path/bin/python into proper format
+%py3PathRelocation
+
+# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
+%addDependency
+
+%post
+%{relocateConfig}etc/profile.d/dependencies-setup.*sh

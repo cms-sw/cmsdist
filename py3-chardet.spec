@@ -1,19 +1,20 @@
-### RPM external py3-setuptools 18.3.2
+### RPM external py3-chardet 3.0.4
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
-Source: http://pypi.python.org/packages/source/s/setuptools/setuptools-%realversion.tar.gz
+Source: https://pypi.python.org/packages/fc/bb/a5768c230f9ddb03acc9ef3f0d4a3cf93462473795d18e9535498c8f929d/chardet-3.0.4.tar.gz
 Requires: python3
+BuildRequires: py3-setuptools
 
 %prep
-%setup -n setuptools-%realversion
+%setup -n chardet-%realversion
 
 %build
 python3 setup.py build
 
 %install
-python3 setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
+mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
+PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH python3 setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
-rm -f %i/$PYTHON_LIB_SITE_PACKAGES/setuptools/*.exe
 
 # replace all instances of #!/path/bin/python into proper format
 %py3PathRelocation

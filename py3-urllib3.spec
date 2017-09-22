@@ -1,20 +1,21 @@
-### RPM external py3-pyrex 0.9.9
+### RPM external py3-urllib3 1.22
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
-Source: http://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex/Pyrex-%realversion.tar.gz
+Source: https://pypi.python.org/packages/ee/11/7c59620aceedcc1ef65e156cc5ce5a24ef87be4107c2b74458464e437a5d/urllib3-1.22.tar.gz
 Requires: python3
+BuildRequires: py3-setuptools
 
 %prep
-%setup -n Pyrex-%realversion
+%setup -n urllib3-%realversion
 
 %build
-sed -i -e "s,execfile(distutils.util.convert_path('Pyrex/Compiler/Version.py')),exec(open(distutils.util.convert_path('Pyrex/Compiler/Version.py')).read()),g" setup.py
+export PYTHON3_ROOT
 python3 setup.py build
 
 %install
 mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
-PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH \
-python3 setup.py install --prefix=%i
+export LD_LIBRARY_PATH=$PYTHON3_ROOT/lib:$LD_LIBRARY_PATH
+PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH python3 setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
 # replace all instances of #!/path/bin/python into proper format

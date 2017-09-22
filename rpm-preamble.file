@@ -231,3 +231,24 @@
 %else
 %define strip strip
 %endif
+
+# Define a macro for adding dependencies
+%define addDependency \
+mkdir -p %{pkginstroot}/etc/profile.d \
+: > %{pkginstroot}/etc/profile.d/dependencies-setup.sh \
+: > %{pkginstroot}/etc/profile.d/dependencies-setup.csh \
+for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do \
+  root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root \
+  if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then \
+    echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %{pkginstroot}/etc/profile.d/dependencies-setup.sh \
+    echo "test X\$?$root = X1 || source $r/etc/profile.d/init.csh" >> %{pkginstroot}/etc/profile.d/dependencies-setup.csh \
+  fi \
+done
+
+# Define a macro for fixing python3 path relocation
+%define py3PathRelocation \
+for f in `find %{pkginstroot} -type f`; do \
+    if [ -f $f ]; then \
+        perl -p -i -e 's{.*}{#!/usr/bin/env python3} if $. == 1 && m{#!.*/bin/python.*}' $f \
+    fi \
+done
