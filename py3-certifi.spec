@@ -1,20 +1,21 @@
-### RPM external py3-pyrex 0.9.9
+### RPM external py3-certifi 2017.7.27.1
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
-Source: http://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex/Pyrex-%realversion.tar.gz
+Source: https://pypi.python.org/packages/20/d0/3f7a84b0c5b89e94abbd073a5f00c7176089f526edb056686751d5064cbd/certifi-2017.7.27.1.tar.gz
 Requires: python3
+BuildRequires: py3-setuptools
 
 %prep
-%setup -n Pyrex-%realversion
+%setup -n certifi-%realversion
 
 %build
-sed -i -e "s,execfile(distutils.util.convert_path('Pyrex/Compiler/Version.py')),exec(open(distutils.util.convert_path('Pyrex/Compiler/Version.py')).read()),g" setup.py
+export PYTHON3_ROOT
 python3 setup.py build
 
 %install
 mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
-PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH \
-python3 setup.py install --prefix=%i
+export LD_LIBRARY_PATH=$PYTHON3_ROOT/lib:$LD_LIBRARY_PATH
+PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH python3 setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
 # replace all instances of #!/path/bin/python into proper format

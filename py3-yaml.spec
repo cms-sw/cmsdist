@@ -22,3 +22,12 @@ python3 setup.py build
 %install
 python3 setup.py --with-libyaml install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
+
+# replace all instances of #!/path/bin/python into proper format
+%py3PathRelocation
+
+# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
+%addDependency
+
+%post
+%{relocateConfig}etc/profile.d/dependencies-setup.*sh
