@@ -8,6 +8,7 @@ Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&expo
 BuildRequires: cmake
 Requires: zlib
 Requires: openssl
+Requires: python
 
 %prep
 %setup -n %n-%{realversion}
@@ -36,7 +37,9 @@ cmake ../ \
   -DENABLE_KRB5=TRUE \
   -DENABLE_READLINE=FALSE \
   -DENABLE_CRYPTO=TRUE \
-  -DCMAKE_SKIP_RPATH=TRUE
+  -DCMAKE_SKIP_RPATH=TRUE \
+  -DENABLE_PYTHON=TRUE \
+  -DCMAKE_PREFIX_PATH="${PYTHON_ROOT}"
 
 # Use makeprocess macro, it uses compiling_processes defined by
 # build configuration file or build argument
