@@ -49,26 +49,78 @@ bazel shutdown
 
 
 #Copying out what was built by bazel
-incDir="tensorflow_cc/include"
-libDir="tensorflow_cc/lib"
+incdir="$PWD/tensorflow_cc/include"
+libdir="$PWD/tensorflow_cc/lib"
 
 # Make directory and clean it
-mkdir -p $incDir
-mkdir -p $libDir
+mkdir -p $incdir
+mkdir -p $libdir
 
-rm -rf $incDir/*
-rm -rf $libDir/*
+rm -rf $incdir/*
+rm -rf $libdir/*
+
+cp -v $PWD/bazel-bin/tensorflow/libtensorflow_cc.so $libdir
 
 #Download depencies used by tensorflow and copy to include dir
 tensorflow/contrib/makefile/download_dependencies.sh
-cp -a tensorflow/contrib/makefile/downloads/* $incDir
+tdir=$PWD
+dwnldir=$PWD/tensorflow/contrib/makefile/downloads
+gendir=$PWD/bazel-genfiles
 
-# Copy .h & .cc files
-cp -a bazel-genfiles/. 				$incDir
-cp -a tensorflow/cc 					$incDir/tensorflow
-cp -a tensorflow/core 				$incDir/tensorflow
-cp -a third_party					$incDir
-
+# tensorflow headers
+cd ${tdir}
+header_list=`find tensorflow -type f -name "*.h" | grep -v contrib`
+for my_header in ${header_list}
+do
+  my_header_dir=$(dirname "${my_header}")
+  mkdir -p ${incdir}/${my_header_dir}
+  cp -p ${my_header} ${incdir}/${my_header_dir}
+done
+# generated headers
+cd ${gendir}
+header_list=`find tensorflow -type f -name "*.h"`
+for my_header in ${header_list}
+do
+  my_header_dir=$(dirname "${my_header}")
+  mkdir -p ${incdir}/${my_header_dir}
+  cp -p ${my_header} ${incdir}/${my_header_dir}
+done
+# third party headers
+cd ${tdir}
+header_list=`find third_party -type f -name "*.h" | grep -v contrib`
+for my_header in ${header_list}
+do
+  my_header_dir=$(dirname "${my_header}")
+  mkdir -p ${incdir}/${my_header_dir}
+  cp -p ${my_header} ${incdir}/${my_header_dir}
+done
+# third party eigen headers
+header_list=`find third_party/eigen3 -type f | grep -v contrib`
+for my_header in ${header_list}
+do
+  my_header_dir=$(dirname "${my_header}")
+  mkdir -p ${incdir}/${my_header_dir}
+  cp -p ${my_header} ${incdir}/${my_header_dir}
+done
+# downloaded headers
+cd ${dwnldir}
+header_list=`find gemmlowp googletest re2 -type f -name "*.h"`
+for my_header in ${header_list}
+do
+  my_header_dir=$(dirname "${my_header}")
+  mkdir -p ${incdir}/${my_header_dir}
+  cp -p ${my_header} ${incdir}/${my_header_dir}
+done
+# downloaded eigen headers
+header_list=`find eigen/Eigen eigen/unsupported -type f`
+for my_header in ${header_list}
+do
+  my_header_dir=$(dirname "${my_header}")
+  mkdir -p ${incdir}/${my_header_dir}
+  cp -p ${my_header} ${incdir}/${my_header_dir}
+done
+# eigen signature file
+cp -p eigen/signature_of_eigen3_matrix_library ${incdir}/eigen/ || exit 1
 
 %install
 #export PYTHONPATH=%{i}/lib/python:${PYTHONPATH}
@@ -83,4 +135,4 @@ cp $PWD/bazel-bin/tensorflow/tools/lib_package/libtensorflow.tar.gz %{i}
 
 #tar xfz $PWD/bazel-bin/tensorflow/tools/lib_package/libtensorflow.tar.gz -C %{i}
 
-tar cfz %{i}/libtensorflow_cc.tar.gz tensorflow_cc/*
+tar cfz %{i}/libtensorflow_cc.tar.gz tensorflow_cc/.
