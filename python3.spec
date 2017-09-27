@@ -195,17 +195,13 @@ find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
 # Remove .pyo files
 find %i -name '*.pyo' -exec rm {} \;
 
-# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
-mkdir -p %i/etc/profile.d
-: > %i/etc/profile.d/dependencies-setup.sh
-: > %i/etc/profile.d/dependencies-setup.csh
-for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
-  root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
-  if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
-    echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-    echo "test X\$?$root = X1 || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
-  fi
-done
+# add python -> python3 link
+cd %i/bin
+ln -s python3 python
+cd -
+
+# generate dependency
+%addDependency
 
 %post
 %{relocateConfig}lib/python3.6/config/Makefile
