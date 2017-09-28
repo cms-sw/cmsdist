@@ -1,7 +1,7 @@
-### RPM external cuda 9.0.103
-%define driversversion 384.59
+### RPM external cuda 9.0.176
+%define driversversion 384.81
 
-Source: https://developer.nvidia.com/compute/cuda/9.0/rc/local_installers/%{n}_%{realversion}_%{driversversion}_linux-run
+Source: https://developer.nvidia.com/compute/cuda/9.0/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux-run
 AutoReqProv: no
 
 %prep
