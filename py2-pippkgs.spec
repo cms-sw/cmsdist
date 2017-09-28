@@ -1,4 +1,4 @@
-### RPM external py2-pippkgs 5.0
+### RPM external py2-pippkgs 5.1
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 Source: none
 
@@ -88,6 +88,7 @@ BuildRequires: py2-climate
 BuildRequires: py2-urllib3
 BuildRequires: py2-chardet
 BuildRequires: py2-idna
+BuildRequires: py2-fs
 
 %prep
 
