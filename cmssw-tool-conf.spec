@@ -167,6 +167,8 @@ Requires: tinyxml-toolfile
 Requires: scons-toolfile
 Requires: md5-toolfile
 Requires: py2-setuptools-toolfile
+Requires: py2-pippkgs-toolfile
+Requires: py2-pippkgs_depscipy-toolfile
 
 # Only for Linux platform.
 %if %islinux
