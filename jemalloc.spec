@@ -1,4 +1,4 @@
-### RPM external jemalloc 5.0.1
+### RPM external jemalloc 4.5.0
 Source: https://github.com/jemalloc/jemalloc/archive/%realversion.zip
 Requires: gcc autotools
 
