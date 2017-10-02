@@ -1,4 +1,4 @@
-### RPM cms fwlite-tool-conf 9.0
+### RPM cms fwlite-tool-conf 10.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -45,6 +45,7 @@ Requires: vdt-toolfile
 Requires: tinyxml-toolfile
 Requires: md5-toolfile
 Requires: davix-toolfile
+Requires: OpenBLAS-toolfile
 
 %if %isamd64
 %if %isslc
