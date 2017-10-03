@@ -20,7 +20,7 @@ ln -sf libcuda.so.1 %_builddir/lib64/libcuda.so
 ln -sf ../libnvvp/nvvp %_builddir/bin/nvvp
 ln -sf ../libnsight/nsight %_builddir/bin/nsight
 mkdir -p %{i}/lib64
-cp -ar %_builddir/lib64/libcudadevrt.a %{i}/lib64
+cp -ar %_builddir/lib64/libcudadevrt.a %_builddir/lib64/libcudart_static.a %{i}/lib64
 rm -rf %_builddir/lib64/*.a
 rm -rf %_builddir/lib64/libnppi.so* %_builddir/lib64/libcufft.so* %_builddir/lib64/libcurand.so* %_builddir/lib64/libcusparse.so* %_builddir/lib64/libcusolver.so* %_builddir/lib64/libcublas.so* %_builddir/lib64/libnvrtc-builtins.so* %_builddir/lib64/libnvrtc.so* %_builddir/lib64/libnpps.so* %_builddir/lib64/libnvblas.so* %_builddir/lib64/libcufftw.so*
 rm -rf %_builddir/include/sobol_direction_vectors.h %_builddir/include/nppi* %_builddir/include/curand*
