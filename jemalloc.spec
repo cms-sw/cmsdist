@@ -1,17 +1,19 @@
-### RPM external jemalloc 4.0.4
-Source: http://www.canonware.com/download/jemalloc/jemalloc-%realversion.tar.bz2
+### RPM external jemalloc 4.5.0
+Source: https://github.com/jemalloc/jemalloc/archive/%realversion.zip
 Requires: gcc autotools
 
 %prep
 %setup -n %n-%{realversion}
 
 %build
+./autogen.sh --prefix %i
 perl -p -i -e 's|-no-cpp-precomp||' configure
-./configure --prefix %i
+./configure --enable-autogen --enable-stats --prefix %i
 
 %install
 make
-make install
+# we explicitly avoid building docs which requires xslt suite to be presented on a system
+make install_bin install_include install_lib
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
