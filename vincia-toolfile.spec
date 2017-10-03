@@ -10,7 +10,8 @@ mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/vincia.xml
 <tool name="vincia" version="@TOOL_VERSION@">
   <lib name="vincia"/>
-  <lib name="mg4helas"/>
+  <lib name="VinciaMG4"/>
+  <lib name="VinciaMG5"/>
   <client>
     <environment name="VINCIA_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$VINCIA_BASE/lib"/>
