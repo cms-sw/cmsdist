@@ -10,6 +10,7 @@ mkdir -p %{i}/etc/scram.d
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda.xml
 <tool name="cuda" version="@TOOL_VERSION@">
   <info url="https://developer.nvidia.com/cuda-toolkit"/>
+  <lib name="cuda"/>
   <lib name="cudart"/>
   <lib name="nppc"/>
   <lib name="nvToolsExt"/>
@@ -18,6 +19,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda.xml
     <environment name="NVCC"      default="$CUDA_BASE/bin/nvcc"/>
     <environment name="BINDIR"    default="$CUDA_BASE/bin"/>
     <environment name="LIBDIR"    default="$CUDA_BASE/lib64"/>
+    <environment name="LIBDIR"    default="$CUDA_BASE/lib64/stubs"/>
     <environment name="INCLUDE"   default="$CUDA_BASE/include"/>
   </client>
   <flags CUDA_CFLAGS="-fPIC"/>
