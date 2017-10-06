@@ -1,4 +1,4 @@
-### RPM external intel-vtune 2017.2.0.499904
+### RPM external intel-vtune 2017.3.0.510739
 ## NOCOMPILER
 
 %prep
