@@ -1,4 +1,4 @@
-### RPM external cuda-toolfile 1.0
+### RPM external cuda-toolfile 2.0
 Requires: cuda
 %prep
 
@@ -7,9 +7,21 @@ Requires: cuda
 %install
 
 mkdir -p %{i}/etc/scram.d
+cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-stubs.xml
+<tool name="cuda-stubs" version="@TOOL_VERSION@">
+  <info url="https://developer.nvidia.com/cuda-toolkit"/>
+  <client>
+    <environment name="CUDA_STUBS_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"          default="$CUDA_STUBS_BASE/lib64/stubs"/>
+  </client>
+  <flags SKIP_TOOL_SYMLINKS="1"/>
+</tool>
+EOF_TOOLFILE
+
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda.xml
 <tool name="cuda" version="@TOOL_VERSION@">
   <info url="https://developer.nvidia.com/cuda-toolkit"/>
+  <use name="cuda-stubs"/>
   <lib name="cuda"/>
   <lib name="cudart"/>
   <lib name="nppc"/>
@@ -19,7 +31,6 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda.xml
     <environment name="NVCC"      default="$CUDA_BASE/bin/nvcc"/>
     <environment name="BINDIR"    default="$CUDA_BASE/bin"/>
     <environment name="LIBDIR"    default="$CUDA_BASE/lib64"/>
-    <environment name="LIBDIR"    default="$CUDA_BASE/lib64/stubs"/>
     <environment name="INCLUDE"   default="$CUDA_BASE/include"/>
   </client>
   <flags CUDA_CFLAGS="-fPIC"/>
@@ -29,4 +40,3 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
-
