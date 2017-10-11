@@ -1,12 +1,9 @@
-diff -r b9395fb5e72e MatrixElement/Matchbox/External/MadGraph/mg2herwig.py.in
---- a/MatrixElement/Matchbox/External/MadGraph/mg2herwig.py.in	Wed Aug 02 14:27:19 2017 +0200
-+++ b/MatrixElement/Matchbox/External/MadGraph/mg2herwig.py.in	Tue Aug 29 11:52:05 2017 +0100
-@@ -354,11 +354,21 @@
+--- a/MatrixElement/Matchbox/External/MadGraph/mg2herwig.py.in	2017-09-22 15:56:17.000000001 +0200
++++ b/MatrixElement/Matchbox/External/MadGraph/mg2herwig.py.in	2017-09-22 15:52:59.000000001 +0200
+@@ -354,11 +354,24 @@
  file=open("makefile","w")
  file.write("include MG5/Source/make_opts  ")
  if Virtlist!=[]:
--    file.write("\nLIBDIR = MG5/lib\nLINKLIBS =  -L$(LIBDIR) -lcts  -liregi -L$(LIBDIR)/golem95_lib -lgolem") 
--    file.write("\nLIBS = $(LIBDIR)libcts.$(libext) $(LIBDIR)libgolem.$(libext) $(LIBDIR)libiregi.$(libext)")
 +    ninjalib=options.madgraph
 +    ninjalib=ninjalib.replace("bin","HEPTools/ninja/lib")
 +    collierlib=options.madgraph
@@ -15,11 +12,14 @@ diff -r b9395fb5e72e MatrixElement/Matchbox/External/MadGraph/mg2herwig.py.in
 +    onelooplib=onelooplib.replace("bin","HEPTools/oneloop")
 +
 +
-+    file.write("\nLINKLIBS =-LMG5/lib -lcts -liregi  -L%s -lninja  -L%s -lcollier -L%s -lavh_olo "%(ninjalib,collierlib,onelooplib)) 
++    file.write("\nLINKLIBS =-LMG5/lib -lcts -liregi  -L%s -lninja  -L%s -lcollier -L%s -lavh_olo "%(ninjalib,collierlib,onelooplib))
+     file.write("\nLIBDIR = MG5/lib\nLINKLIBS =  -L$(LIBDIR) -lcts  -liregi -L$(LIBDIR)/golem95_lib -lgolem") 
+-    file.write("\nLIBS = $(LIBDIR)libcts.$(libext) $(LIBDIR)libgolem.$(libext) $(LIBDIR)libiregi.$(libext)")
++    file.write("\nLIBS = $(LIBDIR)libcts.$(libext) $(LIBDIR)libgolem.$(libext) $(LIBDIR)libiregi.$(libext)") 
 +    
  file.write("\nPROCESS= InterfaceMadGraph.f "+make+"\n\nall:  \n\t @FC@  @FFLAGS@ -w -fbounds-check -ffixed-line-length-132 -fPIC -fno-f2c -shared -s -o  InterfaceMadGraph.so -IMG5/SubProcesses/" )
  if Virtlist!=[]:
--  file.write(" -IMG5/lib/golem95_include ")
+   file.write(" -IMG5/lib/golem95_include ")
 +  incldir=options.madgraph.replace("bin","HEPTools/include")
 +  
 +  file.write(" -I%s -I./ "%incldir)
