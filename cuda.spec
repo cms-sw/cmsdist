@@ -12,11 +12,11 @@ AutoReqProv: no
 cp %{SOURCE0} %_builddir
 mkdir -p %_builddir/tmp
 /bin/sh %_builddir/%{n}_%{realversion}_%{driversversion}_linux-run --silent --tmpdir %_builddir/tmp --extract %_builddir
+# extracts:
+# %_builddir/NVIDIA-Linux-x86_64-384.81.run
+# %_builddir/cuda-linux.9.0.176-22781540.run
+# %_builddir/cuda-samples.9.0.176-22781540-linux.run
 /bin/sh %_builddir/%{n}-linux.%{realversion}-*.run -noprompt -nosymlink -tmpdir %_builddir/tmp -prefix %_builddir
-/bin/sh %_builddir/NVIDIA-Linux-x86_64-%{driversversion}.run --accept-license --extract-only --target %_builddir/drivers
-cp %_builddir/drivers/libcuda.so.* %_builddir/drivers/libnvidia-fatbinaryloader.so.* %_builddir/lib64
-ln -sf `basename %_builddir/lib64/libcuda.so.*` %_builddir/lib64/libcuda.so.1
-ln -sf libcuda.so.1 %_builddir/lib64/libcuda.so
 ln -sf ../libnvvp/nvvp %_builddir/bin/nvvp
 ln -sf ../libnsight/nsight %_builddir/bin/nsight
 mkdir -p %{i}/lib64
