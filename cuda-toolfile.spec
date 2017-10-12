@@ -10,6 +10,7 @@ mkdir -p %{i}/etc/scram.d
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-stubs.xml
 <tool name="cuda-stubs" version="@TOOL_VERSION@">
   <info url="https://developer.nvidia.com/cuda-toolkit"/>
+  <lib name="cuda"/>
   <client>
     <environment name="CUDA_STUBS_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR"          default="$CUDA_STUBS_BASE/lib64/stubs"/>
@@ -22,7 +23,6 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda.xml
 <tool name="cuda" version="@TOOL_VERSION@">
   <info url="https://developer.nvidia.com/cuda-toolkit"/>
   <use name="cuda-stubs"/>
-  <lib name="cuda"/>
   <lib name="cudart"/>
   <lib name="nppc"/>
   <lib name="nvToolsExt"/>
