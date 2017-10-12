@@ -1,4 +1,4 @@
-### RPM external py2-Theano 0.8.2
+### RPM external py2-Theano 0.9.0
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 
