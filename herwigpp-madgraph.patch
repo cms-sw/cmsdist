@@ -1,25 +1,35 @@
---- a/MatrixElement/Matchbox/External/MadGraph/mg2herwig.py.in	2017-09-22 15:56:17.000000001 +0200
-+++ b/MatrixElement/Matchbox/External/MadGraph/mg2herwig.py.in	2017-09-22 15:52:59.000000001 +0200
-@@ -354,11 +354,24 @@
+diff -r 438632ac61e5 MatrixElement/Matchbox/External/MadGraph/mg2herwig.py.in
+--- a/MatrixElement/Matchbox/External/MadGraph/mg2herwig.py.in	Wed Oct 04 15:43:06 2017 +0100
++++ b/MatrixElement/Matchbox/External/MadGraph/mg2herwig.py.in	Wed Oct 11 15:26:38 2017 +0200
+@@ -354,11 +354,32 @@
  file=open("makefile","w")
  file.write("include MG5/Source/make_opts  ")
  if Virtlist!=[]:
-+    ninjalib=options.madgraph
-+    ninjalib=ninjalib.replace("bin","HEPTools/ninja/lib")
+-    file.write("\nLIBDIR = MG5/lib\nLINKLIBS =  -L$(LIBDIR) -lcts  -liregi -L$(LIBDIR)/golem95_lib -lgolem") 
+-    file.write("\nLIBS = $(LIBDIR)libcts.$(libext) $(LIBDIR)libgolem.$(libext) $(LIBDIR)libiregi.$(libext)")
++
 +    collierlib=options.madgraph
 +    collierlib=collierlib.replace("bin","HEPTools/collier")
 +    onelooplib=options.madgraph
 +    onelooplib=onelooplib.replace("bin","HEPTools/oneloop")
 +
-+
-+    file.write("\nLINKLIBS =-LMG5/lib -lcts -liregi  -L%s -lninja  -L%s -lcollier -L%s -lavh_olo "%(ninjalib,collierlib,onelooplib))
-     file.write("\nLIBDIR = MG5/lib\nLINKLIBS =  -L$(LIBDIR) -lcts  -liregi -L$(LIBDIR)/golem95_lib -lgolem") 
--    file.write("\nLIBS = $(LIBDIR)libcts.$(libext) $(LIBDIR)libgolem.$(libext) $(LIBDIR)libiregi.$(libext)")
-+    file.write("\nLIBS = $(LIBDIR)libcts.$(libext) $(LIBDIR)libgolem.$(libext) $(LIBDIR)libiregi.$(libext)") 
++    file.write("\nLIBDIR = MG5/lib")
++    file.write("\nLINKLIBS =-L$(LIBDIR) -lcts -liregi ")
++    if (os.path.exists("MG5/lib/ninja_lib")):
++	file.write("\nLINKLIBS += -L$(LIBDIR)/ninja_lib -lninja   ")
++    if (os.path.exists(collierlib)):
++        file.write("\nLINKLIBS += -L%s -lcollier "%(collierlib))
++    if (os.path.exists(onelooplib)):
++        file.write("\nLINKLIBS += -L%s -lavh_olo "%(onelooplib))
++    if (os.path.exists("MG5/lib/golem95_lib")):
++        file.write("\nLINKLIBS += -L$(LIBDIR)/golem95_lib -lgolem") 
++     
 +    
  file.write("\nPROCESS= InterfaceMadGraph.f "+make+"\n\nall:  \n\t @FC@  @FFLAGS@ -w -fbounds-check -ffixed-line-length-132 -fPIC -fno-f2c -shared -s -o  InterfaceMadGraph.so -IMG5/SubProcesses/" )
  if Virtlist!=[]:
    file.write(" -IMG5/lib/golem95_include ")
++  file.write(" -IMG5/lib/ninja_include ")
++
 +  incldir=options.madgraph.replace("bin","HEPTools/include")
 +  
 +  file.write(" -I%s -I./ "%incldir)
