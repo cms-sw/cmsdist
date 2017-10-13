@@ -1,4 +1,4 @@
-### RPM external vincia 2.2.00
+### RPM external vincia 2.2.01
 
 Requires: pythia8
 
