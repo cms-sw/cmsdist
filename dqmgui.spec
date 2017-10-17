@@ -1,4 +1,4 @@
-### RPM cms dqmgui 9.1.2
+### RPM cms dqmgui 9.1.3
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH %{dynamic_path_var} %i/xlib
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
@@ -18,7 +18,7 @@ Source2: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=im
 Source3: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
 Patch0: dqmgui-rtgu
 
-Requires: cherrypy py2-cheetah yui extjs gmake pcre boost root rootjs libpng libjpg classlib rotatelogs py2-pycurl py2-cjson libuuid d3 protobuf py2-argparse py2-pytest py2-nose
+Requires: python cherrypy py2-cheetah yui extjs gmake pcre boost root rootjs libpng libjpg classlib rotatelogs py2-pycurl py2-cjson libuuid d3 protobuf py2-argparse py2-pytest py2-nose jemalloc
 BuildRequires: py2-sphinx
 
 %prep
@@ -53,7 +53,7 @@ done
 libs=". %i/128/xlib %i/128/lib"
 incs=". %i/128/xinclude %i/128/include"
 dirs="$CLASSLIB_ROOT $BOOST_ROOT $PYTHON_ROOT $ROOT_ROOT
-      $ZLIB_ROOT $PCRE_ROOT $LIBPNG_ROOT $LIBJPG_ROOT $PROTOBUF_ROOT"
+      $ZLIB_ROOT $PCRE_ROOT $LIBPNG_ROOT $LIBJPG_ROOT $PROTOBUF_ROOT $JEMALLOC_ROOT"
 for d in $dirs; do
   libs="$libs $d/lib"
   case $d in
@@ -94,6 +94,7 @@ done
 (echo ". %i/etc/profile.d/init.sh;"
  echo "export YUI_ROOT EXTJS_ROOT D3_ROOT ROOTJS_ROOT;"
  echo "export DQMGUI_VERSION='%{realversion}';" # for visDQMUpload
+ echo "export LD_PRELOAD=$JEMALLOC_ROOT/lib/libjemalloc.so.`jemalloc-config --revision`"
  echo "export MONITOR_ROOT='%i';") > %i/128/etc/profile.d/env.sh
 
 %post
