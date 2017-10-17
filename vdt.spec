@@ -1,6 +1,6 @@
-### RPM cms vdt v0.3.2
+### RPM cms vdt 0.3.9
 
-Source: svn://svnweb.cern.ch/guest/%{n}/tags/%{realversion}?scheme=http&strategy=export&module=%{n}&output=/%{n}-%{realversion}.tar.gz
+Source: https://github.com/dpiparo/%{n}/archive/v%{realversion}.tar.gz 
 
 BuildRequires: cmake
 
@@ -9,7 +9,7 @@ BuildRequires: cmake
 %define keep_archives true
 
 %prep
-%setup -q -n %{n}
+%setup -q -n %{n}-%{realversion}
 
 %build
 %if %isamd64
