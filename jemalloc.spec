@@ -8,7 +8,7 @@ Requires: gcc autotools
 %build
 ./autogen.sh --prefix %i
 perl -p -i -e 's|-no-cpp-precomp||' configure
-./configure --enable-autogen --enable-stats --prefix %i
+./configure --enable-autogen --enable-stats --enable-prof --prefix %i
 
 %install
 make
