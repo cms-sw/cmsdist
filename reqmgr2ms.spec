@@ -3,7 +3,9 @@
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
-Source: git://github.com/dmwm/WMCore?obj=master&export=%n&output=/%n.tar.gz
+%define wmcorever 1.1.8.pre1
+
+Source: git://github.com/dmwm/WMCore?obj=master/%wmcorever&export=%n&output=/%n.tar.gz
 Requires: cherrypy py2-pycurl jemalloc rotatelogs
 BuildRequires: py2-sphinx
 
