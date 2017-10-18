@@ -1,6 +1,6 @@
 ### RPM external tensorflow-sources 1.3.0
 #Source: https://github.com/tensorflow/tensorflow/archive/v%{realversion}.tar.gz
-%define tag 3c3f351cb744a0740b7992cc45de4637c6e228d8
+%define tag 354fc6688afca0cf40771f194bb30a9786ad7e74
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
