@@ -27,7 +27,6 @@ Requires: pythia8
 
 # Save patched config
 cp input/mg5_configuration.txt input/mg5_configuration_patched.txt
-cat input/mg5_configuration_patched.txt
 
 # Compile in advance
 chmod +x bin/compile.py
@@ -44,12 +43,13 @@ cat <<EOF > basiceventgeneration.txt
 generate p p > t t~ [QCD]
 output basiceventgeneration
 launch
-set nevents 10
+set nevents 5
 EOF
 ./bin/mg5_aMC ./basiceventgeneration.txt
 
 # Remove folder of basic event generation
-rm -rf basiceventgeneration
+#rm -rf basiceventgeneration
+
 
 # Remove all downloaded tgz files before building the package
 find . -type f -name '*.tgz' -delete
@@ -60,3 +60,15 @@ sed -ideleteme 's|#!.*/bin/python|#!/usr/bin/env python|' \
     %{i}/Template/LO/bin/internal/addmasses_optional.py \
     %{i}/madgraph/various/progressbar.py
 find %{i} -name '*deleteme' -delete
+
+sed -i -e "s|^lhapdf.*$|lhapdf = ${LHAPDF_ROOT}/bin/lhapdf-config #|g" %{i}/input/mg5_configuration.txt
+sed -i -e "s|^fastjet.*$|fastjet = $FASTJET_ROOT/bin/fastjet-config #|g" %{i}/input/mg5_configuration.txt
+sed -i -e "s|^golem.*$|golem = $GOSAMCONTRIB_ROOT/lib #|g" %{i}/input/mg5_configuration.txt
+#sed -i -e "s|^ninja.*$|ninja = $NINJA_ROOT/lib #|g" %{i}/input/mg5_configuration.txt
+#sed -i -e "s|^collier.*$|collier = $RPM_INSTALL_PREFIX/%{pkgrel}/HEPTools/lib #|g" %{i}/input/mg5_configuration.txt
+
+%post
+%{relocateConfig}input/mg5_configuration.txt
+MG5_INSTALL_PATH=$RPM_INSTALL_PREFIX/%{pkgrel} 
+sed -i -e "s|^collier.*$|collier = $MG5_INSTALL_PATH/HEPTools/lib #|g" $RPM_INSTALL_PREFIX/%{pkgrel}/input/mg5_configuration.txt
+sed -i -e "s|^ninja.*$|ninja = $MG5_INSTALL_PATH/HEPTools/lib #|g" $RPM_INSTALL_PREFIX/%{pkgrel}/input/mg5_configuration.txt
