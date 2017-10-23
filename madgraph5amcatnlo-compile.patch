@@ -1,6 +1,6 @@
-diff -Naur /dev/null MG5_aMC_v2_4_3/bin/compile.py 
+diff -Naur /dev/null MG5_aMC_v2_5_5/bin/compile.py 
 --- /dev/null	2016-01-21 22:33:58.638300539 +0100
-+++ MG5_aMC_v2_4_3/bin/compile.py	2016-01-21 22:33:58.638300539 +0100
++++ MG5_aMC_v2_5_5/bin/compile.py	2016-01-21 22:33:58.638300539 +0100
 @@ -0,0 +1,262 @@
 +#! /usr/bin/env python
 +################################################################################

@@ -1,4 +1,4 @@
-### RPM external thepeg-toolfile 2.0
+### RPM external thepeg-toolfile 2.1
 Requires: thepeg
 %prep
 
