@@ -48,7 +48,7 @@ rm -rf perl_lib/PHEDEX/{BlockActivate,BlockDelete,Debug.pm,Monalisa.pm,Testbed,B
 rm perl_lib/PHEDEX/RequestAllocator/Agent.pm
 rm -rf perl_lib/PHEDEX/Core/{Agent,Config.pm,Net.pm,Agent.pm,JobManager.pm,phedex_logger.conf,RFIO.pm,Command.pm,Help.pm,Logging.pm,SQLPLUS.pm,Config}
 rm -rf perl_lib/PHEDEX/Web/SQLSpace.pm
-rm -rf perl_lib/PHEDEX/Web/API/{DumpSpaceQuery.pm,GetLastRecord.pm,Mongo.pm,RequestSetStateFake.pm,StorageInsert.pm,StorageUsage.pm}
+rm -rf perl_lib/PHEDEX/Web/API/{SpaceMon,tests}
 
 %build
 %install
