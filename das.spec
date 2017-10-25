@@ -1,4 +1,4 @@
-### RPM cms das v04.00.06
+### RPM cms das v04.00.07
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define pkg DAS
 Source0: git://github.com/dmwm/DAS?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
