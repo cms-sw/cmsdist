@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-web 4.3.0pre1
+### RPM cms PHEDEX-web 4.2.16
 ## INITENV +PATH PERL5LIB %i/perl_lib
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
@@ -81,3 +81,4 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
+
