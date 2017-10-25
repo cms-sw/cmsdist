@@ -1,4 +1,4 @@
-### RPM external gperftools 2.5.93
+### RPM external gperftools 2.6.1
 Source: https://github.com/gperftools/gperftools/archive/gperftools-%{realversion}.tar.gz
 
 BuildRequires: autotools
