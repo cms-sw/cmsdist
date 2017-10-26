@@ -4,7 +4,7 @@
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 Source: git://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=%n&output=/%n.tar.gz
-Requires: python py2-httplib2 pystack rotatelogs couchdb yui py2-sphinx dbs3-client cherrypy py2-pycurl
+Requires: python py2-httplib2 pystack rotatelogs couchdb15 yui py2-sphinx dbs3-client cherrypy py2-pycurl
 Requires: py2-future py2-retry
 Requires: jemalloc
 

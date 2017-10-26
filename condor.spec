@@ -1,4 +1,4 @@
-### RPM external condor 8.5.4
+### RPM external condor 8.5.7
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/condor
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define condortag %(echo V%realversion | tr "." "_")
@@ -13,9 +13,9 @@ BuildRequires: cmake gcc openssl
 %prep
 %setup -n %n-%{realversion}
 %patch0 -p1
-%patch1 -p1 
+%patch1 -p1
 # create OpenSSL pkginfo file for build (Globus needs it)
-mkdir ${OPENSSL_ROOT}/lib/pkgconfig
+mkdir -p ${OPENSSL_ROOT}/lib/pkgconfig
 echo "
 Name: OpenSSL
 Description: Secure Sockets Layer and cryptography libraries and tools

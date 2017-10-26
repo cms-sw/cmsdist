@@ -9,7 +9,7 @@ Source: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%
 #Source: https://maxa.home.cern.ch/maxa/reqmgr-WMCore-0.9.59-rc1.tgz
 
 Requires: py2-sqlalchemy py2-httplib2 cherrypy py2-cheetah dbs3-client
-Requires: py2-cx-oracle yui rotatelogs couchdb py2-sphinx py2-pycurl py2-future py2-retry
+Requires: py2-cx-oracle yui rotatelogs couchdb15 py2-sphinx py2-pycurl py2-future py2-retry
 Requires: jemalloc
 
 %prep

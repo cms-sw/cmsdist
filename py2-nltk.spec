@@ -1,7 +1,7 @@
 ### RPM external py2-nltk 2.0.4
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
-Source0: https://pypi.python.org/packages/source/n/nltk/nltk-%{realversion}.tar.gz#md5=b17aad070ae9a094538e4b481409db09
+Source0: https://pypi.python.org/packages/source/n/nltk/nltk-%{realversion}.tar.gz
 Requires: python py2-yaml py2-numpy
 BuildRequires: py2-setuptools
 

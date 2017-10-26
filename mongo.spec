@@ -20,7 +20,7 @@ egrep -r -l '^#!.*python' . | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/e
 %build
 
 %install
-scons %makeprocesses --variables-files=etc/scons/propagate_shell_environment.vars --prefix=%i install
+scons %makeprocesses --disable-warnings-as-errors --variables-files=etc/scons/propagate_shell_environment.vars --prefix=%i install
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d

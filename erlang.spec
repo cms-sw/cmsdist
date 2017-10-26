@@ -1,4 +1,4 @@
-### RPM external erlang R14B04
+### RPM external erlang R15B
 Source0: http://erlang.org/download/otp_src_%{realversion}.tar.gz
 Source1: git+https://github.com/erlang/otp.git?obj=master/OTP_R15B03-1&export=./&filter=*lib/*&output=/R15libs.tar.gz
 Patch0: erlang-ssl-connection

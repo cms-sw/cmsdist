@@ -1,20 +1,22 @@
-### RPM external xgboost master-20160304
+### RPM external xgboost 0.60
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
-%define pkg xgboost
 %define pkg1 dmlc-core
 %define pkg2 rabit
-Source0: git://github.com/tqchen/xgboost?obj=master&export=%pkg&output=/%pkg.tar.gz
-Source1: git://github.com/dmlc/dmlc-core?obj=master&export=%pkg1&output=/%pkg1.tar.gz
-Source2: git://github.com/dmlc/rabit?obj=master&export=%pkg2&output=/%pkg2.tar.gz
+%define ver1 d8d4dccb8bd89af9f57aa19e7523f0b755563ca4
+%define ver2 2dd7476ad7e4afe97eb579d39aab226ff74400a6
+
+Source0: https://github.com/dmlc/%n/archive/v%realversion.tar.gz
+Source1: https://github.com/dmlc/%pkg1/archive/%ver1.tar.gz
+Source2: https://github.com/dmlc/%pkg2/archive/%ver2.tar.gz
 Requires: python py2-numpy py2-scipy py2-scikit-learn py2-setuptools lapack
 
 %prep
-%setup -D -T -b 1 -n %pkg1
-%setup -D -T -b 2 -n %pkg2
-%setup -T -b 0 -n %pkg
-mv ../%pkg1/* %pkg1/
-mv ../%pkg2/* %pkg2/
+%setup -D -T -b 1 -n %pkg1-%ver1
+%setup -D -T -b 2 -n %pkg2-%ver2
+%setup -T -b 0 -n %n-%realversion
+mv ../%pkg1-%ver1/* %pkg1/
+mv ../%pkg2-%ver2/* %pkg2/
 
 %build
 ./build.sh

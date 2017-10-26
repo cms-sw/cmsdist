@@ -1,6 +1,7 @@
 ### RPM external apache2 2.2.31gsi
 %define apversion %(echo %realversion | sed 's/gsi.*$//')
 Requires: openssl zlib expat libuuid sqlite pcre
+BuildRequires: bison
 
 Source0: http://archive.apache.org/dist/httpd/httpd-%apversion.tar.gz
 Patch0: apache2-verify-error

@@ -34,4 +34,4 @@ for tool in p5-crypt-ssleay; do
 done
 
 %post
-%{relocateConfig}etc/profile.d/*sh
+%{relocateConfig}etc/profile.d/dependencies-setup.*sh

@@ -1,4 +1,4 @@
-### RPM external p5-dbd-oracle 1.23
+### RPM external p5-dbd-oracle 1.74
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 ## BUILDIF case $(uname):$(uname -m) in Linux:i*86 | Linux:x86_64 | Darwin:* ) true ;; * ) false ;; esac
 # Dummy comment: forcing the compiling for SLC6

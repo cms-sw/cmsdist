@@ -1,4 +1,4 @@
-### RPM external ncurses 5.9
+### RPM external ncurses 6.0
 Source: http://ftp.gnu.org/pub/gnu/%{n}/%{n}-%{realversion}.tar.gz
 %define keep_archives true
 %define drop_files %{i}/lib/*.so
@@ -11,14 +11,14 @@ Source: http://ftp.gnu.org/pub/gnu/%{n}/%{n}-%{realversion}.tar.gz
             --build="%{_build}" \
             --host="%{_host}" \
             --disable-shared \
+            --enable-symlinks \
             --enable-static \
             --without-debug \
             --without-ada \
             --without-manpages \
-            --disable-database \
             --enable-termcap
 
-make %{makeprocesses} CFLAGS="-O2 -fPIC" CXXFLAGS="-O2 -fPIC -std=c++11"
+make %{makeprocesses} CFLAGS="-O2 -fPIC" CXXFLAGS="-O2 -fPIC"
 
 %install
 make install

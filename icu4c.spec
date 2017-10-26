@@ -1,5 +1,5 @@
-### RPM external icu4c 4_0_1
-Source: http://download.icu-project.org/files/icu4c/4.0.1/%n-%realversion-src.tgz
+### RPM external icu4c 58_2
+Source: http://download.icu-project.org/files/icu4c/58.2/%n-%realversion-src.tgz
 %ifos darwin
 %define make gnumake
 %define platf MacOSX

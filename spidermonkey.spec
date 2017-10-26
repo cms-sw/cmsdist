@@ -1,11 +1,13 @@
 ### RPM external spidermonkey 1.8.5
 Source: http://ftp.mozilla.org/pub/mozilla.org/js/js185-1.0.0.tar.gz
-Patch: spidermonkey-osx-va-copy
+Patch0: spidermonkey-osx-va-copy
+Patch1: spidermonkey-js-1.8.5-c++11
 Requires: python
 
 %prep
 %setup -n js-%realversion
-%patch -p0
+%patch0 -p0
+%patch1 -p1
 
 %build
 cd js/src

@@ -27,6 +27,7 @@ Provides: perl(DB_File)
 Provides: perl(Date::Manip)
 Provides: perl(XML::LibXML)
 Provides: perl(URI::Escape)
+Provides: perl(List::Util)
 
 %prep
 
@@ -59,3 +60,4 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
+

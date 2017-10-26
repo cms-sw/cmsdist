@@ -152,5 +152,7 @@ make INSTALL="$cp" INSTALLDATA="$cp" install
 # a """ and it thinks is the shebang.
 #rm -f %i/tutorials/pyroot/mrt.py
 
+perl -p -i -e 's{^#!.*/python}{#!/usr/bin/env python}' %i/bin/* %i/lib/cmdLineUtils.py
+
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -R -l '#!.*python' %{i} | xargs chmod +x

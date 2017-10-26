@@ -1,4 +1,4 @@
-### RPM external p5-dbi 1.609
+### RPM external p5-dbi 1.615
 ## INITENV +PATH PERL5LIB %i/lib/perl5
 # Dummy comment: forcing the compiling for SLC6
 %define downloadn DBI
@@ -8,7 +8,7 @@ Provides: perl(RPC::PlServer)
 Provides: perl(Win32::ODBC)
 Provides: libc.so.6(GLIBC_2.3)(64bit)
 
-Source:  http://cpan.mirror.solnet.ch/authors/id/T/TI/TIMB/%{downloadn}-%{realversion}.tar.gz
+Source: https://cpan.metacpan.org/authors/id/T/TI/TIMB/%{downloadn}-%{realversion}.tar.gz
 Requires: p5-extutils-makemaker
 
 %prep

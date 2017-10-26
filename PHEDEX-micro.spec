@@ -27,6 +27,12 @@ Provides: perl(HTML::Entities)
 Provides: perl(DB_File)
 Provides: perl(Date::Manip)
 Provides: perl(XML::LibXML)
+Provides: perl(Data::UUID)
+Provides: perl(HTTP::Request::Common)
+Provides: perl(LWP::Simple)
+Provides: perl(POE::Component::Client::HTTP)
+Provides: perl(Pod::Checker)
+Provides: perl(SOAP::Lite)
 
 # Fake provide of twitter client; needs to be installed manually
 Provides: perl(Net::Twitter::Lite)
@@ -131,3 +137,4 @@ echo "source %i/etc/profile.d/init.csh" > %i/etc/profile.d/env.csh
 %{relocateConfig}etc/profile.d/env.csh
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
+

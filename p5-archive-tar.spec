@@ -4,6 +4,8 @@
 Source: http://search.cpan.org/CPAN/authors/id/B/BI/BINGOS/%{downloadn}-%{realversion}.tar.gz
 Requires: p5-extutils-makemaker p5-io-zlib p5-package-constants
 
+Provides: perl(Pod::Usage)
+
 %prep
 %setup -n %downloadn-%realversion
 
