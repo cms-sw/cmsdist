@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-webapp 1.3.15
+### RPM cms PHEDEX-webapp 1.4.0pre1
 ## INITENV +PATH PERL5LIB %i/perl_lib
 
 %define downloadn %(echo %n | cut -f1 -d-)
@@ -10,7 +10,7 @@ Source: https://github.com/dmwm/PHEDEX/archive/%{downloadp}_%{downloadt}.tar.gz
 %define yuicompressorversion 2.4.6
 Source1: http://yui.zenfs.com/releases/yuicompressor/yuicompressor-%{yuicompressorversion}.zip
 Requires: protovis yui
-BuildRequires: java-jdk
+#BuildRequires: java-jdk
 
 %prep
 %setup -T -b 1 -n yuicompressor-%{yuicompressorversion}
