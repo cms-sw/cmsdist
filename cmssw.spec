@@ -22,7 +22,7 @@ Requires: cmssw-tool-conf python cms-git-tools
 %endif
 
 %if "%(case %realversion in (*_FORTIFIED_X*) echo true ;; (*) echo false ;; esac)" == "true"
-%define usercxxflags    -fexceptions -fstack-protector-all --param=ssp-buffer-size=4
+%define usercxxflags    -fexceptions -fstack-protector-all --param=ssp-buffer-size=4 -Wp,-D_FORTIFY_SOURCE=2
 %endif
 
 %if "%(case %realversion in (*_ICC_X*) echo true ;; (*) echo false ;; esac)" == "true"
