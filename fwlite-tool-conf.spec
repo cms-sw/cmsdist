@@ -1,4 +1,4 @@
-Requires: OpenBLAS-toolfile### RPM cms fwlite-tool-conf 10.0
+### RPM cms fwlite-tool-conf 10.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
