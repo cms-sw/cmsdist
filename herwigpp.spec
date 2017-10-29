@@ -42,7 +42,6 @@ BuildRequires: autotools
 # Regenerate build scripts
 autoreconf -fiv
 
-
 %build
 CXX="$(which %{cms_cxx}) -fPIC"
 CC="$(which gcc) -fPIC"
@@ -53,7 +52,7 @@ PLATF_CONF_OPTS="--enable-shared --disable-static"
             --with-fastjet=$FASTJET_ROOT \
             --with-gsl=$GSL_ROOT \
             --with-boost=$BOOST_ROOT \
-            --with-madgraph=$MADGRAPH5AMCATNLO_ROOT \
+	    --with-madgraph=$MADGRAPH5AMCATNLO_ROOT \
             --with-gosam=$GOSAM_ROOT \
             --with-gosam-contrib=$GOSAMCONTRIB_ROOT \
 %if %isamd64
@@ -61,18 +60,16 @@ PLATF_CONF_OPTS="--enable-shared --disable-static"
 %endif
             --prefix=%i \
             CXX="$CXX" CC="$CC" \
-            BOOST_ROOT="$BOOST_ROOT" LDFLAGS="$LDFLAGS -L$BOOST_ROOT/lib" \
+	    BOOST_ROOT="$BOOST_ROOT" LDFLAGS="$LDFLAGS -L$BOOST_ROOT/lib" \
             LD_LIBRARY_PATH=$LHAPDF_ROOT/lib:$GSL_ROOT/lib:$GOSAMCONTRIB_ROOT/lib:$MADGRAPH5AMCATNLO_ROOT/HEPTools/lib:$LD_LIBRARY_PATH
 
-make %makeprocesses all LD_LIBRARY_PATH=$LHAPDF_ROOT/lib:$THEPEG_ROOT/lib/ThePEG:$GSL_ROOT/lib:$FASTJET_ROOT/lib:$BOOST_ROOT/lib:$GOSAMCONTRIB_ROOT/lib:$MADGRAPH5AMCATNLO_ROOT/HEPTools/lib:$LD_LIBRARY_PA\
-TH LIBRARY_PATH=$FASTJET_ROOT/lib
+make %makeprocesses all LD_LIBRARY_PATH=$LHAPDF_ROOT/lib:$THEPEG_ROOT/lib/ThePEG:$GSL_ROOT/lib:$FASTJET_ROOT/lib:$BOOST_ROOT/lib:$GOSAMCONTRIB_ROOT/lib:$MADGRAPH5AMCATNLO_ROOT/HEPTools/lib:$LD_LIBRARY_PATH LIBRARY_PATH=$FASTJET_ROOT/lib
 
 %install
-make install LD_LIBRARY_PATH=$LHAPDF_ROOT/lib:$THEPEG_ROOT/lib/ThePEG:$GSL_ROOT/lib:$FASTJET_ROOT/lib:$BOOST_ROOT/lib:$GOSAMCONTRIB_ROOT/lib:$MADGRAPH5AMCATNLO_ROOT/HEPTools/lib:$LD_LIBRARY_PATH LIBRARY_\
-PATH=$FASTJET_ROOT/lib:$THEPEG_ROOT/lib/ThePEG:$LHAPDF_ROOT/lib:$GOSAMCONTRIB_ROOT/lib LHAPDF_DATA_PATH=$LHAPDF_ROOT/share/LHAPDF
+make install LD_LIBRARY_PATH=$LHAPDF_ROOT/lib:$THEPEG_ROOT/lib/ThePEG:$GSL_ROOT/lib:$FASTJET_ROOT/lib:$BOOST_ROOT/lib:$GOSAMCONTRIB_ROOT/lib:$MADGRAPH5AMCATNLO_ROOT/HEPTools/lib:$LD_LIBRARY_PATH LIBRARY_PATH=$FASTJET_ROOT/lib:$THEPEG_ROOT/lib/ThePEG:$LHAPDF_ROOT/lib:$GOSAMCONTRIB_ROOT/lib LHAPDF_DATA_PATH=$LHAPDF_ROOT/share/LHAPDF
 mv %{i}/bin/Herwig  %{i}/bin/Herwig-cms
 cat << \HERWIG_WRAPPER > %{i}/bin/Herwig
-#!/bin/bash                                                                                                                                                                                                 
+#!/bin/bash
 REPO_OPT=""
 if [ "$HERWIGPATH" != "" ] && [ -e "$HERWIGPATH/HerwigDefaults.rpo" ] ; then
   if [ $(echo " $@" | grep ' --repo' | wc -l) -eq 0 ] ; then REPO_OPT="--repo $HERWIGPATH/HerwigDefaults.rpo" ; fi
@@ -92,4 +89,3 @@ chmod +x %{i}/bin/Herwig
 %{relocateConfig}share/Herwig/defaults/PDF.in
 %{relocateConfig}share/Herwig/HerwigDefaults.rpo
 sed -i -e "s|^.*/BUILDROOT/[0-9a-f][0-9a-f]*%{installroot}/|$CMS_INSTALL_PREFIX/|g" $RPM_INSTALL_PREFIX/%{pkgrel}/share/Herwig/HerwigDefaults.rpo
-
