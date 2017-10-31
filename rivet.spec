@@ -1,5 +1,6 @@
-### RPM external rivet 2.5.2
-Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
+### RPM external rivet 2.5.4
+## OLD GENSER Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
+Source: http://lcgpackages.web.cern.ch/lcgpackages/tarFiles/sources/MCGeneratorsTarFiles/Rivet-%{realversion}.tar.bz2
 
 Requires: hepmc fastjet gsl yoda
 BuildRequires: python py2-cython
@@ -8,7 +9,8 @@ Patch0: rivet-1.4.0
 Patch1: rivet-gcc7
 
 %prep
-%setup -n rivet/%{realversion}
+## OLD GENSER: %setup -n rivet/%{realversion}
+%setup -n Rivet-%{realversion}
 %patch0 -p0
 %patch1 -p2
 
