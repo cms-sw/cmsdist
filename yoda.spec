@@ -1,11 +1,13 @@
-### RPM external yoda 1.6.5
+### RPM external yoda 1.6.7
 
-Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
+## OLD GENSER Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
+Source: http://lcgpackages.web.cern.ch/lcgpackages/tarFiles/sources/MCGeneratorsTarFiles/YODA-%{realversion}.tar.gz 
 
 Requires: python root
 BuildRequires: py2-cython
 %prep
-%setup -q -n %{n}/%{realversion}
+## OLD GENSER #%setup -q -n %{n}/%{realversion}
+%setup -q -n YODA-%{realversion}
 
 ./configure --prefix=%i --enable-root
 
