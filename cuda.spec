@@ -20,14 +20,30 @@ mkdir -p %_builddir/tmp
 ln -sf ../libnvvp/nvvp %_builddir/bin/nvvp
 ln -sf ../libnsight/nsight %_builddir/bin/nsight
 mkdir -p %{i}/lib64
-cp -ar %_builddir/lib64/libcudadevrt.a %_builddir/lib64/libcudart_static.a %{i}/lib64
-rm -rf %_builddir/lib64/*.a
-rm -rf %_builddir/lib64/libnppi.so* %_builddir/lib64/libcufft.so* %_builddir/lib64/libcurand.so* %_builddir/lib64/libcusparse.so* %_builddir/lib64/libcusolver.so* %_builddir/lib64/libcublas.so* %_builddir/lib64/libnvrtc-builtins.so* %_builddir/lib64/libnvrtc.so* %_builddir/lib64/libnpps.so* %_builddir/lib64/libnvblas.so* %_builddir/lib64/libcufftw.so*
-rm -rf %_builddir/include/sobol_direction_vectors.h %_builddir/include/nppi* %_builddir/include/curand*
-cp -ar %_builddir/bin %{i}
-cp -ar %_builddir/include %{i}
-cp -ar %_builddir/lib64/* %{i}/lib64
-cp -ar %_builddir/nvvm %{i}
-cp -ar %_builddir/jre %{i}
+# package only runtime and device static libraries
+cp -ar %_builddir/lib64/libcudart_static.a %{i}/lib64/
+cp -ar %_builddir/lib64/libcudadevrt.a %{i}/lib64/
+cp -ar %_builddir/lib64/lib*_device.a %{i}/lib64/
+rm -rf %_builddir/lib64/lib*.a
+# do not package dynamic libraries for which we have stubs
+rm -rf %_builddir/lib64/libcublas.so*
+rm -rf %_builddir/lib64/libcufft.so*
+rm -rf %_builddir/lib64/libcufftw.so*
+rm -rf %_builddir/lib64/libcurand.so*
+rm -rf %_builddir/lib64/libcusolver.so*
+rm -rf %_builddir/lib64/libcusparse.so*
+rm -rf %_builddir/lib64/libnpp*.so*
+rm -rf %_builddir/lib64/libnvgraph.so*
+rm -rf %_builddir/lib64/libnvrtc.so*
+rm -rf %_builddir/lib64/libnvrtc-builtins.so*
+# package the other dynamic libraries
+cp -ar %_builddir/lib64/* %{i}/lib64/
 cp -ar %_builddir/libnvvp %{i}
 cp -ar %_builddir/libnsight %{i}
+# package the includes
+rm -rf %_builddir/include/sobol_direction_vectors.h
+cp -ar %_builddir/include %{i}
+# package the binaries and tools
+cp -ar %_builddir/bin %{i}
+cp -ar %_builddir/nvvm %{i}
+cp -ar %_builddir/jre %{i}
