@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1200
+## REVISION 1201
 ## NOCOMPILER
 
 %define tag 2be1bcbed0412f5f70cde73efeb912912e5f0a08
@@ -50,8 +50,8 @@ for l in common/scramv1 common/scramv0 ; do
   fi
 done
 for l in cmsarch cmsos scramv1 ; do
-  if [ ! -L bin/$s ] ; then
-    rm -f bin/$s; ln -s ../common/$l bin/$l
+  if [ ! -L bin/$l ] ; then
+    rm -f bin/$l; ln -s ../common/$l bin/$l
   fi
 done
 echo %{pkgrevision} > etc/%{pkgname}/revision
