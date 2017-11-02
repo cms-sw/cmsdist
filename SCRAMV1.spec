@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V2_2_7_pre5
+### RPM lcg SCRAMV1 V2_2_7_pre6
 ## NOCOMPILER
 
 BuildRequires: gmake
