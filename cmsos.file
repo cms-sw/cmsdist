@@ -1,0 +1,82 @@
+#!/bin/sh
+
+cmsos()
+{
+  # Determine the cpu architecture string.
+  case `uname -p` in
+    i*86) cpuarch=ia32 ;;
+    x86_64) cpuarch=amd64 ;;
+    *EMT*) cpuarch=amd64 ;;
+    armv7l) cpuarch=armv7hl ;; # The kernel is armv7l, but we assume system as armv7hl (hard floats)
+    aarch64) cpuarch=aarch64 ;;
+    ppc64le) cpuarch=ppc64le ;;
+    ppc64) cpuarch=ppc64 ;;
+    *) cpuarch=`uname -p`;;
+  esac
+ 
+  if [ "X$BUILD_ARCH" != X ]; then
+      echo "$BUILD_ARCH"
+  elif [ "X`uname`" = XLinux ]; then
+    if [ -f /etc/SuSE-release ]; then
+      echo suse`grep -i '^version' < /etc/SuSE-release | tr -dc '[0-9]'`
+    elif [ -f /etc/fedora-release ]; then
+      echo fc`sed 's/[^0-9]//g' /etc/fedora-release`_${cpuarch}
+    elif egrep -q "Red Hat Enterprise|Scientific|CentOS" /etc/redhat-release 2>/dev/null; then
+      slc_version=`egrep "Red Hat Enterprise|Scientific|CentOS" /etc/redhat-release | \
+		   sed 's/.*[rR]elease \([0-9]*\).*/\1/'`
+      if [ "X`uname -i`" = Xi386 ]; then
+        echo slc${slc_version}_ia32
+      else
+        echo slc${slc_version}_${cpuarch}
+      fi
+    elif grep -q Scientific /etc/rocks-release 2>/dev/null; then
+        slc_version=`grep DISTRIB_RELEASE rocks-release | sed 's/DISTRIB_RELEASE="\([0-9]*\).*/\1/'`
+  #   For the moment we assume that they are all ia32
+  #      if grep -q Intel /proc/cpuinfo 2>/dev/null; then
+          echo slc${slc_version}_ia32
+  #      else
+  #       echo slc${slc_version}_amd64
+  #      fi
+    elif grep -q PU_IAS /etc/redhat-release 2>/dev/null; then
+         echo slc4_$cpuarch
+    else
+      archos= archosv=
+      for f in debian_version slackware-version fedora-release \
+  	     redhat-release altlinux-release gentoo-release \
+  	     cobalt-release mandrake-release conectiva-release; do
+        if [ -f /etc/$f ]; then
+      	  archos=`echo $f | sed 's/[-_].*//'`
+	  archosv=`tr -dc '[0-9]' < /etc/$f`
+	  break
+        fi
+      done
+      [ X$archos = Xredhat ] && archos=rh
+      if [ -z "$archos" -o -z "$archosv" ]; then
+        echo linux`uname -r | cut -d. -f1,2 | tr -d .`_$cpuarch
+      else
+        echo $archos$archosv_$cpuarch
+      fi
+    fi
+  elif [ "X`uname`" = XDarwin ]; then
+    case `sysctl hw.cpu64bit_capable | cut -f2 -d\ ` in 1) cpuarch=amd64;; 0) cpuarch=ia32;; esac
+    echo osx`sw_vers -productVersion | cut -d. -f1,2 | tr -dc [0-9]`_$cpuarch
+  elif [ "X`uname | cut -d_ -f1`" = XCYGWIN ]; then
+    echo win32_$cpuarch
+  else
+    echo unsupported
+  fi
+}
+
+defaultCompiler()
+{
+  case `cmsos` in
+    slc4* ) echo gcc345 ;;
+    slc5* ) echo gcc432 ;;
+    osx104* ) echo gcc400 ;;
+    osx105* ) echo gcc401 ;;
+    osx106* ) echo gcc421 ;;
+    * ) echo gcc345 ;;
+  esac
+}
+
+cmsos
