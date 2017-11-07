@@ -1,17 +1,32 @@
-### RPM external lwtnn 1.0
+### RPM external lwtnn 2.4
+
 Source: https://github.com/lwtnn/lwtnn/archive/v%{realversion}.tar.gz
-BuildRequires: py2-pkgconfig
+BuildRequires: ninja cmake
 Requires: eigen boost
-Patch0: lwtnn-1.0-boost-fix
+
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
 
 %build
 
-export BOOST_ROOT
-make all
+rm -rf ../build
+mkdir ../build
+cd ../build
+
+cmake ../%{n}-%{realversion} \
+  -G Ninja \
+  -DCMAKE_CXX_COMPILER="g++" \
+  -DCMAKE_CXX_FLAGS="-fPIC" \
+  -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DBUILTIN_BOOST=OFF \
+  -DBUILTIN_EIGEN=OFF \
+  -DCMAKE_PREFIX_PATH="${EIGEN_ROOT};${BOOST_ROOT}"
+
+ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
 
 %install
-cp -r {lib,bin,include} %{i}/
 
+cd ../build
+
+ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
