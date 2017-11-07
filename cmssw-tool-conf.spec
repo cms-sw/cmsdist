@@ -62,6 +62,7 @@ Requires: oracle-env
 Requires: oracle-toolfile
 Requires: pcre-toolfile
 Requires: photos-toolfile
+Requires: photospp-toolfile
 Requires: pythia6-toolfile
 Requires: pythia8-toolfile
 Requires: python-toolfile
