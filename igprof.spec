@@ -1,17 +1,14 @@
 ### RPM external igprof 5.9.16
-
 %define git_repo igprof
-%define git_branch master
-%define git_commit c6882f4d8e39893d71466ea23da643dafb60a496
-Source0: git://github.com/%{git_repo}/igprof.git?obj=%{git_branch}/%{git_commit}&export=igprof-%{git_commit}&output=/igprof-%{git_commit}.tgz
-
-Patch0: igprof-gcc7
+%define git_user cms-externals
+%define git_branch cms/master/c6882f4
+%define git_commit 4235186fd1a9b9adb86a8a45bb7a8ece74953039
+Source0: git://github.com/%{git_user}/igprof.git?obj=%{git_branch}/%{git_commit}&export=igprof-%{git_commit}&output=/igprof-%{git_commit}.tgz
 
 Requires: pcre
 BuildRequires: cmake libunwind libatomic_ops
 %prep
 %setup -T -b 0 -n igprof-%{git_commit}
-%patch0 -p1
 
 %build
 mkdir -p %i
