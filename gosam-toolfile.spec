@@ -15,8 +15,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gosam.xml
   </client>
   <runtime name="PYTHONPATH" value="$GOSAM_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   <runtime name="PATH" default="$BINDIR" type="path"/>
-  <use name="python"/>
-  <use name="cython"/>
 </tool>
 EOF_TOOLFILE
 

@@ -4,7 +4,7 @@ Source: http://www.hepforge.org/archive/gosam/gosam-%{realversion}.tar.gz
 Requires: qgraf
 Requires: form
 Requires: gosamcontrib
-Requires: python cython
+Requires: python py2-cython
 
 %prep
 %setup -q -n gosam
