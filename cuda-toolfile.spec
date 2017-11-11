@@ -37,7 +37,10 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda.xml
   <flags CUDA_FLAGS="-gencode arch=compute_35,code=sm_35"/>
   <flags CUDA_FLAGS="-gencode arch=compute_50,code=sm_50"/>
   <flags CUDA_FLAGS="-gencode arch=compute_61,code=sm_61"/>
+  <flags CUDA_LDFLAGS="-dlink"/>
+  <flags CUDA_LDFLAGS="-shared"/>
   <flags CUDA_LDFLAGS="-L$(CUDA_BASE)/lib64"/>
+  <lib name="cudadevrt" type="cuda"/>
   <runtime name="PATH" value="$CUDA_BASE/bin" type="path"/>
 </tool>
 EOF_TOOLFILE
@@ -48,7 +51,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-cublas.xml
   <use name="cuda"/>
   <lib name="cublas"/>
   <lib name="cublas_device"/>
-  <flags CUDA_LDFLAGS="-lcublas_device"/>
+  <lib name="cublas_device" type="cuda"/>
 </tool>
 EOF_TOOLFILE
 
