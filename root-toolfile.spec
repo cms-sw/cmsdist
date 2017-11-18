@@ -39,9 +39,6 @@ EOF_TOOLFILE
 cat << \EOF_TOOLFILE > %{i}/etc/scram.d/root_cxxdefaults.xml
 <tool name="root_cxxdefaults" version="@TOOL_VERSION@">
   <runtime name="ROOT_GCC_TOOLCHAIN" value="@GCC_ROOT@" type="path"/>
-  <runtime name="ROOT_INCLUDE_PATH" value="@GCC_ROOT@/include/c++/@GCC_REALVERSION@" type="path"/>
-  <runtime name="ROOT_INCLUDE_PATH" value="@GCC_ROOT@/include/c++/@GCC_REALVERSION@/@TARGET_TRIPLET@" type="path"/>
-  <runtime name="ROOT_INCLUDE_PATH" value="@GCC_ROOT@/include/c++/@GCC_REALVERSION@/backward" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="/usr/local/include" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="/usr/include" type="path"/>
 </tool>
