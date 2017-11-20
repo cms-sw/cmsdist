@@ -1,4 +1,4 @@
-### RPM external eigen f3a22f35b044
+### RPM external eigen c7dc0a897676
 ## INITENV +PATH PKG_CONFIG_PATH %{i}/share/pkgconfig
 ## NOCOMPILER
 %define tag %{realversion}
