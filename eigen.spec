@@ -11,7 +11,7 @@ BuildRequires: cmake
 %build
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=%{i} ../
+cmake -DCMAKE_INSTALL_PREFIX=%{i} -DBUILD_TESTING=OFF ../
 
 %install
 cd build
