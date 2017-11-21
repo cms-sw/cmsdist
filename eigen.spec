@@ -1,4 +1,4 @@
-### RPM external eigen f3a22f35b044
+### RPM external eigen c7dc0a897676
 ## INITENV +PATH PKG_CONFIG_PATH %{i}/share/pkgconfig
 ## NOCOMPILER
 %define tag %{realversion}
@@ -11,7 +11,7 @@ BuildRequires: cmake
 %build
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=%{i} ../
+cmake -DCMAKE_INSTALL_PREFIX=%{i} -DBUILD_TESTING=OFF ../
 
 %install
 cd build
