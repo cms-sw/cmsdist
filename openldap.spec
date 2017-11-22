@@ -1,4 +1,4 @@
-### RPM external openldap 2.4.44
+### RPM external openldap 2.4.45
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 Source: ftp://ftp.openldap.org/pub/OpenLDAP/%{n}-release/%{n}-%{realversion}.tgz
 Requires: openssl db6
