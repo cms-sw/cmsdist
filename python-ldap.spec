@@ -1,7 +1,7 @@
-### RPM external python-ldap 2.4.10
+### RPM external python-ldap 2.5.2
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
-Source: http://pypi.python.org/packages/source/p/%{n}/%{n}-%{realversion}.tar.gz
+Source: https://pypi.python.org/packages/3f/97/b8482a7c57cf20f9b1a89085cd634dbba6eb7f34bb18e0206820266fb8e1/python-ldap-2.5.2.tar.gz
 Requires: python openssl openldap
 
 %prep
