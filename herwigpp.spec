@@ -1,4 +1,4 @@
-### RPM external herwigpp 7.1.1
+### RPM external herwigpp 7.1.2
 Source: https://www.hepforge.org/archive/herwig/Herwig-%{realversion}.tar.bz2
 
 
@@ -25,7 +25,7 @@ Requires: openloops
 
 Patch0: herwigpp-missingBoostMTLib
 #Patch1 patch to make herwig7 work with mg5amcatnlo 2.5.5
-Patch1: herwigpp-madgraph
+#Patch1: herwigpp-madgraph
 
 BuildRequires: autotools
 
@@ -37,7 +37,7 @@ BuildRequires: autotools
 %setup -q -n Herwig-%{realversion}
 
 %patch0 -p1 
-%patch1 -p1
+#%patch1 -p1
 
 # Regenerate build scripts
 autoreconf -fiv
