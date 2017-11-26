@@ -1,4 +1,4 @@
-### RPM external py2-pandas 0.20.2
+### RPM external py2-pandas 0.21.0
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 %define pip_name pandas
