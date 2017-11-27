@@ -24,8 +24,7 @@ Requires: openloops
 # Problem exists since Herwig++3Beta
 
 Patch0: herwigpp-missingBoostMTLib
-#Patch1 patch to make herwig7 work with mg5amcatnlo 2.5.5
-#Patch1: herwigpp-madgraph
+
 
 BuildRequires: autotools
 
@@ -37,7 +36,6 @@ BuildRequires: autotools
 %setup -q -n Herwig-%{realversion}
 
 %patch0 -p1 
-#%patch1 -p1
 
 # Regenerate build scripts
 autoreconf -fiv
