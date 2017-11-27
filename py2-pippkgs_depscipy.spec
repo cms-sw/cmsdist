@@ -26,8 +26,8 @@ BuildRequires: py2-bottleneck
 BuildRequires: py2-downhill 
 BuildRequires: py2-theanets
 BuildRequires: py2-xgboost
-#BuildRequires: py2-llvmlite
-#BuildRequires: py2-numba
+BuildRequires: py2-llvmlite
+BuildRequires: py2-numba
 BuildRequires: py2-hep_ml
 BuildRequires: py2-rep
 BuildRequires: py2-uncertainties
