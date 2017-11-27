@@ -45,3 +45,7 @@ PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 OSARCH=$(uname -m)
 [ -d  %{i}/${PYTHON_LIB_SITE_PACKAGES}/numpy-%{realversion}-py${PYTHONV}-linux-$OSARCH.egg/numpy/core ] || exit 1
 ln -s   ../${PYTHON_LIB_SITE_PACKAGES}/numpy-%{realversion}-py${PYTHONV}-linux-$OSARCH.egg/numpy/core %{i}/c-api/core
+%post
+%{relocateConfig}lib/python*/site-packages/numpy-*.egg/numpy/__config__.py
+%{relocateConfig}lib/python*/site-packages/numpy-*.egg/numpy/distutils/__config__.py
+%{relocateConfig}lib/python*/site-packages/numpy-*.egg/numpy/distutils/site.cfg
