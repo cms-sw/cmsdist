@@ -30,7 +30,7 @@ export ICC_VERSION=ICC_SCRAM_VERSION
 export GCC_ROOT
 
 mkdir -p %i/etc/scram.d
-# Generic template for the toolfiles. 
+# Generic template for the toolfiles.
 # *** USE @VARIABLE@ plus associated environment variable to customize. ***
 # DO NOT DUPLICATE the toolfile template.
 
@@ -46,30 +46,22 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
     <client>
       <environment name="ICC_CXXCOMPILER_BASE" default="@ICC_ROOT@/installation" handler="warn"/>
       <environment name="CXX" value="$ICC_CXXCOMPILER_BASE/%{iccbin_dir}/icpc" handler="warn"/>
+      <environment name="LIBDIR" default="$ICC_CXXCOMPILER_BASE/compiler/lib/intel64"/>
     </client>
-    # drop flags not supported by llvm
-    # -Wno-non-template-friend removed since it's not supported, yet, by llvm.
-    <flags REM_CXXFLAGS="-Wno-non-template-friend"/>
-    <flags REM_CXXFLAGS="-Werror=format-contains-nul"/>
-    <flags REM_CXXFLAGS="-Wno-vla"/>
-    <flags REM_CXXFLAGS="-Wstrict-overflow"/>
-    <flags REM_CXXFLAGS="-Wno-strict-overflow"/>
-    <flags REM_CXXFLAGS="-fipa-pta"/>
     <flags REM_CXXFLAGS="-felide-constructors"/>
-    <flags REM_CXXFLAGS="-fdiagnostics-show-option"/>
-    <flags REM_CXXFLAGS="-Wno-non-template-friend"/>
-    <flags REM_CXXFLAGS="-Werror=format-contains-nul"/>
-    <flags REM_CXXFLAGS="-Wunknown-pragmas"/>
     <flags REM_CXXFLAGS="-ftree-vectorize"/>
-    <flags REM_CXXFLAGS="-Wno-unused-local-typedefs"/>
+    <flags REM_CXXFLAGS="-Wstrict-overflow"/>
+    <flags REM_CXXFLAGS="-fno-crossjumping"/>
+    <flags REM_CXXFLAGS="-Wno-non-template-friend"/>
     <flags REM_CXXFLAGS="-Wno-psabi"/>
-    <flags REM_CXXFLAGS="-ffast-math"/>
-    <flags REM_CXXFLAGS="-flto"/>
-    <flags REM_CXXFLAGS="-fno-lto"/>
+    <flags REM_CXXFLAGS="-Wno-unused-local-typedefs"/>
+    <flags REM_CXXFLAGS="-Wno-vla"/>
     <flags REM_LDFLAGS="-Wl,--icf=all"/>
     <flags CXXFLAGS="-Wno-unknown-pragmas"/>
     <flags CXXFLAGS="-axSSE4.1,SSE4.2,AVX,CORE-AVX2"/>
     <flags CXXFLAGS="-wd869"/>
+    <flags CXXFLAGS="-no-parallel"/>
+    <lib name="irc"/>
     <architecture name="_mic_">
       <flags CXXFLAGS="-mmic"/>
       <flags LDFLAGS="-mmic"/>
@@ -95,7 +87,7 @@ EOF_TOOLFILE
 
 cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-f77compiler.xml
   <tool name="icc-f77compiler" version="@ICC_VERSION@" type="compiler">
-    <use name="gcc-f77compiler"/>    
+    <use name="gcc-f77compiler"/>
     <client>
       <environment name="ICC_FCOMPILER_BASE" default="@ICC_ROOT@/ifort" handler="warn"/>
       <environment name="FC" default="$ICC_FCOMPILER_BASE/%{f77bin_dir}/ifort" handler="warn"/>

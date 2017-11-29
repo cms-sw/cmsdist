@@ -1,4 +1,4 @@
-### RPM external icc-provides composer_xe_2013
+### RPM external icc-provides 2018.0.128
 ## NOCOMPILER
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 Source: none
