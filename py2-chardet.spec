@@ -3,6 +3,7 @@
 
 %define pip_name chardet
 
+
 ## IMPORT build-with-pip
 
 %define PipPostBuild \
