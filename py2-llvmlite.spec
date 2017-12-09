@@ -1,4 +1,4 @@
-### RPM external py2-llvmlite 0.18.0
+### RPM external py2-llvmlite 0.21.0
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 #Patch0: py2-llvmlite_lib6
 
