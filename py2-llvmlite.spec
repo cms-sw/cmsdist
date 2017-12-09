@@ -8,8 +8,6 @@ Requires: llvm
 BuildRequires: py2-wheel
 
 %define PipPreBuild export LLVM_CONFIG=${LLVM_ROOT}/bin/llvm-config 
-%define source_file llvmlite-%{realversion}.tar.gz
-%define source0     git+https://github.com/numba/llvmlite?obj=master/b993afd8dcbcf07a60f145c6f25b0c9c96772c5d&export=llvmlite-%{realversion}&output=/source.tar.gz
 
 ## IMPORT build-with-pip
 
