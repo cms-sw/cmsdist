@@ -1,6 +1,6 @@
 ### RPM lcg SCRAMV1 V2_2_7_pre6
 ## NOCOMPILER
-
+#dummy comment
 BuildRequires: gmake
 
 Provides: perl(BuildSystem::Template::Plugins::PluginCore)
