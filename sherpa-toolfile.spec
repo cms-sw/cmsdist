@@ -1,5 +1,9 @@
-### RPM external sherpa-toolfile 1.0
+### RPM external sherpa-toolfile 2.0
 Requires: sherpa
+
+%define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
+%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+
 %prep
 
 %build
@@ -22,6 +26,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa.xml
   <runtime name="SHERPA_SHARE_PATH" value="$SHERPA_BASE/share/SHERPA-MC" type="path"/>
   <runtime name="SHERPA_INCLUDE_PATH" value="$SHERPA_BASE/include/SHERPA-MC" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <runtime name="PYTHONPATH" value="$SHERPA_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
+  <runtime name="SHERPA_LIBRARY_PATH" value="$SHERPA_BASE/lib/SHERPA-MC" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="HepMC"/>
   <use name="lhapdf"/>
   <use name="qd"/>
@@ -29,8 +36,14 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa.xml
   <use name="fastjet"/>
   <use name="sqlite"/>
   <use name="openmpi"/>
+%if %islinux
+%if %isamd64
   <use name="openloops"/>
+%endif # isamd64
+%endif # islinux
 </tool>
 EOF_TOOLFILE
+
+export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
 ## IMPORT scram-tools-post
