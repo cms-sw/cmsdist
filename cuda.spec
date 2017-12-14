@@ -1,7 +1,8 @@
-### RPM external cuda 9.0.176
-%define driversversion 384.81
+### RPM external cuda 9.1.85
+%define driversversion 387.26
+%define cudaversion %(echo %realversion | cut -d. -f 1,2)
 
-Source: https://developer.nvidia.com/compute/cuda/9.0/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux-run
+Source: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux
 AutoReqProv: no
 
 %prep
@@ -11,11 +12,11 @@ AutoReqProv: no
 %install
 cp %{SOURCE0} %_builddir
 mkdir -p %_builddir/tmp
-/bin/sh %_builddir/%{n}_%{realversion}_%{driversversion}_linux-run --silent --tmpdir %_builddir/tmp --extract %_builddir
+/bin/sh %_builddir/%{n}_%{realversion}_%{driversversion}_linux --silent --tmpdir %_builddir/tmp --extract %_builddir
 # extracts:
-# %_builddir/NVIDIA-Linux-x86_64-384.81.run
-# %_builddir/cuda-linux.9.0.176-22781540.run
-# %_builddir/cuda-samples.9.0.176-22781540-linux.run
+# %_builddir/NVIDIA-Linux-x86_64-387.26.run
+# %_builddir/cuda-linux.9.1.85-23083092.run
+# %_builddir/cuda-samples.9.1.85-23083092-linux.run
 /bin/sh %_builddir/%{n}-linux.%{realversion}-*.run -noprompt -nosymlink -tmpdir %_builddir/tmp -prefix %_builddir
 ln -sf ../libnvvp/nvvp %_builddir/bin/nvvp
 ln -sf ../libnsight/nsight %_builddir/bin/nsight
