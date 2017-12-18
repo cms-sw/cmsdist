@@ -54,7 +54,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm-cxxcompiler.xml
     <flags REM_CXXFLAGS="-Wno-psabi"/>
     <flags REM_CXXFLAGS="-fno-crossjumping"/>
     <flags REM_CXXFLAGS="-fno-aggressive-loop-optimizations"/>
-    <flags REM_CXXFLAGS="-fconcepts"/>
     <flags CXXFLAGS="-Wno-c99-extensions"/>
     <flags CXXFLAGS="-Wno-c++11-narrowing"/>
     <flags CXXFLAGS="-D__STRICT_ANSI__"/>
