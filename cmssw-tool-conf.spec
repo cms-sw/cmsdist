@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 39.0
+### RPM cms cmssw-tool-conf 40.0
 ## NOCOMPILER
 # With cmsBuild, change the above version only when a new
 # tool is added
@@ -172,6 +172,7 @@ Requires: tkonlinesw-toolfile
 Requires: py2-cx-oracle-toolfile
 Requires: oracle-toolfile
 Requires: cuda-toolfile
+Requires: nvidia-drivers-toolfile
 Requires: intel-vtune
 Requires: openloops-toolfile
 
@@ -189,7 +190,7 @@ Requires: tensorflow-c-toolfile
 Requires: tensorflow-cc-toolfile
 %endif
 
-%define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler rivet2 opencl opencl-cpp intel-vtune
+%define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler rivet2 opencl opencl-cpp nvidia-drivers intel-vtune
 
 ## IMPORT scramv1-tool-conf
 
