@@ -172,7 +172,6 @@ Requires: tkonlinesw-toolfile
 Requires: py2-cx-oracle-toolfile
 Requires: oracle-toolfile
 Requires: cuda-toolfile
-Requires: nvidia-drivers-toolfile
 Requires: intel-vtune
 Requires: openloops-toolfile
 
