@@ -50,7 +50,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
     </client>
     <flags REM_CXXFLAGS="-felide-constructors"/>
     <flags REM_CXXFLAGS="-ftree-vectorize"/>
-    <flags REM_CXXFLAGS="-fconcepts"/>
     <flags REM_CXXFLAGS="-Wstrict-overflow"/>
     <flags REM_CXXFLAGS="-fno-crossjumping"/>
     <flags REM_CXXFLAGS="-Wno-non-template-friend"/>
