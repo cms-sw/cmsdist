@@ -15,37 +15,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdf.xml
     <environment name="LIBDIR" default="$LHAPDF_BASE/lib"/>
     <environment name="INCLUDE" default="$LHAPDF_BASE/include"/>
   </client>
-  <runtime name="LHAPATH" value="$LHAPDF_BASE/share/lhapdf/PDFsets"/>
-  <use name="f77compiler"/>
-</tool>
-EOF_TOOLFILE
-
-cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdfwrap.xml
-<tool name="lhapdfwrap" version="@TOOL_VERSION@">
-  <lib name="LHAPDFWrap"/>
-  <use name="lhapdf"/>
-</tool>
-EOF_TOOLFILE
-
-cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdffull.xml
-<tool name="lhapdffull" version="@TOOL_VERSION@">
-  <lib name="LHAPDF"/>
-  <client>
-    <environment name="LHAPDFFULL_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$LHAPDFFULL_BASE/full/lib"/>
-    <environment name="INCLUDE" default="$LHAPDFFULL_BASE/include"/>
-  </client>
-  <runtime name="LHAPATH" value="$LHAPDFFULL_BASE/share/lhapdf/PDFsets"/>
-  <use name="f77compiler"/>
-</tool>
-EOF_TOOLFILE
-
-cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdfwrapfull.xml
-<tool name="lhapdfwrapfull" version="@TOOL_VERSION@">
-  <lib name="LHAPDFWrap"/>
-  <use name="lhapdffull"/>
+  <runtime name="LHAPDF_DATA_PATH" value="$LHAPDF_BASE/share/LHAPDF"/>
+  <use name="yaml-cpp"/>
 </tool>
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
-

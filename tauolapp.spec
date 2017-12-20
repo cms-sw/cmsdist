@@ -32,7 +32,7 @@ case %cmsplatf in
   ;;
 esac
 
-./configure --prefix=%{i} --with-hepmc=$HEPMC_ROOT --with-pythia8libs=$PYTHIA_ROOT --with-lhapdf=$LHAPDF_ROOT CXX="%cms_cxx" CXXFLAGS="%cms_cxxflags"
+./configure --prefix=%{i} --with-hepmc=$HEPMC_ROOT --with-pythia8libs=$PYTHIA_ROOT --with-lhapdf=$LHAPDF_ROOT CXX="%cms_cxx" CPPFLAGS="%cms_cxxflags -I${BOOST_ROOT}/include"
 # One more fix-up for OSX (in addition to the patch above)
 case %cmsplatf in
   osx*)

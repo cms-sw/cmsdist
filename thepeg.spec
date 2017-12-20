@@ -32,11 +32,9 @@ autoreconf -fiv
 CXX="$(which %{cms_cxx}) -fPIC"
 CC="$(which gcc) -fPIC"
 PLATF_CONF_OPTS="--enable-shared --disable-static"
-LIBGFORTRAN="$(gfortran --print-file-name=libgfortran.so)"
 
 case %{cmsplatf} in
   osx*)
-    LIBGFORTRAN="$(gfortran --print-file-name=libgfortran.a)"
     LIBQUADMATH="-lquadmath"
     ;;
 esac
@@ -48,7 +46,7 @@ esac
             --with-gsl=$GSL_ROOT --with-zlib=$ZLIB_ROOT \
             --without-javagui --prefix=%{i} \
             --disable-readline CXX="$CXX" CC="$CC" CXXFLAGS="%{cms_cxxflags}" \
-            LIBS="$LIBGFORTRAN -lz $LIBQUADMATH"
+            LIBS="-lz $LIBQUADMATH"
 
 make %{makeprocesses}
 

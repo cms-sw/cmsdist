@@ -5,11 +5,11 @@
 ## INITENV SET GIT_SSL_CAINFO %{i}/share/ssl/certs/ca-bundle.crt
 ## INITENV SET GIT_EXEC_PATH %{i}/libexec/git-core
 
+
 %define isDarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 Source0: https://github.com/git/git/archive/v%{realversion}.tar.gz
-Patch1: git-1.8.3.1-no-symlink
-Patch2: git-1.8.3.1-runtime
+Patch0: git-1.8.3.1-runtime
 
 %define curl_tag curl-7_31_0
 Source1: https://raw.github.com/bagder/curl/%{curl_tag}/lib/mk-ca-bundle.pl
@@ -34,8 +34,7 @@ Provides: perl(Time::HiRes)
 
 %prep
 %setup -b 0 -n %{n}-%{realversion}
-%patch1 -p1
-%patch2 -p1
+%patch0 -p1
 
 %build
 make prefix=%{i} \
@@ -82,6 +81,8 @@ make prefix=%{i} \
      NO_PYTHON=1 \
      RUNTIME_PREFIX=1 \
      V=1 \
+     NO_CROSS_DIRECTORY_HARDLINKS=1 \
+     NO_INSTALL_HARDLINKS=1 \
      %{makeprocesses} \
      install
 

@@ -6,6 +6,7 @@
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+%define isslc %(case %{cmsplatf} in (slc*) echo 1 ;; (*) echo 0 ;; esac)
 
 Requires: alpgen-toolfile
 Requires: boost-toolfile
@@ -17,7 +18,7 @@ Requires: clhep-toolfile
 Requires: coral-toolfile
 Requires: cppunit-toolfile
 Requires: curl-toolfile
-Requires: das-client-toolfile
+Requires: das_client-toolfile
 Requires: db4-toolfile
 Requires: dbs-client-toolfile
 Requires: dpm-toolfile
@@ -42,7 +43,6 @@ Requires: jemalloc-toolfile
 Requires: jimmy-toolfile
 Requires: ktjet-toolfile
 Requires: lhapdf-toolfile
-Requires: lhapdf6-toolfile
 Requires: libhepml-toolfile
 Requires: libjpg-toolfile
 Requires: libpng-toolfile
@@ -131,6 +131,7 @@ Requires: geant4-parfullcms-toolfile
 Requires: fasthadd
 Requires: photospp-toolfile
 Requires: evtgen-toolfile
+Requires: scons-toolfile
 
 # Only for Linux platform.
 %if %islinux
@@ -148,9 +149,15 @@ Requires: freetype-toolfile
 
 # Only for INTEL/AMD platforms.
 %if %isamd64
+Requires: openmpi-toolfile
 Requires: tkonlinesw-toolfile
 Requires: py2-cx-oracle-toolfile
 Requires: oracle-toolfile
+
+# Only for slc platforms.
+%if %isslc
+Requires: openloops-toolfile
+%endif
 
 # Only for Linux platform.
 %if %islinux
@@ -159,7 +166,7 @@ Requires: glibc-toolfile
 %endif
 %endif
 
-%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler cuda rivet2 opencl opencl-cpp lhapdf6
+%define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler cuda rivet2 opencl opencl-cpp
 
 ## IMPORT scramv1-tool-conf
 

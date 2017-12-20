@@ -1,28 +1,26 @@
-### RPM external pythia8 205
+### RPM external pythia8 226
 
 Requires: hepmc lhapdf
+Requires: boost
 
-Source: http://home.thep.lu.se/~torbjorn/pythia8/%{n}%{realversion}.tgz
-
-Patch0: pythia8-205-fix-gcc-options
-Patch1: pythia8-205-fix-matching
+%define tag 1dfa81bc0b3efa66793deb50b63eaf85d42e4dd2
+%define branch cms/%{realversion}
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 %if "%{?cms_cxxflags:set}" != "set"
 %define cms_cxxflags -std=c++0x
 %endif
 
 %prep
-%setup -q -n %{n}%{realversion}
-%patch0 -p2
-%patch1 -p2
+%setup -q -n %{n}-%{realversion}
  
 export USRCXXFLAGS="%cms_cxxflags"
-export HEPMCLOCATION=${HEPMC_ROOT}  
-export HEPMCVERSION=${HEPMC_VERSION}
-./configure --prefix=%i --enable-shared --with-hepmc2=${HEPMC_ROOT} --with-lhapdf5=${LHAPDF_ROOT}
+./configure --prefix=%i --enable-shared --with-boost=${BOOST_ROOT} --with-hepmc2=${HEPMC_ROOT} --with-lhapdf6=${LHAPDF_ROOT} --with-lhapdf6-plugin=LHAPDF6.h
 
 %build
 make %makeprocesses
 
 %install
 make install
+test -f %i/lib/libpythia8lhapdf6.so || exit 1
