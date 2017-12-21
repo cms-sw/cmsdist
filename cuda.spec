@@ -17,6 +17,8 @@ mkdir -p %_builddir/tmp
 # %_builddir/NVIDIA-Linux-x86_64-387.26.run
 # %_builddir/cuda-linux.9.1.85-23083092.run
 # %_builddir/cuda-samples.9.1.85-23083092-linux.run
+
+# extract and repackage the CUDA runtime, tools and stubs
 /bin/sh %_builddir/%{n}-linux.%{realversion}-*.run -noprompt -nosymlink -tmpdir %_builddir/tmp -prefix %_builddir
 ln -sf ../libnvvp/nvvp %_builddir/bin/nvvp
 ln -sf ../libnsight/nsight %_builddir/bin/nsight
@@ -48,3 +50,12 @@ cp -ar %_builddir/include %{i}
 cp -ar %_builddir/bin %{i}
 cp -ar %_builddir/nvvm %{i}
 cp -ar %_builddir/jre %{i}
+
+# extract and repackage the NVIDIA libraries needed by the CUDA runtime
+/bin/sh %_builddir/NVIDIA-Linux-x86_64-%{driversversion}.run --accept-license --extract-only --tmpdir %_builddir/tmp --target %_builddir/nvidia
+mkdir -p %{i}/drivers
+cp -ar %_builddir/nvidia/libcuda.so.%{driversversion}                   %{i}/drivers/
+ln -sf libcuda.so.%{driversversion}                                     %{i}/drivers/libcuda.so.1
+cp -ar %_builddir/nvidia/libnvidia-fatbinaryloader.so.%{driversversion} %{i}/drivers/
+cp -ar %_builddir/nvidia/libnvidia-ptxjitcompiler.so.%{driversversion}  %{i}/drivers/
+ln -sf libnvidia-ptxjitcompiler.so.%{driversversion}                    %{i}/drivers/libnvidia-ptxjitcompiler.so.1
