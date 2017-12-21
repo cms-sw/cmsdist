@@ -1,5 +1,5 @@
-### RPM external geant4 10.02.p02
-%define tag f9e758d95096c7956792a541549515b3c767d1fb
+### RPM external geant4 10.04
+%define tag b15f6fadadf568e951bbb04c7d55ed4765dfe533
 %define branch cms/4.%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
@@ -66,6 +66,5 @@ find . -name "*.o" -delete
 %{relocateConfig}lib/Geant4-*/Geant4Config.cmake
 %{relocateConfig}bin/geant4-config
 %{relocateConfig}bin/geant4.*
-%{relocateConfig}share/Geant4-*/geant4-*
 %{relocateConfig}share/Geant4-*/geant4make/geant4make.*
 %{relocateConfig}lib/Geant4-*/Geant4LibraryDepends.cmake
