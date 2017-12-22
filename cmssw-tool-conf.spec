@@ -131,6 +131,7 @@ Requires: geant4-parfullcms-toolfile
 Requires: fasthadd
 Requires: photospp-toolfile
 Requires: evtgen-toolfile
+Requires: scons-toolfile
 
 # Only for Linux platform.
 %if %islinux

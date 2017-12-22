@@ -10,6 +10,7 @@ mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/openmpi.xml
 <tool name="openmpi" version="@TOOL_VERSION@">
 <lib name="mpi"/>
+<lib name="mpi_cxx"/>
 <client>
 <environment name="OPENMPI_BASE" default="@TOOL_ROOT@"/>
 <environment name="LIBDIR" default="$OPENMPI_BASE/lib"/>
