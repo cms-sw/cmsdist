@@ -1,15 +1,14 @@
-### RPM external valgrind 3.12.99
+### RPM external valgrind 3.13.0
 ## INITENV SET VALGRIND_LIB %{i}/lib/valgrind
-
-# Exported from SVN at 16435 revision (4th June, 2017)
-%define valgrindRevision 16435
-%define valgrindBranch trunk
-Source: svn://svn.valgrind.org/valgrind/%{valgrindBranch}?module=%{n}-%{valgrindRevision}&revision=%{valgrindRevision}&output=/%{n}-%{valgrindRevision}.tar.gz
+%define tag 32da88e7dbcdc49253dfe921e0ebdebf91497d04
+%define branch v%{realversion}
+%define github_user cms-externals
+Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: autotools
 
 %prep
-%setup -n %{n}-%{valgrindRevision}
+%setup -n %{n}-%{realversion}
 
 %build
 case %{cmsplatf} in
