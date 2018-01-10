@@ -1,8 +1,8 @@
 ### RPM lcg root 6.13.01
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 2b41c001b2a31f4248fb09fdf0f152df107c13d7
-%define branch cms/master/c8519f8
+%define tag 3c22a0e6851a8c56dbb67d4b70b3ccefa00cca60
+%define branch cms/master/d8215a8
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
@@ -11,7 +11,7 @@ Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&expo
 
 BuildRequires: cmake
 
-Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib davix tbb
+Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib davix tbb py2-numpy
 
 %if %islinux
 Requires: castor dcap
