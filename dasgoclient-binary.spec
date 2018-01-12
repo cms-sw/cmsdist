@@ -5,7 +5,7 @@ Source2: git+https://github.com/vkuznet/x509proxy?obj=master/b4622388b3a347c8df7
 Source3: git+https://github.com/buger/jsonparser?obj=master/6bd16707875b997f7a60327f888a28a3d28cf8c2&export=github.com/buger/jsonparser&output=/jsonparser.tar.gz
 Source4: git+https://github.com/go-mgo/mgo?obj=v2/3f83fa5005286a7fe593b055f0d7771a7dce4655&export=gopkg.in/mgo.v2&output=/mgo.v2.tar.gz
 Source5: git+https://github.com/pkg/profile?obj=master/3a8809bd8a80f8ecfe4ee1b34b3f37194968617c&export=github.com/pkg/profile&output=/profile.tar.gz
-Source6: git+https://github.com/dmwm/das2go?obj=master/f509ccc3c222dc9922ac8f0746a0efc8477e976a&export=github.com/dmwm/das2go&output=/das2go.tar.gz
+Source6: git+https://github.com/dmwm/das2go?obj=master/d6824cb583ee8a5a1dc8129b7033416ea19f7503&export=github.com/dmwm/das2go&output=/das2go.tar.gz
 Source7: git+https://github.com/sirupsen/logrus?obj=master/a3f95b5c423586578a4e099b11a46c2479628cac&export=github.com/sirupsen/logrus&output=/logrus.tar.gz
 %prep
 
