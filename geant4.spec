@@ -63,12 +63,9 @@ make install
 mkdir -p %i/lib/archive/vecgeom
 cd %i/lib/archive
 find %i/lib -name "*.a" -exec ar x {} \;
-cd %i/lib/archive/vecgeom
-find ${VECGEOM_ROOT}/lib -name "*.a" -exec ar x {} \;
 cd %i/lib/archive
-ar rcs libgeant4-static.a *.o vecgeom/*.o
+ar rcs libgeant4-static.a *.o
 find . -name "*.o" -delete
-rm -rf %i/lib/archive/vecgeom
 
 %post
 %{relocateConfig}lib/Geant4-*/Geant4Config.cmake
