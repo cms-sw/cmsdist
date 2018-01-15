@@ -60,10 +60,9 @@ make %makeprocesses VERBOSE=1
 cd ../build
 make install
 
-mkdir -p %i/lib/archive/vecgeom
+mkdir -p %i/lib/archive
 cd %i/lib/archive
 find %i/lib -name "*.a" -exec ar x {} \;
-cd %i/lib/archive
 ar rcs libgeant4-static.a *.o
 find . -name "*.o" -delete
 
