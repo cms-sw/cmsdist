@@ -1,7 +1,7 @@
 ### RPM external py2-pippkgs_depscipy 3.0
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 Source: none
-
+ 
 Requires: root curl python py2-pippkgs py2-numpy py2-matplotlib xrootd
 
 %define isslc7 %(case %{cmsplatf} in (slc7_amd64*) echo 1 ;; (*) echo 0 ;; esac)
