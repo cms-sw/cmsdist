@@ -1,10 +1,10 @@
 ### RPM external herwigpp 7.1.2
 Source: https://www.hepforge.org/archive/herwig/Herwig-%{realversion}.tar.bz2
 
-
 # Tried to comment out the parts which build HerwigDefaults.rpo during make install
 
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+%define isaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 1 ;; (*) echo 0 ;; esac)
 
 Requires: lhapdf
 Requires: boost 
@@ -58,6 +58,9 @@ PLATF_CONF_OPTS="--enable-shared --disable-static"
 %endif
             --prefix=%i \
             CXX="$CXX" CC="$CC" \
+%if %isaarch64
+            FCFLAGS="-fno-range-check" \
+%endif
 	    BOOST_ROOT="$BOOST_ROOT" LDFLAGS="$LDFLAGS -L$BOOST_ROOT/lib" \
             LD_LIBRARY_PATH=$LHAPDF_ROOT/lib:$GSL_ROOT/lib:$GOSAMCONTRIB_ROOT/lib:$MADGRAPH5AMCATNLO_ROOT/HEPTools/lib:$LD_LIBRARY_PATH
 
