@@ -1,4 +1,4 @@
-### RPM cms fwlite CMSSW_10_0_0_pre3_GEANT4_FWLITE
+### RPM cms fwlite CMSSW_10_0_0_pre3_G4VecGeom2_FWLITE
 
 Requires: fwlite-tool-conf python
 
