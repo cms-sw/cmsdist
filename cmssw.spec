@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_10_0_0_pre3_GEANT4
+### RPM cms cmssw CMSSW_10_0_0_pre3_G4VecGeom1
 
 Requires: cmssw-tool-conf python cms-git-tools
 
