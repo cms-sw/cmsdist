@@ -46,7 +46,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4core.xml
   <runtime name="ROOT_INCLUDE_PATH"  value="$INCLUDE" type="path"/>
   <flags cppdefines="GNU_GCC G4V9"/>
   <use name="clhep"/>
-  <use name="vecgeom_interface"/>
+  <use name="vecgeom"/>
   <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
@@ -60,6 +60,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4static.xml
     <environment name="GEANT4STATIC_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$GEANT4STATIC_BASE/lib/archive"/>
   </client>
+  <use name="vecgeom"/>
   <use name="clhep"/>
   <use name="xerces-c"/>
 </tool>

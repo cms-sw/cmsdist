@@ -19,6 +19,7 @@ cmake ../%{n}-%{realversion} \
   -DBACKEND=Scalar \
   -DUSOLIDS=ON \
   -DUSOLIDS_VECGEOM=ON \
+  -DVECGEOM_VECTOR=sse3 \
   -DGEANT4=OFF
 
 make %{makeprocesses}

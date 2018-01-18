@@ -29,8 +29,8 @@ mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/vecgeom.xml
 <tool name="vecgeom" version="@TOOL_VERSION@">
   <info url="https://gitlab.cern.ch/VecGeom/VecGeom"/>
-  <lib name="usolids"/>
   <lib name="vecgeom"/>
+  <lib name="usolids"/>
   <client>
     <environment name="VECGEOM_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$VECGEOM_BASE/lib"/>
