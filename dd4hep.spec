@@ -1,4 +1,4 @@
-### RPM external dd4hep v01-02-dev
+### RPM external dd4hep v01-05
 
 %define tag 9c2170c5cefa60dd034b7eec19dfb0a023fc64be
 %define branch master
