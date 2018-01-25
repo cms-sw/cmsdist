@@ -129,3 +129,4 @@ DataFormats/TrackerCommon
 Geometry/CommonTopologies
 Geometry/GEMGeometry
 Geometry/CaloGeometry
+CalibTracker/StandaloneTrackerTopology
