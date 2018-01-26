@@ -142,7 +142,7 @@ cmake ../%{n}-%{realversion} \
 # For CMake cache variables: http://www.cmake.org/cmake/help/v3.2/manual/cmake-language.7.html#lists
 # For environment variables it's OS specific: http://www.cmake.org/Wiki/CMake_Useful_Variables
 
-# Required for generated dictionaries during ROOT6 compile/install
+#  Required for generated dictionaries during ROOT6 compile/install
 ROOT_INCLUDE_PATH=
 for DEP in %requiredtools; do
   ROOT_INCLUDE_PATH=$(eval echo $(printf "\${%%s_ROOT}/include" $(echo $DEP | tr "[a-z]-" "[A-Z]_"))):$ROOT_INCLUDE_PATH
