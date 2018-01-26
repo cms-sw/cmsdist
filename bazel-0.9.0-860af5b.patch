@@ -1,0 +1,41 @@
+From 860af5be10b6bad68144d9d2d34173e86b40268c Mon Sep 17 00:00:00 2001
+From: cushon <cushon@google.com>
+Date: Mon, 22 Jan 2018 15:33:46 -0800
+Subject: [PATCH] Consolidate Error Prone resource handling
+
+Fixes bazelbuild/bazel#4483
+
+PiperOrigin-RevId: 182847474
+---
+ .../build/buildjar/javac/plugins/errorprone/ErrorPronePlugin.java     | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/java_tools/buildjar/java/com/google/devtools/build/buildjar/javac/plugins/errorprone/ErrorPronePlugin.java b/src/java_tools/buildjar/java/com/google/devtools/build/buildjar/javac/plugins/errorprone/ErrorPronePlugin.java
+index c573d33a54..3ebc976257 100644
+--- a/src/java_tools/buildjar/java/com/google/devtools/build/buildjar/javac/plugins/errorprone/ErrorPronePlugin.java
++++ b/src/java_tools/buildjar/java/com/google/devtools/build/buildjar/javac/plugins/errorprone/ErrorPronePlugin.java
+@@ -18,6 +18,7 @@
+ import com.google.common.collect.ImmutableList;
+ import com.google.devtools.build.buildjar.InvalidCommandLineException;
+ import com.google.devtools.build.buildjar.javac.plugins.BlazeJavaCompilerPlugin;
++import com.google.errorprone.BaseErrorProneJavaCompiler;
+ import com.google.errorprone.ErrorProneAnalyzer;
+ import com.google.errorprone.ErrorProneError;
+ import com.google.errorprone.ErrorProneOptions;
+@@ -30,7 +31,6 @@
+ import com.sun.tools.javac.comp.Env;
+ import com.sun.tools.javac.main.JavaCompiler;
+ import com.sun.tools.javac.util.Context;
+-import com.sun.tools.javac.util.JavacMessages;
+ import com.sun.tools.javac.util.Log;
+ import java.util.Arrays;
+ import java.util.List;
+@@ -66,7 +66,7 @@ public ErrorPronePlugin(boolean testOnly, ScannerSupplier scannerSupplier) {
+ 
+   /** Registers our message bundle. */
+   public static void setupMessageBundle(Context context) {
+-    JavacMessages.instance(context).add("com.google.errorprone.errors");
++    BaseErrorProneJavaCompiler.setupMessageBundle(context);
+   }
+ 
+   private static final String COMPILING_TEST_ONLY_CODE_ARG = "-XepCompilingTestOnlyCode";
