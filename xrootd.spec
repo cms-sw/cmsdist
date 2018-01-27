@@ -26,7 +26,7 @@ perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonPrepareS
 mkdir build
 cd build
 
-# By default xrootd has perl, fuse, krb5, readline, and crypto enabled.
+# By default xrootd has perl, fuse, krb5, readline, and crypto enabled. 
 # libfuse and libperl are not produced by CMSDIST.
 cmake ../ \
   -DCMAKE_INSTALL_PREFIX=%{i} \
