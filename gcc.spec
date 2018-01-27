@@ -4,7 +4,7 @@
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-6-branch/?view=log
-%define gccRevision 257043
+%define gccRevision 257125
 %define gccBranch branches/gcc-7-branch
 
 %define moduleName gcc-%(echo %{gccBranch} | tr / _)-%{gccRevision}
@@ -29,13 +29,12 @@ Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 
 %if %islinux
 %define bisonVersion 3.0.4
-%define binutilsVersion 2.30.0
+%define binutilsVersion 2.30
 %define elfutilsVersion 0.170
 %define m4Version 1.4.18
 %define flexVersion 2.6.4
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
-#ource8: https://ftp.gnu.org/gnu/binutils/binutils-%{binutilsVersion}.tar.bz2
-Source8: ftp://sourceware.org/pub/binutils/snapshots/binutils-%{binutilsVersion}.tar.xz
+Source8: https://sourceware.org/pub/binutils/releases/binutils-%{binutilsVersion}.tar.bz2
 Source9: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
 Source10: http://ftp.gnu.org/gnu/m4/m4-%{m4Version}.tar.gz
 Source11: https://github.com/westes/flex/releases/download/v%{flexVersion}/flex-%{flexVersion}.tar.gz
