@@ -1,6 +1,6 @@
 ### RPM external dd4hep v01-05x
 
-%define tag 59cc9562d0ae48225ea5b242d41911149e2b1a36
+%define tag 52e6d2fee62af2c264196ca4e4411e1f877efc96
 %define branch master
 %define github_user AIDASoft
 
@@ -27,6 +27,7 @@ cmake -DCMAKE_INSTALL_PREFIX="%{i}" \
       -DDD4HEP_USE_XERCESC=ON \
       -DXERCESC_ROOT_DIR=${XERCES_C_ROOT} \
       -DDD4HEP_USE_PYROOT=ON \
+      -DCMAKE_CXX_STANDARD=14 \
       -DCMAKE_BUILD_TYPE=Release \
       ../%{n}-%{realversion}
 
