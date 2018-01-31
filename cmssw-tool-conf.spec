@@ -1,7 +1,6 @@
-### RPM cms cmssw-tool-conf 40.0
+### RPM cms cmssw-tool-conf 41.0
 ## NOCOMPILER
-# With cmsBuild, change the above version only when a new
-# tool is added
+# With cmsBuild, change the above version only when a new tool is added
 
 %define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
@@ -174,6 +173,7 @@ Requires: tkonlinesw-toolfile
 Requires: py2-cx-oracle-toolfile
 Requires: oracle-toolfile
 Requires: cuda-toolfile
+Requires: cuda-api-wrappers-toolfile
 Requires: intel-vtune
 Requires: openloops-toolfile
 
