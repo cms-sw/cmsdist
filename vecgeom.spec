@@ -6,7 +6,7 @@ BuildRequires: cmake gmake
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 %define isaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 1 ;; (*) echo 0 ;; esac)
 
-Patch0: blah
+Patch0: vecgeom-fix-for-arm64
 
 %prep
 %setup -n %{n}-%{realversion}
