@@ -1,8 +1,8 @@
-### RPM external dd4hep v01-05
+### RPM external dd4hep v01-05x
 
-%define tag 9c2170c5cefa60dd034b7eec19dfb0a023fc64be
-%define branch master
-%define github_user AIDASoft
+%define tag 82625a4b3f873ebf9af329d74da67b2ad0eaaca3
+%define branch cms/master/52e6d2f
+%define github_user cms-externals
 
 Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
@@ -27,6 +27,7 @@ cmake -DCMAKE_INSTALL_PREFIX="%{i}" \
       -DDD4HEP_USE_XERCESC=ON \
       -DXERCESC_ROOT_DIR=${XERCES_C_ROOT} \
       -DDD4HEP_USE_PYROOT=ON \
+      -DCMAKE_CXX_STANDARD=14 \
       -DCMAKE_BUILD_TYPE=Release \
       ../%{n}-%{realversion}
 
