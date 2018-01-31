@@ -1,22 +1,22 @@
 diff --git a/scripts/bootstrap/compile.sh b/scripts/bootstrap/compile.sh
-index dee6ce2..a562b86 100755
+index e817b19..deed3ae 100755
 --- a/scripts/bootstrap/compile.sh
 +++ b/scripts/bootstrap/compile.sh
-@@ -295,7 +295,7 @@ function build_jni() {
- 
-   *)
+@@ -258,7 +258,7 @@ function build_jni() {
+     JNI_FLAGS="-Dio.bazel.EnableJni=1 -Djava.library.path=${output_dir}"
+   else
      # We don't need JNI on other platforms.
 -    JNI_FLAGS="-Dio.bazel.EnableJni=0"
 +    JNI_FLAGS="-Dio.bazel.EnableJni=0 -Xmx512m"
-     ;;
-   esac
+   fi
  }
-@@ -331,7 +331,7 @@ function run_bazel_jar() {
+ 
+@@ -339,7 +339,7 @@ function run_bazel_jar() {
        ${BAZEL_DIR_STARTUP_OPTIONS} \
        ${BAZEL_BOOTSTRAP_STARTUP_OPTIONS:-} \
        $command \
 -      --ignore_unsupported_sandboxing \
-+      --ignore_unsupported_sandboxing --jobs=8 \
++      --ignore_unsupported_sandboxing  --jobs=8 \
        --startup_time=329 --extract_data_time=523 \
        --rc_source=/dev/null --isatty=1 \
-       --ignore_client_env \
+       --build_python_zip \
