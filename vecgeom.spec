@@ -30,9 +30,9 @@ cmake ../%{n}-%{realversion} \
   -DVECGEOM_VECTOR=sse3 \
 %else
   -DVECGEOM_VECTOR=native \
-%endif
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -DCMAKE_CXX_STANDARD=17 \
+%endif
   -DGEANT4=OFF
 
 make %{makeprocesses}
