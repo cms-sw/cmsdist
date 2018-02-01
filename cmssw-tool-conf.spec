@@ -84,7 +84,7 @@ Requires: zlib-toolfile
 Requires: dcap-toolfile
 Requires: frontier_client-toolfile
 Requires: xrootd-toolfile
-#Requires: dd4hep-toolfile
+Requires: dd4hep-toolfile
 %if %isnotaarch64
 Requires: pyqt-toolfile
 %endif
