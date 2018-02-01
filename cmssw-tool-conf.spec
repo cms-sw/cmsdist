@@ -36,6 +36,7 @@ Requires: gcc-toolfile
 Requires: gdbm-toolfile
 Requires: geant4-toolfile
 Requires: geant4data-toolfile
+Requires: vecgeom-toolfile
 Requires: glimpse-toolfile
 Requires: gmake-toolfile
 Requires: gsl-toolfile
