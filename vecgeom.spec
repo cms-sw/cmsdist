@@ -29,7 +29,6 @@ cmake ../%{n}-%{realversion} \
 %if %isamd64
   -DVECGEOM_VECTOR=sse3 \
 %else
-  -DVECGEOM_VECTOR=native \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -DCMAKE_CXX_STANDARD=17 \
 %endif
