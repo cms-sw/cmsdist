@@ -27,7 +27,7 @@ cmake -DCMAKE_INSTALL_PREFIX="%{i}" \
       -DDD4HEP_USE_XERCESC=ON \
       -DXERCESC_ROOT_DIR=${XERCES_C_ROOT} \
       -DDD4HEP_USE_PYROOT=ON \
-      -DCMAKE_CXX_STANDARD=14 \
+      -DCMAKE_CXX_STANDARD=17 \
       -DCMAKE_BUILD_TYPE=Release \
       ../%{n}-%{realversion}
 
