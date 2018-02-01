@@ -4,11 +4,12 @@
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
 
-BuildRequires: cmake
+BuildRequires: cmake gmake
 
 Requires: clhep
 Requires: expat
 Requires: xerces-c
+Requires: vecgeom
 
 %define keep_archives true
 
@@ -25,6 +26,8 @@ fi
 rm -rf ../build
 mkdir ../build
 cd ../build
+export Usolids_DIR=${VECGEOM_ROOT}/lib/cmake/Usolids
+export VecGeom_DIR=${VECGEOM_ROOT}/lib/cmake/VecGeom
 
 cmake ../%{n}.%{realversion} \
   -DCMAKE_CXX_COMPILER="g++" \
@@ -37,6 +40,7 @@ cmake ../%{n}.%{realversion} \
   -DGEANT4_BUILD_TLS_MODEL:STRING="global-dynamic" \
   -DGEANT4_ENABLE_TESTING=OFF \
   -DGEANT4_BUILD_VERBOSE_CODE=OFF \
+  -DGEANT4_USE_USOLIDS="all" \
   -DBUILD_SHARED_LIBS=ON \
   -DXERCESC_ROOT_DIR:PATH="${XERCES_C_ROOT}" \
   -DCLHEP_ROOT_DIR:PATH="$CLHEP_ROOT" \
