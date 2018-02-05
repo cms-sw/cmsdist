@@ -1,11 +1,10 @@
-### RPM external tkonlinesw 4.1.0-1
+### RPM external tkonlinesw 4.2.0-1_gcc7
 
 %define projectname trackerDAQ
-%define releasename %{projectname}-4.1-tkonline
+%define releasename %{projectname}-4.2-tkonline
 Source0: http://cms-trackerdaq-service.web.cern.ch/cms-trackerdaq-service/download/sources/trackerDAQ-%{realversion}.tgz
 Patch0: tkonlinesw-2.7.0-macosx
 Patch1: tkonlinesw-4.0-clang-hash_map
-Patch2: trackerDAQ-4.1-cleanup-gcc7
 
 # NOTE: given how broken the standard build system is
 #       on macosx, it's not worth fixing it.
@@ -26,7 +25,6 @@ Requires: root
 %prep
 %setup -q -n %releasename
 %patch1 -p1
-%patch2 -p1
 case %cmsos in 
   osx*)
 %patch0 -p1
