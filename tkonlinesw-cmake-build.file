@@ -74,6 +74,7 @@ file(GLOB DEVICEDESCRIPTION_SOURCES
         FecSoftwareV3_0/generic/src/common/FineDelayAnalysisDescription.cc
         FecSoftwareV3_0/generic/src/common/OptoScanAnalysisDescription.cc
         FecSoftwareV3_0/generic/src/common/PedestalsAnalysisDescription.cc
+        FecSoftwareV3_0/generic/src/common/PedsFullNoiseAnalysisDescription.cc
         FecSoftwareV3_0/generic/src/common/TimingAnalysisDescription.cc
         FecSoftwareV3_0/generic/src/common/VpspScanAnalysisDescription.cc
         FecSoftwareV3_0/generic/src/common/CommissioningAnalysisFactory.cc
