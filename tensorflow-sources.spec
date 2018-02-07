@@ -1,7 +1,7 @@
 ### RPM external tensorflow-sources 1.5.0
 #Source: https://github.com/tensorflow/tensorflow/archive/v%{realversion}.tar.gz
 %define isslc6amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
-%define tag 3deb8e49315c8d84102f887b618f78a2b7e24048
+%define tag 3f38e87370efdae9ceb2ceec3c292d6ed9fd51d7
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
