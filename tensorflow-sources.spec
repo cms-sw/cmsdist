@@ -51,6 +51,8 @@ sed -i -e 's|mnemonic="ProtoCompile",|env=ctx.configuration.default_shell_env, m
 bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS tensorflow:libtensorflow_cc.so
 bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/pip_package:build_pip_package
 bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/lib_package:libtensorflow
+bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/python/tools:tools_pip
+bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/graph_transforms:transform_graph
 
 bazel shutdown
 
@@ -66,6 +68,7 @@ rm -rf $incdir/*
 rm -rf $libdir/*
 
 cp -v $PWD/bazel-bin/tensorflow/libtensorflow_cc.so $libdir
+cp -v $PWD/bazel-bin/tensorflow/libtensorflow_framework.so $libdir
 
 #Download depencies used by tensorflow and copy to include dir
 tensorflow/contrib/makefile/download_dependencies.sh
@@ -124,6 +127,12 @@ do
   my_header_dir=$(dirname "${my_header}")
   mkdir -p ${incdir}/${my_header_dir}
   cp -p ${my_header} ${incdir}/${my_header_dir}
+done
+# downloaded nsync headers
+header_list=`find nsync/public -name '*.h' -type f`
+for my_header in ${header_list}
+do
+  cp -p ${my_header} ${incdir}/
 done
 # eigen signature file
 cp -p eigen/signature_of_eigen3_matrix_library ${incdir}/eigen/ || exit 1
