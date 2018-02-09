@@ -1,0 +1,15 @@
+diff -r c2947c341c68 -r 034b6c3e1017 Eigen/Core
+--- a/Eigen/Core	Fri Dec 15 15:15:37 2017 +0100
++++ b/Eigen/Core	Mon Dec 18 16:51:15 2017 -0800
+@@ -54,9 +54,9 @@
+     #endif
+ 
+     #define EIGEN_DEVICE_FUNC __host__ __device__
+-    // We need math_functions.hpp to ensure that that EIGEN_USING_STD_MATH macro
++    // We need cuda_runtime.h to ensure that that EIGEN_USING_STD_MATH macro
+     // works properly on the device side
+-    #include <math_functions.hpp>
++    #include <cuda_runtime.h>
+   #else
+     #define EIGEN_DEVICE_FUNC
+   #endif
