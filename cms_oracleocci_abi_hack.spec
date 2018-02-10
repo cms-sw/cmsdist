@@ -1,14 +1,8 @@
-### RPM cms cms_oracleocci_abi_hack 20180209
-%define tag 24d917b12c27a024d45859b86cb78699448f2eb4
+### RPM cms cms_oracleocci_abi_hack 20180210
+%define tag 6136662ef5139c381ff82249796a1fed01499dc2
 Source: git+https://github.com/cms-sw/%{n}.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Requires: oracle
 BuildRequires: gmake
-
-%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
-%define soext so
-%if %isdarwin
-%define soext dylib
-%endif
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -19,7 +13,5 @@ export LIB_DIR=${ORACLE_ROOT}/lib
 make %{makeprocesses}
 
 %install
-mkdir %{i}/lib %{i}/bin
-cp is_cxx11_abi %{i}/bin/
-cp lib%{n}.%{soext} %{i}/lib
-
+[ -d  build/lib ] && cp -r build/lib %{i}/lib
+cp -r build/include %{i}/include
