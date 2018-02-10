@@ -1,5 +1,5 @@
 ### RPM cms cms_oracleocci_abi_hack 20180210
-%define tag 6136662ef5139c381ff82249796a1fed01499dc2
+%define tag 88b2a965305226df1822a14af8fe7174ee5f1614
 Source: git+https://github.com/cms-sw/%{n}.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Requires: oracle
 BuildRequires: gmake
