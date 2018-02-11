@@ -3,7 +3,7 @@
 %define cudaversion %(echo %realversion | cut -d. -f 1,2)
 
 Source: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux
-AutoReqProv: no
+AutoReq: no
 
 %prep
 
