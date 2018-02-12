@@ -1,4 +1,4 @@
-### RPM lcg root 6.12.05
+### RPM lcg root 6.12.07
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 %define tag 325a180efbab3e0f654122bef20b8fa166ec9474
