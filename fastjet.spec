@@ -1,5 +1,5 @@
 ### RPM external fastjet 3.3.0
-%define tag 2db2b530b753af3ab39c91f2551e6a90597e1c13
+%define tag 26e1f4828f4622742062f1465ae8de9986f96f86
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/fastjet.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
