@@ -10,9 +10,8 @@ AutoReq: no
 %build
 
 %install
-cp %{SOURCE0} %_builddir
 mkdir -p %_builddir/tmp
-/bin/sh %_builddir/%{n}_%{realversion}_%{driversversion}_linux --silent --tmpdir %_builddir/tmp --extract %_builddir
+/bin/sh %{SOURCE0} --silent --tmpdir %_builddir/tmp --extract %_builddir
 # extracts:
 # %_builddir/NVIDIA-Linux-x86_64-387.26.run
 # %_builddir/cuda-linux.9.1.85-23083092.run
@@ -59,3 +58,22 @@ ln -sf libcuda.so.%{driversversion}                                     %{i}/dri
 cp -ar %_builddir/nvidia/libnvidia-fatbinaryloader.so.%{driversversion} %{i}/drivers/
 cp -ar %_builddir/nvidia/libnvidia-ptxjitcompiler.so.%{driversversion}  %{i}/drivers/
 ln -sf libnvidia-ptxjitcompiler.so.%{driversversion}                    %{i}/drivers/libnvidia-ptxjitcompiler.so.1
+
+%post
+# let nvcc find its components when invoked from the command line
+cat > $RPM_INSTALL_PREFIX/%{pkgrel}/bin/nvcc.profile << @EOF
+
+TOP              = $CMS_INSTALL_PREFIX/%{pkgrel}
+
+NVVMIR_LIBRARY_DIR = \$(TOP)/nvvm/libdevice
+
+LD_LIBRARY_PATH += \$(TOP)/lib:
+PATH            += \$(TOP)/nvvm/bin:\$(TOP)/bin:
+
+INCLUDES        +=  "-I\$(TOP)/include" \$(_SPACE_)
+
+LIBRARIES        =+ \$(_SPACE_) "-L\$(TOP)/lib\$(_TARGET_SIZE_)/stubs" "-L\$(TOP)/lib\$(_TARGET_SIZE_)"
+
+CUDAFE_FLAGS    +=
+PTXAS_FLAGS     +=
+@EOF
