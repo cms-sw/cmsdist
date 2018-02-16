@@ -61,19 +61,10 @@ ln -sf libnvidia-ptxjitcompiler.so.%{driversversion}                    %{i}/dri
 
 %post
 # let nvcc find its components when invoked from the command line
-cat > $RPM_INSTALL_PREFIX/%{pkgrel}/bin/nvcc.profile << @EOF
+sed \
+  -e"/^TOP *=/s|= .*|= $CMS_INSTALL_PREFIX/%{pkgrel}|" \
+  -e's|$(_HERE_)|$(TOP)/bin|g' \
+  -e's|/$(_TARGET_DIR_)||g' \
+  -e's|$(_TARGET_SIZE_)|64|g' \
+  -i $RPM_INSTALL_PREFIX/%{pkgrel}/bin/nvcc.profile
 
-TOP              = $CMS_INSTALL_PREFIX/%{pkgrel}
-
-NVVMIR_LIBRARY_DIR = \$(TOP)/nvvm/libdevice
-
-LD_LIBRARY_PATH += \$(TOP)/lib:
-PATH            += \$(TOP)/nvvm/bin:\$(TOP)/bin:
-
-INCLUDES        +=  "-I\$(TOP)/include" \$(_SPACE_)
-
-LIBRARIES        =+ \$(_SPACE_) "-L\$(TOP)/lib\$(_TARGET_SIZE_)/stubs" "-L\$(TOP)/lib\$(_TARGET_SIZE_)"
-
-CUDAFE_FLAGS    +=
-PTXAS_FLAGS     +=
-@EOF
