@@ -5,11 +5,8 @@
 Source: https://bitbucket.org/%{n}/%{n}/get/%{tag}.tar.gz
 BuildRequires: cmake
 
-Patch0: eigen-034b6c3e1017
-
 %prep
 %setup -n %n-%n-%{realversion}
-%patch0 -p1
 
 %build
 mkdir build
