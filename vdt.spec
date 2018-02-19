@@ -1,4 +1,4 @@
-### RPM cms vdt 0.3.9
+### RPM cms vdt 0.4.0
 
 Source: https://github.com/dpiparo/%{n}/archive/v%{realversion}.tar.gz 
 
