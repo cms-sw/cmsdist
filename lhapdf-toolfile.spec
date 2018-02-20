@@ -5,7 +5,7 @@ Requires: lhapdf
 %build
 
 %install
-
+export PYTHON_LIB_SITE_PACKAGES
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdf.xml
 <tool name="lhapdf" version="@TOOL_VERSION@">
@@ -16,7 +16,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdf.xml
     <environment name="INCLUDE" default="$LHAPDF_BASE/include"/>
   </client>
   <runtime name="LHAPDF_DATA_PATH" value="$LHAPDF_BASE/share/LHAPDF"/>
-  <use name="yaml-cpp"/>
+  <runtime name="PYTHONPATH" value="$LHAPDF_BASE/@PYTHON_LIB_SITE_PACKAGES@"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
 </tool>
