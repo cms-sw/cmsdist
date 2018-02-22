@@ -13,7 +13,7 @@ Source6: https://www.hepforge.org/archive/lhapdf/pdfsets/6.1/MMHT2014nlo68cl.tar
 
 Source7: lhapdf_pdfsetsindex
 
-Requires: boost yaml-cpp python
+Requires: yaml-cpp python
 BuildRequires: cython
 
 %define keep_archives true
@@ -21,7 +21,7 @@ BuildRequires: cython
 %prep
 %setup -q -n LHAPDF-%{realversion}
 
-./configure --prefix=%{i} --with-boost=${BOOST_ROOT} --with-yaml-cpp=${YAML-CPP_ROOT} PYTHON=${PYTHON_ROOT}/bin/python CYTHON=${CYTHON_ROOT}/bin/cython PYTHONPATH=${CYTHON_ROOT}/${PYTHON_LIB_SITE_PACKAGES}
+./configure --prefix=%{i} --with-yaml-cpp=${YAML-CPP_ROOT} PYTHON=${PYTHON_ROOT}/bin/python CYTHON=${CYTHON_ROOT}/bin/cython PYTHONPATH=${CYTHON_ROOT}/${PYTHON_LIB_SITE_PACKAGES}
 
 %build
 make all %makeprocesses PYTHONPATH=${CYTHON_ROOT}/${PYTHON_LIB_SITE_PACKAGES}
