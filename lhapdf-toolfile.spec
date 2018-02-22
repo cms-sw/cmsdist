@@ -15,6 +15,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdf.xml
     <environment name="LIBDIR" default="$LHAPDF_BASE/lib"/>
     <environment name="INCLUDE" default="$LHAPDF_BASE/include"/>
   </client>
+  <use name="yaml-cpp"/>
   <runtime name="LHAPDF_DATA_PATH" value="$LHAPDF_BASE/share/LHAPDF"/>
   <runtime name="PYTHONPATH" value="$LHAPDF_BASE/@PYTHON_LIB_SITE_PACKAGES@" type="path"/>
   <runtime name="PATH" value="$LHAPDF_BASE/bin" type="path"/>
