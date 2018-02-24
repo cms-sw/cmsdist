@@ -1,4 +1,4 @@
-### RPM external py2-numpy 1.12.1
+### RPM external py2-numpy 1.14.1
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV SET PY2_NUMPY_REAL_VERSION %{realversion}
 Source: https://github.com/numpy/numpy/releases/download/v%{realversion}/numpy-%{realversion}.tar.gz
