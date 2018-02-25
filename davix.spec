@@ -21,7 +21,7 @@ mkdir build ; cd build
 cmake -DCMAKE_INSTALL_PREFIX="%{i}" \
  -DLIBXML2_INCLUDE_DIR="${LIBXML2_ROOT}/include/libxml2" \
  -DLIBXML2_LIBRARIES="${LIBXML2_ROOT}/lib/libxml2.%{soext}" \
- -DUUID_INCLUDE_DIR="${LIBUUID_ROOT}/include/uuid" \
+ -DUUID_INCLUDE_DIR="${LIBUUID_ROOT}/include" \
  -DUUID_LIBRARY="${LIBUUID_ROOT}/lib64/libuuid.%{soext}" \
  -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
  ../
