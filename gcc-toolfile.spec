@@ -28,7 +28,9 @@ fi
 %ifos linux
 export ARCH_FFLAGS="-cpp"
 %endif
-
+SCRAM_CXX11_ABI=1
+echo '#include <string>' | g++ -x c++ -E -dM - | grep ' _GLIBCXX_USE_CXX11_ABI  *1' || SCRAM_CXX11_ABI=0
+export SCRAM_CXX11_ABI
 export COMPILER_VERSION=$(gcc -dumpversion)
 export COMPILER_VERSION_MAJOR=$(echo $COMPILER_VERSION | cut -d'.' -f1)
 export COMPILER_VERSION_MINOR=$(echo $COMPILER_VERSION | cut -d'.' -f2)
@@ -65,6 +67,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-cxxcompiler.xml
     <flags LD_UNIT="@OS_LD_UNIT@ @ARCH_LD_UNIT@ @COMPILER_LD_UNIT@"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@" type="path"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$GCC_CXXCOMPILER_BASE/lib" type="path"/>
+    <runtime name="SCRAM_CXX11_ABI" value="@SCRAM_CXX11_ABI@"/>
     <runtime name="PATH" value="$GCC_CXXCOMPILER_BASE/bin" type="path"/>
   </tool>
 EOF_TOOLFILE
