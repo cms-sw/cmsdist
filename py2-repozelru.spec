@@ -1,4 +1,4 @@
-### RPM external py2-repozelru 0.6
+### RPM external py2-repozelru 0.7
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

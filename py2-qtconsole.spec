@@ -1,4 +1,4 @@
-### RPM external py2-qtconsole 4.3.0
+### RPM external py2-qtconsole 4.3.1
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

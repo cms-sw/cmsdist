@@ -1,4 +1,4 @@
-### RPM external py2-numexpr 2.6.2
+### RPM external py2-numexpr 2.6.4
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

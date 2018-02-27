@@ -1,7 +1,7 @@
-### RPM external py2-histogrammar 1.0.9
+### RPM external py2-oamap 0.10.10
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
-%define pip_name histogrammar
+%define pip_name oamap
 
 ## IMPORT build-with-pip
 %define PipPostBuild \

@@ -1,4 +1,4 @@
-### RPM external py2-tornado 4.4.2
+### RPM external py2-tornado 5.0b1
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

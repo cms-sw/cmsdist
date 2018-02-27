@@ -1,4 +1,4 @@
-### RPM external py2-virtualenvwrapper 4.7.2
+### RPM external py2-virtualenvwrapper 4.8.2
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

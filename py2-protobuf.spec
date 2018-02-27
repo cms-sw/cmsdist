@@ -1,4 +1,4 @@
-### RPM external py2-protobuf 3.4.0
+### RPM external py2-protobuf 3.4.1
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 
