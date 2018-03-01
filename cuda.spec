@@ -2,7 +2,9 @@
 %define driversversion 387.26
 %define cudaversion %(echo %realversion | cut -d. -f 1,2)
 
-Source: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux
+Source0: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux
+Source1: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/patches/1/%{n}_%{realversion}.1_linux
+Source2: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/patches/2/%{n}_%{realversion}.2_linux
 AutoReq: no
 
 %prep
@@ -19,6 +21,19 @@ mkdir -p %_builddir/tmp
 
 # extract and repackage the CUDA runtime, tools and stubs
 /bin/sh %_builddir/%{n}-linux.%{realversion}-*.run -noprompt -nosymlink -tmpdir %_builddir/tmp -prefix %_builddir
+
+# Patch 1 (Released Jan 25, 2018)
+# cuBLAS Patch Update: This update to CUDA 9.1 includes new GEMM kernels optimized for the Volta architecture and
+# improved heuristics to select GEMM kernels for given input sizes.
+/bin/sh %{SOURCE1} --silent --accept-eula --tmpdir %_builddir/tmp --installdir %_builddir
+rm -rf %_builddir/lib64/libcublas.so.9.1.85
+rm -rf %_builddir/lib64/libnvblas.so.9.1.85
+
+# Patch 2 (Released Feb 27, 2018)
+# CUDA Compiler Patch Update: This update to CUDA 9.1 includes a bug fix to the PTX assembler (ptxas). The fix
+# resolves an issue when compiling code that performs address calculations using large immediate operands.
+/bin/sh %{SOURCE2} --silent --accept-eula --tmpdir %_builddir/tmp --installdir %_builddir
+
 ln -sf ../libnvvp/nvvp %_builddir/bin/nvvp
 ln -sf ../libnsight/nsight %_builddir/bin/nsight
 mkdir -p %{i}/lib64
