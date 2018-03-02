@@ -1,4 +1,4 @@
-### RPM external py2-ipykernel 4.6.1
+### RPM external py2-ipykernel 4.8.2
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

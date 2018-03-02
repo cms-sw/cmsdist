@@ -1,4 +1,4 @@
-### RPM external py2-terminado 0.6
+### RPM external py2-terminado 0.8.1
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 
