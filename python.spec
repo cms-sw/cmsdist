@@ -191,6 +191,12 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
   fi
 done
 
+echo "from os import environ" > %i/lib/python2.7/sitecustomize.py
+echo "if 'PYTHON27PATH' in environ:" >> %i/lib/python2.7/sitecustomize.py
+echo "   import sys" >> %i/lib/python2.7/sitecustomize.py
+echo "   sys.path =environ['PYTHON27PATH'].split(':') + sys.path">> %i/lib/python2.7/sitecustomize.py
+
+
 %post
 %{relocateConfig}lib/python2.7/config/Makefile
 %{relocateConfig}lib/python2.7/_sysconfigdata.py
