@@ -1,4 +1,4 @@
-### RPM external py2-pyzmq 16.0.2
+### RPM external py2-pyzmq 17.0.0
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

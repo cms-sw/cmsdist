@@ -1,4 +1,4 @@
-### RPM external py2-Jinja2 2.9.6
+### RPM external py2-Jinja2 2.10
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

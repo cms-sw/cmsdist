@@ -1,4 +1,4 @@
-### RPM external py2-deepdish 0.3.4
+### RPM external py2-deepdish 0.3.6
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

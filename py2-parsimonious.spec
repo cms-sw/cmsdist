@@ -1,4 +1,4 @@
-### RPM external py2-parsimonious 0.7.0
+### RPM external py2-parsimonious 0.8.0
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

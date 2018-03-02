@@ -1,4 +1,4 @@
-### RPM external py2-widgetsnbextension 1.2.6
+### RPM external py2-widgetsnbextension 3.1.4
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 
