@@ -1,4 +1,4 @@
-### RPM external py2-urllib3 1.21.1
+### RPM external py2-urllib3 1.22
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

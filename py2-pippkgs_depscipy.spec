@@ -37,6 +37,8 @@ BuildRequires: py2-seaborn
 BuildRequires: py2-h5py
 BuildRequires: py2-thriftpy
 BuildRequires: py2-root_pandas
+BuildRequires: py2-uproot
+BuildRequires: py2-oamap
 
 #this DOES NOT depend on numpy..
 BuildRequires: py2-xrootdpyfs

@@ -1,4 +1,4 @@
-### RPM external py2-scandir 1.5
+### RPM external py2-scandir 1.7
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

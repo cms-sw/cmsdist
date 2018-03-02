@@ -1,4 +1,4 @@
-### RPM external py2-pytz 2017.2
+### RPM external py2-pytz 2018.3
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

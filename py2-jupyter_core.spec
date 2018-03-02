@@ -1,4 +1,4 @@
-### RPM external py2-jupyter_core 4.3.0
+### RPM external py2-jupyter_core 4.4.0
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

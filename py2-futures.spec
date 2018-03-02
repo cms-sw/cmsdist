@@ -1,4 +1,4 @@
-### RPM external py2-futures 3.1.1
+### RPM external py2-futures 3.2.0
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 
