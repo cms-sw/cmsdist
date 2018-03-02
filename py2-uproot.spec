@@ -1,7 +1,7 @@
-### RPM external py2-histogrammar 1.0.9
+### RPM external py2-uproot 2.6.19
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
-%define pip_name histogrammar
+%define pip_name uproot
 
 ## IMPORT build-with-pip
 %define PipPostBuild \

@@ -1,4 +1,4 @@
-### RPM external py2-html5lib 0.999999999
+### RPM external py2-html5lib 1.0.1
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 %define pip_name html5lib

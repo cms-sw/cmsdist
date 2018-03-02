@@ -1,4 +1,4 @@
-### RPM external py2-pandocfilters 1.4.1
+### RPM external py2-pandocfilters 1.4.2
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

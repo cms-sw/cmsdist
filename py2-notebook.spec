@@ -1,4 +1,4 @@
-### RPM external py2-notebook 4.3.1
+### RPM external py2-notebook 5.4.0
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 
@@ -8,4 +8,4 @@ Requires: py2-repozelru py2-pandocfilters py2-ordereddict py2-ipykernel py2-pack
 ## IMPORT build-with-pip
 
 %define PipPostBuild \
-   perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/jupyter-notebook  %{i}/bin/jupyter-nbextension %{i}/bin/jupyter-serverextension
+   perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
