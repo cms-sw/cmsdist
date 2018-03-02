@@ -68,6 +68,7 @@ Requires: pythia8-toolfile
 Requires: vincia-toolfile
 Requires: dire-toolfile
 Requires: python-toolfile
+Requires: python3-toolfile
 Requires: qt-toolfile
 Requires: root-toolfile
 Requires: sherpa-toolfile
