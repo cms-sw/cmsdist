@@ -48,6 +48,7 @@ Requires: data-DataFormats-PatCandidates
 Requires: data-SimTransport-HectorProducer
 Requires: data-PhysicsTools-NanoAOD
 Requires: data-RecoTracker-FinalTrackSelectors
+Requires: data-EgammaAnalysis-ElectronTools
 
 %if %isnotonline
 # extra data dependencies for standard builds
