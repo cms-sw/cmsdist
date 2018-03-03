@@ -1,4 +1,4 @@
-### RPM external py2-scipy 0.19.0
+### RPM external py2-scipy 1.0.0
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 %define pip_name scipy

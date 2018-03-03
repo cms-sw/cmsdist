@@ -1,4 +1,4 @@
-### RPM external py2-nbconvert 5.2.1
+### RPM external py2-nbconvert 5.3.1
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

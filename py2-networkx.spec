@@ -1,4 +1,4 @@
-### RPM external py2-networkx 1.11
+### RPM external py2-networkx 2.1
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

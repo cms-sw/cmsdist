@@ -1,4 +1,4 @@
-### RPM external py2-idna 2.5
+### RPM external py2-idna 2.6
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

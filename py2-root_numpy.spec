@@ -1,4 +1,4 @@
-### RPM external py2-root_numpy 4.7.2
+### RPM external py2-root_numpy 4.7.3
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 
