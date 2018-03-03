@@ -7,7 +7,7 @@ Requires: python3
 %install
 
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/python.xml
+cat << \EOF_TOOLFILE >%i/etc/scram.d/python3.xml
 <tool name="python3" version="@TOOL_VERSION@">
   <lib name="python@PYTHON3V@m"/>
   <client>
