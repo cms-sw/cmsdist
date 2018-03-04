@@ -1,11 +1,11 @@
-### RPM external oracle 12.2.0.1.0
+### RPM external oracle 12.1.0.2.0
 ## INITENV SET ORACLE_HOME %{i}
 ## INITENV +PATH SQLPATH %{i}/bin
 
 AutoReq: no
 
-%define http_mirror http://cmsrep.cern.ch/cmssw/oracle-mirror
-%define client_dir instantclient_12_2
+%define http_mirror http://davidlt.web.cern.ch/davidlt/oracle-mirror
+%define client_dir instantclient_12_1
 
 # zip files contains overlapping files, use -o to avoid human input
 %define __unzip unzip -o
@@ -26,13 +26,13 @@ AutoReq: no
 %define client_arch linux.x64
 %endif
 
-Source0: %{http_mirror}/%{realversion}/%{client_arch}/instantclient-basic-%{client_arch}-%{realversion}.zip
-Source1: %{http_mirror}/%{realversion}/%{client_arch}/instantclient-basiclite-%{client_arch}-%{realversion}.zip
-Source2: %{http_mirror}/%{realversion}/%{client_arch}/instantclient-jdbc-%{client_arch}-%{realversion}.zip
-Source3: %{http_mirror}/%{realversion}/%{client_arch}/instantclient-odbc-%{client_arch}-%{realversion}.zip
-Source4: %{http_mirror}/%{realversion}/%{client_arch}/instantclient-sdk-%{client_arch}-%{realversion}.zip
-Source5: %{http_mirror}/%{realversion}/%{client_arch}/instantclient-sqlplus-%{client_arch}-%{realversion}.zip
-Source6: %{http_mirror}/%{realversion}/%{client_arch}/instantclient-tools-%{client_arch}-%{realversion}.zip
+Source0: %{http_mirror}/%{client_arch}/instantclient-basic-%{client_arch}-%{realversion}.zip
+Source1: %{http_mirror}/%{client_arch}/instantclient-basiclite-%{client_arch}-%{realversion}.zip
+Source2: %{http_mirror}/%{client_arch}/instantclient-jdbc-%{client_arch}-%{realversion}.zip
+Source3: %{http_mirror}/%{client_arch}/instantclient-odbc-%{client_arch}-%{realversion}.zip
+Source4: %{http_mirror}/%{client_arch}/instantclient-sdk-%{client_arch}-%{realversion}.zip
+Source5: %{http_mirror}/%{client_arch}/instantclient-sqlplus-%{client_arch}-%{realversion}.zip
+Source6: %{http_mirror}/%{client_arch}/instantclient-tools-%{client_arch}-%{realversion}.zip
 
 Source10: oracle-license
 
