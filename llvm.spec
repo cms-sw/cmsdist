@@ -1,24 +1,24 @@
-### RPM external llvm 6.0.0
+### RPM external llvm 5.0.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHONPATH %{i}/lib64/python$(echo $PYTHON_VERSION | cut -d. -f 1,2)/site-packages
 
 BuildRequires: python cmake ninja
 Requires: gcc zlib
 
-%define llvmCommit 8d72e720adbb8f3718426af9b046c5da2c3cf486
-%define llvmBranch release_60
-%define clangCommit 9712fa287d4370f8bf3b310d802fa52ea12e4277
-%define clangBranch cms/release_60/462588b
-%define clangToolsExtraCommit aab77cdb6b6975c6569749bb367e88af41ecb3f0
-%define clangToolsExtraBranch release_60
-%define compilerRtCommit 420c1947fef1182a0842a96c687251b5121dba4b
-%define compilerRtBranch release_60
-%define openmpCommit f1a69ba0a064d2becddc3a5a473d53acc2f20970
-%define openmpBranch release_60
-%define iwyuCommit 5788b34c2e22fa97630c4a5b1153d828698f9ac1
+%define llvmCommit 657c31173ea30090583e40c7a9204561d9c2d8c4
+%define llvmBranch release_50
+%define clangCommit 2e74b10d74e0d6320bcf7e2efb98016d0a8d3bf3
+%define clangBranch cms/release_50/7e8743f
+%define clangToolsExtraCommit 58cffec4d74b21c1097de4298e637a31c637851a
+%define clangToolsExtraBranch release_50
+%define compilerRtCommit 4b38c4038a4f2b8e2d02b5f5d7877fa79d940009
+%define compilerRtBranch release_50
+%define openmpCommit 6999fe680ad14c87c7fe96ddc3986f86ab15215d
+%define openmpBranch release_50
+%define iwyuCommit bcc3f0a58eb01d002ddc715cb9b466e2e0a4c833
 %define iwyuBranch master
-%define lldCommit 1350cd6d5f1c9ef97281bcb7db2944840108c181
-%define lldBranch release_60
+%define lldCommit e2974bce18137935bde80dd34acb255cf6c68db0
+%define lldBranch release_50
 
 Source0: git+https://github.com/llvm-mirror/llvm.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%{realversion}-%{llvmCommit}&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/cms-externals/clang.git?obj=%{clangBranch}/%{clangCommit}&export=clang-%{realversion}-%{clangCommit}&module=clang-%{realversion}-%{clangCommit}&output=/clang-%{realversion}-%{clangCommit}.tgz
