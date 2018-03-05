@@ -25,8 +25,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/oracle.xml
 </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/oracleocci.xml
-<tool name="oracleocci" version="@TOOL_VERSION@">
+cat << \EOF_TOOLFILE >%i/etc/scram.d/oracleocci-official.xml
+<tool name="oracleocci-official" version="@TOOL_VERSION@">
   <lib name="occi"/>
   <use name="oracle"/>
 </tool>
