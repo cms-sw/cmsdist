@@ -1,4 +1,4 @@
-### RPM external tensorflow-cc 1.3.0
+### RPM external tensorflow-cc 1.5.0
 
 Source: none
 
