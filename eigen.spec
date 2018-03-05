@@ -5,8 +5,11 @@
 Source: https://bitbucket.org/%{n}/%{n}/get/%{tag}.tar.gz
 BuildRequires: cmake
 
+Patch0: eigen-hostdevice
+
 %prep
 %setup -n %n-%n-%{realversion}
+%patch0 -p1
 
 %build
 mkdir build
