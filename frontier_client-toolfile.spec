@@ -21,7 +21,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/frontier_client.xml
   <use name="zlib"/>
   <use name="openssl"/>
   <use name="expat"/>
-  <runtime name="PYTHONPATH" value="$FRONTIER_CLIENT_BASE/python/lib" type="path"/>
+  <runtime name="PYTHON27PATH" value="$FRONTIER_CLIENT_BASE/python/lib" type="path"/>
   <use name="python"/>
 </tool>
 EOF_TOOLFILE

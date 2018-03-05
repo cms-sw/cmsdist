@@ -14,7 +14,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/python-ldap.xml
     <environment name="PYTHON_LDAP_BASE" default="@TOOL_ROOT@"/>
     <environment name="PYTHON_LDAP_PYPATH" default="$PYTHON_LDAP_BASE/lib/python@PYTHONV@/site-packages"/>
   </client>
-  <runtime name="PYTHONPATH" value="$PYTHON_LDAP_PYPATH" type="path"/>
+  <runtime name="PYTHON27PATH" value="$PYTHON_LDAP_PYPATH" type="path"/>
   <use name="openssl"/>
   <use name="openldap"/>
   <use name="python"/>

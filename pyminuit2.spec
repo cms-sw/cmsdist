@@ -1,5 +1,5 @@
 ### RPM external pyminuit2 0.0.1
-## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 Source: http://pyminuit2.googlecode.com/files/%{n}-%{realversion}.tar.gz
 Requires: root 
 
