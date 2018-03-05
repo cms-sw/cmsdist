@@ -1,6 +1,10 @@
 ### RPM external py2-numpy 1.14.1
-## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON27PATH %i/${PYTHON_LIB_SITE_PACKAGES}/numpy-%{realversion}-py%{pythonver}-linux-%{numpyArch}.egg
 ## INITENV SET PY2_NUMPY_REAL_VERSION %{realversion}
+
+%define pythonver $(echo $PYTHON_VERSION | cut -d. -f 1,2)
+%define numpyArch $(uname -m)
+
 Source: https://github.com/numpy/numpy/releases/download/v%{realversion}/numpy-%{realversion}.tar.gz
 Requires: python py2-setuptools zlib OpenBLAS
 %prep

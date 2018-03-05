@@ -13,7 +13,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/py2-numpy.xml
     <environment name="PY2_NUMPY_BASE" default="@TOOL_ROOT@"/>
   </client>
   <runtime name="PATH" value="$PY2_NUMPY_BASE/bin" type="path"/>
-  <runtime name="PYTHONPATH" value="$PY2_NUMPY_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
+  <runtime name="PYTHON27PATH" value="$PY2_NUMPY_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   <use name="python"/>
   <use name="zlib"/>
   <use name="lapack"/>

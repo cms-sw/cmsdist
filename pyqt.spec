@@ -1,5 +1,5 @@
 ### RPM external pyqt 4.11.4
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
+## INITENV +PATH PYTHON27PATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 %define tag 2d7924145efbdb1eafa9032646d828088c5950d5
 %define branch cms/v%{realversion}
 %define github_user cms-externals

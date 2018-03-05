@@ -26,7 +26,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa.xml
   <runtime name="SHERPA_SHARE_PATH" value="$SHERPA_BASE/share/SHERPA-MC" type="path"/>
   <runtime name="SHERPA_INCLUDE_PATH" value="$SHERPA_BASE/include/SHERPA-MC" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
-  <runtime name="PYTHONPATH" value="$SHERPA_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
+  <runtime name="PYTHON27PATH" value="$SHERPA_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   <runtime name="SHERPA_LIBRARY_PATH" value="$SHERPA_BASE/lib/SHERPA-MC" type="path"/>
   <use name="root_cxxdefaults"/>
   <use name="HepMC"/>
