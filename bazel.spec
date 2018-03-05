@@ -1,14 +1,13 @@
-### RPM external bazel 0.4.5
+### RPM external bazel 0.10.0
 
-Source: https://github.com/bazelbuild/bazel/releases/download/0.4.5/bazel-0.4.5-dist.zip
+Source: https://github.com/bazelbuild/bazel/releases/download/%{realversion}/bazel-%{realversion}-dist.zip
 BuildRequires: java-env
-Patch1: bazel-0.4.5-java-vm
 %prep
 
 %define __unzip unzip -d bazel-%{realversion}
 
 %setup -q -n bazel-%{realversion}
-%patch1 -p1
+sed -i -e 's|^## Release 0.10.0|## Release 0.9.0|' CHANGELOG.md
 
 %build
 bash ./compile.sh
