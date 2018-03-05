@@ -94,7 +94,7 @@ BuildRequires: py2-pytest
 BuildRequires: py2-avro
 BuildRequires: py2-fs
 BuildRequires: py2-lizard
-
+BuildRequires: py2-flawfinder
 %prep
 
 %build
