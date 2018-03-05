@@ -1,4 +1,4 @@
-### RPM external py2-tensorflow 1.3.0
+### RPM external py2-tensorflow 1.5.0
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 Source: none
