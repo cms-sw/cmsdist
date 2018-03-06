@@ -187,6 +187,7 @@ Requires: glibc-toolfile
 %else
 Requires: tkonlinesw-fake-toolfile
 Requires: oracle-fake-toolfile
+Requires: cms_oracleocci_abi_hack-fake-toolfile
 %endif
 %endif
 

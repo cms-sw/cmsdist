@@ -1,0 +1,15 @@
+diff --git a/Makefile.in b/Makefile.in
+index 7c8ee1a..519f0f9 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -59,8 +59,8 @@ ICP_LAC_API_DIR=$(ICP_API_DIR)/lac/
+ ICP_DC_API_DIR=$(ICP_API_DIR)/dc/
+ CFLAGS+=-D_GNU_SOURCE -I$(ICP_API_DIR) -I$(ICP_DC_API_DIR) -I$(ICP_LAC_API_DIR) -I$(ICP_SAL_API_DIR)
+ SFLAGS+=-D_GNU_SOURCE -I$(ICP_API_DIR) -I$(ICP_DC_API_DIR) -I$(ICP_LAC_API_DIR) -I$(ICP_SAL_API_DIR)
+-ADDITIONAL_LDFLAGS+=-Wl,-rpath,$(ZLIB_ROOT) -lz  
+-SHARED_APP_FLAGS=-Wl,-rpath,$(ZLIB_ROOT) -L$(ZLIB_ROOT) -lz  
++ADDITIONAL_LDFLAGS+=-Wl,-rpath,$(ZLIB_ROOT) -lz -licp_qa_al_s  
++SHARED_APP_FLAGS=-Wl,-rpath,$(ZLIB_ROOT) -L$(ZLIB_ROOT) -lz -licp_qa_al_s  
+ 
+ ifdef ICP_BUILD_OUTPUT
+     TEST_LDFLAGS+=-L$(ICP_BUILD_OUTPUT)
