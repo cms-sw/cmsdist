@@ -1,5 +1,5 @@
 ### RPM external py2-pytest 3.4.1
-## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 
 %define pip_name pytest

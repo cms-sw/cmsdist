@@ -12,7 +12,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cython.xml
   <client>
     <environment name="CYTHON_BASE" default="@TOOL_ROOT@"/>
   </client>
-  <runtime name="PYTHONPATH" value="@TOOL_ROOT@/lib/python@PYTHONV@/site-packages" type="path"/>
+  <runtime name="PYTHON27PATH" value="@TOOL_ROOT@/lib/python@PYTHONV@/site-packages" type="path"/>
   <use name="python"/>
 </tool>
 EOF_TOOLFILE

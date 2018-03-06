@@ -138,16 +138,9 @@ done
 cp -p eigen/signature_of_eigen3_matrix_library ${incdir}/eigen/ || exit 1
 
 %install
-#export PYTHONPATH=%{i}/lib/python:${PYTHONPATH}
-#export PYTHONPATH=%{i}/${PYTHON_LIB_SITE_PACKAGES}:${PYTHONPATH}
+
 bazel-bin/tensorflow/tools/pip_package/build_pip_package %{i}
 
-#it looks like this tensorflow build pushes a number of third-party things to the bin area for now
-#that needs to be cleaned up  
-#perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
-
 cp $PWD/bazel-bin/tensorflow/tools/lib_package/libtensorflow.tar.gz %{i}
-
-#tar xfz $PWD/bazel-bin/tensorflow/tools/lib_package/libtensorflow.tar.gz -C %{i}
 
 tar cfz %{i}/libtensorflow_cc.tar.gz tensorflow_cc/.

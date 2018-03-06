@@ -1,5 +1,5 @@
 ### RPM external py2-pandas 0.22.0
-## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 %define pip_name pandas
 Requires: py2-six py2-python-dateutil py2-pytz py2-numpy 

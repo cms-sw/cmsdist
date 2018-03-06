@@ -1,5 +1,5 @@
 ### RPM external py2-pysqlite 2.8.3
-## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 
 %define pip_name pysqlite
