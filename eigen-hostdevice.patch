@@ -1,0 +1,180 @@
+diff --git a/Eigen/src/Core/ProductEvaluators.h b/Eigen/src/Core/ProductEvaluators.h
+index 86966ab..21e8977 100644
+--- a/Eigen/src/Core/ProductEvaluators.h
++++ b/Eigen/src/Core/ProductEvaluators.h
+@@ -137,7 +137,7 @@ struct Assignment<DstXprType, Product<Lhs,Rhs,Options>, internal::assign_op<Scal
+   typename enable_if<(Options==DefaultProduct || Options==AliasFreeProduct)>::type>
+ {
+   typedef Product<Lhs,Rhs,Options> SrcXprType;
+-  static EIGEN_STRONG_INLINE
++  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+   void run(DstXprType &dst, const SrcXprType &src, const internal::assign_op<Scalar,Scalar> &)
+   {
+     Index dstRows = src.rows();
+@@ -155,7 +155,7 @@ struct Assignment<DstXprType, Product<Lhs,Rhs,Options>, internal::add_assign_op<
+   typename enable_if<(Options==DefaultProduct || Options==AliasFreeProduct)>::type>
+ {
+   typedef Product<Lhs,Rhs,Options> SrcXprType;
+-  static EIGEN_STRONG_INLINE
++  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+   void run(DstXprType &dst, const SrcXprType &src, const internal::add_assign_op<Scalar,Scalar> &)
+   {
+     eigen_assert(dst.rows() == src.rows() && dst.cols() == src.cols());
+@@ -170,7 +170,7 @@ struct Assignment<DstXprType, Product<Lhs,Rhs,Options>, internal::sub_assign_op<
+   typename enable_if<(Options==DefaultProduct || Options==AliasFreeProduct)>::type>
+ {
+   typedef Product<Lhs,Rhs,Options> SrcXprType;
+-  static EIGEN_STRONG_INLINE
++  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+   void run(DstXprType &dst, const SrcXprType &src, const internal::sub_assign_op<Scalar,Scalar> &)
+   {
+     eigen_assert(dst.rows() == src.rows() && dst.cols() == src.cols());
+@@ -190,7 +190,7 @@ struct Assignment<DstXprType, CwiseBinaryOp<internal::scalar_product_op<ScalarBi
+   typedef CwiseBinaryOp<internal::scalar_product_op<ScalarBis,Scalar>,
+                         const CwiseNullaryOp<internal::scalar_constant_op<ScalarBis>,Plain>,
+                         const Product<Lhs,Rhs,DefaultProduct> > SrcXprType;
+-  static EIGEN_STRONG_INLINE
++  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+   void run(DstXprType &dst, const SrcXprType &src, const AssignFunc& func)
+   {
+     call_assignment_no_alias(dst, (src.lhs().functor().m_other * src.rhs().lhs())*src.rhs().rhs(), func);
+@@ -217,7 +217,7 @@ template<typename DstXprType, typename OtherXpr, typename ProductType, typename
+ struct assignment_from_xpr_op_product
+ {
+   template<typename SrcXprType, typename InitialFunc>
+-  static EIGEN_STRONG_INLINE
++  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+   void run(DstXprType &dst, const SrcXprType &src, const InitialFunc& /*func*/)
+   {
+     call_assignment_no_alias(dst, src.lhs(), Func1());
+@@ -345,19 +345,19 @@ struct generic_product_impl_base
+   typedef typename Product<Lhs,Rhs>::Scalar Scalar;
+   
+   template<typename Dst>
+-  static EIGEN_STRONG_INLINE void evalTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
++  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void evalTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
+   { dst.setZero(); scaleAndAddTo(dst, lhs, rhs, Scalar(1)); }
+ 
+   template<typename Dst>
+-  static EIGEN_STRONG_INLINE void addTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
++  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void addTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
+   { scaleAndAddTo(dst,lhs, rhs, Scalar(1)); }
+ 
+   template<typename Dst>
+-  static EIGEN_STRONG_INLINE void subTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
++  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void subTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
+   { scaleAndAddTo(dst, lhs, rhs, Scalar(-1)); }
+   
+   template<typename Dst>
+-  static EIGEN_STRONG_INLINE void scaleAndAddTo(Dst& dst, const Lhs& lhs, const Rhs& rhs, const Scalar& alpha)
++  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void scaleAndAddTo(Dst& dst, const Lhs& lhs, const Rhs& rhs, const Scalar& alpha)
+   { Derived::scaleAndAddTo(dst,lhs,rhs,alpha); }
+ 
+ };
+@@ -373,7 +373,7 @@ struct generic_product_impl<Lhs,Rhs,DenseShape,DenseShape,GemvProduct>
+   typedef typename internal::remove_all<typename internal::conditional<int(Side)==OnTheRight,LhsNested,RhsNested>::type>::type MatrixType;
+ 
+   template<typename Dest>
+-  static EIGEN_STRONG_INLINE void scaleAndAddTo(Dest& dst, const Lhs& lhs, const Rhs& rhs, const Scalar& alpha)
++  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void scaleAndAddTo(Dest& dst, const Lhs& lhs, const Rhs& rhs, const Scalar& alpha)
+   {
+     LhsNested actual_lhs(lhs);
+     RhsNested actual_rhs(rhs);
+@@ -390,7 +390,7 @@ struct generic_product_impl<Lhs,Rhs,DenseShape,DenseShape,CoeffBasedProductMode>
+   typedef typename Product<Lhs,Rhs>::Scalar Scalar;
+   
+   template<typename Dst>
+-  static EIGEN_STRONG_INLINE void evalTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
++  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void evalTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
+   {
+     // Same as: dst.noalias() = lhs.lazyProduct(rhs);
+     // but easier on the compiler side
+@@ -398,14 +398,14 @@ struct generic_product_impl<Lhs,Rhs,DenseShape,DenseShape,CoeffBasedProductMode>
+   }
+   
+   template<typename Dst>
+-  static EIGEN_STRONG_INLINE void addTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
++  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void addTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
+   {
+     // dst.noalias() += lhs.lazyProduct(rhs);
+     call_assignment_no_alias(dst, lhs.lazyProduct(rhs), internal::add_assign_op<typename Dst::Scalar,Scalar>());
+   }
+   
+   template<typename Dst>
+-  static EIGEN_STRONG_INLINE void subTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
++  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void subTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
+   {
+     // dst.noalias() -= lhs.lazyProduct(rhs);
+     call_assignment_no_alias(dst, lhs.lazyProduct(rhs), internal::sub_assign_op<typename Dst::Scalar,Scalar>());
+@@ -615,7 +615,7 @@ struct product_evaluator<Product<Lhs, Rhs, DefaultProduct>, LazyCoeffBasedProduc
+ template<int UnrollingIndex, typename Lhs, typename Rhs, typename Packet, int LoadMode>
+ struct etor_product_packet_impl<RowMajor, UnrollingIndex, Lhs, Rhs, Packet, LoadMode>
+ {
+-  static EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index innerDim, Packet &res)
++  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index innerDim, Packet &res)
+   {
+     etor_product_packet_impl<RowMajor, UnrollingIndex-1, Lhs, Rhs, Packet, LoadMode>::run(row, col, lhs, rhs, innerDim, res);
+     res =  pmadd(pset1<Packet>(lhs.coeff(row, Index(UnrollingIndex-1))), rhs.template packet<LoadMode,Packet>(Index(UnrollingIndex-1), col), res);
+@@ -625,7 +625,7 @@ struct etor_product_packet_impl<RowMajor, UnrollingIndex, Lhs, Rhs, Packet, Load
+ template<int UnrollingIndex, typename Lhs, typename Rhs, typename Packet, int LoadMode>
+ struct etor_product_packet_impl<ColMajor, UnrollingIndex, Lhs, Rhs, Packet, LoadMode>
+ {
+-  static EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index innerDim, Packet &res)
++  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index innerDim, Packet &res)
+   {
+     etor_product_packet_impl<ColMajor, UnrollingIndex-1, Lhs, Rhs, Packet, LoadMode>::run(row, col, lhs, rhs, innerDim, res);
+     res =  pmadd(lhs.template packet<LoadMode,Packet>(row, Index(UnrollingIndex-1)), pset1<Packet>(rhs.coeff(Index(UnrollingIndex-1), col)), res);
+@@ -635,7 +635,7 @@ struct etor_product_packet_impl<ColMajor, UnrollingIndex, Lhs, Rhs, Packet, Load
+ template<typename Lhs, typename Rhs, typename Packet, int LoadMode>
+ struct etor_product_packet_impl<RowMajor, 1, Lhs, Rhs, Packet, LoadMode>
+ {
+-  static EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index /*innerDim*/, Packet &res)
++  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index /*innerDim*/, Packet &res)
+   {
+     res = pmul(pset1<Packet>(lhs.coeff(row, Index(0))),rhs.template packet<LoadMode,Packet>(Index(0), col));
+   }
+@@ -644,7 +644,7 @@ struct etor_product_packet_impl<RowMajor, 1, Lhs, Rhs, Packet, LoadMode>
+ template<typename Lhs, typename Rhs, typename Packet, int LoadMode>
+ struct etor_product_packet_impl<ColMajor, 1, Lhs, Rhs, Packet, LoadMode>
+ {
+-  static EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index /*innerDim*/, Packet &res)
++  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index /*innerDim*/, Packet &res)
+   {
+     res = pmul(lhs.template packet<LoadMode,Packet>(row, Index(0)), pset1<Packet>(rhs.coeff(Index(0), col)));
+   }
+@@ -653,7 +653,7 @@ struct etor_product_packet_impl<ColMajor, 1, Lhs, Rhs, Packet, LoadMode>
+ template<typename Lhs, typename Rhs, typename Packet, int LoadMode>
+ struct etor_product_packet_impl<RowMajor, 0, Lhs, Rhs, Packet, LoadMode>
+ {
+-  static EIGEN_STRONG_INLINE void run(Index /*row*/, Index /*col*/, const Lhs& /*lhs*/, const Rhs& /*rhs*/, Index /*innerDim*/, Packet &res)
++  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Index /*row*/, Index /*col*/, const Lhs& /*lhs*/, const Rhs& /*rhs*/, Index /*innerDim*/, Packet &res)
+   {
+     res = pset1<Packet>(typename unpacket_traits<Packet>::type(0));
+   }
+@@ -662,7 +662,7 @@ struct etor_product_packet_impl<RowMajor, 0, Lhs, Rhs, Packet, LoadMode>
+ template<typename Lhs, typename Rhs, typename Packet, int LoadMode>
+ struct etor_product_packet_impl<ColMajor, 0, Lhs, Rhs, Packet, LoadMode>
+ {
+-  static EIGEN_STRONG_INLINE void run(Index /*row*/, Index /*col*/, const Lhs& /*lhs*/, const Rhs& /*rhs*/, Index /*innerDim*/, Packet &res)
++  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Index /*row*/, Index /*col*/, const Lhs& /*lhs*/, const Rhs& /*rhs*/, Index /*innerDim*/, Packet &res)
+   {
+     res = pset1<Packet>(typename unpacket_traits<Packet>::type(0));
+   }
+@@ -671,7 +671,7 @@ struct etor_product_packet_impl<ColMajor, 0, Lhs, Rhs, Packet, LoadMode>
+ template<typename Lhs, typename Rhs, typename Packet, int LoadMode>
+ struct etor_product_packet_impl<RowMajor, Dynamic, Lhs, Rhs, Packet, LoadMode>
+ {
+-  static EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index innerDim, Packet& res)
++  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index innerDim, Packet& res)
+   {
+     res = pset1<Packet>(typename unpacket_traits<Packet>::type(0));
+     for(Index i = 0; i < innerDim; ++i)
+@@ -682,7 +682,7 @@ struct etor_product_packet_impl<RowMajor, Dynamic, Lhs, Rhs, Packet, LoadMode>
+ template<typename Lhs, typename Rhs, typename Packet, int LoadMode>
+ struct etor_product_packet_impl<ColMajor, Dynamic, Lhs, Rhs, Packet, LoadMode>
+ {
+-  static EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index innerDim, Packet& res)
++  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index innerDim, Packet& res)
+   {
+     res = pset1<Packet>(typename unpacket_traits<Packet>::type(0));
+     for(Index i = 0; i < innerDim; ++i)

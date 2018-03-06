@@ -1,12 +1,15 @@
-### RPM external eigen 034b6c3e1017
+### RPM external eigen de7544f256bd
 ## INITENV +PATH PKG_CONFIG_PATH %{i}/share/pkgconfig
 ## NOCOMPILER
 %define tag %{realversion}
 Source: https://bitbucket.org/%{n}/%{n}/get/%{tag}.tar.gz
 BuildRequires: cmake
 
+Patch0: eigen-hostdevice
+
 %prep
 %setup -n %n-%n-%{realversion}
+%patch0 -p1
 
 %build
 mkdir build
