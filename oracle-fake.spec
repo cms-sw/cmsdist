@@ -2,10 +2,11 @@
 ## INITENV SET ORACLE_HOME %{i}
 ## INITENV +PATH SQLPATH %{i}/bin
 
-Source: http://davidlt.web.cern.ch/davidlt/vault/final_fake/oracle-fake.tar.bz2
+%define tag 6da7ab5b4643b54f57002f9c96c426355a960eb1
+Source: https://github.com/cms-externals/oracle-fake/archive/%{tag}.tar.gz
 
 %prep
-%setup -n oracle-fake
+%setup -n oracle-fake-%{tag}
 
 %build
 # NOP
