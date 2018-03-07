@@ -1,10 +1,10 @@
 ### RPM external tensorflow-sources 1.5.0
 #Source: https://github.com/tensorflow/tensorflow/archive/v%{realversion}.tar.gz
 %define isslc6amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
-%define tag f92e98b51479146935bbb362403dd8a18ba37547
+%define tag 67d4face442a78bd39861235fd2d408f7b9fae39
 %define branch cms/v%{realversion}
 %define github_user cms-externals
-Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
+Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}-%{tag}.tgz
 
 BuildRequires: bazel eigen protobuf gcc
 Requires: py2-numpy python py2-wheel
@@ -37,6 +37,8 @@ rm -rf ../build
 
 ./configure
 
+sed -i -e "s|@EIGEN_SOURCE@|${EIGEN_SOURCE}|;s|@EIGEN_STRIP_PREFIX@|${EIGEN_STRIP_PREFIX}|" tensorflow/workspace.bzl tensorflow/contrib/makefile/download_dependencies.sh
+sed -i -e "s|@PROTOBUF_SOURCE@|${PROTOBUF_SOURCE}|;s|@PROTOBUF_STRIP_PREFIX@|${PROTOBUF_STRIP_PREFIX}|" tensorflow/workspace.bzl tensorflow/contrib/makefile/download_dependencies.sh
 bazel --output_user_root ../build fetch "tensorflow:libtensorflow_cc.so"
 
 #This is needed on SLC6 because the version of glibc is old
