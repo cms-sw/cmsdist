@@ -5,6 +5,7 @@
 Source0: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux
 Source1: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/patches/1/%{n}_%{realversion}.1_linux
 Source2: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/patches/2/%{n}_%{realversion}.2_linux
+Source3: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/patches/3/%{n}_%{realversion}.3_linux
 AutoReq: no
 
 %prep
@@ -33,6 +34,13 @@ rm -rf %_builddir/lib64/libnvblas.so.9.1.85
 # CUDA Compiler Patch Update: This update to CUDA 9.1 includes a bug fix to the PTX assembler (ptxas). The fix
 # resolves an issue when compiling code that performs address calculations using large immediate operands.
 /bin/sh %{SOURCE2} --silent --accept-eula --tmpdir %_builddir/tmp --installdir %_builddir
+
+# Patch 3 (Released Mar 5, 2018)
+# cuBLAS Patch: This CUDA 9.1 patch includes fixes to GEMM optimizations for convolutional sequence to sequence
+# (seq2seq) models.
+/bin/sh %{SOURCE3} --silent --accept-eula --tmpdir %_builddir/tmp --installdir %_builddir
+rm -rf %_builddir/lib64/libcublas.so.9.1.128
+rm -rf %_builddir/lib64/libnvblas.so.9.1.128
 
 ln -sf ../libnvvp/nvvp %_builddir/bin/nvvp
 ln -sf ../libnsight/nsight %_builddir/bin/nsight
@@ -64,6 +72,8 @@ cp -ar %_builddir/include %{i}
 cp -ar %_builddir/bin %{i}
 cp -ar %_builddir/nvvm %{i}
 cp -ar %_builddir/jre %{i}
+# package the version file
+cp -ar %_builddir/version.txt %{i}
 
 # extract and repackage the NVIDIA libraries needed by the CUDA runtime
 /bin/sh %_builddir/NVIDIA-Linux-x86_64-%{driversversion}.run --accept-license --extract-only --tmpdir %_builddir/tmp --target %_builddir/nvidia
