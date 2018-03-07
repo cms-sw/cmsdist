@@ -1,4 +1,4 @@
-### RPM external py2-pkgconfig 1.2.2
+### RPM external py2-pkgconfig 1.3.1
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

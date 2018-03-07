@@ -1,4 +1,4 @@
-### RPM external py2-root_pandas 0.1.1
+### RPM external py2-root_pandas 0.3.1
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 BuildRequires: py2-numpy py2-pandas py2-root_numpy

@@ -1,4 +1,4 @@
-### RPM external py2-uncertainties 3.0.1
+### RPM external py2-uncertainties 3.0.2
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

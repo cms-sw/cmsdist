@@ -1,4 +1,4 @@
-### RPM external davix 0.6.4
+### RPM external davix 0.6.7
 
 %define tag %(echo R_%{realversion} | tr . _)
 %define branch master
@@ -12,7 +12,7 @@ Source0: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&exp
 %endif
 
 BuildRequires: cmake gmake 
-Requires: openssl libxml2 boost
+Requires: openssl libxml2 libuuid
 %prep
 %setup -n %{n}-%{realversion}
 
@@ -21,8 +21,8 @@ mkdir build ; cd build
 cmake -DCMAKE_INSTALL_PREFIX="%{i}" \
  -DLIBXML2_INCLUDE_DIR="${LIBXML2_ROOT}/include/libxml2" \
  -DLIBXML2_LIBRARIES="${LIBXML2_ROOT}/lib/libxml2.%{soext}" \
- -DBoost_NO_SYSTEM_PATHS:BOOL=TRUE \
- -DBOOST_ROOT:PATH="${BOOST_ROOT}" \
+ -DUUID_INCLUDE_DIR="${LIBUUID_ROOT}/include" \
+ -DUUID_LIBRARY="${LIBUUID_ROOT}/lib64/libuuid.%{soext}" \
  -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
  ../
 

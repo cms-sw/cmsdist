@@ -2,17 +2,19 @@
 %define driversversion 387.26
 %define cudaversion %(echo %realversion | cut -d. -f 1,2)
 
-Source: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux
-AutoReqProv: no
+Source0: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux
+Source1: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/patches/1/%{n}_%{realversion}.1_linux
+Source2: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/patches/2/%{n}_%{realversion}.2_linux
+Source3: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/patches/3/%{n}_%{realversion}.3_linux
+AutoReq: no
 
 %prep
 
 %build
 
 %install
-cp %{SOURCE0} %_builddir
 mkdir -p %_builddir/tmp
-/bin/sh %_builddir/%{n}_%{realversion}_%{driversversion}_linux --silent --tmpdir %_builddir/tmp --extract %_builddir
+/bin/sh %{SOURCE0} --silent --tmpdir %_builddir/tmp --extract %_builddir
 # extracts:
 # %_builddir/NVIDIA-Linux-x86_64-387.26.run
 # %_builddir/cuda-linux.9.1.85-23083092.run
@@ -20,6 +22,26 @@ mkdir -p %_builddir/tmp
 
 # extract and repackage the CUDA runtime, tools and stubs
 /bin/sh %_builddir/%{n}-linux.%{realversion}-*.run -noprompt -nosymlink -tmpdir %_builddir/tmp -prefix %_builddir
+
+# Patch 1 (Released Jan 25, 2018)
+# cuBLAS Patch Update: This update to CUDA 9.1 includes new GEMM kernels optimized for the Volta architecture and
+# improved heuristics to select GEMM kernels for given input sizes.
+/bin/sh %{SOURCE1} --silent --accept-eula --tmpdir %_builddir/tmp --installdir %_builddir
+rm -rf %_builddir/lib64/libcublas.so.9.1.85
+rm -rf %_builddir/lib64/libnvblas.so.9.1.85
+
+# Patch 2 (Released Feb 27, 2018)
+# CUDA Compiler Patch Update: This update to CUDA 9.1 includes a bug fix to the PTX assembler (ptxas). The fix
+# resolves an issue when compiling code that performs address calculations using large immediate operands.
+/bin/sh %{SOURCE2} --silent --accept-eula --tmpdir %_builddir/tmp --installdir %_builddir
+
+# Patch 3 (Released Mar 5, 2018)
+# cuBLAS Patch: This CUDA 9.1 patch includes fixes to GEMM optimizations for convolutional sequence to sequence
+# (seq2seq) models.
+/bin/sh %{SOURCE3} --silent --accept-eula --tmpdir %_builddir/tmp --installdir %_builddir
+rm -rf %_builddir/lib64/libcublas.so.9.1.128
+rm -rf %_builddir/lib64/libnvblas.so.9.1.128
+
 ln -sf ../libnvvp/nvvp %_builddir/bin/nvvp
 ln -sf ../libnsight/nsight %_builddir/bin/nsight
 mkdir -p %{i}/lib64
@@ -50,6 +72,8 @@ cp -ar %_builddir/include %{i}
 cp -ar %_builddir/bin %{i}
 cp -ar %_builddir/nvvm %{i}
 cp -ar %_builddir/jre %{i}
+# package the version file
+cp -ar %_builddir/version.txt %{i}
 
 # extract and repackage the NVIDIA libraries needed by the CUDA runtime
 /bin/sh %_builddir/NVIDIA-Linux-x86_64-%{driversversion}.run --accept-license --extract-only --tmpdir %_builddir/tmp --target %_builddir/nvidia
@@ -59,3 +83,13 @@ ln -sf libcuda.so.%{driversversion}                                     %{i}/dri
 cp -ar %_builddir/nvidia/libnvidia-fatbinaryloader.so.%{driversversion} %{i}/drivers/
 cp -ar %_builddir/nvidia/libnvidia-ptxjitcompiler.so.%{driversversion}  %{i}/drivers/
 ln -sf libnvidia-ptxjitcompiler.so.%{driversversion}                    %{i}/drivers/libnvidia-ptxjitcompiler.so.1
+
+%post
+# let nvcc find its components when invoked from the command line
+sed \
+  -e"/^TOP *=/s|= .*|= $CMS_INSTALL_PREFIX/%{pkgrel}|" \
+  -e's|$(_HERE_)|$(TOP)/bin|g' \
+  -e's|/$(_TARGET_DIR_)||g' \
+  -e's|$(_TARGET_SIZE_)|64|g' \
+  -i $RPM_INSTALL_PREFIX/%{pkgrel}/bin/nvcc.profile
+

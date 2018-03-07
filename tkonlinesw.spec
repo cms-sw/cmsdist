@@ -1,5 +1,4 @@
 ### RPM external tkonlinesw 4.2.0-1_gcc7
-
 %define projectname trackerDAQ
 %define releasename %{projectname}-4.2-tkonline
 Source0: http://cms-trackerdaq-service.web.cern.ch/cms-trackerdaq-service/download/sources/trackerDAQ-%{realversion}.tgz

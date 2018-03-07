@@ -1,4 +1,4 @@
-### RPM external py2-jupyter_client 5.0.1
+### RPM external py2-jupyter_client 5.2.2
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

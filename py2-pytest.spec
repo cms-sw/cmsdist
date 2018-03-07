@@ -1,4 +1,4 @@
-### RPM external py2-pytest 3.1.3
+### RPM external py2-pytest 3.4.1
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

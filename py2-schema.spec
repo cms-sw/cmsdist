@@ -1,4 +1,4 @@
-### RPM external py2-schema 0.6.6
+### RPM external py2-schema 0.6.7
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

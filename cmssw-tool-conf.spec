@@ -23,7 +23,6 @@ Requires: cppunit-toolfile
 Requires: curl-toolfile
 Requires: das_client-toolfile
 Requires: db6-toolfile
-Requires: dbs-client-toolfile
 Requires: dpm-toolfile
 Requires: davix-toolfile
 Requires: evtgen-toolfile
@@ -66,7 +65,9 @@ Requires: photospp-toolfile
 Requires: pythia6-toolfile
 Requires: pythia8-toolfile
 Requires: vincia-toolfile
+Requires: dire-toolfile
 Requires: python-toolfile
+Requires: python3-toolfile
 Requires: qt-toolfile
 Requires: root-toolfile
 Requires: sherpa-toolfile
@@ -174,6 +175,7 @@ Requires: dmtcp-toolfile
 Requires: tkonlinesw-toolfile
 Requires: py2-cx-oracle-toolfile
 Requires: oracle-toolfile
+Requires: cms_oracleocci_abi_hack-toolfile
 Requires: cuda-toolfile
 Requires: cuda-api-wrappers-toolfile
 Requires: intel-vtune
@@ -185,6 +187,7 @@ Requires: glibc-toolfile
 %else
 Requires: tkonlinesw-fake-toolfile
 Requires: oracle-fake-toolfile
+Requires: cms_oracleocci_abi_hack-fake-toolfile
 %endif
 %endif
 
@@ -192,6 +195,9 @@ Requires: oracle-fake-toolfile
 Requires: tensorflow-c-toolfile
 Requires: tensorflow-cc-toolfile
 %endif
+
+Requires: xtensor-toolfile
+Requires: xtl-toolfile
 
 %define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler rivet2 opencl opencl-cpp nvidia-drivers intel-vtune jemalloc-debug
 

@@ -1,4 +1,4 @@
-### RPM external py2-Keras 2.1.2
+### RPM external py2-Keras 2.1.4
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 %define pip_name Keras

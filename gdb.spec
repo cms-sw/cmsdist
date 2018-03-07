@@ -1,7 +1,7 @@
-### RPM external gdb 8.0
+### RPM external gdb 8.1
 Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 
-Patch0: gdb-8.0-fix-PYTHONHOME
+Patch0: gdb-8.1-fix-PYTHONHOME
 Patch1: gdb-disable-makeinfo
 Patch2: gdb-7.11-set-autoconf-version
 

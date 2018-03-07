@@ -1,4 +1,4 @@
-### RPM external py2-prompt_toolkit 1.0.14
+### RPM external py2-prompt_toolkit 1.0.15
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

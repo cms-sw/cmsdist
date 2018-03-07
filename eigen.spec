@@ -1,12 +1,19 @@
-### RPM external eigen c7dc0a897676
+### RPM external eigen 034b6c3e1017
 ## INITENV +PATH PKG_CONFIG_PATH %{i}/share/pkgconfig
+## INITENV SETV EIGEN_SOURCE %{source0}
+## INITENV SETV EIGEN_STRIP_PREFIX %{source_prefix}
 ## NOCOMPILER
 %define tag %{realversion}
-Source: https://bitbucket.org/%{n}/%{n}/get/%{tag}.tar.gz
+
+#These are needed by Tensorflow sources
+#NOTE: Never apply any patch in the spec file, this way tensorflow gets the exact same sources
+%define source0 https://bitbucket.org/%{n}/%{n}/get/%{tag}.tar.gz
+%define source_prefix %{n}-%{n}-%{realversion}
+Source: %{source0}
 BuildRequires: cmake
 
 %prep
-%setup -n %n-%n-%{realversion}
+%setup -n %{source_prefix}
 
 %build
 mkdir build

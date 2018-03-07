@@ -1,4 +1,4 @@
-### RPM external py2-cython 0.26
+### RPM external py2-cython 0.27.3
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

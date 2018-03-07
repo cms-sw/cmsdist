@@ -1,4 +1,4 @@
-### RPM external py2-bleach 2.0.0
+### RPM external py2-bleach 2.1.2
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 

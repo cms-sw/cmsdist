@@ -10,8 +10,8 @@ mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/tensorflow-cc.xml
 <tool name="tensorflow-cc" version="@TOOL_VERSION@">
   <lib name="tensorflow_cc"/>
+  <lib name="tensorflow_framework"/>
   <client>
-    <use name="tensorflow-c"/>
     <use name="eigen"/>
     <use name="protobuf"/>
     <environment name="TENSORFLOW_CC_BASE" default="@TOOL_ROOT@"/>

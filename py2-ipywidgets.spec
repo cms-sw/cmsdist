@@ -1,4 +1,4 @@
-### RPM external py2-ipywidgets 5.2.2
+### RPM external py2-ipywidgets 7.1.2
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 
