@@ -1,4 +1,4 @@
-### RPM cms dqmgui 9.1.4
+### RPM cms dqmgui 9.2.0
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH %{dynamic_path_var} %i/xlib
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
@@ -71,7 +71,7 @@ EOF
 
 # Build
 %build
-python setup.py -v build_system -s DQM
+python setup.py -v build_system -s DQM -d
 
 # Install
 %install
