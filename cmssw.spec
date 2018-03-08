@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_7_2_DEVEL_X_2014-07-08-0900
+### RPM cms cmssw CMSSW_10_1_0_pre1
 
 Requires: cmssw-tool-conf python cms-git-tools
 
@@ -22,7 +22,7 @@ Requires: cmssw-tool-conf python cms-git-tools
 %endif
 
 %if "%(case %realversion in (*_FORTIFIED_X*) echo true ;; (*) echo false ;; esac)" == "true"
-%define usercxxflags    -fexceptions -fstack-protector-all --param=ssp-buffer-size=4
+%define usercxxflags    -fexceptions -fstack-protector-all --param=ssp-buffer-size=4 -Wp,-D_FORTIFY_SOURCE=2
 %endif
 
 %if "%(case %realversion in (*_ICC_X*) echo true ;; (*) echo false ;; esac)" == "true"
