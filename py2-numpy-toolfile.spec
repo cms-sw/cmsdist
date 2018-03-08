@@ -1,11 +1,6 @@
 ### RPM external py2-numpy-toolfile 1.0
 Requires: py2-numpy
 
-%define pythonver %(echo %{allpkgreqs} | tr ' ' '\\n' | grep ^external/python/ | cut -d/ -f3 | cut -d. -f 1,2)
-%define numpyver %(echo %{allpkgreqs} | tr ' ' '\\n' | grep ^external/py2-numpy/ | cut -d/ -f3 | cut -d- -f 1)
-%define numpyArch %(uname -m)
-
-
 %prep
 
 %build
@@ -19,7 +14,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/py2-numpy.xml
     <environment name="PY2_NUMPY_BASE" default="@TOOL_ROOT@"/>
   </client>
   <runtime name="PATH" value="$PY2_NUMPY_BASE/bin" type="path"/>
-  <runtime name="PYTHON27PATH" value="$PY2_NUMPY_BASE/lib/python@PYTHONV@/site-packages/numpy-%{numpyver}-py%{pythonver}-linux-%{numpyArch}.egg" type="path"/>
+  <runtime name="PYTHON27PATH" value="$PY2_NUMPY_BASE/lib/python@PYTHONV@/site-packages/" type="path"/>
   <use name="python"/>
   <use name="zlib"/>
   <use name="lapack"/>
