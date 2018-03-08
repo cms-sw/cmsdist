@@ -195,7 +195,7 @@ echo "from os import environ" > %i/lib/python2.7/sitecustomize.py
 echo "if 'PYTHON27PATH' in environ:" >> %i/lib/python2.7/sitecustomize.py
 echo "   import os,site" >> %i/lib/python2.7/sitecustomize.py
 echo "   for p in environ['PYTHON27PATH'].split(os.pathsep):">> %i/lib/python2.7/sitecustomize.py
-echo "       site.addsitedir(d)">> %i/lib/python2.7/sitecustomize.py
+echo "       site.addsitedir(p)">> %i/lib/python2.7/sitecustomize.py
 
 
 %post

@@ -76,7 +76,7 @@ echo "from os import environ" > %i/lib/python%{pythonv}/sitecustomize.py
 echo "if 'PYTHON3PATH' in environ:" >> %i/lib/python%{pythonv}/sitecustomize.py
 echo "   import os,site" >> %i/lib/python%{pythonv}/sitecustomize.py
 echo "   for p in environ['PYTHON3PATH'].split(os.pathsep):">> %i/lib/python%{pythonv}/sitecustomize.py
-echo "       site.addsitedir(d)">> %i/lib/python%{pythonv}/sitecustomize.py
+echo "       site.addsitedir(p)">> %i/lib/python%{pythonv}/sitecustomize.py
 
 
 
