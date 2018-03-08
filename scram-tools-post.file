@@ -1,5 +1,6 @@
 ### FILE scram-tools-post
 ## NOCOMPILER
+## NO_AUTO_DEPENDENCY
 %define   BaseTool   %(echo %n | sed 's|-toolfile||' | tr '[a-z-]' '[A-Z_]')
 
 export TOOL_ROOT=$%{BaseTool}_ROOT
