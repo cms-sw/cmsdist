@@ -1,8 +1,7 @@
-### RPM external fasthadd 2.1
+### RPM external fasthadd 2.2
 
 #Change the commit hash every time a new version is needed.
-#Commit mapped to CMSSW_8_0_0_pre6
-%define commit 38304a4dbdfc1a5e7cc860afbb1c31dd09a9ff1e
+%define commit 78a41c1224657afd4024d4c25ce0a98fa4c9d907
 Source0: https://raw.githubusercontent.com/cms-sw/cmssw/%commit/DQMServices/Components/bin/fastHadd.cc
 Source1: https://raw.githubusercontent.com/cms-sw/cmssw/%commit/DQMServices/Core/src/ROOTFilePB.proto
 Requires: protobuf root
@@ -22,6 +21,7 @@ g++ -O2 -o %i/bin/fastHadd ROOTFilePB.pb.cc ./fastHadd.cc \
 
 (echo "#!/bin/sh"; \
  echo "source $ROOT_ROOT/etc/profile.d/init.sh"; \
+ echo "source $TBB_ROOT/etc/profile.d/init.sh"; \
  echo "source $PROTOBUF_ROOT/etc/profile.d/init.sh"; \
  echo "source $XZ_ROOT/etc/profile.d/init.sh"; \
  echo "source $ZLIB_ROOT/etc/profile.d/init.sh"; \
@@ -32,6 +32,7 @@ g++ -O2 -o %i/bin/fastHadd ROOTFilePB.pb.cc ./fastHadd.cc \
 (echo "#!/bin/tcsh"; \
  echo "source $PROTOBUF_ROOT/etc/profile.d/init.csh"; \
  echo "source $ROOT_ROOT/etc/profile.d/init.csh"; \
+ echo "source $TBB_ROOT/etc/profile.d/init.csh"; \
  echo "source $XZ_ROOT/etc/profile.d/init.csh"; \
  echo "source $ZLIB_ROOT/etc/profile.d/init.csh"; \
  echo "source $GCC_ROOT/etc/profile.d/init.csh"; \
