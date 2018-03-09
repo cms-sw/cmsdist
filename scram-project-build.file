@@ -1,4 +1,5 @@
 ### FILE scram-project-build
+## NO_AUTO_DEPENDENCY
 # FIXME: support building all platforms together like scram does?
 # FIXME: automatic sub-packages for "doc" etc?
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
@@ -63,7 +64,7 @@ Requires: glibc
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-05-75
+%define configtag       V05-05-77
 %endif
 
 %if "%{?cvssrc:set}" != "set"
