@@ -294,7 +294,7 @@ export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
              --enable-__cxa_atexit --disable-libunwind-exceptions --enable-gnu-unique-object \
              --enable-plugin --with-linker-hash-style=gnu --enable-linker-build-id \
              $CONF_GCC_OS_SPEC $CONF_GCC_WITH_LTO --with-gmp=%{i} --with-mpfr=%{i} --enable-bootstrap \
-             --with-mpc=%{i} --with-isl=%{i} --with-default-libstdcxx-abi=gcc4-compatible --enable-checking=release \
+             --with-mpc=%{i} --with-isl=%{i} --enable-checking=release \
              --build=%{_build} --host=%{_host} --enable-libstdcxx-time=rt $CONF_GCC_ARCH_SPEC \
              --enable-shared --disable-libgcj CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
              CFLAGS="-I%{i}/tmp/sw/include" CXXFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
