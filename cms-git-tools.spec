@@ -9,6 +9,7 @@
 # updated automatically when they are dependencies.
 %define fakerevision %(echo %realversion | cut -d. -f1)
 Source0: git://github.com/cms-sw/cms-git-tools.git?obj=%{branch}/%{commit}&export=cms-git-tools&output=/cms-git-tools-%{commit}.tgz
+BuildRequires: gmake
 
 %prep
 %setup -n %{n}
