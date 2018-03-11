@@ -244,7 +244,7 @@ mkdir -p %i/etc/profile.d \
 : > %i/etc/profile.d/dependencies-setup.sh \
 : > %i/etc/profile.d/dependencies-setup.csh \
   echo 'if [ "X${_CMSBUILD_BUILD_ENV_}" = "X" ] ; then' >> %i/etc/profile.d/dependencies-setup.sh \
-  true \
+  echo "true" >> %i/etc/profile.d/dependencies-setup.sh  \
   for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do \
     root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\\$$root \
     if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then \
