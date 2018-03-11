@@ -1,7 +1,7 @@
 ### RPM cms cms-git-tools 180310.0
 ## NOCOMPILER
 
-# ***Do not change minor number of the above version.***
+# ***Do not change minor number of the above version. ***
 
 %define commit ef5c05cdcb4fee48272741ad80992e6ca93d9cad
 %define branch master
