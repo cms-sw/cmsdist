@@ -5,7 +5,7 @@
 ## NOCOMPILER
 %define tag %{realversion}
 
-#These are needed by Tensorflow sources
+#These are needed by Tensorflow sources 
 #NOTE: Never apply any patch in the spec file, this way tensorflow gets the exact same sources
 %define source0 https://github.com/cms-externals/eigen-git-mirror/archive/%{tag}.tar.gz
 %define source_prefix eigen-git-mirror-%{realversion}
