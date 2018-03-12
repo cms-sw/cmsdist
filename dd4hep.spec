@@ -8,7 +8,7 @@ Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&ex
 
 BuildRequires: cmake
 
-Requires: root boost clhep xerces-c py2-rootpy
+Requires: root boost clhep xerces-c
 
 %prep
 
