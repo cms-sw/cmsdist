@@ -1,13 +1,22 @@
-### RPM cms das v04.01.03
+### RPM cms das 05.00.00
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
-%define pkg DAS
-Source0: git://github.com/dmwm/DAS?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
+
+%define pkg0 DAS
+%define ver0 %realversion
+%define pkg1 das2go
+%define ver1 03.00.02
+Source0: https://github.com/dmwm/%pkg0/archive/%ver0.tar.gz
+Source1: https://github.com/dmwm/%pkg1/archive/%ver1.tar.gz
+
 #python2 build
 Requires: python cherrypy yui mongo py2-pymongo py2-pystemmer py2-lxml
 Requires: py2-pycurl py2-jinja rotatelogs
 # keyword search dependencies below
 Requires: py2-jsonpath-rw py2-nltk py2-whoosh
 Requires: jemalloc
+
+# got das2go we need go language
+Requires: go
 
 # python3 build
 #Requires: python3 py3-cherrypy yui mongo py3-pymongo py3-pystemmer py3-lxml
@@ -19,10 +28,12 @@ Requires: jemalloc
 # RPM macros documentation
 # http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
 %prep
-%setup -c
+%setup -D -T -b 1 -n %pkg1-%ver1
+%setup -D -T -b 0 -n %pkg0-%ver0
 
 %build
-cd DAS
+echo "start das build: $PWD"
+cd ../%pkg0-%ver0
 # remove ipython stuff
 if [ -f src/python/DAS/tools/ipy_profile_mongo.py ]; then
    rm src/python/DAS/tools/ipy_profile_mongo.py
@@ -49,9 +60,26 @@ mkdir -p sphinx/_static
 cat sphinx/conf.py | sed "s,development,%{realversion},g" > sphinx/conf.py.tmp
 mv sphinx/conf.py.tmp sphinx/conf.py
 mkdir -p build
+cd -
+
+# build das2go
+cd ..
+echo "start das2go build: $PWD"
+mkdir -p gopath
+export GOPATH=$PWD/gopath
+go get github.com/dmwm/cmsauth
+go get github.com/dmwm/das2go
+go get github.com/vkuznet/x509proxy
+go get gopkg.in/mgo.v2
+go get github.com/sirupsen/logrus
+cd $GOPATH/src/github.com/dmwm/das2go
+make
+cd -
 
 %install
-cd DAS
+cd ..
+echo "start das install: $PWD"
+cd %pkg0-%ver0
 python setup.py install --prefix=%i
 #python3 setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
@@ -59,6 +87,17 @@ find %i -name '*.egg-info' -exec rm {} \;
 mkdir -p %i/doc/build/html
 mkdir -p doc/build/html
 tar --exclude '.buildinfo' -C doc/build/html -cf - . | tar -C %i/doc -xvf -
+
+# install das2go
+cd ..
+echo "start das2go install: $PWD"
+export GOPATH=$PWD/gopath
+cp $GOPATH/src/github.com/dmwm/das2go/das2go %i/bin
+cp $GOPATH/src/github.com/dmwm/das2go/bin/das2go_server %i/bin
+mkdir -p %i/das2go/yui
+cp -r $GOPATH/src/github.com/dmwm/das2go/{js,css,images,templates} %i/das2go/
+export YUI_ROOT
+cp -r $YUI_ROOT/build %i/das2go/yui/
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 %addDependency
