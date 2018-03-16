@@ -1,4 +1,4 @@
-### RPM cms dasgoclient v01.01.07
+### RPM cms dasgoclient v01.01.08
 ## NOCOMPILER
 %define dasgoclient_arch     slc6_amd64_gcc630
 %define dasgoclient_pkg      cms+%{n}-binary+%{realversion}
