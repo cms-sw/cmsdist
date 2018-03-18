@@ -1,6 +1,6 @@
 ### RPM external llvm 5.0.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
-## INITENV +PATH PYTHONPATH %{i}/lib64/python$(echo $PYTHON_VERSION | cut -d. -f 1,2)/site-packages
+## INITENV +PATH PYTHON27PATH %{i}/lib64/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 
 BuildRequires: python cmake ninja
 Requires: gcc zlib

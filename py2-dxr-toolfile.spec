@@ -14,7 +14,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-dxr.xml
     <environment name="PY2_DXR_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$PY2_DXR_BASE/lib"/>
   </client>
-    <runtime name="PYTHONPATH" value="$PY2_DXR_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
+    <runtime name="PYTHON27PATH" value="$PY2_DXR_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
     <runtime name="PATH" value="$PY2_DXR_BASE/bin" type="path"/>
     <use name="python"/>
     <use name="sqlite"/>

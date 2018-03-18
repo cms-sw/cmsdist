@@ -11,7 +11,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/das_client.xml
     <environment name="DAS_CLIENT_BASE" default="@TOOL_ROOT@"/>
   </client>
   <runtime name="PATH"       value="$DAS_CLIENT_BASE/bin" type="path"/>
-  <runtime name="PYTHONPATH" value="$DAS_CLIENT_BASE/bin" type="path"/>
+  <runtime name="PYTHON27PATH" value="$DAS_CLIENT_BASE/bin" type="path"/>
   <use name="python"/>
 </tool>
 EOF_TOOLFILE

@@ -1,8 +1,14 @@
 ### RPM external py2-numpy 1.14.1
-## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON27PATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV SET PY2_NUMPY_REAL_VERSION %{realversion}
+
 Source: https://github.com/numpy/numpy/releases/download/v%{realversion}/numpy-%{realversion}.tar.gz
 Requires: python py2-setuptools zlib OpenBLAS
+
+%define pythonver %(echo %{allpkgreqs} | tr ' ' '\\n' | grep ^external/python/ | cut -d/ -f3 | cut -d. -f 1,2)
+%define numpyArch %(uname -m)
+
+
 %prep
 %setup -n numpy-%realversion
 
@@ -38,6 +44,7 @@ sed -ideleteme 's|#!.*/bin/python|#!/usr/bin/env python|' \
   %{i}/lib/python*/site-packages/numpy-*/numpy/core/tests/test_arrayprint.py \
   %{i}/lib/python*/site-packages/numpy-*/numpy/distutils/from_template.py \
   %{i}/lib/python*/site-packages/numpy-*/numpy/distutils/conv_template.py
+
   
 find %{i} -name '*deleteme' -delete
 mkdir %{i}/c-api
