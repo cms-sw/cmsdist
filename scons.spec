@@ -1,5 +1,5 @@
 ### RPM external scons 1.2.0
-## INITENV +PATH PYTHONPATH %i/lib/%n-%realversion
+## INITENV +PATH PYTHON27PATH %i/lib/%n-%realversion
 Source: http://prdownloads.sourceforge.net/scons/scons-%realversion.tar.gz
 Requires: python
 

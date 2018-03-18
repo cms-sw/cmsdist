@@ -17,7 +17,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/lhapdf.xml
   </client>
   <use name="yaml-cpp"/>
   <runtime name="LHAPDF_DATA_PATH" value="$LHAPDF_BASE/share/LHAPDF"/>
-  <runtime name="PYTHONPATH" value="$LHAPDF_BASE/@PYTHON_LIB_SITE_PACKAGES@" type="path"/>
+  <runtime name="PYTHON27PATH" value="$LHAPDF_BASE/@PYTHON_LIB_SITE_PACKAGES@" type="path"/>
   <runtime name="PATH" value="$LHAPDF_BASE/bin" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
