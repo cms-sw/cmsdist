@@ -1,5 +1,5 @@
 ### RPM external professor2 2.2.1
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
+## INITENV +PATH PYTHON27PATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 Source: http://www.hepforge.org/archive/professor/Professor-%{realversion}.tar.gz
 
 Requires: py2-numpy py2-pippkgs py2-matplotlib root yoda eigen

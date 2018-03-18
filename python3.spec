@@ -74,8 +74,10 @@ rm -rf %{i}/share %{i}/lib/python*/test %{i}/lib/python%{pythonv}/distutils/test
 
 echo "from os import environ" > %i/lib/python%{pythonv}/sitecustomize.py
 echo "if 'PYTHON3PATH' in environ:" >> %i/lib/python%{pythonv}/sitecustomize.py
-echo "   import sys" >> %i/lib/python%{pythonv}/sitecustomize.py
-echo "   sys.path =environ['PYTHON3PATH'].split(':') + sys.path">> %i/lib/python%{pythonv}/sitecustomize.py
+echo "   import os,site" >> %i/lib/python%{pythonv}/sitecustomize.py
+echo "   for p in environ['PYTHON3PATH'].split(os.pathsep):">> %i/lib/python%{pythonv}/sitecustomize.py
+echo "       site.addsitedir(p)">> %i/lib/python%{pythonv}/sitecustomize.py
+
 
 
 

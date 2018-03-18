@@ -27,7 +27,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/root_interface.xml
     <environment name="LIBDIR"                  default="$ROOT_INTERFACE_BASE/lib"/>
   </client>
   <runtime name="PATH"                          value="$ROOT_INTERFACE_BASE/bin" type="path"/>
-  <runtime name="PYTHONPATH"                    value="$ROOT_INTERFACE_BASE/lib" type="path"/>
+  <runtime name="PYTHON27PATH"                    value="$ROOT_INTERFACE_BASE/lib" type="path"/>
   <runtime name="ROOTSYS"                       value="$ROOT_INTERFACE_BASE/"/>
   <runtime name="ROOT_TTREECACHE_SIZE"          value="0"/>
   <runtime name="ROOT_TTREECACHE_PREFILL"       value="0"/>

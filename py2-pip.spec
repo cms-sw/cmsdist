@@ -1,7 +1,7 @@
 ### RPM external py2-pip 9.0.1
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib
-## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 %define my_name %(echo %n | cut -f2 -d-)
 Source: https://github.com/pypa/pip/archive/%{realversion}.tar.gz
 Requires: python py2-setuptools 

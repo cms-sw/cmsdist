@@ -1,5 +1,5 @@
 ### RPM external py2-hyperopt 0.1
-## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 Requires: py2-numpy py2-scipy
 
