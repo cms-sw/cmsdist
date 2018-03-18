@@ -14,7 +14,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/py2-lint.xml
     <environment name="PY2_LINT_BASE" default="@TOOL_ROOT@"/>
   </client>
   <runtime name="PATH" value="$PY2_LINT_BASE/bin" type="path"/>
-  <runtime name="PYTHONPATH" value="$PY2_LINT_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
+  <runtime name="PYTHON27PATH" value="$PY2_LINT_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   <use name="python"/>
 </tool>
 EOF_TOOLFILE

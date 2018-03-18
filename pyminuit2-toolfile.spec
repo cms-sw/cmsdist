@@ -12,7 +12,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pyminuit2.xml
 <client>
 <environment name="PYMINUIT2_BASE" default="@TOOL_ROOT@"/>
 </client>
-<runtime name="PYTHONPATH" value="$PYMINUIT2_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
+<runtime name="PYTHON27PATH" value="$PYMINUIT2_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
 </tool>
 EOF_TOOLFILE
 

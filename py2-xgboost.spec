@@ -1,5 +1,5 @@
 ### RPM external py2-xgboost 0.6a2
-## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 Patch0: xgboost-0.6a2-fix-gcc7
 Patch1: xgboost-0.6a2-msse2

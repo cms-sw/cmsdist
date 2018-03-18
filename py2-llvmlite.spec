@@ -1,5 +1,5 @@
 ### RPM external py2-llvmlite 0.22.0
-## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 #Patch0: py2-llvmlite_lib6
 
 %define pip_name llvmlite

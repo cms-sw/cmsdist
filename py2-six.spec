@@ -1,5 +1,5 @@
 ### RPM external py2-six 1.10.0
-## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 %define my_name %(echo %n | cut -f2 -d-)
 Source: https://pypi.python.org/packages/b3/b2/238e2590826bfdd113244a40d9d3eb26918bd798fc187e2360a8367068db/six-%{realversion}.tar.gz
 Requires: python
