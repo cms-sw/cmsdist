@@ -1,4 +1,4 @@
-### RPM external java-env 1.0
+### RPM external java-env 1.1
 ## INITENV SET JAVA_HOME %{java_home}
 ## INITENV +PATH PATH %{java_home}/bin
 ## INITENV +PATH LD_LIBRARY_PATH %{java_home}/lib

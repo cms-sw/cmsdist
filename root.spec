@@ -1,5 +1,5 @@
 ### RPM lcg root 6.10.09
-## INITENV +PATH PYTHONPATH %{i}/lib
+## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 %define tag 287883fd1b96f3a53c80032651656565c3a04901
 %define branch cms/v6-10-00-patches/b35729a

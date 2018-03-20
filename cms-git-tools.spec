@@ -1,28 +1,27 @@
-### RPM cms cms-git-tools 180219.0
+### RPM cms cms-git-tools 180311.0
 ## NOCOMPILER
 
-# ***Do not change minor number of the above version.***
+# ***Do not change minor number of the above version. ***
 
-%define commit 1eb43a4f121151e2c32f8647c00c764d7fed8605
+%define commit ef5c05cdcb4fee48272741ad80992e6ca93d9cad
 %define branch master
 # We do not use a revision explicitly, because revisioned packages do not get
 # updated automatically when they are dependencies.
 %define fakerevision %(echo %realversion | cut -d. -f1)
 Source0: git://github.com/cms-sw/cms-git-tools.git?obj=%{branch}/%{commit}&export=cms-git-tools&output=/cms-git-tools-%{commit}.tgz
+BuildRequires: gmake
 
 %prep
 %setup -n %{n}
 
+%build
+make
+
+%install
 mkdir -p %{i}/common %{i}/share/man/man1
 cp -pR git-cms-* %{i}/common
 cp docs/man/man1/*.1 %{i}/share/man/man1
 find %{i}/common -name '*' -type f -exec chmod +x {} \;
-
-%build
-
-%install
-
-# NOP
 
 %post
 cd ${RPM_INSTALL_PREFIX}/%{pkgrel}

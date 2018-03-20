@@ -1,5 +1,6 @@
 ### RPM cms local-cern-siteconf sm111124
 ## NOCOMPILER
+
 %define cmsrepo  cvs://:pserver:anonymous@cmscvs.cern.ch:2401/local/reps/CMSSW?passwd=AA_:yZZ3e
 Source0: %{cmsrepo}&tag=-r%{realversion}&module=COMP/SITECONF/T1_CH_CERN&export=T1_CH_CERN&output=/T1_CH_CERN.tar.gz
 

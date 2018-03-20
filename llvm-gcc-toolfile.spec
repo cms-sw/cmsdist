@@ -60,6 +60,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm-cxxcompiler.xml
     <flags CXXFLAGS="-Wno-unused-private-field"/>
     <flags CXXFLAGS="-Wno-unknown-pragmas"/>
     <flags CXXFLAGS="-Wno-unused-command-line-argument"/>
+    <flags CXXFLAGS="-Wno-unknown-warning-option"/>
     <flags CXXFLAGS="-ftemplate-depth=512"/>
     <flags CXXFLAGS="-Wno-error=potentially-evaluated-expression"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$LLVM_CXXCOMPILER_BASE/lib64" type="path"/>
@@ -141,7 +142,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pyclang.xml
   <client>
     <environment name="PYCLANG_BASE" default="@LLVM_ROOT@"/>
   </client>
-  <runtime name="PYTHONPATH" value="$PYCLANG_BASE/lib64/python@PYTHONV@/site-packages" type="path"/>
+  <runtime name="PYTHON27PATH" value="$PYCLANG_BASE/lib64/python@PYTHONV@/site-packages" type="path"/>
   <use name="python"/>
 </tool>
 EOF_TOOLFILE

@@ -13,7 +13,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-pip.xml
   <client>
     <environment name="PY2_PIP" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$PY2_PIP/lib"/>
-    <runtime name="PYTHONPATH" value="$PY2_PIP/lib/python@PYTHONV@/site-packages" type="path"/>
+    <runtime name="PYTHON27PATH" value="$PY2_PIP/lib/python@PYTHONV@/site-packages" type="path"/>
     <runtime name="PATH" value="$PY2_PIP/bin" type="path"/>
   </client>
 </tool>
