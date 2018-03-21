@@ -7,9 +7,9 @@
       <environment name="INCLUDE" default="$CMSSW_BASE/include/$SCRAM_ARCH"/>
     </client>
     <runtime name="PATH" value="$CMSSW_BINDIR" type="path"/>
-    <runtime name="PYTHONPATH" value="$CMSSW_BASE/python" type="path"/>
-    <runtime name="PYTHONPATH" value="$CMSSW_BINDIR" type="path"/>
-    <runtime name="PYTHONPATH" value="$LIBDIR" type="path"/>
+    <runtime name="PYTHON27PATH" value="$CMSSW_BASE/python" type="path"/>
+    <runtime name="PYTHON27PATH" value="$CMSSW_BINDIR" type="path"/>
+    <runtime name="PYTHON27PATH" value="$LIBDIR" type="path"/>
     <runtime name="CMSSW_SEARCH_PATH" value="$CMSSW_BASE/src" type="path"/>
     <runtime name="CMSSW_SEARCH_PATH" value="$CMSSW_BASE/share" type="path"/>
   </tool>
