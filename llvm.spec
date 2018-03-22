@@ -1,24 +1,24 @@
-### RPM external llvm 5.0.0
+### RPM external llvm 6.0.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHON27PATH %{i}/lib64/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 
 BuildRequires: python cmake ninja
 Requires: gcc zlib
 
-%define llvmCommit 657c31173ea30090583e40c7a9204561d9c2d8c4
-%define llvmBranch release_50
-%define clangCommit 2e74b10d74e0d6320bcf7e2efb98016d0a8d3bf3
-%define clangBranch cms/release_50/7e8743f
-%define clangToolsExtraCommit 58cffec4d74b21c1097de4298e637a31c637851a
-%define clangToolsExtraBranch release_50
-%define compilerRtCommit 4b38c4038a4f2b8e2d02b5f5d7877fa79d940009
-%define compilerRtBranch release_50
-%define openmpCommit 6999fe680ad14c87c7fe96ddc3986f86ab15215d
-%define openmpBranch release_50
-%define iwyuCommit bcc3f0a58eb01d002ddc715cb9b466e2e0a4c833
+%define llvmCommit 089d4c0c490687db6c75f1d074e99c4d42936a50
+%define llvmBranch release_60
+%define clangCommit 2a3d19c94f09f85a9029a1b02b49047c17b02f9c
+%define clangBranch cms/release_60/ff0c0d8
+%define clangToolsExtraCommit 0ea5aed4817afebb7fbdea644b723052a0ef370c
+%define clangToolsExtraBranch release_60
+%define compilerRtCommit 9d61c78bced84866cc886f1f1111c8e51c1d52d5
+%define compilerRtBranch release_60
+%define openmpCommit d5aa29cb3bcf51289d326b4e565613db8aff65ef
+%define openmpBranch release_60
+%define iwyuCommit 4bfe5d6e39d5a6d5dad11f4abd836bc1afcfbdaf
 %define iwyuBranch master
-%define lldCommit e2974bce18137935bde80dd34acb255cf6c68db0
-%define lldBranch release_50
+%define lldCommit ffbe1621520d31a0a8d12234d150b086f24aa04a
+%define lldBranch release_60
 
 Source0: git+https://github.com/llvm-mirror/llvm.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%{realversion}-%{llvmCommit}&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/cms-externals/clang.git?obj=%{clangBranch}/%{clangCommit}&export=clang-%{realversion}-%{clangCommit}&module=clang-%{realversion}-%{clangCommit}&output=/clang-%{realversion}-%{clangCommit}.tgz
