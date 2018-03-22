@@ -95,6 +95,8 @@ BuildRequires: py2-avro
 BuildRequires: py2-fs
 BuildRequires: py2-lizard
 BuildRequires: py2-flawfinder
+BuildRequires: python-ldap
+
 %prep
 
 %build
