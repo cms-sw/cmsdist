@@ -32,16 +32,15 @@ done
 ./configure --disable-silent-rules --prefix=%{i} --with-hepmc=${HEPMC_ROOT} \
             --with-fastjet=${FASTJET_ROOT} --with-gsl=$GSL_ROOT --with-yoda=${YODA_ROOT} \
             --disable-doxygen --disable-pdfmanual --with-pic \
-            PYTHONPATH=${CYTHON_ROOT}/${PYTHON_LIB_SITE_PACKAGES} \
             CXX="$(which g++)" CPPFLAGS="-I${BOOST_ROOT}/include"
 
 # The following hack insures that the bins with the library linked explicitly
 # rather than indirectly, as required by the gold linker
 perl -p -i -e "s|LIBS = $|LIBS = -lHepMC|g" bin/Makefile
 %build
-make %{makeprocesses} all PYTHONPATH=${CYTHON_ROOT}/${PYTHON_LIB_SITE_PACKAGES}
+make %{makeprocesses} all 
 %install
-make install PYTHONPATH=${CYTHON_ROOT}/${PYTHON_LIB_SITE_PACKAGES}
+make install 
 
 %post
 %{relocateConfig}bin/rivet-config

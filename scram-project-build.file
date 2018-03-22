@@ -217,7 +217,6 @@ perl %i/config/SCRAM/findDependencies.pl -rel %i -arch %cmsplatf -scramroot $SCR
 gzip -f %i/etc/dependencies/*.out
 %endif
 
-(eval `%scramcmd run -sh` ; echo $PYTHONPATH | sed -e "s/:/','/g" | awk '{print "#!/usr/bin/env python \n\ncmsswPythonPaths=['"'"'"$1"'"'"']"}' > %i/python/cmsswPaths.py) || true
 
 eval `%scramcmd run -sh`
 for cmd in edmPluginRefresh ; do

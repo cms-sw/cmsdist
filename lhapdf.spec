@@ -13,21 +13,21 @@ Source6: https://www.hepforge.org/archive/lhapdf/pdfsets/6.1/MMHT2014nlo68cl.tar
 
 Source7: lhapdf_pdfsetsindex
 
-Requires: yaml-cpp python
-BuildRequires: cython
+Requires: python
+BuildRequires: py2-cython
 
 %define keep_archives true
 
 %prep
 %setup -q -n LHAPDF-%{realversion}
 
-./configure --prefix=%{i} --with-yaml-cpp=${YAML-CPP_ROOT} PYTHON=${PYTHON_ROOT}/bin/python CYTHON=${CYTHON_ROOT}/bin/cython PYTHONPATH=${CYTHON_ROOT}/${PYTHON_LIB_SITE_PACKAGES}
+./configure --prefix=%{i} 
 
 %build
-make all %makeprocesses PYTHONPATH=${CYTHON_ROOT}/${PYTHON_LIB_SITE_PACKAGES}
+make all %makeprocesses 
 
 %install
-make install PYTHONPATH=${CYTHON_ROOT}/${PYTHON_LIB_SITE_PACKAGES}
+make install 
 mkdir -p %{i}/share/LHAPDF
 cd %{i}/share/LHAPDF
 cp %{_sourcedir}/cteq6l1.tar.gz .
