@@ -31,6 +31,7 @@ esac
   --enable-siscone \
   --prefix=%{i} \
   --enable-allcxxplugins \
+  --enable-pyext \
   CXXFLAGS="$CXXFLAGS"
 
 %build
