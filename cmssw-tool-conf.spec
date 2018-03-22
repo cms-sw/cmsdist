@@ -163,7 +163,6 @@ Requires: py2-pip-toolfile
 # Only for Linux platform.
 %if %islinux
 Requires: openldap-toolfile
-Requires: python-ldap-toolfile
 Requires: google-perftools-toolfile
 
 %if %isnotppc64le_be
