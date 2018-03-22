@@ -1,7 +1,8 @@
 ### RPM external fastjet 3.3.0
+BuildRequires: python
 %define tag acfff3bf99b6c754efe3768b81393935f3b9a05d
 %define branch cms/v%{realversion}
-%define github_user mrodozov
+%define github_user cms-externals
 Source: git+https://github.com/%{github_user}/fastjet.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 %prep
