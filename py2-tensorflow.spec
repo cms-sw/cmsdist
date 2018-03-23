@@ -5,6 +5,7 @@
 Source: none
 
 BuildRequires: tensorflow-sources
+BuildRequires: py2-setuptools
 Requires: python
 BuildRequires: py2-pip 
 Requires: py2-funcsigs py2-protobuf py2-pbr py2-six py2-packaging py2-appdirs py2-setuptools py2-pyparsing py2-numpy py2-mock py2-werkzeug
