@@ -7,6 +7,7 @@
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}-%{tag}.tgz
 
 BuildRequires: bazel eigen protobuf gcc
+BuildRequires: py2-setuptools
 Requires: py2-numpy python py2-wheel
 
 %prep
