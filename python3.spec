@@ -1,8 +1,8 @@
 ### RPM external python3 3.6.4
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib
-## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib/python%{pythonv}/site-packages
-## INITENV SETV PYTHONHASHSEED random
+## INITENV SETV PYTHON3_LIB_SITE_PACKAGES lib/python%{pythonv}/site-packages
+## INITENV SETV PYTHON3HASHSEED random
 # OS X patches and build fudging stolen from fink
 %define pythonv %(echo %realversion | cut -d. -f 1,2)
 %define python_major %(echo %realversion | cut -d. -f 1)
