@@ -21,5 +21,5 @@ python setup.py build
 
 %install
 mkdir -p %{i}/${PYTHON_LIB_SITE_PACKAGES}
-PYTHONPATH=%{i}/${PYTHON_LIB_SITE_PACKAGES}:${PYTHONPATH} python setup.py install --skip-build --prefix=%{i}
+PYTHON27PATH=%{i}/${PYTHON_LIB_SITE_PACKAGES}:${PYTHON27PATH} python setup.py install --skip-build --prefix=%{i}
 

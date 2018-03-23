@@ -14,7 +14,6 @@ CXX="$(which c++) -fPIC"
 CC="$(which gcc) -fPIC"
 FC="$(which gfortran)"
 PLATF_CONF_OPTS="--enable-shared --disable-static"
-export PYTHONPATH=${CYTHON_ROOT}/${PYTHON_LIB_SITE_PACKAGES}
 python setup.py install --prefix=%{i}
 
 %install

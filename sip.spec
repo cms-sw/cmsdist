@@ -1,5 +1,5 @@
 ### RPM external sip 4.17
-## INITENV +PATH PYTHONPATH %i/lib/python$(echo $PYTHON_VERSION |cut -d. -f 1,2)/site-packages
+## INITENV +PATH PYTHON27PATH %i/lib/python$(echo $PYTHON_VERSION |cut -d. -f 1,2)/site-packages
 %define tag f5f49b1c14cd058c2736ade2fef0abb0765b8be4
 %define branch cms/v%{realversion}
 %define github_user cms-externals
