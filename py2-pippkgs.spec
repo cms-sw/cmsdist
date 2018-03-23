@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 Source: none
 
-Requires: root curl python
+Requires: root curl python openldap
 
 BuildRequires: py2-configparser 
 BuildRequires: py2-entrypoints
