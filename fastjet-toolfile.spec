@@ -9,7 +9,7 @@ Requires: fastjet
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/fastjet.xml
   <tool name="fastjet" version="@TOOL_VERSION@">
-    <info url="http://www.lpthe.jussieu.fr/~salam/fastjet/"/>
+    <info url="http://fastjet.fr"/>
     <lib name="fastjetplugins"/>
     <lib name="fastjettools"/>
     <lib name="siscone"/>
@@ -21,8 +21,10 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/fastjet.xml
       <environment name="INCLUDE" default="$FASTJET_BASE/include"/>
     </client>
     <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+    <runtime name="PYTHON27PATH" value="$FASTJET_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
     <use name="root_cxxdefaults"/>
   </tool>
 EOF_TOOLFILE
+export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
 ## IMPORT scram-tools-post
