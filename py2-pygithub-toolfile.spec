@@ -13,7 +13,6 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-pygithub.xml
   <client>
     <environment name="PY2_PYGITHUB" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$PY2_PYGITHUB/lib"/>
-    <runtime name="PYTHON27PATH" value="$PY2_PYGITHUB/lib/python@PYTHONV@/site-packages" type="path"/>
   </client>
 </tool>
 EOF_TOOLFILE
