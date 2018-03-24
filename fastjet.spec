@@ -1,5 +1,7 @@
 ### RPM external fastjet 3.3.0
-%define tag 26e1f4828f4622742062f1465ae8de9986f96f86
+## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+Requires: python
+%define tag acfff3bf99b6c754efe3768b81393935f3b9a05d
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/fastjet.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
@@ -31,6 +33,7 @@ esac
   --enable-siscone \
   --prefix=%{i} \
   --enable-allcxxplugins \
+  --enable-pyext \
   CXXFLAGS="$CXXFLAGS"
 
 %build
