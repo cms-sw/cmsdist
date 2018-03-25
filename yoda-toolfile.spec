@@ -16,7 +16,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/yoda.xml
     <environment name="INCLUDE" default="$YODA_BASE/include"/>
   </client>
   <use name="root_cxxdefaults"/>
-  <runtime name="PYTHON27PATH" value="$YODA_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   <runtime name="PATH"       value="$YODA_BASE/bin" type="path"/>
 </tool>
 EOF_TOOLFILE

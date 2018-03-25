@@ -9,7 +9,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cvs2git.xml
   <client>
     <environment name="CVS2GIT_BASE" default="@TOOL_ROOT@"/>
   </client>
-  <runtime name="PYTHON27PATH" value="$CVS2GIT_BASE/lib" type="path"/>
   <runtime name="PATH" value="$CVS2GIT_BASE/bin" type="path"/>
 </tool>
 EOF_TOOLFILE

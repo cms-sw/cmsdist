@@ -15,7 +15,6 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/photospline.xml
     <environment name="PHOTOSPLINE_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$PHOTOSPLINE_BASE/lib"/>
     <environment name="INCLUDE" default="$PHOTOSPLINE_BASE/include"/>
-    <runtime name="PYTHON27PATH" value="$PHOTOSPLINE_BASE/lib/python2.7/site-packages" type="path"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>

@@ -142,7 +142,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pyclang.xml
   <client>
     <environment name="PYCLANG_BASE" default="@LLVM_ROOT@"/>
   </client>
-  <runtime name="PYTHON27PATH" value="$PYCLANG_BASE/lib64/python@PYTHONV@/site-packages" type="path"/>
   <use name="python"/>
 </tool>
 EOF_TOOLFILE
