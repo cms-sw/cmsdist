@@ -44,3 +44,7 @@ if [ "`ls ${RPM_INSTALL_PREFIX}/*/%{pkgcategory}/%{pkgname}/v*/etc/profile.d/ini
   /bin/cp -f ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/dasgoclient $RPM_INSTALL_PREFIX/common/dasgoclient.tmp
   mv $RPM_INSTALL_PREFIX/common/dasgoclient.tmp $RPM_INSTALL_PREFIX/common/dasgoclient
 fi
+
+# make das_client point to dasgoclient in overrides/bin area
+mkdir -p $RPM_INSTALL_PREFIX/share/overrides/bin
+[ -e $RPM_INSTALL_PREFIX/share/overrides/bin/das_client ] || ln -sf ../../../common/dasgoclient $RPM_INSTALL_PREFIX/share/overrides/bin/das_client
