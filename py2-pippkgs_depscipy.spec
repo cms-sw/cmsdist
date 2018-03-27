@@ -68,7 +68,9 @@ for pkg in %builddirectpkgreqs ; do
       fi
     done
     echo "Copying $SOURCE in %{pkgrel}"
-    rsync -av $SOURCE/ %{i}/${PYTHON_LIB_SITE_PACKAGES}/
+#try cp instead of rsync as we don't want to overwrite duplicate directories
+#    rsync -av $SOURCE/ %{i}/${PYTHON_LIB_SITE_PACKAGES}/
+    cp -r ${SOURCE}/* %{i}/${PYTHON_LIB_SITE_PACKAGES}/ 
   fi
 done
 
