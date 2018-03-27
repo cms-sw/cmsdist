@@ -14,6 +14,7 @@ BuildRequires: py2-rootpy
 %if %isamd64
 BuildRequires: py2-tensorflow
 %endif
+BuildRequires: py2-googlecommon
 BuildRequires: py2-protobuf
 
 BuildRequires: py2-tables
@@ -58,14 +59,18 @@ for pkg in %builddirectpkgreqs ; do
         # https://github.com/jupyter/jupyter_core/issues/55 - now I delete jupyter.py from one of the providers
         #backports is an example directory that can have multiple packages inside
         if [ $f != "backports" ] ; then  
+        if [ $f != "google" ] ; then  
            echo "  Duplicate file found: $f"
            exit 1
+        fi
         fi
 
       fi
     done
     echo "Copying $SOURCE in %{pkgrel}"
-    rsync -av $SOURCE/ %{i}/${PYTHON_LIB_SITE_PACKAGES}/
+#try cp instead of rsync as we don't want to overwrite duplicate directories
+#    rsync -av $SOURCE/ %{i}/${PYTHON_LIB_SITE_PACKAGES}/
+    cp -r ${SOURCE}/* %{i}/${PYTHON_LIB_SITE_PACKAGES}/ 
   fi
 done
 
