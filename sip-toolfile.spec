@@ -13,7 +13,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sip.xml
   <client>
     <environment name="SIP_BASE" default="@TOOL_ROOT@"/>
   </client>
-  <runtime name="PYTHON27PATH" value="$SIP_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   <use name="python"/>
 </tool>
 EOF_TOOLFILE

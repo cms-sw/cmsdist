@@ -12,7 +12,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/py2-cx-oracle.xml
   <client>
     <environment name="PY2_CX_ORACLE_BASE" default="@TOOL_ROOT@"/>
   </client>
-  <runtime name="PYTHON27PATH" value="$PY2_CX_ORACLE_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   <use name="python"/>
   <use name="oracle"/>
 </tool>

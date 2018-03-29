@@ -13,7 +13,6 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-pippkgs_depscipy.xml
   <client>
     <environment name="PY2_PIPPKGS_DEPSCIPY" default="@TOOL_ROOT@"/>
   </client>
-  <runtime name="PYTHON27PATH" value="$PY2_PIPPKGS_DEPSCIPY/@PYTHON_LIB_SITE_PACKAGES@" type="path"/>
   <runtime name="PATH" value="$PY2_PIPPKGS_DEPSCIPY/bin" type="path"/>
 </tool>
 EOF_TOOLFILE
