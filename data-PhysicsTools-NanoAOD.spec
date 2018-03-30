@@ -1,4 +1,4 @@
-### RPM cms data-PhysicsTools-NanoAOD V01-00-01
+### RPM cms data-PhysicsTools-NanoAOD V01-00-02
 
 %prep
 
