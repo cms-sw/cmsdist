@@ -1,10 +1,10 @@
 ### RPM external tkonlinesw-fake 4.2.0-1_gcc7
 
 %define tag 6bf27b3db8d4c0737b477cc38095fd05d2be3191
-Source: https://github.com/cms-externals/tkonline-fake/archive/%{tag}.tar.gz
+Source: https://github.com/cms-externals/%{n}/archive/%{tag}.tar.gz
 
 %prep
-%setup -n tkonline-fake-%{tag}
+%setup -n %{n}-%{tag}
 
 %build
 # NOP
