@@ -12,7 +12,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/py2-matplotlib.xml
   <client>
     <environment name="PY2_MATPLOTLIB_BASE" default="@TOOL_ROOT@"/>
   </client>
-  <runtime name="PYTHON27PATH" value="$PY2_MATPLOTLIB_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   <use name="python"/>
   <use name="zlib"/>
   <use name="libpng"/>
