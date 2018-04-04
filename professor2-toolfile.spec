@@ -19,7 +19,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/professor2.xml
 <use name="yoda"/>
 <use name="eigen"/>
 <runtime name="PATH" value="$PROFESSOR2_BASE/bin" type="path"/>
-<runtime name="PYTHON27PATH" value="$PROFESSOR2_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
 </tool>
 EOF_TOOLFILE
 
