@@ -13,7 +13,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pyqt.xml
   <client>
     <environment name="PYQT_BASE" default="@TOOL_ROOT@"/>
   </client>
-  <runtime name="PYTHON27PATH" value="$PYQT_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   <use name="python"/>
   <use name="qt"/>
   <use name="sip"/>

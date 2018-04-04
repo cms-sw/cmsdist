@@ -13,7 +13,6 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-six.xml
   <client>
     <environment name="PY2_SIX" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$PY2_SIX/lib"/>
-    <runtime name="PYTHON27PATH" value="$PY2_SIX/lib/python@PYTHONV@/site-packages" type="path"/>
   </client>
 </tool>
 EOF_TOOLFILE
