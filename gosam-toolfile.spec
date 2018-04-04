@@ -13,7 +13,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gosam.xml
     <environment name="GOSAM_BASE" default="@TOOL_ROOT@"/>
     <environment name="BINDIR" default="$GOSAM_BASE/bin"/>
   </client>
-  <runtime name="PYTHON27PATH" value="$GOSAM_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   <runtime name="PATH" default="$BINDIR" type="path"/>
 </tool>
 EOF_TOOLFILE
