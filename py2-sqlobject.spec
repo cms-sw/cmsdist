@@ -1,6 +1,7 @@
 ### RPM external py2-sqlobject 0.8.0
 %define pythonv %(echo $PYTHON_VERSION | cut -f1,2 -d.)
 ## INITENV +PATH PYTHON27PATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
+3## INITENV +PATH PYTHON27PATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
 
 %define distname SQLObject-%realversion
 Source: http://cheeseshop.python.org/packages/source/S/SQLObject/%{distname}.tar.gz

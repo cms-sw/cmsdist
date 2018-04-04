@@ -13,9 +13,19 @@
 %define source0 pip://%{pip_name}/%{realversion}?pip_options=%{PipDownloadOptions}&output=/source.tar.gz
 %endif
 
+%if "%{?doPython2:set}" != "set"
+%define doPython2 yes
+%endif
+
+%if "%{?doPython3:set}" != "set"
+%define doPython3 yes
+%endif
+
+
 Source: %source0
 
 Requires: python
+Requires: python3
 BuildRequires: py2-pip
 
 %prep
@@ -32,12 +42,19 @@ echo %{source_file} > files.list
 
 %{?PipPreBuild:%PipPreBuild}
 
+
 if [ `cat files.list | wc -l` == "1" ] ; then
    export PIPFILE=`cat files.list`
    echo ${PIPFILE}
    export PYTHONUSERBASE=%i
-   pip list
-   pip install --user -v %{PipBuildOptions} $PIPFILE
+   %if "%{doPython3}" == "yes"
+      pip3 list
+      pip3 install --user -v %{PipBuildOptions} $PIPFILE
+   %endif
+   %if "%{doPython2}" == "yes"
+      pip2 list
+      pip2 install --user -v %{PipBuildOptions} $PIPFILE
+   %endif
 else
    echo "Sorry I don't know how to handle no/multiple install files yet"
    cat %{_sourcedir}/files.txt
