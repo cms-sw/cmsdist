@@ -11,9 +11,7 @@ BuildRequires: py2-Keras
 BuildRequires: py2-Theano
 BuildRequires: py2-scikit-learn
 BuildRequires: py2-rootpy
-%if %isamd64
 BuildRequires: py2-tensorflow
-%endif
 BuildRequires: py2-googlecommon
 BuildRequires: py2-protobuf
 
