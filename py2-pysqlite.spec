@@ -1,6 +1,7 @@
 ### RPM external py2-pysqlite 2.8.3
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
+%define doPython3 no
 
 %define pip_name pysqlite
 Requires: sqlite py2-setuptools 
