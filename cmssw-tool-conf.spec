@@ -92,14 +92,8 @@ Requires: pyqt-toolfile
 Requires: sip-toolfile
 Requires: graphviz-toolfile
 Requires: valgrind-toolfile
-Requires: py2-matplotlib-toolfile
-Requires: py2-numpy-toolfile
 Requires: cmsswdata-toolfile
-Requires: py2-sqlalchemy-toolfile
-Requires: py2-pygithub-toolfile
-Requires: py2-dablooms-toolfile
-Requires: py2-dxr-toolfile
-Requires: py2-PyYAML-toolfile
+
 Requires: hdf5-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
@@ -114,7 +108,6 @@ Requires: xz-toolfile
 Requires: protobuf-toolfile
 Requires: lcov-toolfile
 Requires: llvm-gcc-toolfile
-Requires: py2-lint-toolfile
 Requires: tbb-toolfile
 Requires: mctester-toolfile
 Requires: vdt-toolfile
@@ -157,7 +150,6 @@ Requires: madgraph5amcatnlo-toolfile
 Requires: python_tools
 Requires: dasgoclient
 Requires: OpenBLAS-toolfile
-Requires: py2-pip-toolfile
 
 # Only for Linux platform.
 %if %islinux
@@ -171,7 +163,6 @@ Requires: igprof-toolfile
 %if %isamd64
 Requires: dmtcp-toolfile
 Requires: tkonlinesw-toolfile
-Requires: py2-cx-oracle-toolfile
 Requires: oracle-toolfile
 Requires: cms_oracleocci_abi_hack-toolfile
 Requires: cuda-toolfile
