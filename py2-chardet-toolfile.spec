@@ -11,9 +11,9 @@ mkdir -p %{i}/etc/scram.d
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-chardet.xml
 <tool name="py2-chardet" version="@TOOL_VERSION@">
   <client>
-    <environment name="PY2-CHARDET_BASE" default="@TOOL_ROOT@"/>
+    <environment name="PY2_CHARDET_BASE" default="@TOOL_ROOT@"/>
   </client>
-  <runtime name="PATH" value="$PY2-CHARDET_BASE/bin" type="path"/>
+  <runtime name="PATH" value="$PY2_CHARDET_BASE/bin" type="path"/>
 </tool>
 EOF_TOOLFILE
 

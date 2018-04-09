@@ -11,9 +11,9 @@ mkdir -p %{i}/etc/scram.d
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-jupyter_core.xml
 <tool name="py2-jupyter_core" version="@TOOL_VERSION@">
   <client>
-    <environment name="PY2-JUPYTER_CORE_BASE" default="@TOOL_ROOT@"/>
+    <environment name="PY2_JUPYTER_CORE_BASE" default="@TOOL_ROOT@"/>
   </client>
-  <runtime name="PATH" value="$PY2-JUPYTER_CORE_BASE/bin" type="path"/>
+  <runtime name="PATH" value="$PY2_JUPYTER_CORE_BASE/bin" type="path"/>
 </tool>
 EOF_TOOLFILE
 
