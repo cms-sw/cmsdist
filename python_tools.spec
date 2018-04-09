@@ -87,7 +87,7 @@ Requires: py2-scandir
 Requires: py2-setuptools-toolfile
 Requires: py2-simplegeneric
 Requires: py2-singledispatch
-Requires: py2-six-toolfile
+Requires: py2-six
 Requires: py2-terminado
 Requires: py2-testpath
 Requires: py2-tornado
