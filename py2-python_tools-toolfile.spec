@@ -1,5 +1,5 @@
 ### RPM external py2-python_tools-toolfile 1.0
-Requires: python_tools
+Requires: py2-python_tools
 
 %prep
 
@@ -7,21 +7,18 @@ Requires: python_tools
 
 %install
 
-# we need to include any executable paths that we want here (and corresponding
-# LD_LIBRARY_PATHs
-
 mkdir -p %{i}/etc/scram.d
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-python_tools.xml
-<tool name="py2-pip" version="@TOOL_VERSION@">
-  <info url="https://pypi.python.org/pypi/pip"/>
+<tool name="py2-python_tools" version="@TOOL_VERSION@">
   <client>
-    <environment name="PYTHON_TOOLS" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$PY2_PIP_BASE/lib"/>
-    <runtime name="PATH" value="$PY2_PIP_BASE/bin" type="path"/>
+    <environment name="PY2_PYTHON_TOOLS_BASE" default="@TOOL_ROOT@"/>
   </client>
+  <runtime name="PATH" value="$PY2_PYTHON_TOOLS_BASE/bin" type="path"/>
 </tool>
 EOF_TOOLFILE
 
-export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
+
+export PYTHON_LIB_SITE_PACKAGES
+export PYTHON3_LIB_SITE_PACKAGES
 
 ## IMPORT scram-tools-post
