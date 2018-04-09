@@ -11,9 +11,9 @@ mkdir -p %{i}/etc/scram.d
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-virtualenvwrapper.xml
 <tool name="py2-virtualenvwrapper" version="@TOOL_VERSION@">
   <client>
-    <environment name="PY2-VIRTUALENVWRAPPER_BASE" default="@TOOL_ROOT@"/>
+    <environment name="PY2_VIRTUALENVWRAPPER_BASE" default="@TOOL_ROOT@"/>
   </client>
-  <runtime name="PATH" value="$PY2-VIRTUALENVWRAPPER_BASE/bin" type="path"/>
+  <runtime name="PATH" value="$PY2_VIRTUALENVWRAPPER_BASE/bin" type="path"/>
 </tool>
 EOF_TOOLFILE
 
