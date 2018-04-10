@@ -76,17 +76,21 @@ VERSION_REGEXP="%{SCRAM_REL_MAJOR}_"   ; VERSION_FILE=default-scram/%{SCRAM_REL_
 %{BackwardCompatibilityVersionPolicy}
 
 #Create a shared copy of this version
-mkdir -p $RPM_INSTALL_PREFIX/share/%{pkgdir} $RPM_INSTALL_PREFIX/share/man/man1
-rsync --links --ignore-existing --recursive --exclude='etc/'  $RPM_INSTALL_PREFIX/%{pkgrel}/ $RPM_INSTALL_PREFIX/share/%{pkgdir}
-for f in `rsync --links --ignore-existing --recursive --itemize-changes $RPM_INSTALL_PREFIX/%{pkgrel}/etc $RPM_INSTALL_PREFIX/share/%{pkgdir} | grep '^>f' | sed -e 's|.* ||'` ; do
-  sed -i -e 's|/%{pkgrel}|/share/%{pkgdir}|g' $RPM_INSTALL_PREFIX/share/%{pkgdir}/$f
-done
+if [ ! -d $RPM_INSTALL_PREFIX/share/%{pkgdir} ] ; then
+  mkdir -p $RPM_INSTALL_PREFIX/share/%{pkgdir}
+  rsync --links --ignore-existing --recursive --exclude='etc/'  $RPM_INSTALL_PREFIX/%{pkgrel}/ $RPM_INSTALL_PREFIX/share/%{pkgdir}
+  for f in `rsync --links --ignore-existing --recursive --itemize-changes $RPM_INSTALL_PREFIX/%{pkgrel}/etc $RPM_INSTALL_PREFIX/share/%{pkgdir} | grep '^>f' | sed -e 's|.* ||'` ; do
+    sed -i -e 's|/%{pkgrel}|/share/%{pkgdir}|g' $RPM_INSTALL_PREFIX/share/%{pkgdir}/$f
+  done
+fi
+
 cd $RPM_INSTALL_PREFIX/share
 VERSION_REGEXP="%{SCRAM_ALL_VERSIONS}" ; VERSION_FILE=default-scramv1-version         ; %{SetLatestVersion}
 VERSION_REGEXP="%{SCRAM_REL_MAJOR}_"   ; VERSION_FILE=default-scram/%{SCRAM_REL_MAJOR}; %{SetLatestVersion}
 
 if [ `cat $RPM_INSTALL_PREFIX/share/etc/default-scramv1-version` == '%v' ] ; then
-  cp -f $RPM_INSTALL_PREFIX/%{pkgrel}/docs/man/man1/scram.1 ${RPM_INSTALL_PREFIX}/share/man/man1/scram.1
+  mkdir -p $RPM_INSTALL_PREFIX/share/man/man1
+  cp -f $RPM_INSTALL_PREFIX/share/%{pkgdir}/docs/man/man1/scram.1 ${RPM_INSTALL_PREFIX}/share/man/man1/scram.1
 fi
 
 #FIMEME: Remove it when cmsBuild has a fix
