@@ -105,6 +105,15 @@ for pkg in ${py27List} ; do
    echo "$pkg" >> %{i}/${PYTHON_LIB_SITE_PACKAGES}/tool-deps.pth
 done
 
+py3List=`echo ${PYTHON3PATH} | tr ':' '\n'`
+
+mkdir -p %{i}/${PYTHON3_LIB_SITE_PACKAGES}
+touch %{i}/${PYTHON3_LIB_SITE_PACKAGES}/tool-deps.pth
+for pkg in ${py3List} ; do
+   echo "adding $pkg"
+   echo "$pkg" >> %{i}/${PYTHON3_LIB_SITE_PACKAGES}/tool-deps.pth
+done
+
 
 %post
 %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/tools -type f)
