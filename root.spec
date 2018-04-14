@@ -1,8 +1,8 @@
 ### RPM lcg root 6.13.03
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag c3c6707d5610bd5b017a759ca6a59332af274302
-%define branch cms/master/98450b9
+%define tag 61d52fdc91f1d5f16833304ec36589a28b26f864
+%define branch cms/master/496b543
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
@@ -78,6 +78,7 @@ cmake ../%{n}-%{realversion} \
   -Dbuiltin_zlib=OFF \
   -Dbuiltin_lzma=OFF \
   -Dbuiltin_gsl=OFF \
+  -Darrow=OFF \
   -DGSL_CONFIG_EXECUTABLE="$(which gsl-config)" \
   -Dcxx14=ON \
   -Dssl=ON \
