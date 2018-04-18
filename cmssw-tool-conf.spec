@@ -190,9 +190,7 @@ Requires: cms_oracleocci_abi_hack-fake-toolfile
 %endif
 %endif
 
-Requires: tensorflow-c-toolfile
-Requires: tensorflow-cc-toolfile
-
+Requires: tensorflow-toolfile
 Requires: xtensor-toolfile
 Requires: xtl-toolfile
 

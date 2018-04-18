@@ -6,7 +6,7 @@
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}-%{tag}.tgz
-
+Patch0: tensorflow-1.6.0-rename-runtime
 BuildRequires: bazel eigen protobuf gcc
 BuildRequires: py2-setuptools java-env
 Requires: py2-numpy python py2-wheel
@@ -14,6 +14,7 @@ Requires: py2-numpy python py2-wheel
 %prep
 
 %setup -q -n tensorflow-%{realversion}
+%patch0 -p1
 
 %build
 export PYTHON_BIN_PATH=`which python`
@@ -53,27 +54,31 @@ sed -i -e 's|"-z defs",|"-z defs","-lrt",|' ../build/*/external/org_tensorflow/t
 sed -i -e 's|executable=ctx.executable._swig,|env=ctx.configuration.default_shell_env, executable=ctx.executable._swig,|' ../build/*/external/org_tensorflow/tensorflow/tensorflow.bzl
 sed -i -e 's|mnemonic="ProtoCompile",|env=ctx.configuration.default_shell_env, mnemonic="ProtoCompile",|' ../build/*/external/protobuf_archive/protobuf.bzl
 
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS tensorflow:libtensorflow_cc.so
+bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow:libtensorflow_cc.so
 bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/pip_package:build_pip_package
 bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/lib_package:libtensorflow
 bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/python/tools:tools_pip
 bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/graph_transforms:transform_graph
+bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/aot:tf_aot_runtime
+bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/tf2xla:xla_compiled_cpu_function
+bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/aot:tfcompile
 
 bazel shutdown
 
 #Copying out what was built by bazel
 incdir="$PWD/tensorflow_cc/include"
 libdir="$PWD/tensorflow_cc/lib"
+bindir="$PWD/tensorflow_cc/bin"
 
 # Make directory and clean it
-mkdir -p $incdir
-mkdir -p $libdir
-
-rm -rf $incdir/*
-rm -rf $libdir/*
+rm -rf $incdir $libdir $bindir
+mkdir -p $incdir $libdir $bindir
 
 cp -v $PWD/bazel-bin/tensorflow/libtensorflow_cc.so $libdir
 cp -v $PWD/bazel-bin/tensorflow/libtensorflow_framework.so $libdir
+cp -v $PWD/bazel-bin/tensorflow/compiler/aot/libtf_aot_runtime.so $libdir
+cp -v $PWD/bazel-bin/tensorflow/compiler/tf2xla/libxla_compiled_cpu_function.so $libdir
+cp -v $PWD/bazel-bin/tensorflow/compiler/aot/tfcompile $bindir
 
 #Download depencies used by tensorflow and copy to include dir
 tensorflow/contrib/makefile/download_dependencies.sh
@@ -147,5 +152,5 @@ cp -p eigen/signature_of_eigen3_matrix_library ${incdir}/eigen/ || exit 1
 bazel-bin/tensorflow/tools/pip_package/build_pip_package %{i}
 
 cp $PWD/bazel-bin/tensorflow/tools/lib_package/libtensorflow.tar.gz %{i}
-
-tar cfz %{i}/libtensorflow_cc.tar.gz tensorflow_cc/.
+cd tensorflow_cc
+tar cfz %{i}/libtensorflow_cc.tar.gz .
