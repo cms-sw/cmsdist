@@ -191,8 +191,7 @@ Requires: cms_oracleocci_abi_hack-fake-toolfile
 %endif
 
 %if %isamd64
-Requires: tensorflow-c-toolfile
-Requires: tensorflow-cc-toolfile
+Requires: tensorflow-toolfile
 %endif
 
 Requires: xtensor-toolfile
