@@ -1,4 +1,4 @@
-### RPM external tensorflow-cc 1.6.0
+### RPM external tensorflow 1.6.0
 Provides: libtensorflow_cc.so(tensorflow)(64bit)
 Source: none
 
@@ -8,8 +8,7 @@ BuildRequires: tensorflow-sources
 
 %build
 
-
 %install
-
+tar xfz ${TENSORFLOW_SOURCES_ROOT}/libtensorflow.tar.gz -C %{i}
 tar xfz ${TENSORFLOW_SOURCES_ROOT}/libtensorflow_cc.tar.gz -C %{i}
 
