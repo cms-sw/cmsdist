@@ -8,12 +8,12 @@ Requires: zlib_qat
 
 mkdir -p %{i}/etc/scram.d
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/zlib_qat.xml
-<tool name="zlib_qat" version="@TOOL_VERSION@">
+<tool name="zlib" version="@TOOL_VERSION@">
   <lib name="z"/>
   <client>
-    <environment name="ZLIB_QAT_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE" default="$ZLIB_QAT_BASE/include"/>
-    <environment name="LIBDIR" default="$ZLIB_QAT_BASE/lib"/>
+    <environment name="ZLIB_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$ZLIB_BASE/include"/>
+    <environment name="LIBDIR" default="$ZLIB_BASE/lib"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>

@@ -1,5 +1,5 @@
 ### RPM external zlib_qat 1.2.8
-Source: http://zlib.net/zlib-%{realversion}.tar.gz
+Source: http://zlib.net/%{n}-%{realversion}.tar.gz
 
 Patch0: zlib-1.2.8-qat
 Patch1: zlib-clean
@@ -7,7 +7,7 @@ Patch1: zlib-clean
 Provides: libicp_qa_al_s.so()(64bit)
 
 %prep
-%setup -n zlib-%{realversion}
+%setup -n %{n}-%{realversion}
 %patch0 -p0
 %patch1 -p1
 
