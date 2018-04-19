@@ -1,10 +1,10 @@
-### RPM cms das 05.00.01
+### RPM cms das 05.00.02
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 %define pkg0 DAS
 %define ver0 %realversion
 %define pkg1 das2go
-%define ver1 03.00.05
+%define ver1 03.00.06
 Source0: https://github.com/dmwm/%pkg0/archive/%ver0.tar.gz
 Source1: https://github.com/dmwm/%pkg1/archive/%ver1.tar.gz
 
