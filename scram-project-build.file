@@ -64,7 +64,7 @@ Requires: glibc
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-07-00
+%define configtag       V05-07-07
 %endif
 
 %if "%{?cvssrc:set}" != "set"
@@ -310,6 +310,7 @@ for L in `find external/%cmsplatf -type l`; do
 done
 find external/%cmsplatf -type l | xargs ls -l
 %{?PatchReleaseSymlinkRelocate:%PatchReleaseSymlinkRelocate}
+echo "%{cmsroot}" > %{i}/config/scram_basedir
 
 %post
 export SCRAM_ARCH=%cmsplatf
