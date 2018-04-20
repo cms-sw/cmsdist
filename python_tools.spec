@@ -13,7 +13,7 @@ Requires: py2-Theano-toolfile
 Requires: py2-scikit-learn
 Requires: py2-rootpy-toolfile
 Requires: py2-tensorflow-toolfile
-Requires: py2-googlePackages
+Requires: py2-googlePackages-toolfile
 
 Requires: py2-tables-toolfile
 Requires: py2-numexpr
@@ -151,7 +151,7 @@ Requires: py2-pip-toolfile
 Requires: py2-cx-oracle
 %endif
 Requires: py2-cython-toolfile
-
+Requires: py2-future
 
 %prep
 
