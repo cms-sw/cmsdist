@@ -1,10 +1,10 @@
-### RPM cms crabclient 3.3.1804.patch1
+### RPM cms crabclient 3.3.1805.rc1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 #branch 1.1.2_crab
-%define wmcver 1.1.2.crab2
+%define wmcver 1.1.2.crab7
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define crabserver 3.3.1710.rc1
 
