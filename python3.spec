@@ -86,3 +86,5 @@ echo "       site.addsitedir(p)">> %i/lib/python%{pythonv}/sitecustomize.py
 %{relocateConfig}lib/pkgconfig/python*.pc
 %{relocateConfig}lib/python*/config-*/Makefile
 %{relocateConfig}lib/python*/_sysconfigdata*.py
+%{relocateConfig}etc/profile.d/dependencies-setup.csh
+%{relocateConfig}etc/profile.d/dependencies-setup.sh

@@ -1,8 +1,9 @@
 ### RPM external py2-matplotlib 1.5.2
 ## INITENV +PATH PYTHON27PATH %i/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON3PATH %i/${PYTHON3_LIB_SITE_PACKAGES}
 Source: https://github.com/matplotlib/matplotlib/archive/v%{realversion}.tar.gz
 Requires: py2-pytz py2-numpy py2-python-dateutil zlib libpng freetype py2-pyparsing py2-six
-BuildRequires: py2-setuptools
+BuildRequires: py2-pip
 
 %prep
 %setup -n matplotlib-%{realversion}
@@ -24,14 +25,18 @@ mkdir no-pkg-config
 chmod +x no-pkg-config/pkg-config
 
 %build
-export CPLUS_INCLUDE_PATH=${FREETYPE_ROOT}/include/freetype2:${LIBPNG_ROOT}/include/libpng16
-export MPLCONFIGDIR=$PWD/no-pkg-config
-PATH=$PWD/no-pkg-config:$PATH \
-python setup.py build
+#python setup.py build
 
 %install
 export CPLUS_INCLUDE_PATH=${FREETYPE_ROOT}/include/freetype2:${LIBPNG_ROOT}/include/libpng16
-python setup.py install --prefix=%i  --single-version-externally-managed --record=/dev/null
+export MPLCONFIGDIR=$PWD/no-pkg-config
+PATH=$PWD/no-pkg-config:$PATH \
+export CPLUS_INCLUDE_PATH=${FREETYPE_ROOT}/include/freetype2:${LIBPNG_ROOT}/include/libpng16
+export PYTHONUSERBASE=%i
+pip install . --user
+pip3 install . --user
+
+#python setup.py install --prefix=%i  --single-version-externally-managed --record=/dev/null
 
 # No need for test files
 rm -rf %i/${PYTHON_LIB_SITE_PACKAGES}/matplotlib/tests
