@@ -1,5 +1,6 @@
 ### RPM external py2-ipython 5.5.0
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
 
 %define pip_name ipython
@@ -8,6 +9,6 @@ Requires: py2-prompt_toolkit py2-pathlib2 py2-traitlets py2-simplegeneric py2-si
 ## IMPORT build-with-pip
 
 %define PipPostBuild \
-   perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/ipython  %{i}/bin/ipython2  %{i}/bin/iptest2  %{i}/bin/iptest 
+   perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*; perl -p -i -e "s|^#!.*python3|#!/usr/bin/env python3|" %{i}/bin/*
 
 
