@@ -1,9 +1,10 @@
 ### RPM external py2-numpy 1.14.1
 ## INITENV +PATH PYTHON27PATH %i/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON3PATH %i/${PYTHON3_LIB_SITE_PACKAGES}
 ## INITENV SET PY2_NUMPY_REAL_VERSION %{realversion}
 
 Source: https://github.com/numpy/numpy/releases/download/v%{realversion}/numpy-%{realversion}.tar.gz
-Requires: python  zlib OpenBLAS
+Requires: zlib OpenBLAS python python3
 #py2-setuptools
 BuildRequires: py2-pip
 
@@ -41,7 +42,8 @@ EOF
 mkdir -p %i/${PYTHON_LIB_SITE_PACKAGES}
 
 export PYTHONUSERBASE=%i
-pip install . --user 
+pip2 install . --user 
+pip3 install . --user 
 
 perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
 

@@ -1,5 +1,6 @@
 ### RPM external py2-pygithub 1.23.0
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 Source: https://github.com/jacquev6/PyGithub/archive/v%{realversion}.zip
 Requires: python
 BuildRequires: py2-setuptools

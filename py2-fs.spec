@@ -1,5 +1,6 @@
 ### RPM external py2-fs 0.5.5a1 
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
 %define pip_name fs
 

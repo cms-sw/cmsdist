@@ -1,6 +1,8 @@
 ### RPM external py2-uproot 2.6.19
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
+%define doPython3 no
 %define pip_name uproot
 
 ## IMPORT build-with-pip
