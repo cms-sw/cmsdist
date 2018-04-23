@@ -1,4 +1,4 @@
-### RPM cms cmssw-toolfile 2.1
+### RPM cms cmssw-toolfile 3.0
 Requires: cmssw
 %prep
 
@@ -14,13 +14,15 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cmssw.xml
     <environment name="LIBDIR" default="$CMSSW_BASE/lib/$SCRAM_ARCH"/>
     <environment name="CMSSW_BINDIR" default="$CMSSW_BASE/bin/$SCRAM_ARCH"/>
     <environment name="INCLUDE" default="$CMSSW_BASE/src"/>
+    <environment name="INCLUDE" default="$CMSSW_BASE/include/$SCRAM_ARCH/include" handler="warn"/>
   </client>
   <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$CMSSW_BASE/biglib/$SCRAM_ARCH" type="path"/>
   <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$CMSSW_BASE/lib/$SCRAM_ARCH" type="path"/>
   <runtime name="PATH"       value="$CMSSW_BINDIR" type="path"/>
   <runtime name="PYTHON27PATH" value="$CMSSW_BINDIR" type="path"/>
   <runtime name="PYTHON27PATH" value="$LIBDIR" type="path"/>
-  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$CMSSW_BASE/src" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$CMSSW_BASE/include/$SCRAM_ARCH/include" type="path" handler="warn"/>
   <runtime name="CMSSW_FULL_RELEASE_BASE" value="$CMSSW_BASE"/>
   <use name="root_cxxdefaults"/>
 </tool>
