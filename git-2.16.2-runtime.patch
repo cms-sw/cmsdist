@@ -1,29 +1,22 @@
 diff --git a/exec_cmd.c b/exec_cmd.c
-index fb94aeb..7dc84b0 100644
+index ce192a2..2414b2b 100644
 --- a/exec_cmd.c
 +++ b/exec_cmd.c
-@@ -5,12 +5,12 @@
- #define MAX_ARGS	32
- 
+@@ -7,19 +7,21 @@
  static const char *argv_exec_path;
+ 
+ #ifdef RUNTIME_PREFIX
 -static const char *argv0_path;
 +static const char *argv0_path = NULL;
  
- char *system_path(const char *path)
+ static const char *system_prefix(void)
  {
- #ifdef RUNTIME_PREFIX
 -	static const char *prefix;
 +	static const char *prefix = NULL;
- #else
- 	static const char *prefix = PREFIX;
- #endif
-@@ -20,13 +20,12 @@ char *system_path(const char *path)
- 		return xstrdup(path);
  
- #ifdef RUNTIME_PREFIX
--	assert(argv0_path);
--	assert(is_absolute_path(argv0_path));
--
+ 	assert(argv0_path);
+ 	assert(is_absolute_path(argv0_path));
+ 
 -	if (!prefix &&
 -	    !(prefix = strip_path_suffix(argv0_path, GIT_EXEC_PATH)) &&
 -	    !(prefix = strip_path_suffix(argv0_path, BINDIR)) &&

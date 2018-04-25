@@ -1,4 +1,4 @@
-### RPM external git 2.13.0
+### RPM external git 2.16.2
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH PATH %{i}/libexec/git-core
 ## INITENV SET GIT_TEMPLATE_DIR %{i}/share/git-core/templates
@@ -10,8 +10,8 @@
 %define isLinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
 
 Source0: https://github.com/git/git/archive/v%{realversion}.tar.gz
-Source1: https://raw.github.com/bagder/curl/curl-7_53_1/lib/mk-ca-bundle.pl
-Patch1: git-2.12.0-runtime
+Source1: https://raw.github.com/bagder/curl/curl-7_59_0/lib/mk-ca-bundle.pl
+Patch1: git-2.16.2-runtime
 
 Requires: curl expat openssl zlib pcre
 BuildRequires: autotools
@@ -37,6 +37,7 @@ Provides: perl(Encode)
 
 %build
 export LDFLAGS="-L${OPENSSL_ROOT}/lib"
+export NO_LIBPCRE1_JIT=1
 make %{makeprocesses} configure
 ./configure prefix=%{i} \
    --with-curl=${CURL_ROOT} \
@@ -65,6 +66,7 @@ chmod +x ./mk-ca-bundle.pl
 popd
 
 %install
+export NO_LIBPCRE1_JIT=1
 make %{makeprocesses} \
   V=1 \
   NO_CROSS_DIRECTORY_HARDLINK=1 \
