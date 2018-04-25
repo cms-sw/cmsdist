@@ -13,6 +13,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/tensorflow.xml
     <environment name="TENSORFLOW_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$TENSORFLOW_BASE/lib"/>
     <environment name="INCLUDE" default="$TENSORFLOW_BASE/include"/>
+    <environment name="TFCOMPILE" default="$TENSORFLOW_BASE/bin/tfcompile"/>
   </client>
   <runtime name="PATH" value="$TENSORFLOW_BASE/bin" type="path"/>
 </tool>
