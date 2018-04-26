@@ -42,6 +42,28 @@ rm -rf %_builddir/lib64/libnvblas.so.9.1.85
 rm -rf %_builddir/lib64/libcublas.so.9.1.128
 rm -rf %_builddir/lib64/libnvblas.so.9.1.128
 
+# patch the extracted files
+patch -d%_builddir -p1 <<@EOF
+diff -u a/include/crt/host_config.h b/include/crt/host_config.h
+--- a/include/crt/host_config.h
++++ b/include/crt/host_config.h
+@@ -116,11 +116,11 @@
+ 
+ #if defined(__GNUC__)
+ 
+-#if __GNUC__ > 6
++#if __GNUC__ > 7
+ 
+-#error -- unsupported GNU version! gcc versions later than 6 are not supported!
++#error -- unsupported GNU version! gcc versions later than 7 are not supported!
+ 
+-#endif /* __GNUC__ > 6 */
++#endif /* __GNUC__ > 7 */
+ 
+ #if defined(__APPLE__) && defined(__MACH__) && !defined(__clang__)
+ #error -- clang and clang++ are the only supported host compilers on Mac OS X!
+@EOF
+
 ln -sf ../libnvvp/nvvp %_builddir/bin/nvvp
 ln -sf ../libnsight/nsight %_builddir/bin/nsight
 mkdir -p %{i}/lib64
