@@ -1,5 +1,5 @@
-### RPM external cuda-api-wrappers 20180503
-%define tag 301361e7b20369e6d72bc078a2148c2b64eb1e4d
+### RPM external cuda-api-wrappers 20180504
+%define tag 1dd100748f880d241cfec03847558fffbf5292d7
 %define branch master
 %define github_user cms-externals
 
