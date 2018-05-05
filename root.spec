@@ -2,8 +2,8 @@
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 5e6bf5dea47b4581c6ee6b3f1a114dc4467867d9
-%define branch cms/master/970aa03
+%define tag dc86153fa4eedfa3784d1dd0d778fc012a429fb2
+%define branch cms/master/0e6b5cb2fc
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
@@ -116,7 +116,6 @@ cmake ../%{n}-%{realversion} \
   -Dchirp=OFF \
   -Dsrp=OFF \
   -Ddavix=ON \
-  -DDAVIX_DIR=${DAVIX_ROOT} \
   -Dglite=OFF \
   -Dsapdb=OFF \
   -Dalien=OFF \
@@ -142,7 +141,7 @@ cmake ../%{n}-%{realversion} \
   -DZLIB_INCLUDE_DIR="${ZLIB_ROOT}/include" \
   -DLIBXML2_INCLUDE_DIR="${LIBXML2_ROOT}/include/libxml2" \
   -DLIBXML2_LIBRARIES="${LIBXML2_ROOT}/lib/libxml2.%{soext}" \
-  -DCMAKE_PREFIX_PATH="${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT}"
+  -DCMAKE_PREFIX_PATH="${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${DAVIX_ROOT}"
 
 # For CMake cache variables: http://www.cmake.org/cmake/help/v3.2/manual/cmake-language.7.html#lists
 # For environment variables it's OS specific: http://www.cmake.org/Wiki/CMake_Useful_Variables
