@@ -1,18 +1,19 @@
-### RPM external xrootd 4.8.1
+### RPM external xrootd 4.8.3
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-%define tag 6ef81d9e2250176712b4feb49f8496185f494ac5
+%define tag b9fd347a3358af3808de1b0878691f641d6143f5
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-Patch0: xrootd-gcc8
+
 BuildRequires: cmake
 Requires: zlib
 Requires: openssl
 Requires: python
+Requires: libxml2
 
 %prep
 %setup -n %n-%{realversion}
-%patch0 -p1
+
 # need to fix these from xrootd git
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/loadRTDataToMySQL.pl
@@ -38,7 +39,7 @@ cmake ../ \
   -DENABLE_CRYPTO=TRUE \
   -DCMAKE_SKIP_RPATH=TRUE \
   -DENABLE_PYTHON=TRUE \
-  -DCMAKE_PREFIX_PATH="${PYTHON_ROOT}"
+  -DCMAKE_PREFIX_PATH="${PYTHON_ROOT};${LIBXML2_ROOT}"
 
 # Use makeprocess macro, it uses compiling_processes defined by
 # build configuration file or build argument
