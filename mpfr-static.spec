@@ -1,4 +1,4 @@
-### RPM external mpfr-static 3.1.3
+### RPM external mpfr-static 3.1.6
 
 Source: http://www.mpfr.org/mpfr-%{realversion}/mpfr-%{realversion}.tar.bz2
 

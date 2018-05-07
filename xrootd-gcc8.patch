@@ -1,0 +1,20 @@
+diff --git a/cmake/XRootDOSDefs.cmake b/cmake/XRootDOSDefs.cmake
+index d130c9e..013e080 100644
+--- a/cmake/XRootDOSDefs.cmake
++++ b/cmake/XRootDOSDefs.cmake
+@@ -28,6 +28,15 @@ if( CMAKE_COMPILER_IS_GNUCXX )
+   set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x" )
+   set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror" )
+   set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-parameter" )
++  set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=format-overflow" )
++  set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=class-memaccess" )
++  set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=stringop-truncation" )
++  set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=format-truncation" )
++  set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=restrict" )
++  set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=stringop-overflow" )
++  set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=array-bounds" )
++  set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=parentheses" )
++  set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=sizeof-pointer-memaccess" )
+   # gcc 4.1 is retarded
+   execute_process( COMMAND ${CMAKE_C_COMPILER} -dumpversion
+                    OUTPUT_VARIABLE GCC_VERSION )

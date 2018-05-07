@@ -1,17 +1,15 @@
-### RPM external rpm 4.13.0.1
+### RPM external rpm 4.14.1
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV SET RPM_CONFIGDIR %{i}/lib/rpm
 ## INITENV SET RPM_POPTEXEC_PATH %{i}/bin
 ## NOCOMPILER
 
 %define ismac %(case %{cmsplatf} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
-# Warning! While rpm itself seems to work, at the time of writing it
-# does not seem to be possible to build apt-rpm with 
-%define tag c833595dbf3016971c1987f14641f99e37539779
-%define branch cms/rpm-4.13.0.1-release
+%define tag 43fdb69f3259b1f67450c3e7ec159b3fb19b9fed
+%define branch cms/rpm-%{realversion}-release
 %define github_user cms-externals
 %define github_repo rpm-upstream
-Source: git+https://github.com/%{github_user}/%{github_repo}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source: git+https://github.com/%{github_user}/%{github_repo}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 Requires: bootstrap-bundle
 BuildRequires: autotools
@@ -31,9 +29,9 @@ Provides: Kerberos
 autoreconf -fiv
 
 case %cmsplatf in
-  slc*_amd64|*_mic_*)
+  slc*_amd64_*|*_mic_*)
     CFLAGS_PLATF="-fPIC"
-    LIBS_PLATF="-ldl"
+    LIBS_PLATF="-ldl -lm"
   ;;
   slc*_aarch64_*|fc*)
     CFLAGS_PLATF="-fPIC"
@@ -74,8 +72,10 @@ perl -p -i -e's|-O2|-O0|' ./configure
     LDFLAGS="-L$BOOTSTRAP_BUNDLE_ROOT/lib $OS_LDFLAGS" \
     CPPFLAGS="-I$BOOTSTRAP_BUNDLE_ROOT/include \
               $OS_CPPFLAGS -I/usr/include/nspr4 -I/usr/include/nss3" \
-    LIBS="-lnspr4 -lnss3 -lnssutil3 -lplds4 -lbz2 -lplc4 -lz -lpopt -llzma \
-          -ldb -llua -larchive $LIBS_PLATF"
+    LIBS="-lnspr4 -lnss3 -lnssutil3 -lplds4 -lbz2 -lplc4 -lz -llzma \
+          -ldb -larchive $LIBS_PLATF" \
+    LUA_CFLAGS="-I$BOOTSTRAP_BUNDLE_ROOT/include" \
+    LUA_LIBS="-llua"
 
 #FIXME: this does not seem to work and we still get /usr/bin/python in some of the files.
 export __PYTHON="/usr/bin/env python"

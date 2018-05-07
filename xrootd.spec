@@ -4,7 +4,7 @@
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-
+Patch0: xrootd-gcc8
 BuildRequires: cmake
 Requires: zlib
 Requires: openssl
@@ -12,7 +12,7 @@ Requires: python
 
 %prep
 %setup -n %n-%{realversion}
-
+%patch0 -p1
 # need to fix these from xrootd git
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/loadRTDataToMySQL.pl
@@ -21,7 +21,6 @@ perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/prepareMySQLSt
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonCreateMySQL.pl
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonLoadMySQL.pl
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonPrepareStats.pl
-
 %build
 mkdir build
 cd build
