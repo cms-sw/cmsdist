@@ -44,7 +44,6 @@ rm -rf %{i}/lib/pkgconfig
 rm -f %{i}/lib/*.la
 # Look up documentation online.
 %define drop_files %{i}/share
-%clean
 
 %post
 %{relocateConfig}bin/gsl-config
