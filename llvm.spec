@@ -5,19 +5,19 @@
 BuildRequires: python cmake ninja
 Requires: gcc zlib
 
-%define llvmCommit 089d4c0c490687db6c75f1d074e99c4d42936a50
+%define llvmCommit 0b57b47378e5b31693c6b2ef899ffb10c6b09e09
 %define llvmBranch release_60
-%define clangCommit 2a3d19c94f09f85a9029a1b02b49047c17b02f9c
-%define clangBranch cms/release_60/ff0c0d8
+%define clangCommit cf7d5ae226a30948c102368399f4992c8833694a
+%define clangBranch cms/release_60/e74607
 %define clangToolsExtraCommit 0ea5aed4817afebb7fbdea644b723052a0ef370c
 %define clangToolsExtraBranch release_60
 %define compilerRtCommit 9d61c78bced84866cc886f1f1111c8e51c1d52d5
 %define compilerRtBranch release_60
 %define openmpCommit d5aa29cb3bcf51289d326b4e565613db8aff65ef
 %define openmpBranch release_60
-%define iwyuCommit 4bfe5d6e39d5a6d5dad11f4abd836bc1afcfbdaf
+%define iwyuCommit 5082fddccb3d5aabaace2208f1162029a27c0334
 %define iwyuBranch master
-%define lldCommit ffbe1621520d31a0a8d12234d150b086f24aa04a
+%define lldCommit bd6eb65ebaed5ee94d35d8073c417ec3c26f0b8a
 %define lldBranch release_60
 
 Source0: git+https://github.com/llvm-mirror/llvm.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%{realversion}-%{llvmCommit}&output=/llvm-%{realversion}-%{llvmCommit}.tgz
