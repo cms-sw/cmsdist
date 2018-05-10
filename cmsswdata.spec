@@ -1,4 +1,4 @@
-### RPM cms cmsswdata 31
+### RPM cms cmsswdata 32
 ## NOCOMPILER
 Source: none
 
@@ -49,6 +49,7 @@ Requires: data-SimTransport-HectorProducer
 Requires: data-PhysicsTools-NanoAOD
 Requires: data-RecoTracker-FinalTrackSelectors
 Requires: data-EgammaAnalysis-ElectronTools
+Requires: data-DQM-DTMonitorClient
 
 %if %isnotonline
 # extra data dependencies for standard builds
