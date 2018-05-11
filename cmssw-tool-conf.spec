@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 42.0
+### RPM cms cmssw-tool-conf 43.0
 ## NOCOMPILER
 # With cmsBuild, change the above version only when a new tool is added
 
@@ -11,6 +11,7 @@
 %define isnotaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 0 ;; (*) echo 1 ;; esac)
 %define isslc7 %(case %{cmsplatf} in (slc7_amd64*) echo 1 ;; (*) echo 0 ;; esac)
 
+Requires: catch2-toolfile
 Requires: starlight-toolfile
 Requires: alpgen-toolfile
 Requires: boost-toolfile
