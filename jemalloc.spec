@@ -22,7 +22,6 @@ sed -ibak 's/install: install_bin install_include install_lib install_doc/instal
 
 ./configure ${XOPTS}\
   --enable-stats \
-  --enable-prof \
   --prefix %{i}
 
 %post
