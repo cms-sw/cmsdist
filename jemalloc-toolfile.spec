@@ -14,10 +14,10 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/jemalloc.xml
     <lib name="jemalloc"/>
   </architecture>
   <client>
+    <environment name="JEMALLOC_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR"        default="$JEMALLOC_BASE/lib"/>
     <environment name="INCLUDE"        default="$JEMALLOC_BASE/include"/>
   </client>
-  <runtime name="MALLOC_CONF" value="%{jemalloc_config}"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
 </tool>
