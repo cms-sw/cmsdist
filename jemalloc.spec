@@ -11,11 +11,16 @@ BuildRequires: autotools
 %setup -n %{n}-%{realversion}
 
 %build
+XOPTS=""
+case %{cmsplatf} in
+  *_aarch64_*|*_ppc64le_*|*_ppc64_*) XOPTS="--with-lg-page=16" ;;
+esac
+
 # Disable documentation (not needed)
 sed -ibak 's/install: install_bin install_include install_lib install_doc/install: install_bin install_include install_lib/' Makefile.in
 ./autogen.sh
 
-./configure \
+./configure ${XOPTS}\
   --enable-stats \
   --prefix %{i}
 
