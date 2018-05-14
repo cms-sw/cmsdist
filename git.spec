@@ -1,4 +1,4 @@
-### RPM external git 2.16.2
+### RPM external git 2.17.0
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH PATH %{i}/libexec/git-core
 ## INITENV SET GIT_TEMPLATE_DIR %{i}/share/git-core/templates
@@ -44,8 +44,7 @@ make %{makeprocesses} configure
    --with-expat=${EXPAT_ROOT} \
    --with-libpcre=${PCRE_ROOT} \
    --without-python \
-   --with-zlib=${ZLIB_ROOT} \
-   --without-tcltk
+   --with-zlib=${ZLIB_ROOT}
    
 make %{makeprocesses} \
   NO_GETTEXT=1 \
