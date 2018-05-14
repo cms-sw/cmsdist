@@ -21,10 +21,10 @@ Requires: jemalloc
 
 %if 0%{?cmsplatf_aarch64}%{?cmsplatf_ppc64le}%{?cmsplatf_ppc64}
 # 64K page systems
-%define jemalloc_config lg_chunk:23,lg_dirty_mult:8
+%define jemalloc_config lg_dirty_mult:8
 %else
 # 4K page systems
-%define jemalloc_config lg_chunk:18,lg_dirty_mult:4
+%define jemalloc_config lg_dirty_mult:4
 %endif
 
 mkdir -p %i/etc/scram.d
@@ -38,6 +38,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/jemalloc.xml
     <environment name="LIBDIR"        default="$JEMALLOC_BASE/lib"/>
     <environment name="INCLUDE"        default="$JEMALLOC_BASE/include"/>
   </client>
+  <runtime name="MALLOC_CONF" value="%{jemalloc_config}"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
 </tool>
