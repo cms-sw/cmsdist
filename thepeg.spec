@@ -25,7 +25,7 @@ BuildRequires: lhapdf
 
 %prep
 %setup -q -n ThePEG-%{realversion}
-
+sed -i -e 's|^mkdir /Dummy$|mkdir /\nmkdir /Dummy|' src/ThePEGDefaults.in
 # Regenerate build scripts
 autoreconf -fiv
 
