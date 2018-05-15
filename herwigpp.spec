@@ -34,7 +34,7 @@ BuildRequires: autotools
 
 %prep
 %setup -q -n Herwig-%{realversion}
-
+sed -i -e 's|^mkdir /Herwig$|mkdir /\nmkdir /Herwig|' src/defaults/HerwigDefaults.in
 %patch0 -p1 
 
 # Regenerate build scripts
