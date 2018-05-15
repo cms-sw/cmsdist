@@ -1,23 +1,8 @@
-From b229129c3a495965695f514ac85e449818b17990 Mon Sep 17 00:00:00 2001
-From: David Abdurachmanov <David.Abdurachmanov@cern.ch>
-Date: Wed, 24 May 2017 19:12:27 +0200
-Subject: [PATCH] Revert r248245 (breaks ROOT)
-
-Git commit: 7d2124f7e0a0cff7cfdddedf7c1c89d396ca1423
-SVN commit: r248245
-
-Signed-off-by: David Abdurachmanov <David.Abdurachmanov@cern.ch>
----
- libstdc++-v3/include/std/functional                |    6 ----
- .../20_util/function_objects/mem_fn/80478.cc       |   27 --------------------
- 2 files changed, 0 insertions(+), 33 deletions(-)
- delete mode 100644 libstdc++-v3/testsuite/20_util/function_objects/mem_fn/80478.cc
-
-diff --git a/libstdc++-v3/include/std/functional b/libstdc++-v3/include/std/functional
-index 465b3ec..e4a82ee 100644
---- a/libstdc++-v3/include/std/functional
-+++ b/libstdc++-v3/include/std/functional
-@@ -135,12 +135,6 @@ _GLIBCXX_MEM_FN_TRAITS( , true_type, true_type)
+diff --git a/libstdc++-v3/include/bits/refwrap.h b/libstdc++-v3/include/bits/refwrap.h
+index c1d4670..4b7d7e0 100644
+--- a/libstdc++-v3/include/bits/refwrap.h
++++ b/libstdc++-v3/include/bits/refwrap.h
+@@ -98,12 +98,6 @@ _GLIBCXX_MEM_FN_TRAITS( , true_type, true_type)
  _GLIBCXX_MEM_FN_TRAITS(&, true_type, false_type)
  _GLIBCXX_MEM_FN_TRAITS(&&, false_type, true_type)
  
@@ -32,11 +17,11 @@ index 465b3ec..e4a82ee 100644
  
 diff --git a/libstdc++-v3/testsuite/20_util/function_objects/mem_fn/80478.cc b/libstdc++-v3/testsuite/20_util/function_objects/mem_fn/80478.cc
 deleted file mode 100644
-index f49fcaa..0000000
+index 7f8982d..0000000
 --- a/libstdc++-v3/testsuite/20_util/function_objects/mem_fn/80478.cc
 +++ /dev/null
 @@ -1,27 +0,0 @@
--// Copyright (C) 2017 Free Software Foundation, Inc.
+-// Copyright (C) 2017-2018 Free Software Foundation, Inc.
 -//
 -// This file is part of the GNU ISO C++ Library.  This library is free
 -// software; you can redistribute it and/or modify it under the
@@ -54,7 +39,7 @@ index f49fcaa..0000000
 -// <http://www.gnu.org/licenses/>.
 -
 -// { dg-options "-std=gnu++17" }
--// { dg-do compile { target c++1z } }
+-// { dg-do compile { target c++17 } }
 -
 -#include <functional>
 -
@@ -63,6 +48,3 @@ index f49fcaa..0000000
 -};
 -
 -auto f = std::mem_fn(&X::f);
--- 
-1.7.1
-

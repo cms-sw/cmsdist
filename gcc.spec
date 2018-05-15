@@ -41,13 +41,13 @@ Source11: https://github.com/westes/flex/releases/download/v%{flexVersion}/flex-
 
 Patch0: gcc-flex-nonfull-path-m4
 Patch1: gcc-flex-disable-doc
-Patch2: gcc-remove-LWG2825-LWG2756-r245024
+#Patch2: gcc-remove-LWG2825-LWG2756-r245024
 #Patch3: 0001-Revert-r248245-breaks-ROOT
 
 %prep
 
 %setup -T -b 0 -n %{moduleName}
-%patch2 -p1
+#%patch2 -p1
 #%patch3 -p1
 
 # Filter out private stuff from RPM requires headers.
