@@ -10,6 +10,7 @@ Patch7: alpgen-214-Darwin-x86_84-gfortran
 %setup -c -n alpgen-%v
 %patch0 -p1 
 %patch7 -p1
+sed -i -e 's|-fno-automatic|-fno-automatic -std=legacy|' compile.mk
 
 %build
 cd 2Qphwork; make gen; cd ..

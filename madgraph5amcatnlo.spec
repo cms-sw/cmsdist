@@ -25,7 +25,7 @@ Requires: pythia8
 %patch1 -p1
 
 %build
-
+export FC="$(which gfortran) -std=legacy"
 # Save patched config
 cp input/mg5_configuration.txt input/mg5_configuration_patched.txt
 
