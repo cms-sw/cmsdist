@@ -86,6 +86,8 @@ cp ./ca-bundle/ca-bundle.crt %{i}/share/ssl/certs/ca-bundle.crt
 %{relocateConfig}libexec/git-core/git-instaweb
 %{relocateConfig}libexec/git-core/git-send-email
 %{relocateConfig}libexec/git-core/git-svn
+%{relocateConfig}libexec/git-core/git-citool
+%{relocateConfig}libexec/git-core/git-gui
 %{relocateConfig}share/perl5/Git/I18N.pm
 %{relocateConfig}share/gitweb/gitweb.cgi
 %{relocateConfig}lib64/perl5/auto/Git/.packlist
