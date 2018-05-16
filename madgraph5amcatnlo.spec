@@ -17,12 +17,19 @@ Requires: lhapdf
 Requires: gosamcontrib
 Requires: fastjet
 Requires: pythia8
+Requires: thepeg
                    
 %prep
 %setup -n MG5_aMC_v%{versiontag}
-
 %patch0 -p1
 %patch1 -p1
+
+sed -i -e "s|\${HEPMC_ROOT}|${HEPMC_ROOT}|g" input/mg5_configuration.txt
+sed -i -e "s|\${PYTHIA8_ROOT}|${PYTHIA8_ROOT}|g" input/mg5_configuration.txt
+sed -i -e "s|\${LHAPDF_ROOT}|${LHAPDF_ROOT}|g" input/mg5_configuration.txt
+sed -i -e "s|\${FASTJET_ROOT}|${FASTJET_ROOT}|g" input/mg5_configuration.txt
+sed -i -e "s|\${GOSAMCONTRIB_ROOT}|${GOSAMCONTRIB_ROOT}|g" input/mg5_configuration.txt
+sed -i -e "s|\${THEPEG_ROOT}|${THEPEG_ROOT}|g" input/mg5_configuration.txt
 
 %build
 export FC="$(which gfortran) -std=legacy"
@@ -48,28 +55,16 @@ set nevents 5
 EOF
 ./bin/mg5_aMC ./basiceventgeneration.txt
 
-# Remove folder of basic event generation
-#rm -rf basiceventgeneration
-
-
 # Remove all downloaded tgz files before building the package
 find . -type f -name '*.tgz' -delete
 
 %install
+sed -i -e "s|@MADGRAPH5AMCATNLO_ROOT@|%{i}|g" input/mg5_configuration.txt
 rsync -avh %{_builddir}/MG5_aMC_v%{versiontag}/ %{i}/
 sed -ideleteme 's|#!.*/bin/python|#!/usr/bin/env python|' \
     %{i}/Template/LO/bin/internal/addmasses_optional.py \
     %{i}/madgraph/various/progressbar.py
 find %{i} -name '*deleteme' -delete
 
-sed -i -e "s|^lhapdf.*$|lhapdf = ${LHAPDF_ROOT}/bin/lhapdf-config #|g" %{i}/input/mg5_configuration.txt
-sed -i -e "s|^fastjet.*$|fastjet = $FASTJET_ROOT/bin/fastjet-config #|g" %{i}/input/mg5_configuration.txt
-sed -i -e "s|^golem.*$|golem = $GOSAMCONTRIB_ROOT/lib #|g" %{i}/input/mg5_configuration.txt
-#sed -i -e "s|^ninja.*$|ninja = $NINJA_ROOT/lib #|g" %{i}/input/mg5_configuration.txt
-#sed -i -e "s|^collier.*$|collier = $RPM_INSTALL_PREFIX/%{pkgrel}/HEPTools/lib #|g" %{i}/input/mg5_configuration.txt
-
 %post
 %{relocateConfig}input/mg5_configuration.txt
-MG5_INSTALL_PATH=$RPM_INSTALL_PREFIX/%{pkgrel} 
-sed -i -e "s|^collier.*$|collier = $MG5_INSTALL_PATH/HEPTools/lib #|g" $RPM_INSTALL_PREFIX/%{pkgrel}/input/mg5_configuration.txt
-sed -i -e "s|^ninja.*$|ninja = $MG5_INSTALL_PATH/HEPTools/lib #|g" $RPM_INSTALL_PREFIX/%{pkgrel}/input/mg5_configuration.txt
