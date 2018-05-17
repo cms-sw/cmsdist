@@ -1,11 +1,9 @@
-### RPM external cuda 9.1.85
-%define driversversion 387.26
+### RPM external cuda 9.2.88
+%define driversversion 396.26
 %define cudaversion %(echo %realversion | cut -d. -f 1,2)
 
 Source0: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux
 Source1: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/patches/1/%{n}_%{realversion}.1_linux
-Source2: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/patches/2/%{n}_%{realversion}.2_linux
-Source3: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/patches/3/%{n}_%{realversion}.3_linux
 AutoReq: no
 
 %prep
@@ -16,53 +14,19 @@ AutoReq: no
 mkdir -p %_builddir/tmp
 /bin/sh %{SOURCE0} --silent --tmpdir %_builddir/tmp --extract %_builddir
 # extracts:
-# %_builddir/NVIDIA-Linux-x86_64-387.26.run
-# %_builddir/cuda-linux.9.1.85-23083092.run
-# %_builddir/cuda-samples.9.1.85-23083092-linux.run
+# %_builddir/NVIDIA-Linux-x86_64-396.26.run
+# %_builddir/cuda-linux.9.2.88-23920284.run
+# %_builddir/cuda-samples.9.2.88-23920284-linux.run
 
 # extract and repackage the CUDA runtime, tools and stubs
 /bin/sh %_builddir/%{n}-linux.%{realversion}-*.run -noprompt -nosymlink -tmpdir %_builddir/tmp -prefix %_builddir
 
-# Patch 1 (Released Jan 25, 2018)
-# cuBLAS Patch Update: This update to CUDA 9.1 includes new GEMM kernels optimized for the Volta architecture and
-# improved heuristics to select GEMM kernels for given input sizes.
+# Patch 1 (Released May 16, 2018)
+# cuBLAS 9.2 Patch Update: This update includes fix to cublas GEMM APIs on V100 Tensor Core GPUs when used with
+# default algorithm CUBLAS_GEMM_DEFAULT_TENSOR_OP.
 /bin/sh %{SOURCE1} --silent --accept-eula --tmpdir %_builddir/tmp --installdir %_builddir
-rm -rf %_builddir/lib64/libcublas.so.9.1.85
-rm -rf %_builddir/lib64/libnvblas.so.9.1.85
-
-# Patch 2 (Released Feb 27, 2018)
-# CUDA Compiler Patch Update: This update to CUDA 9.1 includes a bug fix to the PTX assembler (ptxas). The fix
-# resolves an issue when compiling code that performs address calculations using large immediate operands.
-/bin/sh %{SOURCE2} --silent --accept-eula --tmpdir %_builddir/tmp --installdir %_builddir
-
-# Patch 3 (Released Mar 5, 2018)
-# cuBLAS Patch: This CUDA 9.1 patch includes fixes to GEMM optimizations for convolutional sequence to sequence
-# (seq2seq) models.
-/bin/sh %{SOURCE3} --silent --accept-eula --tmpdir %_builddir/tmp --installdir %_builddir
-rm -rf %_builddir/lib64/libcublas.so.9.1.128
-rm -rf %_builddir/lib64/libnvblas.so.9.1.128
-
-# patch the extracted files
-patch -d%_builddir -p1 <<@EOF
-diff -u a/include/crt/host_config.h b/include/crt/host_config.h
---- a/include/crt/host_config.h
-+++ b/include/crt/host_config.h
-@@ -116,11 +116,11 @@
- 
- #if defined(__GNUC__)
- 
--#if __GNUC__ > 6
-+#if __GNUC__ > 7
- 
--#error -- unsupported GNU version! gcc versions later than 6 are not supported!
-+#error -- unsupported GNU version! gcc versions later than 7 are not supported!
- 
--#endif /* __GNUC__ > 6 */
-+#endif /* __GNUC__ > 7 */
- 
- #if defined(__APPLE__) && defined(__MACH__) && !defined(__clang__)
- #error -- clang and clang++ are the only supported host compilers on Mac OS X!
-@EOF
+rm -rf %_builddir/lib64/libcublas.so.9.2.88
+rm -rf %_builddir/lib64/libnvblas.so.9.2.88
 
 ln -sf ../libnvvp/nvvp %_builddir/bin/nvvp
 ln -sf ../libnsight/nsight %_builddir/bin/nsight
