@@ -1,4 +1,4 @@
-### RPM external git 2.16.2
+### RPM external git 2.17.0
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH PATH %{i}/libexec/git-core
 ## INITENV SET GIT_TEMPLATE_DIR %{i}/share/git-core/templates
@@ -44,8 +44,7 @@ make %{makeprocesses} configure
    --with-expat=${EXPAT_ROOT} \
    --with-libpcre=${PCRE_ROOT} \
    --without-python \
-   --with-zlib=${ZLIB_ROOT} \
-   --without-tcltk
+   --with-zlib=${ZLIB_ROOT}
    
 make %{makeprocesses} \
   NO_GETTEXT=1 \
@@ -87,6 +86,8 @@ cp ./ca-bundle/ca-bundle.crt %{i}/share/ssl/certs/ca-bundle.crt
 %{relocateConfig}libexec/git-core/git-instaweb
 %{relocateConfig}libexec/git-core/git-send-email
 %{relocateConfig}libexec/git-core/git-svn
+%{relocateConfig}libexec/git-core/git-citool
+%{relocateConfig}libexec/git-core/git-gui
 %{relocateConfig}share/perl5/Git/I18N.pm
 %{relocateConfig}share/gitweb/gitweb.cgi
 %{relocateConfig}lib64/perl5/auto/Git/.packlist
