@@ -24,7 +24,7 @@ Requires: openloops
 # Problem exists since Herwig++3Beta
 
 Patch0: herwigpp-missingBoostMTLib
-
+Patch1: herwigpp-7.1.2-gcc8
 
 BuildRequires: autotools
 
@@ -34,8 +34,8 @@ BuildRequires: autotools
 
 %prep
 %setup -q -n Herwig-%{realversion}
-sed -i -e 's|^mkdir /Herwig$|mkdir /\nmkdir /Herwig|' src/defaults/HerwigDefaults.in
 %patch0 -p1 
+%patch1 -p1
 
 # Regenerate build scripts
 autoreconf -fiv

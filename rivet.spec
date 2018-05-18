@@ -1,16 +1,16 @@
 ### RPM external rivet 2.5.4
-## OLD GENSER Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
 Source: http://lcgpackages.web.cern.ch/lcgpackages/tarFiles/sources/MCGeneratorsTarFiles/Rivet-%{realversion}.tar.bz2
 
 Requires: hepmc fastjet gsl yoda
-BuildRequires: python py2-cython
+BuildRequires: python py2-cython py2-setuptools
 
 Patch0: rivet-1.4.0
+Patch1: rivet-2.5.4-gcc8
 
 %prep
-## OLD GENSER: %setup -n rivet/%{realversion}
 %setup -n Rivet-%{realversion}
 %patch0 -p0
+%patch1 -p1
 
 # Update config.{guess,sub} to detect aarch64 and ppc64le
 rm -f %{_tmppath}/config.{sub,guess}

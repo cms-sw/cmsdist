@@ -1,0 +1,25 @@
+diff --git a/include/Rivet/AnalysisHandler.hh b/include/Rivet/AnalysisHandler.hh
+index 8a04909..b4b11c3 100644
+--- a/include/Rivet/AnalysisHandler.hh
++++ b/include/Rivet/AnalysisHandler.hh
+@@ -17,7 +17,7 @@ namespace Rivet {
+ 
+   // Needed to make smart pointers compare equivalent in the STL set
+   struct CmpAnaHandle {
+-    bool operator() (const AnaHandle& a, const AnaHandle& b) {
++    bool operator() (const AnaHandle& a, const AnaHandle& b) const{
+       return a.get() < b.get();
+     }
+   };
+diff --git a/include/Rivet/Tools/ParticleBaseUtils.hh b/include/Rivet/Tools/ParticleBaseUtils.hh
+index f303be7..1817254 100644
+--- a/include/Rivet/Tools/ParticleBaseUtils.hh
++++ b/include/Rivet/Tools/ParticleBaseUtils.hh
+@@ -22,6 +22,7 @@ namespace Rivet {
+   /// Base type for Particle -> bool functors
+   struct BoolParticleBaseFunctor {
+     virtual bool operator()(const ParticleBase& p) const = 0;
++    virtual ~BoolParticleBaseFunctor() {}
+   };
+ 
+ 
