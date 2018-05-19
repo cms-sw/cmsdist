@@ -27,6 +27,7 @@ Provides: perl(YAML::Any)
 Provides: perl(CGI::Carp)
 Provides: perl(CGI::Util)
 Provides: perl(Time::HiRes)
+Provides: perl(Encode)
 Provides: perl(Scalar::Util)
 
 %define drop_files %{i}/share/man
