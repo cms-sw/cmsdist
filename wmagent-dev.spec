@@ -1,4 +1,4 @@
-### RPM cms wmagent-dev 1.1.14.pre1
+### RPM cms wmagent-dev 1.1.14.pre2
 
 # This is a meta-package to group development tool dependencies
 Requires: wmagent rotatelogs pystack wmcore-devtools
