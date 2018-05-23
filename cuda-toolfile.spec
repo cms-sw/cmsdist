@@ -42,6 +42,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda.xml
   <flags CUDA_LDFLAGS="-shared"/>
   <flags CUDA_LDFLAGS="-L$(CUDA_BASE)/lib64"/>
   <flags CUDA_HOST_REM_CXXFLAGS="-std=%"/>
+  <flags CUDA_HOST_REM_CXXFLAGS="%potentially-evaluated-expression"/>
   <flags CUDA_HOST_CXXFLAGS="-std=c++14"/>
   <lib name="cudadevrt" type="cuda"/>
   <runtime name="PATH" value="$CUDA_BASE/bin" type="path"/>
