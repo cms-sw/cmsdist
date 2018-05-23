@@ -1,13 +1,12 @@
-### RPM external yaml-cpp 0.5.1
-Source: http://yaml-cpp.googlecode.com/files/%{n}-%{realversion}.tar.gz
+### RPM external yaml-cpp 0.6.2
+Source: https://github.com/jbeder/yaml-cpp/archive/%{n}-%{realversion}.tar.gz
 
 BuildRequires: cmake
 
 Requires: boost
 
 %prep
-%setup -n %{n}-%{realversion}
-
+%setup -n %{n}-%{n}-%{realversion}
  
 %build
 cmake . \
