@@ -7,7 +7,6 @@ Requires: boost
 
 %prep
 %setup -n %{n}-%{n}-%{realversion}
-
  
 %build
 cmake . \
