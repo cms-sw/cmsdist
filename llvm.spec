@@ -1,9 +1,13 @@
 ### RPM external llvm 6.0.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHON27PATH %{i}/lib64/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
++%define isamd64 %(case %{cmsplatf} in (*_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
 
 BuildRequires: python cmake ninja
-Requires: cuda gcc zlib
+Requires: gcc zlib
+%if %{isamd64}
+Requires: cuda
+%endif
 
 %define llvmCommit 500cb56799157a08a3283a067f172b6c6ad4efa6
 %define llvmBranch cms/release_60/329799
