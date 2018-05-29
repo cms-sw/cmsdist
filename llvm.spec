@@ -8,6 +8,7 @@ Requires: gcc zlib
 %if %{isamd64}
 Requires: cuda
 %endif
+AutoReq: no
 
 %define llvmCommit ff0a5e8a591ed8bfc14320740863b357b1774f49
 %define llvmBranch cms/release_70/342187
