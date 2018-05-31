@@ -1,5 +1,5 @@
 ### RPM external pythia8 230
-%define tag 74524ba8700857a1a0c08197e05876c93b57f4ec
+%define tag 6e0f72a4478754a4fb13c91ccc92f21947f2788e
 %define branch cms/%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
