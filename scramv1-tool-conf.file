@@ -118,7 +118,7 @@ if [ "${PYTHON3PATH}" != "" ] ; then
   echo '  <runtime name="PYTHON3PATH"  value="%{i}/'${PYTHON3_LIB_SITE_PACKAGES}'" type="path"/>' >> %{i}/tools/selected/python-paths.xml
 fi
 
-echo '<tool>' >> %{i}/tools/selected/python-paths.xml
+echo '</tool>' >> %{i}/tools/selected/python-paths.xml
 
 %post
 %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/tools -type f)
