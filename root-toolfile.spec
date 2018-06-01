@@ -289,6 +289,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roottmva.xml
 EOF_TOOLFILE
 
 # rootpymva toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootpymva.xml
 <tool name="rootpymva" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <lib name="PyMVA"/>
