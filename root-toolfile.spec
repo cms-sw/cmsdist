@@ -295,6 +295,7 @@ EOF_TOOLFILE
   <use name="roottmva"/>
   <use name="numpy-c-api"/>
 </tool>
+EOF_TOOLFILE
 
 # rootxml toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootxml.xml
