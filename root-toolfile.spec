@@ -288,6 +288,14 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roottmva.xml
 </tool>
 EOF_TOOLFILE
 
+# rootpymva toolfile
+<tool name="rootpymva" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="PyMVA"/>
+  <use name="roottmva"/>
+  <use name="numpy-c-api"/>
+</tool>
+
 # rootxml toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootxml.xml
 <tool name="rootxml" version="@TOOL_VERSION@">
