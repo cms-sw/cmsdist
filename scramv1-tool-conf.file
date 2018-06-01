@@ -95,7 +95,6 @@ if [ -e $SCRAMV1_ROOT/bin/chktool ] ; then
   rm -f %i/errors.log
 fi
 
-
 py27List=`echo ${PYTHON27PATH} | tr ':' '\n'`
 
 mkdir -p %{i}/${PYTHON_LIB_SITE_PACKAGES}
@@ -104,16 +103,22 @@ for pkg in ${py27List} ; do
    echo "adding $pkg"
    echo "$pkg" >> %{i}/${PYTHON_LIB_SITE_PACKAGES}/tool-deps.pth
 done
+echo '<tool name="python-paths" version="1.0">' > %{i}/tools/selected/python-paths.xml
+echo '  <runtime name="PYTHON27PATH"  value="%{i}/'${PYTHON_LIB_SITE_PACKAGES}'" type="path"/>' >> %{i}/tools/selected/python-paths.xml
 
-py3List=`echo ${PYTHON3PATH} | tr ':' '\n'`
+if [ "${PYTHON3PATH}" != "" ] ; then
+  py3List=`echo ${PYTHON3PATH} | tr ':' '\n'`
 
-mkdir -p %{i}/${PYTHON3_LIB_SITE_PACKAGES}
-touch %{i}/${PYTHON3_LIB_SITE_PACKAGES}/tool-deps.pth
-for pkg in ${py3List} ; do
-   echo "adding $pkg"
-   echo "$pkg" >> %{i}/${PYTHON3_LIB_SITE_PACKAGES}/tool-deps.pth
-done
+  mkdir -p %{i}/${PYTHON3_LIB_SITE_PACKAGES}
+  touch %{i}/${PYTHON3_LIB_SITE_PACKAGES}/tool-deps.pth
+  for pkg in ${py3List} ; do
+     echo "adding $pkg"
+     echo "$pkg" >> %{i}/${PYTHON3_LIB_SITE_PACKAGES}/tool-deps.pth
+  done
+  echo '  <runtime name="PYTHON3PATH"  value="%{i}/'${PYTHON3_LIB_SITE_PACKAGES}'" type="path"/>' >> %{i}/tools/selected/python-paths.xml
+fi
 
+echo '<tool>' >> %{i}/tools/selected/python-paths.xml
 
 %post
 %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/tools -type f)
