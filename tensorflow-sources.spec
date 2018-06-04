@@ -6,7 +6,7 @@
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
 Patch0: tensorflow-workspace
 
-BuildRequires: bazel eigen protobuf gcc
+BuildRequires: bazel eigen protobuf gcc py2-setuptools
 Requires: py2-numpy python py2-wheel
 
 %prep
