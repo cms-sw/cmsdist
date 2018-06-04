@@ -46,6 +46,8 @@ Requires: vdt-toolfile
 Requires: tinyxml-toolfile
 Requires: md5-toolfile
 Requires: davix-toolfile
+Requires: py2-numpy-toolfile
+Requires: OpenBLAS-toolfile
 
 %if %isamd64
 %if %isslc
