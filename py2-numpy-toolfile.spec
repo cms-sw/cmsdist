@@ -1,5 +1,6 @@
-### RPM external py2-numpy-toolfile 1.0
+### RPM external py2-numpy-toolfile 2.0
 Requires: py2-numpy
+
 %prep
 
 %build
@@ -21,13 +22,14 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/py2-numpy.xml
 </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-numpy-c-api.xml
-<tool name="py2-numpy-c-api" version="@TOOL_VERSION@">
+cat << \EOF_TOOLFILE >%{i}/etc/scram.d/numpy-c-api.xml
+<tool name="numpy-c-api" version="@TOOL_VERSION@">
+  <lib name="npymath"/>
   <client>
-    <environment name="PY2_NUMPY_C_API_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE" default="$PY2_NUMPY_C_API_BASE/c-api/core/include"/>
+    <environment name="NUMPY_C_API_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$NUMPY_C_API_BASE/c-api/core/include"/>
+    <environment name="LIBDIR" default="$NUMPY_C_API_BASE/c-api/core/lib"/>
   </client>
-  <use name="python"/>
 </tool>
 EOF_TOOLFILE
 
