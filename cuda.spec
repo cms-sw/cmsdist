@@ -69,6 +69,7 @@ ln -sf libcuda.so.%{driversversion}                                     %{i}/dri
 cp -ar %_builddir/nvidia/libnvidia-fatbinaryloader.so.%{driversversion} %{i}/drivers/
 cp -ar %_builddir/nvidia/libnvidia-ptxjitcompiler.so.%{driversversion}  %{i}/drivers/
 ln -sf libnvidia-ptxjitcompiler.so.%{driversversion}                    %{i}/drivers/libnvidia-ptxjitcompiler.so.1
+sed -i -e 's|if __GNUC__ > 7|if __GNUC__ > 8|' %{i}/include/crt/host_config.h
 
 %post
 # let nvcc find its components when invoked from the command line
