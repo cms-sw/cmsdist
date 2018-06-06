@@ -1,4 +1,4 @@
-### RPM cms crabtaskworker 3.3.1805.rc1
+### RPM cms crabtaskworker 3.3.1806
 
 
 ## INITENV +PATH PATH %i/xbin
