@@ -1,4 +1,4 @@
-### RPM cms tfaas 01.00.01
+### RPM cms tfaas 01.00.02
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 %define pkg0 TFaaS
