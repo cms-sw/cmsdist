@@ -28,8 +28,6 @@ mkdir -p %_builddir/tmp
 rm -rf %_builddir/lib64/libcublas.so.9.2.88
 rm -rf %_builddir/lib64/libnvblas.so.9.2.88
 
-ln -sf ../libnvvp/nvvp %_builddir/bin/nvvp
-ln -sf ../libnsight/nsight %_builddir/bin/nsight
 mkdir -p %{i}/lib64
 # package only runtime and device static libraries
 cp -ar %_builddir/lib64/libcudart_static.a %{i}/lib64/
@@ -49,15 +47,21 @@ rm -rf %_builddir/lib64/libnvrtc.so*
 rm -rf %_builddir/lib64/libnvrtc-builtins.so*
 # package the other dynamic libraries
 cp -ar %_builddir/lib64/* %{i}/lib64/
-cp -ar %_builddir/libnvvp %{i}
-cp -ar %_builddir/libnsight %{i}
 # package the includes
 rm -rf %_builddir/include/sobol_direction_vectors.h
 cp -ar %_builddir/include %{i}
+# leave out nsight and nvvp
+#cp -ar %_builddir/jre %{i}
+#cp -ar %_builddir/libnsight %{i}
+#ln -sf ../libnsight/nsight %_builddir/bin/nsight
+rm -rf %_builddir/bin/nsight
+#cp -ar %_builddir/libnvvp %{i}
+#ln -sf ../libnvvp/nvvp %_builddir/bin/nvvp
+rm -rf %_builddir/bin/nvvp
+rm -rf %_builddir/bin/computeprof
 # package the binaries and tools
 cp -ar %_builddir/bin %{i}
 cp -ar %_builddir/nvvm %{i}
-cp -ar %_builddir/jre %{i}
 # package the version file
 cp -ar %_builddir/version.txt %{i}
 
