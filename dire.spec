@@ -1,4 +1,4 @@
-### RPM external dire 2.001
+### RPM external dire 2.002
 
 Requires: pythia8
 
