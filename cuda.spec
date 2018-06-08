@@ -49,7 +49,8 @@ rm -rf %_builddir/lib64/libnvrtc-builtins.so*
 cp -ar %_builddir/lib64/* %{i}/lib64/
 # package the includes
 rm -rf %_builddir/include/sobol_direction_vectors.h
-cp -ar %_builddir/include %{i}
+cp -ar %_builddir/include/ %{i}
+
 # leave out nsight and nvvp
 #cp -ar %_builddir/jre %{i}
 #cp -ar %_builddir/libnsight %{i}
