@@ -34,6 +34,7 @@ cp -ar %_builddir/lib64/libcudart_static.a %{i}/lib64/
 cp -ar %_builddir/lib64/libcudadevrt.a %{i}/lib64/
 cp -ar %_builddir/lib64/lib*_device.a %{i}/lib64/
 rm -rf %_builddir/lib64/lib*.a
+
 # do not package dynamic libraries for which we have stubs
 rm -rf %_builddir/lib64/libcublas.so*
 rm -rf %_builddir/lib64/libcufft.so*
@@ -45,8 +46,10 @@ rm -rf %_builddir/lib64/libnpp*.so*
 rm -rf %_builddir/lib64/libnvgraph.so*
 rm -rf %_builddir/lib64/libnvrtc.so*
 rm -rf %_builddir/lib64/libnvrtc-builtins.so*
+
 # package the other dynamic libraries
 cp -ar %_builddir/lib64/* %{i}/lib64/
+
 # package the includes
 rm -rf %_builddir/include/sobol_direction_vectors.h
 cp -ar %_builddir/include/ %{i}
@@ -60,9 +63,24 @@ rm -rf %_builddir/bin/nsight
 #ln -sf ../libnvvp/nvvp %_builddir/bin/nvvp
 rm -rf %_builddir/bin/nvvp
 rm -rf %_builddir/bin/computeprof
+
+# add a wrapper for cuda-gdb and package the support files
+mkdir %{i}/share
+cp -ar %_builddir/share/gdb/ %{i}/share/
+mv %_builddir/bin/cuda-gdb %_builddir/bin/cuda-gdb.real
+cat > %_builddir/bin/cuda-gdb << @EOF
+#! /bin/bash
+cd \$CMSSW_BASE
+export PYTHONHOME=\$(scram tool tag python PYTHON_BASE)
+CUDA_BASE=\$(scram tool tag cuda CUDA_BASE)
+cd \$OLDPWD
+exec \$CUDA_BASE/bin/cuda-gdb.real "\$@"
+@EOF
+
 # package the binaries and tools
 cp -ar %_builddir/bin %{i}
 cp -ar %_builddir/nvvm %{i}
+
 # package the version file
 cp -ar %_builddir/version.txt %{i}
 
