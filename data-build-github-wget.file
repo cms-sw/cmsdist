@@ -1,0 +1,27 @@
+### FILE data-build-github-wget.file
+## NOCOMPILER
+
+%build
+
+DOWNLOAD_TOOL=wget
+DOWNLOAD_FILE=%{realversion}.tar.gz
+DEST_DIR=%{i}/$(echo "%{n}" | sed -e "s/data-//g;s/-/\//g")/data
+GIT_REPO=$(echo "%{n}" | sed -e "s/data-//g")
+GIT_URL=https://github.com/cms-data/${GIT_REPO}/archive/${DOWNLOAD_FILE}
+mkdir -p ${DEST_DIR}
+pushd ${DEST_DIR}
+wget --no-check-certificate --no-verbose $GIT_URL
+
+tar xzvf ${DOWNLOAD_FILE} --strip 1
+rm ${DOWNLOAD_FILE}
+popd
+
+find %{i} -type d -exec chmod 0755 {} \;
+find %{i} -type f -exec chmod 0644 {} \;
+
+%install
+
+%post
+%define base_tool %(echo "%{n}" | tr '[a-z-]' '[A-Z_]')
+echo "%{base_tool}_ROOT='${CMS_INSTALL_PREFIX}/%{pkgrel}'" > ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d/init.sh
+echo "set %{base_tool}_ROOT='${CMS_INSTALL_PREFIX}/%{pkgrel}'" > ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d/init.csh
