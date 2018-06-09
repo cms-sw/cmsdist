@@ -2,4 +2,4 @@
 
 %prep
 
-## IMPORT data-build-github
+## IMPORT data-build-github-wget
