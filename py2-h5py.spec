@@ -1,4 +1,4 @@
-### RPM external py2-h5py 2.7.1
+### RPM external py2-h5py 2.8.0rc1
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 Requires: python py2-numpy hdf5 py2-six
