@@ -64,18 +64,10 @@ rm -rf %_builddir/bin/nsight
 rm -rf %_builddir/bin/nvvp
 rm -rf %_builddir/bin/computeprof
 
-# add a wrapper for cuda-gdb and package the support files
+# package the cuda-gdb support files, and rename the binary to use it via a wrapper
 mkdir %{i}/share
 cp -ar %_builddir/share/gdb/ %{i}/share/
 mv %_builddir/bin/cuda-gdb %_builddir/bin/cuda-gdb.real
-cat > %_builddir/bin/cuda-gdb << @EOF
-#! /bin/bash
-cd \$CMSSW_BASE
-export PYTHONHOME=\$(scram tool tag python PYTHON_BASE)
-CUDA_BASE=\$(scram tool tag cuda CUDA_BASE)
-cd \$OLDPWD
-exec \$CUDA_BASE/bin/cuda-gdb.real "\$@"
-@EOF
 
 # package the binaries and tools
 cp -ar %_builddir/bin %{i}
