@@ -1,4 +1,4 @@
-### RPM cms das 04.01.01
+### RPM cms das 04.01.02
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 %define pkg0 das2go
@@ -28,6 +28,7 @@ cp -r * $GOPATH/src/github.com/dmwm/das2go
 go get github.com/shirou/gopsutil
 go get github.com/dmwm/cmsauth
 go get github.com/vkuznet/x509proxy
+go get github.com/divan/expvarmon
 go get gopkg.in/yaml.v2
 go get gopkg.in/mgo.v2
 go get github.com/sirupsen/logrus
