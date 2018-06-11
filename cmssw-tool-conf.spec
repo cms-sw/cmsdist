@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 43.0
+### RPM cms cmssw-tool-conf 44.0
 ## NOCOMPILER
 # With cmsBuild, change the above version only when a new tool is added
 
@@ -167,6 +167,7 @@ Requires: tkonlinesw-toolfile
 Requires: oracle-toolfile
 Requires: cms_oracleocci_abi_hack-toolfile
 Requires: cuda-toolfile
+Requires: cuda-gdb-wrapper-toolfile
 Requires: cub-toolfile
 Requires: cuda-api-wrappers-toolfile
 Requires: intel-vtune
