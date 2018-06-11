@@ -5,8 +5,8 @@ Requires: lz4
 %build
 %install
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE > %i/etc/scram.d/xz.xml
-  <tool name="xz" version="@TOOL_VERSION@">
+cat << \EOF_TOOLFILE > %i/etc/scram.d/lz4.xml
+  <tool name="lz4" version="@TOOL_VERSION@">
     <info url="https://github.com/lz4/lz4"/>
     <lib name="lz4"/>
     <client>
