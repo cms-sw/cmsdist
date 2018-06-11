@@ -65,6 +65,9 @@ cp -r $GOPATH/src/github.com/dmwm/das2go/{js,css,images,templates} %i/das2go/
 export YUI_ROOT
 cp -r $YUI_ROOT/build %i/das2go/yui/
 
+# external tools
+cp $GOPATH/bin/expvarmon %i/bin
+
 # install das tools
 echo "start DASTools install: $PWD"
 export GOPATH=$PWD/gopath
