@@ -1,5 +1,7 @@
 ### RPM external xrootd 4.8.3
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
+## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+
 %define tag b9fd347a3358af3808de1b0878691f641d6143f5
 %define branch cms/v%{realversion}
 %define github_user cms-externals
