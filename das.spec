@@ -36,6 +36,7 @@ git clone https://github.com/dmwm/das2go.git
 cp -r das2go/.git .
 rm -rf das2go
 make
+go build monitor/das2go_monitor.go
 cd -
 
 # build das tools
@@ -57,7 +58,7 @@ echo "start das2go install: $PWD"
 export GOPATH=$PWD/gopath
 mkdir -p %i/bin
 cp $GOPATH/src/github.com/dmwm/das2go/das2go %i/bin
-cp $GOPATH/src/github.com/dmwm/das2go/bin/das2go_server %i/bin
+cp $GOPATH/src/github.com/dmwm/das2go/das2go_monitor %i/bin
 mkdir -p %i/das2go/yui
 cp -r $GOPATH/src/github.com/dmwm/das2go/{js,css,images,templates} %i/das2go/
 export YUI_ROOT
