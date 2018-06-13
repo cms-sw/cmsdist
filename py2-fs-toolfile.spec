@@ -13,7 +13,6 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-fs.xml
   <client>
     <environment name="PY2_FS_BASE" default="@TOOL_ROOT@"/>
   </client>
-  <runtime name="PATH" value="$PY2_FS_BASE/bin" type="path"/>
 </tool>
 EOF_TOOLFILE
 
