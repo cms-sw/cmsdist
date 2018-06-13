@@ -152,6 +152,7 @@ Requires: py2-cx-oracle
 %endif
 Requires: py2-cython-toolfile
 Requires: py2-future
+Requires: py2-backports_lzma
 
 %prep
 
