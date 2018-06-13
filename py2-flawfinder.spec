@@ -1,4 +1,4 @@
-### RPM external py2-flawfinder 2.0.5
+### RPM external py2-flawfinder 2.0.6
 %define PipDownloadOptions --no-deps%%20--no-binary%%3D:none:
 %define pip_name flawfinder 
 
