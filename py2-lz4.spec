@@ -1,10 +1,11 @@
-### RPM external py2-fs 2.0.23 
+### RPM external py2-lz4 1.1.0
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
-%define pip_name fs
+Requires: lz4
+
+%define PipBuildOptions  --global-option=build_ext --global-option="-L${LZ4_ROOT}/lib"  --global-option="-I${LZ4_ROOT}/include"
 
 ## IMPORT build-with-pip
 
 %define PipPostBuild perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
-
