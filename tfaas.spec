@@ -4,7 +4,7 @@
 %define pkg0 TFaaS
 %define ver0 v%realversion
 Source: https://github.com/vkuznet/%pkg0/archive/%ver0.tar.gz
-Requires: autotools go
+Requires: autotools go rotatelogs
 
 # RPM macros documentation
 # http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
