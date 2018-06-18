@@ -32,6 +32,7 @@ go get github.com/divan/expvarmon
 go get gopkg.in/yaml.v2
 go get gopkg.in/mgo.v2
 go get github.com/sirupsen/logrus
+go get github.com/uber/go-torch
 cd $GOPATH/src/github.com/dmwm/das2go
 git clone https://github.com/dmwm/das2go.git
 cp -r das2go/.git .
@@ -52,6 +53,11 @@ rm -rf DASTools
 make
 cd -
 
+# get FlameGraph
+cd $GOPATH
+git clone https://github.com/brendangregg/FlameGraph.git
+cd -
+
 %install
 # install das2go
 cd ..
@@ -60,6 +66,8 @@ export GOPATH=$PWD/gopath
 mkdir -p %i/bin
 cp $GOPATH/src/github.com/dmwm/das2go/das2go %i/bin
 cp $GOPATH/src/github.com/dmwm/das2go/das2go_monitor %i/bin
+cp $GOPATH/bin/go-torch %i/bin
+cp $GOPATH/FlameGraph/*.pl %i/bin
 mkdir -p %i/das2go/yui
 cp -r $GOPATH/src/github.com/dmwm/das2go/{js,css,images,templates} %i/das2go/
 export YUI_ROOT
