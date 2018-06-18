@@ -143,7 +143,7 @@ Requires: py2-numpy-toolfile
 Requires: py2-sqlalchemy
 Requires: py2-pygithub
 Requires: py2-dablooms
-Requires: py2-dxr-toolfile
+#Requires: py2-dxr-toolfile
 Requires: py2-PyYAML
 Requires: py2-lint-toolfile
 Requires: py2-pip-toolfile
