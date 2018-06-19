@@ -1,10 +1,10 @@
-### RPM cms tfaas 01.00.00
+### RPM cms tfaas 01.00.04
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 %define pkg0 TFaaS
 %define ver0 v%realversion
 Source: https://github.com/vkuznet/%pkg0/archive/%ver0.tar.gz
-Requires: autotools go
+Requires: autotools go rotatelogs
 
 # RPM macros documentation
 # http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
