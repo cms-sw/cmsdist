@@ -1,0 +1,9 @@
+### RPM external py2-pybind11 2.2.3
+## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
+
+
+## IMPORT build-with-pip
+
+
+
