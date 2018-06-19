@@ -153,7 +153,7 @@ Requires: py2-cx-oracle
 Requires: py2-cython-toolfile
 Requires: py2-future
 Requires: py2-backports_lzma
-Requires: py2-pybind11
+Requires: py2-pybind11-toolfile
 
 %prep
 
