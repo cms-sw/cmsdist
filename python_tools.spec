@@ -154,6 +154,7 @@ Requires: py2-cython-toolfile
 Requires: py2-future
 Requires: py2-backports_lzma
 Requires: py2-pybind11-toolfile
+Requires: py2-histbook
 
 %prep
 
