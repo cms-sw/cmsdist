@@ -16,6 +16,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/google-benchmark.xml
     <environment name="LIBDIR"       default="$GOOGLE_BENCHMARK_BASE/lib"/>
     <environment name="INCLUDE"      default="$GOOGLE_BENCHMARK_BASE/include"/>
   </client>
+  <use name="sockets"/>
 </tool>
 EOF_TOOLFILE
 
