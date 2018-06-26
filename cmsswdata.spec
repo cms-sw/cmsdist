@@ -74,10 +74,17 @@ echo "set %{BaseTool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFI
 for DATA_PATH in %directpkgreqs; do
   SOURCE=$RPM_INSTALL_PREFIX/%{cmsplatf}/$DATA_PATH
   PKG_DATA=$(ls $SOURCE | grep -v etc*)
-  if [ -d $SOURCE/$PKG_DATA ] ; then
-    echo "Moving $DATA_PATH in share"
-    mkdir -p $RPM_INSTALL_PREFIX/share/$DATA_PATH/$PKG_DATA
-    rsync -a --no-t --size-only $SOURCE/$PKG_DATA/ $RPM_INSTALL_PREFIX/share/$DATA_PATH/$PKG_DATA/ && rm -rf $SOURCE/$PKG_DATA && ln -fs ../../../../share/$DATA_PATH/$PKG_DATA $SOURCE/$PKG_DATA
+  if [ ! -e $RPM_INSTALL_PREFIX/share/$DATA_PATH/$PKG_DATA ] ; then
+    mkdir -p $RPM_INSTALL_PREFIX/share/$DATA_PATH
+    if [ -L $SOURCE/$PKG_DATA ] ; then
+      ln -fs ../../../../%{cmsplatf}/$DATA_PATH/$PKG_DATA $RPM_INSTALL_PREFIX/share/$DATA_PATH/$PKG_DATA
+    else
+      echo "Moving $DATA_PATH in share"
+      rsync -aq --no-t --size-only $SOURCE/$PKG_DATA/ $RPM_INSTALL_PREFIX/share/$DATA_PATH/$PKG_DATA/
+    fi
+  fi
+  if [ ! -L $SOURCE/$PKG_DATA ] ; then
+    rm -rf $SOURCE/$PKG_DATA && ln -fs ../../../../share/$DATA_PATH/$PKG_DATA $SOURCE/$PKG_DATA
   fi
 done
 
