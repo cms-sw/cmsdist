@@ -1,4 +1,4 @@
-### RPM cms das 04.01.09
+### RPM cms das 04.01.11
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 %define pkg0 das2go
