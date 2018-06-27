@@ -1,4 +1,4 @@
-### RPM cms data-RecoEgamma-ElectronIdentification V01-01-00
+### RPM cms data-RecoEgamma-ElectronIdentification V01-00-08
 
 %prep
 
