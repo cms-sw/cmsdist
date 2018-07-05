@@ -72,9 +72,13 @@ echo "%{BaseTool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{
 echo "set %{BaseTool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
 
 for DATA_PATH in %directpkgreqs; do
+  PKG_DIR=$(echo $DATA_PATH | cut -d/ -f2)
+  [ $(echo $PKG_DIR | grep '^data-' | wc -l) -eq 1 ] || continue
+  PKG_DIR=$(echo $PKG_DIR | sed 's|^data-||;s|-|/|')
   SOURCE=$RPM_INSTALL_PREFIX/%{cmsplatf}/$DATA_PATH
-  PKG_DATA=$(ls $SOURCE | grep -v etc*)
-  if [ ! -e $RPM_INSTALL_PREFIX/share/$DATA_PATH/$PKG_DATA ] ; then
+  PKG_DATA=$(echo $PKG_DIR | cut -d/ -f1)
+  if [ ! -e $RPM_INSTALL_PREFIX/share/$DATA_PATH/$PKG_DIR ] ; then
+    rm -rf $RPM_INSTALL_PREFIX/share/$DATA_PATH
     mkdir -p $RPM_INSTALL_PREFIX/share/$DATA_PATH
     if [ -L $SOURCE/$PKG_DATA ] ; then
       ln -fs ../../../../%{cmsplatf}/$DATA_PATH/$PKG_DATA $RPM_INSTALL_PREFIX/share/$DATA_PATH/$PKG_DATA
