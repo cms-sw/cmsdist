@@ -25,8 +25,8 @@ Requires: py2-bottleneck
 Requires: py2-downhill 
 Requires: py2-theanets
 Requires: py2-xgboost
-Requires: py2-llvmlite
-Requires: py2-numba
+#Requires: py2-llvmlite
+#Requires: py2-numba
 Requires: py2-hep_ml
 Requires: py2-rep
 Requires: py2-uncertainties
@@ -143,7 +143,7 @@ Requires: py2-numpy-toolfile
 Requires: py2-sqlalchemy
 Requires: py2-pygithub
 Requires: py2-dablooms
-Requires: py2-dxr-toolfile
+#Requires: py2-dxr-toolfile
 Requires: py2-PyYAML
 Requires: py2-lint-toolfile
 Requires: py2-pip-toolfile
