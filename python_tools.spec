@@ -64,6 +64,7 @@ Requires: py2-ipython-toolfile
 Requires: py2-ipython_genutils
 Requires: py2-ipywidgets
 Requires: py2-jsonschema-toolfile
+Requires: py2-send2trash
 Requires: py2-jupyter
 Requires: py2-jupyter_client-toolfile
 Requires: py2-jupyter_console-toolfile
