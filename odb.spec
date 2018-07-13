@@ -1,31 +1,29 @@
-### RPM external odb 2.4.0
-Source0: http://www.codesynthesis.com/download/odb/2.4/odb-2.4.0.tar.gz
-Source1: https://www.codesynthesis.com/download/libcutl/1.10/libcutl-1.10.0.tar.gz
-Source2: http://www.codesynthesis.com/download/odb/2.4/libodb-sqlite-2.4.0.tar.gz
-Source3: http://www.codesynthesis.com/download/odb/2.4/libodb-2.4.0.tar.gz
+### RPM external odb 2.5.0-b.3
+Source0: https://codesynthesis.com/~boris/tmp/odb/pre-release/b.3/odb-2.5.0-b.3.tar.gz
+Source1: https://codesynthesis.com/~boris/tmp/odb/pre-release/b.3/libcutl-1.11.0-a1.tar.gz
+Source2: https://codesynthesis.com/~boris/tmp/odb/pre-release/b.3/libodb-sqlite-2.5.0-b.3.tar.gz
+Source3: https://codesynthesis.com/~boris/tmp/odb/pre-release/b.3/libodb-2.5.0-b.3.tar.bz2
 
 Requires: sqlite
 
 %prep
-%setup -T -D -b 0 -n odb-2.4.0
-%setup -T -D -b 1 -n libcutl-1.10.0
-%setup -T -D -b 2 -n libodb-sqlite-2.4.0
-%setup -T -D -b 3 -n libodb-2.4.0
+%setup -T -D -b 0 -n odb-%{realversion}
+%setup -T -D -b 1 -n libcutl-1.11.0-a1
+%setup -T -D -b 2 -n libodb-sqlite-%{realversion}
+%setup -T -D -b 3 -n libodb-%{realversion}
 
 %build
-export CC=/opt/rh/devtoolset-4/root/usr/bin/gcc
-export CXX=/opt/rh/devtoolset-4/root/usr/bin/g++
-cd ../libcutl-1.10.0
+cd ../libcutl-1.11.0-a1
 ./configure --prefix=%{i}
 make %{makeprocesses} install
 cd ../%{n}-%{realversion}
-./configure --prefix=%{i} --with-libcutl=../libcutl-1.10.0
+./configure --prefix=%{i} --with-libcutl=../libcutl-1.11.0-a1
 make %{makeprocesses} install
-cd ../libodb-2.4.0
+cd ../libodb-%{realversion}
 ./configure --prefix=%{i}
 make %{makeprocesses} install
-cd ../libodb-sqlite-2.4.0
-./configure --prefix=%{i} --with-libodb=../libodb-2.4.0
+cd ../libodb-sqlite-%{realversion}
+./configure --prefix=%{i} --with-libodb=../libodb-%{realversion}
 make %{makeprocesses} install
 %install
 touch files
