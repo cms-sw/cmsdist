@@ -18,5 +18,3 @@ mkdir -p %{i}/{lib,include}
 mv lib/libmxnet.so           %{i}/lib/libmxnetpredict.so
 mv include/*                 %{i}/include
 mv cpp-package/include/*     %{i}/include
-
-
