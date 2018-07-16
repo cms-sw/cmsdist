@@ -118,7 +118,7 @@ EOF_TOOLFILE
 # GCC tool file for explicity linking gcc plugin library
 cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-plugin.xml
   <tool name="gcc-plugin" version="@GCC_VERSION@">
-    <lib name="cc1plugin"/>
+    <lib name="cc1plugin cp1plugin"/>
     <client>
       <environment name="GCC_PLUGIN_BASE" default="@GCC_PLUGIN_DIR@"/>
       <environment name="INCLUDE"   default="$GCC_PLUGIN_BASE/include"/>
