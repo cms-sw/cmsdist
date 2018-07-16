@@ -34,6 +34,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-checker-plugin.xml
       <environment name="LIBRARY"   default="$GCC_CHECKER_PLUGIN_ROOT/lib"/>
     </client>
   </tool>
+  <runtime name="GCC_CHECKER_PLUGIN" default="$GCC_CHECKER_PLUGIN_ROOT/lib/libchecker_gccplugins.so"/>
 EOF_TOOLFILE
 export GCC_CHECKER_PLUGIN_ROOT
 
