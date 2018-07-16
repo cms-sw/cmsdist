@@ -10,7 +10,8 @@ Requires: thrift odb python sqlite graphviz git java-env boost llvm graphviz lib
 perl -p -i -e 's|include\(UseJava\)|include\(UseJava\)\ninclude_directories(\${LIBGIT2_INCLUDE_DIR} \${Graphviz_INCLUDE_DIR} \${BOOST_INCLUDE_DIRS})|' ./CMakeLists.txt
 perl -p -i -e 's|enable_testing\(\)||' ./CMakeLists.txt
 perl -p -i -e 's|#include <memory>|#include <memory>\n#include <vector>|' ./model/include/model/buildaction.h
-perl -p -i -e 's|--std c\+\+11|--std c\+\+14\n-I\${BOOST_INCLUDE_DIRS}|' ./Config.cmake
+perl -p -i -e 's|--std c\+\+11|--std c\+\+14|' ./Config.cmake 
+perl -p -e -e 's|--default-pointer "std::shared_ptr"\)|--default-pointer "std::shared_ptr"\)\nlist(APPEND ODBATGS -I\${BOOST_INCLUDE_DIRS}|' ./Config.cmake
 perl -p -i -e 's|#include <string>|#include <string>\n#include <set>|' ./plugins/cpp/model/include/model/cppentity.h
 perl -p -i -e 's|#include <boost/shared_ptr.hpp>||' webserver/include/webserver/thrifthandler.h
 perl -p -i -e 's|boost::shared_ptr|std::shared_ptr|g' webserver/include/webserver/thrifthandler.h
