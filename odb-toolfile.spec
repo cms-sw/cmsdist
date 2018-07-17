@@ -18,7 +18,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/odb.xml
     <environment name="LIBDIR" default="$ODB_BASE/lib"/>
     <environment name="INCLUDE" default="$ODB_BASE/include"/>
   </client>
-  <runtime name="PATH" value="$ODB_BASE/bin" type="path"/>
+  <runtime name="ODB_BASE" value="$ODB_BASE"/>
 </tool>
 EOF_TOOLFILE
 

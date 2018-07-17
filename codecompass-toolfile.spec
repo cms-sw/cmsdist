@@ -14,8 +14,8 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/codecompass.xml
     <client>
       <environment name="CODECOMPASS_BASE" default="@TOOL_ROOT@"/>
     </client>
+    <runtime name="CODECOMPASS_BASE" default="@TOOL_ROOT@"/>
   </tool>
-  <runtime name="PATH" default="$CODECOMPASS_BASE/bin" type="path"/>
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
