@@ -25,7 +25,7 @@ done
 %build
 case %cmsplatf in
     slc*|fc*)
-        ADDITIONAL_OPTIONS="--with-freetype2=no --disable-shared --enable-static --disable-ltdl"
+        ADDITIONAL_OPTIONS="--with-freetype2=no --enable-shared --enable-static --disable-ltdl"
     ;;
     osx*)
         ADDITIONAL_OPTIONS="--with-freetype2=no"

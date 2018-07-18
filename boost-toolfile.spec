@@ -124,6 +124,14 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_iostreams.xml
 </tool>
 EOF_TOOLFILE
 
+cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_log.xml
+<tool name="boost_log" version="@TOOL_VERSION@">
+  <info url="http://www.boost.org"/>
+  <lib name="@BOOST_LOG_LIB@"/>
+  <use name="boost"/>
+</tool>
+EOF_TOOLFILE
+
 # boost_header toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_header.xml
 <tool name="boost_header" version="@TOOL_VERSION@">
@@ -155,6 +163,7 @@ export BOOST_PYTHON_LIB=`getLibName python`
 export BOOST_REGEX_LIB=`getLibName regex`
 export BOOST_SERIALIZATION_LIB=`getLibName serialization`
 export BOOST_IOSTREAMS_LIB=`getLibName iostream`
+export BOOST_log_LIB=`getLibName log`
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
 ## IMPORT scram-tools-post

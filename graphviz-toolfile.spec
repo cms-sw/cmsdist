@@ -10,8 +10,11 @@ mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/graphviz.xml
 <tool name="graphviz" version="@TOOL_VERSION@">
   <info url="http://www.research.att.com/sw/tools/graphviz/"/>
+  <lib name="gvz"/>
   <client>
     <environment name="GRAPHVIZ_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$GRAHPVIZ_BASE/lib"/>
+    <environment name="INCLUDE" default="$GRAPHVIZ_BASE/include"/>
   </client>
   <runtime name="PATH" value="$GRAPHVIZ_BASE/bin" type="path"/>
   <use name="expat"/>

@@ -36,7 +36,6 @@ b2 -q \
    --without-graph \
    --without-graph_parallel \
    --without-locale \
-   --without-log \
    --without-math \
    --without-mpi \
    --without-random \
