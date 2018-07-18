@@ -1,7 +1,7 @@
-### RPM external fasthadd 2.2
+### RPM external fasthadd 2.3
 
 #Change the commit hash every time a new version is needed.
-%define commit 78a41c1224657afd4024d4c25ce0a98fa4c9d907
+%define commit 905af02d3369428df677c232537da6fca8982ff3
 Source0: https://raw.githubusercontent.com/cms-sw/cmssw/%commit/DQMServices/Components/bin/fastHadd.cc
 Source1: https://raw.githubusercontent.com/cms-sw/cmssw/%commit/DQMServices/Core/src/ROOTFilePB.proto
 Requires: protobuf root
