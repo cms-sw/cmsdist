@@ -1,5 +1,5 @@
 ### RPM external gcc-checker-plugin 1.1
-Source0:	https://github.com/gartung/CheckerGccPlugins/archive/1.1.tar.gz
+Source0:	https://github.com/cms-externals/CheckerGccPlugins/archive/1.1.tar.gz
 
 Requires: gcc
 
