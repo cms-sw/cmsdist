@@ -10,12 +10,12 @@ Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&expo
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
-BuildRequires: cmake
+BuildRequires: cmake ninja
 
-Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib davix tbb py2-numpy lz4
+Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib davix tbb OpenBLAS py2-numpy lz4
 
 %if %islinux
-Requires: castor dcap
+Requires: dcap
 %endif
 
 %if %isdarwin
@@ -42,6 +42,7 @@ export CFLAGS=-D__ROOFIT_NOBANNER
 export CXXFLAGS=-D__ROOFIT_NOBANNER
 
 cmake ../%{n}-%{realversion} \
+  -G Ninja \
   -DCMAKE_BUILD_TYPE=Debug \
   -DLLVM_BUILD_TYPE=Debug \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
@@ -49,6 +50,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_CXX_COMPILER=g++ \
   -DCMAKE_Fortran_COMPILER=gfortran \
   -DCMAKE_LINKER=ld \
+  -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -Droot7=ON \
   -Dfail-on-missing=ON \
   -Dgnuinstall=OFF \
@@ -81,7 +83,7 @@ cmake ../%{n}-%{realversion} \
   -Dbuiltin_gsl=OFF \
   -Darrow=OFF \
   -DGSL_CONFIG_EXECUTABLE="$(which gsl-config)" \
-  -Dcxx14=ON \
+  -Dcxx17=ON \
   -Dssl=ON \
   -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
   -DOPENSSL_INCLUDE_DIR="${OPENSSL_ROOT}/include" \
@@ -91,15 +93,8 @@ cmake ../%{n}-%{realversion} \
   -DXROOTD_INCLUDE_DIR="${XROOTD_ROOT}/include/xrootd" \
   -DXROOTD_ROOT_DIR="${XROOTD_ROOT}" \
 %if %islinux
-  -Drfio=ON \
-  -DCASTOR_INCLUDE_DIR="${CASTOR_ROOT}/include/shift" \
-  -DCASTOR_shift_LIBRARY="${CASTOR_ROOT}/lib/libshift.%{soext}" \
-  -DCASTOR_rfio_LIBRARY="${CASTOR_ROOT}/lib/libcastorrfio.%{soext}" \
-  -DCASTOR_client_LIBRARY="${CASTOR_ROOT}/lib/libcastorclient.%{soext}" \
-  -DCASTOR_common_LIBRARY="${CASTOR_ROOT}/lib/libcastorcommon.%{soext}" \
-  -DCASTOR_ns_LIBRARY="${CASTOR_ROOT}/lib/libcastorns.%{soext}" \
-  -DCASTOR_DIR="${CASTOR_ROOT}" \
-  -Dcastor=ON \
+  -Drfio=OFF \
+  -Dcastor=OFF \
   -Ddcache=ON \
   -DDCAP_INCLUDE_DIR="${DCAP_ROOT}/include" \
   -DDCAP_DIR="${DCAP_ROOT}" \
@@ -141,9 +136,7 @@ cmake ../%{n}-%{realversion} \
   -DLIBLZ4_LIBRARY="${LZ4_ROOT}/lib/liblz4.%{soext}" \
   -DZLIB_ROOT="${ZLIB_ROOT}" \
   -DZLIB_INCLUDE_DIR="${ZLIB_ROOT}/include" \
-  -DLIBXML2_INCLUDE_DIR="${LIBXML2_ROOT}/include/libxml2" \
-  -DLIBXML2_LIBRARIES="${LIBXML2_ROOT}/lib/libxml2.%{soext}" \
-  -DCMAKE_PREFIX_PATH="${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${DAVIX_ROOT};${LZ4_ROOT}"
+  -DCMAKE_PREFIX_PATH="${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LZ4_ROOT};${LIBXML2_ROOT}"
 
 # For CMake cache variables: http://www.cmake.org/cmake/help/v3.2/manual/cmake-language.7.html#lists
 # For environment variables it's OS specific: http://www.cmake.org/Wiki/CMake_Useful_Variables
@@ -157,7 +150,7 @@ done
 export ROOT_INCLUDE_PATH
 export ROOTSYS="%{i}"
 
-make %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
+ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
 
 %install
 cd ../build
@@ -171,7 +164,7 @@ done
 export ROOT_INCLUDE_PATH
 export ROOTSYS="%{i}"
 
-make %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
+ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
 
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -R -l '#!.*python' %{i} | xargs chmod +x
