@@ -156,6 +156,7 @@ Requires: mxnet-predict-toolfile
 
 # Only for Linux platform.
 %if %islinux
+Requires: gcc-checker-plugin-toolfile
 Requires: openldap-toolfile
 Requires: gperftools-toolfile
 
