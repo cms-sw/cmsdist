@@ -13,7 +13,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-checker-plugin.xml
       <environment name="INCLUDE"   default="$GCC_CHECKER_PLUGIN_ROOT/include"/>
     </client>
   </tool>
-  <runtime name="GCC_CHECKER_PLUGIN" default="$GCC_CHECKER_PLUGIN_ROOT/lib/libchecker_gccplugins.so"/>
 EOF_TOOLFILE
 
 cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-analyzer-cxxcompiler.xml
