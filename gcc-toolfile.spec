@@ -115,6 +115,19 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-atomic.xml
   </tool>
 EOF_TOOLFILE
 
+# GCC tool file for explicity linking gcc plugin library
+cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-plugin.xml
+  <tool name="gcc-plugin" version="@GCC_VERSION@">
+    <lib name="cc1plugin cp1plugin"/>
+    <client>
+      <environment name="GCC_PLUGIN_BASE" default="@GCC_PLUGIN_DIR@"/>
+      <environment name="INCLUDE"   default="$GCC_PLUGIN_BASE/include"/>
+      <environment name="LIBDIR"    default="$GCC_PLUGIN_BASE"/>
+    </client>
+  </tool>
+EOF_TOOLFILE
+export GCC_PLUGIN_DIR=$(gcc -print-file-name=plugin)
+
 # NON-empty defaults
 # First of all handle OS specific options.
 %ifos linux
