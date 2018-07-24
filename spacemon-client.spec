@@ -8,7 +8,7 @@
 %define downloadt %(echo %realversion | tr '.' '_')
 %define setupdir  %{downloadm}-%{n}_%{downloadt}
 Source: https://github.com/dmwm/DMWMMON/archive/%{n}_%{downloadt}.tar.gz
-Requires: p5-crypt-ssleay
+Requires: p5-crypt-ssleay p5-test-simple
 
 %prep
 
