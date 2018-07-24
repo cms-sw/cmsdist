@@ -158,6 +158,7 @@ Requires: py2-pybind11-toolfile
 Requires: py2-histbook
 Requires: py2-flake8-toolfile
 Requires: py2-autopep8-toolfile
+Requires: py2-pycodestyle
 
 %prep
 
