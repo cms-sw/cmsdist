@@ -1,8 +1,8 @@
 ### RPM cms cms-common 1.0
-## REVISION 1201
+## REVISION 1202
 ## NOCOMPILER
 
-%define tag 2be1bcbed0412f5f70cde73efeb912912e5f0a08
+%define tag 504acbc89e3a4cad331aace229f713c19170f931
 
 Source:  git+https://github.com/cms-sw/cms-common.git?obj=master/%{tag}&export=%{n}-%{realversion}-%{tag}&output=/%{n}-%{realversion}-%{tag}.tgz
 
