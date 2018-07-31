@@ -1,8 +1,8 @@
-### RPM external xrootd 4.8.3
+### RPM external xrootd 4.8.4
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
-%define tag b9fd347a3358af3808de1b0878691f641d6143f5
+%define tag cc69ac1ce30546a1d3d7111a543ad3e39d970b1d
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
