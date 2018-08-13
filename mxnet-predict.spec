@@ -1,4 +1,4 @@
-### RPM external mxnet-predict 1.2.1.mod1
+### RPM external mxnet-predict 1.2.1.mod3
 %define projectname mxnet-predict
 %define releasename apache-mxnet-src-%{realversion}-incubating
 Source: https://hqu.web.cern.ch/hqu/tools/mxnet/apache-mxnet-src-%{realversion}-incubating.tar.gz

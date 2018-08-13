@@ -1,4 +1,4 @@
-### RPM external mxnet-predict-toolfile 1.2.1.mod1
+### RPM external mxnet-predict-toolfile 1.2.1.mod3
 Requires: mxnet-predict
 %prep
 
