@@ -7,7 +7,7 @@ Source: git+https://github.com/%{github_user}/incubator-mxnet.git?obj=%{branch}/
 Requires: OpenBLAS
 
 %prep
-%setup -q -n %releasename
+%setup -q -n %{n}-%{realversion}
 
 %build
 make %{makeprocesses} USE_OPENCV=0 USE_OPENMP=0 USE_BLAS=openblas USE_CPP_PACKAGE=1 USE_F16C=0 \
