@@ -1,9 +1,9 @@
-### RPM external cuda 9.2.88
-%define driversversion 396.26
+### RPM external cuda 9.2.148
+%define driversversion 396.37
 %define cudaversion %(echo %realversion | cut -d. -f 1,2)
 
-Source0: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux
-Source1: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/patches/1/%{n}_%{realversion}.1_linux
+Source0: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod2/local_installers/%{n}_%{realversion}_%{driversversion}_linux
+Source1: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod2/patches/1/%{n}_%{realversion}.1_linux
 AutoReq: no
 
 %prep
@@ -14,19 +14,21 @@ AutoReq: no
 mkdir -p %_builddir/tmp
 /bin/sh %{SOURCE0} --silent --tmpdir %_builddir/tmp --extract %_builddir
 # extracts:
-# %_builddir/NVIDIA-Linux-x86_64-396.26.run
-# %_builddir/cuda-linux.9.2.88-23920284.run
-# %_builddir/cuda-samples.9.2.88-23920284-linux.run
+# %_builddir/NVIDIA-Linux-x86_64-396.37.run
+# %_builddir/cuda-linux.9.2.148-24330188.run
+# %_builddir/cuda-samples.9.2.148-24330188-linux.run
 
 # extract and repackage the CUDA runtime, tools and stubs
 /bin/sh %_builddir/%{n}-linux.%{realversion}-*.run -noprompt -nosymlink -tmpdir %_builddir/tmp -prefix %_builddir
 
-# Patch 1 (Released May 16, 2018)
-# cuBLAS 9.2 Patch Update: This update includes fix to cublas GEMM APIs on V100 Tensor Core GPUs when used with
-# default algorithm CUBLAS_GEMM_DEFAULT_TENSOR_OP.
+# Patch 1 (Released Aug 6, 2018)
+# CUDA 9.2 Patch Update: This update includes performance improvements to cuBLAS GEMM APIs and bug fixes for CUPTI and cuda-gdb.
+# See the CUDA 9.2 release notes for more details.
 /bin/sh %{SOURCE1} --silent --accept-eula --tmpdir %_builddir/tmp --installdir %_builddir
-rm -rf %_builddir/lib64/libcublas.so.9.2.88
-rm -rf %_builddir/lib64/libnvblas.so.9.2.88
+rm -rf %_builddir/lib64/libcublas.so.9.2.148
+rm -rf %_builddir/lib64/libnvblas.so.9.2.148
+rm -rf %_builddir/lib64/libcuinj64.so.9.2.148
+rm -rf %_builddir/extras/CUPTI/lib64/libcupti.so.9.2.148
 
 mkdir -p %{i}/lib64
 # package only runtime and device static libraries
