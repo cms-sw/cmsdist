@@ -1,4 +1,4 @@
-### RPM external py2-uproot 2.8.31
+### RPM external py2-uproot 2.9.6
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 

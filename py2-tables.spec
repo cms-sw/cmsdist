@@ -1,4 +1,4 @@
-### RPM external py2-tables 3.4.2
+### RPM external py2-tables 3.4.4
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 Patch0: py2-tables-fix-for-aarch64_v2
