@@ -5,7 +5,7 @@
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%n.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
-Requires: python bz2lib zlib
+Requires: python bz2lib zlib openmpi
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -23,6 +23,9 @@ pushd tools/build
   export PATH=${PWD}/tmp-boost-build/bin:${PATH}
 popd
 
+# enable boost::mpi
+echo "using mpi ;" > user-config.jam
+
 b2 -q \
    -d2 \
    %{makeprocesses} \
@@ -38,9 +41,9 @@ b2 -q \
    --without-locale \
    --without-log \
    --without-math \
-   --without-mpi \
    --without-random \
    --without-wave \
+   --user-config=${PWD}/user-config.jam \
    toolset=${TOOLSET} \
    link=shared \
    threading=multi \
