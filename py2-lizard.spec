@@ -1,4 +1,4 @@
-### RPM external py2-lizard 1.12.15
+### RPM external py2-lizard 1.15.6
 
 %define pip_name lizard 
 

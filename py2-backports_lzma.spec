@@ -1,4 +1,4 @@
-### RPM external py2-backports_lzma 0.0.11
+### RPM external py2-backports_lzma 0.0.13
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 %define doPython3 no
