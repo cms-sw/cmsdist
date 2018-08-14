@@ -1,7 +1,8 @@
-### RPM external mxnet-predict 1.2.1.mod3
-%define projectname mxnet-predict
-%define releasename apache-mxnet-src-%{realversion}-incubating
-Source: https://hqu.web.cern.ch/hqu/tools/mxnet/apache-mxnet-src-%{realversion}-incubating.tar.gz
+### RPM external mxnet-predict 1.2.1
+%define tag 97171b96b2b7efc78eccfbe0a0c2561a377ce153
+%define branch 1.2.1.mod3
+%define github_user cms-externals
+Source: git+https://github.com/%{github_user}/incubator-mxnet.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 Requires: OpenBLAS
 
