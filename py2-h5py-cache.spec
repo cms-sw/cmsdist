@@ -1,14 +1,8 @@
-### RPM external py2-h5py 2.8.0
+### RPM external py2-h5py-cache 1.0
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
-Requires: python py2-numpy hdf5 py2-six
-BuildRequires: py2-setuptools py2-cython py2-pkgconfig
 
-
-
-%define pip_name h5py
-
-%define PipPreBuild export HDF5_DIR=${HDF5_ROOT}
+%define pip_name h5py-cache
 
 ## IMPORT build-with-pip
 
