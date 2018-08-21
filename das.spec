@@ -1,10 +1,10 @@
-### RPM cms das 04.01.12
+### RPM cms das 04.02.01
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 %define pkg0 das2go
 %define ver0 %realversion
 %define pkg1 DASTools
-%define ver1 00.00.08
+%define ver1 00.00.09
 Source0: https://github.com/dmwm/%pkg0/archive/%ver0.tar.gz
 Source1: https://github.com/dmwm/%pkg1/archive/%ver1.tar.gz
 
