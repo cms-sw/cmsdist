@@ -10,7 +10,7 @@ sed -i -e 's|#!/usr/bin/perl|#!/usr/bin/env perl|' opal/asm/generate-all-asm.pl
 sed -i -e 's|/usr/bin/perl|/usr/bin/env perl|' ./Doxyfile
 sed -i -e 's|/usr/bin/perl|/usr/bin/env perl|' ./orte/Doxyfile
 ./autogen.pl --force
-./configure --prefix=%i --without-lsf --disable-libnuma --enable-mpi-cxx
+./configure --prefix=%i --without-lsf --disable-libnuma --enable-mpi-cxx --enable-mpi-thread-multiple
 
 %build
 make %{makeprocesses} 
