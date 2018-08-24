@@ -1,4 +1,4 @@
-### RPM external thepeg 2.1.1
+### RPM external thepeg 2.1.4
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib/ThePEG
 ## INITENV +PATH DYLD_LIBRARY_PATH %{i}/lib/ThePEG
 
