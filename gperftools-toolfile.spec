@@ -1,13 +1,15 @@
-### RPM external google-perftools-toolfile 1.0
-Requires: google-perftools
+### RPM external gperftools-toolfile 1.0
+
+Requires: gperftools
+
 %prep
 
 %build
 
 %install
 
-mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/tcmalloc_minimal.xml
+mkdir -p %{i}/etc/scram.d
+cat << \EOF_TOOLFILE >%{i}/etc/scram.d/tcmalloc_minimal.xml
 <tool name="tcmalloc_minimal" version="@TOOL_VERSION@">
   <lib name="tcmalloc_minimal"/>
   <client>
@@ -17,7 +19,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/tcmalloc_minimal.xml
 </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/tcmalloc.xml
+cat << \EOF_TOOLFILE >%{i}/etc/scram.d/tcmalloc.xml
 <tool name="tcmalloc" version="@TOOL_VERSION@">
   <lib name="tcmalloc"/>
   <client>

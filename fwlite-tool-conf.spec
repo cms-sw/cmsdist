@@ -1,4 +1,4 @@
-### RPM cms fwlite-tool-conf 9.0
+### RPM cms fwlite-tool-conf 10.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -11,7 +11,6 @@
 Requires: tbb-toolfile
 Requires: boost-toolfile
 Requires: bz2lib-toolfile
-Requires: castor-toolfile
 Requires: clhep-toolfile
 Requires: db6-toolfile
 Requires: dcap-toolfile

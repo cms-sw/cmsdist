@@ -1,0 +1,15 @@
+diff --git a/libstdc++-v3/include/std/optional b/libstdc++-v3/include/std/optional
+index 49ed86322..7005cf3eb 100644
+--- a/libstdc++-v3/include/std/optional
++++ b/libstdc++-v3/include/std/optional
+@@ -1031,10 +1031,6 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
+ 
+   /// @}
+ 
+-#if __cpp_deduction_guides >= 201606
+-  template <typename _Tp> optional(_Tp) -> optional<_Tp>;
+-#endif
+-
+ _GLIBCXX_END_NAMESPACE_VERSION
+ } // namespace std
+ 

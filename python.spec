@@ -1,4 +1,4 @@
-### RPM external python 2.7.11
+### RPM external python 2.7.14
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib
 ## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib/python%{python_major_version}/site-packages
@@ -11,13 +11,14 @@ Requires: zlib sqlite
 
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, x11
-%define tag 4a9ef71da324c1591d857e35940276890618d50d
-%define branch cms/v%{realversion}
+%define tag f6d7a735c8650a8f37ffefb5270e43d7a31676bc
+%define branch cms/107f3cc
 %define github_user cms-externals
-Source: git+https://github.com/%github_user/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source0: git+https://github.com/%github_user/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source1: valgrind-python.supp
 
 %prep
-%setup -n python-%{realversion}
+%setup -b 0 -n python-%{realversion}
 
 find . -type f | while read f; do
   if head -n1 $f | grep -q /usr/local; then
@@ -166,7 +167,7 @@ find %i -name '*.py' -perm +0111 | while read f; do
 done
 
 # Remove documentation, examples and test files. 
-%define drop_files { %i/share %{i}/lib/python%{pythonv}/test \
+%define drop_files { %{i}/lib/python%{pythonv}/test \
                    %{i}/lib/python%{pythonv}/distutils/tests \
                    %{i}/lib/python%{pythonv}/json/tests \
                    %{i}/lib/python%{pythonv}/ctypes/test \
@@ -175,6 +176,10 @@ done
                    %{i}/lib/python%{pythonv}/email/test \
                    %{i}/lib/python%{pythonv}/lib2to3/tests \
                    %{i}/lib/pkgconfig }
+
+rm -rf %{i}/share
+mkdir -p %{i}/share/valgrind
+cp %{SOURCE1} %{i}/share/valgrind/valgrind-python.supp
 
 # Remove .pyo files
 find %i -name '*.pyo' -exec rm {} \;

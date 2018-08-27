@@ -1,7 +1,7 @@
 ### RPM external dd4hep v01-08x
 
-%define tag 387ff92cc096cb7980a17e651ad5690b330a64d7
-%define branch cms/master/dfd9760
+%define tag a710edf3953bacb6a6be9e1d591df55794cf07c2
+%define branch cms/master/c627ab2
 %define github_user cms-externals
 
 Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
@@ -27,7 +27,7 @@ cmake -DCMAKE_INSTALL_PREFIX="%{i}" \
       -DDD4HEP_USE_XERCESC=ON \
       -DXERCESC_ROOT_DIR=${XERCES_C_ROOT} \
       -DDD4HEP_USE_PYROOT=ON \
-      -DCMAKE_CXX_STANDARD=14 \
+      -DCMAKE_CXX_STANDARD=17 \
       -DCMAKE_BUILD_TYPE=Release \
       ../%{n}-%{realversion}
 

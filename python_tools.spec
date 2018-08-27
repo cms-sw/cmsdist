@@ -34,6 +34,7 @@ Requires: py2-hyperas
 Requires: py2-hyperopt-toolfile
 Requires: py2-seaborn
 Requires: py2-h5py
+Requires: py2-h5py-cache
 Requires: py2-thriftpy
 Requires: py2-root_pandas
 Requires: py2-uproot
@@ -156,6 +157,9 @@ Requires: py2-future
 Requires: py2-backports_lzma
 Requires: py2-pybind11-toolfile
 Requires: py2-histbook
+Requires: py2-flake8-toolfile
+Requires: py2-autopep8-toolfile
+Requires: py2-pycodestyle
 
 %prep
 

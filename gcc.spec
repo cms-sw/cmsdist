@@ -1,11 +1,11 @@
-### RPM external gcc 6.3.0
+### RPM external gcc 7.3.1
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-6-branch/?view=log
-%define gccRevision 243837
-%define gccBranch tags/gcc_6_3_0_release
+%define gccRevision 257125
+%define gccBranch branches/gcc-7-branch
 
 %define moduleName gcc-%(echo %{gccBranch} | tr / _)-%{gccRevision}
 Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{gccRevision}&output=/%{moduleName}.tar.gz
@@ -17,10 +17,10 @@ Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{
 %define keep_archives true
 
 %define gmpVersion 6.1.2
-%define mpfrVersion 3.1.5
+%define mpfrVersion 3.1.6
 %define mpcVersion 1.0.3
 %define islVersion 0.16.1
-%define zlibVersion 1.2.10
+%define zlibVersion 1.2.11
 Source1: https://gmplib.org/download/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
@@ -29,12 +29,12 @@ Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 
 %if %islinux
 %define bisonVersion 3.0.4
-%define binutilsVersion 2.27
-%define elfutilsVersion 0.168
+%define binutilsVersion 2.30
+%define elfutilsVersion 0.170
 %define m4Version 1.4.18
-%define flexVersion 2.6.3
+%define flexVersion 2.6.4
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
-Source8: http://ftp.gnu.org/gnu/binutils/binutils-%{binutilsVersion}.tar.bz2
+Source8: https://sourceware.org/pub/binutils/releases/binutils-%{binutilsVersion}.tar.bz2
 Source9: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
 Source10: http://ftp.gnu.org/gnu/m4/m4-%{m4Version}.tar.gz
 Source11: https://github.com/westes/flex/releases/download/v%{flexVersion}/flex-%{flexVersion}.tar.gz
@@ -42,10 +42,14 @@ Source11: https://github.com/westes/flex/releases/download/v%{flexVersion}/flex-
 
 Patch0: gcc-flex-nonfull-path-m4
 Patch1: gcc-flex-disable-doc
+Patch2: gcc-remove-LWG2825-LWG2756-r245024
+Patch3: 0001-Revert-r248245-breaks-ROOT
 
 %prep
 
 %setup -T -b 0 -n %{moduleName}
+%patch2 -p1
+%patch3 -p1
 
 # Filter out private stuff from RPM requires headers.
 cat << \EOF > %{name}-req

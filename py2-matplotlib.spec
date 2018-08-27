@@ -1,4 +1,4 @@
-### RPM external py2-matplotlib 1.5.2
+### RPM external py2-matplotlib 2.2.2
 ## INITENV +PATH PYTHON27PATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %i/${PYTHON3_LIB_SITE_PACKAGES}
 Source: https://github.com/matplotlib/matplotlib/archive/v%{realversion}.tar.gz

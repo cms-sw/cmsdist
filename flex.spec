@@ -1,5 +1,5 @@
-### RPM external flex 2.6.0
-Source: http://iweb.dl.sourceforge.net/project/flex/flex-%{realversion}.tar.bz2
+### RPM external flex 2.6.4
+Source: https://github.com/westes/flex/releases/download/v%{realversion}/flex-%{realversion}.tar.gz
 
 Patch0: gcc-flex-nonfull-path-m4
 Patch1: gcc-flex-disable-doc

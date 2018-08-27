@@ -17,7 +17,6 @@ Requires: starlight-toolfile
 Requires: alpgen-toolfile
 Requires: boost-toolfile
 Requires: bz2lib-toolfile
-Requires: castor-toolfile
 Requires: charybdis-toolfile
 Requires: classlib-toolfile
 Requires: clhep-toolfile
@@ -48,6 +47,7 @@ Requires: herwig-toolfile
 Requires: herwigpp-toolfile
 Requires: ittnotify-toolfile
 Requires: jemalloc-toolfile
+Requires: jemalloc-debug-toolfile
 Requires: jimmy-toolfile
 Requires: ktjet-toolfile
 Requires: lhapdf-toolfile
@@ -156,8 +156,9 @@ Requires: mxnet-predict-toolfile
 
 # Only for Linux platform.
 %if %islinux
+Requires: gcc-checker-plugin-toolfile
 Requires: openldap-toolfile
-Requires: google-perftools-toolfile
+Requires: gperftools-toolfile
 
 %if %isnotppc64le_be
 Requires: igprof-toolfile
@@ -189,7 +190,7 @@ Requires: tensorflow-toolfile
 Requires: xtensor-toolfile
 Requires: xtl-toolfile
 
-%define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler rivet2 opencl opencl-cpp nvidia-drivers intel-vtune
+%define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler rivet2 opencl opencl-cpp nvidia-drivers intel-vtune jemalloc-debug
 
 ## IMPORT scramv1-tool-conf
 

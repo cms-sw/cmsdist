@@ -55,11 +55,11 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-cxxcompiler.xml
     <flags CXXFLAGS="-Werror=missing-braces -Werror=unused-value"/>
     <flags CXXFLAGS="-Werror=address -Werror=format -Werror=sign-compare"/>
     <flags CXXFLAGS="-Werror=write-strings -Werror=delete-non-virtual-dtor"/>
-    <flags CXXFLAGS="-Werror=maybe-uninitialized -Werror=strict-aliasing"/>
-    <flags CXXFLAGS="-Werror=narrowing -Werror=uninitialized"/>
+    <flags CXXFLAGS="-Werror=strict-aliasing"/>
+    <flags CXXFLAGS="-Werror=narrowing"/>
     <flags CXXFLAGS="-Werror=unused-but-set-variable -Werror=reorder"/>
     <flags CXXFLAGS="-Werror=unused-variable -Werror=conversion-null"/>
-    <flags CXXFLAGS="-Werror=return-local-addr"/>
+    <flags CXXFLAGS="-Werror=return-local-addr -Wnon-virtual-dtor"/>
     <flags CXXFLAGS="-Werror=switch -fdiagnostics-show-option"/>
     <flags CXXFLAGS="-Wno-unused-local-typedefs -Wno-attributes -Wno-psabi"/>
     <flags LDFLAGS="@OS_LDFLAGS@ @ARCH_LDFLAGS@ @COMPILER_LDFLAGS@"/>
@@ -69,6 +69,10 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-cxxcompiler.xml
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$GCC_CXXCOMPILER_BASE/lib" type="path"/>
     <runtime name="SCRAM_CXX11_ABI" value="@SCRAM_CXX11_ABI@"/>
     <runtime name="PATH" value="$GCC_CXXCOMPILER_BASE/bin" type="path"/>
+    <runtime name="GCC_RUNTIME_ASAN" value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@/libasan.so" type="path"/>
+    <runtime name="GCC_RUNTIME_UBSAN" value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@/libubsan.so" type="path"/>
+    <runtime name="GCC_RUNTIME_TSAN" value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@/libtsan.so" type="path"/>
+    <runtime name="GCC_RUNTIME_LSAN" value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@/libasan.so" type="path"/>
   </tool>
 EOF_TOOLFILE
 
@@ -110,6 +114,19 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-atomic.xml
     </client>
   </tool>
 EOF_TOOLFILE
+
+# GCC tool file for explicity linking gcc plugin library
+cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-plugin.xml
+  <tool name="gcc-plugin" version="@GCC_VERSION@">
+    <lib name="cc1plugin cp1plugin"/>
+    <client>
+      <environment name="GCC_PLUGIN_BASE" default="@GCC_PLUGIN_DIR@"/>
+      <environment name="INCLUDE"   default="$GCC_PLUGIN_BASE/include"/>
+      <environment name="LIBDIR"    default="$GCC_PLUGIN_BASE"/>
+    </client>
+  </tool>
+EOF_TOOLFILE
+export GCC_PLUGIN_DIR=$(gcc -print-file-name=plugin)
 
 # NON-empty defaults
 # First of all handle OS specific options.

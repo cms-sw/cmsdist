@@ -1,13 +1,13 @@
-### RPM external autotools 1.2
+### RPM external autotools 1.3
 ## INITENV SET M4 %{i}/bin/m4
 # We keep all of them together to simplify the "requires" statements.
 %define autoconf_version 2.69
-%define automake_version 1.14.1
+%define automake_version 1.15.1
 %define automake_maj %(echo %{automake_version} | cut -f1,2 -d.)
-%define libtool_version 2.4.2
-%define m4_version 1.4.17
-%define gettext_version 0.19.4
-%define pkgconfig_version 0.28
+%define libtool_version 2.4.6
+%define m4_version 1.4.18
+%define gettext_version 0.19.8.1
+%define pkgconfig_version 0.29.2
 Source0: http://ftpmirror.gnu.org/autoconf/autoconf-%{autoconf_version}.tar.gz
 Source1: http://ftpmirror.gnu.org/automake/automake-%{automake_version}.tar.gz
 Source2: http://ftpmirror.gnu.org/libtool/libtool-%{libtool_version}.tar.gz
@@ -55,11 +55,6 @@ pushd %_builddir/automake-%{automake_version}
   make %makeprocesses && make install
 popd
 pushd %_builddir/libtool-%{libtool_version} 
-  # Update for AArch64 support
-  rm -f ./libltdl/config/config.{sub,guess}
-  curl -L -k -s -o ./libltdl/config/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
-  curl -L -k -s -o ./libltdl/config/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
-  chmod +x ./libltdl/config/config.{sub,guess}
   ./configure --disable-dependency-tracking --prefix %i --enable-ltdl-install
   make %makeprocesses && make install
 popd

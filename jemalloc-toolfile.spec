@@ -1,4 +1,4 @@
-### RPM external jemalloc-toolfile 1.0
+### RPM external jemalloc-toolfile 2.0
 Requires: jemalloc 
 
 %prep

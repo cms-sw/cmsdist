@@ -2,20 +2,20 @@
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 989d72ff9d8878ee5eb893c0b41c3c811f1848e5
-%define branch cms/v6-12-00-patches/38e3810
+%define tag 8ea59a196e04c88776a05f9d20fac287f05224f6
+%define branch cms/v6-12-00-patches/aa726e2
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
-BuildRequires: cmake
+BuildRequires: cmake ninja
 
-Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib davix tbb py2-numpy lz4
+Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib davix tbb OpenBLAS py2-numpy lz4
 
 %if %islinux
-Requires: castor dcap
+Requires: dcap
 %endif
 
 %if %isdarwin
@@ -42,12 +42,14 @@ export CFLAGS=-D__ROOFIT_NOBANNER
 export CXXFLAGS=-D__ROOFIT_NOBANNER
 
 cmake ../%{n}-%{realversion} \
+  -G Ninja \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
   -DCMAKE_CXX_COMPILER=g++ \
   -DCMAKE_Fortran_COMPILER=gfortran \
   -DCMAKE_LINKER=ld \
+  -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -Droot7=ON \
   -Dfail-on-missing=ON \
   -Dgnuinstall=OFF \
@@ -79,7 +81,7 @@ cmake ../%{n}-%{realversion} \
   -Dbuiltin_lzma=OFF \
   -Dbuiltin_gsl=OFF \
   -DGSL_CONFIG_EXECUTABLE="$(which gsl-config)" \
-  -Dcxx14=ON \
+  -Dcxx17=ON \
   -Dssl=ON \
   -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
   -DOPENSSL_INCLUDE_DIR="${OPENSSL_ROOT}/include" \
@@ -89,15 +91,8 @@ cmake ../%{n}-%{realversion} \
   -DXROOTD_INCLUDE_DIR="${XROOTD_ROOT}/include/xrootd" \
   -DXROOTD_ROOT_DIR="${XROOTD_ROOT}" \
 %if %islinux
-  -Drfio=ON \
-  -DCASTOR_INCLUDE_DIR="${CASTOR_ROOT}/include/shift" \
-  -DCASTOR_shift_LIBRARY="${CASTOR_ROOT}/lib/libshift.%{soext}" \
-  -DCASTOR_rfio_LIBRARY="${CASTOR_ROOT}/lib/libcastorrfio.%{soext}" \
-  -DCASTOR_client_LIBRARY="${CASTOR_ROOT}/lib/libcastorclient.%{soext}" \
-  -DCASTOR_common_LIBRARY="${CASTOR_ROOT}/lib/libcastorcommon.%{soext}" \
-  -DCASTOR_ns_LIBRARY="${CASTOR_ROOT}/lib/libcastorns.%{soext}" \
-  -DCASTOR_DIR="${CASTOR_ROOT}" \
-  -Dcastor=ON \
+  -Drfio=OFF \
+  -Dcastor=OFF \
   -Ddcache=ON \
   -DDCAP_INCLUDE_DIR="${DCAP_ROOT}/include" \
   -DDCAP_DIR="${DCAP_ROOT}" \
@@ -142,7 +137,7 @@ cmake ../%{n}-%{realversion} \
   -DZLIB_INCLUDE_DIR="${ZLIB_ROOT}/include" \
   -DLIBXML2_INCLUDE_DIR="${LIBXML2_ROOT}/include/libxml2" \
   -DLIBXML2_LIBRARIES="${LIBXML2_ROOT}/lib/libxml2.%{soext}" \
-  -DCMAKE_PREFIX_PATH="${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${LZ4_ROOT}"
+  -DCMAKE_PREFIX_PATH="${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${LZ4_ROOT}"
 
 # For CMake cache variables: http://www.cmake.org/cmake/help/v3.2/manual/cmake-language.7.html#lists
 # For environment variables it's OS specific: http://www.cmake.org/Wiki/CMake_Useful_Variables
@@ -156,7 +151,7 @@ done
 export ROOT_INCLUDE_PATH
 export ROOTSYS="%{i}"
 
-make %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
+ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
 
 %install
 cd ../build
@@ -170,7 +165,7 @@ done
 export ROOT_INCLUDE_PATH
 export ROOTSYS="%{i}"
 
-make %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
+ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
 
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -R -l '#!.*python' %{i} | xargs chmod +x
@@ -178,3 +173,8 @@ perl -p -i -e "s|#!/bin/perl|#!/usr/bin/env perl|" %{i}/bin/memprobe
 
 %post
 %{relocateConfig}etc/cling/llvm/Config/llvm-config.h
+%{relocateConfig}bin/root-config
+%{relocateConfig}config/Makefile.config
+%{relocateConfig}etc/dictpch/allCppflags.txt
+%{relocateConfig}include/compiledata.h
+%{relocateConfig}include/RConfigOptions.h

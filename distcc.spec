@@ -2,8 +2,11 @@
 Source: https://distcc.googlecode.com/files/distcc-%{realversion}.tar.gz
 Requires: python
 
+Patch0: distcc-gcc7
+
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 # Update to detect aarch64 and ppc64le

@@ -12,7 +12,8 @@ Source: http://downloads.sourceforge.net/project/gnuplot/gnuplot/%{realversion}/
   --without-tutorial \
   --without-readline \
   --without-gd \
-  --without-x
+  --without-x \
+  --without-lua
 
 make %{makeprocesses}
 

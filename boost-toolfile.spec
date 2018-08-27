@@ -1,4 +1,4 @@
-### RPM external boost-toolfile 1.2
+### RPM external boost-toolfile 1.3
 Requires: boost
 %prep
 
@@ -124,6 +124,16 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_iostreams.xml
 </tool>
 EOF_TOOLFILE
 
+# boost_mpi toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_mpi.xml
+<tool name="boost_mpi" version="@TOOL_VERSION@">
+  <info url="http://www.boost.org"/>
+  <lib name="@BOOST_MPI_LIB@"/>
+  <use name="boost"/>
+  <use name="boost_serialization"/>
+</tool>
+EOF_TOOLFILE
+
 # boost_header toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_header.xml
 <tool name="boost_header" version="@TOOL_VERSION@">
@@ -155,6 +165,7 @@ export BOOST_PYTHON_LIB=`getLibName python`
 export BOOST_REGEX_LIB=`getLibName regex`
 export BOOST_SERIALIZATION_LIB=`getLibName serialization`
 export BOOST_IOSTREAMS_LIB=`getLibName iostream`
+export BOOST_MPI_LIB=`getLibName mpi`
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
 ## IMPORT scram-tools-post
