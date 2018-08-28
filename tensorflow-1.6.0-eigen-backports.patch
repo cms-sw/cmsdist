@@ -1,0 +1,121 @@
+commit 87b715325a74d34f1331d14d8df640308ec10d12
+Author: Brian Patton <bjp@google.com>
+Date:   Tue Mar 20 06:25:19 2018 -0700
+
+    Adds float64 support for avg pool and its gradient.
+    
+    Eigen NumTraits is modified to directly use std::numeric_limits, which resolves a broken test caused by inconsistency between the host and devices values of Eigen::NumTraits<double>::highest(). This returns +inf on device, due to third_party/eigen3/Eigen/src/Core/util/Meta.h, and __DBL_MAX__ (1.7976931348623157e+308) on host, making the behavior for doubles (on device) inconsistent with both the behavior of floats Eigen::NumTraits<float>::highest() and the behavior of std::numeric_limits<double>::max()
+    
+    PiperOrigin-RevId: 189731521
+
+diff --git a/tensorflow/core/kernels/eigen_pooling.h b/tensorflow/core/kernels/eigen_pooling.h
+index 896c995..2f83780 100644
+--- a/tensorflow/core/kernels/eigen_pooling.h
++++ b/tensorflow/core/kernels/eigen_pooling.h
+@@ -334,7 +334,8 @@ struct AvgPoolMeanReducer {
+   }
+ 
+   template <typename Packet>
+-  void reducePacketWithType(T, const Packet& p, Packet* accum) {
++  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void reducePacketWithType(
++      T, const Packet& p, Packet* accum) {
+     Packet skip_mask =
+         pequal(p, pset1<Packet>(-Eigen::NumTraits<T>::highest()));
+     (*accum) = padd<Packet>(*accum, psel(p, pset1<Packet>(0), skip_mask));
+@@ -480,11 +481,9 @@ SpatialAvgPooling(const Input& input, DenseIndex patchRows,
+                              Eigen::type2index<3> > >::type reduction_dims;
+ #endif
+   return input
+-      .extract_image_patches(
+-          patchRows, patchCols, strideRows, strideCols, in_strideRows,
+-          in_strideCols, padding_type,
+-          -Eigen::NumTraits<typename internal::remove_const<
+-              typename internal::traits<Input>::Scalar>::type>::highest())
++      .extract_image_patches(patchRows, patchCols, strideRows, strideCols,
++                             in_strideRows, in_strideCols, padding_type,
++                             -Eigen::NumTraits<CoeffReturnType>::highest())
+       .reduce(reduction_dims, mean_with_nan)
+       .reshape(post_reduce_dims);
+ }
+
+commit f84e8257aa88fa45cc7a15835ad386565cd60237
+Author: A. Unique TensorFlower <gardener@tensorflow.org>
+Date:   Fri Jun 1 16:48:10 2018 -0700
+
+    Change the Eigen reduction code to use a tree to improve numerical stability.
+    This changes the InnerMostDimReducer to use a summation tree, which is more numerically stable than the previous approach of sequential addition into an accumulator.
+    This solves the issue for reduction over all or a trailing subset of dimensions.
+    This change does not improve the numerical accuracy for MeanReducer, which maintains state.
+    
+    Benchmarks show a 40% (AVX) to 50% (SSE) slowdown for small row reductions (sum, float). column- and full reductions are unchanged.
+    
+    Cleaned up TensorFunctors.h a bit by moving the traits to reducer_traits and updating the code that uses the reducers accordingly.
+    
+    Introduced a new trait "IsExactlyAssociative" and new template specializations of InnerMostDimReducer to ensure that we only invoke the new and slightly more expensive codepath when it is needed, i.e. for sum reduction of non-integer types.
+    
+    PiperOrigin-RevId: 198946075
+
+diff --git a/tensorflow/core/kernels/eigen_pooling.h b/tensorflow/core/kernels/eigen_pooling.h
+index 2f83780..56de6b1 100644
+--- a/tensorflow/core/kernels/eigen_pooling.h
++++ b/tensorflow/core/kernels/eigen_pooling.h
+@@ -372,16 +372,23 @@ struct reducer_traits<AvgPoolMeanReducer<float>, Device> {
+     Cost = 1,
+ #if (EIGEN_ARCH_i386 || EIGEN_ARCH_x86_64) && !defined(__CUDACC__)
+     // We only support packet access for floats.
+-    PacketAccess = true
++    PacketAccess = true,
+ #else
+-    PacketAccess = false
++    PacketAccess = false,
+ #endif
++    IsStateful = true,
++    IsExactlyAssociative = false
+   };
+ };
+ 
+ template <>
+ struct reducer_traits<AvgPoolMeanReducer<float>, GpuDevice> {
+-  enum { Cost = 1, PacketAccess = false };
++  enum {
++    Cost = 1,
++    PacketAccess = false,
++    IsStateful = true,
++    IsExactlyAssociative = false
++  };
+ };
+ 
+ }  // namespace internal
+
+commit cba65fbcecb828a3e6e7743f7e784c7d08d37ffb
+Author: Eugene Zhulenev <ezhulenev@google.com>
+Date:   Fri Sep 14 12:34:21 2018 -0700
+
+    Define PreferBlockAccess enum to prepare for Eigen upgrade.
+    
+    PiperOrigin-RevId: 213025676
+
+diff --git a/tensorflow/core/kernels/eigen_volume_patch.h b/tensorflow/core/kernels/eigen_volume_patch.h
+index a3d7958..80ab745 100644
+--- a/tensorflow/core/kernels/eigen_volume_patch.h
++++ b/tensorflow/core/kernels/eigen_volume_patch.h
+@@ -43,6 +43,7 @@ struct CustomTensorEvaluator {
+     IsAligned = false,
+     PacketAccess = TensorEvaluator<ArgType, Device>::PacketAccess,
+     BlockAccess = false,
++    PreferBlockAccess = false,
+     Layout = TensorEvaluator<ArgType, Device>::Layout,
+     CoordAccess = NumDims == 6,
+     RawAccess = false
+diff --git a/tensorflow/core/kernels/mirror_pad_op.h b/tensorflow/core/kernels/mirror_pad_op.h
+index cc4b694..62aa7d5 100644
+--- a/tensorflow/core/kernels/mirror_pad_op.h
++++ b/tensorflow/core/kernels/mirror_pad_op.h
+@@ -103,6 +103,7 @@ struct TensorEvaluator<const TensorMirrorPadOp<PaddingDimensions, ArgType>,
+     IsAligned = false,
+     PacketAccess = TensorEvaluator<ArgType, Device>::PacketAccess,
+     BlockAccess = false,
++    PreferBlockAccess = false,
+     Layout = TensorEvaluator<ArgType, Device>::Layout,
+     CoordAccess = true,
+     RawAccess = false
