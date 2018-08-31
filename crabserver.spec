@@ -1,4 +1,4 @@
-### RPM cms crabserver 3.3.1809.rc7
+### RPM cms crabserver 3.3.1809.rc8
 
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
