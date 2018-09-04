@@ -1,4 +1,4 @@
-### RPM cms fwlite-tool-conf 10.0
+### RPM cms fwlite-tool-conf 11.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -43,6 +43,7 @@ Requires: libxml2-toolfile
 Requires: llvm-gcc-toolfile
 Requires: vdt-toolfile
 Requires: tinyxml-toolfile
+Requires: tinyxml2-toolfile
 Requires: md5-toolfile
 Requires: davix-toolfile
 Requires: py2-numpy-toolfile
