@@ -4,7 +4,7 @@
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 #branch 1.1.2_crab
-%define wmcver 1.1.14.crab1
+%define wmcver 1.1.16
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define crabserver 3.3.1809.rc3
 
