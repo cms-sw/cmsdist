@@ -1,4 +1,4 @@
-### RPM external py2-numpy-toolfile 2.0
+### RPM external py2-numpy-toolfile 3.0
 Requires: py2-numpy
 
 %prep
@@ -25,6 +25,8 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/numpy-c-api.xml
     <environment name="INCLUDE" default="$NUMPY_C_API_BASE/c-api/core/include"/>
     <environment name="LIBDIR" default="$NUMPY_C_API_BASE/c-api/core/lib"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 
