@@ -10,10 +10,10 @@ Requires: boost
 %build
 export XERCES_C_BASE=${XERCES_C_ROOT}
 export BOOST_BASE=${BOOST_ROOT}
-make %{makeprocesses} -f Makefile.standalone all
-make %{makeprocesses} -f Makefile.standalone install
+make %{makeprocesses} all
 
 %install
+make %{makeprocesses} install
 cp -r lib %{i}/lib
 cp -r include %{i}/include
 cp -r xsd-type %{i}/xsd-type
