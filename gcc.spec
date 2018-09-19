@@ -1,9 +1,9 @@
-### RPM external gcc 8.1.0
+### RPM external gcc 8.2.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 # Use the git repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
-# See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-6-branch/?view=log
-%define gccTag 1c17eaefe1634fc468a110c08de0a322bea12eb6
+# See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
+%define gccTag 2d79333765b691fa27d82c1737cb2f00ec6a4499
 %define gccBranch gcc-8-branch
 
 %define moduleName %{n}-%{realversion}
@@ -16,19 +16,19 @@ Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&e
 %define keep_archives true
 
 %define gmpVersion 6.1.2
-%define mpfrVersion 3.1.6
-%define mpcVersion 1.0.3
+%define mpfrVersion 4.0.1
+%define mpcVersion 1.1.0
 %define islVersion 0.18
 %define zlibVersion 1.2.11
 Source1: https://gmplib.org/download/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
-Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
+Source3: https://ftp.gnu.org/gnu/mpc/mpc-%{mpcVersion}.tar.gz
 Source4: ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-%{islVersion}.tar.bz2
 Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 
 %if %islinux
-%define bisonVersion 3.0.4
-%define binutilsVersion 2.30
+%define bisonVersion 3.1
+%define binutilsVersion 2.31
 %define elfutilsVersion 0.170
 %define m4Version 1.4.18
 %define flexVersion 2.6.4
