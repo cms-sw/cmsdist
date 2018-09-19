@@ -1,4 +1,4 @@
-### RPM external llvm 6.0.0
+### RPM external llvm 7.0.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHON27PATH %{i}/lib64/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 %define isamd64 %(case %{cmsplatf} in (*_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
@@ -10,8 +10,8 @@ Requires: cuda
 %endif
 AutoReq: no
 
-%define llvmCommit 500cb56799157a08a3283a067f172b6c6ad4efa6
-%define llvmBranch cms/release_60/329799
+%define llvmCommit ff0a5e8a591ed8bfc14320740863b357b1774f49
+%define llvmBranch cms/release_70/342187
 %define iwyuCommit 5082fddccb3d5aabaace2208f1162029a27c0334
 %define iwyuBranch master
 
