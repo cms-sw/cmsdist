@@ -1,4 +1,4 @@
-### RPM external llvm 6.0.0
+### RPM external llvm 7.0.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHON27PATH %{i}/lib64/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 %define isamd64 %(case %{cmsplatf} in (*_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
@@ -8,10 +8,11 @@ Requires: gcc zlib
 %if %{isamd64}
 Requires: cuda
 %endif
+AutoReq: no
 
-%define llvmCommit 500cb56799157a08a3283a067f172b6c6ad4efa6
-%define llvmBranch cms/release_60/329799
-%define iwyuCommit 5082fddccb3d5aabaace2208f1162029a27c0334
+%define llvmCommit ff0a5e8a591ed8bfc14320740863b357b1774f49
+%define llvmBranch cms/release_70/342187
+%define iwyuCommit 7b8980310f98ea76ac6d4e703d8bd07bde3d8ebc
 %define iwyuBranch master
 
 Source0: git+https://github.com/cms-externals/llvm-project-20170507.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%{realversion}-%{llvmCommit}&output=/llvm-%{realversion}-%{llvmCommit}.tgz
@@ -46,7 +47,12 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -DLLVM_ENABLE_EH:BOOL=ON \
   -DLLVM_ENABLE_PIC:BOOL=ON \
   -DLLVM_ENABLE_RTTI:BOOL=ON \
+%if %{isamd64}
+  -DLLVM_TARGETS_TO_BUILD:STRING="X86;PowerPC;AArch64;NVPTX" \
+  -DLIBOMPTARGET_NVPTX_ALTERNATE_HOST_COMPILER=/usr/bin/gcc \
+%else
   -DLLVM_TARGETS_TO_BUILD:STRING="X86;PowerPC;AArch64" \
+%endif
   -DCMAKE_REQUIRED_INCLUDES="${ZLIB_ROOT}/include" \
   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT}"
 
