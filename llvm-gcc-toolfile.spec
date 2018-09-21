@@ -65,7 +65,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm-cxxcompiler.xml
     <flags CXXFLAGS="-Wno-error=potentially-evaluated-expression"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$LLVM_CXXCOMPILER_BASE/lib64" type="path"/>
     <runtime name="PATH" value="$LLVM_CXXCOMPILER_BASE/bin" type="path"/>
-    <runtime name="COMPILER_RUNTIME_OBJECTS" value="@GCC_ROOT@"/>
   </tool>
 EOF_TOOLFILE
 
@@ -106,7 +105,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm-analyzer-cxxcompiler.xml
       <environment name="LLVM_ANALYZER_CXXCOMPILER_BASE" default="@LLVM_ROOT@"/>
       <environment name="CXX" value="$LLVM_ANALYZER_CXXCOMPILER_BASE/bin/c++-analyzer"/>
     </client>
-    <runtime name="COMPILER_RUNTIME_OBJECTS" value="@GCC_ROOT@"/>
   </tool>
 EOF_TOOLFILE
 
