@@ -1,4 +1,4 @@
-### RPM external py2-plac 0.9.6
+### RPM external py2-plac 1.0.0
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
