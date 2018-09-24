@@ -108,6 +108,7 @@ Fireworks/Vertices
 PhysicsTools/FWLite
 PhysicsTools/SelectorUtils
 PhysicsTools/Utilities
+SimDataFormats/CaloAnalysis
 SimDataFormats/CaloHit
 SimDataFormats/CrossingFrame
 SimDataFormats/DigiSimLinks
