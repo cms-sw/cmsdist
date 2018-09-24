@@ -1,9 +1,8 @@
-### RPM external cuda 9.2.148
-%define driversversion 396.37
+### RPM external cuda 10.0.130
+%define driversversion 410.48
 %define cudaversion %(echo %realversion | cut -d. -f 1,2)
 
-Source0: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod2/local_installers/%{n}_%{realversion}_%{driversversion}_linux
-Source1: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod2/patches/1/%{n}_%{realversion}.1_linux
+Source0: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux
 AutoReq: no
 
 %prep
@@ -14,57 +13,50 @@ AutoReq: no
 mkdir -p %_builddir/tmp
 /bin/sh %{SOURCE0} --silent --tmpdir %_builddir/tmp --extract %_builddir
 # extracts:
-# %_builddir/NVIDIA-Linux-x86_64-396.37.run
-# %_builddir/cuda-linux.9.2.148-24330188.run
-# %_builddir/cuda-samples.9.2.148-24330188-linux.run
+# %_builddir/NVIDIA-Linux-x86_64-410.48.run
+# %_builddir/cuda-linux.10.0.130-24817639.run
+# %_builddir/cuda-samples.10.0.130-24817639-linux.run
 
 # extract and repackage the CUDA runtime, tools and stubs
 /bin/sh %_builddir/%{n}-linux.%{realversion}-*.run -noprompt -nosymlink -tmpdir %_builddir/tmp -prefix %_builddir
 
-# Patch 1 (Released Aug 6, 2018)
-# CUDA 9.2 Patch Update: This update includes performance improvements to cuBLAS GEMM APIs and bug fixes for CUPTI and cuda-gdb.
-# See the CUDA 9.2 release notes for more details.
-/bin/sh %{SOURCE1} --silent --accept-eula --tmpdir %_builddir/tmp --installdir %_builddir
-rm -rf %_builddir/lib64/libcublas.so.9.2.148
-rm -rf %_builddir/lib64/libnvblas.so.9.2.148
-rm -rf %_builddir/lib64/libcuinj64.so.9.2.148
-rm -rf %_builddir/extras/CUPTI/lib64/libcupti.so.9.2.148
-
 mkdir -p %{i}/lib64
-# package only runtime and device static libraries
+mkdir -p %{i}/bin
+
+# package only the runtime static libraries
 cp -ar %_builddir/lib64/libcudart_static.a %{i}/lib64/
 cp -ar %_builddir/lib64/libcudadevrt.a %{i}/lib64/
-cp -ar %_builddir/lib64/lib*_device.a %{i}/lib64/
-rm -rf %_builddir/lib64/lib*.a
+rm -f %_builddir/lib64/lib*.a
 
-# do not package dynamic libraries for which we have stubs
-rm -rf %_builddir/lib64/libcublas.so*
-rm -rf %_builddir/lib64/libcufft.so*
-rm -rf %_builddir/lib64/libcufftw.so*
-rm -rf %_builddir/lib64/libcurand.so*
-rm -rf %_builddir/lib64/libcusolver.so*
-rm -rf %_builddir/lib64/libcusparse.so*
-rm -rf %_builddir/lib64/libnpp*.so*
-rm -rf %_builddir/lib64/libnvgraph.so*
-rm -rf %_builddir/lib64/libnvrtc.so*
-rm -rf %_builddir/lib64/libnvrtc-builtins.so*
+# do not package dynamic libraries for which there are stubs
+rm -f %_builddir/lib64/libcublas.so*
+rm -f %_builddir/lib64/libcufft.so*
+rm -f %_builddir/lib64/libcufftw.so*
+rm -f %_builddir/lib64/libcurand.so*
+rm -f %_builddir/lib64/libcusolver.so*
+rm -f %_builddir/lib64/libcusparse.so*
+rm -f %_builddir/lib64/libnpp*.so*
+rm -f %_builddir/lib64/libnvgraph.so*
+rm -f %_builddir/lib64/libnvjpeg.so*
+rm -f %_builddir/lib64/libnvrtc.so*
 
 # package the other dynamic libraries
 cp -ar %_builddir/lib64/* %{i}/lib64/
 
 # package the includes
-rm -rf %_builddir/include/sobol_direction_vectors.h
+rm -f %_builddir/include/sobol_direction_vectors.h
 cp -ar %_builddir/include/ %{i}
 
-# leave out nsight and nvvp
+# leave out the Nsight and NVVP graphical tools
 #cp -ar %_builddir/jre %{i}
 #cp -ar %_builddir/libnsight %{i}
 #ln -sf ../libnsight/nsight %_builddir/bin/nsight
-rm -rf %_builddir/bin/nsight
+rm -f %_builddir/bin/nsight
+rm -f %_builddir/bin/nsight_ee_plugins_manage.sh
 #cp -ar %_builddir/libnvvp %{i}
 #ln -sf ../libnvvp/nvvp %_builddir/bin/nvvp
-rm -rf %_builddir/bin/nvvp
-rm -rf %_builddir/bin/computeprof
+rm -f %_builddir/bin/nvvp
+rm -f %_builddir/bin/computeprof
 
 # package the cuda-gdb support files, and rename the binary to use it via a wrapper
 mkdir %{i}/share
@@ -72,8 +64,11 @@ cp -ar %_builddir/share/gdb/ %{i}/share/
 mv %_builddir/bin/cuda-gdb %_builddir/bin/cuda-gdb.real
 
 # package the binaries and tools
-cp -ar %_builddir/bin %{i}
+cp -ar %_builddir/bin/* %{i}
 cp -ar %_builddir/nvvm %{i}
+
+# package the Nsight Compute command line tool
+cp -ar %_builddir/NsightCompute-1.0/target/linux-desktop-glibc_2_11_3-glx-x64/* %{i}/bin/
 
 # package the version file
 cp -ar %_builddir/version.txt %{i}
@@ -83,9 +78,11 @@ cp -ar %_builddir/version.txt %{i}
 mkdir -p %{i}/drivers
 cp -ar %_builddir/nvidia/libcuda.so.%{driversversion}                   %{i}/drivers/
 ln -sf libcuda.so.%{driversversion}                                     %{i}/drivers/libcuda.so.1
+ln -sf libcuda.so.1                                                     %{i}/drivers/libcuda.so
 cp -ar %_builddir/nvidia/libnvidia-fatbinaryloader.so.%{driversversion} %{i}/drivers/
 cp -ar %_builddir/nvidia/libnvidia-ptxjitcompiler.so.%{driversversion}  %{i}/drivers/
 ln -sf libnvidia-ptxjitcompiler.so.%{driversversion}                    %{i}/drivers/libnvidia-ptxjitcompiler.so.1
+ln -sf libnvidia-ptxjitcompiler.so.1                                    %{i}/drivers/libnvidia-ptxjitcompiler.so
 
 %post
 # let nvcc find its components when invoked from the command line
@@ -95,4 +92,3 @@ sed \
   -e's|/$(_TARGET_DIR_)||g' \
   -e's|$(_TARGET_SIZE_)|64|g' \
   -i $RPM_INSTALL_PREFIX/%{pkgrel}/bin/nvcc.profile
-
