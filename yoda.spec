@@ -1,4 +1,6 @@
 ### RPM external yoda 1.6.7
+## INITENV +PATH PYTHON27PATH %i/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON3PATH %i/${PYTHON3_LIB_SITE_PACKAGES}
 
 ## OLD GENSER Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 Source: http://lcgpackages.web.cern.ch/lcgpackages/tarFiles/sources/MCGeneratorsTarFiles/YODA-%{realversion}.tar.gz 
