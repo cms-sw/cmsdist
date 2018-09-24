@@ -1,4 +1,4 @@
-### RPM external py2-histbook 1.2.1
+### RPM external py2-histbook 1.2.3
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
