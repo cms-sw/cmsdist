@@ -1,6 +1,6 @@
-### RPM external py2-bz2file 0.98
+### RPM external py2-argcomplete 1.9.4
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
-%define pip_name bz2file
+%define pip_name argcomplete
 
 ## IMPORT build-with-pip
