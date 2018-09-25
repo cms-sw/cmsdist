@@ -8,4 +8,3 @@ Requires: py2-backports
 
 ## IMPORT build-with-pip
 
-####%define PipPostBuild perl -p -i -e "s|from backports import|import|" %{i}/lib/*/*/entrypoints.py
