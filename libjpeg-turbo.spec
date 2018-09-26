@@ -1,24 +1,31 @@
-### RPM external libjpeg-turbo 1.3.1
-Source: http://heanet.dl.sourceforge.net/project/%{n}/%{realversion}/%{n}-%{realversion}.tar.gz
+### RPM external libjpeg-turbo 1.5.3                                                                                                                                                                                                                          
+## INITENV SETV LIBJPEG_TURBO_SOURCE %{source0}                                                                                                                                                                                                               
+## INITENV SETV LIBJPEG_TURBO_STRIP_PREFIX %{source_prefix}                                                                                                                                                                                                   
 
-BuildRequires: nasm
+%define source0 https://github.com/libjpeg-turbo/libjpeg-turbo/archive/%{realversion}.tar.gz
+%define source_prefix %{n}-%{realversion}
+Source: %{source0}
+
+BuildRequires: nasm autotools
 
 %prep
-%setup -n %{n}-%{realversion}
+%setup -n %{source_prefix}
 
 %build
-# Update to get AArch64
+# Update to get AArch64                                                                                                                                                                                                                                       
 rm -f ./config.{sub,guess}
 curl -L -k -s -o ./config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
 curl -L -k -s -o ./config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
 chmod +x ./config.{sub,guess}
+
+autoreconf -fiv
 
 ./configure \
   --prefix=%{i} \
   --enable-shared \
   --disable-static \
   --with-jpeg8 \
-  --disable-dependency-tracking
+ --disable-dependency-tracking
 
 make %{makeprocesses}
 %install
