@@ -1,10 +1,10 @@
-### RPM external py2-fs  0.5.5a1
+### RPM external py2-backports_shutil_which 3.5.1
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
-Requires: py2-typing
+%define pip_name backports.shutil_which
 
 ## IMPORT build-with-pip
 
-%define PipPostBuild perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
+
 
