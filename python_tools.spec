@@ -45,7 +45,6 @@ Requires: py2-xrootdpyfs
 
 Requires: root curl python openldap
 
-Requires: py2-configparser 
 Requires: py2-entrypoints
 Requires: py2-psutil
 Requires: py2-repozelru
@@ -54,8 +53,6 @@ Requires: py2-MarkupSafe
 Requires: py2-Pygments-toolfile
 Requires: py2-appdirs
 Requires: py2-argparse
-Requires: py2-backports_abc
-Requires: py2-backportsssl_match_hostname
 Requires: py2-bleach
 Requires: py2-certifi
 Requires: py2-decorator
@@ -111,7 +108,6 @@ Requires: py2-schema
 Requires: py2-python-dateutil
 Requires: py2-cjson
 Requires: py2-enum34 
-Requires: py2-shutil_get_terminal_size
 Requires: py2-functools32
 Requires: py2-mock
 Requires: py2-pbr-toolfile
@@ -144,7 +140,7 @@ Requires: py2-matplotlib
 Requires: py2-numpy-toolfile
 Requires: py2-sqlalchemy
 Requires: py2-pygithub
-Requires: py2-dablooms
+#Requires: py2-dablooms
 Requires: py2-dxr-toolfile
 Requires: py2-PyYAML
 Requires: py2-lint-toolfile
@@ -154,12 +150,24 @@ Requires: py2-cx-oracle
 %endif
 Requires: py2-cython-toolfile
 Requires: py2-future
-Requires: py2-backports_lzma
 Requires: py2-pybind11-toolfile
 Requires: py2-histbook
 Requires: py2-flake8-toolfile
 Requires: py2-autopep8-toolfile
 Requires: py2-pycodestyle
+Requires: py2-lz4
+Requires: py2-ply
+Requires: py2-py
+Requires: py2-typing
+Requires: py2-defusedxml
+Requires: py2-more_itertools
+Requires: py2-atomicwrites
+Requires: py2-attrs
+Requires: py2-nbdime
+Requires: py2-onnx
+Requires: py2-backports
+Requires: py2-backports_abc
+Requires: py2-colorama
 
 %prep
 
