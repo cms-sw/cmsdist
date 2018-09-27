@@ -154,6 +154,7 @@ Requires: py2-pippkgs-toolfile
 Requires: py2-pippkgs_depscipy-toolfile
 Requires: dasgoclient
 Requires: OpenBLAS-toolfile
+Requires: mxnet-predict-toolfile
 Requires: py2-pip-toolfile
 
 # Only for Linux platform.
