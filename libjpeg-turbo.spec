@@ -6,7 +6,7 @@
 %define source_prefix %{n}-%{realversion}
 Source: %{source0}
 
-BuildRequires: nasm autotools
+BuildRequires: nasm autotools gmake
 
 %prep
 %setup -n %{source_prefix}
@@ -21,11 +21,11 @@ chmod +x ./config.{sub,guess}
 autoreconf -fiv
 
 ./configure \
-  --prefix=%{i} \
+  --prefix="%{i}" \
   --enable-shared \
   --disable-static \
   --with-jpeg8 \
- --disable-dependency-tracking
+  --disable-dependency-tracking
 
 make %{makeprocesses}
 %install
