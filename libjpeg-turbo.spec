@@ -21,7 +21,7 @@ chmod +x ./config.{sub,guess}
 autoreconf -fiv
 
 ./configure \
-  --prefix="%{i}" \
+  --prefix=%{i} \
   --enable-shared \
   --disable-static \
   --with-jpeg8 \
