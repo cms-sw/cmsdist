@@ -9,6 +9,8 @@ Requires: geant4-G4NEUTRONXS
 Requires: geant4-G4SAIDDATA
 Requires: geant4-G4ABLA
 Requires: geant4-G4ENSDFSTATE
+Requires: geant4-G4RealSurface
+Requires: geant4-G4INCL
 
 %prep
 %build
