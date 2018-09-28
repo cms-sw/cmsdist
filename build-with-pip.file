@@ -1,0 +1,56 @@
+#File: with-with-pip
+
+%if "%{?pip_name:set}" != "set"
+%define pip_name %(echo %n | cut -f2-5 -d-)
+%endif
+%if "%{?PipDownloadOptions:set}" != "set"
+%define PipDownloadOptions --no-deps%%20--no-binary%%3D:all:
+%endif
+%if "%{?PipBuildOptions:set}" != "set"
+%define PipBuildOptions --no-deps
+%endif
+%if "%{?source0:set}" != "set"
+%define source0 pip://%{pip_name}/%{realversion}?pip_options=%{PipDownloadOptions}&output=/source.tar.gz
+%endif
+
+%if "%{?doPython2:set}" != "set"
+%define doPython2 yes
+%endif
+
+Source: %source0
+
+Requires: python
+BuildRequires: py2-pip
+
+%prep
+
+%build
+mkdir -p %{i}
+
+%if "%{?source_file:set}" != "set"
+tar xfz %{_sourcedir}/source.tar.gz
+%else
+cp %{_sourcedir}/source.tar.gz %{source_file}
+echo %{source_file} > files.list
+%endif
+
+%{?PipPreBuild:%PipPreBuild}
+
+
+if [ `cat files.list | wc -l` == "1" ] ; then
+   export PIPFILE=`cat files.list`
+   echo ${PIPFILE}
+   export PYTHONUSERBASE=%i
+   %if "%{doPython2}" == "yes"
+      pip2 list
+      pip2 install --user -v %{PipBuildOptions} $PIPFILE
+   %endif
+else
+   echo "Sorry I don't know how to handle no/multiple install files yet"
+   cat %{_sourcedir}/files.txt
+   exit 1
+fi
+
+%install
+
+%{?PipPostBuild:%PipPostBuild}

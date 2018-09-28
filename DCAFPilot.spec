@@ -3,7 +3,7 @@
 %define pkg DCAFPilot
 #Source: git://github.com/dmwm/DMWMAnalytics.git?obj=master/%realversion&export=%pkg-%realversion&output=/%pkg-%{realversion}.tar.gz
 Source: git://github.com/dmwm/DMWMAnalytics.git?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
-Requires: python py2-numpy py2-pandas py2-scipy py2-scikit-learn py2-pymongo mongo xgboost vw cherrypy go
+Requires: python py2-numpy py2-pandas py2-scipy py2-scikit-learn py2-pymongo mongo py2-xgboost vw cherrypy go
 BuildRequires: py2-sphinx
 
 # RPM macros documentation
