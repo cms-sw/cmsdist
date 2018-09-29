@@ -1,5 +1,5 @@
 ### RPM cms confdb 1.4.9
-Source: git://github.com/cms-sw/web-confdb?obj=Server/%realversion&export=%n&output=/%n.tar.gz
+Source: git://github.com/cms-sw/web-confdb?obj=master/%realversion&export=%n&output=/%n.tar.gz
 Requires: python cherrypy oracle oracle-env py2-cx-oracle py2-sqlalchemy10 py2-marshmallow py2-psycopg2
 Requires: rotatelogs pystack
 
