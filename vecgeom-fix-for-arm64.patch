@@ -11,26 +11,3 @@ index b3014e9..f10fae0 100644
      else()
        message(FATAL_ERROR "Unsupported C++ standard requested")
      endif()
-diff --git a/base/Global.h b/base/Global.h
-index 9856628..d90b1f8 100644
---- a/base/Global.h
-+++ b/base/Global.h
-@@ -31,7 +31,18 @@ using uint = unsigned int;
- #endif
- #else
- // Functionality of <mm_malloc.h> is automatically included in icc
-+#if defined(__i386__) || defined(__x86_64__)
- #include <mm_malloc.h>
-+#else
-+#if __cplusplus >= 201703L
-+#include <cstdlib>
-+#define _mm_malloc(a, b) ::aligned_alloc(b, a)
-+#define _mm_free(p) ::free(p)
-+#else
-+#define _mm_malloc(a, b) malloc(a)
-+#define _mm_free(p) free(p)
-+#endif
-+#endif
- #if (defined(__GNUC__) || defined(__GNUG__) || defined(__clang__)) && !defined(__NO_INLINE__) && \
-     !defined(VECGEOM_NOINLINE)
- #define VECGEOM_FORCE_INLINE inline __attribute__((always_inline))

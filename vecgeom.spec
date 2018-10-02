@@ -1,4 +1,4 @@
-### RPM external vecgeom v00.05.00
+### RPM external vecgeom v01.00.01
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake gmake
 %define keep_archives true
