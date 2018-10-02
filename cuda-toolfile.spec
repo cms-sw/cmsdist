@@ -35,10 +35,10 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda.xml
     <environment name="INCLUDE"   default="$CUDA_BASE/include"/>
   </client>
   <flags CUDA_FLAGS="-gencode arch=compute_35,code=sm_35"/>
-  <flags CUDA_FLAGS="-gencode arch=compute_50,code=sm_50"/>
   <flags CUDA_FLAGS="-gencode arch=compute_61,code=sm_61"/>
   <flags CUDA_FLAGS="-gencode arch=compute_70,code=sm_70"/>
   <flags CUDA_FLAGS="-O3 -std=c++14 --expt-relaxed-constexpr --expt-extended-lambda"/>
+  <flags CUDA_FLAGS="--generate-line-info --source-in-ptx"/>
   <flags CUDA_HOST_REM_CXXFLAGS="-std=%"/>
   <flags CUDA_HOST_REM_CXXFLAGS="%potentially-evaluated-expression"/>
   <flags CUDA_HOST_CXXFLAGS="-std=c++14"/>
