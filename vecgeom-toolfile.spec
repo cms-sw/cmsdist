@@ -1,4 +1,4 @@
-### RPM external vecgeom-toolfile 1.0
+### RPM external vecgeom-toolfile 2.0
 Requires: vecgeom
 %prep
 
@@ -30,7 +30,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/vecgeom.xml
 <tool name="vecgeom" version="@TOOL_VERSION@">
   <info url="https://gitlab.cern.ch/VecGeom/VecGeom"/>
   <lib name="vecgeom"/>
-  <lib name="usolids"/>
   <client>
     <environment name="VECGEOM_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$VECGEOM_BASE/lib"/>
