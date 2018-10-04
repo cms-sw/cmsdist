@@ -8,21 +8,20 @@ Requires: python py2-setuptools py2-numpy gsl boost lhapdf hepmc openloops pythi
 %prep
 %setup -q -n %{n}-%{realversion}
 
+%build
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=%{i} \
+cmake .. \
+      -DCMAKE_INSTALL_PREFIX=%{i} \
       -DCMAKE_CXX_STANDARD=11 \
       -Dgsl_ROOT=${GSL_ROOT} \
       -Dboost_ROOT=${BOOST_ROOT} \
       -Dlhapdf_ROOT=${LHAPDF_ROOT} \
       -Dhepmc_ROOT=${HEPMC_ROOT} \
       -Dopenloops_ROOT=${OPENLOOPS_ROOT} \
-      -Dpythia8_ROOT=${PYTHIA8_ROOT} \
-      ..
+      -Dpythia8_ROOT=${PYTHIA8_ROOT}
 
-%build
-cd build
-make LHAPDF_DATA_PATH=${LHAPDF_ROOT}/share/LHAPDF
+make %{makeprocesses}
 make beamfunc-install-data LHAPDF_DATA_PATH=${LHAPDF_ROOT}/share/LHAPDF
 
 %install
