@@ -9,9 +9,10 @@ Requires: python py2-setuptools py2-numpy gsl boost lhapdf hepmc openloops pythi
 %setup -q -n %{n}-%{realversion}
 
 %build
-mkdir build
-cd build
-cmake .. \
+rm -rf ../build
+mkdir ../build
+cd ../build
+cmake ../%{n}-%{realversion} \
       -DCMAKE_INSTALL_PREFIX=%{i} \
       -DCMAKE_CXX_STANDARD=11 \
       -Dgsl_ROOT=${GSL_ROOT} \
@@ -25,7 +26,7 @@ make %{makeprocesses}
 make beamfunc-install-data LHAPDF_DATA_PATH=${LHAPDF_ROOT}/share/LHAPDF
 
 %install
-cd build
+cd ../build
 make install
 cd %{i}/bin
 sed -i '/#!/c\#!/usr/bin/env python' *
