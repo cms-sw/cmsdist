@@ -43,7 +43,7 @@ rm -rf ../build
 
 sed -i -e "s|@EIGEN_SOURCE@|${EIGEN_SOURCE}|;s|@EIGEN_STRIP_PREFIX@|${EIGEN_STRIP_PREFIX}|" tensorflow/workspace.bzl tensorflow/contrib/makefile/download_dependencies.sh
 sed -i -e "s|@PROTOBUF_SOURCE@|${PROTOBUF_SOURCE}|;s|@PROTOBUF_STRIP_PREFIX@|${PROTOBUF_STRIP_PREFIX}|" tensorflow/workspace.bzl tensorflow/contrib/makefile/download_dependencies.sh
-bazel --output_user_root ../build fetch "tensorflow:libtensorflow_cc.so"
+bazel --output_base=../base --output_user_root ../build fetch "tensorflow:libtensorflow_cc.so"
 
 #This is needed on SLC6 because the version of glibc is old
 %if %isslc6amd64
