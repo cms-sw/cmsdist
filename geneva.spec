@@ -1,7 +1,7 @@
 ### RPM external geneva 1.0-RC3
 Source: git+https://stash.desy.de/scm/geneva/geneva-public.git?obj=master/%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
-BuildRequires: cmake
+BuildRequires: cmake gmake
 
 Requires: python py2-setuptools py2-numpy gsl boost lhapdf hepmc openloops pythia8
 
