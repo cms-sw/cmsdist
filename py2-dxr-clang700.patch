@@ -1,0 +1,13 @@
+diff --git a/dxr/plugins/clang/dxr-index.cpp b/dxr/plugins/clang/dxr-index.cpp
+index 460d373..6b35340 100644
+--- a/dxr/plugins/clang/dxr-index.cpp
++++ b/dxr/plugins/clang/dxr-index.cpp
+@@ -923,7 +923,7 @@ public:
+       if (sm.isMacroArgExpansion(loc))
+         loc = sm.getImmediateSpellingLoc(loc);
+       else
+-        loc = sm.getImmediateExpansionRange(loc).first;
++        loc = sm.getImmediateExpansionRange(loc).getBegin();
+     }
+     return loc;
+   }
