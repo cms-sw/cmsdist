@@ -17,7 +17,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geneva.xml
     <environment name="INCLUDE" default="$GENEVA_BASE/include/Geneva"/>
   </client>
   <runtime name="PATH" value="$GENEVA_BASE/bin" type="path"/>
-  <runtime name="PYTHON27PATH" value="$GENEVA_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   <runtime name="GENEVA_DATA_DIR" value="$GENEVA_BASE/share/Geneva" type="path"/>
   <use name="root_cxxdefaults"/>
   <use name="python"/>
