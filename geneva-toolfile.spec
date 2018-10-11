@@ -17,11 +17,10 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geneva.xml
     <environment name="INCLUDE" default="$GENEVA_BASE/include/Geneva"/>
   </client>
   <runtime name="PATH" value="$GENEVA_BASE/bin" type="path"/>
-  <runtime name="PYTHONPATH" value="$GENEVA_BASE/lib/python2.7/site-packages" type="path"/>
+  <runtime name="PYTHON27PATH" value="$GENEVA_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
   <runtime name="GENEVA_DATA_DIR" value="$GENEVA_BASE/share/Geneva" type="path"/>
   <use name="root_cxxdefaults"/>
   <use name="python"/>
-  <use name="py2-setuptools"/>
   <use name="py2-numpy"/>
   <use name="HepMC"/>
   <use name="lhapdf"/>
