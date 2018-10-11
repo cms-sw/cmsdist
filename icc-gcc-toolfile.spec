@@ -68,7 +68,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/icc-cxxcompiler.xml
     </architecture>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$ICC_CXXCOMPILER_BASE/%{icclib_dir}" type="path" handler="warn"/>
     <runtime name="PATH" value="$ICC_CXXCOMPILER_BASE/%{iccbin_dir}" type="path" handler="warn"/>
-    <runtime name="COMPILER_RUNTIME_OBJECTS" value="@GCC_ROOT@" handler="warn"/>
   </tool>
 EOF_TOOLFILE
 
