@@ -120,6 +120,14 @@ fi
 
 echo '</tool>' >> %{i}/tools/selected/python-paths.xml
 
+for pkg in  $(echo %{allpkgreqs} | tr ' ' '\n' | grep -v '\-toolfile/' | grep '/py2-') ; do
+  pk_name=$(echo $pkg | cut -d/ -f2)
+  if [ -f %{i}/tools/selected/${pk_name}.xml ] ; then continue ; fi
+  pk_ver=$(echo $pkg | cut -d/ -f3)
+  echo "<tool name=\"$pk_name\" version=\"$pk_ver\">" > %{i}/tools/selected/${pk_name}.xml
+  echo "</tool>" >> %{i}/tools/selected/${pk_name}.xml
+done
+
 %post
 %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/tools -type f)
 %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/lib -type f)
