@@ -1,0 +1,23 @@
+### FILE data-build-github-new.file
+## NOCOMPILER
+%define data_repo %(echo "%{n}" | sed "s#^data-##")
+%define data_dir  %(echo "%{n}" | sed "s#^data-##;s#-#/#g")
+Source: git+https://github.com/cms-data/%{data_repo}.git?obj=master/%{realversion}&no-cmssdt-cache=1&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+
+%prep
+%setup -n %{n}-%{realversion}
+
+%build
+find . -type d -exec chmod 0755 {} \;
+find . -type f -exec chmod 0644 {} \;
+
+%install
+mkdir -p %{i}/%{data_dir}
+mv %{_builddir}/%{n}-%{realversion} %{i}/%{data_dir}/data
+#After the move, crete the build directory again so that %clean does not fail
+mkdir %{_builddir}/%{n}-%{realversion}
+
+%post
+%define base_tool %(echo "%{n}" | tr '[a-z-]' '[A-Z_]')
+echo "%{base_tool}_ROOT='${CMS_INSTALL_PREFIX}/%{pkgrel}'" > ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d/init.sh
+echo "set %{base_tool}_ROOT='${CMS_INSTALL_PREFIX}/%{pkgrel}'" > ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d/init.csh
