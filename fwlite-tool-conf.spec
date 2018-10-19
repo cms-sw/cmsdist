@@ -42,7 +42,6 @@ Requires: zlib-toolfile
 Requires: libxml2-toolfile
 Requires: llvm-gcc-toolfile
 Requires: vdt-toolfile
-Requires: tinyxml-toolfile
 Requires: tinyxml2-toolfile
 Requires: md5-toolfile
 Requires: davix-toolfile
