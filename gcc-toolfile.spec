@@ -127,6 +127,18 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-plugin.xml
     </client>
   </tool>
 EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/ofast-flag.xml
+  <tool name="ofast-flag" version="1.0">
+    <flags CXXFLAGS="-Ofast"/>
+    <ifarchitecture name="slc6_">
+      <ifcompiler name="llvm">
+        <flags CXXFLAGS="-fno-builtin"/>
+      </ifcompiler>
+    </ifarchitecture>
+    <flags NO_RECURSIVE_EXPORT="1"/>
+  </tool>
+EOF_TOOLFILE
 export GCC_PLUGIN_DIR=$(gcc -print-file-name=plugin)
 
 # NON-empty defaults
