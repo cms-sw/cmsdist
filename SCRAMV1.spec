@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V2_2_8
+### RPM lcg SCRAMV1 V2_2_9_pre01
 ## NOCOMPILER
 
 BuildRequires: gmake
@@ -6,9 +6,11 @@ BuildRequires: gmake
 Provides: perl(BuildSystem::Template::Plugins::PluginCore)
 Provides: perl(BuildSystem::TemplateStash)
 Provides: perl(Cache::CacheUtilities)
-%define GitHubVersion %(echo SCRAM-%realversion | sed 's|-V|-|')
 
-Source0: https://github.com/cms-sw/SCRAM/archive/%{realversion}.tar.gz
+%define tag eb2a200233e34f2aac87d610f7fd4aa686f3e01c
+%define branch master
+%define github_user cms-sw
+Source: git+https://github.com/%{github_user}/SCRAM.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 %define OldDB /%{cmsplatf}/lcg/SCRAMV1/scramdb/project.lookup
 %define SCRAM_ALL_VERSIONS   V[0-9][0-9]*_[0-9][0-9]*_[0-9][0-9]*
@@ -44,7 +46,7 @@ if [ "X%{SCRAM_REL_MINOR}" == "X" ] ; then
   exit 1
 fi
 
-%setup -n %GitHubVersion
+%setup -n %{n}-%{realversion}
 %build
 gmake %{makeprocesses} all INSTALL_BASE=%{instroot} VERSION=%{realversion} PREFIX=%{i}
 
