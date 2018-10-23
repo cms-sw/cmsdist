@@ -4,7 +4,7 @@
 %define pkg0 das2go
 %define ver0 %realversion
 %define pkg1 DASTools
-%define ver1 00.00.12
+%define ver1 00.01.00
 Source0: https://github.com/dmwm/%pkg0/archive/%ver0.tar.gz
 Source1: https://github.com/dmwm/%pkg1/archive/%ver1.tar.gz
 
