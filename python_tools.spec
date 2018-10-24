@@ -168,6 +168,8 @@ Requires: py2-onnx
 Requires: py2-backports
 Requires: py2-backports_abc
 Requires: py2-colorama
+Requires: py2-lxml
+Requires: py2-beautifulsoup4
 
 %prep
 
