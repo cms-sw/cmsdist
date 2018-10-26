@@ -1,0 +1,32 @@
+diff --git a/exec-cmd.c b/exec-cmd.c
+index 4f81f44..9102708 100644
+--- a/exec-cmd.c
++++ b/exec-cmd.c
+@@ -35,19 +35,21 @@
+  * Path to the current Git executable. Resolved on startup by
+  * 'git_resolve_executable_dir'.
+  */
+-static const char *executable_dirname;
++static const char *executable_dirname = NULL;
+ 
+ static const char *system_prefix(void)
+ {
+-	static const char *prefix;
++	static const char *prefix = NULL;
+ 
+ 	assert(executable_dirname);
+ 	assert(is_absolute_path(executable_dirname));
+ 
+-	if (!prefix &&
+-	    !(prefix = strip_path_suffix(executable_dirname, GIT_EXEC_PATH)) &&
+-	    !(prefix = strip_path_suffix(executable_dirname, BINDIR)) &&
+-	    !(prefix = strip_path_suffix(executable_dirname, "git"))) {
++        if (!executable_dirname ||
++            !is_absolute_path(executable_dirname) ||
++	    (!prefix &&
++	     !(prefix = strip_path_suffix(executable_dirname, GIT_EXEC_PATH)) &&
++	     !(prefix = strip_path_suffix(executable_dirname, BINDIR)) &&
++	     !(prefix = strip_path_suffix(executable_dirname, "git")))) {
+ 		prefix = FALLBACK_RUNTIME_PREFIX;
+ 		trace_printf("RUNTIME_PREFIX requested, "
+ 				"but prefix computation failed.  "
