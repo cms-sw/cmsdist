@@ -1,4 +1,4 @@
-### RPM external git 2.17.0
+### RPM external git 2.19.0
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH PATH %{i}/libexec/git-core
 ## INITENV SET GIT_TEMPLATE_DIR %{i}/share/git-core/templates
@@ -11,7 +11,7 @@
 
 Source0: https://github.com/git/git/archive/v%{realversion}.tar.gz
 Source1: https://raw.github.com/bagder/curl/curl-7_59_0/lib/mk-ca-bundle.pl
-Patch1: git-2.16.2-runtime
+Patch1: git-2.19.0-runtime
 
 Requires: curl expat openssl zlib pcre
 BuildRequires: autotools

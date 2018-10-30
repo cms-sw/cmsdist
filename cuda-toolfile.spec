@@ -52,8 +52,6 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-cublas.xml
   <info url="https://docs.nvidia.com/cuda/cublas/index.html"/>
   <use name="cuda"/>
   <lib name="cublas"/>
-  <lib name="cublas_device"/>
-  <lib name="cublas_device" type="cuda"/>
 </tool>
 EOF_TOOLFILE
 
@@ -122,6 +120,14 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-nvml.xml
   <info url="https://docs.nvidia.com/deploy/nvml-api/index.html"/>
   <use name="cuda"/>
   <lib name="nvidia-ml"/>
+</tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-nvjpeg.xml
+<tool name="cuda-nvjpeg" version="@TOOL_VERSION@">
+  <info url="https://docs.nvidia.com/cuda/nvjpeg/index.html"/>
+  <use name="cuda"/>
+  <lib name="nvjpeg"/>
 </tool>
 EOF_TOOLFILE
 
