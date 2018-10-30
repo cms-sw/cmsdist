@@ -1,6 +1,8 @@
-### RPM external py2-llvmlite 0.24.0
+### RPM external py2-llvmlite 0.26.0x
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
+%define source_file llvmlite-%{realversion}.tar.gz
+%define source0     git+https://github.com/numba/llvmlite?obj=master/499a6aba18ab6c4d11ae279604d4a62454cfa8d4&export=llvmlite-%{realversion}&output=/source.tar.gz
 
 %define pip_name llvmlite
 Requires: py2-enum34 
