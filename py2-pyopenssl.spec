@@ -1,21 +1,7 @@
-### RPM external py2-pyopenssl 0.11
+### RPM external py2-pyopenssl 18.0.0
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
-Source: https://launchpad.net/pyopenssl/main/%realversion/+download/pyOpenSSL-%realversion.tar.gz
-Requires: python openssl
+%define pip_name pyOpenSSL
 
-%prep
-%setup -n pyOpenSSL-%realversion
+## IMPORT build-with-pip
 
-cat >> setup.cfg <<CMS_EOF
-[build_ext]
-include_dirs = $OPENSSL_ROOT/include
-library_dirs = $OPENSSL_ROOT/lib
-CMS_EOF
-
-%build
-python setup.py build 
-
-%install
-python setup.py install --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
