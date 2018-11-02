@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V2_2_9_pre02
+### RPM lcg SCRAMV1 V2_2_9_pre03
 ## NOCOMPILER
 
 BuildRequires: gmake
@@ -7,7 +7,7 @@ Provides: perl(BuildSystem::Template::Plugins::PluginCore)
 Provides: perl(BuildSystem::TemplateStash)
 Provides: perl(Cache::CacheUtilities)
 
-%define tag 27663debe4d4f30304885e17272e076022c34727
+%define tag ae1a90db14bf16e4ec0742e3c856459795e98e18
 %define branch master
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/SCRAM.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
