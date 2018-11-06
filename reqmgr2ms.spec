@@ -6,7 +6,7 @@
 %define wmcorever 1.2.3.pre2
 
 Source: git://github.com/dmwm/WMCore?obj=master/%wmcorever&export=%n&output=/%n.tar.gz
-Requires: cherrypy py2-pycurl jemalloc rotatelogs py2-httplib2 py2-rucio-clients
+Requires: py2-cherrypy py2-pycurl jemalloc rotatelogs py2-httplib2 py2-rucio-clients
 BuildRequires: py2-sphinx
 
 %prep

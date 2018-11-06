@@ -3,7 +3,7 @@
 
 Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
 
-Requires: python rotatelogs py2-httplib2 cherrypy py2-cheetah py2-pycurl py2-future py2-retry py2-psutil
+Requires: python rotatelogs py2-httplib2 py2-cherrypy py2-cheetah py2-pycurl py2-future py2-retry py2-psutil
 Requires: jemalloc
 BuildRequires: py2-setuptools py2-sphinx couchskel
 
