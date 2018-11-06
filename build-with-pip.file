@@ -29,9 +29,6 @@
 %if "%{?pkgsource:set}" != "set"
 %define pkgsource source.tar.gz
 %endif
-%if "%{?ignore_deps:set}" != "set"
-%define ignore_deps %{nil}
-%endif
 
 %define Py2Src 0
 %define Py3Src 0
