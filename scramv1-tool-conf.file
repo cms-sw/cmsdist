@@ -124,7 +124,14 @@ for pkg in  $(echo %{allpkgreqs} | tr ' ' '\n' | grep -v '\-toolfile/' | grep '/
   pk_name=$(echo $pkg | cut -d/ -f2)
   if [ -f %{i}/tools/selected/${pk_name}.xml ] ; then continue ; fi
   pk_ver=$(echo $pkg | cut -d/ -f3)
+  uctool=`echo ${pk_name} | tr '[a-z-]' '[A-Z_]'`
   echo "<tool name=\"$pk_name\" version=\"$pk_ver\">" > %{i}/tools/selected/${pk_name}.xml
+  if [ -e %{cmsroot}/%{cmsplatf}/$pkg/bin ] ; then
+    echo "  <client>" >> %{i}/tools/selected/${pk_name}.xml
+    echo "    <environment name=\"${uctool}_BASE\" default=\"%{cmsroot}/%{cmsplatf}/$pkg\"/>" >> %{i}/tools/selected/${pk_name}.xml
+    echo "  </client>" >> %{i}/tools/selected/${pk_name}.xml
+    echo "  <runtime name=\"PATH\" value=\"\$${uctool}_BASE/bin\" type=\"path\"/>" >> %{i}/tools/selected/${pk_name}.xml
+  fi
   echo "</tool>" >> %{i}/tools/selected/${pk_name}.xml
 done
 

@@ -1,68 +1,134 @@
 #File: with-with-pip
+#pip_name: pip package name default is package name without starting py2
+#PipDownloadOptions: override pip download sources optons
+#DownloadOptionsExtra: Extra options to pass to cmsBuild for downloading the sources
+#ignore_sources: Ignore some dependency sources (e.g. the dependent package and its sources name does not match e.g. virtualenv-clone => virtualenv_clone)
+#PipBuildOptions: Override pip install options
+#pkgsource: Override default source name e.g. source.tar.gz
+#source0: Override default source
+#doPython(2|3): To disable building package for python2 or python3
+#Pip<Pre|Post><Section>: Extra macros to run extra commands for various sections e.g
+#PipPostBuild to relocate hardcoded pyton paths
+#define PipPostBuild perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
+
+## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
 %if "%{?pip_name:set}" != "set"
-%define pip_name %(echo %n | cut -f2-5 -d-)
+%define pip_name %(echo %n | sed 's|^py2-||')
 %endif
 %if "%{?PipDownloadOptions:set}" != "set"
-%define PipDownloadOptions --no-deps%%20--no-binary%%3D:all:
+%define PipDownloadOptions --no-binary%%3D:all:
+%endif
+%if "%{?DownloadOptionsExtra:set}" != "set"
+%define DownloadOptionsExtra %{nil}
 %endif
 %if "%{?PipBuildOptions:set}" != "set"
 %define PipBuildOptions --no-deps
 %endif
-%if "%{?source0:set}" != "set"
-%define source0 pip://%{pip_name}/%{realversion}?pip_options=%{PipDownloadOptions}&output=/source.tar.gz
+%if "%{?pkgsource:set}" != "set"
+%define pkgsource source.tar.gz
+%endif
+%if "%{?ignore_deps:set}" != "set"
+%define ignore_deps %{nil}
 %endif
 
+%define Py2Src 0
+%define Py3Src 0
+
 %if "%{?doPython2:set}" != "set"
+Requires: python
 %define doPython2 yes
+%define Py2Src 1
 %endif
 
 %if "%{?doPython3:set}" != "set"
+Requires: python3
 %define doPython3 yes
+%define Py3Src 1
 %endif
 
+%if "%{?source0:set}" != "set"
+%define source0 pip://%{pip_name}/%{realversion}?pip_options=%{PipDownloadOptions}&%{DownloadOptionsExtra}&pip2=pip2&pip3=pip3&python2_src=%{Py2Src}&python3_src=%{Py3Src}&output=/%{pkgsource}
+%endif
 
 Source: %source0
 
-Requires: python
-Requires: python3
+Requires: py2-setuptools
 BuildRequires: py2-pip
 
 %prep
 
 %build
+%{?PipPrePrep:%PipPrePrep}
 mkdir -p %{i}
-
 %if "%{?source_file:set}" != "set"
 tar xfz %{_sourcedir}/source.tar.gz
+rm -f files.list.new requirements.txt ; touch files.list.new
+py2_tools=$(echo %{requiredtools} %{n} %{buildrequiredtools} | tr ' ' '\n' | grep '^py2-' | sort | uniq | sed 's|^py2-||')
+for src in $(cat files.all) ; do
+  xsrc=$(echo $src | tr '.' '-')
+  ADD_SRC=true
+  for req in $py2_tools %{ignore_sources}; do
+    if echo $xsrc | grep -i "^$req-[0-9][0-9]*-[0-9][0-9]*-" ; then
+      ADD_SRC=false
+      break
+    fi
+  done
+  if $ADD_SRC ; then echo "${src}" >> files.list.new ; fi
+done
+if [ $(cat files.list.new | wc -l) -gt 0 ] ; then
+  touch requirements.txt
+  for d in $(cat files.list.new) ; do
+    p=$(echo $d | sed 's|-[0-9][0-9]*\.[0-9][0-9]*.*$||')
+    v=$(echo $d | sed "s|^$p-||;s|^\([0-9][0-9]*\(.[0-9][0-9]*\)*\).*|\1|")
+    echo "py2-${p} ${v}" >> requirements.txt
+  done
+  echo "ERROR: Missing dependencies for %n found"
+  cat requirements.txt
+  exit 1
+fi
 %else
-cp %{_sourcedir}/source.tar.gz %{source_file}
-echo %{source_file} > files.list
+cp %{_sourcedir}/%{pkgsource} %{source_file}
+echo %{source_file}  > files.list
 %endif
 
+%{?PipPostPrep:%PipPostPrep}
 %{?PipPreBuild:%PipPreBuild}
 
-
-if [ `cat files.list | wc -l` == "1" ] ; then
+if [ $(cat files.list | wc -l) -eq 1 ] ; then
    export PIPFILE=`cat files.list`
    echo ${PIPFILE}
    export PYTHONUSERBASE=%i
    %if "%{doPython3}" == "yes"
       pip3 list
-      pip3 install --user -v %{PipBuildOptions} $PIPFILE
+      %{?PipPreBuildPy3:%PipPreBuildPy3}
+      pip3 install --user -v %{PipBuildOptions} %{?PipBuildOptionsPy3:%PipBuildOptionsPy3} $PIPFILE
+      %{?PipPostBuildPy3:%PipPostBuildPy3}
    %endif
    %if "%{doPython2}" == "yes"
       pip2 list
-      pip2 install --user -v %{PipBuildOptions} $PIPFILE
+      %{?PipPreBuildPy2:%PipPreBuildPy2}
+      pip2 install --user -v %{PipBuildOptions} %{?PipBuildOptionsPy2:%PipBuildOptionsPy2}  $PIPFILE
+      %{?PipPostBuildPy2:%PipPostBuildPy2}
    %endif
 else
    echo "Sorry I don't know how to handle no/multiple install files yet"
-   cat %{_sourcedir}/files.txt
+   cat %{_builddir}/files.list
    exit 1
 fi
 
-%install
-
 %{?PipPostBuild:%PipPostBuild}
+
+#Install Section
+%install
+%{?PipPreInstall:%PipPreInstall}
+echo "OK Install"
+%{?PipPostInstall:%PipPostInstall}
+
+#post Section
+%post
+%{?PipPrePost:%PipPrePost}
+%{?PipPostPost:%PipPostPost}
 
 
