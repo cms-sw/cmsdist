@@ -1,11 +1,4 @@
 ### RPM external py2-nose 1.3.7
-## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
-## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
-
-
-%define pip_name nose
-
-
 ## IMPORT build-with-pip
 
 %define PipPostBuild \
