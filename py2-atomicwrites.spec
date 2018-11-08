@@ -1,9 +1,2 @@
 ### RPM external py2-atomicwrites 1.2.1
-## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
-## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
-
-
 ## IMPORT build-with-pip
-
-
-

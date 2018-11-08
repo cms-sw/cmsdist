@@ -1,0 +1,5 @@
+### RPM external py2-python-ldap 3.0.0
+## IMPORT build-with-pip
+
+Requires: python openssl openldap py2-pyasn1-modules
+%define PipBuildOptions --global-option=build_ext --global-option="-L${OPENSSL_ROOT}/lib" --global-option="-L${PYTHON_ROOT}/lib" --global-option="-L${OPENLDAP_ROOT}/lib"  --global-option="-I${OPENSSL_ROOT}/include" --global-option="-I${PYTHON_ROOT}/include" --global-option="-I${OPENLDAP_ROOT}/include"  --global-option="-UHAVE_SASL"

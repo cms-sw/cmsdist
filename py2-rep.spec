@@ -1,12 +1,4 @@
 ### RPM external py2-rep 0.6.6
-## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
-## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
-
-
-%define pip_name rep
-Requires: py2-numpy
-
 ## IMPORT build-with-pip
 
-
-
+Requires: py2-notebook py2-hep_ml py2-matplotlib py2-theanets py2-nose py2-nose-parameterized py2-bokeh py2-mpld3 py2-neurolab py2-pybrain py2-xgboost
