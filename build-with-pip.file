@@ -14,7 +14,7 @@
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
 %if "%{?pip_name:set}" != "set"
-%define pip_name %(echo %n | sed 's|^py2-||')
+%define pip_name %(echo %n | cut -f2-10 -d-)
 %endif
 %if "%{?PipDownloadSourceType:set}" != "set"
 %define PipDownloadSourceType all
