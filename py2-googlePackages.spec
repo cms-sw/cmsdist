@@ -4,7 +4,7 @@
 Source: none
 
 Requires: python python3
-BuildRequires: py2-googlecommon
+BuildRequires: py2-google-common
 BuildRequires: py2-protobuf
 
 %prep
