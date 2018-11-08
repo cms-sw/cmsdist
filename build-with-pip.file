@@ -1,8 +1,7 @@
 #File: with-with-pip
 #pip_name: pip package name default is package name without starting py2
-#PipDownloadOptions: override pip download sources optons
-#DownloadOptionsExtra: Extra options to pass to cmsBuild for downloading the sources
-#ignore_sources: Ignore some dependency sources (e.g. the dependent package and its sources name does not match e.g. virtualenv-clone => virtualenv_clone)
+#PipDownloadSourceType: Only override the download source type e.g. none, all etc. Default is all
+#PipDownloadOptions: override pip download sources options. Default is --no-deps%%20--no-binary%%3D:%%PipDownloadSourceType:
 #PipBuildOptions: Override pip install options
 #pkgsource: Override default source name e.g. source.tar.gz
 #source0: Override default source
@@ -17,11 +16,11 @@
 %if "%{?pip_name:set}" != "set"
 %define pip_name %(echo %n | sed 's|^py2-||')
 %endif
-%if "%{?PipDownloadOptions:set}" != "set"
-%define PipDownloadOptions --no-binary%%3D:all:
+%if "%{?PipDownloadSourceType:set}" != "set"
+%define PipDownloadSourceType all
 %endif
-%if "%{?DownloadOptionsExtra:set}" != "set"
-%define DownloadOptionsExtra %{nil}
+%if "%{?PipDownloadOptions:set}" != "set"
+%define PipDownloadOptions --no-deps%%20--no-binary%%3D:%{PipDownloadSourceType}:
 %endif
 %if "%{?PipBuildOptions:set}" != "set"
 %define PipBuildOptions --no-deps
@@ -30,23 +29,20 @@
 %define pkgsource source.tar.gz
 %endif
 
-%define Py2Src 0
-%define Py3Src 0
-
 %if "%{?doPython2:set}" != "set"
 Requires: python
 %define doPython2 yes
-%define Py2Src 1
 %endif
 
 %if "%{?doPython3:set}" != "set"
 Requires: python3
 %define doPython3 yes
-%define Py3Src 1
 %endif
 
 %if "%{?source0:set}" != "set"
-%define source0 pip://%{pip_name}/%{realversion}?pip_options=%{PipDownloadOptions}&%{DownloadOptionsExtra}&pip2=pip2&pip3=pip3&python2_src=%{Py2Src}&python3_src=%{Py3Src}&output=/%{pkgsource}
+%define source0 pip://%{pip_name}/%{realversion}?pip_options=%{PipDownloadOptions}&pip=pip2&output=/%{pkgsource}
+%else
+%define source_file %(echo %{source0} | sed 's|.*/||')
 %endif
 
 Source: %source0
@@ -57,36 +53,12 @@ BuildRequires: py2-pip
 %prep
 
 %build
-%{?PipPrePrep:%PipPrePrep}
 mkdir -p %{i}
+%{?PipPrePrep:%PipPrePrep}
 %if "%{?source_file:set}" != "set"
-tar xfz %{_sourcedir}/source.tar.gz
-rm -f files.list.new requirements.txt ; touch files.list.new
-py2_tools=$(echo %{requiredtools} %{n} %{buildrequiredtools} | tr ' ' '\n' | grep '^py2-' | sort | uniq | sed 's|^py2-||')
-for src in $(cat files.all) ; do
-  xsrc=$(echo $src | tr '.' '-')
-  ADD_SRC=true
-  for req in $py2_tools %{ignore_sources}; do
-    if echo $xsrc | grep -i "^$req-[0-9][0-9]*-[0-9][0-9]*-" ; then
-      ADD_SRC=false
-      break
-    fi
-  done
-  if $ADD_SRC ; then echo "${src}" >> files.list.new ; fi
-done
-if [ $(cat files.list.new | wc -l) -gt 0 ] ; then
-  touch requirements.txt
-  for d in $(cat files.list.new) ; do
-    p=$(echo $d | sed 's|-[0-9][0-9]*\.[0-9][0-9]*.*$||')
-    v=$(echo $d | sed "s|^$p-||;s|^\([0-9][0-9]*\(.[0-9][0-9]*\)*\).*|\1|")
-    echo "py2-${p} ${v}" >> requirements.txt
-  done
-  echo "ERROR: Missing dependencies for %n found"
-  cat requirements.txt
-  exit 1
-fi
+tar xfz %{_sourcedir}/%{pkgsource}
 %else
-cp %{_sourcedir}/%{pkgsource} %{source_file}
+cp %{_sourcedir}/%{source_file} %{source_file}
 echo %{source_file}  > files.list
 %endif
 
@@ -96,17 +68,29 @@ echo %{source_file}  > files.list
 if [ $(cat files.list | wc -l) -eq 1 ] ; then
    export PIPFILE=`cat files.list`
    echo ${PIPFILE}
-   export PYTHONUSERBASE=%i
+   export PYTHONUSERBASE=%{i}
    %if "%{doPython3}" == "yes"
-      pip3 list
+      pip3 list --disable-pip-version-check
       %{?PipPreBuildPy3:%PipPreBuildPy3}
-      pip3 install --user -v %{PipBuildOptions} %{?PipBuildOptionsPy3:%PipBuildOptionsPy3} $PIPFILE
+      pip3 install --disable-pip-version-check --user -v %{PipBuildOptions} %{?PipBuildOptionsPy3:%PipBuildOptionsPy3} $PIPFILE
+      PKG_NAME=$(pip3 show %{pip_name} --disable-pip-version-check | grep '^Name:' | sed 's|^Name: *||;s| ||g')
+      DEPS=$(pip3 check --disable-pip-version-check | grep "^${PKG_NAME}  *%{realversion}  *requires " | sed 's|,.*||;s|.* |py2-|' | tr '\n' ' ')
+      if [ "$DEPS" != "" ] ; then
+        echo "ERROR: Missing dependencies for %n (python3) found: $DEPS"
+        exit 1
+      fi
       %{?PipPostBuildPy3:%PipPostBuildPy3}
    %endif
    %if "%{doPython2}" == "yes"
-      pip2 list
+      pip2 list  --disable-pip-version-check
       %{?PipPreBuildPy2:%PipPreBuildPy2}
-      pip2 install --user -v %{PipBuildOptions} %{?PipBuildOptionsPy2:%PipBuildOptionsPy2}  $PIPFILE
+      pip2 install --disable-pip-version-check --user -v %{PipBuildOptions} %{?PipBuildOptionsPy2:%PipBuildOptionsPy2}  $PIPFILE
+      PKG_NAME=$(pip2 show %{pip_name} --disable-pip-version-check | grep '^Name:' | sed 's|^Name: *||;s| ||g')
+      DEPS=$(pip2 check --disable-pip-version-check | grep "^${PKG_NAME}  *%{realversion}  *requires " | sed 's|,.*||;s|.* |py2-|' | tr '\n' ' ')
+      if [ "$DEPS" != "" ] ; then
+        echo "ERROR: Missing dependencies for %n (python2) found: $DEPS"
+        exit 1
+      fi
       %{?PipPostBuildPy2:%PipPostBuildPy2}
    %endif
 else
@@ -120,12 +104,11 @@ fi
 #Install Section
 %install
 %{?PipPreInstall:%PipPreInstall}
-echo "OK Install"
 %{?PipPostInstall:%PipPostInstall}
+echo "OK Install"
 
 #post Section
 %post
 %{?PipPrePost:%PipPrePost}
 %{?PipPostPost:%PipPostPost}
-
 

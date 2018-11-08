@@ -2,3 +2,4 @@
 ## IMPORT build-with-pip
 
 Requires: py2-pandas py2-root_numpy
+%define doPython3 no

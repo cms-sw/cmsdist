@@ -3,7 +3,7 @@
 ## INITENV +PATH PYTHON3PATH %i/${PYTHON3_LIB_SITE_PACKAGES}
 Source: https://github.com/matplotlib/matplotlib/archive/v%{realversion}.tar.gz
 Requires: py2-pytz py2-numpy py2-python-dateutil zlib libpng freetype py2-pyparsing py2-six py2-backports py2-cycler py2-subprocess32 py2-kiwisolver
-BuildRequires: py2-pip py2-backports-functools_lru_cache
+BuildRequires: py2-pip
 
 %prep
 %setup -n matplotlib-%{realversion}

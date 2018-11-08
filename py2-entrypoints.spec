@@ -2,5 +2,4 @@
 ## IMPORT build-with-pip
 
 Requires: py2-backports
-BuildRequires: py2-configparser
-%define PipDownloadOptions --no-binary%%3D:none:
+%define PipDownloadSourceType none
