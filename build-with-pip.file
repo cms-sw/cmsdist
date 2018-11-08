@@ -42,7 +42,7 @@ Requires: python3
 %if "%{?source0:set}" != "set"
 %define source0 pip://%{pip_name}/%{realversion}?pip_options=%{PipDownloadOptions}&pip=pip2&output=/%{pkgsource}
 %else
-%define source_file %(echo %{source0} | sed 's|.*/||')
+%define source_file %(echo '%{source0}' | sed 's|.*/||')
 %endif
 
 Source: %source0
