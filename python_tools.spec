@@ -200,7 +200,6 @@ Requires: py2-kiwisolver
 Requires: py2-pyOpenSSL
 Requires: py2-bokeh
 Requires: py2-climate
-Requires: py2-cmstest
 Requires: py2-mpld3
 Requires: py2-neurolab
 Requires: py2-nose-parameterized
