@@ -1,10 +1,4 @@
 ### RPM external py2-pkgconfig 1.4.0
-## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
-## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
-
-
-%define pip_name pkgconfig
-Requires: py2-nose
-
 ## IMPORT build-with-pip
 
+Requires: py2-nose
