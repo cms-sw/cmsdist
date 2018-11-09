@@ -3,5 +3,4 @@
 
 Requires: libjpeg-turbo zlib
 %define PipPreBuild export LDFLAGS="-L${LIBJPEG_TURBO_ROOT}/lib -L${ZLIB_ROOT}/lib"; \
-                    export INCLUDE="${LIBJPEG_TURBO_ROOT}/include ${ZLIB_ROOT}/include"
-
+                    export CFLAGS="-I${LIBJPEG_TURBO_ROOT}/include -I${ZLIB_ROOT}/include"
