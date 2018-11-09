@@ -5,7 +5,7 @@
 %define gittag V01-03-48
 Source: git://github.com/geneguvo/webtools?obj=master/%gittag&export=%n&output=/%n.tar.gz
 
-Requires: python cherrypy py2-cheetah yui sqlite zlib py2-pysqlite expat openssl bz2lib db4 gdbm py2-cx-oracle py2-formencode py2-pycrypto oracle beautifulsoup py2-sqlalchemy oracle-env py2-pyopenssl
+Requires: python cherrypy py2-cheetah yui sqlite zlib py2-pysqlite expat openssl bz2lib db4 gdbm py2-cx-oracle py2-formencode py2-pycrypto oracle beautifulsoup py2-sqlalchemy oracle-env py2-pyOpenSSL
 Requires: p5-crypt-cbc p5-crypt-blowfish
 
 Provides: perl(SecurityModule) 
