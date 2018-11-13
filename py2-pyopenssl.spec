@@ -14,7 +14,7 @@ library_dirs = $OPENSSL_ROOT/lib
 CMS_EOF
 
 %build
-python setup.py build 
+python setup.py build
 
 %install
 python setup.py install --prefix=%i

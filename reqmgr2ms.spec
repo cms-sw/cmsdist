@@ -1,26 +1,27 @@
-### RPM cms t0_reqmon 1.1.18.pre6
+### RPM cms reqmgr2ms 0.0.8.pre3
+## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
-Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
+%define wmcorever 1.1.18.pre6
 
-Requires: python rotatelogs py2-httplib2 cherrypy py2-cheetah py2-pycurl py2-future py2-retry py2-psutil
-Requires: jemalloc
-BuildRequires: py2-setuptools py2-sphinx couchskel
+Source: git://github.com/dmwm/WMCore?obj=master/%wmcorever&export=%n&output=/%n.tar.gz
+Requires: cherrypy py2-pycurl jemalloc rotatelogs py2-httplib2
+BuildRequires: py2-sphinx
 
 %prep
-%setup -b 0 -n %n
+%setup -b 0 -n %n 
 
 %build
-python setup.py build_system -s reqmon
+python setup.py build_system -s reqmgr2ms
 
 %install
-python setup.py install_system -s reqmon --prefix=%i
+mkdir -p %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
+python setup.py install_system -s reqmgr2ms --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
-# Pick external dependencies from couchskel
-mkdir %i/data/couchapps/WMStats/vendor/
-cp -rp $COUCHSKEL_ROOT/data/couchapps/couchskel/vendor/{couchapp,jquery,datatables} \
-  %i/data/couchapps/WMStats/vendor/
+mkdir -p %i/bin
+cp -pfr %_builddir/%n/bin/[[:lower:]]* %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d

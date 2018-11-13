@@ -1,7 +1,7 @@
-### RPM external openldap 2.4.34
+### RPM external openldap 2.4.44
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 Source: ftp://ftp.openldap.org/pub/OpenLDAP/%{n}-release/%{n}-%{realversion}.tgz
-Requires: openssl db4
+Requires: openssl db6
 
 %prep
 %setup -q -n %{n}-%{realversion}
@@ -13,7 +13,14 @@ curl -L -k -s -o ./build/config.sub 'http://git.savannah.gnu.org/gitweb/?p=confi
 curl -L -k -s -o ./build/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
 chmod +x ./build/config.{sub,guess}
 
-./configure --prefix=%{i} --without-cyrus-sasl --with-tls --disable-static --disable-slapd --disable-slurpd
+./configure \
+  --prefix=%{i} \
+  --without-cyrus-sasl \
+  --with-tls=openssl \
+  --disable-static \
+  --disable-slapd \
+  CPPFLAGS="-I${OPENSSL_ROOT}/include -I${DB6_ROOT}/include" \
+  LDFLAGS="-L${OPENSSL_ROOT}/lib -L${DB6_ROOT}/lib"
 make depend
 make
 

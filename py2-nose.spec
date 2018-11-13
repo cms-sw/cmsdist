@@ -1,15 +1,10 @@
-### RPM external py2-nose 1.3.4
+### RPM external py2-nose 1.3.7
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
-Source: http://pypi.python.org/packages/source/n/nose/nose-%{realversion}.tar.gz
-Requires: python
 
-%prep
-%setup -n nose-%{realversion}
+%define pip_name nose
 
-%build
-python setup.py build
+## IMPORT build-with-pip
 
-%install
-python setup.py install --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
-perl -p -i -e 's{^#!.*/python}{#!/usr/bin/env python}' %i/bin/*
+%define PipPostBuild \
+   perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/nosetests %{i}/bin/nosetests-2.7
+
