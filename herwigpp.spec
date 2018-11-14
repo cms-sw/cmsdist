@@ -60,6 +60,8 @@ make %makeprocesses install LHAPDF_DATA_PATH=$LHAPDF_ROOT/share/LHAPDF
 #FxFx.so needs to be build after herwigpp installation so that it can correctly pick up needed headers
 #FIX for 7.1.4: need to fix path in Makefile to build the FxFx.so library correctly
 #Maybe not needed for future versions.  Bug has been reported to the authors
+sed -i -e "s|UEBase.fh|Shower/UEBase.fh|g" Shower/UEBase.h
+sed -i -e "s|Herwig/Shower/Couplings/ShowerAlpha.h|Herwig/Shower/Core/Couplings/ShowerAlpha.h|g" Contrib/FxFx/FxFxHandler.h
 sed -i -e "s|^HERWIGINCLUDE.*|HERWIGINCLUDE = -I%{i}/include|g" Contrib/FxFx/Makefile
 sed -i -e "s|^RIVETINCLUDE.*|RIVETINCLUDE = -I${RIVET_ROOT}/include|g" Contrib/FxFx/Makefile
 sed -i -e "s|^HEPMCINCLUDE.*|HEPMCINCLUDE = -I${HEPMC_ROOT}/include|g" Contrib/FxFx/Makefile
@@ -69,8 +71,8 @@ sed -i -e "/^INCLUDE.*/s/$/ \$(YODAINCLUDE) \$(BOOSTINCLUDE)/" Contrib/FxFx/Make
 sed -i "/^FASTJETLIB.*/a HERWIGINSTALL = %{i}" Contrib/FxFx/Makefile
 sed -i -e '0,/\$(HERWIGINSTALL)\/lib\/Herwig/s//\$(HERWIGINSTALL)\/lib\/./' Contrib/FxFx/Makefile
 
-make -C Contrib/FxFx %makeprocesses FxFx.so
-cp Contrib/FxFx/FxFx.so %{i}/lib/Herwig/FxFx.so
+make -C Contrib/FxFx %makeprocesses FxFx.so FxFxHandler.so FxFxAnalysis.so
+cp Contrib/FxFx/*.so %{i}/lib/Herwig/.
 
 mv %{i}/bin/Herwig  %{i}/bin/Herwig-cms
 cat << \HERWIG_WRAPPER > %{i}/bin/Herwig
