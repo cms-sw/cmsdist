@@ -6,6 +6,9 @@
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}-%{tag}.tgz
+Patch1: tensorflow-1.6.0-eigen-backports
+Patch2: tensorflow-1.6.0-eigen-update-gemm_pack_lhs
+Patch3: tensorflow-1.6.0-eigen-rename-sigmoid
 
 BuildRequires: bazel eigen protobuf gcc
 BuildRequires: py2-setuptools java-env
@@ -14,6 +17,9 @@ Requires: py2-numpy python3 py2-wheel
 %prep
 
 %setup -q -n tensorflow-%{realversion}
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 export PYTHON_BIN_PATH=`which python3`
