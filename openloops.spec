@@ -1,5 +1,5 @@
 ### RPM external openloops 2.0.b
-%define tag 5141c0eab4286a4a685f03c4731ff0358e635e54
+%define tag a0fd88934c5c5b83f66fa4791c07f7872ec00a13
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/openloops.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
