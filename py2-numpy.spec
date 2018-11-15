@@ -4,7 +4,6 @@
 
 Source: https://github.com/numpy/numpy/releases/download/v%{realversion}/numpy-%{realversion}.tar.gz
 Requires: zlib OpenBLAS python python
-#py2-setuptools
 BuildRequires: py2-pip
 
 %define pythonver %(echo %{allpkgreqs} | tr ' ' '\\n' | grep ^external/python/ | cut -d/ -f3 | cut -d. -f 1,2)
