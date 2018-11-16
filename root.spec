@@ -2,9 +2,9 @@
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag e322ecf869fdf9c226186552efdeb6a3e50d19bc
-%define branch cms/v6-12-00-patches/34f75bf
-%define github_user cms-sw
+%define tag 846ad20ae8d62c6f3fc38e4cd8228356c342f592
+%define branch cmstest
+%define github_user yamaguchi1024
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
@@ -50,7 +50,8 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_Fortran_COMPILER=gfortran \
   -DCMAKE_LINKER=ld \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
-  -Droot7=ON \
+  -Druntime_cxxmodules=On \
+  -Droot7=OFF \
   -Dfail-on-missing=ON \
   -Dgnuinstall=OFF \
   -Droofit=ON \
@@ -74,6 +75,7 @@ cmake ../%{n}-%{realversion} \
   -Dmathmore=ON \
   -Dexplicitlink=ON \
   -Dtable=ON \
+  -Dbuiltin_llvm=ON \
   -Dbuiltin_tbb=OFF \
   -Dbuiltin_pcre=OFF \
   -Dbuiltin_freetype=OFF \
