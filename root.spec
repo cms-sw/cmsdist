@@ -2,7 +2,6 @@
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-<<<<<<< HEAD
 %define tag 846ad20ae8d62c6f3fc38e4cd8228356c342f592
 %define branch cmstest
 %define github_user yamaguchi1024
