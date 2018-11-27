@@ -1,4 +1,4 @@
-### RPM external tbb 2019_U1
+### RPM external tbb 2019_U2
 
 %define tag %{realversion}
 %define branch tbb_2019
