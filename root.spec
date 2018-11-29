@@ -2,8 +2,8 @@
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 648791f5cd24a284cafabf258f6a7ff0657c6db6
-%define branch cmstest
+%define tag bb04b1210760377be5fa93bfd75b8bfef0c27bc1
+%define branch cmstest-masterv2
 %define github_user yamaguchi1024
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
@@ -173,3 +173,4 @@ perl -p -i -e "s|#!/bin/perl|#!/usr/bin/env perl|" %{i}/bin/memprobe
 
 %post
 %{relocateConfig}etc/cling/llvm/Config/llvm-config.h
+%{relocateConfig}include/modulemap.overlay.yaml
