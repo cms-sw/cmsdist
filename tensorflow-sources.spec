@@ -2,8 +2,8 @@
 #Source: https://github.com/tensorflow/tensorflow/archive/v%{realversion}.tar.gz
 # NOTE: whenever the version of tensorflow changes, update it also in tensorflow-c tensorflow-cc and py2-tensorflow
 %define isslc6amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
-%define tag fda5a494e74ff7608b36b548dbcb334043ae3f3e
-%define branch dl110_plus_eigen_patch
+%define tag 0178686596930900b7ae4b46885eb15102b136f4
+%define branch tf1101_remove_eigen_custom_sources
 %define github_user mrodozov
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}-%{tag}.tgz
 #Patch0: tensorflow-1.6.0-rename-runtime
@@ -28,6 +28,7 @@ Requires: py2-numpy python py2-wheel
 
 %build
 export PYTHON_BIN_PATH=`which python`
+export PYTHONPATH=${PYTHON_ROOT}/${PYTHON_LIB_SITE_PACKAGES}:${PYTHON27PATH}
 export TF_NEED_JEMALLOC=0
 export TF_NEED_HDFS=0
 export CC_OPT_FLAGS=-march=core2
@@ -62,18 +63,23 @@ export PROTOBUF_STRIP_PREFIX=${PROTOBUF_STRIP_PREFIX}
 export LIBJPEG_TURBO_STRIP_PREFIX="libjpeg-turbo-1.5.3"
 
 #temp directory
-rm -rf ../build
+#rm -rf ../build
 
 ./configure
 
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow:libtensorflow_cc.so
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/pip_package:build_pip_package
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/lib_package:libtensorflow
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/python/tools:tools_pip
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/graph_transforms:transform_graph
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/aot:tf_aot_runtime
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/tf2xla:xla_compiled_cpu_function
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/aot:tfcompile
+echo $PYTHONPATH
+echo $PYTHON27PATH
+
+#exit 1
+
+#bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow:libtensorflow_cc.so
+bazel --output_user_root ../build build -s --verbose_failures --action_env PYTHONPATH=${PYTHON27PATH} --distinct_host_configuration=false -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/pip_package:build_pip_package
+#bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/lib_package:libtensorflow
+#bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/python/tools:tools_pip
+#bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/graph_transforms:transform_graph
+#bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/aot:tf_aot_runtime
+#bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/tf2xla:xla_compiled_cpu_function
+#bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/aot:tfcompile
 
 bazel shutdown
 
