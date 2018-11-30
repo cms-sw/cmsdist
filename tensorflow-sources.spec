@@ -13,8 +13,8 @@ Patch0: tensorflow-1.6.0-rename-runtime
 #Patch2: tensorflow-1.6.0-eigen-update-gemm_pack_lhs $ # fixed with commits on tf 
 #Patch3: tensorflow-1.6.0-eigen-rename-sigmoid # fixed with commits on tf
 
-BuildRequires: bazel eigen protobuf gcc java-env libjpeg-turbo
-Requires: python py2-wheel py2-setuptools py2-numpy py2-enum34 py2-mock
+BuildRequires: bazel
+Requires: eigen protobuf gcc py2-setuptools py2-numpy py2-enum34 py2-mock java-env libjpeg-turbo py2-wheel
 
 %prep
 
@@ -72,8 +72,8 @@ echo $PYTHON27PATH
 
 #exit 1
 
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow:libtensorflow_cc.so
 bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/pip_package:build_pip_package
+bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow:libtensorflow_cc.so
 bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/lib_package:libtensorflow
 bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/python/tools:tools_pip
 bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/graph_transforms:transform_graph
