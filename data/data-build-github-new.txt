@@ -2,3 +2,5 @@
 #If there is no customization for the packae then remove its .spec and .file
 
 RecoBTag-Combined=V01-01-00
+SimTransport-PPSProtonTransport=V00-01-00
+SimTransport-TotemRPProtonTransportParametrization=V00-01-00

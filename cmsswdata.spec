@@ -50,6 +50,8 @@ Requires: data-PhysicsTools-NanoAOD
 Requires: data-RecoTracker-FinalTrackSelectors
 Requires: data-EgammaAnalysis-ElectronTools
 Requires: data-DQM-DTMonitorClient
+Requires: data-SimTransport-PPSProtonTransport
+Requires: data-SimTransport-TotemRPProtonTransportParametrization
 
 %if %isnotonline
 # extra data dependencies for standard builds
