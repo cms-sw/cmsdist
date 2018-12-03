@@ -1,25 +1,25 @@
-### RPM external tensorflow-sources 1.10.1
+### RPM external tensorflow-sources 1.12.0
 #Source: https://github.com/tensorflow/tensorflow/archive/v%{realversion}.tar.gz
 # NOTE: whenever the version of tensorflow changes, update it also in tensorflow-c tensorflow-cc and py2-tensorflow
 %define isslc6amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
-%define tag 0178686596930900b7ae4b46885eb15102b136f4
-%define branch tf1101_remove_eigen_custom_sources
+%define tag 814edd426c6fc97456f6fd5bceedaefc85a38b35
+%define branch tf112
 %define github_user mrodozov
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}-%{tag}.tgz
 #Patch0: tensorflow-1.6.0-rename-runtime
 
-Patch0: tensorflow-1.6.0-rename-runtime
+#Patch0: tensorflow-1.6.0-rename-runtime
 #Patch1: tensorflow-1.6.0-eigen-backports - not needed as it's in the source now
 #Patch2: tensorflow-1.6.0-eigen-update-gemm_pack_lhs $ # fixed with commits on tf 
 #Patch3: tensorflow-1.6.0-eigen-rename-sigmoid # fixed with commits on tf
 
 BuildRequires: bazel
-Requires: eigen protobuf gcc py2-setuptools py2-numpy py2-enum34 py2-mock java-env libjpeg-turbo py2-wheel
+Requires: py2-numpy python py2-wheel protobuf gcc py2-setuptools java-env
 
 %prep
 
 %setup -q -n tensorflow-%{realversion}
-%patch0 -p1
+#%patch0 -p1
 #%patch1 -p1
 #%patch2 -p1
 #%patch3 -p1
@@ -48,6 +48,8 @@ export TF_SET_ANDROID_WORKSPACE=false
 export TF_NEED_KAFKA=false
 export TF_NEED_AWS=0
 export TF_DOWNLOAD_CLANG=0
+export TF_NEED_IGNITE=false
+export TF_NEED_ROCM=false
 
 #and source locations
 export EIGEN_SOURCE=${EIGEN_SOURCE}
@@ -73,13 +75,13 @@ echo $PYTHON27PATH
 #exit 1
 
 bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/pip_package:build_pip_package
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow:libtensorflow_cc.so
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/lib_package:libtensorflow
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/python/tools:tools_pip
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/graph_transforms:transform_graph
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/aot:tf_aot_runtime
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/tf2xla:xla_compiled_cpu_function
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/aot:tfcompile
+#bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow:libtensorflow_cc.so
+#bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/lib_package:libtensorflow
+#bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/python/tools:tools_pip
+#bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/graph_transforms:transform_graph
+#bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/aot:tf_aot_runtime
+#bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/tf2xla:xla_compiled_cpu_function
+#bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/aot:tfcompile
 
 bazel shutdown
 
