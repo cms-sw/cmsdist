@@ -2,7 +2,7 @@
 #Source: https://github.com/tensorflow/tensorflow/archive/v%{realversion}.tar.gz
 # NOTE: whenever the version of tensorflow changes, update it also in tensorflow-c tensorflow-cc and py2-tensorflow
 %define isslc6amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
-%define tag 332091ff6f0a66045e68935a9267d52f9017a2e9
+%define tag da9f285c0f22022db7cb48bc38135120e004d19d
 %define branch tf112
 %define github_user mrodozov
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}-%{tag}.tgz
@@ -14,7 +14,7 @@ Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag
 #Patch3: tensorflow-1.6.0-eigen-rename-sigmoid # fixed with commits on tf
 
 BuildRequires: bazel
-Requires: py2-numpy python py2-wheel protobuf gcc py2-setuptools java-env
+Requires: py2-numpy py2-enum34 py2-mock python py2-wheel protobuf gcc py2-setuptools java-env
 
 %prep
 
@@ -28,7 +28,7 @@ Requires: py2-numpy python py2-wheel protobuf gcc py2-setuptools java-env
 
 %build
 export PYTHON_BIN_PATH=`which python`
-export PYTHONPATH=${PYTHON_ROOT}/${PYTHON_LIB_SITE_PACKAGES}:${PYTHON27PATH}
+export PYTHONPATH=${PYTHON27PATH}
 export TF_NEED_JEMALLOC=0
 export TF_NEED_HDFS=0
 export CC_OPT_FLAGS=-march=core2
@@ -74,7 +74,7 @@ echo $PYTHON27PATH
 
 #exit 1
 
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/pip_package:build_pip_package
+bazel --output_user_root ../build build -s --verbose_failures --action_env=PYTHONPATH --distinct_host_configuration=false -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/pip_package:build_pip_package
 #bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow:libtensorflow_cc.so
 #bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/lib_package:libtensorflow
 #bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/python/tools:tools_pip
