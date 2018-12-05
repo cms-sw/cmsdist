@@ -6,15 +6,15 @@
 %define branch tf112
 %define github_user mrodozov
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}-%{tag}.tgz
-#Patch0: tensorflow-1.6.0-rename-runtime
 
+#Patch0: tensorflow-1.6.0-rename-runtime
 #Patch0: tensorflow-1.6.0-rename-runtime
 #Patch1: tensorflow-1.6.0-eigen-backports - not needed as it's in the source now
 #Patch2: tensorflow-1.6.0-eigen-update-gemm_pack_lhs $ # fixed with commits on tf 
 #Patch3: tensorflow-1.6.0-eigen-rename-sigmoid # fixed with commits on tf
 
 BuildRequires: bazel
-Requires: py2-numpy py2-enum34 py2-mock python py2-wheel protobuf gcc py2-setuptools java-env
+Requires: py2-numpy py2-enum34 py2-mock python py2-wheel py2-Keras-Applications py2-Keras-Preprocessing protobuf gcc py2-setuptools java-env
 
 %prep
 
@@ -69,19 +69,17 @@ export LIBJPEG_TURBO_STRIP_PREFIX="libjpeg-turbo-1.5.3"
 
 ./configure
 
-echo $PYTHONPATH
-echo $PYTHON27PATH
+BAZEL_OPTS="--output_user_root ../build build -s --verbose_failures -c opt --cxxopt=${CXX_OPT_FLAGS}"
+BAZEL_EXTRA_OPTS="--action_env=PYTHONPATH --distinct_host_configuration=false"
 
-#exit 1
-
-bazel --output_user_root ../build build -s --verbose_failures --action_env=PYTHONPATH --distinct_host_configuration=false -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/pip_package:build_pip_package
-#bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow:libtensorflow_cc.so
-#bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/lib_package:libtensorflow
-#bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/python/tools:tools_pip
-#bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/graph_transforms:transform_graph
-#bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/aot:tf_aot_runtime
-#bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/tf2xla:xla_compiled_cpu_function
-#bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/aot:tfcompile
+bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/tools/pip_package:build_pip_package
+bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS  //tensorflow:libtensorflow_cc.so
+bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/tools/lib_package:libtensorflow
+bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/python/tools:tools_pip
+bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/tools/graph_transforms:transform_graph
+#bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/compiler/aot:tf_aot_runtime
+#bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/compiler/tf2xla:xla_compiled_cpu_function
+#bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/compiler/aot:tfcompile
 
 bazel shutdown
 
@@ -96,9 +94,9 @@ mkdir -p $incdir $libdir $bindir
 
 cp -v $PWD/bazel-bin/tensorflow/libtensorflow_cc.so $libdir
 cp -v $PWD/bazel-bin/tensorflow/libtensorflow_framework.so $libdir
-cp -v $PWD/bazel-bin/tensorflow/compiler/aot/libtf_aot_runtime.so $libdir
-cp -v $PWD/bazel-bin/tensorflow/compiler/tf2xla/libxla_compiled_cpu_function.so $libdir
-cp -v $PWD/bazel-bin/tensorflow/compiler/aot/tfcompile $bindir
+#cp -v $PWD/bazel-bin/tensorflow/compiler/aot/libtf_aot_runtime.so $libdir
+#cp -v $PWD/bazel-bin/tensorflow/compiler/tf2xla/libxla_compiled_cpu_function.so $libdir
+#cp -v $PWD/bazel-bin/tensorflow/compiler/aot/tfcompile $bindir
 
 #Download depencies used by tensorflow and copy to include dir
 tensorflow/contrib/makefile/download_dependencies.sh
