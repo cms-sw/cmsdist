@@ -6,7 +6,7 @@
 %define source_prefix %{n}-%{realversion}
 Source: %{source0}
 
-BuildRequires: nasm autotools gmake
+BuildRequires: nasm autotools gmake cmake
 
 %prep
 %setup -n %{source_prefix}
