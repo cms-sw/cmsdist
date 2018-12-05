@@ -69,7 +69,7 @@ export LIBJPEG_TURBO_STRIP_PREFIX="libjpeg-turbo-1.5.3"
 ./configure
 
 BAZEL_OPTS="--output_user_root ../build build -s --verbose_failures -c opt --cxxopt=${CXX_OPT_FLAGS}"
-BAZEL_EXTRA_OPTS="--action_env PYTHONPATH$={PYTHON27PATH} --distinct_host_configuration=false"
+BAZEL_EXTRA_OPTS="--action_env PYTHONPATH=${PYTHON27PATH} --distinct_host_configuration=false"
 
 bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/tools/pip_package:build_pip_package
 bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow:libtensorflow_cc.so
