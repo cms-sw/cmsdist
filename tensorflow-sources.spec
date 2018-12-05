@@ -2,7 +2,7 @@
 #Source: https://github.com/tensorflow/tensorflow/archive/v%{realversion}.tar.gz
 # NOTE: whenever the version of tensorflow changes, update it also in tensorflow-c tensorflow-cc and py2-tensorflow
 %define isslc6amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
-%define tag da9f285c0f22022db7cb48bc38135120e004d19d
+%define tag 1c9ccd811e80cd7fe4127e6a27077debe6a56f75
 %define branch tf112
 %define github_user mrodozov
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}-%{tag}.tgz
@@ -28,7 +28,6 @@ Requires: py2-numpy py2-enum34 py2-mock python py2-wheel py2-Keras-Applications 
 
 %build
 export PYTHON_BIN_PATH=`which python`
-export PYTHONPATH=${PYTHON27PATH}
 export TF_NEED_JEMALLOC=0
 export TF_NEED_HDFS=0
 export CC_OPT_FLAGS=-march=core2
@@ -52,14 +51,14 @@ export TF_NEED_IGNITE=false
 export TF_NEED_ROCM=false
 
 #and source locations
-export EIGEN_SOURCE=${EIGEN_SOURCE}
+#export EIGEN_SOURCE=${EIGEN_SOURCE} # we are using tf own eigen now
 export PROTOBUF_SOURCE=${PROTOBUF_SOURCE}
 #export ZLIB_SOURCE=${ZLIB_SOURCE}
 export LIBJPEG_TURBO_SOURCE="https://github.com/libjpeg-turbo/libjpeg-turbo/archive/1.5.3.tar.gz"
 
 #${LIBJPEG_TURBO_SOURCE}
 
-export EIGEN_STRIP_PREFIX=${EIGEN_STRIP_PREFIX}
+#export EIGEN_STRIP_PREFIX=${EIGEN_STRIP_PREFIX} # we are using tf own eigen now
 export PROTOBUF_STRIP_PREFIX=${PROTOBUF_STRIP_PREFIX}
 #export ZLIB_STRIP_PREFIX= ${ZLIB_STRIP_PREFIX}
 export LIBJPEG_TURBO_STRIP_PREFIX="libjpeg-turbo-1.5.3"
@@ -70,10 +69,10 @@ export LIBJPEG_TURBO_STRIP_PREFIX="libjpeg-turbo-1.5.3"
 ./configure
 
 BAZEL_OPTS="--output_user_root ../build build -s --verbose_failures -c opt --cxxopt=${CXX_OPT_FLAGS}"
-BAZEL_EXTRA_OPTS="--action_env=PYTHONPATH --distinct_host_configuration=false"
+BAZEL_EXTRA_OPTS="--action_env PYTHONPATH$={PYTHON27PATH} --distinct_host_configuration=false"
 
 bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/tools/pip_package:build_pip_package
-bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS  //tensorflow:libtensorflow_cc.so
+bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow:libtensorflow_cc.so
 bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/tools/lib_package:libtensorflow
 bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/python/tools:tools_pip
 bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/tools/graph_transforms:transform_graph
@@ -99,6 +98,7 @@ cp -v $PWD/bazel-bin/tensorflow/libtensorflow_framework.so $libdir
 #cp -v $PWD/bazel-bin/tensorflow/compiler/aot/tfcompile $bindir
 
 #Download depencies used by tensorflow and copy to include dir
+
 tensorflow/contrib/makefile/download_dependencies.sh
 tdir=$PWD
 dwnldir=$PWD/tensorflow/contrib/makefile/downloads
