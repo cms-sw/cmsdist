@@ -4,7 +4,7 @@
 
 Source: none
 
-BuildRequires: tensorflow-sources
+BuildRequires: tensorflow-sources tensorflow-python3-sources
 BuildRequires: py2-setuptools
 Requires: python python3
 BuildRequires: py2-pip 

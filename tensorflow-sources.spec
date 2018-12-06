@@ -43,14 +43,14 @@ export TF_NEED_ROCM=false
 #export EIGEN_SOURCE=${EIGEN_SOURCE} # we are using tf own eigen now
 export PROTOBUF_SOURCE=${PROTOBUF_SOURCE}
 #export ZLIB_SOURCE=${ZLIB_SOURCE}
-export LIBJPEG_TURBO_SOURCE="https://github.com/libjpeg-turbo/libjpeg-turbo/archive/1.5.3.tar.gz"
+export LIBJPEG_TURBO_SOURCE="https://github.com/libjpeg-turbo/libjpeg-turbo/archive/2.0.1.tar.gz"
 
 #${LIBJPEG_TURBO_SOURCE}
 
 #export EIGEN_STRIP_PREFIX=${EIGEN_STRIP_PREFIX} # we are using tf own eigen now
 export PROTOBUF_STRIP_PREFIX=${PROTOBUF_STRIP_PREFIX}
 #export ZLIB_STRIP_PREFIX= ${ZLIB_STRIP_PREFIX}
-export LIBJPEG_TURBO_STRIP_PREFIX="libjpeg-turbo-1.5.3"
+export LIBJPEG_TURBO_STRIP_PREFIX="libjpeg-turbo-2.0.1"
 
 #temp directory
 rm -rf ../build
