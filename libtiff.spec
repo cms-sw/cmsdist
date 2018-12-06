@@ -16,7 +16,7 @@ chmod +x ./config/config.{sub,guess}
 ./configure --prefix=%{i} --disable-static \
             --with-zlib-lib-dir=${ZLIB_ROOT}/lib \
             --with-zlib-include-dir=${ZLIB_ROOT}/include \
-            --with-jpeg-lib-dir=${LIBJPEG_TURBO_ROOT}/lib \
+            --with-jpeg-lib-dir=${LIBJPEG_TURBO_ROOT}/lib64 \
             --with-jpeg-include-dir=${LIBJPEG_TURBO_ROOT}/include \
             --disable-dependency-tracking \
             --without-x
