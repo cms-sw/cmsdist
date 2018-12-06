@@ -1,10 +1,10 @@
-### RPM external py2-tensorflow 1.6.0
+### RPM external py2-tensorflow 1.12.0
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
 Source: none
 
-BuildRequires: tensorflow-sources tensorflow-python3-sources
+BuildRequires: tensorflow-sources
 BuildRequires: py2-setuptools
 Requires: python python3
 BuildRequires: py2-pip 

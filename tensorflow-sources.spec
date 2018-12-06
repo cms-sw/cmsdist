@@ -3,30 +3,19 @@
 # NOTE: whenever the version of tensorflow changes, update it also in tensorflow-c tensorflow-cc and py2-tensorflow
 %define isslc6amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
 %define tag 0b97674558ea79a1ad90dd4f843a54ebf67a1790
-%define branch tf112
-%define github_user mrodozov
+%define branch cms/v1.12.0
+%define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}-%{tag}.tgz
 
-#Patch0: tensorflow-1.6.0-rename-runtime
-#Patch0: tensorflow-1.6.0-rename-runtime
-#Patch1: tensorflow-1.6.0-eigen-backports - not needed as it's in the source now
-#Patch2: tensorflow-1.6.0-eigen-update-gemm_pack_lhs $ # fixed with commits on tf 
-#Patch3: tensorflow-1.6.0-eigen-rename-sigmoid # fixed with commits on tf
-
 BuildRequires: bazel
-Requires: py2-numpy py2-enum34 py2-mock python py2-wheel py2-Keras-Applications py2-Keras-Preprocessing protobuf gcc py2-setuptools java-env
+Requires: gcc protobuf java-env python py2-numpy py2-enum34 py2-mock py2-wheel py2-Keras-Applications py2-Keras-Preprocessing py2-setuptools
 
 %prep
 
 %setup -q -n tensorflow-%{realversion}
-#%patch0 -p1
-#%patch1 -p1
-#%patch2 -p1
-#%patch3 -p1
-
-#%patch0 -p1
 
 %build
+
 export PYTHON_BIN_PATH=`which python`
 export TF_NEED_JEMALLOC=0
 export TF_NEED_HDFS=0
@@ -64,7 +53,7 @@ export PROTOBUF_STRIP_PREFIX=${PROTOBUF_STRIP_PREFIX}
 export LIBJPEG_TURBO_STRIP_PREFIX="libjpeg-turbo-1.5.3"
 
 #temp directory
-#rm -rf ../build
+rm -rf ../build
 
 ./configure
 
@@ -76,9 +65,10 @@ bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow:libtensorflow_cc.so
 bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/tools/lib_package:libtensorflow
 bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/python/tools:tools_pip
 bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/tools/graph_transforms:transform_graph
-#bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/compiler/aot:tf_aot_runtime
-#bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/compiler/tf2xla:xla_compiled_cpu_function
-#bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/compiler/aot:tfcompile
+bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/compiler/tf2xla:tf2xla
+bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/compiler/tf2xla:cpu_function_runtime
+bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/compiler/tf2xla:xla_compiled_cpu_function
+bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/compiler/aot:tfcompile
 
 bazel shutdown
 
@@ -93,9 +83,9 @@ mkdir -p $incdir $libdir $bindir
 
 cp -v $PWD/bazel-bin/tensorflow/libtensorflow_cc.so $libdir
 cp -v $PWD/bazel-bin/tensorflow/libtensorflow_framework.so $libdir
-#cp -v $PWD/bazel-bin/tensorflow/compiler/aot/libtf_aot_runtime.so $libdir
-#cp -v $PWD/bazel-bin/tensorflow/compiler/tf2xla/libxla_compiled_cpu_function.so $libdir
-#cp -v $PWD/bazel-bin/tensorflow/compiler/aot/tfcompile $bindir
+cp -v $PWD/bazel-bin/tensorflow/compiler/tf2xla/libcpu_function_runtime.so $libdir
+cp -v $PWD/bazel-bin/tensorflow/compiler/tf2xla/libxla_compiled_cpu_function.so $libdir
+cp -v $PWD/bazel-bin/tensorflow/compiler/aot/tfcompile $bindir
 
 #Download depencies used by tensorflow and copy to include dir
 
