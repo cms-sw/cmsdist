@@ -5,3 +5,4 @@ RecoTauTag-TrainingFiles=V00-01-00
 RecoBTag-Combined=V01-01-01
 SimTransport-PPSProtonTransport=V00-01-00
 SimTransport-TotemRPProtonTransportParametrization=V00-01-00
+L1Trigger-L1THGCal=V01-00-09

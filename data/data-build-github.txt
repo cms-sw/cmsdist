@@ -20,7 +20,6 @@ GeneratorInterface-EvtGenInterface=V02-00-11
 HLTrigger-JetMET=V01-00-00
 L1Trigger-L1TCalorimeter=V01-00-22
 L1Trigger-L1TGlobal=V00-00-07
-L1Trigger-L1THGCal=V01-00-09
 L1Trigger-L1TMuon=V01-01-03
 MagneticField-Interpolation=V01-00-02
 PhysicsTools-NanoAOD=V01-00-03
