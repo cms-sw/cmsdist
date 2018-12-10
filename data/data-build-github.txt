@@ -27,7 +27,6 @@ PhysicsTools-NanoAOD=V01-00-03
 RecoBTag-CTagging=V01-00-03
 RecoBTag-SecondaryVertex=V02-00-04
 RecoBTag-SoftLepton=V01-00-01
-RecoEgamma-ElectronIdentification=V01-01-00
 RecoEgamma-PhotonIdentification=V01-00-06
 RecoHI-HiJetAlgos=V01-00-01
 RecoJets-JetProducers=V05-10-20
