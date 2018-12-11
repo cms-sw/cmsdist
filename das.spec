@@ -4,7 +4,7 @@
 %define pkg0 DAS
 %define ver0 %realversion
 %define pkg1 das2go
-%define ver1 04.01.00
+%define ver1 04.00.11
 Source0: https://github.com/dmwm/%pkg0/archive/%ver0.tar.gz
 Source1: https://github.com/dmwm/%pkg1/archive/%ver1.tar.gz
 
