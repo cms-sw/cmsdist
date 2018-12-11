@@ -1,9 +1,9 @@
-### RPM cms reqmgr2ms 0.0.6.pre2
+### RPM cms reqmgr2ms 0.0.6.pre1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
-%define wmcorever 1.1.14.pre2
+%define wmcorever 1.1.14.pre1
 
 Source: git://github.com/dmwm/WMCore?obj=master/%wmcorever&export=%n&output=/%n.tar.gz
 Requires: cherrypy py2-pycurl jemalloc rotatelogs py2-httplib2
@@ -21,7 +21,7 @@ python setup.py install_system -s reqmgr2ms --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
 mkdir -p %i/bin
-cp -pfr %_builddir/%n/bin/[[:lower:]]* %i/bin
+cp -pf %_builddir/%n/bin/[[:lower:]]* %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
