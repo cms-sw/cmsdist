@@ -148,6 +148,8 @@ Requires: CSCTrackFinderEmulation-toolfile
 Requires: tinyxml-toolfile
 Requires: scons-toolfile
 Requires: md5-toolfile
+Requires: gosamcontrib-toolfile
+Requires: gosam-toolfile
 Requires: madgraph5amcatnlo-toolfile
 Requires: py2-pippkgs-toolfile
 Requires: py2-pippkgs_depscipy-toolfile
