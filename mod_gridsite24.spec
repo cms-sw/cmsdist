@@ -1,18 +1,28 @@
-### RPM external apache24-mod_wsgi 4.6.5
+### RPM external mod_gridsite24 2_3_4
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
-Source0: https://github.com/GrahamDumpleton/mod_wsgi/archive/%realversion.tar.gz
-Requires: apache24 python
+#Source0: https://github.com/CESNET/gridsite/archive/%realversion.tar.gz
+Source0: https://github.com/CESNET/gridsite/archive/gridsite-core_R_%realversion.zip
+Requires: apache24 python libtool doxygen openssl libxml2
+
+Provides: libcanl_c.so.2()(64bit)
 
 %prep
-%setup -n mod_wsgi-%realversion
+%setup -n gridsite-gridsite-core_R_%realversion
 
 %build
-./configure --prefix=%i
+cd src
+sed -i \
+    -e "s,HTTPD_FLAGS=,HTTPD_FLAGS=-I${APACHE24_ROOT}/include -I${OPENSSL_ROOT}/include -I${LIBXML2_ROOT}/include/libxml2/,g" \
+    -e "s,apidoc ,,g" \
+    Makefile
+LDFLAGS="-L${OPENSSL_ROOT}/lib " \
+export PATH=$PATH:$DOXYGEN_ROOT/bin
 make %makeprocesses
 
 %install
-mkdir -p %i/modules
-make %makeprocesses install LIBEXECDIR=%i/modules
+cd src
+export PATH=$PATH:$DOXYGEN_ROOT/bin
+DESTDIR=%i make %makeprocesses install
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
