@@ -2,7 +2,6 @@
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES} 
 
 Requires: python openssl py2-cffi py2-asn1crypto py2-enum34 py2-idna py2-ipaddress py2-six
-#Requires: python py2-setuptools openssl py2-pip
 
 %define pip_name cryptography
 %define PipPreBuild export LDFLAGS="-L${OPENSSL_ROOT}/lib"; \
