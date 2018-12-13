@@ -1,4 +1,4 @@
-### RPM external libjpeg-turbo-toolfile 1.0
+### RPM external libjpeg-turbo-toolfile 2.0
 Requires: libjpeg-turbo
 %prep
 
@@ -14,7 +14,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/libjpg.xml
   <lib name="turbojpeg"/>
   <client>
     <environment name="LIBJPEG_TURBO_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$LIBJPEG_TURBO_BASE/lib"/>
+    <environment name="LIBDIR" default="$LIBJPEG_TURBO_BASE/lib64"/>
     <environment name="INCLUDE" default="$LIBJPEG_TURBO_BASE/include"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>

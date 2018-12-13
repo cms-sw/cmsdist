@@ -47,7 +47,7 @@ esac
 
 rm -rf demos examples doc
 echo yes | ./configure -prefix %i -opensource -stl -no-openssl -no-webkit -no-debug \
-                       -L$LIBJPEG_TURBO_ROOT/lib -no-glib -no-libtiff -no-libpng -no-libmng \
+                       -L$LIBJPEG_TURBO_ROOT/lib64 -no-glib -no-libtiff -no-libpng -no-libmng \
                        -no-dwarf2 -no-phonon -no-multimedia -no-stl -no-exceptions \
                        -no-separate-debug-info -no-multimedia -no-sql-sqlite -no-sql-odbc \
                        -no-javascript-jit -no-script -no-scripttools -no-avx -no-rpath \
