@@ -12,6 +12,7 @@ Patch3: tensorflow-1.6.0-eigen-rename-sigmoid
 
 BuildRequires: bazel eigen protobuf gcc
 BuildRequires: py2-setuptools java-env
+BuildRequires: tensorflow-sources
 Requires: py2-numpy python3 py2-wheel
 
 %prep
