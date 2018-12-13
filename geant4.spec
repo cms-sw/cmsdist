@@ -10,6 +10,7 @@ Requires: clhep
 Requires: expat
 Requires: xerces-c
 Requires: vecgeom
+Requires: zlib
 
 %define keep_archives true
 
