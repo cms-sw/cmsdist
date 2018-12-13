@@ -40,7 +40,7 @@ esac
   --with-pngincludedir=$LIBPNG_ROOT/include \
   --with-pnglibdir=$LIBPNG_ROOT/lib \
   --with-jpegincludedir=$LIBJPEG_TURBO_ROOT/include \
-  --with-jpeglibdir=$LIBJPEG_TURBO_ROOT/lib \
+  --with-jpeglibdir=$LIBJPEG_TURBO_ROOT/lib64 \
   --without-x \
   --without-tclsh \
   --without-tcl \
