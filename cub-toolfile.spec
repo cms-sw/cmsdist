@@ -15,6 +15,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cub.xml
     <environment name="CUB_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE"  default="$CUB_BASE/include"/>
   </client>
+  <flags CXXFLAGS="-DCUB_STDERR"/>
 </tool>
 EOF_TOOLFILE
 
