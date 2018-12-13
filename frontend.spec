@@ -2,7 +2,7 @@
 Source: http://www.nikhef.nl/~janjust/proxy-verify/grid-proxy-verify.c
 Requires: apache24-setup mod_perl24 mod_evasive24 p5-apache24-modssl p5-compress-zlib p5-json-xs
 Requires: p5-digest-hmac py2-cx-oracle oracle-env sqlite
-Requires: apache24-mod_wsgi x509-scitokens-issuer
+Requires: mod_wsgi24 mod_gridsite24 x509-scitokens-issuer
 
 %prep
 
