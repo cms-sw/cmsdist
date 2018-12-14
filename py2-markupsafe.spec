@@ -1,6 +1,6 @@
-### RPM external py2-jinja 2.10
+### RPM external py2-MarkupSafe 1.1.0
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES} 
-Requires: python py2-setuptools py2-markupsafe
-%define pip_name Jinja2
+Requires: python
+%define pip_name MarkupSafe
 ## IMPORT build-with-pip
 %define PipPostBuild perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
