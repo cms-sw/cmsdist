@@ -34,7 +34,6 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda.xml
     <environment name="LIBDIR"    default="$CUDA_BASE/lib64"/>
     <environment name="INCLUDE"   default="$CUDA_BASE/include"/>
   </client>
-  <flags CUDA_FLAGS="-gencode arch=compute_35,code=sm_35"/>
   <flags CUDA_FLAGS="-gencode arch=compute_60,code=sm_60"/>
   <flags CUDA_FLAGS="-gencode arch=compute_61,code=sm_61"/>
   <flags CUDA_FLAGS="-gencode arch=compute_70,code=sm_70"/>
