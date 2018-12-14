@@ -1,7 +1,7 @@
 ### RPM external py2-flask 1.0.2
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES} 
 
-Requires: python
+Requires: python py2-click
 
 %define pip_name flask
 
