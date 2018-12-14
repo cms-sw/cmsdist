@@ -1,4 +1,4 @@
-### RPM external py3-jinja 2.5.2
+### RPM external py3-jinja 2.10
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source: http://pypi.python.org/packages/source/J/Jinja2/Jinja2-%realversion.tar.gz
