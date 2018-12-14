@@ -1,5 +1,5 @@
-### RPM external geant4 10.04.ref08
-%define tag e9e8da5255cfbe8af36c018ce36b5897d7e35c3f
+### RPM external geant4 10.05
+%define tag 1ba70965a9945ef3f83ecee9e85aaa8e97ad80db
 %define branch cms/4.%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
@@ -10,6 +10,7 @@ Requires: clhep
 Requires: expat
 Requires: xerces-c
 Requires: vecgeom
+Requires: zlib
 
 %define keep_archives true
 
@@ -44,10 +45,12 @@ cmake ../%{n}.%{realversion} \
   -DBUILD_STATIC_LIBS=ON \
   -DGEANT4_INSTALL_EXAMPLES=OFF \
   -DGEANT4_USE_SYSTEM_CLHEP=ON \
+  -DGEANT4_USE_SYSTEM_EXPAT=ON \
   -DGEANT4_BUILD_MULTITHREADED=ON \
   -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="-fPIC" \
   -DCMAKE_STATIC_LIBRARY_C_FLAGS="-fPIC" \
-  -DCMAKE_PREFIX_PATH="${XERCES_C_ROOT};${CLHEP_ROOT};${EXPAT_ROOT};${VECGEOM_ROOT}"
+  -DCMAKE_PREFIX_PATH="${XERCES_C_ROOT};${CLHEP_ROOT};${EXPAT_ROOT};${VECGEOM_ROOT};${ZLIB_ROOT}" \
+  -DGEANT4_USE_SYSTEM_ZLIB=ON \
 
 make %makeprocesses VERBOSE=1
 
