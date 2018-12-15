@@ -23,6 +23,7 @@ make %makeprocesses
 cd src
 export PATH=$PATH:$DOXYGEN_ROOT/bin
 DESTDIR=%i make %makeprocesses install
+cp -a %i/usr/local/* %i
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
