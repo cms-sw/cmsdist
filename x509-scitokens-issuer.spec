@@ -1,4 +1,4 @@
-### RPM external x509-scitokens-issuer v0.6.0-rc1
+### RPM external x509-scitokens-issuer v0.6.2
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 Source0: git://github.com/scitokens/x509-scitokens-issuer.git?obj=master/%{realversion}&export=%n&output=/%n.tar.gz
 Requires: python py2-setuptools py2-requests py2-scitokens py2-flask py2-gunicorn py2-cryptography
