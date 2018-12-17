@@ -1,7 +1,7 @@
 ### RPM external dd4hep v01-08x
 
-%define tag 9ddda5809745fa907c66918c7e8636bf2e133611
-%define branch cms/master/f2893c01
+%define tag a815783e5ece4dbe3b30de028bf3001a37ece154
+%define branch cms/master/e6f07db
 %define github_user cms-externals
 
 Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz

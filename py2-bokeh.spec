@@ -1,5 +1,0 @@
-### RPM external py2-bokeh 1.0.1
-## IMPORT build-with-pip
-
-Requires: py2-tornado py2-pillow py2-PyYAML py2-python-dateutil py2-Jinja2 py2-numpy py2-packaging
-%define PipPostBuild perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*

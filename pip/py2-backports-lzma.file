@@ -1,0 +1,6 @@
+%define doPython3 no
+Requires: xz
+
+%define pip_name backports.lzma
+
+%define PipBuildOptions  --global-option=build_ext --global-option="-L${XZ_ROOT}/lib"  --global-option="-I${XZ_ROOT}/include"
