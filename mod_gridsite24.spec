@@ -1,6 +1,5 @@
 ### RPM external mod_gridsite24 2_3_4
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
-#Source0: https://github.com/CESNET/gridsite/archive/%realversion.tar.gz
 Source0: https://github.com/CESNET/gridsite/archive/gridsite-core_R_%realversion.zip
 Requires: apache24 python libtool doxygen openssl libxml2
 
