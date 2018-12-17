@@ -2,9 +2,9 @@
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 566c52825e3d4ffae8966f824b02aca993816a58
-%define branch cms/master/c716de0
-%define github_user cms-sw
+%define tag 3a706401424b1dc4bb11d3c9a677254a2e5e6f55
+%define branch cmstest-masterv3
+%define github_user yamaguchi1024
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
@@ -44,14 +44,15 @@ export CXXFLAGS=-D__ROOFIT_NOBANNER
 cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCMAKE_BUILD_TYPE=Debug \
-  -DLLVM_BUILD_TYPE=Debug \
+  -DLLVM_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
   -DCMAKE_CXX_COMPILER=g++ \
   -DCMAKE_Fortran_COMPILER=gfortran \
   -DCMAKE_LINKER=ld \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
-  -Droot7=ON \
+  -Druntime_cxxmodules=On \
+  -Droot7=OFF \
   -Dfail-on-missing=ON \
   -Dgnuinstall=OFF \
   -Droofit=ON \
@@ -172,3 +173,4 @@ perl -p -i -e "s|#!/bin/perl|#!/usr/bin/env perl|" %{i}/bin/memprobe
 
 %post
 %{relocateConfig}etc/cling/llvm/Config/llvm-config.h
+%{relocateConfig}include/modulemap.overlay.yaml
