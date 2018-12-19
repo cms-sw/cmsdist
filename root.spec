@@ -5,6 +5,7 @@
 %define tag 9df29e73f7283baeb6386a2b29d5a96042ed0076
 %define branch cmstest-masterv4
 %define github_user yamaguchi1024
+
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
@@ -125,7 +126,7 @@ cmake ../%{n}-%{realversion} \
   -Ddcache=OFF \
 %endif
   -DJPEG_INCLUDE_DIR="${LIBJPEG_TURBO_ROOT}/include" \
-  -DJPEG_LIBRARY="${LIBJPEG_TURBO_ROOT}/lib/libjpeg.%{soext}" \
+  -DJPEG_LIBRARY="${LIBJPEG_TURBO_ROOT}/lib64/libjpeg.%{soext}" \
   -DPNG_INCLUDE_DIRS="${LIBPNG_ROOT}/include" \
   -DPNG_LIBRARY="${LIBPNG_ROOT}/lib/libpng.%{soext}" \
   -Dastiff=ON \

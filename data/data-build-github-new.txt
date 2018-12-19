@@ -1,0 +1,8 @@
+#Add/Update data packages here and remove it from rest of *.txt files.
+#If there is no customization for the packae then remove its .spec and .file
+
+PhysicsTools-PatUtils=V00-01-00
+RecoTauTag-TrainingFiles=V00-01-00
+RecoBTag-Combined=V01-01-01
+SimTransport-PPSProtonTransport=V00-01-00
+SimTransport-TotemRPProtonTransportParametrization=V00-01-00

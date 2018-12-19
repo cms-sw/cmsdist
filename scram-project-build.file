@@ -64,7 +64,7 @@ Requires: glibc
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-07-36
+%define configtag       V05-07-39
 %endif
 
 %if "%{?cvssrc:set}" != "set"
@@ -87,8 +87,7 @@ Requires: glibc
 %define toolconf        %(echo %n | sed "s|-|_|g" | tr 'a-z' 'A-Z')_TOOL_CONF_ROOT
 %endif
 
-#define source0 %{configrepo}&obj=master/%{configtag}&module=%{cvsconfig}&export=config&output=/%configtar
-%define source0 https://github.com/cms-sw/cmssw-config/archive/%{configtag}.tar.gz
+%define source0 git+https://github.com/cms-sw/cmssw-config.git?obj=master/%{configtag}&export=config&output=/cmssw-config-%{configtag}.tgz
 
 Source0: %source0
 Source1: %source1
@@ -111,13 +110,9 @@ Source3: %{additionalSrc1}&output=/src2.tar.gz
 %endif
 
 %prep
-rm -rf config
-rm -rf %{srctree}
-rm -rf poison
+rm -rf config %{srctree} poison
 
-%setup -T -b 0 -n cmssw-config-%(echo %{configtag} | sed 's/^.//')
-# The following is a temporary hack until we move to 4.8.1
-cd ..; mv cmssw-config-%(echo %{configtag} | sed 's/^.//') config
+%setup -T -b 0 -n config
 %setup -D -T -b 1 -n %{srctree}
 
 %if "%{?additionalSrc0:set}" == "set"

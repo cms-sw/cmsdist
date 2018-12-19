@@ -1,4 +1,4 @@
-### RPM cms cmsswdata 32
+### RPM cms cmsswdata 33
 ## NOCOMPILER
 Source: none
 
@@ -7,6 +7,8 @@ Source: none
 %define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
 %define isnotarmv7 %(case %{cmsplatf} in (*armv7*) echo 0 ;; (*) echo 1 ;; esac)
 
+Requires: data-PhysicsTools-PatUtils
+Requires: data-RecoTauTag-TrainingFiles
 Requires: data-DetectorDescription-Schema
 Requires: data-MagneticField-Interpolation
 Requires: data-L1Trigger-L1TCalorimeter
@@ -50,6 +52,8 @@ Requires: data-PhysicsTools-NanoAOD
 Requires: data-RecoTracker-FinalTrackSelectors
 Requires: data-EgammaAnalysis-ElectronTools
 Requires: data-DQM-DTMonitorClient
+Requires: data-SimTransport-PPSProtonTransport
+Requires: data-SimTransport-TotemRPProtonTransportParametrization
 
 %if %isnotonline
 # extra data dependencies for standard builds

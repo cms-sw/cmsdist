@@ -1,0 +1,1 @@
+Requires: py2-urllib3 py2-chardet py2-idna py2-certifi
