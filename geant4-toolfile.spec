@@ -10,7 +10,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4.xml
   <info url="http://geant4.web.cern.ch/geant4/"/>
   <use name="geant4core"/>
   <use name="geant4vis"/>
-  <use name="xerces-c"/>
 </tool>
 EOF_TOOLFILE
 
@@ -47,6 +46,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4core.xml
   <flags cppdefines="GNU_GCC G4V9"/>
   <use name="clhep"/>
   <use name="vecgeom"/>
+  <use name="zlib"/>
+  <use name="expat"/>
+  <use name="xerces-c"/>
   <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
@@ -60,8 +62,10 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4static.xml
     <environment name="GEANT4STATIC_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$GEANT4STATIC_BASE/lib/archive"/>
   </client>
-  <use name="vecgeom"/>
   <use name="clhep"/>
+  <use name="vecgeom"/>
+  <use name="zlib"/>
+  <use name="expat"/>
   <use name="xerces-c"/>
 </tool>
 EOF_TOOLFILE
@@ -78,7 +82,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4vis.xml
   <lib name="G4visXXX"/>
   <lib name="G4VRML"/>
   <lib name="G4GMocren"/>
-  <lib name="G4zlib"/>
   <use name="geant4core"/>
 </tool>
 EOF_TOOLFILE
