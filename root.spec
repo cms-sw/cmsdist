@@ -1,4 +1,4 @@
-### RPM lcg root 6.15.01
+### RPM lcg root 6.17.01
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
@@ -44,7 +44,7 @@ export CXXFLAGS=-D__ROOFIT_NOBANNER
 cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCMAKE_BUILD_TYPE=Debug \
-  -DLLVM_BUILD_TYPE=Debug \
+  -DLLVM_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
   -DCMAKE_CXX_COMPILER=g++ \
