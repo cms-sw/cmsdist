@@ -1,9 +1,9 @@
-### RPM lcg root 6.14.05
+### RPM lcg root 6.14.09
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 30136e62406484c38923b6e68f5c87a4e79eaa68
-%define branch cms/v6-14-00-patches/f72fb18
+%define tag 424077c764e70798abadd42bc5f9df35bafe8bd2
+%define branch cms/v6-14-00-patches/d1622fa
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
@@ -44,7 +44,7 @@ export CXXFLAGS=-D__ROOFIT_NOBANNER
 cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCMAKE_BUILD_TYPE=Debug \
-  -DLLVM_BUILD_TYPE=Debug \
+  -DLLVM_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
   -DCMAKE_CXX_COMPILER=g++ \
