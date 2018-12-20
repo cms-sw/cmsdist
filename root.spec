@@ -1,11 +1,10 @@
-### RPM lcg root 6.15.01
+### RPM lcg root 6.17.01
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 %define tag 9df29e73f7283baeb6386a2b29d5a96042ed0076
 %define branch cmstest-masterv4
 %define github_user yamaguchi1024
-
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
