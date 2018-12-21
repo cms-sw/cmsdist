@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 9df29e73f7283baeb6386a2b29d5a96042ed0076
+%define tag 0087230bcc89a7ff521e6dc82e742878b34c836a
 %define branch cmstest-masterv4
 %define github_user yamaguchi1024
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -170,6 +170,11 @@ ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -R -l '#!.*python' %{i} | xargs chmod +x
 perl -p -i -e "s|#!/bin/perl|#!/usr/bin/env perl|" %{i}/bin/memprobe
+
+#Make sure root build directory is not available after the root install is done
+#This will catch errors if root remembers the build paths.
+cd ..
+rm -rf build
 
 %post
 %{relocateConfig}etc/cling/llvm/Config/llvm-config.h
