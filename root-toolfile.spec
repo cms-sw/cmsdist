@@ -342,6 +342,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootrgl.xml
 <tool name="rootrgl" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <lib name="RGL"/>
+  <use name="rootglew"/>
+  <use name="rootgui"/>
   <use name="rootinteractive"/>
   <use name="rootgraphics"/>
 </tool>
@@ -354,6 +356,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rooteve.xml
   <lib name="Eve"/>
   <use name="rootgeompainter"/>
   <use name="rootrgl"/>
+  <use name="rootged"/>
 </tool>
 EOF_TOOLFILE
 
@@ -362,6 +365,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootguihtml.xml
 <tool name="rootguihtml" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <lib name="GuiHtml"/>
+  <use name="rootgui"/>
   <use name="rootinteractive"/>
 </tool>
 EOF_TOOLFILE
@@ -428,6 +432,53 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/histfactory.xml
 </tool>
 EOF_TOOLFILE
 
+#Root Ged
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootged.xml
+<tool name="rootged" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="Ged"/>
+  <use name="rootgui"/>
+</tool>
+EOF_TOOLFILE
+
+#Root GLEW
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootglew.xml
+<tool name="rootglew" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="GLEW"/>
+</tool>
+EOF_TOOLFILE
+
+#Root Gui
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootgui.xml
+<tool name="rootgui" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="Gui"/>
+  <use name="rootgpad"/>
+</tool>
+EOF_TOOLFILE
+
+#Root X11
+case %{cmsos} in
+  osx*)
+  cat << \EOF_TOOLFILE >%i/etc/scram.d/rootx11.xml
+<tool name="rootx11" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="GX11"/>
+  <use name="rootcling"/>
+</tool>
+EOF_TOOLFILE
+  ;;
+  *)
+  cat << \EOF_TOOLFILE >%i/etc/scram.d/rootx11.xml
+<tool name="rootx11" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="GCocoa"/>
+  <use name="rootcling"/>
+</tool>
+EOF_TOOLFILE
+  ;;
+esac
 
 case %cmsos in
   *_ia32)
