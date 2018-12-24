@@ -1,5 +1,5 @@
 ### RPM cms coral CORAL_2_3_21
-%define tag 1a2014499b7459fa725f05ef5d0f2d9142eeb697
+%define tag 676ea68bc6f3e6dd52b5173000209a4f5594d335
 %define branch cms/%{realversion}
 %define github_user cms-externals
 
