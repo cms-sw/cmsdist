@@ -4,6 +4,10 @@ Requires: apache24-setup mod_perl24 mod_evasive24 p5-apache24-modssl p5-compress
 Requires: p5-digest-hmac py2-cx-oracle oracle-env sqlite
 # changes to support x509-scitoken-issuer in cmsweb frontend
 Requires: mod_wsgi24 mod_gridsite24 x509-scitokens-issuer py2-flask
+# changes to support CERN SSO
+Requires: py2-flask-sso
+# changes to support OAuth
+Requires: py2-flask-sqlalchemy py2-flask-login py2-rauth py2-argparse py2-rauth
 
 %prep
 
