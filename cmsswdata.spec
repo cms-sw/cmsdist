@@ -54,7 +54,7 @@ Requires: data-EgammaAnalysis-ElectronTools
 Requires: data-DQM-DTMonitorClient
 Requires: data-SimTransport-PPSProtonTransport
 Requires: data-SimTransport-TotemRPProtonTransportParametrization
-Requires: data-IOPool-Input
+Requires: data-FWCore-Modules
 
 %if %isnotonline
 # extra data dependencies for standard builds
