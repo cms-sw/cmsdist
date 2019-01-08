@@ -1,6 +1,0 @@
-#Never update any package/tag in this file.
-#If you have to update a package then please remove it from here
-#and add it to data-build-github-new.txt
-
-SimG4CMS-Forward=V02-03-18
-GeneratorInterface-ReggeGribovPartonMCInterface=V00-00-02
