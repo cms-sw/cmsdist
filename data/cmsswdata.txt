@@ -4,6 +4,7 @@
 #If there is no customization for the packae then remove its .spec and .file
 [default]
 FWCore-Modules=V00-01-00
+RecoCTPPS-TotemRPLocal=V00-02-00
 
 ########################################################################################
 #Never update any package After this. Always move an existing package in default section.
