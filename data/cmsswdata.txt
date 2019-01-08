@@ -3,7 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
-IOPool-Input=V00-01-00
+FWCore-Modules=V00-01-00
 
 ########################################################################################
 #Never update any package After this. Always move an existing package in default section.
