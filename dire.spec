@@ -1,4 +1,4 @@
-### RPM external dire 2.002
+### RPM external dire 2.003
 
 Requires: pythia8
 
@@ -14,3 +14,4 @@ make %makeprocesses
 
 %install
 make install
+ls %i/lib
