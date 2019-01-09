@@ -3,15 +3,18 @@ Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{realversion}
 BuildRequires: cmake gmake
 %define keep_archives true
 
+
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 %define isaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 1 ;; (*) echo 0 ;; esac)
 
 Patch0: vecgeom-fix-for-arm64
+Patch1: vecgeom-uninit-fix
 
 %prep
 %setup -n %{n}-%{realversion}
 
 %patch0 -p1
+%patch1 -p1
 
 %build
 rm -rf ../build
