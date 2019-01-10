@@ -5,6 +5,7 @@
 [default]
 FWCore-Modules=V00-01-00
 IOPool-Input=V00-01-00
+RecoEgamma-ElectronIdentification=V01-01-01
 RecoCTPPS-TotemRPLocal=V00-02-00
 
 ########################################################################################
@@ -81,7 +82,6 @@ RecoTracker-FinalTrackSelectors=V01-00-01
 SimTracker-SiStripDigitizer=V01-00-00
 SimTransport-HectorProducer=V01-00-01
 SLHCUpgradeSimulations-Geometry=V01-00-09
-RecoEgamma-ElectronIdentification=V01-01-00
 
 #Never update any package here. Always move it to default section.
 [data-cmssw-package-build]
