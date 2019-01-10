@@ -1,0 +1,12 @@
+diff --git a/volumes/UnplacedPolycone.h b/volumes/UnplacedPolycone.h
+index 607c4d8..526b7c5 100644
+--- a/volumes/UnplacedPolycone.h
++++ b/volumes/UnplacedPolycone.h
+@@ -36,6 +36,7 @@ public:
+     // init internal members
+     fPolycone.fContinuityOverAll = true;
+     fPolycone.fConvexityPossible = true;
++    fPolycone.fEqualRmax         = true;
+     fPolycone.Init(phistart, deltaphi, Nz, z, rmin, rmax);
+     DetectConvexity();
+   }
