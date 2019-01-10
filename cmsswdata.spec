@@ -55,7 +55,9 @@ Requires: data-DQM-DTMonitorClient
 Requires: data-SimTransport-PPSProtonTransport
 Requires: data-SimTransport-TotemRPProtonTransportParametrization
 Requires: data-FWCore-Modules
+Requires: data-IOPool-Input
 Requires: data-RecoCTPPS-TotemRPLocal
+Requires: data-IOPool-Input
 
 %if %isnotonline
 # extra data dependencies for standard builds
