@@ -4,6 +4,7 @@
 #If there is no customization for the packae then remove its .spec and .file
 [default]
 FWCore-Modules=V00-01-00
+IOPool-Input=V00-01-00
 RecoEgamma-ElectronIdentification=V01-01-01
 
 ########################################################################################
