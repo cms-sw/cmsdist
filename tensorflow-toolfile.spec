@@ -44,7 +44,7 @@ EOF_TOOLFILE
 
 cat << \EOF_TOOLFILE >%i/etc/scram.d/tensorflow-runtime.xml
 <tool name="tensorflow-runtime" version="@TOOL_VERSION@">
-  <lib name="tf_aot_runtime"/>
+  <lib name="cpu_function_runtime"/>
   <use name="tensorflow"/>
 </tool>
 EOF_TOOLFILE

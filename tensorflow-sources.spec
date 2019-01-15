@@ -1,28 +1,21 @@
-### RPM external tensorflow-sources 1.6.0
+### RPM external tensorflow-sources 1.12.0
 #Source: https://github.com/tensorflow/tensorflow/archive/v%{realversion}.tar.gz
 # NOTE: whenever the version of tensorflow changes, update it also in tensorflow-c tensorflow-cc and py2-tensorflow
 %define isslc6amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
-%define tag 6eea62c87173ad98c71f10ff2f796f6654f5b604
+%define tag 9150f29bf90ec79e01c707f2820409b9e05c6f73
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}-%{tag}.tgz
-Patch0: tensorflow-1.6.0-rename-runtime
-Patch1: tensorflow-1.6.0-eigen-backports
-Patch2: tensorflow-1.6.0-eigen-update-gemm_pack_lhs
-Patch3: tensorflow-1.6.0-eigen-rename-sigmoid
-BuildRequires: bazel eigen protobuf gcc
-BuildRequires: py2-setuptools java-env
-Requires: py2-numpy python py2-wheel
+
+BuildRequires: bazel
+Requires: gcc protobuf java-env python py2-numpy py2-enum34 py2-mock py2-wheel py2-Keras-Applications py2-Keras-Preprocessing py2-setuptools libjpeg-turbo eigen
 
 %prep
 
 %setup -q -n tensorflow-%{realversion}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
 
 %build
+
 export PYTHON_BIN_PATH=`which python`
 export TF_NEED_JEMALLOC=0
 export TF_NEED_HDFS=0
@@ -41,33 +34,42 @@ export TF_NEED_GDR=0
 export TF_NEED_OPENCL_SYCL=0
 export TF_SET_ANDROID_WORKSPACE=false
 export TF_NEED_KAFKA=false
+export TF_NEED_AWS=0
+export TF_DOWNLOAD_CLANG=0
+export TF_NEED_IGNITE=false
+export TF_NEED_ROCM=false
+
+#and source locations
+export EIGEN_SOURCE=${EIGEN_SOURCE} # we are using tf own eigen now
+export PROTOBUF_SOURCE=${PROTOBUF_SOURCE}
+#export ZLIB_SOURCE=${ZLIB_SOURCE}
+export LIBJPEG_TURBO_SOURCE=${LIBJPEG_TURBO_SOURCE}
+#export LIBJPEG_TURBO_SOURCE="https://github.com/libjpeg-turbo/libjpeg-turbo/archive/2.0.1.tar.gz"
+
+#${LIBJPEG_TURBO_SOURCE}
+
+export EIGEN_STRIP_PREFIX=${EIGEN_STRIP_PREFIX} # we are using tf own eigen now
+export PROTOBUF_STRIP_PREFIX=${PROTOBUF_STRIP_PREFIX}
+#export ZLIB_STRIP_PREFIX= ${ZLIB_STRIP_PREFIX}
+export LIBJPEG_TURBO_STRIP_PREFIX=${LIBJPEG_TURBO_STRIP_PREFIX}
 
 #temp directory
 rm -rf ../build
 
 ./configure
 
-sed -i -e "s|@EIGEN_SOURCE@|${EIGEN_SOURCE}|;s|@EIGEN_STRIP_PREFIX@|${EIGEN_STRIP_PREFIX}|" tensorflow/workspace.bzl tensorflow/contrib/makefile/download_dependencies.sh
-sed -i -e "s|@PROTOBUF_SOURCE@|${PROTOBUF_SOURCE}|;s|@PROTOBUF_STRIP_PREFIX@|${PROTOBUF_STRIP_PREFIX}|" tensorflow/workspace.bzl tensorflow/contrib/makefile/download_dependencies.sh
-bazel --output_user_root ../build fetch "tensorflow:libtensorflow_cc.so"
+BAZEL_OPTS="--output_user_root ../build build -s --verbose_failures -c opt --cxxopt=${CXX_OPT_FLAGS}"
+BAZEL_EXTRA_OPTS="--action_env PYTHONPATH=${PYTHON27PATH} --distinct_host_configuration=false"
 
-#This is needed on SLC6 because the version of glibc is old
-%if %isslc6amd64
-sed -i -e 's| linkopts=\[\],| linkopts=["-lrt"],|' ../build/*/external/org_tensorflow/tensorflow/tensorflow.bzl
-sed -i -e 's|"-z defs",|"-z defs","-lrt",|' ../build/*/external/org_tensorflow/tensorflow/BUILD
-%endif
-
-sed -i -e 's|executable=ctx.executable._swig,|env=ctx.configuration.default_shell_env, executable=ctx.executable._swig,|' ../build/*/external/org_tensorflow/tensorflow/tensorflow.bzl
-sed -i -e 's|mnemonic="ProtoCompile",|env=ctx.configuration.default_shell_env, mnemonic="ProtoCompile",|' ../build/*/external/protobuf_archive/protobuf.bzl
-
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow:libtensorflow_cc.so
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/pip_package:build_pip_package
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/lib_package:libtensorflow
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/python/tools:tools_pip
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/graph_transforms:transform_graph
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/aot:tf_aot_runtime
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/tf2xla:xla_compiled_cpu_function
-bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/aot:tfcompile
+bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/tools/pip_package:build_pip_package
+bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow:libtensorflow_cc.so
+bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/tools/lib_package:libtensorflow
+bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/python/tools:tools_pip
+bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/tools/graph_transforms:transform_graph
+bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/compiler/tf2xla:tf2xla
+bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/compiler/tf2xla:cpu_function_runtime
+bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/compiler/tf2xla:xla_compiled_cpu_function
+bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/compiler/aot:tfcompile
 
 bazel shutdown
 
@@ -82,11 +84,12 @@ mkdir -p $incdir $libdir $bindir
 
 cp -v $PWD/bazel-bin/tensorflow/libtensorflow_cc.so $libdir
 cp -v $PWD/bazel-bin/tensorflow/libtensorflow_framework.so $libdir
-cp -v $PWD/bazel-bin/tensorflow/compiler/aot/libtf_aot_runtime.so $libdir
+cp -v $PWD/bazel-bin/tensorflow/compiler/tf2xla/libcpu_function_runtime.so $libdir
 cp -v $PWD/bazel-bin/tensorflow/compiler/tf2xla/libxla_compiled_cpu_function.so $libdir
 cp -v $PWD/bazel-bin/tensorflow/compiler/aot/tfcompile $bindir
 
 #Download depencies used by tensorflow and copy to include dir
+
 tensorflow/contrib/makefile/download_dependencies.sh
 tdir=$PWD
 dwnldir=$PWD/tensorflow/contrib/makefile/downloads
