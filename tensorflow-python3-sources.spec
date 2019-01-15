@@ -8,7 +8,7 @@
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}-%{tag}.tgz
 
 BuildRequires: bazel
-Requires: gcc protobuf java-env python3 py2-numpy py2-enum34 py2-mock py2-wheel py2-Keras-Applications py2-Keras-Preprocessing py2-setuptools
+Requires: gcc protobuf java-env python3 py2-numpy py2-enum34 py2-mock py2-wheel py2-Keras-Applications py2-Keras-Preprocessing py2-setuptools libjpeg-turbo eigen
 
 %prep
 
@@ -40,17 +40,15 @@ export TF_NEED_IGNITE=false
 export TF_NEED_ROCM=false
 
 #and source locations
-#export EIGEN_SOURCE=${EIGEN_SOURCE} # we are using tf own eigen now
+export EIGEN_SOURCE=${EIGEN_SOURCE} # we are using tf own eigen now
 export PROTOBUF_SOURCE=${PROTOBUF_SOURCE}
 #export ZLIB_SOURCE=${ZLIB_SOURCE}
-export LIBJPEG_TURBO_SOURCE="https://github.com/libjpeg-turbo/libjpeg-turbo/archive/2.0.1.tar.gz"
+export LIBJPEG_TURBO_SOURCE=${LIBJPEG_TURBO_SOURCE}
 
-#${LIBJPEG_TURBO_SOURCE}
-
-#export EIGEN_STRIP_PREFIX=${EIGEN_STRIP_PREFIX} # we are using tf own eigen now
+export EIGEN_STRIP_PREFIX=${EIGEN_STRIP_PREFIX} # we are using tf own eigen now
 export PROTOBUF_STRIP_PREFIX=${PROTOBUF_STRIP_PREFIX}
 #export ZLIB_STRIP_PREFIX= ${ZLIB_STRIP_PREFIX}
-export LIBJPEG_TURBO_STRIP_PREFIX="libjpeg-turbo-2.0.1"
+export LIBJPEG_TURBO_STRIP_PREFIX=${LIBJPEG_TURBO_STRIP_PREFIX}
 
 #temp directory
 rm -rf ../build
