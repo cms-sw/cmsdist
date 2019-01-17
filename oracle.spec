@@ -33,6 +33,7 @@ Source3: %{http_mirror}/%{client_arch}/instantclient-odbc-%{client_arch}-%{realv
 Source4: %{http_mirror}/%{client_arch}/instantclient-sdk-%{client_arch}-%{realversion}.zip
 Source5: %{http_mirror}/%{client_arch}/instantclient-sqlplus-%{client_arch}-%{realversion}.zip
 Source6: %{http_mirror}/%{client_arch}/instantclient-tools-%{client_arch}-%{realversion}.zip
+Source7: http://cmsrep.cern.ch/cmssw/oracle-mirror/%{client_arch}/libocci.so.12.1.zip
 
 Source10: oracle-license
 
@@ -46,6 +47,8 @@ rm -rf instantclient_*
 %setup -D -T -b 4 -n %{client_dir} instantclient-sdk-%{client_arch}-%{realversion}.zip
 %setup -D -T -b 5 -n %{client_dir} instantclient-sqlplus-%{client_arch}-%{realversion}.zip
 %setup -D -T -b 6 -n %{client_dir} instantclient-tools-linux-%{client_arch}-%{realversion}.zip
+#OCCI lib with new C++ ABI (GCC 5 and above)
+%setup -D -T -b 7 -n %{client_dir} libocci.so.12.1.zip
 
 %build
 chmod a-x sdk/include/*.h *.sql
