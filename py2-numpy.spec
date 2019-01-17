@@ -1,8 +1,14 @@
-### RPM external py2-numpy 1.11.1
+### RPM external py2-numpy 1.15.1
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
-#Source: http://downloads.sourceforge.net/project/numpy/NumPy/%realversion/numpy-%realversion.tar.gz
-Source: https://pypi.python.org/packages/e0/4c/515d7c4ac424ff38cc919f7099bf293dd064ba9a600e1e3835b3edefdb18/numpy-1.11.1.tar.gz
-Requires: python py2-setuptools zlib lapack
+## INITENV SET PY2_NUMPY_REAL_VERSION %{realversion}
+
+Source: https://github.com/numpy/numpy/releases/download/v%{realversion}/numpy-%{realversion}.tar.gz
+Requires: zlib OpenBLAS python python
+BuildRequires: py2-pip
+
+%define pythonver %(echo %{allpkgreqs} | tr ' ' '\\n' | grep ^external/python/ | cut -d/ -f3 | cut -d. -f 1,2)
+%define numpyArch %(uname -m)
+
 
 %prep
 %setup -n numpy-%realversion
@@ -14,29 +20,39 @@ case %cmsos in
   *) SONAME=so ;;
 esac
 
-export LAPACK_ROOT
-export LAPACK=$LAPACK_ROOT/lib/liblapack.$SONAME
-export BLAS=$LAPACK_ROOT/lib/libblas.$SONAME
-mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
+cat > site.cfg <<EOF
+[default]
+include_dirs = $OPENBLAS_ROOT/include
+library_dirs = $OPENBLAS_ROOT/lib
+[openblas]
+openblas_libs = openblas
+library_dirs = $OPENBLAS_ROOT/lib
+[lapack]
+lapack_libs = openblas
+library_dirs = $OPENBLAS_ROOT/lib
+[atlas]
+atlas_libs = openblas
+atlas_dirs = $OPENBLAS_ROOT/lib
+[build]
+fcompiler=gnu95
+EOF
 
-python setup.py build --fcompiler=gnu95
-PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH python setup.py install --prefix=%i
-#find %i -name '*.egg-info' -exec rm {} \;
+mkdir -p %i/${PYTHON_LIB_SITE_PACKAGES}
 
-# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
-mkdir -p %i/etc/profile.d
-: > %i/etc/profile.d/dependencies-setup.sh
-: > %i/etc/profile.d/dependencies-setup.csh
-for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
-  root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
-  if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
-    echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-    echo "test X\$?$root = X1 || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
-  fi
-done
+export PYTHONUSERBASE=%i
+pip2 install . --user
 
-perl -p -i -e 's{^#!.*/python}{#!/usr/bin/env python}' %i/bin/f2py \
-                                                       %i/lib/python*/site-packages/numpy-*/EGG-INFO/scripts/f2py
+perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
+
+#afaik, this functionality is not needed - but keep it for now.
+mkdir %{i}/c-api
+PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
+OSARCH=$(uname -m)
+[ -d  %{i}/${PYTHON_LIB_SITE_PACKAGES}/numpy/core ] || exit 1
+ln -s   ../${PYTHON_LIB_SITE_PACKAGES}/numpy/core %{i}/c-api/core
+
 
 %post
-%{relocateConfig}etc/profile.d/dependencies-setup.*sh
+%{relocateConfig}lib/python*/site-packages/numpy/__config__.py
+%{relocateConfig}lib/python*/site-packages/numpy/distutils/__config__.py
+%{relocateConfig}lib/python*/site-packages/numpy/distutils/site.cfg
