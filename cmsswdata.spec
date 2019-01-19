@@ -1,4 +1,4 @@
-### RPM cms cmsswdata 34
+### RPM cms cmsswdata 35
 ## NOCOMPILER
 Source: none
 
@@ -55,6 +55,8 @@ Requires: data-DQM-DTMonitorClient
 Requires: data-SimTransport-PPSProtonTransport
 Requires: data-SimTransport-TotemRPProtonTransportParametrization
 Requires: data-FWCore-Modules
+Requires: data-IOPool-Input
+Requires: data-RecoCTPPS-TotemRPLocal
 Requires: data-IOPool-Input
 
 %if %isnotonline
