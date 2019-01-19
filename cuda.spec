@@ -63,7 +63,14 @@ rm -f %_builddir/build/bin/nvvp
 rm -f %_builddir/build/bin/computeprof
 
 # package the Nsight Compute command line tool
-mv %_builddir/build/NsightCompute-1.0/target/linux-desktop-glibc_2_11_3-glx-x64/* %{i}/bin/
+mkdir %{i}/NsightCompute-1.0
+mv %_builddir/build/NsightCompute-1.0/target                  %{i}/NsightCompute-1.0/
+mv %_builddir/build/NsightCompute-1.0/ProfileSectionTemplates %{i}/NsightCompute-1.0/
+cat > %{i}/bin/nv-nsight-cu-cli <<@EOF
+#! /bin/bash
+exec %{i}/NsightCompute-1.0/target/linux-desktop-glibc_2_11_3-glx-x64/nv-nsight-cu-cli "\$@"
+@EOF
+chmod a+x %{i}/bin/nv-nsight-cu-cli
 
 # package the cuda-gdb support files, and rename the binary to use it via a wrapper
 mv %_builddir/build/share/gdb/ %{i}/share/
@@ -95,3 +102,6 @@ sed \
   -e's|/$(_TARGET_DIR_)||g' \
   -e's|$(_TARGET_SIZE_)|64|g' \
   -i $RPM_INSTALL_PREFIX/%{pkgrel}/bin/nvcc.profile
+
+# relocate the paths inside bin/nv-nsight-cu-cli
+%{relocateConfig}bin/nv-nsight-cu-cli
