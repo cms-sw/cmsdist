@@ -5,7 +5,7 @@
 [default]
 FWCore-Modules=V00-01-00
 IOPool-Input=V00-01-00
-RecoEgamma-ElectronIdentification=V01-01-01
+RecoEgamma-ElectronIdentification=V01-01-02
 RecoCTPPS-TotemRPLocal=V00-02-00
 
 ########################################################################################
