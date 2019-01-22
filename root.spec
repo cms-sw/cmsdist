@@ -74,7 +74,6 @@ cmake ../%{n}-%{realversion} \
   -Dminuit2=ON \
   -Dmathmore=ON \
   -Dexplicitlink=ON \
-  -Dtable=ON \
   -Dbuiltin_tbb=OFF \
   -Dbuiltin_pcre=OFF \
   -Dbuiltin_freetype=OFF \
