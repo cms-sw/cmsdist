@@ -58,6 +58,7 @@ cmake ../%{n}-%{realversion} \
   -Dvdt=OFF \
   -Dhdfs=OFF \
   -Dqt=OFF \
+  -Dtmva=ON \
   -Dqtgsi=OFF \
   -Dpgsql=OFF \
   -Dsqlite=OFF \
