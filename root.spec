@@ -2,8 +2,8 @@
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 00a3618262004f1b92331d748ba206b8312d72aa
-%define branch cmstest-masterv6
+%define tag c2e51bbc7a4a1a6a0fd013b42ee188ba89c777ba
+%define branch cmstest-masterv8
 %define github_user yamaguchi1024
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
@@ -59,6 +59,7 @@ cmake ../%{n}-%{realversion} \
   -Dvdt=OFF \
   -Dhdfs=OFF \
   -Dqt=OFF \
+  -Dtmva=ON \
   -Dqtgsi=OFF \
   -Dpgsql=OFF \
   -Dsqlite=OFF \
@@ -75,7 +76,6 @@ cmake ../%{n}-%{realversion} \
   -Dminuit2=ON \
   -Dmathmore=ON \
   -Dexplicitlink=ON \
-  -Dtable=ON \
   -Dbuiltin_tbb=OFF \
   -Dbuiltin_pcre=OFF \
   -Dbuiltin_freetype=OFF \
