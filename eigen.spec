@@ -1,4 +1,4 @@
-### RPM external eigen 47947007716cc1f02e496c4b148dc315a30fa7b4
+### RPM external eigen 048d9eab8d955d2e0b33db99639416eb43a5c628
 ## INITENV +PATH PKG_CONFIG_PATH %{i}/share/pkgconfig
 ## INITENV SETV EIGEN_SOURCE %{source0}
 ## INITENV SETV EIGEN_STRIP_PREFIX %{source_prefix}
