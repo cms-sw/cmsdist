@@ -1,4 +1,4 @@
-### RPM cms crabtaskworker 3.3.1812.rc2
+### RPM cms crabtaskworker 3.3.1902.rc1
 
 
 ## INITENV +PATH PATH %i/xbin
@@ -6,7 +6,7 @@
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 1.1.18.patch2
+%define wmcver 1.1.20.pre2
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
 Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
