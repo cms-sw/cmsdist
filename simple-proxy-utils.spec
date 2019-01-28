@@ -1,6 +1,7 @@
-### RPM external simple-proxy-utils 0.1
+### RPM external simple-proxy-utils 0.1.1
 #Source: https://github.com/bbockelm/simple-proxy-utils/archive/master.zip
-Source: https://github.com/vkuznet/simple-proxy-utils/archive/fix-exit-code.zip
+#Source: https://github.com/vkuznet/simple-proxy-utils/archive/fix-exit-code.zip
+Source: https://github.com/bbockelm/simple-proxy-utils/archive/v%realversion.zip
 Requires: gcc cmake
 
 # This package relies on the following system packages/RPMs:
@@ -16,7 +17,7 @@ Provides: libvomsapi.so.1()(64bit)
 
 %prep
 #%setup -n simple-proxy-utils-master
-%setup -n simple-proxy-utils-fix-exit-code
+%setup -n simple-proxy-utils-%realversion
 
 %build
 mkdir build
