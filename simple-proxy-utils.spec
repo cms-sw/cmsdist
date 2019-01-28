@@ -21,6 +21,8 @@ Provides: libvomsapi.so.1()(64bit)
 
 %build
 mkdir build
+# to avoid incompatibility with system libstdc++ lib
+sed -i -e "s,std=c++11,std=c++11 -D_GLIBCXX_USE_CXX11_ABI=0,g" CMakeLists.txt
 cd build
 cmake ..
 make %{makeprocesses}
