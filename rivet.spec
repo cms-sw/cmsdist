@@ -1,4 +1,4 @@
-### RPM external rivet 2.6.1
+### RPM external rivet 2.6.2
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## OLD GENSER Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
@@ -34,7 +34,7 @@ done
 sed -i -e "s#if test x\$ASCIIDOC != x#if false#g" configure
 ./configure --disable-silent-rules --prefix=%{i} --with-hepmc=${HEPMC_ROOT} \
             --with-fastjet=${FASTJET_ROOT} --with-gsl=$GSL_ROOT --with-yoda=${YODA_ROOT} \
-            --disable-doxygen --disable-pdfmanual --with-pic \
+            --disable-doxygen --disable-pdfmanual --disable-analyses --with-pic \
             CXX="$(which g++)" CPPFLAGS="-I${BOOST_ROOT}/include"
 
 # The following hack insures that the bins with the library linked explicitly
