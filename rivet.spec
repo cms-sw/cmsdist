@@ -34,7 +34,7 @@ done
 sed -i -e "s#if test x\$ASCIIDOC != x#if false#g" configure
 ./configure --disable-silent-rules --prefix=%{i} --with-hepmc=${HEPMC_ROOT} \
             --with-fastjet=${FASTJET_ROOT} --with-gsl=$GSL_ROOT --with-yoda=${YODA_ROOT} \
-            --disable-doxygen --disable-pdfmanual --disable-analyses --with-pic \
+            --disable-doxygen --disable-pdfmanual --with-pic \
             CXX="$(which g++)" CPPFLAGS="-I${BOOST_ROOT}/include"
 
 # The following hack insures that the bins with the library linked explicitly
