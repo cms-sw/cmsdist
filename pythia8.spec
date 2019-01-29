@@ -3,7 +3,7 @@
 Requires: hepmc lhapdf
 Requires: boost
 
-%define tag 9166db036c33ed8eee0140bfcab04c6ec6e8c7b3
+%define tag 6d6f3bc94e9a8a4c15363e3f2512cd7bd9c6b3e3
 %define branch cms/%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
