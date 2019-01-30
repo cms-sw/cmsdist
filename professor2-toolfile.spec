@@ -11,6 +11,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/professor2.xml
 <tool name="professor2" version="@TOOL_VERSION@">
 <client>
 <environment name="PROFESSOR2_BASE" default="@TOOL_ROOT@"/>
+<environment name="LIBDIR" default="$PROFESSOR2_BASE/lib"/>
 </client>
 <use name="py2-numpy"/>
 <use name="py2-sympy"/>
