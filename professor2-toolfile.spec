@@ -1,4 +1,4 @@
-### RPM external professor2-toolfile 1.0
+### RPM external professor2-toolfile 2.0
 Requires: professor2
 %prep
 
