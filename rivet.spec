@@ -33,7 +33,7 @@ done
 
 case %{cmsplatf} in
   slc6*) sed -i -e 's#^ *OPENMP_CXXFLAGS=.*#OPENMP_CXXFLAGS=#' configure ;;
-easc
+esac
 sed -i -e "s#if test x\$ASCIIDOC != x#if false#g" configure
 ./configure --disable-silent-rules --prefix=%{i} --with-hepmc=${HEPMC_ROOT} \
             --with-fastjet=${FASTJET_ROOT} --with-yoda=${YODA_ROOT} \
