@@ -2,8 +2,8 @@
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 8830a634aaa125455a8bb46e485bccfdd9ebf3d2
-%define branch cmstest-masterv10
+%define tag 8d0190e4aeccea83886ca8bbb39a67db83ec6af6
+%define branch cms-green
 %define github_user yamaguchi1024
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 

@@ -252,7 +252,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootrflx.xml
     <environment name="ROOTRFLX_BASE" default="@TOOL_ROOT@"/>
   </client>
   <flags GENREFLEX_GCCXMLOPT="@GENREFLEX_GCCXMLOPT@"/>
-  <flags GENREFLEX_CPPFLAGS="-DCMS_DICT_IMPL -D_REENTRANT -DGNUSOURCE -D__STRICT_ANSI__ --cxxmodule"/>
+  <flags GENREFLEX_CPPFLAGS="-DCMS_DICT_IMPL -D_REENTRANT -DGNUSOURCE -D__STRICT_ANSI__"/>
   <flags GENREFLEX_ARGS="--deep"/>
   <runtime name="GENREFLEX" value="$ROOTRFLX_BASE/bin/genreflex"/>
   <use name="root_interface"/>
