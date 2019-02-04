@@ -116,11 +116,11 @@ rm -rf config %{srctree} poison
 %setup -D -T -b 1 -n %{srctree}
 
 %if "%{?additionalSrc0:set}" == "set"
-%setup -D -T -a 2 -n %{srctree}
+%setup -D -T -b 2 -n %{srctree}
 %endif
 
 %if "%{?additionalSrc1:set}" == "set"
-%setup -D -T -a 3 -n %{srctree}
+%setup -D -T -b 3 -n %{srctree}
 %endif
 
 %{?PatchReleaseAdditionalPackages:%PatchReleaseAdditionalPackages}
