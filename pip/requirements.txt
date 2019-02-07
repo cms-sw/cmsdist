@@ -49,9 +49,9 @@ gast==0.2.2
 gitdb2==2.0.5
 GitPython==2.1.11
 google-common==0.0.1
-grpcio==1.17.0
+grpcio==1.18.0
 h5py-cache==1.0
-h5py==2.8.0
+h5py==2.9.0
 hep_ml==0.6.0
 histbook==1.2.5
 histogrammar==1.0.9
@@ -66,7 +66,7 @@ ipython==5.8.0
 ipywidgets==7.4.2
 jedi==0.13.2
 Jinja2==2.10
-jsonpickle==0.9.6
+jsonpickle==1.1
 jsonschema==2.6.0
 jupyter_client==5.2.4
 jupyter_console==5.2.0
@@ -92,7 +92,7 @@ mpmath==1.1.0
 nbconvert==5.4.0
 nbdime==1.0.4
 nbformat==4.4.0
-networkx==2.1
+networkx==2.2
 neurolab==0.3.5
 nose-parameterized==0.6.0
 nose==1.3.7
@@ -108,7 +108,7 @@ pandocfilters==1.4.2
 parsimonious==0.8.1
 parso==0.3.3
 pathlib2==2.3.3
-pbr==4.2.0
+pbr==5.1.2
 pexpect==4.6.0
 pickleshare==0.7.5
 pillow==5.4.1
@@ -156,8 +156,8 @@ root_pandas==0.6.1
 rootpy==1.0.1
 scandir==1.9.0
 schema==0.6.8
-scikit-learn==0.19.1
-scipy==1.1.0
+scikit-learn==0.20.2
+scipy==1.2.0
 seaborn==0.9.0
 Send2Trash==1.5.0
 simplegeneric==0.8.1
@@ -173,7 +173,7 @@ testpath==0.4.2
 theanets==0.7.3
 Theano==1.0.4
 thriftpy==0.3.9
-tornado==5.1
+tornado==5.1.1
 tqdm==4.30.0
 traitlets==4.3.2
 typing_extensions==3.7.2
