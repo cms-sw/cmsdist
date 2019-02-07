@@ -6,6 +6,7 @@ atomicwrites==1.3.0
 attrs==18.2.0
 autopep8==1.4.3
 avro==1.8.2
+awkward==0.8.3
 backcall==0.1.0
 backports_abc==0.5
 backports-functools_lru_cache==1.5
@@ -18,6 +19,7 @@ beautifulsoup4==4.6.3
 bleach==3.1.0
 bokeh==1.0.4
 Bottleneck==1.2.1
+cachetools==3.1.0
 certifi==2018.11.29
 cffi==1.11.5
 chardet==3.0.4
@@ -175,7 +177,8 @@ traitlets==4.3.2
 typing_extensions==3.7.2
 typing==3.6.6
 uncertainties==3.0.3
-uproot==2.9.11
+uproot==3.4.4
+uproot-methods==0.4.2
 urllib3==1.24.1
 virtualenv-clone==0.4.0
 virtualenv==16.0.0

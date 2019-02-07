@@ -1,0 +1,2 @@
+Requires: py2-awkward
+Requires: py2-numpy
