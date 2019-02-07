@@ -1,1 +1,2 @@
 Requires: py2-PyYAML py2-six py2-scipy py2-Theano
+Requires: py2-h5py py2-keras-applications py2-keras-preprocessing
