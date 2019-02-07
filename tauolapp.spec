@@ -1,5 +1,5 @@
 ### RPM external tauolapp 1.1.5
-Source: http://tauolapp.web.cern.ch/tauolapp/resources/TAUOLA.1.1.5/TAUOLA.%{realversion}-LHC.tar.gz
+Source: http://tauolapp.web.cern.ch/tauolapp/resources/TAUOLA.%{realversion}/TAUOLA.%{realversion}-LHC.tar.gz
 Requires: hepmc
 Requires: pythia8
 Requires: lhapdf
