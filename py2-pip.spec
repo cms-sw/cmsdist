@@ -1,4 +1,4 @@
-### RPM external py2-pip 9.0.3
+### RPM external py2-pip 19.0.2
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
