@@ -1,4 +1,4 @@
-### RPM external thepeg-toolfile 2.0
+### RPM external thepeg-toolfile 2.1
 Requires: thepeg
 %prep
 
@@ -16,6 +16,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/thepeg.xml
     <environment name="LIBDIR" default="$THEPEG_BASE/lib/ThePEG"/>
     <environment name="INCLUDE" default="$THEPEG_BASE/include"/>
   </client>
+  <runtime name="THEPEGPATH" value="$THEPEG_BASE/share/ThePEG"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
   <use name="lhapdf"/>

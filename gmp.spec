@@ -1,2 +1,2 @@
-### RPM external gmp 4.2.1
+### RPM external gmp 6.1.2
 Source: ftp://mirrors.kernel.org/gnu/%n/%n-%realversion.tar.gz
