@@ -1,8 +1,10 @@
-### RPM external rivet 2.5.4
+### RPM external rivet 2.6.1
+## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## OLD GENSER Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
 Source: http://lcgpackages.web.cern.ch/lcgpackages/tarFiles/sources/MCGeneratorsTarFiles/Rivet-%{realversion}.tar.bz2
 
-Requires: hepmc fastjet gsl yoda
+Requires: hepmc fastjet yoda
 BuildRequires: python py2-cython
 
 Patch0: rivet-1.4.0
@@ -29,8 +31,12 @@ do
   chmod +x $CONFIG_SUB_FILE
 done
 
+case %{cmsplatf} in
+  slc6*) sed -i -e 's#^ *OPENMP_CXXFLAGS=.*#OPENMP_CXXFLAGS=#' configure ;;
+esac
+sed -i -e "s#if test x\$ASCIIDOC != x#if false#g" configure
 ./configure --disable-silent-rules --prefix=%{i} --with-hepmc=${HEPMC_ROOT} \
-            --with-fastjet=${FASTJET_ROOT} --with-gsl=$GSL_ROOT --with-yoda=${YODA_ROOT} \
+            --with-fastjet=${FASTJET_ROOT} --with-yoda=${YODA_ROOT} \
             --disable-doxygen --disable-pdfmanual --with-pic \
             CXX="$(which g++)" CPPFLAGS="-I${BOOST_ROOT}/include"
 
