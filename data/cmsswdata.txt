@@ -8,6 +8,7 @@ IOPool-Input=V00-01-00
 RecoEgamma-ElectronIdentification=V01-01-02
 RecoCTPPS-TotemRPLocal=V00-02-00
 RecoTracker-FinalTrackSelectors=V01-00-07
+CalibPPS-ESProducers=V01-00-00
 
 ########################################################################################
 #Never update any package After this. Always move an existing package in default section.
