@@ -70,7 +70,9 @@ jupyter_client==5.2.3
 jupyter_console==5.2.0
 jupyter_core==4.4.0
 jupyter==1.0.0
-Keras==2.1.4
+Keras==2.2.4
+keras-applications==1.0.7
+keras-preprocessing==1.0.9
 kiwisolver==1.0.1
 lizard==1.15.6
 llvmlite==0.27.0devX
