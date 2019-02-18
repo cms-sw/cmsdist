@@ -4,7 +4,7 @@
 %define isslc6amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
 %define tag ae3e6f64eaf004ddfcbe596f3a82a70a274ddbfe
 %define branch cms/v%{realversion}
-%define github_user mrodozov
+%define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}-%{tag}.tgz
 
 BuildRequires: bazel
