@@ -4,7 +4,8 @@ Requires: apache24-setup mod_perl24 mod_evasive24 p5-apache24-modssl p5-compress
 Requires: p5-digest-hmac py2-cx-oracle oracle-env sqlite
 
 # changes to support x509 parsing from traefik headers
-Requires: p5-crypt-X509 p5-uri
+Requires: p5-crypt-X509 p5-uri p5-inline-c p5-inline-cpp simple-proxy-utils
+
 # changes to support x509-scitoken-issuer in cmsweb frontend
 Requires: mod_wsgi24 mod_gridsite24 x509-scitokens-issuer py2-flask
 # changes to support CERN SSO
