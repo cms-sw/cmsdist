@@ -29,6 +29,10 @@ Provides: libavcodec.so.52(LIBAVCODEC_52)(64bit)
 Provides: libavcodec.so.53(LIBAVCODEC_53)(64bit)
 Provides: libavformat.so.52(LIBAVFORMAT_52)(64bit)
 Provides: libavformat.so.53(LIBAVFORMAT_53)(64bit)
+Provides: libxslt.so.1(LIBXML2_1.0.11)(64bit)
+Provides: libxslt.so.1(LIBXML2_1.0.22)(64bit)
+Provides: libxslt.so.1(LIBXML2_1.0.24)(64bit)
+Provides: libxslt.so.1(LIBXML2_1.1.9)(64bit)
 
 Source0: http://cmsrep.cern.ch/cmssw/oracle-mirror/20150922-jdk-7u79-linux-x64.tar.gz
 %endif

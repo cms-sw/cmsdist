@@ -1,6 +1,2 @@
-### RPM external py2-idna 2.6
-## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
-
-%define pip_name idna
-
+### RPM external py2-idna 2.7
 ## IMPORT build-with-pip

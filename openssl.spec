@@ -21,7 +21,8 @@ esac
 # Do not use the no-asm option for production servers as it implies
 # in significant performance penalty.
 ./config --prefix=%{i} ${cfg_args} enable-seed enable-tlsext enable-rfc3779 \
-                       no-idea no-mdc2 no-rc5 no-ec no-ecdh no-ecdsa shared
+                       no-idea no-mdc2 no-rc5 shared
+#                       no-idea no-mdc2 no-rc5 no-ec no-ecdh no-ecdsa shared
 make depend
 make
 

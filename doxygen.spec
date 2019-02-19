@@ -1,27 +1,20 @@
-### RPM external py2-zmq 2.1.9
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -f1,2 -d.`/site-packages
-
-Source: https://github.com/downloads/zeromq/pyzmq/pyzmq-%realversion.tar.gz
-
-Requires: python zeromq
+### RPM external doxygen 1.8.14
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
+Source0: http://doxygen.nl/files/doxygen-%realversion.src.tar.gz
+Requires: cmake
 
 %prep
-%setup -n pyzmq-%realversion
-
-# Need to tell it where zmq is for the build
-# configure command for 2.1 and above
-#python setup.py configure --zmq=$ZEROMQ_ROOT
-# for 2.0 do manually
-cp setup.cfg.template setup.cfg
-perl -p -i -e 's!/usr/local!'"${ZEROMQ_ROOT}"'!g' setup.cfg
+%setup -n %n-%realversion
 
 %build
-python setup.py build
+mkdir build
+cd build
+cmake -DCMAKE_INSTALL_PREFIX=%i -G "Unix Makefiles" ..
+make %makeprocesses
 
 %install
-python setup.py install --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
-find %i -name '.package-checksum' -exec rm {} \;
+cd build
+make %makeprocesses install
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
@@ -37,4 +30,3 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
-
