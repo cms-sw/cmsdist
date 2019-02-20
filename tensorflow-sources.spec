@@ -83,7 +83,7 @@ bindir="$PWD/tensorflow_cc/bin"
 rm -rf $incdir $libdir $bindir
 mkdir -p $incdir $libdir $bindir
 
-cp -rp $PWD/bazel-out/k8-opt/genfiles/tensorflow/include/* $incdir/
+cp -rp $PWD/bazel-out/*-opt/genfiles/tensorflow/include/* $incdir/
 cp  $PWD/bazel-bin/tensorflow/libtensorflow_cc.so $libdir
 cp  $PWD/bazel-bin/tensorflow/libtensorflow_framework.so $libdir
 cp  $PWD/bazel-bin/tensorflow/compiler/tf2xla/libcpu_function_runtime.so $libdir
