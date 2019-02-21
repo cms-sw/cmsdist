@@ -1,5 +1,5 @@
 ### RPM external tauolapp 1.1.5
-Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/tauola++/tauola++-%{realversion}-src.tgz
+Source: http://tauolapp.web.cern.ch/tauolapp/resources/TAUOLA.%{realversion}/TAUOLA.%{realversion}-LHC.tar.gz
 Requires: hepmc
 Requires: pythia8
 Requires: lhapdf
@@ -7,7 +7,7 @@ Requires: lhapdf
 %define keep_archives true
 
 %prep
-%setup -q -n tauola++/%{realversion}
+%setup -q -n TAUOLA
 
 export HEPMCLOCATION=${HEPMC_ROOT}
 export HEPMCVERSION=${HEPMC_VERSION}
