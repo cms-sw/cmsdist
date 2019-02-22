@@ -8,6 +8,7 @@ IOPool-Input=V00-01-00
 RecoEgamma-ElectronIdentification=V01-01-02
 RecoCTPPS-TotemRPLocal=V00-02-00
 RecoTracker-FinalTrackSelectors=V01-00-07
+SLHCUpgradeSimulations-Geometry=V01-00-10
 
 ########################################################################################
 #Never update any package After this. Always move an existing package in default section.
@@ -81,7 +82,6 @@ RecoParticleFlow-PFProducer=V16-00-00
 RecoParticleFlow-PFTracking=V13-01-00
 SimTracker-SiStripDigitizer=V01-00-00
 SimTransport-HectorProducer=V01-00-01
-SLHCUpgradeSimulations-Geometry=V01-00-09
 
 #Never update any package here. Always move it to default section.
 [data-cmssw-package-build]
