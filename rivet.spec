@@ -14,7 +14,7 @@ Patch1: rivet-2.7.0
 ## OLD GENSER: %setup -n rivet/%{realversion}
 %setup -n Rivet-%{realversion}
 %patch0 -p0
-%patch1 -p0
+%patch1 -p1
 
 # Update config.{guess,sub} to detect aarch64 and ppc64le
 rm -f %{_tmppath}/config.{sub,guess}
