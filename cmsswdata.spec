@@ -23,6 +23,7 @@ Requires: data-RecoEgamma-PhotonIdentification
 Requires: data-RecoJets-JetProducers
 Requires: data-CalibTracker-SiPixelESProducers
 Requires: data-CalibCalorimetry-CaloMiscalibTools
+Requires: data-CalibPPS-ESProducers
 Requires: data-Configuration-Generator
 Requires: data-DQM-PhysicsHWW
 Requires: data-DQM-SiStripMonitorClient

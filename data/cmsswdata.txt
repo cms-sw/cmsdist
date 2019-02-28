@@ -5,9 +5,10 @@
 [default]
 FWCore-Modules=V00-01-00
 IOPool-Input=V00-01-00
-RecoEgamma-ElectronIdentification=V01-01-02
+RecoEgamma-ElectronIdentification=V01-01-03
 RecoCTPPS-TotemRPLocal=V00-02-00
 RecoTracker-FinalTrackSelectors=V01-00-07
+CalibPPS-ESProducers=V01-00-00
 L1Trigger-L1THGCal=V01-00-10
 
 ########################################################################################
