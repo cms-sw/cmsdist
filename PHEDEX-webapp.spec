@@ -1,4 +1,4 @@
-### RPM cms PHEDEX-webapp 1.5.0pre3
+### RPM cms PHEDEX-webapp 1.5.0pre4
 ## INITENV +PATH PERL5LIB %i/perl_lib
 
 %define downloadn %(echo %n | cut -f1 -d-)
