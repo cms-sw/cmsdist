@@ -1,3 +1,3 @@
 Requires: py2-enum34 llvm py2-wheel
-%define source0     git+https://github.com/numba/llvmlite?obj=master/772ee9b9527f55d7f75f4504cd860925a92fc098&export=llvmlite-%{realversion}&output=/source.tar.gz
+%define source0     git+https://github.com/cms-externals/llvmlite?obj=cms/master/d5fadcc/432a75a3bdefee6e927196086d31a7eb0d92404d&export=llvmlite-%{realversion}&output=/source.tar.gz
 %define PipPreBuild export LLVM_CONFIG=${LLVM_ROOT}/bin/llvm-config 
