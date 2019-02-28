@@ -1,4 +1,4 @@
-### RPM external llvm 7.0.0
+### RPM external llvm 7.0.1
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHON27PATH %{i}/lib64/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 %define isamd64 %(case %{cmsplatf} in (*_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
@@ -10,12 +10,12 @@ Requires: cuda
 %endif
 AutoReq: no
 
-%define llvmCommit 960db208f81edd6332979057eccea62c5a8abd33
-%define llvmBranch cms/release_70/342187
+%define llvmCommit 70c3b058038e4fd711408a28def718927e886ad8
+%define llvmBranch cms/release/7.x/4856a93
 %define iwyuCommit 7b8980310f98ea76ac6d4e703d8bd07bde3d8ebc
 %define iwyuBranch master
 
-Source0: git+https://github.com/cms-externals/llvm-project-20170507.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%{realversion}-%{llvmCommit}&output=/llvm-%{realversion}-%{llvmCommit}.tgz
+Source0: git+https://github.com/cms-externals/llvm-project.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%{realversion}-%{llvmCommit}&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/include-what-you-use/include-what-you-use.git?obj=%{iwyuBranch}/%{iwyuCommit}&export=iwyu-%{realversion}-%{iwyuCommit}&module=iwyu-%{realversion}-%{iwyuCommit}&output=/iwyu-%{realversion}-%{iwyuCommit}.tgz
 
 %define keep_archives true
