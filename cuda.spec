@@ -75,6 +75,12 @@ chmod a+x %{i}/bin/nv-nsight-cu-cli
 # package the cuda-gdb support files, and rename the binary to use it via a wrapper
 mv %_builddir/build/share/gdb/ %{i}/share/
 mv %_builddir/build/bin/cuda-gdb %{i}/bin/cuda-gdb.real
+cat > %{i}/bin/cuda-gdb << @EOF
+#! /bin/bash
+export PYTHONHOME=$PYTHON_ROOT
+exec %{i}/bin/cuda-gdb.real "\$@"
+@EOF
+chmod a+x %{i}/bin/cuda-gdb
 
 # package the binaries and tools
 mv %_builddir/build/bin/* %{i}/bin/
@@ -105,3 +111,4 @@ sed \
 
 # relocate the paths inside bin/nv-nsight-cu-cli
 %{relocateConfig}bin/nv-nsight-cu-cli
+%{relocateConfig}bin/cuda-gdb
