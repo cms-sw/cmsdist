@@ -171,7 +171,6 @@ Requires: tkonlinesw-toolfile
 Requires: oracle-toolfile
 Requires: cms_oracleocci_abi_hack-toolfile
 Requires: cuda-toolfile
-Requires: cuda-gdb-wrapper-toolfile
 Requires: cub-toolfile
 Requires: cuda-api-wrappers-toolfile
 Requires: intel-vtune
