@@ -55,6 +55,14 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-cublas.xml
 </tool>
 EOF_TOOLFILE
 
+cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-cublasLt.xml
+<tool name="cuda-cublasLt" version="@TOOL_VERSION@">
+  <info url="https://docs.nvidia.com/cuda/cublasLt/index.html"/>
+  <use name="cuda"/>
+  <lib name="cublasLt"/>
+</tool>
+EOF_TOOLFILE
+
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-cufft.xml
 <tool name="cuda-cufft" version="@TOOL_VERSION@">
   <info url="https://docs.nvidia.com/cuda/cufft/index.html"/>
