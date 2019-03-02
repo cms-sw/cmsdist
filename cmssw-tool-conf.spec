@@ -170,7 +170,6 @@ Requires: dmtcp-toolfile
 Requires: tkonlinesw-toolfile
 Requires: oracle-toolfile
 Requires: cuda-toolfile
-Requires: cuda-gdb-wrapper-toolfile
 Requires: cub-toolfile
 Requires: cuda-api-wrappers-toolfile
 Requires: intel-vtune
