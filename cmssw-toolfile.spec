@@ -21,6 +21,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cmssw.xml
   <runtime name="PATH"       value="$CMSSW_BINDIR" type="path"/>
   <runtime name="PYTHON27PATH" value="$CMSSW_BINDIR" type="path"/>
   <runtime name="PYTHON27PATH" value="$LIBDIR" type="path"/>
+  <runtime name="PYTHON3PATH" value="$CMSSW_BINDIR" type="path"/>
+  <runtime name="PYTHON3PATH" value="$LIBDIR" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$CMSSW_BASE/src" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$CMSSW_BASE/include/$SCRAM_ARCH/include" type="path" handler="warn"/>
   <runtime name="CMSSW_FULL_RELEASE_BASE" value="$CMSSW_BASE"/>
