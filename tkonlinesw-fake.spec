@@ -1,6 +1,6 @@
 ### RPM external tkonlinesw-fake 4.2.0-1_gcc7
 
-%define tag 6bf27b3db8d4c0737b477cc38095fd05d2be3191
+%define tag 97afe74471b299148ac9ccdea21e9cda961ec885
 Source: https://github.com/cms-externals/%{n}/archive/%{tag}.tar.gz
 
 %prep
