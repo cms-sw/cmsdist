@@ -1,4 +1,4 @@
-### RPM cms comp HG1903c
+### RPM cms comp HG1903d
 
 # This is a meta-package to group all cms comp services
 # CMSWEB
@@ -8,7 +8,7 @@ Requires: dbs3-client stagemanager-agent crabserver crabclient crabcache
 Requires: DMWMMON-datasvc alertscollector acdcserver gitweb
 Requires: asyncstageout t0wmadatasvc dbs3-migration t0_reqmon reqmgr2 reqmgr2ms
 Requires: cmsweb-analytics py2-geoip py2-adns py2-netaddr valgrind igprof yui3
-Requires: popdbweb victorweb confdb tfaas
+Requires: popdbweb victorweb confdb tfaas exporters
 # CMSFOMON
 Requires: crabhb happyface sreadiness mechanize
 # Common
