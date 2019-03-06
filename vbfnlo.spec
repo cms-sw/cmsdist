@@ -1,10 +1,10 @@
 ### RPM external vbfnlo 3.0.0beta5
-Source: http://www.itp.kit.edu/~vbfnloweb/archive/vbfnlo-%{realversion}.tgz
+Source: git+https://github.com/vbfnlo/%{n}.git?obj=master/v%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: autotools
 
 %prep
-%setup -q -n VBFNLO-%{realversion}
+%setup -q -n %{n}-%{realversion}
 
 %build
 CXX="$(which g++) -std=c++11"
