@@ -13,6 +13,7 @@ Requires: gsl
 Requires: fastjet
 Requires: gosamcontrib gosam
 Requires: madgraph5amcatnlo
+Requires: vbfnlo
 %if %isamd64
 Requires: openloops
 %endif
