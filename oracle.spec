@@ -52,6 +52,7 @@ rm -rf instantclient_*
 
 %build
 chmod a-x sdk/include/*.h *.sql
+chmod +x libocci.so.12.1
 
 %install
 mkdir -p %{i}/{bin,lib,java,demo,include,doc,etc}
