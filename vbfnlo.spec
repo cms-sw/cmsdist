@@ -10,7 +10,7 @@ BuildRequires: autotools
 CXX="$(which g++) -std=c++11"
 CC="$(which gcc)"
 FC="$(which gfortran)"
-
+autoreconf -vi
 ./configure --prefix=%i \
             --enable-processes=vbf,hjjj \
 	    FC=${FC}  FCFLAGS=-std=legacy 
