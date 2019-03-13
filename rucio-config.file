@@ -1,0 +1,20 @@
+# Copyright European Organization for Nuclear Research (CERN)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# You may not use this file except in compliance with the License.
+# You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+#
+# Authors:
+# - Vincent Garonne, <vgaronne@gmail.com>, 2017
+# - Eric Vaandering, <ewv@fnal.gov>, 2018
+
+[common]
+[client]
+rucio_host = http://cms-rucio-testbed.cern.ch
+auth_host = https://cms-rucio-tb-authz.cern.ch
+auth_type = x509
+ca_cert = /etc/grid-security/certificates/
+client_cert = $X509_USER_CERT
+client_key = $X509_USER_KEY
+client_x509_proxy = $X509_USER_PROXY
+request_retries = 3
