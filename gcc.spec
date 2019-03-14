@@ -1,4 +1,4 @@
-### RPM external gcc 7.4.0
+### RPM external gcc 7.4.1
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
