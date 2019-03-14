@@ -12,6 +12,7 @@ SLHCUpgradeSimulations-Geometry=V01-00-10
 CalibPPS-ESProducers=V01-00-00
 L1Trigger-L1THGCal=V01-00-10
 RecoBTag-Combined=V01-01-02
+Configuration-Generator=V01-00-02
 
 ########################################################################################
 #Never update any package After this. Always move an existing package in default section.
@@ -54,7 +55,6 @@ Calibration-Tools=V01-00-00
 CalibTracker-SiPixelESProducers=V02-00-00
 CalibTracker-SiStripDCS=V01-00-00
 CondFormats-JetMETObjects=V01-00-03
-Configuration-Generator=V01-00-01
 DataFormats-PatCandidates=V01-00-01
 DQM-DTMonitorClient=V00-01-00
 DQM-PhysicsHWW=V01-00-00
