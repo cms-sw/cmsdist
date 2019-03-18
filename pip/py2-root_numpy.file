@@ -1,2 +1,2 @@
-%define doPython3 no
+%define   doPython3 no
 Requires: py2-numpy root
