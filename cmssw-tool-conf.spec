@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 44.0
+### RPM cms cmssw-tool-conf 45.0
 ## NOCOMPILER
 # With cmsBuild, change the above version only when a new tool is added
 
@@ -144,6 +144,7 @@ Requires: utm-toolfile
 Requires: libffi-toolfile
 Requires: CSCTrackFinderEmulation-toolfile
 Requires: tinyxml-toolfile
+Requires: tinyxml2-toolfile
 Requires: scons-toolfile
 Requires: md5-toolfile
 Requires: gosamcontrib-toolfile
