@@ -1,4 +1,4 @@
-### RPM external py2-tensorflow 1.13.0rc2
+### RPM external py2-tensorflow 1.13.1
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
