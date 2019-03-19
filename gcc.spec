@@ -1,10 +1,10 @@
-### RPM external gcc 8.2.0
+### RPM external gcc 9.0.1
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 # Use the git repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
-%define gccTag 2d79333765b691fa27d82c1737cb2f00ec6a4499
-%define gccBranch gcc-8-branch
+%define gccTag 0bd9ec4e81a2ee358aa4f81a7ee8e4c067644660
+%define gccBranch master
 
 %define moduleName %{n}-%{realversion}
 Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&export=%{moduleName}&output=/%{n}-%{realversion}-%{gccTag}.tgz
@@ -16,7 +16,7 @@ Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&e
 %define keep_archives true
 
 %define gmpVersion 6.1.2
-%define mpfrVersion 4.0.1
+%define mpfrVersion 4.0.2
 %define mpcVersion 1.1.0
 %define islVersion 0.18
 %define zlibVersion 1.2.11
@@ -27,9 +27,9 @@ Source4: ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-%{islVersion}.tar.bz2
 Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 
 %if %islinux
-%define bisonVersion 3.1
-%define binutilsVersion 2.31
-%define elfutilsVersion 0.170
+%define bisonVersion 3.3
+%define binutilsVersion 2.32
+%define elfutilsVersion 0.176
 %define m4Version 1.4.18
 %define flexVersion 2.6.4
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
@@ -41,14 +41,10 @@ Source11: https://github.com/westes/flex/releases/download/v%{flexVersion}/flex-
 
 Patch0: gcc-flex-nonfull-path-m4
 Patch1: gcc-flex-disable-doc
-#Patch2: gcc-remove-LWG2825-LWG2756-r245024
-#Patch3: 0001-Revert-r248245-breaks-ROOT
 
 %prep
 
 %setup -T -b 0 -n %{moduleName}
-#%patch2 -p1
-#%patch3 -p1
 
 # Filter out private stuff from RPM requires headers.
 cat << \EOF > %{name}-req
