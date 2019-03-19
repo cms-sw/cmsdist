@@ -1,0 +1,11 @@
+diff --git a/src/CoralBase/BuildFile.xml b/src/CoralBase/BuildFile.xml
+index 1260736..95cc314 100644
+--- a/src/CoralBase/BuildFile.xml
++++ b/src/CoralBase/BuildFile.xml
+@@ -1,5 +1,6 @@
+ <use   name="boost"/>
+ <use   name="boost_filesystem"/>
++<flags CXXFLAGS="-Wno-error=format-overflow"/>
+ <export>
+   <lib   name="1"/>
+ </export>

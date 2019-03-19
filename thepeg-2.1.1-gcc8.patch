@@ -1,0 +1,22 @@
+diff --git a/EventRecord/Particle.tcc b/EventRecord/Particle.tcc
+index 89f1b75..79b9325 100644
+--- a/EventRecord/Particle.tcc
++++ b/EventRecord/Particle.tcc
+@@ -15,7 +15,7 @@
+ namespace ThePEG {
+ 
+ struct ParticleNumLess {
+-  bool operator()(tPPtr p1, tPPtr p2)
++  bool operator()(tPPtr p1, tPPtr p2) const
+     { return p1->number() < p2->number(); }
+ };
+ 
+diff --git a/src/ThePEGDefaults.in b/src/ThePEGDefaults.in
+index d16d954..07d07df 100644
+--- a/src/ThePEGDefaults.in
++++ b/src/ThePEGDefaults.in
+@@ -1,3 +1,4 @@
++mkdir /
+ mkdir /Dummy
+ mkdir /Dummy/Decayers
+ mkdir /Defaults

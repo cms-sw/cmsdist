@@ -1,14 +1,13 @@
-### RPM external gcc 7.3.1
+### RPM external gcc 8.3.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
-#Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
-# Use the svn repository for fetching the sources. This gives us more control while developing
+# Use the git repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
-# See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-6-branch/?view=log
-%define gccRevision 257125
-%define gccBranch branches/gcc-7-branch
+# See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
+%define gccTag 9cde2018638fdc5ad3da8afcd0d89a6c92ed6694
+%define gccBranch gcc-8-branch
 
-%define moduleName gcc-%(echo %{gccBranch} | tr / _)-%{gccRevision}
-Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{gccRevision}&output=/%{moduleName}.tar.gz
+%define moduleName %{n}-%{realversion}
+Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&export=%{moduleName}&output=/%{n}-%{realversion}-%{gccTag}.tgz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
@@ -17,19 +16,19 @@ Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{
 %define keep_archives true
 
 %define gmpVersion 6.1.2
-%define mpfrVersion 3.1.6
-%define mpcVersion 1.0.3
-%define islVersion 0.16.1
+%define mpfrVersion 4.0.1
+%define mpcVersion 1.1.0
+%define islVersion 0.18
 %define zlibVersion 1.2.11
 Source1: https://gmplib.org/download/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
-Source3: http://www.multiprecision.org/mpc/download/mpc-%{mpcVersion}.tar.gz
+Source3: https://ftp.gnu.org/gnu/mpc/mpc-%{mpcVersion}.tar.gz
 Source4: ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-%{islVersion}.tar.bz2
 Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 
 %if %islinux
-%define bisonVersion 3.0.4
-%define binutilsVersion 2.30
+%define bisonVersion 3.1
+%define binutilsVersion 2.31
 %define elfutilsVersion 0.170
 %define m4Version 1.4.18
 %define flexVersion 2.6.4
@@ -42,14 +41,14 @@ Source11: https://github.com/westes/flex/releases/download/v%{flexVersion}/flex-
 
 Patch0: gcc-flex-nonfull-path-m4
 Patch1: gcc-flex-disable-doc
-Patch2: gcc-remove-LWG2825-LWG2756-r245024
-Patch3: 0001-Revert-r248245-breaks-ROOT
+#Patch2: gcc-remove-LWG2825-LWG2756-r245024
+#Patch3: 0001-Revert-r248245-breaks-ROOT
 
 %prep
 
 %setup -T -b 0 -n %{moduleName}
-%patch2 -p1
-%patch3 -p1
+#%patch2 -p1
+#%patch3 -p1
 
 # Filter out private stuff from RPM requires headers.
 cat << \EOF > %{name}-req
