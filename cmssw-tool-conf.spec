@@ -157,6 +157,7 @@ Requires: mxnet-predict-toolfile
 
 # Only for Linux platform.
 %if %islinux
+Requires: codechecker-toolfile
 Requires: gcc-checker-plugin-toolfile
 Requires: openldap-toolfile
 Requires: gperftools-toolfile
