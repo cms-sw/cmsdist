@@ -1,7 +1,7 @@
 ### FILE scram-project-build
 ## NO_AUTO_DEPENDENCY
 # FIXME: support building all platforms together like scram does?
-# FIXME: automatic sub-packages for "doc" etc?
+# FIXME: automatic sub-packages for "doc" etc? 
 %define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 %define cmssw_libs biglib/%{cmsplatf} lib/%{cmsplatf}
 %define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
