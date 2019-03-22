@@ -70,7 +70,6 @@ Requires: vincia-toolfile
 Requires: dire-toolfile
 Requires: python-toolfile
 Requires: python3-toolfile
-Requires: qt-toolfile
 Requires: root-toolfile
 Requires: sherpa-toolfile
 Requires: openmpi-toolfile
@@ -88,9 +87,6 @@ Requires: dcap-toolfile
 Requires: frontier_client-toolfile
 Requires: xrootd-toolfile
 Requires: dd4hep-toolfile
-%if %isnotaarch64
-Requires: pyqt-toolfile
-%endif
 Requires: sip-toolfile
 Requires: graphviz-toolfile
 Requires: valgrind-toolfile
