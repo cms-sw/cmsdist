@@ -4,7 +4,7 @@
 ## INITENV SET ROOTSYS %{i}
 %define tag 405dde1a3b171bd214ef1682e4efbf54c7d5a085
 %define branch cmscxx/master/9da5b1c
-%define github_user cms-w
+%define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
