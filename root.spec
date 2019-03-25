@@ -2,9 +2,9 @@
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 3488b74a693ad3c81138992970b0b97c9412a91d
-%define branch cmstest-masterv12
-%define github_user yamaguchi1024
+%define tag dc321e67fd1d513b9cee18caeb94d4bb8799a464
+%define branch cmscxx/master/9da5b1c
+%define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
