@@ -12,6 +12,7 @@ SLHCUpgradeSimulations-Geometry=V01-00-10
 CalibPPS-ESProducers=V01-00-00
 L1Trigger-L1THGCal=V01-00-11
 Configuration-Generator=V01-00-02
+CondTools-SiPhase2Tracker=V00-01-00
 
 ########################################################################################
 #Never update any package After this. Always move an existing package in default section.

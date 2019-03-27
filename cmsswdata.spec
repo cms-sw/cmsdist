@@ -1,4 +1,4 @@
-### RPM cms cmsswdata 35
+### RPM cms cmsswdata 36
 ## NOCOMPILER
 Source: none
 
@@ -7,6 +7,7 @@ Source: none
 %define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
 %define isnotarmv7 %(case %{cmsplatf} in (*armv7*) echo 0 ;; (*) echo 1 ;; esac)
 
+Requires: data-CondTools-SiPhase2Tracker
 Requires: data-PhysicsTools-PatUtils
 Requires: data-RecoTauTag-TrainingFiles
 Requires: data-DetectorDescription-Schema
