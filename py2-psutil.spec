@@ -1,16 +1,5 @@
 ### RPM external py2-psutil 5.4.5
-## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
+## IMPORT build-with-pip
 
-Source: https://pypi.python.org/packages/source/p/psutil/psutil-%realversion.tar.gz
-Requires: python
-
-%prep
-%setup -n psutil-%realversion
-
-%build
-python setup.py build
-
-%install
-python setup.py install --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
-find %i -name '.package-checksum' -exec rm {} \;
+%define find %i -name '*.egg-info' -delete; \
+    find %i -name '.package-checksum' -delete
