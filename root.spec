@@ -1,9 +1,9 @@
-### RPM lcg root 6.12.07
+### RPM lcg root 6.14.09
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 832d6b29b6c1ab34d169b526fc3627651e884b9a
-%define branch cms/v6-12-00-patches/3f31cef
+%define tag 9e74729dd50ca994c9280c4671cc38fe3f52007c
+%define branch cms/v6-14-00-patches/82a884c
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
@@ -44,6 +44,7 @@ export CXXFLAGS=-D__ROOFIT_NOBANNER
 cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCMAKE_BUILD_TYPE=Release \
+  -DLLVM_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
   -DCMAKE_CXX_COMPILER=g++ \
@@ -80,6 +81,7 @@ cmake ../%{n}-%{realversion} \
   -Dbuiltin_zlib=OFF \
   -Dbuiltin_lzma=OFF \
   -Dbuiltin_gsl=OFF \
+  -Darrow=OFF \
   -DGSL_CONFIG_EXECUTABLE="$(which gsl-config)" \
   -Dcxx17=ON \
   -Dssl=ON \
@@ -109,7 +111,6 @@ cmake ../%{n}-%{realversion} \
   -Dchirp=OFF \
   -Dsrp=OFF \
   -Ddavix=ON \
-  -DDAVIX_DIR=${DAVIX_ROOT} \
   -Dglite=OFF \
   -Dsapdb=OFF \
   -Dalien=OFF \
@@ -135,9 +136,7 @@ cmake ../%{n}-%{realversion} \
   -DLIBLZ4_LIBRARY="${LZ4_ROOT}/lib/liblz4.%{soext}" \
   -DZLIB_ROOT="${ZLIB_ROOT}" \
   -DZLIB_INCLUDE_DIR="${ZLIB_ROOT}/include" \
-  -DLIBXML2_INCLUDE_DIR="${LIBXML2_ROOT}/include/libxml2" \
-  -DLIBXML2_LIBRARIES="${LIBXML2_ROOT}/lib/libxml2.%{soext}" \
-  -DCMAKE_PREFIX_PATH="${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${LZ4_ROOT}"
+  -DCMAKE_PREFIX_PATH="${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LZ4_ROOT};${LIBXML2_ROOT}"
 
 # For CMake cache variables: http://www.cmake.org/cmake/help/v3.2/manual/cmake-language.7.html#lists
 # For environment variables it's OS specific: http://www.cmake.org/Wiki/CMake_Useful_Variables
@@ -178,8 +177,3 @@ rm -rf build
 
 %post
 %{relocateConfig}etc/cling/llvm/Config/llvm-config.h
-%{relocateConfig}bin/root-config
-%{relocateConfig}config/Makefile.config
-%{relocateConfig}etc/dictpch/allCppflags.txt
-%{relocateConfig}include/compiledata.h
-%{relocateConfig}include/RConfigOptions.h
