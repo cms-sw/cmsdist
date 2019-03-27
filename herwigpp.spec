@@ -1,5 +1,5 @@
-### RPM external herwigpp 7.1.4
-Source: https://www.hepforge.org/archive/herwig/Herwig-%{realversion}.tar.bz2
+### RPM external herwigpp 7.1.4p1
+Source: http://cmsrep.cern.ch/cmssw/download/Herwig-%{realversion}.tar.gz
 
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 %define isaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 1 ;; (*) echo 0 ;; esac)
