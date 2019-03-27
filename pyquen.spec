@@ -1,4 +1,4 @@
-### RPM external pyquen 1.5.2
+### RPM external pyquen 1.5.3
 
 Source: http://lokhtin.web.cern.ch/lokhtin/%{n}/%{n}-%{realversion}.tar.gz
 
