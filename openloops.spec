@@ -1,18 +1,15 @@
 ### RPM external openloops 2.0.0
-%define tag a0fd88934c5c5b83f66fa4791c07f7872ec00a13
+%define tag 944f9f27fc68d2a14d6df9f877ab49258028c7e6
 %define branch cms/v%{realversion}
 %define github_user cms-externals
-Source: http://www.hepforge.org/archive/openloops/OpenLoops-2.0.0.tar.gz
+Source: git+https://github.com/%github_user/openloops.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 BuildRequires: python scons
-
-#Patch0: openloops-1.2.3-cpp-use-undef
 
 %define keep_archives true
 
 %prep
-%setup -n OpenLoops-%{realversion}
-#%patch0 -p1
+%setup -n %{n}-%{realversion}
 
 %build
 cat << \EOF >> openloops.cfg
@@ -28,8 +25,5 @@ EOF
 ./openloops update --processes generator=0
 
 %install
-#mkdir %i/{lib,proclib}
 mkdir %i/lib
 cp lib/*.so %i/lib
-#cp proclib/*.so %i/proclib
-#cp proclib/*.info %i/proclib
