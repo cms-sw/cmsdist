@@ -37,13 +37,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/dd4hep.xml
 </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/dd4hep-cms.xml
-<tool name="dd4hep-cms" version="@TOOL_VERSION@">
-  <lib name="DDCMS" />
-  <use name="dd4hep"/>
-</tool>
-EOF_TOOLFILE
-
 cat << \EOF_TOOLFILE >%i/etc/scram.d/dd4hep-geant4.xml
 <tool name="dd4hep-geant4" version="@TOOL_VERSION@">
   <lib anme="DDG4-static"/>
