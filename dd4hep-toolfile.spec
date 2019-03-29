@@ -16,11 +16,11 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/dd4hep-core.xml
   <lib name="DDParsers" />
   <client>
     <environment name="DD4HEP_CORE_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$DD4HEP_BASE/lib"/>
-    <environment name="INCLUDE" default="$DD4HEP_BASE/include"/>
+    <environment name="LIBDIR" default="$DD4HEP_CORE_BASE/lib"/>
+    <environment name="INCLUDE" default="$DD4HEP_CORE_BASE/include"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
-  <runtime name="PATH" value="$DD4HEP_BASE/bin" type="path"/>
+  <runtime name="PATH" value="$DD4HEP_CORE_BASE/bin" type="path"/>
   <use name="root_cxxdefaults"/>
   <use name="root"/>
   <use name="boost"/>
