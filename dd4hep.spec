@@ -34,14 +34,6 @@ cmake $CMAKE_ARGS ../%{n}-%{realversion}
 make %{makeprocesses} VERBOSE=1
 make install
 
-#Build DDCMS example
-rm -rf ../build-cms; mkdir ../build-cms; cd ../build-cms
-cmake $CMAKE_ARGS ../%{n}-%{realversion}/examples
-cd DDCMS
-make %{makeprocesses} VERBOSE=1
-cp lib/libDDCMS* %i/lib
-cp bin/*DDCMS*   %i/bin
-
 #Building DDG4 static
 cd %{_builddir}/%{n}-%{realversion}
 patch -p1 < %{_sourcedir}/dd4hep-build-static
