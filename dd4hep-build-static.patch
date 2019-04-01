@@ -1,0 +1,21 @@
+diff --git a/cmake/DD4hepBuild.cmake b/cmake/DD4hepBuild.cmake
+index 1605e96..ac8e06d 100644
+--- a/cmake/DD4hepBuild.cmake
++++ b/cmake/DD4hepBuild.cmake
+@@ -1019,7 +1019,7 @@ function( dd4hep_add_library binary building )
+         dd4hep_include_directories( "${pkg_incs}" )
+         add_definitions ( ${pkg_defs} )
+         #
+-        add_library ( ${binary} SHARED ${sources} )
++        add_library ( ${binary} STATIC ${sources} )
+         target_link_libraries ( ${binary} ${pkg_libs} )
+         if ( "${${pkg}_VERSION}" STREQUAL "" OR "${${pkg}_SOVERSION}" STREQUAL "" )
+           dd4hep_fatal ( "BAD Package versions: VERSION[${pkg}_VERSION] ${${pkg}_VERSION} SOVERSION[${pkg}_SOVERSION] ${${pkg}_SOVERSION} " )
+@@ -1030,6 +1030,7 @@ function( dd4hep_add_library binary building )
+         if ( NOT ${ARG_NOINSTALL} )
+           install ( TARGETS ${binary}  
+             LIBRARY DESTINATION lib 
++            ARCHIVE DESTINATION lib
+             RUNTIME DESTINATION bin)
+         endif()
+         set ( building_binary "ON" )
