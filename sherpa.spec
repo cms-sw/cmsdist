@@ -45,6 +45,7 @@ esac
             ${OPENLOOPS_ROOT+--enable-openloops=$OPENLOOPS_ROOT} \
             --enable-mpi \
             --with-sqlite3=$SQLITE_ROOT \
+            --disable-automake.info \
             CC="mpicc" \
             CXX="mpicxx" \
             MPICXX="mpicxx" \
@@ -56,6 +57,9 @@ make %{makeprocesses}
 
 %install
 make install
+# circumvent search for makeinfo, used to generate docs. other way of doing the same - patch the makefile as sugested here https://sourceware.org/bugzilla/show_bug.cgi?id=18113
+ln -s /usr/bin/true makeinfo
+export PATH=${PWD}:${PATH}
 find %{i}/lib -name '*.la' -delete
 sed -i -e 's|^#!/.*|#!/usr/bin/env python|' %{i}/bin/Sherpa-generate-model
 
