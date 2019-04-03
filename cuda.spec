@@ -1,11 +1,12 @@
 ### RPM external cuda %{fullversion}
 
 %ifarch x86_64
-%define fullversion 10.0.130
+%define fullversion 10.1.105
 %define cudaversion %(echo %realversion | cut -d. -f 1,2)
-%define driversversion 410.48
+%define driversversion 418.39
 %define cudasoversion %{driversversion}
-%define nsightarch linux-desktop-glibc_2_11_3-glx-x64
+%define nsightarch linux-desktop-glibc_2_11_3-x64
+%define nsightversion 2019.1
 %endif
 %ifarch aarch64
 %define fullversion 10.0.166
@@ -13,10 +14,11 @@
 %define driversversion 32.1.0
 %define cudasoversion 1.1
 %define nsightarch linux-v4l_l4t-glx-t210-a64
+%define nsightversion 1.0
 %endif
 
 %ifarch x86_64
-Source0: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux
+Source0: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux.run
 %endif
 %ifarch aarch64
 Source0: https://patatrack.web.cern.ch/patatrack/files/cuda-repo-l4t-10-0-local-%{realversion}_1.0-1_arm64.deb
@@ -34,13 +36,13 @@ mkdir %_builddir/build %_builddir/tmp
 
 # extract and repackage the CUDA runtime, tools and stubs
 %ifarch x86_64
-/bin/sh %{SOURCE0} --silent --tmpdir %_builddir/tmp --extract %_builddir/build
+/bin/sh %{SOURCE0} --silent --tmpdir %_builddir/tmp --extract=%_builddir/build
 # extracts:
-# %_builddir/build/NVIDIA-Linux-x86_64-410.48.run
-# %_builddir/build/cuda-linux.10.0.130-24817639.run
-# %_builddir/build/cuda-samples.10.0.130-24817639-linux.run
-
-/bin/sh %_builddir/build/%{n}-linux.%{realversion}-*.run -noprompt -nosymlink -tmpdir %_builddir/tmp -prefix %_builddir/build
+# %_builddir/build/EULA.txt
+# %_builddir/build/NVIDIA-Linux-x86_64-418.39.run       # linux drivers
+# %_builddir/build/cublas/                              # standalone cuBLAS library, also included in cuda-toolkit
+# %_builddir/build/cuda-samples/                        # CUDA samples
+# %_builddir/build/cuda-toolkit/                        # CUDA runtime, tools and stubs
 %endif
 %ifarch aarch64
 # extract the individual .deb archives from the repository into
@@ -52,8 +54,8 @@ ar p %{SOURCE0} data.tar.xz | tar xv --xz -C %_builddir/tmp
 for FILE in %_builddir/tmp/var/cuda-repo-10-0-local-%{realversion}/*.deb; do
   ar p $FILE data.tar.xz | tar xv --xz -C %_builddir/tmp
 done
-# mv the CUDA libraries to %_builddir/build
-mv %_builddir/tmp/usr/local/cuda-%{cudaversion}/* %_builddir/build
+# mv the CUDA libraries to %_builddir/build/cuda-toolkit/
+mv %_builddir/tmp/usr/local/cuda-%{cudaversion} %_builddir/build/cuda-toolkit
 %endif
 
 # create target directory structure
@@ -63,63 +65,59 @@ mkdir -p %{i}/lib64
 mkdir -p %{i}/share
 
 # package only the runtime static libraries
-mv %_builddir/build/lib64/libcudart_static.a %{i}/lib64/
-mv %_builddir/build/lib64/libcudadevrt.a %{i}/lib64/
-rm -f %_builddir/build/lib64/lib*.a
+mv %_builddir/build/cuda-toolkit/lib64/libcudart_static.a %{i}/lib64/
+mv %_builddir/build/cuda-toolkit/lib64/libcudadevrt.a %{i}/lib64/
+rm -f %_builddir/build/cuda-toolkit/lib64/lib*.a
 
 # do not package dynamic libraries for which there are stubs
-rm -f %_builddir/build/lib64/libcublas.so*
-rm -f %_builddir/build/lib64/libcufft.so*
-rm -f %_builddir/build/lib64/libcufftw.so*
-rm -f %_builddir/build/lib64/libcurand.so*
-rm -f %_builddir/build/lib64/libcusolver.so*
-rm -f %_builddir/build/lib64/libcusparse.so*
-rm -f %_builddir/build/lib64/libnpp*.so*
-rm -f %_builddir/build/lib64/libnvgraph.so*
-rm -f %_builddir/build/lib64/libnvjpeg.so*
-rm -f %_builddir/build/lib64/libnvrtc.so*
+rm -f %_builddir/build/cuda-toolkit/lib64/libcublas.so*
+rm -f %_builddir/build/cuda-toolkit/lib64/libcublasLt.so*
+rm -f %_builddir/build/cuda-toolkit/lib64/libcufft.so*
+rm -f %_builddir/build/cuda-toolkit/lib64/libcufftw.so*
+rm -f %_builddir/build/cuda-toolkit/lib64/libcurand.so*
+rm -f %_builddir/build/cuda-toolkit/lib64/libcusolver.so*
+rm -f %_builddir/build/cuda-toolkit/lib64/libcusparse.so*
+rm -f %_builddir/build/cuda-toolkit/lib64/libnpp*.so*
+rm -f %_builddir/build/cuda-toolkit/lib64/libnvgraph.so*
+rm -f %_builddir/build/cuda-toolkit/lib64/libnvjpeg.so*
+rm -f %_builddir/build/cuda-toolkit/lib64/libnvrtc.so*
 
 # package the other dynamic libraries and the stubs
-chmod a+x %_builddir/build/lib64/*.so
-chmod a+x %_builddir/build/lib64/stubs/*.so
-mv %_builddir/build/lib64/* %{i}/lib64/
+chmod a+x %_builddir/build/cuda-toolkit/lib64/*.so
+chmod a+x %_builddir/build/cuda-toolkit/lib64/stubs/*.so
+mv %_builddir/build/cuda-toolkit/lib64/* %{i}/lib64/
 
 # package the includes
-rm -f %_builddir/build/include/sobol_direction_vectors.h
-mv %_builddir/build/include/* %{i}/include/
+rm -f %_builddir/build/cuda-toolkit/include/sobol_direction_vectors.h
+mv %_builddir/build/cuda-toolkit/include/* %{i}/include/
 
 # leave out the Nsight and NVVP graphical tools
-#mv %_builddir/build/jre %{i}/
-#mv %_builddir/build/libnsight %{i}/
-#ln -sf ../libnsight/nsight %_builddir/build/bin/nsight
-rm -f %_builddir/build/bin/nsight
-rm -f %_builddir/build/bin/nsight_ee_plugins_manage.sh
-#mv %_builddir/build/libnvvp %{i}/
-#ln -sf ../libnvvp/nvvp %_builddir/build/bin/nvvp
-rm -f %_builddir/build/bin/nvvp
-rm -f %_builddir/build/bin/computeprof
+rm -f %_builddir/build/cuda-toolkit/bin/nsight
+rm -f %_builddir/build/cuda-toolkit/bin/nsight_ee_plugins_manage.sh
+rm -f %_builddir/build/cuda-toolkit/bin/nvvp
+rm -f %_builddir/build/cuda-toolkit/bin/computeprof
 
 # leave out the CUDA samples
-rm -f %_builddir/build/bin/cuda-install-samples-%{cudaversion}.sh
+rm -f %_builddir/build/cuda-toolkit/bin/cuda-install-samples-%{cudaversion}.sh
 
 # package the Nsight Compute command line tool
-mkdir %{i}/NsightCompute-1.0
-mv %_builddir/build/NsightCompute-1.0/target                  %{i}/NsightCompute-1.0/
+mkdir %{i}/NsightCompute
+mv %_builddir/build/cuda-toolkit/NsightCompute-%{nsightversion}/target      %{i}/NsightCompute/
 %ifarch x86_64
-mv %_builddir/build/NsightCompute-1.0/ProfileSectionTemplates %{i}/NsightCompute-1.0/
+mv %_builddir/build/cuda-toolkit/NsightCompute-%{nsightversion}/sections    %{i}/NsightCompute/
 %endif
 %ifarch aarch64
-mv %_builddir/build/NsightCompute-1.0/host                    %{i}/NsightCompute-1.0/
+mv %_builddir/build/cuda-toolkit/NsightCompute-%{nsightversion}/host        %{i}/NsightCompute/
 %endif
 cat > %{i}/bin/nv-nsight-cu-cli <<@EOF
 #! /bin/bash
-exec %{i}/NsightCompute-1.0/target/%{nsightarch}/nv-nsight-cu-cli "\$@"
+exec %{i}/NsightCompute/target/%{nsightarch}/nv-nsight-cu-cli "\$@"
 @EOF
 chmod a+x %{i}/bin/nv-nsight-cu-cli
 
 # package the cuda-gdb support files, and rename the binary to use it via a wrapper
-mv %_builddir/build/share/gdb/ %{i}/share/
-mv %_builddir/build/bin/cuda-gdb %{i}/bin/cuda-gdb.real
+mv %_builddir/build/cuda-toolkit/share/gdb/ %{i}/share/
+mv %_builddir/build/cuda-toolkit/bin/cuda-gdb %{i}/bin/cuda-gdb.real
 cat > %{i}/bin/cuda-gdb << @EOF
 #! /bin/bash
 export PYTHONHOME=$PYTHON_ROOT
@@ -128,29 +126,29 @@ exec %{i}/bin/cuda-gdb.real "\$@"
 chmod a+x %{i}/bin/cuda-gdb
 
 # package the binaries and tools
-mv %_builddir/build/bin/* %{i}/bin/
-mv %_builddir/build/nvvm %{i}/
+mv %_builddir/build/cuda-toolkit/bin/* %{i}/bin/
+mv %_builddir/build/cuda-toolkit/nvvm %{i}/
 
 # package the version file
-mv %_builddir/build/version.txt %{i}/
+mv %_builddir/build/cuda-toolkit/version.txt %{i}/
 
 # extract and repackage the NVIDIA libraries needed by the CUDA runtime
 %ifarch x86_64
-/bin/sh %_builddir/build/NVIDIA-Linux-x86_64-%{driversversion}.run --accept-license --extract-only --tmpdir %_builddir/tmp --target %_builddir/build/nvidia
+/bin/sh %_builddir/build/NVIDIA-Linux-x86_64-%{driversversion}.run --silent --extract-only --tmpdir %_builddir/tmp --target %_builddir/build/drivers
 %endif
 %ifarch aarch64
 tar xaf %{SOURCE1} -C %_builddir/tmp Linux_for_Tegra/nv_tegra/nvidia_drivers.tbz2
 tar xaf %_builddir/tmp/Linux_for_Tegra/nv_tegra/nvidia_drivers.tbz2 -C %_builddir/tmp usr/lib/aarch64-linux-gnu/tegra/
-mv %_builddir/tmp/usr/lib/aarch64-linux-gnu/tegra %_builddir/build/nvidia
+mv %_builddir/tmp/usr/lib/aarch64-linux-gnu/tegra %_builddir/build/drivers
 %endif
 mkdir -p %{i}/drivers
-mv %_builddir/build/nvidia/libcuda.so.%{cudasoversion}                    %{i}/drivers/
-ln -sf libcuda.so.%{cudasoversion}                                        %{i}/drivers/libcuda.so.1
-ln -sf libcuda.so.1                                                       %{i}/drivers/libcuda.so
-mv %_builddir/build/nvidia/libnvidia-fatbinaryloader.so.%{driversversion} %{i}/drivers/
-mv %_builddir/build/nvidia/libnvidia-ptxjitcompiler.so.%{driversversion}  %{i}/drivers/
-ln -sf libnvidia-ptxjitcompiler.so.%{driversversion}                      %{i}/drivers/libnvidia-ptxjitcompiler.so.1
-ln -sf libnvidia-ptxjitcompiler.so.1                                      %{i}/drivers/libnvidia-ptxjitcompiler.so
+mv %_builddir/build/drivers/libcuda.so.%{cudasoversion}                     %{i}/drivers/
+ln -sf libcuda.so.%{cudasoversion}                                          %{i}/drivers/libcuda.so.1
+ln -sf libcuda.so.1                                                         %{i}/drivers/libcuda.so
+mv %_builddir/build/drivers/libnvidia-fatbinaryloader.so.%{driversversion}  %{i}/drivers/
+mv %_builddir/build/drivers/libnvidia-ptxjitcompiler.so.%{driversversion}   %{i}/drivers/
+ln -sf libnvidia-ptxjitcompiler.so.%{driversversion}                        %{i}/drivers/libnvidia-ptxjitcompiler.so.1
+ln -sf libnvidia-ptxjitcompiler.so.1                                        %{i}/drivers/libnvidia-ptxjitcompiler.so
 
 %post
 # let nvcc find its components when invoked from the command line
