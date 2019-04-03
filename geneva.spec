@@ -1,15 +1,24 @@
 ### RPM external geneva 1.0-RC3
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+%define isnotppc64le %(case %{cmsplatf} in (*_ppc64le_*) echo 0 ;; (*) echo 1 ;; esac)
 Source: git+https://stash.desy.de/scm/geneva/geneva-public.git?obj=master/%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 BuildRequires: cmake gmake
 
-Requires: python py2-setuptools py2-numpy gsl boost lhapdf hepmc openloops pythia8
+Requires: python py2-setuptools py2-numpy gsl boost lhapdf hepmc pythia8
+%if %isnotppc64le
+Requires: openloops
+%endif
 
 %prep
 %setup -q -n %{n}-%{realversion}
 
 %build
+
+%if %isnotppc64le
+export OPENLOOPS_FLAG="-Dopenloops_ROOT=${OPENLOOPS_ROOT}"
+%endif
+
 rm -rf ../build
 mkdir ../build
 cd ../build
@@ -20,8 +29,8 @@ cmake ../%{n}-%{realversion} \
       -Dboost_ROOT=${BOOST_ROOT} \
       -Dlhapdf_ROOT=${LHAPDF_ROOT} \
       -Dhepmc_ROOT=${HEPMC_ROOT} \
-      -Dopenloops_ROOT=${OPENLOOPS_ROOT} \
-      -Dpythia8_ROOT=${PYTHIA8_ROOT}
+      -Dpythia8_ROOT=${PYTHIA8_ROOT} \
+      ${OPENLOOPS_FLAG}
 
 make %{makeprocesses}
 make beamfunc-install-data LHAPDF_DATA_PATH=${LHAPDF_ROOT}/share/LHAPDF

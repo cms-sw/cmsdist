@@ -5,16 +5,23 @@
 %define github_user cms-externals
 %define keep_archives true
 
+%define isppc64 %(case %{cmsplatf} in (*_ppc64le_*) echo 1 ;; (*) echo 0 ;; esac)
+
 Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Patch0: dd4hep-build-static
 
 BuildRequires: cmake
 
 Requires: root boost clhep xerces-c geant4
+Patch1: dd4hep-add-ppc64-macro-check
 
 %prep
 
 %setup -n %{n}-%{realversion}
+
+%if %isppc64
+%patch1 -p1
+%endif
 
 %build
 

@@ -46,8 +46,7 @@ PLATF_CONF_OPTS="--enable-shared --disable-static"
             --with-hepmc=$HEPMC_ROOT \
 %if %isamd64
             --with-openloops=$OPENLOOPS_ROOT \
-%endif
-%if %isaarch64
+%else
             FCFLAGS="-fno-range-check" \
 %endif
             $PLATF_CONF_OPTS \

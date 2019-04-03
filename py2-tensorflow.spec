@@ -22,6 +22,10 @@ Requires: py2-funcsigs py2-protobuf py2-pbr py2-six py2-packaging py2-appdirs py
 %define tensor_build cp27-cp27mu-linux_aarch64
 %define tensor_python3_build cp36-cp36m-linux_aarch64
 %endif
+%ifarch ppc64le
+%define tensor_build cp27-cp27mu-linux_ppc64le
+%define tensor_python3_build cp36-cp36m-linux_ppc64le
+%endif
 
 mkdir -p %{i}
 export PYTHONUSERBASE=%i
