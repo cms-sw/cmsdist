@@ -25,5 +25,8 @@ EOF
 ./openloops update --processes generator=0
 
 %install
+mkdir %i/{lib,proclib}
 mkdir %i/lib
 cp lib/*.so %i/lib
+cp proclib/*.so %i/proclib
+cp proclib/*.info %i/proclib
