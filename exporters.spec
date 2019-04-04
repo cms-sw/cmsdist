@@ -25,6 +25,15 @@ go get github.com/Lusitaniae/apache_exporter
 go get github.com/prometheus/client_golang/prometheus
 go get github.com/prometheus/common/log
 go get github.com/prometheus/common/version
+go get github.com/shirou/gopsutil/cpu
+go get github.com/shirou/gopsutil/mem
+go get github.com/shirou/gopsutil/load
+go get github.com/shirou/gopsutil/process
+go get github.com/golang/glog
+go get github.com/namsral/flag
+go get github.com/gesellix/couchdb-prometheus-exporter/glogadapt
+go get github.com/gesellix/couchdb-prometheus-exporter/lib
+go get github.com/gesellix/couchdb-prometheus-exporter
 
 go build process_exporter.go
 go build das2go_exporter.go
