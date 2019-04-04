@@ -29,6 +29,7 @@ go get github.com/shirou/gopsutil/cpu
 go get github.com/shirou/gopsutil/mem
 go get github.com/shirou/gopsutil/load
 go get github.com/shirou/gopsutil/process
+go get github.com/golang/dep/cmd/dep
 go get github.com/golang/glog
 go get github.com/namsral/flag
 go get github.com/gesellix/couchdb-prometheus-exporter/glogadapt
@@ -46,6 +47,11 @@ wdir=$PWD
 cd $GOPATH/src/github.com/Lusitaniae/apache_exporter
 make build
 cp apache_exporter $wdir
+
+# build couchdb exporter
+cd $GOPATH/src/github.com/gesellix/couchdb-prometheus-exporter
+go build -o couchdb_exporter
+cp couchdb_exporter $wdir
 
 cd $wdir
 echo $wdir
