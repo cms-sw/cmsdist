@@ -1,11 +1,13 @@
 ### RPM external gcc-checker-plugin 1.3
-Source0:	https://github.com/cms-externals/CheckerGccPlugins/archive/%{realversion}.tar.gz
+
+%define tag 7662a4426c22f0878b3cfb5d6b80f1737f57fc4c
+Source: git+https://github.com/cms-externals/CheckerGccPlugins.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 BuildRequires: cmake
 Requires: gcc
 
 %prep
-%setup -n CheckerGccPlugins-%{realversion}
+%setup -n %{n}-%{realversion}
 
 %build
 mkdir build
