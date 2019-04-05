@@ -31,8 +31,10 @@ AutoReq: no
 %install
 rm -rf %_builddir/build %_builddir/tmp
 mkdir %_builddir/build %_builddir/tmp
-/bin/sh %{SOURCE0} --silent --tmpdir %_builddir/tmp --extract=%_builddir/build  --override
 
+# extract and repackage the CUDA runtime, tools and stubs
+%ifarch x86_64
+/bin/sh %{SOURCE0} --silent --tmpdir %_builddir/tmp --extract %_builddir/build
 # extracts:
 # %_builddir/build/NVIDIA-Linux-x86_64-410.48.run
 # %_builddir/build/cuda-linux.10.0.130-24817639.run
