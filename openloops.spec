@@ -23,6 +23,7 @@ link_optimisation = -O2
 EOF
 
 ./openloops update --processes generator=0
+./openloops libinstall all.coll
 
 %install
 mkdir %i/{lib,proclib}
