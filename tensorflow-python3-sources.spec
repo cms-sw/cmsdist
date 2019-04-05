@@ -2,7 +2,7 @@
 #Source: https://github.com/tensorflow/tensorflow/archive/v%{realversion}.tar.gz
 # NOTE: whenever the version of tensorflow changes, update it also in tensorflow-c tensorflow-cc and py2-tensorflow
 %define isslc6amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
-%define tag 7d3f4ef674703ed6aac01ad07efa52082a26e62b
+%define tag 8f9889a8bed3bc8d39f89a6a19bcfcf835097ccf
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}-%{tag}.tgz
@@ -63,7 +63,7 @@ rm -rf ../build
 
 ./configure
 
-BAZEL_OPTS="--output_user_root ../build build -s --verbose_failures -c opt --cxxopt=${CXX_OPT_FLAGS}"
+BAZEL_OPTS="--output_user_root ../build build -s --verbose_failures -c opt --config monolithic --cxxopt=${CXX_OPT_FLAGS}"
 BAZEL_EXTRA_OPTS="--action_env PYTHONPATH=${PYTHON3PATH} --distinct_host_configuration=false"
 
 bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/tools/pip_package:build_pip_package
@@ -90,7 +90,6 @@ mkdir -p $incdir $libdir $bindir
 
 cp -rp $PWD/bazel-out/*-opt/genfiles/tensorflow/include/* $incdir/
 cp  $PWD/bazel-bin/tensorflow/libtensorflow_cc.so $libdir
-cp  $PWD/bazel-bin/tensorflow/libtensorflow_framework.so $libdir
 cp  $PWD/bazel-bin/tensorflow/compiler/tf2xla/libcpu_function_runtime.so $libdir
 cp  $PWD/bazel-bin/tensorflow/compiler/tf2xla/libxla_compiled_cpu_function.so $libdir
 cp  $PWD/bazel-bin/tensorflow/compiler/aot/tfcompile $bindir

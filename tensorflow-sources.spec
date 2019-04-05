@@ -58,7 +58,7 @@ rm -rf ../build
 
 ./configure
 
-BAZEL_OPTS="--output_user_root ../build build -s --verbose_failures -c opt --cxxopt=${CXX_OPT_FLAGS}"
+BAZEL_OPTS="--output_user_root ../build build -s --verbose_failures -c opt --config monolithic --cxxopt=${CXX_OPT_FLAGS}"
 BAZEL_EXTRA_OPTS="--action_env PYTHONPATH=${PYTHON27PATH} --distinct_host_configuration=false"
 
 #Download depencies used by tensorflow and copy to include dir
@@ -88,7 +88,6 @@ mkdir -p $incdir $libdir $bindir
 
 cp -rp $PWD/bazel-out/*-opt/genfiles/tensorflow/include/* $incdir/
 cp  $PWD/bazel-bin/tensorflow/libtensorflow_cc.so $libdir
-cp  $PWD/bazel-bin/tensorflow/libtensorflow_framework.so $libdir
 cp  $PWD/bazel-bin/tensorflow/compiler/tf2xla/libcpu_function_runtime.so $libdir
 cp  $PWD/bazel-bin/tensorflow/compiler/tf2xla/libxla_compiled_cpu_function.so $libdir
 cp  $PWD/bazel-bin/tensorflow/compiler/aot/tfcompile $bindir
@@ -105,6 +104,14 @@ do
 done
 cd ${tdir}
 header_list=`find tensorflow/compiler -name *.h`
+for my_header in ${header_list}
+do
+    my_header_dir=$(dirname "${my_header}")
+    mkdir -p ${incdir}/${my_header_dir}
+    cp -p ${my_header} ${incdir}/${my_header_dir}
+done
+cd $dwnldir/protobuf/src
+header_list=`find google -name *.h`
 for my_header in ${header_list}
 do
     my_header_dir=$(dirname "${my_header}")

@@ -19,17 +19,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/tensorflow.xml
 </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/tensorflow-framework.xml
-<tool name="tensorflow-framework" version="@TOOL_VERSION@">
-  <lib name="tensorflow_framework"/>
-  <use name="tensorflow"/>
-</tool>
-EOF_TOOLFILE
-
 cat << \EOF_TOOLFILE >%i/etc/scram.d/tensorflow-cc.xml
 <tool name="tensorflow-cc" version="@TOOL_VERSION@">
   <lib name="tensorflow_cc"/>
-  <use name="tensorflow-framework"/>
   <use name="eigen"/>
   <use name="protobuf"/>
 </tool>
@@ -38,13 +30,12 @@ EOF_TOOLFILE
 cat << \EOF_TOOLFILE >%i/etc/scram.d/tensorflow-c.xml
 <tool name="tensorflow-c" version="@TOOL_VERSION@">
   <lib name="tensorflow"/>
-  <use name="tensorflow-framework"/>
 </tool>
 EOF_TOOLFILE
 
 cat << \EOF_TOOLFILE >%i/etc/scram.d/tensorflow-runtime.xml
 <tool name="tensorflow-runtime" version="@TOOL_VERSION@">
-  <lib name="tf_aot_runtime"/>
+  <lib name="cpu_function_runtime"/>
   <use name="tensorflow"/>
 </tool>
 EOF_TOOLFILE
