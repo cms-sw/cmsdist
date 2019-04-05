@@ -1,12 +1,11 @@
 ### RPM external geneva 1.0-RC3
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
-%define isnotppc64le %(case %{cmsplatf} in (*_ppc64le_*) echo 0 ;; (*) echo 1 ;; esac)
 Source: git+https://stash.desy.de/scm/geneva/geneva-public.git?obj=master/%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 BuildRequires: cmake gmake
 
 Requires: python py2-setuptools py2-numpy gsl boost lhapdf hepmc pythia8
-%if %isnotppc64le
+%ifnarch ppc64le
 Requires: openloops
 %endif
 
@@ -15,7 +14,7 @@ Requires: openloops
 
 %build
 
-%if %isnotppc64le
+%ifnarch ppc64le
 export OPENLOOPS_FLAG="-Dopenloops_ROOT=${OPENLOOPS_ROOT}"
 %endif
 

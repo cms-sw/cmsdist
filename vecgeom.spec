@@ -3,10 +3,6 @@ Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{realversion}
 BuildRequires: cmake gmake
 %define keep_archives true
 
-%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
-%define isaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 1 ;; (*) echo 0 ;; esac)
-%define isppc64 %(case %{cmsplatf} in (*_ppc64le_*) echo 1 ;; (*) echo 0 ;; esac)
-
 Patch0: vecgeom-fix-for-arm64
 Patch1: vecgeom-uninit-fix
 Patch2: vecgeom-add-ppc64-cmake-fix
@@ -16,7 +12,7 @@ Patch2: vecgeom-add-ppc64-cmake-fix
 
 %patch0 -p1
 %patch1 -p1
-%if %isppc64
+%ifarch ppc64le
 %patch2 -p1
 %endif
 
@@ -33,7 +29,7 @@ cmake ../%{n}-%{realversion} \
   -DBACKEND=Scalar \
   -DUSOLIDS=ON \
   -DUSOLIDS_VECGEOM=ON \
-%if %isamd64
+%ifarch x86_64
   -DVECGEOM_VECTOR=sse3 \
 %else
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
