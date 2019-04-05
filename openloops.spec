@@ -26,7 +26,6 @@ EOF
 
 %install
 mkdir %i/{lib,proclib}
-mkdir %i/lib
 cp lib/*.so %i/lib
 cp proclib/*.so %i/proclib
 cp proclib/*.info %i/proclib
