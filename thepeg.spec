@@ -1,10 +1,9 @@
-### RPM external thepeg 2.1.4p1
+### RPM external thepeg 2.1.5
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib/ThePEG
 ## INITENV +PATH DYLD_LIBRARY_PATH %{i}/lib/ThePEG
 
 # Download from official webpage
-Source: http://cmsrep.cern.ch/cmssw/download/ThePEG-%{realversion}.tar.gz
-Patch0: thepeg-2.1.1-gcc8
+Source: http://www.hepforge.org/archive/thepeg/ThePEG-%{realversion}.tar.bz2
 
 Requires: lhapdf
 Requires: gsl
@@ -24,7 +23,6 @@ BuildRequires: lhapdf
 
 %prep
 %setup -q -n ThePEG-%{realversion}
-%patch0 -p1
 # Regenerate build scripts
 autoreconf -fiv
 
