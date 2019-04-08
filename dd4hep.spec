@@ -44,6 +44,7 @@ make %{makeprocesses} VERBOSE=1
 for lib in $(ls ../lib/libDDG4*.a | sed 's|.a$||'); do
   mv ${lib}.a %i/lib/${lib}-static.a
 done
+mv ../../%{n}-%{realversion}/DDG4/include/DDG4 %i/include
 
 %install
 
