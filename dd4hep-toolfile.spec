@@ -39,7 +39,7 @@ EOF_TOOLFILE
 
 cat << \EOF_TOOLFILE >%i/etc/scram.d/dd4hep-geant4.xml
 <tool name="dd4hep-geant4" version="@TOOL_VERSION@">
-  <lib anme="DDG4-static"/>
+  <lib name="DDG4-static"/>
   <use name="geant4core"/>
   <use name="dd4hep-core"/>
 </tool>
