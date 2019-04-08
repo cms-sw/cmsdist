@@ -87,7 +87,6 @@ FWCore/MessageLogger
 FWCore/ParameterSet
 FWCore/PluginManager
 FWCore/PythonParameterSet
-FWCore/PyDevParameterSet
 FWCore/ParameterSetReader
 FWCore/PythonUtilities
 FWCore/ServiceRegistry
