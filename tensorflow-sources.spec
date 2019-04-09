@@ -67,7 +67,9 @@ bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$C
 bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/tools/graph_transforms:transform_graph
 bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/aot:tf_aot_runtime
 bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/tf2xla:xla_compiled_cpu_function
+%ifnarch ppc64le
 bazel --output_user_root ../build build -s --verbose_failures -c opt --cxxopt=$CXX_OPT_FLAGS //tensorflow/compiler/aot:tfcompile
+%endif
 
 bazel shutdown
 
@@ -84,7 +86,9 @@ cp -v $PWD/bazel-bin/tensorflow/libtensorflow_cc.so $libdir
 cp -v $PWD/bazel-bin/tensorflow/libtensorflow_framework.so $libdir
 cp -v $PWD/bazel-bin/tensorflow/compiler/aot/libtf_aot_runtime.so $libdir
 cp -v $PWD/bazel-bin/tensorflow/compiler/tf2xla/libxla_compiled_cpu_function.so $libdir
+%ifnarch ppc64le
 cp -v $PWD/bazel-bin/tensorflow/compiler/aot/tfcompile $bindir
+%endif
 
 #Download depencies used by tensorflow and copy to include dir
 tensorflow/contrib/makefile/download_dependencies.sh
