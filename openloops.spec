@@ -1,5 +1,5 @@
 ### RPM external openloops 2.0.0
-%define tag 944f9f27fc68d2a14d6df9f877ab49258028c7e6
+%define tag df5dc23c322dd460c4f8f3cdfa331bb190c647f6
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 
@@ -24,7 +24,10 @@ link_optimisation = -O2
 EOF
 
 ./openloops update --processes generator=0
+./openloops libinstall all.coll
 
 %install
-mkdir %i/lib
+mkdir %i/{lib,proclib}
 cp lib/*.so %i/lib
+cp proclib/*.so %i/proclib
+cp proclib/*.info %i/proclib
