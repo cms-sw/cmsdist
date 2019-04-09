@@ -1,0 +1,14 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index b3014e9..e3604be 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -372,6 +372,9 @@ elseif (${_arch_lo} MATCHES native)
+   if (Intel)
+     set(VECGEOM_CXX_FLAGS "${VECGEOM_CXX_FLAGS} -xHost")
+     set(VECGEOM_COMPILATION_FLAGS "${VECGEOM_COMPILATION_FLAGS} -xHost")
++  elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(powerpc|ppc)64le")
++    set(VECGEOM_CXX_FLAGS "${VECGEOM_CXX_FLAGS} -mcpu=${_arch_lo} -mtune=${_arch_lo}")
++    set(VECGEOM_COMPILATION_FLAGS "${VECGEOM_COMPILATION_FLAGS} -mcpu=${_arch_lo} -mtune=${_arch_lo}")
+   else()
+     set(VECGEOM_CXX_FLAGS "${VECGEOM_CXX_FLAGS} -march=${_arch_lo}")
+     set(VECGEOM_COMPILATION_FLAGS "${VECGEOM_COMPILATION_FLAGS} -march=${_arch_lo}")
