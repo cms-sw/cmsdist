@@ -1,24 +1,18 @@
 ### RPM external dd4hep v01-10x
 
-%define tag 0a44b413788a34fcadb6646ed83ee3f17fdf0bd9
-%define branch cms/master/9835d18
+%define tag 88e428e1c81b1d7a51f9d046bd116ae23a7fb992
+%define branch cms/master/052a2b2
 %define github_user cms-externals
 %define keep_archives true
 
 Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake
 Requires: root boost clhep xerces-c geant4
-
 Patch0: dd4hep-build-static
-Patch1: dd4hep-add-ppc64-macro-check
 
 %prep
 
 %setup -n %{n}-%{realversion}
-
-%ifarch ppc64le
-%patch1 -p1
-%endif
 
 %build
 
