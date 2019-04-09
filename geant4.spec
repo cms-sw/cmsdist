@@ -1,4 +1,4 @@
-### RPM external geant4 10.05ref03
+### RPM external geant4 10.5ref03
 %define tag aed5d6c23ba34ae874af65d0d1d71e27e8b86f92
 %define branch cms/4.%{realversion}
 %define github_user cms-externals
