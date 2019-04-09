@@ -4,12 +4,20 @@ Source: git+https://stash.desy.de/scm/geneva/geneva-public.git?obj=master/%{real
 
 BuildRequires: cmake gmake
 
-Requires: python py2-setuptools py2-numpy gsl boost lhapdf hepmc openloops pythia8
+Requires: python py2-setuptools py2-numpy gsl boost lhapdf hepmc pythia8
+%ifnarch ppc64le
+Requires: openloops
+%endif
 
 %prep
 %setup -q -n %{n}-%{realversion}
 
 %build
+
+%ifnarch ppc64le
+export OPENLOOPS_FLAG="-Dopenloops_ROOT=${OPENLOOPS_ROOT}"
+%endif
+
 rm -rf ../build
 mkdir ../build
 cd ../build
@@ -20,8 +28,8 @@ cmake ../%{n}-%{realversion} \
       -Dboost_ROOT=${BOOST_ROOT} \
       -Dlhapdf_ROOT=${LHAPDF_ROOT} \
       -Dhepmc_ROOT=${HEPMC_ROOT} \
-      -Dopenloops_ROOT=${OPENLOOPS_ROOT} \
-      -Dpythia8_ROOT=${PYTHIA8_ROOT}
+      -Dpythia8_ROOT=${PYTHIA8_ROOT} \
+      ${OPENLOOPS_FLAG}
 
 make %{makeprocesses}
 make beamfunc-install-data LHAPDF_DATA_PATH=${LHAPDF_ROOT}/share/LHAPDF

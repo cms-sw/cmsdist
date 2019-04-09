@@ -6,15 +6,19 @@
 %define keep_archives true
 
 Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-Patch0: dd4hep-build-static
-
 BuildRequires: cmake
-
 Requires: root boost clhep xerces-c geant4
+
+Patch0: dd4hep-build-static
+Patch1: dd4hep-add-ppc64-macro-check
 
 %prep
 
 %setup -n %{n}-%{realversion}
+
+%ifarch ppc64le
+%patch1 -p1
+%endif
 
 %build
 
