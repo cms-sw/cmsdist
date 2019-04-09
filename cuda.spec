@@ -149,6 +149,12 @@ mv %_builddir/build/drivers/libnvidia-fatbinaryloader.so.%{driversversion}  %{i}
 mv %_builddir/build/drivers/libnvidia-ptxjitcompiler.so.%{driversversion}   %{i}/drivers/
 ln -sf libnvidia-ptxjitcompiler.so.%{driversversion}                        %{i}/drivers/libnvidia-ptxjitcompiler.so.1
 ln -sf libnvidia-ptxjitcompiler.so.1                                        %{i}/drivers/libnvidia-ptxjitcompiler.so
+%ifarch aarch64
+mv %_builddir/build/drivers/libnvrm.so                                      %{i}/drivers/
+mv %_builddir/build/drivers/libnvrm_gpu.so                                  %{i}/drivers/
+mv %_builddir/build/drivers/libnvrm_graphics.so                             %{i}/drivers/
+mv %_builddir/build/drivers/libnvos.so                                      %{i}/drivers/
+%endif
 
 %post
 # let nvcc find its components when invoked from the command line
