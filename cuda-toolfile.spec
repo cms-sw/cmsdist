@@ -44,6 +44,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda.xml
 %endif
   <flags CUDA_FLAGS="-O3 -std=c++14 --expt-relaxed-constexpr --expt-extended-lambda"/>
   <flags CUDA_FLAGS="--generate-line-info --source-in-ptx"/>
+  <flags CUDA_FLAGS="--cudart=shared"/>
   <flags CUDA_HOST_REM_CXXFLAGS="-std=%"/>
   <flags CUDA_HOST_REM_CXXFLAGS="%potentially-evaluated-expression"/>
   <flags CUDA_HOST_CXXFLAGS="-std=c++14"/>
