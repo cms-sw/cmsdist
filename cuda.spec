@@ -136,21 +136,27 @@ mv %_builddir/build/version.txt %{i}/
 
 # extract and repackage the NVIDIA libraries needed by the CUDA runtime
 %ifarch x86_64
-/bin/sh %_builddir/build/NVIDIA-Linux-x86_64-%{driversversion}.run --accept-license --extract-only --tmpdir %_builddir/tmp --target %_builddir/build/nvidia
+/bin/sh %_builddir/build/NVIDIA-Linux-x86_64-%{driversversion}.run --accept-license --extract-only --tmpdir %_builddir/tmp --target %_builddir/build/drivers
 %endif
 %ifarch aarch64
 tar xaf %{SOURCE1} -C %_builddir/tmp Linux_for_Tegra/nv_tegra/nvidia_drivers.tbz2
 tar xaf %_builddir/tmp/Linux_for_Tegra/nv_tegra/nvidia_drivers.tbz2 -C %_builddir/tmp usr/lib/aarch64-linux-gnu/tegra/
-mv %_builddir/tmp/usr/lib/aarch64-linux-gnu/tegra %_builddir/build/nvidia
+mv %_builddir/tmp/usr/lib/aarch64-linux-gnu/tegra %_builddir/build/drivers
 %endif
 mkdir -p %{i}/drivers
-mv %_builddir/build/nvidia/libcuda.so.%{cudasoversion}                    %{i}/drivers/
-ln -sf libcuda.so.%{cudasoversion}                                        %{i}/drivers/libcuda.so.1
-ln -sf libcuda.so.1                                                       %{i}/drivers/libcuda.so
-mv %_builddir/build/nvidia/libnvidia-fatbinaryloader.so.%{driversversion} %{i}/drivers/
-mv %_builddir/build/nvidia/libnvidia-ptxjitcompiler.so.%{driversversion}  %{i}/drivers/
-ln -sf libnvidia-ptxjitcompiler.so.%{driversversion}                      %{i}/drivers/libnvidia-ptxjitcompiler.so.1
-ln -sf libnvidia-ptxjitcompiler.so.1                                      %{i}/drivers/libnvidia-ptxjitcompiler.so
+mv %_builddir/build/drivers/libcuda.so.%{cudasoversion}                     %{i}/drivers/
+ln -sf libcuda.so.%{cudasoversion}                                          %{i}/drivers/libcuda.so.1
+ln -sf libcuda.so.1                                                         %{i}/drivers/libcuda.so
+mv %_builddir/build/drivers/libnvidia-fatbinaryloader.so.%{driversversion}  %{i}/drivers/
+mv %_builddir/build/drivers/libnvidia-ptxjitcompiler.so.%{driversversion}   %{i}/drivers/
+ln -sf libnvidia-ptxjitcompiler.so.%{driversversion}                        %{i}/drivers/libnvidia-ptxjitcompiler.so.1
+ln -sf libnvidia-ptxjitcompiler.so.1                                        %{i}/drivers/libnvidia-ptxjitcompiler.so
+%ifarch aarch64
+mv %_builddir/build/drivers/libnvrm.so                                      %{i}/drivers/
+mv %_builddir/build/drivers/libnvrm_gpu.so                                  %{i}/drivers/
+mv %_builddir/build/drivers/libnvrm_graphics.so                             %{i}/drivers/
+mv %_builddir/build/drivers/libnvos.so                                      %{i}/drivers/
+%endif
 
 %post
 # let nvcc find its components when invoked from the command line
