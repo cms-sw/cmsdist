@@ -50,7 +50,7 @@ gast==0.2.2
 gitdb2==2.0.5
 GitPython==2.1.11
 google-common==0.0.1
-grpcio==1.18.0
+grpcio==1.19.0
 h5py-cache==1.0
 h5py==2.9.0
 hep_ml==0.6.0
@@ -61,7 +61,7 @@ hyperas==0.4.1
 hyperopt==0.1.2
 idna==2.8
 ipaddress==1.0.22
-ipykernel==4.9.0
+ipykernel==4.10.0
 ipython_genutils==0.2.0
 ipython==5.8.0
 ipywidgets==7.4.2
@@ -78,7 +78,7 @@ keras-applications==1.0.7
 keras-preprocessing==1.0.9
 kiwisolver==1.0.1
 lizard==1.16.3
-llvmlite==0.28
+llvmlite==0.28.0
 lxml==4.3.3
 lz4==2.1.6
 Mako==1.0.8
@@ -133,7 +133,7 @@ pycparser==2.19
 pycuda==2018.1.1
 pycurl==7.43.0.2
 pydot==1.4.1
-pyflakes==2.1.0
+pyflakes==2.1.1
 Pygments==2.3.1
 pymongo==3.7.2
 pyOpenSSL==19.0.0
@@ -183,10 +183,10 @@ typing==3.6.6
 uncertainties==3.0.3
 uproot==3.4.18
 uproot-methods==0.4.6
-urllib3==1.24
+urllib3==1.24.1
 virtualenv-clone==0.5.3
 virtualenv==16.0.0
-virtualenvwrapper==4.8.2
+virtualenvwrapper==4.8.4
 wcwidth==0.1.7
 webencodings==0.5.1
 Werkzeug==0.15.2
