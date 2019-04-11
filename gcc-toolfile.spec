@@ -187,6 +187,9 @@ case %{cmsplatf} in
    *_aarch64_*|*_ppc64le_*|*_ppc64_*)
     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fsigned-char -fsigned-bitfields"
    ;;
+   *_ppc64le_*|*_ppc64_*)
+    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -mlong-double-64"
+   ;;
 esac
 
 export COMPILER_CXXFLAGS
