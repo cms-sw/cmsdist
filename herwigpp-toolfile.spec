@@ -23,7 +23,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/herwigpp.xml
   <use name="lhapdf"/>
   <use name="thepeg"/>
   <use name="madgraph5amcatnlo"/>
+%ifnarch ppc64le
   <use name="openloops"/>
+%endif
 </tool>
 EOF_TOOLFILE
 
