@@ -36,7 +36,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa.xml
   <use name="sqlite"/>
   <use name="openmpi"/>
 %if %islinux
-%if %isamd64
+%ifnarch ppc64le
   <use name="openloops"/>
 %endif # isamd64
 %endif # islinux

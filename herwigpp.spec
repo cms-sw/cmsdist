@@ -10,7 +10,7 @@ Requires: gsl
 Requires: fastjet
 Requires: gosamcontrib gosam
 Requires: madgraph5amcatnlo
-%ifarch x86_64
+%ifnarch ppc64le
 Requires: openloops
 %endif
 BuildRequires: autotools
@@ -43,9 +43,10 @@ PLATF_CONF_OPTS="--enable-shared --disable-static"
             --with-gosam=$GOSAM_ROOT \
             --with-gosam-contrib=$GOSAMCONTRIB_ROOT \
             --with-hepmc=$HEPMC_ROOT \
-%ifarch x86_64
+%ifnarch ppc64le
             --with-openloops=$OPENLOOPS_ROOT \
-%else
+%endif
+%ifnarch x86_64
             FCFLAGS="-fno-range-check" \
 %endif
             $PLATF_CONF_OPTS \
