@@ -11,7 +11,7 @@ RecoTracker-FinalTrackSelectors=V01-00-07
 SLHCUpgradeSimulations-Geometry=V01-00-10
 CalibPPS-ESProducers=V01-00-00
 L1Trigger-L1THGCal=V01-00-11
-Configuration-Generator=V01-00-02
+Configuration-Generator=V01-00-03
 CondTools-SiPhase2Tracker=V00-01-00
 RecoBTag-Combined=V01-01-03
 
