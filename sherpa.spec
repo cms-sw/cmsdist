@@ -10,10 +10,10 @@ BuildRequires: mcfm swig
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 
 %if %islinux
-%if %isamd64
+%ifnarch ppc64le
 Requires: openloops
-%endif # isamd64
-%endif # islinux
+%endif # is not ppc64
+%endif # is linux
 
 %prep
 %setup -q -n SHERPA-MC-%{realversion}
