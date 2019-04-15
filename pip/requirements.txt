@@ -192,5 +192,5 @@ webencodings==0.5.1
 Werkzeug==0.15.2
 wheel==0.33.1
 widgetsnbextension==3.4.2
-xgboost==0.82
+xgboost==0.81
 xrootdpyfs==0.1.5
