@@ -3,7 +3,14 @@
 
 %define pkg cmsweb-exporters
 %define ver %realversion
+%define pkg1 glide
+%define ver1 0.13.2
+%define dir1 linux-amd64
+%define pkg2 mongodb_exporter
+%define ver2 1.0.0
 Source0: https://github.com/vkuznet/%pkg/archive/%ver.tar.gz
+Source1: https://github.com/Masterminds/%pkg1/releases/download/v%ver1/%pkg1-v%ver1-linux-amd64.tar.gz
+Source2: https://github.com/dcu/%pkg2/archive/v%ver2.tar.gz
 
 Requires: go rotatelogs
 
@@ -11,11 +18,21 @@ Requires: go rotatelogs
 # http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
 %prep
 %setup -D -T -b 0 -n %pkg-%ver
+# glide tar ball provides linux-amd64 directory
+%setup -D -T -b 1 -n %dir1
+%setup -D -T -b 2 -n %pkg2-%ver2
+echo "### prep: $PWD"
 
 %build
 cd ..
-mkdir -p gopath
+mkdir -p gopath/bin
 export GOPATH=$PWD/gopath
+# copy glide and mongo
+export PATH=$PATH:$GOPATH/bin
+cp %dir1/glide $GOPATH/bin
+mkdir -p $GOPATH/src/github.com/dcu/
+cp -r %pkg2-%ver2 $GOPATH/src/github.com/dcu/mongodb_exporter
+
 # build exporters
 cd %pkg-%ver
 go get github.com/dmwm/cmsauth
@@ -53,13 +70,19 @@ cd $GOPATH/src/github.com/gesellix/couchdb-prometheus-exporter
 go build -o couchdb_exporter
 cp couchdb_exporter $wdir
 
+# build mongodb exporter
+cd $GOPATH/src/github.com/dcu/mongodb_exporter
+make build
+cp mongodb_exporter $wdir
+
 cd $wdir
-echo $wdir
-ls -al
+echo "### build dir: $wdir"
 
 %install
 mkdir %i/bin
 export GOPATH=$PWD/gopath
+cd ../%pkg-%ver
+echo "### current dir: $PWD"
 cp process_monitor.sh *_exporter %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
