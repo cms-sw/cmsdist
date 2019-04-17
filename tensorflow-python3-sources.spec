@@ -2,7 +2,7 @@
 #Source: https://github.com/tensorflow/tensorflow/archive/v%{realversion}.tar.gz
 # NOTE: whenever the version of tensorflow changes, update it also in tensorflow-c tensorflow-cc and py2-tensorflow
 %define isslc6amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
-%define tag 8f9889a8bed3bc8d39f89a6a19bcfcf835097ccf
+%define tag a977edf5ae572444fc45f39038e73098b4830801
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}-%{tag}.tgz
@@ -25,7 +25,7 @@ export PATH=`pwd`/mybin:${PATH}
 export TF_NEED_JEMALLOC=0
 export TF_NEED_HDFS=0
 export CC_OPT_FLAGS=-march=core2
-export CXX_OPT_FLAGS=-std=c++11
+export CXX_OPT_FLAGS=-std=c++1z
 export TF_NEED_GCP=0
 export TF_ENABLE_XLA=0
 export TF_NEED_OPENCL=0
@@ -74,7 +74,9 @@ bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/tools/graph_transforms:transfor
 bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/compiler/tf2xla:tf2xla
 bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/compiler/tf2xla:cpu_function_runtime
 bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/compiler/tf2xla:xla_compiled_cpu_function
+%ifnarch ppc64le
 bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/compiler/aot:tfcompile
+%endif
 bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow:install_headers
 
 bazel shutdown
@@ -92,7 +94,9 @@ cp -rp $PWD/bazel-out/*-opt/genfiles/tensorflow/include/* $incdir/
 cp  $PWD/bazel-bin/tensorflow/libtensorflow_cc.so $libdir
 cp  $PWD/bazel-bin/tensorflow/compiler/tf2xla/libcpu_function_runtime.so $libdir
 cp  $PWD/bazel-bin/tensorflow/compiler/tf2xla/libxla_compiled_cpu_function.so $libdir
+%ifnarch ppc64le
 cp  $PWD/bazel-bin/tensorflow/compiler/aot/tfcompile $bindir
+%endif
 
 #Download depencies used by tensorflow and copy to include dir
 
