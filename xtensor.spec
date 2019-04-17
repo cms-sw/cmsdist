@@ -1,4 +1,4 @@
-### RPM external xtensor 0.17.4
+### RPM external xtensor 0.20.1
 Source: https://github.com/QuantStack/xtensor/archive/%{realversion}.tar.gz
 BuildRequires: cmake
 Requires: xtl
