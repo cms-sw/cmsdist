@@ -17,7 +17,6 @@ Requires: py2-googlePackages
 
 Requires: py2-tables
 Requires: py2-numexpr
-Requires: py2-deepdish
 Requires: py2-histogrammar
 Requires: py2-pandas
 Requires: py2-root_numpy
