@@ -59,6 +59,7 @@ make %{makeprocesses}
 # circumvent search for makeinfo, used to generate docs. other way of doing the same - patch the makefile as sugested here https://sourceware.org/bugzilla/show_bug.cgi?id=18113
 mkdir -p /tmp/mibin
 ln -s /usr/bin/true /tmp/mibin/makeinfo
+chmod a+x /tmp/mibin/makeinfo
 export PATH=/tmp/mibin:${PATH}
 make install
 find %{i}/lib -name '*.la' -delete
