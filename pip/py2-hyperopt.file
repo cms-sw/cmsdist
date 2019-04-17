@@ -1,2 +1,2 @@
-Requires: py2-six py2-pymongo py2-nose py2-networkx py2-future py2-pymongo py2-scipy
+Requires: py2-six py2-pymongo py2-nose py2-networkx py2-future py2-pymongo py2-scipy py2-tqdm
 %define PipPostBuild perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*

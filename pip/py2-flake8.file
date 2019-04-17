@@ -1,2 +1,2 @@
-Requires: py2-backports py2-enum34 py2-mccabe py2-pycodestyle py2-pyflakes
+Requires: py2-backports py2-enum34 py2-mccabe py2-pycodestyle py2-pyflakes py2-entrypoints py2-functools32 py2-typing
 %define PipPostBuild perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*

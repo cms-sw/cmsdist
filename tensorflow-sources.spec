@@ -74,7 +74,7 @@ bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/compiler/aot:tfcompile
 %endif
 bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow:install_headers
 
-#Download depencies used by tensorflow and copy to include dir
+#Download depencies used by tensorflow and copy to include dir                                                                                                                                     
 tensorflow/contrib/makefile/download_dependencies.sh
 
 bazel shutdown

@@ -1,9 +1,6 @@
 ### RPM external herwigpp 7.1.4
 Source: https://www.hepforge.org/archive/herwig/Herwig-%{realversion}.tar.bz2
 
-%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
-%define isaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 1 ;; (*) echo 0 ;; esac)
-
 Requires: lhapdf
 Requires: boost
 Requires: hepmc
@@ -13,7 +10,7 @@ Requires: gsl
 Requires: fastjet
 Requires: gosamcontrib gosam
 Requires: madgraph5amcatnlo
-%if %isamd64
+%ifnarch ppc64le
 Requires: openloops
 %endif
 BuildRequires: autotools
@@ -44,10 +41,10 @@ PLATF_CONF_OPTS="--enable-shared --disable-static"
             --with-gosam=$GOSAM_ROOT \
             --with-gosam-contrib=$GOSAMCONTRIB_ROOT \
             --with-hepmc=$HEPMC_ROOT \
-%if %isamd64
+%ifnarch ppc64le
             --with-openloops=$OPENLOOPS_ROOT \
 %endif
-%if %isaarch64
+%ifnarch x86_64
             FCFLAGS="-fno-range-check" \
 %endif
             $PLATF_CONF_OPTS \

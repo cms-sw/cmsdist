@@ -64,6 +64,7 @@ Requires: openssl-toolfile
 Requires: pcre-toolfile
 Requires: photos-toolfile
 Requires: photospp-toolfile
+Requires: pyquen-toolfile
 Requires: pythia6-toolfile
 Requires: pythia8-toolfile
 Requires: vincia-toolfile
@@ -164,17 +165,17 @@ Requires: gperftools-toolfile
 
 %if %isnotppc64le_be
 Requires: igprof-toolfile
+Requires: cuda-toolfile
+Requires: cub-toolfile
+Requires: cuda-api-wrappers-toolfile
+Requires: openloops-toolfile
 %endif
 
 %if %isamd64
 Requires: dmtcp-toolfile
 Requires: tkonlinesw-toolfile
 Requires: oracle-toolfile
-Requires: cuda-toolfile
-Requires: cub-toolfile
-Requires: cuda-api-wrappers-toolfile
 Requires: intel-vtune
-Requires: openloops-toolfile
 
 %if %isslc
 Requires: glibc-toolfile

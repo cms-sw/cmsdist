@@ -10,7 +10,7 @@ Requires: fwlite-tool-conf python
 %define patchsrc perl -p -i -e ' s|(<classpath.*test\\+test.*>)||;' config/BuildFile.xml*
 
 #patch to build fwlite release; this should be fixed in cmssw
-%define patchsrc2 rm -f src/CommonTools/Utils/src/TMVAEvaluator.cc src/CommonTools/Utils/plugins/BuildFile.xml
+%define patchsrc2 rm -rf src/CommonTools/Utils/src/TMVAEvaluator.cc src/CommonTools/Utils/plugins/BuildFile.xml src/FWCore/Framework/bin
 
 # depends on MessageService, which pulls in service dependencies
 %define patchsrc3 rm -f src/FWCore/MessageLogger/python/MessageLogger_cfi.py
