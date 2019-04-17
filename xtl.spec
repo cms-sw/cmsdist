@@ -1,4 +1,4 @@
-### RPM external xtl 0.4.16
+### RPM external xtl 0.6.3
 Source: https://github.com/QuantStack/xtl/archive/%{realversion}.tar.gz
 BuildRequires: cmake
 
