@@ -10,9 +10,9 @@
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{wmcver}.tar.gz
 Source1: git://github.com/dmwm/AsyncStageout.git?obj=master/%{realversion}&export=AsyncStageout-%{realversion}&output=/AsyncStageout-%{realversion}.tar.gz
-Requires: python py2-simplejson py2-sqlalchemy10 py2-httplib2 rotatelogs pystack py2-sphinx dbs-client couchdb15 py2-pycurl couchskel py2-stomp dbs3-client
+Requires: python py2-simplejson py2-httplib2 rotatelogs pystack py2-sphinx dbs-client couchdb15 py2-pycurl couchskel py2-stomp dbs3-client
 Requires: PHEDEX-micro PHEDEX-lifecycle
-Requires: python cherrypy py2-cjson rotatelogs py2-pycurl py2-httplib2 py2-sqlalchemy10 py2-cx-oracle51
+Requires: python cherrypy py2-cjson rotatelogs py2-pycurl py2-httplib2 py2-sqlalchemy py2-cx-oracle51
 Requires: jemalloc
 BuildRequires: py2-sphinx
 Patch1: aso_splitviews
