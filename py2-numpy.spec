@@ -1,16 +1,19 @@
-### RPM external py2-numpy 1.16.2
+%ifarch aarch64
+%define numpy_version 1.15.1
+%else
+%define numpy_version 1.16.2
+%endif
+### RPM external py2-numpy %{numpy_version}
 ## INITENV +PATH PYTHON27PATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %i/${PYTHON3_LIB_SITE_PACKAGES}
 ## INITENV SET PY2_NUMPY_REAL_VERSION %{realversion}
 
 Source: https://github.com/numpy/numpy/releases/download/v%{realversion}/numpy-%{realversion}.tar.gz
 Requires: zlib OpenBLAS python python3
-#py2-setuptools
 BuildRequires: py2-pip
 
 %define pythonver %(echo %{allpkgreqs} | tr ' ' '\\n' | grep ^external/python/ | cut -d/ -f3 | cut -d. -f 1,2)
 %define numpyArch %(uname -m)
-
 
 %prep
 %setup -n numpy-%realversion
