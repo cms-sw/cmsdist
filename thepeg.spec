@@ -26,6 +26,7 @@ BuildRequires: lhapdf
 %prep
 %setup -q -n ThePEG-%{realversion}
 
+sed -i -e "s|theQuickParticles.resize(2\*theQuickSize);|theQuickParticles.resize(2\*theQuickSize,nullptr);|" Repository/EventGenerator.cc
 # Regenerate build scripts
 autoreconf -fiv
 
