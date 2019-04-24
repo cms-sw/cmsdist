@@ -1,4 +1,4 @@
-### RPM cms crabserver 3.3.1902.rc1
+### RPM cms crabserver 3.3.1905.rc1
 
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
@@ -6,7 +6,7 @@
 
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 1.1.20.pre4
+%define wmcver 1.1.20.cmsweb1
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
 Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
