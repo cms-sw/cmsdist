@@ -36,7 +36,7 @@ mkdir %_builddir/build %_builddir/tmp
 
 # extract and repackage the CUDA runtime, tools and stubs
 %ifarch x86_64
-/bin/sh %{SOURCE0} --silent --tmpdir %_builddir/tmp --extract=%_builddir/build
+/bin/sh %{SOURCE0} --silent --override --tmpdir %_builddir/tmp --extract=%_builddir/build
 # extracts:
 # %_builddir/build/EULA.txt
 # %_builddir/build/NVIDIA-Linux-x86_64-418.39.run       # linux drivers
