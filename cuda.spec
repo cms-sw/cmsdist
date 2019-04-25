@@ -24,6 +24,7 @@ Source0: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_ins
 Source0: https://patatrack.web.cern.ch/patatrack/files/cuda-repo-l4t-10-0-local-%{realversion}_1.0-1_arm64.deb
 Source1: https://patatrack.web.cern.ch/patatrack/files/Jetson_Linux_R%{driversversion}_aarch64.tbz2
 %endif
+Requires: python
 AutoReq: no
 
 %prep
