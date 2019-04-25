@@ -24,6 +24,7 @@ Source0: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_ins
 Source0: https://patatrack.web.cern.ch/patatrack/files/cuda-repo-l4t-10-0-local-%{realversion}_1.0-1_arm64.deb
 Source1: https://patatrack.web.cern.ch/patatrack/files/Jetson_Linux_R%{driversversion}_aarch64.tbz2
 %endif
+Requires: python
 AutoReq: no
 
 %prep
@@ -36,7 +37,7 @@ mkdir %_builddir/build %_builddir/tmp
 
 # extract and repackage the CUDA runtime, tools and stubs
 %ifarch x86_64
-/bin/sh %{SOURCE0} --silent --tmpdir %_builddir/tmp --extract=%_builddir/build
+/bin/sh %{SOURCE0} --silent --override --tmpdir %_builddir/tmp --extract=%_builddir/build
 # extracts:
 # %_builddir/build/EULA.txt
 # %_builddir/build/NVIDIA-Linux-x86_64-418.39.run       # linux drivers
