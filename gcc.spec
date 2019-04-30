@@ -4,7 +4,7 @@
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
 %define gccTag 1cb30a44424e0cdf71baa56f76ba6340bc74e0eb
-%define gccBranch master
+%define gccBranch gcc-9-branch
 
 %define moduleName %{n}-%{realversion}
 Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&export=%{moduleName}&output=/%{n}-%{realversion}-%{gccTag}.tgz
