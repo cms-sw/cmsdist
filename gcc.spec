@@ -1,9 +1,9 @@
-### RPM external gcc 9.0.1
+### RPM external gcc 9.1.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 # Use the git repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
-%define gccTag 0bd9ec4e81a2ee358aa4f81a7ee8e4c067644660
+%define gccTag 1cb30a44424e0cdf71baa56f76ba6340bc74e0eb
 %define gccBranch master
 
 %define moduleName %{n}-%{realversion}
