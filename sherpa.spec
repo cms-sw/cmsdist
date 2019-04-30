@@ -17,7 +17,7 @@ Requires: openloops
 
 %prep
 %setup -q -n %{n}-%{realversion}
-
+sed -i -e 's|^\s*Manual \s*\\$|\\|' Makefile.am
 autoreconf -i --force
 
 # Force architecture based on %%cmsplatf
@@ -45,20 +45,16 @@ esac
             ${OPENLOOPS_ROOT+--enable-openloops=$OPENLOOPS_ROOT} \
             --enable-mpi \
             --with-sqlite3=$SQLITE_ROOT \
-            --disable-automake.info \
             CC="mpicc" \
             CXX="mpicxx" \
             MPICXX="mpicxx" \
             FC="mpifort" \
             CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF -O2 -std=c++0x -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$OPENSSL_ROOT/include" \
-            LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib -L$OPENSSL_ROOT/lib"
+            LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib -L$OPENSSL_ROOT/lib" MAKEINFO=true
 
 make %{makeprocesses}
 
 %install
-# circumvent search for makeinfo, used to generate docs. other way of doing the same - patch the makefile as sugested here https://sourceware.org/bugzilla/show_bug.cgi?id=18113
-ln -s /usr/bin/true %_builddir/makeinfo
-export PATH=%_builddir:${PATH}
 make install
 find %{i}/lib -name '*.la' -delete
 sed -i -e 's|^#!/.*|#!/usr/bin/env python|' %{i}/bin/Sherpa-generate-model
