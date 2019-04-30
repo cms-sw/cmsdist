@@ -1,7 +1,8 @@
-### RPM cms crab-devtools 1.0
+### RPM cms crab-devtools 1.1
 
 # This is a meta-package to group development tool dependencies and all the crab3 packages
-Requires: crabclient crabserver crabtaskworker crabcache yuicompressor py2-coverage py2-lint py2-nose py2-sphinx py2-mox py2-future
+Requires: crabclient crabserver crabtaskworker crabcache yuicompressor
+Requires: py2-coverage py2-pylint py2-nose py2-sphinx py2-mox py2-future
 
 %prep
 %build
