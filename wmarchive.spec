@@ -6,7 +6,8 @@
 %define wmcpkg WMCore
 Source0: git://github.com/dmwm/WMArchive?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
 Source1: git://github.com/dmwm/WMCore?obj=master/%wmcver&export=%{wmcpkg}_%n&output=/%{wmcpkg}_%n.tar.gz
-Requires: python py2-bz2file py2-pydoop py2-avro py2-elasticsearch py2-pymongo mongo py2-httplib2 cherrypy py2-cjson py2-py4j py2-stomp java-jdk rotatelogs
+Requires: python py2-bz2file py2-pydoop py2-avro py2-elasticsearch py2-pymongo mongo py2-httplib2 cherrypy py2-cjson py2-py4j py2-stomp rotatelogs
+#Requires: python py2-bz2file py2-pydoop py2-avro py2-elasticsearch py2-pymongo mongo py2-httplib2 cherrypy py2-cjson py2-py4j py2-stomp java-jdk rotatelogs
 BuildRequires: py2-sphinx
 
 # RPM macros documentation
