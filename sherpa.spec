@@ -17,7 +17,7 @@ Requires: openloops
 
 %prep
 %setup -q -n %{n}-%{realversion}
-
+sed -i -e 's|^\s*Manual \s*\\$|\\|' Makefile.am
 autoreconf -i --force
 
 # Force architecture based on %%cmsplatf
@@ -50,7 +50,7 @@ esac
             MPICXX="mpicxx" \
             FC="mpifort" \
             CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF -O2 -std=c++0x -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$OPENSSL_ROOT/include" \
-            LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib -L$OPENSSL_ROOT/lib"
+            LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib -L$OPENSSL_ROOT/lib" MAKEINFO=true
 
 make %{makeprocesses}
 
