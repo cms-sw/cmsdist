@@ -11,6 +11,8 @@ BuildRequires: python scons
 
 %prep
 %setup -n %{n}-%{realversion}
+#change the repo from remote to local files
+sed -i -e 's|http:/|%{_builddir}/localrepo|' pyol/config/default.cfg
 
 %build
 cat << \EOF >> openloops.cfg
@@ -24,6 +26,11 @@ link_optimisation = -O2
 EOF
 
 ./openloops update --processes generator=0
+
+#get remote repo data locally, for 7_1 urllib2.urlopen uses ssl version which fails the communication with the server
+wget -r -np --reject "index.html*" https://www.physik.uzh.ch/data/openloops/repositories/public/processes/ -P %{_builddir}/localrepo
+wget -r -np --reject "index.html*" https://www.physik.uzh.ch/data/openloops/repositories/public/collections/ -P  %{_builddir}/localrepo
+#build the libs
 ./openloops libinstall all.coll
 
 %install
