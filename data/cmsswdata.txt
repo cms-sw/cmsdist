@@ -15,6 +15,7 @@ L1Trigger-L1THGCal=V01-00-11
 Configuration-Generator=V01-00-03
 CondTools-SiPhase2Tracker=V00-01-00
 RecoBTag-Combined=V01-01-03
+CalibCalorimetry-EcalTrivialCondModules=V00-02-00
 
 ########################################################################################
 #Never update any package After this. Always move an existing package in default section.
@@ -52,7 +53,6 @@ Geometry-TwentyFivePercentTrackerCommonData=V00-01-00
 
 #Never update any package here. Always move it to default section.
 [data-build-github]
-CalibCalorimetry-EcalTrivialCondModules=V00-01-00
 Calibration-Tools=V01-00-00
 CalibTracker-SiPixelESProducers=V02-00-00
 CalibTracker-SiStripDCS=V01-00-00
