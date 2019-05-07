@@ -1,5 +1,5 @@
-### RPM external sherpa 2.2.5
-%define tag 600078cc741021be898f15563235cf6c809ca5ff
+### RPM external sherpa 2.2.6
+%define tag ea0b6f6f50f77d2f7479ba81d0715e23b69eabee
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -17,7 +17,7 @@ Requires: openloops
 
 %prep
 %setup -q -n %{n}-%{realversion}
-
+sed -i -e 's|^\s*Manual \s*\\$|\\|' Makefile.am
 autoreconf -i --force
 
 # Force architecture based on %%cmsplatf
@@ -50,7 +50,7 @@ esac
             MPICXX="mpicxx" \
             FC="mpifort" \
             CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF -O2 -std=c++0x -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$OPENSSL_ROOT/include" \
-            LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib -L$OPENSSL_ROOT/lib"
+            LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib -L$OPENSSL_ROOT/lib" MAKEINFO=true
 
 make %{makeprocesses}
 
