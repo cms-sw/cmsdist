@@ -3,6 +3,8 @@
 Source: http://www.cmake.org/files/v%{downloaddir}/%n-%realversion.tar.gz
 Requires: bz2lib curl expat zlib
 
+
+
 %prep
 %setup -n cmake-%realversion
 
