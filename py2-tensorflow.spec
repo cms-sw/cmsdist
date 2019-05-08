@@ -1,14 +1,11 @@
-### RPM external py2-tensorflow 1.6.0
+### RPM external py2-tensorflow 1.13.1
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
 Source: none
 
-BuildRequires: tensorflow-sources tensorflow-python3-sources
-BuildRequires: py2-setuptools
-Requires: python python3
-BuildRequires: py2-pip 
-Requires: py2-funcsigs py2-protobuf py2-pbr py2-six py2-packaging py2-appdirs py2-setuptools py2-pyparsing py2-numpy py2-mock py2-Werkzeug
+BuildRequires: tensorflow-sources tensorflow-python3-sources py2-pip
+Requires: python python3 py2-funcsigs py2-protobuf py2-pbr py2-six py2-packaging py2-appdirs py2-setuptools py2-pyparsing py2-numpy py2-mock py2-Werkzeug py2-enum34 py2-keras-applications py2-keras-preprocessing libjpeg-turbo eigen protobuf nasm py2-wheel
 
 %prep
 
