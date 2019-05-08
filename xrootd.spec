@@ -1,6 +1,6 @@
 ### RPM external xrootd 4.8.5
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
 %define tag 72b7fd30afaec0328b4f3693ee60346f8e13802e
 %define branch cms/v%{realversion}
