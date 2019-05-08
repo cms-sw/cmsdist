@@ -1,6 +1,8 @@
-### RPM external xrootd 4.5.0
+### RPM external xrootd 4.8.5
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-%define tag af6aebbbbe7da7fd89f3698c1e485a79a5990037
+## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+
+%define tag 72b7fd30afaec0328b4f3693ee60346f8e13802e
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
@@ -8,6 +10,7 @@ Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&expo
 BuildRequires: cmake
 Requires: zlib
 Requires: openssl
+Requires: python
 
 %prep
 %setup -n %n-%{realversion}
@@ -25,7 +28,7 @@ perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonPrepareS
 mkdir build
 cd build
 
-# By default xrootd has perl, fuse, krb5, readline, and crypto enabled.
+# By default xrootd has perl, fuse, krb5, readline, and crypto enabled. 
 # libfuse and libperl are not produced by CMSDIST.
 cmake ../ \
   -DCMAKE_INSTALL_PREFIX=%{i} \
@@ -36,7 +39,9 @@ cmake ../ \
   -DENABLE_KRB5=TRUE \
   -DENABLE_READLINE=FALSE \
   -DENABLE_CRYPTO=TRUE \
-  -DCMAKE_SKIP_RPATH=TRUE
+  -DCMAKE_SKIP_RPATH=TRUE \
+  -DENABLE_PYTHON=TRUE \
+  -DCMAKE_PREFIX_PATH="${PYTHON_ROOT}"
 
 # Use makeprocess macro, it uses compiling_processes defined by
 # build configuration file or build argument
