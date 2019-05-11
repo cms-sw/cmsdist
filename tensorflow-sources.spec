@@ -58,7 +58,7 @@ rm -rf ../build
 
 ./configure
 
-BAZEL_OPTS="--output_user_root ../build build -s --verbose_failures -c opt --config monolithic --cxxopt=${CXX_OPT_FLAGS} -c dbg --strip=never --compilation_mode=dbg"
+BAZEL_OPTS="--output_user_root ../build build -s --verbose_failures -c opt --config monolithic --cxxopt=${CXX_OPT_FLAGS} -c dbg --strip=never"
 BAZEL_EXTRA_OPTS="--action_env PYTHONPATH=${PYTHON27PATH} --distinct_host_configuration=false"
 
 bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/tools/pip_package:build_pip_package
@@ -88,7 +88,7 @@ bindir="$PWD/tensorflow_cc/bin"
 rm -rf $incdir $libdir $bindir
 mkdir -p $incdir $libdir $bindir
 
-cp -rp $PWD/bazel-out/*-opt/genfiles/tensorflow/include/* $incdir/
+cp -rp $PWD/bazel-out/*-dbg/genfiles/tensorflow/include/* $incdir/
 cp  $PWD/bazel-bin/tensorflow/libtensorflow_cc.so $libdir
 cp  $PWD/bazel-bin/tensorflow/compiler/tf2xla/libcpu_function_runtime.so $libdir
 cp  $PWD/bazel-bin/tensorflow/compiler/tf2xla/libxla_compiled_cpu_function.so $libdir
