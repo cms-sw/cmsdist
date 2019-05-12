@@ -15,6 +15,7 @@ L1Trigger-L1THGCal=V01-00-12
 Configuration-Generator=V01-00-03
 CondTools-SiPhase2Tracker=V00-01-00
 RecoBTag-Combined=V01-01-03
+PhysicsTools-NanoAOD=V01-00-04
 CalibCalorimetry-EcalTrivialCondModules=V00-02-00
 
 ########################################################################################
@@ -71,7 +72,6 @@ L1Trigger-L1TCalorimeter=V01-00-22
 L1Trigger-L1TGlobal=V00-00-07
 L1Trigger-L1TMuon=V01-01-03
 MagneticField-Interpolation=V01-00-02
-PhysicsTools-NanoAOD=V01-00-03
 RecoBTag-CTagging=V01-00-03
 RecoBTag-SecondaryVertex=V02-00-04
 RecoBTag-SoftLepton=V01-00-01
