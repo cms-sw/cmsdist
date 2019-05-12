@@ -63,7 +63,7 @@ rm -rf ../build
 
 ./configure
 
-BAZEL_OPTS="--output_user_root ../build build -s --verbose_failures -c opt --config monolithic --cxxopt=${CXX_OPT_FLAGS} -c dbg --strip=never --compilation_mode=dbg"
+BAZEL_OPTS="--output_user_root ../build build -s --verbose_failures -c opt --config monolithic --cxxopt=${CXX_OPT_FLAGS}"
 BAZEL_EXTRA_OPTS="--action_env PYTHONPATH=${PYTHON3PATH} --distinct_host_configuration=false"
 
 bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/tools/pip_package:build_pip_package
