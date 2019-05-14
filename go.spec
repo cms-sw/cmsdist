@@ -1,4 +1,4 @@
-### RPM external go 1.10
+### RPM external go 1.12.5
 
 Source: https://storage.googleapis.com/golang/go%{realversion}.linux-amd64.tar.gz
 
