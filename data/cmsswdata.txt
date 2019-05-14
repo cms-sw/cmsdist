@@ -17,6 +17,7 @@ CondTools-SiPhase2Tracker=V00-01-00
 RecoBTag-Combined=V01-01-04
 PhysicsTools-NanoAOD=V01-00-04
 CalibCalorimetry-EcalTrivialCondModules=V00-02-00
+EgammaAnalysis-ElectronTools=V00-01-04
 
 ########################################################################################
 #Never update any package After this. Always move an existing package in default section.
@@ -62,7 +63,6 @@ DataFormats-PatCandidates=V01-00-01
 DQM-DTMonitorClient=V00-01-00
 DQM-PhysicsHWW=V01-00-00
 DQM-SiStripMonitorClient=V01-00-00
-EgammaAnalysis-ElectronTools=V00-01-03
 EventFilter-L1TRawToDigi=V01-00-00
 FastSimulation-TrackingRecHitProducer=V01-00-03
 Fireworks-Geometry=V07-05-04
