@@ -1,4 +1,4 @@
-### RPM cms exporters 0.0.9
+### RPM cms exporters 0.0.11
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 %define pkg cmsweb-exporters
