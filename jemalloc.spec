@@ -1,4 +1,4 @@
-### RPM external jemalloc 4.5.0
+### RPM external jemalloc 5.2.0
 Source: https://github.com/jemalloc/jemalloc/archive/%realversion.zip
 Requires: gcc autotools
 
@@ -6,9 +6,11 @@ Requires: gcc autotools
 %setup -n %n-%{realversion}
 
 %build
-./autogen.sh --prefix %i
-perl -p -i -e 's|-no-cpp-precomp||' configure
-./configure --enable-autogen --enable-stats --enable-prof --prefix %i
+./autogen.sh \
+  --enable-autogen \
+  --enable-stats \
+  --enable-prof \
+  --prefix %i
 
 %install
 make
@@ -28,7 +30,5 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
 done
 
 %post
-%{relocateConfig}etc/profile.d/dependencies-setup.*sh
-
-%files
-%{installroot}/%{pkgrel}/
+%{relocateConfig}bin/jemalloc.sh
+%{relocateConfig}bin/jemalloc-config
