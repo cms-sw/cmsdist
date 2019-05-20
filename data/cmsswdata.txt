@@ -7,17 +7,18 @@ FWCore-Modules=V00-01-00
 IOPool-Input=V00-01-00
 RecoEgamma-ElectronIdentification=V01-01-03
 RecoCTPPS-TotemRPLocal=V00-02-00
+RecoMuon-MuonIdentification=V01-12-05
 RecoTracker-FinalTrackSelectors=V01-00-07
 SLHCUpgradeSimulations-Geometry=V01-00-10
 CalibPPS-ESProducers=V01-00-00
-L1Trigger-L1THGCal=V01-00-10
-
-########################################################################################
-#Never update any package After this. Always move an existing package in default section.
-[data-build-github-new]
-PhysicsTools-PatUtils=V00-01-00
+L1Trigger-L1THGCal=V01-00-12
+Configuration-Generator=V01-01-00
+CondTools-SiPhase2Tracker=V00-01-00
+RecoBTag-Combined=V01-01-04
+PhysicsTools-NanoAOD=V01-00-04
+CalibCalorimetry-EcalTrivialCondModules=V00-02-00
 RecoTauTag-TrainingFiles=V00-01-00
-RecoBTag-Combined=V01-01-01
+PhysicsTools-PatUtils=V00-01-00
 SimTransport-PPSProtonTransport=V00-01-00
 SimTransport-TotemRPProtonTransportParametrization=V00-01-00
 
@@ -49,12 +50,10 @@ Geometry-TwentyFivePercentTrackerCommonData=V00-01-00
 
 #Never update any package here. Always move it to default section.
 [data-build-github]
-CalibCalorimetry-EcalTrivialCondModules=V00-01-00
 Calibration-Tools=V01-00-00
 CalibTracker-SiPixelESProducers=V02-00-00
 CalibTracker-SiStripDCS=V01-00-00
 CondFormats-JetMETObjects=V01-00-03
-Configuration-Generator=V01-00-01
 DataFormats-PatCandidates=V01-00-01
 DQM-DTMonitorClient=V00-01-00
 DQM-PhysicsHWW=V01-00-00
@@ -69,7 +68,6 @@ L1Trigger-L1TCalorimeter=V01-00-22
 L1Trigger-L1TGlobal=V00-00-07
 L1Trigger-L1TMuon=V01-01-03
 MagneticField-Interpolation=V01-00-02
-PhysicsTools-NanoAOD=V01-00-03
 RecoBTag-CTagging=V01-00-03
 RecoBTag-SecondaryVertex=V02-00-04
 RecoBTag-SoftLepton=V01-00-01
@@ -78,7 +76,6 @@ RecoHI-HiJetAlgos=V01-00-01
 RecoJets-JetProducers=V05-10-20
 RecoLocalCalo-EcalDeadChannelRecoveryAlgos=V01-00-00
 RecoMET-METPUSubtraction=V01-00-03
-RecoMuon-MuonIdentification=V01-12-04
 RecoParticleFlow-PFProducer=V16-00-00
 RecoParticleFlow-PFTracking=V13-01-00
 SimTracker-SiStripDigitizer=V01-00-00

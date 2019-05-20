@@ -1,0 +1,26 @@
+diff --git a/Makefile b/Makefile
+index cd2ba6d..8fe79fc 100644
+--- a/Makefile
++++ b/Makefile
+@@ -24,7 +24,7 @@ ifndef CPPFLAGS
+ endif
+ 
+ ifndef CXXFLAGS
+-  CXXFLAGS := -O3 -march=native
++  CXXFLAGS := -O3 -mcpu=native
+   ifdef DEBUG
+ 	ifneq ($(DEBUG),0)
+ 	  CXXFLAGS += -g
+diff --git a/pyext/setup.py b/pyext/setup.py
+index e93fe3f..8b9ab0e 100644
+--- a/pyext/setup.py
++++ b/pyext/setup.py
+@@ -14,7 +14,7 @@ ext = Extension("professor2.core",
+                 language="C++",
+                 depends=glob("../include/*.h"),
+                 include_dirs=[incdir, os.path.join(srcdir, "pyext", "professor2")],
+-                extra_compile_args="-std=c++11 -O3 -march=native -Wno-unused-but-set-variable -Wno-sign-compare".split(),
++                extra_compile_args="-std=c++11 -O3 -mcpu=native -Wno-unused-but-set-variable -Wno-sign-compare".split(),
+                 library_dirs=[libdir],
+                 runtime_library_dirs=[],
+                 libraries=["Professor2"])
