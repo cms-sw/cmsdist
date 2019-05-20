@@ -1,4 +1,5 @@
 ### RPM external zlib 1.0
+#test 
 %ifarch x86_64
 Requires: zlib-x86_64
 %define ZLIB_PKG ZLIB_X86_64
