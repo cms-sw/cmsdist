@@ -1,2 +1,5 @@
 Requires: py2-more-itertools py2-atomicwrites py2-attrs py2-funcsigs py2-pathlib2 py2-pluggy py2-py py2-scandir
-%define PipPostBuild perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
+%define PipPostBuild \
+   for d in $(find %i/lib -name 'UNKNOWN-%{realversion}-*' -type d) ; do \
+     mv $d $(echo $d | sed 's|/UNKNOWN-%{realversion}-|/pytest-%{realversion}-|');\
+   done
