@@ -140,7 +140,7 @@ Requires: py2-pygithub
 Requires: py2-dablooms-toolfile
 Requires: py2-dxr-toolfile
 Requires: py2-PyYAML
-Requires: py2-lint
+Requires: py2-pylint
 Requires: py2-pip
 %if %isamd64
 Requires: py2-cx-oracle
@@ -206,6 +206,15 @@ Requires: py2-pillow
 Requires: py2-pybrain
 Requires: py2-pymongo
 Requires: py2-pydot
+
+Requires: py2-astroid
+Requires: py2-coverage
+Requires: py2-hepdata-lib
+Requires: py2-isort
+Requires: py2-lazy-object-proxy
+Requires: py2-pylint
+Requires: py2-pytest-cov
+Requires: py2-wrapt
 
 %prep
 
