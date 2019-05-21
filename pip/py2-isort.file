@@ -1,0 +1,5 @@
+Requires: py2-futures py2-backports-functools_lru_cache
+
+%define PipPreBuild tar -xzf isort-%{realversion}.tar.gz && sed -i -e '/.*futures.*/d' isort-%{realversion}/isort.egg-info/requires.txt isort-%{realversion}/setup.py && rm -f isort-%{realversion}.tar.gz && tar czf isort-%{realversion}.tar.gz  isort-%{realversion}
+
+%define PipPostBuild perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
