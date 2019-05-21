@@ -45,6 +45,7 @@ Requires: hepmc-toolfile
 Requires: heppdt-toolfile
 Requires: herwig-toolfile
 Requires: herwigpp-toolfile
+Requires: hjets-toolfile
 Requires: ittnotify-toolfile
 Requires: jemalloc-toolfile
 Requires: jemalloc-debug-toolfile
@@ -89,6 +90,7 @@ Requires: dcap-toolfile
 Requires: frontier_client-toolfile
 Requires: xrootd-toolfile
 Requires: dd4hep-toolfile
+Requires: vbfnlo-toolfile
 %if %isnotaarch64
 Requires: pyqt-toolfile
 %endif
