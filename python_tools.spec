@@ -140,7 +140,7 @@ Requires: py2-pygithub
 Requires: py2-dablooms-toolfile
 Requires: py2-dxr-toolfile
 Requires: py2-PyYAML
-Requires: py2-lint
+Requires: py2-pylint
 Requires: py2-pip
 %if %isamd64
 Requires: py2-cx-oracle
