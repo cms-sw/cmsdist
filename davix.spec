@@ -31,3 +31,6 @@ make VERBOSE=1 %{makeprocesses}
 %install
 cd build
 make install
+
+%post
+%{relocateConfig}lib64/pkgconfig/davix.pc
