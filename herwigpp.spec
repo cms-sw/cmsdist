@@ -10,6 +10,7 @@ Requires: gsl
 Requires: fastjet
 Requires: gosamcontrib gosam
 Requires: madgraph5amcatnlo
+Requires: vbfnlo
 %ifnarch ppc64le
 Requires: openloops
 %endif
