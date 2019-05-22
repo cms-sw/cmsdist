@@ -1,4 +1,4 @@
-### RPM external photospp-toolfile 3.56
+### RPM external photospp-toolfile 4.0
 Requires: photospp
 %prep
 
@@ -7,10 +7,11 @@ Requires: photospp
 %install
 
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/photosapp.xml
+cat << \EOF_TOOLFILE >%i/etc/scram.d/photospp.xml
 <tool name="photospp" version="@TOOL_VERSION@">
-  <lib name="PhotosFortran"/>
-  <lib name="PhotosCxxInterface"/>
+  <lib name="Photospp"/>
+  <lib name="PhotosppHepMC"/>
+  <lib name="PhotosppHEPEVT"/>
   <client>
     <environment name="PHOTOSPP_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$PHOTOSPP_BASE/lib"/>
