@@ -1,6 +1,6 @@
 DataFormatsPatCandidates_LOC_FLAGS_IGNORE_MODULE_FILE:=Jet.h
 CondFormatsL1TObjects_LOC_FLAGS_IGNORE_MODULE_FILE:=L1MuGMTScales.h L1MuPacking.h L1MuScale.h L1TGlobalPrescalesVetos.h L1TMuonBarrelParams.h
-DataFormatsMath_REM_GENREFLEX_ARGS:=--fail_on_warnings
+DataFormatsMath_LOC_FLAGS_REM_GENREFLEX_ARGS:=--fail_on_warnings
 
 CalibCalorimetryEcalCorrelatedNoiseAnalysisAlgos_CXXMODULES:=1
 CalibFormatsCaloObjects_CXXMODULES:=1
