@@ -1,4 +1,4 @@
-### RPM cms exporters 0.0.11
+### RPM cms exporters 0.0.12
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 %define pkg cmsweb-exporters
@@ -58,6 +58,7 @@ go build process_exporter.go
 go build das2go_exporter.go
 go build reqmgr_exporter.go
 go build wmcore_exporter.go
+go build cpy_exporter.go
 
 wdir=$PWD
 
