@@ -1,9 +1,9 @@
-### RPM cms t0_reqmon 1.2.3.pre2
+### RPM cms t0_reqmon 1.2.3.pre4
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
 
-Requires: python rotatelogs py2-httplib2 cherrypy py2-cheetah py2-pycurl py2-future py2-retry py2-psutil
+Requires: python rotatelogs py2-httplib2 py2-cherrypy py2-cheetah py2-pycurl py2-future py2-retry py2-psutil
 Requires: jemalloc
 BuildRequires: py2-setuptools py2-sphinx couchskel
 

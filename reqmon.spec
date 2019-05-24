@@ -1,4 +1,4 @@
-### RPM cms reqmon 1.2.3.pre2
+### RPM cms reqmon 1.2.3.pre4
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
@@ -6,7 +6,7 @@ Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/
 #from private repository
 #Source: git://github.com/ticoann/WMCore?obj=wmstats_task_summary/%realversion&export=%n&output=/%n.tar.gz
 
-Requires: python rotatelogs py2-httplib2 cherrypy py2-cheetah py2-pycurl dbs3-client
+Requires: python rotatelogs py2-httplib2 py2-cherrypy py2-cheetah py2-pycurl dbs3-client
 Requires: py2-future py2-retry py2-stomp py2-psutil
 Requires: jemalloc
 
