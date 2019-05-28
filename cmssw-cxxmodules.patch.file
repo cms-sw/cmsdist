@@ -1,0 +1,200 @@
+diff --git a/DataFormats/CLHEP/interface/AlgebraicObjects.h b/DataFormats/CLHEP/interface/AlgebraicObjects.h
+index 655841c..d7eef6a 100644
+--- a/DataFormats/CLHEP/interface/AlgebraicObjects.h
++++ b/DataFormats/CLHEP/interface/AlgebraicObjects.h
+@@ -4,7 +4,8 @@
+ #ifdef HEP_SHORT_NAMES
+ #undef HEP_SHORT_NAMES
+ #endif
+-
++#include <vector>
++#include <ostream>
+ #include "CLHEP/Matrix/Vector.h"
+ #include "CLHEP/Matrix/Matrix.h"
+ #include "CLHEP/Matrix/SymMatrix.h"
+diff --git a/DataFormats/CaloRecHit/BuildFile.xml b/DataFormats/CaloRecHit/BuildFile.xml
+index 66c1e1b..82b0b71 100644
+--- a/DataFormats/CaloRecHit/BuildFile.xml
++++ b/DataFormats/CaloRecHit/BuildFile.xml
+@@ -1,4 +1,5 @@
+ <use   name="DataFormats/Common"/>
++<use   name="DataFormats/Math"/>
+ <use   name="DataFormats/DetId"/>
+ <use   name="rootmath"/>
+ 
+diff --git a/DataFormats/Candidate/BuildFile.xml b/DataFormats/Candidate/BuildFile.xml
+index 17fc85b..7a44c5b 100644
+--- a/DataFormats/Candidate/BuildFile.xml
++++ b/DataFormats/Candidate/BuildFile.xml
+@@ -1,5 +1,7 @@
+ <use   name="DataFormats/Common"/>
+ <use   name="DataFormats/Math"/>
++<use   name="DataFormats/CaloRecHit"/>
++<use   name="DataFormats/GeometryVector"/>
+ <use   name="FWCore/Utilities"/>
+ <use   name="rootmath"/>
+ <export>
+diff --git a/DataFormats/EcalRecHit/BuildFile.xml b/DataFormats/EcalRecHit/BuildFile.xml
+index 66f2c3f..24d3847 100644
+--- a/DataFormats/EcalRecHit/BuildFile.xml
++++ b/DataFormats/EcalRecHit/BuildFile.xml
+@@ -1,7 +1,7 @@
+ <use   name="DataFormats/CaloRecHit"/>
+ <use   name="DataFormats/Common"/>
+ <use   name="DataFormats/EcalDetId"/>
+-
++<use   name="DataFormats/EcalDigi"/>
+ <export>
+   <lib   name="1"/>
+ </export>
+diff --git a/DataFormats/EgammaCandidates/src/classes.h b/DataFormats/EgammaCandidates/src/classes.h
+index c02b7c3..bda02d3 100644
+--- a/DataFormats/EgammaCandidates/src/classes.h
++++ b/DataFormats/EgammaCandidates/src/classes.h
+@@ -21,7 +21,6 @@
+ #include "DataFormats/EgammaCandidates/interface/HIPhotonIsolation.h"
+ #include "DataFormats/EgammaReco/interface/SuperCluster.h"
+ #include "DataFormats/EgammaReco/interface/BasicCluster.h"
+-#include "DataFormats/ParticleFlowCandidate/interface/PFCandidate.h"
+ #include "DataFormats/CaloRecHit/interface/CaloCluster.h"
+ #include "DataFormats/GsfTrackReco/interface/GsfTrack.h"
+ #include "DataFormats/GsfTrackReco/interface/GsfTrackExtra.h"
+diff --git a/DataFormats/EgammaCandidates/src/classes_def.xml b/DataFormats/EgammaCandidates/src/classes_def.xml
+index 006e1a5..586d666 100644
+--- a/DataFormats/EgammaCandidates/src/classes_def.xml
++++ b/DataFormats/EgammaCandidates/src/classes_def.xml
+@@ -107,12 +107,6 @@
+   <class name="edm::reftobase::BaseVectorHolder<reco::Photon>" />
+   <class name="edm::Wrapper<edm::ValueMap<edm::Ref<std::vector<reco::Photon>,reco::Photon,edm::refhelper::FindUsingAdvance<std::vector<reco::Photon>,reco::Photon> > > >"/>
+   <class name="edm::ValueMap<edm::Ref<std::vector<reco::Photon>,reco::Photon,edm::refhelper::FindUsingAdvance<std::vector<reco::Photon>,reco::Photon> > >"/>
+-  <!--
+-  <class name="std::pair<reco::PFCandidateRef,bool>"/>
+-  <class name="std::vector<std::pair<reco::PFCandidateRef,bool> >"/>
+-  <class name="edm::ValueMap<std::vector<std::pair<edm::Ref<std::vector<reco::PFCandidate>,reco::PFCandidate,edm::refhelper::FindUsingAdvance<std::vector<reco::PFCandidate>,reco::PFCandidate> >,bool> > >"/>
+-  <class name="edm::Wrapper<edm::ValueMap<std::vector<std::pair<edm::Ref<std::vector<reco::PFCandidate>,reco::PFCandidate,edm::refhelper::FindUsingAdvance<std::vector<reco::PFCandidate>,reco::PFCandidate> >,bool> > > >"/>
+-   -->
+ 
+ 
+   <class name="std::vector<reco::Electron>"/>
+diff --git a/DataFormats/EgammaReco/BuildFile.xml b/DataFormats/EgammaReco/BuildFile.xml
+index 01e8700..9a92f34 100644
+--- a/DataFormats/EgammaReco/BuildFile.xml
++++ b/DataFormats/EgammaReco/BuildFile.xml
+@@ -1,5 +1,5 @@
+ <use   name="DataFormats/Common"/>
+-
++<use   name="DataFormats/EcalRecHit"/>
+ <use   name="clhepheader"/>
+ <use   name="DataFormats/CaloRecHit"/>
+ <use   name="DataFormats/TrackingRecHit"/>
+diff --git a/DataFormats/HcalDetId/interface/HcalTestNumbering.h b/DataFormats/HcalDetId/interface/HcalTestNumbering.h
+index 6d84201..40af8f8 100644
+--- a/DataFormats/HcalDetId/interface/HcalTestNumbering.h
++++ b/DataFormats/HcalDetId/interface/HcalTestNumbering.h
+@@ -6,6 +6,7 @@
+ ///////////////////////////////////////////////////////////////////////////////
+ 
+ #include <boost/cstdint.hpp>
++#include <stdint.h>
+ 
+ class HcalTestNumbering {
+ 
+diff --git a/DataFormats/ParticleFlowCandidate/BuildFile.xml b/DataFormats/ParticleFlowCandidate/BuildFile.xml
+index 72cdb42..e7f62dc 100644
+--- a/DataFormats/ParticleFlowCandidate/BuildFile.xml
++++ b/DataFormats/ParticleFlowCandidate/BuildFile.xml
+@@ -7,6 +7,7 @@
+ <use   name="DataFormats/GsfTrackReco"/>
+ <use   name="DataFormats/DTRecHit"/>
+ <use   name="DataFormats/CSCRecHit"/>
++<use   name="DataFormats/MuonReco"/>
+ <use   name="FWCore/Utilities"/>
+ <use   name="rootcore"/>
+ <use   name="rootmath"/>
+diff --git a/DataFormats/RecoCandidate/BuildFile.xml b/DataFormats/RecoCandidate/BuildFile.xml
+index b327e4a..e86b06e 100644
+--- a/DataFormats/RecoCandidate/BuildFile.xml
++++ b/DataFormats/RecoCandidate/BuildFile.xml
+@@ -4,8 +4,10 @@
+ <use   name="DataFormats/TrackReco"/>
+ <use   name="DataFormats/CaloTowers"/>
+ <use   name="DataFormats/EgammaReco"/>
++<use   name="DataFormats/HcalRecHit"/>
+ <use   name="clhep"/>
+ <use   name="SimDataFormats/GeneratorProducts"/>
++<use   name="SimDataFormats/TrackingAnalysis"/>
+ 
+ <export>
+   <lib   name="1"/>
+diff --git a/DataFormats/TauReco/src/classes_3.h b/DataFormats/TauReco/src/classes_3.h
+index 51e5510..91e61e0 100644
+--- a/DataFormats/TauReco/src/classes_3.h
++++ b/DataFormats/TauReco/src/classes_3.h
+@@ -34,8 +34,8 @@
+ #include "DataFormats/JetReco/interface/Jet.h"
+ #include "DataFormats/ParticleFlowCandidate/interface/PFCandidate.h"
+ #include "DataFormats/ParticleFlowCandidate/interface/PFCandidateFwd.h"
+-#include "DataFormats/PatCandidates/interface/Jet.h"
+-#include "DataFormats/PatCandidates/interface/PackedCandidate.h"
++//#include "DataFormats/PatCandidates/interface/Jet.h"
++//#include "DataFormats/PatCandidates/interface/PackedCandidate.h"
+ 
+ #include <vector>
+ #include <map>
+diff --git a/DataFormats/TrackReco/BuildFile.xml b/DataFormats/TrackReco/BuildFile.xml
+index 44dfde7..ac7d6cc 100644
+--- a/DataFormats/TrackReco/BuildFile.xml
++++ b/DataFormats/TrackReco/BuildFile.xml
+@@ -5,6 +5,7 @@
+ <use   name="DataFormats/BeamSpot"/>
+ <use   name="DataFormats/SiPixelDetId"/>
+ <use   name="DataFormats/SiStripDetId"/>
++<use   name="DataFormats/SiPixelCluster"/>
+ <use   name="DataFormats/TrackingRecHit"/>
+ <use   name="DataFormats/TrackerCommon"/>
+ <use   name="FWCore/Utilities"/>
+diff --git a/DataFormats/TrackerCommon/interface/ClusterSummary.h b/DataFormats/TrackerCommon/interface/ClusterSummary.h
+index e42ff0b..00cecd6 100644
+--- a/DataFormats/TrackerCommon/interface/ClusterSummary.h
++++ b/DataFormats/TrackerCommon/interface/ClusterSummary.h
+@@ -36,14 +36,14 @@
+ 
+ #include "DataFormats/SiStripCluster/interface/SiStripCluster.h"
+ #include "DataFormats/SiStripDigi/interface/SiStripDigi.h"
+-#include "DataFormats/SiPixelCluster/interface/SiPixelCluster.h"
++//#include "DataFormats/SiPixelCluster/interface/SiPixelCluster.h"
+ #include "DataFormats/Common/interface/DetSetVectorNew.h"
+ 
+ 
+ #include "DataFormats/SiStripDigi/interface/SiStripProcessedRawDigi.h"
+ #include "DataFormats/Common/interface/DetSetVector.h"
+ 
+-#include "DataFormats/SiStripDetId/interface/StripSubdetector.h"
++//#include "DataFormats/SiStripDetId/interface/StripSubdetector.h"
+ #include "DataFormats/DetId/interface/DetId.h" 
+ #include "DataFormats/SiPixelDetId/interface/PixelSubdetector.h"
+ #include "DataFormats/SiPixelDetId/interface/PixelBarrelName.h"
+diff --git a/DataFormats/TrackerRecHit2D/BuildFile.xml b/DataFormats/TrackerRecHit2D/BuildFile.xml
+index b669fdb..2eb96cc 100644
+--- a/DataFormats/TrackerRecHit2D/BuildFile.xml
++++ b/DataFormats/TrackerRecHit2D/BuildFile.xml
+@@ -5,6 +5,7 @@
+ <use   name="DataFormats/TrajectorySeed"/>
+ <use   name="DataFormats/Phase2TrackerCluster"/>
+ <use   name="FWCore/MessageLogger"/>
++<use   name="FWCore/Framework"/>
+ <use   name="Geometry/CommonDetUnit"/>
+ 
+ <export>
+diff --git a/DataFormats/TrackingRecHit/BuildFile.xml b/DataFormats/TrackingRecHit/BuildFile.xml
+index f69974e..42f5152 100644
+--- a/DataFormats/TrackingRecHit/BuildFile.xml
++++ b/DataFormats/TrackingRecHit/BuildFile.xml
+@@ -2,6 +2,7 @@
+ <use   name="DataFormats/CLHEP"/>
+ <use   name="DataFormats/GeometrySurface"/>
+ <use   name="Geometry/CommonDetUnit"/>
++<use   name="DataFormats/GeometryCommonDetAlgo"/>
+ <use   name="FWCore/Utilities"/>
+ <use   name="clhep"/>
+ 
