@@ -28,7 +28,9 @@
 %endif
 
 %if "%(case %realversion in (*CXXMODULE_X*) echo true ;; (*) echo false ;; esac)" == "true"
+Source19: cmssw-cxxmodules.patch
 Source20: CXXModules.mk
+%define patchsrc19     pushd src; patch -p1 < %{_sourcedir}/cmssw-cxxmodules.patch || true; popd
 %define patchsrc20     cp %{_sourcedir}/CXXModules.mk config/SCRAM/GMake/CXXModules.mk
 %endif
 
