@@ -1,17 +1,3 @@
-diff --git a/DataFormats/CLHEP/interface/AlgebraicObjects.h b/DataFormats/CLHEP/interface/AlgebraicObjects.h
-index 655841c..d7eef6a 100644
---- a/DataFormats/CLHEP/interface/AlgebraicObjects.h
-+++ b/DataFormats/CLHEP/interface/AlgebraicObjects.h
-@@ -4,7 +4,8 @@
- #ifdef HEP_SHORT_NAMES
- #undef HEP_SHORT_NAMES
- #endif
--
-+#include <vector>
-+#include <ostream>
- #include "CLHEP/Matrix/Vector.h"
- #include "CLHEP/Matrix/Matrix.h"
- #include "CLHEP/Matrix/SymMatrix.h"
 diff --git a/DataFormats/CaloRecHit/BuildFile.xml b/DataFormats/CaloRecHit/BuildFile.xml
 index 66c1e1b..82b0b71 100644
 --- a/DataFormats/CaloRecHit/BuildFile.xml
