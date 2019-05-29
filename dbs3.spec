@@ -3,7 +3,7 @@
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV SET DBS3_SERVER_ROOT %i/
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 1.1.16.dbs4
+%define wmcver 1.1.16.dbs5
 Source0: git://github.com/dmwm/WMCore.git?obj=1.1.16_dbs/%{wmcver}&export=WMCore&output=/WMCore4%{n}.tar.gz
 Source1: git://github.com/dmwm/DBS.git?obj=master/%{realversion}&export=DBS&output=/%{n}.tar.gz
 
