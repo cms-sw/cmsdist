@@ -18,7 +18,7 @@ Patch6: coral-CORAL_2_3_21-forever-ttl
 # Disable building tests, since they bring dependency on cppunit:
 %define patchsrc2       perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
 # Build with debug symbols, and package them in a separate rpm:
-%define subpackageDebug yes
+#subpackage debug disabledes
 %endif
 
 # Disable building tests, since they bring dependency on cppunit:
