@@ -1,0 +1,55 @@
+diff --git a/1.6.0/configure b/1.6.0/configure
+index f128476..23408db 100755
+--- a/1.6.0/configure
++++ b/1.6.0/configure
+@@ -187,13 +187,8 @@ LDFLAGSSHARED="${CXXFLAGS_OPT} -pthread -fPIC"
+ # Find platform.
+ #
+ ARCH=`uname`
+-theGcc=`g++ --version | grep '[0-9]\.[0-9]\.[0-9]' -o | head -1 | awk -F . '{print $1}'`
+-if [ ${theGcc} = 4 ]; then
+-  ARCH=${ARCH}-gcc4
+-fi
+-if [ ${theGcc} = 5 ]; then
+-  ARCH=${ARCH}-gcc5
+-fi
++GCC_VERSION_MAJOR=`gcc -dumpversion | cut -d'.' -f1`
++ARCH=${ARCH}-gcc${GCC_VERSION_MAJOR}
+ echo "Platform is $ARCH"
+ 
+ #default platform settings:
+@@ -249,11 +244,11 @@ if [ $ARCH = Linux-gcc4 ]; then
+ fi
+ 
+ # Linux platform with gcc5: new Fortran90 compiler.
+-if [ $ARCH = Linux-gcc5 ]; then
++if [[ "$ARCH" = Linux-gcc* ]] && [ "$GCC_VERSION_MAJOR" -ge 5 ]; then
+   FFLAGS="${FFLAGS_OPT}"
+   CFLAGS="${CFLAGS_OPT}"
+   CXXFLAGS="${CXXFLAGS_OPT}"
+-  FLIBS="-lgfortran -lgfortranbegin"
++  FLIBS="-lgfortran"
+   if [ ${COMPMODE} = OPT ]; then
+     FFLAGS="${FFLAGS_OPT}"
+     CFLAGS="${CFLAGS_OPT}"
+@@ -266,16 +261,13 @@ if [ $ARCH = Linux-gcc5 ]; then
+   fi
+ fi
+ 
+-
+ # Add C++11 options if required
+-theGcc2=`g++ --version | grep '[0-9]\.[0-9]\.[0-9]' -o | head -1 | awk -F . '{print $2}'`
+-gccVar=`echo $theGcc`
+-gccVar2=`echo $theGcc2`
++GCC_VERSION_MINOR=`gcc -dumpversion | cut -d'.' -f2`
+ # Flag to make sure c++11 is enabled for compiling certain classes, e.g. MT random engine.
+ CPP11=1
+ # Check that we have gcc version 4.7 and above
+-if [ $gccVar -le 4 ]; then
+-  if [ $gccVar2 -le 6 ]; then
++if [ "$GCC_VERSION_MAJOR" -le 4 ]; then
++  if [ "$GCC_VERSION_MINOR" -le 6 ]; then
+     echo "Not enabling c++11 features"
+     CPP11=0
+   fi
+
