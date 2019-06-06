@@ -11,7 +11,7 @@ index 17fc85b..7a44c5b 100644
  <use   name="rootmath"/>
  <export>
 diff --git a/DataFormats/TauReco/src/classes_3.h b/DataFormats/TauReco/src/classes_3.h
-index 51e5510..c918765 100644
+index 71e11b7..acc21db 100644
 --- a/DataFormats/TauReco/src/classes_3.h
 +++ b/DataFormats/TauReco/src/classes_3.h
 @@ -34,8 +34,6 @@
@@ -23,3 +23,19 @@ index 51e5510..c918765 100644
  
  #include <vector>
  #include <map>
+diff --git a/DataFormats/TrackerCommon/interface/ClusterSummary.h b/DataFormats/TrackerCommon/interface/ClusterSummary.h
+index 09d89bc..8c23ac6 100644
+--- a/DataFormats/TrackerCommon/interface/ClusterSummary.h
++++ b/DataFormats/TrackerCommon/interface/ClusterSummary.h
+@@ -34,9 +34,9 @@
+ 
+ // user include files
+ 
+-#include "DataFormats/SiStripCluster/interface/SiStripCluster.h"
++//#include "DataFormats/SiStripCluster/interface/SiStripCluster.h"
+ #include "DataFormats/SiStripDigi/interface/SiStripDigi.h"
+-#include "DataFormats/SiPixelCluster/interface/SiPixelCluster.h"
++//#include "DataFormats/SiPixelCluster/interface/SiPixelCluster.h"
+ #include "DataFormats/Common/interface/DetSetVectorNew.h"
+ 
+ 
