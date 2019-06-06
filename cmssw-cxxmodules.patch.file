@@ -24,18 +24,16 @@ index 71e11b7..acc21db 100644
  #include <vector>
  #include <map>
 diff --git a/DataFormats/TrackerCommon/interface/ClusterSummary.h b/DataFormats/TrackerCommon/interface/ClusterSummary.h
-index 09d89bc..8c23ac6 100644
+index 09d89bc..3df0823 100644
 --- a/DataFormats/TrackerCommon/interface/ClusterSummary.h
 +++ b/DataFormats/TrackerCommon/interface/ClusterSummary.h
-@@ -34,9 +34,9 @@
+@@ -34,9 +34,7 @@
  
  // user include files
  
 -#include "DataFormats/SiStripCluster/interface/SiStripCluster.h"
-+//#include "DataFormats/SiStripCluster/interface/SiStripCluster.h"
  #include "DataFormats/SiStripDigi/interface/SiStripDigi.h"
 -#include "DataFormats/SiPixelCluster/interface/SiPixelCluster.h"
-+//#include "DataFormats/SiPixelCluster/interface/SiPixelCluster.h"
  #include "DataFormats/Common/interface/DetSetVectorNew.h"
  
  
