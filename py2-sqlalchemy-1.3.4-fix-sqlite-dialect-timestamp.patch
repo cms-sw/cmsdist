@@ -1,0 +1,40 @@
+diff --git a/lib/sqlalchemy/processors.py b/lib/sqlalchemy/processors.py
+index 62fc6e9..38a63a4 100644
+--- a/lib/sqlalchemy/processors.py
++++ b/lib/sqlalchemy/processors.py
+@@ -30,12 +30,15 @@ def str_to_datetime_processor_factory(regexp, type_):
+         if value is None:
+             return None
+         else:
++            # in case we got an oracle timestamp:
++            if type(value) == type(1):
++                return datetime.datetime.fromtimestamp( float(value)/1000000000. ).strftime("%Y-%m-%d %H:%M:%S.%f")
+             try:
+                 m = rmatch(value)
+             except TypeError:
+                 raise ValueError(
+                     "Couldn't parse %s string '%r' "
+-                    "- value is not a string." % (type_.__name__, value)
++                    "- value is not a string but %s." % (type_.__name__, value, type(value))
+                 )
+             if m is None:
+                 raise ValueError(
+diff --git a/setup.py b/setup.py
+index aaba737..b30d7b3 100644
+--- a/setup.py
++++ b/setup.py
+@@ -21,10 +21,10 @@ if sys.version_info < (2, 7):
+ cpython = platform.python_implementation() == "CPython"
+ 
+ ext_modules = [
+-    Extension(
+-        "sqlalchemy.cprocessors",
+-        sources=["lib/sqlalchemy/cextension/processors.c"],
+-    ),
++#    Extension(
++#        "sqlalchemy.cprocessors",
++#        sources=["lib/sqlalchemy/cextension/processors.c"],
++#    ),
+     Extension(
+         "sqlalchemy.cresultproxy",
+         sources=["lib/sqlalchemy/cextension/resultproxy.c"],
