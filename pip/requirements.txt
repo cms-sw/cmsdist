@@ -201,3 +201,4 @@ wrapt==1.11.1
 xgboost==0.82
 xrootdpyfs==0.1.5
 hepdata-lib==0.2.7
+sqlalchemy==1.3.4
