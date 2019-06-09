@@ -31,18 +31,17 @@ index 0000000..5cbb3d7
 +    def do_rollback(self, dbapi_connection):
 +        pass
 diff --git a/lib/sqlalchemy/dialects/oracle/__init__.py b/lib/sqlalchemy/dialects/oracle/__init__.py
-index 0c5c317..5622b76 100644
+index 9f1e15b..d06e3e9 100644
 --- a/lib/sqlalchemy/dialects/oracle/__init__.py
 +++ b/lib/sqlalchemy/dialects/oracle/__init__.py
-@@ -5,7 +5,7 @@
- # This module is part of SQLAlchemy and is released under
- # the MIT License: http://www.opensource.org/licenses/mit-license.php
- 
--from sqlalchemy.dialects.oracle import base, cx_oracle, zxjdbc
-+from sqlalchemy.dialects.oracle import base, cx_oracle, zxjdbc, frontier
- 
- base.dialect = cx_oracle.dialect
- 
+@@ -8,6 +8,7 @@
+ from . import base  # noqa
+ from . import cx_oracle  # noqa
+ from . import zxjdbc  # noqa
++from . import frontier  # noqa
+ from .base import BFILE
+ from .base import BINARY_DOUBLE
+ from .base import BINARY_FLOAT
 diff --git a/lib/sqlalchemy/dialects/oracle/frontier.py b/lib/sqlalchemy/dialects/oracle/frontier.py
 new file mode 100644
 index 0000000..74cde5e
