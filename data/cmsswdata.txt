@@ -22,7 +22,7 @@ RecoTauTag-TrainingFiles=V00-01-01
 PhysicsTools-PatUtils=V00-01-00
 SimTransport-PPSProtonTransport=V00-01-00
 SimTransport-TotemRPProtonTransportParametrization=V00-01-00
-RecoLocalCalo-EcalDeadChannelRecoveryAlgos=V01-00-01
+RecoLocalCalo-EcalDeadChannelRecoveryAlgos=V01-00-00
 
 #Never update any package here. Always move it to default section.
 [cmssw-xmldata-build]
