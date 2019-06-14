@@ -70,7 +70,7 @@
   CWD=`/bin/pwd`; cd %i; DIR=%{srctree}; %{PatchReleaseLink}; DIR=cfipython/%{cmsplatf}; %{PatchReleaseLink}; cd $CWD
 
 %define RelocatePatchReleaseSymlinks \
-  CWD=`/bin/pwd`; cd %i; DIR=%{srctree}; %{RelocateReleaseLinks}; DIR=cfipython/%{cmsplatf}; %{RelocateReleaseLinks}; DIR=python; %{RelocateReleaseLinks}; cd $CWD; 
+  CWD=`/bin/pwd`; cd %i; DIR=%{srctree}; %{RelocateReleaseLinks}; DIR=cfipython/%{cmsplatf}; %{RelocateReleaseLinks}; DIR=python; %{RelocateReleaseLinks}; DIR=biglib/%{cmsplatf}; %{RelocateReleaseLinks}; cd $CWD; 
 
 %define PatchReleaseDependencyInfo \
   for gz in $(find %{parent_release_fpath}/etc/dependencies -name '*.out.gz') ; do \
