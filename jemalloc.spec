@@ -1,4 +1,4 @@
-### RPM external jemalloc 5.1.0
+### RPM external jemalloc 5.2.0
 
 %define tag %{realversion}
 %define branch master
@@ -13,14 +13,14 @@ BuildRequires: autotools
 %build
 XOPTS=""
 case %{cmsplatf} in
+  # set the page size to 64k on ARMv8 and PowerPC
   *_aarch64_*|*_ppc64le_*|*_ppc64_*) XOPTS="--with-lg-page=16" ;;
 esac
 
-# Disable documentation (not needed)
-sed -ibak 's/install: install_bin install_include install_lib install_doc/install: install_bin install_include install_lib/' Makefile.in
-./autogen.sh
-
-./configure ${XOPTS}\
+./autogen.sh ${XOPTS} \
+  --enable-shared \
+  --disable-static \
+  --disable-doc \
   --enable-stats \
   --prefix %{i}
 
