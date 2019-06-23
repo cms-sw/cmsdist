@@ -48,6 +48,7 @@ DataFormats/L1GlobalCaloTrigger
 DataFormats/L1GlobalMuonTrigger
 DataFormats/L1GlobalTrigger
 DataFormats/L1Trigger
+DataFormats/L1THGCal
 DataFormats/Luminosity
 DataFormats/METReco
 DataFormats/Math
