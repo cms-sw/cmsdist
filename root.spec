@@ -12,7 +12,7 @@ Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&expo
 
 BuildRequires: cmake ninja
 
-Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib davix tbb OpenBLAS py2-numpy lz4
+Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib davix tbb OpenBLAS py2-numpy lz4 xxHash
 
 %if %islinux
 Requires: dcap
@@ -136,7 +136,7 @@ cmake ../%{n}-%{realversion} \
   -DLIBLZ4_LIBRARY="${LZ4_ROOT}/lib/liblz4.%{soext}" \
   -DZLIB_ROOT="${ZLIB_ROOT}" \
   -DZLIB_INCLUDE_DIR="${ZLIB_ROOT}/include" \
-  -DCMAKE_PREFIX_PATH="${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LZ4_ROOT};${LIBXML2_ROOT}"
+  -DCMAKE_PREFIX_PATH="${XXHASH_ROOT};${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LZ4_ROOT};${LIBXML2_ROOT}"
 
 # For CMake cache variables: http://www.cmake.org/cmake/help/v3.2/manual/cmake-language.7.html#lists
 # For environment variables it's OS specific: http://www.cmake.org/Wiki/CMake_Useful_Variables
