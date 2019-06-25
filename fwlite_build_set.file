@@ -94,6 +94,7 @@ FWCore/ServiceRegistry
 FWCore/Utilities
 FWCore/Version
 FWCore/Framework
+FWCore/Reflection
 FastSimDataFormats/External
 Fireworks/Calo
 Fireworks/Candidates
