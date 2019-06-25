@@ -2,13 +2,12 @@
 ## INITENV SETV XXHASH_SOURCE %{source0}
 ## INITENV SETV XXHASH_STRIP_PREFIX %{source_prefix}
 
-%define source_prefix %{n}-%{realversion}
 Source: https://github.com/Cyan4973/xxHash/archive/v%{realversion}.tar.gz
 
 BuildRequires: gmake cmake
 
 %prep
-%setup -n %{source_prefix}
+%setup -n %{n}-%{realversion}
 
 %build
 
