@@ -1,4 +1,4 @@
-### RPM external gsl 2.2.1
+### RPM external gsl 2.5
 Source: ftp://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 
 %define keep_archives true
