@@ -5,7 +5,6 @@
 %define github_user cms-externals
 %define keep_archives true
 
-
 Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake
 Requires: root boost clhep xerces-c geant4
