@@ -36,3 +36,4 @@ index 2f2d255..5aed8f2 100644
  subdir = src
  DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
  ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
+# bla bla
