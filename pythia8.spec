@@ -18,3 +18,4 @@ make %makeprocesses
 %install
 make install
 test -f %i/lib/libpythia8lhapdf6.so || exit 1
+# bla bla
