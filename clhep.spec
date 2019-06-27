@@ -43,3 +43,4 @@ rm -f %i/lib/libCLHEP-[A-Z]*-%realversion.$so
 %{relocateConfig}bin/Utility-config
 %{relocateConfig}bin/Vector-config
 %{relocateConfig}bin/clhep-config
+# bla bla
