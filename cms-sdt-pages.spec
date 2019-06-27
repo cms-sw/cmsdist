@@ -38,3 +38,4 @@ cat << \EOF > %cmsroot/WEB/index.html
 </body>
 </html>
 EOF
+# bla bla
