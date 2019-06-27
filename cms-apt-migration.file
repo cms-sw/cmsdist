@@ -85,3 +85,4 @@ done
 # Rebuild the db using the new rpm.
 source $rootdir/@CMSPLATF@/external/rpm/@RPM_VERSION@/etc/profile.d/init.sh
 rpm --dbpath $rootdir/@CMSPLATF@/var/lib/rpm --rebuilddb 
+# bla bla
