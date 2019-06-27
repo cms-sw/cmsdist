@@ -24,3 +24,4 @@ find %{i}/lib -name '*.la' -exec rm -f {} \;
 %{relocateConfig}bin/gosam.py
 %{relocateConfig}bin/gosam-config.py
 %{relocateConfig}lib/python2.7/site-packages/golem/installation.py
+# bla bla
