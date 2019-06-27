@@ -21,3 +21,4 @@ diff -u -r ../meschach-1.2-orig/matrix.h ./matrix.h
  extern   int bd_free(BAND *);
  
  #endif /* ANSI_C */
+# bla bla
