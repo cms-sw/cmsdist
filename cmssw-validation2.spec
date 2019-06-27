@@ -42,3 +42,4 @@ rm -rf $TEST_AREA
 
 %post
 # NOP
+# bla bla
