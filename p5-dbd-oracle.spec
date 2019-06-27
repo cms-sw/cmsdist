@@ -29,3 +29,4 @@ perl -p -i -e 's/NMEDIT = nmedit/NMEDIT = true/' Makefile.PL
 
 perl Makefile.PL PREFIX=%i LIB=%i/lib/site_perl/%perlversion -l -m $ORACLE_HOME/demo/demo.mk -h $ORACLE_HOME/include
 make
+# bla bla
