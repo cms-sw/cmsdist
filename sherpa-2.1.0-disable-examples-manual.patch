@@ -28,3 +28,4 @@ index 90d6901..2beff38 100644
  
  EXTRA_DIST = GUIDELINES
  all: config.h
+# bla bla
