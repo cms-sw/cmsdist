@@ -23,3 +23,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/hdf5.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+# bla bla
