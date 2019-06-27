@@ -27,3 +27,4 @@ perl -p -i -e 's|-lfreetype|-lfreetype-cms|' %{i}/bin/freetype-config
 %define strip_files %{i}/lib
 %post
 %{relocateConfig}bin/freetype-config
+# bla bla
