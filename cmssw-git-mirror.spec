@@ -25,3 +25,4 @@ rm -rf src
 
 %post
 # NOP
+# bla bla
