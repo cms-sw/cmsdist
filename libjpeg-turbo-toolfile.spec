@@ -24,3 +24,4 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/libjpg.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+# bla bla
