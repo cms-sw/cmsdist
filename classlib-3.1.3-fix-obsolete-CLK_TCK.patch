@@ -47,3 +47,4 @@ index 1c29859..92ed42a 100644
      real -= s_clockBase;
  #elif _WIN32
      // Real time will be based on an estimate from call to init; the
+# bla bla
