@@ -46,3 +46,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/dd4hep-geant4.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+# bla bla
