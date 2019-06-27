@@ -38,3 +38,4 @@ make %{makeprocesses}
 export XERCESCROOT=$PWD
 
 make install
+# bla bla
