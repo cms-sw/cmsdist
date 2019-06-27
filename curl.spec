@@ -52,3 +52,4 @@ rm -rf %{i}/lib/pkgconfig
 
 %post
 %{relocateConfig}bin/curl-config
+# bla bla
