@@ -357,3 +357,4 @@ fi
 
 %postun
 rm -fR $RPM_INSTALL_PREFIX/%pkgrel
+# bla bla
