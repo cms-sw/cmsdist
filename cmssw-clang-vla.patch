@@ -188,3 +188,4 @@ diff -u -r1.86 SSEVec.h
  
  
  inline bool operator==(mathSSE::Vec4D a, mathSSE::Vec4D b) {
+# bla bla
