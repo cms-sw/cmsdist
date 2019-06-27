@@ -39,3 +39,4 @@ cd ../build
 make install
 cd %{i}/bin
 sed -i '/#!/c\#!/usr/bin/env python' *
+# bla bla
