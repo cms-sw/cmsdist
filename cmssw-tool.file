@@ -16,3 +16,4 @@
     <runtime name="CMSSW_SEARCH_PATH" value="$CMSSW_BASE/src" type="path"/>
     <runtime name="CMSSW_SEARCH_PATH" value="$CMSSW_BASE/share" type="path"/>
   </tool>
+# bla bla
