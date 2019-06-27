@@ -18,3 +18,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/md5.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+# bla bla
