@@ -15,3 +15,4 @@ make %{makeprocesses}
 %install
 [ -d  build/lib ] && cp -r build/lib %{i}/lib
 cp -r build/include %{i}/include
+# bla bla
