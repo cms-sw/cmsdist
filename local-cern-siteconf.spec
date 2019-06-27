@@ -21,3 +21,4 @@ if [ ! -d $RPM_INSTALL_PREFIX/SITECONF ] ; then
   rm -f $RPM_INSTALL_PREFIX/SITECONF
   ln -s %{pkgrel}/SITECONF $RPM_INSTALL_PREFIX/SITECONF
 fi
+# bla bla
