@@ -30,3 +30,4 @@ index 4f81f44..9102708 100644
  		prefix = FALLBACK_RUNTIME_PREFIX;
  		trace_printf("RUNTIME_PREFIX requested, "
  				"but prefix computation failed.  "
+# bla bla
