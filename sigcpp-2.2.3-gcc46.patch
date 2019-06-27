@@ -20,3 +20,4 @@ diff -Naur orig.libsigc++-2.2.3/sigc++/signal_base.h libsigc++-2.2.3/sigc++/sign
  
  namespace sigc
  {
+# bla bla
