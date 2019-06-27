@@ -22,3 +22,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/curl.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+# bla bla
