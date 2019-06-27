@@ -47,3 +47,4 @@ rm -f %{i}/lib/*.la
 
 %post
 %{relocateConfig}bin/gsl-config
+# bla bla
