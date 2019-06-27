@@ -7,3 +7,4 @@ Requires: icc-provides
 cd %i
 ln -s /cvmfs/projects.cern.ch/intelsw/psxe/linux/x86_64/2018/compilers_and_libraries_%{realversion}/linux installation
 ln -s /cvmfs/projects.cern.ch/intelsw/psxe/linux/x86_64/2018/compilers_and_libraries_%{realversion}/linux ifort
+# bla bla
