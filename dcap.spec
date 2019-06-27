@@ -32,3 +32,4 @@ make -C src install
 %define strip_files %{i}/lib
 # Look up documentation online.
 %define drop_files %{i}/share
+# bla bla
