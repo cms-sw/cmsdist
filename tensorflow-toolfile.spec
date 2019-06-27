@@ -59,3 +59,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/tensorflow-xla_compiled_cpu_function.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+# bla bla
