@@ -65,3 +65,4 @@ fi
 #and make sure that das_client.py script points to das_cleint wrapper
 mkdir -p $RPM_INSTALL_PREFIX/share/overrides/bin
 [ -e $RPM_INSTALL_PREFIX/share/overrides/bin/das_client.py ] || ln -sf ../../../common/das_client $RPM_INSTALL_PREFIX/share/overrides/bin/das_client.py
+# bla bla
