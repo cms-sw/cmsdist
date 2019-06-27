@@ -11,3 +11,4 @@ index 980f75b..93f5e3b 100644
          /// iterator for the weight container
  	typedef std::vector<double>::iterator iterator;
          /// const iterator for the weight container
+# bla bla
