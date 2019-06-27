@@ -10,3 +10,4 @@ index fbe10bf..bb95c39 100644
 +// Do not use inline assembly for atomic operations until ROOT6 can handle inline
 +// assembly. This could happen with MCJIT support (middle of 2015).
 +#define BOOST_SP_USE_SPINLOCK
+# bla bla
