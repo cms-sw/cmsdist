@@ -12,3 +12,4 @@ Provides: libsvml.so()(64bit)
 %post
 ln -s /cvmfs/projects.cern.ch/intelsw/psxe/linux/x86_64/2017/compilers_and_libraries_%{realversion}/linux $RPM_INSTALL_PREFIX/%{pkgrel}/installation
 
+# bla bla
