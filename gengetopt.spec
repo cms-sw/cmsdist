@@ -23,3 +23,4 @@ make %{makeprocesses}
 make install
 
 rm -rf %{i}/share
+# bla bla
