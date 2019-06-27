@@ -13,3 +13,4 @@ make %{makeprocesses}
 %install
 make install
 cp -r %{_builddir}/%{n}-%{realversion}/installDir/* %{i}
+# bla bla
