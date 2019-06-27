@@ -83,3 +83,4 @@ case %{cmsplatf} in
 esac
 # Drop static libraries.
 rm -rf %{i}/lib/*.{l,}a
+# bla bla
