@@ -7,3 +7,4 @@ diff -arupN src.orig/ConnectionService/BuildFile.xml src/ConnectionService/Build
  <use   name="LCG/CoralCommon"/>
  <use   name="LCG/RelationalAccess"/>
  <use   name="boost"/>
+# bla bla
