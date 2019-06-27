@@ -20,3 +20,4 @@ make %{makeprocesses}
 %install
 make install
 rm -rf %i/lib64/pkgconfig
+# bla bla
