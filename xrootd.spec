@@ -55,3 +55,4 @@ cd ..
 %define strip_files %i/lib
 %define keep_archives true
 
+# bla bla
