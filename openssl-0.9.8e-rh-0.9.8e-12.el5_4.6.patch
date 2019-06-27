@@ -14869,3 +14869,4 @@ diff -Naur orig.openssl-fips-0.9.8e/test/Makefile openssl-fips-0.9.8e/test/Makef
  	[ "$(FIPSCANLIB)" = "libfips" ] && LIBRARIES="$$LIBRARIES -lfips"; \
  	$(MAKE) -f $(TOP)/Makefile.shared -e \
  		CC=$${CC} APPNAME=$$target$(EXE_EXT) OBJECTS="$$target.o" \
+# bla bla
