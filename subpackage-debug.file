@@ -20,3 +20,4 @@ Separate debug symbol files for %{pkgcategory}+%{pkgname}+%{pkgversion}.
 %files -n %{pkgcategory}+%{pkgname}-debug+%{pkgversion} -f %_builddir/files.debug
 %defattr(-, root, root)
 %endif
+# bla bla
