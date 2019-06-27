@@ -10,3 +10,4 @@ Requires: cuda
 %install
 mkdir %{i}/include
 cp -ar cub %{i}/include/
+# bla bla
