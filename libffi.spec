@@ -25,3 +25,4 @@ rm -rf %{i}/lib
 rm -rf %{i}/lib64/*.la
 
 %define drop_files %{i}/share
+# bla bla
