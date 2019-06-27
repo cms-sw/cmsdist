@@ -29,3 +29,4 @@ echo "</tool>" >> %i/etc/scram.d/%n.xml
 
 %post
 %{relocateConfig}etc/scram.d/%n.xml
+# bla bla
