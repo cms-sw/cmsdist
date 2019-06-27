@@ -19,3 +19,4 @@ index 1605e96..ac8e06d 100644
              RUNTIME DESTINATION bin)
          endif()
          set ( building_binary "ON" )
+# bla bla
