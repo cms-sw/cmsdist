@@ -23,3 +23,4 @@ cmake  -DCMAKE_INSTALL_PREFIX=%i -DCFITSIO_LIBRARIES=$FITSIO_ROOT/lib/libcfitsio
        -DSUITESPARSE_INCLUDE_DIR=$SUITESPARSE_ROOT/include \
        ..
 make %{makeprocesses} ; make install
+# bla bla
