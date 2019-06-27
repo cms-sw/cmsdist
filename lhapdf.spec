@@ -57,3 +57,4 @@ find %{i} -name '*.la' -exec rm -f {} \;
 %post
 %{relocateConfig}bin/lhapdf-config
 %{relocateConfig}bin/lhapdf
+# bla bla
