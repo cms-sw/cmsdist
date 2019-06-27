@@ -88,3 +88,4 @@ index 861bf10..1e1e110 100644
            nipp.bindVariable( iColumn->specification().name(), os.str(), m_sqlStatement );
          }
          else if( colType == typeid(bool) )
+# bla bla
