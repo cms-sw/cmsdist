@@ -39,3 +39,4 @@ for file in $(find . -name '*' -type l -path '*/common/*') ; do
 done
 
 echo %{fakerevision} > ${RPM_INSTALL_PREFIX}/etc/%{pkgname}/version
+# bla bla
