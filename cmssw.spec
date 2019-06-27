@@ -15,3 +15,4 @@ Requires: cmssw-tool-conf python cms-git-tools cmssw-osenv
 
 ## IMPORT scram-project-build
 ## SUBPACKAGE debug IF %subpackageDebug
+# bla bla
