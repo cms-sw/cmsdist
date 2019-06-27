@@ -158,3 +158,4 @@ diff -arupN src.orig/PyCoral/src/IWebCacheInfo.cpp src/PyCoral/src/IWebCacheInfo
  // Forward declaration of the methods
  static int IWebCacheInfo_init( PyObject* self, PyObject* /* args */, PyObject* /* kwds */);
  static void IWebCacheInfo_dealloc( PyObject* self );
+# bla bla
