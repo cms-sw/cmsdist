@@ -67,3 +67,4 @@ find %{i} -name '*deleteme' -delete
 
 %post
 %{relocateConfig}input/mg5_configuration.txt
+# bla bla
