@@ -11,3 +11,4 @@ index 6caf13a..48f010a 100644
      if (NOT ${CGAL_CONFIGURED_LIBRARY_NAME} STREQUAL "CGAL")
  
       message(STATUS "Sources for CGAL component library '${CGAL_CONFIGURED_LIBRARY_NAME}' detected")
+# bla bla
