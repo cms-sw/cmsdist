@@ -84,3 +84,4 @@ index 6afb78c..71dfdbb 100644
        std::ostringstream os;
        os.imbue(std::locale(os.getloc(), facet));
        os << time;
+# bla bla
