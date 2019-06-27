@@ -33,3 +33,4 @@ cat download.url | xargs -I "{}" $download_cmd
 %install
 /bin/cp -r %{_builddir}/%realsub %i
 
+# bla bla
