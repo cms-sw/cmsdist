@@ -21,3 +21,4 @@ gcc md5.c -shared -fPIC -o libcms-md5.so
 mkdir %{i}/{lib,include}
 cp libcms-md5.* %{i}/lib/
 cp md5.h %{i}/include/
+# bla bla
