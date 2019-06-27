@@ -23,3 +23,4 @@ python setup.py build
 %install
 python setup.py install --skip-build --prefix=%{i}
 find %{i} -name '*.egg-info' | xargs rm -rf
+# bla bla
