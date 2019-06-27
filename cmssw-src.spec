@@ -6,3 +6,4 @@ Source: cmstc://?tag=&module=CMSSW&export=src&output=/src.tar.gz
 %prep
 %build
 %install
+# bla bla
