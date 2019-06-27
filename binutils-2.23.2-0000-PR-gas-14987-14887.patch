@@ -22,3 +22,4 @@ index 48316a5..7d4c3de 100644
    if ((reg = arm_reg_parse (&p, REG_TYPE_RN)) == FAIL)
      {
        inst.error = _(reg_expected_msgs[REG_TYPE_RN]);
+# bla bla
