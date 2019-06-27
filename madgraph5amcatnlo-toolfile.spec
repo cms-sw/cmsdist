@@ -20,3 +20,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/madgraph5amcatnlo.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+# bla bla
