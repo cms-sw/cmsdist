@@ -20,3 +20,4 @@ cp -r xsd-type %{i}/xsd-type
 cp -r menu.xsd %{i}/menu.xsd
 
 
+# bla bla
