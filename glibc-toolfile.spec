@@ -14,3 +14,4 @@ cat << \EOF_TOOLFILE > %{i}/etc/scram.d/glibc.xml
   </tool>
 EOF_TOOLFILE
 ## IMPORT scram-tools-post
+# bla bla
