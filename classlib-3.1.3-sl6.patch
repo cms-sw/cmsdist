@@ -11,3 +11,4 @@ index 31218af..21b5fec 100644
  	if (! (end = strchr(propname, '=')) || end - p > reclen)
  	    throw TarError (TarError::HEADER_VALUE_ERROR);
  	ptrdiff_t proplen = end++ - propname;
+# bla bla
