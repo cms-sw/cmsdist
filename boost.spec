@@ -88,3 +88,4 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
+# bla bla
