@@ -80,3 +80,4 @@ echo "source %i/etc/profile.d/init.csh" > %i/etc/profile.d/env.csh
 %{relocateConfig}etc/profile.d/env.csh
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
+# bla bla
