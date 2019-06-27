@@ -22,3 +22,4 @@ make install PREFIX=%{i}
 
 find %{i} -type f -exec sed -ideleteme '1 { s|^#!.*/bin/python|#!/usr/bin/env python| }' {} \;
 find %{i} -name '*deleteme' -delete
+# bla bla
