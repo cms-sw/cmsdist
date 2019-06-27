@@ -18,3 +18,4 @@ cmake --build . --clean-first -- %{makeprocesses}
 %install
 
 cmake --build . --target install --clean-first -- %{makeprocesses}
+# bla bla
