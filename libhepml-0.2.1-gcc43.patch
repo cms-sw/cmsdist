@@ -10,3 +10,4 @@ index 7ab9a6a..b73e1c1 100644
  
  extern "C" {
      #include "lhaef.h"
+# bla bla
