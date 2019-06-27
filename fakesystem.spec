@@ -39,3 +39,4 @@ Provides: libaio.so.1(LIBAIO_0.4)(64bit)
 %install
 echo 'This package provides fake Provides for a small set of things which
 are technically required to satisfy dependencies of CMSSW. All of these things are needed only by (for example) single shell or perl scripts, used only for standalone work, and thus we do not want to add them to the full required system seeds list.'> %{i}/README 
+# bla bla
