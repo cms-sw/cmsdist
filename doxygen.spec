@@ -25,3 +25,4 @@ make %{makeprocesses}
 %install
 cd ../build
 make install
+# bla bla
