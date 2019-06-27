@@ -11,3 +11,4 @@ index 96986ae..63fd8bb 100644
        (getenv(ENV_VAR_NAME_PORT) == NULL ||
         getenv(ENV_VAR_NAME_PORT)[0]== '\0') &&
        allowedModes != COORD_NEW) {
+# bla bla
