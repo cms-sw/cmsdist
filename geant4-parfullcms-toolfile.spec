@@ -16,3 +16,4 @@ cat << \EOF_TOOLFILE > %{i}/etc/scram.d/geant4-parfullcms.xml
   </tool>
 EOF_TOOLFILE
 ## IMPORT scram-tools-post
+# bla bla
