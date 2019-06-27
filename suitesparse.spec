@@ -11,3 +11,4 @@ make -j %makeprocesses LAPACK="-L$LAPACK_ROOT/lib -llapack" BLAS="-L$LAPACK_ROOT
 %install
 mkdir -p %i/{lib,include}
 make install INSTALL_LIB="%i/lib" INSTALL_INCLUDE="%i/include"
+# bla bla
