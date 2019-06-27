@@ -48,3 +48,4 @@ fi
 # make das_client point to dasgoclient in overrides/bin area
 mkdir -p $RPM_INSTALL_PREFIX/share/overrides/bin
 [ -e $RPM_INSTALL_PREFIX/share/overrides/bin/das_client ] || ln -sf ../../../common/dasgoclient $RPM_INSTALL_PREFIX/share/overrides/bin/das_client
+# bla bla
