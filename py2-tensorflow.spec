@@ -27,3 +27,4 @@ pip3 install --user -v ${TENSORFLOW_PYTHON3_SOURCES_ROOT}/tensorflow-%{realversi
 %install
 perl -p -i -e "s|^#!.*python(.*)|#!/usr/bin/env python$1|" %{i}/bin/*
 
+# bla bla
