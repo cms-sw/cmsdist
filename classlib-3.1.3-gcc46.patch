@@ -60,3 +60,4 @@ index 623f1e1..9b52cb2 100644
  {
  public:
      typedef std::input_iterator_tag	iterator_category;
+# bla bla
