@@ -15,3 +15,4 @@ make %makeprocesses
 %install
 make install
 ls %i/lib
+# bla bla
