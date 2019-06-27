@@ -8,3 +8,4 @@ Source: http://puzzle.dl.sourceforge.net/sourceforge/%n/%n-%realversion.tar.gz
 make
 %post
 %{relocateConfig}lib64/libbeecrypt.la
+# bla bla
