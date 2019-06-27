@@ -9,3 +9,4 @@ diff -arupN frontier_client__2.8.5__src.orig/test-req.cc frontier_client__2.8.5_
  
  int do_main(int argc, char **argv);
  static std::string escape_list="\\\'";
+# bla bla
