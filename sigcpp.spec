@@ -24,3 +24,4 @@ rm -rf %{i}/lib/pkgconfig
 # Read documentation online.
 %define drop_files %{i}/share
 cp %{i}/lib/sigc++-2.0/include/sigc++config.h %{i}/include/sigc++-2.0/
+# bla bla
