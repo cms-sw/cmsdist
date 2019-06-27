@@ -69,3 +69,4 @@ index 7417332..340d5ae 100644
  	public:
  	    particle_iterator();
  	    /// used to set limits on the iteration
+# bla bla
