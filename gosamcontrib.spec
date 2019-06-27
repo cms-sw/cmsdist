@@ -27,3 +27,4 @@ make install
 %post
 %{relocateConfig}share/gosam-contrib/gosam.conf
 
+# bla bla
