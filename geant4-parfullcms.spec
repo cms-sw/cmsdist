@@ -32,3 +32,4 @@ make %{makeprocesses} VERBOSE=1
 
 cd build-ParFullCMS
 make install
+# bla bla
