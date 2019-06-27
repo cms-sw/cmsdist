@@ -13,3 +13,4 @@ Patch0: pyminuit2-cling
 %install
 python setup.py install --prefix=%{i}
 find %{i}/${PYTHON_LIB_SITE_PACKAGES} -name '*.egg-info' -print0 | xargs -0 rm -rf
+# bla bla
