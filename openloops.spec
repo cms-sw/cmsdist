@@ -30,3 +30,4 @@ mkdir %i/{lib,proclib}
 cp lib/*.so %i/lib
 cp proclib/*.so %i/proclib
 cp proclib/*.info %i/proclib
+# bla bla
