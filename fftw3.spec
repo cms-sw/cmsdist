@@ -30,3 +30,4 @@ make install
 
 # Remove documentation. 
 %define drop_files %{i}/share
+# bla bla
