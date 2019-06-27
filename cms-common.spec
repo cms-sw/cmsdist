@@ -55,3 +55,4 @@ for l in cmsarch cmsos scramv1 ; do
   fi
 done
 echo %{pkgrevision} > etc/%{pkgname}/revision
+# bla bla
