@@ -31,3 +31,4 @@ find %{i}/lib -type f | xargs chmod 0755
 
 # Remove man pages.
 rm -rf %{i}/man
+# bla bla
