@@ -41,3 +41,4 @@ cp -r %_builddir/%{n}-%{realversion}/lib %{i}
 cp -r %_builddir/%{n}-%{realversion}/bin %{i}
 
 %post
+# bla bla
