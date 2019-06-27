@@ -31,3 +31,4 @@ make install
 %define drop_files %{i}/share
 # Don't need archive libraries.
 rm -f %{i}/lib/*.{l,}a
+# bla bla
