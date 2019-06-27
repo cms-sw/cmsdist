@@ -8,3 +8,4 @@ Requires: cmssw-toolfile
 %define skipreqtools jcompiler
 
 ## IMPORT scramv1-tool-conf
+# bla bla
