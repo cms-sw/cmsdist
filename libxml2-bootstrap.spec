@@ -22,3 +22,4 @@ rm -rf %{i}/lib/*.{l,}a
 %post
 %{relocateConfig}bin/xml2-config
 %{relocateConfig}lib/xml2Conf.sh
+# bla bla
