@@ -30,3 +30,4 @@ ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
 cd ../build
 
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
+# bla bla
