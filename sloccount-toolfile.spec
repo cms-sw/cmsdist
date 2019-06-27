@@ -15,3 +15,4 @@ cat << \EOF_TOOLFILE > %i/etc/scram.d/sloccount.xml
   </tool>
 EOF_TOOLFILE
 ## IMPORT scram-tools-post
+# bla bla
