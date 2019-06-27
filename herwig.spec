@@ -38,3 +38,4 @@ ln -sf HERWIG65.INC %{i}/include/herwig65.inc
 %endif
 
 rm -rf %i/lib/*.la
+# bla bla
