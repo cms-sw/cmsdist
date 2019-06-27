@@ -18,3 +18,4 @@ make install
 
 %post
 %{relocateConfig}lib/python2.7/site-packages/sipconfig.py
+# bla bla
