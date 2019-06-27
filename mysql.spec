@@ -91,3 +91,4 @@ EOF
 %{relocateConfig}bin/mysql_fix_privilege_tables
 %{relocateConfig}bin/mysql_install_db
 
+# bla bla
