@@ -47,3 +47,4 @@ cd %{i}/lib
 find . -name '*.a' -exec ar -x {} \;
 ar rcs libcascade_merged.a *.o
 rm -rf *.o
+# bla bla
