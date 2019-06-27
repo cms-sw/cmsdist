@@ -48,3 +48,4 @@ make install
 %install
 tar -c lib include | tar -x -C %i
 
+# bla bla
