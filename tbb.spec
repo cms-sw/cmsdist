@@ -20,3 +20,4 @@ case %cmsplatf in
   *) SONAME=so ;;
 esac
 find build -name "*.$SONAME*" -exec cp {} %i/lib \; 
+# bla bla
