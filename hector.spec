@@ -24,3 +24,4 @@ make
 
 %install
 tar -c . | tar -x -C %i
+# bla bla
