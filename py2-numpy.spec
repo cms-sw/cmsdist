@@ -63,3 +63,4 @@ ln -s   ../${PYTHON_LIB_SITE_PACKAGES}/numpy/core %{i}/c-api/core
 %{relocateConfig}lib/python*/site-packages/numpy/distutils/__config__.py
 %{relocateConfig}lib/python*/site-packages/numpy/distutils/site.cfg
 
+# bla bla
