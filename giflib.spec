@@ -1,24 +1,20 @@
-### RPM external giflib 4.2.3
-Source: http://heanet.dl.sourceforge.net/project/%{n}/%{n}-4.x/%{n}-%{realversion}.tar.bz2
+### RPM external giflib 5.2.0
 
+Source: https://sourceforge.net/projects/giflib/files/giflib-%{realversion}.tar.gz
 BuildRequires: autotools
 
 %prep
 %setup -n %{n}-%{realversion}
 
 %build
-# We do not have xmlto, thus disable documentation
-sed -ibak '1s/doc//' Makefile.am
-autoreconf -fiv
 
-./configure --prefix=%{i}
-
-make %{makeprocesses}
+# "fix" the doc makefile
+echo "all:" > doc/Makefile
+make all %{makeprocesses}
 
 %install
-make install
-
-# This pulls in perl(getopts.pl) requirement from perl-Perl4-CoreLibs package
-rm -f %{i}/bin/gifburst
+make PREFIX=%{i} install-bin
+make PREFIX=%{i} install-include
+make LIBVER=%{realversion} LIBMAJOR=5 PREFIX=%{i} install
 
 %define strip_files %{i}/lib
