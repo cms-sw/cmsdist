@@ -14,3 +14,4 @@ Requires: zlib-non-x86_64
 cp ${RPM_INSTALL_PREFIX}/%{cmsplatf}/$(echo %{directpkgreqs} | tr ' ' '\n' | grep /zlib-)/etc/profile.d/init.* ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d
 sed -i -e 's|%{ZLIB_PKG}_|ZLIB_|' ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d/init.*
 
+# bla bla
