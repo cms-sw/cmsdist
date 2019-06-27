@@ -33,3 +33,4 @@ tar -c lib include | tar -x -C %i
 find %i/lib/archive -name "*.a" -exec mv {} %i/lib \;
 rm -rf %i/lib/archive
 
+# bla bla
