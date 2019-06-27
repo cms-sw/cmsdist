@@ -22,3 +22,4 @@ diff -Naur SHERPA-MC-2.1.0-orig/SHERPA/Initialization/Initialization_Handler.C S
  #else
        THROW(fatal_error, "Sherpa not compiled with LHAPDF support.");
  #endif
+# bla bla
