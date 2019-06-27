@@ -30,3 +30,4 @@ make build_all
 mkdir -p %{i}/bin
 cp dasgoclient_* %{i}/bin
 
+# bla bla
