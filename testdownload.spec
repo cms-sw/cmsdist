@@ -9,3 +9,4 @@ Source4: git://github.com/cms-sw/pkgtools.git?obj=V00-21-XX/HEAD&export=pkgtools
 %prep
 %build
 %install
+# bla bla
