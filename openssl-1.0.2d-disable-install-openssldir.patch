@@ -36,3 +36,4 @@ index c1a2f6b..6e7c104 100644
  
  files:
  	$(PERL) $(TOP)/util/files.pl Makefile >> $(TOP)/MINFO
+# bla bla
