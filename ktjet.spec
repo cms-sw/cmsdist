@@ -12,3 +12,4 @@ Requires: clhep
 %build
 CPPFLAGS=" -DKTDOUBLEPRECISION -fPIC" ./configure --with-clhep=$CLHEP_ROOT --prefix=%{i}
 make
+# bla bla
