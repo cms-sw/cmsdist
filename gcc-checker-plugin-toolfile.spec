@@ -40,3 +40,4 @@ EOF_TOOLFILE
 export GCC_ROOT
 
 ## IMPORT scram-tools-post
+# bla bla
