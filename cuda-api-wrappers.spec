@@ -28,3 +28,4 @@ make VERBOSE=1
 find src/ -name '*.cpp' -delete
 cp -ar src       %{i}/include
 cp -ar build/lib %{i}/lib
+# bla bla
