@@ -314,3 +314,4 @@ find %{i}/lib %{i}/lib64 -name '*.la' -exec rm -f {} \; || true
 %define keep_archives yes
 # This avoids having a dependency on the system pkg-config.
 rm -rf %{i}/lib/pkg-config
+# bla bla
