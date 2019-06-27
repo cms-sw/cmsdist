@@ -265,3 +265,4 @@ diff -Naur /dev/null MG5_aMC_v2_5_5/bin/compile.py
 +if __name__ == '__main__':
 +    Compile_MG5()
 
+# bla bla
