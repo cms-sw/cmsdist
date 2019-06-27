@@ -5,3 +5,4 @@
 Source0: git://github.com/%{git_repo}/zlib.git?obj=%{git_branch}/%{git_commit}&export=zlib-%{realversion}&output=/zlib-%{realversion}.tgz
 
 ## IMPORT zlib-build
+# bla bla
