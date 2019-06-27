@@ -35,3 +35,4 @@ make install
 %{relocateConfig}lib/blackhat/lib*.la
 %{relocateConfig}bin/blackhat-config
 %{relocateConfig}bin/dataInstall
+# bla bla
