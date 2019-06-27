@@ -31,3 +31,4 @@ index 684a5fd..193e657 100644
 +void load_trilite_extension();
  
  #endif /* TRILITE_TRILITE_H */
+# bla bla
