@@ -12,3 +12,4 @@ BuildRequires: python re2c
 %install
 mkdir -p %{i}/bin
 cp ninja %{i}/bin
+# bla bla
