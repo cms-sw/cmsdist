@@ -34,3 +34,4 @@ make install
 
 %post
 %{relocateConfig}lib64/pkgconfig/davix.pc
+# bla bla
