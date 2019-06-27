@@ -10,3 +10,4 @@ index 5f755d0..e98b1ed 100755
  
  <architecture name="slc">
  #  <flags EDM_LDFLAGS="-Wl,--version-script,$(SCRAM_CONFIGDIR)/SCRAM/EdmPluginVisibility.lds"/>
+# bla bla
