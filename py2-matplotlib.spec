@@ -40,3 +40,4 @@ pip3 install . --user
 
 # No need for test files
 rm -rf %i/${PYTHON_LIB_SITE_PACKAGES}/matplotlib/tests
+# bla bla
