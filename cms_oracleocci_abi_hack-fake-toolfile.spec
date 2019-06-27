@@ -34,3 +34,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/oracleocci.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+# bla bla
