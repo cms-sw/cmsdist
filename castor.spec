@@ -83,3 +83,4 @@ mv %i/usr/bin %i/bin
 
 # Strip libraries, we are not going to debug them.
 %define strip_files %i/lib
+# bla bla
