@@ -26,3 +26,4 @@ diff -rupN xml.orig/xpath/ParsedAbbreviatedRelativeLocationPath.py xml/xpath/Par
  
      def evaluate(self, context):
          res = []
+# bla bla
