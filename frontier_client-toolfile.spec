@@ -26,3 +26,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/frontier_client.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+# bla bla
