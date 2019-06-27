@@ -32,3 +32,4 @@ echo "  </tool>"      >> %i/etc/scram.d/cmsswdata.xml
 rm -f %i/searchpath.xml
 
 ## IMPORT scram-tools-post
+# bla bla
