@@ -81,3 +81,4 @@ EOF_QT_CONF
 %post
 %{relocateConfig}bin/qt.conf
 %{relocateConfig}mkspecs/qconfig.pri
+# bla bla
