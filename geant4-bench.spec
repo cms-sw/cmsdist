@@ -32,3 +32,4 @@ sed -ibak 's;\(/run/beamOn \).*;\1800;' ParFullCMS/mt.g4
 # Launch bechmark
 cd ParFullCMS
 ParFullCMS mt.g4 2>&1 | tee run.log
+# bla bla
