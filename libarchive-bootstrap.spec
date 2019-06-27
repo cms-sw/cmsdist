@@ -53,3 +53,4 @@ make %{makeprocesses}
 make install
 
 find %{i}/lib -type f -name '*.la' -delete
+# bla bla
