@@ -11,3 +11,4 @@ diff -Naur gengetopt-2.22.6/src/Makefile.am Makefile.am
  EXTRA_DIST = parser.h argsdef.h gengetopt.h ggos.h gm.h gnugetopt.h \
  cmdline.c cmdline.h \
 
+# bla bla
