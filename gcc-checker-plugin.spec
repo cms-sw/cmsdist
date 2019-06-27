@@ -21,3 +21,4 @@ mkdir lib
 cp build/libchecker_gccplugins.so lib
 rm -rf build
 cp -rp * %{i}
+# bla bla
