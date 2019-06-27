@@ -38,3 +38,4 @@ make install
 
 %post
 ln -s dependencies-setup.sh $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init-standalone.sh
+# bla bla
