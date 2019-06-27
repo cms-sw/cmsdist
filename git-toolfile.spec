@@ -34,3 +34,4 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/git.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+# bla bla
