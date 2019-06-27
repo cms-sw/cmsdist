@@ -34,3 +34,4 @@ EOF_TOOLFILE
 
 export ORACLE_ENV_ROOT
 ## IMPORT scram-tools-post
+# bla bla
