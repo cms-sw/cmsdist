@@ -27,3 +27,4 @@ make install
 
 %post
 %{relocateConfig}bin/yacc
+# bla bla
