@@ -38,3 +38,4 @@ case %cmsplatf in
 esac
 
 ## IMPORT scram-tools-post
+# bla bla
