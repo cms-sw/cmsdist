@@ -19,3 +19,4 @@ if [ ! -e %{java_home}/bin/javac ] ; then
 fi
 %{java_home}/bin/javac -version
 %{java_home}/bin/java -version
+# bla bla
