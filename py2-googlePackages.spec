@@ -97,3 +97,4 @@ for pkg in %builddirectpkgreqs ; do
   fi
 done
 
+# bla bla
