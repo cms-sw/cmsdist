@@ -11,3 +11,4 @@ perl -p -i -e "s|#!/usr/bin/python|#!/usr/bin/env python|" $(find . -name "*.py"
 %build
 %install
 tar -cf - . | tar -C %i -xvvf -
+# bla bla
