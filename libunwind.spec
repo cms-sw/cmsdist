@@ -20,3 +20,4 @@ make %{makeprocesses}
 make %{makeprocesses} install
 
 %define drop_files %{i}/share/man
+# bla bla
