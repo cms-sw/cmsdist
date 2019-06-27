@@ -22,3 +22,4 @@ make %{makeprocesses}
 
 %define strip_files %{i}/lib
 %define drop_files %{i}/share
+# bla bla
