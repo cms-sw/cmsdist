@@ -20,6 +20,10 @@ PhysicsTools-NanoAOD=V01-00-05
 CalibCalorimetry-EcalTrivialCondModules=V00-02-00
 EgammaAnalysis-ElectronTools=V00-01-04
 RecoTauTag-TrainingFiles=V00-01-01
+########################################################################################
+#Never update any package After this. Always move an existing package in default section.
+[data-build-github-new]
+
 PhysicsTools-PatUtils=V00-01-00
 SimTransport-PPSProtonTransport=V00-01-00
 SimTransport-TotemRPProtonTransportParametrization=V00-01-00
