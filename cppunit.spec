@@ -26,3 +26,4 @@ rm -rf %i/lib/*.{l,}a
 # Read documentation online
 %define drop_files %i/share
 
+# bla bla
