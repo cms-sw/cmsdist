@@ -10,3 +10,4 @@ diff -Naur orig.HepPDT-2.03.00/src/HepPDT/Version.cc HepPDT-2.03.00/src/HepPDT/V
  }
  
  void writeVersion( std::ostream & os )
+# bla bla
