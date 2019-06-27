@@ -30,3 +30,4 @@ echo "%{G4RunTime}='$CMS_INSTALL_PREFIX/%{pkgrel}/data/%{G4DataTool}%{realversio
 echo "set %{BaseTool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
 echo "set %{BaseTool}_RUNTIME='%G4RunTime'" >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
 echo "set %{G4RunTime}='$CMS_INSTALL_PREFIX/%{pkgrel}/data/%{G4DataTool}%{realversion}'" >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
+# bla bla
