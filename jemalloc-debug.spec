@@ -24,3 +24,4 @@ sed -ibak 's/install: install_bin install_include install_lib install_doc/instal
 %post
 %{relocateConfig}bin/jemalloc.sh
 %{relocateConfig}bin/jemalloc-config
+# bla bla
