@@ -632,3 +632,4 @@ index 1fb079d..7121b6f 100644
  DependsOnLibrary(vmgr,castorvmgr)
 -DependsOnLibrary(expert,castorexpert)
  ClientSharedLibraryTarget(shift,,$(DEPLIB),$(LIBS))
+# bla bla
