@@ -75,3 +75,4 @@ index 0691807..0c0e6b4 100644
  
  template <typename T>
  struct sin : base<T, Eigen::internal::scalar_sin_op<T>> {};
+# bla bla
