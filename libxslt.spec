@@ -24,3 +24,4 @@ make install
 
 %post
 %{relocateConfig}bin/xslt-config
+# bla bla
