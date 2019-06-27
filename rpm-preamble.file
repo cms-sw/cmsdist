@@ -262,3 +262,4 @@ if [ -f $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/.autodependencies ] ; then \
   %{relocateConfig}etc/profile.d/dependencies-setup.sh \
   %{relocateConfig}etc/profile.d/dependencies-setup.csh \
 fi
+# bla bla
