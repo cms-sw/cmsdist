@@ -39,3 +39,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/ccache-f77compiler.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+# bla bla
