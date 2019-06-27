@@ -937,3 +937,4 @@ diff -Naur orig.xerces-c-src_2_8_0/tests/runConfigure xerces-c-src_2_8_0/tests/r
             aix)
                if test $cppcompiler; then
                    case $cppcompiler in
+# bla bla
