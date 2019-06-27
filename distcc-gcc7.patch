@@ -10,3 +10,4 @@ index 21aeb65..fe10a48 100644
      case STATS_COMPILE_ERROR:
      case STATS_COMPILE_TIMEOUT:
      case STATS_CLI_DISCONN:
+# bla bla
