@@ -19,3 +19,4 @@ export LDFLAGS=%{ldflags}
 make -j %makeprocesses
 %post
 %{relocateConfig}lib/libneon.la
+# bla bla
