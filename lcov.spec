@@ -20,3 +20,4 @@ make %{makeprocesses}
 %install
 mkdir -p %{i}/bin
 make PREFIX=%{i} BIN_DIR=%{i}/bin install
+# bla bla
