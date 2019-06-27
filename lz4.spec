@@ -17,3 +17,4 @@ make %{makeprocesses}
 
 make DESTDIR=%i install
 
+# bla bla
