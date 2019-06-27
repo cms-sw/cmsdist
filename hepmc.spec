@@ -32,3 +32,4 @@ make %makeprocesses
 %install
 make install
 rm -rf %i/lib/*.la
+# bla bla
