@@ -35,3 +35,4 @@ cd ../build
 make %{makeprocesses} install VERBOSE=1
 
 rm -rf %{i}/lib/archive
+# bla bla
