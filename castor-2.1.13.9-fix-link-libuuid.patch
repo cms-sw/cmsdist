@@ -111,3 +111,4 @@ index e620887..8266215 100644
  #if BuildSecureVmgr
  CPPFLAGS += -DVMGRCSEC
  AddLdFlags(-ldl)
+# bla bla
