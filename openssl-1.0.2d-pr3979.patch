@@ -42,3 +42,4 @@ index 36b0d87..845be67 100644
  static int check_ca(const X509 *x)
  {
      /* keyUsage if present should allow cert signing */
+# bla bla
