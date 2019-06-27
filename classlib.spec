@@ -50,3 +50,4 @@ make %makeprocesses CXXFLAGS="-Wno-error=extra -ansi -pedantic -W -Wall -Wno-lon
 
 %install
 make %makeprocesses install
+# bla bla
