@@ -72,3 +72,4 @@ case %{cmsos} in
 esac
 
 %install
+# bla bla
