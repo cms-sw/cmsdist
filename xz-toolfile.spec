@@ -20,3 +20,4 @@ cat << \EOF_TOOLFILE > %i/etc/scram.d/xz.xml
   </tool>
 EOF_TOOLFILE
 ## IMPORT scram-tools-post
+# bla bla
