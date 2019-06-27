@@ -18,3 +18,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/eigen.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+# bla bla
