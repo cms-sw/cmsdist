@@ -36,3 +36,4 @@ diff -rupN daq.orig/extern/xalan/remove_hardcoded_libs_paths.patch daq/extern/xa
 +   SHLIBSUFFIX=.dylib
 +   CC1 = ${CXX} $(CXXFLAGS) $(PLATFORM_COMPILE_OPTIONS)
 +   CC4 = ${CC} $(CXXFLAGS) $(PLATFORM_COMPILE_OPTIONS)
+# bla bla
