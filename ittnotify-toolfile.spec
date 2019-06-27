@@ -20,3 +20,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/ittnotify.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+# bla bla
