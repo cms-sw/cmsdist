@@ -23,3 +23,4 @@ mkdir -p %i/include
 mkdir -p %i/lib
 cp *.h %i/include
 cp meschach.a %i/lib/libmeschach.a
+# bla bla
