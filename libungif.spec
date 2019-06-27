@@ -22,3 +22,4 @@ make install
 # Drop all the perl scripts. They are not needed and force the installation of
 # more packages on Ubuntu.
 %define drop_files %{i}/bin
+# bla bla
