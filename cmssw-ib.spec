@@ -45,3 +45,4 @@ rm -rf %i/*
 
 %post
 # NOP
+# bla bla
