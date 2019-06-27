@@ -30,3 +30,4 @@ mv lhapdf_makeLinks.file_2 lhapdf_makeLinks.file
 rm -f lhapdf_makeLinks.file_*
 
 cp -f /cvmfs/cms.cern.ch/lhapdf/pdfsets/$1/pdfsets.index lhapdf_pdfsetsindex.file
+# bla bla
