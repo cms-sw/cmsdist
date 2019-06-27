@@ -29,3 +29,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/google-benchmark-main.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+# bla bla
