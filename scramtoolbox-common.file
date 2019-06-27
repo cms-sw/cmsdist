@@ -5,4 +5,4 @@
 %define toolBoxDir %{instroot}/configuration/%{configVersion}/toolbox
 %define toolConfDir %{instroot}/configuration/%{configVersion}/toolconf
 %define prepareDirectories mkdir -p %{toolBoxDir} %{toolConfDir}
-%define toolname %(echo %n | sed -e "s|-toolfile||")
+%define toolname %(echo %n | sed -e "s|-toolfile||")# bla bla
