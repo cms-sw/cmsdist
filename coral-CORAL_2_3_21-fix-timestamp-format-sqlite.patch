@@ -74,3 +74,4 @@ index 5038806..71dfdbb 100644
          if( st(attributeType)==SQLT_DATE ) {
            iAttribute->data<coral::Date>()=coral::Date(t.time());
          }else{
+# bla bla
