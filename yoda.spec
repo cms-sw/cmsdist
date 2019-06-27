@@ -21,3 +21,4 @@ make install
 
 %post
 %{relocateConfig}bin/yoda-config
+# bla bla
