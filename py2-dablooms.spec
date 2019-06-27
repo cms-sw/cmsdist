@@ -13,3 +13,4 @@ make all;cd pydablooms; python setup.py build
 
 %install
 make install prefix=%i;cd pydablooms; python setup.py install --prefix=%i
+# bla bla
