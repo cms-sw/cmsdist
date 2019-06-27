@@ -10,3 +10,4 @@ diff -Naur cmake-1.8.3.orig/Source/cmDynamicLoader.cxx cmake-1.8.3/Source/cmDyna
    return 0;
  }
  
+# bla bla
