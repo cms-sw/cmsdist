@@ -19,3 +19,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/p5-compress-zlib.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+# bla bla
