@@ -48,3 +48,4 @@ diff -arupN qt-everywhere-opensource-src-4.6.3.orig/tools/porting/src/codemodel.
  };
  
  typedef Collection<Scope> ScopeCollection;
+# bla bla
