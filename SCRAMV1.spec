@@ -106,3 +106,4 @@ cd $RPM_INSTALL_PREFIX/%{cmsplatf}
 VERSION_REGEXP="%{SCRAM_ALL_VERSIONS}"; VERSION_FILE=default-scramv1-version         ; %{SetLatestVersion}
 VERSION_REGEXP="%{SCRAM_REL_MAJOR}_"  ; VERSION_FILE=default-scram/%{SCRAM_REL_MAJOR}; %{SetLatestVersion}
 %{BackwardCompatibilityVersionPolicy}
+# bla bla
