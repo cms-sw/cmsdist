@@ -17,3 +17,4 @@ mkdir %{i}/bin
 cp output/bazel %{i}/bin/.
 
 
+# bla bla
