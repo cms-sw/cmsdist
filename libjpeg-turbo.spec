@@ -27,3 +27,4 @@ make install
 
 %define strip_files %{i}/lib
 %define drop_files %{i}/{share,man}
+# bla bla
