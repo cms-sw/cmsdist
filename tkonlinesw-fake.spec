@@ -20,3 +20,4 @@ g++ -shared -fPIC -o libICUtils.so ICUtils.cc
 g++ -shared -fPIC -o libFed9UUtils.so Fed9UUtils.cc
 
 cp *.so %{i}/lib
+# bla bla
