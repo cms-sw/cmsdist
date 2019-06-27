@@ -30,3 +30,4 @@
 +        #assert len(xerr)==nbars, 'bar() argument \'xerr\' must be len(%s) or scalar' % lenarg
  
          patches = []
+# bla bla
