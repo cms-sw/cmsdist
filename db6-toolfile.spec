@@ -21,3 +21,4 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/db6.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+# bla bla
