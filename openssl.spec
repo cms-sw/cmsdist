@@ -94,3 +94,4 @@ find %{i} -name '*deleteme' -type f -print0 | xargs -0 rm -f
 %post
 %{relocateConfig}bin/c_rehash
 %{relocateConfig}include/openssl/opensslconf.h
+# bla bla
