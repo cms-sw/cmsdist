@@ -23,3 +23,4 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/opencl-cpp.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+# bla bla
