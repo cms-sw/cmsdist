@@ -13,3 +13,4 @@ make -C src all MYLIBS="-ldl" MYCFLAGS="-fPIC -DLUA_USE_POSIX -DLUA_USE_DLOPEN"
 
 %install
 make install INSTALL_TOP=%{i}
+# bla bla
