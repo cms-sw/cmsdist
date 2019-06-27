@@ -21,3 +21,4 @@ mkdir %{_builddir}/%{n}-%{realversion}
 %define base_tool %(echo "%{n}" | tr '[a-z-]' '[A-Z_]')
 echo "%{base_tool}_ROOT='${CMS_INSTALL_PREFIX}/%{pkgrel}'" > ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d/init.sh
 echo "set %{base_tool}_ROOT='${CMS_INSTALL_PREFIX}/%{pkgrel}'" > ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d/init.csh
+# bla bla
