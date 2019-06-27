@@ -19,3 +19,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/p5-extutils-makemaker.xml
 EOF_TOOLFILE
 
 ## IMPORT scram-tools-post
+# bla bla
