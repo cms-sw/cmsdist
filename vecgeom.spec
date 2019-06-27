@@ -48,3 +48,4 @@ make %{makeprocesses} install
 %{relocateConfig}lib/cmake/VecCore/*.cmake
 %{relocateConfig}lib/cmake/VecGeom/*.cmake
 
+# bla bla
