@@ -72,3 +72,4 @@ find . -name "*.o" -delete
 %{relocateConfig}bin/geant4.*
 %{relocateConfig}share/Geant4-*/geant4make/geant4make.*
 %{relocateConfig}lib/Geant4-*/Geant4LibraryDepends.cmake
+# bla bla
