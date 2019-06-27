@@ -21,3 +21,4 @@ gmake %{makeprocesses} install
 %post
 %{relocateConfig}lib64/pkgconfig/tinyxml2.pc
 %{relocateConfig}lib64/cmake/tinyxml2/tinyxml2Targets.cmake
+# bla bla
