@@ -15,3 +15,4 @@ Source: http://prdownloads.sourceforge.net/swig/swig-%{realversion}.tar.gz
 make %{makeprocesses}
 
 %define strip_files %{i}/bin/{swig,ccache-swig}
+# bla bla
