@@ -11,3 +11,4 @@ index 3ea645c..78b1720 100755
  #else
    void* handle = ::dlopen( ( "liblcg_" + libraryName + ".so" ).c_str(), RTLD_GLOBAL | RTLD_LAZY );
  #endif
+# bla bla
