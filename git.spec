@@ -93,3 +93,4 @@ cp ./ca-bundle/ca-bundle.crt %{i}/share/ssl/certs/ca-bundle.crt
 %{relocateConfig}share/perl5/Git/I18N.pm
 %{relocateConfig}share/gitweb/gitweb.cgi
 %{relocateConfig}lib64/perl5/auto/Git/.packlist
+# bla bla
