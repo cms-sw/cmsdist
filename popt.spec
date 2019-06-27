@@ -8,3 +8,4 @@ Source: http://rpm5.org/files/%{n}/%{n}-%{realversion}.tar.gz
             CFLAGS="-fPIC" \
             CXXFLAGS="-fPIC"  
 make
+# bla bla
