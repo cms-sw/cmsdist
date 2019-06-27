@@ -79,3 +79,4 @@ rm -f %{i}/bin/set-xcode-analyzer
 
 %post
 %{relocateConfig}include/llvm/Config/llvm-config.h
+# bla bla
