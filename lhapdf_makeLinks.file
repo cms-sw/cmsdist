@@ -18,3 +18,4 @@ for pdf in ${pdflist} ; do
     ln -fs ${cvmfspath}/${pdf} ${pdf}
   fi
 done
+# bla bla
