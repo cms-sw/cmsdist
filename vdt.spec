@@ -30,3 +30,4 @@ make %{makeprocesses} VERBOSE=1
 
 %install
 make install
+# bla bla
