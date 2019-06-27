@@ -17,3 +17,4 @@ mkdir %{i}/lib %{i}/include
 cp libittnotify64.a  %{i}/lib/libittnotify.a
 cp ittnotify/include/ittnotify.h %{i}/include
 
+# bla bla
