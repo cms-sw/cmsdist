@@ -31,3 +31,4 @@ make %{makeprocesses}
 make install
 ls %{i}/lib/
 
+# bla bla
