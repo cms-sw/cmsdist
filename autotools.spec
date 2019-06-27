@@ -122,3 +122,4 @@ find %{i} -name '*deleteme' -delete
 %{relocateConfig}bin/gettextize
 %{relocateConfig}lib/gettext/user-email
 %{relocateConfig}bin/autopoint
+# bla bla
