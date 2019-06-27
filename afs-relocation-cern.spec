@@ -36,3 +36,4 @@ done
 %i
 %instroot/common/apt-site-env.sh
 %instroot/common/apt-site-env.csh
+# bla bla
