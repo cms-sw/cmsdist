@@ -12,3 +12,4 @@ index b7f3b6f..7a4f423 100644
  
  #if @GNULIB_FOPEN@
  # if @REPLACE_FOPEN@
+# bla bla
