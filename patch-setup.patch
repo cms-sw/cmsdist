@@ -16,3 +16,4 @@
  
  subpackages = ['firebird', 'include', 'include.pydispatch', 'inheritance',
                 'manager', 'maxdb', 'mysql', 'mssql', 'postgres', 'sqlite',
+# bla bla
