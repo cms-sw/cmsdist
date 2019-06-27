@@ -31,3 +31,4 @@ make install
 %post
 %{relocateConfig}bin/libpng-config
 %{relocateConfig}bin/libpng16-config
+# bla bla
