@@ -27,3 +27,4 @@ make %{makeprocesses}
 make install
 
 rm -rf %{i}/share/{doc,man}
+# bla bla
