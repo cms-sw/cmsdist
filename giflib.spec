@@ -22,3 +22,4 @@ make install
 rm -f %{i}/bin/gifburst
 
 %define strip_files %{i}/lib
+# bla bla
