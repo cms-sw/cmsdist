@@ -59,3 +59,4 @@ index 5d52ef0..0e9d2d2 100644
  
  $(LIB_ARCHIVE) : $(objects)
  	mkdir -p $(LIBDIR_ARCHIVE)
+# bla bla
