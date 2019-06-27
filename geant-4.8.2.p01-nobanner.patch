@@ -16,3 +16,4 @@ diff -Naur orig.geant4.8.2.p01/source/run/src/G4RunManagerKernel.cc geant4.8.2.p
  }
  
  G4RunManagerKernel::~G4RunManagerKernel()
+# bla bla
