@@ -76,3 +76,4 @@ for f in lib*.{dylib,so}.[0-9]*; do
   rm -f $dest
   ln -s $f $dest
 done
+# bla bla
