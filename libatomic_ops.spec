@@ -9,3 +9,4 @@ make %{makeprocesses} install
 
 %install
 %define drop_files %{i}/share/man
+# bla bla
