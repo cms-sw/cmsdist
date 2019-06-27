@@ -52,3 +52,4 @@ make install
 %post
 %{relocateConfig}bin/rivet-config
 %{relocateConfig}bin/rivet-buildplugin
+# bla bla
