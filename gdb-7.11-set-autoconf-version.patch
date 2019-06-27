@@ -11,3 +11,4 @@ index 52bd1c3..8b954d3 100644
 
  dnl Test for the exact version when AC_INIT is expanded.
  dnl This allows to update the tree in steps (for testing)
+# bla bla
