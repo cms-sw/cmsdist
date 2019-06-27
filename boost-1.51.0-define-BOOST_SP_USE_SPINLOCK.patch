@@ -9,3 +9,4 @@ index 5a4a9d4..8c7f353 100644
 -
 +// Do not use inline assembly for atomic operations
 +#define BOOST_SP_USE_SPINLOCK
+# bla bla
