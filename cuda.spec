@@ -169,3 +169,4 @@ sed \
 # relocate the paths inside bin/nv-nsight-cu-cli
 %{relocateConfig}bin/nv-nsight-cu-cli
 %{relocateConfig}bin/cuda-gdb
+# bla bla
