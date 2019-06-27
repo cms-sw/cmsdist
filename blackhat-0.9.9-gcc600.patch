@@ -88,3 +88,4 @@ index 0b42769..e79eace 100644
              JOIN(_static_assert_typedef, __LINE__)
  
  #else // __cplusplus
+# bla bla
