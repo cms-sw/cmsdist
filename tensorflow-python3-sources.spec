@@ -156,3 +156,4 @@ bazel-bin/tensorflow/tools/pip_package/build_pip_package %{i}
 cp $PWD/bazel-bin/tensorflow/tools/lib_package/libtensorflow.tar.gz %{i}
 
 tar cfz %{i}/libtensorflow_cc.tar.gz tensorflow_cc/.
+# bla bla
