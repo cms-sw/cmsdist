@@ -26,3 +26,4 @@ make install
 
 %post
 %{relocateConfig}share/pkgconfig/eigen3.pc
+# bla bla
