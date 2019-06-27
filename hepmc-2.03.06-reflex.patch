@@ -16,3 +16,4 @@ diff -Naur HepMC/SimpleVector.h HepMC/SimpleVector.h
  
    /// copy constructor
    FourVector(const FourVector & v)
+# bla bla
