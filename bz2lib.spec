@@ -36,3 +36,4 @@ ln -sf bzmore %{i}/bin/bzless
 
 %define strip_files %{i}/lib
 %define drop_files %{i}/man
+# bla bla
