@@ -56,3 +56,4 @@ mv %{i}/lib/lib{lua,archive}.a %{i}/tmp
 rm -f %{i}/lib/*.{l,}a
 mv %{i}/tmp/lib* %{i}/lib/
 rm -rf %{i}/tmp
+# bla bla
