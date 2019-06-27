@@ -20,3 +20,4 @@ mv *.so ../lib/.
 
 %install
 tar -c lib interface | tar -x -C %i
+# bla bla
