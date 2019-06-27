@@ -15,3 +15,4 @@ python setup.py build
 python -c 'import setuptools; print(setuptools.__file__)'
 python setup.py install --single-version-externally-managed --record=/dev/null --skip-build --prefix=%{i}
 find %{i}/${PYTHON_LIB_SITE_PACKAGES} -name '*.egg-info' -type d -print0 | xargs -0 rm -rf
+# bla bla
