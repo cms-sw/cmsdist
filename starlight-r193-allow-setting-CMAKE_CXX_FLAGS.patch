@@ -28,3 +28,4 @@ index 0d6c856..e51b906 100644
    if(CPP11)
      message(WARNING "C++11 feautures not supported for your compiler")
    endif()
+# bla bla
