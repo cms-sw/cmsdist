@@ -95,3 +95,4 @@ perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/etc/scram.d/*.xml
 
 %post
 %{relocateConfig}etc/scram.d/*.xml
+# bla bla
