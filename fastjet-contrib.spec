@@ -22,3 +22,4 @@ make fragile-shared-install
 # All shared libraries on RH/Fedora are installed with 0755
 # RPM requires it to generate requires/provides also (otherwise it ignores the files)
 find %{i}/lib -type f | xargs chmod 0755
+# bla bla
