@@ -16,3 +16,4 @@ make %{makeprocesses}
 %install
 cd ./obj
 make install
+# bla bla
