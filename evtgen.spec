@@ -39,3 +39,4 @@ make install
 find %i/lib/archive -name "*.a" -exec mv {} %i/lib \;
 rm -rf %i/lib/archive
 ls %{i}/lib/
+# bla bla
