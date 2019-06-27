@@ -22,3 +22,4 @@ Provides: libirc.so()(64bit)
 %prep
 %build
 %install
+# bla bla
