@@ -33,3 +33,4 @@ make install
 %if %isdarwin
 find %i/lib -name "*.dylib" -exec install_name_tool -change '../lib/libHEPEvent.dylib' 'libHEPEvent.dylib' {} \;
 %endif
+# bla bla
