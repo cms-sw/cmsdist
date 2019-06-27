@@ -227,3 +227,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/python_tools.xml
 </tool>
 EOF_TOOLFILE
 
+# bla bla
