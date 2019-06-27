@@ -30,3 +30,4 @@ diff -Naur orig.openldap-2.3.39/libraries/libldap/os-ip.c openldap-2.3.39/librar
  		char hbuf[MAXHOSTNAMELEN];
  #else
  		char hbuf[256];
+# bla bla
