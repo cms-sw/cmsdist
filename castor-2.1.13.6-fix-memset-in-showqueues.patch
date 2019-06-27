@@ -11,3 +11,4 @@ index c816fdb..af8cb0e 100644
           strcpy(tmp->volreq.dgn,dgn);
           rc = vdqm_NextVol(&nw,&tmp->volreq);
           if ( rc != -1 && tmp->volreq.VolReqID > 0 && 
+# bla bla
