@@ -8,3 +8,4 @@ Source: https://raw.githubusercontent.com/catchorg/Catch2/v%{realversion}/single
 %install
 mkdir %{i}/include
 cp %{_sourcedir}/catch.hpp %{i}/include/
+# bla bla
