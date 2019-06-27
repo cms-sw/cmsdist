@@ -22,3 +22,4 @@ for dir in `find %{_builddir}/data -name 'init.sh' -type f` ; do
   cp -r $dir/data/*HARVEST* %i/data
   [ -f $dir/etc/runTheMatrix.args ] && cat $dir/etc/runTheMatrix.args >> %i/etc/runTheMatrix.args
 done
+# bla bla
