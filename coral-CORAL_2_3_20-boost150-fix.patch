@@ -58,3 +58,4 @@ diff -arupN src.orig/CORAL_SERVER/CoralSockets/src/ReplyManager.cpp src/CORAL_SE
      xt.sec += 20;
      if ( !m_cond.timed_wait(lock, xt) )
      {
+# bla bla
