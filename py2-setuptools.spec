@@ -17,3 +17,4 @@ python3 setup.py install --single-version-externally-managed --record=/dev/null 
 python setup.py install --single-version-externally-managed --record=/dev/null --skip-build --prefix=%{i}
 sed -ideleteme 's|#!.*/bin/python|#!/usr/bin/env python|' %{i}/bin/easy_install*
 rm -f %{i}/bin/*deleteme
+# bla bla
