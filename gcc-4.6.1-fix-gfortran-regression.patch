@@ -522,3 +522,4 @@ Index: gcc/fortran/resolve.c
  	  if (t == FAILURE)
  	    break;
  
+# bla bla
