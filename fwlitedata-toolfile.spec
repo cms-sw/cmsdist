@@ -25,3 +25,4 @@ done
 echo "</tool>" >> %i/etc/scram.d/fwlitedata.xml
 
 ## IMPORT scram-tools-post
+# bla bla
