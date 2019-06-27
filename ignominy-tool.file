@@ -11,3 +11,4 @@
 <Runtime name=CMS_CODING_RULES value="rulechecker.BaseRuleChecker">
 <use name=Graphviz>
 </Tool>
+# bla bla
