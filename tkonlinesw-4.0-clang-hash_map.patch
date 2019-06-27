@@ -38,3 +38,4 @@ index 484b45d..d7eb424 100755
  struct eqstr
  {
    bool operator()(const char* s1, const char* s2) const
+# bla bla
