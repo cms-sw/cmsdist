@@ -143,3 +143,4 @@ case %cmsos in
     tar -c -C  %{_builddir}/%{releasename}/opt/%{projectname} include lib | tar -x -C %{i}
   ;;
 esac
+# bla bla
