@@ -58,3 +58,4 @@ find %{i} ! -type d | grep -Z -v 'ld-%{official_version}' | xargs rm -f
 find %{i} -empty -type d -delete
 
 mv %{i}/lib64/ld-%{official_version}.so %{i}/lib64/ld.so
+# bla bla
