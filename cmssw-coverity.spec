@@ -39,3 +39,4 @@ chmod +x %i/bin/commit-coverity-defects
 %install
 %post
 %{relocateConfig}bin/commit-coverity-defects
+# bla bla
