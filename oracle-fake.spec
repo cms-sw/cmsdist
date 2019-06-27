@@ -20,3 +20,4 @@ g++ -shared -fPIC -o libocci.so occi.cc
 g++ -shared -fPIC -o libclntsh.so clntsh.cc
 
 cp *.so %{i}/lib
+# bla bla
