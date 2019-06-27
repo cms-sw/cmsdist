@@ -27,3 +27,4 @@ make install
 
 %post
 %{relocateConfig}GBLConfig.cmake
+# bla bla
