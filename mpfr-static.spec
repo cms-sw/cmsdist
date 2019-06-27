@@ -24,3 +24,4 @@ make %{makeprocesses}
 
 make install
 find %{i}/lib -name '*.la' -delete
+# bla bla
