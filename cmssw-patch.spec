@@ -14,3 +14,4 @@ Requires: cmssw-patch-tool-conf
 ## IMPORT cmssw-patch-build
 ## IMPORT scram-project-build
 ## SUBPACKAGE debug IF %subpackageDebug
+# bla bla
