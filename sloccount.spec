@@ -16,3 +16,4 @@ mkdir -p %{i}/bin
 make install
 
 %post
+# bla bla
