@@ -25,3 +25,4 @@ make %{makeprocesses} VERBOSE=1
 make install
 
 %post
+# bla bla
