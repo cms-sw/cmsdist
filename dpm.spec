@@ -78,3 +78,4 @@ cp ./shlib/lib%n.$SONAME %i/lib/lib%n.$SONAME.%realversion
 cp ./shlib/liblcgdm.$SONAME %i/lib/
 cp ./h/*.h          %i/include/dpm
 ln -s lib%n.$SONAME.%realversion %i/lib/lib%n.$SONAME
+# bla bla
