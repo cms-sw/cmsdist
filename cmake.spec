@@ -45,3 +45,4 @@ make install/strip
 
 # Look up documentation online.
 %define drop_files %i/{doc,man}
+# bla bla
