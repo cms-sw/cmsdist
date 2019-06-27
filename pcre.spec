@@ -47,3 +47,4 @@ rm -f %{i}/lib/*.{l,}a
 # The relocation is also needed because of dependencies
 %{relocateConfig}etc/profile.d/dependencies-setup.sh
 %{relocateConfig}etc/profile.d/dependencies-setup.csh
+# bla bla
