@@ -14,3 +14,4 @@ make %{makeprocesses}
 %install
 mkdir -p %{i}/bin
 cp dwz %{i}/bin
+# bla bla
