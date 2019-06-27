@@ -35,3 +35,4 @@ perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' $(grep -r -e "^#!.*perl.*
 # in these two scripts
 perl -p -i -e 's|perl -w|perl|' %{i}/bin/callgrind_annotate
 perl -p -i -e 's|perl -w|perl|' %{i}/bin/callgrind_control
+# bla bla
