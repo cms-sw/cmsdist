@@ -13,3 +13,4 @@ make install
 
 # Drop not essential files
 rm -rf %{i}/share
+# bla bla
