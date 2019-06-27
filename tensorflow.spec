@@ -12,3 +12,4 @@ BuildRequires: tensorflow-sources
 tar xfz ${TENSORFLOW_SOURCES_ROOT}/libtensorflow.tar.gz -C %{i}
 tar xfz ${TENSORFLOW_SOURCES_ROOT}/libtensorflow_cc.tar.gz -C %{i}
 
+# bla bla
