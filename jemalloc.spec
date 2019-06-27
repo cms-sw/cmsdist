@@ -27,3 +27,4 @@ esac
 %post
 %{relocateConfig}bin/jemalloc.sh
 %{relocateConfig}bin/jemalloc-config
+# bla bla
