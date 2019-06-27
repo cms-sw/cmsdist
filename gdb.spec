@@ -50,3 +50,4 @@ EOF_GDBINIT
 
 %post
 %{relocateConfig}/share/gdbinit
+# bla bla
