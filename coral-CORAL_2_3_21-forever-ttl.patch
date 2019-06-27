@@ -573,3 +573,4 @@
    protected:
      /// Protected empty destructor
      virtual ~IWebCacheInfo() {}
+# bla bla
