@@ -47,3 +47,4 @@ rm -f ${RPM_INSTALL_PREFIX}/common/git-addpkg
 rm -f ${RPM_INSTALL_PREFIX}/common/git-checkdeps
 
 echo %{fakerevision} > ${RPM_INSTALL_PREFIX}/etc/%{pkgname}/version
+# bla bla
