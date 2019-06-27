@@ -24,3 +24,4 @@ index 47e459f..b330cf4 100644
  # Remove any stray src/config.h files that may still exist.
  # If the developer accidentally leaves an old src/config.h in place (e.g.,
  #   after examining an old revision when this really existed), then some
+# bla bla
