@@ -25,3 +25,4 @@ diff -arupN src.orig/SQLiteAccess/tests/BuildFile.xml src/SQLiteAccess/tests/Bui
  <use   name="cppunit"/>
  <include_path   path="$(LOCALTOP)/$(SCRAM_SOURCEDIR)/LCG/SQLiteAccess"/>
  <bin   name="unitTest_SQLiteAccess_BulkInserts" file="BulkInserts/*.cpp">
+# bla bla
