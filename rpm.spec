@@ -170,3 +170,4 @@ ln -sf rpm %i/bin/rpmquery
 
 %post
 %{relocateRpmFiles} $(grep -I -r %cmsroot $RPM_INSTALL_PREFIX/%pkgrel | cut -d: -f1 | sort | uniq)
+# bla bla
