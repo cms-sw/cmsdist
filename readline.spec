@@ -18,3 +18,4 @@ make %{makeprocesses} CFLAGS="-O2 -fPIC"
 
 %install
 make install
+# bla bla
