@@ -58,3 +58,4 @@ mkdir -p %{i}/include
 make install-uuidincHEADERS
 
 %define drop_files %{i}/man
+# bla bla
