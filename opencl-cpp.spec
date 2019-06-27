@@ -14,3 +14,4 @@ Requires: opencl
 %install
 mkdir -p %{i}/include/CL
 cp %{SOURCE0} %{i}/include/CL
+# bla bla
