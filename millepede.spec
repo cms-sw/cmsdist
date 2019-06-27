@@ -13,3 +13,4 @@ make \
 
 %install
 make install PREFIX=%{i}
+# bla bla
