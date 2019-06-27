@@ -34,3 +34,4 @@ make install
 
 mkdir %{i}/share
 cp TauSpinner/examples/CP-tests/Z-pi/*.txt %{i}/share/
+# bla bla
