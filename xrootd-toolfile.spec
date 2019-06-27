@@ -25,3 +25,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/xrootd.xml
 EOF_TOOLFILE
 export PYTHON_LIB_SITE_PACKAGES
 ## IMPORT scram-tools-post
+# bla bla
