@@ -55,3 +55,4 @@ if [ "X$wfs" != "X" ] ; then
   wfs=`echo $wfs | tr ' ' '\n' | sort | uniq | tr '\n' ',' | sed 's|,$||'`
   echo "%{RunTheMatrixArgs} -l $wfs" > %i/etc/runTheMatrix.args
 fi
+# bla bla
