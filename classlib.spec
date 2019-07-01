@@ -46,7 +46,7 @@ perl -p -i -e '
   !/^\S+: / && s{\S+LZO((C|Dec)ompressor|Constants|Error)\S+}{}g' \
  Makefile
 
-make %makeprocesses CXXFLAGS="-Wno-error=extra -ansi -pedantic -W -Wall -Wno-long-long -Werror"
+make %makeprocesses CXXFLAGS="-Wno-error=extra -ansi -Wno-error=pedantic -W -Wall -Wno-long-long -Werror"
 
 %install
 make %makeprocesses install

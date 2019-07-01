@@ -1,4 +1,4 @@
-### RPM external OpenBLAS 0.3.6
+### RPM external OpenBLAS 0.3.5
 Source: https://github.com/xianyi/OpenBLAS/archive/v%{realversion}.tar.gz
 
 # Will be part of future release
