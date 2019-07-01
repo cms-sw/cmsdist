@@ -1,10 +1,10 @@
-### RPM external pcre 10.33
-Source0: https://sourceforge.net/projects/pcre/files/pcre2/%{realversion}/pcre2-%{realversion}.tar.gz
+### RPM external pcre 8.37
+Source0: http://downloads.sourceforge.net/%{n}/%{n}-%{realversion}.tar.bz2
 
 Requires: bz2lib zlib
 
 %prep
-%setup -b 0 -n pcre2-%{realversion}
+%setup -b 0 -n %{n}-%{realversion}
 
 %build
 ./configure \
