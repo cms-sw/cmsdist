@@ -23,6 +23,7 @@ RecoTauTag-TrainingFiles=V00-01-01
 PhysicsTools-PatUtils=V00-01-00
 SimTransport-PPSProtonTransport=V00-01-00
 SimTransport-TotemRPProtonTransportParametrization=V00-01-00
+RecoLocalCalo-EcalDeadChannelRecoveryAlgos=V01-00-00
 
 #Never update any package here. Always move it to default section.
 [cmssw-xmldata-build]
@@ -74,7 +75,6 @@ RecoBTag-SoftLepton=V01-00-01
 RecoEgamma-PhotonIdentification=V01-00-06
 RecoHI-HiJetAlgos=V01-00-01
 RecoJets-JetProducers=V05-10-20
-RecoLocalCalo-EcalDeadChannelRecoveryAlgos=V01-00-00
 RecoMET-METPUSubtraction=V01-00-03
 RecoParticleFlow-PFProducer=V16-00-00
 RecoParticleFlow-PFTracking=V13-01-00
