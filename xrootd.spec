@@ -1,4 +1,4 @@
-### RPM external xrootd 4.9.0
+### RPM external xrootd 4.9.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
