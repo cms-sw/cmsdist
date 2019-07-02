@@ -1,4 +1,4 @@
-### RPM external libtiff 4.0.3
+### RPM external libtiff 4.0.10
 Source: http://download.osgeo.org/libtiff/tiff-%{realversion}.zip
 
 Requires: libjpeg-turbo zlib
