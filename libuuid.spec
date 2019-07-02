@@ -1,6 +1,6 @@
-### RPM external libuuid 2.22.2
-Source: http://www.kernel.org/pub/linux/utils/util-linux/v2.22/util-linux-%{realversion}.tar.gz
-Patch0: libuuid-2.22.2-disable-get_uuid_via_daemon
+### RPM external libuuid 2.34
+Source: http://www.kernel.org/pub/linux/utils/util-linux/v2.34/util-linux-%{realversion}.tar.gz
+Patch0: libuuid-2.34-disable-get_uuid_via_daemon
 %define keep_archives true
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
