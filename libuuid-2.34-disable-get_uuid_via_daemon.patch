@@ -1,12 +1,13 @@
 diff --git a/libuuid/src/gen_uuid.c b/libuuid/src/gen_uuid.c
-index 02e7f49..ca6d162 100644
+index 27c135d..625405a 100644
 --- a/libuuid/src/gen_uuid.c
 +++ b/libuuid/src/gen_uuid.c
-@@ -331,71 +331,10 @@ try_again:
+@@ -331,77 +331,12 @@ try_again:
  	return ret;
  }
  
 -#if defined(HAVE_UUIDD) && defined(HAVE_SYS_UN_H)
+-
 -/*
 - * Try using the uuidd daemon to generate the UUID
 - *
@@ -21,11 +22,14 @@ index 02e7f49..ca6d162 100644
 -	int32_t reply_len = 0, expected = 16;
 -	struct sockaddr_un srv_addr;
 -
+-	if (sizeof(UUIDD_SOCKET_PATH) > sizeof(srv_addr.sun_path))
+-		return -1;
+-
 -	if ((s = socket(AF_UNIX, SOCK_STREAM, 0)) < 0)
 -		return -1;
 -
 -	srv_addr.sun_family = AF_UNIX;
--	strcpy(srv_addr.sun_path, UUIDD_SOCKET_PATH);
+-	xstrncpy(srv_addr.sun_path, UUIDD_SOCKET_PATH, sizeof(srv_addr.sun_path));
 -
 -	if (connect(s, (const struct sockaddr *) &srv_addr,
 -		    sizeof(struct sockaddr_un)) < 0)
@@ -66,7 +70,9 @@ index 02e7f49..ca6d162 100644
 -}
 -
 -#else /* !defined(HAVE_UUIDD) && defined(HAVE_SYS_UN_H) */
- static int get_uuid_via_daemon(int op, uuid_t out, int *num)
+ static int get_uuid_via_daemon(int op __attribute__((__unused__)),
+ 				uuid_t out __attribute__((__unused__)),
+ 				int *num __attribute__((__unused__)))
  {
  	return -1;
  }
