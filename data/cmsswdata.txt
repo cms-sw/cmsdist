@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+L1Trigger-L1THGCal=V01-00-14
 RecoBTag-Combined=V01-01-05
 FWCore-Modules=V00-01-00
 IOPool-Input=V00-01-00
@@ -12,7 +13,6 @@ RecoMuon-MuonIdentification=V01-12-05
 RecoTracker-FinalTrackSelectors=V01-00-07
 SLHCUpgradeSimulations-Geometry=V01-00-10
 CalibPPS-ESProducers=V01-00-00
-L1Trigger-L1THGCal=V01-00-13
 L1Trigger-L1TMuon=V01-01-04
 Configuration-Generator=V01-01-00
 CondTools-SiPhase2Tracker=V00-01-00
