@@ -2,7 +2,7 @@
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
-%define tag df694868b9235b42972255bd77cca1b91257c61b
+%define tag 35820669d974311ad9a392ad1b1d7620bff12c20
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
