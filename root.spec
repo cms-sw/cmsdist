@@ -82,6 +82,7 @@ cmake ../%{n}-%{realversion} \
   -Dbuiltin_zlib=OFF \
   -Dbuiltin_lzma=OFF \
   -Dbuiltin_gsl=OFF \
+  -Dbuiltin_xxhash=ON \
   -Darrow=OFF \
   -DGSL_CONFIG_EXECUTABLE="$(which gsl-config)" \
   -Dcxx17=ON \
