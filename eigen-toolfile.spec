@@ -14,6 +14,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/eigen.xml
     <environment name="INCLUDE"      default="$EIGEN_BASE/include/eigen3"/>
   </client>
   <flags CPPDEFINES="EIGEN_DONT_PARALLELIZE"/>
+  <flags CPPDEFINES="EIGEN_MPL2_ONLY"/>
+  <flags CPPDEFINES="EIGEN_MAX_ALIGN_BYTES=64"/>
+  <flags CPPDEFINES="EIGEN_HAS_TYPE_TRAITS=0"/>
 </tool>
 EOF_TOOLFILE
 
