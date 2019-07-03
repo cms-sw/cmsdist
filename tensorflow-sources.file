@@ -8,9 +8,9 @@
 #   and update eigen-toolfile.spec accordingly
 ############################################
 %define isslc6amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
-%define tag         93dd14dce2e8751bcaab0a0eb363d55eb0cc5813
-%define branch      r1.13
-%define github_user tensorflow
+%define tag         185f77b7ad50087a2ae2d68459b95b66244002da
+%define branch      cms/v6612da89
+%define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}-%{tag}.tgz
 
 %if "%{?build_type:set}" != "set"
