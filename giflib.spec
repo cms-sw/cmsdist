@@ -10,11 +10,9 @@ BuildRequires: autotools
 
 # "fix" the doc makefile
 echo "all:" > doc/Makefile
-make all %{makeprocesses}
+make all %{makeprocesses} LIBVER=%{realversion} LIBMAJOR=5 PREFIX=%{i}
 
 %install
-make PREFIX=%{i} install-bin
-make PREFIX=%{i} install-include
 make LIBVER=%{realversion} LIBMAJOR=5 PREFIX=%{i} install
 
 %define strip_files %{i}/lib
