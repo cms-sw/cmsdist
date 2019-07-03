@@ -3,6 +3,8 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+L1Trigger-L1THGCal=V01-00-14
+RecoBTag-Combined=V01-01-05
 FWCore-Modules=V00-01-00
 IOPool-Input=V00-01-00
 RecoEgamma-ElectronIdentification=V01-01-03
@@ -11,10 +13,9 @@ RecoMuon-MuonIdentification=V01-12-05
 RecoTracker-FinalTrackSelectors=V01-00-07
 SLHCUpgradeSimulations-Geometry=V01-00-10
 CalibPPS-ESProducers=V01-00-00
-L1Trigger-L1THGCal=V01-00-13
+L1Trigger-L1TMuon=V01-01-04
 Configuration-Generator=V01-01-00
 CondTools-SiPhase2Tracker=V00-01-00
-RecoBTag-Combined=V01-01-04
 PhysicsTools-NanoAOD=V01-00-05
 CalibCalorimetry-EcalTrivialCondModules=V00-02-00
 EgammaAnalysis-ElectronTools=V00-01-04
@@ -22,6 +23,7 @@ RecoTauTag-TrainingFiles=V00-01-01
 PhysicsTools-PatUtils=V00-01-00
 SimTransport-PPSProtonTransport=V00-01-00
 SimTransport-TotemRPProtonTransportParametrization=V00-01-00
+RecoLocalCalo-EcalDeadChannelRecoveryAlgos=V01-00-00
 
 #Never update any package here. Always move it to default section.
 [cmssw-xmldata-build]
@@ -66,7 +68,6 @@ GeneratorInterface-EvtGenInterface=V02-00-11
 HLTrigger-JetMET=V01-00-00
 L1Trigger-L1TCalorimeter=V01-00-22
 L1Trigger-L1TGlobal=V00-00-07
-L1Trigger-L1TMuon=V01-01-03
 MagneticField-Interpolation=V01-00-02
 RecoBTag-CTagging=V01-00-03
 RecoBTag-SecondaryVertex=V02-00-04
@@ -74,7 +75,6 @@ RecoBTag-SoftLepton=V01-00-01
 RecoEgamma-PhotonIdentification=V01-00-06
 RecoHI-HiJetAlgos=V01-00-01
 RecoJets-JetProducers=V05-10-20
-RecoLocalCalo-EcalDeadChannelRecoveryAlgos=V01-00-00
 RecoMET-METPUSubtraction=V01-00-03
 RecoParticleFlow-PFProducer=V16-00-00
 RecoParticleFlow-PFTracking=V13-01-00
