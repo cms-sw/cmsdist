@@ -1,0 +1,128 @@
+############################################
+# IMPORTANT
+# - Whenever the version of tensorflow changes,
+#   update it also in tensorflow-c tensorflow-cc
+#   and py2-tensorflow version too
+# - Need to check protobuf and eigen versions
+# - Check eigen flags in third_party/eigen.BUILD
+#   and update eigen-toolfile.spec accordingly
+############################################
+%define isslc6amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
+%define tag         93dd14dce2e8751bcaab0a0eb363d55eb0cc5813
+%define branch      r1.13
+%define github_user tensorflow
+Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}-%{tag}.tgz
+
+%if "%{?build_type:set}" != "set"
+%define build_type opt
+%endif
+%if "%{?pythonOnly:set}" != "set"
+%define pythonOnly no
+%endif
+
+BuildRequires: bazel
+## INCLUDE tensorflow-deps
+
+%prep
+
+%setup -q -n tensorflow-%{realversion}
+
+%build
+
+export PYTHON_BIN_PATH=`which %{python_cmd}`
+export TF_NEED_JEMALLOC=0
+export TF_NEED_HDFS=0
+export CC_OPT_FLAGS=-march=core2
+export CXX_OPT_FLAGS=-std=c++1z
+export TF_NEED_GCP=0
+export TF_ENABLE_XLA=0
+export TF_NEED_OPENCL=0
+export TF_NEED_CUDA=0
+export TF_NEED_VERBS=0
+export TF_NEED_MKL=0
+export TF_NEED_MPI=0
+export USE_DEFAULT_PYTHON_LIB_PATH=1
+export TF_NEED_S3=0
+export TF_NEED_GDR=0
+export TF_NEED_OPENCL_SYCL=0
+export TF_SET_ANDROID_WORKSPACE=false
+export TF_NEED_KAFKA=false
+export TF_NEED_AWS=0
+export TF_DOWNLOAD_CLANG=0
+export TF_NEED_IGNITE=false
+export TF_NEED_ROCM=false
+export TEST_TMPDIR=%{_builddir}/build
+
+#temp directory
+rm -rf ../build
+
+./configure
+
+BAZEL_OPTS=" --output_user_root %{_builddir}/build build --jobs %{compiling_processes} -s --verbose_failures"
+BAZEL_OPTS="${BAZEL_OPTS} -c %{build_type} --config=noaws --config=nogcp --config=nohdfs --config=noignite --config=nokafka"
+case %{build_type} in
+  dbg) BAZEL_OPTS="${BAZEL_OPTS} --strip=never --compilation_mode=%{build_type}" ;;
+esac
+BAZEL_OPTS="${BAZEL_OPTS} --cxxopt=${CXX_OPT_FLAGS} --linkopt=-L${PROTOBUF_ROOT}/lib"
+BAZEL_OPTS="${BAZEL_OPTS} --action_env=PATH --action_env=TMPDIR --action_env=LD_LIBRARY_PATH --action_env=%{python_env} --distinct_host_configuration=false"
+BAZEL_OPTS="${BAZEL_OPTS} --test_env=PATH --test_env=LD_LIBRARY_PATH"
+BAZEL_OPTS="${BAZEL_OPTS} --action_env TF_SYSTEM_LIBS=protobuf_archive"
+BAZEL_OPTS="${BAZEL_OPTS} --action_env PROTOBUF_ROOT=${PROTOBUF_ROOT} --cxxopt=-Ibazel-out/k8-%{build_type}/genfiles/external/protobuf_archive"
+
+#Fix Eigen headers list
+echo "HEADERS = [" > protobuf.BUILD
+find ${PROTOBUF_ROOT}/include/google/protobuf -name '*.h' -type f | sed 's|.*/include/google/protobuf/|  "google/protobuf/|;s|$|",|' >> protobuf.BUILD
+echo "]" >> protobuf.BUILD
+
+sed -e 's|^\(\s*\)\(HEADERS\s*=\)|\1OLD_\2|;s|$(INCLUDEDIR)/|$$PROTOBUF_ROOT/include/|' third_party/systemlibs/protobuf.BUILD >> protobuf.BUILD
+mv protobuf.BUILD third_party/systemlibs/protobuf.BUILD
+
+%if "%{pythonOnly}" == "no"
+bazel $BAZEL_OPTS //tensorflow:libtensorflow_cc.so
+bazel $BAZEL_OPTS //tensorflow/tools/lib_package:libtensorflow
+bazel $BAZEL_OPTS //tensorflow/tools/graph_transforms:transform_graph
+bazel $BAZEL_OPTS //tensorflow/compiler/tf2xla:tf2xla
+bazel $BAZEL_OPTS //tensorflow/compiler/tf2xla:xla_compiled_cpu_function
+bazel $BAZEL_OPTS //tensorflow/compiler/tf2xla:cpu_function_runtime
+%ifnarch ppc64le
+bazel $BAZEL_OPTS //tensorflow/compiler/aot:tfcompile
+%endif
+bazel $BAZEL_OPTS //tensorflow:install_headers
+%endif
+bazel $BAZEL_OPTS //tensorflow/python/tools:tools_pip
+bazel $BAZEL_OPTS //tensorflow/tools/pip_package:build_pip_package
+
+bazel shutdown
+
+%if "%{pythonOnly}" == "no"
+#Copying out what was built by bazel
+incdir="$PWD/tensorflow_cc/include"
+libdir="$PWD/tensorflow_cc/lib"
+bindir="$PWD/tensorflow_cc/bin"
+
+# Make directory and clean it
+rm -rf $incdir $libdir $bindir
+mkdir -p $incdir $libdir $bindir
+
+#Install libs/bins
+cp -fP $PWD/bazel-bin/tensorflow/lib*.so $libdir/
+cp -fP $PWD/bazel-bin/tensorflow/compiler/tf2xla/lib*.so $libdir/
+%ifnarch ppc64le
+cp  $PWD/bazel-bin/tensorflow/compiler/aot/tfcompile $bindir
+%endif
+#install Headers
+rsync -a $PWD/bazel-genfiles/tensorflow/include/ $incdir/
+if [ ! -d $incdir/tensorflow/compiler ] ; then
+  cp -rf $PWD/tensorflow/compiler $incdir/tensorflow/compiler
+fi
+%endif
+
+%install
+
+bazel-bin/tensorflow/tools/pip_package/build_pip_package %{i}
+
+%if "%{pythonOnly}" == "no"
+cp $PWD/bazel-bin/tensorflow/tools/lib_package/libtensorflow.tar.gz %{i}
+cd tensorflow_cc
+tar cfz %{i}/libtensorflow_cc.tar.gz .
+%endif
