@@ -28,7 +28,7 @@ BuildRequires: autotools
 ./configure --prefix %{i} \
     --disable-static \
     --disable-dependency-tracking \
-    CXXFLAGS="-I${ZLIB_ROOT}/include" \
+    CXXFLAGS="-std=c++1z -I${ZLIB_ROOT}/include" \
     CFLAGS="-I${ZLIB_ROOT}/include" \
     LDFLAGS="-L${ZLIB_ROOT}/lib"
 make %{makeprocesses}

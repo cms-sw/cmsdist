@@ -1,0 +1,5 @@
+# Dependency of tensorflow soruces and python package
+Requires: eigen java-env libjpeg-turbo nasm protobuf py2-absl-py py2-appdirs py2-astor py2-backports-weakref py2-enum34
+Requires: py2-funcsigs py2-future py2-gast py2-google-pasta py2-keras-applications py2-keras-preprocessing py2-mock
+Requires: py2-numpy py2-packaging py2-pbr py2-protobuf py2-pyparsing py2-setuptools py2-six py2-tensorboard
+Requires: py2-tensorflow-estimator py2-termcolor py2-Werkzeug py2-wheel py2-wrapt python swig

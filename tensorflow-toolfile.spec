@@ -1,4 +1,4 @@
-### RPM external tensorflow-toolfile 1.0
+### RPM external tensorflow-toolfile 2.0
 Requires: tensorflow
 %prep
 
@@ -13,8 +13,12 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/tensorflow.xml
     <environment name="TENSORFLOW_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$TENSORFLOW_BASE/lib"/>
     <environment name="INCLUDE" default="$TENSORFLOW_BASE/include"/>
+    <environment name="INCLUDE" default="$TENSORFLOW_BASE/include/external/com_google_absl"/>
     <environment name="TFCOMPILE" default="$TENSORFLOW_BASE/bin/tfcompile"/>
   </client>
+  <lib name="tensorflow_framework"/>
+  <use name="eigen"/>
+  <use name="protobuf"/>
   <runtime name="PATH" value="$TENSORFLOW_BASE/bin" type="path"/>
 </tool>
 EOF_TOOLFILE
@@ -22,14 +26,14 @@ EOF_TOOLFILE
 cat << \EOF_TOOLFILE >%i/etc/scram.d/tensorflow-cc.xml
 <tool name="tensorflow-cc" version="@TOOL_VERSION@">
   <lib name="tensorflow_cc"/>
-  <use name="eigen"/>
-  <use name="protobuf"/>
+  <use name="tensorflow"/>
 </tool>
 EOF_TOOLFILE
 
 cat << \EOF_TOOLFILE >%i/etc/scram.d/tensorflow-c.xml
 <tool name="tensorflow-c" version="@TOOL_VERSION@">
   <lib name="tensorflow"/>
+  <use name="tensorflow"/>
 </tool>
 EOF_TOOLFILE
 
