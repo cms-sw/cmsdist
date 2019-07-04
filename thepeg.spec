@@ -6,7 +6,7 @@
 Source: http://www.hepforge.org/archive/thepeg/ThePEG-%{realversion}.tar.bz2
 
 Requires: lhapdf
-Requires: gsl
+Requires: gsl OpenBLAS
 Requires: hepmc
 Requires: zlib
 Requires: fastjet
@@ -38,6 +38,7 @@ curl -L -k -s -o ./Config/config.sub 'http://git.savannah.gnu.org/gitweb/?p=conf
 curl -L -k -s -o ./Config/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
 chmod +x ./Config/config.{sub,guess}
 
+sed -i -e "s|-lgslcblas|-lopenblas|" ./configure
 ./configure $PLATF_CONF_OPTS \
             --with-lhapdf=$LHAPDF_ROOT \
             --with-boost=$BOOST_ROOT \
@@ -48,9 +49,7 @@ chmod +x ./Config/config.{sub,guess}
             --with-rivet=$RIVET_ROOT \
             --without-javagui \
             --prefix=%{i} \
-            --disable-readline CXX="$CXX" CC="$CC"  
-
-
+            --disable-readline CXX="$CXX" CC="$CC" LDFLAGS="-L${OPENBLAS_ROOT}/lib"
 
 make %{makeprocesses}
 
@@ -69,6 +68,3 @@ find %{i}/lib -name '*.la' -exec rm -f {} \;
 
 cd $RPM_INSTALL_PREFIX/%{pkgrel}/lib/ThePEG/
 ln -s LesHouches.so libLesHouches.so
-cd -
-
-
