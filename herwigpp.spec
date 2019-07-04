@@ -6,7 +6,7 @@ Requires: boost
 Requires: hepmc
 Requires: yoda 
 Requires: thepeg
-Requires: gsl 
+Requires: gsl OpenBLAS
 Requires: fastjet
 Requires: gosamcontrib gosam
 Requires: madgraph5amcatnlo
@@ -32,6 +32,7 @@ CXX="$(which g++) -fPIC"
 CC="$(which gcc) -fPIC"
 PLATF_CONF_OPTS="--enable-shared --disable-static"
 
+sed -i -e "s|-lgslcblas|-lopenblas|" ./configure
 ./configure --prefix=%i \
             --with-thepeg=$THEPEG_ROOT \
             --with-fastjet=$FASTJET_ROOT \
@@ -48,7 +49,7 @@ PLATF_CONF_OPTS="--enable-shared --disable-static"
             FCFLAGS="-fno-range-check" \
 %endif
             $PLATF_CONF_OPTS \
-            CXX="$CXX" CC="$CC"
+            CXX="$CXX" CC="$CC" LDFLAGS="-L${OPENBLAS_ROOT}/lib"
 make %makeprocesses all
 
 %install
