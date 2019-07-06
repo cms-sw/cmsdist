@@ -12,14 +12,10 @@ Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&expo
 
 BuildRequires: cmake ninja
 
-Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib davix tbb OpenBLAS py2-numpy lz4
+Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib davix tbb OpenBLAS py2-numpy lz4 freetype
 
 %if %islinux
 Requires: dcap
-%endif
-
-%if %isdarwin
-Requires: freetype
 %endif
 
 %define soext so
