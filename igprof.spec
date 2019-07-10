@@ -5,19 +5,23 @@
 %define git_commit 4235186fd1a9b9adb86a8a45bb7a8ece74953039
 Source0: git://github.com/%{git_user}/igprof.git?obj=%{git_branch}/%{git_commit}&export=igprof-%{git_commit}&output=/igprof-%{git_commit}.tgz
 Patch0: igprof-gcc8
-Requires: pcre
-BuildRequires: cmake libunwind libatomic_ops
+Requires: pcre libunwind
+BuildRequires: cmake libatomic_ops
 %prep
 %setup -T -b 0 -n igprof-%{git_commit}
 %patch0 -p1
 
 %build
 mkdir -p %i
-rsync -av $LIBUNWIND_ROOT/ %i/
-rsync -av $LIBATOMIC_OPS_ROOT/ %i/
-cmake -DCMAKE_INSTALL_PREFIX=%i -DCMAKE_VERBOSE_MAKEFILE=TRUE -DPCRE_INCLUDE_DIR=$PCRE_ROOT/include -DPCRE_LIBRARY=$PCRE_ROOT/lib/libpcre.so -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="-I%i/include -I$PCRE_ROOT/include -g -O3" .
+rm -rf ../build; mkdir ../build; cd ../build
+
+cmake ../igprof-%{git_commit} \
+   -DCMAKE_INSTALL_PREFIX=%i -DCMAKE_VERBOSE_MAKEFILE=TRUE \
+   -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="-g -O3" \
+   -DCMAKE_PREFIX_PATH="$LIBUNWIND_ROOT;$PCRE_ROOT;$LIBATOMIC_OPS_ROOT"
 make %makeprocesses
 
 %install
+cd ../build
 make %makeprocesses install
 %define drop_files %i/share/man
