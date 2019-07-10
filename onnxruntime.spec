@@ -13,6 +13,7 @@ BuildRequires: cmake ninja zlib python3
 rm -rf ../build; mkdir ../build; cd ../build
 
 cmake ../%{n}-%{realversion}/cmake -GNinja \
+   -DPYTHON_EXECUTABLE=${PYTHON3_ROOT}/bin/python3 \
    -DCMAKE_BUILD_TYPE=Release \
    -DCMAKE_INSTALL_PREFIX="%{i}" \
    -Donnxruntime_BUILD_SHARED_LIB=ON \
