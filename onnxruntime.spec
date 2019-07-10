@@ -4,7 +4,7 @@
 %define github_user microsoft
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/v%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
-BuildRequires: cmake ninja
+BuildRequires: cmake ninja zlib python3
 
 %prep
 %setup -n %{n}-%{realversion}
