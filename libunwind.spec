@@ -1,9 +1,8 @@
-### RPM external libunwind 1.2.1
-%define tag a77b0cd7bd14c27ff7c18463f432599ce9469c75
-%define branch v1.2-stable
+### RPM external libunwind 1.3.1
+%define tag 94aa304960927c130ecb5f664a642b32d9850688
+%define branch v1.3-stable
 Source0: git://github.com/%{n}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-Requires: libatomic_ops
-BuildRequires: autotools
+BuildRequires: autotools gmake
 
 Patch0: libunwind-fix-comma
 
@@ -13,7 +12,7 @@ Patch0: libunwind-fix-comma
 
 %build
 autoreconf -fiv
-./configure CFLAGS="-g -O3" CPPFLAGS="-I${LIBATOMIC_OPS_ROOT}/include" --prefix=%{i} --disable-block-signals
+./configure CFLAGS="-g -O3" --prefix=%{i} --disable-block-signals
 make %{makeprocesses}
 
 %install
