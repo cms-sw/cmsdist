@@ -1,18 +1,18 @@
 ### RPM external onnxruntime 0.4.0
-Source: https://github.com/microsoft/onnxruntime/archive/v%{realversion}.tar.gz
+%define tag %{realversion}
+%define branch master
+%define github_user microsoft
+Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/v%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
-BuildRequires: cmake ninja git
+BuildRequires: cmake ninja
 
 %prep
 %setup -n %{n}-%{realversion}
 
 %build
-cd ../ ; rm -rf %{n}-%{realversion}
-git clone https://github.com/microsoft/%{n}.git %{n}-%{realversion} ; cd %{n}-%{realversion} ; git checkout v%{realversion}
-git submodule update --recursive --init
-mkdir build ; cd build
+rm -rf ../build; mkdir ../build; cd ../build
 
-cmake -GNinja \
+cmake ../%{n}-%{realversion}/cmake -GNinja \
    -DCMAKE_BUILD_TYPE=Release \
    -DCMAKE_INSTALL_PREFIX="%{i}" \
    -Donnxruntime_BUILD_SHARED_LIB=ON \
@@ -35,12 +35,11 @@ cmake -GNinja \
    -Donnxruntime_CROSS_COMPILING=OFF \
    -Donnxruntime_USE_FULL_PROTOBUF=OFF \
    -Donnxruntime_DISABLE_CONTRIB_OPS=OFF \
-   -Donnxruntime_BUILD_UNIT_TESTS=OFF \
-   ../cmake
+   -Donnxruntime_BUILD_UNIT_TESTS=OFF
 
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
 
 %install
-cd build
+cd ../build
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
 
