@@ -1,4 +1,4 @@
-### RPM external libxml2 2.9.1
+### RPM external libxml2 2.9.9
 Source: ftp://xmlsoft.org/%{n}/%{n}-%{realversion}.tar.gz
 %define strip_files %{i}/lib/lib* %{i}/bin/{xmlcatalog,xmllint}
 %define drop_files %{i}/share/{man,doc,gtk-doc}

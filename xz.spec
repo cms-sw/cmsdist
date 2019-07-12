@@ -1,6 +1,6 @@
-### RPM external xz 5.2.2
+### RPM external xz 5.2.4
 
-%define tag c430948daefd58f01ac444af2aeb9850c191fa1d
+%define tag 982e837ddd3da234f710870fa65ba8c14f381b8b
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source0: git+https://github.com/%github_user/xz.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
