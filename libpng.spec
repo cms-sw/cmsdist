@@ -1,8 +1,8 @@
-### RPM external libpng 1.6.16
-%define tag 88dd30b232362b65cca374dda39096888163dd6b
-%define branch cms/v1.6.16
+### RPM external libpng 1.6.35
+%define tag c17d164b4467f099b4484dfd4a279da0bc1dbd4a
+%define branch cms/v%{realversion}
 %define github_user cms-externals
-Source: git+https://github.com/%github_user/%n.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: autotools
 Requires: zlib
@@ -11,7 +11,7 @@ Requires: zlib
 %setup -n %{n}-%{realversion}
 
 %build
-./autogen.sh
+autoreconf -fiv
 
 ./configure \
   --prefix=%{i} \
