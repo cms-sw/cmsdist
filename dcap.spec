@@ -1,5 +1,5 @@
-### RPM external dcap 2.47.8
-%define tag 43223fda3a042
+### RPM external dcap 2.47.12
+%define tag 5753eec777a47908a40de670094903ce6b13176b
 %define branch cms/%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
