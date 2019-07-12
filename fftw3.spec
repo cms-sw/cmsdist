@@ -1,4 +1,4 @@
-### RPM external fftw3 3.3.2
+### RPM external fftw3 3.3.8
 Source: http://www.fftw.org/fftw-%{realversion}.tar.gz
 
 %prep
