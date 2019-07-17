@@ -1,4 +1,4 @@
-### RPM external cmake 3.10.2
+### RPM external cmake 3.14.5
 %define downloaddir %(echo %realversion | cut -d. -f1,2)
 Source: http://www.cmake.org/files/v%{downloaddir}/%n-%realversion.tar.gz
 Requires: bz2lib curl expat zlib
