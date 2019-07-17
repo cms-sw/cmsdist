@@ -39,7 +39,6 @@ export CXXFLAGS=-D__ROOFIT_NOBANNER
 
 cmake ../%{n}-%{realversion} \
   -G Ninja \
-  # FIXME: To be changed for performance measurements!
   -DCMAKE_BUILD_TYPE=Debug \
   -DLLVM_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
