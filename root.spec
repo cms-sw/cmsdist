@@ -78,18 +78,14 @@ cmake ../%{n}-%{realversion} \
   -Dbuiltin_zlib=OFF \
   -Dbuiltin_lzma=OFF \
   -Dbuiltin_gsl=OFF \
-  -Dbuiltin_glew=ON \
-  -Dbuiltin_ftgl=ON \
-  -Dbuiltin_gl2ps=ON \
-  -Dbuiltin_afterimage=ON \
   -Dbuiltin_xxhash=ON \
   -Darrow=OFF \
   -DGSL_CONFIG_EXECUTABLE="$(which gsl-config)" \
+  -Dcxx17=ON \
   -Dssl=ON \
   -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
   -DOPENSSL_INCLUDE_DIR="${OPENSSL_ROOT}/include" \
   -Dpython=ON \
-  -DCMAKE_CXX_STANDARD=17 \
   -Dxrootd=ON \
   -Dbuiltin_xrootd=OFF \
   -DXROOTD_INCLUDE_DIR="${XROOTD_ROOT}/include/xrootd" \
@@ -134,11 +130,12 @@ cmake ../%{n}-%{realversion} \
   -DTIFF_LIBRARY="${LIBTIFF_ROOT}/lib/libtiff.%{soext}" \
   -DLIBLZMA_INCLUDE_DIR="${XZ_ROOT}/include" \
   -DLIBLZMA_LIBRARY="${XZ_ROOT}/lib/liblzma.%{soext}" \
-  -DLZ4_INCLUDE_DIR="${LZ4_ROOT}/include" \
-  -DLZ4_LIBRARY="${LZ4_ROOT}/lib/liblz4.%{soext}" \
+  -DLIBLZ4_INCLUDE_DIR="${LZ4_ROOT}/include" \
+  -DLIBLZ4_LIBRARY="${LZ4_ROOT}/lib/liblz4.%{soext}" \
   -DZLIB_ROOT="${ZLIB_ROOT}" \
   -DZLIB_INCLUDE_DIR="${ZLIB_ROOT}/include" \
-  -DCMAKE_PREFIX_PATH="${LZ4_ROOT}/include;${LZ4_ROOT}/lib;${GSL_ROOT};${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LZ4_ROOT/usr/local};${LIBXML2_ROOT}"
+  -DCMAKE_PREFIX_PATH="${GSL_ROOT};${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LZ4_ROOT};${LIBXML2_ROOT}"
+
 # For CMake cache variables: http://www.cmake.org/cmake/help/v3.2/manual/cmake-language.7.html#lists
 # For environment variables it's OS specific: http://www.cmake.org/Wiki/CMake_Useful_Variables
 
