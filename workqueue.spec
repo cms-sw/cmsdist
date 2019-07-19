@@ -1,12 +1,12 @@
-### RPM cms workqueue 1.2.4.pre3
+### RPM cms workqueue 1.2.5.pre4
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 Source: git://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=%n&output=/%n.tar.gz
 Requires: python py2-httplib2 pystack rotatelogs couchdb15 yui py2-sphinx dbs3-client py2-cherrypy py2-pycurl
-Requires: py2-future py2-retry py2-stomp py2-psutil py2-rucio-clients
-Requires: jemalloc
+Requires: py2-future py2-retry py2-psutil py2-rucio-clients
+Requires: jemalloc cmsmonitoring
 
 %prep
 %setup -b 0 -n %n
