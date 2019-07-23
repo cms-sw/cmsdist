@@ -1,4 +1,4 @@
-### RPM cms reqmgr2 1.2.4.pre3
+### RPM cms reqmgr2 1.2.5.pre4
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
@@ -9,8 +9,8 @@ Source: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%
 #Source: git://github.com/ticoann/WMCore?obj=reqmgr2_dashboard_dep/%realversion&export=%n&output=/%n.tar.gz
 
 Requires: py2-httplib2 py2-cherrypy py2-cheetah rotatelogs couchdb15 py2-sphinx py2-pycurl dbs3-client
-Requires: py2-future py2-retry py2-stomp py2-psutil
-Requires: jemalloc
+Requires: py2-future py2-retry py2-psutil
+Requires: jemalloc cmsmonitoring
 
 %prep
 %setup -b 0 -n %n 
