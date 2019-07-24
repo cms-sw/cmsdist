@@ -156,6 +156,7 @@ Requires: python_tools
 Requires: dasgoclient
 Requires: OpenBLAS-toolfile
 Requires: mxnet-predict-toolfile
+Requires: libunwind-toolfile
 
 # Only for Linux platform.
 %if %islinux
