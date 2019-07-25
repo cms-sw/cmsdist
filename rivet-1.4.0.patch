@@ -13,7 +13,7 @@
          const string path = d + "/" + filename;
          // Ensure no duplicate paths
 -        if (find(pluginfiles.begin(), pluginfiles.end(), path) == pluginfiles.end()) {
-+        // CMS PATCH: ensure also no duplicate library names. Ensures that only the first plugin library in the RIVET_ANALYIS_PATH 
++        // CMS PATCH: ensure also no duplicate library names. Ensures that only the first plugin library in the RIVET_ANALYIS_PATH is taken.
 +        // This ensures that, when the same library is both in the developer area and in the release, only the first one is taken. 
 +        // The developer area preceeds the release in the RIVET_ANALYSIS_PATH
 +        if (find(pluginfiles.begin(), pluginfiles.end(), path) == pluginfiles.end() &&
