@@ -69,7 +69,7 @@ sed -i -e "/^INCLUDE.*/s/$/ \$(YODAINCLUDE) \$(BOOSTINCLUDE)/" Contrib/FxFx/Make
 sed -i "/^FASTJETLIB.*/a HERWIGINSTALL = %{i}" Contrib/FxFx/Makefile
 sed -i -e '0,/\$(HERWIGINSTALL)\/lib\/Herwig/s//\$(HERWIGINSTALL)\/lib\/./' Contrib/FxFx/Makefile
 
-make -C Contrib/FxFx %makeprocesses FxFx.so FxFxHandler.so FxFxAnalysis.so
+make -C Contrib/FxFx %makeprocesses FxFx.so FxFxHandler.so
 cp Contrib/FxFx/*.so %{i}/lib/Herwig/.
 
 mv %{i}/bin/Herwig  %{i}/bin/Herwig-cms
