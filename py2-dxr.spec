@@ -17,7 +17,7 @@ Patch3: py2-dxr-clang36
 Patch4: py2-dxr-sqlite38
 Patch5: py2-dxr-clang37
 Patch6: py2-dxr-clang700
-Patch6: py2-dxr-llvm801
+Patch7: py2-dxr-llvm801
 %define keep_archives true
 
 %prep
