@@ -38,9 +38,4 @@ index 6b35340..bba5563 100644
      if (m_currentFunction) {
        recordValue("callername", getQualifiedName(*m_currentFunction));
        recordValue("callerloc", locationToString(m_currentFunction->getLocation()));
-diff --git a/trilite-e64a2a1 b/trilite-e64a2a1
---- a/trilite-e64a2a1
-+++ b/trilite-e64a2a1
-@@ -1 +1 @@
--Subproject commit 3570d4236c424366030e22f1f8beeb429d254b49
-+Subproject commit 3570d4236c424366030e22f1f8beeb429d254b49-dirty
+
