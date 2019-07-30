@@ -1,0 +1,46 @@
+diff --git a/dxr/plugins/clang/dxr-index.cpp b/dxr/plugins/clang/dxr-index.cpp
+index 6b35340..bba5563 100644
+--- a/dxr/plugins/clang/dxr-index.cpp
++++ b/dxr/plugins/clang/dxr-index.cpp
+@@ -744,7 +744,7 @@ public:
+   }
+ 
+   bool VisitCallExpr(CallExpr *e) {
+-    if (!interestingLocation(e->getLocStart()))
++    if (!interestingLocation(e->getBeginLoc()))
+       return true;
+ 
+     Decl *callee = e->getCalleeDecl();
+@@ -756,7 +756,7 @@ public:
+     // 1. callee isn't necessarily a function. Think function pointers.
+     // 2. We might not be in a function. Think global function decls
+     // 3. Virtual functions need not be called virtually!
+-    beginRecord("call", e->getLocStart());
++    beginRecord("call", e->getBeginLoc());
+     if (m_currentFunction) {
+       recordValue("callername", getQualifiedName(*m_currentFunction));
+       recordValue("callerloc", locationToString(m_currentFunction->getLocation()));
+@@ -783,7 +783,7 @@ public:
+   }
+ 
+   bool VisitCXXConstructExpr(CXXConstructExpr *e) {
+-    if (!interestingLocation(e->getLocStart()))
++    if (!interestingLocation(e->getBeginLoc()))
+       return true;
+ 
+     CXXConstructorDecl *callee = e->getConstructor();
+@@ -795,7 +795,7 @@ public:
+     // 1. callee isn't necessarily a function. Think function pointers.
+     // 2. We might not be in a function. Think global function decls
+     // 3. Virtual functions need not be called virtually!
+-    beginRecord("call", e->getLocStart());
++    beginRecord("call", e->getBeginLoc());
+     if (m_currentFunction) {
+       recordValue("callername", getQualifiedName(*m_currentFunction));
+       recordValue("callerloc", locationToString(m_currentFunction->getLocation()));
+diff --git a/trilite-e64a2a1 b/trilite-e64a2a1
+--- a/trilite-e64a2a1
++++ b/trilite-e64a2a1
+@@ -1 +1 @@
+-Subproject commit 3570d4236c424366030e22f1f8beeb429d254b49
++Subproject commit 3570d4236c424366030e22f1f8beeb429d254b49-dirty
