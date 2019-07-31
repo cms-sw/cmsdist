@@ -60,6 +60,7 @@ Requires: data-FWCore-Modules
 Requires: data-IOPool-Input
 Requires: data-RecoCTPPS-TotemRPLocal
 Requires: data-IOPool-Input
+Requires: data-RecoHGCal-TICL
 
 %if %isnotonline
 # extra data dependencies for standard builds
