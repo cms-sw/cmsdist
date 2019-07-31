@@ -477,14 +477,4 @@ EOF_TOOLFILE
   ;;
 esac
 
-case %cmsos in
-  *_ia32)
-    GENREFLEX_GCCXMLOPT="-m32"
-  ;;
-  *_amd64)
-    GENREFLEX_GCCXMLOPT="-m64"
-  ;;
-esac
-export GENREFLEX_GCCXMLOPT
-
 ## IMPORT scram-tools-post
