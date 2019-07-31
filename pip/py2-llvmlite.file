@@ -1,3 +1,5 @@
-Requires: py2-enum34 llvm py2-wheel
-%define source0     git+https://github.com/cms-externals/llvmlite?obj=cms/master/d5fadcc/432a75a3bdefee6e927196086d31a7eb0d92404d&export=llvmlite-%{realversion}&output=/source.tar.gz
-%define PipPreBuild export LLVM_CONFIG=${LLVM_ROOT}/bin/llvm-config 
+%define doPython3 no
+Requires: llvm py2-wheel py2-enum34
+Patch0: py2-llvmlite-fpic-flag
+
+%define PipPreBuild export LLVM_CONFIG=${LLVM_ROOT}/bin/llvm-config && tar -xzf llvmlite-%{realversion}.tar.gz && pushd llvmlite-%{realversion} && for pch in %{patches} ; do patch -p1 < ${pch} ; done && popd && rm -f llvmlite-%{realversion}.tar.gz && tar czf llvmlite-%{realversion}.tar.gz llvmlite-%{realversion}
