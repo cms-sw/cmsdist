@@ -4,6 +4,7 @@
 #If there is no customization for the packae then remove its .spec and .file
 [default]
 CalibCalorimetry-EcalTrivialCondModules=V00-03-00
+RecoLocalCalo-EcalDeadChannelRecoveryAlgos=V01-01-00
 Configuration-Generator=V01-01-01
 L1Trigger-L1THGCal=V01-00-14
 RecoBTag-Combined=V01-01-05
@@ -23,7 +24,6 @@ RecoTauTag-TrainingFiles=V00-01-01
 PhysicsTools-PatUtils=V00-01-00
 SimTransport-PPSProtonTransport=V00-01-00
 SimTransport-TotemRPProtonTransportParametrization=V00-01-00
-RecoLocalCalo-EcalDeadChannelRecoveryAlgos=V01-00-00
 
 #Never update any package here. Always move it to default section.
 [cmssw-xmldata-build]
