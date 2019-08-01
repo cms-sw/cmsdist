@@ -165,6 +165,7 @@ Requires: openldap-toolfile
 Requires: gperftools-toolfile
 
 %if %isnotppc64le_be
+Requires: libunwind-toolfile
 Requires: igprof-toolfile
 Requires: cuda-toolfile
 Requires: cub-toolfile
