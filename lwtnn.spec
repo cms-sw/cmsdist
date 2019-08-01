@@ -1,4 +1,4 @@
-### RPM external lwtnn 2.4
+### RPM external lwtnn 2.9
 
 Source: https://github.com/lwtnn/lwtnn/archive/v%{realversion}.tar.gz
 BuildRequires: ninja cmake
