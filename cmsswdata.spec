@@ -60,6 +60,7 @@ Requires: data-FWCore-Modules
 Requires: data-IOPool-Input
 Requires: data-RecoCTPPS-TotemRPLocal
 Requires: data-IOPool-Input
+Requires: data-SimG4CMS-HGCalTestBeam
 
 %if %isnotonline
 # extra data dependencies for standard builds
