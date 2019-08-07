@@ -1,4 +1,4 @@
-### RPM external onnxruntime-toolfile 0.4.0
+### RPM external onnxruntime-toolfile 1.0
 Requires: onnxruntime
 %prep
 
@@ -15,6 +15,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/onnxruntime.xml
     <environment name="INCLUDE" default="$ONNXRUNTIME_BASE/include"/>
     <environment name="LIBDIR" default="$ONNXRUNTIME_BASE/lib64"/>
   </client>
+  <use name="eigen"/>
+  <use name="protobuf"/>
 </tool>
 EOF_TOOLFILE
 
