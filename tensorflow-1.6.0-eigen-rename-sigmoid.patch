@@ -1,0 +1,77 @@
+commit f933c2c13cb014688497fd8a8791ead4fce34014 (HEAD, master)
+Author: Andrea Bocci <andrea.bocci@cern.ch>
+Date:   Thu Sep 27 09:32:00 2018 +0200
+
+    Rename Eigen's internal scalar_sigmoid_op to scalar_logistic_op
+    
+    Rename Eigen::internal::scalar_sigmoid_op to Eigen::internal::scalar_logistic_op,
+    following Eigen pull request #466 (master).
+
+diff --git a/tensorflow/contrib/lite/kernels/internal/optimized/optimized_ops.h b/tensorflow/contrib/lite/kernels/internal/optimized/optimized_ops.h
+index 8163c76..bc4fdf0 100644
+--- a/tensorflow/contrib/lite/kernels/internal/optimized/optimized_ops.h
++++ b/tensorflow/contrib/lite/kernels/internal/optimized/optimized_ops.h
+@@ -2072,12 +2072,12 @@ inline void LstmCell(const float* input_data, const Dims<4>& input_dims,
+   // Combined memory state and final output calculation
+   gemmlowp::ScopedProfilingLabel label2("MemoryStateAndFinalOutput");
+   output_state_map =
+-      input_gate_sm.unaryExpr(Eigen::internal::scalar_sigmoid_op<float>()) *
++      input_gate_sm.unaryExpr(Eigen::internal::scalar_logistic_op<float>()) *
+           new_input_sm.tanh() +
+-      forget_gate_sm.unaryExpr(Eigen::internal::scalar_sigmoid_op<float>()) *
++      forget_gate_sm.unaryExpr(Eigen::internal::scalar_logistic_op<float>()) *
+           prev_state_map;
+   output_activ_map =
+-      output_gate_sm.unaryExpr(Eigen::internal::scalar_sigmoid_op<float>()) *
++      output_gate_sm.unaryExpr(Eigen::internal::scalar_logistic_op<float>()) *
+       output_state_map.tanh();
+ }
+ 
+@@ -2786,7 +2786,7 @@ inline void Logistic(const float* input_data, const Dims<4>& input_dims,
+   auto input_map = MapAsVector(input_data, input_dims);
+   auto output_map = MapAsVector(output_data, output_dims);
+   output_map.array() =
+-      input_map.array().unaryExpr(Eigen::internal::scalar_sigmoid_op<float>());
++      input_map.array().unaryExpr(Eigen::internal::scalar_logistic_op<float>());
+ }
+ 
+ inline void Logistic(const uint8* input_data, const Dims<4>& input_dims,
+diff --git a/tensorflow/contrib/rnn/kernels/lstm_ops_gpu.cu.cc b/tensorflow/contrib/rnn/kernels/lstm_ops_gpu.cu.cc
+index 6d3758f..0229ca7 100644
+--- a/tensorflow/contrib/rnn/kernels/lstm_ops_gpu.cu.cc
++++ b/tensorflow/contrib/rnn/kernels/lstm_ops_gpu.cu.cc
+@@ -95,7 +95,7 @@ __global__ void lstm_gates(const T* icfo, const T* b, const T* cs_prev,
+   //
+   const int gid = batch_id * cell_size * 4 + act_id;
+   const int cid = batch_id * cell_size + act_id;
+-  Eigen::internal::scalar_sigmoid_op<T> sigmoid_op;
++  Eigen::internal::scalar_logistic_op<T> sigmoid_op;
+   Eigen::internal::scalar_tanh_op<T> tanh_op;
+   Eigen::scalar_clip_op<T> clip_op;
+ 
+diff --git a/tensorflow/core/grappler/costs/op_level_cost_estimator.cc b/tensorflow/core/grappler/costs/op_level_cost_estimator.cc
+index cf31737..e782ca1 100644
+--- a/tensorflow/core/grappler/costs/op_level_cost_estimator.cc
++++ b/tensorflow/core/grappler/costs/op_level_cost_estimator.cc
+@@ -234,7 +234,7 @@ OpLevelCostEstimator::OpLevelCostEstimator() {
+       {"Relu", Eigen::internal::functor_traits<
+                    Eigen::internal::scalar_max_op<float>>::Cost},
+       {"Sigmoid", Eigen::internal::functor_traits<
+-                      Eigen::internal::scalar_sigmoid_op<float>>::Cost},
++                      Eigen::internal::scalar_logistic_op<float>>::Cost},
+       {"Sign", Eigen::internal::functor_traits<
+                    Eigen::internal::scalar_sign_op<float>>::Cost},
+       {"Sin", Eigen::internal::functor_traits<
+diff --git a/tensorflow/core/kernels/cwise_ops.h b/tensorflow/core/kernels/cwise_ops.h
+index 0691807..0c0e6b4 100644
+--- a/tensorflow/core/kernels/cwise_ops.h
++++ b/tensorflow/core/kernels/cwise_ops.h
+@@ -617,7 +617,7 @@ template <typename T>
+ struct erfc : base<T, Eigen::internal::scalar_erfc_op<T>> {};
+ 
+ template <typename T>
+-struct sigmoid : base<T, Eigen::internal::scalar_sigmoid_op<T>> {};
++struct sigmoid : base<T, Eigen::internal::scalar_logistic_op<T>> {};
+ 
+ template <typename T>
+ struct sin : base<T, Eigen::internal::scalar_sin_op<T>> {};

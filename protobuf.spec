@@ -1,4 +1,4 @@
-### RPM external protobuf 3.6.1.2
+### RPM external protobuf 3.5.2
 ## INITENV SETV PROTOBUF_SOURCE %{source0}
 ## INITENV SETV PROTOBUF_STRIP_PREFIX %{source_prefix}
 #============= IMPORTANT NOTE ========================#
@@ -24,11 +24,26 @@ BuildRequires: autotools
 
 %build
 ./autogen.sh
+# Update to detect aarch64 and ppc64le
+rm -f ./config.{sub,guess}
+curl -L -k -s -o ./config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./config.{sub,guess}
 
+
+rm -f ./gmock/gtest/build-aux/config.{sub,guess}
+curl -L -k -s -o ./gmock/gtest/build-aux/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./gmock/gtest/build-aux/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./gmock/gtest/build-aux/config.{sub,guess}
+
+rm -f ./gmock/build-aux/config.{sub,guess}
+curl -L -k -s -o ./gmock/build-aux/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./gmock/build-aux/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./gmock/build-aux/config.{sub,guess}
 ./configure --prefix %{i} \
     --disable-static \
     --disable-dependency-tracking \
-    CXXFLAGS="-std=c++1z -I${ZLIB_ROOT}/include" \
+    CXXFLAGS="-I${ZLIB_ROOT}/include" \
     CFLAGS="-I${ZLIB_ROOT}/include" \
     LDFLAGS="-L${ZLIB_ROOT}/lib"
 make %{makeprocesses}
