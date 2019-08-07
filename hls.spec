@@ -1,4 +1,4 @@
-### RPM external hls 201908
+### RPM external hls 2019.08
 %define tag 200a9aecaadf471592558540dc5a88256cbf880f
 %define branch master
 %define github_user Xilinx
