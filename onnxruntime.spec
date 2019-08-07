@@ -1,10 +1,11 @@
-### RPM external onnxruntime 0.4.0
-%define tag %{realversion}
-%define branch master
-%define github_user microsoft
-Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/v%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
+### RPM external onnxruntime 0.5.0
+%define tag 2a8b02097514ca90ac7471054460dcdc47b69e1b
+%define branch cms/v%{realversion}
+%define github_user cms-externals
+Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake ninja zlib python3
+Requires: eigen protobuf
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -34,13 +35,16 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -Donnxruntime_USE_EIGEN_THREADPOOL=OFF \
    -Donnxruntime_USE_TENSORRT=OFF \
    -Donnxruntime_CROSS_COMPILING=OFF \
-   -Donnxruntime_USE_FULL_PROTOBUF=OFF \
+   -Donnxruntime_USE_FULL_PROTOBUF=ON \
    -Donnxruntime_DISABLE_CONTRIB_OPS=OFF \
-   -Donnxruntime_BUILD_UNIT_TESTS=OFF
+   -Donnxruntime_BUILD_UNIT_TESTS=OFF \
+   -Donnxruntime_USE_PREINSTALLED_EIGEN=ON \
+   -Deigen_SOURCE_PATH=$EIGEN_ROOT/include/eigen3 \
+   -Donnxruntime_USE_PREINSTALLED_PROTOBUF=ON \
+   -Dprotobuf_INSTALL_PATH=${PROTOBUF_ROOT}
 
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
 
 %install
 cd ../build
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
-
