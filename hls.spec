@@ -9,12 +9,14 @@ Requires: gmake
 %setup -n %{n}-%{realversion}
 
 %build
-cd %_builddir/%{n}-%{realversion}/examples/ap_fixed
-make
-mv %_builddir/%{n}-%{realversion}/examples/ap_fixed/a.out %_builddir/%{n}-%{realversion}/examples/ap_fixed.out
-cd %_builddir/%{n}-%{realversion}/examples/ap_int
-make
-mv %_builddir/%{n}-%{realversion}/examples/ap_int/a.out %_builddir/%{n}-%{realversion}/examples/ap_int.out
+
+pushd examples/ap_fixed; make
+mv a.out ../ap_fixed.exe ; popd
+
+pushd examples/ap_int; make
+mv a.out ../ap_int.exe ; popd
+
+rm -rf examples/ap_int examples/ap_fixed
 
 %install
 
