@@ -1,0 +1,20 @@
+commit 724e558629ded6ff82563a42170337fd2a06e354 (HEAD, master)
+Author: Andrea Bocci <andrea.bocci@cern.ch>
+Date:   Thu Sep 27 10:07:30 2018 +0200
+
+    Add "packet" template parameter to gemm_pack_lhs<>
+
+diff --git a/tensorflow/core/kernels/deep_conv2d.cc b/tensorflow/core/kernels/deep_conv2d.cc
+index 829155f..693eb25 100644
+--- a/tensorflow/core/kernels/deep_conv2d.cc
++++ b/tensorflow/core/kernels/deep_conv2d.cc
+@@ -500,7 +500,8 @@ class GemmFilterPacker {
+       LhsMapper;
+   typedef Eigen::internal::gebp_traits<T, T> Traits;
+   Eigen::internal::gemm_pack_lhs<T, int64, LhsMapper, Traits::mr,
+-                                 Traits::LhsProgress, Eigen::RowMajor>
++                                 Traits::LhsProgress, typename Traits::LhsPacket,
++                                 Eigen::RowMajor>
+       pack_lhs;
+ 
+   GemmFilterPacker(const int64 rows, const int64 depth, const T* lhs_input,
