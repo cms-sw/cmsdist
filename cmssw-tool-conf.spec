@@ -98,6 +98,8 @@ Requires: valgrind-toolfile
 Requires: cmsswdata-toolfile
 Requires: zstd-toolfile
 Requires: hls-toolfile
+Requires: onnxruntime-toolfile
+
 Requires: hdf5-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
