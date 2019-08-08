@@ -17,14 +17,15 @@ Patch0: dd4hep-build-static
 %build
 
 export BOOST_ROOT
-CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX='%{i}'
-      -DBoost_NO_BOOST_CMAKE=ON
-      -DCMAKE_PREFIX_PATH=${CLHEP_ROOT}
-      -DDD4HEP_USE_XERCESC=ON
-      -DXERCESC_ROOT_DIR=${XERCES_C_ROOT}
-      -DDD4HEP_USE_PYROOT=ON
-      -DCMAKE_CXX_STANDARD=17
-      -DCMAKE_BUILD_TYPE=Release"
+CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX='%{i}' \
+      -DBoost_NO_BOOST_CMAKE=ON \
+      -DCMAKE_PREFIX_PATH=${CLHEP_ROOT} \
+      -DDD4HEP_USE_XERCESC=ON \
+      -DXERCESC_ROOT_DIR=${XERCES_C_ROOT} \
+      -DDD4HEP_USE_PYROOT=ON \
+      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_PREFIX_PATH=${XERCES_C_ROOT}"
 
 #Build normal Shared D4Hep without Geant4
 rm -rf ../build; mkdir ../build; cd ../build
