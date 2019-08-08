@@ -8,9 +8,11 @@ Source: git+https://github.com/%github_user/CMSCodeChecker.git?obj=%{branch}/%{t
 
 BuildRequires: cmake 
 Requires: llvm
+Patch0: codechecker-llvm8
 
 %prep
 %setup -n %n-%{realversion}
+%patch0 -p1
 
 %build
 mkdir build
