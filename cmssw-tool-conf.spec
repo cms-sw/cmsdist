@@ -98,7 +98,9 @@ Requires: valgrind-toolfile
 Requires: cmsswdata-toolfile
 Requires: zstd-toolfile
 Requires: hls-toolfile
+%if %isnotppc64le
 Requires: onnxruntime-toolfile
+%endif
 
 Requires: hdf5-toolfile
 Requires: rivet-toolfile
