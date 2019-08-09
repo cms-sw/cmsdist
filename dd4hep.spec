@@ -1,7 +1,7 @@
 ### RPM external dd4hep v01-10x
 
-%define tag 88e428e1c81b1d7a51f9d046bd116ae23a7fb992
-%define branch cms/master/052a2b2
+%define tag 7680c56ad011a34daacf874033a460947d548740
+%define branch cms/master/9f9459d
 %define github_user cms-externals
 %define keep_archives true
 
@@ -17,14 +17,15 @@ Patch0: dd4hep-build-static
 %build
 
 export BOOST_ROOT
-CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX='%{i}'
-      -DBoost_NO_BOOST_CMAKE=ON
-      -DCMAKE_PREFIX_PATH=${CLHEP_ROOT}
-      -DDD4HEP_USE_XERCESC=ON
-      -DXERCESC_ROOT_DIR=${XERCES_C_ROOT}
-      -DDD4HEP_USE_PYROOT=ON
-      -DCMAKE_CXX_STANDARD=17
-      -DCMAKE_BUILD_TYPE=Release"
+CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX='%{i}' \
+      -DBoost_NO_BOOST_CMAKE=ON \
+      -DCMAKE_PREFIX_PATH=${CLHEP_ROOT} \
+      -DDD4HEP_USE_XERCESC=ON \
+      -DXERCESC_ROOT_DIR=${XERCES_C_ROOT} \
+      -DDD4HEP_USE_PYROOT=ON \
+      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_PREFIX_PATH=${XERCES_C_ROOT}"
 
 #Build normal Shared D4Hep without Geant4
 rm -rf ../build; mkdir ../build; cd ../build
