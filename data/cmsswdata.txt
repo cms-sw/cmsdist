@@ -24,7 +24,7 @@ RecoTauTag-TrainingFiles=V00-01-01
 PhysicsTools-PatUtils=V00-01-00
 SimTransport-PPSProtonTransport=V00-01-00
 SimTransport-TotemRPProtonTransportParametrization=V00-01-00
-RecoHGCal-TICL=V01-00-00
+RecoHGCal-TICL=V00-00-00
 SimG4CMS-HGCalTestBeam=V01-00-00
 
 #Never update any package here. Always move it to default section.
