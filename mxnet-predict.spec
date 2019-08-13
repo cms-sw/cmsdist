@@ -1,8 +1,7 @@
 ### RPM external mxnet-predict 1.5.0
 %define tag 337cf1b54cc02bde94f459c89863a18187b0aada
 %define branch 1.5.0-cms-mod
-#%define github_user cms-externals
-%define github_user hqucms
+%define github_user cms-externals
 Source: git+https://github.com/%{github_user}/incubator-mxnet.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}-%{tag}.tgz
 
 BuildRequires: cmake ninja ccache
@@ -32,7 +31,8 @@ cmake ../%{n}-%{realversion} -GNinja \
     -USE_MKLDNN=OFF \
     -DUSE_F16C=OFF \
     -DUSE_CPP_PACKAGE=ON \
-    -DBUILD_CPP_EXAMPLES=OFF
+    -DBUILD_CPP_EXAMPLES=OFF \
+    -DCMAKE_PREFIX_PATH="${OPENBLAS_ROOT}"
 
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
 
