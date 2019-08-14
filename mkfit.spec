@@ -10,7 +10,7 @@ Requires: tbb
 %setup -q -n %{n}-%{realversion}
 
 %build
-TBB_PREFIX=$TBB_ROOT make
+make TBB_PREFIX=$TBB_ROOT VEC_GCC="-march=core2"
 
 %install
 mkdir %{i}/include %{i}/include/mkFit %{i}/Geoms
