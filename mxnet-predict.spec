@@ -6,7 +6,7 @@ Source: git+https://github.com/%{github_user}/incubator-mxnet.git?obj=%{branch}/
 
 BuildRequires: cmake ninja ccache
 
-Requires: OpenBLAS lapack
+Requires: OpenBLAS
 
 %prep
 %setup -q -n %{n}-%{realversion}
@@ -14,8 +14,9 @@ Requires: OpenBLAS lapack
 %build
 rm -rf ../build; mkdir ../build; cd ../build
 
-export CFLAGS="-I$OPENBLAS_ROOT/include -I$LAPACK_ROOT/include -DMXNET_THREAD_LOCAL_ENGINE=1"
-export LDFLAGS="-L$OPENBLAS_ROOT/lib -L$LAPACK_ROOT/lib64"
+# use LAPACK functions in OpenBLAS:
+# manually set MXNET_USE_LAPACK=1 and turn off USE_LAPACK in cmake
+export CFLAGS="-DMXNET_USE_LAPACK=1 -DMXNET_THREAD_LOCAL_ENGINE=1"
 
 cmake ../%{n}-%{realversion} -GNinja \
     -DCMAKE_CUDA_COMPILER_LAUNCHER=ccache \
@@ -27,6 +28,7 @@ cmake ../%{n}-%{realversion} -GNinja \
     -DUSE_OPENCV=OFF \
     -DUSE_OPENMP=OFF \
     -DUSE_BLAS=open \
+    -DUSE_LAPACK=OFF \
     -DUSE_MKL_IF_AVAILABLE=OFF \
     -USE_MKLDNN=OFF \
     -DUSE_F16C=OFF \

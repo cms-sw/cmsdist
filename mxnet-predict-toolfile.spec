@@ -16,7 +16,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/mxnet-predict.xml
     <environment name="LIBDIR" default="$MXNET_PREDICT_BASE/lib64"/>
   </client>
   <use name="openblas"/>
-  <use name="lapack"/>
 </tool>
 EOF_TOOLFILE
 
