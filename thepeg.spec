@@ -1,4 +1,4 @@
-### RPM external thepeg 2.1.5
+### RPM external thepeg 2.1.4
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib/ThePEG
 ## INITENV +PATH DYLD_LIBRARY_PATH %{i}/lib/ThePEG
 
@@ -10,7 +10,8 @@ Requires: gsl OpenBLAS
 Requires: hepmc
 Requires: zlib
 Requires: fastjet
-Requires: rivet
+
+
 BuildRequires: autotools
 BuildRequires: lhapdf
 
@@ -23,6 +24,8 @@ BuildRequires: lhapdf
 
 %prep
 %setup -q -n ThePEG-%{realversion}
+
+sed -i -e "s|theQuickParticles.resize(2\*theQuickSize);|theQuickParticles.resize(2\*theQuickSize,nullptr);|" Repository/EventGenerator.cc
 # Regenerate build scripts
 autoreconf -fiv
 
@@ -46,7 +49,6 @@ sed -i -e "s|-lgslcblas|-lopenblas|" ./configure
             --with-gsl=$GSL_ROOT \
             --with-zlib=$ZLIB_ROOT \
             --with-fastjet=$FASTJET_ROOT \
-            --with-rivet=$RIVET_ROOT \
             --without-javagui \
             --prefix=%{i} \
             --disable-readline CXX="$CXX" CC="$CC" LDFLAGS="-L${OPENBLAS_ROOT}/lib"
