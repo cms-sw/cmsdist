@@ -4,14 +4,14 @@
 
 # Download from official webpage
 Source: http://www.hepforge.org/archive/thepeg/ThePEG-%{realversion}.tar.bz2
-Patch0: thepeg-2.1.1-gcc8
 
 Requires: lhapdf
 Requires: gsl OpenBLAS
 Requires: hepmc
 Requires: zlib
 Requires: fastjet
-Requires: rivet
+
+
 BuildRequires: autotools
 BuildRequires: lhapdf
 
@@ -24,7 +24,8 @@ BuildRequires: lhapdf
 
 %prep
 %setup -q -n ThePEG-%{realversion}
-%patch0 -p1
+
+sed -i -e "s|theQuickParticles.resize(2\*theQuickSize);|theQuickParticles.resize(2\*theQuickSize,nullptr);|" Repository/EventGenerator.cc
 # Regenerate build scripts
 autoreconf -fiv
 
@@ -48,7 +49,6 @@ sed -i -e "s|-lgslcblas|-lopenblas|" ./configure
             --with-gsl=$GSL_ROOT \
             --with-zlib=$ZLIB_ROOT \
             --with-fastjet=$FASTJET_ROOT \
-            --with-rivet=$RIVET_ROOT \
             --without-javagui \
             --prefix=%{i} \
             --disable-readline CXX="$CXX" CC="$CC" LDFLAGS="-L${OPENBLAS_ROOT}/lib"
