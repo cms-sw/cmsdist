@@ -4,7 +4,7 @@
 ## OLD GENSER Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
 Source: http://lcgpackages.web.cern.ch/lcgpackages/tarFiles/sources/MCGeneratorsTarFiles/Rivet-%{realversion}.tar.bz2
 
-Requires: hepmc fastjet yoda
+Requires: hepmc fastjet fastjet-contrib yoda
 BuildRequires: python py2-cython py2-setuptools
 
 Patch0: rivet-1.4.0
