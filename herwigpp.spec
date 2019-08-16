@@ -1,4 +1,4 @@
-### RPM external herwigpp 7.1.5
+### RPM external herwigpp 7.1.4
 Source: https://www.hepforge.org/archive/herwig/Herwig-%{realversion}.tar.bz2
 
 Requires: lhapdf
@@ -70,8 +70,9 @@ sed -i "/^YODAINCLUDE=.*/a BOOSTINCLUDE= -I${BOOST_ROOT}/include" Contrib/FxFx/M
 sed -i -e "/^INCLUDE.*/s/$/ \$(YODAINCLUDE) \$(BOOSTINCLUDE)/" Contrib/FxFx/Makefile
 sed -i "/^FASTJETLIB.*/a HERWIGINSTALL = %{i}" Contrib/FxFx/Makefile
 sed -i -e '0,/\$(HERWIGINSTALL)\/lib\/Herwig/s//\$(HERWIGINSTALL)\/lib\/./' Contrib/FxFx/Makefile
+sed -i '/FxFxAnalysis/d' Contrib/FxFx/FxFxEventHandler.h
 
-make -C Contrib/FxFx %makeprocesses FxFx.so FxFxHandler.so FxFxAnalysis.so
+make -C Contrib/FxFx %makeprocesses FxFx.so FxFxHandler.so
 cp Contrib/FxFx/*.so %{i}/lib/Herwig/.
 
 mv %{i}/bin/Herwig  %{i}/bin/Herwig-cms

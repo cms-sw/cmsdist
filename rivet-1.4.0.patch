@@ -1,14 +1,14 @@
---- src/Core/AnalysisLoader.cc	2011-01-11 10:01:15.000000000 +0100
-+++ src/Core/AnalysisLoader.cc	2011-01-11 10:09:44.000000000 +0100
-@@ -73,6 +73,7 @@ namespace Rivet {
+--- src/Core/AnalysisLoader.cc
++++ src/Core/AnalysisLoader.cc
+@@ -90,6 +90,7 @@ namespace Rivet {
      // Find plugin module library files
      const string libsuffix = ".so";
      vector<string> pluginfiles;
 +    vector<string> pluginfileNames;
-     foreach (const string& d, dirs) {
+     for (const string& d : dirs) {
        if (d.empty()) continue;
        oslink::directory dir(d);
-@@ -86,8 +87,13 @@ namespace Rivet {
+@@ -103,8 +104,13 @@ namespace Rivet {
          /// @todo Sys-dependent path separator instead of "/"
          const string path = d + "/" + filename;
          // Ensure no duplicate paths
@@ -23,3 +23,4 @@
          }
        }
      }
+
