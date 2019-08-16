@@ -48,7 +48,6 @@ sed -i -e "s|-lgslcblas|-lopenblas|" ./configure
             --with-gsl=$GSL_ROOT \
             --with-zlib=$ZLIB_ROOT \
             --with-fastjet=$FASTJET_ROOT \
-            --with-rivet=$RIVET_ROOT \
             --without-javagui \
             --prefix=%{i} \
             --disable-readline CXX="$CXX" CC="$CC" LDFLAGS="-L${OPENBLAS_ROOT}/lib"
