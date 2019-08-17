@@ -1,17 +1,16 @@
-### RPM external thepeg 2.1.4
+### RPM external thepeg 2.1.5
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib/ThePEG
 ## INITENV +PATH DYLD_LIBRARY_PATH %{i}/lib/ThePEG
 
 # Download from official webpage
 Source: http://www.hepforge.org/archive/thepeg/ThePEG-%{realversion}.tar.bz2
-Patch0: thepeg-2.1.1-gcc8
 
 Requires: lhapdf
 Requires: gsl OpenBLAS
 Requires: hepmc
 Requires: zlib
 Requires: fastjet
-Requires: rivet
+#Requires: rivet
 BuildRequires: autotools
 BuildRequires: lhapdf
 
@@ -24,7 +23,6 @@ BuildRequires: lhapdf
 
 %prep
 %setup -q -n ThePEG-%{realversion}
-%patch0 -p1
 # Regenerate build scripts
 autoreconf -fiv
 
