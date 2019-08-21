@@ -140,10 +140,10 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootdataframe.xml
 <tool name="rootdataframe" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <lib name="ROOTDataFrame"/>
-  <use name="rootcore">
-  <use name="rootgraphics">
-  <use name="roothistmatrix">
-  <use name="rootrio">
+  <use name="rootcore"/>
+  <use name="rootgraphics"/>
+  <use name="roothistmatrix"/>
+  <use name="rootrio"/>
   <use name="rootvecops"/>
 </tool>
 EOF_TOOLFILE
@@ -152,8 +152,8 @@ EOF_TOOLFILE
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootvecops.xml
 <tool name="rootvecops" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
-  <use name="rootcore">
   <lib name="ROOTVecOps"/>
+  <use name="rootcore"/>
 </tool>
 EOF_TOOLFILE
 
