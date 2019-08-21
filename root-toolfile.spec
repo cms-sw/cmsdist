@@ -135,9 +135,27 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roothistmatrix.xml
 </tool>
 EOF_TOOLFILE
 
+# rootdataframe toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootdataframe.xml
+<tool name="rootdataframe" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="ROOTDataFrame"/>
+  <use name="rootcore">
+  <use name="rootvecops"/>
+</tool>
+EOF_TOOLFILE
+
+# rootvecops toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootvecops.xml
+<tool name="rootvecops" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="ROOTVecOps"/>
+</tool>
+EOF_TOOLFILE
+
 # rootspectrum toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootspectrum.xml
-<tool name="rootspectrum" version="@TOOL_VERSION@"> 
+<tool name="rootspectrum" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <lib name="Spectrum"/>
   <use name="roothistmatrix"/>
