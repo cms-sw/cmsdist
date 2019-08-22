@@ -16,6 +16,11 @@ Patch1: rivet-weightnames
 %patch0 -p0
 %patch1 -p1
 
+# Install latex packages from doc directory
+# Des not fix missing SIUnits on lxplus7 yet, expected for Rivet 3.0.2
+for sty in ./doc/*.sty; do mkdir -p ./data/texmf/tex/latex/${sty:6:-4}; done
+for sty in ./doc/*.sty; do cp ${sty} ./data/texmf/tex/latex/${sty:6:-4}; done
+
 # Update config.{guess,sub} to detect aarch64 and ppc64le
 rm -f %{_tmppath}/config.{sub,guess}
 curl -L -k -s -o %{_tmppath}/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
