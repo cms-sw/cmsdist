@@ -22,6 +22,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rivet.xml
 <runtime name="TEXMFHOME" value="$RIVET_BASE/share/Rivet/texmf" type="path"/>
 <use name="hepmc"/>
 <use name="fastjet"/>
+<use name="fastjet-contrib"/>
 <use name="gsl"/>
 <use name="yoda"/>
 </tool>
