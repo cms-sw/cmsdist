@@ -1,0 +1,149 @@
+diff --git a/Matriplex/MatriplexCommon.h b/Matriplex/MatriplexCommon.h
+index 11bad03..9de192d 100644
+--- a/Matriplex/MatriplexCommon.h
++++ b/Matriplex/MatriplexCommon.h
+@@ -12,7 +12,7 @@
+ // Intrinsics -- preamble
+ //==============================================================================
+ 
+-#include "immintrin.h"
++#include "arm_neon.h"
+ 
+ #if defined(MPLEX_USE_INTRINSICS)
+ 
+diff --git a/Matriplex/test/m512_test.cxx b/Matriplex/test/m512_test.cxx
+index efab878..88e1a89 100644
+--- a/Matriplex/test/m512_test.cxx
++++ b/Matriplex/test/m512_test.cxx
+@@ -1,4 +1,4 @@
+-#include "immintrin.h"
++#include "arm_neon.h"
+ 
+ #include <cstdio>
+ 
+@@ -15,8 +15,8 @@ __m512 all_ones = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+ 
+ int main()
+ {
+-  float *p = (float*) _mm_malloc(NN*sizeof(float), 64);
+-  float *q = (float*) _mm_malloc(NN*sizeof(float), 64);
++  float *p = (float*) malloc(NN*sizeof(float), 64);
++  float *q = (float*) malloc(NN*sizeof(float), 64);
+ 
+   for (int i = 0; i < NN; ++i)
+   {
+@@ -37,8 +37,8 @@ int main()
+     printf("%2d %4.0f %4.0f %4.0f\n", i, p[i], p[i+16], q[i]);
+   }
+ 
+-  _mm_free(p);
+-  _mm_free(q);
++  free(p);
++  free(q);
+ 
+   return 0;
+ }
+diff --git a/mkFit/HitStructures.h b/mkFit/HitStructures.h
+index 01692e5..560d558 100644
+--- a/mkFit/HitStructures.h
++++ b/mkFit/HitStructures.h
+@@ -152,14 +152,14 @@ protected:
+ #ifdef COPY_SORTED_HITS
+   void alloc_hits(int size)
+   {
+-    m_hits = (Hit*) _mm_malloc(sizeof(Hit) * size, 64);
++    m_hits = (Hit*) malloc(sizeof(Hit) * size, 64);
+     m_capacity = size;
+     for (int ihit = 0; ihit < m_capacity; ihit++){m_hits[ihit] = Hit();} 
+   }
+ 
+   void free_hits()
+   {
+-    _mm_free(m_hits);
++    free(m_hits);
+   }
+ #endif
+ 
+diff --git a/mkFit/MkFinderFV.cc b/mkFit/MkFinderFV.cc
+index 41852a0..71f7db9 100644
+--- a/mkFit/MkFinderFV.cc
++++ b/mkFit/MkFinderFV.cc
+@@ -218,13 +218,13 @@ void MkFinderFV<nseeds, ncands>::SelectHitIndices(const LayerOfHits &layer_of_hi
+       << pb1[iseed] << "-" << pb2[iseed]);
+   }
+ 
+-  _mm_prefetch((const char*) &L.m_phi_bin_infos[qb1[0]][pb1[0] & L.m_phi_mask], _MM_HINT_T0);
++  __builtin_prefetch((const char*) &L.m_phi_bin_infos[qb1[0]][pb1[0] & L.m_phi_mask]);
+ 
+   for (auto iseed = 0; iseed < nseeds; ++iseed) {
+     const int base = iseed*ncands;
+     for (int qi = qb1[iseed]; qi < qb2[iseed]; ++qi) {
+       if (qi+1 < qb2[iseed]) {
+-        _mm_prefetch((const char*) &L.m_phi_bin_infos[qi+1][pb1[iseed] & L.m_phi_mask], _MM_HINT_T0);
++        __builtin_prefetch((const char*) &L.m_phi_bin_infos[qi+1][pb1[iseed] & L.m_phi_mask]);
+       }
+       for (int pi = pb1[iseed]; pi < pb2[iseed]; ++pi) {
+         int pb = pi & L.m_phi_mask;
+diff --git a/mkFit/Pool.h b/mkFit/Pool.h
+index 7ddfc75..f79c1e9 100644
+--- a/mkFit/Pool.h
++++ b/mkFit/Pool.h
+@@ -10,8 +10,8 @@ struct Pool
+   typedef std::function<TT*()>     CFoo_t;
+   typedef std::function<void(TT*)> DFoo_t;
+ 
+-  CFoo_t m_create_foo  = []()     { return new (_mm_malloc(sizeof(TT), 64)) TT; };
+-  DFoo_t m_destroy_foo = [](TT* x){ x->~TT(); _mm_free(x); };
++  CFoo_t m_create_foo  = []()     { return new (malloc(sizeof(TT))) TT; };
++  DFoo_t m_destroy_foo = [](TT* x){ x->~TT(); free(x); };
+ 
+   tbb::concurrent_queue<TT*> m_stack;
+ 
+diff --git a/mkFit/align_alloc.h b/mkFit/align_alloc.h
+index 705053b..0ddd074 100644
+--- a/mkFit/align_alloc.h
++++ b/mkFit/align_alloc.h
+@@ -106,7 +106,7 @@ class aligned_allocator
+ 			}
+  
+ 			// Mallocator wraps malloc().
+-			void * const pv = _mm_malloc(n * sizeof(T), Alignment);
++			void * const pv = malloc(n * sizeof(T));
+  
+ 			// Allocators should throw std::bad_alloc in the case of memory allocation failure.
+ 			if (pv == NULL)
+@@ -119,7 +119,7 @@ class aligned_allocator
+  
+ 		void deallocate(T * const p, const std::size_t n) const
+ 		{
+-			_mm_free(p);
++			free(p);
+ 		}
+  
+  
+diff --git a/test/mtt1.1.cxx b/test/mtt1.1.cxx
+index 3087b86..cfbe08d 100644
+--- a/test/mtt1.1.cxx
++++ b/test/mtt1.1.cxx
+@@ -5,7 +5,7 @@
+ // icc -mavx  -std=c++11 mtt1.1.cxx -o mtt1.1
+ //
+ 
+-#include <immintrin.h>
++#include <arm_neon.h>
+ 
+ #include <cstdio>
+ 
+diff --git a/test/mtt1.cxx b/test/mtt1.cxx
+index 7031a0c..47d5960 100644
+--- a/test/mtt1.cxx
++++ b/test/mtt1.cxx
+@@ -4,7 +4,7 @@
+ // icc -mmic  -std=c++11 mtt1.cxx -o mtt1 && scp mtt1 mic0:
+ //
+ 
+-#include <immintrin.h>
++#include <arm_neon.h>
+ 
+ #include <cstdio>
+ 

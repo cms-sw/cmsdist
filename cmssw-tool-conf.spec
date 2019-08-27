@@ -160,7 +160,7 @@ Requires: python_tools
 Requires: dasgoclient
 Requires: OpenBLAS-toolfile
 Requires: mxnet-predict-toolfile
-%ifarch x86_64
+%ifnarch ppc64le
 Requires: mkfit-toolfile
 %endif
 
