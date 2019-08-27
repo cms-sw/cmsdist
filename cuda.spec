@@ -1,12 +1,12 @@
 ### RPM external cuda %{fullversion}
 
 %ifarch x86_64
-%define fullversion 10.1.105
+%define fullversion 10.1.168
 %define cudaversion %(echo %realversion | cut -d. -f 1,2)
-%define driversversion 418.39
+%define driversversion 418.67
 %define cudasoversion %{driversversion}
 %define nsightarch linux-desktop-glibc_2_11_3-x64
-%define nsightversion 2019.1
+%define nsightversion 2019.3
 %endif
 %ifarch aarch64
 %define fullversion 10.0.166
