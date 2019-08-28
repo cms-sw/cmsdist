@@ -1,0 +1,10 @@
+diff --git a/immintrin.h b/immintrin.h
+new file mode 100644
+index 0000000..363d136
+--- /dev/null
++++ b/immintrin.h
+@@ -0,0 +1,4 @@
++#include <stdlib.h>
++#define _mm_malloc(a, b) aligned_alloc(b, a)
++#define _mm_free(p) free(p)
++#define _mm_prefetch(a,b)  __builtin_prefetch(a)
