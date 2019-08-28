@@ -6,20 +6,25 @@
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Requires: tbb
 
-Patch0: mkfit-arm-patch
+Patch0: mkfit-arm-fix
+Patch1: mkfit-ppc-fix
 
 %prep
 %setup -q -n %{n}-%{realversion}
+
 %ifarch aarch64
 %patch0 -p1
+%endif
+%ifarch ppc64le
+%patch1 -p1
 %endif
 
 %build
 
-%ifarch aarch64
-make TBB_PREFIX=$TBB_ROOT VEC_GCC="-march=native"
-%else
+%ifarch x86_64
 make TBB_PREFIX=$TBB_ROOT VEC_GCC="-march=core2"
+%else
+make TBB_PREFIX=$TBB_ROOT VEC_GCC="-march=native"
 %endif
 
 %install
