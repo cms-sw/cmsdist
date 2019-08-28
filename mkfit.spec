@@ -23,8 +23,12 @@ Patch1: mkfit-ppc-fix
 
 %ifarch x86_64
 make TBB_PREFIX=$TBB_ROOT VEC_GCC="-march=core2"
-%else
+%endif
+%ifarch aarch64
 make TBB_PREFIX=$TBB_ROOT VEC_GCC="-march=native"
+%endif
+%ifarch ppc64le
+make TBB_PREFIX=$TBB_ROOT VEC_GCC="-mcpu=native"
 %endif
 
 %install
