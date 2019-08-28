@@ -17,6 +17,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/mkfit.xml
     <environment name="INCLUDE" default="$MKFITBASE/include"/>
     <environment name="LIBDIR" default="$MKFITBASE/lib"/>
   </client>
+  <use name="tbb"/>
   <runtime name="MKFIT_BASE" value="$MKFITBASE"/>
 </tool>
 EOF_TOOLFILE
