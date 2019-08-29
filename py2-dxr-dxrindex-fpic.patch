@@ -1,0 +1,13 @@
+diff --git a/dxr/plugins/clang/makefile b/dxr/plugins/clang/makefile
+index b504c04..7f8fc29 100644
+--- a/dxr/plugins/clang/makefile
++++ b/dxr/plugins/clang/makefile
+@@ -12,7 +12,7 @@ LDFLAGS := $(LDFLAGS) -fPIC -g $(LLVM_LDFLAGS) -shared
+ build: libclang-index-plugin.so
+ 
+ %.o: %.cpp
+-	$(CXX) $(CXXFLAGS) -c $^ -o $@
++	$(CXX) $(CXXFLAGS) -fPIC -c $^ -o $@
+ 
+ libclang-index-plugin.so: dxr-index.o sha1.o
+ 	$(CXX) $(LDFLAGS) $^ -o $@
