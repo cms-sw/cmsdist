@@ -1,8 +1,8 @@
-### RPM external sherpa 2.2.6
-%define tag 600078cc741021be898f15563235cf6c809ca5ff
-%define branch cms/v%realversion
-%define github_user cms-externals
-Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-2.2.6.tar.gz
+### RPM external sherpa 2.2.7
+#%define tag 600078cc741021be898f15563235cf6c809ca5ff
+#%define branch cms/v%realversion
+#%define github_user cms-externals
+Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-2.2.7.tar.gz
 Requires: hepmc lhapdf blackhat sqlite fastjet openssl scons python openmpi
 BuildRequires: mcfm swig
 
@@ -10,13 +10,13 @@ BuildRequires: mcfm swig
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 
 %if %islinux
-%ifnarch ppc64le
+%if %isamd64
 Requires: openloops
-%endif # is not ppc64
-%endif # is linux
+%endif # isamd64
+%endif # islinux
 
 %prep
-%setup -q -n SHERPA-MC-%{realversion}
+%setup -q -n SHERPA-MC-2.2.7
 
 autoreconf -i --force
 
