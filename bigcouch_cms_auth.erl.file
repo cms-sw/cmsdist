@@ -95,11 +95,12 @@
 -export([cms_backend_authentication_handler/1,
          cms_host_authentication_handler/1]).
 
--import(couch_httpd, [header_value/2, host_for_request/1, make_fun_spec_strs/1]).
--import(mochiweb_headers, [to_list/1]).
--import(couch_util, [to_hex/1]).
--import(proplists, [get_value/2]).
--import(lists).
+%%% Syntax for erlang < R16
+%-import(couch_httpd, [header_value/2, host_for_request/1, make_fun_spec_strs/1]).
+%-import(mochiweb_headers, [to_list/1]).
+%-import(couch_util, [to_hex/1]).
+%-import(proplists, [get_value/2]).
+%-import(lists).
 
 %% @doc CMS WebTools authentication failed
 %
@@ -238,11 +239,11 @@ cms_backend_authentication_handler_worker(#httpd{mochi_req=MochiReq} = Req) ->
     HeaderAuthZPrefix = couch_config:get("couch_cms_auth", "authz_header_prefix", "cms-authz-"),
 
     % Get the AuthN / HMAC headers
-    ClientAuthNDN = header_value(Req, HeaderAuthNDN),
-    ClientAuthNLogin = header_value(Req, HeaderAuthNLogin),
-    ClientAuthNMethod = header_value(Req, HeaderAuthNMethod),
-    ClientAuthNName = header_value(Req, HeaderAuthNName),
-    ClientHMAC = header_value(Req, HeaderAuthNHMAC),
+    ClientAuthNDN = couch_httpd:header_value(Req, HeaderAuthNDN),
+    ClientAuthNLogin = couch_httpd:header_value(Req, HeaderAuthNLogin),
+    ClientAuthNMethod = couch_httpd:header_value(Req, HeaderAuthNMethod),
+    ClientAuthNName = couch_httpd:header_value(Req, HeaderAuthNName),
+    ClientHMAC = couch_httpd:header_value(Req, HeaderAuthNHMAC),
 
     % Get all the roles
     Headers = MochiReq:get(headers),

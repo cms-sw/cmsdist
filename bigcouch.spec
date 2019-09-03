@@ -8,8 +8,10 @@ Patch3: bigcouch-ssl-replication
 
 # Although there is no technical software dependency,
 # couchapp was included because all CMS applications will need it.
-Requires: curl spidermonkey openssl icu4c erlang couchapp python
-BuildRequires: autotools gcc scons
+# Alan on 30/Aug/2019: comment out these 2 lines below to avoid building
+# bigcouch, we don't use it anyways...
+#Requires: curl spidermonkey openssl icu4c erlang couchapp python
+#BuildRequires: autotools gcc scons
 
 %prep
 %setup -n bigcouch-bigcouch-%realversion
