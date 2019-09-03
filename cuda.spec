@@ -1,12 +1,13 @@
 ### RPM external cuda %{fullversion}
 
 %ifarch x86_64
-%define fullversion 10.1.168
+%define fullversion 10.1.243
 %define cudaversion %(echo %realversion | cut -d. -f 1,2)
-%define driversversion 418.67
+%define driversversion 418.87.00
 %define cudasoversion %{driversversion}
 %define nsightarch linux-desktop-glibc_2_11_3-x64
-%define nsightversion 2019.3
+%define computeversion 2019.4.0
+%define systemsversion 2019.3.7.5
 %endif
 %ifarch aarch64
 %define fullversion 10.0.166
@@ -14,11 +15,11 @@
 %define driversversion 32.1.0
 %define cudasoversion 1.1
 %define nsightarch linux-v4l_l4t-glx-t210-a64
-%define nsightversion 1.0
+%define computeversion 1.0
 %endif
 
 %ifarch x86_64
-Source0: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux.run
+Source0: https://developer.download.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux.run
 %endif
 %ifarch aarch64
 Source0: https://patatrack.web.cern.ch/patatrack/files/cuda-repo-l4t-10-0-local-%{realversion}_1.0-1_arm64.deb
@@ -40,10 +41,11 @@ mkdir %_builddir/build %_builddir/tmp
 /bin/sh %{SOURCE0} --silent --override --tmpdir %_builddir/tmp --extract=%_builddir/build
 # extracts:
 # %_builddir/build/EULA.txt
-# %_builddir/build/NVIDIA-Linux-x86_64-418.39.run       # linux drivers
+# %_builddir/build/NVIDIA-Linux-x86_64-418.87.00.run    # linux drivers
 # %_builddir/build/cublas/                              # standalone cuBLAS library, also included in cuda-toolkit
 # %_builddir/build/cuda-samples/                        # CUDA samples
 # %_builddir/build/cuda-toolkit/                        # CUDA runtime, tools and stubs
+# %_builddir/build/integration/                         # Nsight Systems and Compute wrappers
 %endif
 %ifarch aarch64
 # extract the individual .deb archives from the repository into
@@ -77,6 +79,7 @@ rm -f %_builddir/build/cuda-toolkit/lib64/libcufft.so*
 rm -f %_builddir/build/cuda-toolkit/lib64/libcufftw.so*
 rm -f %_builddir/build/cuda-toolkit/lib64/libcurand.so*
 rm -f %_builddir/build/cuda-toolkit/lib64/libcusolver.so*
+rm -f %_builddir/build/cuda-toolkit/lib64/libcusolverMg.so*
 rm -f %_builddir/build/cuda-toolkit/lib64/libcusparse.so*
 rm -f %_builddir/build/cuda-toolkit/lib64/libnpp*.so*
 rm -f %_builddir/build/cuda-toolkit/lib64/libnvgraph.so*
@@ -103,18 +106,30 @@ rm -f %_builddir/build/cuda-toolkit/bin/cuda-install-samples-%{cudaversion}.sh
 
 # package the Nsight Compute command line tool
 mkdir %{i}/NsightCompute
-mv %_builddir/build/cuda-toolkit/NsightCompute-%{nsightversion}/target      %{i}/NsightCompute/
 %ifarch x86_64
-mv %_builddir/build/cuda-toolkit/NsightCompute-%{nsightversion}/sections    %{i}/NsightCompute/
+mv %_builddir/build/cuda-toolkit/nsight-compute-%{computeversion}/target            %{i}/NsightCompute/
+mv %_builddir/build/cuda-toolkit/nsight-compute-%{computeversion}/sections          %{i}/NsightCompute/
 %endif
 %ifarch aarch64
-mv %_builddir/build/cuda-toolkit/NsightCompute-%{nsightversion}/host        %{i}/NsightCompute/
+mv %_builddir/build/cuda-toolkit/NsightCompute-%{computeversion}/target             %{i}/NsightCompute/
+mv %_builddir/build/cuda-toolkit/NsightCompute-%{computeversion}/host               %{i}/NsightCompute/
 %endif
 cat > %{i}/bin/nv-nsight-cu-cli <<@EOF
 #! /bin/bash
 exec %{i}/NsightCompute/target/%{nsightarch}/nv-nsight-cu-cli "\$@"
 @EOF
 chmod a+x %{i}/bin/nv-nsight-cu-cli
+
+# package the Nsight Systems command line tool
+%ifarch x86_64
+mkdir %{i}/NsightSystems
+mv %_builddir/build/cuda-toolkit/nsight-systems-%{systemsversion}/Target-x86_64     %{i}/NsightSystems/
+cat > %{i}/bin/nsys <<@EOF
+#! /bin/bash
+exec %{i}/NsightSystems/Target-x86_64/x86_64/quadd_d --cli "\$@"
+@EOF
+chmod a+x %{i}/bin/nsys
+%endif
 
 # package the cuda-gdb support files, and rename the binary to use it via a wrapper
 mv %_builddir/build/cuda-toolkit/share/gdb/ %{i}/share/
@@ -168,4 +183,7 @@ sed \
 
 # relocate the paths inside bin/nv-nsight-cu-cli
 %{relocateConfig}bin/nv-nsight-cu-cli
+%ifarch x86_64
+%{relocateConfig}bin/nsys
+%endif
 %{relocateConfig}bin/cuda-gdb
