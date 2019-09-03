@@ -83,6 +83,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-cusolver.xml
   <info url="https://docs.nvidia.com/cuda/cusolver/index.html"/>
   <use name="cuda"/>
   <lib name="cusolver"/>
+  <lib name="cusolverMg"/>
 </tool>
 EOF_TOOLFILE
 
