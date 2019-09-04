@@ -1,9 +1,16 @@
-### RPM external cppunit 1.40.1
-Source: git://anongit.freedesktop.org/git/libreoffice/%{n}.git?=master/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+### RPM external cppunit 1.15.x
+%define tag    78e64f0edb4f3271a6ddbcdf9cba05138597bfca
+%define branch master
+%define github_user git/libreoffice
+Source: git+https://anongit.freedesktop.org/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+
+#Source: git://anongit.freedesktop.org/git/libreoffice/%{n}.git?=master/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: gmake autotools
+Patch1: cppunit-1.14-defaulted-function-deleted
 
 %prep
-%setup -n %n-%realversion
+%setup -n %{n}-%{realversion}
+%patch1 -p1
 
 %build
 # Update to detect aarch64 and ppc64le
