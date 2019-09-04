@@ -58,6 +58,9 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-cublas.xml
   <info url="https://docs.nvidia.com/cuda/cublas/index.html"/>
   <use name="cuda"/>
   <lib name="cublas"/>
+%ifarch x86_64
+  <lib name="cublasLt"/>
+%endif
 </tool>
 EOF_TOOLFILE
 
@@ -83,7 +86,9 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-cusolver.xml
   <info url="https://docs.nvidia.com/cuda/cusolver/index.html"/>
   <use name="cuda"/>
   <lib name="cusolver"/>
+%ifarch x86_64
   <lib name="cusolverMg"/>
+%endif
 </tool>
 EOF_TOOLFILE
 
@@ -130,6 +135,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-nvml.xml
 </tool>
 EOF_TOOLFILE
 
+%ifarch x86_64
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-nvjpeg.xml
 <tool name="cuda-nvjpeg" version="@TOOL_VERSION@">
   <info url="https://docs.nvidia.com/cuda/nvjpeg/index.html"/>
@@ -137,6 +143,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-nvjpeg.xml
   <lib name="nvjpeg"/>
 </tool>
 EOF_TOOLFILE
+%endif
 
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-nvrtc.xml
 <tool name="cuda-nvrtc" version="@TOOL_VERSION@">

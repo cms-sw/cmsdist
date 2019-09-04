@@ -10,9 +10,9 @@
 %define systemsversion 2019.3.7.5
 %endif
 %ifarch aarch64
-%define fullversion 10.0.166
+%define fullversion 10.0.326
 %define cudaversion %(echo %realversion | cut -d. -f 1,2)
-%define driversversion 32.1.0
+%define driversversion 32.2.0
 %define cudasoversion 1.1
 %define nsightarch linux-v4l_l4t-glx-t210-a64
 %define computeversion 1.0
