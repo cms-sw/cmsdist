@@ -2,7 +2,7 @@
 %define tag 600078cc741021be898f15563235cf6c809ca5ff
 %define branch cms/v%realversion
 %define github_user cms-externals
-Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-2.2.7.tar.gz
+Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
 Requires: hepmc lhapdf blackhat sqlite fastjet openssl scons python openmpi
 BuildRequires: mcfm swig
 
