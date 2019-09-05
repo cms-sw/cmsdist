@@ -27,7 +27,7 @@ Source4: ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-%{islVersion}.tar.bz2
 Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 
 %if %islinux
-%define bisonVersion 3.4
+%define bisonVersion 3.3
 %define binutilsVersion 2.32
 %define elfutilsVersion 0.177
 %define m4Version 1.4.18
