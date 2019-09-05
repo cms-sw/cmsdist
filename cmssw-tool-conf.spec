@@ -96,6 +96,7 @@ Requires: sip-toolfile
 Requires: graphviz-toolfile
 Requires: valgrind-toolfile
 Requires: cmsswdata-toolfile
+Requires: hls-toolfile
 
 Requires: hdf5-toolfile
 Requires: rivet-toolfile
