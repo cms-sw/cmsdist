@@ -1,9 +1,8 @@
 ### RPM external openloops 2.1.0
-#%define tag df5dc23c322dd460c4f8f3cdfa331bb190c647f6
-#%define branch cms/v%{realversion}
-#%define github_user cms-externals
-#Source: git+https://github.com/%github_user/openloops.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-Source: https://openloops.hepforge.org/downloads/OpenLoops-2.1.0.tar.gz
+%define tag 87acafc00fe37cbe29afd82f3356483eb9006435
+%define branch cms/v%{realversion}
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/openloops.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 BuildRequires: python scons
 
@@ -11,7 +10,6 @@ BuildRequires: python scons
 
 %prep
 %setup -n OpenLoops-%{realversion}
-#%setup -n %{n}-%{realversion}
 
 %build
 cat << \EOF >> openloops.cfg
