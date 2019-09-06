@@ -1,9 +1,9 @@
-### RPM lcg root 6.14.09
+### RPM lcg root 6.17.01
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag b525ba64cc3804a6b54e8a77ed591d87f86f1b5d
-%define branch cms/v6-14-00-patches/5e217f2
+%define tag 66f8db409709189558e3c8f1ad7cd8877ff18b47
+%define branch cmscxx/master/daff082e92
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
@@ -39,7 +39,7 @@ export CXXFLAGS=-D__ROOFIT_NOBANNER
 
 cmake ../%{n}-%{realversion} \
   -G Ninja \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=Debug \
   -DLLVM_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
@@ -47,13 +47,15 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_Fortran_COMPILER=gfortran \
   -DCMAKE_LINKER=ld \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
-  -Droot7=ON \
+  -Druntime_cxxmodules=ON \
+  -Droot7=OFF \
   -Dfail-on-missing=ON \
   -Dgnuinstall=OFF \
   -Droofit=ON \
   -Dvdt=OFF \
   -Dhdfs=OFF \
   -Dqt=OFF \
+  -Dtmva=ON \
   -Dqtgsi=OFF \
   -Dpgsql=OFF \
   -Dsqlite=OFF \
@@ -70,21 +72,24 @@ cmake ../%{n}-%{realversion} \
   -Dminuit2=ON \
   -Dmathmore=ON \
   -Dexplicitlink=ON \
-  -Dtable=ON \
   -Dbuiltin_tbb=OFF \
   -Dbuiltin_pcre=OFF \
   -Dbuiltin_freetype=OFF \
   -Dbuiltin_zlib=OFF \
   -Dbuiltin_lzma=OFF \
   -Dbuiltin_gsl=OFF \
+  -Dbuiltin_glew=ON \
+  -Dbuiltin_ftgl=ON \
+  -Dbuiltin_gl2ps=ON \
+  -Dbuiltin_afterimage=ON \
   -Dbuiltin_xxhash=ON \
   -Darrow=OFF \
   -DGSL_CONFIG_EXECUTABLE="$(which gsl-config)" \
-  -Dcxx17=ON \
   -Dssl=ON \
   -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
   -DOPENSSL_INCLUDE_DIR="${OPENSSL_ROOT}/include" \
   -Dpython=ON \
+  -DCMAKE_CXX_STANDARD=17 \
   -Dxrootd=ON \
   -Dbuiltin_xrootd=OFF \
   -DXROOTD_INCLUDE_DIR="${XROOTD_ROOT}/include/xrootd" \
@@ -129,12 +134,11 @@ cmake ../%{n}-%{realversion} \
   -DTIFF_LIBRARY="${LIBTIFF_ROOT}/lib/libtiff.%{soext}" \
   -DLIBLZMA_INCLUDE_DIR="${XZ_ROOT}/include" \
   -DLIBLZMA_LIBRARY="${XZ_ROOT}/lib/liblzma.%{soext}" \
-  -DLIBLZ4_INCLUDE_DIR="${LZ4_ROOT}/include" \
-  -DLIBLZ4_LIBRARY="${LZ4_ROOT}/lib/liblz4.%{soext}" \
+  -DLZ4_INCLUDE_DIR="${LZ4_ROOT}/include" \
+  -DLZ4_LIBRARY="${LZ4_ROOT}/lib/liblz4.%{soext}" \
   -DZLIB_ROOT="${ZLIB_ROOT}" \
   -DZLIB_INCLUDE_DIR="${ZLIB_ROOT}/include" \
-  -DCMAKE_PREFIX_PATH="${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LZ4_ROOT};${LIBXML2_ROOT}"
-
+  -DCMAKE_PREFIX_PATH="${LZ4_ROOT}/include;${LZ4_ROOT}/lib;${GSL_ROOT};${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LZ4_ROOT/usr/local};${LIBXML2_ROOT}"
 # For CMake cache variables: http://www.cmake.org/cmake/help/v3.2/manual/cmake-language.7.html#lists
 # For environment variables it's OS specific: http://www.cmake.org/Wiki/CMake_Useful_Variables
 
@@ -171,6 +175,3 @@ perl -p -i -e "s|#!/bin/perl|#!/usr/bin/env perl|" %{i}/bin/memprobe
 #This will catch errors if root remembers the build paths.
 cd ..
 rm -rf build
-
-%post
-%{relocateConfig}etc/cling/llvm/Config/llvm-config.h
