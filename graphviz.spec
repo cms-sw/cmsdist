@@ -1,7 +1,7 @@
 ### RPM external graphviz 2.38.0
 Source: http://www.graphviz.org/pub/%{n}/ARCHIVE/%{n}-%{realversion}.tar.gz  
 Requires: expat zlib libjpeg-turbo libpng
-
+BuildRequires: autotools
 %prep
 %setup -n %{n}-%{realversion}
 

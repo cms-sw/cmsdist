@@ -4,14 +4,14 @@
 
 # Download from official webpage
 Source: http://www.hepforge.org/archive/thepeg/ThePEG-%{realversion}.tar.bz2
+Patch0: thepeg-2.1.1-gcc8
 
 Requires: lhapdf
 Requires: gsl OpenBLAS
 Requires: hepmc
 Requires: zlib
 Requires: fastjet
-
-
+Requires: rivet
 BuildRequires: autotools
 BuildRequires: lhapdf
 
@@ -24,8 +24,7 @@ BuildRequires: lhapdf
 
 %prep
 %setup -q -n ThePEG-%{realversion}
-
-sed -i -e "s|theQuickParticles.resize(2\*theQuickSize);|theQuickParticles.resize(2\*theQuickSize,nullptr);|" Repository/EventGenerator.cc
+%patch0 -p1
 # Regenerate build scripts
 autoreconf -fiv
 
