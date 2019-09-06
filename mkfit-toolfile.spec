@@ -1,4 +1,4 @@
-### RPM external mkfit-toolfile 2.0.0
+### RPM external mkfit-toolfile 2.0.1
 Requires: mkfit
 
 %prep
