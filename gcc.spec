@@ -1,9 +1,10 @@
-### RPM external gcc 9.1.1
+### RPM external gcc 9.2.1
+## USE_COMPILER_VERSION
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 # Use the git repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
-%define gccTag 9f852e24d6d75f00ccca80acb5a6804912a33282
+%define gccTag e70bee1e0c752f047d26abf222e59b61b9b7d639
 %define gccBranch gcc-9-branch
 
 %define moduleName %{n}-%{realversion}
@@ -29,7 +30,7 @@ Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 %if %islinux
 %define bisonVersion 3.3
 %define binutilsVersion 2.32
-%define elfutilsVersion 0.176
+%define elfutilsVersion 0.177
 %define m4Version 1.4.18
 %define flexVersion 2.6.4
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
