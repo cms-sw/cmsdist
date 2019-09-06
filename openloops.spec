@@ -9,7 +9,7 @@ BuildRequires: python scons
 %define keep_archives true
 
 %prep
-%setup -n OpenLoops-%{realversion}
+%setup -n %{n}-%{realversion}
 
 %build
 cat << \EOF >> openloops.cfg
