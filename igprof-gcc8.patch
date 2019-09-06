@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 57fe6b5..de08185 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -80,7 +80,7 @@ ENDIF()
+ SET(CMAKE_C_FLAGS "${CMAKE_ANSI_FLAGS} ${CMAKE_C_FLAGS}")
+ SET(CMAKE_REQUIRED_FLAGS ${CMAKE_ANSI_FLAGS})
+ IF(CMAKE_COMPILER_IS_GNUCC)
+-  ADD_DEFINITIONS(-ansi -pedantic -W -Wall -Wno-long-long -Werror)
++  ADD_DEFINITIONS(-ansi -pedantic -W -Wall -Wno-long-long -Werror -Wno-error=cast-function-type)
+ ENDIF()
+ 
+ IF(UNIX)
