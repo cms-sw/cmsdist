@@ -21,7 +21,7 @@ born_optimisation = -O2
 loop_optimisation = -O0
 link_optimisation = -O2
 EOF
-
+export NUM_CPU=%{compiling_processes}
 ./openloops update --processes generator=0
 ./openloops libinstall all.coll
 
