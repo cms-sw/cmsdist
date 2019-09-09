@@ -1,5 +1,5 @@
-### RPM external mkfit 2.0.0
-%define tag V2.0.0-1+pr237
+### RPM external mkfit 2.0.1
+%define tag V2.0.1-0+pr241
 %define branch devel
 %define github_user trackreco
 
