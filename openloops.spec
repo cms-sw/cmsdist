@@ -18,7 +18,7 @@ fortran_compiler = gfortran
 gfortran_f90_flags = -ffixed-line-length-0 -ffree-line-length-0
 generic_optimisation = -O2
 born_optimisation = -O2
-loop_optimisation = -O0
+loop_optimisation = -Os
 link_optimisation = -O2
 EOF
 export SCONSFLAGS="-j %{compiling_processes}"
