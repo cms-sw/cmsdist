@@ -1,7 +1,7 @@
 %ifarch aarch64
 %define numpy_version 1.15.1
 %else
-%define numpy_version 1.16.2
+%define numpy_version 1.16.5
 %endif
 ### RPM external py2-numpy %{numpy_version}
 ## INITENV +PATH PYTHON27PATH %i/${PYTHON_LIB_SITE_PACKAGES}
