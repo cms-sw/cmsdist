@@ -1,0 +1,4 @@
+%define PipPostBuild \
+   for d in $(find %i/lib -name 'UNKNOWN-0.0.0-*' -type d) ; do \
+     mv $d $(echo $d | sed 's|/UNKNOWN-0.0.0-|/importlib-metadata-%{realversion}-|');\
+   done
