@@ -131,6 +131,7 @@ Requires: git-toolfile
 Requires: cgal-toolfile
 Requires: doxygen-toolfile
 Requires: yaml-cpp-toolfile
+Requires: cppcheck-toolfile
 Requires: gmp-static-toolfile
 Requires: mpfr-static-toolfile
 Requires: fastjet-contrib-toolfile
