@@ -20,7 +20,7 @@ generic_optimisation = -O2
 born_optimisation = -O2
 loop_optimisation = -O0
 link_optimisation = -O2
-common_flags = -mcmodel=medium
+common_flags = -mcmodel=large
 EOF
 export SCONSFLAGS="-j %{compiling_processes}"
 ./openloops update --processes generator=0
