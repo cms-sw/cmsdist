@@ -4,12 +4,11 @@
 %define git_branch cms/master/c6882f4
 %define git_commit 4235186fd1a9b9adb86a8a45bb7a8ece74953039
 Source0: git://github.com/%{git_user}/igprof.git?obj=%{git_branch}/%{git_commit}&export=igprof-%{git_commit}&output=/igprof-%{git_commit}.tgz
-Patch0: igprof-gcc8
+
 Requires: pcre libunwind
 BuildRequires: cmake
 %prep
 %setup -T -b 0 -n igprof-%{git_commit}
-%patch0 -p1
 
 %build
 mkdir -p %i

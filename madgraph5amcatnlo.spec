@@ -32,7 +32,6 @@ sed -i -e "s|\${GOSAMCONTRIB_ROOT}|${GOSAMCONTRIB_ROOT}|g" input/mg5_configurati
 sed -i -e "s|\${THEPEG_ROOT}|${THEPEG_ROOT}|g" input/mg5_configuration.txt
 
 %build
-export FC="$(which gfortran) -std=legacy"
 # Save patched config
 cp input/mg5_configuration.txt input/mg5_configuration_patched.txt
 

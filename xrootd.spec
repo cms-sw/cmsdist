@@ -11,7 +11,6 @@ BuildRequires: cmake
 Requires: zlib
 Requires: openssl
 Requires: python
-Requires: libxml2
 
 %prep
 %setup -n %n-%{realversion}
@@ -24,6 +23,7 @@ perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/prepareMySQLSt
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonCreateMySQL.pl
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonLoadMySQL.pl
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonPrepareStats.pl
+
 %build
 mkdir build
 cd build
@@ -41,7 +41,7 @@ cmake ../ \
   -DENABLE_CRYPTO=TRUE \
   -DCMAKE_SKIP_RPATH=TRUE \
   -DENABLE_PYTHON=TRUE \
-  -DCMAKE_PREFIX_PATH="${PYTHON_ROOT};${LIBXML2_ROOT}"
+  -DCMAKE_PREFIX_PATH="${PYTHON_ROOT}"
 
 # Use makeprocess macro, it uses compiling_processes defined by
 # build configuration file or build argument

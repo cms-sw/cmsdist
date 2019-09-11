@@ -16,7 +16,6 @@ Requires: qd python openssl
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-sed -i -e 's|else return Cached_OLHA_user_normal|else return new Cached_OLHA_user_normal|' src/cached_OLHA.cpp
 
 # Update to detect aarch64 and ppc64le
 rm -f ./config.{sub,guess}

@@ -1,18 +1,18 @@
-### RPM external autotools 1.4
+### RPM external autotools 1.3
 ## INITENV SET M4 %{i}/bin/m4
 # We keep all of them together to simplify the "requires" statements.
 %define autoconf_version 2.69
-%define automake_version 1.16.1
+%define automake_version 1.15.1
 %define automake_maj %(echo %{automake_version} | cut -f1,2 -d.)
 %define libtool_version 2.4.6
 %define m4_version 1.4.18
 %define gettext_version 0.19.8.1
 %define pkgconfig_version 0.29.2
-Source0: http://ftp.gnu.org/gnu/autoconf/autoconf-%{autoconf_version}.tar.gz
-Source1: http://ftp.gnu.org/gnu/automake/automake-%{automake_version}.tar.gz
-Source2: http://ftp.gnu.org/gnu/libtool/libtool-%{libtool_version}.tar.gz
+Source0: http://ftpmirror.gnu.org/autoconf/autoconf-%{autoconf_version}.tar.gz
+Source1: http://ftpmirror.gnu.org/automake/automake-%{automake_version}.tar.gz
+Source2: http://ftpmirror.gnu.org/libtool/libtool-%{libtool_version}.tar.gz
 Source3: http://ftp.gnu.org/gnu/m4/m4-%{m4_version}.tar.bz2
-Source4: http://ftp.gnu.org/gnu/gettext/gettext-%{gettext_version}.tar.gz
+Source4: http://ftp.gnu.org/pub/gnu/gettext/gettext-%{gettext_version}.tar.gz
 Source5: http://pkgconfig.freedesktop.org/releases/pkg-config-%{pkgconfig_version}.tar.gz
 
 %prep

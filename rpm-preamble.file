@@ -7,12 +7,6 @@
 %define __os_install_post   %{nil}
 %define __spec_install_post %{nil}
 
-#disable running find-debuginfo.sh
-%define  debug_package %{nil}
-
-#disable generating /usr/lib/build-id files.
-%define _build_id_links none
-
 # Preliminarily define where things go.  These are the places we
 # know even without knowing the architecture yet.  In particular
 # we need %_specdir to find "cmsos" to determine the architecture.

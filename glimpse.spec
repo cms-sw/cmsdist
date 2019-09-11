@@ -1,6 +1,6 @@
 ### RPM external glimpse 4.18.5
 Source: http://webglimpse.net/trial/glimpse-%{realversion}.tar.gz
-BuildRequires: autotools
+
 %prep
 %setup -n glimpse-%realversion
 %build

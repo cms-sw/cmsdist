@@ -5,7 +5,7 @@
 Source: http://lcgpackages.web.cern.ch/lcgpackages/tarFiles/sources/MCGeneratorsTarFiles/Rivet-%{realversion}.tar.bz2
 
 Requires: hepmc fastjet fastjet-contrib yoda
-BuildRequires: python py2-cython py2-setuptools
+BuildRequires: python py2-cython
 
 Patch0: rivet-1.4.0
 Patch1: rivet-weightnames

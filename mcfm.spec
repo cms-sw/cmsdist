@@ -20,14 +20,13 @@ Requires: root
 %if 0%{isaarch64}
 %patch0 -p1
 %endif
-#sed -i -e 's|gfortran|gfortran -std=legacy|' makefile QCDLoop/makefile
 
 %build
 mkdir -p obj
 pushd QCDLoop
-make FC="$(which gfortran) -std=legacy"
+make
 popd
-make FC="$(which gfortran) -std=legacy"
+make
 
 mv %_builddir/%{n}-%{realversion}/Bin %_builddir/%{n}-%{realversion}/bin
 

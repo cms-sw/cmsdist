@@ -10,14 +10,14 @@ Requires: form
 %build
 CXX="$(which c++) -fPIC"
 CC="$(which gcc) -fPIC"
-FC="$(which gfortran) -std=legacy"
+FC="$(which gfortran)"
 PLATF_CONF_OPTS="--enable-shared --enable-static"
 
 ./configure $PLATF_CONF_OPTS \
             --prefix=%i \
             --bindir=%i/bin \
             --libdir=%i/lib \
-            CXX="$CXX" CC="$CC" FC="$FC" F77="${FC}"
+            CXX="$CXX" CC="$CC" FC="$FC" 
 
 make %makeprocesses all
 

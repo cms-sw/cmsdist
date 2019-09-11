@@ -1,4 +1,4 @@
-### RPM external python 2.7.15
+### RPM external python 2.7.14
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib
 ## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib/python%{python_major_version}/site-packages
@@ -11,8 +11,8 @@ Requires: zlib sqlite
 
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, x11
-%define tag 583c0f2237aade97173702ac602b16f51eadde6d
-%define branch cms/2.7/c40eeeb
+%define tag f6d7a735c8650a8f37ffefb5270e43d7a31676bc
+%define branch cms/107f3cc
 %define github_user cms-externals
 Source0: git+https://github.com/%github_user/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Source1: valgrind-python.supp
