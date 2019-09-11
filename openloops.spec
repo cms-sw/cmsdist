@@ -4,7 +4,7 @@
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/openloops.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
-BuildRequires: python scons
+BuildRequires: python
 
 %define keep_archives true
 
@@ -24,6 +24,10 @@ link_optimisation = -O2
 common_flags = -mcmodel=large -fno-pic
 %endif
 EOF
+
+%ifarch aarch64
+find . -name gfortran.py -type f | xargs sed -i -e 's| -fPIC| -fno-PIC|'
+%endif
 export SCONSFLAGS="-j %{compiling_processes}"
 ./openloops update --processes generator=0
 ./openloops libinstall all.coll
