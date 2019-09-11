@@ -18,11 +18,13 @@ BuildRequires: autotools
 # Patch since otherwise Boost wants multithreaded lib, even though only single-threaded lib is installed
 # Problem exists since Herwig++3Beta
 Patch0: herwigpp-missingBoostMTLib
+Patch1: herwigpp-7.1.2-gcc8
 
 %prep
 %setup -q -n Herwig-%{realversion}
 
 %patch0 -p1
+%patch1 -p1
 
 # Regenerate build scripts
 autoreconf -fiv
