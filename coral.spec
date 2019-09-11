@@ -4,6 +4,7 @@
 %define github_user cms-externals
 
 Patch0: coral-2_3_20-macosx
+Patch1: coral-2_3_21-gcc8
 Requires: coral-tool-conf
 
 %if %(case %{cmsplatf} in (*_aarch64_*) echo 1 ;; (*) echo 0 ;; esac) == 1
@@ -36,6 +37,7 @@ Requires: coral-tool-conf
 %if 0%{?cmsplatf_aarch64}%{?cmsplatf_ppc64le}%{?cmsplatf_ppc64}
 %define patchsrc2       rm -rf ./src/OracleAccess
 %endif
+%define patchsrc4       %patch1 -p1
 
 %define source1  git://github.com/%{github_user}/%{n}.git?protocol=https&obj=%{branch}/%{tag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 ## IMPORT scram-project-build
