@@ -21,7 +21,7 @@ born_optimisation = -O2
 loop_optimisation = -O0
 link_optimisation = -O2
 %ifarch aarch64
-common_flags = -mcmodel=small
+common_flags = -mcmodel=tiny
 %endif
 EOF
 export SCONSFLAGS="-j %{compiling_processes}"
