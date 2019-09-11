@@ -4,7 +4,6 @@
 
 # Download from official webpage
 Source: http://www.hepforge.org/archive/thepeg/ThePEG-%{realversion}.tar.bz2
-Patch0: thepeg-2.1.1-gcc8
 
 Requires: lhapdf
 Requires: gsl OpenBLAS
