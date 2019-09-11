@@ -2,7 +2,7 @@
 Source: https://github.com/danmar/cppcheck/archive/%{realversion}.tar.gz
 
 BuildRequires: cmake gmake
-Requires: pcre
+Requires: pcre python
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -10,8 +10,9 @@ Requires: pcre
 %build
 cmake . \
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
+  -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_GUI=OFF \
-  -DHAVE_RULE=ON \
+  -DHAVE_RULES=OFF \
   -DUSE_MATCHCOMPILER=ON
 
 make %{makeprocesses} VERBOSE=1
