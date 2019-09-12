@@ -35,7 +35,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4core.xml
   <lib name="G4tracking"/>
   <lib name="G4track"/>
   <lib name="G4analysis"/>
-  <flags CXXFLAGS="-DG4MULTITHREADED -DG4USE_STD11 -DG4GEOM_USE_USOLIDS -ftls-model=global-dynamic -pthread"/>
+  <flags CXXFLAGS="-DG4GEOM_USE_USOLIDS -ftls-model=global-dynamic -pthread"/>
   <client>
     <environment name="GEANT4CORE_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$GEANT4CORE_BASE/lib"/>
@@ -57,7 +57,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4static.xml
 <tool name="geant4static" version="@TOOL_VERSION@">
   <info url="http://geant4.web.cern.ch/geant4/"/>
   <lib name="geant4-static"/>
-  <flags CXXFLAGS="-DG4MULTITHREADED -DG4USE_STD11  -ftls-model=global-dynamic -pthread"/>
+  <flags CXXFLAGS="-ftls-model=global-dynamic -pthread"/>
   <client>
     <environment name="GEANT4STATIC_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$GEANT4STATIC_BASE/lib/archive"/>
