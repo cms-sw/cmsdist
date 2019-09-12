@@ -170,7 +170,6 @@ Requires: igprof-toolfile
 Requires: cuda-toolfile
 Requires: cub-toolfile
 Requires: cuda-api-wrappers-toolfile
-Requires: openloops-toolfile
 %endif
 
 %if %isamd64
@@ -178,6 +177,7 @@ Requires: dmtcp-toolfile
 Requires: tkonlinesw-toolfile
 Requires: oracle-toolfile
 Requires: intel-vtune
+Requires: openloops-toolfile
 
 %if %isslc
 Requires: glibc-toolfile
