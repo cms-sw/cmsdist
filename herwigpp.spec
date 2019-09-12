@@ -10,7 +10,7 @@ Requires: gsl OpenBLAS
 Requires: fastjet
 Requires: gosamcontrib gosam
 Requires: madgraph5amcatnlo
-%ifnarch ppc64le
+%ifarch x86_64
 Requires: openloops
 %endif
 BuildRequires: autotools
@@ -42,7 +42,7 @@ sed -i -e "s|-lgslcblas|-lopenblas|" ./configure
             --with-gosam=$GOSAM_ROOT \
             --with-gosam-contrib=$GOSAMCONTRIB_ROOT \
             --with-hepmc=$HEPMC_ROOT \
-%ifnarch ppc64le
+%ifarch x86_64
             --with-openloops=$OPENLOOPS_ROOT \
 %endif
 %ifnarch x86_64
