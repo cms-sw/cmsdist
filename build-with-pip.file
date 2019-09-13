@@ -65,6 +65,29 @@ echo %{source_file}  > files.list
 %{?PipPostPrep:%PipPostPrep}
 %{?PipPreBuild:%PipPreBuild}
 
+if [ "%{?patches:1}%{?patchsrc:1}%{?patchsrc0:1}%{?patchsrc1:1}%{?patchsrc2:1}%{?patchsrc3:1}%{?patchsrc4:1}" != "" ] ; then
+  rm -rf cmsdist-%{n} ; mkdir cmsdist-%{n}
+  pushd cmsdist-%{n}
+    targz=$(cat ../files.list)
+    tar -xzf ../${targz}
+    pdir=$(ls -d *)
+    pushd ${pdir}
+      for pch in %{?patches:%patches} ; do
+        patch -p1 < ${pch}
+      done
+      %{?patchsrc:%patchsrc}
+      %{?patchsrc0:%patchsrc0}
+      %{?patchsrc1:%patchsrc1}
+      %{?patchsrc2:%patchsrc2}
+      %{?patchsrc3:%patchsrc3}
+      %{?patchsrc4:%patchsrc4}
+    popd
+    rm -f ../${targz}
+    tar czf ../${targz} ${pdir}
+  popd
+  rm -rf cmsdist-%n
+fi
+
 if [ $(cat files.list | wc -l) -eq 1 ] ; then
    export PIPFILE=`cat files.list`
    echo ${PIPFILE}
@@ -100,11 +123,14 @@ else
 fi
 
 %{?PipPostBuild:%PipPostBuild}
+%{?RelocatePython:perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %RelocatePython}
 
 #Install Section
 %install
 %{?PipPreInstall:%PipPreInstall}
 %{?PipPostInstall:%PipPostInstall}
+chmod -R a+r %{i}
+find %{i} -type d -print | xargs chmod 0755
 echo "OK Install"
 
 #post Section
