@@ -1,4 +1,4 @@
-### RPM external py2-pip 9.0.3
+### RPM external py2-pip 19.2.3
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
@@ -19,7 +19,7 @@ python setup.py build
 python3 setup.py install --single-version-externally-managed --record=/dev/null  --prefix=%{i}
 python setup.py install --single-version-externally-managed --record=/dev/null  --prefix=%{i}
 perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
-
+perl -p -i -e "s|^#!.*python|#!/usr/bin/env python3|" $(grep -Rl '^#!/.*python' %{i}/lib/python3*/)
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
 : > %i/etc/profile.d/dependencies-setup.sh
