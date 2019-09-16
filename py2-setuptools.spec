@@ -17,5 +17,7 @@ python setup.py build
 %install
 python3 setup.py install --single-version-externally-managed --record=/dev/null --skip-build --prefix=%{i}
 python setup.py install --single-version-externally-managed --record=/dev/null --skip-build --prefix=%{i}
-sed -ideleteme 's|#!.*/bin/python|#!/usr/bin/env python|' %{i}/bin/easy_install*
-rm -f %{i}/bin/*deleteme
+sed -i 's|#!.*/bin/python|#!/usr/bin/env python|' %{i}/bin/easy_install*
+sed -i 's|#!.*python.*|#!/usr/bin/env python3|' \
+ %{i}/lib/python3.6/site-packages/setuptools/command/easy_install.py \
+ %{i}/lib/python3.6/site-packages/pkg_resources/_vendor/appdirs.py
