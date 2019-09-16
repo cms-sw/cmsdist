@@ -35,9 +35,11 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa.xml
   <use name="fastjet"/>
   <use name="sqlite"/>
   <use name="openmpi"/>
-%ifarch x86_64
+%if %islinux
+%ifnarch ppc64le
   <use name="openloops"/>
-%endif
+%endif # isamd64
+%endif # islinux
 </tool>
 EOF_TOOLFILE
 
