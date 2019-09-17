@@ -13,6 +13,14 @@
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
+%if "%{?tar_command:set}" != "set"
+%define tar_command tar -czf ../${targz} ${untar_dir}
+%endif
+
+%if "%{?untar_command:set}" != "set"
+%define	untar_command tar -xzf ../${targz}
+%endif
+
 %if "%{?pip_name:set}" != "set"
 %define pip_name %(echo %n | cut -f2-10 -d-)
 %endif
@@ -32,6 +40,9 @@
 %if "%{?doPython2:set}" != "set"
 Requires: python
 %define doPython2 yes
+%define pip pip2
+%else
+%define pip pip3
 %endif
 
 %if "%{?doPython3:set}" != "set"
@@ -40,7 +51,7 @@ Requires: python3
 %endif
 
 %if "%{?source0:set}" != "set"
-%define source0 pip://%{pip_name}/%{realversion}?pip_options=%{PipDownloadOptions}&pip=pip2&output=/%{pkgsource}
+%define source0 pip://%{pip_name}/%{realversion}?pip_options=%{PipDownloadOptions}&pip=%{pip}&output=/%{pkgsource}
 %else
 %define source_file %(echo '%{source0}' | sed 's|.*/||')
 %endif
@@ -65,13 +76,14 @@ echo %{source_file}  > files.list
 %{?PipPostPrep:%PipPostPrep}
 %{?PipPreBuild:%PipPreBuild}
 
-if [ "%{?patches:1}%{?patchsrc:1}%{?patchsrc0:1}%{?patchsrc1:1}%{?patchsrc2:1}%{?patchsrc3:1}%{?patchsrc4:1}" != "" ] ; then
+%if "%{?NoAutoPatch:set}" != "set"
+if [ "%{?patches:%patches}%{?patchsrc:1}%{?patchsrc0:1}%{?patchsrc1:1}%{?patchsrc2:1}%{?patchsrc3:1}%{?patchsrc4:1}" != "" ] ; then
   rm -rf cmsdist-%{n} ; mkdir cmsdist-%{n}
   pushd cmsdist-%{n}
     targz=$(cat ../files.list)
-    tar -xzf ../${targz}
-    pdir=$(ls -d *)
-    pushd ${pdir}
+    %{untar_command}
+    untar_dir=$(ls -d *)
+    pushd ${untar_dir}
       for pch in %{?patches:%patches} ; do
         patch -p1 < ${pch}
       done
@@ -83,10 +95,11 @@ if [ "%{?patches:1}%{?patchsrc:1}%{?patchsrc0:1}%{?patchsrc1:1}%{?patchsrc2:1}%{
       %{?patchsrc4:%patchsrc4}
     popd
     rm -f ../${targz}
-    tar czf ../${targz} ${pdir}
+    %{tar_command}
   popd
   rm -rf cmsdist-%n
 fi
+%endif
 
 if [ $(cat files.list | wc -l) -eq 1 ] ; then
    export PIPFILE=`cat files.list`
