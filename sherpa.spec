@@ -1,9 +1,9 @@
-### RPM external sherpa 2.2.7
+### RPM external sherpa 2.2.8
 %define tag 600078cc741021be898f15563235cf6c809ca5ff
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
-Requires: hepmc lhapdf blackhat sqlite fastjet openssl scons python openmpi
+Requires: hepmc lhapdf blackhat sqlite fastjet openssl scons python openmpi rivet
 BuildRequires: mcfm swig
 
 %define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
@@ -36,6 +36,7 @@ esac
             --enable-fastjet=$FASTJET_ROOT \
             --enable-mcfm=$MCFM_ROOT \
             --enable-hepmc2=$HEPMC_ROOT \
+            --enable-rivet=$RIVET_ROOT \
             --enable-lhapdf=$LHAPDF_ROOT \
             --enable-blackhat=$BLACKHAT_ROOT \
             --enable-pyext \
@@ -43,11 +44,12 @@ esac
             ${OPENLOOPS_ROOT+--enable-openloops=$OPENLOOPS_ROOT} \
             --enable-mpi \
             --with-sqlite3=$SQLITE_ROOT \
+            --enable-analysis \
             CC="mpicc" \
             CXX="mpicxx" \
             MPICXX="mpicxx" \
             FC="mpifort" \
-            CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF -O2 -std=c++0x -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$OPENSSL_ROOT/include" \
+            CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF -O2 -std=c++0x -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$OPENSSL_ROOT/include -I$RIVET_ROOT/include" \
             LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib -L$OPENSSL_ROOT/lib"
 
 make %{makeprocesses}
