@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+SimTracker-SiStripDigitizer=V01-00-01
 RecoBTag-Combined=V01-02-00
 CalibCalorimetry-EcalTrivialCondModules=V00-03-00
 RecoLocalCalo-EcalDeadChannelRecoveryAlgos=V01-01-00
@@ -79,7 +80,6 @@ RecoJets-JetProducers=V05-10-20
 RecoMET-METPUSubtraction=V01-00-03
 RecoParticleFlow-PFProducer=V16-00-00
 RecoParticleFlow-PFTracking=V13-01-00
-SimTracker-SiStripDigitizer=V01-00-00
 SimTransport-HectorProducer=V01-00-01
 
 #Never update any package here. Always move it to default section.
