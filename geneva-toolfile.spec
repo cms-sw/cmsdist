@@ -23,7 +23,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geneva.xml
   <use name="py2-numpy"/>
   <use name="HepMC"/>
   <use name="lhapdf"/>
-%ifarch x86_64
+%ifnarch ppc64le
   <use name="openloops"/>
 %endif
   <use name="gsl"/>
