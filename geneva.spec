@@ -5,7 +5,7 @@ Source: git+https://stash.desy.de/scm/geneva/geneva-public.git?obj=master/%{real
 BuildRequires: cmake gmake
 
 Requires: python py2-setuptools py2-numpy gsl OpenBLAS lhapdf hepmc pythia8
-%ifarch x86_64
+%ifnarch ppc64le
 Requires: openloops
 %endif
 
@@ -14,7 +14,7 @@ Requires: openloops
 
 %build
 
-%ifarch x86_64
+%ifnarch ppc64le
 export OPENLOOPS_FLAG="-Dopenloops_ROOT=${OPENLOOPS_ROOT}"
 %endif
 
