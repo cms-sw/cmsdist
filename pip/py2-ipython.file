@@ -1,4 +1,3 @@
 Requires: py2-traitlets py2-pickleshare py2-Pygments py2-prompt_toolkit py2-pexpect py2-simplegeneric py2-backports
-%define PipPostBuild \
-    perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*; \
-    perl -p -i -e "s|^#!.*python3|#!/usr/bin/env python3|" %{i}/bin/*
+%define RelocatePython %{i}/bin/*
+%define RelocatePython3 $(grep -Rl '^#!/.*python' %{i}/lib/python3*/site-packages) %{i}/bin/*3

@@ -1,4 +1,2 @@
 Requires: py2-numpy
-%define doPython3 no
-%define PipPostBuild \
-  perl -p -i -e "s|^#!.*python(.*)|#!/usr/bin/env python$1|" `grep -r -e "^#\!.*python.*" %i | cut -d: -f1`
+%define	RelocatePython $(grep -Rl '^#!/.*python' %{i})

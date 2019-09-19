@@ -1,11 +1,7 @@
+%ifnarch x86_64
 Patch0: py2-xgboost-arm-and-ppc
+%endif
 Requires: py2-scipy
 
-%ifnarch x86_64
-%define PipPreBuild tar -xzf xgboost-%{realversion}.tar.gz && pushd xgboost-%{realversion} && for pch in %{patches} ; do patch -p1 < ${pch} ; done && popd && rm -f xgboost-%{realversion}.tar.gz && tar czf xgboost-%{realversion}.tar.gz  xgboost-%{realversion}
-%endif
-
-%define PipPostBuild \
-   perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/lib/python2.7/site-packages/xgboost/rabit/*/*.py; \
-   perl -p -i -e "s|^#!.*python|#!/usr/bin/env python3|" %{i}/lib/python3.*/site-packages/xgboost/rabit/*/*.py 
-
+%define RelocatePython %{i}/lib/python2.*/site-packages/xgboost/rabit/*/*.py
+%define RelocatePython3 %{i}/lib/python3.*/site-packages/xgboost/rabit/*/*.py
