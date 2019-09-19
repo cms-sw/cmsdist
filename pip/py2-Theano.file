@@ -1,3 +1,3 @@
 Requires: py2-scipy py2-six
-%define PipPostBuild \
-   perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/theano-nose %{i}/bin/theano-cache %{i}/bin/theano-test
+%define RelocatePython %{i}/bin/theano-nose %{i}/bin/theano-cache %{i}/bin/theano-test
+%define RelocatePython3 $(grep -Rl '^#!/.*python' %{i}/lib/python3*/site-packages)

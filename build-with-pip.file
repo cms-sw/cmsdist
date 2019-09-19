@@ -36,6 +36,9 @@
 %if "%{?pkgsource:set}" != "set"
 %define pkgsource source.tar.gz
 %endif
+%if "%{?PipInstallOptions:set}" != "set"
+%define PipInstallOptions --no-clean --no-build-isolation
+%endif
 
 %if "%{?doPython2:set}" != "set"
 Requires: python

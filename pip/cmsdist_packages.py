@@ -13,7 +13,7 @@ def packages(virtual_packages):
       if match("^python_version>'3.0'$", items[1]):
         virtual_packages['py3-'+pkg]='%s/package.sh "py3-%s" "%s" "py3"' % (pkg_dir, pkg, ver)
       else:
-        virtual_packages['py2-'+pkg]='%s/package.sh "py2-%s" "%s" "py3"' % (pkg_dir, pkg, ver)
+        virtual_packages['py2-'+pkg]='%s/package.sh "py2-%s" "%s" "py2"' % (pkg_dir, pkg, ver)
     else:
       virtual_packages['py2-'+pkg]='%s/package.sh "py2-%s" "%s"' % (pkg_dir, pkg, ver)
   return

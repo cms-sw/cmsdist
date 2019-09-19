@@ -1,3 +1,2 @@
-%define doPython3 no
 Requires: sqlite py2-setuptools 
-%define patchsrc2 echo "include_dirs=$SQLITE_ROOT/include">>setup.cfg
+%define patchsrc echo "include_dirs=$SQLITE_ROOT/include">>setup.cfg
