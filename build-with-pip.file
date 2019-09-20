@@ -111,7 +111,7 @@ if [ $(cat files.list | wc -l) -eq 1 ] ; then
    %if "%{doPython3}" == "yes"
       pip3 list --disable-pip-version-check
       %{?PipPreBuildPy3:%PipPreBuildPy3}
-      pip3 install --disable-pip-version-check --user -v %{PipInstallOptions} %{PipBuildOptions} %{?PipBuildOptionsPy3:%PipBuildOptionsPy3} $PIPFILE
+      pip3 install --no-cache-dir --disable-pip-version-check --user -v %{PipInstallOptions} %{PipBuildOptions} %{?PipBuildOptionsPy3:%PipBuildOptionsPy3} $PIPFILE
       PKG_NAME=$(pip3 show %{pip_name} --disable-pip-version-check | grep '^Name:' | sed 's|^Name: *||;s| ||g')
       DEPS=$(pip3 check --disable-pip-version-check | grep "^${PKG_NAME}  *%{realversion}  *requires " | sed 's|,.*||;s|.* |py2-|' | tr '\n' ' ')
       if [ "$DEPS" != "" ] ; then
@@ -124,7 +124,7 @@ if [ $(cat files.list | wc -l) -eq 1 ] ; then
    %if "%{doPython2}" == "yes"
       pip2 list  --disable-pip-version-check
       %{?PipPreBuildPy2:%PipPreBuildPy2}
-      pip2 install --disable-pip-version-check --user -v %{PipInstallOptions} %{PipBuildOptions} %{?PipBuildOptionsPy2:%PipBuildOptionsPy2}  $PIPFILE
+      pip2 install --no-cache-dir --disable-pip-version-check --user -v %{PipInstallOptions} %{PipBuildOptions} %{?PipBuildOptionsPy2:%PipBuildOptionsPy2}  $PIPFILE
       PKG_NAME=$(pip2 show %{pip_name} --disable-pip-version-check | grep '^Name:' | sed 's|^Name: *||;s| ||g')
       DEPS=$(pip2 check --disable-pip-version-check | grep "^${PKG_NAME}  *%{realversion}  *requires " | sed 's|,.*||;s|.* |py2-|' | tr '\n' ' ')
       if [ "$DEPS" != "" ] ; then
