@@ -13,12 +13,12 @@
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
-%if "%{?tar_command:set}" != "set"
-%define tar_command tar -czf ../${targz} ${untar_dir}
+%if "%{?pip_package_pack_command:set}" != "set"
+%define pip_package_pack_command tar -czf ${pip_package_srcfile} ${pip_package_dirname}
 %endif
 
-%if "%{?untar_command:set}" != "set"
-%define	untar_command tar -xzf ../${targz}
+%if "%{?pip_package_unpack_command:set}" != "set"
+%define	pip_package_unpack_command tar -xzf ${pip_package_srcfile}
 %endif
 
 %if "%{?pip_name:set}" != "set"
@@ -37,7 +37,7 @@
 %define pkgsource source.tar.gz
 %endif
 %if "%{?PipInstallOptions:set}" != "set"
-%define PipInstallOptions --no-clean --no-build-isolation
+%define PipInstallOptions --no-clean
 %endif
 
 %if "%{?doPython2:set}" != "set"
@@ -81,12 +81,12 @@ echo %{source_file}  > files.list
 
 %if "%{?NoAutoPatch:set}" != "set"
 if [ "%{?patches:%patches}%{?patchsrc:1}%{?patchsrc0:1}%{?patchsrc1:1}%{?patchsrc2:1}%{?patchsrc3:1}%{?patchsrc4:1}" != "" ] ; then
-  rm -rf cmsdist-%{n} ; mkdir cmsdist-%{n}
-  pushd cmsdist-%{n}
-    targz=$(cat ../files.list)
-    %{untar_command}
-    untar_dir=$(ls -d *)
-    pushd ${untar_dir}
+  rm -rf cmsdist-patch-%{n} ; mkdir cmsdist-patch-%{n}
+  pushd cmsdist-patch-%{n}
+    pip_package_srcfile=../$(cat ../files.list)
+    %{pip_package_unpack_command}
+    pip_package_dirname=$(ls -d *)
+    pushd ${pip_package_dirname}
       for pch in %{?patches:%patches} ; do
         patch -p1 < ${pch}
       done
@@ -97,10 +97,10 @@ if [ "%{?patches:%patches}%{?patchsrc:1}%{?patchsrc0:1}%{?patchsrc1:1}%{?patchsr
       %{?patchsrc3:%patchsrc3}
       %{?patchsrc4:%patchsrc4}
     popd
-    rm -f ../${targz}
-    %{tar_command}
+    rm -f ${pip_package_srcfile}
+    %{pip_package_pack_command}
   popd
-  rm -rf cmsdist-%n
+  rm -rf cmsdist-patch-%{n}
 fi
 %endif
 
@@ -111,25 +111,27 @@ if [ $(cat files.list | wc -l) -eq 1 ] ; then
    %if "%{doPython3}" == "yes"
       pip3 list --disable-pip-version-check
       %{?PipPreBuildPy3:%PipPreBuildPy3}
-      pip3 install --disable-pip-version-check --user -v %{PipBuildOptions} %{?PipBuildOptionsPy3:%PipBuildOptionsPy3} $PIPFILE
+      pip3 install --disable-pip-version-check --user -v %{PipInstallOptions} %{PipBuildOptions} %{?PipBuildOptionsPy3:%PipBuildOptionsPy3} $PIPFILE
       PKG_NAME=$(pip3 show %{pip_name} --disable-pip-version-check | grep '^Name:' | sed 's|^Name: *||;s| ||g')
       DEPS=$(pip3 check --disable-pip-version-check | grep "^${PKG_NAME}  *%{realversion}  *requires " | sed 's|,.*||;s|.* |py2-|' | tr '\n' ' ')
       if [ "$DEPS" != "" ] ; then
         echo "ERROR: Missing dependencies for %n (python3) found: $DEPS"
         exit 1
       fi
+      %{relocatePy3SitePackages}
       %{?PipPostBuildPy3:%PipPostBuildPy3}
    %endif
    %if "%{doPython2}" == "yes"
       pip2 list  --disable-pip-version-check
       %{?PipPreBuildPy2:%PipPreBuildPy2}
-      pip2 install --disable-pip-version-check --user -v %{PipBuildOptions} %{?PipBuildOptionsPy2:%PipBuildOptionsPy2}  $PIPFILE
+      pip2 install --disable-pip-version-check --user -v %{PipInstallOptions} %{PipBuildOptions} %{?PipBuildOptionsPy2:%PipBuildOptionsPy2}  $PIPFILE
       PKG_NAME=$(pip2 show %{pip_name} --disable-pip-version-check | grep '^Name:' | sed 's|^Name: *||;s| ||g')
       DEPS=$(pip2 check --disable-pip-version-check | grep "^${PKG_NAME}  *%{realversion}  *requires " | sed 's|,.*||;s|.* |py2-|' | tr '\n' ' ')
       if [ "$DEPS" != "" ] ; then
         echo "ERROR: Missing dependencies for %n (python2) found: $DEPS"
         exit 1
       fi
+      %{relocatePy2SitePackages}
       %{?PipPostBuildPy2:%PipPostBuildPy2}
    %endif
 else
@@ -138,6 +140,18 @@ else
    exit 1
 fi
 
+%if "%{doPython3}%{doPython2}" != "yesyes"
+if [ -d %{i}/bin ] ; then
+  for py in $(grep -Rl -m1 '^#\!.*python' %{i}/bin) ; do
+    lnum=$(grep -n -m1 '^#\!.*python' $py | sed 's|:.*||')
+%if "%{doPython2}" == "yes"
+    sed -i -e "${lnum}c#!/usr/bin/env python" $py
+%else
+    sed -i -e "${lnum}c#!/usr/bin/env python3" $py
+%endif
+  done
+fi
+%endif
 %{?PipPostBuild:%PipPostBuild}
 %{?RelocatePython:perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %RelocatePython}
 %{?RelocatePython3:perl -p -i -e "s|^#!.*python.*|#!/usr/bin/env python3|" %RelocatePython3}

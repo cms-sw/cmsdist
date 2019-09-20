@@ -2,6 +2,3 @@
 Patch0: py2-xgboost-arm-and-ppc
 %endif
 Requires: py2-scipy
-
-%define RelocatePython %{i}/lib/python2.*/site-packages/xgboost/rabit/*/*.py
-%define RelocatePython3 %{i}/lib/python3.*/site-packages/xgboost/rabit/*/*.py

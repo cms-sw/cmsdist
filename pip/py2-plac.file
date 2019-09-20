@@ -1,1 +1,1 @@
-%define RelocatePython $(grep -Rl '^#!/.*python' %{i})
+%define RelocatePython %{i}/bin/*

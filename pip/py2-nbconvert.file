@@ -1,4 +1,2 @@
 Requires: py2-nbformat py2-Jinja2 py2-Pygments py2-bleach py2-backports py2-defusedxml py2-entrypoints py2-mistune py2-pandocfilters py2-testpath
-
-%define RelocatePython $(grep -Rl '^#!/.*python' %{i}/lib/python2*/site-packages) %{i}/bin/jupyter-nbconvert
-%define RelocatePython3 $(grep -Rl '^#!/.*python' %{i}/lib/python3*/site-packages)
+%define RelocatePython %{i}/bin/jupyter-nbconvert

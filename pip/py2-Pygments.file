@@ -1,4 +1,1 @@
-#%define PipPostBuild \
-#   perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/pygmentize
-
 %define RelocatePython %{i}/bin/pygmentize

@@ -1,2 +1,1 @@
 Requires: py2-numpy py2-awkward py2-uproot-methods py2-cachetools
-%define RelocatePython $(grep -Rl '^#!/.*python' %{i})

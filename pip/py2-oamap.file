@@ -1,2 +1,1 @@
 Requires: py2-numpy
-%define	RelocatePython $(grep -Rl '^#!/.*python' %{i})

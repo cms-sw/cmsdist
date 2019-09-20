@@ -1,2 +1,1 @@
 Requires: py2-numpy
-%define RelocatePython3 $(grep -Rl '^#!/.*python' %{i}/lib/python3*/site-packages/histbook)
