@@ -1,3 +1,2 @@
 Requires: py2-traitlets py2-jsonschema py2-jupyter_core
-%define PipPostBuild \
-   perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/jupyter-trust
+%define RelocatePython %{i}/bin/jupyter-trust

@@ -229,6 +229,16 @@
 %define relocateRpmPkg		perl -p -i -e "s|\\Q%{instroot}\\E|%{cmsroot}|g;s|\\Q%{cmsroot}\\E|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
 %define relocateCmsPkg		perl -p -i -e "s|\\Q%{instroot}\\E|%{cmsroot}|g;s|\\Q%{cmsroot}\\E|$CMS_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
 %define relocateConfig		%relocateCmsPkg
+%define relocatePy3SitePackages \
+  for py in $(grep -Rl -m1 '^#\!.*python' %{i}/${PYTHON3_LIB_SITE_PACKAGES}) ; do \
+    lnum=$(grep -n -m1 '^#\!.*python' $py | sed 's|:.*||') \
+    sed -i -e "${lnum}c#!/usr/bin/env python3" $py \
+  done
+%define relocatePy2SitePackages \
+  for py in $(grep -Rl -m1 '^#\!.*python' %{i}/${PYTHON_LIB_SITE_PACKAGES}) ; do \
+    lnum=$(grep -n -m1 '^#\!.*python' $py | sed 's|:.*||') \
+    sed -i -e "${lnum}c#!/usr/bin/env python" $py \
+  done
 
 # On macosx one needs to use the -x option, to avoid excessive stripping.
 %ifos darwin
