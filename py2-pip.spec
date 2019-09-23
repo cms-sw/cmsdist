@@ -18,6 +18,8 @@ python setup.py build
 %install
 python3 setup.py install --single-version-externally-managed --record=/dev/null  --prefix=%{i}
 python setup.py install --single-version-externally-managed --record=/dev/null  --prefix=%{i}
+%{relocatePy3SitePackages}
+%{relocatePy2SitePackages}
 perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.

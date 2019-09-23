@@ -1,7 +1,7 @@
 %ifarch aarch64
 %define numpy_version 1.15.1
 %else
-%define numpy_version 1.16.2
+%define numpy_version 1.16.5
 %endif
 ### RPM external py2-numpy %{numpy_version}
 ## INITENV +PATH PYTHON27PATH %i/${PYTHON_LIB_SITE_PACKAGES}
@@ -46,8 +46,9 @@ mkdir -p %i/${PYTHON_LIB_SITE_PACKAGES}
 
 export PYTHONUSERBASE=%i
 pip2 install . --user 
-pip3 install . --user 
-
+pip3 install . --user
+%{relocatePy3SitePackages}
+%{relocatePy2SitePackages}
 perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
 
 #afaik, this functionality is not needed - but keep it for now.
