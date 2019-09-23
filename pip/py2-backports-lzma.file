@@ -1,4 +1,3 @@
-%define doPython3 no
 Requires: xz
 
 %define pip_name backports.lzma
