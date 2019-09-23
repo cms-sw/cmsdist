@@ -1,3 +1,3 @@
 Requires: py2-astroid py2-six py2-isort py2-mccabe py2-configparser
 
-%define PipPostBuild perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/* %{i}/lib/python*/site-packages/pylint/test/data/*
+%define RelocatePython %{i}/bin/*

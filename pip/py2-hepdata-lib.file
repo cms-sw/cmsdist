@@ -1,2 +1,1 @@
 Requires: root py2-setuptools py2-pytest py2-pytest-cov py2-PyYAML py2-future py2-pylint
-%define doPython3 no

@@ -1,4 +1,2 @@
 Patch0: py2-sqlalchemy-1.3.4-add-frontier-dialect
 Patch1: py2-sqlalchemy-1.3.4-fix-sqlite-dialect-timestamp
-
-%define PipPreBuild tar -xzf SQLAlchemy-%{realversion}.tar.gz && pushd SQLAlchemy-%{realversion} && for pch in %{patches} ; do patch -p1 < ${pch} ; done && popd && rm -f SQLAlchemy-%{realversion}.tar.gz && tar czf SQLAlchemy-%{realversion}.tar.gz SQLAlchemy-%{realversion}
