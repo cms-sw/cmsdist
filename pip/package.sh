@@ -10,13 +10,12 @@ else
   elif [ "$3" == "py3" ] ; then
     echo "%define doPython2 no"
   fi
-  if [ -f "${dir}/$1.file" ] ; then
-    subdir=$(basename $dir)
-    echo ""
-    echo "## INCLUDE ${subdir}/${1}"
-  fi
+  subdir=$(basename $dir)
   pycommon=$(echo $1 | sed 's|^py[2-9]-||')
   if [ -f "${dir}/${pycommon}.file" ] ; then
     echo "## INCLUDE ${subdir}/${pycommon}"
+  fi
+  if [ -f "${dir}/$1.file" ] ; then
+    echo "## INCLUDE ${subdir}/${1}"
   fi
 fi
