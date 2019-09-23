@@ -1,4 +1,2 @@
-Requires: py2-numpy
-%define doPython3 no
-%define PipPostBuild \
-  perl -p -i -e "s|^#!.*python(.*)|#!/usr/bin/env python$1|" `grep -r -e "^#\!.*python.*" %i | cut -d: -f1`
+Requires: py2-numpy py2-numba py2-uproot py2-h5py
+Patch0: py2-oamap-Const2Literal

@@ -43,7 +43,8 @@ export TF_SET_ANDROID_WORKSPACE=false
 export TF_NEED_KAFKA=false
 
 #temp directory
-rm -rf ../build
+export TEST_TMPDIR=%{_builddir}/cache/baze
+rm -rf ../build $TEST_TMPDIR
 
 ./configure
 
