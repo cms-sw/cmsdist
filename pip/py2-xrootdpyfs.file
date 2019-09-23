@@ -1,2 +1,1 @@
-%define doPython3 no
 Requires: xrootd py2-fs py2-typing
