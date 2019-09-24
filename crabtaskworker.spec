@@ -1,4 +1,4 @@
-### RPM cms crabtaskworker 3.3.1908.rc1
+### RPM cms crabtaskworker 3.3.1909.rc2
 
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
