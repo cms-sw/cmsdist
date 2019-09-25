@@ -20,9 +20,9 @@ Requires: py2-funcsigs py2-protobuf py2-pbr py2-six py2-packaging py2-appdirs py
 mkdir -p %{i}
 export PYTHONUSERBASE=%i
 pip list
-pip install --user -v ${TENSORFLOW_SOURCES_ROOT}/tensorflow-%{realversion}-%{tensor_build}.whl
+pip install   --no-cache-dir --disable-pip-version-check --no-deps --no-clean --user -v ${TENSORFLOW_SOURCES_ROOT}/tensorflow-%{realversion}-%{tensor_build}.whl
 pip3 list
-pip3 install --user -v ${TENSORFLOW_PYTHON3_SOURCES_ROOT}/tensorflow-%{realversion}-%{tensor_python3_build}.whl
+pip3 install   --no-cache-dir --disable-pip-version-check --no-deps --no-clean --user -v ${TENSORFLOW_PYTHON3_SOURCES_ROOT}/tensorflow-%{realversion}-%{tensor_python3_build}.whl
 %{relocatePy3SitePackages}
 %{relocatePy2SitePackages}
 
