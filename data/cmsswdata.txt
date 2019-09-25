@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+RecoHGCal-TICL=V00-01-00
 SimTracker-SiStripDigitizer=V01-00-01
 RecoBTag-Combined=V01-02-00
 CalibCalorimetry-EcalTrivialCondModules=V00-03-00
