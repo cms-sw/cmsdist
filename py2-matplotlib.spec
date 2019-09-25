@@ -33,8 +33,8 @@ export MPLCONFIGDIR=$PWD/no-pkg-config
 PATH=$PWD/no-pkg-config:$PATH \
 export CPLUS_INCLUDE_PATH=${FREETYPE_ROOT}/include/freetype2:${LIBPNG_ROOT}/include/libpng16
 export PYTHONUSERBASE=%i
-pip install . --user
-pip3 install . --user
+pip  install   --no-cache-dir --disable-pip-version-check --no-deps --no-clean -v . --user
+pip3 install   --no-cache-dir --disable-pip-version-check --no-deps --no-clean -v . --user
 
 #python setup.py install --prefix=%i  --single-version-externally-managed --record=/dev/null
 
