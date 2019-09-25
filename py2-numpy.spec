@@ -45,8 +45,8 @@ EOF
 mkdir -p %i/${PYTHON_LIB_SITE_PACKAGES}
 
 export PYTHONUSERBASE=%i
-pip2 install . --user 
-pip3 install . --user
+pip2 install   --no-cache-dir --disable-pip-version-check --no-deps --no-clean -v . --user
+pip3 install   --no-cache-dir --disable-pip-version-check --no-deps --no-clean -v . --user
 %{relocatePy3SitePackages}
 %{relocatePy2SitePackages}
 perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
