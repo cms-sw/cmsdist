@@ -2,8 +2,8 @@
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 66f8db409709189558e3c8f1ad7cd8877ff18b47
-%define branch cmscxx/master/daff082e92
+%define tag 17e2fe12b31c16ed8d6ec4313720a891dae9e985
+%define branch cmscxx/master/5c1a587
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
