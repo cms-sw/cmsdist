@@ -10,6 +10,7 @@ Requires: boost-toolfile
 Requires: frontier_client-toolfile
 Requires: gcc-toolfile
 Requires: openssl-toolfile
+Requires: python2to3
 
 %if %isnotonline
 Requires: sqlite-toolfile

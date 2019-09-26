@@ -11,14 +11,14 @@ Requires: py2-scipy
 Requires: py2-Keras
 Requires: py2-Theano
 Requires: py2-scikit-learn
-Requires: py2-rootpy
+Requires: py3-rootpy
 Requires: py2-tensorflow
 Requires: py2-googlePackages
 
 Requires: py2-tables
 Requires: py2-numexpr
 Requires: py2-pandas
-Requires: py2-root_numpy
+Requires: py3-root_numpy
 Requires: py2-Bottleneck
 Requires: py2-downhill 
 Requires: py2-theanets
@@ -34,7 +34,7 @@ Requires: py2-seaborn
 Requires: py2-h5py
 Requires: py2-h5py-cache
 Requires: py2-thriftpy
-Requires: py2-root_pandas
+Requires: py3-root_pandas
 Requires: py2-uproot
 Requires: py2-oamap
 
