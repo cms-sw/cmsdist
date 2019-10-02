@@ -1,0 +1,2 @@
+Requires: py2-ipykernel py3-ipykernel
+%define RelocatePython %{i}/bin/jupyter-qtconsole

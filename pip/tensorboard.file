@@ -1,0 +1,2 @@
+Requires: py2-Markdown py2-futures py2-Werkzeug py2-protobuf py2-html5lib py2-six py2-wheel py2-bleach
+%define PipDownloadSourceType none

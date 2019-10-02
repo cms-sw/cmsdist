@@ -1,0 +1,30 @@
+Requires: zlib OpenBLAS
+
+%define patchsrc \
+cat > site.cfg <<EOF \
+[default]\
+include_dirs = $OPENBLAS_ROOT/include\
+library_dirs = $OPENBLAS_ROOT/lib\
+[openblas]\
+openblas_libs = openblas\
+library_dirs = $OPENBLAS_ROOT/lib\
+[lapack]\
+lapack_libs = openblas\
+library_dirs = $OPENBLAS_ROOT/lib\
+[atlas]\
+atlas_libs = openblas\
+atlas_dirs = $OPENBLAS_ROOT/lib\
+[build]\
+fcompiler=gnu95\
+EOF
+
+%define source0 https://github.com/numpy/numpy/releases/download/v%{realversion}/numpy-%{realversion}.tar.gz
+
+%define PipPostBuild \
+  mkdir -p %{i}/c-api \
+  ln -s ../lib/python*/site-packages/numpy/core %{i}/c-api/core
+
+%define PipPostPost \
+  %{relocateConfig}lib/python*/site-packages/numpy/__config__.py \
+  %{relocateConfig}lib/python*/site-packages/numpy/distutils/__config__.py \
+  %{relocateConfig}lib/python*/site-packages/numpy/distutils/site.cfg
