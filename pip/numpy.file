@@ -22,7 +22,8 @@ EOF
 
 %define PipPostBuild \
   mkdir -p %{i}/c-api \
-  ln -s ../lib/python*/site-packages/numpy/core %{i}/c-api/core
+  numpy_core=$(ls -d %{i}/lib/python*/site-packages/numpy/core | sed 's|%{i}/|../|') \
+  ln -s ${numpy_core} %{i}/c-api/core
 
 %define PipPostPost \
   %{relocateConfig}lib/python*/site-packages/numpy/__config__.py \
