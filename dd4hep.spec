@@ -1,7 +1,7 @@
 ### RPM external dd4hep v01-10x
 
-%define tag 7680c56ad011a34daacf874033a460947d548740
-%define branch cms/master/9f9459d
+%define tag c6787fe74b9efface99e2bd8359fc5d20e077cdd
+%define branch cms/master/c6787fe
 %define github_user cms-externals
 %define keep_archives true
 
