@@ -1,11 +1,13 @@
-### RPM external onnxruntime 0.5.0
-%define tag 2a8b02097514ca90ac7471054460dcdc47b69e1b
+### RPM external onnxruntime 0.5.0.mod-from-9f633c5b
+%define tag 04f3c766dc4b0cba097ac48af9c8771beb37f3d8
 %define branch cms/v%{realversion}
-%define github_user cms-externals
+#%define github_user cms-externals
+%define github_user hqucms
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake ninja zlib python3
 Requires: eigen protobuf
+
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -21,6 +23,7 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -Donnxruntime_USE_CUDA=OFF \
    -Donnxruntime_USE_NSYNC=OFF \
    -Donnxruntime_BUILD_CSHARP=OFF \
+   -Donnxruntime_USE_AUTOML=OFF \
    -Donnxruntime_USE_EIGEN_FOR_BLAS=ON \
    -Donnxruntime_USE_OPENBLAS=OFF \
    -Donnxruntime_USE_MKLDNN=OFF \
