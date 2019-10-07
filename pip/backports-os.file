@@ -1,0 +1,2 @@
+%define pip_name backports.os
+Requires: py2-future

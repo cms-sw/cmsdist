@@ -1,0 +1,2 @@
+Requires: py3-numpy
+%define PipPostBuild mv %{i}/bin/tensorboard %{i}/bin/tensorboard3

@@ -1,0 +1,22 @@
+Requires: py2-pytz py2-backports py2-subprocess32 py2-numpy
+
+%define patchsrc \
+cat >> setup.cfg <<- EOF\
+[directories]\
+basedirlist = ${FREETYPE_ROOT}:${LIBPNG_ROOT}:${ZLIB_ROOT}:${PY2_NUMPY_ROOT}:${PY2_PYTZ_ROOT}:${PY2_SIX}\
+[gui_support]  \
+gtk = False    \
+gtkagg = False \
+tkagg = True   \
+wxagg = False  \
+macosx = False \
+EOF
+
+%define PipPreBuild \
+  mkdir -p %{_builddir}/no-pkg-config \
+  (echo '#!/bin/sh'; echo 'false') > %{_builddir}/no-pkg-config/pkg-config \
+  chmod +x %{_builddir}/no-pkg-config/pkg-config \
+  export CPLUS_INCLUDE_PATH=${FREETYPE_ROOT}/include/freetype2:${LIBPNG_ROOT}/include/libpng16 \
+  export MPLCONFIGDIR=%{_builddir}/no-pkg-config \
+  export PATH=%{_builddir}/no-pkg-config:$PATH
+

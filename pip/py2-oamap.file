@@ -1,2 +1,0 @@
-Requires: py2-numpy py2-numba py2-uproot py2-h5py
-Patch0: py2-oamap-Const2Literal

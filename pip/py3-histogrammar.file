@@ -1,0 +1,2 @@
+%define PipDownloadSourceType none
+%define PipPostBuild ls %{i}/bin/* | xargs -i mv '{}' '{}3'

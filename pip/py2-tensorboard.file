@@ -1,0 +1,2 @@
+Requires: py2-numpy
+%define PipPostBuild cp %{i}/bin/tensorboard %{i}/bin/tensorboard2

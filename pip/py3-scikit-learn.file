@@ -1,0 +1,1 @@
+Requires: py3-scipy py2-cython py2-joblib

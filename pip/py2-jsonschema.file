@@ -1,3 +1,0 @@
-Requires: py2-functools32 py2-repoze-lru py2-argparse
-%define RelocatePython %{i}/bin/jsonschema
-
