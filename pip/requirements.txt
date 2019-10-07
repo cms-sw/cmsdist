@@ -140,6 +140,8 @@ numba==0.45.1
 numexpr==2.7.0
 numpy==1.16.5 ; python_version<'3.0'
 numpy==1.17.2 ; python_version>'3.0'
+numpy==1.15.1 ; python_version<'3.0' ; sys_platform=='aarch64'
+numpy==1.15.1 ; python_version>'3.0' ; sys_platform=='aarch64'
 oamap==0.12.4
 onnx==1.6.0
 ordereddict==1.1
