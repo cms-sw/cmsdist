@@ -12,11 +12,12 @@ Requires: py2-Keras
 Requires: py2-Theano
 Requires: py2-scikit-learn
 Requires: py3-rootpy
-Requires: py2-tensorflow
+Requires: py2-tensorflow py3-tensorflow
 Requires: py2-googlePackages
 
 Requires: py2-tables
 Requires: py2-numexpr
+Requires: py2-histogrammar py3-histogrammar
 Requires: py2-pandas
 Requires: py3-root_numpy
 Requires: py2-Bottleneck
@@ -142,7 +143,7 @@ Requires: py2-PyYAML
 Requires: py2-pylint
 Requires: py2-pip
 %if %isamd64
-Requires: py2-cx-oracle
+Requires: py2-cx-Oracle
 %endif
 Requires: py2-cython
 Requires: py2-future
@@ -214,6 +215,8 @@ Requires: py2-lazy-object-proxy
 Requires: py2-pylint
 Requires: py2-pytest-cov
 Requires: py2-wrapt
+
+Requires: py2-pycuda
 
 %prep
 

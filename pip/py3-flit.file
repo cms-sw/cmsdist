@@ -1,3 +1,0 @@
-Requires: py2-Pygments py2-intreehooks py2-requests py2-docutils py2-pytoml py2-urllib3 py2-certifi
-Requires: py2-chardet py2-idna
-%define RelocatePython3 %{i}/bin/*

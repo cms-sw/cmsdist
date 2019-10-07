@@ -1,3 +1,0 @@
-Requires: cmake py2-numpy protobuf py2-protobuf py2-six py2-typing_extensions
-%define PipPreBuild export ONNX_ML=1
-%define RelocatePython %{i}/bin/*

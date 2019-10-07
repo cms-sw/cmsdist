@@ -4,8 +4,8 @@
 ## INITENV +PATH PYTHON3PATH %{i}/lib64/python`echo $PYTHON3_VERSION | cut -d. -f 1,2`/site-packages
 %define isamd64 %(case %{cmsplatf} in (*_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
 
-BuildRequires: python python3 cmake ninja
-Requires: gcc zlib
+BuildRequires: cmake ninja
+Requires: gcc zlib python python3
 %if %{isamd64}
 Requires: cuda
 %endif
@@ -63,11 +63,12 @@ ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
 cd ../build
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
 
-for pyver in  $PYTHON_VERSION $PYTHON3_VERSION ; do
-  BINDINGS_PATH=%{i}/lib64/python$(echo $pyver | cut -d. -f 1,2)/site-packages
-  mkdir -p $BINDINGS_PATH
-  cp -r %{_builddir}/llvm-%{realversion}-%{llvmCommit}/clang/bindings/python/clang $BINDINGS_PATH
-done
+BINDINGS_PATH=%{i}/lib64/python$(echo $PYTHON_VERSION | cut -d. -f 1,2)/site-packages
+mkdir -p $BINDINGS_PATH
+cp -r %{_builddir}/llvm-%{realversion}-%{llvmCommit}/clang/bindings/python/clang $BINDINGS_PATH
+BINDINGS_PATH=%{i}/lib64/python$(echo $PYTHON3_VERSION | cut -d. -f 1,2)/site-packages
+mkdir -p $BINDINGS_PATH
+cp -r %{_builddir}/llvm-%{realversion}-%{llvmCommit}/clang/bindings/python/clang $BINDINGS_PATH
 
 rm -f %{_builddir}/llvm-%{realversion}-%{llvmCommit}/clang/tools/scan-build/set-xcode*
 find %{_builddir}/llvm-%{realversion}-%{llvmCommit}/clang/tools/scan-build -exec install {} %{i}/bin \;
