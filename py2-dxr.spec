@@ -1,6 +1,7 @@
 ### RPM external py2-dxr 1.0
 ## INITENV +PATH PYTHON27PATH %i/${PYTHON_LIB_SITE_PACKAGES}
-Requires: python zlib py2-setuptools   py2-pysqlite llvm sqlite 
+## INITENV +PATH PYTHON3PATH %i/${PYTHON3_LIB_SITE_PACKAGES}
+Requires: python python3 zlib py2-setuptools py2-pysqlite llvm sqlite 
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define dxrCommit 6ea764102a
 %define triliteCommit e64a2a1 
@@ -54,11 +55,13 @@ make release
 cd re2
 make
 cd ../../
-python setup.py build
+python2 setup.py build
+python3 setup.py build
 
 %install
 mkdir %i/lib
 cp -p trilite/libtrilite.so %i/lib
 cp -p trilite/re2/obj/libre2.a %i/lib
-python setup.py install --prefix=%i  --single-version-externally-managed --record=/dev/null
+python2 setup.py install --prefix=%i  --single-version-externally-managed --record=/dev/null
+python3 setup.py install --prefix=%i  --single-version-externally-managed --record=/dev/null
 perl -p -i -e "s|^#!%{cmsroot}/.*|#!/usr/bin/env python|" %{i}/bin/*.py

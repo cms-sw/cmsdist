@@ -1,0 +1,1 @@
+Requires: py2-decorator py2-appdirs py2-six py2-numpy py3-numpy

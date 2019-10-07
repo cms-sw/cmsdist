@@ -1,0 +1,5 @@
+Requires: py3-numpy
+%define PipPreBuild \
+  export CFLAGS="-I${FREETYPE_ROOT}/include/freetype2 -I${LIBPNG_ROOT}/include/libpng16" \
+  export LDFLAGS="-L${FREETYPE_ROOT}/lib -L${LIBPNG_ROOT}/lib" \
+  export PKG_CONFIG=false
