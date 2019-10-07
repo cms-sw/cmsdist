@@ -14,7 +14,7 @@ def packages(virtual_packages):
     if not '==' in line: continue
     items = line.strip().split(';')
     (pkg, ver) = items[0].strip().split('==',1)
-    py = "py2"
+    py = ""
     matched=True
     for item in items[1:]:
       m = match("^python_version(<|>|>=|==)'([^']+)'$", item)
@@ -28,5 +28,9 @@ def packages(virtual_packages):
         if m.group(2)=='==' and extra_match[m.group(1)]!=m.group(3): matched=False
         if m.group(2)=='!=' and extra_match[m.group(1)]==m.group(3): matched=False
     if matched:
-      virtual_packages[py+'-'+pkg]='%s/package.sh "%s-%s" "%s" "%s"' % (pkg_dir, py, pkg, ver, py)
+      if py:
+        virtual_packages[py+'-'+pkg]='%s/package.sh "%s-%s" "%s" "%s"' % (pkg_dir, py, pkg, ver, py)
+      else:
+        virtual_packages['py2-'+pkg]='%s/package.sh "py2-%s" "%s"' % (pkg_dir, pkg, ver)
   return
+
