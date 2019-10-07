@@ -1,0 +1,1 @@
+Requires: py2-zipp py2-contextlib2 py2-configparser py2-pathlib2

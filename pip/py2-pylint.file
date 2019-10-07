@@ -1,3 +1,0 @@
-Requires: py2-astroid py2-six py2-isort py2-mccabe py2-configparser
-
-%define RelocatePython %{i}/bin/*
