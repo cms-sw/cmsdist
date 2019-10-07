@@ -1,9 +1,0 @@
-Patch0: py2-tables-fix-for-aarch64_v2
-Requires: py2-numexpr py2-six py2-numpy hdf5 bz2lib
-
-%define PipPreBuild export HDF5_DIR=${HDF5_ROOT}
-
-%define PipBuildOptions  --global-option="--hdf5=${HDF5_ROOT}" --global-option="--bzip2=${BZ2LIB_ROOT}" 
-
-%define RelocatePython %{i}/bin/pttree %{i}/bin/pt2to3 %{i}/bin/ptrepack %{i}/bin/ptdump
-

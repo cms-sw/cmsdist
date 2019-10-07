@@ -1,2 +1,0 @@
-Requires: py2-numpy
-%define RelocatePython %{i}/bin/*

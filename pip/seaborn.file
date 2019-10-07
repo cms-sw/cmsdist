@@ -1,0 +1,1 @@
+Requires: py2-matplotlib py3-matplotlib py2-scipy py2-pandas py3-scipy py3-pandas

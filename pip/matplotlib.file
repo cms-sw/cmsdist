@@ -1,0 +1,3 @@
+Requires: py2-cycler py2-kiwisolver py2-pyparsing py2-python-dateutil
+Requires: zlib libpng freetype
+
