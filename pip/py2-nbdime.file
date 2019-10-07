@@ -1,4 +1,0 @@
-Requires: py2-notebook py2-GitPython py2-requests py2-colorama py2-backports
-%define RelocatePython %{i}/bin/*
-
-

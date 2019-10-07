@@ -1,2 +1,0 @@
-#define PipPreBuild export ATLAS=None
-Requires: py2-scipy

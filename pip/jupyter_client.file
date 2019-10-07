@@ -1,0 +1,3 @@
+Requires: py2-jupyter_core py2-tornado py2-python-dateutil py2-pyzmq
+Requires: py3-tornado
+%define RelocatePython %{i}/bin/*

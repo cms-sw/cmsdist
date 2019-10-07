@@ -1,2 +1,0 @@
-%define PipBuildOptions --upgrade
-%define RelocatePython %{i}/bin/*
