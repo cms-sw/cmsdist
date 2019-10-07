@@ -1,0 +1,2 @@
+Requires: py3-astroid
+%define PipPreBuild export LC_ALL=C
