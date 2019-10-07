@@ -257,5 +257,5 @@ wrapt==1.11.2
 xgboost==0.82 ; python_version<'3.0'
 xgboost==0.90 ; python_version>'3.0'
 xrootdpyfs==0.1.6
-hepdata-lib==0.3.0;python_version<'3.0'
+hepdata-lib==0.3.0;python_version>'3.0'
 zipp==0.6.0

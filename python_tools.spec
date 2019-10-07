@@ -209,7 +209,7 @@ Requires: py2-pydot
 
 Requires: py2-astroid
 Requires: py2-coverage
-Requires: py2-hepdata-lib
+Requires: py3-hepdata-lib
 Requires: py2-isort
 Requires: py2-lazy-object-proxy
 Requires: py2-pylint
