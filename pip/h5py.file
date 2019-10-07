@@ -1,0 +1,3 @@
+Requires: py2-numpy py3-numpy hdf5 py2-six
+BuildRequires: py2-cython py2-pkgconfig
+%define PipPreBuild export HDF5_DIR=${HDF5_ROOT}

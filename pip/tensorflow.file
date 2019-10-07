@@ -1,0 +1,4 @@
+Requires: py2-funcsigs py2-protobuf py2-pbr py2-six py2-packaging py2-appdirs py2-setuptools py2-pyparsing py2-mock py2-Werkzeug
+Requires: py2-astor py2-gast py2-absl-py py2-backports py2-termcolor py2-grpcio
+%define source0 none
+%define source_file none
