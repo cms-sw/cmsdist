@@ -1,0 +1,2 @@
+Requires: py2-six py2-typing py2-appdirs py2-pytz py2-backports py2-enum34
+%define RelocatePython %{i}/bin/*
