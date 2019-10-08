@@ -1,2 +1,2 @@
+Patch0: pylint-2.4.2-encoding
 Requires: py3-astroid
-%define PipPreBuild export LC_ALL=C
