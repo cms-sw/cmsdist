@@ -1,8 +1,7 @@
-### RPM external onnxruntime 0.5.0.mod-from-9f633c5b
-%define tag 04f3c766dc4b0cba097ac48af9c8771beb37f3d8
-%define branch cms/v%{realversion}
-#%define github_user cms-externals
-%define github_user hqucms
+### RPM external onnxruntime 0.5.0
+%define tag 2824909ae569932d9aee1462049ff0da1e766989
+%define branch cms/master/9f633c5b
+%define github_user cms-externals
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake ninja zlib python3
