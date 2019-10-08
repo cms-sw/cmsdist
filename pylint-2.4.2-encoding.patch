@@ -1,0 +1,13 @@
+diff --git a/setup.py b/setup.py
+index 4d16b79..107b72f 100644
+--- a/setup.py
++++ b/setup.py
+@@ -56,7 +56,7 @@ extras_require = __pkginfo__.get("extras_require", {})
+ 
+ readme_path = join(base_dir, "README.rst")
+ if exists(readme_path):
+-    with open(readme_path) as stream:
++    with open(readme_path, encoding='utf8', errors='ignore') as stream:
+         long_description = stream.read()
+ else:
+     long_description = ""
