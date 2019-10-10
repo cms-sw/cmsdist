@@ -1,5 +1,6 @@
 ### RPM external frontier_client 2.8.20
 ## INITENV +PATH PYTHON27PATH %{i}/python/lib
+## INITENV +PATH PYTHON3PATH %{i}/python/lib
 
 Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
