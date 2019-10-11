@@ -1,0 +1,11 @@
+--- HepMC-2.06.07.orig/HepMC/PythiaWrapper6_4.h	2019-10-11 16:52:08.917366436 +0200
++++ HepMC-2.06.07/HepMC/PythiaWrapper6_4.h	2019-10-11 17:04:01.614803379 +0200
+@@ -247,7 +247,7 @@
+ #define upevnt upevnt_
+     extern "C" {
+ 	void pyhepc(int*);
+-	void pyinit(const char*,const char*,const char*,double*,int,int,int);
++        void pyinit(const char*,const char*,const char*,double*,std::size_t,std::size_t,std::size_t);
+ 	void pylist(int*);
+ 	void pystat(int*);
+ 	void pyevnt();
