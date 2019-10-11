@@ -24,7 +24,7 @@ index 0000000..5cbb3d7
 +        self.url_database = url.database
 +
 +        return [
-+            [urllib.unquote_plus(url.host)] if url.host else [],
++            [urllib.parse.unquote_plus(url.host)] if url.host else [],
 +            url.query
 +        ]
 +
