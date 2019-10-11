@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000..5cbb3d7
 --- /dev/null
 +++ b/lib/sqlalchemy/connectors/frontier.py
-@@ -0,0 +1,26 @@
+@@ -0,0 +1,25 @@
 +# connectors/frontier.py
 +# Copyright (C) 2005-2013 the SQLAlchemy authors and contributors <see AUTHORS file>
 +#
@@ -22,11 +22,10 @@ index 0000000..5cbb3d7
 +
 +    def create_connect_args(self, url):
 +        self.url_database = url.database
-+
-+        return [
-+            [urllib.parse.unquote_plus(url.host)] if url.host else [],
-+            url.query
-+        ]
++        if sys.version_info[0] > 3:
++            return [ [urllib.parse.unquote_plus(url.host)] if url.host else [], url.query]
++        else:
++            return [ [urllib.unquote_plus(url.host)] if url.host else [], url.query]
 +
 +    def do_rollback(self, dbapi_connection):
 +        pass
