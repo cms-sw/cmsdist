@@ -1,21 +1,22 @@
 diff --git a/cmake/DD4hepBuild.cmake b/cmake/DD4hepBuild.cmake
-index 1605e96..ac8e06d 100644
+index 174a22a..e2b8c3a 100644
 --- a/cmake/DD4hepBuild.cmake
 +++ b/cmake/DD4hepBuild.cmake
-@@ -1019,7 +1019,7 @@ function( dd4hep_add_library binary building )
-         dd4hep_include_directories( "${pkg_incs}" )
-         add_definitions ( ${pkg_defs} )
-         #
--        add_library ( ${binary} SHARED ${sources} )
-+        add_library ( ${binary} STATIC ${sources} )
-         target_link_libraries ( ${binary} ${pkg_libs} )
-         if ( "${${pkg}_VERSION}" STREQUAL "" OR "${${pkg}_SOVERSION}" STREQUAL "" )
-           dd4hep_fatal ( "BAD Package versions: VERSION[${pkg}_VERSION] ${${pkg}_VERSION} SOVERSION[${pkg}_SOVERSION] ${${pkg}_SOVERSION} " )
-@@ -1030,6 +1030,7 @@ function( dd4hep_add_library binary building )
-         if ( NOT ${ARG_NOINSTALL} )
-           install ( TARGETS ${binary}  
-             LIBRARY DESTINATION lib 
-+            ARCHIVE DESTINATION lib
-             RUNTIME DESTINATION bin)
-         endif()
-         set ( building_binary "ON" )
+@@ -613,7 +613,7 @@ function(dd4hep_add_plugin binary)
+   dd4hep_debug("|++++> USES ${ARG_USES}")
+   dd4hep_debug("|++++> INCLUDES ${ARG_INCLUDES}")
+   dd4hep_debug("|++++> DEFINITIONS ${ARG_DEFINITIONS}")
+-  add_library(${binary} SHARED ${SOURCES} ${ARG_GENERATED})
++  add_library(${binary} STATIC ${SOURCES} ${ARG_GENERATED})
+   target_link_libraries(${binary} PUBLIC ${ARG_USES})
+   target_include_directories(${binary} PUBLIC ${ARG_INCLUDES})
+   target_compile_definitions(${binary} PUBLIC ${ARG_DEFINITIONS})
+@@ -623,7 +623,7 @@ function(dd4hep_add_plugin binary)
+     if(CMAKE_INSTALL_LIBDIR)
+       set(install_destination ${CMAKE_INSTALL_LIBDIR})
+     endif()
+-    install(TARGETS ${binary} LIBRARY DESTINATION ${install_destination})
++    install(TARGETS ${binary} ARCHIVE DESTINATION ${install_destination})
+   endif()
+ endfunction(dd4hep_add_plugin)
+ 
