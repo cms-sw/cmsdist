@@ -3,6 +3,7 @@ Source: http://lcgapp.cern.ch/project/simu/HepMC/download/HepMC-%realversion.tar
 Patch0: hepmc-2.03.06-reflex
 Patch1: hepmc-2.06.07-WeightContainer-fix-size_type
 Patch2: HepMC-2.06.07-nodoc
+Patch3: HepMC-2.06.07-pyinit
 
 Requires: autotools
 
@@ -14,6 +15,7 @@ Requires: autotools
 %patch0 -p0
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 F77="$(which gfortran) -fPIC"
 CXX="$(which g++) -fPIC"
