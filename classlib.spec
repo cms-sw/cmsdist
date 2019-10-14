@@ -16,10 +16,13 @@ curl -L -k -s -o ./cfg/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.
 curl -L -k -s -o ./cfg/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
 chmod +x ./cfg/config.{sub,guess}
 
-./configure --prefix=%i                         \
-  --with-pcre-includes=$PCRE_ROOT/include       \
+./configure --prefix=%i           \
+  --without-zlib --without-bz2lib \
+  --without-lzma --without-lzo \
+  --with-pcre-includes=$PCRE_ROOT/include \
   --with-pcre-libraries=$PCRE_ROOT/lib
 
+perl -p -i -e 's|-lz | |;s|-lbz2| |;s|-lcrypto| |;s|-llzma||' Makefile
 perl -p -i -e '
   s{-llzo2}{}g;
   !/^\S+: / && s{\S+LZO((C|Dec)ompressor|Constants|Error)\S+}{}g' \
