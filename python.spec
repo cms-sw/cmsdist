@@ -1,12 +1,12 @@
-### RPM external python 2.7.15
+### RPM external python 2.7.16
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib
 ## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib/python%{python_major_version}/site-packages
 ## INITENV SETV PYTHONHASHSEED random
 # OS X patches and build fudging stolen from fink
 %{expand:%%define python_major_version %(echo %realversion | cut -d. -f1,2)}
-
-Requires: expat bz2lib db6 gdbm openssl libffi
+Provides: python(abi)
+Requires: expat bz2lib db6 gdbm libffi
 Requires: zlib sqlite
 
 # FIXME: readline, crypt 
@@ -50,7 +50,7 @@ done
 
 mkdir -p %{i}/{include,lib,bin}
 
-dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB6_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} ${LIBFFI_ROOT} ${ZLIB_ROOT} ${SQLITE_ROOT}"
+dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB6_ROOT} ${GDBM_ROOT} ${LIBFFI_ROOT} ${ZLIB_ROOT} ${SQLITE_ROOT}"
 
 # We need to export it because setup.py now uses it to determine the actual
 # location of DB4, this was needed to avoid having it picked up from the system.
@@ -184,18 +184,6 @@ cp %{SOURCE1} %{i}/share/valgrind/valgrind-python.supp
 # Remove .pyo files
 find %i -name '*.pyo' -exec rm {} \;
 
-# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
-mkdir -p %i/etc/profile.d
-: > %i/etc/profile.d/dependencies-setup.sh
-: > %i/etc/profile.d/dependencies-setup.csh
-for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
-  root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
-  if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
-    echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-    echo "test \$?$root != 0 || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
-  fi
-done
-
 echo "from os import environ" > %i/lib/python2.7/sitecustomize.py
 echo "if 'PYTHON27PATH' in environ:" >> %i/lib/python2.7/sitecustomize.py
 echo "   import os,site" >> %i/lib/python2.7/sitecustomize.py
@@ -206,4 +194,3 @@ echo "       site.addsitedir(p)">> %i/lib/python2.7/sitecustomize.py
 %post
 %{relocateConfig}lib/python2.7/config/Makefile
 %{relocateConfig}lib/python2.7/_sysconfigdata.py
-%{relocateConfig}etc/profile.d/dependencies-setup.*sh

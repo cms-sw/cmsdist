@@ -1,16 +1,31 @@
-### RPM external zlib 1.0
-%ifarch x86_64
-Requires: zlib-x86_64
-%define ZLIB_PKG ZLIB_X86_64
-%else
-Requires: zlib-non-x86_64
-%define ZLIB_PKG ZLIB_NON_X86_64
-%endif
+### RPM external zlib 1.2.11
+%define git_repo cms-externals
+%define git_branch cms/v1.2.11
+%define git_commit 822f7f5a8c57802faf8bbfe16266be02eff8c2e2
+Source0: git://github.com/%{git_repo}/zlib.git?obj=%{git_branch}/%{git_commit}&export=zlib-%{realversion}&output=/zlib-%{realversion}.tgz
 
 %prep
-%build
-%install
-%post
-cp ${RPM_INSTALL_PREFIX}/%{cmsplatf}/$(echo %{directpkgreqs} | tr ' ' '\n' | grep /zlib-)/etc/profile.d/init.* ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d
-sed -i -e 's|%{ZLIB_PKG}_|ZLIB_|' ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d/init.*
+%setup -n zlib-%{realversion}
 
+%build
+
+case %{cmsplatf} in
+   *_amd64_*|*_mic_*)
+     CFLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1 -msse3" \
+     ./configure --prefix=%{i}
+     ;;
+   *_armv7hl_*|*_aarch64_*|*_ppc64le_*|*_ppc64_*)
+     CFLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1" \
+     ./configure --prefix=%{i}
+     ;;
+   *)
+     ./configure --prefix=%{i}
+     ;;
+esac
+
+make %{makeprocesses}
+
+# Strip libraries, we are not going to debug them.
+%define strip_files %{i}/lib
+# Look up documentation online.
+%define drop_files %{i}/share

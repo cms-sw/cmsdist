@@ -1,14 +1,13 @@
-### RPM external rpm 4.13.0.1
+### RPM external rpm 4.15.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV SET RPM_CONFIGDIR %{i}/lib/rpm
 ## INITENV SET RPM_POPTEXEC_PATH %{i}/bin
 ## NOCOMPILER
 
-%define ismac %(case %{cmsplatf} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 # Warning! While rpm itself seems to work, at the time of writing it
 # does not seem to be possible to build apt-rpm with 
-%define tag c833595dbf3016971c1987f14641f99e37539779
-%define branch cms/rpm-4.13.0.1-release
+%define tag 48c04ee8077fbba1a0001968f2794cbaeb54f15c
+%define branch cms/rpm-%{realversion}-release
 %define github_user cms-externals
 %define github_repo rpm-upstream
 Source: git+https://github.com/%{github_user}/%{github_repo}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
@@ -16,11 +15,6 @@ Source: git+https://github.com/%{github_user}/%{github_repo}.git?obj=%{branch}/%
 Requires: bootstrap-bundle
 BuildRequires: autotools
 BuildRequires: gcc
-
-# Defaults here
-%if %ismac
-Provides: Kerberos
-%endif
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -31,7 +25,7 @@ Provides: Kerberos
 autoreconf -fiv
 
 case %cmsplatf in
-  slc*_amd64|*_mic_*)
+  slc*_amd64|cc*_amd64)
     CFLAGS_PLATF="-fPIC"
     LIBS_PLATF="-ldl"
   ;;
@@ -53,14 +47,12 @@ USER_CXXFLAGS="-ggdb -O0"
 # On SLCx add $GCC_ROOT to various paths because that's where elflib is to be
 # found.  Not required (and triggers a warning about missing include path) on
 # mac.
-case "%{cmsplatf}" in
-  slc*|fc*)
+%ifos linux
     OS_CFLAGS="-I$GCC_ROOT/include"
     OS_CXXFLAGS="-I$GCC_ROOT/include"
     OS_CPPFLAGS="-I$GCC_ROOT/include"
     OS_LDFLAGS="-L$GCC_ROOT/lib"
-    ;;
-esac
+%endif
 
 perl -p -i -e's|-O2|-O0|' ./configure
 
@@ -83,11 +75,8 @@ export __PYTHON="/usr/bin/env python"
 #               s|-lselinux||;
 #" `find . -name \*.in` 
 
-perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|" scripts/get_magic.pl \
-                                                      scripts/rpmdiff.cgi \
-                                                      scripts/cpanflute2 \
-                                                      scripts/perldeps.pl \
-                                                      db/dist/camelize.pl 
+perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|"     $(grep -R '#! */usr/bin/perl' . | sed 's|:.*||' | sort | uniq)
+perl -p -i -e "s|#\!.*python(.*)|#!/usr/bin/env python$1|" $(grep -R '#! */usr/bin/python' . | sed 's|:.*||' | sort | uniq)
 
 %install
 make install
@@ -131,31 +120,11 @@ perl -p -i -e 's|^#[!]/usr/bin/perl(.*)|#!/usr/bin/env perl$1|' \
 
 mkdir -p %{instroot}/%{cmsplatf}/var/spool/repackage
 
-# Generates the dependencies-setup.sh/dependencies-setup.csh which is
-# automatically sourced by init.sh/init.csh, providing the environment for all
-# the dependencies.
-mkdir -p %{i}/etc/profile.d
-
-echo '#!/bin/sh' > %{i}/etc/profile.d/dependencies-setup.sh
-echo '#!/bin/tcsh' > %{i}/etc/profile.d/dependencies-setup.csh
-echo requiredtools `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
-for tool in `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
-do
-    case X$tool in
-        Xdistcc|Xccache )
-        ;;
-        * )
-            toolcap=`echo $tool | tr a-z- A-Z_`
-            eval echo ". $`echo ${toolcap}_ROOT`/etc/profile.d/init.sh" >> %{i}/etc/profile.d/dependencies-setup.sh
-            eval echo "source $`echo ${toolcap}_ROOT`/etc/profile.d/init.csh" >> %{i}/etc/profile.d/dependencies-setup.csh
-        ;;
-    esac
-done
-
-perl -p -i -e 's|\. /etc/profile\.d/init\.sh||' %{i}/etc/profile.d/dependencies-setup.sh
-perl -p -i -e 's|source /etc/profile\.d/init\.csh||' %{i}/etc/profile.d/dependencies-setup.csh
-
 perl -p -i -e 's|.[{]prefix[}]|%instroot|g' %{i}/lib/rpm/macros
+
+#Disabled pythondist requirement checks; we use pip checks to make sure the
+#dependencies are satisfied
+perl -p -i -e 's|^%%__pythondist_requires.*|%%__pythondist_requires true|' %{i}/lib/rpm/fileattrs/pythondist.attr
 
 # Remove some of the path macros defined in macros since they could come from
 # different places (e.g. from system or from macports) and this would lead to
@@ -167,6 +136,9 @@ done
 
 ln -sf rpm %i/bin/rpmverify
 ln -sf rpm %i/bin/rpmquery
+
+mkdir -p %{i}/etc/profile.d
+echo "test X\$BOOTSTRAP_BUNDLE_ROOT != X || . $BOOTSTRAP_BUNDLE_ROOT/etc/profile.d/init.sh" > %{i}/etc/profile.d/dependencies-setup.sh
 
 %post
 %{relocateRpmFiles} $(grep -I -r %cmsroot $RPM_INSTALL_PREFIX/%pkgrel | cut -d: -f1 | sort | uniq)

@@ -10,7 +10,6 @@ Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&expo
 
 BuildRequires: cmake
 Requires: zlib
-Requires: openssl
 Requires: python python3
 Requires: libxml2
 
@@ -29,7 +28,6 @@ perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonPrepareS
 # By default xrootd has perl, fuse, krb5, readline, and crypto enabled. 
 # libfuse and libperl are not produced by CMSDIST.
 CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX=%{i} \
-  -DOPENSSL_ROOT_DIR:PATH=${OPENSSL_ROOT} \
   -DZLIB_ROOT:PATH=${ZLIB_ROOT} \
   -DENABLE_PYTHON=FALSE \
   -DENABLE_FUSE=FALSE \

@@ -23,8 +23,8 @@ for sty in ./doc/*.sty; do cp ${sty} ./data/texmf/tex/latex/${sty:6:-4}; done
 
 # Update config.{guess,sub} to detect aarch64 and ppc64le
 rm -f %{_tmppath}/config.{sub,guess}
-curl -L -k -s -o %{_tmppath}/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
-curl -L -k -s -o %{_tmppath}/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+%get_config_guess %{_tmppath}/config.guess
+%get_config_sub %{_tmppath}/config.sub
 for CONFIG_GUESS_FILE in $(find $RPM_BUILD_DIR -name 'config.guess')
 do
   rm -f $CONFIG_GUESS_FILE

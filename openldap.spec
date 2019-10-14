@@ -1,7 +1,7 @@
 ### RPM external openldap 2.4.45
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 Source: ftp://ftp.openldap.org/pub/OpenLDAP/%{n}-release/%{n}-%{realversion}.tgz
-Requires: openssl db6
+Requires: db6
 
 %prep
 %setup -q -n %{n}-%{realversion}
@@ -9,8 +9,8 @@ Requires: openssl db6
 %build
 # Update for AArch64 support
 rm -f ./build/config.{sub,guess}
-curl -L -k -s -o ./build/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
-curl -L -k -s -o ./build/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+%get_config_sub ./build/config.sub
+%get_config_guess ./build/config.guess
 chmod +x ./build/config.{sub,guess}
 
 ./configure \
@@ -19,8 +19,8 @@ chmod +x ./build/config.{sub,guess}
   --with-tls=openssl \
   --disable-static \
   --disable-slapd \
-  CPPFLAGS="-I${OPENSSL_ROOT}/include -I${DB6_ROOT}/include" \
-  LDFLAGS="-L${OPENSSL_ROOT}/lib -L${DB6_ROOT}/lib"
+  CPPFLAGS="-I${DB6_ROOT}/include" \
+  LDFLAGS="-L${DB6_ROOT}/lib"
 make depend
 make
 

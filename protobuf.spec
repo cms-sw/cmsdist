@@ -25,21 +25,16 @@ BuildRequires: autotools
 %build
 ./autogen.sh
 # Update to detect aarch64 and ppc64le
-rm -f ./config.{sub,guess}
-curl -L -k -s -o ./config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
-curl -L -k -s -o ./config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+rm -f ./config.{sub,guess} ./gmock/gtest/build-aux/config.{sub,guess} ./gmock/build-aux/config.{sub,guess}
+%get_config_sub ./config.sub
+%get_config_guess ./config.guess
 chmod +x ./config.{sub,guess}
 
+cp ./config.sub   ./gmock/gtest/build-aux/config.sub
+cp ./config.guess ./gmock/gtest/build-aux/config.guess
+cp ./config.sub   ./gmock/build-aux/config.sub
+cp ./config.guess ./gmock/build-aux/config.guess
 
-rm -f ./gmock/gtest/build-aux/config.{sub,guess}
-curl -L -k -s -o ./gmock/gtest/build-aux/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
-curl -L -k -s -o ./gmock/gtest/build-aux/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
-chmod +x ./gmock/gtest/build-aux/config.{sub,guess}
-
-rm -f ./gmock/build-aux/config.{sub,guess}
-curl -L -k -s -o ./gmock/build-aux/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
-curl -L -k -s -o ./gmock/build-aux/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
-chmod +x ./gmock/build-aux/config.{sub,guess}
 ./configure --prefix %{i} \
     --disable-static \
     --disable-dependency-tracking \

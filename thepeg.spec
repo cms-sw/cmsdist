@@ -36,8 +36,8 @@ PLATF_CONF_OPTS="--enable-shared --disable-static"
 
 # Update to detect aarch64 and ppc64le
 rm -f ./Config/config.{sub,guess}
-curl -L -k -s -o ./Config/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
-curl -L -k -s -o ./Config/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+%get_config_sub ./Config/config.sub
+%get_config_guess ./Config/config.guess
 chmod +x ./Config/config.{sub,guess}
 
 sed -i -e "s|-lgslcblas|-lopenblas|" ./configure

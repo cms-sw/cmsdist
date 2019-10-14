@@ -4,21 +4,23 @@
 
 Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
-Requires: expat openssl pacparser python zlib
+Requires: expat pacparser python zlib
 
 Patch0: frontier_client-2.8.20-add-python-dbapi
+Patch1: frontier_client-2.8.20-openssl11
 
 %prep
 %setup -n %{n}__%{realversion}__src
 
-%define makeargs "EXPAT_DIR=${EXPAT_ROOT} PACPARSER_DIR=${PACPARSER_ROOT} COMPILER_TAG=gcc_$(gcc -dumpversion) ZLIB_DIR=${ZLIB_ROOT}  OPENSSL_DIR=${OPENSSL_ROOT}"
+%define makeargs "EXPAT_DIR=${EXPAT_ROOT} PACPARSER_DIR=${PACPARSER_ROOT} COMPILER_TAG=gcc_$(gcc -dumpversion) ZLIB_DIR=${ZLIB_ROOT}"
 
 %patch0 -p1
+%patch1 -p1
 
 %build
 
 export MAKE_ARGS=%{makeargs}
-make $MAKE_ARGS CXXFLAGS="-ldl" CFLAGS="-I${OPENSSL_ROOT}/include"
+make $MAKE_ARGS CXXFLAGS="-ldl" CFLAGS=""
 
 %install
 mkdir -p %i/lib

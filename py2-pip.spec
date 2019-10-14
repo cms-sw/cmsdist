@@ -13,27 +13,11 @@ Requires: python py2-setuptools python3
 
 %build
 python3 setup.py build
-python setup.py build
+python2 setup.py build
 
 %install
 python3 setup.py install --single-version-externally-managed --record=/dev/null  --prefix=%{i}
-python setup.py install --single-version-externally-managed --record=/dev/null  --prefix=%{i}
+python2 setup.py install --single-version-externally-managed --record=/dev/null  --prefix=%{i}
 %{relocatePy3SitePackages}
 %{relocatePy2SitePackages}
 perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
-
-# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
-mkdir -p %i/etc/profile.d
-: > %i/etc/profile.d/dependencies-setup.sh
-: > %i/etc/profile.d/dependencies-setup.csh
-for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
-  root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
-  if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
-    echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-    echo "test \$?$root != 0 || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
-  fi
-done
-
-%post
-%{relocateConfig}etc/profile.d/dependencies-setup.sh
-%{relocateConfig}etc/profile.d/dependencies-setup.csh

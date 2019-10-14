@@ -1,6 +1,6 @@
-### RPM external bootstrap-driver 24.0
+### RPM external bootstrap-driver 30.0
 ## NOCOMPILER
-
+Source: cmsos
 Requires: rpm
 
 #danger! cms-common version is now hardwired below (and in bootstrap.file)
@@ -8,6 +8,7 @@ Requires: rpm
 %prep
 %build
 %install
+cp %{_sourcedir}/cmsos %{i}/
 packageList=""
 echo requiredtools `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
 for tool in `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
@@ -27,6 +28,29 @@ done
 
 
 case %cmsplatf in
+cc* )
+  cc8_amd64_packagesWithProvides="libGL"
+  cc8_amd64_platformSeeds="
+    automake bash bzip2 bzip2-libs bzip2-devel coreutils-single e2fsprogs e2fsprogs-libs
+    file file-libs fontconfig freetype gcc-c++ git glibc krb5-libs libaio
+    libcom_err libgomp libICE libidn
+    libSM libX11 libX11-devel libxcrypt libXcursor libXext
+    libXext-devel libXft libXft-devel libXi libXinerama
+    libXmu libXpm libXpm-devel libXrandr libXrender
+    libglvnd-opengl mesa-libGL mesa-libGLU mesa-libGLU-devel
+    java-1.8.0-openjdk-devel libtool m4 make
+    ncurses ncurses-libs nspr nss nss-devel nss-util
+    openssl openssl-devel openssl-libs
+    perl perl-interpreter perl-libs
+    perl-Carp perl-CGI perl-constant perl-Data-Dumper perl-DBI
+    perl-Digest-MD5 perl-Encode perl-Env perl-Exporter perl-ExtUtils-Embed
+    perl-File-Path perl-File-Temp perl-Getopt-Long perl-IO perl-libnet
+    perl-Memoize perl-PathTools perl-Scalar-List-Utils perl-Socket perl-Storable
+    perl-Term-ANSIColor perl-Test-Harness perl-Text-ParseWords perl-Thread-Queue
+    perl-Time-HiRes perl-Time-Local perl-YAML
+    patch popt popt-devel python2 readline rpm-build
+    rsync tcl tcsh tk wget which zlib zsh"
+  ;;
 slc*)
   # Backward compatible seeds, so that old bootstrap does not suddenly stop working.
   platformSeeds="glibc glibc-32bit coreutils bash tcsh zsh pdksh perl
@@ -218,7 +242,7 @@ case %cmsplatf in
 
     ;;
     # Required to get slc5_amd64_gcc434 work on slc6.
-    slc* )
+    slc*|cc* )
         additionalProvides="perl(CGI)"
     ;;
 esac
@@ -233,48 +257,19 @@ defaultPkgs="cms+cms-common+1.0"
 mkdir -p %{i}/etc/profile.d
 (echo "rpm_version=$RPM_VERSION"; \
  echo "platformSeeds=\"$platformSeeds\""; \
- echo "unsupportedSeeds=\"$unsupportedSeeds\""; \
- echo "fc18_armv7hl_platformSeeds=\"$fc18_armv7hl_platformSeeds\""; \
- echo "fc19_armv7hl_platformSeeds=\"$fc19_armv7hl_platformSeeds\""; \
- echo "fc19_aarch64_platformSeeds=\"$fc19_aarch64_platformSeeds\""; \
- echo "slc6_amd64_platformSeeds=\"$slc6_amd64_platformSeeds\""; \
- echo "slc7_amd64_platformSeeds=\"$slc7_amd64_platformSeeds\""; \
- echo "slc7_aarch64_platformSeeds=\"$slc7_aarch64_platformSeeds\""; \
- echo "slc7_ppc64le_platformSeeds=\"$slc7_ppc64le_platformSeeds\""; \
- echo "fc22_ppc64le_platformSeeds=\"$fc22_ppc64le_platformSeeds\""; \
- echo "fc22_ppc64_platformSeeds=\"$fc22_ppc64_platformSeeds\""; \
- echo "fc24_amd64_platformSeeds=\"$fc24_amd64_platformSeeds\""; \
- echo "fc24_ppc64le_platformSeeds=\"$fc24_ppc64le_platformSeeds\""; \
- echo "fc24_ppc64_platformSeeds=\"$fc24_ppc64_platformSeeds\""; \
+ echo "%{cmsos}_platformSeeds=\"$%{cmsos}_platformSeeds\""; \
+ echo "%{cmsos}_packagesWithProvides=\"$%{cmsos}_packagesWithProvides\""; \
  echo "packageList=\"`echo $packageList`\""; \
  echo "additionalProvides=\"$additionalProvides\""; \
- echo "unsupportedProvides=\"$unsupportedProvides\""; \
  echo "defaultPkgs=\"$defaultPkgs\""; \
 ) > %{i}/%{cmsplatf}-driver.txt
 
 (echo "rpm_version=$RPM_VERSION"; \
  echo "platformSeeds=\"$platformSeeds $compPackages\""; \
- echo "unsupportedSeeds=\"$unsupportedSeeds\""; \
- echo "fc18_armv7hl_platformSeeds=\"$fc18_armv7hl_platformSeeds\""; \
- echo "fc19_armv7hl_platformSeeds=\"$fc19_armv7hl_platformSeeds\""; \
- echo "fc19_aarch64_platformSeeds=\"$fc19_aarch64_platformSeeds\""; \
- echo "slc6_amd64_platformSeeds=\"$slc6_amd64_platformSeeds $slc6_compPackages\""; \
- echo "slc7_amd64_platformSeeds=\"$slc7_amd64_platformSeeds\""; \
- echo "slc7_aarch64_platformSeeds=\"$slc7_aarch64_platformSeeds\""; \
- echo "slc7_ppc64le_platformSeeds=\"$slc7_ppc64le_platformSeeds\""; \
- echo "fc22_ppc64le_platformSeeds=\"$fc22_ppc64le_platformSeeds\""; \
- echo "fc22_ppc64_platformSeeds=\"$fc22_ppc64_platformSeeds\""; \
- echo "fc24_amd64_platformSeeds=\"$fc24_amd64_platformSeeds\""; \
- echo "fc24_ppc64le_platformSeeds=\"$fc24_ppc64le_platformSeeds\""; \
- echo "fc24_ppc64_platformSeeds=\"$fc24_ppc64_platformSeeds\""; \
+ echo "%{cmsos}_platformSeeds=\"$%{cmsos}_platformSeeds\""; \
+ echo "%{cmsos}_packagesWithProvides=\"$%{cmsos}_packagesWithProvides\""; \
  echo "packageList=\"`echo $packageList`\""; \
  echo "additionalProvides=\"$additionalProvides\""; \
- echo "unsupportedProvides=\"$unsupportedProvides\""; \
  echo "defaultPkgs=\"$defaultPkgs\""; \
 ) > %{i}/%{cmsplatf}-driver-comp.txt
 
-# FIXME: Hack to make sure that the cms-common package is named correctly in the driver file.
-# We should make sure that the $PACKAGE_CATEGORY variable is used (requires changes to cmsBuild.sh which
-# I don't want to do at this point.
-perl -p -i -e 's|external[+]cms-common|cms+cms-common|g' %{i}/%{cmsplatf}-driver.txt
-perl -p -i -e 's|external[+]cms-common|cms+cms-common|g' %{i}/%{cmsplatf}-driver-comp.txt

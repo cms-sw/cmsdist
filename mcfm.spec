@@ -6,8 +6,6 @@
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
-%define isaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 1 ;; (*) echo 0 ;; esac)
-
 Patch0: mcfm-6.3-opt-for-size
 
 Requires: root
@@ -17,10 +15,9 @@ Requires: root
 
 # This patch is needed as workaround for GCC PR63304
 # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=63304
-%if 0%{isaarch64}
+%ifarch aarch64
 %patch0 -p1
 %endif
-#sed -i -e 's|gfortran|gfortran -std=legacy|' makefile QCDLoop/makefile
 
 %build
 mkdir -p obj

@@ -4,9 +4,6 @@ Source: none
 
 %define BaseTool %(echo %n | tr '[a-z-]' '[A-Z_]')
 
-%define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
-%define isnotarmv7 %(case %{cmsplatf} in (*armv7*) echo 0 ;; (*) echo 1 ;; esac)
-
 Requires: data-CondTools-SiPhase2Tracker
 Requires: data-PhysicsTools-PatUtils
 Requires: data-RecoTauTag-TrainingFiles
@@ -64,15 +61,12 @@ Requires: data-RecoHGCal-TICL
 Requires: data-SimG4CMS-HGCalTestBeam
 Requires: data-SimPPS-PPSPixelDigiProducer
 
-%if %isnotonline
-# extra data dependencies for standard builds
 Requires: data-FastSimulation-MaterialEffects
 Requires: data-SimG4CMS-Calo
 Requires: data-SimG4CMS-Forward
 Requires: data-Validation-Geometry
 Requires: data-Fireworks-Geometry
 Requires: data-GeneratorInterface-ReggeGribovPartonMCInterface
-%endif
 
 %prep
 

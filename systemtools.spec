@@ -2,8 +2,6 @@
 ## NOCOMPILER
 Source: none
 
-%define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
-%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 %if "%{?use_system_gcc:set}" == "set"
 %define compilertools ccompiler cxxcompiler f77compiler
@@ -30,15 +28,14 @@ mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/sockets.xml
   <tool name="sockets" version="%sockets_version">
 EOF_TOOLFILE
-%if %islinux
+%ifos linux
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/sockets.xml
-    <lib name="nsl"/>
     <lib name="crypt"/>
     <lib name="dl"/>
     <lib name="rt"/>
 EOF_TOOLFILE
 %endif
-%if %isdarwin
+%ifarch darwin
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/sockets.xml
     <lib name="dl"/>
 EOF_TOOLFILE
@@ -53,7 +50,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/opengl.xml
     <use name="x11"/>
     <environment name="ORACLE_ADMINDIR" default="@ORACLE_ENV_ROOT@/etc"/>
 EOF_TOOLFILE
-%if %isdarwin
+%ifarch darwin
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/opengl.xml
     <client>
       <environment name="OPENGL_BASE" default="/System/Library/Frameworks/OpenGL.framework/Versions/A"/>
@@ -68,7 +65,7 @@ echo "  </tool>" >>%i/etc/scram.d/opengl.xml
 cat << \EOF_TOOLFILE >%i/etc/scram.d/x11.xml
   <tool name="x11" version="%x11_version">
 EOF_TOOLFILE
-%if %isdarwin
+%ifarch darwin
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/x11.xml
     <client>
       <environment name="INCLUDE" value="/usr/X11R6/include"/>

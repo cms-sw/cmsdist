@@ -1,9 +1,6 @@
 ### RPM external sherpa-toolfile 2.0
 Requires: sherpa
 
-%define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
-%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
-
 %prep
 
 %build
@@ -35,11 +32,11 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/sherpa.xml
   <use name="fastjet"/>
   <use name="sqlite"/>
   <use name="openmpi"/>
-%if %islinux
+%ifos linux
 %ifnarch ppc64le
   <use name="openloops"/>
-%endif # isamd64
-%endif # islinux
+%endif
+%endif
 </tool>
 EOF_TOOLFILE
 

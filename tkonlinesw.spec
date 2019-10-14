@@ -75,7 +75,7 @@ export ENV_CMS_TK_TTC_ROOT=%{i}/dummy/Linux
 # External Dependencies
 ################################################################################
 case %cmsos in 
-  slc*)
+  slc*|cc*)
     export XDAQ_OS=linux
     export XDAQ_PLATFORM=x86_slc4
   ;;
@@ -94,7 +94,7 @@ export XDAQ_ROOT
 # Configure
 ################################################################################
 case %cmsos in
-  slc*)
+  slc*|cc*)
     chmod +x ./configure && ./configure --with-xdaq-platform=x86_64
     cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure --with-xdaq-platform=x86_64 && cd -
     cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure --with-xdaq-platform=x86_64 && cd -
@@ -111,7 +111,7 @@ export CPPFLAGS="-fPIC"
 export CFLAGS="-O2 -fPIC"
 export CXXFLAGS="-O2 -fPIC"
 case %cmsos in 
-  slc*)
+  slc*|cc*)
     make cmssw
     make cmsswinstall
   ;;
@@ -138,7 +138,7 @@ esac
 %install
 # Again, installing is actually done by make install on macosx.
 case %cmsos in
-  slc*)
+  slc*|cc*)
     # Option --prefix in configure is not working yet, using tar:
     tar -c -C  %{_builddir}/%{releasename}/opt/%{projectname} include lib | tar -x -C %{i}
   ;;

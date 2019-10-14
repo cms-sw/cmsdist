@@ -12,7 +12,6 @@ BuildRequires: autotools
 
 %define keep_archives true
 
-%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 %prep
 %setup -q -n %{n}/%{realversion}
@@ -30,6 +29,6 @@ make
 %install
 make install
 
-%if %isdarwin
+%ifarch darwin
 find %i/lib -name "*.dylib" -exec install_name_tool -change '../lib/libHEPEvent.dylib' 'libHEPEvent.dylib' {} \;
 %endif

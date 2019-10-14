@@ -1,34 +1,19 @@
-### RPM external git 2.19.0
+### RPM external git 2.23.0
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH PATH %{i}/libexec/git-core
 ## INITENV SET GIT_TEMPLATE_DIR %{i}/share/git-core/templates
 ## INITENV SET GIT_SSL_CAINFO %{i}/share/ssl/certs/ca-bundle.crt
 ## INITENV SET GIT_EXEC_PATH %{i}/libexec/git-core
 
-%define isDarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
-%define isNotDarwin %(case %{cmsos} in (osx*) echo 0 ;; (*) echo 1 ;; esac)
-%define isLinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
-
 Source0: https://github.com/git/git/archive/v%{realversion}.tar.gz
 Source1: https://raw.github.com/bagder/curl/curl-7_59_0/lib/mk-ca-bundle.pl
 Patch1: git-2.19.0-runtime
 
-Requires: curl expat openssl zlib pcre
+Requires: curl expat zlib pcre2
 BuildRequires: autotools
-
-# Fake provides for git add --interactive
-# The following are not avaialble on SLC and Darwin platforms by default
-Provides: perl(DBI)
-Provides: perl(Error)
 Provides: perl(SVN::Core)
 Provides: perl(SVN::Delta)
 Provides: perl(SVN::Ra)
-Provides: perl(YAML::Any)
-Provides: perl(CGI::Carp)
-Provides: perl(CGI::Util)
-Provides: perl(Time::HiRes)
-Provides: perl(Encode)
-Provides: perl(Scalar::Util)
 
 %define drop_files %{i}/share/man
 
@@ -37,14 +22,13 @@ Provides: perl(Scalar::Util)
 %patch1 -p1
 
 %build
-export LDFLAGS="-L${OPENSSL_ROOT}/lib"
+export LDFLAGS=""
 export NO_LIBPCRE1_JIT=1
 make %{makeprocesses} configure
 ./configure prefix=%{i} \
    --with-curl=${CURL_ROOT} \
-   --with-openssl=${OPENSSL_ROOT} \
    --with-expat=${EXPAT_ROOT} \
-   --with-libpcre=${PCRE_ROOT} \
+   --with-libpcre=${PCRE2_ROOT} \
    --without-python \
    --with-zlib=${ZLIB_ROOT}
    

@@ -10,15 +10,13 @@ Source: git+https://github.com/%{github_user}/fastjet.git?obj=%{branch}/%{tag}&e
 %setup -n %{n}-%{realversion}
 
 # Update to detect aarch64 and ppc64le
-rm -f ./config.{sub,guess}
-curl -L -k -s -o ./config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
-curl -L -k -s -o ./config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+rm -f ./config.{sub,guess} ./plugins/SISCone/siscone/config.{sub,guess}
+%get_config_sub ./config.sub
+%get_config_guess ./config.guess
 chmod +x ./config.{sub,guess}
 
-rm -f ./plugins/SISCone/siscone/config.{sub,guess}
-curl -L -k -s -o ./plugins/SISCone/siscone/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
-curl -L -k -s -o ./plugins/SISCone/siscone/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
-chmod +x ./plugins/SISCone/siscone/config.{sub,guess}
+cp ./config.sub   ./plugins/SISCone/siscone/config.sub
+cp ./config.guess ./plugins/SISCone/siscone/config.guess
 
 CXXFLAGS="-O3 -Wall -ffast-math -ftree-vectorize"
 

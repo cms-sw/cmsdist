@@ -4,7 +4,6 @@ Source: https://github.com/dpiparo/%{n}/archive/v%{realversion}.tar.gz
 
 BuildRequires: cmake
 
-%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 
 %define keep_archives true
 
@@ -12,7 +11,7 @@ BuildRequires: cmake
 %setup -q -n %{n}-%{realversion}
 
 %build
-%if %isamd64
+%ifarch x86_64
 cmake . \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DPRELOAD:BOOL=ON \

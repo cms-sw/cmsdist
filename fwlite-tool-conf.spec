@@ -4,10 +4,6 @@
 # tool is added
 ## INITENV SET CMSSW_TOOL_CONF_ROOT $FWLITE_TOOL_CONF_ROOT
 
-%define isslc %(case %{cmsos} in (slc*) echo 1 ;; (*) echo 0 ;; esac)
-%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
-%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
-
 Requires: tbb-toolfile
 Requires: boost-toolfile
 Requires: bz2lib-toolfile
@@ -50,14 +46,8 @@ Requires: OpenBLAS-toolfile
 Requires: py2-pybind11-toolfile
 Requires: fwlite_python_tools
 
-%if %isamd64
-%if %isslc
-Requires: glibc-toolfile
-%endif
-%endif
-
 # Only for Darwin platform.
-%if %isdarwin
+%ifarch darwin
 Requires: freetype-toolfile
 %endif
 

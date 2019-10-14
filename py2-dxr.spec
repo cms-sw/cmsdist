@@ -2,7 +2,6 @@
 ## INITENV +PATH PYTHON27PATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %i/${PYTHON3_LIB_SITE_PACKAGES}
 Requires: python python3 zlib py2-setuptools py2-pysqlite llvm sqlite 
-%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define dxrCommit 6ea764102a
 %define triliteCommit e64a2a1 
 %define re2Version 20140304
@@ -43,7 +42,7 @@ mv trilite-%triliteCommit/* trilite
 # GCC + libstdc++. The ABIs are different, thus correct
 # it accordingly.
 # https://code.google.com/p/re2/issues/detail?id=99
-%if %isdarwin
+%ifarch darwin
 sed -ibak 's;__ZlsRNSt3__113basic_ostreamIcNS_11char_traitsIcEEEERKN3re211StringPieceE;__ZlsRSoRKN3re211StringPieceE;' ./trilite/re2/libre2.symbols.darwin
 %endif
 

@@ -2,29 +2,19 @@
 ## NO_AUTO_DEPENDENCY
 # FIXME: support building all platforms together like scram does?
 # FIXME: automatic sub-packages for "doc" etc?
-%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 %define cmssw_libs biglib/%{cmsplatf} lib/%{cmsplatf}
-%define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
-%define isslc6_amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
 
 Requires: SCRAMV1
 BuildRequires: gcc
 
 # For non-linux archs disable subpackageDebug otherwise add dwz.file build dependencies.
 %if "%{?subpackageDebug:set}" == "set"
-%if %islinux
+%ifos linux
 BuildRequires: dwz
 %else
 %undefine subpackageDebug
-%endif # islinux
-%endif # subpackageDebug
-
-%if %isslc6_amd64
-%if "%{?pkgname}" != "coral"
-Requires: patchelf
-Requires: glibc
-%endif # coral
-%endif # isslc6_amd64
+%endif
+%endif
 
 %define initenv	        %initenv_direct
 %define scramcmd        $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
@@ -43,11 +33,7 @@ Requires: glibc
 %endif
 
 %if "%{?scram_compiler:set}" != "set"
-%if "%mic" == "true"
-%define scram_compiler          icc
-%else
 %define scram_compiler          gcc
-%endif
 %endif
 
 %define bootstrapfile   config/bootsrc.xml
@@ -332,19 +318,6 @@ done
 %{?PatchReleaseFilesRelocate:%PatchReleaseFilesRelocate}
 %{?PartialReleaseFilesRelocate:%PartialReleaseFilesRelocate}
 [ -f $RPM_INSTALL_PREFIX/etc/scramrc/%{pkgname}.map ] || (mkdir -p $RPM_INSTALL_PREFIX/etc/scramrc && echo '%{ucprojtype}=$SCRAM_ARCH/%{pkgcategory}/%{pkgname}/%{ucprojtype}_*' > $RPM_INSTALL_PREFIX/etc/scramrc/%{pkgname}.map)
-
-%if "%{?pkgname}" != "coral"
-case %cmsplatf in
-  slc6_amd64_*)
-    PATCHELF_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/patchelf/')
-    PATCHELF_PATH=$RPM_INSTALL_PREFIX/%cmsplatf/$PATCHELF_PKG
-    CMSSW_BIN_PATH="$RPM_INSTALL_PREFIX/%pkgrel/bin/%cmsplatf $RPM_INSTALL_PREFIX/%pkgrel/test/%cmsplatf"
-    CMSSW_ELF_BIN=$(find $CMSSW_BIN_PATH -type f -exec file {} \; | grep ELF | cut -d':' -f1)
-    GLIBC_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/glibc/')
-    GLIBC_PATH=$CMS_INSTALL_PREFIX/%cmsplatf/$GLIBC_PKG
-    echo "$CMSSW_ELF_BIN" | xargs -t -n 1 -I% -P $(getconf _NPROCESSORS_ONLN) sh -c "strings % 2>&1 | grep '%{cmsplatf}/external/glibc' 2>&1 >/dev/null && $PATCHELF_PATH/bin/patchelf --set-interpreter $GLIBC_PATH/lib64/ld.so % || true"
-esac
-%endif # coral
 
 %if "%{?runGlimpse:set}" == "set"
   %{relocateConfig}.glimpse_full/.glimpse_filenames

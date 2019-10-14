@@ -2,15 +2,6 @@
 ## NOCOMPILER
 # With cmsBuild, change the above version only when a new tool is added
 
-%define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
-%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
-%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
-%define isslc %(case %{cmsplatf} in (slc*) echo 1 ;; (*) echo 0 ;; esac)
-%define isnotppc64le %(case %{cmsplatf} in (*_ppc64le_*) echo 0 ;; (*) echo 1 ;; esac)
-%define isnotppc64le_be %(case %{cmsplatf} in (*_ppc64*) echo 0 ;; (*) echo 1 ;; esac)
-%define isnotaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 0 ;; (*) echo 1 ;; esac)
-%define isslc7 %(case %{cmsplatf} in (slc7_amd64*) echo 1 ;; (*) echo 0 ;; esac)
-
 Requires: google-benchmark-toolfile
 Requires: catch2-toolfile
 Requires: starlight-toolfile
@@ -25,7 +16,6 @@ Requires: cppunit-toolfile
 Requires: curl-toolfile
 Requires: das_client-toolfile
 Requires: db6-toolfile
-Requires: dpm-toolfile
 Requires: davix-toolfile
 Requires: evtgen-toolfile
 Requires: expat-toolfile
@@ -71,7 +61,6 @@ Requires: vincia-toolfile
 Requires: dire-toolfile
 Requires: python-toolfile
 Requires: python3-toolfile
-Requires: qt-toolfile
 Requires: root-toolfile
 Requires: sherpa-toolfile
 Requires: openmpi-toolfile
@@ -89,8 +78,8 @@ Requires: dcap-toolfile
 Requires: frontier_client-toolfile
 Requires: xrootd-toolfile
 Requires: dd4hep-toolfile
-%if %isnotaarch64
-Requires: pyqt-toolfile
+%ifnarch aarch64
+#Requires: pyqt-toolfile
 %endif
 Requires: sip-toolfile
 Requires: graphviz-toolfile
@@ -98,7 +87,7 @@ Requires: valgrind-toolfile
 Requires: cmsswdata-toolfile
 Requires: zstd-toolfile
 Requires: hls-toolfile
-%if %isnotppc64le
+%ifnarch ppc64le
 Requires: onnxruntime-toolfile
 %endif
 
@@ -121,7 +110,6 @@ Requires: mctester-toolfile
 Requires: vdt-toolfile
 Requires: icc-gcc-toolfile
 Requires: ccache-gcc-toolfile
-Requires: distcc-gcc-toolfile
 Requires: gnuplot-toolfile
 Requires: sloccount-toolfile
 Requires: millepede-toolfile
@@ -129,7 +117,7 @@ Requires: cvs2git-toolfile
 Requires: pacparser-toolfile
 Requires: git-toolfile
 Requires: cgal-toolfile
-Requires: doxygen-toolfile
+#Requires: doxygen-toolfile
 Requires: yaml-cpp-toolfile
 Requires: gmp-static-toolfile
 Requires: mpfr-static-toolfile
@@ -163,13 +151,13 @@ Requires: mxnet-predict-toolfile
 Requires: mkfit-toolfile
 
 # Only for Linux platform.
-%if %islinux
+%ifos linux
 Requires: codechecker-toolfile
 Requires: gcc-checker-plugin-toolfile
 Requires: openldap-toolfile
 Requires: gperftools-toolfile
 
-%if %isnotppc64le_be
+%ifnarch ppc64le
 Requires: libunwind-toolfile
 Requires: igprof-toolfile
 Requires: cuda-toolfile
@@ -178,15 +166,11 @@ Requires: cuda-api-wrappers-toolfile
 Requires: openloops-toolfile
 %endif
 
-%if %isamd64
+%ifarch x86_64
 Requires: dmtcp-toolfile
 Requires: tkonlinesw-toolfile
 Requires: oracle-toolfile
 Requires: intel-vtune
-
-%if %isslc
-Requires: glibc-toolfile
-%endif
 %else
 Requires: tkonlinesw-fake-toolfile
 Requires: oracle-fake-toolfile

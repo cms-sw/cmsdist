@@ -1,7 +1,6 @@
 ### RPM external tensorflow-sources 1.6.0
 #Source: https://github.com/tensorflow/tensorflow/archive/v%{realversion}.tar.gz
 # NOTE: whenever the version of tensorflow changes, update it also in tensorflow-c tensorflow-cc and py2-tensorflow
-%define isslc6amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
 %define tag 6eea62c87173ad98c71f10ff2f796f6654f5b604
 %define branch cms/v%{realversion}
 %define github_user cms-externals
@@ -51,12 +50,6 @@ rm -rf ../build $TEST_TMPDIR
 sed -i -e "s|@EIGEN_SOURCE@|${EIGEN_SOURCE}|;s|@EIGEN_STRIP_PREFIX@|${EIGEN_STRIP_PREFIX}|" tensorflow/workspace.bzl tensorflow/contrib/makefile/download_dependencies.sh
 sed -i -e "s|@PROTOBUF_SOURCE@|${PROTOBUF_SOURCE}|;s|@PROTOBUF_STRIP_PREFIX@|${PROTOBUF_STRIP_PREFIX}|" tensorflow/workspace.bzl tensorflow/contrib/makefile/download_dependencies.sh
 bazel --output_user_root ../build fetch "tensorflow:libtensorflow_cc.so"
-
-#This is needed on SLC6 because the version of glibc is old
-%if %isslc6amd64
-sed -i -e 's| linkopts=\[\],| linkopts=["-lrt"],|' ../build/*/external/org_tensorflow/tensorflow/tensorflow.bzl
-sed -i -e 's|"-z defs",|"-z defs","-lrt",|' ../build/*/external/org_tensorflow/tensorflow/BUILD
-%endif
 
 sed -i -e 's|executable=ctx.executable._swig,|env=ctx.configuration.default_shell_env, executable=ctx.executable._swig,|' ../build/*/external/org_tensorflow/tensorflow/tensorflow.bzl
 sed -i -e 's|mnemonic="ProtoCompile",|env=ctx.configuration.default_shell_env, mnemonic="ProtoCompile",|' ../build/*/external/protobuf_archive/protobuf.bzl

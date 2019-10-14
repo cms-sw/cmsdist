@@ -8,6 +8,7 @@ BuildRequires: java-env
 
 %setup -q -n bazel-%{realversion}
 sed -i -e 's|^## Release 0.11.1|## Release 0.9.0|' CHANGELOG.md
+sed -i -e 's|^\( *\)supports_gold_linker *=.*|\1supports_gold_linker = False|' ./tools/cpp/unix_cc_configure.bzl
 
 %build
 bash ./compile.sh

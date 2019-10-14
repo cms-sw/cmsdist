@@ -6,6 +6,12 @@
 #built with empty buildroot.
 %define __os_install_post   %{nil}
 %define __spec_install_post %{nil}
+%define __spec_install_pre %{___build_pre}
+%define _empty_manifest_terminate_build         0
+%define _use_internal_dependency_generator     0
+%define _source_payload w9.gzdio
+%define _binary_payload w9.gzdio
+
 
 #disable running find-debuginfo.sh
 %define  debug_package %{nil}
@@ -15,7 +21,7 @@
 
 # Preliminarily define where things go.  These are the places we
 # know even without knowing the architecture yet.  In particular
-# we need %_specdir to find "cmsos" to determine the architecture.
+# we need _specdir to find "cmsos" to determine the architecture.
 # Note that we define the values all here, but some of them are
 # not actually usable until we've managed to defined %cmsplatf.
 #
@@ -77,7 +83,6 @@
 
 %define pkginstroot	%{instroot}/%{pkgrel}
 
-#define _rpmdbdir	%{cmsroot}/RPMDB
 %define _sourcedir	%{cmsroot}/SOURCES/%{pkgdir}
 %define _builddir	%{cmsroot}/BUILD/%{cmsplatf}/%{pkgdir}
 %define _specdir	%{cmsroot}/SPECS/%{pkgdir}
@@ -96,19 +101,6 @@
 
 %define _rpmfilename	%{cmsplatf}/%%{name}-%%{version}-%%{release}.%{cmsplatf}.rpm
 %define _srpmfilename	%%{name}-%%{version}-%%{release}.src.rpm
-
-
-
-# Force use of system gcc on darwin.  Set/unset as necessary -- but
-# then make sure the right compiler gets picked up in the environment
-# by setting $PATH and $LD_LIBRARY_PATH correctly.
-%ifos darwin
-%define is_darwin true
-%endif
-
-%if "%{?is_darwin:set}-%gccver" == "set-4.2.1"
-%define use_system_gcc true
-%endif
 
 # Old version of install.sh/cmsBuild.sh did not set the cmscompiler variable,
 # while cmsBuild does, in order to support compilers different other than
@@ -168,7 +160,7 @@
 %define __check_files   %{nil}
 %define debug_package   %{nil}
 
-# define ARCH %{cmsplatf}?
+# define ARCH {cmsplatf}?
 # No BuildRoot
 # No %buildsubdir
 # No Distribution:
@@ -236,12 +228,12 @@
 %define relocateCmsPkg		perl -p -i -e "s|\\Q%{instroot}\\E|%{cmsroot}|g;s|\\Q%{cmsroot}\\E|$CMS_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
 %define relocateConfig		%relocateCmsPkg
 %define relocatePy3SitePackages \
-  for py in $(grep -Rl -m1 '^#\!.*python' %{i}/${PYTHON3_LIB_SITE_PACKAGES}) ; do \
+  for py in $(grep -Rl -m1 '^#\!.*python' %{i}/${PYTHON3_LIB_SITE_PACKAGES} |  grep -v '\.pyc$') ; do \
     lnum=$(grep -n -m1 '^#\!.*python' $py | sed 's|:.*||') \
     sed -i -e "${lnum}c#!/usr/bin/env python3" $py \
   done
 %define relocatePy2SitePackages \
-  for py in $(grep -Rl -m1 '^#\!.*python' %{i}/${PYTHON_LIB_SITE_PACKAGES}) ; do \
+  for py in $(grep -Rl -m1 '^#\!.*python' %{i}/${PYTHON_LIB_SITE_PACKAGES} | grep -v '\.pyc') ; do \
     lnum=$(grep -n -m1 '^#\!.*python' $py | sed 's|:.*||') \
     sed -i -e "${lnum}c#!/usr/bin/env python" $py \
   done
@@ -278,3 +270,17 @@ if [ -f $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/.autodependencies ] ; then \
   %{relocateConfig}etc/profile.d/dependencies-setup.sh \
   %{relocateConfig}etc/profile.d/dependencies-setup.csh \
 fi
+#Some special urls to gets config.sub/cofngi.guess
+%define get_cmsrep_cache() curl -L -k -s -o %1 http://cmsrep.cern.ch/cmssw/download/%2
+%define get_config_guess() %get_cmsrep_cache %1 config/config.guess
+%define get_config_sub()   %get_cmsrep_cache %1 config/config.sub
+
+#Some help macros to check for OS and ARCH
+%define isslc     %(case %{cmsos} in (slc*|cc*)     echo 1 ;; (*) echo 0 ;; esac)
+
+#Use the following without {} e.g 'isos cc*' instead of '{isos} cc*'
+%define is_cmsos    %(case %{cmsos} in (%1_*) echo 1 ;; (*) echo 0 ;; esac)
+%define is_ncmsos   %(case %{cmsos} in (%1_*) echo 0 ;; (*) echo 1 ;; esac)
+%define is_cmsarch  %(case %{cmsos} in (*_%1) echo 1 ;; (*) echo 0 ;; esac)
+%define is_ncmsarch %(case %{cmsos} in (*_%1) echo 0 ;; (*) echo 1 ;; esac)
+

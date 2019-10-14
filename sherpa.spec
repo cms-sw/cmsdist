@@ -3,17 +3,14 @@
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
-Requires: hepmc lhapdf blackhat sqlite fastjet openssl scons python openmpi rivet
+Requires: hepmc lhapdf blackhat sqlite fastjet scons python openmpi rivet
 BuildRequires: mcfm swig
 
-%define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
-%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
-
-%if %islinux
+%ifos linux
 %ifnarch ppc64le
 Requires: openloops
-%endif # is not ppc64
-%endif # islinux
+%endif
+%endif
 
 %prep
 %setup -q -n SHERPA-MC-%{realversion}
@@ -51,8 +48,8 @@ esac
             CXX="mpicxx" \
             MPICXX="mpicxx" \
             FC="mpifort" \
-            CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF -O2 -std=c++0x -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$OPENSSL_ROOT/include -I$RIVET_ROOT/include" \
-            LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib -L$OPENSSL_ROOT/lib"
+            CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF -O2 -std=c++0x -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$RIVET_ROOT/include" \
+            LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib"
 
 make %{makeprocesses}
 
