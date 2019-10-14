@@ -51,6 +51,7 @@ Requires: lwtnn-toolfile
 Requires: mcdb-toolfile
 Requires: meschach-toolfile
 Requires: openssl-toolfile
+Requires: pcre2-toolfile
 Requires: pcre-toolfile
 Requires: photos-toolfile
 Requires: photospp-toolfile
