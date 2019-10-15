@@ -1,4 +1,4 @@
-### RPM external pcr2-toolfile 1.0
+### RPM external pcre2-toolfile 1.0
 Requires: pcre2
 %prep
 
