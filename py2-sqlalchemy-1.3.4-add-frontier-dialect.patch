@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000..5cbb3d7
 --- /dev/null
 +++ b/lib/sqlalchemy/connectors/frontier.py
-@@ -0,0 +1,25 @@
+@@ -0,0 +1,26 @@
 +# connectors/frontier.py
 +# Copyright (C) 2005-2013 the SQLAlchemy authors and contributors <see AUTHORS file>
 +#
@@ -12,6 +12,7 @@ index 0000000..5cbb3d7
 +
 +from . import Connector
 +import urllib
++import sys
 +
 +class FrontierConnector(Connector):
 +    driver = 'frontier'
