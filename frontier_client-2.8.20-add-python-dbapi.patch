@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000..ee8c7c2
 --- /dev/null
 +++ b/python/bin/frontier_simple_client.py
-@@ -0,0 +1,62 @@
+@@ -0,0 +1,63 @@
 +#!/usr/bin/env python
 +'''Simple Frontier Client built on top of the Frontier Python DBAPI 2.0
 +
@@ -17,6 +17,7 @@ index 0000000..ee8c7c2
 +    Rows:
 +       ['The result is', 3]
 +'''
++from __future__ import print_function
 +
 +__author__ = 'Miguel Ojeda'
 +__copyright__ = 'Copyright 2013, CERN'
@@ -53,15 +54,15 @@ index 0000000..ee8c7c2
 +    c = conn.cursor()
 +    c.execute(args[0], args[1:])
 +
-+    print 'Total rows = %s' % c.rowcount
++    print('Total rows = %s' % c.rowcount)
 +
-+    print 'Columns description:'
++    print('Columns description:')
 +    for (name, data_type, _, _, _, _, _) in c.description:
-+        print '   %s of type %s' % (name, data_type)
++        print('   %s of type %s' % (name, data_type))
 +
-+    print 'Rows:'
++    print('Rows:')
 +    for row in c.fetchall():
-+        print '   %s' % row
++        print('   %s' % row)
 +
 +    c.close()
 +    conn.close()
@@ -71,7 +72,7 @@ new file mode 100644
 index 0000000..c5824a1
 --- /dev/null
 +++ b/python/lib/frontier.py
-@@ -0,0 +1,471 @@
+@@ -0,0 +1,470 @@
 +'''Frontier binding for Python.
 +
 +This module follows the Python Database API Specification v2.0, PEP 249 [1],
@@ -93,7 +94,6 @@ index 0000000..c5824a1
 +__email__ = 'mojedasa@cern.ch'
 +
 +
-+import exceptions
 +import datetime
 +import time
 +import re
@@ -152,10 +152,10 @@ index 0000000..c5824a1
 +_separatorchar = ':'
 +
 +
-+class Error(exceptions.StandardError):
++class Error(Exception):
 +    pass
 +
-+class Warning(exceptions.StandardError):
++class Warning(Exception):
 +    pass
 +
 +class InterfaceError(Error):
@@ -526,7 +526,7 @@ index 0000000..c5824a1
 +def TimestampFromTicks(ticks):
 +    return Timestamp(*time.localtime(ticks)[:6])
 +
-+Binary = buffer
++Binary = memoryview
 +
 +#class STRING(object):
 +#    pass
@@ -548,7 +548,8 @@ new file mode 100644
 index 0000000..1030967
 --- /dev/null
 +++ b/python/lib/frontier_client.py
-@@ -0,0 +1,181 @@
+@@ -0,0 +1,185 @@
++from __future__ import print_function
 +'''Frontier Client thin binding.
 +
 +Please do not use this module: this module is internal, intended to simplify
@@ -635,14 +636,17 @@ index 0000000..1030967
 +    if retcode != FRONTIER_OK:
 +        raise FrontierClientError(retcode, libfc.frontier_getErrorMsg())
 +
++def frontier_getErrorMsg():
++    return libfc.frontier_getErrorMsg()
 +
 +def frontier_createChannel(serverURL = None, proxyURL = None):
 +    logger.debug('frontier_client.frontier_createChannel(serverURL = %s, proxyURL = %s)', repr(serverURL), repr(proxyURL))
 +    retcode = ctypes.c_int(FRONTIER_OK)
 +    channel = libfc.frontier_createChannel(serverURL, proxyURL, ctypes.byref(retcode))
 +    retcode = retcode.value
++    logger.debug('frontier_client.frontier_createChannel(serverURL = %s, proxyURL = %s) = %s', repr(serverURL), repr(proxyURL), channel)
 +    if retcode != FRONTIER_OK:
-+        raise FrontierClientError(retcode, libfc.frontier_getErrorMsg())
++        raise FrontierClientError(retcode, frontier_getErrorMsg())
 +    logger.debug('frontier_client.frontier_createChannel(serverURL = %s, proxyURL = %s) = %s', repr(serverURL), repr(proxyURL), channel)
 +    return channel
 +
