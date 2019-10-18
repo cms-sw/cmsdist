@@ -1,6 +1,6 @@
 diff --git a/python/bin/frontier_simple_client.py b/python/bin/frontier_simple_client.py
 new file mode 100644
-index 0000000..ee8c7c2
+index 0000000..62a4ff6
 --- /dev/null
 +++ b/python/bin/frontier_simple_client.py
 @@ -0,0 +1,63 @@
@@ -69,7 +69,7 @@ index 0000000..ee8c7c2
 +
 diff --git a/python/lib/frontier.py b/python/lib/frontier.py
 new file mode 100644
-index 0000000..c5824a1
+index 0000000..b2c8eff
 --- /dev/null
 +++ b/python/lib/frontier.py
 @@ -0,0 +1,470 @@
@@ -526,7 +526,7 @@ index 0000000..c5824a1
 +def TimestampFromTicks(ticks):
 +    return Timestamp(*time.localtime(ticks)[:6])
 +
-+Binary = memoryview
++Binary = bytearray
 +
 +#class STRING(object):
 +#    pass
@@ -545,10 +545,10 @@ index 0000000..c5824a1
 +
 diff --git a/python/lib/frontier_client.py b/python/lib/frontier_client.py
 new file mode 100644
-index 0000000..1030967
+index 0000000..4d3e70e
 --- /dev/null
 +++ b/python/lib/frontier_client.py
-@@ -0,0 +1,185 @@
+@@ -0,0 +1,182 @@
 +from __future__ import print_function
 +'''Frontier Client thin binding.
 +
@@ -636,17 +636,14 @@ index 0000000..1030967
 +    if retcode != FRONTIER_OK:
 +        raise FrontierClientError(retcode, libfc.frontier_getErrorMsg())
 +
-+def frontier_getErrorMsg():
-+    return libfc.frontier_getErrorMsg()
 +
 +def frontier_createChannel(serverURL = None, proxyURL = None):
 +    logger.debug('frontier_client.frontier_createChannel(serverURL = %s, proxyURL = %s)', repr(serverURL), repr(proxyURL))
 +    retcode = ctypes.c_int(FRONTIER_OK)
 +    channel = libfc.frontier_createChannel(serverURL, proxyURL, ctypes.byref(retcode))
 +    retcode = retcode.value
-+    logger.debug('frontier_client.frontier_createChannel(serverURL = %s, proxyURL = %s) = %s', repr(serverURL), repr(proxyURL), channel)
 +    if retcode != FRONTIER_OK:
-+        raise FrontierClientError(retcode, frontier_getErrorMsg())
++        raise FrontierClientError(retcode, libfc.frontier_getErrorMsg())
 +    logger.debug('frontier_client.frontier_createChannel(serverURL = %s, proxyURL = %s) = %s', repr(serverURL), repr(proxyURL), channel)
 +    return channel
 +
