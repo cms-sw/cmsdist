@@ -1,3 +1,16 @@
+diff --git a/DDG4/CMakeLists.txt b/DDG4/CMakeLists.txt
+index d7a97e4..55ed30f 100644
+--- a/DDG4/CMakeLists.txt
++++ b/DDG4/CMakeLists.txt
+@@ -18,7 +18,7 @@ ENDIF()
+ 
+ #---Add Library---------------------------------------------------------------------
+ file(GLOB DDG4_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+-add_library(DDG4 SHARED ${DDG4_SOURCES})
++add_library(DDG4 STATIC ${DDG4_SOURCES})
+ add_library(DD4hep::DDG4 ALIAS DDG4)
+ 
+ target_link_libraries(DDG4
 diff --git a/cmake/DD4hepBuild.cmake b/cmake/DD4hepBuild.cmake
 index 174a22a..e2b8c3a 100644
 --- a/cmake/DD4hepBuild.cmake
