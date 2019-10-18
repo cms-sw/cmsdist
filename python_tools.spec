@@ -216,7 +216,9 @@ Requires: py2-pylint
 Requires: py2-pytest-cov
 Requires: py2-wrapt
 
+%ifnarch ppc64le
 Requires: py2-pycuda
+%endif
 
 %prep
 
