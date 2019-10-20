@@ -6,7 +6,7 @@
 
 BuildRequires: cmake ninja
 Requires: gcc zlib python python3
-%ifnarch ppc64le
+%if %{isamd64}
 Requires: cuda
 %endif
 AutoReq: no
