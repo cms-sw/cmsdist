@@ -151,6 +151,7 @@ done
 
 export ROOT_INCLUDE_PATH
 export ROOTSYS="%{i}"
+export CLING_PREBUILT_MODULE_PATH=${CMSSW_BASE}/lib/slc7_amd64_gcc820
 
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
 
