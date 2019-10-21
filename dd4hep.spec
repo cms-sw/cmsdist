@@ -1,9 +1,9 @@
 ### RPM external dd4hep v01-10x
 
 
-%define tag ae82afcac3986b62049c87fe3e96e2af790f75f8
-%define branch master
-%define github_user AIDASoft
+%define tag 16527146c4fc949a5ca1c14d347f5a1b144259b9
+%define branch cms/master/94db291
+%define github_user cms-externals
 %define keep_archives true
 
 Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
