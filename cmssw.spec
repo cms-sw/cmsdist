@@ -7,7 +7,7 @@ Requires: cmssw-tool-conf python cms-git-tools
 %define branch          master
 %define gitcommit       %{realversion}
 # build with debug symbols, and package them in a separate rpm
-%define subpackageDebug yes
+#subpackage debug disabledes
 
 %if "%(case %realversion in (*_COVERAGE_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define usercxxflags    -fprofile-arcs -ftest-coverage
