@@ -36,6 +36,8 @@ make %{makeprocesses}
 %install
 cd ../build
 make %{makeprocesses} install
+perl -p -i -e 's|set\(VECGEOM_EXTERNAL_INCLUDES .*|set(VECGEOM_EXTERNAL_INCLUDES "")|' \
+  $(grep -R 'set(VECGEOM_EXTERNAL_INCLUDES ' %{i}/lib/cmake | sed 's|:.*||' | sort | uniq)
 
 %post
 %{relocateConfig}lib/cmake/USolids/*.cmake
