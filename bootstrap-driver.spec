@@ -39,7 +39,7 @@ cc* )
     libXmu libXpm libXpm-devel libXrandr libXrender
     libglvnd-opengl mesa-libGL mesa-libGLU mesa-libGLU-devel
     java-1.8.0-openjdk-devel libtool m4 make
-    ncurses ncurses-libs nspr nss nss-devel nss-util
+    ncurses ncurses-libs ncurses-devel nspr nss nss-devel nss-util
     openssl openssl-devel openssl-libs
     perl perl-interpreter perl-libs
     perl-Carp perl-CGI perl-constant perl-Data-Dumper perl-DBI
@@ -48,7 +48,7 @@ cc* )
     perl-Memoize perl-PathTools perl-Scalar-List-Utils perl-Socket perl-Storable
     perl-Term-ANSIColor perl-Test-Harness perl-Text-ParseWords perl-Thread-Queue
     perl-Time-HiRes perl-Time-Local perl-YAML
-    patch popt popt-devel python2 readline rpm-build
+    patch popt popt-devel python2 readline readline-devel rpm-build
     rsync tcl tcsh tk wget which zlib zsh"
   ;;
 slc*)
