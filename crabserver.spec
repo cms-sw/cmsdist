@@ -1,4 +1,4 @@
-### RPM cms crabserver 3.3.1911.rc3
+### RPM cms crabserver 3.3.1910.patch1
 
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
@@ -9,7 +9,7 @@
 %define wmcver 1.2.2
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
-Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
+Source1: git://github.com/dmwm/CRABServer.git?obj=3.3.1910.patch1/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
 
 Requires: python cherrypy py2-cjson rotatelogs py2-pycurl py2-httplib2 py2-sqlalchemy py2-cx-oracle51
 Requires: py2-pyOpenSSL condor py2-mysqldb dbs3-pycurl-client dbs-client dbs3-client
