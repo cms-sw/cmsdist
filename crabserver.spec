@@ -1,4 +1,4 @@
-### RPM cms crabserver 3.3.1910.patch1
+### RPM cms crabserver 3.3.1911.rc3
 
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
