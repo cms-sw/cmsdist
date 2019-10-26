@@ -1,2 +1,3 @@
 Patch0: py2-sqlalchemy-1.3.4-add-frontier-dialect
 Patch1: py2-sqlalchemy-1.3.4-fix-sqlite-dialect-timestamp
+Patch2: py2-sqlalchemy-1.3.4-server_version_info
