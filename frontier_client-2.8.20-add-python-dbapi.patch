@@ -69,10 +69,10 @@ index 0000000..62a4ff6
 +
 diff --git a/python/lib/frontier.py b/python/lib/frontier.py
 new file mode 100644
-index 0000000..b2c8eff
+index 0000000..e77f4a9
 --- /dev/null
 +++ b/python/lib/frontier.py
-@@ -0,0 +1,470 @@
+@@ -0,0 +1,483 @@
 +'''Frontier binding for Python.
 +
 +This module follows the Python Database API Specification v2.0, PEP 249 [1],
@@ -99,6 +99,7 @@ index 0000000..b2c8eff
 +import re
 +import collections
 +import logging
++import sys
 +
 +try:
 +    import pytz
@@ -292,6 +293,13 @@ index 0000000..b2c8eff
 +        # users are not be able to use the ':' character in a string literal
 +        # if followed by letters/numbers/underscore. A workaround for them
 +        # is to use "select ':' || 'abc'" instead of "select ':abc'".
++        if isinstance(operation, bytes):
++            operation = operation.decode()
++            sparameters = {}
++            if parameters:
++                for p in parameters:
++                    sparameters[p.decode()] = parameters[p]
++                parameters = sparameters
 +        variables = re.findall(':[a-zA-Z-0-9_]+', operation)
 +        logger.debug('Variables = %s', variables)
 +
@@ -341,7 +349,8 @@ index 0000000..b2c8eff
 +        logger.debug('Query to Frontier = %s', operation)
 +
 +        # Build the URI
-+        uri = 'Frontier/type=frontier_request:1:DEFAULT&encoding=BLOBzip5&p1=%s' % frontier_client.fn_gzip_str2urlenc(operation)
++        uri = 'Frontier/type=frontier_request:1:DEFAULT&encoding=BLOBzip5&p1=%s' % \
++              frontier_client.fn_gzip_str2urlenc(operation, decode=sys.version_info[0]>2)
 +
 +        try:
 +            frontier_client.frontier_getRawData(self._connection._channel, uri)
@@ -400,7 +409,11 @@ index 0000000..b2c8eff
 +            if data_type != frontier_client.BLOB_TYPE_ARRAY_BYTE:
 +                raise InternalError('Unexpected data type (%s).' % data_type)
 +
-+            value = frontier_client.frontierRSBlob_getByteArray(self._result)
++            decode_value = False
++            if sys.version_info[0]>2:
++                if (not parse) or (not self._description[i][1] in ('BLOB', 'CLOB')):
++                    decode_value = True
++            value = frontier_client.frontierRSBlob_getByteArray(self._result, decode_value)
 +
 +            if parse:
 +                columnType = self._description[i][1]
@@ -545,7 +558,7 @@ index 0000000..b2c8eff
 +
 diff --git a/python/lib/frontier_client.py b/python/lib/frontier_client.py
 new file mode 100644
-index 0000000..4d3e70e
+index 0000000..dbbe08f
 --- /dev/null
 +++ b/python/lib/frontier_client.py
 @@ -0,0 +1,182 @@
@@ -640,7 +653,7 @@ index 0000000..4d3e70e
 +def frontier_createChannel(serverURL = None, proxyURL = None):
 +    logger.debug('frontier_client.frontier_createChannel(serverURL = %s, proxyURL = %s)', repr(serverURL), repr(proxyURL))
 +    retcode = ctypes.c_int(FRONTIER_OK)
-+    channel = libfc.frontier_createChannel(serverURL, proxyURL, ctypes.byref(retcode))
++    channel = libfc.frontier_createChannel(serverURL.encode(), proxyURL, ctypes.byref(retcode))
 +    retcode = retcode.value
 +    if retcode != FRONTIER_OK:
 +        raise FrontierClientError(retcode, libfc.frontier_getErrorMsg())
@@ -653,20 +666,20 @@ index 0000000..4d3e70e
 +    libfc.frontier_closeChannel(channel)
 +
 +
-+def fn_gzip_str2urlenc(string):
++def fn_gzip_str2urlenc(string, decode=False):
 +    logger.debug('frontier_client.fn_gzip_str2urlenc(string = %s)', repr(string))
 +    buf = ctypes.c_void_p()
-+    buflen = libfc.fn_gzip_str2urlenc(string, len(string), ctypes.byref(buf))
++    buflen = libfc.fn_gzip_str2urlenc(string.encode(), len(string), ctypes.byref(buf))
 +    if buflen < 0:
 +        raise FrontierClientError(None, 'Impossible to encode.')
 +    s = ctypes.string_at(buf.value, buflen)
 +    frontier_mem_free(buf.value)
-+    return s
++    return s.decode() if decode else s
 +
 +
 +def frontier_getRawData(channel, uri):
 +    logger.debug('frontier_client.frontier_getRawData(channel = %s, uri = %s)', channel, repr(uri))
-+    retcode = libfc.frontier_getRawData(channel, uri)
++    retcode = libfc.frontier_getRawData(channel, uri.encode())
 +    if retcode != FRONTIER_OK:
 +        raise FrontierClientError(retcode, libfc.frontier_getErrorMsg())
 +
@@ -718,7 +731,7 @@ index 0000000..4d3e70e
 +frontierRSBlob_getFloat = _build_frontierRSBlob_get(libfc.frontierRSBlob_getFloat)
 +
 +
-+def frontierRSBlob_getByteArray(rsb):
++def frontierRSBlob_getByteArray(rsb, decode=False):
 +    buflen = frontierRSBlob_getInt(rsb)
 +    retcode = ctypes.c_int(FRONTIER_OK)
 +    buf = libfc.frontierRSBlob_getByteArray(rsb, buflen, ctypes.byref(retcode))
@@ -726,7 +739,7 @@ index 0000000..4d3e70e
 +    if retcode != FRONTIER_OK:
 +        raise FrontierClientError(retcode, libfc.frontier_getErrorMsg())
 +    s = ctypes.string_at(buf, buflen)
-+    return s
++    return s.decode() if decode else s
 +
 +
 +frontier_init()
