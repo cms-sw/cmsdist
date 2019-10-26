@@ -1,0 +1,13 @@
+diff --git a/lib/sqlalchemy/dialects/oracle/base.py b/lib/sqlalchemy/dialects/oracle/base.py
+index 2353f15..6a58547 100644
+--- a/lib/sqlalchemy/dialects/oracle/base.py
++++ b/lib/sqlalchemy/dialects/oracle/base.py
+@@ -1247,7 +1247,7 @@ class OracleDialect(default.DefaultDialect):
+         super(OracleDialect, self).initialize(connection)
+ 
+         self.implicit_returning = self.__dict__.get(
+-            "implicit_returning", self.server_version_info > (10,)
++            "implicit_returning", self.server_version_info and self.server_version_info > (10,)
+         )
+ 
+         if self._is_oracle_8:
