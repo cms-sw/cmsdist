@@ -7,7 +7,7 @@
 %define pythonv %(echo %realversion | cut -d. -f 1,2)
 %define python_major %(echo %realversion | cut -d. -f 1)
 
-Requires: expat bz2lib db6 gdbm openssl libffi zlib sqlite
+Requires: expat bz2lib db6 gdbm openssl libffi zlib sqlite lzma xz
 
 Source: https://www.python.org/ftp/python/%realversion/Python-%realversion.tgz
 
