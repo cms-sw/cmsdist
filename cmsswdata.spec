@@ -8,6 +8,7 @@ Source: none
 %define isnotarmv7 %(case %{cmsplatf} in (*armv7*) echo 0 ;; (*) echo 1 ;; esac)
 
 Requires: data-CondTools-SiPhase2Tracker
+Requires: data-RecoBTag-Combined
 Requires: data-PhysicsTools-PatUtils
 Requires: data-RecoTauTag-TrainingFiles
 Requires: data-DetectorDescription-Schema
@@ -104,4 +105,3 @@ for DATA_PATH in %directpkgreqs; do
     rm -rf $SOURCE/$PKG_DATA && ln -fs ../../../../share/$DATA_PATH/$PKG_DATA $SOURCE/$PKG_DATA
   fi
 done
-
