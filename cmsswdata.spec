@@ -8,7 +8,6 @@ Source: none
 %define isnotarmv7 %(case %{cmsplatf} in (*armv7*) echo 0 ;; (*) echo 1 ;; esac)
 
 Requires: data-CondTools-SiPhase2Tracker
-Requires: data-RecoBTag-Combined
 Requires: data-PhysicsTools-PatUtils
 Requires: data-RecoTauTag-TrainingFiles
 Requires: data-DetectorDescription-Schema
