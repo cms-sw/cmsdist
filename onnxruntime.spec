@@ -1,11 +1,12 @@
 ### RPM external onnxruntime 0.5.0
-%define tag 2a8b02097514ca90ac7471054460dcdc47b69e1b
-%define branch cms/v%{realversion}
+%define tag 2824909ae569932d9aee1462049ff0da1e766989
+%define branch cms/master/9f633c5b
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake ninja zlib python3
 Requires: eigen protobuf
+
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -21,6 +22,7 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -Donnxruntime_USE_CUDA=OFF \
    -Donnxruntime_USE_NSYNC=OFF \
    -Donnxruntime_BUILD_CSHARP=OFF \
+   -Donnxruntime_USE_AUTOML=OFF \
    -Donnxruntime_USE_EIGEN_FOR_BLAS=ON \
    -Donnxruntime_USE_OPENBLAS=OFF \
    -Donnxruntime_USE_MKLDNN=OFF \
