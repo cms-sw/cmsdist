@@ -98,4 +98,3 @@ for DATA_PATH in %directpkgreqs; do
     rm -rf $SOURCE/$PKG_DATA && ln -fs ../../../../share/$DATA_PATH/$PKG_DATA $SOURCE/$PKG_DATA
   fi
 done
-
