@@ -161,7 +161,7 @@ Requires: dasgoclient
 Requires: OpenBLAS-toolfile
 Requires: mxnet-predict-toolfile
 Requires: mkfit-toolfile
-Requires: bloom-filter-toolfile
+Requires: dablooms-toolfile
 
 # Only for Linux platform.
 %if %islinux
