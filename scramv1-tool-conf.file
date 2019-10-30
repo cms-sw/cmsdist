@@ -120,7 +120,7 @@ fi
 
 echo '</tool>' >> %{i}/tools/selected/python-paths.xml
 
-for pkg in  $(echo %{allpkgreqs} | tr ' ' '\n' | grep -v '\-toolfile/' | grep '/py2-') ; do
+for pkg in  $(echo %{allpkgreqs} | tr ' ' '\n' | grep -v '\-toolfile/' | grep '/py[23]-') ; do
   pk_name=$(echo $pkg | cut -d/ -f2)
   if [ -f %{i}/tools/selected/${pk_name}.xml ] ; then continue ; fi
   pk_ver=$(echo $pkg | cut -d/ -f3)
