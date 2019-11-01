@@ -13,6 +13,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/dablooms.xml
   <lib name="dablooms"/>
   <client>
     <environment name="DABLOOMS_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$DABLOOMS_BASE/lib"/>
     <environment name="INCLUDE" default="$DABLOOMS_BASE/include"/>
   </client>
 </tool>
