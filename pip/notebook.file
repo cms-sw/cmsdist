@@ -1,2 +1,2 @@
 Requires: py2-terminado py2-nbconvert py2-ipykernel py2-Send2Trash py2-ipaddress py2-prometheus_client
-%define RelocatePython %{i}/bin/*
+%define PipPostBuildPy3 for x in $(ls %{i}/bin/*) ; do mv $x ${x}3; done

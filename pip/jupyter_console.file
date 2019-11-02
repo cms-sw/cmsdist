@@ -1,2 +1,2 @@
 Requires: py2-ipykernel
-%define RelocatePython %{i}/bin/jupyter-console
+%define PipPostBuildPy3 mv %{i}/bin/jupyter-console %{i}/bin/jupyter-console3
