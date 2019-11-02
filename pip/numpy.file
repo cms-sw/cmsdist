@@ -29,3 +29,5 @@ EOF
   %{relocateConfig}lib/python*/site-packages/numpy/__config__.py \
   %{relocateConfig}lib/python*/site-packages/numpy/distutils/__config__.py \
   %{relocateConfig}lib/python*/site-packages/numpy/distutils/site.cfg
+
+%define PipPostBuildPy3 rm -f %{i}/bin/f2py
