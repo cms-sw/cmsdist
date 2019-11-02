@@ -1,4 +1,4 @@
 BuildRequires: tensorflow-python3-sources
 Requires: py3-tensorboard
 %define PipPreBuildPy3 PIPFILE=${TENSORFLOW_PYTHON3_SOURCES_ROOT}/tensorflow-%{realversion}-cp36-cp36m-linux_%{_arch}.whl
-%define PipPostBuild ls %{i}/bin/* | xargs -i mv '{}' '{}3'
+%define PipPostBuild rm -f %{i}/bin/tensorboard* ; ls %{i}/bin/* | xargs -i mv '{}' '{}3'
