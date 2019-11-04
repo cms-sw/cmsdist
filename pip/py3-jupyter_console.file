@@ -1,1 +1,1 @@
-Requires: py3-ipython py3-ipykernel py3-prompt_toolkit
+Requires: py3-ipykernel
