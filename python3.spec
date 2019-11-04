@@ -25,7 +25,7 @@ export LIBFFI_ROOT
 # Python's configure parses LDFLAGS and CPPFLAGS to look for aditional library and include directories
 LDFLAGS=""
 CPPFLAGS=""
-for d in ${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB6_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} ${LIBFFI_ROOT} ${ZLIB_ROOT} ${SQLITE_ROOT}; do
+for d in ${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB6_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} ${LIBFFI_ROOT} ${ZLIB_ROOT} ${SQLITE_ROOT} ${XZ_ROOT}; do
   LDFLAGS="$LDFLAGS -L$d/lib -L$d/lib64"
   CPPFLAGS="$CPPFLAGS -I$d/include"
 done
