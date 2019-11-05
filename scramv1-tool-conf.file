@@ -120,6 +120,8 @@ fi
 
 echo '</tool>' >> %{i}/tools/selected/python-paths.xml
 
+ALL_PY_BIN=""
+ALL_PY_BIN_PKGS=""
 for pkg in  $(echo %{allpkgreqs} | tr ' ' '\n' | grep -v '\-toolfile/' | grep '/py[23]-') ; do
   pk_name=$(echo $pkg | cut -d/ -f2)
   if [ -f %{i}/tools/selected/${pk_name}.xml ] ; then continue ; fi
@@ -127,6 +129,10 @@ for pkg in  $(echo %{allpkgreqs} | tr ' ' '\n' | grep -v '\-toolfile/' | grep '/
   uctool=`echo ${pk_name} | tr '[a-z-]' '[A-Z_]'`
   echo "<tool name=\"$pk_name\" version=\"$pk_ver\">" > %{i}/tools/selected/${pk_name}.xml
   if [ -e %{cmsroot}/%{cmsplatf}/$pkg/bin ] ; then
+    for b in $(ls %{cmsroot}/%{cmsplatf}/$pkg/bin) ; do
+      ALL_PY_BIN="${ALL_PY_BIN} ${b}"
+      ALL_PY_BIN_PKGS="${ALL_PY_BIN_PKGS} ${b}:${pk_name}"
+    done
     echo "  <client>" >> %{i}/tools/selected/${pk_name}.xml
     echo "    <environment name=\"${uctool}_BASE\" default=\"%{cmsroot}/%{cmsplatf}/$pkg\"/>" >> %{i}/tools/selected/${pk_name}.xml
     echo "  </client>" >> %{i}/tools/selected/${pk_name}.xml
@@ -134,7 +140,16 @@ for pkg in  $(echo %{allpkgreqs} | tr ' ' '\n' | grep -v '\-toolfile/' | grep '/
   fi
   echo "</tool>" >> %{i}/tools/selected/${pk_name}.xml
 done
-
+DUP_BIN=$(echo "${ALL_PY_BIN}" | tr ' ' '\n' | sort | uniq -c | sed 's|^\s*||' | grep -v '^1 ' | sed 's|^.* ||')
+set +x
+if [ "${DUP_BIN}" != "" ] ; then
+  for p in ${DUP_BIN} ; do
+    echo ${ALL_PY_BIN_PKGS} | tr ' ' '\n' | grep "^${p}:"
+  done
+  echo "ERROR: Duplicate python binaries found. Please cleanup and make sure only one binary is available."
+  exit 1
+fi
+set -x
 %post
 %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/tools -type f)
 %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/lib -type f)
