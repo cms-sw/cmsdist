@@ -16,14 +16,14 @@ export JAVA_HOME=${JAVA_JDK_ROOT}
 export GCC_ROOT
 export PYTHON_ROOT
 export HADOOP_HOME=%{_builddir}/hadoop-2.6.4
-python setup.py build
+python3 setup.py build
 
 %install
 export JAVA_HOME=${JAVA_JDK_ROOT}
 export GCC_ROOT
 export PYTHON_ROOT
 export HADOOP_HOME=%{_builddir}/hadoop-2.6.4
-python setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
+python3 setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
 find %i -name '*.egg-info' -exec rm {} \;
 # use /usr/bin/env python
 egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
