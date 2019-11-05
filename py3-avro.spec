@@ -1,4 +1,4 @@
-### RPM external py3-cherrypy 5.4.0
+### RPM external py3-avro 1.9.1
 ## IMPORT build-with-pip3
 
 Requires: python3
