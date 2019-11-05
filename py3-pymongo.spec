@@ -1,4 +1,4 @@
-### RPM external py3-pymongo 3.4.0
+### RPM external py3-pymongo 3.9.0
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 #Source: http://pypi.python.org/packages/source/p/pymongo/pymongo-%realversion.tar.gz
