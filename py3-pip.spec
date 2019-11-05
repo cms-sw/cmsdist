@@ -1,4 +1,4 @@
-### RPM external py2-pip 19.3.1
+### RPM external py3-pip 19.3.1
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib
 ## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
