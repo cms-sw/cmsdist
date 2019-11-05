@@ -15,7 +15,9 @@ Requires: py2-rootpy
 Requires: py2-tensorflow py3-tensorflow
 Requires: py2-googlePackages
 
+Requires: py2-cloudpickle
 Requires: py2-tables
+Requires: py3-tables
 Requires: py2-numexpr
 Requires: py2-histogrammar py3-histogrammar
 Requires: py2-pandas
