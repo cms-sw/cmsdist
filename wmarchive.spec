@@ -8,10 +8,10 @@
 %define wmcpkg WMCore
 Source0: git://github.com/dmwm/WMArchive?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
 Source1: git://github.com/dmwm/WMCore?obj=master/%wmcver&export=%{wmcpkg}_%n&output=/%{wmcpkg}_%n.tar.gz
-#Requires: python py2-pydoop py2-avro py2-pymongo mongo cherrypy py2-py4j py2-stomp java-jdk rotatelogs cmsmonitoring
-#BuildRequires: py2-sphinx
-Requires: python3 py3-pydoop py3-avro py3-pymongo mongo py3-cherrypy py3-py4j py3-stomp java-jdk rotatelogs cmsmonitoring
-BuildRequires: py3-sphinx
+Requires: python py2-pydoop py2-avro py2-pymongo mongo cherrypy py2-py4j py2-stomp java-jdk rotatelogs cmsmonitoring
+BuildRequires: py2-sphinx
+#Requires: python3 py3-pydoop py3-avro py3-pymongo mongo py3-cherrypy py3-py4j py3-stomp java-jdk rotatelogs cmsmonitoring
+#BuildRequires: py3-sphinx
 
 # RPM macros documentation
 # http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
