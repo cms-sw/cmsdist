@@ -1,4 +1,4 @@
-### RPM cms wmarchive v00.08.18
+### RPM cms wmarchive v00.08.19
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 #%define wmcver 1.1.6
@@ -8,7 +8,7 @@
 %define wmcpkg WMCore
 Source0: git://github.com/dmwm/WMArchive?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
 Source1: git://github.com/dmwm/WMCore?obj=master/%wmcver&export=%{wmcpkg}_%n&output=/%{wmcpkg}_%n.tar.gz
-Requires: python py2-pydoop py2-avro py2-pymongo mongo cherrypy py2-py4j py2-stomp java-jdk rotatelogs cmsmonitoring
+Requires: python py2-pydoop py2-avro py2-pymongo mongo cherrypy py2-py4j py2-stomp java-jdk rotatelogs cmsmonitoring go
 BuildRequires: py2-sphinx
 #Requires: python3 py3-pydoop py3-avro py3-pymongo mongo py3-cherrypy py3-py4j py3-stomp java-jdk rotatelogs cmsmonitoring
 #BuildRequires: py3-sphinx
@@ -37,6 +37,13 @@ cd doc
 mkdir -p sphinx/_static
 mkdir -p build
 make html
+
+# build go publisher tool
+mkdir -p gopath
+export GOPATH=$PWD/gopath
+go get github.com/nats-io/go-nats-examples/tools/nats-pub
+mkdir -p %i/bin
+cp $GOPATH/bin/nats-pub %i/bin
 
 %install
 cd %{wmcpkg}_%n
