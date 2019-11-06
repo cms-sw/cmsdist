@@ -27,7 +27,7 @@
 %define pkgsource source.tar.gz
 %endif
 
-Requires: python py3-setuptools
+Requires: python3 py3-setuptools
 BuildRequires: py3-pip
 
 %if "%{?source0:set}" != "set"

@@ -3,7 +3,7 @@
 
 Source0: https://pypi.python.org/packages/source/p/pydoop/pydoop-%realversion.tar.gz
 Source1: http://www-eu.apache.org/dist/hadoop/common/hadoop-2.6.4/hadoop-2.6.4.tar.gz 
-Requires: zlib bz2lib openssl python3 py3-setuptools py3-avro
+Requires: zlib bz2lib openssl py3-setuptools py3-avro
 BuildRequires: java-jdk
 Provides: libjvm.so()(64bit)
 
@@ -16,6 +16,8 @@ export JAVA_HOME=${JAVA_JDK_ROOT}
 export GCC_ROOT
 export PYTHON_ROOT
 export HADOOP_HOME=%{_builddir}/hadoop-2.6.4
+export PATH=$PATH:$HADOOP_HOME/bin
+find $HADOOP_HOME -name hadoop
 python3 setup.py build
 
 %install
@@ -23,6 +25,7 @@ export JAVA_HOME=${JAVA_JDK_ROOT}
 export GCC_ROOT
 export PYTHON_ROOT
 export HADOOP_HOME=%{_builddir}/hadoop-2.6.4
+export PATH=$PATH:$HADOOP_HOME/bin
 python3 setup.py install --prefix=%i --single-version-externally-managed --record=/dev/null
 find %i -name '*.egg-info' -exec rm {} \;
 # use /usr/bin/env python
