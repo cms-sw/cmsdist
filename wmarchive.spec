@@ -1,13 +1,17 @@
-### RPM cms wmarchive v00.08.08
+### RPM cms wmarchive v00.08.20
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
-%define wmcver 1.1.6
+
+#%define wmcver 1.1.6
+%define wmcver 1.2.8.pre3
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define pkg WMArchive
 %define wmcpkg WMCore
 Source0: git://github.com/dmwm/WMArchive?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
 Source1: git://github.com/dmwm/WMCore?obj=master/%wmcver&export=%{wmcpkg}_%n&output=/%{wmcpkg}_%n.tar.gz
-Requires: python py2-bz2file py2-pydoop py2-avro py2-elasticsearch py2-pymongo mongo py2-httplib2 cherrypy py2-cjson py2-py4j py2-stomp java-jdk rotatelogs cmsmonitoring
+Requires: python py2-pydoop py2-avro py2-pymongo mongo cherrypy py2-py4j py2-stomp java-jdk rotatelogs cmsmonitoring go
 BuildRequires: py2-sphinx
+#Requires: python3 py3-pydoop py3-avro py3-pymongo mongo py3-cherrypy py3-py4j py3-stomp java-jdk rotatelogs cmsmonitoring
+#BuildRequires: py3-sphinx
 
 # RPM macros documentation
 # http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
@@ -34,6 +38,13 @@ mkdir -p sphinx/_static
 mkdir -p build
 make html
 
+# build go publisher tool
+mkdir -p gopath
+export GOPATH=$PWD/gopath
+go get github.com/nats-io/go-nats-examples/tools/nats-pub
+mkdir -p %i/bin
+cp $GOPATH/bin/nats-pub %i/bin
+
 %install
 cd %{wmcpkg}_%n
 python setup.py install_system -s wmc-wmarchive --prefix=%i
@@ -55,7 +66,7 @@ export PYTHONPATH=$PYTHONPATH:$PWD/src/python:$PWD/../WMCore_wmarchive/src/pytho
 bin/fwjrschema --fout=%i/data/schemas/fwjr_prod.json
 bin/json2avsc --fin=%i/data/schemas/fwjr_prod.json --fout=%i/data/schemas/fwjr_prod.avsc
 bin/wmexceptions --fout=%i/data/wmexceptions.json
-touch %i/${PYTHON_LIB_SITE_PACKAGES}/WMCore/Services/__init__.py
+#touch %i/${PYTHON_LIB_SITE_PACKAGES}/WMCore/Services/__init__.py
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
