@@ -1,4 +1,4 @@
-### RPM cms wmarchive v00.08.20
+### RPM cms wmarchive v00.08.26
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 #%define wmcver 1.1.6
@@ -8,10 +8,10 @@
 %define wmcpkg WMCore
 Source0: git://github.com/dmwm/WMArchive?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
 Source1: git://github.com/dmwm/WMCore?obj=master/%wmcver&export=%{wmcpkg}_%n&output=/%{wmcpkg}_%n.tar.gz
-Requires: python py2-pydoop py2-avro py2-pymongo mongo cherrypy py2-py4j py2-stomp java-jdk rotatelogs cmsmonitoring go
+Requires: python py2-pydoop py2-avro py2-pymongo mongo cherrypy py2-py4j py2-stomp java-jdk rotatelogs cmsmonitoring go py2-tornado py2-nats
 BuildRequires: py2-sphinx
-#Requires: python3 py3-pydoop py3-avro py3-pymongo mongo py3-cherrypy py3-py4j py3-stomp java-jdk rotatelogs cmsmonitoring
-#BuildRequires: py3-sphinx
+#Requires: python3 py3-pydoop py3-avro py3-pymongo mongo py3-cherrypy py3-py4j py3-stomp java-jdk rotatelogs py3-cmsmonitoring go py3-tornado py3-nats
+#BuildRequires: py3-sphinx py3-sphinxcontrib-websupport
 
 # RPM macros documentation
 # http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
