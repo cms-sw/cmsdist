@@ -1,7 +1,7 @@
 ### RPM external dd4hep v01-10x
 
 
-%define tag 3cbe0dcbe20776bc9a0c31f97f28a2bb90174a45
+%define tag f1c86074ad0bf44686bf61131ebf92bc1d233734
 %define branch master
 %define github_user AIDASoft
 %define keep_archives true
