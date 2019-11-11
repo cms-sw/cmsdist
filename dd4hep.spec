@@ -1,7 +1,7 @@
 ### RPM external dd4hep v01-10x
 
 
-%define tag 3cbe0dcbe20776bc9a0c31f97f28a2bb90174a45
+%define tag f1c86074ad0bf44686bf61131ebf92bc1d233734
 %define branch master
 %define github_user AIDASoft
 %define keep_archives true
@@ -9,7 +9,6 @@
 Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake
 Requires: root boost clhep xerces-c geant4
-Patch0: dd4hep-build-static
 
 %prep
 
@@ -30,15 +29,13 @@ CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX='%{i}' \
 
 #Build normal Shared D4Hep without Geant4
 rm -rf ../build; mkdir ../build; cd ../build
-cmake $CMAKE_ARGS ../%{n}-%{realversion}
+cmake $CMAKE_ARGS -DBUILD_SHARED_LIBS=ON ../%{n}-%{realversion}
 make %{makeprocesses} VERBOSE=1
 make install
 
 #Building DDG4 static
-cd %{_builddir}/%{n}-%{realversion}
-patch -p1 < %{_sourcedir}/dd4hep-build-static
 rm -rf ../build-g4; mkdir ../build-g4; cd ../build-g4
-cmake $CMAKE_ARGS -DDD4HEP_USE_GEANT4=ON ../%{n}-%{realversion}
+cmake $CMAKE_ARGS -DBUILD_SHARED_LIBS=OFF -DDD4HEP_USE_GEANT4=ON ../%{n}-%{realversion}
 cd DDG4
 make %{makeprocesses} VERBOSE=1
 for lib in $(ls ../lib/libDDG4*.a | sed 's|.a$||'); do
