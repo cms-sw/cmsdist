@@ -1,11 +1,12 @@
-### RPM external onnxruntime 0.5.0
-%define tag 2824909ae569932d9aee1462049ff0da1e766989
-%define branch cms/master/9f633c5b
-%define github_user cms-externals
+### RPM external onnxruntime 1.0.0
+%define tag 12f9ce57d0b9cb82611284a435020de9b39e1107
+%define branch cms/v1.0.0
+#%define github_user cms-externals
+%define github_user hqucms
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake ninja zlib python3
-Requires: eigen protobuf
+Requires: protobuf
 
 
 %prep
@@ -40,8 +41,6 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -Donnxruntime_USE_FULL_PROTOBUF=ON \
    -Donnxruntime_DISABLE_CONTRIB_OPS=OFF \
    -Donnxruntime_BUILD_UNIT_TESTS=OFF \
-   -Donnxruntime_USE_PREINSTALLED_EIGEN=ON \
-   -Deigen_SOURCE_PATH=$EIGEN_ROOT/include/eigen3 \
    -Donnxruntime_USE_PREINSTALLED_PROTOBUF=ON \
    -Dprotobuf_INSTALL_PATH=${PROTOBUF_ROOT}
 
