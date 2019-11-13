@@ -29,6 +29,9 @@ do
   chmod +x $CONFIG_SUB_FILE
 done
 
+# fix regex to handle case with two -L statements (from gsl w/ openblas)
+sed -i 's/\.\*-L\\s\*(\\S+)\.\*/-L(\\S+)/' pyext/setup.py.in
+
 ./configure --disable-silent-rules --prefix=%{i} --with-hepmc=${HEPMC_ROOT} \
             --with-fastjet=${FASTJET_ROOT} --with-gsl=$GSL_ROOT --with-yoda=${YODA_ROOT} \
             --disable-doxygen --disable-pdfmanual --with-pic \

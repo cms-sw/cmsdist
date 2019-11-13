@@ -1,5 +1,7 @@
 ### RPM external gsl 2.2.1
+## INITENV SET GSL_CBLAS_LIB -L${OPENBLAS_ROOT}/lib -lopenblas
 Source: ftp://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
+Requires: OpenBLAS
 
 %define keep_archives true
 
