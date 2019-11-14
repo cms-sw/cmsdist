@@ -1,5 +1,4 @@
 ### RPM cms exitcodes 0.0.2
-## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 %define repo github.com/vkuznet/CMSExitCodes
 Source0: https://%repo/archive/v%realversion.tar.gz
