@@ -233,6 +233,7 @@ tensorflow==1.6.0 ; python_version<'3.0'
 tensorflow==1.6.0 ; python_version>'3.0'
 termcolor==1.1.0
 terminado==0.8.3
+#NO_AUTO_UPDATE:1: version of testpath is hardcoded in testpath.file. Update there also to point to latest source
 testpath==0.4.2
 theanets==0.7.3
 Theano==1.0.4
