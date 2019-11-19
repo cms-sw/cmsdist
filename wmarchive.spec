@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 #%define wmcver 1.1.6
-%define wmcver 1.2.8.pre3
+%define wmcver 1.2.9.pre2
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define pkg WMArchive
 %define wmcpkg WMCore
