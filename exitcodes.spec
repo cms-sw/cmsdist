@@ -1,4 +1,4 @@
-### RPM cms exitcodes 0.0.3
+### RPM cms exitcodes 0.0.4
 
 %define repo github.com/vkuznet/CMSExitCodes
 Source0: https://%repo/archive/v%realversion.tar.gz
@@ -21,6 +21,7 @@ go get %repo
 %install
 cd ..
 export GOPATH=$PWD/gopath
+mkdir %i/bin
 cp $GOPATH/bin/CMSExitCodes %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
