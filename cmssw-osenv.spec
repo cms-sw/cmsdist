@@ -3,7 +3,7 @@
 
 # ***Do not change minor number of the above version. ***
 
-%define commit 5a0d707f6bdfc9966a0ac32f00125e6862eb63fc
+%define commit 8b7278aa1b35476d550c533bdff0738299a962f8
 %define branch master
 # We do not use a revision explicitly, because revisioned packages do not get
 # updated automatically when there are dependencies.
