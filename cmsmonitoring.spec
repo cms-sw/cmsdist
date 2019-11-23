@@ -1,4 +1,4 @@
-### RPM external cmsmonitoring 0.2.7
+### RPM external cmsmonitoring 0.3.0
 ## IMPORT build-with-pip
 
 Requires: python py2-stomp py2-jsonschema py2-genson py2-tornado py2-nats
