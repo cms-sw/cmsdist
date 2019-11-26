@@ -60,7 +60,7 @@ make %{makeprocesses}
 make install
 find %{i}/lib -name '*.la' -delete
 sed -i -e 's|^#!/.*|#!/usr/bin/env python|' %{i}/bin/Sherpa-generate-model
-rm -f %{i}/lib/*SherpaMain*
+rm -f %{i}/lib/SHERPA-MC/*SherpaMain*
 
 %post
 %{relocateConfig}lib/python2.7/site-packages/ufo_interface/sconstruct_template
