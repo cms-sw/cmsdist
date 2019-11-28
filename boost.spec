@@ -1,6 +1,6 @@
-### RPM external boost 1.67.0
+### RPM external boost 1.71.0
 
-%define tag 8dbeeb4f04f377fea15f64725918b75dbf6e1843
+%define tag b9c83e732d9aa3df7ca6befcbb22447d37ffe258
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%n.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
@@ -73,18 +73,3 @@ for l in $(find %{i}/lib -name "*.${so}.*")
 do
   ln -s $(basename ${l}) $(echo ${l} | sed -e "s|[.]${so}[.].*|.${so}|")
 done
-
-# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
-mkdir -p %{i}/etc/profile.d
-: > %{i}/etc/profile.d/dependencies-setup.sh
-: > %{i}/etc/profile.d/dependencies-setup.csh
-for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
-  root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
-  if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
-    echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-    echo "test \$?$root != 0 || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
-  fi
-done
-
-%post
-%{relocateConfig}etc/profile.d/dependencies-setup.*sh
