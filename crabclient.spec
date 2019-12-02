@@ -4,9 +4,9 @@
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 #branch 1.1.2_crab
-%define wmcver 1.1.16
+%define wmcver 1.2.8
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define crabserver 3.3.1911.rc2
+%define crabserver 3.3.1912.rc4
 
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
