@@ -77,7 +77,9 @@ DataFormatsL1CaloTrigger_CXXMODULES:=1
 DataFormatsL1DTTrackFinder_CXXMODULES:=1
 DataFormatsL1GlobalCaloTrigger_CXXMODULES:=1
 DataFormatsL1GlobalMuonTrigger_CXXMODULES:=1
-DataFormatsL1GlobalTrigger_CXXMODULES:=1
+#DL this creates and error that we do not currently understand 
+#I will disable this module for now.
+DataFormatsL1GlobalTrigger_CXXMODULES:=0
 DataFormatsL1Trigger_CXXMODULES:=1
 DataFormatsLTCDigi_CXXMODULES:=1
 DataFormatsMath_CXXMODULES:=1
