@@ -1,10 +1,10 @@
-### RPM cms das 04.05.11
+### RPM cms das 04.06.00
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 %define pkg0 das2go
 %define ver0 %realversion
 %define pkg1 DASTools
-%define ver1 00.01.00
+%define ver1 00.01.01
 Source0: https://github.com/dmwm/%pkg0/archive/%ver0.tar.gz
 Source1: https://github.com/dmwm/%pkg1/archive/%ver1.tar.gz
 
@@ -20,56 +20,50 @@ Requires: go jemalloc yui mongo rotatelogs
 cd ..
 mkdir -p gopath
 export GOPATH=$PWD/gopath
+cdir=$PWD
+
+# build das tools
+echo "start DASTools build: $PWD"
+git clone https://github.com/dmwm/DASTools.git
+cd DASTools
+git checkout tags/%ver1 -b %ver1
+go mod download
+make
+cd -
+
 # build das2go
-cd %pkg0-%ver0
 echo "start das2go build: $PWD"
-mkdir -p $GOPATH/src/github.com/dmwm/das2go
-cp -r * $GOPATH/src/github.com/dmwm/das2go
-go get github.com/shirou/gopsutil
-go get github.com/dmwm/cmsauth
-go get github.com/vkuznet/x509proxy
-go get github.com/divan/expvarmon
-go get gopkg.in/yaml.v2
-go get gopkg.in/mgo.v2
-go get github.com/sirupsen/logrus
-go get github.com/uber/go-torch
-cd $GOPATH/src/github.com/dmwm/das2go
 git clone https://github.com/dmwm/das2go.git
-cp -r das2go/.git .
-rm -rf das2go
+cd das2go
+git checkout tags/%ver0 -b %ver0
 make
 go build monitor/das2go_monitor.go
 cd -
 
-# build das tools
-cd ../%pkg1-%ver1
-echo "start DASTools build: $PWD"
-mkdir -p $GOPATH/src/github.com/dmwm/DASTools
-cp -r * $GOPATH/src/github.com/dmwm/DASTools
-cd $GOPATH/src/github.com/dmwm/DASTools
-git clone https://github.com/dmwm/DASTools.git
-cp -r DASTools/.git .
-rm -rf DASTools
-make
-cd -
-
 # get FlameGraph
-cd $GOPATH
+cd $cdir
+#cd $GOPATH
 git clone https://github.com/brendangregg/FlameGraph.git
-cd -
+
+# get go-torch
+go get github.com/uber/go-torch
+go get github.com/shirou/gopsutil
+go get github.com/divan/expvarmon
 
 %install
 # install das2go
 cd ..
+cdir=$PWD
 echo "start das2go install: $PWD"
+ls
 export GOPATH=$PWD/gopath
 mkdir -p %i/bin
-cp $GOPATH/src/github.com/dmwm/das2go/das2go %i/bin
-cp $GOPATH/src/github.com/dmwm/das2go/das2go_monitor %i/bin
+cp das2go/das2go %i/bin
+cp das2go/das2go_monitor %i/bin
 cp $GOPATH/bin/go-torch %i/bin
-cp $GOPATH/FlameGraph/*.pl %i/bin
+cp FlameGraph/*.pl %i/bin
 mkdir -p %i/das2go/yui
-cp -r $GOPATH/src/github.com/dmwm/das2go/{js,css,images,templates} %i/das2go/
+cp -r das2go/{js,css,images,templates} %i/das2go/
 export YUI_ROOT
 cp -r $YUI_ROOT/build %i/das2go/yui/
 
@@ -78,8 +72,7 @@ cp $GOPATH/bin/expvarmon %i/bin
 
 # install das tools
 echo "start DASTools install: $PWD"
-export GOPATH=$PWD/gopath
-cp $GOPATH/src/github.com/dmwm/DASTools/bin/* %i/bin
+cp $cdir/DASTools/bin/* %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 %addDependency
