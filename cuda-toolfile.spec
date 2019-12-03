@@ -1,4 +1,4 @@
-### RPM external cuda-toolfile 2.1
+### RPM external cuda-toolfile 2.2
 Requires: cuda
 %prep
 
