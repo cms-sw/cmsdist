@@ -24,7 +24,11 @@ chmod +x ./config.{sub,guess}
 touch pkg-config ; chmod +x pkg-config
 ./configure $PLATF_CONF_OPTS --disable-dependency-tracking --enable-threads \
             --prefix=%i F77="$F77" CXX="$CXX" DEPS_CFLAGS=-I$FFTW3_ROOT/include \
+%ifarch ppc64le
             CXXFLAGS="-O2 -mlong-double-64" \
+%else
+            CXXFLAGS="-O2" \
+%endif
             DEPS_LIBS="-L$FFTW3_ROOT/lib -lfftw3" PKG_CONFIG=$PWD/pkg-config
 make %makeprocesses
 
