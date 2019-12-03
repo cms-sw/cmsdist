@@ -14,8 +14,8 @@ CXX="$(which g++) -fPIC"
 
 # Update to detect aarch64 and ppc64le
 rm -f ./config.{sub,guess}
-curl -L -k -s -o ./config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
-curl -L -k -s -o ./config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+curl -L -k -s -o ./config.sub http://cmsrep.cern.ch/cmssw/download/config/config.sub
+curl -L -k -s -o ./config.guess http://cmsrep.cern.ch/cmssw/download/config/config.guess
 chmod +x ./config.{sub,guess}
 
 # Fake the existance of pkg-config on systems which dont have it.
@@ -24,6 +24,11 @@ chmod +x ./config.{sub,guess}
 touch pkg-config ; chmod +x pkg-config
 ./configure $PLATF_CONF_OPTS --disable-dependency-tracking --enable-threads \
             --prefix=%i F77="$F77" CXX="$CXX" DEPS_CFLAGS=-I$FFTW3_ROOT/include \
+%ifarch ppc64le
+            CXXFLAGS="-O2 -mlong-double-64" \
+%else
+            CXXFLAGS="-O2" \
+%endif
             DEPS_LIBS="-L$FFTW3_ROOT/lib -lfftw3" PKG_CONFIG=$PWD/pkg-config
 make %makeprocesses
 
