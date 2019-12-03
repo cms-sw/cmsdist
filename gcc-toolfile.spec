@@ -50,7 +50,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-cxxcompiler.xml
     <flags CXXFLAGS="-O2 -pthread -pipe -Werror=main -Werror=pointer-arith"/>
     <flags CXXFLAGS="-Werror=overlength-strings -Wno-vla @OS_CXXFLAGS@ @ARCH_CXXFLAGS@ @COMPILER_CXXFLAGS@"/>
     <flags CXXFLAGS="-felide-constructors -fmessage-length=0"/>
-    <flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wreturn-type"/>
+    <flags CXXFLAGS="-Wall -Wself-assign -Wno-non-template-friend -Wno-long-long -Wreturn-type"/>
     <flags CXXFLAGS="-Wunused -Wparentheses -Wno-deprecated -Werror=return-type"/>
     <flags CXXFLAGS="-Werror=missing-braces -Werror=unused-value"/>
     <flags CXXFLAGS="-Werror=address -Werror=format -Werror=sign-compare"/>
