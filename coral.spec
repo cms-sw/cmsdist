@@ -15,7 +15,7 @@ Patch5: coral-CORAL_2_3_21-move-to-libuuid
 # Disable building tests, since they bring dependency on cppunit:
 %define patchsrc4       perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
 # Build with debug symbols, and package them in a separate rpm:
-%define subpackageDebug yes
+#subpackage debug disabledes
 %endif
 
 %if "%(echo %{cmsos} | cut -d_ -f 1 | sed -e 's|osx.*|osx|')" == "osx"
