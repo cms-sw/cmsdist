@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+MagneticField-Interpolation=V01-01-00
 L1Trigger-L1THGCal=V01-00-15
 SimTracker-SiStripDigitizer=V01-01-00
 RecoBTag-Combined=V01-02-01
@@ -72,7 +73,6 @@ GeneratorInterface-EvtGenInterface=V02-00-11
 HLTrigger-JetMET=V01-00-00
 L1Trigger-L1TCalorimeter=V01-00-22
 L1Trigger-L1TGlobal=V00-00-07
-MagneticField-Interpolation=V01-00-02
 RecoBTag-CTagging=V01-00-03
 RecoBTag-SecondaryVertex=V02-00-04
 RecoBTag-SoftLepton=V01-00-01
