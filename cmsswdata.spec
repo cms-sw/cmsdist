@@ -5,6 +5,7 @@ Source: none
 %define BaseTool %(echo %n | tr '[a-z-]' '[A-Z_]')
 
 Requires: data-CondTools-SiPhase2Tracker
+Requires: data-MagneticField-Engine
 Requires: data-PhysicsTools-PatUtils
 Requires: data-RecoTauTag-TrainingFiles
 Requires: data-DetectorDescription-Schema
