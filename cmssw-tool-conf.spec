@@ -45,6 +45,7 @@ Requires: hepmc-toolfile
 Requires: heppdt-toolfile
 Requires: herwig-toolfile
 Requires: herwigpp-toolfile
+Requires: hydjet-toolfile
 Requires: ittnotify-toolfile
 Requires: jemalloc-toolfile
 Requires: jemalloc-debug-toolfile
