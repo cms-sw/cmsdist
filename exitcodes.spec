@@ -22,6 +22,8 @@ go get %repo
 cd ..
 export GOPATH=$PWD/gopath
 mkdir %i/bin
+cp -r $GOPATH/src/%repo/{css,images,templates,server.json,codes} %i/
+sed -i -e "s,ROOT,/data/srv/current/apps/exitcodes,g" %i/server.json
 cp $GOPATH/bin/CMSExitCodes %i/bin
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
