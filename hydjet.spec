@@ -2,7 +2,7 @@
 
 Source: http://cern.ch/lokhtin/hydro/%{n}-%{realversion}.tar.gz
 
-BuildRequires: cmake
+BuildRequires: cmake gmake
 
 Requires: pyquen pythia6 lhapdf
 
