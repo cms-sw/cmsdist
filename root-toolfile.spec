@@ -480,26 +480,17 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootgui.xml
 EOF_TOOLFILE
 
 #Root X11
-case %{cmsos} in
-  osx*)
-  cat << \EOF_TOOLFILE >%i/etc/scram.d/rootx11.xml
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootx11.xml
 <tool name="rootx11" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
-  <lib name="GX11"/>
-  <use name="rootcling"/>
-</tool>
-EOF_TOOLFILE
-  ;;
-  *)
-  cat << \EOF_TOOLFILE >%i/etc/scram.d/rootx11.xml
-<tool name="rootx11" version="@TOOL_VERSION@">
-  <info url="http://root.cern.ch/root/"/>
+%ifos darwin
   <lib name="GCocoa"/>
+%else
+  <lib name="GX11"/>
+%endif
   <use name="rootcling"/>
 </tool>
 EOF_TOOLFILE
-  ;;
-esac
 
 case %cmsos in
   *_ia32)
