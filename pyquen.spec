@@ -2,7 +2,7 @@
 
 Source: http://lokhtin.web.cern.ch/lokhtin/%{n}/%{n}-%{realversion}.tar.gz
 
-BuildRequires: cmake
+BuildRequires: cmake gmake
 
 Requires: pythia6 lhapdf
 
