@@ -1,10 +1,9 @@
-### RPM external openloops 2.0.0
-%define tag df5dc23c322dd460c4f8f3cdfa331bb190c647f6
+### RPM external openloops 2.1.0
+%define tag 87acafc00fe37cbe29afd82f3356483eb9006435
 %define branch cms/v%{realversion}
 %define github_user cms-externals
-
 Source: git+https://github.com/%github_user/openloops.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-
+Source1: openloops-user.coll
 BuildRequires: python scons
 
 %define keep_archives true
@@ -22,9 +21,10 @@ born_optimisation = -O2
 loop_optimisation = -O0
 link_optimisation = -O2
 EOF
-
+export SCONSFLAGS="-j %{compiling_processes}"
 ./openloops update --processes generator=0
-./openloops libinstall all.coll
+./openloops libinstall lhc.coll
+./openloops libinstall %{_sourcedir}/openloops-user.coll
 
 %install
 mkdir %i/{lib,proclib}

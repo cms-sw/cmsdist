@@ -1,23 +1,23 @@
-### RPM external sherpa 2.2.6
-%define tag ea0b6f6f50f77d2f7479ba81d0715e23b69eabee
+### RPM external sherpa 2.2.8
+%define tag 600078cc741021be898f15563235cf6c809ca5ff
 %define branch cms/v%realversion
 %define github_user cms-externals
-Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-Requires: hepmc lhapdf blackhat sqlite fastjet openssl scons python openmpi
+Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
+Requires: hepmc lhapdf blackhat sqlite fastjet openssl scons python openmpi rivet
 BuildRequires: mcfm swig
 
 %define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 
 %if %islinux
-%if %isamd64
+%ifnarch ppc64le
 Requires: openloops
-%endif # isamd64
+%endif # is not ppc64
 %endif # islinux
 
 %prep
-%setup -q -n %{n}-%{realversion}
-sed -i -e 's|^\s*Manual \s*\\$|\\|' Makefile.am
+%setup -q -n SHERPA-MC-%{realversion}
+
 autoreconf -i --force
 
 # Force architecture based on %%cmsplatf
@@ -38,6 +38,7 @@ esac
             --enable-fastjet=$FASTJET_ROOT \
             --enable-mcfm=$MCFM_ROOT \
             --enable-hepmc2=$HEPMC_ROOT \
+            --enable-rivet=$RIVET_ROOT \
             --enable-lhapdf=$LHAPDF_ROOT \
             --enable-blackhat=$BLACKHAT_ROOT \
             --enable-pyext \
@@ -45,12 +46,13 @@ esac
             ${OPENLOOPS_ROOT+--enable-openloops=$OPENLOOPS_ROOT} \
             --enable-mpi \
             --with-sqlite3=$SQLITE_ROOT \
+            --enable-analysis \
             CC="mpicc" \
             CXX="mpicxx" \
             MPICXX="mpicxx" \
             FC="mpifort" \
-            CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF -O2 -std=c++0x -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$OPENSSL_ROOT/include" \
-            LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib -L$OPENSSL_ROOT/lib" MAKEINFO=true
+            CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF -O2 -std=c++0x -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$OPENSSL_ROOT/include -I$RIVET_ROOT/include" \
+            LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib -L$OPENSSL_ROOT/lib"
 
 make %{makeprocesses}
 
