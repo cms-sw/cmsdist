@@ -1,0 +1,74 @@
+## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+
+%if "%{?wmcore_packages:set}" != "set"
+  %define wmcore_packages PSetTweaks Utils WMCore
+%endif
+%if "%{?crabserver_packages:set}" != "set"
+  %define crabserver_packages PandaServerInterface.py RESTInteractions.py ServerUtilities.py
+%endif
+%if "%{?dbs_packages:set}" != "set"
+  %define dbs_packages Client/src/python/dbs PycurlClient/src/python/RestClient
+%endif
+
+Source0: git://github.com/dmwm/CRABClient.git?obj=master/%{realversion}&export=CRABClient&output=/CRABClient-%{realversion}.tar.gz
+Source1: git://github.com/dmwm/WMCore.git?obj=master/%{wmcore_version}&export=WMCore&output=/WMCore-%{wmcore_version}.tar.gz
+Source2: git://github.com/dmwm/CRABServer.git?obj=master/%{crabserver_version}&export=CRABServer&output=/CRABServer-%{crabserver_version}.tar.gz
+Source3: git://github.com/dmwm/DBS.git?obj=master/%{dbs_version}&export=DBS&output=/DBS-%{dbs_version}.tar.gz
+
+Requires: py2-pycurl py2-python-cjson
+
+%prep
+%setup -D -T -b 0 -n CRABClient
+%setup -D -T -b 1 -n WMCore
+%setup -D -T -b 2 -n CRABServer
+%setup -D -T -b 3 -n DBS
+
+%build
+
+%install
+mkdir -p %{i}/bin %{i}/${PYTHON_LIB_SITE_PACKAGES}
+
+#Copy CRABClient
+rsync -a %{_builddir}/CRABClient/src/python/ %{i}/${PYTHON_LIB_SITE_PACKAGES}
+sed -i -e 's|"development"|"%{realversion}"|' %{i}/${PYTHON_LIB_SITE_PACKAGES}/CRABClient/__init__.py
+rsync -a %{_builddir}/CRABClient/bin/  %{i}/bin/
+
+
+#Copy WMCore
+for pkg in %{wmcore_packages} ; do
+  if [ -d %{_builddir}/WMCore/src/python/${pkg} ] ; then
+    rsync -a %{_builddir}/WMCore/src/python/${pkg} %{i}/${PYTHON_LIB_SITE_PACKAGES}/
+  else
+    cp %{_builddir}/WMCore/src/python/${pkg} %{i}/${PYTHON_LIB_SITE_PACKAGES}/${pkg} 
+  fi
+done
+
+#Copy CRABServer
+for pkg in %{crabserver_packages} ; do
+  if [ -d %{_builddir}/CRABServer/src/python/${pkg} ] ; then
+    rsync -a %{_builddir}/CRABServer/src/python/${pkg} %{i}/${PYTHON_LIB_SITE_PACKAGES}/
+  else
+    cp %{_builddir}/CRABServer/src/python/${pkg} %{i}/${PYTHON_LIB_SITE_PACKAGES}/${pkg}
+  fi
+done
+
+#Copy DBS
+for pkg in %{dbs_packages} ; do
+  if [ -d %{_builddir}/DBS/${pkg} ] ; then
+    rsync -a %{_builddir}/DBS/${pkg} %{i}/${PYTHON_LIB_SITE_PACKAGES}/
+  else
+    cp %{_builddir}/DBS/${pkg} %{i}/${PYTHON_LIB_SITE_PACKAGES}/${pkg}
+  fi
+done
+
+python -m compileall %{i}/${PYTHON_LIB_SITE_PACKAGES}
+ 
+%post
+if [ "%{n}" != "crab" ] ; then
+  rm -f ${RPM_INSTALL_PREFIX}/common/%{n}
+  symlink="crab-prod"
+  if [ -f ${RPM_INSTALL_PREFIX}/common/crab ] ; then symlink="crab" ; fi
+  ln -s ${symlink} ${RPM_INSTALL_PREFIX}/common/%{n}
+fi
+source ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d/init.sh
+python -m compileall  ${RPM_INSTALL_PREFIX}/%{pkgrel}/${PYTHON_LIB_SITE_PACKAGES} || true
