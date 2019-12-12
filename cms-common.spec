@@ -1,8 +1,8 @@
 ### RPM cms cms-common 1.0
-## REVISION 1204
+## REVISION 1205
 ## NOCOMPILER
 
-%define tag c9de2de0531eaa36246c630c2b20bd1d0471e3c7
+%define tag 40556aad8620866e20f549ebe5e164a7a399500f
 
 Source:  git+https://github.com/cms-sw/cms-common.git?obj=master/%{tag}&export=%{n}-%{realversion}-%{tag}&output=/%{n}-%{realversion}-%{tag}.tgz
 
@@ -27,7 +27,7 @@ rsync -a %_builddir/%{n}-%{realversion}-%{tag}/ %{i}/%{pkgrevision}/
 cd $RPM_INSTALL_PREFIX/%{pkgrel}/%{pkgrevision}
 %{relocateCmsFiles} `find . -name "*" -type f`
 
-mkdir -p $RPM_INSTALL_PREFIX/common $RPM_INSTALL_PREFIX/bin $RPM_INSTALL_PREFIX/etc/%{pkgname}  $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/profile.d
+mkdir -p $RPM_INSTALL_PREFIX/etc/%{pkgname}  $RPM_INSTALL_PREFIX/%{cmsplatf}/etc/profile.d
 
 #Check if a newer revision is already installed
 #Also force installation if older revision has deleted cmsset_default.sh
@@ -38,20 +38,12 @@ if [ -f $RPM_INSTALL_PREFIX/cmsset_default.csh ] && [ -f $RPM_INSTALL_PREFIX/etc
   fi
 fi
 
-for file in `find . -name "*" -type f`; do
-  rm -f $RPM_INSTALL_PREFIX/$file
-  cp $file $RPM_INSTALL_PREFIX/$file
-done
-
-cd $RPM_INSTALL_PREFIX
-for l in common/scramv1 common/scramv0 ; do
-  if [ ! -L $l ] ; then
-    rm -f $l; ln -s scram $l
-  fi
-done
-for l in cmsarch cmsos scramv1 ; do
-  if [ ! -L bin/$l ] ; then
-    rm -f bin/$l; ln -s ../common/$l bin/$l
+for file in $(find . -name '*'); do
+  if [ -d $file ] ; then
+    mkdir -p $file
+  else
+    rm -f $RPM_INSTALL_PREFIX/$file
+    cp -P $file $RPM_INSTALL_PREFIX/$file
   fi
 done
 echo %{pkgrevision} > etc/%{pkgname}/revision
