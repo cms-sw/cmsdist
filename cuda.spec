@@ -1,9 +1,9 @@
 ### RPM external cuda %{fullversion}
 
 %ifarch x86_64
-%define fullversion 10.1.243
+%define fullversion 10.1.168
 %define cudaversion %(echo %realversion | cut -d. -f 1,2)
-%define driversversion 418.87.00
+%define driversversion 418.67
 %define cudasoversion %{driversversion}
 %endif
 %ifarch aarch64
@@ -14,7 +14,7 @@
 %endif
 
 %ifarch x86_64
-Source0: https://developer.download.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux.run
+Source0: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux.run
 %endif
 %ifarch aarch64
 Source0: https://patatrack.web.cern.ch/patatrack/files/cuda-repo-l4t-10-0-local-%{realversion}_1.0-1_arm64.deb
@@ -36,11 +36,10 @@ mkdir %_builddir/build %_builddir/tmp
 /bin/sh %{SOURCE0} --silent --override --tmpdir %_builddir/tmp --extract=%_builddir/build
 # extracts:
 # %_builddir/build/EULA.txt
-# %_builddir/build/NVIDIA-Linux-x86_64-418.87.00.run    # linux drivers
+# %_builddir/build/NVIDIA-Linux-x86_64-418.67.run       # linux drivers
 # %_builddir/build/cublas/                              # standalone cuBLAS library, also included in cuda-toolkit
 # %_builddir/build/cuda-samples/                        # CUDA samples
 # %_builddir/build/cuda-toolkit/                        # CUDA runtime, tools and stubs
-# %_builddir/build/integration/                         # Nsight Systems and Compute wrappers
 %endif
 %ifarch aarch64
 # extract the individual .deb archives from the repository into
@@ -74,7 +73,6 @@ rm -f %_builddir/build/cuda-toolkit/lib64/libcufft.so*
 rm -f %_builddir/build/cuda-toolkit/lib64/libcufftw.so*
 rm -f %_builddir/build/cuda-toolkit/lib64/libcurand.so*
 rm -f %_builddir/build/cuda-toolkit/lib64/libcusolver.so*
-rm -f %_builddir/build/cuda-toolkit/lib64/libcusolverMg.so*
 rm -f %_builddir/build/cuda-toolkit/lib64/libcusparse.so*
 rm -f %_builddir/build/cuda-toolkit/lib64/libnpp*.so*
 rm -f %_builddir/build/cuda-toolkit/lib64/libnvgraph.so*
