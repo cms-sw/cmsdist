@@ -34,7 +34,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda.xml
     <environment name="LIBDIR"    default="$CUDA_BASE/lib64"/>
     <environment name="INCLUDE"   default="$CUDA_BASE/include"/>
   </client>
-%ifarch x86_64
+%ifarch x86_64 ppc64le
   <flags CUDA_FLAGS="-gencode arch=compute_35,code=sm_35"/>
   <flags CUDA_FLAGS="-gencode arch=compute_60,code=sm_60"/>
   <flags CUDA_FLAGS="-gencode arch=compute_70,code=sm_70"/>
@@ -58,7 +58,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-cublas.xml
   <info url="https://docs.nvidia.com/cuda/cublas/index.html"/>
   <use name="cuda"/>
   <lib name="cublas"/>
-%ifarch x86_64
+%ifarch x86_64 ppc64le
   <lib name="cublasLt"/>
 %endif
 </tool>
@@ -86,9 +86,6 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-cusolver.xml
   <info url="https://docs.nvidia.com/cuda/cusolver/index.html"/>
   <use name="cuda"/>
   <lib name="cusolver"/>
-%ifarch x86_64
-  <lib name="cusolverMg"/>
-%endif
 </tool>
 EOF_TOOLFILE
 
@@ -135,7 +132,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-nvml.xml
 </tool>
 EOF_TOOLFILE
 
-%ifarch x86_64
+%ifarch x86_64 ppc64le
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-nvjpeg.xml
 <tool name="cuda-nvjpeg" version="@TOOL_VERSION@">
   <info url="https://docs.nvidia.com/cuda/nvjpeg/index.html"/>
