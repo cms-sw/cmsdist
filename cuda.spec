@@ -5,17 +5,12 @@
 %define cudaversion %(echo %realversion | cut -d. -f 1,2)
 %define driversversion 418.87.00
 %define cudasoversion %{driversversion}
-%define nsightarch linux-desktop-glibc_2_11_3-x64
-%define computeversion 2019.4.0
-%define systemsversion 2019.3.7.5
 %endif
 %ifarch aarch64
 %define fullversion 10.0.326
 %define cudaversion %(echo %realversion | cut -d. -f 1,2)
 %define driversversion 32.2.0
 %define cudasoversion 1.1
-%define nsightarch linux-v4l_l4t-glx-t210-a64
-%define computeversion 1.0
 %endif
 
 %ifarch x86_64
@@ -104,33 +99,6 @@ rm -f %_builddir/build/cuda-toolkit/bin/computeprof
 # leave out the CUDA samples
 rm -f %_builddir/build/cuda-toolkit/bin/cuda-install-samples-%{cudaversion}.sh
 
-# package the Nsight Compute command line tool
-mkdir %{i}/NsightCompute
-%ifarch x86_64
-mv %_builddir/build/cuda-toolkit/nsight-compute-%{computeversion}/target            %{i}/NsightCompute/
-mv %_builddir/build/cuda-toolkit/nsight-compute-%{computeversion}/sections          %{i}/NsightCompute/
-%endif
-%ifarch aarch64
-mv %_builddir/build/cuda-toolkit/NsightCompute-%{computeversion}/target             %{i}/NsightCompute/
-mv %_builddir/build/cuda-toolkit/NsightCompute-%{computeversion}/host               %{i}/NsightCompute/
-%endif
-cat > %{i}/bin/nv-nsight-cu-cli <<@EOF
-#! /bin/bash
-exec %{i}/NsightCompute/target/%{nsightarch}/nv-nsight-cu-cli "\$@"
-@EOF
-chmod a+x %{i}/bin/nv-nsight-cu-cli
-
-# package the Nsight Systems command line tool
-%ifarch x86_64
-mkdir %{i}/NsightSystems
-mv %_builddir/build/cuda-toolkit/nsight-systems-%{systemsversion}/Target-x86_64     %{i}/NsightSystems/
-cat > %{i}/bin/nsys <<@EOF
-#! /bin/bash
-exec %{i}/NsightSystems/Target-x86_64/x86_64/quadd_d --cli "\$@"
-@EOF
-chmod a+x %{i}/bin/nsys
-%endif
-
 # package the cuda-gdb support files, and rename the binary to use it via a wrapper
 mv %_builddir/build/cuda-toolkit/share/gdb/ %{i}/share/
 mv %_builddir/build/cuda-toolkit/bin/cuda-gdb %{i}/bin/cuda-gdb.real
@@ -181,9 +149,5 @@ sed \
   -e's|$(_TARGET_SIZE_)|64|g' \
   -i $RPM_INSTALL_PREFIX/%{pkgrel}/bin/nvcc.profile
 
-# relocate the paths inside bin/nv-nsight-cu-cli
-%{relocateConfig}bin/nv-nsight-cu-cli
-%ifarch x86_64
-%{relocateConfig}bin/nsys
-%endif
+# relocate the paths inside the scripts
 %{relocateConfig}bin/cuda-gdb
