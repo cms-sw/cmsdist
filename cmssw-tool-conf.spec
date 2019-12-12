@@ -2,6 +2,7 @@
 ## NOCOMPILER
 # With cmsBuild, change the above version only when a new tool is added
 
+Requires: crab crab-pre crab-dev
 Requires: google-benchmark-toolfile
 Requires: catch2-toolfile
 Requires: starlight-toolfile
@@ -158,13 +159,13 @@ Requires: codechecker-toolfile
 Requires: gcc-checker-plugin-toolfile
 Requires: openldap-toolfile
 Requires: gperftools-toolfile
+Requires: cuda-toolfile
+Requires: cub-toolfile
+Requires: cuda-api-wrappers-toolfile
 
 %ifnarch ppc64le
 Requires: libunwind-toolfile
 Requires: igprof-toolfile
-Requires: cuda-toolfile
-Requires: cub-toolfile
-Requires: cuda-api-wrappers-toolfile
 Requires: openloops-toolfile
 %endif
 
