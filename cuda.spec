@@ -1,6 +1,6 @@
 ### RPM external cuda %{fullversion}
 
-%ifarch x86_64
+%ifarch x86_64 ppc64le
 %define fullversion 10.1.168
 %define cudaversion %(echo %realversion | cut -d. -f 1,2)
 %define driversversion 418.67
@@ -15,6 +15,9 @@
 
 %ifarch x86_64
 Source0: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux.run
+%endif
+%ifarch ppc64le
+Source0: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux_ppc64le.run
 %endif
 %ifarch aarch64
 Source0: https://patatrack.web.cern.ch/patatrack/files/cuda-repo-l4t-10-0-local-%{realversion}_1.0-1_arm64.deb
@@ -32,11 +35,11 @@ rm -rf %_builddir/build %_builddir/tmp
 mkdir %_builddir/build %_builddir/tmp
 
 # extract and repackage the CUDA runtime, tools and stubs
-%ifarch x86_64
+%ifarch x86_64 ppc64le
 /bin/sh %{SOURCE0} --silent --override --tmpdir %_builddir/tmp --extract=%_builddir/build
 # extracts:
 # %_builddir/build/EULA.txt
-# %_builddir/build/NVIDIA-Linux-x86_64-418.67.run       # linux drivers
+# %_builddir/build/NVIDIA-Linux-%{_arch}-418.67.run     # linux drivers
 # %_builddir/build/cublas/                              # standalone cuBLAS library, also included in cuda-toolkit
 # %_builddir/build/cuda-samples/                        # CUDA samples
 # %_builddir/build/cuda-toolkit/                        # CUDA runtime, tools and stubs
@@ -115,8 +118,8 @@ mv %_builddir/build/cuda-toolkit/nvvm %{i}/
 mv %_builddir/build/cuda-toolkit/version.txt %{i}/
 
 # extract and repackage the NVIDIA libraries needed by the CUDA runtime
-%ifarch x86_64
-/bin/sh %_builddir/build/NVIDIA-Linux-x86_64-%{driversversion}.run --silent --extract-only --tmpdir %_builddir/tmp --target %_builddir/build/drivers
+%ifarch x86_64 ppc64le
+/bin/sh %_builddir/build/NVIDIA-Linux-%{_arch}-%{driversversion}.run --silent --extract-only --tmpdir %_builddir/tmp --target %_builddir/build/drivers
 %endif
 %ifarch aarch64
 tar xaf %{SOURCE1} -C %_builddir/tmp Linux_for_Tegra/nv_tegra/nvidia_drivers.tbz2
