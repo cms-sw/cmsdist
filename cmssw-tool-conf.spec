@@ -12,6 +12,7 @@
 %define isslc7 %(case %{cmsplatf} in (slc7_amd64*) echo 1 ;; (*) echo 0 ;; esac)
 
 Requires: python2to3
+Requires: crab crab-pre crab-dev
 Requires: google-benchmark-toolfile
 Requires: catch2-toolfile
 Requires: starlight-toolfile
@@ -170,13 +171,13 @@ Requires: codechecker-toolfile
 Requires: gcc-checker-plugin-toolfile
 Requires: openldap-toolfile
 Requires: gperftools-toolfile
+Requires: cuda-toolfile
+Requires: cub-toolfile
+Requires: cuda-api-wrappers-toolfile
 
 %if %isnotppc64le_be
 Requires: libunwind-toolfile
 Requires: igprof-toolfile
-Requires: cuda-toolfile
-Requires: cub-toolfile
-Requires: cuda-api-wrappers-toolfile
 Requires: openloops-toolfile
 %endif
 
