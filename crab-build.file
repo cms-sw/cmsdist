@@ -60,8 +60,6 @@ for pkg in %{dbs_packages} ; do
     cp %{_builddir}/DBS/${pkg} %{i}/${PYTHON_LIB_SITE_PACKAGES}/${pkg}
   fi
 done
-
-python -m compileall %{i}/${PYTHON_LIB_SITE_PACKAGES}
  
 %post
 if [ "%{n}" != "crab" ] ; then
@@ -70,5 +68,3 @@ if [ "%{n}" != "crab" ] ; then
   if [ -f ${RPM_INSTALL_PREFIX}/common/crab ] ; then symlink="crab" ; fi
   ln -s ${symlink} ${RPM_INSTALL_PREFIX}/common/%{n}
 fi
-source ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d/init.sh
-python -m compileall  ${RPM_INSTALL_PREFIX}/%{pkgrel}/${PYTHON_LIB_SITE_PACKAGES} || true
