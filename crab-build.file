@@ -1,5 +1,6 @@
-## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHONPATH %{i}/lib
 
+%define crab_startup _crab-startup
 %if "%{?wmcore_packages:set}" != "set"
   %define wmcore_packages PSetTweaks Utils WMCore
 %endif
@@ -10,12 +11,14 @@
   %define dbs_packages Client/src/python/dbs PycurlClient/src/python/RestClient
 %endif
 
+Requires: curl
+
 Source0: git://github.com/dmwm/CRABClient.git?obj=master/%{realversion}&export=CRABClient&output=/CRABClient-%{realversion}.tar.gz
 Source1: git://github.com/dmwm/WMCore.git?obj=master/%{wmcore_version}&export=WMCore&output=/WMCore-%{wmcore_version}.tar.gz
 Source2: git://github.com/dmwm/CRABServer.git?obj=master/%{crabserver_version}&export=CRABServer&output=/CRABServer-%{crabserver_version}.tar.gz
 Source3: git://github.com/dmwm/DBS.git?obj=master/%{dbs_version}&export=DBS&output=/DBS-%{dbs_version}.tar.gz
-
-Requires: py2-pycurl py2-python-cjson
+Source98: cjson.py
+Source99: %{crab_startup}
 
 %prep
 %setup -D -T -b 0 -n CRABClient
@@ -26,45 +29,61 @@ Requires: py2-pycurl py2-python-cjson
 %build
 
 %install
-mkdir -p %{i}/bin %{i}/${PYTHON_LIB_SITE_PACKAGES}
+
+mkdir -p %{i}/bin %{i}/lib/extras %{i}/etc/profile.d
 
 #Copy CRABClient
-rsync -a %{_builddir}/CRABClient/src/python/ %{i}/${PYTHON_LIB_SITE_PACKAGES}
-sed -i -e 's|"development"|"%{realversion}"|' %{i}/${PYTHON_LIB_SITE_PACKAGES}/CRABClient/__init__.py
+rsync -a %{_builddir}/CRABClient/src/python/ %{i}/lib
+sed -i -e 's|"development"|"%{realversion}"|' %{i}/lib/CRABClient/__init__.py
 rsync -a %{_builddir}/CRABClient/bin/  %{i}/bin/
-
 
 #Copy WMCore
 for pkg in %{wmcore_packages} ; do
   if [ -d %{_builddir}/WMCore/src/python/${pkg} ] ; then
-    rsync -a %{_builddir}/WMCore/src/python/${pkg} %{i}/${PYTHON_LIB_SITE_PACKAGES}/
+    rsync -a %{_builddir}/WMCore/src/python/${pkg} %{i}/lib/
   else
-    cp %{_builddir}/WMCore/src/python/${pkg} %{i}/${PYTHON_LIB_SITE_PACKAGES}/${pkg} 
+    cp %{_builddir}/WMCore/src/python/${pkg} %{i}/lib/${pkg}
   fi
 done
 
 #Copy CRABServer
 for pkg in %{crabserver_packages} ; do
   if [ -d %{_builddir}/CRABServer/src/python/${pkg} ] ; then
-    rsync -a %{_builddir}/CRABServer/src/python/${pkg} %{i}/${PYTHON_LIB_SITE_PACKAGES}/
+    rsync -a %{_builddir}/CRABServer/src/python/${pkg} %{i}/lib/
   else
-    cp %{_builddir}/CRABServer/src/python/${pkg} %{i}/${PYTHON_LIB_SITE_PACKAGES}/${pkg}
+    cp %{_builddir}/CRABServer/src/python/${pkg} %{i}/lib/${pkg}
   fi
 done
 
 #Copy DBS
 for pkg in %{dbs_packages} ; do
   if [ -d %{_builddir}/DBS/${pkg} ] ; then
-    rsync -a %{_builddir}/DBS/${pkg} %{i}/${PYTHON_LIB_SITE_PACKAGES}/
+    rsync -a %{_builddir}/DBS/${pkg} %{i}/lib/
   else
-    cp %{_builddir}/DBS/${pkg} %{i}/${PYTHON_LIB_SITE_PACKAGES}/${pkg}
+    cp %{_builddir}/DBS/${pkg} %{i}/lib/${pkg}
   fi
 done
- 
+
+#Copy crab-startup script
+cp %{_sourcedir}/%{crab_startup} %{i}/bin/%{crab_startup}
+chmod +x %{i}/bin/%{crab_startup}
+
+cp %{_sourcedir}/cjson.py %{i}/lib/extras
+
 %post
-if [ "%{n}" != "crab" ] ; then
-  rm -f ${RPM_INSTALL_PREFIX}/common/%{n}
-  symlink="crab-prod"
-  if [ -f ${RPM_INSTALL_PREFIX}/common/crab ] ; then symlink="crab" ; fi
-  ln -s ${symlink} ${RPM_INSTALL_PREFIX}/common/%{n}
+%{relocateConfig}/bin/%{crab_startup}
+cd  ${RPM_INSTALL_PREFIX}/common
+CRAB_OLD_REV=0
+if [ -f %{crab_startup} ] ; then
+  CRAB_OLD_REV=$(grep '^\s*CRAB_STARTUP_REVISION\s*=' %{crab_startup} | sed 's|.*=||;s| ||g')
 fi
+CRAB_NEW_REV=$(grep '^\s*CRAB_STARTUP_REVISION\s*='  ${RPM_INSTALL_PREFIX}/%{pkgrel}/bin/%{crab_startup} | sed 's|.*=||;s| ||g')
+if [ ${CRAB_OLD_REV} -lt ${CRAB_NEW_REV} ] ; then
+  rm -f %{crab_startup}
+  cp ${RPM_INSTALL_PREFIX}/%{pkgrel}/bin/%{crab_startup} %{crab_startup}
+fi
+
+symlink="%n"
+if [ "%{n}" = "crab" ] ; then symlink="%{n}-prod" ; fi
+rm -f ${symlink}
+ln -s %{crab_startup} ${symlink}
