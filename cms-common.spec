@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1206
+## REVISION 1207
 ## NOCOMPILER
 
 %define tag 5da960d0e56fc5315fac016d417ed37b159486ff
@@ -46,4 +46,4 @@ for file in $(find . -name '*'); do
     cp -P $file $RPM_INSTALL_PREFIX/$file
   fi
 done
-echo %{pkgrevision} > etc/%{pkgname}/revision
+echo %{pkgrevision} > $RPM_INSTALL_PREFIX/etc/%{pkgname}/revision
