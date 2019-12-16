@@ -24,6 +24,7 @@ EOF
 export SCONSFLAGS="-j %{compiling_processes}"
 ./openloops update --processes generator=0
 ./openloops libinstall all.coll
+./openloops libinstall %{_sourcedir}/openloops-user.coll
 
 %install
 mkdir %i/{lib,proclib}
