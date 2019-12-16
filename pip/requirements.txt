@@ -74,6 +74,7 @@ gitdb2==2.0.6
 GitPython==2.1.14 ; python_version<'3.0'
 GitPython==3.0.4 ; python_version>'3.0'
 google-common==0.0.1
+google-pasta==0.1.8
 grpcio==1.25.0
 h5py-cache==1.0
 h5py==2.10.0
@@ -146,6 +147,8 @@ numpy==1.15.1 ; python_version<'3.0' ; platform_machine=='aarch64'
 numpy==1.15.1 ; python_version>'3.0' ; platform_machine=='aarch64'
 oamap==0.12.4
 onnx==1.6.0
+opt-einsum==2.3.2 ; python_version<'3.0'
+opt-einsum==3.1.0 ; python_version>'3.0'
 ordereddict==1.1
 packaging==19.2
 pandas==0.24.2 ; python_version<'3.0'
@@ -227,10 +230,11 @@ tables==3.5.2 ; python_version<'3.0'
 tables==3.6.1 ; python_version>'3.0'
 #NO_AUTO_UPDATE:4: Force to use tensorflow 1.6.0; this should match the version in tensorflow-sources.spec
 #tensorboard: Need separate packages for py2 and py3 to properly get the correct sources
-tensorboard==1.6.0 ; python_version<'3.0'
-tensorboard==1.6.0 ; python_version>'3.0'
-tensorflow==1.6.0 ; python_version<'3.0'
-tensorflow==1.6.0 ; python_version>'3.0'
+tensorboard==2.0.0 ; python_version<'3.0'
+tensorboard==2.0.0 ; python_version>'3.0'
+tensorflow==2.0.0 ; python_version<'3.0'
+tensorflow==2.0.0 ; python_version>'3.0'
+tensorflow-estimator==2.0.1
 termcolor==1.1.0
 terminado==0.8.3
 testpath==0.4.4

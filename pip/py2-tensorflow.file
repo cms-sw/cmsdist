@@ -1,4 +1,4 @@
-Requires: py2-enum34 py2-tensorboard
+Requires: py2-enum34 py2-tensorboard py2-wrapt py2-functools32 py2-google-pasta py2-opt-einsum py2-tensorflow-estimator
 BuildRequires: tensorflow-sources
 %define PipPreBuildPy2 PIPFILE=${TENSORFLOW_SOURCES_ROOT}/tensorflow-%{realversion}-cp27-cp27mu-linux_%{_arch}.whl
 %define PipPostBuild rm -f %{i}/bin/tensorboard* ; ls %{i}/bin/* | xargs -i cp '{}' '{}2'

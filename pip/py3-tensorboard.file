@@ -1,2 +1,2 @@
-Requires: py3-numpy
+Requires: py3-numpy py2-absl-py py2-grpcio
 %define PipPostBuild mv %{i}/bin/tensorboard %{i}/bin/tensorboard3
