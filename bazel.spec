@@ -22,7 +22,7 @@ BuildRequires: java-env
 # The sed command below changes the line:
 # https://github.com/bazelbuild/bazel/blob/0.26.1/src/main/java/com/google/devtools/build/lib/exec/local/LocalSpawnRunner.java#L115
 sed -i 's/this.useProcessWrapper = useProcessWrapper;/this.useProcessWrapper = false;/g' src/main/java/com/google/devtools/build/lib/exec/local/LocalSpawnRunner.java
-
+export EXTRA_BAZEL_ARGS="--host_javabase=@local_jdk//:jdk"
 bash ./compile.sh
 
 %install
