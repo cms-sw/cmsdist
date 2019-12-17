@@ -164,13 +164,13 @@ Requires: dablooms-toolfile
 Requires: codechecker-toolfile
 Requires: openldap-toolfile
 Requires: gperftools-toolfile
+Requires: cuda-toolfile
+Requires: cub-toolfile
+Requires: cuda-api-wrappers-toolfile
 
 %if %isnotppc64le_be
 Requires: libunwind-toolfile
 Requires: igprof-toolfile
-Requires: cuda-toolfile
-Requires: cub-toolfile
-Requires: cuda-api-wrappers-toolfile
 Requires: openloops-toolfile
 %endif
 
