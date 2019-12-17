@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+CalibPPS-ESProducers=V01-01-00
 MagneticField-Engine=V00-01-00
 MagneticField-Interpolation=V01-01-00
 L1Trigger-L1THGCal=V01-00-15
@@ -19,7 +20,6 @@ RecoCTPPS-TotemRPLocal=V00-02-00
 RecoMuon-MuonIdentification=V01-12-05
 RecoTracker-FinalTrackSelectors=V01-00-07
 SLHCUpgradeSimulations-Geometry=V01-00-10
-CalibPPS-ESProducers=V01-00-00
 L1Trigger-L1TMuon=V01-01-04
 CondTools-SiPhase2Tracker=V00-01-00
 PhysicsTools-NanoAOD=V01-00-05
