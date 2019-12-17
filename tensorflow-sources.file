@@ -120,6 +120,9 @@ cp -p $srcdir/compiler/tf2xla/lib*.so* $libdir/
 cp -p $srcdir/compiler/xla/lib*.so* $libdir/
 
 for l in tensorflow_cc tensorflow_framework tensorflow ; do
+  # check if the actual lib exists
+  [ -f $libdir/lib${l}.so.%{realversion} ] || exit 1
+
   # link from majorversion to realversion
   rm -f $libdir/lib${l}.so.%{majorversion}
   ln -s $libdir/lib${l}.so.%{realversion} $libdir/lib${l}.so.%{majorversion}
