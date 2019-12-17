@@ -24,6 +24,8 @@ Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag
 %define pythonOnly no
 %endif
 
+%define majorversion %(echo %realversion | cut -d . -f 1)
+
 %prep
 
 %setup -q -n tensorflow-%{realversion}
@@ -118,9 +120,15 @@ cp -p $srcdir/compiler/tf2xla/lib*.so* $libdir/
 cp -p $srcdir/compiler/xla/lib*.so* $libdir/
 
 for l in tensorflow_cc tensorflow_framework tensorflow ; do
+  # link from realversion to majorversion
+  if [ ! -e $libdir/lib${l}.so.%{majorversion} ] ; then
+    [ -e $libdir/lib${l}.so.%{realversion} ] || exit 1
+    (cd $libdir && ln -s lib${l}.so.%{realversion} lib${l}.so.%{majorversion})
+  fi
+  # link from majorversion to default lib
   if [ ! -e $libdir/lib${l}.so ] ; then
-    [ -e  $libdir/lib${l}.so.%{realversion} ] || exit 1
-    ln -s lib${l}.so.%{realversion} $libdir/lib${l}.so
+    [ -e $libdir/lib${l}.so.%{majorversion} ] || exit 1
+    (cd $libdir && ln -s lib${l}.so.%{majorversion} lib${l}.so)
   fi
 done
 
