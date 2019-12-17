@@ -3,7 +3,7 @@
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/openloops.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-
+Source1: openloops-user.coll
 BuildRequires: python scons
 
 %define keep_archives true
