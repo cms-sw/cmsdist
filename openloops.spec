@@ -23,6 +23,7 @@ link_optimisation = -O2
 EOF
 export SCONSFLAGS="-j %{compiling_processes}"
 ./openloops update --processes generator=0
+./openloops libinstall lhc.coll
 ./openloops libinstall %{_sourcedir}/openloops-user.coll
 
 %install
