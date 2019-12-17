@@ -33,7 +33,11 @@ Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag
 export PYTHON_BIN_PATH="$(which %{python_cmd})"
 export USE_DEFAULT_PYTHON_LIB_PATH=1
 export GCC_HOST_COMPILER_PATH="$(which gcc)"
+%ifarch x86_64
 export CC_OPT_FLAGS=-march=core2
+%else
+export CC_OPT_FLAGS="-mcpu=native -mtune=native"
+%endif
 export CXX_OPT_FLAGS=-std=c++17
 export EIGEN_SOURCE=${EIGEN_SOURCE}
 export PROTOBUF_SOURCE=${PROTOBUF_SOURCE}
