@@ -120,16 +120,13 @@ cp -p $srcdir/compiler/tf2xla/lib*.so* $libdir/
 cp -p $srcdir/compiler/xla/lib*.so* $libdir/
 
 for l in tensorflow_cc tensorflow_framework tensorflow ; do
-  # link from realversion to majorversion
-  if [ ! -e $libdir/lib${l}.so.%{majorversion} ] ; then
-    [ -e $libdir/lib${l}.so.%{realversion} ] || exit 1
-    (cd $libdir && ln -s lib${l}.so.%{realversion} lib${l}.so.%{majorversion})
-  fi
-  # link from majorversion to default lib
-  if [ ! -e $libdir/lib${l}.so ] ; then
-    [ -e $libdir/lib${l}.so.%{majorversion} ] || exit 1
-    (cd $libdir && ln -s lib${l}.so.%{majorversion} lib${l}.so)
-  fi
+  # link from majorversion to realversion
+  rm -f $libdir/lib${l}.so.%{majorversion}
+  ln -s $libdir/lib${l}.so.%{realversion} $libdir/lib${l}.so.%{majorversion}
+
+  # link from default lib to majorversion
+  rm -f $libdir/lib${l}.so
+  ln -s $libdir/lib${l}.so.%{majorversion} $libdir/lib${l}.so
 done
 
 cp -p $srcdir/compiler/aot/tfcompile $bindir
