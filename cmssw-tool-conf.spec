@@ -40,6 +40,8 @@ Requires: geant4data-toolfile
 Requires: glimpse-toolfile
 Requires: gmake-toolfile
 Requires: gsl-toolfile
+Requires: gosamcontrib-toolfile
+Requires: gosam-toolfile
 Requires: hector-toolfile
 Requires: hepmc-toolfile
 Requires: heppdt-toolfile
@@ -68,6 +70,8 @@ Requires: pythia8-toolfile
 Requires: vincia-toolfile
 Requires: python-toolfile
 Requires: qt-toolfile
+Requires: qgraf-toolfile
+Requires: form-toolfile
 Requires: root-toolfile
 Requires: sherpa-toolfile
 Requires: openmpi-toolfile

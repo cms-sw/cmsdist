@@ -1,29 +1,30 @@
-### RPM external thepeg 1.9.2p1
+### RPM external thepeg 2.1.4
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib/ThePEG
 ## INITENV +PATH DYLD_LIBRARY_PATH %{i}/lib/ThePEG
 
-%define tag 56bf5bd49ac1bfdb28cd7d7022e8ecf4392743eb
-%define branch cms/v%realversion
+# Download from official webpage
+Source: http://www.hepforge.org/archive/thepeg/ThePEG-%{realversion}.tar.bz2
 
-Source: git+https://github.com/cms-externals/thepeg.git?obj=%{branch}/%{tag}&export=thepeg-%{realversion}-%{tag}&module=thepeg-%realversion-%{tag}&output=/thepeg-%{realversion}-%{tag}.tgz
 Requires: lhapdf
 Requires: gsl
 Requires: hepmc
 Requires: zlib
+Requires: fastjet
+Requires: rivet
+
+
 BuildRequires: autotools
-# FIXME: rivet?
+BuildRequires: lhapdf
+
 %define keep_archives true
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx c++
 %endif
 
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -O2 -std=c++11
-%endif
 
 %prep
-%setup -q -n thepeg-%{realversion}-%{tag}
+%setup -q -n ThePEG-%{realversion}
 
 # Regenerate build scripts
 autoreconf -fiv
@@ -33,20 +34,26 @@ CXX="$(which %{cms_cxx}) -fPIC"
 CC="$(which gcc) -fPIC"
 PLATF_CONF_OPTS="--enable-shared --disable-static"
 
-case %{cmsplatf} in
-  osx*)
-    LIBQUADMATH="-lquadmath"
-    ;;
-esac
+
+# Update to detect aarch64 and ppc64le
+rm -f ./Config/config.{sub,guess}
+curl -L -k -s -o ./Config/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./Config/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./Config/config.{sub,guess}
 
 ./configure $PLATF_CONF_OPTS \
-            --disable-silent-rules \
-            --with-LHAPDF=$LHAPDF_ROOT \
+            --with-lhapdf=$LHAPDF_ROOT \
+            --with-boost=$BOOST_ROOT \
             --with-hepmc=$HEPMC_ROOT \
-            --with-gsl=$GSL_ROOT --with-zlib=$ZLIB_ROOT \
-            --without-javagui --prefix=%{i} \
-            --disable-readline CXX="$CXX" CC="$CC" CXXFLAGS="%{cms_cxxflags}" \
-            LIBS="-lz $LIBQUADMATH"
+            --with-gsl=$GSL_ROOT \
+            --with-zlib=$ZLIB_ROOT \
+            --with-fastjet=$FASTJET_ROOT \
+            --with-rivet=$RIVET_ROOT \
+            --without-javagui \
+            --prefix=%{i} \
+            --disable-readline CXX="$CXX" CC="$CC"  
+
+
 
 make %{makeprocesses}
 
@@ -54,8 +61,17 @@ make %{makeprocesses}
 make install
 find %{i}/lib -name '*.la' -exec rm -f {} \;
 
+
 %post
 %{relocateConfig}lib/ThePEG/Makefile.common
 %{relocateConfig}lib/ThePEG/Makefile
 %{relocateConfig}lib/ThePEG/ThePEGDefaults.rpo
-%{relocateConfig}lib/ThePEG/ThePEGDefaults-1.9.2.rpo
+%{relocateConfig}lib/ThePEG/ThePEGDefaults-%{realversion}.rpo
+
+#create link to LesHouches library
+
+cd $RPM_INSTALL_PREFIX/%{pkgrel}/lib/ThePEG/
+ln -s LesHouches.so libLesHouches.so
+cd -
+
+
