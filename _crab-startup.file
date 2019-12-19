@@ -26,16 +26,14 @@ if [ -z "${CMS_CRAB_PATH}" ] ; then
   #Save CMSSW_BASE, and PYTHONPATH in case we have to set its env later
   ORIGINAL_CMSSW_BASE="${CMSSW_BASE}"
   CRAB_CMSSW_SITE_PACKAGES=""
-  if [ "${SRT_PYTHON27PATH_SCRAMRTDEL}" != "" ] ; then
-    CRAB_CMSSW_SITE_PACKAGES="${SRT_PYTHON27PATH_SCRAMRTDEL}"
-  elif [ "${SRT_PYTHON27PATH_SCRAMRT}" != "" ] ; then
-    CRAB_CMSSW_SITE_PACKAGES="${SRT_PYTHON27PATH_SCRAMRT}"
-  elif [ "${SRT_PYTHON3PATH_SCRAMRTDEL}" != "" ] ; then
-    CRAB_CMSSW_SITE_PACKAGES="${SRT_PYTHON3PATH_SCRAMRTDEL}"
-  elif [ "${SRT_PYTHON3PATH_SCRAMRT}" != "" ] ; then
-    CRAB_CMSSW_SITE_PACKAGES="${SRT_PYTHON3PATH_SCRAMRT}"
-  fi
-
+  for pyenv in PYTHONPATH PYTHON27PATH PYTHON3PATH ; do
+    for ext in DEL '' ; do
+      eval "CRAB_CMSSW_SITE_PACKAGES=\${SRT_${pyenv}_SCRAMRT${ext}}"
+      [ -z "${CRAB_CMSSW_SITE_PACKAGES}" ] || break
+    done
+    [ -z "${CRAB_CMSSW_SITE_PACKAGES}" ] || break
+  done
+  
   #Unset cmssw env
   eval `scram unset -sh`
 
