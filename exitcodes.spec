@@ -1,4 +1,4 @@
-### RPM cms exitcodes 0.0.7
+### RPM cms exitcodes 0.0.8
 
 %define repo github.com/vkuznet/CMSExitCodes
 Source0: https://%repo/archive/v%realversion.tar.gz
