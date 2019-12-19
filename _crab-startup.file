@@ -3,7 +3,7 @@
 # **************** IMPORTANT NOTE ***************** #
 # Increament Crab Startup Revision for every change #
 #####################################################
-CRAB_STARTUP_REVISION=1
+CRAB_STARTUP_REVISION=2
 
 #Check if we have not already found CRAB
 if [ -z "${CMS_CRAB_PATH}" ] ; then
@@ -23,9 +23,17 @@ if [ -z "${CMS_CRAB_PATH}" ] ; then
   export CMS_CRAB_PATH="${crab_dir}"
   export CRAB_VERSION=$(basename ${crab_dir})
 
-  #Save CMSSW_BASE in case we have to set its env later
-  export ORIGINAL_CMSSW_BASE="${CMSSW_BASE}"
-
+  #Save CMSSW_BASE, and PYTHONPATH in case we have to set its env later
+  ORIGINAL_CMSSW_BASE="${CMSSW_BASE}"
+  CRAB_CMSSW_SITE_PACKAGES=""
+  for pyenv in PYTHONPATH PYTHON27PATH PYTHON3PATH ; do
+    for ext in DEL '' ; do
+      eval "CRAB_CMSSW_SITE_PACKAGES=\${SRT_${pyenv}_SCRAMRT${ext}}"
+      [ -z "${CRAB_CMSSW_SITE_PACKAGES}" ] || break
+    done
+    [ -z "${CRAB_CMSSW_SITE_PACKAGES}" ] || break
+  done
+  
   #Unset cmssw env
   eval `scram unset -sh`
 
@@ -52,6 +60,7 @@ if [ -z "${CMS_CRAB_PATH}" ] ; then
     ## The submit command will know what to do if this variable is set!
     ## See TODO: add link to an hypothetical twiki
     export CRAB3_BOOTSTRAP_DIR="$BOOTSTRAP_OUT"
+    export CRAB_CMSSW_SITE_PACKAGES
   fi
 else
   CRAB3_BOOTSTRAP_DIR=""
