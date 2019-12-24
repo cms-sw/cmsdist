@@ -23,7 +23,7 @@ Requires: coral-tool-conf
 %define cvssrc          %{n}
 
 # Build with debug symbols, and package them in a separate rpm:
-%define subpackageDebug yes
+#subpackage debug disabledes
 
 # Disable building tests, since they bring dependency on cppunit:
 %ifarch darwin
