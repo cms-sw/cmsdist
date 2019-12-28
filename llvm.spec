@@ -10,7 +10,7 @@ Requires: cuda
 %endif
 AutoReq: no
 
-%define llvmCommit a237b5fc0909a3da3650a7f2519124ed3910b62f
+%define llvmCommit dd3df36604b9a3418a28efce78ac470b22992f70
 %define llvmBranch cms/release/8.x/635f8ff
 %define iwyuCommit 4d2bbcc0d98faccfc51d15c6f6a573ec78d7751d
 %define iwyuBranch master
