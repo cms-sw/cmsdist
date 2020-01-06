@@ -87,6 +87,7 @@ bazel $BAZEL_OPTS //tensorflow:tensorflow_cc
 bazel $BAZEL_OPTS //tensorflow/tools/graph_transforms:transform_graph
 bazel $BAZEL_OPTS //tensorflow/compiler/tf2xla:tf2xla
 bazel $BAZEL_OPTS //tensorflow/compiler/xla:cpu_function_runtime
+bazel $BAZEL_OPTS //tensorflow/compiler/xla:executable_run_options
 bazel $BAZEL_OPTS //tensorflow/compiler/tf2xla:xla_compiled_cpu_function
 bazel $BAZEL_OPTS //tensorflow/compiler/aot:tfcompile
 bazel $BAZEL_OPTS //tensorflow/core/profiler

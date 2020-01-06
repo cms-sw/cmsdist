@@ -54,10 +54,16 @@ cat << \EOF_TOOLFILE > %i/etc/scram.d/tensorflow-runtime.xml
 </tool>
 EOF_TOOLFILE
 
+cat << \EOF_TOOLFILE > %i/etc/scram.d/tensorflow-executable_run_options.xml
+<tool name="tensorflow-executable_run_options" version="@TOOL_VERSION@">
+  <lib name="executable_run_options"/>
+  <use name="tensorflow-cc"/>
+</tool>
+
 cat << \EOF_TOOLFILE > %i/etc/scram.d/tensorflow-xla_compiled_cpu_function.xml
 <tool name="tensorflow-xla_compiled_cpu_function" version="@TOOL_VERSION@">
   <lib name="xla_compiled_cpu_function"/>
-  <use name="tensorflow"/>
+  <use name="tensorflow-executable_run_options"/>
 </tool>
 EOF_TOOLFILE
 
