@@ -1,4 +1,4 @@
-### RPM external llvm 8.0.1
+### RPM external llvm 9.0.1
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHON27PATH %{i}/lib64/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 ## INITENV +PATH PYTHON3PATH %{i}/lib64/python`echo $PYTHON3_VERSION | cut -d. -f 1,2`/site-packages
@@ -11,9 +11,9 @@ Requires: cuda
 %endif
 AutoReq: no
 
-%define llvmCommit dd3df36604b9a3418a28efce78ac470b22992f70
-%define llvmBranch cms/release/8.x/635f8ff
-%define iwyuCommit 4d2bbcc0d98faccfc51d15c6f6a573ec78d7751d
+%define llvmCommit 379a43bc841451feccf78db64f2ed5c9e62c7de8
+%define llvmBranch cms/release/9.x/c1a0a21
+%define iwyuCommit a40a28740c963636d8d41e75f297e8e078302d70
 %define iwyuBranch master
 
 Source0: git+https://github.com/cms-externals/llvm-project.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%{realversion}-%{llvmCommit}&output=/llvm-%{realversion}-%{llvmCommit}.tgz
