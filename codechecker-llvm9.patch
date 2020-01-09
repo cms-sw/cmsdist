@@ -1,0 +1,794 @@
+diff --git a/ClangTidy.h b/ClangTidy.h
+index 0ea9a70..a9433f6 100644
+--- a/ClangTidy.h
++++ b/ClangTidy.h
+@@ -1,25 +1,19 @@
+ //===--- ClangTidy.h - clang-tidy -------------------------------*- C++ -*-===//
+ //
+-//                     The LLVM Compiler Infrastructure
+-//
+-// This file is distributed under the University of Illinois Open Source
+-// License. See LICENSE.TXT for details.
++// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
++// See https://llvm.org/LICENSE.txt for license information.
++// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+ //
+ //===----------------------------------------------------------------------===//
+ 
+ #ifndef LLVM_CLANG_TOOLS_EXTRA_CLANG_TIDY_CLANGTIDY_H
+ #define LLVM_CLANG_TOOLS_EXTRA_CLANG_TIDY_CLANGTIDY_H
+ 
++#include "ClangTidyCheck.h"
+ #include "ClangTidyDiagnosticConsumer.h"
+ #include "ClangTidyOptions.h"
+-#include "clang/ASTMatchers/ASTMatchFinder.h"
+-#include "clang/Basic/Diagnostic.h"
+-#include "clang/Basic/SourceManager.h"
+-#include "clang/Tooling/Refactoring.h"
+-#include "llvm/ADT/StringExtras.h"
+ #include "llvm/Support/raw_ostream.h"
+ #include <memory>
+-#include <type_traits>
+ #include <vector>
+ 
+ namespace clang {
+@@ -31,167 +25,13 @@ class CompilationDatabase;
+ 
+ namespace tidy {
+ 
+-/// \brief Provides access to the ``ClangTidyCheck`` options via check-local
+-/// names.
+-///
+-/// Methods of this class prepend ``CheckName + "."`` to translate check-local
+-/// option names to global option names.
+-class OptionsView {
+-public:
+-  /// \brief Initializes the instance using \p CheckName + "." as a prefix.
+-  OptionsView(StringRef CheckName,
+-              const ClangTidyOptions::OptionMap &CheckOptions);
+-
+-  /// \brief Read a named option from the ``Context``.
+-  ///
+-  /// Reads the option with the check-local name \p LocalName from the
+-  /// ``CheckOptions``. If the corresponding key is not present, returns
+-  /// \p Default.
+-  std::string get(StringRef LocalName, StringRef Default) const;
+-
+-  /// \brief Read a named option from the ``Context``.
+-  ///
+-  /// Reads the option with the check-local name \p LocalName from local or
+-  /// global ``CheckOptions``. Gets local option first. If local is not present,
+-  /// falls back to get global option. If global option is not present either,
+-  /// returns Default.
+-  std::string getLocalOrGlobal(StringRef LocalName, StringRef Default) const;
+-
+-  /// \brief Read a named option from the ``Context`` and parse it as an
+-  /// integral type ``T``.
+-  ///
+-  /// Reads the option with the check-local name \p LocalName from the
+-  /// ``CheckOptions``. If the corresponding key is not present, returns
+-  /// \p Default.
+-  template <typename T>
+-  typename std::enable_if<std::is_integral<T>::value, T>::type
+-  get(StringRef LocalName, T Default) const {
+-    std::string Value = get(LocalName, "");
+-    T Result = Default;
+-    if (!Value.empty())
+-      StringRef(Value).getAsInteger(10, Result);
+-    return Result;
+-  }
+-
+-  /// \brief Read a named option from the ``Context`` and parse it as an
+-  /// integral type ``T``.
+-  ///
+-  /// Reads the option with the check-local name \p LocalName from local or
+-  /// global ``CheckOptions``. Gets local option first. If local is not present,
+-  /// falls back to get global option. If global option is not present either,
+-  /// returns Default.
+-  template <typename T>
+-  typename std::enable_if<std::is_integral<T>::value, T>::type
+-  getLocalOrGlobal(StringRef LocalName, T Default) const {
+-    std::string Value = getLocalOrGlobal(LocalName, "");
+-    T Result = Default;
+-    if (!Value.empty())
+-      StringRef(Value).getAsInteger(10, Result);
+-    return Result;
+-  }
+-
+-  /// \brief Stores an option with the check-local name \p LocalName with string
+-  /// value \p Value to \p Options.
+-  void store(ClangTidyOptions::OptionMap &Options, StringRef LocalName,
+-             StringRef Value) const;
+-
+-  /// \brief Stores an option with the check-local name \p LocalName with
+-  /// ``int64_t`` value \p Value to \p Options.
+-  void store(ClangTidyOptions::OptionMap &Options, StringRef LocalName,
+-             int64_t Value) const;
+-
+-private:
+-  std::string NamePrefix;
+-  const ClangTidyOptions::OptionMap &CheckOptions;
+-};
+-
+-/// \brief Base class for all clang-tidy checks.
+-///
+-/// To implement a ``ClangTidyCheck``, write a subclass and override some of the
+-/// base class's methods. E.g. to implement a check that validates namespace
+-/// declarations, override ``registerMatchers``:
+-///
+-/// ~~~{.cpp}
+-/// void registerMatchers(ast_matchers::MatchFinder *Finder) override {
+-///   Finder->addMatcher(namespaceDecl().bind("namespace"), this);
+-/// }
+-/// ~~~
+-///
+-/// and then override ``check(const MatchResult &Result)`` to do the actual
+-/// check for each match.
+-///
+-/// A new ``ClangTidyCheck`` instance is created per translation unit.
+-///
+-/// FIXME: Figure out whether carrying information from one TU to another is
+-/// useful/necessary.
+-class ClangTidyCheck : public ast_matchers::MatchFinder::MatchCallback {
+-public:
+-  /// \brief Initializes the check with \p CheckName and \p Context.
+-  ///
+-  /// Derived classes must implement the constructor with this signature or
+-  /// delegate it. If a check needs to read options, it can do this in the
+-  /// constructor using the Options.get() methods below.
+-  ClangTidyCheck(StringRef CheckName, ClangTidyContext *Context)
+-      : CheckName(CheckName), Context(Context),
+-        Options(CheckName, Context->getOptions().CheckOptions) {
+-    assert(Context != nullptr);
+-    assert(!CheckName.empty());
+-  }
+-
+-  /// \brief Override this to register ``PPCallbacks`` with ``Compiler``.
+-  ///
+-  /// This should be used for clang-tidy checks that analyze preprocessor-
+-  /// dependent properties, e.g. the order of include directives.
+-  virtual void registerPPCallbacks(CompilerInstance &Compiler) {}
+-
+-  /// \brief Override this to register AST matchers with \p Finder.
+-  ///
+-  /// This should be used by clang-tidy checks that analyze code properties that
+-  /// dependent on AST knowledge.
+-  ///
+-  /// You can register as many matchers as necessary with \p Finder. Usually,
+-  /// "this" will be used as callback, but you can also specify other callback
+-  /// classes. Thereby, different matchers can trigger different callbacks.
+-  ///
+-  /// If you need to merge information between the different matchers, you can
+-  /// store these as members of the derived class. However, note that all
+-  /// matches occur in the order of the AST traversal.
+-  virtual void registerMatchers(ast_matchers::MatchFinder *Finder) {}
+-
+-  /// \brief ``ClangTidyChecks`` that register ASTMatchers should do the actual
+-  /// work in here.
+-  virtual void check(const ast_matchers::MatchFinder::MatchResult &Result) {}
+-
+-  /// \brief Add a diagnostic with the check's name.
+-  DiagnosticBuilder diag(SourceLocation Loc, StringRef Description,
+-                         DiagnosticIDs::Level Level = DiagnosticIDs::Warning);
+-
+-  /// \brief Should store all options supported by this check with their
+-  /// current values or default values for options that haven't been overridden.
+-  ///
+-  /// The check should use ``Options.store()`` to store each option it supports
+-  /// whether it has the default value or it has been overridden.
+-  virtual void storeOptions(ClangTidyOptions::OptionMap &Options) {}
+-
+-private:
+-  void run(const ast_matchers::MatchFinder::MatchResult &Result) override;
+-  StringRef getID() const override { return CheckName; }
+-  std::string CheckName;
+-  ClangTidyContext *Context;
+-
+-protected:
+-  OptionsView Options;
+-  /// \brief Returns the main file name of the current translation unit.
+-  StringRef getCurrentMainFile() const { return Context->getCurrentFile(); }
+-  /// \brief Returns the language options from the context.
+-  LangOptions getLangOpts() const { return Context->getLangOpts(); }
+-};
+-
+ class ClangTidyCheckFactories;
+ 
+ class ClangTidyASTConsumerFactory {
+ public:
+-  ClangTidyASTConsumerFactory(ClangTidyContext &Context);
++  ClangTidyASTConsumerFactory(
++      ClangTidyContext &Context,
++      IntrusiveRefCntPtr<llvm::vfs::OverlayFileSystem> OverlayFS = nullptr);
+ 
+   /// \brief Returns an ASTConsumer that runs the specified clang-tidy checks.
+   std::unique_ptr<clang::ASTConsumer>
+@@ -205,6 +45,7 @@ public:
+ 
+ private:
+   ClangTidyContext &Context;
++  IntrusiveRefCntPtr<llvm::vfs::OverlayFileSystem> OverlayFS;
+   std::unique_ptr<ClangTidyCheckFactories> CheckFactories;
+ };
+ 
+@@ -230,12 +71,13 @@ getCheckOptions(const ClangTidyOptions &Options,
+ /// \param StoreCheckProfile If provided, and EnableCheckProfile is true,
+ /// the profile will not be output to stderr, but will instead be stored
+ /// as a JSON file in the specified directory.
+-void runClangTidy(clang::tidy::ClangTidyContext &Context,
+-                  const tooling::CompilationDatabase &Compilations,
+-                  ArrayRef<std::string> InputFiles,
+-                  llvm::IntrusiveRefCntPtr<vfs::FileSystem> BaseFS,
+-                  bool EnableCheckProfile = false,
+-                  llvm::StringRef StoreCheckProfile = StringRef());
++std::vector<ClangTidyError>
++runClangTidy(clang::tidy::ClangTidyContext &Context,
++             const tooling::CompilationDatabase &Compilations,
++             ArrayRef<std::string> InputFiles,
++             llvm::IntrusiveRefCntPtr<llvm::vfs::OverlayFileSystem> BaseFS,
++             bool EnableCheckProfile = false,
++             llvm::StringRef StoreCheckProfile = StringRef());
+ 
+ // FIXME: This interface will need to be significantly extended to be useful.
+ // FIXME: Implement confidence levels for displaying/fixing errors.
+@@ -243,9 +85,10 @@ void runClangTidy(clang::tidy::ClangTidyContext &Context,
+ /// \brief Displays the found \p Errors to the users. If \p Fix is true, \p
+ /// Errors containing fixes are automatically applied and reformatted. If no
+ /// clang-format configuration file is found, the given \P FormatStyle is used.
+-void handleErrors(ClangTidyContext &Context, bool Fix,
++void handleErrors(llvm::ArrayRef<ClangTidyError> Errors,
++                  ClangTidyContext &Context, bool Fix,
+                   unsigned &WarningsAsErrorsCount,
+-                  llvm::IntrusiveRefCntPtr<vfs::FileSystem> BaseFS);
++                  llvm::IntrusiveRefCntPtr<llvm::vfs::FileSystem> BaseFS);
+ 
+ /// \brief Serializes replacements into YAML and writes them to the specified
+ /// output stream.
+diff --git a/ClangTidyCheck.h b/ClangTidyCheck.h
+new file mode 100644
+index 0000000..3064a41
+--- /dev/null
++++ b/ClangTidyCheck.h
+@@ -0,0 +1,194 @@
++//===--- ClangTidyCheck.h - clang-tidy --------------------------*- C++ -*-===//
++//
++// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
++// See https://llvm.org/LICENSE.txt for license information.
++// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
++//
++//===----------------------------------------------------------------------===//
++
++#ifndef LLVM_CLANG_TOOLS_EXTRA_CLANG_TIDY_CLANGTIDYCHECK_H
++#define LLVM_CLANG_TOOLS_EXTRA_CLANG_TIDY_CLANGTIDYCHECK_H
++
++#include "ClangTidyDiagnosticConsumer.h"
++#include "ClangTidyOptions.h"
++#include "clang/ASTMatchers/ASTMatchFinder.h"
++#include "clang/Basic/Diagnostic.h"
++#include "clang/Basic/SourceManager.h"
++#include "llvm/ADT/StringExtras.h"
++#include <memory>
++#include <type_traits>
++#include <vector>
++
++namespace clang {
++
++class CompilerInstance;
++
++namespace tidy {
++
++/// \brief Base class for all clang-tidy checks.
++///
++/// To implement a ``ClangTidyCheck``, write a subclass and override some of the
++/// base class's methods. E.g. to implement a check that validates namespace
++/// declarations, override ``registerMatchers``:
++///
++/// ~~~{.cpp}
++/// void registerMatchers(ast_matchers::MatchFinder *Finder) override {
++///   Finder->addMatcher(namespaceDecl().bind("namespace"), this);
++/// }
++/// ~~~
++///
++/// and then override ``check(const MatchResult &Result)`` to do the actual
++/// check for each match.
++///
++/// A new ``ClangTidyCheck`` instance is created per translation unit.
++///
++/// FIXME: Figure out whether carrying information from one TU to another is
++/// useful/necessary.
++class ClangTidyCheck : public ast_matchers::MatchFinder::MatchCallback {
++public:
++  /// \brief Initializes the check with \p CheckName and \p Context.
++  ///
++  /// Derived classes must implement the constructor with this signature or
++  /// delegate it. If a check needs to read options, it can do this in the
++  /// constructor using the Options.get() methods below.
++  ClangTidyCheck(StringRef CheckName, ClangTidyContext *Context);
++
++  /// \brief Override this to register ``PPCallbacks`` in the preprocessor.
++  ///
++  /// This should be used for clang-tidy checks that analyze preprocessor-
++  /// dependent properties, e.g. include directives and macro definitions.
++  ///
++  /// There are two Preprocessors to choose from that differ in how they handle
++  /// modular #includes:
++  ///  - PP is the real Preprocessor. It doesn't walk into modular #includes and
++  ///    thus doesn't generate PPCallbacks for their contents.
++  ///  - ModuleExpanderPP preprocesses the whole translation unit in the
++  ///    non-modular mode, which allows it to generate PPCallbacks not only for
++  ///    the main file and textual headers, but also for all transitively
++  ///    included modular headers when the analysis runs with modules enabled.
++  ///    When modules are not enabled ModuleExpanderPP just points to the real
++  ///    preprocessor.
++  virtual void registerPPCallbacks(const SourceManager &SM, Preprocessor *PP,
++                                   Preprocessor *ModuleExpanderPP) {}
++
++  /// \brief Override this to register AST matchers with \p Finder.
++  ///
++  /// This should be used by clang-tidy checks that analyze code properties that
++  /// dependent on AST knowledge.
++  ///
++  /// You can register as many matchers as necessary with \p Finder. Usually,
++  /// "this" will be used as callback, but you can also specify other callback
++  /// classes. Thereby, different matchers can trigger different callbacks.
++  ///
++  /// If you need to merge information between the different matchers, you can
++  /// store these as members of the derived class. However, note that all
++  /// matches occur in the order of the AST traversal.
++  virtual void registerMatchers(ast_matchers::MatchFinder *Finder) {}
++
++  /// \brief ``ClangTidyChecks`` that register ASTMatchers should do the actual
++  /// work in here.
++  virtual void check(const ast_matchers::MatchFinder::MatchResult &Result) {}
++
++  /// \brief Add a diagnostic with the check's name.
++  DiagnosticBuilder diag(SourceLocation Loc, StringRef Description,
++                         DiagnosticIDs::Level Level = DiagnosticIDs::Warning);
++
++  /// \brief Should store all options supported by this check with their
++  /// current values or default values for options that haven't been overridden.
++  ///
++  /// The check should use ``Options.store()`` to store each option it supports
++  /// whether it has the default value or it has been overridden.
++  virtual void storeOptions(ClangTidyOptions::OptionMap &Options) {}
++
++  /// \brief Provides access to the ``ClangTidyCheck`` options via check-local
++  /// names.
++  ///
++  /// Methods of this class prepend ``CheckName + "."`` to translate check-local
++  /// option names to global option names.
++  class OptionsView {
++  public:
++    /// \brief Initializes the instance using \p CheckName + "." as a prefix.
++    OptionsView(StringRef CheckName,
++                const ClangTidyOptions::OptionMap &CheckOptions);
++
++    /// \brief Read a named option from the ``Context``.
++    ///
++    /// Reads the option with the check-local name \p LocalName from the
++    /// ``CheckOptions``. If the corresponding key is not present, returns
++    /// \p Default.
++    std::string get(StringRef LocalName, StringRef Default) const;
++
++    /// \brief Read a named option from the ``Context``.
++    ///
++    /// Reads the option with the check-local name \p LocalName from local or
++    /// global ``CheckOptions``. Gets local option first. If local is not
++    /// present, falls back to get global option. If global option is not
++    /// present either, returns Default.
++    std::string getLocalOrGlobal(StringRef LocalName, StringRef Default) const;
++
++    /// \brief Read a named option from the ``Context`` and parse it as an
++    /// integral type ``T``.
++    ///
++    /// Reads the option with the check-local name \p LocalName from the
++    /// ``CheckOptions``. If the corresponding key is not present, returns
++    /// \p Default.
++    template <typename T>
++    typename std::enable_if<std::is_integral<T>::value, T>::type
++    get(StringRef LocalName, T Default) const {
++      std::string Value = get(LocalName, "");
++      T Result = Default;
++      if (!Value.empty())
++        StringRef(Value).getAsInteger(10, Result);
++      return Result;
++    }
++
++    /// \brief Read a named option from the ``Context`` and parse it as an
++    /// integral type ``T``.
++    ///
++    /// Reads the option with the check-local name \p LocalName from local or
++    /// global ``CheckOptions``. Gets local option first. If local is not
++    /// present, falls back to get global option. If global option is not
++    /// present either, returns Default.
++    template <typename T>
++    typename std::enable_if<std::is_integral<T>::value, T>::type
++    getLocalOrGlobal(StringRef LocalName, T Default) const {
++      std::string Value = getLocalOrGlobal(LocalName, "");
++      T Result = Default;
++      if (!Value.empty())
++        StringRef(Value).getAsInteger(10, Result);
++      return Result;
++    }
++
++    /// \brief Stores an option with the check-local name \p LocalName with
++    /// string value \p Value to \p Options.
++    void store(ClangTidyOptions::OptionMap &Options, StringRef LocalName,
++               StringRef Value) const;
++
++    /// \brief Stores an option with the check-local name \p LocalName with
++    /// ``int64_t`` value \p Value to \p Options.
++    void store(ClangTidyOptions::OptionMap &Options, StringRef LocalName,
++               int64_t Value) const;
++
++  private:
++    std::string NamePrefix;
++    const ClangTidyOptions::OptionMap &CheckOptions;
++  };
++
++private:
++  void run(const ast_matchers::MatchFinder::MatchResult &Result) override;
++  StringRef getID() const override { return CheckName; }
++  std::string CheckName;
++  ClangTidyContext *Context;
++
++protected:
++  OptionsView Options;
++  /// \brief Returns the main file name of the current translation unit.
++  StringRef getCurrentMainFile() const { return Context->getCurrentFile(); }
++  /// \brief Returns the language options from the context.
++  const LangOptions &getLangOpts() const { return Context->getLangOpts(); }
++};
++
++} // namespace tidy
++} // namespace clang
++
++#endif // LLVM_CLANG_TOOLS_EXTRA_CLANG_TIDY_CLANGTIDYCHECK_H
+diff --git a/ClangTidyDiagnosticConsumer.h b/ClangTidyDiagnosticConsumer.h
+index ae25013..01a3526 100644
+--- a/ClangTidyDiagnosticConsumer.h
++++ b/ClangTidyDiagnosticConsumer.h
+@@ -1,9 +1,8 @@
+ //===--- ClangTidyDiagnosticConsumer.h - clang-tidy -------------*- C++ -*-===//
+ //
+-//                     The LLVM Compiler Infrastructure
+-//
+-// This file is distributed under the University of Illinois Open Source
+-// License. See LICENSE.TXT for details.
++// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
++// See https://llvm.org/LICENSE.txt for license information.
++// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+ //
+ //===----------------------------------------------------------------------===//
+ 
+@@ -102,6 +101,12 @@ public:
+   /// \brief Initializes \c ClangTidyContext instance.
+   ClangTidyContext(std::unique_ptr<ClangTidyOptionsProvider> OptionsProvider,
+                    bool AllowEnablingAnalyzerAlphaCheckers = false);
++  /// Sets the DiagnosticsEngine that diag() will emit diagnostics to.
++  // FIXME: this is required initialization, and should be a constructor param.
++  // Fix the context -> diag engine -> consumer -> context initialization cycle.
++  void setDiagnosticsEngine(DiagnosticsEngine *DiagEngine) {
++    this->DiagEngine = DiagEngine;
++  }
+ 
+   ~ClangTidyContext();
+ 
+@@ -133,7 +138,7 @@ public:
+ 
+   /// \brief Returns the name of the clang-tidy check which produced this
+   /// diagnostic ID.
+-  StringRef getCheckName(unsigned DiagnosticID) const;
++  std::string getCheckName(unsigned DiagnosticID) const;
+ 
+   /// \brief Returns \c true if the check is enabled for the \c CurrentFile.
+   ///
+@@ -160,12 +165,6 @@ public:
+   /// counters.
+   const ClangTidyStats &getStats() const { return Stats; }
+ 
+-  /// \brief Returns all collected errors.
+-  ArrayRef<ClangTidyError> getErrors() const { return Errors; }
+-
+-  /// \brief Clears collected errors.
+-  void clearErrors() { Errors.clear(); }
+-
+   /// \brief Control profile collection in clang-tidy.
+   void setEnableProfiling(bool Profile);
+   bool getEnableProfiling() const { return Profile; }
+@@ -191,19 +190,19 @@ public:
+     return AllowEnablingAnalyzerAlphaCheckers;
+   }
+ 
++  using DiagLevelAndFormatString = std::pair<DiagnosticIDs::Level, std::string>;
++  DiagLevelAndFormatString getDiagLevelAndFormatString(unsigned DiagnosticID,
++                                                       SourceLocation Loc) {
++    return DiagLevelAndFormatString(
++        static_cast<DiagnosticIDs::Level>(
++            DiagEngine->getDiagnosticLevel(DiagnosticID, Loc)),
++        DiagEngine->getDiagnosticIDs()->getDescription(DiagnosticID));
++  }
++
+ private:
+-  // Calls setDiagnosticsEngine() and storeError().
++  // Writes to Stats.
+   friend class ClangTidyDiagnosticConsumer;
+-  friend class ClangTidyPluginAction;
+-
+-  /// \brief Sets the \c DiagnosticsEngine so that Diagnostics can be generated
+-  /// correctly.
+-  void setDiagnosticsEngine(DiagnosticsEngine *Engine);
+ 
+-  /// \brief Store an \p Error.
+-  void storeError(const ClangTidyError &Error);
+-
+-  std::vector<ClangTidyError> Errors;
+   DiagnosticsEngine *DiagEngine;
+   std::unique_ptr<ClangTidyOptionsProvider> OptionsProvider;
+ 
+@@ -227,6 +226,23 @@ private:
+   bool AllowEnablingAnalyzerAlphaCheckers;
+ };
+ 
++/// Check whether a given diagnostic should be suppressed due to the presence
++/// of a "NOLINT" suppression comment.
++/// This is exposed so that other tools that present clang-tidy diagnostics
++/// (such as clangd) can respect the same suppression rules as clang-tidy.
++/// This does not handle suppression of notes following a suppressed diagnostic;
++/// that is left to the caller is it requires maintaining state in between calls
++/// to this function.
++/// The `CheckMacroExpansion` parameter determines whether the function should
++/// handle the case where the diagnostic is inside a macro expansion. A degree
++/// of control over this is needed because handling this case can require
++/// examining source files other than the one in which the diagnostic is
++/// located, and in some use cases we cannot rely on such other files being
++/// mapped in the SourceMapper.
++bool ShouldSuppressDiagnostic(DiagnosticsEngine::Level DiagLevel,
++                              const Diagnostic &Info, ClangTidyContext &Context,
++                              bool CheckMacroExpansion = true);
++
+ /// \brief A diagnostic consumer that turns each \c Diagnostic into a
+ /// \c SourceManager-independent \c ClangTidyError.
+ //
+@@ -235,6 +251,7 @@ private:
+ class ClangTidyDiagnosticConsumer : public DiagnosticConsumer {
+ public:
+   ClangTidyDiagnosticConsumer(ClangTidyContext &Ctx,
++                              DiagnosticsEngine *ExternalDiagEngine = nullptr,
+                               bool RemoveIncompatibleErrors = true);
+ 
+   // FIXME: The concept of converting between FixItHints and Replacements is
+@@ -243,13 +260,12 @@ public:
+   void HandleDiagnostic(DiagnosticsEngine::Level DiagLevel,
+                         const Diagnostic &Info) override;
+ 
+-  /// \brief Flushes the internal diagnostics buffer to the ClangTidyContext.
+-  void finish() override;
++  // Retrieve the diagnostics that were captured.
++  std::vector<ClangTidyError> take();
+ 
+ private:
+   void finalizeLastError();
+-
+-  void removeIncompatibleErrors(SmallVectorImpl<ClangTidyError> &Errors) const;
++  void removeIncompatibleErrors();
+ 
+   /// \brief Returns the \c HeaderFilter constructed for the options set in the
+   /// context.
+@@ -257,13 +273,15 @@ private:
+ 
+   /// \brief Updates \c LastErrorRelatesToUserCode and LastErrorPassesLineFilter
+   /// according to the diagnostic \p Location.
+-  void checkFilters(SourceLocation Location);
++  void checkFilters(SourceLocation Location, const SourceManager &Sources);
+   bool passesLineFilter(StringRef FileName, unsigned LineNumber) const;
+ 
++  void forwardDiagnostic(const Diagnostic &Info);
++
+   ClangTidyContext &Context;
++  DiagnosticsEngine *ExternalDiagEngine;
+   bool RemoveIncompatibleErrors;
+-  std::unique_ptr<DiagnosticsEngine> Diags;
+-  SmallVector<ClangTidyError, 8> Errors;
++  std::vector<ClangTidyError> Errors;
+   std::unique_ptr<llvm::Regex> HeaderFilter;
+   bool LastErrorRelatesToUserCode;
+   bool LastErrorPassesLineFilter;
+diff --git a/ClangTidyModule.h b/ClangTidyModule.h
+index 4721636..378f109 100644
+--- a/ClangTidyModule.h
++++ b/ClangTidyModule.h
+@@ -1,9 +1,8 @@
+ //===--- ClangTidyModule.h - clang-tidy -------------------------*- C++ -*-===//
+ //
+-//                     The LLVM Compiler Infrastructure
+-//
+-// This file is distributed under the University of Illinois Open Source
+-// License. See LICENSE.TXT for details.
++// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
++// See https://llvm.org/LICENSE.txt for license information.
++// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+ //
+ //===----------------------------------------------------------------------===//
+ 
+diff --git a/ClangTidyModuleRegistry.h b/ClangTidyModuleRegistry.h
+index dc44d14..891671a 100644
+--- a/ClangTidyModuleRegistry.h
++++ b/ClangTidyModuleRegistry.h
+@@ -1,9 +1,8 @@
+ //===--- ClangTidyModuleRegistry.h - clang-tidy -----------------*- C++ -*-===//
+ //
+-//                     The LLVM Compiler Infrastructure
+-//
+-// This file is distributed under the University of Illinois Open Source
+-// License. See LICENSE.TXT for details.
++// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
++// See https://llvm.org/LICENSE.txt for license information.
++// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+ //
+ //===----------------------------------------------------------------------===//
+ 
+diff --git a/ClangTidyOptions.h b/ClangTidyOptions.h
+index b2a4ce4..87c7cf5 100644
+--- a/ClangTidyOptions.h
++++ b/ClangTidyOptions.h
+@@ -1,21 +1,20 @@
+ //===--- ClangTidyOptions.h - clang-tidy ------------------------*- C++ -*-===//
+ //
+-//                     The LLVM Compiler Infrastructure
+-//
+-// This file is distributed under the University of Illinois Open Source
+-// License. See LICENSE.TXT for details.
++// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
++// See https://llvm.org/LICENSE.txt for license information.
++// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+ //
+ //===----------------------------------------------------------------------===//
+ 
+ #ifndef LLVM_CLANG_TOOLS_EXTRA_CLANG_TIDY_CLANGTIDYOPTIONS_H
+ #define LLVM_CLANG_TOOLS_EXTRA_CLANG_TIDY_CLANGTIDYOPTIONS_H
+ 
++#include "llvm/ADT/IntrusiveRefCntPtr.h"
+ #include "llvm/ADT/Optional.h"
+ #include "llvm/ADT/StringMap.h"
+ #include "llvm/ADT/StringRef.h"
+-#include "llvm/ADT/IntrusiveRefCntPtr.h"
+ #include "llvm/Support/ErrorOr.h"
+-#include "clang/Basic/VirtualFileSystem.h"
++#include "llvm/Support/VirtualFileSystem.h"
+ #include <functional>
+ #include <map>
+ #include <string>
+@@ -218,10 +217,11 @@ public:
+   ///
+   /// If any of the \param OverrideOptions fields are set, they will override
+   /// whatever options are read from the configuration file.
+-  FileOptionsProvider(const ClangTidyGlobalOptions &GlobalOptions,
+-                      const ClangTidyOptions &DefaultOptions,
+-                      const ClangTidyOptions &OverrideOptions,
+-                      llvm::IntrusiveRefCntPtr<vfs::FileSystem> FS = nullptr);
++  FileOptionsProvider(
++      const ClangTidyGlobalOptions &GlobalOptions,
++      const ClangTidyOptions &DefaultOptions,
++      const ClangTidyOptions &OverrideOptions,
++      llvm::IntrusiveRefCntPtr<llvm::vfs::FileSystem> FS = nullptr);
+ 
+   /// \brief Initializes the \c FileOptionsProvider instance with a custom set
+   /// of configuration file handlers.
+@@ -255,7 +255,7 @@ protected:
+   llvm::StringMap<OptionsSource> CachedOptions;
+   ClangTidyOptions OverrideOptions;
+   ConfigFileHandlers ConfigHandlers;
+-  llvm::IntrusiveRefCntPtr<vfs::FileSystem> FS;
++  llvm::IntrusiveRefCntPtr<llvm::vfs::FileSystem> FS;
+ };
+ 
+ /// \brief Parses LineFilter from JSON and stores it to the \p Options.
+diff --git a/ClangTidyProfiling.h b/ClangTidyProfiling.h
+index 9d86b8e..a266e38 100644
+--- a/ClangTidyProfiling.h
++++ b/ClangTidyProfiling.h
+@@ -1,9 +1,8 @@
+ //===--- ClangTidyProfiling.h - clang-tidy ----------------------*- C++ -*-===//
+ //
+-//                     The LLVM Compiler Infrastructure
+-//
+-// This file is distributed under the University of Illinois Open Source
+-// License. See LICENSE.TXT for details.
++// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
++// See https://llvm.org/LICENSE.txt for license information.
++// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+ //
+ //===----------------------------------------------------------------------===//
+ 
+diff --git a/tool/ClangTidyMain.cpp b/tool/ClangTidyMain.cpp
+index f36c4ec..329a1e9 100644
+--- a/tool/ClangTidyMain.cpp
++++ b/tool/ClangTidyMain.cpp
+@@ -326,12 +326,41 @@ getVfsOverlayFromFile(const std::string &OverlayFile) {
+   return OverlayFS;
+ }
+ 
++llvm::IntrusiveRefCntPtr<vfs::FileSystem>
++getVfsFromFile(const std::string &OverlayFile,
++               llvm::IntrusiveRefCntPtr<vfs::FileSystem> BaseFS) {
++  llvm::ErrorOr<std::unique_ptr<llvm::MemoryBuffer>> Buffer =
++      BaseFS->getBufferForFile(OverlayFile);
++  if (!Buffer) {
++    llvm::errs() << "Can't load virtual filesystem overlay file '"
++                 << OverlayFile << "': " << Buffer.getError().message()
++                 << ".\n";
++    return nullptr;
++  }
++
++  IntrusiveRefCntPtr<vfs::FileSystem> FS = vfs::getVFSFromYAML(
++      std::move(Buffer.get()), /*DiagHandler*/ nullptr, OverlayFile);
++  if (!FS) {
++    llvm::errs() << "Error: invalid virtual filesystem overlay file '"
++                 << OverlayFile << "'.\n";
++    return nullptr;
++  }
++  return FS;
++}
++
+ static int clangTidyMain(int argc, const char **argv) {
+   CommonOptionsParser OptionsParser(argc, argv, ClangTidyCategory,
+                                     cl::ZeroOrMore);
+-  llvm::IntrusiveRefCntPtr<vfs::FileSystem> BaseFS(
+-      VfsOverlay.empty() ? vfs::getRealFileSystem()
+-                         : getVfsOverlayFromFile(VfsOverlay));
++  llvm::IntrusiveRefCntPtr<vfs::OverlayFileSystem> BaseFS(
++      new vfs::OverlayFileSystem(vfs::getRealFileSystem()));
++
++  if (!VfsOverlay.empty()) {
++    IntrusiveRefCntPtr<vfs::FileSystem> VfsFromFile =
++        getVfsFromFile(VfsOverlay, BaseFS);
++    if (!VfsFromFile)
++      return 1;
++    BaseFS->pushOverlay(VfsFromFile);
++  }                                    
+   if (!BaseFS)
+     return 1;
+ 
+@@ -421,9 +450,9 @@ static int clangTidyMain(int argc, const char **argv) {
+ 
+   ClangTidyContext Context(std::move(OwningOptionsProvider),
+                            AllowEnablingAnalyzerAlphaCheckers);
+-  runClangTidy(Context, OptionsParser.getCompilations(), PathList, BaseFS,
+-               EnableCheckProfile, ProfilePrefix);
+-  ArrayRef<ClangTidyError> Errors = Context.getErrors();
++  std::vector<ClangTidyError> Errors =
++      runClangTidy(Context, OptionsParser.getCompilations(), PathList, BaseFS,
++                   EnableCheckProfile, ProfilePrefix);
+   bool FoundErrors = llvm::find_if(Errors, [](const ClangTidyError &E) {
+                        return E.DiagLevel == ClangTidyError::Error;
+                      }) != Errors.end();
+@@ -433,7 +462,7 @@ static int clangTidyMain(int argc, const char **argv) {
+   unsigned WErrorCount = 0;
+ 
+   // -fix-errors implies -fix.
+-  handleErrors(Context, (FixErrors || Fix) && !DisableFixes, WErrorCount,
++  handleErrors(Errors, Context, (FixErrors || Fix) && !DisableFixes, WErrorCount,
+                BaseFS);
+ 
+   if (!ExportFixes.empty() && !Errors.empty()) {
+@@ -569,10 +598,15 @@ extern volatile int ZirconModuleAnchorSource;
+ static int LLVM_ATTRIBUTE_UNUSED ZirconModuleAnchorDestination =
+     ZirconModuleAnchorSource;
+ 
+-// This anchor is used to force the linker to link the CMS.
+-extern volatile int CMSModuleAnchorSource;
+-static int LLVM_ATTRIBUTE_UNUSED CMSAnchorDestination =
+-    CMSModuleAnchorSource;
++// This anchor is used to force the linker to link the AliceO2Module.
++extern volatile int AliceO2ModuleAnchorSource;
++static int LLVM_ATTRIBUTE_UNUSED AliceO2ModuleAnchorDestination =
++    AliceO2ModuleAnchorSource;
++
++// This anchor is used to force the linker to link the ReportingModule.
++extern volatile int ReportingModuleAnchorSource;
++static int LLVM_ATTRIBUTE_UNUSED ReportingModuleAnchorDestination =
++    ReportingModuleAnchorSource; 
+ 
+ } // namespace tidy
+ } // namespace clang
