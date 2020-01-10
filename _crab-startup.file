@@ -46,7 +46,7 @@ if [ -z "${CMS_CRAB_PATH}" ] ; then
   fi
 
   ## If it is a submit command run the bootstrap script
-  if [ $(echo "$@" | tr ' ' '\n' | grep 'sub\|submit' | wc -l) -gt 0 ] ; then
+  if [ $(echo "$@" | tr ' ' '\n' | grep '^sub$\|^submit$' | wc -l) -gt 0 ] ; then
     if [ -z "${ORIGINAL_CMSSW_BASE}" ] ; then
       >&2 echo "Error: Please set SCRAM/CMSSW runtime environment before running crab"
       exit 1
